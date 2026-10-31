@@ -42,6 +42,12 @@ extends RefCounted
 ##   breath from death, whose death her father avenges).
 ## - `follows_every_way` (owner, F2): following the player (team.c set_leader()) it goes along
 ##   every way they lead, climbs, falls and other maps too; go.c follow_me() only took exits.
+## - `fights_beside_player` (native, 关北 C; DECISIONS「替玩家打的 NPC」): the 天将's rule (heaven_soldier.c
+##   invocation(): kill_ob() the caster's enemies) as a field. One `summon`ed by an act (the 王府's
+##   six riders) comes in as the player's own summons: its kills are the player's, and it leaves
+##   as the fight ends; one following the player (郭承) falls on whoever fights the player in the
+##   place they stand, stays, and its kills are its own. Both come in as a fight the player is in
+##   opens where they stand (WorldMapHostilities.announce_fight()).
 var hurt_divisor: int = 0
 var hurt_say: String = ""
 var hurt_color: StringName = ColoredLine.PLAIN
@@ -93,6 +99,7 @@ var trials: Array[NpcTrial] = []
 var attack_ask: String = ""
 var attack_choice: String = ""
 var follows_every_way: bool = false
+var fights_beside_player: bool = false
 
 
 ## One of init()'s call_outs (`calls`): when, and what it does.
@@ -301,6 +308,11 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.follows_every_way = reader.boolean("follows_every_way", false)
 		if not hooks.follows_every_way:
 			reader.fail("follows_every_way", "only one that does says so")
+	if reader.has("fights_beside_player"):
+		found = true
+		hooks.fights_beside_player = reader.boolean("fights_beside_player", false)
+		if not hooks.fights_beside_player:
+			reader.fail("fights_beside_player", "only one that does says so")
 	var spared: ContentRecordReader = reader.child("spared")
 	if spared != null:
 		found = true

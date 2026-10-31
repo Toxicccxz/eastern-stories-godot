@@ -6,9 +6,9 @@
 			"line": "main",
 			"region": "关北",
 			"sources": [
-				"native: 主线 第六章 关北 (剧情总纲 §3 第六章, §6 关北卡; 计划 build/plans/关北_计划.md §3, owner 2026-10-30「按推荐批准」; DECISIONS「关北 A」) over d/canyon/npc/general.c (严廷殷「京师武功第一」, the 印鉴 he asks found), adviser.c (八两银子说出秘密: the mould is the outline's), seller.c (the two 印鉴, the real one's HIY: the 印色之差 made visible), d/canyon/README (收取过路费: the east gate's soldiers), canyon7.c (the valley: its east gate is the outline's), doc/help/plan:19 (关北是槐阳王的封国). The 槐阳城, the 王府, the 工地 and the choice are the outline's; A ends at the city's notice; B adds the 王府 (程朔, 郭承, the reunion with 南危水 on the 保密 ledger) and the choice 借兵／潜入 (DECISIONS「关北 B」); the 工地 is C's."
+				"native: 主线 第六章 关北 (剧情总纲 §3 第六章, §6 关北卡; 计划 build/plans/关北_计划.md §3, owner 2026-10-30「按推荐批准」; DECISIONS「关北 A」) over d/canyon/npc/general.c (严廷殷「京师武功第一」, the 印鉴 he asks found), adviser.c (八两银子说出秘密: the mould is the outline's), seller.c (the two 印鉴, the real one's HIY: the 印色之差 made visible), d/canyon/README (收取过路费: the east gate's soldiers), canyon7.c (the valley: its east gate is the outline's), doc/help/plan:19 (关北是槐阳王的封国). The 槐阳城, the 王府, the 工地 and the choice are the outline's; A ends at the city's notice; B adds the 王府 (程朔, 郭承, the reunion with 南危水 on the 保密 ledger) and the choice 借兵／潜入 (DECISIONS「关北 B」); C adds the 东门, the camp, the steppe, the 工地 and the 古冢口, the raid with the 王府's riders and the night's sneak (DECISIONS「关北 C」); the consequences are D's."
 			],
-			"summary": "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王；然后借兵踏平工地，或者带郭承夜里潜进去。",
+			"summary": "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王；然后借兵踏平工地，或者带郭承夜里潜进去。卢卡说他们那边也传说一个找头的鬼。",
 			"requires": [
 				"main.chapter5"
 			],
@@ -129,11 +129,49 @@
 				},
 				{
 					"id": "site",
-					"objective": "去草原东边兵部的工地（出马市东门，过帐篷营地）。借了兵的，郭承的六骑在东门外等你；约好潜入的，天黑后在营地的篝火边等郭承。",
+					"objective": "去草原东边兵部的工地（出马市东门，过帐篷营地和草原）。借了兵的，郭承跟着你，白天就去；约好潜入的，先在营地的篝火边等到天黑。",
 					"done": {
-						"mark": "到了工地"
+						"zone": "guanbei.fence_gate"
 					},
-					"text": "草原东边的工地。",
+					"text": "草原东边的工地：一道木栅栏，三顶帐篷，两溜民夫棚，土堆得像小山。白衣的武官守着门，监工吕隼拿着名册。",
+					"target": {
+						"map": "guanbei.worksite",
+						"zone": "guanbei.fence_gate"
+					}
+				},
+				{
+					"id": "raid",
+					"only_after": "raid",
+					"objective": "踏平工地：打倒白衣武官、队长裴照和监工吕隼，打开民夫棚前的枷锁。",
+					"done": {
+						"mark": "踏平了工地"
+					},
+					"text": "王府的六骑冲进了工地。白衣武官倒了，裴照倒了，吕隼趴在他的名册上。你打开了八副枷锁，八个民夫回营地去了；古冢口的道士丢下车跑了。兵部的文书明天就到京师：槐阳王反了。",
+					"target": {
+						"map": "guanbei.worksite",
+						"zone": "guanbei.sheds"
+					}
+				},
+				{
+					"id": "sneak",
+					"only_after": "sneak",
+					"objective": "夜里跟着郭承潜进工地，到民夫棚解枷。救得几个算几个，救不完的别回头。",
+					"done": {
+						"mark": "救了一半"
+					},
+					"text": "夜里的工地只有两个守夜的。你和郭承解开了四副枷锁——王石头、刘拐子、巴图、胡阿大跑了；第四副铁销响了，守夜的武官扑上来。打完，郭承说：走。另外四个人的名字，你在名册上见过：老魏、周二牛、陈满仓、马三。",
+					"target": {
+						"map": "guanbei.worksite",
+						"zone": "guanbei.sheds"
+					}
+				},
+				{
+					"id": "luca",
+					"objective": "回马市问大秦剑手卢卡「会首」——他们那边也传说一个找自己脑袋的鬼。",
+					"done": {
+						"mark": "卢卡说了番坊"
+					},
+					"text": "卢卡说他的会首安敦在番坊，番坊的人知道那个鬼的事。番坊在玉螺湖村东边，忘情谷外的小路上。",
 					"target": {
 						"map": "guanbei.horse_market",
 						"zone": "guanbei.market"
@@ -142,7 +180,7 @@
 			],
 			"reward": {
 				"milestone": true,
-				"deed": "把程不平的信送到了关北",
+				"deed": "在关北救出了兵部工地上的民夫",
 				"marks": [
 					"关北一章"
 				]

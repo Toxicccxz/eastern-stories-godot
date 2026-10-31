@@ -7,6 +7,7 @@ const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
 const Crawler = preload("res://presentation/voxel/actors/voxel_crawler.gd")
 const Snake = preload("res://presentation/voxel/actors/voxel_snake.gd")
 const Flyer = preload("res://presentation/voxel/actors/voxel_flyer.gd")
+const Town = preload("res://presentation/voxel/props/voxel_town.gd")
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
 const VIEW_SIDE_ANGLE: float = PI/4.0
@@ -450,6 +451,29 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model.hat = look.get("hat",false)
 		model.headless = look.get("headless",false)
 		actor.add_child(model)
+		# `mount` (关北 C; owner Q3: the 王府's riders sit a horse in the view only — the 2D rule
+		# knows no mounts): a steppe pony under the figure, the rider up on its back, facing +z.
+		if look.has("mount"):
+			var mount: Dictionary = look.get("mount",{}) if look.get("mount") is Dictionary else {}
+			var horse := Node3D.new()
+			horse.position = Vector3(0,0,-0.1)
+			actor.add_child(horse)
+			var town := Town.new()
+			var s := Shapes.new()
+			town.s = s
+			town.root = actor
+			town.data = mount
+			var coat: String = String(mount.get("coat","5a3a2a"))
+			var mane: String = String(mount.get("mane","2a2420"))
+			var body_h: float = town._horse_body(horse,1.8,coat,mane)
+			town._horse_tail(horse,body_h,1.8,mane)
+			s.box(horse,Vector3(0,body_h+0.28,-0.05),Vector3(0.56,0.06,0.5),String(mount.get("cloth","8a3a2a")))
+			s.flush()
+			model.position.y = body_h+0.2
+			model.scale = Vector3.ONE*0.92
+			for leg: Node3D in model.legs:
+				leg.rotation.x = 0.0
+			model.set_meta("mounted",true)
 	var low: bool = crawler or look.get("animal",false)
 	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2+float(look.get("plinth",0.5) if body_kind=="statue" else 0.0)
 	if body_kind=="flyer":

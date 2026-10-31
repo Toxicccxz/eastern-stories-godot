@@ -13,11 +13,12 @@ const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised.
 const TALL: Array[String] = ["standing_rock", "boulder", "banner", "torch", "cairn", "bush", "tree", "campfire", "well", "wine_jars", "firewood", "crocks",
 	"rock_pile", "dead_log", "stele", "cart", "haystack", "notice_post", "horse", "camel", "tethered_horse", "fence", "stone_lion", "drying_rack", "saw_horse",
-	"hearth", "counter", "cauldron", "meat_rack", "lantern_post", "post", "chest_stack", "sacks"]
-const SCENES: Array[String] = ["guanbei_gorge", "guanbei_town", "guanbei_market", "guanbei_inn", "guanbei_palace_court", "guanbei_palace"]
-const MAPS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market", &"guanbei.inn", &"guanbei.palace_court", &"guanbei.palace"]
+	"hearth", "counter", "cauldron", "meat_rack", "lantern_post", "post", "chest_stack", "sacks", "yurt", "shackle_post", "derrick", "dig_pit", "mound",
+	"gateway", "lumber", "baskets", "water_vat", "bench", "carved_wall", "gate_pier"]
+const SCENES: Array[String] = ["guanbei_gorge", "guanbei_town", "guanbei_market", "guanbei_inn", "guanbei_palace_court", "guanbei_palace", "guanbei_camp", "guanbei_steppe", "guanbei_worksite", "guanbei_barrow"]
+const MAPS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market", &"guanbei.inn", &"guanbei.palace_court", &"guanbei.palace", &"guanbei.yurt_camp", &"guanbei.steppe", &"guanbei.worksite", &"guanbei.barrow"]
 ## Maps that are no rooms: no lived-in life expected.
-const NO_ROOMS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market"]
+const NO_ROOMS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market", &"guanbei.yurt_camp", &"guanbei.steppe", &"guanbei.worksite", &"guanbei.barrow"]
 ## Where a test may put the player on each map (TEST-ONLY).
 const ENTRIES: Dictionary[StringName, Array] = {
 	&"guanbei.gorge": [&"guanbei.gate_road", &"guanbei.gate_road.pass_arrival"],
@@ -25,7 +26,11 @@ const ENTRIES: Dictionary[StringName, Array] = {
 	&"guanbei.horse_market": [&"guanbei.market", &"guanbei.market.street_arrival"],
 	&"guanbei.inn": [&"guanbei.inn_hall", &"guanbei.inn_hall.market_entry"],
 	&"guanbei.palace_court": [&"guanbei.palace_yard", &"guanbei.palace_yard.gate_arrival"],
-	&"guanbei.palace": [&"guanbei.palace_hall", &"guanbei.palace_hall.yard_entry"]}
+	&"guanbei.palace": [&"guanbei.palace_hall", &"guanbei.palace_hall.yard_entry"],
+	&"guanbei.yurt_camp": [&"guanbei.camp", &"guanbei.camp.market_arrival"],
+	&"guanbei.steppe": [&"guanbei.steppe_road", &"guanbei.steppe_road.camp_arrival"],
+	&"guanbei.worksite": [&"guanbei.fence_gate", &"guanbei.fence_gate.steppe_arrival"],
+	&"guanbei.barrow": [&"guanbei.barrow_mouth", &"guanbei.barrow_mouth.worksite_arrival"]}
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -56,11 +61,15 @@ func run_all(tree: SceneTree) -> Dictionary:
 			&"guanbei.inn": await _check_inn(tree, map)
 			&"guanbei.palace_court": await _check_court(tree, map)
 			&"guanbei.palace": await _check_palace(tree, map)
+			&"guanbei.yurt_camp": await _check_camp(tree, map)
+			&"guanbei.steppe": await _check_steppe(tree, map)
+			&"guanbei.worksite": await _check_worksite(tree, session, map)
+			&"guanbei.barrow": await _check_barrow(tree, map)
 	var missing: Array[StringName] = []
 	for map_id: StringName in MAPS:
 		if not _seen.has(map_id):
 			missing.append(map_id)
-	_check(missing.is_empty(), "every map of 关北 A and B was seen in the voxel view: missing %s" % [missing])
+	_check(missing.is_empty(), "every map of 关北 A–C was seen in the voxel view: missing %s" % [missing])
 	session.free()
 	await _frames(tree, 2)
 	return {"assertions": assertions, "failures": failures}
@@ -235,6 +244,93 @@ func _check_palace(tree: SceneTree, map: WorldMapController) -> void:
 	if prince != null:
 		var near: Vector2 = MapPlaces.spot(map, &"guanbei.palace_hall", prince.global_position + Vector2(0, 60), 64.0)
 		_check(await MapPlaces.drive(tree, map, near) and map.player_body.global_position.distance_to(prince.global_position) < 96.0, "up to him before the dais")
+
+
+## The camp (关北 C; 美术规划 §1 关北: 毡白与烟灰): five yurts each its own felt and flap, the fire, the
+## sheep in their pen and loose, the herdsmen's dog, the city's wall behind.
+func _check_camp(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["yurt", "campfire", "fence", "firewood", "crocks", "drying_rack", "wine_jars", "rug", "trail", "glow", "far_peak", "far_ground"]:
+		_check(kind in kinds, "the camp has its %s" % kind)
+	_check(kinds.count("yurt") == 5 and kinds.count("glow") >= 6, "five yurts, each lit from within at night, the fire too")
+	var felts: Dictionary = {}
+	for look: Dictionary in _looks(map):
+		if look["kind"] == "yurt":
+			felts[String(look.get("felt", ""))] = true
+	_check(felts.size() == 5, "no two yurts the same felt: %d" % felts.size())
+	var sheep: int = 0
+	var dog: int = 0
+	for critter: Node3D in view.geometry.critters:
+		sheep += 1 if String(critter.get("kind")) == "sheep" else 0
+		dog += 1 if String(critter.get("kind")) == "dog" else 0
+	_check(sheep == 7 and dog == 1, "seven sheep and the dog loose on the grass: %d %d" % [sheep, dog])
+	_check(view.geometry.terrain_cells.get(Vector2i(616, 488), "") == "path" and view.geometry.terrain_cells.get(Vector2i(440, 440), "") == "grass", "the cart road through the grass: %s %s" % [view.geometry.terrain_cells.get(Vector2i(616, 488), ""), view.geometry.terrain_cells.get(Vector2i(440, 440), "")])
+	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.camp_east", &"guanbei.camp"]), "walk to the east mouth and back")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"guanbei.camp.fire")), "and up to the fire")
+
+
+## The steppe: grass to the sky, the 敖包 with its branches, sheep, the 工地's dust east.
+func _check_steppe(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["cairn", "banner", "boulder", "dead_log", "bush", "bones", "trail", "far_ground", "far_peak", "paper_slip"]:
+		_check(kind in kinds, "the steppe has its %s" % kind)
+	_check((view.layout.get("buildings", []) as Array).is_empty(), "nothing built on the steppe")
+	var sheep: int = 0
+	for critter: Node3D in view.geometry.critters:
+		sheep += 1 if String(critter.get("kind")) == "sheep" else 0
+	_check(sheep == 11, "eleven sheep along the road and up the rise: %d" % sheep)
+	var dust: Array = (view.layout.get("ambience", {}) as Dictionary).get("dust", [])
+	_check(dust.size() == 2 and int(dust[0]["count"]) >= 30, "the 工地's dust stands on the eastern horizon")
+	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.cairn", &"guanbei.steppe_road", &"guanbei.rise", &"guanbei.steppe_road"]), "walk up to the 敖包, down to the rise and back")
+
+
+## The 工地: the fence and its gate, white tents under the 兵部's flags, the sheds, the posts, the
+## pits and the windlass; the riders' look seats them (mount).
+func _check_worksite(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["fence", "post", "shackle_post", "campfire", "dig_pit", "derrick", "mound", "baskets", "banner", "torch", "cart_wheel", "water_vat", "bench", "glow", "trail", "tracks", "far_peak"]:
+		_check(kind in kinds, "the 工地 has its %s" % kind)
+	_check(kinds.count("shackle_post") == 4 and kinds.count("dig_pit") == 2 and kinds.count("banner") == 2, "four posts before the sheds, two pits, two white banners")
+	var cloth: int = 0
+	var thatch: int = 0
+	for building: Dictionary in view.layout.get("buildings", []):
+		cloth += 1 if building.get("construction", "") == "cloth" else 0
+		thatch += 1 if building.get("roof_tiles", "") == "thatch" else 0
+	_check(cloth == 3 and thatch == 2, "three canvas tents, two thatched sheds")
+	var rider: Dictionary = (view.layout.get("actors", {}) as Dictionary).get("native.npc.huaiyang_rider", {})
+	_check(rider.has("mount"), "the riders sit a horse in the view (owner Q3: the view only)")
+	var summoned: Array[NpcRuntimeState] = map.summon(&"guanbei.fence_gate.riders") # TEST-ONLY: the riders in, to see them seated
+	await _frames(tree, 3)
+	var mounted: int = 0
+	for npc: NpcRuntimeState in summoned:
+		var actor: Node3D = view.actors.get(npc.character_id)
+		if actor != null:
+			for child: Node in actor.get_children():
+				mounted += 1 if child.has_meta("mounted") else 0
+	_check(summoned.size() == 6 and mounted == 6, "six riders, each on a pony: %d %d" % [summoned.size(), mounted])
+	for npc: NpcRuntimeState in summoned:
+		map.npcs.leave_for_good(npc) # TEST-ONLY: and gone again
+	await _frames(tree, 2)
+	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.tents", &"guanbei.sheds", &"guanbei.diggings"]), "walk through the gate past the tents and the sheds into the diggings")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"guanbei.sheds.shackles")), "and back to the posts")
+
+
+## The 古冢口: the pit and its windlass, the stone door with its piers, the covered cart.
+func _check_barrow(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["dig_pit", "derrick", "lumber", "cart", "mound", "carved_wall", "gate_pier", "rock_pile", "bones", "torch", "glow", "bedroll", "far_peak"]:
+		_check(kind in kinds, "the 古冢口 has its %s" % kind)
+	var lined: bool = false
+	var covered: bool = false
+	for look: Dictionary in _looks(map):
+		lined = lined or (look["kind"] == "dig_pit" and look.get("lined", false))
+		covered = covered or (look["kind"] == "cart" and look.get("covered", false))
+	_check(lined and covered, "the pit lined with stone at the bottom, the cart under its cloth")
+	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.stone_door", &"guanbei.barrow_mouth", &"guanbei.cart_stand", &"guanbei.barrow_mouth"]), "walk to the door, down to the cart and back")
 
 
 func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapController, place: String) -> void:

@@ -66,11 +66,16 @@ extends RefCounted
 ## - `unfollow` (native, 主线 第四章): the act's NPC stops following the player (its
 ##   follows_player flag cleared: 芳绫 after her dance in the 密室) and stays where it stands,
 ##   to go home when its room resets, as any NPC away from home does;
+## - `until_phase` (a list of day phases; native, 关北 C, DECISIONS「关北 C」「等到天黑」): the world
+##   clock is put forward to the start of the next of those phases (the 篝火's 等到天黑), every map
+##   owing that time as if the player had been away (别的地图时间补算), the player's own map and
+##   their recovery caught up too; nothing when the day is in one of them already. Branches may
+##   ask `marks` (every one held, as `mark` asks one) and `phase` (the day's phase is one of them).
 ## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -84,6 +89,10 @@ var temp: String = ""
 var not_temp: String = ""
 var mark: String = ""
 var not_mark: String = ""
+## Native (关北 C): saved marks the player must all have (the 工地's three spawns cleared).
+var marks: Array[String] = []
+## Native (关北 C): the day phases (phase_id) the branch is for; [] for any hour.
+var phase: Array[StringName] = []
 var carries: String = ""
 ## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): an id something the player wears answers to (the
 ## 黑冠 on their head), as `carries` for what they carry.
@@ -144,6 +153,8 @@ class Facts:
 	var ghost: bool = false
 	## Where the acting NPC stands (`npc_in`); "" without one.
 	var npc_zone: StringName = &""
+	## The day's phase (`phase`); "" without a clock.
+	var phase_id: StringName = &""
 	var draw: Callable = Callable()
 	var _rolls: Array[bool] = []
 	var _kar_drawn: int = -1
@@ -218,6 +229,8 @@ class Step:
 	## set_temp, clear_temp, unmark, mark, set_room, clear_room, npc_flag, npc_mood: the flag,
 	## mark or mood.
 	var flag: String = ""
+	## until_phase: the day phases waited for.
+	var phases: Array[StringName] = []
 
 
 ## Whether the branch is for a player of this gender and class, with these `facts` (none:
@@ -231,7 +244,9 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (temp.is_empty() or known.temps.get(temp, 0) != 0)
 		and (not_temp.is_empty() or known.temps.get(not_temp, 0) == 0)
 		and (mark.is_empty() or known.marks.get(mark, 0) != 0)
+		and marks.all(func(each: String) -> bool: return known.marks.get(each, 0) != 0)
 		and (not_mark.is_empty() or known.marks.get(not_mark, 0) == 0)
+		and (phase.is_empty() or phase.has(known.phase_id))
 		and (carries.is_empty() or known.carried.has(carries))
 		and (wears.is_empty() or known.worn.has(wears))
 		and (present.is_empty() or known.present_npcs.has(present))
@@ -317,6 +332,10 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.not_temp = reader.text("not_temp")
 	act.mark = reader.text("mark")
 	act.not_mark = reader.text("not_mark")
+	for each: String in reader.text_list("marks"):
+		act.marks.append(each)
+	for phase_id: String in reader.text_list("phase"):
+		act.phase.append(StringName(phase_id))
 	act.carries = reader.text("carries")
 	act.wears = reader.text("wears")
 	act.present = StringName(reader.text("present"))
@@ -386,7 +405,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -534,4 +553,10 @@ static func _step(reader: ContentRecordReader) -> Step:
 			step.kind = Kind.UNFOLLOW
 			if not reader.boolean("unfollow", false):
 				reader.fail("unfollow", "is true when present")
+		"until_phase":
+			step.kind = Kind.UNTIL_PHASE
+			for phase_id: String in reader.text_list("until_phase"):
+				step.phases.append(StringName(phase_id))
+			if step.phases.is_empty():
+				reader.fail("until_phase", "names at least one day phase")
 	return step

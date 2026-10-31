@@ -1158,7 +1158,7 @@
 		},
 		{
 			"id": "native.npc.guo_cheng",
-			"legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) — 王府骁将 郭承 (剧情总纲 §3 第六章 选择「带王府骁将夜里潜入」, §6 关北卡「王府骁将」; d/choyin/npc/magistra.c:22 皆为槐阳王程老王爷麾下骁将). He follows every way once a road is chosen; he fights beside the player in C. 续写",
+			"legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) — 王府骁将 郭承 (剧情总纲 §3 第六章 选择「带王府骁将夜里潜入」, §6 关北卡「王府骁将」; d/choyin/npc/magistra.c:22 皆为槐阳王程老王爷麾下骁将). He follows every way once a road is chosen; he fights beside the player (`fights_beside_player`, 关北 C: the 工地's raid and the night's sneak). 续写",
 			"name": "郭承",
 			"aliases": [
 				"guo cheng",
@@ -1209,7 +1209,8 @@
 			],
 			"chat_chance_combat": 20,
 			"chat_msg_combat": [
-				"郭承的马刀一撩一劈，不带花样。\n"
+				"郭承的马刀一撩一劈，不带花样。\n",
+				"郭承喝道：撩他的肩！\n"
 			],
 			"follows_every_way": true,
 			"moods": {
@@ -1244,6 +1245,42 @@
 						},
 						{
 							"mark": "郭承跟上了"
+						}
+					]
+				},
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "约好了潜入",
+					"not_mark": "救了一半",
+					"phase": [
+						"night",
+						"midnight"
+					],
+					"npc_in": "guanbei.sheds",
+					"steps": [
+						{
+							"whisper": "守夜的两个在火边。开枷的工夫别出声——开一个走一个。"
+						}
+					]
+				},
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "守夜的武官倒了",
+					"not_mark": "救了一半",
+					"steps": [
+						{
+							"emote": "把刀上的血在守夜武官的白衣上擦了，看了一眼棚里剩下的四个人，又看了你一眼。"
+						},
+						{
+							"say": "走！帐篷里的醒了。救不完的别回头——这话我说过。"
+						},
+						{
+							"mark": "救了一半"
+						},
+						{
+							"mark": "进得了古冢口"
 						}
 					]
 				}
@@ -1306,9 +1343,25 @@
 						}
 					]
 				},
-				"工地": [
-					"草原东边。栅栏、营帐、民夫棚、土方，最里头是古冢口。白衣武官六七个，一个队长，一个监工。白天别靠近。"
-				],
+				"工地": {
+					"rules": [
+						{
+							"asker_marks": [
+								"踏平了工地"
+							],
+							"say": "踏平了。八个人都回营地了。兵部的文书明天到京师——王爷知道。"
+						},
+						{
+							"asker_marks": [
+								"救了一半"
+							],
+							"say": "四个。另外四个的名字你记着就行，别再去。白天他们加了岗，夜里加了双岗。"
+						},
+						{
+							"say": "草原东边。栅栏、营帐、民夫棚、土方，最里头是古冢口。白衣武官六七个，一个队长，一个监工。白天别靠近。"
+						}
+					]
+				},
 				"兵部": [
 					"兵部的人在关北拿人，拿的是王爷的子民。王爷不让动手，我们就看着。看了半年了。"
 				],
@@ -1318,7 +1371,8 @@
 				"骁将": [
 					"王府的骁将有七个，去乔阴县衙帮不平公子的那几个也是。我管校场。"
 				]
-			}
+			},
+			"fights_beside_player": true
 		},
 		{
 			"id": "native.npc.palace_guard",
@@ -1621,6 +1675,884 @@
 				],
 				"工地": [
 					"老夫路过时看了一眼。白衣武官——和二十年前老松岭瀑布前的是同一身衣裳。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lu_sun",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — 监工 吕隼 (剧情总纲 §3 第六章 ④ 兵部的工地; the name the plan's): the 兵部's clerk over the diggings, not an officer; he speaks first on the raid (scene), fights in his mood 动手, and spared he talks (D: 庾子建). 续写",
+			"name": "吕隼",
+			"aliases": [
+				"lu sun",
+				"overseer",
+				"监工",
+				"吕隼"
+			],
+			"title": "兵部监工",
+			"gender": "男性",
+			"age": 40,
+			"long": "一个穿青袍的中年人，腰里别着算盘，手里一本名册，名册的边让手汗浸黑了。他不穿白衣，不是武官，可武官都听他的——他管账，也管谁挖不动了往哪儿送。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 24,
+				"int": 26,
+				"spi": 20,
+				"cps": 22,
+				"per": 18,
+				"con": 24,
+				"kar": 6
+			},
+			"combat_exp": 100000,
+			"score": 1500,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 60,
+				"parry": 60,
+				"dodge": 65,
+				"unarmed": 50
+			},
+			"carry": [
+				{
+					"item": "es2:d/choyin/obj/blade",
+					"source": "d/choyin/npc/obj/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"吕隼翻了一页名册，用笔在一个名字上划了一道。\n",
+				"吕隼说道：今天的土方，少一筐扣一顿饭。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"吕隼叫道：拿下！兵部的工地动手就是反！\n"
+			],
+			"scene_mark": "工地动过手",
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"not_mark": "借了兵",
+					"steps": [
+						{
+							"say": "兵部的工地，闲人免进。要找人，拿兵部的文书来。"
+						}
+					]
+				},
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "工地动过手",
+					"mark": "借了兵",
+					"present": "native.npc.guo_cheng",
+					"steps": [
+						{
+							"emote": "从名册上抬起头，看见你身后的人，手停了。"
+						},
+						{
+							"say": "兵部的工地，闲人——"
+						}
+					]
+				},
+				{
+					"after": 3,
+					"scene": true,
+					"not_mark": "工地动过手",
+					"mark": "借了兵",
+					"present": "native.npc.guo_cheng",
+					"steps": [
+						{
+							"by": "native.npc.guo_cheng"
+						},
+						{
+							"emote": "把刀抽出半截。"
+						},
+						{
+							"say": "王府的人。"
+						}
+					]
+				},
+				{
+					"after": 5,
+					"scene": true,
+					"not_mark": "工地动过手",
+					"mark": "借了兵",
+					"present": "native.npc.guo_cheng",
+					"steps": [
+						{
+							"by": "native.npc.lu_sun"
+						},
+						{
+							"say": "拿下！"
+						},
+						{
+							"line": "六个白衣武官抽了剑围上来。栅栏外马蹄声炸响——王府的六骑冲了进来！\n",
+							"color": "HIR"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"summon": "guanbei.fence_gate.riders"
+						},
+						{
+							"summon": "guanbei.fence_gate.officers_fighting"
+						},
+						{
+							"by": "native.npc.pei_zhao"
+						},
+						{
+							"say": "二十年前就该把你们这些人都料理干净。"
+						},
+						{
+							"npc_mood": "fighting"
+						},
+						{
+							"by": "native.npc.lu_sun"
+						},
+						{
+							"npc_mood": "fighting"
+						}
+					]
+				}
+			],
+			"moods": {
+				"fighting": {
+					"title": "兵部监工",
+					"flags": [
+						"aggressive"
+					],
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": [
+						"吕隼把名册塞进怀里，拔了刀。\n"
+					]
+				},
+				"talked": {
+					"title": "兵部监工",
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": [
+						"吕隼捂着伤口，不敢抬头。\n",
+						"吕隼低声道：我只是管账的……\n"
+					]
+				}
+			},
+			"spared": {
+				"mood": "talked",
+				"mark": "吕隼招了"
+			},
+			"inquiry": {
+				"工地": {
+					"rules": [
+						{
+							"asker_marks": [
+								"吕隼招了"
+							],
+							"say": "修官道是幌子。挖的是那座土丘——尚书大人要里头的东西。挖不动的人，宫里的车来接，我只管在名册上划一道。"
+						},
+						{
+							"say": "兵部修官道。征的是民夫，发的是口粮——有文书的。"
+						}
+					]
+				},
+				"民夫": {
+					"rules": [
+						{
+							"asker_marks": [
+								"吕隼招了"
+							],
+							"say": "十一批。前十批挖不动的七个，交了逆灵宫。名册上都有……都有。"
+						},
+						{
+							"say": "兵部征的，王府不认，可文书是真的。你要人，去京师找兵部要。"
+						}
+					]
+				},
+				"古冢": [
+					"古冢？那是土丘。兵部修路，土丘碍事，挖平了。"
+				],
+				"兵部": [
+					"兵部尚书大人的令。我一个监工，令怎么说我怎么做。"
+				],
+				"逆灵宫": {
+					"rules": [
+						{
+							"asker_marks": [
+								"吕隼招了"
+							],
+							"say": "宫里的车。文书上写「代为收管」……收管到哪儿去，我不敢问。"
+						},
+						{
+							"say": "什么宫？没听过。"
+						}
+					]
+				},
+				"庾子建": {
+					"rules": [
+						{
+							"asker_marks": [
+								"吕隼招了"
+							],
+							"say": "尚书大人……你怎么知道这名字？是他的令，是他的印。印是真的！我亲眼见过他盖印。"
+						},
+						{
+							"say": "你说什么？"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.pei_zhao",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — 白衣武官队长 裴照 (剧情总纲 §3 第六章 ④; the same white as the 二十三 of 陈显祖's 抄本, their successors; the name the plan's). Peaceful by day (the 兵部's site turns no visitor away), aggressive in his mood 动手. 续写",
+			"name": "裴照",
+			"aliases": [
+				"pei zhao",
+				"captain",
+				"队长",
+				"裴照"
+			],
+			"title": "白衣武官队长",
+			"gender": "男性",
+			"age": 38,
+			"long": "一个白衣的武官，比旁人高半个头，腰悬长剑，剑穗是黑的。他站着不动的时候像一根旗杆。白衣的左襟上绣着一只三足乌——和你在逆灵宫见过的腰牌是一样的记号。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 30,
+				"int": 22,
+				"spi": 24,
+				"cps": 30,
+				"per": 20,
+				"con": 28,
+				"kar": 10
+			},
+			"combat_exp": 250000,
+			"score": 3500,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 100,
+				"parry": 90,
+				"dodge": 90,
+				"unarmed": 70,
+				"force": 80
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"裴照的手搭在剑柄上，眼睛扫过栅栏外的草原。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"裴照冷冷道：王府的人也敢动兵部的差。\n"
+			],
+			"moods": {
+				"fighting": {
+					"title": "白衣武官队长",
+					"flags": [
+						"aggressive"
+					],
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": [
+						"裴照的剑出了鞘。\n"
+					]
+				},
+				"beaten": {
+					"title": "白衣武官队长",
+					"lasting": true,
+					"chat_chance": 6,
+					"chat_msg": [
+						"裴照靠着栅栏，看着自己的剑。\n"
+					]
+				}
+			},
+			"spared": {
+				"mood": "beaten",
+				"mark": "放过了裴照"
+			},
+			"inquiry": {
+				"白衣": [
+					"朝廷的武官穿白。二十年前这身衣裳就在关北走过一趟——你听谁说的？"
+				],
+				"工地": [
+					"兵部的差。闲人免进。"
+				],
+				"二十年": {
+					"rules": [
+						{
+							"asker_marks": [
+								"看过寻剑令抄本"
+							],
+							"say": "……抄本？那二十三个人是我的前辈。他们没找到，我们找。"
+						},
+						{
+							"say": "二十年前的事，与你无关。"
+						}
+					]
+				},
+				"三足乌": [
+					"兵部的记号。问多了没好处。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.site_officer",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the 工地's 白衣武官 by day (剧情总纲 §3 第六章 ④): six at the fence gate, peaceful (the 兵部 turns no visitor away, only the 古冢口); they leave the stage as the raid's scene draws swords (the fighting ones come in their place), and by night they sleep in the tents. 续写",
+			"name": "白衣武官",
+			"aliases": [
+				"white officer",
+				"officer",
+				"武官"
+			],
+			"gender": "男性",
+			"age": 28,
+			"long": "一个身着白衣的朝廷武官，腰悬长剑，站得笔直。白衣下摆沾着黄土。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 100000,
+			"score": 1200,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 80,
+				"parry": 70,
+				"dodge": 70,
+				"unarmed": 60,
+				"force": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"白衣武官盯着你，手按在剑柄上。\n"
+			],
+			"inquiry": {
+				"工地": [
+					"兵部的差，闲人免进。"
+				],
+				"民夫": [
+					"兵部征的。有文书。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.site_officer_fighting",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the same six 白衣武官 with swords out (summoned by the raid's scene, aggressive; their 全倒 marks 工地的武官倒了). 续写 (attack.c init(): aggressive on the player in reach — the record says so, `capabilities`)",
+			"name": "白衣武官",
+			"aliases": [
+				"white officer",
+				"officer",
+				"武官"
+			],
+			"gender": "男性",
+			"age": 28,
+			"long": "一个身着白衣的朝廷武官，剑已出鞘，白衣上溅了土。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 100000,
+			"score": 1200,
+			"attitude": "aggressive",
+			"skills": {
+				"sword": 80,
+				"parry": 70,
+				"dodge": 70,
+				"unarmed": 60,
+				"force": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"白衣武官喝道：兵部办差，拦者死！\n"
+			],
+			"capabilities": [
+				"aggressive_on_player_presence"
+			]
+		},
+		{
+			"id": "native.npc.night_watch",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the two 守夜武官 at the sheds' fire by night (present phase night/midnight); dozing, they notice nobody; the fourth 枷 wakes them (the fighting ones come). 续写",
+			"name": "守夜武官",
+			"aliases": [
+				"night watch",
+				"officer",
+				"守夜的",
+				"武官"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个白衣武官坐在火边，剑横在膝上，脑袋一点一点地打盹。火快灭了。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 12,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 100000,
+			"score": 1200,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 80,
+				"parry": 70,
+				"dodge": 70,
+				"unarmed": 60,
+				"force": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"守夜武官的头点了一下，又抬起来，往火里添了根柴。\n"
+			]
+		},
+		{
+			"id": "native.npc.night_watch_fighting",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the two 守夜武官 awake and on their feet (summoned by the fourth 枷; their 全倒 marks 守夜的武官倒了). 续写 (attack.c init(): aggressive on the player in reach — the record says so, `capabilities`)",
+			"name": "守夜武官",
+			"aliases": [
+				"night watch",
+				"officer",
+				"武官"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个白衣武官，剑在手里，眼睛还带着刚醒的红。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 16,
+				"con": 26,
+				"kar": 12
+			},
+			"combat_exp": 100000,
+			"score": 1200,
+			"attitude": "aggressive",
+			"skills": {
+				"sword": 80,
+				"parry": 70,
+				"dodge": 70,
+				"unarmed": 60,
+				"force": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"守夜武官大叫：有贼！来人！\n",
+				"守夜武官喝道：王府的人？！\n"
+			],
+			"capabilities": [
+				"aggressive_on_player_presence"
+			]
+		},
+		{
+			"id": "native.npc.site_corvee",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the eight 民夫 in the 枷 at the sheds (逆灵宫 B's 关北民夫 look; 剧情总纲 §3 第六章 ④): the raid frees all eight, the night four; 关北 A's 老秦 was one of an earlier batch. 续写",
+			"name": "民夫",
+			"aliases": [
+				"corvee",
+				"labourer",
+				"民夫"
+			],
+			"title": "被征的民夫",
+			"gender": "男性",
+			"age": 36,
+			"long": "一个黑瘦的汉子，脖子上套着木枷，枷上的铁环拴在桩上。手掌全是血泡，肩膀磨破了。他抬眼看了看你，又低下头。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 16,
+				"int": 14,
+				"spi": 14,
+				"cps": 14,
+				"per": 12,
+				"con": 24,
+				"kar": 14
+			},
+			"combat_exp": 300,
+			"score": 20,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 10,
+				"dodge": 10
+			},
+			"chat_chance": 8,
+			"chat_msg": [
+				"民夫把枷挪了挪，脖子上磨出的血痂又裂了。\n",
+				"民夫低声道：挖不动了……下一车就是我。\n"
+			],
+			"inquiry": {
+				"枷": [
+					"夜里锁着，白天开了挖土。挖不动的，车来接——接走的没有回来过。"
+				],
+				"名册": [
+					"棚柱上钉着。划了道的，是上车走了的。"
+				],
+				"吕隼": [
+					"监工。他不打人，他划名册。划一道，人就没了。"
+				],
+				"工地": [
+					"说是修官道。修官道往土丘里挖什么？挖出来的都是灰白的老土和碎陶。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.spent_corvee",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the two 挖不动的 on the 逆灵宫's cart at the 古冢口 (剧情总纲 §3 第六章 ④ 挖不动的人被逆灵宫的车接走): on the raid they are let go with the rest; after the night the cart carries them off. 续写",
+			"name": "挖不动的民夫",
+			"aliases": [
+				"spent corvee",
+				"民夫",
+				"挖不动的"
+			],
+			"gender": "男性",
+			"age": 48,
+			"long": "一个瘦得脱了形的汉子，靠在车轮上，枷倒是摘了——挖不动的人用不着枷。他的眼睛看着土丘，不看人。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 10,
+				"int": 12,
+				"spi": 12,
+				"cps": 10,
+				"per": 10,
+				"con": 14,
+				"kar": 14
+			},
+			"combat_exp": 100,
+			"score": 10,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 5,
+				"dodge": 5
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"挖不动的民夫咳了一阵，咳出一口带土的痰。\n"
+			],
+			"inquiry": {
+				"车": [
+					"道士的车。说送俺们回家……挖不动的都这么走的，没一个回来。"
+				],
+				"家": [
+					"关北。营地里有俺婆娘。你要是去，别说看见俺。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.barrow_taoist",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — the 逆灵宫's two 押车道士 at the 古冢口's cart (the 第三章 escort's look, native.npc.tribute_taoist; 剧情总纲 §3 第六章 ④): they take the 挖不动的 away; peaceful (the cart is the 兵部's business, not theirs to defend), gone after either road. 续写",
+			"name": "押车道士",
+			"aliases": [
+				"escort taoist",
+				"taoist",
+				"道士"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个黑衣黑冠的道士，袖子挽到肘上，手里一根鞭子。他看一眼车上的油布，又看一眼土丘的口子，像在等什么。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 24,
+				"int": 20,
+				"spi": 20,
+				"cps": 22,
+				"per": 14,
+				"con": 22,
+				"kar": 8
+			},
+			"combat_exp": 3000,
+			"score": 200,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 20,
+				"sword": 30,
+				"dodge": 30,
+				"parry": 30
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A (the escort's 黑冠)",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"押车道士往车上的油布瞥了一眼，拿鞭子把一角压好。\n"
+			],
+			"inquiry": {
+				"车": [
+					"兵部交办，收管逃役。车上的事，问兵部去。"
+				],
+				"逆灵宫": [
+					"……施主从哪儿听来的名字？"
+				],
+				"挖不动的": [
+					"兵部说修官道要人；不中用的，宫里替他们收管。慈悲。"
+				],
+				"石门": [
+					"那门？兵部的人凿了半年。凿不开的东西，自有开得了的人。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.huaiyang_rider",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) — 王府骑兵 (剧情总纲 终章「关北出骑兵」; the six 程朔 lends): summoned by the raid's scene, they fight beside the player (`fights_beside_player`: their kills the player's, gone as the fight ends, the 天将's rule); the voxel view seats them (`mount`, owner Q3: no riding for the player). 续写",
+			"name": "王府骑兵",
+			"aliases": [
+				"rider",
+				"骑兵",
+				"王府骑兵"
+			],
+			"title": "槐阳王府",
+			"gender": "男性",
+			"age": 27,
+			"long": "一个王府的骑兵，皮甲马刀，脸让风吹得黑红，刀还在马上的撩势里。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 27,
+				"int": 18,
+				"spi": 20,
+				"cps": 28,
+				"per": 16,
+				"con": 28,
+				"kar": 12
+			},
+			"combat_exp": 150000,
+			"score": 1500,
+			"attitude": "friendly",
+			"skills": {
+				"blade": 80,
+				"parry": 70,
+				"dodge": 70,
+				"unarmed": 50,
+				"force": 50
+			},
+			"carry": [
+				{
+					"item": "native:guanbei/saber",
+					"source": "native: 关北 A",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"fights_beside_player": true,
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"王府骑兵的马刀一撩，白衣上开了一道口子。\n",
+				"王府骑兵喝道：王爷有令，一个不留！\n"
+			]
+		},
+		{
+			"id": "native.npc.shepherd",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (剧情总纲 §6 关北卡「草原」; the lived-in layer) — 续写",
+			"name": "牧羊人",
+			"aliases": [
+				"shepherd",
+				"牧羊人"
+			],
+			"gender": "男性",
+			"age": 58,
+			"long": "一个老牧羊人，坐在石头上，鞭子横在膝盖上，羊在他四周的草里走。他的脸晒得像牛皮，眼睛眯着看东边。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 20,
+				"int": 16,
+				"spi": 18,
+				"cps": 20,
+				"per": 16,
+				"con": 24,
+				"kar": 18
+			},
+			"combat_exp": 2000,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 20,
+				"dodge": 25
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"牧羊人吹了声口哨，一只走远的羊回过头来。\n",
+				"牧羊人说道：东边那土，刮了半年了。\n"
+			],
+			"inquiry": {
+				"工地": [
+					"那边。兵部的人圈了地，挖那座土丘。我爷爷说那土丘底下睡着金乌的人，不能动。他们动了。"
+				],
+				"敖包": [
+					"过路的人放石头的地方。兵部的车每过一回，我们就刻一道——刻了十一道。"
+				],
+				"车": [
+					"从工地出来往西去的车，蒙着油布，里头有人。往东去的时候是空的。"
+				],
+				"羊": [
+					"我的羊。兵部征人，倒没征羊。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.camp_family",
+			"legacy_source": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (剧情总纲 §3 第六章 ④: the families of the taken, waiting at the camp; 关北 A's 秦婆子 waits in the 酒肆) — 续写",
+			"name": "民夫家属",
+			"aliases": [
+				"family",
+				"家属",
+				"民夫家属"
+			],
+			"gender": "女性",
+			"age": 44,
+			"long": "一个裹着头巾的妇人，坐在篝火边搓着手里的一根羊毛绳，眼睛一直往东边看。她男人被兵部的人带走四十天了。\n",
+			"attributes": {
+				"str": 18,
+				"cor": 16,
+				"int": 14,
+				"spi": 16,
+				"cps": 14,
+				"per": 14,
+				"con": 20,
+				"kar": 16
+			},
+			"combat_exp": 200,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 5,
+				"dodge": 10
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"民夫家属往火里添了一把羊粪，叹了口气。\n",
+				"民夫家属说道：四十天了。\n"
+			],
+			"inquiry": {
+				"民夫": [
+					"俺家的。兵部的人拿着文书，一家抓一个。王爷的告示贴了，人还是没了。"
+				],
+				"工地": [
+					"草原东边。俺去过一回，栅栏外头站了半天，白衣的不让进。听见里头有人喊。"
+				],
+				"篝火": [
+					"等消息的火。谁家男人回来了，火边就少一个人。到现在没少过。"
 				]
 			}
 		}

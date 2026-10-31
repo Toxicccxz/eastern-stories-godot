@@ -202,11 +202,24 @@ static func chapter6_planned(session: WorldSessionController, raid: bool = true)
 		_write(state, key)
 	for mark: String in ["军营", "严廷殷看了信", "赫造基说了拓模", "学过印色", "过了关门", "到了关北", "看过王府告示", "王府放行", "见过重逢", "信递到了", "借了兵" if raid else "约好了潜入"]:
 		state.marks[mark] = 1
-	if raid:
-		state.marks["郭承跟上了"] = 1
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if map != null and session.player_held_item_ids().get(&"native:canyon/seal_mould", false) == false:
 		map.give_new_item_to_player(&"native:canyon/seal_mould")
+	if map != null:
+		map.open_found_ways("王府放行") # the knock opened the 王府大门 (a found_by door opens as its mark is written)
+
+
+## 关北 C done after the road chosen: the 工地 raided with the 王府's riders (`raid`: every 枷 opened, the
+## cart's taoists fled) or the night's sneak (four freed, the watch down, 救了一半); the way to the 古冢口
+## open, the chapter's last step (卢卡's 会首) still to ask. 郭承 is not placed at the player's side:
+## a test that wants him following brings him (his mood going).
+static func chapter6_site_done(session: WorldSessionController, raid: bool = true) -> void:
+	chapter6_planned(session, raid)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "main.chapter6/site")
+	_write(state, "main.chapter6/raid" if raid else "main.chapter6/sneak")
+	for mark: String in (["郭承跟上了", "工地动过手", "工地的武官倒了", "裴照倒了", "吕隼倒了", "踏平了工地"] if raid else ["守夜的武官倒了", "救了一半"]) + ["进得了古冢口"]:
+		state.marks[mark] = 1
 
 
 static func _write(state: CharacterState, key: String) -> void:

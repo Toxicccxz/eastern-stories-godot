@@ -487,6 +487,58 @@ func day_clock() -> DayClock:
 	return _day
 
 
+## The day's phase now (day_phases.json phase_id; "" without phases): what a `phase` condition
+## reads (JournalEntryDefinition.When.PHASE, ScriptedAct `phase`).
+func day_phase_id() -> StringName:
+	var phase: DayPhaseDefinition = _day.phase()
+	return &"" if phase == null else phase.phase_id
+
+
+## Native (关北 C; DECISIONS「等到天黑」): the player waits until the next of `phase_ids` begins
+## (an act's `until_phase`: the 篝火's 等到天黑). The world clock goes forward by that much as one
+## stretch: the day (its phase begun told), the sky, the player's own recovery and timed applies,
+## rooms' resets, hazards and hidden passages, the time every other map is owed (别的地图时间补算,
+## caught up when the player comes to them), and the player's own map caught up as a map they
+## come back to (its NPCs healed and wandered, its corpses aged). Not in a fight, nor while the
+## world is held. True when the clock moved (false in one of the phases already, or none such).
+func wait_until_phase(phase_ids: Array[StringName]) -> bool:
+	if not npc_world_time_allowed():
+		return false
+	var game_seconds: int = _day.seconds_until_phase(phase_ids)
+	if game_seconds <= 0:
+		return false
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	# A real second is DAY_MINUTES / day_length_minutes game minutes (DayClock.advance()).
+	var real_seconds: float = float(game_seconds) * float(pacing.day_length_minutes) / float(DayClock.DAY_MINUTES)
+	var before: int = _day.phase_index()
+	_day.set_day_seconds(_day.day_seconds() + game_seconds)
+	if _day.phase_index() != before and _day.phase() != null:
+		day_phase_began.emit(_day.phase())
+	if pacing.sky_weather:
+		_sky.advance(real_seconds, pacing.day_length_minutes, sky_random_source())
+	_away.advance(real_seconds)
+	advance_player_recovery(real_seconds)
+	advance_player_timed_applies(real_seconds)
+	advance_quest_time(real_seconds)
+	advance_bounty_time(real_seconds)
+	advance_hidden_passages(real_seconds)
+	advance_room_hazards(real_seconds)
+	advance_room_resets(real_seconds)
+	var map: WorldMapController = active_map() as WorldMapController
+	if map != null:
+		# The player's own map as one they come back to: up to the catch-up limit beat by beat.
+		var limit: int = pacing.away_catch_up_limit_seconds
+		var owed: int = _away.owed_ms(map.map_id())
+		_away.stamp(map.map_id())
+		var seed: int = _away_seed(map.map_id(), owed)
+		_catch_up_revive_random = GodotCombatRandomSource.new(hash([seed, "revive"]), true)
+		map.npc_life.catch_up(real_seconds if limit <= 0 else minf(real_seconds, float(limit)), seed)
+		_catch_up_revive_random = null
+		if limit > 0 and real_seconds > float(limit):
+			map.npc_life.settle()
+	return true
+
+
 ## The cloud (DECISIONS「天气」): the save reads it whole; presentation and the outdoor
 ## rooms' line read sky_level().
 func sky_state() -> SkyState:
@@ -2204,8 +2256,9 @@ func record_journal() -> void:
 	WorldSpawnClearings.note(self)
 	var location: WorldLocationState = _player.world_location()
 	var zone_id: StringName = &"" if location == null else location.zone_id
-	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains(), zone_id, worn))
-	tell_quests(StoryQuestLog.record(_player.state, _player.temp_marks, held, zone_id, GameContent.catalog().story_quests(), worn))
+	var phase_id: StringName = day_phase_id()
+	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains(), zone_id, worn, phase_id))
+	tell_quests(StoryQuestLog.record(_player.state, _player.temp_marks, held, zone_id, GameContent.catalog().story_quests(), worn, phase_id))
 	progression_rewards().look()
 	bounties().look()
 

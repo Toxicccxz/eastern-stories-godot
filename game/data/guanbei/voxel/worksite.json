@@ -1,0 +1,87 @@
+{
+  "indoor": false,
+  "camera_size": 26,
+  "note": "工地 (native:guanbei/fence_gate, tents, sheds, diggings; 关北 C): the 兵部's camp on the steppe — a stake fence across the grass with the gate in it and the board over it, 吕隼's table with his ledgers, three white tents under the 兵部's white flags with the three-legged bird, two long thatched sheds open at the front with the shackle posts in a row before them and the watch fire, the diggings east: pits with ladders, the windlass over the deep one, spoil heaps, baskets and poles dropped where the men stopped, cart ruts to the barrow. Trodden yellow earth over the grass, dung, broken carrying poles, blood on the posts.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 1.6, "top": "8a9458", "bottom": "7a6a4a", "strata": ["a89868", "9a8a5c", "8a7a50"]},
+  "exit_trails": {
+    "guanbei.fence_gate.west": {"cells": 8, "kind": "path", "width": 8},
+    "guanbei.diggings.east": {"cells": 8, "kind": "path", "width": 8},
+    "note": "the road in from the steppe and on to the barrow"
+  },
+  "ground": {
+    "rock": {"style": "scree", "colors": ["b8a46e", "c4b078", "ac9864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"], "ruts": true, "note": "trodden yellow earth, churned"},
+    "path": {"style": "scree", "colors": ["b09860", "bca46a", "a48c58"], "gravel": 0.55, "stones": 0.06, "pebbles": ["d0b87c", "b8a066", "9c8858"], "ruts": true, "note": "the cart road, two ruts in the grass"},
+    "boundary": {"style": "scree", "colors": ["86905a", "929a5e", "7a8850"], "gravel": 0.06, "stones": 0.01, "pebbles": ["a0a466", "848a50"], "note": "the steppe running off: the same turf, trimmed to the map's edge"}
+  },
+  "ground_tints": {"bank": "9a8c5e", "mud": "a8966a", "chips": ["d0bc88", "c4b07c", "b4a070"], "dust": "d8c898", "grit": "e0d0a0"},
+  "flora": {
+    "grass_density": 0.3,
+    "density": {"rock": 0.08, "path": 0.0, "boundary": 0.7},
+    "flower_threshold": 0.5,
+    "blossom_trees": 0.0,
+    "tree_types": ["poplar", "dead", "willow", "poplar"],
+    "tree_kinds": ["boundary"],
+    "tree_chance": 0.04,
+    "tree_spacing": 160,
+    "wind": 0.9,
+    "butterflies": 0,
+    "meadows": [{"rect": [128, 192, 448, 960], "on": ["rock"], "scale": [0.8, 1.2], "density": 0.2, "tufts": 2, "note": "grass trodden into the yard"}]
+  },
+  "ambience": {
+    "birds": [{"at": [1400, 560], "radius": 260, "count": 5, "height": 9, "color": "2a2622", "note": "crows over the diggings"}],
+    "dust": [{"rect": [1216, 128, 1600, 1024], "count": 40, "color": "d0b878", "wind": [0.2, -0.5], "height": [0.3, 4.0], "note": "the dust the diggers raise"}, {"rect": [128, 128, 1216, 1024], "count": 20, "color": "d8c898", "wind": [0.4, 0.0]}]
+  },
+  "reshape": [],
+  "buildings": [
+    {"construction": "cloth", "cloth": ["e8e4dc", "dcd8d0", "d0ccc4"], "patch": "b8b4ac", "wall": "e0dcd4", "timber": "6a5a48", "posts": "6a5a48", "roof": "d8d4cc", "roof_form": "gable", "ridge": "x", "rise": 1.3, "overhang": 0.3, "eave_lift": 0.0, "height": 2.2, "foundation": 0.0, "bay": 4, "porch": "none", "lanterns": false, "goods": "none", "doorway": "dark", "doorway_width": 1.4, "rect": [528, 160, 720, 304], "portals": [], "note": "an officers' tent, white canvas, the 兵部's flag beside it", "hanging_flag": {"text": "兵", "cloth": "e8e4dc", "trim": "8a3a2a", "letters": "2a2422", "side": -1.0}},
+    {"construction": "cloth", "cloth": ["e8e4dc", "dcd8d0", "d0ccc4"], "patch": "b8b4ac", "wall": "e0dcd4", "timber": "6a5a48", "posts": "6a5a48", "roof": "d8d4cc", "roof_form": "gable", "ridge": "x", "rise": 1.3, "overhang": 0.3, "eave_lift": 0.0, "height": 2.2, "foundation": 0.0, "bay": 4, "porch": "none", "lanterns": false, "goods": "none", "doorway": "dark", "doorway_width": 1.4, "rect": [784, 160, 976, 304], "portals": [], "note": "the second", "hanging_flag": {"text": "部", "cloth": "e8e4dc", "trim": "8a3a2a", "letters": "2a2422", "side": 1.0}},
+    {"construction": "cloth", "cloth": ["d8d0c0", "ccc4b4"], "patch": "b8b4ac", "wall": "e0dcd4", "timber": "6a5a48", "posts": "6a5a48", "roof": "d8d4cc", "roof_form": "gable", "ridge": "x", "rise": 1.0, "overhang": 0.3, "eave_lift": 0.0, "height": 2.0, "foundation": 0.0, "bay": 4, "porch": "none", "lanterns": true, "goods": "none", "doorway": "dark", "doorway_width": 1.4, "rect": [1040, 176, 1200, 304], "portals": [], "note": "吕隼's tent, smaller, a lamp inside", "lantern": "ffb858"},
+    {"construction": "timber", "wall": "8a7a5c", "timber": "6a5a48", "posts": "6a5a48", "roof": "9a8a5a", "roof_tiles": "thatch", "straw": ["a09060", "8a7a4c", "b0a070", "7a6c44"], "holes": 0.2, "roof_form": "shed", "ridge": "x", "rise": 0.7, "overhang": 0.5, "eave_lift": 0.0, "height": 1.9, "foundation": 0.0, "bay": 6, "porch": "none", "lanterns": false, "goods": "none", "doorway": "dark", "doorway_width": 2.4, "open_front": true, "rect": [528, 864, 784, 1008], "portals": [], "note": "the west shed, thatch holed, open to the north"},
+    {"construction": "timber", "wall": "8a7a5c", "timber": "6a5a48", "posts": "6a5a48", "roof": "9a8a5a", "roof_tiles": "thatch", "straw": ["a09060", "8a7a4c", "b0a070", "7a6c44"], "holes": 0.2, "roof_form": "shed", "ridge": "x", "rise": 0.7, "overhang": 0.5, "eave_lift": 0.0, "height": 1.9, "foundation": 0.0, "bay": 6, "porch": "none", "lanterns": false, "goods": "none", "doorway": "dark", "doorway_width": 2.4, "open_front": true, "rect": [848, 864, 1104, 1008], "portals": [], "note": "the east shed"}
+  ],
+  "props": [
+    {"kind": "trail", "points": [[144, 576], [300, 576], [500, 570], [800, 580], [1100, 576], [1300, 576], [1500, 576]], "color": "a08a58", "note": "the cart ruts through the yard to the diggings"},
+    {"kind": "tracks", "points": [[480, 600], [640, 680], [760, 700]], "print": "boot", "color": "5e5040", "note": "the men's feet from the gate to the sheds"},
+    {"kind": "stains", "at": [288, 576], "size": [240, 500], "count": 10, "colors": ["a89060", "b49c6a", "9a8458"], "note": "the yard churned"},
+    {"kind": "stains", "at": [740, 740], "size": [420, 60], "count": 8, "colors": ["5a3a30", "6a4a3a", "8a7a4e"], "note": "the ground before the posts, dark"},
+    {"kind": "stains", "at": [1140, 744], "size": [90, 70], "count": 5, "colors": ["5a5248", "4a4238"], "note": "ash round the watch fire"},
+    {"kind": "stains", "at": [1408, 576], "size": [340, 800], "count": 14, "colors": ["b8a070", "c8b080", "a89060"], "note": "spoil spread over the diggings"},
+    {"kind": "straw_patch", "at": [656, 850], "size": [120, 40], "note": "straw dragged out of the sheds"},
+    {"kind": "straw_patch", "at": [976, 850], "size": [100, 36]},
+    {"kind": "banner", "at": [600, 180], "cloth": "e8e4dc", "pole": "6a5a48", "height": 3.6, "mark": "2a2422", "note": "the 兵部's white banner at the tents, the three-legged bird on it"},
+    {"kind": "banner", "at": [900, 180], "cloth": "e8e4dc", "pole": "6a5a48", "height": 3.6, "mark": "2a2422"},
+    {"kind": "torch", "at": [540, 296], "size": [16, 16], "height": 2.0, "note": "torches at the tents' corners"},
+    {"kind": "torch", "at": [964, 296], "size": [16, 16], "height": 2.0},
+    {"kind": "torch", "at": [1052, 296], "size": [16, 16], "height": 2.0},
+    {"kind": "torch", "at": [540, 876], "size": [16, 16], "height": 2.0, "note": "and at the sheds' corners"},
+    {"kind": "torch", "at": [1092, 876], "size": [16, 16], "height": 2.0},
+    {"kind": "glow", "at": [1144, 744], "color": "ffa060", "day": 0.0, "night": 0.9, "range": 8.0, "height": 1.5, "note": "the watch fire at night"},
+    {"kind": "glow", "at": [1120, 240], "color": "ffc080", "day": 0.0, "night": 0.6, "range": 6.0, "height": 1.6, "note": "吕隼's lamp through the canvas"},
+    {"kind": "glow", "at": [472, 576], "color": "ffb070", "day": 0.0, "night": 0.5, "range": 6.0, "height": 2.2, "note": "a lantern on the gate post"},
+    {"kind": "hanging_lantern", "at": [472, 512], "paper": "e0b060", "height": 2.3, "note": "the lantern on the gate post"},
+    {"kind": "wine_jars", "at": [1176, 288], "size": [28, 28], "count": 3, "tipped": 1, "note": "water jars behind the tents"},
+    {"kind": "loot_crates", "at": [1150, 310], "size": [36, 28], "rotation": 15, "note": "the 兵部's chests"},
+    {"kind": "carry_pole", "at": [700, 620], "note": "a broken carrying pole"},
+    {"kind": "carry_pole", "at": [1380, 460], "note": "and another dropped at the pit"},
+    {"kind": "bones", "at": [1540, 980], "size": [36, 26], "skull": false, "count": 4, "note": "bones from the spoil: not an animal's"},
+    {"kind": "cart_wheel", "at": [1300, 940], "size": [22, 22], "rotation": 60},
+    {"kind": "rope_coil", "at": [1500, 440], "size": [20, 20], "note": "the windlass's spare rope"},
+    {"kind": "stakes", "at": [1560, 640], "size": [40, 24], "note": "marking stakes with string between"},
+    {"kind": "far_ground", "at": [-260, 576], "size": [400, 1100], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe west"},
+    {"kind": "far_ground", "at": [860, -260], "size": [1900, 500], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and north"},
+    {"kind": "far_ground", "at": [860, 1400], "size": [1900, 500], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and south"},
+    {"kind": "far_peak", "at": [1900, 576], "size": [500, 320], "height": 4.0, "elevation": -1.8, "colors": ["8a9458", "7e8a50", "a8a070", "b8a070"], "note": "the barrow: a long grassed hill, its western foot cut open (the 古冢口 is its own map)"}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "native.npc.lu_sun": {"coat": "4a5a6a"},
+    "native.npc.pei_zhao": {"coat": "e8e4dc"},
+    "native.npc.site_officer": {"coat": "e0dcd4"},
+    "native.npc.site_officer_fighting": {"coat": "e0dcd4"},
+    "native.npc.night_watch": {"coat": "e0dcd4"},
+    "native.npc.night_watch_fighting": {"coat": "e0dcd4"},
+    "native.npc.site_corvee": {"coat": "6a5a48"},
+    "native.npc.guo_cheng": {"coat": "5a4a3a"},
+    "native.npc.huaiyang_rider": {"coat": "6a4a3a", "hat": true, "mount": {"coat": "5a3a2a", "mane": "2a2420", "cloth": "8a3a2a"}}
+  }
+}

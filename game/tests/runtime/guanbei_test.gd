@@ -11,7 +11,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"guanbei.gorge": 3, &"guanbei.town": 3, &"guanbei.horse_market": 1, &"guanbei.inn": 2, &"guanbei.palace_court": 2, &"guanbei.palace": 2}
+const MAPS: Dictionary = {&"guanbei.gorge": 3, &"guanbei.town": 3, &"guanbei.horse_market": 1, &"guanbei.inn": 2, &"guanbei.palace_court": 2, &"guanbei.palace": 2, &"guanbei.yurt_camp": 2, &"guanbei.steppe": 3, &"guanbei.worksite": 4, &"guanbei.barrow": 3}
 ## Where each kind stands (the rescue ledger's 老秦 is story_chapter6_test's).
 const PEOPLE: Dictionary = {
 	&"guanbei.gate": {&"native.npc.huaiyang_gate_guard": 2, &"native.npc.camel_driver": 2},
@@ -22,6 +22,10 @@ const PEOPLE: Dictionary = {
 	&"guanbei.palace_yard": {&"native.npc.palace_steward": 1},
 	&"guanbei.drill": {&"native.npc.guo_cheng": 1, &"native.npc.palace_soldier": 4},
 	&"guanbei.palace_hall": {&"native.npc.cheng_shuo": 1, &"native.npc.palace_guard": 2},
+	&"guanbei.camp": {&"native.npc.herdsman": 3, &"native.npc.camp_family": 3},
+	&"guanbei.steppe_road": {&"native.npc.shepherd": 1},
+	# The 工地's and the 古冢口's people are on the story's stage (until/present): counted on the walk.
+
 }
 
 var _count: int = 0
@@ -47,7 +51,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("guanbei."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null and String(zone.room_ids()[0]).begins_with("native:guanbei/"), "%s: one native room" % zone.zone_id)
-	_check(maps == MAPS, "thirteen native rooms on six maps: %s" % maps)
+	_check(maps == MAPS, "twenty-five native rooms on ten maps: %s" % maps)
 	_check(catalog.region(&"guanbei").display_name == "关北", "the region is 关北")
 	_check(catalog.map(&"guanbei.inn").interior and catalog.map(&"guanbei.palace").interior and catalog.map(&"guanbei.palace_court").interior and not catalog.map(&"guanbei.gorge").interior and not catalog.map(&"guanbei.town").interior and not catalog.map(&"guanbei.horse_market").interior, "the inn and the 王府 are indoors, the road, the town and the market are outdoors")
 	_check(catalog.portal(&"guanbei.palace_front.north").destination_zone_id == &"guanbei.palace_yard" and catalog.portal(&"guanbei.palace_yard.north").destination_zone_id == &"guanbei.palace_hall" and catalog.door(&"guanbei.palace.gate").map_ids() == [&"guanbei.town", &"guanbei.palace_court"], "the 王府大门 off the street into the court (placed by both maps), the hall's door off the court")
@@ -86,7 +90,30 @@ func _test_data() -> void:
 	_check(soldiers != null and soldiers.quantity == 2 and soldiers.zone_id == &"canyon.canyon7" and soldiers.cleared_mark == "过了关门", "two of them at the gate; beaten, the way is open")
 	var lao_qin: NpcSpawnDefinition = catalog.spawn(&"guanbei.inn_hall.lao_qin")
 	_check(lao_qin != null and lao_qin.present != null, "老秦 sits in the 酒肆 only on the rescue ledger")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_B_V1, "关北 B's world revision is current")
+	# C: the 东门, the camp, the steppe, the 工地 and the 古冢口.
+	_check(catalog.portal(&"guanbei.market.east").destination_zone_id == &"guanbei.camp" and catalog.portal(&"guanbei.camp.west").destination_zone_id == &"guanbei.market", "the 东门 out of the market onto the camp, and back")
+	_check(catalog.portal(&"guanbei.camp_east.east").destination_zone_id == &"guanbei.steppe_road" and catalog.portal(&"guanbei.steppe_road.east").destination_zone_id == &"guanbei.fence_gate" and catalog.portal(&"guanbei.diggings.east").destination_zone_id == &"guanbei.barrow_mouth", "the cart road: camp → steppe → 工地 → 古冢口")
+	var barrow_rule: ZoneExitRuleDefinition = null
+	for candidate: ZoneExitRuleDefinition in catalog.exit_rules():
+		if candidate.rule_id == &"guanbei.diggings.east_barrow":
+			barrow_rule = candidate
+	_check(barrow_rule != null and barrow_rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and barrow_rule.mark == "进得了古冢口", "the officers keep the 古冢口 until the 工地 is taken or the night's work done")
+	var fire: ServiceDefinition = catalog.service(&"guanbei.camp.fire")
+	_check(fire != null and fire.act.verb == "等到天黑" and fire.act.acts.size() == 3 and fire.act.acts[0].phase == [&"night", &"midnight"] and fire.act.acts[1].mark == "约好了潜入" and not fire.act.acts[1].ask.is_empty() and fire.act.acts[1].steps[1].kind == ScriptedAct.Kind.UNTIL_PHASE and fire.act.acts[1].steps[1].phases == [&"night"], "the 篝火: 等到天黑 asks first and puts the clock forward to 夜晚; nothing to wait for by night or without the plan")
+	var shackles: ServiceDefinition = catalog.service(&"guanbei.sheds.shackles")
+	_check(shackles != null and shackles.act.verb == "打开枷锁" and shackles.act.acts.size() == 8 and shackles.act.acts[2].marks == ["借了兵", "工地的武官倒了", "裴照倒了", "吕隼倒了"] and shackles.act.acts[4].phase == [&"night", &"midnight"] and shackles.act.acts[4].present == &"native.npc.guo_cheng", "the 枷锁: the raid's branch wants the three spawns down, the night's wants 郭承 by after dark")
+	var lu_sun: NpcDefinition = catalog.npc(&"native.npc.lu_sun")
+	_check(lu_sun != null and lu_sun.hooks().scene_mark == "工地动过手" and lu_sun.hooks().calls.size() == 4 and lu_sun.hooks().calls[3].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SUMMON and step.spawn_id == &"guanbei.fence_gate.riders") and lu_sun.hooks().spared_mark == "吕隼招了", "吕隼: a three-beat scene that summons the riders and the officers; spared, he talks")
+	_check(catalog.npc(&"native.npc.huaiyang_rider").hooks().fights_beside_player and catalog.npc(&"native.npc.guo_cheng").hooks().fights_beside_player and catalog.npc(&"native.npc.pei_zhao").hooks().moods["fighting"].flags == [NpcDefinition.FLAG_AGGRESSIVE], "the riders and 郭承 fight beside the player; 裴照 draws in his mood")
+	_check(catalog.spawn(&"guanbei.fence_gate.riders").summoned and catalog.spawn(&"guanbei.fence_gate.officers_fighting").cleared_mark == "工地的武官倒了" and catalog.spawn(&"guanbei.sheds.night_watch_fighting").cleared_mark == "守夜的武官倒了" and catalog.spawn(&"guanbei.fence_gate.lu_sun").cleared_mark == "吕隼倒了", "the summoned spawns and what their 全倒 marks")
+	var watch: NpcSpawnDefinition = catalog.spawn(&"guanbei.sheds.night_watch")
+	_check(watch != null and watch.present != null and watch.present.when == JournalEntryDefinition.When.PHASE and watch.present.phases == [&"night", &"midnight"] and catalog.spawn(&"guanbei.fence_gate.officers").until.when == JournalEntryDefinition.When.PHASE, "the night watch by night, the day's officers until it (phase)")
+	_check(catalog.spawn(&"guanbei.sheds.corvee_left").present.key == "救了一半" and catalog.spawn(&"guanbei.cart_stand.taoists").until.when == JournalEntryDefinition.When.ANY, "the four left after the night; the cart gone either way")
+	var door: WorldLandmarkDefinition = catalog.landmark(&"guanbei.stone_door.landmark.door")
+	_check(door != null and door.teaches == ["见过古冢的金乌"] and catalog.landmark(&"guanbei.sheds.landmark.roll").teaches == ["看过工地名册"], "the stone door's bird and the sheds' roll teach their marks")
+	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter6")
+	_check(quest.steps.size() == 12 and quest.steps[8].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[9].only_after == &"raid" and quest.steps[10].only_after == &"sneak" and quest.steps[11].condition.key == "卢卡说了番坊", "the chapter: site (arrival) → raid or sneak → 卢卡")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_C_V1, "关北 C's world revision is current")
 
 
 ## From the valley: the gate refused, then (TEST-ONLY: the mark set) through it and north to the
@@ -172,6 +199,55 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 		_check(walker._failures.is_empty(), "Save/Continue restores exactly: " + str(walker._failures))
 	var back: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.street")
 	_check(back != null and back.map_id() == &"guanbei.town", "out of the inn and back to the street")
+	# C: out of the 东门, over the steppe to the 工地 and (refused) toward the 古冢口.
+	var camp: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.camp")
+	_check(camp != null and camp.map_id() == &"guanbei.yurt_camp", "out of the 东门 into the camp")
+	_check(camp.select_landmark(&"guanbei.camp.landmark.yurts") and camp.inspect_selected() and ui.inspection_text.text.contains("毡"), "the yurts looked at")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	var fire: ActService = camp.service(&"guanbei.camp.fire") as ActService
+	_check(fire != null and await MapPlaces.drive(tree, camp, MapPlaces.service_spot(camp, &"guanbei.camp.fire")) and fire.in_reach() and fire.verb() == "等到天黑", "篝火 · 等到天黑 by the fire")
+	fire.interact()
+	await _settle(tree)
+	_check(not ui.is_asking() and ui.log_lines().any(func(line: String) -> bool: return line.contains("没有要等的事")) and session.day_phase_id() == &"morning", "nothing to wait for without the plan: the clock stands")
+	_check(await MapPlaces.drive_through(tree, camp, [&"guanbei.camp_east", &"guanbei.camp"]), "to the east mouth and back")
+	var steppe: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.steppe_road")
+	_check(steppe != null and steppe.map_id() == &"guanbei.steppe", "east onto the steppe")
+	_check(await MapPlaces.drive_through(tree, steppe, [&"guanbei.cairn", &"guanbei.steppe_road", &"guanbei.rise", &"guanbei.steppe_road"]), "up to the 敖包, down to the rise and back to the road")
+	_check(steppe.select_landmark(&"guanbei.cairn.landmark.obo") and steppe.inspect_selected() and ui.inspection_text.text.contains("十一回"), "the 敖包's tally of carts")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	var shepherd: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.steppe_road.shepherd.1")
+	_check(shepherd != null and await MapPlaces.drive(tree, steppe, MapPlaces.spot(steppe, &"guanbei.steppe_road", steppe.runtime_body_for_character(shepherd.character_id).global_position + Vector2(-60, -20), 64.0)) and steppe.select_npc(shepherd.character_id), "beside the shepherd")
+	_check(steppe.ask_selected("车").any(func(line: String) -> bool: return line.contains("油布")), "he has watched the carts")
+	var site: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.fence_gate")
+	_check(site != null and site.map_id() == &"guanbei.worksite", "into the 工地's gate")
+	for second: int in 2:
+		session.advance_npc_heartbeat(1.0)
+	await _settle(tree)
+	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("闲人免进")) and not site.scene_running(), "吕隼 turns a stranger away in words; no scene without the 王府's men")
+	_check(_count_in(session, &"guanbei.fence_gate", &"native.npc.site_officer") == 6 and _count_in(session, &"guanbei.sheds", &"native.npc.night_watch") == 0 and _count_in(session, &"guanbei.sheds", &"native.npc.site_corvee") == 8, "six officers at the gate by day, no night watch, eight in the 枷")
+	_check(await MapPlaces.drive_through(tree, site, [&"guanbei.tents", &"guanbei.sheds"]), "past the tents to the sheds")
+	_check(site.select_landmark(&"guanbei.sheds.landmark.roll") and site.inspect_selected() and ui.inspection_text.text.contains("王石头") and state.marks.get("看过工地名册", 0) == 1, "the roll read: eight names")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	var shackles: ActService = site.service(&"guanbei.sheds.shackles") as ActService
+	_check(shackles != null and await MapPlaces.drive(tree, site, MapPlaces.service_spot(site, &"guanbei.sheds.shackles")) and shackles.in_reach(), "枷锁 · 打开枷锁 at the posts")
+	shackles.interact()
+	await _settle(tree)
+	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("没有钥匙")), "a stranger has no key and no reason")
+	_check(await MapPlaces.drive_to_zone(tree, site, &"guanbei.diggings"), "east into the diggings")
+	var refused: bool = await MapPlaces.take_passage(tree, site, &"guanbei.diggings.east", 240)
+	_check(not refused and session.active_map_id() == &"guanbei.worksite" and ui.log_lines().any(func(line: String) -> bool: return line.contains("闲人免进")), "the officers keep the 古冢口: 兵部重地")
+	state.marks["进得了古冢口"] = 1 # TEST-ONLY: as the raid or the night leaves it
+	var barrow: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.barrow_mouth")
+	_check(barrow != null and barrow.map_id() == &"guanbei.barrow", "through to the 古冢口")
+	_check(_count_in(session, &"guanbei.cart_stand", &"native.npc.barrow_taoist") == 2 and _count_in(session, &"guanbei.stone_door", &"native.npc.site_officer") == 2, "the cart's two taoists and the door's two officers on a fresh game")
+	_check(await MapPlaces.drive_through(tree, barrow, [&"guanbei.stone_door", &"guanbei.barrow_mouth", &"guanbei.cart_stand", &"guanbei.barrow_mouth"]), "to the door, down to the cart and back")
+	_check(barrow.select_landmark(&"guanbei.stone_door.landmark.door") and barrow.inspect_selected() and ui.inspection_text.text.contains("三只脚") and state.marks.get("见过古冢的金乌", 0) == 1, "the door's three-legged bird")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	state.marks.erase("进得了古冢口")
 
 
 func _count_in(session: WorldSessionController, zone_id: StringName, definition_id: StringName) -> int:

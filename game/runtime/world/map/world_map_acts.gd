@@ -40,6 +40,8 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	known.kar = _player.state.attributes.karma
 	known.ghost = _player.state.ghost
 	known.per = _player.state.attributes.personality
+	if _map.session != null:
+		known.phase_id = _map.session.day_phase_id()
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):
@@ -202,9 +204,14 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.LEAVE:
 				var leaving: NpcRuntimeState = npc
 				if not step.npc_id.is_empty():
-					leaving = null if npc == null else _map.npcs.first_npc_in_zone(step.npc_id, npc.world_location().zone_id, true)
+					# A room's own act (no NPC acting) sends off one standing in the act's room.
+					leaving = _map.npcs.first_npc_in_zone(step.npc_id, room if npc == null else npc.world_location().zone_id, true)
 				if leaving != null:
 					_map.npcs.leave_for_good(leaving)
+			ScriptedAct.Kind.UNTIL_PHASE:
+				_show(said, hears, npc, spoken)
+				if _map.session != null and not _map.session.wait_until_phase(step.phases):
+					push_error("the act could not wait for %s" % [step.phases])
 			ScriptedAct.Kind.WATER:
 				state.recovery.water += step.value
 			ScriptedAct.Kind.REINCARNATE:

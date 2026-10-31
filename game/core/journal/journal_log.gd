@@ -33,20 +33,20 @@ class Fresh:
 ## Records every entry whose condition now holds. `temps` are the player's temp marks,
 ## `held` the item definitions the player carries, `zone_id` where the player stands (ZONE;
 ## "" when nowhere). True when anything was recorded.
-static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition], zone_id: StringName = &"", worn: Dictionary[StringName, bool] = {}) -> bool:
-	return not record_entries(state, temps, held, chains, zone_id, worn).is_empty()
+static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition], zone_id: StringName = &"", worn: Dictionary[StringName, bool] = {}, phase_id: StringName = &"") -> bool:
+	return not record_entries(state, temps, held, chains, zone_id, worn, phase_id).is_empty()
 
 
 ## record(), telling which entries it recorded, in the order it did. `worn` are the item
-## definitions the player wears (WEARING).
-static func record_entries(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition], zone_id: StringName = &"", worn: Dictionary[StringName, bool] = {}) -> Array[Fresh]:
+## definitions the player wears (WEARING), `phase_id` the day's phase (PHASE).
+static func record_entries(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition], zone_id: StringName = &"", worn: Dictionary[StringName, bool] = {}, phase_id: StringName = &"") -> Array[Fresh]:
 	var recorded: Array[Fresh] = []
 	if state == null:
 		return recorded
 	for chain: JournalChainDefinition in chains:
 		for entry: JournalEntryDefinition in chain.entries:
 			var key: String = chain.key_of(entry)
-			if not state.journal.has(key) and holds(entry, state, temps, held, zone_id, worn):
+			if not state.journal.has(key) and holds(entry, state, temps, held, zone_id, worn, phase_id):
 				state.journal[key] = state.journal.size() + 1
 				recorded.append(Fresh.new(chain, entry))
 	return recorded
@@ -107,15 +107,18 @@ static func note_items(state: CharacterState, held: Dictionary[StringName, bool]
 
 
 ## Whether `entry`'s condition holds now; `zone_id` is where the player stands (ZONE), `worn`
-## the item definitions they wear (WEARING).
-static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], zone_id: StringName = &"", worn: Dictionary[StringName, bool] = {}) -> bool:
+## the item definitions they wear (WEARING), `phase_id` the day's phase (PHASE; "" when the
+## caller has no clock: a PHASE condition then never holds).
+static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], zone_id: StringName = &"", worn: Dictionary[StringName, bool] = {}, phase_id: StringName = &"") -> bool:
 	match entry.when:
 		JournalEntryDefinition.When.WEARING:
 			return worn.has(StringName(entry.key))
+		JournalEntryDefinition.When.PHASE:
+			return not phase_id.is_empty() and entry.phases.has(phase_id)
 		JournalEntryDefinition.When.ANY:
-			return entry.parts.any(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn))
+			return entry.parts.any(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn, phase_id))
 		JournalEntryDefinition.When.ALL:
-			return entry.parts.all(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn))
+			return entry.parts.all(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn, phase_id))
 		JournalEntryDefinition.When.MARK:
 			return int(state.marks.get(entry.key, 0)) != 0
 		JournalEntryDefinition.When.TEMP:

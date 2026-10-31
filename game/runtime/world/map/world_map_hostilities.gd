@@ -457,7 +457,7 @@ func _ignored(npc: NpcRuntimeState) -> bool:
 	if npc.definition().dealings().ignores_with_parley and not GameContent.catalog().pacing().story_parley:
 		return false
 	var location: WorldLocationState = _player.world_location()
-	return JournalLog.holds(condition, _player.state, _player.temp_marks, session.player_held_item_ids(), &"" if location == null else location.zone_id, session.player_worn_item_ids())
+	return JournalLog.holds(condition, _player.state, _player.temp_marks, session.player_held_item_ids(), &"" if location == null else location.zone_id, session.player_worn_item_ids(), session.day_phase_id())
 
 
 ## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
@@ -876,6 +876,45 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 	if not warnings.is_empty():
 		_map.hud().append_log_lines(warnings, true)
 	coordinator.note_opening(lines, warnings)
+	if encounter != null:
+		_allies_join(encounter)
+
+
+## Native (关北 C; DECISIONS「替玩家打的 NPC」): as a fight the player is in opens, every NPC that
+## fights beside them (NpcHooks.fights_beside_player) and stands conscious in the player's place,
+## not yet in it — one the player's side summoned (the 王府's riders, summoners) or one following
+## them (郭承) — kill_ob()s the player's living enemies and comes in on their side, as the 天将 do
+## (heaven_soldier.c invocation(); CombatEncounterResolution's allies). Those enemies kill it back.
+## A spar is no fight of theirs: nobody draws into a 切磋 (it would turn lethal).
+func _allies_join(encounter: CombatEncounter) -> void:
+	if _player == null or encounter.participant_for(_player.character_id) == null or encounter.mode == CombatEncounterMode.Value.SPAR:
+		return
+	var here: WorldLocationState = _player.world_location()
+	var allies: Array[StringName] = []
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		var hooks: NpcHooks = npc.definition().hooks()
+		if (
+			hooks == null or not hooks.fights_beside_player or not npc.exists_in_map
+			or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting()
+			or encounter.participant_for(npc.character_id) != null or not npc.world_location().shares_combat_location(here)
+		):
+			continue
+		if _map.npcs.summoner_of(npc.character_id) == _player.character_id or npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER):
+			allies.append(npc.character_id)
+	if allies.is_empty():
+		return
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
+	coordinator.resolution().admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_allies(allies))
+	var told: Array[String] = []
+	for ally_id: StringName in allies:
+		if encounter.participant_for(ally_id) != null:
+			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(ally_id)
+			if npc != null:
+				# TRANSLATORS: one who fights beside the player ({npc}) comes into the fight.
+				told.append(TranslationServer.translate("{npc}拔刀上前，和你并肩而立！").format({"npc": TranslationServer.translate(npc.definition().display_name)}))
+	if not told.is_empty():
+		_map.hud().append_log_lines(told, true)
 
 
 ## combatd.c do_attack(npc, player, the npc's weapon) called straight outside any fight

@@ -638,6 +638,12 @@ func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
 				came.append(_npc_at_point(point_id))
 		elif not npc.exists_in_map and _appear(npc, spawn):
 			came.append(npc)
+	# One that fights beside the player (NpcHooks.fights_beside_player: the 王府's riders) comes
+	# as the player's own summons, as the 天将 do: set("possessed", the player).
+	for npc: NpcRuntimeState in came:
+		var hooks: NpcHooks = npc.definition().hooks()
+		if hooks != null and hooks.fights_beside_player and _player != null:
+			summoners[npc.character_id] = _player.character_id
 	return came
 
 
@@ -867,6 +873,19 @@ func dismiss_summoned() -> void:
 	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
 	for npc: NpcRuntimeState in residents.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
+			# One of a summoned spawn that fights beside the player (关北 C: the 王府's riders,
+			# the player's own summons by summon()): it goes as the fight ends, as the 天将 do,
+			# keeping all it has for the next time its spawn is called.
+			var hooks: NpcHooks = npc.definition().hooks()
+			if (
+				hooks != null and hooks.fights_beside_player and summoners.has(npc.character_id)
+				and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+			):
+				if _map.npc_life.player_hears(npc) and session != null and not departing:
+					# TRANSLATORS: one who fought beside the player ({npc}) leaves as the fight ends.
+					session.shared_ui().append_after_fight([ColoredLine.new(TranslationServer.translate("{npc}收了刀，拨转马头走了。").format({"npc": TranslationServer.translate(npc.definition().display_name)}))])
+				withdraw(npc)
+				summoners.erase(npc.character_id)
 			continue
 		if (npc.definition().conjuring() != null or npc.definition().raising() != null) and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
@@ -916,6 +935,23 @@ func leave_for_good(npc: NpcRuntimeState) -> void:
 		return
 	npc.set_flag(NpcDefinition.FLAG_GONE, true)
 	vanish(npc)
+
+
+## Native (关北 C; DECISIONS「关北 C」): an NPC steps off the map for a while and keeps everything —
+## alive, its things on it, its record here — to come back onto its marker (appear()) when the
+## stage wants it again: the 工地's officers in their tents by night, the 王府's riders riding
+## home after the fight. Nothing a room reset need remake.
+func withdraw(npc: NpcRuntimeState) -> void:
+	if npc == null or find_resident_npc(npc.character_id) == null or not npc.exists_in_map:
+		return
+	npc.set_exists_in_map(false)
+	if _map.selection.selected_character_id() == npc.character_id:
+		_map.selection.selected_target = null
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	if body != null:
+		body.refresh_runtime_state()
+	_map.hostilities.aggression.clear_npc(npc.character_id)
+	_map.hostilities.forget_npc(npc.character_id)
 
 
 ## destruct() of an NPC a room placed (oldman.c kill_ob()): it is gone with all it
