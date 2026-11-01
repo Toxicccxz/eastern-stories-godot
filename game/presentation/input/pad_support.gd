@@ -3,7 +3,8 @@ extends Node
 ## Gamepad support that is not any one panel's (owner, DECISIONS「手柄」):
 ## every input event tells InputDevices what the player uses; a focused number box
 ## (SpinBox, or a LineEdit marked STEP_META) steps with ←/→ (a pad has no keys to type
-## with); the right stick or PgUp/PgDn scrolls the topmost long text (SCROLL_GROUP).
+## with); the right stick or PgUp/PgDn scrolls the topmost long text (SCROLL_GROUP); a
+## control walked to shows its tooltip (FocusTip).
 ## The shell adds one; it runs while the tree is paused.
 
 ## ScrollContainers and RichTextLabels the right stick scrolls; the last visible one in
@@ -15,11 +16,14 @@ const SCROLL_SPEED: float = 900.0
 
 ## The stick's direction that stepped a number box last (-1, 1), 0 once it rests.
 var _stick_step: int = 0
+var focus_tip: FocusTip
 
 
 func _ready() -> void:
 	name = "PadSupport"
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	focus_tip = FocusTip.new()
+	add_child(focus_tip)
 	Input.joy_connection_changed.connect(_on_joy_connection_changed)
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 
@@ -33,6 +37,7 @@ func _exit_tree() -> void:
 
 func _input(event: InputEvent) -> void:
 	InputDevices.shared().observe(event)
+	focus_tip.observe(event)
 
 
 func _process(delta: float) -> void:
@@ -52,6 +57,7 @@ func _on_joy_connection_changed(_device: int, connected: bool) -> void:
 
 
 func _on_focus_changed(control: Control) -> void:
+	focus_tip.focus_moved(control)
 	var line := control as LineEdit
 	if line == null or not (line.get_parent() is SpinBox or line.has_meta(STEP_META)):
 		return

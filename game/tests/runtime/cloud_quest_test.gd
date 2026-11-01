@@ -254,7 +254,7 @@ func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(player.state.quest.remaining_ms == 748500, "play time runs the task's time: %d" % player.state.quest.remaining_ms)
 	hud.open_character()
 	var sheet: String = hud.character_sheet_text()
-	_check(sheet.contains("杀气 0 · 综合评价 0\n总共杀过 0 个人。"), "the 角色 page: score.c's lines: " + sheet)
+	_check(sheet.contains("综合评价 0\n总共杀过 0 个人。") and not sheet.contains("杀气"), "the 角色 page: score.c's lines, 杀气 not yet: " + sheet)
 	_check(hud.journal_quest_text() == "你现在的任务是杀『宝官』。\n你还有十二分二十九秒去完成它。", "the 任务 page: quest.c: " + hud.quest_text.text)
 	hud.dismiss_current_panel()
 	await tree.physics_frame

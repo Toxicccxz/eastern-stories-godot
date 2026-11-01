@@ -52,6 +52,9 @@ func _test_projection_and_intent(tree: SceneTree) -> void:
 	_check(people[0].vitality.maximum == player.state.vitality.maximum, "exact maximum vitality")
 	_check(people[0].essence.current == player.state.essence.current and people[0].spirit.current == player.state.spirit.current, "gin/sen from exact CharacterState")
 	_check(people[0].force.current == force_before, "exact internal resource")
+	player.state.skills.set_raw_level(SkillIds.SPELLS, 1) # TEST-ONLY: 基本咒文.
+	_check(BattleProjectionBuilder.build(session).participants()[0].show_mana, "法力 by the numbers' rule (stats_display.json)")
+	player.state.skills.remove_skill(SkillIds.SPELLS)
 	_check(people[1].hostile_to_player and people[1].side_id == &"hostile", "directed side projection")
 	_check(people[0].display_name == "Player" and people[1].display_name == enemy.definition().display_name, "content names, not Node IDs")
 	people.clear()

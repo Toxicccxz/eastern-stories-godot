@@ -5147,25 +5147,29 @@ msgid "{what} ≥ {required}（你 {have}）"
 msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
+#. courage name
 #. help.gift paragraphs
-#: core/relationships/apprentice_conditions.gd data/common/codex.json
+#: core/relationships/apprentice_conditions.gd data/common/stats_display.json data/common/codex.json
 msgid "胆识"
 msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
+#. composure name
 #. help.gift paragraphs
-#: core/relationships/apprentice_conditions.gd data/common/codex.json
+#: core/relationships/apprentice_conditions.gd data/common/stats_display.json data/common/codex.json
 msgid "定力"
 msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
+#. spirituality name
 #. help.gift paragraphs
-#: core/relationships/apprentice_conditions.gd data/common/codex.json
+#: core/relationships/apprentice_conditions.gd data/common/stats_display.json data/common/codex.json
 msgid "灵性"
 msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
-#: core/relationships/apprentice_conditions.gd
+#. combat_experience name
+#: core/relationships/apprentice_conditions.gd data/common/stats_display.json
 msgid "实战经验"
 msgstr ""
 
@@ -6303,43 +6307,50 @@ msgid "{skill}进度 {change}"
 msgstr ""
 
 #. gin (精) in a continuous run's summary.
+#. essence name
 #. help.health paragraphs
-#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
+#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd data/common/stats_display.json data/common/codex.json
 msgid "精"
 msgstr ""
 
 #. kee (气) in a continuous run's summary.
+#. vitality name
 #. help.health paragraphs
-#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
+#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd data/common/stats_display.json data/common/codex.json
 msgid "气"
 msgstr ""
 
 #. sen (神) in a continuous run's summary.
+#. spirit name
 #. help.health paragraphs
-#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
+#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd data/common/stats_display.json data/common/codex.json
 msgid "神"
 msgstr ""
 
 #. force (内力) in a continuous run's summary.
+#. force name
 #. help.stats paragraphs
-#: core/training/training_lines.gd data/common/codex.json
+#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
 msgid "内力"
 msgstr ""
 
 #. mana (法力) in a continuous run's summary.
+#. mana name
 #. help.stats paragraphs
-#: core/training/training_lines.gd data/common/codex.json
+#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
 msgid "法力"
 msgstr ""
 
 #. atman (灵力) in a continuous run's summary.
+#. atman name
 #. help.stats paragraphs
-#: core/training/training_lines.gd data/common/codex.json
+#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
 msgid "灵力"
 msgstr ""
 
 #. potential left (潜能) in a continuous run's summary.
-#: core/training/training_lines.gd
+#. potential name
+#: core/training/training_lines.gd data/common/stats_display.json
 msgid "潜能"
 msgstr ""
 
@@ -6484,7 +6495,8 @@ msgstr ""
 msgid "现在没有可用的操作。"
 msgstr ""
 
-#: presentation/battle/battle_action_panel.gd ui/world/martial_arts_page.gd
+#. enforce name
+#: presentation/battle/battle_action_panel.gd ui/world/martial_arts_page.gd data/common/stats_display.json
 msgid "加力"
 msgstr ""
 
@@ -6492,13 +6504,13 @@ msgstr ""
 msgid "取消已排定的操作"
 msgstr ""
 
+#. the battle panel's status while the fight's clock waits for the player's order.
 #: presentation/battle/battle_action_panel.gd
-msgid "排定：%s"
+msgid "等你出招"
 msgstr ""
 
-#. the battle panel's status while the fight's clock waits for the player's order (on 排定's line).
 #: presentation/battle/battle_action_panel.gd
-msgid "等你出招 · "
+msgid "排定：%s"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -6551,15 +6563,11 @@ msgid "现在：战斗自己打；按下后每回合等你出招。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "就绪"
-msgstr ""
-
-#: presentation/battle/battle_action_panel.gd
 msgid "等你空下来"
 msgstr ""
 
-#: presentation/battle/battle_action_panel.gd presentation/battle/battle_presentation_projection.gd runtime/world/services/hockshop_service.gd ui/world/martial_arts_page.gd
-msgid "无"
+#: presentation/battle/battle_action_panel.gd
+msgid "就绪"
 msgstr ""
 
 #: presentation/battle/battle_action_presentation_catalog.gd
@@ -6992,20 +7000,6 @@ msgid "参战"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
-msgid "当前／有效／上限"
-msgstr ""
-
-#. the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it; 法力 and 灵力 only with spells.
-#: presentation/battle/battle_participant_card.gd
-msgid "内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
-msgstr ""
-
-#. the player's card without spells: 内力 alone; (+{factor}) is enforce.c's force_factor.
-#: presentation/battle/battle_participant_card.gd
-msgid "内力 {force}/{max_force} (+{factor})"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
 msgid "已排定目标"
 msgstr ""
 
@@ -7069,6 +7063,35 @@ msgstr ""
 msgid "选为目标：%s"
 msgstr ""
 
+#. the player's battle card: 内力, current/maximum.
+#: presentation/battle/battle_participant_card.gd
+msgid "内力 {force}/{max_force}"
+msgstr ""
+
+#. the player's battle card: enforce.c's force_factor, the 内力 put into each blow.
+#: presentation/battle/battle_participant_card.gd
+msgid "加力 {factor}"
+msgstr ""
+
+#. the player's battle card: 法力, current/maximum.
+#: presentation/battle/battle_participant_card.gd
+msgid "法力 {mana}/{max_mana}"
+msgstr ""
+
+#. the player's battle card: 灵力, current/maximum.
+#: presentation/battle/battle_participant_card.gd
+msgid "灵力 {atman}/{max_atman}"
+msgstr ""
+
+#: presentation/battle/battle_participant_card.gd
+msgid "%s：%s"
+msgstr ""
+
+#. a battle card's hover: {name} 气 / 精 / 神, its three numbers (当前 / 有效 / 最大), then what it is.
+#: presentation/battle/battle_participant_card.gd
+msgid "{name} {current} / 有效 {effective} / 最大 {maximum}：{hint}"
+msgstr ""
+
 #. on the 了结 button: killing them does the task 朱鸿雪 gave.
 #: presentation/battle/battle_participant_card.gd
 msgid "任务目标"
@@ -7094,12 +7117,12 @@ msgstr ""
 msgid "放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。"
 msgstr ""
 
-#. a battle card's 气 line: current/effective/maximum.
+#. a battle card's 气 line: current/maximum (the bar's crack shows the 有效 between them, the hover the number).
 #: presentation/battle/battle_participant_card.gd
 msgid "气 %s"
 msgstr ""
 
-#. the player's card: 精 and 神, each current/effective/maximum.
+#. the player's card: 精 and 神, each current/maximum.
 #: presentation/battle/battle_participant_card.gd
 msgid "精 %s · 神 %s"
 msgstr ""
@@ -7225,6 +7248,10 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "取消：%s"
+msgstr ""
+
+#: presentation/battle/battle_presentation_projection.gd runtime/world/services/hockshop_service.gd ui/world/martial_arts_page.gd
+msgid "无"
 msgstr ""
 
 #: presentation/battle/battle_vitality_bar.gd
@@ -9066,11 +9093,6 @@ msgstr ""
 msgid "精气神"
 msgstr ""
 
-#. the character sheet's heading over the 精/气/神 numbers (score.c's three columns).
-#: ui/world/character_sheet.gd
-msgid "当前 / 有效 / 最大"
-msgstr ""
-
 #: ui/world/character_sheet.gd
 msgid "修为"
 msgstr ""
@@ -9094,42 +9116,19 @@ msgstr ""
 msgid "(鬼气) "
 msgstr ""
 
-#. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
+#. the character sheet: potential and the potential spent.
 #: ui/world/character_sheet.gd
-msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
+msgid "{potential}（已用 {spent}）"
 msgstr ""
 
-#. the character sheet: food and water.
+#. the character sheet, score.c's line: the NPCs the player has killed.
 #: ui/world/character_sheet.gd
-msgid "食物 {food} · 饮水 {water}"
-msgstr ""
-
-#. the character sheet: experience, potential and the potential spent.
-#: ui/world/character_sheet.gd
-msgid "实战经验 {exp} · 潜能 {potential}（已用 {spent}）"
-msgstr ""
-
-#. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-#: ui/world/character_sheet.gd
-msgid ""
-"杀气 {bellicosity} · 综合评价 {score}\n"
-"总共杀过 {kills} 个人。"
-msgstr ""
-
-#. the character sheet: the eight gifts (score.c).
-#: ui/world/character_sheet.gd
-msgid ""
-"膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n"
-"定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}"
+msgid "总共杀过 {kills} 个人。"
 msgstr ""
 
 #. the character sheet: {pace} is 现代 or 经典 (DECISIONS「经典模式总开关」).
 #: ui/world/character_sheet.gd
 msgid "节奏：{pace}（开局选定）"
-msgstr ""
-
-#: ui/world/character_sheet.gd
-msgid "负重 {carried} / {capacity} · 体重 {weight}"
 msgstr ""
 
 #. the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
@@ -9488,9 +9487,8 @@ msgstr ""
 msgid "研读"
 msgstr ""
 
-#. hp.c: internal power, its maximum and enforce.c's force_factor.
 #: ui/world/martial_arts_page.gd
-msgid "内力 {force} / {max_force} (+{factor})"
+msgid "内力 {force} / {max_force}"
 msgstr ""
 
 #. score.c: mana (法力) and its maximum, what meditate (冥思) builds.
@@ -9501,11 +9499,6 @@ msgstr ""
 #. score.c: atman (灵力) and its maximum, what respirate (修行) builds.
 #: ui/world/martial_arts_page.gd
 msgid "灵力 {atman} / {max_atman}"
-msgstr ""
-
-#. the 武学 page: score.c's 杀气 (bellicosity) and 定力 (cps), which decide whether the player can lose control.
-#: ui/world/martial_arts_page.gd
-msgid "杀气 {bellicosity} · 定力 {cps}"
 msgstr ""
 
 #. skills.c: {mark} is □ for an enabled skill, {rank} its rank, {level}/{progress} level and learning progress.
@@ -9598,7 +9591,8 @@ msgstr ""
 msgid "钱币"
 msgstr ""
 
-#: ui/world/player_inventory_panel.gd
+#. food name
+#: ui/world/player_inventory_panel.gd data/common/stats_display.json
 msgid "食物"
 msgstr ""
 
@@ -12981,6 +12975,196 @@ msgstr ""
 msgid "兽"
 msgstr ""
 
+#. tracks name
+#: data/common/stats_display.json
+msgid "当前 / 有效 / 最大"
+msgstr ""
+
+#. tracks hint
+#: data/common/stats_display.json
+msgid "当前是眼下的数；有效是受伤压低的上限，要疗伤才回得去；最大是你的本钱。"
+msgstr ""
+
+#. essence hint
+#: data/common/stats_display.json
+msgid "学武功、自学、修行都耗精，歇着慢慢回来；归零就昏倒。"
+msgstr ""
+
+#. vitality hint
+#: data/common/stats_display.json
+msgid "挨打、练功、打坐都耗气，歇着慢慢回来；归零就昏倒。"
+msgstr ""
+
+#. spirit hint
+#: data/common/stats_display.json
+msgid "研读、冥思都耗神，歇着慢慢回来；归零就昏倒。"
+msgstr ""
+
+#. force hint
+#: data/common/stats_display.json
+msgid "打坐得来，运功和加力都要用它；上限看基本内功。"
+msgstr ""
+
+#. enforce hint
+#: data/common/stats_display.json
+msgid "每一击多灌进这么多内力，打得更重，内力也耗得更快。"
+msgstr ""
+
+#. mana hint
+#: data/common/stats_display.json
+msgid "施法要用。冥思得来，上限看基本咒文。"
+msgstr ""
+
+#. atman hint
+#: data/common/stats_display.json
+msgid "施展神通要用。修行得来，上限看基本法术。"
+msgstr ""
+
+#. bellicosity name
+#: data/common/stats_display.json
+msgid "杀气"
+msgstr ""
+
+#. bellicosity hint
+#: data/common/stats_display.json
+msgid "杀人会涨，胆气也跟着壮；太重学不了佛道心法，还可能失控伤人。运功或捐香火能压下去。"
+msgstr ""
+
+#. food hint
+#: data/common/stats_display.json
+msgid "随时间消耗，吃东西补；见底后内力、法力、灵力不再恢复。"
+msgstr ""
+
+#. water name
+#: data/common/stats_display.json
+msgid "饮水"
+msgstr ""
+
+#. water hint
+#: data/common/stats_display.json
+msgid "随时间消耗，喝东西补；见底后什么都不再恢复。"
+msgstr ""
+
+#. combat_experience hint
+#: data/common/stats_display.json
+msgid "打架、办事得来；武功能练到多高看它。"
+msgstr ""
+
+#. potential hint
+#: data/common/stats_display.json
+msgid "打架、办事得来，请教和研读要花它；没用掉的有上限。"
+msgstr ""
+
+#. score name
+#: data/common/stats_display.json
+msgid "综合评价"
+msgstr ""
+
+#. score hint
+#: data/common/stats_display.json
+msgid "江湖上对你的总评：办成差事会涨，认输会掉。"
+msgstr ""
+
+#. kills name
+#: data/common/stats_display.json
+msgid "杀过的人"
+msgstr ""
+
+#. kills hint
+#: data/common/stats_display.json
+msgid "你亲手杀过多少人。"
+msgstr ""
+
+#. burden name
+#: data/common/stats_display.json
+msgid "负重"
+msgstr ""
+
+#. burden hint
+#: data/common/stats_display.json
+msgid "身上东西的总重和能背的上限，上限看膂力。"
+msgstr ""
+
+#. weight name
+#: data/common/stats_display.json
+msgid "体重"
+msgstr ""
+
+#. weight hint
+#: data/common/stats_display.json
+msgid "你自己的分量，也决定肚子能装多少吃喝。"
+msgstr ""
+
+#. strength name
+#. help.gift paragraphs
+#: data/common/stats_display.json data/common/codex.json
+msgid "膂力"
+msgstr ""
+
+#. strength hint
+#: data/common/stats_display.json
+msgid "力气：打得更重，背得更多，拿得动沉重的兵器。"
+msgstr ""
+
+#. courage hint
+#: data/common/stats_display.json
+msgid "敢不敢抢攻：高的人出手更勤，也更容易一击不中、露出破绽。"
+msgstr ""
+
+#. intelligence name
+#. help.gift paragraphs
+#: data/common/stats_display.json data/common/codex.json
+msgid "悟性"
+msgstr ""
+
+#. intelligence hint
+#: data/common/stats_display.json
+msgid "天资：学武功更快，耗精更少，打架时也更容易长进。"
+msgstr ""
+
+#. spirituality hint
+#: data/common/stats_display.json
+msgid "精神方面的体质：高的人法力深厚，近身肉搏却常慢半拍。"
+msgstr ""
+
+#. composure hint
+#: data/common/stats_display.json
+msgid "临危不乱：对手抢攻前要过你这一关，定力越高他们越容易转为守势；打空时也不易露破绽，还压得住杀气。"
+msgstr ""
+
+#. personality name
+#. help.gift paragraphs
+#: data/common/stats_display.json data/common/codex.json
+msgid "容貌"
+msgstr ""
+
+#. personality hint
+#: data/common/stats_display.json
+msgid "长相：好看的人更讨陌生人喜欢，也可能招人嫉妒。"
+msgstr ""
+
+#. constitution name
+#. help.gift paragraphs
+#: data/common/stats_display.json data/common/codex.json
+msgid "根骨"
+msgstr ""
+
+#. constitution hint
+#: data/common/stats_display.json
+msgid "体质：恢复得更快，扛得住更重的伤，内功的极限也看它。"
+msgstr ""
+
+#. karma name
+#. help.gift paragraphs
+#: data/common/stats_display.json data/common/codex.json
+msgid "福缘"
+msgstr ""
+
+#. karma hint
+#: data/common/stats_display.json
+msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr ""
+
 #. family.fonxan name
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
@@ -15884,22 +16068,12 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "膂力"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
 msgid "人物肌肉力量的强度，膂力越强的人越适合挥舞沈重的武器，同时也能够对敌人造成较大的杀伤力，强大的膂力在战斗中可说是占尽了便宜，许多武者习武的第一步就是锻炼强健的力量。一个人物所能携带物品的最大重量也和膂力息息相关，但是膂力强的人也容易损坏武器，或是在战斗中误伤旁观的人。"
 msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
 msgid "人物天生的攻击性、侵略性，胆识高的人比较有冒险犯难的倾向，因此在战斗中要比一般人更勇於主动出击，对於一个武者而言，膂力不足尚可用锋利的武器弥补，胆识不够却是强求不来的。胆识高的人攻击次数较多，找出敌人破绽而趁机攻击的机会也较高，但是因主动攻击失败而露出破绽的机会也相对比一般人高。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "悟性"
 msgstr ""
 
 #. help.gift paragraphs
@@ -15919,27 +16093,12 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "根骨"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
 msgid "人物与生俱来的体质，或者说是生命力，根骨佳的人身体状况的恢复速度比较快，而且生命力比较强韧，身体各部位在失去机能之前能够忍受更多的伤害。根骨对学内功的人而言意味著人体潜能的极限，虽然很少有人的内功能修练到达到这个境界。根骨佳的人对於药物的抗力比较强——包括毒药和补药。"
 msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "福缘"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
 msgid "人物的宿命，前世的因果等等，有些人天生就比较幸运，有些人则是悲剧的种子，福缘好的人容易遇到「巧合」，也就是一般人难得遇到的特殊机缘，这些巧合是指一些发生机率很低的事件，有好事也有坏事，但是这些事件通常足以影响人物的一生。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "容貌"
 msgstr ""
 
 #. help.gift paragraphs

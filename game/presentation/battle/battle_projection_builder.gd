@@ -44,7 +44,9 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 				shown.next_move_known = MoveRecognition.recognised(session.player_runtime().state, move, GameContent.catalog().pacing().decision_rules(), GameContent.catalog())
 				shown.telegraph = coordinator.pending_special_label(binding.character_id)
 			shown.conditions = state.conditions.sorted_condition_ids()
-			shown.has_spells = not state.skills.mapped_skill(SkillIds.SPELLS).is_empty()
+			shown.show_mana = GameContent.catalog().stat_shown(&"mana", state)
+			shown.show_atman = GameContent.catalog().stat_shown(&"atman", state)
+			shown.show_enforce = GameContent.catalog().stat_shown(&"enforce", state)
 			var strength: BattleStrength = strengths.get(binding.character_id)
 			if strength != null and shown.hostile_to_player:
 				shown.strength = strength.verdict

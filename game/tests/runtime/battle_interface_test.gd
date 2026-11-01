@@ -46,26 +46,32 @@ func _bands_and_crack(tree: SceneTree) -> void:
 	bar.free()
 
 
-## The player's card: every track, 法力 / 灵力 only with spells (or a mana maximum), no
-## 起手 line, nothing about being a target.
+## The player's card: every track, 加力 / 法力 / 灵力 each as the numbers' rule says, no 起手
+## line, nothing about being a target; the hover tells the numbers (DECISIONS「数值用到才出现」).
 func _player_card(tree: SceneTree) -> void:
 	var card := BattleParticipantCard.new()
 	tree.root.add_child(card)
 	var me: BattleParticipantProjection = _one(&"p", "雪工", false, true, false, 83, 84, 100, 0, 0, 0, 3)
 	card.present(me, &"p", &"n")
 	check(card._title.text == "雪工 · 你", "the player's card: name · 你: " + card._title.text)
-	check(card._primary.text == "气 83/84/100" and card._secondary.visible and card._secondary.text == "精 50/50/50 · 神 50/50/50", "气 on its line, 精 · 神 on the player's: %s | %s" % [card._primary.text, card._secondary.text])
-	check(card._powers.visible and card._powers.text == "内力 40/60 (+3)", "no spells, no mana: 内力 alone: " + card._powers.text)
+	check(card._primary.text == "气 83/100" and card._secondary.visible and card._secondary.text == "精 50/50 · 神 50/50", "气 on its line, 精 · 神 on the player's: %s | %s" % [card._primary.text, card._secondary.text])
+	check(card._powers.visible and card._powers.text == "内力 40/60", "nothing used: 内力 alone: " + card._powers.text)
 	check(card.status_text().is_empty() and not card._intent.visible, "nothing to tag, no 起手 line: '%s'" % card.status_text())
-	check(card.target_button.tooltip_text.is_empty() and card.modulate == Color.WHITE, "not a target, not dimmed, no hover: '%s'" % card.target_button.tooltip_text)
+	var hover: String = card.target_button.tooltip_text
+	check(not hover.contains("选为目标") and card.modulate == Color.WHITE, "not a target, not dimmed: '%s'" % hover)
+	check(hover.begins_with("气 83 / 有效 84 / 最大 100：") and hover.contains("精 50 / 有效 50 / 最大 50：") and hover.contains("神 50 / 有效 50 / 最大 50：") and hover.contains("内力：") and not hover.contains("法力"), "the hover tells each number: " + hover)
 	check(card._vitality.effective == 84.0 and card._vitality.max_value == 100.0 and card.vitality_shown() == 83.0, "the bar: 83 of 100, the crack from 84")
-	me.has_spells = true
+	me.show_enforce = true
 	card.present(me, &"p", &"n")
-	check(card._powers.text == "内力 40/60 (+3) · 法力 0/0 · 灵力 0/0", "with spells mapped: 法力 and 灵力 too: " + card._powers.text)
-	me.has_spells = false
-	var mana: BattleParticipantProjection = _one(&"p", "雪工", false, true, false, 83, 84, 100, 20)
-	card.present(mana, &"p", &"n")
-	check(card._powers.text.contains("法力 20/20"), "a mana maximum shows 法力 too: " + card._powers.text)
+	check(card._powers.text == "内力 40/60 · 加力 3" and card.target_button.tooltip_text.contains("加力："), "加力 once it is set: " + card._powers.text)
+	me.show_enforce = false
+	me.show_mana = true
+	card.present(me, &"p", &"n")
+	check(card._powers.text == "内力 40/60 · 法力 0/0" and not card.target_button.tooltip_text.contains("灵力："), "法力 and 灵力 are two lines: " + card._powers.text)
+	me.show_mana = false
+	me.show_atman = true
+	card.present(me, &"p", &"n")
+	check(card._powers.text == "内力 40/60 · 灵力 0/0", "灵力 alone: " + card._powers.text)
 	card.free()
 
 
@@ -81,16 +87,16 @@ func _enemy_card(tree: SceneTree) -> void:
 	dog.next_move_tag = CombatMoveTags.HEAVY
 	dog.telegraph = "「封」字诀"
 	card.present(dog, &"p", &"n")
-	check(card._title.text == "野狗 · 占优" and card._title.tooltip_text == "占优：你比它强一些。", "the forecast's word after the name, its line on hover: " + card._title.text)
-	check(not card._secondary.visible and not card._powers.visible and card._primary.text == "气 40/70/100", "an enemy: only 气: " + card._primary.text)
+	check(card._title.text == "野狗 · 占优", "the forecast's word after the name: " + card._title.text)
+	check(not card._secondary.visible and not card._powers.visible and card._primary.text == "气 40/100", "an enemy: only 气: " + card._primary.text)
 	check(card.status_text() == "忙 2 · 毒 · 醉", "the tags: " + card.status_text())
 	check(card._intent.visible and card._intent.text == "起手：重 · 要出 「封」字诀", "起手 / 要出 on their own line: " + card._intent.text)
 	var hover: String = card.target_button.tooltip_text
-	check(hover.begins_with("选为目标：野狗\n占优：你比它强一些。") and hover.contains("蛇毒：") and hover.contains("醉了：") and hover.contains(CombatMoveTags.description(CombatMoveTags.HEAVY)) and hover.ends_with("破绽：快招可破。"), "the hover explains the word, every tag and the move's weakness: " + hover)
+	check(hover.begins_with("选为目标：野狗\n占优：你比它强一些。") and hover.contains("蛇毒：") and hover.contains("醉了：") and hover.contains(CombatMoveTags.description(CombatMoveTags.HEAVY)) and hover.contains("破绽：快招可破。\n气 40 / 有效 70 / 最大 100："), "the hover explains the word, every tag, the move's weakness and 气's numbers: " + hover)
 	# 识招 (战斗决策层 4): a move not read yet is 「？」; one who will guard says 守势.
 	dog.next_move_known = false
 	card.present(dog, &"p", &"n")
-	check(card._intent.text == "起手：？ · 要出 「封」字诀" and card.target_button.tooltip_text.ends_with("还没看熟这一招。") and not card.target_button.tooltip_text.contains("破绽"), "not watched enough: 起手：？, no weakness told: " + card._intent.text)
+	check(card._intent.text == "起手：？ · 要出 「封」字诀" and card.target_button.tooltip_text.contains("还没看熟这一招。") and not card.target_button.tooltip_text.contains("破绽"), "not watched enough: 起手：？, no weakness told: " + card._intent.text)
 	dog.next_move_guard = true
 	card.present(dog, &"p", &"n")
 	check(card._intent.text == "起手：守势 · 要出 「封」字诀" and card.target_button.tooltip_text.contains("打空了就反击"), "fight()'s gate failed: 起手：守势, the riposte explained: " + card._intent.text)
@@ -98,15 +104,14 @@ func _enemy_card(tree: SceneTree) -> void:
 	dog.next_move_known = true
 	card.present(dog, &"p", &"n")
 	check(card._intent.text == "起手：重 · 要出 「封」字诀", "read again")
-	check(card._status.tooltip_text == "\n".join(BattleConditionTags.descriptions([ConditionIds.SNAKE_POISON, ConditionIds.DRUNK])), "the tags' own hover")
 	check((card.get_theme_stylebox("panel") as StyleBoxFlat).border_color == BattleParticipantCard.GOLD and card.modulate == Color.WHITE, "the current target: gold, not dimmed")
 	check(card._vitality.fill_color() == BattleVitalityBar.BAND_COLORS[BattleVitalityBar.Band.HEAVY] and is_equal_approx(card._vitality.crack_from(), 0.7), "40 of 100 fills orange, the crack from 70")
 	# Not the target: the ordinary border. Not targetable (dead): dimmed, 死亡, no 对手 word.
 	var other: BattleParticipantProjection = _one(&"m", "疯狗", true, false, false, 0, 50, 100, 0, 0, CombatSliceLifeStatus.Value.DEAD)
 	card.present(other, &"p", &"n")
-	check(card._title.text == "疯狗 · 对手" and card._title.tooltip_text == "疯狗 · 对手", "no forecast read: 对手")
+	check(card._title.text == "疯狗 · 对手", "no forecast read: 对手")
 	check((card.get_theme_stylebox("panel") as StyleBoxFlat).border_color != BattleParticipantCard.GOLD and card.modulate == BattleParticipantCard.DIM, "not the target, cannot be picked: ordinary border, dimmed")
-	check(card.status_text() == "死亡" and card.target_button.tooltip_text.is_empty() and card._intent.visible and card._intent.text.is_empty(), "死亡 alone; nothing to hover; the 起手 line kept (empty) so the card does not jump: '%s'" % card.status_text())
+	check(card.status_text() == "死亡" and card.target_button.tooltip_text.begins_with("气 0 / 有效 50 / 最大 100：") and card._intent.visible and card._intent.text.is_empty(), "死亡 alone; only 气 to hover; the 起手 line kept (empty) so the card does not jump: '%s'" % card.status_text())
 	# One who fell and is held: 昏迷 and when they come to; the choice shows, so not dimmed.
 	var held: BattleParticipantProjection = _one(&"k", "工匠", true, false, false, 0, 50, 100, 0, 0, CombatSliceLifeStatus.Value.UNCONSCIOUS, 0, BattleKnockoutProjection.new(3, false, false))
 	card.present(held, &"p", &"n")

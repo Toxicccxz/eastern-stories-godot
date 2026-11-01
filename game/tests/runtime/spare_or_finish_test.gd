@@ -555,6 +555,9 @@ func _pseudo(tree: SceneTree, session: WorldSessionController, card: BattleParti
 	for npc: NpcRuntimeState in (session.active_map() as WorldMapController).npc_runtimes():
 		names.append(npc.definition().display_name)
 	_check(VisibleTextScan.untranslated(card.choice_row).is_empty() and PseudoLocale.untranslated(card.spare_button.tooltip_text).is_empty() and PseudoLocale.untranslated(card._status.text).is_empty(), "translated: %s %s %s" % [VisibleTextScan.untranslated(card.choice_row), card.spare_button.tooltip_text, card._status.text])
+	# The forecast's line above it was read when the fight began, in the language of then.
+	var numbers: String = card.target_button.tooltip_text.get_slice("\n", card.target_button.tooltip_text.get_slice_count("\n") - 1)
+	_check(PseudoLocale.untranslated(numbers).is_empty(), "the card's numbers in the hover too: " + numbers)
 	var spared := BattleFeedbackReader._announce(CombatLifecycleAnnouncement.new(&"x", CombatLifecycleAnnouncement.SPARED), _ui(session).current_projection())
 	var woke := BattleFeedbackReader._announce(CombatLifecycleAnnouncement.new(&"x", CombatLifecycleAnnouncement.REVIVE), _ui(session).current_projection())
 	_check(PseudoLocale.untranslated(spared[0].text.replace("x", "")).is_empty() and PseudoLocale.untranslated(woke[0].text.replace("x", "")).is_empty(), "the lines: %s %s" % [spared[0].text, woke[0].text])

@@ -6,6 +6,7 @@
 		"common/skills.json",
 		"common/combat_actions.json",
 		"common/combat_styles.json",
+		"common/stats_display.json",
 		"common/families.json",
 		"common/npcs.json",
 		"common/quests.json",

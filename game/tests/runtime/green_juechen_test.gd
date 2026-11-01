@@ -415,7 +415,7 @@ func _test_cultivation(_tree: SceneTree, session: WorldSessionController) -> voi
 	_check(session.martial_arts().last_lines[0].text == "你现在精神太差了，进行冥思将会迷失，永远醒不过来！", "too little sen: meditate.c's warning")
 	hud.dismiss_current_panel()
 	hud.open_character()
-	_check(hud.character_sheet_text().contains("灵力 3 / 100 · 法力 3 / 100"), "the sheet: 灵力 and 法力")
+	_check(hud.character_sheet_text().contains("法力 3 / 100\n灵力 3 / 100"), "the sheet: 法力 and 灵力")
 	# meditate.c: past twice the maximum with no spells to carry it, the bottleneck: mana back to its maximum.
 	state.recovery.mana = CharacterInternalResourceState.new(0, 0) # TEST-ONLY
 	state.spirit.current = state.spirit.maximum

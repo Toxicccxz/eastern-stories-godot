@@ -43,6 +43,7 @@ var _day_phases: Array[DayPhaseDefinition] = []
 var _sky_levels: Array[String] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _combat_styles: CombatStyleTable = CombatStyleTable.new()
+var _stats_display: StatDisplayTable = StatDisplayTable.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
 var _story_quests: Array[StoryQuestDefinition] = []
@@ -141,6 +142,22 @@ func set_combat_styles(table: CombatStyleTable) -> void:
 ## The NPCs' fight styles (combat_styles.json; DECISIONS「战斗内容」).
 func combat_styles() -> CombatStyleTable:
 	return _combat_styles
+
+
+## Called once by ContentCatalogBuilder.
+func set_stats_display(table: StatDisplayTable) -> void:
+	_stats_display = table
+
+
+## The numbers the player reads, their names and hints (stats_display.json; DECISIONS「数值用到才出现」).
+func stats_display() -> StatDisplayTable:
+	return _stats_display
+
+
+## Whether the number `stat_id` shows for `state` at the pace in force.
+func stat_shown(stat_id: StringName, state: CharacterState) -> bool:
+	var stat: StatDisplayDefinition = _stats_display.stat(stat_id)
+	return stat == null or not pacing().stats_appear_when_used or stat.shown(state)
 
 
 ## Called once by ContentCatalogBuilder.

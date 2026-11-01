@@ -2,27 +2,26 @@ class_name CharacterSheet
 extends VBoxContainer
 ## The menu's 角色 page: score.c's sheet in blocks (who, 精/气/神 and the other
 ## resources, progress, gifts, burden). The facts are the sheet's as before; the 任务
-## lines moved to the 任务 page.
+## lines moved to the 任务 page. 现代基线 C (DECISIONS「数值用到才出现」): every number is a
+## StatCell with its line from stats_display.json, and 法力, 灵力, 杀气 and 加力 only once used.
 
 var identity: Label
 var rank: Label
 var resource_bars: Dictionary[StringName, ProgressBar] = {}
 var resource_values: Dictionary[StringName, Label] = {}
-var powers: Label
-var supplies: Label
-var progress: Label
+## The numbers by their stats_display.json IDs.
+var cells: Dictionary[StringName, StatCell] = {}
 ## A2: unspent potential against the cap, and 落后补偿 while it applies.
-var potential_cap: Label
+var potential_cap: StatCell
 var catch_up: Label
-var standing: Label
+var kills: StatCell
 ## 前两小时 E: the pace the character plays at (现代 / 经典).
 var pace: Label
-var gifts: Label
 ## 前两小时 A: the one-time 历练 rewards given (CharacterState.milestones), newest first.
 var milestones: Label
-var burden: Label
 ## How many 历练 lines the sheet shows; the rest is a count.
 const MILESTONES_SHOWN: int = 8
+const GIFTS: Array[Array] = [[&"strength", &"courage", &"intelligence", &"spirituality"], [&"composure", &"personality", &"constitution", &"karma"]]
 
 
 func _init() -> void:
@@ -36,28 +35,35 @@ func _init() -> void:
 	rank = _line(who, "Rank")
 	rank.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
 	var body: VBoxContainer = _block(top, "Body", "精气神")
-	# TRANSLATORS: the character sheet's heading over the 精/气/神 numbers (score.c's three columns).
-	_line(body, "Columns", "当前 / 有效 / 最大").add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
-	for entry: Array in [[&"essence", "精", SharedGameplayLayout.ESSENCE_COLOR], [&"vitality", "气", SharedGameplayLayout.VITALITY_COLOR], [&"spirit", "神", SharedGameplayLayout.SPIRIT_COLOR]]:
-		_resource(body, entry[0], entry[1], entry[2])
-	powers = _line(body, "Powers")
-	supplies = _line(body, "Supplies")
+	_cells(body, "Columns", [&"tracks"])
+	cells[&"tracks"].add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	for entry: Array in [[&"essence", SharedGameplayLayout.ESSENCE_COLOR], [&"vitality", SharedGameplayLayout.VITALITY_COLOR], [&"spirit", SharedGameplayLayout.SPIRIT_COLOR]]:
+		_resource(body, entry[0], entry[1])
+	_cells(body, "Powers", [&"force", &"enforce", &"mana", &"atman"])
+	_cells(body, "Supplies", [&"food", &"water"])
 	var bottom := _row("Bottom")
 	var growth: VBoxContainer = _block(bottom, "Growth", "修为")
-	progress = _line(growth, "Progress")
-	potential_cap = _line(growth, "PotentialCap")
+	_cells(growth, "Progress", [&"combat_experience", &"potential"])
+	potential_cap = StatCell.new("PotentialCap")
+	potential_cap.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	growth.add_child(potential_cap)
 	catch_up = _line(growth, "CatchUp")
 	catch_up.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
-	standing = _line(growth, "Standing")
+	_cells(growth, "Standing", [&"bellicosity", &"score"])
+	kills = StatCell.new("Kills")
+	kills.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	growth.add_child(kills)
 	pace = _line(growth, "Pace")
 	pace.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
-	gifts = _line(nature, "Gifts")
+	for row: int in GIFTS.size():
+		_cells(nature, "Gifts%d" % row, GIFTS[row])
 	# TRANSLATORS: the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
 	var deeds: VBoxContainer = _block(self, "Milestones", "历练")
 	milestones = _line(deeds, "MilestoneLines")
-	burden = _line(self, "Burden")
-	burden.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	_cells(self, "Burden", [&"burden", &"weight"])
+	for stat_id: StringName in [&"burden", &"weight"]:
+		cells[stat_id].add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
 
 
 ## Fills the sheet from the player's state, in the shown language.
@@ -72,38 +78,44 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 	})
 	# rankd.c's rank (【 武  者 】), then the title.
 	rank.text = tr(RankWords.query_rank(state.gender, state.affiliation.class_id, CrimeRecord.thief(state), state.ghost)) + player.shown_title()
+	cells[&"tracks"].show_stat(StatCell.stat_name(&"tracks"), StatCell.stat_hint(&"tracks"))
 	_show_resource(&"essence", state.essence)
 	_show_resource(&"vitality", state.vitality)
 	_show_resource(&"spirit", state.spirit)
-	# TRANSLATORS: the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
-	powers.text = tr("灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}").format({
-		"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum,
-		"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum,
-	})
-	# TRANSLATORS: the character sheet: food and water.
-	supplies.text = tr("食物 {food} · 饮水 {water}").format({"food": state.recovery.food, "water": state.recovery.water})
-	# TRANSLATORS: the character sheet: experience, potential and the potential spent.
-	progress.text = tr("实战经验 {exp} · 潜能 {potential}（已用 {spent}）").format({
-		"exp": state.progression.combat_experience, "potential": state.progression.potential, "spent": state.progression.potential_spent,
-	})
+	_show(state, &"force", "%d / %d" % [state.recovery.inner_force.current, state.recovery.inner_force.maximum])
+	_show(state, &"enforce", str(attr.force_factor))
+	_show(state, &"mana", "%d / %d" % [state.recovery.mana.current, state.recovery.mana.maximum])
+	_show(state, &"atman", "%d / %d" % [state.recovery.atman.current, state.recovery.atman.maximum])
+	_show(state, &"food", str(state.recovery.food))
+	_show(state, &"water", str(state.recovery.water))
+	_show(state, &"combat_experience", str(state.progression.combat_experience))
+	# TRANSLATORS: the character sheet: potential and the potential spent.
+	_show(state, &"potential", tr("{potential}（已用 {spent}）").format({"potential": state.progression.potential, "spent": state.progression.potential_spent}))
 	_show_pacing(player)
-	# TRANSLATORS: the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-	standing.text = tr("杀气 {bellicosity} · 综合评价 {score}\n总共杀过 {kills} 个人。").format({
-		"bellicosity": attr.bellicosity, "score": state.progression.score, "kills": state.progression.kills,
-	})
-	# TRANSLATORS: the character sheet: the eight gifts (score.c).
-	gifts.text = tr("膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}").format({
-		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
-		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
-	})
+	_show(state, &"bellicosity", str(attr.bellicosity))
+	_show(state, &"score", str(state.progression.score))
+	# TRANSLATORS: the character sheet, score.c's line: the NPCs the player has killed.
+	kills.show_stat(tr("总共杀过 {kills} 个人。").format({"kills": state.progression.kills}), StatCell.stat_hint(&"kills"))
+	var gifts: Dictionary[StringName, int] = {
+		&"strength": attr.strength, &"courage": attr.courage, &"intelligence": attr.intelligence, &"spirituality": attr.spirituality,
+		&"composure": attr.composure, &"personality": attr.personality, &"constitution": attr.constitution, &"karma": attr.karma,
+	}
+	for stat_id: StringName in gifts:
+		_show(state, stat_id, str(gifts[stat_id]))
 	# TRANSLATORS: the character sheet: {pace} is 现代 or 经典 (DECISIONS「经典模式总开关」).
 	pace.text = tr("节奏：{pace}（开局选定）").format({"pace": PacePresets.shown_name(state.pace)})
 	milestones.text = milestone_text(state)
 	if session != null:
-		burden.text = tr("负重 {carried} / {capacity} · 体重 {weight}").format({
-			"carried": session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)),
-			"capacity": player.maximum_encumbrance, "weight": player.body_facts.body_weight,
-		})
+		var carried: int = session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id))
+		_show(state, &"burden", "%d / %d" % [carried, player.maximum_encumbrance])
+		_show(state, &"weight", str(player.body_facts.body_weight))
+
+
+## A number's cell: its name and `value`, or nothing while it has no use.
+func _show(state: CharacterState, stat_id: StringName, value: String) -> void:
+	var cell: StatCell = cells[stat_id]
+	cell.visible = GameContent.catalog().stat_shown(stat_id, state)
+	cell.show_stat("%s %s" % [StatCell.stat_name(stat_id), value], StatCell.stat_hint(stat_id))
 
 
 ## Native (A2): the potential the player can keep unspent, and the catch-up where they are.
@@ -112,7 +124,7 @@ func _show_pacing(player: WorldPlayerRuntimeState) -> void:
 	var unspent: int = state.progression.potential - state.progression.potential_spent
 	var cap: int = WorldProgressionRewards.potential_cap(state)
 	# TRANSLATORS: the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
-	potential_cap.text = tr("可用潜能 {unspent} / {cap}").format({"unspent": unspent, "cap": cap}) + (tr("（已满，先去请教或研读）") if unspent >= cap else "")
+	potential_cap.show_stat(tr("可用潜能 {unspent} / {cap}").format({"unspent": unspent, "cap": cap}) + (tr("（已满，先去请教或研读）") if unspent >= cap else ""), StatCell.stat_hint(&"potential"))
 	var location: WorldLocationState = player.world_location()
 	var zone_id: StringName = &"" if location == null else location.zone_id
 	var percent: int = WorldProgressionRewards.catch_up_percent(state, zone_id)
@@ -193,7 +205,8 @@ func _milestone_line(key: String, birthplace: bool) -> String:
 func text() -> String:
 	var lines: Array[String] = []
 	for node: Node in find_children("*", "Label", true, false):
-		lines.append((node as Label).text)
+		if (node as Label).visible:
+			lines.append((node as Label).text)
 	return "\n".join(lines)
 
 
@@ -202,6 +215,21 @@ func _show_resource(key: StringName, resource: CharacterResourceState) -> void:
 	bar.max_value = float(maxi(resource.maximum, 1))
 	bar.value = float(clampi(resource.current, 0, maxi(resource.maximum, 1)))
 	resource_values[key].text = "%d / %d / %d" % [resource.current, resource.effective, resource.maximum]
+	var hint: String = StatCell.stat_hint(key)
+	cells[key].show_stat(StatCell.stat_name(key), hint)
+	resource_values[key].tooltip_text = hint
+	bar.tooltip_text = hint
+
+
+## A row of number cells, wrapping as the block's width allows.
+func _cells(parent: Node, node_name: String, stat_ids: Array) -> void:
+	var row := HFlowContainer.new()
+	row.name = node_name
+	row.add_theme_constant_override("h_separation", 14)
+	parent.add_child(row)
+	for stat_id: StringName in stat_ids:
+		cells[stat_id] = StatCell.new(String(stat_id).capitalize().replace(" ", ""))
+		row.add_child(cells[stat_id])
 
 
 func _row(node_name: String) -> HBoxContainer:
@@ -246,7 +274,7 @@ func _line(parent: Node, node_name: String, text: String = "") -> Label:
 ## One of 精/气/神: its name and current / effective / maximum over a bar. Both labels
 ## expand: the menu's layout wraps every label, and one left at its minimum would shrink
 ## to a column of single characters.
-func _resource(parent: Node, key: StringName, caption: String, color: Color) -> void:
+func _resource(parent: Node, key: StringName, color: Color) -> void:
 	var column := VBoxContainer.new()
 	column.name = String(key).capitalize()
 	column.add_theme_constant_override("separation", 3)
@@ -254,14 +282,14 @@ func _resource(parent: Node, key: StringName, caption: String, color: Color) -> 
 	var row := HBoxContainer.new()
 	row.name = "Line"
 	column.add_child(row)
-	var name_label := Label.new()
-	name_label.name = "Caption"
-	name_label.text = caption
+	var name_label := StatCell.new("Caption")
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_label.add_theme_color_override("font_color", color.lightened(0.25))
 	row.add_child(name_label)
+	cells[key] = name_label
 	var value := Label.new()
 	value.name = "Value"
+	value.mouse_filter = Control.MOUSE_FILTER_STOP
 	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	value.size_flags_stretch_ratio = 3.0

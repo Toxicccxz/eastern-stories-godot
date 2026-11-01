@@ -53,7 +53,7 @@ func _test_page_opens() -> void:
 	_check(_hud.menu.is_presented() and _hud.character_sheet.is_visible_in_tree() and not _page.is_visible_in_tree(), "菜单 opens on the 角色 page")
 	_hud.menu.tab_buttons[GameMenu.Tab.MARTIAL_ARTS].pressed.emit()
 	_check(_page.is_visible_in_tree() and not _hud.character_sheet.is_visible_in_tree(), "the 武学 tab shows the page")
-	_check(_page.force_text.text == "内力 0 / 0 (+0)", "the page shows internal power: " + _page.force_text.text)
+	_check(_page.force_text.text == "内力 0 / 0", "the page shows internal power: " + _page.force_text.text)
 	_page.exercise_button.pressed.emit()
 	_check(_last() == ["你必须先用 enable 选择你要用的内功心法。"], "exercise.c without an enabled force")
 	_check(_hud.log_lines().back() == "你必须先用 enable 选择你要用的内功心法。", "the line reaches the log")
@@ -97,7 +97,7 @@ func _test_force_route(tree: SceneTree) -> void:
 	_page.exercise_button.pressed.emit()
 	_check(_last() == ["你坐下来运气用功，一股内息开始在体内流动。", "你的内力增强了！"] and _state.recovery.inner_force.maximum == 50, "max_force 50 " + str(_last()))
 	_page.refresh()
-	_check(_page.force_text.text == "内力 50 / 50 (+0)", "the page follows: " + _page.force_text.text)
+	_check(_page.force_text.text == "内力 50 / 50", "the page follows: " + _page.force_text.text)
 	_hud.dismiss_current_panel()
 	await tree.physics_frame
 
