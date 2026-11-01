@@ -29,6 +29,13 @@ static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0)
 
 
+## The pacing a world of `pace` stands on, whichever the catalog stands on now: what a save of
+## that pace is checked under before its session applies it.
+static func of_save(catalog: ContentCatalog, pace: StringName) -> PacingDefinition:
+	var current: PacingDefinition = catalog.pacing()
+	return of(_base if not _paces.is_empty() and current == _applied else current, pace)
+
+
 ## Sets the catalog's pacing for `pace` and gives back what it was (restore() takes it).
 static func apply(catalog: ContentCatalog, pace: StringName) -> PacingDefinition:
 	var before: PacingDefinition = catalog.pacing()

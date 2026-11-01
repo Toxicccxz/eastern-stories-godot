@@ -21,6 +21,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _slots_stay_apart(tree)
 	await _load_in_play(tree)
 	await _pace_of_a_load_in_play(tree)
+	await _saves_of_either_pace(tree)
+	await _failed_row_leaves_the_menu_as_it_was(tree)
 	TestDeath.use()
 	await _autosave_moments(tree)
 	await _autosave_rolls(tree)
@@ -52,6 +54,11 @@ func _summary_of_bad_text() -> void:
 	_check(GameSaveSlotSummary.of_text(SLOT_1, old, true, false).state == GameSaveSlotSummary.State.UNSUPPORTED, "an older schema: unsupported")
 	var world: String = JSON.stringify({"metadata": {"format_id": GameSaveSnapshot.FORMAT_ID, "schema_version": GameSaveSnapshot.CURRENT_SCHEMA_VERSION}, "player": {}, "world_content_revision": WorldContentRevision.serialized(WorldContentRevision.Value.SOURCE_ENTRY_V1)})
 	_check(GameSaveSlotSummary.of_text(SLOT_1, world, true, false).state == GameSaveSlotSummary.State.UNSUPPORTED, "an older world: unsupported")
+	_check(GameSaveSlotSummary.of_text(SLOT_1, "{\"metadata\": {\"format_id\": 7}, \"player\": {}}", true, false).state == GameSaveSlotSummary.State.UNREADABLE, "a format of the wrong type: unreadable, no error")
+	var typed: String = JSON.stringify({"metadata": {"format_id": GameSaveSnapshot.FORMAT_ID, "schema_version": "4"}, "player": {}, "world_content_revision": WorldContentRevision.serialized(WorldContentRevision.CURRENT_PUBLIC)})
+	_check(GameSaveSlotSummary.of_text(SLOT_1, typed, true, false).state == GameSaveSlotSummary.State.UNSUPPORTED, "a schema of the wrong type: unsupported, no error")
+	var ghost: String = JSON.stringify({"metadata": {"format_id": GameSaveSnapshot.FORMAT_ID, "schema_version": GameSaveSnapshot.CURRENT_SCHEMA_VERSION}, "player": {"identity": {}, "world_location": {}, "character": {"ghost": "yes"}}, "world_content_revision": WorldContentRevision.serialized(WorldContentRevision.CURRENT_PUBLIC)})
+	_check(not GameSaveSlotSummary.of_text(SLOT_1, ghost, true, false).ghost, "a ghost mark of the wrong type: no error")
 
 
 func _slot_ids() -> void:
@@ -187,6 +194,67 @@ func _pace_of_a_load_in_play(tree: SceneTree) -> void:
 	_check(GameContent.catalog().pacing() != own and not GameContent.catalog().pacing().sky_weather, "the second gone, the first's pace again")
 	PacePresets.restore(GameContent.catalog(), classic, CharacterState.PACE_CLASSIC)
 	_check(GameContent.catalog().pacing() == own, "the last gone, the catalog's own")
+
+
+## A save is checked under its own pace, not the catalog's: a classic save reads on the main
+## menu of a fresh start (木人, the NPCs' classic values), and either pace over the other in play.
+func _saves_of_either_pace(tree: SceneTree) -> void:
+	var own: PacingDefinition = GameContent.catalog().pacing()
+	var files: MemoryFiles = MemoryFiles.new()
+	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-paces")
+	var shell: ApplicationShellController = await _shell(tree, files, profile)
+	await _new_game(tree, shell, CharacterState.PACE_CLASSIC)
+	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(0), "a classic save in slot 1")
+	await _frames(tree)
+	shell.free()
+	await _frames(tree)
+	_check(GameContent.catalog().pacing() == own, "the catalog is modern again")
+	shell = await _shell(tree, files, profile)
+	_check(shell.continue_enabled(), "a fresh start: the classic save can be continued")
+	await _new_game(tree, shell)
+	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(1), "a modern save in slot 2, in a modern world")
+	await _frames(tree)
+	shell.dismiss_current_result()
+	_check(shell.request_load_slots() and shell.choose_slot_row(0) and shell.confirm_current_result(), "the classic save over the modern world")
+	await _frames(tree, 12)
+	var classic: WorldSessionController = shell.runtime_host().current_session()
+	_check(classic.player_runtime().state.pace == CharacterState.PACE_CLASSIC and not GameContent.catalog().pacing().training_dummies and not GameContent.catalog().pacing().sky_weather, "a classic world, on classic pacing")
+	_check(shell.request_pause() and shell.request_load_slots() and shell.choose_slot_row(1) and shell.confirm_current_result(), "the modern save over the classic world")
+	await _frames(tree, 12)
+	var modern: WorldSessionController = shell.runtime_host().current_session()
+	_check(modern != classic and modern.player_runtime().state.pace == CharacterState.PACE_MODERN and GameContent.catalog().pacing() == own, "a modern world, on the catalog's own pacing")
+	shell.free()
+	await _frames(tree)
+	_check(GameContent.catalog().pacing() == own, "and it stays")
+
+
+## A row that looks whole and does not load: told, and 继续 and 恢复 still mean the slot the
+## menu spoke of.
+func _failed_row_leaves_the_menu_as_it_was(tree: SceneTree) -> void:
+	var files: MemoryFiles = MemoryFiles.new()
+	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-row")
+	var shell: ApplicationShellController = await _shell(tree, files, profile)
+	await _new_game(tree, shell)
+	shell.runtime_host().current_session().player_runtime().state.progression.combat_experience = 444
+	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(1), "slot 2")
+	await _frames(tree)
+	shell.free()
+	await _frames(tree)
+	# Whole as JSON, wrong as a save, and older than slot 2.
+	var text: String = files.files[profile.for_slot(SLOT_2).canonical_path()].get_string_from_utf8()
+	files.files[profile.for_slot(SLOT_1).canonical_path()] = text.replace("\"day_seconds\"", "\"day_second\"").replace("\"saved_at_utc\": \"2", "\"saved_at_utc\": \"1").to_utf8_buffer()
+	shell = await _shell(tree, files, profile)
+	_check(shell.continue_enabled() and shell.runtime_host().selected_slot() == SLOT_2, "继续 stands on slot 2")
+	_check(shell.request_load_slots() and not shell.slot_panel.buttons()[0].disabled and shell.choose_slot_row(0), "slot 1 from the list")
+	await _frames(tree)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.RESULT and shell.runtime_host().current_session() == null, "it does not load, and says so")
+	_check(shell.dismiss_current_result() and shell.continue_enabled(), "the menu again")
+	_check(shell.request_continue_from_menu(), "继续")
+	await _frames(tree)
+	var session: WorldSessionController = shell.runtime_host().current_session()
+	_check(session != null and session.player_runtime().state.progression.combat_experience == 444, "reads slot 2, not the row that failed")
+	shell.free()
+	await _frames(tree)
 
 
 ## A landed map change saves; the interval holds the next; a scene, a ghost or a fight skips it,
@@ -393,7 +461,7 @@ func _new_game(tree: SceneTree, shell: ApplicationShellController, pace: StringN
 	shell.select_new_game_pace(CharacterState.PACE_MODERN)
 
 
-func _frames(tree: SceneTree, count: int = 6) -> void:
+func _frames(tree: SceneTree, count: int = 8) -> void:
 	for _frame: int in count:
 		await tree.process_frame
 

@@ -105,6 +105,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    包 4 内容 is done (DECISIONS「战斗内容」: every school's moves tagged, the NPCs' fight styles and the specials' rest, 识招 and the
    见识录, the courage draw shown as 守势, the first two hours' fights measured again). The decision layer is complete; what is left is
    the owner's playtest (STATUS 待试玩).
+   **现代基线三件** (owner 2026-10-28; `build/plans/现代基线_提示词.md`, order A → C → B): A is done (DECISIONS「存档位」「自动存档」
+   「减轻死亡」: three manual slots and a rolling autosave written on a worker, a Load in play, death at 3% experience with the corpse
+   waiting and a way back to the autosave); next C, stats shown when used, then B, the map page.
 3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md).** The canon (three creative baselines, the
    false tomb, timeline, politics, geography), the main story (prologue, ten chapters, finale), the
    twelve faction lines, the five new regions and the style guide are that one document; its §9

@@ -40,12 +40,12 @@ msgstr ""
 msgid "继续"
 msgstr ""
 
-#: scenes/application/application_shell.tscn
-msgid "恢复存档"
-msgstr ""
-
 #: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
 msgid "读取存档"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "恢复存档"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -434,11 +434,11 @@ msgid "目标提示"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
-msgid "自动存档提示"
+msgid "昼夜"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
-msgid "昼夜"
+msgid "自动存档提示"
 msgstr ""
 
 #: scenes/application/application_shell.tscn

@@ -44,10 +44,11 @@ static func of_text(slot_id: StringName, text: String, current_public_only: bool
 	var player: Variant = root.get("player")
 	if typeof(metadata) != TYPE_DICTIONARY or typeof(player) != TYPE_DICTIONARY:
 		return summary
-	if metadata.get("format_id") != GameSaveSnapshot.FORMAT_ID:
+	if str(metadata.get("format_id")) != GameSaveSnapshot.FORMAT_ID:
 		return summary
 	var revision: int = WorldContentRevision.parsed(str(root.get("world_content_revision", "")))
-	if metadata.get("schema_version") != float(GameSaveSnapshot.CURRENT_SCHEMA_VERSION) or revision < 0 or (current_public_only and revision != WorldContentRevision.CURRENT_PUBLIC):
+	var schema: Variant = metadata.get("schema_version")
+	if typeof(schema) != TYPE_FLOAT or int(schema) != GameSaveSnapshot.CURRENT_SCHEMA_VERSION or revision < 0 or (current_public_only and revision != WorldContentRevision.CURRENT_PUBLIC):
 		summary.state = State.UNSUPPORTED
 		return summary
 	var identity: Variant = player.get("identity")
@@ -61,7 +62,7 @@ static func of_text(slot_id: StringName, text: String, current_public_only: bool
 	summary.saved_at_utc = str(metadata.get("saved_at_utc", ""))
 	summary.played_seconds = maxi(int(str(root.get("played_seconds", "0"))), 0)
 	summary.objective = str(root.get("objective", ""))
-	summary.ghost = character.get("ghost", false) == true
+	summary.ghost = typeof(character.get("ghost")) == TYPE_BOOL and bool(character.get("ghost"))
 	summary.pace = StringName(str(character.get("pace", CharacterState.PACE_MODERN)))
 	return summary
 

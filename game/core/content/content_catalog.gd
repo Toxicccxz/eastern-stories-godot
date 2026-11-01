@@ -371,8 +371,14 @@ func items() -> Array[ItemContentDefinition]:
 ## The NPC's definition; under es2_npc_values (DECISIONS「战斗数值」: 经典) the record's
 ## `classic` block laid over it, where it has one.
 func npc(npc_definition_id: StringName) -> NpcDefinition:
+	return npc_under(_pacing, npc_definition_id)
+
+
+## npc() as `pacing` has it, whatever the catalog stands on now: a save is read and checked
+## before its pace is applied (OldPineWorldRestoreComposition).
+func npc_under(pacing: PacingDefinition, npc_definition_id: StringName) -> NpcDefinition:
 	var definition: NpcDefinition = _npcs.get(npc_definition_id)
-	if definition != null and _pacing != null and _pacing.es2_npc_values and definition.es2_variant() != null:
+	if definition != null and pacing != null and pacing.es2_npc_values and definition.es2_variant() != null:
 		return definition.es2_variant()
 	return definition
 
@@ -391,9 +397,14 @@ func spawn(spawn_id: StringName) -> NpcSpawnDefinition:
 ## it, which fixes their random draws and loadout item identities.
 ## A spawn a pacing knob places (A2's 木人) is left out while the knob is off.
 func spawns() -> Array[NpcSpawnDefinition]:
+	return spawns_under(_pacing)
+
+
+## spawns() as `pacing` has them (npc_under()).
+func spawns_under(pacing: PacingDefinition) -> Array[NpcSpawnDefinition]:
 	var result: Array[NpcSpawnDefinition] = []
 	for definition: NpcSpawnDefinition in _spawns.values():
-		if _placed(definition):
+		if _placed(definition, pacing):
 			result.append(definition)
 	return result
 
@@ -401,17 +412,17 @@ func spawns() -> Array[NpcSpawnDefinition]:
 func spawns_for_map(map_id: StringName) -> Array[NpcSpawnDefinition]:
 	var result: Array[NpcSpawnDefinition] = []
 	for definition: NpcSpawnDefinition in _spawns.values():
-		if definition.map_id == map_id and _placed(definition):
+		if definition.map_id == map_id and _placed(definition, _pacing):
 			result.append(definition)
 	return result
 
 
-func _placed(spawn: NpcSpawnDefinition) -> bool:
+func _placed(spawn: NpcSpawnDefinition, pacing: PacingDefinition) -> bool:
 	match spawn.pacing:
 		&"":
 			return true
 		&"training_dummies":
-			return _pacing.training_dummies
+			return pacing.training_dummies
 	return false
 
 

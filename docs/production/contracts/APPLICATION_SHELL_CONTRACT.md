@@ -49,7 +49,7 @@ defined by the [Mobile Application contract](MOBILE_APPLICATION_CONTRACT.md).
 
 Cold start inspects storage but never starts or loads gameplay automatically. New Game is menu-only;
 existing save/recovery material requires confirmation, and starting it writes/deletes no save file.
-Continue availability is advisory: activation re-reads the canonical slot through the Host. Failure
+Continue availability is advisory: activation re-reads the newest slot through the Host. Failure
 leaves the Host empty, with no New Game fallback. Host operations are serialized.
 
 Return to Main Menu always confirms possible loss of progress; there is no dirty-state detector.
@@ -113,8 +113,8 @@ and developer-local paths. Development debugging remains separate from shipping 
 
 Mobile presentation, touch, Android Back and lifecycle extensions are defined by the
 [Mobile Application contract](MOBILE_APPLICATION_CONTRACT.md); they feed semantic intents/capabilities
-without replacing Shell or Host authority. Autosave, physical-device qualification and store
+without replacing Shell or Host authority. Physical-device qualification and store
 packaging/signing are not implied. The language setting (跟随系统 or a language from
 `game/locale/languages.json`, matched by `LanguageResolver`) is described in
-[LOCALIZATION](../LOCALIZATION.md); only Simplified Chinese ships. In-game Load, multiple slots,
-dirty tracking, cloud saves, remapping, and audio/quality settings are not provided.
+[LOCALIZATION](../LOCALIZATION.md); only Simplified Chinese ships. Slots, the autosave and a Load in play are in the
+[save contract](NATIVE_SAVE_LOAD_CONTRACT.md#repository-and-transaction-guarantees). Dirty tracking, cloud saves, remapping, and audio/quality settings are not provided.

@@ -48,6 +48,8 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	# The snapshot's getters return deep copies: read each one once.
 	var saved_player: Values.PlayerRuntimeSnapshot = snapshot.player
 	var npc_states: Array[Values.NpcSpawnStateSnapshot] = snapshot.npc_spawn_states
+	# A world of the save's pace, not the catalog's now: 木人 and the NPCs' classic values follow it.
+	var pacing: PacingDefinition = PacePresets.of_save(GameContent.catalog(), saved_player.character.pace)
 	if saved_player.character_id != WorldSessionController.PLAYER_ID:
 		return Result.failure(
 			Result.Outcome.UNKNOWN_CONTENT_ID,
@@ -79,7 +81,7 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	for npc: Values.NpcSpawnStateSnapshot in npc_states:
 		saved_ids[npc.spawn_point_id] = npc.character_id
 	var character_ids: Array[StringName] = [saved_player.character_id]
-	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
+	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision, pacing):
 		for point_id: StringName in spawn.spawn_point_ids():
 			var saved_id: StringName = saved_ids.get(point_id, &"")
 			character_ids.append(saved_id if NpcGeneration.of(saved_id, point_id) > 0 else NpcGeneration.character_id(point_id, 1))
@@ -135,6 +137,7 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		domain,
 		item_restore.item_index,
 		npc_states,
+		pacing,
 	)
 	if npc_result.outcome != Result.Outcome.SUCCESS:
 		return npc_result
@@ -148,6 +151,7 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		saved_player,
 		npc_states,
 		items,
+		pacing,
 	)
 	if corpse_result.outcome != Result.Outcome.SUCCESS:
 		return corpse_result
@@ -224,6 +228,7 @@ static func _restore_npc_ledger(
 	domain: NativeItemDomainState,
 	item_index: WorldItemInstanceIndex,
 	npc_states: Array[Values.NpcSpawnStateSnapshot],
+	pacing: PacingDefinition,
 ) -> OldPineWorldRestoreResult:
 	var saved_by_point: Dictionary[StringName, Values.NpcSpawnStateSnapshot] = {}
 	var scope: StringName = snapshot.item_id_allocator.scope
@@ -238,9 +243,10 @@ static func _restore_npc_ledger(
 	var entries: Array[OldPineRestoredNpcEntry] = []
 	var referenced_loadout_ids: Dictionary[StringName, bool] = {}
 	var item_ids: PackedStringArray = PackedStringArray(item_index.snapshot_ids())
-	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
-		var definition: NpcDefinition = GameContent.catalog().npc(
-			spawn.npc_definition_id
+	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision, pacing):
+		var definition: NpcDefinition = GameContent.catalog().npc_under(
+			pacing,
+			spawn.npc_definition_id,
 		)
 		if definition == null:
 			return Result.failure(
@@ -257,7 +263,7 @@ static func _restore_npc_ledger(
 			var saved: Values.NpcSpawnStateSnapshot = saved_by_point[point_id]
 			var path: String = "npc_spawn_states.%s" % String(point_id)
 			# One that drew its name is saved as that named form (NpcDefinition.named()).
-			var made: NpcDefinition = GameContent.catalog().npc(saved.npc_definition_id)
+			var made: NpcDefinition = GameContent.catalog().npc_under(pacing, saved.npc_definition_id)
 			if (
 				saved.spawn_id != spawn.spawn_id
 				or made == null
@@ -392,6 +398,7 @@ static func _restore_corpses(
 	saved_player: Values.PlayerRuntimeSnapshot,
 	npc_states: Array[Values.NpcSpawnStateSnapshot],
 	items: NativeItemStateSnapshot,
+	pacing: PacingDefinition,
 ) -> OldPineWorldRestoreResult:
 	var item_records: Dictionary[StringName, NativeItemRecord] = {}
 	for item: NativeItemRecord in items.item_records:
@@ -405,10 +412,10 @@ static func _restore_corpses(
 	for saved: Values.CorpseSnapshot in snapshot.corpses:
 		var path: String = "corpses.%s" % String(saved.corpse_item_instance_id)
 		var known: bool = character_facts.has(saved.victim_character_id)
-		var replaced: NpcDefinition = null if known else _replaced_npc_definition(npc_states, saved.victim_character_id)
+		var replaced: NpcDefinition = null if known else _replaced_npc_definition(npc_states, saved.victim_character_id, pacing)
 		if not known and replaced == null:
 			# A summoned, conjured or raised NPC that fell (SummonedNpc): its ID names its definition.
-			replaced = GameContent.catalog().npc(SummonedNpc.definition_id_of(saved.victim_character_id))
+			replaced = GameContent.catalog().npc_under(pacing, SummonedNpc.definition_id_of(saved.victim_character_id))
 			if replaced != null and replaced.summoning() == null and replaced.conjuring() == null and replaced.raising() == null:
 				replaced = null
 		if (
@@ -461,8 +468,9 @@ static func _restore_corpses(
 			var expected_capacity: int = saved_player.body_facts.maximum_encumbrance
 			if victim is Values.NpcSpawnStateSnapshot:
 				var victim_npc: Values.NpcSpawnStateSnapshot = victim
-				var definition: NpcDefinition = GameContent.catalog().npc(
-					victim_npc.npc_definition_id
+				var definition: NpcDefinition = GameContent.catalog().npc_under(
+					pacing,
+					victim_npc.npc_definition_id,
 				)
 				if definition == null:
 					return Result.failure(Result.Outcome.UNKNOWN_CONTENT_ID, path)
@@ -582,12 +590,12 @@ static func _check_floor_items(snapshot: GameSaveSnapshot, corpse_entries: Array
 
 ## The definition of the spawn whose saved NPC is a later generation than
 ## `victim_id` (NpcGeneration), or null.
-static func _replaced_npc_definition(npc_states: Array[Values.NpcSpawnStateSnapshot], victim_id: StringName) -> NpcDefinition:
+static func _replaced_npc_definition(npc_states: Array[Values.NpcSpawnStateSnapshot], victim_id: StringName, pacing: PacingDefinition) -> NpcDefinition:
 	for npc: Values.NpcSpawnStateSnapshot in npc_states:
 		var earlier: int = NpcGeneration.of(victim_id, npc.spawn_point_id)
 		if earlier > 0 and earlier < NpcGeneration.of(npc.character_id, npc.spawn_point_id):
 			# Of a spawn whose NPC draws its name: the replacement may have drawn another.
-			return GameContent.catalog().npc(NpcDefinition.unnamed_id(npc.npc_definition_id))
+			return GameContent.catalog().npc_under(pacing, NpcDefinition.unnamed_id(npc.npc_definition_id))
 	return null
 
 
@@ -658,10 +666,10 @@ static func _character_aggregate_ids_match(
 
 ## The spawns of the saved world: the technical fixture world has Old Pine's
 ## maps only (WorldSessionController.world_map_ids_for).
-static func _world_spawns(revision: WorldContentRevision.Value) -> Array[NpcSpawnDefinition]:
+static func _world_spawns(revision: WorldContentRevision.Value, pacing: PacingDefinition) -> Array[NpcSpawnDefinition]:
 	var map_ids: Array[StringName] = WorldSessionController.world_map_ids_for(revision)
 	var result: Array[NpcSpawnDefinition] = []
-	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_under(pacing):
 		if map_ids.has(spawn.map_id):
 			result.append(spawn)
 	return result

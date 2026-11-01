@@ -359,9 +359,6 @@ func _execute_save() -> void:
 
 
 func _execute_load(source: int = -1) -> void:
-	# The shell's 正在读取存档…… is on the screen before the frames this takes (seconds).
-	await get_tree().process_frame
-	await get_tree().process_frame
 	_last_load = (
 		_coordinator.load_replacing(_current_session, session_slot, staging_slot) if source < 0
 		else _coordinator.load_recovery_replacing(source, _current_session, session_slot, staging_slot)
@@ -369,6 +366,9 @@ func _execute_load(source: int = -1) -> void:
 	if _last_load.succeeded():
 		_current_session = _last_load.session
 		_session_began(_current_session, true)
+	elif _last_load.outcome == OldPineRuntimeSaveLoadResult.Outcome.ROLLBACK_FAILED:
+		# Neither world stands: the main menu, not a frozen one.
+		_discard_current_session()
 	_request_pending = false
 	load_completed.emit(_last_load)
 

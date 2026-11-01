@@ -116,6 +116,8 @@ var _configured: bool = false
 var _host: OldPineGameRuntimeHost
 var _state: ApplicationShellState = ApplicationShellState.new()
 var _slot_inspection: ApplicationSlotInspection
+## The slot _slot_inspection speaks of: a row picked since and failed does not move 继续 or 恢复.
+var _inspected_slot: StringName = &""
 var _last_result: ApplicationOperationResult
 var _transition_held_actions: Array[StringName] = []
 var _exit_capability: ApplicationExitCapability = ApplicationExitCapability.new()
@@ -587,7 +589,7 @@ func request_continue_from_menu() -> bool:
 		return false
 	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.CONTINUE))
-	if _host != null and _host.request_continue():
+	if _host != null and _host.request_continue(_inspected_slot):
 		return true
 	_show_request_failure(
 		ApplicationOperationResult.Operation.CONTINUE,
@@ -744,7 +746,7 @@ func request_recovery_source(source: int) -> bool:
 		return false
 	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.RECOVER))
-	if _host != null and _host.request_recovery(source):
+	if _host != null and _host.request_recovery(source, _inspected_slot):
 		return true
 	_show_request_failure(
 		ApplicationOperationResult.Operation.RECOVER,
@@ -955,10 +957,16 @@ func _start_load() -> bool:
 	_result_detail = ""
 	_back_to_slots = false
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.LOAD))
-	if _host.request_load(slot_id, _pending_source):
-		return true
-	_show_request_failure(ApplicationOperationResult.Operation.LOAD, _load_origin)
-	return false
+	_load_once_drawn(slot_id)
+	return true
+
+
+## 正在读取存档…… is on the screen before the seconds this takes.
+func _load_once_drawn(slot_id: StringName) -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if is_inside_tree() and not _host.request_load(slot_id, _pending_source):
+		_show_request_failure(ApplicationOperationResult.Operation.LOAD, _load_origin)
 
 
 func request_return_to_main_menu() -> bool:
@@ -1013,7 +1021,7 @@ func dismiss_current_result() -> bool:
 		_set_state(ApplicationShellState.paused())
 		return true
 	if origin == ApplicationShellState.ResultOrigin.PLAYING:
-		_set_state(ApplicationShellState.playing())
+		_present_committed_session()
 		return true
 	_set_state(ApplicationShellState.main_menu())
 	return true
@@ -1154,6 +1162,7 @@ func _on_host_startup_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 
 func _on_slot_inspection_completed(result: GameSaveSlotInspectionResult) -> void:
 	_slot_inspection = ApplicationProductResultMapper.inspect_slot(result)
+	_inspected_slot = _host.selected_slot()
 	_last_result = null
 	_set_state(ApplicationShellState.main_menu())
 
@@ -1219,7 +1228,11 @@ func _on_load_completed(result: OldPineRuntimeSaveLoadResult) -> void:
 		_last_result = ApplicationProductResultMapper.runtime_result(ApplicationOperationResult.Operation.LOAD, result)
 		_present_committed_session()
 		return
-	_show_runtime_result(ApplicationOperationResult.Operation.LOAD, result, _load_origin)
+	_show_runtime_result(
+		ApplicationOperationResult.Operation.LOAD,
+		result,
+		ApplicationShellState.ResultOrigin.MAIN_MENU if _host.current_session() == null else _load_origin,
+	)
 
 
 func _on_save_completed(result: OldPineRuntimeSaveLoadResult) -> void:
@@ -1342,6 +1355,11 @@ func _render_state(defer_focus: bool = true) -> void:
 		or not _slot_inspection.recovery_available()
 	)
 	load_button.disabled = not menu_interactive or not _any_slot_used()
+	var slots_interactive: bool = mode == ApplicationShellState.Mode.SLOT_LIST
+	var rows: Array[Button] = slot_panel.buttons()
+	for index: int in rows.size():
+		rows[index].disabled = not slots_interactive or not _row_enabled(_slot_rows[index])
+	slot_panel.back_button().disabled = not slots_interactive
 	var pause_interactive: bool = mode == ApplicationShellState.Mode.PAUSED
 	resume_button.disabled = not pause_interactive
 	save_button.disabled = not pause_interactive

@@ -182,7 +182,6 @@ func _note_fight_over() -> void:
 
 
 func _process(delta: float) -> void:
-	_played_seconds += delta
 	_note_fight_over()
 	# The engine's _process of the frame that activated a restored save is not world time: its
 	# delta is the loading frame's, and the player has not seen the world yet (DECISIONS「别的
@@ -194,6 +193,7 @@ func _process(delta: float) -> void:
 		_activation_frame = -1
 		if engine_call:
 			return
+	_played_seconds += delta
 	if presentation_frozen():
 		_sync_ghost_sight()
 		advance_journal(delta)
