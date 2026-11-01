@@ -126,6 +126,8 @@ func _test_hidden_ways() -> void:
 	var state: CharacterState = _player(["canyon.clifftop"])
 	var known: Array[StringName] = MapAtlas.known_maps(catalog, state, &"canyon.pass")
 	_check(known.is_empty(), "铁链崖's 铁索 (a room command) shows no way down: %s" % [known])
+	state = _player(["oldpine.outdoor"])
+	_check(not MapAtlas.known_maps(catalog, state, &"oldpine.outdoor").has(&"oldpine.keep_hall"), "what lies behind the 灌木丛 is not counted before the clue")
 
 
 func _kinds(found: Array[MapAtlas.Mark]) -> Dictionary[StringName, Array]:
@@ -170,6 +172,10 @@ func _test_routes() -> void:
 	_check(not MapAtlas.can_walk(catalog, state, &"snow.outdoor", &"choyin.town"), "no walked road to 乔阴")
 	_check(MapAtlas.can_walk(catalog, state, &"snow.outdoor", &"snow.inn"), "a door on the street is one step, unwalked or not")
 	_check(WorldRoute.chain(catalog, &"snow.outdoor", &"choyin.town").size() > 0, "without `known` the chain still goes everywhere")
+	var town: CharacterState = _player(["snow.inn", "snow.outdoor", "cloud.outdoor", "sunhill.mountain", "choyin.town", "choyin.taolin"])
+	var back: Array[WorldRoute.Step] = MapAtlas.route(catalog, town, &"choyin.town", &"snow.inn")
+	_check(not back.is_empty() and back[0].portal != null and MapAtlas.plain(catalog, back[0].portal), "the 桃林's way out is not the way home: %s" % ("" if back.is_empty() or back[0].portal == null else String(back[0].portal.portal_id)))
+	_check(MapAtlas.way(catalog, &"canyon.clifftop", &"canyon.pass").size() > 0, "a room command serves when no plain way joins them")
 	state = _player(["snow.outdoor", "cloud.outdoor"])
 	var steps: Array[WorldRoute.Step] = MapAtlas.route(catalog, state, &"cloud.outdoor", &"snow.outdoor")
 	_check(steps.size() == 1 and steps[0].from_map == &"cloud.outdoor", "walked roads join them: %d" % steps.size())
@@ -217,6 +223,26 @@ func _test_page(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(tree.root.gui_get_focus_owner() == page.row_buttons[0], "confirm goes to the card")
 	var row: Button = page.row_buttons[0]
 	_check(row.get_node(row.focus_neighbor_left) == page.cell_buttons[here], "left comes back")
+	_check(row.get_node(row.focus_neighbor_top) == row, "up stays on the card")
+	var last: Button = page.row_buttons[-1]
+	_check(last.get_node(last.focus_neighbor_bottom) == page.zoom_button and page.zoom_button.get_node(page.zoom_button.focus_neighbor_bottom) == page.zoom_button, "down ends on 全图")
+	# A second press on the line pressed stays on it: 取消指路 joins at the end.
+	var line: int = page.row_buttons.size() - 1
+	page.row_buttons[line].grab_focus()
+	var before: String = page.row_buttons[line].text
+	page.row_buttons[line].pressed.emit()
+	await tree.process_frame
+	_check(tree.root.gui_get_focus_owner() == page.row_buttons[line] and page.row_buttons[line].text == before, "the focus stays on the line pressed")
+	MapAtlas.point_to(state, &"")
+	MapAtlas.note_visit(state, &"snow.outdoor")
+	page.fill(state, session.active_map_id(), &"")
+	var road: StringName = &""
+	for map_id: StringName in page.cell_buttons:
+		if page.cell_buttons[map_id].text == "？":
+			road = map_id
+	_check(not road.is_empty(), "a ？ stands on the 沙盘")
+	page._select(road)
+	_check(page._pins.is_empty(), "a ？ has no pins")
 	hud.menu.close()
 	await tree.process_frame
 
@@ -237,10 +263,31 @@ func _test_waypoint_in_the_world(tree: SceneTree, session: WorldSessionControlle
 	_check(state.waypoint_map == way.destination_map_id and not page.status.text.is_empty(), "no walked road: the 指路 stands, the page says so")
 	hud.menu.close()
 	await tree.process_frame
+	await _test_marker(tree, session, way)
 	state.waypoint_map = here
 	state.waypoint_zone = &""
 	session.record_journal()
 	_check(state.waypoint_map.is_empty(), "standing there folds it up")
+
+
+## The world's marker: a 指路 stands over the way out, labelled so; with none it is the quest's.
+func _test_marker(tree: SceneTree, session: WorldSessionController, way: PortalDefinition) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var view: WorldVoxelView = (session.active_map() as Node).get_node_or_null("MapView") as WorldVoxelView
+	if view == null:
+		return
+	view._sync_quest_marker()
+	await tree.process_frame
+	_check(view.quest_marker != null, "the 指路 has its marker")
+	var labels: Array[Node] = [] if view.quest_marker == null else view.quest_marker.find_children("*", "Label3D", true, false)
+	_check(labels.size() == 1 and (labels[0] as Label3D).text == "指路", "written 指路")
+	_check(view.quest_marker != null and view.quest_marker.get_meta("way", &"") == way.portal_id, "over the way out: %s" % way.portal_id)
+	MapAtlas.point_to(state, &"")
+	view._sync_quest_marker()
+	await tree.process_frame
+	var goal: MapAtlas.Goal = MapAtlas.goal(GameContent.catalog(), state)
+	_check(goal == null or view.quest_marker != null, "the quest's marker comes back on its own")
+	MapAtlas.point_to(state, way.destination_map_id, way.destination_zone_id)
 
 
 func _test_classic(tree: SceneTree, session: WorldSessionController) -> void:

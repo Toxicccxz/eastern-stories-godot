@@ -218,12 +218,12 @@
 - **ES2：** 没有地图，方位全靠出口字和记忆。经典模式保持这样（`map_page` 关，没有这一页，`N` 无效，`Q/E` 跳过；`visited_maps` 照记）。
 - **我们（开关 `map_page`，现代开；不写和经典都是关，`PacePresets` 经典组一起按回）：** 菜单多一页「地图」，占满屏幕。
   - **沙盘是烘好的图片，** 不在菜单里跑 3D：乔阴县城一张图就有 15.5 万个方块实例，一起放进菜单要吃显存。`tools/maps/atlas/`（`python -m tools.maps.atlas.bake --godot <godot>`，开窗）逐张进真实地图，用游戏同一个角度和同一束低角度暖光拍，产物在 `game/assets/textures/atlas/`：每地一张图，`bake.json` 记锚点、每个房间和门在图上的位置。图是地图体素世界的实拍，所以和走路时看到的是一回事。
-  - **地图改了沙盘必须跟着改：** `bake.json` 存烘焙输入（`tools/maps/layouts/`、`data/*/voxel/`、`atlas.json`）的指纹，`repository_checks.py` 比对，没重拍就过不了门。
+  - **地图改了沙盘必须跟着改：** `bake.json` 存烘焙输入（`tools/maps/layouts/`、`data/*/voxel/`、`room_life.json`、`atlas.json`）的指纹，`repository_checks.py` 比对，没重拍就过不了门。
   - **地点表：** `data/common/atlas.json` 34 行，每行一张图、地名、沙盘位置，手摆（运行时按方位算会撞，雪亭镇有两条南两条东）；套件保证写着方位的路和两格的相对位置一致。其余 110 张图按路（不分方向，先同区）收进最近一格（`AtlasTable`）。
   - **去过：** `CharacterState.visited_maps`（可选存档字段），在 `_note_recent_map()` 记：换图、开局、读档都经过它。老存档只有当前图，不升版本。
   - **不泄密：** 一格有一张图去过就立起来；「？」只来自去过的图的普通 portal；地标的路、`found_by` 门后的路、act 服务（`MapAtlas.plain`）都不算。阴间没有 portal，死过才出现。城里没进去过的屋写「还有 N 处没进去过」，但街上看得到的师父、店铺照标（`known_maps`：从去过的图走普通的路走得到的）。
   - **标记（`MapAtlas.marks`，只读定义）：** 师父（`recognize_rules` 或拜师规则不是回绝型）、商店（`vendor_id`）、钱庄、当铺、悬赏榜、差事（`quest_giver`，今天是朱鸿雪；8 个任务全是主线、没有发起人，走当前目标）、目标。`starts_absent` 的不标。目标在没去过的图时只写 `objective`，箭头落在路线走出已知范围的那一格。
-  - **指路：** `CharacterState.waypoint_map` / `waypoint_zone`（可选存档字段）。`WorldRoute.chain()` 加可选 `known`，只走去过的图（目的地本身算），任务标记不变。体素视图 `MapAtlas.goal()`：有指路用指路，否则任务，字写「指路」，同一时间一个箭头。`record_journal()` 那一拍判到达，收起并说一句。走不到时说「从这里认不得路」。「目标提示」关了照样显示：是玩家亲手点的。
+  - **指路：** `CharacterState.waypoint_map` / `waypoint_zone`（可选存档字段）。`WorldRoute.chain()` 加可选 `known`，只走去过的图（目的地本身算）。指路和任务标记都走 `MapAtlas.way()`：有普通的路就只走普通的路，走不通才用暗路和房间命令（放弃桃林的路一步回客栈，标记不能把人领进桃林）。体素视图 `MapAtlas.goal()`：有指路用指路，否则任务，字写「指路」，同一时间一个箭头。`record_journal()` 那一拍判到达，收起并说一句。走不到时说「从这里认不得路」。「目标提示」关了照样显示：是玩家亲手点的。
   - **顺手修：** 下一步是地标的路时标记什么都不画（没有 entrance），现在立在那个房间。
   - **手柄和键盘：** 每格是按钮，邻居按沙盘上的方位算，方向键走，镜头跟着移，走过时说明卡跟着换；确认进卡片，按左回来；「全图 / 近看」在卡片底部。鼠标拖动、滚轮缩放。没有专用手柄键，LB / RB 翻到这一页。
 - **不做：** 车马行、快速旅行（ROADMAP 留一句）；夜景沙盘；触屏（首发只有桌面）。

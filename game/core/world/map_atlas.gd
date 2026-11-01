@@ -59,7 +59,8 @@ static func seen(catalog: ContentCatalog, state: CharacterState, cell: StringNam
 
 ## A way any passer-by sees: neither a landmark's nor behind a door a clue finds.
 static func plain(catalog: ContentCatalog, portal: PortalDefinition) -> bool:
-	if catalog.atlas().landmark_portal(catalog, portal.portal_id):
+	var table: AtlasTable = catalog.atlas()
+	if table.landmark_portal(catalog, portal.portal_id) or table.behind_door(catalog, portal.source_map_id, portal.source_zone_id):
 		return false
 	for door: DoorDefinition in catalog.doors_for_map(portal.source_map_id):
 		if door.found_by.is_empty():
@@ -149,10 +150,17 @@ static func takes_students(npc: NpcDefinition) -> bool:
 	return teaching.apprentice != null and teaching.apprentice.kind not in [NpcTeaching.Kind.REFUSES, NpcTeaching.Kind.SILENT]
 
 
+## The way from `from_map` to `to_map`: by the plain ways when they join them, so a marker never
+## leads through a secret or a maze's way out it need not; only through the maps of `known`, if any.
+static func way(catalog: ContentCatalog, from_map: StringName, to_map: StringName, known: Dictionary[String, int] = {}) -> Array[WorldRoute.Step]:
+	var steps: Array[WorldRoute.Step] = WorldRoute.chain(catalog, from_map, to_map, known, true)
+	return steps if not steps.is_empty() else WorldRoute.chain(catalog, from_map, to_map, known)
+
+
 ## The way from `from_map` to `to_map` over the roads the player has walked; empty when they
 ## are one map or none joins them.
 static func route(catalog: ContentCatalog, state: CharacterState, from_map: StringName, to_map: StringName) -> Array[WorldRoute.Step]:
-	return WorldRoute.chain(catalog, from_map, to_map, state.visited_maps)
+	return way(catalog, from_map, to_map, state.visited_maps)
 
 
 ## Whether the player can be shown the way from `from_map` to `to_map`.
@@ -197,7 +205,7 @@ static func arrow_cell(catalog: ContentCatalog, state: CharacterState, from_map:
 	if not home.is_empty() and known_maps(catalog, state, home).has(goal_map):
 		return home
 	var last: StringName = from_map
-	for step: WorldRoute.Step in WorldRoute.chain(catalog, from_map, goal_map):
+	for step: WorldRoute.Step in way(catalog, from_map, goal_map):
 		if state.visited_maps.has(String(step.from_map)):
 			last = step.from_map
 	return table.home_of(catalog, last)

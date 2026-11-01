@@ -9366,11 +9366,6 @@ msgstr ""
 msgid "适合经验 {exp} 上下"
 msgstr ""
 
-#. the 地图 page's card: takes back the 指路 the player set.
-#: ui/world/map_page.gd
-msgid "取消指路"
-msgstr ""
-
 #. the 地图 page's card: shows the way to this place.
 #: ui/world/map_page.gd
 msgid "指路到这里"
@@ -9379,6 +9374,11 @@ msgstr ""
 #. a line on the 地图 page's card: {word} the mark, {who} the person, {place} the room they are in.
 #: ui/world/map_page.gd
 msgid "{word}  {who} · {place}"
+msgstr ""
+
+#. the 地图 page's card: takes back the 指路 the player set.
+#: ui/world/map_page.gd
+msgid "取消指路"
 msgstr ""
 
 #. the 地图 page's card: {count} buildings or places here the player has not been in.

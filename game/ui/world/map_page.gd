@@ -254,6 +254,7 @@ func _fill_card() -> void:
 		rows.remove_child(child)
 		child.queue_free()
 	row_buttons.clear()
+	_marks.clear()
 	var catalog: ContentCatalog = GameContent.catalog()
 	var seen: MapAtlas.Seen = MapAtlas.seen(catalog, _state, _selected)
 	if seen == MapAtlas.Seen.ROAD:
@@ -269,9 +270,6 @@ func _fill_card() -> void:
 	if region != null and region.recommended_exp > 0:
 		# TRANSLATORS: the 地图 page's card: the combat experience the place is meant for.
 		_text(rows, tr("适合经验 {exp} 上下").format({"exp": region.recommended_exp}), SharedGameplayLayout.MUTED_COLOR)
-	if not _state.waypoint_map.is_empty():
-		# TRANSLATORS: the 地图 page's card: takes back the 指路 the player set.
-		_row(tr("取消指路"), _clear_waypoint)
 	# TRANSLATORS: the 地图 page's card: shows the way to this place.
 	_row(tr("指路到这里"), _point.bind(_selected, &"", tr(cell.name)))
 	_marks = MapAtlas.marks(catalog, _state, _selected)
@@ -292,6 +290,9 @@ func _fill_card() -> void:
 	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state)
 	if goal != null and not goal.waypoint and MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id) == _selected and not _has_target_mark():
 		_objective_line(tr(StoryQuestLog.objective(_state, catalog.story_quests())))
+	if not _state.waypoint_map.is_empty():
+		# TRANSLATORS: the 地图 page's card: takes back the 指路 the player set.
+		_row(tr("取消指路"), _clear_waypoint)
 	var left: int = MapAtlas.unvisited(catalog, _state, _selected)
 	if left > 0:
 		# TRANSLATORS: the 地图 page's card: {count} buildings or places here the player has not been in.
@@ -318,12 +319,17 @@ func _map_name(catalog: ContentCatalog, map_id: StringName) -> String:
 
 
 func _finish_rows() -> void:
-	# Left comes back to the place; nothing lies to the right of the card.
+	# Left comes back to the place; up and down stay on the card; nothing lies to its right.
 	var place: Button = cell_buttons.get(_selected)
-	for row: Button in row_buttons + [zoom_button]:
+	var column: Array[Button] = row_buttons.duplicate()
+	column.append(zoom_button)
+	for index: int in column.size():
+		var row: Button = column[index]
 		if place != null:
 			row.focus_neighbor_left = row.get_path_to(place)
 		row.focus_neighbor_right = row.get_path_to(row)
+		row.focus_neighbor_top = row.get_path_to(column[maxi(index - 1, 0)])
+		row.focus_neighbor_bottom = row.get_path_to(column[mini(index + 1, column.size() - 1)])
 	if rows_changed.is_valid():
 		rows_changed.call()
 	_show_zoom_label()

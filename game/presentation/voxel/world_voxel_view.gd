@@ -686,10 +686,13 @@ func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 	if goal.map_id == map.map_id():
 		_place_quest_pillar(goal.zone_id, goal.waypoint)
 		return
-	var known: Dictionary[String, int] = state.visited_maps if goal.waypoint else {}
-	var step: WorldRoute.Step = WorldRoute.next_step(GameContent.catalog(), map.map_id(), goal.map_id, known)
-	if step == null:
+	var known: Dictionary[String, int] = {}
+	if goal.waypoint:
+		known = state.visited_maps
+	var steps: Array[WorldRoute.Step] = MapAtlas.way(GameContent.catalog(), map.map_id(), goal.map_id, known)
+	if steps.is_empty():
 		return
+	var step: WorldRoute.Step = steps[0]
 	var at: Vector3
 	var direction: Vector2 = Vector2.ZERO
 	if step.portal != null:

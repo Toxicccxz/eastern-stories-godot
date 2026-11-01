@@ -36,8 +36,8 @@ def _text_files(folder: Path) -> list[Path]:
 
 
 def fingerprint() -> str:
-    """Of everything the pictures are shot from: the layouts, the voxel configs, the atlas."""
-    files = [ATLAS, *_text_files(ROOT / "tools" / "maps" / "layouts")]
+    """Of everything the pictures are shot from: the layouts, the rooms' life, the voxel configs, the atlas."""
+    files = [ATLAS, GAME / "data" / "common" / "room_life.json", *_text_files(ROOT / "tools" / "maps" / "layouts")]
     files.extend(sorted(path for path in (GAME / "data").glob("*/voxel/*.json")))
     digest = hashlib.sha256()
     for path in files:
