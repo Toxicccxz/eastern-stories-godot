@@ -25,12 +25,12 @@ const MAPPED_MARK: String = "□"
 const UNMAPPED_MARK: String = "  "
 
 var skills_text: Label
-var force_text: Label
+var force_text: StatCell
 ## How far 打坐 / 冥思 / 修行 can raise their maximum (CultivationService's caps).
 var force_cap_text: Label
 var mana_cap_text: Label
 var atman_cap_text: Label
-var bellicosity_text: Label
+var bellicosity_text: StatCell
 var no_uses: Label
 var uses_box: VBoxContainer
 var exercise_amount: SpinBox
@@ -41,14 +41,17 @@ var exercise_target: OptionButton
 const EXERCISE_TARGETS: Array[int] = [0, 10, 25, 50, 100]
 var enforce_amount: SpinBox
 var enforce_button: Button
-var mana_text: Label
+var mana_text: StatCell
 var meditate_amount: SpinBox
 var meditate_button: Button
 var meditate_run_button: Button
-var atman_text: Label
+var atman_text: StatCell
 var respirate_amount: SpinBox
 var respirate_button: Button
 var respirate_run_button: Button
+## DECISIONS「数值用到才出现」: the 冥思 and 修行 sections, there once 法力 and 灵力 are.
+var meditate_rows: Array[Control] = []
+var respirate_rows: Array[Control] = []
 var exert_title: Label
 var exert_row: HFlowContainer
 var conjure_title: Label
@@ -99,9 +102,9 @@ func _init() -> void:
 	uses_box.add_theme_constant_override("separation", 6)
 	add_child(uses_box)
 	_title("打坐")
-	force_text = _label("Force")
+	force_text = _stat_line("Force")
 	force_cap_text = _label("ForceCap")
-	bellicosity_text = _label("Bellicosity")
+	bellicosity_text = _stat_line("Bellicosity")
 	_label("ExerciseCost").text = "每次花费的气"
 	var exercise := HBoxContainer.new()
 	exercise.name = "Exercise"
@@ -142,21 +145,25 @@ func _init() -> void:
 	enforce.add_child(enforce_amount)
 	enforce_button = _button(enforce, "EnforceButton", "加力")
 	enforce_button.pressed.connect(_enforce)
-	_title("冥思")
-	mana_text = _label("Mana")
+	meditate_rows.append(_title("冥思"))
+	mana_text = _stat_line("Mana")
 	mana_cap_text = _label("ManaCap")
-	_label("MeditateCost").text = "每次花费的神"
+	var meditate_cost: Label = _label("MeditateCost")
+	meditate_cost.text = "每次花费的神"
 	meditate_amount = _cost_box("Meditate")
+	meditate_rows.append_array([mana_text, mana_cap_text, meditate_cost, meditate_amount.get_parent()])
 	meditate_button = _button(meditate_amount.get_parent(), "MeditateButton", "冥思")
 	meditate_button.pressed.connect(_meditate)
 	# TRANSLATORS: the 武学 page's button that does 冥思 again and again until something stops it.
 	meditate_run_button = _button(meditate_amount.get_parent(), "MeditateRunButton", "连续冥思")
 	meditate_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.MEDITATE))
-	_title("修行")
-	atman_text = _label("Atman")
+	respirate_rows.append(_title("修行"))
+	atman_text = _stat_line("Atman")
 	atman_cap_text = _label("AtmanCap")
-	_label("RespirateCost").text = "每次花费的精"
+	var respirate_cost: Label = _label("RespirateCost")
+	respirate_cost.text = "每次花费的精"
 	respirate_amount = _cost_box("Respirate")
+	respirate_rows.append_array([atman_text, atman_cap_text, respirate_cost, respirate_amount.get_parent()])
 	respirate_button = _button(respirate_amount.get_parent(), "RespirateButton", "修行")
 	respirate_button.pressed.connect(_respirate)
 	# TRANSLATORS: the 武学 page's button that does 修行 again and again until something stops it.
@@ -192,23 +199,7 @@ func refresh() -> void:
 	var state: CharacterState = _session.player_runtime().state
 	var catalog: ContentCatalog = GameContent.catalog()
 	skills_text.text = _skills_list(state, catalog)
-	# TRANSLATORS: hp.c: internal power, its maximum and enforce.c's force_factor.
-	force_text.text = tr("内力 {force} / {max_force} (+{factor})").format({
-		"force": state.recovery.inner_force.current, "max_force": state.recovery.inner_force.maximum,
-		"factor": state.attributes.force_factor,
-	})
-	# TRANSLATORS: score.c: mana (法力) and its maximum, what meditate (冥思) builds.
-	mana_text.text = tr("法力 {mana} / {max_mana}").format({
-		"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum,
-	})
-	# TRANSLATORS: score.c: atman (灵力) and its maximum, what respirate (修行) builds.
-	atman_text.text = tr("灵力 {atman} / {max_atman}").format({
-		"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum,
-	})
-	# TRANSLATORS: the 武学 page: score.c's 杀气 (bellicosity) and 定力 (cps), which decide whether the player can lose control.
-	bellicosity_text.text = tr("杀气 {bellicosity} · 定力 {cps}").format({
-		"bellicosity": state.attributes.bellicosity, "cps": state.attributes.composure,
-	})
+	_show_numbers(state, catalog)
 	var caps: Array = [
 		[force_cap_text, TrainingRun.Kind.EXERCISE, state.recovery.inner_force.maximum, CultivationService.exercise_cap(state, arts.apply_modifier(&"force")), SkillIds.FORCE],
 		[mana_cap_text, TrainingRun.Kind.MEDITATE, state.recovery.mana.maximum, CultivationService.meditate_cap(state), SkillIds.SPELLS],
@@ -269,6 +260,35 @@ func refresh() -> void:
 		amount.editable = not running
 	exercise_target.disabled = running
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
+
+
+## The page's numbers (DECISIONS「数值用到才出现」): 内力 (and 加力), 杀气 and 定力, 法力 with
+## its 冥思 section and 灵力 with its 修行 section. Two on a line share its hover.
+func _show_numbers(state: CharacterState, catalog: ContentCatalog) -> void:
+	var force_line := PackedStringArray([tr("内力 {force} / {max_force}").format({"force": state.recovery.inner_force.current, "max_force": state.recovery.inner_force.maximum})])
+	var force_hints := PackedStringArray([StatCell.stat_hint(&"force")])
+	if catalog.stat_shown(&"enforce", state):
+		force_line.append("%s %d" % [StatCell.stat_name(&"enforce"), state.attributes.force_factor])
+		force_hints.append(StatCell.stat_hint(&"enforce"))
+	force_text.show_stat(" · ".join(force_line), "\n".join(force_hints))
+	var calm_line := PackedStringArray()
+	var calm_hints := PackedStringArray()
+	if catalog.stat_shown(&"bellicosity", state):
+		calm_line.append("%s %d" % [StatCell.stat_name(&"bellicosity"), state.attributes.bellicosity])
+		calm_hints.append(StatCell.stat_hint(&"bellicosity"))
+	calm_line.append("%s %d" % [StatCell.stat_name(&"composure"), state.attributes.composure])
+	calm_hints.append(StatCell.stat_hint(&"composure"))
+	bellicosity_text.show_stat(" · ".join(calm_line), "\n".join(calm_hints))
+	# TRANSLATORS: score.c: mana (法力) and its maximum, what meditate (冥思) builds.
+	mana_text.show_stat(tr("法力 {mana} / {max_mana}").format({"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum}), StatCell.stat_hint(&"mana"))
+	# TRANSLATORS: score.c: atman (灵力) and its maximum, what respirate (修行) builds.
+	atman_text.show_stat(tr("灵力 {atman} / {max_atman}").format({"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum}), StatCell.stat_hint(&"atman"))
+	var mana_shown: bool = catalog.stat_shown(&"mana", state)
+	for row: Control in meditate_rows:
+		row.visible = mana_shown
+	var atman_shown: bool = catalog.stat_shown(&"atman", state)
+	for row: Control in respirate_rows:
+		row.visible = atman_shown
 
 
 ## skills.c: every skill, its rank and level / learning progress; □ marks an enabled one.
@@ -620,6 +640,13 @@ func _title(text: String) -> Label:
 	label.text = text
 	label.add_theme_color_override("font_color", Color(0.85, 0.8, 0.6))
 	return label
+
+
+func _stat_line(node_name: String) -> StatCell:
+	var cell := StatCell.new(node_name)
+	cell.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	add_child(cell)
+	return cell
 
 
 func _label(node_name: String) -> Label:

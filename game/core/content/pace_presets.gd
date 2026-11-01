@@ -8,8 +8,8 @@ extends RefCounted
 ## DECISIONS「天气」) and the story's parley and sure burial off (DECISIONS「老松寨的三条路」
 ## 「安葬必得书」) and the fight at ES2's numbers (DECISIONS「战斗数值」: the cubic curve, the
 ## experience loop, no forecast, the NPCs' `classic` values) and death at ES2's price with no
-## autosave (DECISIONS「减轻死亡」「自动存档」) on top of whatever pacing the catalog has; the
-## feel knobs stay. 现代 leaves the catalog's pacing as
+## autosave (DECISIONS「减轻死亡」「自动存档」) and every number shown (DECISIONS「数值用到才出现」)
+## on top of whatever pacing the catalog has; the feel knobs stay. 现代 leaves the catalog's pacing as
 ## it is. A session applies it before its world is built (the 木人 are spawned or not) and
 ## puts the pacing back when it goes.
 
@@ -26,7 +26,7 @@ static var _applied: PacingDefinition
 static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 	if pace != CharacterState.PACE_CLASSIC:
 		return base
-	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0)
+	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0).with_stats_display(false)
 
 
 ## The pacing a world of `pace` stands on, whichever the catalog stands on now: what a save of

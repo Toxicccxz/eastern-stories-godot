@@ -75,12 +75,14 @@ var telegraph: String = ""
 var next_move_known: bool = true
 var next_move_guard: bool = false
 ## 战斗决策层 2 (DECISIONS「战斗界面」): the conditions on this one (ConditionIds, from
-## state.conditions), whether they have spells mapped (法力 / 灵力 shown on the player's card
-## only then or with a mana maximum), and the 战前预判 of the player against this one alone
-## (CombatForecast.Verdict, -1 when none: the player, an ally, the forecast off), with its
-## full line for the hover.
+## state.conditions), which of 法力, 灵力 and 加力 the player's card shows (the rule of
+## stats_display.json, DECISIONS「数值用到才出现」), and the 战前预判 of the player against this
+## one alone (CombatForecast.Verdict, -1 when none: the player, an ally, the forecast off), with
+## its full line for the hover.
 var conditions: Array[StringName] = []
-var has_spells: bool = false
+var show_mana: bool = false
+var show_atman: bool = false
+var show_enforce: bool = false
 var strength: int = -1
 var strength_line: String = ""
 

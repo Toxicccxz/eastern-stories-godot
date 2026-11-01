@@ -189,13 +189,16 @@ func present(projection: BattlePresentationProjection) -> void:
 		shown.tooltip_text = reason if not reason.is_empty() else catalog.tooltip_for(infos[index].action_id)
 	var queued: CombatQueuedAction = projection.queued_action()
 	_displayed_request_id = &"" if queued == null else queued.request.request_id
-	_queue.text = tr("排定：%s") % _queue_status(projection.queue_status)
+	# Nothing planned, nothing said (DECISIONS「数值用到才出现」: 「排定：无」 is gone).
+	var parts := PackedStringArray()
 	if projection.waiting:
-		# TRANSLATORS: the battle panel's status while the fight's clock waits for the player's order (on 排定's line).
-		_queue.text = tr("等你出招 · ") + _queue.text
+		# TRANSLATORS: the battle panel's status while the fight's clock waits for the player's order.
+		parts.append(tr("等你出招"))
+	if projection.queue_status != CombatQueuedAction.Status.EMPTY:
+		parts.append(tr("排定：%s") % _queue_status(projection.queue_status))
+	_queue.text = " · ".join(parts)
 	if queued != null:
 		_queue.text += "\n" + tr("{action} · 目标：{target}").format({"action": catalog.label_for(queued.request.action_id), "target": tr(projection.display_name(queued.resolved_target_id))})
-	_queue.tooltip_text = _queue.text
 	_cancel.visible = queued != null
 	_wire_focus()
 
@@ -353,12 +356,7 @@ func _manual_pressed() -> void:
 
 
 func _queue_status(status: int) -> String:
-	match status:
-		CombatQueuedAction.Status.READY:
-			return tr("就绪")
-		CombatQueuedAction.Status.WAITING_FOR_BUSY:
-			return tr("等你空下来")
-	return tr("无")
+	return tr("等你空下来") if status == CombatQueuedAction.Status.WAITING_FOR_BUSY else tr("就绪")
 
 
 func first_action_button() -> Button:

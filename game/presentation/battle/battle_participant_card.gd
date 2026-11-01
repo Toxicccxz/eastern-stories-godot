@@ -53,7 +53,7 @@ var _rest_x: float = 0.0
 ## The 倒 / 亡 stamp on the card as last presented ("" while its fighter stands).
 var _fallen_text: String = ""
 var _shown_intent: String = ""
-## 气 N/N/N; 精 · 神 (the player's card); 内力 (· 法力 · 灵力) (the player's card).
+## 气 N/N; 精 · 神 (the player's card); 内力 (· 加力 · 法力 · 灵力) (the player's card).
 var _primary: Label
 var _secondary: Label
 var _powers: Label
@@ -146,29 +146,16 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		# TRANSLATORS: the battle card of one fighting beside the player (a 天将, a follower).
 		role = tr("参战")
 	_title.text = "%s · %s" % [tr(value.display_name), role]
-	_title.tooltip_text = value.strength_line if not value.strength_line.is_empty() else _title.text
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
 	if get_theme_stylebox("panel") != border and (_border_flash == null or not _border_flash.is_valid()):
 		add_theme_stylebox_override("panel", border)
 	modulate = DIM if value.hostile_to_player and not value.targetable and knockout == null else Color.WHITE
 	if not hold_resources or value.participant_id != _shown_id or _shown_resources.is_empty():
 		_show_resources(value.participant_id, [value.vitality, value.essence, value.spirit])
-	_primary.tooltip_text = "当前／有效／上限"
 	_secondary.visible = is_player
 	_powers.visible = is_player
 	if is_player:
-		var powers: Dictionary = {
-			"force": value.force.current, "max_force": value.force.maximum, "factor": value.force_factor,
-			"mana": value.mana.current, "max_mana": value.mana.maximum,
-			"atman": value.atman.current, "max_atman": value.atman.maximum,
-		}
-		if value.has_spells or value.mana.maximum > 0:
-			# TRANSLATORS: the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it; 法力 and 灵力 only with spells.
-			_powers.text = tr("内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}").format(powers)
-		else:
-			# TRANSLATORS: the player's card without spells: 内力 alone; (+{factor}) is enforce.c's force_factor.
-			_powers.text = tr("内力 {force}/{max_force} (+{factor})").format(powers)
-		_powers.tooltip_text = _powers.text
+		_powers.text = " · ".join(_power_parts(value))
 	# The tags: 忙 N, the conditions, then 昏迷 / 死亡 (and when they come to); 无法行动 only
 	# when none of those says why.
 	var states := PackedStringArray()
@@ -191,7 +178,6 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		states.append(tr("无法行动"))
 	_status.text = " · ".join(states)
 	var explained := PackedStringArray(BattleConditionTags.descriptions(value.conditions))
-	_status.tooltip_text = "\n".join(explained)
 	var intents := PackedStringArray()
 	if value.next_move_guard:
 		# TRANSLATORS: an enemy's card: it will guard on its next beat (combatd.c fight()'s courage gate) instead of a move.
@@ -229,15 +215,59 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	if fallen != _fallen_text:
 		_show_fallen(fallen)
 	# The card's one hover (the target button covers it): what picking it does, the forecast,
-	# the tags' meanings.
+	# the tags' meanings, then the numbers (DECISIONS「数值用到才出现」).
 	var hover := PackedStringArray()
 	if value.targetable:
 		hover.append(tr("选为目标：%s") % tr(value.display_name))
 	if not value.strength_line.is_empty():
 		hover.append(value.strength_line)
 	hover.append_array(explained)
+	hover.append_array(_number_lines(value, is_player))
 	target_button.tooltip_text = "\n".join(hover)
 	_present_choice(value, knockout)
+
+
+## 内力, then 加力, 法力 and 灵力 as the numbers' rule shows them.
+func _power_parts(value: BattleParticipantProjection) -> PackedStringArray:
+	# TRANSLATORS: the player's battle card: 内力, current/maximum.
+	var parts := PackedStringArray([tr("内力 {force}/{max_force}").format({"force": value.force.current, "max_force": value.force.maximum})])
+	if value.show_enforce:
+		# TRANSLATORS: the player's battle card: enforce.c's force_factor, the 内力 put into each blow.
+		parts.append(tr("加力 {factor}").format({"factor": value.force_factor}))
+	if value.show_mana:
+		# TRANSLATORS: the player's battle card: 法力, current/maximum.
+		parts.append(tr("法力 {mana}/{max_mana}").format({"mana": value.mana.current, "max_mana": value.mana.maximum}))
+	if value.show_atman:
+		# TRANSLATORS: the player's battle card: 灵力, current/maximum.
+		parts.append(tr("灵力 {atman}/{max_atman}").format({"atman": value.atman.current, "max_atman": value.atman.maximum}))
+	return parts
+
+
+## The hover's numbers: 气 with what it is (with its 有效, which the card's line leaves to the
+## bar), and on the player's card 精, 神 and each power too.
+func _number_lines(value: BattleParticipantProjection, is_player: bool) -> PackedStringArray:
+	var lines := PackedStringArray([_track_line(&"vitality", value.vitality)])
+	if not is_player:
+		return lines
+	lines.append_array([_track_line(&"essence", value.essence), _track_line(&"spirit", value.spirit)])
+	lines.append(_power_line(&"force"))
+	for shown: Array in [[value.show_enforce, &"enforce"], [value.show_mana, &"mana"], [value.show_atman, &"atman"]]:
+		if shown[0]:
+			lines.append(_power_line(shown[1]))
+	return lines
+
+
+static func _power_line(stat_id: StringName) -> String:
+	# TRANSLATORS: a battle card's hover: {name} 内力 / 加力 / 法力 / 灵力, then what it is.
+	return TranslationServer.translate("{name}：{hint}").format({"name": StatCell.stat_name(stat_id), "hint": StatCell.stat_hint(stat_id)})
+
+
+static func _track_line(stat_id: StringName, track: BattleResourceProjection) -> String:
+	# TRANSLATORS: a battle card's hover: {name} 气 / 精 / 神, its three numbers (当前 / 有效 / 最大), then what it is.
+	return TranslationServer.translate("{name} {current} / 有效 {effective} / 最大 {maximum}：{hint}").format({
+		"name": StatCell.stat_name(stat_id), "current": track.current, "effective": track.effective,
+		"maximum": track.maximum, "hint": StatCell.stat_hint(stat_id),
+	})
 
 
 ## The card of one held for the player's choice: 了结 (marked when it does 朱鸿雪's task or
@@ -453,9 +483,9 @@ func _show_resources(id: StringName, resources: Array[BattleResourceProjection])
 	_vitality.effective = resources[0].effective
 	_show_vitality(id, resources[0].current)
 	_shown_resources = resources
-	# TRANSLATORS: a battle card's 气 line: current/effective/maximum.
+	# TRANSLATORS: a battle card's 气 line: current/maximum (the bar's crack shows the 有效 between them, the hover the number).
 	_primary.text = tr("气 %s") % _track(resources[0])
-	# TRANSLATORS: the player's card: 精 and 神, each current/effective/maximum.
+	# TRANSLATORS: the player's card: 精 and 神, each current/maximum.
 	_secondary.text = tr("精 %s · 神 %s") % [_track(resources[1]), _track(resources[2])]
 
 
@@ -474,7 +504,7 @@ func _request_target() -> void:
 
 
 static func _track(value: BattleResourceProjection) -> String:
-	return "%d/%d/%d" % [value.current, value.effective, value.maximum]
+	return "%d/%d" % [value.current, value.maximum]
 
 
 func _choice_button(node_name: String) -> Button:

@@ -120,7 +120,7 @@ func fight_ended(unspent_before: int) -> void:
 	_cut_said = false
 	if unspent_before < cap and unspent >= cap and not said and _session.shared_ui() != null:
 		# TRANSLATORS: native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
-		_session.shared_ui().append_after_fight([ColoredLine.new(tr("潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或研读书籍，用掉一些潜能吧。").format({"cap": cap}))])
+		_session.shared_ui().append_after_fight([ColoredLine.new(tr("潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。").format({"cap": cap}))])
 
 
 func _beaten(npc: NpcRuntimeState) -> void:

@@ -10,8 +10,9 @@ static func first_focusable(root: Node, skip_text: bool = false) -> Control:
 	if root == null or root.is_queued_for_deletion():
 		return null
 	var control := root as Control
-	# Text is read, not stopped on (the 任务 log scrolls with the right stick).
-	if control != null and can_focus(control) and not control is RichTextLabel and not (skip_text and control is LineEdit):
+	# Text is read, not stopped on (the 任务 log scrolls with the right stick; a StatCell is
+	# walked to, a page does not open on it).
+	if control != null and can_focus(control) and not control is RichTextLabel and not control is Label and not (skip_text and control is LineEdit):
 		return control
 	# Internal children too: a SpinBox's LineEdit is one.
 	for child: Node in root.get_children(true):

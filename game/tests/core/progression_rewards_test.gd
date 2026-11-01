@@ -140,7 +140,7 @@ func _test_lines() -> void:
 	state.progression.potential = 400
 	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.CHAIN, &"green.jade", 20, true)
 	var lines: Array[ColoredLine] = MilestoneRewards.lines(grant, "玉佩")
-	_assert_eq(ColoredLine.texts(lines), ["【历练】你了结了「玉佩」这段经历：实战经验 +900，潜能 +50。（落后补偿 +20%）", "潜能已满（最多 450 点未用），多出的 400 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"], "the reward, its catch-up, and what the cap kept back")
+	_assert_eq(ColoredLine.texts(lines), ["【历练】你了结了「玉佩」这段经历：实战经验 +900，潜能 +50。（落后补偿 +20%）", "潜能已满（最多 450 点未用），多出的 400 点没有记下。先去请教师父或自学，用掉一些潜能吧。"], "the reward, its catch-up, and what the cap kept back")
 	_assert_eq(lines[0].color, ColoredLine.HIY, "in yellow")
 
 

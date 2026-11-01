@@ -37,23 +37,25 @@ func update_vitality(
 
 ## The card's 精/气/神: bars, and 精 and 神 current, 气 current/effective.
 func update_player_vitals(state: CharacterState) -> void:
-	_update_bar(state.essence, _ui.player_essence)
-	_update_bar(state.vitality, _ui.player_vitality)
-	_update_bar(state.spirit, _ui.player_spirit)
+	_update_bar(state.essence, _ui.player_essence, &"essence")
+	_update_bar(state.vitality, _ui.player_vitality, &"vitality")
+	_update_bar(state.spirit, _ui.player_spirit, &"spirit")
 	_ui.player_essence_text.text = str(state.essence.current)
 	_ui.player_vitality_value.text = "%d/%d" % [state.vitality.current, state.vitality.effective]
 	_ui.player_spirit_text.text = str(state.spirit.current)
 
 
-## A resource's bar: current out of maximum; the tooltip has all three.
-func _update_bar(resource: CharacterResourceState, bar: ProgressBar) -> void:
+## A resource's bar: current out of maximum; the tooltip has all three, and the player's own
+## bars the number's line (DECISIONS「数值用到才出现」; a pad reads it on the 角色 page).
+func _update_bar(resource: CharacterResourceState, bar: ProgressBar, stat_id: StringName = &"") -> void:
 	bar.min_value = 0.0
 	bar.max_value = float(maxi(resource.maximum, 1))
 	bar.value = float(clampi(resource.current, 0, maxi(resource.maximum, 1)))
 	# TRANSLATORS: a resource bar's tooltip: current / effective / maximum.
-	bar.tooltip_text = tr("当前 {current} / 有效 {effective} / 最大 {maximum}").format({
+	var numbers: String = tr("当前 {current} / 有效 {effective} / 最大 {maximum}").format({
 		"current": resource.current, "effective": resource.effective, "maximum": resource.maximum,
 	})
+	bar.tooltip_text = numbers if stat_id.is_empty() else "%s\n%s" % [StatCell.stat_hint(stat_id), numbers]
 
 
 func refresh_exploration() -> void:

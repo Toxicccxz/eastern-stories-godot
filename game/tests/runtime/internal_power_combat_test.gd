@@ -53,7 +53,7 @@ func _test_page() -> void:
 	var page: MartialArtsPage = _hud.martial_arts_page()
 	_hud.open_martial_arts()
 	page.refresh()
-	_check(page.force_text.text == "内力 100 / 50 (+0)", "hp.c's 内力 with (+force_factor): " + page.force_text.text)
+	_check(page.force_text.text == "内力 100 / 50", "hp.c's 内力, 加力 not yet: " + page.force_text.text)
 	_check(page.enforce_amount.max_value == 7, "加力 up to query_skill(force) 15 / 2")
 	for function_id: StringName in [&"heal", &"recover", &"refresh", &"regenerate"]:
 		_check(page.buttons.has("exert:%s" % function_id), "运功 offers %s" % function_id)
@@ -61,7 +61,7 @@ func _test_page() -> void:
 	page.enforce_amount.value = 3
 	page.enforce_button.pressed.emit()
 	_check(_last() == ["Ok."] and _state.attributes.force_factor == 3, "enforce 3: Ok.")
-	_check(page.force_text.text == "内力 100 / 50 (+3)", "the page follows: " + page.force_text.text)
+	_check(page.force_text.text == "内力 100 / 50 · 加力 3", "the page follows: " + page.force_text.text)
 	_state.vitality.effective = 60 # TEST-ONLY: a wound.
 	_state.vitality.current = 60
 	page.buttons["exert:heal"].pressed.emit()

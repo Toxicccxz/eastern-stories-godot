@@ -79,6 +79,9 @@ extends RefCounted
 ## - player_corpse_stays: the player's own corpse does not decay while it holds anything. false
 ##   (ES2): it decays as any other.
 ## - autosave_min_seconds: real seconds at least between two autosaves. 0 (ES2 has none): none.
+##
+## - stats_appear_when_used (现代基线 C; DECISIONS「数值用到才出现」): a number with a `when_*` in
+##   stats_display.json shows only then. false (ES2, score.c lists all): every number shows.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -137,6 +140,7 @@ var _death_keeps_potential: bool = false
 var _death_keeps_skills: bool = false
 var _player_corpse_stays: bool = false
 var _autosave_min_seconds: int = 0
+var _stats_appear_when_used: bool = false
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -274,6 +278,10 @@ var player_corpse_stays: bool:
 var autosave_min_seconds: int:
 	get:
 		return _autosave_min_seconds
+## Whether a number appears only once it is used (false: ES2, all of them, always).
+var stats_appear_when_used: bool:
+	get:
+		return _stats_appear_when_used
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -311,6 +319,7 @@ func copy() -> PacingDefinition:
 	record.with_decisions(_decision_rules)
 	record.with_death(_death_exp_percent, _death_keeps_potential, _death_keeps_skills, _player_corpse_stays)
 	record.with_autosave(_autosave_min_seconds)
+	record.with_stats_display(_stats_appear_when_used)
 	record.feel = feel
 	return record
 
@@ -327,6 +336,12 @@ func with_death(exp_percent: int, keeps_potential: bool, keeps_skills: bool, cor
 ## This record with the autosave's least interval set (seconds; tests, PacePresets, and from_record()).
 func with_autosave(min_seconds: int) -> PacingDefinition:
 	_autosave_min_seconds = min_seconds
+	return self
+
+
+## This record with the numbers appearing when used, or all shown (tests, PacePresets, and from_record()).
+func with_stats_display(appear_when_used: bool) -> PacingDefinition:
+	_stats_appear_when_used = appear_when_used
 	return self
 
 
@@ -467,6 +482,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	definition.with_decisions(CombatDecisionRules.from_record(reader))
 	definition.with_death(reader.integer("death_exp_percent", ES2_DEATH_EXP_PERCENT), reader.boolean("death_keeps_potential", false), reader.boolean("death_keeps_skills", false), reader.boolean("player_corpse_stays", false))
 	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
+	definition.with_stats_display(reader.boolean("stats_appear_when_used", false))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

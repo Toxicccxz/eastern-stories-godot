@@ -14,6 +14,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_random_names()
 	await _test_bindings_and_hints(tree)
 	await _test_focus_helpers(tree)
+	await _test_focus_tip(tree)
 	await _test_walking_hud(tree)
 	InputDevices.shared().set_kind(InputDevices.Kind.KEYBOARD_MOUSE, InputDevices.PadStyle.XBOX)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -190,6 +191,75 @@ func _test_focus_helpers(tree: SceneTree) -> void:
 	rows.get_child(1).queue_free()
 	_check(FocusNav.at_place(rows, place) == rows.get_child(0).get_child(1), "a shorter list: its last row")
 	rows.queue_free()
+	support.queue_free()
+	box.queue_free()
+	await tree.process_frame
+
+
+## The hover of the keys and the pad (DECISIONS「数值用到才出现」): only for a control walked to
+## with a direction, after the delay, inside the screen, and away at any other press or the mouse.
+func _test_focus_tip(tree: SceneTree) -> void:
+	var box := VBoxContainer.new()
+	tree.root.add_child(box)
+	var first := Button.new()
+	first.text = "甲"
+	first.tooltip_text = "甲的说明"
+	box.add_child(first)
+	var second := Button.new()
+	second.text = "乙"
+	second.tooltip_text = "乙的说明"
+	box.add_child(second)
+	var bare := Button.new()
+	bare.text = "丙"
+	box.add_child(bare)
+	var support := PadSupport.new()
+	tree.root.add_child(support)
+	var tip: FocusTip = support.focus_tip
+	await tree.process_frame
+	first.grab_focus()
+	tip._process(1.0)
+	_check(not tip.panel.visible, "a panel putting the focus somewhere shows nothing")
+	await _joy(tree, JOY_BUTTON_DPAD_DOWN)
+	_check(tree.root.gui_get_focus_owner() == second and not tip.panel.visible, "walked to: not yet, the delay first")
+	tip._process(FocusTip.DELAY_SECONDS)
+	_check(tip.panel.visible and tip._text.text == "乙的说明", "then its tooltip")
+	await tree.process_frame
+	await tree.process_frame
+	var screen := Rect2(Vector2.ZERO, tip.panel.get_viewport_rect().size)
+	_check(screen.encloses(tip.panel.get_global_rect()) and not tip.panel.get_global_rect().intersects(second.get_global_rect()), "beside it, inside the screen: %s" % tip.panel.get_global_rect())
+	second.tooltip_text = "乙的新说明"
+	tip._process(0.0)
+	_check(tip._text.text == "乙的新说明", "the text follows the control's")
+	await _joy(tree, JOY_BUTTON_A)
+	_check(not tip.panel.visible, "any other press puts it away")
+	await _joy(tree, JOY_BUTTON_DPAD_DOWN)
+	tip._process(FocusTip.DELAY_SECONDS)
+	_check(tree.root.gui_get_focus_owner() == bare and not tip.panel.visible, "nothing to tell, nothing shown")
+	await _joy(tree, JOY_BUTTON_DPAD_UP)
+	tip._process(FocusTip.DELAY_SECONDS)
+	_check(tip.panel.visible, "back on 乙")
+	second.hide()
+	tip._process(0.0)
+	_check(not tip.panel.visible, "the control hides, the tip goes")
+	second.show()
+	second.grab_focus()
+	var key := InputEventKey.new()
+	key.keycode = KEY_UP
+	key.physical_keycode = KEY_UP
+	key.pressed = true
+	Input.parse_input_event(key)
+	await tree.process_frame
+	key = key.duplicate()
+	key.pressed = false
+	Input.parse_input_event(key)
+	await tree.process_frame
+	tip._process(FocusTip.DELAY_SECONDS)
+	_check(tree.root.gui_get_focus_owner() == first and tip.panel.visible and tip._text.text == "甲的说明", "the arrow keys walk the same way")
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_RIGHT
+	click.pressed = true
+	tip.observe(click)
+	_check(not tip.panel.visible, "the mouse has its own hover")
 	support.queue_free()
 	box.queue_free()
 	await tree.process_frame
