@@ -8,6 +8,7 @@ enum Operation {
 	RECOVER,
 	SAVE,
 	END_SESSION,
+	LOAD,
 }
 
 enum Outcome {

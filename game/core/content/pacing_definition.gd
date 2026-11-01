@@ -70,6 +70,15 @@ extends RefCounted
 ## - sky_weather: the cloud turns through natured.c's five weather_msg lines (SkyState), the
 ##   outdoor room's text ending with the line and the voxel view greying by it. false (ES2:
 ##   the lines are declared and never shown; the sky is always clear); 经典 is false too.
+##
+## Death and autosave (现代基线 A; DECISIONS「减轻死亡」「自动存档」); left out, each is ES2's:
+## - death_exp_percent: what killer_reward() takes of combat_exp, in percent. 10 (ES2).
+## - death_keeps_potential: unspent potential stays. false (ES2): it halves toward learned_points.
+## - death_keeps_skills: skill_death_penalty() does not run. false (ES2): every skill loses a
+##   level or its learning progress, and all enables go.
+## - player_corpse_stays: the player's own corpse does not decay while it holds anything. false
+##   (ES2): it decays as any other.
+## - autosave_min_seconds: real seconds at least between two autosaves. 0 (ES2 has none): none.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -79,6 +88,8 @@ const ES2_HEART_BEAT_MS: int = 2000
 const ES2_DAY_LENGTH_MINUTES: int = 24
 ## obj/corpse.c: call_out("decay", 120, 1), then 120, then 60.
 const ES2_CORPSE_DECAY_SECONDS: Array[int] = [120, 120, 60]
+## combatd.c killer_reward(): -(combat_exp / 10).
+const ES2_DEATH_EXP_PERCENT: int = 10
 
 var _combat_round_ms: int
 var _room_reset_seconds: int
@@ -121,6 +132,11 @@ var _combat_rules: CombatPowerRules = CombatPowerRules.classic()
 var _decision_rules: CombatDecisionRules = CombatDecisionRules.classic()
 var _combat_forecast: bool = false
 var _es2_npc_values: bool = true
+var _death_exp_percent: int = ES2_DEATH_EXP_PERCENT
+var _death_keeps_potential: bool = false
+var _death_keeps_skills: bool = false
+var _player_corpse_stays: bool = false
+var _autosave_min_seconds: int = 0
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -238,6 +254,26 @@ var combat_forecast: bool:
 var es2_npc_values: bool:
 	get:
 		return _es2_npc_values
+## What killer_reward() takes of combat_exp, in percent (10: ES2).
+var death_exp_percent: int:
+	get:
+		return _death_exp_percent
+## Whether death leaves unspent potential alone (false: ES2).
+var death_keeps_potential: bool:
+	get:
+		return _death_keeps_potential
+## Whether death leaves skills and enables alone (false: ES2).
+var death_keeps_skills: bool:
+	get:
+		return _death_keeps_skills
+## Whether the player's own corpse waits for them while it holds anything (false: ES2).
+var player_corpse_stays: bool:
+	get:
+		return _player_corpse_stays
+## Real seconds at least between two autosaves (0: no autosave).
+var autosave_min_seconds: int:
+	get:
+		return _autosave_min_seconds
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -273,8 +309,25 @@ func copy() -> PacingDefinition:
 	record.with_story(_story_parley, _bury_always_rewards)
 	record.with_combat(_combat_rules, _combat_forecast, _es2_npc_values)
 	record.with_decisions(_decision_rules)
+	record.with_death(_death_exp_percent, _death_keeps_potential, _death_keeps_skills, _player_corpse_stays)
+	record.with_autosave(_autosave_min_seconds)
 	record.feel = feel
 	return record
+
+
+## This record with the death knobs set (tests, PacePresets, and from_record()).
+func with_death(exp_percent: int, keeps_potential: bool, keeps_skills: bool, corpse_stays: bool) -> PacingDefinition:
+	_death_exp_percent = exp_percent
+	_death_keeps_potential = keeps_potential
+	_death_keeps_skills = keeps_skills
+	_player_corpse_stays = corpse_stays
+	return self
+
+
+## This record with the autosave's least interval set (seconds; tests, PacePresets, and from_record()).
+func with_autosave(min_seconds: int) -> PacingDefinition:
+	_autosave_min_seconds = min_seconds
+	return self
 
 
 ## The decision layer's knobs (a snapshot; ES2's auto-fight when none were set).
@@ -412,6 +465,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false))
 	definition.with_combat(CombatPowerRules.from_record(reader), reader.boolean("combat_forecast", false), reader.boolean("es2_npc_values", true))
 	definition.with_decisions(CombatDecisionRules.from_record(reader))
+	definition.with_death(reader.integer("death_exp_percent", ES2_DEATH_EXP_PERCENT), reader.boolean("death_keeps_potential", false), reader.boolean("death_keeps_skills", false), reader.boolean("player_corpse_stays", false))
+	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -457,4 +512,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("bounty_refresh_seconds", "must not be negative")
 	if definition._day_length_minutes <= 0:
 		reader.fail("day_length_minutes", "must be positive")
+	if definition._death_exp_percent < 0 or definition._death_exp_percent > 100:
+		reader.fail("death_exp_percent", "must be 0 to 100")
+	if definition._autosave_min_seconds < 0:
+		reader.fail("autosave_min_seconds", "must not be negative")
 	return definition

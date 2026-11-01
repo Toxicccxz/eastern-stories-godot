@@ -128,11 +128,15 @@
 - 玩家昏迷：醒来的时间照 damage.c 抽，黑屏只躺 3 秒，其间世界时间加速走完。「积压问题的处理」
 
 **死亡与阴间**
-- 要杀玩家的敌人会补刀；死后有死亡惩罚，玩家变成鬼魂，在鬼门关走阴间回阳。「Player unconsciousness and death follow ES2」「鬼门关 A」
-- 尸体按世界时间腐烂（120 / 120 / 60 秒，最后东西散落），玩家自己的也一样。「尸体腐烂」
+- 要杀玩家的敌人会补刀；有人下杀手时死亡只扣实战经验的 3%（武功、学习进度、enable、未用潜能都不动；杀气清零、vendetta、thief 减半照 ES2），玩家变成鬼魂，在鬼门关走阴间回阳；经典 = killer_reward() 全价。「Player unconsciousness and death follow ES2」「鬼门关 A」「减轻死亡」
+- 死亡卡片有「继续」（走阴间）和「回到上次自动存档」（要确认，只给这个角色自己的自动存档，经典没有）。「减轻死亡」
+- 尸体按世界时间腐烂（120 / 120 / 60 秒，最后东西散落）；玩家自己的尸体有东西就不腐烂，等玩家回去取，取空后从头腐烂；经典照腐烂。「尸体腐烂」「减轻死亡」
 - 鬼魂看不见，阴阳眼（茅山道术）能看见。「乔阴 B」「鬼门关 B」
 
 **存档**
+- 三个手动位 + 一个自动位，文件 `slot-1-v1.json`…`slot-3-v1.json`、`auto-v1.json`，各有自己的 `.bak` / `.tmp`；列表只读摘要（`GameSaveSlotSummary`，角色、地点、时长、存档时间、目标），完整校验留到读档；「继续」读最新一份；覆盖和游戏中途读档要确认；老 `default-v1.json` 不读、不迁移、不删。「存档位」
+- 游戏中途读档走 A/B 事务：新世界站住才替换旧的，失败时原世界继续；死亡卡片的回到自动存档同一条路；存档按它自己的节奏校验，现代、经典互读都行。「存档位」
+- 自动存档：换图落地和打完一仗回到地图时，至少隔 `autosave_min_seconds`；判断和手动存档相同，再加「不是鬼魂」，不满足就跳过，不排队；主线程只取状态，校验和写盘在后台线程；提示一行，设置可关；auto 的 `.bak` 是列表里的「上一份自动存档」。「自动存档」
 - 开发版存档不保证兼容：不支持的文件拒绝，不删除；内容变动升 world revision，需要新游戏。「Pre-Cutover Development Save Compatibility」
 - 战斗中、动作没做完、玩家昏迷或死亡途中、被押送时不能存档；忙碌照样存。「Native saves require a restart-stable gameplay boundary」「Busy is saved, not waited on」「Player unconsciousness and death follow ES2」「乔阴 D」
 - 玩家的 set_temp() 标记、NPC 的记忆、地上的东西都存档；门的开关和房间计数器不存。「Save: the player's set_temp() flags」「乔阴 B」「Give, drop and put; shops and teachers on their NPCs」「Snow's inner rooms」
@@ -140,7 +144,7 @@
 - 召唤出来的观想虫、僵尸不存档。「茅山 C」「茅山 D」
 
 **界面与设置**
-- 菜单窗口：角色、武学、背包、任务、声望、百科、系统；系统页是真正的暂停。「菜单窗口」
+- 菜单窗口：角色、武学、背包、任务、声望、百科、系统；系统页是真正的暂停，上有存档、读档。「菜单窗口」「存档位」
 - 手柄、键盘、鼠标、触屏并存，按键图标跟当前输入方式。「手柄」
 - 左上状态卡（名字、菜单、精气神、状态、等待）；左下 toast 显示游戏自己的消息，6–14 秒后淡出。「The HUD: a status card and toasts」「说话和交互」
 - 任务页「江湖见闻」只记已发生的事和 NPC 说过的话；百科只收见过的。「任务日志与百科」
@@ -169,7 +173,7 @@
 - 门可以要钥匙：`key`（物品 id）的门带着那件才能打开，不带时说一句（`locked`，默认「某门锁着。」），开了不再关（`closable` 必须为假）。「逆灵宫 B」
 - 通用条件：`when` 有 `wearing`（穿戴着某件）、`any`／`all`（子条件任一／全部成立，heard 和 chat 不能作子条件）；act 分支有 `wears`；NPC 有 `ignores_when`（成立时见人就打的 NPC 把玩家当自己人：不喊、不等、不聚伙，打过它的照旧追杀）。「逆灵宫 A」
 - 新游戏开头盖一张 ES2 主题故事的卡片，继续才进世界。「开场卡片」
-- 设置：战斗速度、受击闪红、击倒后（询问 / 直接了结）、目标提示、界面缩放（地图上的字不缩放）、语言。「手感：战斗」「了结 / 放过」「新手链与当前目标」「说话和交互」「Localization: the source text is the key」
+- 设置：战斗速度、受击闪红、击倒后（询问 / 直接了结）、目标提示、自动存档提示、界面缩放（地图上的字不缩放）、语言。「手感：战斗」「了结 / 放过」「新手链与当前目标」「自动存档」「说话和交互」「Localization: the source text is the key」
 
 **节奏开关（经典模式）**：`common/pacing.json`，不写就是 ES2 原值；套件按经典值跑（`Es2Pacing`、`TestFeel`、`TestAway`、`TestAlert`）
 - `player_exp_gain` 3、`player_recovery_gain` 3、`quest_time_percent` 150、`npc_thirst` 10（经典 1 / 1 / 100 / 1）。「Pacing knobs and 卧龙岗's second」
@@ -181,11 +185,13 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
 - `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）。「手感」「手感：战斗」「战斗演出」「连续修炼」「固定俯视体素地图」
-- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的九个开关一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」
+- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的九个开关、死亡的四个开关和 `autosave_min_seconds` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」「减轻死亡」「自动存档」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
 - `player_turns`、`npc_telegraph`、`action_tag_bonus_percent` 15、`tag_counter_percent` 15、`stance_percent` 20、`stance_enforce_percent` 50、`perform_cooldown_rounds` 2（经典 关 / 关 / 0 / 0 / 0 / 0 / 0）。「战斗决策」
 - `npc_special_cooldown_rounds` 3、`recognise_after` 2（经典 0 / 0）。「战斗内容」
+- `death_exp_percent` 3、`death_keeps_potential` 开、`death_keeps_skills` 开、`player_corpse_stays` 开（经典 10 / 关 / 关 / 关）。「减轻死亡」
+- `autosave_min_seconds` 180（经典 0 = 没有自动存档）。「自动存档」
 - `sky_weather` 开（经典关：ES2 从不显示天色，永远晴）。「天气」
 - `story_parley` 开（经典关：老松寨见人就打，寨门机关必落）；`bury_always_rewards` 开（经典关：安葬按 random(kar + 10) 抽书，抽不中掉下瀑布）。「老松寨的三条路」「安葬必得书」
 
@@ -204,6 +210,40 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 存档位 (现代基线 A, owner 2026-10-31「按推荐批准」; 计划 `build/plans/现代基线_计划.md`)
+
+- **ES2：** 一个角色一份档案，随时 `save`，没有读档，也就谈不上存档位。
+- **改动前：** 一个固定位 `default-v1.json`，进主菜单完整校验这一份。
+- **我们：** 三个手动位 + 一个自动位（`GameSaveSnapshot.MANUAL_SLOT_IDS`、`AUTO_SLOT_ID`），数量不开放；每位自己的 `.bak` / `.tmp`，合同里的原子替换和显式恢复不变。系统页「存档」「读档」、主菜单「读取存档」共用一个列表（`SlotListPanel`），一行写角色、地点、时长、存档时间、目标，不做截图。「继续」读最新一份（`saved_at_utc`）；老 `default-v1.json` 不读、不迁移、不删。经典模式也有这三个位：这是界面，不是规则。
+- **列表只轻读：** 一份完整检查约 870 ms（编辑器版，2.2 MB，读、解码、全校验），有 `.bak` 时翻倍，四位最坏约 7 秒；读文件加 `JSON.parse` 约 45 ms。列表只看格式、版本、世界修订号和摘要（`GameSaveSlotSummary`），所以「能选」不保证能读，读失败走现有的类型化错误，能恢复的在主菜单恢复。进主菜单只完整检查最新那一份。
+- **新字段：** 根上可选 `played_seconds`、`objective`（源语言文本，显示时 `tr()`），有才写，老档读作空，不升版本。
+- **游戏中途读档：** 生产里第一次走 `request_load` 和 A/B 事务。修了两处：`PacePresets` 记住站在目录上的会话（旧会话 `_exit_tree` 曾把新会话的经典节奏还原掉）；被替换的会话当场移出 SessionSlot（否则新世界刚站住时槽里有两个）。A/B 期间两个世界同时在内存里（编辑器版一个约 700 MB，读一次约 6 秒，有「正在读取存档……」）。
+- **存档按自己的节奏校验：** 读档校验曾用目录当下的节奏（木人、NPC 的 `classic` 数值跟节奏走），经典存档在现代的主菜单上读不了（main 上就有的老问题，列表让它更显眼）。`OldPineWorldRestoreComposition` 现在用 `PacePresets.of_save()` 算出存档那个世界的 pacing，经 `ContentCatalog.spawns_under()` / `npc_under()` 查；不靠 `set_pacing`，这段也在后台线程跑。
+- **新游戏：** 手动位不动；确认框写明第一次自动存档会覆盖现在的自动存档。
+- **为什么：** 今天的玩家默认能回到前几分钟、能留几个分支；一个位又不能试错。
+
+## 自动存档 (现代基线 A, owner 2026-10-31「按推荐批准」; Q3 换图和打完一仗都算, 至少隔 3 分钟)
+
+- **ES2：** 没有（源码里没有 autosave），MUD 的角色只在 `save`、退出时写盘，也没有读档。
+- **我们（开关 `autosave_min_seconds` 180，不写和经典都是 0 = 关）：** 换图落地后和打完一仗、战斗面板收起时各是一次机会（`autosave_moment`），两次至少隔这么多秒。判断和手动存档同一个 `OldPineSaveEligibility.inspect()`，再加「不是鬼魂」（鬼魂能手动存，默认 D7，但自动位要永远是活人，否则回到自动存档回到的还是鬼魂）；不满足就跳过，不排队。读档后间隔从头算；新游戏的第一次机会就存。
+- **后台写：** 实测一次手动存档 2.3 秒，全在主线程（编辑器版，144 图、607 NPC、2.2 MB：取状态约 0.3、校验约 0.45 + 0.45、编码 0.24、写盘 0.003、读回解码 0.42），而换图黑屏只有 0.08–0.2 秒，藏不住。所以主线程只判断和取状态（实测 286 ms，换图时落在黑屏里，打完一仗时是一下顿挫），校验、编码、写盘、读回都放 `WorkerThreadPool`（1.27 秒，世界照跑，最长一帧 7.4 ms，文件和同步写逐字节相同）；原子替换和读回校验不变。读档、存档、列表、新游戏、回主菜单都先等它写完。
+- **提示：** 写完才弹「已自动存档」，设置「自动存档提示」可关；失败总是弹「自动存档失败」。
+- **`auto` 的 `.bak`** 就是上一份自动存档，列表多一行「上一份自动存档」走现有的显式恢复：自动存到险地（残血进门）时还能再退一步，不用加「残血不存」的规则。
+- **不做：** 战斗开始前存（那时敌人已察觉，资格判断本来就拒绝，顿一下也正好落在开场）；分帧取状态。
+- 自动存档只读世界，不抽随机流（套件钉三条流）。
+
+## 减轻死亡 (现代基线 A, owner 2026-10-31「按推荐批准」; Q1 经验 3%, Q2 东西留在尸体上等你回去取)
+
+- **ES2（combatd.c killer_reward()、skill.c skill_death_penalty()）：** 有人下杀手时实战经验 −10%，未用潜能减半，每门武功 −1 级（0 级失传）或学习进度清空，enable 全清，杀气清零；东西全在尸体上，尸体 300 秒后散落。今天的玩家读来就是一次死亡毁掉几小时的积累，只会读档或弃坑。
+- **我们（开关都在 `pacing.json`，不写和经典都是 ES2；`PlayerDeathRules._apply_killer_reward_penalty()` 的原式不动，读开关分支）：**
+  - `death_exp_percent` 3（经典 10）：模拟里 1001→2500 约每分钟 50 经验，2500 经验时掉 75，约 1.5 分钟（10% 约 5 分钟）；中后期没量。
+  - `death_keeps_potential`、`death_keeps_skills`（经典关）：未用潜能、武功、学习进度、enable 都不动。
+  - `player_corpse_stays`（经典关）：玩家自己的尸体有东西就不腐烂（`WorldMapCorpses.holds_for_player()`），取空后从头腐烂。卡片写「尸体不会腐烂，等你回去取」，回阳提示写尸体在哪。别人的尸体照 ES2。
+- **不变：** 阴间照走（内容）；杀气清零、vendetta 清除、thief 减半、债务一笔勾销（状态归零，不算损失）；没有凶手的死不罚。
+- **回到上次自动存档：** 卡片第二个按钮，要确认，写地点和多久之前；只给这一局的（按物品 ID 作用域比：每局新游戏随机生成、存档原样保留，重名的新角色也分得开；新游戏头几步自动位可能还是上一局的），经典没有；读失败留在卡片上，世界照旧。
+- **东西为什么留尸体上：** 跑尸有事可做，接上阴间这条线，任务物品也不会腐烂丢失。死在单程地图取不回时，回到自动存档兜底。
+- **为什么：** 魔兽世界式的鬼魂跑尸、魂类的可取回、博德之门的读档，共同点是不永久毁掉长期投入，代价是时间和一点可挽回的东西。
 
 ## 战斗内容 (战斗决策层 4, owner 2026-10-31「按推荐开工」; 计划 `build/plans/战斗决策层_计划.md`「包 4 内容」, Q1 勇气门照 ES2、那一抽提前并写「守势」, Q2 看 2 次认得、自家门派全认得、见识录在百科「武学」, Q3 四个原型 + 冷却 3 按推荐)
 

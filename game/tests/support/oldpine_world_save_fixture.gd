@@ -91,7 +91,7 @@ static func from_new_game(
 			"2026-08-31T12:34:56Z",
 			Values.OptionalText.none(),
 			&"test",
-			GameSaveSnapshot.FIXED_SLOT_ID,
+			GameSaveSnapshot.DEFAULT_SLOT_ID,
 		),
 		GameSaveSnapshot.SESSION_KIND_OLDPINE,
 		session.item_id_allocator().snapshot(),

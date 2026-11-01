@@ -11,6 +11,7 @@ enum Mode {
 	SETTINGS,
 	RECOVERY_CHOICE,
 	NEW_GAME_SETUP,
+	SLOT_LIST,
 	RESULT,
 }
 
@@ -22,12 +23,16 @@ enum Operation {
 	RECOVER,
 	SAVE,
 	END_SESSION,
+	## A Load in play: the save replaces the Session (DECISIONS「存档位」).
+	LOAD,
 }
 
 enum ResultOrigin {
 	NONE,
 	MAIN_MENU,
 	PAUSED,
+	## Over the world: the death card's 回到上次自动存档.
+	PLAYING,
 }
 
 enum SettingsOrigin {
@@ -73,9 +78,9 @@ func settings_origin() -> int:
 func is_valid() -> bool:
 	if _mode < Mode.BOOT or _mode > Mode.RESULT:
 		return false
-	if _operation < Operation.NONE or _operation > Operation.END_SESSION:
+	if _operation < Operation.NONE or _operation > Operation.LOAD:
 		return false
-	if _result_origin < ResultOrigin.NONE or _result_origin > ResultOrigin.PAUSED:
+	if _result_origin < ResultOrigin.NONE or _result_origin > ResultOrigin.PLAYING:
 		return false
 	if _settings_origin < SettingsOrigin.NONE or _settings_origin > SettingsOrigin.PAUSED:
 		return false
@@ -88,7 +93,7 @@ func is_valid() -> bool:
 			)
 		Mode.STARTING_SESSION:
 			return (
-				_operation in [Operation.NEW_GAME, Operation.CONTINUE, Operation.RECOVER, Operation.END_SESSION]
+				_operation in [Operation.NEW_GAME, Operation.CONTINUE, Operation.RECOVER, Operation.END_SESSION, Operation.LOAD]
 				and _result_origin == ResultOrigin.NONE
 				and _settings_origin == SettingsOrigin.NONE
 			)
@@ -98,7 +103,7 @@ func is_valid() -> bool:
 				and _result_origin == ResultOrigin.NONE
 				and _settings_origin == SettingsOrigin.NONE
 			)
-		Mode.SETTINGS:
+		Mode.SETTINGS, Mode.SLOT_LIST:
 			return (
 				_operation == Operation.NONE
 				and _result_origin == ResultOrigin.NONE
@@ -107,7 +112,7 @@ func is_valid() -> bool:
 		Mode.RESULT:
 			return (
 				_operation == Operation.NONE
-				and _result_origin in [ResultOrigin.MAIN_MENU, ResultOrigin.PAUSED]
+				and _result_origin in [ResultOrigin.MAIN_MENU, ResultOrigin.PAUSED, ResultOrigin.PLAYING]
 				and _settings_origin == SettingsOrigin.NONE
 			)
 		Mode.MAIN_MENU, Mode.PLAYING, Mode.PAUSED, Mode.RECOVERY_CHOICE, Mode.NEW_GAME_SETUP:
@@ -149,6 +154,11 @@ static func saving() -> ApplicationShellState:
 
 static func settings(origin: int) -> ApplicationShellState:
 	return ApplicationShellState.new(Mode.SETTINGS, Operation.NONE, ResultOrigin.NONE, origin)
+
+
+## The slot list, from the same two places as the settings (`origin`, a SettingsOrigin).
+static func slot_list(origin: int) -> ApplicationShellState:
+	return ApplicationShellState.new(Mode.SLOT_LIST, Operation.NONE, ResultOrigin.NONE, origin)
 
 
 static func recovery_choice() -> ApplicationShellState:

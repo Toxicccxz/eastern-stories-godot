@@ -8,7 +8,12 @@ const ValueTypes := preload("res://core/persistence/game_save_value_types.gd")
 const CURRENT_SCHEMA_VERSION: int = 4
 const FORMAT_ID: String = "eastern-stories-native-save"
 const SESSION_KIND_OLDPINE: StringName = &"oldpine"
-const FIXED_SLOT_ID: StringName = &"default-v1"
+## The slots (现代基线 A; DECISIONS「存档位」): three the player saves to, one the autosave rolls.
+const MANUAL_SLOT_IDS: Array[StringName] = [&"slot-1", &"slot-2", &"slot-3"]
+const AUTO_SLOT_ID: StringName = &"auto"
+const DEFAULT_SLOT_ID: StringName = &"slot-1"
+## The one fixed slot before them: old files name it, and nothing writes it any more.
+const LEGACY_SLOT_ID: StringName = &"default-v1"
 
 var _metadata: ValueTypes.GameSaveMetadata
 var _session_kind: StringName
@@ -33,6 +38,10 @@ var _day_seconds: int = DayClock.NEW_GAME_SECONDS
 ## The cloud (SkyState, DECISIONS「天气」): its level and the game minutes to its next change.
 var _sky_level: int = SkyState.NEW_GAME_LEVEL
 var _sky_minutes_left: int = SkyState.NEW_GAME_MINUTES
+## What the slot list shows (GameSaveSlotSummary): seconds played and the objective at the
+## save, in the source language. Written only when there is one.
+var _played_seconds: int = 0
+var _objective: String = ""
 ## Something worked out from exactly this content (the runtime's restore preparation after
 ## a check): kept for one taker, moved to an exact copy, dropped when the content changes.
 var _derived: RefCounted
@@ -83,6 +92,12 @@ var sky_level: int:
 var sky_minutes_left: int:
 	get:
 		return _sky_minutes_left
+var played_seconds: int:
+	get:
+		return _played_seconds
+var objective: String:
+	get:
+		return _objective
 ## Items lying on the floor away from their spawn markers (dropped).
 var floor_items: Array[ValueTypes.FloorItemSnapshot]:
 	get:
@@ -106,7 +121,7 @@ func _init(
 	p_world_content_revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1,
 ) -> void:
 	_metadata = (
-		ValueTypes.GameSaveMetadata.new(FORMAT_ID, CURRENT_SCHEMA_VERSION, "", ValueTypes.OptionalText.none(), &"development", FIXED_SLOT_ID)
+		ValueTypes.GameSaveMetadata.new(FORMAT_ID, CURRENT_SCHEMA_VERSION, "", ValueTypes.OptionalText.none(), &"development", DEFAULT_SLOT_ID)
 		if p_metadata == null else p_metadata.duplicate_snapshot()
 	)
 	_session_kind = p_session_kind
@@ -126,9 +141,14 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms).with_day_seconds(_day_seconds).with_sky(_sky_level, _sky_minutes_left)
+	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms).with_day_seconds(_day_seconds).with_sky(_sky_level, _sky_minutes_left).with_summary(_played_seconds, _objective)
 	copy._derived = take_derived()
 	return copy
+
+
+## Whether `slot_id` names a slot of the game's.
+static func is_slot_id(slot_id: StringName) -> bool:
+	return slot_id == AUTO_SLOT_ID or MANUAL_SLOT_IDS.has(slot_id)
 
 
 func keep_derived(value: RefCounted) -> void:
@@ -164,6 +184,13 @@ func with_sky(level: int, minutes_left: int) -> GameSaveSnapshot:
 	_derived = null
 	_sky_level = level
 	_sky_minutes_left = minutes_left
+	return self
+
+
+func with_summary(played_seconds_value: int, objective_text: String) -> GameSaveSnapshot:
+	_derived = null
+	_played_seconds = played_seconds_value
+	_objective = objective_text
 	return self
 
 

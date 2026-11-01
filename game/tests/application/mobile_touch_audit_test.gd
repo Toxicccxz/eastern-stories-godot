@@ -350,6 +350,7 @@ func _session_cycles(tree: SceneTree, shell: ApplicationShellController, touch: 
 	await _touch(tree, 71, point, false, true)
 	_check(saves[0] == 0 and not shell.save_button.is_pressed(), "cancelled Save never requests transaction or leaves pressed button")
 	await _tap(tree, shell.save_button)
+	await _tap(tree, shell.slot_panel.buttons()[0])
 	_check(saves[0] == 1 and shell.result_visible(), "fresh Save exactly one existing Host transaction")
 	await _back(tree)
 	await _repeat_sessions(tree, shell, touch, ledger, menu_clicks, touch_id, session)

@@ -21,6 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _raised_rotten(tree)
 	await _dies_away(tree)
 	await _knob_off(tree)
+	await _player_corpse_waits(tree)
 	TestAway.restore()
 	return {"assertions": _count, "failures": _failures}
 
@@ -180,6 +181,58 @@ func _dies_away(tree: SceneTree) -> void:
 	_check(lying == 0 and held.size() >= 2 and on_floor == held.size(), "400 s on, its bones scattered and what it held lies there (%d of %d)" % [on_floor, held.size()])
 	session.free()
 	await tree.process_frame
+
+
+## player_corpse_stays (DECISIONS「减轻死亡」): the player's own corpse does not age while it
+## holds anything, here or on a map away, and ages from nothing once it is empty; a save keeps
+## it; another's corpse rots beside it. Off (ES2) it rots as any other.
+func _player_corpse_waits(tree: SceneTree) -> void:
+	TestDeath.use()
+	var session: WorldSessionController = await _session(tree)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var other: CorpseState = _kill(session, T1)
+	var corpse: CorpseState = await _player_corpse(tree, session, map)
+	if corpse == null or other == null:
+		_check(false, "a corpse of the player's and another's lie here")
+		session.free()
+		TestDeath.restore()
+		return
+	_check(map.corpses.holds_for_player(corpse) and session.corpse_waits(corpse.corpse_item_instance_id), "the player's corpse waits for them")
+	_check(not map.corpses.holds_for_player(other), "another's does not")
+	_beats(session, 400)
+	_check(map.corpses.find_corpse(corpse.corpse_item_instance_id) != null and corpse.decay_stage == CorpseState.Stage.FRESH, "after 400 s it lies as it fell")
+	_check(map.corpses.find_corpse(other.corpse_item_instance_id) == null, "the other one is gone")
+	_check(map.corpses.age_ms(corpse) == 0, "it has no age to save")
+	var endpoint := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
+	map.corpses._empty_onto_floor(corpse)
+	_check(session.inventory_state().direct_children(endpoint).is_empty() and not map.corpses.holds_for_player(corpse), "emptied, it no longer waits")
+	_beats(session, 119)
+	_check(corpse.decay_stage == CorpseState.Stage.FRESH, "it ages from the moment it is empty, not from the death")
+	_beats(session, 1)
+	_check(corpse.decay_stage == CorpseState.Stage.ROTTEN, "and rots as any corpse")
+	_check(not session.corpse_waits(corpse.corpse_item_instance_id), "the notice no longer sends the player to it")
+	session.free()
+	await tree.process_frame
+	TestDeath.restore()
+	var plain: WorldSessionController = await _session(tree)
+	var plain_map: WorldMapController = plain.active_map() as WorldMapController
+	var es2: CorpseState = await _player_corpse(tree, plain, plain_map)
+	_check(es2 != null and not plain_map.corpses.holds_for_player(es2), "off (ES2): it does not wait")
+	_beats(plain, 300)
+	_check(es2 != null and plain_map.corpses.find_corpse(es2.corpse_item_instance_id) == null, "off (ES2): it scatters at 300 s")
+	plain.free()
+	await tree.process_frame
+
+
+## TEST-ONLY: a mortal wound: the player's corpse, as a death leaves it.
+func _player_corpse(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> CorpseState:
+	session.player_runtime().state.vitality.effective = -1
+	map.player_fall_below_zero()
+	await tree.physics_frame
+	for corpse: CorpseState in map.corpses.corpse_states():
+		if corpse.victim_character_id == session.player_runtime().character_id:
+			return corpse
+	return null
 
 
 ## corpse_rot_seconds 0: corpses stay as before.

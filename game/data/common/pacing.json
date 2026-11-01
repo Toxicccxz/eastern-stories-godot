@@ -49,6 +49,11 @@
 		"perform_cooldown_rounds": 2,
 		"npc_special_cooldown_rounds": 3,
 		"recognise_after": 2,
+		"death_exp_percent": 3,
+		"death_keeps_potential": true,
+		"death_keeps_skills": true,
+		"player_corpse_stays": true,
+		"autosave_min_seconds": 180,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

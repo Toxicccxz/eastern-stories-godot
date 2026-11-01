@@ -15,6 +15,8 @@ func capture(
 	storage_profile: StringName,
 	saved_at_utc: String,
 	build_commit: Values.OptionalText = null,
+	slot_id: StringName = GameSaveSnapshot.DEFAULT_SLOT_ID,
+	checked: bool = true,
 ) -> OldPineWorldCaptureResult:
 	_failure_path = ""
 	_failure_detail = ""
@@ -248,7 +250,7 @@ func capture(
 			saved_at_utc,
 			Values.OptionalText.none() if build_commit == null else build_commit,
 			storage_profile,
-			GameSaveSnapshot.FIXED_SLOT_ID,
+			slot_id,
 		),
 		GameSaveSnapshot.SESSION_KIND_OLDPINE,
 		session.item_id_allocator().snapshot(),
@@ -260,7 +262,10 @@ func capture(
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
 		session.world_content_revision(),
-	).with_floor_items(floor_snapshots).with_maze_notes(maze_notes).with_away_ms(session.away_owed_by_map()).with_day_seconds(session.day_clock().day_seconds()).with_sky(session.sky_state().level(), session.sky_state().minutes_left())
+	).with_floor_items(floor_snapshots).with_maze_notes(maze_notes).with_away_ms(session.away_owed_by_map()).with_day_seconds(session.day_clock().day_seconds()).with_sky(session.sky_state().level(), session.sky_state().minutes_left()).with_summary(session.played_seconds(), _objective(session.player_runtime().state))
+	# The autosave checks on its own thread (GameAutosave); the world goes on meanwhile.
+	if not checked:
+		return Result.success(snapshot)
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():
 		return Result.failure(
@@ -278,6 +283,13 @@ func capture(
 			complete_validation.detail,
 		)
 	return Result.success(snapshot)
+
+
+## The objective the slot list shows: the status card's 目标, whether its row is on or not.
+static func _objective(state: CharacterState) -> String:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var quest: String = StoryQuestLog.objective(state, catalog.story_quests())
+	return quest if not quest.is_empty() else JournalLog.objective(state, catalog.journal_chains())
 
 
 func _character_snapshot(

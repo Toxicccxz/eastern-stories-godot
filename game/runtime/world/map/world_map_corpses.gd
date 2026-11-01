@@ -212,7 +212,8 @@ func set_age(corpse_id: StringName, age: int) -> void:
 ## corpse_scatter_seconds; ES2's 120, 120 and 60; 0: it goes no further): each corpse here
 ## comes to the stage its age gives, one stage at a time. 腐烂的尸体, then 一具枯乾的骸骨 (no
 ## corpse any more: nothing raises or dissolves it), then a gust scatters it and what it held
-## falls where it lay. Its say() is heard by the player in its room on the player's map.
+## falls where it lay. Its say() is heard by the player in its room on the player's map. The
+## player's own corpse waits for them (holds_for_player()): it starts to age once it is empty.
 func advance_decay() -> void:
 	if session == null or not _map.is_map_initialized():
 		return
@@ -220,6 +221,9 @@ func advance_decay() -> void:
 	var stages: Array[int] = [pacing.corpse_rot_seconds, pacing.corpse_bones_seconds, pacing.corpse_scatter_seconds]
 	for corpse: CorpseState in _corpse_states.duplicate():
 		if _stuck.has(corpse.corpse_item_instance_id) or not corpse_is_live_in_world(corpse):
+			continue
+		if holds_for_player(corpse):
+			set_age(corpse.corpse_item_instance_id, 0)
 			continue
 		var due: int = CorpseDecayService.stage_for_age(age_ms(corpse), stages)
 		while corpse.decay_stage < due:
@@ -230,6 +234,16 @@ func advance_decay() -> void:
 			# Scattered: it is gone (its stage stays where it was).
 			if find_corpse(corpse.corpse_item_instance_id) == null:
 				break
+
+
+## pacing.json player_corpse_stays (DECISIONS「减轻死亡」): the player's own corpse, with
+## something still in it.
+func holds_for_player(corpse: CorpseState) -> bool:
+	return (
+		GameContent.catalog().pacing().player_corpse_stays
+		and _player != null and corpse.victim_character_id == _player.character_id
+		and not _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)).is_empty()
+	)
 
 
 func _decay(corpse: CorpseState, stage: int) -> bool:

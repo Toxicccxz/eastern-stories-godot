@@ -18,7 +18,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return GameSaveResult.failure(GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "metadata.schema_version")
 	if metadata.saved_at_utc.is_empty():
 		return _invalid("metadata.saved_at_utc", "timestamp is required metadata")
-	if metadata.slot_id != GameSaveSnapshot.FIXED_SLOT_ID:
+	if not GameSaveSnapshot.is_slot_id(metadata.slot_id) and metadata.slot_id != GameSaveSnapshot.LEGACY_SLOT_ID:
 		return _invalid("metadata.slot_id", "unsupported slot")
 	if metadata.storage_profile not in [&"development", &"release", &"test"]:
 		return _invalid("metadata.storage_profile", "unsupported storage profile")
@@ -30,6 +30,8 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("sky_level", "not a cloud level")
 	if not SkyState.is_valid_minutes_left(snapshot.sky_minutes_left):
 		return _invalid("sky_minutes_left", "not minutes to the next change")
+	if snapshot.played_seconds < 0:
+		return _invalid("played_seconds", "negative play time")
 	if snapshot.item_id_allocator == null or snapshot.item_id_allocator.scope.is_empty():
 		return _invalid("item_id_allocator.scope", "empty allocator scope")
 	var player: Values.PlayerRuntimeSnapshot = snapshot.player

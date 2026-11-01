@@ -2,7 +2,8 @@ class_name PlayerLifeOverlay
 extends CanvasLayer
 
 ## Shows the player's unconsciousness and the death card. Reads the session's
-## PlayerLifeFlow; the only thing it can do is go on from the card (继续: to 阴间). The
+## PlayerLifeFlow; it can go on from the card (继续: to 阴间) or, where the shell has an
+## autosave of this character, go back to it (回到上次自动存档; DECISIONS「减轻死亡」). The
 ## return to life (d/death's reincarnate()) is told as a short notice.
 ## Native (前两小时 A/B; DECISIONS「开场卡片」「新手链与当前目标」): the same card shows a
 ## text the game puts up (show_card(): the opening's theme story, 拜师) with 继续, world
@@ -23,6 +24,7 @@ var _dim: ColorRect
 var _panel: PanelContainer
 var _text: Label
 var _continue: Button
+var _to_autosave: Button
 var _last_phase: PlayerLifeFlow.Phase = PlayerLifeFlow.Phase.NONE
 var _notice: String = ""
 var _notice_remaining: float = 0.0
@@ -76,6 +78,13 @@ func _ready() -> void:
 	_continue.custom_minimum_size = Vector2(0, 44)
 	_continue.pressed.connect(go_on)
 	rows.add_child(_continue)
+	_to_autosave = Button.new()
+	_to_autosave.name = "ToAutosave"
+	_to_autosave.text = "回到上次自动存档"
+	_to_autosave.custom_minimum_size = Vector2(0, 44)
+	_to_autosave.pressed.connect(return_to_autosave)
+	_to_autosave.visible = false
+	rows.add_child(_to_autosave)
 	visible = false
 
 
@@ -101,11 +110,12 @@ func _process(delta: float) -> void:
 	var flow: PlayerLifeFlow = _session.player_life_flow()
 	if _reincarnations_told < 0:
 		_reincarnations_told = _session.reincarnations()
+	var death_card_up: bool = _last_phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE
 	var woke: bool = flow.phase == PlayerLifeFlow.Phase.NONE and _last_phase == PlayerLifeFlow.Phase.UNCONSCIOUS
 	var reincarnated: bool = _session.reincarnations() != _reincarnations_told
 	_reincarnations_told = _session.reincarnations()
 	if woke or reincarnated:
-		_notice = tr("慢慢地你终於又有了知觉....") if woke else tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")
+		_notice = tr("慢慢地你终於又有了知觉....") if woke else _revived_notice(flow)
 		_notice_remaining = REVIVED_NOTICE_SECONDS
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
@@ -130,6 +140,8 @@ func _process(delta: float) -> void:
 				# TRANSLATORS: unconsciousness; {wake} says when the player comes to.
 				_show(tr("你的眼前一黑，接著什麽也不知道了....\n\n{wake}").format({"wake": wake}), false, true)
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
+			if not death_card_up:
+				_to_autosave.visible = _shell_autosave() != null
 			_show(_death_text(flow), true, true)
 		_:
 			if _session.opening_card_due():
@@ -153,9 +165,13 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	_text.custom_minimum_size.x = DEATH_WIDTH
 	_panel.custom_minimum_size.x = DEATH_WIDTH + 20.0
 	_continue.visible = can_continue
+	if not can_continue:
+		_to_autosave.visible = false
+	# The shell's question over the card stands alone.
+	_panel.visible = _world_has_focus()
 	# Keys and pad answer 继续 with Enter / A (owner, gamepad support): the controls under
-	# the dim are out of reach.
-	if can_continue and blocking and is_inside_tree() and get_viewport().gui_get_focus_owner() != _continue:
+	# the dim are out of reach. The shell's question over the card keeps the keys.
+	if can_continue and blocking and is_inside_tree() and _world_has_focus() and get_viewport().gui_get_focus_owner() not in [_continue, _to_autosave]:
 		_continue.grab_focus()
 	_dim.color.a = 0.72 if blocking else 0.0
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
@@ -163,6 +179,7 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 
 ## The game's own card: wider, with 继续, world time held while it is up.
 func _show_card(value: String) -> void:
+	_to_autosave.visible = false
 	# The focus goes to 继续 once, as the card comes up: the pause panel over it keeps its own.
 	var first: bool = not _card_held
 	_show(value, true, first)
@@ -217,6 +234,8 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 		var corpse: StringName = flow.corpse_item_instance_id
 		if corpse.is_empty() or _session.inventory_state().is_registered(corpse):
 			lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+			if _session.corpse_waits(corpse):
+				lines.append(tr("尸体不会腐烂，等你回去取。"))
 		elif _session.corpse_scattered(corpse):
 			# The bones scattered (obj/corpse.c decay(3)): what it held lies there.
 			lines.append(tr("你的尸体已经化成骨灰，随身物品散落在：%s") % flow.corpse_place)
@@ -224,6 +243,38 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 			# The corpse is gone (化尸粉); the dead do not see how.
 			lines.append(tr("你的尸体已经不在了。"))
 	return "\n".join(lines).strip_edges()
+
+
+## Back at the temple; where the corpse waits, if it does (DECISIONS「减轻死亡」).
+func _revived_notice(flow: PlayerLifeFlow) -> String:
+	var lines: Array[String] = [tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")]
+	if not flow.corpse_place.is_empty() and _session.corpse_waits(flow.corpse_item_instance_id):
+		lines.append(tr("你的尸体和随身物品还在：%s") % flow.corpse_place)
+	return "\n".join(lines)
+
+
+## The shell the game runs under (GameMenu.HOST_GROUP), or null in a world of its own.
+func _shell() -> Node:
+	var host: Node = get_tree().get_first_node_in_group(GameMenu.HOST_GROUP) if is_inside_tree() else null
+	return host if host != null and host.has_method(&"request_return_to_autosave") else null
+
+
+func _world_has_focus() -> bool:
+	var shell: Node = _shell()
+	return shell == null or shell.world_has_focus()
+
+
+## The autosave the card can go back to, if any.
+func _shell_autosave() -> GameSaveSlotSummary:
+	var shell: Node = _shell()
+	return null if shell == null else shell.autosave_to_return_to()
+
+
+## 回到上次自动存档: the shell asks first, and loads it over this world.
+func return_to_autosave() -> void:
+	var shell: Node = _shell()
+	if shell != null:
+		shell.request_return_to_autosave()
 
 
 ## 继续: the card shown goes away (the next waits its turn), or the dead go on to 阴间.

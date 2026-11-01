@@ -33,7 +33,7 @@ func _settings() -> void:
 	_check(old.succeeded() and old.snapshot().day_night() == DayNightPreference.Value.FOLLOW and not old.snapshot().objective_hints(), "a version 6 file: 跟随游戏时间, the rest kept")
 	var written: ApplicationSettingsResult = repository.write(old.snapshot().with_day_night(DayNightPreference.Value.NIGHT))
 	var back: ApplicationSettingsResult = repository.load()
-	_check(written.succeeded() and back.succeeded() and back.snapshot().version() == 7 and back.snapshot().day_night() == DayNightPreference.Value.NIGHT, "written and read back: 一直夜晚")
+	_check(written.succeeded() and back.succeeded() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION and back.snapshot().day_night() == DayNightPreference.Value.NIGHT, "written and read back: 一直夜晚")
 	_check(files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8().contains("day_night=\"night\""), "stored")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=7\nwindow_mode=\"windowed\"\nlanguage=\"\"\nbattle_speed=\"fast\"\nhit_flash=false\nui_scale=125\nafter_knockout=\"finish\"\nobjective_hints=false\n".to_utf8_buffer()
 	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a version 7 file without it is refused")

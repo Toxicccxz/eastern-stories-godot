@@ -110,12 +110,25 @@ custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "新游戏"
 
-[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+[node name="ContinueRow" type="HBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+size_flags_horizontal = 3
 disabled = true
 text = "继续"
+
+[node name="LoadButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "读取存档"
 
 [node name="RecoveryButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -286,11 +299,23 @@ custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "继续游戏"
 
-[node name="SaveButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+[node name="SaveRow" type="HBoxContainer" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SaveButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "存档"
+
+[node name="PauseLoadButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "读档"
 
 [node name="PauseSettingsButton" type="Button" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -452,6 +477,12 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 48)
 layout_mode = 2
+
+[node name="AutosaveNoticeCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "自动存档提示"
 
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -618,11 +649,13 @@ centered = true
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]
-[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/RecoveryButton" to="." method="_on_recovery_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/MenuSettingsButton" to="." method="_on_menu_settings_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow/PauseLoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/PauseSettingsButton" to="." method="_on_pause_settings_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions/SettingsApplyButton" to="." method="_on_settings_apply_button_pressed"]

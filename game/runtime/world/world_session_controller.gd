@@ -94,6 +94,12 @@ var _player_resets: WorldRoomResets
 var _maps_by_room: Dictionary[String, Array] = {}
 ## The world clock and each map's time without the player (DECISIONS「别的地图时间补算」).
 var _away: WorldAwayTimes = WorldAwayTimes.new()
+## A moment the autosave may take (GameAutosave): a map change landed, or a fight is over and
+## its panel gone.
+signal autosave_moment
+var _fight_shown: bool = false
+## Real seconds this character has been played, menus included (not the pause).
+var _played_seconds: float = 0.0
 ## The time of day (DECISIONS「昼夜」), going on with the world clock; saved as day_seconds.
 var _day: DayClock = DayClock.new()
 ## The cloud (DECISIONS「天气」), going on with the world clock when the pacing's sky_weather
@@ -125,6 +131,7 @@ func _ready() -> void:
 	# (WorldCharacterBody2D.bind_player()); everything else is drawn where it is.
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_day = DayClock.new(GameContent.catalog().day_phases())
+	view_arriving.connect(_on_view_arrived)
 	if initialize_session():
 		shared_ui().configure(player_runtime())
 		shared_ui().initialize_supplies()
@@ -157,7 +164,25 @@ func liquid_collection() -> LiquidCollection:
 	return _liquids
 
 
+## Seconds played, in whole seconds (the slot list's 时长; saved as played_seconds).
+func played_seconds() -> int:
+	return int(_played_seconds)
+
+
+func _on_view_arrived(_map_id: StringName, arrived: bool, _door: bool) -> void:
+	if arrived:
+		autosave_moment.emit()
+
+
+func _note_fight_over() -> void:
+	var shown: bool = battle_panel_shown() or (_combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter())
+	if _fight_shown and not shown:
+		autosave_moment.emit()
+	_fight_shown = shown
+
+
 func _process(delta: float) -> void:
+	_note_fight_over()
 	# The engine's _process of the frame that activated a restored save is not world time: its
 	# delta is the loading frame's, and the player has not seen the world yet (DECISIONS「别的
 	# 地图时间补算」: the save's away_ms, day and recovery come back exactly; under load that
@@ -168,6 +193,7 @@ func _process(delta: float) -> void:
 		_activation_frame = -1
 		if engine_call:
 			return
+	_played_seconds += delta
 	if presentation_frozen():
 		_sync_ghost_sight()
 		advance_journal(delta)
@@ -487,6 +513,15 @@ func _door_neighbours(map_id: StringName) -> Array:
 
 func note_corpse_scattered(corpse_id: StringName) -> void:
 	_scattered_corpses[corpse_id] = true
+
+
+## The player's corpse `corpse_id` still lies somewhere, waiting for them (WorldMapCorpses.holds_for_player()).
+func corpse_waits(corpse_id: StringName) -> bool:
+	for map: WorldMapController in world_maps():
+		var corpse: CorpseState = map.corpses.find_corpse(corpse_id)
+		if corpse != null:
+			return map.corpses.holds_for_player(corpse)
+	return false
 
 
 func corpse_scattered(corpse_id: StringName) -> bool:
@@ -827,7 +862,7 @@ func _exit_tree() -> void:
 	if _session_swap_reparenting:
 		return
 	if _pacing_before != null:
-		PacePresets.restore(GameContent.catalog(), _pacing_before)
+		PacePresets.restore(GameContent.catalog(), _pacing_before, _source_pace)
 		_pacing_before = null
 	for map_id: StringName in _resident_maps.keys():
 		var value: Variant = _resident_maps.get(map_id)
@@ -1008,6 +1043,7 @@ func activate_restore_candidate() -> bool:
 	_away.restore(restored_away_ms())
 	if _restore_preparation != null:
 		_day.set_day_seconds(_restore_preparation.day_seconds)
+		_played_seconds = float(_restore_preparation.played_seconds)
 		_sky.set_state(_restore_preparation.sky_level, _restore_preparation.sky_minutes_left)
 	var world_map: WorldMapController = map as WorldMapController
 	if world_map != null:
@@ -2007,7 +2043,7 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 			_forgive_debts()
 			# A ghost leaves no corpse (chard.c make_corpse()): the card names none.
 			var place: String = "" if _player.state.ghost else place_name(location)
-			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place, lifecycle.corpse_item_instance_id)
+			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer, GameContent.catalog().pacing()), place, lifecycle.corpse_item_instance_id)
 
 
 ## The dead owe nothing (默认, DECISIONS 玉螺湖村 B): a catch's marks (meloner.c's

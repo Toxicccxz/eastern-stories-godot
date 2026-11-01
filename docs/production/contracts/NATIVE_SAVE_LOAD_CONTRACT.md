@@ -124,6 +124,9 @@ The following version-specific details are the current implementation snapshot d
 - 昼夜 (owner, 2026-10-27): the root's required `day_seconds` (0–86399, a decimal int64) is the time of day
   (DayClock) at the save, always written; Continue goes on from it. A time outside the day is rejected.
   Schema 3; a schema 2 file (without it) is unsupported.
+- 现代基线 A (owner, 2026-10-31): the optional root keys `played_seconds` (a decimal int64, above 0) and
+  `objective` (source-language text) are what a slot's row shows; a save without them shows none. No schema
+  or revision change.
 - 天气 (owner, 2026-10-27): the root's required `sky_level` (0–4) and `sky_minutes_left` (0–240, decimal
   int64s) are the cloud (SkyState) at the save and the game minutes to its next change, always written;
   Continue goes on from them (the next change's direction is drawn afresh). Schema 4; a schema 3 file
@@ -133,16 +136,28 @@ The following version-specific details are the current implementation snapshot d
 
 ## Repository and transaction guarantees
 
-- The runtime uses one fixed slot named `default-v1.json`. Release storage is
-  `user://save-data/release/default-v1.json`; development and isolated tests use separate profiles.
+- The runtime has three manual slots and one autosave slot: `slot-1-v1.json`, `slot-2-v1.json`,
+  `slot-3-v1.json`, `auto-v1.json`, each with its own `.bak` and `.tmp`. Release storage is
+  `user://save-data/release/`; development and isolated tests use separate profiles. The older
+  `default-v1.json` is neither read, migrated nor deleted (DECISIONS「存档位」).
 - Save encodes and validates a temporary file before replacing the canonical file. The previous canonical
   file is rotated to `.bak`; failed replacement attempts rollback when possible.
+- The slot list reads a file and parses its JSON, no more (`GameSaveSlotSummary`): format, schema, world
+  revision and what the row shows. A READY row is advice; only a Load validates. Continue uses the newest
+  READY slot by `saved_at_utc`, and the Shell fully inspects that one slot.
+- The autosave (DECISIONS「自动存档」) captures on the main thread under the same eligibility as Save and
+  never while the player is a ghost; validation, encoding, the temporary file, its read-back and the
+  replacement run on a worker, through the same repository guarantees. Save, Load, the slot list and the end
+  of a Session wait for it. An autosave that cannot run is skipped, not queued. The autosave's `.bak` is
+  offered as the previous autosave, an explicit recovery.
 - Load never silently selects `.bak` or `.tmp`. A valid recovery candidate is reported as
   `BACKUP_AVAILABLE`; the Application Shell presents explicit recovery choices through the Host.
 - A running Load is an A/B transaction. Candidate B is independently decoded, validated, composed,
   staged, activated, attached, and verified before Session A is destroyed. Failure preserves and resumes
   A. Success exposes exactly one playable B.
 - Startup Load is explicit. Failure is reported and is not disguised as a successful New Game.
+- A Load in play (the pause's list, the death card) is the same A/B transaction; the replaced Session leaves
+  the slot at once, and the catalog's pace follows the Session that remains (`PacePresets`).
 - Restore consumes zero gameplay RNG. The combat, NPC-initialization, and world-interaction streams resume
   from their exact saved seed/state pairs.
 
@@ -151,6 +166,6 @@ The following version-specific details are the current implementation snapshot d
 The production Runtime Host exposes typed Save/Load requests and owns the replaceable Session.
 The integrated [Application Shell](APPLICATION_SHELL_CONTRACT.md) supplies explicit New Game,
 Continue, Pause-menu Save and recovery choices; the [Mobile contract](MOBILE_APPLICATION_CONTRACT.md)
-adds lifecycle/input behavior without autosave. There is no implied cloud synchronization, encryption,
+adds lifecycle/input behavior without a save of its own. There is no implied cloud synchronization, encryption,
 store-signing or historical-save migration commitment. These current product consumers extend the
 original Phase 10B foundation; the current implementation changes are bounded by the P2A report above.

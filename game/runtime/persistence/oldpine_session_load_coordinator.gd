@@ -15,6 +15,27 @@ func operation_in_progress() -> bool:
 	return _operation_in_progress
 
 
+## The slot Save, Load and the recovery work on.
+func selected_slot() -> StringName:
+	return _repository.slot_id()
+
+
+func select_slot(slot_id: StringName) -> bool:
+	return not _operation_in_progress and _repository.select_slot(slot_id)
+
+
+func repository_for(slot_id: StringName) -> GameSaveRepository:
+	return _repository.for_slot(slot_id)
+
+
+## Each slot's row, the player's first and the autosave's last.
+func slot_summaries() -> Array[GameSaveSlotSummary]:
+	var summaries: Array[GameSaveSlotSummary] = []
+	for slot_id: StringName in GameSaveSnapshot.MANUAL_SLOT_IDS + [GameSaveSnapshot.AUTO_SLOT_ID]:
+		summaries.append(repository_for(slot_id).read_summary())
+	return summaries
+
+
 func inspect_slot() -> GameSaveSlotInspectionResult:
 	if not _begin_operation():
 		return GameSaveSlotInspectionResult.new(
@@ -40,6 +61,8 @@ func save_current(session: WorldSessionController) -> OldPineRuntimeSaveLoadResu
 				session,
 				_repository.storage_profile_id(),
 				timestamp,
+				null,
+				_repository.slot_id(),
 			)
 			if not captured.succeeded():
 				result = Result.failure(Result.Outcome.CAPTURE_FAILED)
@@ -144,6 +167,9 @@ func _restore_loaded(
 			return Result.failure(Result.Outcome.ROLLBACK_FAILED)
 		return Result.failure(Result.Outcome.ACTIVATION_FAILED)
 	if current != null:
+		# Out of the slot now: one Session stands in it, and its pace leaves the catalog to the new one's.
+		if current.get_parent() != null:
+			current.get_parent().remove_child(current)
 		current.queue_free()
 	var success := Result.success(candidate)
 	success.repository = loaded

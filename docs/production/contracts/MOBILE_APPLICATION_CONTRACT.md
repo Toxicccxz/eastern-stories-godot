@@ -122,7 +122,7 @@ clear the gate. Lifecycle never restarts, cancels, duplicates or changes the sou
 
 ## Manual saves and independent settings
 
-There is **no autosave**. Background/focus loss creates zero Save requests, eligibility
+A lifecycle event is no autosave moment (those are a map change and a fight's end, DECISIONS「自动存档」). Background/focus loss creates zero Save requests, eligibility
 checks, captures, writes, backup rotations, temporary files or retries. Only an already-
 requested Pause-menu Save may finish normally while interrupted; success/blocker/failure
 keeps its existing honest typed result, never optimistic or relabelled as an autosave.
