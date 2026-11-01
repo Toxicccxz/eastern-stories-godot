@@ -128,7 +128,8 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
 * **The 沙盘 follows the maps** (owner, 2026-11-01). The 地图 page shows every map as a baked
   miniature: any change to `tools/maps/layouts/`, `game/data/<region>/voxel/` or
   `game/data/common/atlas.json` reruns `python -m tools.maps.atlas.bake --godot <godot>` in the same
-  PR (about 2 minutes, windowed); the gate fails on a stale fingerprint. A new map gets a row in
+  PR (windowed; it reshoots only the regions that changed, and the land and roads only when a place
+  moved or changed shape or doors); the gate fails on a stale fingerprint. A new map gets a row in
   `atlas.json`, or folds into the nearest place.
 * **Voxel config** per map: `game/data/<region>/voxel/<map>.json` (map id without the region,
   e.g. `snow.inn_upstairs` → `snow/voxel/inn_upstairs.json`), named by the layout's

@@ -88,6 +88,22 @@ func _test_pictures() -> void:
 	var door: Vector2 = pictures.pin(&"snow.outdoor", "door:snow.inn")
 	_check(door != Vector2.INF and pictures.pin(&"snow.outdoor", "door:nowhere") == Vector2.INF, "a door's pin is in the bake")
 	_check(load(AtlasPictures.DIRECTORY + "arrow.png") != null, "the arrow is baked")
+	for file: String in ["land", "mist", "shade", "clouds"]:
+		_check(pictures.layer(file) != null, "the %s layer is baked" % file)
+	_check(pictures.roads.size() == 31, "a road for each pair of places an ordinary way joins: %d" % pictures.roads.size())
+	for road: AtlasPictures.Road in pictures.roads:
+		_check(catalog.atlas().cell(road.a) != null and catalog.atlas().cell(road.b) != null, "%s joins places" % road.file)
+		_check(pictures.layer(road.file) != null and road.line.size() >= 2, "%s has its layer and its line" % road.file)
+		if road.stub_a != Vector2.INF:
+			_check(pictures.layer(road.file + "_a") != null, "%s has its stub" % road.file)
+		var joined: bool = false
+		for portal: PortalDefinition in catalog.portals():
+			var ends: Array[StringName] = [catalog.atlas().home_of(catalog, portal.source_map_id), catalog.atlas().home_of(catalog, portal.destination_map_id)]
+			if ends.has(road.a) and ends.has(road.b) and MapAtlas.plain(catalog, portal):
+				joined = true
+		_check(joined, "%s stands for a real ordinary way: %s to %s" % [road.file, road.a, road.b])
+	_check(pictures.road_between(&"snow.outdoor", &"cloud.outdoor") != null and pictures.road_between(&"cloud.outdoor", &"snow.outdoor") != null, "either way round")
+	_check(pictures.road_between(&"snow.outdoor", &"green.maze") == null, "the 迷阵's hidden way has no road")
 
 
 func _test_knowing() -> void:
@@ -243,6 +259,20 @@ func _test_page(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not road.is_empty(), "a ？ stands on the 沙盘")
 	page._select(road)
 	_check(page._pins.is_empty(), "a ？ has no pins")
+	_check(page._road_layer.get_child_count() > 0 and page._road_layer.get_child(0).texture.resource_path.ends_with("_a.png") or page._road_layer.get_child(0).texture.resource_path.ends_with("_b.png"), "from a place reached only stubs lead off")
+	MapAtlas.note_visit(state, &"cloud.outdoor")
+	MapAtlas.point_to(state, &"cloud.outdoor")
+	page.fill(state, &"snow.outdoor", &"")
+	var whole_roads: int = 0
+	for sprite: Node in page._road_layer.get_children():
+		if not (sprite as Sprite2D).texture.resource_path.ends_with("_a.png") and not (sprite as Sprite2D).texture.resource_path.ends_with("_b.png"):
+			whole_roads += 1
+	_check(whole_roads == 1, "the road between two places reached shows whole: %d" % whole_roads)
+	_check(page._way_layer.get_child_count() >= 2 and not page._way.is_empty() and page._glows.size() >= 1, "the way to the 指路 lights up: %d" % page._way_layer.get_child_count())
+	page._process(1.0)
+	_check(page._glows[0].position != Vector2.ZERO, "the light runs along it")
+	MapAtlas.point_to(state, &"")
+	state.visited_maps.erase("cloud.outdoor")
 	hud.menu.close()
 	await tree.process_frame
 

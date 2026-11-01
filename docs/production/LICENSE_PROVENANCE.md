@@ -67,5 +67,5 @@ external pack files are included. Owner-provided visual references: Max Parata's
 [voxel interiors](https://maxparata.itch.io/voxelinterior). Imported art, when it comes, goes under
 `game/assets/` with its source recorded here.
 
-`game/assets/textures/atlas/` is the 地图 page's pictures: this project's own voxel maps rendered by
-`tools/maps/atlas/` (DECISIONS「总图」). No external material.
+`game/assets/textures/atlas/` is the 地图 page's pictures: this project's own voxel maps and generated
+voxel land rendered by `tools/maps/atlas/` (DECISIONS「总图」). No external material.
