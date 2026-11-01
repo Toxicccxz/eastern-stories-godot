@@ -18,6 +18,9 @@ var slot_id: StringName
 var state: State = State.EMPTY
 var recoverable: bool = false
 var display_name: String = ""
+## Which journey the save belongs to: the scope of its item IDs, drawn once at New Game and
+## kept by every save of that journey. A name does not tell two journeys apart.
+var run_id: StringName = &""
 var zone_id: StringName = &""
 var saved_at_utc: String = ""
 var played_seconds: int = 0
@@ -57,6 +60,9 @@ static func of_text(slot_id: StringName, text: String, current_public_only: bool
 	if typeof(identity) != TYPE_DICTIONARY or typeof(location) != TYPE_DICTIONARY or typeof(character) != TYPE_DICTIONARY:
 		return summary
 	summary.state = State.READY
+	var allocator: Variant = root.get("item_id_allocator")
+	if typeof(allocator) == TYPE_DICTIONARY:
+		summary.run_id = StringName(str(allocator.get("scope", "")))
 	summary.display_name = str(identity.get("display_name", ""))
 	summary.zone_id = StringName(str(location.get("zone_id", "")))
 	summary.saved_at_utc = str(metadata.get("saved_at_utc", ""))

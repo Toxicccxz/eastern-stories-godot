@@ -339,7 +339,7 @@ func _autosave_rolls(tree: SceneTree) -> void:
 
 
 ## The card offers the autosave of this character; asks; 取消 is back on the card; 读取 replaces
-## the dead world with the living one. Another character's autosave is not offered.
+## the dead world with the living one. Another journey's autosave is not offered.
 func _death_card_goes_back(tree: SceneTree) -> void:
 	var files: MemoryFiles = MemoryFiles.new()
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-death")
@@ -383,13 +383,14 @@ func _death_card_goes_back(tree: SceneTree) -> void:
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not tree.paused, "playing")
 	shell.free()
 	await _frames(tree)
-	# Another character's autosave lies in the slot.
+	# Another journey's autosave lies in the slot, under the very same name.
 	shell = await _shell(tree, files, profile)
-	await _new_game(tree, shell, CharacterState.PACE_MODERN, "林白")
+	await _new_game(tree, shell)
 	session = shell.runtime_host().current_session()
+	_check(shell.runtime_host().autosave_row().display_name == session.player_runtime().facts.display_name, "the slot holds a save of the same name")
 	overlay = _overlay(session)
 	await _die(tree, session)
-	_check(not _to_autosave(overlay).visible, "another character's autosave is not offered")
+	_check(not _to_autosave(overlay).visible, "another journey's autosave is not offered, whatever the name")
 	shell.free()
 	await _frames(tree)
 

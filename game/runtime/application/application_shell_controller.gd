@@ -919,13 +919,14 @@ func _ask_about_row(operation: int, message_key: StringName, row: GameSaveSlotSu
 
 
 ## The save the death card can go back to (DECISIONS「减轻死亡」): the autosave of this very
-## character, when the pace has one. A New Game's first steps may still find another's.
+## journey, when the pace has one. A New Game's first steps may still find another's, even
+## under the same name.
 func autosave_to_return_to() -> GameSaveSlotSummary:
 	var session: WorldSessionController = null if _host == null else _host.current_session()
 	if session == null or GameContent.catalog().pacing().autosave_min_seconds <= 0:
 		return null
 	var row: GameSaveSlotSummary = _host.autosave_row()
-	var mine: bool = row.state == GameSaveSlotSummary.State.READY and row.display_name == session.player_runtime().facts.display_name
+	var mine: bool = row.state == GameSaveSlotSummary.State.READY and row.run_id == session.item_id_allocator().scope
 	return row if mine else null
 
 
