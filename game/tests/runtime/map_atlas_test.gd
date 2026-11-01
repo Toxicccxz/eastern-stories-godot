@@ -1,0 +1,267 @@
+extends RefCounted
+
+## 总图 (现代基线 B; DECISIONS「总图」): atlas.json has every place once and every map belongs to
+## one; the 沙盘 agrees with the ways' compass; a new player knows only where they stand and
+## what an ordinary way off it leads to; hidden ways show nothing; marks come from the
+## definitions; 指路 keeps to walked roads, follows the player and folds up on arrival; the
+## page shows all this, the pad reaches every button, and the 经典 pace has no page.
+const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+
+var _count: int = 0
+var _failures: Array[String] = []
+
+
+func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	_test_table()
+	_test_compass()
+	_test_pictures()
+	_test_knowing()
+	_test_hidden_ways()
+	_test_marks()
+	_test_routes()
+	var session: WorldSessionController = Work.create_session(tree)
+	await tree.create_timer(0.5).timeout
+	await _test_page(tree, session)
+	await _test_waypoint_in_the_world(tree, session)
+	await _test_classic(tree, session)
+	session.free()
+	await tree.process_frame
+	return {"assertions": _count, "failures": _failures}
+
+
+func _player(visited: Array[String]) -> CharacterState:
+	var state := CharacterState.new()
+	for map_id: String in visited:
+		MapAtlas.note_visit(state, StringName(map_id))
+	return state
+
+
+func _test_table() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var table: AtlasTable = catalog.atlas()
+	_check(table.cells().size() == 34, "34 places: %d" % table.cells().size())
+	var spots: Dictionary[Vector2, bool] = {}
+	for cell: AtlasCell in table.cells():
+		_check(catalog.map(cell.map_id) != null, "%s is a map" % cell.map_id)
+		_check(not cell.name.is_empty() and not spots.has(cell.at), "%s has a name and a spot of its own" % cell.map_id)
+		spots[cell.at] = true
+	var orphans: Array[StringName] = []
+	for map: MapDefinition in catalog.maps():
+		if table.home_of(catalog, map.map_id).is_empty():
+			orphans.append(map.map_id)
+	_check(orphans.is_empty(), "every map belongs to a place: %s" % [orphans])
+	_check(table.home_of(catalog, &"snow.inn") == &"snow.outdoor", "the inn is in 雪亭镇")
+	var errors: Array[String] = []
+	AtlasTable.new().add(AtlasCell.from_record(ContentRecordReader.new({"map": "x", "name": "x", "x": 1}, "test", errors)))
+	_check(not errors.is_empty(), "a row without its place is refused")
+
+
+## A way written `north` goes to a place further north on the 沙盘, and so on.
+func _test_compass() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var table: AtlasTable = catalog.atlas()
+	var checked: int = 0
+	var words: Dictionary[String, Vector2] = {"north": Vector2.UP, "south": Vector2.DOWN, "east": Vector2.RIGHT, "west": Vector2.LEFT}
+	for portal: PortalDefinition in catalog.portals():
+		var from: AtlasCell = table.cell(portal.source_map_id)
+		var to: AtlasCell = table.cell(portal.destination_map_id)
+		if from == null or to == null or from == to or not MapAtlas.plain(catalog, portal):
+			continue
+		var gap: Vector2 = to.at - from.at
+		for word: String in words:
+			if portal.legacy_command.contains(word):
+				checked += 1
+				_check(gap.dot(words[word]) > 0.0, "%s from %s to %s: %s" % [word, from.map_id, to.map_id, gap])
+	_check(checked >= 40, "the ways between places were looked at: %d" % checked)
+
+
+func _test_pictures() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var pictures: AtlasPictures = AtlasPictures.read()
+	var plates: Array[StringName] = []
+	for cell: AtlasCell in catalog.atlas().cells():
+		if not pictures.has_picture(cell.map_id):
+			plates.append(cell.map_id)
+			continue
+		_check(pictures.texture(cell.map_id) != null, "%s has its picture" % cell.map_id)
+	_check(plates.size() == 4 and plates.has(&"chuenyu.main") and plates.has(&"city.main") and plates.has(&"death.realm") and plates.has(&"village.main"), "only the four without a voxel view are plates: %s" % [plates])
+	var door: Vector2 = pictures.pin(&"snow.outdoor", "door:snow.inn")
+	_check(door != Vector2.INF and pictures.pin(&"snow.outdoor", "door:nowhere") == Vector2.INF, "a door's pin is in the bake")
+	_check(load(AtlasPictures.DIRECTORY + "arrow.png") != null, "the arrow is baked")
+
+
+func _test_knowing() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var state: CharacterState = _player(["snow.outdoor"])
+	_check(MapAtlas.seen(catalog, state, &"snow.outdoor") == MapAtlas.Seen.REACHED, "the first place is reached")
+	_check(MapAtlas.seen(catalog, state, &"cloud.outdoor") == MapAtlas.Seen.ROAD, "a road leads to 绮云镇: a ？")
+	_check(MapAtlas.seen(catalog, state, &"guanbei.town") == MapAtlas.Seen.UNSEEN, "关北 is nothing yet")
+	_check(MapAtlas.seen(catalog, state, &"death.realm") == MapAtlas.Seen.UNSEEN, "阴间 is nothing while alive")
+	MapAtlas.note_visit(state, &"snow.inn")
+	MapAtlas.note_visit(state, &"snow.inn")
+	_check(state.visited_maps == ({"snow.outdoor": 1, "snow.inn": 2} as Dictionary[String, int]), "the first arrival counts, in order: %s" % [state.visited_maps])
+	state = _player(["snow.inn"])
+	_check(MapAtlas.seen(catalog, state, &"snow.outdoor") == MapAtlas.Seen.REACHED, "a room reaches its place")
+	state = _player(["death.realm"])
+	_check(MapAtlas.seen(catalog, state, &"death.realm") == MapAtlas.Seen.REACHED, "阴间 once there")
+
+
+## Every way a player has to find stays off the 沙盘 until it has been walked.
+func _test_hidden_ways() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var landmark_ways: int = 0
+	for map: MapDefinition in catalog.maps():
+		for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map.map_id):
+			for portal_id: StringName in landmark.portal_ids():
+				landmark_ways += 1
+				_check(not MapAtlas.plain(catalog, catalog.portal(portal_id)), "%s is hidden" % portal_id)
+	_check(landmark_ways >= 30, "landmark ways were looked at: %d" % landmark_ways)
+	var clued: int = 0
+	for portal: PortalDefinition in catalog.portals():
+		for door: DoorDefinition in catalog.doors_for_map(portal.source_map_id):
+			if not door.found_by.is_empty() and door.zone_ids().has(portal.source_zone_id) and door.zone_ids().has(portal.destination_zone_id):
+				clued += 1
+				_check(not MapAtlas.plain(catalog, portal), "%s waits behind its door's clue" % portal.portal_id)
+	_check(clued > 0, "a door a clue finds was looked at")
+	var state: CharacterState = _player(["canyon.clifftop"])
+	var known: Array[StringName] = MapAtlas.known_maps(catalog, state, &"canyon.pass")
+	_check(known.is_empty(), "铁链崖's 铁索 (a room command) shows no way down: %s" % [known])
+
+
+func _kinds(found: Array[MapAtlas.Mark]) -> Dictionary[StringName, Array]:
+	var result: Dictionary[StringName, Array] = {}
+	for mark: MapAtlas.Mark in found:
+		if not result.has(mark.kind):
+			result[mark.kind] = []
+		result[mark.kind].append(mark.who)
+	return result
+
+
+func _test_marks() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var state: CharacterState = _player(["snow.outdoor"])
+	var kinds: Dictionary[StringName, Array] = _kinds(MapAtlas.marks(catalog, state, &"snow.outdoor"))
+	_check(kinds.get(MapAtlas.BOUNTY, []).size() == 1, "雪亭镇's 悬赏榜: %s" % [kinds])
+	_check(kinds.get(MapAtlas.BANK, []).size() >= 1 and kinds.get(MapAtlas.HOCKSHOP, []).size() >= 1, "its 钱庄 and 当铺: %s" % [kinds])
+	_check(kinds.get(MapAtlas.SHOP, []).size() >= 3, "its shops: %s" % [kinds])
+	_check(kinds.get(MapAtlas.MASTER, []).size() >= 1, "its 武馆: %s" % [kinds])
+	var everywhere: Array[String] = []
+	for cell: AtlasCell in catalog.atlas().cells():
+		var all_maps := CharacterState.new()
+		for map_id: StringName in catalog.atlas().maps_of(catalog, cell.map_id):
+			MapAtlas.note_visit(all_maps, map_id)
+		for mark: MapAtlas.Mark in MapAtlas.marks(catalog, all_maps, cell.map_id):
+			_check(catalog.zone(mark.zone_id) != null, "%s stands in a room" % mark.who)
+			if mark.kind == MapAtlas.ERRAND:
+				everywhere.append(mark.who)
+	_check(everywhere.size() == 1, "one 差事 giver in the world, 朱鸿雪: %s" % [everywhere])
+	var refusing: int = 0
+	for npc: NpcDefinition in catalog.npcs():
+		var teaching: NpcTeaching = npc.teaching()
+		if teaching != null and teaching.apprentice != null and teaching.apprentice.kind == NpcTeaching.Kind.REFUSES and teaching.recognize_rules.is_empty():
+			refusing += 1
+			_check(not MapAtlas.takes_students(npc), "%s takes no one: no 师 mark" % npc.display_name)
+	_check(refusing > 0, "a master who refuses was looked at")
+
+
+func _test_routes() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var state: CharacterState = _player(["snow.outdoor"])
+	_check(not MapAtlas.can_walk(catalog, state, &"snow.outdoor", &"choyin.town"), "no walked road to 乔阴")
+	_check(MapAtlas.can_walk(catalog, state, &"snow.outdoor", &"snow.inn"), "a door on the street is one step, unwalked or not")
+	_check(WorldRoute.chain(catalog, &"snow.outdoor", &"choyin.town").size() > 0, "without `known` the chain still goes everywhere")
+	state = _player(["snow.outdoor", "cloud.outdoor"])
+	var steps: Array[WorldRoute.Step] = MapAtlas.route(catalog, state, &"cloud.outdoor", &"snow.outdoor")
+	_check(steps.size() == 1 and steps[0].from_map == &"cloud.outdoor", "walked roads join them: %d" % steps.size())
+	MapAtlas.point_to(state, &"snow.inn", &"snow.inn")
+	_check(MapAtlas.arrived(state, &"snow.inn", &"snow.inn") and not MapAtlas.arrived(state, &"snow.outdoor", &"snow.inn"), "arrival is on the map")
+	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, state)
+	_check(goal != null and goal.waypoint and goal.map_id == &"snow.inn", "指路 leads before any quest")
+	MapAtlas.point_to(state, &"")
+	_check(state.waypoint_map.is_empty() and state.waypoint_zone.is_empty() and MapAtlas.goal(catalog, state) == null, "taken back: nothing leads")
+	state.waypoint_map = &"gone.map"
+	_check(MapAtlas.goal(catalog, state) == null, "a map no longer in the game leads nowhere")
+	state.waypoint_map = &""
+
+
+func _test_page(tree: SceneTree, session: WorldSessionController) -> void:
+	var hud: SharedGameplayUI = session.shared_ui()
+	var state: CharacterState = session.player_runtime().state
+	_check(state.visited_maps.has(String(session.active_map_id())), "the player's first map is recorded")
+	hud.menu.present(GameMenu.Tab.MAP)
+	await tree.process_frame
+	await tree.process_frame
+	var page: MapPage = hud.map_page
+	_check(page.is_visible_in_tree(), "地图 shows")
+	var here: StringName = GameContent.catalog().atlas().home_of(GameContent.catalog(), session.active_map_id())
+	_check(page.cell_buttons.has(here) and tree.root.gui_get_focus_owner() == page.cell_buttons[here], "the focus starts on where the player stands")
+	_check(page.shown_text().contains("雪亭镇"), "its card: %s" % page.shown_text())
+	_check(hud.menu.window.size.x > GameMenu.WINDOW_SIZE.x, "地图 takes the screen: %s" % hud.menu.window.size)
+	for map_id: StringName in page.cell_buttons:
+		for property: StringName in [&"focus_neighbor_left", &"focus_neighbor_right", &"focus_neighbor_top", &"focus_neighbor_bottom"]:
+			var button: Button = page.cell_buttons[map_id]
+			_check(button.get_node_or_null(button.get(property)) != null, "%s's %s leads somewhere" % [map_id, property])
+	# Every place reached and every ？ by walking the neighbours, as a pad does.
+	var reached: Dictionary[Button, bool] = {page.cell_buttons[here]: true}
+	var frontier: Array[Button] = [page.cell_buttons[here]]
+	while not frontier.is_empty():
+		var button: Button = frontier.pop_back()
+		for property: StringName in [&"focus_neighbor_left", &"focus_neighbor_right", &"focus_neighbor_top", &"focus_neighbor_bottom"]:
+			var next: Button = button.get_node(button.get(property)) as Button
+			if not reached.has(next):
+				reached[next] = true
+				frontier.append(next)
+	_check(reached.size() == page.cell_buttons.size(), "the pad reaches every place: %d of %d" % [reached.size(), page.cell_buttons.size()])
+	page.cell_buttons[here].pressed.emit()
+	await tree.process_frame
+	_check(tree.root.gui_get_focus_owner() == page.row_buttons[0], "confirm goes to the card")
+	var row: Button = page.row_buttons[0]
+	_check(row.get_node(row.focus_neighbor_left) == page.cell_buttons[here], "left comes back")
+	hud.menu.close()
+	await tree.process_frame
+
+
+func _test_waypoint_in_the_world(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var hud: SharedGameplayUI = session.shared_ui()
+	var here: StringName = session.active_map_id()
+	hud.menu.present(GameMenu.Tab.MAP)
+	await tree.process_frame
+	var page: MapPage = hud.map_page
+	var way: PortalDefinition = GameContent.catalog().portals_for_map(here)[0]
+	page._point(way.destination_map_id, way.destination_zone_id, "there")
+	_check(state.waypoint_map == way.destination_map_id, "a line on the card sets 指路: %s" % state.waypoint_map)
+	_check(page.status.text.contains("there"), "and says so: %s" % page.status.text)
+	var unknown: StringName = &"choyin.guye"
+	page._point(unknown, &"", "far")
+	_check(state.waypoint_map == way.destination_map_id and not page.status.text.is_empty(), "no walked road: the 指路 stands, the page says so")
+	hud.menu.close()
+	await tree.process_frame
+	state.waypoint_map = here
+	state.waypoint_zone = &""
+	session.record_journal()
+	_check(state.waypoint_map.is_empty(), "standing there folds it up")
+
+
+func _test_classic(tree: SceneTree, session: WorldSessionController) -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	_check(pacing.map_page and not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).map_page, "现代 has the page, 经典 not")
+	pacing.with_map_page(false)
+	var hud: SharedGameplayUI = session.shared_ui()
+	var menu: GameMenu = hud.menu
+	menu.present(GameMenu.Tab.JOURNAL)
+	await tree.process_frame
+	_check(not menu.tab_buttons[GameMenu.Tab.MAP].visible, "no 地图 tab")
+	menu.step_tab(1)
+	_check(menu.current_tab() == GameMenu.Tab.STANDING, "Q/E step over it")
+	menu.show_tab(GameMenu.Tab.MAP)
+	_check(menu.current_tab() == GameMenu.Tab.STANDING, "nothing opens it")
+	pacing.with_map_page(true)
+	menu.close()
+	await tree.process_frame
+
+
+func _check(condition: bool, label: String) -> void:
+	_count += 1
+	if not condition:
+		_failures.append(label)

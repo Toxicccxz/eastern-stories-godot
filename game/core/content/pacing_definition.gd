@@ -82,6 +82,8 @@ extends RefCounted
 ##
 ## - stats_appear_when_used (现代基线 C; DECISIONS「数值用到才出现」): a number with a `when_*` in
 ##   stats_display.json shows only then. false (ES2, score.c lists all): every number shows.
+## - map_page (现代基线 B; DECISIONS「总图」): the menu has its 地图 page, and 指路 with it. false
+##   (ES2 has no map): no such page.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -141,6 +143,7 @@ var _death_keeps_skills: bool = false
 var _player_corpse_stays: bool = false
 var _autosave_min_seconds: int = 0
 var _stats_appear_when_used: bool = false
+var _map_page: bool = false
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -282,6 +285,9 @@ var autosave_min_seconds: int:
 var stats_appear_when_used: bool:
 	get:
 		return _stats_appear_when_used
+var map_page: bool:
+	get:
+		return _map_page
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -320,6 +326,7 @@ func copy() -> PacingDefinition:
 	record.with_death(_death_exp_percent, _death_keeps_potential, _death_keeps_skills, _player_corpse_stays)
 	record.with_autosave(_autosave_min_seconds)
 	record.with_stats_display(_stats_appear_when_used)
+	record.with_map_page(_map_page)
 	record.feel = feel
 	return record
 
@@ -342,6 +349,12 @@ func with_autosave(min_seconds: int) -> PacingDefinition:
 ## This record with the numbers appearing when used, or all shown (tests, PacePresets, and from_record()).
 func with_stats_display(appear_when_used: bool) -> PacingDefinition:
 	_stats_appear_when_used = appear_when_used
+	return self
+
+
+## This record with the 地图 page on or off (tests, PacePresets, and from_record()).
+func with_map_page(on: bool) -> PacingDefinition:
+	_map_page = on
 	return self
 
 
@@ -483,6 +496,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	definition.with_death(reader.integer("death_exp_percent", ES2_DEATH_EXP_PERCENT), reader.boolean("death_keeps_potential", false), reader.boolean("death_keeps_skills", false), reader.boolean("player_corpse_stays", false))
 	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
 	definition.with_stats_display(reader.boolean("stats_appear_when_used", false))
+	definition.with_map_page(reader.boolean("map_page", false))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

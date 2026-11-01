@@ -186,6 +186,14 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
             if "res://tests/" in text:
                 errors.append(f"production resource depends on tests: {path.relative_to(repository).as_posix()}")
 
+    if (repository / "tools/maps/atlas/bake.py").is_file():
+        sys.path.insert(0, str(repository))
+        from tools.maps.atlas.bake import check as check_atlas
+
+        problem = check_atlas()
+        if problem:
+            errors.append(problem)
+
     if require_git:
         try:
             tracked = _git_lines(repository, "ls-files")

@@ -16,6 +16,7 @@ msgstr ""
 msgid "东方故事"
 msgstr ""
 
+#. name
 #. snow.newcomer region
 #. snow.letter region
 #. snow.liu_anlu region
@@ -24,7 +25,7 @@ msgstr ""
 #. native.bounty region
 #. main.prologue region
 #. snow name
-#: scenes/application/application_shell.tscn data/common/journal.json data/story/prologue.json data/snow/world.json
+#: scenes/application/application_shell.tscn data/common/atlas.json data/common/journal.json data/story/prologue.json data/snow/world.json
 msgid "雪亭镇"
 msgstr ""
 
@@ -525,10 +526,11 @@ msgstr ""
 msgid "武"
 msgstr ""
 
+#. name
 #. canyon.bamboo title
 #. es2:d/canyon/bamboo/bamboo2 short
 #. es2:d/canyon/bamboo/bamboo3 short
-#: scenes/world/canyon/canyon_bamboo.tscn data/common/journal.json data/canyon/rooms.json
+#: scenes/world/canyon/canyon_bamboo.tscn data/common/atlas.json data/common/journal.json data/canyon/rooms.json
 msgid "竹林道"
 msgstr ""
 
@@ -755,10 +757,11 @@ msgstr ""
 msgid "北 · 乔阴县城"
 msgstr ""
 
+#. name
 #. guye.mountain title
 #. guye.mountain region
 #. guye name
-#: scenes/world/choyin/choyin_guye.tscn data/common/journal.json data/choyin/world.json data/choyin/voxel/town.json
+#: scenes/world/choyin/choyin_guye.tscn data/common/atlas.json data/common/journal.json data/choyin/world.json data/choyin/voxel/town.json
 msgid "姑射山"
 msgstr ""
 
@@ -1528,13 +1531,14 @@ msgstr ""
 msgid "卧龙岗南坡"
 msgstr ""
 
+#. name
 #. cloud.toll region
 #. cloud.li_shishi region
 #. cloud.chess region
 #. cloud.wangyou_grass region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/journal.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -1755,10 +1759,11 @@ msgstr ""
 msgid "黑店"
 msgstr ""
 
+#. name
 #. es2:d/goathill/cavern1 short
 #. es2:d/goathill/cavern2 short
 #. es2:d/goathill/cavern4 short
-#: scenes/world/goathill/goathill_caverns.tscn data/goathill/rooms.json
+#: scenes/world/goathill/goathill_caverns.tscn data/common/atlas.json data/goathill/rooms.json
 msgid "岩洞"
 msgstr ""
 
@@ -1827,6 +1832,7 @@ msgstr ""
 msgid "黑暗山洞"
 msgstr ""
 
+#. name
 #. green.maze title
 #. es2:d/green/eight0 short
 #. es2:d/green/eight1 short
@@ -1836,7 +1842,7 @@ msgstr ""
 #. es2:d/green/eight5 short
 #. es2:d/green/eight6 short
 #. es2:d/green/eight7 short
-#: scenes/world/green/green_maze.tscn data/common/journal.json data/green/rooms.json
+#: scenes/world/green/green_maze.tscn data/common/atlas.json data/common/journal.json data/green/rooms.json
 msgid "迷阵"
 msgstr ""
 
@@ -2054,8 +2060,9 @@ msgstr ""
 msgid "西 · 土方 · 工地"
 msgstr ""
 
+#. name
 #. native:guanbei/camp short
-#: scenes/world/guanbei/guanbei_camp.tscn data/guanbei/rooms.json
+#: scenes/world/guanbei/guanbei_camp.tscn data/common/atlas.json data/guanbei/rooms.json
 msgid "帐篷营地"
 msgstr ""
 
@@ -2076,8 +2083,9 @@ msgstr ""
 msgid "篝火 · 等到天黑"
 msgstr ""
 
+#. name
 #. native:guanbei/gate_road short
-#: scenes/world/guanbei/guanbei_gorge.tscn data/guanbei/rooms.json
+#: scenes/world/guanbei/guanbei_gorge.tscn data/common/atlas.json data/guanbei/rooms.json
 msgid "关外山道"
 msgstr ""
 
@@ -2113,8 +2121,9 @@ msgstr ""
 msgid "酒肆后屋"
 msgstr ""
 
+#. name
 #. native:guanbei/market short
-#: scenes/world/guanbei/guanbei_market.tscn data/guanbei/rooms.json
+#: scenes/world/guanbei/guanbei_market.tscn data/common/atlas.json data/guanbei/rooms.json
 msgid "马市"
 msgstr ""
 
@@ -2551,8 +2560,9 @@ msgstr ""
 msgid "缀芳阁 · 静修"
 msgstr ""
 
+#. name
 #. native:niling/cliff_path short
-#: scenes/world/niling/niling_backhill.tscn data/niling/rooms.json
+#: scenes/world/niling/niling_backhill.tscn data/common/atlas.json data/niling/rooms.json
 msgid "后山崖径"
 msgstr ""
 
@@ -2637,8 +2647,9 @@ msgstr ""
 msgid "后殿"
 msgstr ""
 
+#. name
 #. native:niling/winch short
-#: scenes/world/niling/niling_slope.tscn data/niling/rooms.json
+#: scenes/world/niling/niling_slope.tscn data/common/atlas.json data/niling/rooms.json
 msgid "裂口顶"
 msgstr ""
 
@@ -2926,12 +2937,13 @@ msgstr ""
 msgid "东 · 乔阴县城"
 msgstr ""
 
+#. name
 #. family.sanyen name
 #. common.npc.bonze.master family.name
 #. cloud.npc.monk inquiry topic
 #. cloud.npc.monk_guard inquiry topic
 #. sanyen name
-#: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
 msgid "山烟寺"
 msgstr ""
 
@@ -3072,7 +3084,8 @@ msgstr ""
 msgid "谷物加工厂"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn data/snow/voxel/outdoor.json
+#. one-word mark on the 地图 page: a pawn shop.
+#: scenes/world/snow/snow_outdoor.tscn ui/world/map_page.gd data/snow/voxel/outdoor.json
 msgid "当"
 msgstr ""
 
@@ -3267,7 +3280,8 @@ msgstr ""
 msgid "灵心观前"
 msgstr ""
 
-#: scenes/world/temple/temple_mountain.tscn data/temple/voxel/grounds.json data/temple/voxel/mountain.json
+#. name
+#: scenes/world/temple/temple_mountain.tscn data/common/atlas.json data/temple/voxel/grounds.json data/temple/voxel/mountain.json
 msgid "灵心观"
 msgstr ""
 
@@ -3433,11 +3447,12 @@ msgstr ""
 msgid "东 · 雪亭镇"
 msgstr ""
 
+#. name
 #. common.npc.swordsman.master inquiry topic
 #. common.npc.fighter.champion inquiry topic
 #. main.chapter2 region
 #. waterfog name
-#: scenes/world/waterfog/waterfog_mountain.tscn data/common/npcs.json data/story/chapter2.json data/waterfog/world.json data/waterfog/voxel/mountain.json
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/waterfog/world.json data/waterfog/voxel/mountain.json
 msgid "水烟阁"
 msgstr ""
 
@@ -7640,7 +7655,7 @@ msgstr ""
 msgid "破绽：{tag}"
 msgstr ""
 
-#: presentation/codex/codex_content.gd
+#: presentation/codex/codex_content.gd ui/world/map_page.gd
 msgid "？"
 msgstr ""
 
@@ -7689,7 +7704,7 @@ msgstr ""
 msgid "菜单"
 msgstr ""
 
-#. the quest marker's label in the voxel view (任务系统): where the tracked quest leads.
+#. the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
 #: presentation/layout/shared_gameplay_layout.gd presentation/voxel/world_voxel_view.gd
 msgid "目标"
 msgstr ""
@@ -7735,6 +7750,11 @@ msgstr ""
 
 #: presentation/voxel/props/voxel_trade_props.gd
 msgid "小"
+msgstr ""
+
+#. the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
+#: presentation/voxel/world_voxel_view.gd
+msgid "指路"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -8669,6 +8689,11 @@ msgstr ""
 msgid "遁 could not reach %s from %s"
 msgstr ""
 
+#. the world's marker reached the place the player chose on the 地图 page.
+#: runtime/world/world_session_controller.gd
+msgid "到了，指路收起。"
+msgstr ""
+
 #: ui/bank/bank_exchange_panel.gd
 msgid "支付货币"
 msgstr ""
@@ -9245,6 +9270,11 @@ msgstr ""
 msgid "角色"
 msgstr ""
 
+#. guanbei.side_hall.landmark.map name
+#: ui/world/game_menu.gd data/guanbei/world.json
+msgid "地图"
+msgstr ""
+
 #: ui/world/game_menu.gd
 msgid "声望"
 msgstr ""
@@ -9324,6 +9354,103 @@ msgstr ""
 #. a quest on the 任务 page: {title} its name, {region} where it happens.
 #: ui/world/journal_stories.gd ui/world/quest_page.gd
 msgid "{title} · {region}"
+msgstr ""
+
+#. the 地图 page's card for a place a road leads to that the player has not reached.
+#: ui/world/map_page.gd
+msgid "这条路通向哪里，走了才知道。"
+msgstr ""
+
+#. the 地图 page's card: the combat experience the place is meant for.
+#: ui/world/map_page.gd
+msgid "适合经验 {exp} 上下"
+msgstr ""
+
+#. the 地图 page's card: takes back the 指路 the player set.
+#: ui/world/map_page.gd
+msgid "取消指路"
+msgstr ""
+
+#. the 地图 page's card: shows the way to this place.
+#: ui/world/map_page.gd
+msgid "指路到这里"
+msgstr ""
+
+#. a line on the 地图 page's card: {word} the mark, {who} the person, {place} the room they are in.
+#: ui/world/map_page.gd
+msgid "{word}  {who} · {place}"
+msgstr ""
+
+#. the 地图 page's card: {count} buildings or places here the player has not been in.
+#: ui/world/map_page.gd
+msgid "还有 {count} 处没进去过"
+msgstr ""
+
+#. the 地图 page's card: {objective} the tracked quest's next step.
+#: ui/world/map_page.gd
+msgid "目标  {objective}"
+msgstr ""
+
+#. 指路 to where the player already stands.
+#: ui/world/map_page.gd
+msgid "你就在这里。"
+msgstr ""
+
+#. 指路 to a place the roads the player has walked do not join to where they stand.
+#: ui/world/map_page.gd
+msgid "从这里认不得路。"
+msgstr ""
+
+#. 指路 set: {place} where the marker in the world now leads.
+#: ui/world/map_page.gd
+msgid "已指路：{place}"
+msgstr ""
+
+#. 指路 taken back.
+#: ui/world/map_page.gd
+msgid "已取消指路。"
+msgstr ""
+
+#. one-word mark on the 地图 page: the tracked quest's place.
+#: ui/world/map_page.gd
+msgid "标"
+msgstr ""
+
+#. one-word mark on the 地图 page: someone who teaches.
+#: ui/world/map_page.gd
+msgid "师"
+msgstr ""
+
+#. one-word mark on the 地图 page: someone who sells.
+#: ui/world/map_page.gd
+msgid "店"
+msgstr ""
+
+#. one-word mark on the 地图 page: a bank.
+#. es2:obj/money/coin name
+#. choyin.npc.yamen_po inquiry topic
+#: ui/world/map_page.gd data/common/items.json data/choyin/npcs.json
+msgid "钱"
+msgstr ""
+
+#. one-word mark on the 地图 page: the bounty board.
+#: ui/world/map_page.gd
+msgid "榜"
+msgstr ""
+
+#. one-word mark on the 地图 page: someone who gives errands.
+#: ui/world/map_page.gd
+msgid "差"
+msgstr ""
+
+#. the 地图 page's button: the whole 沙盘, or back close to the chosen place.
+#: ui/world/map_page.gd
+msgid "近看"
+msgstr ""
+
+#. the 地图 page's button: the whole 沙盘, or back close to the chosen place.
+#: ui/world/map_page.gd
+msgid "全图"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -10605,12 +10732,6 @@ msgstr ""
 #. desc_msg
 #: data/common/day_phases.json
 msgid "夜幕低垂，满天繁星"
-msgstr ""
-
-#. es2:obj/money/coin name
-#. choyin.npc.yamen_po inquiry topic
-#: data/common/items.json data/choyin/npcs.json
-msgid "钱"
 msgstr ""
 
 #. es2:obj/money/coin long
@@ -13166,6 +13287,187 @@ msgstr ""
 msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
 msgstr ""
 
+#. name
+#. main.chapter3 region
+#. goathill name
+#: data/common/atlas.json data/story/chapter3.json data/goathill/world.json
+msgid "野羊山"
+msgstr ""
+
+#. name
+#. temple name
+#: data/common/atlas.json data/temple/world.json
+msgid "茅山"
+msgstr ""
+
+#. name
+#. green.jade region
+#. green.maze region
+#. green name
+#: data/common/atlas.json data/common/journal.json data/green/world.json
+msgid "青石村"
+msgstr ""
+
+#. name
+#: data/common/atlas.json
+msgid "青石山路"
+msgstr ""
+
+#. name
+#. oldpine.skeleton region
+#. oldpine.knife_marks region
+#. main.chapter1 region
+#. oldpine name
+#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/oldpine/world.json
+msgid "老松岭"
+msgstr ""
+
+#. name
+#: data/common/atlas.json
+msgid "铁链崖"
+msgstr ""
+
+#. name
+#. family.latemoon name
+#. common.npc.dancer.master family.name
+#. latemoon.funlin region
+#. latemoon.dances region
+#. latemoon.old_woman region
+#. latemoon.secret_letter region
+#. main.chapter4 region
+#. cloud.npc.lm_guard inquiry topic
+#. latemoon.npc.yumay family.name
+#. latemoon.npc.funlin family.name
+#. latemoon.npc.zauron family.name
+#. latemoon.npc.room.fochin family.name
+#. latemoon.npc.room.spring2 family.name
+#. latemoon.npc.room.yushou family.name
+#. latemoon.npc.room.old family.name
+#. latemoon.npc.room.spring1 family.name
+#. latemoon.npc.room.elon family.name
+#. latemoon.npc.room.eton family.name
+#. latemoon.npc.shaowei family.name
+#. latemoon.npc.park.shiren family.name
+#. latemoon.npc.park.maysan family.name
+#. latemoon.npc.upstar.shinfun family.name
+#. latemoon.npc.upstar.huei family.name
+#. latemoon name
+#: data/common/atlas.json data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
+msgid "晚月庄"
+msgstr ""
+
+#. name
+#: data/common/atlas.json
+msgid "晚月山路"
+msgstr ""
+
+#. name
+#. sunhill name
+#: data/common/atlas.json data/sanyen/world.json
+msgid "日照山"
+msgstr ""
+
+#. name
+#. choyin.peach_chest region
+#. choyin.silk_bag region
+#. choyin.windspring region
+#. choyin.taolin region
+#. main.chapter5 region
+#. choyin name
+#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/choyin/world.json data/sanyen/voxel/mountain.json
+msgid "乔阴县城"
+msgstr ""
+
+#. name
+#. choyin.yam region
+#. choyin.hermit_books region
+#. choyin_east name
+#: data/common/atlas.json data/common/journal.json data/choyin/world.json
+msgid "乔阴东郊"
+msgstr ""
+
+#. name
+#. canyon.camp region
+#. canyon.seal region
+#. canyon.bamboo region
+#. canyon name
+#: data/common/atlas.json data/common/journal.json data/canyon/world.json
+msgid "天驼关"
+msgstr ""
+
+#. name
+#. village.melon region
+#. village.lake region
+#. village name
+#: data/common/atlas.json data/common/journal.json data/village/world.json
+msgid "玉螺湖村"
+msgstr ""
+
+#. name
+#. city.tavern region
+#. city.shangshu region
+#. city.token region
+#. city name
+#: data/common/atlas.json data/common/journal.json data/city/world.json
+msgid "京师"
+msgstr ""
+
+#. name
+#. chuenyu.xiaojuan region
+#. chuenyu name
+#. native.npc.shitou inquiry topic
+#: data/common/atlas.json data/common/journal.json data/chuenyu/world.json data/niling/npcs.json
+msgid "黑松山"
+msgstr ""
+
+#. name
+#: data/common/atlas.json
+msgid "槐阳城"
+msgstr ""
+
+#. name
+#. native.npc.herdsman inquiry topic
+#: data/common/atlas.json data/guanbei/npcs.json
+msgid "草原"
+msgstr ""
+
+#. name
+#. native.npc.camel_driver inquiry topic
+#. native.npc.guanbei_smith inquiry topic
+#. native.npc.balang inquiry topic
+#. native.npc.herdsman inquiry topic
+#. native.npc.hu_sanniang inquiry topic
+#. native.npc.qin_popo inquiry topic
+#. native.npc.qin_xiaoliu inquiry topic
+#. native.npc.lao_qin inquiry topic
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.guo_cheng inquiry topic
+#. native.npc.palace_soldier inquiry topic
+#. native.npc.nan_weishui_guest inquiry topic
+#. native.npc.lu_sun inquiry topic
+#. native.npc.pei_zhao inquiry topic
+#. native.npc.site_officer inquiry topic
+#. native.npc.site_corvee inquiry topic
+#. native.npc.shepherd inquiry topic
+#. native.npc.camp_family inquiry topic
+#. native.npc.freed_corvee inquiry topic
+#: data/common/atlas.json data/guanbei/npcs.json
+msgid "工地"
+msgstr ""
+
+#. name
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.lu_sun inquiry topic
+#: data/common/atlas.json data/guanbei/npcs.json
+msgid "古冢"
+msgstr ""
+
+#. name
+#. death name
+#: data/common/atlas.json data/death/world.json
+msgid "阴间"
+msgstr ""
+
 #. family.fonxan name
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
@@ -13218,34 +13520,6 @@ msgstr ""
 #. city.npc.shangshu.gardener inquiry topic
 #: data/common/families.json data/common/npcs.json data/temple/npcs.json data/city/npcs.json
 msgid "茅山派"
-msgstr ""
-
-#. family.latemoon name
-#. common.npc.dancer.master family.name
-#. latemoon.funlin region
-#. latemoon.dances region
-#. latemoon.old_woman region
-#. latemoon.secret_letter region
-#. main.chapter4 region
-#. cloud.npc.lm_guard inquiry topic
-#. latemoon.npc.yumay family.name
-#. latemoon.npc.funlin family.name
-#. latemoon.npc.zauron family.name
-#. latemoon.npc.room.fochin family.name
-#. latemoon.npc.room.spring2 family.name
-#. latemoon.npc.room.yushou family.name
-#. latemoon.npc.room.old family.name
-#. latemoon.npc.room.spring1 family.name
-#. latemoon.npc.room.elon family.name
-#. latemoon.npc.room.eton family.name
-#. latemoon.npc.shaowei family.name
-#. latemoon.npc.park.shiren family.name
-#. latemoon.npc.park.maysan family.name
-#. latemoon.npc.upstar.shinfun family.name
-#. latemoon.npc.upstar.huei family.name
-#. latemoon name
-#: data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
-msgid "晚月庄"
 msgstr ""
 
 #. family.xiaoyao name
@@ -15114,13 +15388,6 @@ msgstr ""
 msgid "玉佩"
 msgstr ""
 
-#. green.jade region
-#. green.maze region
-#. green name
-#: data/common/journal.json data/green/world.json
-msgid "青石村"
-msgstr ""
-
 #. green.jade/elder text
 #: data/common/journal.json
 msgid "你向青石村的村长打听玉佩。"
@@ -15164,14 +15431,6 @@ msgstr ""
 #. oldpine.skeleton title
 #: data/common/journal.json
 msgid "山洞里的骸骨"
-msgstr ""
-
-#. oldpine.skeleton region
-#. oldpine.knife_marks region
-#. main.chapter1 region
-#. oldpine name
-#: data/common/journal.json data/story/chapter1.json data/oldpine/world.json
-msgid "老松岭"
 msgstr ""
 
 #. oldpine.skeleton/buried text
@@ -15373,13 +15632,6 @@ msgstr ""
 msgid "山药蛋"
 msgstr ""
 
-#. choyin.yam region
-#. choyin.hermit_books region
-#. choyin_east name
-#: data/common/journal.json data/choyin/world.json
-msgid "乔阴东郊"
-msgstr ""
-
 #. choyin.yam/yam text
 #: data/common/journal.json
 msgid "你在青石峪遇见一位采药老者，他心疼你饿得面黄肌瘦，从小布包里拿出个山药蛋塞到你手里。"
@@ -15399,16 +15651,6 @@ msgstr ""
 #. es2:d/choyin/obj/chest name
 #: data/common/journal.json data/choyin/items.json
 msgid "桃木箱"
-msgstr ""
-
-#. choyin.peach_chest region
-#. choyin.silk_bag region
-#. choyin.windspring region
-#. choyin.taolin region
-#. main.chapter5 region
-#. choyin name
-#: data/common/journal.json data/story/chapter5.json data/choyin/world.json data/sanyen/voxel/mountain.json
-msgid "乔阴县城"
 msgstr ""
 
 #. choyin.peach_chest/rumors text
@@ -15484,14 +15726,6 @@ msgstr ""
 #. canyon.camp title
 #: data/common/journal.json
 msgid "军营"
-msgstr ""
-
-#. canyon.camp region
-#. canyon.seal region
-#. canyon.bamboo region
-#. canyon name
-#: data/common/journal.json data/canyon/world.json
-msgid "天驼关"
 msgstr ""
 
 #. canyon.camp/history text
@@ -15573,13 +15807,6 @@ msgstr ""
 msgid "书匣里是一本《悟疾风劲竹书》，书末署名柳淳风。"
 msgstr ""
 
-#. village.melon region
-#. village.lake region
-#. village name
-#: data/common/journal.json data/village/world.json
-msgid "玉螺湖村"
-msgstr ""
-
 #. village.melon/caught text
 #: data/common/journal.json
 msgid "你在瓜地里摘西瓜，被瓜农逮了个正着。"
@@ -15598,13 +15825,6 @@ msgstr ""
 #. chuenyu.npc.xiaojuan2 name
 #: data/common/journal.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "小娟"
-msgstr ""
-
-#. chuenyu.xiaojuan region
-#. chuenyu name
-#. native.npc.shitou inquiry topic
-#: data/common/journal.json data/chuenyu/world.json data/niling/npcs.json
-msgid "黑松山"
 msgstr ""
 
 #. chuenyu.xiaojuan/asked_village text
@@ -15640,14 +15860,6 @@ msgstr ""
 #. chuenyu.xiaojuan/revenge text
 #: data/common/journal.json
 msgid "刘老农得知你杀了他的女儿，悲愤欲绝，要找你拼命。"
-msgstr ""
-
-#. city.tavern region
-#. city.shangshu region
-#. city.token region
-#. city name
-#: data/common/journal.json data/city/world.json
-msgid "京师"
 msgstr ""
 
 #. city.tavern/tipped text
@@ -16911,12 +17123,6 @@ msgstr ""
 #. native.npc.liu_anlu_home inquiry topic
 #: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/native/npcs.json
 msgid "逆灵宫"
-msgstr ""
-
-#. main.chapter3 region
-#. goathill name
-#: data/story/chapter3.json data/goathill/world.json
-msgid "野羊山"
 msgstr ""
 
 #. main.chapter3 summary
@@ -25197,11 +25403,6 @@ msgid ""
 "的下方摆著一张覆著红布的桌子, 桌上整齐地放著茅山的镇教秘籍。\n"
 msgstr ""
 
-#. temple name
-#: data/temple/world.json
-msgid "茅山"
-msgstr ""
-
 #. temple.square.door name
 #. temple.corridor5.door name
 #: data/temple/world.json
@@ -27769,11 +27970,6 @@ msgid ""
 "你正站在两座高塔前, 左边这一座名曰: 『明心塔』, 右方名叫\n"
 "『见性塔』。历来, 当山烟寺中的高僧涅盘后, 遗体火化后所得的舍\n"
 "利子就存放在这两座塔里。\n"
-msgstr ""
-
-#. sunhill name
-#: data/sanyen/world.json
-msgid "日照山"
 msgstr ""
 
 #. sanyen.road1.door name
@@ -36340,11 +36536,6 @@ msgid ""
 "浓雾在这里聚成一堵墙，路到这里就断了。\n"
 msgstr ""
 
-#. death name
-#: data/death/world.json
-msgid "阴间"
-msgstr ""
-
 #. death.gateway.no_return lines
 #: data/death/world.json
 msgid "一个空洞的声音在你耳边响起...."
@@ -38129,29 +38320,6 @@ msgstr ""
 msgid "关北好啊，没人查你的货。王爷只收一成，剩下的都是你的。"
 msgstr ""
 
-#. native.npc.camel_driver inquiry topic
-#. native.npc.guanbei_smith inquiry topic
-#. native.npc.balang inquiry topic
-#. native.npc.herdsman inquiry topic
-#. native.npc.hu_sanniang inquiry topic
-#. native.npc.qin_popo inquiry topic
-#. native.npc.qin_xiaoliu inquiry topic
-#. native.npc.lao_qin inquiry topic
-#. native.npc.cheng_shuo inquiry topic
-#. native.npc.guo_cheng inquiry topic
-#. native.npc.palace_soldier inquiry topic
-#. native.npc.nan_weishui_guest inquiry topic
-#. native.npc.lu_sun inquiry topic
-#. native.npc.pei_zhao inquiry topic
-#. native.npc.site_officer inquiry topic
-#. native.npc.site_corvee inquiry topic
-#. native.npc.shepherd inquiry topic
-#. native.npc.camp_family inquiry topic
-#. native.npc.freed_corvee inquiry topic
-#: data/guanbei/npcs.json
-msgid "工地"
-msgstr ""
-
 #. native.npc.camel_driver inquiry.工地
 #: data/guanbei/npcs.json
 msgid "草原东边？别去。兵部的人圈了一大片地在挖什么，见了生面孔就拿去当民夫。我们的驼队都绕着走。"
@@ -38444,11 +38612,6 @@ msgstr ""
 #: data/guanbei/npcs.json
 msgid ""
 "牧民说道：草原上的风，今年早。\n"
-msgstr ""
-
-#. native.npc.herdsman inquiry topic
-#: data/guanbei/npcs.json
-msgid "草原"
 msgstr ""
 
 #. native.npc.herdsman inquiry.草原
@@ -38915,12 +39078,6 @@ msgstr ""
 #. native.npc.cheng_shuo inquiry.工地.rules.say
 #: data/guanbei/npcs.json
 msgid "草原东边。你是外乡人，别去。"
-msgstr ""
-
-#. native.npc.cheng_shuo inquiry topic
-#. native.npc.lu_sun inquiry topic
-#: data/guanbei/npcs.json
-msgid "古冢"
 msgstr ""
 
 #. native.npc.cheng_shuo inquiry.古冢
@@ -40287,11 +40444,6 @@ msgstr ""
 #: data/guanbei/world.json
 msgid ""
 "正厅上首不是龙椅，是一把旧的胡床交椅，椅背上搭一张虎皮，虎皮的毛磨秃了一半。椅子旁立着一架兵器，刀在上，剑在下，都不是摆设——刀口上有新磨的痕。\n"
-msgstr ""
-
-#. guanbei.side_hall.landmark.map name
-#: data/guanbei/world.json
-msgid "地图"
 msgstr ""
 
 #. guanbei.side_hall.landmark.map long

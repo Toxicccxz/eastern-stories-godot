@@ -86,6 +86,13 @@ var known_items: Dictionary[String, int] = {}
 ## 识招 (MoveRecognition, DECISIONS「战斗内容」): the enemy moves the player has watched in
 ## fights they were in, each with how many times. Native. Saved; empty for NPCs.
 var known_moves: Dictionary[String, int] = {}
+## The maps the player has stood on (地图页; DECISIONS「总图」), each with the order it was first
+## reached in. Native. Saved; empty for NPCs.
+var visited_maps: Dictionary[String, int] = {}
+## Where the player asked to be shown the way (指路): a map and, for a place on it, a zone; ""
+## none. The voxel view's marker follows it before the quest's. Native. Saved; empty for NPCs.
+var waypoint_map: StringName = &""
+var waypoint_zone: StringName = &""
 ## The one-time 历练 rewards given (MilestoneRewards, "<kind>/<id>"), each with the order
 ## it was given in. Native (A2). Saved; empty for NPCs.
 var milestones: Dictionary[String, int] = {}

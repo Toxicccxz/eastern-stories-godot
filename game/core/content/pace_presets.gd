@@ -26,7 +26,7 @@ static var _applied: PacingDefinition
 static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 	if pace != CharacterState.PACE_CLASSIC:
 		return base
-	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0).with_stats_display(false)
+	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0).with_stats_display(false).with_map_page(false)
 
 
 ## The pacing a world of `pace` stands on, whichever the catalog stands on now: what a save of

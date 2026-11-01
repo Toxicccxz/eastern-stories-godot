@@ -178,6 +178,9 @@ func _test_journal_and_known_items() -> void:
 	player.character.journal = {"snow.wei_wuji/paid": 2, "green.jade/elder": 1}
 	player.character.known_items = {"es2:obj/cloth": 1}
 	player.character.known_moves = {"es2:adm/daemons/race/beast/bite": 3}
+	player.character.visited_maps = {"snow.outdoor": 1, "snow.inn": 2}
+	player.character.waypoint_map = &"snow.inn"
+	player.character.waypoint_zone = &"snow.inn"
 	var with_both := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, source.npc_spawn_states, source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(with_both)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
@@ -187,10 +190,17 @@ func _test_journal_and_known_items() -> void:
 	_assert_eq(decoded.snapshot.player.character.journal, {"green.jade/elder": 1, "snow.wei_wuji/paid": 2}, "the entries come back with their order")
 	_assert_eq(decoded.snapshot.player.character.known_items, {"es2:obj/cloth": 1}, "the known items come back")
 	_assert_eq(decoded.snapshot.player.character.known_moves, {"es2:adm/daemons/race/beast/bite": 3}, "the moves watched (识招) come back with their counts")
+	_assert_eq(decoded.snapshot.player.character.visited_maps, {"snow.inn": 2, "snow.outdoor": 1}, "the maps stood on come back with their order")
+	_assert_eq(decoded.snapshot.player.character.waypoint_map, &"snow.inn", "the 指路 comes back")
+	_assert_eq(decoded.snapshot.player.character.waypoint_zone, &"snow.inn", "with its zone")
 	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "both re-encode the same")
 	var old: GameSaveResult = GameSaveJsonCodec.decode(plain)
+	_assert_true(old.succeeded() and old.snapshot.player.character.visited_maps.is_empty() and old.snapshot.player.character.waypoint_map.is_empty() and not plain.contains("waypoint"), "a save without the 地图 fields loads with none (never written when empty)")
 	_assert_true(old.succeeded() and old.snapshot.player.character.journal.is_empty() and old.snapshot.player.character.known_items.is_empty() and old.snapshot.player.character.known_moves.is_empty() and not plain.contains("known_moves"), "a save without them loads with none (known_moves never written when empty)")
 	var root: Dictionary = JSON.parse_string(encoded.text)
+	root["player"]["character"]["waypoint"] = {"map": "", "zone": ""}
+	_assert_false(_decode_root(root).succeeded(), "a 指路 to no map is refused (never written)")
+	root = JSON.parse_string(encoded.text)
 	root["player"]["character"]["journal"] = {}
 	_assert_false(_decode_root(root).succeeded(), "an empty journal is refused (never written)")
 	root = JSON.parse_string(encoded.text)
