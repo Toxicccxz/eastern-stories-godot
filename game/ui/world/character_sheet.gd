@@ -124,7 +124,7 @@ func _show_pacing(player: WorldPlayerRuntimeState) -> void:
 	var unspent: int = state.progression.potential - state.progression.potential_spent
 	var cap: int = WorldProgressionRewards.potential_cap(state)
 	# TRANSLATORS: the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
-	potential_cap.show_stat(tr("可用潜能 {unspent} / {cap}").format({"unspent": unspent, "cap": cap}) + (tr("（已满，先去请教或研读）") if unspent >= cap else ""), StatCell.stat_hint(&"potential"))
+	potential_cap.show_stat(tr("可用潜能 {unspent} / {cap}").format({"unspent": unspent, "cap": cap}) + (tr("（已满，先去请教或自学）") if unspent >= cap else ""), StatCell.stat_hint(&"potential"))
 	var location: WorldLocationState = player.world_location()
 	var zone_id: StringName = &"" if location == null else location.zone_id
 	var percent: int = WorldProgressionRewards.catch_up_percent(state, zone_id)

@@ -250,11 +250,16 @@ func _number_lines(value: BattleParticipantProjection, is_player: bool) -> Packe
 	if not is_player:
 		return lines
 	lines.append_array([_track_line(&"essence", value.essence), _track_line(&"spirit", value.spirit)])
-	lines.append("%s：%s" % [StatCell.stat_name(&"force"), StatCell.stat_hint(&"force")])
+	lines.append(_power_line(&"force"))
 	for shown: Array in [[value.show_enforce, &"enforce"], [value.show_mana, &"mana"], [value.show_atman, &"atman"]]:
 		if shown[0]:
-			lines.append("%s：%s" % [StatCell.stat_name(shown[1]), StatCell.stat_hint(shown[1])])
+			lines.append(_power_line(shown[1]))
 	return lines
+
+
+static func _power_line(stat_id: StringName) -> String:
+	# TRANSLATORS: a battle card's hover: {name} 内力 / 加力 / 法力 / 灵力, then what it is.
+	return TranslationServer.translate("{name}：{hint}").format({"name": StatCell.stat_name(stat_id), "hint": StatCell.stat_hint(stat_id)})
 
 
 static func _track_line(stat_id: StringName, track: BattleResourceProjection) -> String:

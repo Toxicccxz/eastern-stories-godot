@@ -5010,7 +5010,7 @@ msgstr ""
 
 #. native (A2): potential is full ({cap} unspent at most); {cut} points were not kept.
 #: core/progression/milestone_rewards.gd
-msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"
+msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或自学，用掉一些潜能吧。"
 msgstr ""
 
 #. native (任务系统): a deed was written down: {did} what the player did.
@@ -7083,8 +7083,9 @@ msgstr ""
 msgid "灵力 {atman}/{max_atman}"
 msgstr ""
 
+#. a battle card's hover: {name} 内力 / 加力 / 法力 / 灵力, then what it is.
 #: presentation/battle/battle_participant_card.gd
-msgid "%s：%s"
+msgid "{name}：{hint}"
 msgstr ""
 
 #. a battle card's hover: {name} 气 / 精 / 神, its three numbers (当前 / 有效 / 最大), then what it is.
@@ -8661,7 +8662,7 @@ msgstr ""
 
 #. native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
 #: runtime/world/world_progression_rewards.gd
-msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或研读书籍，用掉一些潜能吧。"
+msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
 msgstr ""
 
 #: runtime/world/world_session_controller.gd
@@ -9138,7 +9139,7 @@ msgstr ""
 
 #. the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
 #: ui/world/character_sheet.gd
-msgid "（已满，先去请教或研读）"
+msgid "（已满，先去请教或自学）"
 msgstr ""
 
 #. the character sheet (A2 落后补偿): {region} recommends {recommended} combat experience; below it the player's gains are {percent}% larger.
@@ -12982,7 +12983,7 @@ msgstr ""
 
 #. tracks hint
 #: data/common/stats_display.json
-msgid "当前是眼下的数；有效是受伤压低的上限，要疗伤才回得去；最大是你的本钱。"
+msgid "当前是眼下的数；有效是受伤压低的上限，歇着会慢慢长回来，疗伤更快；最大是你的本钱。"
 msgstr ""
 
 #. essence hint
@@ -13052,7 +13053,7 @@ msgstr ""
 
 #. potential hint
 #: data/common/stats_display.json
-msgid "打架、办事得来，请教和研读要花它；没用掉的有上限。"
+msgid "打架、办事得来，请教和自学要花它；没用掉的有上限。"
 msgstr ""
 
 #. score name
@@ -13108,7 +13109,7 @@ msgstr ""
 
 #. courage hint
 #: data/common/stats_display.json
-msgid "敢不敢抢攻：高的人出手更勤，也更容易一击不中、露出破绽。"
+msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少师父也看它。"
 msgstr ""
 
 #. intelligence name
@@ -13124,7 +13125,7 @@ msgstr ""
 
 #. spirituality hint
 #: data/common/stats_display.json
-msgid "精神方面的体质：高的人法力深厚，近身肉搏却常慢半拍。"
+msgid "精神方面的体质：冥思和修行涨得更快，不少法门也看它。"
 msgstr ""
 
 #. composure hint
@@ -13140,7 +13141,7 @@ msgstr ""
 
 #. personality hint
 #: data/common/stats_display.json
-msgid "长相：好看的人更讨陌生人喜欢，也可能招人嫉妒。"
+msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，杀气重的人也不易对你翻脸。"
 msgstr ""
 
 #. constitution name
@@ -13151,7 +13152,7 @@ msgstr ""
 
 #. constitution hint
 #: data/common/stats_display.json
-msgid "体质：恢复得更快，扛得住更重的伤，内功的极限也看它。"
+msgid "体质：精气神恢复得更快，打坐涨内力更快，昏倒后醒得更早，酒量也大。"
 msgstr ""
 
 #. karma name

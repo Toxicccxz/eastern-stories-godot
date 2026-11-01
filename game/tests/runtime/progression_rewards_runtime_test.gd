@@ -137,7 +137,7 @@ func _test_sheet(session: WorldSessionController) -> void:
 	state.progression.potential = 480
 	sheet.refresh(session.player_runtime(), session)
 	_check(not sheet.catch_up.visible, "caught up: no line")
-	_check(sheet.potential_cap.text == "可用潜能 450 / 450（已满，先去请教或研读）", "full at stage 1000: " + sheet.potential_cap.text)
+	_check(sheet.potential_cap.text == "可用潜能 450 / 450（已满，先去请教或自学）", "full at stage 1000: " + sheet.potential_cap.text)
 	sheet.free()
 
 

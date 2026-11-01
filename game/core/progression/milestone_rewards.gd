@@ -143,7 +143,7 @@ static func lines(grant: Grant, name: String) -> Array[ColoredLine]:
 ## The cap kept `cut` potential back: said once, with what to do.
 static func cut_line(cap: int, cut: int) -> String:
 	# TRANSLATORS: native (A2): potential is full ({cap} unspent at most); {cut} points were not kept.
-	return _t("潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。").format({"cap": cap, "cut": cut})
+	return _t("潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或自学，用掉一些潜能吧。").format({"cap": cap, "cut": cut})
 
 
 static func _t(text: String) -> String:

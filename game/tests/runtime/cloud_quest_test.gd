@@ -150,7 +150,7 @@ func _test_reward() -> void:
 	var draws := ScriptedWorldInteractionRandomSource.new([7, 3, 1])
 	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(state, catalog.npc(BEGGAR), draws.legacy_random)
 	# A2: the line says 十三点潜能; 99 unspent at a cap of 100 keeps 1, and the rest is said.
-	_check(ColoredLine.texts(result.lines) == ["恭喜你！你又完成了一项任务！", "你被奖励了：\n二十二点实战经验\n十三点潜能\n四点综合评价", "潜能已满（最多 100 点未用），多出的 12 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"] and result.lines[1].color == ColoredLine.HIW, "the reward lines: " + str(ColoredLine.texts(result.lines)))
+	_check(ColoredLine.texts(result.lines) == ["恭喜你！你又完成了一项任务！", "你被奖励了：\n二十二点实战经验\n十三点潜能\n四点综合评价", "潜能已满（最多 100 点未用），多出的 12 点没有记下。先去请教师父或自学，用掉一些潜能吧。"] and result.lines[1].color == ColoredLine.HIW, "the reward lines: " + str(ColoredLine.texts(result.lines)))
 	_check(draws.requested_bounds() == [15, 10, 3], "random(exp_bonus / 2), random(pot_bonus / 2), random(score / 2)")
 	_check(state.progression.combat_experience == 1522 and state.progression.potential == 100 and state.progression.score == 4, "exp + 22; unspent potential 99 + 13 ends at 100; score + 4")
 	_check(not state.quest.has_task() and state.quest.finished == 1 and state.quest.factor == 10 and state.progression.kills == 1 and state.attributes.bellicosity == 1, "the task is done, tfinished 1, MKS 1, bellicosity 1")

@@ -72,8 +72,6 @@ func _put_away() -> void:
 
 func _process(delta: float) -> void:
 	_stepped = false
-	if _control == null:
-		return
 	if not is_instance_valid(_control) or not _control.is_visible_in_tree() or not _control.has_focus():
 		_put_away()
 		return

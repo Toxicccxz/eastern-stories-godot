@@ -11,7 +11,8 @@ const NONZERO_VALUES: Array[String] = ["bellicosity", "force_factor"]
 var stat_id: StringName
 var display_name: String
 var hint: String
-## The skill whose raw level makes it appear (&"": none).
+## The skill whose raw level makes it appear, or a special skill enabled for that use (a 神通
+## learnt before 基本法术 spends 灵力 all the same; &"": none).
 var when_skill: StringName = &""
 ## The resource whose current or maximum makes it appear (RESOURCES; "": none).
 var when_resource: String = ""
@@ -30,7 +31,7 @@ func _init(p_stat_id: StringName, p_display_name: String, p_hint: String) -> voi
 func shown(state: CharacterState) -> bool:
 	if when_skill.is_empty() and when_resource.is_empty() and when_nonzero.is_empty():
 		return true
-	if not when_skill.is_empty() and state.skills.raw_level(when_skill) > 0:
+	if not when_skill.is_empty() and (state.skills.raw_level(when_skill) > 0 or not state.skills.mapped_skill(when_skill).is_empty()):
 		return true
 	if not when_nonzero.is_empty() and _value(state) != 0:
 		return true

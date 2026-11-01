@@ -89,7 +89,7 @@ func _cards_play_a_line(tree: SceneTree) -> void:
 	check(dog.stage.title.visible and dog.stage.title.text == "咬" and dog.stage.title.get_theme_font_size("font_size") == BattleCardStage.TITLE_SIZE and dog.stage.title.get_theme_color("font_color") == BattleCardStage.INK, "the attacker's card: 咬 in ink: '%s'" % dog.stage.title.text)
 	check(not me.stage.title.visible and not dog.stage.floater.visible, "the one hit shows no title, the attacker no float")
 	check(me.stage.floater.visible and me.stage.floater.text == "−17" and me.stage.floater.get_theme_color("font_color") == BattleVitalityBar.BAND_COLORS[Band.LIGHT], "the one hit: −17 in the band's colour: '%s'" % me.stage.floater.text)
-	check(me._shown_vitality == 63 and me.vitality_shown() > 63.0 and me._primary.text == "气 63/80/100", "the bar steps down by the blow (on its way), the line with it: %s %.1f" % [me._primary.text, me.vitality_shown()])
+	check(me._shown_vitality == 63 and me.vitality_shown() > 63.0 and me._primary.text == "气 63/100", "the bar steps down by the blow (on its way), the line with it: %s %.1f" % [me._primary.text, me.vitality_shown()])
 	check(me.self_modulate != Color.WHITE and me._shake != null and me._shake.is_valid(), "the flash and the shake")
 	# The round's end: the projection's 气 (the same number): nothing moves again.
 	me._shake.kill()

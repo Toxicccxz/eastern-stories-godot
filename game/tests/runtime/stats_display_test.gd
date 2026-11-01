@@ -55,6 +55,11 @@ func _test_rules() -> void:
 	state.skills.set_raw_level(SkillIds.MAGIC, 1)
 	_check(catalog.stat_shown(&"atman", state) and not catalog.stat_shown(&"mana", state), "基本法术: 灵力, not 法力")
 	state.skills.remove_skill(SkillIds.MAGIC)
+	state.skills.set_raw_level(&"essencemagic", 1)
+	state.skills.map_skill(SkillIds.MAGIC, &"essencemagic")
+	_check(catalog.stat_shown(&"atman", state) and not catalog.stat_shown(&"mana", state), "a 神通 enabled before 基本法术: 灵力 too")
+	state.skills.unmap_skill(SkillIds.MAGIC)
+	state.skills.remove_skill(&"essencemagic")
 	state.recovery.mana.maximum = 10
 	_check(catalog.stat_shown(&"mana", state), "a maximum shows it whatever the skills")
 	state.recovery.mana.maximum = 0
