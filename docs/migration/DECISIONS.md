@@ -230,8 +230,8 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
   机器越慢越多）。已搭好的图什么都不出现。
 - **淡出只有一次**：加载画面和暗场一起淡到世界（`map_loading_fade_ms` 200 ms）；没出现画面时用这次进门或换图自己的
   淡入时长。到达横幅和房间描述等世界回来才显示。
-- **世界**：`hold_presentation(map_loading)`，时间不走、玩家不能走，遮盖期间按键（松开除外）不往下传。位置、存档、
-  随机数都不碰。正在打的战斗照旧走（`presentation_frozen()` 的既有规则）。New Game、继续、读档、法术和复活的
+- **世界**：`hold_presentation(map_loading)`，时间不走、玩家不能走，遮盖期间按键（松开除外）不往下传（游戏暂停时
+  例外，暂停面板要收键）。位置、存档、随机数都不碰。正在打的战斗照旧走（`presentation_frozen()` 的既有规则）。New Game、继续、读档、法术和复活的
   换图走同一条路：只要视图发现世界没搭。中途被叫走时半成品世界丢弃，回来重搭。
 - **换美术**：`game/data/common/loading_screen.json` 写背景色、可选整屏底图、序列帧贴图（`sheet` + 行列、帧数、
   fps、显示边长、位置）和要不要「载入中」三个字；图放 `game/assets/textures/loading/`，来源记 LICENSE_PROVENANCE。换图只换文件、改

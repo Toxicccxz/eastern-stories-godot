@@ -39,6 +39,8 @@ var _arrival_fade: float = -1.0
 var _arrival_banner: float = 0.0
 ## A room's text that came during the build, shown once the view is back.
 var _room_waiting: Callable = Callable()
+## The text showing now, for a build that begins while it fades in.
+var _room_showing: Callable = Callable()
 
 
 func configure(session: WorldSessionController) -> void:
@@ -130,8 +132,9 @@ func room_text() -> String:
 
 ## `title` and `description` (shown language) at the top for `seconds`, fading in and out.
 func show_room(title: String, description: String, seconds: float) -> void:
+	_room_showing = show_room.bind(title, description, seconds)
 	if _loading:
-		_room_waiting = show_room.bind(title, description, seconds)
+		_room_waiting = _room_showing
 		return
 	_room_title.text = title
 	_room_text.text = description
@@ -173,10 +176,15 @@ func _place_room() -> void:
 	_room.position = Vector2(view.end.x - _room.size.x - BANNER_MARGIN, top).round()
 
 
-## Nothing goes to the world under the cover: a key pressed there would act unseen.
+## Nothing goes to the world under the cover: a key pressed there would act unseen. A paused
+## tree (a phone sent to the background) stops the build: the shell's pause panel takes the keys.
 func _input(event: InputEvent) -> void:
-	if _loading and event.is_pressed():
+	if event.is_pressed() and blocks_input():
 		get_viewport().set_input_as_handled()
+
+
+func blocks_input() -> bool:
+	return _loading and not get_tree().paused
 
 
 func _on_view_leaving(seconds: float) -> void:
@@ -228,6 +236,12 @@ func _on_world_building(on: bool) -> void:
 		# The last place's banner does not stay over the new map's cover.
 		_kill(_banner_tween)
 		_banner.modulate.a = 0.0
+		# A room told in the handoff's own frame waits like one told during the build: it
+		# would run out its time hidden.
+		if _room_tween != null and _room_tween.is_running():
+			_kill(_room_tween)
+			_room.modulate.a = 0.0
+			_room_waiting = _room_showing
 		_loading_screen.begin()
 		return
 	_loading_screen.settle()

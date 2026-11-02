@@ -9,6 +9,7 @@ const HOLD: StringName = WorldSessionController.WORLD_BUILD_HOLD
 const INN: Array[StringName] = [&"snow.inn.main_floor", &"snow.inn.main_floor.player_birth"]
 const UPSTAIRS: Array[StringName] = [&"snow.inn_2f", &"snow.inn_2f.stairs_arrival"]
 const SMITHY: Array[StringName] = [&"snow.smithy", &"snow.smithy.smithy_entry"]
+const WILD: Array[StringName] = [&"oldpine.outdoor.north_approach", &"oldpine.outdoor.north_approach.snow_entry"]
 ## Fast fades, a build that gives way at every chance, and no picture: each test says if it wants one.
 const QUICK: Dictionary = {"map_fade_out_ms": 20, "map_fade_in_ms": 20, "door_fade_out_ms": 20, "door_fade_in_ms": 30, "map_banner_ms": 200, "map_loading_slice_ms": 1, "map_loading_delay_ms": 60000, "map_loading_min_ms": 0, "map_loading_fade_ms": 20}
 var assertions: int = 0
@@ -89,43 +90,60 @@ func _test_kept_map(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 ## Frames take nobody's time: the clock, the random streams and the player stay where the
-## handoff left them for as long as the cover is up.
+## handoff left them for as long as the cover is up, here past a heart beat (2 s), with NPCs
+## on the map that would draw on it.
 func _test_rules_stand_still(tree: SceneTree, session: WorldSessionController) -> void:
+	_use({"map_loading_delay_ms": 0, "map_loading_min_ms": 2500})
 	var map: WorldMapController = MapPlaces.enter(session, SMITHY[0], SMITHY[1])
 	await _frames(tree, 2)
 	_check(_view(session)._building, "the smithy builds")
 	var before: Array = _rules(session, map)
 	var steady: bool = true
-	while session.world_building():
+	var frozen: bool = true
+	var paused: bool = true
+	while overlay.loading():
 		await tree.process_frame
-		steady = steady and _rules(session, map) == before
-	_check(steady, "clock, random streams, place and body do not move during the build: %s vs %s" % [before, _rules(session, map)])
-	_check(map.player_body.walk_paused, "the player stands")
+		if overlay.loading():
+			steady = steady and _rules(session, map) == before
+			frozen = frozen and session.presentation_frozen()
+			paused = paused and map.player_body.walk_paused
+	_check(steady, "clock, random streams, place and body do not move under the cover: %s vs %s" % [before, _rules(session, map)])
+	_check(frozen, "nothing at all advances meanwhile")
+	_check(paused, "the player stands")
 	await _until_lifted(tree, session)
+	_use({})
 	await _go(tree, session, INN)
 
 
 ## Over frames or in one, the same shapes from the same seed.
 func _test_same_world(tree: SceneTree, session: WorldSessionController) -> void:
-	TestFeel.restore()
-	var map: WorldMapController = MapPlaces.enter(session, UPSTAIRS[0], UPSTAIRS[1])
-	await _frames(tree, 3)
-	var view: WorldVoxelView = _view(session)
-	var whole: Dictionary = _portrait(view)
-	MapPlaces.enter(session, INN[0], INN[1])
-	await _frames(tree, 3)
+	await _same_world(tree, session, UPSTAIRS, &"snow.inn_upstairs")
+	# Outdoors: landmass, cliffs, water and plants, every breath of _terrain().
+	await _same_world(tree, session, WILD, &"oldpine.outdoor")
+
+
+func _same_world(tree: SceneTree, session: WorldSessionController, where: Array[StringName], map_id: StringName) -> void:
+	var view: WorldVoxelView = _view_of(session, map_id)
 	view.release_world()
-	_check(not view._built, "upstairs' world is let go")
+	_check(not view._built, "%s's world is let go" % map_id)
+	TestFeel.restore()
+	MapPlaces.enter(session, where[0], where[1])
+	_check(view._built or not view._building, "%s: no build under way before the frame" % map_id)
+	await _frames(tree, 3)
+	_check(view._built and not view._building and not overlay.loading(), "%s is built in one frame with the knob at 0" % map_id)
+	var whole: Dictionary = _portrait(view)
+	await _go(tree, session, INN)
+	view.release_world()
 	_use({})
 	var frames: int = 0
-	MapPlaces.enter(session, UPSTAIRS[0], UPSTAIRS[1])
+	MapPlaces.enter(session, where[0], where[1])
 	await _frames(tree, 2)
 	while view._building:
 		await tree.process_frame
 		frames += 1
 	await _until_lifted(tree, session)
-	_check(frames > 3, "this time it took frames: %d" % frames)
-	_check(session.active_map() == map and _portrait(view) == whole, "the same world: %s vs %s" % [whole, _portrait(view)])
+	_check(frames > 3, "%s over frames this time: %d" % [map_id, frames])
+	_check(session.active_map_id() == map_id and _portrait(view) == whole, "%s: the same world: %s vs %s" % [map_id, whole, _portrait(view)])
 	await _go(tree, session, INN)
 	view.release_world()
 
@@ -140,12 +158,12 @@ func _test_picture(tree: SceneTree, session: WorldSessionController) -> void:
 	view.release_world()
 	await _frames(tree, 3)
 	_check(screen.visible and screen.shown(), "with no delay the picture comes at once")
-	var began: int = Time.get_ticks_msec()
 	var cells: Dictionary[int, bool] = {}
 	while overlay.loading():
 		cells[screen.frame_shown()] = true
 		await tree.process_frame
-	_check(Time.get_ticks_msec() - began >= 130, "it stayed its minimum: %d ms" % (Time.get_ticks_msec() - began))
+	var stayed: int = Time.get_ticks_msec() - screen._shown_ms
+	_check(stayed >= 145, "it stayed its minimum: %d ms" % stayed)
 	_check(cells.size() >= 2, "its frames moved: %s" % [cells.keys()])
 	await _until_lifted(tree, session)
 	await _frames(tree, 3)
@@ -218,12 +236,29 @@ func _test_under_the_cover(tree: SceneTree, session: WorldSessionController) -> 
 	_check(not overlay.get_viewport().is_input_handled(), "a release gets through, or a held key would stick")
 	key.pressed = true
 	overlay._input(key)
-	_check(overlay.get_viewport().is_input_handled(), "a key press goes no further")
+	tree.paused = true
+	_check(not overlay.blocks_input(), "with the tree paused (a phone sent away) the shell's pause panel gets the keys")
+	await _frames(tree, 3)
+	_check(overlay.loading() and _view(session)._building, "the build waits out the pause")
+	tree.paused = false
+	_check(overlay.blocks_input(), "and the cover takes them again after it")
 	overlay.show_room("铁匠铺", "炉火正旺。", 1.0)
 	_check(overlay.room_text().is_empty(), "a room's text waits while the cover is up")
 	await _until_lifted(tree, session)
 	await _frames(tree, 4)
 	_check(overlay.room_text().begins_with("铁匠铺"), "and shows once the view is back: %s" % overlay.room_text())
+	await _go(tree, session, INN)
+	# Told in the handoff's own frame, before the cover: it waits as well, its time unspent.
+	_view_of(session, &"snow.smithy_house").release_world()
+	MapPlaces.enter(session, SMITHY[0], SMITHY[1])
+	overlay.show_room("铁匠铺", "门口。", 1.0)
+	await tree.process_frame
+	await tree.process_frame
+	await _frames(tree, 2)
+	_check(overlay.loading() and overlay.room_text().is_empty(), "a room told just before the cover waits under it")
+	await _until_lifted(tree, session)
+	await _frames(tree, 4)
+	_check(overlay.room_text().ends_with("门口。"), "and shows after: %s" % overlay.room_text())
 	await _go(tree, session, INN)
 
 
