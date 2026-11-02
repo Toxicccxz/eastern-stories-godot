@@ -131,7 +131,8 @@ func ask_answer_text() -> String:
 
 func _ask_topic(topic: String) -> void:
 	var map := _session.active_map() as WorldMapController
-	if map == null:
+	# The first press while an answer types out finishes it, as on any page.
+	if map == null or _ui.dialogue_box.finish_typing():
 		return
 	# An ask that turns the NPC on the player (guard.c's 刘老三) is confirmed first
 	# (DECISIONS「Ask before an important or deadly choice」).
@@ -152,8 +153,7 @@ func _ask_now(topic: String) -> void:
 		_ask_answer.text = "\n".join(lines)
 		_refresh_ask_verbs(map)
 		_presentation_layout.refresh_rows()
-		# ask.c's own 你向…打听 is what the player just pressed: the box starts at the answer.
-		_answered(map, waiting, lines.slice(1) if lines.size() > 1 else lines)
+		_answered(map, waiting, lines)
 
 
 ## The kneel command of a master whose 剃度 the player asked for (daemon/class/bonze/master.c).
@@ -203,7 +203,7 @@ func _kneel() -> void:
 
 func _say_beside(phrase: String) -> void:
 	var map := _session.active_map() as WorldMapController
-	if map != null:
+	if map != null and not _ui.dialogue_box.finish_typing():
 		var waiting: Dictionary[String, float] = map.npc_life.npc_ambience().snapshot()
 		var lines: Array[String] = map.say_beside_selected(phrase)
 		_ask_answer.text = "\n".join(lines)
@@ -217,10 +217,16 @@ func _say_beside(phrase: String) -> void:
 func _answered(map: WorldMapController, waiting: Dictionary[String, float], lines: Array[String]) -> void:
 	var started: bool = map.npc_life.npc_ambience().started_since(waiting)
 	if _ui.dialogue_box.hosted() == _ask_panel:
-		if started:
-			_ui.dialogue_box.tell(_ui.dialogue_box.speaker(), lines)
+		# ask.c's 你向…打听 and say.c's 你说道 are what the player just pressed: the box starts
+		# at the answer. With none, that line is all there is, as it stands.
+		var answer: Array[String] = lines.slice(1)
+		if answer.is_empty():
+			_ui.dialogue_box.answer_as_written(lines)
+		# Someone who has left (陈显祖's 走吧) is not asked on: the farewell is read and the box goes.
+		elif started or not _ui.selection.selected_npc_askable():
+			_ui.dialogue_box.tell(_ui.dialogue_box.speaker(), answer)
 		else:
-			_ui.dialogue_box.answer(lines)
+			_ui.dialogue_box.answer(answer)
 		return
 	if not _ui.interaction_open() or not started:
 		return

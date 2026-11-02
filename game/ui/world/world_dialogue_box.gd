@@ -15,7 +15,6 @@ const WIDTH_SHARE: float = 0.62
 const MIN_WIDTH: float = 560.0
 const MAX_WIDTH: float = 900.0
 const BOTTOM_MARGIN: float = 18.0
-const MAX_HEIGHT_SHARE: float = 0.5
 const NAME_SIZE: int = 17
 const TEXT_SIZE: int = 18
 const FILL: Color = Color(0.09, 0.08, 0.07, 0.94)
@@ -75,6 +74,8 @@ func _ready() -> void:
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.add_theme_font_size_override("font_size", TEXT_SIZE)
 	_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	# Laid out whole: the box keeps its size and no word jumps as the line types out.
+	_text.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 	rows.add_child(_text)
 	_mount = VBoxContainer.new()
 	_mount.name = "Choices"
@@ -152,17 +153,30 @@ func host(speaker_name: String, content: Control) -> void:
 	_hint.hide()
 
 
-## `lines` show at once above the hosted choices (an answer).
+## `lines` show above the hosted choices (an answer), without who says them.
 func answer(lines: Array[String]) -> void:
 	var said: Array[String] = []
 	for text: String in lines:
 		var page: String = WorldSpeechBubbles.bubble_text(text)
 		if not page.is_empty():
 			said.append(page)
-	_text.text = "\n".join(said)
+	answer_as_written(said)
+
+
+## `lines` above the hosted choices as they stand (你说道：…: not the speaker's words).
+func answer_as_written(lines: Array[String]) -> void:
+	_text.text = "\n".join(lines)
 	_text.add_theme_color_override("font_color", TEXT_COLOR)
 	_start_typing()
-	_text.visible = not said.is_empty()
+	_text.visible = not lines.is_empty()
+
+
+## The page still typing shows whole. False when it already did.
+func finish_typing() -> bool:
+	if not is_open() or not _typing():
+		return false
+	_finish_typing()
+	return true
 
 
 ## A hosted box turns to telling: its choices go, `lines` read on as pages.

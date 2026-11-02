@@ -94,6 +94,10 @@ func _check_ask(tree: SceneTree) -> void:
 	await tree.create_timer(0.3).timeout
 	_check(map.selected_npc() == npc, "the box holds the selection while the HUD refreshes")
 	var topic: Button = box.hosted().find_child("Topic", true, false) as Button
+	# Typing out, the next press only finishes it; finished, it asks.
+	var typing: int = hud.log_lines().size()
+	topic.pressed.emit()
+	_check(hud.log_lines().size() == typing, "the press that finishes the typing asks nothing")
 	topic.pressed.emit()
 	await _frames(tree, 2)
 	_check(box.hosting() and not box.line().is_empty() and box.line() != tr("你可以打听这些事情："), "the answer shows above the topics: %s" % box.line())
@@ -101,6 +105,8 @@ func _check_ask(tree: SceneTree) -> void:
 	var waited: float = session.day_clock().day_minutes()
 	await _frames(tree, 3)
 	_check(hud.ask_answer_text() != "" and is_equal_approx(session.day_clock().day_minutes(), waited), "the answer stays, time does not pass")
+	box.answer_as_written(["你说道：必有妖孽"])
+	_check(box.line() == "你说道：必有妖孽", "the player's own line is not taken for the speaker's")
 	(box.hosted().find_child("Leave", true, false) as Button).pressed.emit()
 	await _frames(tree, 2)
 	_check(not box.is_open() and not session.presentation_frozen(), "告辞: back in the world")
