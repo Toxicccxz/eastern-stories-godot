@@ -19,6 +19,8 @@ var root_ferns: bool = true
 ## The ground style laid at a cell (cell, kind) -> Dictionary: a flora area may lay its own, so
 ## a stone stops where another style begins (雪亭镇's slabs meeting the 官道's 青石板).
 var style_at: Callable
+var _covered_cells: Dictionary[Vector2i,bool] = {}
+var _covered_rects: int = 0
 const GRASS: Array[String] = ["grass", "forest_floor", "forest", "boundary"]
 const PAVING: Array[String] = ["town_ground", "street", "floor_yard", "rock"]
 const STONE: Array[String] = ["899794", "98a29d", "a6ada3", "939e9b", "afb4aa"]
@@ -47,11 +49,15 @@ static func broad(cells: Dictionary[Vector2i,String], cell: Vector2i) -> bool:
 			same += 1 if cells.get(cell+Vector2i(x,y)*16,"")==cells.get(cell,"") else 0
 	return same >= 5
 
-func _covered(cell: Vector2i) -> bool:
-	for rect: Rect2 in footprints:
-		if rect.has_point(Vector2(cell)):
-			return true
-	return false
+## Whether a building stands on `cell`. Asked several times for every cell of a map.
+func covered(cell: Vector2i) -> bool:
+	if _covered_rects != footprints.size():
+		_covered_rects = footprints.size()
+		_covered_cells.clear()
+		for rect: Rect2 in footprints:
+			for inside: Vector2i in VoxelMapGeometry.cells_within(rect):
+				_covered_cells[inside] = true
+	return _covered_cells.has(cell)
 
 func wear(at: Vector3) -> float:
 	var result: float = 0.0
@@ -129,7 +135,7 @@ func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Diction
 		for y: int in extent.y:
 			for x: int in extent.x:
 				var next := cell+Vector2i(x,y)*16
-				free = free and cells.get(next,"") in PAVING and not painted.has(next) and not _covered(next) and not _slab(next,cells[next])
+				free = free and cells.get(next,"") in PAVING and not painted.has(next) and not covered(next) and not _slab(next,cells[next])
 		if free:
 			width = extent.x
 			depth = extent.y
@@ -176,12 +182,16 @@ func slabs(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Dictiona
 		var at: Vector2i = queue.pop_back()
 		for shift: Vector2i in [Vector2i(-16,0),Vector2i(16,0),Vector2i(0,-16),Vector2i(0,16)]:
 			var next: Vector2i = at+shift
-			if not stretch.has(next) and cells.get(next,"")==kind and not painted.has(next) and not _covered(next) and _same_style(next,kind,style):
+			if not stretch.has(next) and cells.get(next,"")==kind and not painted.has(next) and not covered(next) and _same_style(next,kind,style):
 				stretch[next] = true
 				queue.append(next)
-	var order: Array[Vector2i] = stretch.keys()
-	order.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return a.y<b.y or a.y==b.y and a.x<b.x)
-	for start: Vector2i in order:
+	# Row by row, west to east: y first in the key the sort goes by.
+	var order: Array[Vector2i] = []
+	for at: Vector2i in stretch:
+		order.append(Vector2i(at.y,at.x))
+	order.sort()
+	for key: Vector2i in order:
+		var start := Vector2i(key.y,key.x)
 		if not painted.has(start):
 			_flag(start,stretch,painted,style)
 
@@ -257,11 +267,11 @@ func edge(cell: Vector2i, cells: Dictionary[Vector2i,String]) -> void:
 	var p: Vector3 = _point(cell)
 	for shift: Vector2i in [Vector2i(-16,0),Vector2i(16,0),Vector2i(0,-16),Vector2i(0,16)]:
 		var neighbor: Vector2i = cell+shift
-		if paved and not _covered(neighbor) and cells.get(neighbor,"") in ["path","riverbank"]:
+		if paved and not covered(neighbor) and cells.get(neighbor,"") in ["path","riverbank"]:
 			if broad(cells,neighbor):
 				_spill(p,Vector3(shift.x/16.0,0,shift.y/16.0))
 			continue
-		if _covered(neighbor) or cells.get(neighbor,"") not in GRASS:
+		if covered(neighbor) or cells.get(neighbor,"") not in GRASS:
 			continue
 		var outward := Vector3(shift.x/16.0,0,shift.y/16.0)
 		var along := Vector3(-outward.z,0,outward.x)

@@ -164,6 +164,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 		intact = intact and (entry["node"] as Node3D).visible
 	_check(intact,"local reveal never hides an entire building or crown")
 	_check(not street_view.occlusion.materials.is_empty(),"actual occluders use the fragment reveal material")
+	_check(street_view.occlusion.materials.size()<=16,"the street's plain colours share one reveal material: %d" % street_view.occlusion.materials.size())
 	var player_point: Vector3 = VoxelMapGeometry.point(outdoor.player_body.global_position,1.0)
 	var player_revealed: bool = false
 	for subject: Vector4 in street_view.occlusion.subjects:

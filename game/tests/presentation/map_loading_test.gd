@@ -353,6 +353,8 @@ func _portrait(view: WorldVoxelView) -> Dictionary:
 		"lights": view.world.find_children("*", "Light3D", true, false).size(),
 		"entrances": view.entrances.size(),
 		"occluders": view.geometry.occluders.size(),
+		# The headless server keeps no instance colours: the same draws from the seed, in order.
+		"draws": view.geometry.rng.state,
 	}
 
 

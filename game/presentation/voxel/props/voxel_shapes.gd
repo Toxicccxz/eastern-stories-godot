@@ -3,8 +3,12 @@ extends RefCounted
 ## Small authored voxel forms, batched by material; only large footprints get collisions.
 var batches: Dictionary = {}
 var materials: Dictionary = {}
+## One small number per parent, colour and mesh: the parts of a batch's key.
+var _slots: Dictionary = {}
 var cube := BoxMesh.new()
 var stones: Dictionary[int, ArrayMesh] = {}
+var _pooled: StandardMaterial3D
+const LIGHT_SPLIT_DEPTH: int = 12
 var spatial_batching: bool = false
 var spatial_cell_size: float = 12.0
 ## Placed in front of every form drawn while set: many trees share one grove parent (and so
@@ -18,6 +22,8 @@ var merged: Dictionary[Node3D, Node3D] = {}
 ## Nodes already as small as a batch cell (a building's body, a neighbourhood of props): their
 ## batches are not cut again by position.
 var compact: Dictionary[Node3D, bool] = {}
+## A merged node's place in the node it merges into, read when the first form is drawn into it.
+var _merged_pose: Dictionary[Node3D, Transform3D] = {}
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material);
 ## "<hex>:glow" gives off its own light (a red paper lantern, gilt letters catching the sun);
@@ -71,17 +77,28 @@ func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) 
 	transform = frame*transform
 	if merged.has(parent):
 		var into: Node3D = merged[parent]
-		transform = into.global_transform.affine_inverse()*parent.global_transform*transform
+		if not _merged_pose.has(parent):
+			_merged_pose[parent] = into.global_transform.affine_inverse()*parent.global_transform
+		transform = _merged_pose[parent]*transform
 		parent = into
-	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id())
+	var cell: int = -1
 	if spatial_batching and not compact.has(parent):
 		# Mobile lighting chooses lights per instance. A map-wide ground instance
 		# otherwise exceeds that budget and changes lights abruptly while walking.
-		key += ":%d:%d" % [floori(transform.origin.x/spatial_cell_size),floori(transform.origin.z/spatial_cell_size)]
-	if not batches.has(key):
-		batches[key] = {"parent":parent,"color":hex,"mesh":mesh,"transforms":[]}
-	var transforms: Array = batches[key]["transforms"]
-	transforms.append(transform)
+		cell = (floori(transform.origin.x/spatial_cell_size)+16384 << 16) | (floori(transform.origin.z/spatial_cell_size) & 0xffff)
+	var key := Vector4i(_slot(parent),_slot(hex),_slot(mesh),cell)
+	var entry: Variant = batches.get(key)
+	if entry == null:
+		entry = {"parent":parent,"color":hex,"mesh":mesh,"transforms":[]}
+		batches[key] = entry
+	(entry["transforms"] as Array).append(transform)
+
+func _slot(thing: Variant) -> int:
+	var slot: Variant = _slots.get(thing)
+	if slot == null:
+		slot = _slots.size()
+		_slots[thing] = slot
+	return slot
 
 func _stone_mesh(variant: int) -> ArrayMesh:
 	var random := RandomNumberGenerator.new()
@@ -109,23 +126,59 @@ func _stone_mesh(variant: int) -> ArrayMesh:
 				surface.add_vertex(vertex)
 	return surface.commit()
 
+## A colour that is only a colour: no glow, no gloss, nothing seen through, and no material
+## of its own asked for (`window` and the like make theirs glow by the colour's name).
+func _plain(hex: String) -> bool:
+	return not hex.contains(":") and hex != "ffd88a" and hex != "ffb858" and not materials.has(hex)
+
+## The batches of one place that differ only in a plain colour become one, its colours per
+## instance: a town's hundreds of colours are hundreds of nodes and buffers per street block
+## otherwise, most of them a stone or two (DECISIONS「搭建开销」). The same picture: colours,
+## place and shape are the same, and the light-aware split still applies. Once everything is
+## drawn, so that any colour made to glow on the way stays out.
+func pool_plain_colours() -> void:
+	var pooled: Dictionary = {}
+	for key: Vector4i in batches:
+		var entry: Dictionary = batches[key]
+		var hex: String = entry["color"]
+		if not _plain(hex):
+			pooled[key] = entry
+			continue
+		var place := Vector4i(key.x,-1,key.z,key.w)
+		if not pooled.has(place):
+			pooled[place] = {"parent":entry["parent"],"color":"","mesh":entry["mesh"],"transforms":[],"colors":PackedColorArray()}
+		var into: Dictionary = pooled[place]
+		var transforms: Array = entry["transforms"]
+		(into["transforms"] as Array).append_array(transforms)
+		# Instance colours are multiplied in as they are; a material's albedo is taken as sRGB.
+		var run := PackedColorArray()
+		run.resize(transforms.size())
+		run.fill(color(hex).srgb_to_linear())
+		var colors: PackedColorArray = into["colors"]
+		colors.append_array(run)
+		into["colors"] = colors
+	batches = pooled
+
 func flush(light_bounds: Array[AABB] = []) -> void:
-	for key: String in batches:
+	for key: Variant in batches:
 		flush_one(key,light_bounds)
 	batches.clear()
 
 ## One batch of flush(), for a build that goes over several frames; batches.clear() is the caller's.
-func flush_one(key: String, light_bounds: Array[AABB] = []) -> void:
+func flush_one(key: Variant, light_bounds: Array[AABB] = []) -> void:
 	var entry: Dictionary = batches[key]
-	_flush_batch(entry,entry["transforms"],light_bounds)
+	_flush_batch(entry,entry["transforms"],entry.get("colors",PackedColorArray()),light_bounds)
 
-func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB], depth: int = 0) -> void:
+## `cuts`: how many times a box has been cut in two on the way here. Halving a batch ends by
+## itself; the cuts need their limit whatever the batch's size.
+func _flush_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray, light_bounds: Array[AABB], cuts: int = 0) -> void:
 	var mesh: Mesh = entry["mesh"]
 	var parent: Node3D = entry["parent"]
-	if not light_bounds.is_empty() and depth<12:
-		var bounds: AABB = (transforms[0] as Transform3D)*mesh.get_aabb()
-		for i: int in range(1,transforms.size()):
-			bounds = bounds.merge((transforms[i] as Transform3D)*mesh.get_aabb())
+	if not light_bounds.is_empty() and cuts<LIGHT_SPLIT_DEPTH:
+		var shape: AABB = mesh.get_aabb()
+		var bounds: AABB = (transforms[0] as Transform3D)*shape
+		for transform: Transform3D in transforms:
+			bounds = bounds.merge(transform*shape)
 		var world_bounds: AABB = parent.global_transform*bounds
 		var overlaps: int = 0
 		for light: AABB in light_bounds:
@@ -135,11 +188,7 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 				break
 		if overlaps>8:
 			if transforms.size()>1:
-				var axis: int = bounds.size.max_axis_index()
-				transforms.sort_custom(func(a: Transform3D,b: Transform3D) -> bool: return a.origin[axis]<b.origin[axis])
-				var middle: int = transforms.size()/2
-				_flush_batch(entry,transforms.slice(0,middle),light_bounds,depth+1)
-				_flush_batch(entry,transforms.slice(middle),light_bounds,depth+1)
+				_split_batch(entry,transforms,colors,light_bounds,cuts,bounds.size.max_axis_index())
 				return
 			# Long plinths and beams are one box, but must not collect the lights of
 			# an entire building. Subdivide without moving or overlapping their faces.
@@ -150,19 +199,27 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 				var offset: Vector3 = transform.basis[axis]*0.25
 				transform.basis[axis] *= 0.5
 				transform.origin -= offset
-				_flush_batch(entry,[transform],light_bounds,depth+1)
+				_flush_batch(entry,[transform],colors,light_bounds,cuts+1)
 				transform.origin += offset*2.0
-				_flush_batch(entry,[transform],light_bounds,depth+1)
+				_flush_batch(entry,[transform],colors,light_bounds,cuts+1)
 				return
+	_add_batch(entry,transforms,colors)
+
+## The batch's instance under its parent.
+func _add_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray) -> void:
+	var parent: Node3D = entry["parent"]
 	var multi := MultiMesh.new()
 	multi.transform_format = MultiMesh.TRANSFORM_3D
-	multi.mesh = mesh
+	multi.use_colors = not colors.is_empty()
+	multi.mesh = entry["mesh"]
 	multi.instance_count = transforms.size()
 	for i: int in transforms.size():
 		multi.set_instance_transform(i,transforms[i])
+	for i: int in colors.size():
+		multi.set_instance_color(i,colors[i])
 	var instance := MultiMeshInstance3D.new()
 	instance.multimesh = multi
-	instance.material_override = material(entry["color"])
+	instance.material_override = _plain_material() if colors.size()>0 else material(entry["color"])
 	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
 	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
 	if entry["color"] in ["ffd88a","ffb858"] or String(entry["color"]).ends_with(":glow") or String(entry["color"]).ends_with(":haze") or String(entry["color"]).ends_with(":mist") or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
@@ -170,6 +227,29 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	parent.add_child(instance)
+
+## Half the batch by place along `axis`, each half again if it needs it.
+func _split_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray, light_bounds: Array[AABB], cuts: int, axis: int) -> void:
+	var order: Array[Vector2] = []
+	for i: int in transforms.size():
+		order.append(Vector2((transforms[i] as Transform3D).origin[axis],i))
+	order.sort()
+	var middle: int = transforms.size()/2
+	for half: Array[Vector2] in [order.slice(0,middle),order.slice(middle)]:
+		var part: Array = []
+		var tints := PackedColorArray()
+		for item: Vector2 in half:
+			part.append(transforms[int(item.y)])
+			if not colors.is_empty():
+				tints.append(colors[int(item.y)])
+		_flush_batch(entry,part,tints,light_bounds,cuts)
+
+func _plain_material() -> StandardMaterial3D:
+	if _pooled == null:
+		_pooled = StandardMaterial3D.new()
+		_pooled.vertex_color_use_as_albedo = true
+		_pooled.roughness = 0.93
+	return _pooled
 
 func material(hex: String) -> StandardMaterial3D:
 	if not materials.has(hex):
