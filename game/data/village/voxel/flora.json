@@ -1,0 +1,21 @@
+{
+  "note": "傅家坡与玉螺湖 (美术规划 §1): 湖蓝、稻绿、木褐 — bright rice green, yellow-green weeping willows and 槐 (绮云镇's are greyer), 忘情谷's deep mixed woods; the garden's flowers many-coloured.",
+  "crown_colors": {
+    "willow": ["527e3e", "628e46", "749e4e", "88ae58"],
+    "locust": ["4a7e3e", "5a9048", "6ea252", "84b25e"],
+    "broadleaf": ["3e7a44", "4e8c4c", "629e54", "7ab05e"],
+    "slender": ["4a8a4e", "5a9c56", "70ae5e", "88bc68"],
+    "pine": ["2e5a44", "3a6c4a", "4c7e52", "609058"],
+    "shrub": ["4e8a46", "5e9c4e", "74ae58", "8cbc62"],
+    "scrub": ["7a8a44", "8a9a4c", "9eac58", "b2bc66"],
+    "bamboo": ["5e9a52", "74ae5c", "8abe68", "6a9e58"]
+  },
+  "bark_colors": {
+    "willow": ["5a4e3a", "6a5c46", "4e4434"],
+    "locust": ["4e4236", "5e5040", "443a30"],
+    "broadleaf": ["5e4e3c", "6e5c46", "524434"],
+    "pine": ["5a4a3a", "6a5a46", "4e4034"]
+  },
+  "grass_colors": ["3e7a3e", "5a9a48", "7cb656", "a0cc66"],
+  "flower_colors": ["f4eee0", "f0c84a", "e87a9a", "a88ae0"]
+}

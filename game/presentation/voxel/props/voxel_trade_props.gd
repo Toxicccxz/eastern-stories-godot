@@ -8,6 +8,11 @@ var root: Node3D
 var rng: RandomNumberGenerator
 var ambience: VoxelAmbience
 
+## Whether a shelf's `slot` of `slots` holds one of `books` spread evenly along them: exactly
+## `books` slots do.
+static func book_at(slot: int, slots: int, books: int) -> bool:
+	return floori(float(slot)*books/slots) != floori(float(slot+1)*books/slots)
+
 func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) -> bool:
 	s = shapes
 	root = parent
@@ -74,8 +79,13 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for y: float in [0.18,height*0.49,height]:
 				s.box(root,Vector3(0,y,0),Vector3(w,0.12,d),"9b7851")
 			if kind=="bookcase":
+				# `books`: only so many on the shelves (lordhouse3.c: 上面很摆了几本书), spaced out.
+				var shelved: int = int(data.get("books",0))
+				var across: int = maxi(2,floori(w/0.28))
 				for row: int in 2:
-					for col: int in maxi(2,floori(w/0.28)):
+					for col: int in across:
+						if shelved > 0 and not book_at(row*across+col,2*across,shelved):
+							continue
 						var p := Vector3(-w/2+0.21+col*0.28,0.27+row*height*0.49,0)
 						s.box(root,p+Vector3(0,0.34,0),Vector3(0.18,0.67-0.07*(col%3),d*0.82),(["5a7a9a:glow","6a8aaa","4a6a8a:glow","7a9aba"] if data.get("stone",false) else ["698079","ab8a5c","65738a","b7ac83"])[col%4])
 						s.box(root,p+Vector3(0,0.39,d*0.42),Vector3(0.13,0.05,0.012),"d0c1a2")

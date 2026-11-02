@@ -101,6 +101,18 @@ class StandardTest(unittest.TestCase):
         text = paint.paint_map(self.region, STREET)
         self.assertIn('portal_id = &"t.street.west"', text)
 
+    def test_a_door_may_be_wider_than_the_standard(self) -> None:
+        wide = copy.deepcopy(STREET)
+        wide['draw']['buildings'][0]['doors'] = [{'portal': 't.street.west', 'width': 128}]
+        entry = standard.prepare_town(self.region, wide)
+        passage = next(n for n in entry['scene']['nodes'] if n.get('node') == 'passage')
+        self.assertEqual(entry['scene']['shapes'][passage['shape']], [32, 160], 'its passage as wide as the opening')
+        shop = copy.deepcopy(SHOP)
+        shop['draw']['doors'] = {'t.shop.east': {'side': 'east', 'width': 128}}
+        inside = standard.prepare_interior(self.region, shop)
+        doorway = next(row for row in inside['draw']['props'] if row[-1] == 'the doorway out')
+        self.assertEqual(doorway[4] - doorway[2], 128, 'the wall cut as wide')
+
     def test_facades_keep_an_alley(self) -> None:
         crowded = copy.deepcopy(STREET)
         crowded['draw']['buildings'][1]['at'] = -224

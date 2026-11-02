@@ -1,0 +1,36 @@
+{
+  "indoor": false,
+  "camera_size": 22,
+  "note": "lake.c: 这里是玉螺湖的湖心，湖面上丝丝雾气蒸起，周围静得出奇. The boat alone on the water, the mist on it, the far mountains west; east, small on the shore, the fishermen waving. Under the boat now and then 白光一闪.",
+  "edge": {
+    "none": true
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 4.0, "attenuation": 1.2, "day": 0.0, "night": 0.5},
+    "fog": {"color": {"dawn": "d8e4e6", "day": "d0e2ea", "dusk": "e8b89a", "night": "16263a", "midnight": "122034"}, "density": {"dawn": 0.0, "day": 0.0, "dusk": 0.0, "night": 0.0, "midnight": 0.0}, "depth": [26, 74], "depth_density": {"dawn": 0.78, "day": 0.3, "dusk": 0.4, "night": 0.42, "midnight": 0.46}}
+  },
+  "ground": {
+    "floor_wood": {"colors": ["7a5d3d", "8a6a45", "6f5438", "96754d"]}
+  },
+  "water": {
+    "kinds": {"water": {"colors": ["7cb8c8", "4a94ae", "2a6c8c", "1e5678"], "depth": 260, "flow": [0.12, 0.05], "speed": 0.16, "swell": 0.012, "swell_speed": 1.0, "foam": 0.0, "rock_foam": 0.4, "bank_foam": 0.24, "bank": ["6e684e", "5e5844", "7a7458"], "sky": 0.16, "glint": "a8d4e0", "sunset": {"color": "f2a23a", "amount": 0.64}}, "shallow_water": {"colors": ["4e7468", "3e6458", "30544a"], "depth": 40, "clear": false, "level": -0.08, "flow": [0.0, 0.12], "speed": 0.12, "swell": 0.0, "foam": 0.0, "bank_foam": 0.1, "bank": ["6e5e44", "5e5038", "7a6a4e"], "sky": 0.14}}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "butterflies": 0,
+    "wind": 0.2
+  },
+  "ambience": {
+    "birds": [{"at": [160, 80], "radius": 420, "count": 2, "height": 7, "color": "e8e4dc"}]
+  },
+  "props": [
+    {"kind": "skiff", "at": [160, 80], "size": [264, 112], "float": 0.04, "swell": 0.0, "roll": 0.0, "lamp": true, "night": 2.4, "colors": ["5b4433", "6a5039", "4f3a2b"], "note": "关内能经常见到的渔船"},
+    {"kind": "lake_gleam", "at": [160, 200], "size": [160, 96], "every": 5.0, "duty": 0.28, "note": "lake.c: 忽的见白光一闪"},
+    {"kind": "lake_gleam", "at": [40, 64], "size": [96, 80], "every": 7.0, "duty": 0.22},
+    {"kind": "far_peak", "at": [-720, 120], "size": [620, 620], "height": 11, "colors": ["6a8a90", "74949a", "7e9ea2", "648288"], "note": "西面远处是朦胧的群山"},
+    {"kind": "far_peak", "at": [-560, -560], "size": [520, 520], "height": 9, "colors": ["6a8a90", "74949a", "7e9ea2", "648288"]},
+    {"kind": "far_peak", "at": [-640, 760], "size": [520, 520], "height": 9, "colors": ["6a8a90", "74949a", "7e9ea2", "648288"]},
+    {"kind": "far_ground", "at": [960, 80], "size": [320, 1640], "elevation": -0.14, "colors": ["5a7a4a:haze"], "trees": 20, "crowns": ["5a8a5a:haze", "6a9a62:haze", "4e7e52:haze"], "note": "east: the shore"},
+    {"kind": "distant_figures", "at": [770, 80], "size": [48, 220], "count": 3, "note": "东边岸上的渔夫似乎冲着你比比划划"}
+  ]
+}

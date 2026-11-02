@@ -310,9 +310,33 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"table_row": _table_row(w,d,data)
 		"chair_row": _chair_row(w,d,data)
 		"side_table": _side_table(w,d,data)
+		"spinning_wheel": _spinning_wheel(w,d)
 		_:
 			return false
 	return true
+
+## 纺车 (farmhouse1.c: 屋角落里的纺车): a low bench, the big spoked wheel upright at one end, the
+## spindle and a hank of thread at the other, a bobbin basket beside it.
+func _spinning_wheel(w: float, d: float) -> void:
+	s.box(root,Vector3(0,0.3,0),Vector3(w*0.8,0.08,0.3),"8a6a46")
+	for x: float in [-w*0.34,w*0.34]:
+		for z: float in [-0.1,0.1]:
+			s.box(root,Vector3(x,0.14,z),Vector3(0.07,0.28,0.07),"6e5038")
+	var hub := Vector3(-w*0.14,0.86,0)
+	for post: float in [-0.08,0.08]:
+		s.box(root,Vector3(hub.x,0.58,post),Vector3(0.07,0.56,0.05),"6e5038")
+	for spoke: int in 8:
+		var a: float = spoke*TAU/8.0
+		s.tilted_box(root,hub+Vector3(cos(a)*0.24,sin(a)*0.24,0),Vector3(0.48,0.03,0.03),"a88255",Vector3(0,0,a))
+		s.box(root,hub+Vector3(cos(a)*0.5,sin(a)*0.5,0),Vector3(0.1,0.1,0.05),"8a6a46")
+		s.box(root,hub+Vector3(cos(a+PI/8)*0.5,sin(a+PI/8)*0.5,0),Vector3(0.08,0.08,0.05),"96764e")
+	s.box(root,hub,Vector3(0.1,0.1,0.2),"5c4433")
+	s.box(root,Vector3(w*0.3,0.44,0),Vector3(0.05,0.2,0.05),"6e5038")
+	s.tilted_box(root,Vector3(w*0.3,0.56,0),Vector3(0.3,0.03,0.03),"c9b98e",Vector3(0,0,0.1))
+	s.box(root,Vector3(w*0.3,0.57,0),Vector3(0.14,0.1,0.1),"efe6d0")
+	s.tilted_box(root,Vector3(w*0.06,0.72,0),Vector3(w*0.42,0.012,0.012),"efe6d0",Vector3(0,0,-0.42))
+	s.box(root,Vector3(w*0.26,0.1,d*0.3),Vector3(0.24,0.2,0.24),"b39a5c")
+	s.box(root,Vector3(w*0.26,0.22,d*0.3),Vector3(0.18,0.06,0.18),"efe6d0")
 
 ## The colours of a lacquered or plain piece: `top`, `legs`, `trim` (defaults plain wood).
 func _wood(look: Dictionary, key: String, fallback: String) -> String:

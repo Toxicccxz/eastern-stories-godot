@@ -243,6 +243,7 @@ func _check_furnishings(packed: PackedScene, scene: String) -> void:
 		var spot := node as Node2D
 		var box: Vector2 = spot.get_meta("footprint")
 		count += 1
+		blocked = blocked and box.x>0 and box.y>0
 		var corner := Vector2i(spot.position-box/2)
 		for y: int in range(corner.y+8,corner.y+int(box.y),16):
 			for x: int in range(corner.x+8,corner.x+int(box.x),16):
