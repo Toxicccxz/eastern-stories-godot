@@ -15,6 +15,7 @@
 		"common/progression.json",
 		"common/codex.json",
 		"common/opening.json",
+		"common/loading_screen.json",
 		"story/prologue.json",
 		"story/chapter1.json",
 		"story/chapter2.json",

@@ -7,6 +7,8 @@ var failed: bool = false
 func _init() -> void:
 	# The day stands still, as under run_suite.gd (TestDay): the save read back must match exactly.
 	TestDay.turn_off()
+	# And no loading screen holds the walk this counts in frames.
+	TestFeel.turn_off()
 	call_deferred("_run")
 
 func _run() -> void:

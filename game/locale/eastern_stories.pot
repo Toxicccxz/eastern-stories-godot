@@ -10595,6 +10595,11 @@ msgstr ""
 msgid "工作状态异常，请停止操作。"
 msgstr ""
 
+#. under the animation while a map's world is being built.
+#: ui/world/world_loading_screen.gd
+msgid "载入中"
+msgstr ""
+
 #. the banner on arriving on another map: {region} the region (绮云镇), {place} where the player stands (卧龙岗).
 #: ui/world/world_view_overlay.gd
 msgid "{region} · {place}"

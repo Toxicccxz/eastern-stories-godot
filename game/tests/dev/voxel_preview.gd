@@ -70,6 +70,8 @@ func _ready() -> void:
 	_build_panel()
 	await get_tree().process_frame
 	await get_tree().process_frame
+	# A map picked here shows at once: no loading screen, its overlay is hidden anyway.
+	GameContent.catalog().pacing().feel.with_values({"map_loading_slice_ms": 0})
 	session = (load(SESSION_SCENE) as PackedScene).instantiate() as WorldSessionController
 	session.configure_source_entry("预览", CharacterState.GENDER_MALE)
 	add_child(session)

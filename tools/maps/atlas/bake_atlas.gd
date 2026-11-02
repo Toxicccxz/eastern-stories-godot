@@ -33,6 +33,8 @@ func _run() -> void:
 	for npc: NpcDefinition in GameContent.catalog().npcs():
 		npc.attitude = NpcDefinition.Attitude.PEACEFUL
 		npc._capability_ids.clear()
+	# Each map's world whole in one frame: nothing here waits behind a loading screen.
+	GameContent.catalog().pacing().feel.with_values({"map_loading_slice_ms": 0})
 	session = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	session.configure_source_entry("沈沧海", CharacterState.GENDER_MALE)
 	session.configure_npc_ambience_random_source(Still.new())

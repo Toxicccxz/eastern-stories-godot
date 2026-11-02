@@ -49,6 +49,11 @@ extends RefCounted
 ## - voxel_worlds_kept: how many of the maps the player walked through keep their built
 ##   voxel world (the most recent, the player's included); an older map's is freed and
 ##   built again on coming back (0: every map keeps its world; DECISIONS「固定俯视体素地图」).
+## - DECISIONS「加载画面」: map_loading_slice_ms how long a voxel world's build works per frame,
+##   the frames between drawing the loading screen (0: no loading screen, the build takes one
+##   long frame); map_loading_delay_ms the screen stays dark this long and shows only if the
+##   build takes longer; map_loading_min_ms once shown it stays at least this long;
+##   map_loading_fade_ms it fades in and out in this long.
 
 ## A bubble of this many characters or fewer shows for speech_bubble_ms alone.
 const BUBBLE_SHORT_CHARACTERS: int = 24
@@ -79,6 +84,10 @@ var _battle_end_hold_ms: int = 0
 var _training_step_ms: int = 0
 var _corner_slide_px: int = 0
 var _voxel_worlds_kept: int = 0
+var _map_loading_slice_ms: int = 0
+var _map_loading_delay_ms: int = 0
+var _map_loading_min_ms: int = 0
+var _map_loading_fade_ms: int = 0
 var _move_title_ms: int = 0
 var _special_title_ms: int = 0
 var _damage_float_ms: int = 0
@@ -147,6 +156,18 @@ var training_step_seconds: float:
 var voxel_worlds_kept: int:
 	get:
 		return _voxel_worlds_kept
+var map_loading_slice_seconds: float:
+	get:
+		return float(_map_loading_slice_ms) / 1000.0
+var map_loading_delay_seconds: float:
+	get:
+		return float(_map_loading_delay_ms) / 1000.0
+var map_loading_min_seconds: float:
+	get:
+		return float(_map_loading_min_ms) / 1000.0
+var map_loading_fade_seconds: float:
+	get:
+		return float(_map_loading_fade_ms) / 1000.0
 var move_title_seconds: float:
 	get:
 		return float(_move_title_ms) / 1000.0
@@ -235,6 +256,10 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_training_step_ms = int(values.get("training_step_ms", _training_step_ms))
 	_corner_slide_px = int(values.get("corner_slide_px", _corner_slide_px))
 	_voxel_worlds_kept = int(values.get("voxel_worlds_kept", _voxel_worlds_kept))
+	_map_loading_slice_ms = int(values.get("map_loading_slice_ms", _map_loading_slice_ms))
+	_map_loading_delay_ms = int(values.get("map_loading_delay_ms", _map_loading_delay_ms))
+	_map_loading_min_ms = int(values.get("map_loading_min_ms", _map_loading_min_ms))
+	_map_loading_fade_ms = int(values.get("map_loading_fade_ms", _map_loading_fade_ms))
 	_move_title_ms = int(values.get("move_title_ms", _move_title_ms))
 	_special_title_ms = int(values.get("special_title_ms", _special_title_ms))
 	_damage_float_ms = int(values.get("damage_float_ms", _damage_float_ms))
@@ -248,11 +273,20 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	return self
 
 
+## A copy of this record with `values` over it (tests).
+func but(values: Dictionary) -> FeelDefinition:
+	var copy := FeelDefinition.new()
+	for key: String in KEYS:
+		copy.set("_" + key, get("_" + key))
+	return copy.with_values(values)
+
+
 const KEYS: Array[String] = [
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
 	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
+	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
 	"turn_cue_ms", "intent_pulse_ms",
 ]

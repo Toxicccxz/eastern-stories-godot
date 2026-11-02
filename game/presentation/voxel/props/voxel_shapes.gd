@@ -111,9 +111,13 @@ func _stone_mesh(variant: int) -> ArrayMesh:
 
 func flush(light_bounds: Array[AABB] = []) -> void:
 	for key: String in batches:
-		var entry: Dictionary = batches[key]
-		_flush_batch(entry,entry["transforms"],light_bounds)
+		flush_one(key,light_bounds)
 	batches.clear()
+
+## One batch of flush(), for a build that goes over several frames; batches.clear() is the caller's.
+func flush_one(key: String, light_bounds: Array[AABB] = []) -> void:
+	var entry: Dictionary = batches[key]
+	_flush_batch(entry,entry["transforms"],light_bounds)
 
 func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB], depth: int = 0) -> void:
 	var mesh: Mesh = entry["mesh"]
