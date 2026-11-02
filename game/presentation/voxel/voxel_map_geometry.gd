@@ -98,6 +98,13 @@ static func compass(command: String) -> Vector2:
 		"northeast":Vector2(1,-1),"northwest":Vector2(-1,-1),"southeast":Vector2(1,1),"southwest":Vector2(-1,1)}
 	return (directions.get(base,Vector2.ZERO) as Vector2).normalized()
 
+## How long the build works per frame behind the loading screen (breathe()); 0: all in one frame.
+var slice_usec: int = 0
+var _slice_ends: int = 0
+## The view's next frame: the build goes on. Its own signal, so a build whose view has left the
+## tree simply waits, and one whose world is freed is gone with it.
+signal next_slice
+
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
 
@@ -119,6 +126,16 @@ static func merge_flora(region: Dictionary, own: Dictionary) -> Dictionary:
 		else:
 			result[key] = value.duplicate(true) if value is Dictionary or value is Array else value
 	return result
+
+## Lets a frame draw once this frame's share of the build is spent (`now`: at once). With
+## `slice_usec` 0 it does nothing and the build stays one long frame. Only this node waits,
+## never its RefCounted helpers. Frames change nothing built: the shapes come in the same
+## order from the same seed.
+func breathe(now: bool = false) -> void:
+	if slice_usec <= 0 or (not now and Time.get_ticks_usec() < _slice_ends):
+		return
+	await next_slice
+	_slice_ends = Time.get_ticks_usec() + slice_usec
 
 func make(map: WorldMapController, layout: Dictionary) -> void:
 	rng.seed = 7819
@@ -237,18 +254,23 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	garden.ambience = ambience
 	household.ambience = ambience
 	life.prepare(self,map,layout)
-	_terrain(map, layout.get("reshape",[]), layout.get("exit_trails",{}))
+	await breathe()
+	await _terrain(map, layout.get("reshape",[]), layout.get("exit_trails",{}))
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
+		await breathe()
 	for prop: Dictionary in layout.get("props", []):
 		_prop(prop)
+		await breathe()
 	var furnishings: Node = map.get_node_or_null("Furnishings")
 	if furnishings != null:
 		for node: Node in furnishings.get_children():
 			var data: Dictionary = furnishing(node as Node2D)
 			life.dress(data)
 			_prop(data)
+			await breathe()
 	life.finish(map,terrain_cells)
+	await breathe()
 	_critters(layout)
 	_plant_groves()
 	# Split only batches exceeding Mobile's eight local omni lights. Making every
@@ -257,9 +279,13 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	for lamp: Node in find_children("*","OmniLight3D",true,false):
 		var light := lamp as OmniLight3D
 		light_bounds.append(light.global_transform*light.get_aabb())
-	shapes.flush(light_bounds)
+	for key: String in shapes.batches:
+		shapes.flush_one(key,light_bounds)
+		await breathe()
+	shapes.batches.clear()
 	if foliage != null:
 		foliage.finish()
+		await breathe()
 	set_view_side(false)
 	sync_passages(map)
 
@@ -352,8 +378,10 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			for lane: int in wide:
 				var at: Vector2 = passage.global_position+toward*step*stride+across*(lane-(wide-1)/2.0)*16
 				cells[Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)] = road
+	await breathe()
 	if cliffs != null:
 		cliffs.prepare(cells,BLOCKING)
+		await breathe()
 	if not indoor:
 		var required: Array[Rect2] = footprints.duplicate()
 		for node: Node in map.find_children("*","Area2D",true,false):
@@ -361,11 +389,16 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 				required.append((node as WorldPhysicalZoneArea2D).global_rect())
 		landmass = VoxelLandmass.new()
 		landmass.build(cells,required,edge_config)
+		await breathe()
 		cells = landmass.terrain(cells)
+		await breathe()
 		_ground_under_blocks(cells)
+		await breathe()
 		_fray_seams(cells)
+		await breathe()
 	if cliffs != null:
 		cliffs.shape(cells)
+		await breathe()
 		cliffs.remember(cells)
 	water = VoxelWater.new(water_config)
 	var beds: Dictionary = {}
@@ -386,6 +419,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			if water.levels[cell] < -0.1 or water.looks[cell].get("clear",false):
 				holes[cell] = true
 		landmass.make_base(self,holes)
+		await breathe()
 	var sites: Dictionary = {}
 	var painted: Dictionary[Vector2i, bool] = {}
 	# Merged paving and boards must also see the hole, not bridge over a skipped cell.
@@ -393,6 +427,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		if _floor_opening(Vector2(cell)):
 			cells.erase(cell)
 	for cell: Vector2i in cells:
+		await breathe()
 		if painted.has(cell):
 			continue
 		var pos: Vector2 = Vector2(cell)
@@ -480,6 +515,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		if foliage != null and not wall and (not indoor or kind in ["grass","forest","forest_floor"]):
 			_dress_ground(cell, p, kind, growth, cells)
 	_plant_trees(sites)
+	await breathe()
 	# Indoor floors keep their cutaway plinth. Outdoors has only the finite,
 	# contoured landmass above, with no rectangle spanning its gaps or surroundings.
 	if indoor:
@@ -487,10 +523,14 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 	if cliffs != null:
 		cliffs.build(self)
 		occluders.append({"node":cliffs.root})
+		await breathe()
 		_dress_cliffs()
+		await breathe()
 	water.build(self,cells,cliffs,shapes,rng)
+	await breathe()
 	if foliage != null:
 		for edge_cell: Vector2i in cells:
+			await breathe()
 			var hidden: bool = false
 			for footprint: Rect2 in footprints:
 				hidden = hidden or footprint.has_point(Vector2(edge_cell))

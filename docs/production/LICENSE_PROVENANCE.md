@@ -69,3 +69,8 @@ external pack files are included. Owner-provided visual references: Max Parata's
 
 `game/assets/textures/atlas/` is the 地图 page's pictures: this project's own voxel maps and generated
 voxel land rendered by `tools/maps/atlas/` (DECISIONS「总图」). No external material.
+
+`game/assets/textures/loading/ink_ring.png` is the loading screen's animation (DECISIONS「加载画面」):
+a placeholder this project generated with a small Python script, no external material. Art that
+replaces it goes in the same folder, named in `game/data/common/loading_screen.json`, with its source
+recorded here.

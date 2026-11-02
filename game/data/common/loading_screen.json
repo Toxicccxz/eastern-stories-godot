@@ -1,0 +1,14 @@
+{
+	"loading_screen": {
+		"background": "0e0c0a",
+		"backdrop": "",
+		"sheet": "res://assets/textures/loading/ink_ring.png",
+		"columns": 12,
+		"rows": 1,
+		"frames": 12,
+		"fps": 12,
+		"side_px": 96,
+		"center_percent": [50, 46],
+		"caption": true
+	}
+}

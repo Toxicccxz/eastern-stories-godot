@@ -30,6 +30,7 @@ var _pacing: PacingDefinition = PacingDefinition.new()
 var _progression: ProgressionRules
 var _bounties: BountyRules
 var _opening: OpeningDefinition
+var _loading_screen: LoadingScreenDefinition
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -307,6 +308,16 @@ func set_opening(value: OpeningDefinition) -> void:
 
 func opening() -> OpeningDefinition:
 	return _opening
+
+
+## What covers the view while a map's world is built (loading_screen.json; DECISIONS「加载画面」);
+## a plain dark screen when no document has one.
+func set_loading_screen(value: LoadingScreenDefinition) -> void:
+	_loading_screen = value
+
+
+func loading_screen() -> LoadingScreenDefinition:
+	return _loading_screen
 
 
 func pacing() -> PacingDefinition:

@@ -47,6 +47,8 @@ var quest_marker: Node3D
 ## What the marker was placed for ("" none): the target and the quest ledger's size.
 var _quest_key: String = ""
 var _built: bool = false
+## _build() is going on over several frames behind the loading screen (DECISIONS「加载画面」).
+var _building: bool = false
 var _active: bool = false
 var _old_modulate: Color = Color.WHITE
 var _old_msaa: Viewport.MSAA = Viewport.MSAA_DISABLED
@@ -67,13 +69,20 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	_deactivate()
+	if _building:
+		release_world()
 
 func _process(delta: float) -> void:
 	if map == null or map.player_body == null or not map.player_body.player_controlled:
 		_deactivate()
 		return
 	if not _built:
-		_build()
+		if _building:
+			geometry.next_slice.emit()
+		else:
+			_build()
+		if not _built:
+			return
 	if not _active:
 		_activate()
 	_advance_view_rotation(delta)
@@ -93,15 +102,25 @@ func _process(delta: float) -> void:
 	geometry.ambience.night = lighting.amount
 	geometry.ambience.advance(delta)
 
+## With the feel's map_loading_slice_ms this goes on over several frames, the session held and
+## the loading screen over it; otherwise it is over when it returns. Either way the same world.
 func _build() -> void:
+	var slice: float = GameContent.catalog().pacing().feel.map_loading_slice_seconds
+	var covered: bool = slice > 0.0 and map.session != null
+	_building = covered
+	if covered:
+		map.session.set_world_building(true)
 	layout = JSON.parse_string(FileAccess.get_file_as_string(layout_path))
 	layout["flora"] = VoxelMapGeometry.merge_flora(_region_file("flora.json"),layout.get("flora",{}))
 	world = Node3D.new()
 	world.name = "VoxelWorld"
 	add_child(world)
 	geometry = VoxelMapGeometry.new()
+	geometry.slice_usec = roundi(slice*1000000.0) if covered else 0
 	world.add_child(geometry)
-	geometry.make(map,layout)
+	# The screen goes dark first: the first long piece of work comes after a frame of it.
+	await geometry.breathe(true)
+	await geometry.make(map,layout)
 	geometry.set_view_side(_cutaway_left)
 	camera = Camera3D.new()
 	# This camera is already smoothed in _process; engine physics interpolation would
@@ -116,22 +135,33 @@ func _build() -> void:
 	camera.look_at(Vector3.ZERO,Vector3.UP)
 	_make_entrances()
 	_make_shutters()
+	await geometry.breathe()
 	for entry: Dictionary in geometry.occluders:
 		occlusion.register(entry["node"])
+		await geometry.breathe()
 	for shutter: Node3D in shutters.values():
 		occlusion.register(shutter)
+	await geometry.breathe()
 	var indoor: bool = layout.get("indoor",false)
 	lighting.build(world,occlusion,indoor,VoxelLighting.merge_profile(_region_light(indoor),layout.get("light",{})))
 	_sync_light(true)
 	_built = true
+	_building = false
+	if covered:
+		map.session.set_world_building(false)
 
 ## Frees the built world (the session keeps only the last `voxel_worlds_kept` maps' worlds,
 ## DECISIONS「固定俯视体素地图」): every 3D node, the occlusion materials and the lights go;
 ## the chosen side, the held frame and the camera's yaw stay. Nothing of the 2D map, its
 ## bodies or the save changes. The next _process() on this map builds it again as at first.
+## A build under way stops with it (the map left the tree meanwhile): it waits on the geometry,
+## which goes too, and the next _process() here begins again.
 func release_world() -> void:
-	if not _built:
+	if not _built and not _building:
 		return
+	if _building:
+		_building = false
+		map.session.set_world_building(false)
 	_deactivate()
 	actors.clear()
 	labels.clear()

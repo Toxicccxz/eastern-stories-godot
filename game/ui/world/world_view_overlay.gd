@@ -5,8 +5,9 @@ extends CanvasLayer
 ## player walked into (the session's view_leaving), comes back on the new map (or where it
 ## was) and names the place there: the region and the zone. A room the player comes
 ## into shows its title and description in the top right for a while (DECISIONS「说话和交互」;
-## 消息 keeps them). Only how it looks; the session holds world time and the player's walk
-## meanwhile.
+## 消息 keeps them). While a map's world is built the view stays dark, with the loading screen
+## over it if that takes long, and one fade brings the world back (DECISIONS「加载画面」). Only
+## how it looks; the session holds world time and the player's walk meanwhile.
 
 const BANNER_FADE_SHARE: float = 0.2
 const BANNER_MARGIN: float = 16.0
@@ -28,6 +29,16 @@ var _room_text: Label
 var _room_tween: Tween
 ## Counts arrivals; one waiting out SETTLE_FRAMES gives way to a later one.
 var _arrivals: int = 0
+var _loading_screen: WorldLoadingScreen
+## A world's build is under way, or its cover not yet lifted.
+var _loading: bool = false
+## Counts the builds; one being lifted gives way to a later one.
+var _builds: int = 0
+## What the arrival would have done, for the lift to do: its fade and its banner.
+var _arrival_fade: float = -1.0
+var _arrival_banner: float = 0.0
+## A room's text that came during the build, shown once the view is back.
+var _room_waiting: Callable = Callable()
 
 
 func configure(session: WorldSessionController) -> void:
@@ -44,6 +55,9 @@ func _ready() -> void:
 	_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_shade.modulate.a = 0.0
 	add_child(_shade)
+	_loading_screen = WorldLoadingScreen.new()
+	_loading_screen.name = "LoadingScreen"
+	add_child(_loading_screen)
 	_banner = PanelContainer.new()
 	_banner.name = "MapBanner"
 	_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -87,10 +101,22 @@ func _ready() -> void:
 	if _session != null:
 		_session.view_leaving.connect(_on_view_leaving)
 		_session.view_arriving.connect(_on_view_arriving)
+		_session.world_building_changed.connect(_on_world_building)
+		if _session.world_building():
+			_on_world_building(true)
 
 
 func shade_alpha() -> float:
 	return _shade.modulate.a
+
+
+## The cover of a world's build is up (DECISIONS「加载画面」).
+func loading() -> bool:
+	return _loading
+
+
+func loading_screen() -> WorldLoadingScreen:
+	return _loading_screen
 
 
 func banner_text() -> String:
@@ -104,6 +130,9 @@ func room_text() -> String:
 
 ## `title` and `description` (shown language) at the top for `seconds`, fading in and out.
 func show_room(title: String, description: String, seconds: float) -> void:
+	if _loading:
+		_room_waiting = show_room.bind(title, description, seconds)
+		return
 	_room_title.text = title
 	_room_text.text = description
 	_kill(_room_tween)
@@ -119,7 +148,7 @@ func show_room(title: String, description: String, seconds: float) -> void:
 ## shows it keeps the height its wrapped lines take (known only once they are laid out).
 func _process(_delta: float) -> void:
 	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
-	_room.visible = hud != null and hud.visible and not hud.panel_open() and not hud.menu.is_presented()
+	_room.visible = hud != null and hud.visible and not hud.panel_open() and not hud.menu.is_presented() and not _loading
 	if _room.visible and _room.modulate.a > 0.0:
 		_place_room()
 
@@ -144,6 +173,12 @@ func _place_room() -> void:
 	_room.position = Vector2(view.end.x - _room.size.x - BANNER_MARGIN, top).round()
 
 
+## Nothing goes to the world under the cover: a key pressed there would act unseen.
+func _input(event: InputEvent) -> void:
+	if _loading and event.is_pressed():
+		get_viewport().set_input_as_handled()
+
+
 func _on_view_leaving(seconds: float) -> void:
 	_arrivals += 1
 	_shade_tween = _fade(_shade_tween, _shade, 1.0, seconds)
@@ -155,6 +190,8 @@ func _on_view_arriving(_map_id: StringName, arrived: bool, door: bool) -> void:
 	var feel: FeelDefinition = GameContent.catalog().pacing().feel
 	var fade_in: float = feel.door_fade_in_seconds if door else feel.map_fade_in_seconds
 	var banner: float = 0.0 if door else feel.map_banner_seconds
+	_arrival_fade = fade_in
+	_arrival_banner = banner if arrived else 0.0
 	if fade_in <= 0.0:
 		_kill(_shade_tween)
 		_shade.modulate.a = 0.0
@@ -169,11 +206,59 @@ func _on_view_arriving(_map_id: StringName, arrived: bool, door: bool) -> void:
 	var arrival: int = _arrivals
 	for frame: int in SETTLE_FRAMES:
 		await get_tree().process_frame
-	if arrival != _arrivals:
+	if arrival != _arrivals or _loading:
 		return
 	_shade_tween = _fade(_shade_tween, _shade, 0.0, fade_in)
 	if arrived:
 		_show_banner(banner)
+
+
+## A build began: dark at once whatever came before (a New Game has no fade of its own). A
+## build that ended here lifts the cover once its first frame, the long one, has been drawn.
+func _on_world_building(on: bool) -> void:
+	# The session going away lets its build go after this layer has left the tree.
+	if not is_inside_tree():
+		return
+	_builds += 1
+	var build: int = _builds
+	if on:
+		_loading = true
+		_kill(_shade_tween)
+		_shade.modulate.a = 1.0
+		# The last place's banner does not stay over the new map's cover.
+		_kill(_banner_tween)
+		_banner.modulate.a = 0.0
+		_loading_screen.begin()
+		return
+	_loading_screen.settle()
+	for frame: int in SETTLE_FRAMES:
+		await get_tree().process_frame
+	var left: float = _loading_screen.seconds_left()
+	if left > 0.0:
+		await get_tree().create_timer(left, true).timeout
+	if build == _builds:
+		_lift(build)
+
+
+## One fade from the cover to the world: the picture and the dark under it go together, so the
+## view never dips to black between them. A small room's build showed no picture, and its
+## fade is the door's or the passage's own.
+func _lift(build: int) -> void:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	var seconds: float = feel.map_loading_fade_seconds if _loading_screen.shown() or _arrival_fade < 0.0 else _arrival_fade
+	_loading = false
+	_loading_screen.end(seconds)
+	_shade_tween = _fade(_shade_tween, _shade, 0.0, seconds)
+	_show_banner(_arrival_banner)
+	_arrival_fade = -1.0
+	_arrival_banner = 0.0
+	if _room_waiting.is_valid():
+		_room_waiting.call()
+		_room_waiting = Callable()
+	if seconds > 0.0:
+		await get_tree().create_timer(seconds, true).timeout
+	if build == _builds:
+		_session.hold_presentation(WorldSessionController.WORLD_BUILD_HOLD, false)
 
 
 func _show_banner(seconds: float) -> void:

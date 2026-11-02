@@ -255,6 +255,12 @@ func release_world_time(owner: StringName) -> void:
 ## stands still and the player does not walk: the fade takes nobody's time.
 const VIEW_TIME_HOLD: StringName = &"map_transition"
 var _presentation_holds: Dictionary[StringName, bool] = {}
+## The world held while a map's voxel world is built behind the loading screen, until the
+## overlay has lifted it (DECISIONS「加载画面」): the build takes nobody's time.
+const WORLD_BUILD_HOLD: StringName = &"map_loading"
+## The player's map's voxel world is being built (true), or is done or given up (false).
+signal world_building_changed(on: bool)
+var _world_building: bool = false
 
 
 func _fade_out_seconds(door: bool) -> float:
@@ -269,6 +275,19 @@ func _fade_in_seconds(door: bool) -> float:
 
 func _hold_view(on: bool) -> void:
 	hold_presentation(VIEW_TIME_HOLD, on)
+
+
+func set_world_building(on: bool) -> void:
+	if on == _world_building:
+		return
+	_world_building = on
+	if on:
+		hold_presentation(WORLD_BUILD_HOLD, true)
+	world_building_changed.emit(on)
+
+
+func world_building() -> bool:
+	return _world_building
 
 
 ## The battle panel is on the screen (a fight, or the last lines of one).

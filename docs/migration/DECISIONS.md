@@ -28,6 +28,7 @@
 
 **地图与体素**
 - 所有地图用固定正交斜视体素表现；2D 地图仍是唯一依据（碰撞、站位、交互范围、存档）；左右 45° 两个视角，按钮切换、0.6 秒圆弧；家具只记在布局里。走过的地图只有最近 `voxel_worlds_kept`（3）张保留建好的体素世界，更早的在玩家离开后释放、回去时按原样重建；2D 地图照常全部常驻，释放不碰任何规则、NPC 或存档。「固定俯视体素地图」
+- 第一次进一张图（或它的体素世界已被释放）时世界分帧搭建，画面先暗；搭建超过 0.2 秒才出现加载画面，出现后至少停 0.5 秒，和暗场一起淡出（只淡一次）。已搭好的图什么都不出现；其间世界停住、按键无效。美术只在 `common/loading_screen.json` 和 `assets/textures/loading/`。「加载画面」
 - 昼夜跟着游戏里的一天走：ES2 的八段（`day_phases.json`）、一天 24 真实分钟（`day_length_minutes`，经典也是 24），画面按五个关键帧（黎明、白天、黄昏、夜、深夜）在段内平滑过渡，每区一套光（`<区域>/voxel/light.json`），单图只覆盖写了的帧；室外房间的描述末尾接当段天色一句，段开始时室外的人看到一行；设置「昼夜」三档（跟随 / 一直白天 / 一直夜晚）代替 HUD 按钮；时刻存进存档（`day_seconds`）；NPC、门、战斗都不看时刻。「昼夜」
 - 时段条件 `phase`（`when` 的一种，phase_id 列表）：刷怪的 `present`／`until`、任务条件、act 分支、`calls` 条件可以看时段；舞台仍只在进图时判，带时段的舞台下场只是退场、天一到再回来。act 步骤 `until_phase` 把世界时钟拨到下一个该段的开头（「等到天黑」，先确认），别的图欠这段时间、本图和玩家照补算；只在关北的篝火用。「关北 C」
 - 天气只有云量：natured.c 的五句天色（万里无云 → 乌云密布）每 2–4 游戏小时走一档，跟世界时钟一起推进、一起停；室外描述在当段天色后再接当句；
@@ -186,7 +187,7 @@
 - `corpse_rot_seconds` / `corpse_bones_seconds` / `corpse_scatter_seconds` 120 / 120 / 60（就是 ES2）。「尸体腐烂」
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
-- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）。「手感」「手感：战斗」「战斗演出」「连续修炼」「固定俯视体素地图」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）。「手感」「手感：战斗」「战斗演出」「连续修炼」「固定俯视体素地图」「加载画面」
 - 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的九个开关、死亡的四个开关、`autosave_min_seconds` 和 `stats_appear_when_used` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」「减轻死亡」「自动存档」「数值用到才出现」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
@@ -212,6 +213,29 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 加载画面 (owner 2026-11-02「第一次进新地图有点卡，加加载动画，以后方便换美术」)
+
+ES2 没有画面，这是新增的表现，**不改规则和结果**。
+- **卡在哪**（RTX 4070 SUPER，窗口 1280×720，125 张有体素视角的图）：交接中位 11 ms；`_build()` 中位 63 ms、
+  最慢 1.3 秒（晚月庄、乔阴、雪亭镇街面）；搭好后的首次绘制另加 11–480 ms。大图一共卡约 1.5 秒，小房间 30–100 ms。
+  时间分散在地形、铺地、建筑、合批和房间细节里，没有一处能单独解决。
+- **分帧**：先画一帧再一口气搭完的话，动画会在加载时定格，慢机器上几秒不动就像死机。所以世界分帧搭：
+  每帧做 `map_loading_slice_ms` 40 ms，让出一帧再接着做（`VoxelMapGeometry.breathe()`，由视图的 `_process`
+  推进）。代价：大图总时长约 1.4 → 1.6–1.9 秒，动画约 15 帧 / 秒，最长一帧约 230 ms（晚月庄，多数 100–150 ms）。
+  搭出来的世界和一帧搭完的完全相同（同一种子、同一顺序；`map_loading_test` 比对）。为 0 时没有加载画面，和以前一样一帧搭完
+  （套件、`voxel_preview`、沙盘烘焙走这条路）。
+- **何时出现**：搭建期间画面保持暗；超过 `map_loading_delay_ms` 200 ms 才淡入加载画面，出现后至少停
+  `map_loading_min_ms` 500 ms。所以小房间只是平常那一下暗（不闪），大图才看得到动画（这台机器上 124 张图里 24 张；
+  机器越慢越多）。已搭好的图什么都不出现。
+- **淡出只有一次**：加载画面和暗场一起淡到世界（`map_loading_fade_ms` 200 ms）；没出现画面时用这次进门或换图自己的
+  淡入时长。到达横幅和房间描述等世界回来才显示。
+- **世界**：`hold_presentation(map_loading)`，时间不走、玩家不能走，遮盖期间按键（松开除外）不往下传。位置、存档、
+  随机数都不碰。正在打的战斗照旧走（`presentation_frozen()` 的既有规则）。New Game、继续、读档、法术和复活的
+  换图走同一条路：只要视图发现世界没搭。中途被叫走时半成品世界丢弃，回来重搭。
+- **换美术**：`game/data/common/loading_screen.json` 写背景色、可选整屏底图、序列帧贴图（`sheet` + 行列、帧数、
+  fps、显示边长、位置）和要不要「载入中」三个字；图放 `game/assets/textures/loading/`，来源记 LICENSE_PROVENANCE。换图只换文件、改
+  这份配置，不动脚本；一张静图就是一帧的贴图。现在的墨圈是占位图。
 
 ## 总图 (现代基线 B, owner 2026-11-01「可以开工」; 计划 `build/plans/现代基线B_计划.md` v2, owner 改成体素沙盘, Q1 四格先立木牌、Q2 没去过的地方山河在模型不在、Q3 真实比例; 追加: 上古卷轴式、任务箭头上沙盘、地图改了沙盘跟着改、路不用线条)
 
