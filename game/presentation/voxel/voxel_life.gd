@@ -70,7 +70,7 @@ func prepare(owner: VoxelMapGeometry, map: WorldMapController, layout: Dictionar
 	presets = JSON.parse_string(FileAccess.get_file_as_string(PRESETS))
 	var specs: Dictionary = node.get_meta("rooms")
 	var overrides: Dictionary = layout.get("life",{})
-	for zone: Node in map.find_children("*","Area2D",true,false):
+	for zone: Node in owner.areas:
 		var area := zone as WorldPhysicalZoneArea2D
 		if area == null or not specs.has(String(area.zone_id)):
 			continue
@@ -187,15 +187,14 @@ func finish(map: WorldMapController, cells: Dictionary[Vector2i,String]) -> void
 		if node is WorldSpawnMarker2D:
 			markers.append((node as Node2D).global_position)
 	var doors: Array[Vector2] = []
-	for node: Node in map.find_children("*","Area2D",true,false):
+	for node: Node in geometry.areas:
 		if node is WorldPassageArea2D:
 			doors.append((node as Node2D).global_position)
+	var floors: Dictionary[StringName,Dictionary] = _floors(cells)
 	for zone_id: StringName in rooms:
 		var room: Dictionary = rooms[zone_id]
 		var floor: Dictionary[Vector2i,bool] = {}
-		for cell: Vector2i in cells:
-			if (room["rect"] as Rect2).has_point(Vector2(cell)) and not cells[cell] in WALKABLE_NOT:
-				floor[cell] = true
+		floor.assign(floors[zone_id])
 		if floor.is_empty():
 			continue
 		var worn: Dictionary[Vector2i,float] = _wear(room,floor,cells,doors,markers)
@@ -205,6 +204,22 @@ func finish(map: WorldMapController, cells: Dictionary[Vector2i,String]) -> void
 		hung[zone_id] = _hangings(room,floor,cells,doors)
 		_walls(room,floor,cells)
 		_ambience(zone_id,room)
+
+## Each room's floor cells, in the ground's own order.
+func _floors(cells: Dictionary[Vector2i,String]) -> Dictionary[StringName,Dictionary]:
+	var result: Dictionary[StringName,Dictionary] = {}
+	var rooms_at: Dictionary[Vector2i,Array] = {}
+	for zone_id: StringName in rooms:
+		result[zone_id] = {}
+		for cell: Vector2i in VoxelMapGeometry.cells_within(rooms[zone_id]["rect"]):
+			if not rooms_at.has(cell):
+				rooms_at[cell] = []
+			rooms_at[cell].append(zone_id)
+	for cell: Vector2i in cells:
+		if rooms_at.has(cell) and not cells[cell] in WALKABLE_NOT:
+			for zone_id: StringName in rooms_at[cell]:
+				result[zone_id][cell] = true
+	return result
 
 ## The room's small movements, from its use's `ambience` (overridable per room: `"ambience": []`
 ## stills it), hung on its own anchors; the same every build (seeded by the room).

@@ -191,8 +191,8 @@ func _check_hidden_floor(tree: SceneTree, session: WorldSessionController, map: 
 
 func _pieces(shapes) -> int:
 	var count: int = 0
-	for key: String in shapes.batches:
-		count += (shapes.batches[key]["transforms"] as Array).size()
+	for entry: Dictionary in shapes.batches.values():
+		count += (entry["transforms"] as Array).size()
 	return count
 
 func _click(tree: SceneTree, button: Button) -> void:

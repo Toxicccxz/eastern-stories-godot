@@ -66,6 +66,7 @@ var palette: Dictionary = {}
 ## Walls of another stuff inside rects (layout `wall_looks`): "rock" (a room built against
 ## the mountain) or "earth" (土墙), with their colours.
 var wall_looks: Array = []
+var _wall_rects: Array[Rect2] = []
 ## How high the walls stand (`wall_height`, units): a great hall's taller than a room's 3.2.
 var wall_height: float = 3.2
 var surfaces: Dictionary = {}
@@ -98,6 +99,8 @@ static func compass(command: String) -> Vector2:
 		"northeast":Vector2(1,-1),"northwest":Vector2(-1,-1),"southeast":Vector2(1,1),"southwest":Vector2(-1,1)}
 	return (directions.get(base,Vector2.ZERO) as Vector2).normalized()
 
+## The map's zones and passages; looking them up walks every node of the 2D map.
+var areas: Array[Node] = []
 ## How long the build works per frame behind the loading screen (breathe()); 0: all in one frame.
 var slice_usec: int = 0
 var _slice_ends: int = 0
@@ -138,6 +141,9 @@ func breathe(now: bool = false) -> void:
 	_slice_ends = Time.get_ticks_usec() + slice_usec
 
 func make(map: WorldMapController, layout: Dictionary) -> void:
+	for node: Node in map.find_children("*","Area2D",true,false):
+		if node is WorldPhysicalZoneArea2D or node is WorldPassageArea2D:
+			areas.append(node)
 	rng.seed = 7819
 	furniture.rng = rng
 	shapes.spatial_batching = true
@@ -156,7 +162,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 			flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
 			if area.has("ground_styles"):
 				ground_areas.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"styles":area["ground_styles"]})
-	for node: Node in map.find_children("*","Area2D",true,false):
+	for node: Node in areas:
 		var zone := node as WorldPhysicalZoneArea2D
 		if zone != null and flora.get("zones",{}).has(String(zone.zone_id)):
 			var settings: Dictionary = flora["zones"][String(zone.zone_id)]
@@ -176,7 +182,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	for a: Array in layout.get("low_walls_left", layout.get("low_walls", [])):
 		left_low_walls.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
 	if layout.get("cutaway_rooms",false):
-		for node: Node in map.find_children("*","Area2D",true,false):
+		for node: Node in areas:
 			if node is WorldPhysicalZoneArea2D:
 				var room: Rect2 = (node as WorldPhysicalZoneArea2D).global_rect()
 				var south := Rect2(Vector2(room.position.x,room.end.y-32),Vector2(room.size.x,32))
@@ -279,7 +285,8 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	for lamp: Node in find_children("*","OmniLight3D",true,false):
 		var light := lamp as OmniLight3D
 		light_bounds.append(light.global_transform*light.get_aabb())
-	for key: String in shapes.batches:
+	shapes.pool_plain_colours()
+	for key: Variant in shapes.batches:
 		shapes.flush_one(key,light_bounds)
 		await breathe()
 	shapes.batches.clear()
@@ -331,6 +338,8 @@ func _node(at: Vector3 = Vector3.ZERO, parent: Node3D = null) -> Node3D:
 func _pick(colors: Array) -> String:
 	return String(colors[rng.randi_range(0,colors.size()-1)])
 
+## How many ground cells between two looks at the clock: a cell takes microseconds.
+const BREATHE_CELLS: int = 64
 const BLOCKING: Array[String] = ["cliff","chasm","forest","boundary","wall","wall_wood","shutter","shop_front","blocked","water","deep_water"]
 
 func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Dictionary = {}) -> void:
@@ -342,23 +351,22 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			if tile != null:
 				var at: Vector2 = layer.to_global(layer.map_to_local(cell))
 				cells[Vector2i(at)] = String(tile.get_custom_data("terrain"))
-	for node: Node in map.find_children("*","Area2D",true,false):
+	for node: Node in areas:
 		if node is WorldPhysicalZoneArea2D and surfaces.has(String((node as WorldPhysicalZoneArea2D).zone_id)):
 			var zone := node as WorldPhysicalZoneArea2D
-			for cell: Vector2i in cells:
-				if zone.global_rect().has_point(Vector2(cell)) and cells[cell] in ["floor_wood","floor_shop","floor_yard","blocked","rock"]:
+			for cell: Vector2i in cells_within(zone.global_rect()):
+				if cells.has(cell) and cells[cell] in ["floor_wood","floor_shop","floor_yard","blocked","rock"]:
 					cells[cell] = String(surfaces[String(zone.zone_id)])
 	# Visual only: what a stretch of ground shows (the road running on past an exit).
 	for entry: Dictionary in reshape:
 		var r: Array = entry["rect"]
-		var area := Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1])
-		for cell: Vector2i in cells:
-			if area.has_point(Vector2(cell)) and (not entry.has("from") or cells[cell] in entry["from"]):
+		for cell: Vector2i in cells_within(Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1])):
+			if cells.has(cell) and (not entry.has("from") or cells[cell] in entry["from"]):
 				cells[cell] = String(entry["to"])
 	# Visual only: a road runs on past an exit to another map (layout `exit_trails`: portal id
 	# -> length in cells, four cells of "path" wide; or {"cells", "kind", "width"}: a paved
 	# road its own width), the way its command points.
-	for node: Node in map.find_children("*","Area2D",true,false):
+	for node: Node in areas:
 		var passage := node as WorldPassageArea2D
 		if passage == null or not exit_trails.has(String(passage.portal_id)):
 			continue
@@ -384,7 +392,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		await breathe()
 	if not indoor:
 		var required: Array[Rect2] = footprints.duplicate()
-		for node: Node in map.find_children("*","Area2D",true,false):
+		for node: Node in areas:
 			if node is WorldPhysicalZoneArea2D:
 				required.append((node as WorldPhysicalZoneArea2D).global_rect())
 		landmass = VoxelLandmass.new()
@@ -426,8 +434,11 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 	for cell: Vector2i in cells.keys():
 		if _floor_opening(Vector2(cell)):
 			cells.erase(cell)
+	var step: int = 0
 	for cell: Vector2i in cells:
-		await breathe()
+		step += 1
+		if step%BREATHE_CELLS == 0:
+			await breathe()
 		if painted.has(cell):
 			continue
 		var pos: Vector2 = Vector2(cell)
@@ -435,12 +446,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			continue
 		var p: Vector3 = point(pos)
 		var kind: String = cells[cell]
-		var covered: bool = false
-		for rect: Rect2 in footprints:
-			if rect.has_point(pos):
-				covered = true
-				break
-		if covered or cliffs != null and cliffs.heights.has(cell) or water.levels.has(cell):
+		if ground.covered(cell) or cliffs != null and cliffs.heights.has(cell) or water.levels.has(cell):
 			continue
 		var style: Dictionary = _ground_style(pos,kind)
 		if style.get("style","")=="void":
@@ -530,11 +536,10 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 	await breathe()
 	if foliage != null:
 		for edge_cell: Vector2i in cells:
-			await breathe()
-			var hidden: bool = false
-			for footprint: Rect2 in footprints:
-				hidden = hidden or footprint.has_point(Vector2(edge_cell))
-			if not hidden:
+			step += 1
+			if step%BREATHE_CELLS == 0:
+				await breathe()
+			if not ground.covered(edge_cell):
 				ground.edge(edge_cell,cells)
 				# Trodden dirt on paths and banks, unless the ground is kept clean (`clean`: a floor).
 				if cells[edge_cell] in ["path","riverbank"] and not ground_styles.get(cells[edge_cell],{}).get("clean",false):
@@ -603,6 +608,16 @@ func _fray_seams(cells: Dictionary[Vector2i, String]) -> void:
 	for cell: Vector2i in frayed:
 		cells[cell] = frayed[cell]
 
+## The grid's cells whose centres lie in `rect`, row by row.
+static func cells_within(rect: Rect2) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+	for y: int in range(floori((rect.position.y-8.0)/16.0),ceili((rect.end.y-8.0)/16.0)):
+		for x: int in range(floori((rect.position.x-8.0)/16.0),ceili((rect.end.x-8.0)/16.0)):
+			var cell := Vector2i(x*16+8,y*16+8)
+			if rect.has_point(Vector2(cell)):
+				result.append(cell)
+	return result
+
 func _floor_opening(at: Vector2) -> bool:
 	for rect: Rect2 in floor_openings:
 		if rect.has_point(at):
@@ -616,10 +631,15 @@ func low_wall(at: Vector2, left: bool = false) -> bool:
 	return false
 
 func _wall_cell(into: Node3D, p: Vector3, height: float, horizontal: bool) -> void:
-	for look: Dictionary in wall_looks:
-		var r: Array = look["rect"]
-		if Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]).has_point(Vector2(p.x,p.z)*UNIT):
-			_styled_wall_cell(into,p,height,look,horizontal)
+	if _wall_rects.size() != wall_looks.size():
+		_wall_rects.clear()
+		for look: Dictionary in wall_looks:
+			var r: Array = look["rect"]
+			_wall_rects.append(Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]))
+	var at: Vector2 = Vector2(p.x,p.z)*UNIT
+	for i: int in _wall_rects.size():
+		if _wall_rects[i].has_point(at):
+			_styled_wall_cell(into,p,height,wall_looks[i],horizontal)
 			return
 	shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.5,height,0.5),String(palette.get("wall","c9b997" if indoor else "83917b")))
 	shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"78513b" if indoor else "607a60")
@@ -881,7 +901,7 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	var entrances: Array[Vector3] = []
 	var arches: Array[Vector3] = []
 	for portal_id: String in data.get("portals",[])+data.get("arches",[]):
-		for passage: Node in map.find_children("*","Area2D",true,false):
+		for passage: Node in areas:
 			if passage is WorldPassageArea2D and String((passage as WorldPassageArea2D).portal_id) == portal_id:
 				entrances.append(point((passage as Node2D).global_position)-center)
 				if portal_id in data.get("arches",[]):

@@ -12,7 +12,7 @@ var contacts := PackedVector4Array()
 var trails: Array[Vector4] = []
 var clock: float = 0.0
 var _last: Dictionary[int, Vector3] = {}
-var _batches: Dictionary[String, Array] = {}
+var _batches: Dictionary[Vector3i, Array] = {}
 var _meshes: Dictionary[int, ArrayMesh] = {}
 var butterflies: Array[Node3D] = []
 var _butterfly_homes := PackedVector3Array()
@@ -25,11 +25,12 @@ var gust: float = 0.0
 var butterfly_count: int = 8
 
 func plant(at: Vector3, kind: int, size: float, angle: float) -> void:
-	var chunk := Vector2i(floori(at.x / 8.0), floori(at.z / 8.0))
-	var key: String = "%d:%d:%d" % [chunk.x, chunk.y, kind]
-	if not _batches.has(key):
-		_batches[key] = [kind, []]
-	(_batches[key][1] as Array).append(Transform3D(Basis(Vector3.UP, angle).scaled(Vector3.ONE * size), at))
+	var key := Vector3i(floori(at.x / 8.0), floori(at.z / 8.0), kind)
+	var batch: Variant = _batches.get(key)
+	if batch == null:
+		batch = [kind, []]
+		_batches[key] = batch
+	(batch[1] as Array).append(Transform3D(Basis(Vector3.UP, angle).scaled(Vector3.ONE * size), at))
 	roots.append(at)
 	if kind > 0 and kind < 5:
 		flowers.append(at)

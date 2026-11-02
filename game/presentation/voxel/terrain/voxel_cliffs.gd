@@ -46,12 +46,13 @@ func prepare(cells: Dictionary[Vector2i, String], blocking: Array) -> void:
 	var head: int = 0
 	while head < frontier.size():
 		var at: Vector2i = frontier[head]
+		var from: float = distances[at]
 		head += 1
 		for step: Vector2i in steps:
 			var next: Vector2i = at+step
 			if not cells.has(next):
 				continue
-			var d: float = distances[at]+(22.6 if step.x != 0 and step.y != 0 else 16.0)
+			var d: float = from+(22.6 if step.x != 0 and step.y != 0 else 16.0)
 			if d < distances.get(next,INF):
 				distances[next] = d
 				frontier.append(next)

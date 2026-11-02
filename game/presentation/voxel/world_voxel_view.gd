@@ -558,7 +558,7 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 		label.text = title
 
 func _make_entrances() -> void:
-	for node: Node in map.find_children("*","Area2D",true,false):
+	for node: Node in geometry.areas:
 		var passage := node as WorldPassageArea2D
 		if passage == null:
 			continue
@@ -618,7 +618,7 @@ func _shape_outward(passage: WorldPassageArea2D) -> Vector2:
 		across = Vector2.RIGHT if size.x < size.y else Vector2.DOWN
 	var room: Vector2 = at
 	var nearest: float = INF
-	for node: Node in map.find_children("*","Area2D",true,false):
+	for node: Node in geometry.areas:
 		var zone := node as WorldPhysicalZoneArea2D
 		if zone == null:
 			continue

@@ -31,18 +31,22 @@ func build(source: Dictionary[Vector2i,String], required_rects: Array[Rect2], co
 		for y: int in range(floori(rect.position.y/PATCH),ceili(rect.end.y/PATCH)):
 			for x: int in range(floori(rect.position.x/PATCH),ceili(rect.end.x/PATCH)):
 				required[Vector2i(x,y)] = true
-	var distances: Dictionary[Vector2i,float] = {}
 	var reach: int = ceili(maximum_margin/PATCH)+1
+	var steps: Array[Vector2i] = []
+	var gaps: Array[float] = []
+	for y: int in range(-reach,reach+1):
+		for x: int in range(-reach,reach+1):
+			# Distance to the nearest required patch, not to its centre.
+			var offset := Vector2(maxf(absf(x*PATCH)-PATCH*0.5,0),maxf(absf(y*PATCH)-PATCH*0.5,0))
+			if offset.length()<=maximum_margin:
+				steps.append(Vector2i(x,y))
+				gaps.append(offset.length())
+	var distances: Dictionary[Vector2i,float] = {}
 	for core: Vector2i in required:
-		for y: int in range(-reach,reach+1):
-			for x: int in range(-reach,reach+1):
-				# Distance to the nearest required patch, not to its centre.
-				var offset := Vector2(maxf(absf(x*PATCH)-PATCH*0.5,0),maxf(absf(y*PATCH)-PATCH*0.5,0))
-				var distance: float = offset.length()
-				if distance>maximum_margin:
-					continue
-				var at := core+Vector2i(x,y)
-				distances[at] = minf(distances.get(at,INF),distance)
+		for i: int in steps.size():
+			var at: Vector2i = core+steps[i]
+			if gaps[i]<distances.get(at,INF):
+				distances[at] = gaps[i]
 	for at: Vector2i in distances:
 		var center: Vector2 = (Vector2(at)+Vector2.ONE*0.5)*PATCH
 		var variation: float = clampf(0.5+_contour.get_noise_2dv(center)*1.5,0,1)
@@ -79,9 +83,12 @@ func terrain(source: Dictionary[Vector2i,String]) -> Dictionary[Vector2i,String]
 
 ## `holes`: sunken cells (a gorge) whose ground the base must not cover.
 func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var surface := Quads.new()
 	var top := Color(String(colors.get("top","6b7951")))
+	var bottom := Color(String(colors.get("bottom","665e4b")))
+	var strata: Array[Color] = []
+	for strip: Variant in colors.get("strata",["8a805b","9b8966","786b54"]):
+		strata.append(Color(String(strip)))
 	for patch: Vector2i in patches:
 		var x: float = float(patch.x)
 		var z: float = float(patch.y)
@@ -97,7 +104,7 @@ func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:
 				var cx: float = x+cell.x*0.5
 				var cz: float = z+cell.y*0.5
 				_quad(surface,Vector3(cx,-0.12,cz),Vector3(cx+0.5,-0.12,cz),Vector3(cx+0.5,-0.12,cz+0.5),Vector3(cx,-0.12,cz+0.5),Vector3.UP,top)
-		_quad(surface,Vector3(x,-depth,z),Vector3(x,-depth,z+1),Vector3(x+1,-depth,z+1),Vector3(x+1,-depth,z),Vector3.DOWN,Color(String(colors.get("bottom","665e4b"))))
+		_quad(surface,Vector3(x,-depth,z),Vector3(x,-depth,z+1),Vector3(x+1,-depth,z+1),Vector3(x+1,-depth,z),Vector3.DOWN,bottom)
 		for direction: Vector2i in DIRECTIONS:
 			if patches.has(patch+direction):
 				continue
@@ -107,13 +114,12 @@ func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:
 			var a: Vector3 = center-tangent*0.5
 			var b: Vector3 = center+tangent*0.5
 			var shade: float = _contour.get_noise_2d(x*58,z*58)
-			var strata: Array = colors.get("strata",["8a805b","9b8966","786b54"])
 			for layer: int in 3:
 				var top_a: Vector3 = a+Vector3.UP*_level(a,layer)
 				var top_b: Vector3 = b+Vector3.UP*_level(b,layer)
 				var low_a: Vector3 = a+Vector3.UP*_level(a,layer+1)
 				var low_b: Vector3 = b+Vector3.UP*_level(b,layer+1)
-				var base := Color(String(strata[layer]))
+				var base: Color = strata[layer]
 				var color: Color = base.lightened(shade*0.12) if shade>0 else base.darkened(-shade*0.14)
 				_quad(surface,top_a,top_b,low_b,low_a,normal,color)
 	var geometry := MeshInstance3D.new()
@@ -133,11 +139,28 @@ func _level(at: Vector3, layer: int) -> float:
 	# Matching heights at shared corners keep the soil strata watertight.
 	return -depth*([0.0,0.23,0.63][layer]+_contour.get_noise_2d(at.x*46,at.z*46)*0.07)
 
-func _quad(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3, color: Color) -> void:
-	var points: Array[Vector3] = [a,b,c,d]
-	surface.set_normal(normal)
-	surface.set_color(color.srgb_to_linear())
-	var outward: bool = (c-a).cross(b-a).dot(normal)>0
-	var indices := PackedInt32Array([0,1,2,0,2,3] if outward else [0,2,1,0,3,2])
-	for index: int in indices:
-		surface.add_vertex(points[index])
+func _quad(surface: Quads, a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3, color: Color) -> void:
+	var linear: Color = color.srgb_to_linear()
+	if (c-a).cross(b-a).dot(normal)>0:
+		surface.vertices.append_array(PackedVector3Array([a,b,c,a,c,d]))
+	else:
+		surface.vertices.append_array(PackedVector3Array([a,c,b,a,d,c]))
+	for corner: int in 6:
+		surface.normals.append(normal)
+		surface.colors.append(linear)
+
+## The landmass's triangles, added as arrays: SurfaceTool is many calls per corner.
+class Quads:
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	var colors := PackedColorArray()
+
+	func commit() -> ArrayMesh:
+		var arrays: Array = []
+		arrays.resize(Mesh.ARRAY_MAX)
+		arrays[Mesh.ARRAY_VERTEX] = vertices
+		arrays[Mesh.ARRAY_NORMAL] = normals
+		arrays[Mesh.ARRAY_COLOR] = colors
+		var mesh := ArrayMesh.new()
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+		return mesh
