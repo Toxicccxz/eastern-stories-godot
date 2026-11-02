@@ -298,6 +298,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for edge: float in [-1.0,1.0]:
 					s.box(root,Vector3(0,y+edge*(tall/2-0.05),0.075),Vector3(w-0.12,0.035,0.02),String(data["letters"]))
 		"old_gate": _old_gate(w,data)
+		"window_sill": _window_sill(w)
 		"stone_lion": _stone_lion(data)
 		"drum": _drum(w,d,data)
 		"flagpole":
@@ -429,6 +430,13 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		_:
 			return false
 	return true
+
+## A window in a wall the view cuts low (lordhouse3.c: 向南...开了两面大窗户): its sill on what is
+## left of the wall, the shutters thrown back and lying open outside it.
+func _window_sill(w: float) -> void:
+	s.box(root,Vector3(0,0.42,0),Vector3(w+0.2,0.1,0.5),"a37c52")
+	for leaf: float in [-1.0,1.0]:
+		s.tilted_box(root,Vector3(leaf*w*0.25,0.5,0.34),Vector3(w*0.44,0.05,0.5),"6e5038",Vector3(-0.2,0,0))
 
 ## 大门 (lordhouse1.c: 一扇漆黑的大门; home.c's 木门): two old leaves in a frame, the paint worn at
 ## the height of a hand, iron studs (`studs`: false, plain boards) and ring pulls.

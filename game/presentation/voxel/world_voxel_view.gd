@@ -87,6 +87,7 @@ func _process(delta: float) -> void:
 	_update_occlusion()
 	_sync_light()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
+	geometry.water.set_dusk(lighting.weights["dusk"])
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 	geometry.ambience.night = lighting.amount

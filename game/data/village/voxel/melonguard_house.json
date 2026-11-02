@@ -29,7 +29,7 @@
   "props": [
     {"kind": "far_ground", "at": [120, 0], "size": [1500, 1600], "elevation": -0.32, "colors": ["b8a06c"], "trees": 0, "note": "the field all round"},
     {"kind": "far_ground", "at": [-620, 120], "size": [520, 1500], "elevation": -0.26, "colors": ["669848"], "trees": 10, "crowns": ["527e3e", "628e46", "749e4e"], "note": "west: the path and its willows"},
-    {"kind": "far_ground", "at": [120, 640], "size": [1500, 500], "elevation": -0.24, "colors": ["6e9c4c"], "trees": 6, "crowns": ["527e3e", "628e46"], "note": "south, toward 田老财's grey walls"},
+    {"kind": "far_ground", "at": [120, 640], "size": [1500, 500], "elevation": -0.24, "colors": ["6e9c4c"], "trees": 6, "crowns": ["527e3e", "628e46"], "clearing": [0, 2.5, 14, 4], "clearing_color": "7e9a5c", "roofs": 3, "walls": ["9c9e96"], "roof_colors": ["596064", "555c60"], "note": "melonguard.c: 往南能看到地主田老财的宅院"},
     {"kind": "melon_vines", "at": [-160, -330], "size": [128, 56], "count": 6},
     {"kind": "melon_vines", "at": [60, -310], "size": [128, 56], "count": 6},
     {"kind": "melon_vines", "at": [240, -340], "size": [112, 56], "count": 5},

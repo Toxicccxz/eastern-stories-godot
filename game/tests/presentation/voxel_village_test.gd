@@ -9,6 +9,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
+const TradeProps := preload("res://presentation/voxel/props/voxel_trade_props.gd")
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised
 ## clear of the floor (`elevation`).
 const TALL: Array[String] = ["reeds", "tree", "great_tree", "pigsty", "chicken_coop", "compound_wall", "fence", "firewood", "haystack", "cave_mouth", "ice_stair", "thin_ice", "boulder"]
@@ -38,8 +39,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 	assertions += furnishings.assertions
 	failures.append_array(furnishings.failures)
 	_check_own_colours()
+	var kept: Dictionary[StringName, Array] = {}
 	for id: StringName in [&"village.npc.dragon", &"village.npc.rat"]: # TEST-ONLY: they stay calm while the maps are walked
 		var calm: NpcDefinition = GameContent.catalog().npc(id)
+		kept[id] = [calm.attitude, calm._capability_ids.duplicate()]
 		calm.attitude = NpcDefinition.Attitude.PEACEFUL
 		calm._capability_ids.clear()
 	var session: WorldSessionController = Work.create_session(tree)
@@ -70,6 +73,9 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(missing.is_empty(), "every map of 玉螺湖村 was seen in the voxel view: missing %s" % [missing])
 	session.free()
 	await _frames(tree, 2)
+	for id: StringName in kept:
+		GameContent.catalog().npc(id).attitude = kept[id][0]
+		GameContent.catalog().npc(id)._capability_ids.assign(kept[id][1])
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -128,6 +134,10 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	var fog: Dictionary = view.layout["light"]["areas"][0]["fog"]
 	_check(not fog.has("height") and float(fog["depth_density"]["dawn"]) > float(fog["depth_density"]["day"]) * 2.0 and float(fog["depth_density"]["day"]) > 0.0, "lake.c: 丝丝雾气 thickest at dawn, thin by day, depth fog")
 	_check(view.layout["ground"]["street"].get("style", "") == "slabs", "road4.c: the worn stones are old flags")
+	var gold: ShaderMaterial = view.geometry.water.materials[view.geometry.water.sunsets.keys()[0]]
+	view.geometry.water.set_dusk(1.0)
+	_check(float(gold.get_shader_parameter("sunset_amount")) > 0.3, "the lake goes red-gold at dusk")
+	view.geometry.water.set_dusk(0.0)
 	var birds: Array[float] = []
 	for flock: Dictionary in view.layout["ambience"]["birds"]:
 		birds.append(float(flock.get("size", 1.0)))
@@ -215,14 +225,17 @@ func _check_farmhouse(tree: SceneTree, map: WorldMapController) -> void:
 		pigs += 1 if critter.get("kind") == "pig" else 0
 		hens += 1 if critter.get("kind") == "chicken" else 0
 	_check(pigs >= 3 and hens >= 3, "几只小白猪 and the hens: %d, %d" % [pigs, hens])
-	var pen: Dictionary = (view.layout["critters"] as Array)[0]
-	var r: Array = pen["rect"]
-	var kept: bool = true
+	var sty := Rect2()
+	for node: Node in map.get_node("Furnishings").get_children():
+		if (node.get_meta("look") as Dictionary)["kind"] == "pigsty":
+			var box: Vector2 = node.get_meta("footprint")
+			sty = Rect2((node as Node2D).position - box / 2.0, box)
+	var kept: bool = sty.has_area()
 	for critter: Node3D in view.geometry.critters:
 		if critter.get("kind") == "pig":
 			for cell: Vector2 in critter.get("cells"):
-				kept = kept and Rect2(r[0], r[1], r[2] - r[0], r[3] - r[1]).has_point(cell)
-	_check(kept, "the pigs walk only in their sty")
+				kept = kept and sty.has_point(cell)
+	_check(kept, "the pigs walk only in their sty: %s" % sty)
 	_check(view.geometry.life.worn_cells.get(&"village.fmhousback", 0) > 0, "the yard lived in")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.fmhousback"), "walk through the doorway into the back yard")
 	var narrow: Array[String] = []
@@ -254,7 +267,10 @@ func _check_lord(tree: SceneTree, map: WorldMapController) -> void:
 	var shelf: int = 0
 	for look: Dictionary in _looks(map):
 		shelf = maxi(shelf, int(look.get("books", 0)))
-	_check(shelf == 8, "lordhouse3.c: eight books")
+	var drawn: int = 0
+	for slot: int in 42:
+		drawn += 1 if TradeProps.book_at(slot, 42, shelf) else 0
+	_check(shelf == 8 and drawn == 8, "lordhouse3.c: eight books, eight drawn: %d" % drawn)
 	var views: int = 0
 	for prop: Dictionary in view.layout["props"]:
 		views += 1 if prop.has("open_view") else 0

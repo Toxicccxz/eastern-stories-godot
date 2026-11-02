@@ -37,6 +37,7 @@
     {"kind": "window", "at": [718, -240], "size": [64, 16], "rotation": 270, "open_view": {"sky": "a8c8d8", "bands": ["2e3a34", "4a5a4a", "c4b080"], "note": "官道上来来往往的人群和遥远处阴森的黑松山"}, "note": "lordhouse2.c: 东侧打开的窗子"},
     {"kind": "window", "at": [-654, 170], "size": [64, 16], "rotation": 90, "open_view": {"sky": "a8c8d8", "bands": ["6a8a70", "6a9a48", "7cb656"]}, "note": "lordhouse3.c: 向西可以看到在田间忙碌的田农"},
     {"kind": "far_ground", "at": [-344, 720], "size": [900, 180], "elevation": -4.0, "colors": ["8aa08e:haze"], "clearing": [0, 0, 25, 4.8], "clearing_color": "9aaca0:haze", "roofs": 26, "walls": ["c8c8c0:haze", "b8b8b0:haze", "d4d0c4:haze"], "roof_colors": ["7a8088:haze", "6e7680:haze", "868e98:haze"], "trees": 8, "crowns": ["7a9a7e:haze", "86a488:haze"], "note": "lordhouse3.c: 向南望去，能模模糊糊地望见京城林立的楼阁"},
+    {"kind": "window_sill", "at": [-344, 526], "size": [96, 16], "note": "lordhouse3.c: 向南开的大窗户: the near wall is cut low, its sill and thrown-back shutters stay"},
     {"kind": "hanging_lantern", "at": [-344, -120], "elevation": 2.6},
     {"kind": "hanging_lantern", "at": [408, -240], "elevation": 2.8},
     {"kind": "hanging_lantern", "at": [-344, 304], "elevation": 2.8},

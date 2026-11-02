@@ -109,14 +109,14 @@
           ["blocked", 800, 1968, 832, 2000, {"look": {"kind": "tree", "species": "willow", "scale": 1.15}}],
           ["blocked", 1024, 2032, 1056, 2064, {"look": {"kind": "tree", "species": "willow", "scale": 1.15}}],
           ["blocked", 1024, 1792, 1056, 1824, {"look": {"kind": "tree", "species": "willow", "scale": 1.15}}],
-          ["blocked", 512, 1856, 512, 1872, "几个农民在田间忙碌: straw hats on poles, a harrow left by a bund", {"look": {"kind": "scarecrow", "size": [32, 32], "hat": "b8a468", "coat": "6a6a52"}}],
+          ["blocked", 512, 1856, 528, 1872, "几个农民在田间忙碌: straw hats on poles, a harrow left by a bund", {"look": {"kind": "scarecrow", "size": [32, 32], "hat": "b8a468", "coat": "6a6a52"}}],
           ["blocked", 672, 2096, 704, 2112, {"look": {"kind": "scarecrow", "size": [32, 32], "hat": "c4b070", "coat": "5a5a64", "lean": 0.12}}],
           ["blocked", 624, 1776, 688, 1808, {"look": {"kind": "farm_tools"}}],
           ["blocked", 544, 1248, 608, 1280, "fishing boats left on the shore", {"look": {"kind": "skiff", "lamp": true, "float": 0.02, "swell": 0.0, "roll": 0.0, "colors": ["5b4433", "6a5039", "4f3a2b"]}}],
           ["blocked", 544, 1424, 624, 1456, {"look": {"kind": "skiff", "lamp": false, "float": 0.02, "swell": 0.0, "roll": 0.0, "colors": ["6a5039", "5b4433", "4a3628"]}}],
           ["blocked", 544, 1344, 592, 1376, {"look": {"kind": "snail_shells"}}],
           ["blocked", 656, 1248, 672, 1264, {"look": {"kind": "mooring_post"}}],
-          ["blocked", 480, 1248, 544, 1248, "nets drying", {"look": {"kind": "fishing_net", "height": 1.8}}],
+          ["blocked", 480, 1248, 544, 1264, "nets drying", {"look": {"kind": "fishing_net", "height": 1.8}}],
           ["blocked", 2320, 960, 2368, 1056, "a trader's cart by the road", {"look": {"kind": "cart"}}],
           ["blocked", 1232, 1200, 1296, 1248, "melon vines", {"look": {"kind": "melon_vines", "count": 8}}],
           ["blocked", 1424, 1200, 1520, 1248, {"look": {"kind": "melon_vines", "count": 9}}],
@@ -1049,8 +1049,7 @@
             "lordhouse2.c: 很大的八仙桌",
             {
               "look": {
-                "kind": "square_table",
-                "seats": 4
+                "kind": "square_table"
               }
             }
           ],

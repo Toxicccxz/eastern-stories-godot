@@ -54,7 +54,7 @@
     "outcrop_colors": ["dcecf4", "c8e0ee", "eef8fc"]
   },
   "ambience": {
-    "fish": [{"rect": [40, -100, 740, -40], "count": 12, "height": [4.0, 9.0], "color": "2a4a68", "size": 1.1, "note": "lakebottom2.c: 能模糊地看到顶外的小鱼游来游去"}],
+    "fish": [{"rect": [40, -52, 740, -20], "count": 12, "height": [4.0, 9.0], "color": "2a4a68", "size": 1.1, "note": "lakebottom2.c: 能模糊地看到顶外的小鱼游来游去"}],
     "dust": [{"rect": [40, 40, 1120, 460], "count": 26, "color": "e8f6fc", "wind": [0.1, 0.05], "height": [0.4, 2.8], "note": "ice crystals in the cold air"}]
   },
   "actors": {
