@@ -123,7 +123,8 @@ func build(parent: Node3D) -> void:
 		by_chunk[chunk].append(cell)
 	var material := StandardMaterial3D.new()
 	material.vertex_color_use_as_albedo = true
-	material.roughness = 1.0
+	# `roughness` (玄冰: lakebottom1.c): below 1.0 the walls shine.
+	material.roughness = float(config.get("roughness",1.0))
 	face_count = 0
 	for chunk: Vector2i in by_chunk:
 		var surface := SurfaceTool.new()

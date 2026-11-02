@@ -1,0 +1,17 @@
+{
+  "note": "傅家坡与玉螺湖: clear blue-green days over the rice and the lake, the lake gone red-gold at dusk, moon on the water and a few lamps in the village by night. Under cloud a blue-grey, never yellow. Fog over the lake is the main map's own `areas`.",
+  "outdoor": {
+    "overcast": {"sky": "92a8ac", "ambient": "a4b6b6", "sun": "dce4e0", "note": "under cloud (DECISIONS「天气」): the lake's blue-grey"},
+    "sky": {"dawn": "d4dcd8", "day": "a4d0e6", "dusk": "e88c58", "night": "0e1a2e", "midnight": "0a1426"},
+    "ambient": {"dawn": "c8d4d4", "day": "d6e6dc", "dusk": "e4ac88", "night": "5c7498", "midnight": "526892"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.5, "dusk": 0.48, "night": 0.33, "midnight": 0.3},
+    "sun": {"dawn": "ffdcc0", "day": "fff4d8", "dusk": "ff9450", "night": "a8c6f0", "midnight": "9cbaec"},
+    "sun_energy": {"dawn": 0.6, "day": 1.08, "dusk": 0.88, "night": 0.36, "midnight": 0.32}
+  },
+  "indoor": {
+    "ambient": {"dawn": "d4ccb8", "day": "dcd4c0", "dusk": "d8b498", "night": "6c7088", "midnight": "626684"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.46, "night": 0.34, "midnight": 0.32},
+    "sun": {"dawn": "ffdcb8", "day": "fff2d4", "dusk": "ffb888", "night": "a4bcec", "midnight": "9cb6ec"},
+    "sun_energy": {"dawn": 0.32, "day": 0.46, "dusk": 0.36, "night": 0.12, "midnight": 0.1}
+  }
+}

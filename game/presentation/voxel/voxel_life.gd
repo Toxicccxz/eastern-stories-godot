@@ -170,6 +170,9 @@ func dress(data: Dictionary) -> void:
 		_tables.append(data)
 		if messy and data["kind"]=="table":
 			data["askew"] = random.randi_range(1,999)
+	elif data["kind"]=="table" and data.has("set"):
+		# A table whose text says what lies on it (farmhouse1.c's clay toys).
+		_tables.append(data)
 	elif data["kind"]=="chair" and messy:
 		data["rotation"] = float(data.get("rotation",0))+random.randf_range(-9.0,9.0)
 
@@ -614,6 +617,7 @@ func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictio
 		match prop["kind"]:
 			"string_hang": prop["goods"] = variant
 			"tool_hooks": prop["tools"] = variant
+			"meat_hooks": prop["cured"] = variant=="cured"
 			"banner_cloth":
 				# `banner_cloth:<hex>`: the cloth's colour (a 镖局's red, a 棺材铺's white).
 				if not variant.is_empty():

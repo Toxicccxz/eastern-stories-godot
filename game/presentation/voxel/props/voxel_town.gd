@@ -39,9 +39,166 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"tethered_horse": _tethered_horse(w,d)
 		"horse": _horse(w,d)
 		"camel": _camel(w,d)
+		"scarecrow": _scarecrow()
+		"farm_tools": _farm_tools(w,d)
+		"pigsty": _pigsty(w,d)
+		"chicken_coop": _chicken_coop(w,d)
+		"laundry_line": _laundry_line(w,d)
+		"melon_vines": _melon_vines(w,d)
+		"bamboo_post": _bamboo_post()
+		"pole_eaves": _pole_eaves(w,d)
+		"shears": _shears()
 		_:
 			return false
 	return true
+
+## 剪刀: flower shears dropped by the beds, the two blades crossed.
+func _shears() -> void:
+	for side: float in [-1.0,1.0]:
+		s.tilted_box(root,Vector3(0,0.03,0),Vector3(0.05,0.03,0.46),"a8b0b0",Vector3(0,side*0.32,0))
+		s.tilted_box(root,Vector3(side*0.1,0.03,0.22),Vector3(0.1,0.04,0.12),"6a4a34",Vector3(0,side*0.32,0))
+
+## 茅草铺顶 seen from under (melonguard.c): a thatch eave round the top of a pole shed, its middle
+## left open so the room stays in view; the bare poles run across.
+func _pole_eaves(w: float, d: float) -> void:
+	var straw: Array = _colors("colors",["b8a862","a89a5a","c4b470","9a8c52"])
+	var y: float = float(data.get("height",2.9))
+	var deep: float = float(data.get("deep",0.9))
+	for side: float in [-1.0,1.0]:
+		for i: int in ceili(w/0.5):
+			s.tilted_box(root,Vector3(-w/2+0.25+i*0.5,y+rng.randf_range(-0.03,0.03),side*(d/2-deep/2)),Vector3(0.52,0.14,deep),_pick(straw),Vector3(side*0.16,0,0))
+	s.box(root,Vector3(0,y+0.1,0),Vector3(w,0.07,0.07),"8e8e4c")
+	s.box(root,Vector3(0,y+0.1,0),Vector3(0.07,0.07,d),"8e8e4c")
+
+## 斗笠草人: a straw man on a pole among the rice, a farmer's old hat and coat on him.
+func _scarecrow() -> void:
+	var lean: float = float(data.get("lean",0.05))
+	var coat: String = String(data.get("coat","6a6a52"))
+	var hat: String = String(data.get("hat","b8a468"))
+	s.tilted_box(root,Vector3(0,0.85,0),Vector3(0.08,1.7,0.08),"6a5038",Vector3(0,0,lean))
+	s.tilted_box(root,Vector3(0,1.26,0),Vector3(1.15,0.07,0.07),"6a5038",Vector3(0,0,lean))
+	s.tilted_box(root,Vector3(0,1.08,0),Vector3(0.6,0.62,0.28),coat,Vector3(0,0,lean))
+	for i: int in 6:
+		s.tilted_box(root,Vector3(-0.3+i*0.12,0.68,0.02),Vector3(0.09,0.34,0.06),["b8a468","a8945a","c8b474"][i%3],Vector3(0,0,(i-2.5)*0.1))
+	s.box(root,Vector3(0,1.58,0),Vector3(0.26,0.26,0.26),"c8b48a")
+	for tier: int in 3:
+		s.box(root,Vector3(0,1.72+tier*0.05,0),Vector3(1.0-tier*0.32,0.05,1.0-tier*0.32),hat)
+
+## 农具: what the farmers left by the bund: a harrow on its back, its teeth up, a hoe and a rake
+## laid across it, a basket.
+func _farm_tools(w: float, d: float) -> void:
+	s.box(root,Vector3(-w*0.2,0.1,0),Vector3(w*0.5,0.08,d*0.7),"6e5038")
+	for i: int in 5:
+		s.box(root,Vector3(-w*0.2-w*0.2+i*w*0.1,0.2,0),Vector3(0.05,0.2,0.05),"3e3e3c")
+	s.tilted_box(root,Vector3(w*0.1,0.08,-d*0.1),Vector3(w*0.9,0.05,0.05),"8a6a46",Vector3(0,0.3,0))
+	s.box(root,Vector3(w*0.48,0.09,0.1),Vector3(0.1,0.04,0.34),"4a4a48")
+	s.box(root,Vector3(w*0.3,0.18,d*0.2),Vector3(0.36,0.36,0.36),"a8945a")
+	s.box(root,Vector3(w*0.3,0.34,d*0.2),Vector3(0.3,0.04,0.3),"6a5a3a")
+
+## 猪圈 (fmhousback.c: 在后院的左侧有个猪圈): a low wall of field stone round a floor of trampled mud,
+## a lean-to of thatch along the back, the slop trough, straw in a corner. The pigs are `critters`.
+func _pigsty(w: float, d: float) -> void:
+	s.box(root,Vector3(0,0.015,0),Vector3(w,0.03,d),"5e4e38")
+	for i: int in 8:
+		s.shard(root,Vector3(rng.randf_range(-0.42,0.42)*w,0.035,rng.randf_range(-0.2,0.42)*d),Vector3(rng.randf_range(0.5,1.0),0.015,rng.randf_range(0.4,0.8)),["4e4030","6a5840"][i%2],i,rng.randf()*TAU)
+	var stone: Array = _colors("colors",["8a7c64","978a70","7a6e5a","a39577"])
+	for side: int in 4:
+		var along_x: bool = side<2
+		var length: float = w if along_x else d
+		var fixed: float = (d if along_x else w)/2*(1 if side%2 else -1)
+		for i: int in ceili(length/0.42):
+			var t: float = -length/2+0.21+i*0.42
+			var tall: float = 0.62+0.08*sin(i*2.1+side)
+			var at := Vector3(t,tall/2,fixed) if along_x else Vector3(fixed,tall/2,t)
+			s.shard(root,at,Vector3(0.44,tall,0.3) if along_x else Vector3(0.3,tall,0.44),_pick(stone),i+side*9,0.0)
+	var depth: float = minf(d*0.34,1.6)
+	for x: float in [-w*0.44,w*0.44]:
+		s.box(root,Vector3(x,0.8,-d/2+depth),Vector3(0.14,1.6,0.14),"6a5038")
+	for i: int in ceili(depth/0.2):
+		var z: float = -d/2+0.1+i*0.2
+		s.box(root,Vector3(0,1.72-float(i)*0.16,z),Vector3(w*0.98,0.09,0.22),["b8a262","a89254","c0aa6a"][i%3])
+	s.box(root,Vector3(-w*0.1,0.14,d*0.34),Vector3(w*0.4,0.28,0.34),"6e5a42")
+	s.box(root,Vector3(-w*0.1,0.27,d*0.34),Vector3(w*0.36,0.03,0.24),"8a7a4e")
+	for i: int in 9:
+		s.tilted_box(root,Vector3(w*0.28+rng.randf_range(-0.4,0.4),0.08,-d*0.1+rng.randf_range(-0.4,0.4)),Vector3(0.44,0.03,0.05),"c8b474",Vector3(0,rng.randf()*TAU,0))
+
+## 一排鸡笼 (fmhousback.c: 右面是一排鸡笼，两个红皮鸡蛋落在鸡笼后边的槽里): wooden coops side by side
+## on stilts, slat fronts, a thatch lid; behind them the trough with its `eggs` red eggs.
+func _chicken_coop(w: float, d: float) -> void:
+	# The row leaves the trough's west end clear of it, so the eggs show from the yard.
+	var row: float = w*0.8
+	var coops: int = maxi(2,floori(row/1.5))
+	var span: float = row/coops
+	for i: int in coops:
+		var x: float = w/2-row+span*(i+0.5)
+		for leg: float in [-span*0.4,span*0.4]:
+			s.box(root,Vector3(x+leg,0.2,d*0.3),Vector3(0.08,0.4,0.08),"6e5038")
+		s.box(root,Vector3(x,0.72,d*0.12),Vector3(span*0.9,0.64,d*0.6),"8a6a46")
+		s.box(root,Vector3(x,0.72,d*0.12+d*0.31),Vector3(span*0.62,0.46,0.02),"2a2018")
+		for slat: int in 5:
+			s.box(root,Vector3(x-span*0.26+slat*span*0.13,0.72,d*0.12+d*0.325),Vector3(0.035,0.46,0.03),"b08a58")
+		s.tilted_box(root,Vector3(x,1.1,d*0.12),Vector3(span*0.98,0.1,d*0.74),["b8a262","a89254"][i%2],Vector3(0.14,0,0))
+	s.box(root,Vector3(0,0.16,-d*0.34),Vector3(w*0.9,0.3,0.28),"6e5a42")
+	s.box(root,Vector3(0,0.3,-d*0.34),Vector3(w*0.86,0.03,0.2),"c8b474")
+	for i: int in int(data.get("eggs",2)):
+		s.box(root,Vector3(-w*0.44+i*0.3,0.35,-d*0.34),Vector3(0.11,0.13,0.15),"c8603a")
+
+## 晾的衣服: a line between two forked poles, washing on it stirring; `clothes`: their colours.
+func _laundry_line(w: float, d: float) -> void:
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var cloths: Array = _colors("clothes",["6a8aa8","c8b8a0","b86a5a"])
+	for t: float in [-length/2+0.1,length/2-0.1]:
+		s.box(root,Vector3(t,0.95,0) if along_x else Vector3(0,0.95,t),Vector3(0.09,1.9,0.09),"6a5038")
+	s.box(root,Vector3(0,1.86,0),Vector3(length,0.02,0.02) if along_x else Vector3(0.02,0.02,length),"b09a6c")
+	var count: int = maxi(2,floori(length/0.8))
+	for i: int in count:
+		var t: float = -length/2+(i+0.5)*length/count
+		var hang := Node3D.new()
+		hang.position = Vector3(t,1.84,0) if along_x else Vector3(0,1.84,t)
+		root.add_child(hang)
+		var size := Vector2(minf(0.6,length/count*0.8),0.7+0.15*(i%2))
+		s.box(hang,Vector3(0,-size.y/2,0),Vector3(size.x,size.y,0.03) if along_x else Vector3(0.03,size.y,size.x),String(cloths[i%cloths.size()]))
+		if ambience != null:
+			ambience.sway(hang,root.position.x+i*1.3,0.08)
+
+## 瓜藤 (melonfarm.c: 熟透了的西瓜已与瓜蒂脱开): runners and broad leaves low over the sand, striped
+## melons lying among them, some with their stems dried off; `count` melons. `heap`: only melons,
+## brought in and piled.
+func _melon_vines(w: float, d: float) -> void:
+	var heap: bool = data.get("heap",false)
+	var leaves: Array = _colors("colors",["4a7a3a","5a8a42","3e6a34","6a9a4a"])
+	if not heap:
+		for i: int in ceili(w*d*5.0):
+			var at := Vector3(rng.randf_range(-0.5,0.5)*w,0.06+rng.randf()*0.08,rng.randf_range(-0.5,0.5)*d)
+			s.tilted_box(root,at,Vector3(rng.randf_range(0.22,0.4),0.04,rng.randf_range(0.2,0.34)),_pick(leaves),Vector3(rng.randf_range(-0.2,0.2),rng.randf()*TAU,rng.randf_range(-0.2,0.2)))
+		for i: int in ceili(maxf(w,d)):
+			s.tilted_box(root,Vector3(rng.randf_range(-0.4,0.4)*w,0.04,rng.randf_range(-0.4,0.4)*d),Vector3(rng.randf_range(0.9,1.5),0.03,0.04),"5e7a3a",Vector3(0,rng.randf()*TAU,0))
+	for i: int in int(data.get("count",6)):
+		var size: float = rng.randf_range(0.36,0.5)
+		var at := Vector3(rng.randf_range(-0.42,0.42)*w,size*0.42,rng.randf_range(-0.42,0.42)*d)
+		if heap and i>=3:
+			at.y += size*0.7
+		var yaw: float = rng.randf()*TAU
+		var melon := Node3D.new()
+		melon.position = at
+		melon.rotation.y = yaw
+		root.add_child(melon)
+		if s.merged.has(root):
+			s.merge(melon,s.merged[root])
+		s.box(melon,Vector3.ZERO,Vector3(size,size*0.84,size*1.3),"2e5a2e")
+		for stripe: int in 4:
+			s.box(melon,Vector3(-size*0.36+stripe*size*0.24,0,0),Vector3(size*0.08,size*0.87,size*1.33),"8ab85a")
+		if i%2==0:
+			s.box(melon,Vector3(0,size*0.3,size*0.68),Vector3(0.03,0.08,0.05),"7a6a3e")
+
+## 竹竿: one pole of the shed's frame, jointed.
+func _bamboo_post() -> void:
+	var tall: float = float(data.get("height",2.8))
+	s.box(root,Vector3(0,tall/2,0),Vector3(0.16,tall,0.16),String(data.get("color","8a8a4a")))
+	for joint: float in [0.9,1.8,2.6]:
+		if joint<tall:
+			s.box(root,Vector3(0,joint,0),Vector3(0.19,0.04,0.19),"6e6e38")
 
 ## 拴在门前的马 (s_street2.c: 福林楼前车马): a hitching post with its iron ring, and a horse tied
 ## to it, standing along the box's long axis with its head at +z, one hind foot resting; its

@@ -664,6 +664,32 @@
 			"scatter": ["cinders", "straw", "shreds", "ash"], "spread": 0.16,
 			"ambience": [{"kind": "smoke", "max": 2}, {"kind": "moths", "max": 2}]
 		},
+		"farm_yard": {
+			"walls": "earth", "grime": 0.6,
+			"hangings": ["straw_cape", "tool_hooks:sickles", "string_hang:corn"], "hang": 0.14,
+			"pieces": [
+				{"kind": "firewood", "size": [64, 32]},
+				{"kind": "baskets", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "broom"]},
+				{"kind": "sacks", "size": [48, 32], "cloth": "a8946a"},
+				{"kind": "crocks", "size": [32, 32]}
+			],
+			"count": 5,
+			"scatter": ["straw", "husks", "chips"], "spread": 0.1,
+			"ambience": [{"kind": "dust", "color": "c8b48a", "count": 8, "height": [0.1, 0.9]}, {"kind": "flies", "max": 1}]
+		},
+		"front_yard": {
+			"walls": "plaster", "grime": 0.45,
+			"hangings": [], "hang": 0.0,
+			"pieces": [
+				{"kind": "water_vat", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["broom", "bucket"]},
+				{"kind": "crocks", "size": [32, 32]}
+			],
+			"count": 3,
+			"scatter": ["husks"], "spread": 0.05,
+			"ambience": [{"kind": "dust", "color": "d8d4b8", "count": 8, "height": [0.2, 1.6]}]
+		},
 		"stone_chamber": {
 			"walls": "plaster", "grime": 0.5,
 			"hangings": ["wall_lamp", "cobweb", "cobweb"], "hang": 0.1,

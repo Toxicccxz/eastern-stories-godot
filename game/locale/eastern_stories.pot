@@ -3398,6 +3398,11 @@ msgstr ""
 msgid "瓜地 · 摘西瓜"
 msgstr ""
 
+#. native.npc.shitou inquiry topic
+#: scenes/world/village/village_main.tscn data/niling/npcs.json
+msgid "傅家坡"
+msgstr ""
+
 #: scenes/world/village/village_midlake.tscn
 msgid "东 · 玉螺湖畔"
 msgstr ""
@@ -37321,11 +37326,6 @@ msgstr ""
 #. native.npc.shitou inquiry.娘
 #: data/niling/npcs.json
 msgid "石头抬起头：娘在傅家坡。娘说别跟人走。……我没跟人走，是他们把我装进箱子里的。"
-msgstr ""
-
-#. native.npc.shitou inquiry topic
-#: data/niling/npcs.json
-msgid "傅家坡"
 msgstr ""
 
 #. native.npc.shitou inquiry.傅家坡

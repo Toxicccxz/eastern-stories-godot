@@ -1,0 +1,47 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "farmhouse1.c: plain and in good order, the spinning wheel in its corner in the light through the window's crack, clay toys and a wooden sword on the table, a big bed and a small one; fmhousback.c: the sty on the left, little white pigs, the coops on the right, two red eggs in the trough.",
+  "palette": {
+    "wood": ["a07c56", "a88460", "b08c64", "98754e"],
+    "wall": "a4a69c"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_height": 2.8,
+  "wall_looks": [
+    {"rect": [-416, -544, 400, 64], "style": "earth", "colors": ["a08c6a", "94805e", "ac9874", "8a7858"], "note": "the yard's low earth wall"}
+  ],
+  "ground": {
+    "floor_yard": {"style": "scree", "colors": ["a08c62", "ac986c", "94805a"], "gravel": 0.4, "stones": 0.03, "pebbles": ["b8a478", "a08c62", "8a7a56"], "note": "trodden earth"}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "butterflies": 2,
+    "wind": 0.1,
+    "density": {"floor_yard": 0.06}
+  },
+  "life": {
+    "village.farmhouse1": {"walls": "plaster", "hangings": ["straw_cape", "string_hang:garlic", "clothes_peg", "calendar"], "ambience": [{"kind": "sunbeam", "max": 1}, {"kind": "dust", "count": 8}]}
+  },
+  "ambience": {
+    "dust": [{"rect": [168, 120, 300, 240], "count": 12, "color": "f4e8c0", "height": [0.2, 2.0], "day": true, "beam": true, "beam_from": [304, 120], "note": "farmhouse1.c: 阳光顺着窗缝撒在屋角落里的纺车上"}]
+  },
+  "critters": [
+    {"kind": "pig", "rect": [-368, -472, -160, -384], "count": 4, "penned": true, "speed": 0.5, "note": "fmhousback.c: 几只小白猪 (owner Q2): only in the sty"},
+    {"kind": "chicken", "rect": [-120, -470, 350, -120], "count": 5, "colors": ["e8dcc8", "c8a878", "c83a2a"]}
+  ],
+  "actors": {
+    "village.npc.woman1": {"coat": "9a6a5a"}
+  },
+  "props": [
+    {"kind": "window", "at": [288, 112], "size": [64, 16], "rotation": 0, "note": "the window with the crack in it, by the wheel"},
+    {"kind": "window", "at": [-160, 112], "size": [64, 16]},
+    {"kind": "hanging_lantern", "at": [140, 300], "elevation": 2.5},
+    {"kind": "slippers", "at": [-180, 240], "size": [32, 16], "note": "by the beds"},
+    {"kind": "straw_patch", "at": [-200, -460], "size": [64, 40]}
+  ]
+}

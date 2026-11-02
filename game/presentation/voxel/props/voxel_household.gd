@@ -57,6 +57,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"double_happiness": _double_happiness()
 		"animal_hide": _animal_hide()
 		"instruments": _instruments(w,d)
+		"iron_stick": _iron_stick(d)
 		_:
 			return false
 	return true
@@ -578,6 +579,14 @@ func _meat_hooks(w: float) -> void:
 		var x: float = -width*0.38+i*width*0.76/maxf(1,hooks-1)
 		s.box(root,Vector3(x,2.18,0.14),Vector3(0.03,0.16,0.03),"3a3530")
 		s.box(root,Vector3(x+0.03,2.1,0.14),Vector3(0.07,0.03,0.03),"3a3530")
+		if data.get("cured",false):
+			# 风干了的卤肉 (smallstorage.c): dark, shrunken slabs on strings, gnawed along one edge.
+			var long: float = rng.randf_range(0.4,0.62)
+			s.box(root,Vector3(x,2.02-long*0.6,0.14),Vector3(0.015,long*0.5,0.015),"8a7a5a")
+			s.shard(root,Vector3(x,1.78-long*0.5,0.15),Vector3(0.24,long,0.1),_pick(["4e2a1e","5a3222","643a26"]),rng.randi())
+			s.box(root,Vector3(x+0.04,1.86-long*0.5,0.21),Vector3(0.08,long*0.5,0.01),"7a4a30")
+			s.box(root,Vector3(x+0.11,1.56-long*0.5,0.15),Vector3(0.05,0.07,0.12),"e0d0b0")
+			continue
 		match (i+int(data.get("seed",0)))%3:
 			0:
 				# A side of pork, pale fat over red meat.
@@ -597,6 +606,13 @@ func _meat_hooks(w: float) -> void:
 		for drip: int in 3:
 			s.box(root,Vector3(x+_jitter(0.1),1.2-drip*0.12,0.025),Vector3(0.03,0.1,0.01),"5a2320")
 	s.box(root,Vector3(0,0.012,0.2),Vector3(width*0.8,0.012,0.3),"5a2a26")
+
+## 铁棍 (lordhouse2.c: 在墙角处放着一根铁棍): a plain iron bar stood in the corner, leaning.
+func _iron_stick(d: float) -> void:
+	var tall: float = float(data.get("height",2.3))
+	s.tilted_box(root,Vector3(0,tall/2,0),Vector3(0.1,tall,0.1),"3e3e3c",Vector3(-0.16,0,0.05))
+	s.tilted_box(root,Vector3(0,0.3,-0.03),Vector3(0.13,0.1,0.13),"5a5a56",Vector3(-0.16,0,0.05))
+	s.tilted_box(root,Vector3(0,tall-0.3,-0.16),Vector3(0.13,0.1,0.13),"5a5a56",Vector3(-0.16,0,0.05))
 
 ## 囍 (a 红娘庄's): a red paper square hung as a diamond, the double-happiness character in gold
 ## across it, a bit of red cord above; `faded` where it has hung since the last wedding.
@@ -723,6 +739,21 @@ func table_set(shapes: Shapes, parent: Node3D, top: float, w: float, d: float, c
 			for bead: int in 6:
 				s.box(root,Vector3(w*0.2-0.17+bead*0.07,top+0.07,0),Vector3(0.05,0.04,0.18),"b79c66")
 			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.02,d*0.25),Vector3(0.03,0.03,0.3),"b99b68",Vector3(0,_jitter(0.8),0))
+		"toys":
+			# 泥老虎 (farmhouse1.c: 特别是那泥老虎捏的形态生动活泼, 色彩逼真) and the other clay toys, a
+			# wooden sword beside them: what a father made for his child.
+			var tiger := Vector3(-w*0.2,top,0)
+			s.box(root,tiger+Vector3(0,0.09,0),Vector3(0.18,0.14,0.32),"e0a030")
+			s.box(root,tiger+Vector3(0,0.18,0.14),Vector3(0.16,0.14,0.14),"e0a030")
+			for stripe: int in 3:
+				s.box(root,tiger+Vector3(0,0.165,-0.08+stripe*0.08),Vector3(0.19,0.025,0.025),"2a2420")
+			s.box(root,tiger+Vector3(0,0.2,0.215),Vector3(0.1,0.04,0.015),"d84a30")
+			s.box(root,tiger+Vector3(0,0.14,-0.2),Vector3(0.03,0.1,0.1),"2a2420")
+			for x: float in [w*0.02,w*0.14]:
+				s.box(root,Vector3(x,top+0.08,d*0.2),Vector3(0.1,0.16,0.1),_pick(["c84a3a","4a7aa8","e8d8b0"]))
+				s.box(root,Vector3(x,top+0.19,d*0.2),Vector3(0.08,0.07,0.08),"d8b890")
+			s.tilted_box(root,Vector3(w*0.26,top+0.03,-d*0.12),Vector3(0.07,0.03,0.62),"b08a58",Vector3(0,0.5,0))
+			s.tilted_box(root,Vector3(w*0.2,top+0.04,-d*0.02),Vector3(0.22,0.04,0.05),"8a6a42",Vector3(0,0.5,0))
 		"sewing":
 			s.box(root,Vector3(_jitter(w*0.2),top+0.06,_jitter(d*0.15)),Vector3(0.4,0.1,0.32),"a68a55")
 			for spool: int in 3:

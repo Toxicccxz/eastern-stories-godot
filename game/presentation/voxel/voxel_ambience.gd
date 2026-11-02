@@ -25,6 +25,8 @@ var _floating: Array[Dictionary] = []
 var _drifting: Array[Dictionary] = []
 var _bolts: Array[Dictionary] = []
 var _sunbeams: Array[Dictionary] = []
+var _fish: Array[Dictionary] = []
+var _blinks: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
 ## fireflies come out only in the dark.
 var night: float = 0.0
@@ -34,13 +36,16 @@ var night: float = 0.0
 ## `fall`: pine needles or leaves drifting down from the canopy, [{"rect", "count",
 ## "colors", "height", "wind"}] (`up`: sparks rising from a fire instead, `glow`: lit by
 ## themselves), `fireflies`: [{"rect", "count", "color", "height"}]; dust may have a `size`
-## (units: a long streak of mist on the wind), `flit` (moths: quick darting about a lamp),
+## (units: a long streak of mist on the wind; `alpha`: seen through), `flit` (moths: quick darting about a lamp),
 ## `day` (seen only while it is light: motes in a sunbeam), `beam` (a faint slanting shaft of
 ## light from the rect's first edge down into the room, with the motes; day only).
 ## `lightning`: [{"rect", "every" seconds, "color", "height", "range", "energy"}]: a bolt now
 ## and then somewhere over the rect, the land lit white. `smoke`: [{"at": [x, y] px, "height"
 ## units, "color", "count", "size"}]: puffs rising from a spot (a room's stove or lamp when no
-## prop of its own smokes there).
+## prop of its own smokes there). A flock may have a `size` (a bird's scale: small swallows, big
+## birds) and `rise` (units between one bird's height and the next). `fish`: [{"rect", "count",
+## "height": [low, high], "color", "size"}]: small dark fish swimming back and forth (lakebottom2.c:
+## 能模糊地看到顶外的小鱼游来游去).
 func configure(data: Dictionary) -> void:
 	add(data)
 
@@ -53,6 +58,7 @@ func add(data: Dictionary) -> void:
 		for i: int in int(flock.get("count",3)):
 			var bird := Node3D.new()
 			add_child(bird)
+			bird.scale = Vector3.ONE*float(flock.get("size",1.0))
 			var color: String = String(flock.get("color","3b332c"))
 			shapes.box(bird,Vector3.ZERO,Vector3(0.16,0.12,0.42),color)
 			var wings: Array[Node3D] = []
@@ -61,7 +67,7 @@ func add(data: Dictionary) -> void:
 				bird.add_child(wing)
 				shapes.box(wing,Vector3(side*0.32,0,0),Vector3(0.6,0.04,0.24),color)
 				wings.append(wing)
-			_birds.append({"node":bird,"wings":wings,"centre":Vector3(float(at[0])/32.0,float(flock.get("height",7.0))+i*0.6,float(at[1])/32.0),
+			_birds.append({"node":bird,"wings":wings,"centre":Vector3(float(at[0])/32.0,float(flock.get("height",7.0))+i*float(flock.get("rise",0.6)),float(at[1])/32.0),
 				"radius":float(flock.get("radius",160))/32.0*(0.7+0.15*i),"speed":0.35+0.07*i,"phase":index*1.7+i*2.3})
 		index += 1
 	for cloud: Dictionary in data.get("dust",[]):
@@ -69,9 +75,10 @@ func add(data: Dictionary) -> void:
 		var wind: Array = cloud.get("wind",[1.0,-0.4])
 		var grain: Array = cloud.get("size",[0.07,0.05,0.07])
 		# One MultiMesh for the cloud (a draw call, not one per mote).
-		var motes: MultiMesh = _swarm(Vector3(float(grain[0]),float(grain[1]),float(grain[2])),int(cloud.get("count",24)),false)
+		var alpha: float = float(cloud.get("alpha",1.0))
+		var motes: MultiMesh = _swarm(Vector3(float(grain[0]),float(grain[1]),float(grain[2])),int(cloud.get("count",24)),false,alpha < 1.0,alpha < 1.0)
 		var holder := get_child(get_child_count()-1) as MultiMeshInstance3D
-		var tone := Color(String(cloud.get("color","c8b48a")))
+		var tone := Color(String(cloud.get("color","c8b48a")),alpha)
 		for i: int in motes.instance_count:
 			motes.set_instance_color(i,tone)
 			var phase: float = i*12.9898+index*3.7
@@ -111,6 +118,9 @@ func add(data: Dictionary) -> void:
 			_fireflies.append({"node":holder,"multi":flies,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.3)*24634.6,1.0),"h":float(swarm.get("height",1.0)),"phase":phase})
 		index += 1
+	for school: Dictionary in data.get("fish",[]):
+		_school(school,index,shapes)
+		index += 1
 	for storm: Dictionary in data.get("lightning",[]):
 		_lightning(storm,index)
 		index += 1
@@ -118,6 +128,26 @@ func add(data: Dictionary) -> void:
 		var at: Array = fire["at"]
 		smoke(self,Vector3(float(at[0])/32.0,float(fire.get("height",1.2)),float(at[1])/32.0),String(fire.get("color","8d877c")),int(fire.get("count",5)),float(fire.get("size",0.26)))
 	shapes.flush()
+
+## Small fish going to and fro along the rect, at their own heights, tails beating.
+func _school(school: Dictionary, index: int, shapes: Shapes) -> void:
+	var r: Array = school["rect"]
+	var band: Array = school.get("height",[3.0,7.0])
+	var color: String = String(school.get("color","3a5a78"))
+	var size: float = float(school.get("size",1.0))
+	for i: int in int(school.get("count",8)):
+		var fish := Node3D.new()
+		add_child(fish)
+		fish.scale = Vector3.ONE*size
+		shapes.box(fish,Vector3.ZERO,Vector3(0.1,0.12,0.4),color)
+		var tail := Node3D.new()
+		tail.position = Vector3(0,0,-0.2)
+		fish.add_child(tail)
+		shapes.box(tail,Vector3(0,0,-0.08),Vector3(0.03,0.16,0.14),color)
+		var phase: float = i*4.7+index*2.3
+		_fish.append({"node":fish,"tail":tail,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
+			"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":float(band[0])+fposmod(sin(phase*2.3)*1531.2,1.0)*(float(band[1])-float(band[0])),
+			"rate":0.012+fposmod(sin(phase*3.1)*812.7,1.0)*0.02,"phase":phase})
 
 ## A sunbeam: one faint slanting shaft from high on the rect's near (window) edge down to the
 ## floor at its far edge, seen through, day only (`_sunbeams` fade with the night).
@@ -185,7 +215,7 @@ func _lightning(storm: Dictionary, index: int) -> void:
 
 ## Many small boxes moved together each frame: one MultiMesh (instance colours for needles,
 ## the shared glow for fireflies) under one instance.
-func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false) -> MultiMesh:
+func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false, see_through: bool = false) -> MultiMesh:
 	var cube := BoxMesh.new()
 	cube.size = size
 	var multi := MultiMesh.new()
@@ -206,6 +236,8 @@ func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false) -> Mult
 		needle.roughness = 0.95
 		if lit:
 			needle.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		if see_through:
+			needle.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		instance.material_override = needle
 	add_child(instance)
 	return multi
@@ -281,6 +313,11 @@ func smoke(parent: Node3D, at: Vector3, color: String = "8d877c", count: int = 6
 		puff.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		parent.add_child(puff)
 		_puffs.append({"node":puff,"base":at,"phase":float(i)/count,"rise":3.2 if size>=0.2 else 1.4})
+
+## Something seen only for a moment now and then (lake.c: 忽的见白光一闪): `node` shows for the
+## first `duty` of every `every` seconds.
+func blink(node: Node3D, every: float, duty: float, phase: float = 0.0) -> void:
+	_blinks.append({"node":node,"every":every,"duty":duty,"phase":phase})
 
 ## Flame tongues that jump in height (the light's own flicker is the lamp's `flicker` meta).
 func flame(node: Node3D) -> void:
@@ -418,6 +455,17 @@ func advance(delta: float) -> void:
 		bolt.visible = lit
 		flash.visible = lit
 		flash.light_energy = float(storm["energy"]) if lit else 0.0
+	for fish: Dictionary in _fish:
+		# A long slow there and back: the turn at each end is the triangle wave's corner.
+		var along: float = pingpong(clock*float(fish["rate"])+float(fish["u"]),1.0)
+		var node: Node3D = fish["node"]
+		node.position = Vector3(float(fish["x0"])+along*float(fish["w"]),float(fish["h"])+sin(clock*0.7+float(fish["phase"]))*0.2,float(fish["z0"])+float(fish["v"])*float(fish["d"])+sin(clock*0.4+float(fish["phase"]))*0.5)
+		var heading: float = 1.0 if fposmod(clock*float(fish["rate"])+float(fish["u"]),2.0) < 1.0 else -1.0
+		node.rotation.y = heading*PI/2.0
+		(fish["tail"] as Node3D).rotation.y = sin(clock*8.0+float(fish["phase"]))*0.5
+	for entry: Dictionary in _blinks:
+		var cycle: float = fposmod(clock+float(entry["phase"]),float(entry["every"]))
+		(entry["node"] as Node3D).visible = cycle < float(entry["duty"])
 	for hanging: Dictionary in _swaying:
 		var t: float = clock*1.1+float(hanging["phase"])
 		(hanging["node"] as Node3D).rotation = Vector3(sin(t)*float(hanging["amount"]),0,sin(t*0.73+1.3)*float(hanging["amount"])*0.7)

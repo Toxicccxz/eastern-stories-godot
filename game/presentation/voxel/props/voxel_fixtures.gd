@@ -202,6 +202,19 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for y: float in [1.32,1.78,2.24,2.70]:
 				s.box(root,Vector3(0,y,0.15),Vector3(w,0.06,0.06),"886744")
 			s.box(root,Vector3(0,1.16,0.20),Vector3(w+0.2,0.12,0.44),"a37c52")
+			if data.has("open_view"):
+				# `open_view` (lordhouse2.c: 顺着东侧打开的窗子望出去): the shutters back, what lies
+				# outside seen through the frame, far things in bands up the pane: {"sky", "bands"}.
+				var view: Dictionary = data["open_view"]
+				s.box(root,Vector3(0,2,0.125),Vector3(w-0.2,1.44,0.02),String(view.get("sky","a8c8d8")))
+				var bands: Array = view.get("bands",[])
+				for i: int in bands.size():
+					var y: float = 2.28-i*0.28
+					for step: int in 5:
+						var bump: float = 0.08*sin(step*2.3+i*1.7)
+						s.box(root,Vector3(-w*0.36+step*w*0.18,y-0.12+bump/2,0.13),Vector3(w*0.19,0.5+bump,0.02),String(bands[i]))
+				for leaf: float in [-1.0,1.0]:
+					s.box(root,Vector3(leaf*(w/2+0.2),2,0.1),Vector3(0.36,1.5,0.05),"6e5038")
 			if data.get("shut",false):
 				# 门窗都紧紧的关著: wooden shutters closed over it, a bar across; no light comes in.
 				for leaf: float in [-1.0,1.0]:
@@ -284,6 +297,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			if String(data.get("letters","")).ends_with(":glow"):
 				for edge: float in [-1.0,1.0]:
 					s.box(root,Vector3(0,y+edge*(tall/2-0.05),0.075),Vector3(w-0.12,0.035,0.02),String(data["letters"]))
+		"old_gate": _old_gate(w,data)
 		"stone_lion": _stone_lion(data)
 		"drum": _drum(w,d,data)
 		"flagpole":
@@ -415,6 +429,23 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		_:
 			return false
 	return true
+
+## 大门 (lordhouse1.c: 一扇漆黑的大门; home.c's 木门): two old leaves in a frame, the paint worn at
+## the height of a hand, iron studs (`studs`: false, plain boards) and ring pulls.
+func _old_gate(w: float, data: Dictionary) -> void:
+	var leaf: String = String(data.get("leaf","26221f"))
+	var wide: float = maxf(1.8,w-0.12)
+	s.box(root,Vector3(0,1.2,0),Vector3(wide,2.4,0.16),leaf)
+	s.box(root,Vector3(0,1.2,0.09),Vector3(0.03,2.36,0.02),"141210")
+	s.box(root,Vector3(0,2.46,0),Vector3(wide+0.2,0.14,0.26),"3a342c")
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*(wide/2+0.04),1.22,0),Vector3(0.12,2.5,0.26),"3a342c")
+		s.box(root,Vector3(side*wide*0.1,1.1,0.1),Vector3(wide*0.14,0.5,0.012),Color(leaf).lightened(0.16).to_html(false))
+		s.box(root,Vector3(side*0.16,1.2,0.1),Vector3(0.1,0.1,0.03),"8a7a52")
+	if data.get("studs",true):
+		for row: int in 4:
+			for col: int in maxi(4,roundi(wide/0.36)):
+				s.box(root,Vector3(-wide/2+0.2+col*(wide-0.4)/maxf(1,maxi(4,roundi(wide/0.36))-1),0.5+row*0.5,0.095),Vector3(0.05,0.05,0.03),"5a5448")
 
 ## A lamp's reach and its day and night strength; `flicker` makes its flame waver (灯火摇曳).
 ## 纯金铸成的长灯架上挂了一排饰丽的宫灯 (晚月庄's corridors): a gilded standard on a square foot,
