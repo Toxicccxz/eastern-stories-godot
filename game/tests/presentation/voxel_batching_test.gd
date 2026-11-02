@@ -11,6 +11,7 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary:
 	_test_plain_colours_pool(tree)
 	_test_split_keeps_each_stone_its_colour(tree)
+	_test_long_beam_in_a_big_batch(tree)
 	_test_cells_within()
 	_test_covered()
 	_test_landmass_order()
@@ -127,6 +128,42 @@ func _test_split_keeps_each_stone_its_colour(tree: SceneTree) -> void:
 	_check(seen.size() == 30 and alike, "every stone comes out once, in its own colour: %d" % seen.size())
 	_check(within_budget, "each part stays within Mobile's eight lights")
 	holder.free()
+
+
+## A building's cubes are one pooled batch of thousands. A beam along a row of lamps stays over
+## the budget in every half it lies in: it must still be cut when the halving is done.
+func _test_long_beam_in_a_big_batch(tree: SceneTree) -> void:
+	var holder := Node3D.new()
+	tree.root.add_child(holder)
+	var other := Node3D.new()
+	tree.root.add_child(other)
+	var lights: Array[AABB] = []
+	for i: int in 24:
+		lights.append(AABB(Vector3(i * 2.0, 4, 0), Vector3(1, 1, 1)))
+	var shapes := Recorder.new()
+	shapes.merge(other, holder)
+	for i: int in 5000:
+		shapes.box(holder, Vector3(i * 0.01, 0, 40), Vector3(0.1, 0.1, 0.1), "aa2200")
+	shapes.box(holder, Vector3(24, 4.5, 0.5), Vector3(48, 0.2, 0.2), "00aa22")
+	shapes.pool_plain_colours()
+	shapes.flush(lights)
+	var worst: int = 0
+	var length: float = 0.0
+	for part: Array in shapes.added:
+		for transform: Transform3D in part[0]:
+			if absf(transform.origin.y - 4.5) > 0.01:
+				continue
+			var size: Vector3 = transform.basis.get_scale().abs()
+			length += size.x
+			var box := AABB(transform.origin - size / 2.0, size)
+			var count: int = 0
+			for light: AABB in lights:
+				count += int(box.intersects(light))
+			worst = maxi(worst, count)
+	_check(worst <= 8, "the beam is cut down to the budget however big its batch: %d lights" % worst)
+	_check(is_equal_approx(length, 48.0), "and all of it is still there: %s" % length)
+	holder.free()
+	other.free()
 
 
 func _test_cells_within() -> void:

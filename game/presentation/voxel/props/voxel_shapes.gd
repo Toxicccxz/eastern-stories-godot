@@ -169,10 +169,12 @@ func flush_one(key: Variant, light_bounds: Array[AABB] = []) -> void:
 	var entry: Dictionary = batches[key]
 	_flush_batch(entry,entry["transforms"],entry.get("colors",PackedColorArray()),light_bounds)
 
-func _flush_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray, light_bounds: Array[AABB], depth: int = 0) -> void:
+## `cuts`: how many times a box has been cut in two on the way here. Halving a batch ends by
+## itself; the cuts need their limit whatever the batch's size.
+func _flush_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray, light_bounds: Array[AABB], cuts: int = 0) -> void:
 	var mesh: Mesh = entry["mesh"]
 	var parent: Node3D = entry["parent"]
-	if not light_bounds.is_empty() and depth<LIGHT_SPLIT_DEPTH:
+	if not light_bounds.is_empty() and cuts<LIGHT_SPLIT_DEPTH:
 		var shape: AABB = mesh.get_aabb()
 		var bounds: AABB = (transforms[0] as Transform3D)*shape
 		for transform: Transform3D in transforms:
@@ -186,7 +188,7 @@ func _flush_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray
 				break
 		if overlaps>8:
 			if transforms.size()>1:
-				_split_batch(entry,transforms,colors,light_bounds,depth,bounds.size.max_axis_index())
+				_split_batch(entry,transforms,colors,light_bounds,cuts,bounds.size.max_axis_index())
 				return
 			# Long plinths and beams are one box, but must not collect the lights of
 			# an entire building. Subdivide without moving or overlapping their faces.
@@ -197,9 +199,9 @@ func _flush_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray
 				var offset: Vector3 = transform.basis[axis]*0.25
 				transform.basis[axis] *= 0.5
 				transform.origin -= offset
-				_flush_batch(entry,[transform],colors,light_bounds,depth+1)
+				_flush_batch(entry,[transform],colors,light_bounds,cuts+1)
 				transform.origin += offset*2.0
-				_flush_batch(entry,[transform],colors,light_bounds,depth+1)
+				_flush_batch(entry,[transform],colors,light_bounds,cuts+1)
 				return
 	_add_batch(entry,transforms,colors)
 
@@ -227,7 +229,7 @@ func _add_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray) 
 	parent.add_child(instance)
 
 ## Half the batch by place along `axis`, each half again if it needs it.
-func _split_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray, light_bounds: Array[AABB], depth: int, axis: int) -> void:
+func _split_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray, light_bounds: Array[AABB], cuts: int, axis: int) -> void:
 	var order: Array[Vector2] = []
 	for i: int in transforms.size():
 		order.append(Vector2((transforms[i] as Transform3D).origin[axis],i))
@@ -240,7 +242,7 @@ func _split_batch(entry: Dictionary, transforms: Array, colors: PackedColorArray
 			part.append(transforms[int(item.y)])
 			if not colors.is_empty():
 				tints.append(colors[int(item.y)])
-		_flush_batch(entry,part,tints,light_bounds,depth+1)
+		_flush_batch(entry,part,tints,light_bounds,cuts)
 
 func _plain_material() -> StandardMaterial3D:
 	if _pooled == null:
