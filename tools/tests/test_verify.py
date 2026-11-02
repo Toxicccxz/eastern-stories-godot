@@ -7,6 +7,7 @@ import contextlib
 import importlib.util
 import io
 import os
+import random
 import sys
 import tempfile
 import unittest
@@ -90,26 +91,64 @@ class GameplaySuiteTests(unittest.TestCase):
         )
 
     def test_slowest_suites_start_first(self) -> None:
-        suites = [
-            "res://tests/core/a_test.gd", "res://tests/runtime/b_test.gd",
-            "res://tests/runtime/world_soak_test.gd", "res://tests/runtime/versioned_source_save_test.gd",
-        ]
+        times = verify.SuiteTimes({"slow": 300.0, "mid": 90.0, "tied_b": 5.0, "tied_a": 5.0}, 60.0)
         self.assertEqual(
-            verify.suite_order(suites),
-            ["res://tests/runtime/versioned_source_save_test.gd", "res://tests/runtime/world_soak_test.gd",
-             "res://tests/runtime/b_test.gd", "res://tests/core/a_test.gd"],
+            ["slow", "mid", "new", "tied_a", "tied_b"],
+            verify.suite_order(["tied_b", "new", "tied_a", "mid", "slow"], times),
         )
 
-    def test_the_slowest_suites_exist(self) -> None:
+    def test_recorded_suite_times_are_usable(self) -> None:
+        times = verify.load_suite_times()
+        self.assertGreater(times.default_seconds, 0)
+        self.assertEqual([], [suite for suite, seconds in times.recorded.items() if seconds <= 0])
+        # A new suite may be missing, but a run of the shards rests on most of them being known.
         suites = verify.discover_suites(verify.REPOSITORY / "game")
-        self.assertEqual([suite for suite in verify.SLOWEST_SUITES if suite not in suites], [])
+        self.assertGreater(sum(suite in times.recorded for suite in suites), len(suites) * 0.9)
 
-    def test_shards_run_every_suite_once_and_share_the_slowest(self) -> None:
-        ordered = verify.suite_order(verify.discover_suites(verify.REPOSITORY / "game"))
-        shards = [verify.shard_suites(ordered, (index, 3)) for index in (1, 2, 3)]
-        self.assertEqual(sorted(ordered), sorted(suite for shard in shards for suite in shard))
-        self.assertEqual(list(verify.SLOWEST_SUITES[:3]), [shard[0] for shard in shards])
-        self.assertEqual(ordered, verify.shard_suites(ordered, None))
+    def test_each_suite_goes_to_the_lightest_shard(self) -> None:
+        times = verify.SuiteTimes({"a": 9.0, "b": 8.0, "c": 7.0, "d": 3.0, "e": 2.0, "f": 1.0}, 60.0)
+        ordered = verify.suite_order(list("abcdef"), times)
+        self.assertEqual(
+            [["a", "f"], ["b", "e"], ["c", "d"]],
+            [verify.shard_suites(ordered, times, (index, 3)) for index in (1, 2, 3)],
+        )
+
+    def test_shards_run_every_suite_once(self) -> None:
+        discovered = verify.discover_suites(verify.REPOSITORY / "game")
+        times = verify.load_suite_times()
+        # The new suite has no record: it is still assigned, as default_seconds.
+        suites = discovered + ["res://tests/runtime/not_measured_yet_test.gd"]
+        ordered = verify.suite_order(suites, times)
+        for count in (1, 3, 6, 7):
+            with self.subTest(count):
+                shards = [verify.shard_suites(ordered, times, (index, count)) for index in range(1, count + 1)]
+                self.assertEqual(sorted(suites), sorted(suite for shard in shards for suite in shard))
+        self.assertEqual(ordered, verify.shard_suites(ordered, times, None))
+
+    def test_shards_do_not_depend_on_the_discovery_order(self) -> None:
+        suites = verify.discover_suites(verify.REPOSITORY / "game")
+        times = verify.load_suite_times()
+        ordered = verify.suite_order(suites, times)
+        shuffled = list(suites)
+        random.Random(7).shuffle(shuffled)
+        reordered = verify.suite_order(shuffled, times)
+        for index in range(1, 7):
+            self.assertEqual(
+                verify.shard_suites(ordered, times, (index, 6)), verify.shard_suites(reordered, times, (index, 6))
+            )
+
+    def test_shards_take_about_as_long(self) -> None:
+        times = verify.load_suite_times()
+        ordered = verify.suite_order(list(times.recorded), times)
+        loads = [sum(times.of(suite) for suite in verify.shard_suites(ordered, times, (index, 6))) for index in range(1, 7)]
+        self.assertLess(max(loads), sum(loads) / 6 * 1.05)
+
+    def test_a_shard_runs_its_suites_slowest_first(self) -> None:
+        times = verify.load_suite_times()
+        ordered = verify.suite_order(list(times.recorded), times)
+        for index in range(1, 7):
+            shard = verify.shard_suites(ordered, times, (index, 6))
+            self.assertEqual(verify.suite_order(shard, times), shard)
 
     def test_suite_shard_option_takes_k_of_n(self) -> None:
         self.assertEqual((2, 3), verify._arguments(["--suite-shard", "2/3"]).suite_shard)
