@@ -255,6 +255,8 @@ python tools/ci/verify.py --godot <godot>                                 # full
 <godot> --headless --path game --editor --quit                            # parse/import check
 ```
 
+To look at any voxel map from the editor: open `res://tests/dev/voxel_preview.tscn` and press F6.
+
 Write logs and scratch output under `build/`, never the repository root or `game/`.
 
 ## Repository Shape
