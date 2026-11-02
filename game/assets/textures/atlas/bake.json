@@ -1,0 +1,1892 @@
+{
+ "cells": {
+  "canyon.bamboo": {
+   "anchor": [
+    71.2,
+    58.8
+   ],
+   "pins": {
+    "door:canyon.pass": [
+     30.2,
+     85.6
+    ],
+    "zone:canyon.bamboo1": [
+     59.9,
+     66.2
+    ],
+    "zone:canyon.bamboo2": [
+     82.5,
+     51.3
+    ],
+    "zone:canyon.bamboo3": [
+     105.2,
+     36.5
+    ],
+    "zone:canyon.fantasy1": [
+     37.3,
+     81.0
+    ]
+   },
+   "size": [
+    148,
+    115
+   ]
+  },
+  "canyon.clifftop": {
+   "anchor": [
+    53.9,
+    38.2
+   ],
+   "pins": {
+    "door:snow.outdoor": [
+     80.8,
+     48.4
+    ],
+    "zone:canyon.road": [
+     53.9,
+     38.2
+    ]
+   },
+   "size": [
+    125,
+    96
+   ]
+  },
+  "canyon.pass": {
+   "anchor": [
+    117.6,
+    98.0
+   ],
+   "pins": {
+    "door:canyon.bamboo": [
+     97.4,
+     27.0
+    ],
+    "door:canyon.camp": [
+     131.3,
+     125.1
+    ],
+    "door:guanbei.gorge": [
+     64.8,
+     168.7
+    ],
+    "door:village.main": [
+     40.1,
+     166.4
+    ],
+    "zone:canyon.canyon1": [
+     207.7,
+     86.2
+    ],
+    "zone:canyon.canyon2": [
+     162.4,
+     86.2
+    ],
+    "zone:canyon.canyon3": [
+     139.8,
+     101.1
+    ],
+    "zone:canyon.canyon4": [
+     117.2,
+     115.9
+    ],
+    "zone:canyon.canyon5": [
+     94.5,
+     130.7
+    ],
+    "zone:canyon.canyon6": [
+     71.9,
+     145.5
+    ],
+    "zone:canyon.canyon7": [
+     49.3,
+     160.3
+    ],
+    "zone:canyon.stone_forest1": [
+     134.1,
+     67.7
+    ],
+    "zone:canyon.stone_forest2": [
+     111.5,
+     52.9
+    ],
+    "zone:canyon.stone_forest3": [
+     87.5,
+     33.5
+    ]
+   },
+   "size": [
+    333,
+    264
+   ]
+  },
+  "choyin.east": {
+   "anchor": [
+    184.0,
+    146.2
+   ],
+   "pins": {
+    "door:choyin.club_house": [
+     105.9,
+     149.2
+    ],
+    "door:choyin.town": [
+     200.6,
+     118.6
+    ],
+    "zone:choyin.cloudpool": [
+     308.1,
+     118.6
+    ],
+    "zone:choyin.fence": [
+     115.8,
+     155.7
+    ],
+    "zone:choyin.rockpath1": [
+     163.9,
+     153.8
+    ],
+    "zone:choyin.rockpath2": [
+     186.5,
+     139.0
+    ],
+    "zone:choyin.rockyu": [
+     144.1,
+     174.2
+    ],
+    "zone:choyin.solidpath1": [
+     209.1,
+     124.2
+    ],
+    "zone:choyin.solidpath2": [
+     231.7,
+     109.3
+    ],
+    "zone:choyin.tongbhill": [
+     112.9,
+     194.6
+    ]
+   },
+   "size": [
+    397,
+    284
+   ]
+  },
+  "choyin.guye": {
+   "anchor": [
+    106.2,
+    79.4
+   ],
+   "pins": {
+    "door:choyin.town": [
+     144.8,
+     54.1
+    ],
+    "zone:choyin.guyehill": [
+     79.8,
+     96.7
+    ],
+    "zone:choyin.rockroad": [
+     105.2,
+     80.0
+    ],
+    "zone:choyin.spath": [
+     133.5,
+     61.5
+    ]
+   },
+   "size": [
+    208,
+    157
+   ]
+  },
+  "choyin.town": {
+   "anchor": [
+    244.6,
+    131.6
+   ],
+   "pins": {
+    "door:choyin.east": [
+     359.0,
+     154.2
+    ],
+    "door:choyin.guye": [
+     77.6,
+     127.4
+    ],
+    "door:choyin.hotel_house": [
+     251.5,
+     150.5
+    ],
+    "door:choyin.temple_altar": [
+     150.4,
+     150.1
+    ],
+    "door:choyin.yamen_compound": [
+     156.8,
+     75.5
+    ],
+    "door:sunhill.mountain": [
+     354.7,
+     31.0
+    ],
+    "zone:choyin.bridge1": [
+     192.1,
+     185.7
+    ],
+    "zone:choyin.bridge2": [
+     214.7,
+     200.5
+    ],
+    "zone:choyin.bridge3": [
+     237.4,
+     185.7
+    ],
+    "zone:choyin.bridge4": [
+     260.0,
+     200.5
+    ],
+    "zone:choyin.bridge5": [
+     237.4,
+     215.4
+    ],
+    "zone:choyin.court1": [
+     146.1,
+     82.4
+    ],
+    "zone:choyin.crossroad": [
+     120.0,
+     99.6
+    ],
+    "zone:choyin.dragon_temple": [
+     127.1,
+     143.1
+    ],
+    "zone:choyin.e_gate": [
+     347.7,
+     146.8
+    ],
+    "zone:choyin.e_street1": [
+     319.4,
+     128.3
+    ],
+    "zone:choyin.entrance": [
+     262.8,
+     232.0
+    ],
+    "zone:choyin.n_gate": [
+     378.8,
+     41.2
+    ],
+    "zone:choyin.n_street1": [
+     364.6,
+     61.6
+    ],
+    "zone:choyin.n_street2": [
+     342.0,
+     76.4
+    ],
+    "zone:choyin.n_street3": [
+     325.0,
+     94.9
+    ],
+    "zone:choyin.nw_street": [
+     291.1,
+     72.7
+    ],
+    "zone:choyin.s_gate": [
+     91.0,
+     118.6
+    ],
+    "zone:choyin.s_street1": [
+     204.8,
+     157.0
+    ],
+    "zone:choyin.s_street2": [
+     240.2,
+     143.1
+    ],
+    "zone:choyin.s_street3": [
+     262.1,
+     127.8
+    ],
+    "zone:choyin.s_street4": [
+     167.4,
+     130.6
+    ],
+    "zone:choyin.s_street5": [
+     144.7,
+     115.8
+    ],
+    "zone:choyin.sw_road1": [
+     161.0,
+     165.3
+    ],
+    "zone:choyin.taolin": [
+     390.1,
+     315.4
+    ],
+    "zone:choyin.tree_tomb": [
+     291.1,
+     109.8
+    ],
+    "zone:choyin.w_street1": [
+     209.1,
+     52.3
+    ],
+    "zone:choyin.w_street2": [
+     237.4,
+     70.9
+    ],
+    "zone:choyin.w_street3": [
+     265.6,
+     89.4
+    ],
+    "zone:choyin.w_street4": [
+     262.8,
+     54.2
+    ]
+   },
+   "size": [
+    487,
+    370
+   ]
+  },
+  "cloud.outdoor": {
+   "anchor": [
+    287.2,
+    190.7
+   ],
+   "pins": {
+    "door:cloud.biaoju_house": [
+     304.4,
+     286.7
+    ],
+    "door:cloud.bookstore_house": [
+     182.7,
+     207.1
+    ],
+    "door:cloud.butchery_house": [
+     259.1,
+     127.4
+    ],
+    "door:cloud.drugstore_house": [
+     322.7,
+     191.3
+    ],
+    "door:cloud.duchang_house": [
+     276.1,
+     268.2
+    ],
+    "door:cloud.jiyuan_house": [
+     297.3,
+     254.3
+    ],
+    "door:cloud.marry_house": [
+     167.2,
+     169.1
+    ],
+    "door:cloud.monky_house": [
+     211.0,
+     225.6
+    ],
+    "door:cloud.rich_house": [
+     353.9,
+     291.3
+    ],
+    "door:cloud.tailory_house": [
+     237.9,
+     163.5
+    ],
+    "door:cloud.tearoom_house": [
+     277.5,
+     141.3
+    ],
+    "door:cloud.weapony_house": [
+     322.7,
+     211.7
+    ],
+    "door:cloud.yard_house": [
+     226.6,
+     148.7
+    ],
+    "door:cloud.zaihuoy_house": [
+     269.0,
+     183.9
+    ],
+    "door:latemoon.manor": [
+     148.8,
+     165.8
+    ],
+    "door:snow.outdoor": [
+     400.2,
+     46.1
+    ],
+    "door:sunhill.mountain": [
+     181.3,
+     288.6
+    ],
+    "zone:cloud.cross": [
+     254.9,
+     239.5
+    ],
+    "zone:cloud.dragonhill.hummock": [
+     340.4,
+     82.5
+    ],
+    "zone:cloud.dragonhill.nhillfoot": [
+     365.2,
+     67.2
+    ],
+    "zone:cloud.dragonhill.nroad": [
+     387.8,
+     52.4
+    ],
+    "zone:cloud.dragonhill.shillfoot": [
+     326.3,
+     106.6
+    ],
+    "zone:cloud.dragonhill.sroad": [
+     304.4,
+     92.2
+    ],
+    "zone:cloud.dukou": [
+     193.3,
+     280.7
+    ],
+    "zone:cloud.entrance": [
+     289.5,
+     113.0
+    ],
+    "zone:cloud.eroad1": [
+     286.7,
+     261.2
+    ],
+    "zone:cloud.eroad2": [
+     315.0,
+     279.8
+    ],
+    "zone:cloud.eroad3": [
+     343.3,
+     298.3
+    ],
+    "zone:cloud.eroad4": [
+     378.6,
+     321.4
+    ],
+    "zone:cloud.nroad1": [
+     312.1,
+     198.3
+    ],
+    "zone:cloud.nroad2": [
+     288.1,
+     218.6
+    ],
+    "zone:cloud.nwroad1": [
+     269.0,
+     133.9
+    ],
+    "zone:cloud.nwroad2": [
+     247.1,
+     155.6
+    ],
+    "zone:cloud.nwroad3": [
+     279.6,
+     177.0
+    ],
+    "zone:cloud.park": [
+     342.5,
+     261.7
+    ],
+    "zone:cloud.sroad1": [
+     223.0,
+     261.2
+    ],
+    "zone:cloud.wroad0": [
+     158.7,
+     177.4
+    ],
+    "zone:cloud.wroad1": [
+     191.2,
+     198.7
+    ],
+    "zone:cloud.wroad2": [
+     221.6,
+     218.6
+    ]
+   },
+   "size": [
+    457,
+    418
+   ]
+  },
+  "goathill.caverns": {
+   "anchor": [
+    80.2,
+    52.2
+   ],
+   "pins": {
+    "door:goathill.mountain": [
+     29.1,
+     23.6
+    ],
+    "zone:goathill.cavern1": [
+     43.2,
+     33.8
+    ],
+    "zone:goathill.cavern2": [
+     97.0,
+     41.2
+    ],
+    "zone:goathill.cavern3": [
+     128.1,
+     65.3
+    ],
+    "zone:goathill.cavern4": [
+     52.4,
+     68.5
+    ]
+   },
+   "size": [
+    171,
+    104
+   ]
+  },
+  "goathill.mountain": {
+   "anchor": [
+    171.0,
+    70.7
+   ],
+   "pins": {
+    "door:goathill.caverns": [
+     283.7,
+     59.6
+    ],
+    "door:goathill.temple_house": [
+     131.7,
+     81.4
+    ],
+    "door:snow.outdoor": [
+     44.7,
+     103.2
+    ],
+    "zone:goathill.canyon1": [
+     222.2,
+     58.2
+    ],
+    "zone:goathill.canyon2": [
+     244.8,
+     43.4
+    ],
+    "zone:goathill.canyon3": [
+     273.8,
+     52.2
+    ],
+    "zone:goathill.mroad1": [
+     56.7,
+     95.3
+    ],
+    "zone:goathill.mroad2": [
+     82.9,
+     77.2
+    ],
+    "zone:goathill.mroad3": [
+     122.5,
+     72.6
+    ],
+    "zone:goathill.mroad4": [
+     147.3,
+     62.9
+    ],
+    "zone:goathill.mroad5": [
+     169.9,
+     76.8
+    ],
+    "zone:goathill.mroad6": [
+     201.7,
+     74.5
+    ],
+    "zone:goathill.slope1": [
+     188.3,
+     93.4
+    ]
+   },
+   "size": [
+    324,
+    140
+   ]
+  },
+  "green.maze": {
+   "anchor": [
+    387.8,
+    258.1
+   ],
+   "pins": {
+    "door:green.mountain": [
+     358.1,
+     42.3
+    ],
+    "door:green.stone_house": [
+     206.8,
+     376.6
+    ],
+    "zone:green.closed": [
+     402.0,
+     484.1
+    ],
+    "zone:green.eight0": [
+     373.7,
+     32.1
+    ],
+    "zone:green.eight1": [
+     553.3,
+     149.7
+    ],
+    "zone:green.eight2": [
+     732.9,
+     267.3
+    ],
+    "zone:green.eight3": [
+     208.2,
+     140.4
+    ],
+    "zone:green.eight4": [
+     387.8,
+     258.1
+    ],
+    "zone:green.eight5": [
+     567.4,
+     375.7
+    ],
+    "zone:green.eight6": [
+     42.8,
+     248.8
+    ],
+    "zone:green.eight7": [
+     222.4,
+     366.4
+    ]
+   },
+   "size": [
+    779,
+    519
+   ]
+  },
+  "green.mountain": {
+   "anchor": [
+    174.1,
+    87.1
+   ],
+   "pins": {
+    "door:green.cave": [
+     72.0,
+     140.4
+    ],
+    "door:green.maze": [
+     230.4,
+     64.4
+    ],
+    "door:green.stone_house": [
+     258.7,
+     60.7
+    ],
+    "door:green.village": [
+     49.4,
+     155.2
+    ],
+    "zone:green.cave0": [
+     63.5,
+     149.6
+    ],
+    "zone:green.entrance": [
+     212.0,
+     52.4
+    ],
+    "zone:green.mpath0": [
+     139.9,
+     99.6
+    ],
+    "zone:green.mpath1": [
+     165.4,
+     82.9
+    ],
+    "zone:green.mpath2": [
+     189.4,
+     67.2
+    ],
+    "zone:green.water": [
+     274.2,
+     70.9
+    ]
+   },
+   "size": [
+    343,
+    197
+   ]
+  },
+  "green.village": {
+   "anchor": [
+    185.1,
+    109.3
+   ],
+   "pins": {
+    "door:green.house0_house": [
+     162.3,
+     80.2
+    ],
+    "door:green.house1_house": [
+     203.3,
+     99.7
+    ],
+    "door:green.house2_house": [
+     237.2,
+     114.5
+    ],
+    "door:green.house3_house": [
+     275.4,
+     139.5
+    ],
+    "door:green.house4_house": [
+     203.3,
+     136.7
+    ],
+    "door:green.mountain": [
+     258.1,
+     28.6
+    ],
+    "door:green.shop0_house": [
+     155.2,
+     114.5
+    ],
+    "door:green.temple0_house": [
+     184.9,
+     65.4
+    ],
+    "door:snow.outdoor": [
+     50.9,
+     83.2
+    ],
+    "zone:green.field0": [
+     221.7,
+     126.5
+    ],
+    "zone:green.field1": [
+     261.3,
+     152.4
+    ],
+    "zone:green.path0": [
+     248.5,
+     38.5
+    ],
+    "zone:green.path1": [
+     220.3,
+     57.0
+    ],
+    "zone:green.path2": [
+     195.5,
+     73.3
+    ],
+    "zone:green.path3": [
+     171.5,
+     89.0
+    ],
+    "zone:green.path4": [
+     143.9,
+     107.1
+    ],
+    "zone:green.path5": [
+     115.6,
+     125.6
+    ],
+    "zone:green.path6": [
+     75.3,
+     99.2
+    ],
+    "zone:green.path8": [
+     196.2,
+     104.3
+    ],
+    "zone:green.station0": [
+     152.4,
+     158.9
+    ],
+    "zone:green.station1": [
+     218.8,
+     180.2
+    ]
+   },
+   "size": [
+    342,
+    243
+   ]
+  },
+  "guanbei.barrow": {
+   "anchor": [
+    130.2,
+    82.8
+   ],
+   "pins": {
+    "door:guanbei.worksite": [
+     109.0,
+     57.7
+    ],
+    "zone:guanbei.barrow_mouth": [
+     127.4,
+     69.8
+    ],
+    "zone:guanbei.cart_stand": [
+     96.3,
+     90.2
+    ],
+    "zone:guanbei.stone_door": [
+     167.0,
+     88.3
+    ]
+   },
+   "size": [
+    207,
+    173
+   ]
+  },
+  "guanbei.gorge": {
+   "anchor": [
+    109.4,
+    113.5
+   ],
+   "pins": {
+    "door:canyon.pass": [
+     45.8,
+     155.2
+    ],
+    "door:guanbei.town": [
+     173.1,
+     71.8
+    ],
+    "zone:guanbei.boundary": [
+     154.7,
+     83.9
+    ],
+    "zone:guanbei.dust_road": [
+     109.4,
+     113.5
+    ],
+    "zone:guanbei.gate_road": [
+     64.2,
+     143.1
+    ]
+   },
+   "size": [
+    282,
+    193
+   ]
+  },
+  "guanbei.horse_market": {
+   "anchor": [
+    73.4,
+    53.9
+   ],
+   "pins": {
+    "door:guanbei.inn": [
+     87.5,
+     33.5
+    ],
+    "door:guanbei.town": [
+     40.9,
+     32.6
+    ],
+    "door:guanbei.yurt_camp": [
+     103.1,
+     75.2
+    ],
+    "zone:guanbei.market": [
+     73.4,
+     53.9
+    ]
+   },
+   "size": [
+    193,
+    134
+   ]
+  },
+  "guanbei.steppe": {
+   "anchor": [
+    171.5,
+    116.1
+   ],
+   "pins": {
+    "door:guanbei.worksite": [
+     220.0,
+     146.7
+    ],
+    "door:guanbei.yurt_camp": [
+     98.4,
+     67.0
+    ],
+    "zone:guanbei.cairn": [
+     174.8,
+     89.3
+    ],
+    "zone:guanbei.rise": [
+     180.4,
+     152.3
+    ],
+    "zone:guanbei.steppe_road": [
+     159.2,
+     106.9
+    ]
+   },
+   "size": [
+    324,
+    212
+   ]
+  },
+  "guanbei.town": {
+   "anchor": [
+    166.9,
+    112.6
+   ],
+   "pins": {
+    "door:guanbei.gorge": [
+     107.0,
+     151.8
+    ],
+    "door:guanbei.horse_market": [
+     191.9,
+     112.9
+    ],
+    "door:guanbei.palace_court": [
+     221.6,
+     76.8
+    ],
+    "zone:guanbei.gate": [
+     119.8,
+     143.5
+    ],
+    "zone:guanbei.palace_front": [
+     213.1,
+     82.4
+    ],
+    "zone:guanbei.street": [
+     167.9,
+     112.0
+    ]
+   },
+   "size": [
+    314,
+    207
+   ]
+  },
+  "guanbei.worksite": {
+   "anchor": [
+    177.9,
+    115.4
+   ],
+   "pins": {
+    "door:guanbei.barrow": [
+     238.0,
+     154.8
+    ],
+    "door:guanbei.steppe": [
+     116.4,
+     75.2
+    ],
+    "zone:guanbei.diggings": [
+     228.1,
+     148.3
+    ],
+    "zone:guanbei.fence_gate": [
+     129.1,
+     83.5
+    ],
+    "zone:guanbei.sheds": [
+     157.4,
+     127.9
+    ],
+    "zone:guanbei.tents": [
+     197.0,
+     102.0
+    ]
+   },
+   "size": [
+    360,
+    237
+   ]
+  },
+  "guanbei.yurt_camp": {
+   "anchor": [
+    113.5,
+    111.3
+   ],
+   "pins": {
+    "door:guanbei.horse_market": [
+     55.5,
+     73.3
+    ],
+    "door:guanbei.steppe": [
+     143.2,
+     130.7
+    ],
+    "zone:guanbei.camp": [
+     90.9,
+     96.5
+    ],
+    "zone:guanbei.camp_east": [
+     136.1,
+     126.1
+    ]
+   },
+   "size": [
+    248,
+    190
+   ]
+  },
+  "latemoon.hills": {
+   "anchor": [
+    211.8,
+    105.4
+   ],
+   "pins": {
+    "door:latemoon.garden": [
+     231.6,
+     23.1
+    ],
+    "door:sanyen.tunnels": [
+     283.2,
+     114.3
+    ],
+    "zone:latemoon.bamboo": [
+     109.9,
+     100.9
+    ],
+    "zone:latemoon.bamboo1": [
+     160.9,
+     134.3
+    ],
+    "zone:latemoon.bamboo2": [
+     211.8,
+     167.6
+    ],
+    "zone:latemoon.bamboo3": [
+     245.7,
+     123.1
+    ],
+    "zone:latemoon.bamboo4": [
+     104.3,
+     171.3
+    ],
+    "zone:latemoon.sroad1": [
+     217.4,
+     30.5
+    ],
+    "zone:latemoon.sroad2": [
+     237.2,
+     54.6
+    ],
+    "zone:latemoon.sroad3": [
+     265.5,
+     73.1
+    ],
+    "zone:latemoon.sroad4": [
+     293.8,
+     91.7
+    ],
+    "zone:latemoon.sroad5": [
+     271.2,
+     106.5
+    ]
+   },
+   "size": [
+    374,
+    253
+   ]
+  },
+  "latemoon.manor": {
+   "anchor": [
+    258.7,
+    180.5
+   ],
+   "pins": {
+    "door:cloud.outdoor": [
+     564.6,
+     243.9
+    ],
+    "door:latemoon.garden": [
+     464.9,
+     203.6
+    ],
+    "door:latemoon.secret": [
+     78.1,
+     279.1
+    ],
+    "door:latemoon.upper": [
+     134.6,
+     149.4
+    ],
+    "zone:latemoon.entrance": [
+     549.7,
+     234.1
+    ],
+    "zone:latemoon.front_yard": [
+     471.9,
+     183.2
+    ],
+    "zone:latemoon.gate": [
+     515.8,
+     211.9
+    ],
+    "zone:latemoon.latebook": [
+     247.8,
+     36.4
+    ],
+    "zone:latemoon.latemoon1": [
+     408.3,
+     141.5
+    ],
+    "zone:latemoon.latemoon2": [
+     365.2,
+     169.8
+    ],
+    "zone:latemoon.latemoon3": [
+     446.5,
+     116.5
+    ],
+    "zone:latemoon.latemoon4": [
+     305.1,
+     130.4
+    ],
+    "zone:latemoon.latemoon5": [
+     386.4,
+     77.2
+    ],
+    "zone:latemoon.latemoon6": [
+     331.9,
+     41.5
+    ],
+    "zone:latemoon.latemoon7": [
+     293.7,
+     66.5
+    ],
+    "zone:latemoon.latemoon8": [
+     250.6,
+     94.7
+    ],
+    "zone:latemoon.latemoonc": [
+     348.2,
+     102.2
+    ],
+    "zone:latemoon.room.bathroom": [
+     212.4,
+     347.6
+    ],
+    "zone:latemoon.room.bathroom1": [
+     148.8,
+     305.9
+    ],
+    "zone:latemoon.room.corridor7": [
+     126.9,
+     247.1
+    ],
+    "zone:latemoon.room.eastroom": [
+     221.6,
+     309.2
+    ],
+    "zone:latemoon.room.eat1": [
+     325.6,
+     195.7
+    ],
+    "zone:latemoon.room.eat2": [
+     389.2,
+     237.4
+    ],
+    "zone:latemoon.room.eroad1": [
+     178.5,
+     280.9
+    ],
+    "zone:latemoon.room.eroad2": [
+     212.4,
+     258.7
+    ],
+    "zone:latemoon.room.flower1": [
+     92.9,
+     269.3
+    ],
+    "zone:latemoon.room.guest1": [
+     174.2,
+     144.8
+    ],
+    "zone:latemoon.room.guest2": [
+     128.3,
+     114.7
+    ],
+    "zone:latemoon.room.kitchen": [
+     433.0,
+     266.1
+    ],
+    "zone:latemoon.room.lcenter": [
+     211.7,
+     191.5
+    ],
+    "zone:latemoon.room.lroad1": [
+     263.3,
+     225.3
+    ],
+    "zone:latemoon.room.lroad3": [
+     144.5,
+     169.8
+    ],
+    "zone:latemoon.room.lstudio": [
+     160.8,
+     224.9
+    ],
+    "zone:latemoon.room.room4": [
+     102.8,
+     142.4
+    ],
+    "zone:latemoon.room.two1": [
+     211.0,
+     120.7
+    ],
+    "zone:latemoon.room.two2": [
+     165.0,
+     90.6
+    ],
+    "zone:latemoon.room.twoc": [
+     265.5,
+     156.3
+    ],
+    "zone:latemoon.room.westroom": [
+     34.9,
+     186.9
+    ],
+    "zone:latemoon.room.wroad1": [
+     110.6,
+     192.0
+    ],
+    "zone:latemoon.room.wroad2": [
+     76.7,
+     214.2
+    ]
+   },
+   "size": [
+    591,
+    384
+   ]
+  },
+  "niling.backhill": {
+   "anchor": [
+    72.5,
+    47.9
+   ],
+   "pins": {
+    "door:niling.master_house": [
+     35.7,
+     71.9
+    ],
+    "zone:niling.cliff": [
+     89.5,
+     36.7
+    ],
+    "zone:niling.cliff_path": [
+     55.5,
+     59.0
+    ]
+   },
+   "size": [
+    145,
+    114
+   ]
+  },
+  "niling.slope": {
+   "anchor": [
+    99.1,
+    73.7
+   ],
+   "pins": {
+    "door:niling.gate": [
+     120.3,
+     48.0
+    ],
+    "zone:niling.goods_path": [
+     97.6,
+     62.9
+    ],
+    "zone:niling.side_door": [
+     138.7,
+     71.2
+    ],
+    "zone:niling.winch": [
+     60.9,
+     86.9
+    ]
+   },
+   "size": [
+    204,
+    155
+   ]
+  },
+  "oldpine.outdoor": {
+   "anchor": [
+    218.4,
+    188.0
+   ],
+   "pins": {
+    "door:oldpine.keep_hall": [
+     364.4,
+     299.8
+    ],
+    "door:snow.outdoor": [
+     122.5,
+     30.3
+    ],
+    "zone:oldpine.outdoor.central_clearing": [
+     124.5,
+     121.9
+    ],
+    "zone:oldpine.outdoor.cliffside": [
+     187.2,
+     226.7
+    ],
+    "zone:oldpine.outdoor.east_bridge": [
+     191.7,
+     165.9
+    ],
+    "zone:oldpine.outdoor.keep_gate": [
+     314.3,
+     267.1
+    ],
+    "zone:oldpine.outdoor.keep_yard": [
+     348.1,
+     289.2
+    ],
+    "zone:oldpine.outdoor.north_approach": [
+     89.1,
+     52.4
+    ],
+    "zone:oldpine.outdoor.pine_cliff_edge": [
+     281.8,
+     176.3
+    ],
+    "zone:oldpine.outdoor.pine_deep": [
+     320.7,
+     201.8
+    ],
+    "zone:oldpine.outdoor.pine_entrance": [
+     250.7,
+     225.4
+    ],
+    "zone:oldpine.outdoor.slope": [
+     75.9,
+     153.7
+    ]
+   },
+   "size": [
+    426,
+    352
+   ]
+  },
+  "sanyen.grounds": {
+   "anchor": [
+    145.9,
+    117.2
+   ],
+   "pins": {
+    "door:sanyen.back_temple_house": [
+     239.3,
+     77.6
+    ],
+    "door:sanyen.hall_house": [
+     172.8,
+     100.8
+    ],
+    "door:sanyen.heal_room_house": [
+     119.1,
+     73.0
+    ],
+    "door:sanyen.kitchen_house": [
+     144.5,
+     41.5
+    ],
+    "door:sunhill.mountain": [
+     50.8,
+     179.3
+    ],
+    "zone:sanyen.corridor": [
+     182.7,
+     84.1
+    ],
+    "zone:sanyen.corridor1": [
+     162.9,
+     52.6
+    ],
+    "zone:sanyen.door": [
+     91.5,
+     153.1
+    ],
+    "zone:sanyen.drug_field": [
+     186.2,
+     135.5
+    ],
+    "zone:sanyen.front_yard": [
+     63.9,
+     170.2
+    ],
+    "zone:sanyen.inner_yard": [
+     104.2,
+     81.8
+    ],
+    "zone:sanyen.road1": [
+     118.4,
+     135.5
+    ],
+    "zone:sanyen.road2": [
+     148.8,
+     155.4
+    ],
+    "zone:sanyen.tower": [
+     254.1,
+     86.4
+    ]
+   },
+   "size": [
+    298,
+    222
+   ]
+  },
+  "snow.outdoor": {
+   "anchor": [
+    294.9,
+    188.2
+   ],
+   "pins": {
+    "door:canyon.clifftop": [
+     39.7,
+     159.6
+    ],
+    "door:cloud.outdoor": [
+     203.7,
+     259.6
+    ],
+    "door:goathill.mountain": [
+     521.9,
+     51.2
+    ],
+    "door:green.village": [
+     536.0,
+     82.7
+    ],
+    "door:oldpine.outdoor": [
+     311.2,
+     361.5
+    ],
+    "door:snow.academy": [
+     165.5,
+     230.9
+    ],
+    "door:snow.bank_house": [
+     326.7,
+     164.2
+    ],
+    "door:snow.herbshop_house": [
+     411.6,
+     108.7
+    ],
+    "door:snow.hockshop_house": [
+     434.2,
+     123.5
+    ],
+    "door:snow.inn": [
+     250.4,
+     179.0
+    ],
+    "door:snow.postoffice_house": [
+     454.0,
+     80.9
+    ],
+    "door:snow.school_compound": [
+     374.8,
+     195.7
+    ],
+    "door:snow.smithy_house": [
+     369.2,
+     136.4
+    ],
+    "door:snow.temple_house": [
+     315.4,
+     236.5
+    ],
+    "door:snow.workplace_house": [
+     391.8,
+     151.3
+    ],
+    "door:temple.mountain": [
+     401.7,
+     302.2
+    ],
+    "door:waterfog.mountain": [
+     96.2,
+     126.3
+    ],
+    "zone:snow.crossroad": [
+     504.9,
+     62.3
+    ],
+    "zone:snow.eroad1": [
+     270.9,
+     270.3
+    ],
+    "zone:snow.eroad2": [
+     323.9,
+     301.3
+    ],
+    "zone:snow.eroad3": [
+     356.4,
+     331.9
+    ],
+    "zone:snow.mstreet1": [
+     338.1,
+     171.6
+    ],
+    "zone:snow.mstreet2": [
+     380.5,
+     143.9
+    ],
+    "zone:snow.mstreet3": [
+     422.9,
+     116.1
+    ],
+    "zone:snow.mstreet4": [
+     465.3,
+     88.3
+    ],
+    "zone:snow.school1": [
+     364.9,
+     189.2
+    ],
+    "zone:snow.square": [
+     288.6,
+     204.1
+    ],
+    "zone:snow.sroad1": [
+     231.3,
+     241.6
+    ],
+    "zone:snow.sroad2": [
+     176.1,
+     223.0
+    ],
+    "zone:snow.sroad3": [
+     121.7,
+     187.4
+    ],
+    "zone:snow.sroad4": [
+     72.2,
+     158.7
+    ],
+    "zone:snow.sroad5": [
+     106.1,
+     132.7
+    ]
+   },
+   "size": [
+    600,
+    391
+   ]
+  },
+  "sunhill.mountain": {
+   "anchor": [
+    202.9,
+    190.8
+   ],
+   "pins": {
+    "door:choyin.town": [
+     237.9,
+     216.4
+    ],
+    "door:cloud.outdoor": [
+     327.0,
+     143.2
+    ],
+    "door:sanyen.grounds": [
+     127.6,
+     162.6
+    ],
+    "door:sanyen.tunnels": [
+     104.9,
+     160.8
+    ],
+    "zone:sanyen.gate": [
+     119.1,
+     168.2
+    ],
+    "zone:sanyen.sroad1": [
+     124.7,
+     201.5
+    ],
+    "zone:sanyen.sroad2": [
+     96.5,
+     183.0
+    ],
+    "zone:sunhill.dukou": [
+     249.2,
+     194.1
+    ],
+    "zone:sunhill.midriver": [
+     294.4,
+     164.5
+    ],
+    "zone:sunhill.northriver": [
+     317.1,
+     149.7
+    ],
+    "zone:sunhill.road1": [
+     226.6,
+     208.9
+    ],
+    "zone:sunhill.road2": [
+     203.9,
+     223.8
+    ],
+    "zone:sunhill.road3": [
+     175.7,
+     205.2
+    ],
+    "zone:sunhill.road4": [
+     153.0,
+     220.1
+    ],
+    "zone:sunhill.southriver": [
+     271.8,
+     179.3
+    ]
+   },
+   "size": [
+    409,
+    278
+   ]
+  },
+  "temple.grounds": {
+   "anchor": [
+    149.0,
+    109.2
+   ],
+   "pins": {
+    "door:temple.book_room1_house": [
+     233.4,
+     52.6
+    ],
+    "door:temple.mountain": [
+     40.1,
+     175.6
+    ],
+    "door:temple.restroom1_house": [
+     183.9,
+     133.2
+    ],
+    "door:temple.restroom2_house": [
+     209.4,
+     116.5
+    ],
+    "door:temple.temple1_house": [
+     77.9,
+     119.3
+    ],
+    "door:temple.temple2_house": [
+     176.9,
+     85.9
+    ],
+    "door:temple.trainroom_house": [
+     145.8,
+     65.6
+    ],
+    "zone:temple.corridor1": [
+     133.7,
+     155.9
+    ],
+    "zone:temple.corridor2": [
+     70.1,
+     114.2
+    ],
+    "zone:temple.corridor3": [
+     200.9,
+     111.9
+    ],
+    "zone:temple.corridor4": [
+     137.3,
+     70.2
+    ],
+    "zone:temple.corridor5": [
+     169.1,
+     91.0
+    ],
+    "zone:temple.corridor6": [
+     105.5,
+     91.0
+    ],
+    "zone:temple.corridor7": [
+     169.1,
+     132.7
+    ],
+    "zone:temple.inneryard": [
+     137.3,
+     111.9
+    ],
+    "zone:temple.road1": [
+     225.7,
+     95.7
+    ],
+    "zone:temple.road2": [
+     231.3,
+     64.2
+    ],
+    "zone:temple.square": [
+     59.5,
+     162.8
+    ]
+   },
+   "size": [
+    292,
+    213
+   ]
+  },
+  "temple.mountain": {
+   "anchor": [
+    204.8,
+    96.0
+   ],
+   "pins": {
+    "door:snow.outdoor": [
+     91.9,
+     69.2
+    ],
+    "door:temple.grounds": [
+     309.7,
+     76.6
+    ],
+    "zone:temple.entrance": [
+     294.1,
+     86.8
+    ],
+    "zone:temple.ladder1": [
+     263.0,
+     107.2
+    ],
+    "zone:temple.ladder2": [
+     234.7,
+     88.6
+    ],
+    "zone:temple.ladder3": [
+     206.4,
+     107.2
+    ],
+    "zone:temple.ladder4": [
+     178.1,
+     88.6
+    ],
+    "zone:temple.ladder5": [
+     149.9,
+     107.2
+    ],
+    "zone:temple.sroad": [
+     107.4,
+     86.8
+    ]
+   },
+   "size": [
+    366,
+    155
+   ]
+  },
+  "waterfog.mountain": {
+   "anchor": [
+    121.9,
+    139.3
+   ],
+   "pins": {
+    "door:snow.outdoor": [
+     116.3,
+     239.2
+    ],
+    "door:waterfog.pavilion": [
+     168.6,
+     117.8
+    ],
+    "zone:waterfog.clifftop": [
+     162.2,
+     157.2
+    ],
+    "zone:waterfog.frontyard": [
+     158.0,
+     124.8
+    ],
+    "zone:waterfog.sroad1": [
+     103.5,
+     230.8
+    ],
+    "zone:waterfog.sroad2": [
+     85.2,
+     209.5
+    ],
+    "zone:waterfog.sroad3": [
+     54.7,
+     194.3
+    ],
+    "zone:waterfog.stair1": [
+     76.7,
+     183.6
+    ],
+    "zone:waterfog.stair2": [
+     99.3,
+     170.6
+    ],
+    "zone:waterfog.stair3": [
+     121.9,
+     183.6
+    ],
+    "zone:waterfog.stair4": [
+     141.7,
+     170.6
+    ],
+    "zone:waterfog.stair5": [
+     138.9,
+     141.9
+    ],
+    "zone:waterfog.swordtomb": [
+     142.4,
+     42.4
+    ],
+    "zone:waterfog.wpath1": [
+     126.9,
+     111.8
+    ],
+    "zone:waterfog.wpath2": [
+     103.5,
+     95.6
+    ],
+    "zone:waterfog.wpath3": [
+     125.5,
+     84.0
+    ],
+    "zone:waterfog.wpath4": [
+     145.3,
+     71.1
+    ],
+    "zone:waterfog.wpath5": [
+     164.4,
+     56.7
+    ]
+   },
+   "size": [
+    233,
+    275
+   ]
+  }
+ },
+ "fingerprint": "38b748380452c4de384b4d08fb5fd7ffdebbafb9257dc67d780389e2be37bbc0",
+ "frame": [
+  -769.1,
+  14.6,
+  689.9,
+  823.0
+ ],
+ "px": 4.0
+}

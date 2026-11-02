@@ -659,54 +659,46 @@ func _bob_arrows(delta: float) -> void:
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
 
-## The quest marker follows the tracked quest (StoryQuestLog.target): placed anew when the
-## target or the ledger changes, bobbing with the exit arrows meanwhile. It stands beside the
+## The quest marker follows the player's 指路, else the tracked quest (MapAtlas.goal): placed
+## anew when the goal or the ledger changes, bobbing with the exit arrows meanwhile. It stands beside the
 ## world (a child of the view, in the world's coordinates), not in it: the world is the map's
 ## portrait and is rebuilt the same whether a quest is on or not.
 func _sync_quest_marker() -> void:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var state: CharacterState = null if player == null else player.state
-	var target: StoryQuestDefinition.Target = null if state == null else StoryQuestLog.target(state, GameContent.catalog().story_quests())
-	var key: String = "" if target == null else "%s/%s/%d" % [target.map_id, target.zone_id, state.quests.size()]
+	var goal: MapAtlas.Goal = null if state == null else MapAtlas.goal(GameContent.catalog(), state)
+	var key: String = "" if goal == null else "%s/%s/%s/%d/%d" % [goal.map_id, goal.zone_id, goal.waypoint, state.quests.size(), state.visited_maps.size()]
 	if key != _quest_key:
 		_quest_key = key
-		_place_quest_marker(target)
+		_place_quest_marker(goal, state)
 	if quest_marker != null:
 		quest_marker.position.y = float(quest_marker.get_meta("height", 0.0)) + sin(_arrow_clock * 3.2) * 0.25
 
 
-## The way out towards `target`'s map, or its zone on this map; nothing when there is no
-## target or no way.
-func _place_quest_marker(target: StoryQuestDefinition.Target) -> void:
+## The way out towards `goal`'s map, or its zone on this map; nothing when there is no goal or
+## no way. A 指路 keeps to the roads the player has walked.
+func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 	if quest_marker != null:
 		quest_marker.queue_free()
 		quest_marker = null
-	if target == null or world == null:
+	if goal == null or world == null:
 		return
-	if target.map_id == map.map_id():
-		var zone: WorldPhysicalZoneArea2D = map.physical_zone(target.zone_id)
-		if zone == null:
-			return
-		quest_marker = Node3D.new()
-		quest_marker.name = "QuestMarker"
-		quest_marker.position = VoxelMapGeometry.point(zone.global_rect().get_center())
-		quest_marker.set_meta("height", 0.0)
-		quest_marker.set_meta("target_zone", target.zone_id)
-		add_child(quest_marker)
-		var s := Shapes.new()
-		# A pillar of light up from the ground, thin, so it reads from across the map and hides nothing.
-		for step: int in 6:
-			s.box(quest_marker, Vector3(0, 0.5 + step * 1.0, 0), Vector3(0.5 - step * 0.05, 1.0, 0.5 - step * 0.05), QUEST_GLOW + ":glow")
-		s.flush()
-		_quest_label(quest_marker, 6.8)
+	if goal.map_id == map.map_id():
+		_place_quest_pillar(goal.zone_id, goal.waypoint)
 		return
-	var step: WorldRoute.Step = WorldRoute.next_step(GameContent.catalog(), map.map_id(), target.map_id)
-	if step == null:
+	var known: Dictionary[String, int] = {}
+	if goal.waypoint:
+		known = state.visited_maps
+	var steps: Array[WorldRoute.Step] = MapAtlas.way(GameContent.catalog(), map.map_id(), goal.map_id, known)
+	if steps.is_empty():
 		return
+	var step: WorldRoute.Step = steps[0]
 	var at: Vector3
 	var direction: Vector2 = Vector2.ZERO
 	if step.portal != null:
 		if not entrances.has(step.portal.portal_id):
+			# A way a landmark opens has no entrance to stand over: the room it is taken from.
+			_place_quest_pillar(step.portal.source_zone_id, goal.waypoint)
 			return
 		var entrance: Dictionary = entrances[step.portal.portal_id]
 		at = (entrance["node"] as Node3D).position
@@ -739,12 +731,30 @@ func _place_quest_marker(target: StoryQuestDefinition.Target) -> void:
 		var instance := mesh as GeometryInstance3D
 		if instance.get_parent() == arrow:
 			instance.material_override = glow
-	_quest_label(quest_marker, 1.4)
+	_quest_label(quest_marker, 1.4, goal.waypoint)
 
 
-func _quest_label(parent: Node3D, height: float) -> void:
-	# TRANSLATORS: the quest marker's label in the voxel view (任务系统): where the tracked quest leads.
-	var label: Label3D = _label(parent, tr("目标"), height)
+## A pillar of light up from the ground in the zone, thin, so it reads from across the map and hides nothing.
+func _place_quest_pillar(zone_id: StringName, waypoint: bool) -> void:
+	var zone: WorldPhysicalZoneArea2D = map.physical_zone(zone_id)
+	if zone == null:
+		return
+	quest_marker = Node3D.new()
+	quest_marker.name = "QuestMarker"
+	quest_marker.position = VoxelMapGeometry.point(zone.global_rect().get_center())
+	quest_marker.set_meta("height", 0.0)
+	quest_marker.set_meta("target_zone", zone_id)
+	add_child(quest_marker)
+	var s := Shapes.new()
+	for step: int in 6:
+		s.box(quest_marker, Vector3(0, 0.5 + step * 1.0, 0), Vector3(0.5 - step * 0.05, 1.0, 0.5 - step * 0.05), QUEST_GLOW + ":glow")
+	s.flush()
+	_quest_label(quest_marker, 6.8, waypoint)
+
+
+func _quest_label(parent: Node3D, height: float, waypoint: bool) -> void:
+	# TRANSLATORS: the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
+	var label: Label3D = _label(parent, tr("指路") if waypoint else tr("目标"), height)
 	label.modulate = Color("ffd9c2")
 	label.outline_modulate = Color("5a1a10")
 	label.outline_size = 9

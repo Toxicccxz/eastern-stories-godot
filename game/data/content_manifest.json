@@ -7,6 +7,7 @@
 		"common/combat_actions.json",
 		"common/combat_styles.json",
 		"common/stats_display.json",
+		"common/atlas.json",
 		"common/families.json",
 		"common/npcs.json",
 		"common/quests.json",

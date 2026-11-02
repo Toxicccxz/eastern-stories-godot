@@ -32,6 +32,7 @@ var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _combat_styles: CombatStyleTable = CombatStyleTable.new()
 var _stats_display: StatDisplayTable = StatDisplayTable.new()
+var _atlas: AtlasTable = AtlasTable.new()
 var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
 var _story_quests: Array[StoryQuestDefinition] = []
@@ -138,6 +139,8 @@ func add_document(document: Variant, origin: String) -> void:
 		_combat_styles.add(CombatStyle.from_record(record), record)
 	for record: ContentRecordReader in reader.children("stats_display"):
 		_stats_display.add(StatDisplayDefinition.from_record(record), record)
+	for record: ContentRecordReader in reader.children("atlas"):
+		_atlas.add(AtlasCell.from_record(record), record)
 	for record: ContentRecordReader in reader.children("quest_tiers"):
 		_quest_tiers.append(QuestTier.from_record(record))
 	for record: ContentRecordReader in reader.children("journal_chains"):
@@ -223,6 +226,7 @@ func build() -> ContentCatalog:
 	catalog.set_combat_actions(_combat_actions)
 	catalog.set_combat_styles(_combat_styles)
 	catalog.set_stats_display(_stats_display)
+	catalog.set_atlas(_atlas)
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_story_quests(_story_quests)

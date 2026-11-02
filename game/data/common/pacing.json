@@ -55,6 +55,7 @@
 		"player_corpse_stays": true,
 		"autosave_min_seconds": 180,
 		"stats_appear_when_used": true,
+		"map_page": true,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

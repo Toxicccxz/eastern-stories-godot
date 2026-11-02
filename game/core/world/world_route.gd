@@ -23,8 +23,10 @@ class Step:
 
 
 ## The steps from `from_map` to `to_map` in order (a building's door, then the street's way out
-## of town, then the climb down). Empty when they are one map or no chain joins them.
-static func chain(catalog: ContentCatalog, from_map: StringName, to_map: StringName) -> Array[Step]:
+## of town, then the climb down). Empty when they are one map or no chain joins them. With
+## `known`, only through those maps (指路: the roads the player has walked; `to_map` always counts);
+## with `plain_only`, only by ways any passer-by sees (MapAtlas.plain).
+static func chain(catalog: ContentCatalog, from_map: StringName, to_map: StringName, known: Dictionary[String, int] = {}, plain_only: bool = false) -> Array[Step]:
 	var result: Array[Step] = []
 	if catalog == null or from_map.is_empty() or to_map.is_empty() or from_map == to_map:
 		return result
@@ -35,6 +37,10 @@ static func chain(catalog: ContentCatalog, from_map: StringName, to_map: StringN
 		var here: StringName = queue.pop_front()
 		for step: Step in ways_off(catalog, here):
 			if step.to_map == here or seen.has(step.to_map):
+				continue
+			if not known.is_empty() and step.to_map != to_map and not known.has(String(step.to_map)):
+				continue
+			if plain_only and (step.portal == null or not MapAtlas.plain(catalog, step.portal)):
 				continue
 			seen[step.to_map] = true
 			came_by[step.to_map] = step

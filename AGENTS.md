@@ -125,6 +125,11 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
   (`tools/maps/life.py`). `python -m tools.maps.paint` writes the scene,
   its `Furnishings` nodes included. The voxel view draws furniture only from those nodes; never
   copy a footprint or coordinate into a second file.
+* **The 沙盘 follows the maps** (owner, 2026-11-01). The 地图 page shows every map as a baked
+  miniature: any change to `tools/maps/layouts/`, `game/data/<region>/voxel/` or
+  `game/data/common/atlas.json` reruns `python -m tools.maps.atlas.bake --godot <godot>` in the same
+  PR (about 2 minutes, windowed); the gate fails on a stale fingerprint. A new map gets a row in
+  `atlas.json`, or folds into the nearest place.
 * **Voxel config** per map: `game/data/<region>/voxel/<map>.json` (map id without the region,
   e.g. `snow.inn_upstairs` → `snow/voxel/inn_upstairs.json`), named by the layout's
   `scene.presentation`. It holds only what blocks nothing: lights, windows, rugs, wall hangings,
@@ -151,7 +156,8 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
     cracked stones (`slabs`); no ruled line where two ground kinds meet (`_fray_seams`); rooms
     worn, cluttered and used for their purpose (`room_life.json`); warm, saturated and layered,
     never a flat grey. Details: [美术规划](docs/design/美术规划.md) §2 items 6–7.
-* **Assets.** Today all forms are code-built boxes. Imported art goes under `game/assets/<kind>/`
+* **Assets.** Today all forms are code-built boxes; `game/assets/textures/atlas/` is baked from them.
+  Imported art goes under `game/assets/<kind>/`
   (`models/`, `textures/`, `audio/`, `fonts/`), named by what it is, with its source in
   [LICENSE_PROVENANCE](docs/production/LICENSE_PROVENANCE.md). Scratch renders and archives stay
   in `build/`.

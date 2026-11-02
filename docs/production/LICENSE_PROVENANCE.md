@@ -66,3 +66,6 @@ external pack files are included. Owner-provided visual references: Max Parata's
 [rocky mountains](https://maxparata.itch.io/rocky-mountains), and
 [voxel interiors](https://maxparata.itch.io/voxelinterior). Imported art, when it comes, goes under
 `game/assets/` with its source recorded here.
+
+`game/assets/textures/atlas/` is the 地图 page's pictures: this project's own voxel maps rendered by
+`tools/maps/atlas/` (DECISIONS「总图」). No external material.

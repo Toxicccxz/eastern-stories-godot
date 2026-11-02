@@ -44,6 +44,7 @@ var _sky_levels: Array[String] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _combat_styles: CombatStyleTable = CombatStyleTable.new()
 var _stats_display: StatDisplayTable = StatDisplayTable.new()
+var _atlas: AtlasTable = AtlasTable.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
 var _story_quests: Array[StoryQuestDefinition] = []
@@ -158,6 +159,16 @@ func stats_display() -> StatDisplayTable:
 func stat_shown(stat_id: StringName, state: CharacterState) -> bool:
 	var stat: StatDisplayDefinition = _stats_display.stat(stat_id)
 	return stat == null or not pacing().stats_appear_when_used or stat.shown(state)
+
+
+## Called once by ContentCatalogBuilder.
+func set_atlas(table: AtlasTable) -> void:
+	_atlas = table
+
+
+## The places on the 地图 page (atlas.json; DECISIONS「总图」).
+func atlas() -> AtlasTable:
+	return _atlas
 
 
 ## Called once by ContentCatalogBuilder.

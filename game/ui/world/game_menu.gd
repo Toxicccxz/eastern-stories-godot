@@ -1,7 +1,7 @@
 class_name GameMenu
 extends CanvasLayer
 ## The menu window (owner, 2026-10-15; DECISIONS「菜单窗口」): one window
-## with the tabs 角色, 武学, 背包, 任务, 声望, 百科 and 系统 in place of the HUD's separate
+## with the tabs 角色, 武学, 背包, 任务, 地图, 声望, 百科 and 系统 in place of the HUD's separate
 ## panels. 系统 is the pause: the shell's pause state shows this window and lends it its
 ## pause buttons (继续, 存档, 设置, 返回主菜单) through a node of HOST_GROUP. Under the other
 ## tabs the tree runs (their actions need it: portable_inventory_available()) but world
@@ -11,13 +11,13 @@ extends CanvasLayer
 
 signal tab_shown(tab: int)
 
-enum Tab { CHARACTER, MARTIAL_ARTS, INVENTORY, JOURNAL, STANDING, CODEX, SYSTEM }
+enum Tab { CHARACTER, MARTIAL_ARTS, INVENTORY, JOURNAL, MAP, STANDING, CODEX, SYSTEM }
 
 ## Tab titles, in Tab order.
-const TAB_TITLES: Array[String] = ["角色", "武学", "背包", "任务", "声望", "百科", "系统"]
-const TAB_NODE_NAMES: Array[String] = ["CharacterTab", "ArtsTab", "InventoryTab", "JournalTab", "StandingTab", "CodexTab", "SystemTab"]
+const TAB_TITLES: Array[String] = ["角色", "武学", "背包", "任务", "地图", "声望", "百科", "系统"]
+const TAB_NODE_NAMES: Array[String] = ["CharacterTab", "ArtsTab", "InventoryTab", "JournalTab", "MapTab", "StandingTab", "CodexTab", "SystemTab"]
 ## The keys that open a tab directly (project.godot), in Tab order; "" none.
-const TAB_ACTIONS: Array[StringName] = [&"menu_character", &"menu_martial_arts", &"menu_inventory", &"menu_journal", &"", &"", &""]
+const TAB_ACTIONS: Array[StringName] = [&"menu_character", &"menu_martial_arts", &"menu_inventory", &"menu_journal", &"menu_map", &"", &"", &""]
 ## The shell's group: request_menu(Tab.SYSTEM) pauses, request_resume() resumes.
 const HOST_GROUP: StringName = &"game_menu_hosts"
 ## Above the battle surface (50), below the shared frame's dialogs (61), the touch
@@ -25,6 +25,8 @@ const HOST_GROUP: StringName = &"game_menu_hosts"
 const LAYER: int = 60
 ## The window's size where the screen allows it.
 const WINDOW_SIZE: Vector2 = Vector2(920, 600)
+## 地图 takes nearly the whole screen: what is left round it.
+const MAP_MARGIN: float = 24.0
 # TRANSLATORS: the 声望 tab until reputation is built (ROADMAP "After the grey box": quest and reputation systems).
 const STANDING_PLACEHOLDER: String = "江湖上对你的看法，日后会记在这里。"
 # TRANSLATORS: the 系统 tab during a fight: the other tabs wait until it is over.
@@ -58,7 +60,7 @@ var _reveal_frames: int = 0
 var _reveal_tree: SceneTree
 
 
-func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, codex_page: Control) -> void:
+func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, map_page: Control, codex_page: Control) -> void:
 	_ui = ui
 	name = "GameMenu"
 	layer = LAYER
@@ -131,6 +133,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	var page_rows := VBoxContainer.new()
 	page_rows.name = "Pages"
 	page_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page_rows.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_page_scroll.add_child(page_rows)
 	system_mount = VBoxContainer.new()
 	system_mount.name = "SystemPage"
@@ -140,7 +143,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	system_mount.add_child(fight_hint)
 	var standing := _placeholder(STANDING_PLACEHOLDER)
 	standing.name = "StandingPage"
-	for page: Control in [character_page, arts_page, inventory_page, journal_page, standing, codex_page, system_mount]:
+	for page: Control in [character_page, arts_page, inventory_page, journal_page, map_page, standing, codex_page, system_mount]:
 		if page.get_parent() != null:
 			page.reparent(page_rows, false)
 		else:
@@ -180,8 +183,8 @@ func _attach() -> void:
 	_reflow(_safe.current_metrics())
 
 
-## The window keeps one size whatever the tab (centred in the safe area); touch screens
-## keep the top strip for the pause button, as the shared frame does.
+## The window keeps one size whatever the tab but 地图 (centred in the safe area); touch
+## screens keep the top strip for the pause button, as the shared frame does.
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics == null:
 		return
@@ -189,7 +192,8 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics.touch_sized():
 		area.position.y += 72
 		area.size.y = maxf(1, area.size.y - 72)
-	var size := Vector2(minf(WINDOW_SIZE.x, area.size.x), minf(WINDOW_SIZE.y, area.size.y))
+	var wanted: Vector2 = area.size - Vector2(MAP_MARGIN, MAP_MARGIN) * 2.0 if _current == Tab.MAP else WINDOW_SIZE
+	var size := Vector2(minf(wanted.x, area.size.x), minf(wanted.y, area.size.y))
 	_layout.apply(metrics, Rect2(area.position + (area.size - size) / 2.0, size), false, size.x)
 
 
@@ -308,8 +312,13 @@ func system_only() -> bool:
 	return _system_only
 
 
+## Whether `tab` is there: 地图 is the pace's (PacingDefinition.map_page).
+static func tab_available(tab: int) -> bool:
+	return tab != Tab.MAP or GameContent.catalog().pacing().map_page
+
+
 func show_tab(tab: int) -> void:
-	if tab < 0 or tab >= pages.size():
+	if tab < 0 or tab >= pages.size() or not tab_available(tab):
 		return
 	if _system_only:
 		tab = Tab.SYSTEM
@@ -328,13 +337,16 @@ func show_tab(tab: int) -> void:
 			if not host.request_menu(Tab.SYSTEM):
 				_press_current()
 			return
+	var resized: bool = (tab == Tab.MAP) != (_current == Tab.MAP)
 	_current = tab
 	if not visible:
 		return
+	if resized and is_instance_valid(_safe):
+		_reflow(_safe.current_metrics())
 	_hide_pages()
 	for index: int in tab_buttons.size():
 		tab_buttons[index].set_pressed_no_signal(index == tab)
-		tab_buttons[index].visible = not _system_only or index == Tab.SYSTEM
+		tab_buttons[index].visible = tab_available(index) and (not _system_only or index == Tab.SYSTEM)
 	fight_hint.visible = _system_only
 	pages[tab].show()
 	_page_scroll.scroll_vertical = 0
@@ -403,7 +415,10 @@ func _press_current() -> void:
 func step_tab(direction: int) -> void:
 	if _system_only:
 		return
-	show_tab(posmod(_current + direction, pages.size()))
+	var tab: int = posmod(_current + direction, pages.size())
+	if not tab_available(tab):
+		tab = posmod(tab + direction, pages.size())
+	show_tab(tab)
 
 
 ## Refits the window after a page changed its rows.
@@ -440,7 +455,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		step_tab(1)
 	else:
 		var tab: int = tab_for_event(event)
-		if tab < 0:
+		if tab < 0 or not tab_available(tab):
 			return
 		if _system_only:
 			pass # A fight's pause: only Esc / 继续 go back to it.

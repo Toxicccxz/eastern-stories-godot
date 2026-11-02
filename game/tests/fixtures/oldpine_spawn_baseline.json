@@ -171,6 +171,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -178,7 +179,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.slope"
 			},
@@ -351,6 +354,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -358,7 +362,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.slope"
 			},
@@ -531,6 +537,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -538,7 +545,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.slope"
 			},
@@ -711,6 +720,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -718,7 +728,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.pine_entrance"
 			},
@@ -964,6 +976,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -971,7 +984,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.pine_entrance"
 			},
@@ -1200,6 +1215,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 370.0,
 						"_effective": 370.0,
@@ -1207,7 +1223,9 @@
 						"current": 370.0,
 						"effective": 370.0,
 						"maximum": 370.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.east_bridge"
 			},
@@ -1354,6 +1372,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -1361,7 +1380,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.pine_cliff_edge"
 			},
@@ -1534,6 +1555,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -1541,7 +1563,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -1714,6 +1738,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -1721,7 +1746,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -1894,6 +1921,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -1901,7 +1929,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -2074,6 +2104,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -2081,7 +2112,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -2254,6 +2287,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -2261,7 +2295,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -2434,6 +2470,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -2441,7 +2478,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -2687,6 +2726,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -2694,7 +2734,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -2867,6 +2909,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -2874,7 +2917,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -3047,6 +3092,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -3054,7 +3100,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -3227,6 +3275,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -3234,7 +3283,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -3407,6 +3458,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -3414,7 +3466,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -3587,6 +3641,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -3594,7 +3649,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -3741,6 +3798,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -3748,7 +3806,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -3895,6 +3955,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -3902,7 +3963,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -4049,6 +4112,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -4056,7 +4120,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -4203,6 +4269,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -4210,7 +4277,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -4357,6 +4426,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -4364,7 +4434,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -4511,6 +4583,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -4518,7 +4591,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -4665,6 +4740,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -4672,7 +4748,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -4819,6 +4897,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -4826,7 +4905,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -4973,6 +5054,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -4980,7 +5062,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -5127,6 +5211,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -5134,7 +5219,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -5281,6 +5368,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -5288,7 +5376,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -5536,6 +5626,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -5543,7 +5634,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -5690,6 +5783,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 260.0,
 						"_effective": 260.0,
@@ -5697,7 +5791,9 @@
 						"current": 260.0,
 						"effective": 260.0,
 						"maximum": 260.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.stone.top"
 			},
@@ -5941,6 +6037,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -5948,7 +6045,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.caves.mouth"
 			},
@@ -6194,6 +6293,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -6201,7 +6301,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			},
@@ -6447,6 +6549,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -6454,7 +6557,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			},
@@ -6700,6 +6805,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -6707,7 +6813,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			},
@@ -7030,6 +7138,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 470.0,
 						"_effective": 470.0,
@@ -7037,7 +7146,9 @@
 						"current": 470.0,
 						"effective": 470.0,
 						"maximum": 470.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			}
@@ -7215,6 +7326,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -7222,7 +7334,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.slope"
 			},
@@ -7395,6 +7509,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -7402,7 +7517,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.slope"
 			},
@@ -7575,6 +7692,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -7582,7 +7700,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.slope"
 			},
@@ -7755,6 +7875,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -7762,7 +7883,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.pine_entrance"
 			},
@@ -8008,6 +8131,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -8015,7 +8139,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.pine_entrance"
 			},
@@ -8244,6 +8370,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 370.0,
 						"_effective": 370.0,
@@ -8251,7 +8378,9 @@
 						"current": 370.0,
 						"effective": 370.0,
 						"maximum": 370.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.east_bridge"
 			},
@@ -8398,6 +8527,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 200.0,
 						"_effective": 200.0,
@@ -8405,7 +8535,9 @@
 						"current": 200.0,
 						"effective": 200.0,
 						"maximum": 200.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.pine_cliff_edge"
 			},
@@ -8578,6 +8710,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -8585,7 +8718,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -8758,6 +8893,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -8765,7 +8901,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -8938,6 +9076,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -8945,7 +9084,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -9118,6 +9259,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -9125,7 +9267,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_gate"
 			},
@@ -9298,6 +9442,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -9305,7 +9450,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -9478,6 +9625,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -9485,7 +9633,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -9731,6 +9881,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -9738,7 +9889,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -9911,6 +10064,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -9918,7 +10072,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -10091,6 +10247,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -10098,7 +10255,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -10271,6 +10430,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -10278,7 +10438,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -10451,6 +10613,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -10458,7 +10621,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -10631,6 +10796,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -10638,7 +10804,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_yard"
 			},
@@ -10785,6 +10953,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -10792,7 +10961,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -10939,6 +11110,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -10946,7 +11118,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -11093,6 +11267,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -11100,7 +11275,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -11247,6 +11424,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -11254,7 +11432,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -11401,6 +11581,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 1800.0,
 						"_effective": 1800.0,
@@ -11408,7 +11589,9 @@
 						"current": 1800.0,
 						"effective": 1800.0,
 						"maximum": 1800.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.gorge.lake"
 			},
@@ -11555,6 +11738,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -11562,7 +11746,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -11709,6 +11895,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -11716,7 +11903,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -11863,6 +12052,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -11870,7 +12060,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -12017,6 +12209,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -12024,7 +12217,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -12171,6 +12366,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -12178,7 +12374,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -12325,6 +12523,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 50.0,
 						"_effective": 50.0,
@@ -12332,7 +12531,9 @@
 						"current": 50.0,
 						"effective": 50.0,
 						"maximum": 50.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -12580,6 +12781,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -12587,7 +12789,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.tree.canopy"
 			},
@@ -12734,6 +12938,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 260.0,
 						"_effective": 260.0,
@@ -12741,7 +12946,9 @@
 						"current": 260.0,
 						"effective": 260.0,
 						"maximum": 260.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.stone.top"
 			},
@@ -12985,6 +13192,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 220.0,
 						"_effective": 220.0,
@@ -12992,7 +13200,9 @@
 						"current": 220.0,
 						"effective": 220.0,
 						"maximum": 220.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.caves.mouth"
 			},
@@ -13238,6 +13448,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -13245,7 +13456,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			},
@@ -13491,6 +13704,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -13498,7 +13712,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			},
@@ -13744,6 +13960,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 395.0,
 						"_effective": 395.0,
@@ -13751,7 +13968,9 @@
 						"current": 395.0,
 						"effective": 395.0,
 						"maximum": 395.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			},
@@ -14074,6 +14293,7 @@
 						"_held": {}
 					},
 					"vendetta": {},
+					"visited_maps": {},
 					"vitality": {
 						"_current": 470.0,
 						"_effective": 470.0,
@@ -14081,7 +14301,9 @@
 						"current": 470.0,
 						"effective": 470.0,
 						"maximum": 470.0
-					}
+					},
+					"waypoint_map": "",
+					"waypoint_zone": ""
 				},
 				"zone": "oldpine.outdoor.keep_hall"
 			}

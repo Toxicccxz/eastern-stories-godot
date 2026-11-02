@@ -663,6 +663,8 @@ func _switched(source: WorldResidentMapController, destination: WorldResidentMap
 ## past the kept count (feel.voxel_worlds_kept; 0 keeps every one) let their voxel world go.
 ## The 2D maps stay resident whatever happens here (DECISIONS「别的地图时间补算」).
 func _note_recent_map(map_id: StringName) -> void:
+	if _player != null:
+		MapAtlas.note_visit(_player.state, map_id)
 	_recent_maps.erase(map_id)
 	_recent_maps.push_front(map_id)
 	var kept: int = GameContent.catalog().pacing().feel.voxel_worlds_kept
@@ -2313,6 +2315,7 @@ func record_journal() -> void:
 	tell_quests(StoryQuestLog.record(_player.state, _player.temp_marks, held, zone_id, GameContent.catalog().story_quests(), worn, phase_id))
 	progression_rewards().look()
 	bounties().look()
+	_settle_waypoint(location)
 
 
 ## Entries just recorded (JournalLog; 前两小时 A, DECISIONS「新手链与当前目标」) are told once
@@ -2325,6 +2328,17 @@ func tell_journal(fresh: Array[JournalLog.Fresh]) -> void:
 	for entry: JournalLog.Fresh in fresh:
 		lines.append_array(JournalLog.told_lines(entry, ObjectiveHints.shown))
 	hud.append_colored_lines(lines)
+
+
+## The player stands where they asked to be shown the way: the 指路 is done.
+func _settle_waypoint(location: WorldLocationState) -> void:
+	if location == null or not MapAtlas.arrived(_player.state, location.map_id, location.zone_id):
+		return
+	MapAtlas.point_to(_player.state, &"")
+	var hud: SharedGameplayUI = shared_ui()
+	if hud != null:
+		# TRANSLATORS: the world's marker reached the place the player chose on the 地图 page.
+		hud.append_colored_lines([ColoredLine.new(tr("到了，指路收起。"))])
 
 
 ## The player heard `npc` say `text` (npc.c chat(), or chat_msg_combat in a fight): the 任务
