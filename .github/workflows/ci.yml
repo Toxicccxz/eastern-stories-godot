@@ -97,8 +97,9 @@ jobs:
       - verify-checks
       - verify-suites
     # !cancelled(): a failed or timed-out verification job must fail this required check, not
-    # skip it (a skipped check would not block the merge). Only a cancelled run skips it, so
-    # a commit replaced by a new push reports no failure.
+    # skip it (a skipped check would not block the merge). When the whole run is cancelled
+    # this job ends as cancelled, so a commit replaced by a new push reports no failure and
+    # still no pass.
     if: >-
       !cancelled() && (
       github.event_name != 'pull_request' ||
