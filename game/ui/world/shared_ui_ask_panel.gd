@@ -224,7 +224,8 @@ func _answered(map: WorldMapController, waiting: Dictionary[String, float], line
 			_ui.dialogue_box.answer_as_written(lines)
 		# Someone who has left (陈显祖's 走吧) is not asked on: the farewell is read and the box goes.
 		elif started or not _ui.selection.selected_npc_askable():
-			_ui.dialogue_box.tell(_ui.dialogue_box.speaker(), answer)
+			var asked: NpcRuntimeState = map.selected_npc()
+			_ui.dialogue_box.tell(_ui.dialogue_box.speaker(), answer, &"" if asked == null else asked.character_id)
 		else:
 			_ui.dialogue_box.answer(answer)
 		return

@@ -29,9 +29,9 @@ var came_from_zone_id: StringName = &""
 ## scenes. Not saved: a scene begins anew as the player comes in.
 var scene_npc_id: StringName = &""
 var scene_focus_id: StringName = &""
-## A line of a scene or a told story is being said: the player reads it in the dialogue box
-## (DECISIONS「对话框」), what only sets the mood stays over people's heads.
-var telling: bool = false
+## Whose scene or told story a line is being said of ("" none): the player reads it in the
+## dialogue box (DECISIONS「对话框」), what only sets the mood stays over people's heads.
+var teller: StringName = &""
 ## The room Continue put the player back in, until its first arrival note: its people were
 ## met before the save, so a save right after Continue writes what was loaded.
 var restored_zone_id: StringName = &""
@@ -475,9 +475,9 @@ func _make_stage(character_id: StringName) -> void:
 	var hud: SharedGameplayUI = _map.hud()
 	if _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and hud != null:
 		var told: ColoredLine = making.lines[stage].colored(npc.definition().display_name, "")
-		telling = true
+		teller = character_id
 		hud.npc_says(npc, [told], [told.text])
-		telling = false
+		teller = &""
 	stage += 1
 	if stage < making.lines.size():
 		pending["stage"] = stage
@@ -539,7 +539,9 @@ func waits() -> Array[WorldWait]:
 func _told(npc: NpcRuntimeState, done: int, total: int, hurry: Callable) -> WorldWait:
 	# TRANSLATORS: the HUD while an NPC tells something line by line (a story, a making, a gargoyle's questions): {npc} the NPC, {n} the lines told, {total} all of them. 继续 brings the next line now.
 	var text: String = tr("{npc}：第 {n} / {total} 句").format({"npc": tr(npc.definition().display_name), "n": done, "total": total})
-	return WorldWait.new(text, float(done) / maxi(total, 1), hurry)
+	var wait := WorldWait.new(text, float(done) / maxi(total, 1), hurry)
+	wait.teller = npc.character_id
+	return wait
 
 
 ## A passed test (TeacherService.take_trial(), its first blow told) is told on, a blow
@@ -943,18 +945,18 @@ func _own_call(npc: NpcRuntimeState, index: int) -> void:
 	if hooks == null or index < 0 or index >= hooks.calls.size():
 		return
 	var act: ScriptedAct = hooks.calls[index].act
-	telling = hooks.calls[index].hurry
+	teller = npc.character_id if hooks.calls[index].hurry else &""
 	# A scene's call was judged as the scene began.
 	if hooks.calls[index].scene:
 		_map.acts.run(act, npc, ambience.random().legacy_random)
-		telling = false
+		teller = &""
 		return
 	var facts: ScriptedAct.Facts = _map.acts.facts()
 	facts.draw = ambience.random().legacy_random
 	facts.npc_zone = npc.world_location().zone_id
 	if act.applies_to(_player.state.gender, _player.state.affiliation.class_id, facts):
 		_map.acts.run(act, npc, ambience.random().legacy_random)
-	telling = false
+	teller = &""
 
 
 # --- scenes (主线 A; DECISIONS「剧情演出」) ---

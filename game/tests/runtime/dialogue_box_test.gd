@@ -8,13 +8,36 @@ var assertions: int = 0
 var failures: Array[String] = []
 
 
+## Two told sequences at once, whatever the map says.
+class TwoTellers extends SharedUiWaits:
+	var hurried: Array[StringName] = []
+
+	func _collect() -> Array[WorldWait]:
+		var waits: Array[WorldWait] = []
+		for id: StringName in [&"first", &"second"]:
+			var wait := WorldWait.new("", 0.0, func() -> bool:
+				hurried.append(id)
+				return true)
+			wait.teller = id
+			waits.append(wait)
+		return waits
+
+
 func run_all(tree: SceneTree) -> Dictionary:
+	_check_own_wait()
 	TestFeel.use()
 	await _check_scene(tree)
 	await _check_ask(tree)
 	await _check_feel_off(tree)
 	TestFeel.restore()
 	return {"assertions": assertions, "failures": failures}
+
+
+## Read out, a line brings on its own teller's next: not the first sequence on the card.
+func _check_own_wait() -> void:
+	var waits := TwoTellers.new(null)
+	_check(waits.hurry_teller(&"second") and waits.hurried == [&"second"], "the second teller's sequence, though the first is listed first: %s" % [waits.hurried])
+	_check(not waits.hurry_teller(&"") and not waits.hurry_teller(&"nobody") and waits.hurried.size() == 1, "nobody's line brings on nothing")
 
 
 ## 寻剑令's scene at 黄石隘口: each line waits in the box, the world stands still while it is
@@ -115,9 +138,9 @@ func _check_ask(tree: SceneTree) -> void:
 	hud.npc_says(npc, said, ["%s说道：今天天气不错。" % npc.definition().display_name])
 	_check(not box.is_open() and hud.speech_bubbles.text_of(npc.character_id) == "今天天气不错。", "chat: a bubble, no box")
 	hud.speech_bubbles.forget(npc.character_id)
-	map.npc_life.telling = true
+	map.npc_life.teller = npc.character_id
 	hud.npc_says(npc, said, ["%s说道：今天天气不错。" % npc.definition().display_name, "%s说道：第二句。" % npc.definition().display_name])
-	map.npc_life.telling = false
+	map.npc_life.teller = &""
 	_check(box.is_open() and box.line() == "今天天气不错。" and box.pages_left() == 1, "a told line: a page each")
 	_check(hud.speech_bubbles.text_of(npc.character_id).is_empty(), "told: no bubble")
 	map.attack_selected()

@@ -51,6 +51,17 @@ func hurry() -> bool:
 	return false
 
 
+## The dialogue box read out a line of `teller`'s: the next line of that sequence now. Read
+## afresh: the sequence may have begun since the card's last refresh.
+func hurry_teller(teller: StringName) -> bool:
+	if teller.is_empty():
+		return false
+	for wait: WorldWait in _collect():
+		if wait.teller == teller and wait.hurry.is_valid() and bool(wait.hurry.call()):
+			return true
+	return false
+
+
 ## Called with the card's refresh.
 func refresh() -> void:
 	_shown = _collect()

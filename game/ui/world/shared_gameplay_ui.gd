@@ -175,7 +175,7 @@ func _ready() -> void:
 	dialogue_box.configure(self)
 	add_child(dialogue_box)
 	move_child(dialogue_box, 2)
-	dialogue_box.read_out.connect(waits.hurry)
+	dialogue_box.read_out.connect(waits.hurry_teller)
 	inspect_button.pressed.connect(actions.inspect_context)
 	attack_button.pressed.connect(actions.attack_context)
 	spar_button.pressed.connect(actions.spar_context)
@@ -245,10 +245,11 @@ func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array
 		message_log.append_colored_lines(lines)
 		return
 	message_log.append_speech(lines)
-	if _read_in_box():
-		dialogue_box.say(tr(speaker.definition().display_name), spoken)
-	else:
+	var teller: StringName = _teller()
+	if teller.is_empty():
 		speech_bubbles.say(speaker, spoken, alert)
+	else:
+		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller)
 
 
 ## The dialogue box takes the foot of the screen: the toasts stand on it.
@@ -256,10 +257,10 @@ func toasts_lift(height: float) -> void:
 	_presentation_layout.toasts.lift = height
 
 
-## What is told now is read, not overheard (DECISIONS「对话框」).
-func _read_in_box() -> bool:
+## Whose story is being told now, read in the dialogue box, not overheard (DECISIONS「对话框」).
+func _teller() -> StringName:
 	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
-	return map != null and map.npc_life.telling and GameContent.catalog().pacing().feel.shows_dialogue_box()
+	return map.npc_life.teller if map != null and GameContent.catalog().pacing().feel.shows_dialogue_box() else &""
 
 
 ## The session this HUD shows (null in a bare fixture).

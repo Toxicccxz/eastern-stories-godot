@@ -7,8 +7,8 @@ extends Control
 ## each waiting for 继续; 打听 hosts its topics under the text (host()). While it shows, the
 ## world holds still and the player does not walk: reading takes nobody's time.
 
-## The box closed: what was told goes on (the HUD hurries the next line).
-signal read_out
+## The box closed: what `teller` was telling goes on (the HUD hurries its next line).
+signal read_out(teller: StringName)
 
 const HOLD: StringName = &"dialogue"
 const WIDTH_SHARE: float = 0.62
@@ -33,6 +33,8 @@ var _mount: VBoxContainer
 var _pages: Array[Array] = []
 var _hosted: Control
 var _hosted_parent: Node
+## Whose told sequence the pages are ("" none).
+var _teller: StringName = &""
 ## Characters shown so far of the page.
 var _typed: float = 0.0
 
@@ -124,12 +126,14 @@ func pages_left() -> int:
 	return maxi(_pages.size() - 1, 0)
 
 
-## `speaker_name` says `lines` (as the log shows them): a page each, after those still unread.
-func say(speaker_name: String, lines: Array[String]) -> void:
+## `speaker_name` says `lines` (as the log shows them) of `teller`'s story: a page each, after
+## those still unread.
+func say(speaker_name: String, lines: Array[String], teller: StringName = &"") -> void:
 	# Over 打听's topics a page would wait for a 继续 that is not there.
 	if hosting():
 		answer(lines)
 		return
+	_teller = teller
 	var unread: bool = not _pages.is_empty()
 	for text: String in lines:
 		var page: String = WorldSpeechBubbles.bubble_text(text)
@@ -179,12 +183,12 @@ func finish_typing() -> bool:
 	return true
 
 
-## A hosted box turns to telling: its choices go, `lines` read on as pages.
-func tell(speaker_name: String, lines: Array[String]) -> void:
+## A hosted box turns to telling: its choices go, `lines` of `teller`'s read on as pages.
+func tell(speaker_name: String, lines: Array[String], teller: StringName = &"") -> void:
 	_release_hosted()
 	_text.text = ""
 	_pages.clear()
-	say(speaker_name, lines)
+	say(speaker_name, lines, teller)
 	if _pages.is_empty():
 		close()
 
@@ -198,8 +202,9 @@ func advance() -> bool:
 		return true
 	_pages.pop_front()
 	if _pages.is_empty():
+		var teller: StringName = _teller
 		close()
-		read_out.emit()
+		read_out.emit(teller)
 	else:
 		_show_page()
 	return true
@@ -208,6 +213,7 @@ func advance() -> bool:
 ## Closes it at once: what was unread stays in 消息.
 func close() -> void:
 	_pages.clear()
+	_teller = &""
 	_release_hosted()
 	if _panel != null:
 		_panel.hide()
