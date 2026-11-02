@@ -14,6 +14,8 @@ extends RefCounted
 ## - speech_bubble_ms / speech_bubble_char_ms: how long a line an NPC says stays over its
 ##   head, and how much longer for each character past BUBBLE_SHORT_CHARACTERS (0: none,
 ##   and what NPCs say shows in the bottom left's toasts as before).
+## - dialogue_char_ms: a line in the dialogue box types out this fast (0: no box, and what
+##   is told goes to the bubbles and the shared frame as before; DECISIONS「对话框」).
 ## - speech_reach_px: how near (and on the screen) the player must be for an NPC's
 ##   greeting and chat (DECISIONS「说话和交互」); 0: anywhere in its room, as ES2.
 ## - room_text_ms / room_text_char_ms: a room's title and description show at the top this
@@ -64,6 +66,7 @@ var _move_stop_ms: int = 0
 var _speech_bubble_ms: int = 0
 var _speech_bubble_char_ms: int = 0
 var _speech_reach_px: int = 0
+var _dialogue_char_ms: int = 0
 var _room_text_ms: int = 0
 var _room_text_char_ms: int = 0
 var _menu_fade_ms: int = 0
@@ -189,6 +192,15 @@ func shows_bubbles() -> bool:
 	return _speech_bubble_ms > 0
 
 
+func shows_dialogue_box() -> bool:
+	return _dialogue_char_ms > 0
+
+
+## Seconds a character of the dialogue box takes to type out.
+func dialogue_char_seconds() -> float:
+	return float(_dialogue_char_ms) / 1000.0
+
+
 ## Seconds a room's `text` stays at the top (0: rooms are told in the toasts).
 func room_text_seconds(text: String) -> float:
 	if _room_text_ms <= 0:
@@ -210,6 +222,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_speech_bubble_ms = int(values.get("speech_bubble_ms", _speech_bubble_ms))
 	_speech_bubble_char_ms = int(values.get("speech_bubble_char_ms", _speech_bubble_char_ms))
 	_speech_reach_px = int(values.get("speech_reach_px", _speech_reach_px))
+	_dialogue_char_ms = int(values.get("dialogue_char_ms", _dialogue_char_ms))
 	_room_text_ms = int(values.get("room_text_ms", _room_text_ms))
 	_room_text_char_ms = int(values.get("room_text_char_ms", _room_text_char_ms))
 	_menu_fade_ms = int(values.get("menu_fade_ms", _menu_fade_ms))
@@ -237,7 +250,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 
 const KEYS: Array[String] = [
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
-	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
+	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
 	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",

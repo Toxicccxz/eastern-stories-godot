@@ -11,6 +11,8 @@ var progress: float
 ## 继续: brings its next step now (-> bool: whether anything was still to come); not valid
 ## when it cannot be hurried.
 var hurry: Callable
+## The NPC whose told sequence it is ("" none).
+var teller: StringName = &""
 
 
 func _init(p_text: String, p_progress: float = -1.0, p_hurry: Callable = Callable()) -> void:

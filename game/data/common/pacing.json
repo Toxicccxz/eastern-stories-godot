@@ -68,6 +68,7 @@
 			"speech_bubble_ms": 2500,
 			"speech_bubble_char_ms": 60,
 			"speech_reach_px": 136,
+			"dialogue_char_ms": 22,
 			"room_text_ms": 4000,
 			"room_text_char_ms": 40,
 			"menu_fade_ms": 120,
