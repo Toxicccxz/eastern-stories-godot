@@ -28,6 +28,8 @@ const GLOWS: int = 5
 const GLOW_GAP: float = 260.0
 const GLOW_SPEED: float = 170.0
 const GLOW_SIZE: float = 86.0
+## A step of the way longer than this crosses from one road to the next: the light jumps it.
+const GLOW_JUMP: float = 120.0
 const WAY_COLOUR: Color = Color(1.0, 0.72, 0.34, 0.85)
 const MINI_LIGHT: Color = Color(1.2, 1.16, 1.1)
 const GRADE: String = """
@@ -195,6 +197,8 @@ func _along_way(distance: float) -> Vector2:
 	var left: float = distance
 	for index: int in range(1, _way.size()):
 		var step: float = _way[index - 1].distance_to(_way[index])
+		if step > GLOW_JUMP:
+			continue
 		if left <= step and step > 0.0:
 			return _way[index - 1].lerp(_way[index], left / step)
 		left -= step
@@ -284,9 +288,9 @@ func _show_roads() -> void:
 		var b: MapAtlas.Seen = MapAtlas.seen(catalog, _state, road.b)
 		if a == MapAtlas.Seen.REACHED and b == MapAtlas.Seen.REACHED:
 			_road_sprite(_road_layer, road.file, road.at)
-		elif a == MapAtlas.Seen.REACHED and road.stub_a != Vector2.INF:
+		elif a == MapAtlas.Seen.REACHED and b == MapAtlas.Seen.ROAD and road.stub_a != Vector2.INF:
 			_road_sprite(_road_layer, road.file + "_a", road.stub_a)
-		elif b == MapAtlas.Seen.REACHED and road.stub_b != Vector2.INF:
+		elif b == MapAtlas.Seen.REACHED and a == MapAtlas.Seen.ROAD and road.stub_b != Vector2.INF:
 			_road_sprite(_road_layer, road.file + "_b", road.stub_b)
 
 
@@ -646,7 +650,7 @@ func _light_way(goal: MapAtlas.Goal) -> void:
 	var add := CanvasItemMaterial.new()
 	add.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	var from: StringName = table.home_of(catalog, _here_map)
-	for step: WorldRoute.Step in MapAtlas.way(catalog, _here_map, goal.map_id, known):
+	for step: WorldRoute.Step in WorldRoute.guided(catalog, _here_map, goal.map_id, known):
 		var to: StringName = table.home_of(catalog, step.to_map)
 		if to == from:
 			continue
@@ -662,7 +666,8 @@ func _light_way(goal: MapAtlas.Goal) -> void:
 			_way.append_array(line)
 		from = to
 	for index: int in range(1, _way.size()):
-		_way_length += _way[index - 1].distance_to(_way[index])
+		var step: float = _way[index - 1].distance_to(_way[index])
+		_way_length += 0.0 if step > GLOW_JUMP else step
 	if _way.is_empty():
 		return
 	var gradient := Gradient.new()

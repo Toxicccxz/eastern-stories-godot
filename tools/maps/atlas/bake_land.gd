@@ -178,10 +178,6 @@ func _run() -> void:
 				colour = colour.lightened(fleck) if fleck > 0.0 else colour.darkened(-fleck)
 				if near > 0.0 and near < 8.0:
 					colour = colour.darkened(0.14 * (1.0 - near / 8.0))
-				# Trodden verges: the road wears into the land, no ruled edge.
-				if gap < 9.0:
-					var worn: float = (1.0 - smoothstep(3.5, 9.0, gap)) * clampf(0.75 + grain.get_noise_2d(plane.x * 2.1, plane.y * 2.1), 0.0, 1.0)
-					colour = colour.lerp(Color(ROAD[tone][0]), worn * 0.6)
 			ground[j * count + i] = height
 			boxes.append(Vector3(plane.x, height, plane.y))
 			colours.append(colour)
@@ -555,7 +551,14 @@ func _road(link: Dictionary, path: Array[Vector2], raw: PackedFloat32Array, dist
 			heights[at] = bank + 2.0 + sin(PI * (at - run[0] + 0.5) / length) * clampf(length * 0.14, 1.0, 4.0)
 	var seen: Dictionary = {}
 	var parts: Array = []
-	var total_length: float = maxf(path.size() - 1.0, 1.0)
+	# A stub counts from where the road leaves its miniature.
+	var first_out: int = 0
+	var last_out: int = path.size() - 1
+	while first_out < last_out and free[first_out] <= 1.0:
+		first_out += 1
+	while last_out > first_out and free[last_out] <= 1.0:
+		last_out -= 1
+	var total_length: float = maxf(last_out - first_out, 1.0)
 	var line: Array = []
 	for at: int in path.size():
 		var plane: Vector2 = path[at]
@@ -571,7 +574,7 @@ func _road(link: Dictionary, path: Array[Vector2], raw: PackedFloat32Array, dist
 		var top: float = height if bridge else round(height / 2.0) * 2.0 + 0.5
 		if (free[at] > 5.0 and at % 5 == 0) or at == 0 or at == path.size() - 1:
 			line.append([plane, top + 0.6])
-		var t: float = at / total_length
+		var t: float = clampf((at - first_out) / total_length, 0.0, 1.0)
 		# Under a miniature the street it joins takes over.
 		var across: float = -wide if free[at] > 1.0 else wide + 1.0
 		while across <= wide:
@@ -596,6 +599,15 @@ func _road(link: Dictionary, path: Array[Vector2], raw: PackedFloat32Array, dist
 				colour = colour.darkened(_speck(cell * 0.3) * 0.12)
 			var tall: float = 1.0 if bridge else 3.0
 			parts.append([Vector3(cell.x, top - tall / 2.0, cell.y), Vector3(1.0, tall, 1.0), colour, t, true])
+		# Trodden verges: the road wears into the land, no ruled edge. They come with the road.
+		if not bridge and free[at] > 1.0:
+			for way: float in [-1.0, 1.0]:
+				for out: float in [wide + 0.6, wide + 1.3, wide + 2.1]:
+					var cell := Vector2(plane + side * way * out).round()
+					if seen.has(cell) or _speck(cell * 1.3) > 0.62 - (out - wide) * 0.16:
+						continue
+					seen[cell] = true
+					parts.append([Vector3(cell.x, top - 1.8, cell.y), Vector3(1.0, 3.0, 1.0), Color(colours[0]).lerp(Color("6a7a48"), _speck(cell * 0.7) * 0.5), t, true])
 		if bridge and at % 3 == 0:
 			for way: float in [-1.0, 1.0]:
 				var post: Vector2 = plane + side * way * 3.1

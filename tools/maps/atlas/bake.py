@@ -4,9 +4,9 @@ Shoots the places of game/data/common/atlas.json that have a voxel view (bake_at
 a few maps a run), then writes game/assets/textures/atlas/: <map>.png, arrow.png and bake.json
 with each picture's anchor and pins and the fingerprint of the maps it was shot from. Only the
 regions that changed are shot again (--all for every one), and the land and roads (bake_land.gd)
-only when a place moved, changed shape or got another door, so a small map edit stays a small
-commit. Run it in the same change as anything that alters a map; check() fails the gate when that
-was forgotten.
+only when a place moved, changed shape or got another door (--land to ask for them, as
+map_atlas_test does when a way opened or closed), so a small map edit stays a small commit. Run it
+in the same change as anything that alters a map; check() fails the gate when that was forgotten.
 """
 
 from __future__ import annotations
@@ -79,11 +79,22 @@ def check() -> str | None:
 def _run(godot: str, script: Path, arguments: list[str]) -> str:
     command = [godot, "--path", str(GAME), "--resolution", "640x360", "--script", script.as_posix(), "--", *arguments]
     done = subprocess.run(command, capture_output=True, text=True, encoding="utf8", errors="replace", timeout=600, cwd=ROOT)
+    if done.returncode != 0:
+        raise SystemExit(f"{script.name} failed ({done.returncode}):\n{done.stdout[-2000:]}")
     return done.stdout
 
 
 def _shoot(godot: str, arguments: list[str]) -> str:
     return _run(godot, SCRIPT, [SCRATCH.as_posix(), str(PX), *arguments])
+
+
+def _source_regions() -> dict[str, str]:
+    """The folder each map's sources are under: not always its id's prefix (sunhill.mountain)."""
+    regions: dict[str, str] = {}
+    for path in (GAME / "data").glob("*/world.json"):
+        for row in json.loads(path.read_text(encoding="utf8")).get("maps", []):
+            regions[row["id"]] = path.parent.name
+    return regions
 
 
 def _places() -> dict[str, list[int]]:
@@ -104,7 +115,7 @@ def _shape(cell: dict | None) -> object:
     return cell["size"], cell["anchor"], {key: value for key, value in cell["pins"].items() if key.startswith("door:")}
 
 
-def _read_shots(log: list[str], wanted: list[str]) -> dict[str, dict]:
+def _read_shots(log: list[str], wanted: list[str]) -> tuple[dict[str, dict], list[str]]:
     cells: dict[str, dict] = {}
     viewless: list[str] = []
     for line in log:
@@ -120,12 +131,15 @@ def _read_shots(log: list[str], wanted: list[str]) -> dict[str, dict]:
         raise SystemExit(f"not shot: {missing}")
     if viewless:
         print("no voxel view, a plate on the 沙盘:", ", ".join(viewless))
-    return cells
+    return cells, viewless
 
 
-def _write(cells: dict[str, dict], places: dict[str, list[int]], roads: list[dict]) -> None:
+def _write(cells: dict[str, dict], viewless: list[str], places: dict[str, list[int]], roads: list[dict], land_done: bool) -> None:
+    """Until the land is done the fingerprint stays empty: the gate fails and the next run goes on."""
     written = {
-        "fingerprint": fingerprint(),
+        "fingerprint": fingerprint() if land_done else "",
+        "land_done": land_done,
+        "viewless": sorted(viewless),
         "regions": region_prints(),
         "common": _digest([ROOM_LIFE]),
         "places": _digest([ATLAS]),
@@ -142,6 +156,9 @@ def _bake_land(godot: str) -> list[dict]:
     shutil.rmtree(land, ignore_errors=True)
     print(_run(godot, LAND, [land.as_posix()])[-200:], flush=True)
     roads = json.loads((land / "roads.json").read_text(encoding="utf8"))
+    missing = [name for name in LAND_FILES if not (land / f"{name}.png").is_file()]
+    if missing:
+        raise SystemExit(f"the land was not finished: {missing}")
     for stale in OUT.glob("road_*.png"):
         stale.unlink()
     for name in LAND_FILES:
@@ -151,13 +168,21 @@ def _bake_land(godot: str) -> list[dict]:
     return roads
 
 
-def bake(godot: str, whole: bool) -> None:
+def bake(godot: str, whole: bool, land_too: bool) -> None:
     places = _places()
+    sources = _source_regions()
     old = json.loads(BAKE.read_text(encoding="utf8")) if BAKE.is_file() else {}
     prints = region_prints()
     old_prints = old.get("regions", {})
     everything = whole or old.get("common") != _digest([ROOM_LIFE])
-    stale = [map_id for map_id in places if everything or old_prints.get(map_id.partition(".")[0]) != prints.get(map_id.partition(".")[0])]
+    old_cells = old.get("cells", {})
+    old_viewless = old.get("viewless", [])
+
+    def is_stale(map_id: str) -> bool:
+        region = sources[map_id]
+        return everything or old_prints.get(region) != prints.get(region) or (map_id not in old_cells and map_id not in old_viewless)
+
+    stale = [map_id for map_id in places if is_stale(map_id)]
     SCRATCH.mkdir(parents=True, exist_ok=True)
     keep = (GAME / "project.godot").read_bytes()
     log: list[str] = []
@@ -168,20 +193,27 @@ def bake(godot: str, whole: bool) -> None:
             print("shot", ", ".join(batch), flush=True)
         if everything or not (OUT / "arrow.png").is_file():
             _shoot(godot, ["@arrow"])
-        shot = _read_shots(log, stale)
+        shot, viewless = _read_shots(log, stale)
         OUT.mkdir(parents=True, exist_ok=True)
-        cells = {map_id: cell for map_id, cell in old.get("cells", {}).items() if map_id in places and map_id not in stale}
-        moved = whole or old.get("places") != _digest([ATLAS]) or any(_shape(old.get("cells", {}).get(map_id)) != _shape(shot.get(map_id)) for map_id in stale)
+        cells = {map_id: cell for map_id, cell in old_cells.items() if map_id in places and map_id not in stale}
+        kept_viewless = [map_id for map_id in old_viewless if map_id in places and map_id not in stale]
+        moved = whole or land_too or not old.get("land_done", False) or old.get("places") != _digest([ATLAS])
+        moved = moved or any(_shape(old_cells.get(map_id)) != _shape(shot.get(map_id)) for map_id in stale)
         cells.update(shot)
+        viewless = sorted({*kept_viewless, *viewless})
+        for gone in old_cells:
+            if gone not in cells:
+                (OUT / f"{gone}.png").unlink(missing_ok=True)
+                (OUT / f"{gone}.png.import").unlink(missing_ok=True)
         for name in shot:
             shutil.copyfile(SCRATCH / f"{name}.png", OUT / f"{name}.png")
         if (SCRATCH / "arrow.png").is_file():
             shutil.copyfile(SCRATCH / "arrow.png", OUT / "arrow.png")
         roads = old.get("roads", [])
-        _write(cells, places, roads)
+        _write(cells, viewless, places, roads, False)
         if moved or not (OUT / "land.png").is_file():
             roads = _bake_land(godot)
-            _write(cells, places, roads)
+        _write(cells, viewless, places, roads, True)
     finally:
         (GAME / "project.godot").write_bytes(keep)
     print("baked", len(shot), "places of", len(cells), "with pictures,", "the land too" if moved else "the land as it was")
@@ -191,9 +223,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--godot", help="the Godot editor binary; without it, only check the fingerprint")
     parser.add_argument("--all", action="store_true", help="shoot every place and the land")
+    parser.add_argument("--land", action="store_true", help="lay the land and roads again")
     arguments = parser.parse_args()
     if arguments.godot:
-        bake(arguments.godot, arguments.all)
+        bake(arguments.godot, arguments.all, arguments.land)
     problem = check()
     if problem:
         print(problem, file=sys.stderr)

@@ -689,7 +689,7 @@ func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 	var known: Dictionary[String, int] = {}
 	if goal.waypoint:
 		known = state.visited_maps
-	var steps: Array[WorldRoute.Step] = MapAtlas.way(GameContent.catalog(), map.map_id(), goal.map_id, known)
+	var steps: Array[WorldRoute.Step] = WorldRoute.guided(GameContent.catalog(), map.map_id(), goal.map_id, known)
 	if steps.is_empty():
 		return
 	var step: WorldRoute.Step = steps[0]

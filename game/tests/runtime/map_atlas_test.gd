@@ -23,6 +23,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.create_timer(0.5).timeout
 	await _test_page(tree, session)
 	await _test_waypoint_in_the_world(tree, session)
+	await _test_stubs(tree, session)
 	await _test_classic(tree, session)
 	session.free()
 	await tree.process_frame
@@ -104,6 +105,11 @@ func _test_pictures() -> void:
 		_check(joined, "%s stands for a real ordinary way: %s to %s" % [road.file, road.a, road.b])
 	_check(pictures.road_between(&"snow.outdoor", &"cloud.outdoor") != null and pictures.road_between(&"cloud.outdoor", &"snow.outdoor") != null, "either way round")
 	_check(pictures.road_between(&"snow.outdoor", &"green.maze") == null, "the 迷阵's hidden way has no road")
+	for portal: PortalDefinition in catalog.portals():
+		var from: StringName = catalog.atlas().home_of(catalog, portal.source_map_id)
+		var to: StringName = catalog.atlas().home_of(catalog, portal.destination_map_id)
+		if from != to and not from.is_empty() and not to.is_empty() and MapAtlas.plain(catalog, portal):
+			_check(pictures.road_between(from, to) != null, "%s to %s is an ordinary way with no road: run tools.maps.atlas.bake --land" % [from, to])
 
 
 func _test_knowing() -> void:
@@ -155,6 +161,23 @@ func _kinds(found: Array[MapAtlas.Mark]) -> Dictionary[StringName, Array]:
 	return result
 
 
+## A stub leads only to a ？: a place reached with nothing known beyond it shows no road.
+func _test_stubs(tree: SceneTree, session: WorldSessionController) -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var page: MapPage = session.shared_ui().map_page
+	var state: CharacterState = _player(["niling.slope"])
+	_check(MapAtlas.seen(catalog, state, &"niling.backhill") == MapAtlas.Seen.UNSEEN, "the back hill is unknown from the slope")
+	page.fill(state, &"niling.slope", &"")
+	await tree.process_frame
+	var pictures: AtlasPictures = AtlasPictures.read()
+	var road: AtlasPictures.Road = pictures.road_between(&"niling.slope", &"niling.backhill")
+	var shown: Array[String] = []
+	for sprite: Node in page._road_layer.get_children():
+		shown.append((sprite as Sprite2D).texture.resource_path)
+	_check(road != null and not shown.has(AtlasPictures.DIRECTORY + road.file + "_a.png") and not shown.has(AtlasPictures.DIRECTORY + road.file + "_b.png"), "no stub towards what the player has no road to: %s" % [shown])
+	_check(page._way.is_empty() or page._way_length > 0.0, "a way has a length")
+
+
 func _test_marks() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var state: CharacterState = _player(["snow.outdoor"])
@@ -191,7 +214,14 @@ func _test_routes() -> void:
 	var town: CharacterState = _player(["snow.inn", "snow.outdoor", "cloud.outdoor", "sunhill.mountain", "choyin.town", "choyin.taolin"])
 	var back: Array[WorldRoute.Step] = MapAtlas.route(catalog, town, &"choyin.town", &"snow.inn")
 	_check(not back.is_empty() and back[0].portal != null and MapAtlas.plain(catalog, back[0].portal), "the 桃林's way out is not the way home: %s" % ("" if back.is_empty() or back[0].portal == null else String(back[0].portal.portal_id)))
-	_check(MapAtlas.way(catalog, &"canyon.clifftop", &"canyon.pass").size() > 0, "a room command serves when no plain way joins them")
+	var down: Array[WorldRoute.Step] = WorldRoute.guided(catalog, &"canyon.clifftop", &"canyon.pass")
+	_check(down.size() > 0 and down[0].service != null, "a room command serves when no plain way joins them")
+	var past: Array[WorldRoute.Step] = WorldRoute.guided(catalog, &"choyin.town", &"canyon.pass")
+	var hidden: int = 0
+	for step: WorldRoute.Step in past:
+		if step.portal == null or not MapAtlas.plain(catalog, step.portal):
+			hidden += 1
+	_check(not past.is_empty() and hidden == 1, "past the 铁索 from 乔阴: that hop alone is hidden, not the 桃林's way home: %d" % hidden)
 	state = _player(["snow.outdoor", "cloud.outdoor"])
 	var steps: Array[WorldRoute.Step] = MapAtlas.route(catalog, state, &"cloud.outdoor", &"snow.outdoor")
 	_check(steps.size() == 1 and steps[0].from_map == &"cloud.outdoor", "walked roads join them: %d" % steps.size())

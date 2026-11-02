@@ -9,6 +9,10 @@ extends RefCounted
 ## Pure: it reads the catalog and moves nothing.
 
 
+## What a hidden hop weighs against a plain one in guided().
+const HIDDEN_HOP: int = 1000
+
+
 ## One way off a map: a portal, or an act service (one of the two is set).
 class Step:
 	extends RefCounted
@@ -24,9 +28,8 @@ class Step:
 
 ## The steps from `from_map` to `to_map` in order (a building's door, then the street's way out
 ## of town, then the climb down). Empty when they are one map or no chain joins them. With
-## `known`, only through those maps (指路: the roads the player has walked; `to_map` always counts);
-## with `plain_only`, only by ways any passer-by sees (MapAtlas.plain).
-static func chain(catalog: ContentCatalog, from_map: StringName, to_map: StringName, known: Dictionary[String, int] = {}, plain_only: bool = false) -> Array[Step]:
+## `known`, only through those maps (指路: the roads the player has walked; `to_map` always counts).
+static func chain(catalog: ContentCatalog, from_map: StringName, to_map: StringName, known: Dictionary[String, int] = {}) -> Array[Step]:
 	var result: Array[Step] = []
 	if catalog == null or from_map.is_empty() or to_map.is_empty() or from_map == to_map:
 		return result
@@ -40,12 +43,47 @@ static func chain(catalog: ContentCatalog, from_map: StringName, to_map: StringN
 				continue
 			if not known.is_empty() and step.to_map != to_map and not known.has(String(step.to_map)):
 				continue
-			if plain_only and (step.portal == null or not MapAtlas.plain(catalog, step.portal)):
-				continue
 			seen[step.to_map] = true
 			came_by[step.to_map] = step
 			queue.append(step.to_map)
 	if not seen.has(to_map):
+		return result
+	var at: StringName = to_map
+	while at != from_map:
+		result.push_front(came_by[at])
+		at = came_by[at].from_map
+	return result
+
+
+## Like chain(), the way a guide would lead: as few hidden hops as can be (a landmark's way, a
+## door a clue finds, a room command), then as few maps. A hop that must be hidden stays one hop:
+## the 铁索 is not reached by the 桃林's way back to the inn.
+static func guided(catalog: ContentCatalog, from_map: StringName, to_map: StringName, known: Dictionary[String, int] = {}) -> Array[Step]:
+	var result: Array[Step] = []
+	if catalog == null or from_map.is_empty() or to_map.is_empty() or from_map == to_map:
+		return result
+	var costs: Dictionary[StringName, int] = {from_map: 0}
+	var came_by: Dictionary[StringName, Step] = {}
+	var open: Array[StringName] = [from_map]
+	while not open.is_empty():
+		var here: StringName = open[0]
+		for map_id: StringName in open:
+			if costs[map_id] < costs[here]:
+				here = map_id
+		open.erase(here)
+		if here == to_map:
+			break
+		for step: Step in ways_off(catalog, here):
+			if not known.is_empty() and step.to_map != to_map and not known.has(String(step.to_map)):
+				continue
+			var plain: bool = step.portal != null and MapAtlas.plain(catalog, step.portal)
+			var cost: int = costs[here] + (1 if plain else HIDDEN_HOP)
+			if not costs.has(step.to_map) or cost < costs[step.to_map]:
+				costs[step.to_map] = cost
+				came_by[step.to_map] = step
+				if not open.has(step.to_map):
+					open.append(step.to_map)
+	if not came_by.has(to_map):
 		return result
 	var at: StringName = to_map
 	while at != from_map:
