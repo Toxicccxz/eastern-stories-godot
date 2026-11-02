@@ -143,7 +143,9 @@ func _check_ask(tree: SceneTree) -> void:
 	map.npc_life.teller = &""
 	_check(box.is_open() and box.line() == "今天天气不错。" and box.pages_left() == 1, "a told line: a page each")
 	_check(hud.speech_bubbles.text_of(npc.character_id).is_empty(), "told: no bubble")
-	map.attack_selected()
+	# Not by the selection: with the box shut a HUD refresh may have dropped one out of reach.
+	map.npc_kills_player(npc)
+	_check(session.combat_encounter_coordinator().has_active_encounter(), "a fight begins under the box")
 	await _frames(tree, 3)
 	_check(not box.is_open() and box.pages_left() == 0, "a fight shuts the box")
 	session.free()
