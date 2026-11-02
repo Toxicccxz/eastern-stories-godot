@@ -15,7 +15,7 @@ and repainting re-scales every map drawn from it. Three things read it:
 
       {"name": "<what it is>", "street": "<zone>", "side": "west" | "east" | "north" | "south",
        "frontage": "small" | "shop" | "wide" | "grand", "depth": <a depth class>, "at": <along>,
-       "doors": ["<portal id>" | {"portal", "street", "side", "at"}, ...], "door_at": [<along>, ...],
+       "doors": ["<portal id>" | {"portal", "street", "side", "at", "width"}, ...], "door_at": [<along>, ...],
        "rect": [x0, y0, x1, y1] (instead of frontage and depth), "wall": "wall_wood", "roof": "shop_front"}
 
   A facade stands against the street's `side` edge, centred at `at` along it (pixels on the
@@ -34,7 +34,7 @@ and repainting re-scales every map drawn from it. Three things read it:
                                     "at": [column, row], "life": {...} (life.py)}, ...},
                "props": [[kind, "<zone>", anchor, wide, deep, note?], ...],
                "placed": {"<spawn point>": ["<zone>", anchor]},
-               "doors": {"<portal id>": "north" | "south" | "east" | "west"},
+               "doors": {"<portal id>": "north" | "south" | "east" | "west" | {"side", "width"}},
                "reach_from": "<marker name>"}
 
   The first room sits at column 0, row 0 and every other one beside the room whose exit leads
@@ -42,7 +42,8 @@ and repainting re-scales every map drawn from it. Three things read it:
   row as tall as its tallest; a room keeps its own size but reaches to the edges of its cell
   where a neighbour or a way out lies, so neighbours share a wall with a doorway in it. A
   portal from a room to another map is a door on that room's wall in the portal's direction, or
-  the wall `doors` names (its passage, shutter and the marker of the way back in); stairs (scene.stairs with "zone"
+  the wall `doors` names (its passage, shutter and the marker of the way back in; `width`, px,
+  an opening wider than the standard door, DECISIONS「地图尺寸以体素视角为准」); stairs (scene.stairs with "zone"
   and an "anchor" instead of "at") stand in their room, as do scene nodes, interactions and
   spawn points given a "room" and an "anchor" (a rect node also a "size" in bodies): a service
   point by a counter, a shelf on its wall, the temple's revival spot. Anchors are "c", "n", "s", "e", "w",
@@ -146,7 +147,7 @@ def prepare_town(region, entry: dict) -> dict:
             portal = portals[spec['portal']]
             assert portal['from_zone'] == street, ('a door leads in from its street', spec['portal'])
             at = spec.get('at', b.get('door_at', [])[i] if i < len(b.get('door_at', [])) else _along_centre(facade, side))
-            _door(region, scene, shapes, portal, portals, d['zones'][street], side, at, f"Building{index}Door{i}")
+            _door(region, scene, shapes, portal, portals, d['zones'][street], side, at, f"Building{index}Door{i}", spec.get('width'))
     _check_alleys(d, facades)
     return entry
 
@@ -219,13 +220,15 @@ def reverse_portal(region, portal: dict, portals: dict) -> dict | None:
 
 
 def _door(region, scene: dict, shapes: dict, portal: dict, portals: dict, zone: list, wall_side: str, at: int,
-          name: str) -> int:
+          name: str, width: int | None = None) -> int:
     """A door on `zone`'s `wall_side` edge at `at` along it: the portal's passage just inside the
     zone, the shutter on the edge and, for the portal that comes back through it, its marker a
-    body inside. A wall of an enclosed zone is inside its box; an open zone's edge is its box's."""
+    body inside. A wall of an enclosed zone is inside its box; an open zone's edge is its box's.
+    `width`: the opening, px, where it is wider than the standard door."""
     x0, y0, x1, y1 = zone[:4]
     inset = wall_px() if zone[4] == 'enclosed' else 0
-    half = door_px() // 2
+    opening = width or door_px()
+    half = opening // 2
     depth = 2 * T
     if wall_side in ('east', 'west'):
         edge = x1 - inset if wall_side == 'east' else x0 + inset
@@ -233,16 +236,16 @@ def _door(region, scene: dict, shapes: dict, portal: dict, portals: dict, zone: 
         shutter = [edge, at - half, edge + T, at + half] if inward < 0 else [edge - T, at - half, edge, at + half]
         passage = [edge + inward * (depth // 2 + T), at]
         marker = [edge + inward * (depth + 3 * STANDARD['body'] // 2 + T), at]
-        shape = f'Rect_{depth}_{door_px() + 2 * T}'
-        shapes[shape] = [depth, door_px() + 2 * T]
+        shape = f'Rect_{depth}_{opening + 2 * T}'
+        shapes[shape] = [depth, opening + 2 * T]
     else:
         edge = y1 - inset if wall_side == 'south' else y0 + inset
         inward = -1 if wall_side == 'south' else 1
         shutter = [at - half, edge, at + half, edge + T] if inward < 0 else [at - half, edge - T, at + half, edge]
         passage = [at, edge + inward * (depth // 2 + T)]
         marker = [at, edge + inward * (depth + 3 * STANDARD['body'] // 2 + T)]
-        shape = f'Rect_{door_px() + 2 * T}_{depth}'
-        shapes[shape] = [door_px() + 2 * T, depth]
+        shape = f'Rect_{opening + 2 * T}_{depth}'
+        shapes[shape] = [opening + 2 * T, depth]
     scene.setdefault('nodes', [])
     door = region.door_between(portal['from_zone'], portal['to_zone'])
     if door is None:
@@ -292,9 +295,11 @@ def prepare_interior(region, entry: dict) -> dict:
     for p in portals.values():
         if p['from_zone'] not in rooms or zones_world.get(p['to_zone']) == scene['map'] or p['id'] in drawn:
             continue
-        side = d.get('doors', {}).get(p['id']) or (sides[CARDINAL[p['legacy_command']]] if p['legacy_command'] in CARDINAL else None)
+        door = d.get('doors', {}).get(p['id'])
+        door = door if isinstance(door, dict) else {'side': door}
+        side = door['side'] or (sides[CARDINAL[p['legacy_command']]] if p['legacy_command'] in CARDINAL else None)
         assert side, ('a way out needs a wall (give it in "doors")', p['id'])
-        outside.setdefault(p['from_zone'], []).append((p, side))
+        outside.setdefault(p['from_zone'], []).append((p, side, door.get('width')))
     floors = {z: room_floor(spec.get('size', 'room')) for z, spec in rooms.items()}
     cols, rows = {}, {}
     for z, (c, r) in grid.items():
@@ -312,7 +317,7 @@ def prepare_interior(region, entry: dict) -> dict:
     for z, (c, r) in grid.items():
         cx0, cy0, cx1, cy1 = xs[c] + ox, ys[r] + oy, xs[c] + ox + cols[c], ys[r] + oy + rows[r]
         w, h = floors[z][0] + 2 * wall, floors[z][1] + 2 * wall
-        reach = set(_neighbour_sides(z, grid, links)) | {side[0] for _, side in outside.get(z, [])}
+        reach = set(_neighbour_sides(z, grid, links)) | {side[0] for _, side, _ in outside.get(z, [])}
         # Stretched to one side, a room would slide away from a neighbour across that axis
         # (the room south of it is centred): with one there it fills the cell's width instead.
         across_x, across_y = bool(reach & {'n', 's'}), bool(reach & {'w', 'e'})
@@ -334,15 +339,16 @@ def prepare_interior(region, entry: dict) -> dict:
     assert wall == 2 * T, 'town.py draws two-tile walls and doorways: keep wall_tiles at 2'
     for z, ps in outside.items():
         on_side = {}
-        for i, (p, side) in enumerate(ps):
+        for i, (p, side, width) in enumerate(ps):
             zx0, zy0, zx1, zy1 = zones[z][:4]
+            opening = width or door_px()
             at = (zy0 + zy1) // 2 // T * T if side in ('east', 'west') else (zx0 + zx1) // 2 // T * T
             k = on_side[side] = on_side.get(side, -1) + 1
-            at += (k + 1) // 2 * (door_px() + 2 * T) * (1 if k % 2 else -1)
+            at += (k + 1) // 2 * (opening + 2 * T) * (1 if k % 2 else -1)
             lo, hi = (zy0, zy1) if side in ('east', 'west') else (zx0, zx1)
-            assert lo + wall <= at - door_px() // 2 and at + door_px() // 2 <= hi - wall, ('no room on the wall for the door', p['id'])
-            edge = _door(region, scene, shapes, p, portals, zones[z], side, at, f'{_node(z.split(".")[-1])}Door{i}')
-            props.append(_doorway(zones[z], side, at, edge))
+            assert lo + wall <= at - opening // 2 and at + opening // 2 <= hi - wall, ('no room on the wall for the door', p['id'])
+            edge = _door(region, scene, shapes, p, portals, zones[z], side, at, f'{_node(z.split(".")[-1])}Door{i}', width)
+            props.append(_doorway(zones[z], side, at, opening))
     for row in d.get('props', []):
         kind, z, anchor, wide, deep, *note = row
         props.append([kind, *_anchored(zones[z], anchor, px(wide), px(deep)), *note])
@@ -475,10 +481,10 @@ def _stretch(lo: int, hi: int, size: int, to_lo: bool, to_hi: bool) -> tuple[int
     return start, start + size
 
 
-def _doorway(zone: list, side: str, at: int, edge: int) -> list:
+def _doorway(zone: list, side: str, at: int, opening: int) -> list:
     """The floor cut through the room's wall where its door is."""
     x0, y0, x1, y1 = zone[:4]
-    half = door_px() // 2
+    half = opening // 2
     ground = zone[5]
     if side == 'east':
         return [ground, x1 - wall_px(), at - half, x1, at + half, 'the doorway out']

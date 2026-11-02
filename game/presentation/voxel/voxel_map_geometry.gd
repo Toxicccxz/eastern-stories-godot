@@ -450,6 +450,10 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			ground.slabs(cell,cells,painted,style)
 		elif style.get("style","")=="mosaic":
 			ground.mosaic(cell,style)
+		elif style.get("style","")=="paddy":
+			ground.paddy(cell,p,style)
+		elif style.get("style","")=="ice":
+			ground.ice(cell,p,palette,growth,style)
 		elif style.get("style","")=="paving" or road and not style.has("colors"):
 			ground.paving(cell,cells,painted,style)
 		else:
@@ -660,6 +664,16 @@ func _styled_wall_cell(into: Node3D, p: Vector3, height: float, look: Dictionary
 			level += h
 			row += 1
 		return
+	if look.get("style","rock")=="posts":
+		# 竹竿作架 (melonguard.c): no wall at all, a bamboo pole every few cells and a low rail lashed
+		# between them, so the shed's outline stands and the fields show through.
+		if posmod(roundi((p.x if horizontal else p.z)*2.0),int(look.get("every",4))) == 0:
+			shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.14,height,0.14),String(colors[absi(int(p.x*2+p.z*2))%colors.size()]))
+			for joint: float in [0.8,1.6,2.4]:
+				if joint < height:
+					shapes.box(into,p+Vector3(0,joint,0),Vector3(0.17,0.04,0.17),String(look.get("joint","7a7a3e")))
+		shapes.box(into,p+Vector3(0,0.75,0),Vector3(0.52,0.05,0.06) if horizontal else Vector3(0.06,0.05,0.52),String(look.get("rail","a09a58")))
+		return
 	if look.get("style","rock")=="palisade":
 		# 老松寨's wall: logs stood side by side, sharpened, lashed at two heights.
 		for log_index: int in 2:
@@ -791,7 +805,8 @@ func _dress_cliffs() -> void:
 			if rng.randf()<0.35:
 				var size: float = rng.randf_range(0.16,0.34)
 				shapes.shard(cliffs.root,p+out*0.25+Vector3(0,rng.randf_range(0.1,maxf(0.2,h-0.3)),0),Vector3(size,size*0.8,size*1.2),_pick(rock),rng.randi(),rng.randf()*TAU)
-			if foliage != null and rng.randf()<0.5:
+			# `cliff_foot_tufts` (0: bare ice): grass at the rock's foot.
+			if foliage != null and rng.randf()<float(flora.get("cliff_foot_tufts",0.5)):
 				foliage.plant(p+out*rng.randf_range(0.28,0.42)+Vector3(rng.randf_range(-0.2,0.2),0.02,rng.randf_range(-0.2,0.2)),0,rng.randf_range(0.5,1.0),rng.randf()*TAU)
 		var tall: Dictionary = _meadow(Vector2(cell),"cliff") if foliage != null else {}
 		if not tall.is_empty() and h<=float(tall.get("below",1.6)):
@@ -929,9 +944,10 @@ func _plant_groves() -> void:
 			instance.material_override = tree_shapes.material()
 			grove.add_child(instance)
 
-## `critters`: [{"kind": "chicken"|"dog"|"sheep", "rect": [x0, y0, x1, y1] px, "count", "colors", "speed",
+## `critters`: [{"kind": "chicken"|"dog"|"sheep"|"pig", "rect": [x0, y0, x1, y1] px, "count", "colors", "speed",
 ## "scale"}]: they wander the open ground within their rect (walkable cells no building or
-## furnishing stands on), presentation only (VoxelCritter).
+## furnishing stands on), presentation only (VoxelCritter). `penned`: a sty, every cell of the rect
+## theirs though the 2D map blocks it (the pen is a blocked box: nobody walks in).
 func _critters(layout: Dictionary) -> void:
 	var index: int = 0
 	# The terrain relabels a blocked box's cells as the ground around it (`_terrain`), so the
@@ -946,7 +962,12 @@ func _critters(layout: Dictionary) -> void:
 		var rect := Rect2(a[0],a[1],a[2]-a[0],a[3]-a[1])
 		var open: Array[Vector2] = []
 		for cell: Vector2i in terrain_cells:
-			if not rect.has_point(Vector2(cell)) or terrain_cells[cell] in VoxelLife.WALKABLE_NOT:
+			if not rect.has_point(Vector2(cell)):
+				continue
+			if spec.get("penned",false):
+				open.append(Vector2(cell))
+				continue
+			if terrain_cells[cell] in VoxelLife.WALKABLE_NOT:
 				continue
 			var under: bool = false
 			for footprint: Rect2 in taken:
@@ -964,7 +985,7 @@ func _critters(layout: Dictionary) -> void:
 			critter.colors = spec.get("colors",[])
 			critter.cells = open
 			critter.seed = Shapes.place_seed(int(a[0]),int(a[1]),index*31+i,9)
-			critter.speed = float(spec.get("speed",1.4 if kind=="dog" else 0.6 if kind=="sheep" else 0.9))
+			critter.speed = float(spec.get("speed",1.4 if kind=="dog" else 0.6 if kind in ["sheep","pig"] else 0.9))
 			critter.scale = Vector3.ONE*float(spec.get("scale",1.0))
 			add_child(critter)
 			critters.append(critter)

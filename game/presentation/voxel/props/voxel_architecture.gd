@@ -132,6 +132,13 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				if weather>0.3:
 					shapes.box(body,Vector3(at.x,0.6+weather,at.z)+out*0.09,Vector3(0.3,0.25,0.03) if along_x else Vector3(0.03,0.25,0.3),String(data.get("patch","6e5e46")))
 				continue
+			if construction=="posts":
+				# 竹竿作架 (melonguard.c): an open shed, a bamboo pole every `bay` steps, nothing between.
+				if i%bay==0:
+					shapes.box(body,at,Vector3(0.16,height,0.16),String(data.get("poles","8a8a4a")))
+					for joint: float in [0.9,1.8]:
+						shapes.box(body,Vector3(at.x,joint,at.z),Vector3(0.19,0.04,0.19),"6e6e38")
+				continue
 			if construction=="iron_bars":
 				# 铁栅 (canyon3.c): the palisade round the camp's yards — bars, spikes, rails, a stone sill.
 				shapes.box(body,Vector3(at.x,0.1,at.z),Vector3(0.5,0.2,0.3) if along_x else Vector3(0.3,0.2,0.5),"7d7262")

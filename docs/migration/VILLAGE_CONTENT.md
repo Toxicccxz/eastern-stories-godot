@@ -20,7 +20,9 @@ All 26 room files, on seven maps.
 | village.icecave (水下岩洞) | lakebottom1–2 | 白鳞冰龙 ×6 | up west to valley1; 放弃 by the 玄冰 (the Inn) |
 
 The lake is no walk: its middle, which only the boat reaches, is a map of its own (as 乔阴's rooms
-only verbs reach). None of these maps has a voxel view yet (no `game/data/village/voxel/`).
+only verbs reach). All seven maps have their voxel view (`game/data/village/voxel/`,
+[美术规划](../design/美术规划.md) §5). valley1.c's path runs on south past the rock of the way down and
+stops at brush: the room for a later exit is there (forest to the map's edge), no portal.
 
 ## LPC → native (A)
 

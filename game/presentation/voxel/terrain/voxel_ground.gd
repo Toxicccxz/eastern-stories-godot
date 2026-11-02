@@ -381,6 +381,43 @@ func bark(cell: Vector2i, p: Vector3, colors: Array, cells: Dictionary[Vector2i,
 			var at: Vector3 = p+out*rng.randf_range(0.3,0.5)+Vector3(rng.randf_range(-0.15,0.15),-0.05,rng.randf_range(-0.15,0.15))
 			shapes.box(parent,at,Vector3(rng.randf_range(0.2,0.36),0.14,rng.randf_range(0.2,0.36)),String(sprigs[rng.randi_range(0,sprigs.size()-1)]))
 
+## 稻田 (layout `ground`, style "paddy"; field.c: 一片绿油油的稻田): a flooded plot, rows of rice
+## (the meadow's tufts, so they bend in the wind and part round a walker) with the sky in the water
+## between them, earth bunds (田埂) wandering round each plot. `plots`: [cells across, cells down],
+## `row`: cells between rows, `water`, `mud`, `bund`, `size`: [low, high] of a tuft.
+func paddy(cell: Vector2i, p: Vector3, style: Dictionary) -> void:
+	var plots: Array = style.get("plots",[14,10])
+	var across: float = float(plots[0])*16.0
+	var down: float = float(plots[1])*16.0
+	var wander := Vector2(noise.get_noise_2d(float(cell.y)*1.3,31.0),noise.get_noise_2d(float(cell.x)*1.3,77.0))*36.0
+	var bund: bool = fposmod(cell.x+wander.x,across) < 16.0 or fposmod(cell.y+wander.y,down) < 16.0
+	shapes.box(parent,p-Vector3(0,0.09,0),Vector3(0.5,0.12,0.5),String(style.get("mud","4e4a34")))
+	if bund:
+		shapes.shard(parent,p+Vector3(0,0.03,0),Vector3(0.54,0.14,0.54),String(style.get("bund","7a6a46")),rng.randi(),rng.randf_range(-0.08,0.08))
+		if foliage != null and rng.randf() < 0.35:
+			foliage.plant(p+Vector3(rng.randf_range(-0.16,0.16),0.09,rng.randf_range(-0.16,0.16)),0,rng.randf_range(0.4,0.7),rng.randf()*TAU)
+		return
+	shapes.box(parent,p-Vector3(0,0.03,0),Vector3(0.5,0.02,0.5),String(style.get("water","6f9a9c"))+":gloss")
+	var row: int = int(style.get("row",2))
+	if foliage == null or posmod(floori(cell.y/16.0),row) != 0:
+		return
+	var sizes: Array = style.get("size",[0.85,1.25])
+	# A plot's rice is of an age: the tufts of one plot grow alike.
+	var age: float = float(posmod(floori((cell.x+wander.x)/across)*7+floori((cell.y+wander.y)/down)*3,5))/4.0
+	for shoot: int in 2:
+		if rng.randf() < 0.92:
+			foliage.plant(p+Vector3(-0.125+shoot*0.25+rng.randf_range(-0.02,0.02),-0.02,rng.randf_range(-0.03,0.03)),0,lerpf(float(sizes[0]),float(sizes[1]),age)*rng.randf_range(0.92,1.08),rng.randf()*TAU)
+
+## 玄冰 (layout `ground`, style "ice"; lakebottom1.c: 冰的色泽纯正洁白): a floor of ice, polished by
+## nothing but cold, pale in broad patches, frost in specks and hair cracks running through it.
+func ice(cell: Vector2i, p: Vector3, colors: Array, growth: float, style: Dictionary) -> void:
+	var tint: String = String(colors[clampi(roundi((growth+0.5)*(colors.size()-1)),0,colors.size()-1)])
+	shapes.box(parent,p-Vector3(0,0.06,0),Vector3(0.5,0.12,0.5),tint+":gloss")
+	if rng.randf() < float(style.get("cracks",0.14)):
+		shapes.tilted_box(parent,p+Vector3(rng.randf_range(-0.1,0.1),0.006,rng.randf_range(-0.1,0.1)),Vector3(rng.randf_range(0.3,0.6),0.004,0.016),String(style.get("crack","a8c8d8")),Vector3(0,rng.randf()*TAU,0))
+	if rng.randf() < float(style.get("frost",0.3)):
+		shapes.box(parent,p+Vector3(rng.randf_range(-0.2,0.2),0.008,rng.randf_range(-0.2,0.2)),Vector3(rng.randf_range(0.06,0.16),0.012,rng.randf_range(0.06,0.14)),String(style.get("frost_color","f4fbff")))
+
 ## Loose ground on a wild map (layout `ground`, style "scree"): a tile in broad tint
 ## patches, scattered gravel and the odd half-buried stone. `wet` adds slick glints.
 func scree(cell: Vector2i, p: Vector3, colors: Array, growth: float, style: Dictionary) -> void:

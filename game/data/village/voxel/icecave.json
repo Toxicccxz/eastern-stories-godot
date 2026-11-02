@@ -1,0 +1,77 @@
+{
+  "indoor": false,
+  "camera_size": 21,
+  "note": "lakebottom1/2.c: all ice, pure white like the north's 玄冰, lit from below by glowing weed; the way in frozen over behind you; west the hall opens wide under a half-clear vault with fish going by beyond it, the white dragons, their pool, the ice stair winding up. Not 冻伤: the lake itself never freezes.",
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 56,
+    "depth": 2.8,
+    "top": "8ab0c8",
+    "bottom": "1a2a3a",
+    "strata": ["6a94b0", "527c9a", "3e6484"]
+  },
+  "light": {
+    "sky": ["0c1a2a", "0a1624"],
+    "ambient": ["a8d0e4", "a0c8e0"],
+    "ambient_energy": [0.62, 0.58],
+    "sun": ["b8d8ec", "a8cce4"],
+    "sun_energy": [0.2, 0.18],
+    "carried": {"color": "cfeef6", "range": 8.0, "day": 1.0, "night": 1.1, "attenuation": 1.0},
+    "note": "under the lake: no day or night, the weed's light"
+  },
+  "cliffs": {
+    "low": 2.0,
+    "high": 4.4,
+    "rise": 90,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 96,
+    "trim": ["cliff"],
+    "grooves": 0.12,
+    "roughness": 0.28,
+    "strata": ["dcecf4", "c8e0ee", "eef8fc", "b4d4e6", "d2e6f0", "a8cce0"],
+    "tops": ["eef8fc", "dcecf4", "f6fcfe"],
+    "dark": "12283c",
+    "note": "lakebottom1.c: 这个岩洞中全都是冰"
+  },
+  "ground": {
+    "cave_floor": {"style": "ice", "colors": ["cfe4ee", "dcedf4", "e8f4f8", "c2dcea"], "cracks": 0.16, "frost": 0.3},
+    "boundary": {"colors": ["8ab0c8", "7aa4be", "6e98b4"]}
+  },
+  "water": {
+    "kinds": {"water": {"colors": ["5ab0c8", "3a8cb0", "226a90"], "depth": 80, "flow": [0.05, 0.02], "speed": 0.12, "swell": 0.02, "foam": 0.1, "rock_foam": 0.5, "bank_foam": 0.4, "bank": ["b4d4e6", "c8e0ee", "a8cce0"], "sky": 0.2, "note": "lakebottom2.c: 洞里的水潭"}}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "butterflies": 0,
+    "wind": 0.0,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "density": {"cave_floor": 0.0},
+    "root_ferns": false,
+    "cliff_foot_tufts": 0.0,
+    "cliff_tufts": 0.0,
+    "outcrop_colors": ["dcecf4", "c8e0ee", "eef8fc"]
+  },
+  "ambience": {
+    "fish": [{"rect": [40, -52, 740, -20], "count": 12, "height": [4.0, 9.0], "color": "2a4a68", "size": 1.1, "note": "lakebottom2.c: 能模糊地看到顶外的小鱼游来游去"}],
+    "dust": [{"rect": [40, 40, 1120, 460], "count": 26, "color": "e8f6fc", "wind": [0.1, 0.05], "height": [0.4, 2.8], "note": "ice crystals in the cold air"}]
+  },
+  "actors": {
+    "village.npc.dragon": {"body": "snake", "scale": 3.4, "colors": ["e4f2fa", "bcdcee", "98c4de"], "belly": "7fb4d4", "crest": "a8dcf4", "rear": true, "note": "npc/dragon.c: 浑身长满白鳞"}
+  },
+  "props": [
+    {"kind": "ice_dome", "at": [384, -40], "size": [760, 64], "height": 10, "ribs": 7, "note": "lakebottom2.c: 巨大的穹顶成半透明"},
+    {"kind": "ice_stair", "at": [16, 288], "size": [32, 64], "radius": 1.4, "count": 20, "rise": 0.3, "note": "lakebottom2.c: 西面有一冰制的阶梯盘旋而上"},
+    {"kind": "thin_ice", "at": [1040, 144], "size": [200, 16], "height": 3.0, "note": "lakebottom1.c: 入口处又迅速地结了一层薄冰"},
+    {"kind": "glow_algae", "at": [1064, 200], "size": [120, 72], "count": 14, "light": true, "range": 8.0, "energy": 1.4},
+    {"kind": "glow_algae", "at": [1000, 420], "size": [140, 64], "count": 14, "light": true, "range": 7.0, "energy": 1.2},
+    {"kind": "glow_algae", "at": [860, 170], "size": [100, 56], "count": 10},
+    {"kind": "glow_algae", "at": [850, 430], "size": [90, 50], "count": 8},
+    {"kind": "glow_algae", "at": [680, 150], "size": [120, 80], "count": 12, "light": true, "range": 9.0, "energy": 1.2},
+    {"kind": "glow_algae", "at": [500, 530], "size": [150, 60], "count": 12, "light": true, "range": 8.0, "energy": 1.0},
+    {"kind": "glow_algae", "at": [120, 90], "size": [110, 70], "count": 10, "light": true, "range": 8.0, "energy": 1.0},
+    {"kind": "glow_algae", "at": [360, 330], "size": [120, 60], "count": 8},
+    {"kind": "glow", "at": [208, 460], "height": 0.4, "color": "6fd0e8", "range": 8.0, "day": 1.0, "night": 1.0, "note": "the pool, lit from under"}
+  ]
+}

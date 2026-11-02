@@ -1,8 +1,9 @@
 extends Node3D
 
-## A small animal loose on the map (青石村's hens, the headman's dog; 关北 C's sheep): a chicken
-## that struts, stops to peck, and flaps off a few steps, a dog that pads about, sits and wags
-## its tail, or a sheep that drifts a few steps and grazes, head down, flicking its tail.
+## A small animal loose on the map (青石村's hens, the headman's dog; 关北 C's sheep; 傅家坡's
+## pigs): a chicken that struts, stops to peck, and flaps off a few steps, a dog that pads about,
+## sits and wags its tail, a sheep that drifts a few steps and grazes, head down, flicking its
+## tail, or a piglet that trots a little way and roots in the mud.
 ## It wanders on the open ground it was given (`cells`, px centres of walkable floor within its
 ## range) and never leaves it; presentation only — no 2D body, nothing saved, no gameplay random
 ## draws (its own seeded source).
@@ -35,6 +36,8 @@ func _ready() -> void:
 			_dog(s)
 		"sheep":
 			_sheep(s)
+		"pig":
+			_pig(s)
 		_:
 			_chicken(s)
 	s.flush()
@@ -124,6 +127,35 @@ func _sheep(s: Shapes) -> void:
 	_body.add_child(_tail)
 	s.tilted_box(_tail,Vector3(0,-0.06,-0.04),Vector3(0.1,0.16,0.08),fleece,Vector3(0.4,0,0))
 
+## 小白猪 (fmhousback.c: 几只小白猪在里面胡吃海塞): a pink-white barrel on four short legs, a broad
+## snout, flopped ears, a curl of a tail; `colors`: hide, snout and ears, trotters.
+func _pig(s: Shapes) -> void:
+	var skin: String = String(colors[0]) if colors.size()>0 else "f0ddd0"
+	var snout: String = String(colors[1]) if colors.size()>1 else "e4a898"
+	var feet: String = String(colors[2]) if colors.size()>2 else "c8907e"
+	s.box(_body,Vector3(0,0.34,0),Vector3(0.36,0.32,0.66),skin)
+	s.box(_body,Vector3(0,0.44,-0.04),Vector3(0.3,0.14,0.5),Color(skin).lightened(0.05).to_html(false))
+	_head = Node3D.new()
+	_head.position = Vector3(0,0.38,0.34)
+	_body.add_child(_head)
+	s.box(_head,Vector3(0,0.02,0.08),Vector3(0.28,0.26,0.24),skin)
+	s.box(_head,Vector3(0,-0.04,0.24),Vector3(0.16,0.12,0.08),snout)
+	for side: float in [-1.0,1.0]:
+		s.box(_head,Vector3(side*0.04,-0.04,0.285),Vector3(0.03,0.04,0.01),"8a5a50")
+		s.tilted_box(_head,Vector3(side*0.13,0.16,0.02),Vector3(0.1,0.04,0.12),snout,Vector3(0,0,side*0.5))
+		s.box(_head,Vector3(side*0.09,0.08,0.2),Vector3(0.03,0.03,0.02),"2a2020")
+	for i: int in 4:
+		var leg := Node3D.new()
+		leg.position = Vector3(-0.11 if i%2==0 else 0.11,0.18,0.2 if i<2 else -0.2)
+		_body.add_child(leg)
+		_legs.append(leg)
+		s.box(leg,Vector3(0,-0.09,0),Vector3(0.09,0.18,0.1),feet)
+	_tail = Node3D.new()
+	_tail.position = Vector3(0,0.42,-0.33)
+	_body.add_child(_tail)
+	s.box(_tail,Vector3(0,0.03,-0.03),Vector3(0.04,0.1,0.04),snout)
+	s.box(_tail,Vector3(0.03,0.08,-0.05),Vector3(0.05,0.03,0.03),snout)
+
 func _process(delta: float) -> void:
 	_clock += delta
 	var flat: Vector3 = _target-position
@@ -137,7 +169,7 @@ func _process(delta: float) -> void:
 			var here := Vector2(position.x,position.z)*UNIT
 			for pick: int in 8:
 				var spot: Vector2 = cells[_rng.randi_range(0,cells.size()-1)]
-				if spot.distance_to(here) > (128.0 if kind=="dog" else 64.0 if kind=="sheep" else 96.0) or not _clear(here,spot):
+				if spot.distance_to(here) > (128.0 if kind=="dog" else 64.0 if kind in ["sheep","pig"] else 96.0) or not _clear(here,spot):
 					continue
 				_target = Vector3(spot.x/UNIT,0,spot.y/UNIT)
 				break
@@ -145,7 +177,7 @@ func _process(delta: float) -> void:
 		return
 	if flat.length() < 0.05:
 		position = Vector3(_target.x,0,_target.z)
-		_rest = _rng.randf_range(1.0,4.0) if kind=="chicken" else _rng.randf_range(3.0,8.0) if kind=="sheep" else _rng.randf_range(2.0,6.0)
+		_rest = _rng.randf_range(1.0,4.0) if kind=="chicken" else _rng.randf_range(3.0,8.0) if kind in ["sheep","pig"] else _rng.randf_range(2.0,6.0)
 		_sitting = kind=="dog" and _rng.randf() < 0.4
 		return
 	var step: Vector3 = flat.normalized()*minf(speed*delta,flat.length())
@@ -164,6 +196,14 @@ func _clear(from: Vector2, to: Vector2) -> bool:
 
 func _idle() -> void:
 	match kind:
+		"pig":
+			# Rooting: the snout goes down and shoves about, the tail twitching.
+			var root_about: float = fposmod(_clock,4.0)
+			_head.rotation.x = lerpf(_head.rotation.x,0.7+sin(_clock*7.0)*0.12 if root_about < 3.0 else 0.0,0.12)
+			_head.rotation.y = sin(_clock*2.3)*0.25 if root_about < 3.0 else 0.0
+			_tail.rotation.y = sin(_clock*8.0)*0.4
+			for leg: Node3D in _legs:
+				leg.rotation.x = lerpf(leg.rotation.x,0.0,0.2)
 		"sheep":
 			# Grazing: the head goes down to the grass and stays, lifting now and then to look;
 			# the tail flicks.
@@ -195,6 +235,11 @@ func _walk() -> void:
 	for i: int in _legs.size():
 		_legs[i].rotation.x = sin(t+i*PI)*0.6
 	match kind:
+		"pig":
+			_head.rotation.x = lerpf(_head.rotation.x,0.05,0.2)
+			_head.rotation.y = 0.0
+			_body.position.y = absf(sin(t))*0.025
+			_tail.rotation.y = sin(_clock*5.0)*0.3
 		"sheep":
 			_head.rotation.x = lerpf(_head.rotation.x,0.1,0.2)
 			_head.rotation.y = 0.0

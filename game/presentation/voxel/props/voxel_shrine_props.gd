@@ -38,9 +38,52 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"brick_shrine": _brick_shrine(w,d)
 		"pill_furnace": _pill_furnace(w,d)
 		"dragon_pillar": _dragon_pillar(w,d)
+		"guan_gong": _guan_gong(w,d)
 		_:
 			return false
 	return true
+
+## 关公 (lordhouse2.c: 神龛上三根拇指粗细的香慢慢燃着, 关公的手似乎指向前面的墙壁): a dark wooden shrine,
+## its red cloth and small tiled eave, the god seated in it: red face, green robe, the long black
+## beard, and one arm thrust straight out at the wall in front of him, the odd pose the text marks.
+## Before him the burner with its three thick sticks, their smoke thin.
+func _guan_gong(w: float, d: float) -> void:
+	var wood: String = String(data.get("wood","4e3224"))
+	var robe: String = String(data.get("robe","3a6a4a"))
+	var face: String = String(data.get("face","b8342a"))
+	var base: float = 0.95
+	s.box(root,Vector3(0,base/2,0),Vector3(w,base,d),wood)
+	s.box(root,Vector3(0,base+0.03,0),Vector3(w+0.08,0.06,d+0.08),"6a4630")
+	s.box(root,Vector3(0,base+0.85,-d/2+0.06),Vector3(w,1.7,0.12),String(data.get("back","7a2a20")))
+	for x: float in [-w/2+0.06,w/2-0.06]:
+		s.box(root,Vector3(x,base+0.85,d*0.34),Vector3(0.12,1.7,0.12),wood)
+	# Its little roof shelters only the back: from above the god stays in view.
+	s.box(root,Vector3(0,base+1.76,-d*0.3),Vector3(w+0.32,0.12,d*0.46),wood)
+	s.tilted_box(root,Vector3(0,base+1.9,-d*0.32),Vector3(w+0.5,0.1,d*0.42),"4c4a44",Vector3(0.22,0,0))
+	s.box(root,Vector3(0,base+1.62,-d*0.05),Vector3(w*0.84,0.16,0.03),String(data.get("cloth","a8342a")))
+	s.box(root,Vector3(0,base+1.53,-d*0.04),Vector3(w*0.84,0.03,0.03),"c9a24a")
+	var at := Vector3(0,base+0.06,-d*0.12)
+	s.box(root,at+Vector3(0,0.3,0),Vector3(0.66,0.6,0.48),robe)
+	s.box(root,at+Vector3(0,0.1,0.26),Vector3(0.6,0.2,0.2),"2e5a3e")
+	s.box(root,at+Vector3(0,0.46,0.25),Vector3(0.26,0.2,0.02),"c9a24a")
+	s.box(root,at+Vector3(0,0.77,0.02),Vector3(0.3,0.3,0.28),face)
+	s.box(root,at+Vector3(0,0.96,0),Vector3(0.36,0.12,0.32),robe)
+	s.box(root,at+Vector3(0,1.04,-0.03),Vector3(0.18,0.09,0.2),"c9a24a")
+	for x: float in [-0.07,0.07]:
+		s.box(root,at+Vector3(x,0.82,0.165),Vector3(0.05,0.03,0.01),"1a1816")
+	s.box(root,at+Vector3(0,0.5,0.19),Vector3(0.16,0.44,0.05),"1a1816")
+	s.box(root,at+Vector3(-0.38,0.34,0.12),Vector3(0.16,0.44,0.18),robe)
+	s.box(root,at+Vector3(0.36,0.55,0.26),Vector3(0.16,0.16,0.56),robe)
+	s.box(root,at+Vector3(0.36,0.58,0.58),Vector3(0.12,0.12,0.14),face)
+	s.box(root,at+Vector3(0.36,0.59,0.7),Vector3(0.04,0.04,0.14),face)
+	var burner := Vector3(0,base+0.06,d*0.36)
+	s.box(root,burner+Vector3(0,0.08,0),Vector3(0.34,0.16,0.26),"7a6a4a")
+	s.box(root,burner+Vector3(0,0.17,0),Vector3(0.38,0.03,0.3),"9a8a5a")
+	for x: float in [-0.08,0.0,0.08]:
+		s.box(root,burner+Vector3(x,0.34,0),Vector3(0.03,0.32,0.03),"8a4a2a")
+		s.box(root,burner+Vector3(x,0.51,0),Vector3(0.035,0.03,0.035),"ff9a4a:glow")
+	if ambience != null:
+		ambience.smoke(root,burner+Vector3(0,0.55,0),"d8d2c4",4,0.09)
 
 ## 龙柱顶天 (camp8.c): a red pillar from floor to roof, a gilt dragon coiling up it, its head out
 ## near the top over the pearl (`height`, `column`, `gilt`).

@@ -75,9 +75,93 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"tiger_head": _tiger_head(w,d)
 		"yurt": _yurt(w,d)
 		"dig_pit": _dig_pit(w,d)
+		"ice_pillar": _ice_pillar(w,d)
+		"thin_ice": _thin_ice(w,d)
+		"ice_stair": _ice_stair(w,d)
+		"ice_dome": _ice_dome(w,d)
+		"glow_algae": _glow_algae(w,d)
 		_:
 			return false
 	return true
+
+const ICE: Array = ["e6f2f8","d4e8f2","f2fafd","c0dcea"]
+
+## 玄冰 (lakebottom1.c: 冰的色泽纯正洁白): a column of ice, narrower upward, its stacked shards a
+## little askew, the cold blue in its shaded faces; frost at its foot.
+func _ice_pillar(w: float, d: float) -> void:
+	var tall: float = float(data.get("height",3.4))
+	var colors: Array = _colors("colors",ICE)
+	var y: float = 0.0
+	var course: int = 0
+	while y < tall:
+		var t: float = y/tall
+		var h: float = rng.randf_range(0.5,0.9)
+		var span: float = lerpf(1.0,0.45,t)
+		s.shard(root,Vector3(rng.randf_range(-0.05,0.05),y+h/2,rng.randf_range(-0.05,0.05)),Vector3(w*span,h,d*span),_pick(colors)+":gloss",course,rng.randf()*TAU)
+		y += h*0.86
+		course += 1
+	for i: int in 5:
+		var a: float = i*TAU/5.0
+		s.shard(root,Vector3(cos(a)*w*0.55,0.06,sin(a)*d*0.55),Vector3(0.3,0.12,0.26),_pick(colors),i,a)
+
+## 入口处又迅速地结了一层薄冰 (lakebottom1.c): the way in frozen over, a thin sheet across the mouth
+## seen through, cracks of white in it.
+func _thin_ice(w: float, d: float) -> void:
+	var tall: float = float(data.get("height",2.8))
+	s.box(root,Vector3(0,tall/2,0),Vector3(w,tall,0.08),"b8e4f4:haze")
+	for i: int in 6:
+		s.tilted_box(root,Vector3(rng.randf_range(-0.4,0.4)*w,rng.randf_range(0.3,0.9)*tall,0.05),Vector3(rng.randf_range(0.4,0.9),0.02,0.02),"f0fafe",Vector3(0,0,rng.randf()*TAU))
+
+## 西面有一冰制的阶梯盘旋而上 (lakebottom2.c): steps of ice winding up round a column of ice, each a
+## little higher and turned, until they go in at the roof: a thing to look at, the way out is
+## beside it (`count` steps, `rise` each, `radius` units).
+func _ice_stair(w: float, d: float) -> void:
+	var steps: int = int(data.get("count",18))
+	var rise: float = float(data.get("rise",0.34))
+	var radius: float = float(data.get("radius",minf(w,d)*0.5))
+	var colors: Array = _colors("colors",ICE)
+	var tall: float = steps*rise+0.6
+	s.box(root,Vector3(0,tall/2,0),Vector3(0.6,tall,0.6),String(colors[0])+":gloss")
+	for i: int in steps:
+		var a: float = i*0.7
+		var at := Vector3(cos(a)*radius*0.6,0.16+i*rise,sin(a)*radius*0.6)
+		s.tilted_box(root,at,Vector3(radius,0.12,0.5),String(colors[i%colors.size()])+":gloss",Vector3(0,-a,0))
+		s.tilted_box(root,at+Vector3(cos(a)*radius*0.5,0.24,sin(a)*radius*0.5),Vector3(0.1,0.42,0.1),String(colors[(i+1)%colors.size()]),Vector3(0,-a,0))
+
+## 巨大的穹顶成半透明，能模糊地看到顶外的小鱼游来游去 (lakebottom2.c): the far side of the great vault,
+## bands of ice seen through, curving in as they rise, darker lake behind them; only the far side,
+## so it hides nobody on the floor (the fish are the map's `ambience`).
+func _ice_dome(w: float, d: float) -> void:
+	var tall: float = float(data.get("height",10.0))
+	var colors: Array = _colors("colors",["9fd4ea","b6e2f2","84c4e0"])
+	s.box(root,Vector3(0,tall/2,-d/2),Vector3(w,tall,0.4),String(data.get("lake","12263c")))
+	var bands: int = 10
+	for i: int in bands:
+		var t: float = float(i)/(bands-1)
+		var y: float = 0.5+t*tall
+		var inset: float = t*t*w*0.28
+		s.box(root,Vector3(0,y,-d/2+0.6+t*d*0.5),Vector3(w-inset*2,tall/bands*0.8,0.12),_pick(colors)+":haze")
+	for i: int in int(data.get("ribs",7)):
+		var x: float = -w/2+(i+0.5)*w/int(data.get("ribs",7))
+		for k: int in 6:
+			var t: float = float(k)/5.0
+			s.box(root,Vector3(x*(1.0-t*t*0.56),0.8+t*tall*0.92,-d/2+0.7+t*d*0.5),Vector3(0.22,tall/6,0.2),"dff2fa:haze")
+
+## 在玄冰上面长着发光的藻类植物 (lakebottom1.c): low mats of glowing weed on the ice, the cave's own
+## light; `light` gives a patch a soft lamp of its own (`colors` the weed, `range`).
+func _glow_algae(w: float, d: float) -> void:
+	var colors: Array = _colors("colors",["7ff0d8:glow","a4f8e6:glow","56dcc8:glow"])
+	for i: int in int(data.get("count",9)):
+		var at := Vector3(rng.randf_range(-0.45,0.45)*w,float(data.get("lift",0.03)),rng.randf_range(-0.45,0.45)*d)
+		s.shard(root,at,Vector3(rng.randf_range(0.2,0.5),rng.randf_range(0.03,0.09),rng.randf_range(0.18,0.42)),_pick(colors),i,rng.randf()*TAU)
+	if data.get("light",false):
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3(0,0.9,0)
+		lamp.light_color = Color(String(data.get("glow","8ff0e0")))
+		lamp.omni_range = float(data.get("range",6.0))
+		lamp.set_meta("day_energy",float(data.get("energy",1.0)))
+		lamp.set_meta("night_energy",float(data.get("energy",1.0)))
+		root.add_child(lamp)
 
 func _colors(key: String, fallback: Array) -> Array:
 	return data.get(key,fallback)

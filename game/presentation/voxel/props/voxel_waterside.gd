@@ -26,9 +26,57 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"water_steps": _water_steps(w,d)
 		"far_shore": _far_shore(w,d)
 		"koi": _koi(w,d)
+		"snail_shells": _snail_shells(w,d)
+		"lake_gleam": _lake_gleam(w,d)
+		"distant_figures": _distant_figures(w,d)
 		_:
 			return false
 	return true
+
+## 东边岸上的渔夫似乎冲着你比比划划 (lake.c): small dark figures far along the shore, an arm up,
+## stirring now and then; `count` of them.
+func _distant_figures(w: float, d: float) -> void:
+	var figures: int = int(data.get("count",3))
+	for i: int in figures:
+		var at := Vector3(0,0,-d/2+(i+0.5)*d/figures)
+		var body := Node3D.new()
+		body.position = at
+		root.add_child(body)
+		s.box(body,Vector3(0,0.6,0),Vector3(0.4,1.2,0.34),"3e4a4e:haze")
+		s.box(body,Vector3(0,1.32,0),Vector3(0.26,0.26,0.26),"4e5a5e:haze")
+		s.box(body,Vector3(0,1.5,0),Vector3(0.56,0.05,0.56),"5a6468:haze")
+		var arm := Node3D.new()
+		arm.position = Vector3(0,1.1,0.22)
+		body.add_child(arm)
+		s.box(arm,Vector3(0,0.3,0),Vector3(0.1,0.6,0.1),"3e4a4e:haze")
+		if ambience != null:
+			ambience.sway(arm,i*2.1,0.5)
+
+## 玉螺湖以产的螺蛳洁白如玉而得名 (lakeside.c): a heap of empty shells by the boats, white as jade, a
+## basket and a drying net end beside it.
+func _snail_shells(w: float, d: float) -> void:
+	var white: Array = _colors("colors",["f2efe4","e8e4d4","f8f6ee","d8d6c4"])
+	for i: int in int(data.get("count",46)):
+		var r: float = sqrt(rng.randf())
+		var a: float = rng.randf()*TAU
+		var at := Vector3(cos(a)*r*w*0.42,0.05+(1.0-r)*0.26*rng.randf(),sin(a)*r*d*0.42)
+		s.box(root,at,Vector3(0.11,0.09,0.12),_pick(white))
+		if i%3==0:
+			s.box(root,at+Vector3(0,0.05,0),Vector3(0.06,0.05,0.06),"cfc8b0")
+	s.box(root,Vector3(w*0.42,0.2,d*0.1),Vector3(0.36,0.4,0.36),"8a7a4e")
+	s.box(root,Vector3(w*0.42,0.42,d*0.1),Vector3(0.3,0.05,0.3),"e8e4d4")
+
+## 忽的见白光一闪 (lake.c): under the boat, now and then, a pale flash deep in the water.
+func _lake_gleam(w: float, d: float) -> void:
+	var gleam := Node3D.new()
+	root.add_child(gleam)
+	var level: float = float(data.get("level",-0.13))
+	for i: int in int(data.get("count",6)):
+		var size: float = rng.randf_range(0.25,0.7)
+		s.box(gleam,Vector3(rng.randf_range(-0.4,0.4)*w,level,rng.randf_range(-0.4,0.4)*d),Vector3(size,0.015,size*0.7),"eaf8ff:glow")
+	s.box(gleam,Vector3(0,level,0),Vector3(w*0.4,0.01,d*0.3),"cfeefa:haze")
+	if ambience != null:
+		ambience.blink(gleam,float(data.get("every",5.0)),float(data.get("duty",0.22)),root.position.x)
 
 func _colors(key: String, fallback: Array) -> Array:
 	return data.get(key,fallback)

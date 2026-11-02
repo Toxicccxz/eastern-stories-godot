@@ -6,7 +6,8 @@ extends RefCounted
 ## where it meets rock and, for clear shallows, a stony bed seen through it. Layout
 ## `water`: per kind {"level", "colors" (edge to deep), "depth" (px to the deepest
 ## colour), "flow" [x, z], "speed", "clear", "foam", "swell" (wave height, units) and
-## "swell_speed"}, then `areas` overriding by rect.
+## "swell_speed", "sunset": {"color", "amount"}: how far it goes to that colour at dusk}, then
+## `areas` overriding by rect.
 ## Presentation only: the TileMap's water still decides what can be walked.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const SHADER = preload("res://presentation/voxel/shaders/water.gdshader")
@@ -25,6 +26,9 @@ var root: Node3D
 var levels: Dictionary[Vector2i, float] = {}
 var looks: Dictionary[Vector2i, Dictionary] = {}
 var materials: Dictionary[String, ShaderMaterial] = {}
+## Material key -> how far its water goes to its `sunset` colour at full dusk (those that do).
+var sunsets: Dictionary[String, float] = {}
+var _dusk: float = -1.0
 ## Water cells that got an earth or stone bank on some side.
 var banked: Dictionary[Vector2i, bool] = {}
 
@@ -80,6 +84,10 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 			keys[surface_key] = key
 			if not materials.has(key):
 				materials[key] = _material(look)
+				var sunset: Dictionary = look.get("sunset",{})
+				if not sunset.is_empty():
+					materials[key].set_shader_parameter("sunset",Color(String(sunset.get("color","e8904a"))))
+					sunsets[key] = float(sunset.get("amount",0.4))
 		var surface: SurfaceTool = surfaces[surface_key]
 		var colors: Array = look.get("colors",["5d8a86","3f6f70","2c5559"])
 		var t: float = clampf(depth.get(cell,0.0)/float(look.get("depth",48)),0.0,1.0)*(colors.size()-1)
@@ -167,6 +175,14 @@ func _material(look: Dictionary) -> ShaderMaterial:
 	material.set_shader_parameter("swell",float(look.get("swell",0.0)))
 	material.set_shader_parameter("swell_speed",float(look.get("swell_speed",1.6)))
 	return material
+
+## The hour's light on the water: `weight`, how much of the frame now is dusk.
+func set_dusk(weight: float) -> void:
+	if is_equal_approx(weight,_dusk):
+		return
+	_dusk = weight
+	for key: String in sunsets:
+		materials[key].set_shader_parameter("sunset_amount",sunsets[key]*weight)
 
 ## Pixels from each water cell to the nearest cell that is not water (its bank).
 func _distances() -> Dictionary[Vector2i, float]:

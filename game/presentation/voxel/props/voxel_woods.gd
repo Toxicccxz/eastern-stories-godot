@@ -565,10 +565,22 @@ func _thicket(w: float, d: float) -> void:
 ## A notice on a post by a path (clearing.c's 牌子: 官府告示), its words in `text`.
 func _notice_post(w: float) -> void:
 	var wood: Array = _colors("colors",["6a5038","7d6044","8e7352"])
+	# `tilt`: the post has settled askew; `worn`: 0..1, the board split and gone at its ends
+	# (road3.c: 牌子看起来经过长时间的日晒雨淋，已破烂不堪), its roof gone.
+	var tilt: float = float(data.get("tilt",0.0))
+	if tilt != 0.0:
+		root.rotation.z = tilt
+	var worn: float = float(data.get("worn",0.0))
 	s.tilted_box(root,Vector3(0,0.75,0),Vector3(0.14,1.5,0.14),String(wood[0]),Vector3(0,0,0.04))
 	s.box(root,Vector3(0,1.42,0.04),Vector3(maxf(w,0.9),0.62,0.08),String(wood[2]))
 	s.box(root,Vector3(0,1.42,0.085),Vector3(maxf(w,0.9)-0.1,0.52,0.02),String(data.get("paper","d8ccaa")))
-	s.box(root,Vector3(0,1.78,0.04),Vector3(maxf(w,0.9)+0.12,0.08,0.14),String(wood[1]))
+	if worn > 0.0:
+		var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+		var hex: String = String(data.get("hole","3a2e22"))
+		for i: int in ceili(worn*6.0):
+			s.box(root,Vector3(vary.randf_range(-0.45,0.45)*maxf(w,0.9),1.42+vary.randf_range(-0.26,0.26),0.1),Vector3(vary.randf_range(0.1,0.28),vary.randf_range(0.03,0.1),0.012),hex)
+	else:
+		s.box(root,Vector3(0,1.78,0.04),Vector3(maxf(w,0.9)+0.12,0.08,0.14),String(wood[1]))
 	if data.has("text"):
 		var title := Label3D.new()
 		title.text = tr(String(data["text"]))
@@ -577,7 +589,8 @@ func _notice_post(w: float) -> void:
 		title.font_size = 40
 		title.width = 180.0
 		title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-		title.modulate = Color("3a2a1e")
+		# `blur` (road3.c: 模糊的字迹): the letters nearly gone into the wood.
+		title.modulate = Color("3a2a1e",0.55 if data.get("blur",false) else 1.0)
 		title.outline_size = 0
 		root.add_child(title)
 

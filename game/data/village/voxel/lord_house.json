@@ -1,0 +1,50 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "lordhouse1.c: 灰色的低矮院墙围着三间屋子, the great locust's shade, the black gate; lordhouse2.c: the great table, 关公 pointing at the wall, three thick sticks burning, the iron stick; the open east window, the road and 黑松山 far off; lordhouse3.c: the study, the shelf with its eight books, windows south on 京城's towers and west on the fields.",
+  "palette": {
+    "wood": ["8a6e50", "927656", "82684a", "9a7e5c"],
+    "wall": "a0a298"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_looks": [
+    {"rect": [-752, -544, 64, 64], "style": "plaster", "wall": "8e9088", "grime": 0.5, "note": "lordhouse1.c: 灰色的低矮院墙"}
+  ],
+  "ground": {
+    "floor_yard": {"style": "paving", "stones": ["9a9c90", "a6a89a", "8e9086", "b0b0a2"], "worn": ["8a8c80", "969888"], "bed": "6a6a5e", "mud": "7a7260", "crack": "6a6a60", "moss": "5e7a4a", "moss_chance": 0.18}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "butterflies": 2,
+    "wind": 0.1,
+    "density": {"floor_yard": 0.05}
+  },
+  "life": {
+    "village.lordhouse2": {"ambience": [{"kind": "incense"}]}
+  },
+  "ambience": {
+    "fall": [{"rect": [-620, -500, -60, 10], "count": 26, "height": 5.0, "colors": ["e8e4c0", "d8d4a8", "a4b868"], "wind": [0.3, 0.2], "note": "off the great locust"}],
+    "birds": [{"at": [-340, -280], "radius": 180, "count": 2, "height": 8, "color": "3a3029"}]
+  },
+  "door_looks": {
+    "village.lordhouse1.door": {"kind": "old_gate", "leaf": "26221f", "note": "lordhouse1.c: 一扇漆黑的大门"}
+  },
+  "props": [
+    {"kind": "window", "at": [718, -240], "size": [64, 16], "rotation": 270, "open_view": {"sky": "a8c8d8", "bands": ["2e3a34", "4a5a4a", "c4b080"], "note": "官道上来来往往的人群和遥远处阴森的黑松山"}, "note": "lordhouse2.c: 东侧打开的窗子"},
+    {"kind": "window", "at": [-654, 170], "size": [64, 16], "rotation": 90, "open_view": {"sky": "a8c8d8", "bands": ["6a8a70", "6a9a48", "7cb656"]}, "note": "lordhouse3.c: 向西可以看到在田间忙碌的田农"},
+    {"kind": "far_ground", "at": [-344, 720], "size": [900, 180], "elevation": -4.0, "colors": ["8aa08e:haze"], "clearing": [0, 0, 25, 4.8], "clearing_color": "9aaca0:haze", "roofs": 26, "walls": ["c8c8c0:haze", "b8b8b0:haze", "d4d0c4:haze"], "roof_colors": ["7a8088:haze", "6e7680:haze", "868e98:haze"], "trees": 8, "crowns": ["7a9a7e:haze", "86a488:haze"], "note": "lordhouse3.c: 向南望去，能模模糊糊地望见京城林立的楼阁"},
+    {"kind": "window_sill", "at": [-344, 526], "size": [96, 16], "note": "lordhouse3.c: 向南开的大窗户: the near wall is cut low, its sill and thrown-back shutters stay"},
+    {"kind": "hanging_lantern", "at": [-344, -120], "elevation": 2.6},
+    {"kind": "hanging_lantern", "at": [408, -240], "elevation": 2.8},
+    {"kind": "hanging_lantern", "at": [-344, 304], "elevation": 2.8},
+    {"kind": "wall_scroll", "at": [260, -448], "size": [48, 16], "calligraphy": true},
+    {"kind": "wall_scroll", "at": [560, -448], "size": [48, 16], "calligraphy": true},
+    {"kind": "chair", "at": [300, -226], "size": [32, 32]},
+    {"kind": "chair", "at": [516, -226], "size": [32, 32]},
+    {"kind": "chair", "at": [-344, 216], "size": [32, 32], "rotation": 180, "note": "the study's chair"}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "home.c: 很破旧的木屋, creaking in the mountain wind; smallstorage.c: 简陋的小厨房, 四壁已被油烟薰的分不出原来的颜色, cured meat on every wall, gnawed; the big rats.",
+  "palette": {
+    "wood": ["7a6a52", "82725a", "6e5e48", "8a7a60"],
+    "wall": "7a6a52"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_looks": [
+    {"rect": [-576, -176, -96, 160], "style": "boards", "colors": ["3a3028", "443830", "2e2620", "4a3e34"], "grime": 1.0, "note": "smallstorage.c: 四壁已被油烟薰的分不出原来的颜色"},
+    {"rect": [-128, -240, 560, 240], "style": "boards", "colors": ["7a6a52", "6e5e48", "86765c", "5e5040", "8e7e64"], "grime": 0.7, "note": "home.c: 很破旧的木屋: plank walls, the gaps showing"}
+  ],
+  "life": {
+    "village.smallstorage": {"grime": 1.0, "hangings": ["meat_hooks:cured", "meat_hooks:cured", "string_hang:garlic", "meat_hooks:cured"], "hang": 0.75, "ambience": [{"kind": "smoke"}, {"kind": "flies", "max": 1}]},
+    "village.home": {"hangings": ["straw_cape", "clothes_peg", "tool_hooks:sickles"], "ambience": [{"kind": "dust", "color": "b8ac94", "count": 12, "height": [0.2, 2.2]}]}
+  },
+  "actors": {
+    "village.npc.oldliu": {"coat": "6a6a58"},
+    "village.npc.rat": {"body": "crawler", "scale": 0.55, "colors": ["6a5c50", "5a4e44", "7a6c5e"], "spots": "", "name_distance": 200}
+  },
+  "door_looks": {
+    "village.home.door": {"kind": "old_gate", "leaf": "6a5038", "studs": false}
+  },
+  "props": [
+    {"kind": "window", "at": [320, -192], "size": [48, 16], "shut": true, "note": "shutters that no longer quite meet"},
+    {"kind": "hanging_lantern", "at": [100, 40], "elevation": 2.3},
+    {"kind": "hanging_lantern", "at": [-340, 20], "elevation": 2.2},
+    {"kind": "stool", "at": [20, -120], "size": [24, 24]},
+    {"kind": "flower_stand", "at": [500, 170], "size": [24, 24], "note": "靠卖花来维持生计: flowers brought in"},
+    {"kind": "bones", "at": [-260, 90], "size": [32, 24], "colors": ["d8ccb0", "c8bca0"], "note": "what the rats left"}
+  ]
+}
