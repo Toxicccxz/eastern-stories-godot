@@ -59,10 +59,12 @@ func _check_view(tree: SceneTree, preview: Node, session: WorldSessionController
 	preview.call("set_side", true)
 	await _frames(tree, 2)
 	_check(view.held_frame == "night" and view.held_cloud == 4 and view.left_view, "hour, cloud and side reach the view")
+	await _check_hour(tree, preview, view)
 	var game_size: float = float(view.layout.get("camera_size", 24.0))
 	_check(is_equal_approx(view.camera.size, game_size), "at zoom 1 the camera is the game's")
 	preview.call("fit_map")
-	await _frames(tree, 2)
+	# The view's camera eases to where it is sent.
+	await tree.create_timer(1.0).timeout
 	_check(view.camera.size > game_size * 2.0, "the whole town needs more than the game's framing: %.1f" % view.camera.size)
 	_check(not view.lighting.environment.fog_enabled, "the fog is lifted from far out")
 	var seen: Vector2 = view.camera.unproject_position(VoxelMapGeometry.point(preview.get("focus"), 0.7))
@@ -73,6 +75,31 @@ func _check_view(tree: SceneTree, preview: Node, session: WorldSessionController
 	_check(not view._built, "reload lets the world go")
 	await _frames(tree, 3)
 	_check(view._built and view.held_frame == "night", "the view rebuilds with the hour it was held at")
+
+
+## The hour moves across the frames, not at a jump; left to run, it goes round the day.
+func _check_hour(tree: SceneTree, preview: Node, view: WorldVoxelView) -> void:
+	var lighting: VoxelLighting = view.lighting
+	preview.call("set_frame", "day")
+	await tree.create_timer(preview.get("LEG_SECONDS") * 2.5).timeout
+	_check(lighting.weights["day"] == 1.0, "at 白天, wholly")
+	var sun: Vector3 = lighting.sun.rotation_degrees
+	preview.call("set_frame", "dusk")
+	await tree.create_timer(preview.get("LEG_SECONDS") * 0.5).timeout
+	var day_share: float = lighting.weights["day"]
+	_check(day_share > 0.05 and day_share < 0.95 and lighting.weights["dusk"] > 0.05, "halfway, day and dusk blend: %s" % [lighting.weights])
+	_check(lighting.sun.rotation_degrees != sun, "the sun has moved on the way")
+	await tree.create_timer(preview.get("LEG_SECONDS")).timeout
+	_check(lighting.weights["dusk"] == 1.0 and view.held_frame == "dusk", "at 黄昏, wholly: %s" % [lighting.weights])
+	preview.call("set_flowing", true)
+	await tree.create_timer(preview.get("LEG_SECONDS") * 1.2).timeout
+	_check(lighting.weights["night"] > 0.5 or lighting.weights["midnight"] > 0.0, "left to run, the hour goes on: %s" % [lighting.weights])
+	preview.call("set_flowing", false)
+	await tree.create_timer(preview.get("LEG_SECONDS") * 1.2).timeout
+	var whole: Array = lighting.weights.values().filter(func(share: float) -> bool: return share == 1.0)
+	_check(whole.size() == 1 and not preview.get("flowing"), "stopped, it settles on a frame: %s" % [lighting.weights])
+	preview.call("set_frame", "night")
+	await tree.create_timer(preview.get("LEG_SECONDS") * 2.5).timeout
 
 
 ## A hostile map: the bandits stand where they stand, time does not pass, no fight opens.
