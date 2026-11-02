@@ -41,10 +41,7 @@
     {"kind": "hanging_lantern", "at": [-344, -120], "elevation": 2.6},
     {"kind": "hanging_lantern", "at": [408, -240], "elevation": 2.8},
     {"kind": "hanging_lantern", "at": [-344, 304], "elevation": 2.8},
-    {"kind": "wall_scroll", "at": [260, -448], "size": [48, 16], "calligraphy": true},
-    {"kind": "wall_scroll", "at": [560, -448], "size": [48, 16], "calligraphy": true},
-    {"kind": "chair", "at": [300, -226], "size": [32, 32]},
-    {"kind": "chair", "at": [516, -226], "size": [32, 32]},
-    {"kind": "chair", "at": [-344, 216], "size": [32, 32], "rotation": 180, "note": "the study's chair"}
+    {"kind": "wall_scroll", "at": [300, -448], "size": [48, 16], "calligraphy": true},
+    {"kind": "wall_scroll", "at": [560, -448], "size": [48, 16], "calligraphy": true}
   ]
 }

@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
+[sub_resource type="RectangleShape2D" id="Rect_192_32"]
+size = Vector2(192, 32)
+
 [sub_resource type="RectangleShape2D" id="Rect_32_64"]
 size = Vector2(32, 64)
 
@@ -203,7 +206,7 @@ script = ExtResource("passage")
 portal_id = &"canyon.canyon7.south"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VillagePassage"]
-shape = SubResource("Rect_64_32")
+shape = SubResource("Rect_192_32")
 
 [node name="GuanbeiLabel" type="Label" parent="Terrain"]
 offset_left = 936

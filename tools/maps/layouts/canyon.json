@@ -350,6 +350,7 @@
         "map": "canyon.pass",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
+          "Rect_192_32": [192, 32],
           "Rect_32_64": [32, 64],
           "Rect_64_32": [64, 32],
           "Rect_32_32": [32, 32],
@@ -399,7 +400,7 @@
             "name": "VillagePassage",
             "id": "canyon.canyon7.south",
             "at": [896, 2216],
-            "shape": "Rect_64_32"
+            "shape": "Rect_192_32"
           },
           {
             "node": "caption",
