@@ -282,7 +282,13 @@ func _autosave_moments(tree: SceneTree) -> void:
 	var saved: GameSaveResult = repository.load()
 	_check(saved.succeeded() and saved.snapshot.metadata.slot_id == GameSaveSnapshot.AUTO_SLOT_ID and saved.snapshot.player.world_location.zone_id == &"snow.square", "a whole save of the square, in the auto slot")
 	await _frames(tree)
-	_check(session.shared_ui().toasts().latest_text() == "已自动存档", "the line is told: " + session.shared_ui().toasts().latest_text())
+	# Not the latest line, and maybe still waiting its turn: on a slow machine someone on the
+	# square may walk off after it.
+	var toasts: MessageToasts = session.shared_ui().toasts()
+	var told: Array[String] = toasts.shown_texts()
+	for waiting: MessageToasts.Entry in toasts._waiting:
+		told.append(waiting.text)
+	_check(told.has("已自动存档"), "the line is told: %s" % [told])
 	var written: PackedByteArray = files.files[auto_path]
 	_check(session.handoff_to(&"snow.inn", &"snow.inn.main_floor", GameContent.catalog().zone(&"snow.inn.main_floor").combat_location_id, &"snow.inn.entry_from_square").outcome in [OldPineMapHandoffResult.Outcome.COMPLETED, OldPineMapHandoffResult.Outcome.DESTINATION_MARKER_MISSING], "back or not, the interval holds")
 	await _frames(tree)

@@ -1,10 +1,11 @@
 class_name MapPage
 extends Control
 
-## The menu's 地图 page (现代基线 B; DECISIONS「总图」): the 沙盘, every place reached standing on
-## it as its own miniature (AtlasPictures), an ordinary way's far end as a 「？」, and a card
-## beside it with what the chosen place holds. A line on the card sets 指路: the world's marker
-## walks the player there. What the player knows comes from MapAtlas.
+## The menu's 地图 page (现代基线 B; DECISIONS「总图」): the 沙盘, voxel land under drifting cloud,
+## every place reached standing on it as its own miniature (AtlasPictures), the roads walked
+## worn into the land, a stub fading out towards a 「？」, and a card beside it with what the
+## chosen place holds. A line on the card sets 指路: the world's marker walks the player there,
+## and the road there lights up here. What the player knows comes from MapAtlas.
 ##
 ## Each place is a button: direction keys and the pad walk between them, the view follows,
 ## confirm goes to the card, left comes back. Mouse: drag to move, wheel to zoom.
@@ -19,7 +20,29 @@ const PIN_COLOURS: Dictionary[StringName, Color] = {
 	MapAtlas.TARGET: Color("c8351f"), MapAtlas.MASTER: Color("c98a2e"), MapAtlas.SHOP: Color("3f8a6a"), MapAtlas.BANK: Color("b8862e"),
 	MapAtlas.HOCKSHOP: Color("8a6a9a"), MapAtlas.BOUNTY: Color("b0432e"), MapAtlas.ERRAND: Color("3f6a9a"),
 }
-const GROUND: Color = Color("20282a")
+const GROUND: Color = Color("6c8294")
+const CLOUD_DRIFT: float = 70.0
+const CLOUD_SECONDS: float = 240.0
+## The light that runs along the way: how many, how far apart, how fast, on the 沙盘.
+const GLOWS: int = 5
+const GLOW_GAP: float = 260.0
+const GLOW_SPEED: float = 170.0
+const GLOW_SIZE: float = 86.0
+## A step of the way longer than this crosses from one road to the next: the light jumps it.
+const GLOW_JUMP: float = 120.0
+const WAY_COLOUR: Color = Color(1.0, 0.72, 0.34, 0.85)
+const MINI_LIGHT: Color = Color(1.2, 1.16, 1.1)
+const GRADE: String = """
+shader_type canvas_item;
+uniform sampler2D screen : hint_screen_texture, filter_linear;
+void fragment() {
+	vec3 c = texture(screen, SCREEN_UV).rgb;
+	float l = dot(c, vec3(0.3, 0.59, 0.11));
+	c = mix(vec3(l), c, 1.1);
+	c = (c - 0.5) * 1.12 + 0.56;
+	COLOR = vec4(c, 1.0);
+}
+"""
 
 ## Asks the menu to refit after the card changed its rows.
 var rows_changed: Callable
@@ -48,6 +71,18 @@ var _dragging: bool = false
 var _move: Tween
 ## The stage sprites by map ID.
 var _sprites: Dictionary[StringName, Sprite2D] = {}
+var _land: Sprite2D
+var _road_layer: Node2D
+var _shade: Sprite2D
+var _mist: Sprite2D
+var _mini_layer: Node2D
+var _clouds: Sprite2D
+var _clock: float = 0.0
+## The way to the goal on the 沙盘, and the lights running along it.
+var _way_layer: Node2D
+var _way: PackedVector2Array
+var _way_length: float = 0.0
+var _glows: Array[Sprite2D] = []
 
 
 func _init() -> void:
@@ -72,6 +107,27 @@ func _init() -> void:
 	stage.name = "Stage"
 	stage.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	sand.add_child(stage)
+	_land = _stage_sprite("Land")
+	_road_layer = _stage_layer("Roads")
+	_way_layer = _stage_layer("Way")
+	_shade = _stage_sprite("CloudShade")
+	_mist = _stage_sprite("Mist")
+	_mini_layer = _stage_layer("Miniatures")
+	_clouds = _stage_sprite("Clouds")
+	_clouds.modulate = Color(1.3, 1.22, 1.14)
+	_shade.modulate = Color(0.08, 0.08, 0.2)
+	sand.add_child(_haze(Color("ffc088", 0.24), Color("ffc088", 0.0), Vector2(0.0, 0.05), Vector2(0.6, 0.65), false))
+	sand.add_child(_haze(Color("1c1a30", 0.0), Color("1c1a30", 0.44), Vector2(0.5, 0.5), Vector2(1.1, 0.5), true))
+	var grade := ColorRect.new()
+	grade.name = "Grade"
+	grade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	grade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var shader := Shader.new()
+	shader.code = GRADE
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	grade.material = material
+	sand.add_child(grade)
 	overlay = Control.new()
 	overlay.name = "Overlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -85,6 +141,68 @@ func _init() -> void:
 	arrow.hide()
 	overlay.add_child(arrow)
 	_build_card()
+
+
+func _stage_sprite(node_name: String) -> Sprite2D:
+	var sprite := Sprite2D.new()
+	sprite.name = node_name
+	sprite.centered = false
+	stage.add_child(sprite)
+	return sprite
+
+
+func _stage_layer(node_name: String) -> Node2D:
+	var layer := Node2D.new()
+	layer.name = node_name
+	stage.add_child(layer)
+	return layer
+
+
+func _haze(from_colour: Color, to_colour: Color, from: Vector2, to: Vector2, radial: bool) -> TextureRect:
+	var gradient := Gradient.new()
+	gradient.set_color(0, from_colour)
+	gradient.set_color(1, to_colour)
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 256
+	texture.height = 160
+	texture.fill = GradientTexture2D.FILL_RADIAL if radial else GradientTexture2D.FILL_LINEAR
+	texture.fill_from = from
+	texture.fill_to = to
+	var rect := TextureRect.new()
+	rect.name = "Haze"
+	rect.texture = texture
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	return rect
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		set_process(is_visible_in_tree())
+
+
+## The clouds drift, the light runs along the way.
+func _process(delta: float) -> void:
+	_clock += delta
+	var drift: float = sin(_clock / CLOUD_SECONDS * TAU) * CLOUD_DRIFT
+	_clouds.position.x = drift
+	_shade.position = Vector2(60.0 + drift, 250.0)
+	for index: int in _glows.size():
+		_glows[index].position = _along_way(fposmod(_clock * GLOW_SPEED + index * GLOW_GAP, maxf(_way_length, 1.0)))
+
+
+func _along_way(distance: float) -> Vector2:
+	var left: float = distance
+	for index: int in range(1, _way.size()):
+		var step: float = _way[index - 1].distance_to(_way[index])
+		if step > GLOW_JUMP:
+			continue
+		if left <= step and step > 0.0:
+			return _way[index - 1].lerp(_way[index], left / step)
+		left -= step
+	return Vector2.ZERO if _way.is_empty() else _way[-1]
 
 
 func _build_card() -> void:
@@ -123,6 +241,7 @@ func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> voi
 		return
 	if _pictures == null:
 		_pictures = AtlasPictures.read()
+		_dress_stage()
 	_state = state
 	_here_map = map_id
 	_here_zone = zone_id
@@ -137,6 +256,7 @@ func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> voi
 		if seen != MapAtlas.Seen.UNSEEN:
 			_add_cell_button(cell, seen)
 	_link_cells()
+	_show_roads()
 	var home: StringName = catalog.atlas().home_of(catalog, map_id)
 	if not cell_buttons.has(home) and not cell_buttons.is_empty():
 		home = cell_buttons.keys()[0]
@@ -146,6 +266,41 @@ func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> voi
 		_select(home)
 	_show_goal()
 	_apply_view()
+
+
+## The layers the bake left that do not change: the land, the cloud's shadow, the mist, the clouds.
+func _dress_stage() -> void:
+	var whole: Vector2 = _pictures.stage_size()
+	for layer: Array in [[_land, "land"], [_shade, "shade"], [_mist, "mist"], [_clouds, "clouds"]]:
+		var sprite: Sprite2D = layer[0]
+		sprite.texture = _pictures.layer(layer[1])
+		sprite.scale = whole / sprite.texture.get_size()
+
+
+## Every road with both ends reached; from a place reached, a stub towards a ？.
+func _show_roads() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	for child: Node in _road_layer.get_children():
+		_road_layer.remove_child(child)
+		child.queue_free()
+	for road: AtlasPictures.Road in _pictures.roads:
+		var a: MapAtlas.Seen = MapAtlas.seen(catalog, _state, road.a)
+		var b: MapAtlas.Seen = MapAtlas.seen(catalog, _state, road.b)
+		if a == MapAtlas.Seen.REACHED and b == MapAtlas.Seen.REACHED:
+			_road_sprite(_road_layer, road.file, road.at)
+		elif a == MapAtlas.Seen.REACHED and b == MapAtlas.Seen.ROAD and road.stub_a != Vector2.INF:
+			_road_sprite(_road_layer, road.file + "_a", road.stub_a)
+		elif b == MapAtlas.Seen.REACHED and a == MapAtlas.Seen.ROAD and road.stub_b != Vector2.INF:
+			_road_sprite(_road_layer, road.file + "_b", road.stub_b)
+
+
+func _road_sprite(parent: Node2D, file: String, at: Vector2) -> Sprite2D:
+	var sprite := Sprite2D.new()
+	sprite.texture = _pictures.layer(file)
+	sprite.centered = false
+	sprite.position = at
+	parent.add_child(sprite)
+	return sprite
 
 
 ## Keys and pad start on the chosen place (GameMenu.focus_page()).
@@ -170,10 +325,11 @@ func _show_picture(cell: AtlasCell) -> void:
 		sprite.texture = _pictures.texture(cell.map_id)
 		sprite.centered = false
 		sprite.position = _pictures.corner(cell.map_id, cell.at)
+		sprite.modulate = MINI_LIGHT
 		_sprites[cell.map_id] = sprite
-		stage.add_child(sprite)
+		_mini_layer.add_child(sprite)
 	sprite.show()
-	stage.move_child(sprite, -1)
+	_mini_layer.move_child(sprite, -1)
 
 
 func _add_cell_button(cell: AtlasCell, seen: MapAtlas.Seen) -> void:
@@ -226,8 +382,7 @@ func _select(map_id: StringName) -> void:
 	status.text = ""
 	_fill_card()
 	_show_pins()
-	if _zoom > _fit_zoom():
-		_move_to(_middle(map_id))
+	_move_to(_middle(map_id))
 
 
 func _move_to(place: Vector2) -> void:
@@ -474,6 +629,64 @@ func _show_goal() -> void:
 			arrow.texture = load(AtlasPictures.DIRECTORY + "arrow.png") as Texture2D
 		arrow.set_meta("cell", cell)
 		_place_overlays()
+	_light_way(goal)
+
+
+## The road to the goal lights up, as far as the player has walked it, and light runs along it.
+func _light_way(goal: MapAtlas.Goal) -> void:
+	for child: Node in _way_layer.get_children():
+		_way_layer.remove_child(child)
+		child.queue_free()
+	_glows.clear()
+	_way = PackedVector2Array()
+	_way_length = 0.0
+	if goal == null:
+		return
+	var catalog: ContentCatalog = GameContent.catalog()
+	var table: AtlasTable = catalog.atlas()
+	var known: Dictionary[String, int] = {}
+	if goal.waypoint:
+		known = _state.visited_maps
+	var add := CanvasItemMaterial.new()
+	add.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	var from: StringName = table.home_of(catalog, _here_map)
+	for step: WorldRoute.Step in WorldRoute.guided(catalog, _here_map, goal.map_id, known):
+		var to: StringName = table.home_of(catalog, step.to_map)
+		if to == from:
+			continue
+		var road: AtlasPictures.Road = _pictures.road_between(from, to)
+		if road != null and MapAtlas.seen(catalog, _state, from) == MapAtlas.Seen.REACHED and MapAtlas.seen(catalog, _state, to) == MapAtlas.Seen.REACHED:
+			var lit: Sprite2D = _road_sprite(_way_layer, road.file, road.at)
+			lit.modulate = WAY_COLOUR
+			lit.material = add
+			var line: PackedVector2Array = road.line
+			if road.a != from:
+				line = line.duplicate()
+				line.reverse()
+			_way.append_array(line)
+		from = to
+	for index: int in range(1, _way.size()):
+		var step: float = _way[index - 1].distance_to(_way[index])
+		_way_length += 0.0 if step > GLOW_JUMP else step
+	if _way.is_empty():
+		return
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color("ffd080", 0.75))
+	gradient.set_color(1, Color("ff8a30", 0.0))
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 64
+	texture.height = 64
+	texture.fill = GradientTexture2D.FILL_RADIAL
+	texture.fill_from = Vector2(0.5, 0.5)
+	texture.fill_to = Vector2(1.0, 0.5)
+	for index: int in mini(GLOWS, ceili(_way_length / GLOW_GAP)):
+		var glow := Sprite2D.new()
+		glow.texture = texture
+		glow.material = add
+		glow.scale = Vector2.ONE * GLOW_SIZE / 64.0
+		_way_layer.add_child(glow)
+		_glows.append(glow)
 
 
 ## The part of the 沙盘's view the card leaves free: the view centres in it.
@@ -491,6 +704,11 @@ func _apply_view() -> void:
 	_centre = _centre.clamp(whole / 2.0 - room, whole / 2.0 + room)
 	stage.scale = Vector2(_zoom, _zoom)
 	stage.position = view / 2.0 - _centre * _zoom
+	# Close to the land the cloud parts.
+	var clear: float = smoothstep(0.3, 0.6, _zoom)
+	_clouds.modulate.a = lerpf(0.84, 0.0, clear)
+	_shade.modulate.a = lerpf(0.2, 0.08, clear)
+	_mist.modulate.a = lerpf(0.74, 0.3, clear)
 	_place_overlays()
 
 
@@ -513,13 +731,13 @@ func _place_overlays() -> void:
 		arrow.position = _to_view(_middle(arrow.get_meta("cell"))) - Vector2(arrow.size.x / 2.0, arrow.size.y + 26.0)
 
 
-## The whole 沙盘 just fits the view.
+## The 沙盘 just covers the view; what the card hides is a drag or a step away.
 func _fit_zoom() -> float:
 	var whole: Vector2 = _pictures.stage_size()
 	var view: Vector2 = _free_view()
 	if whole.x <= 0.0 or whole.y <= 0.0 or view.y <= 0.0:
 		return CLOSE_ZOOM
-	return minf(minf(view.x / whole.x, view.y / whole.y), CLOSE_ZOOM)
+	return minf(maxf(view.x / whole.x, view.y / whole.y), CLOSE_ZOOM)
 
 
 func _toggle_zoom() -> void:
