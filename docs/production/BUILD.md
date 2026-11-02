@@ -248,8 +248,8 @@ The workflow contains:
 - `iOS Build Validation` on `macos-15`; the job enumerates installed Xcode applications, requires
   `/Applications/Xcode_26.3.app`, selects it explicitly, and prints the Xcode/iPhoneOS SDK versions.
 
-Build jobs depend on `Godot Verify`; the gameplay suites run only in its shard jobs. All jobs use
-Godot 4.7.2 and repository scripts. No project secret is required.
+Build jobs run beside `Godot Verify`, not after it; the gameplay suites run only in its shard jobs.
+All jobs use Godot 4.7.2 and repository scripts. No project secret is required.
 
 Artifact names:
 

@@ -37,7 +37,8 @@ msgstr ""
 msgid "新游戏"
 msgstr ""
 
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd
+#. at the foot of the dialogue box: goes to the next line.
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
 msgid "继续"
 msgstr ""
 
@@ -10079,6 +10080,11 @@ msgstr ""
 
 #: ui/world/shared_ui_ask_panel.gd
 msgid "你可以打听这些事情："
+msgstr ""
+
+#. leaves the conversation in the dialogue box.
+#: ui/world/shared_ui_ask_panel.gd
+msgid "告辞"
 msgstr ""
 
 #. say a line beside the NPC that it answers ({line}: 必有妖孽).

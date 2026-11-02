@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import shutil
@@ -35,20 +36,10 @@ IMPORT_TIMEOUT_SECONDS = 10 * 60
 SUITE_TIMEOUT_SECONDS = 10 * 60
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 SUITE_RUNNER = "res://tests/run_suite.gd"
-SLOW_SUITE_PREFIXES = ("res://tests/runtime/", "res://tests/application/")
-# The slowest suites on CI (PR #91, 4 at a time), slowest first: each starts at once, so
-# none of them runs alone at the end. versioned_source_save_test alone took 9.6 min of
-# the 29.5 when it started 20 min in.
-SLOWEST_SUITES = (
-    "res://tests/runtime/versioned_source_save_test.gd",
-    "res://tests/runtime/world_soak_test.gd",
-    "res://tests/application/mobile_lifecycle_test.gd",
-    "res://tests/application/application_shell_test.gd",
-    "res://tests/runtime/snow_finance_test.gd",
-    "res://tests/runtime/player_recovery_cadence_test.gd",
-    "res://tests/runtime/snow_water_test.gd",
-    "res://tests/application/public_source_new_game_test.gd",
-)
+# Each suite's time on a CI runner: the order suites start in and the split into shards both
+# come from it. A new suite needs no entry (it counts as default_seconds). When the shards
+# drift apart, refresh it from the `[n/N] PASS ... X s` lines of the shard logs.
+SUITE_TIMES = REPOSITORY / "tools/ci/suite_seconds.json"
 SUITE_SUMMARY = re.compile(r"^(PASS|FAIL): (\d+) suite\(s\), (\d+) assertions, (\d+) failure\(s\)$")
 
 
@@ -153,14 +144,26 @@ def discover_suites(game: Path) -> list[str]:
     return sorted("res://" + path.relative_to(game).as_posix() for path in (game / "tests").rglob("*_test.gd"))
 
 
-def suite_order(suites: list[str]) -> list[str]:
-    """The order suites start in: the known slowest first (SLOWEST_SUITES), then the other
-    world suites (a minute or more each), then the core suites (seconds)."""
-    def key(suite: str) -> tuple[int, int, str]:
-        if suite in SLOWEST_SUITES:
-            return (0, SLOWEST_SUITES.index(suite), suite)
-        return (1 if suite.startswith(SLOW_SUITE_PREFIXES) else 2, 0, suite)
-    return sorted(suites, key=key)
+@dataclass(frozen=True)
+class SuiteTimes:
+    """Measured seconds per suite; default_seconds stands in for one not yet measured."""
+
+    recorded: dict[str, float]
+    default_seconds: float
+
+    def of(self, suite: str) -> float:
+        return self.recorded.get(suite, self.default_seconds)
+
+
+def load_suite_times(path: Path = SUITE_TIMES) -> SuiteTimes:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return SuiteTimes(data["suites"], data["default_seconds"])
+
+
+def suite_order(suites: list[str], times: SuiteTimes) -> list[str]:
+    """The order suites start in: slowest first, so no slow suite runs alone at the end.
+    The path breaks ties, so every shard job computes the same order."""
+    return sorted(suites, key=lambda suite: (-times.of(suite), suite))
 
 
 def parse_shard(value: str) -> tuple[int, int]:
@@ -171,13 +174,20 @@ def parse_shard(value: str) -> tuple[int, int]:
     return int(match.group(1)), int(match.group(2))
 
 
-def shard_suites(ordered: list[str], shard: tuple[int, int] | None) -> list[str]:
-    """Shard K of N takes every N-th suite of the start order, beginning with the K-th: each
-    shard gets its share of the slowest suites, and the N shards run every suite once."""
+def shard_suites(ordered: list[str], times: SuiteTimes, shard: tuple[int, int] | None) -> list[str]:
+    """Shard K of N of the start order: each suite in turn goes to the lightest shard so far
+    (the first of equals), so the N shards run every suite once and take about as long.
+    Every shard job computes the whole split and keeps its own part, in start order."""
     if shard is None:
         return ordered
     index, count = shard
-    return ordered[index - 1 :: count]
+    loads = [0.0] * count
+    shards: list[list[str]] = [[] for _ in range(count)]
+    for suite in ordered:
+        lightest = loads.index(min(loads))
+        shards[lightest].append(suite)
+        loads[lightest] += times.of(suite)
+    return shards[index - 1]
 
 
 def default_jobs() -> int:
@@ -304,9 +314,8 @@ def run_gameplay_suites(
     discovered = discover_suites(REPOSITORY / "game")
     if not discovered:
         raise RuntimeError("no *_test.gd suites found under game/tests")
-    # The slowest first, then world suites (a minute or more each), then core suites
-    # (seconds): no slow suite runs alone at the end.
-    suites = shard_suites(suite_order(discovered), shard)
+    times = load_suite_times()
+    suites = shard_suites(suite_order(discovered, times), times, shard)
     if not suites:
         raise RuntimeError(f"suite shard {shard[0]}/{shard[1]} has no suites")
     work_root = REPOSITORY / "build/verify-suites"

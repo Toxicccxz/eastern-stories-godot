@@ -119,7 +119,7 @@ func panel_opened() -> void:
 ## A panel that shows its own lines (打听, a teacher, a shop: dialogue stays in its
 ## panel) or a fight shows them then. Other panels (背包, 拾取, 角色) let toasts through.
 func _toasts_suppressed() -> bool:
-	return (_presentation_layout.frame.visible and _panel_shows_lines) or (
+	return (_presentation_layout.frame.visible and _panel_shows_lines) or _ui.dialogue_box.hosting() or (
 		_session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter()
 	)
 

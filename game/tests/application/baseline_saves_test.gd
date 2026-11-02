@@ -274,7 +274,8 @@ func _autosave_moments(tree: SceneTree) -> void:
 	var zone: ZoneDefinition = GameContent.catalog().zone(&"snow.square")
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", zone.combat_location_id, &"snow.square.inn_entry").succeeded(), "out onto the square")
 	await tree.process_frame
-	_check(host.autosave().running(), "the map change sets it off, on the first frame after")
+	# On a busy machine the worker may be done, and collected, before this frame comes round.
+	_check(host.autosave().running() or files.files.has(auto_path), "the map change sets it off, on the first frame after")
 	_check(_same(combat, session.combat_random_source().capture_random_state()) and _same(npc, session.npc_random_source().capture_random_state()) and _same(world, session.world_interaction_random_source().capture_random_state()), "it draws from none of the streams")
 	await _autosaved(tree, host)
 	_check(files.files.has(auto_path), "auto-v1.json")

@@ -7,11 +7,17 @@ extends Node
 ## The preview's camera is the game's own: an unseen player body, out of every area and wall,
 ## stands where the view looks, so the view's lights, cut-aways and plants act as they do in play.
 ## R reads the map's voxel JSON again without a restart; a changed layout or script needs F6.
+## The hour moves along the day's frames, the game's own light blending from one to the next,
+## so the shadows sweep across; T lets it run on round the day.
 
 const SESSION_SCENE: String = "res://scenes/world/oldpine/oldpine_world_session.tscn"
 const SETTINGS_PATH: String = "user://voxel_preview.cfg"
 const HOLD: StringName = &"voxel_preview"
 const FRAMES: Dictionary[String, String] = {"day": "白天", "dawn": "黎明", "dusk": "黄昏", "night": "夜晚", "midnight": "深夜"}
+## The day's frames in order, round which the hour moves.
+const CYCLE: Array[String] = VoxelLighting.FRAMES
+## Seconds from one frame to the next.
+const LEG_SECONDS: float = 2.5
 const MIN_ZOOM: float = 0.4
 const MAX_ZOOM: float = 16.0
 const ZOOM_STEP: float = 1.12
@@ -33,6 +39,8 @@ var map: WorldMapController
 var view: WorldVoxelView
 var zoom: float = 1.0
 var frame: String = "day"
+## The hour runs on by itself.
+var flowing: bool = false
 var cloud: int = 0
 var left_view: bool = false
 var focus: Vector2 = Vector2.ZERO
@@ -41,6 +49,9 @@ var _maps: Array[StringName] = []
 var _zones: Array[StringName] = []
 var _dragging: bool = false
 var _fog_lifted: bool = false
+## Where the light is on CYCLE (1.5: halfway from its second frame to its third), and where it goes.
+var _light_at: float = 1.0
+var _light_goal: float = 1.0
 var _since_saved: float = 0.0
 var _saved_place: Array = []
 var _panel: PanelContainer
@@ -50,6 +61,7 @@ var _zone_list: OptionButton
 var _frame_list: OptionButton
 var _cloud_list: OptionButton
 var _side_button: Button
+var _flow_button: Button
 
 
 func _ready() -> void:
@@ -72,6 +84,8 @@ func _ready() -> void:
 	_fill_map_list()
 	var settings: ConfigFile = _load_settings()
 	frame = str(settings.get_value("view", "frame", "day"))
+	_light_goal = float(CYCLE.find(frame))
+	_light_at = _light_goal
 	cloud = int(settings.get_value("view", "cloud", 0))
 	left_view = bool(settings.get_value("view", "left", false))
 	var last: StringName = StringName(str(settings.get_value("view", "map", "")))
@@ -95,6 +109,7 @@ func show_map(map_id: StringName) -> bool:
 	view.set_frame(frame, true)
 	view.set_cloud(cloud, true)
 	view.set_view_side(left_view, true)
+	_light_at = _light_at if flowing else _light_goal
 	# Out of every zone, passage and wall: where the camera goes the map does not react.
 	map.player_body.collision_layer = 0
 	map.player_body.collision_mask = 0
@@ -141,10 +156,21 @@ func reload_view() -> void:
 	_status.text = "已重读：%s" % map.map_id()
 
 
+## The hour goes to `value` the short way round the day, the light sweeping as it goes.
 func set_frame(value: String) -> void:
 	frame = value
+	flowing = false
+	_light_goal = float(CYCLE.find(frame))
 	if view != null:
-		view.set_frame(frame, true)
+		view.set_frame(frame)
+	_sync_panel()
+
+
+## The hour runs on round the day, or stops at the frame it has come to.
+func set_flowing(on: bool) -> void:
+	flowing = on
+	if not on:
+		set_frame(_nearest_frame())
 	_sync_panel()
 
 
@@ -179,7 +205,47 @@ func _process(delta: float) -> void:
 	map.player_body.visible = show_player
 	if view.quest_marker != null:
 		view.quest_marker.visible = false
+	_advance_light(delta)
 	_place_camera(size)
+
+
+func _advance_light(delta: float) -> void:
+	var count: float = float(CYCLE.size())
+	var step: float = delta / LEG_SECONDS
+	if flowing:
+		_light_at = fposmod(_light_at + step, count)
+		if _nearest_frame() != frame:
+			frame = _nearest_frame()
+			_light_goal = float(CYCLE.find(frame))
+			view.set_frame(frame)
+			_sync_panel()
+	elif _light_at == _light_goal:
+		return
+	else:
+		var way: float = fposmod(_light_goal - _light_at + count / 2.0, count) - count / 2.0
+		if absf(way) <= step:
+			_light_at = _light_goal
+			view.set_frame(frame, true)
+			return
+		_light_at = fposmod(_light_at + signf(way) * step, count)
+	_show_light()
+
+
+## The game's light at `_light_at`, between two frames as it blends across a phase boundary. The
+## view holds the frame it is going to; this frame's blend is put over that.
+func _show_light() -> void:
+	var lighting: VoxelLighting = view.lighting
+	var first: int = int(_light_at) % CYCLE.size()
+	var share: float = _light_at - floorf(_light_at)
+	for name: String in CYCLE:
+		lighting.weights[name] = 0.0
+	lighting.weights[CYCLE[first]] = 1.0 - share
+	lighting.weights[CYCLE[(first + 1) % CYCLE.size()]] = share
+	lighting._apply()
+
+
+func _nearest_frame() -> String:
+	return CYCLE[roundi(_light_at) % CYCLE.size()]
 
 
 func _place_camera(size: float) -> void:
@@ -225,6 +291,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			reload_view()
 		KEY_Q:
 			set_side(not left_view)
+		KEY_T:
+			set_flowing(not flowing)
 		KEY_H:
 			_panel.visible = not _panel.visible
 		KEY_P:
@@ -295,6 +363,7 @@ func _build_panel() -> void:
 	_cloud_list = _list(box, func(index: int) -> void: set_cloud(index))
 	for level: int in 5:
 		_cloud_list.add_item("云量 %d" % level)
+	_flow_button = _button(box, "", func() -> void: set_flowing(not flowing))
 	_side_button = _button(box, "", func() -> void: set_side(not left_view))
 	_button(box, "看全图（F）", fit_map)
 	_button(box, "重读配置（R）", reload_view)
@@ -356,3 +425,4 @@ func _sync_panel() -> void:
 	_frame_list.select(FRAMES.keys().find(frame))
 	_cloud_list.select(cloud)
 	_side_button.text = "换到%s视角（Q）" % ("右" if left_view else "左")
+	_flow_button.text = "停住时间（T）" if flowing else "时间流动（T）"

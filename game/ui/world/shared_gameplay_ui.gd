@@ -142,6 +142,7 @@ var card: SharedUiStatusCard = SharedUiStatusCard.new(self)
 var selection: SharedUiSelection = SharedUiSelection.new(self)
 var actions: SharedUiContextActions = SharedUiContextActions.new(self)
 var ask: SharedUiAskPanel = SharedUiAskPanel.new(self)
+var dialogue_box: WorldDialogueBox
 var items: SharedUiInventory = SharedUiInventory.new(self)
 var panels: SharedUiPanels = SharedUiPanels.new(self)
 var questions: SharedUiQuestions = SharedUiQuestions.new(self)
@@ -170,6 +171,11 @@ func _ready() -> void:
 	speech_bubbles.configure(self)
 	add_child(speech_bubbles)
 	move_child(speech_bubbles, 1)
+	dialogue_box = WorldDialogueBox.new()
+	dialogue_box.configure(self)
+	add_child(dialogue_box)
+	move_child(dialogue_box, 2)
+	dialogue_box.read_out.connect(waits.hurry_teller)
 	inspect_button.pressed.connect(actions.inspect_context)
 	attack_button.pressed.connect(actions.attack_context)
 	spar_button.pressed.connect(actions.spar_context)
@@ -239,7 +245,22 @@ func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array
 		message_log.append_colored_lines(lines)
 		return
 	message_log.append_speech(lines)
-	speech_bubbles.say(speaker, spoken, alert)
+	var teller: StringName = _teller()
+	if teller.is_empty():
+		speech_bubbles.say(speaker, spoken, alert)
+	else:
+		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller)
+
+
+## The dialogue box takes the foot of the screen: the toasts stand on it.
+func toasts_lift(height: float) -> void:
+	_presentation_layout.toasts.lift = height
+
+
+## Whose story is being told now, read in the dialogue box, not overheard (DECISIONS「对话框」).
+func _teller() -> StringName:
+	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
+	return map.npc_life.teller if map != null and GameContent.catalog().pacing().feel.shows_dialogue_box() else &""
 
 
 ## The session this HUD shows (null in a bare fixture).
@@ -308,6 +329,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _presentation_layout.frame.visible or menu.is_presented() or event.is_echo() or not event.is_pressed():
 		return
 	var tab: int = GameMenu.tab_for_event(event)
+	# The dialogue box (DECISIONS「对话框」): E / A is 继续 or the focused choice; only the menu
+	# takes another key.
+	if dialogue_box.is_open() and not event.is_action_pressed(&"menu_open"):
+		get_viewport().set_input_as_handled()
+		_dialogue_key(event)
+		return
 	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu takes another key.
 	if _session != null and _session.scene_held() and not event.is_action_pressed(&"menu_open"):
 		get_viewport().set_input_as_handled()
@@ -345,10 +372,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		open_look()
 
 
+func _dialogue_key(event: InputEvent) -> void:
+	if not dialogue_box.hosting():
+		if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
+			dialogue_box.advance()
+	elif event.is_action_pressed("ui_cancel"):
+		dialogue_box.close()
+	elif event.is_action_pressed(&"interact") and not event.is_action_pressed("ui_accept"):
+		# E; a button takes ui_accept (Enter, pad A) itself, on its release.
+		var focused: Button = get_viewport().gui_get_focus_owner() as Button
+		if focused != null and focused.is_visible_in_tree():
+			focused.pressed.emit()
+
+
 ## Tab is the GUI's "next control" before _unhandled_input sees it: while the player walks
 ## with nothing focused it steps the target here.
 func _input(event: InputEvent) -> void:
-	if not event.is_action_pressed(&"nearby_focus") or event.is_echo() or not visible or _presentation_layout.frame.visible or menu.is_presented():
+	if not event.is_action_pressed(&"nearby_focus") or event.is_echo() or not visible or _presentation_layout.frame.visible or menu.is_presented() or dialogue_box.is_open():
 		return
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused == null or not focused.is_visible_in_tree():
@@ -381,7 +421,7 @@ func interact() -> bool:
 
 ## A click or tap on the thing with `id`: it becomes the target and E / A goes to it.
 func interact_with(id: StringName) -> bool:
-	if not visible or _presentation_layout.frame.visible or menu.is_presented() or (_session != null and _session.scene_held()) or not nearby.choose(id):
+	if not visible or _presentation_layout.frame.visible or menu.is_presented() or dialogue_box.is_open() or (_session != null and _session.scene_held()) or not nearby.choose(id):
 		return false
 	return interact()
 
@@ -518,6 +558,8 @@ func _process(delta: float) -> void:
 	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
 		_presentation_layout.close_frame()
+		if dialogue_box.hosting():
+			dialogue_box.close()
 		if not menu.in_pause_view():
 			menu.dismiss()
 		selection.set_selected_target(null)
