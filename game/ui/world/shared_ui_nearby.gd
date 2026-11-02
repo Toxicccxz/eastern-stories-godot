@@ -75,13 +75,15 @@ func press(display_name: String, label: String) -> bool:
 ## Called with the card's refresh: the selection follows reach, then the target.
 func refresh() -> void:
 	var map: WorldMapController = _map()
-	# Nothing is offered while a scene holds the player (DECISIONS「剧情演出」).
-	if map == null or (_session != null and _session.scene_held()):
+	# Nothing is offered while a scene holds the player (DECISIONS「剧情演出」) or the dialogue
+	# box is up.
+	if map == null or (_session != null and _session.scene_held()) or _ui.dialogue_box.is_open():
 		_things.clear()
 	else:
 		_things = map.selection.nearby()
-	# A panel or the menu holds the selection (背包's 给 and 画符 act on it).
-	if map != null and not _presentation_layout.frame.visible and not _ui.menu.is_presented():
+	# A panel, the menu or the dialogue box holds the selection (背包's 给 and 画符 act on it,
+	# 打听 asks the one chosen).
+	if map != null and not _presentation_layout.frame.visible and not _ui.menu.is_presented() and not _ui.dialogue_box.is_open():
 		_follow_reach(map, _things)
 	_pick_target()
 	_shown.clear()

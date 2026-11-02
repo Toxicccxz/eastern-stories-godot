@@ -63,6 +63,8 @@ var _suppressed: bool = false
 var _max_lines: int = 3
 var _width: float = 420.0
 var _latest: Entry
+## How far above the foot of the area the stack stands (the dialogue box is under it).
+var lift: float = 0.0
 
 
 func _init() -> void:
@@ -262,7 +264,7 @@ func _height(toast: Toast) -> float:
 ## one rises RISE from where it was and fades. `snap` jumps to the targets (a reflow).
 func _layout(delta: float, snap: bool) -> void:
 	var weight: float = 1.0 if snap else 1.0 - exp(-EASE * delta)
-	var bottom: float = size.y - RISE
+	var bottom: float = size.y - RISE - lift
 	var done: Array[Toast] = []
 	for index: int in range(_shown.size() - 1, -1, -1):
 		var toast: Toast = _shown[index]

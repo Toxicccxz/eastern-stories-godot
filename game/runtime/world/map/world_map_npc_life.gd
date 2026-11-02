@@ -29,6 +29,9 @@ var came_from_zone_id: StringName = &""
 ## scenes. Not saved: a scene begins anew as the player comes in.
 var scene_npc_id: StringName = &""
 var scene_focus_id: StringName = &""
+## A line of a scene or a told story is being said: the player reads it in the dialogue box
+## (DECISIONS「对话框」), what only sets the mood stays over people's heads.
+var telling: bool = false
 ## The room Continue put the player back in, until its first arrival note: its people were
 ## met before the save, so a save right after Continue writes what was loaded.
 var restored_zone_id: StringName = &""
@@ -472,7 +475,9 @@ func _make_stage(character_id: StringName) -> void:
 	var hud: SharedGameplayUI = _map.hud()
 	if _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and hud != null:
 		var told: ColoredLine = making.lines[stage].colored(npc.definition().display_name, "")
+		telling = true
 		hud.npc_says(npc, [told], [told.text])
+		telling = false
 	stage += 1
 	if stage < making.lines.size():
 		pending["stage"] = stage
@@ -938,15 +943,18 @@ func _own_call(npc: NpcRuntimeState, index: int) -> void:
 	if hooks == null or index < 0 or index >= hooks.calls.size():
 		return
 	var act: ScriptedAct = hooks.calls[index].act
+	telling = hooks.calls[index].hurry
 	# A scene's call was judged as the scene began.
 	if hooks.calls[index].scene:
 		_map.acts.run(act, npc, ambience.random().legacy_random)
+		telling = false
 		return
 	var facts: ScriptedAct.Facts = _map.acts.facts()
 	facts.draw = ambience.random().legacy_random
 	facts.npc_zone = npc.world_location().zone_id
 	if act.applies_to(_player.state.gender, _player.state.affiliation.class_id, facts):
 		_map.acts.run(act, npc, ambience.random().legacy_random)
+	telling = false
 
 
 # --- scenes (主线 A; DECISIONS「剧情演出」) ---

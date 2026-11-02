@@ -71,7 +71,8 @@ func refresh() -> void:
 		line.text = wait.text
 		bar.visible = wait.progress >= 0.0
 		bar.value = clampf(wait.progress, 0.0, 1.0)
-		button.visible = wait.hurry.is_valid()
+		# The dialogue box has its own 继续.
+		button.visible = wait.hurry.is_valid() and not _ui.dialogue_box.is_open()
 	box.visible = not _shown.is_empty()
 
 
