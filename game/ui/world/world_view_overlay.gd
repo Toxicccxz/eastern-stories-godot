@@ -148,32 +148,40 @@ func show_room(title: String, description: String, seconds: float) -> void:
 
 
 ## The room's text gives way to a panel, the menu or a fight (its time runs on); while it
-## shows it keeps the height its wrapped lines take (known only once they are laid out).
+## shows it keeps the height its wrapped lines take (known only once they are laid out). The
+## banner follows the status card, whose height changes with its objective line; it stays put
+## when the card goes.
 func _process(_delta: float) -> void:
 	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
 	_room.visible = hud != null and hud.visible and not hud.panel_open() and not hud.menu.is_presented() and not _loading
 	if _room.visible and _room.modulate.a > 0.0:
 		_place_room()
+	if _room.visible and _banner.modulate.a > 0.0:
+		_place_banner()
 
 
 ## In the top right corner beside the status card, clear of the middle where the player and
-## those they talk to are; under the card when the screen is too narrow beside it (the
-## 界面缩放 at 150%). The text wraps at the panel's width (a wrapping label has none alone).
+## those they talk to are; under the card when the screen is too narrow beside it. The text
+## wraps at the panel's width (a wrapping label has none alone).
 func _place_room() -> void:
 	var view: Rect2 = get_viewport().get_visible_rect()
 	var top: float = view.position.y + BANNER_MARGIN
-	var beside: float = view.size.x - 2.0 * BANNER_MARGIN
 	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
-	if hud != null and hud.visible:
-		var card: Rect2 = hud.card_rect()
-		beside = view.end.x - card.end.x - 2.0 * BANNER_MARGIN
-		if beside < ROOM_TEXT_MIN_WIDTH:
-			beside = view.size.x - 2.0 * BANNER_MARGIN
-			top = card.end.y + BANNER_MARGIN
-	var width: float = minf(ROOM_TEXT_WIDTH, beside)
+	var card: Rect2 = hud.card_rect() if hud != null and hud.visible else Rect2()
+	var width: float = _room_width_beside(view, card)
+	if width <= 0.0:
+		width = minf(ROOM_TEXT_WIDTH, view.size.x - 2.0 * BANNER_MARGIN)
+		top = card.end.y + BANNER_MARGIN
 	_room_text.custom_minimum_size.x = width - _room.get_theme_stylebox("panel").get_minimum_size().x
 	_room.reset_size()
 	_room.position = Vector2(view.end.x - _room.size.x - BANNER_MARGIN, top).round()
+
+
+## How wide the room's text is beside the status card; 0 when it goes under the card.
+func _room_width_beside(view: Rect2, card: Rect2) -> float:
+	var left: float = card.end.x if card.has_area() else view.position.x
+	var beside: float = view.end.x - left - 2.0 * BANNER_MARGIN
+	return minf(ROOM_TEXT_WIDTH, beside) if beside >= ROOM_TEXT_MIN_WIDTH else 0.0
 
 
 ## Nothing goes to the world under the cover: a key pressed there would act unseen. A paused
@@ -290,19 +298,28 @@ func _show_banner(seconds: float) -> void:
 	_banner_tween.tween_property(_banner, "modulate:a", 0.0, fade)
 
 
-## Over the map at the top, in the middle of what the status card leaves free.
+## Over the map at the top, in the middle of what the status card and the room's text leave
+## free; under the card when it does not fit there (the 界面缩放 at 125% and 150%, a long
+## name). The room's column counts whether its text shows yet or not: the two come in either
+## order, and the banner stays where it first appeared.
 func _place_banner() -> void:
 	_banner.reset_size()
 	var view: Rect2 = get_viewport().get_visible_rect()
 	var left: float = view.position.x
+	var right: float = view.end.x
 	var top: float = view.position.y + BANNER_MARGIN
 	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
 	if hud != null and hud.visible:
 		var card: Rect2 = hud.card_rect()
 		left = card.end.x
+		right -= _room_width_beside(view, card) + BANNER_MARGIN
 		top = card.position.y
-	var middle: float = (left + view.end.x) / 2.0
-	_banner.position = Vector2(clampf(middle - _banner.size.x / 2.0, left + BANNER_MARGIN, view.end.x - _banner.size.x - BANNER_MARGIN), top).round()
+		if right - left < _banner.size.x + 2.0 * BANNER_MARGIN:
+			left = card.position.x
+			right = card.end.x
+			top = card.end.y + BANNER_MARGIN
+	var middle: float = (left + right) / 2.0
+	_banner.position = Vector2(clampf(middle - _banner.size.x / 2.0, view.position.x + BANNER_MARGIN, view.end.x - _banner.size.x - BANNER_MARGIN), top).round()
 
 
 ## 「绮云镇 · 卧龙岗」: the region the player is now in and the zone they stand in.

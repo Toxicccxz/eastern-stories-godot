@@ -25,6 +25,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_door(tree, session)
 	await _test_passage(tree, session)
+	await _test_banner_clear(tree, session)
 	await _test_toll_bubble(tree, session)
 	session.free()
 	TestFeel.restore()
@@ -165,6 +166,33 @@ func _test_passage(tree: SceneTree, session: WorldSessionController) -> void:
 	var region: String = GameContent.catalog().region(player.world_location().region_id).display_name
 	_check(overlay.banner_text().begins_with(region) or overlay.banner_text() == GameContent.catalog().zone(player.world_location().zone_id).display_name, "the place's name: %s" % overlay.banner_text())
 	_check(overlay.shade_alpha() == 0.0 and not session.world_time_held() and not arrived.player_body.walk_paused and not map.player_body.walk_paused, "back: world time runs, the player walks")
+
+
+## The place's name and the room's text come together on arrival: neither covers the other or
+## the status card, whatever the 界面缩放 and however long the name.
+func _test_banner_clear(tree: SceneTree, session: WorldSessionController) -> void:
+	var hud: SharedGameplayUI = session.shared_ui()
+	var overlay: WorldViewOverlay = hud.view_overlay
+	var banner: Control = overlay.get_node("MapBanner")
+	var room: Control = overlay.get_node("RoomText")
+	_check(hud.visible, "the HUD shows, the card counts")
+	for percent: int in ApplicationUiScale.PERCENTS:
+		tree.root.content_scale_factor = ApplicationUiScale.factor(percent) # TEST-ONLY: what the setting does
+		await tree.process_frame
+		for name: String in ["", "长".repeat(14)]:
+			overlay._show_banner(1.0) # TEST-ONLY: the arrival's banner
+			if not name.is_empty():
+				overlay._banner_text.text = name # TEST-ONLY: wider than the gap beside the card
+			hud.describe_again()
+			await tree.process_frame
+			await tree.process_frame
+			var size: String = "%d%% %d wide" % [percent, banner.size.x]
+			_check(not overlay.banner_text().is_empty() and not overlay.room_text().is_empty(), "%s: both show" % size)
+			_check(not banner.get_rect().intersects(room.get_rect()), "%s: the name clear of the room's text: %s %s" % [size, banner.get_rect(), room.get_rect()])
+			_check(not banner.get_rect().intersects(hud.card_rect()), "%s: and of the card: %s %s" % [size, banner.get_rect(), hud.card_rect()])
+			_check(hud.get_viewport().get_visible_rect().encloses(banner.get_rect()), "%s: on the screen: %s" % [size, banner.get_rect()])
+	tree.root.content_scale_factor = 1.0
+	await tree.process_frame
 
 
 ## Out of the inn by its door (a building's own map, DECISIONS「地图重构」): the shorter
