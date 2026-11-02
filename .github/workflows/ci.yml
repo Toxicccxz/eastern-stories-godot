@@ -14,11 +14,17 @@ on:
 permissions:
   contents: read
 
+# A new push replaces the PR's run for the old commit; a manual run is left to finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   # verify.py runs on several runners at once: the checks job runs every step but the
   # gameplay suites, and each shard job runs its share of the suites (each one a single-core
   # Godot process, four at a time on a 4-vCPU runner). Together they are the whole of
-  # verify.py; `Godot Verify` passes only when all of them pass.
+  # verify.py; `Godot Verify` passes only when all of them pass. The build jobs run beside
+  # them and do not wait for it.
   verify-checks:
     name: Godot Verify (checks)
     if: >-
@@ -48,15 +54,16 @@ jobs:
       github.event_name != 'pull_request' ||
       github.event.pull_request.draft == false
     runs-on: ubuntu-24.04
-    # The suites take ~130 single-core minutes (2026-10-11) and grow with each region: when
-    # a shard nears 15 minutes, add one to the matrix.
+    # The suites take ~250 single-core minutes (2026-11-02) and grow with each region: when
+    # a shard nears 15 minutes, add one to the matrix. verify.py splits them by the times in
+    # tools/ci/suite_seconds.json. The longest suite, ~9 minutes, is the floor for a shard.
     timeout-minutes: 45
     strategy:
       fail-fast: false
       # One axis only, listing exactly 1..N: N is the job total, so another axis or an
       # `include` would leave suites unrun.
       matrix:
-        shard: [1, 2, 3]
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -89,10 +96,11 @@ jobs:
     needs:
       - verify-checks
       - verify-suites
-    # always(): a failed or cancelled verification job must fail this required check, not
-    # skip it (a skipped check would not block the merge).
+    # !cancelled(): a failed or timed-out verification job must fail this required check, not
+    # skip it (a skipped check would not block the merge). Only a cancelled run skips it, so
+    # a commit replaced by a new push reports no failure.
     if: >-
-      always() && (
+      !cancelled() && (
       github.event_name != 'pull_request' ||
       github.event.pull_request.draft == false)
     runs-on: ubuntu-24.04
@@ -109,7 +117,9 @@ jobs:
 
   windows-release:
     name: Windows Release Build
-    needs: godot-verify
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.draft == false
     runs-on: windows-2025
     timeout-minutes: 30
     steps:
@@ -144,7 +154,9 @@ jobs:
 
   android-release:
     name: Android Release Build
-    needs: godot-verify
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.draft == false
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -200,7 +212,9 @@ jobs:
 
   ios-validation:
     name: iOS Build Validation
-    needs: godot-verify
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.draft == false
     runs-on: macos-15
     timeout-minutes: 45
     steps:
