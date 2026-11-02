@@ -94,11 +94,11 @@ func _check_ask(tree: SceneTree) -> void:
 	await tree.create_timer(0.3).timeout
 	_check(map.selected_npc() == npc, "the box holds the selection while the HUD refreshes")
 	var topic: Button = box.hosted().find_child("Topic", true, false) as Button
-	# Typing out, the next press only finishes it; finished, it asks.
-	var typing: int = hud.log_lines().size()
 	topic.pressed.emit()
-	_check(hud.log_lines().size() == typing, "the press that finishes the typing asks nothing")
+	# The answer typing out, the next press only finishes it: nothing is asked again.
+	var asked: int = hud.log_lines().size()
 	topic.pressed.emit()
+	_check(hud.log_lines().size() == asked, "the press that finishes the typing asks nothing")
 	await _frames(tree, 2)
 	_check(box.hosting() and not box.line().is_empty() and box.line() != tr("你可以打听这些事情："), "the answer shows above the topics: %s" % box.line())
 	_check(not box.line().contains("打听有关"), "from the answer, not ask.c's own line")
