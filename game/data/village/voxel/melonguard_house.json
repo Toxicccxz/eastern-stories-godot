@@ -11,6 +11,9 @@
     "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
   },
   "wall_height": 2.8,
+  "life": {
+    "village.melonguard": {"hang": 0.0, "ambience": [{"kind": "flies", "max": 1}, {"kind": "dust", "color": "d8c49a", "count": 8, "height": [0.1, 1.0]}], "note": "the watchmen's things are the layout's: no walls to hang on"}
+  },
   "wall_looks": [
     {"rect": [-320, -256, 320, 256], "style": "posts", "colors": ["8e8e4c", "82823f", "9a9a58"], "every": 3, "note": "melonguard.c: 竹竿作架"}
   ],
@@ -39,7 +42,6 @@
     {"kind": "melon_vines", "at": [400, 80], "size": [112, 56], "count": 5},
     {"kind": "melon_vines", "at": [440, -300], "size": [112, 56], "count": 5},
     {"kind": "straw_patch", "at": [120, 150], "size": [120, 40]},
-    {"kind": "stool", "at": [-120, 130], "size": [24, 24]},
     {"kind": "hanging_lantern", "at": [40, 40], "elevation": 2.2, "note": "the watchman's lamp"},
     {"kind": "pole_eaves", "at": [0, 0], "size": [640, 512], "note": "茅草铺顶: only its eaves drawn, so the room stays in view"}
   ]

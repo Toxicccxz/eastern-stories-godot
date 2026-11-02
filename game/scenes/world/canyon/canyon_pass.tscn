@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
+[sub_resource type="RectangleShape2D" id="Rect_96_32"]
+size = Vector2(96, 32)
+
 [sub_resource type="RectangleShape2D" id="Rect_32_64"]
 size = Vector2(32, 64)
 
@@ -196,14 +199,14 @@ theme_override_font_sizes/font_size = 14
 text = "南 · 玉螺湖村"
 
 [node name="VillagePassage" type="Area2D" parent="."]
-position = Vector2(896, 2216)
+position = Vector2(856, 2216)
 collision_layer = 0
 input_pickable = false
 script = ExtResource("passage")
 portal_id = &"canyon.canyon7.south"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VillagePassage"]
-shape = SubResource("Rect_64_32")
+shape = SubResource("Rect_96_32")
 
 [node name="GuanbeiLabel" type="Label" parent="Terrain"]
 offset_left = 936

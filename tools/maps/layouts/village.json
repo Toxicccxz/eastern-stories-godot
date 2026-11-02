@@ -130,6 +130,17 @@
           ["blocked", 1008, 816, 1072, 848, {"look": {"kind": "flower_bed", "flowers": ["6a8ae8", "a0c0f0", "f4eee0", "c86ad0"]}}],
           ["blocked", -192, 1696, 0, 1728, "valley1.c: the path runs on south, but brush has closed it (no exit in ES2)", {"look": {"kind": "thicket", "height": 1.5, "colors": ["3a5a2e", "466a36", "527a3e", "60884a"]}}],
           ["blocked", -288, 1248, -224, 1296, {"look": {"kind": "boulder", "tall": 0.8, "colors": ["7a8468", "868e72", "6e7a60"]}}],
+          ["blocked", 880, 640, 912, 672, "有很多人在剪花: a cutting basket, full", {"look": {"kind": "baskets", "rotation": 90, "seed": 3}}],
+          ["blocked", 1072, 864, 1104, 896, "pots brought out to sell", {"look": {"kind": "flower_stand"}}],
+          ["blocked", 1200, 928, 1248, 960, "firewood by the farmhouse wall", {"look": {"kind": "firewood"}}],
+          ["blocked", 1408, 928, 1440, 960, {"look": {"kind": "water_vat"}}],
+          ["blocked", 1440, 928, 1472, 944, {"look": {"kind": "crocks"}}],
+          ["blocked", 1120, 1824, 1136, 1840, "田老财's gate lamps", {"look": {"kind": "lantern_post", "size": [16, 16]}}],
+          ["blocked", 1120, 2000, 1136, 2016, {"look": {"kind": "lantern_post", "size": [16, 16]}}],
+          ["blocked", 1104, 1648, 1136, 1712, "melons brought to the path", {"look": {"kind": "melon_vines", "count": 6, "heap": true}}],
+          ["blocked", 1920, 240, 1984, 288, "yellow stone where the valley gives out", {"look": {"kind": "rock_pile", "count": 7, "colors": ["c9a85a", "d6b86a", "b9975a", "a08a58"]}}],
+          ["blocked", 2320, 256, 2368, 304, {"look": {"kind": "boulder", "tall": 0.9, "colors": ["b9975a", "c9a85a", "9c8050"]}}],
+          ["blocked", 1856, 400, 1888, 432, {"look": {"kind": "boulder", "tall": 0.7, "colors": ["b9975a", "c9a85a", "9c8050"]}}],
           ["cliff", 0, 1296, 112, 1408, "the rock the way down opens in, its mouth on the south face"],
           ["water", 448, 1136, 512, 1152, "the shore's bays"],
           ["water", 576, 1136, 656, 1152],
@@ -935,6 +946,70 @@
                 "size": [48, 32]
               }
             }
+          ],
+          [
+            "blocked",
+            "village.smallstorage",
+            ["sw", 0, 0],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.home",
+            ["n", -1, 1.6],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.home",
+            ["se", 0, 0],
+            0.94,
+            0.94,
+            "靠卖花来维持生计: flowers brought in",
+            {
+              "look": {
+                "kind": "flower_stand"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.home",
+            ["e", 0, 2.5],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "baskets",
+                "rotation": 270,
+                "seed": 5
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.home",
+            ["sw", 0, 0],
+            2.4,
+            1.4,
+            "what is left of better furniture",
+            {
+              "look": {
+                "kind": "old_furniture"
+              }
+            }
           ]
         ],
         "placed": {},
@@ -1110,6 +1185,255 @@
                 "size": [136, 64]
               }
             }
+          ],
+          [
+            "blocked",
+            "village.lordhouse3",
+            ["rel", 0.5, 0.38],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "chair",
+                "rotation": 180
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse3",
+            ["e", 0, 0],
+            1.9,
+            4.7,
+            "a 罗汉床 to read on",
+            {
+              "look": {
+                "kind": "couch",
+                "rotation": 270,
+                "size": [160, 64],
+                "cloth": "6a7a6a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse3",
+            ["ne", 0, 0],
+            2.2,
+            2.2,
+            {
+              "look": {
+                "kind": "chess_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse3",
+            ["se", 0, 0],
+            2.8,
+            0.94,
+            {
+              "look": {
+                "kind": "folding_screen"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse3",
+            ["s", -3, 0],
+            2,
+            0.94,
+            {
+              "look": {
+                "kind": "side_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse2",
+            ["n", -3.4, 2],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "chair",
+                "rotation": 90
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse2",
+            ["n", 3.4, 2],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "chair",
+                "rotation": 270
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse2",
+            ["ne", 0, 0],
+            1.4,
+            1.4,
+            "a landlord keeps his rents by him",
+            {
+              "look": {
+                "kind": "strongbox"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse2",
+            ["nw", 1.5, 0],
+            2.8,
+            0.94,
+            {
+              "look": {
+                "kind": "shelf"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse2",
+            ["s", -3, 0],
+            6,
+            0.94,
+            {
+              "look": {
+                "kind": "bench_seat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse2",
+            ["s", 4, 0],
+            2.4,
+            1.4,
+            {
+              "look": {
+                "kind": "grain_sacks"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["rel", 0.7, 0.72],
+            2,
+            2,
+            "a stone table in the tree's shade",
+            {
+              "look": {
+                "kind": "stone_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["rel", 0.6, 0.72],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["rel", 0.8, 0.72],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["ne", 1, 0],
+            2,
+            2,
+            {
+              "look": {
+                "kind": "well"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["nw", 1, 0],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["n", -5, 0],
+            3,
+            1,
+            {
+              "look": {
+                "kind": "firewood"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["n", 3, 0],
+            3,
+            1.4,
+            {
+              "look": {
+                "kind": "drying_rack"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["sw", 0, 0],
+            2.4,
+            3.4,
+            {
+              "look": {
+                "kind": "cart"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.lordhouse1",
+            ["se", 0, 0],
+            2,
+            2,
+            {
+              "look": {
+                "kind": "millstone"
+              }
+            }
           ]
         ],
         "placed": {},
@@ -1169,7 +1493,13 @@
           "village.melonguard": {
             "floor": "floor_yard",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {
+              "use": "woodshed",
+              "wealth": "poor",
+              "seed": 4,
+              "count": 0
+            }
           }
         },
         "props": [
@@ -1241,6 +1571,45 @@
                 "kind": "melon_vines",
                 "count": 5,
                 "heap": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.melonguard",
+            ["nw", 0, 0],
+            3,
+            1,
+            "where they sit the watch",
+            {
+              "look": {
+                "kind": "bench_seat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.melonguard",
+            ["s", -1, 1],
+            0.94,
+            0.94,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "village.melonguard",
+            ["e", 0, 1.5],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "baskets",
+                "rotation": 270,
+                "seed": 7
               }
             }
           ]

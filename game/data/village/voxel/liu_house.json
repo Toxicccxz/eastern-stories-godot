@@ -29,8 +29,6 @@
     {"kind": "window", "at": [320, -192], "size": [48, 16], "shut": true, "note": "shutters that no longer quite meet"},
     {"kind": "hanging_lantern", "at": [100, 40], "elevation": 2.3},
     {"kind": "hanging_lantern", "at": [-340, 20], "elevation": 2.2},
-    {"kind": "stool", "at": [20, -120], "size": [24, 24]},
-    {"kind": "flower_stand", "at": [500, 170], "size": [24, 24], "note": "靠卖花来维持生计: flowers brought in"},
     {"kind": "bones", "at": [-260, 90], "size": [32, 24], "colors": ["d8ccb0", "c8bca0"], "note": "what the rats left"}
   ]
 }
