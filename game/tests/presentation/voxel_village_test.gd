@@ -11,13 +11,17 @@ const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const TradeProps := preload("res://presentation/voxel/props/voxel_trade_props.gd")
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised
-## clear of the floor (`elevation`).
-const TALL: Array[String] = ["reeds", "tree", "great_tree", "pigsty", "chicken_coop", "compound_wall", "fence", "firewood", "haystack", "cave_mouth", "ice_stair", "thin_ice", "boulder"]
+## clear of the floor (`elevation`). Furniture counts: what blocks is the layout's (AGENTS「地图」).
+const TALL: Array[String] = ["reeds", "tree", "great_tree", "pigsty", "chicken_coop", "compound_wall", "fence", "firewood", "haystack", "cave_mouth", "ice_stair", "thin_ice", "boulder",
+	"chair", "stool", "flower_stand", "baskets", "crocks", "water_vat", "well", "table", "bench", "bench_seat", "side_table", "bush"]
+## How much of a house's floor its furniture covers at least (美术规划 §2: 地面边缘要满): 青石村 and
+## 绮云镇's rooms stand at 11–25%, 饮风客栈二楼 at about 15%.
+const COVERED: float = 0.11
 ## The boat has nothing that blocks but the water round it: it has no furnishings.
 const SCENES: Array[String] = ["village_main", "village_icecave", "farmhouse_house", "liu_house", "lord_house", "melonguard_house"]
 const MAPS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.farmhouse_house", &"village.liu_house", &"village.lord_house", &"village.melonguard_house"]
-## Maps that are no rooms of a house: no lived-in life expected (the shed has no walls to live in).
-const NO_ROOMS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.melonguard_house"]
+## Maps that are no rooms of a house: no lived-in life expected.
+const NO_ROOMS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave"]
 ## Where a test may put the player on each map (TEST-ONLY).
 const ENTRIES: Dictionary[StringName, Array] = {
 	&"village.main": [&"village.road1", &"village.road1.canyon_arrival"],
@@ -107,6 +111,12 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	for kind: String in ["notice_post", "skiff", "melon_vines", "scarecrow", "farm_tools", "snail_shells", "fishing_net", "great_tree", "far_peak", "cave_mouth", "thicket", "flower_bed", "compound_wall", "pigsty", "cart"]:
 		_check(kind in kinds, "the village has its %s" % kind)
 	_check(kinds.count("far_peak") >= 4, "lake.c: 西面远处是朦胧的群山")
+	var bare: Array[String] = []
+	for prop: Dictionary in view.layout["props"]:
+		if prop["kind"] == "glow" and float(prop.get("day", 0.0)) == 0.0:
+			bare.append(str(prop["at"]))
+	_check(bare.is_empty(), "every lamp is a thing you can see, no light from nowhere: %s" % [bare])
+	_check(kinds.count("firewood") >= 2 and kinds.count("water_vat") >= 1 and kinds.count("crocks") >= 2 and kinds.count("lantern_post") == 2, "things stand by the walls and at the gate")
 	var willows: int = 0
 	for look: Dictionary in _looks(map):
 		willows += 1 if look["kind"] == "tree" and look.get("species", "") == "willow" else 0
@@ -305,9 +315,25 @@ func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapC
 	var rooms: Dictionary = map.get_node("RoomLife").get_meta("rooms", {}) if map.has_node("RoomLife") else {}
 	_check(map.map_id() in NO_ROOMS or not rooms.is_empty(), "%s says what its rooms are used for (lived-in)" % place)
 	_check_footing(map, view, place)
+	_check_covered(map, view, place)
 	for door_id: StringName in map.doors_by_id: # TEST-ONLY: the gate and the 木门 open for the walk
 		map.set_door_open(door_id, true)
 	await _check_access_and_saves(tree, session, map, view)
+
+
+## A house's floor is furnished to its edges, and every light in it has something to shine from.
+func _check_covered(map: WorldMapController, view: WorldVoxelView, place: String) -> void:
+	if map.map_id() in NO_ROOMS:
+		return
+	var floor: float = 0.0
+	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
+		var room: Rect2 = MapPlaces.zone_rect(map, zone.zone_id).grow(-32.0)
+		floor += room.get_area()
+	var taken: float = 0.0
+	for node: Node in map.get_node("Furnishings").get_children():
+		var box: Vector2 = node.get_meta("footprint")
+		taken += box.x * box.y
+	_check(taken / floor >= COVERED, "%s: its furniture covers %.0f%% of its floor" % [place, taken / floor * 100.0])
 
 
 func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String) -> void:

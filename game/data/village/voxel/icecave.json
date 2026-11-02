@@ -72,6 +72,6 @@
     {"kind": "glow_algae", "at": [500, 530], "size": [150, 60], "count": 12, "light": true, "range": 8.0, "energy": 1.0},
     {"kind": "glow_algae", "at": [120, 90], "size": [110, 70], "count": 10, "light": true, "range": 8.0, "energy": 1.0},
     {"kind": "glow_algae", "at": [360, 330], "size": [120, 60], "count": 8},
-    {"kind": "glow", "at": [208, 460], "height": 0.4, "color": "6fd0e8", "range": 8.0, "day": 1.0, "night": 1.0, "note": "the pool, lit from under"}
+    {"kind": "glow_algae", "at": [208, 372], "size": [240, 24], "count": 10, "light": true, "range": 8.0, "energy": 1.0, "glow": "6fd0e8", "note": "the weed along the pool lights it"}
   ]
 }
