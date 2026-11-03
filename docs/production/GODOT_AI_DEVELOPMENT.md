@@ -1,17 +1,17 @@
 # Godot AI Development Boundary
 
-Godot AI **4.2.3**, as identified by the current `plugin.cfg`, is vendored under
+Godot AI **4.4.0**, as identified by the current `plugin.cfg`, is vendored under
 `game/addons/godot_ai/` for editor/MCP and live runtime inspection. The development project
 retains its editor plugin and `_mcp_game_helper` autoload; production sanitization excludes them.
 
 ## Vendor provenance
 
-### Current 4.2.3 evidence
+### Current 4.4.0 evidence
 
-Local `plugin.cfg` declares 4.2.3. Both `game/addons/godot_ai/LICENSE` and
+Local `plugin.cfg` declares 4.4.0. Both `game/addons/godot_ai/LICENSE` and
 `game/godot-ai-LICENSE.txt` contain MIT License text naming the 2025 Godot AI contributors.
-The [official v4.2.3 release](https://github.com/hi-godot/godot-ai/releases/tag/v4.2.3)
-points to upstream commit `f58314d9473d11efef94dd68b523e1b52643d736`.
+The [official v4.4.0 release](https://github.com/hi-godot/godot-ai/releases/tag/v4.4.0)
+points to upstream commit `ec32c3cc40611100dc754ff43b7b07c725d0a21f`.
 This upstream identity alone does not prove equality of the local vendor files.
 
 Repository update commit `d9f6770a4dddb0b7fdc74e8a50ba6ff50964c150` retained the
@@ -19,11 +19,12 @@ owner-authorized 4.0.4 -> 4.2.3 update. The
 [Snow Martial Final Audit](../migration/PHASE_SNOW_MARTIAL_PROGRESSION_II_FINAL_AUDIT.md#godot-ai-and-project-configuration)
 accepted it as an independent dependency/plugin update under bounded review, not
 Liuh-Ken gameplay or P2R2. The separately approved desktop viewport restoration left
-final `project.godot` equal to the pre-phase main version.
+final `project.godot` equal to the pre-phase main version. The later 4.2.3 -> 4.4.0 update
+changes only the addon; it had no independent review.
 
 Current local-to-upstream source/manifest equivalence, release-manifest file count and
 release ZIP SHA-256 remain **unverified**. No unmodified-upstream or
-manifest-equality claim is made for the current 4.2.3 vendor tree. The older evidence below
+manifest-equality claim is made for the current 4.4.0 vendor tree. The older evidence below
 must not be reused as proof for this version.
 
 ### Historical 4.0.1 evidence
@@ -81,6 +82,6 @@ not Shell/Settings/Host/Session objects. See the
 [formal audit diagnosis](../migration/PHASE_10C1C_FORMAL_AUDIT.md#editor-only-lifetime-warning-explained-not-hidden).
 
 The vendor plugin was not patched for that diagnosis. This historical finding is not a claim about
-whether the current upstream 4.2.3 fixes that warning. Sanitized builds exclude the addon, and the independently validated
+whether the current upstream 4.4.0 fixes that warning. Sanitized builds exclude the addon, and the independently validated
 no-plugin game and automated runs did not show this warning. This is not permission to ignore other
 leaks: inspect resource names and reproduce any new warning before classifying it as tooling-only.
