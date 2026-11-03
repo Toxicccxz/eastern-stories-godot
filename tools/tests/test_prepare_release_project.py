@@ -215,6 +215,13 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertNotIn("_mcp_game_helper", project_text)
         self.assertNotIn("editor_plugins", project_text)
 
+    def test_prepare_removes_addon_update_backup(self) -> None:
+        backup = self.source / "addons/.godot_ai_update/backup/4.2.3"
+        backup.mkdir(parents=True)
+        (backup / "plugin.gd").write_text('const ROOT := "res://addons/godot_ai"\n', encoding="utf-8")
+        prepare_release_project(self.source, self.output)
+        self.assertFalse((self.output / "addons/.godot_ai_update").exists())
+
     def test_prepare_removes_remote_debug_and_tests(self) -> None:
         prepare_release_project(self.source, self.output)
         self.assertFalse((self.output / "tests").exists())

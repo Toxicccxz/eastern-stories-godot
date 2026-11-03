@@ -45,6 +45,7 @@ REQUIRED_PATHS = (
 )
 FORBIDDEN_PATHS = (
     "addons/godot_ai",
+    "addons/.godot_ai_update",
     "tests",
     "godot-ai-LICENSE.txt",
     "scenes/mcp_test.tscn",
@@ -118,8 +119,8 @@ def _copy_ignore(directory: str, names: list[str]) -> set[str]:
     ignored: set[str] = set()
     if directory_path.name == "game":
         ignored.update(name for name in names if name in {".godot", "tests", "godot-ai-LICENSE.txt"})
-    if directory_path.name == "addons" and "godot_ai" in names:
-        ignored.add("godot_ai")
+    if directory_path.name == "addons":
+        ignored.update(name for name in names if name in {"godot_ai", ".godot_ai_update"})
     ignored.update(name for name in names if name == "__pycache__" or name.endswith(".log"))
     return ignored
 
