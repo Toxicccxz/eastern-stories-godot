@@ -706,7 +706,7 @@ func apply_settings() -> bool:
 		settings_status_label.text = ""
 		return _return_from_settings(_state.settings_origin())
 	var selected_mode: int = window_mode_option.get_selected_id()
-	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_display(selected_mode, _selected_resolution())
+	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_display(selected_mode, _resolution_to_keep())
 	match result.outcome():
 		ApplicationSettingsServiceResult.Outcome.SUCCESS:
 			settings_status_label.text = ""
@@ -1536,6 +1536,14 @@ func _configure_resolution_options(wanted: Vector2i) -> void:
 func _selected_resolution() -> Vector2i:
 	var index: int = resolution_option.selected
 	return ApplicationWindowSize.AUTO if index < 0 else resolution_option.get_item_metadata(index) as Vector2i
+
+
+## The page shows the closest fit to a size kept for a bigger monitor: unless the player chose
+## another, 应用 leaves the kept one, for when that monitor comes back.
+func _resolution_to_keep() -> Vector2i:
+	var kept: Vector2i = _settings_service.committed_snapshot().resolution()
+	var fitting: Vector2i = ApplicationWindowSize.fitted(kept, _settings_service.resolution_room(window_mode_option.get_selected_id()))
+	return kept if _selected_resolution() == fitting else _selected_resolution()
 
 
 ## Picking a window mode or a 分辨率 shows it at once; 应用 keeps it, 取消 goes back.

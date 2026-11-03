@@ -76,6 +76,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_storage()
 	_test_service()
 	await _test_settings_page(tree)
+	await _test_size_for_a_bigger_monitor(tree)
 	await _test_keys_and_pad(tree)
 	await _test_platform_managed(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -229,6 +230,26 @@ func _test_settings_page(tree: SceneTree) -> void:
 	_check(next.settings_status_label.text == "无法切换窗口模式。", "a mode that fails says so")
 	_check(next.window_mode_option.get_selected_id() == ApplicationWindowMode.Value.BORDERLESS and again.mode == ApplicationWindowMode.Value.BORDERLESS, "and the page shows what is really on")
 	_free(next)
+	await tree.process_frame
+
+
+## 4K kept, playing on the QHD monitor: the page shows what fits, and only a real choice
+## replaces the kept size.
+func _test_size_for_a_bigger_monitor(tree: SceneTree) -> void:
+	var files := MemoryFiles.new()
+	ApplicationSettingsRepository.new(files).write(ApplicationSettingsSnapshot.defaults().with_display(ApplicationWindowMode.Value.WINDOWED, UHD, 0))
+	var shell: ApplicationShellController = await _shell(tree, "display-bigger", files, FakeDisplay.new())
+	_check(shell.request_settings_from_main_menu(), "设置 opens")
+	await tree.process_frame
+	_check(shell.resolution_option.get_item_text(shell.resolution_option.selected) == "1920×1080", "the page shows the largest that fits")
+	_check(shell.apply_settings(), "应用 with another setting's change")
+	_check(ApplicationSettingsRepository.new(files).load().snapshot().resolution() == UHD, "the kept 4K stays")
+	_check(shell.request_settings_from_main_menu(), "设置 again")
+	await tree.process_frame
+	_pick(shell.resolution_option, 1)
+	_check(shell.apply_settings(), "应用 a smaller size")
+	_check(ApplicationSettingsRepository.new(files).load().snapshot().resolution() == HD, "a real choice replaces it")
+	_free(shell)
 	await tree.process_frame
 
 

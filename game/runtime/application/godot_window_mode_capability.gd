@@ -69,9 +69,11 @@ func current_screen() -> int:
 	return DisplayServer.window_get_current_screen()
 
 
+## window_set_current_screen keeps the window's offset and may leave most of it on the old
+## monitor, which then stays the current one; its corner on the new one moves it for certain.
 func show_on_screen(screen: int) -> void:
 	if can_edit_window_mode() and screen >= 0 and screen < DisplayServer.get_screen_count():
-		DisplayServer.window_set_current_screen(screen)
+		DisplayServer.window_set_position(DisplayServer.screen_get_usable_rect(screen).position)
 
 
 ## Wayland has no exclusive full screen: Godot shows it as the ordinary (borderless) kind.
@@ -83,6 +85,8 @@ func offers_exclusive_fullscreen() -> bool:
 func prepare_platform_window() -> void:
 	if (OS.has_feature("android") or OS.has_feature("ios")) and DisplayServer.get_name() != "headless":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	elif can_edit_window_mode():
+		_measure_frame() # A game that opens in full screen has no frame to read later.
 
 
 ## The root window's content scale: every Control and the world grow by it, and the
