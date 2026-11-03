@@ -74,12 +74,13 @@ recovered gameplay state canonical. Controls never receive file-operation author
 
 ## Independent application settings
 
-ApplicationSettingsSnapshot v5 owns the window mode (窗口 / 无边框全屏 / 全屏), the 界面缩放
-(100/125/150%), the language and the battle settings (战斗速度, 受击闪红, and 击倒后, added in v5).
+ApplicationSettingsSnapshot v9 owns the window mode (窗口 / 无边框窗口 / 全屏), the 分辨率 and the
+monitor (added in v9), the 界面缩放 (100/125/150%), the language and the battle settings (战斗速度,
+受击闪红, and 击倒后, added in v5), plus the later switches.
 ApplicationSettingsRepository validates ConfigFile data at `user://settings/application-v1.cfg`: the
-application section, integer schema_version, and exactly the keys of that version; versions 1–4 still
+application section, integer schema_version, and exactly the keys of that version; versions 1–8 still
 read (a missing setting reads as its default, 击倒后 as 询问; a pre-v4 "fullscreen" was the borderless
-kind and reads as 无边框全屏). A desktop window opens at the largest of 1920x1080 / 1600x900 / 1280x720
+kind and reads as 无边框窗口). At 分辨率 自动 a desktop window opens at the largest of 1920x1080 / 1600x900 / 1280x720
 within 85% of the screen. This is not GameSaveSnapshot, not a save-data profile, and not gameplay
 recovery. Settings and gameplay have independent schema, paths, failures, and authority.
 
@@ -89,7 +90,9 @@ Uneditable environments leave window management to the platform. DisplayServer c
 GodotWindowModeCapability; native desktop can edit, headless/embedded/platform-managed environments
 cannot. Unsupported controls are hidden, not placebo preferences or gameplay forks.
 
-Main Menu and Pause share Settings. Selection is uncommitted; Cancel neither applies nor writes.
+Main Menu and Pause share Settings. Selection is uncommitted; Cancel neither applies nor writes. The
+window mode and 分辨率 are the exception: a pick shows at once, Apply writes it, Cancel restores what is
+kept (DECISIONS「显示设置」).
 Apply failure does not write. Successful runtime apply plus failed persistence keeps the effective
 window mode and Settings open with an unsaved warning. Pause-origin Apply/Cancel never resumes gameplay.
 

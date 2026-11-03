@@ -133,7 +133,7 @@ callback or reserved background time guarantees durability. BACKUP/TEMP remain e
 re-read selections with no automatic fallback/promotion or additional slot.
 
 Application Settings remain separate at `user://settings/application-v1.cfg`. The window mode
-(窗口 / 无边框全屏 / 全屏) is desktop-capability-only and hidden on platform-managed mobile. No mobile
+(窗口 / 无边框窗口 / 全屏) is desktop-capability-only and hidden on platform-managed mobile. No mobile
 sensitivity, orientation, audio/graphics placeholder or autosave preference is introduced.
 
 ## Release and qualification boundary

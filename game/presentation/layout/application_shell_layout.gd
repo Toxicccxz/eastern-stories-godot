@@ -3,7 +3,7 @@ extends Node
 
 var _presenter: SafeAreaPresenter
 var _dialogs: Array[ResponsivePanelLayout] = []
-var _widths: Array[float] = [520.0, 460.0, 520.0, 580.0, 560.0, 520.0]
+var _widths: Array[float] = [520.0, 460.0, 620.0, 580.0, 560.0, 520.0]
 var _busy: Label
 var _window_row: Control
 var _platform_hint: Label

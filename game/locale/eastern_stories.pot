@@ -412,6 +412,10 @@ msgid "窗口模式"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "分辨率"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "界面缩放"
 msgstr ""
 
@@ -7856,11 +7860,19 @@ msgid "窗口"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
-msgid "无边框全屏"
+msgid "无边框窗口"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "全屏"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "自动"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd

@@ -120,7 +120,7 @@ lifecycle/termination autosave or promised background-time reservation. See the
 
 Typed application settings use `user://settings/application-v1.cfg`, independently of gameplay saves,
 profiles, schema, and recovery. Settings load before Menu and are available from Menu and Pause.
-The window mode (窗口 / 无边框全屏 / 全屏) is editable only through the native desktop capability;
+The window mode (窗口 / 无边框窗口 / 全屏) is editable only through the native desktop capability;
 embedded, headless, and platform-managed windows show no editable mode control. Unusable settings
 do not block Continue; failed preference persistence is reported separately from gameplay Save.
 Mobile adds no new preference or autosave setting; its lifecycle policy is defined by the separate

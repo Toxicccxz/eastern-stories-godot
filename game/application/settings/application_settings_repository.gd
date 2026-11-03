@@ -14,11 +14,13 @@ const AFTER_KNOCKOUT_KEY: String = "after_knockout"
 const OBJECTIVE_HINTS_KEY: String = "objective_hints"
 const DAY_NIGHT_KEY: String = "day_night"
 const AUTOSAVE_NOTICE_KEY: String = "autosave_notice"
+const RESOLUTION_KEY: String = "resolution"
+const SCREEN_KEY: String = "screen"
 ## Version 1 had no language; it is read as following the system language.
 const VERSION_WITHOUT_LANGUAGE: int = 1
 ## Version 2 had no battle settings; it is read as 标准 with the flash on.
 const VERSION_WITHOUT_BATTLE: int = 2
-## Version 3 had no 无边框全屏 and no 界面缩放: its "fullscreen" was the borderless
+## Version 3 had no 无边框窗口 and no 界面缩放: its "fullscreen" was the borderless
 ## kind, so it reads as BORDERLESS, the scale as 100%.
 const VERSION_WITHOUT_UI_SCALE: int = 3
 ## Version 4 had no 击倒后; it reads as 询问.
@@ -29,6 +31,8 @@ const VERSION_WITHOUT_OBJECTIVE: int = 5
 const VERSION_WITHOUT_DAY_NIGHT: int = 6
 ## Version 7 had no 自动存档提示; it reads as on.
 const VERSION_WITHOUT_AUTOSAVE_NOTICE: int = 7
+## Version 8 had no 分辨率 and no monitor; it reads as 自动, wherever the system opens the window.
+const VERSION_WITHOUT_DISPLAY: int = 8
 
 var _files: SaveFileOperations
 
@@ -57,7 +61,7 @@ func load() -> ApplicationSettingsResult:
 	if typeof(version_value) != TYPE_INT:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	var version: int = int(version_value)
-	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE]:
+	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE, VERSION_WITHOUT_DISPLAY]:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION)
 	if not _has_exact_structure(config, version):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -99,9 +103,16 @@ func load() -> ApplicationSettingsResult:
 	var notice_value: Variant = config.get_value(SECTION, AUTOSAVE_NOTICE_KEY, true)
 	if typeof(notice_value) != TYPE_BOOL:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var resolution_value: Variant = config.get_value(SECTION, RESOLUTION_KEY, ApplicationWindowSize.storage_value(ApplicationWindowSize.AUTO))
+	var resolution: Vector2i = ApplicationWindowSize.from_storage(String(resolution_value)) if typeof(resolution_value) == TYPE_STRING else ApplicationWindowSize.INVALID
+	if not ApplicationWindowSize.is_valid(resolution):
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var screen_value: Variant = config.get_value(SECTION, SCREEN_KEY, ApplicationSettingsSnapshot.NO_SCREEN)
+	if typeof(screen_value) != TYPE_INT or int(screen_value) < ApplicationSettingsSnapshot.NO_SCREEN:
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	return ApplicationSettingsResult.success(
 		ApplicationSettingsSnapshot.new(
-			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value)
+			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value), resolution, int(screen_value)
 		)
 	)
 
@@ -126,6 +137,8 @@ func write(snapshot: ApplicationSettingsSnapshot) -> ApplicationSettingsResult:
 	config.set_value(SECTION, OBJECTIVE_HINTS_KEY, snapshot.objective_hints())
 	config.set_value(SECTION, DAY_NIGHT_KEY, DayNightPreference.storage_value(snapshot.day_night()))
 	config.set_value(SECTION, AUTOSAVE_NOTICE_KEY, snapshot.autosave_notice())
+	config.set_value(SECTION, RESOLUTION_KEY, ApplicationWindowSize.storage_value(snapshot.resolution()))
+	config.set_value(SECTION, SCREEN_KEY, snapshot.screen())
 	var error: int = _files.write_bytes(SETTINGS_PATH, config.encode_to_text().to_utf8_buffer())
 	if error != OK:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.WRITE_FAILURE)
@@ -150,8 +163,10 @@ func _has_exact_structure(config: ConfigFile, version: int) -> bool:
 		expected.append(OBJECTIVE_HINTS_KEY)
 	if version >= VERSION_WITHOUT_AUTOSAVE_NOTICE:
 		expected.append(DAY_NIGHT_KEY)
-	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+	if version >= VERSION_WITHOUT_DISPLAY:
 		expected.append(AUTOSAVE_NOTICE_KEY)
+	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		expected.append_array([RESOLUTION_KEY, SCREEN_KEY])
 	if keys.size() != expected.size():
 		return false
 	for key: String in expected:

@@ -383,7 +383,18 @@ vertical_alignment = 1
 
 [node name="WindowModeOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 48)
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
+[node name="ResolutionLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "分辨率"
+vertical_alignment = 1
+
+[node name="ResolutionOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 48)
 layout_mode = 2
 
 [node name="UiScaleRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
