@@ -6,6 +6,8 @@ var _window_capability: ApplicationWindowModeCapability
 ## Null where only the window mode matters (older tests); the shell always has one.
 var _localization: LocalizationService
 var _committed: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
+## A window mode or 分辨率 on show but not yet kept.
+var _previewing: bool = false
 
 
 func _init(
@@ -43,6 +45,7 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 			repository_result.outcome(),
 			_committed,
 		)
+	_window_capability.show_on_screen(requested.screen())
 	if not _window_capability.apply_window_mode(requested.window_mode()):
 		_committed = requested.with_window_mode(_window_capability.current_window_mode())
 		return ApplicationSettingsServiceResult.new(
@@ -50,6 +53,7 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 			repository_result.outcome(),
 			_committed,
 		)
+	_window_capability.apply_resolution(requested.resolution())
 	_committed = requested
 	var service_outcome: int = (
 		ApplicationSettingsServiceResult.Outcome.SUCCESS
@@ -64,23 +68,25 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 
 
 func apply_and_persist(mode: int) -> ApplicationSettingsServiceResult:
+	return apply_and_persist_display(mode, _committed.resolution())
+
+
+## Keeps the window mode, the 分辨率 and the monitor the game is on.
+func apply_and_persist_display(mode: int, resolution: Vector2i) -> ApplicationSettingsServiceResult:
 	if not _window_capability.can_edit_window_mode():
 		return ApplicationSettingsServiceResult.new(
 			ApplicationSettingsServiceResult.Outcome.UNSUPPORTED_CAPABILITY,
 			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
 			_committed,
 		)
-	if (
-		not ApplicationWindowMode.is_valid(mode)
-		or (mode == ApplicationWindowMode.Value.FULLSCREEN and not _window_capability.offers_exclusive_fullscreen())
-		or not _window_capability.apply_window_mode(mode)
-	):
+	if not _show_display(mode, resolution):
 		return ApplicationSettingsServiceResult.new(
 			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
 			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
 			_committed,
 		)
-	_committed = _committed.with_window_mode(mode)
+	_previewing = false
+	_committed = _committed.with_display(mode, resolution, _window_capability.current_screen())
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	if not repository_result.succeeded():
 		return ApplicationSettingsServiceResult.new(
@@ -93,6 +99,48 @@ func apply_and_persist(mode: int) -> ApplicationSettingsServiceResult:
 		repository_result.outcome(),
 		_committed,
 	)
+
+
+## The window mode and 分辨率 show the moment they are picked; 应用 keeps them, 取消 is
+## restore_display().
+func preview_display(mode: int, resolution: Vector2i) -> bool:
+	if not _window_capability.can_edit_window_mode():
+		return false
+	_previewing = true
+	return _show_display(mode, resolution)
+
+
+## Back to what is kept.
+func restore_display() -> void:
+	if _previewing:
+		_previewing = false
+		_show_display(_committed.window_mode(), _committed.resolution())
+
+
+## 分辨率's choices in `mode` on the monitor the game is on, smallest first.
+func resolution_choices(mode: int) -> Array[Vector2i]:
+	return ApplicationWindowSize.choices(_window_capability.resolution_room(mode))
+
+
+## The largest picture `mode` has room for on the monitor the game is on.
+func resolution_room(mode: int) -> Vector2i:
+	return _window_capability.resolution_room(mode)
+
+
+func current_screen() -> int:
+	return _window_capability.current_screen()
+
+
+func _show_display(mode: int, resolution: Vector2i) -> bool:
+	if (
+		not ApplicationWindowMode.is_valid(mode)
+		or not ApplicationWindowSize.is_valid(resolution)
+		or (mode == ApplicationWindowMode.Value.FULLSCREEN and not _window_capability.offers_exclusive_fullscreen())
+		or not _window_capability.apply_window_mode(mode)
+	):
+		return false
+	_window_capability.apply_resolution(resolution)
+	return true
 
 
 ## Shows the game in `language` (a code, or FOLLOW_SYSTEM) at once and keeps the choice.

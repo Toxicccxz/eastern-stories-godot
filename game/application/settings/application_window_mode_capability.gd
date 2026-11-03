@@ -14,7 +14,29 @@ func apply_window_mode(_mode: int) -> bool:
 	return false
 
 
-## Whether 全屏 (exclusive) differs from 无边框全屏 here; where it does not, only the
+## The 分辨率 (ApplicationWindowSize): a window's size, or how sharply the map is drawn while
+## the window covers the monitor. A window the player has resized keeps its size until
+## another 分辨率 is chosen.
+func apply_resolution(_resolution: Vector2i) -> void:
+	pass
+
+
+## The largest picture `mode` has room for on the monitor the game is on.
+func resolution_room(_mode: int) -> Vector2i:
+	return Vector2i.ZERO
+
+
+## The monitor the game is on.
+func current_screen() -> int:
+	return 0
+
+
+## Carries the window to that monitor; one that is no longer there leaves it where it is.
+func show_on_screen(_screen: int) -> void:
+	pass
+
+
+## Whether 全屏 (exclusive) differs from 无边框窗口 here; where it does not, only the
 ## borderless kind is offered.
 func offers_exclusive_fullscreen() -> bool:
 	return true

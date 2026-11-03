@@ -3,13 +3,17 @@ extends RefCounted
 
 ## Version 2 adds the language; a version 1 file reads as following the system language.
 ## Version 3 adds the 战斗速度 and 受击闪红 (DECISIONS「手感」); older files read as 标准, on.
-## Version 4 adds 无边框全屏 and the 界面缩放; an older "fullscreen" reads as 无边框全屏
+## Version 4 adds 无边框窗口 and the 界面缩放; an older "fullscreen" reads as 无边框窗口
 ## (what it showed), and the scale as 100%.
 ## Version 5 adds 击倒后 (DECISIONS「了结 / 放过」); an older file reads as 询问.
 ## Version 6 adds 目标提示 (DECISIONS「新手链与当前目标」); an older file reads as on.
 ## Version 7 adds 昼夜 (DECISIONS「昼夜」); an older file reads as 跟随游戏时间.
 ## Version 8 adds 自动存档提示 (DECISIONS「自动存档」); an older file reads as on.
-const SCHEMA_VERSION: int = 8
+## Version 9 adds the 分辨率 and the monitor the game was last set up on (DECISIONS「显示设置」);
+## an older file reads as 自动, wherever the system opens the window.
+const SCHEMA_VERSION: int = 9
+## The monitor is not known: the window stays where the system opens it.
+const NO_SCREEN: int = -1
 
 var _version: int
 var _window_mode: int
@@ -21,6 +25,8 @@ var _after_knockout: int
 var _objective_hints: bool
 var _day_night: int
 var _autosave_notice: bool
+var _resolution: Vector2i
+var _screen: int
 
 
 func _init(
@@ -34,6 +40,8 @@ func _init(
 	p_objective_hints: bool = true,
 	p_day_night: int = DayNightPreference.Value.FOLLOW,
 	p_autosave_notice: bool = true,
+	p_resolution: Vector2i = ApplicationWindowSize.AUTO,
+	p_screen: int = NO_SCREEN,
 ) -> void:
 	_version = p_version
 	_window_mode = p_window_mode
@@ -45,6 +53,8 @@ func _init(
 	_objective_hints = p_objective_hints
 	_day_night = p_day_night
 	_autosave_notice = p_autosave_notice
+	_resolution = p_resolution
+	_screen = p_screen
 
 
 func version() -> int:
@@ -94,32 +104,46 @@ func autosave_notice() -> bool:
 	return _autosave_notice
 
 
+## ApplicationWindowSize.AUTO or one of its RESOLUTIONS.
+func resolution() -> Vector2i:
+	return _resolution
+
+
+## The monitor's index, or NO_SCREEN.
+func screen() -> int:
+	return _screen
+
+
+func with_display(mode: int, resolution: Vector2i, screen: int) -> ApplicationSettingsSnapshot:
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, resolution, screen)
+
+
 func with_window_mode(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen)
 
 
 func with_language(language: String) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen)
 
 
 func with_battle(speed: int, flash: bool, after_knockout: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints, _day_night, _autosave_notice)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen)
 
 
 func with_ui_scale(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints, _day_night, _autosave_notice)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen)
 
 
 func with_objective_hints(shown: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown, _day_night, _autosave_notice)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown, _day_night, _autosave_notice, _resolution, _screen)
 
 
 func with_day_night(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, mode, _autosave_notice)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, mode, _autosave_notice, _resolution, _screen)
 
 
 func with_autosave_notice(shown: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, shown)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, shown, _resolution, _screen)
 
 
 func is_valid() -> bool:
@@ -130,6 +154,8 @@ func is_valid() -> bool:
 		and BattlePace.is_valid_knockout(_after_knockout)
 		and ApplicationUiScale.is_valid(_ui_scale)
 		and DayNightPreference.is_valid(_day_night)
+		and ApplicationWindowSize.is_valid(_resolution)
+		and _screen >= NO_SCREEN
 	)
 
 

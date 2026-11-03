@@ -43,6 +43,8 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var settings_panel: Control = %SettingsPanel
 @onready var window_mode_row: Control = %WindowModeRow
 @onready var window_mode_option: OptionButton = %WindowModeOption
+## 分辨率 (ApplicationWindowSize): in the window mode's row.
+@onready var resolution_option: OptionButton = %ResolutionOption
 ## 界面缩放 (ApplicationUiScale): on every platform.
 @onready var ui_scale_row: Control = %UiScaleRow
 @onready var ui_scale_option: OptionButton = %UiScaleOption
@@ -112,6 +114,7 @@ var _window_capability: ApplicationWindowModeCapability
 var _settings_repository: ApplicationSettingsRepository
 var _settings_service: ApplicationSettingsService
 var _settings_bootstrap_result: ApplicationSettingsServiceResult
+var _resolution_screen: int = 0
 var _configured: bool = false
 var _host: OldPineGameRuntimeHost
 var _state: ApplicationShellState = ApplicationShellState.new()
@@ -254,12 +257,16 @@ func _ready() -> void:
 	_settings_bootstrap_result = _settings_service.load_and_apply()
 	_show_window_title()
 	_configure_window_mode_options()
+	_configure_resolution_options(_settings_service.committed_snapshot().resolution())
 	_configure_ui_scale_options()
 	_configure_language_options()
 	_configure_battle_options()
 	_configure_pace_options()
 	pace_option.get_popup().window_input.connect(_popup_system_input.bind(pace_option))
 	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
+	resolution_option.get_popup().window_input.connect(_popup_system_input.bind(resolution_option))
+	window_mode_option.item_selected.connect(_on_display_selected)
+	resolution_option.item_selected.connect(_on_display_selected)
 	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
 	knockout_option.get_popup().window_input.connect(_popup_system_input.bind(knockout_option))
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
@@ -294,6 +301,12 @@ func _exit_tree() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready() and is_inside_tree():
 		_show_window_title()
+
+
+## 分辨率's list follows the window to another monitor while 设置 is open.
+func _process(_delta: float) -> void:
+	if settings_visible() and settings_editable() and _settings_service.current_screen() != _resolution_screen:
+		_configure_resolution_options(_selected_resolution())
 
 
 ## The window title follows the language; config/name stays as it is, it names the
@@ -419,7 +432,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option, knockout_option, day_night_option, pace_option]:
+	for option: OptionButton in [window_mode_option, resolution_option, ui_scale_option, language_option, battle_speed_option, knockout_option, day_night_option, pace_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -643,6 +656,8 @@ func cancel_settings() -> bool:
 		return false
 	var origin: int = _state.settings_origin()
 	settings_status_label.text = ""
+	if _settings_service != null:
+		_settings_service.restore_display()
 	return _return_from_settings(origin)
 
 
@@ -691,7 +706,7 @@ func apply_settings() -> bool:
 		settings_status_label.text = ""
 		return _return_from_settings(_state.settings_origin())
 	var selected_mode: int = window_mode_option.get_selected_id()
-	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist(selected_mode)
+	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_display(selected_mode, _resolution_to_keep())
 	match result.outcome():
 		ApplicationSettingsServiceResult.Outcome.SUCCESS:
 			settings_status_label.text = ""
@@ -701,7 +716,9 @@ func apply_settings() -> bool:
 			return false
 		ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE:
 			settings_status_label.text = "无法切换窗口模式。"
+			_settings_service.restore_display()
 			_select_committed_window_mode()
+			_configure_resolution_options(_settings_service.committed_snapshot().resolution())
 			return false
 		_:
 			settings_status_label.text = "窗口模式由这个平台管理。"
@@ -719,6 +736,7 @@ func _open_settings(origin: int) -> bool:
 		return false
 	settings_status_label.text = ""
 	_select_committed_window_mode()
+	_configure_resolution_options(_settings_service.committed_snapshot().resolution())
 	_select_committed_ui_scale()
 	_select_committed_language()
 	_select_committed_battle()
@@ -1375,6 +1393,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	var settings_interactive: bool = mode == ApplicationShellState.Mode.SETTINGS
 	window_mode_row.visible = _settings_service != null and _settings_service.can_edit_window_mode()
 	window_mode_option.disabled = not settings_interactive or not window_mode_row.visible
+	resolution_option.disabled = window_mode_option.disabled
 	# Shown on every platform, also while Simplified Chinese is the only language.
 	language_row.visible = _localization != null
 	language_option.disabled = not settings_interactive or not language_row.visible
@@ -1487,10 +1506,55 @@ func _result_asks() -> bool:
 func _configure_window_mode_options() -> void:
 	window_mode_option.clear()
 	window_mode_option.add_item("窗口", ApplicationWindowMode.Value.WINDOWED)
-	window_mode_option.add_item("无边框全屏", ApplicationWindowMode.Value.BORDERLESS)
+	window_mode_option.add_item("无边框窗口", ApplicationWindowMode.Value.BORDERLESS)
 	if _settings_service == null or _settings_service.offers_exclusive_fullscreen():
 		window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
+	resolution_option.tooltip_text = "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变"
 	_select_committed_window_mode()
+
+
+## 自动, then what fits the chosen window mode on the monitor the game is on, each with its
+## size as the item's metadata. `wanted` stays selected, or the closest below it.
+func _configure_resolution_options(wanted: Vector2i) -> void:
+	if not settings_editable():
+		return
+	var mode: int = window_mode_option.get_selected_id()
+	_resolution_screen = _settings_service.current_screen()
+	var selected: Vector2i = ApplicationWindowSize.fitted(wanted, _settings_service.resolution_room(mode))
+	resolution_option.clear()
+	resolution_option.add_item("自动")
+	resolution_option.set_item_metadata(0, ApplicationWindowSize.AUTO)
+	for resolution: Vector2i in _settings_service.resolution_choices(mode):
+		resolution_option.add_item("%d×%d" % [resolution.x, resolution.y])
+		var index: int = resolution_option.item_count - 1
+		resolution_option.set_item_metadata(index, resolution)
+		resolution_option.get_popup().set_item_auto_translate_mode(index, Node.AUTO_TRANSLATE_MODE_DISABLED)
+		if resolution == selected:
+			resolution_option.select(index)
+
+
+func _selected_resolution() -> Vector2i:
+	var index: int = resolution_option.selected
+	return ApplicationWindowSize.AUTO if index < 0 else resolution_option.get_item_metadata(index) as Vector2i
+
+
+## The page shows the closest fit to a size kept for a bigger monitor: unless the player chose
+## another, 应用 leaves the kept one, for when that monitor comes back.
+func _resolution_to_keep() -> Vector2i:
+	var kept: Vector2i = _settings_service.committed_snapshot().resolution()
+	var fitting: Vector2i = ApplicationWindowSize.fitted(kept, _settings_service.resolution_room(window_mode_option.get_selected_id()))
+	return kept if _selected_resolution() == fitting else _selected_resolution()
+
+
+## Picking a window mode or a 分辨率 shows it at once; 应用 keeps it, 取消 goes back.
+func _on_display_selected(_index: int) -> void:
+	_configure_resolution_options(_selected_resolution())
+	settings_status_label.text = ""
+	if not _settings_service.preview_display(window_mode_option.get_selected_id(), _selected_resolution()):
+		settings_status_label.text = "无法切换窗口模式。"
+		_settings_service.restore_display()
+		_select_committed_window_mode()
+		_configure_resolution_options(_settings_service.committed_snapshot().resolution())
 
 
 ## 100%, 125%, 150% (the percent as the id).
@@ -1605,6 +1669,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		return_button,
 		language_option,
 		window_mode_option,
+		resolution_option,
 		ui_scale_option,
 		battle_speed_option,
 		hit_flash_check,
@@ -1658,7 +1723,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(slot_panel.back_button())
 		ApplicationShellState.Mode.SETTINGS:
 			if window_mode_row.visible:
-				controls.append(window_mode_option)
+				controls.append_array([window_mode_option, resolution_option])
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
