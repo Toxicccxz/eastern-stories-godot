@@ -24,7 +24,30 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_test_theme()
 	_test_words()
 	await _test_world(tree)
+	await _test_battle(tree)
 	return {"assertions": assertions, "failures": failures}
+
+
+## 界面重做 4: the battle panel in the same theme (its own BattleVisualTheme gone): the cards
+## square slabs with the lantern for the target, the move and stance held in lacquer, 自动 a
+## chip, a risky action asked in dark lacquer.
+func _test_battle(tree: SceneTree) -> void:
+	check(not ResourceLoader.exists("res://presentation/battle/battle_visual_theme.gd"), "no battle theme of its own")
+	var card := BattleParticipantCard.new()
+	tree.root.add_child(card)
+	await tree.process_frame
+	check(BattleParticipantCard.GOLD == UiPalette.LANTERN and card._current_border.border_color == UiPalette.LANTERN, "the target's edge is the lantern")
+	check(card._ordinary_border.corner_radius_top_left == 0 and card._ordinary_border.border_width_bottom > card._ordinary_border.border_width_top, "a card is a square slab, thicker below")
+	card.queue_free()
+	var panel := BattleActionPanel.new()
+	tree.root.add_child(panel)
+	await tree.process_frame
+	check(panel.stance_buttons.values().all(func(button: Button) -> bool: return button.theme_type_variation == &"ToggleButton") and panel.manual_button.theme_type_variation == &"ChipButton", "the stance held is lacquer, 自动 a chip")
+	panel.confirm_text = func(_id: StringName) -> PackedStringArray: return PackedStringArray(["天邪虎啸会让所有人对你下杀手。", "确定"])
+	panel._action_pressed(&"roar")
+	check(panel.is_asking() and panel.prompt.confirm_button.theme_type_variation == &"DangerButton", "a risky action is asked in dark lacquer")
+	panel.queue_free()
+	await tree.process_frame
 
 
 func _test_theme() -> void:

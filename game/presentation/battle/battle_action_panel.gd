@@ -89,12 +89,15 @@ func _ready() -> void:
 		button.text = CombatStance.label(value)
 		button.tooltip_text = CombatStance.description(value)
 		button.toggle_mode = true
+		# 界面重做 4: the stance held is lacquer.
+		button.theme_type_variation = &"ToggleButton"
 		button.custom_minimum_size = Vector2(56, 40)
 		button.pressed.connect(_stance_pressed.bind(value))
 		stance_row.add_child(button)
 		stance_buttons[value] = button
 	manual_button = Button.new()
 	manual_button.name = "ManualTurns"
+	manual_button.theme_type_variation = &"ChipButton"
 	manual_button.custom_minimum_size = Vector2(96, 40)
 	manual_button.visible = false
 	manual_button.pressed.connect(_manual_pressed)
@@ -147,6 +150,7 @@ func _ready() -> void:
 	_cancel = Button.new()
 	_cancel.name = "CancelQueue"
 	_cancel.text = "取消已排定的操作"
+	_cancel.theme_type_variation = &"ChipButton"
 	_cancel.custom_minimum_size = Vector2(64, 52)
 	_cancel.pressed.connect(_cancel_pressed)
 	queue_column.add_child(_cancel)
@@ -317,6 +321,8 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 			button.text = tr("{name} · {tag}").format({"name": tr(shown_name), "tag": CombatMoveTags.label(move.tag)})
 			button.tooltip_text = move_tooltip(move)
 			button.toggle_mode = true
+			# 界面重做 4: the move chosen for the round is lacquer.
+			button.theme_type_variation = &"ToggleButton"
 			button.custom_minimum_size = Vector2(64, 40)
 			button.pressed.connect(_move_pressed.bind(move.action_id))
 			_moves.add_child(button)
@@ -373,7 +379,7 @@ func _action_pressed(id: StringName) -> void:
 	_asking_id = id
 	_actions.hide()
 	prompt.show()
-	prompt.ask(question[0], question[1])
+	prompt.ask(question[0], question[1], "取消", "", true)
 	prompt.focus_default()
 
 

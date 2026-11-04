@@ -366,7 +366,7 @@ msgstr ""
 msgid "开始旅程"
 msgstr ""
 
-#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
+#: scenes/application/application_shell.tscn presentation/battle/battle_action_panel.gd runtime/application/application_shell_controller.gd ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
 msgid "取消"
 msgstr ""
 
