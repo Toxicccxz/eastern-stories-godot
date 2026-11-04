@@ -39,6 +39,13 @@ var _configured: bool = false
 ## 现代基线 A (DECISIONS「自动存档」): the autosave of whichever Session stands here.
 var _autosave: GameAutosave
 var _slots: Array[GameSaveSlotSummary] = []
+## While no journey runs and starts go in slices (DECISIONS「加载画面」), every map's scene is
+## read on worker threads and held here, so a start does not read them; let go once a journey
+## stands. Paths asked for and not yet taken, and the scenes taken.
+var _scenes_asked: Array[String] = []
+var _scenes_held: Dictionary[String, PackedScene] = {}
+## Once a frame (_process): a start waits on it to let the frame that asked for it draw.
+signal _frame
 
 
 func configure_before_start(
@@ -86,6 +93,7 @@ func _ready() -> void:
 			)
 		)
 		startup_completed.emit(manual_result)
+		_read_scenes_ahead()
 		return
 	if _startup_mode == StartupMode.LOAD:
 		_last_load = _coordinator.load_replacing(
@@ -104,6 +112,8 @@ func _ready() -> void:
 
 ## A finished autosave is told once (已自动存档, unless turned off; a failure always).
 func _process(_delta: float) -> void:
+	_frame.emit()
+	_take_read_scenes()
 	var saved: GameSaveResult = null if _autosave == null else _autosave.take_finished()
 	if saved == null or _current_session == null or not is_instance_valid(_current_session):
 		return
@@ -116,6 +126,52 @@ func _process(_delta: float) -> void:
 func _exit_tree() -> void:
 	if _autosave != null:
 		_autosave.wait()
+	# Nothing is left loading on a worker thread when the game closes.
+	for path: String in _scenes_asked:
+		ResourceLoader.load_threaded_get(path)
+	_scenes_asked.clear()
+	_scenes_held.clear()
+
+
+## How long a start builds the world per frame (the feel's session_start_slice_ms; 0 in the
+## suites: the start is one frame and its result comes within the deferred call).
+func _start_slice_usec() -> int:
+	return roundi(GameContent.catalog().pacing().feel.session_start_slice_seconds * 1000000.0)
+
+
+## A start in slices lets the frame that asked for it draw first (the title's first burn).
+func _let_frame_draw() -> void:
+	if _start_slice_usec() > 0:
+		await _frame
+
+
+## Every map's scene asked of the worker threads (the starts go in slices only).
+func _read_scenes_ahead() -> void:
+	if _start_slice_usec() <= 0 or _current_session != null or not _scenes_asked.is_empty() or not _scenes_held.is_empty():
+		return
+	for map: MapDefinition in GameContent.catalog().maps():
+		if ResourceLoader.load_threaded_request(map.scene_path, "PackedScene") == OK:
+			_scenes_asked.append(map.scene_path)
+
+
+## The scenes read so far are taken; once a journey stands none is held.
+func _take_read_scenes() -> void:
+	for i: int in range(_scenes_asked.size() - 1, -1, -1):
+		var path: String = _scenes_asked[i]
+		var status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(path)
+		if status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			continue
+		var scene: PackedScene = ResourceLoader.load_threaded_get(path) as PackedScene if status == ResourceLoader.THREAD_LOAD_LOADED else null
+		if scene != null and _current_session == null:
+			_scenes_held[path] = scene
+		_scenes_asked.remove_at(i)
+	if _current_session != null and not _scenes_held.is_empty():
+		_scenes_held.clear()
+
+
+## How many map scenes are read ahead and held now.
+func scenes_read_ahead() -> int:
+	return _scenes_held.size()
 
 
 func autosave() -> GameAutosave:
@@ -297,13 +353,15 @@ func _execute_slot_inspection(newest: bool = true) -> void:
 
 
 func _execute_new_game(display_name: String, gender: StringName, pace: StringName) -> void:
-	_last_new_game = _create_new_game(display_name, gender, pace)
+	await _let_frame_draw()
+	_last_new_game = await _create_new_game(display_name, gender, pace)
 	_request_pending = false
 	new_game_completed.emit(_last_new_game)
 
 
 func _execute_continue() -> void:
-	_last_load = _coordinator.load_replacing(null, session_slot, staging_slot)
+	await _let_frame_draw()
+	_last_load = await _coordinator.load_replacing_in_slices(null, session_slot, staging_slot, _start_slice_usec(), _frame)
 	if _last_load.succeeded():
 		_current_session = _last_load.session
 		if not session_invariant_holds():
@@ -318,11 +376,14 @@ func _execute_continue() -> void:
 
 
 func _execute_recovery(source: int) -> void:
-	_last_load = _coordinator.load_recovery_replacing(
+	await _let_frame_draw()
+	_last_load = await _coordinator.load_recovery_replacing_in_slices(
 		source,
 		null,
 		session_slot,
 		staging_slot,
+		_start_slice_usec(),
+		_frame,
 	)
 	if _last_load.succeeded():
 		_current_session = _last_load.session
@@ -348,6 +409,7 @@ func _execute_end_session() -> void:
 		_current_session = null
 		session.queue_free()
 		_last_end_session = OldPineRuntimeSaveLoadResult.success(null)
+		_read_scenes_ahead()
 	_request_pending = false
 	end_session_completed.emit(_last_end_session)
 
@@ -359,10 +421,11 @@ func _execute_save() -> void:
 
 
 func _execute_load(source: int = -1) -> void:
-	_last_load = (
-		_coordinator.load_replacing(_current_session, session_slot, staging_slot) if source < 0
-		else _coordinator.load_recovery_replacing(source, _current_session, session_slot, staging_slot)
-	)
+	await _let_frame_draw()
+	if source < 0:
+		_last_load = await _coordinator.load_replacing_in_slices(_current_session, session_slot, staging_slot, _start_slice_usec(), _frame)
+	else:
+		_last_load = await _coordinator.load_recovery_replacing_in_slices(source, _current_session, session_slot, staging_slot, _start_slice_usec(), _frame)
 	if _last_load.succeeded():
 		_current_session = _last_load.session
 		_session_began(_current_session, true)
@@ -387,10 +450,23 @@ func _create_new_game(display_name: String, gender: StringName, pace: StringName
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
 	if opening_card:
 		session.request_opening_card()
-	return _attach_new_game_session(session)
+	# Its start goes over frames while the title plays (DECISIONS「加载画面」).
+	session.start_slice_usec = _start_slice_usec()
+	var refused: OldPineRuntimeSaveLoadResult = _place_new_game_session(session)
+	if refused != null:
+		return refused
+	if not session.start_finished():
+		await session.start_done
+	return _adopt_new_game_session(session)
 
 
 func _attach_new_game_session(session: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
+	var refused: OldPineRuntimeSaveLoadResult = _place_new_game_session(session)
+	return refused if refused != null else _adopt_new_game_session(session)
+
+
+## The new session goes beneath the committed slot, where it starts (null), or why not.
+func _place_new_game_session(session: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if _current_session != null or session_slot.get_child_count() != 0 or staging_slot.get_child_count() != 0:
 		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(
@@ -400,10 +476,15 @@ func _attach_new_game_session(session: WorldSessionController) -> OldPineRuntime
 		return OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED
 		)
-	# New Game initializes synchronously beneath the committed slot after explicit
-	# user intent. Host authority remains null until the graph validates; a
-	# failed graph is detached before the deferred request completes.
+	# New Game initializes beneath the committed slot after explicit user intent (within
+	# add_child, or over frames with a start_slice_usec). Host authority remains null until
+	# the graph validates; a failed graph is detached before the deferred request completes.
 	session_slot.add_child(session)
+	return null
+
+
+## Once its start is over, the new session becomes the Host's, or is discarded.
+func _adopt_new_game_session(session: WorldSessionController) -> OldPineRuntimeSaveLoadResult:
 	if not session.is_initialized() or session.active_map_child_count() != 1:
 		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(

@@ -30,7 +30,7 @@
 
 **地图与体素**
 - 所有地图用固定正交斜视体素表现；2D 地图仍是唯一依据（碰撞、站位、交互范围、存档）；左右 45° 两个视角，按钮切换、0.6 秒圆弧；家具只记在布局里。走过的地图只有最近 `voxel_worlds_kept`（3）张保留建好的体素世界，更早的在玩家离开后释放、回去时按原样重建；2D 地图照常全部常驻，释放不碰任何规则、NPC 或存档。「固定俯视体素地图」
-- 第一次进一张图（或它的体素世界已被释放）时世界分帧搭建，画面先暗；搭建超过 0.2 秒才出现加载画面，出现后至少停 0.5 秒，和暗场一起淡出（只淡一次）。已搭好的图什么都不出现；其间世界停住、按键无效。美术只在 `common/loading_screen.json` 和 `assets/textures/loading/`。「加载画面」
+- 第一次进一张图（或它的体素世界已被释放）时世界分帧搭建，画面先暗；搭建超过 0.2 秒才出现加载画面，出现后至少停 0.5 秒，和暗场一起淡出（只淡一次）。已搭好的图什么都不出现；其间世界停住、按键无效。开局（新游戏、继续、读档、恢复）也分帧搭，标题动画一直在走；没有旅程时地图场景先在后台读好。美术只在 `common/loading_screen.json` 和 `assets/textures/loading/`。「加载画面」
 - 体素世界的普通颜色按「父节点、形状、格子」合成一批，颜色记在实例上；发光、反光、半透明和被点名改过材质的颜色仍各自一批；遮挡和灯光切分照旧，画面不变。「搭建开销」
 - 昼夜跟着游戏里的一天走：ES2 的八段（`day_phases.json`）、一天 24 真实分钟（`day_length_minutes`，经典也是 24），画面按五个关键帧（黎明、白天、黄昏、夜、深夜）在段内平滑过渡，每区一套光（`<区域>/voxel/light.json`），单图只覆盖写了的帧；室外房间的描述末尾接当段天色一句，段开始时室外的人看到一行；设置「昼夜」三档（跟随 / 一直白天 / 一直夜晚）代替 HUD 按钮；时刻存进存档（`day_seconds`）；NPC、门、战斗都不看时刻。「昼夜」
 - 时段条件 `phase`（`when` 的一种，phase_id 列表）：刷怪的 `present`／`until`、任务条件、act 分支、`calls` 条件可以看时段；舞台仍只在进图时判，带时段的舞台下场只是退场、天一到再回来。act 步骤 `until_phase` 把世界时钟拨到下一个该段的开头（「等到天黑」，先确认），别的图欠这段时间、本图和玩家照补算；只在关北的篝火用。「关北 C」
@@ -190,7 +190,7 @@
 - `corpse_rot_seconds` / `corpse_bones_seconds` / `corpse_scatter_seconds` 120 / 120 / 60（就是 ES2）。「尸体腐烂」
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
-- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）。「手感」「手感：战斗」「战斗演出」「连续修炼」「固定俯视体素地图」「加载画面」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）、`session_start_slice_ms` 12（开局每帧搭多久；0 = 一帧搭完）。「手感」「手感：战斗」「战斗演出」「连续修炼」「固定俯视体素地图」「加载画面」
 - 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的九个开关、死亡的四个开关、`autosave_min_seconds` 和 `stats_appear_when_used` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」「减轻死亡」「自动存档」「数值用到才出现」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
@@ -341,6 +341,14 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
 - **换美术**：`game/data/common/loading_screen.json` 写背景色、可选整屏底图、序列帧贴图（`sheet` + 行列、帧数、
   fps、显示边长、位置）和要不要「载入中」三个字；图放 `game/assets/textures/loading/`，来源记 LICENSE_PROVENANCE。换图只换文件、改
   这份配置，不动脚本；一张静图就是一帧的贴图。现在的墨圈是占位图。
+- **开局也分帧**（owner 2026-11-04「点开始会卡住一会儿」）：新游戏、继续、读档、恢复原来在点下去那一帧把整个世界
+  （148 张图、626 个 NPC）一口气搭完，编辑器里 3.5–3.7 秒、发布包约 2 秒画面不动，搭完才播标题的烧字。现在先画出
+  点下去那一帧；存档在工作线程上读出、解码、校验（2.2 MB 的存档约 1.6 秒，自动存档本来就在工作线程上写）；然后每帧搭
+  `session_start_slice_ms` 12 ms，一张图一份，图与图之间让出一帧，其间整个会话不处理（时间不走、存档里的东西不动、
+  这时没有一张图在树里）。没有旅程时（标题上、回到主菜单后）地图场景在工作线程上先读好，开局不再读文件。
+  结果（编辑器，窗口）：点到白光 6.6–6.9 → 3.4 秒，最长一帧 3.5–3.7 → 0.1–0.2 秒（晚月庄、乔阴镇这两张大图
+  各一帧；要更顺得按 NPC 拆）。搭出来的世界和一帧搭完的完全相同（`session_start_slices_test` 比对新游戏、继续、
+  读档）；为 0 时和以前一样一帧搭完、也不预读（套件走这条路）。
 ## 对话框 (owner 2026-11-02「做第一步」; 第二步：按 E 找 NPC 也进对话框，待 owner 决定)
 
 - **之前：** 同一个人说话有四个地方：头顶气泡（连主线台词也 2.5 秒消失）、打听页、商店和师父面板、全屏卡片；ES2 全是滚动的文字，没有这个问题。

@@ -33,6 +33,30 @@ enum BootstrapMode {
 static var keep_map_scenes: bool = false
 static var _kept_map_scenes: Dictionary[String, PackedScene] = {}
 
+## A journey's start in slices (DECISIONS「加载画面」), set before the session enters the
+## tree: its maps are read and their people made this long per frame while the title plays,
+## the session standing still between frames. 0 (the suites, every caller that builds a
+## session and uses it at once): the whole start happens inside add_child, as it always did.
+var start_slice_usec: int = 0
+## The start is over (ok: the world stands). With no slice it is emitted inside add_child.
+signal start_done(ok: bool)
+var _start_finished: bool = false
+var _start_pump: StartPump
+var _start_slice_ends: int = 0
+
+
+## Beats once a frame while a start goes on in slices, whatever else is paused: a restore
+## candidate processes nothing, and a Load in play pauses the tree.
+class StartPump extends Node:
+	signal beat
+
+	func _init() -> void:
+		name = "StartPump"
+		process_mode = Node.PROCESS_MODE_ALWAYS
+
+	func _process(_delta: float) -> void:
+		beat.emit()
+
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
 var _foods: FoodCollection = FoodCollection.new()
@@ -132,11 +156,40 @@ func _ready() -> void:
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_day = DayClock.new(GameContent.catalog().day_phases())
 	view_arriving.connect(_on_view_arrived)
-	if initialize_session():
+	if start_slice_usec > 0:
+		_start_pump = StartPump.new()
+		add_child(_start_pump)
+	var ok: bool = await initialize_session()
+	if _start_pump != null:
+		remove_child(_start_pump)
+		_start_pump.queue_free()
+		_start_pump = null
+	if ok:
 		shared_ui().configure(player_runtime())
 		shared_ui().initialize_supplies()
 	# On once the maps are made (_instantiate_map()).
-	get_tree().physics_interpolation = true
+	if is_inside_tree():
+		get_tree().physics_interpolation = true
+	_start_finished = true
+	start_done.emit(ok)
+
+
+## Whether the start is over (at once with no start_slice_usec).
+func start_finished() -> bool:
+	return _start_finished
+
+
+## Between two maps of a start in slices: once this frame's share is spent the session stands
+## still (nothing of it processes) until the next frame. With no slice it does nothing and the
+## start is one frame. Nothing runs between: the world comes out as the one-frame start's.
+func _breathe_start() -> void:
+	if _start_pump == null or Time.get_ticks_usec() < _start_slice_ends:
+		return
+	var mode: ProcessMode = process_mode
+	process_mode = Node.PROCESS_MODE_DISABLED
+	await _start_pump.beat
+	process_mode = mode
+	_start_slice_ends = Time.get_ticks_usec() + start_slice_usec
 
 
 func shared_ui() -> SharedGameplayUI:
@@ -926,17 +979,18 @@ func initialize_session() -> bool:
 	if not GameContent.catalog().pacing().sky_weather:
 		_sky.set_state(0, SkyState.NEW_GAME_MINUTES)
 	for map_id: StringName in _world_map_ids():
+		await _breathe_start()
 		if not _register_map(map_id):
 			return false
 
 	var ready: bool
 	if _bootstrap_mode == BootstrapMode.RESTORE:
-		ready = _initialize_restore_residents()
+		ready = await _initialize_restore_residents()
 	elif _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
-		ready = _initialize_source_residents()
+		ready = await _initialize_source_residents()
 	else:
 		# The technical fixture world starts in the Old Pine clearing.
-		ready = _bind_residents_staged() and _activate_first_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+		ready = (await _bind_residents_staged()) and _activate_first_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	if ready:
 		_hidden_passages = WorldHiddenPassages.new(self)
 		_hidden_passages.open_for_player_below()
@@ -1540,7 +1594,7 @@ func _initialize_restore_authorities() -> bool:
 
 func _initialize_source_residents() -> bool:
 	# Every map binds the same authority graph. Fresh source entry alone starts in Inn.
-	if not (_bind_residents_staged() and _activate_first_map(SnowWorldDefinitions.INN_MAP_ID) and _initialize_player_recovery()):
+	if not ((await _bind_residents_staged()) and _activate_first_map(SnowWorldDefinitions.INN_MAP_ID) and _initialize_player_recovery()):
 		return false
 	# The world ran before the player came into it (DECISIONS「别的地图时间补算」): every
 	# NPC is as time away leaves it (one create() made with less force than its maximum has
@@ -1551,9 +1605,11 @@ func _initialize_source_residents() -> bool:
 
 
 ## Ready-time binding once per resident map, in initialization order. Each map is
-## then detached, inert, until it becomes active.
+## then detached, inert, until it becomes active (so a start in slices breathes between
+## maps with none of them in the tree).
 func _bind_residents_staged() -> bool:
 	for map: WorldResidentMapController in _residents_in_initialization_order():
+		await _breathe_start()
 		map.set_restore_staging(true)
 		active_map_slot.add_child(map)
 		if not map.initialize_map():
@@ -1641,6 +1697,7 @@ func _residents_in_initialization_order() -> Array[WorldResidentMapController]:
 
 func _initialize_restore_residents() -> bool:
 	for resident: WorldResidentMapController in _residents_in_initialization_order():
+		await _breathe_start()
 		resident.set_restore_staging(true)
 		active_map_slot.add_child(resident)
 		if not resident.initialize_map():

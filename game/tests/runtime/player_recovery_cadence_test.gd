@@ -38,7 +38,7 @@ static func create_session(tree: SceneTree, random: RecoveryCadenceRandomSource)
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# ES2's own numbers end to end: the pacing knobs at ES2's pace (Es2Pacing).
 	var pacing: PacingDefinition = Es2Pacing.use()
-	trace_tests(tree)
+	await trace_tests(tree)
 	resource_tests(tree)
 	freeze_tests(tree)
 	map_combat_tests(tree)
@@ -61,7 +61,7 @@ func trace_tests(tree: SceneTree) -> void:
 		var state: CharacterState = session.player_runtime().state
 		random.observed_character = state
 		check(random.calls == 1 and cadence.source_tick == initial and cadence.accumulated_seconds == 0.0, "one initial draw " + str(initial))
-		check(session.initialize_session() and random.calls == 1, "idempotent initialize no reroll")
+		check((await session.initialize_session()) and random.calls == 1, "idempotent initialize no reroll")
 		check(not session.configure_recovery_random_source(RandomSequence.new()), "cannot replace initialized authority")
 		for pulse: int in range(1, initial + 1):
 			var step: PlayerRecoveryCadenceResult = session.advance_player_recovery(2.0)

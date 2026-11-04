@@ -110,6 +110,42 @@ func load_recovery_replacing(
 	return result
 
 
+## load_replacing with the candidate's start over frames, `slice_usec` a frame (DECISIONS
+## 「加载画面」): the same checks and swap, the world built while the title or the busy note
+## plays on; the save is read and checked on a worker thread while `frame` ticks. With 0 it
+## is load_replacing.
+func load_replacing_in_slices(
+	current: WorldSessionController,
+	session_slot: Node,
+	staging_slot: Node,
+	slice_usec: int,
+	frame: Signal = Signal(),
+) -> OldPineRuntimeSaveLoadResult:
+	if not _begin_operation():
+		return Result.failure(Result.Outcome.REQUEST_REJECTED)
+	var loaded: GameSaveResult = await _read_aside(_repository.load, slice_usec, frame)
+	var result: OldPineRuntimeSaveLoadResult = await _restore_loaded_in_slices(loaded, current, session_slot, staging_slot, slice_usec)
+	_operation_in_progress = false
+	return result
+
+
+## load_recovery_replacing over frames, as load_replacing_in_slices.
+func load_recovery_replacing_in_slices(
+	source: int,
+	current: WorldSessionController,
+	session_slot: Node,
+	staging_slot: Node,
+	slice_usec: int,
+	frame: Signal = Signal(),
+) -> OldPineRuntimeSaveLoadResult:
+	if not GameSaveRecoverySource.is_valid(source) or not _begin_operation():
+		return Result.failure(Result.Outcome.REQUEST_REJECTED)
+	var loaded: GameSaveResult = await _read_aside(_repository.load_recovery.bind(source), slice_usec, frame)
+	var result: OldPineRuntimeSaveLoadResult = await _restore_loaded_in_slices(loaded, current, session_slot, staging_slot, slice_usec)
+	_operation_in_progress = false
+	return result
+
+
 func _load_replacing_impl(
 	current: WorldSessionController,
 	session_slot: Node,
@@ -125,16 +161,65 @@ func _restore_loaded(
 	session_slot: Node,
 	staging_slot: Node,
 ) -> OldPineRuntimeSaveLoadResult:
+	var refused: OldPineRuntimeSaveLoadResult = _refuse_restore(loaded, session_slot, staging_slot)
+	if refused != null:
+		return refused
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(
+		loaded.snapshot,
+		staging_slot,
+	)
+	return _swap_in(loaded, restored, current, session_slot)
+
+
+func _restore_loaded_in_slices(
+	loaded: GameSaveResult,
+	current: WorldSessionController,
+	session_slot: Node,
+	staging_slot: Node,
+	slice_usec: int,
+) -> OldPineRuntimeSaveLoadResult:
+	var refused: OldPineRuntimeSaveLoadResult = _refuse_restore(loaded, session_slot, staging_slot)
+	if refused != null:
+		return refused
+	var begun: OldPineWorldRestoreResult = OldPineWorldRestoreService.begin_candidate(loaded.snapshot, staging_slot, slice_usec)
+	if begun.candidate != null and not begun.candidate.start_finished():
+		await begun.candidate.start_done
+	var restored: OldPineWorldRestoreResult = begun if begun.candidate == null else OldPineWorldRestoreService.finish_candidate(begun)
+	return _swap_in(loaded, restored, current, session_slot)
+
+
+## A start in slices reads, decodes and checks the save on a worker thread (seconds for a big
+## save) while `frame` ticks and the title draws on; the autosave writes there the same way.
+## Without a slice, or a frame to wait on, it is read here.
+static func _read_aside(read: Callable, slice_usec: int, frame: Signal) -> GameSaveResult:
+	if slice_usec <= 0 or frame.is_null():
+		return read.call()
+	var out: Array[GameSaveResult] = []
+	var task: int = WorkerThreadPool.add_task(func() -> void: out.append(read.call()), false, "save read")
+	while not WorkerThreadPool.is_task_completed(task):
+		await frame
+	WorkerThreadPool.wait_for_task_completion(task)
+	return out[0] if not out.is_empty() else GameSaveResult.failure(GameSaveResult.Outcome.READ_FAILED, "repository")
+
+
+## Why a save read as `loaded` cannot be restored here (null: it can be tried).
+func _refuse_restore(loaded: GameSaveResult, session_slot: Node, staging_slot: Node) -> OldPineRuntimeSaveLoadResult:
 	if session_slot == null or staging_slot == null:
 		return Result.failure(Result.Outcome.NO_CURRENT_SESSION)
 	if not loaded.succeeded():
 		var repository_failure := Result.failure(Result.Outcome.REPOSITORY_FAILED)
 		repository_failure.repository = loaded
 		return repository_failure
-	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(
-		loaded.snapshot,
-		staging_slot,
-	)
+	return null
+
+
+## The built candidate takes `current`'s place in session_slot, or everything is put back.
+func _swap_in(
+	loaded: GameSaveResult,
+	restored: OldPineWorldRestoreResult,
+	current: WorldSessionController,
+	session_slot: Node,
+) -> OldPineRuntimeSaveLoadResult:
 	if not restored.succeeded() or not _candidate_transients_are_fresh(restored.candidate):
 		_discard_candidate(restored.candidate)
 		var restore_failure := Result.failure(Result.Outcome.RESTORE_FAILED)
