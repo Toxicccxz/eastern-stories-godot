@@ -72,6 +72,7 @@
 			"study": { "skill": "force", "exp_required": 100, "sen_cost": 20, "difficulty": 25, "max_skill": 40 },
 			"weight": 500,
 			"value": 1000,
+			"quest": true,
 			"unique": true
 		}
 	]

@@ -51,12 +51,12 @@ var steal_panel: StealPanel
 ## bribe the constable leading the player (d/choyin/npc/yamen_po.c accept_bribery()): BribePanel.
 var bribe_button: Button
 var bribe_panel: BribePanel
-## The menu window and its pages (角色, 武学, 背包 with 随身补给, 任务 with the log).
+## The menu window and its pages (角色, 武学, 背包, 任务 with the log).
 var menu: GameMenu
 var character_sheet: CharacterSheet
 var arts_page: MartialArtsPage
-var inventory_page: VBoxContainer
-var supplies_mount: VBoxContainer
+## 背包: the inventory panel itself (its sections, list and item read).
+var inventory_page: Control
 var journal_page: VBoxContainer
 ## 任务: quest.c's lines for 朱鸿雪's task (the 差事 column of quest_page).
 var quest_text: Label
@@ -199,12 +199,10 @@ func _ready() -> void:
 	drift_panel.chosen.connect(panels.drift_choose)
 	drift_panel.cancelled.connect(panels.drift_cancel)
 	loot_panel.take_requested.connect(actions.take_context)
-	inventory_panel.inspect_requested.connect(items.inspect_item)
 	inventory_panel.wield_requested.connect(items.wield_item)
 	inventory_panel.unwield_requested.connect(items.unwield_item)
 	inventory_panel.wear_requested.connect(items.wear_item)
 	inventory_panel.remove_requested.connect(items.remove_item)
-	inventory_panel.give_requested.connect(items.give_item)
 	inventory_panel.drop_requested.connect(items.drop_item)
 	inventory_panel.put_requested.connect(items.put_item)
 	inventory_panel.play_requested.connect(items.play_item)
@@ -217,6 +215,7 @@ func _ready() -> void:
 	inventory_panel.put_into_requested.connect(items.put_into_carried)
 	inventory_panel.scribe_requested.connect(items.scribe_on)
 	inventory_panel.attach_requested.connect(items.attach_sheet)
+	inventory_panel.supplies_used.connect(items.open_inventory)
 	interaction_panel = InteractionPanel.new()
 	_presentation_layout.holding.add_child(interaction_panel)
 	interaction_panel.hold_look(_presentation_layout.details)
@@ -644,22 +643,14 @@ func _build_menu() -> void:
 	character_sheet = CharacterSheet.new()
 	arts_page = MartialArtsPage.new()
 	arts_page.name = "MartialArtsPage"
-	inventory_page = VBoxContainer.new()
-	inventory_page.name = "InventoryPage"
-	inventory_page.add_theme_constant_override("separation", 12)
-	# 界面重做 2: the list takes the window's height, 随身补给 under it.
-	inventory_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	inventory_panel.reparent(inventory_page, false)
+	# 界面重做 2: the 背包 takes the window's height; its list and item read scroll on their
+	# own. The panel is the page, so the menu asks it where keys and pad start.
+	inventory_page = inventory_panel
 	inventory_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	# The tab names it and the window closes it: the panel's own title and 关闭 go.
 	inventory_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	for path: String in ["Margin/VBox/Title", "Margin/VBox/Separator", "Margin/VBox/PlayerInventoryCloseButton"]:
 		inventory_panel.get_node(path).queue_free()
-	supplies_mount = VBoxContainer.new()
-	supplies_mount.name = "Supplies"
-	supplies_mount.add_theme_constant_override("separation", 8)
-	inventory_page.add_child(supplies_mount)
-	_heading(supplies_mount, "随身补给")
 	journal_page = VBoxContainer.new()
 	journal_page.name = "JournalPage"
 	journal_page.add_theme_constant_override("separation", 10)
@@ -744,7 +735,6 @@ func menu_tab_shown(tab: int) -> void:
 			panels.refresh_character()
 		GameMenu.Tab.INVENTORY:
 			items.fill_shown_page()
-			panels.show_supplies()
 		GameMenu.Tab.JOURNAL:
 			if _session != null:
 				_session.record_journal()
@@ -1040,7 +1030,7 @@ func open_inventory() -> void:
 
 
 func initialize_supplies() -> void:
-	panels.initialize_supplies()
+	items.initialize_supplies()
 
 
 func refresh_panel_rows() -> void:

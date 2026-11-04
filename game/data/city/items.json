@@ -218,7 +218,8 @@
 			"unit": "支",
 			"material": "copper",
 			"weight": 100,
-			"value": 0
+			"value": 0,
+			"quest": true
 		}
 	]
 }

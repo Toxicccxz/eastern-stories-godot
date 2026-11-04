@@ -74,6 +74,7 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `combined` | `inherit COMBINED_ITEM` (also throwing.c, powder.c): `set_amount`, `base_unit`, `base_weight` | `{amount, base_unit, base_weight}`: a stack (merge key as `money`) that a new one starts at `amount` of; no `weight` |
 | `contains` | create()'s `new(...)->move(this_object())` (d/canyon/bamboo/obj/slipcase.c) | `[item]`: a new container (`max_encumbrance`) holds one of each |
 | `unique` | `inherit F_UNIQUE` | `true`: only one may exist in the world (violate_unique()) |
+| `quest` | — (native) | `true`: a thing a story turns on (letter, token, key, seal); the 背包 lists it under 任务 |
 | `master` | `set("master_id")` (d/choyin/obj/grass.c via lion.c die()) | `true`: the item records who got it; the catalog adds its master form (`<id>` + `ItemContentDefinition.MASTER_SUFFIX`), the player's. Plain items of one name only |
 | `apply` | the item's own do_apply()/do_eat() | an `ItemApplyFunctions` ID (`snake_drug`, `hurt_drug`, `rose_pistil`, `tablet`) |
 | `dissolve` | obj/dust.c | `true`: it dissolves a corpse |

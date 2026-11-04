@@ -133,6 +133,7 @@
 			"long": "这是一封用蜡密封起来的信件，上面有一奇怪的图案。\n",
 			"unit": "封",
 			"weight": 50,
+			"quest": true,
 			"act": {
 				"verb": "用火烧",
 				"acts": [
@@ -151,7 +152,8 @@
 			"material": "wood",
 			"weight": 200,
 			"value": 1200,
-			"max_encumbrance": 3000
+			"max_encumbrance": 3000,
+			"quest": true
 		},
 		{
 			"id": "es2:d/latemoon/room/npc/obj/longsword",
@@ -353,7 +355,8 @@
 			"aliases": ["bamboo"],
 			"long": "这是一根玉竹，还有一些竹叶在上面。\n",
 			"unit": "根",
-			"weight": 300
+			"weight": 300,
+			"quest": true
 		},
 		{
 			"id": "es2:d/latemoon/obj/needle",
@@ -415,7 +418,8 @@
 			"aliases": ["dragonfly"],
 			"long": "这是一个竹蜻蜓，手工相当细腻。\n",
 			"unit": "个",
-			"weight": 300
+			"weight": 300,
+			"quest": true
 		},
 		{
 			"id": "es2:d/latemoon/obj/bracelet",

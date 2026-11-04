@@ -43,7 +43,7 @@ func _test_first_open_starts_at_the_top(tree: SceneTree) -> void:
 		var focused: Control = tree.root.gui_get_focus_owner()
 		var rows: Node = menu.pages[GameMenu.Tab.INVENTORY].find_child("PlayerInventoryRows", true, false)
 		var row: Control = null if rows == null or rows.get_child_count() == 0 else rows.get_child(0) as Control
-		_check(menu.current_tab() == GameMenu.Tab.INVENTORY and row != null and focused != null and row.is_ancestor_of(focused), "%s: 背包 with the focus on its first row" % opening)
+		_check(menu.current_tab() == GameMenu.Tab.INVENTORY and row != null and focused != null and (row == focused or row.is_ancestor_of(focused)), "%s: 背包 with the focus on its first row" % opening)
 		if row == null or focused == null:
 			continue
 		var view: Rect2 = scroll.get_global_rect()
@@ -84,7 +84,9 @@ func _test_tabs_and_keys(tree: SceneTree) -> void:
 	_check(menu.current_tab() == GameMenu.Tab.SYSTEM and menu.system_mount.is_visible_in_tree() and not tree.paused, "Q wraps to 系统 (no shell: nothing to pause)")
 	await _key(tree, KEY_I)
 	_check(menu.current_tab() == GameMenu.Tab.INVENTORY and ui.inventory_is_open() and ui.inventory_rows().size() == 1, "I: 背包 with the cloth")
-	_check(ui.supplies_mount.is_visible_in_tree() and ui.panels._food.is_visible_in_tree(), "背包 holds 随身补给")
+	var bag: PlayerInventoryPanel = ui.inventory_panel
+	_check(bag.section_bar.is_visible_in_tree() and bag.purse_button.is_visible_in_tree() and bag.burden_label.is_visible_in_tree(), "背包 shows its sections, the 钱袋 and 负重")
+	_check(bag.selected_item() == ui.inventory_rows()[0].item_instance_id and bag.inspection_display().begins_with("布衣"), "背包 opens reading its first row, no 观察 to press")
 	await _key(tree, KEY_J)
 	_check(menu.current_tab() == GameMenu.Tab.JOURNAL and not ui.inventory_is_open(), "J: 任务; the 背包 no longer counts as open")
 	# 任务系统: 朱鸿雪's lines stand under the 差事 column only while she gave a task.
@@ -101,7 +103,8 @@ func _test_tabs_and_keys(tree: SceneTree) -> void:
 	_check(not menu.is_presented() and layout.frame.visible and layout._content == layout.room and layout.frame.get_parent() == layout.overlay, "观察 replaces the menu; the frame is home")
 	ui.dismiss_current_panel()
 	ui.open_supplies()
-	_check(menu.is_presented() and menu.current_tab() == GameMenu.Tab.INVENTORY, "补给 is on 背包")
+	_check(menu.is_presented() and menu.current_tab() == GameMenu.Tab.INVENTORY and bag.current_section() == InventorySections.Section.SUPPLIES, "补给 is 背包's 补给 section")
+	bag.show_section(InventorySections.Section.ALL)
 	ui.dismiss_current_panel()
 	_check(not menu.is_presented(), "Back with only the menu open closes it")
 	await _key(tree, KEY_L)
@@ -241,16 +244,14 @@ func _test_pages_dressed(tree: SceneTree) -> void:
 	await _frames(tree, 4)
 	var panel: PlayerInventoryPanel = ui.inventory_panel
 	var row: Control = panel.row_container.get_child(0) as Control
-	var inspect: Button = row.get_child(1) as Button
-	_check(inspect.text == "观察" and inspect.theme_type_variation == &"ChipButton", "背包's actions are chips")
-	_check(not panel.inspect_well.visible, "nothing inspected: the list has the width")
-	inspect.pressed.emit()
-	await _frames(tree, 3)
-	_check(panel.inspect_well.is_visible_in_tree() and panel.inspect_well.global_position.x >= row.get_global_rect().end.x and not panel.inspection_display().is_empty(), "观察: the item beside the list")
+	var chips: Array[Node] = panel.action_rows.find_children("*", "Button", true, false)
+	_check(row is Button and (row as Button).theme_type_variation == &"RowButton" and not chips.is_empty() and chips.all(func(chip: Node) -> bool: return (chip as Button).theme_type_variation == &"ChipButton"), "背包: rows to read, the actions as chips beside them")
+	_check(chips.all(func(chip: Node) -> bool: return (chip as Button).text != "观察" and not (chip as Button).text.begins_with("给")), "no 观察 and no 给 in the 背包")
+	_check(panel.inspect_well.is_visible_in_tree() and panel.inspect_well.global_position.x >= row.get_global_rect().end.x and not panel.inspection_display().is_empty(), "the item read beside the list")
 	var carried: Array[PlayerInventoryRowProjection] = ui.inventory_rows()
 	panel.show_inventory([] as Array[PlayerInventoryRowProjection])
 	await _frames(tree, 2)
-	_check(panel.empty_label.is_visible_in_tree() and not panel.row_scroll.visible and panel.empty_label.global_position.y < ui.supplies_mount.global_position.y - 100.0, "nothing carried: 空无一物 at the top, the empty list gone")
+	_check(panel.empty_label.is_visible_in_tree() and not panel.row_scroll.visible and panel.empty_label.global_position.y < panel.purse_button.global_position.y - 100.0 and panel.inspection_display().is_empty(), "nothing carried: the empty line at the top, the empty list gone, nothing read")
 	panel.show_inventory(carried)
 	await _frames(tree, 2)
 	_check(panel.row_scroll.is_visible_in_tree() and not panel.empty_label.visible, "things again: the list comes back")

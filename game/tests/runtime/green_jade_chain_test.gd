@@ -200,6 +200,7 @@ func _test_pour_and_drink(tree: SceneTree, session: WorldSessionController) -> v
 	liquid.remaining = 15
 	hud.open_inventory()
 	await tree.process_frame
+	hud.inventory_panel.select_item(drug)
 	_check(_pour_buttons(hud).has("倒进牛皮酒袋"), "the 背包 offers 倒进 for the drug: %s" % [_pour_buttons(hud)])
 	_check(map.pour_into(drug, wine) and hud.log_lines().back() == "你将一些蒙汗药倒进牛皮酒袋，摇晃了几下。", "poured")
 	_check(liquid.drink_func == DRUG and _carried(session, DRUG).is_empty(), "the drink carries it; the 包 is used up")
