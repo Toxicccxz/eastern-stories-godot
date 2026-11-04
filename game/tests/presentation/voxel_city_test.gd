@@ -6,22 +6,51 @@ extends RefCounted
 ## 紫禁城's vermilion wall and gold roofs between 神武门 in its chains and 午门 between its lions, the
 ## 校武场's yellow earth, the 天桥's stalls and lanterns; the 西街 and its 太白酒楼, the 东街 between
 ## the palace wall and the 尚书府's; the 南街, the 监狱 and 刑场 walled shut, the 南门. Five outer
-## gates shut, each its own. The 2D map decides every way through: each is walked.
+## gates shut, each its own. Inside: the 钱庄 swept clean, the 武器店's red brick and blades, the new
+## 绸缎庄 half empty, the old 鞋店's boots, the empty house, the gilt 太白酒楼 and its 雅座, the 镖局's
+## yard, the 尚书府's rooms and garden, the wall top, the cell under the altar. The 2D maps decide
+## every way through: each is walked past the furniture.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised
 ## clear of the floor (`elevation`). Furniture counts: what blocks is the layout's (AGENTS「地图」).
 const TALL: Array[String] = ["reeds", "tree", "great_tree", "compound_wall", "city_wall", "fence", "firewood", "haystack", "boulder", "pagoda",
 	"temple_bell", "incense_burner", "pavilion", "rockery", "camellia_bed", "flagpole", "lantern_post", "notice_post", "old_gate", "rubble",
 	"chair", "stool", "flower_stand", "baskets", "crocks", "water_vat", "well", "table", "bench", "bench_seat", "side_table", "bush", "stall", "cart"]
-const MAPS: Array[StringName] = [&"city.main"]
-const ENTRIES: Dictionary[StringName, Array] = {&"city.main": [&"city.nroad2", &"city.nroad2.village_arrival"]}
+## How much of a house's floor its furniture covers at least (美术规划 §2: 地面边缘要满).
+const COVERED: float = 0.11
+const SCENES: Array[String] = ["city_main", "city_upstairs", "city_cellar", "bank_house", "biaoju_house", "boots_house", "cloth_house", "jiulou_house", "weapon_house", "shangshu"]
+const MAPS: Array[StringName] = [&"city.main", &"city.upstairs", &"city.wall_top", &"city.cellar", &"city.bank_house", &"city.biaoju_house", &"city.boots_house",
+	&"city.cloth_house", &"city.house1_house", &"city.jiulou_house", &"city.weapon_house", &"city.shangshu"]
+## Maps that are no rooms of a house: no lived-in life expected (the wall top, the cell: 石室不上生活层).
+const NO_ROOMS: Array[StringName] = [&"city.main", &"city.wall_top", &"city.cellar"]
+## house1.c: 这是一间什麽也没有的空房间 — the one room left bare.
+const BARE: Array[StringName] = [&"city.house1_house", &"city.wall_top", &"city.cellar"]
+const ENTRIES: Dictionary[StringName, Array] = {
+	&"city.main": [&"city.nroad2", &"city.nroad2.village_arrival"],
+	&"city.upstairs": [&"city.jiulou_2", &"city.jiulou_2.stairs_arrival"],
+	&"city.wall_top": [&"city.wall", &"city.wall.climb_arrival"],
+	&"city.cellar": [&"city.midao1", &"city.midao1.stairs_arrival"],
+	&"city.bank_house": [&"city.bank", &"city.bank.street8_entry"],
+	&"city.biaoju_house": [&"city.biaoju", &"city.biaoju.street1_entry"],
+	&"city.boots_house": [&"city.boots", &"city.boots.street11_entry"],
+	&"city.cloth_house": [&"city.cloth", &"city.cloth.street6_entry"],
+	&"city.house1_house": [&"city.house1", &"city.house1.street11_entry"],
+	&"city.jiulou_house": [&"city.jiulou", &"city.jiulou.street5_entry"],
+	&"city.weapon_house": [&"city.weapon", &"city.weapon.street9_entry"],
+	&"city.shangshu": [&"city.shangshu.yuan", &"city.shangshu.yuan.gate_entry"]}
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
 
 
 func run_all(tree: SceneTree) -> Dictionary:
+	var furnishings := Existing.new()
+	for scene: String in SCENES:
+		furnishings._check_furnishings(load("res://scenes/world/city/%s.tscn" % scene) as PackedScene, scene)
+	assertions += furnishings.assertions
+	failures.append_array(furnishings.failures)
 	_check_own_colours()
 	var session: WorldSessionController = Work.create_session(tree)
 	session.configure_npc_ambience_random_source(Still.Still.new())
@@ -38,6 +67,16 @@ func run_all(tree: SceneTree) -> Dictionary:
 		await _check_map(tree, session, map, String(map_id))
 		match map_id:
 			&"city.main": await _check_main(tree, session, map)
+			&"city.bank_house": _check_bank(map)
+			&"city.weapon_house": _check_weapon(map)
+			&"city.cloth_house": _check_cloth(map)
+			&"city.boots_house": _check_boots(map)
+			&"city.house1_house": _check_empty(map)
+			&"city.jiulou_house", &"city.upstairs": _check_tavern(map)
+			&"city.biaoju_house": _check_escort(map)
+			&"city.shangshu": await _check_shangshu(tree, map)
+			&"city.wall_top": _check_wall_top(map)
+			&"city.cellar": _check_cellar(map)
 	var missing: Array[StringName] = []
 	for map_id: StringName in MAPS:
 		if not _seen.has(map_id):
@@ -227,6 +266,91 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		await _frames(tree, 2)
 
 
+## bank.c: 里里外外都打扫得乾乾净净, iron chests, the counter and its sign, the master's books.
+func _check_bank(map: WorldMapController) -> void:
+	var kinds: Array[String] = _kinds(_view_of(map))
+	_check("shop_counter" in kinds and kinds.count("strongbox") == 2 and "bookcase" in kinds and "sign" in kinds, "the 钱庄: its counter, chests, books, the sign")
+	_check(_life_of(map, &"city.bank").get("tidy", false), "bank.c: 打扫得乾乾净净")
+
+
+## weapon.c: 红砖铺地, blades on every wall, the spears in their rack, the counter by the north wall.
+func _check_weapon(map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	var brick := Color(String(view.layout["ground"]["floor_shop"]["stones"][0]))
+	_check(brick.r > brick.g + 0.15 and brick.r > brick.b + 0.15, "weapon.c: 红砖铺地")
+	_check(kinds.count("weapon_rack") >= 3 and "shop_counter" in kinds and kinds.count("armor_stand") == 2, "racks on the walls, the counter, armour")
+
+
+func _check_cloth(map: WorldMapController) -> void:
+	var kinds: Array[String] = _kinds(_view_of(map))
+	_check("cloth_shelf" in kinds and "empty_shelf" in kinds and "cutting_table" in kinds and "cloth_bolts" in kinds, "cloth.c: 刚刚开业, half-stocked, bolts lying about")
+	_check(not _life_of(map, &"city.cloth").get("tidy", true), "cloth.c: 凌乱")
+
+
+func _check_boots(map: WorldMapController) -> void:
+	var boots: int = 0
+	for look: Dictionary in _looks(map):
+		boots += 1 if look["kind"] == "shelf" and look.get("boots", false) else 0
+	_check(boots >= 2, "boots.c: 架子上放满了各式的皮靴: %d shelves of boots" % boots)
+
+
+## house1.c: 这是一间什麽也没有的空房间.
+func _check_empty(map: WorldMapController) -> void:
+	_check(_looks(map).is_empty(), "house1.c: nothing in the empty room")
+	var life: Dictionary = _view_of(map).layout["life"]["city.house1"]
+	_check((life.get("hangings", ["x"]) as Array).is_empty() and int(life.get("count", 1)) == 0, "no corner clutter, nothing on the walls: only dust and light")
+
+
+## jiulou.c: 金壁辉煌 — red and gilt, round tables and fine sets; the 雅座 upstairs as rich.
+func _check_tavern(map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var wall := Color(String(view.layout["wall_looks"][0]["wall"]))
+	_check(wall.r > wall.g * 1.6, "%s: red walls, gilt (金壁辉煌), not 福林楼's" % map.map_id())
+	var lamps: int = 0
+	for prop: Dictionary in view.layout["props"]:
+		lamps += 1 if prop["kind"] == "hanging_lantern" and String(prop.get("paper", "")).begins_with("d8452f") else 0
+	_check(lamps >= 4, "red lanterns over the tables: %d" % lamps)
+
+
+func _check_escort(map: WorldMapController) -> void:
+	var kinds: Array[String] = _kinds(_view_of(map))
+	_check("flagpole" in kinds and kinds.count("cart") == 2 and kinds.count("weapon_rack") == 2, "the 镖局's yard: its flagpole, two 镖车, racks")
+
+
+func _check_shangshu(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var tiger: bool = false
+	var peonies: int = 0
+	for look: Dictionary in _looks(map):
+		tiger = tiger or (look["kind"] == "grand_chair" and look.get("hide", "") == "tiger" and Color(String(look.get("fur", "000000"))).v > 0.8)
+		peonies += 1 if look["kind"] == "camellia_bed" and look.get("peony", false) else 0
+	_check(tiger, "keting.c: 当中的椅子尤其大，并铺以少见的白虎皮")
+	_check(peonies >= 3, "huayuan.c: 洛阳的牡丹: %d beds" % peonies)
+	_check("wall_sword" in (view.layout["life"]["city.shangshu.kefang"]["hangings"] as Array), "kefang.c: 墙上则挂了把宝剑")
+	_check((view.layout["life"]["city.shangshu.xiaowu"]["ambience"] as Array).is_empty(), "xiaowu.c: 什么也看不见 — nothing stirs in the dark")
+	var yard: Dictionary = view.layout["ground"]["floor_yard"]
+	_check((yard["stones"] as Array).size() <= 3 and float(yard.get("broken", 1.0)) < 0.05, "yuan.c: 规规整整地用清一色的大青石铺就")
+	for door_id: StringName in map.doors_by_id: # TEST-ONLY: the doors open for the walk
+		map.set_door_open(door_id, true)
+	_check(await MapPlaces.drive_through(tree, map, [&"city.shangshu.road3", &"city.shangshu.huayuan", &"city.shangshu.road4", &"city.shangshu.feiwu"]), "through the garden to the 废屋")
+
+
+func _check_wall_top(map: WorldMapController) -> void:
+	var kinds: Array[String] = _kinds(_view_of(map))
+	_check(kinds.count("far_ground") == 2, "wall.c: the street below on the north, the busy yards on the south")
+
+
+func _check_cellar(map: WorldMapController) -> void:
+	var kinds: Array[String] = _kinds(_view_of(map))
+	_check("straw_patch" in kinds and not map.has_node("RoomLife") or (map.get_node("RoomLife").get_meta("rooms", {}) as Dictionary).is_empty(), "midao1.c: the old bed, straw; a cell, no lived-in layer")
+
+
+func _life_of(map: WorldMapController, zone: StringName) -> Dictionary:
+	var rooms: Dictionary = map.get_node("RoomLife").get_meta("rooms", {}) if map.has_node("RoomLife") else {}
+	return rooms.get(String(zone), rooms.get(zone, {}))
+
+
 func _gate_at(gates: Array[Dictionary], at: Vector2) -> Dictionary:
 	for gate: Dictionary in gates:
 		if Vector2(float(gate["at"][0]), float(gate["at"][1])).distance_to(at) < 1.0:
@@ -265,10 +389,27 @@ func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapC
 		if node is WorldPassageArea2D:
 			passages += 1
 	_check(view.arrows.size() == view.entrances.size() + map.doors_by_id.size() and view.entrances.size() == passages, "every way out of %s has its bobbing arrow" % place)
+	var rooms: Dictionary = map.get_node("RoomLife").get_meta("rooms", {}) if map.has_node("RoomLife") else {}
+	_check(map.map_id() in NO_ROOMS or not rooms.is_empty(), "%s says what its rooms are used for (lived-in)" % place)
 	_check_footing(map, view, place)
+	_check_covered(map, place)
 	for door_id: StringName in map.doors_by_id: # TEST-ONLY: the doors open for the walk
 		map.set_door_open(door_id, true)
 	await _check_access_and_saves(tree, session, map, view)
+
+
+## A house's floor is furnished to its edges (美术规划 §2), the empty room alone left bare.
+func _check_covered(map: WorldMapController, place: String) -> void:
+	if map.map_id() in NO_ROOMS or map.map_id() in BARE:
+		return
+	var floor: float = 0.0
+	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
+		floor += MapPlaces.zone_rect(map, zone.zone_id).grow(-32.0).get_area()
+	var taken: float = 0.0
+	for node: Node in map.get_node("Furnishings").get_children():
+		var box: Vector2 = node.get_meta("footprint")
+		taken += box.x * box.y
+	_check(taken / floor >= COVERED, "%s: its furniture covers %.0f%% of its floor" % [place, taken / floor * 100.0])
 
 
 func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String) -> void:

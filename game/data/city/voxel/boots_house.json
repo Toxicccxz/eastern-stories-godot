@@ -1,0 +1,27 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "boots.c: 京师中最大的一家鞋店…历经几代，已是百年老店…弥漫着一种特殊皮革的气味。大柜台后面的架子上放满了各式的皮靴 — dark old wood worn smooth, boots on every shelf, hides, the 伙计 at work.",
+  "palette": {
+    "wood": ["5a4030", "624834", "50382a", "6a4e38"],
+    "wall": "a89676"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_looks": [
+    {"rect": [-320, -256, 320, 256], "style": "boards", "colors": ["6a5038", "5e4630", "745a40", "584230"], "grime": 0.5, "note": "百年老店: the boards dark with age"}
+  ],
+  "life": {
+    "city.boots": {"hangings": ["animal_hide", "tool_hooks", "ledger_hook", "animal_hide"], "ambience": [{"kind": "dust", "count": 6}]}
+  },
+  "props": [
+    {"kind": "window", "at": [-160, -160], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [150, -160], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-100, -20], "elevation": 2.6},
+    {"kind": "hanging_lantern", "at": [140, 60], "elevation": 2.6},
+    {"kind": "rug", "at": [0, 40], "size": [160, 80], "colors": ["6a4a34", "7a5a40", "b89060"]},
+    {"kind": "stains", "at": [180, -20], "size": [64, 48], "colors": ["5a4434", "4e3a2c"], "count": 4, "note": "leather offcuts and dye"}
+  ]
+}

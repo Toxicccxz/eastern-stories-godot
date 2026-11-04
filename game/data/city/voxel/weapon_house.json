@@ -1,0 +1,28 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "weapon.c: 店铺宽敞，红砖铺地。四周的墙壁上挂满了各式的刀剑。东边的武器架上的枪戟的反光令你睁不开眼。靠北墙的大柜台一尘不染 — red brick floor, swords on every wall, the spears' glint, a counter without a speck of dust, the gilt board by the door.",
+  "palette": {
+    "wood": ["4e3428", "5a3e2e", "46302a", "62452f"],
+    "wall": "a89a88"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "ground": {
+    "floor_shop": {"style": "slabs", "lengths": [2, 2], "depths": [1, 1], "cracks": 0.05, "broken": 0.03, "sunk": 0.0, "tufts": 0.0, "stones": ["9a4a3a", "a8584a", "8e4234", "b0604e"], "worn": ["8a4232", "9a5040"], "bed": "4a2e26", "joint": 0.07, "mud": "6a4a3a", "crack": "5a3228", "note": "weapon.c: 红砖铺地 — rows of bricks"}
+  },
+  "life": {
+    "city.weapon": {"hangings": ["weapon_pegs", "weapon_pegs", "weapon_pegs", "weapon_pegs"], "hang": 0.95, "ambience": [{"kind": "dust", "count": 4}]}
+  },
+  "props": [
+    {"kind": "window", "at": [-200, -192], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [200, -192], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-140, -40], "elevation": 2.8},
+    {"kind": "hanging_lantern", "at": [150, -40], "elevation": 2.8},
+    {"kind": "hanging_lantern", "at": [-10, 120], "elevation": 2.8},
+    {"kind": "rug", "at": [-10, 60], "size": [192, 96], "colors": ["6a2a24", "7a3a2a", "c8a050"]},
+    {"kind": "glow", "at": [270, 40], "height": 1.8, "color": "e8eef0", "range": 3.0, "day": 0.5, "night": 0.3, "note": "枪戟的反光令你睁不开眼 (the rack is its source)"}
+  ]
+}

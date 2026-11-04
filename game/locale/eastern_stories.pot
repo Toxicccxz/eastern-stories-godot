@@ -1190,6 +1190,10 @@ msgstr ""
 msgid "振远总局"
 msgstr ""
 
+#: scenes/world/city/biaoju_house.tscn scenes/world/cloud/biaoju_house.tscn data/city/voxel/main.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
+msgid "镖"
+msgstr ""
+
 #. es2:d/city/boots short
 #: scenes/world/city/boots_house.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "李记鞋店"
@@ -1486,10 +1490,6 @@ msgstr ""
 #. es2:u/cloud/biaoju short
 #: scenes/world/cloud/biaoju_house.tscn data/cloud/rooms.json
 msgid "镖局"
-msgstr ""
-
-#: scenes/world/cloud/biaoju_house.tscn data/city/voxel/main.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
-msgid "镖"
 msgstr ""
 
 #. cloud.npc.book_seller inquiry topic
@@ -8519,7 +8519,7 @@ msgstr ""
 msgid "和"
 msgstr ""
 
-#: runtime/world/services/bank_service.gd ui/bank/bank_exchange_panel.gd
+#: runtime/world/services/bank_service.gd ui/bank/bank_exchange_panel.gd data/city/voxel/bank_house.json
 msgid "兑换"
 msgstr ""
 

@@ -1,0 +1,29 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "jiulou_2.c: 酒楼的雅座便设于此。大凡有来头的客人都到此饮酒作乐 — the gentry's room over the hall, as rich: screens between the tables, a long bench, gilt, wine, the stairs down.",
+  "palette": {
+    "wood": ["7a3a2a", "843f2e", "6e3426", "8e4632"],
+    "wall": "b8402e"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_looks": [
+    {"rect": [-464, -320, 448, 320], "style": "plaster", "wall": "a8382a", "grime": 0.05}
+  ],
+  "life": {
+    "city.jiulou_2": {"hangings": ["plaques", "couplet", "mural", "plaques"], "ambience": [{"kind": "incense"}]}
+  },
+  "props": [
+    {"kind": "window", "at": [-160, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [120, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [-368, 60], "size": [64, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [-140, -80], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [160, -80], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-140, 120], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [160, 120], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "rug", "at": [40, 0], "size": [512, 320], "colors": ["7a2a24", "8a3428", "d8b050"]}
+  ]
+}

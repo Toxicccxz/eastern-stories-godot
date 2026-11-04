@@ -1,0 +1,36 @@
+{
+  "indoor": false,
+  "camera_size": 18,
+  "note": "wall.c: 你爬上了尚书府的院墙，墙里面人来人往的，很是热闹 — a narrow way of coping tiles along the wall top, the 东街 below on the north, the 尚书府's busy yards and roofs below on the south.",
+  "edge": {
+    "none": true
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.45}
+  },
+  "reshape": [
+    {"rect": [-32, -32, 352, 192], "from": ["wall"], "to": "blocked", "note": "the wall's faces are the props"}
+  ],
+  "ground": {
+    "path": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.14, "broken": 0.08, "sunk": 0.0, "tufts": 0.1, "stones": ["5a6268", "626a70", "545c62"], "worn": ["6a7276"], "bed": "3e4448", "joint": 0.06, "mud": "4a4a44", "crack": "3a4044", "moss": "56704a", "moss_chance": 0.2, "note": "the coping tiles of the wall top"},
+    "blocked": {"colors": ["aca89e", "b4b0a6", "a4a096"]},
+    "boundary": {"style": "void"}
+  },
+  "flora": {
+    "grass_density": 0.1,
+    "butterflies": 0,
+    "wind": 0.3,
+    "density": {"path": 0.1},
+    "tree_chance": 0.0,
+    "tree_types": [],
+    "blossom_trees": 0.0
+  },
+  "props": [
+    {"kind": "far_ground", "at": [160, -260], "size": [900, 420], "elevation": -4.2, "colors": ["8a969a"], "roofs": 6, "walls": ["b4b0a6", "c0bcb2"], "roof_colors": ["424a50", "505860"], "trees": 2, "crowns": ["3e6638", "4e7840"], "note": "north, below: the 东街, its houses"},
+    {"kind": "far_ground", "at": [160, 420], "size": [900, 460], "elevation": -4.2, "colors": ["8e908a"], "roofs": 10, "walls": ["c4beb0", "b4b0a6"], "roof_colors": ["3e4448", "4a5056"], "trees": 5, "crowns": ["3e6638", "4e7840", "62894a"], "clearing": [0, -2, 18, 4], "clearing_color": "9a9c94", "note": "wall.c: 墙里面人来人往的 — the 尚书府's yards"},
+    {"kind": "compound_wall", "at": [160, 8], "size": [320, 16], "wall": "aca89e", "roof": "3e4448", "height": 0.5, "wear": 0.3, "note": "the coping's low edge"},
+    {"kind": "compound_wall", "at": [160, 152], "size": [320, 16], "wall": "aca89e", "roof": "3e4448", "height": 0.5, "wear": 0.3},
+    {"kind": "lantern", "at": [304, 24], "size": [24, 24], "note": "a watchman's lantern on the wall"},
+    {"kind": "bush", "at": [300, 152], "size": [32, 16], "note": "a weed rooted in the coping"}
+  ]
+}

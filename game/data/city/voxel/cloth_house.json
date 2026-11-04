@@ -1,0 +1,27 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "cloth.c: 刚刚开业的专营衣帽的商店。店内顾客稀少，显得店铺空荡荡的。柜台上凌乱地摊着几匹绸缎 — fresh paint, shelves not yet full, bolts left lying about, a new board.",
+  "palette": {
+    "wood": ["a07c5a", "a88462", "b08c66", "987452"],
+    "wall": "e0d8c4"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_looks": [
+    {"rect": [-400, -288, 384, 288], "style": "plaster", "wall": "ece4d2", "grime": 0.0, "note": "刚刚开业: the plaster new"}
+  ],
+  "life": {
+    "city.cloth": {"hangings": ["banner_cloth", "couplet", "double_happiness"], "ambience": [{"kind": "sunbeam", "max": 1}, {"kind": "dust", "count": 6}]}
+  },
+  "props": [
+    {"kind": "window", "at": [-160, -192], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [160, -192], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-120, -40], "elevation": 2.7},
+    {"kind": "hanging_lantern", "at": [160, 60], "elevation": 2.7},
+    {"kind": "rug", "at": [-40, 40], "size": [160, 96], "colors": ["b8402e", "c8503a", "e8c070"]},
+    {"kind": "cloth_bolts", "at": [60, 70], "size": [48, 32], "note": "柜台上凌乱地摊着几匹绸缎 — one fallen to the floor"}
+  ]
+}

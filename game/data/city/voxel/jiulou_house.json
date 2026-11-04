@@ -1,0 +1,31 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "jiulou.c: 四周的装饰金壁辉煌，令人眼花缭乱，连餐具的做工也极讲究，不愧是京城的第一大酒楼 — red lacquer and gilt, round tables with fine sets, gilt plaques and lanterns, the stairs up to the 雅座. Not 福林楼, not 饮风客栈: richer, redder, gold.",
+  "palette": {
+    "wood": ["7a3a2a", "843f2e", "6e3426", "8e4632"],
+    "wall": "b8402e"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_looks": [
+    {"rect": [-464, -320, 448, 320], "style": "plaster", "wall": "a8382a", "grime": 0.05, "note": "金壁辉煌: red walls, gilt"}
+  ],
+  "life": {
+    "city.jiulou": {"hangings": ["plaques", "menu_boards", "couplet", "plaques", "banner_cloth"], "ambience": [{"kind": "steam"}]}
+  },
+  "props": [
+    {"kind": "window", "at": [-200, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [80, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [260, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-200, -60], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [60, -60], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [260, -60], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-200, 140], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [60, 140], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [260, 140], "elevation": 2.8, "paper": "d8452f:glow"},
+    {"kind": "rug", "at": [40, 0], "size": [448, 288], "colors": ["8a2a24", "9a3428", "d8b050"]}
+  ]
+}

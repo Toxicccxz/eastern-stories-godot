@@ -69,6 +69,16 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(root,Vector3(0,y,0),Vector3(w,0.1,d),"755137")
 				if y>2.5:
 					continue
+				if data.get("boots",false):
+					# `boots` (boots.c: 大柜台后面的架子上放满了各式的皮靴): pairs of leather boots, toe out.
+					for x: int in floori(w/0.42):
+						var pair := Vector3(-w/2+0.26+x*0.42,y+0.05,0)
+						var leather: String = _pick(["4a3426","5a3e2a","3a2a20","6a4a32","2e2622"])
+						for side: float in [-0.07,0.07]:
+							s.box(root,pair+Vector3(side,0.2,-0.04),Vector3(0.11,0.4,0.16),leather)
+							s.box(root,pair+Vector3(side,0.05,0.08),Vector3(0.11,0.1,0.18),leather)
+							s.box(root,pair+Vector3(side,0.38,-0.04),Vector3(0.12,0.04,0.17),"8a6a4a")
+					continue
 				for x: int in floori(w/0.62):
 					var jar := Vector3(-w/2+0.38+x*0.62,y+0.07,0)
 					var h: float = rng.randf_range(0.37,0.60)

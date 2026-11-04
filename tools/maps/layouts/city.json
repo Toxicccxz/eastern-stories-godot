@@ -533,7 +533,8 @@
           "city.jiulou_2": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "dining", "wealth": "rich", "tidy": true, "seed": 27}
           }
         },
         "props": [
@@ -558,6 +559,10 @@
         "style": "map",
         "root": "CityUpstairs",
         "map": "city.upstairs",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/upstairs.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "StairsShape": [48, 48]
@@ -616,6 +621,10 @@
         "style": "map",
         "root": "CityWallTop",
         "map": "city.wall_top",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/wall_top.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {},
         "nodes": [
@@ -678,7 +687,7 @@
           "city.midao1": [0, 0, 256, 192, "enclosed", "cave_floor", "wall"]
         },
         "roads": [],
-        "props": [["blocked", 176, 48, 224, 96, "the old little bed"], ["path", 160, 128, 224, 160, "straw"]],
+        "props": [["blocked", 176, 48, 224, 96, "the old little bed", {"look": {"kind": "bed", "quilt": "6a5e4a", "note": "midao1.c: 一个破旧的小床"}}], ["path", 160, 128, 224, 160, "straw"]],
         "reach_from": "Midao1StairsArrival",
         "markers_in_middle": [],
         "placed": {}
@@ -687,6 +696,10 @@
         "style": "map",
         "root": "CityCellar",
         "map": "city.cellar",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/cellar.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "StairsShape": [48, 48],
@@ -753,11 +766,22 @@
           "city.bank": {
             "floor": "floor_shop",
             "wall": "wall",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "bank", "wealth": "rich", "tidy": true, "seed": 21}
           }
         },
         "props": [
-          ["blocked", "city.bank", ["rel", 0.5, 0.062], 4.71, 0.5, "the bank's counter"]
+          ["blocked", "city.bank", ["rel", 0.5, 0.062], 4.71, 0.5, "the bank's counter", {"look": {"kind": "shop_counter", "goods": "coins"}}],
+          ["blocked", "city.bank", "ne", 1.41, 1.41, "a 钱庄 keeps its silver in iron-bound chests", {"look": {"kind": "strongbox"}}],
+          ["blocked", "city.bank", "nw", 1.41, 1.41, {"look": {"kind": "strongbox"}}],
+          ["blocked", "city.bank", ["rel", 0.2, 0.17], 2.82, 1.41, "the master's desk, his abacus and ledgers (bank.c: 老板倒是读过几年书)", {"look": {"kind": "writing_desk", "set": "ledger"}}],
+          ["blocked", "city.bank", "w", 0.94, 3.76, {"look": {"kind": "bookcase", "rotation": 90, "books": 12}}],
+          ["blocked", "city.bank", ["sw", 1, 0], 3.76, 0.94, "a bench for those waiting", {"look": {"kind": "bench_seat", "cloth": "3a4a5a"}}],
+          ["blocked", "city.bank", ["se", 1, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "3a4a5a"}}],
+          ["blocked", "city.bank", ["e", 0, -2], 0.94, 2.82, {"look": {"kind": "folding_screen", "rotation": 270, "cloth": "4a5a6a"}}],
+          ["blocked", "city.bank", ["rel", 0.8, 0.55], 1.41, 1.41, {"look": {"kind": "tea_table"}}],
+          ["blocked", "city.bank", ["sw", 0, 2], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e8d8a0"}}],
+          ["blocked", "city.bank", ["se", 0, 2], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "d8a0b0"}}]
         ],
         "placed": {
           "city.bank.microsof.1": [
@@ -766,7 +790,7 @@
           ]
         },
         "doors": {
-          "city.bank.south": "south"
+          "city.bank.south": {"side": "south", "width": 128}
         },
         "reach_from": "BankStreet8Entry"
       },
@@ -774,6 +798,10 @@
         "style": "map",
         "root": "BankHouse",
         "map": "city.bank_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/bank_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -827,15 +855,26 @@
           "city.biaoju": {
             "floor": "floor_yard",
             "wall": "wall",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "escort_office", "wealth": "plain", "seed": 28}
           }
         },
         "props": [
-          ["blocked", "city.biaoju", ["rel", 0.5, 0.25], 0.94, 0.94, "the 镖局's flagpole (镖)"]
+          ["blocked", "city.biaoju", ["rel", 0.5, 0.25], 0.94, 0.94, "the 镖局's flagpole (镖)", {"look": {"kind": "flagpole", "text": "镖", "flutter": true}}],
+          ["blocked", "city.biaoju", ["n", 0, 0], 7.53, 1.41, "the hall's front along the yard's north side, the 总镖头's chair", {"look": {"kind": "grand_chair", "wood": "4e2a20"}}],
+          ["blocked", "city.biaoju", ["nw", 0, 0], 2.35, 3.76, "a 镖车 with its banner, ready", {"look": {"kind": "cart", "rotation": 90}}],
+          ["blocked", "city.biaoju", ["ne", 0, 0], 2.35, 3.76, {"look": {"kind": "cart", "rotation": 90}}],
+          ["blocked", "city.biaoju", "w", 0.94, 3.76, {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", "city.biaoju", "e", 0.94, 3.76, {"look": {"kind": "weapon_rack", "rotation": 270}}],
+          ["blocked", "city.biaoju", ["sw", 1, 0], 1.88, 1.41, {"look": {"kind": "stone_weights"}}],
+          ["blocked", "city.biaoju", ["se", 1, 0], 0.94, 0.94, {"look": {"kind": "training_post"}}],
+          ["blocked", "city.biaoju", ["se", 3, 0], 0.94, 0.94, {"look": {"kind": "training_post"}}],
+          ["blocked", "city.biaoju", ["rel", 0.3, 0.55], 1.41, 1.41, {"look": {"kind": "water_vat"}}],
+          ["blocked", "city.biaoju", ["rel", 0.72, 0.55], 1.88, 1.41, {"look": {"kind": "cargo"}}]
         ],
         "placed": {},
         "doors": {
-          "city.biaoju.south": "south"
+          "city.biaoju.south": {"side": "south", "width": 128}
         },
         "reach_from": "BiaojuStreet1Entry"
       },
@@ -843,6 +882,10 @@
         "style": "map",
         "root": "BiaojuHouse",
         "map": "city.biaoju_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/biaoju_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -880,15 +923,22 @@
           "city.boots": {
             "floor": "floor_shop",
             "wall": "wall",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "workshop", "wealth": "plain", "seed": 24}
           }
         },
         "props": [
-          ["blocked", "city.boots", ["rel", 0.5, 0.062], 5.65, 0.5, "the boot shelves behind the counter"]
+          ["blocked", "city.boots", ["rel", 0.5, 0.062], 5.65, 0.5, "the boot shelves behind the counter", {"look": {"kind": "shelf", "boots": true}}],
+          ["blocked", "city.boots", ["n", 0, 1.2], 5.65, 1.0, "boots.c: 大柜台后面的架子上放满了各式的皮靴", {"look": {"kind": "shop_counter", "goods": "boots"}}],
+          ["blocked", "city.boots", "w", 0.94, 2.82, {"look": {"kind": "shelf", "boots": true, "rotation": 90}}],
+          ["blocked", "city.boots", ["e", 0, -1], 1.88, 1.41, "the 伙计 at work on the leather", {"look": {"kind": "cutting_table"}}],
+          ["blocked", "city.boots", ["e", 0, 1.5], 0.94, 0.94, {"look": {"kind": "stool"}}],
+          ["blocked", "city.boots", ["sw", 1, 0], 2.82, 0.94, {"look": {"kind": "bench_seat", "cloth": "6a4a34"}}],
+          ["blocked", "city.boots", ["rel", 0.35, 0.6], 0.94, 0.94, {"look": {"kind": "stool"}}]
         ],
         "placed": {},
         "doors": {
-          "city.boots.south": "south"
+          "city.boots.south": {"side": "south", "width": 128}
         },
         "reach_from": "BootsStreet11Entry"
       },
@@ -896,6 +946,10 @@
         "style": "map",
         "root": "BootsHouse",
         "map": "city.boots_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/boots_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -941,15 +995,23 @@
           "city.cloth": {
             "floor": "floor_shop",
             "wall": "wall",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "tailor", "wealth": "plain", "tidy": false, "seed": 23}
           }
         },
         "props": [
-          ["blocked", "city.cloth", ["rel", 0.167, 0.125], 1.88, 0.94, "bolts of silk on the counter"]
+          ["blocked", "city.cloth", ["rel", 0.167, 0.125], 1.88, 0.94, "bolts of silk on the counter", {"look": {"kind": "shop_counter", "goods": "cloth"}}],
+          ["blocked", "city.cloth", ["n", 2, 0], 5.65, 0.94, "cloth.c: 刚刚开业 — shelves not yet full", {"look": {"kind": "cloth_shelf"}}],
+          ["blocked", "city.cloth", "w", 0.94, 3.76, {"look": {"kind": "empty_shelf", "rotation": 90}}],
+          ["blocked", "city.cloth", ["rel", 0.45, 0.5], 2.82, 1.41, "cloth.c: 柜台上凌乱地摊着几匹绸缎", {"look": {"kind": "cutting_table"}}],
+          ["blocked", "city.cloth", ["sw", 0, 0], 1.88, 1.88, {"look": {"kind": "folding_screen", "cloth": "b8402e"}}],
+          ["blocked", "city.cloth", ["s", -2, 0], 2.82, 0.94, {"look": {"kind": "bench_seat", "cloth": "b8402e"}}],
+          ["blocked", "city.cloth", ["se", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0c8d0"}}],
+          ["blocked", "city.cloth", ["rel", 0.3, 0.75], 0.94, 0.94, {"look": {"kind": "chair"}}]
         ],
         "placed": {},
         "doors": {
-          "city.cloth.east": "east"
+          "city.cloth.east": {"side": "east", "width": 128}
         },
         "reach_from": "ClothStreet6Entry"
       },
@@ -957,6 +1019,10 @@
         "style": "map",
         "root": "ClothHouse",
         "map": "city.cloth_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/cloth_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1002,13 +1068,14 @@
           "city.house1": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "storeroom", "wealth": "poor", "seed": 25, "count": 0, "note": "house1.c: 什麽也没有 — no pieces"}
           }
         },
         "props": [],
         "placed": {},
         "doors": {
-          "city.house1.north": "north"
+          "city.house1.north": {"side": "north", "width": 128}
         },
         "reach_from": "House1Street11Entry"
       },
@@ -1016,6 +1083,10 @@
         "style": "map",
         "root": "House1House",
         "map": "city.house1_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/house1_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1053,16 +1124,26 @@
           "city.jiulou": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "dining", "wealth": "rich", "tidy": true, "seed": 26}
           }
         },
         "props": [
-          ["blocked", "city.jiulou", ["rel", 0.792, 0.708], 1.41, 1.41, "the 酒楼's tables"],
-          ["blocked", "city.jiulou", ["rel", 0.333, 0.75], 0.94, 0.94]
+          ["blocked", "city.jiulou", ["rel", 0.792, 0.708], 1.41, 1.41, "the 酒楼's tables", {"look": {"kind": "round_table", "set": "wine"}}],
+          ["blocked", "city.jiulou", ["rel", 0.333, 0.75], 0.94, 0.94, {"look": {"kind": "stool"}}],
+          ["blocked", "city.jiulou", ["rel", 0.45, 0.3], 2.35, 2.35, "jiulou.c: 连餐具的做工也极讲究", {"look": {"kind": "round_table", "set": "wine"}}],
+          ["blocked", "city.jiulou", ["rel", 0.7, 0.3], 2.35, 2.35, {"look": {"kind": "round_table", "set": "tea"}}],
+          ["blocked", "city.jiulou", ["rel", 0.45, 0.72], 2.35, 2.35, {"look": {"kind": "round_table", "set": "wine"}}],
+          ["blocked", "city.jiulou", ["rel", 0.2, 0.62], 2.35, 2.35, {"look": {"kind": "round_table", "set": "tea"}}],
+          ["blocked", "city.jiulou", "s", 5.65, 0.94, "the counter and its wine, by the door", {"look": {"kind": "shop_counter", "goods": "wine"}}],
+          ["blocked", "city.jiulou", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "wine_jars", "count": 4}}],
+          ["blocked", "city.jiulou", ["ne", 0, 0], 2.82, 0.94, {"look": {"kind": "folding_screen", "cloth": "c8a040"}}],
+          ["blocked", "city.jiulou", ["n", 3, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "8a2f2a"}}],
+          ["blocked", "city.jiulou", ["se", 0, 3], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0d080"}}]
         ],
         "placed": {},
         "doors": {
-          "city.jiulou.east": "east"
+          "city.jiulou.east": {"side": "east", "width": 128}
         },
         "reach_from": "JiulouStairsReturn"
       },
@@ -1070,6 +1151,10 @@
         "style": "map",
         "root": "JiulouHouse",
         "map": "city.jiulou_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/jiulou_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1121,16 +1206,24 @@
           "city.weapon": {
             "floor": "floor_shop",
             "wall": "wall",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "weapon_shop", "wealth": "rich", "tidy": true, "seed": 22}
           }
         },
         "props": [
-          ["blocked", "city.weapon", ["rel", 0.5, 0.062], 5.65, 0.5, "the weapon racks on the north wall"],
-          ["blocked", "city.weapon", ["rel", 0.875, 0.562], 1.41, 2.35, "the spear rack on the east wall"]
+          ["blocked", "city.weapon", ["rel", 0.5, 0.062], 5.65, 0.5, "the weapon racks on the north wall", {"look": {"kind": "weapon_rack"}}],
+          ["blocked", "city.weapon", ["rel", 0.875, 0.562], 1.41, 2.35, "the spear rack on the east wall", {"look": {"kind": "weapon_rack", "rotation": 270}}],
+          ["blocked", "city.weapon", ["n", 0, 1.2], 5.65, 1.0, "weapon.c: 靠北墙的大柜台一尘不染", {"look": {"kind": "shop_counter", "goods": "blades"}}],
+          ["blocked", "city.weapon", "nw", 1.41, 1.41, {"look": {"kind": "armor_stand"}}],
+          ["blocked", "city.weapon", "ne", 1.41, 1.41, {"look": {"kind": "armor_stand"}}],
+          ["blocked", "city.weapon", ["w", 0, -1], 0.94, 3.76, "weapon.c: 四周的墙壁上挂满了各式的刀剑", {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", "city.weapon", ["rel", 0.42, 0.62], 1.88, 1.41, {"look": {"kind": "tool_rack"}}],
+          ["blocked", "city.weapon", ["se", 2, 0], 2.82, 0.94, {"look": {"kind": "bench_seat", "cloth": "6a2a24"}}],
+          ["blocked", "city.weapon", ["rel", 0.62, 0.62], 1.41, 1.41, "a whetstone by the counter", {"look": {"kind": "stone_weights"}}]
         ],
         "placed": {},
         "doors": {
-          "city.weapon.south": "south"
+          "city.weapon.south": {"side": "south", "width": 128}
         },
         "reach_from": "WeaponStreet9Entry"
       },
@@ -1138,6 +1231,10 @@
         "style": "map",
         "root": "WeaponHouse",
         "map": "city.weapon_house",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/weapon_house.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1183,74 +1280,175 @@
           "city.shangshu.yuan": {
             "floor": "floor_yard",
             "wall": "wall",
-            "size": "yard"
+            "size": "yard",
+            "life": {"use": "front_yard", "wealth": "rich", "tidy": true, "seed": 30}
           },
           "city.shangshu.keting": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "parlour", "wealth": "rich", "tidy": true, "seed": 31}
           },
           "city.shangshu.road1": {
             "floor": "grass",
             "wall": "wall",
-            "size": "small"
+            "size": "small",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 32}
           },
           "city.shangshu.road2": {
             "floor": "grass",
             "wall": "wall",
-            "size": "small"
+            "size": "small",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 33}
           },
           "city.shangshu.road3": {
             "floor": "grass",
             "wall": "wall",
-            "size": "small"
+            "size": "small",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 34}
           },
           "city.shangshu.road4": {
             "floor": "grass",
             "wall": "wall",
-            "size": "small"
+            "size": "small",
+            "life": {"use": "front_yard", "wealth": "plain", "seed": 35}
           },
           "city.shangshu.huayuan": {
             "floor": "grass",
             "wall": "wall",
-            "size": "yard"
+            "size": "yard",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 36}
           },
           "city.shangshu.chufang": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "kitchen", "wealth": "rich", "seed": 37}
           },
           "city.shangshu.feiwu": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "storeroom", "wealth": "poor", "seed": 38}
           },
           "city.shangshu.kefang": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "guest_room", "wealth": "rich", "tidy": true, "seed": 39}
           },
           "city.shangshu.neizhai": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "home", "wealth": "plain", "tidy": true, "seed": 40}
           },
           "city.shangshu.xiaowu": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "small"
+            "size": "small",
+            "life": {"use": "confinement", "wealth": "plain", "seed": 41}
           }
         },
         "props": [
-          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.125], 0.5, 1.88, "the 客厅's agarwood chairs along the east wall, the great one under the white tiger skin"],
-          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.875], 0.5, 1.88],
-          ["blocked", "city.shangshu.kefang", ["rel", 0.625, 0.857], 1.41, 0.94, "the guest room's desk by the window, books on it"],
-          ["blocked", "city.shangshu.chufang", ["rel", 0.875, 0.25], 0.5, 1.88, "the kitchen stove"],
-          ["blocked", "city.shangshu.huayuan", ["rel", 0.167, 0.929], 0.94, 0.94, "flower beds: peonies and 琼花"],
-          ["blocked", "city.shangshu.huayuan", ["rel", 0.833, 0.786], 0.94, 0.94],
-          ["blocked", "city.shangshu.neizhai", ["rel", 0.625, 0.8], 1.41, 0.94, "the 内宅's plain dressing table"],
-          ["blocked", "city.shangshu.feiwu", ["rel", 0.083, 0.25], 0.94, 0.94, "clutter heaped in the 废屋"],
-          ["blocked", "city.shangshu.feiwu", ["rel", 0.25, 0.875], 0.94, 0.5]
+          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.125], 0.5, 1.88, "the 客厅's agarwood chairs along the east wall, the great one under the white tiger skin", {"look": {"kind": "chair_row", "rotation": 270, "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.875], 0.5, 1.88, {"look": {"kind": "chair_row", "rotation": 270, "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.kefang", ["rel", 0.625, 0.857], 1.41, 0.94, "the guest room's desk by the window, books on it", {"look": {"kind": "writing_desk", "set": "books"}}],
+          ["blocked", "city.shangshu.chufang", ["rel", 0.875, 0.25], 0.5, 1.88, "the kitchen stove", {"look": {"kind": "hearth", "rotation": 270}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.167, 0.929], 0.94, 0.94, "flower beds: peonies and 琼花", {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.833, 0.786], 0.94, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "city.shangshu.neizhai", ["rel", 0.625, 0.8], 1.41, 0.94, "the 内宅's plain dressing table", {"look": {"kind": "dressing_table"}}],
+          ["blocked", "city.shangshu.feiwu", ["rel", 0.083, 0.25], 0.94, 0.94, "clutter heaped in the 废屋", {"look": {"kind": "old_furniture"}}],
+          ["blocked", "city.shangshu.feiwu", ["rel", 0.25, 0.875], 0.94, 0.5, {"look": {"kind": "chest_stack"}}],
+          ["blocked", "city.shangshu.yuan", ["ne", 0, 0], 1.41, 1.41, {"look": {"kind": "water_vat"}}],
+          ["blocked", "city.shangshu.yuan", ["nw", 0, 0], 1.41, 1.41, {"look": {"kind": "water_vat"}}],
+          ["blocked", "city.shangshu.yuan", ["n", -4, 0], 0.94, 0.94, {"look": {"kind": "stone_lantern"}}],
+          ["blocked", "city.shangshu.yuan", ["n", 4, 0], 0.94, 0.94, {"look": {"kind": "stone_lantern"}}],
+          ["blocked", "city.shangshu.yuan", ["s", -4, 0], 0.94, 0.94, {"look": {"kind": "stone_lantern"}}],
+          ["blocked", "city.shangshu.yuan", ["s", 4, 0], 0.94, 0.94, {"look": {"kind": "stone_lantern"}}],
+          ["blocked", "city.shangshu.yuan", ["sw", 0, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "locust"}}],
+          ["blocked", "city.shangshu.yuan", ["se", 0, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "city.shangshu.yuan", ["e", 0, -3], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e85a6a"}}],
+          ["blocked", "city.shangshu.yuan", ["e", 0, 3], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0e0b0"}}],
+          ["blocked", "city.shangshu.keting", ["e", 0, 0], 1.88, 1.88, "keting.c: 当中的椅子尤其大，并铺以少见的白虎皮", {"look": {"kind": "grand_chair", "rotation": 270, "wood": "5a3a28", "hide": "tiger", "fur": "ece8dc"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.6, 0.3], 1.41, 0.94, {"look": {"kind": "side_table", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.6, 0.7], 1.41, 0.94, {"look": {"kind": "side_table", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["n", 0, 0], 3.76, 0.94, {"look": {"kind": "ceremony_table", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["s", 0, 0], 3.76, 0.94, {"look": {"kind": "folding_screen", "cloth": "d8d0b8"}}],
+          ["blocked", "city.shangshu.keting", ["ne", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0e8d0"}}],
+          ["blocked", "city.shangshu.keting", ["se", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e8a0b0"}}],
+          ["blocked", "city.shangshu.kefang", ["n", 2, 0], 3.76, 1.88, {"look": {"kind": "bed", "quilt": "5a6a8a"}}],
+          ["blocked", "city.shangshu.kefang", ["nw", 0, 0], 1.41, 1.41, {"look": {"kind": "travel_chest"}}],
+          ["blocked", "city.shangshu.kefang", ["ne", 0, 0], 0.94, 1.88, {"look": {"kind": "washstand", "rotation": 270}}],
+          ["blocked", "city.shangshu.kefang", ["rel", 0.45, 0.857], 0.94, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "city.shangshu.xiaowu", ["ne", 0, 0], 2.82, 1.41, {"look": {"kind": "bed", "quilt": "2a2622"}}],
+          ["blocked", "city.shangshu.xiaowu", ["sw", 0, 0], 1.41, 1.41, {"look": {"kind": "chest_stack"}}],
+          ["blocked", "city.shangshu.chufang", ["rel", 0.5, 0.35], 2.82, 1.41, {"look": {"kind": "cutting_table"}}],
+          ["blocked", "city.shangshu.chufang", ["nw", 0, 0], 1.41, 1.41, {"look": {"kind": "water_vat"}}],
+          ["blocked", "city.shangshu.chufang", ["n", -2, 0], 2.82, 0.94, {"look": {"kind": "shelf"}}],
+          ["blocked", "city.shangshu.chufang", ["se", 0, 0], 1.41, 1.41, {"look": {"kind": "firewood"}}],
+          ["blocked", "city.shangshu.chufang", ["ne", 0, 0], 1.41, 0.94, {"look": {"kind": "crocks"}}],
+          ["blocked", "city.shangshu.road1", ["nw", 0, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "slender"}}],
+          ["blocked", "city.shangshu.road1", ["sw", 0, 0], 1.88, 1.88, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road1", ["n", -3, 0], 2.82, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road1", ["n", 4, 0], 1.88, 1.41, {"look": {"kind": "tree", "species": "locust"}}],
+          ["blocked", "city.shangshu.road2", ["nw", 0, 0], 1.88, 1.88, "road2.c: 透过树丛隐隐约约地看到…一间小屋", {"look": {"kind": "tree", "species": "broadleaf"}}],
+          ["blocked", "city.shangshu.road2", ["sw", 0, 0], 2.82, 1.41, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road2", ["ne", 0, 0], 1.88, 1.41, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road3", ["w", 0, 0], 1.88, 1.88, "road3.c: 阵阵花香随风飘过来", {"look": {"kind": "tree", "species": "osmanthus"}}],
+          ["blocked", "city.shangshu.road3", ["sw", 0, 0], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "city.shangshu.road3", ["nw", 0, 0], 1.88, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road4", ["nw", 0, 0], 1.88, 1.41, "road4.c: 一条僻静的小路…平常很少有人来此", {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road4", ["s", 0, 0], 3.76, 0.94, {"look": {"kind": "thorns"}}],
+          ["blocked", "city.shangshu.road4", ["ne", 0, 0], 1.41, 1.41, {"look": {"kind": "tree", "species": "dead"}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.5, 0.45], 2.82, 2.82, {"look": {"kind": "pavilion"}}],
+          ["blocked", "city.shangshu.huayuan", ["nw", 0, 0], 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "city.shangshu.huayuan", ["ne", 0, 0], 1.88, 1.88, "the 琼花, white", {"look": {"kind": "tree", "species": "crabapple"}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.3, 0.7], 2.82, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.7, 0.62], 2.82, 0.94, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "city.shangshu.huayuan", ["sw", 0, 2], 1.88, 1.88, {"look": {"kind": "tree", "species": "osmanthus"}}],
+          ["blocked", "city.shangshu.huayuan", ["nw", 0, 2.2], 0.94, 1.88, {"look": {"kind": "flower_bed", "rotation": 90}}],
+          ["blocked", "city.shangshu.neizhai", ["ne", 0, 1], 3.76, 2.35, {"look": {"kind": "bed", "quilt": "d8d4c8"}}],
+          ["blocked", "city.shangshu.neizhai", ["s", 2, 0], 2.82, 0.94, {"look": {"kind": "folding_screen", "cloth": "e8e4d8"}}],
+          ["blocked", "city.shangshu.neizhai", ["sw", 0, 0], 1.41, 1.41, {"look": {"kind": "zither_table"}}],
+          ["blocked", "city.shangshu.neizhai", ["nw", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f4f0f0"}}],
+          ["blocked", "city.shangshu.neizhai", ["s", -3, 0], 1.88, 0.94, {"look": {"kind": "linen_cabinet"}}],
+          ["blocked", "city.shangshu.feiwu", ["ne", 0, 0], 1.88, 1.41, {"look": {"kind": "old_furniture"}}],
+          ["blocked", "city.shangshu.feiwu", ["se", 0, 0], 1.41, 1.41, {"look": {"kind": "baskets"}}],
+          ["blocked", "city.shangshu.feiwu", ["n", 0, 0], 2.35, 0.94, {"look": {"kind": "lumber"}}],
+          ["blocked", "city.shangshu.feiwu", ["sw", 2, 0], 1.88, 1.41, {"look": {"kind": "sacks"}}],
+          ["blocked", "city.shangshu.feiwu", ["w", 0, -2], 1.41, 1.41, {"look": {"kind": "crocks"}}],
+          ["blocked", "city.shangshu.road1", ["s", 5, 0], 3.76, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road1", ["se", 0, 0], 2.82, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road2", ["n", 5, 0], 3.76, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road2", ["se", 0, 0], 2.82, 1.41, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road2", ["s", -5, 0], 2.82, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road3", ["ne", 0, 0], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "city.shangshu.road3", ["se", 0, 0], 2.82, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.road3", ["n", -3, 0], 1.88, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.huayuan", ["se", 0, 0], 2.82, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "city.shangshu.huayuan", ["s", 0, 0], 3.76, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "city.shangshu.huayuan", ["n", 3, 0], 2.82, 0.94, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.2, 0.45], 1.41, 1.41, {"look": {"kind": "stone_table"}}],
+          ["blocked", "city.shangshu.yuan", ["rel", 0.3, 0.3], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "e85a6a"}}],
+          ["blocked", "city.shangshu.yuan", ["rel", 0.7, 0.3], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "f0e0b0"}}],
+          ["blocked", "city.shangshu.yuan", ["nw", 2, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "3a4a5a"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.3, 0.3], 1.41, 0.94, {"look": {"kind": "chair", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.3, 0.7], 1.41, 0.94, {"look": {"kind": "chair", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["nw", 0, 0], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "f0d080"}}],
+          ["blocked", "city.shangshu.neizhai", ["nw", 2, 0], 1.88, 0.94, {"look": {"kind": "wardrobe"}}],
+          ["blocked", "city.shangshu.chufang", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "table"}}],
+          ["blocked", "city.shangshu.xiaowu", ["nw", 0, 0], 1.41, 0.94, {"look": {"kind": "stool"}}],
+          ["blocked", "city.shangshu.yuan", ["sw", 2, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "locust"}}],
+          ["blocked", "city.shangshu.yuan", ["se", 2, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "city.shangshu.keting", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "side_table", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["nw", 2, 0], 1.41, 0.94, {"look": {"kind": "chair", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.75, 0.3], 1.88, 1.88, {"look": {"kind": "tree", "species": "osmanthus"}}],
+          ["blocked", "city.shangshu.huayuan", ["rel", 0.5, 0.8], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "city.shangshu.road4", ["se", 0, 0], 1.88, 0.94, {"look": {"kind": "bush"}}],
+          ["blocked", "city.shangshu.neizhai", ["se", 0, 0], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "e8e0f0"}}],
+          ["blocked", "city.shangshu.feiwu", ["nw", 2, 0], 1.41, 1.41, {"look": {"kind": "baskets"}}],
+          ["blocked", "city.shangshu.kefang", ["sw", 0, 0], 1.41, 1.41, {"look": {"kind": "chest_stack"}}]
         ],
         "placed": {
           "city.shangshu.chufang.maid.1": [
@@ -1275,7 +1473,7 @@
           ]
         },
         "doors": {
-          "city.shangshu.yuan.west": "west"
+          "city.shangshu.yuan.west": {"side": "west", "width": 128}
         },
         "reach_from": "ShangshuYuanGateEntry"
       },
@@ -1283,6 +1481,10 @@
         "style": "map",
         "root": "Shangshu",
         "map": "city.shangshu",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/shangshu.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
