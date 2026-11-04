@@ -220,13 +220,16 @@ func _show_end_stamp() -> void:
 	end_stamp.visible = true
 	end_stamp.reset_size()
 	end_stamp.pivot_offset = end_stamp.size * 0.5
-	# Over the cards (they keep to the top of their row since 界面重做 4), else their row.
+	# Over the cards the player sees (they keep to the top of their row since 界面重做 4; a
+	# row too wide scrolls, so only its visible part counts), else their row.
+	var shown: Rect2 = _participants.get_parent().get_global_rect()
 	var area := Rect2()
 	for card: BattleParticipantCard in _cards:
 		if card.visible:
 			area = card.get_global_rect() if not area.has_area() else area.merge(card.get_global_rect())
+	area = area.intersection(shown)
 	if not area.has_area():
-		area = _participants.get_parent().get_global_rect()
+		area = shown
 	end_stamp.global_position = area.get_center() - end_stamp.size * 0.5
 	end_stamp.modulate = Color(1, 1, 1, 0)
 	end_stamp.scale = Vector2.ONE * BattleCardStage.SLAM_FROM
