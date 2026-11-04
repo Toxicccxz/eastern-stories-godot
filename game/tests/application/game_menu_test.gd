@@ -2,6 +2,7 @@ extends RefCounted
 ## The menu window (owner, 2026-10-15; DECISIONS「菜单窗口」): seven tabs in
 ## place of the HUD's panels; the keys C, K, I, J, Q, E and L; the menu's questions over it;
 ## 系统 is the shell's pause and holds its buttons; under the other tabs the tree runs and world time is held.
+## Its pages in the theme (界面重做 2).
 
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
@@ -14,6 +15,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_first_open_starts_at_the_top(tree)
 	await _test_tabs_and_keys(tree)
 	await _test_system_is_the_pause(tree)
+	await _test_pages_dressed(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
@@ -202,6 +204,63 @@ func _test_system_is_the_pause(tree: SceneTree) -> void:
 	_check(menu.is_presented() and not tree.paused, "继续 at home does nothing while playing")
 	menu.close()
 	shell.queue_free()
+	await tree.process_frame
+
+
+## 界面重做 2 (DECISIONS「界面样式」): the window and its tabs in the theme, the HUD's card
+## and toasts out of the way while it is open; 角色 in recesses with 历练 under 身份; 武学 in
+## two columns of cards (a section with nothing in it gone); 背包's inspection beside the
+## list, its actions as chips; 任务's quests as cards and the log in its own; 系统's
+## buttons a column in the middle.
+func _test_pages_dressed(tree: SceneTree) -> void:
+	var session: WorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	_check(session.configure_source_entry("样式", CharacterState.GENDER_FEMALE), "source setup")
+	tree.root.add_child(session)
+	await _frames(tree, 2)
+	var ui: SharedGameplayUI = session.shared_ui()
+	var menu: GameMenu = ui.menu
+	var layout: SharedGameplayLayout = ui._presentation_layout
+	menu.open(GameMenu.Tab.CHARACTER)
+	await _frames(tree, 4)
+	_check(menu.root.theme == GameTheme.shared() and menu.window.theme_type_variation == &"MenuWindow", "the window is the theme's")
+	_check(menu.tab_buttons.all(func(button: Button) -> bool: return button.theme_type_variation == &"TabButton"), "its tabs are tab buttons")
+	_check(is_zero_approx(layout.bar.modulate.a) and is_zero_approx(layout.toasts.modulate.a), "the status card and the toasts step back")
+	var sheet: CharacterSheet = ui.character_sheet
+	var who := sheet.find_child("Who", true, false) as PanelContainer
+	var deeds := sheet.find_child("Milestones", true, false) as PanelContainer
+	_check(who.theme_type_variation == &"WellPanel" and deeds.theme_type_variation == &"WellPanel", "角色's blocks are recesses")
+	_check(is_equal_approx(deeds.global_position.x, who.global_position.x) and deeds.global_position.y > who.global_position.y, "历练 stands under 身份")
+	menu.show_tab(GameMenu.Tab.MARTIAL_ARTS)
+	await _frames(tree, 4)
+	var arts: MartialArtsPage = ui.martial_arts_page()
+	var skills_card: Control = arts.skills_text.get_parent().get_parent() as Control
+	var sit_card: Control = arts.exercise_button.get_parent().get_parent().get_parent() as Control
+	_check(skills_card is PanelContainer and sit_card is PanelContainer and skills_card.global_position.x < sit_card.global_position.x and is_equal_approx(skills_card.global_position.y, sit_card.global_position.y), "武学: skills on the left, 打坐 on the right")
+	_check(not (arts.exert_title.get_parent().get_parent() as Control).visible, "a section with nothing in it (运功) is gone, card and all")
+	menu.show_tab(GameMenu.Tab.INVENTORY)
+	await _frames(tree, 4)
+	var panel: PlayerInventoryPanel = ui.inventory_panel
+	var row: Control = panel.row_container.get_child(0) as Control
+	var inspect: Button = row.get_child(1) as Button
+	_check(inspect.text == "观察" and inspect.theme_type_variation == &"ChipButton", "背包's actions are chips")
+	_check(not panel.inspect_well.visible, "nothing inspected: the list has the width")
+	inspect.pressed.emit()
+	await _frames(tree, 3)
+	_check(panel.inspect_well.is_visible_in_tree() and panel.inspect_well.global_position.x >= row.get_global_rect().end.x and not panel.inspection_display().is_empty(), "观察: the item beside the list")
+	menu.show_tab(GameMenu.Tab.JOURNAL)
+	await _frames(tree, 4)
+	var cards: Array[Node] = ui.quest_page.find_children("Card", "PanelContainer", true, false)
+	_check(not cards.is_empty() and cards.all(func(card: Node) -> bool: return (card as Control).theme_type_variation == &"WellPanel"), "任务: each quest a card (%d)" % cards.size())
+	_check(ui.combat_log.get_parent().get_parent().name == "LogWell", "the log in a recess of its own")
+	menu.show_tab(GameMenu.Tab.SYSTEM)
+	await _frames(tree, 4)
+	var mount: Rect2 = menu.system_mount.get_global_rect()
+	var window: Rect2 = menu.window.get_global_rect()
+	_check(is_equal_approx(mount.size.x, GameMenu.SYSTEM_WIDTH) and absf(mount.get_center().x - window.get_center().x) < 12.0, "系统: a column in the middle: %s in %s" % [mount, window])
+	menu.close()
+	await _frames(tree, 2)
+	_check(not menu.is_presented() and is_equal_approx(layout.bar.modulate.a, 1.0) and is_equal_approx(layout.toasts.modulate.a, 1.0), "closed: the card and toasts come back")
+	session.queue_free()
 	await tree.process_frame
 
 

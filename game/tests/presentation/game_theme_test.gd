@@ -28,7 +28,7 @@ func _check(condition: bool, message: String) -> void:
 func _test_theme() -> void:
 	var theme: GameTheme = GameTheme.shared()
 	_check(theme == GameTheme.shared(), "one theme for every user")
-	for variation: StringName in [&"TitleLabel", &"HeadingLabel", &"MutedLabel", &"SmallLabel", &"WarningLabel", &"KeyCap", &"WellPanel", &"PlatePanel", &"ToastPanel", &"PrimaryButton", &"DangerButton", &"ChipButton", &"ToggleButton", &"RowButton", &"SlotButton"]:
+	for variation: StringName in [&"TitleLabel", &"HeadingLabel", &"MutedLabel", &"SmallLabel", &"WarningLabel", &"KeyCap", &"WellPanel", &"PlatePanel", &"ToastPanel", &"PrimaryButton", &"DangerButton", &"ChipButton", &"ToggleButton", &"RowButton", &"SlotButton", &"MenuWindow", &"TabButton"]:
 		_check(theme.is_type_variation(variation, theme.get_type_variation_base(variation)), "%s is a variation" % variation)
 	var normal: StyleBoxTexture = theme.get_stylebox("normal", &"Button") as StyleBoxTexture
 	var pressed: StyleBoxTexture = theme.get_stylebox("pressed", &"Button") as StyleBoxTexture

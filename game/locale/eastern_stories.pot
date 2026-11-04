@@ -9132,6 +9132,11 @@ msgstr ""
 msgid "身份"
 msgstr ""
 
+#. the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
+#: ui/world/character_sheet.gd
+msgid "历练"
+msgstr ""
+
 #. help.health title
 #: ui/world/character_sheet.gd data/common/codex.json
 msgid "精气神"
@@ -9144,11 +9149,6 @@ msgstr ""
 #. help.gift title
 #: ui/world/character_sheet.gd data/common/codex.json
 msgid "天赋"
-msgstr ""
-
-#. the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
-#: ui/world/character_sheet.gd
-msgid "历练"
 msgstr ""
 
 #. the character sheet (score): name, gender and age.
@@ -9255,10 +9255,6 @@ msgstr ""
 
 #: ui/world/codex_page.gd
 msgid "你还没有遇见过任何人。"
-msgstr ""
-
-#: ui/world/codex_page.gd
-msgid "返回列表"
 msgstr ""
 
 #: ui/world/dance_panel.gd
@@ -9578,6 +9574,19 @@ msgid "你现在没有使用任何特殊技能。"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
+msgid "神通"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "自学"
+msgstr ""
+
+#. help.skill paragraphs
+#: ui/world/martial_arts_page.gd data/common/codex.json
+msgid "研读"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
 msgid "每次花费的气"
 msgstr ""
 
@@ -9618,19 +9627,6 @@ msgstr ""
 #. the 武学 page's button that does 修行 again and again until something stops it.
 #: ui/world/martial_arts_page.gd
 msgid "连续修行"
-msgstr ""
-
-#: ui/world/martial_arts_page.gd
-msgid "神通"
-msgstr ""
-
-#: ui/world/martial_arts_page.gd
-msgid "自学"
-msgstr ""
-
-#. help.skill paragraphs
-#: ui/world/martial_arts_page.gd data/common/codex.json
-msgid "研读"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd

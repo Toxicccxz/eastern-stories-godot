@@ -77,6 +77,12 @@ var _shown_factor: int = -1
 var _last_lines: Variant = null
 ## The button that started the run under way (it takes the focus back).
 var _run_button: Button
+## While the page is built: the column the next section goes in, and where rows go (the
+## section's card, or the page itself under the columns).
+var _column_box: VBoxContainer
+var _into: Container = self
+## Each section's card: shown while any of its rows is (界面重做 2).
+var _cards: Array[PanelContainer] = []
 
 # TRANSLATORS: the 武学 page's 神通 buttons' tooltips (daemon/class/bonze/essencemagic/): their costs and what may come of them.
 const CONJURE_HINTS: Dictionary[StringName, String] = {
@@ -91,7 +97,15 @@ const SPELL_HINTS: Dictionary[StringName, String] = {
 
 func _init() -> void:
 	name = "MartialArts"
-	add_theme_constant_override("separation", 8)
+	add_theme_constant_override("separation", 10)
+	var columns := HBoxContainer.new()
+	columns.name = "Columns"
+	columns.add_theme_constant_override("separation", 12)
+	add_child(columns)
+	var left: VBoxContainer = _column(columns, "Skills")
+	var right: VBoxContainer = _column(columns, "Cultivation")
+	# What one does with one's skills on the left, cultivation on the right.
+	_column_box = left
 	_title("技能")
 	skills_text = _label("Skills")
 	_title("使用中的特殊技能")
@@ -100,7 +114,18 @@ func _init() -> void:
 	uses_box = VBoxContainer.new()
 	uses_box.name = "Uses"
 	uses_box.add_theme_constant_override("separation", 6)
-	add_child(uses_box)
+	_into.add_child(uses_box)
+	exert_title = _title("运功")
+	exert_row = _flow("Exert")
+	conjure_title = _title("神通")
+	conjure_row = _flow("Conjure")
+	spell_title = _title("法术")
+	spell_row = _flow("Spell")
+	self_learn_title = _title("自学")
+	self_learn_row = _flow("SelfLearn")
+	study_title = _title("研读")
+	study_row = _flow("Study")
+	_column_box = right
 	_title("打坐")
 	force_text = _stat_line("Force")
 	force_cap_text = _label("ForceCap")
@@ -109,7 +134,7 @@ func _init() -> void:
 	var exercise := HBoxContainer.new()
 	exercise.name = "Exercise"
 	exercise.add_theme_constant_override("separation", 8)
-	add_child(exercise)
+	_into.add_child(exercise)
 	exercise_amount = SpinBox.new()
 	exercise_amount.name = "ExerciseAmount"
 	# exercise.c's minimum; its help gives 30 as the usual amount.
@@ -136,7 +161,7 @@ func _init() -> void:
 	var enforce := HBoxContainer.new()
 	enforce.name = "Enforce"
 	enforce.add_theme_constant_override("separation", 8)
-	add_child(enforce)
+	_into.add_child(enforce)
 	enforce_amount = SpinBox.new()
 	enforce_amount.name = "EnforceAmount"
 	# enforce.c: 0 (none) to query_skill("force") / 2 points of force a hit.
@@ -169,16 +194,9 @@ func _init() -> void:
 	# TRANSLATORS: the 武学 page's button that does 修行 again and again until something stops it.
 	respirate_run_button = _button(respirate_amount.get_parent(), "RespirateRunButton", "连续修行")
 	respirate_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.RESPIRATE))
-	exert_title = _title("运功")
-	exert_row = _flow("Exert")
-	conjure_title = _title("神通")
-	conjure_row = _flow("Conjure")
-	spell_title = _title("法术")
-	spell_row = _flow("Spell")
-	self_learn_title = _title("自学")
-	self_learn_row = _flow("SelfLearn")
-	study_title = _title("研读")
-	study_row = _flow("Study")
+	# Under both columns: the lines of the last act, and a run's bar until it moves under its row.
+	_column_box = null
+	_into = self
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log,
 	# and these lines are there already.
 	feedback = _label("LastLines")
@@ -260,6 +278,7 @@ func refresh() -> void:
 		amount.editable = not running
 	exercise_target.disabled = running
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
+	_fit_cards()
 
 
 ## The page's numbers (DECISIONS「数值用到才出现」): 内力 (and 加力), 杀气 and 定力, 法力 with
@@ -624,7 +643,7 @@ func _cost_box(node_name: String) -> SpinBox:
 	var row := HBoxContainer.new()
 	row.name = node_name
 	row.add_theme_constant_override("separation", 8)
-	add_child(row)
+	_into.add_child(row)
 	var amount := SpinBox.new()
 	amount.name = node_name + "Amount"
 	amount.min_value = 10
@@ -635,17 +654,51 @@ func _cost_box(node_name: String) -> SpinBox:
 	return amount
 
 
+## A section: its card in the column being built, its title first; the rows after it go in.
 func _title(text: String) -> Label:
+	var card := PanelContainer.new()
+	card.name = "Card"
+	card.theme_type_variation = &"WellPanel"
+	_column_box.add_child(card)
+	_cards.append(card)
+	var rows := VBoxContainer.new()
+	rows.name = "Rows"
+	rows.add_theme_constant_override("separation", 6)
+	card.add_child(rows)
+	_into = rows
 	var label := _label("")
 	label.text = text
-	label.add_theme_color_override("font_color", Color(0.85, 0.8, 0.6))
+	label.theme_type_variation = &"HeadingLabel"
 	return label
+
+
+func _column(parent: Node, node_name: String) -> VBoxContainer:
+	var column := VBoxContainer.new()
+	column.name = node_name
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation", 10)
+	parent.add_child(column)
+	return column
+
+
+## A card shows while anything under its title does (a section with no actions, 冥思 before
+## 法力, a run's bar).
+func _fit_cards() -> void:
+	for card: PanelContainer in _cards:
+		var rows: Node = card.get_child(0)
+		var shown: bool = false
+		for index: int in range(1, rows.get_child_count()):
+			var row := rows.get_child(index) as Control
+			if row != null and row.visible:
+				shown = true
+				break
+		card.visible = shown
 
 
 func _stat_line(node_name: String) -> StatCell:
 	var cell := StatCell.new(node_name)
 	cell.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	add_child(cell)
+	_into.add_child(cell)
 	return cell
 
 
@@ -654,7 +707,7 @@ func _label(node_name: String) -> Label:
 	if not node_name.is_empty():
 		label.name = node_name
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	add_child(label)
+	_into.add_child(label)
 	return label
 
 
@@ -663,7 +716,7 @@ func _flow(node_name: String) -> HFlowContainer:
 	flow.name = node_name
 	flow.add_theme_constant_override("h_separation", 8)
 	flow.add_theme_constant_override("v_separation", 8)
-	add_child(flow)
+	_into.add_child(flow)
 	return flow
 
 

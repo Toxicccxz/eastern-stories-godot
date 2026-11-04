@@ -11,7 +11,8 @@ extends Theme
 ##   buttons  Button (a wood block that sinks when pressed), PrimaryButton (vermilion
 ##            lacquer), DangerButton (dark lacquer), ChipButton (stone), RowButton (a list
 ##            row, a block only when chosen), SlotButton (a save slot), ToggleButton (a
-##            choice that stays chosen: lacquer while down)
+##            choice that stays chosen: lacquer while down), TabButton (a page's tab)
+##   menu     MenuWindow (the game menu's window: a slab with room inside)
 ## Focus is a lantern-yellow rim (and FocusCursor's bobbing arrow beside it).
 
 const PIXEL_FONT_PATH: String = "res://assets/fonts/ark-pixel-16px-proportional-zh_cn.otf"
@@ -79,6 +80,7 @@ func _init() -> void:
 	set_color("font_pressed_color", &"ToggleButton", Color("ffe9c2"))
 	set_color("font_hover_pressed_color", &"ToggleButton", Color("ffe9c2"))
 	_rows()
+	_menu()
 	_fields()
 	_option_button()
 	_check_button()
@@ -162,6 +164,32 @@ func _rows() -> void:
 		set_color(state, &"SlotButton", UiPalette.BONE)
 	set_color("font_disabled_color", &"SlotButton", UiPalette.DIM)
 	set_font_size("font_size", &"SlotButton", BODY_SIZE)
+
+
+## The game menu (DECISIONS「界面样式」): its window a planked ebony slab with room inside, its
+## tabs flat until hovered (a dark block) or shown (a plank block, ink letters), a thin rule.
+func _menu() -> void:
+	_variation(&"MenuWindow", &"PanelContainer")
+	set_stylebox("panel", &"MenuWindow", UiBlocks.box(UiBlocks.slab_image(UiPalette.EBONY, UiPalette.EBONY_SIDE, 4, true, 32, 26), Vector4i(4, 4, 4, 8), Vector4(18, 14, 18, 22), true))
+	_variation(&"TabButton", &"Button")
+	var flat := StyleBoxEmpty.new()
+	flat.content_margin_left = 12
+	flat.content_margin_right = 12
+	flat.content_margin_top = 6
+	flat.content_margin_bottom = 9
+	set_stylebox("normal", &"TabButton", flat)
+	set_stylebox("disabled", &"TabButton", flat)
+	set_stylebox("hover", &"TabButton", UiBlocks.block(UiPalette.EBONY.lightened(0.12), UiPalette.EBONY_SIDE, 3, Vector4(12, 6, 12, 9)))
+	for state: String in ["pressed", "hover_pressed"]:
+		set_stylebox(state, &"TabButton", UiBlocks.block(UiPalette.PLANK, UiPalette.WOOD_SIDE, 3, Vector4(12, 6, 12, 9)))
+	set_stylebox("focus", &"TabButton", UiBlocks.rim())
+	set_color("font_color", &"TabButton", UiPalette.MUTED)
+	set_color("font_hover_color", &"TabButton", UiPalette.BONE)
+	set_color("font_focus_color", &"TabButton", UiPalette.BONE)
+	set_color("font_pressed_color", &"TabButton", UiPalette.INK)
+	set_color("font_hover_pressed_color", &"TabButton", UiPalette.INK)
+	set_color("font_disabled_color", &"TabButton", UiPalette.DIM)
+	set_font_size("font_size", &"TabButton", BODY_SIZE)
 
 
 func _fields() -> void:
