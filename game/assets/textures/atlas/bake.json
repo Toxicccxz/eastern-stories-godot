@@ -820,6 +820,98 @@
     236
    ]
   },
+  "fanfang.bazaar": {
+   "anchor": [
+    124.7,
+    112.5
+   ],
+   "pins": {
+    "door:fanfang.customs": [
+     59.6,
+     92.8
+    ],
+    "door:fanfang.port": [
+     51.1,
+     74.3
+    ],
+    "zone:fanfang.bazaar_east": [
+     138.8,
+     131.7
+    ],
+    "zone:fanfang.bazaar_north": [
+     155.8,
+     113.2
+    ],
+    "zone:fanfang.bazaar_west": [
+     79.4,
+     92.8
+    ]
+   },
+   "size": [
+    298,
+    186
+   ]
+  },
+  "fanfang.cliff_road": {
+   "anchor": [
+    146.9,
+    114.8
+   ],
+   "pins": {
+    "door:fanfang.port": [
+     76.9,
+     157.9
+    ],
+    "door:village.main": [
+     216.9,
+     71.7
+    ],
+    "zone:fanfang.cliff_foot": [
+     97.4,
+     145.4
+    ],
+    "zone:fanfang.cliff_path": [
+     144.8,
+     113.4
+    ],
+    "zone:fanfang.cliff_top": [
+     198.5,
+     85.6
+    ]
+   },
+   "size": [
+    346,
+    241
+   ]
+  },
+  "fanfang.port": {
+   "anchor": [
+    112.0,
+    89.8
+   ],
+   "pins": {
+    "door:fanfang.bazaar": [
+     191.2,
+     130.6
+    ],
+    "door:fanfang.cliff_road": [
+     143.1,
+     63.9
+    ],
+    "zone:fanfang.dock": [
+     137.4,
+     110.2
+    ],
+    "zone:fanfang.shed": [
+     86.5,
+     69.5
+    ]
+   },
+   "size": [
+    257,
+    189
+   ]
+  },
   "goathill.caverns": {
    "anchor": [
     80.2,
@@ -2114,6 +2206,10 @@
      307.2,
      227.6
     ],
+    "door:fanfang.cliff_road": [
+     66.8,
+     125.7
+    ],
     "door:village.farmhouse_house": [
      256.3,
      166.5
@@ -2290,7 +2386,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "ad960c321cf7983fc24c98bc8792b671c7edde25c6a1ae1d303613d19cfa7146",
+ "fingerprint": "4fa6e912cfe478f3599ebb9f52cbae65e9fbb1431f9984060a1ee708ae293786",
  "frame": [
   -769.1,
   14.6,
@@ -2298,7 +2394,7 @@
   823.0
  ],
  "land_done": true,
- "places": "722dcfb3f1c974c9b2a37af0247c7899c28058ead6c0b00a2dbdd24bf9b89671",
+ "places": "ec72cfa4b786c88f5252e019f403739fbc7c81f103b1ad201ae98cf2e7027327",
  "px": 4.0,
  "regions": {
   "canyon": "6688db071fbbb92360de6513e8f619df483fde6cdc1b63045e3938d177f6245c",
@@ -2307,6 +2403,7 @@
   "city": "2ec7f0f692c05737108055c92a50e04658ebb9a5d26743c4f6974852a7697b15",
   "cloud": "1b2f5df501d57e445ae5ee834567e18e534d717e58e9a662402f3ba6eb0bb1ff",
   "death": "61ec12773235f2448b2942a6f84d7c8463c1aa1378bcc6dc479e061c9a5bb0f4",
+  "fanfang": "e3ba27c24af9921d35b1cda8099ba68a7541397429a1707f4f8ce843fe68da2d",
   "goathill": "ca21a52cdbf745b5a79d244a07c0c2afaf88f915f58b781868a0f12515e36133",
   "green": "b7f90c653d389ccac22574c1be7141a29a6ce847690e56703f361dae182bf361",
   "guanbei": "47d1e0e1f9391938d643b61fff0dd5b8ec3c2ea65ab78533c2fa19cf2966ec83",
@@ -2316,7 +2413,7 @@
   "sanyen": "ba28616ddfcb2cfe126ce48ba063bdbe9f5de6c2cbd4266c430b062fc35534f4",
   "snow": "b6770040442e3d06666b1941f1f1ee51d34b293c3b20a1ae429c41c05fe9064f",
   "temple": "1331ada2f1664320b5d1651c3f577d38115ca385904ef88c3b3faa37501c9b1f",
-  "village": "6bc6e651903040bc56cecd8a8d61e0d5ff8017465c5b5657a90444f9cb9424f2",
+  "village": "2c61d95aa9e27d7ace721f2b6acd0a1ba0b1e59ec18ca65e0aeef10a2cfc0989",
   "waterfog": "edd72522d20005be5ff864f12502f378b52de53d4ecff22d1c5fa88dbc330d18"
  },
  "roads": [
@@ -2368,13 +2465,68 @@
    ]
   },
   {
+   "a": "fanfang.bazaar",
+   "at": [
+    768,
+    1116
+   ],
+   "b": "fanfang.port",
+   "file": "road_01",
+   "line": [
+    [
+     785.0,
+     1271.0
+    ],
+    [
+     800.0,
+     1219.0
+    ],
+    [
+     804.0,
+     1207.0
+    ],
+    [
+     807.0,
+     1194.0
+    ],
+    [
+     809.0,
+     1181.0
+    ],
+    [
+     811.0,
+     1159.0
+    ],
+    [
+     812.0,
+     1141.0
+    ],
+    [
+     814.0,
+     1128.0
+    ],
+    [
+     841.0,
+     1081.0
+    ]
+   ],
+   "stub_a": [
+    768,
+    1220
+   ],
+   "stub_b": [
+    798,
+    1116
+   ]
+  },
+  {
    "a": "guanbei.steppe",
    "at": [
     4733,
     1039
    ],
    "b": "guanbei.worksite",
-   "file": "road_01",
+   "file": "road_02",
    "line": [
     [
      4740.0,
@@ -2425,7 +2577,7 @@
     1207
    ],
    "b": "guanbei.worksite",
-   "file": "road_02",
+   "file": "road_03",
    "line": [
     [
      5335.0,
@@ -2488,7 +2640,7 @@
     767
    ],
    "b": "guanbei.yurt_camp",
-   "file": "road_03",
+   "file": "road_04",
    "line": [
     [
      4618.0,
@@ -2539,7 +2691,7 @@
     615
    ],
    "b": "guanbei.yurt_camp",
-   "file": "road_04",
+   "file": "road_05",
    "line": [
     [
      3994.0,
@@ -2602,7 +2754,7 @@
     422
    ],
    "b": "guanbei.town",
-   "file": "road_05",
+   "file": "road_06",
    "line": [
     [
      3932.0,
@@ -2671,13 +2823,92 @@
    ]
   },
   {
+   "a": "fanfang.cliff_road",
+   "at": [
+    788,
+    1119
+   ],
+   "b": "fanfang.port",
+   "file": "road_07",
+   "line": [
+    [
+     1137.0,
+     1165.0
+    ],
+    [
+     1093.0,
+     1181.0
+    ],
+    [
+     1082.0,
+     1191.0
+    ],
+    [
+     1071.0,
+     1207.0
+    ],
+    [
+     1061.0,
+     1219.0
+    ],
+    [
+     1053.0,
+     1231.0
+    ],
+    [
+     1045.0,
+     1243.0
+    ],
+    [
+     1038.0,
+     1255.0
+    ],
+    [
+     832.0,
+     1215.0
+    ],
+    [
+     824.0,
+     1203.0
+    ],
+    [
+     818.0,
+     1190.0
+    ],
+    [
+     815.0,
+     1177.0
+    ],
+    [
+     814.0,
+     1157.0
+    ],
+    [
+     814.0,
+     1140.0
+    ],
+    [
+     794.0,
+     1013.0
+    ]
+   ],
+   "stub_a": [
+    1003,
+    1169
+   ],
+   "stub_b": [
+    788,
+    1119
+   ]
+  },
+  {
    "a": "goathill.mountain",
    "at": [
     3608,
     1240
    ],
    "b": "snow.outdoor",
-   "file": "road_06",
+   "file": "road_08",
    "line": [
     [
      3646.0,
@@ -2701,7 +2932,7 @@
     1492
    ],
    "b": "temple.mountain",
-   "file": "road_07",
+   "file": "road_09",
    "line": [
     [
      4076.0,
@@ -2764,7 +2995,7 @@
     1404
    ],
    "b": "latemoon.manor",
-   "file": "road_08",
+   "file": "road_10",
    "line": [
     [
      1857.0,
@@ -2861,13 +3092,56 @@
    ]
   },
   {
+   "a": "fanfang.cliff_road",
+   "at": [
+    1388,
+    1109
+   ],
+   "b": "village.main",
+   "file": "road_11",
+   "line": [
+    [
+     1277.0,
+     1079.0
+    ],
+    [
+     1434.0,
+     1120.0
+    ],
+    [
+     1453.0,
+     1123.0
+    ],
+    [
+     1472.0,
+     1128.0
+    ],
+    [
+     1492.0,
+     1135.0
+    ],
+    [
+     1579.0,
+     1165.0
+    ]
+   ],
+   "stub_a": [
+    1388,
+    1109
+   ],
+   "stub_b": [
+    1475,
+    1119
+   ]
+  },
+  {
    "a": "canyon.pass",
    "at": [
     1840,
     1018
    ],
    "b": "village.main",
-   "file": "road_09",
+   "file": "road_12",
    "line": [
     [
      2014.0,
@@ -2942,7 +3216,7 @@
     1507
    ],
    "b": "temple.mountain",
-   "file": "road_10",
+   "file": "road_13",
    "line": [
     [
      3500.0,
@@ -2981,7 +3255,7 @@
     1291
    ],
    "b": "village.main",
-   "file": "road_11",
+   "file": "road_14",
    "line": [
     [
      1557.0,
@@ -3008,7 +3282,7 @@
     2424
    ],
    "b": "choyin.town",
-   "file": "road_12",
+   "file": "road_15",
    "line": [
     [
      2371.0,
@@ -3115,7 +3389,7 @@
     1205
    ],
    "b": "waterfog.mountain",
-   "file": "road_13",
+   "file": "road_16",
    "line": [
     [
      3194.0,
@@ -3166,7 +3440,7 @@
     2517
    ],
    "b": "choyin.town",
-   "file": "road_14",
+   "file": "road_17",
    "line": [
     [
      3110.0,
@@ -3229,7 +3503,7 @@
     1036
    ],
    "b": "goathill.mountain",
-   "file": "road_15",
+   "file": "road_18",
    "line": [
     [
      4324.0,
@@ -3324,7 +3598,7 @@
     1687
    ],
    "b": "green.mountain",
-   "file": "road_16",
+   "file": "road_19",
    "line": [
     [
      4665.0,
@@ -3423,7 +3697,7 @@
     2002
    ],
    "b": "sunhill.mountain",
-   "file": "road_17",
+   "file": "road_20",
    "line": [
     [
      2637.0,
@@ -3475,7 +3749,7 @@
     1765
    ],
    "b": "sunhill.mountain",
-   "file": "road_18",
+   "file": "road_21",
    "line": [
     [
      1857.0,
@@ -3590,7 +3864,7 @@
     1739
    ],
    "b": "green.village",
-   "file": "road_19",
+   "file": "road_22",
    "line": [
     [
      3967.0,
@@ -3697,7 +3971,7 @@
     1659
    ],
    "b": "latemoon.manor",
-   "file": "road_20",
+   "file": "road_23",
    "line": [
     [
      2604.0,
@@ -3748,7 +4022,7 @@
     555
    ],
    "b": "canyon.pass",
-   "file": "road_21",
+   "file": "road_24",
    "line": [
     [
      2085.0,
@@ -3859,7 +4133,7 @@
     2002
    ],
    "b": "sunhill.mountain",
-   "file": "road_22",
+   "file": "road_25",
    "line": [
     [
      2807.0,
@@ -4038,7 +4312,7 @@
     768
    ],
    "b": "village.main",
-   "file": "road_23",
+   "file": "road_26",
    "line": [
     [
      1597.0,
@@ -4165,7 +4439,7 @@
     1229
    ],
    "b": "snow.outdoor",
-   "file": "road_24",
+   "file": "road_27",
    "line": [
     [
      2599.0,
@@ -4272,7 +4546,7 @@
     1318
    ],
    "b": "snow.outdoor",
-   "file": "road_25",
+   "file": "road_28",
    "line": [
     [
      3307.0,
@@ -4415,7 +4689,7 @@
     932
    ],
    "b": "guanbei.gorge",
-   "file": "road_26",
+   "file": "road_29",
    "line": [
     [
      2042.0,
@@ -4666,7 +4940,7 @@
     1932
    ],
    "b": "sunhill.mountain",
-   "file": "road_27",
+   "file": "road_30",
    "line": [
     [
      2981.0,
@@ -4865,7 +5139,7 @@
     1331
    ],
    "b": "snow.outdoor",
-   "file": "road_28",
+   "file": "road_31",
    "line": [
     [
      2856.0,
@@ -4996,7 +5270,7 @@
     462
    ],
    "b": "guanbei.town",
-   "file": "road_29",
+   "file": "road_32",
    "line": [
     [
      2951.0,
@@ -5215,7 +5489,7 @@
     1141
    ],
    "b": "snow.outdoor",
-   "file": "road_30",
+   "file": "road_33",
    "line": [
     [
      2470.0,

@@ -1,0 +1,9 @@
+{
+	"items": [
+		{ "id": "native:fanfang/glass_beads", "legacy_sources": ["native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; 计划 build/plans/番坊_计划.md §2「胡商卖琉璃珠」; DECISIONS「番坊 A」) — 续写"], "name": "琉璃珠", "aliases": ["glass beads", "beads", "珠子", "琉璃"], "long": "一串琉璃珠子，有蓝的、绿的、琥珀色的，透亮，里头有一丝一丝的气泡。对着太阳一照，手心里落下一小片彩光。\n", "unit": "串", "material": "glass", "weight": 100, "value": 300 },
+		{ "id": "native:fanfang/carpet", "legacy_sources": ["native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; DECISIONS「番坊 A」) — 续写"], "name": "毡毯", "aliases": ["carpet", "rug", "毯子", "毡毯"], "long": "一张卷起来的毡毯，红底黄花，花纹一圈套一圈。摸上去又厚又密，带着羊毛的气味。\n", "unit": "张", "material": "cloth", "weight": 5000, "value": 1200 },
+		{ "id": "native:fanfang/pepper", "legacy_sources": ["native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; DECISIONS「番坊 A」) — 续写"], "name": "胡椒", "aliases": ["pepper", "spice", "香料", "胡椒"], "long": "一小布袋胡椒，黑黑的一粒一粒，袋口一松，那股辣味直冲鼻子。在京师，这一袋能换不少银子。\n", "unit": "袋", "material": "cloth", "weight": 200, "value": 200 },
+		{ "id": "native:fanfang/hu_bread", "legacy_sources": ["native: 番坊 A (the bazaar's own food, as d/snow's dumpling is 雪亭镇's; DECISIONS「番坊 A」) — 续写"], "name": "胡饼", "aliases": ["flatbread", "bread", "饼", "胡饼"], "long": "一张烤得焦黄的胡饼，上头撒满芝麻，又硬又香。走远路的人带着，一个月不坏。\n", "unit": "张", "material": "plant", "weight": 300, "value": 15, "food": { "remaining": 3, "supply": 50 } },
+		{ "id": "native:fanfang/copper_kettle", "legacy_sources": ["native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; a water vessel, as obj/example/wineskin.c holds wine; DECISIONS「番坊 A」) — 续写"], "name": "铜壶", "aliases": ["copper kettle", "kettle", "壶", "铜壶"], "long": "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清水，一路晃荡也不洒。\n", "unit": "把", "material": "copper", "weight": 800, "value": 150, "liquid": { "max_liquid": 8, "type": "water", "name": "清水", "remaining": 8 } }
+	]
+}

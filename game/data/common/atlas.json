@@ -33,6 +33,9 @@
 		{"map": "guanbei.barrow", "name": "古冢", "x": 784, "y": -22},
 		{"map": "niling.slope", "name": "裂口顶", "x": 347, "y": 179},
 		{"map": "niling.backhill", "name": "后山崖径", "x": 347, "y": 101},
-		{"map": "death.realm", "name": "阴间", "x": -67, "y": 851}
+		{"map": "death.realm", "name": "阴间", "x": -67, "y": 851},
+		{"map": "fanfang.cliff_road", "name": "海崖道", "x": -11, "y": 650},
+		{"map": "fanfang.port", "name": "番坊码头", "x": -112, "y": 706},
+		{"map": "fanfang.bazaar", "name": "番坊", "x": -22, "y": 762}
 	]
 }

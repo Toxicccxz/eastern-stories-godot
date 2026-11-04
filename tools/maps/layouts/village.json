@@ -128,7 +128,8 @@
           ["blocked", 1008, 656, 1072, 688, {"look": {"kind": "flower_bed", "flowers": ["f28a3a", "f2c94a", "e84a3a", "f8e0a0"]}}],
           ["blocked", 1008, 736, 1072, 768, {"look": {"kind": "flower_bed", "flowers": ["e8a0b8", "e86a8a", "f4eee0", "d8406a"]}}],
           ["blocked", 1008, 816, 1072, 848, {"look": {"kind": "flower_bed", "flowers": ["6a8ae8", "a0c0f0", "f4eee0", "c86ad0"]}}],
-          ["blocked", -192, 1696, 0, 1728, "valley1.c: the path runs on south, but brush has closed it (no exit in ES2)", {"look": {"kind": "thicket", "height": 1.5, "colors": ["3a5a2e", "466a36", "527a3e", "60884a"]}}],
+          ["blocked", -192, 1696, -160, 1728, "valley1.c: the path runs on south (向着南和北延伸), the brush parted where it goes on to the 海崖道 (番坊 A)", {"look": {"kind": "thicket", "height": 1.5, "colors": ["3a5a2e", "466a36", "527a3e", "60884a"]}}],
+          ["blocked", -32, 1696, 0, 1728, {"look": {"kind": "thicket", "height": 1.4, "colors": ["3a5a2e", "466a36", "527a3e", "60884a"]}}],
           ["blocked", -288, 1248, -224, 1296, {"look": {"kind": "boulder", "tall": 0.8, "colors": ["7a8468", "868e72", "6e7a60"]}}],
           ["blocked", 880, 640, 912, 672, "有很多人在剪花: a cutting basket, full", {"look": {"kind": "baskets", "rotation": 90, "seed": 3}}],
           ["blocked", 1072, 864, 1104, 896, "pots brought out to sell", {"look": {"kind": "flower_stand"}}],
@@ -272,7 +273,8 @@
           "Rect_32_32": [32, 32],
           "Rect_32_128": [32, 128],
           "Rect_288_32": [288, 32],
-          "Rect_32_160": [32, 160]
+          "Rect_32_160": [32, 160],
+          "Rect_128_32": [128, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -304,6 +306,13 @@
             "at": [2016, 1240],
             "text": "南 · 京师",
             "size": 14
+          },
+          {
+            "node": "caption",
+            "name": "SeaLabel",
+            "at": [-96, 1740],
+            "text": "南 · 海崖道 · 番坊",
+            "size": 12
           },
           {
             "node": "caption",
@@ -395,6 +404,13 @@
             "shape": "Rect_32_128"
           },
           {
+            "node": "passage",
+            "name": "SeaPassage",
+            "id": "village.valley1.south",
+            "at": [-96, 1680],
+            "shape": "Rect_128_32"
+          },
+          {
             "node": "service",
             "name": "LakesidePaddle",
             "id": "village.lakeside.paddle",
@@ -447,6 +463,11 @@
             "name": "Valley1CaveReturn",
             "at": [-120, 1424],
             "id": "village.valley1.cave_return"
+          },
+          {
+            "name": "Valley1SeaReturn",
+            "at": [-96, 1600],
+            "id": "village.valley1.sea_return"
           },
           {
             "name": "LakesideBoatReturn",

@@ -1,0 +1,69 @@
+{
+	"regions": [
+		{ "id": "fanfang", "name": "番坊", "recommended_exp": 200000 }
+	],
+	"maps": [
+		{ "id": "fanfang.cliff_road", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_cliff_road.tscn", "entry": "fanfang.cliff_top.valley_arrival" },
+		{ "id": "fanfang.port", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_port.tscn", "entry": "fanfang.dock.cliff_arrival" },
+		{ "id": "fanfang.bazaar", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_bazaar.tscn", "entry": "fanfang.bazaar_west.dock_arrival" },
+		{ "id": "fanfang.customs", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_customs.tscn", "entry": "fanfang.office.street_entry", "interior": true }
+	],
+	"zones": [
+		{ "id": "fanfang.cliff_top", "map": "fanfang.cliff_road", "rooms": ["native:fanfang/cliff_top"] },
+		{ "id": "fanfang.cliff_path", "map": "fanfang.cliff_road", "rooms": ["native:fanfang/cliff_path"] },
+		{ "id": "fanfang.cliff_foot", "map": "fanfang.cliff_road", "rooms": ["native:fanfang/cliff_foot"] },
+		{ "id": "fanfang.dock", "map": "fanfang.port", "rooms": ["native:fanfang/dock"] },
+		{ "id": "fanfang.shed", "map": "fanfang.port", "rooms": ["native:fanfang/shed"] },
+		{ "id": "fanfang.bazaar_west", "map": "fanfang.bazaar", "rooms": ["native:fanfang/bazaar_west"] },
+		{ "id": "fanfang.bazaar_east", "map": "fanfang.bazaar", "rooms": ["native:fanfang/bazaar_east"] },
+		{ "id": "fanfang.bazaar_north", "map": "fanfang.bazaar", "rooms": ["native:fanfang/bazaar_north"] },
+		{ "id": "fanfang.office", "map": "fanfang.customs", "indoors": true, "rooms": ["native:fanfang/office"] },
+		{ "id": "fanfang.yard", "map": "fanfang.customs", "indoors": true, "rooms": ["native:fanfang/yard"] }
+	],
+	"portals": [
+		{ "id": "fanfang.cliff_top.north", "from_zone": "fanfang.cliff_top", "to_zone": "village.valley1", "to_spawn": "village.valley1.sea_return", "legacy_room": "native:fanfang/cliff_top", "legacy_command": "north" },
+		{ "id": "fanfang.cliff_foot.south", "from_zone": "fanfang.cliff_foot", "to_zone": "fanfang.dock", "to_spawn": "fanfang.dock.cliff_arrival", "legacy_room": "native:fanfang/cliff_foot", "legacy_command": "south" },
+		{ "id": "fanfang.dock.north", "from_zone": "fanfang.dock", "to_zone": "fanfang.cliff_foot", "to_spawn": "fanfang.cliff_foot.dock_return", "legacy_room": "native:fanfang/dock", "legacy_command": "north" },
+		{ "id": "fanfang.dock.east", "from_zone": "fanfang.dock", "to_zone": "fanfang.bazaar_west", "to_spawn": "fanfang.bazaar_west.dock_arrival", "legacy_room": "native:fanfang/dock", "legacy_command": "east" },
+		{ "id": "fanfang.bazaar_west.west", "from_zone": "fanfang.bazaar_west", "to_zone": "fanfang.dock", "to_spawn": "fanfang.dock.bazaar_return", "legacy_room": "native:fanfang/bazaar_west", "legacy_command": "west" },
+		{ "id": "fanfang.bazaar_west.south", "from_zone": "fanfang.bazaar_west", "to_zone": "fanfang.office", "to_spawn": "fanfang.office.street_entry", "legacy_room": "native:fanfang/bazaar_west", "legacy_command": "south" },
+		{ "id": "fanfang.office.north", "from_zone": "fanfang.office", "to_zone": "fanfang.bazaar_west", "to_spawn": "fanfang.bazaar_west.customs_return", "legacy_room": "native:fanfang/office", "legacy_command": "north" }
+	],
+	"doors": [],
+	"landmarks": [
+		{ "id": "fanfang.cliff_top.landmark.shrine", "zone": "fanfang.cliff_top", "name": "海神龛", "policy": "look", "long": "一座齐腰高的石龛，石头让海风蚀出了一个个小洞。龛里供的不是神像，是一块磨得溜圆的黑石头。石前摆着贝壳、一枚铜钱、半块干饼——都是出海的人放的。龛边刻着两个字：「平安」，字口里长了青苔。\n", "legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡; 计划 build/plans/番坊_计划.md §1 海崖道「海神小龛」; DECISIONS「番坊 A」) — 续写" },
+		{ "id": "fanfang.cliff_path.landmark.sea", "zone": "fanfang.cliff_path", "name": "海", "policy": "look", "long": "海是灰蓝的，近处发绿，远处发黑，一直铺到天边，看不见对岸。海上一条船也没有——番坊的船都拴在码头上。浪一排一排地过来，在崖脚撞碎，退下去，又来。\n", "legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「世界从此有海」; DECISIONS「番坊 A」) — 续写" },
+		{ "id": "fanfang.dock.landmark.boats", "zone": "fanfang.dock", "name": "平底船", "policy": "look", "long": "三条平底船，船底平，船头方，帆是竹篾一片一片编的。船身刷的桐油黑得发亮，船头画着一只眼睛。船工说，船不是番坊的，是南边来的商人的；番坊人只管装卸、守船，拿一份工钱。\n", "legacy_source": "native: 番坊 A (doc/help/theme:4「航海技术并不受重视」— the port is small and the ships are others'; 剧情总纲 §6 番坊卡; DECISIONS「番坊 A」) — 续写" },
+		{ "id": "fanfang.bazaar_north.landmark.shields", "zone": "fanfang.bazaar_north", "name": "大盾", "policy": "look", "long": "两面大盾，比人还高一头，长方的，盾面弯成半个筒。木胎外头蒙着牛皮，边上包着铁，铆钉一圈一圈。盾面上漆着一只展翅的鹰，金漆掉了一半，露出底下的红。盾脚插在土里，插得很深，像是从来没拔出来过。\n", "legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「大秦剑会『铁盾会』」, 计划 §1「两面大盾」; DECISIONS「番坊 A」) — 续写" },
+		{ "id": "fanfang.office.landmark.notice", "zone": "fanfang.office", "name": "布告", "policy": "look", "long": "墙上贴着一张布告，纸是京师的纸，字是抄的：\n布告上写著：辑拿要犯----於兰天武。\n布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n", "legacy_source": "d/city/eastdoor2.c (look_notice, word for word) — a copy hung in the 市舶司 (剧情总纲 §3 第七章「京师东二门通缉布告可作市舶吏的由头」; DECISIONS「番坊 A」)" }
+	],
+	"services": [
+		{ "id": "fanfang.office.papers", "kind": "act", "zone": "fanfang.office", "name": "兵部文书", "reach": 96, "legacy_source": "native: 番坊 A (剧情总纲 §3 第七章 ④「市舶吏奉兵部令要清走大秦人」; 计划 build/plans/番坊_计划.md §0「印色暗红发黑——第六章学过印色的人一眼看得出」; DECISIONS「关北 A」 学过印色, DECISIONS「番坊 A」) — 续写",
+			"act": {
+				"verb": "看",
+				"acts": [
+					{
+						"mark": "学过印色",
+						"steps": [
+							{ "line": "书案上压着一纸兵部文书，字写得端端正正：\n" },
+							{ "line": "「番坊大秦人等，聚众持械，着市舶司即日清出，不得延误。——兵部」\n", "color": "HIW" },
+							{ "line": "底下一方大印，印色暗红发黑。你见过这个颜色：逆灵宫那叠文书上的印就是这样。印模上的真印是正红的，泛黄光。\n" },
+							{ "line": "这一纸文书的印是假的。\n", "color": "HIY" },
+							{ "mark": "看过清人文书" },
+							{ "mark": "看出文书是假的" }
+						]
+					},
+					{
+						"steps": [
+							{ "line": "书案上压着一纸兵部文书，字写得端端正正：\n" },
+							{ "line": "「番坊大秦人等，聚众持械，着市舶司即日清出，不得延误。——兵部」\n", "color": "HIW" },
+							{ "line": "底下一方兵部的大印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n" },
+							{ "mark": "看过清人文书" }
+						]
+					}
+				]
+			}
+		}
+	],
+	"exit_rules": []
+}

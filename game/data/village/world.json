@@ -49,6 +49,7 @@
 		{ "id": "village.lake.east", "from_zone": "village.lake", "to_zone": "village.lakeside", "to_spawn": "village.lakeside.boat_return", "legacy_room": "es2:d/village/lake", "legacy_command": "east" },
 		{ "id": "village.valley1.eastdown", "from_zone": "village.valley1", "to_zone": "village.lakebottom2", "to_spawn": "village.lakebottom2.valley_arrival", "legacy_room": "es2:d/village/valley1", "legacy_command": "eastdown" },
 		{ "id": "village.lakebottom2.westup", "from_zone": "village.lakebottom2", "to_zone": "village.valley1", "to_spawn": "village.valley1.cave_return", "legacy_room": "es2:d/village/lakebottom2", "legacy_command": "westup" },
+		{ "id": "village.valley1.south", "from_zone": "village.valley1", "to_zone": "fanfang.cliff_top", "to_spawn": "fanfang.cliff_top.valley_arrival", "legacy_room": "es2:d/village/valley1", "legacy_command": "south", "set_mark": "到了番坊" },
 		{ "id": "village.lakebottom1.give_up", "from_zone": "village.lakebottom1", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/village/lakebottom1", "legacy_command": "quit" },
 		{ "id": "village.road4.north", "from_zone": "village.road4", "to_zone": "village.farmhouse1", "to_spawn": "village.farmhouse1.road4_entry", "legacy_room": "es2:d/village/road4", "legacy_command": "north" },
 		{ "id": "village.road7.southeast", "from_zone": "village.road7", "to_zone": "village.melonguard", "to_spawn": "village.melonguard.road7_entry", "legacy_room": "es2:d/village/road7", "legacy_command": "southeast" },

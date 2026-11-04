@@ -37,6 +37,7 @@ view goes through the regions.
 | 12b | 黑松山 (`d/chuenyu`), repaired | 黄土大道's spur west (玉螺湖村) | 32/37 | 14/23 | — | 7/7 | 0/0 | The copy of 刘家 (ES2 cut it off; it lives in 玉螺湖村); npc/xiaojuan.c is a copy placed by no room. |
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | block.c and jail.c (wizard rooms), spath1.c (no way in). |
 | 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 25 native | 36 | — | — | — | Done in four packages (`build/plans/关北_计划.md`, DECISIONS「关北 A」–「关北 D」). |
+| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 10 native so far | 13 | — | — | — | A done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」); B–D to come. |
 | | **Total** | | **536/551** | **239/286** | **9/9** | **33/36** special, **22/26** basic | **84/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
@@ -77,7 +78,7 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
 * **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
 * **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇, 水烟阁, 青石村,
-  茅山 灵心观, 晚月庄, 泓水南岸 + 山烟寺, 乔阴县城, 天驼关, 关北, 逆灵宫, 玉螺湖村, 京师, 黑松山 and 阴间: every map (144). Next, 雪亭镇's facades in more
+  茅山 灵心观, 晚月庄, 泓水南岸 + 山烟寺, 乔阴县城, 天驼关, 关北, 逆灵宫, 玉螺湖村, 京师, 黑松山, 阴间 and 番坊 A: every map (148). Next, 雪亭镇's facades in more
   detail. Desktop frame rate is the bar (DECISIONS「手机端暂停」).
 
 ## After the grey box
@@ -143,7 +144,11 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    the camp, the steppe, the 工地 and the 古冢口; the raid with the 王府's riders fighting beside the player and every 枷 opened, or the night's sneak after
    等到天黑 with four freed and the watch down; `phase`, `until_phase`, `fights_beside_player`); D done (DECISIONS「关北 D」: the two roads'
    consequences at the gate, the hall, the camp and the steppe; 《马刀谱》 and 关北马刀; the seventh chapter's stub). 第 4 步's second region is
-   done; next per §8: 第七章 番坊 (a new coast region — a plan first).
+   done. 第七章 番坊 (the plan `build/plans/番坊_计划.md`, owner 2026-11-04「按推荐，开工 A」: the sea south-west of 玉螺湖村,
+   the fire's three questions on the player's own deeds, siding with the 浪人 costs dear): A done (DECISIONS「番坊 A」: the path outside
+   忘情谷 on south down the 海崖道 with the sea far below, the port with its jetties and others' boats, the bazaar's four 胡商 stalls,
+   the 市舶司 and the 兵部's order to clear the 大秦人 — false to one who learned the 印色 — 卢卡 at 铁盾会's gate, the chapter at that
+   gate); next B (铁盾会, 拜火祠, 日陀罗寺, the questions before the fire and the 铜牒).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

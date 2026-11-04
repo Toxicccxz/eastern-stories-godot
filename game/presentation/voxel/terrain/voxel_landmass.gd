@@ -7,6 +7,8 @@ const PATCH: int = 32
 const TILE: int = 16
 const DIRECTIONS: Array[Vector2i] = [Vector2i.RIGHT,Vector2i.DOWN,Vector2i.LEFT,Vector2i.UP]
 var patches: Dictionary[Vector2i, bool] = {}
+## Patches dropped for the open sea (`drop_water`): the slab shows no cut-away side toward them.
+var sea: Dictionary[Vector2i, bool] = {}
 var minimum_margin: float = 48.0
 var maximum_margin: float = 112.0
 var depth: float = 2.2
@@ -16,6 +18,7 @@ var _contour := FastNoiseLite.new()
 
 func build(source: Dictionary[Vector2i,String], required_rects: Array[Rect2], config: Dictionary) -> void:
 	patches.clear()
+	sea.clear()
 	minimum_margin = maxf(16.0,float(config.get("minimum_margin",48.0)))
 	maximum_margin = maxf(minimum_margin,float(config.get("maximum_margin",112.0)))
 	depth = maxf(0.8,float(config.get("depth",2.2)))
@@ -81,6 +84,18 @@ func terrain(source: Dictionary[Vector2i,String]) -> Dictionary[Vector2i,String]
 					result[at] = "boundary"
 	return result
 
+## Drops the patches all of whose cells are open sea (`water.open_sea`: water, or a pit with the
+## sea at its foot): the sea runs on there with no slab under it, and the slab beside it shows
+## no cut-away side toward it (the water's own banks and the cliff faces meet the sea).
+func drop_water(cells: Dictionary[Vector2i,String], kinds: Array[String]) -> void:
+	for patch: Vector2i in patches.keys():
+		var dry: bool = false
+		for cell: Vector2i in [patch*PATCH+Vector2i(8,8),patch*PATCH+Vector2i(24,8),patch*PATCH+Vector2i(8,24),patch*PATCH+Vector2i(24,24)]:
+			dry = dry or not String(cells.get(cell,"")) in kinds
+		if not dry:
+			patches.erase(patch)
+			sea[patch] = true
+
 ## `holes`: sunken cells (a gorge) whose ground the base must not cover.
 func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:
 	var surface := Quads.new()
@@ -106,7 +121,7 @@ func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:
 				_quad(surface,Vector3(cx,-0.12,cz),Vector3(cx+0.5,-0.12,cz),Vector3(cx+0.5,-0.12,cz+0.5),Vector3(cx,-0.12,cz+0.5),Vector3.UP,top)
 		_quad(surface,Vector3(x,-depth,z),Vector3(x,-depth,z+1),Vector3(x+1,-depth,z+1),Vector3(x+1,-depth,z),Vector3.DOWN,bottom)
 		for direction: Vector2i in DIRECTIONS:
-			if patches.has(patch+direction):
+			if patches.has(patch+direction) or sea.has(patch+direction):
 				continue
 			var normal := Vector3(direction.x,0,direction.y)
 			var tangent := Vector3(-normal.z,0,normal.x)

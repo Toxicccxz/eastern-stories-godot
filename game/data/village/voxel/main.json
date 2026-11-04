@@ -43,7 +43,8 @@
     "village.road1.north": {"cells": 14, "kind": "path", "width": 20},
     "village.road2.south": {"cells": 16, "kind": "rock", "width": 20},
     "village.road1.west": {"cells": 14, "kind": "path", "width": 10},
-    "note": "north the 黄土大道 to 天驼关's valley; south the 驿道 to 京师 (nroad2.c, its blue-grey stone); west the spur to 黑松山"
+    "village.valley1.south": {"cells": 10, "kind": "path", "width": 6},
+    "note": "north the 黄土大道 to 天驼关's valley; south the 驿道 to 京师 (nroad2.c, its blue-grey stone); west the spur to 黑松山; the path outside 忘情谷 on south through the parted brush to the 海崖道 (番坊 A)"
   },
   "ground": {
     "path": {"style": "scree", "colors": ["b89e66", "c4aa70", "ac925c", "cab476"], "gravel": 0.4, "stones": 0.03, "pebbles": ["d0b880", "c0a870", "a08a58", "dcc48c"], "note": "road1.c: 这条黄土大道很宽阔"},

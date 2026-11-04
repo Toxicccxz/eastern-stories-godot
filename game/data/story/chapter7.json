@@ -6,23 +6,35 @@
 			"line": "main",
 			"region": "番坊",
 			"sources": [
-				"native: 主线 第七章 番坊 (剧情总纲 §3 第七章 ①, §6 番坊卡; 计划 build/plans/关北_计划.md §3「main.chapter7 桩」; DECISIONS「关北 D」): the one step 卢卡's 会首 opens; the rest is the 番坊 package's."
+				"native: 主线 第七章 番坊 (剧情总纲 §3 第七章, §6 番坊卡, §9 Q2; 计划 build/plans/番坊_计划.md §3, owner 2026-11-04「按推荐，开工 A」; DECISIONS「关北 D」 the stub, DECISIONS「番坊 A」): the way down the 海崖道 to the port and 铁盾会's gate; the rest of the chapter is 番坊 B–C's."
 			],
-			"summary": "卢卡说他的会首安敦在番坊，会首的祖上三百年前见过那个鬼的头是怎么封的。番坊在玉螺湖村东边，忘情谷外的小路上。",
+			"summary": "卢卡说他的会首安敦在番坊，会首的祖上三百年前见过那个鬼的头是怎么封的。番坊在海边：从玉螺湖村出忘情谷，顺着小路往南，走海崖道下去。",
 			"requires": [
 				"main.chapter6"
 			],
 			"steps": [
 				{
 					"id": "fanfang",
-					"objective": "去番坊找大秦人的会首安敦——卢卡说他们知道鬼的头在哪。番坊在玉螺湖村东，忘情谷外的小路。",
+					"objective": "去番坊找大秦人的会首安敦——卢卡说他们知道鬼的头在哪。出忘情谷，顺着小路往南，走海崖道。",
 					"done": {
 						"mark": "到了番坊"
 					},
-					"text": "番坊。",
+					"text": "林子到头，崖下第一次看见了海。海崖道顺着崖往南下去，崖脚是番坊的码头。",
 					"target": {
 						"map": "village.main",
 						"zone": "village.valley1"
+					}
+				},
+				{
+					"id": "hall",
+					"objective": "找大秦人的会首安敦——市集北头，门口立着两面大盾的铁盾会。",
+					"done": {
+						"mark": "见了安敦"
+					},
+					"text": "铁盾会的会首安敦见了你。",
+					"target": {
+						"map": "fanfang.bazaar",
+						"zone": "fanfang.bazaar_north"
 					}
 				}
 			],

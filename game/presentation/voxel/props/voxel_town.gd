@@ -440,6 +440,25 @@ func _wares(goods: String, w: float, d: float, y: float) -> void:
 				"straw":
 					s.box(root,at+Vector3(0,0.03,0),Vector3(0.24,0.05,0.34),"c4ad72")
 					s.box(root,at+Vector3(0,0.08,0),Vector3(0.16,0.05,0.2),"b39a5c")
+				"glass":
+					# 番坊's glass: strings of beads on a felt, a cup or two among them, catching the light.
+					s.box(root,at+Vector3(0,0.012,0),Vector3(0.28,0.02,0.34),"7a2a2a")
+					for bead: int in 4:
+						s.box(root,at+Vector3(-0.09+bead*0.06,0.04,rng.randf_range(-0.1,0.1)),Vector3(0.05,0.05,0.05),_pick(["3a8ac8:gloss","4ab89a:gloss","d8a040:gloss","c84a6a:gloss","e8e0f0:gloss"]))
+					if rng.randf() < 0.4:
+						s.box(root,at+Vector3(0.06,0.1,0.08),Vector3(0.08,0.16,0.08),_pick(["6ac0d8:gloss","a8d8a0:gloss","e8c878:gloss"]))
+				"spice":
+					# Sacks with their mouths rolled down, a heap of colour in each.
+					s.box(root,at+Vector3(0,0.1,0),Vector3(0.26,0.2,0.26),_pick(["b89a6a","a88a5a","c8aa78"]))
+					s.box(root,at+Vector3(0,0.21,0),Vector3(0.2,0.06,0.2),_pick(["d8a020","b8381e","3a2a1e","c8862a","e8d8a0","8a4a2a"]))
+				"copper":
+					# Kettles with long spouts and hammered plates.
+					if (i+row)%2 == 0:
+						s.box(root,at+Vector3(0,0.1,0),Vector3(0.16,0.2,0.16),_pick(["b8733a:gloss","c88a4a:gloss","a8622e:gloss"]))
+						s.box(root,at+Vector3(0,0.23,0),Vector3(0.06,0.06,0.06),"8a4a22")
+						s.tilted_box(root,at+Vector3(0.12,0.14,0),Vector3(0.12,0.03,0.03),"b8733a:gloss",Vector3(0,0,0.6))
+					else:
+						s.tilted_box(root,at+Vector3(0,0.12,0),Vector3(0.26,0.26,0.02),_pick(["c88a4a:gloss","d89a5a:gloss","b8733a:gloss"]),Vector3(-0.5,0,0))
 				_:
 					s.box(root,at+Vector3(0,0.12,0),Vector3(0.24,0.24,0.24),_pick(["a68a55","b89a5e","947a4a"]))
 

@@ -12,11 +12,12 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const MAPS: Dictionary = {&"guanbei.gorge": 3, &"guanbei.town": 3, &"guanbei.horse_market": 1, &"guanbei.inn": 2, &"guanbei.palace_court": 2, &"guanbei.palace": 2, &"guanbei.yurt_camp": 2, &"guanbei.steppe": 3, &"guanbei.worksite": 4, &"guanbei.barrow": 3}
-## Where each kind stands (the rescue ledger's 老秦 is story_chapter6_test's).
+## Where each kind stands (the rescue ledger's 老秦 is story_chapter6_test's; 卢卡, on the stage until
+## 关北 is done, is counted in the market).
 const PEOPLE: Dictionary = {
 	&"guanbei.gate": {&"native.npc.huaiyang_gate_guard": 2, &"native.npc.camel_driver": 2},
 	&"guanbei.street": {&"native.npc.guanbei_smith": 1},
-	&"guanbei.market": {&"native.npc.balang": 1, &"native.npc.luca": 1, &"native.npc.herdsman": 2},
+	&"guanbei.market": {&"native.npc.balang": 1, &"native.npc.herdsman": 2},
 	&"guanbei.inn_hall": {&"native.npc.hu_sanniang": 1, &"native.npc.qin_popo": 1, &"native.npc.qin_xiaoliu": 1},
 	&"guanbei.palace_front": {&"native.npc.palace_gate_guard": 2},
 	&"guanbei.palace_yard": {&"native.npc.palace_steward": 1},
@@ -113,7 +114,7 @@ func _test_data() -> void:
 	_check(door != null and door.teaches == ["见过古冢的金乌"] and catalog.landmark(&"guanbei.sheds.landmark.roll").teaches == ["看过工地名册"], "the stone door's bird and the sheds' roll teach their marks")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter6")
 	_check(quest.steps.size() == 12 and quest.steps[8].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[9].only_after == &"raid" and quest.steps[10].only_after == &"sneak" and quest.steps[11].condition.key == "卢卡说了番坊", "the chapter: site (arrival) → raid or sneak → 卢卡")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_D_V1, "关北 D's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_A_V1, "番坊 A's world revision is current")
 
 
 ## From the valley: the gate refused, then (TEST-ONLY: the mark set) through it and north to the
@@ -181,6 +182,7 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	var market: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.market")
 	_check(market != null and market.map_id() == &"guanbei.horse_market", "east down the lane into the 马市")
 	_check(market.select_landmark(&"guanbei.market.landmark.pen") and market.inspect_selected() and ui.inspection_text.text.contains("矮脚马"), "the pen looked at")
+	_check(_count_in(session, &"guanbei.market", &"native.npc.luca") == 1, "卢卡 by the pen until 关北 is done (番坊 A: then at 铁盾会's gate)")
 	ui.dismiss_current_panel()
 	await _settle(tree)
 	var inn: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.inn_hall")

@@ -255,6 +255,18 @@ msgstr ""
 #. native.npc.shepherd gender
 #. native.npc.freed_corvee gender
 #. native.npc.passing_taoist gender
+#. native.npc.salt_porter gender
+#. native.npc.boatman gender
+#. native.npc.cargo_merchant gender
+#. native.npc.tax_clerk gender
+#. native.npc.glass_merchant gender
+#. native.npc.carpet_merchant gender
+#. native.npc.copper_merchant gender
+#. native.npc.stall_child gender
+#. native.npc.storyteller gender
+#. native.npc.feng_lu gender
+#. native.npc.customs_clerk gender
+#. native.npc.customs_runner gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -279,7 +291,7 @@ msgstr ""
 #. native.npc.yu_steward gender
 #. native.npc.yu_henchman gender
 #. native.npc.chen_witness gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -353,8 +365,9 @@ msgstr ""
 #. native.npc.hu_sanniang gender
 #. native.npc.qin_popo gender
 #. native.npc.camp_family gender
+#. native.npc.spice_merchant gender
 #. native.npc.cult_killer gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -1749,6 +1762,93 @@ msgstr ""
 #. es2:d/death/inn2 short
 #: scenes/world/death/inn2_house.tscn data/death/rooms.json
 msgid "黑店"
+msgstr ""
+
+#. native:fanfang/bazaar_west short
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/rooms.json
+msgid "市集西头"
+msgstr ""
+
+#. native:fanfang/bazaar_east short
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/rooms.json
+msgid "市集东头"
+msgstr ""
+
+#. native:fanfang/bazaar_north short
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/rooms.json
+msgid "铁盾会门前"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_bazaar.tscn
+msgid "西 · 码头"
+msgstr ""
+
+#. native.npc.copper_merchant inquiry topic
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/npcs.json
+msgid "拜火祠"
+msgstr ""
+
+#. native.npc.luca inquiry topic
+#. native.npc.feng_lu inquiry topic
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/guanbei/npcs.json data/fanfang/npcs.json
+msgid "铁盾会"
+msgstr ""
+
+#. native:fanfang/cliff_top short
+#: scenes/world/fanfang/fanfang_cliff_road.tscn data/fanfang/rooms.json
+msgid "海崖口"
+msgstr ""
+
+#. name
+#. native:fanfang/cliff_path short
+#: scenes/world/fanfang/fanfang_cliff_road.tscn data/common/atlas.json data/fanfang/rooms.json
+msgid "海崖道"
+msgstr ""
+
+#. native:fanfang/cliff_foot short
+#: scenes/world/fanfang/fanfang_cliff_road.tscn data/fanfang/rooms.json
+msgid "崖脚"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_cliff_road.tscn
+msgid "北 · 忘情谷外 · 玉螺湖村"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_cliff_road.tscn
+msgid "南 · 番坊码头"
+msgstr ""
+
+#. native:fanfang/office short
+#: scenes/world/fanfang/fanfang_customs.tscn data/fanfang/rooms.json
+msgid "市舶司公事房"
+msgstr ""
+
+#. native:fanfang/yard short
+#: scenes/world/fanfang/fanfang_customs.tscn data/fanfang/rooms.json
+msgid "市舶司后院"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_customs.tscn
+msgid "兵部文书 · 看"
+msgstr ""
+
+#. native:fanfang/shed short
+#: scenes/world/fanfang/fanfang_port.tscn data/fanfang/rooms.json
+msgid "船工棚"
+msgstr ""
+
+#. name
+#. native:fanfang/dock short
+#: scenes/world/fanfang/fanfang_port.tscn data/common/atlas.json data/fanfang/rooms.json
+msgid "番坊码头"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_port.tscn
+msgid "北 · 崖脚 · 海崖道"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_port.tscn
+msgid "东 · 市集"
 msgstr ""
 
 #. name
@@ -3362,6 +3462,10 @@ msgstr ""
 msgid "南 · 京师"
 msgstr ""
 
+#: scenes/world/village/village_main.tscn
+msgid "南 · 海崖道 · 番坊"
+msgstr ""
+
 #. village.lake title
 #. es2:d/village/lake short
 #: scenes/world/village/village_main.tscn scenes/world/village/village_midlake.tscn data/common/journal.json data/village/rooms.json
@@ -4588,7 +4692,8 @@ msgstr ""
 msgid "红酒"
 msgstr ""
 
-#: core/items/liquid/liquid_state.gd
+#. native:fanfang/copper_kettle liquid.name
+#: core/items/liquid/liquid_state.gd data/fanfang/items.json
 msgid "清水"
 msgstr ""
 
@@ -4901,7 +5006,8 @@ msgstr ""
 msgid "东边"
 msgstr ""
 
-#: core/npcs/npc_random_move.gd
+#. native.npc.cargo_merchant inquiry topic
+#: core/npcs/npc_random_move.gd data/fanfang/npcs.json
 msgid "西边"
 msgstr ""
 
@@ -11088,7 +11194,8 @@ msgstr ""
 #. native:niling/cell_key unit
 #. native:guanbei/saber unit
 #. native:guanbei/gladius unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json data/niling/items.json data/guanbei/items.json
+#. native:fanfang/copper_kettle unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json data/niling/items.json data/guanbei/items.json data/fanfang/items.json
 msgid "把"
 msgstr ""
 
@@ -11476,8 +11583,10 @@ msgid "叠"
 msgstr ""
 
 #. es2:obj/paper_seal combined.base_unit
+#. native:fanfang/carpet unit
+#. native:fanfang/hu_bread unit
 #. native:cloud/escort_note unit
-#: data/common/items.json data/native/items.json
+#: data/common/items.json data/fanfang/items.json data/native/items.json
 msgid "张"
 msgstr ""
 
@@ -13496,6 +13605,21 @@ msgstr ""
 msgid "阴间"
 msgstr ""
 
+#. name
+#. main.chapter7 title
+#. main.chapter7 region
+#. native.npc.balang inquiry topic
+#. native.npc.luca inquiry topic
+#. native.npc.salt_porter inquiry topic
+#. native.npc.boatman inquiry topic
+#. native.npc.glass_merchant inquiry topic
+#. native.npc.stall_child inquiry topic
+#. native.npc.storyteller inquiry topic
+#. fanfang name
+#: data/common/atlas.json data/story/chapter7.json data/guanbei/npcs.json data/fanfang/npcs.json data/fanfang/world.json
+msgid "番坊"
+msgstr ""
+
 #. family.fonxan name
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
@@ -13747,7 +13871,8 @@ msgid ""
 msgstr ""
 
 #. common.npc.fighter.champion name
-#: data/common/npcs.json
+#. native.npc.feng_lu inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "於兰天武"
 msgstr ""
 
@@ -17751,20 +17876,12 @@ msgstr ""
 
 #. main.chapter6/luca text
 #: data/story/chapter6.json
-msgid "卢卡说他的会首安敦在番坊，番坊的人知道那个鬼的事。番坊在玉螺湖村东边，忘情谷外的小路上。"
-msgstr ""
-
-#. main.chapter7 title
-#. main.chapter7 region
-#. native.npc.balang inquiry topic
-#. native.npc.luca inquiry topic
-#: data/story/chapter7.json data/guanbei/npcs.json
-msgid "番坊"
+msgid "卢卡说他的会首安敦在番坊，番坊的人知道那个鬼的事。番坊在海边：从玉螺湖村出忘情谷，走海崖道。"
 msgstr ""
 
 #. main.chapter7 summary
 #: data/story/chapter7.json
-msgid "卢卡说他的会首安敦在番坊，会首的祖上三百年前见过那个鬼的头是怎么封的。番坊在玉螺湖村东边，忘情谷外的小路上。"
+msgid "卢卡说他的会首安敦在番坊，会首的祖上三百年前见过那个鬼的头是怎么封的。番坊在海边：从玉螺湖村出忘情谷，顺着小路往南，走海崖道下去。"
 msgstr ""
 
 #. main.chapter7 reward.deed
@@ -17774,12 +17891,22 @@ msgstr ""
 
 #. main.chapter7/fanfang objective
 #: data/story/chapter7.json
-msgid "去番坊找大秦人的会首安敦——卢卡说他们知道鬼的头在哪。番坊在玉螺湖村东，忘情谷外的小路。"
+msgid "去番坊找大秦人的会首安敦——卢卡说他们知道鬼的头在哪。出忘情谷，顺着小路往南，走海崖道。"
 msgstr ""
 
 #. main.chapter7/fanfang text
 #: data/story/chapter7.json
-msgid "番坊。"
+msgid "林子到头，崖下第一次看见了海。海崖道顺着崖往南下去，崖脚是番坊的码头。"
+msgstr ""
+
+#. main.chapter7/hall objective
+#: data/story/chapter7.json
+msgid "找大秦人的会首安敦——市集北头，门口立着两面大盾的铁盾会。"
+msgstr ""
+
+#. main.chapter7/hall text
+#: data/story/chapter7.json
+msgid "铁盾会的会首安敦见了你。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -20874,7 +21001,8 @@ msgstr ""
 #. es2:d/latemoon/obj/necklace unit
 #. es2:d/latemoon/obj/bracelet unit
 #. es2:d/choyin/obj/cucurbit unit
-#: data/latemoon/items.json data/choyin/items.json
+#. native:fanfang/glass_beads unit
+#: data/latemoon/items.json data/choyin/items.json data/fanfang/items.json
 msgid "串"
 msgstr ""
 
@@ -28740,7 +28868,8 @@ msgstr ""
 
 #. choyin.npc.judgeman inquiry topic
 #. native:niling/war_ministry_papers name
-#: data/choyin/npcs.json data/niling/items.json
+#. fanfang.office.papers name
+#: data/choyin/npcs.json data/niling/items.json data/fanfang/world.json
 msgid "兵部文书"
 msgstr ""
 
@@ -35380,7 +35509,10 @@ msgstr ""
 #. city.eastdoor2.landmark.notice name
 #. city.westdoor1.landmark.notice name
 #. city.westdoor2.landmark.notice name
-#: data/city/world.json
+#. native.npc.feng_lu inquiry topic
+#. native.npc.customs_clerk inquiry topic
+#. fanfang.office.landmark.notice name
+#: data/city/world.json data/fanfang/npcs.json data/fanfang/world.json
 msgid "布告"
 msgstr ""
 
@@ -37113,7 +37245,9 @@ msgstr ""
 
 #. native.npc.niling_steward inquiry topic
 #. native.npc.guanbei_corvee inquiry topic
-#: data/niling/npcs.json
+#. native.npc.feng_lu inquiry topic
+#. native.npc.customs_clerk inquiry topic
+#: data/niling/npcs.json data/fanfang/npcs.json
 msgid "文书"
 msgstr ""
 
@@ -37187,7 +37321,8 @@ msgid "狱卒道士朝西边一偏头：西边那间。骂了半年了，嗓子�
 msgstr ""
 
 #. native.npc.niling_jailer inquiry topic
-#: data/niling/npcs.json
+#. native.npc.spice_merchant inquiry topic
+#: data/niling/npcs.json data/fanfang/npcs.json
 msgid "孩子"
 msgstr ""
 
@@ -38491,6 +38626,11 @@ msgstr ""
 
 #. native.npc.luca inquiry.剑.rules.say
 #: data/guanbei/npcs.json
+msgid "剑还在。路费是会里给的，这把是我自己的。二十两，你要，还卖。"
+msgstr ""
+
+#. native.npc.luca inquiry.剑.rules.say
+#: data/guanbei/npcs.json
 msgid "剑。大秦的铁，好剑。二十两，换路费——我要去海边。你不买，看看也行。"
 msgstr ""
 
@@ -38499,7 +38639,12 @@ msgstr ""
 msgid "路费"
 msgstr ""
 
-#. native.npc.luca inquiry.路费
+#. native.npc.luca inquiry.路费.rules.say
+#: data/guanbei/npcs.json
+msgid "到了。走了一个月。"
+msgstr ""
+
+#. native.npc.luca inquiry.路费.rules.say
 #: data/guanbei/npcs.json
 msgid "去海边，番坊。远。马、吃的、过关的钱。二十两，够。"
 msgstr ""
@@ -38559,13 +38704,19 @@ msgstr ""
 msgid "会首？我们的头。先问鬼。"
 msgstr ""
 
-#. native.npc.luca inquiry.番坊
+#. native.npc.luca inquiry.番坊.rules.say
 #: data/guanbei/npcs.json
-msgid "海边。大秦人、天竺僧、倭人，都在那里，各过各的。远——玉螺湖村往东，过山谷，走海崖道。"
+msgid "就是这里。港口小，人多，各过各的。"
+msgstr ""
+
+#. native.npc.luca inquiry.番坊.rules.say
+#: data/guanbei/npcs.json
+msgid "海边。大秦人、天竺僧、倭人，都在那里，各过各的。远——玉螺湖村，出忘情谷，走海崖道。"
 msgstr ""
 
 #. native.npc.luca inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.storyteller inquiry topic
+#: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "大秦"
 msgstr ""
 
@@ -38581,12 +38732,22 @@ msgstr ""
 
 #. native.npc.luca inquiry.安敦.rules.say
 #: data/guanbei/npcs.json
+msgid "会首在里头。我跟他说了你——他知道你要来。"
+msgstr ""
+
+#. native.npc.luca inquiry.安敦.rules.say
+#: data/guanbei/npcs.json
 msgid "会首。在番坊等我——等不到我，等到你也行。"
 msgstr ""
 
 #. native.npc.luca inquiry.安敦.rules.say
 #: data/guanbei/npcs.json
 msgid "我们的会首。先问鬼。"
+msgstr ""
+
+#. native.npc.luca inquiry.铁盾会
+#: data/guanbei/npcs.json
+msgid "我们的会。剑、盾、饭，都是会里的。会首管。"
 msgstr ""
 
 #. native.npc.luca accept_object.say
@@ -38612,6 +38773,21 @@ msgstr ""
 #. native.npc.luca accept_object.say
 #: data/guanbei/npcs.json
 msgid "不要。"
+msgstr ""
+
+#. native.npc.luca calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "看见你，站了起来。"
+msgstr ""
+
+#. native.npc.luca calls.steps.say
+#: data/guanbei/npcs.json
+msgid "你来了。路，不近。"
+msgstr ""
+
+#. native.npc.luca calls.steps.say
+#: data/guanbei/npcs.json
+msgid "会首在里头。他知道你要来。"
 msgstr ""
 
 #. native.npc.herdsman name
@@ -40582,7 +40758,8 @@ msgid ""
 msgstr ""
 
 #. guanbei.gate.notice act.verb
-#: data/guanbei/world.json
+#. fanfang.office.papers act.verb
+#: data/guanbei/world.json data/fanfang/world.json
 msgid "看"
 msgstr ""
 
@@ -40759,6 +40936,876 @@ msgstr ""
 #. guanbei.diggings.east_barrow lines
 #: data/guanbei/world.json
 msgid "土方东头两个白衣武官横过剑，拦住你：兵部重地，闲人免进。"
+msgstr ""
+
+#. native:fanfang/glass_beads name
+#: data/fanfang/items.json
+msgid "琉璃珠"
+msgstr ""
+
+#. native:fanfang/glass_beads long
+#: data/fanfang/items.json
+msgid ""
+"一串琉璃珠子，有蓝的、绿的、琥珀色的，透亮，里头有一丝一丝的气泡。对着太阳一照，手心里落下一小片彩光。\n"
+msgstr ""
+
+#. native:fanfang/carpet name
+#. native.npc.carpet_merchant inquiry topic
+#: data/fanfang/items.json data/fanfang/npcs.json
+msgid "毡毯"
+msgstr ""
+
+#. native:fanfang/carpet long
+#: data/fanfang/items.json
+msgid ""
+"一张卷起来的毡毯，红底黄花，花纹一圈套一圈。摸上去又厚又密，带着羊毛的气味。\n"
+msgstr ""
+
+#. native:fanfang/pepper name
+#: data/fanfang/items.json
+msgid "胡椒"
+msgstr ""
+
+#. native:fanfang/pepper long
+#: data/fanfang/items.json
+msgid ""
+"一小布袋胡椒，黑黑的一粒一粒，袋口一松，那股辣味直冲鼻子。在京师，这一袋能换不少银子。\n"
+msgstr ""
+
+#. native:fanfang/pepper unit
+#: data/fanfang/items.json
+msgid "袋"
+msgstr ""
+
+#. native:fanfang/hu_bread name
+#. native.npc.spice_merchant inquiry topic
+#: data/fanfang/items.json data/fanfang/npcs.json
+msgid "胡饼"
+msgstr ""
+
+#. native:fanfang/hu_bread long
+#: data/fanfang/items.json
+msgid ""
+"一张烤得焦黄的胡饼，上头撒满芝麻，又硬又香。走远路的人带着，一个月不坏。\n"
+msgstr ""
+
+#. native:fanfang/copper_kettle name
+#. native.npc.copper_merchant inquiry topic
+#: data/fanfang/items.json data/fanfang/npcs.json
+msgid "铜壶"
+msgstr ""
+
+#. native:fanfang/copper_kettle long
+#: data/fanfang/items.json
+msgid ""
+"一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清水，一路晃荡也不洒。\n"
+msgstr ""
+
+#. native.npc.salt_porter name
+#: data/fanfang/npcs.json
+msgid "盐脚夫"
+msgstr ""
+
+#. native.npc.salt_porter long
+#: data/fanfang/npcs.json
+msgid ""
+"一个背着盐包的脚夫，盐包压得他的腰弯成一张弓。他的脸上、眉毛上一层白霜，是汗干了留下的盐。\n"
+msgstr ""
+
+#. native.npc.salt_porter chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"盐脚夫停下来喘口气，抹了一把脸上的盐霜。\n"
+msgstr ""
+
+#. native.npc.salt_porter chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"盐脚夫把盐包往背上颠了颠，一步一步往上挪。\n"
+msgstr ""
+
+#. native.npc.salt_porter inquiry topic
+#: data/fanfang/npcs.json
+msgid "盐"
+msgstr ""
+
+#. native.npc.salt_porter inquiry.盐
+#: data/fanfang/npcs.json
+msgid "码头那边晒的海盐。背上崖，送到玉螺湖村去换米，一包换一斗。"
+msgstr ""
+
+#. native.npc.salt_porter inquiry.番坊
+#: data/fanfang/npcs.json
+msgid "下了崖就是。码头、市集，再往里头是庙。"
+msgstr ""
+
+#. native.npc.salt_porter inquiry topic
+#: data/fanfang/npcs.json
+msgid "路"
+msgstr ""
+
+#. native.npc.salt_porter inquiry.路
+#: data/fanfang/npcs.json
+msgid "这条路是凿出来的，我爷爷那辈人凿的。下雨天别走，滑。"
+msgstr ""
+
+#. native.npc.salt_porter inquiry topic
+#. native.npc.boatman inquiry topic
+#. native.npc.stall_child inquiry topic
+#. native.npc.storyteller inquiry topic
+#. fanfang.cliff_path.landmark.sea name
+#: data/fanfang/npcs.json data/fanfang/world.json
+msgid "海"
+msgstr ""
+
+#. native.npc.salt_porter inquiry.海
+#: data/fanfang/npcs.json
+msgid "看多了就不看了。海又不给饭吃。"
+msgstr ""
+
+#. native.npc.boatman name
+#: data/fanfang/npcs.json
+msgid "船工"
+msgstr ""
+
+#. native.npc.boatman long
+#: data/fanfang/npcs.json
+msgid ""
+"一个晒得黑红的船工，光着脚，裤腿卷到膝盖，肩上搭着一条湿缆绳。他的手上全是绳子勒出来的老茧。\n"
+msgstr ""
+
+#. native.npc.boatman chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"船工往海里啐了一口。\n"
+msgstr ""
+
+#. native.npc.boatman chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"船工哼起一支调子，词你一个字也听不懂。\n"
+msgstr ""
+
+#. native.npc.boatman inquiry topic
+#. native.npc.tax_clerk inquiry topic
+#. native.npc.feng_lu inquiry topic
+#: data/fanfang/npcs.json
+msgid "船"
+msgstr ""
+
+#. native.npc.boatman inquiry.船
+#: data/fanfang/npcs.json
+msgid "不是我们的船。南边商人的，西边商人的。我们只管拴、只管卸，一天三十文。"
+msgstr ""
+
+#. native.npc.boatman inquiry.海
+#: data/fanfang/npcs.json
+msgid "海上没有路。有路，也是别人的。"
+msgstr ""
+
+#. native.npc.boatman inquiry.番坊
+#: data/fanfang/npcs.json
+msgid "港口小，船是别人的，人是各处来的。各过各的。"
+msgstr ""
+
+#. native.npc.boatman inquiry topic
+#. native.npc.cargo_merchant inquiry topic
+#. native.npc.tax_clerk inquiry topic
+#. native.npc.carpet_merchant inquiry topic
+#. native.npc.stall_child inquiry topic
+#. native.npc.storyteller inquiry topic
+#. native.npc.feng_lu inquiry topic
+#. native.npc.customs_runner inquiry topic
+#: data/fanfang/npcs.json
+msgid "大秦人"
+msgstr ""
+
+#. native.npc.boatman inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "铁盾会的。市集北头，门口立着两面大盾的那家。"
+msgstr ""
+
+#. native.npc.boatman inquiry topic
+#. native.npc.cargo_merchant inquiry topic
+#. native.npc.tax_clerk inquiry topic
+#: data/fanfang/npcs.json
+msgid "税"
+msgstr ""
+
+#. native.npc.boatman inquiry.税
+#: data/fanfang/npcs.json
+msgid "货上岸，十抽一。冯大人的规矩。我们不交，我们没货。"
+msgstr ""
+
+#. native.npc.cargo_merchant name
+#: data/fanfang/npcs.json
+msgid "卸货的胡商"
+msgstr ""
+
+#. native.npc.cargo_merchant title
+#. native.npc.glass_merchant title
+#. native.npc.carpet_merchant title
+#. native.npc.spice_merchant title
+#. native.npc.copper_merchant title
+#: data/fanfang/npcs.json
+msgid "胡商"
+msgstr ""
+
+#. native.npc.cargo_merchant long
+#: data/fanfang/npcs.json
+msgid ""
+"一个缠着头巾的胡商，正指挥船工把箱子抬上岸。他一会儿用胡话骂，一会儿用中原话骂，骂完了自己先笑。\n"
+msgstr ""
+
+#. native.npc.cargo_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"胡商冲着船工嚷道：慢点！那一箱是琉璃！\n"
+msgstr ""
+
+#. native.npc.cargo_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"胡商拿出一本小册子，在上头记了一笔。\n"
+msgstr ""
+
+#. native.npc.cargo_merchant inquiry topic
+#. native.npc.customs_runner inquiry topic
+#: data/fanfang/npcs.json
+msgid "货"
+msgstr ""
+
+#. native.npc.cargo_merchant inquiry.货
+#: data/fanfang/npcs.json
+msgid "胡椒、琉璃、毡子。从西边来，走了一年。到了番坊，交了税，就剩一半。"
+msgstr ""
+
+#. native.npc.cargo_merchant inquiry.税
+#: data/fanfang/npcs.json
+msgid "十抽一！冯大人还说是轻的。"
+msgstr ""
+
+#. native.npc.cargo_merchant inquiry.西边
+#: data/fanfang/npcs.json
+msgid "西边是沙子，再西边是山，山那边还是沙子。走一年，才到这儿。"
+msgstr ""
+
+#. native.npc.cargo_merchant inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "铁盾会的人？他们替商队看过货、打过强盗。现在没人雇他们了，就教人使剑。"
+msgstr ""
+
+#. native.npc.tax_clerk name
+#: data/fanfang/npcs.json
+msgid "税吏"
+msgstr ""
+
+#. native.npc.tax_clerk title
+#. native.npc.tax_clerk inquiry topic
+#. native.npc.glass_merchant inquiry topic
+#. native.npc.feng_lu inquiry topic
+#. native.npc.customs_runner title
+#: data/fanfang/npcs.json data/fanfang/voxel/bazaar.json
+msgid "市舶司"
+msgstr ""
+
+#. native.npc.tax_clerk long
+#: data/fanfang/npcs.json
+msgid ""
+"一个戴小帽的税吏，坐在码头当中的桌子后头。桌上一本账、一杆秤、一个钱匣子；他拨一下算盘，看一眼海，再拨一下。\n"
+msgstr ""
+
+#. native.npc.tax_clerk chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"税吏拨了几下算盘，在账上记了一笔。\n"
+msgstr ""
+
+#. native.npc.tax_clerk chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"税吏冲着卸货的胡商喊道：先过秤，再上岸！\n"
+msgstr ""
+
+#. native.npc.tax_clerk inquiry.税
+#: data/fanfang/npcs.json
+msgid "货上岸，十抽一，市舶司的规矩。你没货？没货就走吧。"
+msgstr ""
+
+#. native.npc.tax_clerk inquiry.市舶司
+#: data/fanfang/npcs.json
+msgid "市集西头，灰墙的院子。冯大人在里头。"
+msgstr ""
+
+#. native.npc.tax_clerk inquiry topic
+#. native.npc.feng_lu name
+#. native.npc.customs_clerk inquiry topic
+#: data/fanfang/npcs.json
+msgid "冯禄"
+msgstr ""
+
+#. native.npc.tax_clerk inquiry.冯禄
+#: data/fanfang/npcs.json
+msgid "冯大人是京师派来的。番坊的事，他说了算。"
+msgstr ""
+
+#. native.npc.tax_clerk inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "铁盾会在市集北头，门口立着两面大盾。别说是我指的路。"
+msgstr ""
+
+#. native.npc.tax_clerk inquiry.船
+#: data/fanfang/npcs.json
+msgid "船是南边商人的，番坊没有自己的船。"
+msgstr ""
+
+#. native.npc.glass_merchant name
+#: data/fanfang/npcs.json
+msgid "琉璃商"
+msgstr ""
+
+#. native.npc.glass_merchant long
+#: data/fanfang/npcs.json
+msgid ""
+"一个高鼻子的胡商，面前的毡子上摆满了琉璃珠子和琉璃杯。太阳一照，五颜六色的光落在他的胡子上。\n"
+msgstr ""
+
+#. native.npc.glass_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"琉璃商举起一颗珠子，对着太阳眯起眼睛看。\n"
+msgstr ""
+
+#. native.npc.glass_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"琉璃商吆喝道：西边的火烧出来的琉璃——看看，不买也看看！\n"
+msgstr ""
+
+#. native.npc.glass_merchant inquiry topic
+#: data/fanfang/npcs.json
+msgid "琉璃"
+msgstr ""
+
+#. native.npc.glass_merchant inquiry.琉璃
+#: data/fanfang/npcs.json
+msgid "西边的火烧出来的，透亮。中原人喜欢，一串换一斗米。"
+msgstr ""
+
+#. native.npc.glass_merchant inquiry.番坊
+#: data/fanfang/npcs.json
+msgid "好地方。没人问你从哪来，只问你卖什么。"
+msgstr ""
+
+#. native.npc.glass_merchant inquiry.市舶司
+#: data/fanfang/npcs.json
+msgid "冯大人？他扣过我一箱杯子，说是要验。验了三个月，箱子还在他后院。"
+msgstr ""
+
+#. native.npc.carpet_merchant name
+#: data/fanfang/npcs.json
+msgid "毡毯商"
+msgstr ""
+
+#. native.npc.carpet_merchant long
+#: data/fanfang/npcs.json
+msgid ""
+"一个胡子花白的胡商，盘腿坐在一堆毡毯上。身后的竹竿上挂着一张张毡毯，红底黄花，花纹是一圈套一圈的。\n"
+msgstr ""
+
+#. native.npc.carpet_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"毡毯商慢慢地抚平一张毡毯上的褶子。\n"
+msgstr ""
+
+#. native.npc.carpet_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"毡毯商闭着眼睛，像是睡着了，可你一走近他就睁开了眼。\n"
+msgstr ""
+
+#. native.npc.carpet_merchant inquiry.毡毯
+#: data/fanfang/npcs.json
+msgid "一张毡毯，一个女人织一年。你踩在上头，就是踩在她那一年上。"
+msgstr ""
+
+#. native.npc.carpet_merchant inquiry topic
+#: data/fanfang/npcs.json
+msgid "花纹"
+msgstr ""
+
+#. native.npc.carpet_merchant inquiry.花纹
+#: data/fanfang/npcs.json
+msgid "一圈套一圈，是路。从家里走出来，走到这儿，还没走完。"
+msgstr ""
+
+#. native.npc.carpet_merchant inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "铁盾会的人买过我一张，铺在他们会首的屋里。会首是个老实人。"
+msgstr ""
+
+#. native.npc.spice_merchant name
+#: data/fanfang/npcs.json
+msgid "香料商"
+msgstr ""
+
+#. native.npc.spice_merchant long
+#: data/fanfang/npcs.json
+msgid ""
+"一个包着头巾的胡商妇人，守着一排敞口的麻袋。她用一只铜勺子舀香料，舀一勺，抖一抖，再倒回去一点。\n"
+msgstr ""
+
+#. native.npc.spice_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"香料商抓了一把胡椒，凑到鼻子底下闻了闻，点点头。\n"
+msgstr ""
+
+#. native.npc.spice_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"香料商冲着街上喊了一句什么，她的孩子跑过来又跑走了。\n"
+msgstr ""
+
+#. native.npc.spice_merchant inquiry topic
+#: data/fanfang/npcs.json
+msgid "香料"
+msgstr ""
+
+#. native.npc.spice_merchant inquiry.香料
+#: data/fanfang/npcs.json
+msgid "胡椒、姜黄、孜然。一勺胡椒，在京师换一勺银子。在番坊，换一张饼。"
+msgstr ""
+
+#. native.npc.spice_merchant inquiry.胡饼
+#: data/fanfang/npcs.json
+msgid "我自己烤的。芝麻多，盐少。走远路的人带着，一个月不坏。"
+msgstr ""
+
+#. native.npc.spice_merchant inquiry.孩子
+#: data/fanfang/npcs.json
+msgid "他会说三种话，一种也说不好。"
+msgstr ""
+
+#. native.npc.copper_merchant name
+#: data/fanfang/npcs.json
+msgid "铜器商"
+msgstr ""
+
+#. native.npc.copper_merchant long
+#: data/fanfang/npcs.json
+msgid ""
+"一个胳膊粗壮的胡商，面前的木架上挂满了铜壶、铜盘和铜铃。他拿一把小锤子在一只盘子上敲花纹，叮叮当当，一刻不停。\n"
+msgstr ""
+
+#. native.npc.copper_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"铜器商叮叮当当地敲着一只铜盘。\n"
+msgstr ""
+
+#. native.npc.copper_merchant chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"铜器商举起一只铜壶，冲你晃了晃。\n"
+msgstr ""
+
+#. native.npc.copper_merchant inquiry.铜壶
+#: data/fanfang/npcs.json
+msgid "装水，装茶，装酒，都行。走远路，水比钱要紧。"
+msgstr ""
+
+#. native.npc.copper_merchant inquiry topic
+#: data/fanfang/npcs.json
+msgid "铜"
+msgstr ""
+
+#. native.npc.copper_merchant inquiry.铜
+#: data/fanfang/npcs.json
+msgid "铜是番坊的铜，手艺是我家的手艺。花纹是我爷爷教的，他说是天上的星星。"
+msgstr ""
+
+#. native.npc.copper_merchant inquiry.拜火祠
+#: data/fanfang/npcs.json
+msgid "东头那座黑石头房子。火三百年没灭，祭司说火前不能说谎。我从来不进去。"
+msgstr ""
+
+#. native.npc.stall_child name
+#: data/fanfang/npcs.json
+msgid "看摊的孩子"
+msgstr ""
+
+#. native.npc.stall_child long
+#: data/fanfang/npcs.json
+msgid ""
+"一个七八岁的孩子，头发卷卷的，替他娘看着香料摊。见人就喊「看看，看看」，喊的是三种话。\n"
+msgstr ""
+
+#. native.npc.stall_child chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"看摊的孩子冲你喊道：看看，看看！\n"
+msgstr ""
+
+#. native.npc.stall_child chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"看摊的孩子从麻袋里偷抓了一撮什么，塞进嘴里，脸一下子皱成一团。\n"
+msgstr ""
+
+#. native.npc.stall_child inquiry.番坊
+#: data/fanfang/npcs.json
+msgid "我娘说，番坊就是谁都来、谁都走的地方。"
+msgstr ""
+
+#. native.npc.stall_child inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "铁盾会的人个子好高。他们说话像唱歌，吵架也像唱歌。"
+msgstr ""
+
+#. native.npc.stall_child inquiry.海
+#: data/fanfang/npcs.json
+msgid "我没坐过船。船是别人的。"
+msgstr ""
+
+#. native.npc.storyteller name
+#: data/fanfang/npcs.json
+msgid "说书的老胡人"
+msgstr ""
+
+#. native.npc.storyteller long
+#: data/fanfang/npcs.json
+msgid ""
+"一个白胡子的老胡人，坐在街边的一块毡子上，面前一只铜碗。他讲的是中原话，讲得很慢，时不时冒出一个谁也听不懂的词，又自己把它换成中原话。\n"
+msgstr ""
+
+#. native.npc.storyteller chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n"
+msgstr ""
+
+#. native.npc.storyteller chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"说书的老胡人停下来，喝了一口水，看着街上的人来来去去。\n"
+msgstr ""
+
+#. native.npc.storyteller inquiry topic
+#: data/fanfang/npcs.json
+msgid "故事"
+msgstr ""
+
+#. native.npc.storyteller inquiry.故事
+#: data/fanfang/npcs.json
+msgid "西边，很远的西边，有一个大国。城一百座，路都是石头铺的，一直铺到海边。后来北边的蛮子来了，城一座一座地烧。剩下的人往东走，走到这里，走不动了。——这不是故事，孩子。这是铁盾会那些人的来历。"
+msgstr ""
+
+#. native.npc.storyteller inquiry.大秦
+#: data/fanfang/npcs.json
+msgid "你们叫它大秦。他们自己叫它别的名字。它已经没有了。"
+msgstr ""
+
+#. native.npc.storyteller inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "他们的祖上来得早，三百年前就来过一回，替你们这边打过北方的蛮子。这回来的，是没有家可回的。"
+msgstr ""
+
+#. native.npc.storyteller inquiry.番坊
+#: data/fanfang/npcs.json
+msgid "丝路走到头，就是这里。往东是你们中原，往西往南，是海。"
+msgstr ""
+
+#. native.npc.storyteller inquiry.海
+#: data/fanfang/npcs.json
+msgid "海那边？我不知道。我是走路来的，走了一年。"
+msgstr ""
+
+#. native.npc.feng_lu title
+#: data/fanfang/npcs.json
+msgid "市舶吏"
+msgstr ""
+
+#. native.npc.feng_lu long
+#: data/fanfang/npcs.json
+msgid ""
+"一个穿青袍的小官，袍子洗得发白，袖口磨出了毛。他坐在书案后头，一手按着账册，一手拈着胡子，眼睛总往门口瞟。\n"
+msgstr ""
+
+#. native.npc.feng_lu chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"冯禄翻着账册，嘴里念念有词地算着数目。\n"
+msgstr ""
+
+#. native.npc.feng_lu chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"冯禄看了一眼门外，又低下头。\n"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.文书.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "按住了案上的文书，手指头有点抖。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.文书.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "印……印是兵部的印。你一个外乡人，懂什么印色？"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.文书.rules.say
+#: data/fanfang/npcs.json
+msgid "兵部的令，京师来的，盖着大印。大秦人聚众持械，着本司清出——我也是奉命行事。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "他们在番坊住了三十年，税从来没拖过。可兵部的令下来了，我有什么法子？"
+msgstr ""
+
+#. native.npc.feng_lu inquiry topic
+#. native.npc.customs_runner inquiry topic
+#: data/fanfang/npcs.json
+msgid "浪人"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.浪人
+#: data/fanfang/npcs.json
+msgid "鬼笠馆的。他们想要铁盾会那块地，想了好些年了。兵部的令一下，他们比我还高兴。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.於兰天武
+#: data/fanfang/npcs.json
+msgid "京师东二门挂着的那张。各州县都要抄一份，我也抄了。皇叔怎么成了要犯？我一个小吏，不敢问。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.布告
+#: data/fanfang/npcs.json
+msgid "京师东二门的原告，番坊照抄。上头让抄，我就抄。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.市舶司
+#: data/fanfang/npcs.json
+msgid "收税、查货、看船。番坊的船都是外头的，税是我的。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.船
+#: data/fanfang/npcs.json
+msgid "南边来的，西边来的，没有一条是番坊的。番坊人不造船，只卸货。"
+msgstr ""
+
+#. native.npc.feng_lu inquiry.铁盾会
+#: data/fanfang/npcs.json
+msgid "市集北头。去吧，去告诉他们：兵部的令是兵部的令，不是我冯禄的令。"
+msgstr ""
+
+#. native.npc.customs_clerk name
+#: data/fanfang/npcs.json
+msgid "书办"
+msgstr ""
+
+#. native.npc.customs_clerk long
+#: data/fanfang/npcs.json
+msgid ""
+"一个瘦瘦的书办，趴在书案的一角抄东西，抄一行，抬一次头，看一眼冯大人。\n"
+msgstr ""
+
+#. native.npc.customs_clerk chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"书办揉了揉手腕，又蘸了一笔墨。\n"
+msgstr ""
+
+#. native.npc.customs_clerk inquiry.文书
+#: data/fanfang/npcs.json
+msgid "抄了二十份了，番坊每家门口贴一份。大人说贴，我就抄。"
+msgstr ""
+
+#. native.npc.customs_clerk inquiry.布告
+#: data/fanfang/npcs.json
+msgid "那张也是我抄的。於兰天武四个字，我写了一百遍。"
+msgstr ""
+
+#. native.npc.customs_clerk inquiry.冯禄
+#: data/fanfang/npcs.json
+msgid "大人？大人这几天睡不着。"
+msgstr ""
+
+#. native.npc.customs_runner name
+#: data/fanfang/npcs.json
+msgid "差役"
+msgstr ""
+
+#. native.npc.customs_runner long
+#: data/fanfang/npcs.json
+msgid ""
+"一个腰里挂着铁尺的差役，靠着墙站着，一会儿换一条腿。\n"
+msgstr ""
+
+#. native.npc.customs_runner chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"差役打了个哈欠。\n"
+msgstr ""
+
+#. native.npc.customs_runner chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"差役看了看墙头上的碎瓷片，又看了看你。\n"
+msgstr ""
+
+#. native.npc.customs_runner inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "铁盾会那些人，个个带剑，个子比我高一头。真要清……就凭我们两个？"
+msgstr ""
+
+#. native.npc.customs_runner inquiry.货
+#: data/fanfang/npcs.json
+msgid "后院那些箱子？扣下来的。有的扣了三个月，有的扣了三年。"
+msgstr ""
+
+#. native.npc.customs_runner inquiry.浪人
+#: data/fanfang/npcs.json
+msgid "鬼笠馆的人倒是来过，问大人什么时候动手。大人说等。"
+msgstr ""
+
+#. native:fanfang/cliff_top long
+#: data/fanfang/rooms.json
+msgid ""
+"忘情谷外的小路出了林子，地势一下子高了。眼前是一片光秃秃的崖头，风很大，草都贴着地长。往西看，崖下是一片灰蓝，一直铺到天边——那是海。路边一座小石龛，龛前摆着几个贝壳。路顺着崖往南下去。\n"
+msgstr ""
+
+#. native:fanfang/cliff_path long
+#: data/fanfang/rooms.json
+msgid ""
+"路是从崖壁上凿出来的。东边是黑褐色的石壁，西边一道矮矮的石沿，石沿外头就是海。浪打在崖脚，轰的一声碎成白沫，风把水星子一直吹到路上。路面湿漉漉的，凿出来的台阶让背盐的脚夫踩得发亮。\n"
+msgstr ""
+
+#. native:fanfang/cliff_foot long
+#: data/fanfang/rooms.json
+msgid ""
+"崖到这里低了下来，路变成一段石阶，弯弯曲曲地通到下面的码头。从这儿看得见码头上的平底船和一垛一垛的货，再往东是一片挤在一起的屋顶——番坊。海风里有盐味、鱼腥味，还有一股说不上来的香料味。\n"
+msgstr ""
+
+#. native:fanfang/dock long
+#: data/fanfang/rooms.json
+msgid ""
+"一道石砌的码头沿着海边铺开，两条木栈道伸进海里。三条平底船拴在栈道边，船身黑乎乎的，帆卷着。卸货的胡商和船工吆喝着把一箱箱货抬上岸；码头当中摆着一张桌子，一个小吏坐在那里收税。往东，一条路通进市集。\n"
+msgstr ""
+
+#. native:fanfang/shed long
+#: data/fanfang/rooms.json
+msgid ""
+"码头西头，崖脚下搭着一溜草棚，几根木柱撑着一面草顶，风一大就哗哗地响。棚里堆着渔网、船桨、缆绳，一口锅架在石头上煮着鱼汤。船工没活的时候就坐在这里，补网，晒太阳，骂船主。\n"
+msgstr ""
+
+#. native:fanfang/bazaar_west long
+#: data/fanfang/rooms.json
+msgid ""
+"番坊的市集只有一条街，街面是黄土夯的，两边挤满了摊子和矮房子。西头的摊子卖毡毯和琉璃：毡毯挂在竹竿上，红的黄的，花纹是中原没有的；琉璃珠子一串一串，太阳一照，满摊子都是光。南边一座灰墙的院子，门上挂着一块牌子：市舶司。\n"
+msgstr ""
+
+#. native:fanfang/bazaar_east long
+#: data/fanfang/rooms.json
+msgid ""
+"东头的摊子卖香料和铜器。香料装在麻袋里，袋口敞着，黄的是姜黄，红的是胡椒，黑的说不上名字，一条街都是那股味。铜器摊上的壶和盘子敲得叮当响。街的尽头是一座黑石砌的矮房子，门口冒着烟——人说里面的火三百年没灭过。北边一条短巷，通到一扇立着两面大盾的门。\n"
+msgstr ""
+
+#. native:fanfang/bazaar_north long
+#: data/fanfang/rooms.json
+msgid ""
+"巷子尽头是一扇厚木门，门两边各立着一面大盾，比人还高，铁皮包边，盾面上漆着一只展翅的鹰，漆掉了一半。门里传出铁器相碰的声音，还有人用听不懂的话喊着号子。这是大秦人的剑会，番坊人叫它铁盾会。\n"
+msgstr ""
+
+#. native:fanfang/office long
+#: data/fanfang/rooms.json
+msgid ""
+"一间方方正正的公事房，地上铺着青砖。靠里一张大书案，案上堆着账册，压着一杆戥子。墙上贴着几张告示，最新的一张盖着京师的大印。屋角堆着收上来的货：一卷毡子、两只铜壶、一袋胡椒，都贴着封条。\n"
+msgstr ""
+
+#. native:fanfang/yard long
+#: data/fanfang/rooms.json
+msgid ""
+"后院不大。靠墙码着一摞扣下来的货箱，箱上的字有中原字，也有弯弯曲曲的胡字。一辆没套牲口的车停在角落里，车辕上拴着一串锁链。墙角有一只箱子让人撬开过——夜里有人翻墙进来，想把自己的货拿回去。\n"
+msgstr ""
+
+#. fanfang.cliff_top.landmark.shrine name
+#: data/fanfang/world.json
+msgid "海神龛"
+msgstr ""
+
+#. fanfang.cliff_top.landmark.shrine long
+#: data/fanfang/world.json
+msgid ""
+"一座齐腰高的石龛，石头让海风蚀出了一个个小洞。龛里供的不是神像，是一块磨得溜圆的黑石头。石前摆着贝壳、一枚铜钱、半块干饼——都是出海的人放的。龛边刻着两个字：「平安」，字口里长了青苔。\n"
+msgstr ""
+
+#. fanfang.cliff_path.landmark.sea long
+#: data/fanfang/world.json
+msgid ""
+"海是灰蓝的，近处发绿，远处发黑，一直铺到天边，看不见对岸。海上一条船也没有——番坊的船都拴在码头上。浪一排一排地过来，在崖脚撞碎，退下去，又来。\n"
+msgstr ""
+
+#. fanfang.dock.landmark.boats name
+#: data/fanfang/world.json
+msgid "平底船"
+msgstr ""
+
+#. fanfang.dock.landmark.boats long
+#: data/fanfang/world.json
+msgid ""
+"三条平底船，船底平，船头方，帆是竹篾一片一片编的。船身刷的桐油黑得发亮，船头画着一只眼睛。船工说，船不是番坊的，是南边来的商人的；番坊人只管装卸、守船，拿一份工钱。\n"
+msgstr ""
+
+#. fanfang.bazaar_north.landmark.shields name
+#: data/fanfang/world.json
+msgid "大盾"
+msgstr ""
+
+#. fanfang.bazaar_north.landmark.shields long
+#: data/fanfang/world.json
+msgid ""
+"两面大盾，比人还高一头，长方的，盾面弯成半个筒。木胎外头蒙着牛皮，边上包着铁，铆钉一圈一圈。盾面上漆着一只展翅的鹰，金漆掉了一半，露出底下的红。盾脚插在土里，插得很深，像是从来没拔出来过。\n"
+msgstr ""
+
+#. fanfang.office.landmark.notice long
+#: data/fanfang/world.json
+msgid ""
+"墙上贴着一张布告，纸是京师的纸，字是抄的：\n"
+"布告上写著：辑拿要犯----於兰天武。\n"
+"布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n"
+msgstr ""
+
+#. fanfang.office.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"书案上压着一纸兵部文书，字写得端端正正：\n"
+msgstr ""
+
+#. fanfang.office.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"「番坊大秦人等，聚众持械，着市舶司即日清出，不得延误。——兵部」\n"
+msgstr ""
+
+#. fanfang.office.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"底下一方大印，印色暗红发黑。你见过这个颜色：逆灵宫那叠文书上的印就是这样。印模上的真印是正红的，泛黄光。\n"
+msgstr ""
+
+#. fanfang.office.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"这一纸文书的印是假的。\n"
+msgstr ""
+
+#. fanfang.office.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"底下一方兵部的大印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n"
 msgstr ""
 
 #. native.npc.wooden_dummy.1 name
