@@ -134,7 +134,15 @@ func _life_flow_timeline() -> void:
 ## Returns [session, outdoor map] with the player in an encounter against the
 ## three spath1 bandits, who attack on sight.
 func _bandits_attack(tree: SceneTree) -> Array:
-	var session: WorldSessionController = Work.create_session(tree)
+	var session: WorldSessionController = SESSION.instantiate()
+	session.configure_source_entry("雪工", CharacterState.GENDER_FEMALE)
+	session.deterministic_combat_seed = true
+	session.deterministic_npc_seed = true
+	session.deterministic_world_interaction_seed = true
+	# The player's heal_up() cadence is seeded too (it was the one random draw left): a check
+	# below counts its ticks in the 25 s after the way back, and once a run drew three.
+	session.configure_recovery_random_source(GodotRecoveryCadenceRandomSource.new(4_133, true))
+	tree.root.add_child(session)
 	await tree.process_frame
 	session.set_process(false)
 	var portal: PortalDefinition = GameContent.catalog().portal(SnowOldPineConnectionDefinitions.SOUTH_PORTAL_ID)
@@ -201,7 +209,7 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	session._process(1.0)
 	check(not player.state.ghost and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.exists_in_world, "alive again with his last line")
 	check(session.active_map_id() == SnowWorldDefinitions.temple_map_id() and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple (its own map since the remap)")
-	# A ghost's heal_up() ticks on its random cadence: two in these 25 s make it 2.
+	# A ghost's heal_up() ticks on its cadence (seeded in _bandits_attack): at most two in these 25 s.
 	check(player.state.vitality.current <= 2 and player.state.vitality.effective == player.state.vitality.maximum, "reincarnated with about 1 kee and full effective kee")
 	check(session.active_map().runtime_player_body().player_controlled and session.active_map().runtime_player_body().visible, "the player can move again")
 	check(OldPineSaveEligibility.inspect(session).allowed(), "saving works again")
