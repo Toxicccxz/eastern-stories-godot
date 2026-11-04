@@ -233,13 +233,18 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
   its corpse and name labels made before the switch.
 * Room labels and NPC names overlap in places on the 2D maps. An NPC that walks away from the player
   stays selected (its actions are refused, kill.c `present()`); one the player walks away from does not.
+* At a 界面缩放 of 125% on a 16:9 screen the main menu's 退出游戏, and at 150% on the Steam Deck's 16:10
+  screen the settings page's 应用 / 取消 and the new-game 取消, are not fully scrolled into view when
+  focused (pad and keyboard); at 150% on 16:9 the battle panel with a queued move and its target label
+  is 8 px taller than the window. These combinations stay out of `responsive_layout_test` /
+  `battle_presentation_test` until fixed.
 
 Platforms: the first release is desktop only; the mobile port (Android / iOS) is paused and CI builds
 only Windows (DECISIONS「手机端暂停」); the Steam Deck adaptation (pad, resolution and window mode,
-touch) stays. The mobile code, presets and suites are still in the project. The provisional app ID
-`com.example.easternstoriesgodot` must be replaced before signing. Licensing: no root project
-license; ES2 rights are unresolved ([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) — settle before any
-public distribution.
+16:10) stays. The mobile code and presets are still in the project; their tests are removed. The
+provisional app ID `com.example.easternstoriesgodot` must be replaced before signing. Licensing: no
+root project license; ES2 rights are unresolved ([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) —
+settle before any public distribution.
 
 ## How to verify
 
