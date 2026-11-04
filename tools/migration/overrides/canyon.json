@@ -6,6 +6,7 @@
 	},
 	"items": ["d/canyon/npc/obj/fake_seal.c", "d/canyon/npc/obj/seal.c", "d/canyon/npc/obj/old_sword.c", "d/canyon/bamboo/obj/slipcase.c", "d/canyon/bamboo/obj/parry_book.c"],
 	"set": {
+		"es2:d/canyon/npc/obj/fake_seal": { "quest": true },
 		"canyon.npc.captain": {
 			"inquiry": {
 				"允许": ["先给钱再说吧。\n"],
@@ -145,7 +146,7 @@
 				], "accept": false }
 			]
 		},
-		"es2:d/canyon/npc/obj/seal": { "name": "印鉴", "name_color": "HIY" },
+		"es2:d/canyon/npc/obj/seal": { "quest": true, "name": "印鉴", "name_color": "HIY" },
 		"es2:d/canyon/bamboo/obj/parry_book": { "unique": true },
 		"es2:d/canyon/bamboo/obj/slipcase": { "contains": ["es2:d/canyon/bamboo/obj/parry_book"] }
 	},

@@ -545,11 +545,20 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 		var node := Node3D.new()
 		world.add_child(node)
 		var s := Shapes.new()
-		# A floor item may have a look of its own (layout `items`: item definition -> look),
-		# drawn by the props files; it goes when the item goes (a buried skeleton).
+		# A floor item may have a look of its own on this map (layout `items`: item definition
+		# -> look), drawn by the props files; it goes when the item goes (a buried skeleton).
+		# Any other thing that can be carried lies as its 背包 picture shows it, laid down
+		# and sized for the world, each turned its own way (VoxelItemLook.lay()).
 		var content: ItemContentDefinition = null if corpse else map.floor_items.floor_item_content(map.floor_items.floor_item_view(id))
 		var look: Dictionary = {} if content == null else layout.get("items",{}).get(String(content.item_definition_id),{})
-		if look.is_empty() or not geometry.draw_look(s,node,look):
+		var carried: Dictionary = {} if content == null or not look.is_empty() else VoxelItemLook.look(content.item_definition_id)
+		if not carried.is_empty():
+			var model := Node3D.new()
+			model.name = "Look"
+			node.add_child(model)
+			VoxelItemLook.build(model,carried)
+			VoxelItemLook.lay(model,carried,float(absi(String(id).hash())%360)*TAU/360.0)
+		elif look.is_empty() or not geometry.draw_look(s,node,look):
 			s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
 		s.flush()
 		_label(node,title,0.7).name = "Title"

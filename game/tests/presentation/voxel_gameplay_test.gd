@@ -115,6 +115,22 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(session.player_runtime()==state and session.inventory_state()==inventory,"crossing keeps exact player and inventory identities")
 	var street_view := outdoor.get_node("MapView") as WorldVoxelView
 	_check(street_view.geometry.unknown_kinds.is_empty(),"every street prop kind is drawn: %s" % [street_view.geometry.unknown_kinds])
+	# A thing dropped in the street lies as its 背包 picture shows it (VoxelItemLook.lay()): a
+	# 长剑 flat on the stones at the floor item's place, gone when the item is gone.
+	var sword: StringName = outdoor.give_new_item_to_player(&"es2:obj/longsword")
+	var dropped: ItemHandlingResult = outdoor.drop_item(sword)
+	_check(dropped != null and dropped.done(),"drop a 长剑 in the street")
+	await _frames(tree,2)
+	var lying: Node3D = street_view.objects.get(sword)
+	var sword_look: Node3D = null if lying == null else lying.get_node_or_null("Look") as Node3D
+	var laid: AABB = AABB() if sword_look == null else sword_look.transform*VoxelItemLook.bounds(sword_look)
+	# The blade is drawn standing (tip up); laid down, that length runs along the ground.
+	var blade: Vector3 = Vector3.ZERO if sword_look == null else sword_look.basis*Vector3(0,VoxelItemLook.bounds(sword_look).size.y,0)
+	_check(sword_look != null and laid.size.y<0.15 and is_zero_approx(laid.position.y) and is_zero_approx(blade.y) and blade.length()>1.0,"the dropped 长剑 lies flat on the stones as its 背包 picture: %s, blade %s" % [laid,blade])
+	_check(lying != null and lying.position.is_equal_approx(VoxelMapGeometry.point(outdoor.floor_items.floor_item_view(sword).global_position)),"where the floor item lies on the 2D map")
+	_check(outdoor.floor_items.destroy_floor_item(sword),"take the 长剑 away")
+	await _frames(tree,2)
+	_check(not street_view.objects.has(sword),"its look goes with it")
 	# 雪亭镇's fronts (三镇立面分化): every shop on the streets is known by its board or pennant,
 	# the 当铺 by the one word over its door (mstreet3.c), and the old 牌坊 stands worn at the
 	# north end (mstreet1.c: 年代久远, 上面的字迹早已看不出是什么字).

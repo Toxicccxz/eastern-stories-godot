@@ -84,6 +84,7 @@ var _act: RoomActDefinition
 var _dissolves: bool = false
 var _pour: PourDefinition
 var _unique: bool = false
+var _quest_item: bool = false
 var _contains: Array[StringName] = []
 ## owner_is_killed() (daemon/class/scholar/windspring.c): when its holder dies (chard.c
 ## make_corpse()), unless the holder is `_owner_killed_unless`, the item is gone and the
@@ -223,6 +224,10 @@ var pour: PourDefinition:
 ## F_UNIQUE: only one of it may exist in the world (violate_unique()).
 var unique: bool:
 	get: return _unique
+## A thing a story turns on (a letter to deliver, a token, a key, a seal): the 背包 lists it
+## under 任务 (owner, 2026-11-04). Presentation only; no rule reads it.
+var quest_item: bool:
+	get: return _quest_item
 ## The item records who got it (set("master_id")): the catalog has its master form.
 var masters: bool:
 	get: return _masters
@@ -292,6 +297,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._dissolves = reader.boolean("dissolve", false)
 	definition._scribe = reader.boolean("scribe", false)
 	definition._unique = reader.boolean("unique", false)
+	definition._quest_item = reader.boolean("quest", false)
 	definition._masters = reader.boolean("master", false)
 	var killed: ContentRecordReader = reader.child("owner_is_killed")
 	if killed != null:

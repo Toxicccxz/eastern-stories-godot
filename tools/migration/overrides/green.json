@@ -108,7 +108,7 @@
 				"buy": [{ "say": "我不卖东西给陌生人!" }]
 			}
 		},
-		"es2:d/green/obj/jade": {
+		"es2:d/green/obj/jade": { "quest": true,
 			"unique": true
 		},
 		"es2:obj/slumber_drug": {

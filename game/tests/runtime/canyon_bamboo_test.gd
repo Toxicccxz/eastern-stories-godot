@@ -222,7 +222,7 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.inventory_panel.inspection_display().ends_with("里面有：\n  悟疾风劲竹书"), "观察 the 书匣: 里面有： (look.c): %s" % hud.inventory_panel.inspection_display())
 	hud.show_inventory(rows)
 	await tree.process_frame
-	var take: Button = _button(hud.inventory_panel, "取出悟疾风劲竹书")
+	var take: Button = _take(hud.inventory_panel, slipcase)
 	_check(take != null, "取出悟疾风劲竹书 on the 书匣")
 	if take != null:
 		take.pressed.emit()
@@ -230,14 +230,14 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.log_lines()[-1] == "你从书匣中拿出一把悟疾风劲竹书。", "get.c: %s" % hud.log_lines()[-1])
 	var book: StringName = _carried(session, BOOK)
 	_check(book != &"", "the book is in the pack")
-	_check(_button(hud.inventory_panel, "取出悟疾风劲竹书") == null, "the 书匣 is empty now")
+	_check(_take(hud.inventory_panel, slipcase) == null, "the 书匣 is empty now")
 	var back: Button = _row_button(hud.inventory_panel, "悟疾风劲竹书", "放进书匣")
 	_check(back != null, "放进书匣 on the book's row (put.c: a carried container)")
 	if back != null:
 		back.pressed.emit()
 	await tree.process_frame
 	_check(hud.log_lines()[-1] == "你将一把悟疾风劲竹书放进书匣。" and _carried(session, BOOK) == &"", "put.c: %s" % hud.log_lines()[-1])
-	take = _button(hud.inventory_panel, "取出悟疾风劲竹书")
+	take = _take(hud.inventory_panel, slipcase)
 	_check(take != null, "and 取出 again")
 	if take != null:
 		take.pressed.emit()
@@ -297,13 +297,20 @@ func _button(root: Node, text: String) -> Button:
 	return null
 
 
-## The button with this text on the 背包 row whose label begins with `row_name`, or null.
+## The button with this text the 背包 offers once it reads the row whose label begins
+## with `row_name`, or null.
 func _row_button(panel: PlayerInventoryPanel, row_name: String, text: String) -> Button:
-	for row: Node in panel.row_container.get_children():
-		var label: Label = row.get_child(0) as Label
-		if label != null and label.text.begins_with(row_name) and not row.is_queued_for_deletion():
-			return _button(row, text)
+	for row: PlayerInventoryRowProjection in panel.listed_rows():
+		if PlayerInventoryPanel.row_label(row).begins_with(row_name):
+			panel.select_item(row.item_instance_id)
+			return _button(panel.action_rows, text)
 	return null
+
+
+## 取出悟疾风劲竹书 once the 背包 reads the 书匣, or null.
+func _take(panel: PlayerInventoryPanel, slipcase: StringName) -> Button:
+	panel.select_item(slipcase)
+	return _button(panel.action_rows, "取出悟疾风劲竹书")
 
 
 ## TEST-ONLY: an item of `definition_id` in the player's pack.

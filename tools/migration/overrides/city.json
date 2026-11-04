@@ -2,6 +2,7 @@
 	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
 	"items": ["d/city/obj/token.c"],
 	"set": {
+		"es2:d/city/obj/token": { "quest": true },
 		"city.npc.guard": {
 			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
 			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },

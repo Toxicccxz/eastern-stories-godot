@@ -50,7 +50,6 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_false(controller.session.shared_ui().inventory_is_open(), "Inventory panel starts closed")
 	_assert_false(controller.session.shared_ui().loot_is_open(), "Loot panel starts closed")
 	_assert_eq(controller.session.shared_ui()._presentation_layout.menu_button.get_signal_connection_list("pressed").size(), 1, "菜单 button has one persisted controller connection")
-	_assert_eq(controller.session.shared_ui().inventory_panel.inspect_requested.get_connections().size(), 1, "Inspect request has one typed controller connection")
 	_assert_eq(controller.session.shared_ui().inventory_panel.wield_requested.get_connections().size(), 1, "Wield request has one typed controller connection")
 	_assert_eq(controller.session.shared_ui().inventory_panel.unwield_requested.get_connections().size(), 1, "Unwield request has one typed controller connection")
 	var panel: PlayerInventoryPanel = controller.session.shared_ui().inventory_panel
@@ -117,7 +116,8 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	OldPineTestMap.open_inventory(controller)
 	OldPineTestMap.open_inventory(controller)
 	rows = controller.session.shared_ui().inventory_rows()
-	_assert_dynamic_row_connections(panel, 3)
+	# The silver is the 钱袋 under the list, not a row.
+	_assert_dynamic_row_connections(panel, 2)
 	_assert_eq(
 		_row_ids(rows),
 		controller.inventory_state().direct_children(_player_endpoint()),
@@ -131,7 +131,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	var silver_row: PlayerInventoryRowProjection = _inventory_row_for(rows, silver_id)
 	_assert_eq(short_row.equipment_slot, PlayerInventoryRowProjection.EquipmentSlot.NONE, "Take never auto-equips short sword")
 	_assert_eq(silver_row.amount, 3, "Inventory reads current silver amount three")
-	panel.inspect_requested.emit(short_id)
+	panel.select_item(short_id)
 	_assert_true(panel.inspection_display().contains("短剑"), "typed Inspect renders authored short name")
 	_assert_true(panel.inspection_display().contains("粗制滥造的短剑"), "typed Inspect renders authored short description")
 	_assert_true(panel.inspection_display().contains("兵器：剑"), "typed Inspect renders sword category fact")
@@ -541,17 +541,13 @@ func _row_action_button(
 ) -> Button:
 	if panel == null:
 		return null
-	for child: Node in panel.row_container.get_children():
-		var row: BoxContainer = child as BoxContainer
-		if row == null or row.get_child_count() == 0:
+	for row: PlayerInventoryRowProjection in panel.listed_rows():
+		if not PlayerInventoryPanel.row_label(row).begins_with(display_name):
 			continue
-		var label: Label = row.get_child(0) as Label
-		if label == null or not label.text.begins_with(display_name):
-			continue
-		for row_child: Node in row.get_children():
-			var button: Button = row_child as Button
-			if button != null and button.text == action_text:
-				return button
+		panel.select_item(row.item_instance_id)
+		for node: Node in panel.action_rows.find_children("*", "Button", true, false):
+			if (node as Button).text == action_text:
+				return node as Button
 	return null
 
 
@@ -568,18 +564,16 @@ func _assert_dynamic_row_connections(
 		"repeated live refresh creates exactly one node per projected row",
 	)
 	for child: Node in panel.row_container.get_children():
-		var row: BoxContainer = child as BoxContainer
-		_assert_true(row != null, "each dynamic Inventory row is one BoxContainer")
-		if row == null:
-			continue
-		for row_child: Node in row.get_children():
-			var button: Button = row_child as Button
-			if button != null:
-				_assert_eq(
-					button.get_signal_connection_list("pressed").size(),
-					1,
-					"each dynamic action button binds its exact row identity once",
-				)
+		var row: Button = child as Button
+		_assert_true(row != null, "each dynamic Inventory row is one Button")
+		if row != null:
+			_assert_eq(row.get_signal_connection_list("pressed").size(), 1, "each dynamic row binds its exact item once")
+	for chip: Node in panel.action_rows.find_children("*", "Button", true, false):
+		_assert_eq(
+			(chip as Button).get_signal_connection_list("pressed").size(),
+			1,
+			"each dynamic action button binds its exact row identity once",
+		)
 
 
 func _loot_id_for_definition(

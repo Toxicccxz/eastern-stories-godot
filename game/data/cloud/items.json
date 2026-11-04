@@ -292,6 +292,7 @@
 			"material": "paper",
 			"weight": 50,
 			"value": 100,
+			"quest": true,
 			"master": true
 		}
 	]

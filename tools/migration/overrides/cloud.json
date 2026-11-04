@@ -187,7 +187,7 @@
 				{ "say": "好小子, 居然管起大爷的事来, 看招!", "accept": true, "kill": true }
 			]
 		},
-		"es2:u/cloud/npc/obj/letter": { "master": true },
+		"es2:u/cloud/npc/obj/letter": { "quest": true, "master": true },
 		"cloud.npc.b_header": {
 			"inquiry": {
 				"淳风武馆": ["淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"],
