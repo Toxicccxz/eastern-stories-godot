@@ -3,7 +3,8 @@ extends RefCounted
 ## What a carried thing looks like (owner, 2026-11-04: every item a voxel picture, a small one
 ## on its 背包 row and a large one turning beside the list). game/data/common/item_looks.json
 ## gives each item a `kind` and its colours and sizes; the props files voxel_item_arms,
-## voxel_item_wear and voxel_item_goods draw the kinds. Presentation only: no rule reads it.
+## voxel_item_wear and voxel_item_goods draw the kinds. A thing lying on a map's ground is the
+## same model, laid down and sized for the world (lay()). Presentation only: no rule reads it.
 ##
 ## Also the little studio both pictures are taken in: an own world with a warm key light, a
 ## cool fill and a soft ambient, an orthographic camera looking down at the game's angle, the
@@ -22,6 +23,10 @@ const ICON_YAW: float = 0.55
 const MARGIN: float = 1.12
 
 static var _looks: Dictionary = {}
+## How things lie on a map's ground (item_looks.json `floor`): `scale` on the drawn model,
+## `least` the shortest a longest side may be, `kinds` (and `kind/style`) changing either or
+## fixing the `pose` ("lie" or "stand").
+static var _floor: Dictionary = {}
 static var _loaded: bool = false
 
 
@@ -53,6 +58,7 @@ static func _load() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(LOOKS_PATH))
 	if parsed is Dictionary and (parsed as Dictionary).get("looks") is Dictionary:
 		_looks = (parsed as Dictionary)["looks"]
+		_floor = (parsed as Dictionary).get("floor", {})
 	else:
 		push_error("item looks: %s is missing or not {\"looks\": {...}}" % LOOKS_PATH)
 
@@ -89,6 +95,48 @@ static func leans(bounds: AABB) -> bool:
 ## The box round what build() drew into `model`, in its own space.
 static func bounds(model: Node3D) -> AABB:
 	return model.get_meta(&"look_bounds", AABB())
+
+
+## The floor rule of a look: the defaults, its kind's over them, its kind/style's over that.
+## Without a `floor` table a thing lies at its drawn size.
+static func floor_rule(data: Dictionary) -> Dictionary:
+	_load()
+	var kinds: Dictionary = _floor.get("kinds", {})
+	var kind: String = String(data.get("kind", "parcel"))
+	var rule: Dictionary = {"scale": float(_floor.get("scale", 1.0)), "least": float(_floor.get("least", 0.0))}
+	rule.merge(kinds.get(kind, {}), true)
+	if data.has("style"):
+		rule.merge(kinds.get("%s/%s" % [kind, data["style"]], {}), true)
+	return rule
+
+
+## Whether a thing this shape lies down on the ground: a long one (a blade, a staff) or one
+## drawn as a face standing up (a robe, a letter, a ring). Others stand as drawn (a jar, a bun
+## on its leaf, a pair of boots).
+static func lies(box: AABB) -> bool:
+	var size: Vector3 = box.size
+	return leans(box) or minf(size.x, size.z) < 0.4 * minf(maxf(size.x, size.z), size.y)
+
+
+## Puts a freshly drawn `model` (build()) on the ground at its parent's origin, as a thing
+## dropped on a map: lying (its thinner flat side down, a face drawn towards the viewer now
+## upwards) or standing (lies(), or its rule's `pose`), turned `yaw` about the up axis, sized
+## by its rule to read beside a person, its lowest point on the ground.
+static func lay(model: Node3D, data: Dictionary, yaw: float) -> void:
+	var box: AABB = bounds(model)
+	if box.size == Vector3.ZERO:
+		return
+	var rule: Dictionary = floor_rule(data)
+	var turn := Basis()
+	if String(rule.get("pose", "lie" if lies(box) else "stand")) == "lie":
+		turn = Basis(Vector3.RIGHT, -PI / 2) if box.size.z <= box.size.x else Basis(Vector3.BACK, PI / 2)
+	var size_by: float = maxf(float(rule["scale"]), float(rule["least"]) / box.size[box.size.max_axis_index()])
+	var placed: Basis = (Basis(Vector3.UP, yaw) * turn).scaled(Vector3.ONE * size_by)
+	var posed := AABB(placed * box.position, Vector3.ZERO)
+	for i: int in 8:
+		posed = posed.expand(placed * box.get_endpoint(i))
+	var centre: Vector3 = posed.get_center()
+	model.transform = Transform3D(placed, -Vector3(centre.x, posed.position.y, centre.z))
 
 
 ## Lights, environment and camera in `viewport` (an own world, its background clear); the

@@ -18,6 +18,7 @@ func run_all(_tree: SceneTree) -> Dictionary:
 	_test_derived_forms()
 	_test_framing()
 	_test_views()
+	_test_floor()
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -99,6 +100,48 @@ func _test_framing() -> void:
 	VoxelItemLook.frame(pivot, model, camera, true)
 	_check(is_zero_approx(model.rotation.z) and camera.size >= VoxelItemLook.bounds(model).size.y * VoxelItemLook.MARGIN * cos(VoxelItemLook.PITCH) * 0.99, "a turning sword stands and stays in the picture: size %.2f" % camera.size)
 	viewport.free()
+
+
+## A thing dropped on a map lies as its picture shows it (VoxelItemLook.lay()): on the ground,
+## sized to read beside a person (1.9 units) and never as tall as one's knee, a blade or a robe
+## laid down flat (a robe face up), a jar standing; the rule's `pose` lays a drumstick down.
+func _test_floor() -> void:
+	var odd: Array[String] = []
+	for id: String in VoxelItemLook.all_looks():
+		var posed: AABB = _laid(VoxelItemLook.all_looks()[id], 0.0)
+		var turned: AABB = _laid(VoxelItemLook.all_looks()[id], 0.7)
+		var longest: float = posed.size[posed.size.max_axis_index()]
+		if absf(turned.position.y) > 0.001 or turned.get_center().distance_to(Vector3(0, turned.get_center().y, 0)) > 0.001 or longest < 0.499 or longest > 1.8 or posed.size.y > 0.7:
+			odd.append("%s %s" % [id, posed.size])
+	_check(odd.is_empty(), "every look lies on the ground where it was dropped, 0.5 to 1.8 long, below the knee: %s" % [odd])
+	var sword: AABB = _laid({"kind": "sword"}, 0.0)
+	_check(sword.size.y < 0.15 and maxf(sword.size.x, sword.size.z) > 1.0, "a sword lies flat, as long as a sword beside a person: %s" % [sword.size])
+	var robe: AABB = _laid({"kind": "garment", "style": "robe"}, 0.0)
+	_check(robe.size.y < 0.25 and robe.size.x > 1.0, "a robe lies spread out: %s" % [robe.size])
+	var model := Node3D.new()
+	VoxelItemLook.build(model, {"kind": "garment", "style": "robe"})
+	VoxelItemLook.lay(model, {"kind": "garment", "style": "robe"}, 0.0)
+	_check(model.basis.y.normalized().is_equal_approx(Vector3.FORWARD) and model.basis.z.normalized().is_equal_approx(Vector3.UP), "face up, its collar away from the camera")
+	model.free()
+	var jar: AABB = _laid({"kind": "jar"}, 0.0)
+	var drawn := Node3D.new()
+	VoxelItemLook.build(drawn, {"kind": "jar"})
+	var upright: Vector3 = VoxelItemLook.bounds(drawn).size
+	_check(is_equal_approx(jar.size.y / jar.size.x, upright.y / upright.x) and jar.size.y > 0.45, "a jar stands as drawn: %s" % [jar.size])
+	drawn.free()
+	var drumstick: AABB = _laid({"kind": "meat", "style": "drumstick"}, 0.0)
+	_check(drumstick.size.y < 0.6 * maxf(drumstick.size.x, drumstick.size.z), "a drumstick lies on its side (meat/drumstick pose): %s" % [drumstick.size])
+	_check(String(VoxelItemLook.floor_rule({"kind": "meat", "style": "roast"}).get("pose", "")).is_empty(), "a roast does not take the drumstick's pose")
+
+
+## The box round `look` drawn and laid on the ground, turned `yaw`.
+func _laid(look: Dictionary, yaw: float) -> AABB:
+	var model := Node3D.new()
+	VoxelItemLook.build(model, look)
+	VoxelItemLook.lay(model, look, yaw)
+	var box: AABB = model.transform * VoxelItemLook.bounds(model)
+	model.free()
+	return box
 
 
 ## The 背包's turning picture builds the look it is given and keeps one model; without a
