@@ -7,7 +7,7 @@ extends RefCounted
 
 enum Shape { DISC, PILL, KEY, CROSS, RING, SQUARE, TRIANGLE }
 
-const HEIGHT: float = 24.0
+const HEIGHT: float = 22.0
 ## 像素界面: the pixel face at its one crisp size (GameTheme.BODY_SIZE).
 const FONT_SIZE: int = 18
 

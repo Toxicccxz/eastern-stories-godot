@@ -140,7 +140,8 @@ func _test_faces() -> void:
 	_check(pixel != null and pixel.antialiasing == TextServer.FONT_ANTIALIASING_NONE and pixel.hinting == TextServer.HINTING_NONE, "the pixel face is aliased and unhinted")
 	_check(pixel.fallbacks.size() == 1 and pixel.fallbacks[0].resource_path == GameTheme.FALLBACK_FONT_PATH, "a glyph the pixel face lacks comes from 霞鹜文楷")
 	var theme: GameTheme = GameTheme.shared()
-	_check(theme.default_font == pixel and theme.get_font("font", &"TitleLabel") == pixel, "text and titles are in the pixel face")
+	_check(theme.default_font == GameTheme.text_font() and GameTheme.text_font().base_font == pixel and theme.get_font("font", &"TitleLabel") == pixel, "text and titles are in the pixel face")
+	_check(GameTheme.text_font().get_height(GameTheme.BODY_SIZE) <= 22.0, "a line of text no taller than 霞鹜文楷's was, so layouts keep their rhythm")
 	_check(is_equal_approx(GameTheme.BODY_SIZE / 12.0, GameTheme.GRID) and GameTheme.PIXEL_SIZE == GameTheme.BODY_SIZE * 2, "18 px is its grid pixel, titles twice that")
 	_check(theme.get_constant("shadow_offset_y", &"TitleLabel") == GameTheme.PIXEL_STEP and GameTheme.PIXEL_STEP * 12 == GameTheme.PIXEL_SIZE, "one font pixel of side under a title")
 

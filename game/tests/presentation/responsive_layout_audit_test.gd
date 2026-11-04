@@ -217,7 +217,7 @@ func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface:
 		_check(shell.find_children("*", "", true, false).size() == node_count, "resize does not duplicate presentation nodes: %s before%d after%d" % [surface.name, node_count, shell.find_children("*", "", true, false).size()])
 		for panel: Node in surface.find_children("*", "PanelContainer", true, false):
 			if (panel as Control).is_visible_in_tree():
-				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel stays inside the window")
+				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel stays inside the window: %s %s at %s: %s" % [surface.name, (panel as Control).name, screen, (panel as Control).get_global_rect()])
 
 
 func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: SharedGameplayUI, capability: FakeSafe, presenter: SafeAreaPresenter) -> void:

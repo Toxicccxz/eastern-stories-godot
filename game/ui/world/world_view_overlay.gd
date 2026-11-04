@@ -315,7 +315,13 @@ func _place_banner() -> void:
 			right = card.end.x
 			top = card.end.y + BANNER_MARGIN
 	var middle: float = (left + right) / 2.0
-	_banner.position = Vector2(clampf(middle - _banner.size.x / 2.0, view.position.x + BANNER_MARGIN, view.end.x - _banner.size.x - BANNER_MARGIN), top).round()
+	var at := Vector2(clampf(middle - _banner.size.x / 2.0, view.position.x + BANNER_MARGIN, view.end.x - _banner.size.x - BANNER_MARGIN), top)
+	# Under the card a long name can reach under the room's text beside it (像素界面's taller
+	# lines): then it goes below that too.
+	var room := Rect2(_room.position, _room.size)
+	if _room.visible and not _room_text.text.is_empty() and Rect2(at, _banner.size).intersects(room):
+		at.y = room.end.y + BANNER_MARGIN
+	_banner.position = at.round()
 
 
 ## 「绮云镇 · 卧龙岗」: the region the player is now in and the zone they stand in.

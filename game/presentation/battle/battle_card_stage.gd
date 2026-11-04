@@ -13,9 +13,10 @@ const GOLD: Color = Color("efc77b")
 const GREY: Color = Color("8b959e")
 const STAMP_RED: Color = Color(0.70, 0.23, 0.18, 0.78)
 const VEIL: Color = Color(0.02, 0.04, 0.05, 0.45)
-const TITLE_SIZE: int = 40
-const SPECIAL_SIZE: int = 48
-const FLOAT_SIZE: int = 22
+## 像素界面: whole steps of the pixel face (GameTheme.text_size).
+const TITLE_SIZE: int = 36
+const SPECIAL_SIZE: int = 54
+const FLOAT_SIZE: int = 18
 const STAMP_SIZE: int = 72
 ## The slam: from this scale to 1 in SLAM_SECONDS, then the hold, then FADE_SECONDS out.
 const SLAM_FROM: float = 1.3
