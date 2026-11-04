@@ -1,4 +1,31 @@
 {
+	"floor": {
+		"scale": 0.8,
+		"least": 0.5,
+		"kinds": {
+			"sword": { "scale": 1.1 },
+			"saber": { "scale": 1.1 },
+			"staff": { "scale": 1.35 },
+			"fork": { "scale": 1.35 },
+			"broom": { "scale": 1.2 },
+			"bamboo": { "scale": 1.1 },
+			"axe": { "scale": 1.05 },
+			"hammer": { "scale": 1.0, "pose": "lie" },
+			"dagger": { "scale": 0.95 },
+			"cleaver": { "scale": 0.9 },
+			"ruler": { "scale": 0.95 },
+			"whisk": { "scale": 0.9 },
+			"whip/tail": { "scale": 0.95 },
+			"garment": { "scale": 1.0 },
+			"armor_suit": { "scale": 1.05 },
+			"cape": { "scale": 1.0 },
+			"skirt": { "scale": 1.0 },
+			"shield": { "scale": 0.9 },
+			"plant": { "pose": "lie" },
+			"flower": { "pose": "lie" },
+			"meat/drumstick": { "pose": "lie" }
+		}
+	},
 	"looks": {
 		"es2:obj/money/coin": { "kind": "coins", "metal": "b07a3a:gloss", "string": "b0452f" },
 		"es2:obj/money/silver": { "kind": "ingot", "metal": "d6dcdf:gloss" },
