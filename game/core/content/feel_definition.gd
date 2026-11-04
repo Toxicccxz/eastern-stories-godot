@@ -53,7 +53,9 @@ extends RefCounted
 ##   the frames between drawing the loading screen (0: no loading screen, the build takes one
 ##   long frame); map_loading_delay_ms the screen stays dark this long and shows only if the
 ##   build takes longer; map_loading_min_ms once shown it stays at least this long;
-##   map_loading_fade_ms it fades in and out in this long.
+##   map_loading_fade_ms it fades in and out in this long. session_start_slice_ms how long a
+##   journey's start (New Game, Continue, Load, the recovery) builds the world per frame while
+##   the title or the busy note plays on (0: in one long frame, as the suites start it).
 
 ## A bubble of this many characters or fewer shows for speech_bubble_ms alone.
 const BUBBLE_SHORT_CHARACTERS: int = 24
@@ -88,6 +90,7 @@ var _map_loading_slice_ms: int = 0
 var _map_loading_delay_ms: int = 0
 var _map_loading_min_ms: int = 0
 var _map_loading_fade_ms: int = 0
+var _session_start_slice_ms: int = 0
 var _move_title_ms: int = 0
 var _special_title_ms: int = 0
 var _damage_float_ms: int = 0
@@ -168,6 +171,9 @@ var map_loading_min_seconds: float:
 var map_loading_fade_seconds: float:
 	get:
 		return float(_map_loading_fade_ms) / 1000.0
+var session_start_slice_seconds: float:
+	get:
+		return float(_session_start_slice_ms) / 1000.0
 var move_title_seconds: float:
 	get:
 		return float(_move_title_ms) / 1000.0
@@ -260,6 +266,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_map_loading_delay_ms = int(values.get("map_loading_delay_ms", _map_loading_delay_ms))
 	_map_loading_min_ms = int(values.get("map_loading_min_ms", _map_loading_min_ms))
 	_map_loading_fade_ms = int(values.get("map_loading_fade_ms", _map_loading_fade_ms))
+	_session_start_slice_ms = int(values.get("session_start_slice_ms", _session_start_slice_ms))
 	_move_title_ms = int(values.get("move_title_ms", _move_title_ms))
 	_special_title_ms = int(values.get("special_title_ms", _special_title_ms))
 	_damage_float_ms = int(values.get("damage_float_ms", _damage_float_ms))
@@ -286,7 +293,7 @@ const KEYS: Array[String] = [
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
 	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
-	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms",
+	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms", "session_start_slice_ms",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
 	"turn_cue_ms", "intent_pulse_ms",
 ]

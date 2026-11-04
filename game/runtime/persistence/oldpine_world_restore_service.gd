@@ -16,6 +16,18 @@ static func build_candidate(
 	snapshot: GameSaveSnapshot,
 	staging_parent: Node,
 ) -> OldPineWorldRestoreResult:
+	var begun: OldPineWorldRestoreResult = begin_candidate(snapshot, staging_parent, 0)
+	return begun if begun.candidate == null else finish_candidate(begun)
+
+
+## build_candidate's first half: the candidate is made and added under staging_parent, where
+## its start runs — over frames with `slice_usec` (DECISIONS「加载画面」: wait for the
+## candidate's start_done), inside this call without. A failure has no candidate.
+static func begin_candidate(
+	snapshot: GameSaveSnapshot,
+	staging_parent: Node,
+	slice_usec: int,
+) -> OldPineWorldRestoreResult:
 	if staging_parent == null or not staging_parent.is_inside_tree():
 		if snapshot != null:
 			snapshot.take_derived() # not prepared: what a check kept goes now
@@ -41,19 +53,8 @@ static func build_candidate(
 			Result.Outcome.RECONSTRUCTION_FAILED,
 			"candidate.configure_restore",
 		)
+	candidate.start_slice_usec = slice_usec
 	staging_parent.add_child(candidate)
-	if (
-		not candidate.is_restore_candidate_staged()
-		or candidate.active_map_child_count() != 1
-	):
-		var failure: int = candidate.restore_failure_outcome()
-		if candidate.get_parent() == staging_parent:
-			staging_parent.remove_child(candidate)
-		candidate.free()
-		return Result.failure(
-			failure,
-			"candidate.initialize",
-		)
 	return OldPineWorldRestoreResult.new(
 		Result.Outcome.SUCCESS,
 		"",
@@ -61,3 +62,23 @@ static func build_candidate(
 		candidate,
 		prepared.preparation,
 	)
+
+
+## build_candidate's second half, once the candidate's start is over: it stands staged with
+## one active map, or it is freed and the failure says why.
+static func finish_candidate(begun: OldPineWorldRestoreResult) -> OldPineWorldRestoreResult:
+	var candidate: WorldSessionController = begun.candidate
+	if (
+		not candidate.start_finished()
+		or not candidate.is_restore_candidate_staged()
+		or candidate.active_map_child_count() != 1
+	):
+		var failure: int = candidate.restore_failure_outcome()
+		if candidate.get_parent() != null:
+			candidate.get_parent().remove_child(candidate)
+		candidate.free()
+		return Result.failure(
+			failure,
+			"candidate.initialize",
+		)
+	return begun

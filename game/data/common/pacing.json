@@ -85,6 +85,7 @@
 			"map_loading_delay_ms": 200,
 			"map_loading_min_ms": 500,
 			"map_loading_fade_ms": 200,
+			"session_start_slice_ms": 12,
 			"move_title_ms": 700,
 			"special_title_ms": 1100,
 			"damage_float_ms": 900,
