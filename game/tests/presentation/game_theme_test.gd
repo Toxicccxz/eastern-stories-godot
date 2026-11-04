@@ -47,11 +47,12 @@ func _test_theme() -> void:
 ## aliased at a whole multiple of its grid.
 func _test_faces() -> void:
 	var project: Theme = ThemeDB.get_project_theme()
-	var body: FontVariation = project.default_font as FontVariation
-	_check(body != null and body.base_font.resource_path == "res://assets/fonts/LXGWWenKaiLite-Medium.ttf", "the text face is the bundled 霞鹜文楷")
-	_check(LocalizationService.language_font(project) != null, "a system font fills in glyphs it lacks")
+	var body: FontFile = project.default_font as FontFile
+	_check(body != null and body.resource_path == GameTheme.BODY_FONT_PATH, "the text face is the bundled 霞鹜文楷")
+	_check(body.allow_system_fallback, "the system fills in glyphs it lacks")
 	var pixel: FontFile = GameTheme.pixel_font()
 	_check(pixel != null and pixel.antialiasing == TextServer.FONT_ANTIALIASING_NONE and pixel.hinting == TextServer.HINTING_NONE, "the pixel face is aliased and unhinted")
+	_check(pixel.fallbacks.size() == 1 and pixel.fallbacks[0] == body, "a glyph the pixel face lacks comes from 霞鹜文楷")
 	var theme: GameTheme = GameTheme.shared()
 	_check(theme.get_font("font", &"TitleLabel") == pixel, "titles are in the pixel face")
 	_check(GameTheme.PIXEL_SIZE % 16 == 0 and GameTheme.PIXEL_STEP * 16 == GameTheme.PIXEL_SIZE, "at a whole multiple of its 16 px grid")

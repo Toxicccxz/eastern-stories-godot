@@ -61,7 +61,7 @@ future content.
 ## Fonts
 
 Two fonts are bundled for the interface (界面重做, DECISIONS「界面样式」), each with its licence
-beside it; the language's system fonts (`game/locale/languages.json`) fill in glyphs they lack.
+beside it; the system's fonts fill in glyphs they lack (Godot's system fallback).
 
 - `game/assets/fonts/LXGWWenKaiLite-Medium.ttf` — 霞鹜文楷 Lite Medium, from
   [lxgw/LxgwWenKai-Lite](https://github.com/lxgw/LxgwWenKai-Lite) release v1.530 (13,801,408

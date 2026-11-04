@@ -15,6 +15,8 @@ extends Theme
 ## Focus is a lantern-yellow rim (and FocusCursor's bobbing arrow beside it).
 
 const PIXEL_FONT_PATH: String = "res://assets/fonts/ark-pixel-16px-proportional-zh_cn.otf"
+## The text face (the project theme's default font).
+const BODY_FONT_PATH: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
 ## The pixel face's grid is 16 px; drawn at 32 logical px every grid pixel is 2 logical
 ## pixels, so a whole number of screen pixels at every 16:9 window (3 at 1920×1080).
 const PIXEL_SIZE: int = 32
@@ -32,7 +34,8 @@ static func shared() -> GameTheme:
 	return _shared
 
 
-## The pixel face, aliased and unhinted so its grid stays square.
+## The pixel face, aliased and unhinted so its grid stays square; a glyph it lacks (its 16 px
+## set is still small) comes from 霞鹜文楷.
 static func pixel_font() -> FontFile:
 	var font: FontFile = load(PIXEL_FONT_PATH) as FontFile
 	if font != null and font.antialiasing != TextServer.FONT_ANTIALIASING_NONE:
@@ -40,6 +43,8 @@ static func pixel_font() -> FontFile:
 		font.hinting = TextServer.HINTING_NONE
 		font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
 		font.generate_mipmaps = false
+	if font != null and font.fallbacks.is_empty():
+		font.fallbacks = [load(BODY_FONT_PATH) as Font]
 	return font
 
 
