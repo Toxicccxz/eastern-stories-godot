@@ -190,7 +190,7 @@ static func _mask(made: Spec, rng: RandomNumberGenerator) -> PackedByteArray:
 			chips = rng.randi_range(1, 3)
 	var reach: int = m - 3
 	for chip: int in chips:
-		if reach <= radius:
+		if reach < radius:
 			break
 		var corner: int = rng.randi_range(0, 3)
 		var along: int = rng.randi_range(radius, reach)
@@ -533,8 +533,10 @@ static func marks_for(kind: int, face: Color) -> Array:
 	var key: int = hash([kind, face.to_html()])
 	if _marks.has(key):
 		return _marks[key]
+	# The pieces' shapes by the kind alone (a hovered or pressed button keeps its marks), their
+	# colours from the face.
 	var rng := RandomNumberGenerator.new()
-	rng.seed = key
+	rng.seed = hash(["marks", kind])
 	var pieces: Array[Image] = []
 	match kind:
 		Kind.WOOD:

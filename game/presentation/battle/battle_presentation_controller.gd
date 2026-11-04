@@ -648,7 +648,7 @@ func _fitted(line: BattleNarrationLine, label: RichTextLabel, width: float) -> B
 	var size: int = label.get_theme_font_size("normal_font_size")
 	# TRANSLATORS: the damage behind a battle line, as BattleNarrationLine.rich_text() shows it.
 	var damage: String = (" " + tr("（-%d）") % line.damage) if line.has_damage else ""
-	var budget: float = width - font.get_string_size(damage, HORIZONTAL_ALIGNMENT_LEFT, -1, maxi(size - 4, 1)).x - 4.0
+	var budget: float = width - font.get_string_size(damage, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x - 4.0
 	if font.get_string_size(line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x <= budget:
 		return line
 	var words: String = line.text

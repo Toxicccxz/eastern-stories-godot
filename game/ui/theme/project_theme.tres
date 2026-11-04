@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=3 format=3]
+[gd_resource type="Theme" load_steps=4 format=3]
 
 [ext_resource type="FontFile" path="res://assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2" id="1_body"]
+[ext_resource type="FontFile" path="res://assets/fonts/LXGWWenKaiLite-Medium.ttf" id="2_world"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tooltip"]
 content_margin_left = 10.0
@@ -13,4 +14,5 @@ border_color = Color(0.1, 0.07, 0.05, 1)
 
 [resource]
 default_font = ExtResource("1_body")
+Label3D/fonts/font = ExtResource("2_world")
 TooltipPanel/styles/panel = SubResource("StyleBoxFlat_tooltip")

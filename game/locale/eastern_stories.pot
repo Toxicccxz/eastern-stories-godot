@@ -7063,9 +7063,9 @@ msgstr ""
 msgid "战斗记录"
 msgstr ""
 
-#. a battle log line ({line}) and the damage behind it, shown small and grey.
+#. a battle log line ({line}) and the damage behind it, shown grey.
 #: presentation/battle/battle_narration_line.gd
-msgid "{line} [color=#8b959e][font_size=12]（-{damage}）[/font_size][/color]"
+msgid "{line} [color=#8b959e]（-{damage}）[/color]"
 msgstr ""
 
 #. the full battle line under its short form in the log: {line} and its damage.

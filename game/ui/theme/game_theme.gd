@@ -210,7 +210,7 @@ func _rows() -> void:
 	set_stylebox("normal", &"RowButton", flat)
 	set_stylebox("disabled", &"RowButton", flat)
 	set_stylebox("hover", &"RowButton", _mat(KIND.WOOD, UiPalette.EBONY.lightened(0.1), UiPalette.EBONY_SIDE, 64, 20, 5, 1, 71, row_pad))
-	var chosen: PixelBox = _mat(KIND.WOOD, Color("5a3a22"), Color("2e1d10"), 64, 20, 5, 1, 73, row_pad)
+	var chosen: PixelBox = _mat(KIND.WOOD, Color("5a3a22"), Color("2e1d10"), 64, 20, 5, 1, 71, row_pad)
 	for state: String in ["pressed", "hover_pressed"]:
 		set_stylebox(state, &"RowButton", chosen)
 	set_stylebox("focus", &"RowButton", UiBlocks.rim())
@@ -251,7 +251,7 @@ func _menu() -> void:
 	set_stylebox("normal", &"TabButton", flat)
 	set_stylebox("disabled", &"TabButton", flat)
 	set_stylebox("hover", &"TabButton", _mat(KIND.WOOD, UiPalette.EBONY.lightened(0.12), UiPalette.EBONY_SIDE, 32, 20, 5, 2, 83, tab_pad))
-	var shown: PixelBox = _mat(KIND.WOOD, UiPalette.PLANK, UiPalette.WOOD_SIDE, 32, 20, 5, 2, 89, tab_pad)
+	var shown: PixelBox = _mat(KIND.WOOD, UiPalette.PLANK, UiPalette.WOOD_SIDE, 32, 20, 5, 2, 83, tab_pad)
 	for state: String in ["pressed", "hover_pressed"]:
 		set_stylebox(state, &"TabButton", shown)
 	set_stylebox("focus", &"TabButton", UiBlocks.rim())

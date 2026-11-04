@@ -112,6 +112,18 @@ func _test_materials() -> void:
 	for id: int in range(102, 110):
 		differs = differs or box._layout(id, Vector2i(600, 400)) != first
 	_check(differs, "another control, other marks")
+	var theme: GameTheme = GameTheme.shared()
+	for kind: StringName in [&"Button", &"PrimaryButton", &"ChipButton", &"SlotButton"]:
+		var states: Array[PixelBox] = []
+		for state: String in ["normal", "hover", "pressed", "disabled"]:
+			states.append(theme.get_stylebox(state, kind) as PixelBox)
+		var same: bool = true
+		for style: PixelBox in states:
+			same = same and style.mark_rects == states[0].mark_rects and style._layout(7, Vector2i(80, 26)) == states[0]._layout(7, Vector2i(80, 26))
+		_check(same, "%s keeps its marks hovered, pressed and disabled" % kind)
+	var hovered: PixelBox = theme.get_stylebox("hover", &"RowButton") as PixelBox
+	var chosen: PixelBox = theme.get_stylebox("pressed", &"RowButton") as PixelBox
+	_check(hovered.mark_seed == chosen.mark_seed and hovered.variants[0].get_size() == chosen.variants[0].get_size(), "a row keeps its shape hovered and chosen")
 
 
 ## The pixel face at its whole steps; the interface's scale snapped so a font pixel is whole
@@ -127,6 +139,14 @@ func _test_pixel_scale() -> void:
 			var stretch: float = minf(window.x / 1280.0, window.y / 720.0)
 			var whole: float = ApplicationUiScale.pixel_factor(percent, window, base) * stretch * GameTheme.GRID
 			_check(absf(whole - roundf(whole)) < 0.001 and whole >= 1.0, "%s at %d percent: a font pixel is %.3f screen pixels" % [window, percent, whole])
+	for window: Vector2i in [Vector2i(1280, 720), Vector2i(1920, 1080), Vector2i(2560, 1440), Vector2i(3840, 2160), Vector2i(1706, 960)]:
+		var stretch: float = minf(window.x / 1280.0, window.y / 720.0)
+		var last: float = 0.0
+		for percent: int in ApplicationUiScale.PERCENTS:
+			var total: float = ApplicationUiScale.pixel_factor(percent, window, base) * stretch
+			_check(total <= stretch * 1.5 + 0.001, "%s at %d percent: never smaller than the interface is laid out for (%.3f)" % [window, percent, total])
+			_check(total >= last - 0.001, "%s: a larger setting is never drawn smaller" % [window])
+			last = total
 
 
 ## Every text in the pixel face (缝合像素 12 px), aliased and unhinted, 霞鹜文楷 under it for
