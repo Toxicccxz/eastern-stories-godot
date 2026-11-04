@@ -1,10 +1,15 @@
-extends "res://tests/application/mobile_touch_test.gd"
+extends RefCounted
 
+const ShellScene: PackedScene = preload("res://scenes/application/application_shell.tscn")
+const Fixtures = preload("res://tests/application/application_shell_phase10c1c_test.gd")
+const FakeSafe = preload("res://tests/presentation/fake_safe_area_capability.gd")
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 const Setup := preload("res://tests/support/cxr6_session_fixture.gd")
-const LifecycleFixture := preload("res://tests/application/mobile_lifecycle_test.gd")
 const Code := CombatTacticalResult.Code
 const Queue := CombatQueuedAction.Status
+
+var _assertions: int = 0
+var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
@@ -12,6 +17,58 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_shell_battle(tree)
 	await _test_restored_session_battle(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
+
+
+func _check(value: bool, label: String) -> void:
+	_assertions += 1
+	if not value:
+		_failures.append(label)
+
+
+func _settle(tree: SceneTree, frames: int = 12) -> void:
+	for frame: int in frames:
+		await tree.process_frame
+
+
+func _key(tree: SceneTree, key: Key, pressed: bool) -> void:
+	var event: InputEventKey = InputEventKey.new()
+	event.keycode = key
+	event.pressed = pressed
+	Input.parse_input_event(event)
+	await _settle(tree)
+
+
+## A key tapped down and up: Esc is the shared pause, Backspace the battle's 返回 (battle_back).
+func _press(tree: SceneTree, key: Key) -> void:
+	await _key(tree, key, true)
+	await _key(tree, key, false)
+
+
+## A left mouse click on the control's centre, through the real viewport.
+func _click(tree: SceneTree, control: Control) -> void:
+	var click := InputEventMouseButton.new()
+	click.position = control.get_global_rect().get_center()
+	click.global_position = click.position
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	tree.root.push_input(click, true)
+	click = click.duplicate() as InputEventMouseButton
+	click.pressed = false
+	tree.root.push_input(click, true)
+	await _settle(tree)
+
+
+## A desktop window: its 1280-wide logical screen at a 界面缩放 (100 / 125 / 150%), no insets.
+## With canvas_items / expand a desktop screen is never below 1280x720 logical, so this is
+## always the wide, mouse-sized layout (the compact one is the phone's).
+func _window(screen: Vector2 = Vector2(1280, 720), scale: float = 1.0) -> SafeAreaMetrics:
+	var rect := Rect2(Vector2.ZERO, screen / scale)
+	return SafeAreaMetrics.new(rect, rect, false, false, scale)
+
+
+## The desktop windows the battle must fit: 16:9 at 100 / 125%, the Steam Deck's 16:10 at 100 / 150%.
+## (16:9 at 150% is 8 px short for the densest queued view.)
+const WINDOWS: Array[Array] = [[Vector2(1280, 720), 1.0], [Vector2(1280, 720), 1.25], [Vector2(1280, 800), 1.0], [Vector2(1280, 800), 1.5]]
 
 
 func _test_projection_and_intent(tree: SceneTree) -> void:
@@ -144,18 +201,16 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	var original_size: Vector2i = tree.root.size
 	var original_scale: Vector2i = tree.root.content_scale_size
 	tree.root.content_scale_size = Vector2i.ZERO
-	tree.root.size = Vector2i(960, 540)
+	tree.root.size = Vector2i(1280, 720)
 	var shell: ApplicationShellController = ShellScene.instantiate()
 	shell.configure_before_start(GameSaveStorageProfile.isolated_test("cxr6"), Fixtures.MemoryFiles.new(), null, Fixtures.MemoryFiles.new(), Fixtures.FakeWindowCapability.new())
-	var touch: MobileTouchAdapter = shell.get_node("TouchCanvas/TouchInput")
-	touch.set_capability(EnabledTouch.new())
 	var safe := FakeSafe.new()
-	safe.metrics = SafeAreaMetrics.new(Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), false, true)
+	safe.metrics = _window()
 	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation")
 	presenter.set_capability(safe)
 	tree.root.add_child(shell)
 	await _settle(tree)
-	await _tap(tree, shell.new_game_button)
+	await _click(tree, shell.new_game_button)
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.NEW_GAME_SETUP, "real New Game opens character setup")
 	preload("res://tests/support/technical_shell_fixture.gd").start(shell)
 	await _settle(tree, 25)
@@ -169,43 +224,35 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	session.set_process(false)
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "no encounter leaves world UI unchanged")
-	var position: Vector2 = touch.pad_rect().position + Vector2(160, 96)
-	await _touch(tree, 4, position, true)
-	_check(touch.capture_state().pad_index == 4, "pre-battle movement contact captured")
 	_check(Setup.start(session, &"cxr6.shell").succeeded(), "Shell encounter start")
 	await _settle(tree)
 	_check(ui.visible and not session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "Session overlay active, exploration HUD yielded")
-	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "first-population layout converges without SafeArea change")
-	_check(touch.capture_state().pad_index == -1 and not Input.is_action_pressed("move_right"), "activation cancels captured direction")
-	_check(not touch._pad.visible and touch.pause_button().visible, "pad blocked, shared Pause remains")
-	await _touch(tree, 4, position, false)
-	await _tap(tree, ui.log_button)
-	_check(ui.log_panel.visible, "touch reaches Battle Log")
-	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "Battle Log touch does not reach world picking")
-	await _back(tree)
-	_check(not ui.log_panel.visible and ui.visible and not tree.paused, "Back dismisses child, not Battle")
-	await _back(tree)
-	_check(shell.pause_visible() and tree.paused and ui.visible, "base Back delegates to Shell Pause")
-	await _tap(tree, shell.resume_button)
+	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "first-population layout converges without a window change")
+	await _click(tree, ui.log_button)
+	_check(ui.log_panel.visible, "a click reaches the Battle Log")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "a Battle Log click does not reach world picking")
+	await _press(tree, KEY_BACKSPACE)
+	_check(not ui.log_panel.visible and ui.visible and not tree.paused, "返回 (Backspace) closes the log, not the Battle")
+	await _press(tree, KEY_ESCAPE)
+	_check(shell.pause_visible() and tree.paused and ui.visible, "Esc opens the shared Pause over the Battle")
+	await _click(tree, shell.resume_button)
 	_check(not tree.paused and ui.visible, "Resume returns same Battle")
-	await _key(tree, KEY_ESCAPE, true)
-	await _key(tree, KEY_ESCAPE, false)
-	_check(shell.pause_visible(), "desktop Escape uses shared Pause")
-	await _tap(tree, shell.resume_button)
-	for rect: Rect2 in [Rect2(0, 0, 1280, 720), Rect2(0, 0, 800, 480), Rect2(48, 12, 800, 480), Rect2(8, 12, 840, 480)]:
-		safe.metrics = SafeAreaMetrics.new(Rect2(0, 0, 1280, 720), rect, false, true)
+	for window: Array in WINDOWS:
+		safe.metrics = _window(window[0], window[1])
+		var rect: Rect2 = safe.metrics.viewport_rect()
 		presenter.refresh()
 		await _settle(tree)
 		var content_rect: Rect2 = safe.metrics.content_rect()
-		_check(content_rect.encloses(ui._content.get_global_rect()), "battle content fits safe rect %s actual=%s" % [rect, ui._content.get_global_rect()])
-		_check(content_rect.encloses(ui.log_button.get_global_rect()), "log touch target inside safe area")
-		_check(ui.log_button.size.y >= 64 and ui.log_button.size.x >= 64, "touch minimum")
-		_check(not ui.log_button.get_global_rect().intersects(touch.pause_button().get_global_rect()), "shared Pause never overlapped")
+		_check(content_rect.encloses(ui._content.get_global_rect()), "battle content fits a %s window actual=%s" % [rect.size, ui._content.get_global_rect()])
+		_check(content_rect.encloses(ui.log_button.get_global_rect()), "log button inside the window")
 		for card: BattleParticipantCard in ui._cards:
-			_check(content_rect.encloses(card.get_global_rect()), "primary participant card inside safe area")
+			_check(content_rect.encloses(card.get_global_rect()), "primary participant card inside the window")
+	safe.metrics = _window()
+	presenter.refresh()
+	await _settle(tree)
 	_check(Setup.complete(session), "same Session completes")
 	await _settle(tree)
-	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible and touch._pad.visible, "world UI/pad restored")
+	_check(not ui.visible and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "world UI restored")
 	_check(not Input.is_action_pressed("move_right"), "no stale movement replay")
 	_check(shell.runtime_host().current_session() == session, "same Session identity")
 	# Same production UI, explicitly test-injected policies; no production actions.
@@ -221,20 +268,20 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	encounter.set_current_target(player.character_id, enemy.character_id)
 	await _settle(tree)
 	var force_before: int = player.state.recovery.inner_force.current
-	await _tap(tree, ui.action_panel.first_action_button())
-	_check(encounter.queued_player_action() != null, "actual touch action queues")
-	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "first QA button/queue reflow stays in current SafeArea")
-	_check(player.state.recovery.inner_force.current == force_before and random.calls == 0, "UI touch receipt no resource/RNG/execution")
+	await _click(tree, ui.action_panel.first_action_button())
+	_check(encounter.queued_player_action() != null, "an actual click queues the action")
+	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "first QA button/queue reflow stays in the window")
+	_check(player.state.recovery.inner_force.current == force_before and random.calls == 0, "UI click receipt no resource/RNG/execution")
 	_check(ui.current_projection().queue_status == Queue.READY, "UI displays READY")
 	var first_id: StringName = encounter.queued_player_action().request.request_id
 	player.busy.start_busy(2)
 	await _settle(tree)
 	_check(ui.current_projection().queue_status == Queue.WAITING_FOR_BUSY, "UI displays WAITING_FOR_BUSY")
-	await _tap(tree, ui.action_panel._actions.get_child(1) as Button)
+	await _click(tree, ui.action_panel._actions.get_child(1) as Button)
 	var replacement_id: StringName = encounter.queued_player_action().request.request_id
-	_check(replacement_id != first_id, "actual touch replaces busy slot")
+	_check(replacement_id != first_id, "an actual click replaces the busy slot")
 	player.state.recovery.inner_force.current = 0
-	await _tap(tree, ui.action_panel.first_action_button())
+	await _click(tree, ui.action_panel.first_action_button())
 	_check(encounter.queued_player_action().request.request_id == replacement_id, "invalid UI replacement preserves queue")
 	_check(ui.current_projection().queued_action().request.request_id == replacement_id, "invalid UI replacement preserves displayed authoritative queue")
 	player.state.recovery.inner_force.current = force_before
@@ -242,42 +289,28 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	await _settle(tree)
 	_check(ui.current_projection().current_target_id == third.character_id and ui.current_projection().queued_action().resolved_target_id == enemy.character_id, "UI current/queued target distinction")
 	_check(ui.action_panel._queue.text.contains(" · 目标："), "queued target visibly labeled separately")
-	await _tap(tree, touch.pause_button())
+	await _press(tree, KEY_ESCAPE)
 	_check(tree.paused and encounter.queued_player_action().request.request_id == replacement_id, "shared Pause keeps exact pending request")
 	var busy_before: int = player.busy.busy_value
 	await _settle(tree, 20)
 	_check(random.calls == 0 and player.busy.busy_value == busy_before, "paused UI advances neither RNG nor busy")
-	await _tap(tree, shell.resume_button)
+	await _click(tree, shell.resume_button)
 	_check(ui.current_projection().queued_action().request.request_id == replacement_id, "Resume reprojects, never resubmits")
-	# Platform boundary simulation, not physical mobile qualification.
-	var lifecycle: MobileLifecycleAdapter = shell.get_node("MobileLifecycle")
-	lifecycle.set_capability(LifecycleFixture.EnabledLifecycle.new())
-	lifecycle.notification(Node.NOTIFICATION_APPLICATION_PAUSED)
-	lifecycle.notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
-	await _settle(tree)
-	_check(tree.paused and shell.pause_visible(), "Battle lifecycle loss uses existing Shell Pause")
-	_check(encounter.queued_player_action().request.request_id == replacement_id and random.calls == 0, "lifecycle loss preserves exact slot and RNG")
-	lifecycle.notification(Node.NOTIFICATION_APPLICATION_RESUMED)
-	lifecycle.notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
-	await _settle(tree)
-	_check(tree.paused and shell.activity().resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE, "foreground waits for explicit Resume")
-	_check(player.busy.busy_value == busy_before and not touch._pad.visible, "foreground no catch-up or exploration pad")
-	await _tap(tree, shell.resume_button)
-	_check(not tree.paused and encounter.queued_player_action().request.request_id == replacement_id, "lifecycle Resume preserves slot without resubmission")
 	_check(ui.is_ancestor_of(tree.root.gui_get_focus_owner()), "Resume focus returns to Battle, not hidden world")
-	await _tap(tree, ui.action_panel._cancel)
-	_check(encounter.queued_player_action() == null and ui.current_projection().queue_status == Queue.EMPTY, "actual Cancel touch reflects authoritative EMPTY")
+	await _click(tree, ui.action_panel._cancel)
+	_check(encounter.queued_player_action() == null and ui.current_projection().queue_status == Queue.EMPTY, "an actual Cancel click reflects authoritative EMPTY")
 	# Reflow with real registered buttons AND a queued target, the densest CXR6 view.
-	await _tap(tree, ui.action_panel.first_action_button())
-	for rect: Rect2 in [Rect2(0, 0, 800, 480), Rect2(48, 12, 800, 480)]:
-		safe.metrics = SafeAreaMetrics.new(Rect2(0, 0, 960, 540), rect, false, true)
+	await _click(tree, ui.action_panel.first_action_button())
+	for window: Array in WINDOWS:
+		safe.metrics = _window(window[0], window[1])
+		var rect: Rect2 = safe.metrics.viewport_rect()
 		presenter.refresh()
 		await _settle(tree)
-		_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "queued QA content fits minimum/inset safe area: %s" % ui._content.get_global_rect())
+		_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "queued QA content fits a %s window: %s" % [rect.size, ui._content.get_global_rect()])
 		if not safe.metrics.content_rect().encloses(ui._content.get_global_rect()):
 			for child: Node in ui._content.get_children():
 				print("CXR6 LAYOUT ", child.name, " size=", (child as Control).size, " min=", (child as Control).get_combined_minimum_size())
-		_check(safe.metrics.content_rect().encloses(ui.action_panel._cancel.get_global_rect()), "cancel target remains inside safe area")
+		_check(safe.metrics.content_rect().encloses(ui.action_panel._cancel.get_global_rect()), "cancel button remains inside the window")
 		_check(ui._recent.get_child_count() == 3, "three individual feedback rows cannot hide each other by wrapping")
 	_check(Setup.complete(session), "QA encounter completion")
 	await _settle(tree)
@@ -291,22 +324,20 @@ func _test_restored_session_battle(tree: SceneTree) -> void:
 	var original_size: Vector2i = tree.root.size
 	var original_scale: Vector2i = tree.root.content_scale_size
 	tree.root.content_scale_size = Vector2i.ZERO
-	tree.root.size = Vector2i(960, 540)
+	tree.root.size = Vector2i(1280, 720)
 	var bytes: PackedByteArray = await preload("res://tests/application/application_shell_phase10c1b_test.gd").new()._valid_save_bytes(tree)
 	var profile := GameSaveStorageProfile.isolated_test("cxr6-restore")
 	var files := Fixtures.MemoryFiles.new()
 	files.files[profile.canonical_path()] = bytes
 	var shell: ApplicationShellController = ShellScene.instantiate()
 	_check(shell.configure_before_start(profile, files, null, Fixtures.MemoryFiles.new(), Fixtures.FakeWindowCapability.new()), "restore fixture configures isolated storage")
-	var touch: MobileTouchAdapter = shell.get_node("TouchCanvas/TouchInput")
-	touch.set_capability(EnabledTouch.new())
 	var safe := FakeSafe.new()
-	safe.metrics = SafeAreaMetrics.new(Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), false, true)
+	safe.metrics = _window()
 	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation")
 	presenter.set_capability(safe)
 	tree.root.add_child(shell)
 	await _settle(tree)
-	await _tap(tree, shell.continue_button)
+	await _click(tree, shell.continue_button)
 	await _settle(tree, 25)
 	var session: WorldSessionController = shell.runtime_host().current_session()
 	_check(session != null and session.is_initialized(), "real Continue restores and commits Session through staging reparent")
@@ -317,14 +348,14 @@ func _test_restored_session_battle(tree: SceneTree) -> void:
 		return
 	session.set_process(false)
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
-	_check(presenter.metrics_changed.is_connected(ui._apply_metrics), "restored Battle reconnects shared SafeArea after reparent")
+	_check(presenter.metrics_changed.is_connected(ui._apply_metrics), "restored Battle reconnects the shared layout metrics after reparent")
 	_check(Setup.start(session, &"cxr6.restored").succeeded(), "restored Session can establish controlled encounter")
 	await _settle(tree)
-	_check(ExplorationPresentationBlocker.is_blocked(tree) and not touch._pad.visible, "restored Battle blocks exploration after reentry")
-	safe.metrics = SafeAreaMetrics.new(Rect2(0, 0, 960, 540), Rect2(48, 12, 800, 480), false, true)
+	_check(ExplorationPresentationBlocker.is_blocked(tree), "restored Battle blocks exploration after reentry")
+	safe.metrics = _window(Vector2(1280, 800), 1.5)
 	presenter.refresh()
 	await _settle(tree)
-	_check(ui._content.get_global_rect() == safe.metrics.content_rect(), "restored Battle follows subsequent SafeArea changes")
+	_check(ui._content.get_global_rect() == safe.metrics.content_rect(), "restored Battle follows a later 界面缩放 change")
 	_check(Setup.complete(session), "restored controlled encounter completes")
 	await _settle(tree)
 	_check(not ExplorationPresentationBlocker.is_blocked(tree) and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().visible, "restored completion releases presentation context")

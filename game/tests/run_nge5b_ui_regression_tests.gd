@@ -17,10 +17,8 @@ func _run() -> void:
 		"res://tests/runtime/combat_slice_lifecycle_corpse_test.gd",
 		"res://tests/runtime/oldpine_outdoor_smoke_test.gd",
 		"res://tests/runtime/oldpine_portal_aggression_test.gd",
-		"res://tests/presentation/mobile_presentation_test.gd",
-		"res://tests/presentation/mobile_presentation_audit_test.gd",
-		"res://tests/application/mobile_touch_test.gd",
-		"res://tests/application/mobile_touch_audit_test.gd",
+		"res://tests/presentation/responsive_layout_test.gd",
+		"res://tests/presentation/responsive_layout_audit_test.gd",
 	]:
 		var result: Dictionary = await load(path).new().run_all(self)
 		count += result["assertions"]

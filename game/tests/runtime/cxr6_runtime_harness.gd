@@ -5,7 +5,6 @@ extends Node
 ## must use the actual Battle buttons, not these fixture controls.
 const ShellScene := preload("res://scenes/application/application_shell.tscn")
 const Files := preload("res://tests/application/application_shell_phase10c1c_test.gd")
-const Mobile := preload("res://tests/application/mobile_touch_test.gd")
 const Setup := preload("res://tests/support/cxr6_session_fixture.gd")
 var shell: ApplicationShellController
 var session: WorldSessionController
@@ -23,7 +22,6 @@ func _ready() -> void:
 	shell = ShellScene.instantiate()
 	var configured: bool = shell.configure_before_start(GameSaveStorageProfile.isolated_test("cxr6-live"), Files.MemoryFiles.new(), null, Files.MemoryFiles.new(), Files.FakeWindowCapability.new())
 	assert(configured, "CXR6 QA must use isolated in-memory storage")
-	(shell.get_node("TouchCanvas/TouchInput") as MobileTouchAdapter).set_capability(Mobile.EnabledTouch.new())
 	add_child(shell)
 	print("CXR6 QA: actual New Game button first; 1 empty-registry encounter; 2 complete; 4 QA encounter; B pre-route busy=60; T QA current-target change; no tactical callback shortcuts")
 

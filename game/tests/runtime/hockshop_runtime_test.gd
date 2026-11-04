@@ -253,12 +253,11 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	check(not ui.in_reach(), "frozen gate blocks commerce")
 	session.world_simulation_gate().release(&"h3.test")
 	ui.interact()
-	var metrics: SafeAreaMetrics = SafeAreaMetrics.new(Rect2(0,0,960,540), Rect2(20,0,920,540), false, true)
+	var metrics: SafeAreaMetrics = SafeAreaMetrics.new(Rect2(0,0,960,540), Rect2(0,0,960,540))
 	session.shared_ui()._presentation_layout._reflow(metrics)
 	await tree.process_frame
 	await tree.process_frame
-	check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()), "touch safe-area bounded panel")
-	check(ui.panel.confirm_button.custom_minimum_size.y >= 64 and ui.panel.value_button.custom_minimum_size.y >= 64, "touch-sized actions")
+	check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()), "panel bounded by a 960x540 window")
 	check(ResponsivePanelLayout.top_interaction_panel(tree) == session.shared_ui()._presentation_layout._frame_layout and ExplorationPresentationBlocker.is_blocked(tree), "existing Back/input panel boundary")
 	ui.select_item(&"h3.weapon2"); ui.request_confirmation(); session.shared_ui()._presentation_layout._frame_layout.dismiss_requested.emit()
 	check(ui.panel.visible and not ui.panel.confirm_button.is_visible_in_tree(), "Back cancels confirmation first")
