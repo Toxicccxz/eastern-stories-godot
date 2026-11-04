@@ -7,11 +7,11 @@ extends RefCounted
 ## phone layer (notches, touch-sized controls, orientation, Android Back) are paused and no longer
 ## tested (DECISIONS「手机端暂停」).
 
-## [screen, 界面缩放]: 16:9 at 100 / 150%, the Steam Deck's 16:10, 4:3 and 21:9. (16:9 at 125% and
-## 16:10 at 150% still leave a focused menu / settings button partly outside its scroll.)
+## [screen, 界面缩放]: 16:9 at 100 / 125 / 150%, the Steam Deck's 16:10 at 100 / 150%, 4:3 and 21:9.
 const SCREENS: Array[Array] = [
-	[Vector2(1280, 720), 1.0], [Vector2(1280, 720), 1.5],
-	[Vector2(1280, 800), 1.0], [Vector2(1280, 960), 1.0], [Vector2(1680, 720), 1.0],
+	[Vector2(1280, 720), 1.0], [Vector2(1280, 720), 1.25], [Vector2(1280, 720), 1.5],
+	[Vector2(1280, 800), 1.0], [Vector2(1280, 800), 1.5],
+	[Vector2(1280, 960), 1.0], [Vector2(1680, 720), 1.0],
 ]
 
 const FakeSafe := preload("res://tests/presentation/fake_safe_area_capability.gd")

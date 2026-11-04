@@ -66,9 +66,8 @@ func _window(screen: Vector2 = Vector2(1280, 720), scale: float = 1.0) -> SafeAr
 	return SafeAreaMetrics.new(rect, rect, false, false, scale)
 
 
-## The desktop windows the battle must fit: 16:9 at 100 / 125%, the Steam Deck's 16:10 at 100 / 150%.
-## (16:9 at 150% is 8 px short for the densest queued view.)
-const WINDOWS: Array[Array] = [[Vector2(1280, 720), 1.0], [Vector2(1280, 720), 1.25], [Vector2(1280, 800), 1.0], [Vector2(1280, 800), 1.5]]
+## The desktop windows the battle must fit: 16:9 at each 界面缩放, the Steam Deck's 16:10 at 100 / 150%.
+const WINDOWS: Array[Array] = [[Vector2(1280, 720), 1.0], [Vector2(1280, 720), 1.25], [Vector2(1280, 720), 1.5], [Vector2(1280, 800), 1.0], [Vector2(1280, 800), 1.5]]
 
 
 func _test_projection_and_intent(tree: SceneTree) -> void:

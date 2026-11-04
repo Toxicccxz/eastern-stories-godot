@@ -121,17 +121,22 @@ func _layout() -> void:
 	if not is_inside_tree() or not is_instance_valid(panel) or _available.size.x <= 0.0 or _available.size.y <= 0.0:
 		return
 	_forget_removed_controls()
-	var width: float = minf(_preferred_width, _available.size.x) if _centered else _available.size.x
-	var height: float = _available.size.y
+	# Whole pixels: at a 界面缩放 of 125 / 150% the area is fractional (853.3 wide), and a
+	# ScrollContainer only scrolls by whole pixels, so a focused row would stay a fraction
+	# of a pixel outside its scroll.
+	var area: Vector2 = _available.size.floor()
+	var width: float = minf(_preferred_width, area.x) if _centered else area.x
+	var height: float = area.y
 	if fixed_size != Vector2.ZERO:
-		width = minf(fixed_size.x, _available.size.x)
-		height = minf(fixed_size.y, _available.size.y)
+		width = minf(fixed_size.x, area.x)
+		height = minf(fixed_size.y, area.y)
 	elif _centered:
 		var margins: float = panel.get_theme_stylebox("panel").get_minimum_size().y
-		height = minf(height, content.get_combined_minimum_size().y + margins)
+		height = minf(height, ceilf(content.get_combined_minimum_size().y + margins))
+	var size := Vector2(floorf(width), floorf(height))
 	panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	panel.position = _available.position + (_available.size - Vector2(width, height)) / 2.0 if _centered else _available.position
-	panel.size = Vector2(width, height)
+	panel.position = (_available.position + (_available.size - size) / 2.0).round() if _centered else _available.position.round()
+	panel.size = size
 	call_deferred("_reveal_focused")
 
 
