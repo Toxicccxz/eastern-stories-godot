@@ -140,7 +140,8 @@ def ci_trigger_policy_errors(workflow_text: str) -> list[str]:
         if f"    name: {job_name}\n" not in normalized:
             errors.append(f"CI stable job name is missing: {job_name}")
     for target in PAUSED_CI_BUILD_TARGETS:
-        if re.search(rf"--target\s+{target}\b", normalized):
+        # build.py's argparse takes `--target X` and `--target=X`, either one possibly quoted.
+        if re.search(rf"--target(?:\s+|=)[\"']?{target}\b", normalized):
             errors.append(f"CI must not build {target}: the mobile port is paused")
     return errors
 
