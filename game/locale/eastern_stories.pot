@@ -38689,6 +38689,12 @@ msgstr ""
 msgid "会首"
 msgstr ""
 
+#. native.npc.luca inquiry.会首.rules.say
+#. native.npc.luca inquiry.安敦.rules.say
+#: data/guanbei/npcs.json
+msgid "会首在里头。我跟他说了你——他知道你要来。"
+msgstr ""
+
 #. native.npc.luca inquiry.会首.rules.lines.say
 #: data/guanbei/npcs.json
 msgid "会首安敦。铁盾会的会首，我们的头。他的祖上，三百年前，在这里当过兵，见过那个鬼的头——怎么封的。"
@@ -38732,11 +38738,6 @@ msgstr ""
 
 #. native.npc.luca inquiry.安敦.rules.say
 #: data/guanbei/npcs.json
-msgid "会首在里头。我跟他说了你——他知道你要来。"
-msgstr ""
-
-#. native.npc.luca inquiry.安敦.rules.say
-#: data/guanbei/npcs.json
 msgid "会首。在番坊等我——等不到我，等到你也行。"
 msgstr ""
 
@@ -38753,6 +38754,16 @@ msgstr ""
 #. native.npc.luca accept_object.say
 #: data/guanbei/npcs.json
 msgid "剑卖了。钱，够了。谢谢。"
+msgstr ""
+
+#. native.npc.luca accept_object.lines.emote
+#: data/guanbei/npcs.json
+msgid "把钱数了一遍，点点头，把短剑连鞘递给你。"
+msgstr ""
+
+#. native.npc.luca accept_object.lines.say
+#: data/guanbei/npcs.json
+msgid "好剑。别挂着，用它。"
 msgstr ""
 
 #. native.npc.luca accept_object.lines.emote
