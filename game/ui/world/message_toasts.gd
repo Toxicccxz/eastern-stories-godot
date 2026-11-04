@@ -28,7 +28,7 @@ const LINGER_MIN: float = 6.0
 const LINGER_MAX: float = 14.0
 const LINGER_PER_CHARACTER: float = 0.08
 const PLAIN_TEXT: Color = SharedGameplayUI.PLAIN_LOG_COLOR
-const ACCENT: Color = Color(0.86, 0.72, 0.42)
+const ACCENT: Color = UiPalette.GOLD
 
 
 ## One message: its text and colour (`colored`: an ES2 colour, not the plain text one).
@@ -76,12 +76,10 @@ func _init() -> void:
 		toast.panel.name = "Toast%d" % index
 		toast.panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		toast.style = StyleBoxFlat.new()
-		toast.style.bg_color = Color(0.045, 0.06, 0.07, 0.84)
+		# 界面重做 3: a square dark plate, its colour a block stripe down the left.
+		toast.style.bg_color = Color(UiPalette.EBONY.lerp(UiPalette.INK, 0.35), 0.9)
 		toast.style.border_color = ACCENT
-		toast.style.border_width_left = 3
-		toast.style.set_corner_radius_all(10)
-		toast.style.shadow_color = Color(0, 0, 0, 0.3)
-		toast.style.shadow_size = 6
+		toast.style.border_width_left = 6
 		toast.style.content_margin_left = 14.0
 		toast.style.content_margin_right = 14.0
 		toast.style.content_margin_top = 8.0
@@ -91,7 +89,7 @@ func _init() -> void:
 		toast.label.name = "Text"
 		toast.label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		toast.label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		toast.label.add_theme_font_size_override("font_size", 15)
+		toast.label.add_theme_font_size_override("font_size", 16)
 		# The lines come in the shown language already.
 		toast.label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		toast.panel.add_child(toast.label)

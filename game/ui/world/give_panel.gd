@@ -10,7 +10,7 @@ signal picks_changed
 ## 确认给予: `picks` as [item id, amount] pairs in the list's order; amount 0 is the whole.
 signal confirmed(picks: Array)
 
-const WARNING_COLOR: Color = Color(1.0, 0.55, 0.45)
+const WARNING_COLOR: Color = UiPalette.WARNING
 
 var _rows: VBoxContainer
 var _empty: Label
@@ -44,7 +44,7 @@ func _ready() -> void:
 	confirm_button.text = "确认给予"
 	confirm_button.custom_minimum_size = Vector2(140, 44)
 	confirm_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	confirm_button.theme_type_variation = &"AccentButton"
+	confirm_button.theme_type_variation = &"PrimaryButton"
 	confirm_button.pressed.connect(func() -> void:
 		if not picks().is_empty():
 			confirmed.emit(picks()))
@@ -124,19 +124,6 @@ func focus_default() -> void:
 		FocusNav.give(_rows.get_child(0).get_node("Pick") as Control)
 
 
-static func _picked_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.22)
-	style.border_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.6)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
-	return style
-
-
 func _refresh_confirm() -> void:
 	if confirm_button != null:
 		var none: bool = picks().is_empty()
@@ -148,9 +135,10 @@ func _row(row: PlayerInventoryRowProjection) -> HBoxContainer:
 	var line := HBoxContainer.new()
 	line.name = "Row"
 	line.add_theme_constant_override("separation", 8)
-	# A row-wide toggle, marked in the accent colour with a tick while picked.
+	# A row-wide toggle: a list row, a warm block with a tick while picked (界面重做 3).
 	var pick := Button.new()
 	pick.name = "Pick"
+	pick.theme_type_variation = &"RowButton"
 	pick.toggle_mode = true
 	pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pick.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -161,11 +149,6 @@ func _row(row: PlayerInventoryRowProjection) -> HBoxContainer:
 	pick.text = "○  " + label
 	pick.toggled.connect(func(on: bool) -> void:
 		pick.text = ("●  " if on else "○  ") + label
-		for state: StringName in [&"normal", &"hover", &"pressed", &"hover_pressed"]:
-			if on:
-				pick.add_theme_stylebox_override(state, _picked_style())
-			else:
-				pick.remove_theme_stylebox_override(state)
 		_refresh_confirm()
 		picks_changed.emit())
 	line.add_child(pick)

@@ -13,6 +13,11 @@ extends Theme
 ##            row, a block only when chosen), SlotButton (a save slot), ToggleButton (a
 ##            choice that stays chosen: lacquer while down), TabButton (a page's tab)
 ##   menu     MenuWindow (the game menu's window: a slab with room inside)
+##   world    HudCard (the status card), DialoguePanel (the talk box), PaperPanel (a speech
+##            bubble), BannerPanel (the arrival banner, a room's text) with PlaceCaption (a
+##            place's name in the brush hand), VerdictGood /
+##            VerdictEven / VerdictBad (the fight forecast's word as a little plate); bars
+##            through dress_bar()
 ## Focus is a lantern-yellow rim (and FocusCursor's bobbing arrow beside it).
 
 const PIXEL_FONT_PATH: String = "res://assets/fonts/ark-pixel-16px-proportional-zh_cn.otf"
@@ -84,6 +89,7 @@ func _init() -> void:
 	_rows()
 	_menu()
 	_title(pixel)
+	_world()
 	_fields()
 	_option_button()
 	_check_button()
@@ -193,6 +199,63 @@ func _menu() -> void:
 	set_color("font_hover_pressed_color", &"TabButton", UiPalette.INK)
 	set_color("font_disabled_color", &"TabButton", UiPalette.DIM)
 	set_font_size("font_size", &"TabButton", BODY_SIZE)
+
+
+## The world's surfaces (界面重做 3): the status card a planked ebony slab a little see-through,
+## the talk box a deeper one, a speech bubble paper on a darker edge, the banner and a room's
+## text a dark plate, the fight forecast's word on a jade, stone or dark-lacquer plate.
+func _world() -> void:
+	_variation(&"HudCard", &"PanelContainer")
+	set_stylebox("panel", &"HudCard", UiBlocks.box(UiBlocks.slab_image(Color(UiPalette.EBONY, 0.93), Color(UiPalette.EBONY_SIDE, 0.95), 3, true, 32, 26), Vector4i(4, 4, 4, 7), Vector4(16, 12, 16, 16), true))
+	# Touch screens: narrower sides, so five 64 px buttons fit a row at 480 px.
+	_variation(&"HudCardTouch", &"PanelContainer")
+	set_stylebox("panel", &"HudCardTouch", UiBlocks.box(UiBlocks.slab_image(Color(UiPalette.EBONY, 0.93), Color(UiPalette.EBONY_SIDE, 0.95), 3, true, 32, 26), Vector4i(4, 4, 4, 7), Vector4(10, 10, 10, 14), true))
+	_variation(&"DialoguePanel", &"PanelContainer")
+	set_stylebox("panel", &"DialoguePanel", UiBlocks.box(UiBlocks.slab_image(Color(UiPalette.EBONY, 0.96), UiPalette.EBONY_SIDE, 5, true, 32, 26), Vector4i(4, 4, 4, 9), Vector4(26, 18, 26, 24), true))
+	_variation(&"PaperPanel", &"PanelContainer")
+	set_stylebox("panel", &"PaperPanel", UiBlocks.box(UiBlocks.slab_image(PAPER, PAPER_SIDE, 2, false, 12, 10), Vector4i(2, 2, 2, 4), Vector4(10, 5, 10, 8)))
+	_variation(&"BannerPanel", &"PanelContainer")
+	set_stylebox("panel", &"BannerPanel", UiBlocks.box(UiBlocks.slab_image(Color(UiPalette.INK, 0.86), Color(UiPalette.EBONY_SIDE, 0.9), 2, false, 12, 10), Vector4i(2, 2, 2, 4), Vector4(18, 10, 18, 14)))
+	for entry: Array in [[&"VerdictGood", Color("3f7a5a"), Color("234a35")], [&"VerdictEven", UiPalette.STONE, UiPalette.STONE_SIDE], [&"VerdictBad", UiPalette.LACQUER, UiPalette.LACQUER_SIDE]]:
+		_variation(entry[0], &"PanelContainer")
+		set_stylebox("panel", entry[0], UiBlocks.box(UiBlocks.slab_image(entry[1], entry[2], 2, false, 10, 8), Vector4i(2, 2, 2, 4), Vector4(8, 1, 8, 5)))
+	_label(&"PaperLabel", UiPalette.INK, SMALL_SIZE + 1)
+	# A place's name as one arrives: the title's brush hand (志莽行书), smaller.
+	_label(&"PlaceCaption", Color("fff3dc"), 34, load(BRUSH_FONT_PATH) as Font)
+	set_color("font_shadow_color", &"PlaceCaption", Color(0, 0, 0, 0.45))
+	set_constant("shadow_offset_y", &"PlaceCaption", 3)
+	_label(&"NameLabel", UiPalette.LANTERN, BODY_SIZE)
+
+
+## Speech bubbles' paper and its darker edge.
+const PAPER := Color("f1e6c8")
+const PAPER_SIDE := Color("a38a5e")
+
+
+## A bar in the interface's way: square, on a dark groove, its fill a block with a darker
+## side under it (精气神, a wait, a run's progress).
+static func dress_bar(bar: ProgressBar, colour: Color) -> void:
+	var track := StyleBoxFlat.new()
+	track.bg_color = UiPalette.INK
+	track.border_width_top = 2
+	track.border_color = Color(0, 0, 0, 0.45)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = colour
+	fill.border_width_bottom = maxi(2, int(bar.custom_minimum_size.y / 3.0))
+	fill.border_color = colour.darkened(0.4)
+	bar.add_theme_stylebox_override("background", track)
+	bar.add_theme_stylebox_override("fill", fill)
+	bar.show_percentage = false
+
+
+## The forecast's plate for `verdict` (CombatForecast.Verdict): jade for a win, dark lacquer
+## for a loss, stone between.
+static func verdict_plate(verdict: int) -> StringName:
+	if verdict <= CombatForecast.Verdict.FAVOURED:
+		return &"VerdictGood"
+	if verdict >= CombatForecast.Verdict.UNFAVOURED:
+		return &"VerdictBad"
+	return &"VerdictEven"
 
 
 ## The title (DECISIONS「标题画面」): its menu buttons are flat with their own text clear

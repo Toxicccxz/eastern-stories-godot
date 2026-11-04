@@ -82,7 +82,9 @@ func _prepare_controls(node: Node) -> void:
 			control.custom_minimum_size = Vector2(64.0 if _touch else original.x, maxf(64.0, original.y) if _touch else original.y)
 			if control is Button:
 				(control as Button).clip_text = false
-		if control is Label:
+		# A label that keeps its width stays on one line: wrapping it even for a moment lets a
+		# row sort it to nothing (界面重做 3: the frame's title beside its forecast plate).
+		if control is Label and not control.get_meta(KEEPS_WIDTH, false):
 			(control as Label).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		if control is RichTextLabel:
 			(control as RichTextLabel).scroll_active = true
