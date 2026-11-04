@@ -352,6 +352,190 @@
     370
    ]
   },
+  "city.main": {
+   "anchor": [
+    296.9,
+    198.2
+   ],
+   "pins": {
+    "door:city.bank_house": [
+     420.6,
+     165.0
+    ],
+    "door:city.biaoju_house": [
+     361.2,
+     203.9
+    ],
+    "door:city.boots_house": [
+     242.4,
+     281.7
+    ],
+    "door:city.cellar": [
+     347.0,
+     185.3
+    ],
+    "door:city.cloth_house": [
+     269.2,
+     154.8
+    ],
+    "door:city.house1_house": [
+     219.7,
+     296.5
+    ],
+    "door:city.jiulou_house": [
+     240.9,
+     173.3
+    ],
+    "door:city.shangshu": [
+     331.5,
+     262.2
+    ],
+    "door:city.weapon_house": [
+     453.1,
+     186.3
+    ],
+    "door:village.main": [
+     519.5,
+     53.8
+    ],
+    "zone:city.bridge": [
+     195.7,
+     265.9
+    ],
+    "zone:city.eastdoor1": [
+     472.9,
+     214.1
+    ],
+    "zone:city.eastdoor2": [
+     294.7,
+     330.8
+    ],
+    "zone:city.feiyuan": [
+     308.8,
+     145.5
+    ],
+    "zone:city.jiaowu": [
+     229.6,
+     243.7
+    ],
+    "zone:city.jitan": [
+     344.2,
+     168.7
+    ],
+    "zone:city.northdoor": [
+     423.4,
+     116.8
+    ],
+    "zone:city.nroad1": [
+     458.7,
+     93.6
+    ],
+    "zone:city.nroad2": [
+     502.6,
+     64.9
+    ],
+    "zone:city.shangshu.gate": [
+     320.9,
+     262.7
+    ],
+    "zone:city.shenwumen": [
+     316.6,
+     186.7
+    ],
+    "zone:city.southdoor": [
+     145.5,
+     298.8
+    ],
+    "zone:city.street1": [
+     352.7,
+     210.3
+    ],
+    "zone:city.street10": [
+     263.6,
+     310.4
+    ],
+    "zone:city.street11": [
+     231.8,
+     289.5
+    ],
+    "zone:city.street12": [
+     160.3,
+     242.8
+    ],
+    "zone:city.street13": [
+     128.5,
+     221.9
+    ],
+    "zone:city.street14": [
+     306.7,
+     105.2
+    ],
+    "zone:city.street15": [
+     338.5,
+     126.1
+    ],
+    "zone:city.street16": [
+     400.0,
+     132.1
+    ],
+    "zone:city.street17": [
+     169.5,
+     283.1
+    ],
+    "zone:city.street2": [
+     324.4,
+     228.9
+    ],
+    "zone:city.street3": [
+     296.8,
+     246.9
+    ],
+    "zone:city.street4": [
+     225.4,
+     200.2
+    ],
+    "zone:city.street5": [
+     253.0,
+     182.1
+    ],
+    "zone:city.street6": [
+     281.3,
+     163.6
+    ],
+    "zone:city.street7": [
+     373.9,
+     149.2
+    ],
+    "zone:city.street8": [
+     409.9,
+     172.8
+    ],
+    "zone:city.street9": [
+     441.8,
+     193.7
+    ],
+    "zone:city.westdoor1": [
+     274.9,
+     84.4
+    ],
+    "zone:city.westdoor2": [
+     96.7,
+     201.1
+    ],
+    "zone:city.wumen": [
+     260.7,
+     223.3
+    ],
+    "zone:city.xiangguo_gate": [
+     193.6,
+     179.3
+    ]
+   },
+   "size": [
+    655,
+    399
+   ]
+  },
   "cloud.outdoor": {
    "anchor": [
     287.2,
@@ -1990,7 +2174,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "a0bb13d7e419da0129f0c8c44b198a179583bf5ee0b4dd54edbd3d42f5305b99",
+ "fingerprint": "0c7d08778efefce083af587bf26d5265d080c299394901058ff11c26169f852e",
  "frame": [
   -769.1,
   14.6,
@@ -2004,7 +2188,7 @@
   "canyon": "6688db071fbbb92360de6513e8f619df483fde6cdc1b63045e3938d177f6245c",
   "choyin": "4af11a2c3086f9064f9eaadf4be94a91c0afd948e175c42cbf3fcf577952995b",
   "chuenyu": "8cbdc9b3052aa81c3a4644fcf70f0931f1ae94ff495b30eaf0b8ec130fce3f48",
-  "city": "78a184473ca16114353a6418299528e2516f126f891320a5e2f16440591f7b9f",
+  "city": "9df0b86ed7688596b19317e135105466e99ef97797f378eff6161df27ee16721",
   "cloud": "1b2f5df501d57e445ae5ee834567e18e534d717e58e9a662402f3ba6eb0bb1ff",
   "death": "5d328b320ce0f92bf10e05c9fb1f334f864e7c2194ceb7b35d597d05a7ae4a41",
   "goathill": "ca21a52cdbf745b5a79d244a07c0c2afaf88f915f58b781868a0f12515e36133",
@@ -2677,100 +2861,28 @@
   {
    "a": "city.main",
    "at": [
-    1326,
-    1284
+    1594,
+    1291
    ],
    "b": "village.main",
    "file": "road_11",
    "line": [
     [
-     1334.0,
-     1405.0
+     1557.0,
+     1309.0
     ],
     [
-     1353.0,
-     1408.0
-    ],
-    [
-     1372.0,
-     1410.0
-    ],
-    [
-     1391.0,
-     1410.0
-    ],
-    [
-     1408.0,
-     1410.0
-    ],
-    [
-     1424.0,
-     1414.0
-    ],
-    [
-     1439.0,
-     1411.0
-    ],
-    [
-     1454.0,
-     1391.0
-    ],
-    [
-     1469.0,
-     1378.0
-    ],
-    [
-     1484.0,
-     1368.0
-    ],
-    [
-     1500.0,
-     1361.0
-    ],
-    [
-     1517.0,
-     1358.0
-    ],
-    [
-     1534.0,
-     1357.0
-    ],
-    [
-     1551.0,
-     1363.0
-    ],
-    [
-     1568.0,
-     1350.0
-    ],
-    [
-     1585.0,
-     1344.0
-    ],
-    [
-     1603.0,
-     1338.0
-    ],
-    [
-     1622.0,
-     1339.0
-    ],
-    [
-     1640.0,
-     1334.0
-    ],
-    [
-     1819.0,
-     1268.0
+     1820.0,
+     1267.0
     ]
    ],
    "stub_a": [
-    1326,
-    1375
+    1594,
+    1291
    ],
    "stub_b": [
-    1631,
-    1284
+    1733,
+    1292
    ]
   },
   {
@@ -5150,7 +5262,6 @@
  ],
  "viewless": [
   "chuenyu.main",
-  "city.main",
   "death.realm"
  ]
 }

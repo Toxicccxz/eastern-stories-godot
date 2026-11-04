@@ -1164,7 +1164,7 @@ msgid "大床"
 msgstr ""
 
 #. es2:d/city/bank short
-#: scenes/world/city/bank_house.tscn data/city/rooms.json
+#: scenes/world/city/bank_house.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "旺金钱庄"
 msgstr ""
 
@@ -1173,12 +1173,12 @@ msgid "钱庄 · 兑换"
 msgstr ""
 
 #. es2:d/city/biaoju short
-#: scenes/world/city/biaoju_house.tscn data/city/rooms.json
+#: scenes/world/city/biaoju_house.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "振远总局"
 msgstr ""
 
 #. es2:d/city/boots short
-#: scenes/world/city/boots_house.tscn data/city/rooms.json
+#: scenes/world/city/boots_house.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "李记鞋店"
 msgstr ""
 
@@ -1203,7 +1203,7 @@ msgid "北驿道"
 msgstr ""
 
 #. es2:d/city/northdoor short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
+#: scenes/world/city/city_main.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "京师北门"
 msgstr ""
 
@@ -1297,7 +1297,7 @@ msgid "京师东二门"
 msgstr ""
 
 #. es2:d/city/southdoor short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
+#: scenes/world/city/city_main.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "京师南门"
 msgstr ""
 
@@ -1318,7 +1318,7 @@ msgstr ""
 msgid "连绵的群山"
 msgstr ""
 
-#: scenes/world/city/city_main.tscn
+#: scenes/world/city/city_main.tscn data/city/voxel/main.json
 msgid "护国寺"
 msgstr ""
 
@@ -1328,11 +1328,11 @@ msgstr ""
 
 #. city.shangshu title
 #. city.wall.jump_in name
-#: scenes/world/city/city_main.tscn data/common/journal.json data/city/world.json
+#: scenes/world/city/city_main.tscn data/common/journal.json data/city/world.json data/city/voxel/main.json
 msgid "尚书府"
 msgstr ""
 
-#: scenes/world/city/city_main.tscn
+#: scenes/world/city/city_main.tscn data/city/voxel/main.json
 msgid "相国府"
 msgstr ""
 
@@ -1380,7 +1380,7 @@ msgid "尚书府 · 跳进去"
 msgstr ""
 
 #. es2:d/city/cloth short
-#: scenes/world/city/cloth_house.tscn data/city/rooms.json
+#: scenes/world/city/cloth_house.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "四喜绸缎庄"
 msgstr ""
 
@@ -1392,7 +1392,7 @@ msgstr ""
 #. city.tavern title
 #. city.npc.boss inquiry topic
 #. es2:d/city/jiulou short
-#: scenes/world/city/jiulou_house.tscn data/common/journal.json data/city/npcs.json data/city/rooms.json
+#: scenes/world/city/jiulou_house.tscn data/common/journal.json data/city/npcs.json data/city/rooms.json data/city/voxel/main.json
 msgid "太白酒楼"
 msgstr ""
 
@@ -1466,7 +1466,7 @@ msgid "废屋"
 msgstr ""
 
 #. es2:d/city/weapon short
-#: scenes/world/city/weapon_house.tscn data/city/rooms.json
+#: scenes/world/city/weapon_house.tscn data/city/rooms.json data/city/voxel/main.json
 msgid "京师武器店"
 msgstr ""
 
@@ -1475,7 +1475,7 @@ msgstr ""
 msgid "镖局"
 msgstr ""
 
-#: scenes/world/cloud/biaoju_house.tscn data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
+#: scenes/world/cloud/biaoju_house.tscn data/city/voxel/main.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
 msgid "镖"
 msgstr ""
 
@@ -3077,7 +3077,7 @@ msgid "谷物加工厂"
 msgstr ""
 
 #. one-word mark on the 地图 page: a pawn shop.
-#: scenes/world/snow/snow_outdoor.tscn ui/world/map_page.gd data/snow/voxel/outdoor.json
+#: scenes/world/snow/snow_outdoor.tscn ui/world/map_page.gd data/city/voxel/main.json data/snow/voxel/outdoor.json
 msgid "当"
 msgstr ""
 
@@ -11276,7 +11276,7 @@ msgstr ""
 #. es2:obj/weapon/shield unit
 #. es2:d/snow/obj/shield unit
 #. native:waterfog/guild_token unit
-#: data/common/items.json data/snow/items.json data/native/items.json
+#: data/common/items.json data/snow/items.json data/native/items.json data/city/voxel/main.json
 msgid "面"
 msgstr ""
 
@@ -13427,7 +13427,7 @@ msgstr ""
 #. village.melon region
 #. village.lake region
 #. village name
-#: data/common/atlas.json data/common/journal.json data/village/world.json
+#: data/common/atlas.json data/common/journal.json data/village/world.json data/city/voxel/main.json
 msgid "玉螺湖村"
 msgstr ""
 
@@ -35531,7 +35531,7 @@ msgid ""
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: data/city/world.json data/choyin/voxel/town.json data/cloud/voxel/bookstore_house.json
+#: data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json
 msgid "书"
 msgstr ""
 
@@ -38377,7 +38377,7 @@ msgid "关北的马刀，弯的，马上使的。十五两一把，不还价。�
 msgstr ""
 
 #. native.npc.guanbei_smith inquiry topic
-#: data/guanbei/npcs.json data/choyin/voxel/town.json data/guanbei/voxel/town.json
+#: data/guanbei/npcs.json data/choyin/voxel/town.json data/city/voxel/main.json data/guanbei/voxel/town.json
 msgid "铁"
 msgstr ""
 
@@ -41603,7 +41603,7 @@ msgstr ""
 msgid "染坊"
 msgstr ""
 
-#: data/choyin/voxel/town.json data/cloud/voxel/outdoor.json
+#: data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/outdoor.json
 msgid "杂货"
 msgstr ""
 
@@ -41639,12 +41639,48 @@ msgstr ""
 msgid "衙门口"
 msgstr ""
 
-#: data/cloud/voxel/butchery_house.json
-msgid "本店即将收购死狗"
+#: data/city/voxel/main.json
+msgid "官府告示"
 msgstr ""
 
-#: data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json
+#: data/city/voxel/main.json
+msgid "民房"
+msgstr ""
+
+#: data/city/voxel/main.json data/guanbei/voxel/worksite.json
+msgid "兵"
+msgstr ""
+
+#: data/city/voxel/main.json data/cloud/voxel/outdoor.json
+msgid "茶"
+msgstr ""
+
+#: data/city/voxel/main.json
+msgid "车马大店"
+msgstr ""
+
+#: data/city/voxel/main.json
+msgid "酱"
+msgstr ""
+
+#: data/city/voxel/main.json data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json
 msgid "药"
+msgstr ""
+
+#: data/city/voxel/main.json
+msgid "饼"
+msgstr ""
+
+#: data/city/voxel/main.json
+msgid "客栈"
+msgstr ""
+
+#: data/city/voxel/main.json
+msgid "笔墨"
+msgstr ""
+
+#: data/cloud/voxel/butchery_house.json
+msgid "本店即将收购死狗"
 msgstr ""
 
 #: data/cloud/voxel/duchang_house.json
@@ -41679,10 +41715,6 @@ msgstr ""
 msgid "张府"
 msgstr ""
 
-#: data/cloud/voxel/outdoor.json
-msgid "茶"
-msgstr ""
-
 #: data/cloud/voxel/tailory_house.json
 msgid "衣"
 msgstr ""
@@ -41709,10 +41741,6 @@ msgstr ""
 
 #: data/guanbei/voxel/town.json
 msgid "马具"
-msgstr ""
-
-#: data/guanbei/voxel/worksite.json
-msgid "兵"
 msgstr ""
 
 #: data/guanbei/voxel/worksite.json

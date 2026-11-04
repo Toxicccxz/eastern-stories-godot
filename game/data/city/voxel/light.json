@@ -1,0 +1,17 @@
+{
+  "note": "京师 (美术规划 §1: 青石灰、深瓦、朱红、少量金): by day the blue-grey of the stone streets under a high clear sky, the vermilion of the gates and the palace wall warm against it; at dusk the palace's gold tiles catch fire; by night the 天桥's market and the main streets' lanterns are the brightest things in the city. Under cloud a cool slate grey.",
+  "outdoor": {
+    "overcast": {"sky": "8e989e", "ambient": "9ea6aa", "sun": "d4d8da", "note": "under cloud (DECISIONS「天气」): slate, never yellow"},
+    "sky": {"dawn": "cdd2d8", "day": "a8c4dc", "dusk": "e09062", "night": "0c1426", "midnight": "0a1020"},
+    "ambient": {"dawn": "c8ccd0", "day": "d0d6da", "dusk": "e0b08c", "night": "5e6e98", "midnight": "566690"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.48, "dusk": 0.48, "night": 0.31, "midnight": 0.29},
+    "sun": {"dawn": "ffd6b4", "day": "fff2dc", "dusk": "ff9a4a", "night": "a0b8ec", "midnight": "98b2ea"},
+    "sun_energy": {"dawn": 0.58, "day": 1.0, "dusk": 0.9, "night": 0.32, "midnight": 0.28}
+  },
+  "indoor": {
+    "ambient": {"dawn": "d2ccbe", "day": "dad4c6", "dusk": "d8b498", "night": "6a6e86", "midnight": "606482"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.46, "night": 0.34, "midnight": 0.32},
+    "sun": {"dawn": "ffdab8", "day": "fff2d6", "dusk": "ffb488", "night": "a4bcec", "midnight": "9cb6ec"},
+    "sun_energy": {"dawn": 0.32, "day": 0.46, "dusk": 0.36, "night": 0.12, "midnight": 0.1}
+  }
+}

@@ -910,7 +910,8 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	# A door nobody goes through (no room behind it in the source): drawn, not entered.
 	for at: Array in data.get("doors",[]):
 		entrances.append(point(Vector2(at[0],at[1]))-center)
-	shapes.box(self,center-Vector3(0,0.025,0),Vector3(w,0.10,d),"91836a")
+	# `yard`: the ground inside the walls where no mass stands (a block of houses round yards).
+	shapes.box(self,center-Vector3(0,0.025,0),Vector3(w,0.10,d),String(data.get("yard","91836a")))
 	var architecture := VoxelArchitecture.new()
 	architecture.parent = self
 	architecture.shapes = shapes

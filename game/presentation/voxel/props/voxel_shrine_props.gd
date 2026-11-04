@@ -3,8 +3,8 @@ extends RefCounted
 ## Shrines and temples: niches and their gods, offering tables, incense burners, candles,
 ## prayer cushions and the paper charms on the walls; a hall's gilt god on his altar, the
 ## masters' spirit tablets, a sword kept on its stand, the sacred books on their red-clothed
-## table. Faces +z unless rotated; sizes and colours from the data. What stands on the floor
-## is a blocked box in the map layout.
+## table, an imperial altar's terrace. Faces +z unless rotated; sizes and colours from the
+## data. What stands on the floor is a blocked box in the map layout.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
@@ -39,9 +39,68 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"pill_furnace": _pill_furnace(w,d)
 		"dragon_pillar": _dragon_pillar(w,d)
 		"guan_gong": _guan_gong(w,d)
+		"altar_terrace": _altar_terrace(w,d)
 		_:
 			return false
 	return true
+
+## 祭坛 (jitan.c: 栏杆是用汉白玉作成的，坛面由精细磨过的花岗岩铺成，中间有个台子; 台子的下面有个凸起，
+## 上面长着细细的青苔): a terrace of fine granite `height` units high (`colors`: its stone), a rail
+## of white stone round its edge (`rail`; none with "rail": "") broken by steps north and south,
+## and in the middle a platform of white jade (`dais`: its colour; none with "dais": "") with a
+## small mossed knob at its foot (`knob`). `banner`: a pole on the terrace with this cloth — a
+## drill ground's reviewing stand in brick and red rails (点将台). Everything, the steps too, stays
+## inside the box (the layout's blocked footprint); `steps`: false for a house's plain stoop.
+func _altar_terrace(w: float, d: float) -> void:
+	var stone: Array = data.get("colors",["c4c0b4","ccc8bc","b8b4a8"])
+	var rail: String = String(data.get("rail","e8e6de"))
+	var height: float = float(data.get("height",0.6))
+	var steps: bool = data.get("steps",true)
+	# With steps the terrace stands back from the north and south edges by their run.
+	d = d-1.08 if steps else d
+	s.box(root,Vector3(0,height/2,0),Vector3(w,height,d),String(stone[2]))
+	# The top laid in polished slabs, their joints just showing.
+	var cols: int = maxi(2,roundi(w/0.6))
+	var rows: int = maxi(2,roundi(d/0.6))
+	for i: int in cols:
+		for j: int in rows:
+			s.box(root,Vector3(-w/2+(i+0.5)*w/cols,height+0.01,-d/2+(j+0.5)*d/rows),Vector3(w/cols-0.03,0.02,d/rows-0.03),String(stone[(i+j)%2]))
+	for side: float in [-1.0,1.0] if steps else []:
+		# Steps down the middle of the north and south faces, each a third of the height lower.
+		for step: int in 3:
+			var tall: float = height*(step+1)/3.0
+			s.box(root,Vector3(0,tall/2.0,side*(d/2+0.09+0.18*(2-step))),Vector3(1.0,tall,0.18),String(stone[step%2]))
+	if not rail.is_empty():
+		var posts: int = maxi(3,roundi(w/0.5))
+		for face: float in [-1.0,1.0]:
+			s.box(root,Vector3(-w/4-0.35,height+0.42,face*(d/2-0.08)),Vector3(w/2-0.7,0.08,0.1),rail)
+			s.box(root,Vector3(w/4+0.35,height+0.42,face*(d/2-0.08)),Vector3(w/2-0.7,0.08,0.1),rail)
+			s.box(root,Vector3(face*(w/2-0.08),height+0.42,0),Vector3(0.1,0.08,d-0.1),rail)
+			for i: int in posts:
+				var x: float = -w/2+0.08+i*(w-0.16)/(posts-1)
+				if absf(x) < 0.6:
+					continue
+				s.box(root,Vector3(x,height+0.25,face*(d/2-0.08)),Vector3(0.12,0.5,0.12),rail)
+				s.box(root,Vector3(x,height+0.53,face*(d/2-0.08)),Vector3(0.15,0.08,0.15),rail)
+			for i: int in maxi(2,roundi(d/0.5)):
+				var z: float = -d/2+0.08+i*(d-0.16)/(maxi(2,roundi(d/0.5))-1)
+				s.box(root,Vector3(face*(w/2-0.08),height+0.25,z),Vector3(0.12,0.5,0.12),rail)
+	var dais: String = String(data.get("dais","f0f0ea"))
+	if not dais.is_empty():
+		s.box(root,Vector3(0,height+0.18,0),Vector3(w*0.34,0.36,d*0.34),dais)
+		s.box(root,Vector3(0,height+0.38,0),Vector3(w*0.3,0.04,d*0.3),Color(dais).darkened(0.04).to_html(false))
+		# 凸起: the knob at the platform's foot, green with fine moss.
+		s.box(root,Vector3(0,height+0.08,d*0.17+0.06),Vector3(0.14,0.1,0.1),String(data.get("knob","7a8a6a")))
+		s.box(root,Vector3(0.03,height+0.14,d*0.17+0.08),Vector3(0.08,0.03,0.06),"5a7a4a")
+	if data.has("banner"):
+		var pole := Node3D.new()
+		pole.position = Vector3(w/2-0.5,height,-d/2+0.5)
+		root.add_child(pole)
+		s.box(pole,Vector3(0,1.8,0),Vector3(0.1,3.6,0.1),"5a4030")
+		s.box(pole,Vector3(0,3.66,0),Vector3(0.16,0.12,0.16),"c9a24a")
+		s.box(pole,Vector3(0.5,3.0,0),Vector3(0.9,1.1,0.04),String(data["banner"]))
+		if ambience != null:
+			ambience.sway(pole,w,0.04)
 
 ## 关公 (lordhouse2.c: 神龛上三根拇指粗细的香慢慢燃着, 关公的手似乎指向前面的墙壁): a dark wooden shrine,
 ## its red cloth and small tiled eave, the god seated in it: red face, green robe, the long black

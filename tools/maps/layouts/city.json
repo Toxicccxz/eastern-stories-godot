@@ -6,118 +6,133 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-96, -96, 2688, 4384],
+        "bounds": [-96, -96, 2688, 4480],
         "ground": [
           ["forest", 720, 0, 1072, 992, "small woods west of the 驿道"],
           ["forest", 1520, 0, 1888, 992, "small woods east of the 驿道"],
           ["rock", 1888, 0, 2592, 992, "the hills north-east of the city"],
-          ["wall", 128, 1120, 2464, 4160, "the city's houses and courtyards (roofs)"],
+          ["wall", 128, 1120, 2464, 4256, "the city's houses and courtyards (roofs)"],
           ["wall", 0, 992, 2592, 1120, "the north city wall"],
-          ["wall", 0, 992, 128, 4304, "the west city wall"],
-          ["wall", 2464, 992, 2592, 4304, "the east city wall"],
-          ["wall", 0, 4160, 2592, 4304, "the south city wall"],
+          ["wall", 0, 992, 128, 4400, "the west city wall"],
+          ["wall", 2464, 992, 2592, 4400, "the east city wall"],
+          ["wall", 0, 4256, 2592, 4400, "the south city wall"],
           ["wall_wood", 352, 1248, 1072, 1520, "护国寺 (the temple was never written)"],
-          ["wall_wood", 1072, 2416, 1520, 2784, "紫禁城 (no way in)"],
-          ["wall_wood", 1888, 1792, 2464, 3488, "尚书府: roofs and walls between its rooms"],
-          ["wall_wood", 128, 2784, 352, 3040, "相国府 (no way in)"],
-          ["blocked", 416, 3808, 672, 4096, "监狱 (never written)"],
-          ["blocked", 768, 3808, 1024, 4096, "刑场 (never written)"]
+          ["wall_wood", 1072, 2464, 1520, 2832, "紫禁城 (no way in)"],
+          ["wall_wood", 1888, 1840, 2464, 3536, "尚书府: roofs and walls between its rooms"],
+          ["wall_wood", 128, 2832, 352, 3088, "相国府 (no way in)"],
+          ["blocked", 416, 3904, 672, 4192, "监狱 (never written)"],
+          ["blocked", 768, 3904, 1024, 4192, "刑场 (never written)"]
         ],
         "zones": {
           "city.nroad2": [1072, 0, 1520, 448, "open", "grass", null],
           "city.nroad1": [1072, 448, 1520, 992, "open", "grass", null],
           "city.northdoor": [1072, 992, 1520, 1248, "open", "street", null],
           "city.street16": [1072, 1248, 1520, 1520, "open", "street", null],
-          "city.westdoor1": [0, 1520, 352, 1792, "open", "street", null],
-          "city.street14": [352, 1520, 720, 1792, "open", "street", null],
-          "city.street15": [720, 1520, 1072, 1792, "open", "street", null],
-          "city.street7": [1072, 1520, 1520, 1792, "open", "street", null],
-          "city.street8": [1520, 1520, 1888, 1792, "open", "street", null],
-          "city.street9": [1888, 1520, 2240, 1792, "open", "street", null],
-          "city.eastdoor1": [2240, 1520, 2592, 1792, "open", "street", null],
-          "city.feiyuan": [720, 1792, 1072, 2144, "enclosed", "grass", "wall"],
-          "city.jitan": [1072, 1792, 1520, 2144, "open", "floor_yard", null],
-          "city.street6": [720, 2144, 1072, 2416, "open", "street", null],
-          "city.shenwumen": [1072, 2144, 1520, 2416, "open", "street", null],
-          "city.street1": [1520, 2144, 1888, 2416, "open", "street", null],
-          "city.street5": [720, 2416, 1072, 2784, "open", "street", null],
-          "city.street2": [1520, 2416, 1888, 2784, "open", "street", null],
-          "city.xiangguo_gate": [352, 2784, 720, 3040, "open", "street", null],
-          "city.street4": [720, 2784, 1072, 3040, "open", "street", null],
-          "city.wumen": [1072, 2784, 1520, 3040, "open", "street", null],
-          "city.street3": [1520, 2784, 1888, 3040, "open", "street", null],
-          "city.jiaowu": [1072, 3040, 1520, 3488, "open", "floor_yard", null],
-          "city.westdoor2": [0, 3488, 352, 3760, "open", "street", null],
-          "city.street13": [352, 3488, 720, 3760, "open", "street", null],
-          "city.street12": [720, 3488, 1072, 3760, "open", "street", null],
-          "city.bridge": [1072, 3488, 1520, 3760, "open", "floor_yard", null],
-          "city.street11": [1520, 3488, 1888, 3760, "open", "street", null],
-          "city.street10": [1888, 3488, 2240, 3760, "open", "street", null],
-          "city.eastdoor2": [2240, 3488, 2592, 3760, "open", "street", null],
-          "city.street17": [1072, 3760, 1520, 4032, "open", "street", null],
-          "city.southdoor": [1072, 4032, 1520, 4304, "open", "street", null],
-          "city.shangshu.gate": [1888, 2784, 2064, 3040, "open", "street", null]
+          "city.westdoor1": [0, 1520, 352, 1840, "open", "street", null],
+          "city.street14": [352, 1520, 720, 1840, "open", "street", null],
+          "city.street15": [720, 1520, 1072, 1840, "open", "street", null],
+          "city.street7": [1072, 1520, 1520, 1840, "open", "street", null],
+          "city.street8": [1520, 1520, 1888, 1840, "open", "street", null],
+          "city.street9": [1888, 1520, 2240, 1840, "open", "street", null],
+          "city.eastdoor1": [2240, 1520, 2592, 1840, "open", "street", null],
+          "city.feiyuan": [720, 1840, 1072, 2192, "enclosed", "grass", "wall"],
+          "city.jitan": [1072, 1840, 1520, 2192, "open", "floor_yard", null],
+          "city.street6": [720, 2192, 1072, 2464, "open", "street", null],
+          "city.shenwumen": [1072, 2192, 1520, 2464, "open", "street", null],
+          "city.street1": [1520, 2192, 1888, 2464, "open", "street", null],
+          "city.street5": [720, 2464, 1072, 2832, "open", "street", null],
+          "city.street2": [1520, 2464, 1888, 2832, "open", "street", null],
+          "city.xiangguo_gate": [352, 2832, 720, 3088, "open", "street", null],
+          "city.street4": [720, 2832, 1072, 3088, "open", "street", null],
+          "city.wumen": [1072, 2832, 1520, 3088, "open", "street", null],
+          "city.street3": [1520, 2832, 1888, 3088, "open", "street", null],
+          "city.jiaowu": [1072, 3088, 1520, 3536, "open", "floor_yard", null],
+          "city.westdoor2": [0, 3536, 352, 3856, "open", "street", null],
+          "city.street13": [352, 3536, 720, 3856, "open", "street", null],
+          "city.street12": [720, 3536, 1072, 3856, "open", "street", null],
+          "city.bridge": [1072, 3536, 1520, 3856, "open", "floor_yard", null],
+          "city.street11": [1520, 3536, 1888, 3856, "open", "street", null],
+          "city.street10": [1888, 3536, 2240, 3856, "open", "street", null],
+          "city.eastdoor2": [2240, 3536, 2592, 3856, "open", "street", null],
+          "city.street17": [1072, 3856, 1520, 4128, "open", "street", null],
+          "city.southdoor": [1072, 4128, 1520, 4400, "open", "street", null],
+          "city.shangshu.gate": [1888, 2832, 2064, 3088, "open", "street", null]
         },
-        "roads": [["street", 1216, 0, 1392, 992, "the 青石 驿道 north to the village"]],
+        "roads": [["street", 1136, 0, 1456, 992, "the 青石 驿道 north to the village, as wide as the village's end of it"]],
         "props": [
-          ["wall", 1072, 992, 1216, 1120, "the 北门's wall either side of its gateway"],
-          ["wall", 1392, 992, 1520, 1120],
-          ["forest", 1104, 560, 1168, 896, "the small woods either side of the 驿道"],
-          ["forest", 1440, 560, 1504, 896],
-          ["rock", 1440, 48, 1504, 160, "the hills begin north-east"],
+          ["wall", 1072, 992, 1184, 1120, "the 北门's wall either side of its gateway"],
+          ["wall", 1408, 992, 1520, 1120],
+          ["rock", 1472, 48, 1520, 160, "the hills begin north-east"],
           ["wall", 0, 1520, 128, 1584, "gate wall"],
-          ["wall", 0, 1728, 128, 1792],
-          ["shutter", 0, 1584, 48, 1728, "the gate, shut"],
-          ["wall", 0, 3488, 128, 3568, "gate wall"],
-          ["wall", 0, 3696, 128, 3760],
-          ["shutter", 0, 3568, 48, 3696, "the gate, shut"],
+          ["wall", 0, 1776, 128, 1840],
+          ["shutter", 0, 1584, 48, 1776, "the gate, shut"],
+          ["wall", 0, 3536, 128, 3616, "gate wall"],
+          ["wall", 0, 3792, 128, 3856],
+          ["shutter", 0, 3616, 48, 3792, "the gate, shut"],
           ["wall", 2464, 1520, 2592, 1584, "gate wall"],
-          ["wall", 2464, 1728, 2592, 1792],
-          ["shutter", 2560, 1584, 2592, 1728, "the gate, shut"],
-          ["wall", 2464, 3488, 2592, 3568, "gate wall"],
-          ["wall", 2464, 3696, 2592, 3760],
-          ["shutter", 2560, 3568, 2592, 3696, "the gate, shut"],
-          ["wall", 1072, 4160, 1216, 4304, "the 南门's wall either side of its gateway"],
-          ["wall", 1392, 4160, 1520, 4304],
-          ["shutter", 1216, 4256, 1392, 4304, "the 南门, shut"],
-          ["blocked", 1248, 1920, 1376, 2016, "the 皇家祭坛: everyone else walks round it"],
-          ["shutter", 1232, 2416, 1360, 2464, "神武门 wrapped in iron chains"],
-          ["shutter", 1232, 2736, 1360, 2784, "午门's great gate"],
-          ["blocked", 1120, 2816, 1152, 2848, "the stone lions either side of the 午门"],
-          ["blocked", 1440, 2816, 1472, 2848],
-          ["blocked", 1104, 3104, 1136, 3200, "weapon racks on the 校武场"],
-          ["blocked", 1472, 3104, 1504, 3200],
-          ["blocked", 1120, 3520, 1168, 3552, "stalls on the 天桥"],
-          ["blocked", 1440, 3520, 1488, 3552],
-          ["blocked", 1120, 3712, 1168, 3744],
-          ["blocked", 816, 1856, 880, 1888, "broken walls in the 废园"],
-          ["blocked", 960, 2016, 1008, 2048],
-          ["shutter", 352, 2864, 384, 2960, "相国府's gate, shut"]
+          ["wall", 2464, 1776, 2592, 1840],
+          ["shutter", 2560, 1584, 2592, 1776, "the gate, shut"],
+          ["wall", 2464, 3536, 2592, 3616, "gate wall"],
+          ["wall", 2464, 3792, 2592, 3856],
+          ["shutter", 2560, 3616, 2592, 3792, "the gate, shut"],
+          ["wall", 1072, 4256, 1184, 4400, "the 南门's wall either side of its gateway"],
+          ["wall", 1408, 4256, 1520, 4400],
+          ["shutter", 1184, 4352, 1408, 4400, "the 南门, shut"],
+          ["blocked", 1248, 1968, 1376, 2064, "the 皇家祭坛: everyone else walks round it", {"look": {"kind": "altar_terrace", "height": 0.6, "note": "jitan.c: 汉白玉栏杆, 精细磨过的花岗岩坛面, 中间的汉白玉台子, 台子下长着青苔的凸起"}}],
+          ["shutter", 1232, 2464, 1360, 2512, "神武门 wrapped in iron chains"],
+          ["shutter", 1232, 2784, 1360, 2832, "午门's great gate"],
+          ["blocked", 1120, 2864, 1152, 2896, "the stone lions either side of the 午门", {"look": {"kind": "stone_lion", "note": "wumen.c: 虎视眈眈地盯着来往的人群"}}],
+          ["blocked", 1440, 2864, 1472, 2896, {"look": {"kind": "stone_lion", "mirror": true}}],
+          ["blocked", 1104, 3152, 1136, 3248, "weapon racks on the 校武场", {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", 1472, 3152, 1504, 3248, {"look": {"kind": "weapon_rack", "rotation": 270}}],
+          ["blocked", 1120, 3568, 1168, 3600, "stalls on the 天桥", {"look": {"kind": "stall", "goods": "toys", "awning": ["e8c04a", "c8402e"]}}],
+          ["blocked", 1440, 3568, 1488, 3600, {"look": {"kind": "stall", "goods": "sweets", "awning": ["f0e0c0", "3a7a5a"]}}],
+          ["blocked", 1120, 3808, 1168, 3840, {"look": {"kind": "stall", "goods": "fruit", "awning": ["e8d8b0", "8a3aa0"], "rotation": 180}}],
+          ["blocked", 816, 1904, 880, 1936, "broken walls in the 废园", {"look": {"kind": "compound_wall", "height": 1.3, "wall": "a8a294", "roof": "5a5e58", "wear": 1.0, "note": "feiyuan.c: 仅留下几个残垣供人凭吊"}}],
+          ["blocked", 960, 2064, 1008, 2096, {"look": {"kind": "compound_wall", "height": 0.9, "wall": "9e988a", "roof": "5a5e58", "wear": 1.0}}],
+          ["blocked", 1088, 1856, 1120, 1888, "stone lanterns at the altar square's corners", {"look": {"kind": "stone_lantern"}}],
+          ["blocked", 1472, 1856, 1504, 1888, {"look": {"kind": "stone_lantern"}}],
+          ["blocked", 1088, 2144, 1120, 2176, {"look": {"kind": "stone_lantern"}}],
+          ["blocked", 1232, 3104, 1360, 3168, "the 校武场's reviewing stand (点将台)", {"look": {"kind": "altar_terrace", "height": 0.9, "colors": ["9a7a5e", "a4846a", "8a6c52"], "rail": "9c3a2c", "dais": "", "banner": "b8302a"}}],
+          ["blocked", 1136, 3456, 1168, 3488, "targets for the drill", {"look": {"kind": "training_post"}}],
+          ["blocked", 1424, 3456, 1456, 3488, {"look": {"kind": "training_post"}}],
+          ["blocked", 1088, 3296, 1120, 3392, "horses hitched at the drill ground's edge (jiaowu.c: 骑着高头大马的将领)", {"look": {"kind": "tethered_horse", "coat": "5a3a2a", "saddle": true}}],
+          ["blocked", 1472, 3296, 1504, 3392, {"look": {"kind": "tethered_horse", "coat": "c8c0b0", "saddle": true}}],
+          ["blocked", 1088, 3552, 1120, 3584, "lantern posts at the 天桥's corners, strung over the market at night", {"look": {"kind": "lantern_post", "count": 3}}],
+          ["blocked", 1472, 3552, 1504, 3584, {"look": {"kind": "lantern_post", "count": 3, "rotation": 180}}],
+          ["blocked", 1088, 3824, 1120, 3856, {"look": {"kind": "lantern_post", "count": 3}}],
+          ["blocked", 1472, 3824, 1504, 3856, {"look": {"kind": "lantern_post", "count": 3, "rotation": 180}}],
+          ["blocked", 1280, 3664, 1312, 3696, "bridge.c: 柱子和墙壁上贴满着花花绿绿的广告 — a pillar papered over", {"look": {"kind": "column", "height": 2.8, "column": "8a4a3a"}}],
+          ["blocked", 1440, 3808, 1488, 3840, {"look": {"kind": "stall", "goods": "pottery", "awning": ["d8c8a0", "2a5a8a"], "rotation": 180}}],
+          ["blocked", 736, 1536, 784, 1568, "incense sellers at the temple gate (street15.c: 寺内香烟缭绕)", {"look": {"kind": "stall", "goods": "tea", "awning": ["e8d8a8", "b8402e"]}}],
+          ["blocked", 1008, 1536, 1056, 1568, {"look": {"kind": "stall", "goods": "sweets", "awning": ["f0e4c8", "9a6a2a"]}}],
+          ["blocked", 976, 1872, 1040, 1936, "the 废园's pavilion fallen in", {"look": {"kind": "pavilion", "ruined": true}}],
+          ["shutter", 352, 2896, 384, 3024, "相国府's gate, shut"]
         ],
         "reach_from": "Nroad2VillageArrival",
         "markers_in_middle": ["city.jitan", "city.jiaowu", "city.bridge"],
         "placed": {
           "city.northdoor.guard.1": [1128, 1200],
-          "city.northdoor.guard.2": [1464, 1200],
-          "city.northdoor.guard.3": [1416, 1200],
+          "city.northdoor.guard.2": [1496, 1200],
+          "city.northdoor.guard.3": [1448, 1200],
           "city.westdoor1.guard.1": [176, 1560],
-          "city.westdoor1.guard.2": [176, 1760],
+          "city.westdoor1.guard.2": [176, 1808],
           "city.westdoor1.guard.3": [248, 1560],
-          "city.westdoor2.guard.1": [176, 3528],
-          "city.westdoor2.guard.2": [176, 3728],
-          "city.westdoor2.guard.3": [248, 3528],
+          "city.westdoor2.guard.1": [176, 3576],
+          "city.westdoor2.guard.2": [176, 3824],
+          "city.westdoor2.guard.3": [248, 3576],
           "city.eastdoor1.guard.1": [2416, 1560],
-          "city.eastdoor1.guard.2": [2416, 1760],
+          "city.eastdoor1.guard.2": [2416, 1808],
           "city.eastdoor1.guard.3": [2352, 1560],
-          "city.eastdoor2.guard.1": [2416, 3528],
-          "city.eastdoor2.guard.2": [2416, 3728],
-          "city.eastdoor2.guard.3": [2352, 3528],
-          "city.southdoor.guard.1": [1128, 4080],
-          "city.southdoor.guard.2": [1464, 4080],
-          "city.southdoor.guard.3": [1416, 4080],
-          "city.bridge.vendor.1": [1200, 3536],
-          "city.bridge.caker.1": [1400, 3536],
-          "city.bridge.dumpling_seller.1": [1200, 3720]
+          "city.eastdoor2.guard.1": [2416, 3576],
+          "city.eastdoor2.guard.2": [2416, 3824],
+          "city.eastdoor2.guard.3": [2352, 3576],
+          "city.southdoor.guard.1": [1128, 4176],
+          "city.southdoor.guard.2": [1496, 4176],
+          "city.southdoor.guard.3": [1448, 4176],
+          "city.bridge.vendor.1": [1200, 3584],
+          "city.bridge.caker.1": [1400, 3584],
+          "city.bridge.dumpling_seller.1": [1200, 3816]
         },
         "gap_at": [],
         "buildings": [
@@ -130,72 +145,78 @@
                 "portal": "city.street8.north",
                 "street": "city.street8",
                 "side": "north",
-                "at": 1696
+                "at": 1696,
+                "width": 128
               }
             ]
           },
           {
             "name": "镖局",
-            "rect": [1552, 1824, 1856, 2144],
+            "rect": [1552, 1872, 1856, 2192],
             "wall": "wall",
             "doors": [
               {
                 "portal": "city.street1.north",
                 "street": "city.street1",
                 "side": "north",
-                "at": 1696
+                "at": 1696,
+                "width": 128
               }
             ]
           },
           {
             "name": "靴鞋店",
-            "rect": [1552, 3264, 1856, 3488],
+            "rect": [1552, 3312, 1856, 3536],
             "wall": "wall",
             "doors": [
               {
                 "portal": "city.street11.north",
                 "street": "city.street11",
                 "side": "north",
-                "at": 1696
+                "at": 1696,
+                "width": 128
               }
             ]
           },
           {
             "name": "布庄",
-            "rect": [384, 2176, 720, 2384],
+            "rect": [384, 2224, 720, 2432],
             "wall": "wall",
             "doors": [
               {
                 "portal": "city.street6.west",
                 "street": "city.street6",
                 "side": "west",
-                "at": 2272
+                "at": 2320,
+                "width": 128
               }
             ]
           },
           {
             "name": "民房",
-            "rect": [1552, 3760, 1856, 4000],
+            "rect": [1552, 3856, 1856, 4096],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "city.street11.south",
                 "street": "city.street11",
                 "side": "south",
-                "at": 1696
+                "at": 1696,
+                "width": 128
               }
             ]
           },
           {
             "name": "酒楼",
-            "rect": [384, 2448, 720, 2752],
+            "rect": [384, 2496, 720, 2800],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "city.street5.west",
                 "street": "city.street5",
                 "side": "west",
-                "at": 2592
+                "at": 2640,
+                "width": 128
               }
             ]
           },
@@ -208,32 +229,34 @@
                 "portal": "city.street9.north",
                 "street": "city.street9",
                 "side": "north",
-                "at": 2064
+                "at": 2064,
+                "width": 128
               }
             ]
           },
           {
             "name": "尚书府",
-            "rect": [2064, 1792, 2464, 3488],
+            "rect": [2064, 1840, 2464, 3536],
             "wall": "wall",
             "doors": [
               {
                 "portal": "city.shangshu.gate.east",
                 "street": "city.shangshu.gate",
                 "side": "east",
-                "at": 2848
+                "at": 2896,
+                "width": 128
               }
             ]
           },
           {
             "name": "尚书府",
-            "rect": [1888, 1792, 2064, 2416],
+            "rect": [1888, 1840, 2064, 2464],
             "wall": "wall",
             "doors": []
           },
           {
             "name": "尚书府",
-            "rect": [1520, 3040, 2064, 3232],
+            "rect": [1520, 3088, 2064, 3280],
             "wall": "wall",
             "doors": []
           }
@@ -243,9 +266,14 @@
         "style": "map",
         "root": "CityMain",
         "map": "city.main",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/main.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
+          "Rect_288_32": [288, 32],
           "Rect_32_64": [32, 64],
           "Rect_32_32": [32, 32],
           "StairsShape": [48, 48],
@@ -255,14 +283,14 @@
           {
             "zone": "city.jitan",
             "name": "JitanStairsDown",
-            "at": [1456, 2096],
+            "at": [1456, 2144],
             "id": "city.jitan.down",
             "shape": "StairsShape",
             "color": "Color(0.4, 0.33, 0.25, 1)",
             "text": "向下的阶梯",
             "marker": {
               "name": "JitanStairsReturn",
-              "at": [1456, 1992],
+              "at": [1456, 2040],
               "id": "city.jitan.stairs_return"
             }
           }
@@ -304,42 +332,42 @@
           {
             "node": "caption",
             "name": "PalaceLabel",
-            "at": [1232, 2576],
+            "at": [1232, 2624],
             "text": "紫禁城",
             "size": 18
           },
           {
             "node": "caption",
             "name": "ShangshuLabel",
-            "at": [1900, 2576],
+            "at": [1900, 2624],
             "text": "尚书府",
             "size": 16
           },
           {
             "node": "caption",
             "name": "XiangguoLabel",
-            "at": [144, 2884],
+            "at": [144, 2932],
             "text": "相国府",
             "size": 14
           },
           {
             "node": "caption",
             "name": "JailLabel",
-            "at": [476, 3948],
+            "at": [476, 4044],
             "text": "监狱",
             "size": 14
           },
           {
             "node": "caption",
             "name": "ExecutionLabel",
-            "at": [840, 3948],
+            "at": [840, 4044],
             "text": "刑场",
             "size": 14
           },
           {
             "node": "caption",
             "name": "AltarLabel",
-            "at": [1256, 1956],
+            "at": [1256, 2004],
             "text": "祭坛",
             "size": 12
           },
@@ -359,49 +387,49 @@
             "node": "passage",
             "name": "VillagePassage",
             "id": "city.nroad2.north",
-            "at": [1300, 32],
-            "shape": "Rect_64_32"
+            "at": [1296, 32],
+            "shape": "Rect_288_32"
           },
           {
             "node": "service",
             "name": "Westdoor1Out",
             "id": "city.westdoor1.out",
-            "at": [88, 1656],
+            "at": [88, 1680],
             "text": "城门 · 出城"
           },
           {
             "node": "service",
             "name": "Westdoor2Out",
             "id": "city.westdoor2.out",
-            "at": [88, 3628],
+            "at": [88, 3704],
             "text": "城门 · 出城"
           },
           {
             "node": "service",
             "name": "Eastdoor1Out",
             "id": "city.eastdoor1.out",
-            "at": [2508, 1656],
+            "at": [2508, 1680],
             "text": "城门 · 出城"
           },
           {
             "node": "service",
             "name": "Eastdoor2Out",
             "id": "city.eastdoor2.out",
-            "at": [2508, 3628],
+            "at": [2508, 3704],
             "text": "城门 · 出城"
           },
           {
             "node": "service",
             "name": "SouthdoorOut",
             "id": "city.southdoor.out",
-            "at": [1300, 4212],
+            "at": [1296, 4308],
             "text": "城门 · 出城"
           },
           {
             "node": "service",
             "name": "FeiyuanGrass",
             "id": "city.feiyuan.find",
-            "at": [896, 1972],
+            "at": [896, 2020],
             "text": "草丛 · 寻找"
           },
           {
@@ -421,7 +449,7 @@
           },
           {
             "name": "Street3WallReturn",
-            "at": [1632, 2992],
+            "at": [1632, 3040],
             "id": "city.street3.wall_return"
           },
           {
@@ -447,7 +475,7 @@
           {
             "name": "Eastdoor2NoticeInteraction",
             "id": "city.eastdoor2.landmark.notice",
-            "at": [2440, 3584],
+            "at": [2440, 3632],
             "shape": "Rect_32_32"
           },
           {
@@ -459,37 +487,37 @@
           {
             "name": "Westdoor2NoticeInteraction",
             "id": "city.westdoor2.landmark.notice",
-            "at": [160, 3584],
+            "at": [160, 3632],
             "shape": "Rect_32_32"
           },
           {
             "name": "SouthdoorNoticeInteraction",
             "id": "city.southdoor.landmark.notice",
-            "at": [1232, 4144],
+            "at": [1232, 4240],
             "shape": "Rect_32_32"
           },
           {
             "name": "Street3WallInteraction",
             "id": "city.street3.landmark.wall",
-            "at": [1704, 3024],
+            "at": [1704, 3072],
             "shape": "Rect_32_32"
           },
           {
             "name": "JitanAltarInteraction",
             "id": "city.jitan.landmark.altar",
-            "at": [1296, 1968],
+            "at": [1296, 2016],
             "shape": "AltarShape"
           },
           {
             "name": "JitanPlatformInteraction",
             "id": "city.jitan.landmark.platform",
-            "at": [1296, 1968],
+            "at": [1296, 2016],
             "shape": "Rect_32_32"
           },
           {
             "name": "JitanButtonInteraction",
             "id": "city.jitan.landmark.button",
-            "at": [1296, 2016],
+            "at": [1296, 2064],
             "shape": "Rect_32_32"
           }
         ]

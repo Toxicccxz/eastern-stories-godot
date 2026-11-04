@@ -207,7 +207,9 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				var window_at := Vector3(at.x,window_y,at.z)+out*0.18
 				shapes.box(body,window_at,Vector3(0.47,0.94,0.10) if along_x else Vector3(0.10,0.94,0.47),timber)
 				shapes.window(body,window_at+out*0.06,Vector3(0.35,0.73,0.03) if along_x else Vector3(0.03,0.73,0.35))
-				if i==3:
+				# `window_lights`: false for houses deep in a block, whose windows light no street
+				# (a city's hundreds of them would each split the batches round them).
+				if i==3 and data.get("window_lights",true):
 					var light := OmniLight3D.new()
 					light.position = window_at+out*0.6
 					light.light_color = Color("ffc27a")

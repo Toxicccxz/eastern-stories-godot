@@ -18,7 +18,8 @@ All 55 rooms, on twelve maps.
 | city.wall_top (院墙) | wall | — | 爬上去 from street3; 跳进去 to the 废屋, 跳回去 to street3 |
 | city.cellar (地下密室) | midao1 | — | the stairs up under the 祭坛 (open three seconds at a time) |
 
-None of these maps has a voxel view yet (no `game/data/city/voxel/`).
+city.main has its voxel view (`game/data/city/voxel/main.json`, 京师 A): widened for it (the 驿道 320, 护国道 and the 南街 320,
+the 北门 and 南门 gateways 224, doors 128); the eleven interiors are still 2D (京师 B).
 
 Not placed: guardbak.c (a backup), trader2/3.c and u/cp's chater/drooler/teller are placed by no room. 护国寺, 紫禁城, 监狱
 and 刑场 are drawn as walled blocks: their exits are commented out and their rooms were never
