@@ -46,6 +46,15 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					s.box(root,p+Vector3(0.05,0.12,0),Vector3(0.1,0.03,0.2),"e6d6c2")
 				elif goods=="cloth":
 					s.box(root,p+Vector3(0,0.05+i*0.02,0),Vector3(0.3,0.1,0.36),["4a6f8f","b4473a","d6b862"][i])
+				elif goods=="boots":
+					# A pair of boots set out on the counter (boots.c).
+					for side: float in [-0.07,0.07]:
+						s.box(root,p+Vector3(side,0.18,0),Vector3(0.11,0.36,0.16),["4a3426","5a3e2a","3a2a20"][i])
+						s.box(root,p+Vector3(side,0.05,0.1),Vector3(0.11,0.1,0.14),["4a3426","5a3e2a","3a2a20"][i])
+				elif goods=="wine":
+					# Wine jars along the counter, their red paper seals.
+					s.box(root,p+Vector3(0,0.16,0),Vector3(0.24,0.32,0.24),["6a4a32","7a5a3e","5a3e2a"][i])
+					s.box(root,p+Vector3(0,0.34,0),Vector3(0.16,0.06,0.16),"b8402e")
 				elif goods=="blades":
 					s.box(root,p+Vector3(0,0.03,0),Vector3(0.08,0.04,0.55),"b9c2bf")
 					s.box(root,p+Vector3(0,0.04,-0.32),Vector3(0.14,0.06,0.1),"5b4433")

@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -151,3 +153,14 @@ landmark_id = &"city.midao1.landmark.ceiling"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Midao1CeilingInteraction"]
 shape = SubResource("Rect_32_32")
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/city/voxel/cellar.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(200, 72)
+metadata/look = {"kind": "bed", "quilt": "6a5e4a", "note": "midao1.c: 一个破旧的小床"}
+metadata/footprint = Vector2(48, 48)

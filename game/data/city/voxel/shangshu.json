@@ -1,0 +1,77 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "shangshu/: the 庭院 paved in great slabs of one blue stone, 规规整整; the 客厅 all agarwood, the great chair under the white tiger skin; paths through the shrubbery to the 客房 (books by the window, a sword on the wall) and the shut 小屋, black inside; the 花园's peonies and 琼花, the kitchen's roaring fire, the 内宅 plain and fair, the 废屋 dark, damp, its door fallen, cobwebs everywhere.",
+  "palette": {
+    "wood": ["6a4a36", "72503a", "624432", "7a563e"],
+    "wall": "c4beb0"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_height": 3.0,
+  "wall_looks": [
+    {"rect": [480, -432, 1328, 144], "style": "plaster", "wall": "d0cabc", "note": "keting.c: 家具被擦得一尘不染"},
+    {"rect": [480, -1216, 960, -848], "style": "boards", "colors": ["2e2824", "36302a", "28221e"], "note": "xiaowu.c: 小屋内很黑"},
+    {"rect": [-1328, 656, -752, 1104], "style": "boards", "colors": ["5a5044", "4e463c", "625848", "48402e"], "note": "feiwu.c: 很阴暗，也很潮湿"},
+    {"rect": [480, 144, 1056, 592], "style": "plaster", "wall": "b4ac9c", "note": "chufang.c: the kitchen's smoke"},
+    {"rect": [480, 624, 1200, 1136], "style": "plaster", "wall": "ece8de", "note": "neizhai.c: 素雅 — plain white"}
+  ],
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [2, 2], "cracks": 0.04, "broken": 0.02, "sunk": 0.0, "tufts": 0.02, "stones": ["7e8a8e", "828e92", "7a868a"], "worn": ["8a9496"], "bed": "4e585c", "joint": 0.04, "mud": "5e5a4e", "crack": "4a5458", "note": "yuan.c: 地面规规整整地用清一色的大青石铺就"},
+    "grass": {"colors": ["4e7040", "587a46", "62844c"]}
+  },
+  "flora": {
+    "grass_density": 0.8,
+    "butterflies": 4,
+    "wind": 0.15,
+    "density": {"floor_yard": 0.0},
+    "crown_colors": {"crabapple": ["f2f0e8", "e8e8dc", "f8f6f0", "dcdcd0"], "osmanthus": ["3e6a3e", "4a7644", "56824a", "e8c860"]}
+  },
+  "life": {
+    "city.shangshu.xiaowu": {"ambience": [], "note": "xiaowu.c: 什么也看不见 — no light, nothing stirs"},
+    "city.shangshu.keting": {"hangings": ["plaques", "couplet", "mural", "plaques"], "ambience": [{"kind": "incense"}]},
+    "city.shangshu.kefang": {"hangings": ["wall_sword", "couplet"], "note": "kefang.c: 墙上则挂了把宝剑"},
+    "city.shangshu.feiwu": {"hangings": [], "hang": 0.0, "ambience": [{"kind": "dust", "color": "a49c8c", "count": 10}]}
+  },
+  "ambience": {
+    "fall": [{"rect": [-300, 600, 480, 1160], "count": 16, "height": 3.5, "colors": ["f2f0e8", "f0c8d0", "e8a0b0"], "wind": [0.3, 0.1], "note": "花园: petals"}],
+    "birds": [{"at": [100, 860], "radius": 260, "count": 2, "height": 6, "color": "3a3029"}]
+  },
+  "door_looks": {
+    "city.shangshu.road1.door": {"kind": "old_gate", "leaf": "2a2420", "studs": false, "note": "road1.c: 平时房门总是关的"},
+    "city.shangshu.huayuan.door": {"kind": "curtain", "note": "neizhai's 帘子"}
+  },
+  "props": [
+    {"kind": "trail", "points": [[-280, -144], [480, -144]], "color": "6e7a7e", "note": "feet from the gate to the 客厅"},
+    {"kind": "hanging_lantern", "at": [-100, -300], "elevation": -0.4, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [300, -300], "elevation": -0.4, "paper": "d8452f:glow"},
+    {"kind": "window", "at": [700, -368], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [1000, -368], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [1260, -200], "size": [64, 16], "rotation": 270},
+    {"kind": "hanging_lantern", "at": [760, -150], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [1060, -150], "elevation": -0.4},
+    {"kind": "rug", "at": [900, -144], "size": [384, 224], "elevation": 0.05, "note": "white over the agarwood floor", "cloth": "d8d4c8", "motif": "c8c0b0", "border": "8a6a4a"},
+    {"kind": "window", "at": [760, -816], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [992, -700], "size": [64, 16], "rotation": 270, "note": "kefang.c: 靠窗的小桌"},
+    {"kind": "hanging_lantern", "at": [760, -620], "elevation": -0.4},
+    {"kind": "window", "at": [700, 208], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [720, 380], "elevation": -0.4},
+    {"kind": "trail", "points": [[88, -1180], [88, -460]], "color": "8a8a7a", "note": "road1–2.c: 小径"},
+    {"kind": "trail", "points": [[88, 170], [88, 560]], "color": "8a8a7a"},
+    {"kind": "trail", "points": [[-740, 872], [-330, 872]], "color": "8a8a7a"},
+    {"kind": "trail", "points": [[-300, 880], [480, 880]], "color": "9a9a8a", "note": "the garden walk"},
+    {"kind": "window", "at": [700, 688], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [960, 688], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [1140, 900], "size": [64, 16], "rotation": 270},
+    {"kind": "hanging_lantern", "at": [760, 860], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [1000, 860], "elevation": -0.4},
+    {"kind": "rug", "at": [840, 900], "size": [256, 160], "elevation": 0.05, "note": "neizhai.c: 素雅", "cloth": "e8e4d8", "motif": "d8d0c0", "border": "a8b8a0"},
+    {"kind": "cobweb", "at": [-1280, 704], "size": [32, 32]},
+    {"kind": "cobweb", "at": [-800, 704], "size": [32, 32], "rotation": 90},
+    {"kind": "cobweb", "at": [-1280, 1056], "size": [32, 32]},
+    {"kind": "stains", "at": [-1040, 960], "size": [128, 64], "colors": ["4a4438", "3e3a30", "544c40"], "count": 7, "note": "feiwu.c: 很潮湿"}
+  ]
+}
