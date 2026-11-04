@@ -27,20 +27,33 @@ const GIFTS: Array[Array] = [[&"strength", &"courage", &"intelligence", &"spirit
 func _init() -> void:
 	name = "CharacterSheet"
 	add_theme_constant_override("separation", 10)
+	# 界面重做 2: who one is and what one has done on the left, the body on the right; then
+	# growth and gifts side by side.
 	var top := _row("Top")
-	var who: VBoxContainer = _block(top, "Who", "身份")
+	var left := VBoxContainer.new()
+	left.name = "Left"
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left.add_theme_constant_override("separation", 10)
+	top.add_child(left)
+	var who: VBoxContainer = _block(left, "Who", "身份")
 	identity = _line(who, "Identity")
-	identity.add_theme_font_size_override("font_size", 19)
-	identity.add_theme_color_override("font_color", SharedGameplayLayout.NAME_COLOR)
+	identity.theme_type_variation = &"TitleLabel"
 	rank = _line(who, "Rank")
-	rank.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	rank.add_theme_color_override("font_color", UiPalette.GOLD)
+	# TRANSLATORS: the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
+	var deeds: VBoxContainer = _block(left, "Milestones", "历练")
+	(deeds.get_parent() as Control).size_flags_vertical = Control.SIZE_EXPAND_FILL
+	milestones = _line(deeds, "MilestoneLines")
 	var body: VBoxContainer = _block(top, "Body", "精气神")
 	_cells(body, "Columns", [&"tracks"])
-	cells[&"tracks"].add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	cells[&"tracks"].add_theme_color_override("font_color", UiPalette.MUTED)
 	for entry: Array in [[&"essence", SharedGameplayLayout.ESSENCE_COLOR], [&"vitality", SharedGameplayLayout.VITALITY_COLOR], [&"spirit", SharedGameplayLayout.SPIRIT_COLOR]]:
 		_resource(body, entry[0], entry[1])
 	_cells(body, "Powers", [&"force", &"enforce", &"mana", &"atman"])
 	_cells(body, "Supplies", [&"food", &"water"])
+	_cells(body, "Burden", [&"burden", &"weight"])
+	for stat_id: StringName in [&"burden", &"weight"]:
+		cells[stat_id].add_theme_color_override("font_color", UiPalette.MUTED)
 	var bottom := _row("Bottom")
 	var growth: VBoxContainer = _block(bottom, "Growth", "修为")
 	_cells(growth, "Progress", [&"combat_experience", &"potential"])
@@ -48,22 +61,16 @@ func _init() -> void:
 	potential_cap.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	growth.add_child(potential_cap)
 	catch_up = _line(growth, "CatchUp")
-	catch_up.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	catch_up.add_theme_color_override("font_color", UiPalette.GOLD)
 	_cells(growth, "Standing", [&"bellicosity", &"score"])
 	kills = StatCell.new("Kills")
 	kills.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	growth.add_child(kills)
 	pace = _line(growth, "Pace")
-	pace.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	pace.add_theme_color_override("font_color", UiPalette.MUTED)
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
 	for row: int in GIFTS.size():
 		_cells(nature, "Gifts%d" % row, GIFTS[row])
-	# TRANSLATORS: the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
-	var deeds: VBoxContainer = _block(self, "Milestones", "历练")
-	milestones = _line(deeds, "MilestoneLines")
-	_cells(self, "Burden", [&"burden", &"weight"])
-	for stat_id: StringName in [&"burden", &"weight"]:
-		cells[stat_id].add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
 
 
 ## Fills the sheet from the player's state, in the shown language.
@@ -245,7 +252,7 @@ func _block(parent: Node, node_name: String, heading: String) -> VBoxContainer:
 	var box := PanelContainer.new()
 	box.name = node_name
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_stylebox_override("panel", SharedGameplayLayout.item_style())
+	box.theme_type_variation = &"WellPanel"
 	parent.add_child(box)
 	var rows := VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 6)
@@ -253,8 +260,7 @@ func _block(parent: Node, node_name: String, heading: String) -> VBoxContainer:
 	var title := Label.new()
 	title.name = "Heading"
 	title.text = heading
-	title.add_theme_font_size_override("font_size", 13)
-	title.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	title.theme_type_variation = &"HeadingLabel"
 	rows.add_child(title)
 	return rows
 
@@ -299,13 +305,16 @@ func _resource(parent: Node, key: StringName, color: Color) -> void:
 	var bar := ProgressBar.new()
 	bar.name = "Bar"
 	bar.show_percentage = false
-	bar.custom_minimum_size.y = 8
+	bar.custom_minimum_size.y = 10
+	# 界面重做 2: a square bar on a dark groove, its fill a block with a darker side under it.
 	var track := StyleBoxFlat.new()
-	track.bg_color = Color(1, 1, 1, 0.09)
-	track.set_corner_radius_all(4)
+	track.bg_color = UiPalette.INK
+	track.border_width_top = 2
+	track.border_color = Color(0, 0, 0, 0.45)
 	var fill := StyleBoxFlat.new()
 	fill.bg_color = color
-	fill.set_corner_radius_all(4)
+	fill.border_width_bottom = 3
+	fill.border_color = color.darkened(0.4)
 	bar.add_theme_stylebox_override("background", track)
 	bar.add_theme_stylebox_override("fill", fill)
 	column.add_child(bar)

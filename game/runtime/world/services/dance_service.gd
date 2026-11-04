@@ -49,7 +49,7 @@ func choose(step: DanceDefinition.Step) -> void:
 	var state: CharacterState = map.player_runtime().state
 	var after: int = definition.dance.sen_after(state, step)
 	if after < 0:
-		map.session.shared_ui().ask_first(tr(FAINT_WARNING).format({"sen": state.spirit.current - after}), tr("确定起舞"), dance.bind(step), in_reach)
+		map.session.shared_ui().ask_danger(tr(FAINT_WARNING).format({"sen": state.spirit.current - after}), tr("确定起舞"), dance.bind(step), in_reach)
 		return
 	dance(step)
 

@@ -24,7 +24,9 @@ func _init() -> void:
 	buy_button = Button.new()
 	buy_button.name = "Buy"
 	buy_button.text = "购买"
-	buy_button.custom_minimum_size = Vector2(0, 44)
+	buy_button.theme_type_variation = &"PrimaryButton"
+	buy_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	buy_button.custom_minimum_size = Vector2(120, 44)
 	buy_button.pressed.connect(func() -> void: buy_requested.emit())
 	rows.add_child(buy_button)
 	answer = Label.new()

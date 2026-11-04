@@ -78,7 +78,7 @@ only they or nobody use; `d/npc` (wizard-saved characters).
 * **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
 * **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇, 水烟阁, 青石村,
   茅山 灵心观, 晚月庄, 泓水南岸 + 山烟寺, 乔阴县城, 天驼关, 关北, 逆灵宫, 玉螺湖村, 京师, 黑松山 and 阴间: every map (144). Next, 雪亭镇's facades in more
-  detail. Desktop frame rate is the bar (DECISIONS「首发只做桌面」).
+  detail. Desktop frame rate is the bar (DECISIONS「手机端暂停」).
 
 ## After the grey box
 
@@ -154,6 +154,8 @@ spar record, a 江湖履历, 正邪 jobs).
 
 Systematic playtesting and balance, a formal player-save baseline, product IDs/signing, and
 resolving [license/provenance](LICENSE_PROVENANCE.md) — the ES2 rights question must be settled
-before any public distribution. The first release is desktop only; a mobile port (touch, iOS
-runtime, phone frame rate; draft PR #161) may follow (DECISIONS「首发只做桌面」). Large new
-expansions after the first release belong to a later version.
+before any public distribution. The first release is desktop only (Steam); the mobile port
+(Android / iOS, phone frame rate; draft PR #161) is **paused** and CI builds no mobile target
+(owner 2026-11-04, DECISIONS「手机端暂停」). Steam Deck support stays in scope: pad, resolution
+and window mode, touch input. Large new expansions after the first release belong to a later
+version.

@@ -109,7 +109,7 @@ func _test_journal_data() -> void:
 
 
 ## The menu: 任务 shows nothing before anything happened, then the chain; 百科's sections,
-## an entry read and Back / Esc to the list; people and items as met.
+## the list beside the entry read; people and items as met.
 func _test_menu_pages(tree: SceneTree) -> void:
 	var session: WorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	_check(session.configure_source_entry("百科", CharacterState.GENDER_MALE), "source setup")
@@ -145,21 +145,22 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	ui.menu.show_tab(GameMenu.Tab.CODEX)
 	var codex: CodexPage = ui.codex_page
 	_check(codex.is_visible_in_tree() and codex.current_section() == CodexContent.Section.LORE and codex.entry_buttons.size() == 20, "百科 opens on 江湖常识: %d" % codex.entry_buttons.size())
+	# 界面重做 2: the list on the left, the entry read on the right; a section opens on its first.
+	var first: String = codex.entries()[0].key
+	_check(codex.open_key() == first and codex.entry_buttons[first].button_pressed and codex.article.visible and codex.shown_text().begins_with(codex.entries()[0].title), "its first entry is read at once: " + codex.shown_text().left(40))
 	codex.entry_buttons["help.health"].pressed.emit()
-	_check(codex.open_key() == "help.health" and codex.shown_text().begins_with("精气神") and codex.shown_text().contains("当前") and not codex.entry_list.visible, "an entry is read: " + codex.shown_text().left(40))
-	var escape := InputEventKey.new()
-	escape.keycode = KEY_ESCAPE
-	escape.pressed = true
-	tree.root.push_input(escape)
+	_check(codex.open_key() == "help.health" and codex.shown_text().begins_with("精气神") and codex.shown_text().contains("当前") and codex.list_scroll.visible and codex.entry_buttons["help.health"].button_pressed and not codex.entry_buttons[first].button_pressed, "an entry is read beside the list: " + codex.shown_text().left(40))
+	codex.entry_buttons["help.theme"].grab_focus()
 	await tree.process_frame
-	_check(codex.open_key().is_empty() and codex.entry_list.visible and ui.menu.is_presented(), "Esc goes back to the list, the menu stays")
-	codex.open_entry("help.theme")
-	var pad_b := InputEventJoypadButton.new()
-	pad_b.button_index = JOY_BUTTON_B
-	pad_b.pressed = true
-	tree.root.push_input(pad_b)
-	await tree.process_frame
-	_check(codex.open_key().is_empty() and ui.menu.is_presented() and tree.root.gui_get_focus_owner() == codex.entry_buttons["help.theme"], "pad B too, the focus back on the entry")
+	_check(codex.open_key() == "help.theme" and codex.entry_buttons["help.theme"].button_pressed, "moving onto an entry reads it")
+	# Back / Esc close the menu as on every tab (the shell's, game_menu_test); it opens again
+	# on the entry read.
+	ui.menu.close()
+	_check(not ui.menu.is_presented(), "the menu closes from 百科")
+	ui.menu.open(GameMenu.Tab.CODEX)
+	for i: int in 3:
+		await tree.process_frame
+	_check(codex.open_key() == "help.theme" and tree.root.gui_get_focus_owner() == codex.entry_buttons["help.theme"], "back on the entry read")
 	codex.section_buttons[CodexContent.Section.ARTS].pressed.emit()
 	var learned: int = codex.entry_buttons.keys().filter(func(key: String) -> bool: return not key.begins_with("moves/")).size()
 	_check(learned == state.skills.raw_skill_ids().size() and codex.entry_buttons.has("moves/race/human"), "武学: the skills learned (%d) and the 见识录 of one's own 拳脚: " % learned + codex.shown_text().left(40))
@@ -168,7 +169,7 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	codex.section_buttons[CodexContent.Section.PEOPLE].pressed.emit()
 	_check(codex.entry_buttons.size() == state.seen_npcs.size(), "人物: the people met (%d)" % state.seen_npcs.size())
 	var stranger: NpcDefinition = GameContent.catalog().npc(&"green.npc.oldman2")
-	_check(not codex.shown_text().contains(stranger.display_name), "someone not met is not listed")
+	_check(not codex.listed_titles().has(stranger.display_name) and not codex.entry_buttons.has(String(stranger.definition_id)), "someone not met is not listed")
 	state.seen_npcs[String(stranger.definition_id)] = state.seen_npcs.size() + 1
 	codex.fill(state)
 	_check(codex.entry_buttons.has(String(stranger.definition_id)), "met: listed")

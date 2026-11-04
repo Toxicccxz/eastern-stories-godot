@@ -23,7 +23,7 @@ const BAND_COLORS: Dictionary[Band, Color] = {
 	Band.HEAVY: Color("d9772e"),
 	Band.DYING: Color("d93a3a"),
 }
-const BACK_COLOR: Color = Color("2a3a44")
+const BACK_COLOR: Color = UiPalette.INK
 const CRACK_COLOR: Color = Color("5a1d1d")
 const CRACK_LINE_COLOR: Color = Color("3a1010")
 const CRACK_FLASH_COLOR: Color = Color("d93a3a")
@@ -75,7 +75,7 @@ var _mend_tween: Tween
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	custom_minimum_size.y = 8
+	custom_minimum_size.y = 10
 
 
 ## The band of `current` out of `maximum`, by status_msg()'s percent (kee * 100 / max_kee).
