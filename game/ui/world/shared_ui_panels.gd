@@ -1,8 +1,8 @@
 class_name SharedUiPanels
 extends RefCounted
 ## Opening and filling the HUD's other panels: 观察 and a business's form in the shared
-## frame; the menu's 角色 and 武学 pages (空识 and 游识 from there) and 随身补给 on its 背包
-## page; closing the shared frame. The HUD is `_ui`.
+## frame; the menu's 角色 and 武学 pages (空识 and 游识 from there); closing the shared
+## frame. The HUD is `_ui`.
 
 # TRANSLATORS: asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
 const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
@@ -12,9 +12,6 @@ const DRIFT_FAINT_WARNING: String = "游识神通要耗去 {gin} 点精，你现
 const SPELL_FAINT_WARNING: String = "施展{spell}要耗去 {sen} 点神，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
 
 var _ui: SharedGameplayUI
-var _food: HeldFoodPanel
-var _liquid: HeldLiquidPanel
-var _supplies: VBoxContainer
 
 # The HUD's authorities, read as SharedGameplayUI reads them.
 var _session: WorldSessionController:
@@ -27,34 +24,6 @@ var _player: WorldPlayerRuntimeState:
 
 func _init(ui: SharedGameplayUI) -> void:
 	_ui = ui
-
-
-func initialize_supplies() -> void:
-	if _supplies != null:
-		return
-	_supplies = VBoxContainer.new()
-	_supplies.name = "SupplyPanels"
-	_ui.supplies_mount.add_child(_supplies)
-	# 界面重做 2: food and drink side by side.
-	var pair := HBoxContainer.new()
-	pair.name = "Pair"
-	pair.add_theme_constant_override("separation", 12)
-	_supplies.add_child(pair)
-	_food = HeldFoodPanel.new()
-	_food.name = "HeldFoodUI"
-	_food.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_food.configure(_session)
-	pair.add_child(_food)
-	_liquid = HeldLiquidPanel.new()
-	_liquid.name = "HeldLiquidUI"
-	_liquid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_liquid.configure(_session)
-	pair.add_child(_liquid)
-	var hint := Label.new()
-	hint.text = "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.theme_type_variation = &"SmallLabel"
-	_supplies.add_child(hint)
 
 
 func refresh_panel_rows() -> void:
@@ -96,16 +65,11 @@ func refresh_character() -> void:
 		_ui.arts_page.refresh()
 
 
-## The menu on its 背包 page, whose 随身补给 holds the food and drink panels.
+## The menu on its 背包 page, on 补给 (food, drink, what heals): eaten and drunk from there.
 func open_supplies() -> void:
-	if not _session.portable_inventory_available() or _supplies == null: return
+	if not _session.portable_inventory_available(): return
+	_ui.inventory_panel.show_section(InventorySections.Section.SUPPLIES)
 	_ui.menu.open(GameMenu.Tab.INVENTORY)
-
-
-func show_supplies() -> void:
-	if _supplies == null: return
-	_food.show()
-	_liquid.show()
 
 
 ## 空识神通 from the 武学 page; asked first when its gin would knock the player out.

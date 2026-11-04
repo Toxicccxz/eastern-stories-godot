@@ -18,7 +18,7 @@ theme_override_constants/margin_bottom = 12
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="Margin/VBox"]
 visible = false
@@ -29,17 +29,22 @@ text = "背包"
 [node name="Separator" type="HSeparator" parent="Margin/VBox"]
 layout_mode = 2
 
+[node name="PlayerInventorySections" type="HBoxContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
 [node name="Body" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="List" type="VBoxContainer" parent="Margin/VBox/Body"]
+[node name="PlayerInventoryList" type="VBoxContainer" parent="Margin/VBox/Body"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 3.0
+theme_override_constants/separation = 6
 
-[node name="PlayerInventoryScroll" type="ScrollContainer" parent="Margin/VBox/Body/List"]
+[node name="PlayerInventoryScroll" type="ScrollContainer" parent="Margin/VBox/Body/PlayerInventoryList"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
@@ -47,30 +52,99 @@ size_flags_vertical = 3
 horizontal_scroll_mode = 0
 follow_focus = true
 
-[node name="PlayerInventoryRows" type="VBoxContainer" parent="Margin/VBox/Body/List/PlayerInventoryScroll"]
+[node name="PlayerInventoryRows" type="VBoxContainer" parent="Margin/VBox/Body/PlayerInventoryList/PlayerInventoryScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 
-[node name="PlayerInventoryEmptyLabel" type="Label" parent="Margin/VBox/Body/List"]
+[node name="PlayerInventoryEmptyLabel" type="Label" parent="Margin/VBox/Body/PlayerInventoryList"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"MutedLabel"
 text = "空无一物"
-horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PlayerInventoryPurse" type="Button" parent="Margin/VBox/Body/PlayerInventoryList"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_type_variation = &"RowButton"
+auto_translate_mode = 2
+toggle_mode = true
+text = "钱袋"
+text_overrun_behavior = 3
+alignment = 0
+
+[node name="PlayerInventoryBurden" type="Label" parent="Margin/VBox/Body/PlayerInventoryList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+auto_translate_mode = 2
 
 [node name="InspectWell" type="PanelContainer" parent="Margin/VBox/Body"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
 theme_type_variation = &"WellPanel"
 
-[node name="PlayerInventoryInspectText" type="RichTextLabel" parent="Margin/VBox/Body/InspectWell"]
+[node name="PlayerInventoryDetailScroll" type="ScrollContainer" parent="Margin/VBox/Body/InspectWell"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Detail" type="VBoxContainer" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ItemModelMount" type="CenterContainer" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail/Head"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HeadText" type="VBoxContainer" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="PlayerInventoryItemTitle" type="Label" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail/Head/HeadText"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeadingLabel"
+auto_translate_mode = 2
+autowrap_mode = 3
+
+[node name="PlayerInventoryInspectText" type="RichTextLabel" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail/Head/HeadText"]
+unique_name_in_owner = true
+layout_mode = 2
+auto_translate_mode = 2
+fit_content = true
+scroll_active = false
+
+[node name="PlayerInventoryCompare" type="Label" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail/Head/HeadText"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+auto_translate_mode = 2
+autowrap_mode = 3
+
+[node name="PlayerInventoryActions" type="VBoxContainer" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayerInventoryUseFeedback" type="Label" parent="Margin/VBox/Body/InspectWell/PlayerInventoryDetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+auto_translate_mode = 2
+autowrap_mode = 3
 
 [node name="PlayerInventoryCloseButton" type="Button" parent="Margin/VBox"]
 visible = false

@@ -506,16 +506,13 @@ func _carried(session: WorldSessionController, definition_id: StringName) -> Str
 	return &""
 
 
-## The text of the inventory row's button `node_name` for `item_id`, or "".
+## The text of the button `node_name` the 背包 offers for `item_id` once it reads it, or "".
 func _row_button(hud: SharedGameplayUI, item_id: StringName, node_name: String) -> String:
-	var rows: Array[PlayerInventoryRowProjection] = hud.inventory_rows()
-	for index: int in rows.size():
-		if rows[index].item_instance_id != item_id:
-			continue
-		var row: Node = hud.inventory_panel.row_container.get_child(index)
-		var button: Button = row.get_node_or_null(node_name) as Button
-		return "" if button == null else button.text
-	return ""
+	hud.inventory_panel.select_item(item_id)
+	if hud.inventory_panel.selected_item() != item_id:
+		return ""
+	var button: Button = hud.inventory_panel.action_rows.find_child(node_name, true, false) as Button
+	return "" if button == null else button.text
 
 
 func _refresh(session: WorldSessionController) -> void:

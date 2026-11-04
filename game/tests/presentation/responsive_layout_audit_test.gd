@@ -232,10 +232,11 @@ func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: Shar
 		_check(hud.inventory_panel.row_container.get_child_count() == rows.size(), "one node per item identity after repeated open/update")
 		for row: Node in hud.inventory_panel.row_container.get_children():
 			stale_row_ids.append(row.get_instance_id())
-			for child: Node in row.get_children():
-				if child is Button:
-					_check(child.pressed.get_connections().size() == 1, "each current row action has one handler")
-		var focused: BaseButton = hud.inventory_panel.row_container.get_child(11).get_child(1) as BaseButton
+			_check((row as Button).pressed.get_connections().size() == 1, "each current row has one handler")
+		for chip: Node in hud.inventory_panel.action_rows.find_children("*", "Button", true, false):
+			stale_row_ids.append(chip.get_instance_id())
+			_check((chip as Button).pressed.get_connections().size() == 1, "each current action has one handler")
+		var focused: BaseButton = hud.inventory_panel.row_container.get_child(11) as BaseButton
 		focused.grab_focus()
 		hud.close_inventory()
 		await _settle(tree)

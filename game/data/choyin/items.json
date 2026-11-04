@@ -10,6 +10,7 @@
 			"material": "paper",
 			"weight": 200,
 			"value": 10000,
+			"quest": true,
 			"master": true
 		},
 		{
@@ -172,6 +173,7 @@
 			"material": "wood",
 			"weight": 1400,
 			"value": 300,
+			"quest": true,
 			"act": {
 				"verb": "翻看",
 				"command": "search",
@@ -202,6 +204,7 @@
 			"no_drop": true,
 			"weight": 600,
 			"value": 1000,
+			"quest": true,
 			"act": {
 				"verb": "缚",
 				"command": "tie",
@@ -220,7 +223,8 @@
 			"unit": "株",
 			"material": "paper",
 			"weight": 200,
-			"value": 10000
+			"value": 10000,
+			"quest": true
 		},
 		{
 			"id": "es2:d/choyin/obj/magic_book",
@@ -243,7 +247,8 @@
 			"material": "silk",
 			"weight": 200,
 			"value": 0,
-			"max_encumbrance": 3000
+			"max_encumbrance": 3000,
+			"quest": true
 		},
 		{
 			"id": "es2:d/choyin/npc/obj/book1",

@@ -23,6 +23,8 @@
 		"es2:d/choyin/obj/silver_clasp": ["weapon"]
 	},
 	"set": {
+		"es2:d/choyin/npc/obj/silk_bag": { "quest": true },
+		"es2:d/choyin/obj/orchid": { "quest": true },
 		"choyin.npc.magistra": {
 			"inquiry": {
 				"老王爷": [
@@ -92,7 +94,7 @@
 				}
 			}
 		},
-		"es2:d/choyin/obj/chest": {
+		"es2:d/choyin/obj/chest": { "quest": true,
 			"act": {
 				"verb": "翻看",
 				"command": "search",
@@ -142,13 +144,13 @@
 		"choyin.npc.lion": {
 			"die_carries": { "item": "es2:d/choyin/obj/grass", "master": true }
 		},
-		"es2:d/choyin/obj/grass": {
+		"es2:d/choyin/obj/grass": { "quest": true,
 			"master": true
 		},
 		"es2:d/choyin/obj/tablet": {
 			"apply": "tablet"
 		},
-		"es2:d/choyin/obj/goldenrope": {
+		"es2:d/choyin/obj/goldenrope": { "quest": true,
 			"act": { "verb": "缚", "command": "tie", "acts": [
 				{ "present": "choyin.npc.crane", "steps": [
 					{ "line": "你双手合掌，随风而起，落于仙鹤背上......\n" },

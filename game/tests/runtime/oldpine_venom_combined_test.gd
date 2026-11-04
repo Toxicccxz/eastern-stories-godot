@@ -447,13 +447,10 @@ func _find(map: WorldMapController, definition_id: StringName) -> NpcRuntimeStat
 	return null
 
 
-## The inventory panel's row for `item_id` has a child control named `control`.
+## The 背包, reading `item_id`, offers a control named `control`.
 func _row_has(panel: PlayerInventoryPanel, item_id: StringName, control: String) -> bool:
-	var rows: Array[PlayerInventoryRowProjection] = panel.visible_rows()
-	for index: int in rows.size():
-		if rows[index].item_instance_id == item_id:
-			return panel.row_container.get_child(index).find_child(control, true, false) != null
-	return false
+	panel.select_item(item_id)
+	return panel.selected_item() == item_id and panel.action_rows.find_child(control, true, false) != null
 
 
 func _check(condition: bool, label: String) -> void:

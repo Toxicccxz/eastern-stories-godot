@@ -16,6 +16,9 @@
 		"d/latemoon/room/npc/obj/whip_book.c"
 	],
 	"set": {
+		"es2:d/latemoon/obj/bamboo": { "quest": true },
+		"es2:d/latemoon/obj/dragonfly": { "quest": true },
+		"es2:d/latemoon/room/npc/obj/token": { "quest": true },
 		"latemoon.npc.room.guest": {
 			"inquiry": {
 				"宝衣": [
@@ -947,7 +950,7 @@
 				{ "move": "latemoon.latemoon1", "point": "latemoon.latemoon1.dance_arrival" }
 			] } ] }
 		},
-		"es2:d/latemoon/room/npc/obj/letter": {
+		"es2:d/latemoon/room/npc/obj/letter": { "quest": true,
 			"act": { "verb": "用火烧", "acts": [
 				{ "carries": "fire", "steps": [
 					{ "line": "你看见密函上出现几行字 : \n", "color": "HIY" },

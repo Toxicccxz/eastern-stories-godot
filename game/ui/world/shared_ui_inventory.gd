@@ -87,20 +87,18 @@ func fill_shown_page() -> void:
 		fill_inventory(_session.player_inventory_rows())
 
 
-## The 背包 page's rows and what each row may do here (the selected NPC, a container
-## or corpse in reach), without opening anything.
+## The 背包 page's rows and what each row may do here (a container or corpse in reach, the
+## selected NPC a 符 would name), without opening anything. 给 is the NPC's 给予 page.
 func fill_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	close_loot()
 	var map: WorldMapController = (_session.active_map() as WorldMapController) if _session != null else null
-	var give_target: String = ""
 	var container: String = ""
 	if map != null and map.can_handle_items():
-		if map.selected_npc_takes_gifts():
-			give_target = map.selected_npc().definition().display_name
 		var container_id: StringName = map.container_in_reach()
 		if not container_id.is_empty():
 			container = map.floor_item_view(container_id).display_name
-	_ui.inventory_panel.set_handling_targets(give_target, container)
+	_ui.inventory_panel.set_handling_targets(container)
+	_ui.inventory_panel.set_burden(_burden_percent())
 	_ui.inventory_panel.set_dissolvable_corpse(map.dissolvable_corpse_name() if map != null and map.can_handle_items() else "")
 	# scribe.c on a paper for the selected NPC; attach.c on the zombie here.
 	var scribed: NpcRuntimeState = map.scribable_npc() if map != null and map.can_handle_items() else null
@@ -141,13 +139,30 @@ func open_inventory() -> void:
 		show_inventory(_session.player_inventory_rows())
 
 
-func inspect_item(id: StringName) -> void:
-	if not _session.portable_inventory_available(): return
-	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
-		if row.item_instance_id == id:
-			show_inventory_inspection(row)
-			return
+## 吃 / 喝 / 装水 from the 背包: what food.c / liquid.c said goes to the log as well as under
+## the actions (it stays findable once the thing is used up), and the rows refresh.
+func supplies_used(line: String) -> void:
+	if not line.is_empty():
+		var lines: Array[String] = []
+		lines.assign(line.split("\n"))
+		_ui.message_log.append_log_lines(lines)
 	open_inventory()
+
+
+## 吃 and 喝 from the 背包's item read (owner, 2026-11-04: 随身补给 folded into it).
+func initialize_supplies() -> void:
+	if _ui.inventory_panel != null and _session != null:
+		_ui.inventory_panel.supplies = HeldSupplies.new(_session)
+
+
+## inventory.c: (int)query_encumbrance() * 100 / (int)query_max_encumbrance(); -1 when
+## there is no player to weigh.
+func _burden_percent() -> int:
+	if _session == null or not _session.is_initialized() or _player == null or _player.maximum_encumbrance <= 0:
+		return -1
+	var carried: int = _session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id))
+	@warning_ignore("integer_division")
+	return carried * 100 / _player.maximum_encumbrance
 
 
 func give_item(id: StringName, amount: int) -> void:
