@@ -22,5 +22,12 @@ static func use() -> void:
 	GameContent.catalog().pacing().feel = production.but({"map_loading_slice_ms": 0, "session_start_slice_ms": 0})
 
 
+## A cold process (a script run without run_suite) keeps pacing.json's feel; its journeys start
+## in one frame as a suite's do, so a Continue's world is there a frame later (DECISIONS「加载画面」).
+static func start_in_one_frame() -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	pacing.feel = pacing.feel.but({"session_start_slice_ms": 0})
+
+
 static func restore() -> void:
 	GameContent.catalog().pacing().feel = FeelDefinition.new()
