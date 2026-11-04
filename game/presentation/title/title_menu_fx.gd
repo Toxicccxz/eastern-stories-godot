@@ -19,6 +19,10 @@ var menu_alpha: float = 1.0
 var _buttons: Array[Button] = []
 var _faces: Dictionary[Button, Label] = {}
 var _swashes: Dictionary[Button, ShaderMaterial] = {}
+## Each button's running stroke and letter lift: a new one stops the old and goes on from where
+## it stood, so a quick pass over a choice never leaves its stroke out or its letters raised.
+var _strokes: Dictionary[Button, Tween] = {}
+var _lifts: Dictionary[Button, Tween] = {}
 var _weather: Dictionary[StringName, CPUParticles2D] = {}
 var _spurt: CPUParticles2D
 var _splash: ColorRect
@@ -124,7 +128,7 @@ func press(button: Button) -> void:
 		create_tween().tween_method(func(v: float) -> void: mat.set_shader_parameter("flash", v), 0.8, 0.0, 0.45)
 	if _faces.has(button):
 		var face: Label = _faces[button]
-		var sink := create_tween()
+		var sink: Tween = _restart(_lifts, button)
 		sink.tween_property(face, "position:y", float(GameTheme.PIXEL_STEP), 0.05)
 		sink.tween_property(face, "position:y", -float(GameTheme.PIXEL_STEP), 0.18).set_delay(0.08)
 
@@ -139,22 +143,43 @@ func _process(_delta: float) -> void:
 
 
 func _on_chosen(button: Button) -> void:
-	var mat: ShaderMaterial = _swashes[button]
-	var t := create_tween().set_parallel()
-	t.tween_method(func(v: float) -> void: mat.set_shader_parameter("reveal", v), 0.0, 1.0, 0.32).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-	var face: Label = _faces[button]
-	t.tween_property(face, "position:y", -float(GameTheme.PIXEL_STEP), 0.12)
-	face.add_theme_color_override("font_color", Color("fff6dc"))
+	_sweep(button, 1.0, 0.32, Tween.TRANS_QUART)
+	_lift(button, -float(GameTheme.PIXEL_STEP))
+	_faces[button].add_theme_color_override("font_color", Color("fff6dc"))
 	chosen.emit(button)
 
 
 func _on_left(button: Button) -> void:
+	_sweep(button, 0.0, 0.18, Tween.TRANS_LINEAR)
+	_lift(button, 0.0)
+	_faces[button].add_theme_color_override("font_color", UiPalette.BONE)
+
+
+## How far `button`'s stroke is drawn out (0 none, 1 whole).
+func stroke_reveal(button: Button) -> float:
+	var reveal: Variant = _swashes[button].get_shader_parameter("reveal")
+	return 0.0 if reveal == null else float(reveal)
+
+
+## The stroke sweeps in (1) or out (0) from where it stands.
+func _sweep(button: Button, to: float, seconds: float, trans: Tween.TransitionType) -> void:
 	var mat: ShaderMaterial = _swashes[button]
-	var t := create_tween().set_parallel()
-	t.tween_method(func(v: float) -> void: mat.set_shader_parameter("reveal", v), 1.0, 0.0, 0.18)
-	var face: Label = _faces[button]
-	t.tween_property(face, "position:y", 0.0, 0.12)
-	face.add_theme_color_override("font_color", UiPalette.BONE)
+	var t: Tween = _restart(_strokes, button)
+	t.tween_method(func(v: float) -> void: mat.set_shader_parameter("reveal", v), stroke_reveal(button), to, seconds).set_trans(trans).set_ease(Tween.EASE_OUT)
+
+
+func _lift(button: Button, y: float) -> void:
+	_restart(_lifts, button).tween_property(_faces[button], "position:y", y, 0.12)
+
+
+## A new tween in `running`'s slot for `button`; the one there stops where it is.
+func _restart(running: Dictionary[Button, Tween], button: Button) -> Tween:
+	var old: Tween = running.get(button)
+	if old != null:
+		old.kill()
+	var t := create_tween()
+	running[button] = t
+	return t
 
 
 ## Voxel letters over the button (its own text is clear): a soft shadow, two side layers, the

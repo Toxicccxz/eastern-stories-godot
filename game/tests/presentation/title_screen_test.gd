@@ -92,7 +92,19 @@ func _test_shell(tree: SceneTree) -> void:
 	_check(title.layer < shell.shell_canvas.layer, "under the shell's dialogs")
 	_check(title.menu_fx.buttons().has(shell.new_game_button) and shell.new_game_button.theme_type_variation == &"TitleMenuItem", "the menu's own buttons, dressed")
 	_check(shell.new_game_button.get_node_or_null("Letters") != null and shell.new_game_button.get_node_or_null("Swash") != null, "with voxel letters and a stroke")
-	_check(shell.get_node("%QuitButton") != null, "退出游戏 is on the menu")
+	var quit_button: Button = shell.get_node("%QuitButton") as Button
+	_check(quit_button != null, "退出游戏 is on the menu")
+	# The first choice's place name waits for the clouds to part (it once rose over them alone).
+	await tree.create_timer(1.6).timeout
+	_check(title.menu_fx.menu_alpha < 0.01 and title.caption.modulate.a < 0.01, "the place's name waits while the clouds part: name %.2f, menu %.2f" % [title.caption.modulate.a, title.menu_fx.menu_alpha])
+	await tree.create_timer(1.6).timeout
+	_check(title.caption.modulate.a > 0.9 and not title.caption.text.is_empty(), "and rises with the menu: %.2f" % title.caption.modulate.a)
+	# A quick pass over one choice onto the next leaves one stroke (two once stayed out).
+	shell.menu_settings_button.grab_focus()
+	await tree.process_frame
+	quit_button.grab_focus()
+	await tree.create_timer(0.6).timeout
+	_check(title.menu_fx.stroke_reveal(shell.menu_settings_button) < 0.01 and title.menu_fx.stroke_reveal(quit_button) > 0.99, "a quick pass over 设置 onto 退出游戏 leaves one stroke: %.2f, %.2f" % [title.menu_fx.stroke_reveal(shell.menu_settings_button), title.menu_fx.stroke_reveal(quit_button)])
 	shell.menu_settings_button.grab_focus()
 	await tree.process_frame
 	var settings: TitleScreenDefinition.Choice = title.definition.choice(&"MenuSettingsButton")
