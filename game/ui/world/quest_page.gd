@@ -66,9 +66,9 @@ func fill(state: CharacterState, respect: String, task_lines: String) -> void:
 			_show_quest(quests, view)
 		_stories[line].fill(state, respect, line, false)
 		var task: bool = line == StoryQuestDefinition.LINE_ERRAND and not task_lines.is_empty()
-		if task:
-			quest_text.text = task_lines
 		if line == StoryQuestDefinition.LINE_ERRAND:
+			# The text goes with the task (the menu's refresh compares it with quest.c's lines).
+			quest_text.text = task_lines
 			quest_text.visible = task
 			(quest_text.get_parent().get_parent() as Control).visible = task
 		var something: bool = not shown.is_empty() or _stories[line].get_child_count() > 0 or task

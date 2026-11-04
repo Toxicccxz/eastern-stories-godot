@@ -249,9 +249,15 @@ func _test_pages_dressed(tree: SceneTree) -> void:
 	_check(panel.inspect_well.is_visible_in_tree() and panel.inspect_well.global_position.x >= row.get_global_rect().end.x and not panel.inspection_display().is_empty(), "观察: the item beside the list")
 	menu.show_tab(GameMenu.Tab.JOURNAL)
 	await _frames(tree, 4)
-	var cards: Array[Node] = ui.quest_page.find_children("Card", "PanelContainer", true, false)
+	var cards: Array[Node] = ui.quest_page.find_children("*Card*", "PanelContainer", true, false)
 	_check(not cards.is_empty() and cards.all(func(card: Node) -> bool: return (card as Control).theme_type_variation == &"WellPanel"), "任务: each quest a card (%d)" % cards.size())
 	_check(ui.combat_log.get_parent().get_parent().name == "LogWell", "the log in a recess of its own")
+	var state: CharacterState = session.player_runtime().state
+	ui.quest_page.fill(state, "", "你现在的任务是杀『宝官』。")
+	var task_card: Control = ui.quest_text.get_parent().get_parent() as Control
+	_check(ui.quest_text.visible and task_card.visible and ui.quest_text.text.begins_with("你现在的任务"), "朱鸿雪's task: its card under 差事")
+	ui.quest_page.fill(state, "", "")
+	_check(ui.quest_text.text.is_empty() and not ui.quest_text.visible and not task_card.visible, "the task over: its card and its lines go (the refresh compares them)")
 	menu.show_tab(GameMenu.Tab.SYSTEM)
 	await _frames(tree, 4)
 	var mount: Rect2 = menu.system_mount.get_global_rect()

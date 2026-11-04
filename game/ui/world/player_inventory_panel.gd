@@ -183,6 +183,7 @@ func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
 		_rows.append(row)
 		row_container.add_child(_build_row(row))
 	empty_label.visible = _rows.is_empty()
+	(row_container.get_parent() as Control).visible = not _rows.is_empty()
 
 
 func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
