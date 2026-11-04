@@ -94,15 +94,30 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	var east2: Dictionary = _gate_at(gates, Vector2(2528, 3704))
 	_check(not east2.is_empty() and int(east2["flags"]["count"]) >= 3 and east2["notices"].get("fresh", false), "eastdoor2.c: 城门上插着几面旗帜; 一张刚刚粘贴上去的布告")
 	var west2: Dictionary = _gate_at(gates, Vector2(64, 3704))
+	_check(not west2.is_empty(), "the 西二门 is there")
 	for gate: Dictionary in gates:
-		if gate != west2 and Vector2(float(gate["at"][0]), float(gate["at"][1])).y not in [2512.0, 2784.0]:
+		if not west2.is_empty() and gate != west2 and Vector2(float(gate["at"][0]), float(gate["at"][1])).y not in [2512.0, 2784.0]:
 			_check(float(west2["height"]) < float(gate["height"]), "westdoor2.c: 西二门虽不如京师的其他几个城门高大 (%s)" % [gate["at"]])
 	var palace: Dictionary = _gate_at(gates, Vector2(1296, 2512))
 	_check(not palace.is_empty() and palace.get("chains", false), "shenwumen.c: 门上缠着大铁链")
 	var gold: int = 0
 	for building: Dictionary in view.layout["buildings"]:
 		gold += 1 if String(building.get("roof", "")).begins_with("d8a830") else 0
-	_check(gold >= 1 and String(palace["tower"]["roof"]).begins_with("d8a830"), "紫禁城's gold roofs over its vermilion wall")
+	_check(gold >= 1 and not palace.is_empty() and String(palace["tower"]["roof"]).begins_with("d8a830"), "紫禁城's gold roofs over its vermilion wall")
+	# Each gate's drawn gateway is the 2D way through: open under the arch, solid in the piers.
+	for gate: Dictionary in gates:
+		var at := Vector2(float(gate["at"][0]), float(gate["at"][1]))
+		var along: Vector2 = Vector2(1, 0).rotated(-deg_to_rad(float(gate.get("rotation", 0))))
+		var half: float = float(gate["opening"]) / 2.0
+		var length: float = float(gate["size"][0]) / 2.0
+		var wrong: Array[String] = []
+		for step: int in range(-int(length) + 24, int(length) - 23, 16):
+			var spot: Vector2 = at + along * step
+			if absf(step) >= half + 24.0 and not TerrainProbe.blocks_at(map, spot):
+				wrong.append("pier %d" % step)
+			elif absf(step) <= half - 24.0 and not gate.has("leaves") and TerrainProbe.blocks_at(map, spot):
+				wrong.append("arch %d" % step)
+		_check(wrong.is_empty(), "the gate at %s: its piers are solid and its arch is the way through: off at %s" % [gate["at"], wrong])
 	var lions: int = 0
 	for look: Dictionary in _looks(map):
 		lions += 1 if look["kind"] == "stone_lion" else 0
@@ -116,19 +131,58 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	_check(bare.is_empty(), "every lamp is a thing you can see, no light from nowhere: %s" % [bare])
 	var lights: int = view.geometry.find_children("*", "OmniLight3D", true, false).size()
 	_check(lights > 40 and lights < 300, "lamps at the gates, the shops and the night market, not one per back window: %d" % lights)
-	# The roofs: the blocks behind the streets are built over, not bare paving.
+	# The roofs: the blocks behind the streets are built over, not bare paving; and what is solid
+	# by a street looks it (a house, a wall, a raised stoop), not like more of the street.
 	var cells: Dictionary[Vector2i, String] = view.geometry.terrain_cells
 	var bare_blocks: int = 0
 	var blocks: int = 0
-	for y: int in range(1144, 4256, 64):
-		for x: int in range(136, 2464, 64):
+	var bare_edges: Array[String] = []
+	var edges: int = 0
+	# Each cell probed once (the 2D walls), each prop's box worked out once.
+	var solid: Dictionary[Vector2i, bool] = {}
+	var layers: Array[TileMapLayer] = []
+	for layer: TileMapLayer in TerrainProbe.layers(map):
+		if layer.collision_enabled and layer.get_parent() == map.get_node("Terrain"):
+			layers.append(layer)
+	for y: int in range(1112, 4296, 16):
+		for x: int in range(104, 2504, 16):
+			var hit: bool = false
+			for layer: TileMapLayer in layers:
+				var data: TileData = layer.get_cell_tile_data(layer.local_to_map(Vector2(x, y) - layer.position))
+				hit = hit or (data != null and data.get_collision_polygons_count(0) > 0)
+			solid[Vector2i(x, y)] = hit
+	_check(solid[Vector2i(1288, 1688)] == false and solid[Vector2i(600, 1400)] == TerrainProbe.blocks_at(map, Vector2(600, 1400)), "the quick probe reads the walls as TerrainProbe does")
+	var boxes: Array[Rect2] = []
+	for prop: Dictionary in view.layout["props"]:
+		if prop.has("size"):
+			var size: Array = prop["size"]
+			var box := Vector2(float(size[0]), float(size[1]))
+			if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
+				box = Vector2(box.y, box.x)
+			boxes.append(Rect2(Vector2(float(prop["at"][0]), float(prop["at"][1])) - box / 2.0, box))
+	for y: int in range(1144, 4256, 16):
+		for x: int in range(136, 2464, 16):
 			var at := Vector2(x, y)
-			if not TerrainProbe.blocks_at(map, at) or _near_walkable(map, at):
+			if not solid[Vector2i(x, y)]:
 				continue
-			blocks += 1
-			if not view.geometry.ground.covered(Vector2i(x, y)) and not _under_prop(view, at):
-				bare_blocks += 1
+			var edge: bool = false
+			for step: Vector2i in [Vector2i(32, 0), Vector2i(-32, 0), Vector2i(0, 32), Vector2i(0, -32)]:
+				edge = edge or not solid.get(Vector2i(x, y) + step, true)
+			var under: bool = false
+			for box: Rect2 in boxes:
+				if box.has_point(at):
+					under = true
+					break
+			var is_bare: bool = not view.geometry.ground.covered(Vector2i(x, y)) and not under
+			if edge:
+				edges += 1
+				if is_bare:
+					bare_edges.append(str(at))
+			elif x % 64 == 8 and y % 64 == 24:
+				blocks += 1
+				bare_blocks += 1 if is_bare else 0
 	_check(blocks > 400 and float(bare_blocks) / blocks < 0.35, "the blocks are roofs and walls, little bare yard: %d of %d bare" % [bare_blocks, blocks])
+	_check(edges > 1000 and float(bare_edges.size()) / edges < 0.12, "solid ground by the streets looks solid: %d of %d edge cells bare, e.g. %s" % [bare_edges.size(), edges, bare_edges.slice(0, 8)])
 	# The widths the voxel view needs (美术规划 §2).
 	var road: int = _run(cells, Vector2i(1288, 600), Vector2i(16, 0), "street")
 	_check(road >= 288 and road <= 336, "the 北驿道 as wide as the village's end of it: %d" % road)
@@ -181,7 +235,7 @@ func _gate_at(gates: Array[Dictionary], at: Vector2) -> Dictionary:
 
 
 func _near_walkable(map: WorldMapController, at: Vector2) -> bool:
-	for offset: Vector2 in [Vector2(40, 0), Vector2(-40, 0), Vector2(0, 40), Vector2(0, -40)]:
+	for offset: Vector2 in [Vector2(36, 0), Vector2(-36, 0), Vector2(0, 36), Vector2(0, -36)]:
 		if not TerrainProbe.blocks_at(map, at + offset):
 			return true
 	return false

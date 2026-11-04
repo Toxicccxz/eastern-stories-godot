@@ -49,11 +49,15 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 ## of white stone round its edge (`rail`; none with "rail": "") broken by steps north and south,
 ## and in the middle a platform of white jade (`dais`: its colour; none with "dais": "") with a
 ## small mossed knob at its foot (`knob`). `banner`: a pole on the terrace with this cloth — a
-## drill ground's reviewing stand in brick and red rails (点将台).
+## drill ground's reviewing stand in brick and red rails (点将台). Everything, the steps too, stays
+## inside the box (the layout's blocked footprint); `steps`: false for a house's plain stoop.
 func _altar_terrace(w: float, d: float) -> void:
 	var stone: Array = data.get("colors",["c4c0b4","ccc8bc","b8b4a8"])
 	var rail: String = String(data.get("rail","e8e6de"))
 	var height: float = float(data.get("height",0.6))
+	var steps: bool = data.get("steps",true)
+	# With steps the terrace stands back from the north and south edges by their run.
+	d = d-1.08 if steps else d
 	s.box(root,Vector3(0,height/2,0),Vector3(w,height,d),String(stone[2]))
 	# The top laid in polished slabs, their joints just showing.
 	var cols: int = maxi(2,roundi(w/0.6))
@@ -61,10 +65,11 @@ func _altar_terrace(w: float, d: float) -> void:
 	for i: int in cols:
 		for j: int in rows:
 			s.box(root,Vector3(-w/2+(i+0.5)*w/cols,height+0.01,-d/2+(j+0.5)*d/rows),Vector3(w/cols-0.03,0.02,d/rows-0.03),String(stone[(i+j)%2]))
-	for side: float in [-1.0,1.0]:
-		# Steps down the middle of the north and south faces.
+	for side: float in [-1.0,1.0] if steps else []:
+		# Steps down the middle of the north and south faces, each a third of the height lower.
 		for step: int in 3:
-			s.box(root,Vector3(0,height*(step+0.5)/3.0/2.0,side*(d/2+0.18*(3-step))),Vector3(1.0,height*(step+1)/3.0,0.18),String(stone[step%2]))
+			var tall: float = height*(step+1)/3.0
+			s.box(root,Vector3(0,tall/2.0,side*(d/2+0.09+0.18*(2-step))),Vector3(1.0,tall,0.18),String(stone[step%2]))
 	if not rail.is_empty():
 		var posts: int = maxi(3,roundi(w/0.5))
 		for face: float in [-1.0,1.0]:

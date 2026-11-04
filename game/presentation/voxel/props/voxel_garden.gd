@@ -569,11 +569,12 @@ func _city_wall(w: float, d: float) -> void:
 ## 城门 (京师's six gates, each its own LPC file): a stretch of city wall `height` units high along
 ## the box's x, its thickness the box's depth, with an arched gateway through the middle
 ## (`opening`, px wide; `arch`, units, to the crown) and over it the 城楼. The outside is -z (turn
-## the prop to put it on another wall). `leaves`: the pair of leaves shut in the gateway near its
-## outer face, their lacquer (朱红, brass studs and knockers, 铜扣); none where the way is open.
-## `tower`: {"height", "width" and "depth" (fractions of the box), "posts", "wall", "roof",
-## "double" (重檐), "frieze"} — red columns with lattice between them, a railing round them, a
-## hipped roof of glazed tiles with its ridge's ends raised. `plaque`: {"text", "board",
+## the prop to put it on another wall); `arch` is the crown's height at the least (a wide gateway's
+## round arch reaches higher). `leaves`: the pair of leaves shut in the gateway near its outer face,
+## their lacquer (朱红, brass studs and knockers, 铜扣); none where the way is open.
+## `tower`: {"height" (units), "width" and "depth" (fractions of the box), "posts", "wall",
+## "roof", "double" (重檐), "frieze"} — red columns with lattice between them, a railing round
+## them, a hipped roof of glazed tiles with its ridge's ends raised. `plaque`: {"text", "board",
 ## "letters"} over the arch on both faces; `notices`: paper pasted beside the gateway
 ## ({"count", "face": 1 inside | -1 outside, "fresh"}); `flags`: poles on the parapet
 ## ({"count", "colors"}), stirring; `lanterns`: hung under the eaves; `wear` 0..1: crenels gone,
@@ -582,9 +583,9 @@ func _gate_tower(w: float, d: float) -> void:
 	var bricks: Array = _colors("colors",["7a7a72","868680","6e6e66","8e8e86"])
 	var height: float = float(data.get("height",5.0))
 	var half: float = float(data.get("opening",128))/32.0/2.0
-	var crown: float = float(data.get("arch",3.0))
 	var wear: float = clampf(float(data.get("wear",0.0)),0.0,1.0)
-	var spring: float = maxf(0.6,crown-half)
+	var spring: float = maxf(0.6,float(data.get("arch",3.0))-half)
+	var crown: float = spring+half
 	var bays: int = maxi(2,roundi(w/0.5))
 	for i: int in bays:
 		var t: float = -w/2+(i+0.5)*w/bays
@@ -615,8 +616,12 @@ func _gate_tower(w: float, d: float) -> void:
 	s.box(root,Vector3(0,0.02,0),Vector3(half*2,0.04,d),String(data.get("floor","6e6e66")))
 	# The wall top, its parapets on both faces; with wear some crenels are gone.
 	s.box(root,Vector3(0,height+0.05,0),Vector3(w+0.2,0.1,d+0.2),String(bricks[1]))
+	var tower_span: float = w*float(data.get("tower",{}).get("width",0.0))/2.0+0.4 if data.has("tower") else -1.0
 	for i: int in maxi(1,roundi(w/0.9)):
 		var t: float = -w/2+0.3+i*0.9
+		if absf(t) < tower_span:
+			# The 城楼 stands here: no crenels through its columns.
+			continue
 		for face: float in [-1.0,1.0]:
 			if wear > 0.0 and (i*7+int(face+1))%int(maxf(3.0,12.0-wear*9.0))==0:
 				s.shard(root,Vector3(t,height+0.14,face*(d/2-0.12)),Vector3(0.4,0.18,0.22),String(bricks[(i+2)%bricks.size()]),i)
@@ -685,8 +690,14 @@ func _gate_tower(w: float, d: float) -> void:
 		var flags: Dictionary = data["flags"]
 		var colors: Array = flags.get("colors",["b8302a","2a4a7a","c9a24a"])
 		var count: int = int(flags.get("count",4))
+		# Beside the tower, clear of its eaves: half the poles each side.
+		var inner: float = maxf(tower_span+0.6,0.6)
+		var reach: float = maxf(0.2,w/2-0.6-inner)
 		for i: int in count:
-			var x: float = -w/2+0.6+i*(w-1.2)/maxf(1.0,count-1.0)
+			var side: float = -1.0 if i%2==0 else 1.0
+			var rank: int = i/2
+			var per_side: int = ceili(count/2.0) if side < 0 else maxi(1,count/2)
+			var x: float = side*(inner+reach*(rank+0.5)/per_side)
 			var pole := Node3D.new()
 			pole.position = Vector3(x,height,d/2-0.3)
 			root.add_child(pole)
@@ -704,7 +715,7 @@ func _gate_house(w: float, d: float, base: float, wear: float) -> void:
 	if tower.is_empty():
 		return
 	var tw: float = w*float(tower.get("width",0.62))
-	var td: float = maxf(1.6,d*float(tower.get("depth",0.62)))
+	var td: float = clampf(d*float(tower.get("depth",0.62)),1.6,maxf(1.6,d-1.0))
 	var th: float = float(tower.get("height",2.4))
 	var posts := Color(String(tower.get("posts","9c3a2c")))
 	if wear > 0.0:
@@ -728,12 +739,12 @@ func _gate_house(w: float, d: float, base: float, wear: float) -> void:
 			var z: float = -td/2+i*td/maxi(2,roundi(td/1.1))
 			s.box(root,Vector3(face*tw/2,base+0.26+th/2,z),Vector3(0.22,th,0.22),post)
 		s.box(root,Vector3(face*tw/2,base+0.26+th/2,0),Vector3(0.1,th-0.1,td-0.2),panel)
-	# The railing round the gallery outside the columns.
+	# The railing round the gallery, at the floor's edge outside the columns.
 	for face: float in [-1.0,1.0]:
-		s.box(root,Vector3(0,base+0.62,face*(td/2+0.42)),Vector3(tw+0.84,0.08,0.08),post)
-		s.box(root,Vector3(face*(tw/2+0.42),base+0.62,0),Vector3(0.08,0.08,td+0.84),post)
+		s.box(root,Vector3(0,base+0.62,face*(td/2+0.2)),Vector3(tw+0.4,0.08,0.08),post)
+		s.box(root,Vector3(face*(tw/2+0.2),base+0.62,0),Vector3(0.08,0.08,td+0.4),post)
 		for i: int in maxi(4,roundi(tw/0.5)):
-			s.box(root,Vector3(-tw/2-0.42+i*(tw+0.84)/maxi(4,roundi(tw/0.5)),base+0.44,face*(td/2+0.42)),Vector3(0.05,0.36,0.05),post)
+			s.box(root,Vector3(-tw/2-0.2+i*(tw+0.4)/maxi(4,roundi(tw/0.5)),base+0.44,face*(td/2+0.2)),Vector3(0.05,0.36,0.05),post)
 	# Beams and their painted frieze (青绿 with gilt dots) under the eaves.
 	var frieze: String = String(tower.get("frieze","2f6a70"))
 	for face: float in [-1.0,1.0]:
