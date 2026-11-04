@@ -39,14 +39,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="Scroll" type="ScrollContainer" parent="Margin/VBox/Body/List"]
+[node name="PlayerInventoryScroll" type="ScrollContainer" parent="Margin/VBox/Body/List"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 follow_focus = true
 
-[node name="PlayerInventoryRows" type="VBoxContainer" parent="Margin/VBox/Body/List/Scroll"]
+[node name="PlayerInventoryRows" type="VBoxContainer" parent="Margin/VBox/Body/List/PlayerInventoryScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

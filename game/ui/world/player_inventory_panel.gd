@@ -41,6 +41,8 @@ const ARMOR_WORDS: Dictionary[StringName, String] = {
 }
 
 @onready var row_container: VBoxContainer = %PlayerInventoryRows
+## The rows' scroll; hidden while there is nothing, so 空无一物 (its sibling) stands at the top.
+@onready var row_scroll: ScrollContainer = %PlayerInventoryScroll
 @onready var empty_label: Label = %PlayerInventoryEmptyLabel
 @onready var inspect_text: RichTextLabel = %PlayerInventoryInspectText
 ## The inspection's recess beside the list (界面重做 2): there while something is inspected.
@@ -183,7 +185,7 @@ func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
 		_rows.append(row)
 		row_container.add_child(_build_row(row))
 	empty_label.visible = _rows.is_empty()
-	(row_container.get_parent() as Control).visible = not _rows.is_empty()
+	row_scroll.visible = not _rows.is_empty()
 
 
 func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
