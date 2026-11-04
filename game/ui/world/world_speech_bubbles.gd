@@ -13,12 +13,13 @@ const LIFT: float = 54.0
 ## With no room above (the screen's top, the status card), its top edge below the body's middle.
 const DROP: float = 26.0
 const EDGE: float = 4.0
-const TEXT_COLOR: Color = Color(0.12, 0.11, 0.1)
-const ALERT_TEXT_COLOR: Color = Color(0.78, 0.1, 0.08)
-const FILL: Color = Color(0.97, 0.95, 0.88, 0.94)
+## 界面重做 3: said lines on paper (GameTheme's PaperPanel), a 喝令 in lacquer red on it, what
+## the NPC only does on a dark plate in a quieter colour.
+const TEXT_COLOR: Color = UiPalette.INK
+const ALERT_TEXT_COLOR: Color = UiPalette.LACQUER
 ## What the NPC does rather than says.
-const EMOTE_TEXT_COLOR: Color = Color(0.86, 0.85, 0.8)
-const EMOTE_FILL: Color = Color(0.1, 0.1, 0.11, 0.78)
+const EMOTE_TEXT_COLOR: Color = UiPalette.MUTED
+const TEXT_SIZE: int = 16
 ## A said line opens with who says it and how ("强盗喝道：", "店小二说道："): the bubble is over
 ## their head already, so it starts after that colon when it comes this soon and follows 道.
 # TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
@@ -38,6 +39,7 @@ func _ready() -> void:
 	name = "WorldSpeechBubbles"
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	theme = GameTheme.shared()
 
 
 ## `speaker` (an NPC on the active map) says `lines` (as the log shows them); `alert`: in
@@ -60,19 +62,15 @@ func say(speaker: NpcRuntimeState, lines: Array[String], alert: bool = false) ->
 	var bubble: PanelContainer = PanelContainer.new()
 	bubble.name = "Bubble"
 	bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.bg_color = EMOTE_FILL if emote and not alert else FILL
-	style.set_corner_radius_all(8)
-	style.set_content_margin_all(6.0)
-	bubble.add_theme_stylebox_override("panel", style)
+	bubble.theme_type_variation = &"ToastPanel" if emote and not alert else &"PaperPanel"
 	var label: Label = Label.new()
 	label.text = text
 	# Word-smart: a line never starts with its closing 。 alone.
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_font_size_override("font_size", TEXT_SIZE)
 	label.add_theme_color_override("font_color", ALERT_TEXT_COLOR if alert else EMOTE_TEXT_COLOR if emote else TEXT_COLOR)
-	var font: Font = label.get_theme_font("font")
-	var wide: float = 0.0 if font == null else font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	var font: Font = GameTheme.shared().default_font if GameTheme.shared().default_font != null else ThemeDB.get_project_theme().default_font
+	var wide: float = 0.0 if font == null else font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, TEXT_SIZE).x
 	label.custom_minimum_size.x = minf(MAX_WIDTH, wide + 2.0)
 	bubble.add_child(label)
 	bubble.visible = false

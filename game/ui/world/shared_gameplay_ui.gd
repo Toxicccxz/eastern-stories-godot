@@ -429,6 +429,10 @@ func interact_with(id: StringName) -> bool:
 ## The interaction popup on `thing`, in the shared frame, opened on its 查看: opening it
 ## looks at the thing (look.c), as 查看 did. It closes when the thing leaves reach.
 func open_interaction(thing: WorldNearbyThing) -> void:
+	# 界面重做 3: a conversation still in the box (打听) ends first, so one window and one
+	# Esc show, not the popup over the box (a story being told keeps its pages).
+	if dialogue_box.hosting():
+		dialogue_box.close()
 	_interacting = thing
 	# The target stays on it while the popup shows (time runs on a page; others walk by).
 	nearby.choose(thing.id)
@@ -437,6 +441,7 @@ func open_interaction(thing: WorldNearbyThing) -> void:
 	_presentation_layout.open_panel(nearby.shown_name(thing), interaction_panel, func() -> bool: return nearby.target() != null and nearby.target().id == key)
 	if not interaction_open():
 		return
+	_show_forecast(thing)
 	var look: InteractionOption = null
 	for option: InteractionOption in nearby.options_for(_session.active_map() as WorldMapController, thing):
 		if option.label == LOOK:
@@ -445,7 +450,7 @@ func open_interaction(thing: WorldNearbyThing) -> void:
 	if look != null:
 		# Selects it and shows the details: the popup keeps their text as its 查看.
 		look.action.call()
-	interaction_panel.set_look(inspection_text.get_parsed_text().strip_edges() if look != null else "")
+	interaction_panel.set_look(inspection_text.get_parsed_text().strip_edges() if look != null else "", nearby.shown_name(thing))
 
 
 ## The popup shows the target as it is now (its options greyed or not); 查看 is its right
@@ -465,6 +470,19 @@ func _fill_interaction() -> void:
 		if option.label != LOOK:
 			options.append(option)
 	interaction_panel.show_thing(status, about, options)
+	if interaction_open():
+		_show_forecast(thing)
+
+
+## 界面重做 3: the fight forecast's word (稳赢 … 必败) beside the popup's title, on its
+## plate, for an NPC; its line is the hover. None under ES2's own strength words (classic).
+func _show_forecast(thing: WorldNearbyThing) -> void:
+	var outlook: CombatOutlook = nearby.outlook_of(thing)
+	if outlook == null or outlook.forecast == null:
+		_presentation_layout.set_badge("", -1)
+		return
+	var pronoun: String = tr(Es2CombatMessages.pronoun(thing.npc.character_state.gender))
+	_presentation_layout.set_badge(CombatForecast.verdict_word(outlook.forecast.verdict), outlook.forecast.verdict, outlook.shown(pronoun))
 
 
 ## A row chosen: it is done with the popup open. What it opens (打听, a shop, 给予, its
@@ -1078,6 +1096,11 @@ func close_business(form: Control) -> void:
 
 func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable(), about: String = "") -> void:
 	questions.ask_first(text, choice, action, still_valid, on_cancel, about)
+
+
+## ask_first() for a choice that can cost the player dearly: its button in dark lacquer.
+func ask_danger(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable(), about: String = "") -> void:
+	questions.ask_danger(text, choice, action, still_valid, on_cancel, about)
 
 
 func is_asking() -> bool:

@@ -2,17 +2,18 @@ class_name WorldFocusMarker
 extends Control
 
 ## The ring and the prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」): a ring
-## round the target (SharedUiNearby.target_focus()) and over it the key and what it does
-## (交互, or a door's 打开 …). Drawn over the map, under the HUD's panels; hidden while a
-## panel, the menu or a fight has the screen. A click or tap on the prompt is E.
+## round the target (SharedUiNearby.target_focus()) and under it the key and what it does
+## (交互, or a door's 打开 …) on a dark plate; 界面重做 3 moved it from over the thing, where
+## it covered the name over its head and the bubble. Drawn over the map, under the HUD's
+## panels; hidden while a panel, the menu or a fight has the screen. A click or tap on the
+## prompt is E.
 
-const RING_COLOR: Color = Color(0.95, 0.8, 0.35, 0.9)
+const RING_COLOR: Color = Color(UiPalette.LANTERN, 0.9)
 const RING_RADIUS: float = 26.0
-## The prompt's bottom edge above the thing's middle (over its name: the player often
-## stands just below it).
+## Over the thing (no room under it: the screen's bottom), the prompt's bottom edge this far
+## above the thing's middle.
 const PROMPT_LIFT: float = 50.0
-## With no room above (the screen's top, the status card), the prompt's top this far below
-## the ring (screen units).
+## The prompt's top this far below the ring (screen units).
 const PROMPT_DROP: float = 6.0
 const REFRESH_SECONDS: float = 0.1
 
@@ -22,8 +23,12 @@ var _since_refresh: float = INF
 var _prompt: PanelContainer
 var _prompt_text: Label
 var _ring_at: Vector2 = Vector2.INF
-## The prompt shows under the thing (no room over it).
-var _below: bool = false
+## Where the prompt shows: under the ring, beside it, or over the thing.
+enum Place { BELOW, SIDE, ABOVE }
+var _place: Place = Place.BELOW
+## The player's figure on the screen, from the feet to over the name (projected units).
+const PLAYER_HEIGHT: float = 110.0
+const PLAYER_HALF_WIDTH: float = 26.0
 var _ring_scale: float = 1.0
 
 
@@ -35,8 +40,10 @@ func _ready() -> void:
 	name = "WorldFocusMarker"
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	theme = GameTheme.shared()
 	_prompt = PanelContainer.new()
 	_prompt.name = "FocusPrompt"
+	_prompt.theme_type_variation = &"ToastPanel"
 	_prompt.mouse_filter = Control.MOUSE_FILTER_STOP
 	_prompt.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_prompt.gui_input.connect(_on_prompt_input)
@@ -55,7 +62,7 @@ func _ready() -> void:
 	# Already in the shown language (SharedUiNearby.prompt_text()).
 	_prompt_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_prompt_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_prompt_text.add_theme_font_size_override("font_size", 14)
+	_prompt_text.add_theme_font_size_override("font_size", 16)
 	row.add_child(_prompt_text)
 	_prompt.visible = false
 
@@ -63,14 +70,14 @@ func _ready() -> void:
 ## How far over its middle the marked thing's top is now, with the prompt (0: unmarked).
 func lift_over(node: Node2D) -> float:
 	# The thing itself, or a service it offers from where it stands.
-	if not _prompt.visible or _below or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+	if not _prompt.visible or _place != Place.ABOVE or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
 		return 0.0
 	return PROMPT_LIFT + _prompt.size.y
 
 
 ## How far under its middle the marked thing's prompt reaches when it shows below it (0: not).
 func drop_under(node: Node2D) -> float:
-	if not _prompt.visible or not _below or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+	if not _prompt.visible or _place != Place.BELOW or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
 		return 0.0
 	return _prompt.position.y + _prompt.size.y - _ring_at.y
 
@@ -103,16 +110,38 @@ func _process(delta: float) -> void:
 	_ring_scale = map.screen_scale().x
 	_prompt.visible = true
 	_prompt.reset_size()
-	var place: Vector2 = screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y)
 	var view: Rect2 = get_viewport().get_visible_rect().grow(-4.0)
-	_below = place.y < view.position.y or Rect2(place, _prompt.size).intersects(_ui.card_rect())
-	if _below:
-		place.y = screen.y + RING_RADIUS * map.screen_scale().y + PROMPT_DROP
+	var scale: Vector2 = map.screen_scale()
+	var spots: Dictionary[Place, Vector2] = {
+		Place.BELOW: screen + Vector2(-_prompt.size.x / 2.0, RING_RADIUS * scale.y + PROMPT_DROP),
+		Place.SIDE: screen + Vector2(RING_RADIUS * scale.x + PROMPT_DROP, -_prompt.size.y / 2.0),
+		Place.ABOVE: screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y),
+	}
+	var avoid: Array[Rect2] = [_ui.card_rect(), _player_rect(map)]
+	_place = Place.BELOW
+	for spot: Place in spots:
+		var rect := Rect2(spots[spot], _prompt.size)
+		if view.encloses(rect) and not avoid.any(func(other: Rect2) -> bool: return other.has_area() and other.intersects(rect)):
+			_place = spot
+			break
+	var place: Vector2 = spots[_place]
 	place.x = clampf(place.x, view.position.x, maxf(view.position.x, view.end.x - _prompt.size.x))
+	place.y = clampf(place.y, view.position.y, maxf(view.position.y, view.end.y - _prompt.size.y))
 	_prompt.position = place.round()
 	if not _ring_at.is_equal_approx(screen):
 		_ring_at = screen
 		queue_redraw()
+
+
+## The player's figure on the screen (feet to name), which the prompt keeps clear of.
+func _player_rect(map: WorldMapController) -> Rect2:
+	var body: Node2D = map.runtime_player_body()
+	if body == null:
+		return Rect2()
+	var feet: Vector2 = map.screen_position(body.global_position)
+	var top: Vector2 = map.screen_position(body.global_position, PLAYER_HEIGHT)
+	var half: float = PLAYER_HALF_WIDTH * map.screen_scale().x
+	return Rect2(Vector2(feet.x - half, minf(top.y, feet.y)), Vector2(half * 2.0, absf(feet.y - top.y) + 4.0))
 
 
 func _on_prompt_input(event: InputEvent) -> void:

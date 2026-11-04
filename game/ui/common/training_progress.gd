@@ -31,12 +31,8 @@ func _init() -> void:
 	bar.name = "Bar"
 	bar.custom_minimum_size.y = 12
 	bar.show_percentage = false
-	# The theme draws no bar: a dark track, the page titles' gold fill.
-	for part: Array in [["background", Color(0.22, 0.22, 0.2)], ["fill", Color(0.85, 0.8, 0.6)]]:
-		var style := StyleBoxFlat.new()
-		style.bg_color = part[1]
-		style.set_corner_radius_all(3)
-		bar.add_theme_stylebox_override(part[0], style)
+	# The theme draws no bar: the interface's square one, in gold.
+	GameTheme.dress_bar(bar, UiPalette.GOLD)
 	add_child(bar)
 	stop_button = Button.new()
 	stop_button.name = "Stop"

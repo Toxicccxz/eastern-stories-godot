@@ -15,7 +15,7 @@
 - 重要或致命的选择先问，全用 ConfirmPrompt，焦点在「取消」；攻击和切磋一律先问并说明对方强弱，逃跑、投降、运功不问。「Ask before an important or deadly choice」「说话和交互」
 - 读来像 bug 的 ES2 行为修掉：拒收句不提「其他玩家」，拒收的东西退回，被偷时告诉玩家，蛇药说明还剩多少毒。「Modern fixes: ES2 behaviour that reads as a bug」
 - 标题画面：开场满屏云，云从太阳处散开、光柱从 logo 笔画间射到沙盘上（拨云见日）；logo 是朱砂大笔上写的行书体素字加「侠」印，按语言只显示一种；菜单是左下一列像素体素字，选中时朱笔垫底、镜头飞到那一项的地方并写出地名、那里的天气从这一项飘出；开始旅程时 logo 从左到右烧成火星、镜头俯冲、云合拢、白光后进世界，开始本身不等动画。「标题画面」
-- 界面是体素方块做的：乌木板窗口、木块按钮（按下下沉）、朱漆主要按钮、暗红危险按钮、灯火黄方框加晃动箭头的焦点；正文用随游戏带的霞鹜文楷（系统字补缺字），标题用方舟像素 16 像素画成带侧面的体素字。颜色只在 `UiPalette`，样式只在 `GameTheme`。游戏菜单开着时状态卡和提示收起；角色、武学、任务分成凹槽卡片，武学左技能右修炼，背包观察在列表右边，百科左目录右正文（选中即读，B / Esc 关菜单），系统按钮居中一列。「界面样式」
+- 界面是体素方块做的：乌木板窗口、木块按钮（按下下沉）、朱漆主要按钮、暗红危险按钮、灯火黄方框加晃动箭头的焦点；正文用随游戏带的霞鹜文楷（系统字补缺字），标题用方舟像素 16 像素画成带侧面的体素字。颜色只在 `UiPalette`，样式只在 `GameTheme`。游戏菜单开着时状态卡和提示收起；角色、武学、任务分成凹槽卡片，武学左技能右修炼，背包观察在列表右边，百科左目录右正文（选中即读，B / Esc 关菜单），系统按钮居中一列。世界里的 HUD 卡片、交互窗口、对话框（名牌）、气泡（纸）、提示条也换成方块；交互窗口约占屏幕六成，标题是名字加强弱小牌，「E 交互」在脚下光圈下面；会拼命、会昏倒、会丢东西的确认用暗红。战斗面板也用这一套：卡片按内容收紧、居中并排，目标是灯火色边，招式和姿态选中是朱漆。「界面样式」
 - 简体中文是源语言，消息 ID 就是源文本；`tools/l10n/extract_pot.py` 是唯一的提取器；语言跟系统或设置。「Localization: the source text is the key」
 
 **全局驱动规则**
@@ -265,6 +265,18 @@ ES2 是文字界面，这是壳层和表现的事，**不改规则和结果**。
   - 百科：分类是可选中按钮；目录在左（列表行）、正文在右，各自滚动；打开一节默认读第一条，走到哪条读哪条，再打开时回到读过的那条。
   - 系统：按钮是中间一列，不再铺满窗口。地图页右栏换成凹槽和列表行。
   - 地图页仍比别的页大（「总图」要的大沙盘），没有按计划缩成一样大，留给 owner 定。
+- **世界里的界面（第 3 包）**：
+  - HUD 状态卡是半透明的木纹板，名字用像素字，精气神是方条，「切至左侧」「菜单」是石块小按钮；左下提示是方的暗牌，左边一道颜色条；到达横幅用志莽行书写地名，房间描述和横幅都在暗牌上。
+  - 「E 交互」挪到目标脚下光圈的下面（屏幕底下放不下才回到头顶），不再压住头顶的名字和气泡。气泡：说的话在纸上，喝令是朱红字，只做动作的在暗牌上。
+  - 交互窗口是菜单同款的厚板，约占屏幕六成（原来 75 % × 70 % 只放三行字）。标题是名字（像素字），NPC 旁边加战前预判的一个词（稳赢 / 占优 / 五五开 / 吃亏 / 必败）的小牌，悬停是整句；经典的 ES2 强弱说法没有小牌。右栏查看不再以名字开头，页标题去掉名字（「店小二 · 购买」→「购买」）。左边选项是列表行，打开的那项保持按下；生意页不再自带一层框，货品是列表行。
+  - 确认：会拼命、会昏倒、会丢东西的确认（攻击、有风险的切磋、偷窃、上吊、化尸、给出贵重东西、会昏倒的施法和动作、会致死或昏倒的画符）确认键是暗红（`ask_danger`），其余照旧朱漆；按钮排在问题下面靠左。
+  - 底部对话框是更厚的木纹板，说话人的名字在压住上沿的朱漆名牌上；打听的话题是石块小按钮。打听时再打开交互窗口，对话框先关，屏上只有一层、一个 Esc。
+  - 开场卡片和死亡卡片用菜单的厚板，「继续」是朱漆。
+  - 加载画面没动；战斗面板在第 4 包。
+- **战斗面板（第 4 包）**：原来自带的 `BattleVisualTheme`（青灰圆角）去掉，面板用 `GameTheme`；场景仍可以借自己的主题。
+  - 参战者卡片是方的乌木板、下沿厚一点；高度按内容，不再占满半屏；宽度在 300–440 之间平分一行、居中，多了才横向滚动。当前目标是灯火色边，特技闪淡金。标签那一行挪到卡片最下面（空着时像下边距，卡片不跳）。
+  - 出招和姿态是可选中的按钮，选中是朱漆；「改为自动」「取消已排定的操作」「战斗记录」是石块小按钮；战斗里问的（天邪虎啸、压制杀气、召天将……）都是风险，确认键暗红。
+  - 气血条底色换成墨色；胜 / 败印章用志莽行书。战斗记录面板用厚板，标题是小标题。
 
 ## 显示设置 (2026-11-02，设置页加分辨率，接 #138 的窗口模式和界面缩放)
 
@@ -1386,7 +1398,7 @@ decide only where and when the player sees them, and the suites run with them of
   `room_text_ms` / `room_text_char_ms`) and go into 消息 (Q3); 观察 shows them again.
 - **交互**: E (pad A) or a click / tap on a thing in reach goes to the target (the nearest, or a
   near one the player faces; Tab / Y and Q / LB / RB step to the others), marked with a ring and
-  「E 交互」. A thing that does one thing (a door, an item on the floor, a room's service, a sign
+  「E 交互」 (界面重做 3: under the ring at its feet, not over the name and the bubble). A thing that does one thing (a door, an item on the floor, a room's service, a sign
   only looked at) does it at once (Q2); the others open the interaction popup: the thing's name and
   title, how it is (昏迷不醒，约 N 秒后醒来; 正等着你留下买路财), what it is to the player
   (look.c's relation, the strength line), then every option it offers. One the rules refuse now
@@ -1398,8 +1410,8 @@ decide only where and when the player sees them, and the suites run with them of
   starts in the room is forgotten (ES2's had long been said). 拜师 and 给予 are on the popup;
   the HUD's card keeps the name, 菜单, 精气神, conditions and waits only.
 - **The popup is one window, two columns, one size** (owner's playtest, 2026-10-17): it keeps
-  a fixed share of the screen (75 % × 70 %, never under 820 × 440, so a small or scaled
-  screen is nearly all popup), each column
+  a fixed share of the screen (界面重做 3: 62 % × 64 %, never under 760 × 420; it was 75 % × 70 %
+  and held three lines), each column
   scrolling itself. The options on the left (no 查看 row); on the right its 查看 — opening the
   popup looks at the thing (look.c: name and title, description, relation, strength; the status
   lines above; a corpse's or landmark's own look). Opening it therefore does what 查看 did, ES2's
