@@ -23,8 +23,9 @@ jobs:
   # verify.py runs on several runners at once: the checks job runs every step but the
   # gameplay suites, and each shard job runs its share of the suites (each one a single-core
   # Godot process, four at a time on a 4-vCPU runner). Together they are the whole of
-  # verify.py; `Godot Verify` passes only when all of them pass. The build jobs run beside
-  # them and do not wait for it.
+  # verify.py; `Godot Verify` passes only when all of them pass. The Windows build runs beside
+  # them and does not wait for it. No Android or iOS build: the mobile port is paused
+  # (owner 2026-11-04, DECISIONS「手机端暂停」).
   verify-checks:
     name: Godot Verify (checks)
     if: >-
@@ -151,114 +152,4 @@ jobs:
           path: |
             dist/Eastern-Stories-Godot-windows-x86_64.zip
             dist/windows/build-manifest.json
-          if-no-files-found: error
-
-  android-release:
-    name: Android Release Build
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.draft == false
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Set up Temurin JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17.0.18+8"
-
-      - name: Install pinned Android SDK packages
-        shell: bash
-        run: |
-          SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
-          yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" \
-            "platform-tools" \
-            "build-tools;35.0.1" \
-            "platforms;android-35" \
-            "cmdline-tools;20.0" \
-            "cmake;3.10.2.4988404" \
-            "ndk;28.1.13356709"
-
-      - name: Install pinned Godot editor and templates
-        id: godot
-        run: python tools/ci/bootstrap_godot.py --platform linux --output build/toolchain
-
-      - name: Build Android ARM64 technical Release
-        run: >-
-          python tools/build/build.py
-          --target android
-          --godot "${{ steps.godot.outputs.godot }}"
-          --templates "${{ steps.godot.outputs.templates }}"
-          --android-sdk "$ANDROID_SDK_ROOT"
-          --java-sdk "$JAVA_HOME"
-          --require-clean
-
-      - name: Upload Android artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: eastern-stories-godot-android-arm64
-          path: |
-            dist/android/Eastern-Stories-Godot-android-arm64.apk
-            dist/android/build-manifest.json
-          if-no-files-found: error
-
-  ios-validation:
-    name: iOS Build Validation
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.draft == false
-    runs-on: macos-15
-    timeout-minutes: 45
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Select Xcode 26.3
-        shell: bash
-        run: |
-          echo "Installed Xcode applications:"
-          find /Applications -maxdepth 1 -type d -name 'Xcode*.app' -print | sort
-          XCODE_APP="/Applications/Xcode_26.3.app"
-          if [[ ! -d "$XCODE_APP" ]]; then
-            echo "::error::Required Xcode 26.3 is unavailable at $XCODE_APP"
-            exit 1
-          fi
-          sudo xcode-select --switch "$XCODE_APP/Contents/Developer"
-          xcodebuild -version
-          xcrun --sdk iphoneos --show-sdk-version
-
-      - name: Install pinned Godot editor and templates
-        id: godot
-        run: python tools/ci/bootstrap_godot.py --platform macos --output build/toolchain
-
-      - name: Export and compile unsigned iOS Release
-        run: >-
-          python tools/build/build.py
-          --target ios
-          --godot "${{ steps.godot.outputs.godot }}"
-          --templates "${{ steps.godot.outputs.templates }}"
-          --require-clean
-
-      - name: Upload iOS validation artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: eastern-stories-godot-ios-build-validation
-          path: |
-            dist/ios/Eastern-Stories-Godot-ios-xcode.zip
-            dist/ios/build-manifest.json
-            dist/ios/xcodebuild.log
           if-no-files-found: error

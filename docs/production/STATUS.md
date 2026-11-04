@@ -234,10 +234,12 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
 * Room labels and NPC names overlap in places on the 2D maps. An NPC that walks away from the player
   stays selected (its actions are refused, kill.c `present()`); one the player walks away from does not.
 
-Platforms: the first release is desktop only (DECISIONS「首发只做桌面」); CI still builds Windows, Android
-and an unsigned iOS compile. The provisional app ID `com.example.easternstoriesgodot` must be replaced
-before signing. Licensing: no root project license; ES2 rights are unresolved
-([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) — settle before any public distribution.
+Platforms: the first release is desktop only; the mobile port (Android / iOS) is paused and CI builds
+only Windows (DECISIONS「手机端暂停」); the Steam Deck adaptation (pad, resolution and window mode,
+touch) stays. The mobile code, presets and suites are still in the project. The provisional app ID
+`com.example.easternstoriesgodot` must be replaced before signing. Licensing: no root project
+license; ES2 rights are unresolved ([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) — settle before any
+public distribution.
 
 ## How to verify
 
