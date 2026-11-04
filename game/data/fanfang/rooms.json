@@ -1,0 +1,14 @@
+{
+	"rooms": [
+		{ "id": "native:fanfang/cliff_top", "short": "海崖口", "long": "忘情谷外的小路出了林子，地势一下子高了。眼前是一片光秃秃的崖头，风很大，草都贴着地长。往西看，崖下是一片灰蓝，一直铺到天边——那是海。路边一座小石龛，龛前摆着几个贝壳。路顺着崖往南下去。\n", "outdoors": true, "exits": { "north": "es2:d/village/valley1", "south": "native:fanfang/cliff_path" } },
+		{ "id": "native:fanfang/cliff_path", "short": "海崖道", "long": "路是从崖壁上凿出来的。东边是黑褐色的石壁，西边一道矮矮的石沿，石沿外头就是海。浪打在崖脚，轰的一声碎成白沫，风把水星子一直吹到路上。路面湿漉漉的，凿出来的台阶让背盐的脚夫踩得发亮。\n", "outdoors": true, "exits": { "north": "native:fanfang/cliff_top", "south": "native:fanfang/cliff_foot" } },
+		{ "id": "native:fanfang/cliff_foot", "short": "崖脚", "long": "崖到这里低了下来，路变成一段石阶，弯弯曲曲地通到下面的码头。从这儿看得见码头上的平底船和一垛一垛的货，再往东是一片挤在一起的屋顶——番坊。海风里有盐味、鱼腥味，还有一股说不上来的香料味。\n", "outdoors": true, "exits": { "north": "native:fanfang/cliff_path", "south": "native:fanfang/dock" } },
+		{ "id": "native:fanfang/dock", "short": "番坊码头", "long": "一道石砌的码头沿着海边铺开，两条木栈道伸进海里。三条平底船拴在栈道边，船身黑乎乎的，帆卷着。卸货的胡商和船工吆喝着把一箱箱货抬上岸；码头当中摆着一张桌子，一个小吏坐在那里收税。往东，一条路通进市集。\n", "outdoors": true, "exits": { "north": "native:fanfang/cliff_foot", "east": "native:fanfang/bazaar_west", "west": "native:fanfang/shed" } },
+		{ "id": "native:fanfang/shed", "short": "船工棚", "long": "码头西头，崖脚下搭着一溜草棚，几根木柱撑着一面草顶，风一大就哗哗地响。棚里堆着渔网、船桨、缆绳，一口锅架在石头上煮着鱼汤。船工没活的时候就坐在这里，补网，晒太阳，骂船主。\n", "outdoors": true, "exits": { "east": "native:fanfang/dock" } },
+		{ "id": "native:fanfang/bazaar_west", "short": "市集西头", "long": "番坊的市集只有一条街，街面是黄土夯的，两边挤满了摊子和矮房子。西头的摊子卖毡毯和琉璃：毡毯挂在竹竿上，红的黄的，花纹是中原没有的；琉璃珠子一串一串，太阳一照，满摊子都是光。南边一座灰墙的院子，门上挂着一块牌子：市舶司。\n", "outdoors": true, "exits": { "west": "native:fanfang/dock", "east": "native:fanfang/bazaar_east", "south": "native:fanfang/office" } },
+		{ "id": "native:fanfang/bazaar_east", "short": "市集东头", "long": "东头的摊子卖香料和铜器。香料装在麻袋里，袋口敞着，黄的是姜黄，红的是胡椒，黑的说不上名字，一条街都是那股味。铜器摊上的壶和盘子敲得叮当响。街的尽头是一座黑石砌的矮房子，门口冒着烟——人说里面的火三百年没灭过。北边一条短巷，通到一扇立着两面大盾的门。\n", "outdoors": true, "exits": { "west": "native:fanfang/bazaar_west", "north": "native:fanfang/bazaar_north" } },
+		{ "id": "native:fanfang/bazaar_north", "short": "铁盾会门前", "long": "巷子尽头是一扇厚木门，门两边各立着一面大盾，比人还高，铁皮包边，盾面上漆着一只展翅的鹰，漆掉了一半。门里传出铁器相碰的声音，还有人用听不懂的话喊着号子。这是大秦人的剑会，番坊人叫它铁盾会。\n", "outdoors": true, "exits": { "south": "native:fanfang/bazaar_east" } },
+		{ "id": "native:fanfang/office", "short": "市舶司公事房", "long": "一间方方正正的公事房，地上铺着青砖。靠里一张大书案，案上堆着账册，压着一杆戥子。墙上贴着几张告示，最新的一张盖着京师的大印。屋角堆着收上来的货：一卷毡子、两只铜壶、一袋胡椒，都贴着封条。\n", "outdoors": false, "exits": { "north": "native:fanfang/bazaar_west", "south": "native:fanfang/yard" } },
+		{ "id": "native:fanfang/yard", "short": "市舶司后院", "long": "后院不大。靠墙码着一摞扣下来的货箱，箱上的字有中原字，也有弯弯曲曲的胡字。一辆没套牲口的车停在角落里，车辕上拴着一串锁链。墙角有一只箱子让人撬开过——夜里有人翻墙进来，想把自己的货拿回去。\n", "outdoors": false, "exits": { "north": "native:fanfang/office" } }
+	]
+}

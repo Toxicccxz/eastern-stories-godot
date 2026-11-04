@@ -1,0 +1,102 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "海崖口、海崖道、崖脚 (native:fanfang/cliff_top, cliff_path, cliff_foot; 番坊 A): the path from 忘情谷's woods comes out on a bare headland of grey-green turf, and the sea shows at last, far below to the west — grey-blue to the sky's edge, the surf white at the cliffs' foot; a road cut into the dark sea cliff runs south along a low lip of rock, wet and worn to a shine by the salt porters, stone steps cut where it drops; the sea god's niche on the headland with shells and a coin before it, a cairn, gulls wheeling below the road, salt spray blowing up over the lip; at the foot a bench and the steps down, the port's roofs far down to the south-east. Old and used: steps worn hollow, salt crusted on the rock, a porters' resting place.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 2.4, "top": "6a7458", "bottom": "3a3630", "strata": ["4e4842", "5a544c", "443e38"]},
+  "cliffs": {
+    "kinds": ["cliff", "chasm"],
+    "low": 0.6,
+    "high": 6.0,
+    "rise": 240,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 220,
+    "trim": ["cliff"],
+    "grooves": 0.1,
+    "strata": ["4a4440", "56504a", "3e3a36", "625a52", "48423c", "524c46"],
+    "tops": ["6a7656", "76805e", "5e6a4e", "828a66"],
+    "south_rise": 1.6,
+    "moss": {"colors": ["4e5e3e", "5a6a46"], "amount": 0.25, "hang": 1.2},
+    "areas": [
+      {"rect": [256, 0, 560, 1728], "high": 1.2, "low": 0.5, "strata": ["5a544e", "66605a", "4e4842", "726a62"], "tops": ["767670", "828278", "6e6e68", "8a8a82"], "note": "the low lip of rock between the road and the drop, crusted with salt"},
+      {"rect": [448, 0, 1216, 64], "high": 2.0, "note": "the woods' bank behind the headland"}
+    ],
+    "sink": {"kinds": ["chasm"], "depth": 6.0, "rough": 0.4, "bed": "deep_water", "bed_level": 0.5, "floor": ["1e2a2e", "24323a"], "strata": ["3e3a36", "4a4440", "56504a", "443e3a", "5e5650", "38342f"], "gloom": 0.35, "note": "the sea cliff: the rock drops away to the surf far below"}
+  },
+  "exit_trails": {
+    "fanfang.cliff_top.north": {"cells": 6, "kind": "path", "width": 6},
+    "fanfang.cliff_foot.south": {"cells": 6, "kind": "path", "width": 6},
+    "note": "the path runs on north into 忘情谷's woods, and the steps on south down to the dock"
+  },
+  "ground": {
+    "path": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.14, "broken": 0.08, "sunk": 0.05, "tufts": 0.04, "stones": ["5e5c58:gloss", "6a6864", "56544f:gloss", "72706a", "64625d:gloss"], "worn": ["7e7c76:gloss", "8a8882:gloss"], "bed": "3e3c38", "joint": 0.05, "mud": "5a5850", "crack": "3e3c38", "moss": "5a6a4a", "moss_chance": 0.08, "note": "凿出来的台阶让背盐的脚夫踩得发亮: the cut road, wet and worn to a shine"},
+    "rock": {"style": "scree", "colors": ["6e6a62", "7a766c", "64605a"], "gravel": 0.5, "stones": 0.06, "pebbles": ["9a968c", "86827a", "aaa69c", "5a5650"], "wet": true, "wet_chance": 0.2, "sheen": "6a7a7e", "note": "the road's verges: grit and salt-crusted stone"},
+    "grass": {"colors": ["76845e", "829066", "6a7856"], "note": "the headland's turf, flattened by the wind"},
+    "forest": {"colors": ["4a6a44", "547448", "5e7e4e"]},
+    "boundary": {"colors": ["5e6c4e", "687656", "74805c"]}
+  },
+  "ground_tints": {"bank": "5a5650", "mud": "6a6658", "chips": ["9a968c", "8a867c", "aaa69c"], "dust": "d8dcd8", "grit": "e4e8e4"},
+  "water": {
+    "kinds": {
+      "deep_water": {"colors": ["7aa4a8", "54848e", "3a6674", "2c5262"], "depth": 220, "flow": [0.08, 0.02], "speed": 0.22, "swell": 0.012, "swell_speed": 1.1, "foam": 0.0, "rock_foam": 0.85, "bank_foam": 0.5, "foam_color": "f0f4f2", "bank": ["3e3a36", "4a4440", "56504a"], "sky": 0.2, "glint": "6a96a0", "sunset": {"color": "f0904a", "amount": 0.42}}
+    },
+    "open_sea": {"kind": "chasm", "rects": [[-960, -800, 352, 2528]], "note": "the sea runs on west under the sky, down at the cliff's foot"}
+  },
+  "flora": {
+    "grass_density": 0.7,
+    "density": {"grass": 0.95, "rock": 0.12, "path": 0.0, "forest": 0.4, "boundary": 0.5},
+    "flower_threshold": 0.35,
+    "blossom_trees": 0.0,
+    "tree_types": ["stunted_pine", "shrub", "stunted_pine", "scrub"],
+    "tree_kinds": ["forest", "boundary"],
+    "tree_chance": 0.35,
+    "tree_spacing": 80,
+    "cliff_tufts": 0.18,
+    "cliff_flowers": 0.05,
+    "cliff_trees": 0.04,
+    "cliff_tree_types": ["stunted_pine", "shrub"],
+    "outcrop_colors": ["6e6a62", "7a766c", "5e5a54"],
+    "wind": 1.0,
+    "butterflies": 0,
+    "meadows": [
+      {"rect": [448, 64, 960, 576], "on": ["grass"], "scale": [0.8, 1.2], "density": 0.6, "tufts": 3, "note": "草都贴着地长: low turf and thrift on the headland"}
+    ]
+  },
+  "ambience": {
+    "birds": [
+      {"at": [160, 640], "radius": 360, "count": 3, "height": 2, "color": "e4e4e0", "note": "gulls wheeling out over the drop, below the road"},
+      {"at": [200, 1300], "radius": 300, "count": 2, "height": 3, "color": "e4e4e0"}
+    ],
+    "dust": [
+      {"rect": [400, 576, 560, 1664], "count": 8, "color": "dde6e6", "wind": [0.35, -0.1], "note": "salt spray blown up over the lip from the surf"},
+      {"rect": [448, 128, 800, 576], "count": 4, "color": "dde6e6", "wind": [0.4, 0.0]}
+    ]
+  },
+  "reshape": [],
+  "buildings": [],
+  "props": [
+    {"kind": "trail", "points": [[688, 96], [680, 224], [640, 384], [600, 544], [568, 704], [552, 864], [568, 1024], [608, 1184], [640, 1344], [640, 1504], [640, 1632]], "color": "8a8880", "note": "the porters' line worn into the road"},
+    {"kind": "snail_shells", "at": [552, 368], "size": [36, 18], "note": "shells and a coin set before the niche"},
+    {"kind": "paper_slip", "at": [580, 372], "size": [12, 14], "rotation": 20, "note": "half a dry cake left as an offering"},
+    {"kind": "glow", "at": [552, 336], "color": "ffc078", "day": 0.0, "night": 0.5, "range": 4.0, "height": 1.0, "note": "a lamp left burning in the niche by night"},
+    {"kind": "candles", "at": [552, 344], "size": [12, 12], "height": 0.7},
+    {"kind": "boulder", "at": [880, 448], "size": [40, 34], "tall": 0.8, "colors": ["6e6a62", "7a766c", "64605a"], "lichen_color": "a8a890"},
+    {"kind": "rock_pile", "at": [500, 220], "size": [34, 26], "count": 5, "colors": ["6e6a62", "7a766c", "86827a"]},
+    {"kind": "standing_rock", "at": [920, 240], "size": [36, 30], "height": 1.8, "colors": ["5a544e", "66605a", "4e4842"], "cap": "7a8460"},
+    {"kind": "rough_steps", "at": [566, 780], "size": [80, 40], "count": 3, "colors": ["5e5c58", "6a6864", "56544f"], "note": "凿出来的台阶: steps cut where the road drops"},
+    {"kind": "rough_steps", "at": [560, 1104], "size": [84, 40], "count": 3, "colors": ["5e5c58", "6a6864", "56544f"]},
+    {"kind": "rough_steps", "at": [640, 1600], "size": [96, 64], "count": 5, "colors": ["5e5c58", "6a6864", "56544f"], "note": "the steps down to the dock"},
+    {"kind": "stains", "at": [624, 960], "size": [80, 50], "count": 6, "colors": ["b8b4aa", "c0bcb2", "aeaaa0"], "note": "salt spilled where the porters set their bags down"},
+    {"kind": "stains", "at": [470, 880], "size": [40, 260], "count": 8, "colors": ["b8bcb8", "c0c4c0"], "note": "salt crust on the lip"},
+    {"kind": "rope_coil", "at": [500, 1416], "size": [18, 18], "note": "a porter's carrying rope left on the bench"},
+    {"kind": "far_peak", "at": [-760, 520], "size": [320, 200], "height": 3.6, "elevation": -5.6, "colors": ["7a8a90", "86969a", "6e7e86"], "note": "a rocky islet out to sea, in the haze"},
+    {"kind": "far_peak", "at": [-1100, 1320], "size": [420, 260], "height": 4.6, "elevation": -5.6, "colors": ["8696a0", "92a2aa", "7a8a94"], "note": "a far headland down the coast"},
+    {"kind": "far_ground", "at": [760, -360], "size": [1100, 480], "colors": ["4a6a44", "547448", "5e7e4e"], "elevation": 0.0, "trees": 60, "crowns": ["2e4e34", "3a5a3c", "345440", "426446"], "note": "忘情谷's woods behind the headland"},
+    {"kind": "far_ground", "at": [1560, 820], "size": [600, 2000], "colors": ["5e6c4e", "687656", "74805c"], "elevation": 0.0, "trees": 40, "crowns": ["3a5a3c", "426446", "4a6a44"], "note": "the wooded hills inland, east over the cliff"},
+    {"kind": "far_ground", "atlas": false, "at": [1120, 2120], "size": [900, 520], "colors": ["7a7a6a", "86867a"], "elevation": -2.0, "clearing": [0, 0, 22, 11], "clearing_color": "8a8270", "roofs": 34, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 6, "note": "番坊's roofs far down to the south-east, below the cliff's foot"}
+  ],
+  "actors": {
+    "default": {"coat": "7a7a6a"},
+    "native.npc.salt_porter": {"coat": "8a8270", "hat": true}
+  }
+}

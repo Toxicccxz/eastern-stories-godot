@@ -143,9 +143,13 @@
 		"guanbei.yurt_camp",
 		"guanbei.steppe",
 		"guanbei.worksite",
-		"guanbei.barrow"
+		"guanbei.barrow",
+		"fanfang.cliff_road",
+		"fanfang.port",
+		"fanfang.bazaar",
+		"fanfang.customs"
 	],
-	"rooms": 580,
+	"rooms": 590,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -502,6 +506,21 @@
 		"guanbei.camp.freed",
 		"guanbei.camp.freed_half",
 		"guanbei.steppe_road.cart",
+		"fanfang.cliff_path.porters",
+		"fanfang.dock.boatmen",
+		"fanfang.shed.boatman",
+		"fanfang.dock.merchants",
+		"fanfang.dock.tax_clerk",
+		"fanfang.bazaar_west.glass",
+		"fanfang.bazaar_west.carpet",
+		"fanfang.bazaar_west.storyteller",
+		"fanfang.bazaar_east.spice",
+		"fanfang.bazaar_east.child",
+		"fanfang.bazaar_east.copper",
+		"fanfang.bazaar_north.luca",
+		"fanfang.office.feng_lu",
+		"fanfang.office.clerk",
+		"fanfang.yard.runners",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -529,9 +548,9 @@
 		"native.yamen_iner.chen_witness",
 		"native.canyon7.gate_soldiers"
 	],
-	"world_npcs": 607,
-	"resident_maps": 144,
-	"new_game_items": 997,
+	"world_npcs": 626,
+	"resident_maps": 148,
+	"new_game_items": 1032,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -677,7 +696,11 @@
 		"guanbei.yurt_camp": 2,
 		"guanbei.steppe": 3,
 		"guanbei.worksite": 4,
-		"guanbei.barrow": 3
+		"guanbei.barrow": 3,
+		"fanfang.cliff_road": 3,
+		"fanfang.port": 2,
+		"fanfang.bazaar": 3,
+		"fanfang.customs": 2
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -823,7 +846,11 @@
 		"guanbei.yurt_camp": 18,
 		"guanbei.steppe": 3,
 		"guanbei.worksite": 36,
-		"guanbei.barrow": 6
+		"guanbei.barrow": 6,
+		"fanfang.cliff_road": 2,
+		"fanfang.port": 6,
+		"fanfang.bazaar": 7,
+		"fanfang.customs": 4
 	},
 	"npc_draws_after_oldpine": 2559,
 	"technical_maps": 9,

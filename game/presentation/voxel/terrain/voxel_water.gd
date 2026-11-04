@@ -29,6 +29,8 @@ var materials: Dictionary[String, ShaderMaterial] = {}
 ## Material key -> how far its water goes to its `sunset` colour at full dusk (those that do).
 var sunsets: Dictionary[String, float] = {}
 var _dusk: float = -1.0
+## The merged look per kind and the areas that cover a cell (look_at): shared, never changed.
+var _look_cache: Dictionary[String, Dictionary] = {}
 ## Water cells that got an earth or stone bank on some side.
 var banked: Dictionary[Vector2i, bool] = {}
 
@@ -48,6 +50,15 @@ func collect(cells: Dictionary[Vector2i, String], extra: Dictionary = {}) -> voi
 		levels[cell] = float(extra[cell]["level"])
 
 func look_at(cell: Vector2i, kind: String) -> Dictionary:
+	var key: String = kind
+	var at: int = 0
+	for area: Dictionary in config.get("areas",[]):
+		var box: Array = area["rect"]
+		if Rect2(box[0],box[1],box[2]-box[0],box[3]-box[1]).has_point(Vector2(cell)) and (not area.has("kinds") or kind in area["kinds"]):
+			key += ":%d" % at
+		at += 1
+	if _look_cache.has(key):
+		return _look_cache[key]
 	var merged: Dictionary = (DEFAULTS.get(kind,DEFAULTS["water"]) as Dictionary).duplicate()
 	merged.merge(config.get("kinds",{}).get(kind,{}),true)
 	merged["kind"] = kind
@@ -58,9 +69,12 @@ func look_at(cell: Vector2i, kind: String) -> Dictionary:
 			merged.merge(area,true)
 			merged["area"] = index
 		index += 1
+	_look_cache[key] = merged
 	return merged
 
-func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCliffs, shapes: Shapes, rng: RandomNumberGenerator) -> void:
+## `breathe` (the geometry's frame slicer) is awaited every few hundred cells: a sea that runs on
+## past the map (番坊) is tens of thousands of them.
+func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCliffs, shapes: Shapes, rng: RandomNumberGenerator, breathe: Callable = Callable()) -> void:
 	root = Node3D.new()
 	root.name = "Water"
 	parent.add_child(root)
@@ -72,7 +86,11 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 	var banks := SurfaceTool.new()
 	banks.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var bank_count: int = 0
+	var done: int = 0
 	for cell: Vector2i in levels:
+		done += 1
+		if breathe.is_valid() and done % 512 == 0:
+			await breathe.call()
 		var look: Dictionary = looks[cell]
 		var level: float = levels[cell]
 		var key: String = "%s:%s" % [look["kind"],look.get("area",-1)]

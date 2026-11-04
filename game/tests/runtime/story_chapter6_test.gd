@@ -88,7 +88,7 @@ func _test_data() -> void:
 	_check(ids == ["general", "adviser", "seal", "gate", "guanbei", "town", "palace", "plan", "site", "raid", "sneak", "luca"], "the steps in order: %s" % [ids])
 	_check(quest.steps[9].only_after == &"raid" and quest.steps[9].condition.key == "踏平了工地" and quest.steps[10].only_after == &"sneak" and quest.steps[10].condition.key == "救了一半" and quest.steps[11].condition.key == "卢卡说了番坊" and quest.reward.marks == ["关北一章"], "raid after raid, sneak after sneak, 卢卡 after either; the chapter's mark")
 	var seventh: StoryQuestDefinition = catalog.story_quest(&"main.chapter7")
-	_check(seventh != null and seventh.requires == [&"main.chapter6"] and seventh.steps.size() == 1 and seventh.steps[0].condition.key == "到了番坊" and seventh.steps[0].target.zone_id == &"village.valley1", "the seventh chapter's stub: one step toward 番坊, done by the 番坊 package's mark")
+	_check(seventh != null and seventh.requires == [&"main.chapter6"] and seventh.steps.size() >= 1 and seventh.steps[0].condition.key == "到了番坊" and seventh.steps[0].target.zone_id == &"village.valley1", "the seventh chapter opens with the way toward 番坊 (番坊 A: story_chapter7_test)")
 	var manual: ItemContentDefinition = catalog.item(MANUAL)
 	var saber_art: SkillDefinition = catalog.skill(&"guanbei-saber")
 	_check(manual != null and manual.no_drop and manual.study != null and manual.study.skill_id == &"guanbei-saber" and manual.study.max_skill == 40 and saber_art != null and saber_art.display_name == "关北马刀" and saber_art.action_set() != null and saber_art.action_set().size() == 7 and saber_art.valid_enabled_uses().has(&"blade"), "《马刀谱》 reads 关北马刀 to 40: seven strokes, a blade art")
@@ -114,7 +114,7 @@ func _test_data() -> void:
 	_check(catalog.npc(&"canyon.npc.seller").talk().inquiry_topics() == ["印色"], "the 后备兵 on the 印色")
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
 	_check(luca != null and luca.gender == &"男性" and luca.age == 34 and luca.dealings().object_rules[1].gives == GLADIUS and luca.dealings().object_rules[1].value_at_least == 2000, "卢卡: a man of 34, his sword for twenty taels")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_D_V1, "关北 D's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_A_V1, "番坊 A's world revision is current")
 
 
 ## A woman from the escort: the camp, the mould, the 印色, the gate by the roll, the city, 卢卡, 老秦.

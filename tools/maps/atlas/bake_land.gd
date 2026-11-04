@@ -19,7 +19,7 @@ const STEP_UP: float = 0.7557
 const REGION: Dictionary = {
 	"snow": "green", "cloud": "green", "green": "green", "sanyen": "green", "choyin": "green", "sunhill": "forest", "latemoon": "forest",
 	"oldpine": "forest", "chuenyu": "forest", "goathill": "brown", "temple": "teal", "waterfog": "teal", "canyon": "yellow", "guanbei": "steppe",
-	"niling": "black", "village": "green", "city": "ochre", "death": "black",
+	"niling": "black", "village": "green", "city": "ochre", "death": "black", "fanfang": "teal",
 }
 const TONES: Dictionary = {
 	"green": ["7a9a48", "3f8048", "1f6a64", "1f5a84"], "forest": ["527f40", "2a6a44", "1a5c5a", "1c507c"],
@@ -28,6 +28,8 @@ const TONES: Dictionary = {
 	"ochre": ["bc9c4c", "988844", "5e7a48", "386a68"], "black": ["4a443e", "38343c", "2c2c42", "22223e"],
 }
 const RIVER: Array[Vector2] = [Vector2(9.4, 3.4), Vector2(8.3, 4.2), Vector2(7.4, 4.9), Vector2(6.4, 5.3), Vector2(5.6, 5.55), Vector2(4.7, 5.5), Vector2(3.7, 5.55), Vector2(2.6, 5.75), Vector2(2.2, 6.6), Vector2(2.7, 7.6), Vector2(2.6, 9.2)]
+## 番坊's bay (番坊 A): the sea comes in from the west rim to the port's quay and under the 海崖道.
+const BAY: Array[Vector2] = [Vector2(-0.5, 5.8), Vector2(-1.05, 6.02), Vector2(-1.55, 6.45), Vector2(-2.4, 6.62), Vector2(-3.6, 6.72), Vector2(-5.2, 6.8)]
 const TRIBUTARY: Array[Vector2] = [Vector2(0.6, 1.5), Vector2(0.9, 2.9), Vector2(0.2, 4.9), Vector2(0.5, 5.8), Vector2(1.9, 6.4)]
 ## Road earth per tone: rut, packed earth, worn stone.
 const ROAD: Dictionary = {
@@ -405,6 +407,9 @@ func _rough(plane: Vector2, seen: Vector2, near: float, region: String, middle: 
 	var river: float = minf(_to_line(plane / PITCH, RIVER, 0.13 + warp.get_noise_2d(plane.y, plane.x) * 0.05), _to_line(plane / PITCH, TRIBUTARY, 0.07))
 	if near > 0.0 and river < 0.42:
 		height = lerpf(minf(height, -4.0), height, smoothstep(0.0, 0.42, river))
+	var bay: float = _to_line(plane / PITCH, BAY, 0.34 + warp.get_noise_2d(plane.x, plane.y) * 0.08)
+	if near > 0.0 and bay < 0.5:
+		height = lerpf(minf(height, -16.0), height, smoothstep(0.0, 0.5, bay))
 	return height
 
 

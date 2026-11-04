@@ -225,3 +225,14 @@ static func chapter6_site_done(session: WorldSessionController, raid: bool = tru
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1
+
+
+## 关北 done (关北 D): after the 工地 the last step — 卢卡 asked of the ghost and his 会首 — and the
+## chapter's mark 关北一章; the seventh chapter opens. Its ledger keys and marks as the chapter writes them.
+static func chapter6_done(session: WorldSessionController, raid: bool = true) -> void:
+	chapter6_site_done(session, raid)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter6/luca", "main.chapter6#done"]:
+		_write(state, key)
+	for mark: String in ["卢卡说了鬼", "卢卡说了番坊", "关北一章"]:
+		state.marks[mark] = 1

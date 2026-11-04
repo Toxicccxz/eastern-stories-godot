@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://suycjdghatww"
-path="res://.godot/imported/road_08_b.png-3a28de5e73e9075377b1cbc0cef7ed20.ctex"
+uid="uid://ivimqjr2hn8g"
+path="res://.godot/imported/fanfang.bazaar.png-7b5b5e2dc140e639bf0c8c88f247cdd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/atlas/road_08_b.png"
-dest_files=["res://.godot/imported/road_08_b.png-3a28de5e73e9075377b1cbc0cef7ed20.ctex"]
+source_file="res://assets/textures/atlas/fanfang.bazaar.png"
+dest_files=["res://.godot/imported/fanfang.bazaar.png-7b5b5e2dc140e639bf0c8c88f247cdd0.ctex"]
 
 [params]
 

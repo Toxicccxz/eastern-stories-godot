@@ -87,17 +87,22 @@ func _without_far_scenery(path: String, map_id: StringName) -> String:
 	return target
 
 
+## What stands far off goes: the DROPPED kinds, any prop marked `"atlas": false` (a town seen far
+## down that is a place of its own on the 沙盘), and the open sea run on past the map (番坊 A) —
+## the sand table lays its own sea round the places.
 func _filtered(value: Variant) -> Variant:
 	if value is Array:
 		var kept: Array = []
 		for item: Variant in value:
-			if item is Dictionary and DROPPED.has(String(item.get("kind", ""))):
+			if item is Dictionary and (DROPPED.has(String(item.get("kind", ""))) or item.get("atlas", true) == false):
 				continue
 			kept.append(_filtered(item))
 		return kept
 	if value is Dictionary:
 		var copy: Dictionary = {}
 		for key: Variant in value:
+			if key == "open_sea":
+				continue
 			copy[key] = _filtered(value[key])
 		return copy
 	return value

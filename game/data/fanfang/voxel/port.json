@@ -1,0 +1,104 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "番坊码头、船工棚 (native:fanfang/dock, shed; 番坊 A): the port at the sea cliff's foot — the steps come down at the north-west onto a quay of big worn stones crusted white with salt, crates and bales up from the boats, salt in sacks waiting for the porters, a derrick, the 市舶司's table with its ledger and steelyard under a lantern; two wooden jetties on piles out into a grey-blue sea, three flat-bottomed boats with mat sails rolled tied up beside them (the boats are others': theme:4); west under the cliff the boatmen's thatched lean-to with nets drying, oars, coils of rope and a pot of fish soup on stones; gulls on the posts. Old and used: tar and fish-scale stains, broken crates, a net torn and patched, weed on the piles.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 2.4, "top": "6a7458", "bottom": "3a3630", "strata": ["4e4842", "5a544c", "443e38"]},
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 1.5,
+    "high": 7.5,
+    "rise": 200,
+    "step": 0.5,
+    "rough": 0.6,
+    "keep": 260,
+    "grooves": 0.1,
+    "strata": ["4a4440", "56504a", "3e3a36", "625a52", "48423c", "524c46"],
+    "tops": ["6a7656", "76805e", "5e6a4e", "828a66"],
+    "south_rise": 1.0,
+    "moss": {"colors": ["4e5e3e", "5a6a46"], "amount": 0.3, "hang": 1.4},
+    "areas": [
+      {"rect": [512, 0, 656, 256], "high": 3.0, "note": "lower where the steps come down"}
+    ]
+  },
+  "exit_trails": {
+    "fanfang.dock.east": {"cells": 6, "kind": "path", "width": 6},
+    "fanfang.dock.north": {"cells": 3, "kind": "path", "width": 5},
+    "note": "the road on east into the bazaar; the steps up to the cliff's foot"
+  },
+  "ground": {
+    "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.14, "broken": 0.08, "sunk": 0.05, "tufts": 0.03, "stones": ["8a867a", "96928a", "7e7a70", "a29e94", "8e8a80"], "worn": ["a8a49a:gloss", "b2aea4"], "bed": "4e4a44", "joint": 0.05, "mud": "6a6658", "crack": "4e4a44", "moss": "5a6a4a", "moss_chance": 0.06, "note": "the quay's big worn stones, salt in the joints"},
+    "town_ground": {"style": "scree", "colors": ["6e665a", "7a7264", "645c50"], "gravel": 0.4, "stones": 0.04, "pebbles": ["9a9080", "86806e", "aaa290"], "wet": true, "wet_chance": 0.15, "sheen": "5a6a6e", "note": "the shed's beaten ground, fish scales and tar"},
+    "path": {"style": "scree", "colors": ["8a8070", "968c7a", "7e7466"], "gravel": 0.5, "stones": 0.05, "pebbles": ["aaa290", "9a9080"]},
+    "bridge": {"colors": ["6a5a46", "7a6a52", "5e4e3c"]},
+    "boundary": {"colors": ["5e6c4e", "687656", "74805c"]}
+  },
+  "ground_tints": {"bank": "5a5650", "mud": "6a6658", "chips": ["9a968c", "8a867c", "aaa69c"], "dust": "d8dcd8", "grit": "e4e8e4"},
+  "water": {
+    "kinds": {
+      "deep_water": {"colors": ["6e9aa0", "54848e", "3a6674", "2c5262"], "depth": 200, "flow": [0.06, 0.03], "speed": 0.2, "swell": 0.012, "swell_speed": 1.0, "foam": 0.0, "rock_foam": 0.7, "bank_foam": 0.35, "foam_color": "eef2f0", "bank": ["4e4842", "5a544c", "443e38"], "sky": 0.2, "glint": "6a96a0", "sunset": {"color": "f0904a", "amount": 0.45}},
+      "water": {"colors": ["8aaaa8", "6e9498", "54808a"], "depth": 60, "flow": [0.04, 0.02], "speed": 0.18, "swell": 0.008, "swell_speed": 1.0, "foam": 0.06, "rock_foam": 0.6, "bank_foam": 0.4, "foam_color": "eef2f0", "bank": ["5a544c", "4e4842", "665e54"], "sky": 0.18, "glint": "a8c4c4", "sunset": {"color": "f0904a", "amount": 0.55}}
+    },
+    "open_sea": {"kind": "deep_water", "rects": [[-960, 800, 2400, 1952], [-960, -480, 160, 800]], "note": "the sea runs on south and west under the sky"}
+  },
+  "flora": {
+    "grass_density": 0.35,
+    "density": {"street": 0.02, "town_ground": 0.05, "boundary": 0.4},
+    "flower_threshold": 0.5,
+    "blossom_trees": 0.0,
+    "tree_types": ["stunted_pine", "shrub", "scrub"],
+    "tree_kinds": ["boundary"],
+    "tree_chance": 0.2,
+    "tree_spacing": 96,
+    "cliff_tufts": 0.2,
+    "cliff_flowers": 0.05,
+    "cliff_trees": 0.04,
+    "cliff_tree_types": ["stunted_pine", "shrub"],
+    "outcrop_colors": ["6e6a62", "7a766c", "5e5a54"],
+    "wind": 0.9,
+    "butterflies": 0
+  },
+  "ambience": {
+    "birds": [
+      {"at": [800, 900], "radius": 420, "count": 6, "height": 4, "color": "f0f0ec", "note": "gulls over the jetties and the boats"},
+      {"at": [300, 600], "radius": 200, "count": 2, "height": 3, "color": "e8e8e4"}
+    ],
+    "dust": [
+      {"rect": [448, 640, 1440, 760], "count": 5, "color": "dde6e6", "wind": [0.2, -0.3], "note": "spray off the quay's edge"}
+    ]
+  },
+  "reshape": [],
+  "buildings": [],
+  "props": [
+    {"kind": "jetty", "at": [616, 896], "size": [80, 288], "deck": 0.06, "end": 1.0, "note": "the west jetty on its piles"},
+    {"kind": "jetty", "at": [952, 880], "size": [80, 256], "deck": 0.06, "end": 1.0, "note": "the east jetty"},
+    {"kind": "ferry", "at": [516, 930], "size": [80, 240], "note": "a flat-bottomed boat moored at the west jetty, its mat sail rolled (the southern merchants')"},
+    {"kind": "ferry", "at": [720, 960], "size": [80, 230], "rotation": 4},
+    {"kind": "ferry", "at": [1060, 900], "size": [80, 220], "rotation": -6, "note": "and one at the east jetty"},
+    {"kind": "skiff", "at": [1280, 960], "size": [52, 120], "rotation": 30, "lamp": false, "note": "a boatman's own little skiff, the only boat that is"},
+    {"kind": "mooring_post", "at": [568, 1032], "size": [12, 12], "note": "piles the boats are tied to, in the water off the jetties' heads"},
+    {"kind": "mooring_post", "at": [664, 1032], "size": [12, 12]},
+    {"kind": "mooring_post", "at": [1000, 1000], "size": [12, 12]},
+    {"kind": "fishing_net", "at": [224, 600], "size": [60, 40], "note": "a net torn and patched, spread on the ground"},
+    {"kind": "rope_coil", "at": [400, 720], "size": [22, 22]},
+    {"kind": "rope_coil", "at": [880, 728], "size": [20, 20]},
+    {"kind": "stains", "at": [320, 640], "size": [160, 120], "count": 8, "colors": ["4e4a40", "5a5448", "3e3a34"], "note": "tar and fish scales under the shed"},
+    {"kind": "stains", "at": [840, 520], "size": [500, 260], "count": 9, "colors": ["b4b0a6", "aaa69c", "bcb8ae"], "note": "salt dried pale on the quay"},
+    {"kind": "stains", "at": [1120, 640], "size": [200, 120], "count": 6, "colors": ["6a5a44", "5a4a38"], "note": "spilt pepper and tar by the bales"},
+    {"kind": "trail", "points": [[576, 224], [600, 360], [760, 480], [1000, 520], [1200, 512], [1424, 512]], "color": "7a7468", "note": "the way worn from the steps through the crates to the bazaar road"},
+    {"kind": "trail", "points": [[760, 480], [700, 640], [620, 752]], "color": "7a7468", "note": "and down to the west jetty"},
+    {"kind": "hanging_lantern", "at": [1200, 376], "paper": "e0b060", "height": 2.4, "note": "a lantern over the tax table"},
+    {"kind": "glow", "at": [1200, 400], "color": "ffb070", "day": 0.0, "night": 0.8, "range": 7.0, "height": 2.2},
+    {"kind": "torch", "at": [560, 1048], "size": [16, 16], "height": 1.6, "note": "a torch on a pile at the west jetty's head"},
+    {"kind": "glow", "at": [616, 1020], "color": "ffa860", "day": 0.0, "night": 0.7, "range": 6.0, "height": 1.6},
+    {"kind": "glow", "at": [300, 600], "color": "ffa860", "day": 0.0, "night": 0.6, "range": 5.0, "height": 1.0, "note": "the fire under the soup pot"},
+    {"kind": "far_peak", "at": [-500, 1800], "size": [400, 240], "height": 4.0, "elevation": -0.3, "colors": ["7a8a90", "86969a", "6e7e86"], "note": "a headland across the bay, in the haze"},
+    {"kind": "far_peak", "at": [2200, 2100], "size": [480, 260], "height": 3.4, "elevation": -0.3, "colors": ["8696a0", "92a2aa", "7a8a94"]},
+    {"kind": "far_ground", "atlas": false, "at": [1900, 520], "size": [600, 800], "colors": ["7a7a6a", "86867a"], "elevation": 0.0, "clearing": [0, 0, 14, 20], "clearing_color": "8a8270", "roofs": 26, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 4, "note": "the bazaar's roofs east along the road"}
+  ],
+  "actors": {
+    "default": {"coat": "6a6a5a"},
+    "native.npc.boatman": {"coat": "5e6a6a"},
+    "native.npc.cargo_merchant": {"coat": "8a4a3a", "hat": true},
+    "native.npc.tax_clerk": {"coat": "4a5a6a", "hat": true}
+  }
+}

@@ -54,8 +54,9 @@
 			"points": [
 				"guanbei.market.luca.1"
 			],
-			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ⑤: 卢卡 selling his sword by the pen)",
-			"legacy_quantity": 1
+			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ⑤: 卢卡 selling his sword by the pen); 番坊 A: gone to 番坊 once 关北 is done (fanfang.bazaar_north.luca, DECISIONS「番坊 A」)",
+			"legacy_quantity": 1,
+			"until": { "mark": "关北一章" }
 		},
 		{
 			"id": "guanbei.market.herdsmen",

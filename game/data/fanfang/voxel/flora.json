@@ -1,0 +1,19 @@
+{
+  "note": "番坊 (美术规划 §1 番坊: 海蓝灰、盐白、胡商的红黄): a wind-scoured coast — stunted pines leaning inland, salt-burnt shrubs and thorn scrub, grey-green turf with sea-pinks and white thrift, a few broad shade trees (榕) and fan palms in the port's lanes where southern ships put in. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "stunted_pine": ["3e5a44", "4a6a4c", "566e50", "34503e"],
+    "broadleaf": ["4a6e3c", "567a44", "62864c", "3e6236"],
+    "banana": ["5a8a44", "6a9a4c", "7aa856", "4e7a3c"],
+    "shrub": ["5a6a46", "667650", "72825a", "4e5e3e"],
+    "scrub": ["6a6c4a", "787a52", "84865a", "5e6042"]
+  },
+  "bark_colors": {
+    "stunted_pine": ["4a3e34", "5a4a3e"],
+    "broadleaf": ["6a5e50", "7a6e5e", "5a4e42"],
+    "banana": ["7a7a4a", "6a6a40"],
+    "shrub": ["5a4a3a", "6a5a46"],
+    "scrub": ["6a5a44", "7a6a50"]
+  },
+  "grass_colors": ["7a8a62", "86966a", "6e7e58", "92a072", "a0a47a"],
+  "flower_colors": ["e8a8b8", "f0ece0", "d88898", "e0d8c8"]
+}

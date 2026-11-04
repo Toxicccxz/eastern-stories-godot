@@ -1,0 +1,265 @@
+{
+  "maps": {
+    "cliff_road": {
+      "note": "番坊 A (剧情总纲 §6 番坊卡, §9 Q2; 计划 build/plans/番坊_计划.md §1, owner Q1: the sea lies south-west of 玉螺湖村): the path outside 忘情谷 runs on south out of the woods onto a bare headland where the sea first shows to the west (海崖口, the sea god's niche by the road), down a road cut into the sea cliff with a low lip of rock between it and the surf (海崖道, salt porters), to the cliff's foot where stone steps go down to the port (崖脚). North is the way back to valley1; south the dock.",
+      "file": "fanfang_cliff_road.tscn",
+      "draw": {
+        "technique": "canvas", "base": "cliff", "bounds": [0, 0, 1216, 1728],
+        "zones": {
+          "fanfang.cliff_top": [448, 64, 960, 576, "grass"],
+          "fanfang.cliff_path": [400, 576, 880, 1152, "rock"],
+          "fanfang.cliff_foot": [368, 1152, 928, 1664, "rock"]
+        },
+        "lines": {
+          "road": [[
+            [688, 96, 40, 112, 112, 4, "out of 忘情谷's woods"],
+            [680, 224, 40, 128, 128, 8],
+            [640, 384, 40, 136, 136, 10, "over the headland"],
+            [600, 544, 40, 104, 104, 10],
+            [568, 704, 40, 88, 88, 12, "cut into the sea cliff"],
+            [552, 864, 40, 88, 88, 12],
+            [568, 1024, 40, 88, 88, 10],
+            [608, 1184, 40, 104, 104, 10, "the foot"],
+            [640, 1344, 40, 120, 120, 8],
+            [640, 1504, 40, 120, 120, 6],
+            [640, 1648, 40, 112, 112, 0, "the steps down to the dock"]
+          ]]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "blobs", "note": "the headland's open turf, and where the foot opens out above the dock", "amp": 0.2, "seed": [0.013, 0.007], "blobs": [[704, 320, 176, 168], [608, 1440, 168, 150]]},
+          {"op": "lines", "group": "road"},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "CliffTopValleyArrival"},
+          {"op": "fill", "fills": [
+            ["chasm", 0, 0, 352, 1728, "the drop to the sea (voxel: cliffs.sink with the sea at its foot; water.open_sea carries it on past the map)"],
+            ["forest", 432, 0, 1216, 48, "忘情谷's woods behind the headland"]
+          ]},
+          {"op": "fill", "note": "what stands on the road and the headland (voxel: game/data/fanfang/voxel/cliff_road.json)", "fills": [
+            ["blocked", 528, 320, 576, 352, "the sea god's niche by the road (fanfang.cliff_top.landmark.shrine)", {"look": {"kind": "shrine_niche", "height": 1.2, "bricks": ["5a5650", "66625a", "4e4a44"], "roof": "3e3a36"}}],
+            ["blocked", 800, 192, 832, 224, "a cairn of stones on the headland", {"look": {"kind": "cairn", "stones": 6, "colors": ["6a6660", "76726a", "5e5a54"]}}],
+            ["blocked", 608, 944, 640, 976, "salt bags set down where the porters rest", {"look": {"kind": "sacks", "cloth": "c4baa0"}}],
+            ["blocked", 464, 1392, 512, 1424, "a bench at the top of the steps, worn by porters' backsides", {"look": {"kind": "bench"}}]
+          ]}
+        ],
+        "reach_from": ["CliffTopValleyArrival", "CliffFootDockReturn"],
+        "caption_near": {"fanfang.cliff_top": [880, 120], "fanfang.cliff_path": [760, 600], "fanfang.cliff_foot": [840, 1200]}
+      },
+      "scene": {
+        "style": "map", "root": "FanfangCliffRoad", "map": "fanfang.cliff_road", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_96_32": [96, 32], "Rect_64_32": [64, 32]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "ValleyLabel", "at": [688, 36], "text": "北 · 忘情谷外 · 玉螺湖村", "size": 12},
+          {"node": "caption", "name": "DockLabel", "at": [640, 1700], "text": "南 · 番坊码头", "size": 14},
+          {"node": "passage", "name": "ValleyPassage", "id": "fanfang.cliff_top.north", "at": [688, 96], "shape": "Rect_96_32"},
+          {"node": "passage", "name": "DockPassage", "id": "fanfang.cliff_foot.south", "at": [640, 1632], "shape": "Rect_96_32"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "CliffTopValleyArrival", "at": [688, 176], "id": "fanfang.cliff_top.valley_arrival"},
+          {"name": "CliffFootDockReturn", "at": [640, 1552], "id": "fanfang.cliff_foot.dock_return"},
+          {"name": "CliffPathPorter1", "at": [612, 744], "id": "fanfang.cliff_path.porter.1"},
+          {"name": "CliffPathPorter2", "at": [500, 912], "id": "fanfang.cliff_path.porter.2"}
+        ],
+        "interactions": [
+          {"name": "ShrineInteraction", "id": "fanfang.cliff_top.landmark.shrine", "at": [552, 384], "shape": "Rect_64_32"},
+          {"name": "SeaInteraction", "id": "fanfang.cliff_path.landmark.sea", "at": [488, 816], "shape": "Rect_64_32"}
+        ],
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/cliff_road.json"}
+      }
+    },
+    "port": {
+      "note": "番坊 A: the port at the cliff's foot — the steps come down at the north-west onto a stone quay along the shore (番坊码头): crates and bales up from the boats, salt in sacks for the porters, a derrick, the 市舶司's table with its ledger and steelyard, two wooden jetties out into the sea with the three flat-bottomed boats moored beside them (the boats are others': doc/help/theme:4); west along the shore under the cliff the boatmen's thatched shed with nets, oars and a pot of fish soup (船工棚). The road east leads into the bazaar.",
+      "file": "fanfang_port.tscn",
+      "draw": {
+        "technique": "canvas", "base": "cliff", "bounds": [0, 0, 1536, 1152],
+        "zones": {
+          "fanfang.shed": [160, 384, 448, 768, "town_ground"],
+          "fanfang.dock": [448, 192, 1440, 1088, "street"]
+        },
+        "lines": {
+          "steps": [[
+            [576, 208, 40, 72, 72, 0, "the steps' foot"],
+            [584, 320, 40, 96, 96, 4]
+          ]]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "fill", "fills": [
+            ["street", 448, 256, 1440, 752, "the stone quay along the shore"],
+            ["town_ground", 160, 400, 448, 752, "the shed's beaten ground"]
+          ]},
+          {"op": "lines", "group": "steps"},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "DockCliffArrival"},
+          {"op": "fill", "fills": [
+            ["deep_water", 0, 768, 1536, 1152, "the sea"],
+            ["deep_water", 0, 384, 160, 1152, "and round the shed's point"],
+            ["water", 160, 752, 1440, 816, "the shallows along the quay"],
+            ["bridge", 576, 752, 656, 1040, "the west jetty"],
+            ["bridge", 912, 752, 992, 1008, "the east jetty"]
+          ]},
+          {"op": "fill", "note": "what stands on the quay and in the shed (voxel: game/data/fanfang/voxel/port.json)", "fills": [
+            ["blocked", 1152, 384, 1248, 432, "the 市舶司's table on the quay: the ledger, the cash box", {"look": {"kind": "table", "wood": "5a4434", "set": "incense"}}],
+            ["blocked", 1264, 384, 1296, 432, "the tax clerk's steelyard on its frame", {"look": {"kind": "steelyard"}}],
+            ["blocked", 720, 336, 816, 400, "crates up from the boats", {"look": {"kind": "cargo"}}],
+            ["blocked", 864, 592, 944, 656, {"look": {"kind": "loot_crates", "rotation": 15}}],
+            ["blocked", 1024, 640, 1104, 704, "bales of felt and spice in sacking", {"look": {"kind": "sacks", "cloth": "9a5a3a"}}],
+            ["blocked", 480, 560, 560, 640, "salt in sacks, waiting for the porters", {"look": {"kind": "sacks", "cloth": "c4baa0"}}],
+            ["blocked", 688, 672, 736, 720, "a derrick swinging crates off the boats", {"look": {"kind": "derrick"}}],
+            ["blocked", 1360, 288, 1392, 320, "a water vat by the road", {"look": {"kind": "water_vat"}}],
+            ["blocked", 544, 720, 560, 736, "mooring posts at the quay's edge", {"look": {"kind": "post", "height": 0.8, "wood": "4a3a2c"}}],
+            ["blocked", 1008, 720, 1024, 736, {"look": {"kind": "post", "height": 0.8, "wood": "4a3a2c"}}],
+            ["blocked", 1232, 720, 1248, 736, {"look": {"kind": "post", "height": 0.8, "wood": "4a3a2c"}}],
+            ["blocked", 192, 400, 432, 496, "the boatmen's thatched lean-to against the cliff, oars, nets and gear piled under it (native:fanfang/shed: 几根木柱撑着一面草顶)", {"look": {"kind": "lean_to"}}],
+            ["blocked", 288, 592, 336, 640, "fish soup in a pot over stones", {"look": {"kind": "cauldron", "colors": ["2a2622", "3a3430"], "fire": true}}],
+            ["blocked", 192, 656, 256, 704, "nets heaped to be mended", {"look": {"kind": "fishing_net"}}]
+          ]}
+        ],
+        "reach_from": ["DockCliffArrival", "DockBazaarReturn"],
+        "caption_near": {"fanfang.dock": [1100, 240], "fanfang.shed": [180, 520]}
+      },
+      "scene": {
+        "style": "map", "root": "FanfangPort", "map": "fanfang.port", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_96_32": [96, 32], "Rect_32_96": [32, 96], "Rect_64_32": [64, 32]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "CliffLabel", "at": [576, 164], "text": "北 · 崖脚 · 海崖道", "size": 12},
+          {"node": "caption", "name": "BazaarLabel", "at": [1400, 440], "text": "东 · 市集", "size": 14},
+          {"node": "passage", "name": "CliffPassage", "id": "fanfang.dock.north", "at": [576, 208], "shape": "Rect_96_32"},
+          {"node": "passage", "name": "BazaarPassage", "id": "fanfang.dock.east", "at": [1424, 512], "shape": "Rect_32_96"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "DockCliffArrival", "at": [576, 304], "id": "fanfang.dock.cliff_arrival"},
+          {"name": "DockBazaarReturn", "at": [1344, 512], "id": "fanfang.dock.bazaar_return"},
+          {"name": "DockBoatman1", "at": [640, 688], "id": "fanfang.dock.boatman.1"},
+          {"name": "DockBoatman2", "at": [960, 704], "id": "fanfang.dock.boatman.2"},
+          {"name": "DockCargoMerchant1", "at": [816, 448], "id": "fanfang.dock.cargo_merchant.1"},
+          {"name": "DockCargoMerchant2", "at": [1104, 608], "id": "fanfang.dock.cargo_merchant.2"},
+          {"name": "DockTaxClerk1", "at": [1200, 464], "id": "fanfang.dock.tax_clerk.1"},
+          {"name": "ShedBoatman1", "at": [352, 688], "id": "fanfang.shed.boatman.1"}
+        ],
+        "interactions": [
+          {"name": "BoatsInteraction", "id": "fanfang.dock.landmark.boats", "at": [616, 1000], "shape": "Rect_64_32"}
+        ],
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/port.json"}
+      }
+    },
+    "bazaar": {
+      "note": "番坊 A: the bazaar's one street of beaten earth running east from the dock road, crowded with stalls and low houses — west the felt-and-glass stalls, the 市舶司's grey-walled compound on the south side (an interior map); east the spice sacks and the coppersmith's rack, the black-stone 拜火祠 across the street's east end (番坊 B: its door); a short lane north to 铁盾会's gate with its two great shields (番坊 B: the gate opens). The lane south off the east end down to 日陀罗寺 is 番坊 B's.",
+      "file": "fanfang_bazaar.tscn",
+      "draw": {
+        "technique": "town", "base": "boundary", "bounds": [128, 32, 1760, 1152],
+        "ground": [],
+        "zones": {
+          "fanfang.bazaar_west": {"street": "main", "axis": "x", "centre": 656, "span": [192, 864], "width": 288, "ground": "street"},
+          "fanfang.bazaar_east": {"street": "main", "axis": "x", "centre": 656, "span": [864, 1536], "width": 288, "ground": "street"},
+          "fanfang.bazaar_north": [1024, 288, 1248, 512, "open", "street", null]
+        },
+        "roads": [],
+        "props": [
+          ["blocked", 288, 528, 400, 576, "the glass stall: beads and cups laid out on felt", {"look": {"kind": "stall", "goods": "glass", "awning": ["c8443a", "e8c060"]}}],
+          ["blocked", 640, 528, 768, 576, "the carpet stall: rugs laid out and hung under its awning", {"look": {"kind": "stall", "goods": "cloth", "awning": ["8a3a2a", "c8a040"]}}],
+          ["blocked", 784, 528, 832, 576, "carpets rolled and stacked", {"look": {"kind": "cloth_bolts"}}],
+          ["blocked", 944, 736, 1056, 784, "the spice sacks, open-mouthed", {"look": {"kind": "stall", "goods": "spice", "awning": ["d8a040", "6a4a8a"]}}],
+          ["blocked", 1312, 528, 1408, 576, "the coppersmith's rack of kettles and plates", {"look": {"kind": "stall", "goods": "copper", "awning": []}}],
+          ["blocked", 1424, 528, 1456, 560, "his anvil", {"look": {"kind": "whetstone"}}],
+          ["blocked", 1056, 304, 1088, 336, "a great shield either side of 铁盾会's gate (fanfang.bazaar_north.landmark.shields)", {"look": {"kind": "great_shield"}}],
+          ["blocked", 1184, 304, 1216, 336, {"look": {"kind": "great_shield", "rotation": 0}}],
+          ["blocked", 1472, 736, 1520, 784, "water jars by the 拜火祠's wall", {"look": {"kind": "wine_jars", "count": 3}}],
+          ["blocked", 208, 736, 256, 784, "a hand cart left at the dock road", {"look": {"kind": "cart", "cargo": "sacks"}}]
+        ],
+        "reach_from": ["BazaarDockArrival"],
+        "markers_in_middle": ["fanfang.bazaar_north"],
+        "placed": {
+          "fanfang.bazaar_west.glass_merchant.1": [344, 608],
+          "fanfang.bazaar_west.carpet_merchant.1": [720, 600],
+          "fanfang.bazaar_west.storyteller.1": [520, 736],
+          "fanfang.bazaar_east.spice_merchant.1": [1000, 704],
+          "fanfang.bazaar_east.stall_child.1": [1088, 728],
+          "fanfang.bazaar_east.copper_merchant.1": [1360, 608],
+          "fanfang.bazaar_north.luca.1": [1136, 400]
+        },
+        "gap_at": [],
+        "buildings": [
+          {"name": "琉璃铺", "street": "fanfang.bazaar_west", "side": "north", "frontage": "shop", "depth": "shop", "at": 352, "wall": "wall", "roof": "shop_front"},
+          {"name": "毡毯铺", "street": "fanfang.bazaar_west", "side": "north", "frontage": "shop", "depth": "shop", "at": 752, "wall": "wall", "roof": "shop_front"},
+          {"name": "铜器铺", "street": "fanfang.bazaar_east", "side": "north", "frontage": "shop", "depth": "shop", "at": 1408, "wall": "wall", "roof": "shop_front"},
+          {"name": "市舶司", "street": "fanfang.bazaar_west", "side": "south", "frontage": "wide", "depth": "deep", "at": 416, "wall": "wall", "roof": "shop_front", "doors": ["fanfang.bazaar_west.south"]},
+          {"name": "香料铺", "street": "fanfang.bazaar_west", "side": "south", "frontage": "shop", "depth": "shop", "at": 864, "wall": "wall", "roof": "shop_front"},
+          {"name": "胡商客栈", "street": "fanfang.bazaar_east", "side": "south", "frontage": "shop", "depth": "shop", "at": 1408, "wall": "wall", "roof": "shop_front"},
+          {"name": "拜火祠", "rect": [1536, 512, 1760, 800], "wall": "wall", "roof": "shop_front", "note": "the black-stone fire temple across the street's east end (番坊 B: its door and its hall)"},
+          {"name": "铁盾会", "rect": [976, 96, 1296, 288], "wall": "wall", "roof": "shop_front", "note": "铁盾会's front wall and gate at the lane's north end (番坊 B: the gate opens onto its yard)"}
+        ]
+      },
+      "scene": {
+        "style": "map", "root": "FanfangBazaar", "map": "fanfang.bazaar", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_32_96": [32, 96], "Rect_64_32": [64, 32]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "DockLabel", "at": [232, 580], "text": "西 · 码头", "size": 14},
+          {"node": "caption", "name": "TempleLabel", "at": [1648, 640], "text": "拜火祠", "size": 14},
+          {"node": "caption", "name": "HallLabel", "at": [1136, 180], "text": "铁盾会", "size": 14},
+          {"node": "passage", "name": "DockPassage", "id": "fanfang.bazaar_west.west", "at": [208, 656], "shape": "Rect_32_96"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "BazaarDockArrival", "at": [288, 656], "id": "fanfang.bazaar_west.dock_arrival"},
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "ShieldsInteraction", "id": "fanfang.bazaar_north.landmark.shields", "at": [1072, 368], "shape": "Rect_64_32"}
+        ],
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/bazaar.json"}
+      }
+    },
+    "customs": {
+      "note": "番坊 A: the 市舶司 — the office off the bazaar's street (青砖 floor, 冯禄's great desk with its ledgers and the 兵部文书 under a weight, the notices on the wall with 京师's wanted notice copied, seized goods sealed in the corner, a bench for the runners), and the small back yard behind it with the seized crates stacked against the wall, a cart with a chain on its shafts, a crate pried open in the corner.",
+      "file": "fanfang_customs.tscn",
+      "draw": {
+        "technique": "interior", "building": "shop",
+        "rooms": {
+          "fanfang.office": {"floor": "floor_shop", "wall": "wall", "size": "room", "life": {"use": "post", "wealth": "plain", "seed": 71}},
+          "fanfang.yard": {"floor": "floor_yard", "wall": "wall", "size": "small", "life": {"use": "storeroom", "wealth": "poor", "seed": 72}}
+        },
+        "props": [
+          ["blocked", "fanfang.office", ["rel", 0.74, 0.58], 2.8, 1.2, "冯禄's great desk: ledgers, the 戥子, the 兵部文书 under a weight", {"look": {"kind": "table", "set": "incense", "wood": "4e3a2c"}}],
+          ["blocked", "fanfang.office", ["rel", 0.12, 0.72], 1.0, 2.2, "seized goods sealed in the corner: a roll of felt, two copper kettles, a sack of pepper", {"look": {"kind": "chest_stack"}}],
+          ["blocked", "fanfang.office", ["rel", 0.3, 0.92], 0.9, 0.8, "a sack of pepper, sealed", {"look": {"kind": "sacks", "cloth": "8a7a5a"}}],
+          ["blocked", "fanfang.office", ["rel", 0.22, 0.26], 1.4, 0.8, "the clerk's small table", {"look": {"kind": "side_table", "wood": "5a4434"}}],
+          ["blocked", "fanfang.office", ["rel", 0.86, 0.14], 1.6, 0.6, "a bench for the runners by the door", {"look": {"kind": "bench_seat", "wood": "5a4434"}}],
+          ["blocked", "fanfang.yard", ["rel", 0.2, 0.3], 2.0, 1.4, "seized crates stacked against the wall, Chinese and 胡 letters on them", {"look": {"kind": "cargo"}}],
+          ["blocked", "fanfang.yard", ["rel", 0.8, 0.55], 1.4, 2.4, "a cart with no beast in its shafts, a chain on them", {"look": {"kind": "cart", "cargo": "none"}}],
+          ["blocked", "fanfang.yard", ["rel", 0.22, 0.82], 1.0, 1.0, "a water jar", {"look": {"kind": "wine_jars", "count": 2}}],
+          ["blocked", "fanfang.yard", ["rel", 0.42, 0.22], 1.0, 0.9, "a crate pried open in the corner", {"look": {"kind": "loot_crates", "rotation": 15}}]
+        ],
+        "placed": {
+          "fanfang.office.feng_lu.1": ["fanfang.office", ["rel", 0.74, 0.82]],
+          "fanfang.office.customs_clerk.1": ["fanfang.office", ["rel", 0.22, 0.44]],
+          "fanfang.yard.customs_runner.1": ["fanfang.yard", ["rel", 0.42, 0.6]],
+          "fanfang.yard.customs_runner.2": ["fanfang.yard", ["rel", 0.64, 0.3]]
+        },
+        "doors": {"fanfang.office.north": "north"},
+        "reach_from": "OfficeStreetEntry"
+      },
+      "scene": {
+        "style": "map", "root": "FanfangCustoms", "map": "fanfang.customs", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/customs.json"},
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "service", "name": "PapersService", "id": "fanfang.office.papers", "room": "fanfang.office", "anchor": ["rel", 0.74, 0.38], "text": "兵部文书 · 看"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [
+          {"name": "NoticeInteraction", "id": "fanfang.office.landmark.notice", "room": "fanfang.office", "anchor": ["w", 1, 0], "shape": "Rect_32_64"}
+        ]
+      }
+    }
+  }
+}

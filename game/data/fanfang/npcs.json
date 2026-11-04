@@ -1,0 +1,383 @@
+{
+	"npcs": [
+		{
+			"id": "native.npc.salt_porter",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡; 计划 build/plans/番坊_计划.md §1 海崖道「盐脚夫」; the lived-in layer, 美术规划 §2 第 6 条; DECISIONS「番坊 A」) — 续写",
+			"name": "盐脚夫",
+			"aliases": ["salt porter", "porter", "脚夫"],
+			"gender": "男性",
+			"age": 41,
+			"long": "一个背着盐包的脚夫，盐包压得他的腰弯成一张弓。他的脸上、眉毛上一层白霜，是汗干了留下的盐。\n",
+			"attributes": { "str": 26, "cor": 18, "int": 14, "spi": 14, "cps": 20, "per": 14, "con": 28, "kar": 14 },
+			"combat_exp": 2000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 15 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 20 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"盐脚夫停下来喘口气，抹了一把脸上的盐霜。\n",
+				"盐脚夫把盐包往背上颠了颠，一步一步往上挪。\n"
+			],
+			"inquiry": {
+				"盐": ["码头那边晒的海盐。背上崖，送到玉螺湖村去换米，一包换一斗。"],
+				"番坊": ["下了崖就是。码头、市集，再往里头是庙。"],
+				"路": ["这条路是凿出来的，我爷爷那辈人凿的。下雨天别走，滑。"],
+				"海": ["看多了就不看了。海又不给饭吃。"]
+			}
+		},
+		{
+			"id": "native.npc.boatman",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡; doc/help/theme:4「航海技术并不受重视」— 港口小，船是别人的; DECISIONS「番坊 A」) — 续写",
+			"name": "船工",
+			"aliases": ["boatman", "船工"],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个晒得黑红的船工，光着脚，裤腿卷到膝盖，肩上搭着一条湿缆绳。他的手上全是绳子勒出来的老茧。\n",
+			"attributes": { "str": 26, "cor": 22, "int": 14, "spi": 14, "cps": 20, "per": 16, "con": 26, "kar": 16 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 30, "dodge": 25 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 30 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"船工往海里啐了一口。\n",
+				"船工哼起一支调子，词你一个字也听不懂。\n"
+			],
+			"inquiry": {
+				"船": ["不是我们的船。南边商人的，西边商人的。我们只管拴、只管卸，一天三十文。"],
+				"海": ["海上没有路。有路，也是别人的。"],
+				"番坊": ["港口小，船是别人的，人是各处来的。各过各的。"],
+				"大秦人": ["铁盾会的。市集北头，门口立着两面大盾的那家。"],
+				"税": ["货上岸，十抽一。冯大人的规矩。我们不交，我们没货。"]
+			}
+		},
+		{
+			"id": "native.npc.cargo_merchant",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「丝路尽头的番坊：胡商市集」; DECISIONS「番坊 A」) — 续写",
+			"name": "卸货的胡商",
+			"aliases": ["merchant", "胡商"],
+			"title": "胡商",
+			"gender": "男性",
+			"age": 46,
+			"long": "一个缠着头巾的胡商，正指挥船工把箱子抬上岸。他一会儿用胡话骂，一会儿用中原话骂，骂完了自己先笑。\n",
+			"attributes": { "str": 18, "cor": 18, "int": 26, "spi": 20, "cps": 22, "per": 18, "con": 20, "kar": 22 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 25 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 3 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"胡商冲着船工嚷道：慢点！那一箱是琉璃！\n",
+				"胡商拿出一本小册子，在上头记了一笔。\n"
+			],
+			"inquiry": {
+				"货": ["胡椒、琉璃、毡子。从西边来，走了一年。到了番坊，交了税，就剩一半。"],
+				"税": ["十抽一！冯大人还说是轻的。"],
+				"西边": ["西边是沙子，再西边是山，山那边还是沙子。走一年，才到这儿。"],
+				"大秦人": ["铁盾会的人？他们替商队看过货、打过强盗。现在没人雇他们了，就教人使剑。"]
+			}
+		},
+		{
+			"id": "native.npc.tax_clerk",
+			"legacy_source": "native: 番坊 A (剧情总纲 §3 第七章 ④ 市舶司; 计划 build/plans/番坊_计划.md §1 码头「税吏（冯禄的手下）」; DECISIONS「番坊 A」) — 续写",
+			"name": "税吏",
+			"aliases": ["tax clerk", "clerk", "税吏"],
+			"title": "市舶司",
+			"gender": "男性",
+			"age": 33,
+			"long": "一个戴小帽的税吏，坐在码头当中的桌子后头。桌上一本账、一杆秤、一个钱匣子；他拨一下算盘，看一眼海，再拨一下。\n",
+			"attributes": { "str": 16, "cor": 16, "int": 24, "spi": 18, "cps": 22, "per": 16, "con": 18, "kar": 18 },
+			"combat_exp": 2000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 15, "dodge": 20 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"税吏拨了几下算盘，在账上记了一笔。\n",
+				"税吏冲着卸货的胡商喊道：先过秤，再上岸！\n"
+			],
+			"inquiry": {
+				"税": ["货上岸，十抽一，市舶司的规矩。你没货？没货就走吧。"],
+				"市舶司": ["市集西头，灰墙的院子。冯大人在里头。"],
+				"冯禄": ["冯大人是京师派来的。番坊的事，他说了算。"],
+				"大秦人": ["铁盾会在市集北头，门口立着两面大盾。别说是我指的路。"],
+				"船": ["船是南边商人的，番坊没有自己的船。"]
+			}
+		},
+		{
+			"id": "native.npc.glass_merchant",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; 计划 build/plans/番坊_计划.md §1 市集「胡商 ×4（各一样货）」; DECISIONS「番坊 A」) — 续写",
+			"name": "琉璃商",
+			"aliases": ["glass merchant", "merchant", "胡商"],
+			"title": "胡商",
+			"gender": "男性",
+			"age": 38,
+			"long": "一个高鼻子的胡商，面前的毡子上摆满了琉璃珠子和琉璃杯。太阳一照，五颜六色的光落在他的胡子上。\n",
+			"attributes": { "str": 16, "cor": 18, "int": 26, "spi": 20, "cps": 22, "per": 20, "con": 18, "kar": 22 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 25 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"vendor": "fanfang.vendor.glass",
+			"chat_chance": 8,
+			"chat_msg": [
+				"琉璃商举起一颗珠子，对着太阳眯起眼睛看。\n",
+				"琉璃商吆喝道：西边的火烧出来的琉璃——看看，不买也看看！\n"
+			],
+			"inquiry": {
+				"琉璃": ["西边的火烧出来的，透亮。中原人喜欢，一串换一斗米。"],
+				"番坊": ["好地方。没人问你从哪来，只问你卖什么。"],
+				"市舶司": ["冯大人？他扣过我一箱杯子，说是要验。验了三个月，箱子还在他后院。"]
+			}
+		},
+		{
+			"id": "native.npc.carpet_merchant",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; DECISIONS「番坊 A」) — 续写",
+			"name": "毡毯商",
+			"aliases": ["carpet merchant", "merchant", "胡商"],
+			"title": "胡商",
+			"gender": "男性",
+			"age": 57,
+			"long": "一个胡子花白的胡商，盘腿坐在一堆毡毯上。身后的竹竿上挂着一张张毡毯，红底黄花，花纹是一圈套一圈的。\n",
+			"attributes": { "str": 16, "cor": 16, "int": 24, "spi": 22, "cps": 24, "per": 18, "con": 18, "kar": 20 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 20 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"vendor": "fanfang.vendor.carpet",
+			"chat_chance": 6,
+			"chat_msg": [
+				"毡毯商慢慢地抚平一张毡毯上的褶子。\n",
+				"毡毯商闭着眼睛，像是睡着了，可你一走近他就睁开了眼。\n"
+			],
+			"inquiry": {
+				"毡毯": ["一张毡毯，一个女人织一年。你踩在上头，就是踩在她那一年上。"],
+				"花纹": ["一圈套一圈，是路。从家里走出来，走到这儿，还没走完。"],
+				"大秦人": ["铁盾会的人买过我一张，铺在他们会首的屋里。会首是个老实人。"]
+			}
+		},
+		{
+			"id": "native.npc.spice_merchant",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; DECISIONS「番坊 A」) — 续写",
+			"name": "香料商",
+			"aliases": ["spice merchant", "merchant", "胡商"],
+			"title": "胡商",
+			"gender": "女性",
+			"age": 40,
+			"long": "一个包着头巾的胡商妇人，守着一排敞口的麻袋。她用一只铜勺子舀香料，舀一勺，抖一抖，再倒回去一点。\n",
+			"attributes": { "str": 16, "cor": 18, "int": 24, "spi": 20, "cps": 24, "per": 20, "con": 18, "kar": 20 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 25 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"vendor": "fanfang.vendor.spice",
+			"chat_chance": 8,
+			"chat_msg": [
+				"香料商抓了一把胡椒，凑到鼻子底下闻了闻，点点头。\n",
+				"香料商冲着街上喊了一句什么，她的孩子跑过来又跑走了。\n"
+			],
+			"inquiry": {
+				"香料": ["胡椒、姜黄、孜然。一勺胡椒，在京师换一勺银子。在番坊，换一张饼。"],
+				"胡饼": ["我自己烤的。芝麻多，盐少。走远路的人带着，一个月不坏。"],
+				"孩子": ["他会说三种话，一种也说不好。"]
+			}
+		},
+		{
+			"id": "native.npc.copper_merchant",
+			"legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; DECISIONS「番坊 A」) — 续写",
+			"name": "铜器商",
+			"aliases": ["copper merchant", "merchant", "胡商"],
+			"title": "胡商",
+			"gender": "男性",
+			"age": 35,
+			"long": "一个胳膊粗壮的胡商，面前的木架上挂满了铜壶、铜盘和铜铃。他拿一把小锤子在一只盘子上敲花纹，叮叮当当，一刻不停。\n",
+			"attributes": { "str": 24, "cor": 20, "int": 20, "spi": 18, "cps": 22, "per": 16, "con": 24, "kar": 18 },
+			"combat_exp": 4000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 30, "dodge": 20 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"vendor": "fanfang.vendor.copper",
+			"chat_chance": 8,
+			"chat_msg": [
+				"铜器商叮叮当当地敲着一只铜盘。\n",
+				"铜器商举起一只铜壶，冲你晃了晃。\n"
+			],
+			"inquiry": {
+				"铜壶": ["装水，装茶，装酒，都行。走远路，水比钱要紧。"],
+				"铜": ["铜是番坊的铜，手艺是我家的手艺。花纹是我爷爷教的，他说是天上的星星。"],
+				"拜火祠": ["东头那座黑石头房子。火三百年没灭，祭司说火前不能说谎。我从来不进去。"]
+			}
+		},
+		{
+			"id": "native.npc.stall_child",
+			"legacy_source": "native: 番坊 A (计划 build/plans/番坊_计划.md §1 市集「看摊的孩子」; the lived-in layer; DECISIONS「番坊 A」) — 续写",
+			"name": "看摊的孩子",
+			"aliases": ["child", "kid", "孩子"],
+			"gender": "男性",
+			"age": 8,
+			"long": "一个七八岁的孩子，头发卷卷的，替他娘看着香料摊。见人就喊「看看，看看」，喊的是三种话。\n",
+			"attributes": { "str": 10, "cor": 14, "int": 20, "spi": 16, "cps": 14, "per": 22, "con": 14, "kar": 24 },
+			"combat_exp": 100,
+			"attitude": "peaceful",
+			"skills": { "dodge": 20 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"看摊的孩子冲你喊道：看看，看看！\n",
+				"看摊的孩子从麻袋里偷抓了一撮什么，塞进嘴里，脸一下子皱成一团。\n"
+			],
+			"inquiry": {
+				"番坊": ["我娘说，番坊就是谁都来、谁都走的地方。"],
+				"大秦人": ["铁盾会的人个子好高。他们说话像唱歌，吵架也像唱歌。"],
+				"海": ["我没坐过船。船是别人的。"]
+			}
+		},
+		{
+			"id": "native.npc.storyteller",
+			"legacy_source": "native: 番坊 A (计划 build/plans/番坊_计划.md §1 市集「说书的波斯老人（讲『西边有个崩了的大国』）」; doc/help/theme:3「西方还在蛮荒时代」— the empire fallen, its people exiles and swords for hire, 剧情总纲 §6 番坊卡; DECISIONS「番坊 A」) — 续写; Rome is never named",
+			"name": "说书的老胡人",
+			"aliases": ["storyteller", "old man", "老人", "老胡人"],
+			"gender": "男性",
+			"age": 72,
+			"long": "一个白胡子的老胡人，坐在街边的一块毡子上，面前一只铜碗。他讲的是中原话，讲得很慢，时不时冒出一个谁也听不懂的词，又自己把它换成中原话。\n",
+			"attributes": { "str": 12, "cor": 16, "int": 28, "spi": 26, "cps": 26, "per": 18, "con": 14, "kar": 22 },
+			"combat_exp": 500,
+			"attitude": "peaceful",
+			"skills": { "dodge": 10 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 15 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n",
+				"说书的老胡人停下来，喝了一口水，看着街上的人来来去去。\n"
+			],
+			"inquiry": {
+				"故事": ["西边，很远的西边，有一个大国。城一百座，路都是石头铺的，一直铺到海边。后来北边的蛮子来了，城一座一座地烧。剩下的人往东走，走到这里，走不动了。——这不是故事，孩子。这是铁盾会那些人的来历。"],
+				"大秦": ["你们叫它大秦。他们自己叫它别的名字。它已经没有了。"],
+				"大秦人": ["他们的祖上来得早，三百年前就来过一回，替你们这边打过北方的蛮子。这回来的，是没有家可回的。"],
+				"番坊": ["丝路走到头，就是这里。往东是你们中原，往西往南，是海。"],
+				"海": ["海那边？我不知道。我是走路来的，走了一年。"]
+			}
+		},
+		{
+			"id": "native.npc.feng_lu",
+			"legacy_source": "native: 番坊 A (剧情总纲 §3 第七章 ④「市舶吏奉兵部令要清走大秦人」, 要加「市舶吏冯禄【名字续写】」; d/city/eastdoor2.c 的通缉布告作由头; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 A」) — 续写",
+			"name": "冯禄",
+			"aliases": ["feng lu", "official", "市舶吏", "冯大人"],
+			"title": "市舶吏",
+			"gender": "男性",
+			"age": 45,
+			"long": "一个穿青袍的小官，袍子洗得发白，袖口磨出了毛。他坐在书案后头，一手按着账册，一手拈着胡子，眼睛总往门口瞟。\n",
+			"attributes": { "str": 16, "cor": 14, "int": 26, "spi": 18, "cps": 24, "per": 16, "con": 18, "kar": 18 },
+			"combat_exp": 5000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 25, "dodge": 30, "literate": 60 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"冯禄翻着账册，嘴里念念有词地算着数目。\n",
+				"冯禄看了一眼门外，又低下头。\n"
+			],
+			"inquiry": {
+				"文书": { "rules": [
+					{ "asker_marks": ["看出文书是假的"], "lines": [
+						{ "emote": "按住了案上的文书，手指头有点抖。" },
+						{ "say": "印……印是兵部的印。你一个外乡人，懂什么印色？" }
+					] },
+					{ "say": "兵部的令，京师来的，盖着大印。大秦人聚众持械，着本司清出——我也是奉命行事。" }
+				] },
+				"大秦人": ["他们在番坊住了三十年，税从来没拖过。可兵部的令下来了，我有什么法子？"],
+				"浪人": ["鬼笠馆的。他们想要铁盾会那块地，想了好些年了。兵部的令一下，他们比我还高兴。"],
+				"於兰天武": ["京师东二门挂着的那张。各州县都要抄一份，我也抄了。皇叔怎么成了要犯？我一个小吏，不敢问。"],
+				"布告": ["京师东二门的原告，番坊照抄。上头让抄，我就抄。"],
+				"市舶司": ["收税、查货、看船。番坊的船都是外头的，税是我的。"],
+				"船": ["南边来的，西边来的，没有一条是番坊的。番坊人不造船，只卸货。"],
+				"铁盾会": ["市集北头。去吧，去告诉他们：兵部的令是兵部的令，不是我冯禄的令。"]
+			}
+		},
+		{
+			"id": "native.npc.customs_clerk",
+			"legacy_source": "native: 番坊 A (计划 build/plans/番坊_计划.md §1 市舶司「书办 ×1」; DECISIONS「番坊 A」) — 续写",
+			"name": "书办",
+			"aliases": ["clerk", "书办"],
+			"gender": "男性",
+			"age": 26,
+			"long": "一个瘦瘦的书办，趴在书案的一角抄东西，抄一行，抬一次头，看一眼冯大人。\n",
+			"attributes": { "str": 12, "cor": 14, "int": 26, "spi": 18, "cps": 20, "per": 16, "con": 14, "kar": 18 },
+			"combat_exp": 500,
+			"attitude": "peaceful",
+			"skills": { "dodge": 15, "literate": 50 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"书办揉了揉手腕，又蘸了一笔墨。\n"
+			],
+			"inquiry": {
+				"文书": ["抄了二十份了，番坊每家门口贴一份。大人说贴，我就抄。"],
+				"布告": ["那张也是我抄的。於兰天武四个字，我写了一百遍。"],
+				"冯禄": ["大人？大人这几天睡不着。"]
+			}
+		},
+		{
+			"id": "native.npc.customs_runner",
+			"legacy_source": "native: 番坊 A (计划 build/plans/番坊_计划.md §1 市舶司「差役 ×2」; DECISIONS「番坊 A」) — 续写",
+			"name": "差役",
+			"aliases": ["runner", "constable", "差役"],
+			"title": "市舶司",
+			"gender": "男性",
+			"age": 29,
+			"long": "一个腰里挂着铁尺的差役，靠着墙站着，一会儿换一条腿。\n",
+			"attributes": { "str": 24, "cor": 20, "int": 14, "spi": 14, "cps": 18, "per": 14, "con": 24, "kar": 14 },
+			"combat_exp": 8000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 40, "dodge": 35, "parry": 35 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 40 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"差役打了个哈欠。\n",
+				"差役看了看墙头上的碎瓷片，又看了看你。\n"
+			],
+			"inquiry": {
+				"大秦人": ["铁盾会那些人，个个带剑，个子比我高一头。真要清……就凭我们两个？"],
+				"货": ["后院那些箱子？扣下来的。有的扣了三个月，有的扣了三年。"],
+				"浪人": ["鬼笠馆的人倒是来过，问大人什么时候动手。大人说等。"]
+			}
+		}
+	]
+}

@@ -42,6 +42,44 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(leaf,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
 			for x: float in [-0.12,0.12]:
 				s.box(leaf,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
+		"great_shield":
+			# 铁盾会's great shields (native:fanfang/bazaar_north): taller than a man, oblong, bent
+			# into half a drum; leather over wood, an iron rim and rings of rivets, a spread eagle
+			# painted on the face with half its gilt gone to the red beneath, the foot driven deep
+			# into the ground. `colors`: face, gilt, rim, leather; `height`, `width` (units).
+			var tones: Array = data.get("colors",["8a2a22","c8a040","3e3a36","6a4a32"])
+			var face: String = String(tones[0])
+			var gilt: String = String(tones[1])
+			var rim: String = String(tones[2])
+			var height: float = float(data.get("height",2.3))
+			var width: float = float(data.get("width",1.1))
+			var bottom: float = -0.12
+			var slats: int = 7
+			for i: int in slats:
+				var u: float = (i+0.5)/slats-0.5
+				var bend: float = -u*u*0.9
+				var slat_tone: String = face if i%3 != 1 else Color(face).darkened(0.08).to_html(false)
+				s.tilted_box(root,Vector3(u*width,bottom+height/2,bend),Vector3(width/slats+0.015,height,0.07),slat_tone,Vector3(0,-u*1.6,0))
+				for y: float in [bottom+0.06,bottom+height-0.06]:
+					s.tilted_box(root,Vector3(u*width,y,bend+0.03),Vector3(width/slats+0.02,0.08,0.05),rim,Vector3(0,-u*1.6,0))
+			for side: float in [-1.0,1.0]:
+				s.box(root,Vector3(side*width/2,bottom+height/2,-0.23),Vector3(0.06,height,0.08),rim)
+				for r: int in 7:
+					s.box(root,Vector3(side*(width/2-0.08),bottom+0.2+r*(height-0.4)/6,-0.15),Vector3(0.05,0.05,0.04),"2a2826")
+			# The boss, and the eagle round it: wings spread, the right one's gilt half flaked off.
+			var mid: float = bottom+height*0.56
+			s.box(root,Vector3(0,mid,0.06),Vector3(0.26,0.26,0.08),rim)
+			s.box(root,Vector3(0,mid+0.42,0.05),Vector3(0.1,0.12,0.03),gilt)
+			s.box(root,Vector3(0,mid+0.26,0.05),Vector3(0.16,0.22,0.03),gilt)
+			s.box(root,Vector3(0,mid-0.3,0.05),Vector3(0.18,0.28,0.03),gilt)
+			s.tilted_box(root,Vector3(-0.26,mid+0.18,0.02),Vector3(0.42,0.1,0.03),gilt,Vector3(0,0.4,0.55))
+			s.tilted_box(root,Vector3(-0.28,mid+0.02,0.02),Vector3(0.36,0.08,0.03),gilt,Vector3(0,0.4,0.35))
+			s.tilted_box(root,Vector3(0.24,mid+0.18,0.02),Vector3(0.24,0.1,0.03),gilt,Vector3(0,-0.4,-0.55))
+			s.box(root,Vector3(0.34,mid+0.3,0.0),Vector3(0.06,0.05,0.03),gilt)
+			s.box(root,Vector3(0.3,mid-0.02,0.0),Vector3(0.08,0.06,0.03),Color(face).darkened(0.25).to_html(false))
+			# The leather showing at the scuffed foot, earth heaped where it is driven in.
+			s.box(root,Vector3(0,bottom+0.2,0.0),Vector3(width*0.7,0.18,0.05),String(tones[3]))
+			s.box(root,Vector3(0,0.02,0.05),Vector3(width*0.9,0.08,0.4),"6a5a44")
 		"dark_altar":
 			# 黑石坛 (native:niling/altar, 逆灵宫 C): a two-tiered dais of black stone, worn bright on
 			# top, bone chips in its foot's cracks, and on it a black flame — tongues that give no

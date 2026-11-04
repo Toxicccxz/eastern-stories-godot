@@ -399,6 +399,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		landmass.build(cells,required,edge_config)
 		await breathe()
 		cells = landmass.terrain(cells)
+		_open_sea(cells)
 		await breathe()
 		_ground_under_blocks(cells)
 		await breathe()
@@ -527,12 +528,12 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 	if indoor:
 		_plinth(cells)
 	if cliffs != null:
-		cliffs.build(self)
+		await cliffs.build(self,breathe)
 		occluders.append({"node":cliffs.root})
 		await breathe()
 		_dress_cliffs()
 		await breathe()
-	water.build(self,cells,cliffs,shapes,rng)
+	await water.build(self,cells,cliffs,shapes,rng,breathe)
 	await breathe()
 	if foliage != null:
 		for edge_cell: Vector2i in cells:
@@ -566,6 +567,29 @@ func _ground_under_blocks(cells: Dictionary[Vector2i, String]) -> void:
 				break
 	for cell: Vector2i in under:
 		cells[cell] = under[cell]
+
+## Layout `water.open_sea` ({"kind", "rects": [[x0, y0, x1, y1], ...]}, pixels on the 16 px
+## grid): a sea that runs on past the map's edge (番坊's coast). Its rects' cells that the
+## landmass left bare become open water, and a landmass patch that is all water carries no slab,
+## so the view looks out over the sea to the sky instead of a cut-away edge. The picture only.
+func _open_sea(cells: Dictionary[Vector2i, String]) -> void:
+	var sea: Dictionary = water_config.get("open_sea", {})
+	if sea.is_empty():
+		return
+	var kind: String = String(sea.get("kind","deep_water"))
+	for r: Array in sea.get("rects",[]):
+		# Snapped onto the 16 px grid, so every cell it makes is a real cell's centre.
+		for y: int in range(floori(float(r[1])/16.0)*16,int(r[3]),16):
+			for x: int in range(floori(float(r[0])/16.0)*16,int(r[2]),16):
+				var at := Vector2i(x+8,y+8)
+				if String(cells.get(at,"boundary")) == "boundary":
+					cells[at] = kind
+	# A sea in a pit (the 海崖道's drop: cliffs `sink` with the sea at its foot) is open sea too.
+	var open: Array[String] = VoxelWater.KINDS.duplicate()
+	if cliffs != null:
+		for sunk: Variant in cliffs.sink.get("kinds",[]):
+			open.append(String(sunk))
+	landmass.drop_water(cells,open)
 
 ## Ground kinds a way is surfaced with: where two meet, their seam wanders (`_fray_seams`).
 const SURFACES: Array[String] = ["town_ground","street","floor_yard","rock","path","riverbank","gravel"]
