@@ -4,8 +4,10 @@ extends PanelContainer
 ## The 背包 (owner, 2026-11-04): its sections along the top (InventorySections), the things
 ## carried listed on the left and the one picked read on the right, with what can be done
 ## with it there. Moving through the list (a click, keys, pad) reads the row under it, as
-## the 百科 does: there is no 观察 button. The coins are the 钱袋 under the list, and
-## inventory.c's 负重 under that. 给 is not here: giving is the NPC's 给予 page.
+## the 百科 does: there is no 观察 button. Every row has the thing's small voxel picture,
+## and the one read turns slowly beside its words (VoxelItemLook). The coins are the 钱袋
+## under the list, and inventory.c's 负重 under that. 给 is not here: giving is the NPC's
+## 给予 page.
 
 signal wield_requested(item_instance_id: StringName)
 signal unwield_requested(item_instance_id: StringName)
@@ -47,6 +49,9 @@ const ARMOR_WORDS: Dictionary[StringName, String] = {
 }
 ## The list column's width; the item read takes the rest.
 const LIST_WIDTH: float = 300.0
+## A row's picture and the turning one, in pixels.
+const ICON_SIZE: int = 36
+const MODEL_SIZE: int = 200
 ## The 钱袋's key where a row's item id would be.
 const PURSE: StringName = &"#purse"
 ## The comparison with what is on, when the picked thing is better or worse.
@@ -77,6 +82,16 @@ var section_buttons: Array[Button] = []
 var row_buttons: Dictionary[StringName, Button] = {}
 ## 吃 and 喝 from the item read; null outside a session (layout tests).
 var supplies: HeldSupplies
+## The rows' pictures; null outside a session (layout tests): rows go without.
+var icons: ItemIcons:
+	set(value):
+		if icons != null and icons.icon_ready.is_connected(_on_icon_ready):
+			icons.icon_ready.disconnect(_on_icon_ready)
+		icons = value
+		if icons != null:
+			icons.icon_ready.connect(_on_icon_ready)
+## The item read, turning.
+var model_view: ItemModelView
 
 ## Everything carried directly, coins included, in carried order.
 var _rows: Array[PlayerInventoryRowProjection] = []
@@ -119,9 +134,13 @@ func _ready() -> void:
 	list_column.custom_minimum_size.x = LIST_WIDTH
 	list_column.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	purse_button.button_group = _row_group
+	purse_button.add_theme_constant_override("icon_max_width", ICON_SIZE)
+	purse_button.add_theme_constant_override("h_separation", 10)
 	purse_button.pressed.connect(select_item.bind(PURSE))
 	purse_button.focus_entered.connect(select_item.bind(PURSE))
 	detail_scroll.add_to_group(PadSupport.SCROLL_GROUP)
+	model_view = ItemModelView.new(MODEL_SIZE)
+	model_mount.add_child(model_view)
 	_section_titles()
 
 
@@ -273,6 +292,8 @@ func _refresh(focused: bool) -> void:
 	empty_label.visible = _shown.is_empty()
 	row_scroll.visible = not _shown.is_empty()
 	purse_button.text = _purse_title()
+	var dearest: PlayerInventoryRowProjection = _dearest_coin()
+	purse_button.icon = null if icons == null or dearest == null else icons.icon(dearest.item_definition_id)
 	# TRANSLATORS: inventory.c's 负重: how much of the most the player can carry they carry, in percent.
 	burden_label.text = "" if _burden < 0 else tr("负重 {percent}%").format({"percent": _burden})
 	burden_label.visible = _burden >= 0
@@ -342,7 +363,11 @@ func _build_row(row: PlayerInventoryRowProjection) -> Button:
 	button.button_group = _row_group
 	button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	button.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	button.custom_minimum_size = Vector2(0, 36)
+	button.custom_minimum_size = Vector2(0, ICON_SIZE + 8)
+	button.add_theme_constant_override("icon_max_width", ICON_SIZE)
+	button.add_theme_constant_override("h_separation", 10)
+	if icons != null:
+		button.icon = icons.icon(row.item_definition_id)
 	button.set_pressed_no_signal(row.item_instance_id == _selected)
 	var colour: Color = name_color_of(row.item_definition_id)
 	if colour != Color.TRANSPARENT:
@@ -370,6 +395,18 @@ func _coins() -> Array[PlayerInventoryRowProjection]:
 	return coins
 
 
+## The coin worth most a piece among those carried (the purse's picture), or null.
+func _dearest_coin() -> PlayerInventoryRowProjection:
+	var dearest: PlayerInventoryRowProjection = null
+	var worth: int = -1
+	for row: PlayerInventoryRowProjection in _coins():
+		var each: int = GameContent.catalog().item(row.item_definition_id).currency_base_value
+		if each > worth:
+			dearest = row
+			worth = each
+	return dearest
+
+
 func _row(id: StringName) -> PlayerInventoryRowProjection:
 	for row: PlayerInventoryRowProjection in _rows:
 		if row.item_instance_id == id:
@@ -382,6 +419,23 @@ func _show_selected() -> void:
 		_show_purse()
 		return
 	_show_item(_row(_selected))
+
+
+## A picture taken: the rows of that kind of thing show it.
+func _on_icon_ready(item_definition_id: StringName, texture: Texture2D) -> void:
+	for row: PlayerInventoryRowProjection in _shown:
+		if row.item_definition_id == item_definition_id and row_buttons.has(row.item_instance_id):
+			row_buttons[row.item_instance_id].icon = texture
+	var dearest: PlayerInventoryRowProjection = _dearest_coin()
+	if dearest != null and dearest.item_definition_id == item_definition_id:
+		purse_button.icon = texture
+
+
+## The turning picture shows `item_definition_id` ("" none).
+func _show_model(item_definition_id: StringName) -> void:
+	model_mount.visible = not item_definition_id.is_empty()
+	if model_view != null:
+		model_view.show_item(item_definition_id)
 
 
 func _clear_detail() -> void:
@@ -400,7 +454,9 @@ func _show_item(row: PlayerInventoryRowProjection) -> void:
 		item_title.text = ""
 		inspect_text.text = ""
 		use_feedback.text = ""
+		_show_model(&"")
 		return
+	_show_model(row.item_definition_id)
 	item_title.text = tr(row.display_name)
 	var colour: Color = name_color_of(row.item_definition_id)
 	if colour != Color.TRANSPARENT:
@@ -421,7 +477,10 @@ func _show_purse() -> void:
 	var coins: Array[PlayerInventoryRowProjection] = _coins()
 	if coins.is_empty():
 		inspect_text.text = tr("身上一文钱也没有。")
+		_show_model(&"")
 		return
+	# The purse shows its dearest coin.
+	_show_model(_dearest_coin().item_definition_id)
 	var worth: int = 0
 	for row: PlayerInventoryRowProjection in coins:
 		worth += row.total_value

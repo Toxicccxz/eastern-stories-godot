@@ -216,6 +216,10 @@ func _ready() -> void:
 	inventory_panel.scribe_requested.connect(items.scribe_on)
 	inventory_panel.attach_requested.connect(items.attach_sheet)
 	inventory_panel.supplies_used.connect(items.open_inventory)
+	# The rows' pictures, taken once a run (VoxelItemLook).
+	var icons := ItemIcons.new()
+	add_child(icons)
+	inventory_panel.icons = icons
 	interaction_panel = InteractionPanel.new()
 	_presentation_layout.holding.add_child(interaction_panel)
 	interaction_panel.hold_look(_presentation_layout.details)

@@ -61,12 +61,12 @@ func _service() -> void:
 	var pseudo: LanguageDefinition = PseudoLocale.language()
 	var service := LocalizationService.new(LanguageCatalog.load_from().with_language(pseudo), "en_US")
 	check(service.apply(LocalizationService.FOLLOW_SYSTEM) and service.active_code() == "zh_CN" and TranslationServer.get_locale() == "zh_CN", "follow system: an English system reads Simplified, and the locale says so (glyph forms, line breaks)")
-	check(TranslationServer.translate("观察") == "观察", "the source language translates nothing")
+	check(TranslationServer.translate("丢下") == "丢下", "the source language translates nothing")
 	check(service.apply(PseudoLocale.CODE) and TranslationServer.get_locale() == PseudoLocale.CODE, "a chosen language applies")
-	check(TranslationServer.translate("观察") == "〖观察〗", "its catalog is loaded")
+	check(TranslationServer.translate("丢下") == "〖丢下〗", "its catalog is loaded")
 	check(not service.apply(PseudoLocale.CODE), "applying it again changes nothing")
 	check(service.apply("xx_YY") and service.active_code() == "zh_CN", "a language no longer listed follows the system")
-	check(TranslationServer.translate("观察") == "观察", "the previous catalog is unloaded")
+	check(TranslationServer.translate("丢下") == "丢下", "the previous catalog is unloaded")
 	var theme: Theme = ThemeDB.get_project_theme()
 	check(theme.default_font is FontFile and theme.default_font.resource_path.ends_with("LXGWWenKaiLite-Medium.ttf") and (theme.default_font as FontFile).allow_system_fallback, "the text face is the bundled 霞鹜文楷; the system fills in glyphs it lacks")
 	check(LocalizationService.language_font(theme) == null, "no system font chained under it to retarget (one that finds none of its names falls back to the theme's own font: a loop)")
@@ -115,7 +115,7 @@ func _pseudo_marks() -> void:
 	check(not PseudoLocale.untranslated("Take").is_empty(), "English is found too")
 	var messages: Array[Dictionary] = PseudoLocale.read_pot()
 	var ids: Array = messages.map(func(message: Dictionary) -> String: return message["id"])
-	check(messages.size() > 900 and ids.has("观察") and ids.has("你给{npc}{item}。") and ids.has("东方故事"), "the template holds code, scene and content text")
+	check(messages.size() > 900 and ids.has("丢下") and ids.has("你给{npc}{item}。") and ids.has("东方故事"), "the template holds code, scene and content text")
 
 
 func _shell_screens(tree: SceneTree) -> void:
