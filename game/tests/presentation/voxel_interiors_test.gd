@@ -163,15 +163,11 @@ func run_all(tree: SceneTree) -> Dictionary:
 	view._update_occlusion()
 	_check(GameSaveJsonCodec.encode(Work.capture(session)).text==saved,"view and night toggles change no saved values or RNG")
 	session.set_process(true)
-	# Leaving this region still restores the unchanged 2D fallback.
-	var fallback: MapDefinition = GameContent.catalog().map(&"death.realm")
-	if fallback!=null:
-		var map := MapPlaces.enter(session,&"death.gate",fallback.entry_spawn_id)
-		await _frames(tree,3)
-		_check(map!=null and not map.projected_view and not button.visible,"unconverted regions keep their 2D presentation")
-		_check(tree.root.get_camera_3d()==null and tree.root.msaa_3d==initial_msaa,"2D handoff restores viewport camera and MSAA")
+	# Every map has its voxel view now: leaving the world (back to the menu) gives the viewport back
+	# as it was, its camera and MSAA.
 	session.free()
 	await _frames(tree,2)
+	_check(tree.root.get_camera_3d()==null and tree.root.msaa_3d==initial_msaa,"leaving the world restores the viewport's camera and MSAA")
 	return {"assertions":assertions,"failures":failures}
 
 func _check_hidden_floor(tree: SceneTree, session: WorldSessionController, map: WorldMapController, view: WorldVoxelView) -> void:

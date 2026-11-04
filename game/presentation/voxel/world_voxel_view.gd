@@ -202,8 +202,10 @@ func _region_light(indoor: bool) -> Dictionary:
 ## Where the light comes from: a held frame, else the 昼夜 setting (一直白天 / 一直夜晚),
 ## else the session's DayClock.
 func _sync_light(immediate: bool = false) -> void:
-	if not held_frame.is_empty():
-		lighting.set_frame(held_frame,immediate)
+	var hold: Dictionary = layout.get("hold",{})
+	var frame: String = held_frame if not held_frame.is_empty() else String(hold.get("frame",""))
+	if not frame.is_empty():
+		lighting.set_frame(frame,immediate)
 	elif DayNightPreference.mode == DayNightPreference.Value.DAY:
 		lighting.set_frame("day",immediate)
 	elif DayNightPreference.mode == DayNightPreference.Value.NIGHT:
@@ -213,8 +215,9 @@ func _sync_light(immediate: bool = false) -> void:
 	else:
 		lighting.set_frame("day",immediate)
 	# The cloud (DECISIONS「天气」) is the world's whatever the setting holds the hour at.
-	if held_cloud >= 0:
-		lighting.set_cloud_level(held_cloud,immediate)
+	var cloud: int = held_cloud if held_cloud >= 0 else int(hold.get("cloud",-1))
+	if cloud >= 0:
+		lighting.set_cloud_level(cloud,immediate)
 	elif map != null and map.session != null:
 		lighting.set_cloud_level(map.session.sky_level(),immediate)
 	else:

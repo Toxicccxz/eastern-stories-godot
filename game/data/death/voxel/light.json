@@ -1,0 +1,17 @@
+{
+  "note": "阴间 (美术规划 §1): no sun and no night — the same grey-green murk at every hour, the fog everywhere (bridge.c: 东、西两面都是大雾，连桥底下是不是水都看不到), the few lanterns and the red fires in the gate the only warm light. The rooms have no `outdoors`: no day or night lines either.",
+  "outdoor": {
+    "overcast": {"sky": "8a9692", "ambient": "9aa6a2", "sun": "b8c2be", "note": "unused: the maps hold no cloud (`hold`)"},
+    "sky": {"dawn": "8a9692", "day": "8a9692", "dusk": "8a9692", "night": "8a9692", "midnight": "8a9692"},
+    "ambient": {"dawn": "9aa6a2", "day": "9aa6a2", "dusk": "9aa6a2", "night": "9aa6a2", "midnight": "9aa6a2"},
+    "ambient_energy": {"dawn": 0.5, "day": 0.5, "dusk": 0.5, "night": 0.5, "midnight": 0.5},
+    "sun": {"dawn": "c0c8c4", "day": "c0c8c4", "dusk": "c0c8c4", "night": "c0c8c4", "midnight": "c0c8c4"},
+    "sun_energy": {"dawn": 0.2, "day": 0.2, "dusk": 0.2, "night": 0.2, "midnight": 0.2}
+  },
+  "indoor": {
+    "ambient": {"dawn": "8a8a84", "day": "8a8a84", "dusk": "8a8a84", "night": "8a8a84", "midnight": "8a8a84"},
+    "ambient_energy": {"dawn": 0.36, "day": 0.36, "dusk": 0.36, "night": 0.36, "midnight": 0.36},
+    "sun": {"dawn": "b8c0bc", "day": "b8c0bc", "dusk": "b8c0bc", "night": "b8c0bc", "midnight": "b8c0bc"},
+    "sun_energy": {"dawn": 0.12, "day": 0.12, "dusk": 0.12, "night": 0.12, "midnight": 0.12}
+  }
+}

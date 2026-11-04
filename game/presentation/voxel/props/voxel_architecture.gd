@@ -727,8 +727,9 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 		shapes.box(front,Vector3(0,1.2,0.07),Vector3(2.1,0.14,0.08),"3f3226")
 	elif data.get("doorway","")=="dark":
 		# An unlit doorway (黑漆漆): black within, one leaf hanging open on a hinge.
-		shapes.box(front,Vector3(0,1.2,-0.3),Vector3(2.0,2.4,0.5),"14110f")
-		shapes.tilted_box(front,Vector3(-0.75,1.1,0.25),Vector3(0.75,2.1,0.08),String(data.get("leaf","6b5038")),Vector3(0,-0.9,0))
+		var gap: float = maxf(2.0,half*2.0-0.3)
+		shapes.box(front,Vector3(0,1.2,-0.3),Vector3(gap,2.4,0.5),"14110f")
+		shapes.tilted_box(front,Vector3(-gap*0.375,1.1,0.25),Vector3(gap*0.375,2.1,0.08),String(data.get("leaf","6b5038")),Vector3(0,-0.9,0))
 	var porch: String = data.get("porch","tiled")
 	if porch=="cloth":
 		# `awning`: the cloth's two stripe colours (pale, dark).

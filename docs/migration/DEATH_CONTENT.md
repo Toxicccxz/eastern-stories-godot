@@ -18,7 +18,8 @@ dying.
 | death.realm (阴间) | bridge1, bridge, gate, gateway, road1, road2, road3 | 阴鬼牙将 ×4 (bridge), 白无常 (gate), 黑无常 (gateway) | walked south to north; no way back south from gateway; road2's north refused four times; the way out is reincarnate() (the gargoyles' last line, the little shop's 回家) to the Snow temple |
 | death.inn1_house, inn2_house (interiors) | inn1 (小店); inn2 (黑店) | — | out east and west onto road1 |
 
-No map here has a voxel view yet (no `game/data/death/voxel/`).
+Every map has its voxel view (`game/data/death/voxel/`): no day, night or weather (the layouts' `hold`: one frame,
+no cloud, as no room here is `outdoors`), the fog under and round the way; the shops' doors 128, their furniture blocked boxes in the layouts, each room's `life` written.
 
 Not placed: block.c (「离岛」管训所) and jail.c (绿岛), wizard punishment rooms nothing leads into;
 spath1.c (墙边小路), west of the gateway in its text but no exit leads into it (gateway.c has no

@@ -452,6 +452,17 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for side: float in [-1.0,1.0]:
 					s.tilted_box(root,Vector3(x+side*0.12,0.3,-d/2+0.3),Vector3(0.06,0.06,0.44),String(bone[0]),Vector3(0.6,side*0.3,0))
 					s.tilted_box(root,Vector3(x+side*0.2,0.05,-d/2+0.56),Vector3(0.06,0.06,0.36),String(bone[1]),Vector3(0,side*0.4,0))
+		"scratches":
+			# inn2.c: 墙上(wall)刻著一些潦草的字体 — strokes cut into the boards in uneven rows, no
+			# character to be read from where the view is.
+			var y: float = float(data.get("height",1.5))
+			var cut: String = String(data.get("color","3a2e26"))
+			for line: int in int(data.get("rows",4)):
+				for i: int in ceili(w/0.16):
+					if (i*7+line*5)%6==0:
+						continue
+					var tilt: float = 0.6*sin(i*3.1+line*1.7)
+					s.tilted_box(root,Vector3(-w/2+0.08+i*0.16,y+0.32-line*0.22+0.03*sin(i*2.7),0.03),Vector3(0.03,0.12+0.05*absf(sin(i*1.9+line)),0.012),cut,Vector3(0,0,tilt))
 		"wall_sword":
 			# outdoor.c: 东首墙上挂这一把木剑 — a plain wooden sword on two pegs.
 			var y: float = float(data.get("height",1.7))
@@ -610,19 +621,23 @@ func _lantern_post(data: Dictionary) -> void:
 	s.box(root,Vector3(0,1.6,0),Vector3(0.14,3.2,0.14),"8a2a22")
 	s.box(root,Vector3(0.3,3.15,0),Vector3(0.7,0.1,0.1),"8a2a22")
 	var count: int = int(data.get("count",3))
+	var paper: String = String(data.get("lamp","d8452f"))+":glow"
 	for i: int in count:
 		var at := Vector3(0.55,2.75-i*0.52,0)
 		s.box(root,at+Vector3(0,0.28,0),Vector3(0.03,0.12,0.03),"594732")
-		s.box(root,at,Vector3(0.36,0.38,0.36),"d8452f:glow")
+		s.box(root,at,Vector3(0.36,0.38,0.36),paper)
 		for y: float in [-0.2,0.2]:
 			s.box(root,at+Vector3(0,y,0),Vector3(0.3,0.05,0.3),"2a2420")
 		s.box(root,at+Vector3(0,0,0.185),Vector3(0.14,0.18,0.01),"f2d27a")
-	s.box(root,Vector3(0.55,2.75-count*0.52+0.2,0),Vector3(0.04,0.22,0.04),"c8382a")
+	s.box(root,Vector3(0.55,2.75-count*0.52+0.2,0),Vector3(0.04,0.22,0.04),String(data.get("tassel","c8382a")))
 	var lamp := OmniLight3D.new()
 	lamp.position = Vector3(0.55,2.2,0)
-	lamp.light_color = Color("ff9a68")
+	lamp.light_color = Color(String(data.get("glow","ff9a68")))
 	root.add_child(lamp)
-	_set_lamp(root,0.5,2.0,4.5,0.05)
+	if data.get("dim",false):
+		_set_lamp(root,0.3,1.0,4.0,0.3)
+	else:
+		_set_lamp(root,0.5,2.0,4.5,0.05)
 
 func _set_lamp(node: Node3D, day: float, night: float, radius: float, flicker: float = 0.0) -> void:
 	for child: Node in node.get_children():

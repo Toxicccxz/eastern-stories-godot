@@ -1,0 +1,11 @@
+{
+  "note": "阴间: nothing grows in the fog; colours for the few dead tufts by the road.",
+  "crown_colors": {
+    "shrub": ["3a403a", "444a42", "4e544a", "585e52"]
+  },
+  "bark_colors": {
+    "shrub": ["2e2a26", "36322c", "26221e"]
+  },
+  "grass_colors": ["4a5048", "545a50", "5e6458", "3e443e"],
+  "flower_colors": ["8a8a80", "9a9a90", "7a7a72", "a8a89c"]
+}

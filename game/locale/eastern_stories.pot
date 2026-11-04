@@ -1715,7 +1715,7 @@ msgid "酆都城门"
 msgstr ""
 
 #. es2:d/death/gate short
-#: scenes/world/death/death_realm.tscn data/death/rooms.json
+#: scenes/world/death/death_realm.tscn data/death/rooms.json data/death/voxel/realm.json
 msgid "鬼门关"
 msgstr ""
 
@@ -1725,7 +1725,7 @@ msgstr ""
 msgid "奈何桥"
 msgstr ""
 
-#: scenes/world/death/death_realm.tscn
+#: scenes/world/death/death_realm.tscn data/death/voxel/realm.json
 msgid "酆都城"
 msgstr ""
 

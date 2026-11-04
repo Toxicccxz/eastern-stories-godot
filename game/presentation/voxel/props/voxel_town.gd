@@ -40,6 +40,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"horse": _horse(w,d)
 		"camel": _camel(w,d)
 		"scarecrow": _scarecrow()
+		"shades": _shades(w,d)
 		"farm_tools": _farm_tools(w,d)
 		"pigsty": _pigsty(w,d)
 		"chicken_coop": _chicken_coop(w,d)
@@ -83,6 +84,25 @@ func _scarecrow() -> void:
 	s.box(root,Vector3(0,1.58,0),Vector3(0.26,0.26,0.26),"c8b48a")
 	for tier: int in 3:
 		s.box(root,Vector3(0,1.72+tier*0.05,0),Vector3(1.0-tier*0.32,0.05,1.0-tier*0.32),hat)
+
+## 人影: hooded figures in long cloaks, their faces lost in the hood, in a file along the box's
+## long side, facing its +z (inn1.c: 四个披著黑斗蓬的人; bridge.c: 浓雾中有许多朦胧的人影). `count`,
+## `cloak`, `lean`; `ghostly`: half seen through (the dead in the fog).
+func _shades(w: float, d: float) -> void:
+	var cloak: String = String(data.get("cloak","1e1c22"))+(":mist" if data.get("ghostly",false) else "")
+	var along_x: bool = w>=d
+	var span: float = maxf(w,d)
+	var count: int = int(data.get("count",maxi(1,floori(span/0.7))))
+	for i: int in count:
+		var t: float = -span/2+(i+0.5)*span/count
+		var at := (Vector3(t,0,0) if along_x else Vector3(0,0,t))+Vector3(sin(i*2.3),0,cos(i*1.7))*0.06
+		var lean: float = float(data.get("lean",0.08))*sin(i*1.3+0.4)
+		var tall: float = 1.5+0.12*sin(i*2.9)
+		s.tilted_box(root,at+Vector3(0,tall*0.42,0),Vector3(0.5,tall*0.84,0.4),cloak,Vector3(0,0,lean))
+		s.tilted_box(root,at+Vector3(0,0.06,0),Vector3(0.6,0.12,0.5),cloak,Vector3(0,0,lean))
+		var head := at+Vector3(-lean*tall*0.9,tall*0.92,0)
+		s.box(root,head,Vector3(0.34,0.36,0.36),cloak)
+		s.box(root,head+Vector3(0,-0.02,0.15),Vector3(0.2,0.22,0.08),String(data.get("face","0a0a0c")))
 
 ## 农具: what the farmers left by the bund: a harrow on its back, its teeth up, a hoe and a rake
 ## laid across it, a basket.
