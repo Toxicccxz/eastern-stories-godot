@@ -172,7 +172,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	tag.name = "Tag"
 	tag.text = "目标"
 	tag.add_theme_font_size_override("font_size", GameTheme.text_size(12))
-	tag.add_theme_color_override("font_color", UiPalette.LIGHT_TEXT)
+	tag.add_theme_color_override("font_color", ACCENT_COLOR)
 	tag_chip.add_child(tag)
 	ui.selected_target_label = _label(target_row, "Target")
 	ui.selected_target_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -654,10 +654,10 @@ const ACCENT_COLOR: Color = UiPalette.GOLD
 ## The card's lines under the bars (界面重做 3: the body face, a size down).
 const HUD_TEXT_SIZE: int = 15
 const HUD_SMALL_SIZE: int = 14
-const CONDITION_COLOR: Color = Color("a8541c")
-const ESSENCE_COLOR: Color = Color("9a7414")
-const VITALITY_COLOR: Color = Color("b03a2a")
-const SPIRIT_COLOR: Color = Color("2f5fa8")
+const CONDITION_COLOR: Color = Color(0.95, 0.68, 0.42)
+const ESSENCE_COLOR: Color = Color(0.86, 0.72, 0.34)
+const VITALITY_COLOR: Color = Color(0.86, 0.38, 0.33)
+const SPIRIT_COLOR: Color = Color(0.42, 0.64, 0.92)
 
 
 ## One of 精/气/神: its name and number over a thin bar. Returns [bar, number].
@@ -675,7 +675,7 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	name_label.name = "Caption"
 	name_label.text = caption
 	name_label.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
-	name_label.add_theme_color_override("font_color", color)
+	name_label.add_theme_color_override("font_color", color.lightened(0.25))
 	line.add_child(name_label)
 	var value := Label.new()
 	value.name = "Value"

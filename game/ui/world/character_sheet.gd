@@ -290,7 +290,7 @@ func _resource(parent: Node, key: StringName, color: Color) -> void:
 	column.add_child(row)
 	var name_label := StatCell.new("Caption")
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_label.add_theme_color_override("font_color", color)
+	name_label.add_theme_color_override("font_color", color.lightened(0.25))
 	row.add_child(name_label)
 	cells[key] = name_label
 	var value := Label.new()

@@ -8,7 +8,7 @@ extends Control
 ## panels; hidden while a panel, the menu or a fight has the screen. A click or tap on the
 ## prompt is E.
 
-const RING_COLOR: Color = Color(Color("ffcf6a"), 0.9)
+const RING_COLOR: Color = Color(UiPalette.LANTERN, 0.9)
 const RING_RADIUS: float = 26.0
 ## Over the thing (no room under it: the screen's bottom), the prompt's bottom edge this far
 ## above the thing's middle.

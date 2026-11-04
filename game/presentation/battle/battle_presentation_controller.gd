@@ -439,9 +439,6 @@ func _build() -> void:
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.add_theme_color_override("font_color", UiPalette.GOLD)
 	_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
-	# 像素界面: over the dimmed world, the parchment's ink with a parchment halo.
-	_title.add_theme_color_override("font_outline_color", UiPalette.EBONY)
-	_title.add_theme_constant_override("outline_size", 6)
 	header.add_child(_title)
 	log_button = Button.new()
 	log_button.name = "CombatLogButton"
@@ -463,9 +460,6 @@ func _build() -> void:
 	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_warning.add_theme_color_override("font_color", SharedGameplayUI.ALERT_COLOR)
 	_warning.add_theme_font_size_override("font_size", GameTheme.text_size(18))
-	# 像素界面: over the dimmed world, the parchment's ink with a parchment halo.
-	_warning.add_theme_color_override("font_outline_color", UiPalette.EBONY)
-	_warning.add_theme_constant_override("outline_size", 6)
 	_warning.visible = false
 	_content.add_child(_warning)
 	var participant_scroll := ScrollContainer.new()
@@ -526,8 +520,6 @@ func _build() -> void:
 		line.add_theme_font_size_override("normal_font_size", GameTheme.text_size(16))
 		# Plain battle text a light grey, so HIW lines stand out.
 		line.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
-		line.add_theme_color_override("font_outline_color", UiPalette.EBONY)
-		line.add_theme_constant_override("outline_size", 6)
 		row.add_child(line)
 	end_stamp = Label.new()
 	end_stamp.name = "EndStamp"

@@ -41,8 +41,8 @@ const SHAKE_PX: Dictionary[int, float] = {
 }
 const FALL_SINK: float = 10.0
 const FALL_TILT_DEGREES: float = 3.0
-const INTENT_COLOR: Color = Color("8c6400")
-const INTENT_FLASH: Color = UiPalette.LACQUER
+const INTENT_COLOR: Color = Color("f2d27a")
+const INTENT_FLASH: Color = Color("fff3c4")
 const TELEGRAPH_FLASH: Color = Color("ffffff")
 const SPECIAL_BORDER_SECONDS: float = 0.3
 var _shake: Tween

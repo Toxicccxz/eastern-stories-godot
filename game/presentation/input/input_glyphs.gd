@@ -135,8 +135,9 @@ static func draw(item: RID, rect: Rect2, glyph: Glyph, modulate: Color) -> void:
 			_box(item, rect, Color(0.86, 0.87, 0.84) * modulate, Color(0, 0, 0, 0), rect.size.y / 2.0)
 			_text(item, rect, glyph.text, Color(0.08, 0.09, 0.1) * modulate)
 		Shape.KEY:
-			_box(item, rect, Color("5a4733") * modulate, UiPalette.OUTLINE * modulate, 0.0)
-			_text(item, rect, glyph.text, UiPalette.LIGHT_TEXT * modulate)
+			var cap: StyleBox = GameTheme.shared().get_stylebox("normal", &"KeyCap")
+			cap.draw(item, rect)
+			_text(item, rect.grow_side(SIDE_BOTTOM, -GameTheme.GRID * 2.0), glyph.text, UiPalette.INK * Color(1, 1, 1, modulate.a))
 		_:
 			RenderingServer.canvas_item_add_circle(item, centre, radius, Color(0.13, 0.14, 0.16) * modulate)
 			_symbol(item, centre, radius * 0.5, glyph.shape, glyph.color * modulate)
@@ -148,7 +149,7 @@ static func _box(item: RID, rect: Rect2, fill: Color, border: Color, corner: flo
 	style.border_color = border
 	style.set_border_width_all(1 if border.a > 0.0 else 0)
 	style.set_corner_radius_all(int(corner))
-	style.anti_aliasing = corner > 0.0
+	style.anti_aliasing = true
 	style.draw(item, rect)
 
 

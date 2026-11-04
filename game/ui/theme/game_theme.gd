@@ -1,28 +1,30 @@
 class_name GameTheme
 extends Theme
 
-## The interface's look (像素界面, DECISIONS「像素界面」): parchment materials from UiBlocks in
-## UiPalette's colours, all text in one pixel face. Controls take a type variation for their
-## role instead of colours of their own:
+## The interface's look (界面重做 / 像素界面, DECISIONS「界面样式」「像素界面」): old, used
+## materials from UiBlocks in UiPalette's colours — ebony planks in chipped, iron-bound frames,
+## iron buttons with rust and hack marks, bronze gone green, worn red lacquer, torn paper —
+## and every text in one pixel face. Controls take a type variation for their role instead of
+## colours of their own:
 ##   labels   TitleLabel, HeadingLabel, MutedLabel, SmallLabel, WarningLabel, KeyCap
-##   panels   PanelContainer (a parchment sheet), WellPanel (a recess), PlatePanel (a lacquer
-##            name plate), ToastPanel (a small parchment plate)
-##   buttons  Button (a parchment pill that sinks when pressed), PrimaryButton (vermilion
-##            lacquer), DangerButton (dark lacquer), ChipButton (stone), RowButton (a list
-##            row, a pill only when chosen), SlotButton (a save slot), ToggleButton (a
-##            choice that stays chosen: lacquer while down), TabButton (a page's tab)
-##   menu     MenuWindow (the game menu's window: a sheet with room inside)
+##   panels   PanelContainer (an iron-bound ebony panel), WellPanel (a recess), PlatePanel (a
+##            lacquer name plate), ToastPanel (a small cracked board)
+##   buttons  Button (an iron plate that sinks when pressed), PrimaryButton (worn vermilion
+##            lacquer), DangerButton (dark lacquer), ChipButton (bronze), RowButton (a list
+##            row, a board only when chosen), SlotButton (an iron-banded board), ToggleButton
+##            (a choice that stays chosen: lacquer while down), TabButton (a page's tab)
+##   menu     MenuWindow (the game menu's window: a panel with room inside)
 ##   world    HudCard (the status card), DialoguePanel (the talk box), PaperPanel (a speech
-##            bubble: bare, its letters ringed), BannerPanel (the arrival banner, a room's
-##            text) with PlaceCaption (a place's name), VerdictGood / VerdictEven /
-##            VerdictBad (the fight forecast's word as a little plate); bars through
-##            dress_bar()
-## Focus is a deep red rim (and FocusCursor's bobbing arrow beside it).
+##            bubble: a torn scrap), BannerPanel (the arrival banner, a room's text) with
+##            PlaceCaption (a place's name), VerdictGood / VerdictEven / VerdictBad (the fight
+##            forecast's word as a little plate); bars through dress_bar()
+## Focus is a lantern-yellow rim (and FocusCursor's bobbing arrow beside it).
+##
+## 像素界面: every text in 缝合像素 12 px, drawn at 18 logical pixels (one font pixel GRID = 1.5
+## logical pixels, a whole number of screen pixels at the snapped scale,
+## ApplicationUiScale.pixel_factor) or twice that for titles; the materials on the same grid
+## (PixelBox). A glyph the pixel face lacks comes from 霞鹜文楷.
 
-## 像素界面 (DECISIONS「像素界面」): every text in 缝合像素 12 px, drawn at 18 logical pixels (one
-## font pixel GRID = 1.5 logical pixels, a whole number of screen pixels at the snapped scale,
-## ApplicationUiScale.pixel_factor) or twice that for titles; frames on the same grid
-## (UiBlocks, PixelBox). A glyph the pixel face lacks comes from 霞鹜文楷.
 const PIXEL_FONT_PATH: String = "res://assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2"
 ## The text face (the project theme's default font): the same pixel face.
 const BODY_FONT_PATH: String = PIXEL_FONT_PATH
@@ -36,15 +38,16 @@ const PIXEL_SIZE: int = 36
 const PIXEL_STEP: int = 3
 const BODY_SIZE: int = 18
 const SMALL_SIZE: int = 18
-## A button's text room: raised (three pixels of shade and the shadow under its face) and
-## pressed (one), the same height so nothing moves but the face.
-const BUTTON_PAD := Vector4(16, 6, 16, 11)
-const SUNK_PAD := Vector4(16, 9, 16, 8)
+## A button's text room: raised (three texels of edge and the shadow under its face) and
+## pressed (the face two texels lower), the same height so nothing moves but the face.
+const BUTTON_PAD := Vector4(16, 7, 16, 12)
+const SUNK_PAD := Vector4(16, 10, 16, 9)
+const KIND := UiBlocks.Kind
 
 static var _shared: GameTheme
 
 
-## One built theme for every user (it draws its block textures once).
+## One built theme for every user (it draws its materials once).
 static func shared() -> GameTheme:
 	if _shared == null:
 		_shared = GameTheme.new()
@@ -81,28 +84,31 @@ func _init() -> void:
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size", "mono_font_size"]:
 		set_font_size(key, "RichTextLabel", BODY_SIZE)
 	_label(&"TitleLabel", UiPalette.GOLD, PIXEL_SIZE, pixel)
+	set_color("font_shadow_color", &"TitleLabel", UiPalette.SIDE_LIGHT)
+	set_constant("shadow_offset_x", &"TitleLabel", 0)
+	set_constant("shadow_offset_y", &"TitleLabel", PIXEL_STEP)
 	_label(&"HeadingLabel", UiPalette.GOLD, BODY_SIZE)
 	_label(&"MutedLabel", UiPalette.MUTED, 0)
 	_label(&"SmallLabel", UiPalette.MUTED, SMALL_SIZE)
 	_label(&"WarningLabel", UiPalette.WARNING, 0)
-	_label(&"KeyCap", UiPalette.LIGHT_TEXT, BODY_SIZE)
-	set_stylebox("normal", &"KeyCap", UiBlocks.block(Color("5a4733"), Color("2e2319"), 1, Vector4(7, 2, 7, 6)))
+	_label(&"KeyCap", UiPalette.INK, BODY_SIZE)
+	set_stylebox("normal", &"KeyCap", _mat(KIND.BONE, UiPalette.BONE_TILE, UiPalette.BONE_TILE_SIDE, 12, 10, 4, 2, 31, Vector4(6, 2, 6, 6), false))
 	_panels()
-	_buttons(&"Button", UiPalette.WOOD, UiPalette.WOOD_SIDE, UiPalette.BONE)
+	_buttons(&"Button", KIND.IRON, UiPalette.IRON, UiPalette.IRON_SIDE, UiPalette.BONE, 41)
 	_variation(&"PrimaryButton", &"Button")
-	_buttons(&"PrimaryButton", UiPalette.LACQUER, UiPalette.LACQUER_SIDE, UiPalette.LIGHT_TEXT)
+	_buttons(&"PrimaryButton", KIND.LACQUER, UiPalette.LACQUER, UiPalette.LACQUER_SIDE, Color("ffe9c2"), 43)
 	_variation(&"DangerButton", &"Button")
-	_buttons(&"DangerButton", UiPalette.DANGER, UiPalette.DANGER_SIDE, Color("ffd2bf"))
+	_buttons(&"DangerButton", KIND.LACQUER, UiPalette.DANGER, UiPalette.DANGER_SIDE, UiPalette.WARNING, 47)
 	_variation(&"ChipButton", &"Button")
-	_buttons(&"ChipButton", UiPalette.STONE, UiPalette.STONE_SIDE, UiPalette.BONE)
+	_buttons(&"ChipButton", KIND.BRONZE, UiPalette.BRONZE, UiPalette.BRONZE_SIDE, UiPalette.BONE, 53)
 	# A choice that stays chosen (性别): chosen, it is lacquer and stays down.
 	_variation(&"ToggleButton", &"Button")
-	_buttons(&"ToggleButton", UiPalette.WOOD, UiPalette.WOOD_SIDE, UiPalette.BONE)
-	var chosen: StyleBox = UiBlocks.block(UiPalette.LACQUER, UiPalette.LACQUER_SIDE, 1, SUNK_PAD)
+	_buttons(&"ToggleButton", KIND.IRON, UiPalette.IRON, UiPalette.IRON_SIDE, UiPalette.BONE, 41)
+	var chosen: StyleBox = _plate(KIND.LACQUER, UiPalette.LACQUER, UiPalette.LACQUER_SIDE, 1, 2, 43, SUNK_PAD)
 	set_stylebox("pressed", &"ToggleButton", chosen)
 	set_stylebox("hover_pressed", &"ToggleButton", chosen)
-	set_color("font_pressed_color", &"ToggleButton", UiPalette.LIGHT_TEXT)
-	set_color("font_hover_pressed_color", &"ToggleButton", UiPalette.LIGHT_TEXT)
+	set_color("font_pressed_color", &"ToggleButton", Color("ffe9c2"))
+	set_color("font_hover_pressed_color", &"ToggleButton", Color("ffe9c2"))
 	_rows()
 	_menu()
 	_title(pixel)
@@ -128,39 +134,58 @@ func _label(name: StringName, colour: Color, size: int, font: Font = null) -> vo
 		set_font("font", name, font)
 
 
+## A material box: `kind` with `face` over `side`, a `w`×`h` face (texels) with `margin`
+## corners and `depth` of edge under it.
+func _mat(kind: int, face: Color, side: Color, w: int, h: int, margin: int, depth: int, seed: int, content: Vector4, marked: bool = true, frame: int = 0, fittings: bool = false, sunk: int = 0, modulate: Color = Color.WHITE) -> PixelBox:
+	var made: UiBlocks.Spec = UiBlocks.spec(kind, face, side, w, h, margin, depth, seed)
+	made.frame = frame
+	made.fittings = fittings
+	made.sunk = sunk
+	return UiBlocks.material(made, content, 3, marked, modulate)
+
+
+## A window: ebony planks in a frame, iron at its corners.
+func _window(seed: int, content: Vector4, modulate: Color = Color.WHITE) -> PixelBox:
+	var box: PixelBox = _mat(KIND.WOOD, UiPalette.EBONY, UiPalette.EBONY_SIDE, 192, 128, 18, 4, 11, content, true, 5, true, 0, modulate)
+	# Every window shares the images; its marks are its own.
+	box.mark_seed = seed
+	return box
+
+
+## A small plate or button of `kind`: `depth` of edge, `sunk` rows lower (pressed).
+func _plate(kind: int, face: Color, side: Color, depth: int, sunk: int, seed: int, content: Vector4, fittings: bool = true) -> PixelBox:
+	return _mat(kind, face, side, 48, 20, 5, depth, seed, content, true, 0, fittings, sunk)
+
+
 func _panels() -> void:
-	set_stylebox("panel", "PanelContainer", _sheet(UiPalette.EBONY, Vector4(18, 15, 18, 18)))
+	set_stylebox("panel", "PanelContainer", _window(11, Vector4(20, 18, 20, 22)))
 	_variation(&"WellPanel", &"PanelContainer")
-	set_stylebox("panel", &"WellPanel", UiBlocks.box(UiBlocks.well_image(UiPalette.WELL), Vector4i(3, 3, 3, 3), Vector4(14, 12, 14, 12)))
+	set_stylebox("panel", &"WellPanel", UiBlocks.box(UiBlocks.well_image(UiPalette.WELL.lerp(UiPalette.EBONY, 0.3), 48, 32), Vector4i(3, 3, 3, 3), Vector4(14, 12, 14, 12), true))
 	_variation(&"PlatePanel", &"PanelContainer")
-	set_stylebox("panel", &"PlatePanel", UiBlocks.box(UiBlocks.slab_image(UiPalette.LACQUER, UiPalette.LACQUER_SIDE, 2, false, 12, 10), Vector4i(3, 3, 3, 6), Vector4(12, 5, 12, 10)))
+	set_stylebox("panel", &"PlatePanel", _mat(KIND.LACQUER, UiPalette.LACQUER, UiPalette.LACQUER_SIDE, 32, 18, 5, 3, 61, Vector4(12, 5, 12, 11), true, 0, true))
 	_variation(&"ToastPanel", &"PanelContainer")
-	set_stylebox("panel", &"ToastPanel", UiBlocks.box(UiBlocks.slab_image(UiPalette.EBONY, UiPalette.WOOD_SIDE, 1, false, 12, 10), Vector4i(3, 3, 3, 5), Vector4(12, 6, 12, 9)))
+	set_stylebox("panel", &"ToastPanel", _mat(KIND.WOOD, UiPalette.EBONY.lerp(UiPalette.INK, 0.3), UiPalette.EBONY_SIDE, 64, 20, 5, 2, 67, Vector4(12, 7, 12, 10)))
 
 
-## A parchment sheet (a window): outline, frame band, inner line, mottled face, shadow.
-func _sheet(face: Color, content: Vector4) -> StyleBox:
-	return UiBlocks.box(UiBlocks.slab_image(face, face.darkened(0.25), 0, true, 32, 32), Vector4i(6, 6, 6, 7), content, true)
-
-
-func _buttons(kind: StringName, top: Color, side: Color, text: Color) -> void:
-	set_stylebox("normal", kind, UiBlocks.block(top, side, 3, BUTTON_PAD))
-	set_stylebox("hover", kind, UiBlocks.block(top.lightened(0.1), side, 3, BUTTON_PAD))
-	set_stylebox("pressed", kind, UiBlocks.block(top.darkened(0.06), side, 1, SUNK_PAD))
-	set_stylebox("hover_pressed", kind, UiBlocks.block(top.darkened(0.06), side, 1, SUNK_PAD))
-	set_stylebox("disabled", kind, UiBlocks.block(top.lerp(UiPalette.WELL, 0.6), side.lerp(UiPalette.WELL, 0.6), 3, BUTTON_PAD))
-	set_stylebox("focus", kind, UiBlocks.rim())
+func _buttons(kind_name: StringName, kind: int, top: Color, side: Color, text: Color, seed: int) -> void:
+	set_stylebox("normal", kind_name, _plate(kind, top, side, 3, 0, seed, BUTTON_PAD))
+	set_stylebox("hover", kind_name, _plate(kind, top.lightened(0.12), side, 3, 0, seed, BUTTON_PAD))
+	set_stylebox("pressed", kind_name, _plate(kind, top.darkened(0.08), side, 1, 2, seed, SUNK_PAD))
+	set_stylebox("hover_pressed", kind_name, get_stylebox("pressed", kind_name))
+	set_stylebox("disabled", kind_name, _plate(kind, top.lerp(UiPalette.INK, 0.55), side.lerp(UiPalette.INK, 0.55), 3, 0, seed, BUTTON_PAD))
+	set_stylebox("focus", kind_name, UiBlocks.rim())
 	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-		set_color(state, kind, text)
-	set_color("font_disabled_color", kind, UiPalette.DIM)
-	set_color("font_shadow_color", kind, Color(0, 0, 0, 0))
-	set_font_size("font_size", kind, BODY_SIZE)
+		set_color(state, kind_name, text)
+	set_color("font_disabled_color", kind_name, UiPalette.DIM)
+	set_color("font_shadow_color", kind_name, Color(0, 0, 0, 0.45))
+	set_constant("shadow_offset_y", kind_name, 2)
+	set_font_size("font_size", kind_name, BODY_SIZE)
 
 
-## A list row is flat until chosen: hovered it is a dark block, chosen (pressed) a warm one.
-## A save slot is always a block, warmer when hovered.
+## A list row is flat until chosen: hovered it is a dark board, chosen (pressed) a warm one.
+## A save slot is an iron-banded board, warmer when hovered.
 func _rows() -> void:
-	var row_pad := Vector4(30, 7, 12, 9)
+	var row_pad := Vector4(30, 8, 12, 9)
 	var flat := StyleBoxEmpty.new()
 	flat.content_margin_left = row_pad.x
 	flat.content_margin_top = row_pad.y
@@ -169,24 +194,26 @@ func _rows() -> void:
 	_variation(&"RowButton", &"Button")
 	set_stylebox("normal", &"RowButton", flat)
 	set_stylebox("disabled", &"RowButton", flat)
-	set_stylebox("hover", &"RowButton", UiBlocks.block(UiPalette.EBONY.darkened(0.05), UiPalette.EBONY.darkened(0.18), 1, row_pad))
+	set_stylebox("hover", &"RowButton", _mat(KIND.WOOD, UiPalette.EBONY.lightened(0.1), UiPalette.EBONY_SIDE, 64, 20, 5, 1, 71, row_pad))
+	var chosen: PixelBox = _mat(KIND.WOOD, Color("5a3a22"), Color("2e1d10"), 64, 20, 5, 1, 73, row_pad)
 	for state: String in ["pressed", "hover_pressed"]:
-		set_stylebox(state, &"RowButton", UiBlocks.block(UiPalette.PLANK, UiPalette.PLANK.darkened(0.22), 1, row_pad))
+		set_stylebox(state, &"RowButton", chosen)
 	set_stylebox("focus", &"RowButton", UiBlocks.rim())
 	for state: String in ["font_color", "font_hover_color", "font_focus_color"]:
 		set_color(state, &"RowButton", UiPalette.BONE)
-	set_color("font_pressed_color", &"RowButton", UiPalette.GOLD)
-	set_color("font_hover_pressed_color", &"RowButton", UiPalette.GOLD)
+	set_color("font_pressed_color", &"RowButton", UiPalette.LANTERN)
+	set_color("font_hover_pressed_color", &"RowButton", UiPalette.LANTERN)
 	set_color("font_disabled_color", &"RowButton", UiPalette.DIM)
 	set_font_size("font_size", &"RowButton", BODY_SIZE)
 	_variation(&"SlotButton", &"Button")
 	var slot_pad := Vector4(30, 10, 16, 14)
 	var slot_sunk := Vector4(30, 13, 16, 11)
-	set_stylebox("normal", &"SlotButton", UiBlocks.block(UiPalette.WOOD, UiPalette.WOOD_SIDE, 3, slot_pad))
-	set_stylebox("hover", &"SlotButton", UiBlocks.block(UiPalette.WOOD.lightened(0.1), UiPalette.WOOD_SIDE, 3, slot_pad))
-	set_stylebox("pressed", &"SlotButton", UiBlocks.block(UiPalette.PLANK, UiPalette.PLANK.darkened(0.22), 1, slot_sunk))
+	var board: Color = UiPalette.EBONY.lightened(0.06)
+	set_stylebox("normal", &"SlotButton", _mat(KIND.WOOD, board, UiPalette.EBONY_SIDE, 64, 22, 6, 3, 79, slot_pad, true, 0, true))
+	set_stylebox("hover", &"SlotButton", _mat(KIND.WOOD, Color("4a3220"), Color("24170e"), 64, 22, 6, 3, 79, slot_pad, true, 0, true))
+	set_stylebox("pressed", &"SlotButton", _mat(KIND.WOOD, Color("5a3a22"), Color("2e1d10"), 64, 22, 6, 1, 79, slot_sunk, true, 0, true, 2))
 	set_stylebox("hover_pressed", &"SlotButton", get_stylebox("pressed", &"SlotButton"))
-	set_stylebox("disabled", &"SlotButton", UiBlocks.block(UiPalette.WOOD.lerp(UiPalette.WELL, 0.6), UiPalette.WOOD_SIDE.lerp(UiPalette.WELL, 0.6), 3, slot_pad))
+	set_stylebox("disabled", &"SlotButton", _mat(KIND.WOOD, board.lerp(UiPalette.INK, 0.5), UiPalette.EBONY_SIDE, 64, 22, 6, 3, 79, slot_pad, true, 0, true))
 	set_stylebox("focus", &"SlotButton", UiBlocks.rim())
 	for state: String in ["font_color", "font_hover_color", "font_focus_color", "font_pressed_color", "font_hover_pressed_color"]:
 		set_color(state, &"SlotButton", UiPalette.BONE)
@@ -194,13 +221,13 @@ func _rows() -> void:
 	set_font_size("font_size", &"SlotButton", BODY_SIZE)
 
 
-## The game menu (DECISIONS「界面样式」): its window a planked ebony slab with room inside, its
-## tabs flat until hovered (a dark block) or shown (a plank block, ink letters), a thin rule.
+## The game menu (DECISIONS「界面样式」): its window a panel with room inside, its tabs flat
+## until hovered (a dark board) or shown (a plank, ink letters), a thin rule.
 func _menu() -> void:
 	_variation(&"MenuWindow", &"PanelContainer")
-	set_stylebox("panel", &"MenuWindow", _sheet(UiPalette.EBONY, Vector4(22, 18, 22, 22)))
+	set_stylebox("panel", &"MenuWindow", _window(13, Vector4(22, 18, 22, 24)))
 	_variation(&"TabButton", &"Button")
-	var tab_pad := Vector4(12, 6, 12, 9)
+	var tab_pad := Vector4(12, 7, 12, 9)
 	var flat := StyleBoxEmpty.new()
 	flat.content_margin_left = tab_pad.x
 	flat.content_margin_right = tab_pad.z
@@ -208,58 +235,53 @@ func _menu() -> void:
 	flat.content_margin_bottom = tab_pad.w
 	set_stylebox("normal", &"TabButton", flat)
 	set_stylebox("disabled", &"TabButton", flat)
-	set_stylebox("hover", &"TabButton", UiBlocks.block(UiPalette.EBONY.darkened(0.05), UiPalette.EBONY.darkened(0.18), 1, tab_pad))
+	set_stylebox("hover", &"TabButton", _mat(KIND.WOOD, UiPalette.EBONY.lightened(0.12), UiPalette.EBONY_SIDE, 32, 20, 5, 2, 83, tab_pad))
+	var shown: PixelBox = _mat(KIND.WOOD, UiPalette.PLANK, UiPalette.WOOD_SIDE, 32, 20, 5, 2, 89, tab_pad)
 	for state: String in ["pressed", "hover_pressed"]:
-		set_stylebox(state, &"TabButton", UiBlocks.block(UiPalette.WOOD, UiPalette.WOOD_SIDE, 2, tab_pad))
+		set_stylebox(state, &"TabButton", shown)
 	set_stylebox("focus", &"TabButton", UiBlocks.rim())
 	set_color("font_color", &"TabButton", UiPalette.MUTED)
 	set_color("font_hover_color", &"TabButton", UiPalette.BONE)
 	set_color("font_focus_color", &"TabButton", UiPalette.BONE)
-	set_color("font_pressed_color", &"TabButton", UiPalette.GOLD)
-	set_color("font_hover_pressed_color", &"TabButton", UiPalette.GOLD)
+	set_color("font_pressed_color", &"TabButton", UiPalette.INK)
+	set_color("font_hover_pressed_color", &"TabButton", UiPalette.INK)
 	set_color("font_disabled_color", &"TabButton", UiPalette.DIM)
 	set_font_size("font_size", &"TabButton", BODY_SIZE)
 
 
-## The world's surfaces (界面重做 3): the status card a planked ebony slab a little see-through,
-## the talk box a deeper one, a speech bubble paper on a darker edge, the banner and a room's
-## text a dark plate, the fight forecast's word on a jade, stone or dark-lacquer plate.
+## The world's surfaces (界面重做 3): the status card a panel a little see-through, the talk box
+## a deeper one, a speech bubble a torn scrap of paper, the banner and a room's text a cracked
+## dark board, the fight forecast's word on a jade, stone or lacquer plate.
 func _world() -> void:
 	_variation(&"HudCard", &"PanelContainer")
-	set_stylebox("panel", &"HudCard", _sheet(Color(UiPalette.EBONY, 0.97), Vector4(18, 15, 18, 17)))
+	set_stylebox("panel", &"HudCard", _window(17, Vector4(18, 16, 18, 18), Color(1, 1, 1, 0.95)))
 	# Touch screens: narrower sides, so five 64 px buttons fit a row at 480 px.
 	_variation(&"HudCardTouch", &"PanelContainer")
-	set_stylebox("panel", &"HudCardTouch", _sheet(Color(UiPalette.EBONY, 0.97), Vector4(12, 12, 12, 15)))
+	set_stylebox("panel", &"HudCardTouch", _window(17, Vector4(12, 14, 12, 16), Color(1, 1, 1, 0.95)))
 	_variation(&"DialoguePanel", &"PanelContainer")
-	set_stylebox("panel", &"DialoguePanel", _sheet(UiPalette.EBONY, Vector4(30, 21, 30, 24)))
-	# A said line floats over the speaker's head, light letters ringed dark (no paper).
+	set_stylebox("panel", &"DialoguePanel", _window(19, Vector4(30, 22, 30, 26)))
 	_variation(&"PaperPanel", &"PanelContainer")
-	var bare := StyleBoxEmpty.new()
-	bare.content_margin_left = 4
-	bare.content_margin_right = 4
-	bare.content_margin_top = 2
-	bare.content_margin_bottom = 2
-	set_stylebox("panel", &"PaperPanel", bare)
+	set_stylebox("panel", &"PaperPanel", _mat(KIND.PAPER, UiPalette.PAPER, UiPalette.PAPER_SIDE, 64, 20, 5, 2, 97, Vector4(11, 6, 11, 10)))
 	_variation(&"BannerPanel", &"PanelContainer")
-	set_stylebox("panel", &"BannerPanel", _sheet(Color(UiPalette.EBONY, 0.96), Vector4(20, 14, 20, 16)))
-	for entry: Array in [[&"VerdictGood", Color("3f7a5a"), Color("234a35")], [&"VerdictEven", Color("6f7a80"), Color("454d52")], [&"VerdictBad", UiPalette.LACQUER, UiPalette.LACQUER_SIDE]]:
+	set_stylebox("panel", &"BannerPanel", _mat(KIND.WOOD, UiPalette.INK.lerp(UiPalette.EBONY, 0.4), UiPalette.EBONY_SIDE, 80, 24, 6, 2, 101, Vector4(20, 12, 20, 15), true, 0, false, 0, Color(1, 1, 1, 0.9)))
+	for entry: Array in [[&"VerdictGood", Color("3f7a5a"), Color("234a35"), 103], [&"VerdictEven", UiPalette.STONE, UiPalette.STONE_SIDE, 107], [&"VerdictBad", UiPalette.LACQUER, UiPalette.LACQUER_SIDE, 109]]:
 		_variation(entry[0], &"PanelContainer")
-		set_stylebox("panel", entry[0], UiBlocks.box(UiBlocks.slab_image(entry[1], entry[2], 2, false, 10, 8), Vector4i(3, 3, 3, 6), Vector4(8, 2, 8, 8)))
-	_label(&"PaperLabel", UiPalette.LIGHT_TEXT, BODY_SIZE)
-	set_color("font_outline_color", &"PaperLabel", Color(UiPalette.INK, 0.9))
-	set_constant("outline_size", &"PaperLabel", 4)
-	# A place's name as one arrives: the title size, on the banner's parchment.
-	_label(&"PlaceCaption", UiPalette.GOLD, PIXEL_SIZE)
-	_label(&"NameLabel", UiPalette.LIGHT_TEXT, BODY_SIZE)
+		set_stylebox("panel", entry[0], _mat(KIND.LACQUER, entry[1], entry[2], 16, 10, 4, 2, entry[3], Vector4(8, 2, 8, 7), false))
+	_label(&"PaperLabel", UiPalette.INK, BODY_SIZE)
+	# A place's name as one arrives: the title's pixel size, a dark side under it.
+	_label(&"PlaceCaption", Color("fff3dc"), PIXEL_SIZE)
+	set_color("font_shadow_color", &"PlaceCaption", Color(0, 0, 0, 0.45))
+	set_constant("shadow_offset_y", &"PlaceCaption", PIXEL_STEP)
+	_label(&"NameLabel", UiPalette.LANTERN, BODY_SIZE)
 
 
 ## A bar in the interface's way: square, on a dark groove, its fill a block with a darker
 ## side under it (精气神, a wait, a run's progress).
 static func dress_bar(bar: ProgressBar, colour: Color) -> void:
 	var track := StyleBoxFlat.new()
-	track.bg_color = UiPalette.OUTLINE
+	track.bg_color = UiPalette.INK
 	track.border_width_top = 2
-	track.border_color = Color(0, 0, 0, 0.35)
+	track.border_color = Color(0, 0, 0, 0.45)
 	var fill := StyleBoxFlat.new()
 	fill.bg_color = colour
 	fill.border_width_bottom = maxi(2, int(bar.custom_minimum_size.y / 3.0))
@@ -280,8 +302,8 @@ static func verdict_plate(verdict: int) -> StringName:
 
 
 ## The title (DECISIONS「标题画面」): its menu buttons are flat with their own text clear
-## (TitleMenuFx draws voxel letters over them), a place's name is in the brush hand, the menu's
-## panel is bare.
+## (TitleMenuFx draws voxel letters over them), a place's name in the pixel face ringed dark,
+## the menu's panel is bare.
 func _title(pixel: FontFile) -> void:
 	_variation(&"TitleMenuItem", &"Button")
 	var bare := StyleBoxEmpty.new()
@@ -306,19 +328,19 @@ func _title(pixel: FontFile) -> void:
 
 
 func _fields() -> void:
-	var well := UiBlocks.box(UiBlocks.well_image(UiPalette.WELL), Vector4i(3, 3, 3, 3), Vector4(12, 8, 12, 8))
+	var well := UiBlocks.box(UiBlocks.well_image(UiPalette.WELL), Vector4i(3, 3, 3, 3), Vector4(12, 8, 12, 8), true)
 	set_stylebox("normal", "LineEdit", well)
 	set_stylebox("read_only", "LineEdit", well)
 	set_stylebox("focus", "LineEdit", UiBlocks.rim())
 	set_color("font_color", "LineEdit", UiPalette.BONE)
 	set_color("font_placeholder_color", "LineEdit", UiPalette.DIM)
-	set_color("caret_color", "LineEdit", UiPalette.FOCUS)
-	set_color("selection_color", "LineEdit", Color(UiPalette.LACQUER, 0.35))
+	set_color("caret_color", "LineEdit", UiPalette.LANTERN)
+	set_color("selection_color", "LineEdit", Color(UiPalette.LACQUER, 0.6))
 	set_font_size("font_size", "LineEdit", BODY_SIZE)
 
 
 func _option_button() -> void:
-	_buttons(&"OptionButton", UiPalette.WOOD, UiPalette.WOOD_SIDE, UiPalette.BONE)
+	_buttons(&"OptionButton", KIND.IRON, UiPalette.IRON, UiPalette.IRON_SIDE, UiPalette.BONE, 113)
 	for state: String in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
 		var style: StyleBox = get_stylebox(state, &"OptionButton").duplicate() as StyleBox
 		style.content_margin_right = 34
@@ -351,10 +373,10 @@ func _check_button() -> void:
 
 
 func _popup() -> void:
-	set_stylebox("panel", "PopupMenu", UiBlocks.box(UiBlocks.slab_image(UiPalette.EBONY, UiPalette.WOOD_SIDE, 1, false, 16, 12), Vector4i(3, 3, 3, 5), Vector4(8, 8, 8, 10)))
-	set_stylebox("hover", "PopupMenu", UiBlocks.block(UiPalette.PLANK, UiPalette.PLANK.darkened(0.22), 1, Vector4(8, 4, 8, 4)))
+	set_stylebox("panel", "PopupMenu", _mat(KIND.WOOD, UiPalette.EBONY, UiPalette.EBONY_SIDE, 48, 20, 5, 2, 127, Vector4(8, 8, 8, 11)))
+	set_stylebox("hover", "PopupMenu", _mat(KIND.WOOD, UiPalette.WOOD, UiPalette.WOOD_SIDE, 24, 10, 4, 1, 131, Vector4(8, 4, 8, 4), false))
 	set_color("font_color", "PopupMenu", UiPalette.BONE)
-	set_color("font_hover_color", "PopupMenu", UiPalette.GOLD)
+	set_color("font_hover_color", "PopupMenu", Color("fff6dc"))
 	set_color("font_disabled_color", "PopupMenu", UiPalette.DIM)
 	set_font_size("font_size", "PopupMenu", BODY_SIZE)
 	set_constant("v_separation", "PopupMenu", 9)
@@ -362,8 +384,8 @@ func _popup() -> void:
 
 func _scroll() -> void:
 	var track := UiBlocks.box(UiBlocks.well_image(UiPalette.WELL, 6, 8), Vector4i(2, 2, 2, 2), Vector4(4, 4, 4, 4))
-	var grab := UiBlocks.block(UiPalette.WOOD_SIDE, UiPalette.WOOD_SIDE.darkened(0.25), 1, Vector4(4, 4, 4, 4))
-	var lit := UiBlocks.block(UiPalette.PLANK.darkened(0.1), UiPalette.WOOD_SIDE.darkened(0.25), 1, Vector4(4, 4, 4, 4))
+	var grab: PixelBox = _mat(KIND.IRON, UiPalette.IRON, UiPalette.IRON_SIDE, 8, 10, 3, 1, 137, Vector4(4, 4, 4, 4), false)
+	var lit: PixelBox = _mat(KIND.IRON, UiPalette.IRON.lightened(0.15), UiPalette.IRON_SIDE, 8, 10, 3, 1, 137, Vector4(4, 4, 4, 4), false)
 	for bar: String in ["VScrollBar", "HScrollBar"]:
 		set_stylebox("scroll", bar, track)
 		set_stylebox("grabber", bar, grab)
