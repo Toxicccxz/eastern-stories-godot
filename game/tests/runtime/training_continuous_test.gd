@@ -259,8 +259,11 @@ func _test_while_running(tree: SceneTree) -> void:
 	# A run started further down shows under its own row (the bar sat above it).
 	_hud.menu.show_tab(GameMenu.Tab.MARTIAL_ARTS)
 	_heal()
+	# 冥思 is there once there is 法力 (DECISIONS「数值用到才出现」); its card shows then.
+	_state.recovery.mana.maximum = 10 # TEST-ONLY
+	page.refresh()
 	page.meditate_run_button.pressed.emit()
-	_check(page.progress.running() and page.progress.get_index() == page.meditate_amount.get_parent().get_index() + 1, "连续冥思's bar under 冥思's row")
+	_check(page.meditate_run_button.is_visible_in_tree() and page.progress.running() and page.progress.get_index() == page.meditate_amount.get_parent().get_index() + 1, "连续冥思's bar under 冥思's row")
 	page.progress.stop()
 	_hud.dismiss_current_panel()
 	TestFeel.restore()

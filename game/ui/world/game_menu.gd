@@ -27,6 +27,8 @@ const LAYER: int = 60
 const WINDOW_SIZE: Vector2 = Vector2(920, 600)
 ## 地图 takes nearly the whole screen: what is left round it.
 const MAP_MARGIN: float = 24.0
+## 系统's column of buttons.
+const SYSTEM_WIDTH: float = 400.0
 # TRANSLATORS: the 声望 tab until reputation is built (ROADMAP "After the grey box": quest and reputation systems).
 const STANDING_PLACEHOLDER: String = "江湖上对你的看法，日后会记在这里。"
 # TRANSLATORS: the 系统 tab during a fight: the other tabs wait until it is over.
@@ -70,16 +72,18 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	root.name = "Root"
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 界面重做: the window and its pages wear GameTheme (DECISIONS「界面样式」).
+	root.theme = GameTheme.shared()
 	add_child(root)
 	barrier = ColorRect.new()
 	barrier.name = "Barrier"
-	barrier.color = Color(0, 0, 0, 0.45)
+	barrier.color = UiPalette.SCRIM_LIGHT
 	barrier.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	barrier.mouse_filter = Control.MOUSE_FILTER_STOP
 	root.add_child(barrier)
 	window = PanelContainer.new()
 	window.name = "Window"
-	window.add_theme_stylebox_override("panel", _window_style())
+	window.theme_type_variation = &"MenuWindow"
 	root.add_child(window)
 	var rows := VBoxContainer.new()
 	rows.name = "Rows"
@@ -89,7 +93,6 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	var header := HBoxContainer.new()
 	header.name = "Header"
 	header.add_theme_constant_override("separation", 8)
-	header.theme = SharedGameplayLayout.card_theme()
 	rows.add_child(header)
 	var tabs := HFlowContainer.new()
 	tabs.name = "Tabs"
@@ -102,6 +105,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 		button.name = TAB_NODE_NAMES[tab]
 		button.text = TAB_TITLES[tab]
 		button.toggle_mode = true
+		button.theme_type_variation = &"TabButton"
 		button.button_group = group
 		button.custom_minimum_size = Vector2(72, 38)
 		button.pressed.connect(show_tab.bind(tab))
@@ -119,8 +123,8 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	_show_tab_glyphs()
 	var rule := ColorRect.new()
 	rule.name = "Rule"
-	rule.color = Color(1, 1, 1, 0.08)
-	rule.custom_minimum_size.y = 1
+	rule.color = Color(UiPalette.BONE, 0.12)
+	rule.custom_minimum_size.y = 2
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rows.add_child(rule)
 	_page_scroll = ScrollContainer.new()
@@ -151,6 +155,10 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 		page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		page.hide()
 		pages.append(page)
+	# 界面重做 2: 系统's buttons stand in a column in the middle, not across the window.
+	system_mount.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	system_mount.custom_minimum_size.x = SYSTEM_WIDTH
+	system_mount.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	_layout = ResponsivePanelLayout.new()
 	_layout.name = "WindowLayout"
 	add_child(_layout)
@@ -495,18 +503,5 @@ func _placeholder(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	label.theme_type_variation = &"MutedLabel"
 	return label
-
-
-func _window_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.065, 0.075, 0.98)
-	style.border_color = Color(1, 1, 1, 0.1)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(14)
-	style.shadow_color = Color(0, 0, 0, 0.4)
-	style.shadow_size = 14
-	for side: String in ["left", "right", "top", "bottom"]:
-		style.set("content_margin_" + side, 16.0)
-	return style

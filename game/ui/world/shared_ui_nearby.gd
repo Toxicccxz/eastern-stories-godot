@@ -21,6 +21,9 @@ const FACING_DOT: float = 0.5
 const SWITCH_SHARE: float = 0.8
 
 var _ui: SharedGameplayUI
+## about()'s last fight forecast and whose it is.
+var _outlook: CombatOutlook
+var _outlook_of: StringName = &""
 ## The things in reach now, nearest first.
 var _things: Array[WorldNearbyThing] = []
 ## The target's key ("kind:id"); "" for none.
@@ -260,6 +263,12 @@ func shown_name(thing: WorldNearbyThing) -> String:
 
 ## The lines under the popup's title: how the thing is now (warmer) and what it is to the
 ## player, as look.c says them.
+## The fight forecast about() worked out for `thing` last (the popup's title plate reads
+## it rather than working it out again), else null.
+func outlook_of(thing: WorldNearbyThing) -> CombatOutlook:
+	return _outlook if thing != null and _outlook_of == thing.id else null
+
+
 func about(thing: WorldNearbyThing) -> Array[Array]:
 	var status: Array[String] = []
 	var lines: Array[String] = []
@@ -285,7 +294,10 @@ func about(thing: WorldNearbyThing) -> Array[Array]:
 				if not relation.is_empty():
 					# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
 					lines.append(tr("{pronoun}是你的{relation}。").format({"pronoun": pronoun, "relation": tr(relation)}))
-				var strength: String = "" if map == null else map.combat_outlook(npc).shown(pronoun)
+				var outlook: CombatOutlook = null if map == null else map.combat_outlook(npc)
+				_outlook = outlook
+				_outlook_of = thing.id
+				var strength: String = "" if outlook == null else outlook.shown(pronoun)
 				if not strength.is_empty():
 					lines.append(strength)
 		WorldNearbyThing.Kind.CORPSE:

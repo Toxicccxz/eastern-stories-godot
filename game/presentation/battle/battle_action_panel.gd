@@ -89,12 +89,15 @@ func _ready() -> void:
 		button.text = CombatStance.label(value)
 		button.tooltip_text = CombatStance.description(value)
 		button.toggle_mode = true
+		# 界面重做 4: the stance held is lacquer.
+		button.theme_type_variation = &"ToggleButton"
 		button.custom_minimum_size = Vector2(56, 40)
 		button.pressed.connect(_stance_pressed.bind(value))
 		stance_row.add_child(button)
 		stance_buttons[value] = button
 	manual_button = Button.new()
 	manual_button.name = "ManualTurns"
+	manual_button.theme_type_variation = &"ChipButton"
 	manual_button.custom_minimum_size = Vector2(96, 40)
 	manual_button.visible = false
 	manual_button.pressed.connect(_manual_pressed)
@@ -147,6 +150,7 @@ func _ready() -> void:
 	_cancel = Button.new()
 	_cancel.name = "CancelQueue"
 	_cancel.text = "取消已排定的操作"
+	_cancel.theme_type_variation = &"ChipButton"
 	_cancel.custom_minimum_size = Vector2(64, 52)
 	_cancel.pressed.connect(_cancel_pressed)
 	queue_column.add_child(_cancel)
@@ -317,14 +321,18 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 			button.text = tr("{name} · {tag}").format({"name": tr(shown_name), "tag": CombatMoveTags.label(move.tag)})
 			button.tooltip_text = move_tooltip(move)
 			button.toggle_mode = true
+			# 界面重做 4: the move chosen for the round is lacquer.
+			button.theme_type_variation = &"ToggleButton"
 			button.custom_minimum_size = Vector2(64, 40)
 			button.pressed.connect(_move_pressed.bind(move.action_id))
 			_moves.add_child(button)
 			move_buttons[move.action_id] = button
 	for id: StringName in move_buttons:
 		var button: Button = move_buttons[id]
-		button.set_pressed_no_signal(id == projection.chosen_action_id)
+		var chosen: bool = id == projection.chosen_action_id
+		button.set_pressed_no_signal(chosen)
 		button.disabled = not (projection.waiting and projection.manual)
+		_show_chosen(button, chosen)
 	# The row dims while the round plays and lights when the fight waits for the player
 	# (a show, not a lock: the buttons' own disabled state is the rule's).
 	var dim: bool = projection.turns_offered and projection.manual and not projection.waiting
@@ -341,6 +349,17 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 	# TRANSLATORS: the battle panel's switch between the player's turns and ES2's auto-fight: the text names what pressing it does.
 	manual_button.text = tr("改为自动") if projection.manual else tr("改为手动")
 	manual_button.tooltip_text = tr("现在：每回合等你出招；按下后战斗自己打，招式随机。") if projection.manual else tr("现在：战斗自己打；按下后每回合等你出招。")
+
+
+## The move chosen for the round stays lacquer while the round plays and the buttons are
+## greyed (界面重做 4): the others grey, it does not.
+static func _show_chosen(button: Button, chosen: bool) -> void:
+	if chosen:
+		button.add_theme_stylebox_override("disabled", GameTheme.shared().get_stylebox("pressed", &"ToggleButton"))
+		button.add_theme_color_override("font_disabled_color", GameTheme.shared().get_color("font_pressed_color", &"ToggleButton"))
+	else:
+		button.remove_theme_stylebox_override("disabled")
+		button.remove_theme_color_override("font_disabled_color")
 
 
 func _move_pressed(action_id: StringName) -> void:
@@ -373,7 +392,7 @@ func _action_pressed(id: StringName) -> void:
 	_asking_id = id
 	_actions.hide()
 	prompt.show()
-	prompt.ask(question[0], question[1])
+	prompt.ask(question[0], question[1], "取消", "", true)
 	prompt.focus_default()
 
 

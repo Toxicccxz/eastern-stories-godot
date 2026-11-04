@@ -6,7 +6,7 @@
 
 ```text
 main -> phase/<slug> branch -> focused commits -> full verify.py -> ready PR
-  -> four CI jobs green on the final commit -> owner merges
+  -> both CI jobs green on the final commit -> owner merges
 ```
 
 * Start from the latest `main` (`git switch main`, `git pull --ff-only`,
@@ -19,23 +19,25 @@ main -> phase/<slug> branch -> focused commits -> full verify.py -> ready PR
 
 ## CI
 
-The four required jobs are `Godot Verify`, `Windows Release Build`, `Android Release Build` and
-`iOS Build Validation`. They run when a ready PR to `main` is opened, reopened, synchronized or
-marked ready, and on manual `workflow_dispatch`. **Owner (2026-10-04):** a change is verified
-once, on its PR; merging into `main` runs nothing. A PR's CI tests it merged with `main` as it was
-then: when another PR merged in between, update the branch (CI runs again) before merging.
+The two required jobs are `Godot Verify` and `Windows Release Build`. They run when a ready PR to
+`main` is opened, reopened, synchronized or marked ready, and on manual `workflow_dispatch`.
+**Owner (2026-10-04):** a change is verified once, on its PR; merging into `main` runs nothing.
+A PR's CI tests it merged with `main` as it was then: when another PR merged in between, update
+the branch (CI runs again) before merging. **Owner (2026-11-04):** the mobile port is paused, so
+CI builds no Android or iOS target (DECISIONS「手机端暂停」); `repository_checks.py` rejects one
+in the workflow.
 
 `Godot Verify` is a summary job (since 2026-10-11): CI runs `verify.py` split across parallel
 runners, `Godot Verify (checks)` (every step but the gameplay suites) and one
 `Godot Verify (suites K/N)` job per share of the suites, and `Godot Verify` passes only when all of
-them pass; a failed or timed-out one fails it. The build jobs run beside it. A new push cancels the
-PR's run for the old commit. Locally `verify.py` still runs everything in one go.
+them pass; a failed or timed-out one fails it. The Windows build runs beside it. A new push
+cancels the PR's run for the old commit. Locally `verify.py` still runs everything in one go.
 
 If PR CI fails, fix it on the same branch. A run on `main` is manual (`workflow_dispatch`); if one
 fails, fix it first on a narrow `hotfix/<issue>` branch from `main` before other work. Never weaken
 or skip the gate to get green.
 
-Recommended remote setting (not enforced by this repository): require a PR and the four checks
+Recommended remote setting (not enforced by this repository): require a PR and both checks
 before merging into `main`.
 
 ## Not allowed without explicit owner instruction

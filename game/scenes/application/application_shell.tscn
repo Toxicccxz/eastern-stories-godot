@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
 [ext_resource type="Script" path="res://presentation/layout/safe_area_presenter.gd" id="2_safe"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://runtime/application/android_back_adapter.gd" id="5_back"]
 [ext_resource type="Script" path="res://runtime/application/mobile_lifecycle_adapter.gd" id="6_lifecycle"]
 [ext_resource type="Script" path="res://ui/common/confirm_prompt.gd" id="7_prompt"]
+[ext_resource type="Script" path="res://presentation/title/title_screen.gd" id="8_title"]
 
 [node name="ApplicationShell" type="Node"]
 process_mode = 3
@@ -38,6 +39,10 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("4_touch")
 
+[node name="TitleScreen" type="CanvasLayer" parent="."]
+layer = 99
+script = ExtResource("8_title")
+
 [node name="ShellCanvas" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 100
@@ -52,15 +57,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 
-[node name="Background" type="ColorRect" parent="ShellCanvas/MainMenuPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.035, 0.055, 0.075, 1)
-
 [node name="Center" type="Control" parent="ShellCanvas/MainMenuPanel"]
 layout_mode = 1
 anchors_preset = 15
@@ -70,78 +66,74 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="ShellCanvas/MainMenuPanel/Center"]
-custom_minimum_size = Vector2(520, 0)
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+theme_type_variation = &"BarePanel"
 
 [node name="Margin" type="MarginContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 42
-theme_override_constants/margin_top = 36
-theme_override_constants/margin_right = 42
-theme_override_constants/margin_bottom = 36
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="VBox" type="VBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="Title" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "东方故事"
-horizontal_alignment = 1
-
-[node name="Subtitle" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-layout_mode = 2
-text = "雪亭镇"
-horizontal_alignment = 1
-
-[node name="StatusLabel" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-text = "正在检查存档……"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
+theme_override_constants/separation = 2
 
 [node name="NewGameButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 text = "新游戏"
+alignment = 0
 
-[node name="ContinueRow" type="HBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow"]
+[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
-size_flags_horizontal = 3
 disabled = true
 text = "继续"
+alignment = 0
 
-[node name="LoadButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow"]
+[node name="LoadButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
-size_flags_horizontal = 3
 disabled = true
 text = "读取存档"
+alignment = 0
 
 [node name="RecoveryButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 disabled = true
 text = "恢复存档"
+alignment = 0
 
 [node name="MenuSettingsButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 text = "设置"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+text = "退出游戏"
+alignment = 0
+
+[node name="StatusLabel" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "正在检查存档……"
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="NewGameSetupPanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -150,7 +142,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.035, 0.055, 0.075, 1)
+color = Color(0.06, 0.04, 0.03, 0.62)
 
 [node name="Center" type="Control" parent="ShellCanvas/NewGameSetupPanel"]
 layout_mode = 1
@@ -174,12 +166,13 @@ theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
+theme_type_variation = &"TitleLabel"
 text = "新的旅程"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
 
 [node name="NameLabel" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
+theme_type_variation = &"MutedLabel"
 text = "姓名"
 
 [node name="PlayerNameEdit" type="LineEdit" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
@@ -197,6 +190,7 @@ text = "随机名字"
 
 [node name="GenderLabel" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
+theme_type_variation = &"MutedLabel"
 text = "性别"
 
 [node name="GenderRow" type="HBoxContainer" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
@@ -208,6 +202,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"ToggleButton"
 toggle_mode = true
 text = "男性"
 
@@ -216,11 +211,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"ToggleButton"
 toggle_mode = true
 text = "女性"
 
 [node name="PaceLabel" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
+theme_type_variation = &"MutedLabel"
 text = "节奏"
 
 [node name="PaceOption" type="OptionButton" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
@@ -231,12 +228,14 @@ layout_mode = 2
 [node name="SetupMessage" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"SmallLabel"
 autowrap_mode = 2
 
 [node name="JourneyStartButton" type="Button" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "开始旅程"
 
 [node name="SetupCancelButton" type="Button" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
@@ -255,7 +254,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-color = Color(0.015, 0.02, 0.03, 0.82)
+color = Color(0.06, 0.04, 0.03, 0.72)
 
 [node name="Center" type="Control" parent="ShellCanvas/PausePanel"]
 layout_mode = 1
@@ -282,7 +281,7 @@ theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_type_variation = &"TitleLabel"
 text = "暂停"
 horizontal_alignment = 1
 
@@ -297,6 +296,7 @@ autowrap_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "继续游戏"
 
 [node name="SaveRow" type="HBoxContainer" parent="ShellCanvas/PausePanel/Center/Panel/Margin/VBox"]
@@ -339,7 +339,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-color = Color(0.015, 0.02, 0.03, 0.94)
+color = Color(0.06, 0.04, 0.03, 0.9)
 
 [node name="Center" type="Control" parent="ShellCanvas/SettingsPanel"]
 layout_mode = 1
@@ -362,143 +362,216 @@ theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_type_variation = &"TitleLabel"
 text = "设置"
 horizontal_alignment = 1
 
 [node name="WindowModeRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
 
-[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+[node name="WindowModePair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow/WindowModePair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "窗口模式"
 vertical_alignment = 1
 
-[node name="WindowModeOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+[node name="WindowModeOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow/WindowModePair"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 48)
-layout_mode = 2
-
-[node name="ResolutionLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="ResolutionPair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow/ResolutionPair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "分辨率"
 vertical_alignment = 1
 
-[node name="ResolutionOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow"]
+[node name="ResolutionOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/WindowModeRow/ResolutionPair"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="UiScaleRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
 
-[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+[node name="UiScalePair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow/UiScalePair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "界面缩放"
 vertical_alignment = 1
 
-[node name="UiScaleOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+[node name="UiScaleOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow/UiScalePair"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="LanguageRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
 
-[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow"]
+[node name="LanguagePair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow"]
+custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow/LanguagePair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "语言"
 vertical_alignment = 1
 
-[node name="LanguageOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow"]
+[node name="LanguageOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow/LanguagePair"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(220, 48)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="BattleSpeedRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
 
-[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow"]
+[node name="BattleSpeedPair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow"]
+custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow/BattleSpeedPair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "战斗速度"
 vertical_alignment = 1
 
-[node name="BattleSpeedOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 48)
-layout_mode = 2
-
-[node name="HitFlashCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow"]
+[node name="BattleSpeedOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow/BattleSpeedPair"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HitFlashCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/BattleSpeedRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 48)
+layout_mode = 2
 text = "受击闪红与震动"
+metadata/keeps_width = true
 
 [node name="KnockoutRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
 
-[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+[node name="KnockoutPair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow/KnockoutPair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "击倒后"
 vertical_alignment = 1
 
-[node name="KnockoutOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 48)
-layout_mode = 2
-
-[node name="ObjectiveHintsCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+[node name="KnockoutOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow/KnockoutPair"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ObjectiveHintsCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 48)
+layout_mode = 2
 text = "目标提示"
+metadata/keeps_width = true
 
 [node name="DayNightRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
 
-[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+[node name="DayNightPair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow/DayNightPair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
 text = "昼夜"
 vertical_alignment = 1
 
-[node name="DayNightOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 48)
-layout_mode = 2
-
-[node name="AutosaveNoticeCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+[node name="DayNightOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow/DayNightPair"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AutosaveNoticeCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 48)
+layout_mode = 2
 text = "自动存档提示"
+metadata/keeps_width = true
 
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
+theme_type_variation = &"SmallLabel"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -512,6 +585,7 @@ theme_override_constants/separation = 12
 unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 48)
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "应用"
 
 [node name="SettingsCancelButton" type="Button" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions"]
@@ -530,7 +604,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-color = Color(0.015, 0.02, 0.03, 0.94)
+color = Color(0.06, 0.04, 0.03, 0.9)
 
 [node name="Center" type="Control" parent="ShellCanvas/RecoveryPanel"]
 layout_mode = 1
@@ -557,12 +631,13 @@ theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_type_variation = &"TitleLabel"
 text = "恢复存档"
 horizontal_alignment = 1
 
 [node name="Description" type="Label" parent="ShellCanvas/RecoveryPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
+theme_type_variation = &"MutedLabel"
 text = "请选择一份检查过的存档来恢复。游戏不会替你选择。"
 horizontal_alignment = 1
 autowrap_mode = 2
@@ -600,7 +675,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-color = Color(0.015, 0.02, 0.03, 0.88)
+color = Color(0.06, 0.04, 0.03, 0.86)
 
 [node name="BusyCenter" type="Control" parent="ShellCanvas/BusyOverlay"]
 layout_mode = 1
@@ -613,6 +688,7 @@ grow_vertical = 2
 [node name="BusyLabel" type="Label" parent="ShellCanvas/BusyOverlay/BusyCenter"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"HeadingLabel"
 theme_override_font_sizes/font_size = 24
 text = "正在检查存档……"
 
@@ -626,7 +702,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-color = Color(0.015, 0.02, 0.03, 0.88)
+color = Color(0.06, 0.04, 0.03, 0.86)
 
 [node name="ResultCenter" type="Control" parent="ShellCanvas/ResultOverlay"]
 layout_mode = 1
@@ -660,10 +736,11 @@ centered = true
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]
-[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/RecoveryButton" to="." method="_on_recovery_button_pressed"]
-[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/MenuSettingsButton" to="." method="_on_menu_settings_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow/PauseLoadButton" to="." method="_on_load_button_pressed"]

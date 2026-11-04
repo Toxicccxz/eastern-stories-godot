@@ -39,7 +39,7 @@ func interact() -> void:
 		return
 	var run: Callable = perform_drawn if definition.act.draws() else ask_first_or_run.bind(map, act, verb(), perform.bind(act), in_reach)
 	if asks_stronger():
-		map.session.shared_ui().ask_first(tr(definition.act.stronger_ask), tr(definition.act.stronger_choice), run, in_reach)
+		map.session.shared_ui().ask_danger(tr(definition.act.stronger_ask), tr(definition.act.stronger_choice), run, in_reach)
 		return
 	run.call()
 
@@ -94,7 +94,7 @@ static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text
 			parts.append(TranslationServer.translate(COST).format({"amount": costs[key], "resource": TranslationServer.translate(RESOURCE_NAMES[key])}))
 		# TRANSLATORS: the button that goes ahead with a command ({verb}: 静修).
 		var go: String = TranslationServer.translate("确定{verb}").format({"verb": verb_text})
-		on.session.shared_ui().ask_first(TranslationServer.translate(FAINT_WARNING).format({"verb": verb_text, "cost": TranslationServer.translate("和").join(parts)}), go, run, still_valid, on_cancel)
+		on.session.shared_ui().ask_danger(TranslationServer.translate(FAINT_WARNING).format({"verb": verb_text, "cost": TranslationServer.translate("和").join(parts)}), go, run, still_valid, on_cancel)
 		return
 	run.call()
 

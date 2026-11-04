@@ -18,21 +18,31 @@ func configure(session: WorldSessionController) -> void:
 
 func _ready() -> void:
 	_panel = self
+	# 界面重做 2: a recess; the food and 吃一份 on one line.
+	theme_type_variation = &"WellPanel"
 	var rows: VBoxContainer = VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 6)
 	_panel.add_child(rows)
 	var title: Label = Label.new()
 	title.text = "随身食物"
+	title.theme_type_variation = &"MutedLabel"
 	rows.add_child(title)
+	var line := HBoxContainer.new()
+	line.name = "Line"
+	line.add_theme_constant_override("separation", 8)
+	rows.add_child(line)
 	_select = OptionButton.new()
 	_select.name = "FoodInstance"
-	_select.custom_minimum_size = Vector2(320, 36)
-	rows.add_child(_select)
+	_select.custom_minimum_size = Vector2(200, 36)
+	_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line.add_child(_select)
 	_eat = Button.new()
 	_eat.name = "Eat"
 	_eat.text = "吃一份"
-	_eat.custom_minimum_size.y = 40
+	_eat.theme_type_variation = &"ChipButton"
+	_eat.custom_minimum_size.y = 36
 	_eat.pressed.connect(request_eat)
-	rows.add_child(_eat)
+	line.add_child(_eat)
 	_feedback = Label.new()
 	_feedback.name = "Feedback"
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

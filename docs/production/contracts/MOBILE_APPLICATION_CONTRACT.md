@@ -4,10 +4,11 @@ This contract extends the [Application Shell contract](APPLICATION_SHELL_CONTRAC
 not its ownership model. The [Native Save/Load contract](NATIVE_SAVE_LOAD_CONTRACT.md)
 remains authoritative for eligibility, storage, recovery and restore transactions.
 
-**Scope today:** the first release is desktop only; a mobile port may follow after reviews, and
-visuals are not cut for phone frame rate ([DECISIONS「首发只做桌面」](../../migration/DECISIONS.md)).
-CI still builds Android and iOS as build gates, so the mobile layer below stays maintained and
-tested, but it is not a release target until that port is planned.
+**Scope today:** the first release is desktop only and the mobile port is paused; visuals are not
+cut for phone frame rate ([DECISIONS「手机端暂停」](../../migration/DECISIONS.md)). CI no longer
+builds Android or iOS. The mobile layer below stays in the project and its suites still run in
+`verify.py` (touch and the responsive layout also serve the Steam Deck), but it is not a release
+target.
 
 ## Ownership
 

@@ -42,6 +42,31 @@ class CiTriggerPolicyTests(unittest.TestCase):
         errors = repository_checks.ci_trigger_policy_errors(altered)
         self.assertIn("CI must skip expensive jobs while a pull request remains draft", errors)
 
+    def test_mobile_build_jobs_are_rejected(self) -> None:
+        # build.py takes `--target X`, `--target=X` and a quoted value; a YAML `>-` block may break
+        # the line between the flag and its value.
+        spellings = ("--target {}", "--target={}", '--target "{}"', "--target='{}'", "--target\n          {}")
+        for target in ("android", "ios"):
+            for spelling in spellings:
+                with self.subTest(target=target, spelling=spelling):
+                    altered = self.workflow + (
+                        f"\n  {target}-build:\n    name: {target} build\n    runs-on: ubuntu-24.04\n"
+                        f"    steps:\n      - run: >-\n          python tools/build/build.py\n"
+                        f"          {spelling.format(target)}\n"
+                    )
+                    errors = repository_checks.ci_trigger_policy_errors(altered)
+                    self.assertIn(f"CI must not build {target}: the mobile port is paused", errors)
+
+    def test_windows_target_is_not_mistaken_for_a_mobile_one(self) -> None:
+        self.assertIn("--target windows", self.workflow)
+        errors = repository_checks.ci_trigger_policy_errors(self.workflow)
+        self.assertFalse(any("mobile port is paused" in error for error in errors))
+
+    def test_windows_build_job_is_required(self) -> None:
+        altered = self.workflow.replace("    name: Windows Release Build\n", "    name: Windows\n")
+        errors = repository_checks.ci_trigger_policy_errors(altered)
+        self.assertIn("CI stable job name is missing: Windows Release Build", errors)
+
 
 if __name__ == "__main__":
     unittest.main()
