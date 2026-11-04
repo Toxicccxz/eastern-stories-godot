@@ -27,6 +27,7 @@ func _ready() -> void:
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
+	_text.add_theme_font_size_override("normal_font_size", 18)
 	_text.custom_minimum_size = Vector2(0, 240)
 	_text.scroll_following = true
 	_text.add_to_group(PadSupport.SCROLL_GROUP)

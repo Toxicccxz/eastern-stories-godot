@@ -220,7 +220,13 @@ func _show_end_stamp() -> void:
 	end_stamp.visible = true
 	end_stamp.reset_size()
 	end_stamp.pivot_offset = end_stamp.size * 0.5
-	var area: Rect2 = _participants.get_parent().get_global_rect()
+	# Over the cards (they keep to the top of their row since 界面重做 4), else their row.
+	var area := Rect2()
+	for card: BattleParticipantCard in _cards:
+		if card.visible:
+			area = card.get_global_rect() if not area.has_area() else area.merge(card.get_global_rect())
+	if not area.has_area():
+		area = _participants.get_parent().get_global_rect()
 	end_stamp.global_position = area.get_center() - end_stamp.size * 0.5
 	end_stamp.modulate = Color(1, 1, 1, 0)
 	end_stamp.scale = Vector2.ONE * BattleCardStage.SLAM_FROM
@@ -441,6 +447,7 @@ func _build() -> void:
 	_warning.name = "KillWarning"
 	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_warning.add_theme_color_override("font_color", SharedGameplayUI.ALERT_COLOR)
+	_warning.add_theme_font_size_override("font_size", 18)
 	_warning.visible = false
 	_content.add_child(_warning)
 	var participant_scroll := ScrollContainer.new()

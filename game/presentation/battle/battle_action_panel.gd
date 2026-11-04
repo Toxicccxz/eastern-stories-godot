@@ -329,8 +329,10 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 			move_buttons[move.action_id] = button
 	for id: StringName in move_buttons:
 		var button: Button = move_buttons[id]
-		button.set_pressed_no_signal(id == projection.chosen_action_id)
+		var chosen: bool = id == projection.chosen_action_id
+		button.set_pressed_no_signal(chosen)
 		button.disabled = not (projection.waiting and projection.manual)
+		_show_chosen(button, chosen)
 	# The row dims while the round plays and lights when the fight waits for the player
 	# (a show, not a lock: the buttons' own disabled state is the rule's).
 	var dim: bool = projection.turns_offered and projection.manual and not projection.waiting
@@ -347,6 +349,17 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 	# TRANSLATORS: the battle panel's switch between the player's turns and ES2's auto-fight: the text names what pressing it does.
 	manual_button.text = tr("改为自动") if projection.manual else tr("改为手动")
 	manual_button.tooltip_text = tr("现在：每回合等你出招；按下后战斗自己打，招式随机。") if projection.manual else tr("现在：战斗自己打；按下后每回合等你出招。")
+
+
+## The move chosen for the round stays lacquer while the round plays and the buttons are
+## greyed (界面重做 4): the others grey, it does not.
+static func _show_chosen(button: Button, chosen: bool) -> void:
+	if chosen:
+		button.add_theme_stylebox_override("disabled", GameTheme.shared().get_stylebox("pressed", &"ToggleButton"))
+		button.add_theme_color_override("font_disabled_color", GameTheme.shared().get_color("font_pressed_color", &"ToggleButton"))
+	else:
+		button.remove_theme_stylebox_override("disabled")
+		button.remove_theme_color_override("font_disabled_color")
 
 
 func _move_pressed(action_id: StringName) -> void:

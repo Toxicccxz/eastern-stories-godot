@@ -46,6 +46,12 @@ func _test_battle(tree: SceneTree) -> void:
 	panel.confirm_text = func(_id: StringName) -> PackedStringArray: return PackedStringArray(["天邪虎啸会让所有人对你下杀手。", "确定"])
 	panel._action_pressed(&"roar")
 	check(panel.is_asking() and panel.prompt.confirm_button.theme_type_variation == &"DangerButton", "a risky action is asked in dark lacquer")
+	var move := Button.new()
+	BattleActionPanel._show_chosen(move, true)
+	check(move.get_theme_stylebox("disabled") == GameTheme.shared().get_stylebox("pressed", &"ToggleButton"), "the chosen move keeps its lacquer while the round greys the row")
+	BattleActionPanel._show_chosen(move, false)
+	check(not move.has_theme_stylebox_override("disabled"), "the others grey")
+	move.free()
 	panel.queue_free()
 	await tree.process_frame
 

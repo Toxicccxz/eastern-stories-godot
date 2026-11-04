@@ -446,7 +446,7 @@ func _flash_border() -> void:
 	if _border_flash != null and _border_flash.is_valid():
 		_border_flash.kill()
 	var back: StyleBoxFlat = get_theme_stylebox("panel") as StyleBoxFlat
-	if back == _special_border:
+	if back == null or back == _special_border:
 		back = _ordinary_border
 	add_theme_stylebox_override("panel", _special_border)
 	_border_flash = create_tween()
