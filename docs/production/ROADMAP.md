@@ -158,5 +158,5 @@ resolving [license/provenance](LICENSE_PROVENANCE.md) — the ES2 rights questio
 before any public distribution. The first release is desktop only (Steam); the mobile port
 (Android / iOS, phone frame rate; draft PR #161) is **paused** and CI builds no mobile target
 (owner 2026-11-04, DECISIONS「手机端暂停」). Steam Deck support stays in scope: pad, resolution
-and window mode, touch input. Large new expansions after the first release belong to a later
+and window mode, the 16:10 screen. Large new expansions after the first release belong to a later
 version.

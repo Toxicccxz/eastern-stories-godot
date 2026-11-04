@@ -10,8 +10,6 @@ func _run() -> void:
 		"res://tests/application/public_source_new_game_test.gd",
 		"res://tests/application/application_shell_test.gd",
 		"res://tests/application/application_shell_phase10c1c_test.gd",
-		"res://tests/application/mobile_lifecycle_test.gd",
-		"res://tests/application/mobile_lifecycle_audit_test.gd",
 		"res://tests/runtime/versioned_source_save_test.gd",
 		"res://tests/runtime/player_body_facts_test.gd",
 		"res://tests/runtime/new_player_legacy_integration_test.gd",

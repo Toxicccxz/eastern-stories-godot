@@ -238,10 +238,10 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
 
 Platforms: the first release is desktop only; the mobile port (Android / iOS) is paused and CI builds
 only Windows (DECISIONS「手机端暂停」); the Steam Deck adaptation (pad, resolution and window mode,
-touch) stays. The mobile code, presets and suites are still in the project. The provisional app ID
-`com.example.easternstoriesgodot` must be replaced before signing. Licensing: no root project
-license; ES2 rights are unresolved ([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) — settle before any
-public distribution.
+16:10) stays. The mobile code and presets are still in the project; their tests are removed. The
+provisional app ID `com.example.easternstoriesgodot` must be replaced before signing. Licensing: no
+root project license; ES2 rights are unresolved ([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) —
+settle before any public distribution.
 
 ## How to verify
 

@@ -83,8 +83,8 @@ must not be production dependencies. It retains the canonical
 `res://scenes/application/application_shell.tscn`, production Shell/settings/capability code, persistent
 Runtime Host, and native Save/Continue/recovery runtime. It also retains responsive presentation,
 SafeArea, touch capture/adapter, Android Back/exit, typed lifecycle/activity and explicit Resume-gate
-logic, mobile logical-size overrides and sensor-landscape configuration. All mobile test fakes and
-lifecycle observers remain excluded. It verifies required production paths, scans
+logic, mobile logical-size overrides and sensor-landscape configuration. All test fakes remain
+excluded. It verifies required production paths, scans
 for forbidden references and local absolute paths in shipped source, and checks that the source tree
 digest is unchanged. No repository-level
 `reference/es2`, migration docs, CI scripts, or build tools are copied.
@@ -305,8 +305,9 @@ workspace.
 The first release is desktop only and the mobile port is paused: a phone version would split
 Steam sales, and visuals are not cut for phone frame rate
 ([DECISIONS「手机端暂停」](../migration/DECISIONS.md)). CI no longer builds Android or iOS. The
-presets, the shared mobile layer below and its suites stay in the project (touch and the
-responsive layout also serve the Steam Deck); they are not release targets.
+presets and the shared mobile layer below stay in the project, untested: its phone-only suites
+were removed (the desktop layout checks live on in `tests/presentation/responsive_layout_*`, with
+the Steam Deck's 1280x800). They are not release targets.
 
 The shared mobile layer provides responsive Shell/HUD/item panels, SafeArea, a fixed digital
 pad, Android Back and lifecycle freeze/explicit Resume, with manual saves only. It keeps one
