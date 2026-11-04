@@ -6,6 +6,7 @@
 				"native: 关北 A (剧情总纲 §3 第六章 入口「严廷殷丢的真印被军师赫造基拓了模子卖出去」; d/canyon/npc/adviser.c's 八两银子说出秘密; DECISIONS「天驼关 B」「关北 A」) — the mould 赫造基 took of the real 印鉴 while it was lost; 比印 against the 兵部文书 is how the player learns the 印色之差 (剧情总纲 §3 第九章「印色对不上（第六章学过）」). 续写"
 			],
 			"name": "印模",
+			"quest": true,
 			"aliases": [
 				"seal mould",
 				"mould",

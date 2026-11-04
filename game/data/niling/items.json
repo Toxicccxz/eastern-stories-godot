@@ -20,6 +20,7 @@
 				"native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 纳供的不只金帛，是人: the ledger 剧情总纲 §3 第三章 ④ names, used again in 第五章 (the 账册 and the 假印文书)"
 			],
 			"name": "账册",
+			"quest": true,
 			"aliases": [
 				"ledger",
 				"book",
@@ -60,6 +61,7 @@
 				"native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 假印第一次出现 (剧情总纲 §3 第三章 ④, 第五章入口「逆灵宫的账册和假印文书」)"
 			],
 			"name": "兵部文书",
+			"quest": true,
 			"aliases": [
 				"papers",
 				"document",
@@ -100,6 +102,7 @@
 				"native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — the key of the dungeon's three iron doors (DoorDefinition.key); 玄冥子 carries it until the 唤首 scene hands it to the jailer (C)"
 			],
 			"name": "地牢钥匙",
+			"quest": true,
 			"aliases": [
 				"key",
 				"cell key",
@@ -117,6 +120,7 @@
 				"native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — the 逆灵天书 of doc/help/taoist:58 (禁书), half of it, what 玄冥子 drops; only a hook for the 魔道 line (owner Q3: 残卷只留钩子)"
 			],
 			"name": "逆灵天书残卷",
+			"quest": true,
 			"aliases": [
 				"scroll",
 				"fragment",

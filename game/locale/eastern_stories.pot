@@ -5148,9 +5148,10 @@ msgstr ""
 
 #. native (任务系统): after a deed: {place} where, {who} the people who saw it.
 #. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
+#. the 背包's purse line: {coins} the coins carried (三两黄金、二十文钱), or 空 when none.
 #. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
 #. between two conditions on the HUD (蛇毒).
-#: core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
+#: core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
 msgid "、"
 msgstr ""
 
@@ -8699,7 +8700,7 @@ msgstr ""
 msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
 msgstr ""
 
-#: runtime/world/services/quest_service.gd ui/world/game_menu.gd
+#: runtime/world/services/quest_service.gd ui/world/game_menu.gd ui/world/inventory_sections.gd
 msgid "任务"
 msgstr ""
 
@@ -8881,121 +8882,6 @@ msgstr ""
 #. a continuous 打坐 towards a maximum (前两小时 A): the maximum now {maximum}, the one aimed at {target}, and what is left {left}.
 #: ui/common/training_progress.gd
 msgid "，上限 {maximum} → {target}，还差 {left}"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "随身食物"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "吃一份"
-msgstr ""
-
-#. one food the player carries: its name, which one, portions left and its value in coins.
-#: ui/food/held_food_panel.gd
-msgid "{item} #{index} · {portions}份 · 价值{value}文"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "你将剩下的%s吃得乾乾净净。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "你拿起%s咬了几口。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "你已经是鬼了，不能吃东西！"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "你已经吃太饱了，再也塞不下任何东西了。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "你肚子太涨了，再也撑不下任何东东了。!"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "只能吃自己直接携带的食物。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "战斗中暂不能吃东西。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd ui/liquid/held_liquid_panel.gd
-msgid "你上一个动作还没有完成。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd ui/liquid/held_liquid_panel.gd ui/world/vendor_panel.gd
-msgid "物品状态异常，请停止操作。"
-msgstr ""
-
-#: ui/food/held_food_panel.gd
-msgid "现在不能吃这个物品。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "随身酒袋 · 清水补给"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "喝一份清水"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "装满清水（倒掉现有内容）"
-msgstr ""
-
-#. one container the player carries: its name, which one, what it holds and the portions left of the most it holds.
-#: ui/liquid/held_liquid_panel.gd
-msgid "{item} #{index} · {liquid} · {portions}/{maximum}份"
-msgstr ""
-
-#. drink one portion of what the selected container holds ({liquid}: 红酒, 清水).
-#: ui/liquid/held_liquid_panel.gd
-msgid "喝一份{liquid}"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "你将%s装满清水。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "你将{container}里剩下的{liquid}倒掉。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "你拿起{container}咕噜噜地喝了几口{liquid}。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "你已经将{container}里的{liquid}喝得一滴也不剩了。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "你已经是鬼了，不能喝东西！"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "你已经喝太多了，再也灌不下一滴水了。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "%s已经被喝得一滴也不剩了"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "这里没有地方可以装水。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "战斗中暂不能装水或饮用。"
-msgstr ""
-
-#: ui/liquid/held_liquid_panel.gd
-msgid "现在不能使用这个酒袋。"
 msgstr ""
 
 #. asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family.
@@ -9412,6 +9298,106 @@ msgstr ""
 msgid "确认给予"
 msgstr ""
 
+#. a carried food in the 背包: {portions} portions left, {value} its value in coins.
+#: ui/world/held_supplies.gd
+msgid "还剩 {portions} 份 · 价值 {value} 文"
+msgstr ""
+
+#. an empty drink container in the 背包.
+#: ui/world/held_supplies.gd
+msgid "里面是空的 · 最多装 {maximum} 份"
+msgstr ""
+
+#. a carried drink container in the 背包: {liquid} what it holds (清水, 红酒), {portions} left of {maximum}.
+#: ui/world/held_supplies.gd
+msgid "装着{liquid} · {portions}/{maximum} 份"
+msgstr ""
+
+#. drink one portion of what the selected container holds ({liquid}: 红酒, 清水).
+#: ui/world/held_supplies.gd
+msgid "喝一份{liquid}"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你将剩下的%s吃得乾乾净净。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你拿起%s咬了几口。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你已经是鬼了，不能吃东西！"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你已经吃太饱了，再也塞不下任何东西了。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你肚子太涨了，再也撑不下任何东东了。!"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "只能吃自己直接携带的食物。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "战斗中暂不能吃东西。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你上一个动作还没有完成。"
+msgstr ""
+
+#: ui/world/held_supplies.gd ui/world/vendor_panel.gd
+msgid "物品状态异常，请停止操作。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "现在不能吃这个物品。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你将%s装满清水。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你将{container}里剩下的{liquid}倒掉。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你拿起{container}咕噜噜地喝了几口{liquid}。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你已经将{container}里的{liquid}喝得一滴也不剩了。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你已经是鬼了，不能喝东西！"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "你已经喝太多了，再也灌不下一滴水了。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "%s已经被喝得一滴也不剩了"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "这里没有地方可以装水。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "战斗中暂不能装水或饮用。"
+msgstr ""
+
+#: ui/world/held_supplies.gd
+msgid "现在不能使用这个酒袋。"
+msgstr ""
+
 #: ui/world/hockshop_panel.gd
 msgid "请选择随身物品。"
 msgstr ""
@@ -9454,6 +9440,50 @@ msgstr ""
 
 #: ui/world/hockshop_panel.gd
 msgid "卖断未执行，物品状态已变化；请重新选择。"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "全部"
+msgstr ""
+
+#: ui/world/inventory_sections.gd ui/world/player_inventory_panel.gd
+msgid "装备"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "补给"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "书籍"
+msgstr ""
+
+#: ui/world/inventory_sections.gd ui/world/player_inventory_panel.gd
+msgid "杂物"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "身上空无一物。"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "没有带着兵器或衣甲。"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "没有带着吃的、喝的或伤药。"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "没有带着书。"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "没有带着要紧的东西。"
+msgstr ""
+
+#: ui/world/inventory_sections.gd
+msgid "没有别的杂物。"
 msgstr ""
 
 #. the 任务 page before any story entry is recorded.
@@ -9839,10 +9869,6 @@ msgstr ""
 msgid "饮品"
 msgstr ""
 
-#: ui/world/player_inventory_panel.gd
-msgid "杂物"
-msgstr ""
-
 #. native.npc.luca inquiry topic
 #: ui/world/player_inventory_panel.gd data/guanbei/npcs.json
 msgid "剑"
@@ -9915,6 +9941,39 @@ msgstr ""
 msgid "腰部"
 msgstr ""
 
+#. inventory.c's 负重: how much of the most the player can carry they carry, in percent.
+#: ui/world/player_inventory_panel.gd
+msgid "负重 {percent}%"
+msgstr ""
+
+#. a 背包 section and how many things it lists: 装备 4.
+#: ui/world/player_inventory_panel.gd
+msgid "{section} {count}"
+msgstr ""
+
+#. the 背包's purse line: {coins} the coins carried (三两黄金、二十文钱), or 空 when none.
+#: ui/world/player_inventory_panel.gd
+msgid "钱袋：{coins}"
+msgstr ""
+
+#. the 背包's purse line: {coins} the coins carried (三两黄金、二十文钱), or 空 when none.
+#: ui/world/player_inventory_panel.gd
+msgid "空"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
+msgid "钱袋"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
+msgid "身上一文钱也没有。"
+msgstr ""
+
+#. what all the coins in the 背包's purse are worth together, in 文.
+#: ui/world/player_inventory_panel.gd
+msgid "合计价值：{value} 文"
+msgstr ""
+
 #: ui/world/player_inventory_panel.gd
 msgid "类别：%s"
 msgstr ""
@@ -9952,17 +10011,27 @@ msgstr ""
 msgid "里面有："
 msgstr ""
 
-#. an item's apply/dodge, e.g. 轻功：-2 (the 武学 page's 轻功 use).
 #: ui/world/player_inventory_panel.gd
-msgid "轻功：%+d"
+msgid "现在手上没有兵器。"
+msgstr ""
+
+#. a weapon in the 背包 against the one in hand ({item}): {damage} the difference in 伤害 (+8, -3).
+#: ui/world/player_inventory_panel.gd
+msgid "和手上的{item}比：伤害 {damage}"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
-msgid "观察"
+msgid "这个部位现在什么也没穿。"
 msgstr ""
 
+#. armour in the 背包 against the one worn in its place ({item}): {armor} the difference in 防护.
 #: ui/world/player_inventory_panel.gd
-msgid "装备"
+msgid "和身上的{item}比：防护 {armor}"
+msgstr ""
+
+#. added to a 背包 comparison when 轻功 differs too: {dodge} (+1, -2).
+#: ui/world/player_inventory_panel.gd
+msgid "，轻功 {dodge}"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
@@ -9975,6 +10044,14 @@ msgstr ""
 
 #: ui/world/player_inventory_panel.gd
 msgid "脱掉"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
+msgid "吃一份"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
+msgid "装满清水（倒掉现有内容）"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
@@ -10011,15 +10088,16 @@ msgid "取出{item}"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
-msgid "给%s"
-msgstr ""
-
-#: ui/world/player_inventory_panel.gd
 msgid "放进%s"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
 msgid "丢下"
+msgstr ""
+
+#. an item's apply/dodge, e.g. 轻功：-2 (the 武学 page's 轻功 use).
+#: ui/world/player_inventory_panel.gd
+msgid "轻功：%+d"
 msgstr ""
 
 #. an item the player has on, and how: 短剑 · 主手.
@@ -10165,10 +10243,6 @@ msgid ""
 "· 综合评价清零（现在是 {score}）。\n"
 "· 背叛师门的次数变成 {next} 次。\n"
 "确定要攻击吗？"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "随身补给"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -10595,10 +10669,6 @@ msgstr ""
 msgid ""
 "施展{spell}要耗去 {sen} 点神，你现在撑不住，施展完就会昏过去。\n"
 "确定要施展吗？"
-msgstr ""
-
-#: ui/world/shared_ui_panels.gd
-msgid "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
 msgstr ""
 
 #: ui/world/shared_ui_questions.gd

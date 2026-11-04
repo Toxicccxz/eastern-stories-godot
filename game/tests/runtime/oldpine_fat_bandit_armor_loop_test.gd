@@ -550,11 +550,12 @@ func _rect_clear_of_blocking_terrain(map: Node2D, center: Vector2, size: Vector2
 
 
 func _assert_dynamic_row_connections(panel: PlayerInventoryPanel) -> void:
-	for child: Node in panel.row_container.get_children():
-		for row_child: Node in child.get_children():
-			var button: Button = row_child as Button
-			if button != null:
-				_assert_eq(button.get_signal_connection_list("pressed").size(), 1, "dynamic Inventory action binds exact item once")
+	var buttons: Array[Node] = panel.row_container.get_children()
+	buttons.append_array(panel.action_rows.find_children("*", "Button", true, false))
+	for node: Node in buttons:
+		var button: Button = node as Button
+		if button != null:
+			_assert_eq(button.get_signal_connection_list("pressed").size(), 1, "dynamic Inventory action binds exact item once")
 
 
 func _player_items(controller: WorldMapController) -> Array[ItemInstance]:

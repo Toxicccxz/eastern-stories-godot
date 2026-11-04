@@ -89,7 +89,8 @@
 			"long": "上面刻著镇国大将军。\n",
 			"unit": "颗",
 			"weight": 0,
-			"value": 3000
+			"value": 3000,
+			"quest": true
 		},
 		{
 			"id": "es2:d/canyon/npc/obj/seal",
@@ -99,6 +100,7 @@
 			"long": "泛著黄光，上面刻著镇国大将军。\n",
 			"unit": "颗",
 			"weight": 0,
+			"quest": true,
 			"name_color": "HIY"
 		},
 		{

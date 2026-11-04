@@ -88,16 +88,22 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		# previous suite in the same process happened to leave half-done.
 		await _settle(tree, 2)
 		session.shared_ui().open_supplies()
-		var panel: HeldLiquidPanel = session.shared_ui().panels._liquid
-		panel._process(0)
+		var bag: PlayerInventoryPanel = session.shared_ui().inventory_panel
+		var supplies: HeldSupplies = bag.supplies
 		_check(session.fill_water_available(), "bounded Lake source available")
-		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.FILLED, "existing Fill UI path at Lake")
+		bag.select_item(bought.item_id)
+		var fill: Button = bag.action_rows.find_child("Fill", true, false) as Button
+		if fill != null:
+			fill.pressed.emit()
+		_check(fill != null and supplies.last_liquid != null and supplies.last_liquid.outcome == LiquidUseResult.Outcome.FILLED, "the 背包's 装满清水 at Lake")
 		_check(session.liquid_collection().state(bought.item_id).remaining == 15, "same container filled15")
 		_place(session, Vector2(1400,2220))
-		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.NO_WATER_SOURCE, "remote Lake Fill refused")
+		supplies.fill(bought.item_id)
+		_check(supplies.last_liquid.outcome == LiquidUseResult.Outcome.NO_WATER_SOURCE, "remote Lake Fill refused")
 		map.player_body.global_position = map.get_node("WaterfallWaterPoint").global_position
 		map.player_body.set_world_location(map.location_for_zone(OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID))
-		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.FILLED, "Waterfall Fill regression")
+		supplies.fill(bought.item_id)
+		_check(supplies.last_liquid.outcome == LiquidUseResult.Outcome.FILLED, "Waterfall Fill regression")
 	session.free()
 	await _settle(tree, 2)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}

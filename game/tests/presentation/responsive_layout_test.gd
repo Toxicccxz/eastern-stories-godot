@@ -166,7 +166,7 @@ func _hud(tree: SceneTree, hud: SharedGameplayUI, metrics: SafeAreaMetrics) -> v
 	await _settle(tree)
 	await _surface(tree, hud._presentation_layout.frame, metrics)
 	for row: Node in hud.inventory_panel.row_container.get_children():
-		_check(not (row as BoxContainer).vertical, "every dynamic row stays one line at %s, including automatically renamed siblings" % metrics.viewport_rect().size)
+		_check(row is Button and (row as Button).text_overrun_behavior == TextServer.OVERRUN_TRIM_ELLIPSIS, "every dynamic row stays one line at %s, including automatically renamed siblings" % metrics.viewport_rect().size)
 	_check(not tree.paused, "item panel does not pause gameplay")
 	hud.close_inventory()
 	var loot: Array[WorldItemRowProjection] = [WorldItemRowProjection.new(&"qa:loot", &"qa", "Long loot name ".repeat(8), "Visible without hover ".repeat(12), 3, &"currency", true)]

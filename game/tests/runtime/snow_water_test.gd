@@ -247,15 +247,20 @@ func persistence_tests(tree: SceneTree) -> void:
 
 func physical_tests(tree: SceneTree) -> void:
 	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
-	check(session.shared_ui().panels._liquid != null and not session.fill_water_available(), "Session UI, Inn no water source")
+	check(session.shared_ui().inventory_panel.supplies != null and not session.fill_water_available(), "Session UI, Inn no water source")
 	Food.earn_and_exchange(session)
 	purchase(session)
 	await tree.process_frame
 	await tree.process_frame
 	session.shared_ui().open_supplies()
 	await tree.process_frame
-	var panel: HeldLiquidPanel = session.shared_ui().panels._liquid as HeldLiquidPanel
-	check(panel._panel.visible and panel._drink.text == "喝一份红酒", "fresh wine UI names the wine")
+	var bag: PlayerInventoryPanel = session.shared_ui().inventory_panel
+	var supplies: HeldSupplies = bag.supplies
+	for listed: PlayerInventoryRowProjection in bag.listed_rows():
+		if supplies.is_liquid(listed.item_instance_id):
+			bag.select_item(listed.item_instance_id)
+	var drink: Button = bag.action_rows.find_child("Drink", true, false) as Button
+	check(drink != null and drink.text == "喝一份红酒" and bag.inspection_display().contains("装着红酒"), "fresh wine UI names the wine")
 	var map: WorldMapController = session.resident_map(OldPineWorldDefinitions.GORGE_MAP_ID) as WorldMapController
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
 	check(session.handoff_to(OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID, OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID).succeeded(), "fixture waterfall handoff")
@@ -273,7 +278,7 @@ func physical_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	check(not session.liquid_interaction_available(), "Pause blocks stale interaction")
-	check(not panel._panel.is_visible_in_tree(), "Pause also hides presentation without advancing Session")
+	check(not supplies.liquid_available(), "Pause also stops the 背包's drink without advancing Session")
 	tree.paused = false
 	session.free()
 	await tree.process_frame
