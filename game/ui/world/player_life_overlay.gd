@@ -45,7 +45,7 @@ func _ready() -> void:
 	layer = 20
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_dim = ColorRect.new()
-	_dim.color = Color(0, 0, 0, 0.72)
+	_dim.color = UiPalette.SCRIM
 	_dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_dim)
@@ -54,15 +54,9 @@ func _ready() -> void:
 	_dim.add_child(center)
 	_panel = PanelContainer.new()
 	_panel.custom_minimum_size = Vector2(320, 0)
-	# A dark backing under the text: a long card (the opening) reads over the scene.
-	var backing := StyleBoxFlat.new()
-	backing.bg_color = Color(0.07, 0.07, 0.06, 0.94)
-	backing.set_corner_radius_all(10)
-	backing.content_margin_left = 24.0
-	backing.content_margin_right = 24.0
-	backing.content_margin_top = 20.0
-	backing.content_margin_bottom = 20.0
-	_panel.add_theme_stylebox_override("panel", backing)
+	# 界面重做 3: the menu's planked slab under the text (a long card reads over the scene).
+	_dim.theme = GameTheme.shared()
+	_panel.theme_type_variation = &"MenuWindow"
 	center.add_child(_panel)
 	var rows: VBoxContainer = VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 12)
@@ -75,6 +69,7 @@ func _ready() -> void:
 	_continue = Button.new()
 	_continue.name = "Continue"
 	_continue.text = "继续"
+	_continue.theme_type_variation = &"PrimaryButton"
 	_continue.custom_minimum_size = Vector2(0, 44)
 	_continue.pressed.connect(go_on)
 	rows.add_child(_continue)

@@ -9,11 +9,14 @@ extends HBoxContainer
 ## row marked on the left. SharedGameplayLayout puts what opens while the popup shows into
 ## page_mount(); closing the page (返回, B) shows 查看 again. Choosing a row emits `chosen`.
 ## Keys and pad start on the first row that can be done and move between the columns.
+## 界面重做 3: the rows are list rows (the marked one a warm block), a thin rule between the
+## columns, the page's title a heading; the frame's title has the thing's name and, for an
+## NPC, the fight forecast's word, so 查看 does not open with the name again.
 
 signal chosen(option: InteractionOption)
 
-const REASON_COLOR: Color = Color(0.62, 0.6, 0.56)
-const STATUS_COLOR: Color = Color(1.0, 0.78, 0.45)
+const REASON_COLOR: Color = UiPalette.MUTED
+const STATUS_COLOR: Color = UiPalette.GOLD
 const ROW_WIDTH: float = 150.0
 
 var _rows: VBoxContainer
@@ -47,8 +50,11 @@ func _ready() -> void:
 	_rows.add_theme_constant_override("separation", 6)
 	_options_scroll = _scroll("OptionsScroll", _rows, false)
 	add_child(_options_scroll)
-	var rule := VSeparator.new()
+	var rule := ColorRect.new()
 	rule.name = "Rule"
+	rule.color = Color(UiPalette.BONE, 0.12)
+	rule.custom_minimum_size.x = 2
+	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(rule)
 	var column := VBoxContainer.new()
 	column.name = "Column"
@@ -59,7 +65,7 @@ func _ready() -> void:
 	_heading = Label.new()
 	_heading.name = "Heading"
 	_heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_heading.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	_heading.theme_type_variation = &"HeadingLabel"
 	column.add_child(_heading)
 	var page := VBoxContainer.new()
 	page.name = "Page"
@@ -129,10 +135,11 @@ func page_shown() -> bool:
 
 ## What looking at the thing showed (the details' text), kept for 查看 while the popup
 ## shows (a row selects the thing again, which clears the details); "" for none: 查看 then
-## shows the lines about it.
-func set_look(text: String) -> void:
+## shows the lines about it. Its first line, the thing's name (`name`, the frame's title),
+## is left out.
+func set_look(text: String, name: String = "") -> void:
 	_looked = not text.is_empty()
-	_look_text.text = text
+	_look_text.text = without_name_line(text, name)
 	if not page_shown():
 		show_look()
 
@@ -171,8 +178,14 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 		button.tooltip_text = option.hint
 		button.disabled = not option.available()
 		button.focus_mode = Control.FOCUS_NONE if button.disabled else Control.FOCUS_ALL
+		button.theme_type_variation = &"RowButton"
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		# Marked while its page shows (_mark_current); pressing it chooses, never unmarks.
+		button.toggle_mode = true
+		button.action_mode = BaseButton.ACTION_MODE_BUTTON_RELEASE
 		if option.accent:
-			button.theme_type_variation = &"AccentButton"
+			# The place's own service (购买, 当铺 …) in gold.
+			button.add_theme_color_override("font_color", UiPalette.GOLD)
 		# The row's place, not its option: the same rows on another thing are not rebuilt.
 		button.pressed.connect(_choose.bind(index))
 		# A service's verb comes in the shown language already.
@@ -197,6 +210,7 @@ func _choose(index: int) -> void:
 	if index < _options.size() and _options[index].available():
 		_current = _options[index].label
 		chosen.emit(_options[index])
+	_mark_current()
 
 
 ## The rows as [label, reason] (tests and the walk).
@@ -260,34 +274,24 @@ func _focus_row(from: int) -> void:
 			return
 
 
-## The row whose page shows is marked in the accent colour.
+## The row whose page shows is marked: a list row held down (a warm block).
 func _mark_current() -> void:
 	var marked: Button = button_of(_current) if page_shown() else null
 	for row: Node in _rows.get_children():
 		var button: Button = row.get_node("Do") as Button
-		if button == marked:
-			for state: StringName in [&"normal", &"hover"]:
-				button.add_theme_stylebox_override(state, _marked_style())
-			for color: StringName in [&"font_color", &"font_hover_color", &"font_focus_color"]:
-				button.add_theme_color_override(color, SharedGameplayLayout.ACCENT_COLOR.lightened(0.3))
-		else:
-			for state: StringName in [&"normal", &"hover"]:
-				button.remove_theme_stylebox_override(state)
-			for color: StringName in [&"font_color", &"font_hover_color", &"font_focus_color"]:
-				button.remove_theme_color_override(color)
+		button.set_pressed_no_signal(button == marked)
 
 
-static func _marked_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.24)
-	style.border_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.6)
-	style.border_width_left = 3
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
-	return style
+## `text` without its first line when that line only names the thing (`name`): the frame's
+## title says it already.
+static func without_name_line(text: String, name: String) -> String:
+	if name.is_empty():
+		return text
+	var first: int = text.find("\n")
+	var line: String = (text if first < 0 else text.left(first)).strip_edges()
+	if first < 0 or not line.contains(name) or line.contains(String.chr(0x3002)) or line.length() > name.length() + 12:
+		return text
+	return text.substr(first + 1).strip_edges()
 
 
 ## Puts `lines` into `box`; false when it showed them already.
@@ -305,7 +309,7 @@ func _lines(box: VBoxContainer, lines: Array[String], color: Color) -> bool:
 		label.text = text
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.add_theme_font_size_override("font_size", 14)
+		label.add_theme_font_size_override("font_size", 16)
 		label.add_theme_color_override("font_color", color)
 		box.add_child(label)
 	return true

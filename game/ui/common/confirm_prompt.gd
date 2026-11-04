@@ -20,6 +20,7 @@ signal cancelled
 		centered = value
 		message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if value else HORIZONTAL_ALIGNMENT_LEFT
 		message.vertical_alignment = VERTICAL_ALIGNMENT_CENTER if value else VERTICAL_ALIGNMENT_TOP
+		_actions.alignment = FlowContainer.ALIGNMENT_CENTER if value else FlowContainer.ALIGNMENT_BEGIN
 
 ## The key or pad button that answers 取消 where the prompt is shown (its glyph shows on
 ## 取消): Esc/B in the shared frame and the shell, the battle's own back button in a fight.
@@ -35,6 +36,8 @@ var message: Label
 var confirm_button: Button
 var cancel_button: Button
 var _asking: bool = false
+## The buttons' row: under the question from its left edge (a page), or centred with it.
+var _actions: HFlowContainer
 
 
 func _init() -> void:
@@ -53,7 +56,8 @@ func _init() -> void:
 	add_child(message)
 	var actions := HFlowContainer.new()
 	actions.name = "Actions"
-	actions.alignment = FlowContainer.ALIGNMENT_CENTER
+	actions.alignment = FlowContainer.ALIGNMENT_BEGIN
+	_actions = actions
 	actions.add_theme_constant_override("h_separation", 12)
 	actions.add_theme_constant_override("v_separation", 12)
 	add_child(actions)
@@ -79,7 +83,7 @@ func _button(parent: Node, node_name: String) -> Button:
 	return button
 
 
-const DETAIL_COLOR: Color = Color(0.74, 0.78, 0.72)
+const DETAIL_COLOR: Color = UiPalette.MUTED
 
 
 ## Asks. `text` is the question (a source text, or one already put together in the

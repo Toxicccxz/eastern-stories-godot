@@ -60,28 +60,25 @@ func _ready() -> void:
 	_loading_screen = WorldLoadingScreen.new()
 	_loading_screen.name = "LoadingScreen"
 	add_child(_loading_screen)
+	# 界面重做 3: the banner and a room's text on dark plates (GameTheme's BannerPanel), the
+	# place's name in the brush hand as on the title.
 	_banner = PanelContainer.new()
+	_banner.theme = GameTheme.shared()
 	_banner.name = "MapBanner"
 	_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.05, 0.06, 0.72)
-	style.set_corner_radius_all(10)
-	style.content_margin_left = 22.0
-	style.content_margin_right = 22.0
-	style.content_margin_top = 8.0
-	style.content_margin_bottom = 8.0
-	_banner.add_theme_stylebox_override("panel", style)
+	_banner.theme_type_variation = &"BannerPanel"
 	_banner.modulate.a = 0.0
 	add_child(_banner)
 	_banner_text = Label.new()
 	_banner_text.name = "MapBannerText"
-	_banner_text.add_theme_font_size_override("font_size", 24)
+	_banner_text.theme_type_variation = &"PlaceCaption"
 	_banner_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_banner.add_child(_banner_text)
 	_room = PanelContainer.new()
 	_room.name = "RoomText"
 	_room.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_room.add_theme_stylebox_override("panel", style.duplicate())
+	_room.theme = GameTheme.shared()
+	_room.theme_type_variation = &"BannerPanel"
 	_room.modulate.a = 0.0
 	add_child(_room)
 	var room_rows: VBoxContainer = VBoxContainer.new()
@@ -89,14 +86,13 @@ func _ready() -> void:
 	_room.add_child(room_rows)
 	_room_title = Label.new()
 	_room_title.name = "RoomTitle"
-	_room_title.add_theme_font_size_override("font_size", 17)
-	_room_title.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	_room_title.theme_type_variation = &"HeadingLabel"
 	# Already in the shown language (the log's line holds the same).
 	_room_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	room_rows.add_child(_room_title)
 	_room_text = Label.new()
 	_room_text.name = "RoomDescription"
-	_room_text.add_theme_font_size_override("font_size", 14)
+	_room_text.add_theme_font_size_override("font_size", 16)
 	_room_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_room_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	room_rows.add_child(_room_text)

@@ -169,7 +169,7 @@ func give_item(id: StringName, amount: int) -> void:
 			and map.can_handle_items() and map.selected_npc_takes_gifts() and _carries(id)
 		)
 	# 取消 goes back to the 背包 the question came from.
-	_ui.questions.ask_first(warning, "确定送出", give, still_valid, open_inventory)
+	_ui.questions.ask_danger(warning, "确定送出", give, still_valid, open_inventory)
 
 
 ## 给予 in the interaction popup (owner, 2026-10-17; DECISIONS「说话和交互」): its page lists
@@ -320,7 +320,7 @@ func dissolve_with(id: StringName) -> void:
 		if map.dissolve_selected_corpse(id):
 			open_inventory()
 	# 取消 goes back to the 背包 the question came from.
-	_ui.questions.ask_first(tr(DISSOLVE_WARNING).format({"name": map.dissolvable_corpse_name(), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
+	_ui.questions.ask_danger(tr(DISSOLVE_WARNING).format({"name": map.dissolvable_corpse_name(), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
 
 
 ## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or
@@ -357,7 +357,7 @@ func attach_sheet(id: StringName) -> void:
 	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
 	var attach: Callable = func() -> void:
 		map.attach_sheet(id)
-	_ui.questions.ask_first(tr(HAUNT_MASTER_WARNING).format({
+	_ui.questions.ask_danger(tr(HAUNT_MASTER_WARNING).format({
 		"master": tr(target.definition().display_name), "zombie": tr(carrier.definition().display_name),
 		"family": tr(family.display_name) if family != null else "",
 		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
@@ -375,7 +375,7 @@ func hang_with(id: StringName) -> void:
 		return
 	var hang: Callable = func() -> void:
 		map.hang_with(id)
-	_ui.questions.ask_first(tr(HANG_WARNING), "确定上吊", hang, Callable(), open_inventory)
+	_ui.questions.ask_danger(tr(HANG_WARNING), "确定上吊", hang, Callable(), open_inventory)
 
 
 func wield_item(id: StringName) -> void:

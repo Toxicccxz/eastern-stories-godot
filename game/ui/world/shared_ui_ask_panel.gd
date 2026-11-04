@@ -67,6 +67,7 @@ func open_ask() -> void:
 		_ask_leave.name = "Leave"
 		# TRANSLATORS: leaves the conversation in the dialogue box.
 		_ask_leave.text = "告辞"
+		_ask_leave.theme_type_variation = &"ChipButton"
 		_ask_leave.custom_minimum_size = Vector2(80, 40)
 		_ask_leave.size_flags_horizontal = Control.SIZE_SHRINK_END
 		_ask_leave.pressed.connect(func() -> void: _ui.dialogue_box.close())
@@ -80,6 +81,7 @@ func open_ask() -> void:
 		var button := Button.new()
 		button.name = "Topic"
 		button.text = tr(topic)
+		button.theme_type_variation = &"ChipButton"
 		button.custom_minimum_size = Vector2(80, 40)
 		button.pressed.connect(_ask_topic.bind(topic))
 		_ask_topics.add_child(button)
@@ -90,6 +92,7 @@ func open_ask() -> void:
 		say.name = "Relay"
 		# TRANSLATORS: say a line beside the NPC that it answers ({line}: 必有妖孽).
 		say.text = tr("接话：{line}").format({"line": tr(phrase)})
+		say.theme_type_variation = &"ChipButton"
 		say.custom_minimum_size = Vector2(80, 40)
 		say.pressed.connect(_say_beside.bind(phrase))
 		_ask_relay.add_child(say)
@@ -164,6 +167,7 @@ func _refresh_ask_verbs(map: WorldMapController) -> void:
 		var kneel := Button.new()
 		kneel.name = "Kneel"
 		kneel.text = tr(NpcOrdination.LABEL)
+		kneel.theme_type_variation = &"PrimaryButton"
 		kneel.custom_minimum_size = Vector2(80, 40)
 		kneel.pressed.connect(_kneel)
 		_ask_verbs.add_child(kneel)

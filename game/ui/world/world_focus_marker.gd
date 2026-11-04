@@ -2,17 +2,18 @@ class_name WorldFocusMarker
 extends Control
 
 ## The ring and the prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」): a ring
-## round the target (SharedUiNearby.target_focus()) and over it the key and what it does
-## (交互, or a door's 打开 …). Drawn over the map, under the HUD's panels; hidden while a
-## panel, the menu or a fight has the screen. A click or tap on the prompt is E.
+## round the target (SharedUiNearby.target_focus()) and under it the key and what it does
+## (交互, or a door's 打开 …) on a dark plate; 界面重做 3 moved it from over the thing, where
+## it covered the name over its head and the bubble. Drawn over the map, under the HUD's
+## panels; hidden while a panel, the menu or a fight has the screen. A click or tap on the
+## prompt is E.
 
-const RING_COLOR: Color = Color(0.95, 0.8, 0.35, 0.9)
+const RING_COLOR: Color = Color(UiPalette.LANTERN, 0.9)
 const RING_RADIUS: float = 26.0
-## The prompt's bottom edge above the thing's middle (over its name: the player often
-## stands just below it).
+## Over the thing (no room under it: the screen's bottom), the prompt's bottom edge this far
+## above the thing's middle.
 const PROMPT_LIFT: float = 50.0
-## With no room above (the screen's top, the status card), the prompt's top this far below
-## the ring (screen units).
+## The prompt's top this far below the ring (screen units).
 const PROMPT_DROP: float = 6.0
 const REFRESH_SECONDS: float = 0.1
 
@@ -22,8 +23,8 @@ var _since_refresh: float = INF
 var _prompt: PanelContainer
 var _prompt_text: Label
 var _ring_at: Vector2 = Vector2.INF
-## The prompt shows under the thing (no room over it).
-var _below: bool = false
+## The prompt shows under the thing (where it goes, unless the screen ends there).
+var _below: bool = true
 var _ring_scale: float = 1.0
 
 
@@ -35,8 +36,10 @@ func _ready() -> void:
 	name = "WorldFocusMarker"
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	theme = GameTheme.shared()
 	_prompt = PanelContainer.new()
 	_prompt.name = "FocusPrompt"
+	_prompt.theme_type_variation = &"ToastPanel"
 	_prompt.mouse_filter = Control.MOUSE_FILTER_STOP
 	_prompt.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_prompt.gui_input.connect(_on_prompt_input)
@@ -55,7 +58,7 @@ func _ready() -> void:
 	# Already in the shown language (SharedUiNearby.prompt_text()).
 	_prompt_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_prompt_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_prompt_text.add_theme_font_size_override("font_size", 14)
+	_prompt_text.add_theme_font_size_override("font_size", 16)
 	row.add_child(_prompt_text)
 	_prompt.visible = false
 
@@ -103,11 +106,11 @@ func _process(delta: float) -> void:
 	_ring_scale = map.screen_scale().x
 	_prompt.visible = true
 	_prompt.reset_size()
-	var place: Vector2 = screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y)
+	var place: Vector2 = screen + Vector2(-_prompt.size.x / 2.0, RING_RADIUS * map.screen_scale().y + PROMPT_DROP)
 	var view: Rect2 = get_viewport().get_visible_rect().grow(-4.0)
-	_below = place.y < view.position.y or Rect2(place, _prompt.size).intersects(_ui.card_rect())
-	if _below:
-		place.y = screen.y + RING_RADIUS * map.screen_scale().y + PROMPT_DROP
+	_below = place.y + _prompt.size.y <= view.end.y
+	if not _below:
+		place.y = screen.y - PROMPT_LIFT - _prompt.size.y
 	place.x = clampf(place.x, view.position.x, maxf(view.position.x, view.end.x - _prompt.size.x))
 	_prompt.position = place.round()
 	if not _ring_at.is_equal_approx(screen):
