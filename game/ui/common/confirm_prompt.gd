@@ -44,6 +44,7 @@ func _init() -> void:
 	detail.name = "Detail"
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	detail.theme_type_variation = &"MutedLabel"
 	detail.add_theme_color_override("font_color", DETAIL_COLOR)
 	detail.hide()
 	add_child(detail)
@@ -84,8 +85,10 @@ const DETAIL_COLOR: Color = Color(0.74, 0.78, 0.72)
 
 ## Asks. `text` is the question (a source text, or one already put together in the
 ## shown language); `choice` and `cancel` are source texts the buttons translate;
-## `about` (in the shown language) goes above the question.
-func ask(text: String, choice: String, cancel: String = "取消", about: String = "") -> void:
+## `about` (in the shown language) goes above the question. A `danger` choice (one that
+## loses something) wears the dark lacquer, any other the vermilion (GameTheme).
+func ask(text: String, choice: String, cancel: String = "取消", about: String = "", danger: bool = false) -> void:
+	confirm_button.theme_type_variation = &"DangerButton" if danger else &"PrimaryButton"
 	detail.text = about
 	detail.visible = not about.is_empty()
 	_show(text)
@@ -97,6 +100,7 @@ func ask(text: String, choice: String, cancel: String = "取消", about: String 
 
 ## A notice with one button, which answers `confirmed`.
 func tell(text: String, acknowledge: String = "确定") -> void:
+	confirm_button.theme_type_variation = &"PrimaryButton"
 	detail.hide()
 	_show(text)
 	confirm_button.text = acknowledge

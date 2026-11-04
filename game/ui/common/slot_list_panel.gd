@@ -21,7 +21,7 @@ var _buttons: Array[Button] = []
 func _init() -> void:
 	name = "SlotListPanel"
 	visible = false
-	color = Color(0.015, 0.02, 0.03, 0.94)
+	color = UiPalette.SCRIM
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var center := CenterContainer.new()
@@ -38,7 +38,7 @@ func _init() -> void:
 	column.add_theme_constant_override("separation", 14)
 	margin.add_child(column)
 	_title = Label.new()
-	_title.add_theme_font_size_override("font_size", 30)
+	_title.theme_type_variation = &"TitleLabel"
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(_title)
 	_scroll = ScrollContainer.new()
@@ -72,6 +72,7 @@ func present(title: String, rows: Array[Array]) -> void:
 		button.text = String(rows[index][0])
 		button.disabled = not bool(rows[index][1])
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.theme_type_variation = &"SlotButton"
 		button.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		button.custom_minimum_size = Vector2(0, ROW_HEIGHT if button.text.contains("\n") else EMPTY_ROW_HEIGHT)
 		button.pressed.connect(func() -> void: chosen.emit(index))

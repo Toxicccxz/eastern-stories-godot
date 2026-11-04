@@ -55,8 +55,24 @@ Tracked image files under `game/` outside `addons/` are two, both project-made:
 - `game/scenes/world/common/placeholder_terrain.png`, the flat-colour placeholder atlas of the 2D
   terrain TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)).
 
-No audio, font, model or external art/audio pack is tracked; UI text uses the system's fonts
-(`game/locale/languages.json`). This inventory is not a guarantee about future content.
+No audio, model or external art/audio pack is tracked. This inventory is not a guarantee about
+future content.
+
+## Fonts
+
+Two fonts are bundled for the interface (界面重做, DECISIONS「界面样式」), each with its licence
+beside it; the language's system fonts (`game/locale/languages.json`) fill in glyphs they lack.
+
+- `game/assets/fonts/LXGWWenKaiLite-Medium.ttf` — 霞鹜文楷 Lite Medium, from
+  [lxgw/LxgwWenKai-Lite](https://github.com/lxgw/LxgwWenKai-Lite) release v1.530 (13,801,408
+  bytes, SHA-256 `9282063131640c9558a102560cf6d6f8ecc4bb441e74f2bcff032ce4786238d0`). SIL Open
+  Font License 1.1, `game/assets/fonts/OFL-LXGWWenKaiLite.txt` (reserved names 霞鹜 / LXGW; the
+  font is used unmodified).
+- `game/assets/fonts/ark-pixel-16px-proportional-zh_cn.otf` — 方舟像素 16 px proportional,
+  Simplified Chinese, from [TakWolf/ark-pixel-font](https://github.com/TakWolf/ark-pixel-font)
+  release 2026.09.01, `ark-pixel-font-16px-proportional-otf-v2026.09.01.zip` (font 347,964
+  bytes, SHA-256 `2527059d7cbe7b53d7de271fc90a1aa6987f262c969713956e88c5a3ab5988c6`). SIL Open
+  Font License 1.1, `game/assets/fonts/OFL-ArkPixel.txt`; used unmodified.
 
 ## Voxel maps
 

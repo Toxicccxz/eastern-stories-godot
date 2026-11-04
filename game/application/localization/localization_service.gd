@@ -5,7 +5,7 @@ extends RefCounted
 ## Settings. Only the chosen language's translation is loaded (see LanguageResolver for
 ## why Godot is not left to pick), the TranslationServer locale is set even for the
 ## source language so text shaping and system font fallback use Chinese glyph forms, and
-## the project theme's font takes the language's font list.
+## the system font under the project theme's text face takes the language's font list.
 
 ## The Settings preference that follows the system language.
 const FOLLOW_SYSTEM: String = ""
@@ -80,7 +80,20 @@ func release() -> void:
 
 
 static func _apply_font(font_names: PackedStringArray) -> void:
-	var theme: Theme = ThemeDB.get_project_theme()
-	var font: SystemFont = null if theme == null else theme.default_font as SystemFont
+	var font: SystemFont = language_font(ThemeDB.get_project_theme())
 	if font != null and font.font_names != font_names:
 		font.font_names = font_names
+
+
+## The system font the language's font list goes to: the theme's default font itself, or
+## (since 界面重做 bundles 霞鹜文楷 as the default) the system font it falls back to for
+## glyphs it lacks.
+static func language_font(theme: Theme) -> SystemFont:
+	if theme == null or theme.default_font == null:
+		return null
+	if theme.default_font is SystemFont:
+		return theme.default_font as SystemFont
+	for fallback: Font in theme.default_font.fallbacks:
+		if fallback is SystemFont:
+			return fallback as SystemFont
+	return null

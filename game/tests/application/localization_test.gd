@@ -68,8 +68,9 @@ func _service() -> void:
 	check(service.apply("xx_YY") and service.active_code() == "zh_CN", "a language no longer listed follows the system")
 	check(TranslationServer.translate("观察") == "观察", "the previous catalog is unloaded")
 	var theme: Theme = ThemeDB.get_project_theme()
-	var font: SystemFont = null if theme == null else theme.default_font as SystemFont
+	var font: SystemFont = LocalizationService.language_font(theme)
 	check(font != null and font.font_names == service.catalog().find("zh_CN").font_names, "the project theme's font takes the language's fonts")
+	check(theme.default_font is FontVariation and (theme.default_font as FontVariation).base_font.resource_path.ends_with("LXGWWenKaiLite-Medium.ttf"), "the text face is the bundled 霞鹜文楷; the language's system fonts fill in under it")
 	service.release()
 	check(TranslationServer.get_locale() == before and font.font_names.is_empty(), "release puts locale and font back")
 
