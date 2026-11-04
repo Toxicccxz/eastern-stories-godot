@@ -4,7 +4,7 @@ extends Node
 var _presenter: SafeAreaPresenter
 var _dialogs: Array[ResponsivePanelLayout] = []
 ## The settings dialog is wide enough for its label/control pairs in two columns.
-var _widths: Array[float] = [520.0, 460.0, 720.0, 580.0, 560.0, 520.0]
+var _widths: Array[float] = [330.0, 460.0, 720.0, 580.0, 560.0, 520.0]
 var _busy: Label
 var _window_row: Control
 var _platform_hint: Label
@@ -47,6 +47,8 @@ func _ready() -> void:
 		layout.initialize(shell.get_node(path) as PanelContainer)
 		_dialogs.append(layout)
 		_spacing.append(_authored_spacing(layout.content))
+	# The title's menu column scrolls only on a short screen, and shows no bar for it.
+	_dialogs[0].scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	_busy = shell.get_node("ShellCanvas/BusyOverlay/BusyCenter/BusyLabel") as Label
 	_busy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_busy.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -71,9 +73,19 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	var short: bool = metrics.content_rect().size.y < SHORT_HEIGHT
 	for index: int in _dialogs.size():
 		_space(_dialogs[index].content, _spacing[index], short)
-		_dialogs[index].apply(metrics, metrics.content_rect(), true, _widths[index])
+		_dialogs[index].apply(metrics, _menu_column(metrics) if index == 0 else metrics.content_rect(), true, _widths[index])
 	_busy.position = metrics.content_rect().position
 	_busy.size = metrics.content_rect().size
+
+
+## The main menu on the title (DECISIONS「标题画面」): a column at the lower left, leaving the
+## logo above it and the 沙盘's place to its right; a phone keeps it in the middle.
+static func _menu_column(metrics: SafeAreaMetrics) -> Rect2:
+	var area: Rect2 = metrics.content_rect()
+	if metrics.touch_sized():
+		return area
+	var top: float = area.size.y * 0.4
+	return Rect2(area.position + Vector2(area.size.x * 0.06, top), Vector2(minf(340.0, area.size.x * 0.5), area.size.y - top))
 
 
 static func _authored_spacing(content: Control) -> PackedInt32Array:

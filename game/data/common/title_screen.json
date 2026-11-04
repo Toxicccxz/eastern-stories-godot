@@ -1,0 +1,23 @@
+{
+	"title_screen": {
+		"sun_percent": [28, 20],
+		"logo_percent": [28, 21],
+		"logo_width_px": 580,
+		"new_game_place": "snow.outdoor",
+		"logos": {
+			"zh_CN": "res://assets/textures/title/logo_zh_CN.png",
+			"default": "res://assets/textures/title/logo_en.png"
+		},
+		"seals": {
+			"zh_CN": "res://assets/textures/title/seal_zh_CN.png"
+		},
+		"choices": {
+			"NewGameButton": {"place": "snow.outdoor", "weather": "snow", "zoom_percent": 66},
+			"ContinueButton": {"place": "", "weather": "petal", "zoom_percent": 70},
+			"LoadButton": {"place": "waterfog.mountain", "weather": "mote", "zoom_percent": 62},
+			"RecoveryButton": {"place": "choyin.town", "weather": "mote", "zoom_percent": 64},
+			"MenuSettingsButton": {"place": "oldpine.outdoor", "weather": "needle", "zoom_percent": 72},
+			"QuitButton": {"place": "canyon.pass", "weather": "dust", "zoom_percent": 60}
+		}
+	}
+}

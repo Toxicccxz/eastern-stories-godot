@@ -12,27 +12,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 
-#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
-msgid "东方故事"
-msgstr ""
-
-#. name
-#. snow.newcomer region
-#. snow.letter region
-#. snow.liu_anlu region
-#. snow.wei_wuji region
-#. snow.weapon_storage region
-#. native.bounty region
-#. main.prologue region
-#. snow name
-#: scenes/application/application_shell.tscn data/common/atlas.json data/common/journal.json data/story/prologue.json data/snow/world.json
-msgid "雪亭镇"
-msgstr ""
-
-#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
-msgid "正在检查存档……"
-msgstr ""
-
 #: scenes/application/application_shell.tscn
 msgid "新游戏"
 msgstr ""
@@ -52,6 +31,14 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn
 msgid "设置"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "退出游戏"
+msgstr ""
+
+#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
+msgid "正在检查存档……"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -7768,6 +7755,10 @@ msgid "指路"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "东方故事"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "语言已切换，但这项设置未能保存。"
 msgstr ""
 
@@ -13309,6 +13300,19 @@ msgstr ""
 #. karma hint
 #: data/common/stats_display.json
 msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr ""
+
+#. name
+#. snow.newcomer region
+#. snow.letter region
+#. snow.liu_anlu region
+#. snow.wei_wuji region
+#. snow.weapon_storage region
+#. native.bounty region
+#. main.prologue region
+#. snow name
+#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/snow/world.json
+msgid "雪亭镇"
 msgstr ""
 
 #. name

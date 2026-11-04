@@ -18,6 +18,8 @@ extends Theme
 const PIXEL_FONT_PATH: String = "res://assets/fonts/ark-pixel-16px-proportional-zh_cn.otf"
 ## The text face (the project theme's default font).
 const BODY_FONT_PATH: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
+## The brush hand for a place's name on the title (志莽行书).
+const BRUSH_FONT_PATH: String = "res://assets/fonts/ZhiMangXing-Regular.ttf"
 ## The pixel face's grid is 16 px; drawn at 32 logical px every grid pixel is 2 logical
 ## pixels, so a whole number of screen pixels at every 16:9 window (3 at 1920×1080).
 const PIXEL_SIZE: int = 32
@@ -81,6 +83,7 @@ func _init() -> void:
 	set_color("font_hover_pressed_color", &"ToggleButton", Color("ffe9c2"))
 	_rows()
 	_menu()
+	_title(pixel)
 	_fields()
 	_option_button()
 	_check_button()
@@ -190,6 +193,32 @@ func _menu() -> void:
 	set_color("font_hover_pressed_color", &"TabButton", UiPalette.INK)
 	set_color("font_disabled_color", &"TabButton", UiPalette.DIM)
 	set_font_size("font_size", &"TabButton", BODY_SIZE)
+
+
+## The title (DECISIONS「标题画面」): its menu buttons are flat with their own text clear
+## (TitleMenuFx draws voxel letters over them), a place's name is in the brush hand, the menu's
+## panel is bare.
+func _title(pixel: FontFile) -> void:
+	_variation(&"TitleMenuItem", &"Button")
+	var bare := StyleBoxEmpty.new()
+	bare.content_margin_left = 14
+	bare.content_margin_right = 12
+	bare.content_margin_top = 6
+	bare.content_margin_bottom = 8
+	for state: String in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+		set_stylebox(state, &"TitleMenuItem", bare)
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color", "font_shadow_color"]:
+		set_color(state, &"TitleMenuItem", Color(0, 0, 0, 0))
+	set_font("font", &"TitleMenuItem", pixel)
+	set_font_size("font_size", &"TitleMenuItem", PIXEL_SIZE)
+	_label(&"TitleMenuLetters", UiPalette.BONE, PIXEL_SIZE, pixel)
+	_label(&"TitleCaption", Color("fff3dc"), 46, load(BRUSH_FONT_PATH) as Font)
+	set_color("font_outline_color", &"TitleCaption", Color(0.08, 0.05, 0.04, 0.75))
+	set_constant("outline_size", &"TitleCaption", 10)
+	set_color("font_shadow_color", &"TitleCaption", Color(0, 0, 0, 0.35))
+	set_constant("shadow_offset_y", &"TitleCaption", 4)
+	_variation(&"BarePanel", &"PanelContainer")
+	set_stylebox("panel", &"BarePanel", StyleBoxEmpty.new())
 
 
 func _fields() -> void:
