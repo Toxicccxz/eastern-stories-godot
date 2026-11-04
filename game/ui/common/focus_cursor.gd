@@ -41,7 +41,7 @@ func focused_button() -> BaseButton:
 	if not is_inside_tree() or scope == null or not is_instance_valid(scope):
 		return null
 	var owner: Control = get_viewport().gui_get_focus_owner()
-	if owner is BaseButton and owner.is_visible_in_tree() and scope.is_ancestor_of(owner) and not _in_a_row(owner):
+	if owner is BaseButton and owner.is_visible_in_tree() and scope.is_ancestor_of(owner) and not _in_a_row(owner) and not owner.has_meta(TitleMenuFx.NO_ARROW):
 		return owner as BaseButton
 	return null
 

@@ -629,7 +629,10 @@ func _build_menu() -> void:
 	inventory_page = VBoxContainer.new()
 	inventory_page.name = "InventoryPage"
 	inventory_page.add_theme_constant_override("separation", 12)
+	# 界面重做 2: the list takes the window's height, 随身补给 under it.
+	inventory_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inventory_panel.reparent(inventory_page, false)
+	inventory_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	# The tab names it and the window closes it: the panel's own title and 关闭 go.
 	inventory_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	for path: String in ["Margin/VBox/Title", "Margin/VBox/Separator", "Margin/VBox/PlayerInventoryCloseButton"]:
@@ -647,12 +650,16 @@ func _build_menu() -> void:
 	# quest.c's lines, already in the shown language.
 	quest_text = quest_page.quest_text
 	_heading(journal_page, "消息记录")
-	_presentation_layout.messages.reparent(journal_page, false)
+	# 界面重做 2: the log in a recess of its own under the quests.
+	var log_well := PanelContainer.new()
+	log_well.name = "LogWell"
+	log_well.theme_type_variation = &"WellPanel"
+	journal_page.add_child(log_well)
+	_presentation_layout.messages.reparent(log_well, false)
 	_presentation_layout.messages.show()
 	menu = GameMenu.new()
 	add_child(menu)
 	codex_page = CodexPage.new()
-	codex_page.blocked = func() -> bool: return _presentation_layout.frame.visible
 	map_page = MapPage.new()
 	map_page.rows_changed = func() -> void: menu.refresh_rows()
 	menu.build(self, character_sheet, arts_page, inventory_page, journal_page, map_page, codex_page)
@@ -662,8 +669,7 @@ func _heading(parent: Node, text: String) -> Label:
 	var label := Label.new()
 	label.name = "Heading"
 	label.text = text
-	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	label.theme_type_variation = &"HeadingLabel"
 	parent.add_child(label)
 	return label
 
@@ -687,6 +693,10 @@ func is_menu_dialog(content: Control) -> bool:
 ## The menu opened: the frame's panel closes, its questions now show over the menu. Over
 ## the running world the player stops walking; the shell's pause freezes things itself.
 func menu_presented() -> void:
+	# 界面重做: the status card and the toasts step back while the menu is open.
+	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
+		if part != null:
+			part.modulate.a = 0.0
 	_presentation_layout.close_frame()
 	_presentation_layout.lift_frame(menu.root)
 	# The world stands still while the menu is open (owner, 2026-10-15).
@@ -697,6 +707,9 @@ func menu_presented() -> void:
 
 
 func menu_dismissed(from_pause: bool) -> void:
+	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
+		if part != null:
+			part.modulate.a = 1.0
 	_presentation_layout.close_frame()
 	_presentation_layout.lower_frame()
 	if _session != null:
@@ -740,10 +753,13 @@ func _refresh_menu_page() -> void:
 		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
 			panels.refresh_character()
 		GameMenu.Tab.JOURNAL:
-			# quest.c's time left changes; the rest only when something new was recorded.
-			quest_text.text = _task_lines()
-			if _player != null and _records_shown() != _journal_shown:
+			# quest.c's time left changes; the rest only when something new was recorded (or
+			# the task came or went: its card shows or goes).
+			var task: String = _task_lines()
+			if task.is_empty() != quest_text.text.is_empty() or (_player != null and _records_shown() != _journal_shown):
 				menu_tab_shown(GameMenu.Tab.JOURNAL)
+			else:
+				quest_text.text = task
 	message_log.collect_feedback()
 
 

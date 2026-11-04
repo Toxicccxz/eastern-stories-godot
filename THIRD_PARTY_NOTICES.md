@@ -48,6 +48,17 @@ Copyright: Copyright (c) 2021, TakWolf.
 
 Local license: `game/assets/fonts/OFL-ArkPixel.txt`
 
+## Zhi Mang Xing (志莽行书)
+
+Title font for a place's name and the source of the title logo's baked masks,
+`game/assets/fonts/ZhiMangXing-Regular.ttf`.
+
+License: SIL Open Font License 1.1
+
+Copyright: see `game/assets/fonts/OFL-ZhiMangXing.txt`.
+
+Local license: `game/assets/fonts/OFL-ZhiMangXing.txt`
+
 ## ES2 reference source — unresolved attribution
 
 `reference/es2/README` attributes the project to Raymond Xie and says it was published under MIT.

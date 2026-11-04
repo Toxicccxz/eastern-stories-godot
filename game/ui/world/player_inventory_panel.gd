@@ -41,8 +41,12 @@ const ARMOR_WORDS: Dictionary[StringName, String] = {
 }
 
 @onready var row_container: VBoxContainer = %PlayerInventoryRows
+## The rows' scroll; hidden while there is nothing, so 空无一物 (its sibling) stands at the top.
+@onready var row_scroll: ScrollContainer = %PlayerInventoryScroll
 @onready var empty_label: Label = %PlayerInventoryEmptyLabel
 @onready var inspect_text: RichTextLabel = %PlayerInventoryInspectText
+## The inspection's recess beside the list (界面重做 2): there while something is inspected.
+@onready var inspect_well: PanelContainer = %InspectWell
 
 var _rows: Array[PlayerInventoryRowProjection] = []
 ## Who can be given things (the selected NPC here) and the container in reach;
@@ -83,7 +87,7 @@ func set_pour_targets(targets: Array) -> void:
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	_replace_rows(rows)
 	inspect_text.text = ""
-	inspect_text.hide()
+	_show_detail(false)
 	visible = true
 
 
@@ -91,7 +95,7 @@ func close_inventory() -> void:
 	visible = false
 	_replace_rows([])
 	inspect_text.text = ""
-	inspect_text.hide()
+	_show_detail(false)
 
 
 func is_open() -> bool:
@@ -108,7 +112,7 @@ func visible_rows() -> Array[PlayerInventoryRowProjection]:
 func show_inspection(row: PlayerInventoryRowProjection) -> void:
 	if row == null:
 		inspect_text.text = ""
-		inspect_text.hide()
+		_show_detail(false)
 		return
 	var lines: Array[String] = [
 		tr(row.display_name),
@@ -139,7 +143,12 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 		# TRANSLATORS: what a container holds (look.c), one name a line after it.
 		lines.append(tr("里面有：") + "\n  " + "\n  ".join(names))
 	inspect_text.text = "\n".join(lines)
-	inspect_text.show()
+	_show_detail(true)
+
+
+func _show_detail(shown: bool) -> void:
+	inspect_text.visible = shown
+	inspect_well.visible = shown
 
 
 func inspection_display() -> String:
@@ -176,6 +185,7 @@ func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
 		_rows.append(row)
 		row_container.add_child(_build_row(row))
 	empty_label.visible = _rows.is_empty()
+	row_scroll.visible = not _rows.is_empty()
 
 
 func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
@@ -323,6 +333,10 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 			put_into_requested.emit(row.item_instance_id, count, target_id))
 		container.add_child(put_button)
 	_handling_button(container, "Drop", "丢下", drop_requested, row, amount)
+	# 界面重做 2: the name on the left, its actions as stone chips after it.
+	for child: Node in container.get_children():
+		if child is Button:
+			(child as Button).theme_type_variation = &"ChipButton"
 	return container
 
 
