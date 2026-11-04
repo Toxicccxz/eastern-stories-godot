@@ -245,7 +245,7 @@ func _test_shell_battle(tree: SceneTree) -> void:
 		_check(content_rect.encloses(ui._content.get_global_rect()), "battle content fits a %s window actual=%s" % [rect.size, ui._content.get_global_rect()])
 		_check(content_rect.encloses(ui.log_button.get_global_rect()), "log button inside the window")
 		for card: BattleParticipantCard in ui._cards:
-			_check(content_rect.encloses(card.get_global_rect()), "primary participant card inside the window")
+			_check(content_rect.encloses(card.get_global_rect()), "%s inside a %s window: %s in %s" % [card.name, rect.size, card.get_global_rect(), content_rect])
 	safe.metrics = _window()
 	presenter.refresh()
 	await _settle(tree)

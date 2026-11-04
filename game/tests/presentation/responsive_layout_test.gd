@@ -2,10 +2,11 @@ extends RefCounted
 
 ## The shared layout on desktop screens (logical 1280x720 base, canvas_items / expand) at each
 ## 界面缩放: every panel, the HUD and the item panels stay inside the window, focus scrolls into
-## view, nothing overlaps. Includes the Steam Deck's 1280x800 (16:10). A desktop screen is never
-## below 1280x720 logical, so this is always the wide, mouse-sized layout; the compact one and the
-## phone layer (notches, touch-sized controls, orientation, Android Back) are paused and no longer
-## tested (DECISIONS「手机端暂停」).
+## view, nothing overlaps. Includes the Steam Deck's 1280x800 (16:10). A desktop window of any
+## size is at least 1280x720 logical (a small window draws the same layout smaller), so this is
+## always the wide, mouse-sized layout (_test_small_windows); the compact one and the phone layer
+## (notches, touch-sized controls, orientation, Android Back) are paused and no longer tested
+## (DECISIONS「手机端暂停」).
 
 ## [screen, 界面缩放]: 16:9 at 100 / 125 / 150%, the Steam Deck's 16:10 at 100 / 150%, 4:3 and 21:9.
 const SCREENS: Array[Array] = [
@@ -25,6 +26,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_metrics()
+	await _test_small_windows(tree)
 	await _test_matrix(tree)
 	return {"assertions": _assertions, "failures": _failures}
 
@@ -52,6 +54,28 @@ func _test_metrics() -> void:
 	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).is_compact(), "a UI scale alone makes no window compact")
 	_check(SafeAreaMetrics.new(at_150, at_150).is_compact(), "the same logical size unscaled is a small window")
 	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).equivalent(SafeAreaMetrics.new(at_150, at_150)), "a UI scale change invalidates")
+
+
+## Windows smaller than any 分辨率 choice (a small laptop's opening size, one the player drags
+## small, a tall narrow one), measured the way the game does: the project's stretch keeps them
+## all at least 1280x720 logical, so none reaches the compact, touch-sized layout.
+func _test_small_windows(tree: SceneTree) -> void:
+	var original_size: Vector2i = tree.root.size
+	var original_factor: float = tree.root.content_scale_factor
+	var capability := GodotSafeAreaCapability.new()
+	for size: Vector2i in [Vector2i(640, 360), Vector2i(800, 500), Vector2i(1088, 612), Vector2i(1024, 768), Vector2i(600, 900)]:
+		for percent: int in ApplicationUiScale.PERCENTS:
+			var scale: float = ApplicationUiScale.factor(percent)
+			tree.root.size = size
+			tree.root.content_scale_factor = scale
+			await _settle(tree)
+			var metrics: SafeAreaMetrics = capability.measure(tree.root)
+			var unscaled: Vector2 = metrics.safe_rect().size * scale
+			_check(unscaled.x >= 1280.0 - 0.5 and unscaled.y >= 720.0 - 0.5, "a %s window at %d%% is at least 1280x720 logical before its 界面缩放" % [size, percent])
+			_check(not metrics.is_compact() and not metrics.touch_sized(), "a %s window at %d%% keeps the wide, mouse-sized layout" % [size, percent])
+	tree.root.size = original_size
+	tree.root.content_scale_factor = original_factor
+	await _settle(tree)
 
 
 func _test_matrix(tree: SceneTree) -> void:

@@ -69,12 +69,14 @@ var _saved_focus: WeakRef
 var action_panel: BattleActionPanel
 var log_panel: BattleLogPanel
 var log_button: Button
-## The header's height beside the 战斗记录 button. On a short desktop screen (below
-## ApplicationShellLayout.SHORT_HEIGHT: a 16:9 screen at the 界面缩放 150% is 480 high) the
-## header closes up, as the dialogs do, so the densest view (a planned move with its target)
-## still fits; a touch-sized layout keeps its 64-unit targets.
+## The header's height beside the 战斗记录 button, and the gap between the panel's rows. On a
+## short desktop screen (below ApplicationShellLayout.SHORT_HEIGHT: a 16:9 screen at the 界面缩放
+## 150% is 480 high) both close up, as the dialogs do, so the densest view (a planned move with
+## its target) still fits; a touch-sized layout keeps its 64-unit targets.
 const HEADER_HEIGHT: float = 64.0
 const SHORT_HEADER_HEIGHT: float = 48.0
+const ROW_GAP: int = 8
+const SHORT_ROW_GAP: int = 4
 var _pause_space: Control
 ## [LB][RB] 换目标 while there is more than one to choose (keys and pad).
 var target_hints: InputHintRow
@@ -426,7 +428,7 @@ func _build() -> void:
 	add_child(backdrop)
 	_content = VBoxContainer.new()
 	_content.name = "SafeBattleContent"
-	_content.add_theme_constant_override("separation", 8)
+	_content.add_theme_constant_override("separation", ROW_GAP)
 	_content.minimum_size_changed.connect(_refit_content.call_deferred)
 	add_child(_content)
 	var header := HBoxContainer.new()
@@ -551,6 +553,7 @@ func _apply_metrics(metrics: SafeAreaMetrics) -> void:
 	var header: float = SHORT_HEADER_HEIGHT if short else HEADER_HEIGHT
 	log_button.custom_minimum_size.y = header
 	_pause_space.custom_minimum_size.y = header
+	_content.add_theme_constant_override("separation", SHORT_ROW_GAP if short else ROW_GAP)
 	_content.position = metrics.content_rect().position
 	_content.size = metrics.content_rect().size
 	log_panel.apply_metrics(metrics)
@@ -578,7 +581,9 @@ func _fit_cards() -> void:
 	if _cards.is_empty() or _participants == null:
 		return
 	var room: float = (_participants.get_parent() as Control).size.x
-	var each: float = clampf((room - CARD_GAP * (_cards.size() - 1)) / float(_cards.size()), CARD_MIN, CARD_MAX)
+	# Whole units: at a 界面缩放 of 150% two cards would each be 402.5, laid out as 403, and the
+	# row would scroll by one unit.
+	var each: float = floorf(clampf((room - CARD_GAP * (_cards.size() - 1)) / float(_cards.size()), CARD_MIN, CARD_MAX))
 	for card: BattleParticipantCard in _cards:
 		card.size_flags_horizontal = Control.SIZE_FILL
 		card.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
