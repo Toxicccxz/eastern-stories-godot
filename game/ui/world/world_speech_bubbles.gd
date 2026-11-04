@@ -15,11 +15,11 @@ const DROP: float = 26.0
 const EDGE: float = 4.0
 ## 界面重做 3: said lines on paper (GameTheme's PaperPanel), a 喝令 in lacquer red on it, what
 ## the NPC only does on a dark plate in a quieter colour.
-const TEXT_COLOR: Color = UiPalette.INK
-const ALERT_TEXT_COLOR: Color = UiPalette.LACQUER
+const TEXT_COLOR: Color = UiPalette.LIGHT_TEXT
+const ALERT_TEXT_COLOR: Color = Color("ff9a80")
 ## What the NPC does rather than says.
 const EMOTE_TEXT_COLOR: Color = UiPalette.MUTED
-const TEXT_SIZE: int = 16
+const TEXT_SIZE: int = 18
 ## A said line opens with who says it and how ("强盗喝道：", "店小二说道："): the bubble is over
 ## their head already, so it starts after that colon when it comes this soon and follows 道.
 # TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
@@ -65,6 +65,8 @@ func say(speaker: NpcRuntimeState, lines: Array[String], alert: bool = false) ->
 	bubble.theme_type_variation = &"ToastPanel" if emote and not alert else &"PaperPanel"
 	var label: Label = Label.new()
 	label.text = text
+	if not (emote and not alert):
+		label.theme_type_variation = &"PaperLabel"
 	# Word-smart: a line never starts with its closing 。 alone.
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size", TEXT_SIZE)

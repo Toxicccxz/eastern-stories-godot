@@ -73,7 +73,7 @@ func show_title(text: String, gold: bool, hold_seconds: float) -> void:
 	if hold_seconds <= 0.0 or text.is_empty():
 		title.visible = false
 		return
-	title.add_theme_font_size_override("font_size", SPECIAL_SIZE if gold else TITLE_SIZE)
+	title.add_theme_font_size_override("font_size", GameTheme.text_size(SPECIAL_SIZE if gold else TITLE_SIZE))
 	title.add_theme_color_override("font_color", GOLD if gold else INK)
 	title.modulate = Color.WHITE
 	title.visible = true
@@ -160,7 +160,7 @@ func _label(node_name: String, font_size: int) -> Label:
 	label.name = node_name
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.visible = false
-	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_font_size_override("font_size", GameTheme.text_size(font_size))
 	label.add_theme_color_override("font_outline_color", Color(0.05, 0.07, 0.08, 0.9))
 	label.add_theme_constant_override("outline_size", 6)
 	add_child(label)

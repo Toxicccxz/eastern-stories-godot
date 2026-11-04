@@ -202,7 +202,7 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 			why.text = option.reason
 			why.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 			why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			why.add_theme_font_size_override("font_size", 13)
+			why.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 			why.add_theme_color_override("font_color", REASON_COLOR)
 			row.add_child(why)
 	_mark_current()
@@ -319,7 +319,7 @@ func _lines(box: VBoxContainer, lines: Array[String], color: Color) -> bool:
 		label.text = text
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.add_theme_font_size_override("font_size", 16)
+		label.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 		label.add_theme_color_override("font_color", color)
 		box.add_child(label)
 	return true

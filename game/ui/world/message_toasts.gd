@@ -77,7 +77,7 @@ func _init() -> void:
 		toast.panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		toast.style = StyleBoxFlat.new()
 		# 界面重做 3: a square dark plate, its colour a block stripe down the left.
-		toast.style.bg_color = Color(UiPalette.EBONY.lerp(UiPalette.INK, 0.35), 0.9)
+		toast.style.bg_color = Color(UiPalette.EBONY, 0.96)
 		toast.style.border_color = ACCENT
 		toast.style.border_width_left = 6
 		toast.style.content_margin_left = 14.0
@@ -89,7 +89,7 @@ func _init() -> void:
 		toast.label.name = "Text"
 		toast.label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		toast.label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		toast.label.add_theme_font_size_override("font_size", 16)
+		toast.label.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 		# The lines come in the shown language already.
 		toast.label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		toast.panel.add_child(toast.label)

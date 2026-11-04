@@ -390,7 +390,7 @@ func set_alert_mark(on: bool) -> void:
 		mark.text = "！"
 		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		mark.add_theme_font_size_override("font_size", 22)
+		mark.add_theme_font_size_override("font_size", GameTheme.text_size(22))
 		mark.add_theme_color_override("font_color", ALERT_NAME_COLOR)
 		mark.add_theme_color_override("font_outline_color", Color.BLACK)
 		mark.add_theme_constant_override("outline_size", 4)

@@ -8,7 +8,7 @@ extends Control
 ## panels; hidden while a panel, the menu or a fight has the screen. A click or tap on the
 ## prompt is E.
 
-const RING_COLOR: Color = Color(UiPalette.LANTERN, 0.9)
+const RING_COLOR: Color = Color(Color("ffcf6a"), 0.9)
 const RING_RADIUS: float = 26.0
 ## Over the thing (no room under it: the screen's bottom), the prompt's bottom edge this far
 ## above the thing's middle.
@@ -62,7 +62,7 @@ func _ready() -> void:
 	# Already in the shown language (SharedUiNearby.prompt_text()).
 	_prompt_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_prompt_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_prompt_text.add_theme_font_size_override("font_size", 16)
+	_prompt_text.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	row.add_child(_prompt_text)
 	_prompt.visible = false
 

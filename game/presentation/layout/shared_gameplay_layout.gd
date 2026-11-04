@@ -126,17 +126,17 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_spirit_text = spirit[1]
 	# The conditions the player has (蛇毒), shown only when there are some.
 	ui.player_vitality_text = _label(_bar_rows, "Resources")
-	ui.player_vitality_text.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	ui.player_vitality_text.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	ui.player_vitality_text.add_theme_color_override("font_color", CONDITION_COLOR)
 	ui.player_vitality_text.hide()
 	# What to do next (前两小时 A, a guide chain's `next`; off with the 目标提示 setting).
 	ui.player_objective = _label(_bar_rows, "Objective")
-	ui.player_objective.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	ui.player_objective.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	ui.player_objective.add_theme_color_override("font_color", ACCENT_COLOR)
 	ui.player_objective.hide()
 	# A guide chain's next step while a quest holds the 目标 row (任务系统, owner Q1).
 	ui.player_advice = _label(_bar_rows, "Advice")
-	ui.player_advice.add_theme_font_size_override("font_size", HUD_SMALL_SIZE)
+	ui.player_advice.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_SMALL_SIZE))
 	ui.player_advice.add_theme_color_override("font_color", MUTED_COLOR)
 	ui.player_advice.hide()
 	waits = VBoxContainer.new()
@@ -171,8 +171,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	var tag := Label.new()
 	tag.name = "Tag"
 	tag.text = "目标"
-	tag.add_theme_font_size_override("font_size", 12)
-	tag.add_theme_color_override("font_color", ACCENT_COLOR)
+	tag.add_theme_font_size_override("font_size", GameTheme.text_size(12))
+	tag.add_theme_color_override("font_color", UiPalette.LIGHT_TEXT)
 	tag_chip.add_child(tag)
 	ui.selected_target_label = _label(target_row, "Target")
 	ui.selected_target_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -622,7 +622,7 @@ func wait_row(hurry: Callable) -> Array:
 	var text := _label(line, "Text")
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	text.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	text.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	text.add_theme_color_override("font_color", CONDITION_COLOR)
 	var button: Button = _button(line, "Hurry", "继续", hurry)
 	button.theme_type_variation = &"ChipButton"
@@ -654,10 +654,10 @@ const ACCENT_COLOR: Color = UiPalette.GOLD
 ## The card's lines under the bars (界面重做 3: the body face, a size down).
 const HUD_TEXT_SIZE: int = 15
 const HUD_SMALL_SIZE: int = 14
-const CONDITION_COLOR: Color = Color(0.95, 0.68, 0.42)
-const ESSENCE_COLOR: Color = Color(0.86, 0.72, 0.34)
-const VITALITY_COLOR: Color = Color(0.86, 0.38, 0.33)
-const SPIRIT_COLOR: Color = Color(0.42, 0.64, 0.92)
+const CONDITION_COLOR: Color = Color("a8541c")
+const ESSENCE_COLOR: Color = Color("9a7414")
+const VITALITY_COLOR: Color = Color("b03a2a")
+const SPIRIT_COLOR: Color = Color("2f5fa8")
 
 
 ## One of 精/气/神: its name and number over a thin bar. Returns [bar, number].
@@ -674,15 +674,15 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	var name_label := Label.new()
 	name_label.name = "Caption"
 	name_label.text = caption
-	name_label.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
-	name_label.add_theme_color_override("font_color", color.lightened(0.25))
+	name_label.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
+	name_label.add_theme_color_override("font_color", color)
 	line.add_child(name_label)
 	var value := Label.new()
 	value.name = "Value"
 	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	value.clip_text = true
-	value.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	value.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	value.add_theme_color_override("font_color", NAME_COLOR)
 	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	line.add_child(value)

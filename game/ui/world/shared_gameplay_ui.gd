@@ -77,22 +77,23 @@ var confirm_prompt: ConfirmPrompt
 const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
 
 var _player: WorldPlayerRuntimeType
-const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
-## Plain log text is a light grey, so ES2's HIW (bright white) stands out from it
-## (owner, modern fixes II); the log, the toasts and the battle log share it.
-const PLAIN_LOG_COLOR: Color = Color(0.78, 0.79, 0.76)
+const ALERT_COLOR: Color = Color("b02a1a")
+## Plain log text is the parchment's ink brown, so ES2's HIW (bright white, here the darkest
+## ink) stands out from it (owner, modern fixes II); the log, the toasts and the battle log
+## share it. 像素界面: on parchment ES2's bright colours are their deep, readable kin.
+const PLAIN_LOG_COLOR: Color = UiPalette.BONE
 ## How include/ansi.h's bright colours look in the log and in the HUD's toasts.
 const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.HIR: ALERT_COLOR,
-	ColoredLine.HIY: Color(1.0, 0.9, 0.35),
-	ColoredLine.HIC: Color(0.45, 0.92, 1.0),
-	ColoredLine.HIW: Color(1.0, 1.0, 1.0),
-	ColoredLine.HIM: Color(1.0, 0.5, 1.0),
-	ColoredLine.HIG: Color(0.45, 1.0, 0.45),
-	ColoredLine.HIB: Color(0.5, 0.62, 1.0),
-	ColoredLine.CYN: Color(0.3, 0.75, 0.8),
-	ColoredLine.RED: Color(0.82, 0.24, 0.24),
-	ColoredLine.GRN: Color(0.35, 0.78, 0.35),
+	ColoredLine.HIY: Color("8c6400"),
+	ColoredLine.HIC: Color("13707f"),
+	ColoredLine.HIW: Color("120c08"),
+	ColoredLine.HIM: Color("8e2f86"),
+	ColoredLine.HIG: Color("2c7a26"),
+	ColoredLine.HIB: Color("2f4fa8"),
+	ColoredLine.CYN: Color("2a6b72"),
+	ColoredLine.RED: Color("9a2020"),
+	ColoredLine.GRN: Color("3a7a2a"),
 }
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay

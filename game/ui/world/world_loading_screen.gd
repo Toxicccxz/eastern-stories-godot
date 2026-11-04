@@ -70,7 +70,7 @@ func _ready() -> void:
 	if _definition.caption:
 		_caption = Label.new()
 		_caption.name = "Caption"
-		_caption.add_theme_font_size_override("font_size", 16)
+		_caption.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 		_caption.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
 		_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_caption.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED

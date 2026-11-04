@@ -152,7 +152,7 @@ func _on_chosen(button: Button) -> void:
 func _on_left(button: Button) -> void:
 	_sweep(button, 0.0, 0.18, Tween.TRANS_LINEAR)
 	_lift(button, 0.0)
-	_faces[button].add_theme_color_override("font_color", UiPalette.BONE)
+	_faces[button].add_theme_color_override("font_color", UiPalette.LETTER)
 
 
 ## How far `button`'s stroke is drawn out (0 none, 1 whole).
@@ -193,7 +193,7 @@ func _letters(button: Button) -> Label:
 	button.add_child(holder)
 	var step: float = float(GameTheme.PIXEL_STEP)
 	var face: Label
-	for layer: Array in [[Color(0.03, 0.02, 0.02, 0.55), Vector2(step, step * 3)], [UiPalette.SIDE_DARK, Vector2(0, step * 2)], [UiPalette.SIDE_LIGHT, Vector2(0, step)], [UiPalette.BONE, Vector2.ZERO]]:
+	for layer: Array in [[Color(0.03, 0.02, 0.02, 0.55), Vector2(step, step * 3)], [UiPalette.SIDE_DARK, Vector2(0, step * 2)], [UiPalette.SIDE_LIGHT, Vector2(0, step)], [UiPalette.LETTER, Vector2.ZERO]]:
 		var label := Label.new()
 		label.text = button.text
 		label.theme_type_variation = &"TitleMenuLetters"

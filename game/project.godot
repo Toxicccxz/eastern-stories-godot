@@ -217,4 +217,7 @@ locale/fallback="zh_CN"
 ; screens, torn floors, low frame rates). build/leak/census.gd measures it.
 rendering_device/driver.windows="vulkan"
 renderer/rendering_method="mobile"
+; 像素界面: the interface draws its pixel text and frames nearest, so a font pixel stays a sharp
+; square wherever a control lands (DECISIONS「像素界面」).
+textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true

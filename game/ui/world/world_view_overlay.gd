@@ -92,7 +92,7 @@ func _ready() -> void:
 	room_rows.add_child(_room_title)
 	_room_text = Label.new()
 	_room_text.name = "RoomDescription"
-	_room_text.add_theme_font_size_override("font_size", 16)
+	_room_text.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	_room_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_room_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	room_rows.add_child(_room_text)

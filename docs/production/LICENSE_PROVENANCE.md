@@ -60,7 +60,7 @@ future content.
 
 ## Fonts
 
-Two fonts are bundled for the interface (界面重做, DECISIONS「界面样式」), each with its licence
+The fonts below are bundled for the interface (界面重做, DECISIONS「界面样式」), each with its licence
 beside it; the system's fonts fill in glyphs they lack (Godot's system fallback).
 
 - `game/assets/fonts/LXGWWenKaiLite-Medium.ttf` — 霞鹜文楷 Lite Medium, from
@@ -73,6 +73,11 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   release 2026.09.01, `ark-pixel-font-16px-proportional-otf-v2026.09.01.zip` (font 347,964
   bytes, SHA-256 `2527059d7cbe7b53d7de271fc90a1aa6987f262c969713956e88c5a3ab5988c6`). SIL Open
   Font License 1.1, `game/assets/fonts/OFL-ArkPixel.txt`; used unmodified.
+- `game/assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2` — 缝合像素 12 px
+  proportional, Simplified Chinese, from [TakWolf/fusion-pixel-font](https://github.com/TakWolf/fusion-pixel-font)
+  release 2026.10.25, `fusion-pixel-font-12px-proportional-otf.woff2-v2026.10.25.zip` (font
+  701,520 bytes, SHA-256 `b67eb7aa592622e5bc1152b800d32404bb887a1e3a2e669b0c2a873d388590d6`). SIL Open Font License 1.1,
+  `game/assets/fonts/OFL-FusionPixel.txt`; used unmodified for the pixel interface's text.
 - `game/assets/fonts/ZhiMangXing-Regular.ttf` — 志莽行书 (Zhi Mang Xing), from the
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
