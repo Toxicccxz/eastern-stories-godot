@@ -31,6 +31,7 @@ var _progression: ProgressionRules
 var _bounties: BountyRules
 var _opening: OpeningDefinition
 var _loading_screen: LoadingScreenDefinition
+var _title_screen: TitleScreenDefinition
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -318,6 +319,16 @@ func set_loading_screen(value: LoadingScreenDefinition) -> void:
 
 func loading_screen() -> LoadingScreenDefinition:
 	return _loading_screen
+
+
+## The title screen's places, weather and logo (title_screen.json; DECISIONS「标题画面」); a
+## plain one when no document has one.
+func set_title_screen(value: TitleScreenDefinition) -> void:
+	_title_screen = value
+
+
+func title_screen() -> TitleScreenDefinition:
+	return _title_screen
 
 
 func pacing() -> PacingDefinition:

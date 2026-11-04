@@ -73,6 +73,13 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   release 2026.09.01, `ark-pixel-font-16px-proportional-otf-v2026.09.01.zip` (font 347,964
   bytes, SHA-256 `2527059d7cbe7b53d7de271fc90a1aa6987f262c969713956e88c5a3ab5988c6`). SIL Open
   Font License 1.1, `game/assets/fonts/OFL-ArkPixel.txt`; used unmodified.
+- `game/assets/fonts/ZhiMangXing-Regular.ttf` — 志莽行书 (Zhi Mang Xing), from the
+  [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
+  (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
+  `game/assets/fonts/OFL-ZhiMangXing.txt`; used unmodified for a place's name on the title.
+- `game/assets/textures/title/logo_*.png`, `seal_zh_CN.png` — the title logo's ink masks, text
+  rendered by `tools/ui/bake_title_logo.gd` from 志莽行书 and 霞鹜文楷 (project-made images of
+  OFL-licensed glyphs).
 
 ## Voxel maps
 

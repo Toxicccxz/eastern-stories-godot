@@ -35,17 +35,25 @@ func initialize_supplies() -> void:
 	_supplies = VBoxContainer.new()
 	_supplies.name = "SupplyPanels"
 	_ui.supplies_mount.add_child(_supplies)
+	# 界面重做 2: food and drink side by side.
+	var pair := HBoxContainer.new()
+	pair.name = "Pair"
+	pair.add_theme_constant_override("separation", 12)
+	_supplies.add_child(pair)
 	_food = HeldFoodPanel.new()
 	_food.name = "HeldFoodUI"
+	_food.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_food.configure(_session)
-	_supplies.add_child(_food)
+	pair.add_child(_food)
 	_liquid = HeldLiquidPanel.new()
 	_liquid.name = "HeldLiquidUI"
+	_liquid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_liquid.configure(_session)
-	_supplies.add_child(_liquid)
+	pair.add_child(_liquid)
 	var hint := Label.new()
 	hint.text = "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.theme_type_variation = &"SmallLabel"
 	_supplies.add_child(hint)
 
 

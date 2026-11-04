@@ -19,27 +19,38 @@ func configure(session: WorldSessionController) -> void:
 func _ready() -> void:
 	# Presentation must hide during Pause; gameplay remains Session-gated.
 	_panel = self
+	# 界面重做 2: a recess; the container on one line, 喝 and 装满 as chips under it.
+	theme_type_variation = &"WellPanel"
 	var rows: VBoxContainer = VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 6)
 	_panel.add_child(rows)
 	var title: Label = Label.new()
 	title.text = "随身酒袋 · 清水补给"
+	title.theme_type_variation = &"MutedLabel"
 	rows.add_child(title)
 	_select = OptionButton.new()
 	_select.name = "LiquidInstance"
-	_select.custom_minimum_size = Vector2(320, 36)
+	_select.custom_minimum_size = Vector2(200, 36)
 	rows.add_child(_select)
+	var acts := HFlowContainer.new()
+	acts.name = "Acts"
+	acts.add_theme_constant_override("h_separation", 8)
+	acts.add_theme_constant_override("v_separation", 8)
+	rows.add_child(acts)
 	_drink = Button.new()
 	_drink.name = "Drink"
 	_drink.text = "喝一份清水"
-	_drink.custom_minimum_size.y = 40
+	_drink.theme_type_variation = &"ChipButton"
+	_drink.custom_minimum_size.y = 36
 	_drink.pressed.connect(request_drink)
-	rows.add_child(_drink)
+	acts.add_child(_drink)
 	_fill = Button.new()
 	_fill.name = "Fill"
 	_fill.text = "装满清水（倒掉现有内容）"
-	_fill.custom_minimum_size.y = 40
+	_fill.theme_type_variation = &"ChipButton"
+	_fill.custom_minimum_size.y = 36
 	_fill.pressed.connect(request_fill)
-	rows.add_child(_fill)
+	acts.add_child(_fill)
 	_feedback = Label.new()
 	_feedback.name = "Feedback"
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

@@ -11,12 +11,15 @@ extends Theme
 ##   buttons  Button (a wood block that sinks when pressed), PrimaryButton (vermilion
 ##            lacquer), DangerButton (dark lacquer), ChipButton (stone), RowButton (a list
 ##            row, a block only when chosen), SlotButton (a save slot), ToggleButton (a
-##            choice that stays chosen: lacquer while down)
+##            choice that stays chosen: lacquer while down), TabButton (a page's tab)
+##   menu     MenuWindow (the game menu's window: a slab with room inside)
 ## Focus is a lantern-yellow rim (and FocusCursor's bobbing arrow beside it).
 
 const PIXEL_FONT_PATH: String = "res://assets/fonts/ark-pixel-16px-proportional-zh_cn.otf"
 ## The text face (the project theme's default font).
 const BODY_FONT_PATH: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
+## The brush hand for a place's name on the title (志莽行书).
+const BRUSH_FONT_PATH: String = "res://assets/fonts/ZhiMangXing-Regular.ttf"
 ## The pixel face's grid is 16 px; drawn at 32 logical px every grid pixel is 2 logical
 ## pixels, so a whole number of screen pixels at every 16:9 window (3 at 1920×1080).
 const PIXEL_SIZE: int = 32
@@ -79,6 +82,8 @@ func _init() -> void:
 	set_color("font_pressed_color", &"ToggleButton", Color("ffe9c2"))
 	set_color("font_hover_pressed_color", &"ToggleButton", Color("ffe9c2"))
 	_rows()
+	_menu()
+	_title(pixel)
 	_fields()
 	_option_button()
 	_check_button()
@@ -162,6 +167,58 @@ func _rows() -> void:
 		set_color(state, &"SlotButton", UiPalette.BONE)
 	set_color("font_disabled_color", &"SlotButton", UiPalette.DIM)
 	set_font_size("font_size", &"SlotButton", BODY_SIZE)
+
+
+## The game menu (DECISIONS「界面样式」): its window a planked ebony slab with room inside, its
+## tabs flat until hovered (a dark block) or shown (a plank block, ink letters), a thin rule.
+func _menu() -> void:
+	_variation(&"MenuWindow", &"PanelContainer")
+	set_stylebox("panel", &"MenuWindow", UiBlocks.box(UiBlocks.slab_image(UiPalette.EBONY, UiPalette.EBONY_SIDE, 4, true, 32, 26), Vector4i(4, 4, 4, 8), Vector4(18, 14, 18, 22), true))
+	_variation(&"TabButton", &"Button")
+	var flat := StyleBoxEmpty.new()
+	flat.content_margin_left = 12
+	flat.content_margin_right = 12
+	flat.content_margin_top = 6
+	flat.content_margin_bottom = 9
+	set_stylebox("normal", &"TabButton", flat)
+	set_stylebox("disabled", &"TabButton", flat)
+	set_stylebox("hover", &"TabButton", UiBlocks.block(UiPalette.EBONY.lightened(0.12), UiPalette.EBONY_SIDE, 3, Vector4(12, 6, 12, 9)))
+	for state: String in ["pressed", "hover_pressed"]:
+		set_stylebox(state, &"TabButton", UiBlocks.block(UiPalette.PLANK, UiPalette.WOOD_SIDE, 3, Vector4(12, 6, 12, 9)))
+	set_stylebox("focus", &"TabButton", UiBlocks.rim())
+	set_color("font_color", &"TabButton", UiPalette.MUTED)
+	set_color("font_hover_color", &"TabButton", UiPalette.BONE)
+	set_color("font_focus_color", &"TabButton", UiPalette.BONE)
+	set_color("font_pressed_color", &"TabButton", UiPalette.INK)
+	set_color("font_hover_pressed_color", &"TabButton", UiPalette.INK)
+	set_color("font_disabled_color", &"TabButton", UiPalette.DIM)
+	set_font_size("font_size", &"TabButton", BODY_SIZE)
+
+
+## The title (DECISIONS「标题画面」): its menu buttons are flat with their own text clear
+## (TitleMenuFx draws voxel letters over them), a place's name is in the brush hand, the menu's
+## panel is bare.
+func _title(pixel: FontFile) -> void:
+	_variation(&"TitleMenuItem", &"Button")
+	var bare := StyleBoxEmpty.new()
+	bare.content_margin_left = 14
+	bare.content_margin_right = 12
+	bare.content_margin_top = 6
+	bare.content_margin_bottom = 8
+	for state: String in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+		set_stylebox(state, &"TitleMenuItem", bare)
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color", "font_shadow_color"]:
+		set_color(state, &"TitleMenuItem", Color(0, 0, 0, 0))
+	set_font("font", &"TitleMenuItem", pixel)
+	set_font_size("font_size", &"TitleMenuItem", PIXEL_SIZE)
+	_label(&"TitleMenuLetters", UiPalette.BONE, PIXEL_SIZE, pixel)
+	_label(&"TitleCaption", Color("fff3dc"), 46, load(BRUSH_FONT_PATH) as Font)
+	set_color("font_outline_color", &"TitleCaption", Color(0.08, 0.05, 0.04, 0.75))
+	set_constant("outline_size", &"TitleCaption", 10)
+	set_color("font_shadow_color", &"TitleCaption", Color(0, 0, 0, 0.35))
+	set_constant("shadow_offset_y", &"TitleCaption", 4)
+	_variation(&"BarePanel", &"PanelContainer")
+	set_stylebox("panel", &"BarePanel", StyleBoxEmpty.new())
 
 
 func _fields() -> void:
