@@ -234,7 +234,7 @@ exists. Draft pull requests may exist for explicitly requested collaboration, bu
 expensive jobs are skipped while the PR remains draft. Manual dispatch remains available for an
 intentional diagnostic run.
 
-The repository's recommended remote ruleset requires PR-only integration into `main` and all four
+The repository's recommended remote ruleset requires PR-only integration into `main` and both
 stable PR checks. The workflow does not infer merges from commit messages. See
 `docs/production/REPOSITORY_POLICY.md` for the complete branch lifecycle, CI event matrix, failure
 handling, and the distinction between implementation completion and full integration closure.
@@ -243,23 +243,22 @@ The workflow contains:
 
 - `Godot Verify` on `ubuntu-24.04`, a summary job that passes only when `Godot Verify (checks)`
   and every `Godot Verify (suites K/N)` shard pass (together they run all of `verify.py`);
-- `Windows Release Build` on `windows-2025`;
-- `Android Release Build` on `ubuntu-24.04` with Temurin JDK 17.0.18+8 and pinned SDK packages;
-- `iOS Build Validation` on `macos-15`; the job enumerates installed Xcode applications, requires
-  `/Applications/Xcode_26.3.app`, selects it explicitly, and prints the Xcode/iPhoneOS SDK versions.
+- `Windows Release Build` on `windows-2025`.
 
-Build jobs run beside `Godot Verify`, not after it; the gameplay suites run only in its shard jobs.
-All jobs use Godot 4.7.2 and repository scripts. No project secret is required.
+CI builds no Android or iOS target since the mobile port was paused (owner 2026-11-04,
+[DECISIONS「手机端暂停」](../migration/DECISIONS.md)); the Android and iOS commands below still
+work locally. Until then CI also ran `Android Release Build` (`ubuntu-24.04`, Temurin JDK
+17.0.18+8, pinned SDK packages) and `iOS Build Validation` (`macos-15`, Xcode 26.3); git history
+keeps both jobs.
 
-Artifact names:
+The Windows build runs beside `Godot Verify`, not after it; the gameplay suites run only in its
+shard jobs. All jobs use Godot 4.7.2 and repository scripts. No project secret is required.
 
-- `eastern-stories-godot-windows-x86_64`;
-- `eastern-stories-godot-android-arm64`;
-- `eastern-stories-godot-ios-build-validation`.
+Artifact name: `eastern-stories-godot-windows-x86_64`.
 
 Workflow presence alone is not evidence that GitHub Actions passed. Workflow run `33350605585` on
-commit `557a678c991d1509ed2d10b1c6053493ae5b74a4` completed successfully with all four required jobs
-green: `Godot Verify`, `Windows Release Build`, `Android Release Build`, and
+commit `557a678c991d1509ed2d10b1c6053493ae5b74a4` completed successfully with the four jobs then
+required green: `Godot Verify`, `Windows Release Build`, `Android Release Build`, and
 `iOS Build Validation`. All three platform artifact uploads also succeeded.
 
 ## Local proof recorded for Phase 10A
@@ -303,9 +302,11 @@ workspace.
 
 ## Mobile product boundary
 
-The first release is desktop only; a mobile port may follow after reviews, and visuals
-are not cut for phone frame rate ([DECISIONS「首发只做桌面」](../migration/DECISIONS.md)). The
-Android and iOS jobs stay required build gates, not release targets.
+The first release is desktop only and the mobile port is paused: a phone version would split
+Steam sales, and visuals are not cut for phone frame rate
+([DECISIONS「手机端暂停」](../migration/DECISIONS.md)). CI no longer builds Android or iOS. The
+presets, the shared mobile layer below and its suites stay in the project (touch and the
+responsive layout also serve the Steam Deck); they are not release targets.
 
 The shared mobile layer provides responsive Shell/HUD/item panels, SafeArea, a fixed digital
 pad, Android Back and lifecycle freeze/explicit Resume, with manual saves only. It keeps one
@@ -314,6 +315,6 @@ logical 1280x720 base, canvas_items/expand and both sensor-landscape directions.
 
 Installed x86_64 Android emulator evidence does not qualify physical Android multitouch, ARM64,
 production Vulkan or general device compatibility. The shared iOS source/export path does not
-qualify iPhone/iPad simulator/device runtime; unsigned iOS Xcode compilation remains required in
-integration CI. Permanent identity/signing, hardware qualification and store-oriented release gates
+qualify iPhone/iPad simulator/device runtime; the unsigned iOS Xcode compile is no longer run in
+CI. Permanent identity/signing, hardware qualification and store-oriented release gates
 belong to a planned mobile port, not a successful build alone.

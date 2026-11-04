@@ -80,7 +80,8 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	_session = get_parent().get_parent() as WorldSessionController
-	theme = visual_theme if visual_theme != null else BattleVisualTheme.new()
+	# 界面重做 4: the interface's one theme (DECISIONS「界面样式」); a scene may still lend its own.
+	theme = visual_theme if visual_theme != null else GameTheme.shared()
 	if action_catalog == null:
 		action_catalog = BattleActionPresentationCatalog.new()
 	_reader.catalog = action_catalog
@@ -219,7 +220,16 @@ func _show_end_stamp() -> void:
 	end_stamp.visible = true
 	end_stamp.reset_size()
 	end_stamp.pivot_offset = end_stamp.size * 0.5
-	var area: Rect2 = _participants.get_parent().get_global_rect()
+	# Over the cards the player sees (they keep to the top of their row since 界面重做 4; a
+	# row too wide scrolls, so only its visible part counts), else their row.
+	var shown: Rect2 = _participants.get_parent().get_global_rect()
+	var area := Rect2()
+	for card: BattleParticipantCard in _cards:
+		if card.visible:
+			area = card.get_global_rect() if not area.has_area() else area.merge(card.get_global_rect())
+	area = area.intersection(shown)
+	if not area.has_area():
+		area = shown
 	end_stamp.global_position = area.get_center() - end_stamp.size * 0.5
 	end_stamp.modulate = Color(1, 1, 1, 0)
 	end_stamp.scale = Vector2.ONE * BattleCardStage.SLAM_FROM
@@ -404,11 +414,12 @@ func _present_completed_result() -> void:
 func _build() -> void:
 	var backdrop := ColorRect.new()
 	backdrop.name = "FrozenWorldShade"
-	backdrop.color = Color(0.025, 0.035, 0.045, 0.68)
+	backdrop.color = Color(UiPalette.INK, 0.62)
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(backdrop)
 	_content = VBoxContainer.new()
 	_content.name = "SafeBattleContent"
+	_content.add_theme_constant_override("separation", 8)
 	_content.minimum_size_changed.connect(_refit_content.call_deferred)
 	add_child(_content)
 	var header := HBoxContainer.new()
@@ -417,11 +428,13 @@ func _build() -> void:
 	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_title.clip_text = true
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_title.add_theme_color_override("font_color", Color("efc77b"))
+	_title.add_theme_color_override("font_color", UiPalette.GOLD)
+	_title.add_theme_font_size_override("font_size", 20)
 	header.add_child(_title)
 	log_button = Button.new()
 	log_button.name = "CombatLogButton"
 	log_button.text = "战斗记录"
+	log_button.theme_type_variation = &"ChipButton"
 	log_button.custom_minimum_size = Vector2(144, 64)
 	log_button.pressed.connect(_open_log)
 	header.add_child(log_button)
@@ -437,6 +450,7 @@ func _build() -> void:
 	_warning.name = "KillWarning"
 	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_warning.add_theme_color_override("font_color", SharedGameplayUI.ALERT_COLOR)
+	_warning.add_theme_font_size_override("font_size", 18)
 	_warning.visible = false
 	_content.add_child(_warning)
 	var participant_scroll := ScrollContainer.new()
@@ -446,10 +460,13 @@ func _build() -> void:
 	participant_scroll.follow_focus = true
 	participant_scroll.custom_minimum_size.y = 144
 	participant_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	participant_scroll.resized.connect(_fit_cards)
 	_content.add_child(participant_scroll)
 	_participants = HBoxContainer.new()
 	_participants.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_participants.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_participants.alignment = BoxContainer.ALIGNMENT_CENTER
+	_participants.add_theme_constant_override("separation", CARD_GAP)
 	participant_scroll.add_child(_participants)
 	target_hints = InputHintRow.new()
 	_content.add_child(target_hints)
@@ -492,13 +509,17 @@ func _build() -> void:
 		line.clip_contents = true
 		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		line.add_theme_font_size_override("normal_font_size", 16)
+		# Plain battle text a light grey, so HIW lines stand out.
+		line.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
 		row.add_child(line)
 	end_stamp = Label.new()
 	end_stamp.name = "EndStamp"
 	end_stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	end_stamp.visible = false
 	end_stamp.rotation = deg_to_rad(-8.0)
-	end_stamp.add_theme_font_size_override("font_size", 96)
+	end_stamp.add_theme_font_size_override("font_size", 120)
+	# 界面重做 4: 胜 / 败 in the title's brush hand.
+	end_stamp.add_theme_font_override("font", load(GameTheme.BRUSH_FONT_PATH) as Font)
 	end_stamp.add_theme_color_override("font_color", BattleCardStage.STAMP_RED)
 	end_stamp.add_theme_color_override("font_outline_color", Color(0.05, 0.07, 0.08, 0.9))
 	end_stamp.add_theme_constant_override("outline_size", 8)
@@ -535,6 +556,24 @@ func _refit_content() -> void:
 		_content.size = metrics.content_rect().size
 
 
+## The cards share the row's width up to CARD_MAX each (never under CARD_MIN: the row scrolls
+## then), as tall as what they say; the row stands in the middle.
+const CARD_MIN: float = 300.0
+const CARD_MAX: float = 440.0
+const CARD_GAP: int = 16
+
+
+func _fit_cards() -> void:
+	if _cards.is_empty() or _participants == null:
+		return
+	var room: float = (_participants.get_parent() as Control).size.x
+	var each: float = clampf((room - CARD_GAP * (_cards.size() - 1)) / float(_cards.size()), CARD_MIN, CARD_MAX)
+	for card: BattleParticipantCard in _cards:
+		card.size_flags_horizontal = Control.SIZE_FILL
+		card.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		card.custom_minimum_size.x = each
+
+
 ## The player's card first, then those on the player's side (the soldier they called),
 ## then the others, each group in the fight's order.
 func _present_participants() -> void:
@@ -556,12 +595,12 @@ func _present_participants() -> void:
 		for id: StringName in ids:
 			var card := BattleParticipantCard.new()
 			card.name = "Participant%d" % _cards.size()
-			card.custom_minimum_size.x = 300
 			card.target_requested.connect(_change_target)
 			card.finish_requested.connect(_finish_downed)
 			card.spare_requested.connect(_spare_downed)
 			_participants.add_child(card)
 			_cards.append(card)
+		_fit_cards()
 	# A blow's 气 shows once its line is told (DECISIONS「手感」).
 	var told: bool = _line_queue.is_empty()
 	for index: int in values.size():

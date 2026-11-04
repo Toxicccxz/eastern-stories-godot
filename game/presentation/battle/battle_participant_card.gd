@@ -12,7 +12,8 @@ const FINISH_LABEL: String = "了结"
 const SPARE_LABEL: String = "放过"
 ## An enemy the player cannot pick now (DECISIONS「战斗界面」): the whole card dimmed.
 const DIM: Color = Color(0.55, 0.55, 0.55)
-const GOLD: Color = Color("efc77b")
+## The current target's border (界面重做 4: the interface's lantern).
+const GOLD: Color = UiPalette.LANTERN
 
 var target_button: Button
 var _participant_id: StringName
@@ -70,34 +71,44 @@ var spare_button: Button
 
 func _ready() -> void:
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# 界面重做 4: a square ebony slab, its edge thicker below (the block's side); the target's
+	# edge is the lantern, a special's flash pale gold.
 	_ordinary_border = StyleBoxFlat.new()
-	_ordinary_border.bg_color = Color("182833")
-	_ordinary_border.border_color = Color("405563")
-	_ordinary_border.set_border_width_all(1)
-	_ordinary_border.content_margin_left = 10
-	_ordinary_border.content_margin_right = 10
+	_ordinary_border.bg_color = Color(UiPalette.EBONY, 0.96)
+	_ordinary_border.border_color = UiPalette.EBONY_SIDE
+	_ordinary_border.set_border_width_all(2)
+	_ordinary_border.border_width_bottom = 6
+	_ordinary_border.content_margin_left = 14
+	_ordinary_border.content_margin_right = 14
+	_ordinary_border.content_margin_top = 10
+	_ordinary_border.content_margin_bottom = 10
 	_current_border = _ordinary_border.duplicate() as StyleBoxFlat
 	_current_border.border_color = GOLD
 	_current_border.set_border_width_all(3)
+	_current_border.border_width_bottom = 6
 	_special_border = _ordinary_border.duplicate() as StyleBoxFlat
 	_special_border.border_color = Color("fff3c4")
 	_special_border.set_border_width_all(3)
+	_special_border.border_width_bottom = 6
 	var content := VBoxContainer.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	content.add_theme_constant_override("separation", 0)
+	content.add_theme_constant_override("separation", 2)
 	add_child(content)
 	_title = _label(content)
-	_title.add_theme_color_override("font_color", GOLD)
+	_title.add_theme_color_override("font_color", UiPalette.GOLD)
+	_title.add_theme_font_size_override("font_size", 20)
 	_vitality = BattleVitalityBar.new()
 	_vitality.name = "Vitality"
 	content.add_child(_vitality)
 	_primary = _label(content)
 	_secondary = _label(content)
 	_powers = _label(content)
-	_status = _label(content)
 	_intent = _label(content)
 	_intent.add_theme_color_override("font_color", Color("f2d27a"))
 	_intent.visible = false
+	# The tags last (界面重做 4): their line stays when empty (the card does not jump), and
+	# at the foot it reads as the card's margin, not a gap between 气 and 起手.
+	_status = _label(content)
 	choice_row = HBoxContainer.new()
 	choice_row.name = "KnockoutChoice"
 	choice_row.add_theme_constant_override("separation", 8)
@@ -435,7 +446,7 @@ func _flash_border() -> void:
 	if _border_flash != null and _border_flash.is_valid():
 		_border_flash.kill()
 	var back: StyleBoxFlat = get_theme_stylebox("panel") as StyleBoxFlat
-	if back == _special_border:
+	if back == null or back == _special_border:
 		back = _ordinary_border
 	add_theme_stylebox_override("panel", _special_border)
 	_border_flash = create_tween()

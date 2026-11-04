@@ -3,6 +3,18 @@
 这里是已被后来的决定取代、或只有历史意义的条目，原文照录，顺序同原文件；每条第一行说明为什么在这里。
 现行规则以 [DECISIONS](DECISIONS.md) 为准。引用写作 DECISIONS_HISTORY「条目名」。
 
+## 首发只做桌面 (owner, 2026-10-24)
+
+(已被「手机端暂停」取代：手机端从「发售后看评价再定」改为暂停，CI 不再跑 Android / iOS；只发桌面、不为手机帧率减配、PR #161 封存照旧。)
+
+- **之前：** 桌面和手机一起做；PR #161 为手机的帧率给体素视图加了一套手机画质档（低分辨率渲染、少阴影、
+  只点最近的灯、草丛减半），另有单遍遮挡物和同色合批。
+- **owner 决定：** 第一版只发桌面端。手机版等发售后看评价再决定要不要移植。
+- **所以：** 画面不为手机帧率减配，各区域的体素地图按桌面定丰富程度；不改画面的优化（合批、少画看不见的
+  东西）照常可做。PR #161 不合并，转成草稿封存；分支 `phase/mobile-voxel-perf` 保留，移植手机时从那里
+  接着做（先合入最新 main，再在手机上重新量帧率）。CI 照旧跑 Android 和 iOS 两个必需作业（AGENTS.md
+  「Git and CI」），只当构建门槛，手机帧率不再是区域的验收条件。
+
 ## Snow: walls on the tile grid, collision on tiles (2026-10-01)
 
 (已被「雪亭镇's maps drawn by the painter」和「Old Pine: one map per height level, collision on tiles」取代：3B6 手画的墙带和 SouthBlocker 随画家地图去掉，按瓦片碰撞见后者。)
