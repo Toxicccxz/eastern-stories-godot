@@ -85,7 +85,7 @@ func _test_pictures() -> void:
 			plates.append(cell.map_id)
 			continue
 		_check(pictures.texture(cell.map_id) != null, "%s has its picture" % cell.map_id)
-	_check(plates.size() == 1 and plates.has(&"death.realm"), "only 阴间, without a voxel view, is a plate: %s" % [plates])
+	_check(plates.is_empty(), "every place has its baked picture (every map has its voxel view): plates %s" % [plates])
 	var door: Vector2 = pictures.pin(&"snow.outdoor", "door:snow.inn")
 	_check(door != Vector2.INF and pictures.pin(&"snow.outdoor", "door:nowhere") == Vector2.INF, "a door's pin is in the bake")
 	_check(load(AtlasPictures.DIRECTORY + "arrow.png") != null, "the arrow is baked")

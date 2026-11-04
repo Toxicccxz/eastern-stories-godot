@@ -893,6 +893,19 @@ func _stele(w: float, d: float) -> void:
 				if (col*7+row*3)%9==0:
 					continue
 				s.box(frame,Vector3(x,base+height*0.86-row*0.17,face*(thick/2+0.012)),Vector3(0.08,0.1,0.012),lines)
+	if data.has("text"):
+		# Carved down the middle of the near face, over the faint columns.
+		s.box(frame,Vector3(0,base+height*0.5,thick/2+0.02),Vector3(minf(width*0.3,0.5),height*0.8,0.012),String(colors[2]))
+		var title := Label3D.new()
+		title.text = TranslationServer.translate(String(data["text"]))
+		title.position = Vector3(0,base+height*0.5,thick/2+0.03)
+		title.pixel_size = 0.006
+		title.font_size = 52
+		title.width = 40.0
+		title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		title.outline_size = 0
+		title.modulate = Color(String(data.get("letters","d8d4c8")))
+		frame.add_child(title)
 
 ## 大香炉: a great bronze censer on a stone base: a round belly on three legs, two ears, a lid
 ## stepped up to a knob and pierced for the smoke, the embers glowing inside, incense smoke

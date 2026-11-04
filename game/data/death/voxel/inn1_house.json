@@ -1,0 +1,26 @@
+{
+  "indoor": true,
+  "camera_size": 16,
+  "note": "inn1.c: 你一进来就发现屋里异常的温暖, 墙角壁炉里微弱的火光将你的影子投射在对面的墙上 … 屋内有几张木桌, 椅, 墙上挂了几幅字画, 一切看来非常的详和宁静.",
+  "palette": {
+    "wood": ["7a5236", "6a4630", "8a5e3e", "74503a"],
+    "wall": "8a6a4a"
+  },
+  "light": {
+    "carried": {"color": "ffcf8a", "range": 5.0, "attenuation": 1.3, "day": 0.3, "night": 0.3},
+    "ambient": ["b8a088", "b8a088"],
+    "ambient_energy": [0.4, 0.4],
+    "sun": ["e8c8a0", "e8c8a0"],
+    "sun_energy": [0.14, 0.14],
+    "note": "the fire's warmth"
+  },
+  "life": {
+    "death.inn1": {"hangings": ["wall_scroll", "wall_scroll:calligraphy", "wall_scroll"], "hang": 0.5, "note": "墙上挂了几幅字画"}
+  },
+  "props": [
+    {"kind": "rug", "at": [-120, -40], "size": [192, 128], "elevation": 0.05, "cloth": "6a3a2a", "motif": "8a5a3e", "border": "b89050"},
+    {"kind": "hanging_lantern", "at": [120, 60], "elevation": -0.4},
+    {"kind": "wall_scroll", "at": [40, -206], "size": [48, 16], "calligraphy": true},
+    {"kind": "wall_scroll", "at": [160, -206], "size": [48, 16]}
+  ]
+}

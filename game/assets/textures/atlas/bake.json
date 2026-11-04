@@ -772,6 +772,54 @@
     418
    ]
   },
+  "death.realm": {
+   "anchor": [
+    163.7,
+    107.8
+   ],
+   "pins": {
+    "door:death.inn1_house": [
+     170.1,
+     85.0
+    ],
+    "door:death.inn2_house": [
+     198.4,
+     103.5
+    ],
+    "zone:death.bridge": [
+     110.7,
+     142.4
+    ],
+    "zone:death.bridge1": [
+     79.6,
+     162.8
+    ],
+    "zone:death.gate": [
+     139.0,
+     123.9
+    ],
+    "zone:death.gateway": [
+     161.7,
+     109.1
+    ],
+    "zone:death.road1": [
+     184.3,
+     94.3
+    ],
+    "zone:death.road2": [
+     218.2,
+     72.0
+    ],
+    "zone:death.road3": [
+     252.2,
+     49.8
+    ]
+   },
+   "size": [
+    329,
+    236
+   ]
+  },
   "goathill.caverns": {
    "anchor": [
     80.2,
@@ -2242,7 +2290,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "1a6788a884a9a5f3579fde326917a8de4e9bd96c42b19c101e243c26049b43e9",
+ "fingerprint": "4bb05bba089f75e8e1d197b608aea075f4a7767b2815ceadb3fbddd7a885ea04",
  "frame": [
   -769.1,
   14.6,
@@ -2258,7 +2306,7 @@
   "chuenyu": "a0e68d841185594e6d9d9e5f5cf08f805fadffc64c6114e821c371f219a060a6",
   "city": "2ec7f0f692c05737108055c92a50e04658ebb9a5d26743c4f6974852a7697b15",
   "cloud": "1b2f5df501d57e445ae5ee834567e18e534d717e58e9a662402f3ba6eb0bb1ff",
-  "death": "5d328b320ce0f92bf10e05c9fb1f334f864e7c2194ceb7b35d597d05a7ae4a41",
+  "death": "3d8caca208b1582cc71acb8503f6b5a28e136bd7b234938f158ae96d02593008",
   "goathill": "ca21a52cdbf745b5a79d244a07c0c2afaf88f915f58b781868a0f12515e36133",
   "green": "b7f90c653d389ccac22574c1be7141a29a6ce847690e56703f361dae182bf361",
   "guanbei": "47d1e0e1f9391938d643b61fff0dd5b8ec3c2ea65ab78533c2fa19cf2966ec83",
@@ -5272,7 +5320,5 @@
    ]
   }
  ],
- "viewless": [
-  "death.realm"
- ]
+ "viewless": []
 }

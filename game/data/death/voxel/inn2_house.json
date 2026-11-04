@@ -1,0 +1,29 @@
+{
+  "indoor": true,
+  "camera_size": 16,
+  "note": "inn2.c: 屋里相当冷清, 外面的浓雾还不时地从半开著的门缝飘进来, 地面上散著一些破旧的物品 … 墙上刻著一些潦草的字体, 墙角的一盏灯笼挣扎似地发出一阵阵微弱的光芒.",
+  "palette": {
+    "wood": ["5a4a3e", "4e4036", "62524a", "54463c"],
+    "wall": "5a5048"
+  },
+  "light": {
+    "carried": {"color": "d8e0dc", "range": 4.5, "attenuation": 1.3, "day": 0.3, "night": 0.3},
+    "ambient": ["7a8480", "7a8480"],
+    "ambient_energy": [0.46, 0.46],
+    "sun": ["a8b4b0", "a8b4b0"],
+    "sun_energy": [0.1, 0.1],
+    "note": "相当冷清"
+  },
+  "life": {
+    "death.inn2": {"hangings": [], "hang": 0.0, "ambience": [{"kind": "dust", "color": "a8b0ac", "count": 16}]}
+  },
+  "ambience": {
+    "dust": [{"rect": [-352, -64, -160, 64], "count": 20, "color": "a8b0ac", "wind": [0.25, 0.0], "height": [0.05, 0.6], "note": "外面的浓雾还不时地从半开著的门缝飘进来"}]
+  },
+  "props": [
+    {"kind": "scratches", "at": [302, 40], "size": [96, 16], "rotation": 270, "wall_mounted": true, "rows": 4, "color": "2e2620", "note": "inn2.c: 墙上(wall)刻著一些潦草的字体"},
+    {"kind": "cobweb", "at": [312, -216], "size": [32, 32]},
+    {"kind": "cobweb", "at": [-328, 216], "size": [32, 32], "rotation": 180},
+    {"kind": "stains", "at": [60, 120], "size": [128, 96], "colors": ["3e3a34", "46423a", "36322c"], "count": 5}
+  ]
+}

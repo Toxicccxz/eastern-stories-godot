@@ -1,0 +1,91 @@
+{
+  "indoor": false,
+  "camera_size": 22,
+  "note": "阴间 (d/death): the fog everywhere, nothing under it to be seen; from the south the long stone 奈何桥 out of the fog, the dead going north in it, the stele 奈何桥 at its head; 鬼门关, a tall black tower over the way, 黑白无常 waiting; 酆都城's black wall and gate, red fires deep inside; 鬼门大道 between two wooden houses with their doors half open (the warm 小店 west, the cold 黑店 east), a few pale lanterns on into the fog, a wall of fog at its end.",
+  "edge": {
+    "none": true
+  },
+  "light": {
+    "sky": ["8a9692", "8a9692"],
+    "ambient": ["9aa6a2", "9aa6a2"],
+    "ambient_energy": [0.5, 0.5],
+    "sun": ["c0c8c4", "c0c8c4"],
+    "sun_energy": [0.2, 0.2],
+    "fog": {"color": ["6e7a76", "6e7a76"], "density": [0.012, 0.012], "height": -0.6, "height_density": 0.5, "note": "the fog: thin on the way, solid below it"},
+    "carried": {"color": "d8e0dc", "range": 5.0, "attenuation": 1.2, "day": 0.35, "night": 0.35},
+    "note": "no sun and no night"
+  },
+  "cliffs": {
+    "kinds": ["chasm"],
+    "low": 1.0,
+    "high": 1.0,
+    "rise": 140,
+    "step": 0.5,
+    "rough": 0.6,
+    "keep": 96,
+    "trim": [],
+    "strata": ["5a625e", "626a66", "6a726e"],
+    "tops": ["5a625e", "626a66"],
+    "sink": {"kinds": ["chasm"], "depth": 10.0, "floor": ["6a7672", "6e7a76"], "strata": ["626a66", "6a726e", "5e6662", "727a76"], "gloom": 0.2, "note": "bridge.c: 东、西两面都是大雾，连桥底下是不是水都看不到"},
+    "note": "nothing but fog round the way"
+  },
+  "ground": {
+    "path": {"style": "scree", "colors": ["4a4a44", "52524a", "42423e"], "gravel": 0.3, "stones": 0.02, "pebbles": ["5a5a52", "4a4a44"], "wet": true, "wet_chance": 0.2, "sheen": "6a7672", "note": "road2.c: 一条阴森森的路"},
+    "street": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.16, "broken": 0.06, "sunk": 0.04, "tufts": 0.04, "stones": ["4e4e4a", "56564f", "46463f"], "worn": ["5e5e56"], "bed": "2a2a28", "joint": 0.06, "mud": "3a3a36", "crack": "2e2e2a"},
+    "town_ground": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.12, "broken": 0.05, "sunk": 0.03, "tufts": 0.0, "stones": ["3e3e3c", "46464a", "363638", "4a4a4c"], "worn": ["525254"], "bed": "1e1e20", "joint": 0.05, "mud": "2e2e2c", "crack": "262628", "note": "the squares before the black towers"},
+    "bridge": {"colors": ["6a6c68", "747672", "5e605c"]},
+    "blocked": {"colors": ["5e6662", "666e6a", "565e5a"], "note": "the wall of fog at the road's end, the stele's footing"},
+    "chasm": {"colors": ["6a7672", "6e7a76", "667270"]},
+    "boundary": {"colors": ["6a7672", "6e7a76", "667270"], "note": "the fog beyond the way: no grass"}
+  },
+  "ground_tints": {
+    "bank": "4a524e",
+    "mud": "3e3e38",
+    "chips": ["5a5a54", "62625a", "52524c"],
+    "dust": "5e605a",
+    "grit": "56584f",
+    "note": "grey: none of the living world's ochre here"
+  },
+  "flora": {
+    "grass_density": 0.08,
+    "butterflies": 0,
+    "wind": 0.1,
+    "blossom_trees": 0.0,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "density": {"path": 0.04, "street": 0.02, "boundary": 0.0, "chasm": 0.0, "blocked": 0.0},
+    "flower_threshold": 1.0
+  },
+  "ambience": {
+    "dust": [{"rect": [448, 0, 832, 2240], "count": 48, "color": "a8b0ac", "wind": [0.12, -0.08], "height": [0.2, 2.2], "note": "浓浓的雾环绕在你的四周"}],
+    "smoke": [{"at": [592, 30], "height": 0.4, "color": "9aa4a0", "count": 8, "size": 0.5}, {"at": [640, 30], "height": 0.4, "color": "9aa4a0", "count": 8, "size": 0.5}, {"at": [688, 30], "height": 0.4, "color": "9aa4a0", "count": 8, "size": 0.5}]
+  },
+  "actors": {
+    "default": {"coat": "3a3a40"},
+    "death.npc.hell_guard": {"coat": "2e2e36", "hat": true, "note": "hell_guard.c: 鬼卒中的精锐"},
+    "death.npc.wgargoyle": {"coat": "e8e6dc", "hat": true, "scale": 1.12, "note": "wgargoyle.c: 死白的脸"},
+    "death.npc.bgargoyle": {"coat": "1a1a1e", "hat": true, "scale": 1.12, "note": "bgargoyle.c: 黝黑的脸"}
+  },
+  "buildings": [
+    {"rect": [224, 800, 448, 992], "portals": ["death.road1.west"], "construction": "timber", "wall": "4e4238", "timber": "2a2420", "posts": "3a2e28", "roof": "2a2c2e", "height": 3.2, "roof_form": "gable", "ridge": "x", "rise": 1.2, "overhang": 0.7, "porch": "none", "goods": "none", "lanterns": false, "bay": 4, "lattice": true, "foundation": 0.3, "doorway": "dark", "doorway_width": 4.0, "worn": 0.4, "worn_colors": ["3a403a", "444a42"], "window_lights": true, "note": "小店 (inn1.c): warm inside, the fire in the corner — only a glow through its windows from the road"},
+    {"rect": [832, 800, 1056, 992], "portals": ["death.road1.east"], "construction": "timber", "wall": "3e3632", "timber": "2a2420", "posts": "3a2e28", "roof": "2a2c2e", "height": 3.2, "roof_form": "gable", "ridge": "x", "rise": 1.2, "overhang": 0.7, "porch": "none", "goods": "none", "lanterns": false, "bay": 4, "lattice": true, "foundation": 0.3, "doorway": "dark", "doorway_width": 4.0, "worn": 0.4, "worn_colors": ["3a403a", "444a42"], "window_lights": false, "note": "黑店 (inn2.c): cold, the fog drifting in at the half-open door"}
+  ],
+  "props": [
+    {"kind": "overpass", "at": [640, 1888], "size": [192, 704], "colors": ["6a6c68", "747672", "5e605c"], "rail": "6e706c", "finial": "7e807a", "height": 0.8, "timber": "3e403c", "note": "bridge.c: 你现在正站在一条极长的石桥上"},
+    {"kind": "gate_tower", "at": [640, 1280], "size": [384, 32], "height": 7.0, "opening": 128, "arch": 3.4, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "wear": 0.3, "occludes": true, "voussoir": "44444a", "plaque": {"text": "鬼门关", "board": "0e0e10", "letters": "d8d4c8", "frame": "5a5a60", "width": 2.4}, "tower": {"posts": "1e1e22", "wall": "2e2e32", "roof": "1a1a1e", "timber": "16161a", "frieze": "3a2a2a", "height": 3.0, "width": 0.85, "depth": 0.9}, "note": "gate.c: 这里就是著名的阴间入口「鬼门关」，在你面前矗立著一座高大的黑色城楼"},
+    {"kind": "gate_tower", "at": [640, 1024], "size": [384, 32], "height": 6.0, "opening": 128, "arch": 3.0, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "wear": 0.4, "occludes": true, "voussoir": "3a3a40", "plaque": {"text": "酆都城", "board": "1a1a1e", "letters": "9a8a78", "frame": "2a2a2e", "width": 2.4}, "tower": {"posts": "1e1e22", "wall": "2e2e32", "roof": "1a1a1e", "timber": "16161a", "frieze": "3a2a2a", "height": 2.6, "width": 0.85, "depth": 0.9}, "note": "gateway.c: 你现在来到一座黑色城楼之前，城楼上刻著三个大字：酆都城"},
+    {"kind": "city_wall", "at": [288, 1024], "size": [320, 32], "height": 5.0, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "occludes": true, "note": "酆都城's black wall, fading into the fog"},
+    {"kind": "city_wall", "at": [992, 1024], "size": [320, 32], "height": 5.0, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "occludes": true},
+    {"kind": "hanging_lantern", "at": [608, 1024], "elevation": 1.2, "paper": "a8402a", "note": "gateway.c: 少许暗红色的火光若隐若现地闪烁著"},
+    {"kind": "hanging_lantern", "at": [672, 1024], "elevation": 1.2, "paper": "a8402a"},
+    {"kind": "glow", "at": [640, 1000], "size": [16, 16], "height": 1.6, "color": "b0442c", "range": 5.0, "day": 1.2, "night": 1.2, "flicker": 0.35},
+    {"kind": "shades", "at": [500, 1640], "size": [24, 96], "count": 4, "cloak": "a8b2ae", "ghostly": true, "rotation": 180, "note": "bridge.c: 浓雾中有许多朦胧的人影鱼贯地向北走去"},
+    {"kind": "shades", "at": [780, 1720], "size": [24, 72], "count": 3, "cloak": "a8b2ae", "ghostly": true, "rotation": 180},
+    {"kind": "shades", "at": [492, 1860], "size": [24, 72], "count": 3, "cloak": "a8b2ae", "ghostly": true, "rotation": 180},
+    {"kind": "shades", "at": [788, 1980], "size": [24, 96], "count": 4, "cloak": "a8b2ae", "ghostly": true, "rotation": 180},
+    {"kind": "shades", "at": [500, 2100], "size": [24, 72], "count": 3, "cloak": "a8b2ae", "ghostly": true, "rotation": 180},
+    {"kind": "shades", "at": [776, 2200], "size": [24, 48], "count": 2, "cloak": "a8b2ae", "ghostly": true, "rotation": 180},
+    {"kind": "shades", "at": [420, 1400], "size": [24, 120], "count": 5, "cloak": "a8b2ae", "ghostly": true, "rotation": 180, "note": "gate.c: 许多亡魂正哭哭啼啼地列队前进"},
+    {"kind": "shades", "at": [860, 1440], "size": [24, 96], "count": 4, "cloak": "a8b2ae", "ghostly": true, "rotation": 180}
+  ]
+}

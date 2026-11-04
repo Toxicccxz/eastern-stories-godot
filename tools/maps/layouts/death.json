@@ -23,11 +23,12 @@
           ["wall", 704, 1008, 832, 1040],
           ["wall", 448, 1264, 576, 1296, "鬼门关's tall black tower over the way"],
           ["wall", 704, 1264, 832, 1296],
-          ["chasm", 448, 1504, 544, 1536, "fog either side of the bridge's head"],
+          ["chasm", 448, 1504, 496, 1536, "fog either side of the bridge's head"],
+          ["blocked", 496, 1504, 544, 1536, "the stele at the 奈何桥's head", {"look": {"kind": "stele", "colors": ["4a4c4a", "565856", "3e403e"], "height": 2.2, "text": "奈何桥", "letters": "c8c8b8"}}],
           ["chasm", 736, 1504, 832, 1536],
-          ["blocked", 528, 352, 544, 368, "the few lanterns along the long road"],
-          ["blocked", 736, 512, 752, 528],
-          ["blocked", 528, 672, 544, 688],
+          ["blocked", 528, 352, 544, 368, "the few lanterns along the long road (road2.c: 整条路前后只看到零星的几盏灯笼)", {"look": {"kind": "lantern_post", "count": 1, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}}],
+          ["blocked", 736, 512, 752, 528, {"look": {"kind": "lantern_post", "count": 1, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}}],
+          ["blocked", 528, 672, 544, 688, {"look": {"kind": "lantern_post", "count": 2, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}}],
           ["blocked", 576, 16, 704, 32, "the wall of fog at the road's end"]
         ],
         "reach_from": "GateArrival",
@@ -51,7 +52,8 @@
                 "portal": "death.road1.west",
                 "street": "death.road1",
                 "side": "west",
-                "at": 896
+                "at": 896,
+                "width": 128
               }
             ]
           },
@@ -64,7 +66,8 @@
                 "portal": "death.road1.east",
                 "street": "death.road1",
                 "side": "east",
-                "at": 896
+                "at": 896,
+                "width": 128
               }
             ]
           }
@@ -72,6 +75,7 @@
       },
       "scene": {
         "style": "map",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/death/voxel/realm.json"},
         "root": "DeathRealm",
         "map": "death.realm",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
@@ -137,21 +141,34 @@
           "death.inn1": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "teahouse", "wealth": "plain", "tidy": true, "seed": 81}
           }
         },
         "props": [
-          ["blocked", "death.inn1", ["rel", 0.167, 0.083], 1.88, 0.94, "the fireplace in the shop's corner, the shadows round it"],
-          ["blocked", "death.inn1", ["rel", 0.75, 0.75], 1.88, 0.94, "wooden tables and chairs"]
+          ["blocked", "death.inn1", ["rel", 0.167, 0.083], 1.88, 0.94, "the fireplace in the shop's corner (inn1.c: 墙角壁炉里微弱的火光)", {"look": {"kind": "hearth", "colors": ["5e5850", "6a6458", "524c44", "74705e"]}}],
+          ["blocked", "death.inn1", ["rel", 0.75, 0.75], 1.88, 0.94, "wooden tables and chairs (inn1.c: 屋内有几张木桌, 椅)", {"look": {"kind": "table", "colors": ["7a5236", "6a4630", "8a5e3e"], "set": "tea"}}],
+          ["blocked", "death.inn1", ["rel", 0.12, 0.17], 2.82, 0.94, "four in black cloaks leaning in the corner by the fire (inn1.c: 四个披著黑斗蓬的人斜靠在壁炉边的角落)", {"look": {"kind": "shades", "count": 4, "cloak": "3a3442"}}],
+          ["blocked", "death.inn1", ["rel", 0.45, 0.75], 1.88, 0.94, {"look": {"kind": "table", "colors": ["7a5236", "6a4630", "8a5e3e"], "set": "wine"}}],
+          ["blocked", "death.inn1", ["rel", 0.75, 0.45], 1.41, 1.41, {"look": {"kind": "square_table", "set": "tea"}}],
+          ["blocked", "death.inn1", ["rel", 0.6, 0.6], 0.94, 0.94, {"look": {"kind": "stool"}}],
+          ["blocked", "death.inn1", ["rel", 0.9, 0.6], 0.94, 0.94, {"look": {"kind": "stool"}}],
+          ["blocked", "death.inn1", ["rel", 0.45, 0.06], 1.88, 0.94, "the wood for the fire", {"look": {"kind": "lumber"}}],
+          ["blocked", "death.inn1", ["rel", 0.04, 0.9], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "c8a8a0"}}],
+          ["blocked", "death.inn1", ["rel", 0.92, 0.22], 0.94, 1.88, {"look": {"kind": "bench_seat", "rotation": 90, "cloth": "6a4a3a"}}],
+          ["blocked", "death.inn1", ["rel", 0.6, 0.94], 2.35, 0.94, {"look": {"kind": "bench_seat", "cloth": "6a4a3a"}}],
+          ["blocked", "death.inn1", ["rel", 0.25, 0.94], 1.41, 0.94, {"look": {"kind": "crocks"}}],
+          ["blocked", "death.inn1", ["rel", 0.96, 0.06], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e8d8c0"}}]
         ],
         "placed": {},
         "doors": {
-          "death.inn1.east": "east"
+          "death.inn1.east": {"side": "east", "width": 128}
         },
         "reach_from": "Inn1Road1Entry"
       },
       "scene": {
         "style": "map",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/death/voxel/inn1_house.json"},
         "root": "Inn1House",
         "map": "death.inn1_house",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
@@ -203,21 +220,34 @@
           "death.inn2": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "storeroom", "wealth": "poor", "tidy": false, "seed": 82}
           }
         },
         "props": [
-          ["blocked", "death.inn2", ["rel", 0.917, 0.083], 0.94, 0.94, "the lantern in the 黑店's corner"],
-          ["blocked", "death.inn2", ["rel", 0.292, 0.833], 1.41, 0.94, "broken things on the floor"]
+          ["blocked", "death.inn2", ["rel", 0.917, 0.083], 0.94, 0.94, "the lantern in the 黑店's corner (inn2.c: 墙角的一盏灯笼挣扎似地发出一阵阵微弱的光芒)", {"look": {"kind": "lantern_post", "count": 1, "dim": true, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}}],
+          ["blocked", "death.inn2", ["rel", 0.292, 0.833], 1.41, 0.94, "broken things on the floor (inn2.c: 地面上散著一些破旧的物品, 不过光从外表已经无法分辨出那是些什么东西了)", {"look": {"kind": "old_furniture"}}],
+          ["blocked", "death.inn2", ["rel", 0.55, 0.3], 1.88, 0.94, {"look": {"kind": "old_furniture"}}],
+          ["blocked", "death.inn2", ["rel", 0.08, 0.1], 1.41, 0.94, {"look": {"kind": "crocks"}}],
+          ["blocked", "death.inn2", ["rel", 0.1, 0.55], 0.94, 1.88, {"look": {"kind": "lumber", "rotation": 90}}],
+          ["blocked", "death.inn2", ["rel", 0.6, 0.9], 1.41, 0.94, {"look": {"kind": "baskets"}}],
+          ["blocked", "death.inn2", ["rel", 0.35, 0.45], 0.94, 0.94, {"look": {"kind": "stool"}}],
+          ["blocked", "death.inn2", ["rel", 0.78, 0.25], 1.88, 1.41, {"look": {"kind": "chest_stack"}}],
+          ["blocked", "death.inn2", ["rel", 0.45, 0.72], 1.88, 0.94, {"look": {"kind": "old_furniture"}}],
+          ["blocked", "death.inn2", ["rel", 0.25, 0.22], 1.41, 1.41, {"look": {"kind": "sacks"}}],
+          ["blocked", "death.inn2", ["rel", 0.82, 0.9], 1.88, 0.94, {"look": {"kind": "baskets"}}],
+          ["blocked", "death.inn2", ["rel", 0.06, 0.92], 1.41, 1.41, {"look": {"kind": "crocks"}}],
+          ["blocked", "death.inn2", ["rel", 0.6, 0.08], 1.88, 0.94, {"look": {"kind": "lumber"}}]
         ],
         "placed": {},
         "doors": {
-          "death.inn2.west": "west"
+          "death.inn2.west": {"side": "west", "width": 128}
         },
         "reach_from": "Inn2Road1Entry"
       },
       "scene": {
         "style": "map",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/death/voxel/inn2_house.json"},
         "root": "Inn2House",
         "map": "death.inn2_house",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
