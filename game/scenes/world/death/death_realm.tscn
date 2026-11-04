@@ -350,15 +350,15 @@ metadata/footprint = Vector2(48, 32)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
 position = Vector2(536, 360)
-metadata/look = {"kind": "lantern_post", "count": 1, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}
+metadata/look = {"kind": "lantern_post", "count": 1, "lamp": "d8dccc", "glow": "b8d8c8", "tassel": "6a7a72"}
 metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]
 position = Vector2(744, 520)
-metadata/look = {"kind": "lantern_post", "count": 1, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}
+metadata/look = {"kind": "lantern_post", "count": 1, "lamp": "d8dccc", "glow": "b8d8c8", "tassel": "6a7a72"}
 metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing04" type="Node2D" parent="Furnishings"]
 position = Vector2(536, 680)
-metadata/look = {"kind": "lantern_post", "count": 2, "paper": "d8dccc", "light": "b8d8c8", "tassel": "6a7a72"}
+metadata/look = {"kind": "lantern_post", "count": 2, "lamp": "d8dccc", "glow": "b8d8c8", "tassel": "6a7a72"}
 metadata/footprint = Vector2(16, 16)

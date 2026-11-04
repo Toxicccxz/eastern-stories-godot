@@ -87,6 +87,9 @@ func _check_own_light() -> void:
 
 func _check_realm(tree: SceneTree, map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
+	view.set_frame("", true) # TEST-ONLY: let go of the suite's own hold: the layout's is the map's
+	view.set_cloud(-1, true)
+	_check(view.lighting.weights.get("night", 0.0) > 0.99 and is_zero_approx(view.lighting.cloud), "no hours and no weather here: the view holds its one frame, the lamps lit, no cloud")
 	var kinds: Array[String] = _kinds(view)
 	var plaques: Array[String] = []
 	var shades: int = 0
@@ -110,8 +113,11 @@ func _check_realm(tree: SceneTree, map: WorldMapController) -> void:
 	var sink: Dictionary = view.layout["cliffs"]["sink"]
 	_check("chasm" in (sink["kinds"] as Array), "bridge.c: 东、西两面都是大雾，连桥底下是不是水都看不到")
 	_check(view.layout["light"].has("fog"), "road1.c: 浓浓的雾环绕在你的四周, 好像永远都不会散去似的")
-	_check(view.geometry.find_children("*", "OmniLight3D", true, false).any(func(l: Node) -> bool: return (l as OmniLight3D).light_color.r > (l as OmniLight3D).light_color.b * 1.5),
-		"gateway.c: 只有少许暗红色的火光若隐若现地闪烁著")
+	var red_lamps: int = 0
+	for prop: Dictionary in view.layout["props"]:
+		if prop["kind"] == "hanging_lantern" and absf(float(prop["at"][1]) - 1024.0) < 1.0 and float(prop.get("elevation", 0.0)) <= -0.9:
+			red_lamps += 1
+	_check(red_lamps == 2, "gateway.c: 只有少许暗红色的火光若隐若现地闪烁著 — two red lamps hung under the arch's vault, not in its wall")
 	_check_passing(map, [&"death.gate", &"death.gateway", &"death.road1", &"death.road2"])
 	_check(await MapPlaces.drive_through(tree, map, [&"death.gateway", &"death.road1", &"death.road2"]), "through 酆都城's gate and up 鬼门大道")
 	_check(map.place_player(&"death.bridge1", MapPlaces.zone_spot(map, &"death.bridge1")), "TEST-ONLY: far out on the 奈何桥")

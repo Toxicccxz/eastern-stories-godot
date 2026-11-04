@@ -1,5 +1,10 @@
 {
   "indoor": false,
+  "hold": {
+    "frame": "night",
+    "cloud": 0,
+    "note": "no sun, no night and no weather here: one frame (the lamps lit) whatever the clock and the sky"
+  },
   "camera_size": 22,
   "note": "阴间 (d/death): the fog everywhere, nothing under it to be seen; from the south the long stone 奈何桥 out of the fog, the dead going north in it, the stele 奈何桥 at its head; 鬼门关, a tall black tower over the way, 黑白无常 waiting; 酆都城's black wall and gate, red fires deep inside; 鬼门大道 between two wooden houses with their doors half open (the warm 小店 west, the cold 黑店 east), a few pale lanterns on into the fog, a wall of fog at its end.",
   "edge": {
@@ -76,8 +81,8 @@
     {"kind": "gate_tower", "at": [640, 1024], "size": [384, 32], "height": 6.0, "opening": 128, "arch": 3.0, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "wear": 0.4, "occludes": true, "voussoir": "3a3a40", "plaque": {"text": "酆都城", "board": "1a1a1e", "letters": "9a8a78", "frame": "2a2a2e", "width": 2.4}, "tower": {"posts": "1e1e22", "wall": "2e2e32", "roof": "1a1a1e", "timber": "16161a", "frieze": "3a2a2a", "height": 2.6, "width": 0.85, "depth": 0.9}, "note": "gateway.c: 你现在来到一座黑色城楼之前，城楼上刻著三个大字：酆都城"},
     {"kind": "city_wall", "at": [288, 1024], "size": [320, 32], "height": 5.0, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "occludes": true, "note": "酆都城's black wall, fading into the fog"},
     {"kind": "city_wall", "at": [992, 1024], "size": [320, 32], "height": 5.0, "colors": ["2a2a2e", "323236", "26262a", "38383c"], "occludes": true},
-    {"kind": "hanging_lantern", "at": [608, 1024], "elevation": 1.2, "paper": "a8402a", "note": "gateway.c: 少许暗红色的火光若隐若现地闪烁著"},
-    {"kind": "hanging_lantern", "at": [672, 1024], "elevation": 1.2, "paper": "a8402a"},
+    {"kind": "hanging_lantern", "at": [608, 1024], "elevation": -0.95, "paper": "a8402a", "note": "gateway.c: 少许暗红色的火光若隐若现地闪烁著"},
+    {"kind": "hanging_lantern", "at": [672, 1024], "elevation": -0.95, "paper": "a8402a"},
     {"kind": "glow", "at": [640, 1000], "size": [16, 16], "height": 1.6, "color": "b0442c", "range": 5.0, "day": 1.2, "night": 1.2, "flicker": 0.35},
     {"kind": "shades", "at": [500, 1640], "size": [24, 96], "count": 4, "cloak": "a8b2ae", "ghostly": true, "rotation": 180, "note": "bridge.c: 浓雾中有许多朦胧的人影鱼贯地向北走去"},
     {"kind": "shades", "at": [780, 1720], "size": [24, 72], "count": 3, "cloak": "a8b2ae", "ghostly": true, "rotation": 180},

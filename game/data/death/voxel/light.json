@@ -1,7 +1,7 @@
 {
   "note": "阴间 (美术规划 §1): no sun and no night — the same grey-green murk at every hour, the fog everywhere (bridge.c: 东、西两面都是大雾，连桥底下是不是水都看不到), the few lanterns and the red fires in the gate the only warm light. The rooms have no `outdoors`: no day or night lines either.",
   "outdoor": {
-    "overcast": {"sky": "8a9692", "ambient": "9aa6a2", "sun": "b8c2be", "note": "cloud changes nothing here"},
+    "overcast": {"sky": "8a9692", "ambient": "9aa6a2", "sun": "b8c2be", "note": "unused: the maps hold no cloud (`hold`)"},
     "sky": {"dawn": "8a9692", "day": "8a9692", "dusk": "8a9692", "night": "8a9692", "midnight": "8a9692"},
     "ambient": {"dawn": "9aa6a2", "day": "9aa6a2", "dusk": "9aa6a2", "night": "9aa6a2", "midnight": "9aa6a2"},
     "ambient_energy": {"dawn": 0.5, "day": 0.5, "dusk": 0.5, "night": 0.5, "midnight": 0.5},

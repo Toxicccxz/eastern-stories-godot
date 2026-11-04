@@ -621,7 +621,7 @@ func _lantern_post(data: Dictionary) -> void:
 	s.box(root,Vector3(0,1.6,0),Vector3(0.14,3.2,0.14),"8a2a22")
 	s.box(root,Vector3(0.3,3.15,0),Vector3(0.7,0.1,0.1),"8a2a22")
 	var count: int = int(data.get("count",3))
-	var paper: String = String(data.get("paper","d8452f"))+":glow"
+	var paper: String = String(data.get("lamp","d8452f"))+":glow"
 	for i: int in count:
 		var at := Vector3(0.55,2.75-i*0.52,0)
 		s.box(root,at+Vector3(0,0.28,0),Vector3(0.03,0.12,0.03),"594732")
@@ -632,10 +632,10 @@ func _lantern_post(data: Dictionary) -> void:
 	s.box(root,Vector3(0.55,2.75-count*0.52+0.2,0),Vector3(0.04,0.22,0.04),String(data.get("tassel","c8382a")))
 	var lamp := OmniLight3D.new()
 	lamp.position = Vector3(0.55,2.2,0)
-	lamp.light_color = Color(String(data.get("light","ff9a68")))
+	lamp.light_color = Color(String(data.get("glow","ff9a68")))
 	root.add_child(lamp)
 	if data.get("dim",false):
-		_set_lamp(root,0.8,1.2,4.0,0.3)
+		_set_lamp(root,0.3,1.0,4.0,0.3)
 	else:
 		_set_lamp(root,0.5,2.0,4.5,0.05)
 
