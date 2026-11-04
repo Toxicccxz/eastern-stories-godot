@@ -774,7 +774,7 @@
           ["blocked", "city.bank", ["rel", 0.5, 0.062], 4.71, 0.5, "the bank's counter", {"look": {"kind": "shop_counter", "goods": "coins"}}],
           ["blocked", "city.bank", "ne", 1.41, 1.41, "a 钱庄 keeps its silver in iron-bound chests", {"look": {"kind": "strongbox"}}],
           ["blocked", "city.bank", "nw", 1.41, 1.41, {"look": {"kind": "strongbox"}}],
-          ["blocked", "city.bank", ["rel", 0.2, 0.17], 2.82, 1.41, "the master's desk, his abacus and ledgers (bank.c: 老板倒是读过几年书)", {"look": {"kind": "writing_desk", "set": "ledger"}}],
+          ["blocked", "city.bank", ["rel", 0.2, 0.17], 2.82, 1.41, "the master's desk, his abacus and ledgers (bank.c: 老板倒是读过几年书)", {"look": {"kind": "writing_desk"}}],
           ["blocked", "city.bank", "w", 0.94, 3.76, {"look": {"kind": "bookcase", "rotation": 90, "books": 12}}],
           ["blocked", "city.bank", ["sw", 1, 0], 3.76, 0.94, "a bench for those waiting", {"look": {"kind": "bench_seat", "cloth": "3a4a5a"}}],
           ["blocked", "city.bank", ["se", 1, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "3a4a5a"}}],
@@ -861,7 +861,9 @@
         },
         "props": [
           ["blocked", "city.biaoju", ["rel", 0.5, 0.25], 0.94, 0.94, "the 镖局's flagpole (镖)", {"look": {"kind": "flagpole", "text": "镖", "flutter": true}}],
-          ["blocked", "city.biaoju", ["n", 0, 0], 7.53, 1.41, "the hall's front along the yard's north side, the 总镖头's chair", {"look": {"kind": "grand_chair", "wood": "4e2a20"}}],
+          ["blocked", "city.biaoju", ["n", 0, 0], 1.88, 1.41, "the 总镖头's chair before the hall", {"look": {"kind": "grand_chair", "wood": "4e2a20"}}],
+          ["blocked", "city.biaoju", ["n", -4, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "6a2a24"}}],
+          ["blocked", "city.biaoju", ["n", 4, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "6a2a24"}}],
           ["blocked", "city.biaoju", ["nw", 0, 0], 2.35, 3.76, "a 镖车 with its banner, ready", {"look": {"kind": "cart", "rotation": 90}}],
           ["blocked", "city.biaoju", ["ne", 0, 0], 2.35, 3.76, {"look": {"kind": "cart", "rotation": 90}}],
           ["blocked", "city.biaoju", "w", 0.94, 3.76, {"look": {"kind": "weapon_rack", "rotation": 90}}],
@@ -924,7 +926,7 @@
             "floor": "floor_shop",
             "wall": "wall",
             "size": "room",
-            "life": {"use": "workshop", "wealth": "plain", "seed": 24}
+            "life": {"use": "tailor", "wealth": "plain", "seed": 24}
           }
         },
         "props": [
@@ -1007,7 +1009,8 @@
           ["blocked", "city.cloth", ["sw", 0, 0], 1.88, 1.88, {"look": {"kind": "folding_screen", "cloth": "b8402e"}}],
           ["blocked", "city.cloth", ["s", -2, 0], 2.82, 0.94, {"look": {"kind": "bench_seat", "cloth": "b8402e"}}],
           ["blocked", "city.cloth", ["se", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0c8d0"}}],
-          ["blocked", "city.cloth", ["rel", 0.3, 0.75], 0.94, 0.94, {"look": {"kind": "chair"}}]
+          ["blocked", "city.cloth", ["rel", 0.3, 0.75], 0.94, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "city.cloth", ["rel", 0.55, 0.62], 1.41, 0.94, "cloth.c: 柜台上凌乱地摊着几匹绸缎 — one fallen", {"look": {"kind": "cloth_bolts"}}]
         ],
         "placed": {},
         "doors": {
@@ -1129,12 +1132,12 @@
           }
         },
         "props": [
-          ["blocked", "city.jiulou", ["rel", 0.792, 0.708], 1.41, 1.41, "the 酒楼's tables", {"look": {"kind": "round_table", "set": "wine"}}],
+          ["blocked", "city.jiulou", ["rel", 0.792, 0.708], 1.41, 1.41, "the 酒楼's tables", {"look": {"kind": "round_table", "set": "feast"}}],
           ["blocked", "city.jiulou", ["rel", 0.333, 0.75], 0.94, 0.94, {"look": {"kind": "stool"}}],
-          ["blocked", "city.jiulou", ["rel", 0.45, 0.3], 2.35, 2.35, "jiulou.c: 连餐具的做工也极讲究", {"look": {"kind": "round_table", "set": "wine"}}],
-          ["blocked", "city.jiulou", ["rel", 0.7, 0.3], 2.35, 2.35, {"look": {"kind": "round_table", "set": "tea"}}],
-          ["blocked", "city.jiulou", ["rel", 0.45, 0.72], 2.35, 2.35, {"look": {"kind": "round_table", "set": "wine"}}],
-          ["blocked", "city.jiulou", ["rel", 0.2, 0.62], 2.35, 2.35, {"look": {"kind": "round_table", "set": "tea"}}],
+          ["blocked", "city.jiulou", ["rel", 0.45, 0.3], 2.35, 2.35, "jiulou.c: 连餐具的做工也极讲究", {"look": {"kind": "round_table", "set": "feast"}}],
+          ["blocked", "city.jiulou", ["rel", 0.7, 0.3], 2.35, 2.35, {"look": {"kind": "round_table"}}],
+          ["blocked", "city.jiulou", ["rel", 0.45, 0.72], 2.35, 2.35, {"look": {"kind": "round_table", "set": "feast"}}],
+          ["blocked", "city.jiulou", ["rel", 0.2, 0.62], 2.35, 2.35, {"look": {"kind": "round_table"}}],
           ["blocked", "city.jiulou", "s", 5.65, 0.94, "the counter and its wine, by the door", {"look": {"kind": "shop_counter", "goods": "wine"}}],
           ["blocked", "city.jiulou", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "wine_jars", "count": 4}}],
           ["blocked", "city.jiulou", ["ne", 0, 0], 2.82, 0.94, {"look": {"kind": "folding_screen", "cloth": "c8a040"}}],
@@ -1341,7 +1344,7 @@
             "floor": "floor_wood",
             "wall": "wall_wood",
             "size": "large",
-            "life": {"use": "home", "wealth": "plain", "tidy": true, "seed": 40}
+            "life": {"use": "study", "wealth": "rich", "tidy": true, "seed": 40}
           },
           "city.shangshu.xiaowu": {
             "floor": "floor_wood",
@@ -1351,10 +1354,10 @@
           }
         },
         "props": [
-          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.125], 0.5, 1.88, "the 客厅's agarwood chairs along the east wall, the great one under the white tiger skin", {"look": {"kind": "chair_row", "rotation": 270, "wood": "5a3a28"}}],
-          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.875], 0.5, 1.88, {"look": {"kind": "chair_row", "rotation": 270, "wood": "5a3a28"}}],
-          ["blocked", "city.shangshu.kefang", ["rel", 0.625, 0.857], 1.41, 0.94, "the guest room's desk by the window, books on it", {"look": {"kind": "writing_desk", "set": "books"}}],
-          ["blocked", "city.shangshu.chufang", ["rel", 0.875, 0.25], 0.5, 1.88, "the kitchen stove", {"look": {"kind": "hearth", "rotation": 270}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.125], 0.5, 1.88, "the 客厅's agarwood chairs along the east wall, the great one under the white tiger skin", {"look": {"kind": "chair_row", "rotation": 270, "colors": ["5a3a28", "6a4a34", "4a3020"]}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.875, 0.875], 0.5, 1.88, {"look": {"kind": "chair_row", "rotation": 270, "colors": ["5a3a28", "6a4a34", "4a3020"]}}],
+          ["blocked", "city.shangshu.kefang", ["rel", 0.625, 0.857], 1.41, 0.94, "the guest room's desk by the window, books on it", {"look": {"kind": "writing_desk"}}],
+          ["blocked", "city.shangshu.chufang", ["rel", 0.875, 0.25], 0.5, 1.88, "the kitchen stove", {"look": {"kind": "hearth", "rotation": 270, "fire": "high"}}],
           ["blocked", "city.shangshu.huayuan", ["rel", 0.167, 0.929], 0.94, 0.94, "flower beds: peonies and 琼花", {"look": {"kind": "camellia_bed", "peony": true}}],
           ["blocked", "city.shangshu.huayuan", ["rel", 0.833, 0.786], 0.94, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
           ["blocked", "city.shangshu.neizhai", ["rel", 0.625, 0.8], 1.41, 0.94, "the 内宅's plain dressing table", {"look": {"kind": "dressing_table"}}],
@@ -1370,10 +1373,10 @@
           ["blocked", "city.shangshu.yuan", ["se", 0, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
           ["blocked", "city.shangshu.yuan", ["e", 0, -3], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e85a6a"}}],
           ["blocked", "city.shangshu.yuan", ["e", 0, 3], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0e0b0"}}],
-          ["blocked", "city.shangshu.keting", ["e", 0, 0], 1.88, 1.88, "keting.c: 当中的椅子尤其大，并铺以少见的白虎皮", {"look": {"kind": "grand_chair", "rotation": 270, "wood": "5a3a28", "hide": "tiger", "fur": "ece8dc"}}],
-          ["blocked", "city.shangshu.keting", ["rel", 0.6, 0.3], 1.41, 0.94, {"look": {"kind": "side_table", "wood": "5a3a28"}}],
-          ["blocked", "city.shangshu.keting", ["rel", 0.6, 0.7], 1.41, 0.94, {"look": {"kind": "side_table", "wood": "5a3a28"}}],
-          ["blocked", "city.shangshu.keting", ["n", 0, 0], 3.76, 0.94, {"look": {"kind": "ceremony_table", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["e", 0, 0], 1.88, 1.88, "keting.c: 当中的椅子尤其大，并铺以少见的白虎皮", {"look": {"kind": "grand_chair", "rotation": 270, "hide": "tiger", "fur": "ece8dc"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.6, 0.3], 1.41, 0.94, {"look": {"kind": "side_table", "colors": ["5a3a28", "6a4a34", "4a3020"]}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.6, 0.7], 1.41, 0.94, {"look": {"kind": "side_table", "colors": ["5a3a28", "6a4a34", "4a3020"]}}],
+          ["blocked", "city.shangshu.keting", ["n", 0, 0], 3.76, 0.94, {"look": {"kind": "side_table", "colors": ["5a3a28", "6a4a34", "4a3020"]}}],
           ["blocked", "city.shangshu.keting", ["s", 0, 0], 3.76, 0.94, {"look": {"kind": "folding_screen", "cloth": "d8d0b8"}}],
           ["blocked", "city.shangshu.keting", ["ne", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "f0e8d0"}}],
           ["blocked", "city.shangshu.keting", ["se", 0, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e8a0b0"}}],
@@ -1433,21 +1436,22 @@
           ["blocked", "city.shangshu.yuan", ["rel", 0.3, 0.3], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "e85a6a"}}],
           ["blocked", "city.shangshu.yuan", ["rel", 0.7, 0.3], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "f0e0b0"}}],
           ["blocked", "city.shangshu.yuan", ["nw", 2, 0], 3.76, 0.94, {"look": {"kind": "bench_seat", "cloth": "3a4a5a"}}],
-          ["blocked", "city.shangshu.keting", ["rel", 0.3, 0.3], 1.41, 0.94, {"look": {"kind": "chair", "wood": "5a3a28"}}],
-          ["blocked", "city.shangshu.keting", ["rel", 0.3, 0.7], 1.41, 0.94, {"look": {"kind": "chair", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.3, 0.3], 1.41, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "city.shangshu.keting", ["rel", 0.3, 0.7], 1.41, 0.94, {"look": {"kind": "chair"}}],
           ["blocked", "city.shangshu.keting", ["nw", 0, 0], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "f0d080"}}],
           ["blocked", "city.shangshu.neizhai", ["nw", 2, 0], 1.88, 0.94, {"look": {"kind": "wardrobe"}}],
           ["blocked", "city.shangshu.chufang", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "table"}}],
           ["blocked", "city.shangshu.xiaowu", ["nw", 0, 0], 1.41, 0.94, {"look": {"kind": "stool"}}],
           ["blocked", "city.shangshu.yuan", ["sw", 2, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "locust"}}],
           ["blocked", "city.shangshu.yuan", ["se", 2, 0], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
-          ["blocked", "city.shangshu.keting", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "side_table", "wood": "5a3a28"}}],
-          ["blocked", "city.shangshu.keting", ["nw", 2, 0], 1.41, 0.94, {"look": {"kind": "chair", "wood": "5a3a28"}}],
+          ["blocked", "city.shangshu.keting", ["sw", 0, 0], 1.88, 1.41, {"look": {"kind": "side_table", "colors": ["5a3a28", "6a4a34", "4a3020"]}}],
+          ["blocked", "city.shangshu.keting", ["nw", 2, 0], 1.41, 0.94, {"look": {"kind": "chair"}}],
           ["blocked", "city.shangshu.huayuan", ["rel", 0.75, 0.3], 1.88, 1.88, {"look": {"kind": "tree", "species": "osmanthus"}}],
           ["blocked", "city.shangshu.huayuan", ["rel", 0.5, 0.8], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
           ["blocked", "city.shangshu.road4", ["se", 0, 0], 1.88, 0.94, {"look": {"kind": "bush"}}],
           ["blocked", "city.shangshu.neizhai", ["se", 0, 0], 1.41, 1.41, {"look": {"kind": "flower_stand", "flower": "e8e0f0"}}],
           ["blocked", "city.shangshu.feiwu", ["nw", 2, 0], 1.41, 1.41, {"look": {"kind": "baskets"}}],
+          ["blocked", "city.shangshu.feiwu", ["e", 0, 3], 0.94, 1.88, "road4.c: 门都已经脱落 — the door lies where it fell", {"look": {"kind": "lumber", "rotation": 90}}],
           ["blocked", "city.shangshu.kefang", ["sw", 0, 0], 1.41, 1.41, {"look": {"kind": "chest_stack"}}]
         ],
         "placed": {

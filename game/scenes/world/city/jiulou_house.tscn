@@ -189,7 +189,7 @@ layout_path = "res://data/city/voxel/jiulou_house.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(200, 88)
-metadata/look = {"kind": "round_table", "set": "wine"}
+metadata/look = {"kind": "round_table", "set": "feast"}
 metadata/footprint = Vector2(48, 48)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
@@ -199,22 +199,22 @@ metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]
 position = Vector2(-56, -104)
-metadata/look = {"kind": "round_table", "set": "wine"}
+metadata/look = {"kind": "round_table", "set": "feast"}
 metadata/footprint = Vector2(80, 80)
 
 [node name="Furnishing04" type="Node2D" parent="Furnishings"]
 position = Vector2(136, -104)
-metadata/look = {"kind": "round_table", "set": "tea"}
+metadata/look = {"kind": "round_table"}
 metadata/footprint = Vector2(80, 80)
 
 [node name="Furnishing05" type="Node2D" parent="Furnishings"]
 position = Vector2(-56, 104)
-metadata/look = {"kind": "round_table", "set": "wine"}
+metadata/look = {"kind": "round_table", "set": "feast"}
 metadata/footprint = Vector2(80, 80)
 
 [node name="Furnishing06" type="Node2D" parent="Furnishings"]
 position = Vector2(-248, 56)
-metadata/look = {"kind": "round_table", "set": "tea"}
+metadata/look = {"kind": "round_table"}
 metadata/footprint = Vector2(80, 80)
 
 [node name="Furnishing07" type="Node2D" parent="Furnishings"]

@@ -25,7 +25,7 @@
     "city.biaoju": {"hangings": ["banner_cloth", "weapon_pegs", "plaques"], "ambience": [{"kind": "dust", "color": "b8ac94", "count": 8, "height": [0.1, 1.0]}]}
   },
   "props": [
-    {"kind": "hanging_lantern", "at": [-200, -150], "elevation": 2.8, "paper": "d8452f:glow"},
-    {"kind": "hanging_lantern", "at": [200, -150], "elevation": 2.8, "paper": "d8452f:glow"}
+    {"kind": "hanging_lantern", "at": [-200, -150], "elevation": -0.4, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [200, -150], "elevation": -0.4, "paper": "d8452f:glow"}
   ]
 }

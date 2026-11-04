@@ -19,10 +19,10 @@
   "props": [
     {"kind": "window", "at": [-200, -192], "size": [64, 16], "rotation": 0},
     {"kind": "window", "at": [200, -192], "size": [64, 16], "rotation": 0},
-    {"kind": "hanging_lantern", "at": [-140, -40], "elevation": 2.8},
-    {"kind": "hanging_lantern", "at": [150, -40], "elevation": 2.8},
-    {"kind": "hanging_lantern", "at": [-10, 120], "elevation": 2.8},
-    {"kind": "rug", "at": [-10, 60], "size": [192, 96], "colors": ["6a2a24", "7a3a2a", "c8a050"]},
+    {"kind": "hanging_lantern", "at": [-140, -40], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [150, -40], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [-10, 120], "elevation": -0.4},
+    {"kind": "rug", "at": [-10, 60], "size": [192, 96], "elevation": 0.05, "cloth": "6a2a24", "motif": "7a3a2a", "border": "c8a050"},
     {"kind": "glow", "at": [270, 40], "height": 1.8, "color": "e8eef0", "range": 3.0, "day": 0.5, "night": 0.3, "note": "枪戟的反光令你睁不开眼 (the rack is its source)"}
   ]
 }

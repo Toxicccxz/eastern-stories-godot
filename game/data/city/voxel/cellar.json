@@ -12,7 +12,7 @@
     "ambient_energy": [0.3, 0.28]
   },
   "wall_looks": [
-    {"rect": [-32, -32, 288, 224], "style": "rubble", "colors": ["5e5a52", "6a645a", "544e48", "726c62"], "grime": 0.6}
+    {"rect": [-32, -32, 288, 224], "style": "rubble", "colors": ["5e5a52", "6a645a", "544e48", "726c62"]}
   ],
   "ground": {
     "cave_floor": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.2, "broken": 0.1, "sunk": 0.04, "tufts": 0.0, "stones": ["5a564e", "625e56", "524e48"], "worn": ["6a665e"], "bed": "3a3632", "joint": 0.06, "mud": "4a443c", "crack": "3a3630"},
@@ -20,7 +20,7 @@
   },
   "props": [
     {"kind": "straw_patch", "at": [192, 144], "size": [80, 40], "note": "一些乾草"},
-    {"kind": "light_shaft", "at": [136, 72], "size": [48, 48], "height": 2.4, "rays": 2, "note": "a thread of light round the folded stairs in the ceiling"},
+    {"kind": "candles", "at": [200, 112], "size": [16, 16], "count": 1, "note": "a guttered stub by the bed, the cell's only light"},
     {"kind": "cobweb", "at": [16, 16], "size": [32, 32]},
     {"kind": "cobweb", "at": [240, 16], "size": [32, 32], "rotation": 90},
     {"kind": "stains", "at": [100, 150], "size": [64, 40], "colors": ["3e3a34", "4a4640"], "count": 5, "note": "damp"}

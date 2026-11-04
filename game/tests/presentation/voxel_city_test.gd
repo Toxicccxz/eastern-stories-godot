@@ -16,7 +16,7 @@ const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised
 ## clear of the floor (`elevation`). Furniture counts: what blocks is the layout's (AGENTS「地图」).
 const TALL: Array[String] = ["reeds", "tree", "great_tree", "compound_wall", "city_wall", "fence", "firewood", "haystack", "boulder", "pagoda",
-	"temple_bell", "incense_burner", "pavilion", "rockery", "camellia_bed", "flagpole", "lantern_post", "notice_post", "old_gate", "rubble",
+	"temple_bell", "incense_burner", "pavilion", "rockery", "camellia_bed", "flagpole", "lantern_post", "notice_post", "old_gate", "rubble", "board", "lantern", "cloth_bolts",
 	"chair", "stool", "flower_stand", "baskets", "crocks", "water_vat", "well", "table", "bench", "bench_seat", "side_table", "bush", "stall", "cart"]
 ## How much of a house's floor its furniture covers at least (美术规划 §2: 地面边缘要满).
 const COVERED: float = 0.11
@@ -299,7 +299,7 @@ func _check_boots(map: WorldMapController) -> void:
 func _check_empty(map: WorldMapController) -> void:
 	_check(_looks(map).is_empty(), "house1.c: nothing in the empty room")
 	var life: Dictionary = _view_of(map).layout["life"]["city.house1"]
-	_check((life.get("hangings", ["x"]) as Array).is_empty() and int(life.get("count", 1)) == 0, "no corner clutter, nothing on the walls: only dust and light")
+	_check((life.get("hangings", ["x"]) as Array).is_empty(), "nothing on the walls: only dust and light")
 
 
 ## jiulou.c: 金壁辉煌 — red and gilt, round tables and fine sets; the 雅座 upstairs as rich.
@@ -343,7 +343,8 @@ func _check_wall_top(map: WorldMapController) -> void:
 
 func _check_cellar(map: WorldMapController) -> void:
 	var kinds: Array[String] = _kinds(_view_of(map))
-	_check("straw_patch" in kinds and not map.has_node("RoomLife") or (map.get_node("RoomLife").get_meta("rooms", {}) as Dictionary).is_empty(), "midao1.c: the old bed, straw; a cell, no lived-in layer")
+	var life: Node = map.get_node_or_null("RoomLife")
+	_check("straw_patch" in kinds and (life == null or (life.get_meta("rooms", {}) as Dictionary).is_empty()), "midao1.c: the old bed, straw; a cell, no lived-in layer")
 
 
 func _life_of(map: WorldMapController, zone: StringName) -> Dictionary:

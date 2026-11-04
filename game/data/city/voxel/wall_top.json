@@ -28,8 +28,8 @@
   "props": [
     {"kind": "far_ground", "at": [160, -260], "size": [900, 420], "elevation": -4.2, "colors": ["8a969a"], "roofs": 6, "walls": ["b4b0a6", "c0bcb2"], "roof_colors": ["424a50", "505860"], "trees": 2, "crowns": ["3e6638", "4e7840"], "note": "north, below: the 东街, its houses"},
     {"kind": "far_ground", "at": [160, 420], "size": [900, 460], "elevation": -4.2, "colors": ["8e908a"], "roofs": 10, "walls": ["c4beb0", "b4b0a6"], "roof_colors": ["3e4448", "4a5056"], "trees": 5, "crowns": ["3e6638", "4e7840", "62894a"], "clearing": [0, -2, 18, 4], "clearing_color": "9a9c94", "note": "wall.c: 墙里面人来人往的 — the 尚书府's yards"},
-    {"kind": "compound_wall", "at": [160, 8], "size": [320, 16], "wall": "aca89e", "roof": "3e4448", "height": 0.5, "wear": 0.3, "note": "the coping's low edge"},
-    {"kind": "compound_wall", "at": [160, 152], "size": [320, 16], "wall": "aca89e", "roof": "3e4448", "height": 0.5, "wear": 0.3},
+    {"kind": "compound_wall", "at": [160, 8], "size": [320, 16], "wall": "aca89e", "roof": "3e4448", "height": 0.7, "wear": 0.0, "note": "the coping's low edge"},
+    {"kind": "compound_wall", "at": [160, 152], "size": [320, 16], "wall": "aca89e", "roof": "3e4448", "height": 0.7, "wear": 0.0},
     {"kind": "lantern", "at": [304, 24], "size": [24, 24], "note": "a watchman's lantern on the wall"},
     {"kind": "bush", "at": [300, 152], "size": [32, 16], "note": "a weed rooted in the coping"}
   ]
