@@ -131,7 +131,8 @@ func heart_sense_context() -> void:
 		"atman": HeartSenseConjure.ATMAN_COST, "sen": HeartSenseConjure.SEN_COST, "npc": tr(npc.definition().display_name),
 		"max_atman": state.recovery.atman.maximum, "odds": odds,
 	})
-	_ui.questions.ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
+	# Asked only when it may knock the player out (its odds in the question): dark lacquer.
+	_ui.questions.ask_danger(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
 
 
 ## 偷窃 on the selected NPC: the list of what it is seen to wear or wield, and 随手摸一样.

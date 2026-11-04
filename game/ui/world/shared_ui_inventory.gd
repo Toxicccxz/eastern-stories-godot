@@ -339,7 +339,8 @@ func scribe_on(id: StringName) -> void:
 		return
 	var scribe: Callable = func() -> void:
 		map.scribe_on(id)
-	_ui.questions.ask_first(warning, "确定画符", scribe, Callable(), open_inventory)
+	# Asked only when it kills or knocks the player out: dark lacquer.
+	_ui.questions.ask_danger(warning, "确定画符", scribe, Callable(), open_inventory)
 
 
 ## 贴符 on the zombie here; asked first when it would go after the player's own master
