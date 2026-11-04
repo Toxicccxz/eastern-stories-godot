@@ -6,9 +6,9 @@ remains authoritative for eligibility, storage, recovery and restore transaction
 
 **Scope today:** the first release is desktop only and the mobile port is paused; visuals are not
 cut for phone frame rate ([DECISIONS「手机端暂停」](../../migration/DECISIONS.md)). CI no longer
-builds Android or iOS. The mobile layer below stays in the project and its suites still run in
-`verify.py` (touch and the responsive layout also serve the Steam Deck), but it is not a release
-target.
+builds Android or iOS, and the phone-only suites were removed: the mobile layer below stays in the
+project untested, as the record of what a revived port starts from (its tests are in git history).
+It is not a release target.
 
 ## Ownership
 

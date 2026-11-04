@@ -136,18 +136,15 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         self.assertTrue((self.output / "scenes/runtime/oldpine_game_runtime_host.tscn").is_file())
         self.assertEqual([], validate_release_project(self.output))
 
-    def test_mobile_presentation_survives_sanitizing_without_fakes(self) -> None:
+    def test_layout_survives_sanitizing_without_test_fakes(self) -> None:
         source_config = (REPOSITORY / "game/project.godot").read_text(encoding="utf-8")
         sanitized = sanitize_project_config(source_config)
-        # One logical size, 1280x720, on desktop and mobile alike (no per-platform override).
-        self.assertNotIn(".mobile=", sanitized)
+        # One logical size, 1280x720, stretched to the window (a 16:10 one gets the extra height).
         for entry in (
             "window/size/viewport_width=1280",
             "window/size/viewport_height=720",
             'window/stretch/mode="canvas_items"',
             'window/stretch/aspect="expand"',
-            "window/handheld/orientation=4",
-            "config/quit_on_go_back=false",
         ):
             self.assertIn(entry, sanitized)
         fake = self.source / "tests/presentation/fake_safe_area_capability.gd"
@@ -178,33 +175,6 @@ class PrepareReleaseProjectTest(unittest.TestCase):
                     validate_release_project(self.output),
                 )
                 path.write_bytes(content)
-        self.assertEqual([], validate_release_project(self.output))
-
-    def test_touch_back_required_paths_are_production_only(self) -> None:
-        prepare_release_project(self.source, self.output)
-        for name in ("mobile_touch_adapter", "android_back_adapter", "application_exit_capability"):
-            path = self.output / f"runtime/application/{name}.gd"
-            self.assertTrue(path.is_file())
-        (self.output / "runtime/application/mobile_touch_adapter.gd").unlink()
-        self.assertTrue(any("mobile_touch_adapter.gd" in error for error in validate_release_project(self.output)))
-
-    def test_lifecycle_is_required_but_fakes_are_stripped(self) -> None:
-        fake = self.source / "tests/application/mobile_lifecycle_test.gd"
-        fake.parent.mkdir(parents=True, exist_ok=True)
-        fake.write_text("extends RefCounted\n", encoding="utf-8")
-        prepare_release_project(self.source, self.output)
-        self.assertFalse((self.output / "tests").exists())
-        for relative in (
-            "application/lifecycle/application_activity.gd",
-            "application/lifecycle/mobile_lifecycle_capability.gd",
-            "runtime/application/mobile_lifecycle_adapter.gd",
-        ):
-            path = self.output / relative
-            self.assertTrue(path.is_file())
-            content = path.read_bytes()
-            path.unlink()
-            self.assertTrue(any(relative in error for error in validate_release_project(self.output)))
-            path.write_bytes(content)
         self.assertEqual([], validate_release_project(self.output))
 
     def test_prepare_removes_godot_ai_helper_plugin_and_addon(self) -> None:
@@ -257,7 +227,7 @@ class PrepareReleaseProjectTest(unittest.TestCase):
         prepare_release_project(self.source, self.output)
         config = self.output / "project.godot"
         config.write_text(
-            config.read_text(encoding="utf-8") + "\n[eastern_stories]\nsave/development_slot.android=true\n",
+            config.read_text(encoding="utf-8") + "\n[eastern_stories]\nsave/development_slot.windows=true\n",
             encoding="utf-8",
         )
         self.assertIn(
