@@ -383,7 +383,7 @@
           ["blocked", 96, 528, 192, 576, {"look": {"kind": "tea_table"}}],
           ["blocked", 608, 464, 656, 512, {"look": {"kind": "weapon_rack", "rotation": 270}}],
           ["blocked", 432, 960, 560, 1040, "kitchen.c: 烤山猪", {"look": {"kind": "cutting_table"}}],
-          ["blocked", 528, 704, 592, 752, {"look": {"kind": "water_vat"}}],
+          ["blocked", 560, 704, 592, 736, {"look": {"kind": "water_vat"}}],
           ["blocked", 96, 768, 144, 864, {"look": {"kind": "shelf", "rotation": 90}}]
         ],
         "reach_from": "BedroomWestStairsArrival",
@@ -555,8 +555,8 @@
               ["floor_yard", 2400, 1792, 2720, 2048, "the other 刑房, the same"],
               ["floor_yard", 2512, 2048, 2608, 2112],
               ["floor_yard", 2720, 1872, 2784, 1968],
-              ["blocked", 2400, 1024, 2496, 1040, "skeletons chained to the wall", {"look": {"kind": "shackle_post", "note": "dungeon.c: 许多骷髅被生锈的铁链绑在墙上"}}],
-              ["blocked", 2624, 1024, 2720, 1040, {"look": {"kind": "shackle_post"}}],
+              ["blocked", 2400, 1024, 2496, 1040, "skeletons chained to the wall", {"look": {"kind": "chained_bones", "count": 2, "note": "dungeon.c: 许多骷髅被生锈的铁链绑在墙上"}}],
+              ["blocked", 2624, 1024, 2720, 1040, {"look": {"kind": "chained_bones", "count": 2}}],
               ["blocked", 352, 1792, 448, 1808, "instruments on the wall", {"look": {"kind": "punishment_tools"}}],
               ["blocked", 576, 1792, 672, 1808, {"look": {"kind": "punishment_tools"}}],
               ["blocked", 2400, 1792, 2496, 1808, "instruments on the wall", {"look": {"kind": "punishment_tools"}}],
@@ -1107,7 +1107,7 @@
           ["blocked", "chuenyu.east_garden", ["rel", 0.5, 0.675], 1.88, 1.41, {"look": {"kind": "camellia_bed"}}],
           ["blocked", "chuenyu.south_garden", ["rel", 0.25, 0.5], 1.41, 0.94, {"look": {"kind": "flower_bed"}}],
           ["blocked", "chuenyu.south_garden", ["rel", 0.85, 0.75], 1.41, 0.94, {"look": {"kind": "flower_bed"}}],
-          ["blocked", "chuenyu.center", ["rel", 0.625, 0.0], 3.29, 0.5, "the scroll on its thick rope at the hall's mouth, the sandalwood screens", {"look": {"kind": "wall_scroll", "calligraphy": true, "note": "center.c: 是非成败转头空，青山依旧在，几度夕阳红 — hung by a thick rope"}}],
+          ["blocked", "chuenyu.center", ["rel", 0.625, 0.0], 3.29, 0.5, "the scroll on its thick rope at the hall's mouth, the sandalwood screens", {"look": {"kind": "wall_scroll", "calligraphy": true, "rope": true, "note": "center.c: 是非成败转头空，青山依旧在，几度夕阳红 — 整幅字画是用一条很粗的绳子挂起来的"}}],
           ["blocked", "chuenyu.center", ["n", -5, 0], 3.76, 0.94, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
           ["blocked", "chuenyu.center", ["e", 0, 0], 1.88, 1.88, "the master's chair at the hall's head", {"look": {"kind": "grand_chair", "rotation": 270, "wood": "6a4030"}}],
           ["blocked", "chuenyu.center", ["rel", 0.7, 0.25], 0.94, 3.76, {"look": {"kind": "chair_row", "rotation": 270, "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
@@ -1177,11 +1177,12 @@
           ["blocked", "chuenyu.east_blackge", ["rel", 0.88, 0.75], 0.94, 0.94, {"look": {"kind": "chair"}}],
           ["blocked", "chuenyu.center", ["rel", 0.25, 0.25], 2.35, 1.41, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
           ["blocked", "chuenyu.center", ["rel", 0.25, 0.75], 2.35, 1.41, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.center", ["rel", 0.88, 0.3], 1.41, 2.35, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"], "rotation": 90}}],
+          ["blocked", "chuenyu.center", ["rel", 0.88, 0.7], 1.41, 2.35, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"], "rotation": 90}}],
+          ["blocked", "chuenyu.center", ["s", 4, 0], 3.76, 0.94, {"look": {"kind": "couch", "cloth": "6a3a2a"}}],
           ["blocked", "chuenyu.center", ["nw", 2, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "c8b048"}}],
           ["blocked", "chuenyu.storage", ["se", 0, 0], 1.88, 1.41, {"look": {"kind": "baskets"}}],
           ["blocked", "chuenyu.storage", ["s", -2, 0], 1.88, 0.94, {"look": {"kind": "lumber"}}],
-          ["blocked", "chuenyu.center", ["rel", 0.75, 0.25], 2.35, 1.41, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
-          ["blocked", "chuenyu.center", ["rel", 0.75, 0.75], 2.35, 1.41, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
           ["blocked", "chuenyu.east_garden", ["rel", 0.08, 0.45], 1.41, 1.41, {"look": {"kind": "strange_stone"}}],
           ["blocked", "chuenyu.south_garden", ["rel", 0.5, 0.18], 1.88, 0.94, {"look": {"kind": "flower_bed"}}]
         ],
@@ -1324,7 +1325,7 @@
             "id": "chuenyu.center.pull",
             "text": "绳子 · 拉",
             "room": "chuenyu.center",
-            "anchor": ["rel", 0.25, 0.25]
+            "anchor": ["rel", 0.52, 0.08]
           },
           {
             "node": "group",
@@ -1370,7 +1371,7 @@
             "id": "chuenyu.center.landmark.rope",
             "shape": "Rect_32_32",
             "room": "chuenyu.center",
-            "anchor": ["rel", 0.0, 0.5]
+            "anchor": ["rel", 0.52, 0.06]
           },
           {
             "name": "EastGardenWallInteraction",

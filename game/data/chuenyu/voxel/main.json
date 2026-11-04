@@ -31,6 +31,8 @@
     "note": "the mountain's granite and the boulders of the path"
   },
   "reshape": [
+    {"rect": [1344, 32, 1616, 640], "from": ["wall", "wall_wood", "shop_front"], "to": "grass", "note": "west_garden.c: 花园里长满了各式各样奇花异草"},
+    {"rect": [2608, 32, 2816, 640], "from": ["wall", "wall_wood", "shop_front"], "to": "grass", "note": "east_garden.c"},
     {"rect": [1344, 32, 2816, 640], "from": ["wall", "wall_wood", "shop_front"], "to": "floor_yard", "note": "inside the castle walls: its courts and gardens (the 2D keeps them walls)"},
     {"rect": [1312, 640, 2848, 688], "from": ["wall"], "to": "blocked", "note": "the castle wall is the prop"},
     {"rect": [1312, 0, 1344, 640], "from": ["wall"], "to": "blocked"},
@@ -100,8 +102,6 @@
   },
   "buildings": [
     {"rect": [1680, 64, 1968, 240], "portals": [], "construction": "timber", "wall": "9a6a4a", "timber": "3a2a20", "posts": "5a2a22", "roof": "2a2e30", "height": 6.4, "roof_form": "xieshan", "rise": 2.0, "eave_lift": 0.35, "overhang": 0.9, "porch": "none", "goods": "none", "lanterns": false, "bay": 6, "lattice": "fret", "foundation": 0.9, "plinth": ["8a8680", "948f88", "7e7a74"], "window_lights": true, "ridge_ends": "2a2e30", "ridge_beasts": {"count": 3, "color": "2a2e30"}, "worn": 0.2, "worn_colors": ["3e5a36", "4a6a3e"], "skirts": [3.2], "gallery": true, "note": "黑松阁 over all: center.c 檀香木; sunnyroad.c 城堡的最顶端插着一面大旗"},
-    {"rect": [1376, 224, 1584, 624], "portals": [], "construction": "timber", "wall": "9a6a4a", "timber": "3a2a20", "posts": "5a2a22", "roof": "2a2e30", "height": 4.0, "roof_form": "hip", "rise": 1.7, "eave_lift": 0.35, "overhang": 0.9, "porch": "none", "goods": "none", "lanterns": false, "bay": 6, "lattice": "fret", "foundation": 0.9, "plinth": ["8a8680", "948f88", "7e7a74"], "window_lights": true, "ridge_ends": "2a2e30", "ridge_beasts": {"count": 3, "color": "2a2e30"}, "worn": 0.2, "worn_colors": ["3e5a36", "4a6a3e"], "ridge": "z", "note": "west_blackge.c: the west hall"},
-    {"rect": [2640, 224, 2768, 624], "portals": [], "construction": "timber", "wall": "9a6a4a", "timber": "3a2a20", "posts": "5a2a22", "roof": "2a2e30", "height": 4.0, "roof_form": "hip", "rise": 1.7, "eave_lift": 0.35, "overhang": 0.9, "porch": "none", "goods": "none", "lanterns": false, "bay": 6, "lattice": "fret", "foundation": 0.9, "plinth": ["8a8680", "948f88", "7e7a74"], "window_lights": true, "ridge_ends": "2a2e30", "ridge_beasts": {"count": 3, "color": "2a2e30"}, "worn": 0.2, "worn_colors": ["3e5a36", "4a6a3e"], "ridge": "z", "note": "east_blackge.c: the east hall"},
     {"rect": [1648, 304, 1968, 464], "portals": [], "construction": "timber", "wall": "9a6a4a", "timber": "3a2a20", "posts": "5a2a22", "roof": "2a2e30", "height": 4.6, "roof_form": "xieshan", "rise": 1.7, "eave_lift": 0.35, "overhang": 0.9, "porch": "none", "goods": "none", "lanterns": false, "bay": 6, "lattice": "fret", "foundation": 0.9, "plinth": ["8a8680", "948f88", "7e7a74"], "window_lights": true, "ridge_ends": "2a2e30", "ridge_beasts": {"count": 3, "color": "2a2e30"}, "worn": 0.2, "worn_colors": ["3e5a36", "4a6a3e"], "note": "center.c: 黑松阁正厅完全是用檀香木打造的"},
     {"rect": [2032, 304, 2272, 464], "portals": [], "construction": "timber", "wall": "9a6a4a", "timber": "3a2a20", "posts": "5a2a22", "roof": "363a3c", "height": 3.8, "roof_form": "xieshan", "rise": 1.7, "eave_lift": 0.35, "overhang": 0.9, "porch": "none", "goods": "none", "lanterns": false, "bay": 6, "lattice": "fret", "foundation": 0.9, "plinth": ["8a8680", "948f88", "7e7a74"], "window_lights": true, "ridge_ends": "2a2e30", "ridge_beasts": {"count": 3, "color": "2a2e30"}, "worn": 0.2, "worn_colors": ["3e5a36", "4a6a3e"]},
     {"rect": [2336, 304, 2576, 464], "portals": [], "construction": "timber", "wall": "9a6a4a", "timber": "3a2a20", "posts": "5a2a22", "roof": "363a3c", "height": 3.8, "roof_form": "gable", "rise": 1.7, "eave_lift": 0.35, "overhang": 0.9, "porch": "none", "goods": "none", "lanterns": false, "bay": 6, "lattice": "fret", "foundation": 0.9, "plinth": ["8a8680", "948f88", "7e7a74"], "window_lights": true, "ridge_ends": "2a2e30", "ridge_beasts": {"count": 3, "color": "2a2e30"}, "worn": 0.2, "worn_colors": ["3e5a36", "4a6a3e"]},
@@ -110,6 +110,18 @@
     {"rect": [1312, 2272, 1536, 2496], "portals": [], "note": "croad2.c: 路边有一个茶馆，是供行人歇息的地方 (only the text has it)", "construction": "timber", "wall": "a89878", "timber": "5a4430", "posts": "6a3a2a", "roof": "4a5048", "height": 3.0, "roof_form": "gable", "ridge": "z", "rise": 1.3, "overhang": 0.8, "porch": "cloth", "awning": ["d8ccb0", "4a5a3a"], "goods": "tea", "lanterns": true, "lantern": "d8452f:glow", "bay": 5, "lattice": true, "doorway": "dark", "foundation": 0.4, "doors": [[1536, 2384]], "signboard": {"text": "茶", "board": "262220", "letters": "e6c66e"}, "hanging_flag": {"text": "茶", "cloth": "4a6a4a", "side": 1}, "worn": 0.3, "worn_colors": ["3e5a36", "4a6a3e"]}
   ],
   "props": [
+    {"kind": "tree", "at": [1400, 250], "size": [48, 48], "species": "old_pine", "note": "奇花异草 and pines"},
+    {"kind": "tree", "at": [1560, 560], "size": [48, 48], "species": "pine"},
+    {"kind": "tree", "at": [1410, 520], "size": [40, 40], "species": "young_pine"},
+    {"kind": "rockery", "at": [1500, 330], "size": [72, 56]},
+    {"kind": "flower_bed", "at": [1480, 440], "size": [120, 30]},
+    {"kind": "camellia_bed", "at": [1480, 600], "size": [120, 30], "peony": true},
+    {"kind": "tree", "at": [2660, 250], "size": [48, 48], "species": "old_pine", "note": ""},
+    {"kind": "tree", "at": [2760, 560], "size": [48, 48], "species": "pine"},
+    {"kind": "tree", "at": [2670, 520], "size": [40, 40], "species": "young_pine"},
+    {"kind": "rockery", "at": [2730, 330], "size": [72, 56]},
+    {"kind": "flower_bed", "at": [2710, 440], "size": [120, 30]},
+    {"kind": "camellia_bed", "at": [2710, 600], "size": [120, 30], "peony": true},
     {"kind": "far_peak", "at": [700, 600], "size": [900, 900], "height": 16, "colors": ["4a5a52", "546458", "5e6e60", "465650"], "note": "the mountains west"},
     {"kind": "far_peak", "at": [3500, 500], "size": [1000, 1000], "height": 18, "colors": ["4a5a52", "546458", "5e6e60", "465650"]},
     {"kind": "far_peak", "at": [2100, -700], "size": [1200, 1000], "height": 20, "colors": ["3e4e46", "485850", "52625a"]},
@@ -130,7 +142,7 @@
     {"kind": "compound_wall", "at": [1904, 608], "size": [32, 64], "wall": "6a6a62", "roof": "4a4a44", "height": 4.6, "windows": 3, "wear": 0.5, "note": "trap_castle.c: 夹道的两侧是三丈高的石墙，墙上布满了碗大的圆孔"},
     {"kind": "compound_wall", "at": [2016, 616], "size": [32, 48], "wall": "6a6a62", "roof": "4a4a44", "height": 4.6, "windows": 2, "wear": 0.5},
     {"kind": "boulder", "at": [1968, 544], "size": [96, 32], "note": "trap_castle.c: 通向北面的路被一块巨石(rock)堵死 — on the solid wall behind the walkable rock"},
-    {"kind": "flagpole", "at": [1824, 260], "size": [32, 32], "text": "淳于", "flutter": true, "cloth": "1e1a18", "elevation": 0.0, "note": "sunnyroad.c: 城堡的最顶端插着一面大旗，大旗上绣着两个斗大的金字：淳于"},
+    {"kind": "flagpole", "at": [1824, 152], "size": [32, 32], "text": "淳于", "flutter": true, "cloth": "1e1a18", "elevation": 8.2, "note": "sunnyroad.c: 城堡的最顶端插着一面大旗，大旗上绣着两个斗大的金字：淳于"},
     {"kind": "vines", "at": [1360, 694], "size": [56, 12], "height": 5.0, "length": [2.4, 4.8], "count": 4, "colors": ["3a5a32", "466a3a", "527a42", "2e4a2a"], "wall_mounted": true, "note": "蔓藤从墙顶一直垂到你的脚下"},
     {"kind": "vines", "at": [1432, 694], "size": [56, 12], "height": 5.0, "length": [2.4, 4.8], "count": 4, "colors": ["3a5a32", "466a3a", "527a42", "2e4a2a"], "wall_mounted": true},
     {"kind": "vines", "at": [1504, 694], "size": [56, 12], "height": 5.0, "length": [2.4, 4.8], "count": 4, "colors": ["3a5a32", "466a3a", "527a42", "2e4a2a"], "wall_mounted": true},

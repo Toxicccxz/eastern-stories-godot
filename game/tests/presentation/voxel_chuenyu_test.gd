@@ -133,7 +133,16 @@ func _check_castle(map: WorldMapController) -> void:
 	for look: Dictionary in _looks(map):
 		scroll = scroll or (look["kind"] == "wall_scroll" and look.get("calligraphy", false))
 		rock = rock or look["kind"] == "boulder"
-	_check(scroll, "center.c: 厅口悬着一幅字画 (on its rope)")
+	_check(scroll, "center.c: 厅口悬着一幅字画")
+	var view: WorldVoxelView = _view_of(map)
+	var rope: Vector2 = Vector2.INF
+	for prop: Dictionary in view.layout["props"]:
+		if prop["kind"] == "hanging_rope":
+			rope = Vector2(float(prop["at"][0]), float(prop["at"][1]))
+	var pull: WorldService = map.service(&"chuenyu.center.pull")
+	_check(rope.is_finite() and pull != null and pull.anchor().distance_to(rope) <= 64.0, "center.c: 这根绳子顺着墙垂下来 — pulled where it hangs")
+	var hold: Vector2 = MapPlaces.service_spot(map, &"chuenyu.center.pull")
+	_check(hold.is_finite() and hold.distance_to(pull.anchor()) <= 96.0, "there is room to stand at the rope and pull it")
 	_check(rock, "north_garden.c: 再通向北面的路被一块巨石(rock)堵死")
 	var life: Dictionary = map.get_node("RoomLife").get_meta("rooms", {})
 	_check(String(life.get("chuenyu.center", {}).get("use", "")) == "parlour", "center.c: the sandalwood hall receives guests")
@@ -144,7 +153,7 @@ func _check_prison(map: WorldMapController) -> void:
 	var kinds: Array[String] = _kinds(view)
 	_check(kinds.count("torch") == 9, "tunnel1.c: 唯一的光亮来自墙上忽明忽暗的松油灯 — one in each of the nine rooms")
 	_check("light_shaft" in kinds, "tunnel4.c: 从石板的缝隙间射进几束阳光")
-	_check(kinds.count("shackle_post") == 2 and kinds.count("punishment_tools") == 4, "dungeon.c: 骷髅被生锈的铁链绑在墙上; tortureroom.c: 墙上挂满了各式各样的邢具")
+	_check(kinds.count("chained_bones") == 2 and kinds.count("punishment_tools") == 4, "dungeon.c: 骷髅被生锈的铁链绑在墙上; tortureroom.c: 墙上挂满了各式各样的邢具")
 	var life: Node = map.get_node_or_null("RoomLife")
 	_check(life == null or (life.get_meta("rooms", {}) as Dictionary).is_empty(), "a dungeon: no lived-in layer")
 
@@ -182,7 +191,7 @@ func _check_covered(map: WorldMapController, place: String) -> void:
 	for node: Node in map.get_node("Furnishings").get_children():
 		var box: Vector2 = node.get_meta("footprint")
 		taken += box.x * box.y
-	_check(taken / floor >= COVERED, "%s: its furniture covers %.0f%% of its floor" % [place, taken / floor * 100.0])
+	_check(taken / floor >= COVERED, "%s: its furniture covers %.1f%% of its floor" % [place, taken / floor * 100.0])
 
 
 func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String) -> void:
@@ -213,7 +222,9 @@ func _check_access_and_saves(tree: SceneTree, session: WorldSessionController, m
 	await _frames(tree, 2)
 	var starts: Array[Vector2] = [map.player_body.global_position]
 	for node: Node in map.find_children("*", "Marker2D", true, false):
-		starts.append((node as Node2D).global_position)
+		var id: String = str(node.get("spawn_point_id"))
+		if id.ends_with("_arrival") or id.ends_with("_entry") or id.ends_with("_return"):
+			starts.append((node as Node2D).global_position)
 	var cut_off: Array[String] = []
 	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
 		if not _walkable_to(map, starts, MapPlaces.zone_spot(map, zone.zone_id)):

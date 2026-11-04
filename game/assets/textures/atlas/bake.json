@@ -355,69 +355,69 @@
   "chuenyu.main": {
    "anchor": [
     217.5,
-    164.4
+    160.4
    ],
    "pins": {
     "door:chuenyu.prison": [
      315.8,
-     165.5
+     161.5
     ],
     "door:village.main": [
      98.7,
-     228.0
+     224.0
     ],
     "zone:chuenyu.base_b_m": [
      201.9,
-     198.4
+     194.4
     ],
     "zone:chuenyu.croad1": [
      83.1,
-     217.9
+     213.9
     ],
     "zone:chuenyu.croad2": [
      110.7,
-     199.8
+     195.8
     ],
     "zone:chuenyu.east_castle": [
      328.5,
-     164.6
+     160.6
     ],
     "zone:chuenyu.foot_b_mtn": [
      185.6,
-     160.0
+     156.0
     ],
     "zone:chuenyu.gate_castle": [
      280.4,
-     133.1
+     129.1
     ],
     "zone:chuenyu.high_b_mtn": [
      229.5,
-     139.6
+     135.6
     ],
     "zone:chuenyu.high_b_mtn2": [
      256.4,
-     175.7
+     171.7
     ],
     "zone:chuenyu.rope_bridge": [
      247.2,
-     154.9
+     150.9
     ],
     "zone:chuenyu.sunnyroad": [
      170.8,
-     217.9
+     213.9
     ],
     "zone:chuenyu.trap_castle": [
      286.8,
-     111.3
+     107.3
     ],
     "zone:chuenyu.west_castle": [
      229.5,
-     99.8
+     95.8
     ]
    },
    "size": [
-    437,
-    315
+    439,
+    311
    ]
   },
   "city.main": {
@@ -2242,7 +2242,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "7e55bd1df3ff1ae51588c426382152722c2c3fc7e23de9beb05d26779f4642fd",
+ "fingerprint": "1a6788a884a9a5f3579fde326917a8de4e9bd96c42b19c101e243c26049b43e9",
  "frame": [
   -769.1,
   14.6,
@@ -2255,7 +2255,7 @@
  "regions": {
   "canyon": "6688db071fbbb92360de6513e8f619df483fde6cdc1b63045e3938d177f6245c",
   "choyin": "4af11a2c3086f9064f9eaadf4be94a91c0afd948e175c42cbf3fcf577952995b",
-  "chuenyu": "ec45923e6e1a372ae6b4aca12dacfb5605cf28f4e16110b2abd3acd2955ca08e",
+  "chuenyu": "a0e68d841185594e6d9d9e5f5cf08f805fadffc64c6114e821c371f219a060a6",
   "city": "2ec7f0f692c05737108055c92a50e04658ebb9a5d26743c4f6974852a7697b15",
   "cloud": "1b2f5df501d57e445ae5ee834567e18e534d717e58e9a662402f3ba6eb0bb1ff",
   "death": "5d328b320ce0f92bf10e05c9fb1f334f864e7c2194ceb7b35d597d05a7ae4a41",

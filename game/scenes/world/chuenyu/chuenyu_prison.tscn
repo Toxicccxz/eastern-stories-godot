@@ -753,12 +753,12 @@ layout_path = "res://data/chuenyu/voxel/prison.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(2448, 1032)
-metadata/look = {"kind": "shackle_post", "note": "dungeon.c: 许多骷髅被生锈的铁链绑在墙上"}
+metadata/look = {"kind": "chained_bones", "count": 2, "note": "dungeon.c: 许多骷髅被生锈的铁链绑在墙上"}
 metadata/footprint = Vector2(96, 16)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
 position = Vector2(2672, 1032)
-metadata/look = {"kind": "shackle_post"}
+metadata/look = {"kind": "chained_bones", "count": 2}
 metadata/footprint = Vector2(96, 16)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]

@@ -18,7 +18,7 @@
     {"kind": "rug", "at": [344, 420], "size": [256, 160], "elevation": 0.05, "cloth": "6a2a24", "motif": "8a5a3e", "border": "c8a050"},
     {"kind": "window", "at": [200, 240], "size": [64, 16], "rotation": 0},
     {"kind": "window", "at": [500, 240], "size": [64, 16], "rotation": 0},
-    {"kind": "window", "at": [112, 820], "size": [64, 16], "rotation": 90},
+    {"kind": "window", "at": [98, 920], "size": [64, 16], "rotation": 90},
     {"kind": "hanging_lantern", "at": [240, 400], "elevation": -0.4},
     {"kind": "hanging_lantern", "at": [500, 340], "elevation": -0.4},
     {"kind": "hanging_lantern", "at": [300, 860], "elevation": -0.4},
