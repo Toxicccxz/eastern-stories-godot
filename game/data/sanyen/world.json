@@ -72,6 +72,7 @@
 		{ "id": "sanyen.kitchen.landmark.steampot", "zone": "sanyen.kitchen", "name": "蒸笼", "action": "拿馒头", "policy": "take", "limit": 5, "guard": "sanyen.npc.cook_bonze", "items": {"reward": "es2:d/sanyen/obj/maintal"}, "messages": {"take": "你从蒸笼里拿出一粒热乎乎的馒头。", "empty": "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎著哦!!", "guarded": "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!"}, "long": "一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n", "legacy_source": "d/sanyen/kitchen.c" }
 	],
 	"services": [
+		{ "id": "sanyen.front_yard.coach", "kind": "coach", "zone": "sanyen.front_yard", "name": "车马行", "reach": 96, "arrival": "sanyen.front_yard.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
 		{ "id": "sanyen.kitchen.steampot", "kind": "act", "zone": "sanyen.kitchen", "name": "蒸笼", "reach": 120, "legacy_source": "d/sanyen/kitchen.c", "act": {"verb": "打开", "acts": [{"present": "sanyen.npc.cook_bonze", "steps": [{"line": "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"}]}, {"steps": [{"line": "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n"}]}]} }
 	]
 }

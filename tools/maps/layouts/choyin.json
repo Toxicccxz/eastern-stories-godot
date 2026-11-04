@@ -79,6 +79,7 @@
           ["choyin.dragon_temple", "choyin.sw_road1", 2560, 160]
         ],
         "props": [
+          ["blocked", 736, 2512, 784, 2672, "s_gate.c: 沿著城墙通往新建的驿站 — the post's cart by the 南门 (native, 车马行)", {"look": {"kind": "coach", "hood": "4a5a4a", "coat": "5a3a2a"}}],
           ["blocked", 1600, 128, 1632, 176, "n_gate.c: the 北门's stone arch, its east and west posts (the arch itself is drawn over them)", {"look": {"kind": "column", "height": 4.4, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
           ["blocked", 1760, 128, 1792, 176, {"look": {"kind": "column", "height": 4.4, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
           ["blocked", 1552, 144, 1584, 176, "n_gate.c: 石牌楼旁蹲著两只石狮", {"look": {"kind": "stone_lion", "mirror": true}}],
@@ -296,6 +297,13 @@
         ],
         "nodes": [
           {
+            "node": "service",
+            "name": "SGateCoach",
+            "id": "choyin.s_gate.coach",
+            "at": [700, 2560],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -463,6 +471,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "SGateCoachArrival",
+            "at": [690, 2610],
+            "id": "choyin.s_gate.coach_arrival"
+          },
           {
             "name": "NGateRoadArrival",
             "at": [1440, 304],

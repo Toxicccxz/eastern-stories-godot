@@ -63,6 +63,9 @@
 		{ "id": "temple.road2.enter", "from_zone": "temple.road2", "to_zone": "temple.book_room1", "to_spawn": "temple.book_room1.road2_entry", "legacy_room": "es2:d/temple/road2", "legacy_command": "enter" },
 		{ "id": "temple.book_room1.out", "from_zone": "temple.book_room1", "to_zone": "temple.road2", "to_spawn": "temple.road2.book_room1_return", "legacy_room": "es2:d/temple/book_room1", "legacy_command": "out" }
 	],
+	"services": [
+		{ "id": "temple.square.coach", "kind": "coach", "zone": "temple.square", "name": "车马行", "reach": 96, "arrival": "temple.square.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" }
+	],
 	"doors": [
 		{ "id": "temple.square.door", "name": "红漆木门", "zones": ["temple.square", "temple.temple1"], "reach": 90, "open": true, "legacy_room": "es2:d/temple/square" },
 		{ "id": "temple.corridor7.door", "name": "木门", "zones": ["temple.corridor7", "temple.restroom1"], "reach": 90, "open": true, "legacy_room": "es2:d/temple/corridor7" },

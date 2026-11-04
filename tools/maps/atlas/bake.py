@@ -193,6 +193,8 @@ def bake(godot: str, whole: bool, land_too: bool) -> None:
             print("shot", ", ".join(batch), flush=True)
         if everything or not (OUT / "arrow.png").is_file():
             _shoot(godot, ["@arrow"])
+        if everything or not (OUT / "cart.png").is_file():
+            _shoot(godot, ["@cart"])
         shot, viewless = _read_shots(log, stale)
         OUT.mkdir(parents=True, exist_ok=True)
         cells = {map_id: cell for map_id, cell in old_cells.items() if map_id in places and map_id not in stale}
@@ -207,8 +209,9 @@ def bake(godot: str, whole: bool, land_too: bool) -> None:
                 (OUT / f"{gone}.png.import").unlink(missing_ok=True)
         for name in shot:
             shutil.copyfile(SCRATCH / f"{name}.png", OUT / f"{name}.png")
-        if (SCRATCH / "arrow.png").is_file():
-            shutil.copyfile(SCRATCH / "arrow.png", OUT / "arrow.png")
+        for icon in ["arrow.png", "cart.png"]:
+            if (SCRATCH / icon).is_file():
+                shutil.copyfile(SCRATCH / icon, OUT / icon)
         roads = old.get("roads", [])
         _write(cells, viewless, places, roads, False)
         if moved or not (OUT / "land.png").is_file():

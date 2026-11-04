@@ -89,6 +89,7 @@
           ["path", 432, 1984, 768, 2016]
         ],
         "props": [
+          ["blocked", 2304, 560, 2352, 720, "road1.c: 足够供八架马车并驾齐驱 — a cart on the 黄土大道's verge (native, 车马行)", {"look": {"kind": "coach", "hood": "6a5a3e", "coat": "7a4a2a"}}],
           ["forest", 1696, 272, 1728, 352, "黑松山's pines either side of the spur"],
           ["forest", 1696, 512, 1728, 592],
           ["forest", 1728, 608, 1808, 688, "trees beside the 黄土大道"],
@@ -284,6 +285,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "Road1Coach",
+            "id": "village.road1.coach",
+            "at": [2276, 620],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -434,6 +442,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "Road1CoachArrival",
+            "at": [2268, 672],
+            "id": "village.road1.coach_arrival"
+          },
           {
             "name": "RoadCanyonArrival",
             "at": [2152, 384],

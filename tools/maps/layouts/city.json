@@ -60,6 +60,7 @@
         },
         "roads": [["street", 1136, 0, 1456, 992, "the 青石 驿道 north to the village, as wide as the village's end of it"]],
         "props": [
+          ["blocked", 1088, 608, 1136, 768, "nroad1.c: 北驿道 — a post cart on the verge of the 驿道 (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "3a3a4a", "curtain": "a03a2a"}}],
           ["wall", 1072, 992, 1184, 1120, "the 北门's wall either side of its gateway"],
           ["wall", 1408, 992, 1520, 1120],
           ["rock", 1472, 48, 1520, 160, "the hills begin north-east"],
@@ -303,6 +304,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "Nroad1Coach",
+            "id": "city.nroad1.coach",
+            "at": [1172, 660],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -442,6 +450,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "Nroad1CoachArrival",
+            "at": [1180, 704],
+            "id": "city.nroad1.coach_arrival"
+          },
           {
             "name": "Nroad2VillageArrival",
             "at": [1296, 136],

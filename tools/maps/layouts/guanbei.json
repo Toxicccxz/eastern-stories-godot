@@ -545,6 +545,7 @@
         },
         "roads": [],
         "props": [
+          ["blocked", 800, 784, 848, 928, "a cart for hire on 槐阳城's main street, the 马市 by (native, 车马行)", {"look": {"kind": "coach", "hood": "8a6a4a", "coat": "4a4a4e", "curtain": "6a4a8a"}}],
           [
             "blocked",
             512,
@@ -896,6 +897,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "StreetCoach",
+            "id": "guanbei.street.coach",
+            "at": [772, 840],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -975,6 +983,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "StreetCoachArrival",
+            "at": [764, 892],
+            "id": "guanbei.street.coach_arrival"
+          },
           {
             "name": "GateGorgeArrival",
             "at": [

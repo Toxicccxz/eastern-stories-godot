@@ -127,6 +127,7 @@
 		{ "id": "green.stoneroom.door", "name": "密门", "zones": ["green.stoneroom", "green.water"], "reach": 90, "legacy_room": "es2:d/green/stoneroom" }
 	],
 	"services": [
+		{ "id": "green.path6.coach", "kind": "coach", "zone": "green.path6", "name": "车马行", "reach": 96, "arrival": "green.path6.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
 		{ "id": "green.station0.well", "kind": "water", "zone": "green.station0", "name": "井", "reach": 96, "legacy_source": "d/green/station0.c" }
 	],
 	"spawns": [

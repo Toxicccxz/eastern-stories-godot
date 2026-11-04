@@ -10,6 +10,7 @@ const SCRIPTS: Dictionary[StringName, Script] = {
 	&"dance": preload("res://runtime/world/services/dance_service.gd"),
 	&"act": preload("res://runtime/world/services/act_service.gd"),
 	&"bounty": preload("res://runtime/world/services/bounty_service.gd"),
+	&"coach": preload("res://runtime/world/services/coach_service.gd"),
 }
 
 

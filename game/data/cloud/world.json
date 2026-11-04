@@ -110,6 +110,9 @@
 		{ "id": "cloud.eroad3.north", "from_zone": "cloud.eroad3", "to_zone": "cloud.rich", "to_spawn": "cloud.rich.eroad3_entry", "legacy_room": "es2:u/cloud/eroad3", "legacy_command": "north" },
 		{ "id": "cloud.rich.south", "from_zone": "cloud.rich", "to_zone": "cloud.eroad3", "to_spawn": "cloud.eroad3.rich_return", "legacy_room": "es2:u/cloud/rich", "legacy_command": "south" }
 	],
+	"services": [
+		{ "id": "cloud.entrance.coach", "kind": "coach", "zone": "cloud.entrance", "name": "车马行", "reach": 96, "arrival": "cloud.entrance.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" }
+	],
 	"doors": [
 		{ "id": "cloud.tearoom.door", "name": "木雕门", "zones": ["cloud.tearoom", "cloud.tea_corridor"], "reach": 90, "legacy_room": "es2:u/cloud/tearoom" },
 		{ "id": "cloud.woodboxy.door", "name": "木门", "zones": ["cloud.woodboxy", "cloud.god1"], "reach": 90, "legacy_room": "es2:u/cloud/woodboxy" }

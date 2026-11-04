@@ -129,6 +129,7 @@
 		{ "id": "city.shangshu.kefang.landmark.book", "zone": "city.shangshu.kefang", "name": "书", "policy": "look", "long": "一本诗词集，上面圈圈点点了一些句子.\n", "legacy_source": "d/city/shangshu/kefang.c" }
 	],
 	"services": [
+		{ "id": "city.nroad1.coach", "kind": "coach", "zone": "city.nroad1", "name": "车马行", "reach": 96, "arrival": "city.nroad1.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
 		{ "id": "city.bank.counter", "kind": "bank", "zone": "city.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/city/bank.c" },
 		{ "id": "city.eastdoor1.out", "kind": "act", "zone": "city.eastdoor1", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": {"verb": "出城", "acts": [{"present": "city.npc.guard", "not_mark": "令牌", "steps": [{"line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n"}, {"line": "出城方向的路被京师守城兵挡住了。\n"}]}, {"steps": [{"line": "这个方向没有出路。\n"}]}]} },
 		{ "id": "city.eastdoor2.out", "kind": "act", "zone": "city.eastdoor2", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": {"verb": "出城", "acts": [{"present": "city.npc.guard", "not_mark": "令牌", "steps": [{"line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n"}, {"line": "出城方向的路被京师守城兵挡住了。\n"}]}, {"steps": [{"line": "这个方向没有出路。\n"}]}]} },
