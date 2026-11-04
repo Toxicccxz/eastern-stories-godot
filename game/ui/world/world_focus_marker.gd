@@ -23,8 +23,12 @@ var _since_refresh: float = INF
 var _prompt: PanelContainer
 var _prompt_text: Label
 var _ring_at: Vector2 = Vector2.INF
-## The prompt shows under the thing (where it goes, unless the screen ends there).
-var _below: bool = true
+## Where the prompt shows: under the ring, beside it, or over the thing.
+enum Place { BELOW, SIDE, ABOVE }
+var _place: Place = Place.BELOW
+## The player's figure on the screen, from the feet to over the name (projected units).
+const PLAYER_HEIGHT: float = 110.0
+const PLAYER_HALF_WIDTH: float = 26.0
 var _ring_scale: float = 1.0
 
 
@@ -66,14 +70,14 @@ func _ready() -> void:
 ## How far over its middle the marked thing's top is now, with the prompt (0: unmarked).
 func lift_over(node: Node2D) -> float:
 	# The thing itself, or a service it offers from where it stands.
-	if not _prompt.visible or _below or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+	if not _prompt.visible or _place != Place.ABOVE or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
 		return 0.0
 	return PROMPT_LIFT + _prompt.size.y
 
 
 ## How far under its middle the marked thing's prompt reaches when it shows below it (0: not).
 func drop_under(node: Node2D) -> float:
-	if not _prompt.visible or not _below or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+	if not _prompt.visible or _place != Place.BELOW or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
 		return 0.0
 	return _prompt.position.y + _prompt.size.y - _ring_at.y
 
@@ -106,16 +110,38 @@ func _process(delta: float) -> void:
 	_ring_scale = map.screen_scale().x
 	_prompt.visible = true
 	_prompt.reset_size()
-	var place: Vector2 = screen + Vector2(-_prompt.size.x / 2.0, RING_RADIUS * map.screen_scale().y + PROMPT_DROP)
 	var view: Rect2 = get_viewport().get_visible_rect().grow(-4.0)
-	_below = place.y + _prompt.size.y <= view.end.y
-	if not _below:
-		place.y = screen.y - PROMPT_LIFT - _prompt.size.y
+	var scale: Vector2 = map.screen_scale()
+	var spots: Dictionary[Place, Vector2] = {
+		Place.BELOW: screen + Vector2(-_prompt.size.x / 2.0, RING_RADIUS * scale.y + PROMPT_DROP),
+		Place.SIDE: screen + Vector2(RING_RADIUS * scale.x + PROMPT_DROP, -_prompt.size.y / 2.0),
+		Place.ABOVE: screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y),
+	}
+	var avoid: Array[Rect2] = [_ui.card_rect(), _player_rect(map)]
+	_place = Place.BELOW
+	for spot: Place in spots:
+		var rect := Rect2(spots[spot], _prompt.size)
+		if view.encloses(rect) and not avoid.any(func(other: Rect2) -> bool: return other.has_area() and other.intersects(rect)):
+			_place = spot
+			break
+	var place: Vector2 = spots[_place]
 	place.x = clampf(place.x, view.position.x, maxf(view.position.x, view.end.x - _prompt.size.x))
+	place.y = clampf(place.y, view.position.y, maxf(view.position.y, view.end.y - _prompt.size.y))
 	_prompt.position = place.round()
 	if not _ring_at.is_equal_approx(screen):
 		_ring_at = screen
 		queue_redraw()
+
+
+## The player's figure on the screen (feet to name), which the prompt keeps clear of.
+func _player_rect(map: WorldMapController) -> Rect2:
+	var body: Node2D = map.runtime_player_body()
+	if body == null:
+		return Rect2()
+	var feet: Vector2 = map.screen_position(body.global_position)
+	var top: Vector2 = map.screen_position(body.global_position, PLAYER_HEIGHT)
+	var half: float = PLAYER_HALF_WIDTH * map.screen_scale().x
+	return Rect2(Vector2(feet.x - half, minf(top.y, feet.y)), Vector2(half * 2.0, absf(feet.y - top.y) + 4.0))
 
 
 func _on_prompt_input(event: InputEvent) -> void:

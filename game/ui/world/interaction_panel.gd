@@ -38,6 +38,8 @@ var _options: Array[InteractionOption] = []
 var _current: String = ""
 ## 查看 shows the details (the thing was looked at); else the lines about it.
 var _looked: bool = false
+## Set when a page opens (show_page()): a chosen row that opened none is not held down.
+var _page_opened: bool = false
 
 
 func _ready() -> void:
@@ -54,6 +56,7 @@ func _ready() -> void:
 	rule.name = "Rule"
 	rule.color = Color(UiPalette.BONE, 0.12)
 	rule.custom_minimum_size.x = 2
+	rule.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(rule)
 	var column := VBoxContainer.new()
@@ -118,6 +121,7 @@ func show_look(fresh: bool = false) -> void:
 
 ## The right column shows a page titled `title`; the row that opened it is marked.
 func show_page(title: String) -> void:
+	_page_opened = true
 	_page_scroll.scroll_vertical = 0
 	_heading.text = title
 	_heading.show()
@@ -208,8 +212,14 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 
 func _choose(index: int) -> void:
 	if index < _options.size() and _options[index].available():
+		var before: String = _current
 		_current = _options[index].label
+		_page_opened = false
 		chosen.emit(_options[index])
+		# Done at once, or asked first and refused: the page shown (if any) is still the
+		# one before.
+		if not _page_opened:
+			_current = before
 	_mark_current()
 
 

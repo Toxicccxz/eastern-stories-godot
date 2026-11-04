@@ -430,8 +430,8 @@ func interact_with(id: StringName) -> bool:
 ## looks at the thing (look.c), as 查看 did. It closes when the thing leaves reach.
 func open_interaction(thing: WorldNearbyThing) -> void:
 	# 界面重做 3: a conversation still in the box (打听) ends first, so one window and one
-	# Esc show, not the popup over the box.
-	if dialogue_box.is_open():
+	# Esc show, not the popup over the box (a story being told keeps its pages).
+	if dialogue_box.hosting():
 		dialogue_box.close()
 	_interacting = thing
 	# The target stays on it while the popup shows (time runs on a page; others walk by).
@@ -477,10 +477,7 @@ func _fill_interaction() -> void:
 ## 界面重做 3: the fight forecast's word (稳赢 … 必败) beside the popup's title, on its
 ## plate, for an NPC; its line is the hover. None under ES2's own strength words (classic).
 func _show_forecast(thing: WorldNearbyThing) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var outlook: CombatOutlook = null
-	if map != null and thing != null and thing.kind == WorldNearbyThing.Kind.NPC and thing.npc != null:
-		outlook = map.combat_outlook(thing.npc)
+	var outlook: CombatOutlook = nearby.outlook_of(thing)
 	if outlook == null or outlook.forecast == null:
 		_presentation_layout.set_badge("", -1)
 		return

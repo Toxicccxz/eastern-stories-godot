@@ -80,9 +80,6 @@ func _init() -> void:
 		toast.style.bg_color = Color(UiPalette.EBONY.lerp(UiPalette.INK, 0.35), 0.9)
 		toast.style.border_color = ACCENT
 		toast.style.border_width_left = 6
-		toast.style.shadow_color = Color(0, 0, 0, 0.35)
-		toast.style.shadow_size = 0
-		toast.style.shadow_offset = Vector2(0, 4)
 		toast.style.content_margin_left = 14.0
 		toast.style.content_margin_right = 14.0
 		toast.style.content_margin_top = 8.0

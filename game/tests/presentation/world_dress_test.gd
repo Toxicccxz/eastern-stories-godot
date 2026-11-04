@@ -1,7 +1,8 @@
 extends RefCounted
 
 ## 界面重做 3 (DECISIONS「界面样式」): the world's surfaces in GameTheme. The status card a
-## slab, the name in voxel letters; the E prompt under the ring, not over the name; a said
+## slab, the name in voxel letters; the E prompt by the ring at his feet, clear of the player
+## and of the name over his head; a said
 ## line on paper; the interaction popup the menu's window with the name once (its title, and
 ## the fight forecast's word on its plate beside it), its rows list rows, the open one held
 ## down; a page's heading without the name again; a dangerous choice in dark lacquer, its
@@ -77,7 +78,9 @@ func _test_world(tree: SceneTree) -> void:
 	hud.focus_marker._process(0.2)
 	var prompt: Control = hud.focus_marker.get_node("FocusPrompt") as Control
 	var ring: Vector2 = map.screen_position(hud.focus_marker.focus().at())
-	check(prompt.visible and prompt.position.y > ring.y and prompt.theme_type_variation == &"ToastPanel", "the E prompt under the ring at his feet, on a dark plate: %s under %s" % [prompt.position, ring])
+	var prompt_rect := Rect2(prompt.position, prompt.size)
+	var player_rect: Rect2 = hud.focus_marker._player_rect(map)
+	check(prompt.visible and prompt.theme_type_variation == &"ToastPanel" and prompt_rect.end.y > ring.y and not prompt_rect.grow(-1.0).intersects(player_rect), "the E prompt by the ring at his feet (not over his name), clear of the player south of him, on a dark plate: %s, ring %s, player %s" % [prompt_rect, ring, player_rect])
 	hud.speech_bubbles.say(waiter, ["店小二说道：客官里边请。"])
 	var entry: Array = hud.speech_bubbles._bubbles.get(waiter.character_id, [null])
 	var bubble: PanelContainer = entry[0] as PanelContainer

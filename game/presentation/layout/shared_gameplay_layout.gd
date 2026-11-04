@@ -220,27 +220,26 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	rows.add_child(heading)
 	frame_title = _label(heading, "Title")
 	frame_title.theme_type_variation = &"TitleLabel"
-	# One line at its own width (the layout would wrap it to nothing beside the spacer).
+	# One line, the row's width, cut with … when longer (a long title must not widen the frame
+	# past the screen); KEEPS_WIDTH keeps the layout from wrapping it.
 	frame_title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	frame_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	frame_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	frame_title.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	frame_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	frame_title.resized.connect(_place_badge)
+	# The forecast's plate sits right after the title's text (placed by _place_badge()).
 	frame_badge = PanelContainer.new()
 	frame_badge.name = "Badge"
-	frame_badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	frame_badge.mouse_filter = Control.MOUSE_FILTER_STOP
 	frame_badge.hide()
-	heading.add_child(frame_badge)
+	frame_title.add_child(frame_badge)
 	frame_badge_text = Label.new()
 	frame_badge_text.name = "Word"
 	frame_badge_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	frame_badge_text.add_theme_color_override("font_color", Color("fff3dc"))
 	frame_badge_text.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	frame_badge.add_child(frame_badge_text)
-	var spacer := Control.new()
-	spacer.name = "Spacer"
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	heading.add_child(spacer)
 	close_button = _button(heading, "Close", "关闭", close_panel)
 	close_button.theme_type_variation = &"ChipButton"
 	close_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -724,6 +723,18 @@ func set_badge(word: String, verdict: int, line: String = "") -> void:
 	frame_badge.theme_type_variation = GameTheme.verdict_plate(verdict)
 	frame_badge_text.text = word
 	frame_badge.tooltip_text = line
+	_place_badge.call_deferred()
+
+
+## The plate just after the title's text, inside the title's width.
+func _place_badge() -> void:
+	if not is_instance_valid(frame_badge) or not frame_badge.visible:
+		return
+	var font: Font = frame_title.get_theme_font("font")
+	var text_width: float = 0.0 if font == null else font.get_string_size(frame_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, frame_title.get_theme_font_size("font_size")).x
+	frame_badge.reset_size()
+	var x: float = minf(text_width + 12.0, maxf(0.0, frame_title.size.x - frame_badge.size.x))
+	frame_badge.position = Vector2(x, (frame_title.size.y - frame_badge.size.y) / 2.0).round()
 
 
 ## A form shown in the frame (a business, the loot, a question) has the frame for its box:
