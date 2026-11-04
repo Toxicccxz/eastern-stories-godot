@@ -528,12 +528,12 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 	if indoor:
 		_plinth(cells)
 	if cliffs != null:
-		cliffs.build(self)
+		await cliffs.build(self,breathe)
 		occluders.append({"node":cliffs.root})
 		await breathe()
 		_dress_cliffs()
 		await breathe()
-	water.build(self,cells,cliffs,shapes,rng)
+	await water.build(self,cells,cliffs,shapes,rng,breathe)
 	await breathe()
 	if foliage != null:
 		for edge_cell: Vector2i in cells:
@@ -578,8 +578,9 @@ func _open_sea(cells: Dictionary[Vector2i, String]) -> void:
 		return
 	var kind: String = String(sea.get("kind","deep_water"))
 	for r: Array in sea.get("rects",[]):
-		for y: int in range(int(r[1]),int(r[3]),16):
-			for x: int in range(int(r[0]),int(r[2]),16):
+		# Snapped onto the 16 px grid, so every cell it makes is a real cell's centre.
+		for y: int in range(floori(float(r[1])/16.0)*16,int(r[3]),16):
+			for x: int in range(floori(float(r[0])/16.0)*16,int(r[2]),16):
 				var at := Vector2i(x+8,y+8)
 				if String(cells.get(at,"boundary")) == "boundary":
 					cells[at] = kind

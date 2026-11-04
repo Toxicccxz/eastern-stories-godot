@@ -35,10 +35,10 @@
   "ground_tints": {"bank": "5a5650", "mud": "6a6658", "chips": ["9a968c", "8a867c", "aaa69c"], "dust": "d8dcd8", "grit": "e4e8e4"},
   "water": {
     "kinds": {
-      "deep_water": {"colors": ["6e9aa0", "54848e", "3a6674", "2c5262"], "depth": 200, "flow": [0.06, 0.03], "speed": 0.2, "swell": 0.012, "swell_speed": 1.0, "foam": 0.0, "rock_foam": 0.7, "bank_foam": 0.35, "foam_color": "eef2f0", "bank": ["4e4842", "5a544c", "443e38"], "sky": 0.2, "glint": "6a96a0", "sunset": {"color": "f0904a", "amount": 0.6}},
+      "deep_water": {"colors": ["6e9aa0", "54848e", "3a6674", "2c5262"], "depth": 200, "flow": [0.06, 0.03], "speed": 0.2, "swell": 0.012, "swell_speed": 1.0, "foam": 0.0, "rock_foam": 0.7, "bank_foam": 0.35, "foam_color": "eef2f0", "bank": ["4e4842", "5a544c", "443e38"], "sky": 0.2, "glint": "6a96a0", "sunset": {"color": "f0904a", "amount": 0.45}},
       "water": {"colors": ["8aaaa8", "6e9498", "54808a"], "depth": 60, "flow": [0.04, 0.02], "speed": 0.18, "swell": 0.008, "swell_speed": 1.0, "foam": 0.06, "rock_foam": 0.6, "bank_foam": 0.4, "foam_color": "eef2f0", "bank": ["5a544c", "4e4842", "665e54"], "sky": 0.18, "glint": "a8c4c4", "sunset": {"color": "f0904a", "amount": 0.55}}
     },
-    "open_sea": {"kind": "deep_water", "rects": [[-1600, 816, 3200, 2800], [-1600, -1600, 160, 816]], "note": "the sea runs on south and west under the sky"}
+    "open_sea": {"kind": "deep_water", "rects": [[-960, 800, 2400, 1952], [-960, -480, 160, 800]], "note": "the sea runs on south and west under the sky"}
   },
   "flora": {
     "grass_density": 0.35,

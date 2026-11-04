@@ -1,6 +1,8 @@
 extends RefCounted
 
-## 第七章「番坊」 so far (番坊 A, DECISIONS「番坊 A」): once 关北 is done the chapter opens with the way —
+## 第七章「番坊」 so far (番坊 A, DECISIONS「番坊 A」): 关北's last step asked of 卢卡 in the 马市 ends that
+## chapter while he still stands by the pen — he keeps his 马市 lines there and greets no one (his 番坊
+## lines wait for the gate). Once 关北 is done the chapter opens with the way —
 ## out of 忘情谷 south down the 海崖道 (the portal marks 到了番坊) — on both of 关北's ledgers (the raid,
 ## the night); its next objective is 铁盾会's gate in the bazaar, where 卢卡 now stands and greets the
 ## player once (the gate itself, 安敦 and the rest of the chapter are 番坊 B's). 卢卡 is gone from the
@@ -28,17 +30,36 @@ func _test_way_down(tree: SceneTree, session: WorldSessionController, raid: bool
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter7")
-	StoryFixtures.chapter6_done(session, raid)
+	StoryFixtures.chapter6_site_done(session, raid)
 	session.record_journal()
+	# 关北's last step in the 马市: 卢卡's ghost and his 会首 end the chapter while he stands by the pen.
+	var market: WorldMapController = MapPlaces.enter(session, &"guanbei.market", &"guanbei.market.street_arrival")
+	_check(market != null, "%s: in the 马市" % ledger)
+	await _settle(tree)
+	var seller: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.market.luca.1")
+	var body: Node2D = null if seller == null else market.runtime_body_for_character(seller.character_id)
+	_check(body != null and market.place_player(&"guanbei.market", body.global_position + Vector2(0, 56)) and market.select_npc(seller.character_id), "%s: beside 卢卡 by the pen" % ledger)
+	await _settle(tree)
+	market.ask_selected("鬼")
+	_check(market.ask_selected("会首").any(func(line: String) -> bool: return line.contains("他在番坊")), "%s: 会首安敦, in 番坊" % ledger)
+	session.record_journal()
+	_check(state.marks.get("关北一章", 0) == 1, "%s: 关北 is done" % ledger)
+	_check(market.ask_selected("番坊").any(func(line: String) -> bool: return line.contains("出忘情谷")) and market.ask_selected("会首").any(func(line: String) -> bool: return line.contains("他在番坊")) and market.ask_selected("路费").any(func(line: String) -> bool: return line.contains("二十两")), "%s: still by the pen, 卢卡 keeps his 马市 lines (the way there, the fare)" % ledger)
+	for second: int in 2:
+		session.advance_npc_heartbeat(1.0)
+	await _settle(tree)
+	_check(not state.marks.has("卢卡在番坊见到你") and not ui.log_lines().any(func(line: String) -> bool: return line.contains("路，不近")), "%s: and greets no one in the 马市" % ledger)
 	_check(StoryQuestLog.is_active(state, quest) and StoryQuestLog.objective(state, quests).begins_with("去番坊找大秦人的会首安敦"), "%s: the seventh chapter open: %s" % [ledger, StoryQuestLog.objective(state, quests)])
 	var target: StoryQuestDefinition.Target = StoryQuestLog.target(state, quests)
 	_check(target != null and target.zone_id == &"village.valley1", "%s: its marker on the path outside 忘情谷" % ledger)
 	_check(not StoryQuestLog.objective(state, quests).contains("村东"), "%s: the objective names no wrong side (owner Q1: the sea lies south-west)" % ledger)
-	# 卢卡 has left the 马市.
-	var market: WorldMapController = MapPlaces.enter(session, &"guanbei.market", &"guanbei.market.street_arrival")
-	_check(market != null, "%s: in the 马市" % ledger)
+	# Once the player has left, 卢卡 has left the 马市 too.
+	var away: WorldMapController = MapPlaces.enter(session, &"village.valley1", &"village.valley1.cave_return")
+	_check(away != null, "%s: away from the 马市" % ledger)
 	await _settle(tree)
-	_check(_count_in(session, &"guanbei.market", LUCA) == 0, "%s: 卢卡 is gone from the 马市" % ledger)
+	market = MapPlaces.enter(session, &"guanbei.market", &"guanbei.market.street_arrival")
+	await _settle(tree)
+	_check(market != null and _count_in(session, &"guanbei.market", LUCA) == 0, "%s: back in the 马市, 卢卡 is gone" % ledger)
 	# Down from the valley.
 	var valley: WorldMapController = MapPlaces.enter(session, &"village.valley1", &"village.valley1.cave_return")
 	_check(valley != null and valley.map_id() == &"village.main", "%s: on the path outside 忘情谷" % ledger)
@@ -75,6 +96,7 @@ func _test_way_down(tree: SceneTree, session: WorldSessionController, raid: bool
 	_check(luca != null and await MapPlaces.drive(tree, bazaar, MapPlaces.spot(bazaar, &"fanfang.bazaar_north", bazaar.runtime_body_for_character(luca.character_id).global_position + Vector2(0, 60), 64.0)) and bazaar.select_npc(luca.character_id), "%s: beside 卢卡" % ledger)
 	_check(bazaar.ask_selected("安敦").any(func(line: String) -> bool: return line.contains("会首在里头")), "%s: 安敦 is inside" % ledger)
 	_check(bazaar.ask_selected("路费").any(func(line: String) -> bool: return line.contains("到了")), "%s: no more talk of the fare: he is here" % ledger)
+	_check(bazaar.ask_selected("会首").any(func(line: String) -> bool: return line.contains("会首在里头")) and not bazaar.ask_selected("会首").any(func(line: String) -> bool: return line.contains("你去，说卢卡让你去")), "%s: 会首 is inside, no more sending the player to 番坊" % ledger)
 	# The 兵部文书 in the 市舶司: 关北 A taught the 印色, so the seal reads false.
 	_check(await MapPlaces.drive_through(tree, bazaar, [&"fanfang.bazaar_east", &"fanfang.bazaar_west"]), "%s: back down to the street's west end" % ledger)
 	var office: WorldMapController = await MapPlaces.go_to(tree, session, &"fanfang.office")

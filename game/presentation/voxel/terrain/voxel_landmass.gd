@@ -95,6 +95,17 @@ func drop_water(cells: Dictionary[Vector2i,String], kinds: Array[String]) -> voi
 		if not dry:
 			patches.erase(patch)
 			sea[patch] = true
+	# The open sea past the landmass too (cells no patch ever held): no soil face toward it either,
+	# so the coast is the water's own bank or the cliff's face down to the sea, never a slab's side.
+	for cell: Vector2i in cells:
+		var spot: Vector2i = _patch(Vector2(cell))
+		if patches.has(spot) or sea.has(spot) or not String(cells[cell]) in kinds:
+			continue
+		var open: bool = true
+		for corner: Vector2i in [spot*PATCH+Vector2i(8,8),spot*PATCH+Vector2i(24,8),spot*PATCH+Vector2i(8,24),spot*PATCH+Vector2i(24,24)]:
+			open = open and String(cells.get(corner,"")) in kinds
+		if open:
+			sea[spot] = true
 
 ## `holes`: sunken cells (a gorge) whose ground the base must not cover.
 func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:

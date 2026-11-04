@@ -110,7 +110,9 @@ func footing(area: Rect2, highest: bool = false) -> float:
 	return 0.0 if is_inf(result) else result
 
 ## One merged mesh per chunk: tops and only the faces that show above a lower neighbour.
-func build(parent: Node3D) -> void:
+## `breathe` (the geometry's frame slicer) is awaited after each chunk, so a big map's rock (番坊's
+## sea far down at the cliff's foot) does not freeze a frame.
+func build(parent: Node3D, breathe: Callable = Callable()) -> void:
 	root = Node3D.new()
 	root.name = "Cliffs"
 	parent.add_child(root)
@@ -192,6 +194,8 @@ func build(parent: Node3D) -> void:
 		instance.mesh = surface.commit()
 		instance.material_override = material
 		root.add_child(instance)
+		if breathe.is_valid():
+			await breathe.call()
 
 ## A sunken cell: its floor far down, and the walls on every side where the ground (or a
 ## shallower part of the pit) stands higher, darkening with depth. Where the landmass ends

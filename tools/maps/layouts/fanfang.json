@@ -102,7 +102,7 @@
             ["bridge", 576, 752, 656, 1040, "the west jetty"],
             ["bridge", 912, 752, 992, 1008, "the east jetty"]
           ]},
-          {"op": "fill", "note": "what stands on the quay and in the shed (voxel: game/data/fanfang/voxel/dock.json)", "fills": [
+          {"op": "fill", "note": "what stands on the quay and in the shed (voxel: game/data/fanfang/voxel/port.json)", "fills": [
             ["blocked", 1152, 384, 1248, 432, "the 市舶司's table on the quay: the ledger, the cash box", {"look": {"kind": "table", "wood": "5a4434", "set": "incense"}}],
             ["blocked", 1264, 384, 1296, 432, "the tax clerk's steelyard on its frame", {"look": {"kind": "steelyard"}}],
             ["blocked", 720, 336, 816, 400, "crates up from the boats", {"look": {"kind": "cargo"}}],

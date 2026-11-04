@@ -38,9 +38,9 @@
   "ground_tints": {"bank": "5a5650", "mud": "6a6658", "chips": ["9a968c", "8a867c", "aaa69c"], "dust": "d8dcd8", "grit": "e4e8e4"},
   "water": {
     "kinds": {
-      "deep_water": {"colors": ["7aa4a8", "54848e", "3a6674", "2c5262"], "depth": 220, "flow": [0.08, 0.02], "speed": 0.22, "swell": 0.012, "swell_speed": 1.1, "foam": 0.0, "rock_foam": 0.85, "bank_foam": 0.5, "foam_color": "f0f4f2", "bank": ["3e3a36", "4a4440", "56504a"], "sky": 0.2, "glint": "6a96a0", "sunset": {"color": "f0904a", "amount": 0.62}}
+      "deep_water": {"colors": ["7aa4a8", "54848e", "3a6674", "2c5262"], "depth": 220, "flow": [0.08, 0.02], "speed": 0.22, "swell": 0.012, "swell_speed": 1.1, "foam": 0.0, "rock_foam": 0.85, "bank_foam": 0.5, "foam_color": "f0f4f2", "bank": ["3e3a36", "4a4440", "56504a"], "sky": 0.2, "glint": "6a96a0", "sunset": {"color": "f0904a", "amount": 0.42}}
     },
-    "open_sea": {"kind": "chasm", "rects": [[-1600, -1600, 352, 3328]], "note": "the sea runs on west under the sky, down at the cliff's foot"}
+    "open_sea": {"kind": "chasm", "rects": [[-960, -800, 352, 2528]], "note": "the sea runs on west under the sky, down at the cliff's foot"}
   },
   "flora": {
     "grass_density": 0.7,
@@ -64,8 +64,8 @@
   },
   "ambience": {
     "birds": [
-      {"at": [160, 640], "radius": 360, "count": 5, "height": 2, "color": "f0f0ec", "note": "gulls wheeling out over the drop, below the road"},
-      {"at": [200, 1300], "radius": 300, "count": 3, "height": 3, "color": "e8e8e4"}
+      {"at": [160, 640], "radius": 360, "count": 3, "height": 2, "color": "e4e4e0", "note": "gulls wheeling out over the drop, below the road"},
+      {"at": [200, 1300], "radius": 300, "count": 2, "height": 3, "color": "e4e4e0"}
     ],
     "dust": [
       {"rect": [400, 576, 560, 1664], "count": 8, "color": "dde6e6", "wind": [0.35, -0.1], "note": "salt spray blown up over the lip from the surf"},
