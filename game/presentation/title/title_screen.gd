@@ -15,6 +15,9 @@ signal entered
 ## Below the shell's dialogs; above them while a journey starts (it covers the busy note).
 const LAYER: int = 99
 const ENTERING_LAYER: int = 101
+## When the menu's letters come up in the first opening (seconds, at its pace): the clouds have
+## mostly parted. The place's name waits for it.
+const MENU_UP_SECONDS: float = 2.2
 
 var definition: TitleScreenDefinition
 var sand: TitleSand
@@ -27,8 +30,12 @@ var _shell: ApplicationShellController
 var _root: Control
 var _fly: Tween
 var _intro_tween: Tween
+## The place name's fade in: one at a time, so an earlier choice's never shows a later name early.
+var _caption_fade: Tween
 var _entering: bool = false
 var _shown_once: bool = false
+## Seconds until the opening brings the menu up (0 once it has).
+var _menu_up_in: float = 0.0
 
 
 func _init() -> void:
@@ -108,7 +115,8 @@ func _notification(what: int) -> void:
 		_build_logo()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_menu_up_in = maxf(0.0, _menu_up_in - delta)
 	if caption.modulate.a > 0.0:
 		var spot: Vector2 = sand.centre_on_screen()
 		caption.position = (spot + Vector2(-caption.size.x / 2.0, -caption.size.y - 26.0 + sin(sand.clock * 1.6) * 3.0)).round()
@@ -158,7 +166,8 @@ func _show() -> void:
 	t.tween_property(logo, "write", 1.05, 2.0 * pace).set_delay(1.2 * pace)
 	# The menu is usable at once; its letters come up as the clouds part.
 	menu_fx.menu_alpha = 0.0
-	t.tween_property(menu_fx, "menu_alpha", 1.0, 0.6).set_delay(2.2 * pace)
+	_menu_up_in = MENU_UP_SECONDS * pace
+	t.tween_property(menu_fx, "menu_alpha", 1.0, 0.6).set_delay(MENU_UP_SECONDS * pace)
 	var focused: Control = _root.get_viewport().gui_get_focus_owner()
 	if focused is Button and menu_fx.buttons().has(focused):
 		_on_chosen(focused as Button)
@@ -186,13 +195,16 @@ func _reset() -> void:
 	sand.drift_on = 1.0
 	sand.zoom = 0.58
 	whiteout.color.a = 0.0
+	if _caption_fade != null:
+		_caption_fade.kill()
 	caption.modulate.a = 0.0
 	sand.marker.modulate.a = 0.0
 	menu_fx.modulate.a = 1.0
 
 
 ## An option was chosen: the camera pulls back, glides to its place and settles; the place's
-## name rises over it; its weather drifts out of the option; a glint passes over the logo.
+## name rises over it (in the opening, not before the clouds have parted and the menu is up);
+## its weather drifts out of the option; a glint passes over the logo.
 func _on_chosen(button: Button) -> void:
 	if _entering or not visible:
 		return
@@ -213,8 +225,11 @@ func _on_chosen(button: Button) -> void:
 	caption.text = TitleSand.place_name(place)
 	caption.modulate.a = 0.0
 	sand.marker.modulate.a = 0.0
+	if _caption_fade != null:
+		_caption_fade.kill()
 	var fade := create_tween()
-	fade.tween_interval(1.0)
+	_caption_fade = fade
+	fade.tween_interval(maxf(1.0, _menu_up_in))
 	fade.tween_property(caption, "modulate:a", 1.0, 0.5)
 	fade.parallel().tween_property(sand.marker, "modulate:a", 0.9, 0.5)
 	menu_fx.weather(choice.weather, button)
@@ -235,6 +250,8 @@ func _enter(place: StringName) -> void:
 		_fly.kill()
 	if _intro_tween != null:
 		_intro_tween.kill()
+	if _caption_fade != null:
+		_caption_fade.kill()
 	sky.cover = minf(sky.cover, 0.0)
 	logo.write = 1.05
 	logo.glint = logo.glint_at(-0.1)
