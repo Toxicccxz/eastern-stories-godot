@@ -44,6 +44,7 @@ var _progression: ProgressionRules
 var _bounties: BountyRules
 var _opening: OpeningDefinition
 var _loading_screen: LoadingScreenDefinition
+var _title_screen: TitleScreenDefinition
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -181,6 +182,11 @@ func add_document(document: Variant, origin: String) -> void:
 		if _loading_screen != null:
 			loading_screen.fail("", "loading_screen is already defined")
 		_loading_screen = LoadingScreenDefinition.from_record(loading_screen)
+	var title_screen: ContentRecordReader = reader.child("title_screen")
+	if title_screen != null:
+		if _title_screen != null:
+			title_screen.fail("", "title_screen is already defined")
+		_title_screen = TitleScreenDefinition.from_record(title_screen)
 	reader.finish()
 
 
@@ -242,6 +248,7 @@ func build() -> ContentCatalog:
 	catalog.set_bounties(_bounties)
 	catalog.set_opening(_opening)
 	catalog.set_loading_screen(_loading_screen)
+	catalog.set_title_screen(_title_screen)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:

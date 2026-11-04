@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://runtime/application/application_shell_controller.gd" id="1_shell"]
 [ext_resource type="Script" path="res://presentation/layout/safe_area_presenter.gd" id="2_safe"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://runtime/application/android_back_adapter.gd" id="5_back"]
 [ext_resource type="Script" path="res://runtime/application/mobile_lifecycle_adapter.gd" id="6_lifecycle"]
 [ext_resource type="Script" path="res://ui/common/confirm_prompt.gd" id="7_prompt"]
+[ext_resource type="Script" path="res://presentation/title/title_screen.gd" id="8_title"]
 
 [node name="ApplicationShell" type="Node"]
 process_mode = 3
@@ -38,6 +39,10 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource("4_touch")
 
+[node name="TitleScreen" type="CanvasLayer" parent="."]
+layer = 99
+script = ExtResource("8_title")
+
 [node name="ShellCanvas" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 100
@@ -52,15 +57,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 
-[node name="Background" type="ColorRect" parent="ShellCanvas/MainMenuPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.1, 0.07, 0.05, 1)
-
 [node name="Center" type="Control" parent="ShellCanvas/MainMenuPanel"]
 layout_mode = 1
 anchors_preset = 15
@@ -70,79 +66,74 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="ShellCanvas/MainMenuPanel/Center"]
-custom_minimum_size = Vector2(520, 0)
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+theme_type_variation = &"BarePanel"
 
 [node name="Margin" type="MarginContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 42
-theme_override_constants/margin_top = 36
-theme_override_constants/margin_right = 42
-theme_override_constants/margin_bottom = 36
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="VBox" type="VBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="Title" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = "东方故事"
-horizontal_alignment = 1
-
-[node name="Subtitle" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "雪亭镇"
-horizontal_alignment = 1
-
-[node name="StatusLabel" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-text = "正在检查存档……"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
+theme_override_constants/separation = 2
 
 [node name="NewGameButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 text = "新游戏"
+alignment = 0
 
-[node name="ContinueRow" type="HBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow"]
+[node name="ContinueButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
-size_flags_horizontal = 3
 disabled = true
 text = "继续"
+alignment = 0
 
-[node name="LoadButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow"]
+[node name="LoadButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
-size_flags_horizontal = 3
 disabled = true
 text = "读取存档"
+alignment = 0
 
 [node name="RecoveryButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 disabled = true
 text = "恢复存档"
+alignment = 0
 
 [node name="MenuSettingsButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 text = "设置"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+text = "退出游戏"
+alignment = 0
+
+[node name="StatusLabel" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "正在检查存档……"
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="NewGameSetupPanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
@@ -151,7 +142,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.1, 0.07, 0.05, 1)
+color = Color(0.06, 0.04, 0.03, 0.62)
 
 [node name="Center" type="Control" parent="ShellCanvas/NewGameSetupPanel"]
 layout_mode = 1
@@ -745,10 +736,11 @@ centered = true
 
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="activity_event" from="MobileLifecycle" to="." method="_on_mobile_activity_event"]
-[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/RecoveryButton" to="." method="_on_recovery_button_pressed"]
-[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/ContinueRow/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/MenuSettingsButton" to="." method="_on_menu_settings_button_pressed"]
+[connection signal="pressed" from="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="ShellCanvas/PausePanel/Center/Panel/Margin/VBox/SaveRow/PauseLoadButton" to="." method="_on_load_button_pressed"]

@@ -33,6 +33,8 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var recovery_button: Button = %RecoveryButton
 @onready var load_button: Button = %LoadButton
 @onready var menu_settings_button: Button = %MenuSettingsButton
+## 退出游戏 (desktop; a phone's app is left the platform's way).
+@onready var quit_button: Button = %QuitButton
 @onready var pause_panel: Control = %PausePanel
 @onready var lifecycle_info: Label = %LifecycleInfo
 @onready var resume_button: Button = %ResumeButton
@@ -128,6 +130,8 @@ var _quit_requested: bool = false
 var _draft_gender: StringName = &""
 var _name_rng := RandomNumberGenerator.new()
 var _activity: ApplicationActivity = ApplicationActivity.new()
+## The zone the session being started opens at ("" for a new journey): the title dives there.
+var _starting_zone: StringName = &""
 
 
 func activity() -> ApplicationActivity:
@@ -274,6 +278,7 @@ func _ready() -> void:
 	# Pad support (owner, DECISIONS「手柄」): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
+	quit_button.visible = not OS.has_feature("mobile")
 	for back: Button in [setup_cancel_button, settings_cancel_button, recovery_cancel_button]:
 		InputGlyphs.decorate(back, &"ui_cancel")
 	result_prompt.cancel_action = &"ui_cancel"
@@ -601,6 +606,7 @@ func request_continue_from_menu() -> bool:
 	):
 		return false
 	_last_result = null
+	_starting_zone = _row_zone(_inspected_slot)
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.CONTINUE))
 	if _host != null and _host.request_continue(_inspected_slot):
 		return true
@@ -609,6 +615,44 @@ func request_continue_from_menu() -> bool:
 		ApplicationShellState.ResultOrigin.MAIN_MENU,
 	)
 	return false
+
+
+## 退出游戏 on the main menu: the game closes (as Back does there).
+func request_quit_from_menu() -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.MAIN_MENU or not _host_is_exactly_empty() or _quit_requested:
+		return false
+	_quit_requested = true
+	_exit_capability.request_quit(get_tree())
+	return true
+
+
+## Whether a journey is under way (the title shows only while none is).
+func session_running() -> bool:
+	return _host != null and not _host_is_exactly_empty()
+
+
+## The map of the save 继续 would load ("" when there is none).
+func continue_place() -> StringName:
+	return _map_of(_row_zone(_inspected_slot))
+
+
+## The map the session being started opens at ("" for a new journey).
+func starting_place() -> StringName:
+	return _map_of(_starting_zone)
+
+
+func _row_zone(slot_id: StringName) -> StringName:
+	if _host == null or slot_id == &"":
+		return &""
+	for row: GameSaveSlotSummary in _host.slots():
+		if row.slot_id == slot_id:
+			return row.zone_id
+	return &""
+
+
+static func _map_of(zone_id: StringName) -> StringName:
+	var zone: ZoneDefinition = null if zone_id == &"" else GameContent.catalog().zone(zone_id)
+	return &"" if zone == null else zone.map_id
 
 
 func request_recovery_choice_from_menu() -> bool:
@@ -919,6 +963,7 @@ func choose_slot_row(index: int) -> bool:
 		_show_request_failure(ApplicationOperationResult.Operation.INSPECT_SLOT, ApplicationShellState.ResultOrigin.MAIN_MENU)
 		return false
 	_last_result = null
+	_starting_zone = row.zone_id
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.CONTINUE))
 	if _host.request_continue(row.slot_id):
 		return true
@@ -972,6 +1017,7 @@ func world_has_focus() -> bool:
 
 func _start_load() -> bool:
 	var slot_id: StringName = _pending_slot
+	_starting_zone = _row_zone(slot_id)
 	_last_result = null
 	_result_detail = ""
 	_back_to_slots = false
@@ -1103,6 +1149,7 @@ func submit_new_game_setup() -> bool:
 		setup_message.text = "请选择性别。"
 		return false
 	var display_name: String = player_name_edit.text
+	_starting_zone = &""
 	DisplayServer.virtual_keyboard_hide()
 	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.NEW_GAME))
@@ -1363,6 +1410,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	var menu_interactive: bool = mode == ApplicationShellState.Mode.MAIN_MENU
 	new_game_button.disabled = not menu_interactive
 	menu_settings_button.disabled = not menu_interactive
+	quit_button.disabled = not menu_interactive
 	continue_button.disabled = (
 		not menu_interactive
 		or _slot_inspection == null
@@ -1662,6 +1710,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		recovery_button,
 		load_button,
 		menu_settings_button,
+		quit_button,
 		resume_button,
 		save_button,
 		pause_load_button,
@@ -1714,6 +1763,8 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			if not load_button.disabled:
 				controls.append(load_button)
 			controls.append(menu_settings_button)
+			if quit_button.visible:
+				controls.append(quit_button)
 		ApplicationShellState.Mode.PAUSED:
 			controls = [resume_button, save_button, pause_load_button, pause_settings_button, return_button]
 		ApplicationShellState.Mode.SLOT_LIST:
@@ -1848,6 +1899,10 @@ func _on_recovery_button_pressed() -> void:
 
 func _on_menu_settings_button_pressed() -> void:
 	request_settings_from_main_menu()
+
+
+func _on_quit_button_pressed() -> void:
+	request_quit_from_menu()
 
 
 func _on_resume_button_pressed() -> void:

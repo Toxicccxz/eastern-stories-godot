@@ -28,7 +28,7 @@ func _check(condition: bool, message: String) -> void:
 func _test_theme() -> void:
 	var theme: GameTheme = GameTheme.shared()
 	_check(theme == GameTheme.shared(), "one theme for every user")
-	for variation: StringName in [&"TitleLabel", &"HeadingLabel", &"MutedLabel", &"SmallLabel", &"WarningLabel", &"KeyCap", &"WellPanel", &"PlatePanel", &"ToastPanel", &"PrimaryButton", &"DangerButton", &"ChipButton", &"ToggleButton", &"RowButton", &"SlotButton"]:
+	for variation: StringName in [&"TitleLabel", &"HeadingLabel", &"MutedLabel", &"SmallLabel", &"WarningLabel", &"KeyCap", &"WellPanel", &"PlatePanel", &"ToastPanel", &"PrimaryButton", &"DangerButton", &"ChipButton", &"ToggleButton", &"RowButton", &"SlotButton", &"TitleMenuItem", &"TitleMenuLetters", &"TitleCaption", &"BarePanel"]:
 		_check(theme.is_type_variation(variation, theme.get_type_variation_base(variation)), "%s is a variation" % variation)
 	var normal: StyleBoxTexture = theme.get_stylebox("normal", &"Button") as StyleBoxTexture
 	var pressed: StyleBoxTexture = theme.get_stylebox("pressed", &"Button") as StyleBoxTexture
@@ -86,13 +86,19 @@ func _test_shell(tree: SceneTree) -> void:
 	_check(cursor != null, "the focus arrow is on the shell")
 	shell.new_game_button.grab_focus()
 	await tree.process_frame
-	await tree.process_frame
-	_check(cursor.focused_button() == shell.new_game_button and cursor.visible, "it points at the focused button")
-	_check(cursor.global_position.x < shell.new_game_button.global_position.x, "from its left")
+	_check(cursor.focused_button() == null, "the title's menu shows its choice by its stroke, not the arrow")
 	# 设置: each label and its control a pair of one width, so the pairs stand in two columns.
 	_check(shell.request_settings_from_main_menu(), "设置 opens")
 	for i: int in 4:
 		await tree.process_frame
+	shell.ui_scale_option.grab_focus()
+	await tree.process_frame
+	await tree.process_frame
+	_check(cursor.focused_button() == shell.ui_scale_option and cursor.visible, "it points at the focused button")
+	_check(cursor.global_position.x < shell.ui_scale_option.global_position.x, "from its left")
+	shell.settings_cancel_button.grab_focus()
+	await tree.process_frame
+	_check(cursor.focused_button() == null, "buttons side by side show only their rim")
 	var firsts: Array[float] = []
 	var seconds: Array[float] = []
 	for row: Control in [shell.ui_scale_row, shell.language_row, shell.battle_speed_row, (shell.get_node("%KnockoutRow") as Control), (shell.get_node("%DayNightRow") as Control)]:
