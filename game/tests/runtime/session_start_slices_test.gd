@@ -18,6 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	var feel: FeelDefinition = pacing.feel
 	await _test_new_game(tree)
 	await _test_continue(tree)
+	await _test_failed_continue(tree)
 	pacing.feel = feel.but({"session_start_slice_ms": 2})
 	await _test_host(tree)
 	pacing.feel = feel
@@ -121,6 +122,37 @@ func _test_continue(tree: SceneTree) -> void:
 		_check(_save_text(finished.candidate) == text, "the same world as the save")
 		finished.candidate.free()
 		await tree.process_frame
+
+
+## A save that no longer fits (the player off the map, as an old save after a layout change)
+## fails over frames as it fails in one: the same refusal, nothing left standing or locked.
+## (The failed candidate is freed once its own start_done is over, never inside it.)
+func _test_failed_continue(tree: SceneTree) -> void:
+	var world: WorldSessionController = _session(0)
+	tree.root.add_child(world)
+	world.set_process(false)
+	var text: String = _save_text(world)
+	world.free()
+	await tree.process_frame
+	var record: Dictionary = JSON.parse_string(text)
+	record["player"]["map_position"] = {"x": -99999.0, "y": -99999.0}
+	var files := ShellTests.MemoryFiles.new()
+	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("start-slices-bad")
+	files.write_bytes(profile.canonical_path(), JSON.stringify(record, "", false, true).to_utf8_buffer())
+	var coordinator := OldPineSessionLoadCoordinator.new(GameSaveRepository.new(profile, files))
+	var session_slot := Node.new()
+	var staging_slot := Node.new()
+	tree.root.add_child(session_slot)
+	tree.root.add_child(staging_slot)
+	var whole: OldPineRuntimeSaveLoadResult = coordinator.load_replacing(null, session_slot, staging_slot)
+	_check(not whole.succeeded() and whole.restore != null and whole.restore.outcome == OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION, "the one-frame Continue refuses a player off the map: %s" % whole.outcome)
+	await tree.process_frame
+	var sliced: OldPineRuntimeSaveLoadResult = await coordinator.load_replacing_in_slices(null, session_slot, staging_slot, 1, tree.process_frame)
+	_check(sliced != null and not sliced.succeeded() and sliced.outcome == whole.outcome and sliced.restore != null and sliced.restore.outcome == whole.restore.outcome, "the sliced one refuses it the same way")
+	await tree.process_frame
+	_check(staging_slot.get_child_count() == 0 and session_slot.get_child_count() == 0 and not coordinator.operation_in_progress(), "nothing is left standing, the coordinator free again")
+	session_slot.free()
+	staging_slot.free()
 
 
 ## Through the host: New Game, Save, a Load in play, back to the main menu and Continue —

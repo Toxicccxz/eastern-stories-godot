@@ -5,6 +5,8 @@ const Result := preload("res://runtime/persistence/oldpine_runtime_save_load_res
 
 var _repository: GameSaveRepository
 var _operation_in_progress: bool = false
+## The worker task reading a save for a start in slices (-1: none): waited for at quit.
+var _reading_task: int = -1
 
 
 func _init(repository: GameSaveRepository) -> void:
@@ -124,7 +126,7 @@ func load_replacing_in_slices(
 	if not _begin_operation():
 		return Result.failure(Result.Outcome.REQUEST_REJECTED)
 	var loaded: GameSaveResult = await _read_aside(_repository.load, slice_usec, frame)
-	var result: OldPineRuntimeSaveLoadResult = await _restore_loaded_in_slices(loaded, current, session_slot, staging_slot, slice_usec)
+	var result: OldPineRuntimeSaveLoadResult = await _restore_loaded_in_slices(loaded, current, session_slot, staging_slot, slice_usec, frame)
 	_operation_in_progress = false
 	return result
 
@@ -141,7 +143,7 @@ func load_recovery_replacing_in_slices(
 	if not GameSaveRecoverySource.is_valid(source) or not _begin_operation():
 		return Result.failure(Result.Outcome.REQUEST_REJECTED)
 	var loaded: GameSaveResult = await _read_aside(_repository.load_recovery.bind(source), slice_usec, frame)
-	var result: OldPineRuntimeSaveLoadResult = await _restore_loaded_in_slices(loaded, current, session_slot, staging_slot, slice_usec)
+	var result: OldPineRuntimeSaveLoadResult = await _restore_loaded_in_slices(loaded, current, session_slot, staging_slot, slice_usec, frame)
 	_operation_in_progress = false
 	return result
 
@@ -177,13 +179,18 @@ func _restore_loaded_in_slices(
 	session_slot: Node,
 	staging_slot: Node,
 	slice_usec: int,
+	frame: Signal,
 ) -> OldPineRuntimeSaveLoadResult:
 	var refused: OldPineRuntimeSaveLoadResult = _refuse_restore(loaded, session_slot, staging_slot)
 	if refused != null:
 		return refused
-	var begun: OldPineWorldRestoreResult = OldPineWorldRestoreService.begin_candidate(loaded.snapshot, staging_slot, slice_usec)
+	# Slices need a frame to come back on; without one the candidate starts in one go.
+	var begun: OldPineWorldRestoreResult = OldPineWorldRestoreService.begin_candidate(loaded.snapshot, staging_slot, 0 if frame.is_null() else slice_usec)
 	if begun.candidate != null and not begun.candidate.start_finished():
 		await begun.candidate.start_done
+		# Not inside the candidate's own start_done: a failed one is freed, which an object
+		# still emitting refuses. The staged candidate processes nothing for this frame.
+		await frame
 	var restored: OldPineWorldRestoreResult = begun if begun.candidate == null else OldPineWorldRestoreService.finish_candidate(begun)
 	return _swap_in(loaded, restored, current, session_slot)
 
@@ -191,15 +198,22 @@ func _restore_loaded_in_slices(
 ## A start in slices reads, decodes and checks the save on a worker thread (seconds for a big
 ## save) while `frame` ticks and the title draws on; the autosave writes there the same way.
 ## Without a slice, or a frame to wait on, it is read here.
-static func _read_aside(read: Callable, slice_usec: int, frame: Signal) -> GameSaveResult:
+func _read_aside(read: Callable, slice_usec: int, frame: Signal) -> GameSaveResult:
 	if slice_usec <= 0 or frame.is_null():
 		return read.call()
 	var out: Array[GameSaveResult] = []
-	var task: int = WorkerThreadPool.add_task(func() -> void: out.append(read.call()), false, "save read")
-	while not WorkerThreadPool.is_task_completed(task):
+	_reading_task = WorkerThreadPool.add_task(func() -> void: out.append(read.call()), false, "save read")
+	while not WorkerThreadPool.is_task_completed(_reading_task):
 		await frame
-	WorkerThreadPool.wait_for_task_completion(task)
+	wait_for_reads()
 	return out[0] if not out.is_empty() else GameSaveResult.failure(GameSaveResult.Outcome.READ_FAILED, "repository")
+
+
+## A save still being read on a worker thread is waited for (the game closing mid-Continue).
+func wait_for_reads() -> void:
+	if _reading_task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_reading_task)
+		_reading_task = -1
 
 
 ## Why a save read as `loaded` cannot be restored here (null: it can be tried).

@@ -127,6 +127,8 @@ func _exit_tree() -> void:
 	if _autosave != null:
 		_autosave.wait()
 	# Nothing is left loading on a worker thread when the game closes.
+	if _coordinator != null:
+		_coordinator.wait_for_reads()
 	for path: String in _scenes_asked:
 		ResourceLoader.load_threaded_get(path)
 	_scenes_asked.clear()
