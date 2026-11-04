@@ -305,7 +305,7 @@ func _test_halls(tree: SceneTree, session: WorldSessionController) -> void:
 	for npc: NpcRuntimeState in map.resident_npcs():
 		if npc.definition().definition_id == GUARD:
 			npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: out of the way
-	_check(map.place_player(&"chuenyu.west_blackge", MapPlaces.zone_centre(map, &"chuenyu.west_blackge")), "TEST-ONLY: in the west hall")
+	_check(map.place_player(&"chuenyu.west_blackge", MapPlaces.zone_spot(map, &"chuenyu.west_blackge")), "TEST-ONLY: in the west hall")
 	await tree.physics_frame
 	_check(await MapPlaces.take_passage(tree, map, &"chuenyu.west_blackge.eastup"), "up the stairs")
 	var upstairs: WorldMapController = session.active_map() as WorldMapController

@@ -1,0 +1,27 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "bedroom.c: 淳于堡主起居的地方, between its two stairs; yiantai.c: 从这里你可以一直望到山脚。强劲的山风; kitchen.c: 上等竹叶青的酒香和令人垂滟欲滴的烤山猪的香气.",
+  "palette": {
+    "wood": ["7a5038", "845840", "6e4830", "8e6048"],
+    "wall": "8a6a4a"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "life": {
+    "chuenyu.kitchen": {"ambience": [{"kind": "smoke"}, {"kind": "steam"}], "note": "烤山猪"}
+  },
+  "props": [
+    {"kind": "far_ground", "at": [344, -520], "size": [1400, 700], "elevation": -8.0, "colors": ["2e4430:haze"], "trees": 30, "crowns": ["1e3428:haze", "28402e:haze", "324c36:haze"], "clearing": [0, 6, 22, 4], "clearing_color": "7ca8b0:haze", "note": "yiantai.c: 从这里你可以一直望到山脚"},
+    {"kind": "rug", "at": [344, 420], "size": [256, 160], "elevation": 0.05, "cloth": "6a2a24", "motif": "8a5a3e", "border": "c8a050"},
+    {"kind": "window", "at": [200, 240], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [500, 240], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [112, 820], "size": [64, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [240, 400], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [500, 340], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [300, 860], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [344, 96], "elevation": -0.4, "note": "a lamp under the balcony's eave"}
+  ]
+}

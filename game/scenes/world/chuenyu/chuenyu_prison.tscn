@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -742,3 +744,44 @@ landmark_id = &"chuenyu.tunnel4.landmark.rock"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Tunnel4SlabInteraction"]
 shape = SubResource("Rect_32_32")
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/chuenyu/voxel/prison.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(2448, 1032)
+metadata/look = {"kind": "shackle_post", "note": "dungeon.c: 许多骷髅被生锈的铁链绑在墙上"}
+metadata/footprint = Vector2(96, 16)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(2672, 1032)
+metadata/look = {"kind": "shackle_post"}
+metadata/footprint = Vector2(96, 16)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(400, 1800)
+metadata/look = {"kind": "punishment_tools"}
+metadata/footprint = Vector2(96, 16)
+
+[node name="Furnishing04" type="Node2D" parent="Furnishings"]
+position = Vector2(624, 1800)
+metadata/look = {"kind": "punishment_tools"}
+metadata/footprint = Vector2(96, 16)
+
+[node name="Furnishing05" type="Node2D" parent="Furnishings"]
+position = Vector2(2448, 1800)
+metadata/look = {"kind": "punishment_tools"}
+metadata/footprint = Vector2(96, 16)
+
+[node name="Furnishing06" type="Node2D" parent="Furnishings"]
+position = Vector2(2672, 1800)
+metadata/look = {"kind": "punishment_tools"}
+metadata/footprint = Vector2(96, 16)
+
+[node name="Furnishing07" type="Node2D" parent="Furnishings"]
+position = Vector2(2696, 1256)
+metadata/look = {"kind": "haystack", "note": "dungeon.c: 地牢的角落里堆着一些干草"}
+metadata/footprint = Vector2(48, 48)

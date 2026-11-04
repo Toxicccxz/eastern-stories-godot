@@ -1,0 +1,56 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "黑松阁: the sandalwood main hall (center.c: 完全是用檀香木打造的, the scroll on its rope), the west and east halls 雍荣典雅, the storeroom's dust; the four gardens of 奇花异草 inside the vine-hung walls, the north one closed by its 千斤巨石.",
+  "palette": {
+    "wood": ["8a5a3e", "925e42", "7e5238", "9a6a48"],
+    "wall": "9a6a4a"
+  },
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.0, "attenuation": 1.3, "day": 0.0, "night": 0.5}
+  },
+  "wall_height": 3.2,
+  "wall_looks": [
+    {"rect": [-448, -304, 432, 304], "style": "boards", "colors": ["8a5a3e", "7e5238", "925e42", "74503a"], "note": "center.c: 檀香木"},
+    {"rect": [-1136, 272, -528, 752], "style": "plaster", "wall": "9a968c", "note": "storage.c: 四壁上布满了灰尘"}
+  ],
+  "ground": {
+    "grass": {"colors": ["3a5232", "466038", "526c3e"]}
+  },
+  "flora": {
+    "grass_density": 0.9,
+    "butterflies": 5,
+    "wind": 0.2,
+    "blossom_trees": 0.0
+  },
+  "life": {
+    "chuenyu.center": {"hangings": ["plaques", "couplet", "plaques"], "ambience": [{"kind": "incense"}], "note": "center.c: 一阵阵的檀香飘过来"},
+    "chuenyu.storage": {"hangings": [], "hang": 0.0, "ambience": [{"kind": "dust", "color": "b8ac94", "count": 14}]}
+  },
+  "ambience": {
+    "birds": [{"at": [1620, 0], "radius": 200, "count": 2, "height": 6, "color": "e8e4dc", "note": "pigeons (信鸽)"}]
+  },
+  "props": [
+    {"kind": "rug", "at": [-8, 0], "size": [384, 224], "elevation": 0.05, "cloth": "6a3a2a", "motif": "8a5a3e", "border": "c8a050"},
+    {"kind": "hanging_lantern", "at": [-200, -120], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [200, -120], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [-200, 140], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [200, 140], "elevation": -0.4},
+    {"kind": "window", "at": [-830, -256], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [-600, -256], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-820, 0], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [-560, 120], "elevation": -0.4},
+    {"kind": "window", "at": [620, -256], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [1000, -256], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [640, 0], "elevation": -0.4},
+    {"kind": "hanging_lantern", "at": [980, 120], "elevation": -0.4},
+    {"kind": "rug", "at": [-820, 0], "size": [256, 192], "elevation": 0.05, "cloth": "3a4a3a", "motif": "5a6a4a", "border": "b89848"},
+    {"kind": "rug", "at": [800, 40], "size": [256, 192], "elevation": 0.05, "cloth": "6a2a24", "motif": "8a5a3e", "border": "c8a050"},
+    {"kind": "vines", "at": [-2010, 0], "size": [560, 12], "rotation": 90, "height": 3.0, "length": [1.6, 2.8], "count": 5, "colors": ["3a5a32", "466a3a", "527a42", "2e4a2a"], "wall_mounted": true},
+    {"kind": "vines", "at": [1994, 0], "size": [560, 12], "rotation": 270, "height": 3.0, "length": [1.6, 2.8], "count": 5, "colors": ["3a5a32", "466a3a", "527a42", "2e4a2a"], "wall_mounted": true},
+    {"kind": "cobweb", "at": [-1080, 320], "size": [32, 32]},
+    {"kind": "cobweb", "at": [-584, 320], "size": [32, 32], "rotation": 90}
+  ]
+}

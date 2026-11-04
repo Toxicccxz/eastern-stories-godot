@@ -1,0 +1,22 @@
+{
+  "note": "黑松山 (美术规划 §1, B 组山林): 黑湮湮的松林 — black pines nearly black-green, young pines in the boulders' cracks, dark scrub; the 山脚乡田's rice bright below; the castle gardens' 奇花异草 the only colour up top.",
+  "crown_colors": {
+    "pine": ["1e3428", "28402e", "324c36", "3e5a40"],
+    "old_pine": ["16281e", "1e3226", "283e2e", "324a36"],
+    "tall_pine": ["1a2e24", "22382a", "2c4430", "385038"],
+    "young_pine": ["2e4a36", "3a5a40", "46684a", "527452"],
+    "stunted_pine": ["26402e", "304c36", "3c583e", "486448"],
+    "scrub": ["3e4a30", "4a5636", "56623e", "627048"],
+    "shrub": ["2e4a32", "3a583a", "466642", "52744a"],
+    "broadleaf": ["2e4e34", "3a5e3c", "466e44", "527e4c"],
+    "willow": ["4a6e3a", "5a7e42", "6a8e4c", "7a9e56"]
+  },
+  "bark_colors": {
+    "pine": ["3a3028", "463a30", "2e2620"],
+    "old_pine": ["2e2620", "3a3028", "262018"],
+    "tall_pine": ["3a3028", "463a30", "2e2620"],
+    "broadleaf": ["4a3e32", "56483a", "3e342a"]
+  },
+  "grass_colors": ["2e4430", "3a5236", "46603c", "566e44"],
+  "flower_colors": ["e8e0c8", "c8b048", "b85a6a", "8a7ab8"]
+}
