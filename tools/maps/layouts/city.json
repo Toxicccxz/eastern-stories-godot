@@ -1072,7 +1072,7 @@
             "floor": "floor_wood",
             "wall": "wall_wood",
             "size": "room",
-            "life": {"use": "storeroom", "wealth": "poor", "seed": 25, "count": 0, "note": "house1.c: 什麽也没有 — no pieces"}
+            "life": {"use": "storeroom", "wealth": "poor", "seed": 25, "count": 0}
           }
         },
         "props": [],

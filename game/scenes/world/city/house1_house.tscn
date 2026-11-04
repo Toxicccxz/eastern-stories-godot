@@ -144,4 +144,4 @@ script = ExtResource("map_view")
 layout_path = "res://data/city/voxel/house1_house.json"
 
 [node name="RoomLife" type="Node" parent="."]
-metadata/rooms = {"city.house1": {"count": 0, "note": "house1.c: 什麽也没有 — no pieces", "seed": 25, "use": "storeroom", "wealth": "poor"}}
+metadata/rooms = {"city.house1": {"count": 0, "seed": 25, "use": "storeroom", "wealth": "poor"}}
