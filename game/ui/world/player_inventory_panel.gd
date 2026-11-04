@@ -32,8 +32,9 @@ signal put_into_requested(item_instance_id: StringName, amount: int, container_i
 ## scribe haunt on a paper for the selected NPC (scribe.c); attach a 僵尸追魂符 (attach.c).
 signal scribe_requested(item_instance_id: StringName)
 signal attach_requested(item_instance_id: StringName)
-## Something was eaten, drunk or filled from the item read (HeldSupplies): the rows change.
-signal supplies_used
+## Something was eaten, drunk or filled from the item read (HeldSupplies): `line` is what
+## food.c / liquid.c said; the rows change.
+signal supplies_used(line: String)
 
 ## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
 const CATEGORY_WORDS: Dictionary[StringName, String] = {
@@ -100,6 +101,10 @@ var _shown: Array[PlayerInventoryRowProjection] = []
 var _section: int = InventorySections.Section.ALL
 ## The item read (an item id, PURSE, or "" none); it stays while it is carried.
 var _selected: StringName = &""
+## The item the 吃 / 喝 line under the actions is about ("" none): it goes when another is read.
+var _feedback_for: StringName = &""
+## What the right side was last built for, so a rebuild of the same thing keeps its scroll.
+var _detail_of: StringName = &""
 var _row_group := ButtonGroup.new()
 ## inventory.c's 负重: carried weight against the most the player can carry, in percent.
 var _burden: int = -1
@@ -168,10 +173,17 @@ func set_burden(percent: int) -> void:
 
 
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
-	var focused: bool = _holds_focus()
+	var focused: Control = _focus_inside()
+	# An action pressed with keys or pad (吃一份 again and again) keeps the focus on itself.
+	var chip: String = "" if focused == null or not action_rows.is_ancestor_of(focused) else String(focused.name)
+	var reading: StringName = _selected
 	_replace_rows(rows)
 	visible = true
-	_refresh(focused)
+	_refresh(focused != null)
+	if not chip.is_empty() and _selected == reading:
+		var again: Control = action_rows.find_child(chip, true, false) as Control
+		if again != null and again.is_visible_in_tree():
+			FocusNav.give(again)
 
 
 func close_inventory() -> void:
@@ -180,6 +192,7 @@ func close_inventory() -> void:
 	_shown.clear()
 	_clear_list()
 	use_feedback.text = ""
+	_feedback_for = &""
 	_show_selected()
 
 
@@ -217,21 +230,34 @@ func focus_target() -> Control:
 
 
 func show_section(section: int) -> void:
-	if section < 0 or section >= InventorySections.TITLES.size():
+	# The chip shown pressed again (a button group presses it anew): nothing changes.
+	if section < 0 or section >= InventorySections.TITLES.size() or section == _section:
 		return
-	_section = section
-	for index: int in section_buttons.size():
-		section_buttons[index].set_pressed_no_signal(index == section)
+	_mark_section(section)
 	if _selected != PURSE:
 		_selected = &""
 	use_feedback.text = ""
+	_feedback_for = &""
 	_refresh(false)
+
+
+func _mark_section(section: int) -> void:
+	_section = section
+	for index: int in section_buttons.size():
+		section_buttons[index].set_pressed_no_signal(index == section)
 
 
 ## Reads `id` beside the list (a click, or keys or pad moving onto its row); PURSE reads the 钱袋.
 func select_item(id: StringName) -> void:
 	if id != PURSE and _row(id) == null:
 		return
+	if id != PURSE and not row_buttons.has(id):
+		# Carried but not in the section shown (read from a helper): 全部 lists it.
+		_mark_section(InventorySections.Section.ALL)
+		_selected = id
+		use_feedback.text = ""
+		_feedback_for = &""
+		_refresh(false)
 	if id != _selected:
 		_selected = id
 		use_feedback.text = ""
@@ -299,6 +325,10 @@ func _refresh(focused: bool) -> void:
 	burden_label.visible = _burden >= 0
 	if _selected != PURSE and not row_buttons.has(_selected):
 		_selected = &"" if _shown.is_empty() else _shown[0].item_instance_id
+	# The 吃 / 喝 line is about one thing: it goes with it (the log keeps it).
+	if _selected != _feedback_for:
+		use_feedback.text = ""
+		_feedback_for = &""
 	var button: Button = purse_button if _selected == PURSE else row_buttons.get(_selected)
 	if button != null:
 		button.set_pressed_no_signal(true)
@@ -318,12 +348,12 @@ func _clear_list() -> void:
 	row_buttons.clear()
 
 
-## Whether the keyboard / pad focus is somewhere in this page now.
-func _holds_focus() -> bool:
+## The keyboard / pad focus when it is somewhere in this page now, else null.
+func _focus_inside() -> Control:
 	if not is_inside_tree():
-		return false
+		return null
 	var owner_now: Control = get_viewport().gui_get_focus_owner()
-	return owner_now != null and is_ancestor_of(owner_now)
+	return owner_now if owner_now != null and is_ancestor_of(owner_now) else null
 
 
 ## The section's rows: what is on first (in hand, then worn), then by section, else as carried.
@@ -445,7 +475,32 @@ func _clear_detail() -> void:
 	compare_label.visible = false
 	compare_label.text = ""
 	item_title.remove_theme_color_override("font_color")
-	detail_scroll.scroll_vertical = 0
+
+
+## The right side is built for `key` (an item id, PURSE): back to its top when it is another thing.
+func _detail_for(key: StringName) -> void:
+	if key != _detail_of:
+		detail_scroll.scroll_vertical = 0
+		_detail_of = key
+
+
+## Keys and pad: left from any action goes back to the row read (not to the row nearest the
+## action, which would read another thing), and right from that row to its first action.
+func _link_focus() -> void:
+	var reading: Control = purse_button if _selected == PURSE else row_buttons.get(_selected)
+	if reading == null:
+		return
+	var first: Control = null
+	for node: Node in action_rows.find_children("*", "Control", true, false):
+		var control: Control = node as Control
+		if control is SpinBox:
+			control = (control as SpinBox).get_line_edit()
+		if control.focus_mode == Control.FOCUS_NONE:
+			continue
+		control.focus_neighbor_left = control.get_path_to(reading)
+		if first == null:
+			first = control
+	reading.focus_neighbor_right = NodePath() if first == null else reading.get_path_to(first)
 
 
 func _show_item(row: PlayerInventoryRowProjection) -> void:
@@ -456,6 +511,7 @@ func _show_item(row: PlayerInventoryRowProjection) -> void:
 		use_feedback.text = ""
 		_show_model(&"")
 		return
+	_detail_for(row.item_instance_id)
 	_show_model(row.item_definition_id)
 	item_title.text = tr(row.display_name)
 	var colour: Color = name_color_of(row.item_definition_id)
@@ -468,11 +524,13 @@ func _show_item(row: PlayerInventoryRowProjection) -> void:
 		compare_label.add_theme_color_override("font_color", compared[1])
 		compare_label.visible = true
 	action_rows.add_child(_actions(row))
+	_link_focus()
 
 
 ## The 钱袋 read: every kind of coin, what it is worth, and putting or dropping some.
 func _show_purse() -> void:
 	_clear_detail()
+	_detail_for(PURSE)
 	item_title.text = tr("钱袋")
 	var coins: Array[PlayerInventoryRowProjection] = _coins()
 	if coins.is_empty():
@@ -496,6 +554,7 @@ func _show_purse() -> void:
 		block.add_child(label)
 		block.add_child(_actions(row))
 		action_rows.add_child(block)
+	_link_focus()
 
 
 ## What the item read says of it: the description, then its kind and numbers.
@@ -683,8 +742,10 @@ func _chip(flow: HFlowContainer, node_name: String, text: String, pressed: Calla
 
 ## 吃 / 喝 / 装水 on the item read: what it said stays under it, and the rows refresh.
 func _use(how: Callable, id: StringName) -> void:
-	use_feedback.text = how.call(id)
-	supplies_used.emit()
+	var line: String = how.call(id)
+	use_feedback.text = line
+	_feedback_for = id
+	supplies_used.emit(line)
 
 
 ## What the item adds to apply/dodge (the 武学 page's 轻功), when it adds anything: a heavy

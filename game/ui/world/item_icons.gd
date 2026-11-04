@@ -13,6 +13,8 @@ const PER_FRAME: int = 2
 
 ## Taken pictures by item definition, for every 背包 of the run.
 static var _taken: Dictionary[StringName, Texture2D] = {}
+## Pictures that came back empty: not asked for again.
+static var _failed: Dictionary[StringName, bool] = {}
 
 var _viewport: SubViewport
 var _pivot: Node3D
@@ -42,7 +44,7 @@ static func drawing() -> bool:
 func icon(item_definition_id: StringName) -> Texture2D:
 	if _taken.has(item_definition_id):
 		return _taken[item_definition_id]
-	if drawing() and not _waiting.has(item_definition_id):
+	if drawing() and not _failed.has(item_definition_id) and not _waiting.has(item_definition_id):
 		_waiting.append(item_definition_id)
 	return null
 
@@ -71,6 +73,7 @@ func _take_some() -> void:
 		_pivot.remove_child(model)
 		model.queue_free()
 		if image == null or image.is_empty():
+			_failed[id] = true
 			continue
 		var texture := ImageTexture.create_from_image(image)
 		_taken[id] = texture

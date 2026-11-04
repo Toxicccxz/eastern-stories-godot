@@ -139,6 +139,16 @@ func open_inventory() -> void:
 		show_inventory(_session.player_inventory_rows())
 
 
+## 吃 / 喝 / 装水 from the 背包: what food.c / liquid.c said goes to the log as well as under
+## the actions (it stays findable once the thing is used up), and the rows refresh.
+func supplies_used(line: String) -> void:
+	if not line.is_empty():
+		var lines: Array[String] = []
+		lines.assign(line.split("\n"))
+		_ui.message_log.append_log_lines(lines)
+	open_inventory()
+
+
 ## 吃 and 喝 from the 背包's item read (owner, 2026-11-04: 随身补给 folded into it).
 func initialize_supplies() -> void:
 	if _ui.inventory_panel != null and _session != null:

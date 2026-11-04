@@ -238,6 +238,7 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 			eat.pressed.emit()
 		var eaten: FoodUseResult = bag.supplies.last_food
 		check(eat != null and eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and _plain(bag.use_feedback.text) == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + bag.use_feedback.text)
+		check(Array(hud.log_lines()).any(func(line: String) -> bool: return _plain(line) == "你已经吃太饱了，再也塞不下任何东西了。"), "and the log keeps the line")
 	else:
 		check(not shop.last_purchase.delivered and _money_value() == before and _plain(shop.panel.feedback.text) == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.panel.feedback.text)
 	hud.dismiss_current_panel()

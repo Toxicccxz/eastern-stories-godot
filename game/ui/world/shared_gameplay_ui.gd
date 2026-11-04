@@ -215,7 +215,7 @@ func _ready() -> void:
 	inventory_panel.put_into_requested.connect(items.put_into_carried)
 	inventory_panel.scribe_requested.connect(items.scribe_on)
 	inventory_panel.attach_requested.connect(items.attach_sheet)
-	inventory_panel.supplies_used.connect(items.open_inventory)
+	inventory_panel.supplies_used.connect(items.supplies_used)
 	# The rows' pictures, taken once a run (VoxelItemLook).
 	var icons := ItemIcons.new()
 	add_child(icons)
