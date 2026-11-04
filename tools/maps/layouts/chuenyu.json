@@ -30,7 +30,7 @@
         },
         "roads": [
           ["path", 1648, 2528, 1808, 2848, "the 黄土大道 north from the 玉螺湖村 road"],
-          ["path", 1808, 2656, 1920, 2720, "east to the village"],
+          ["path", 1808, 2608, 1920, 2768, "east to the village, as wide as the village's spur west"],
           ["path", 1648, 2224, 1808, 2528, "past the tea house to the crossing"],
           ["path", 1808, 2272, 2192, 2336, "north-east between the paddies"],
           ["path", 2144, 2000, 2224, 2336, "up to the mountain's foot"],
@@ -48,7 +48,9 @@
           ["rock", 1904, 1552, 1952, 1616],
           ["rock", 1648, 1696, 1712, 1744],
           ["rock", 2048, 1728, 2112, 1760, "boulders at the foot"],
-          ["rock", 1920, 560, 2016, 592, "the 千斤巨石 closing the 夹道"]
+          ["rock", 1920, 560, 2016, 592, "the 千斤巨石 closing the 夹道"],
+          ["blocked", 1552, 2304, 1584, 2368, "croad2.c: 路边有一个茶馆，是供行人歇息的地方 — a bench by its door", {"look": {"kind": "bench", "rotation": 90, "cups": true}}],
+          ["blocked", 1552, 2400, 1616, 2464, {"look": {"kind": "tea_stall"}}]
         ],
         "reach_from": "Croad1VillageArrival",
         "markers_in_middle": ["chuenyu.sunnyroad", "chuenyu.base_b_m", "chuenyu.foot_b_mtn", "chuenyu.west_castle", "chuenyu.east_castle", "chuenyu.rope_bridge"],
@@ -112,9 +114,14 @@
         "style": "map",
         "root": "ChuenyuMain",
         "map": "chuenyu.main",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/chuenyu/voxel/main.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
+          "Rect_32_160": [32, 160],
           "Rect_32_64": [32, 64],
           "Rect_32_32": [32, 32],
           "StairsShape": [48, 48]
@@ -206,8 +213,8 @@
             "node": "passage",
             "name": "VillagePassage",
             "id": "chuenyu.croad1.south",
-            "at": [1900, 2688],
-            "shape": "Rect_32_64"
+            "at": [1904, 2688],
+            "shape": "Rect_32_160"
           },
           {
             "node": "service",
@@ -356,6 +363,11 @@
           "chuenyu.bedroom": [0, 192, 688, 672, "enclosed", "floor_wood", "wall_wood"],
           "chuenyu.kitchen": [64, 672, 624, 1088, "enclosed", "floor_wood", "wall"]
         },
+        "life": {
+          "chuenyu.bedroom": {"use": "guest_room", "wealth": "rich", "tidy": true, "seed": 61},
+          "chuenyu.kitchen": {"use": "kitchen", "wealth": "rich", "seed": 62},
+          "chuenyu.yiantai": {"use": "front_yard", "wealth": "rich", "seed": 63, "count": 0}
+        },
         "roads": [],
         "props": [
           ["blocked", 96, 0, 592, 16, "the balcony's railing over the mountain"],
@@ -365,7 +377,14 @@
           ["blocked", 608, 240, 656, 288, {"look": {"kind": "flower_stand"}}],
           ["blocked", 128, 976, 256, 1040, "the stove, the roasting boar", {"look": {"kind": "hearth", "size": [128, 64]}}],
           ["blocked", 432, 736, 560, 800, "the 堡主's table (用膳)", {"look": {"kind": "square_table", "size": [128, 64], "set": "wine"}}],
-          ["blocked", 96, 704, 192, 752, "jars of 竹叶青", {"look": {"kind": "wine_jars", "count": 4}}]
+          ["blocked", 96, 704, 192, 752, "jars of 竹叶青", {"look": {"kind": "wine_jars", "count": 4}}],
+          ["blocked", 608, 528, 656, 640, {"look": {"kind": "linen_cabinet", "rotation": 270}}],
+          ["blocked", 48, 448, 96, 528, {"look": {"kind": "clothes_rack", "rotation": 90}}],
+          ["blocked", 96, 528, 192, 576, {"look": {"kind": "tea_table"}}],
+          ["blocked", 608, 464, 656, 512, {"look": {"kind": "weapon_rack", "rotation": 270}}],
+          ["blocked", 432, 960, 560, 1040, "kitchen.c: 烤山猪", {"look": {"kind": "cutting_table"}}],
+          ["blocked", 560, 704, 592, 736, {"look": {"kind": "water_vat"}}],
+          ["blocked", 96, 768, 144, 864, {"look": {"kind": "shelf", "rotation": 90}}]
         ],
         "reach_from": "BedroomWestStairsArrival",
         "markers_in_middle": ["chuenyu.yiantai"],
@@ -383,6 +402,10 @@
         "style": "map",
         "root": "ChuenyuUpstairs",
         "map": "chuenyu.upstairs",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/chuenyu/voxel/upstairs.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -532,13 +555,13 @@
               ["floor_yard", 2400, 1792, 2720, 2048, "the other 刑房, the same"],
               ["floor_yard", 2512, 2048, 2608, 2112],
               ["floor_yard", 2720, 1872, 2784, 1968],
-              ["blocked", 2400, 1024, 2496, 1040, "skeletons chained to the wall"],
-              ["blocked", 2624, 1024, 2720, 1040],
-              ["blocked", 352, 1792, 448, 1808, "instruments on the wall"],
-              ["blocked", 576, 1792, 672, 1808],
-              ["blocked", 2400, 1792, 2496, 1808, "instruments on the wall"],
-              ["blocked", 2624, 1792, 2720, 1808],
-              ["blocked", 2672, 1232, 2720, 1280, "the bloody straw in the corner"]
+              ["blocked", 2400, 1024, 2496, 1040, "skeletons chained to the wall", {"look": {"kind": "chained_bones", "count": 2, "note": "dungeon.c: 许多骷髅被生锈的铁链绑在墙上"}}],
+              ["blocked", 2624, 1024, 2720, 1040, {"look": {"kind": "chained_bones", "count": 2}}],
+              ["blocked", 352, 1792, 448, 1808, "instruments on the wall", {"look": {"kind": "punishment_tools"}}],
+              ["blocked", 576, 1792, 672, 1808, {"look": {"kind": "punishment_tools"}}],
+              ["blocked", 2400, 1792, 2496, 1808, "instruments on the wall", {"look": {"kind": "punishment_tools"}}],
+              ["blocked", 2624, 1792, 2720, 1808, {"look": {"kind": "punishment_tools"}}],
+              ["blocked", 2672, 1232, 2720, 1280, "the bloody straw in the corner", {"look": {"kind": "haystack", "note": "dungeon.c: 地牢的角落里堆着一些干草"}}]
             ]
           },
           {
@@ -565,6 +588,10 @@
         "style": "map",
         "root": "ChuenyuPrison",
         "map": "chuenyu.prison",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/chuenyu/voxel/prison.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1017,62 +1044,147 @@
             "floor": "grass",
             "wall": "wall_wood",
             "size": "yard",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 51},
             "at": [-1, 0]
           },
           "chuenyu.west_blackge": {
             "floor": "floor_wood",
             "wall": "wall_wood",
             "size": "large",
+            "life": {"use": "hall", "wealth": "rich", "tidy": true, "seed": 52},
             "at": [0, 0]
           },
           "chuenyu.north_garden": {
             "floor": "grass",
             "wall": "wall_wood",
             "size": "yard",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 53},
             "at": [0, -1]
           },
           "chuenyu.storage": {
             "floor": "floor_wood",
             "wall": "wall",
             "size": "room",
+            "life": {"use": "storeroom", "wealth": "plain", "seed": 54},
             "at": [0, 1]
           },
           "chuenyu.center": {
             "floor": "floor_wood",
             "wall": "wall_wood",
             "size": "hall",
+            "life": {"use": "parlour", "wealth": "rich", "tidy": true, "seed": 55},
             "at": [1, 0]
           },
           "chuenyu.east_blackge": {
             "floor": "floor_wood",
             "wall": "wall_wood",
             "size": "hall",
+            "life": {"use": "hall", "wealth": "rich", "tidy": true, "seed": 56},
             "at": [2, 0]
           },
           "chuenyu.east_garden": {
             "floor": "grass",
             "wall": "wall_wood",
             "size": "yard",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 57},
             "at": [3, 0]
           },
           "chuenyu.south_garden": {
             "floor": "grass",
             "wall": "wall_wood",
             "size": "yard",
+            "life": {"use": "front_yard", "wealth": "rich", "seed": 58},
             "at": [2, 1]
           }
         },
         "props": [
-          ["rock", "chuenyu.north_garden", ["rel", 0.429, 0.0], 2.82, 0.94, "the 千斤巨石 closing the north garden"],
-          ["blocked", "chuenyu.west_garden", ["rel", 0.25, 0.225], 1.41, 1.41, "flower beds"],
-          ["blocked", "chuenyu.west_garden", ["rel", 0.75, 0.725], 1.41, 1.41],
-          ["blocked", "chuenyu.north_garden", ["rel", 0.214, 0.5], 1.88, 0.94],
-          ["blocked", "chuenyu.north_garden", ["rel", 0.821, 0.688], 1.41, 1.41],
-          ["blocked", "chuenyu.east_garden", ["rel", 0.417, 0.225], 1.41, 1.41],
-          ["blocked", "chuenyu.east_garden", ["rel", 0.5, 0.675], 1.88, 1.41],
-          ["blocked", "chuenyu.south_garden", ["rel", 0.25, 0.5], 1.41, 0.94],
-          ["blocked", "chuenyu.south_garden", ["rel", 0.85, 0.75], 1.41, 0.94],
-          ["blocked", "chuenyu.center", ["rel", 0.625, 0.0], 3.29, 0.5, "the scroll on its thick rope at the hall's mouth, the sandalwood screens"]
+          ["blocked", "chuenyu.north_garden", ["rel", 0.429, 0.0], 2.82, 0.94, "the 千斤巨石 closing the north garden (north_garden.c: 再通向北面的路被一块巨石堵死)", {"look": {"kind": "boulder"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.25, 0.225], 1.41, 1.41, "flower beds", {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.75, 0.725], 1.41, 1.41, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.214, 0.5], 1.88, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.821, 0.688], 1.41, 1.41, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.417, 0.225], 1.41, 1.41, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.5, 0.675], 1.88, 1.41, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.25, 0.5], 1.41, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.85, 0.75], 1.41, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.center", ["rel", 0.625, 0.0], 3.29, 0.5, "the scroll on its thick rope at the hall's mouth, the sandalwood screens", {"look": {"kind": "wall_scroll", "calligraphy": true, "rope": true, "note": "center.c: 是非成败转头空，青山依旧在，几度夕阳红 — 整幅字画是用一条很粗的绳子挂起来的"}}],
+          ["blocked", "chuenyu.center", ["n", -5, 0], 3.76, 0.94, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.center", ["e", 0, 0], 1.88, 1.88, "the master's chair at the hall's head", {"look": {"kind": "grand_chair", "rotation": 270, "wood": "6a4030"}}],
+          ["blocked", "chuenyu.center", ["rel", 0.7, 0.25], 0.94, 3.76, {"look": {"kind": "chair_row", "rotation": 270, "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.center", ["rel", 0.7, 0.75], 0.94, 3.76, {"look": {"kind": "chair_row", "rotation": 270, "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.center", ["rel", 0.45, 0.5], 1.41, 1.41, {"look": {"kind": "incense_burner"}}],
+          ["blocked", "chuenyu.center", "ne", 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e8e0c8"}}],
+          ["blocked", "chuenyu.center", "se", 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "b85a6a"}}],
+          ["blocked", "chuenyu.center", ["s", -4, 0], 2.82, 0.94, {"look": {"kind": "folding_screen", "cloth": "6a4030"}}],
+          ["blocked", "chuenyu.west_blackge", ["rel", 0.5, 0.45], 2.82, 2.82, {"look": {"kind": "square_table", "set": "wine"}}],
+          ["blocked", "chuenyu.west_blackge", ["n", 3, 0], 3.76, 0.94, {"look": {"kind": "couch", "cloth": "3a4a3a"}}],
+          ["blocked", "chuenyu.west_blackge", "nw", 1.41, 1.41, {"look": {"kind": "shelf", "curios": true}}],
+          ["blocked", "chuenyu.west_blackge", ["w", 0, 3], 0.94, 2.82, {"look": {"kind": "folding_screen", "rotation": 90, "cloth": "2e4a3a"}}],
+          ["blocked", "chuenyu.west_blackge", "sw", 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "c8b048"}}],
+          ["blocked", "chuenyu.west_blackge", ["se", 2, 0], 2.82, 0.94, {"look": {"kind": "bench_seat", "cloth": "3a4a3a"}}],
+          ["blocked", "chuenyu.east_blackge", ["rel", 0.45, 0.5], 2.35, 2.35, {"look": {"kind": "round_table", "set": "feast"}}],
+          ["blocked", "chuenyu.east_blackge", ["n", -3, 0], 3.76, 0.94, {"look": {"kind": "chair_row", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.east_blackge", "ne", 1.41, 1.41, {"look": {"kind": "shelf", "curios": true}}],
+          ["blocked", "chuenyu.east_blackge", ["e", 0, -3], 0.94, 2.82, {"look": {"kind": "folding_screen", "rotation": 270, "cloth": "6a3a2a"}}],
+          ["blocked", "chuenyu.east_blackge", ["s", 3, 0], 2.82, 0.94, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.east_blackge", "sw", 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "e8e0c8"}}],
+          ["blocked", "chuenyu.storage", "nw", 1.88, 1.41, {"look": {"kind": "chest_stack"}}],
+          ["blocked", "chuenyu.storage", "ne", 1.88, 1.41, {"look": {"kind": "sacks"}}],
+          ["blocked", "chuenyu.storage", ["e", 0, 1], 0.94, 2.82, {"look": {"kind": "shelf", "rotation": 270}}],
+          ["blocked", "chuenyu.storage", "sw", 1.41, 1.41, {"look": {"kind": "old_furniture"}}],
+          ["blocked", "chuenyu.storage", ["w", 0, 0], 0.94, 1.88, {"look": {"kind": "crocks"}}],
+          ["blocked", "chuenyu.west_garden", "nw", 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.west_garden", "sw", 1.88, 1.88, {"look": {"kind": "tree", "species": "old_pine"}}],
+          ["blocked", "chuenyu.west_garden", ["n", 3, 0], 2.82, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "chuenyu.west_garden", ["s", 3, 0], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.45, 0.5], 1.41, 1.41, {"look": {"kind": "stone_table"}}],
+          ["blocked", "chuenyu.north_garden", "nw", 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "chuenyu.north_garden", "ne", 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.north_garden", ["s", -4, 0], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.55, 0.35], 1.41, 1.41, {"look": {"kind": "strange_stone"}}],
+          ["blocked", "chuenyu.east_garden", "ne", 1.88, 1.88, {"look": {"kind": "tree", "species": "old_pine"}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.9, 0.55], 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.east_garden", ["n", -4, 0], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.east_garden", ["s", -3, 0], 2.82, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.62, 0.4], 1.41, 1.41, {"look": {"kind": "stone_table"}}],
+          ["blocked", "chuenyu.south_garden", "sw", 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "chuenyu.south_garden", "se", 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.south_garden", ["n", 3, 0], 2.82, 0.94, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.5, 0.55], 2.82, 2.82, {"look": {"kind": "pavilion"}}],
+          ["blocked", "chuenyu.south_garden", ["s", -3, 0], 2.82, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.2, 0.75], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.75, 0.25], 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.45, 0.62], 3.76, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.west_garden", ["rel", 0.45, 0.2], 3.76, 0.94, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.2, 0.75], 1.88, 1.88, {"look": {"kind": "tree", "species": "old_pine"}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.8, 0.3], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.75, 0.82], 3.76, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "chuenyu.north_garden", ["rel", 0.5, 0.65], 2.82, 2.82, {"look": {"kind": "pavilion"}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.2, 0.75], 1.88, 1.88, {"look": {"kind": "tree", "species": "pine"}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.25, 0.25], 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.8, 0.15], 3.76, 0.94, {"look": {"kind": "camellia_bed"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.2, 0.25], 1.88, 1.88, {"look": {"kind": "tree", "species": "old_pine"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.8, 0.3], 2.35, 1.88, {"look": {"kind": "rockery"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.25, 0.85], 3.76, 0.94, {"look": {"kind": "camellia_bed", "peony": true}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.8, 0.85], 3.76, 0.94, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "chuenyu.west_blackge", ["rel", 0.25, 0.75], 2.35, 2.35, {"look": {"kind": "square_table", "set": "wine"}}],
+          ["blocked", "chuenyu.west_blackge", ["rel", 0.7, 0.8], 2.35, 2.35, {"look": {"kind": "tea_table"}}],
+          ["blocked", "chuenyu.west_blackge", ["rel", 0.6, 0.8], 0.94, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "chuenyu.west_blackge", ["rel", 0.82, 0.8], 0.94, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "chuenyu.east_blackge", ["rel", 0.55, 0.82], 2.35, 2.35, {"look": {"kind": "square_table", "set": "wine"}}],
+          ["blocked", "chuenyu.east_blackge", ["rel", 0.75, 0.75], 2.35, 2.35, {"look": {"kind": "tea_table"}}],
+          ["blocked", "chuenyu.east_blackge", ["rel", 0.4, 0.82], 0.94, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "chuenyu.east_blackge", ["rel", 0.88, 0.75], 0.94, 0.94, {"look": {"kind": "chair"}}],
+          ["blocked", "chuenyu.center", ["rel", 0.25, 0.25], 2.35, 1.41, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.center", ["rel", 0.25, 0.75], 2.35, 1.41, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"]}}],
+          ["blocked", "chuenyu.center", ["rel", 0.88, 0.3], 1.41, 2.35, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"], "rotation": 90}}],
+          ["blocked", "chuenyu.center", ["rel", 0.88, 0.7], 1.41, 2.35, {"look": {"kind": "side_table", "colors": ["8a5a3e", "9a6a48", "7a4e34"], "rotation": 90}}],
+          ["blocked", "chuenyu.center", ["s", 4, 0], 3.76, 0.94, {"look": {"kind": "couch", "cloth": "6a3a2a"}}],
+          ["blocked", "chuenyu.center", ["nw", 2, 0], 0.94, 0.94, {"look": {"kind": "flower_stand", "flower": "c8b048"}}],
+          ["blocked", "chuenyu.storage", ["se", 0, 0], 1.88, 1.41, {"look": {"kind": "baskets"}}],
+          ["blocked", "chuenyu.storage", ["s", -2, 0], 1.88, 0.94, {"look": {"kind": "lumber"}}],
+          ["blocked", "chuenyu.east_garden", ["rel", 0.08, 0.45], 1.41, 1.41, {"look": {"kind": "strange_stone"}}],
+          ["blocked", "chuenyu.south_garden", ["rel", 0.5, 0.18], 1.88, 0.94, {"look": {"kind": "flower_bed"}}]
         ],
         "placed": {
           "chuenyu.west_blackge.guard.1": [
@@ -1135,6 +1247,10 @@
         "style": "map",
         "root": "Castle",
         "map": "chuenyu.castle",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/chuenyu/voxel/castle.json"
+        },
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1209,7 +1325,7 @@
             "id": "chuenyu.center.pull",
             "text": "绳子 · 拉",
             "room": "chuenyu.center",
-            "anchor": ["rel", 0.25, 0.25]
+            "anchor": ["rel", 0.52, 0.08]
           },
           {
             "node": "group",
@@ -1255,7 +1371,7 @@
             "id": "chuenyu.center.landmark.rope",
             "shape": "Rect_32_32",
             "room": "chuenyu.center",
-            "anchor": ["rel", 0.0, 0.5]
+            "anchor": ["rel", 0.52, 0.06]
           },
           {
             "name": "EastGardenWallInteraction",

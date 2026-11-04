@@ -1,0 +1,85 @@
+{
+  "indoor": true,
+  "camera_size": 18,
+  "note": "tunnel1–6.c: 这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的松油灯 — rock, damp, old blood gone black on the floor, a torch each; the 刑房 with their chains and instruments and bones; in tunnel4 sunlight through the slab's cracks. A cave: no lived-in layer.",
+  "edge": {
+    "none": true
+  },
+  "light": {
+    "carried": {"color": "ffcf8a", "range": 5.0, "attenuation": 1.3, "day": 0.5, "night": 0.5},
+    "ambient": ["6e665c", "6e665c"],
+    "ambient_energy": [0.5, 0.5],
+    "sky": ["0c0a08", "0c0a08"],
+    "sun": ["8a7a6a", "8a7a6a"],
+    "sun_energy": [0.16, 0.16],
+    "note": "underground: no day or night, the torches"
+  },
+  "cliffs": {
+    "kinds": ["boundary"],
+    "low": 1.2,
+    "high": 2.2,
+    "rise": 300,
+    "step": 0.5,
+    "rough": 0.8,
+    "keep": 96,
+    "trim": ["boundary"],
+    "grooves": 0.2,
+    "strata": ["3e3a34", "46423a", "4e4a42", "36322c", "524e46"],
+    "tops": ["2a2622", "302c26", "36322c"],
+    "dark": "161412",
+    "moss": {"colors": ["2e3a2a", "36442e"], "amount": 0.2, "hang": 1.2},
+    "note": "the rock the passages are cut in"
+  },
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["3e3a32", "46423a", "36322c"], "gravel": 0.4, "stones": 0.04, "pebbles": ["524e46", "46423a"], "wet": true, "wet_chance": 0.3, "sheen": "3a4a4a"},
+    "floor_yard": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.2, "broken": 0.1, "sunk": 0.04, "tufts": 0.0, "stones": ["4a4640", "524e48", "423e38"], "worn": ["5a5650"], "bed": "2a2622", "joint": 0.06, "mud": "3a3430", "crack": "2a2622"}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "butterflies": 0,
+    "wind": 0.0,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "cliff_tufts": 0.0,
+    "cliff_trees": 0.0,
+    "cliff_flowers": 0.0,
+    "cliff_foot_tufts": 0.0,
+    "outcrop_colors": ["3e3a34", "46423a"]
+  },
+  "actors": {
+    "chuenyu.npc.highrat": {"body": "crawler", "scale": 0.55, "colors": ["5a4e44", "4e443a", "6a5c50"], "spots": "", "name_distance": 200}
+  },
+  "props": [
+    {"kind": "torch", "at": [408, 244], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tunnel1.c: 墙上忽明忽暗的松油灯"},
+    {"kind": "stains", "at": [518, 422], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "地上和墙上布满了暗红色的血痕 — old, dark, not fresh"},
+    {"kind": "straw_patch", "at": [408, 492], "size": [64, 40]},
+    {"kind": "torch", "at": [1432, 244], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tunnel2"},
+    {"kind": "stains", "at": [1542, 422], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tunnel2"},
+    {"kind": "straw_patch", "at": [1432, 492], "size": [64, 40]},
+    {"kind": "torch", "at": [2456, 244], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tunnel3"},
+    {"kind": "stains", "at": [2566, 422], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tunnel3"},
+    {"kind": "straw_patch", "at": [2456, 492], "size": [64, 40]},
+    {"kind": "torch", "at": [408, 1012], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tunnel5"},
+    {"kind": "stains", "at": [518, 1190], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tunnel5"},
+    {"kind": "straw_patch", "at": [408, 1260], "size": [64, 40]},
+    {"kind": "torch", "at": [1432, 1012], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tunnel6"},
+    {"kind": "stains", "at": [1542, 1190], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tunnel6"},
+    {"kind": "straw_patch", "at": [1432, 1260], "size": [64, 40]},
+    {"kind": "torch", "at": [2456, 1012], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "dungeon"},
+    {"kind": "stains", "at": [2566, 1190], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "dungeon"},
+    {"kind": "straw_patch", "at": [2456, 1260], "size": [64, 40]},
+    {"kind": "torch", "at": [408, 1780], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tortureroom"},
+    {"kind": "stains", "at": [518, 1958], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tortureroom"},
+    {"kind": "straw_patch", "at": [408, 2028], "size": [64, 40]},
+    {"kind": "torch", "at": [1432, 1780], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tunnel4"},
+    {"kind": "stains", "at": [1542, 1958], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tunnel4"},
+    {"kind": "straw_patch", "at": [1432, 2028], "size": [64, 40]},
+    {"kind": "torch", "at": [2456, 1780], "size": [16, 16], "height": 1.6, "range": 7.0, "day": 1.8, "night": 1.8, "note": "tortureroom2"},
+    {"kind": "stains", "at": [2566, 1958], "size": [160, 96], "colors": ["3a1e1a", "4a2622", "2e1814"], "count": 7, "note": "tortureroom2"},
+    {"kind": "straw_patch", "at": [2456, 2028], "size": [64, 40]},
+    {"kind": "bones", "at": [2636, 1220], "size": [48, 32], "colors": ["c8bca0", "b8ac90"], "note": "散落着生锈的铁链和破碎的骷髅"},
+    {"kind": "bones", "at": [588, 1988], "size": [48, 32], "colors": ["c8bca0", "b8ac90"], "note": "散落着生锈的铁链和破碎的骷髅"},
+    {"kind": "bones", "at": [2636, 1988], "size": [48, 32], "colors": ["c8bca0", "b8ac90"], "note": "散落着生锈的铁链和破碎的骷髅"},
+    {"kind": "light_shaft", "at": [1536, 1920], "size": [96, 64], "height": 3.0, "rays": 4, "note": "tunnel4.c: 地牢的天花板上镶着一块石板，从石板的缝隙间射进几束阳光"}
+  ]
+}

@@ -1074,7 +1074,7 @@ msgid "铁索桥"
 msgstr ""
 
 #. es2:d/chuenyu/gate_castle short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json data/chuenyu/voxel/main.json
 msgid "黑松淳于"
 msgstr ""
 
@@ -13427,7 +13427,7 @@ msgstr ""
 #. village.melon region
 #. village.lake region
 #. village name
-#: data/common/atlas.json data/common/journal.json data/village/world.json data/city/voxel/main.json
+#: data/common/atlas.json data/common/journal.json data/village/world.json data/chuenyu/voxel/main.json data/city/voxel/main.json
 msgid "玉螺湖村"
 msgstr ""
 
@@ -13444,7 +13444,7 @@ msgstr ""
 #. chuenyu.xiaojuan region
 #. chuenyu name
 #. native.npc.shitou inquiry topic
-#: data/common/atlas.json data/common/journal.json data/chuenyu/world.json data/niling/npcs.json
+#: data/common/atlas.json data/common/journal.json data/chuenyu/world.json data/niling/npcs.json data/chuenyu/voxel/main.json
 msgid "黑松山"
 msgstr ""
 
@@ -35766,7 +35766,7 @@ msgstr ""
 
 #. chuenyu.npc.cleangirl inquiry topic
 #. chuenyu.npc.cook inquiry topic
-#: data/chuenyu/npcs.json
+#: data/chuenyu/npcs.json data/chuenyu/voxel/main.json
 msgid "淳于"
 msgstr ""
 
@@ -41639,6 +41639,10 @@ msgstr ""
 msgid "衙门口"
 msgstr ""
 
+#: data/chuenyu/voxel/main.json data/city/voxel/main.json data/cloud/voxel/outdoor.json
+msgid "茶"
+msgstr ""
+
 #: data/city/voxel/main.json
 msgid "官府告示"
 msgstr ""
@@ -41649,10 +41653,6 @@ msgstr ""
 
 #: data/city/voxel/main.json data/guanbei/voxel/worksite.json
 msgid "兵"
-msgstr ""
-
-#: data/city/voxel/main.json data/cloud/voxel/outdoor.json
-msgid "茶"
 msgstr ""
 
 #: data/city/voxel/main.json

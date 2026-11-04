@@ -1,0 +1,17 @@
+{
+  "note": "黑松山 (美术规划 §1: 墨绿、冷灰、暗褐): a cool grey-green day under the black pines, the light thin even at noon; dusk a dull copper; night blue-black, the castle's few lamps. Gloom from the woods and the decay, never a permanent night.",
+  "outdoor": {
+    "overcast": {"sky": "7e8a88", "ambient": "8e9a96", "sun": "c8d0cc", "note": "under cloud (DECISIONS「天气」): green-grey"},
+    "sky": {"dawn": "b8c0bc", "day": "98b4c0", "dusk": "b8805a", "night": "0a1220", "midnight": "080e1a"},
+    "ambient": {"dawn": "b4bcb4", "day": "b8c4bc", "dusk": "b89880", "night": "4e5e80", "midnight": "46587a"},
+    "ambient_energy": {"dawn": 0.4, "day": 0.44, "dusk": 0.42, "night": 0.29, "midnight": 0.27},
+    "sun": {"dawn": "f0d0b0", "day": "f4ecd8", "dusk": "e8904a", "night": "9ab0e0", "midnight": "92a8dc"},
+    "sun_energy": {"dawn": 0.5, "day": 0.86, "dusk": 0.72, "night": 0.3, "midnight": 0.26}
+  },
+  "indoor": {
+    "ambient": {"dawn": "c8c0b0", "day": "d0c8b8", "dusk": "c8a890", "night": "5e6680", "midnight": "565e7c"},
+    "ambient_energy": {"dawn": 0.42, "day": 0.44, "dusk": 0.44, "night": 0.32, "midnight": 0.3},
+    "sun": {"dawn": "f8d8b8", "day": "f8eed4", "dusk": "f0b080", "night": "a0b8e8", "midnight": "98b2e8"},
+    "sun_energy": {"dawn": 0.3, "day": 0.42, "dusk": 0.34, "night": 0.12, "midnight": 0.1}
+  }
+}

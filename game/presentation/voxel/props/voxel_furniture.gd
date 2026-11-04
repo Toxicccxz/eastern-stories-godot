@@ -238,6 +238,14 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					for leaf: int in 3:
 						s.tilted_box(panel,Vector3(stem+0.08,tall*0.4+leaf*tall*0.17,0.115),Vector3(pw*0.28,0.055,0.02),tone,Vector3(0,0,-0.45))
 		"wall_scroll":
+			if data.get("rope",false):
+				# center.c: 整幅字画是用一条很粗的绳子挂起来的 — a thick cord from the roller's ends up
+				# to an iron hook under the beam.
+				var half: float = w*0.45
+				var rise: float = 0.12
+				s.box(root,Vector3(0,3.03+rise,0.05),Vector3(0.1,0.1,0.1),"3a3633")
+				for side: float in [-1.0,1.0]:
+					s.tilted_box(root,Vector3(side*half/2,3.03+rise/2,0.07),Vector3(sqrt(half*half+rise*rise),0.07,0.07),"a88a5a",Vector3(0,0,-side*atan2(rise,half)))
 			s.box(root,Vector3(0,2.15,0.02),Vector3(w,1.7,0.04),"b29c75")
 			s.box(root,Vector3(0,2.17,0.05),Vector3(w*0.76,1.46,0.025),"ddd3af")
 			for y: float in [1.27,3.03]:

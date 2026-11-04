@@ -16,7 +16,10 @@ answers and the defaults). Package A draws the road, the mountain and the castle
 | chuenyu.upstairs (淳于's rooms) | bedroom, yiantai, kitchen | 信鸽 ×2, 厨子 | the two stairs down; the 玉帘门 (shut) to the 膳房 |
 | chuenyu.prison (地牢) | tunnel1–6, dungeon, tortureroom, tortureroom2 | 大老鼠 ×5, 淳于怀太, 小娟, 狱卒 ×4 | the maze's passages; the slab up to east_castle (pushed open) |
 
-None of these maps has a voxel view yet (no `game/data/chuenyu/voxel/`).
+Every map has its voxel view (`game/data/chuenyu/voxel/`). For it the seam with 玉螺湖村 is as wide as the village's
+spur (160); the castle's furniture is blocked boxes in the layout, each room's `life` written. north_garden.c's 千斤巨石 is
+a blocked box (in ES2 the rock is only a look that closes the way north); trap_castle.c's stays drawn on the wall behind
+the 夹道's walkable rock.
 
 Not placed: the copy of 刘家 (dustyroad3, home, littlegarden, smallstorage, smallyard, with a
 second 刘老农, 采花妞, 大老鼠 and smallyard's 蛐蛐, 蚂蚁 and 蝴蝶): ES2 cut it off (sunnyroad.c's

@@ -418,6 +418,40 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0.36,0.05,0.98),Vector3(0.62,0.08,0.22),"9a8a66")
 			s.box(root,Vector3(0.36,0.1,0.84),Vector3(0.18,0.02,0.18),"2a2422")
 			s.box(root,Vector3(0.1,0.1,0.72),Vector3(0.06,0.06,0.06),iron)
+		"hanging_rope":
+			# center.c: 这根绳子顺着墙垂下来 — thick hemp from a ring high on the wall down to a loose
+			# coil at its foot, the strands twisting.
+			var top: float = float(data.get("height",3.0))
+			var hemp: Array = data.get("colors",["a88a5a","96784c","b89a68"])
+			s.box(root,Vector3(0,top+0.06,0.04),Vector3(0.16,0.16,0.1),"3a3633")
+			for i: int in ceili(top/0.14):
+				s.tilted_box(root,Vector3(0,top-0.07-i*0.14,0.1),Vector3(0.09,0.16,0.09),String(hemp[i%hemp.size()]),Vector3(0,0,0.35 if i%2 else -0.35))
+			for loop: int in 3:
+				s.tilted_box(root,Vector3(0.08+loop*0.05,0.04+loop*0.03,0.2+loop*0.05),Vector3(0.38-loop*0.08,0.07,0.08),String(hemp[loop%hemp.size()]),Vector3(0,loop*0.9,0))
+		"chained_bones":
+			# dungeon.c: 许多骷髅被生锈的铁链绑在墙上 — skeletons slumped against the wall, their wrists
+			# in rusty irons on chains from rings in the stone, the legs folded on the floor.
+			var bone: Array = data.get("colors",["c8bca0","b8ac90","d4c8ac"])
+			var rust: String = String(data.get("chain","5a3a28"))
+			var count: int = int(data.get("count",2))
+			for i: int in count:
+				var x: float = -w/2+(i+0.5)*w/count
+				var slump: float = 0.12*sin(i*2.1+0.7)
+				for side: float in [-1.0,1.0]:
+					s.box(root,Vector3(x+side*0.32,1.95,-d/2+0.04),Vector3(0.12,0.12,0.06),"2e2a26")
+					for link: int in 4:
+						s.box(root,Vector3(x+side*(0.32-link*0.02),1.85-link*0.11,-d/2+0.08),Vector3(0.05,0.1,0.04) if link%2 else Vector3(0.07,0.06,0.05),rust)
+					s.tilted_box(root,Vector3(x+side*0.25,1.32,-d/2+0.12),Vector3(0.05,0.42,0.05),String(bone[1]),Vector3(0,0,side*0.35))
+					s.box(root,Vector3(x+side*0.3,1.5,-d/2+0.1),Vector3(0.1,0.08,0.08),rust)
+				s.box(root,Vector3(x+slump,1.18,-d/2+0.16),Vector3(0.24,0.24,0.24),String(bone[2]))
+				s.box(root,Vector3(x+slump,1.16,-d/2+0.29),Vector3(0.16,0.06,0.02),"2a2420")
+				s.box(root,Vector3(x+slump*0.6,0.88,-d/2+0.12),Vector3(0.06,0.42,0.06),String(bone[0]))
+				for rib: int in 4:
+					s.box(root,Vector3(x+slump*0.6,1.0-rib*0.08,-d/2+0.16),Vector3(0.3-rib*0.03,0.03,0.12),String(bone[rib%2]))
+				s.box(root,Vector3(x+slump*0.3,0.62,-d/2+0.14),Vector3(0.28,0.1,0.14),String(bone[1]))
+				for side: float in [-1.0,1.0]:
+					s.tilted_box(root,Vector3(x+side*0.12,0.3,-d/2+0.3),Vector3(0.06,0.06,0.44),String(bone[0]),Vector3(0.6,side*0.3,0))
+					s.tilted_box(root,Vector3(x+side*0.2,0.05,-d/2+0.56),Vector3(0.06,0.06,0.36),String(bone[1]),Vector3(0,side*0.4,0))
 		"wall_sword":
 			# outdoor.c: 东首墙上挂这一把木剑 — a plain wooden sword on two pegs.
 			var y: float = float(data.get("height",1.7))

@@ -648,8 +648,9 @@ func _torch() -> void:
 	light.position = Vector3(0,height+0.3,0)
 	light.light_color = Color("ffa45c")
 	light.omni_range = float(data.get("range",5.0))
-	light.set_meta("day_energy",0.2)
-	light.set_meta("night_energy",2.0)
+	# Outdoors a torch is dim by day; underground (`day` as `night`) it burns the same all day.
+	light.set_meta("day_energy",float(data.get("day",0.2)))
+	light.set_meta("night_energy",float(data.get("night",2.0)))
 	light.set_meta("flicker",0.2)
 	root.add_child(light)
 
