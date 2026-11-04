@@ -429,6 +429,10 @@ func interact_with(id: StringName) -> bool:
 ## The interaction popup on `thing`, in the shared frame, opened on its 查看: opening it
 ## looks at the thing (look.c), as 查看 did. It closes when the thing leaves reach.
 func open_interaction(thing: WorldNearbyThing) -> void:
+	# 界面重做 3: a conversation still in the box (打听) ends first, so one window and one
+	# Esc show, not the popup over the box (a story being told keeps its pages).
+	if dialogue_box.hosting():
+		dialogue_box.close()
 	_interacting = thing
 	# The target stays on it while the popup shows (time runs on a page; others walk by).
 	nearby.choose(thing.id)
@@ -437,6 +441,7 @@ func open_interaction(thing: WorldNearbyThing) -> void:
 	_presentation_layout.open_panel(nearby.shown_name(thing), interaction_panel, func() -> bool: return nearby.target() != null and nearby.target().id == key)
 	if not interaction_open():
 		return
+	_show_forecast(thing)
 	var look: InteractionOption = null
 	for option: InteractionOption in nearby.options_for(_session.active_map() as WorldMapController, thing):
 		if option.label == LOOK:
@@ -445,7 +450,7 @@ func open_interaction(thing: WorldNearbyThing) -> void:
 	if look != null:
 		# Selects it and shows the details: the popup keeps their text as its 查看.
 		look.action.call()
-	interaction_panel.set_look(inspection_text.get_parsed_text().strip_edges() if look != null else "")
+	interaction_panel.set_look(inspection_text.get_parsed_text().strip_edges() if look != null else "", nearby.shown_name(thing))
 
 
 ## The popup shows the target as it is now (its options greyed or not); 查看 is its right
@@ -465,6 +470,19 @@ func _fill_interaction() -> void:
 		if option.label != LOOK:
 			options.append(option)
 	interaction_panel.show_thing(status, about, options)
+	if interaction_open():
+		_show_forecast(thing)
+
+
+## 界面重做 3: the fight forecast's word (稳赢 … 必败) beside the popup's title, on its
+## plate, for an NPC; its line is the hover. None under ES2's own strength words (classic).
+func _show_forecast(thing: WorldNearbyThing) -> void:
+	var outlook: CombatOutlook = nearby.outlook_of(thing)
+	if outlook == null or outlook.forecast == null:
+		_presentation_layout.set_badge("", -1)
+		return
+	var pronoun: String = tr(Es2CombatMessages.pronoun(thing.npc.character_state.gender))
+	_presentation_layout.set_badge(CombatForecast.verdict_word(outlook.forecast.verdict), outlook.forecast.verdict, outlook.shown(pronoun))
 
 
 ## A row chosen: it is done with the popup open. What it opens (打听, a shop, 给予, its
@@ -629,7 +647,10 @@ func _build_menu() -> void:
 	inventory_page = VBoxContainer.new()
 	inventory_page.name = "InventoryPage"
 	inventory_page.add_theme_constant_override("separation", 12)
+	# 界面重做 2: the list takes the window's height, 随身补给 under it.
+	inventory_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inventory_panel.reparent(inventory_page, false)
+	inventory_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	# The tab names it and the window closes it: the panel's own title and 关闭 go.
 	inventory_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	for path: String in ["Margin/VBox/Title", "Margin/VBox/Separator", "Margin/VBox/PlayerInventoryCloseButton"]:
@@ -647,12 +668,16 @@ func _build_menu() -> void:
 	# quest.c's lines, already in the shown language.
 	quest_text = quest_page.quest_text
 	_heading(journal_page, "消息记录")
-	_presentation_layout.messages.reparent(journal_page, false)
+	# 界面重做 2: the log in a recess of its own under the quests.
+	var log_well := PanelContainer.new()
+	log_well.name = "LogWell"
+	log_well.theme_type_variation = &"WellPanel"
+	journal_page.add_child(log_well)
+	_presentation_layout.messages.reparent(log_well, false)
 	_presentation_layout.messages.show()
 	menu = GameMenu.new()
 	add_child(menu)
 	codex_page = CodexPage.new()
-	codex_page.blocked = func() -> bool: return _presentation_layout.frame.visible
 	map_page = MapPage.new()
 	map_page.rows_changed = func() -> void: menu.refresh_rows()
 	menu.build(self, character_sheet, arts_page, inventory_page, journal_page, map_page, codex_page)
@@ -662,8 +687,7 @@ func _heading(parent: Node, text: String) -> Label:
 	var label := Label.new()
 	label.name = "Heading"
 	label.text = text
-	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	label.theme_type_variation = &"HeadingLabel"
 	parent.add_child(label)
 	return label
 
@@ -687,6 +711,10 @@ func is_menu_dialog(content: Control) -> bool:
 ## The menu opened: the frame's panel closes, its questions now show over the menu. Over
 ## the running world the player stops walking; the shell's pause freezes things itself.
 func menu_presented() -> void:
+	# 界面重做: the status card and the toasts step back while the menu is open.
+	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
+		if part != null:
+			part.modulate.a = 0.0
 	_presentation_layout.close_frame()
 	_presentation_layout.lift_frame(menu.root)
 	# The world stands still while the menu is open (owner, 2026-10-15).
@@ -697,6 +725,9 @@ func menu_presented() -> void:
 
 
 func menu_dismissed(from_pause: bool) -> void:
+	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
+		if part != null:
+			part.modulate.a = 1.0
 	_presentation_layout.close_frame()
 	_presentation_layout.lower_frame()
 	if _session != null:
@@ -740,10 +771,13 @@ func _refresh_menu_page() -> void:
 		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
 			panels.refresh_character()
 		GameMenu.Tab.JOURNAL:
-			# quest.c's time left changes; the rest only when something new was recorded.
-			quest_text.text = _task_lines()
-			if _player != null and _records_shown() != _journal_shown:
+			# quest.c's time left changes; the rest only when something new was recorded (or
+			# the task came or went: its card shows or goes).
+			var task: String = _task_lines()
+			if task.is_empty() != quest_text.text.is_empty() or (_player != null and _records_shown() != _journal_shown):
 				menu_tab_shown(GameMenu.Tab.JOURNAL)
+			else:
+				quest_text.text = task
 	message_log.collect_feedback()
 
 
@@ -1062,6 +1096,11 @@ func close_business(form: Control) -> void:
 
 func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable(), about: String = "") -> void:
 	questions.ask_first(text, choice, action, still_valid, on_cancel, about)
+
+
+## ask_first() for a choice that can cost the player dearly: its button in dark lacquer.
+func ask_danger(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable(), about: String = "") -> void:
+	questions.ask_danger(text, choice, action, still_valid, on_cancel, about)
 
 
 func is_asking() -> bool:

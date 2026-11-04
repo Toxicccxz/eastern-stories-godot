@@ -12,7 +12,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var shade := ColorRect.new()
-	shade.color = Color(0.02, 0.025, 0.03, 0.85)
+	shade.color = UiPalette.SCRIM
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(shade)
 	panel = PanelContainer.new()
@@ -22,9 +22,12 @@ func _ready() -> void:
 	panel.add_child(content)
 	var title := Label.new()
 	title.text = "战斗记录"
+	title.theme_type_variation = &"HeadingLabel"
 	content.add_child(title)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
+	_text.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
+	_text.add_theme_font_size_override("normal_font_size", 18)
 	_text.custom_minimum_size = Vector2(0, 240)
 	_text.scroll_following = true
 	_text.add_to_group(PadSupport.SCROLL_GROUP)
@@ -32,6 +35,8 @@ func _ready() -> void:
 	close_button = Button.new()
 	close_button.name = "CloseLog"
 	close_button.text = "关闭"
+	close_button.theme_type_variation = &"ChipButton"
+	close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	close_button.custom_minimum_size = Vector2(64, 64)
 	close_button.pressed.connect(close_log)
 	content.add_child(close_button)

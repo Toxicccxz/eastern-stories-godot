@@ -29,24 +29,45 @@ text = "背包"
 [node name="Separator" type="HSeparator" parent="Margin/VBox"]
 layout_mode = 2
 
-[node name="Scroll" type="ScrollContainer" parent="Margin/VBox"]
+[node name="Body" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="List" type="VBoxContainer" parent="Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="PlayerInventoryScroll" type="ScrollContainer" parent="Margin/VBox/Body/List"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 180)
 layout_mode = 2
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 follow_focus = true
 
-[node name="PlayerInventoryRows" type="VBoxContainer" parent="Margin/VBox/Scroll"]
+[node name="PlayerInventoryRows" type="VBoxContainer" parent="Margin/VBox/Body/List/PlayerInventoryScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
-[node name="PlayerInventoryEmptyLabel" type="Label" parent="Margin/VBox"]
+[node name="PlayerInventoryEmptyLabel" type="Label" parent="Margin/VBox/Body/List"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "空无一物"
 horizontal_alignment = 1
 
-[node name="PlayerInventoryInspectText" type="RichTextLabel" parent="Margin/VBox"]
+[node name="InspectWell" type="PanelContainer" parent="Margin/VBox/Body"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_type_variation = &"WellPanel"
+
+[node name="PlayerInventoryInspectText" type="RichTextLabel" parent="Margin/VBox/Body/InspectWell"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2

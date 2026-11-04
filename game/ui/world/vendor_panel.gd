@@ -37,9 +37,18 @@ func build_goods(keys: Array[String]) -> void:
 	for key: String in keys:
 		var button: Button = Button.new()
 		button.custom_minimum_size = Vector2(0, 44)
+		# 界面重做 3: the goods are a list, each a row.
+		button.theme_type_variation = &"RowButton"
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.pressed.connect(func() -> void: purchase_requested.emit(key))
 		goods_rows.add_child(button)
 		_goods_buttons[key] = button
+
+
+## In the interaction popup the title (the keeper and the goods) says again what the frame
+## and the rows say: it goes there.
+func hosted_in_popup(hosted: bool) -> void:
+	_title.visible = not hosted
 
 
 ## The title and each good's label (goods key -> label), in the shown language.

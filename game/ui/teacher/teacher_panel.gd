@@ -82,11 +82,8 @@ func _ready() -> void:
 	panel.name = "Panel"
 	panel.hide()
 	add_child(panel)
-	var background := StyleBoxFlat.new()
-	background.bg_color = Color(0.09, 0.10, 0.085, 1)
-	for side: String in ["left", "right", "top", "bottom"]:
-		background.set("content_margin_" + side, 14.0)
-	panel.add_theme_stylebox_override("panel", background)
+	# 界面重做 3: the popup's window is its box.
+	panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_rows = VBoxContainer.new()
 	_rows.name = "Rows"
 	panel.add_child(_rows)

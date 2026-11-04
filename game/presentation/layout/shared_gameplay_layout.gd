@@ -25,6 +25,10 @@ var toasts: MessageToasts
 var barrier: Control
 var frame: PanelContainer
 var frame_title: Label
+## The fight forecast's word beside the title while the popup shows an NPC (界面重做 3:
+## 稳赢 … 必败 on its plate; its line as the hover).
+var frame_badge: PanelContainer
+var frame_badge_text: Label
 var mount: VBoxContainer
 var holding: Control
 var details: VBoxContainer
@@ -57,6 +61,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	overlay.name = "Overlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 界面重做 3: the HUD, its frame and the forms it shows wear GameTheme (DECISIONS「界面样式」).
+	overlay.theme = GameTheme.shared()
 	ui.add_child(overlay)
 	holding = Control.new()
 	holding.name = "ClosedPanels"
@@ -65,10 +71,9 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	bar = PanelContainer.new()
 	bar.name = "ExplorationHUD"
 	overlay.add_child(bar)
-	# The status card (owner, 2026-10-06: a more modern top left): the name and the
-	# place, 精/气/神 as bars, then the actions as flat rounded buttons.
-	bar.add_theme_stylebox_override("panel", _card_style())
-	bar.theme = card_theme()
+	# The status card (owner, 2026-10-06: a more modern top left): the name, 精/气/神 as
+	# bars, then what to do next; 界面重做 3: a planked slab, the name in voxel letters.
+	bar.theme_type_variation = &"HudCard"
 	# Small screens scroll the HUD instead of letting it leave the safe area.
 	_bar_scroll = ScrollContainer.new()
 	_bar_scroll.name = "Rows"
@@ -90,18 +95,19 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ui.player_name.clip_text = true
 	ui.player_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	ui.player_name.add_theme_font_size_override("font_size", 19)
+	ui.player_name.theme_type_variation = &"TitleLabel"
 	ui.player_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	ui.player_name.add_theme_color_override("font_color", NAME_COLOR)
 	header.add_child(ui.player_name)
 	var view_side := VoxelViewSideButton.new()
 	view_side.name = "ViewSide"
 	view_side.ui = ui
 	view_side.custom_minimum_size = Vector2(88,38)
 	view_side.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	view_side.theme_type_variation = &"ChipButton"
 	header.add_child(view_side)
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	menu_button.theme_type_variation = &"ChipButton"
 	# Start / M opens it: the card takes no focus.
 	menu_button.focus_mode = Control.FOCUS_NONE
 	InputGlyphs.decorate(menu_button, &"menu_open")
@@ -120,17 +126,17 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_spirit_text = spirit[1]
 	# The conditions the player has (蛇毒), shown only when there are some.
 	ui.player_vitality_text = _label(_bar_rows, "Resources")
-	ui.player_vitality_text.add_theme_font_size_override("font_size", 13)
+	ui.player_vitality_text.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
 	ui.player_vitality_text.add_theme_color_override("font_color", CONDITION_COLOR)
 	ui.player_vitality_text.hide()
 	# What to do next (前两小时 A, a guide chain's `next`; off with the 目标提示 setting).
 	ui.player_objective = _label(_bar_rows, "Objective")
-	ui.player_objective.add_theme_font_size_override("font_size", 13)
+	ui.player_objective.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
 	ui.player_objective.add_theme_color_override("font_color", ACCENT_COLOR)
 	ui.player_objective.hide()
 	# A guide chain's next step while a quest holds the 目标 row (任务系统, owner Q1).
 	ui.player_advice = _label(_bar_rows, "Advice")
-	ui.player_advice.add_theme_font_size_override("font_size", 12)
+	ui.player_advice.add_theme_font_size_override("font_size", HUD_SMALL_SIZE)
 	ui.player_advice.add_theme_color_override("font_color", MUTED_COLOR)
 	ui.player_advice.hide()
 	waits = VBoxContainer.new()
@@ -160,7 +166,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	var tag_chip := PanelContainer.new()
 	tag_chip.name = "TargetTag"
 	tag_chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	tag_chip.add_theme_stylebox_override("panel", _chip_style(Color(ACCENT_COLOR, 0.2)))
+	tag_chip.theme_type_variation = &"PlatePanel"
 	target_row.add_child(tag_chip)
 	var tag := Label.new()
 	tag.name = "Tag"
@@ -179,7 +185,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	contexts.add_theme_constant_override("v_separation", 8)
 	holding.add_child(contexts)
 	context_button = _button(contexts, "Context", "交互", ui.open_current_context)
-	context_button.theme_type_variation = &"AccentButton"
+	context_button.theme_type_variation = &"PrimaryButton"
 	ui.inspect_button = _button(contexts, "Inspect", "查看", Callable())
 	ui.attack_button = _button(contexts, "Attack", "攻击", Callable())
 	ui.spar_button = _button(contexts, "Spar", "切磋", Callable())
@@ -205,16 +211,45 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	frame.name = "SharedPanel"
 	frame.hide()
 	overlay.add_child(frame)
-	_style(frame)
+	frame.theme_type_variation = &"MenuWindow"
 	var rows := VBoxContainer.new()
-	rows.add_theme_constant_override("separation", 12)
+	rows.add_theme_constant_override("separation", 10)
 	frame.add_child(rows)
 	var heading := HBoxContainer.new()
+	heading.add_theme_constant_override("separation", 12)
 	rows.add_child(heading)
 	frame_title = _label(heading, "Title")
+	frame_title.theme_type_variation = &"TitleLabel"
+	# One line, the row's width, cut with … when longer (a long title must not widen the frame
+	# past the screen); KEEPS_WIDTH keeps the layout from wrapping it.
+	frame_title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	frame_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	frame_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	frame_title.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
+	frame_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	frame_title.resized.connect(_place_badge)
+	# The forecast's plate sits right after the title's text (placed by _place_badge()).
+	frame_badge = PanelContainer.new()
+	frame_badge.name = "Badge"
+	frame_badge.mouse_filter = Control.MOUSE_FILTER_STOP
+	frame_badge.hide()
+	frame_title.add_child(frame_badge)
+	frame_badge_text = Label.new()
+	frame_badge_text.name = "Word"
+	frame_badge_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	frame_badge_text.add_theme_color_override("font_color", Color("fff3dc"))
+	frame_badge_text.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
+	frame_badge.add_child(frame_badge_text)
 	close_button = _button(heading, "Close", "关闭", close_panel)
+	close_button.theme_type_variation = &"ChipButton"
+	close_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	InputGlyphs.decorate(close_button, &"ui_cancel")
+	var heading_rule := ColorRect.new()
+	heading_rule.name = "Rule"
+	heading_rule.color = Color(UiPalette.BONE, 0.12)
+	heading_rule.custom_minimum_size.y = 2
+	heading_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rows.add_child(heading_rule)
 	mount = VBoxContainer.new()
 	mount.name = "Content"
 	# A panel of fixed size (the interaction popup) fills the frame's height.
@@ -298,11 +333,8 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 			_bar_area.size.y = minf(area.size.y, above_pad)
 	bar.position = area.position
 	bar.size = Vector2(minf(CARD_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
-	# Touch rows keep five 64 px buttons on one line at 480 px, with room for a scrollbar.
-	var card: StyleBoxFlat = bar.get_theme_stylebox("panel") as StyleBoxFlat
-	if card != null:
-		card.content_margin_left = 10.0 if metrics.touch_sized() else 16.0
-		card.content_margin_right = 10.0 if metrics.touch_sized() else 16.0
+	# Touch rows keep five 64 px buttons on one line at 480 px: the card's narrower sides.
+	bar.theme_type_variation = &"HudCardTouch" if metrics.touch_sized() else &"HudCard"
 	# Touch-sized buttons stay 64 px square so five fit one row on 480 px.
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
@@ -364,8 +396,9 @@ var _frame_content: Control
 const FRAME_WIDTH: float = 660.0
 ## The popup keeps one size, a share of the screen, whatever its page holds (owner,
 ## 2026-10-17); never under HOST_MIN, so a small or scaled screen is nearly all popup.
-const HOST_SHARE: Vector2 = Vector2(0.75, 0.7)
-const HOST_MIN: Vector2 = Vector2(820, 440)
+## 界面重做 3: a little over half the screen (it held three lines in three quarters).
+const HOST_SHARE: Vector2 = Vector2(0.62, 0.64)
+const HOST_MIN: Vector2 = Vector2(760, 420)
 
 
 ## The popup's page now, or null (its 查看, or no popup).
@@ -404,12 +437,14 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	_frame_content = content
 	_host = content as InteractionPanel if content == ui.interaction_panel else null
 	_return_parent = content.get_parent()
+	_unbox(content)
 	content.reparent(mount, false)
 	content.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.custom_minimum_size = Vector2.ZERO
 	content.show()
 	frame_title.text = title
+	set_badge("", -1)
 	close_button.text = "关闭"
 	frame.show()
 	barrier.show()
@@ -431,12 +466,15 @@ func _open_page(title: String, content: Control, valid: Callable) -> void:
 	_page_valid = valid
 	_page_parent = content.get_parent()
 	_content = content
+	_unbox(content)
 	content.reparent(_host.page_mount(), false)
 	content.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.custom_minimum_size = Vector2.ZERO
 	content.show()
-	_host.show_page(title)
+	if content.has_method(&"hosted_in_popup"):
+		content.call(&"hosted_in_popup", true)
+	_host.show_page(page_heading(title, frame_title.text))
 	# 关闭 (B) goes back to 查看 first.
 	close_button.text = "返回"
 	ui.panel_opened()
@@ -486,6 +524,8 @@ func close_page(restore: bool = true) -> void:
 func _close_page() -> void:
 	var content: Control = _page
 	var destination: Node = _page_parent
+	if is_instance_valid(content) and content.has_method(&"hosted_in_popup"):
+		content.call(&"hosted_in_popup", false)
 	_page = null
 	_page_parent = null
 	_page_valid = Callable()
@@ -517,6 +557,7 @@ func close_frame(restore: bool = true) -> void:
 	_valid = Callable()
 	frame.hide()
 	barrier.hide()
+	set_badge("", -1)
 	close_button.text = "关闭"
 	ui.refresh_toasts()
 	if is_instance_valid(content):
@@ -581,9 +622,10 @@ func wait_row(hurry: Callable) -> Array:
 	var text := _label(line, "Text")
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	text.add_theme_font_size_override("font_size", 13)
+	text.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
 	text.add_theme_color_override("font_color", CONDITION_COLOR)
 	var button: Button = _button(line, "Hurry", "继续", hurry)
+	button.theme_type_variation = &"ChipButton"
 	button.custom_minimum_size = Vector2(64, 30)
 	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	button.focus_mode = Control.FOCUS_NONE
@@ -595,31 +637,10 @@ func wait_row(hurry: Callable) -> Array:
 	progress.custom_minimum_size.y = 4
 	progress.max_value = 1.0
 	progress.step = 0.0
-	var track := StyleBoxFlat.new()
-	track.bg_color = Color(1, 1, 1, 0.09)
-	track.set_corner_radius_all(2)
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = CONDITION_COLOR
-	fill.set_corner_radius_all(2)
-	progress.add_theme_stylebox_override("background", track)
-	progress.add_theme_stylebox_override("fill", fill)
+	GameTheme.dress_bar(progress, CONDITION_COLOR)
 	row.add_child(progress)
 	waits.add_child(row)
 	return [text, progress, button]
-
-
-## A list item's box: a little lighter than the card, rounded.
-static func item_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(1, 1, 1, 0.05)
-	style.border_color = Color(1, 1, 1, 0.07)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.content_margin_left = 10.0
-	style.content_margin_right = 10.0
-	style.content_margin_top = 7.0
-	style.content_margin_bottom = 9.0
-	return style
 
 
 ## The status card's look.
@@ -627,9 +648,12 @@ const CARD_WIDTH: float = 480.0
 ## The least height the card keeps above the movement pad (name, bars, navigation row).
 const BAR_MIN_ABOVE_PAD: float = 200.0
 const TOAST_WIDTH: float = 440.0
-const NAME_COLOR: Color = Color(0.96, 0.95, 0.9)
-const MUTED_COLOR: Color = Color(0.74, 0.78, 0.72)
-const ACCENT_COLOR: Color = Color(0.88, 0.74, 0.44)
+const NAME_COLOR: Color = UiPalette.BONE
+const MUTED_COLOR: Color = UiPalette.MUTED
+const ACCENT_COLOR: Color = UiPalette.GOLD
+## The card's lines under the bars (界面重做 3: the body face, a size down).
+const HUD_TEXT_SIZE: int = 15
+const HUD_SMALL_SIZE: int = 14
 const CONDITION_COLOR: Color = Color(0.95, 0.68, 0.42)
 const ESSENCE_COLOR: Color = Color(0.86, 0.72, 0.34)
 const VITALITY_COLOR: Color = Color(0.86, 0.38, 0.33)
@@ -650,7 +674,7 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	var name_label := Label.new()
 	name_label.name = "Caption"
 	name_label.text = caption
-	name_label.add_theme_font_size_override("font_size", 13)
+	name_label.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
 	name_label.add_theme_color_override("font_color", color.lightened(0.25))
 	line.add_child(name_label)
 	var value := Label.new()
@@ -658,107 +682,17 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	value.clip_text = true
-	value.add_theme_font_size_override("font_size", 13)
+	value.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
 	value.add_theme_color_override("font_color", NAME_COLOR)
 	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	line.add_child(value)
 	var bar_control := ProgressBar.new()
 	bar_control.name = "Bar"
 	bar_control.show_percentage = false
-	bar_control.custom_minimum_size.y = 6
-	var track := StyleBoxFlat.new()
-	track.bg_color = Color(1, 1, 1, 0.09)
-	track.set_corner_radius_all(3)
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = color
-	fill.set_corner_radius_all(3)
-	bar_control.add_theme_stylebox_override("background", track)
-	bar_control.add_theme_stylebox_override("fill", fill)
+	bar_control.custom_minimum_size.y = 8
+	GameTheme.dress_bar(bar_control, color)
 	column.add_child(bar_control)
 	return [bar_control, value]
-
-
-func _card_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.045, 0.06, 0.07, 0.86)
-	style.border_color = Color(1, 1, 1, 0.09)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(14)
-	style.shadow_color = Color(0, 0, 0, 0.32)
-	style.shadow_size = 10
-	style.shadow_offset = Vector2(0, 3)
-	style.content_margin_left = 16.0
-	style.content_margin_right = 16.0
-	style.content_margin_top = 14.0
-	style.content_margin_bottom = 14.0
-	return style
-
-
-func _chip_style(color: Color) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.set_corner_radius_all(9)
-	style.content_margin_left = 9.0
-	style.content_margin_right = 9.0
-	style.content_margin_top = 2.0
-	style.content_margin_bottom = 3.0
-	return style
-
-
-## Flat rounded buttons for the card; AccentButton for the place's own action.
-static func card_theme() -> Theme:
-	var theme := Theme.new()
-	theme.default_font_size = 15
-	var states: Dictionary[String, Color] = {
-		"normal": Color(1, 1, 1, 0.07), "hover": Color(1, 1, 1, 0.14), "pressed": Color(ACCENT_COLOR, 0.32),
-		"disabled": Color(1, 1, 1, 0.03), "focus": Color(0, 0, 0, 0),
-	}
-	for state: String in states:
-		theme.set_stylebox(state, "Button", _button_style(states[state], state == "focus"))
-	theme.set_color("font_color", "Button", NAME_COLOR)
-	theme.set_color("font_hover_color", "Button", Color.WHITE)
-	theme.set_color("font_pressed_color", "Button", Color.WHITE)
-	theme.set_color("font_focus_color", "Button", Color.WHITE)
-	theme.set_color("font_disabled_color", "Button", Color(1, 1, 1, 0.35))
-	theme.set_type_variation(&"AccentButton", &"Button")
-	var accents: Dictionary[String, Color] = {
-		"normal": Color(ACCENT_COLOR, 0.26), "hover": Color(ACCENT_COLOR, 0.38), "pressed": Color(ACCENT_COLOR, 0.5),
-	}
-	for state: String in accents:
-		theme.set_stylebox(state, &"AccentButton", _button_style(accents[state], false))
-	theme.set_color("font_color", &"AccentButton", Color(1.0, 0.93, 0.78))
-	return theme
-
-
-static func _button_style(color: Color, focus: bool) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.set_corner_radius_all(9)
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
-	if focus:
-		# Keyboard and pad focus: a clear ring, drawn over the button's own state.
-		style.draw_center = false
-		style.border_color = ACCENT_COLOR
-		style.set_border_width_all(2)
-		style.expand_margin_left = 2.0
-		style.expand_margin_right = 2.0
-		style.expand_margin_top = 2.0
-		style.expand_margin_bottom = 2.0
-	return style
-
-
-func _style(panel: PanelContainer) -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.055, 0.075, 0.085, 0.97)
-	style.border_color = Color(0.39, 0.43, 0.34)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	for side: String in ["left", "right", "top", "bottom"]:
-		style.set("content_margin_" + side, 12.0)
-	panel.add_theme_stylebox_override("panel", style)
 
 
 func _label(parent: Node, node_name: String) -> Label:
@@ -778,3 +712,40 @@ func _button(parent: Node, node_name: String, text: String, action: Callable) ->
 		button.pressed.connect(action)
 	parent.add_child(button)
 	return button
+
+
+## The forecast's word beside the frame's title (`verdict` a CombatForecast.Verdict; "" or -1
+## none), `line` its full sentence as the hover.
+func set_badge(word: String, verdict: int, line: String = "") -> void:
+	frame_badge.visible = not word.is_empty() and verdict >= 0
+	if not frame_badge.visible:
+		return
+	frame_badge.theme_type_variation = GameTheme.verdict_plate(verdict)
+	frame_badge_text.text = word
+	frame_badge.tooltip_text = line
+	_place_badge.call_deferred()
+
+
+## The plate just after the title's text, inside the title's width.
+func _place_badge() -> void:
+	if not is_instance_valid(frame_badge) or not frame_badge.visible:
+		return
+	var font: Font = frame_title.get_theme_font("font")
+	var text_width: float = 0.0 if font == null else font.get_string_size(frame_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, frame_title.get_theme_font_size("font_size")).x
+	frame_badge.reset_size()
+	var x: float = minf(text_width + 12.0, maxf(0.0, frame_title.size.x - frame_badge.size.x))
+	frame_badge.position = Vector2(x, (frame_title.size.y - frame_badge.size.y) / 2.0).round()
+
+
+## A form shown in the frame (a business, the loot, a question) has the frame for its box:
+## a PanelContainer's own slab would draw a box in the box (界面重做 3).
+static func _unbox(content: Control) -> void:
+	if content is PanelContainer and not content.has_theme_stylebox_override("panel"):
+		content.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+
+
+## A page's heading in the popup, without the thing's name the frame's title has already
+## ("店小二 · 购买" under 店小二 is 购买).
+static func page_heading(title: String, name: String) -> String:
+	var prefix: String = name + " · "
+	return title.substr(prefix.length()) if not name.is_empty() and title.begins_with(prefix) and title.length() > prefix.length() else title

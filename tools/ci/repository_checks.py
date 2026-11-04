@@ -51,8 +51,12 @@ PHASE10_TEXT_ROOTS = (
 STABLE_CI_JOB_NAMES = (
     "Godot Verify",
     "Windows Release Build",
-    "Android Release Build",
-    "iOS Build Validation",
+)
+# Owner (2026-11-04, DECISIONS「手机端暂停」): the mobile port is paused, so CI builds no mobile
+# target. The presets and the mobile layer stay in the project; only CI stops building them.
+PAUSED_CI_BUILD_TARGETS = (
+    "android",
+    "ios",
 )
 PR_INTEGRATION_EVENTS = (
     "opened",
@@ -135,6 +139,10 @@ def ci_trigger_policy_errors(workflow_text: str) -> list[str]:
     for job_name in STABLE_CI_JOB_NAMES:
         if f"    name: {job_name}\n" not in normalized:
             errors.append(f"CI stable job name is missing: {job_name}")
+    for target in PAUSED_CI_BUILD_TARGETS:
+        # build.py's argparse takes `--target X` and `--target=X`, either one possibly quoted.
+        if re.search(rf"--target(?:\s+|=)[\"']?{target}\b", normalized):
+            errors.append(f"CI must not build {target}: the mobile port is paused")
     return errors
 
 
@@ -159,8 +167,6 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
     workflow = repository / ".github/workflows/ci.yml"
     if workflow.is_file():
         workflow_text = workflow.read_text(encoding="utf-8")
-        if "/Applications/Xcode_26.3.app" not in workflow_text:
-            errors.append("iOS CI must select the Godot 4.7.2-compatible pinned Xcode 26.3 toolchain")
         errors.extend(ci_trigger_policy_errors(workflow_text))
 
     for path in _candidate_text_files(repository):

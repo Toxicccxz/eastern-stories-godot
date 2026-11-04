@@ -12,27 +12,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 
-#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
-msgid "东方故事"
-msgstr ""
-
-#. name
-#. snow.newcomer region
-#. snow.letter region
-#. snow.liu_anlu region
-#. snow.wei_wuji region
-#. snow.weapon_storage region
-#. native.bounty region
-#. main.prologue region
-#. snow name
-#: scenes/application/application_shell.tscn data/common/atlas.json data/common/journal.json data/story/prologue.json data/snow/world.json
-msgid "雪亭镇"
-msgstr ""
-
-#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
-msgid "正在检查存档……"
-msgstr ""
-
 #: scenes/application/application_shell.tscn
 msgid "新游戏"
 msgstr ""
@@ -52,6 +31,14 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn
 msgid "设置"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "退出游戏"
+msgstr ""
+
+#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
+msgid "正在检查存档……"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -379,7 +366,7 @@ msgstr ""
 msgid "开始旅程"
 msgstr ""
 
-#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
+#: scenes/application/application_shell.tscn presentation/battle/battle_action_panel.gd runtime/application/application_shell_controller.gd ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
 msgid "取消"
 msgstr ""
 
@@ -7768,6 +7755,10 @@ msgid "指路"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "东方故事"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "语言已切换，但这项设置未能保存。"
 msgstr ""
 
@@ -9132,6 +9123,11 @@ msgstr ""
 msgid "身份"
 msgstr ""
 
+#. the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
+#: ui/world/character_sheet.gd
+msgid "历练"
+msgstr ""
+
 #. help.health title
 #: ui/world/character_sheet.gd data/common/codex.json
 msgid "精气神"
@@ -9144,11 +9140,6 @@ msgstr ""
 #. help.gift title
 #: ui/world/character_sheet.gd data/common/codex.json
 msgid "天赋"
-msgstr ""
-
-#. the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
-#: ui/world/character_sheet.gd
-msgid "历练"
 msgstr ""
 
 #. the character sheet (score): name, gender and age.
@@ -9255,10 +9246,6 @@ msgstr ""
 
 #: ui/world/codex_page.gd
 msgid "你还没有遇见过任何人。"
-msgstr ""
-
-#: ui/world/codex_page.gd
-msgid "返回列表"
 msgstr ""
 
 #: ui/world/dance_panel.gd
@@ -9578,6 +9565,19 @@ msgid "你现在没有使用任何特殊技能。"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
+msgid "神通"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "自学"
+msgstr ""
+
+#. help.skill paragraphs
+#: ui/world/martial_arts_page.gd data/common/codex.json
+msgid "研读"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
 msgid "每次花费的气"
 msgstr ""
 
@@ -9618,19 +9618,6 @@ msgstr ""
 #. the 武学 page's button that does 修行 again and again until something stops it.
 #: ui/world/martial_arts_page.gd
 msgid "连续修行"
-msgstr ""
-
-#: ui/world/martial_arts_page.gd
-msgid "神通"
-msgstr ""
-
-#: ui/world/martial_arts_page.gd
-msgid "自学"
-msgstr ""
-
-#. help.skill paragraphs
-#: ui/world/martial_arts_page.gd data/common/codex.json
-msgid "研读"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -13313,6 +13300,19 @@ msgstr ""
 #. karma hint
 #: data/common/stats_display.json
 msgid "运气：容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr ""
+
+#. name
+#. snow.newcomer region
+#. snow.letter region
+#. snow.liu_anlu region
+#. snow.wei_wuji region
+#. snow.weapon_storage region
+#. native.bounty region
+#. main.prologue region
+#. snow name
+#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/snow/world.json
+msgid "雪亭镇"
 msgstr ""
 
 #. name

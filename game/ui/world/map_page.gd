@@ -210,7 +210,8 @@ func _build_card() -> void:
 	card.name = "Card"
 	card.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
 	card.offset_left = -CARD_WIDTH
-	card.add_theme_stylebox_override("panel", _card_style())
+	# 界面重做 2: a recess like the menu's others; its places are list rows.
+	card.theme_type_variation = &"WellPanel"
 	add_child(card)
 	var column := VBoxContainer.new()
 	column.name = "Column"
@@ -227,7 +228,7 @@ func _build_card() -> void:
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rows.add_theme_constant_override("separation", 5)
 	scroll.add_child(rows)
-	status = _text(column, "", SharedGameplayLayout.ACCENT_COLOR)
+	status = _text(column, "", UiPalette.GOLD)
 	status.name = "Status"
 	zoom_button = Button.new()
 	zoom_button.name = "Zoom"
@@ -414,19 +415,19 @@ func _fill_card() -> void:
 	var seen: MapAtlas.Seen = MapAtlas.seen(catalog, _state, _selected)
 	if seen == MapAtlas.Seen.ROAD:
 		# TRANSLATORS: the 地图 page's card for a place a road leads to that the player has not reached.
-		_text(rows, tr("这条路通向哪里，走了才知道。"), SharedGameplayLayout.MUTED_COLOR)
+		_text(rows, tr("这条路通向哪里，走了才知道。"), UiPalette.MUTED)
 		_finish_rows()
 		return
 	var cell: AtlasCell = _cell(_selected)
-	var title: Label = _text(rows, tr(cell.name), SharedGameplayLayout.ACCENT_COLOR)
+	var title: Label = _text(rows, tr(cell.name), UiPalette.GOLD)
 	title.name = "Title"
-	title.add_theme_font_size_override("font_size", 20)
+	title.theme_type_variation = &"HeadingLabel"
 	var region: RegionDefinition = catalog.region(catalog.map(_selected).region_id)
 	if region != null and region.recommended_exp > 0:
 		# TRANSLATORS: the 地图 page's card: the combat experience the place is meant for.
-		_text(rows, tr("适合经验 {exp} 上下").format({"exp": region.recommended_exp}), SharedGameplayLayout.MUTED_COLOR)
+		_text(rows, tr("适合经验 {exp} 上下").format({"exp": region.recommended_exp}), UiPalette.MUTED)
 	# TRANSLATORS: the 地图 page's card: shows the way to this place.
-	_row(tr("指路到这里"), _point.bind(_selected, &"", tr(cell.name)))
+	_row(tr("指路到这里"), _point.bind(_selected, &"", tr(cell.name))).theme_type_variation = &"ChipButton"
 	_marks = MapAtlas.marks(catalog, _state, _selected)
 	for mark: MapAtlas.Mark in _marks:
 		var place: String = tr(catalog.zone(mark.zone_id).display_name)
@@ -447,11 +448,11 @@ func _fill_card() -> void:
 		_objective_line(tr(StoryQuestLog.objective(_state, catalog.story_quests())))
 	if not _state.waypoint_map.is_empty():
 		# TRANSLATORS: the 地图 page's card: takes back the 指路 the player set.
-		_row(tr("取消指路"), _clear_waypoint)
+		_row(tr("取消指路"), _clear_waypoint).theme_type_variation = &"ChipButton"
 	var left: int = MapAtlas.unvisited(catalog, _state, _selected)
 	if left > 0:
 		# TRANSLATORS: the 地图 page's card: {count} buildings or places here the player has not been in.
-		_text(rows, tr("还有 {count} 处没进去过").format({"count": left}), SharedGameplayLayout.MUTED_COLOR)
+		_text(rows, tr("还有 {count} 处没进去过").format({"count": left}), UiPalette.MUTED)
 	_finish_rows()
 
 
@@ -497,6 +498,7 @@ func _row(text: String, pressed: Callable) -> Button:
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.clip_text = true
 	button.tooltip_text = text
+	button.theme_type_variation = &"RowButton"
 	button.pressed.connect(pressed)
 	rows.add_child(button)
 	row_buttons.append(button)
@@ -776,16 +778,6 @@ func _sand_input(event: InputEvent) -> void:
 	if motion != null and _dragging and motion.button_mask & MOUSE_BUTTON_MASK_LEFT != 0:
 		_centre -= motion.relative / _zoom
 		_apply_view()
-
-
-func _card_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("14181c", 0.92)
-	style.border_color = Color("d8b070", 0.5)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.set_content_margin_all(12)
-	return style
 
 
 func _plate_style(fill: Color, border: Color, width: int = 1) -> StyleBoxFlat:

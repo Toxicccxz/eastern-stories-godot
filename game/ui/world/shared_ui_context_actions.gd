@@ -55,9 +55,9 @@ func _init(ui: SharedGameplayUI) -> void:
 ## In the interaction popup every act is confirmed on its page first (owner, 2026-10-17;
 ## DECISIONS「说话和交互」): `about` what it is, `question` and `choice`; 确认 closes the
 ## popup with the act. Elsewhere `act` runs at once.
-func confirm_in_popup(question: String, choice: String, act: Callable, still_valid: Callable = Callable(), about: String = "") -> void:
+func confirm_in_popup(question: String, choice: String, act: Callable, still_valid: Callable = Callable(), about: String = "", danger: bool = false) -> void:
 	if _ui.interaction_open():
-		_ui.questions.ask_first(question, choice, act, still_valid, Callable(), about)
+		_ui.questions.ask_first(question, choice, act, still_valid, Callable(), about, danger)
 	else:
 		act.call()
 
@@ -95,7 +95,7 @@ func animate_context() -> void:
 		# TRANSLATORS: the interaction popup's confirm page before 驱尸 (animate.c).
 		confirm_in_popup(tr("确定施法驱尸吗？"), "确定施法", map.animate_selected_corpse, still, tr(ANIMATE_HINT))
 		return
-	_ui.questions.ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, still, Callable(), tr(ANIMATE_HINT) if _ui.interaction_open() else "")
+	_ui.questions.ask_danger(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, still, Callable(), tr(ANIMATE_HINT) if _ui.interaction_open() else "")
 
 
 ## exert lifeheal <the selected NPC> (疗伤他人): it costs only force, so it asks only on
@@ -131,7 +131,8 @@ func heart_sense_context() -> void:
 		"atman": HeartSenseConjure.ATMAN_COST, "sen": HeartSenseConjure.SEN_COST, "npc": tr(npc.definition().display_name),
 		"max_atman": state.recovery.atman.maximum, "odds": odds,
 	})
-	_ui.questions.ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
+	# Asked only when it may knock the player out (its odds in the question): dark lacquer.
+	_ui.questions.ask_danger(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
 
 
 ## 偷窃 on the selected NPC: the list of what it is seen to wear or wield, and 随手摸一样.
@@ -168,11 +169,11 @@ func steal_choose(item_id: StringName) -> void:
 	# TRANSLATORS: the interaction popup's confirm page before 偷窃: {item} what the player reaches for.
 	var about: String = tr("下手目标：{item}").format({"item": tr("随手摸一样") if item_id.is_empty() else map.thefts.item_name(item_id)}) if _ui.interaction_open() else ""
 	if map.thefts.asks_first(npc):
-		_ui.questions.ask_first(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), still, _show_steal_question, about)
+		_ui.questions.ask_danger(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), still, _show_steal_question, about)
 		return
 	if _ui.interaction_open():
 		# TRANSLATORS: the interaction popup's confirm page before 偷窃 from {npc} (steal.c): caught at it, a fight to the death.
-		_ui.questions.ask_first(tr("失手被发现，{npc}会和你拼命。确定要下手吗？").format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), still, _show_steal_question, about)
+		_ui.questions.ask_danger(tr("失手被发现，{npc}会和你拼命。确定要下手吗？").format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), still, _show_steal_question, about)
 		return
 	_steal_now(npc_id, item_id)
 
@@ -234,7 +235,7 @@ func attack_context() -> void:
 	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
 	var about: String = _strength_of(npc) if _ui.interaction_open() else ""
 	if npc != null and map.selected_attack_starts() and hooks != null and not hooks.attack_ask.is_empty():
-		_ui.questions.ask_first(tr(hooks.attack_ask), hooks.attack_choice, map.attack_selected, _ui.selection.attack_is_enabled, Callable(), about)
+		_ui.questions.ask_danger(tr(hooks.attack_ask), hooks.attack_choice, map.attack_selected, _ui.selection.attack_is_enabled, Callable(), about)
 		return
 	if npc == null or not map.selected_attack_starts():
 		# No fight would start (kill.c refuses): its line, nothing asked.
@@ -242,11 +243,11 @@ func attack_context() -> void:
 		return
 	if not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
 		# TRANSLATORS: the interaction popup's confirm page before 攻击 on {npc} (kill.c): a fight to the death.
-		confirm_in_popup(tr("攻击就是生死相搏。确定要攻击{npc}吗？").format({"npc": tr(npc.definition().display_name)}), "确定攻击", map.attack_selected, _ui.selection.attack_is_enabled, about)
+		confirm_in_popup(tr("攻击就是生死相搏。确定要攻击{npc}吗？").format({"npc": tr(npc.definition().display_name)}), "确定攻击", map.attack_selected, _ui.selection.attack_is_enabled, about, true)
 		return
 	var teaching: NpcTeaching = npc.definition().teaching()
 	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
-	_ui.questions.ask_first(tr(SharedGameplayUI.MASTER_ATTACK_WARNING).format({
+	_ui.questions.ask_danger(tr(SharedGameplayUI.MASTER_ATTACK_WARNING).format({
 		"master": tr(npc.definition().display_name), "family": tr(family.display_name) if family != null else "",
 		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
 	}), "确定攻击", map.attack_selected, _ui.selection.attack_is_enabled, Callable(), about)
@@ -272,7 +273,7 @@ func spar_context() -> void:
 			warning = ARMED_STRONGER_SPAR_WARNING if map.selected_spar_stronger() else ARMED_SPAR_WARNING
 		WorldMapController.SparRisk.STRONGER:
 			warning = STRONGER_SPAR_WARNING
-	_ui.questions.ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, _ui.selection.spar_is_enabled, Callable(), about)
+	_ui.questions.ask_danger(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, _ui.selection.spar_is_enabled, Callable(), about)
 
 
 func ask_context() -> void:
