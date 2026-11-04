@@ -3,7 +3,8 @@ extends Node
 
 var _presenter: SafeAreaPresenter
 var _dialogs: Array[ResponsivePanelLayout] = []
-var _widths: Array[float] = [520.0, 460.0, 620.0, 580.0, 560.0, 520.0]
+## The settings dialog is wide enough for its label/control pairs in two columns.
+var _widths: Array[float] = [520.0, 460.0, 720.0, 580.0, 560.0, 520.0]
 var _busy: Label
 var _window_row: Control
 var _platform_hint: Label
@@ -18,6 +19,13 @@ var _spacing: Array[PackedInt32Array] = []
 
 func _ready() -> void:
 	var shell: Node = get_parent()
+	# 界面重做: the shell's surfaces wear GameTheme (also those added later, the slot list),
+	# and the focus arrow sits on top of them.
+	var canvas: CanvasLayer = shell.get_node("%ShellCanvas") as CanvasLayer
+	for child: Node in canvas.get_children():
+		_dress(child)
+	canvas.child_entered_tree.connect(_dress)
+	canvas.add_child(FocusCursor.new(canvas))
 	_window_row = shell.get_node("%WindowModeRow") as Control
 	_platform_hint = Label.new()
 	_platform_hint.name = "PlatformWindowModeHint"
@@ -46,6 +54,11 @@ func _ready() -> void:
 	_presenter = SafeAreaPresenter.find_or_create(self)
 	_presenter.metrics_changed.connect(_reflow)
 	_reflow(_presenter.current_metrics())
+
+
+static func _dress(node: Node) -> void:
+	if node is Control and (node as Control).theme == null:
+		(node as Control).theme = GameTheme.shared()
 
 
 func _update_platform_hint() -> void:

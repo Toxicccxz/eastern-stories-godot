@@ -10,6 +10,8 @@ var raised: bool = false
 ## The size the panel keeps whatever its content, within the area (the interaction popup:
 ## owner, 2026-10-17); zero: it fits its content.
 var fixed_size: Vector2 = Vector2.ZERO
+## Metadata on a control that keeps its authored width (see _prepare_controls).
+const KEEPS_WIDTH: StringName = &"keeps_width"
 
 
 static func top_interaction_panel(tree: SceneTree) -> ResponsivePanelLayout:
@@ -95,6 +97,13 @@ func _prepare_controls(node: Node) -> void:
 			var label: Label = control as Label
 			var text_width: float = label.get_theme_font("font").get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, label.get_theme_font_size("font_size")).x
 			control.custom_minimum_size.x = minf(text_width, maxf(64.0, _available.size.x - 80.0))
+		# A control whose width is part of the dialog's grid (设置's label/control pairs, which
+		# line up in columns) keeps it, unless the dialog is narrower; its label stays on one line.
+		if control.get_meta(KEEPS_WIDTH, false):
+			var room: float = _available.size.x - 80.0 if _available.size.x > 0.0 else original.x
+			control.custom_minimum_size.x = minf(original.x, maxf(64.0, room))
+			if control is Label:
+				(control as Label).autowrap_mode = TextServer.AUTOWRAP_OFF
 	for child: Node in node.get_children():
 		if child is Control and not child is ScrollBar:
 			_prepare_controls(child)

@@ -27,6 +27,27 @@ Upstream license: `godotengine/godot` tag `4.7.2-stable`, `LICENSE.txt`.
 
 Godot binaries and export templates are downloaded during build and are not committed here.
 
+## LXGW WenKai Lite (霞鹜文楷 Lite) Medium
+
+Interface text font, `game/assets/fonts/LXGWWenKaiLite-Medium.ttf`, release v1.530.
+
+License: SIL Open Font License 1.1, with reserved font names 霞鹜 / 霞鶩 / 落霞孤鹜 / 落霞孤鶩 / LXGW.
+
+Copyright: Copyright 2021-2026 LXGW; based on Klee One, Copyright 2020 The Klee Project Authors.
+
+Local license: `game/assets/fonts/OFL-LXGWWenKaiLite.txt`
+
+## Ark Pixel Font (方舟像素字体) 16px
+
+Interface title font, `game/assets/fonts/ark-pixel-16px-proportional-zh_cn.otf`, release
+2026.09.01.
+
+License: SIL Open Font License 1.1
+
+Copyright: Copyright (c) 2021, TakWolf.
+
+Local license: `game/assets/fonts/OFL-ArkPixel.txt`
+
 ## ES2 reference source — unresolved attribution
 
 `reference/es2/README` attributes the project to Raymond Xie and says it was published under MIT.

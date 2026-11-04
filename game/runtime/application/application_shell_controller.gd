@@ -1492,7 +1492,7 @@ func _render_result() -> void:
 	elif _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
 		result_prompt.ask(text, "返回主菜单")
 	elif _last_result.operation() == ApplicationOperationResult.Operation.SAVE:
-		result_prompt.ask(text, "覆盖", "取消", _result_detail)
+		result_prompt.ask(text, "覆盖", "取消", _result_detail, true)
 	elif _last_result.operation() == ApplicationOperationResult.Operation.LOAD:
 		result_prompt.ask(text, "读取", "取消", _result_detail)
 	else:
