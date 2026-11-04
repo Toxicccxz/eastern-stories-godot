@@ -42,6 +42,20 @@ class CiTriggerPolicyTests(unittest.TestCase):
         errors = repository_checks.ci_trigger_policy_errors(altered)
         self.assertIn("CI must skip expensive jobs while a pull request remains draft", errors)
 
+    def test_mobile_build_jobs_are_rejected(self) -> None:
+        for target in ("android", "ios"):
+            altered = self.workflow + (
+                f"\n  {target}-build:\n    name: {target} build\n    runs-on: ubuntu-24.04\n"
+                f"    steps:\n      - run: python tools/build/build.py --target {target}\n"
+            )
+            errors = repository_checks.ci_trigger_policy_errors(altered)
+            self.assertIn(f"CI must not build {target}: the mobile port is paused", errors)
+
+    def test_windows_build_job_is_required(self) -> None:
+        altered = self.workflow.replace("    name: Windows Release Build\n", "    name: Windows\n")
+        errors = repository_checks.ci_trigger_policy_errors(altered)
+        self.assertIn("CI stable job name is missing: Windows Release Build", errors)
+
 
 if __name__ == "__main__":
     unittest.main()
