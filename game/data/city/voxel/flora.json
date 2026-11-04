@@ -1,0 +1,21 @@
+{
+  "note": "京师 (美术规划 §1, 美术提案): few trees in the city — old 槐 in the lanes and yards, dark 松 and 柏 (slender, near black-green) by the temple and the palace, the 尚书府 garden's peonies and 琼花; the 废园's weeds gone yellow. Outside the 北门 the 驿道's two small woods.",
+  "crown_colors": {
+    "locust": ["3e6638", "4e7840", "62894a", "7a9c56"],
+    "pine": ["26443a", "325240", "40624a", "527452"],
+    "slender": ["223a30", "2c4836", "38563e", "466648"],
+    "broadleaf": ["3a6040", "4a7248", "5e8452", "76985e"],
+    "shrub": ["3a5e3c", "4a6e44", "5e804e", "76925a"],
+    "scrub": ["6e6a3e", "7e7846", "928a52", "a69c60"],
+    "willow": ["567e3c", "668e46", "789e50", "8cae5c"],
+    "dead": ["6a5e4e", "7a6e5a", "5e5446", "86786a"]
+  },
+  "bark_colors": {
+    "locust": ["4a3e34", "5a4c3e", "40362e"],
+    "pine": ["5a4838", "6a5644", "4e3e32"],
+    "slender": ["4e4034", "5a4a3c", "443830"],
+    "broadleaf": ["5a4a3a", "6a5846", "4e4034"]
+  },
+  "grass_colors": ["4a6a3a", "5a7c42", "6c8c4a", "86a058"],
+  "flower_colors": ["f2e8d4", "e8c050", "e07a8a", "c8a0d8"]
+}

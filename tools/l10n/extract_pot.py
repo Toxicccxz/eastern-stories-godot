@@ -524,6 +524,10 @@ def build_catalog(repository: Path = REPOSITORY) -> Catalog:
             for key in ("text", "flag"):
                 if isinstance(prop.get(key), str):
                     catalog.add(prop[key], source)
+            # A city gate's name board (gate_tower's `plaque`).
+            plaque = prop.get("plaque")
+            if isinstance(plaque, dict) and isinstance(plaque.get("text"), str):
+                catalog.add(plaque["text"], source)
         for entrance in config.get("entrances", {}).values():
             if isinstance(entrance.get("title"), str):
                 catalog.add(entrance["title"], source)

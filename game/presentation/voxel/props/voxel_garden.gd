@@ -6,7 +6,8 @@ extends RefCounted
 ## (with a rail seat), stair flights, a pavilion's posts and its glazed roof held up over open
 ## ground, steles, a bronze censer, stone lanterns, camellia beds, single strange stones,
 ## columns (one with a dragon coiling up it) and the carved gateways of a hall, the long
-## plastered wall round a compound. Sizes and colours from the data.
+## plastered wall round a compound, a city wall and a city gate with its 城楼. Sizes and colours
+## from the data.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
@@ -45,6 +46,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"jade_dais": _jade_dais(w,d)
 		"orchid": _orchid(w,d)
 		"city_wall": _city_wall(w,d)
+		"gate_tower": _gate_tower(w,d)
 		_:
 			return false
 	return true
@@ -563,6 +565,198 @@ func _city_wall(w: float, d: float) -> void:
 		var t: float = -length/2+0.3+i*0.9
 		for face: float in [-1.0,1.0]:
 			s.box(root,_place(along_x,t,height+0.35,face*(thick/2-0.12)),_along(along_x,0.5,0.6,0.24),String(bricks[(i+1)%bricks.size()]))
+
+## 城门 (京师's six gates, each its own LPC file): a stretch of city wall `height` units high along
+## the box's x, its thickness the box's depth, with an arched gateway through the middle
+## (`opening`, px wide; `arch`, units, to the crown) and over it the 城楼. The outside is -z (turn
+## the prop to put it on another wall). `leaves`: the pair of leaves shut in the gateway near its
+## outer face, their lacquer (朱红, brass studs and knockers, 铜扣); none where the way is open.
+## `tower`: {"height", "width" and "depth" (fractions of the box), "posts", "wall", "roof",
+## "double" (重檐), "frieze"} — red columns with lattice between them, a railing round them, a
+## hipped roof of glazed tiles with its ridge's ends raised. `plaque`: {"text", "board",
+## "letters"} over the arch on both faces; `notices`: paper pasted beside the gateway
+## ({"count", "face": 1 inside | -1 outside, "fresh"}); `flags`: poles on the parapet
+## ({"count", "colors"}), stirring; `lanterns`: hung under the eaves; `wear` 0..1: crenels gone,
+## the red faded and flaking, stains and weeds.
+func _gate_tower(w: float, d: float) -> void:
+	var bricks: Array = _colors("colors",["7a7a72","868680","6e6e66","8e8e86"])
+	var height: float = float(data.get("height",5.0))
+	var half: float = float(data.get("opening",128))/32.0/2.0
+	var crown: float = float(data.get("arch",3.0))
+	var wear: float = clampf(float(data.get("wear",0.0)),0.0,1.0)
+	var spring: float = maxf(0.6,crown-half)
+	var bays: int = maxi(2,roundi(w/0.5))
+	for i: int in bays:
+		var t: float = -w/2+(i+0.5)*w/bays
+		var shade: String = String(bricks[(i*7)%bricks.size()])
+		var free: float = absf(t)
+		if free < half:
+			# Over the gateway: the wall from the arch's curve up.
+			var under: float = spring+sqrt(maxf(0.0,half*half-t*t))
+			s.box(root,Vector3(t,(under+height)/2,0),Vector3(w/bays+0.01,height-under,d),shade)
+			s.box(root,Vector3(t,under-0.06,0),Vector3(w/bays+0.01,0.14,d+0.06),String(data.get("voussoir","a8a89c")))
+		else:
+			s.box(root,Vector3(t,height/2,0),Vector3(w/bays+0.01,height,d),shade)
+		for face: float in [-1.0,1.0]:
+			for course: int in floori(height/0.3):
+				var y: float = course*0.3+0.15
+				if free < half and y < spring+sqrt(maxf(0.0,half*half-t*t)):
+					continue
+				if (i*3+course*5)%7==0:
+					s.box(root,Vector3(t+0.1,y,face*(d/2+0.01)),Vector3(0.28,0.26,0.02),String(bricks[(i+course)%bricks.size()]))
+			if free >= half and (i*5)%6==1:
+				s.box(root,Vector3(t,0.08,face*(d/2+0.08)),Vector3(0.4,0.16,0.16),"56713f")
+			if wear > 0.0 and free >= half and (i*11+int(face))%int(maxf(2.0,9.0-wear*7.0))==0:
+				# Rain streaks and grime run down from the parapet.
+				s.box(root,Vector3(t,height-0.9-wear*0.6,face*(d/2+0.012)),Vector3(0.18,1.4+wear,0.02),Color(String(bricks[2])).darkened(0.18).to_html(false))
+	# The gateway's stone frame and the dark of its tunnel.
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*(half+0.08),spring/2,0),Vector3(0.16,spring,d+0.06),String(data.get("voussoir","a8a89c")))
+	s.box(root,Vector3(0,0.02,0),Vector3(half*2,0.04,d),String(data.get("floor","6e6e66")))
+	# The wall top, its parapets on both faces; with wear some crenels are gone.
+	s.box(root,Vector3(0,height+0.05,0),Vector3(w+0.2,0.1,d+0.2),String(bricks[1]))
+	for i: int in maxi(1,roundi(w/0.9)):
+		var t: float = -w/2+0.3+i*0.9
+		for face: float in [-1.0,1.0]:
+			if wear > 0.0 and (i*7+int(face+1))%int(maxf(3.0,12.0-wear*9.0))==0:
+				s.shard(root,Vector3(t,height+0.14,face*(d/2-0.12)),Vector3(0.4,0.18,0.22),String(bricks[(i+2)%bricks.size()]),i)
+				continue
+			s.box(root,Vector3(t,height+0.35,face*(d/2-0.12)),Vector3(0.5,0.6,0.24),String(bricks[(i+1)%bricks.size()]))
+	if data.has("leaves"):
+		var leaf: String = String(data["leaves"])
+		var z: float = -d/2+0.7
+		var tall: float = spring+half*0.8
+		for side: float in [-1.0,1.0]:
+			var x: float = side*half/2
+			s.box(root,Vector3(x,tall/2,z),Vector3(half-0.04,tall,0.18),leaf)
+			if wear > 0.0:
+				# The lacquer worn through where hands and carts rub.
+				s.box(root,Vector3(x,0.5,z+0.1),Vector3(half*0.7,0.6,0.012),Color(leaf).darkened(0.25).lerp(Color("6a5a48"),wear*0.6).to_html(false))
+			for row: int in maxi(3,floori(tall/0.55)):
+				for col: int in maxi(3,floori(half/0.4)):
+					s.box(root,Vector3(x-half/2+0.25+col*(half-0.5)/maxf(1,maxi(3,floori(half/0.4))-1),0.45+row*0.5,z+0.1),Vector3(0.07,0.07,0.04),String(data.get("studs","c9a24a")))
+			s.box(root,Vector3(side*0.25,tall*0.48,z+0.12),Vector3(0.16,0.16,0.04),String(data.get("studs","c9a24a")))
+		s.box(root,Vector3(0,tall/2,z+0.1),Vector3(0.04,tall,0.02),"1a1612")
+		if data.get("chains",false):
+			# 门上缠着大铁链 (shenwumen.c): two lengths of chain as thick as an arm wound across both
+			# leaves, sagging, held by a padlock in the middle.
+			var links: int = maxi(7,roundi(half*2.0/0.22))
+			for band: int in 2:
+				var y0: float = tall*(0.38+band*0.24)
+				for link: int in links:
+					var t: float = float(link)/(links-1)
+					var at := Vector3(-half*0.92+t*half*1.84,y0-sin(t*PI)*0.28,z+0.22)
+					s.tilted_box(root,at,Vector3(0.22,0.12,0.08) if link%2 else Vector3(0.22,0.08,0.12),"4a4744" if link%3 else "5a5450",Vector3(0,0,(t-0.5)*0.8))
+			s.box(root,Vector3(0,tall*0.42,z+0.3),Vector3(0.26,0.3,0.12),"5d564c")
+			s.box(root,Vector3(0,tall*0.42+0.2,z+0.3),Vector3(0.14,0.12,0.06),"3e3a35")
+	if data.has("plaque"):
+		var plaque: Dictionary = data["plaque"]
+		var wide: float = minf(half*1.8,float(plaque.get("width",2.8)))
+		var y: float = minf(height-0.5,crown+(height-crown)/2)
+		for face: float in [-1.0,1.0]:
+			s.box(root,Vector3(0,y,face*(d/2+0.05)),Vector3(wide+0.2,0.82,0.08),String(plaque.get("frame","8a6a3a")))
+			s.box(root,Vector3(0,y,face*(d/2+0.09)),Vector3(wide,0.66,0.04),String(plaque.get("board","2b2520")))
+			var title := Label3D.new()
+			title.text = TranslationServer.translate(String(plaque["text"]))
+			title.position = Vector3(0,y,face*(d/2+0.12))
+			title.rotation.y = 0.0 if face > 0 else PI
+			title.pixel_size = 0.008
+			title.font_size = 56
+			title.outline_size = 0
+			title.modulate = Color(String(plaque.get("letters","e6c66e")))
+			root.add_child(title)
+	if data.has("notices"):
+		var notices: Dictionary = data["notices"]
+		var face: float = float(notices.get("face",1))
+		var paper: Array = ["e8e0c8","ddd2b4","f0e8d0"] if notices.get("fresh",false) else ["c8bc9c","b8ac8c","d0c4a4"]
+		for i: int in int(notices.get("count",3)):
+			var x: float = (half+0.7+i*0.62)*(1.0 if i%2==0 else -1.0)
+			if absf(x) > w/2-0.3:
+				continue
+			var y: float = 1.5+(i%3)*0.18
+			s.box(root,Vector3(x,y,face*(d/2+0.02)),Vector3(0.5,0.62,0.015),String(paper[i%paper.size()]))
+			for line: int in 3:
+				s.box(root,Vector3(x,y+0.16-line*0.14,face*(d/2+0.03)),Vector3(0.34,0.04,0.01),"3a342c")
+			if not notices.get("fresh",false):
+				# Old paper, its corner torn down.
+				s.box(root,Vector3(x+0.16,y-0.24,face*(d/2+0.03)),Vector3(0.14,0.12,0.01),String(bricks[0]))
+	_gate_house(w,d,height,wear)
+	if data.has("flags"):
+		var flags: Dictionary = data["flags"]
+		var colors: Array = flags.get("colors",["b8302a","2a4a7a","c9a24a"])
+		var count: int = int(flags.get("count",4))
+		for i: int in count:
+			var x: float = -w/2+0.6+i*(w-1.2)/maxf(1.0,count-1.0)
+			var pole := Node3D.new()
+			pole.position = Vector3(x,height,d/2-0.3)
+			root.add_child(pole)
+			s.box(pole,Vector3(0,1.8,0),Vector3(0.09,3.6,0.09),"5a4030")
+			s.box(pole,Vector3(0,3.64,0),Vector3(0.14,0.12,0.14),"c9a24a")
+			s.box(pole,Vector3(0.55,2.95,0),Vector3(1.0,1.3,0.04),String(colors[i%colors.size()]))
+			s.box(pole,Vector3(0.55,2.26,0),Vector3(1.0,0.1,0.045),"e6c66e")
+			if ambience != null:
+				ambience.sway(pole,x*0.9,0.05)
+
+## The 城楼 on the gate's wall: a raised floor, red columns with lattice and plaster between
+## them, a railing round them, painted beams and a hipped roof (two eaves with `double`).
+func _gate_house(w: float, d: float, base: float, wear: float) -> void:
+	var tower: Dictionary = data.get("tower",{})
+	if tower.is_empty():
+		return
+	var tw: float = w*float(tower.get("width",0.62))
+	var td: float = maxf(1.6,d*float(tower.get("depth",0.62)))
+	var th: float = float(tower.get("height",2.4))
+	var posts := Color(String(tower.get("posts","9c3a2c")))
+	if wear > 0.0:
+		posts = posts.lerp(Color("8a6a5a"),wear*0.45)
+	var post: String = posts.to_html(false)
+	var panel: String = String(tower.get("wall","c8b8a0"))
+	var timber: String = String(tower.get("timber","5f4331"))
+	s.box(root,Vector3(0,base+0.18,0),Vector3(tw+0.5,0.16,td+0.5),String(tower.get("floor","8a8a80")))
+	var columns: int = maxi(3,roundi(tw/1.1))
+	for face: float in [-1.0,1.0]:
+		for i: int in columns+1:
+			var x: float = -tw/2+i*tw/columns
+			s.box(root,Vector3(x,base+0.26+th/2,face*td/2),Vector3(0.22,th,0.22),post)
+			if i < columns:
+				var mid: float = x+tw/columns/2
+				s.box(root,Vector3(mid,base+0.26+0.45,face*(td/2-0.04)),Vector3(tw/columns-0.24,0.9,0.1),panel)
+				s.box(root,Vector3(mid,base+0.26+0.9+(th-0.9)/2,face*(td/2-0.04)),Vector3(tw/columns-0.24,th-1.0,0.08),String(tower.get("lattice","6a3a2a")))
+				for bar: int in 3:
+					s.box(root,Vector3(mid-0.3+bar*0.3,base+0.26+0.9+(th-0.9)/2,face*(td/2+0.005)),Vector3(0.04,th-1.1,0.04),panel)
+		for i: int in maxi(2,roundi(td/1.1))+1:
+			var z: float = -td/2+i*td/maxi(2,roundi(td/1.1))
+			s.box(root,Vector3(face*tw/2,base+0.26+th/2,z),Vector3(0.22,th,0.22),post)
+		s.box(root,Vector3(face*tw/2,base+0.26+th/2,0),Vector3(0.1,th-0.1,td-0.2),panel)
+	# The railing round the gallery outside the columns.
+	for face: float in [-1.0,1.0]:
+		s.box(root,Vector3(0,base+0.62,face*(td/2+0.42)),Vector3(tw+0.84,0.08,0.08),post)
+		s.box(root,Vector3(face*(tw/2+0.42),base+0.62,0),Vector3(0.08,0.08,td+0.84),post)
+		for i: int in maxi(4,roundi(tw/0.5)):
+			s.box(root,Vector3(-tw/2-0.42+i*(tw+0.84)/maxi(4,roundi(tw/0.5)),base+0.44,face*(td/2+0.42)),Vector3(0.05,0.36,0.05),post)
+	# Beams and their painted frieze (青绿 with gilt dots) under the eaves.
+	var frieze: String = String(tower.get("frieze","2f6a70"))
+	for face: float in [-1.0,1.0]:
+		s.box(root,Vector3(0,base+0.26+th,face*td/2),Vector3(tw+0.3,0.24,0.18),timber)
+		s.box(root,Vector3(face*tw/2,base+0.26+th,0),Vector3(0.18,0.24,td+0.3),timber)
+		s.box(root,Vector3(0,base+0.26+th-0.2,face*(td/2+0.1)),Vector3(tw,0.16,0.03),frieze)
+		for dot: int in maxi(2,floori(tw/0.6)):
+			s.box(root,Vector3(-tw/2+0.3+dot*0.6,base+0.26+th-0.2,face*(td/2+0.12)),Vector3(0.1,0.06,0.02),"c9a24a")
+	var roof: String = String(tower.get("roof","4a5560"))
+	var span := Vector2(tw+1.6,td+1.6)
+	var top: float = base+0.26+th
+	if tower.get("double",false):
+		_tiles(Vector3(0,top-0.95,0),span+Vector2(1.0,1.0),0.35,roof,0.8)
+	var rise: float = float(tower.get("rise",1.5))
+	_tiles(Vector3(0,top,0),span,rise,roof)
+	var ridge := Color(roof.get_slice(":",0)).darkened(0.18).to_html(false)
+	var length: float = maxf(0.6,span.x-span.y)+0.4
+	s.box(root,Vector3(0,top+rise+0.32,0),Vector3(length,0.24,0.28),ridge)
+	for end: float in [-1.0,1.0]:
+		s.box(root,Vector3(end*length/2,top+rise+0.52,0),Vector3(0.26,0.44,0.3),String(tower.get("ridge_ends",ridge)))
+	if data.get("lanterns",false):
+		for corner: Vector2 in [Vector2(-1,1),Vector2(1,1),Vector2(-1,-1),Vector2(1,-1)]:
+			s.lantern(root,Vector3(corner.x*(tw/2+0.3),top-0.55,corner.y*(td/2+0.3)),false,String(data.get("lantern","d8452f:glow")))
 
 ## A point `t` along the long axis, `y` up, `across` off its middle.
 func _place(along_x: bool, t: float, y: float, across: float) -> Vector3:
