@@ -11,7 +11,6 @@ func _ready() -> void:
 	shell = ShellScene.instantiate()
 	var configured: bool = shell.configure_before_start(GameSaveStorageProfile.isolated_test("cxr7-live"), Files.MemoryFiles.new(), null, Files.MemoryFiles.new(), Files.FakeWindowCapability.new())
 	assert(configured, "CXR7 QA requires isolated memory storage")
-	(shell.get_node("TouchCanvas/TouchInput") as MobileTouchAdapter).set_capability(Mobile.EnabledTouch.new())
 	add_child(shell)
 	print("CXR7 QA: actual New Game first; 1 SCRIPTED; 3 SPAR; 4 LETHAL; 5 SCRIPTED QA probe + busy30; 2 typed cleanup. Target/action proof ONLY via real Battle UI.")
 

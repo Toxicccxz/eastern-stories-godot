@@ -1,4 +1,4 @@
-extends "res://tests/presentation/mobile_presentation_test.gd"
+extends "res://tests/presentation/responsive_layout_test.gd"
 
 var _metric_emissions: int = 0
 
@@ -18,12 +18,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_adversarial_metrics() -> void:
-	var viewport: Rect2 = Rect2(0, 0, 960, 540)
 	for dimensions: Vector2 in [Vector2(1099.999, 640), Vector2(1100, 639.999), Vector2(1100, 640)]:
 		var rect: Rect2 = Rect2(Vector2.ZERO, dimensions)
 		_check(_metrics(rect, rect).is_compact() == (dimensions != Vector2(1100, 640)), "fractional compact threshold")
-	for dimensions: Vector2 in [Vector2(800, 480), Vector2(799.999, 480), Vector2(800, 479.999)]:
-		_check(_metrics(viewport, Rect2(Vector2.ZERO, dimensions)).is_qualified() == (dimensions == Vector2(800, 480)), "fractional qualification threshold")
 	var extreme_rects: Array[Rect2] = [
 		Rect2(2.0e38, 0, 2.0e38, 540), Rect2(-2.0e38, 0, 2.0e38, 540),
 		Rect2(1.0e30, 0, 1, 540), Rect2(0, 0, 1.0e30, 1.0e30),
@@ -31,32 +28,12 @@ func _test_adversarial_metrics() -> void:
 	]
 	for rect: Rect2 in extreme_rects:
 		_assert_bounded_metrics(_metrics(rect, rect), "adversarial viewport")
-		_assert_bounded_metrics(_metrics(viewport, rect), "adversarial native safe bounds")
-	var transforms: Array[Transform2D] = [
-		Transform2D(Vector2(0.0001, 0), Vector2(0, 0.0001), Vector2(0.1, 0.2)),
-		Transform2D(Vector2(1.0e30, 0), Vector2(0, 1.0e30), Vector2.ZERO),
-		Transform2D(Vector2(INF, 0), Vector2(0, 1), Vector2.ZERO),
-		Transform2D(Vector2(1, 0), Vector2(0, 1), Vector2(NAN, 0)),
-		Transform2D(Vector2.ZERO, Vector2.ZERO, Vector2.ZERO),
-	]
-	for index: int in transforms.size():
-		var transform: Transform2D = transforms[index]
-		var result: SafeAreaMetrics = SafeAreaMetrics.normalize(viewport, transform * viewport, transform * Rect2(40, 8, 888, 508), transform)
-		_assert_bounded_metrics(result, "adversarial transform")
-		if index == 0:
-			_check(not result.used_fallback() and result.safe_rect().is_equal_approx(Rect2(40, 8, 888, 508)), "finite invertible small scaling must not discard real insets")
-	var letterbox: Transform2D = Transform2D(Vector2(2, 0), Vector2(0, 2), Vector2(120, 60))
-	_check(SafeAreaMetrics.normalize(viewport, letterbox * viewport, Rect2(0, 0, 2160, 1200), letterbox).safe_rect() == viewport, "letterbox content already safe gets no duplicate inset")
-	_check(_metrics(viewport, Rect2(-30, 12, 930, 600)).safe_rect() == Rect2(0, 12, 900, 528), "partial intersection uses independently calculated endpoints")
+	var viewport: Rect2 = Rect2(0, 0, 960, 540)
 	var metrics: SafeAreaMetrics = _metrics(viewport, viewport)
 	var consumer_rect: Rect2 = metrics.safe_rect()
 	consumer_rect.size = Vector2.ONE
 	_check(metrics.safe_rect() == viewport, "Rect2 accessor is a defensive value copy")
 	_check(ProjectSettings.get_setting_with_override("display/window/size/viewport_width") == 1280, "native desktop resolution is 1280 wide")
-	for features: PackedStringArray in [PackedStringArray(["android", "mobile"]), PackedStringArray(["ios", "mobile"]), PackedStringArray(["mobile"]), PackedStringArray(["windows", "pc"])]:
-		_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_width", features) == 1280, "every feature set resolves the one logical width")
-		_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_height", features) == 720, "every feature set resolves the one logical height")
-	_check(DisplayServer.SCREEN_SENSOR_LANDSCAPE == 4, "pinned native enum matches project orientation")
 	_assert_bounded_metrics(SafeAreaMetrics.new(Rect2(), Rect2(INF, 0, 10, 10)), "direct construction is defensive")
 
 
@@ -88,7 +65,7 @@ func _test_sampler(tree: SceneTree) -> void:
 
 func _assert_bounded_metrics(metrics: SafeAreaMetrics, label: String) -> void:
 	var viewport: Rect2 = metrics.viewport_rect()
-	for rect: Rect2 in [viewport, metrics.safe_rect(), metrics.content_rect(), metrics.future_movement_rect(), metrics.future_pause_rect()]:
+	for rect: Rect2 in [viewport, metrics.safe_rect(), metrics.content_rect()]:
 		_check(rect.position.is_finite() and rect.size.is_finite() and rect.end.is_finite(), label + " finite position/size/end")
 		_check(rect.size.x > 0 and rect.size.y > 0 and viewport.encloses(rect), label + " positive bounded geometry")
 
@@ -97,18 +74,18 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	var original_size: Vector2i = tree.root.size
 	var original_scale: Vector2i = tree.root.content_scale_size
 	tree.root.content_scale_size = Vector2i.ZERO
-	tree.root.size = Vector2i(1152, 648)
+	tree.root.size = Vector2i(1280, 720)
 	var files := SettingsFixtures.MemoryFiles.new()
 	var settings_files := SettingsFixtures.MemoryFiles.new()
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("phase10c2a-audit")
 	files.files[profile.backup_path()] = await RecoveryFixtures.new()._valid_save_bytes(tree)
 	var shell: ApplicationShellController = ShellScene.instantiate()
 	var window := SettingsFixtures.FakeWindowCapability.new()
-	window.editable = false
+	window.editable = true
 	shell.configure_before_start(profile, files, null, settings_files, window)
 	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation") as SafeAreaPresenter
 	var capability := FakeSafe.new()
-	capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(0, 0, 1152, 648))
+	capability.metrics = _window(Rect2(0, 0, 1280, 720))
 	presenter.set_capability(capability)
 	presenter.metrics_changed.connect(_on_metrics_changed)
 	tree.root.add_child(shell)
@@ -147,10 +124,10 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(hud.is_ancestor_of(actions[index]), "reparent retains unique-name identity")
 	for control: Control in [hud.player_vitality, hud.player_vitality_text, hud.selected_target_label, hud.target_vitality, hud.target_vitality_text, hud.inspection_text, hud.combat_log]:
 		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
-	capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(0, 0, 800, 480))
+	capability.metrics = _window(Rect2(0, 0, 1280.0 / 1.5, 480), 1.5)
 	presenter.refresh()
 	# The interaction popup (DECISIONS「说话和交互」): each landmark's action label, as its
-	# row shows it, fits the compact screen.
+	# row shows it, fits a 1280x720 window at 150%.
 	var layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
 	# TEST-ONLY: the live refresh would close the popup on nothing in reach.
 	hud.set_process(false)
@@ -162,7 +139,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		layout.open_panel(landmark.display_name, hud.interaction_panel)
 		await _settle(tree)
 		var button: Button = hud.interaction_panel.button_of(landmark.action_label)
-		_check(button != null and capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits the compact popup")
+		_check(button != null and capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits the popup at 150%")
 		layout.close_panel()
 	hud.set_process(true)
 	hud.set_selected_target(null)
@@ -186,7 +163,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		await _settle(tree)
 		_check(presenter.metrics_changed.get_connections().size() == live_connections and presenter.metrics_changed.is_connected(battle._apply_metrics), "shared HUD and Battle retain their Session subscriptions in Cave")
 		_check(session.shared_ui() == hud and hud.visible, "Cave uses the same Session UI")
-		capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(48, 0, 800, 480))
+		capability.metrics = _window(Rect2(0, 0, 1024, 576), 1.25)
 		presenter.refresh()
 		await _settle(tree)
 		var back: OldPineMapHandoffResult = session.handoff_to(OldPineWorldDefinitions.OUTDOOR_MAP_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, &"oldpine.outdoor.central_clearing.player_start")
@@ -216,11 +193,14 @@ func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface:
 	var focus: Control = tree.root.gui_get_focus_owner()
 	var scroll_count: int = shell.find_children("*", "ScrollContainer", true, false).size()
 	var node_count: int = shell.find_children("*", "", true, false).size()
-	for rect: Rect2 in [Rect2(0, 0, 1152, 648), Rect2(48, 0, 912, 516), Rect2(0, 0, 1920, 1080), Rect2(0, 0, 800, 480), Rect2(0, 0, 480, 320), Rect2(0, 0, 1152, 648)]:
-		tree.root.size = Vector2i(maxf(960, rect.end.x), maxf(540, rect.end.y))
+	# Screens and 界面缩放 in turn, the Steam Deck's 1280x800 among them, back to the start.
+	for screen: Array in SCREENS + [SCREENS[0]]:
+		var scale: float = screen[1]
+		var rect := Rect2(Vector2.ZERO, (screen[0] as Vector2) / scale)
+		tree.root.size = Vector2i(rect.size)
 		await _settle(tree)
 		var before: int = _metric_emissions
-		var next: SafeAreaMetrics = _metrics(tree.root.get_visible_rect(), rect)
+		var next: SafeAreaMetrics = _window(rect, scale)
 		var changed: bool = not next.equivalent(presenter.current_metrics())
 		capability.metrics = next
 		presenter.refresh()
@@ -237,7 +217,7 @@ func _cycle_surface(tree: SceneTree, shell: ApplicationShellController, surface:
 		_check(shell.find_children("*", "", true, false).size() == node_count, "resize does not duplicate presentation nodes: %s before%d after%d" % [surface.name, node_count, shell.find_children("*", "", true, false).size()])
 		for panel: Node in surface.find_children("*", "PanelContainer", true, false):
 			if (panel as Control).is_visible_in_tree():
-				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel remains safe-bounded")
+				_check(next.content_rect().grow(0.5).encloses((panel as Control).get_global_rect()), "reflow visible panel stays inside the window")
 
 
 func _dynamic_rows(tree: SceneTree, shell: ApplicationShellController, hud: SharedGameplayUI, capability: FakeSafe, presenter: SafeAreaPresenter) -> void:

@@ -171,8 +171,8 @@ func _confirmation(tree: SceneTree) -> void:
 	shell.request_new_game_from_menu()
 	_check(shell.confirm_current_result() and shell.new_game_setup_panel.visible and files.files == before, "confirmation opens setup without write")
 	shell.player_name_edit.text = "凌雪"
-	shell._handle_system_back()
-	_check(shell.menu_visible() and shell.runtime_host().current_session() == null and files.files == before, "system Back cancels without birth/write")
+	shell.cancel_new_game_setup()
+	_check(shell.menu_visible() and shell.runtime_host().current_session() == null and files.files == before, "Cancel leaves setup without birth/write")
 	shell.request_new_game_from_menu()
 	shell.confirm_current_result()
 	_check(shell.player_name_edit.text.is_empty(), "cancel draft not persisted")

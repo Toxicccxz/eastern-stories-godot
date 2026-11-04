@@ -1,6 +1,6 @@
 extends SceneTree
 
-const PresentationTest := preload("res://tests/presentation/mobile_presentation_test.gd")
+const PresentationTest := preload("res://tests/presentation/responsive_layout_test.gd")
 
 
 func _init() -> void:
@@ -20,7 +20,7 @@ func _run() -> void:
 	else:
 		if not "--audit-only" in OS.get_cmdline_user_args():
 			results.append(await PresentationTest.new().run_all(self))
-		results.append(await preload("res://tests/presentation/mobile_presentation_audit_test.gd").new().run_all(self))
+		results.append(await preload("res://tests/presentation/responsive_layout_audit_test.gd").new().run_all(self))
 	var assertions: int = 0
 	var failures: Array[String] = []
 	for result: Dictionary in results:

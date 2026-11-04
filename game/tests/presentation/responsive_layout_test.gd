@@ -1,5 +1,20 @@
 extends RefCounted
 
+## The shared layout on desktop screens (logical 1280x720 base, canvas_items / expand) at each
+## 界面缩放: every panel, the HUD and the item panels stay inside the window, focus scrolls into
+## view, nothing overlaps. Includes the Steam Deck's 1280x800 (16:10). A desktop window of any
+## size is at least 1280x720 logical (a small window draws the same layout smaller), so this is
+## always the wide, mouse-sized layout (_test_small_windows); the compact one and the phone layer
+## (notches, touch-sized controls, orientation, Android Back) are paused and no longer tested
+## (DECISIONS「手机端暂停」).
+
+## [screen, 界面缩放]: 16:9 at 100 / 125 / 150%, the Steam Deck's 16:10 at 100 / 150%, 4:3 and 21:9.
+const SCREENS: Array[Array] = [
+	[Vector2(1280, 720), 1.0], [Vector2(1280, 720), 1.25], [Vector2(1280, 720), 1.5],
+	[Vector2(1280, 800), 1.0], [Vector2(1280, 800), 1.5],
+	[Vector2(1280, 960), 1.0], [Vector2(1680, 720), 1.0],
+]
+
 const FakeSafe := preload("res://tests/presentation/fake_safe_area_capability.gd")
 const SettingsFixtures := preload("res://tests/application/application_shell_phase10c1c_test.gd")
 const RecoveryFixtures := preload("res://tests/application/application_shell_phase10c1b_test.gd")
@@ -11,6 +26,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_metrics()
+	await _test_small_windows(tree)
 	await _test_matrix(tree)
 	return {"assertions": _assertions, "failures": _failures}
 
@@ -18,46 +34,20 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_metrics() -> void:
 	var viewport: Rect2 = Rect2(0, 0, 960, 540)
 	var zero: SafeAreaMetrics = _metrics(viewport, viewport)
-	_check(zero.safe_rect() == viewport and not zero.used_fallback(), "zero-inset identity")
+	_check(zero.safe_rect() == viewport and not zero.used_fallback(), "a window's metrics are the window")
 	_check(zero.content_rect() == Rect2(16, 16, 928, 508), "16-unit content padding")
-	for rect: Rect2 in [Rect2(40, 0, 920, 540), Rect2(0, 0, 920, 540), Rect2(0, 0, 960, 516), Rect2(40, 8, 888, 508)]:
-		_check(_metrics(viewport, rect).safe_rect() == rect, "asymmetric insets retain their side")
-	var transform: Transform2D = Transform2D(Vector2(2, 0), Vector2(0, 2), Vector2(100, 50))
-	var scaled: SafeAreaMetrics = SafeAreaMetrics.normalize(viewport, Rect2(100, 50, 1920, 1080), Rect2(180, 66, 1776, 1016), transform)
-	_check(scaled.safe_rect() == Rect2(40, 8, 888, 508), "OS pixels scale AND offset into logical coordinates exactly once")
-	var already_inset: SafeAreaMetrics = SafeAreaMetrics.normalize(viewport, Rect2(180, 50, 1920, 1080), Rect2(100, 0, 2100, 1200), Transform2D(Vector2(2, 0), Vector2(0, 2), Vector2(180, 50)))
-	_check(already_inset.safe_rect() == viewport, "content already inside display safe bounds does not receive double inset")
-	_check(_metrics(viewport, Rect2(-100, -100, 1200, 800)).safe_rect() == viewport, "out-of-range safe rect clips to content")
-	for invalid: Rect2 in [Rect2(), Rect2(0, 0, -1, 500), Rect2(2000, 0, 10, 10), Rect2(NAN, 0, 10, 10), Rect2(0, 0, INF, 10)]:
-		var result: SafeAreaMetrics = _metrics(viewport, invalid)
-		_check(result.used_fallback() and result.safe_rect() == viewport, "invalid/unavailable safe bounds deterministic full viewport fallback")
-	_check(SafeAreaMetrics.normalize(viewport, viewport, viewport, Transform2D(Vector2.ZERO, Vector2.ZERO, Vector2.ZERO)).used_fallback(), "singular transform rejects")
 	_check(SafeAreaMetrics.normalize(Rect2(), Rect2(), Rect2(), Transform2D.IDENTITY).content_rect().size.x > 0, "invalid viewport has finite positive emergency geometry")
 	_check(zero.equivalent(_metrics(viewport, viewport)), "equal samples do not invalidate")
-	_check(not zero.equivalent(_metrics(viewport, Rect2(1, 0, 959, 540))), "safe-area-only change invalidates")
-	_check(not zero.equivalent(_metrics(Rect2(0, 0, 1000, 540), viewport)), "viewport-only change invalidates")
+	_check(not zero.equivalent(_metrics(Rect2(0, 0, 1000, 540), Rect2(0, 0, 1000, 540))), "a window size change invalidates")
 	_check(not _metrics(Rect2(0, 0, 1100, 640), Rect2(0, 0, 1100, 640)).is_compact(), "exact 1100x640 is wide")
 	_check(_metrics(Rect2(0, 0, 1099, 640), Rect2(0, 0, 1099, 640)).is_compact(), "one below width threshold is compact")
 	_check(_metrics(Rect2(0, 0, 1100, 639), Rect2(0, 0, 1100, 639)).is_compact(), "one below height threshold is compact")
-	_check(_metrics(viewport, Rect2(0, 0, 800, 480)).is_qualified(), "exact minimum safe area qualifies")
-	_check(not _metrics(viewport, Rect2(0, 0, 799, 480)).is_qualified(), "one below minimum does not qualify")
-	var extreme: SafeAreaMetrics = _metrics(viewport, Rect2(959, 539, 1, 1))
-	_check(extreme.safe_rect().encloses(extreme.content_rect()), "extreme valid area remains finite and bounded")
-	_check(zero.content_rect().encloses(zero.future_movement_rect()) and zero.future_movement_rect().size == Vector2(192, 192), "future pad is only a 192-unit layout reservation")
-	_check(zero.future_pause_rect().size == Vector2(64, 64), "future Pause reservation is 64-unit")
-	var independent := FakeSafe.new()
-	var other := FakeSafe.new()
-	independent.metrics = extreme
-	_check(not independent.metrics.equivalent(other.metrics), "capabilities have no shared mutable metrics")
+	var deck: Rect2 = Rect2(0, 0, 1280, 800)
+	_check(not _metrics(deck, deck).is_compact() and not _metrics(deck, deck).touch_sized(), "the Steam Deck's 1280x800 is the wide, mouse-sized layout")
 	_check(ProjectSettings.get_setting("display/window/size/viewport_width") == 1280, "logical width 1280")
 	_check(ProjectSettings.get_setting("display/window/size/viewport_height") == 720, "logical height 720")
-	_check(not ProjectSettings.has_setting("display/window/size/viewport_width.mobile"), "one logical size on every platform")
 	_check(ProjectSettings.get_setting("display/window/stretch/mode") == "canvas_items", "canvas_items preserved")
-	_check(ProjectSettings.get_setting("display/window/stretch/aspect") == "expand", "expand preserved")
-	_check(ProjectSettings.get_setting("display/window/handheld/orientation") == 4, "sensor landscape, both landscape directions")
-	_check(InputMap.has_action(&"system_back") and InputMap.action_get_events(&"system_back").is_empty(), "Phase10C2B Back is semantic only, never a duplicate key alias")
-	var wide_mobile: SafeAreaMetrics = SafeAreaMetrics.normalize(Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Transform2D.IDENTITY, true)
-	_check(wide_mobile.touch_sized() and not wide_mobile.is_compact(), "mobile target size and compact breakpoint are separate facts")
+	_check(ProjectSettings.get_setting("display/window/stretch/aspect") == "expand", "expand preserved: a 16:10 window gets the extra height")
 	# The 界面缩放 draws a 1280x720 window's interface in 853x480 at 150%: still the
 	# desktop layout (mouse-sized), not the compact one a small window gets.
 	var at_150: Rect2 = Rect2(0, 0, 1280.0 / 1.5, 720.0 / 1.5)
@@ -66,27 +56,40 @@ func _test_metrics() -> void:
 	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).equivalent(SafeAreaMetrics.new(at_150, at_150)), "a UI scale change invalidates")
 
 
+## Windows smaller than any 分辨率 choice (a small laptop's opening size, one the player drags
+## small, a tall narrow one), measured the way the game does: the project's stretch keeps them
+## all at least 1280x720 logical, so none reaches the compact, touch-sized layout.
+func _test_small_windows(tree: SceneTree) -> void:
+	var original_size: Vector2i = tree.root.size
+	var original_factor: float = tree.root.content_scale_factor
+	var capability := GodotSafeAreaCapability.new()
+	for size: Vector2i in [Vector2i(640, 360), Vector2i(800, 500), Vector2i(1088, 612), Vector2i(1024, 768), Vector2i(600, 900)]:
+		for percent: int in ApplicationUiScale.PERCENTS:
+			var scale: float = ApplicationUiScale.factor(percent)
+			tree.root.size = size
+			tree.root.content_scale_factor = scale
+			await _settle(tree)
+			var metrics: SafeAreaMetrics = capability.measure(tree.root)
+			var unscaled: Vector2 = metrics.safe_rect().size * scale
+			_check(unscaled.x >= 1280.0 - 0.5 and unscaled.y >= 720.0 - 0.5, "a %s window at %d%% is at least 1280x720 logical before its 界面缩放" % [size, percent])
+			_check(not metrics.is_compact() and not metrics.touch_sized(), "a %s window at %d%% keeps the wide, mouse-sized layout" % [size, percent])
+	tree.root.size = original_size
+	tree.root.content_scale_factor = original_factor
+	await _settle(tree)
+
+
 func _test_matrix(tree: SceneTree) -> void:
 	var original_size: Vector2i = tree.root.size
 	var original_scale: Vector2i = tree.root.content_scale_size
 	tree.root.content_scale_size = Vector2i.ZERO
 	var recovery_bytes: PackedByteArray = await RecoveryFixtures.new()._valid_save_bytes(tree)
-	var cases: Array[Rect2] = [
-		Rect2(0, 0, 1152, 648), Rect2(0, 0, 1920, 1080), Rect2(0, 0, 960, 540),
-		Rect2(0, 0, 1212, 540), Rect2(48, 0, 912, 540), Rect2(0, 0, 912, 540),
-		Rect2(0, 0, 960, 516), Rect2(0, 0, 1024, 768), Rect2(0, 0, 800, 480),
-		Rect2(0, 0, 480, 320), Rect2(0, 0, 1280, 720),
-		# A 4:3 tablet (1280x960 logical) and a 19.5:9 phone (1560x720) with its notch.
-		Rect2(0, 0, 1280, 960), Rect2(64, 0, 1432, 720),
-	]
-	for index: int in cases.size():
-		var safe: Rect2 = cases[index]
-		var viewport: Rect2 = Rect2(Vector2.ZERO, Vector2(960, 540) if index in [4, 5, 6] else Vector2(1560, 720) if index == 12 else safe.end)
+	for index: int in SCREENS.size():
+		var scale: float = SCREENS[index][1]
+		var viewport: Rect2 = Rect2(Vector2.ZERO, (SCREENS[index][0] as Vector2) / scale)
 		tree.root.size = Vector2i(viewport.size)
 		var capability := FakeSafe.new()
-		capability.metrics = _metrics(viewport, safe)
-		if index >= 10:
-			capability.metrics = SafeAreaMetrics.normalize(viewport, viewport, safe, Transform2D.IDENTITY, true)
+		capability.metrics = _window(viewport, scale)
+		_check(not capability.metrics.is_compact() and not capability.metrics.touch_sized(), "%s at %d%% is the wide, mouse-sized layout" % [SCREENS[index][0], roundi(scale * 100)])
 		var files := SettingsFixtures.MemoryFiles.new()
 		var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("phase10c2a-%d" % index)
 		files.files[profile.backup_path()] = recovery_bytes.duplicate()
@@ -135,10 +138,11 @@ func _test_matrix(tree: SceneTree) -> void:
 			await _settle(tree)
 			await _surface(tree, shell.result_overlay, capability.metrics)
 			var state: ApplicationShellState = shell.shell_state()
-			capability.metrics = _metrics(viewport, safe.grow(-1))
+			var smaller: Rect2 = viewport.grow(-1)
+			capability.metrics = _window(smaller, scale)
 			presenter.refresh()
 			await _settle(tree)
-			_check(shell.shell_state() == state and shell.runtime_host().current_session() == session, "safe-only invalidation changes no Shell/Session authority")
+			_check(shell.shell_state() == state and shell.runtime_host().current_session() == session, "a window resize changes no Shell/Session authority")
 		_check(capability.metrics.content_rect().grow(0.5).encloses(shell.busy_label.get_global_rect()), "Busy text bounded, blocking overlay unchanged")
 		shell.free()
 		await _settle(tree)
@@ -150,14 +154,11 @@ func _hud(tree: SceneTree, hud: SharedGameplayUI, metrics: SafeAreaMetrics) -> v
 	_check(hud.get_node("PresentationLayout").get("_safe") == SafeAreaPresenter.find_or_create(hud), "HUD shares Shell metrics provider")
 	var overlay: Control = hud.get_node("Overlay") as Control
 	var action_panel: PanelContainer = overlay.get_node("ExplorationHUD") as PanelContainer
-	_check(metrics.content_rect().grow(0.5).encloses(action_panel.get_global_rect()), "HUD action panel safe")
+	_check(metrics.content_rect().grow(0.5).encloses(action_panel.get_global_rect()), "HUD action panel inside the window")
 	var buttons: Array[BaseButton] = []
 	_collect_buttons(action_panel, buttons)
 	_check(buttons.size() >= 1 and buttons.size() <= 9, "the 菜单 entry persists; context controls appear only when available")
 	await _buttons(tree, action_panel, metrics)
-	if metrics.is_compact() and metrics.is_qualified():
-		_check(not action_panel.get_global_rect().intersects(metrics.future_movement_rect()), "action panel leaves future pad clear")
-		_check(not action_panel.get_global_rect().intersects(metrics.future_pause_rect()), "action panel leaves future Pause clear")
 	var rows: Array[PlayerInventoryRowProjection] = []
 	for index: int in 5:
 		rows.append(PlayerInventoryRowProjection.new(StringName("qa:%d" % index), &"qa", "A long readable item name", "Long description ".repeat(20), 1, &"weapon", PlayerInventoryRowProjection.EquipmentSlot.NONE, &"sword", 25, 0, true))
@@ -165,7 +166,7 @@ func _hud(tree: SceneTree, hud: SharedGameplayUI, metrics: SafeAreaMetrics) -> v
 	await _settle(tree)
 	await _surface(tree, hud._presentation_layout.frame, metrics)
 	for row: Node in hud.inventory_panel.row_container.get_children():
-		_check((row as BoxContainer).vertical == metrics.touch_sized(), "every dynamic row reflows, including automatically renamed siblings")
+		_check(not (row as BoxContainer).vertical, "every dynamic row stays one line at %s, including automatically renamed siblings" % metrics.viewport_rect().size)
 	_check(not tree.paused, "item panel does not pause gameplay")
 	hud.close_inventory()
 	var loot: Array[WorldItemRowProjection] = [WorldItemRowProjection.new(&"qa:loot", &"qa", "Long loot name ".repeat(8), "Visible without hover ".repeat(12), 3, &"currency", true)]
@@ -194,8 +195,6 @@ func _buttons(tree: SceneTree, root: Control, metrics: SafeAreaMetrics) -> void:
 	var buttons: Array[BaseButton] = []
 	_collect_buttons(root, buttons)
 	for button: BaseButton in buttons:
-		if metrics.touch_sized():
-			_check(button.size.x >= 64 and button.size.y >= 64, "mobile target minimum: %s" % button.name)
 		for other: BaseButton in buttons:
 			if button.get_instance_id() < other.get_instance_id():
 				_check(not button.get_global_rect().intersects(other.get_global_rect()), "primary actions do not overlap")
@@ -204,11 +203,11 @@ func _buttons(tree: SceneTree, root: Control, metrics: SafeAreaMetrics) -> void:
 		button.grab_focus()
 		await _settle(tree)
 		var rect: Rect2 = button.get_global_rect()
-		_check(metrics.safe_rect().grow(0.5).encloses(rect), "focused action inside safe rect: %s %s" % [button.name, rect])
+		_check(metrics.safe_rect().grow(0.5).encloses(rect), "focused action inside the window: %s %s" % [button.name, rect])
 		var parent: Node = button.get_parent()
 		while parent != null and parent != root.get_parent():
 			if parent is ScrollContainer:
-				_check((parent as Control).get_global_rect().grow(0.5).encloses(rect), "focus scroll reveals %s" % button.name)
+				_check((parent as Control).get_global_rect().grow(0.5).encloses(rect), "focus scroll reveals %s at %s" % [button.name, metrics.viewport_rect().size])
 			parent = parent.get_parent()
 
 
@@ -221,6 +220,11 @@ func _collect_buttons(node: Node, result: Array[BaseButton]) -> void:
 
 func _metrics(viewport: Rect2, safe: Rect2) -> SafeAreaMetrics:
 	return SafeAreaMetrics.normalize(viewport, viewport, safe, Transform2D.IDENTITY)
+
+
+## A desktop window's metrics: its logical rect at a 界面缩放.
+func _window(viewport: Rect2, scale: float = 1.0) -> SafeAreaMetrics:
+	return SafeAreaMetrics.new(viewport, viewport, false, false, scale)
 
 
 func _settle(tree: SceneTree) -> void:
