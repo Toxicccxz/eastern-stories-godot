@@ -44,7 +44,6 @@ func _init() -> void:
 	detail.name = "Detail"
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	detail.theme_type_variation = &"MutedLabel"
 	detail.add_theme_color_override("font_color", DETAIL_COLOR)
 	detail.hide()
 	add_child(detail)

@@ -371,7 +371,7 @@ theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 layout_mode = 2
@@ -578,7 +578,7 @@ metadata/keeps_width = true
 
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 theme_type_variation = &"SmallLabel"
 horizontal_alignment = 1
