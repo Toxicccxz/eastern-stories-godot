@@ -222,6 +222,7 @@
 				"\n土匪首领说道：去你的，老子今天要剁下你的头来练练毒爪！\n",
 				"\n土匪首领虎吼一声，欺身上前。\n"
 			],
+			"beats": 2,
 			"attack_unless_marks": ["老松寨的过路钱", "叫阵老松寨"],
 			"parley": true,
 			"inquiry": { "黑衣道士": ["那道士的事，寨主自己会说。聚义厅在东头。"] }
@@ -251,6 +252,7 @@
 			],
 			"apply": { "attack": 100, "defense": 60 },
 			"capabilities": [],
+			"beats": 2,
 			"attack_unless_marks": ["老松寨的过路钱"],
 			"parley": true,
 			"inquiry": {

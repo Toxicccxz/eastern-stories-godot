@@ -207,6 +207,13 @@ func present(projection: BattlePresentationProjection) -> void:
 	_wire_focus()
 
 
+static func _move_of(projection: BattlePresentationProjection, id: StringName) -> CombatActionDefinition:
+	for move: CombatActionDefinition in projection.moves:
+		if move.action_id == id:
+			return move
+	return null
+
+
 ## DECISIONS「战斗界面」: the hover of a move button — the move's own ES2 line as the player
 ## would read it ($N 你, $n 对手, $l 要害, $w 兵刃), then what its tag does.
 static func move_tooltip(move: CombatActionDefinition) -> String:
@@ -331,7 +338,12 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 		var button: Button = move_buttons[id]
 		var chosen: bool = id == projection.chosen_action_id
 		button.set_pressed_no_signal(chosen)
-		button.disabled = not (projection.waiting and projection.manual)
+		# 战斗拍数 A: a move the player's school locks now is greyed with why (够不着); the
+		# buttons never reorder. The row's layout is 包 B's.
+		var locked: String = projection.locked_moves.get(id, "")
+		button.disabled = not (projection.waiting and projection.manual) or not locked.is_empty()
+		var move: CombatActionDefinition = _move_of(projection, id)
+		button.tooltip_text = locked if not locked.is_empty() else (move_tooltip(move) if move != null else "")
 		_show_chosen(button, chosen)
 	# The row dims while the round plays and lights when the fight waits for the player
 	# (a show, not a lock: the buttons' own disabled state is the rule's).

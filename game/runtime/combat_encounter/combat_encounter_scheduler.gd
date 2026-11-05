@@ -9,6 +9,9 @@ const CHAT_AFTER: Array[int] = [
 	CombatSliceOpportunityResult.Outcome.ENTERED_GUARDING,
 	CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION,
 ]
+## What a beat went on when no move was struck (CombatRoundBeats.spent).
+const SPENT_BUSY: StringName = &"busy"
+const SPENT_WAIT: StringName = &"wait"
 
 
 ## A timed apply that ran out this round, and whose it was.
@@ -20,6 +23,17 @@ class EndedEffect:
 	func _init(p_binding: CombatSliceCharacterBinding, p_entry: CharacterTimedApplies.Entry) -> void:
 		binding = p_binding
 		entry = p_entry
+
+
+## What one beat of a fighter is going to be: its move taken without a draw (or none: the
+## executor draws), fight()'s courage taken with it, whether it is the player's order, or a
+## perform its school's line chose (perform/<id>).
+class BeatPick:
+	extends RefCounted
+	var chosen: StringName = &""
+	var courage: CombatPredrawnCourage = null
+	var ordered: bool = false
+	var perform: StringName = &""
 
 
 var _encounter: CombatEncounter
@@ -44,19 +58,28 @@ var _round_open: bool = false
 ## The move the player chose for this round (taken without a draw), and its tag.
 var _player_choice: StringName = &""
 var _player_choice_tag: StringName = &""
-## An NPC's next ordinary move, drawn one beat early (npc_telegraph), by actor.
-var _next_moves: Dictionary[StringName, StringName] = {}
-## A special an NPC announced, to run on its next beat, by actor.
+## 战斗拍数 A (DECISIONS「战斗拍数」): the beats of a round (CombatBeatRules), an NPC's own
+## beats a round (`beats_for`: character_id -> int), each NPC's plan for its next round
+## (npc_telegraph; the first beat settled, the rest its read), each fighter's beats in the
+## round running, what each fighter's school skeleton reads of the fight, and the tag of
+## each fighter's last move this round (the ring between beats).
+var _beat_rules: CombatBeatRules = CombatBeatRules.classic()
+var _beats_for: Callable
+var _plans: Dictionary[StringName, CombatNpcBeatPlan] = {}
+var _round_beats: Dictionary[StringName, CombatRoundBeats] = {}
+var _skeleton_states: Dictionary[StringName, CombatSkeletonState] = {}
+var _round_tags: Dictionary[StringName, StringName] = {}
+## The events of the advance running (the round's notes go here too).
+var _emitted: Array[CombatSchedulerEvent] = []
+## The special an NPC announced (npc_telegraph), to run on its next beat, and its label.
 var _pending_specials: Dictionary[StringName, NpcSpecialAction] = {}
 var _pending_labels: Dictionary[StringName, String] = {}
 ## Whom the player's feint or perform struck this round: their pending special is off.
 var _interrupted: Dictionary[StringName, bool] = {}
 ## 战斗决策层 4 (DECISIONS「战斗内容」): (character_id) -> CombatStyle, the NPC's fight style or
-## null; the cycle from which an NPC may use a special again (its rest after one); the
-## courage draw taken with its next move, by actor.
+## null; the cycle from which an NPC may use a special again (its rest after one).
 var _style_for: Callable
 var _special_ready: Dictionary[StringName, int] = {}
-var _courage: Dictionary[StringName, CombatPredrawnCourage] = {}
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -112,6 +135,20 @@ func configure_decisions(rules: CombatDecisionRules) -> bool:
 
 func decisions() -> CombatDecisionRules:
 	return _decisions
+
+
+## The beats of a round (CombatBeatRules) and each NPC's own beats (`beats_for`:
+## character_id -> int; 1 when it says nothing), configured once before the first advance.
+func configure_beats(rules: CombatBeatRules, beats_for: Callable = Callable()) -> bool:
+	if rules == null or not rules.is_valid() or _accumulated_input_seconds != 0.0:
+		return false
+	_beat_rules = rules.duplicate_snapshot()
+	_beats_for = beats_for
+	return true
+
+
+func beat_rules() -> CombatBeatRules:
+	return _beat_rules
 
 
 ## The NPCs' fight styles (CombatStyleTable.style_of() behind `style_for`), configured once.
@@ -183,7 +220,8 @@ func open_round() -> void:
 	_accumulated_input_seconds = logical_time_seconds
 
 
-## The moves the player may choose from now (their action set, as reset_action() has it).
+## The moves the player may choose from now (their action set, as reset_action() has it),
+## locked ones included (the buttons never reorder; locked_move_reason() says which).
 func player_moves(bindings: Array[CombatSliceCharacterBinding]) -> Array[CombatActionDefinition]:
 	var actor: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
 	if actor == null or not actor.is_valid():
@@ -194,8 +232,10 @@ func player_moves(bindings: Array[CombatSliceCharacterBinding]) -> Array[CombatA
 
 
 ## The player chose `action_id` for this round: it is taken without a draw, and the
-## round runs. False when it is not one of their moves now.
+## round runs. False when it is not one of their moves now, or their school locks it.
 func choose_attack(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
+	if not locked_move_reason(action_id, bindings).is_empty():
+		return false
 	for action: CombatActionDefinition in player_moves(bindings):
 		if action.action_id == action_id:
 			_player_choice = action_id
@@ -209,16 +249,39 @@ func player_choice() -> StringName:
 	return _player_choice
 
 
-## The tag of the move an NPC will use next (npc_telegraph), &"" when none is drawn yet.
-func next_move_tag(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> StringName:
-	var action: CombatActionDefinition = next_move(actor_id, bindings)
+## 战斗拍数 A: why the player's school locks `action_id` now (够不着), "" when it may be chosen.
+## The 经典 round (one beat) never locks.
+func locked_move_reason(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> String:
+	if _one_beat() or _player_id.is_empty():
+		return ""
+	var actor: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
+	var skeleton: CombatSchoolSkeleton = _skeleton_of(actor)
+	return "" if skeleton == null else skeleton.lock_reason(action_id, _skeleton_state(_player_id))
+
+
+## The player's locked moves now, by ID, with why.
+func locked_moves(bindings: Array[CombatSliceCharacterBinding]) -> Dictionary[StringName, String]:
+	var locked: Dictionary[StringName, String] = {}
+	for action: CombatActionDefinition in player_moves(bindings):
+		var reason: String = locked_move_reason(action.action_id, bindings)
+		if not reason.is_empty():
+			locked[action.action_id] = reason
+	return locked
+
+
+## The tag of the move an NPC will use on its beat `beat` of the next round (npc_telegraph),
+## &"" when none is drawn yet (or that beat is a perform).
+func next_move_tag(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding], beat: int = 0) -> StringName:
+	var action: CombatActionDefinition = next_move(actor_id, bindings, beat)
 	return &"" if action == null else action.tag
 
 
-## The move an NPC will use next (npc_telegraph), null when none is drawn yet.
-func next_move(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> CombatActionDefinition:
-	var action_id: StringName = _next_moves.get(actor_id, &"")
-	if action_id.is_empty():
+## The move an NPC will use on its beat `beat` (npc_telegraph), null when none is drawn yet
+## or that beat is a perform (beat_plan() has it).
+func next_move(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding], beat: int = 0) -> CombatActionDefinition:
+	var plan: CombatNpcBeatPlan = _plans.get(actor_id)
+	var entry: CombatNpcBeatPlan.Entry = null if plan == null else plan.entry(beat)
+	if entry == null or entry.is_perform():
 		return null
 	var actor: CombatSliceCharacterBinding = _find_binding(bindings, actor_id)
 	if actor == null:
@@ -228,25 +291,49 @@ func next_move(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding
 	if set == null:
 		return null
 	for action: CombatActionDefinition in set.actions():
-		if action.action_id == action_id:
+		if action.action_id == entry.action:
 			return action
 	return null
+
+
+## An NPC's plan for its next round (npc_telegraph): the first beat settled, the rest its
+## read; null when none is drawn yet.
+func beat_plan(actor_id: StringName) -> CombatNpcBeatPlan:
+	return _plans.get(actor_id)
+
+
+## A fighter's beats in the round that last ran (or is running): null before the first.
+func round_beats_of(actor_id: StringName) -> CombatRoundBeats:
+	return _round_beats.get(actor_id)
 
 
 ## Whether the NPC's courage draw, taken with its next move, fails fight()'s gate: it will
 ## guard instead (and riposte on a miss), 「起手：守势」. False when none was taken.
 func next_move_guards(actor_id: StringName) -> bool:
-	var courage: CombatPredrawnCourage = _courage.get(actor_id)
-	return courage != null and not courage.attacks()
+	var plan: CombatNpcBeatPlan = _plans.get(actor_id)
+	var entry: CombatNpcBeatPlan.Entry = null if plan == null else plan.first()
+	return entry != null and entry.courage != null and not entry.courage.attacks()
 
 
-## The special an NPC announced for its next beat, "" when none.
+## The special an NPC announced for its next beat (its chat()'s, 蓄势), "" when none.
 func pending_special_label(actor_id: StringName) -> String:
 	return _pending_labels.get(actor_id, "")
 
 
+## 战斗拍数 A: the perform an NPC's school line planned as its first beat (封山弟子's 「封」),
+## "" when none; the card shows it as 要出 too.
+func planned_perform_label(actor_id: StringName) -> String:
+	var plan: CombatNpcBeatPlan = _plans.get(actor_id)
+	var entry: CombatNpcBeatPlan.Entry = null if plan == null else plan.first()
+	if entry == null or not entry.is_perform():
+		return ""
+	var perform: PerformFunction = SpecialFunctions.perform(CombatBeatRules.perform_of(entry.action))
+	return "" if perform == null else TranslationServer.translate(perform.label)
+
+
 ## The round's standing modifiers: the player's stance and chosen move, the NPCs' drawn
-## moves (a 守 move guards its user this round; the counter ring reads the tags).
+## moves (a 守 move guards its user this round; the counter ring reads the tags). Between
+## beats a fighter holds its next planned move, else the one it last used this round.
 func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_modifiers.clear()
 	var bonus: int = GameContent.catalog().pacing().combat_rules().action_tag_bonus_percent
@@ -254,14 +341,22 @@ func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		var mine: CombatRoundModifiers.Fighter = _modifiers.side(_player_id)
 		if _decisions.has_stances():
 			CombatStance.apply(mine, BattlePace.stance, _decisions.stance_percent)
-		mine.move_tag = _player_choice_tag
-		if _player_choice_tag == CombatMoveTags.GUARD:
+		mine.move_tag = _player_choice_tag if not _player_choice_tag.is_empty() else _round_tags.get(_player_id, &"")
+		if mine.move_tag == CombatMoveTags.GUARD:
 			mine.add(0, 0, bonus, bonus)
-	for actor_id: StringName in _next_moves:
+	for binding: CombatSliceCharacterBinding in bindings:
+		if binding == null or binding.is_user or binding.character_id == _player_id:
+			continue
+		var actor_id: StringName = binding.character_id
 		# One who will guard holds no move this round (the ring reads nothing of it).
 		if next_move_guards(actor_id):
 			continue
-		var tag: StringName = next_move_tag(actor_id, bindings)
+		var tag: StringName = &""
+		var plan: CombatNpcBeatPlan = _plans.get(actor_id)
+		if plan != null and not plan.is_empty():
+			tag = plan.first().tag
+		else:
+			tag = _round_tags.get(actor_id, &"")
 		if tag.is_empty():
 			continue
 		var theirs: CombatRoundModifiers.Fighter = _modifiers.side(actor_id)
@@ -270,43 +365,187 @@ func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			theirs.add(0, 0, bonus, bonus)
 
 
-## npc_telegraph: the NPC's next ordinary move drawn now, one beat early, so its tag can
-## be shown; taken without a draw on its next attack (CombatActionSelector).
-## The fight style weighs the draw (CombatStyle.tag_weights); fight()'s courage draw against
-## its target comes with it (CombatPredrawnCourage), so the card can say it will guard.
-func _draw_next_move(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding] = []) -> void:
-	_next_moves.erase(actor.character_id)
-	_courage.erase(actor.character_id)
+## Whether the round is ES2's one beat (round_beats 1, not interleaved): then every draw and
+## order is the one before 战斗拍数, bit for bit, and no school skeleton is read.
+func _one_beat() -> bool:
+	return _beat_rules.round_beats <= 1 and not _beat_rules.interleaved
+
+
+## The beats `actor` starts a round with: the player's round_beats; an NPC's own `beats`
+## (1 when none) once the round has more than one beat.
+func _base_beats(actor: CombatSliceCharacterBinding) -> int:
+	if actor == null:
+		return 0
+	if actor.is_user or actor.character_id == _player_id or _one_beat():
+		return _beat_rules.round_beats
+	var own: int = 1
+	if _beats_for.is_valid():
+		own = int(_beats_for.call(actor.character_id))
+	return maxi(1, own)
+
+
+## The skeleton of the school `actor` fights with now (the skill mapped to its attack's use),
+## null when it has none or the round is ES2's one beat.
+func _skeleton_of(actor: CombatSliceCharacterBinding) -> CombatSchoolSkeleton:
+	if actor == null or _one_beat() or not actor.is_valid():
+		return null
+	var primary: EquippedWeaponRef = actor.state.equipment.primary_weapon()
+	var use_id: StringName = primary.skill_type if primary != null else CombatSliceProjectionBuilder.UNARMED_SKILL_ID
+	var mapped: StringName = actor.state.skills.mapped_skill(use_id)
+	if mapped.is_empty():
+		return null
+	var skill: SkillDefinition = GameContent.catalog().skill(mapped)
+	return null if skill == null else skill.skeleton
+
+
+func _skeleton_state(actor_id: StringName) -> CombatSkeletonState:
+	if not _skeleton_states.has(actor_id):
+		_skeleton_states[actor_id] = CombatSkeletonState.new()
+	return _skeleton_states[actor_id]
+
+
+## The use (sword, unarmed) through which `actor` reaches `skill_id`'s performs.
+func _perform_use(actor: CombatSliceCharacterBinding, skill_id: StringName) -> StringName:
+	var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
+	if skill == null:
+		return &""
+	for use_id: StringName in skill.valid_enabled_uses():
+		if actor.state.skills.mapped_skill(use_id) == skill_id:
+			return use_id
+	return &""
+
+
+## npc_telegraph: the NPC's plan for its next round drawn now, one beat early, so its first
+## beat can be shown (its tag) and the rest read; each beat's move is taken without a draw
+## when it comes (CombatActionSelector). The fight style weighs each draw
+## (CombatStyle.tag_weights); fight()'s courage draw against its target comes with each
+## (CombatPredrawnCourage), so the card can say it will guard. With one beat a round this
+## is the one draw of 战斗决策层 1B.
+func _draw_plan(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding] = []) -> void:
+	_plans.erase(actor.character_id)
 	if not _decisions.npc_telegraph or actor.is_user or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting():
 		return
+	var plan := CombatNpcBeatPlan.new(actor.character_id)
+	var budget: int = _base_beats(actor)
+	var first: bool = true
+	while budget > 0:
+		var entry: CombatNpcBeatPlan.Entry = _draw_entry(actor, random_source, bindings, budget, first)
+		if entry == null:
+			break
+		plan.append(entry)
+		budget -= maxi(1, entry.cost)
+		first = false
+	if not plan.is_empty():
+		_plans[actor.character_id] = plan
+
+
+## One beat of an NPC's plan: its school's line when it fires (a perform resting goes to its
+## else_cooldown move), else a weighted draw over the moves it can afford and is not locked
+## out of (its line's else_pool when it has one and did not fire); then the courage draw.
+func _draw_entry(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding], budget: int, confirmed: bool) -> CombatNpcBeatPlan.Entry:
 	var input: CombatActionSelectionInput = CombatSliceProjectionBuilder.build_action_selection_input(actor)
-	var style: CombatStyle = _style_of(actor)
-	var weights: Dictionary[StringName, int] = {}
-	if style != null:
-		weights = style.weights_at(_kee_percent(actor))
-	var selection: CombatActionSelectionResult = CombatActionSelector.select_action(input, random_source, weights)
-	if selection.succeeded:
-		_next_moves[actor.character_id] = selection.selected_action.action_id
-	_draw_courage(actor, random_source, bindings)
+	var set: CombatActionSet = null if input == null else input.current_action_set()
+	var skeleton: CombatSchoolSkeleton = _skeleton_of(actor)
+	var me: CombatSkeletonState = _skeleton_state(actor.character_id)
+	var target_state: CombatSkeletonState = _skeleton_states.get(_target_of(actor, bindings))
+	var action: StringName = &""
+	var from_line: bool = false
+	var fired: bool = false
+	if skeleton != null and skeleton.has_npc_line() and skeleton.npc_fires(me, target_state):
+		fired = true
+		var function_id: StringName = CombatBeatRules.perform_of(skeleton.npc_do)
+		if not function_id.is_empty():
+			if _can_special(actor) and _beat_rules.cost_of_action(skeleton.npc_do) <= budget and not _perform_use(actor, skeleton.skill_id).is_empty():
+				action = skeleton.npc_do
+				from_line = true
+			elif not skeleton.npc_else_cooldown.is_empty():
+				action = skeleton.npc_else_cooldown
+				from_line = true
+		elif not skeleton.is_locked(skeleton.npc_do, me) and _beat_rules.cost_of_tag(_tag_of(set, skeleton.npc_do)) <= budget:
+			action = skeleton.npc_do
+			from_line = true
+	if action.is_empty():
+		var style: CombatStyle = _style_of(actor)
+		var weights: Dictionary[StringName, int] = {}
+		if style != null:
+			weights = style.weights_at(_kee_percent(actor))
+		var excluded: Array[StringName] = []
+		if set != null and not _one_beat():
+			var pool: Array[StringName] = []
+			if skeleton != null and not fired:
+				pool = skeleton.npc_else_pool
+			for move: CombatActionDefinition in set.actions():
+				var out: bool = _beat_rules.cost_of_tag(move.tag) > budget
+				out = out or (skeleton != null and skeleton.is_locked(move.action_id, me))
+				out = out or (not pool.is_empty() and not pool.has(move.action_id))
+				if out:
+					excluded.append(move.action_id)
+		var selection: CombatActionSelectionResult = CombatActionSelector.select_action(input, random_source, weights, excluded)
+		if not selection.succeeded:
+			return null
+		action = selection.selected_action.action_id
+	var perform: bool = not CombatBeatRules.perform_of(action).is_empty()
+	var tag: StringName = &"" if perform else _tag_of(set, action)
+	var cost: int = _beat_rules.cost_of_action(action) if perform else _beat_rules.cost_of_tag(tag)
+	var courage: CombatPredrawnCourage = null if perform else _draw_courage(actor, random_source, bindings)
+	return CombatNpcBeatPlan.Entry.new(action, tag, cost, courage, confirmed, from_line)
+
+
+static func _tag_of(set: CombatActionSet, action_id: StringName) -> StringName:
+	if set == null:
+		return &""
+	for move: CombatActionDefinition in set.actions():
+		if move.action_id == action_id:
+			return move.tag
+	return &""
+
+
+## The target an NPC's line reads: its current one, or the first it may take.
+func _target_of(actor: CombatSliceCharacterBinding, bindings: Array[CombatSliceCharacterBinding]) -> StringName:
+	var target_id: StringName = _encounter.current_target_for(actor.character_id)
+	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
+		target_id = _first_initial_target(actor, bindings)
+	return target_id
+
+
+## A read beat of the plan comes up: what the player could see since may change it — its
+## school's line now holds (or no longer does), the move is locked now. A change is a fresh
+## entry and the log says 变招. The settled first beat never comes here.
+func _revise_entry(actor: CombatSliceCharacterBinding, entry: CombatNpcBeatPlan.Entry, beats: CombatRoundBeats, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding]) -> CombatNpcBeatPlan.Entry:
+	var skeleton: CombatSchoolSkeleton = _skeleton_of(actor)
+	if skeleton == null:
+		return entry
+	var me: CombatSkeletonState = _skeleton_state(actor.character_id)
+	var changed: bool = false
+	if skeleton.has_npc_line():
+		var fires: bool = skeleton.npc_fires(me, _skeleton_states.get(_target_of(actor, bindings)))
+		changed = fires != entry.from_line
+	if not entry.is_perform() and skeleton.is_locked(entry.action, me):
+		changed = true
+	if not changed:
+		return entry
+	var revised: CombatNpcBeatPlan.Entry = _draw_entry(actor, random_source, bindings, maxi(1, beats.remaining), true)
+	if revised == null or revised.action == entry.action:
+		return entry
+	# TRANSLATORS: an NPC's read beat changed on what it saw: $N its name.
+	_emit(_note_event(actor.character_id, TranslationServer.translate("$N临阵变招！"), ColoredLine.HIC))
+	return revised
 
 
 ## fight(): random(victim cps x 3) < cor + 杀气 / 50, drawn now for the target it has (or
 ## would take); nothing when the victim is busy or down (fight() attacks then without it).
-func _draw_courage(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding]) -> void:
+func _draw_courage(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding]) -> CombatPredrawnCourage:
 	if bindings.is_empty():
-		return
-	var target_id: StringName = _encounter.current_target_for(actor.character_id)
-	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
-		target_id = _first_initial_target(actor, bindings)
-	var victim: CombatSliceCharacterBinding = _find_binding(bindings, target_id)
+		return null
+	var victim: CombatSliceCharacterBinding = _find_binding(bindings, _target_of(actor, bindings))
 	if victim == null or victim.busy.is_busy() or victim.life_status != CombatSliceLifeStatus.Value.ACTIVE:
-		return
+		return null
 	var facts: CombatFightDecisionFacts = CombatSliceProjectionBuilder.build_fight_facts(actor, victim)
 	var bound: int = facts.victim_raw_composure * 3
 	var draw: int = random_source.legacy_random(bound)
 	@warning_ignore("integer_division")
 	var threshold: int = facts.attacker_raw_courage + facts.attacker_raw_bellicosity / 50
-	_courage[actor.character_id] = CombatPredrawnCourage.new(victim.character_id, bound, draw, threshold)
+	return CombatPredrawnCourage.new(victim.character_id, bound, draw, threshold)
 
 
 ## The pending special of `actor`, run before its chat on this beat (or dropped with its
@@ -340,6 +579,37 @@ func _run_pending_special(
 	return CombatSchedulerEvent.new(
 		_next_event_sequence, _logical_cycle, logical_time_seconds, CombatSchedulerEvent.Kind.NPC_CHAT,
 		CombatSchedulerEvent.SkipReason.NONE, actor.character_id, &"", null, _progression_order.take(), result,
+	)
+
+
+## 战斗拍数 A: a perform an NPC's school line planned as a beat (封山弟子's 「封」), run as
+## npc.c's perform_action() does (NpcSpecials), as an NPC_CHAT event carrying its name; it
+## rests the special's rounds. Null when it said and did nothing (the beat is still spent).
+func _perform_beat(
+	actor: CombatSliceCharacterBinding,
+	function_id: StringName,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+) -> CombatSchedulerEvent:
+	var skeleton: CombatSchoolSkeleton = _skeleton_of(actor)
+	var use_id: StringName = &"" if skeleton == null else _perform_use(actor, skeleton.skill_id)
+	var perform: PerformFunction = SpecialFunctions.perform(function_id)
+	if use_id.is_empty() or perform == null:
+		return null
+	var context: SpecialContext = CombatSpecialAttackSource.context_for(actor, bindings, random_source, effect_registry, _modifiers)
+	context.target = context.other(_target_of(actor, bindings))
+	if NpcSpecials.run(NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, use_id, function_id), context):
+		_rest_special(actor)
+	if context.lines.is_empty() and context.attacks.is_empty() and context.damaged.is_empty():
+		return null
+	var said := CombatNpcChatResult.new(context.lines, context.damaged)
+	if not context.attacks.is_empty():
+		said = said.with_special(context.report())
+	said.with_special_label(TranslationServer.translate(perform.label))
+	return CombatSchedulerEvent.new(
+		_next_event_sequence, _logical_cycle, logical_time_seconds, CombatSchedulerEvent.Kind.NPC_CHAT,
+		CombatSchedulerEvent.SkipReason.NONE, actor.character_id, &"", null, _progression_order.take(), said,
 	)
 
 
@@ -495,6 +765,7 @@ func advance(
 		return CombatSchedulerAdvanceResult.new(
 			CombatSchedulerAdvanceResult.Outcome.AUTHORITY_INVALID
 		)
+	_emitted = []
 	if boundary != null and not _inspect(boundary, bindings):
 		return CombatSchedulerAdvanceResult.new()
 	var tactical_result: CombatTacticalExecutionResult = null
@@ -527,8 +798,8 @@ func advance(
 	# first moves are drawn now, so the first order is not made blind.
 	if waiting_for_player(bindings):
 		for binding: CombatSliceCharacterBinding in bindings:
-			if not binding.is_user and not _next_moves.has(binding.character_id) and binding.exists_in_encounter:
-				_draw_next_move(binding, random_source, bindings)
+			if not binding.is_user and not _plans.has(binding.character_id) and binding.exists_in_encounter:
+				_draw_plan(binding, random_source, bindings)
 		return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER)
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(
@@ -544,7 +815,6 @@ func advance(
 	# 战斗决策层 1B: one order is one round, whatever a frame hitch's delta (Codex on #207).
 	if manual():
 		due_cycles = 1
-	var emitted: Array[CombatSchedulerEvent] = []
 	var processed_cycles: int = 0
 	for _cycle_index: int in range(due_cycles):
 		_logical_cycle += 1
@@ -556,88 +826,15 @@ func advance(
 			var effect: CombatSchedulerEvent = _remove_effect(ended, bindings, random_source, effect_registry)
 			if effect == null:
 				continue
-			_events.append(effect)
-			emitted.append(effect)
-			_next_event_sequence += 1
+			_emit(effect)
 			if boundary != null and not _inspect(boundary, bindings, effect):
 				return CombatSchedulerAdvanceResult.new(
-					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
+					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, _emitted,
 				)
-		for participant: CombatParticipant in _encounter.participants():
-			var event: CombatSchedulerEvent = _process_participant(
-				participant,
-				bindings,
-				random_source,
-				effect_registry,
+		if not _run_round(bindings, random_source, effect_registry, boundary):
+			return CombatSchedulerAdvanceResult.new(
+				CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, _emitted,
 			)
-			if event != null:
-				_events.append(event)
-				emitted.append(event)
-				_next_event_sequence += 1
-				if event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null:
-					var blows: Array = _blows(event.resolution.forward_result, event.resolution.chain_result)
-					if participant.participant_id == _player_id:
-						_note_interrupts(blows, _player_choice_tag == CombatMoveTags.FEINT)
-						_player_choice = &""
-						_player_choice_tag = &""
-					_note_moves_seen(event.resolution, bindings)
-					emitted.append_array(_hurts(blows, bindings, random_source, boundary))
-			if boundary != null and not _inspect(boundary, bindings, event):
-				return CombatSchedulerAdvanceResult.new(
-					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
-				)
-			# After a beat the NPC acted on (not a busy one, as npc.c chat() runs then too); a busy
-			# beat drops the special it announced (Codex on #207).
-			var npc_actor: CombatSliceCharacterBinding = _find_binding(bindings, participant.participant_id)
-			var npc_beat: bool = npc_actor != null and not npc_actor.is_user and event != null and event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null
-			if npc_beat and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and _pending_specials.has(npc_actor.character_id):
-				_interrupted[npc_actor.character_id] = true
-				var dropped: CombatSchedulerEvent = _run_pending_special(npc_actor, bindings, random_source, effect_registry)
-				if dropped != null:
-					_events.append(dropped)
-					emitted.append(dropped)
-					_next_event_sequence += 1
-			if npc_beat and event.resolution.outcome in CHAT_AFTER:
-				# Its announced special runs now, after its attack and before its chat.
-				var pending: CombatSchedulerEvent = _run_pending_special(npc_actor, bindings, random_source, effect_registry)
-				if pending != null:
-					_events.append(pending)
-					emitted.append(pending)
-					_next_event_sequence += 1
-					var ran: CombatNpcChatResult = pending.chat
-					if ran != null and ran.special() != null:
-						emitted.append_array(_hurts(_report_blows(ran.special()), bindings, random_source, boundary))
-					if boundary != null and ran != null and not ran.joins().is_empty():
-						boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(ran.joins()))
-					if boundary != null and not _inspect(boundary, bindings, pending):
-						return CombatSchedulerAdvanceResult.new(
-							CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
-						)
-				# Its next ordinary move, drawn one beat early (npc_telegraph).
-				_draw_next_move(npc_actor, random_source, bindings)
-			var chat: CombatSchedulerEvent = _chat_after(event, bindings, random_source, effect_registry)
-			if chat == null:
-				continue
-			_events.append(chat)
-			emitted.append(chat)
-			_next_event_sequence += 1
-			if chat.chat != null and chat.chat.telegraph() != null:
-				_pending_specials[chat.actor_id] = chat.chat.telegraph()
-				_pending_labels[chat.actor_id] = chat.chat.telegraph_label()
-				_interrupted.erase(chat.actor_id)
-			# ask_for_help(): the partner's kill_ob() brings it in before anyone acts on.
-			var said: CombatNpcChatResult = chat.chat
-			if said != null and said.special() != null:
-				emitted.append_array(_hurts(_report_blows(said.special()), bindings, random_source, boundary))
-			if boundary != null and said != null and not said.joins().is_empty():
-				boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
-			# go.c: the NPC walked out of the room and out of the fight.
-			if boundary != null and said != null and not said.departure_zone_id().is_empty():
-				boundary.depart(bindings, chat.actor_id, said.departure_zone_id())
-			if boundary != null and not _inspect(boundary, bindings, chat):
-				return CombatSchedulerAdvanceResult.new(
-					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
-				)
 	if manual() and processed_cycles > 0:
 		# The order's round ran: the clock waits for the next.
 		_round_open = false
@@ -646,7 +843,316 @@ func advance(
 	return CombatSchedulerAdvanceResult.new(
 		CombatSchedulerAdvanceResult.Outcome.ADVANCED,
 		due_cycles,
-		emitted,
+		_emitted,
+	)
+
+
+## An event of this advance: recorded and reported.
+func _emit(event: CombatSchedulerEvent) -> void:
+	_events.append(event)
+	_emitted.append(event)
+	_next_event_sequence += 1
+
+
+## 战斗拍数 A: one round is a string of beats. Each fighter starts with its base beats and
+## may win more (its school's skeleton, up to earned_beat_cap); the beats resolve in
+## exchange order (interleaved: the player's first, each NPC's first, then the rest by
+## turns) or in combatd.c's participant order, each fighter's together. One who joins
+## during the round acts from the next. Returns false when the fight ended inside it.
+func _run_round(
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+	boundary: CombatOpportunityBoundary,
+) -> bool:
+	_round_beats.clear()
+	_round_tags.clear()
+	for state: CombatSkeletonState in _skeleton_states.values():
+		state.new_round()
+	var order: Array[StringName] = _beat_order()
+	var progress: bool = true
+	while progress:
+		progress = false
+		for actor_id: StringName in order:
+			var beats: CombatRoundBeats = _beats_of(actor_id, bindings)
+			if _beat_rules.interleaved:
+				if not beats.has_beats():
+					continue
+				progress = true
+				if not _take_beat(actor_id, beats, bindings, random_source, effect_registry, boundary):
+					return false
+			else:
+				while beats.has_beats():
+					progress = true
+					if not _take_beat(actor_id, beats, bindings, random_source, effect_registry, boundary):
+						return false
+	return true
+
+
+## The fighters' order for the round: combatd.c's participant order; interleaved, the
+## player first.
+func _beat_order() -> Array[StringName]:
+	var order: Array[StringName] = []
+	for participant: CombatParticipant in _encounter.participants():
+		order.append(participant.participant_id)
+	if _beat_rules.interleaved and not _player_id.is_empty() and order.has(_player_id):
+		order.erase(_player_id)
+		order.push_front(_player_id)
+	return order
+
+
+func _beats_of(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> CombatRoundBeats:
+	if not _round_beats.has(actor_id):
+		_round_beats[actor_id] = CombatRoundBeats.new(actor_id, _base_beats(_find_binding(bindings, actor_id)))
+	return _round_beats[actor_id]
+
+
+## What `actor`'s beat is going to be. The player: the move they chose (their first beat),
+## else a draw; with more than one beat a round the draw leaves out what their school locks
+## and what they cannot afford. An NPC: the next beat of its plan (a read beat revised on
+## what it saw), a fresh draw once its round-end work ran (a beat it won), else the
+## executor's own draw (ES2's).
+func _pick_beat(actor: CombatSliceCharacterBinding, beats: CombatRoundBeats, bindings: Array[CombatSliceCharacterBinding], random_source: CombatRandomSource) -> BeatPick:
+	var pick := BeatPick.new()
+	if actor.is_user or actor.character_id == _player_id:
+		pick.chosen = _player_choice
+		pick.ordered = not _player_choice.is_empty() and manual()
+		if pick.chosen.is_empty() and not _one_beat() and not actor.busy.is_busy():
+			pick.chosen = _draw_player_move(actor, beats, random_source)
+		return pick
+	var plan: CombatNpcBeatPlan = _plans.get(actor.character_id)
+	var entry: CombatNpcBeatPlan.Entry = null
+	if plan != null and not plan.is_empty() and not beats.settled:
+		entry = plan.pop()
+		if not entry.confirmed and not _one_beat() and not actor.busy.is_busy():
+			entry = _revise_entry(actor, entry, beats, random_source, bindings)
+	elif not _one_beat() and _decisions.npc_telegraph and not actor.busy.is_busy():
+		entry = _draw_entry(actor, random_source, bindings, maxi(1, beats.remaining), true)
+	if entry == null:
+		return pick
+	if entry.is_perform():
+		pick.perform = CombatBeatRules.perform_of(entry.action)
+	else:
+		pick.chosen = entry.action
+		pick.courage = entry.courage
+	return pick
+
+
+## The player's beat after their order (or under 自动): the set's draw, leaving out the moves
+## their school locks and those costing more beats than are left (CombatActionSelector).
+func _draw_player_move(actor: CombatSliceCharacterBinding, beats: CombatRoundBeats, random_source: CombatRandomSource) -> StringName:
+	var input: CombatActionSelectionInput = CombatSliceProjectionBuilder.build_action_selection_input(actor)
+	var set: CombatActionSet = null if input == null else input.current_action_set()
+	if set == null or not set.is_valid():
+		return &""
+	var skeleton: CombatSchoolSkeleton = _skeleton_of(actor)
+	var state: CombatSkeletonState = _skeleton_state(actor.character_id)
+	var excluded: Array[StringName] = []
+	for move: CombatActionDefinition in set.actions():
+		if _beat_rules.cost_of_tag(move.tag) > beats.remaining or (skeleton != null and skeleton.is_locked(move.action_id, state)):
+			excluded.append(move.action_id)
+	var selection: CombatActionSelectionResult = CombatActionSelector.select_action(input, random_source, {}, excluded)
+	return selection.selected_action.action_id if selection.succeeded else &""
+
+
+## One beat of `actor_id`: picked, run, paid for; its blows noted (interrupts, the school
+## skeletons, 识招, the NPCs' own hurt lines); then, on an NPC's last base beat, its
+## round-end work (its announced special, its next plan, its chat()). Returns false when the
+## fight ended.
+func _take_beat(
+	actor_id: StringName,
+	beats: CombatRoundBeats,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+	boundary: CombatOpportunityBoundary,
+) -> bool:
+	var participant: CombatParticipant = _encounter.participant_for(actor_id)
+	if participant == null:
+		beats.forfeit()
+		return true
+	var actor: CombatSliceCharacterBinding = _find_binding(bindings, actor_id)
+	# Between beats each fighter holds its next move for the ring; ES2's one beat a round
+	# keeps the modifiers the cycle began with.
+	if not _one_beat():
+		_fill_modifiers(bindings)
+	var pick: BeatPick = BeatPick.new()
+	var available: bool = actor != null and actor.exists_in_encounter and actor.combat_available and actor.life_status == CombatSliceLifeStatus.Value.ACTIVE and actor.relationship.is_fighting()
+	if available:
+		pick = _pick_beat(actor, beats, bindings, random_source)
+	var event: CombatSchedulerEvent = null
+	var is_player: bool = actor_id == _player_id or (actor != null and actor.is_user)
+	if not pick.perform.is_empty():
+		event = _perform_beat(actor, pick.perform, bindings, random_source, effect_registry)
+		beats.spend(CombatBeatRules.perform_key(pick.perform), _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
+		if event != null:
+			_emit(event)
+			var ran: CombatNpcChatResult = event.chat
+			if ran != null and ran.special() != null:
+				_hurts(_report_blows(ran.special()), bindings, random_source, boundary)
+		if boundary != null and not _inspect(boundary, bindings, event):
+			return false
+		if beats.has_beats() or beats.settled:
+			return true
+		return _npc_round_end(actor, beats, bindings, random_source, effect_registry, boundary)
+	event = _process_participant(participant, bindings, random_source, effect_registry, pick.chosen, pick.courage, pick.ordered)
+	if event == null:
+		beats.spend(SPENT_WAIT, 1)
+		return true
+	_emit(event)
+	var npc_beat: bool = false
+	if event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null:
+		var resolution: CombatSliceOpportunityResult = event.resolution
+		npc_beat = not is_player
+		var struck: CombatActionDefinition = _struck_move(resolution)
+		if resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED:
+			beats.spend(SPENT_BUSY, 1)
+			# ES2's busy counts down once a heart beat: a busy round is lost whole.
+			if not _beat_rules.busy_in_beats:
+				beats.forfeit()
+		elif struck != null:
+			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag))
+		else:
+			beats.spend(SPENT_WAIT, 1)
+		var blows: Array = _blows(resolution.forward_result, resolution.chain_result)
+		if is_player:
+			_note_interrupts(blows, struck != null and struck.tag == CombatMoveTags.FEINT)
+			# The order is spent; its tag stays the player's for the ring this round.
+			if not _player_choice_tag.is_empty():
+				_round_tags[_player_id] = _player_choice_tag
+			_player_choice = &""
+			_player_choice_tag = &""
+		_note_skeleton(resolution, bindings)
+		_note_moves_seen(resolution, bindings)
+		_hurts(blows, bindings, random_source, boundary)
+	else:
+		beats.forfeit()
+	if boundary != null and not _inspect(boundary, bindings, event):
+		return false
+	if not npc_beat:
+		return true
+	# After a beat the NPC acted on (not a busy one, as npc.c chat() runs then too); a busy
+	# beat drops the special it announced (Codex on #207).
+	if event.resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and _pending_specials.has(actor_id):
+		_interrupted[actor_id] = true
+		var dropped: CombatSchedulerEvent = _run_pending_special(actor, bindings, random_source, effect_registry)
+		if dropped != null:
+			_emit(dropped)
+	if event.resolution.outcome not in CHAT_AFTER or beats.has_beats() or beats.settled:
+		return true
+	return _npc_round_end(actor, beats, bindings, random_source, effect_registry, boundary)
+
+
+## An NPC's last base beat of the round is taken (std/char.c heart_beat() after attack()):
+## its announced special runs, its next round's plan is drawn, its chat() runs. Returns false
+## when the fight ended in it.
+func _npc_round_end(
+	actor: CombatSliceCharacterBinding,
+	beats: CombatRoundBeats,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effect_registry: SkillImprovementEffectRegistry,
+	boundary: CombatOpportunityBoundary,
+) -> bool:
+	beats.settled = true
+	# Its announced special runs now, after its attack and before its chat.
+	var pending: CombatSchedulerEvent = _run_pending_special(actor, bindings, random_source, effect_registry)
+	if pending != null:
+		_emit(pending)
+		var ran: CombatNpcChatResult = pending.chat
+		if ran != null and ran.special() != null:
+			_hurts(_report_blows(ran.special()), bindings, random_source, boundary)
+		if boundary != null and ran != null and not ran.joins().is_empty():
+			boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(ran.joins()))
+		if boundary != null and not _inspect(boundary, bindings, pending):
+			return false
+	# Its next round's plan, drawn one beat early (npc_telegraph).
+	_draw_plan(actor, random_source, bindings)
+	var chat: CombatSchedulerEvent = _chat_after(actor, bindings, random_source, effect_registry)
+	if chat == null:
+		return true
+	_emit(chat)
+	if chat.chat != null and chat.chat.telegraph() != null:
+		_pending_specials[chat.actor_id] = chat.chat.telegraph()
+		_pending_labels[chat.actor_id] = chat.chat.telegraph_label()
+		_interrupted.erase(chat.actor_id)
+	# ask_for_help(): the partner's kill_ob() brings it in before anyone acts on.
+	var said: CombatNpcChatResult = chat.chat
+	if said != null and said.special() != null:
+		_hurts(_report_blows(said.special()), bindings, random_source, boundary)
+	if boundary != null and said != null and not said.joins().is_empty():
+		boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
+	# go.c: the NPC walked out of the room and out of the fight.
+	if boundary != null and said != null and not said.departure_zone_id().is_empty():
+		boundary.depart(bindings, chat.actor_id, said.departure_zone_id())
+	if boundary != null and not _inspect(boundary, bindings, chat):
+		return false
+	return true
+
+
+## The move the beat's forward attack struck with, null when none was (busy, guarding).
+static func _struck_move(resolution: CombatSliceOpportunityResult) -> CombatActionDefinition:
+	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
+	if forward == null or forward.action_selection_result == null:
+		return null
+	return forward.action_selection_result.selected_action
+
+
+## 战斗拍数 A: what the beat's blows mean to the fighters' school skeletons — the attacker's
+## move and whether it landed (近身, 换招), what each side wins by it (隙 / 压 / 连), and a
+## landed move that breaks the victim's charge. The forward attack, then the riposte.
+func _note_skeleton(resolution: CombatSliceOpportunityResult, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
+	if forward == null:
+		return
+	var move: CombatActionDefinition = _struck_move(resolution)
+	if move != null and forward.ordinary_attack_result != null and forward.ordinary_attack_result.has_base_result:
+		_note_blow(forward.attacker_id, forward.victim_id, move, forward.ordinary_attack_result.base_result.outcome == CombatAttackResult.Outcome.HIT, bindings)
+	var chain: CombatAttackChainResult = resolution.chain_result
+	if chain == null or not chain.reverse_execution_reached or forward.riposte_request == null:
+		return
+	var reverse: CombatActionSelectionResult = chain.reverse_action_selection_result
+	if reverse == null or reverse.selected_action == null or chain.reverse_ordinary_result == null or not chain.reverse_ordinary_result.has_base_result:
+		return
+	_note_blow(forward.riposte_request.attacker_id, forward.riposte_request.victim_id, reverse.selected_action, chain.reverse_ordinary_result.base_result.outcome == CombatAttackResult.Outcome.HIT, bindings)
+
+
+func _note_blow(attacker_id: StringName, victim_id: StringName, move: CombatActionDefinition, landed: bool, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	var attacker: CombatSliceCharacterBinding = _find_binding(bindings, attacker_id)
+	var victim: CombatSliceCharacterBinding = _find_binding(bindings, victim_id)
+	var mine: CombatSchoolSkeleton = _skeleton_of(attacker)
+	var state: CombatSkeletonState = _skeleton_state(attacker_id)
+	var was_close: bool = state.close
+	var changed: bool = state.note_attack(move.action_id, move.tag, landed, mine != null and mine.tracks_close)
+	_round_tags[attacker_id] = move.tag
+	if mine != null:
+		if mine.earns_on_own_attack(landed, was_close, changed):
+			_earn(attacker, mine, bindings)
+		if landed and mine.interrupts(move.tag, was_close) and _pending_specials.has(victim_id):
+			_interrupted[victim_id] = true
+	var theirs: CombatSchoolSkeleton = _skeleton_of(victim)
+	if theirs != null and theirs.earns_on_opponent_attack(landed):
+		_earn(victim, theirs, bindings)
+
+
+## `actor` wins a beat this round by its school (within earned_beat_cap), and the log says so.
+func _earn(actor: CombatSliceCharacterBinding, skeleton: CombatSchoolSkeleton, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if actor == null or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting() or actor.busy.is_busy():
+		return
+	var beats: CombatRoundBeats = _beats_of(actor.character_id, bindings)
+	if not beats.earn(skeleton.earn, _beat_rules.earned_beat_cap):
+		return
+	# TRANSLATORS: a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
+	var line: String = TranslationServer.translate("$N抢得一拍（{label}）！").format({"label": skeleton.label()})
+	_emit(_note_event(actor.character_id, line, ColoredLine.HIY))
+
+
+## A note of the round (a beat won, a changed move) as an NPC_CHAT event with one line.
+func _note_event(actor_id: StringName, line: String, color: StringName) -> CombatSchedulerEvent:
+	return CombatSchedulerEvent.new(
+		_next_event_sequence, _logical_cycle, logical_time_seconds, CombatSchedulerEvent.Kind.NPC_CHAT,
+		CombatSchedulerEvent.SkipReason.NONE, actor_id, &"", null, _progression_order.take(),
+		CombatNpcChatResult.new([VisionLine.new(line, actor_id, &"", color)]),
 	)
 
 
@@ -655,6 +1161,9 @@ func _process_participant(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	chosen: StringName = &"",
+	courage: CombatPredrawnCourage = null,
+	ordered: bool = false,
 ) -> CombatSchedulerEvent:
 	var actor: CombatSliceCharacterBinding = _find_binding(
 		bindings,
@@ -680,12 +1189,7 @@ func _process_participant(
 
 	var target_id: StringName = _encounter.current_target_for(actor.character_id)
 	# The player's chosen move, or the NPC's move drawn a beat early: taken without a draw.
-	var chosen: StringName = _player_choice if actor.is_user else _next_moves.get(actor.character_id, &"")
-	_next_moves.erase(actor.character_id)
-	var courage: CombatPredrawnCourage = _courage.get(actor.character_id)
-	_courage.erase(actor.character_id)
 	# DECISIONS「战斗内容」: the player's order is carried out — no courage gate on a chosen move.
-	var ordered: bool = actor.is_user and not chosen.is_empty() and manual()
 	if actor.busy.is_busy():
 		return _resolved_event(
 			actor.character_id,
@@ -703,7 +1207,7 @@ func _process_participant(
 			),
 		)
 	if not actor.is_user and _eligible_targets(actor, bindings) > 1:
-		return _select_opponent(actor, bindings, random_source, effect_registry, courage)
+		return _select_opponent(actor, bindings, random_source, effect_registry, chosen, courage)
 	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
 		target_id = _first_initial_target(actor, bindings)
 		if target_id.is_empty():
@@ -831,8 +1335,7 @@ func _hurts(
 			_progression_order.take(),
 			result,
 		)
-		_events.append(hurt)
-		_next_event_sequence += 1
+		_emit(hurt)
 		felt.append(hurt)
 		if boundary != null and not result.departure_zone_id().is_empty():
 			boundary.depart(bindings, victim.character_id, result.departure_zone_id())
@@ -872,17 +1375,12 @@ static func _blow(ordinary: CombatOrdinaryAttackResult) -> Array:
 ## npc.c chat() after the attack of an NPC that is still fighting (CombatNpcChat),
 ## against its enemies as they are now: those it may still target, in its order.
 func _chat_after(
-	event: CombatSchedulerEvent,
+	actor: CombatSliceCharacterBinding,
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
 ) -> CombatSchedulerEvent:
-	if _npc_chat == null or event == null or event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED:
-		return null
-	if event.resolution == null or event.resolution.outcome not in CHAT_AFTER:
-		return null
-	var actor: CombatSliceCharacterBinding = _find_binding(bindings, event.actor_id)
-	if actor == null or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting():
+	if _npc_chat == null or actor == null or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting():
 		return null
 	var enemies: Array[CombatSliceCharacterBinding] = []
 	for target_id: StringName in actor.relationship.opponent_ids():
@@ -918,10 +1416,9 @@ func _select_opponent(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	chosen: StringName = &"",
 	courage: CombatPredrawnCourage = null,
 ) -> CombatSchedulerEvent:
-	var chosen: StringName = _next_moves.get(actor.character_id, &"")
-	_next_moves.erase(actor.character_id)
 	var resolution: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_opportunity(
 		actor, bindings, random_source, effect_registry, &"", chosen, _modifiers, courage,
 	)
