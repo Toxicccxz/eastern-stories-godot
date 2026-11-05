@@ -267,6 +267,12 @@ msgstr ""
 #. native.npc.feng_lu gender
 #. native.npc.customs_clerk gender
 #. native.npc.customs_runner gender
+#. native.npc.andun gender
+#. native.npc.shield_swordsman gender
+#. native.npc.fire_priest gender
+#. native.npc.fire_worshipper gender
+#. fanfang.npc.lama_master gender
+#. native.npc.indian_monk gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -1783,19 +1789,31 @@ msgstr ""
 msgid "铁盾会门前"
 msgstr ""
 
+#. native:fanfang/bazaar_slope short
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/rooms.json
+msgid "寺前坡道"
+msgstr ""
+
 #: scenes/world/fanfang/fanfang_bazaar.tscn
 msgid "西 · 码头"
 msgstr ""
 
 #. native.npc.copper_merchant inquiry topic
-#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/npcs.json
+#. native:fanfang/fire_hall short
+#: scenes/world/fanfang/fanfang_bazaar.tscn scenes/world/fanfang/fanfang_fire_temple.tscn data/fanfang/npcs.json data/fanfang/rooms.json
 msgid "拜火祠"
 msgstr ""
 
 #. native.npc.luca inquiry topic
 #. native.npc.feng_lu inquiry topic
+#. native.npc.andun inquiry topic
+#. native.npc.shield_swordsman title
 #: scenes/world/fanfang/fanfang_bazaar.tscn data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "铁盾会"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_bazaar.tscn
+msgid "南 · 日陀罗寺"
 msgstr ""
 
 #. native:fanfang/cliff_top short
@@ -1836,6 +1854,25 @@ msgstr ""
 msgid "兵部文书 · 看"
 msgstr ""
 
+#. native:fanfang/priest_room short
+#: scenes/world/fanfang/fanfang_fire_temple.tscn data/fanfang/rooms.json
+msgid "祭司的净室"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_fire_temple.tscn
+msgid "火前 · 问话"
+msgstr ""
+
+#. native:fanfang/temple_yard short
+#: scenes/world/fanfang/fanfang_lama_temple.tscn data/fanfang/rooms.json
+msgid "日陀罗寺"
+msgstr ""
+
+#. native:fanfang/shrine short
+#: scenes/world/fanfang/fanfang_lama_temple.tscn data/fanfang/rooms.json
+msgid "日陀罗寺佛殿"
+msgstr ""
+
 #. native:fanfang/shed short
 #: scenes/world/fanfang/fanfang_port.tscn data/fanfang/rooms.json
 msgid "船工棚"
@@ -1853,6 +1890,16 @@ msgstr ""
 
 #: scenes/world/fanfang/fanfang_port.tscn
 msgid "东 · 市集"
+msgstr ""
+
+#. native:fanfang/shield_yard short
+#: scenes/world/fanfang/fanfang_shield_hall.tscn data/fanfang/rooms.json
+msgid "铁盾会院子"
+msgstr ""
+
+#. native:fanfang/shield_hall short
+#: scenes/world/fanfang/fanfang_shield_hall.tscn data/fanfang/rooms.json
+msgid "会首的屋"
 msgstr ""
 
 #. name
@@ -2107,7 +2154,8 @@ msgstr ""
 msgid "石室大厅"
 msgstr ""
 
-#: scenes/world/green/stone_house.tscn
+#. fanfang.shrine.landmark.buddha name
+#: scenes/world/green/stone_house.tscn data/fanfang/world.json
 msgid "佛像"
 msgstr ""
 
@@ -3039,7 +3087,9 @@ msgstr ""
 #. cloud.npc.monk inquiry topic
 #. cloud.npc.monk_guard inquiry topic
 #. sanyen name
-#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
+#. fanfang.npc.lama_master inquiry topic
+#. native.npc.indian_monk inquiry topic
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/fanfang/npcs.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
 msgid "山烟寺"
 msgstr ""
 
@@ -8233,6 +8283,11 @@ msgstr ""
 msgid "{action}：{landmark}"
 msgstr ""
 
+#. what the player answered ({answer}), in 消息.
+#: runtime/world/map/world_map_acts.gd
+msgid "你答道：{answer}"
+msgstr ""
+
 #. close.c: an NPC ({npc}) shuts a door ({door}) in the player's room.
 #: runtime/world/map/world_map_acts.gd
 msgid "{npc}将{door}关上。"
@@ -10805,6 +10860,16 @@ msgstr ""
 
 #: ui/world/shared_ui_questions.gd
 msgid "请确认"
+msgstr ""
+
+#. the button that leaves a question unanswered (the 拜火祠's 火前问话).
+#: ui/world/shared_ui_questions.gd
+msgid "走开"
+msgstr ""
+
+#. the shared frame's title over a question with several answers.
+#: ui/world/shared_ui_questions.gd
+msgid "请回答"
 msgstr ""
 
 #. the selected corpse ({name}: 狼狗的尸体, 腐烂的尸体, 一具枯乾的骸骨) and what it holds.
@@ -14818,7 +14883,8 @@ msgid "施主既然身负绝艺，老衲佩服便是，也不必较量了。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry topic
-#: data/common/npcs.json
+#. fanfang.npc.lama_master inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "剃度"
 msgstr ""
 
@@ -14844,22 +14910,26 @@ msgid ""
 msgstr ""
 
 #. common.npc.bonze.master inquiry topic
-#: data/common/npcs.json
+#. fanfang.npc.lama_master inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "出家"
 msgstr ""
 
 #. common.npc.bonze.master ordination.lines
-#: data/common/npcs.json
+#. fanfang.npc.lama_master ordination.lines
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "$N双手合十，恭恭敬敬地跪了下来。"
 msgstr ""
 
 #. common.npc.bonze.master ordination.lines
-#: data/common/npcs.json
+#. fanfang.npc.lama_master ordination.lines
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "$n伸出手掌，在$N头顶轻轻地摩挲了几下，将$N的头发尽数剃去。"
 msgstr ""
 
 #. common.npc.bonze.master ordination.say
-#: data/common/npcs.json
+#. fanfang.npc.lama_master ordination.say
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "从今以後你的法名叫做{name}。"
 msgstr ""
 
@@ -15380,7 +15450,8 @@ msgstr ""
 
 #. quests.target
 #. canyon.npc.guard2 name
-#: data/common/quests.json data/canyon/npcs.json
+#. native.npc.andun inquiry topic
+#: data/common/quests.json data/canyon/npcs.json data/fanfang/npcs.json
 msgid "老兵"
 msgstr ""
 
@@ -18097,12 +18168,77 @@ msgstr ""
 
 #. main.chapter7/hall objective
 #: data/story/chapter7.json
-msgid "找大秦人的会首安敦——市集北头，门口立着两面大盾的铁盾会。"
+msgid "找大秦人的会首安敦——市集北头，门口立着两面大盾的铁盾会，院子北头会首的屋。"
 msgstr ""
 
 #. main.chapter7/hall text
 #: data/story/chapter7.json
-msgid "铁盾会的会首安敦见了你。"
+msgid "铁盾会的会首安敦见了你：他的祖上三百年前替皇叔於兰淳焉打过北方的蛮族，其中一个老兵见过那个鬼的头是怎么封的。"
+msgstr ""
+
+#. main.chapter7/tablet_tale objective
+#: data/story/chapter7.json
+msgid "安敦的祖上把看见的刻在一片铜牒上，传到了他手里——问他「铜牒」。"
+msgstr ""
+
+#. main.chapter7/tablet_tale text
+#: data/story/chapter7.json
+msgid "铜牒存在拜火祠的火前，三十年了。祠规「火前不说谎」：取牒要过一场问话，三句。大秦人自己过不了——三十年前他们为了这块地在火前说过一句谎。"
+msgstr ""
+
+#. main.chapter7/side objective
+#: data/story/chapter7.json
+msgid "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，替他们挡住冯禄），还是站浪人（去市集南坡下的鬼笠馆，过早川一刀，让浪人替你偷牒）？"
+msgstr ""
+
+#. main.chapter7/side/rome text
+#: data/story/chapter7.json
+msgid "你站了大秦人。安敦：「三句真话，牒是你的。读了，再还我们一个人情：冯禄来的时候，站在门口。」"
+msgstr ""
+
+#. main.chapter7/side/rome reward.deed
+#: data/story/chapter7.json
+msgid "在番坊站到了大秦人一边"
+msgstr ""
+
+#. main.chapter7/side/ronin text
+#: data/story/chapter7.json
+msgid "你站了浪人。早川只说了一句：「要铜牒？过我一刀。」"
+msgstr ""
+
+#. main.chapter7/side/ronin reward.deed
+#: data/story/chapter7.json
+msgid "在番坊站到了浪人一边"
+msgstr ""
+
+#. main.chapter7/rome objective
+#: data/story/chapter7.json
+msgid "拜火祠（市集东头的黑石房子）：站到火前，答穆护三句真话，取铜牒。问的是你自己做过的事——撒一句谎，火蹿起来，当天不再问。"
+msgstr ""
+
+#. main.chapter7/rome text
+#: data/story/chapter7.json
+msgid "火静了。穆护从火坛底下取出铜牒，放在你手里——还是温的。「火前拿的，谁也不能说你偷。」"
+msgstr ""
+
+#. main.chapter7/ronin objective
+#: data/story/chapter7.json
+msgid "鬼笠馆（日陀罗寺南边）：过早川一刀；当夜浪人替你把铜牒从拜火祠偷出来。"
+msgstr ""
+
+#. main.chapter7/ronin text
+#: data/story/chapter7.json
+msgid "黑影把铜牒塞进你手里，走了。祠里传出祭司的骂声。"
+msgstr ""
+
+#. main.chapter7/read objective
+#: data/story/chapter7.json
+msgid "读铜牒——三百年前的老兵刻下的，那个鬼的头是怎么封的。"
+msgstr ""
+
+#. main.chapter7/read text
+#: data/story/chapter7.json
+msgid "「头在湖底冰下，以穿灵为钉；钉在，鬼不得全；钉拔，鬼成形；要灭它，三器齐；要再封，须有人留下。」"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -22007,7 +22143,8 @@ msgstr ""
 #. es2:d/chuenyu/obj/flower combined.base_unit
 #. es2:d/chuenyu/obj/feather combined.base_unit
 #. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
-#: data/village/items.json data/chuenyu/items.json data/cloud/items.json
+#. native:fanfang/bronze_tablet unit
+#: data/village/items.json data/chuenyu/items.json data/cloud/items.json data/fanfang/items.json
 msgid "片"
 msgstr ""
 
@@ -37310,7 +37447,8 @@ msgstr ""
 
 #. native.npc.niling_chanter inquiry topic
 #. native.npc.niling_lead_chanter inquiry topic
-#: data/niling/npcs.json
+#. native.npc.indian_monk inquiry topic
+#: data/niling/npcs.json data/fanfang/npcs.json
 msgid "经"
 msgstr ""
 
@@ -37443,6 +37581,7 @@ msgstr ""
 #. native.npc.guanbei_corvee inquiry topic
 #. native.npc.feng_lu inquiry topic
 #. native.npc.customs_clerk inquiry topic
+#. native.npc.andun inquiry topic
 #: data/niling/npcs.json data/fanfang/npcs.json
 msgid "文书"
 msgstr ""
@@ -38762,7 +38901,9 @@ msgstr ""
 
 #. native.npc.balang inquiry topic
 #. native.npc.luca name
-#: data/guanbei/npcs.json
+#. native.npc.andun inquiry topic
+#. native.npc.shield_swordsman inquiry topic
+#: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "卢卡"
 msgstr ""
 
@@ -38787,7 +38928,8 @@ msgid "卢卡老说的那个地方？海边，很远。他说他们的人都在�
 msgstr ""
 
 #. native.npc.luca title
-#: data/guanbei/npcs.json
+#. native.npc.shield_swordsman name
+#: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "大秦剑手"
 msgstr ""
 
@@ -38846,7 +38988,8 @@ msgid "去海边，番坊。远。马、吃的、过关的钱。二十两，够�
 msgstr ""
 
 #. native.npc.luca inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.andun inquiry topic
+#: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "鬼"
 msgstr ""
 
@@ -38881,7 +39024,8 @@ msgid "头？我们那边的老兵说，东方有一个鬼找自己的头。三�
 msgstr ""
 
 #. native.npc.luca inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.shield_swordsman inquiry topic
+#: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "会首"
 msgstr ""
 
@@ -38918,6 +39062,7 @@ msgstr ""
 
 #. native.npc.luca inquiry topic
 #. native.npc.storyteller inquiry topic
+#. native.npc.andun inquiry topic
 #: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "大秦"
 msgstr ""
@@ -38928,7 +39073,8 @@ msgid "很远。西边的西边。我们是逃出来的人，不是使臣。剑�
 msgstr ""
 
 #. native.npc.luca inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.andun name
+#: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "安敦"
 msgstr ""
 
@@ -41208,6 +41354,20 @@ msgid ""
 "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清水，一路晃荡也不洒。\n"
 msgstr ""
 
+#. native:fanfang/bronze_tablet name
+#. native.npc.andun inquiry topic
+#. native.npc.fire_priest inquiry topic
+#. fanfang.npc.lama_master inquiry topic
+#: data/fanfang/items.json data/fanfang/npcs.json
+msgid "铜牒"
+msgstr ""
+
+#. native:fanfang/bronze_tablet long
+#: data/fanfang/items.json
+msgid ""
+"巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n"
+msgstr ""
+
 #. native.npc.salt_porter name
 #: data/fanfang/npcs.json
 msgid "盐脚夫"
@@ -41323,6 +41483,10 @@ msgstr ""
 #. native.npc.storyteller inquiry topic
 #. native.npc.feng_lu inquiry topic
 #. native.npc.customs_runner inquiry topic
+#. native.npc.fire_priest inquiry topic
+#. native.npc.fire_worshipper inquiry topic
+#. fanfang.npc.lama_master inquiry topic
+#. native.npc.indian_monk inquiry topic
 #: data/fanfang/npcs.json
 msgid "大秦人"
 msgstr ""
@@ -41354,6 +41518,7 @@ msgstr ""
 #. native.npc.carpet_merchant title
 #. native.npc.spice_merchant title
 #. native.npc.copper_merchant title
+#. native.npc.fire_worshipper title
 #: data/fanfang/npcs.json
 msgid "胡商"
 msgstr ""
@@ -41412,6 +41577,9 @@ msgstr ""
 #. native.npc.glass_merchant inquiry topic
 #. native.npc.feng_lu inquiry topic
 #. native.npc.customs_runner title
+#. native.npc.andun inquiry topic
+#. native.npc.shield_swordsman inquiry topic
+#. native.npc.fire_priest inquiry topic
 #: data/fanfang/npcs.json data/fanfang/voxel/bazaar.json
 msgid "市舶司"
 msgstr ""
@@ -41774,6 +41942,10 @@ msgstr ""
 
 #. native.npc.feng_lu inquiry topic
 #. native.npc.customs_runner inquiry topic
+#. native.npc.andun inquiry topic
+#. native.npc.shield_swordsman inquiry topic
+#. native.npc.fire_priest inquiry topic
+#. fanfang.npc.lama_master inquiry topic
 #: data/fanfang/npcs.json
 msgid "浪人"
 msgstr ""
@@ -41878,6 +42050,538 @@ msgstr ""
 msgid "鬼笠馆的人倒是来过，问大人什么时候动手。大人说等。"
 msgstr ""
 
+#. native.npc.andun title
+#: data/fanfang/npcs.json
+msgid "铁盾会会首"
+msgstr ""
+
+#. native.npc.andun long
+#: data/fanfang/npcs.json
+msgid ""
+"一个白头发的异族老人，眼睛是灰的，鼻梁高得像一道脊。他坐着的时候背很直，站起来却慢——左腿有旧伤，先迈左腿。一身中原的布袍，袍子底下露出一截铁片甲的边。他说中原话说得很慢，一个字一个字，省掉的字比说出来的多。\n"
+msgstr ""
+
+#. native.npc.andun chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"安敦把铜灯的灯芯拨亮了一点。\n"
+msgstr ""
+
+#. native.npc.andun chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"安敦看着墙上那面旧盾，很久没有动。\n"
+msgstr ""
+
+#. native.npc.andun inquiry topic
+#: data/fanfang/npcs.json
+msgid "祖上"
+msgstr ""
+
+#. native.npc.andun inquiry.祖上
+#: data/fanfang/npcs.json
+msgid "三百年前。皇叔於兰淳焉，打北方的蛮族——雇了我们。一百二十个剑手，从西边来。打完，留下三十个。我是第十二代。"
+msgstr ""
+
+#. native.npc.andun inquiry.老兵
+#: data/fanfang/npcs.json
+msgid "三十个里的一个。他看见了——那个鬼的头，怎么封的。活着的时候不说。死前，刻在一片铜上。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.say
+#: data/fanfang/npcs.json
+msgid "牒在你手里。读了，再还我们一个人情——冯禄来的时候，站在门口。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "巴掌大，一片铜。十二代，传到我。三十年前，我把它存进拜火祠——火前最安全，没人敢在火前拿不是自己的东西。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "祠规：火前不说谎。取牒，要过一场问话。三句。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "看着桌上的灯。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "我们过不了。三十年前，为了这块地，我们对祭司说过一句谎。火记得。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "你不是我们的人。你去。——先想好，站哪边：市舶司要清走我们，浪人要我们的地。"
+msgstr ""
+
+#. native.npc.andun inquiry.铜牒.rules.say
+#: data/fanfang/npcs.json
+msgid "坐下。先说我的祖上。"
+msgstr ""
+
+#. native.npc.andun inquiry topic
+#: data/fanfang/npcs.json
+msgid "封头"
+msgstr ""
+
+#. native.npc.andun inquiry.封头.rules.say
+#: data/fanfang/npcs.json
+msgid "牒上刻的。我读过，记不全——「头在湖底」，别的，你自己读。"
+msgstr ""
+
+#. native.npc.andun inquiry.封头.rules.say
+#: data/fanfang/npcs.json
+msgid "先问铜牒。"
+msgstr ""
+
+#. native.npc.andun inquiry topic
+#: data/fanfang/npcs.json
+msgid "站大秦人"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.rules.say
+#: data/fanfang/npcs.json
+msgid "你站了我们这边。去祠里，火前说真话。"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.rules.say
+#: data/fanfang/npcs.json
+msgid "你去了鬼笠馆。……没有话说。"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "看了你很久，站了起来——慢，左腿先。"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "好。那你替我们去火前。三句真话，牒是你的。"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "读了，再还我们一个人情：冯禄来的时候，站在门口。"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.rules.say
+#: data/fanfang/npcs.json
+msgid "先听我说完铜牒的事。"
+msgstr ""
+
+#. native.npc.andun inquiry.市舶司
+#: data/fanfang/npcs.json
+msgid "冯禄。兵部的文书，说我们聚众持械。三十年，税没拖过一文。文书的印——卢卡说，你看得出。"
+msgstr ""
+
+#. native.npc.andun inquiry.文书.rules.say
+#: data/fanfang/npcs.json
+msgid "你看出来了。假印。兵部没有下这个令——有人借兵部的名字要我们的地。"
+msgstr ""
+
+#. native.npc.andun inquiry.文书.rules.say
+#: data/fanfang/npcs.json
+msgid "冯禄案上压着。你去看。印色——卢卡说你学过。"
+msgstr ""
+
+#. native.npc.andun inquiry.浪人
+#: data/fanfang/npcs.json
+msgid "鬼笠馆。早川。他们要这块地——练刀的板地不够用。冯禄一动手，他们就来。"
+msgstr ""
+
+#. native.npc.andun inquiry.卢卡
+#: data/fanfang/npcs.json
+msgid "好孩子。走了一个月，剑没卖。"
+msgstr ""
+
+#. native.npc.andun inquiry.大秦
+#: data/fanfang/npcs.json
+msgid "没有了。城烧了，人散了。我们不是使臣，是剩下的人。"
+msgstr ""
+
+#. native.npc.andun inquiry.铁盾会
+#: data/fanfang/npcs.json
+msgid "盾在前，剑在后。盾不倒，人不倒。三百年，就这一条。"
+msgstr ""
+
+#. native.npc.andun inquiry.鬼
+#: data/fanfang/npcs.json
+msgid "没有头的那个。我们那边的老兵传了三百年。头在哪里，牒上有——去问铜牒。"
+msgstr ""
+
+#. native.npc.andun calls.steps.emote
+#: data/fanfang/npcs.json
+msgid "抬起头，灰眼睛看了你一会儿，站了起来——慢，左腿先。"
+msgstr ""
+
+#. native.npc.andun calls.steps.say
+#: data/fanfang/npcs.json
+msgid "卢卡的人。他说，你在找一把剑钉着的头。"
+msgstr ""
+
+#. native.npc.andun calls.steps.say
+#: data/fanfang/npcs.json
+msgid "坐。我的祖上见过它。三百年前，皇叔於兰淳焉打北方的蛮族，雇了我们一百二十个剑手。"
+msgstr ""
+
+#. native.npc.andun calls.steps.say
+#: data/fanfang/npcs.json
+msgid "其中一个，看见那个鬼的头怎么封的。他死前，刻在一片铜上。十二代，传到我——问我「铜牒」。"
+msgstr ""
+
+#. native.npc.shield_swordsman long
+#: data/fanfang/npcs.json
+msgid ""
+"一个高鼻深目的异族汉子，头发剪得很短，左臂绑着一面圆盾，右手一把短剑。他练得满头是汗，盾面上全是剑尖戳出来的白点。\n"
+msgstr ""
+
+#. native.npc.shield_swordsman chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"大秦剑手把盾往上一抬，短剑从盾沿底下刺出去。\n"
+msgstr ""
+
+#. native.npc.shield_swordsman chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"大秦剑手喊了一声号子，谁也听不懂。\n"
+msgstr ""
+
+#. native.npc.shield_swordsman chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"两面盾砰地撞在一起。\n"
+msgstr ""
+
+#. native.npc.shield_swordsman chat_msg_combat
+#: data/fanfang/npcs.json
+msgid ""
+"大秦剑手喝道：盾！\n"
+msgstr ""
+
+#. native.npc.shield_swordsman inquiry.会首
+#: data/fanfang/npcs.json
+msgid "里头。安敦。我们的头——他说的话，就是会里的话。"
+msgstr ""
+
+#. native.npc.shield_swordsman inquiry topic
+#: data/fanfang/npcs.json
+msgid "盾"
+msgstr ""
+
+#. native.npc.shield_swordsman inquiry.盾
+#: data/fanfang/npcs.json
+msgid "盾在前，剑在后。盾不倒，人不倒。——会首教的。"
+msgstr ""
+
+#. native.npc.shield_swordsman inquiry.市舶司
+#: data/fanfang/npcs.json
+msgid "要清我们走。走哪儿去？西边没有了。"
+msgstr ""
+
+#. native.npc.shield_swordsman inquiry.浪人
+#: data/fanfang/npcs.json
+msgid "刀快。可他们没有盾。"
+msgstr ""
+
+#. native.npc.shield_swordsman inquiry.卢卡
+#: data/fanfang/npcs.json
+msgid "回来了。剑没卖。会首说他做得对。"
+msgstr ""
+
+#. native.npc.fire_priest name
+#: data/fanfang/npcs.json
+msgid "穆护"
+msgstr ""
+
+#. native.npc.fire_priest title
+#: data/fanfang/npcs.json
+msgid "拜火祠祭司"
+msgstr ""
+
+#. native.npc.fire_priest long
+#: data/fanfang/npcs.json
+msgid ""
+"一个瘦高的老人，白袍，白帽，嘴上蒙着一块白布——人说是怕他的气息污了火。他的眼睛被火光照得发亮，看人的时候一眨也不眨。\n"
+msgstr ""
+
+#. native.npc.fire_priest chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"穆护站在火坛前，一动不动，火光在他的白袍上一明一暗。\n"
+msgstr ""
+
+#. native.npc.fire_priest chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"穆护往火里添了什么，火没有变。\n"
+msgstr ""
+
+#. native.npc.fire_priest inquiry topic
+#. native.npc.fire_worshipper inquiry topic
+#: data/fanfang/npcs.json
+msgid "火"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.火
+#: data/fanfang/npcs.json
+msgid "三百年没灭。不是我们在喂它——是它在看我们。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry topic
+#: data/fanfang/npcs.json
+msgid "祠规"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.祠规
+#: data/fanfang/npcs.json
+msgid "一条：火前不说谎。说了，火知道。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry topic
+#. fanfang.fire_hall.questions act.verb
+#: data/fanfang/npcs.json data/fanfang/world.json
+msgid "问话"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.问话.rules.say
+#: data/fanfang/npcs.json
+msgid "问过了。牒在你手里。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.问话.rules.say
+#: data/fanfang/npcs.json
+msgid "站到火前去。我问，你答。火听着。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.问话.rules.say
+#: data/fanfang/npcs.json
+msgid "火前只问站定了的人。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.铜牒.rules.say
+#: data/fanfang/npcs.json
+msgid "牒在你手里了。火让你拿的，不是我。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.铜牒.rules.say
+#: data/fanfang/npcs.json
+msgid "大秦人存的。三十年了。他们取不了——他们在火前说过谎。你要取，火前站着，答我三句。真话，牒给你；一句假，今天火不肯。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.铜牒.rules.say
+#: data/fanfang/npcs.json
+msgid "祠里存的东西，各有各的主。你问的是谁的？"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "三十年前，他们为了一块地在火前说过一句谎。火记着。他们自己也记着。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.浪人
+#: data/fanfang/npcs.json
+msgid "刀是刀，火是火。他们不进来。"
+msgstr ""
+
+#. native.npc.fire_priest inquiry.市舶司
+#: data/fanfang/npcs.json
+msgid "冯禄不进来。他的文书也不进来。"
+msgstr ""
+
+#. native.npc.fire_priest calls.steps.emote
+#: data/fanfang/npcs.json
+msgid "抬起一只手，掌心向你。"
+msgstr ""
+
+#. native.npc.fire_priest calls.steps.say
+#: data/fanfang/npcs.json
+msgid "进来可以。火前，不说谎。"
+msgstr ""
+
+#. native.npc.fire_worshipper name
+#: data/fanfang/npcs.json
+msgid "拜火的胡商"
+msgstr ""
+
+#. native.npc.fire_worshipper long
+#: data/fanfang/npcs.json
+msgid ""
+"一个跪在火坛前的胡商，额头贴着地，嘴里低低地念着什么。他的背上还搭着赶路的毡子，鞋底的泥是黄的——刚进番坊。\n"
+msgstr ""
+
+#. native.npc.fire_worshipper chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"拜火的胡商把额头贴在地上，很久没有抬起来。\n"
+msgstr ""
+
+#. native.npc.fire_worshipper chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"拜火的胡商低低地念着什么，一句接一句。\n"
+msgstr ""
+
+#. native.npc.fire_worshipper inquiry.火
+#: data/fanfang/npcs.json
+msgid "我从西边来，走了一年。到了这儿，先拜火，再做生意。"
+msgstr ""
+
+#. native.npc.fire_worshipper inquiry topic
+#: data/fanfang/npcs.json
+msgid "祭司"
+msgstr ""
+
+#. native.npc.fire_worshipper inquiry.祭司
+#: data/fanfang/npcs.json
+msgid "穆护不骗人，也不让人骗。做生意的人，怕他。"
+msgstr ""
+
+#. native.npc.fire_worshipper inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "他们不进来。三十年了。"
+msgstr ""
+
+#. fanfang.npc.lama_master name
+#: data/fanfang/npcs.json
+msgid "龙若法王"
+msgstr ""
+
+#. fanfang.npc.lama_master long
+#: data/fanfang/npcs.json
+msgid ""
+"一个七十来岁的老僧，皮肤黝黑，光头，眉毛全白了，耳垂长得几乎到肩。他盘腿坐在榕树下的蒲团上，一身赭红的僧衣，手里一串黑木的念珠拨得很慢。他说中原话带着天竺的腔，可一个字也不错。\n"
+msgstr ""
+
+#. fanfang.npc.lama_master chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"龙若法王拨着念珠，嘴唇动着，没有声音。\n"
+msgstr ""
+
+#. fanfang.npc.lama_master chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"龙若法王抬头看了看榕树，说道：阿弥陀佛。\n"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.剃度.rules.say
+#. fanfang.npc.lama_master inquiry.出家.rules.say
+#: data/fanfang/npcs.json
+msgid "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.剃度.rules.say
+#. fanfang.npc.lama_master inquiry.出家.rules.say
+#: data/fanfang/npcs.json
+msgid "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.剃度.rules.say
+#. fanfang.npc.lama_master inquiry.出家.rules.say
+#: data/fanfang/npcs.json
+msgid "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry topic
+#: data/fanfang/npcs.json
+msgid "寺"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.寺
+#: data/fanfang/npcs.json
+msgid "日陀罗寺。两个天竺僧人盖的，老衲是第二代。寺小，佛不小。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.山烟寺
+#: data/fanfang/npcs.json
+msgid "山烟寺的独眼头陀？他的内功和老衲的是一个根——都是从西边的西边来的。阿弥陀佛。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "阿弥陀佛。他们拜的火，和老衲拜的佛，隔着一条街。火也好，佛也好，都不叫人撒谎。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.浪人
+#: data/fanfang/npcs.json
+msgid "刀出鞘，火就灭。老衲说过他们，他们不听。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.铜牒
+#: data/fanfang/npcs.json
+msgid "大秦人存在火前的那片铜？老衲听说过。三百年前的事，刻在铜上，铜不会老。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry topic
+#. native.npc.indian_monk inquiry topic
+#. fanfang.temple_yard.landmark.banyan name
+#: data/fanfang/npcs.json data/fanfang/world.json
+msgid "榕树"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.榕树
+#: data/fanfang/npcs.json
+msgid "第一代的师父从天竺带来一根枝条，插在这儿，活了。树活了七十年，老衲也活了七十年。"
+msgstr ""
+
+#. native.npc.indian_monk name
+#: data/fanfang/npcs.json
+msgid "天竺僧"
+msgstr ""
+
+#. native.npc.indian_monk long
+#: data/fanfang/npcs.json
+msgid ""
+"一个皮肤黝黑的僧人，光头，赤脚，身上裹着一块赭红的布。他念的经没有一个字听得懂，调子却很好听。\n"
+msgstr ""
+
+#. native.npc.indian_monk chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"天竺僧低声念着经，调子一起一伏。\n"
+msgstr ""
+
+#. native.npc.indian_monk chat_msg
+#: data/fanfang/npcs.json
+msgid ""
+"天竺僧双手合十，朝榕树的方向拜了一拜。\n"
+msgstr ""
+
+#. native.npc.indian_monk inquiry topic
+#: data/fanfang/npcs.json
+msgid "法王"
+msgstr ""
+
+#. native.npc.indian_monk inquiry.法王
+#: data/fanfang/npcs.json
+msgid "法王七十一了。他说他还要收十个弟子，收满了就坐化。"
+msgstr ""
+
+#. native.npc.indian_monk inquiry.经
+#: data/fanfang/npcs.json
+msgid "贝叶经。从天竺背来的，一片叶子一页。"
+msgstr ""
+
+#. native.npc.indian_monk inquiry.山烟寺
+#: data/fanfang/npcs.json
+msgid "山烟寺？那边有一位独眼的头陀，他的内功和我们的是一个根。法王说的。"
+msgstr ""
+
+#. native.npc.indian_monk inquiry.榕树
+#: data/fanfang/npcs.json
+msgid "第一代师父带来的一根枝条。现在你看——一棵树像一片林子。"
+msgstr ""
+
+#. native.npc.indian_monk inquiry.大秦人
+#: data/fanfang/npcs.json
+msgid "他们的火在街那头。我们的佛在这头。中间是卖香料的。"
+msgstr ""
+
 #. native:fanfang/cliff_top long
 #: data/fanfang/rooms.json
 msgid ""
@@ -41917,7 +42621,7 @@ msgstr ""
 #. native:fanfang/bazaar_east long
 #: data/fanfang/rooms.json
 msgid ""
-"东头的摊子卖香料和铜器。香料装在麻袋里，袋口敞着，黄的是姜黄，红的是胡椒，黑的说不上名字，一条街都是那股味。铜器摊上的壶和盘子敲得叮当响。街的尽头是一座黑石砌的矮房子，门口冒着烟——人说里面的火三百年没灭过。北边一条短巷，通到一扇立着两面大盾的门。\n"
+"东头的摊子卖香料和铜器。香料装在麻袋里，袋口敞着，黄的是姜黄，红的是胡椒，黑的说不上名字，一条街都是那股味。铜器摊上的壶和盘子敲得叮当响。街的尽头是一座黑石砌的矮房子，门口冒着烟——人说里面的火三百年没灭过。北边一条短巷，通到一扇立着两面大盾的门；南边屋子中间裂开一条坡道，坡底露出一截赭红的寺墙。\n"
 msgstr ""
 
 #. native:fanfang/bazaar_north long
@@ -41936,6 +42640,48 @@ msgstr ""
 #: data/fanfang/rooms.json
 msgid ""
 "后院不大。靠墙码着一摞扣下来的货箱，箱上的字有中原字，也有弯弯曲曲的胡字。一辆没套牲口的车停在角落里，车辕上拴着一串锁链。墙角有一只箱子让人撬开过——夜里有人翻墙进来，想把自己的货拿回去。\n"
+msgstr ""
+
+#. native:fanfang/bazaar_slope long
+#: data/fanfang/rooms.json
+msgid ""
+"市集东头的屋子中间裂开一条巷子，往南一路下坡。坡道是黄土夯的，两边是香料铺和胡商客栈的后墙，墙根晒着一排香料口袋，墙头爬着一丛开紫花的藤。坡底一座赭红墙的小寺，寺门口一棵大榕树，气根一根根垂到地上。寺里有时传出一声钟。\n"
+msgstr ""
+
+#. native:fanfang/shield_yard long
+#: data/fanfang/rooms.json
+msgid ""
+"厚木门里是一个方方正正的大院子，地上铺着沙，踩出一个个脚印。十来个高鼻深目的汉子两两对着练，左手盾右手短剑，盾撞在一起砰砰地响。北墙下一排盾牌架，架上的圆盾一面挨一面；东墙根几根木桩让剑尖戳得坑坑洼洼。院子北头一间石屋，门敞着——那是会首的屋。\n"
+msgstr ""
+
+#. native:fanfang/shield_hall long
+#: data/fanfang/rooms.json
+msgid ""
+"一间石头砌的屋子，不大，屋顶很低。地上铺着一张红底黄花的毡毯，毯子中间一张矮桌，桌上一盏铜灯。墙根靠着一面旧盾，盾面上的鹰只剩一个影子；盾旁边钉着一块木牌，刻着一行弯弯曲曲的字。靠墙一排铺盖卷，卷得整整齐齐。一个白头发的老人坐在矮桌后头。\n"
+msgstr ""
+
+#. native:fanfang/fire_hall long
+#: data/fanfang/rooms.json
+msgid ""
+"殿里很黑，只有当中一团火。火坛是黑石砌的，齐胸高，坛顶的火不高不低地烧着，看不见柴，也看不见油——人说它三百年没灭过。烟从屋顶的一个方洞出去。四壁的黑石让烟熏得发亮。火坛前的地上磨出一块白印子，是跪出来的。东边一道矮门，通到祭司的净室。\n"
+msgstr ""
+
+#. native:fanfang/priest_room long
+#: data/fanfang/rooms.json
+msgid ""
+"一间小小的石室，干净得过分：一张窄榻，一只木箱，一盏灯，再没有别的。墙上没有神像，只有一块黑石板，板上刻着一团火的形状。地上扫得一粒灰都没有。\n"
+msgstr ""
+
+#. native:fanfang/temple_yard long
+#: data/fanfang/rooms.json
+msgid ""
+"一座不大的寺院，赭红的墙，墙头长着草。院子当中一棵大榕树，树冠把半个院子罩住，气根一根根垂下来，有的已经扎进地里成了树干。树下一个蒲团，一个老僧盘腿坐在上头。院角一口铜钟挂在木架上，钟身发绿。东边一间佛殿，门开着，里头一点灯光。\n"
+msgstr ""
+
+#. native:fanfang/shrine long
+#: data/fanfang/rooms.json
+msgid ""
+"殿不大，供着一尊佛像，不是中原的样子：高鼻、细眼、卷发，衣褶一道一道贴在身上，是天竺来的。佛前一张供桌，桌上几盏酥油灯，灯火一跳一跳的。地上几个蒲团，一个天竺僧跪在那里念经，念的是谁也听不懂的话。殿角堆着几卷贝叶经。\n"
 msgstr ""
 
 #. fanfang.cliff_top.landmark.shrine name
@@ -41985,6 +42731,40 @@ msgid ""
 "布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n"
 msgstr ""
 
+#. fanfang.fire_hall.landmark.fire name
+#: data/fanfang/world.json
+msgid "火坛"
+msgstr ""
+
+#. fanfang.fire_hall.landmark.fire long
+#: data/fanfang/world.json
+msgid ""
+"一座黑石砌的火坛，齐胸高，石头让三百年的烟熏得乌黑发亮。坛顶一团火，不高不低，不红不白，烧得很静，看不见柴，也看不见油。火前的石头上磨出一块白印子，是一代一代跪出来的。坛身上刻着一行弯弯曲曲的字，没有人认得；祭司说那是祠规——火前不说谎。\n"
+msgstr ""
+
+#. fanfang.hall.landmark.tablet name
+#: data/fanfang/world.json
+msgid "木牌"
+msgstr ""
+
+#. fanfang.hall.landmark.tablet long
+#: data/fanfang/world.json
+msgid ""
+"一块巴掌大的木牌钉在墙上，木头发黑，上面刻着一行弯弯曲曲的字——大秦人自己的字。安敦说，那是剑会的第一条规矩，三百年前第一代会首刻的：盾在前，剑在后。盾不倒，人不倒。\n"
+msgstr ""
+
+#. fanfang.temple_yard.landmark.banyan long
+#: data/fanfang/world.json
+msgid ""
+"一棵大榕树，树冠罩住了半个院子。气根从枝上一根根垂下来，细的像绳，粗的已经扎进地里成了树干，一棵树看着像一片林子。树下的地让人坐得光溜溜的。天竺僧说，这树是第一代僧人从天竺带来的一根枝条，插在这儿，活了。\n"
+msgstr ""
+
+#. fanfang.shrine.landmark.buddha long
+#: data/fanfang/world.json
+msgid ""
+"一尊天竺样子的佛像：高鼻、细眼、卷发，嘴角带一点笑，衣褶一道一道贴在身上，像是湿的。像是石头雕的，上过金，金掉了大半，露出底下的灰石。佛前几盏酥油灯，灯火一跳一跳，佛的脸也跟着一明一暗。\n"
+msgstr ""
+
 #. fanfang.office.papers act.acts.steps.line
 #: data/fanfang/world.json
 msgid ""
@@ -42013,6 +42793,110 @@ msgstr ""
 #: data/fanfang/world.json
 msgid ""
 "底下一方兵部的大印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n"
+msgstr ""
+
+#. fanfang.fire_hall.questions name
+#: data/fanfang/world.json
+msgid "火前问话"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "天刚亮，火还没静。今天火不肯——明天再来。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.ask
+#: data/fanfang/world.json
+msgid "火今天不肯。要在祠里等到明天黎明，再问一次吗？（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.choice
+#: data/fanfang/world.json
+msgid "等到明天"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "等。火自己会静。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"天亮了。坛顶的火又矮了下去，不红不白，烧得很静。\n"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "火静了。——再来一次。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "牒在你手里了。火前没有你的事了。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.emote
+#: data/fanfang/world.json
+msgid "走到火坛前，掌心向火。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "三句。我问，你答。火听着。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.true.line
+#: data/fanfang/world.json
+msgid ""
+"火矮了下去，矮得几乎看不见，只剩坛顶一圈发白的热气。\n"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.true.emote
+#: data/fanfang/world.json
+msgid "把手伸进火坛底下——火一点没碰着他。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.true.say
+#: data/fanfang/world.json
+msgid "火静了。它认你。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.true.line
+#: data/fanfang/world.json
+msgid ""
+"穆护从火坛底下取出一片发黑的铜，放在你手里。还是温的。\n"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.true.say
+#: data/fanfang/world.json
+msgid "大秦人存了三十年的东西。你拿去。火前拿的，谁也不能说你偷。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.false.line
+#: data/fanfang/world.json
+msgid ""
+"火「轰」地蹿起来，一直蹿到屋顶的方洞，整座祠亮得像白天；又落下去。\n"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.false.emote
+#: data/fanfang/world.json
+msgid "退了一步，白布底下看不出脸色。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.false.say
+#: data/fanfang/world.json
+msgid "今天火不肯。明天再来。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "你站了浪人。火前没有你的事——他们拿东西，不走火前。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "大秦人的牒？他们托了你。——那就先站定。火前只问站定了的人：你站大秦人，还是站浪人，去跟安敦说，或者去鬼笠馆。"
 msgstr ""
 
 #. native.npc.wooden_dummy.1 name

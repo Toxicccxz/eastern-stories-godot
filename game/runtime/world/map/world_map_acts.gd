@@ -241,6 +241,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					push_error("%s could not drop %s" % [npc_name, step.item_id])
 				if npc != null:
 					_map.npc_life.scene_look_at(npc)
+			ScriptedAct.Kind.QUESTIONS:
+				# The questions wait on the player; the rest of the act is theirs to answer.
+				_show(said, hears, npc, spoken)
+				_ask_questions(step, 0, true, npc, draw, room)
+				return
 			ScriptedAct.Kind.SET_ROOM:
 				if _map.session != null:
 					_map.session.room_states().set_flag(room, step.flag)
@@ -256,6 +261,33 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 	var here: WorldMapController = _map.session.active_map() as WorldMapController if _map.session != null else null
 	if state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
 		(here if here != null else _map).player_fall_below_zero(true)
+
+
+## A `questions` step: question `index` put to the player by the act's NPC (the HUD asks; without
+## one nothing is asked), `truthful` so far; after the last, the step's true or false steps run as
+## an act of their own. Walking away (取消) ends it with nothing done. Presentation only chooses;
+## the answer's truth is the rule's (ScriptedAct.Answer against the saved marks).
+func _ask_questions(step: ScriptedAct.Step, index: int, truthful: bool, npc: NpcRuntimeState, draw: Callable, room: StringName) -> void:
+	if _player == null:
+		return
+	if index >= step.questions.size():
+		var rest := ScriptedAct.new()
+		rest.steps = step.when_true if truthful else step.when_false
+		if not rest.steps.is_empty():
+			run(rest, npc, draw, room)
+		return
+	var hud: SharedGameplayUI = _map.hud()
+	if hud == null:
+		return
+	var question: ScriptedAct.Question = step.questions[index]
+	var choices: Array[String] = []
+	for answer: ScriptedAct.Answer in question.answers:
+		choices.append(answer.text)
+	hud.ask_choices(npc, question.text, choices, func(chosen: int) -> void:
+		var answer: ScriptedAct.Answer = question.answers[clampi(chosen, 0, question.answers.size() - 1)]
+		# TRANSLATORS: what the player answered ({answer}), in 消息.
+		hud.append_log_lines([TranslationServer.translate("你答道：{answer}").format({"answer": TranslationServer.translate(answer.text)})])
+		_ask_questions(step, index + 1, truthful and answer.is_true(_player.state.marks), npc, draw, room))
 
 
 ## ob->move(room): within this map the player is put at `point_id`; another map's room is

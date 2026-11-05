@@ -7,7 +7,7 @@ extends RefCounted
 ## hung on its walls, what is left on its tables, chairs pushed back, litter and cobwebs in its
 ## corners. Presentation only: it reads the map, never changes it, and draws nothing that blocks.
 const PRESETS: String = "res://data/common/room_life.json"
-const HEAT: Array[String] = ["forge","tea_stove","altar","cauldron","censer","incense_burner","candles","brazier","wall_lamp","hearth"]
+const HEAT: Array[String] = ["forge","tea_stove","altar","cauldron","censer","incense_burner","candles","brazier","wall_lamp","hearth","fire_altar"]
 const TABLES: Array[String] = ["table","square_table"]
 const WALKABLE_NOT: Array[String] = ["cliff","chasm","forest","boundary","wall","wall_wood","shutter","shop_front","blocked","water","deep_water"]
 ## Preset hanging names that are drawn by a kind of another name.
@@ -23,7 +23,7 @@ const AMBIENCE_KINDS: Array[String] = ["moths","smoke","steam","incense","sparks
 const ANCHORS: Dictionary = {
 	"lamp": ["hanging_lantern","wall_lamp","lamp_stand","candles","lantern","lantern_post","oil_lamp"],
 	"stove": ["hearth","tea_stove","cauldron","brazier","campfire","pill_furnace","forge"],
-	"censer": ["censer","incense_burner","altar","altar_table"],
+	"censer": ["censer","incense_burner","altar","altar_table","fire_altar"],
 	"forge": ["forge"],
 	"window": ["window"],
 	"block": ["chopping_block","meat_rack","meat_hooks"]}
@@ -31,7 +31,7 @@ const ANCHOR_OF: Dictionary = {"moths":"lamp","smoke":"stove","steam":"stove","i
 ## How high each lamp kind holds its flame (units): its moths keep just under it.
 const LAMP_HEIGHT: Dictionary = {"hanging_lantern":3.0,"wall_lamp":2.1,"lamp_stand":1.7,"candles":1.1,"lantern":1.6,"lantern_post":2.6,"oil_lamp":1.1}
 ## Props that smoke of themselves (their own `ambience.smoke`): no second plume over them.
-const SELF_SMOKING: Array[String] = ["hearth","tea_stove","cauldron","brazier","campfire","censer","incense_burner","pill_furnace"]
+const SELF_SMOKING: Array[String] = ["hearth","tea_stove","cauldron","brazier","campfire","censer","incense_burner","pill_furnace","fire_altar"]
 ## A plume's colour, puff count, puff size and height off the floor, by kind.
 const PLUMES: Dictionary = {"smoke":["8d877c",5,0.26,1.2],"steam":["eeece6",4,0.18,1.1],"incense":["d8d2c4",4,0.1,1.0]}
 ## A loose haze's colour where a plume has nothing to rise from.

@@ -147,9 +147,12 @@
 		"fanfang.cliff_road",
 		"fanfang.port",
 		"fanfang.bazaar",
-		"fanfang.customs"
+		"fanfang.customs",
+		"fanfang.shield_hall",
+		"fanfang.fire_temple",
+		"fanfang.lama_temple"
 	],
-	"rooms": 590,
+	"rooms": 597,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -521,6 +524,13 @@
 		"fanfang.office.feng_lu",
 		"fanfang.office.clerk",
 		"fanfang.yard.runners",
+		"fanfang.hall.andun",
+		"fanfang.shield_yard.swordsmen",
+		"fanfang.fire_hall.priest",
+		"fanfang.fire_hall.worshippers",
+		"fanfang.temple_yard.lama",
+		"fanfang.temple_yard.monk",
+		"fanfang.shrine.monk",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -548,9 +558,9 @@
 		"native.yamen_iner.chen_witness",
 		"native.canyon7.gate_soldiers"
 	],
-	"world_npcs": 626,
-	"resident_maps": 148,
-	"new_game_items": 1032,
+	"world_npcs": 639,
+	"resident_maps": 151,
+	"new_game_items": 1054,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -699,8 +709,11 @@
 		"guanbei.barrow": 3,
 		"fanfang.cliff_road": 3,
 		"fanfang.port": 2,
-		"fanfang.bazaar": 3,
-		"fanfang.customs": 2
+		"fanfang.bazaar": 4,
+		"fanfang.customs": 2,
+		"fanfang.shield_hall": 2,
+		"fanfang.fire_temple": 2,
+		"fanfang.lama_temple": 2
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -850,7 +863,10 @@
 		"fanfang.cliff_road": 2,
 		"fanfang.port": 6,
 		"fanfang.bazaar": 7,
-		"fanfang.customs": 4
+		"fanfang.customs": 4,
+		"fanfang.shield_hall": 7,
+		"fanfang.fire_temple": 3,
+		"fanfang.lama_temple": 3
 	},
 	"npc_draws_after_oldpine": 2559,
 	"technical_maps": 9,

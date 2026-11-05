@@ -226,6 +226,7 @@ func _ready() -> void:
 	interaction_panel.chosen.connect(_on_interaction_chosen)
 	confirm_prompt.confirmed.connect(questions.on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
+	confirm_prompt.chosen.connect(questions.on_prompt_chosen)
 	_build_menu()
 	arts_page.configure(_session)
 	if _session != null:
@@ -1114,3 +1115,9 @@ func ask_danger(text: String, choice: String, action: Callable, still_valid: Cal
 
 func is_asking() -> bool:
 	return questions.is_asking()
+
+
+## A question with several answers from `speaker` (an act's `questions`): `on_chosen` gets the
+## index picked, 走开 runs `on_cancel` (SharedUiQuestions.ask_choices()).
+func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], on_chosen: Callable, on_cancel: Callable = Callable()) -> void:
+	questions.ask_choices(speaker, text, choices, on_chosen, on_cancel)
