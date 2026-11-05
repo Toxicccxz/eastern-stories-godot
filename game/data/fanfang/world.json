@@ -92,6 +92,15 @@
 					{
 						"present": "native.npc.fire_priest",
 						"temp": "火不肯",
+						"phase": ["dawn"],
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "say": "天刚亮，火还没静。今天火不肯——明天再来。" }
+						]
+					},
+					{
+						"present": "native.npc.fire_priest",
+						"temp": "火不肯",
 						"ask": "火今天不肯。要在祠里等到明天黎明，再问一次吗？（世界的时间会过去，别的地方照旧过它们的日子。）",
 						"choice": "等到明天",
 						"steps": [

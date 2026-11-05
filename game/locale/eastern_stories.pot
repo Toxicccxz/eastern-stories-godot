@@ -42800,6 +42800,11 @@ msgstr ""
 msgid "火前问话"
 msgstr ""
 
+#. fanfang.fire_hall.questions act.acts.steps.say
+#: data/fanfang/world.json
+msgid "天刚亮，火还没静。今天火不肯——明天再来。"
+msgstr ""
+
 #. fanfang.fire_hall.questions act.acts.ask
 #: data/fanfang/world.json
 msgid "火今天不肯。要在祠里等到明天黎明，再问一次吗？（世界的时间会过去，别的地方照旧过它们的日子。）"

@@ -62,13 +62,14 @@ func _test_data() -> void:
 	for id: StringName in [&"fanfang.fire_hall.landmark.fire", &"fanfang.hall.landmark.tablet", &"fanfang.temple_yard.landmark.banyan", &"fanfang.shrine.landmark.buddha"]:
 		_check(catalog.landmark(id) != null, "landmark %s" % id)
 	var questions: ServiceDefinition = catalog.service(&"fanfang.fire_hall.questions")
-	_check(questions != null and questions.act != null and questions.act.verb == "问话" and questions.act.acts.size() == 5, "the 火前问话: five branches (the day the fire refused, the tablet in hand, the 大秦人's side, the 浪人's, the undecided)")
-	if questions != null and questions.act != null and questions.act.acts.size() == 5:
-		var asked: ScriptedAct = questions.act.acts[2]
+	_check(questions != null and questions.act != null and questions.act.verb == "问话" and questions.act.acts.size() == 6, "the 火前问话: six branches (the day the fire refused — at dawn, and after; the tablet in hand; the 大秦人's side; the 浪人's; the undecided)")
+	if questions != null and questions.act != null and questions.act.acts.size() == 6:
+		var asked: ScriptedAct = questions.act.acts[3]
 		var last: ScriptedAct.Step = asked.steps[-1]
 		_check(asked.mark == "站了大秦人" and last.kind == ScriptedAct.Kind.QUESTIONS and last.questions.size() == 3 and last.questions[0].answers.size() == 2 and last.questions[2].answers.size() == 3 and last.questions[0].answers[0].mark == "替南危水保密" and last.questions[2].answers[2].mark == "宝衣给了安妮儿", "three questions on the player's own deeds (owner Q2), their answers true by the saved marks")
 		_check(last.when_true.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.GIVE and step.item_id == &"native:fanfang/bronze_tablet") and last.when_true.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.MARK and step.flag == "铜牒到手") and last.when_false.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SET_TEMP and step.flag == "火不肯"), "all true: the tablet and 铜牒到手; a lie: 火不肯 for the day")
-		_check(questions.act.acts[0].temp == "火不肯" and not questions.act.acts[0].ask.is_empty() and questions.act.acts[0].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"dawn"]), "the day the fire refused: 等到明天 asks first and puts the clock to dawn")
+		_check(questions.act.acts[1].temp == "火不肯" and not questions.act.acts[1].ask.is_empty() and questions.act.acts[1].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"dawn"]), "the day the fire refused: 等到明天 asks first and puts the clock to dawn")
+		_check(questions.act.acts[0].temp == "火不肯" and questions.act.acts[0].phase == [&"dawn"] and questions.act.acts[0].ask.is_empty() and not questions.act.acts[0].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.CLEAR_TEMP), "a lie told at dawn: no wait to offer (the clock would not move), the refusal kept until dawn has passed")
 	var tablet: ItemContentDefinition = catalog.item(&"native:fanfang/bronze_tablet")
 	_check(tablet != null and tablet.quest_item and tablet.no_drop, "the 铜牒 is a quest item nobody drops")
 	var andun: NpcDefinition = catalog.npc(&"native.npc.andun")

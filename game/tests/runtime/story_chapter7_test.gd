@@ -191,6 +191,14 @@ func _test_hall_and_fire(tree: SceneTree, session: WorldSessionController, raid:
 	ui.confirm_prompt.choice_buttons[1].pressed.emit() # 留给瑷伦 — the truth
 	await _settle(tree)
 	_check(not ui.is_asking() and ui.log_lines().any(func(line: String) -> bool: return line.contains("今天火不肯")) and session.player_runtime().temp_marks.get("火不肯", 0) == 1 and not state.marks.has("铜牒到手") and not session.player_held_item_ids().has(&"native:fanfang/bronze_tablet"), "%s: one lie: the fire flares, 今天火不肯, no tablet" % ledger)
+	# At dawn itself nothing can be waited for (the clock would not move): the refusal stays.
+	var noon: int = session.day_clock().day_seconds()
+	session.day_clock().set_day_seconds(600) # TEST-ONLY: back to this day's dawn (微曦 is the day's first 240 minutes)
+	_check(session.day_phase_id() == &"dawn", "%s: TEST-ONLY the clock set to dawn (%s)" % [ledger, session.day_phase_id()])
+	questions.interact()
+	await _settle(tree)
+	_check(not ui.is_asking() and ui.log_lines().any(func(line: String) -> bool: return line.contains("天刚亮")) and session.player_runtime().temp_marks.get("火不肯", 0) == 1, "%s: a lie at dawn: 明天再来, the refusal kept" % ledger)
+	session.day_clock().set_day_seconds(noon)
 	# The same day: only the wait for dawn is offered (asked first), the clock put forward.
 	var before: StringName = session.day_phase_id()
 	questions.interact()
