@@ -24,10 +24,15 @@ extends RefCounted
 ## within: {"color", "day", "night", "embers"}).
 ## On the walls' faces: `wall_hangings` ([{"kind", "wall": "north" | "south" | "east" | "west",
 ## "at": 0..1 along it (west to east, north to south), "y"}]): the household's wall kinds
-## (string_hang, straw_cape, tool_hooks, notices, new_year_print, double_happiness ...) and
-## "broom", "kindling", "winnow", "hat" here.
+## (string_hang, straw_cape, tool_hooks, notices, new_year_print, double_happiness ...), the
+## trades' hung things (ox_head: 西首铺子外挂着个牛头) and "broom", "kindling", "winnow", "hat",
+## "dyed_cloth" (染布晾在墙上的高架上) here.
+## Over the roof: `pole_banner` (幌杆: {"text", "cloth", "letters", "trim", "wall", "at", "height",
+## "side"}): a tall pole stood against a wall, a long banner hung from the arm at its top; it rises
+## above the ridge, so both views read it where the shop's door looks north and is never seen.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const Household = preload("res://presentation/voxel/props/voxel_household.gd")
+const Trades = preload("res://presentation/voxel/props/voxel_trade_props.gd")
 var shapes: Shapes
 var noise: FastNoiseLite
 var ambience: VoxelAmbience
@@ -488,8 +493,68 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		node.rotation.y = atan2(out.x,out.z)
 		body.add_child(node)
 		merge.call(node)
-		if not _own(node,item) and not household.draw(shapes,node,item,float(item.get("width",1.0)),0.3):
+		if not _own(node,item) and not household.draw(shapes,node,item,float(item.get("width",1.0)),0.3) and not _trade(node,item):
 			unknown.append(String(item["kind"]))
+
+## A trade's hung sign (the butcher's ox head) on the wall, drawn by the trade props.
+func _trade(node: Node3D, item: Dictionary) -> bool:
+	var trades := Trades.new()
+	trades.ambience = ambience
+	trades.rng = RandomNumberGenerator.new()
+	trades.rng.seed = hash(int(item.get("seed",0)))
+	return trades.draw(shapes,node,item,float(item.get("width",1.0)),0.3)
+
+## 幌杆 (`pole_banner`): the pole's foot against the `wall` at `at` along it (west to east, north
+## to south), `height` units tall; the banner hangs from an arm along the wall (`side` +1 toward
+## the east or south end, -1 the other way), stirring in the wind.
+func pole_banner(body: Node3D, w: float, d: float, data: Dictionary) -> void:
+	var spec: Dictionary = data["pole_banner"] if data["pole_banner"] is Dictionary else {"text":String(data["pole_banner"])}
+	var wall: String = String(spec.get("wall","south"))
+	var along_x: bool = wall in ["north","south"]
+	var length: float = w if along_x else d
+	var sign: float = 1.0 if wall in ["south","east"] else -1.0
+	var fixed: float = (d if along_x else w)/2*sign
+	var out := Vector3(0,0,sign) if along_x else Vector3(sign,0,0)
+	var dir := Vector3(1,0,0) if along_x else Vector3(0,0,1)
+	var along: float = -length/2+clampf(float(spec.get("at",0.5)),0.0,1.0)*length
+	var foot: Vector3 = (Vector3(along,0,fixed) if along_x else Vector3(fixed,0,along))+out*(skin(data)+float(spec.get("out",0.3)))
+	var tall: float = float(spec.get("height",8.0))
+	var timber: String = String(spec.get("pole","6e5038"))
+	var side: float = float(spec.get("side",1.0))
+	var arm: float = float(spec.get("arm",1.4))
+	shapes.box(body,foot+Vector3(0,0.12,0),Vector3(0.56,0.24,0.56),String(spec.get("stone","8c8a7f")))
+	shapes.box(body,foot+Vector3(0,tall/2,0),Vector3(0.16,tall,0.16),timber)
+	shapes.box(body,foot+Vector3(0,tall+0.08,0),Vector3(0.26,0.16,0.26),String(spec.get("cap","c9a35e")))
+	shapes.box(body,foot+Vector3(0,tall-0.12,0)+dir*side*arm/2,Vector3(arm+0.1,0.08,0.08) if along_x else Vector3(0.08,0.08,arm+0.1),timber)
+	shapes.tilted_box(body,foot+Vector3(0,tall-0.6,0)+dir*side*arm*0.3,Vector3(0.05,1.1,0.05),timber,Vector3(0,0,-side*0.6) if along_x else Vector3(side*0.6,0,0))
+	# The cloth on a node of its own (never merged with the body): it flutters about its hook.
+	var cloth := Node3D.new()
+	cloth.position = foot+Vector3(0,tall-0.18,0)+dir*side*(arm-0.1)
+	body.add_child(cloth)
+	var drop: float = float(spec.get("length",2.6))
+	var wide: float = float(spec.get("width",0.9))
+	var dye: String = String(spec.get("cloth","b8432f"))
+	var trim: String = String(spec.get("trim","2f2a24"))
+	shapes.box(cloth,Vector3(0,-drop/2,0),Vector3(wide,drop,0.04) if along_x else Vector3(0.04,drop,wide),dye)
+	shapes.box(cloth,Vector3(0,-0.06,0),Vector3(wide+0.1,0.12,0.06) if along_x else Vector3(0.06,0.12,wide+0.1),trim)
+	for tail: int in 3:
+		var at: float = (tail-1)*wide*0.32
+		shapes.box(cloth,Vector3(at,-drop-0.1,0) if along_x else Vector3(0,-drop-0.1,at),Vector3(wide*0.2,0.22,0.04) if along_x else Vector3(0.04,0.22,wide*0.2),trim)
+	if spec.has("text"):
+		for face: float in [-1.0,1.0]:
+			var title := Label3D.new()
+			title.text = TranslationServer.translate(String(spec["text"]))
+			title.position = Vector3(0,-drop/2,face*0.03) if along_x else Vector3(face*0.03,-drop/2,0)
+			title.rotation.y = (0.0 if face > 0.0 else PI) if along_x else face*PI/2
+			title.pixel_size = float(spec.get("pixel_size",0.011))
+			title.font_size = 56
+			title.width = 60.0
+			title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+			title.outline_size = 0
+			title.modulate = Color(String(spec.get("letters","f1e3bd")))
+			cloth.add_child(title)
+	if ambience != null:
+		ambience.flutter(cloth,foot.x*0.7+foot.z*0.3)
 
 ## Whether panel `i` of a wall is free for a hanging: no post, not in a doorway, and for a hung
 ## thing no window (`roomy`: nor a window's neighbour; a leaning thing stands below them).
@@ -524,6 +589,24 @@ func _own(node: Node3D, item: Dictionary) -> bool:
 		"hat":
 			for tier: int in 3:
 				shapes.box(node,Vector3(0,2.0+tier*0.08,0.04),Vector3(0.62-tier*0.2,0.09,0.06),["c4ad72","b39a62","a88f5a"][tier])
+		"dyed_cloth":
+			# 染布: long cloths fresh from the dye vat hung from a rail on brackets high on the
+			# wall, their lower ends still dark and wet.
+			var colors: Array = item.get("colors",["3d5a7a","8a3a3a","4a6f4a","c9b98e"])
+			var top: float = float(item.get("top",3.0))
+			var wide: float = float(item.get("width",1.6))
+			shapes.box(node,Vector3(0,top,0.24),Vector3(wide,0.07,0.07),"6a5039")
+			for bracket: float in [-0.4,0.4]:
+				shapes.box(node,Vector3(bracket*wide,top-0.04,0.12),Vector3(0.06,0.06,0.26),"4a3e30")
+				shapes.tilted_box(node,Vector3(bracket*wide,top-0.2,0.14),Vector3(0.05,0.34,0.05),"4a3e30",Vector3(0.6,0,0))
+			var count: int = maxi(2,floori(wide/0.38))
+			for i: int in count:
+				var x: float = -wide*0.38+i*wide*0.76/maxf(1,count-1)
+				var drop: float = 1.9+0.35*float((i*7)%3)
+				var dye := Color(String(colors[i%colors.size()]))
+				shapes.box(node,Vector3(x,top-drop/2,0.2+i*0.004),Vector3(0.3,drop,0.03),dye.to_html(false))
+				shapes.box(node,Vector3(x,top-drop+0.14,0.202+i*0.004),Vector3(0.3,0.28,0.032),dye.darkened(0.3).to_html(false))
+				shapes.box(node,Vector3(x,top+0.04,0.2+i*0.004),Vector3(0.3,0.06,0.1),dye.darkened(0.1).to_html(false))
 		_:
 			return false
 	return true

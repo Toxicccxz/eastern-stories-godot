@@ -1510,7 +1510,7 @@ msgstr ""
 
 #. cloud.npc.butcher title
 #. es2:u/cloud/butchery short
-#: scenes/world/cloud/butchery_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/butchery_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "镇北肉铺"
 msgstr ""
 
@@ -1640,7 +1640,7 @@ msgstr ""
 
 #. cloud.npc.doctor title
 #. es2:u/cloud/drugstore short
-#: scenes/world/cloud/drugstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/drugstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "药店"
 msgstr ""
 
@@ -1694,7 +1694,7 @@ msgstr ""
 #. cloud.npc.weaponor title
 #. cloud.npc.weaponor inquiry topic
 #. es2:u/cloud/weapony short
-#: scenes/world/cloud/weapony_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/weapony_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "兵器屋"
 msgstr ""
 
@@ -1705,7 +1705,7 @@ msgstr ""
 
 #. cloud.npc.box_waiter title
 #. es2:u/cloud/woodboxy short
-#: scenes/world/cloud/yard_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/yard_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "棺材铺"
 msgstr ""
 
@@ -17125,7 +17125,7 @@ msgid "这类组织规模较小，加入也不甚容易，但是加入後往往�
 msgstr ""
 
 #. help.weapon title
-#: data/common/codex.json data/cloud/voxel/outdoor.json
+#: data/common/codex.json
 msgid "兵器"
 msgstr ""
 
@@ -22906,7 +22906,7 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.box_boss inquiry topic
-#: data/cloud/npcs.json
+#: data/cloud/npcs.json data/cloud/voxel/outdoor.json
 msgid "棺材"
 msgstr ""
 
@@ -35996,7 +35996,7 @@ msgid ""
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json
+#: data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
 msgid "书"
 msgstr ""
 
@@ -43789,7 +43789,7 @@ msgstr ""
 msgid "民房"
 msgstr ""
 
-#: data/city/voxel/main.json data/guanbei/voxel/worksite.json
+#: data/city/voxel/main.json data/cloud/voxel/outdoor.json data/guanbei/voxel/worksite.json
 msgid "兵"
 msgstr ""
 
@@ -43845,12 +43845,12 @@ msgstr ""
 msgid "振远"
 msgstr ""
 
-#: data/cloud/voxel/outdoor.json data/cloud/voxel/yard_house.json
-msgid "棺"
+#: data/cloud/voxel/outdoor.json
+msgid "张府"
 msgstr ""
 
 #: data/cloud/voxel/outdoor.json
-msgid "张府"
+msgid "斋"
 msgstr ""
 
 #: data/cloud/voxel/tailory_house.json
@@ -43863,6 +43863,10 @@ msgstr ""
 
 #: data/cloud/voxel/weapony_house.json
 msgid "专卖各式兵器"
+msgstr ""
+
+#: data/cloud/voxel/yard_house.json
+msgid "棺"
 msgstr ""
 
 #: data/cloud/voxel/zaihuoy_house.json

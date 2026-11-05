@@ -99,6 +99,8 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 			_entrance(body,door,w,d,data)
 	if data.has("wall_hangings"):
 		facade.hangings(body,w,d,data,entrances,func(node: Node3D) -> void: shapes.merge(node,body))
+	if data.has("pole_banner"):
+		facade.pole_banner(body,w,d,data)
 
 func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, entrances: Array[Vector3]) -> void:
 	var plaster := Color(String(data.get("wall","c8b999")))
