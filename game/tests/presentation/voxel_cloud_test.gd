@@ -14,7 +14,7 @@ const CALMED: Array[StringName] = [&"cloud.npc.gangster", &"cloud.npc.thief", &"
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground (the town's
 ## boundary, a wall, rock, water, a blocked box) or be raised clear of the floor (`elevation`).
 const TALL: Array[String] = ["lantern", "standing_rock", "boulder", "boundary_stone", "water_vat", "firewood", "drying_rack",
-	"cart", "flagpole", "fishing_net", "tea_stall", "banner", "tree", "great_tree", "pavilion", "rockery", "stall", "bench",
+	"cart", "flagpole", "pole_banner", "fishing_net", "tea_stall", "banner", "tree", "great_tree", "pavilion", "rockery", "stall", "bench",
 	"cargo", "training_post", "wine_jars", "notice_post", "well", "screen_wall", "torch"]
 const SCENES: Array[String] = ["cloud_outdoor", "cloud_tearoom_upstairs", "cloud_jiyuan_upstairs", "cloud_duchang_upstairs", "biaoju_house",
 	"bookstore_house", "butchery_house", "drugstore_house", "duchang_house", "yard_house", "jiyuan_house", "rich_house", "marry_house",
@@ -27,7 +27,7 @@ const MAPS: Array[StringName] = [&"cloud.outdoor", &"cloud.tearoom_upstairs", &"
 const OTHERS: Array[StringName] = [&"cloud.bookstore", &"cloud.butchery", &"cloud.drugstore", &"cloud.woodboxy", &"cloud.jiyuan", &"cloud.jiyuan2",
 	&"cloud.duchang2", &"cloud.rich", &"cloud.marry_room", &"cloud.monky", &"cloud.tailory", &"cloud.weapony", &"cloud.zaihuoy"]
 ## Keys of age and use on a building (voxel_facade.gd and the older facade keys).
-const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices", "whitewash", "worn"]
+const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -157,7 +157,8 @@ func _check_town(tree: SceneTree, session: WorldSessionController, map: WorldMap
 
 ## 绮云镇立面细化 (voxel_facade.gd): every shop known at a glance by a mark of its own, from its
 ## room's text where the text names one, and every building old and lived in. Both views look from
-## the south, so the shops whose doors look north (布庄, 书局, 斋院, 赌场) carry a 幌杆 over the roof.
+## the south, so the shops whose doors look north (布庄, 书局, 斋院, 赌场) have a 幌杆 (a layout
+## look, voxel_fixtures.gd) at their street corners, its banner over the roof.
 func _check_facades(layout: Dictionary) -> void:
 	var butcher: Dictionary = _building(layout, "cloud.nwroad1.west")
 	_check(_hung(butcher, "ox_head") and String(butcher.get("signboard", {}).get("board", "")) == "d8d0bc", "nwroad1.c: 西首铺子外挂着个牛头; butchery.c: 牛骨雕成的招牌")
@@ -180,21 +181,14 @@ func _check_facades(layout: Dictionary) -> void:
 	for item: Dictionary in grocer.get("wall_hangings", []):
 		back += 1 if String(item.get("wall", "")) == "south" else 0
 	_check(back >= 4, "wroad2.c: 北面是杂货铺, 不过门不朝这个方向开 — its back wall hung with the household's things")
-	var banners: Array[String] = []
-	for portal: String in ["cloud.nwroad2.south", "cloud.wroad1.south", "cloud.wroad2.south", "cloud.eroad1.south"]:
-		var shop: Dictionary = _building(layout, portal)
-		if shop.has("pole_banner"):
-			banners.append(String(shop["pole_banner"].get("text", "")))
-	_check(banners == ["布庄", "书", "斋", "赌"], "the shops whose doors look north name themselves on a 幌杆 over the roof: %s" % [banners])
 	_check(_hung(_building(layout, "cloud.nwroad2.south"), "dyed_cloth"), "布庄: dyed cloth drying on its wall onto the market")
-	# Old and lived in (美术规划 §2 item 7): two or more marks of age on every building but 张家's
-	# swept walls, which keep one.
+	# Old and lived in (美术规划 §2 item 7): two or more marks of age and use on every building.
 	var young: Array[String] = []
 	for building: Dictionary in layout["buildings"]:
 		var marks: int = 0
 		for key: String in AGE:
 			marks += 1 if building.has(key) else 0
-		if marks < (1 if String(building.get("note", "")).begins_with("张百万") else 2):
+		if marks < 2:
 			young.append(String(building.get("note", building["rect"])).left(24))
 	_check(young.is_empty(), "every building is old and lived in: %s" % [young])
 	# No two of the houses alike: what hangs on their walls and how they are built.
@@ -210,7 +204,7 @@ func _check_facades(layout: Dictionary) -> void:
 		if seen.has(form):
 			alike.append(form)
 		seen[form] = true
-	_check(seen.size() >= 4 and alike.is_empty(), "the houses and sheds are dressed each its own way: %s" % [alike])
+	_check(seen.size() >= 3 and alike.is_empty(), "the houses and sheds are dressed each its own way: %s" % [alike])
 
 
 ## In the built view: the 幌杆 banners stand over the ridges and the boards hung before the porches

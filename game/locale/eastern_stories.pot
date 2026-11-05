@@ -1633,6 +1633,26 @@ msgstr ""
 msgid "告示"
 msgstr ""
 
+#. cloud.npc.tailor title
+#. es2:u/cloud/tailory short
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
+msgid "布庄"
+msgstr ""
+
+#. city.shangshu.kefang.landmark.book name
+#: scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
+msgid "书"
+msgstr ""
+
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/voxel/outdoor.json
+msgid "斋"
+msgstr ""
+
+#. cloud.npc.judge inquiry topic
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/voxel/outdoor.json
+msgid "赌"
+msgstr ""
+
 #. es2:u/cloud/tearoom2 short
 #: scenes/world/cloud/cloud_tearoom_upstairs.tscn data/cloud/rooms.json
 msgid "香茗坊二楼"
@@ -1669,12 +1689,6 @@ msgstr ""
 
 #: scenes/world/cloud/rich_house.tscn
 msgid "福"
-msgstr ""
-
-#. cloud.npc.tailor title
-#. es2:u/cloud/tailory short
-#: scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
-msgid "布庄"
 msgstr ""
 
 #. cloud.npc.butcher inquiry topic
@@ -23203,11 +23217,6 @@ msgid ""
 "他脸上的表情仿佛是看到了你口袋里的钱一般。\n"
 msgstr ""
 
-#. cloud.npc.judge inquiry topic
-#: data/cloud/npcs.json data/cloud/voxel/outdoor.json
-msgid "赌"
-msgstr ""
-
 #. cloud.npc.judge inquiry.赌
 #: data/cloud/npcs.json
 msgid ""
@@ -35995,11 +36004,6 @@ msgid ""
 "天花板上有一块石板，似乎可以推开。\n"
 msgstr ""
 
-#. city.shangshu.kefang.landmark.book name
-#: data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
-msgid "书"
-msgstr ""
-
 #. city.shangshu.kefang.landmark.book long
 #: data/city/world.json
 msgid ""
@@ -43847,10 +43851,6 @@ msgstr ""
 
 #: data/cloud/voxel/outdoor.json
 msgid "张府"
-msgstr ""
-
-#: data/cloud/voxel/outdoor.json
-msgid "斋"
 msgstr ""
 
 #: data/cloud/voxel/tailory_house.json
