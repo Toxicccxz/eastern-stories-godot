@@ -6,7 +6,10 @@
 		{ "id": "fanfang.cliff_road", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_cliff_road.tscn", "entry": "fanfang.cliff_top.valley_arrival" },
 		{ "id": "fanfang.port", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_port.tscn", "entry": "fanfang.dock.cliff_arrival" },
 		{ "id": "fanfang.bazaar", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_bazaar.tscn", "entry": "fanfang.bazaar_west.dock_arrival" },
-		{ "id": "fanfang.customs", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_customs.tscn", "entry": "fanfang.office.street_entry", "interior": true }
+		{ "id": "fanfang.customs", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_customs.tscn", "entry": "fanfang.office.street_entry", "interior": true },
+		{ "id": "fanfang.shield_hall", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_shield_hall.tscn", "entry": "fanfang.shield_yard.gate_arrival", "interior": true },
+		{ "id": "fanfang.fire_temple", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_fire_temple.tscn", "entry": "fanfang.fire_hall.street_entry", "interior": true },
+		{ "id": "fanfang.lama_temple", "region": "fanfang", "scene": "res://scenes/world/fanfang/fanfang_lama_temple.tscn", "entry": "fanfang.temple_yard.slope_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "fanfang.cliff_top", "map": "fanfang.cliff_road", "rooms": ["native:fanfang/cliff_top"] },
@@ -18,7 +21,14 @@
 		{ "id": "fanfang.bazaar_east", "map": "fanfang.bazaar", "rooms": ["native:fanfang/bazaar_east"] },
 		{ "id": "fanfang.bazaar_north", "map": "fanfang.bazaar", "rooms": ["native:fanfang/bazaar_north"] },
 		{ "id": "fanfang.office", "map": "fanfang.customs", "indoors": true, "rooms": ["native:fanfang/office"] },
-		{ "id": "fanfang.yard", "map": "fanfang.customs", "indoors": true, "rooms": ["native:fanfang/yard"] }
+		{ "id": "fanfang.yard", "map": "fanfang.customs", "indoors": true, "rooms": ["native:fanfang/yard"] },
+		{ "id": "fanfang.bazaar_slope", "map": "fanfang.bazaar", "rooms": ["native:fanfang/bazaar_slope"] },
+		{ "id": "fanfang.shield_yard", "map": "fanfang.shield_hall", "indoors": true, "rooms": ["native:fanfang/shield_yard"] },
+		{ "id": "fanfang.hall", "map": "fanfang.shield_hall", "indoors": true, "rooms": ["native:fanfang/shield_hall"] },
+		{ "id": "fanfang.fire_hall", "map": "fanfang.fire_temple", "indoors": true, "rooms": ["native:fanfang/fire_hall"] },
+		{ "id": "fanfang.priest_room", "map": "fanfang.fire_temple", "indoors": true, "rooms": ["native:fanfang/priest_room"] },
+		{ "id": "fanfang.temple_yard", "map": "fanfang.lama_temple", "indoors": true, "rooms": ["native:fanfang/temple_yard"] },
+		{ "id": "fanfang.shrine", "map": "fanfang.lama_temple", "indoors": true, "rooms": ["native:fanfang/shrine"] }
 	],
 	"portals": [
 		{ "id": "fanfang.cliff_top.north", "from_zone": "fanfang.cliff_top", "to_zone": "village.valley1", "to_spawn": "village.valley1.sea_return", "legacy_room": "native:fanfang/cliff_top", "legacy_command": "north" },
@@ -27,7 +37,13 @@
 		{ "id": "fanfang.dock.east", "from_zone": "fanfang.dock", "to_zone": "fanfang.bazaar_west", "to_spawn": "fanfang.bazaar_west.dock_arrival", "legacy_room": "native:fanfang/dock", "legacy_command": "east" },
 		{ "id": "fanfang.bazaar_west.west", "from_zone": "fanfang.bazaar_west", "to_zone": "fanfang.dock", "to_spawn": "fanfang.dock.bazaar_return", "legacy_room": "native:fanfang/bazaar_west", "legacy_command": "west" },
 		{ "id": "fanfang.bazaar_west.south", "from_zone": "fanfang.bazaar_west", "to_zone": "fanfang.office", "to_spawn": "fanfang.office.street_entry", "legacy_room": "native:fanfang/bazaar_west", "legacy_command": "south" },
-		{ "id": "fanfang.office.north", "from_zone": "fanfang.office", "to_zone": "fanfang.bazaar_west", "to_spawn": "fanfang.bazaar_west.customs_return", "legacy_room": "native:fanfang/office", "legacy_command": "north" }
+		{ "id": "fanfang.office.north", "from_zone": "fanfang.office", "to_zone": "fanfang.bazaar_west", "to_spawn": "fanfang.bazaar_west.customs_return", "legacy_room": "native:fanfang/office", "legacy_command": "north" },
+		{ "id": "fanfang.bazaar_north.north", "from_zone": "fanfang.bazaar_north", "to_zone": "fanfang.shield_yard", "to_spawn": "fanfang.shield_yard.gate_arrival", "legacy_room": "native:fanfang/bazaar_north", "legacy_command": "north" },
+		{ "id": "fanfang.shield_yard.south", "from_zone": "fanfang.shield_yard", "to_zone": "fanfang.bazaar_north", "to_spawn": "fanfang.bazaar_north.hall_return", "legacy_room": "native:fanfang/shield_yard", "legacy_command": "south" },
+		{ "id": "fanfang.bazaar_east.east", "from_zone": "fanfang.bazaar_east", "to_zone": "fanfang.fire_hall", "to_spawn": "fanfang.fire_hall.street_entry", "legacy_room": "native:fanfang/bazaar_east", "legacy_command": "east" },
+		{ "id": "fanfang.fire_hall.west", "from_zone": "fanfang.fire_hall", "to_zone": "fanfang.bazaar_east", "to_spawn": "fanfang.bazaar_east.temple_return", "legacy_room": "native:fanfang/fire_hall", "legacy_command": "west" },
+		{ "id": "fanfang.bazaar_slope.south", "from_zone": "fanfang.bazaar_slope", "to_zone": "fanfang.temple_yard", "to_spawn": "fanfang.temple_yard.slope_arrival", "legacy_room": "native:fanfang/bazaar_slope", "legacy_command": "south" },
+		{ "id": "fanfang.temple_yard.north", "from_zone": "fanfang.temple_yard", "to_zone": "fanfang.bazaar_slope", "to_spawn": "fanfang.bazaar_slope.temple_return", "legacy_room": "native:fanfang/temple_yard", "legacy_command": "north" }
 	],
 	"doors": [],
 	"landmarks": [
@@ -35,7 +51,11 @@
 		{ "id": "fanfang.cliff_path.landmark.sea", "zone": "fanfang.cliff_path", "name": "海", "policy": "look", "long": "海是灰蓝的，近处发绿，远处发黑，一直铺到天边，看不见对岸。海上一条船也没有——番坊的船都拴在码头上。浪一排一排地过来，在崖脚撞碎，退下去，又来。\n", "legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「世界从此有海」; DECISIONS「番坊 A」) — 续写" },
 		{ "id": "fanfang.dock.landmark.boats", "zone": "fanfang.dock", "name": "平底船", "policy": "look", "long": "三条平底船，船底平，船头方，帆是竹篾一片一片编的。船身刷的桐油黑得发亮，船头画着一只眼睛。船工说，船不是番坊的，是南边来的商人的；番坊人只管装卸、守船，拿一份工钱。\n", "legacy_source": "native: 番坊 A (doc/help/theme:4「航海技术并不受重视」— the port is small and the ships are others'; 剧情总纲 §6 番坊卡; DECISIONS「番坊 A」) — 续写" },
 		{ "id": "fanfang.bazaar_north.landmark.shields", "zone": "fanfang.bazaar_north", "name": "大盾", "policy": "look", "long": "两面大盾，比人还高一头，长方的，盾面弯成半个筒。木胎外头蒙着牛皮，边上包着铁，铆钉一圈一圈。盾面上漆着一只展翅的鹰，金漆掉了一半，露出底下的红。盾脚插在土里，插得很深，像是从来没拔出来过。\n", "legacy_source": "native: 番坊 A (剧情总纲 §6 番坊卡「大秦剑会『铁盾会』」, 计划 §1「两面大盾」; DECISIONS「番坊 A」) — 续写" },
-		{ "id": "fanfang.office.landmark.notice", "zone": "fanfang.office", "name": "布告", "policy": "look", "long": "墙上贴着一张布告，纸是京师的纸，字是抄的：\n布告上写著：辑拿要犯----於兰天武。\n布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n", "legacy_source": "d/city/eastdoor2.c (look_notice, word for word) — a copy hung in the 市舶司 (剧情总纲 §3 第七章「京师东二门通缉布告可作市舶吏的由头」; DECISIONS「番坊 A」)" }
+		{ "id": "fanfang.office.landmark.notice", "zone": "fanfang.office", "name": "布告", "policy": "look", "long": "墙上贴着一张布告，纸是京师的纸，字是抄的：\n布告上写著：辑拿要犯----於兰天武。\n布告的一角盖着市舶司的小印，旁边一行小字：「京师东二门原告，番坊照抄」。\n", "legacy_source": "d/city/eastdoor2.c (look_notice, word for word) — a copy hung in the 市舶司 (剧情总纲 §3 第七章「京师东二门通缉布告可作市舶吏的由头」; DECISIONS「番坊 A」)" },
+		{ "id": "fanfang.fire_hall.landmark.fire", "zone": "fanfang.fire_hall", "name": "火坛", "policy": "look", "long": "一座黑石砌的火坛，齐胸高，石头让三百年的烟熏得乌黑发亮。坛顶一团火，不高不低，不红不白，烧得很静，看不见柴，也看不见油。火前的石头上磨出一块白印子，是一代一代跪出来的。坛身上刻着一行弯弯曲曲的字，没有人认得；祭司说那是祠规——火前不说谎。\n", "legacy_source": "native: 番坊 B (剧情总纲 §3 第七章「拜火祠的火三百年没灭」「祠规火前不说谎」, §6 番坊卡; 计划 build/plans/番坊_计划.md §1 拜火祠; DECISIONS「番坊 B」) — 续写" },
+		{ "id": "fanfang.hall.landmark.tablet", "zone": "fanfang.hall", "name": "木牌", "policy": "look", "long": "一块巴掌大的木牌钉在墙上，木头发黑，上面刻着一行弯弯曲曲的字——大秦人自己的字。安敦说，那是剑会的第一条规矩，三百年前第一代会首刻的：盾在前，剑在后。盾不倒，人不倒。\n", "legacy_source": "native: 番坊 B (计划 build/plans/番坊_计划.md §1 铁盾会「会首的屋」; DECISIONS「番坊 B」) — 续写" },
+		{ "id": "fanfang.temple_yard.landmark.banyan", "zone": "fanfang.temple_yard", "name": "榕树", "policy": "look", "long": "一棵大榕树，树冠罩住了半个院子。气根从枝上一根根垂下来，细的像绳，粗的已经扎进地里成了树干，一棵树看着像一片林子。树下的地让人坐得光溜溜的。天竺僧说，这树是第一代僧人从天竺带来的一根枝条，插在这儿，活了。\n", "legacy_source": "native: 番坊 B (计划 build/plans/番坊_计划.md §1 日陀罗寺「榕树」; DECISIONS「番坊 B」) — 续写" },
+		{ "id": "fanfang.shrine.landmark.buddha", "zone": "fanfang.shrine", "name": "佛像", "policy": "look", "long": "一尊天竺样子的佛像：高鼻、细眼、卷发，嘴角带一点笑，衣褶一道一道贴在身上，像是湿的。像是石头雕的，上过金，金掉了大半，露出底下的灰石。佛前几盏酥油灯，灯火一跳一跳，佛的脸也跟着一明一暗。\n", "legacy_source": "native: 番坊 B (daemon/class/lama/master.c 龙若法王 (lama) — a 天竺 temple; 计划 build/plans/番坊_计划.md §1 日陀罗寺「佛殿」; DECISIONS「番坊 B」) — 续写" }
 	],
 	"services": [
 		{ "id": "fanfang.bazaar_west.coach", "kind": "coach", "zone": "fanfang.bazaar_west", "name": "车马行", "reach": 96, "arrival": "fanfang.bazaar_west.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
@@ -60,6 +80,102 @@
 							{ "line": "「番坊大秦人等，聚众持械，着市舶司即日清出，不得延误。——兵部」\n", "color": "HIW" },
 							{ "line": "底下一方兵部的大印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n" },
 							{ "mark": "看过清人文书" }
+						]
+					}
+				]
+			}
+		},
+		{ "id": "fanfang.fire_hall.questions", "kind": "act", "zone": "fanfang.fire_hall", "name": "火前问话", "reach": 96, "legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ③「祠规火前不说谎」; 计划 build/plans/番坊_计划.md §0「拜火祠的问话」 §4 questions, owner 2026-11-04 Q2: 问玩家自己做过的三件事; DECISIONS「番坊 B」「火前问话」) — 续写",
+			"act": {
+				"verb": "问话",
+				"acts": [
+					{
+						"present": "native.npc.fire_priest",
+						"temp": "火不肯",
+						"phase": ["dawn"],
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "say": "天刚亮，火还没静。今天火不肯——明天再来。" }
+						]
+					},
+					{
+						"present": "native.npc.fire_priest",
+						"temp": "火不肯",
+						"ask": "火今天不肯。要在祠里等到明天黎明，再问一次吗？（世界的时间会过去，别的地方照旧过它们的日子。）",
+						"choice": "等到明天",
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "say": "等。火自己会静。" },
+							{ "until_phase": ["dawn"] },
+							{ "clear_temp": "火不肯" },
+							{ "line": "天亮了。坛顶的火又矮了下去，不红不白，烧得很静。\n" },
+							{ "say": "火静了。——再来一次。" }
+						]
+					},
+					{
+						"present": "native.npc.fire_priest",
+						"mark": "铜牒到手",
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "say": "牒在你手里了。火前没有你的事了。" }
+						]
+					},
+					{
+						"present": "native.npc.fire_priest",
+						"mark": "站了大秦人",
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "emote": "走到火坛前，掌心向火。" },
+							{ "say": "三句。我问，你答。火听着。" },
+							{
+								"questions": [
+									{ "text": "在水烟阁，南危水装死二十年的事——你替他守了口，还是告了？", "answers": [
+										{ "text": "守了口。", "mark": "替南危水保密" },
+										{ "text": "告了。", "mark": "告发了南危水" }
+									] },
+									{ "text": "在关北，兵部的工地——你借了王府的兵踏平了它，还是夜里潜进去救了一半？", "answers": [
+										{ "text": "踏平了。", "mark": "踏平了工地" },
+										{ "text": "夜里救了一半。", "mark": "救了一半" }
+									] },
+									{ "text": "晚月庄的宝衣——你带走了，留给守衣的人守着，还是给了别人？", "answers": [
+										{ "text": "带走了。", "mark": "带走了宝衣" },
+										{ "text": "留给瑷伦守着。", "mark": "瑷伦守到决战" },
+										{ "text": "给了安妮儿。", "mark": "宝衣给了安妮儿" }
+									] }
+								],
+								"true": [
+									{ "line": "火矮了下去，矮得几乎看不见，只剩坛顶一圈发白的热气。\n", "color": "HIW" },
+									{ "emote": "把手伸进火坛底下——火一点没碰着他。" },
+									{ "say": "火静了。它认你。" },
+									{ "line": "穆护从火坛底下取出一片发黑的铜，放在你手里。还是温的。\n" },
+									{ "give": "native:fanfang/bronze_tablet" },
+									{ "say": "大秦人存了三十年的东西。你拿去。火前拿的，谁也不能说你偷。" },
+									{ "mark": "火前说了真话" },
+									{ "mark": "铜牒到手" }
+								],
+								"false": [
+									{ "line": "火「轰」地蹿起来，一直蹿到屋顶的方洞，整座祠亮得像白天；又落下去。\n", "color": "HIR" },
+									{ "emote": "退了一步，白布底下看不出脸色。" },
+									{ "say": "今天火不肯。明天再来。" },
+									{ "set_temp": "火不肯" }
+								]
+							}
+						]
+					},
+					{
+						"present": "native.npc.fire_priest",
+						"mark": "站了浪人",
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "say": "你站了浪人。火前没有你的事——他们拿东西，不走火前。" }
+						]
+					},
+					{
+						"present": "native.npc.fire_priest",
+						"mark": "安敦说了铜牒",
+						"steps": [
+							{ "by": "native.npc.fire_priest" },
+							{ "say": "大秦人的牒？他们托了你。——那就先站定。火前只问站定了的人：你站大秦人，还是站浪人，去跟安敦说，或者去鬼笠馆。" }
 						]
 					}
 				]

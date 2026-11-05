@@ -1,0 +1,56 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "日陀罗寺、日陀罗寺佛殿 (native:fanfang/temple_yard, shrine; 番坊 B; daemon/class/lama/master.c's 龙若法王 placed here): a small temple of red-ochre walls with grass along their tops; the great banyan in the middle of the yard, its crown over half of it, air roots grown into trunks, the ground under it sat smooth, the master's cushion there; the bronze bell green with age on its frame in the corner, a water vat, a stone bench, leaves coming down; east the little shrine — the Buddha from 天竺 on his dais, the offering table with butter lamps guttering, cushions, palm-leaf sutras heaped in the corner, a lantern at its door. Old and used: moss in the yard's joints, the wall's plaster fallen in patches, lamp soot over the altar, leaves swept into the corners.",
+  "palette": {"wood": ["6a4a3a", "7a5a48", "5a3e30"], "wall": "9a4a3a"},
+  "wall_height": 3.0,
+  "wall_looks": [
+    {"rect": [-624, -240, 64, 240], "style": "plaster", "wall": "9a4a3a", "colors": ["9a4a3a", "a65644", "8a3e32", "b06650"], "note": "赭红的墙，墙头长着草: red-ochre plaster, fallen in patches"},
+    {"rect": [64, -208, 608, 208], "style": "plaster", "wall": "a85a44", "colors": ["a85a44", "b4664e", "98503c", "c07a5e"], "note": "the shrine, a redder ochre"}
+  ],
+  "surfaces": {"fanfang.temple_yard": "floor_yard"},
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.16, "broken": 0.08, "sunk": 0.08, "tufts": 0.3, "stones": ["8a8478", "96907e", "7e786c", "a29c8a"], "worn": ["aaa492", "b2ac9a"], "bed": "5a5448", "joint": 0.08, "mud": "6a6450", "crack": "5a5448", "moss": "4f6e3a", "moss_chance": 0.35, "note": "old flags, moss and grass in the joints, sat smooth under the tree"},
+    "floor_wood": {"style": "planks", "colors": ["7a5a44", "86644c", "6e503c"], "worn": ["92705a"], "note": "the shrine's boards, worn pale before the table"},
+    "boundary": {"colors": ["7a7a5a", "868662", "6e6e50"]}
+  },
+  "flora": {"grass_density": 0.08, "density": {"floor_yard": 0.03, "floor_wood": 0.0, "boundary": 0.3}, "grass_colors": ["6e7e58", "7a8a62", "86966a", "92a072"], "flower_threshold": 0.9, "tree_kinds": [], "wind": 0.5, "butterflies": 1},
+  "light": {
+    "areas": [
+      {"rect": [-624, -240, 64, 240], "sky": ["bcd4e4", "081628"], "ambient": ["e0e8ec", "4a6488"], "ambient_energy": [0.52, 0.3], "sun": ["fff6e4", "a4c0ee"], "sun_energy": [1.0, 0.34], "note": "the yard lies open to the sea sky (light.json)"}
+    ]
+  },
+  "life": {
+    "fanfang.temple_yard": {"walls": "plaster"},
+    "fanfang.shrine": {"walls": "plaster"}
+  },
+  "props": [
+    {"kind": "trail", "points": [[-288, -170], [-300, -60], [-320, 40], [-240, 120], [-100, 60], [60, 0]], "color": "9a9480", "note": "the way from the gate round the tree to the shrine's door"},
+    {"kind": "stains", "at": [-208, 40], "size": [220, 180], "count": 8, "colors": ["a8a090", "b4ac9c"], "note": "树下的地让人坐得光溜溜的"},
+    {"kind": "stains", "at": [-540, 60], "size": [80, 200], "count": 5, "colors": ["5a6a46", "667650"], "note": "leaves swept into the west corners"},
+    {"kind": "straw_patch", "at": [-560, -100], "size": [50, 40]},
+    {"kind": "hanging_lantern", "at": [40, -60], "paper": "e8b058", "height": 2.6, "note": "a lantern at the shrine's door"},
+    {"kind": "glow", "at": [40, -40], "color": "ffb878", "day": 0.0, "night": 0.7, "range": 7.0, "height": 2.4},
+    {"kind": "glow", "at": [-208, 0], "color": "c8d8f0", "day": 0.0, "night": 0.6, "range": 9.0, "height": 5.0, "note": "moonlight through the banyan"},
+    {"kind": "candles", "at": [336, -64], "size": [40, 12], "count": 3, "elevation": 0.9, "note": "酥油灯 on the offering table, guttering"},
+    {"kind": "glow", "at": [336, -64], "color": "ffc078", "day": 0.4, "night": 1.0, "range": 7.0, "height": 1.4, "note": "the butter lamps on the Buddha's face"},
+    {"kind": "stains", "at": [336, -200], "size": [400, 20], "count": 6, "colors": ["5a4a3a", "6a5a4a"], "note": "lamp soot over the altar"},
+    {"kind": "stains", "at": [336, 60], "size": [160, 80], "count": 4, "colors": ["92705a", "9a785e"], "note": "the boards worn pale before the table"},
+    {"kind": "banner_cloth", "at": [160, -200], "size": [48, 12], "height": 2.2, "wall_mounted": true, "cloth": "a85a30", "note": "a strip of ochre cloth with a 梵 letter"},
+    {"kind": "banner_cloth", "at": [512, -200], "size": [48, 12], "height": 2.2, "wall_mounted": true, "cloth": "a85a30"},
+    {"kind": "window", "at": [600, 20], "size": [56, 16], "rotation": 90, "note": "a window in the shrine's east wall"},
+    {"kind": "slippers", "at": [120, 120], "rotation": -10, "cloth": "8a5a3a", "note": "a monk's sandals inside the door"},
+    {"kind": "far_ground", "at": [-280, -600], "size": [1400, 400], "colors": ["b09a6a", "bca676", "a48e60"], "elevation": 0.0, "trees": 0, "note": "the lane's beaten earth beyond the gate"}
+  ],
+  "ambience": {
+    "fall": [{"rect": [-400, -160, -16, 180], "count": 6, "height": 3.6, "colors": ["4a7048", "5e8452", "8a7a3a"], "wind": [0.2, 0.1], "note": "banyan leaves coming down"}],
+    "birds": [{"at": [-280, 0], "radius": 400, "count": 2, "height": 6, "color": "f0f0ec"}]
+  },
+  "actors": {
+    "default": {"coat": "9a4a2a"},
+    "fanfang.npc.lama_master": {"coat": "8a3a22"},
+    "native.npc.indian_monk": {"coat": "a85a30"}
+  }
+}

@@ -378,6 +378,298 @@
 				"货": ["后院那些箱子？扣下来的。有的扣了三个月，有的扣了三年。"],
 				"浪人": ["鬼笠馆的人倒是来过，问大人什么时候动手。大人说等。"]
 			}
+		},
+		{
+			"id": "native.npc.andun",
+			"legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ②「大秦剑会会首安敦【名字续写】，祖上三百年前见过金乌族人封头」, §6 番坊卡; doc/help/history:44 皇叔於兰淳焉北征蛮族; doc/help/theme:3「西方还在蛮荒时代」— exiles and swords for hire, no envoy; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 B」) — 续写; his Chinese slow, a word at a time, more left out than said (剧情总纲 §10)",
+			"name": "安敦",
+			"aliases": ["andun", "master", "会首", "老人", "大秦人"],
+			"title": "铁盾会会首",
+			"gender": "男性",
+			"age": 61,
+			"long": "一个白头发的异族老人，眼睛是灰的，鼻梁高得像一道脊。他坐着的时候背很直，站起来却慢——左腿有旧伤，先迈左腿。一身中原的布袍，袍子底下露出一截铁片甲的边。他说中原话说得很慢，一个字一个字，省掉的字比说出来的多。\n",
+			"attributes": { "str": 30, "cor": 30, "int": 26, "spi": 26, "cps": 30, "per": 20, "con": 30, "kar": 22 },
+			"combat_exp": 600000,
+			"score": 8000,
+			"attitude": "friendly",
+			"skills": { "sword": 120, "parry": 125, "dodge": 90, "unarmed": 80, "force": 100 },
+			"carry": [
+				{ "item": "native:guanbei/gladius", "source": "native: 关北 A", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"安敦把铜灯的灯芯拨亮了一点。\n",
+				"安敦看着墙上那面旧盾，很久没有动。\n"
+			],
+			"inquiry": {
+				"祖上": ["三百年前。皇叔於兰淳焉，打北方的蛮族——雇了我们。一百二十个剑手，从西边来。打完，留下三十个。我是第十二代。"],
+				"老兵": ["三十个里的一个。他看见了——那个鬼的头，怎么封的。活着的时候不说。死前，刻在一片铜上。"],
+				"铜牒": {
+					"rules": [
+						{ "asker_marks": ["铜牒到手"], "say": "牒在你手里。读了，再还我们一个人情——冯禄来的时候，站在门口。" },
+						{ "asker_marks": ["见了安敦"], "mark_asker": "安敦说了铜牒", "lines": [
+							{ "say": "巴掌大，一片铜。十二代，传到我。三十年前，我把它存进拜火祠——火前最安全，没人敢在火前拿不是自己的东西。" },
+							{ "say": "祠规：火前不说谎。取牒，要过一场问话。三句。" },
+							{ "emote": "看着桌上的灯。" },
+							{ "say": "我们过不了。三十年前，为了这块地，我们对祭司说过一句谎。火记得。" },
+							{ "say": "你不是我们的人。你去。——先想好，站哪边：市舶司要清走我们，浪人要我们的地。" }
+						] },
+						{ "say": "坐下。先说我的祖上。" }
+					]
+				},
+				"封头": {
+					"rules": [
+						{ "asker_marks": ["安敦说了铜牒"], "say": "牒上刻的。我读过，记不全——「头在湖底」，别的，你自己读。" },
+						{ "say": "先问铜牒。" }
+					]
+				},
+				"站大秦人": {
+					"confirm": "站到大秦人一边——在拜火祠过问话取铜牒，替他们挡住冯禄的文书。从此鬼笠馆不见你，浪人刀法学不到。要站大秦人吗？",
+					"rules": [
+						{ "asker_marks": ["站了大秦人"], "say": "你站了我们这边。去祠里，火前说真话。" },
+						{ "asker_marks": ["站了浪人"], "say": "你去了鬼笠馆。……没有话说。" },
+						{ "asker_marks": ["安敦说了铜牒"], "mark_asker": "站了大秦人", "lines": [
+							{ "emote": "看了你很久，站了起来——慢，左腿先。" },
+							{ "say": "好。那你替我们去火前。三句真话，牒是你的。" },
+							{ "say": "读了，再还我们一个人情：冯禄来的时候，站在门口。" }
+						] },
+						{ "say": "先听我说完铜牒的事。" }
+					]
+				},
+				"市舶司": ["冯禄。兵部的文书，说我们聚众持械。三十年，税没拖过一文。文书的印——卢卡说，你看得出。"],
+				"文书": {
+					"rules": [
+						{ "asker_marks": ["看出文书是假的"], "say": "你看出来了。假印。兵部没有下这个令——有人借兵部的名字要我们的地。" },
+						{ "say": "冯禄案上压着。你去看。印色——卢卡说你学过。" }
+					]
+				},
+				"浪人": ["鬼笠馆。早川。他们要这块地——练刀的板地不够用。冯禄一动手，他们就来。"],
+				"卢卡": ["好孩子。走了一个月，剑没卖。"],
+				"大秦": ["没有了。城烧了，人散了。我们不是使臣，是剩下的人。"],
+				"铁盾会": ["盾在前，剑在后。盾不倒，人不倒。三百年，就这一条。"],
+				"鬼": ["没有头的那个。我们那边的老兵传了三百年。头在哪里，牒上有——去问铜牒。"]
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "到了番坊",
+					"not_mark": "见了安敦",
+					"npc_in": "fanfang.hall",
+					"steps": [
+						{ "emote": "抬起头，灰眼睛看了你一会儿，站了起来——慢，左腿先。" },
+						{ "say": "卢卡的人。他说，你在找一把剑钉着的头。" },
+						{ "say": "坐。我的祖上见过它。三百年前，皇叔於兰淳焉打北方的蛮族，雇了我们一百二十个剑手。" },
+						{ "say": "其中一个，看见那个鬼的头怎么封的。他死前，刻在一片铜上。十二代，传到我——问我「铜牒」。" },
+						{ "mark": "见了安敦" }
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.shield_swordsman",
+			"legacy_source": "native: 番坊 B (剧情总纲 §6 番坊卡「大秦剑会『铁盾会』：流亡者和佣兵，不是使团」; 计划 build/plans/番坊_计划.md §2「大秦剑手 ×6」; DECISIONS「番坊 B」) — 续写",
+			"name": "大秦剑手",
+			"aliases": ["swordsman", "剑手", "大秦人"],
+			"title": "铁盾会",
+			"gender": "男性",
+			"age": 30,
+			"long": "一个高鼻深目的异族汉子，头发剪得很短，左臂绑着一面圆盾，右手一把短剑。他练得满头是汗，盾面上全是剑尖戳出来的白点。\n",
+			"attributes": { "str": 28, "cor": 26, "int": 18, "spi": 20, "cps": 26, "per": 18, "con": 28, "kar": 16 },
+			"combat_exp": 150000,
+			"attitude": "peaceful",
+			"skills": { "sword": 80, "parry": 90, "dodge": 70, "unarmed": 60, "force": 50 },
+			"carry": [
+				{ "item": "native:guanbei/gladius", "source": "native: 关北 A", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"大秦剑手把盾往上一抬，短剑从盾沿底下刺出去。\n",
+				"大秦剑手喊了一声号子，谁也听不懂。\n",
+				"两面盾砰地撞在一起。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"大秦剑手喝道：盾！\n"
+			],
+			"inquiry": {
+				"会首": ["里头。安敦。我们的头——他说的话，就是会里的话。"],
+				"盾": ["盾在前，剑在后。盾不倒，人不倒。——会首教的。"],
+				"市舶司": ["要清我们走。走哪儿去？西边没有了。"],
+				"浪人": ["刀快。可他们没有盾。"],
+				"卢卡": ["回来了。剑没卖。会首说他做得对。"]
+			}
+		},
+		{
+			"id": "native.npc.fire_priest",
+			"legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ③「拜火祠的祭司只守一条祠规：火前不说谎」; 穆护 is what 唐人 called a Persian fire priest (magus) — the name is a title, 续写; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 B」「火前问话」) — 续写",
+			"name": "穆护",
+			"aliases": ["priest", "magus", "祭司", "穆护"],
+			"title": "拜火祠祭司",
+			"gender": "男性",
+			"age": 58,
+			"long": "一个瘦高的老人，白袍，白帽，嘴上蒙着一块白布——人说是怕他的气息污了火。他的眼睛被火光照得发亮，看人的时候一眨也不眨。\n",
+			"attributes": { "str": 16, "cor": 20, "int": 28, "spi": 30, "cps": 30, "per": 26, "con": 20, "kar": 24 },
+			"combat_exp": 50000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 40, "dodge": 50, "force": 80, "literate": 80 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"穆护站在火坛前，一动不动，火光在他的白袍上一明一暗。\n",
+				"穆护往火里添了什么，火没有变。\n"
+			],
+			"inquiry": {
+				"火": ["三百年没灭。不是我们在喂它——是它在看我们。"],
+				"祠规": ["一条：火前不说谎。说了，火知道。"],
+				"问话": {
+					"rules": [
+						{ "asker_marks": ["铜牒到手"], "say": "问过了。牒在你手里。" },
+						{ "asker_marks": ["站了大秦人"], "say": "站到火前去。我问，你答。火听着。" },
+						{ "say": "火前只问站定了的人。" }
+					]
+				},
+				"铜牒": {
+					"rules": [
+						{ "asker_marks": ["铜牒到手"], "say": "牒在你手里了。火让你拿的，不是我。" },
+						{ "asker_marks": ["安敦说了铜牒"], "say": "大秦人存的。三十年了。他们取不了——他们在火前说过谎。你要取，火前站着，答我三句。真话，牒给你；一句假，今天火不肯。" },
+						{ "say": "祠里存的东西，各有各的主。你问的是谁的？" }
+					]
+				},
+				"大秦人": ["三十年前，他们为了一块地在火前说过一句谎。火记着。他们自己也记着。"],
+				"浪人": ["刀是刀，火是火。他们不进来。"],
+				"市舶司": ["冯禄不进来。他的文书也不进来。"]
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"not_mark": "穆护见过你",
+					"npc_in": "fanfang.fire_hall",
+					"steps": [
+						{ "emote": "抬起一只手，掌心向你。" },
+						{ "say": "进来可以。火前，不说谎。" },
+						{ "mark": "穆护见过你" }
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.fire_worshipper",
+			"legacy_source": "native: 番坊 B (计划 build/plans/番坊_计划.md §1 拜火祠「拜火的胡商 ×2」; the lived-in layer; DECISIONS「番坊 B」) — 续写",
+			"name": "拜火的胡商",
+			"aliases": ["worshipper", "merchant", "胡商", "拜火的"],
+			"title": "胡商",
+			"gender": "男性",
+			"age": 44,
+			"long": "一个跪在火坛前的胡商，额头贴着地，嘴里低低地念着什么。他的背上还搭着赶路的毡子，鞋底的泥是黄的——刚进番坊。\n",
+			"attributes": { "str": 18, "cor": 18, "int": 24, "spi": 22, "cps": 22, "per": 18, "con": 20, "kar": 22 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 25 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 2 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"拜火的胡商把额头贴在地上，很久没有抬起来。\n",
+				"拜火的胡商低低地念着什么，一句接一句。\n"
+			],
+			"inquiry": {
+				"火": ["我从西边来，走了一年。到了这儿，先拜火，再做生意。"],
+				"祭司": ["穆护不骗人，也不让人骗。做生意的人，怕他。"],
+				"大秦人": ["他们不进来。三十年了。"]
+			}
+		},
+		{
+			"id": "fanfang.npc.lama_master",
+			"legacy_source": "daemon/class/lama/master.c",
+			"name": "龙若法王",
+			"aliases": ["master lama", "master", "lama", "法王", "龙若"],
+			"gender": "男性",
+			"age": 71,
+			"long": "一个七十来岁的老僧，皮肤黝黑，光头，眉毛全白了，耳垂长得几乎到肩。他盘腿坐在榕树下的蒲团上，一身赭红的僧衣，手里一串黑木的念珠拨得很慢。他说中原话带着天竺的腔，可一个字也不错。\n",
+			"attributes": { "str": 17, "cor": 20, "int": 30, "spi": 30, "cps": 30, "per": 20, "con": 30, "kar": 20 },
+			"resources": { "max_force": 1500, "force": 1500, "max_atman": 2000, "atman": 2000, "max_mana": 600, "mana": 600 },
+			"force_factor": 5,
+			"combat_exp": 1000000,
+			"score": 9000,
+			"attitude": "peaceful",
+			"class": "lama",
+			"skills": { "staff": 100, "unarmed": 80, "force": 100, "dodge": 30, "literate": 60, "chanting": 100, "parry": 50, "magic": 100, "cloudstaff": 100, "lotusforce": 100, "buddhism": 100, "essencemagic": 100 },
+			"skill_map": { "staff": "cloudstaff", "parry": "cloudstaff", "force": "lotusforce", "magic": "essencemagic" },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"龙若法王拨着念珠，嘴唇动着，没有声音。\n",
+				"龙若法王抬头看了看榕树，说道：阿弥陀佛。\n"
+			],
+			"inquiry": {
+				"剃度": {
+					"rules": [
+						{ "asker_class": "bonze", "say": "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？" },
+						{ "asker_gender": "女性", "say": "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。" },
+						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。" }
+					]
+				},
+				"出家": {
+					"rules": [
+						{ "asker_class": "bonze", "say": "阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？" },
+						{ "asker_gender": "女性", "say": "阿弥陀佛！女施主，这里是寺庙，请到尼庵去剃度吧。" },
+						{ "temp_asker": "pending/join_bonze", "say": "阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。" }
+					]
+				},
+				"寺": ["日陀罗寺。两个天竺僧人盖的，老衲是第二代。寺小，佛不小。"],
+				"山烟寺": ["山烟寺的独眼头陀？他的内功和老衲的是一个根——都是从西边的西边来的。阿弥陀佛。"],
+				"大秦人": ["阿弥陀佛。他们拜的火，和老衲拜的佛，隔着一条街。火也好，佛也好，都不叫人撒谎。"],
+				"浪人": ["刀出鞘，火就灭。老衲说过他们，他们不听。"],
+				"铜牒": ["大秦人存在火前的那片铜？老衲听说过。三百年前的事，刻在铜上，铜不会老。"],
+				"榕树": ["第一代的师父从天竺带来一根枝条，插在这儿，活了。树活了七十年，老衲也活了七十年。"]
+			},
+			"ordination": {
+				"temp": "pending/join_bonze",
+				"prefixes": ["空", "明", "圆", "净", "虚", "悟", "方", "渡", "慧", "法"],
+				"lines": ["$N双手合十，恭恭敬敬地跪了下来。", "$n伸出手掌，在$N头顶轻轻地摩挲了几下，将$N的头发尽数剃去。"],
+				"color": "HIC",
+				"say": "从今以後你的法名叫做{name}。",
+				"class": "bonze"
+			}
+		},
+		{
+			"id": "native.npc.indian_monk",
+			"legacy_source": "native: 番坊 B (计划 build/plans/番坊_计划.md §2「天竺僧 ×2」, 剧情总纲 §4 第 7 条 山烟寺线与天竺僧的交点; DECISIONS「番坊 B」) — 续写",
+			"name": "天竺僧",
+			"aliases": ["monk", "天竺僧", "僧人"],
+			"gender": "男性",
+			"age": 35,
+			"long": "一个皮肤黝黑的僧人，光头，赤脚，身上裹着一块赭红的布。他念的经没有一个字听得懂，调子却很好听。\n",
+			"attributes": { "str": 20, "cor": 22, "int": 24, "spi": 26, "cps": 24, "per": 20, "con": 24, "kar": 22 },
+			"combat_exp": 30000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 60, "dodge": 50, "force": 60, "buddhism": 60, "lotusforce": 40 },
+			"skill_map": { "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"天竺僧低声念着经，调子一起一伏。\n",
+				"天竺僧双手合十，朝榕树的方向拜了一拜。\n"
+			],
+			"inquiry": {
+				"法王": ["法王七十一了。他说他还要收十个弟子，收满了就坐化。"],
+				"经": ["贝叶经。从天竺背来的，一片叶子一页。"],
+				"山烟寺": ["山烟寺？那边有一位独眼的头陀，他的内功和我们的是一个根。法王说的。"],
+				"榕树": ["第一代师父带来的一根枝条。现在你看——一棵树像一片林子。"],
+				"大秦人": ["他们的火在街那头。我们的佛在这头。中间是卖香料的。"]
+			}
 		}
 	]
 }

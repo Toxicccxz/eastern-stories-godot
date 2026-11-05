@@ -105,6 +105,7 @@
 		"native:fanfang/pepper": { "kind": "pouch", "cloth": "b89a6a", "cord": "3a2a1e" },
 		"native:fanfang/hu_bread": { "kind": "flatbread", "crust": "c8903e" },
 		"native:fanfang/copper_kettle": { "kind": "teapot", "clay": "b8733a:gloss", "knob": "8a4a22" },
+		"native:fanfang/bronze_tablet": { "kind": "token", "color": "4a3e2a:gloss", "border": "7a6a3e:gloss", "emblem": "9a8a4e:gloss", "cord": "3a3028", "tassel": "3a3028" },
 		"es2:d/latemoon/obj/deer_boot": { "kind": "shoes", "style": "boots", "color": "b0814f", "sole": "4a3424", "trim": "8a5f38" },
 		"es2:d/latemoon/obj/sword": { "kind": "sword", "blade": "9a6bb8:gloss", "ridge": "c7a6e0:gloss", "guard": "d8bf7a:gloss", "grip": "3a2a3a", "wrap": "6b3f7a", "tassel": "b15fb3", "inlay": "e3c9f2:gloss" },
 		"es2:d/latemoon/obj/skirt": { "kind": "skirt", "color": "a0805a", "band": "6b4a33" },

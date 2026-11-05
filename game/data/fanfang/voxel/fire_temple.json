@@ -1,0 +1,50 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "拜火祠、祭司的净室 (native:fanfang/fire_hall, priest_room; 番坊 B): a dark hall of black stone glossed by three hundred years of smoke, one thing in it — the chest-high black altar in the middle with the fire on it, no wood, no oil, the smoke going up through the square hole in the roof (a shaft of light falls back down it by day); the stone before the altar worn white by knees; a water vat for the washing of hands, a stone bench by the door, jars of oil nobody has seen used. East the priest's bare cell: a narrow couch, a chest, a lamp, the black slab with a flame cut in it, not a speck of dust. Old and used: soot up every wall, ash drifted round the altar's foot, the white kneeling-place; the cell swept clean to the point of strangeness.",
+  "palette": {"wood": ["3a2a22", "4a3a2e", "2e221c"], "wall": "2e2a28"},
+  "wall_height": 3.2,
+  "wall_looks": [
+    {"rect": [-576, -240, 112, 240], "style": "brick", "mortar": "1e1a18", "colors": ["2e2a28", "3a3634", "262220", "443e3a"], "note": "四壁的黑石让烟熏得发亮: black stone, smoke-glossed"},
+    {"rect": [112, -176, 560, 160], "style": "brick", "mortar": "3a3634", "colors": ["4a4644", "56524e", "3e3a38", "605c58"], "note": "the cell's grey stone"}
+  ],
+  "ground": {
+    "floor_shop": {"style": "paving", "stones": ["3a3634", "444040", "302c2a", "4e4a48"], "worn": ["5a5654", "646260"], "bed": "262220", "mud": "2e2a28", "crack": "222020", "moss": "3a3a34", "moss_chance": 0.0, "note": "black flags, worn pale before the altar"},
+    "boundary": {"colors": ["7a7a5a", "868662", "6e6e50"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"floor_shop": 0.0, "boundary": 0.2}, "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.0, "butterflies": 0},
+  "light": {
+    "ambient": ["6a5a50", "3a3038"],
+    "ambient_energy": [0.3, 0.26],
+    "sun": ["d8c0a0", "7a7a98"],
+    "sun_energy": [0.18, 0.06],
+    "note": "the hall is dark but for the fire; the shaft from the smoke-hole by day"
+  },
+  "life": {
+    "fanfang.fire_hall": {"walls": "brick"},
+    "fanfang.priest_room": {"walls": "brick"}
+  },
+  "props": [
+    {"kind": "light_shaft", "at": [-184, -8], "size": [56, 56], "height": 3.2, "note": "烟从屋顶的一个方洞出去: the smoke-hole over the altar, a shaft of day down it"},
+    {"kind": "glow", "at": [-184, -8], "color": "ff8a3a", "day": 0.6, "night": 1.0, "range": 11.0, "height": 2.2, "note": "the fire's glow on the black walls, day and night (计划 §1b)"},
+    {"kind": "stains", "at": [-270, 0], "size": [70, 60], "count": 4, "colors": ["a8a49c", "b4b0a8", "9a968e"], "note": "火坛前的地上磨出一块白印子，是跪出来的"},
+    {"kind": "stains", "at": [-184, -8], "size": [200, 200], "count": 8, "colors": ["46423e", "504c48"], "note": "ash drifted round the altar's foot"},
+    {"kind": "stains", "at": [-232, -230], "size": [600, 20], "count": 8, "colors": ["1a1816", "222020"], "note": "soot up the north wall"},
+    {"kind": "stains", "at": [-232, 230], "size": [600, 20], "count": 8, "colors": ["1a1816", "222020"], "note": "and the south"},
+    {"kind": "paper_charms", "at": [-400, -232], "size": [40, 16], "count": 2, "height": 1.9, "wall_mounted": true, "note": "strips of white cloth the worshippers tie up, not paper"},
+    {"kind": "stains", "at": [-470, 0], "size": [60, 120], "count": 3, "colors": ["3e3a38", "484442"], "note": "the floor worn inside the door"},
+    {"kind": "wall_lamp", "at": [336, -168], "size": [16, 12], "height": 2.0, "wall_mounted": true, "note": "the cell's one lamp (一盏灯)"},
+    {"kind": "glow", "at": [336, -140], "color": "ffc078", "day": 0.2, "night": 0.7, "range": 5.0, "height": 1.8},
+    {"kind": "plaques", "at": [552, -8], "size": [16, 48], "rotation": 90, "height": 1.6, "wall_mounted": true, "note": "墙上没有神像，只有一块黑石板，板上刻着一团火的形状"},
+    {"kind": "slippers", "at": [250, -60], "rotation": 0, "cloth": "e8e4dc", "note": "the priest's white slippers set straight by the couch"}
+  ],
+  "ambience": {
+    "dust": [{"rect": [-300, -100, -60, 100], "count": 8, "color": "9a9490", "wind": [0.0, -0.6], "note": "ash on the air over the altar"}]
+  },
+  "actors": {
+    "default": {"coat": "8a5a3a"},
+    "native.npc.fire_priest": {"coat": "e8e4dc", "hat": true},
+    "native.npc.fire_worshipper": {"coat": "8a5a3a", "hat": true}
+  }
+}
