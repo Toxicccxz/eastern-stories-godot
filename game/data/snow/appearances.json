@@ -60,6 +60,76 @@
       "hair_style": "topknot", "headwear": "none", "beard": "none",
       "waist": "apron", "apron_color": "594137", "accent": "51413e", "prop": "hammer", "prop_color": "6b6560",
       "height": "standard", "build": "heavy"
+    },
+    "snow.npc.keeper": {
+      "note": "庙祝（路人，一类人一套）：七十多岁的老人，佝偻的身影，看着让人心情沉重（keeper.c）；立绘 Muse 2026-11-05",
+      "coat": "625656", "pants": "23212d", "skin": "f0d0ba", "hair": "a09093",
+      "hair_style": "topknot", "headwear": "none", "beard": "long",
+      "waist": "none", "accent": "44353e", "height": "short", "build": "slim"
+    },
+    "snow.npc.drunk": {
+      "note": "醉汉（路人）：喝得醉醺醺的年轻人，带着酒囊（drunk.c；原作 17 岁，立绘画二十出头）；立绘 Muse 2026-11-05",
+      "coat": "f2e3d1", "pants": "8b796c", "skin": "f2d3b8", "hair": "2a2226",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "56484b", "pouch": false, "prop": "gourd", "prop_color": "96684a",
+      "height": "standard", "build": "slim"
+    },
+    "snow.npc.scavenger": {
+      "note": "收破烂的（路人）：自己收破烂、身上也穿得破烂不堪，揣着一本旧书（scavenger.c）；背篓、补丁围裙；立绘 Muse 2026-11-05",
+      "coat": "c9b09f", "pants": "221e29", "skin": "f4dfca", "hair": "221e29",
+      "hair_style": "short", "headwear": "none", "beard": "full",
+      "waist": "apron", "apron_color": "728493", "accent": "473e3d", "prop": "basket_back", "prop_color": "a07c5c",
+      "height": "standard", "build": "standard"
+    },
+    "snow.npc.trainee": {
+      "note": "武馆弟子（路人）：身材高大的汉子，穿麻布衣，正在辛苦地操练（trainee.c）；立绘 Muse 2026-11-05",
+      "coat": "c6ac93", "pants": "947568", "skin": "f4d9c2", "hair": "26202a",
+      "hair_style": "topknot", "hair_tie": "c0a28e", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "654f51", "pouch": false, "height": "tall", "build": "heavy"
+    },
+    "snow.npc.farmer": {
+      "note": "农夫（路人）：面色黝黑，穿蓑衣、草鞋（farmer.c）；立绘 Muse 2026-11-05",
+      "coat": "c4b188", "pants": "514e47", "skin": "b17f4b", "hair": "2d2120",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "none", "accent": "765028", "shoes": "straw", "height": "standard", "build": "standard"
+    },
+    "snow.npc.woodcutter": {
+      "note": "樵夫（路人）：粗壮的大汉，普通樵夫的衣服，手里一把砍柴的斧头（woodcutter.c）；立绘 Muse 2026-11-05",
+      "coat": "c4a594", "pants": "413536", "skin": "f4dcc3", "hair": "2d222a",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "46383a", "pouch": false, "prop": "axe", "prop_color": "6b6161",
+      "height": "standard", "build": "heavy"
+    },
+    "snow.npc.traveller.male": {
+      "note": "旅客·男（路人，性别随机：traveller.c 七成男三成女）：来雪亭镇的外地旅客，布衣，斗笠、斜挎包袱；立绘 Muse 2026-11-05",
+      "coat": "716753", "pants": "57443a", "skin": "f5dcc5", "hair": "2d2126",
+      "hair_style": "short", "headwear": "straw_hat", "headwear_color": "c5a588", "beard": "none",
+      "waist": "belt", "accent": "57443a", "pouch": false, "height": "standard", "build": "standard"
+    },
+    "snow.npc.traveller.female": {
+      "note": "旅客·女（路人，性别随机）：来雪亭镇的外地旅客，布衣长裙，斗笠、斜挎包袱；立绘 Muse 2026-11-05",
+      "coat": "8b8568", "pants": "7d6044", "skin": "efc79c", "hair": "47342c",
+      "hair_style": "long", "headwear": "straw_hat", "headwear_color": "b9a76e", "beard": "none",
+      "waist": "belt", "accent": "694e36", "pouch": false, "height": "standard", "build": "slim"
+    },
+    "snow.npc.trav_blade.male": {
+      "note": "带刀旅客·男（路人，性别随机，trav_blade.c 带飞刀）：深色衣、胸前交叉的飞刀带，和普通旅客一眼分得开；立绘 Muse 2026-11-05",
+      "coat": "232936", "pants": "1e212c", "skin": "e8bd8f", "hair": "14161f",
+      "hair_style": "short", "headwear": "straw_hat", "headwear_color": "deb687", "beard": "none",
+      "waist": "belt", "accent": "8f5450", "pouch": false, "height": "standard", "build": "standard"
+    },
+    "snow.npc.trav_blade.female": {
+      "note": "带刀旅客·女（路人，性别随机）：深色衣长裙、交叉的飞刀带；立绘 Muse 2026-11-05",
+      "coat": "1f1e24", "pants": "1a1a1f", "skin": "f2c298", "hair": "1c1a20",
+      "hair_style": "long", "headwear": "straw_hat", "headwear_color": "d9b77c", "beard": "none",
+      "waist": "belt", "accent": "7f553c", "pouch": false, "height": "standard", "build": "slim"
+    },
+    "snow.npc.beggar": {
+      "note": "乞丐（路人）：满脸风霜的老乞丐，揣着一本旧书（beggar.c）；拄棍、补丁围裙；立绘 Muse 2026-11-05",
+      "coat": "c8a496", "pants": "424148", "skin": "e9c9b2", "hair": "4a4443",
+      "hair_style": "long", "headwear": "none", "beard": "full",
+      "waist": "apron", "apron_color": "6e7e8c", "accent": "63666c", "prop": "staff", "prop_color": "8a6a4a",
+      "height": "standard", "build": "slim"
     }
   }
 }

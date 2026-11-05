@@ -416,4 +416,7 @@ func _place() -> void:
 			inset = BUST_INSET + bust_size.x + 8.0
 		_plate.position = (_panel.position + Vector2(inset, PLATE_OVERLAP - _plate.size.y)).round()
 	if _ui != null:
-		_ui.toasts_lift(height + BOTTOM_MARGIN if _panel.visible else 0.0)
+		# The toasts (bottom left) stand on the box, and on the player's bust when it shows
+		# there, so a new message never covers the player's face.
+		var standing: float = bust_size.y - BUST_SINK if _player_bust.visible else 0.0
+		_ui.toasts_lift(height + BOTTOM_MARGIN + standing if _panel.visible else 0.0)

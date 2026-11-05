@@ -133,6 +133,9 @@ func _check_resolve() -> void:
 	# A drawn gender picks `<id>.female` / `<id>.male` when there is one, else `<id>`.
 	var people: Dictionary = PersonLooks.region_cards("snow")
 	_check(PersonLooks.card("snow.npc.waiter", String(CharacterState.GENDER_MALE)) == people["snow.npc.waiter"], "no card for his gender: his own")
+	for sex: StringName in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
+		var id: String = PersonLooks.with_sex("snow.npc.traveller", String(sex))
+		_check(people.has(id) and PersonLooks.card("snow.npc.traveller", String(sex)) == people[id], "a %s traveller's own card: %s" % [sex, id])
 	var her: Dictionary = PersonLooks.region_cards("common").get("player.female", {})
 	_check(not her.is_empty() and PersonLooks.resolve({}, "", PersonLooks.player(String(CharacterState.GENDER_FEMALE))) == her, "the player's card by their gender")
 
@@ -207,6 +210,18 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	var player_figure: Node3D = view.actors[inn.player_body.character_id].get_child(0) as Node3D
 	_check(player_figure is Person and (player_figure as Person).coat == String(PersonLooks.player(String(CharacterState.GENDER_FEMALE)).get("coat")), "the player wears the female player's card")
 	var waiter: NpcRuntimeState = inn.npcs.find_resident_npc(waiter_body.character_id)
+	# 旅客 draw their gender (traveller.c): each wears the card and shows the pictures of the one
+	# it drew.
+	var travellers: int = 0
+	for npc: NpcRuntimeState in inn.npc_runtimes():
+		if String(NpcDefinition.unnamed_id(npc.definition().definition_id)) != "snow.npc.traveller" or not view.actors.has(npc.character_id):
+			continue
+		travellers += 1
+		var gender: String = String(npc.character_state.gender)
+		var worn: Node3D = view.actors[npc.character_id].get_child(0) as Node3D
+		_check(worn is Person and (worn as Person).coat == String(PersonLooks.card("snow.npc.traveller", gender).get("coat", "")), "a %s 旅客 wears that card" % gender)
+		_check(PersonPortraits.npc_id(npc) == PersonLooks.with_sex("snow.npc.traveller", gender), "and has those pictures: %s" % PersonPortraits.npc_id(npc))
+	_check(travellers > 0, "旅客 in the inn")
 	var hud: SharedGameplayUI = session.shared_ui()
 	var box: WorldDialogueBox = hud.dialogue_box
 	TestFeel.use()
@@ -219,25 +234,22 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	_check(box.bust_texture(false) == PersonPortraits.bust("snow.npc.waiter", "smile"), "his smiling bust on the right (a friendly man)")
 	_check(box.bust_texture(true) == PersonPortraits.bust("player.female"), "the player's bust on the left")
 	_check(box.bust_lit(false) and not box.bust_lit(true), "the speaker lit, the listener dimmed")
+	var lifted: float = hud._presentation_layout.toasts.lift
 	box.close()
 	await _frames(tree, 2)
 	_check(not box.bust_shown(false) and not box.bust_shown(true), "no busts with the box shut")
 	box.say("", ["一阵风吹过。"])
 	await _frames(tree, 2)
 	_check(box.is_open() and not box.bust_shown(false) and not box.bust_shown(true), "a line nobody says shows nobody")
+	_check(lifted >= hud._presentation_layout.toasts.lift + 100.0, "the toasts stand on the player's bust, not over the face: %.0f, %.0f with no bust" % [lifted, hud._presentation_layout.toasts.lift])
 	box.close()
-	var plain: NpcRuntimeState = null
-	for npc: NpcRuntimeState in inn.npc_runtimes():
-		if PersonPortraits.bust(PersonPortraits.npc_id(npc)) == null:
-			plain = npc
-	_check(plain != null, "someone in the inn without a picture")
-	if plain != null:
-		inn.npc_life.teller = plain.character_id
-		hud.npc_says(plain, said, ["%s说道：嗯。" % plain.definition().display_name])
-		inn.npc_life.teller = &""
-		await _frames(tree, 2)
-		_check(box.is_open() and not box.bust_shown(false) and not box.bust_shown(true), "someone without a picture: no busts, not the player alone")
-		box.close()
+	# Everyone in 雪亭镇 has pictures now: a stranger from 乔阴 (no pictures yet) speaks.
+	var plain := _stranger()
+	_check(PersonPortraits.bust(PersonPortraits.npc_id(plain)) == null, "a stranger without a picture")
+	box.say(plain.definition().display_name, ["%s说道：嗯。" % plain.definition().display_name], &"", plain)
+	await _frames(tree, 2)
+	_check(box.is_open() and not box.bust_shown(false) and not box.bust_shown(true), "someone without a picture: no busts, not the player alone")
+	box.close()
 	TestFeel.restore()
 	_check(inn.place_player(&"snow.inn.main_floor", Vector2(0, -105)), "beside the waiter")
 	await _frames(tree, 20)
@@ -296,10 +308,7 @@ func _check_big_screen(tree: SceneTree) -> void:
 	await _frames(tree, 3)
 	var box: WorldDialogueBox = hud.dialogue_box
 	var waiter: NpcRuntimeState = inn.npcs.find_resident_npc(waiter_body.character_id)
-	var plain: NpcRuntimeState = null
-	for npc: NpcRuntimeState in inn.npc_runtimes():
-		if PersonPortraits.bust(PersonPortraits.npc_id(npc)) == null:
-			plain = npc
+	var plain := _stranger()
 	var content := Control.new()
 	hud.add_child(content)
 	box.host("店小二", content, waiter)
@@ -320,6 +329,11 @@ func _check_big_screen(tree: SceneTree) -> void:
 	session.free()
 	await _frames(tree, 2)
 	tree.root.size = before
+
+
+## Someone from a region whose people have no pictures yet (乔阴's old man).
+func _stranger() -> NpcRuntimeState:
+	return NpcRuntimeState.new(&"test.stranger", GameContent.catalog().npc(&"choyin.npc.oldman"), &"", &"", CharacterState.new())
 
 
 ## Whether the pixel touches a see-through one or the picture's edge.
