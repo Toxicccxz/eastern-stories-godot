@@ -831,7 +831,7 @@ func _make_shutters() -> void:
 			var open_keys: Variant = look.get("open",null)
 			look.erase("open")
 			geometry.draw_look(s,node,look)
-			if open_keys != null:
+			if open_keys is Dictionary or open_keys == true:
 				# `open`: the look again, for the door standing open (true: the kind's own `open`;
 				# a dictionary: keys over the shut look's), in the same place and turned the same way.
 				var open: Dictionary = look.duplicate()

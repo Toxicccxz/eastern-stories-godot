@@ -34,8 +34,11 @@ var ambience: VoxelAmbience
 ## The masses' footprints (body coordinates: x, z): the enclosure's own walls under them carry no
 ## wear (the mass's walls there carry it, at their own height).
 var covered: Array[Rect2] = []
-## Wall hangings of a kind nobody draws (the map's unknown kinds take them).
+## Wall hangings of a kind nobody draws, or with no room on their wall (the map's unknown kinds
+## take them, so a test sees them).
 var unknown: Array[String] = []
+## Where the wall hangings went: wall and panel, one entry each.
+var placed: Array[String] = []
 
 const PANEL_KEYS: Array[String] = ["damp","stains","patches","cracks","foot_weeds","notices","soot"]
 const GREENS: Array = ["5f7a3a","6f8a44","4f6a34","7d8f4a"]
@@ -301,7 +304,10 @@ func eave_tiles(root: Node3D, wide: float, deep: float, height: float, curve: fl
 
 ## What stands at a doorway beyond the old porch and goods: `front` the doorway's node (+z out
 ## to the street, x along the wall), `half` the opening's half width, `wall_z` the wall's face.
-func entrance(front: Node3D, merge_into: Node3D, data: Dictionary, half: float, wall_z: float) -> void:
+func entrance(front: Node3D, merge_into: Node3D, data: Dictionary, half: float, wall_z: float, wall_top: float) -> void:
+	# A doorway turned north is never seen (both views look from the south).
+	if facing_away(front,Vector3(0,0,1)):
+		return
 	# A shop's posts stand a body out in the street before its wall (a porch): what stands at
 	# its door stands at the posts.
 	var porched: bool = wall_z < -0.3
@@ -351,11 +357,12 @@ func entrance(front: Node3D, merge_into: Node3D, data: Dictionary, half: float, 
 				shapes.box(fu,Vector3(-0.08+bar*0.08,0,0.008),Vector3(0.04,0.26,0.01),"2a2622")
 	if data.has("soot") and data["soot"] is Dictionary and data["soot"].get("door",false):
 		# Smoke from within has blackened the lintel and the posts' heads, and the wall over the
-		# opening as far as it goes before the eaves (`top`: the wall's height there).
+		# opening as far as it goes before the eaves (`top`: the wall's height there, else the
+		# height of what stands over the doorway).
 		var soot: Dictionary = data["soot"]
 		var black := Color(String(soot.get("color","3a3632")))
 		var wall := Color(String(data.get("wall","c8b999")))
-		var top: float = float(soot.get("top",data.get("height",3.4)))-0.2
+		var top: float = float(soot.get("top",wall_top))-0.2
 		shapes.box(front,Vector3(0,2.68,0.2),Vector3(half*2.0+0.27,0.27,0.02),black.to_html(false))
 		for side: float in [-1.0,1.0]:
 			shapes.box(front,Vector3(side*(half-0.02),2.2,0.145),Vector3(0.22,0.7,0.02),black.lerp(Color(String(data.get("posts",data.get("timber","79533d")))),0.35).to_html(false))
@@ -449,6 +456,8 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 	var face: float = skin(data)
 	var household := Household.new()
 	household.ambience = ambience
+	# One thing to a panel: two strings asked for near each other go to neighbouring panels.
+	var taken: Dictionary = {}
 	for item: Dictionary in data["wall_hangings"]:
 		var wall: String = String(item.get("wall","south"))
 		var along_x: bool = wall in ["north","south"]
@@ -462,12 +471,17 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		var want: int = clampi(roundi((float(item.get("at",0.5))*length-0.25)/0.5),0,panels-1)
 		var leaning: bool = String(item["kind"]) in ["broom","kindling"]
 		var chosen: int = -1
-		for offset: int in panels:
-			for i: int in [want+offset,want-offset]:
-				if chosen < 0 and i >= 0 and i < panels and _clear(i,bay,leaning,along_x,fixed,-length/2+0.25+i*0.5,entrances):
-					chosen = i
+		# First well clear of the windows; on a wall with no such room, beside them.
+		for roomy: bool in [true,false]:
+			for offset: int in panels:
+				for i: int in [want+offset,want-offset]:
+					if chosen < 0 and i >= 0 and i < panels and not taken.has("%s%d" % [wall,i]) and _clear(i,bay,leaning,roomy,along_x,fixed,-length/2+0.25+i*0.5,entrances):
+						chosen = i
 		if chosen < 0:
+			unknown.append("%s (no room on the %s wall)" % [item["kind"],wall])
 			continue
+		taken["%s%d" % [wall,chosen]] = true
+		placed.append("%s%d" % [wall,chosen])
 		var along: float = -length/2+0.25+chosen*0.5
 		var node := Node3D.new()
 		node.position = (Vector3(along,0,fixed) if along_x else Vector3(fixed,0,along))+out*face+Vector3(0,float(item.get("y",0.0)),0)
@@ -477,10 +491,10 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		if not _own(node,item) and not household.draw(shapes,node,item,float(item.get("width",1.0)),0.3):
 			unknown.append(String(item["kind"]))
 
-## Whether panel `i` of a wall is free for a hanging: no window (a leaning thing stands below
-## them), no post, and not in a doorway.
-func _clear(i: int, bay: int, leaning: bool, along_x: bool, fixed: float, along: float, entrances: Array[Vector3]) -> bool:
-	if i%bay == 0 or (not leaning and i%bay in [1,2,3,4]):
+## Whether panel `i` of a wall is free for a hanging: no post, not in a doorway, and for a hung
+## thing no window (`roomy`: nor a window's neighbour; a leaning thing stands below them).
+func _clear(i: int, bay: int, leaning: bool, roomy: bool, along_x: bool, fixed: float, along: float, entrances: Array[Vector3]) -> bool:
+	if i%bay == 0 or (not leaning and i%bay in ([1,2,3,4] if roomy else [2,3])):
 		return false
 	for door: Vector3 in entrances:
 		if absf((door.z if along_x else door.x)-fixed) < 1.6 and absf((door.x if along_x else door.z)-along) < 2.2:

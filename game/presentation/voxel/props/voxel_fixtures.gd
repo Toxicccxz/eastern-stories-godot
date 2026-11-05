@@ -534,8 +534,10 @@ func _old_gate(w: float, data: Dictionary) -> void:
 	s.box(root,Vector3(0,2.46,0),Vector3(wide+0.2,0.14,0.26),"3a342c")
 	for side: float in [-1.0,1.0]:
 		s.box(root,Vector3(side*(wide/2+0.04),1.22,0),Vector3(0.12,2.5,0.26),"3a342c")
-		s.box(root,Vector3(side*wide*0.1,1.1,0.1),Vector3(wide*0.14,0.5,0.012),Color(leaf).lightened(0.16).to_html(false))
-		s.box(root,Vector3(side*0.16,1.2,0.1),Vector3(0.1,0.1,0.03),"8a7a52")
+		# A round of paint over the leaves (`panel`) covers their raised panels and rings.
+		if not data.has("panel"):
+			s.box(root,Vector3(side*wide*0.1,1.1,0.1),Vector3(wide*0.14,0.5,0.012),Color(leaf).lightened(0.16).to_html(false))
+			s.box(root,Vector3(side*0.16,1.2,0.1),Vector3(0.1,0.1,0.03),"8a7a52")
 	var studs: Variant = data.get("studs",true)
 	if studs is String or studs:
 		# `studs`: true for iron, or their colour (a red gate's gilt 门钉).
@@ -554,7 +556,7 @@ func _old_gate(w: float, data: Dictionary) -> void:
 			s.box(root,Vector3(0,text_y,0.1),Vector3(1.16,0.8,0.02)*Vector3(round,round,1),String(data["panel"]))
 		var title := Label3D.new()
 		title.text = TranslationServer.translate(String(data["text"]))
-		title.position = Vector3(0,text_y,0.125)
+		title.position = Vector3(0,text_y,0.13)
 		title.pixel_size = float(data.get("pixel_size",0.016))
 		title.font_size = 56
 		title.outline_size = 0

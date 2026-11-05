@@ -118,9 +118,14 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			var along: float = -length/2+0.25+i*0.5
 			var at := Vector3(along,height/2,fixed) if along_x else Vector3(fixed,height/2,along)
 			var gap: bool = false
+			# Couplets either side of a door in the wall (voxel_facade.gd) take the place of the
+			# windows next to it.
+			var beside: bool = false
 			for door: Vector3 in entrances:
 				if absf((door.z if along_x else door.x)-fixed)<1.6 and absf((door.x if along_x else door.z)-along)<gap_half:
 					gap = true
+				elif data.has("couplets") and absf((door.z if along_x else door.x)-fixed)<0.5 and absf((door.x if along_x else door.z)-along)<gap_half+0.8 and not Facade.facing_away(body,out):
+					beside = true
 			if gap:
 				continue
 			var weather: float = noise.get_noise_2d((body.position.x+at.x)*29,(body.position.z+at.z)*29)
@@ -214,11 +219,11 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 						var span: float = 0.18+float((h/(300*(chip+1)))%100)/100.0*0.26
 						shapes.box(body,Vector3(at.x,y,at.z)+out*0.13,Vector3(span,0.12+chip*0.07,0.025) if along_x else Vector3(0.025,0.12+chip*0.07,span),String(under[(h/13+chip)%under.size()]))
 			if wears:
-				var windowed: bool = i%bay in [2,3] and height>2.4
+				var windowed: bool = i%bay in [2,3] and height>2.4 and not beside
 				facade.panel(body,at,out,along_x,height,foundation,minf(2.05,height-0.9) if windowed else -1.0,data,body==_body)
 			if i%bay==0:
 				shapes.box(body,at+out*0.08,Vector3(0.18,height+0.08,0.31) if along_x else Vector3(0.31,height+0.08,0.18),timber)
-			elif i%bay in [2,3] and height>2.4:
+			elif i%bay in [2,3] and height>2.4 and not beside:
 				var window_y: float = minf(2.05,height-0.9)
 				var window_at := Vector3(at.x,window_y,at.z)+out*0.18
 				shapes.box(body,window_at,Vector3(0.47,0.94,0.10) if along_x else Vector3(0.10,0.94,0.47),timber)
@@ -241,7 +246,8 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 					lattice(shapes,body,window_at+out*0.1,Vector2(0.40,0.72),out,String(data["lattice"]) if data["lattice"] is String else "rails",timber)
 				if construction=="timber" and i%bay==2:
 					shapes.box(body,window_at+out*0.13,Vector3(0.38,0.78,0.06) if along_x else Vector3(0.06,0.78,0.38),"796348")
-				if data.has("windows") and facade != null:
+				# Not where a gallery runs across the window (its rail and floor are there).
+				if data.has("windows") and facade != null and not (data.get("gallery",false) and window_y+0.5 > height-1.3):
 					facade.window(body,at,window_y,out,along_x,1.0 if i%bay==2 else -1.0,data,timber)
 		if construction in ["cloth","iron_bars"]:
 			# A rope along a tent's eave; nothing over a palisade.
@@ -797,7 +803,17 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 		# The wall's face, in the doorway's own frame: a shop's posts stand out in the street
 		# before it, a house's door is in it.
 		var wall_z: float = (w/2-absf(door.x) if x_face else d/2-absf(door.z))+Facade.skin(data)
-		facade.entrance(front,_body,data,half,wall_z)
+		facade.entrance(front,_body,data,half,wall_z,_height_at(door,w,d,data))
+
+## How high the wall stands at a doorway: the mass over it, else the enclosure's.
+func _height_at(door: Vector3, w: float, d: float, data: Dictionary) -> float:
+	var u: float = clampf(door.x/w+0.5,0.0,1.0)
+	var v: float = clampf(door.z/d+0.5,0.0,1.0)
+	for mass: Dictionary in data.get("masses",[]):
+		var bounds: Array = mass["bounds"]
+		if u >= float(bounds[0])-0.02 and u <= float(bounds[2])+0.02 and v >= float(bounds[1])-0.02 and v <= float(bounds[3])+0.02:
+			return float(mass.get("height",data.get("height",3.4)))
+	return float(data.get("enclosure_height",data.get("height",3.4)))
 
 ## The open leaves of a gateway, folded back against its posts: vermilion with rows of
 ## gilt studs (`gate`: "red"), black lacquer ("black"), or a colour of its own.
