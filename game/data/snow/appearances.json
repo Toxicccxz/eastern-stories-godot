@@ -1,0 +1,18 @@
+{
+  "people": {
+    "snow.npc.waiter": {
+      "note": "店小二：笑咪咪地忙着，脖子上挂着抹布（waiter.c）；立绘 Muse 2026-11-05",
+      "coat": "e9dcc3", "pants": "3a3b44", "skin": "edbb96", "hair": "23222a",
+      "hair_style": "short", "headwear": "cloth_cap", "headwear_color": "25212b", "beard": "none",
+      "waist": "apron", "apron_color": "718391", "prop": "teapot", "accent": "7a9cc4",
+      "extras": ["towel_neck"], "height": "standard", "build": "slim"
+    },
+    "snow.npc.girl": {
+      "note": "柳绘心：十五岁，粉衣深红裙，白鞘细剑挂腰侧（girl.c: thin_sword, pink_cloth）；立绘 Muse 2026-11-05",
+      "coat": "f9b4b1", "pants": "b54562", "skin": "f8cdb6", "hair": "412128",
+      "hair_style": "double_bun", "hair_tie": "f49a97", "headwear": "none", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "e6ddd2", "accent": "f49a97",
+      "height": "short", "build": "slim"
+    }
+  }
+}
