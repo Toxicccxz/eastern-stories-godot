@@ -20,12 +20,14 @@ const BUILDS: Dictionary = {
 	"standard": {"width": 1.0, "depth": 1.0},
 	"heavy": {"width": 1.2, "depth": 1.18},
 }
-const HAIR_STYLES: Array[String] = ["topknot", "double_bun", "long", "short", "bald"]
+const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long", "short", "bald"]
 const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute"]
-const EXTRAS: Array[String] = ["towel_neck"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer"]
+## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
+## round the shins.
+const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps"]
 
 var walking: bool = false
 var pace: float = 0.0
@@ -104,6 +106,7 @@ func _ready() -> void:
 	for x: float in [-0.09, 0.09]:
 		if not headless:
 			_s.box(eyes, Vector3(x, 0, 0)*_head_k, Vector3(0.055, 0.06, 0.035)*_head_k, _tone("242d30"))
+	var extras: Array = look.get("extras", [])
 	for side: float in [-1.0, 1.0]:
 		var arm := Node3D.new()
 		arm.position = Vector3(side*(0.36 + 0.275*(_wide - 1.0)), _y(1.12), 0)
@@ -112,6 +115,9 @@ func _ready() -> void:
 		var reach: float = _torso_k
 		_s.box(arm, Vector3(0, -0.14*reach, 0), Vector3(0.2, 0.34*reach, 0.29*_deep), _tone(coat))
 		_s.box(arm, Vector3(0, -0.37*reach, 0.02), Vector3(0.17, 0.16, 0.19), _tone(skin))
+		if extras.has("bracers"):
+			# Over the sleeve's end, just above the hand.
+			_s.box(arm, Vector3(0, -0.25*reach, 0.005), Vector3(0.22, 0.12*reach, 0.3*_deep + 0.02), _tone(_hex("bracer_color", "4a3628")))
 		var leg := Node3D.new()
 		var hip: float = 0.57*_legs_k
 		leg.position = Vector3(side*0.17*maxf(_wide, 0.9), hip, 0)
@@ -120,12 +126,16 @@ func _ready() -> void:
 		# The shoe stays on the ground; the leg reaches from its top to the hip.
 		_s.box(leg, Vector3(0, (0.17 - hip)/2.0, 0), Vector3(0.2, hip - 0.17, 0.23), _tone(pants))
 		_s.box(leg, Vector3(0, 0.14 - hip, 0.06), Vector3(0.23, 0.16, 0.35), _tone(_shoes(pants)))
+		if extras.has("leg_wraps"):
+			# Round the shin from the shoe's top to below the knee.
+			_s.box(leg, Vector3(0, 0.17 - hip + 0.11*_legs_k, 0), Vector3(0.22, 0.22*_legs_k, 0.25), _tone(_hex("wrap_color", "5e4a38")))
 	_prop()
-	for extra: Variant in look.get("extras", []):
-		if String(extra) == "towel_neck":
-			_box(torso, Vector3(0.12, 1.14, 0.12), Vector3(0.12, 0.08, 0.3), _hex("towel", "ece6d6"))
-			_box(torso, Vector3(0.14, 0.98, 0.21), Vector3(0.1, 0.26, 0.05), _hex("towel", "ece6d6"))
-			drawn.append("towel_neck")
+	if extras.has("towel_neck"):
+		_box(torso, Vector3(0.12, 1.14, 0.12), Vector3(0.12, 0.08, 0.3), _hex("towel", "ece6d6"))
+		_box(torso, Vector3(0.14, 0.98, 0.21), Vector3(0.1, 0.26, 0.05), _hex("towel", "ece6d6"))
+	for extra: String in EXTRAS:
+		if extras.has(extra):
+			drawn.append(extra)
 	_s.flush()
 
 
@@ -149,6 +159,13 @@ func _head(skin: String) -> void:
 			if not covered:
 				_box(torso, Vector3(0, 1.75, -0.08), Vector3(0.2, 0.19, 0.2), hair, true)
 				_box(torso, Vector3(0, 1.67, -0.08), Vector3(0.22, 0.06, 0.22), _hex("hair_tie", _hex("accent", "b5573f")), true)
+		"ponytail":
+			# Tied high at the back of the crown, the tail down the back of the head.
+			if not covered:
+				_box(torso, Vector3(0, 1.7, -0.17), Vector3(0.16, 0.14, 0.16), hair, true)
+				_box(torso, Vector3(0, 1.62, -0.2), Vector3(0.18, 0.05, 0.18), _hex("hair_tie", _hex("accent", "b5573f")), true)
+			_box(torso, Vector3(0, 1.38, -0.27), Vector3(0.13, 0.46, 0.08), hair, true)
+			drawn.append("ponytail")
 		"double_bun":
 			for x: float in [-0.17, 0.17]:
 				_box(torso, Vector3(x, 1.72, -0.04), Vector3(0.17, 0.17, 0.17), hair, true)
@@ -275,6 +292,10 @@ func _prop() -> void:
 			var centre := Vector3(0.02, 0.98, -0.25)
 			_tilted(torso, centre, Vector3(0.32, 0.4, 0.06), _hex("prop_color", "8a5a32"), Vector3(0, 0, -0.5))
 			_tilted(torso, centre + Vector3(sin(0.5), cos(0.5), 0)*0.38, Vector3(0.05, 0.36, 0.05), wood, Vector3(0, 0, -0.5))
+		"hammer":
+			# Carried at the side, the head hanging below the hand.
+			_held(hand, grip + Vector3(0, -0.14, 0.04), Vector3(0.05, 0.34, 0.05), wood)
+			_held(hand, grip + Vector3(0, -0.32, 0.04), Vector3(0.1, 0.1, 0.22), _hex("prop_color", "4a4a50"))
 
 
 ## A box of the body at its plain-figure place `at` (torso and head heights follow the height),

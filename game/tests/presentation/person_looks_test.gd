@@ -6,7 +6,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 ## Keys a card may carry, and which of them are colours.
-const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose"]
+const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose", "bracer_color", "wrap_color"]
 const WORDS: Dictionary = {
 	"hair_style": Person.HAIR_STYLES, "headwear": Person.HEADWEAR, "beard": Person.BEARDS,
 	"waist": Person.WAISTS, "prop": Person.PROPS, "shoes": ["dark", "straw", "white"],
@@ -89,14 +89,26 @@ func _check_portrait_files() -> void:
 		_check(picture != null and Vector2i(picture.get_size()) == size, "%s is %s: %s" % [file, size, picture.get_size() if picture != null else Vector2.ZERO])
 		var image: Image = picture.get_image() if picture != null else null
 		if image != null:
-			# Clean edges: no half-seen pixels left from the cut-out.
+			# Clean edges: no half-seen pixels left from the cut-out, and no ring of the magenta
+			# key's colour round the outline (a key-like colour found almost only there; a real
+			# plum or rose shade lies mostly inside the body).
 			var soft: int = 0
+			var keyish: Dictionary = {}
 			for y: int in image.get_height():
 				for x: int in image.get_width():
-					var alpha: float = image.get_pixel(x, y).a
-					if alpha > 0.02 and alpha < 0.98:
+					var colour: Color = image.get_pixel(x, y)
+					if colour.a > 0.02 and colour.a < 0.98:
 						soft += 1
+					if colour.a > 0.5 and colour.r > colour.g + 0.12 and colour.b > colour.g + 0.12 and absf(colour.r - colour.b) < 0.24 and colour.g < 0.32:
+						var count: Vector2i = keyish.get(colour, Vector2i.ZERO)
+						keyish[colour] = count + Vector2i(1, 1 if _on_outline(image, x, y) else 0)
 			_check(soft == 0, "%s has hard edges: %d soft pixels" % [file, soft])
+			var ring: int = 0
+			for colour: Color in keyish:
+				var count: Vector2i = keyish[colour]
+				if count.x >= 3 and count.y >= count.x * 0.8:
+					ring += count.y
+			_check(ring == 0, "%s has no key-colour ring round it: %d pixels" % [file, ring])
 	for id: String in ids:
 		_check(PersonPortraits.full(id) != null and PersonPortraits.bust(id) != null, "%s has a whole picture and a bust" % id)
 		_check(not PersonLooks.card(id).is_empty(), "%s has a card for the map" % id)
@@ -116,7 +128,8 @@ func _check_resolve() -> void:
 	_check(waiter.get("waist") == "apron" and is_equal_approx(float(waiter.get("scale", 0.0)), 1.2) and not waiter.has("hat"), "the waiter's card, the map's scale over it, not the map's default: %s" % [waiter])
 	_check(PersonLooks.resolve(actors, "x.npc.plain") == {"coat": "222222"}, "no card: the map's entry alone")
 	_check(PersonLooks.resolve(actors, "x.npc.nobody") == actors["default"], "neither: the map's default")
-	_check(PersonLooks.resolve({}, "", PersonLooks.player(String(CharacterState.GENDER_FEMALE))).get("coat") == "c0ccd6", "the player's card by their gender")
+	var her: Dictionary = PersonLooks.region_cards("common").get("player.female", {})
+	_check(not her.is_empty() and PersonLooks.resolve({}, "", PersonLooks.player(String(CharacterState.GENDER_FEMALE))) == her, "the player's card by their gender")
 
 
 ## The figure draws what its look names and nothing more; every word on the list builds.
@@ -153,6 +166,15 @@ func _check_figures(tree: SceneTree) -> void:
 			figure.configure({key: word})
 			stage.add_child(figure)
 			_check(figure.torso != null and figure.get_child_count() > 0, "%s %s builds" % [key, word])
+	for extra: String in Person.EXTRAS:
+		var figure: Node3D = Person.new()
+		figure.configure({"extras": [extra]})
+		stage.add_child(figure)
+		_check(figure.drawn == PackedStringArray([extra]), "the extra %s, and nothing else: %s" % [extra, figure.drawn])
+	var tail: Node3D = Person.new()
+	tail.configure({"hair_style": "ponytail", "headwear": "cloth_cap"})
+	stage.add_child(tail)
+	_check(tail.drawn.has("ponytail"), "a ponytail still hangs below a cap: %s" % [tail.drawn])
 	await tree.process_frame
 	stage.queue_free()
 	await tree.process_frame
@@ -174,7 +196,7 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	var figure: Node3D = view.actors[waiter_body.character_id].get_child(0) as Node3D
 	_check(figure is Person and (figure as Person).drawn.has("apron") and (figure as Person).coat == "e9dcc3", "the waiter's figure wears his card")
 	var player_figure: Node3D = view.actors[inn.player_body.character_id].get_child(0) as Node3D
-	_check(player_figure is Person and (player_figure as Person).coat == "c0ccd6", "the player wears the female player's card")
+	_check(player_figure is Person and (player_figure as Person).coat == String(PersonLooks.player(String(CharacterState.GENDER_FEMALE)).get("coat")), "the player wears the female player's card")
 	var waiter: NpcRuntimeState = inn.npcs.find_resident_npc(waiter_body.character_id)
 	var hud: SharedGameplayUI = session.shared_ui()
 	var box: WorldDialogueBox = hud.dialogue_box
@@ -278,6 +300,15 @@ func _check_big_screen(tree: SceneTree) -> void:
 	session.free()
 	await _frames(tree, 2)
 	tree.root.size = before
+
+
+## Whether the pixel touches a see-through one or the picture's edge.
+func _on_outline(image: Image, x: int, y: int) -> bool:
+	for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		var at: Vector2i = Vector2i(x, y) + step
+		if at.x < 0 or at.y < 0 or at.x >= image.get_width() or at.y >= image.get_height() or image.get_pixelv(at).a < 0.5:
+			return true
+	return false
 
 
 func _frames(tree: SceneTree, count: int) -> void:

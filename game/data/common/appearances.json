@@ -11,6 +11,13 @@
       "coat": "c0ccd6", "pants": "3f4f5d", "skin": "fcd7a7", "hair": "17181d",
       "hair_style": "topknot", "hair_tie": "95a3b1", "headwear": "none", "beard": "none",
       "waist": "sash", "accent": "252932", "height": "standard", "build": "slim"
+    },
+    "common.npc.swordsman.master": {
+      "note": "柳淳风：温文儒雅的中年人，淳风武馆馆主，四十四岁，丝袍、腰佩玄苏剑（daemon/class/swordsman/master.c）；立绘 Muse 2026-11-05",
+      "coat": "292951", "pants": "1f1d3a", "skin": "e8b58c", "hair": "23222c",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "a8bfb0", "beard": "chin_three",
+      "waist": "sash", "accent": "7d8aa0", "prop": "sword_waist", "prop_color": "2c2c34",
+      "height": "tall", "build": "slim"
     }
   }
 }
