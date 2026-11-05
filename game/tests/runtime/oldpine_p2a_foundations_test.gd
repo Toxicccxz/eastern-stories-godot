@@ -8,6 +8,10 @@ class RejectFreezeSession extends WorldSessionController:
 		return false
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# 战斗拍数 A: this suite pins ES2's busy count-down and one opportunity a participant a
+	# round; the round at ES2's one beat (the modern beats are DECISIONS「战斗拍数」's).
+	var production_pacing: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production_pacing.copy().with_beats(CombatBeatRules.classic()))
 	await _save_boundary(tree)
 	for count: int in [0, 1, 4, 5]:
 		await _group(tree, count, false)
@@ -15,6 +19,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _refusals(tree)
 	await _rollback(tree)
 	await _late_failure_and_death(tree)
+	GameContent.catalog().set_pacing(production_pacing)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _save_boundary(tree: SceneTree) -> void:
