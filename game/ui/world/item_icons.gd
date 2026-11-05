@@ -75,7 +75,12 @@ func _take_some() -> void:
 		if image == null or image.is_empty():
 			_failed[id] = true
 			continue
-		var texture := ImageTexture.create_from_image(image)
+		# Drawn at a third of its size in a row: smooth and mipmapped, whatever the row's own
+		# (pixel) filter (像素界面).
+		image.generate_mipmaps()
+		var texture := CanvasTexture.new()
+		texture.diffuse_texture = ImageTexture.create_from_image(image)
+		texture.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		_taken[id] = texture
 		icon_ready.emit(id, texture)
 	_busy = false

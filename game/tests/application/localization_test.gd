@@ -68,7 +68,7 @@ func _service() -> void:
 	check(service.apply("xx_YY") and service.active_code() == "zh_CN", "a language no longer listed follows the system")
 	check(TranslationServer.translate("丢下") == "丢下", "the previous catalog is unloaded")
 	var theme: Theme = ThemeDB.get_project_theme()
-	check(theme.default_font is FontFile and theme.default_font.resource_path.ends_with("LXGWWenKaiLite-Medium.ttf") and (theme.default_font as FontFile).allow_system_fallback, "the text face is the bundled 霞鹜文楷; the system fills in glyphs it lacks")
+	check(theme.default_font is FontFile and theme.default_font.resource_path == GameTheme.BODY_FONT_PATH and (theme.default_font as FontFile).allow_system_fallback, "the text face is the bundled pixel face (像素界面); the system fills in glyphs it lacks")
 	check(LocalizationService.language_font(theme) == null, "no system font chained under it to retarget (one that finds none of its names falls back to the theme's own font: a loop)")
 	service.release()
 	check(TranslationServer.get_locale() == before, "release puts the locale back")

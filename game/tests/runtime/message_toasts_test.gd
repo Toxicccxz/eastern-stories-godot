@@ -49,8 +49,8 @@ func _test_component(tree: SceneTree) -> void:
 	_check(second != null and third != null and second.position.y + second.size.y <= third.position.y, "the older one stands above the newer")
 	_check(third.position.y + third.size.y <= area.size.y - MessageToasts.RISE + 0.5, "the newest rests just above the bottom")
 	_check(is_equal_approx(third.modulate.a, 1.0) or third.modulate.a > 0.95, "shown in full")
-	_check((second.get_node("Text") as Label).get_theme_color("font_color") == SharedGameplayUI.ALERT_COLOR, "an ES2 colour stays (HIR red)")
-	_check((third.get_node("Text") as Label).get_theme_color("font_color") == MessageToasts.PLAIN_TEXT, "a plain line stays plain")
+	_check((second.get_node("Row/Text") as Label).get_theme_color("font_color") == SharedGameplayUI.ALERT_COLOR, "an ES2 colour stays (HIR red)")
+	_check((third.get_node("Row/Text") as Label).get_theme_color("font_color") == MessageToasts.PLAIN_TEXT, "a plain line stays plain")
 	_check(first.visible == false or first.modulate.a < 0.05, "the first faded out")
 	for panel: Node in toasts.get_children():
 		if (panel as Control).visible:
@@ -157,7 +157,7 @@ func _test_hud(tree: SceneTree) -> void:
 func _panel_of(toasts: MessageToasts, text: String) -> PanelContainer:
 	for node: Node in toasts.get_children():
 		var panel := node as PanelContainer
-		if panel != null and panel.visible and (panel.get_node("Text") as Label).text == text:
+		if panel != null and panel.visible and (panel.get_node("Row/Text") as Label).text == text:
 			return panel
 	return null
 

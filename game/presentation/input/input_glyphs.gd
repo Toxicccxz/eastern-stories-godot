@@ -8,7 +8,8 @@ extends RefCounted
 enum Shape { DISC, PILL, KEY, CROSS, RING, SQUARE, TRIANGLE }
 
 const HEIGHT: float = 22.0
-const FONT_SIZE: int = 12
+## 像素界面: the pixel face at its one crisp size (GameTheme.BODY_SIZE).
+const FONT_SIZE: int = 18
 
 const _XBOX_FACES: Dictionary[int, Array] = {
 	JOY_BUTTON_A: ["A", Color(0.36, 0.72, 0.28)],
@@ -113,7 +114,7 @@ static func key_name(event: InputEventKey) -> String:
 
 
 static func font() -> Font:
-	return ThemeDB.fallback_font
+	return GameTheme.text_font()
 
 
 static func text_width(text: String) -> float:
@@ -134,11 +135,26 @@ static func draw(item: RID, rect: Rect2, glyph: Glyph, modulate: Color) -> void:
 			_box(item, rect, Color(0.86, 0.87, 0.84) * modulate, Color(0, 0, 0, 0), rect.size.y / 2.0)
 			_text(item, rect, glyph.text, Color(0.08, 0.09, 0.1) * modulate)
 		Shape.KEY:
-			_box(item, rect, Color(1, 1, 1, 0.1) * modulate, Color(1, 1, 1, 0.65) * modulate, 4.0)
-			_text(item, rect, glyph.text, Color(0.96, 0.95, 0.9) * modulate)
+			_cap(modulate).draw(item, rect)
+			_text(item, rect.grow_side(SIDE_BOTTOM, -GameTheme.GRID * 2.0), glyph.text, UiPalette.INK * Color(1, 1, 1, modulate.a))
 		_:
 			RenderingServer.canvas_item_add_circle(item, centre, radius, Color(0.13, 0.14, 0.16) * modulate)
 			_symbol(item, centre, radius * 0.5, glyph.shape, glyph.color * modulate)
+
+
+## The theme's key tile, tinted by `modulate` (a disabled button's grey).
+static var _caps: Dictionary[String, StyleBox] = {}
+
+
+static func _cap(modulate: Color) -> StyleBox:
+	var key: String = modulate.to_html()
+	if not _caps.has(key):
+		var cap: StyleBox = GameTheme.shared().get_stylebox("normal", &"KeyCap")
+		if cap is PixelBox and modulate != Color.WHITE:
+			cap = cap.duplicate()
+			(cap as PixelBox).modulate = modulate
+		_caps[key] = cap
+	return _caps[key]
 
 
 static func _box(item: RID, rect: Rect2, fill: Color, border: Color, corner: float) -> void:

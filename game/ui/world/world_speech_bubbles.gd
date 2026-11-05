@@ -19,7 +19,7 @@ const TEXT_COLOR: Color = UiPalette.INK
 const ALERT_TEXT_COLOR: Color = UiPalette.LACQUER
 ## What the NPC does rather than says.
 const EMOTE_TEXT_COLOR: Color = UiPalette.MUTED
-const TEXT_SIZE: int = 16
+const TEXT_SIZE: int = 18
 ## A said line opens with who says it and how ("强盗喝道：", "店小二说道："): the bubble is over
 ## their head already, so it starts after that colon when it comes this soon and follows 道.
 # TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
