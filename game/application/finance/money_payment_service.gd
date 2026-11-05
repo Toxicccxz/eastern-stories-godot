@@ -83,6 +83,56 @@ static func pay(context: MoneyInventoryContext, price: int) -> MoneyPaymentResul
 	return result
 
 
+## Native (车马行; DECISIONS「车马行」): pays `price` with pay(), first changing a larger coin
+## into a hundred of the next (BankConversionService, as the 钱庄 would) while the coins carried
+## would not come out even: one who takes a fare makes change. Not can_afford(): finance.c says
+## 「找不开」 to a purse of coins alone, however many. False when the money is not there; nothing
+## is taken then. A change the purse cannot carry (`maximum_encumbrance`) costs the coin changed
+## (BankConversionService): give a limit the change always fits under.
+static func pay_making_change(context: MoneyInventoryContext, allocator: SessionItemIdAllocator, maximum_encumbrance: int, price: int) -> bool:
+	if price < 1 or context == null or not context.is_valid():
+		return false
+	var units: Array[int] = _unit_values()
+	# A coin changed each pass, the smaller first: a few passes at most for any fare.
+	for _change: int in CHANGE_PASSES:
+		var held: Array[int] = _held(context)
+		if held.is_empty() or held[0] * units[0] + held[1] * units[1] + held[2] < price:
+			return false
+		if _comes_out_even(held, units, price):
+			return pay(context, price).succeeded()
+		var from: CurrencyDenomination.Value = CurrencyDenomination.Value.SILVER if held[1] > 0 else CurrencyDenomination.Value.GOLD
+		var to: CurrencyDenomination.Value = CurrencyDenomination.Value.COIN if held[1] > 0 else CurrencyDenomination.Value.SILVER
+		if not BankConversionService.convert(context, allocator, maximum_encumbrance, from, to, 1).succeeded():
+			return false
+	return false
+
+
+## Changes a pay_making_change() makes at most before it gives up.
+const CHANGE_PASSES: int = 8
+
+
+## The gold, silver and coins carried (one stack each, as pay() takes them); empty when a stack
+## cannot be read.
+static func _held(context: MoneyInventoryContext) -> Array[int]:
+	var held: Array[int] = []
+	for selection: CurrencyStackSelection in _select(context):
+		if selection.outcome == CurrencyStackSelection.Outcome.AUTHORITY_FAILURE:
+			return []
+		held.append(selection.amount if selection.outcome == CurrencyStackSelection.Outcome.FOUND else 0)
+	return held
+
+
+## Whether pay() comes out even with `held`: what the gold and the silver leave, the coins cover.
+static func _comes_out_even(held: Array[int], units: Array[int], price: int) -> bool:
+	var remaining: int = price
+	for i: int in 2:
+		if held[i] <= 0 or units[i] <= 0 or remaining < units[i]:
+			continue
+		var value: int = held[i] * units[i]
+		remaining = remaining % units[i] if value >= remaining else remaining - value
+	return held[2] >= remaining
+
+
 static func _select(context: MoneyInventoryContext) -> Array[CurrencyStackSelection]:
 	return [context.select(CurrencyDenomination.Value.GOLD), context.select(CurrencyDenomination.Value.SILVER), context.select(CurrencyDenomination.Value.COIN)]
 

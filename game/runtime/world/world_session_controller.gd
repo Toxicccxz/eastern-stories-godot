@@ -629,6 +629,21 @@ func wait_until_phase(phase_ids: Array[StringName]) -> bool:
 	var game_seconds: int = _day.seconds_until_phase(phase_ids)
 	if game_seconds <= 0:
 		return false
+	pass_game_time(game_seconds)
+	return true
+
+
+## `game_seconds` of world time go by as one stretch, as wait_until_phase() lets them (the day,
+## the sky, the player's own recovery and timed applies, quests and bounties, rooms, hazards and
+## hidden passages, every other map's time owed, the player's own map caught up as one they come
+## back to). Native (车马行; DECISIONS「车马行」): a coach ride's road, once the player is set
+## down. Not in a fight, nor before the world stands or while a map changes hands; false then.
+func pass_game_time(game_seconds: int) -> bool:
+	if (
+		game_seconds <= 0 or not _initialized or _transitioning
+		or _combat_encounter_coordinator == null or _combat_encounter_coordinator.has_active_encounter()
+	):
+		return false
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	# A real second is DAY_MINUTES / day_length_minutes game minutes (DayClock.advance()).
 	var real_seconds: float = float(game_seconds) * float(pacing.day_length_minutes) / float(DayClock.DAY_MINUTES)

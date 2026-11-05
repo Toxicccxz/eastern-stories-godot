@@ -84,6 +84,9 @@ extends RefCounted
 ##   stats_display.json shows only then. false (ES2, score.c lists all): every number shows.
 ## - map_page (现代基线 B; DECISIONS「总图」): the menu has its 地图 page, and 指路 with it. false
 ##   (ES2 has no map): no such page.
+## - coach_travel (车马行; DECISIONS「车马行」): a coach stop's cart takes the player to another stop they
+##   have walked to, for coach_fare_base + coach_fare_per_leg 文 a leg (rounded up to 5 文) and
+##   coach_minutes_per_leg game minutes a leg. false (ES2 has no coach): every way is walked.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -144,6 +147,10 @@ var _player_corpse_stays: bool = false
 var _autosave_min_seconds: int = 0
 var _stats_appear_when_used: bool = false
 var _map_page: bool = false
+var _coach_travel: bool = false
+var _coach_fare_base: int = 0
+var _coach_fare_per_leg: int = 0
+var _coach_minutes_per_leg: int = 0
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -288,6 +295,22 @@ var stats_appear_when_used: bool:
 var map_page: bool:
 	get:
 		return _map_page
+## Whether the coach stops take the player (false: ES2, no coach).
+var coach_travel: bool:
+	get:
+		return _coach_travel
+## Coins every coach ride costs, however short.
+var coach_fare_base: int:
+	get:
+		return _coach_fare_base
+## Coins a coach ride costs for each map it changes.
+var coach_fare_per_leg: int:
+	get:
+		return _coach_fare_per_leg
+## Game minutes a coach ride takes for each map it changes.
+var coach_minutes_per_leg: int:
+	get:
+		return _coach_minutes_per_leg
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -327,6 +350,7 @@ func copy() -> PacingDefinition:
 	record.with_autosave(_autosave_min_seconds)
 	record.with_stats_display(_stats_appear_when_used)
 	record.with_map_page(_map_page)
+	record.with_coach(_coach_travel, _coach_fare_base, _coach_fare_per_leg, _coach_minutes_per_leg)
 	record.feel = feel
 	return record
 
@@ -355,6 +379,15 @@ func with_stats_display(appear_when_used: bool) -> PacingDefinition:
 ## This record with the 地图 page on or off (tests, PacePresets, and from_record()).
 func with_map_page(on: bool) -> PacingDefinition:
 	_map_page = on
+	return self
+
+
+## This record with the coach stops on or off and their fare and time (tests, PacePresets, and from_record()).
+func with_coach(on: bool, fare_base: int, fare_per_leg: int, minutes_per_leg: int) -> PacingDefinition:
+	_coach_travel = on
+	_coach_fare_base = fare_base
+	_coach_fare_per_leg = fare_per_leg
+	_coach_minutes_per_leg = minutes_per_leg
 	return self
 
 
@@ -497,6 +530,10 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
 	definition.with_stats_display(reader.boolean("stats_appear_when_used", false))
 	definition.with_map_page(reader.boolean("map_page", false))
+	definition.with_coach(
+		reader.boolean("coach_travel", false), reader.integer("coach_fare_base", 0),
+		reader.integer("coach_fare_per_leg", 0), reader.integer("coach_minutes_per_leg", 0),
+	)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -546,4 +583,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("death_exp_percent", "must be 0 to 100")
 	if definition._autosave_min_seconds < 0:
 		reader.fail("autosave_min_seconds", "must not be negative")
+	if definition._coach_fare_base < 0 or definition._coach_fare_per_leg < 0:
+		reader.fail("coach_fare_base", "the coach's fare must not be negative")
+	if definition._coach_minutes_per_leg < 0:
+		reader.fail("coach_minutes_per_leg", "must not be negative")
 	return definition

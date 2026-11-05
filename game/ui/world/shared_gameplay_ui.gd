@@ -698,6 +698,20 @@ func close_menu() -> void:
 		menu.close()
 
 
+## 车马行 (DECISIONS「车马行」): the menu opens on its 地图 page, which offers `rides` from the
+## cart the player stands at until the menu closes; `choose` takes the one picked and returns
+## why not ("" when it goes on).
+func offer_rides(rides: Array[CoachLines.Ride], choose: Callable) -> void:
+	map_page.offer_rides(rides, choose)
+	menu.open(GameMenu.Tab.MAP)
+
+
+## The ride the player said yes to: the cart on the 沙盘 rolls there, then `done` runs (not if
+## the menu closes first).
+func play_ride(ride: CoachLines.Ride, done: Callable) -> void:
+	map_page.play_ride(ride, done)
+
+
 ## The menu's own questions, shown over it rather than in its place.
 func is_menu_dialog(content: Control) -> bool:
 	return content == confirm_prompt or content == drift_panel
@@ -720,6 +734,7 @@ func menu_presented() -> void:
 
 
 func menu_dismissed(from_pause: bool) -> void:
+	map_page.clear_rides()
 	for part: CanvasItem in [_presentation_layout.bar, _presentation_layout.toasts]:
 		if part != null:
 			part.modulate.a = 1.0

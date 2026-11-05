@@ -42,6 +42,7 @@
           ["path", 3008, 2352, 3488, 2432]
         ],
         "props": [
+          ["blocked", 768, 1008, 816, 1152, "a cart waiting outside the town gate, short of the toll (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "8a5a2a"}}],
           ["forest", 768, -96, 816, 96, "卧龙岗: the slopes close in on the path; rocks on the ridge"],
           ["forest", 1120, -32, 1184, 192],
           ["forest", 768, 224, 816, 416],
@@ -347,6 +348,13 @@
         "stairs": [],
         "nodes": [
           {
+            "node": "service",
+            "name": "EntranceCoach",
+            "id": "cloud.entrance.coach",
+            "at": [840, 1060],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -416,6 +424,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "EntranceCoachArrival",
+            "at": [848, 1110],
+            "id": "cloud.entrance.coach_arrival"
+          },
           {
             "generated": "stair_markers"
           },

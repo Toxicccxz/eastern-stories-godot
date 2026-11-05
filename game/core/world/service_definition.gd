@@ -6,7 +6,8 @@ extends RefCounted
 ## the player: `act`, RoomActDefinition). The kind picks the rules;
 ## the scene places it with a WorldServicePoint of the same ID. What an NPC offers
 ## (goods, teaching) is on its NPC record and goes with its body (NpcService).
-const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance", &"act", &"bounty"]
+## `coach`: a 车马行 stop (native; CoachLines, DECISIONS「车马行」).
+const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance", &"act", &"bounty", &"coach"]
 
 var _service_id: StringName
 var _kind: StringName
@@ -17,6 +18,7 @@ var _reach: int
 var _legacy_source: String
 var _dance: DanceDefinition
 var _act: RoomActDefinition
+var _arrival_spawn_id: StringName
 
 var service_id: StringName:
 	get:
@@ -48,6 +50,11 @@ var dance: DanceDefinition:
 var act: RoomActDefinition:
 	get:
 		return _act
+## The `coach` kind's spawn point beside its cart, where a ride from another stop sets the
+## player down; "" for any other kind.
+var arrival_spawn_id: StringName:
+	get:
+		return _arrival_spawn_id
 
 
 func _init(
@@ -84,7 +91,10 @@ static func from_record(reader: ContentRecordReader) -> ServiceDefinition:
 	var act: ContentRecordReader = reader.child("act")
 	if act != null:
 		definition._act = RoomActDefinition.from_record(act)
+	definition._arrival_spawn_id = StringName(reader.text("arrival", ""))
 	reader.finish()
+	if (definition.kind == &"coach") != not definition._arrival_spawn_id.is_empty():
+		reader.fail("arrival", "a coach stop and only one has its arrival spawn point")
 	if (definition.kind == &"dance") != (definition._dance != null):
 		reader.fail("dance", "a dance service and only one has its dance")
 	if (definition.kind == &"act") != (definition._act != null):
@@ -101,4 +111,5 @@ func with_map(map_id: StringName) -> ServiceDefinition:
 	var copy := ServiceDefinition.new(_service_id, _kind, map_id, _zone_id, _display_name, _reach, _legacy_source)
 	copy._dance = _dance
 	copy._act = _act
+	copy._arrival_spawn_id = _arrival_spawn_id
 	return copy

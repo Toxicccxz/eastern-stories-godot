@@ -283,6 +283,7 @@
           ["sanyen.door", "sanyen.road1", 1088, 192]
         ],
         "props": [
+          ["blocked", 784, 2032, 832, 2192, "a cart in the temple's front yard, for pilgrims (native, 车马行)", {"look": {"kind": "coach", "hood": "8a6a2a", "curtain": "c89a3a"}}],
           ["blocked", 784, 1952, 880, 2000, "front_yard.c: 靠北边的地方放了一堆用来锻链膂力的砖头", {"look": {"kind": "stone_blocks", "rows": 3, "colors": ["8a5a48", "9a6a52", "7a4e3e"], "mossy": 0.0}}],
           ["blocked", 704, 1952, 752, 2000, "front_yard.c: 空地四周种了一排白杨树", {"look": {"variant": 0, "kind": "tree", "species": "poplar"}}],
           ["blocked", 1392, 1952, 1440, 2000, {"look": {"variant": 2, "kind": "tree", "species": "poplar"}}],
@@ -432,6 +433,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "FrontYardCoach",
+            "id": "sanyen.front_yard.coach",
+            "at": [860, 2140],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -470,6 +478,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "FrontYardCoachArrival",
+            "at": [856, 2202],
+            "id": "sanyen.front_yard.coach_arrival"
+          },
           {
             "name": "GateArrival",
             "at": [1072, 2192],

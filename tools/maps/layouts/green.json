@@ -39,6 +39,7 @@
           ["street", 1536, 1664, 1792, 1824, "the slab slope up to the quarry's station"]
         ],
         "props": [
+          ["blocked", 288, 1616, 448, 1664, "a cart at the village's east road, for 绝尘派's callers (native, 车马行)", {"look": {"kind": "coach", "rotation": 270, "hood": "7a6a3a"}}],
           ["blocked", 1408, 1056, 1488, 1136, "the great banyan in the square's middle, like a pavilion (field0.c: 像一座凉亭般地立在广场上)", {"look": {"kind": "great_tree", "height": 6.8, "canopy": 6.6, "trunk": 1.1, "roots": 0.9, "aerial_roots": 16, "occludes": true, "needles": ["24402a", "2f5234", "3f6640", "557c4c"], "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"], "strands": "7a6a50", "fallen": ["6f7a3e", "8a8a48", "a58d4e", "5c6a38"], "cones": false, "moss": "4f6a3a"}}],
           ["blocked", 1728, 960, 1808, 992, "cut stone blocks piled about the yard", {"look": {"kind": "stone_blocks", "rows": 2}}],
           ["blocked", 1968, 1280, 2064, 1344, "rubble", {"look": {"kind": "rock_pile", "count": 16, "colors": ["9a9b8d", "8a8c80", "a8a798", "7f8276"]}}],
@@ -177,6 +178,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "Path6Coach",
+            "id": "green.path6.coach",
+            "at": [368, 1696],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -249,6 +257,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "Path6CoachArrival",
+            "at": [420, 1702],
+            "id": "green.path6.coach_arrival"
+          },
           {
             "name": "SnowEntry",
             "at": [224, 1744],

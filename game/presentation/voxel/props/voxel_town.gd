@@ -19,6 +19,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 	match String(look["kind"]):
 		"stall": _stall(w,d)
 		"cart": _cart(w,d)
+		"coach": _coach(w,d)
 		"water_vat": _water_vat(w)
 		"firewood": _firewood(w,d)
 		"carry_pole": _carry_pole()
@@ -522,6 +523,99 @@ func _cart(w: float, d: float) -> void:
 		cloth.add_child(title)
 		if ambience != null:
 			ambience.flutter(cloth,root.position.x)
+
+## 车马行的车 (native; DECISIONS「车马行」): a two-wheeled cart under an arched oilcloth hood, a
+## curtain hung at its back, a horse in its shafts at +z along the box's long axis, a pennant
+## saying 车马行 on a staff at the back corner (read from either side, so from either view), and
+## the driver sat on the front of the bed with his whip and 斗笠, waiting for a fare. `hood` the
+## oilcloth, `curtain`, `colors` the wood, `coat` / `mane` / `blaze` the horse's, `pennant` its
+## cloth, `driver` (false: the seat is empty), `driver_coat`, `hat`.
+func _coach(w: float, d: float) -> void:
+	var long: float = maxf(w,d)
+	var wide: float = minf(w,d)
+	var coach := Node3D.new()
+	coach.rotation.y = PI/2 if w > d else 0.0
+	root.add_child(coach)
+	var wood: Array = _colors("colors",["6a4c33","7a5a3e","56402e"])
+	var hood: String = String(data.get("hood","3e4a5a"))
+	var cart_len: float = long*0.44
+	var cart_z: float = -long*0.26
+	var bed_y: float = 0.82
+	var front: float = cart_z+cart_len/2.0
+	s.box(coach,Vector3(0,bed_y,cart_z),Vector3(wide*0.8,0.12,cart_len),String(wood[0]))
+	for side: float in [-1.0,1.0]:
+		s.box(coach,Vector3(side*wide*0.4,bed_y+0.17,cart_z),Vector3(0.06,0.24,cart_len),String(wood[1]))
+	# The hood: an arch of oilcloth slats over the bed, a little shorter than it at the front.
+	var arch: float = wide*0.43
+	var slats: int = 7
+	for i: int in slats:
+		var a: float = PI*float(i)/float(slats-1)
+		var at := Vector3(cos(a)*arch,bed_y+0.28+sin(a)*arch*1.15,cart_z-cart_len*0.06)
+		s.tilted_box(coach,at,Vector3(arch*0.62,0.07,cart_len*0.84),hood,Vector3(0,0,a+PI/2.0))
+	s.box(coach,Vector3(0,bed_y+0.28+arch*0.55,cart_z-cart_len*0.47),Vector3(arch*1.5,arch*1.1,0.04),String(data.get("curtain","8a3a2a")))
+	# Two spoked wheels.
+	for side: float in [-1.0,1.0]:
+		var wheel := Node3D.new()
+		wheel.position = Vector3(side*(wide*0.44+0.07),0.56,cart_z)
+		coach.add_child(wheel)
+		for spoke: int in 10:
+			var a: float = spoke*TAU/10.0
+			s.box(wheel,Vector3(0,sin(a)*0.5,cos(a)*0.5),Vector3(0.09,0.22,0.22),"4a3626")
+			s.tilted_box(wheel,Vector3(0,sin(a)*0.24,cos(a)*0.24),Vector3(0.04,0.46,0.04),String(wood[2]),Vector3(-a,0,0))
+		s.box(wheel,Vector3.ZERO,Vector3(0.16,0.16,0.16),"3a322c")
+	# The shafts from the bed to the horse's shoulders, a yoke across.
+	var horse_long: float = long*0.5
+	var horse_z: float = long*0.22
+	var shoulder: float = horse_z+horse_long*0.2
+	for side: float in [-1.0,1.0]:
+		var from := Vector3(side*wide*0.3,bed_y-0.02,front)
+		var to := Vector3(side*0.33,1.0,shoulder)
+		var span: Vector3 = to-from
+		s.tilted_box(coach,(from+to)/2.0,Vector3(0.07,0.07,span.length()),String(wood[2]),Vector3(-atan2(span.y,Vector2(span.x,span.z).length()),atan2(span.x,span.z),0))
+	s.box(coach,Vector3(0,1.38,shoulder),Vector3(0.74,0.08,0.1),String(wood[1]))
+	var horse := Node3D.new()
+	horse.position = Vector3(0,0,horse_z)
+	coach.add_child(horse)
+	var mane: String = String(data.get("mane","2a2420"))
+	var body_h: float = _horse_body(horse,horse_long,String(data.get("coat","6a4632")),mane)
+	s.box(horse,Vector3(0,body_h+0.3,horse_long*0.14),Vector3(0.36,0.1,0.18),String(data.get("curtain","8a3a2a")))
+	_horse_tail(horse,body_h,horse_long,mane)
+	var staff := Node3D.new()
+	staff.position = Vector3(wide*0.4,bed_y,cart_z-cart_len*0.44)
+	coach.add_child(staff)
+	s.box(staff,Vector3(0,0.95,0),Vector3(0.06,1.9,0.06),"5b4433")
+	var pennant := Node3D.new()
+	pennant.position = Vector3(0.03,1.84,0)
+	staff.add_child(pennant)
+	s.box(pennant,Vector3(0.33,-0.22,0),Vector3(0.62,0.4,0.03),String(data.get("pennant","b8412f")))
+	for side: float in [1.0,-1.0]:
+		var title := Label3D.new()
+		title.text = TranslationServer.translate("车马行")
+		title.position = Vector3(0.33,-0.22,0.02*side)
+		title.rotation.y = 0.0 if side > 0.0 else PI
+		title.pixel_size = 0.0045
+		title.font_size = 40
+		title.outline_size = 0
+		title.modulate = Color("f1e3bd")
+		pennant.add_child(title)
+	if ambience != null:
+		ambience.flutter(pennant,root.position.x)
+	if not data.get("driver",true):
+		return
+	# The driver on the front of the bed, his legs over its edge, the whip up.
+	var driver := Node3D.new()
+	driver.position = Vector3(-wide*0.12,bed_y+0.06,front-0.22)
+	coach.add_child(driver)
+	var coat: String = String(data.get("driver_coat","4a5866"))
+	s.box(driver,Vector3(0,0.06,0.2),Vector3(0.3,0.12,0.34),"3a3a40")
+	s.box(driver,Vector3(0,-0.2,0.36),Vector3(0.26,0.4,0.1),"3a3a40")
+	s.box(driver,Vector3(0,0.36,0),Vector3(0.36,0.5,0.26),coat)
+	s.box(driver,Vector3(0,0.74,0.02),Vector3(0.22,0.24,0.22),"d2a07a")
+	s.box(driver,Vector3(0,0.9,0.02),Vector3(0.62,0.04,0.62),String(data.get("hat","c8a868")))
+	s.box(driver,Vector3(0,0.96,0.02),Vector3(0.3,0.08,0.3),String(data.get("hat","c8a868")))
+	s.box(driver,Vector3(0.22,0.42,0.14),Vector3(0.1,0.32,0.1),coat)
+	s.tilted_box(driver,Vector3(0.26,0.88,0.42),Vector3(0.03,0.03,0.9),"5a4433",Vector3(-0.9,0,0))
+
 
 ## 水缸: a great glazed vat of water (for fire and for the kitchen), a ladle on its rim. By its
 ## place taller or squatter, the glaze a shade off, a crack down one side on some, a plank lid
