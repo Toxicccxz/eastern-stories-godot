@@ -81,8 +81,8 @@ func rich_text() -> String:
 		escaped = "[color=#%s]%s[/color]" % [SharedGameplayUI.ES2_COLORS[_color].to_html(false), escaped]
 	if not has_damage:
 		return escaped
-	# TRANSLATORS: a battle log line ({line}) and the damage behind it, shown small and grey.
-	return TranslationServer.translate("{line} [color=#8b959e][font_size=12]（-{damage}）[/font_size][/color]").format({
+	# TRANSLATORS: a battle log line ({line}) and the damage behind it, shown grey.
+	return TranslationServer.translate("{line} [color=#8b959e]（-{damage}）[/color]").format({
 		"line": escaped, "damage": _damage,
 	})
 
@@ -96,13 +96,13 @@ func summary_rich_text() -> String:
 
 
 ## What the battle log panel prints: the short form with the full line (its damage at its
-## end, as everywhere) small and grey under it when there is one, else the full line.
+## end, as everywhere) grey under it when there is one, else the full line.
 func log_rich_text() -> String:
 	if not has_summary:
 		return rich_text()
 	# TRANSLATORS: the full battle line under its short form in the log: {line} and its damage.
 	var full: String = _escape(_text) if not has_damage else TranslationServer.translate("{line}（-{damage}）").format({"line": _escape(_text), "damage": _damage})
-	return "%s\n[color=#8b959e][font_size=12]%s[/font_size][/color]" % [summary_rich_text(), full]
+	return "%s\n[color=#8b959e]%s[/color]" % [summary_rich_text(), full]
 
 
 static func _escape(text: String) -> String:

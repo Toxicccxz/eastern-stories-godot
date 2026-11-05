@@ -484,7 +484,7 @@ func _add_cell_button(cell: AtlasCell, seen: MapAtlas.Seen) -> void:
 	button.name = "Cell_" + String(cell.map_id).replace(".", "_")
 	button.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	button.text = "？" if seen == MapAtlas.Seen.ROAD else tr(cell.name)
-	button.add_theme_font_size_override("font_size", 13)
+	button.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 	button.add_theme_stylebox_override("normal", _plate_style(Color("2a1c10", 0.82), Color("d8b070", 0.6)))
 	button.add_theme_stylebox_override("hover", _plate_style(Color("4a3018", 0.92), Color("f0d090", 0.9)))
 	button.add_theme_stylebox_override("pressed", _plate_style(Color("4a3018", 0.92), Color("f0d090", 0.9)))
@@ -796,7 +796,7 @@ func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
 	pin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pin.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	pin.custom_minimum_size = Vector2(24, 24)
-	pin.add_theme_font_size_override("font_size", 13)
+	pin.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 	pin.add_theme_color_override("font_color", Color("fff6e6"))
 	var style := StyleBoxFlat.new()
 	style.bg_color = PIN_COLOURS[mark.kind]

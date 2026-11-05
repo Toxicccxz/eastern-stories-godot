@@ -61,7 +61,7 @@ func _show_name() -> void:
 		label = Label.new()
 		label.name = "NameLabel"
 		label.position = Vector2(-52.0, 18.0)
-		label.add_theme_font_size_override("font_size", 13)
+		label.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 		label.add_theme_color_override("font_color", Color("d8c4aa"))
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED

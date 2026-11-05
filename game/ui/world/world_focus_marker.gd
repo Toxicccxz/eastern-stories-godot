@@ -62,7 +62,7 @@ func _ready() -> void:
 	# Already in the shown language (SharedUiNearby.prompt_text()).
 	_prompt_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	_prompt_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_prompt_text.add_theme_font_size_override("font_size", 16)
+	_prompt_text.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	row.add_child(_prompt_text)
 	_prompt.visible = false
 

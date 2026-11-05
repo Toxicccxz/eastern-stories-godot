@@ -689,7 +689,6 @@ grow_vertical = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HeadingLabel"
-theme_override_font_sizes/font_size = 24
 text = "正在检查存档……"
 
 [node name="ResultOverlay" type="ColorRect" parent="ShellCanvas"]

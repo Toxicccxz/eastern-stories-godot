@@ -6,6 +6,7 @@ var _resolution: Vector2i = ApplicationWindowSize.AUTO
 ## The title bar and borders, read while the window has them: asked for 窗口's room from
 ## full screen, they are not there to measure.
 var _frame: Vector2i = Vector2i.ZERO
+var _ui_percent: int = ApplicationUiScale.DEFAULT
 
 
 func can_edit_window_mode() -> bool:
@@ -90,11 +91,30 @@ func prepare_platform_window() -> void:
 
 
 ## The root window's content scale: every Control and the world grow by it, and the
-## world camera divides it back out (WorldMapController.frame_camera).
+## world camera divides it back out (WorldMapController.frame_camera). On a real screen it is
+## snapped so the pixel interface's grid lands on whole screen pixels, again whenever the
+## window's size changes (ApplicationUiScale.pixel_factor).
 func apply_ui_scale(percent: int) -> void:
+	_ui_percent = percent
 	var tree: SceneTree = Engine.get_main_loop() as SceneTree
-	if tree != null and tree.root != null:
+	if tree == null or tree.root == null:
+		return
+	if DisplayServer.get_name() == "headless":
 		tree.root.content_scale_factor = ApplicationUiScale.factor(percent)
+		return
+	if not tree.root.size_changed.is_connected(_snap_ui_scale):
+		tree.root.size_changed.connect(_snap_ui_scale)
+	_snap_ui_scale()
+
+
+func _snap_ui_scale() -> void:
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	if tree == null or tree.root == null:
+		return
+	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
+	var whole: float = ApplicationUiScale.pixel_factor(_ui_percent, tree.root.size, base)
+	if not is_equal_approx(tree.root.content_scale_factor, whole):
+		tree.root.content_scale_factor = whole
 
 
 func _size_window() -> void:

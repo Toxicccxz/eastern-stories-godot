@@ -126,17 +126,17 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_spirit_text = spirit[1]
 	# The conditions the player has (蛇毒), shown only when there are some.
 	ui.player_vitality_text = _label(_bar_rows, "Resources")
-	ui.player_vitality_text.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	ui.player_vitality_text.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	ui.player_vitality_text.add_theme_color_override("font_color", CONDITION_COLOR)
 	ui.player_vitality_text.hide()
 	# What to do next (前两小时 A, a guide chain's `next`; off with the 目标提示 setting).
 	ui.player_objective = _label(_bar_rows, "Objective")
-	ui.player_objective.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	ui.player_objective.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	ui.player_objective.add_theme_color_override("font_color", ACCENT_COLOR)
 	ui.player_objective.hide()
 	# A guide chain's next step while a quest holds the 目标 row (任务系统, owner Q1).
 	ui.player_advice = _label(_bar_rows, "Advice")
-	ui.player_advice.add_theme_font_size_override("font_size", HUD_SMALL_SIZE)
+	ui.player_advice.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_SMALL_SIZE))
 	ui.player_advice.add_theme_color_override("font_color", MUTED_COLOR)
 	ui.player_advice.hide()
 	waits = VBoxContainer.new()
@@ -171,7 +171,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	var tag := Label.new()
 	tag.name = "Tag"
 	tag.text = "目标"
-	tag.add_theme_font_size_override("font_size", 12)
+	tag.add_theme_font_size_override("font_size", GameTheme.text_size(12))
 	tag.add_theme_color_override("font_color", ACCENT_COLOR)
 	tag_chip.add_child(tag)
 	ui.selected_target_label = _label(target_row, "Target")
@@ -622,7 +622,7 @@ func wait_row(hurry: Callable) -> Array:
 	var text := _label(line, "Text")
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	text.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	text.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	text.add_theme_color_override("font_color", CONDITION_COLOR)
 	var button: Button = _button(line, "Hurry", "继续", hurry)
 	button.theme_type_variation = &"ChipButton"
@@ -674,7 +674,7 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	var name_label := Label.new()
 	name_label.name = "Caption"
 	name_label.text = caption
-	name_label.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	name_label.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	name_label.add_theme_color_override("font_color", color.lightened(0.25))
 	line.add_child(name_label)
 	var value := Label.new()
@@ -682,7 +682,7 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	value.clip_text = true
-	value.add_theme_font_size_override("font_size", HUD_TEXT_SIZE)
+	value.add_theme_font_size_override("font_size", GameTheme.text_size(HUD_TEXT_SIZE))
 	value.add_theme_color_override("font_color", NAME_COLOR)
 	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	line.add_child(value)

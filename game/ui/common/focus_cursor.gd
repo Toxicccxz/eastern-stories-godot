@@ -16,7 +16,7 @@ var _clock: float = 0.0
 func _init(p_scope: Node = null) -> void:
 	name = "FocusCursor"
 	scope = p_scope
-	texture = ImageTexture.create_from_image(UiBlocks.arrow_image())
+	texture = UiBlocks.icon(UiBlocks.arrow_image())
 	# Not in a container: the rect is the arrow's own size, set rather than left to the minimum.
 	size = texture.get_size()
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
