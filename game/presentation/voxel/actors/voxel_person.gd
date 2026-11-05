@@ -164,6 +164,7 @@ func _head(skin: String) -> void:
 			if not covered:
 				_box(torso, Vector3(0, 1.7, -0.17), Vector3(0.16, 0.14, 0.16), hair, true)
 				_box(torso, Vector3(0, 1.62, -0.2), Vector3(0.18, 0.05, 0.18), _hex("hair_tie", _hex("accent", "b5573f")), true)
+				drawn.append("ponytail_tie")
 			_box(torso, Vector3(0, 1.38, -0.27), Vector3(0.13, 0.46, 0.08), hair, true)
 			drawn.append("ponytail")
 		"double_bun":

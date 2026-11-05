@@ -174,7 +174,11 @@ func _check_figures(tree: SceneTree) -> void:
 	var tail: Node3D = Person.new()
 	tail.configure({"hair_style": "ponytail", "headwear": "cloth_cap"})
 	stage.add_child(tail)
-	_check(tail.drawn.has("ponytail"), "a ponytail still hangs below a cap: %s" % [tail.drawn])
+	_check(tail.drawn.has("ponytail") and not tail.drawn.has("ponytail_tie"), "under a cap the tail still hangs, the tie on the crown is hidden: %s" % [tail.drawn])
+	var bare_tail: Node3D = Person.new()
+	bare_tail.configure({"hair_style": "ponytail"})
+	stage.add_child(bare_tail)
+	_check(bare_tail.drawn.has("ponytail") and bare_tail.drawn.has("ponytail_tie"), "without one, the tie and the tail: %s" % [bare_tail.drawn])
 	await tree.process_frame
 	stage.queue_free()
 	await tree.process_frame
