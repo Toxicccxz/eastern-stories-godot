@@ -34,6 +34,9 @@ var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
 var entrances: Dictionary[StringName, Dictionary] = {}
 var shutters: Dictionary[StringName, Node3D] = {}
+## A door look's `open` look, shown instead of the shut one while its door is open (the
+## pawnshop's leaves swung back with their 当 still read from the street).
+var opened: Dictionary[StringName, Node3D] = {}
 ## The bobbing triangle over every exit (owner's map rule 2): a passage's points out of
 ## its room, a door's away from the side the player stands on.
 var arrows: Dictionary[StringName, Node3D] = {}
@@ -139,7 +142,7 @@ func _build() -> void:
 	for entry: Dictionary in geometry.occluders:
 		occlusion.register(entry["node"])
 		await geometry.breathe()
-	for shutter: Node3D in shutters.values():
+	for shutter: Node3D in shutters.values()+opened.values():
 		occlusion.register(shutter)
 	await geometry.breathe()
 	var indoor: bool = layout.get("indoor",false)
@@ -169,6 +172,7 @@ func release_world() -> void:
 	objects.clear()
 	entrances.clear()
 	shutters.clear()
+	opened.clear()
 	arrows.clear()
 	if quest_marker != null:
 		quest_marker.queue_free()
@@ -539,6 +543,8 @@ func _sync_objects() -> void:
 			objects.erase(id)
 	for id: StringName in shutters:
 		shutters[id].visible = not map.doors_by_id[id].is_open()
+		if opened.has(id):
+			opened[id].visible = not shutters[id].visible
 
 func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 	if not objects.has(id):
@@ -822,7 +828,22 @@ func _make_shutters() -> void:
 			if rect.size.y > rect.size.x and not look.has("rotation"):
 				look["rotation"] = 90
 				look["size"] = [rect.size.y,rect.size.x]
+			var open_keys: Variant = look.get("open",null)
+			look.erase("open")
 			geometry.draw_look(s,node,look)
+			if open_keys != null:
+				# `open`: the look again, for the door standing open (true: the kind's own `open`;
+				# a dictionary: keys over the shut look's), in the same place and turned the same way.
+				var open: Dictionary = look.duplicate()
+				open.merge(open_keys if open_keys is Dictionary else {"open":true},true)
+				var swung := Node3D.new()
+				swung.position = node.position
+				swung.visible = false
+				world.add_child(swung)
+				var drawn := Shapes.new()
+				geometry.draw_look(drawn,swung,open)
+				drawn.flush()
+				opened[id] = swung
 		elif geometry.indoor:
 			_room_door(node,s,size)
 		else:

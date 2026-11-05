@@ -526,6 +526,9 @@ func _window_sill(w: float) -> void:
 func _old_gate(w: float, data: Dictionary) -> void:
 	var leaf: String = String(data.get("leaf","26221f"))
 	var wide: float = maxf(1.8,w-0.12)
+	if data.get("open",false):
+		_old_gate_open(wide,leaf,data)
+		return
 	s.box(root,Vector3(0,1.2,0),Vector3(wide,2.4,0.16),leaf)
 	s.box(root,Vector3(0,1.2,0.09),Vector3(0.03,2.36,0.02),"141210")
 	s.box(root,Vector3(0,2.46,0),Vector3(wide+0.2,0.14,0.26),"3a342c")
@@ -533,10 +536,56 @@ func _old_gate(w: float, data: Dictionary) -> void:
 		s.box(root,Vector3(side*(wide/2+0.04),1.22,0),Vector3(0.12,2.5,0.26),"3a342c")
 		s.box(root,Vector3(side*wide*0.1,1.1,0.1),Vector3(wide*0.14,0.5,0.012),Color(leaf).lightened(0.16).to_html(false))
 		s.box(root,Vector3(side*0.16,1.2,0.1),Vector3(0.1,0.1,0.03),"8a7a52")
-	if data.get("studs",true):
+	var studs: Variant = data.get("studs",true)
+	if studs is String or studs:
+		# `studs`: true for iron, or their colour (a red gate's gilt 门钉).
+		var stud: String = String(studs) if studs is String else "5a5448"
 		for row: int in 4:
 			for col: int in maxi(4,roundi(wide/0.36)):
-				s.box(root,Vector3(-wide/2+0.2+col*(wide-0.4)/maxf(1,maxi(4,roundi(wide/0.36))-1),0.5+row*0.5,0.095),Vector3(0.05,0.05,0.03),"5a5448")
+				s.box(root,Vector3(-wide/2+0.2+col*(wide-0.4)/maxf(1,maxi(4,roundi(wide/0.36))-1),0.5+row*0.5,0.095),Vector3(0.05,0.05,0.03),stud)
+	if data.has("text"):
+		# A great character painted across the leaves (mstreet3.c: 一扇门上面写著一个大大的「当」字),
+		# on a round of pale paint (`panel`), in `letters`, `text_y` up the door (lower, the door's
+		# name over the doorway leaves it clear).
+		var text_y: float = float(data.get("text_y",1.45))
+		var round: float = float(data.get("panel_size",1.0))
+		if data.has("panel"):
+			s.box(root,Vector3(0,text_y,0.1),Vector3(1.0,1.0,0.02)*Vector3(round,round,1),String(data["panel"]))
+			s.box(root,Vector3(0,text_y,0.1),Vector3(1.16,0.8,0.02)*Vector3(round,round,1),String(data["panel"]))
+		var title := Label3D.new()
+		title.text = TranslationServer.translate(String(data["text"]))
+		title.position = Vector3(0,text_y,0.125)
+		title.pixel_size = float(data.get("pixel_size",0.016))
+		title.font_size = 56
+		title.outline_size = 0
+		title.modulate = Color(String(data.get("letters","2a2622")))
+		root.add_child(title)
+
+## The same gate standing open (a door look's `open`, shown while the door is open): its two leaves
+## swung out on their hinges past square, their painted faces turned along the street, each with
+## the gate's `text` on its round of `panel`, so the great character is still read from the street.
+func _old_gate_open(wide: float, leaf: String, data: Dictionary) -> void:
+	var span: float = wide/2-0.04
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*(wide/2+0.04),1.22,0),Vector3(0.12,2.5,0.26),"3a342c")
+		var hinge := Node3D.new()
+		hinge.position = Vector3(side*(wide/2-0.02),0,0.1)
+		hinge.rotation.y = side*deg_to_rad(100.0)
+		root.add_child(hinge)
+		s.box(hinge,Vector3(-side*span/2,1.2,0),Vector3(span,2.4,0.12),leaf)
+		s.box(hinge,Vector3(-side*span*0.5,1.1,0.065),Vector3(span*0.7,0.5,0.012),Color(leaf).lightened(0.16).to_html(false))
+		if data.has("text"):
+			if data.has("panel"):
+				s.box(hinge,Vector3(-side*span/2,1.5,0.07),Vector3(span*0.82,span*0.82,0.02),String(data["panel"]))
+			var title := Label3D.new()
+			title.text = TranslationServer.translate(String(data["text"]))
+			title.position = Vector3(-side*span/2,1.5,0.085)
+			title.pixel_size = minf(float(data.get("pixel_size",0.016))*0.8,0.0135)
+			title.font_size = 56
+			title.outline_size = 0
+			title.modulate = Color(String(data.get("letters","2a2622")))
+			hinge.add_child(title)
+	s.box(root,Vector3(0,2.46,0),Vector3(wide+0.2,0.14,0.26),"3a342c")
 
 ## A lamp's reach and its day and night strength; `flicker` makes its flame waver (灯火摇曳).
 ## 纯金铸成的长灯架上挂了一排饰丽的宫灯 (晚月庄's corridors): a gilded standard on a square foot,

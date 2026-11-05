@@ -49,9 +49,30 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"bamboo_post": _bamboo_post()
 		"pole_eaves": _pole_eaves(w,d)
 		"shears": _shears()
+		"trough": _trough(w,d)
 		_:
 			return false
 	return true
+
+## 马槽: a long plank trough on two trestles along the box's long side, water in it, wisps of hay
+## at its foot; `wood`, `water`.
+func _trough(w: float, d: float) -> void:
+	var wood: String = String(data.get("wood","6a5038"))
+	var long_x: bool = w>=d
+	var length: float = maxf(w,d)-0.1
+	var across: float = minf(minf(w,d),0.62)
+	var along := func(t: float, side: float, y: float) -> Vector3: return Vector3(t,y,side) if long_x else Vector3(side,y,t)
+	var span := func(l: float, h: float, a: float) -> Vector3: return Vector3(l,h,a) if long_x else Vector3(a,h,l)
+	for t: float in [-length*0.32,length*0.32]:
+		s.box(root,along.call(t,0.0,0.2),span.call(0.12,0.4,across*0.9),"4f3c2c")
+	s.box(root,along.call(0.0,0.0,0.44),span.call(length,0.08,across),wood)
+	for side: float in [-1.0,1.0]:
+		s.box(root,along.call(0.0,side*(across/2-0.04),0.6),span.call(length,0.3,0.08),Color(wood).lightened(0.06).to_html(false))
+	for end: float in [-1.0,1.0]:
+		s.box(root,along.call(end*(length/2-0.04),0.0,0.6),span.call(0.08,0.3,across),wood)
+	s.box(root,along.call(0.0,0.0,0.68),span.call(length-0.16,0.02,across-0.16),String(data.get("water","4a6a70:gloss")))
+	for wisp: int in 4:
+		s.tilted_box(root,along.call(-length*0.4+wisp*length*0.25,(wisp%2-0.5)*across*1.1,0.03),span.call(0.3,0.03,0.05),"c8b474",Vector3(0,wisp*0.7,0))
 
 ## 剪刀: flower shears dropped by the beds, the two blades crossed.
 func _shears() -> void:

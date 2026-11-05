@@ -249,5 +249,27 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		failures.append("歇山: a gable over a hip, its 山花 walls set in from the ends (%d forms over %d)" % [xieshan[0],plain[0]])
 	if peeled[0] <= plain[0] or not peeled[1].has("9a8a78") or dado[0] <= plain[0] or not dado[1].has("6b6e66"):
 		failures.append("`whitewash` peels to the brick under it and `wall_bands` paints a dado along the foot of the wall")
+	# 雪亭镇立面 (voxel_facade.gd): each detail key adds its own forms, the same on every build;
+	# the house without them keeps its pinned count above.
+	var details: Dictionary = {"damp":{"height":0.7},"stains":1.0,"patches":1.0,"cracks":1.0,"foot_weeds":1.0,"notices":1.0,
+		"soot":{"eaves":1.0,"door":true},"windows":{"style":"propped","share":1.0,"sill":"pots","sill_share":1.0},"eave_tiles":true,
+		"ridge_tips":true,"roof_weeds":1.0,"couplets":{"lintel":true},"steps":{"count":2},"door_stones":{"kind":"drum"},
+		"blade_sign":{"text":"药"},"door_glow":{},"wall_hangings":[{"kind":"string_hang","wall":"south","at":0.9},{"kind":"broom","wall":"east","at":0.5}]}
+	var bare: Array[String] = []
+	for key: String in details:
+		var once: Array = built.call(house.merged({key:details[key]}))
+		var twice_built: Array = built.call(house.merged({key:details[key]}))
+		if once[0] <= plain[0] or once[0] != twice_built[0]:
+			bare.append("%s (%d forms, again %d)" % [key,once[0],twice_built[0]])
+	var shutters: Array = built.call(house.merged({"windows":{"style":"shutters","share":1.0}}))
+	var shut: Array = built.call(house.merged({"doorway":"shut"}))
+	var papered: Array = built.call(house.merged({"doorway":"shut","door_paper":{"kind":"gods"}}))
+	if not bare.is_empty() or shutters[0] <= plain[0] or papered[0] <= shut[0]:
+		failures.append("every facade detail adds its forms, the same every build: %s" % [bare])
+	# A share of 0 draws nothing, and nothing is drawn on a face turned north (both views look
+	# from the south): a house whose only door and hangings face north gains nothing from them.
+	var none: Array = built.call(house.merged({"damp":{"height":0.7,"share":0.0},"stains":0.0,"wall_hangings":[{"kind":"string_hang","wall":"north","at":0.9}]}))
+	if none[0] != plain[0]:
+		failures.append("a share of 0 and a north wall draw nothing (%d forms over %d)" % [none[0],plain[0]])
 	stage.queue_free()
-	return {"assertions":18,"failures":failures}
+	return {"assertions":20,"failures":failures}

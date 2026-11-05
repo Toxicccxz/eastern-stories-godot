@@ -132,12 +132,15 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _frames(tree,2)
 	_check(not street_view.objects.has(sword),"its look goes with it")
 	# 雪亭镇's fronts (三镇立面分化): every shop on the streets is known by its board or pennant,
-	# the 当铺 by the one word over its door (mstreet3.c), and the old 牌坊 stands worn at the
-	# north end (mstreet1.c: 年代久远, 上面的字迹早已看不出是什么字).
+	# the 当铺 by the one word on its door and no board (mstreet3.c, 雪亭镇立面细化), and the old
+	# 牌坊 stands worn at the north end (mstreet1.c: 年代久远, 上面的字迹早已看不出是什么字).
 	var fronts: Array[String] = []
 	for building: Dictionary in street_view.layout.get("buildings",[]):
 		if not building.get("portals",[]).is_empty() and (building.has("signboard") or building.has("hanging_flag")):
 			fronts.append(String(building.get("signboard",{}).get("text",building.get("hanging_flag",{}).get("text",""))))
+	for door: Dictionary in street_view.layout.get("door_looks",{}).values():
+		if door.has("text"):
+			fronts.append(String(door["text"]))
 	_check(fronts.size()==10 and "当" in fronts and "饮风客栈" in fronts and "雪亭驿" in fronts,"every shop on the streets has its name over the door: %s" % [fronts])
 	var arch: bool = false
 	for prop: Dictionary in street_view.layout.get("props",[]):
