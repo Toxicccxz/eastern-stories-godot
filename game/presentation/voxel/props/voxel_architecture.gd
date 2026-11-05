@@ -3,7 +3,10 @@ extends RefCounted
 
 ## Data-authored massing and construction, independent of the real portal/collision map.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
+const Facade = preload("res://presentation/voxel/props/voxel_facade.gd")
 var shapes: Shapes
+## Age and use on the walls, eaves and doors (the facade keys, voxel_facade.gd).
+var facade: Facade
 var parent: Node3D
 var rng: RandomNumberGenerator
 var noise: FastNoiseLite
@@ -35,6 +38,13 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	var enclosure: float = data.get("enclosure_height",height)
 	# `ruined` (spath.c: 路旁隐约可见房舍, 皆已破败): walls fallen to uneven heights, no roof.
 	var ruined: bool = data.get("ruined",false)
+	facade = Facade.new()
+	facade.shapes = shapes
+	facade.noise = noise
+	facade.ambience = ambience
+	for mass: Dictionary in masses:
+		var bounds: Array = mass["bounds"]
+		facade.covered.append(Rect2(Vector2((bounds[0]-0.5)*w,(bounds[1]-0.5)*d),Vector2((bounds[2]-bounds[0])*w,(bounds[3]-bounds[1])*d)))
 	_walls(body,w,d,enclosure,data,entrances)
 	if ruined:
 		pass
@@ -87,6 +97,8 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 			_arch(body,door,w,d,data)
 		else:
 			_entrance(body,door,w,d,data)
+	if data.has("wall_hangings"):
+		facade.hangings(body,w,d,data,entrances,func(node: Node3D) -> void: shapes.merge(node,body))
 
 func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, entrances: Array[Vector3]) -> void:
 	var plaster := Color(String(data.get("wall","c8b999")))
@@ -96,6 +108,7 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 	var foundation: float = data.get("foundation",0.48)
 	var gap_half: float = float(data.get("doorway_width",2.3))/2.0
 	var ruined: bool = data.get("ruined",false)
+	var wears: bool = facade != null and Facade.wears(data)
 	for side: int in 4:
 		var along_x: bool = side<2
 		var length: float = w if along_x else d
@@ -105,9 +118,14 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			var along: float = -length/2+0.25+i*0.5
 			var at := Vector3(along,height/2,fixed) if along_x else Vector3(fixed,height/2,along)
 			var gap: bool = false
+			# Couplets either side of a door in the wall (voxel_facade.gd) take the place of the
+			# windows next to it.
+			var beside: bool = false
 			for door: Vector3 in entrances:
 				if absf((door.z if along_x else door.x)-fixed)<1.6 and absf((door.x if along_x else door.z)-along)<gap_half:
 					gap = true
+				elif data.has("couplets") and absf((door.z if along_x else door.x)-fixed)<0.5 and absf((door.x if along_x else door.z)-along)<gap_half+0.8 and not Facade.facing_away(body,out):
+					beside = true
 			if gap:
 				continue
 			var weather: float = noise.get_noise_2d((body.position.x+at.x)*29,(body.position.z+at.z)*29)
@@ -200,9 +218,12 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 						var y: float = foundation+0.3+float((h/(7000*(chip+1)))%100)/100.0*maxf(0.2,height-foundation-0.9)
 						var span: float = 0.18+float((h/(300*(chip+1)))%100)/100.0*0.26
 						shapes.box(body,Vector3(at.x,y,at.z)+out*0.13,Vector3(span,0.12+chip*0.07,0.025) if along_x else Vector3(0.025,0.12+chip*0.07,span),String(under[(h/13+chip)%under.size()]))
+			if wears:
+				var windowed: bool = i%bay in [2,3] and height>2.4 and not beside
+				facade.panel(body,at,out,along_x,height,foundation,minf(2.05,height-0.9) if windowed else -1.0,data,body==_body)
 			if i%bay==0:
 				shapes.box(body,at+out*0.08,Vector3(0.18,height+0.08,0.31) if along_x else Vector3(0.31,height+0.08,0.18),timber)
-			elif i%bay in [2,3] and height>2.4:
+			elif i%bay in [2,3] and height>2.4 and not beside:
 				var window_y: float = minf(2.05,height-0.9)
 				var window_at := Vector3(at.x,window_y,at.z)+out*0.18
 				shapes.box(body,window_at,Vector3(0.47,0.94,0.10) if along_x else Vector3(0.10,0.94,0.47),timber)
@@ -225,6 +246,9 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 					lattice(shapes,body,window_at+out*0.1,Vector2(0.40,0.72),out,String(data["lattice"]) if data["lattice"] is String else "rails",timber)
 				if construction=="timber" and i%bay==2:
 					shapes.box(body,window_at+out*0.13,Vector3(0.38,0.78,0.06) if along_x else Vector3(0.06,0.78,0.38),"796348")
+				# Not where a gallery runs across the window (its rail and floor are there).
+				if data.has("windows") and facade != null and not (data.get("gallery",false) and window_y+0.5 > height-1.3):
+					facade.window(body,at,window_y,out,along_x,1.0 if i%bay==2 else -1.0,data,timber)
 		if construction in ["cloth","iron_bars"]:
 			# A rope along a tent's eave; nothing over a palisade.
 			if construction=="cloth":
@@ -407,6 +431,10 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 					shapes.box(root,tile_at+Vector3(0,0.077,0),Vector3(0.21,0.015,0.17),["748363","7e8d69","8c9775"][x%3])
 				elif rng.randf()<0.012:
 					shapes.tilted_box(root,tile_at+Vector3(0.04,0.09,0.04),Vector3(0.22,0.07,0.3),tint.darkened(0.13).to_html(false),Vector3(0,0.15,0))
+				if data.has("roof_weeds") and facade != null:
+					facade.roof_tile(root,tile_at,data)
+		if data.get("eave_tiles",false) and facade != null:
+			facade.eave_tiles(root,wide,deep,height,curve,form,tint,glaze,Vector2(spacing_x,spacing_z),_roof_top.bind(wide,deep,rise,form))
 		# Segmented ridge with raised ends, not one ruler-straight bar.
 		if form!="shed":
 			var ridge_length: float = _ridge_length(wide,deep,form)
@@ -414,6 +442,8 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 				var x: float = -ridge_length/2+(cap+0.5)*0.42
 				var up: float = pow(absf(x)/maxf(0.2,ridge_length/2),6)*curve
 				shapes.box(root,Vector3(x,height+rise+0.24+up,0),Vector3(0.43,0.24,0.29),tint.darkened(0.10).to_html(false)+glaze)
+			if data.get("ridge_tips",false) and not data.has("ridge_ends") and facade != null:
+				facade.ridge_tips(root,ridge_length,height+rise+0.24+curve,tint,glaze)
 			# 鸱吻: the curled beasts at the ridge's ends (`ridge_ends`: their colour).
 			if data.has("ridge_ends"):
 				for end: float in [-1.0,1.0]:
@@ -716,7 +746,7 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 	if data.has("gate"):
 		_gate_leaves(front,data)
 	if data.has("signboard"):
-		_signboard(front,data["signboard"])
+		_signboard(front,data["signboard"],String(data.get("porch","tiled")))
 	if data.has("hanging_flag"):
 		_hanging_flag(front,data["hanging_flag"])
 	if data.get("doorway","")=="shut":
@@ -740,7 +770,12 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 			shapes.tilted_box(front,Vector3(-1.65+stripe*0.37,2.90,0.68),Vector3(0.375,0.07,1.65),String(stripes[stripe%2]),Vector3(0.13,0,0))
 			shapes.box(front,Vector3(-1.65+stripe*0.37,2.67,1.49),Vector3(0.37,0.22,0.05),String(stripes[stripe%2]))
 	elif porch=="tiled":
-		_roof(front,Vector3(0,0,0.50),3.1,1.6,2.8,{"roof":data.get("roof","50626a"),"roof_form":"hip","ridge":"x","rise":0.55,"eave_lift":0.18,"timber":timber})
+		var porch_roof: Dictionary = {"roof":data.get("roof","50626a"),"roof_form":"hip","ridge":"x","rise":0.55,"eave_lift":0.18,"timber":timber}
+		# The facade's roof keys reach the porch's little roof too.
+		for key: String in ["eave_tiles","roof_weeds"]:
+			if data.has(key):
+				porch_roof[key] = data[key]
+		_roof(front,Vector3(0,0,0.50),3.1,1.6,2.8,porch_roof)
 	elif porch=="wood":
 		for plank: int in 10:
 			shapes.tilted_box(front,Vector3(-1.6+plank*0.35,2.85,0.65),Vector3(0.34,0.10,1.65),["8e7451","9b7c53","806746"][plank%3],Vector3(0.12,0,0))
@@ -764,6 +799,21 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 	# Rain stains and climbing leaves stay on the facade and use its local reveal mask.
 	for leaf: int in 10 if goods=="pots" else (0 if goods=="none" else 3):
 		shapes.box(front,Vector3(-2.3+sin(leaf*1.6)*0.15,0.35+leaf*0.20,-0.12),Vector3(0.27,0.15,0.18),["507855","739351","91a962"][leaf%3])
+	if facade != null:
+		# The wall's face, in the doorway's own frame: a shop's posts stand out in the street
+		# before it, a house's door is in it.
+		var wall_z: float = (w/2-absf(door.x) if x_face else d/2-absf(door.z))+Facade.skin(data)
+		facade.entrance(front,_body,data,half,wall_z,_height_at(door,w,d,data))
+
+## How high the wall stands at a doorway: the mass over it, else the enclosure's.
+func _height_at(door: Vector3, w: float, d: float, data: Dictionary) -> float:
+	var u: float = clampf(door.x/w+0.5,0.0,1.0)
+	var v: float = clampf(door.z/d+0.5,0.0,1.0)
+	for mass: Dictionary in data.get("masses",[]):
+		var bounds: Array = mass["bounds"]
+		if u >= float(bounds[0])-0.02 and u <= float(bounds[2])+0.02 and v >= float(bounds[1])-0.02 and v <= float(bounds[3])+0.02:
+			return float(mass.get("height",data.get("height",3.4)))
+	return float(data.get("enclosure_height",data.get("height",3.4)))
 
 ## The open leaves of a gateway, folded back against its posts: vermilion with rows of
 ## gilt studs (`gate`: "red"), black lacquer ("black"), or a colour of its own.
@@ -784,15 +834,25 @@ func _gate_leaves(front: Node3D, data: Dictionary) -> void:
 ## 招牌/匾: a lacquered board over the doorway with the shop's name (`signboard`: {"text",
 ## "board", "letters" (a ":glow" colour reads as gilt), "frame", "width", "height", "y"}).
 ## `tilt` (degrees): it hangs askew from one cord; `worn`: weathered grey, split along the
-## grain, a corner gone, the words half rubbed away (一片快要散掉似的木牌).
-func _signboard(front: Node3D, sign_data: Variant) -> void:
+## grain, a corner gone, the words half rubbed away (一片快要散掉似的木牌). `mount`: "porch" hangs it
+## on two cords from the front of the porch's eave, where the porch's roof no longer hides it.
+func _signboard(front: Node3D, sign_data: Variant, porch: String = "") -> void:
 	var info: Dictionary = sign_data if sign_data is Dictionary else {"text":String(sign_data)}
 	var width: float = float(info.get("width",1.9))
 	var y: float = float(info.get("y",3.12))
 	var tall: float = float(info.get("height",0.62))
 	var letters: String = String(info.get("letters","e6c66e"))
+	# The porch's front edge and the underside of its eave, by its make.
+	var edges: Dictionary = {"tiled":[1.68,2.78],"cloth":[1.55,2.54],"wood":[1.52,2.72]}
+	var zoff: float = 0.0
+	if String(info.get("mount","")) == "porch" and edges.has(porch):
+		var edge: Array = edges[porch]
+		zoff = float(edge[0])-0.26
+		y = float(info.get("y",float(edge[1])-tall/2-0.1))
+		for cord: float in [-1.0,1.0]:
+			shapes.box(front,Vector3(cord*width*0.4,(y+tall/2+float(edge[1]))/2+0.02,zoff+0.29),Vector3(0.03,float(edge[1])-y-tall/2+0.08,0.03),"4a3e30")
 	var hung := Node3D.new()
-	hung.position = Vector3(0,y,0)
+	hung.position = Vector3(0,y,zoff)
 	hung.rotation.z = deg_to_rad(float(info.get("tilt",0.0)))
 	front.add_child(hung)
 	if _body != null:
@@ -824,9 +884,9 @@ func _signboard(front: Node3D, sign_data: Variant) -> void:
 	if letters.ends_with(":glow"):
 		# Gilt that flashes in the light (金字招牌十分晃眼): a glowing rim round the words.
 		for edge: float in [-1.0,1.0]:
-			shapes.box(front,Vector3(0,y+edge*(tall/2-0.04),0.33),Vector3(width-0.1,0.035,0.02),letters)
+			shapes.box(front,Vector3(0,y+edge*(tall/2-0.04),zoff+0.33),Vector3(width-0.1,0.035,0.02),letters)
 		var shine := OmniLight3D.new()
-		shine.position = Vector3(0,y,0.9)
+		shine.position = Vector3(0,y,zoff+0.9)
 		shine.light_color = Color(letters.get_slice(":",0))
 		shine.omni_range = 2.2
 		shine.set_meta("day_energy",0.35)
@@ -847,6 +907,20 @@ func _hanging_flag(front: Node3D, flag_data: Dictionary) -> void:
 		shapes.box(cloth,Vector3(0,-0.64,0),Vector3(0.22,0.1,0.22),"8a6a3a")
 		shapes.box(cloth,Vector3(0,-0.9,0),Vector3(0.42,0.44,0.42),String(flag_data.get("gourd_color","c9a05a")))
 		shapes.box(cloth,Vector3(0,-0.3,0),Vector3(0.12,0.08,0.12),"b8412f")
+		if ambience != null:
+			ambience.flutter(cloth,side*1.7+front.position.x)
+		return
+	if flag_data.get("coins",false):
+		# 钱幌: a moneychanger's sign, three great wooden coins strung on a red cord, a tassel under.
+		var coin: String = String(flag_data.get("coin_color","a8834a"))
+		shapes.box(cloth,Vector3(0,-0.8,0),Vector3(0.03,1.5,0.03),"b8412f")
+		for i: int in 3:
+			var at := Vector3(0,-0.32-i*0.46,0)
+			shapes.box(cloth,at,Vector3(0.42,0.3,0.06),coin)
+			shapes.box(cloth,at,Vector3(0.3,0.42,0.06),coin)
+			shapes.box(cloth,at,Vector3(0.14,0.14,0.08),"2a2420")
+			shapes.box(cloth,at+Vector3(0,0,0.035),Vector3(0.36,0.04,0.01),Color(coin).lightened(0.15).to_html(false))
+		shapes.box(cloth,Vector3(0,-1.72,0),Vector3(0.14,0.26,0.1),"b8412f")
 		if ambience != null:
 			ambience.flutter(cloth,side*1.7+front.position.x)
 		return

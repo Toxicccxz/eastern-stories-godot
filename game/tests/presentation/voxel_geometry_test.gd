@@ -214,7 +214,9 @@ func run_all(_tree: SceneTree) -> Dictionary:
 	var house: Dictionary = {"wall":"c8c4b8","roof":"5c6468","timber":"6a4a38","construction":"plaster","height":3.2,"roof_form":"gable","rise":1.2,"porch":"tiled","goods":"none","lanterns":false,"bay":5}
 	var stage := Node3D.new()
 	_tree.root.add_child(stage)
-	var built: Callable = func(data: Dictionary) -> Array:
+	# A house built with its door at `door`; returns its forms, their colours and where its wall
+	# hangings went (and which it had no room for).
+	var built_at: Callable = func(data: Dictionary, door: Vector3) -> Array:
 		var into: RefCounted = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
 		var architecture: RefCounted = preload("res://presentation/voxel/props/voxel_architecture.gd").new()
 		var site := Node3D.new()
@@ -224,14 +226,15 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		architecture.rng = RandomNumberGenerator.new()
 		architecture.rng.seed = 11
 		architecture.noise = FastNoiseLite.new()
-		architecture.build(Vector3(20,0,12),6.0,5.0,data,[Vector3(0,0,2.5)] as Array[Vector3])
+		architecture.build(Vector3(20,0,12),6.0,5.0,data,[door] as Array[Vector3])
 		var colours: Dictionary = {}
 		var count: int = 0
 		for entry: Dictionary in into.batches.values():
 			count += entry["transforms"].size()
 			colours[entry["color"]] = true
 		site.queue_free()
-		return [count,colours]
+		return [count,colours,architecture.facade.placed,architecture.facade.unknown]
+	var built: Callable = func(data: Dictionary) -> Array: return built_at.call(data,Vector3(0,0,2.5))
 	var plain: Array = built.call(house)
 	var twice: Array = built.call(house)
 	if plain[0] != 697 or twice[0] != plain[0]:
@@ -249,5 +252,42 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		failures.append("歇山: a gable over a hip, its 山花 walls set in from the ends (%d forms over %d)" % [xieshan[0],plain[0]])
 	if peeled[0] <= plain[0] or not peeled[1].has("9a8a78") or dado[0] <= plain[0] or not dado[1].has("6b6e66"):
 		failures.append("`whitewash` peels to the brick under it and `wall_bands` paints a dado along the foot of the wall")
+	# 雪亭镇立面 (voxel_facade.gd): each detail key adds its own forms, the same on every build;
+	# the house without them keeps its pinned count above.
+	var details: Dictionary = {"damp":{"height":0.7},"stains":1.0,"patches":1.0,"cracks":1.0,"foot_weeds":1.0,"notices":1.0,
+		"soot":{"eaves":1.0,"door":true},"windows":{"style":"propped","share":1.0,"sill":"pots","sill_share":1.0},"eave_tiles":true,
+		"ridge_tips":true,"roof_weeds":1.0,"couplets":{"lintel":true},"steps":{"count":2},"door_stones":{"kind":"drum"},
+		"blade_sign":{"text":"药"},"door_glow":{},"wall_hangings":[{"kind":"string_hang","wall":"south","at":0.9},{"kind":"broom","wall":"east","at":0.5}]}
+	var bare: Array[String] = []
+	for key: String in details:
+		var once: Array = built.call(house.merged({key:details[key]}))
+		var twice_built: Array = built.call(house.merged({key:details[key]}))
+		if once[0] <= plain[0] or once[0] != twice_built[0]:
+			bare.append("%s (%d forms, again %d)" % [key,once[0],twice_built[0]])
+	var shutters: Array = built.call(house.merged({"windows":{"style":"shutters","share":1.0}}))
+	var shut: Array = built.call(house.merged({"doorway":"shut"}))
+	var papered: Array = built.call(house.merged({"doorway":"shut","door_paper":{"kind":"gods"}}))
+	if not bare.is_empty() or shutters[0] <= plain[0] or papered[0] <= shut[0]:
+		failures.append("every facade detail adds its forms, the same every build: %s" % [bare])
+	# A share of 0 draws nothing.
+	var none: Array = built.call(house.merged({"damp":{"height":0.7,"share":0.0},"stains":0.0}))
+	if none[0] != plain[0]:
+		failures.append("a share of 0 draws nothing (%d forms over %d)" % [none[0],plain[0]])
+	# Nothing is drawn on a face turned north (both views look from the south): a string of
+	# chillies on the south wall adds forms, the same on the north wall none; the couplets and
+	# steps of a door in the north wall none either. Two strings asked for one spot hang on two
+	# panels, and a wall with no room for a thing says so.
+	var wide_bays: Dictionary = house.merged({"bay":6},true)
+	var bays: Array = built.call(wide_bays)
+	var south: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"string_hang","wall":"south","at":0.9}]}))
+	var north: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"string_hang","wall":"north","at":0.9}]}))
+	var pair: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"string_hang","wall":"south","at":0.9},{"kind":"string_hang","wall":"south","at":0.9}]}))
+	var crowded: Array = built.call(house.merged({"bay":1,"wall_hangings":[{"kind":"string_hang","wall":"south","at":0.9}]},true))
+	var back_door: Array = built_at.call(wide_bays,Vector3(0,0,-2.5))
+	var back_dressed: Array = built_at.call(wide_bays.merged({"couplets":{"lintel":true},"steps":{"count":2}}),Vector3(0,0,-2.5))
+	if south[0] <= bays[0] or north[0] != bays[0] or back_dressed[0] != back_door[0]:
+		failures.append("a hanging on the south wall shows (%d forms over %d), on the north wall none (%d), nor a north door's dressing (%d over %d)" % [south[0],bays[0],north[0],back_dressed[0],back_door[0]])
+	if (pair[2] as Array).size() != 2 or pair[2][0] == pair[2][1] or (crowded[3] as Array).is_empty():
+		failures.append("two hangings take two panels (%s); a wall without room says so (%s)" % [pair[2],crowded[3]])
 	stage.queue_free()
-	return {"assertions":18,"failures":failures}
+	return {"assertions":21,"failures":failures}

@@ -944,6 +944,7 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	architecture.ambience = ambience
 	architecture.build(center,w,d,data,entrances,arches)
 	occluders.append_array(architecture.occluders)
+	unknown_kinds.append_array(architecture.facade.unknown)
 
 var _band_hit: bool = false
 
