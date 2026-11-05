@@ -6,12 +6,12 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 ## Keys a card may carry, and which of them are colours.
-const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose"]
+const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose"]
 const WORDS: Dictionary = {
 	"hair_style": Person.HAIR_STYLES, "headwear": Person.HEADWEAR, "beard": Person.BEARDS,
 	"waist": Person.WAISTS, "prop": Person.PROPS, "shoes": ["dark", "straw", "white"],
 }
-const OTHER_KEYS: Array[String] = ["note", "height", "build", "extras", "pouch", "hat", "scale"]
+const OTHER_KEYS: Array[String] = ["note", "height", "build", "extras", "pouch", "collar", "hat", "scale"]
 const KINDS: Array[String] = ["full", "bust", "bust_smile", "bust_angry"]
 var assertions: int = 0
 var failures: Array[String] = []
@@ -23,6 +23,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check_resolve()
 	await _check_figures(tree)
 	await _check_in_the_inn(tree)
+	await _check_big_screen(tree)
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -58,6 +59,8 @@ func _check_cards() -> void:
 				elif key == "extras":
 					for extra: Variant in card[key]:
 						_check(Person.EXTRAS.has(String(extra)), "%s's extra: %s" % [id, extra])
+				elif key in ["pouch", "collar", "hat"]:
+					_check(card[key] is bool, "%s's %s is a switch: %s" % [id, key, card[key]])
 				else:
 					_check(OTHER_KEYS.has(key), "%s's card key %s is read" % [id, key])
 	_check(cards >= 4, "the first cards are there: %d" % cards)
@@ -140,6 +143,10 @@ func _check_figures(tree: SceneTree) -> void:
 	stage.add_child(tall)
 	_check(child.legs[0].position.y < plain.legs[0].position.y and tall.legs[0].position.y > plain.legs[0].position.y, "height lengthens the legs: %.2f %.2f %.2f" % [child.legs[0].position.y, plain.legs[0].position.y, tall.legs[0].position.y])
 	_check(absf(tall.arms[0].position.x) > absf(plain.arms[0].position.x), "a heavy build sets the arms wider")
+	var bare: Node3D = Person.new()
+	bare.configure({"collar": false, "pouch": false, "collar_color": "e0d0b0"})
+	stage.add_child(bare)
+	_check(bare.torso != null and bare.get_child_count() > 2, "the collar and pouch switches and the collar's colour build")
 	for key: String in WORDS:
 		for word: Variant in WORDS[key]:
 			var figure: Node3D = Person.new()
@@ -206,8 +213,8 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	_check(hud.interact_with(waiter_body.character_id), "the waiter can be looked at")
 	await _frames(tree, 3)
 	_check(hud.interaction_open() and hud.interaction_panel.portrait() == PersonPortraits.full("snow.npc.waiter"), "查看 shows his whole picture")
-	var shown: Vector2 = hud.interaction_panel.get_node("Portrait").custom_minimum_size
-	_check(is_equal_approx(fmod(shown.y * hud.get_viewport().get_final_transform().get_scale().x, 256.0), 0.0), "at a whole multiple of its pixels: %s" % shown)
+	var shown: Vector2 = hud.interaction_panel.portrait_size()
+	_check(shown.y > 0.0 and is_equal_approx(fmod(shown.y * hud.get_viewport().get_final_transform().get_scale().x, 256.0), 0.0), "at a whole multiple of its pixels: %s" % shown)
 	_check(hud.interaction_panel.press("购买"), "his shop opens")
 	await _frames(tree, 2)
 	_check(hud.interaction_panel.portrait() == null, "a page has the column to itself")
@@ -218,6 +225,59 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	hud.dismiss_current_panel()
 	session.free()
 	await _frames(tree, 2)
+
+
+## On a 2560×1440 screen (two screen pixels a canvas unit): 查看's picture keeps its size after a
+## page and 返回 (the layout rewrites minimum sizes as it first saw them); hosting someone
+## without a picture after the waiter shows no bust and puts the plate back on the left.
+func _check_big_screen(tree: SceneTree) -> void:
+	var before: Vector2i = tree.root.size
+	tree.root.size = Vector2i(2560, 1440)
+	var session: WorldSessionController = Work.create_session(tree)
+	session.configure_npc_ambience_random_source(Still.Still.new())
+	await _frames(tree, 4)
+	var inn := session.active_map() as WorldMapController
+	var hud: SharedGameplayUI = session.shared_ui()
+	var waiter_body: WorldCharacterBody2D = inn.runtime_body_for_spawn_point(&"snow.inn.main_floor.inn.waiter.1")
+	_check(waiter_body != null and inn.place_player(&"snow.inn.main_floor", Vector2(0, -105)), "beside the waiter on a big screen")
+	if waiter_body == null:
+		session.free()
+		tree.root.size = before
+		return
+	await _frames(tree, 20)
+	_check(hud.interact_with(waiter_body.character_id), "looked at")
+	await _frames(tree, 5)
+	var portrait: Control = hud.interaction_panel.get_node("Portrait")
+	var first: Vector2 = portrait.size
+	_check(first.y >= 256.0, "a big screen shows the picture at least twice its pixels: %s" % first)
+	_check(hud.interaction_panel.press("购买"), "his shop")
+	await _frames(tree, 3)
+	hud.dismiss_current_panel()
+	await _frames(tree, 5)
+	if hud.interaction_open():
+		_check(portrait.visible and portrait.size == first, "back on 查看, the same size: %s then %s" % [first, portrait.size])
+	hud.dismiss_current_panel()
+	await _frames(tree, 3)
+	var box: WorldDialogueBox = hud.dialogue_box
+	var waiter: NpcRuntimeState = inn.npcs.find_resident_npc(waiter_body.character_id)
+	var plain: NpcRuntimeState = null
+	for npc: NpcRuntimeState in inn.npc_runtimes():
+		if PersonPortraits.bust(PersonPortraits.npc_id(npc)) == null:
+			plain = npc
+	var content := Control.new()
+	hud.add_child(content)
+	box.host("店小二", content, waiter)
+	_check(box.bust_shown(false) and box.bust_shown(true), "hosting the waiter: both busts at once")
+	var plate: Control = box.get_node("NamePlate")
+	_check(plate.position.x > box.get_node("Box").position.x + box.get_node("Box").size.x / 2.0, "the plate beside his bust on the right")
+	box.host("旁人", content, plain)
+	_check(not box.bust_shown(false) and not box.bust_shown(true), "then someone without a picture: no busts at once")
+	_check(plate.position.x < box.get_node("Box").position.x + box.get_node("Box").size.x / 2.0, "the plate back on the left")
+	box.close()
+	content.queue_free()
+	session.free()
+	await _frames(tree, 2)
+	tree.root.size = before
 
 
 func _frames(tree: SceneTree, count: int) -> void:

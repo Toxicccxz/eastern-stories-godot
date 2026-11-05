@@ -17,6 +17,24 @@ extends HBoxContainer
 
 signal chosen(option: InteractionOption)
 
+## The person's picture, sized by its own minimum (`fit`): ResponsivePanelLayout rewrites every
+## control's custom minimum size from what it first saw, which would undo the fit (and a
+## TextureRect's own minimum size cannot be overridden from a script). Drawn at `fit`, standing
+## on the column's foot.
+class PortraitRect extends Control:
+	var fit := Vector2.ZERO
+	var texture: Texture2D:
+		set(value):
+			texture = value
+			queue_redraw()
+
+	func _get_minimum_size() -> Vector2:
+		return fit
+
+	func _draw() -> void:
+		if texture != null:
+			draw_texture_rect(texture, Rect2(Vector2((size.x - fit.x) / 2.0, size.y - fit.y), fit), false)
+
 const REASON_COLOR: Color = UiPalette.MUTED
 const STATUS_COLOR: Color = UiPalette.GOLD
 const ROW_WIDTH: float = 150.0
@@ -43,7 +61,7 @@ var _looked: bool = false
 ## Set when a page opens (show_page()): a chosen row that opened none is not held down.
 var _page_opened: bool = false
 ## The person's whole picture on 查看 (人物立绘), no texture for none.
-var _portrait: TextureRect
+var _portrait: PortraitRect
 
 
 func _ready() -> void:
@@ -94,14 +112,11 @@ func _ready() -> void:
 	_held.hide()
 	page.add_child(_held)
 	_mount = _box(page, "Mount")
-	_portrait = TextureRect.new()
+	_portrait = PortraitRect.new()
 	_portrait.name = "Portrait"
-	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_portrait.size_flags_vertical = Control.SIZE_SHRINK_END
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_portrait.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	_portrait.hide()
 	add_child(_portrait)
 	resized.connect(_fit_portrait)
@@ -120,12 +135,21 @@ func portrait() -> Texture2D:
 	return _portrait.texture if _portrait.visible else null
 
 
+## The size the picture is shown at (canvas units).
+func portrait_size() -> Vector2:
+	return _portrait.fit
+
+
 func _fit_portrait() -> void:
 	if _portrait == null or _portrait.texture == null:
 		return
 	var scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
 	var height: float = maxf(size.y, float(PersonPortraits.FULL_SIZE.y) / maxf(scale, 0.001))
-	_portrait.custom_minimum_size = PersonPortraits.fitted(PersonPortraits.FULL_SIZE, Vector2(100000.0, height * scale), scale)
+	var fit: Vector2 = PersonPortraits.fitted(PersonPortraits.FULL_SIZE, Vector2(100000.0, height * scale), scale)
+	if fit != _portrait.fit:
+		_portrait.fit = fit
+		_portrait.update_minimum_size()
+		_portrait.queue_redraw()
 
 
 ## Where 查看's details live (hidden): opening them while the popup shows is its 查看.

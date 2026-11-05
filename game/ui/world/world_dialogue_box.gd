@@ -184,6 +184,8 @@ func host(speaker_name: String, content: Control, who: NpcRuntimeState = null) -
 	_open()
 	_hint.hide()
 	_show_busts(true, true)
+	# The busts and the plate's place for this conversation, not the last one.
+	_place()
 
 
 ## The NPC the box speaks with now (null for none).

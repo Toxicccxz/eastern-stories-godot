@@ -82,7 +82,7 @@ func _ready() -> void:
 	_box(torso, Vector3(0, 0.6, 0), Vector3(0.62, 0.22, 0.41), coat)
 	if waist == "belt":
 		_box(torso, Vector3(0, 0.76, 0.015), Vector3(0.57, 0.12, 0.37), _hex("accent", "a34f3c"))
-		if bool(look.get("pouch", true)):
+		if look.get("pouch", true) != false:
 			_box(torso, Vector3(0.17, 0.6, 0.23), Vector3(0.1, 0.34, 0.07), "bc6943")
 	elif waist == "sash":
 		_box(torso, Vector3(0, 0.75, 0.015), Vector3(0.58, 0.17, 0.38), _hex("accent", "a34f3c"))
@@ -90,8 +90,9 @@ func _ready() -> void:
 		drawn.append("sash")
 	elif waist == "apron":
 		_apron()
-	if bool(look.get("collar", true)):
-		_box(torso, Vector3(0, 1.14, 0.15), Vector3(0.23, 0.16, 0.08), _hex("collar", "e9cfa0"))
+	# `collar` false: none (its colour is `collar_color`).
+	if look.get("collar", true) != false:
+		_box(torso, Vector3(0, 1.14, 0.15), Vector3(0.23, 0.16, 0.08), _hex("collar_color", "e9cfa0"))
 		_box(torso, Vector3(-0.08, 1.04, 0.19), Vector3(0.11, 0.12, 0.06), _hex("collar_shade", "d5c49d"))
 	if headless:
 		_box(torso, Vector3(0, 1.22, 0), Vector3(0.24, 0.1, 0.22), "3a1a2a")
@@ -247,29 +248,29 @@ func _prop() -> void:
 			_tilted(torso, centre + along*(long/2.0 + 0.02), Vector3(0.14, 0.04, 0.07), metal, Vector3(0, 0, 0.72))
 			_tilted(torso, centre + along*(long/2.0 + 0.12), Vector3(0.05, 0.18, 0.05), wood, Vector3(0, 0, 0.72))
 		"staff", "spear":
-			_box(hand, grip + Vector3(0, 0.35, 0), Vector3(0.05, 1.7, 0.05), _hex("prop_color", wood))
+			_held(hand, grip + Vector3(0, 0.35, 0), Vector3(0.05, 1.7, 0.05), _hex("prop_color", wood))
 			if prop == "spear":
-				_box(hand, grip + Vector3(0, 1.28, 0), Vector3(0.07, 0.2, 0.04), _hex("metal", "c2c6c8"))
-				_box(hand, grip + Vector3(0, 1.16, 0), Vector3(0.09, 0.05, 0.09), tassel)
+				_held(hand, grip + Vector3(0, 1.28, 0), Vector3(0.07, 0.2, 0.04), _hex("metal", "c2c6c8"))
+				_held(hand, grip + Vector3(0, 1.16, 0), Vector3(0.09, 0.05, 0.09), tassel)
 		"fan":
-			_box(hand, grip + Vector3(0, 0.02, 0.1), Vector3(0.05, 0.22, 0.04), _hex("prop_color", "e8dcc0"))
+			_held(hand, grip + Vector3(0, 0.02, 0.1), Vector3(0.05, 0.22, 0.04), _hex("prop_color", "e8dcc0"))
 		"teapot":
 			var copper: String = _hex("prop_color", "b8663a")
-			_box(hand, grip + Vector3(0, -0.13, 0.05), Vector3(0.22, 0.16, 0.2), copper)
-			_box(hand, grip + Vector3(0, -0.04, 0.05), Vector3(0.12, 0.04, 0.12), Color(copper).darkened(0.2).to_html(false))
-			_tilted(hand, grip + Vector3(0, -0.1, 0.19), Vector3(0.04, 0.04, 0.12), copper, Vector3(-0.6, 0, 0))
-			_box(hand, grip + Vector3(0, 0.0, 0.05), Vector3(0.03, 0.08, 0.14), Color(copper).darkened(0.35).to_html(false))
+			_held(hand, grip + Vector3(0, -0.13, 0.05), Vector3(0.22, 0.16, 0.2), copper)
+			_held(hand, grip + Vector3(0, -0.04, 0.05), Vector3(0.12, 0.04, 0.12), Color(copper).darkened(0.2).to_html(false))
+			_held_tilted(hand, grip + Vector3(0, -0.1, 0.19), Vector3(0.04, 0.04, 0.12), copper, Vector3(-0.6, 0, 0))
+			_held(hand, grip + Vector3(0, 0.0, 0.05), Vector3(0.03, 0.08, 0.14), Color(copper).darkened(0.35).to_html(false))
 		"basket_back":
 			_box(torso, Vector3(0, 0.98, -0.3), Vector3(0.42, 0.46, 0.24), _hex("prop_color", "a8834e"))
 			_box(torso, Vector3(0, 1.22, -0.3), Vector3(0.44, 0.04, 0.26), Color(_hex("prop_color", "a8834e")).darkened(0.2).to_html(false))
 		"umbrella":
-			_box(hand, grip + Vector3(0, 0.3, 0.02), Vector3(0.04, 0.7, 0.04), wood)
-			_box(hand, grip + Vector3(0, 0.7, 0.02), Vector3(0.12, 0.2, 0.12), _hex("prop_color", "b8a070"))
+			_held(hand, grip + Vector3(0, 0.3, 0.02), Vector3(0.04, 0.7, 0.04), wood)
+			_held(hand, grip + Vector3(0, 0.7, 0.02), Vector3(0.12, 0.2, 0.12), _hex("prop_color", "b8a070"))
 		"gourd":
 			_box(torso, Vector3(-0.32, 0.6, 0.04), Vector3(0.12, 0.14, 0.12), _hex("prop_color", "c89a4a"))
 			_box(torso, Vector3(-0.32, 0.72, 0.04), Vector3(0.08, 0.09, 0.08), _hex("prop_color", "c89a4a"))
 		"book":
-			_box(hand, grip + Vector3(0, 0.0, 0.08), Vector3(0.05, 0.2, 0.15), _hex("prop_color", "4a5a7a"))
+			_held(hand, grip + Vector3(0, 0.0, 0.08), Vector3(0.05, 0.2, 0.15), _hex("prop_color", "4a5a7a"))
 		"lute":
 			var centre := Vector3(0.02, 0.98, -0.25)
 			_tilted(torso, centre, Vector3(0.32, 0.4, 0.06), _hex("prop_color", "8a5a32"), Vector3(0, 0, -0.5))
@@ -284,6 +285,15 @@ func _box(parent: Node3D, at: Vector3, size: Vector3, hex: String, head: bool = 
 
 func _tilted(parent: Node3D, at: Vector3, size: Vector3, hex: String, angles: Vector3) -> void:
 	_s.tilted_box(parent, _at(at), _size(at, size, false), _tone(hex), angles)
+
+
+## A box of something held, in the arm's own space (the grip is already where the hand is).
+func _held(hand: Node3D, at: Vector3, size: Vector3, hex: String) -> void:
+	_s.box(hand, at, size, _tone(hex))
+
+
+func _held_tilted(hand: Node3D, at: Vector3, size: Vector3, hex: String, angles: Vector3) -> void:
+	_s.tilted_box(hand, at, size, _tone(hex), angles)
 
 
 ## Where a plain-figure point goes on this body: the torso's heights stretched between the hips

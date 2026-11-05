@@ -415,8 +415,9 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 	var actor := Node3D.new()
 	world.add_child(actor)
 	actors[body.character_id] = actor
-	# The person's card (PersonLooks, DECISIONS「人物外观」) over the map's default, the map's own
-	# entry for them over that; the player's card by their gender.
+	# The person's card (PersonLooks, DECISIONS「人物外观」) with the map's own entry for them over
+	# it; without a card that entry, else the map's default (a card does not take the default's
+	# keys); the player's card by their gender.
 	var actors_config: Dictionary = layout.get("actors",{})
 	var look: Dictionary = actors_config.get("default",{})
 	if body != map.player_body:
