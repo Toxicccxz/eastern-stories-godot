@@ -7896,7 +7896,7 @@ msgstr ""
 
 #. snow.mstreet4.coach name
 #. cloud.entrance.coach name
-#. waterfog.sroad1.coach name
+#. waterfog.sroad3.coach name
 #. green.path6.coach name
 #. temple.square.coach name
 #. latemoon.entrance.coach name
