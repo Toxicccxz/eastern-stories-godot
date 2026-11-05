@@ -91,7 +91,7 @@
           {
             "op": "fill",
             "fills": [
-              ["blocked", 896, 2064, 1056, 2112, "a cart on the forecourt at the stairs' foot, along its south edge (the road from Snow is too narrow for one) (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "3a5f86"}}],
+              ["blocked", 1008, 2064, 1136, 2112, "a cart on the forecourt at the stairs' foot, along its south edge (the road from Snow is too narrow for one) (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "3a5f86"}}],
               ["floor_yard", 880, 704, 1168, 976, "the platform before 水烟阁: 白玉般的白石砖"],
               ["blocked", 992, 832, 1056, 880, "a great bronze censer before the gate (学武之人的朝圣地)", {"look": {"kind": "censer"}}],
               ["blocked", 912, 736, 928, 752, "stone lanterns either side of the gate", {"look": {"kind": "stone_lantern"}}],
@@ -196,7 +196,7 @@
             "node": "service",
             "name": "Sroad3Coach",
             "id": "waterfog.sroad3.coach",
-            "at": [976, 2036],
+            "at": [1072, 2036],
             "text": "车马行 · 靠近坐车"
           },
           {
@@ -246,7 +246,7 @@
         "spawn_points": [
           {
             "name": "Sroad3CoachArrival",
-            "at": [1016, 2040],
+            "at": [1112, 2040],
             "id": "waterfog.sroad3.coach_arrival"
           },
           {
