@@ -69,7 +69,6 @@
   ],
   "actors": {
     "default": {"coat": "6d5a44"},
-    "oldpine.npc.spy": {"coat": "1f1e22", "hat": true, "note": "spy.c: 黑衣人, 鬼鬼祟祟"},
     "oldpine.npc.butterfly": {"body": "flyer", "scale": 1.6, "hover": 0.9, "wings": ["e8c45a", "d98a3a"], "name_distance": 120}
   }
 }

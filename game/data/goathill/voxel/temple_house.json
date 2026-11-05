@@ -42,7 +42,6 @@
   ],
   "life": {"goathill.temple1": {"walls": "boards"}},
   "actors": {
-    "default": {"coat": "7d6a4e"},
-    "goathill.npc.bandit_hwang": {"coat": "6b2f2a", "scale": 1.0}
+    "default": {"coat": "7d6a4e"}
   }
 }

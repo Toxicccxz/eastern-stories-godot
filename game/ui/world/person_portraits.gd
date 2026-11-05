@@ -50,7 +50,7 @@ static func player_id(gender: String) -> String:
 static func npc_id(npc: NpcRuntimeState) -> String:
 	if npc == null:
 		return ""
-	var id: String = String(NpcDefinition.unnamed_id(npc.definition().definition_id))
+	var id: String = PersonLooks.shown_id(String(NpcDefinition.unnamed_id(npc.definition().definition_id)))
 	var sexed: String = PersonLooks.with_sex(id, String(npc.character_state.gender) if npc.character_state != null else "")
 	return sexed if sexed != id and full(sexed) != null else id
 

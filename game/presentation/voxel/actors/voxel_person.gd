@@ -24,7 +24,7 @@ const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long",
 const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk"]
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
 ## round the shins.
 const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps"]
@@ -297,6 +297,15 @@ func _prop() -> void:
 			# Carried at the side, the head hanging below the hand.
 			_held(hand, grip + Vector3(0, -0.14, 0.04), Vector3(0.05, 0.34, 0.05), wood)
 			_held(hand, grip + Vector3(0, -0.32, 0.04), Vector3(0.1, 0.1, 0.22), _hex("prop_color", "4a4a50"))
+		"glaive":
+			# A long-hafted broad blade (常老大's 泼风刀): the pole stood beside him, the blade high.
+			_held(hand, grip + Vector3(0, 0.35, 0), Vector3(0.05, 1.7, 0.05), _hex("wood", wood))
+			_held(hand, grip + Vector3(0, 1.26, 0.06), Vector3(0.05, 0.36, 0.17), _hex("prop_color", "c2c6c8"))
+			_held(hand, grip + Vector3(0, 1.06, 0), Vector3(0.09, 0.05, 0.09), tassel)
+		"whisk":
+			# A Taoist's horsetail whisk (拂尘): a short handle, the white tail hanging.
+			_held(hand, grip + Vector3(0, 0.06, 0.06), Vector3(0.04, 0.2, 0.04), wood)
+			_held(hand, grip + Vector3(0, -0.14, 0.1), Vector3(0.08, 0.26, 0.08), _hex("prop_color", "eeeae0"))
 		"axe":
 			# A woodcutter's axe at the side, the blade below the hand, its edge forward.
 			_held(hand, grip + Vector3(0, -0.16, 0.04), Vector3(0.05, 0.4, 0.05), wood)

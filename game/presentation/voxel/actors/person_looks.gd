@@ -10,6 +10,9 @@ extends RefCounted
 ## changes a person on that map alone (a rider's mount). Presentation only: no rule reads it.
 
 const PEOPLE_KEY: String = "people"
+## A card that only names another (`{"same_as": "<id>"}`): the same person under a second NPC
+## definition, wearing that one's card and pictures.
+const SAME_AS: String = "same_as"
 const PLAYER_PREFIX: String = "player"
 
 static var _regions: Dictionary = {}
@@ -19,6 +22,18 @@ static var _regions: Dictionary = {}
 ## `gender` (CharacterState's): for a role whose gender is drawn (traveller.c), the card
 ## `<id>.male` / `<id>.female` when the region has one, else `<id>`'s.
 static func card(definition_id: String, gender: String = "") -> Dictionary:
+	# The same person under another definition (隘口's 黑衣道士 is the cave's): their card. One
+	# step only: a `same_as` names a card of its own.
+	return _lookup(shown_id(definition_id), gender)
+
+
+## The id whose card and pictures `definition_id` uses: the card's `same_as`, else itself.
+static func shown_id(definition_id: String) -> String:
+	var other: String = String(_lookup(definition_id, "").get(SAME_AS, ""))
+	return definition_id if other.is_empty() else other
+
+
+static func _lookup(definition_id: String, gender: String) -> Dictionary:
 	var region: String = definition_id.get_slice(".", 0)
 	if region == PLAYER_PREFIX:
 		region = "common"

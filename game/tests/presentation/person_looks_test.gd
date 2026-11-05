@@ -63,6 +63,10 @@ func _check_cards() -> void:
 						_check(Person.EXTRAS.has(String(extra)), "%s's extra: %s" % [id, extra])
 				elif key in ["pouch", "collar", "hat"]:
 					_check(card[key] is bool, "%s's %s is a switch: %s" % [id, key, card[key]])
+				elif key == PersonLooks.SAME_AS:
+					var target: String = String(card[key])
+					var theirs: Dictionary = PersonLooks.region_cards(target.get_slice(".", 0)).get(target, {})
+					_check(card.size() == 1 and not theirs.is_empty() and not theirs.has(PersonLooks.SAME_AS), "%s is the same person as %s, who has a card of their own" % [id, target])
 				else:
 					_check(OTHER_KEYS.has(key), "%s's card key %s is read" % [id, key])
 	_check(cards >= 4, "the first cards are there: %d" % cards)
@@ -114,6 +118,11 @@ func _check_portrait_files() -> void:
 	for id: String in ids:
 		_check(PersonPortraits.full(id) != null and PersonPortraits.bust(id) != null, "%s has a whole picture and a bust" % id)
 		_check(not PersonLooks.card(id).is_empty(), "%s has a card for the map" % id)
+		# The face their attitude talks with is drawn: a friendly one's smile, an attacker's anger.
+		var definition: NpcDefinition = null if id.begins_with("player.") else GameContent.catalog().npc(StringName(id.trim_suffix(".male").trim_suffix(".female")))
+		if definition != null:
+			var face: String = PersonPortraits.expression(NpcRuntimeState.new(&"test.face", definition, &"", &"", CharacterState.new()))
+			_check(face.is_empty() or PersonPortraits.texture(id, "bust_" + face) != null, "%s has the %s face their attitude talks with" % [id, face])
 	_check(ids.has("snow.npc.waiter") and ids.has("player.male") and ids.has("player.female"), "the inn's waiter and both players have pictures")
 	_check(PersonPortraits.bust("snow.npc.waiter", "smile") == PersonPortraits.texture("snow.npc.waiter", "bust_smile"), "a face when there is one")
 	_check(PersonPortraits.bust("snow.npc.waiter", "sleepy") == PersonPortraits.texture("snow.npc.waiter", "bust"), "the plain bust otherwise")
@@ -136,6 +145,10 @@ func _check_resolve() -> void:
 	for sex: StringName in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
 		var id: String = PersonLooks.with_sex("snow.npc.traveller", String(sex))
 		_check(people.has(id) and PersonLooks.card("snow.npc.traveller", String(sex)) == people[id], "a %s traveller's own card: %s" % [sex, id])
+	# The same person under two definitions: 隘口's 黑衣道士 wears the cave's card and pictures.
+	_check(PersonLooks.shown_id("native.npc.black_taoist_pass") == "native.npc.black_taoist" and not PersonLooks.card("native.npc.black_taoist_pass").is_empty() and PersonLooks.card("native.npc.black_taoist_pass") == PersonLooks.card("native.npc.black_taoist"), "隘口's 黑衣道士 is the cave's")
+	var pass_taoist := NpcRuntimeState.new(&"test.pass", GameContent.catalog().npc(&"native.npc.black_taoist_pass"), &"", &"", CharacterState.new())
+	_check(PersonPortraits.npc_id(pass_taoist) == "native.npc.black_taoist" and PersonPortraits.full(PersonPortraits.npc_id(pass_taoist)) != null, "and his pictures")
 	var her: Dictionary = PersonLooks.region_cards("common").get("player.female", {})
 	_check(not her.is_empty() and PersonLooks.resolve({}, "", PersonLooks.player(String(CharacterState.GENDER_FEMALE))) == her, "the player's card by their gender")
 
