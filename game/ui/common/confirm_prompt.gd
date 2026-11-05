@@ -9,6 +9,8 @@ extends VBoxContainer
 ## button instead (the menu's results).
 signal confirmed
 signal cancelled
+## ask_choices(): the answer picked, by its index.
+signal chosen(index: int)
 
 ## The question's least height and centring (the menu's dialog: 76, centred).
 @export var message_min_height: float = 0.0:
@@ -35,6 +37,8 @@ var detail: Label
 var message: Label
 var confirm_button: Button
 var cancel_button: Button
+## ask_choices()' answers, in order (hidden by ask() and tell()).
+var choice_buttons: Array[Button] = []
 var _asking: bool = false
 ## The buttons' row: under the question from its left edge (a page), or centred with it.
 var _actions: HFlowContainer
@@ -111,9 +115,35 @@ func tell(text: String, acknowledge: String = "确定") -> void:
 	_asking = true
 
 
+## A question with several answers (an act's `questions`, 番坊 B: the 拜火祠's 火前问话): one
+## button an answer (`chosen` with its index), then `cancel` (取消 / 走开, which answers
+## `cancelled` as ever). The answers are plain wood: none is the safe or the dear one.
+func ask_choices(text: String, choices: Array[String], cancel: String = "取消", about: String = "") -> void:
+	detail.text = about
+	detail.visible = not about.is_empty()
+	_show(text)
+	confirm_button.hide()
+	while choice_buttons.size() < choices.size():
+		var button: Button = _button(_actions, "Choice%d" % choice_buttons.size())
+		button.pressed.connect(_choose.bind(choice_buttons.size()))
+		choice_buttons.append(button)
+	for index: int in choice_buttons.size():
+		var button: Button = choice_buttons[index]
+		button.visible = index < choices.size()
+		if index < choices.size():
+			button.text = tr(choices[index])
+	_actions.move_child(cancel_button, -1)
+	cancel_button.text = cancel
+	cancel_button.show()
+	_asking = true
+
+
 func _show(text: String) -> void:
 	message.text = text
 	message.visible = not text.is_empty()
+	confirm_button.show()
+	for button: Button in choice_buttons:
+		button.hide()
 	show()
 
 
@@ -145,6 +175,13 @@ func _answer(choice: bool) -> void:
 		confirmed.emit()
 	else:
 		cancelled.emit()
+
+
+func _choose(index: int) -> void:
+	if not _asking:
+		return
+	_asking = false
+	chosen.emit(index)
 
 
 func _on_visibility_changed() -> void:

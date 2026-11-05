@@ -219,6 +219,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"steelyard": _steelyard(data)
 		"cauldron": _cauldron(w,data)
 		"training_post": _training_post(data)
+		"shield_rack": _shield_rack(w,d,data)
 		"stone_weights": _stone_weights()
 		"stone_goods": _stone_goods(w,d,data)
 		"book_stall": _book_stall(w,d,data)
@@ -548,6 +549,38 @@ func _cauldron(w: float, data: Dictionary) -> void:
 		ambience.smoke(root,Vector3(0,1.95 if data.get("steamer",false) else 1.2,0),"eeece6",5,0.18)
 
 ## 木人桩: a post with three stubby arms and a leg, the wood worn pale where it is struck.
+## 铁盾会's shield rack (native:fanfang/shield_yard, 番坊 B: 北墙下一排盾牌架，架上的圆盾一面挨一面): two
+## posts and a rail along the back, the round shields (`shields`, else as many as fit) leaning on
+## it rim to rim, each a red face (`face`) with a bronze boss, a few scarred paler where sword
+## points landed. `wood` the rack's.
+func _shield_rack(w: float, d: float, data: Dictionary) -> void:
+	var wood: String = String(data.get("wood","5a4434"))
+	var face: String = String(data.get("face","8a2a22"))
+	var boss: String = String(data.get("boss","b89040"))
+	var rim: String = String(data.get("rim","3e3a36"))
+	for x: float in [-w/2+0.1,w/2-0.1]:
+		s.box(root,Vector3(x,0.7,-d/2+0.08),Vector3(0.14,1.4,0.14),wood)
+	s.box(root,Vector3(0,1.3,-d/2+0.08),Vector3(w,0.1,0.12),wood)
+	s.box(root,Vector3(0,0.06,-d/2+0.2),Vector3(w,0.1,0.24),wood)
+	var count: int = int(data.get("shields",maxi(2,floori(w/0.82))))
+	var step: float = (w-0.4)/maxf(count-1,1)
+	for i: int in count:
+		var x: float = -w/2+0.2+i*step if count>1 else 0.0
+		var shield := Node3D.new()
+		shield.position = Vector3(x,0.12,-d/2+0.46)
+		shield.rotation.x = -0.32
+		root.add_child(shield)
+		var radius: float = 0.38
+		var tone: String = face if i%4!=2 else Color(face).lightened(0.12).to_html(false)
+		# A round face stepped out of boxes, its rim a shade of iron.
+		for ring: int in 4:
+			var rr: float = radius*(1.0-ring*0.22)
+			var y: float = radius+(ring-1.5)*radius*0.44
+			s.box(shield,Vector3(0,y,0),Vector3(rr*2.0,radius*0.46,0.06),tone if ring>0 and ring<3 else rim)
+		s.box(shield,Vector3(0,radius,0.04),Vector3(0.18,0.18,0.06),boss)
+		if i%3==1:
+			s.box(shield,Vector3(0.1,radius+0.14,0.035),Vector3(0.05,0.14,0.02),"c8b08a")
+
 func _training_post(data: Dictionary) -> void:
 	var wood: String = String(data.get("wood","7a5a3e"))
 	s.box(root,Vector3(0,0.1,0),Vector3(0.6,0.2,0.6),"6a5a48")

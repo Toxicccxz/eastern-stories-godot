@@ -10,7 +10,7 @@ const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7
 	"plum": ["3a2a26","4a3630"], "crabapple": ["4e3a30","5c463a"], "apricot": ["4a3a32","5a463c"], "peach": ["4a3a32","5a463c"],
 	"osmanthus": ["5a4e40","6a5c4c"], "banana": ["6a8a48","7a9a52"], "poplar": ["d8d4c4","c8c4b2"],
 	"broadleaf": ["65553e","776046"], "slender": ["65553e","776046"], "shrub": ["65553e","776046"], "scrub": ["65553e","776046"],
-	"pine": ["65553e","776046","61513c"], "mountain_pine": ["65553e","776046","61513c"]}
+	"pine": ["65553e","776046","61513c"], "mountain_pine": ["65553e","776046","61513c"], "banyan": ["5a5048","6a6058","4e463e"]}
 var crowns: Dictionary[String, ArrayMesh] = {}
 var leaf_material: StandardMaterial3D
 ## Crown colours by species, dark to light (layout flora `crown_colors`); bark the same
@@ -51,6 +51,7 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 		"bamboo": _bamboo_wood(parent,shapes,variant)
 		"plum", "crabapple", "osmanthus", "apricot", "peach": _blossom_wood(parent,shapes,species,variant)
 		"banana": _banana_wood(parent,shapes,variant)
+		"banyan": _banyan_wood(parent,shapes,variant)
 		"poplar": _poplar_wood(parent,shapes,variant)
 		"young_pine":
 			shapes.box(parent,Vector3(0,0.5,0),Vector3(0.14,1.0,0.15),_bark(species,0))
@@ -235,6 +236,14 @@ func _crown(species: String, variant: int, colors: Array = []) -> ArrayMesh:
 			for tier: int in 5:
 				var span: float = 0.62-absf(tier-1.5)*0.09
 				surface.ellipsoid(Vector3(0.08*sin(tier*1.9+variant),2.2+tier*0.62,0.06*cos(tier+variant)),Vector3(span,0.52,span*0.92),green,variant+tier)
+		"banyan":
+			# 榕 (番坊 B, native:fanfang/temple_yard: 树冠把半个院子罩住): a broad flat crown held low
+			# and wide on a thick trunk, dark glossy green; the air roots are drawn with the wood.
+			green = _greens(species,["2e4a34","3a5c3e","4a7048","5e8452"])
+			for lobe: int in 7:
+				var angle: float = lobe*0.9+variant*0.6
+				var reach: float = 1.35 if lobe<5 else 0.6
+				surface.ellipsoid(Vector3(cos(angle)*reach,3.0+random.randf_range(-0.15,0.35)+(0.4 if lobe>=5 else 0.0),sin(angle)*reach*0.9),Vector3(1.25,0.62,1.15),green,variant+lobe)
 		"banana":
 			# 芭蕉: the furled new leaf at the top (the broad leaves are drawn with the stem).
 			surface.cell_size = 0.2
@@ -306,6 +315,30 @@ func _banana_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
 		var droop: float = 0.35+0.15*(i%2)
 		# Each leaf turned to point along `out` (yaw), its tip drooping (roll before the turn).
 		shapes.tilted_box(parent,Vector3(0,1.95,0)+out*0.75,Vector3(1.3,0.05,0.5),leaves[i%leaves.size()],Vector3(0,-a,-droop))
+
+## 榕 (banyan): a thick short trunk, two low limbs, and the air roots — hanging cords from the
+## crown's edge, the older ones grown into thin trunks of their own at the crown's rim
+## (有的已经扎进地里成了树干).
+func _banyan_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
+	shapes.box(parent,Vector3(0,1.35,0),Vector3(0.62,2.7,0.66),_bark("banyan",0))
+	shapes.box(parent,Vector3(0.18,0.3,0.1),Vector3(0.9,0.6,0.8),_bark("banyan",2))
+	for side: float in [-1.0,1.0]:
+		shapes.tilted_box(parent,Vector3(side*0.7,2.5,0.1*side),Vector3(1.6,0.24,0.26),_bark("banyan",1),Vector3(0,side*0.3,side*0.42))
+	var random := RandomNumberGenerator.new()
+	random.seed = 977+variant*31
+	for root_index: int in 5:
+		var angle: float = root_index*1.25+variant*0.7+random.randf_range(-0.2,0.2)
+		var reach: float = 1.0+random.randf_range(0.0,0.5)
+		var foot := Vector3(cos(angle)*reach,0,sin(angle)*reach*0.9)
+		if root_index%2==0:
+			# Grown into a trunk of its own.
+			shapes.box(parent,foot+Vector3(0,1.4,0),Vector3(0.2,2.8,0.2),_bark("banyan",root_index%3))
+		else:
+			# Still a hanging cord, not yet to the ground.
+			shapes.box(parent,foot+Vector3(0,2.1,0),Vector3(0.07,1.5,0.07),_bark("banyan",2))
+	for cord: int in 4:
+		var angle: float = cord*1.7+variant
+		shapes.box(parent,Vector3(cos(angle)*0.6,2.3,sin(angle)*0.5),Vector3(0.05,1.0,0.05),_bark("banyan",1))
 
 ## An old pine's crooked trunk, its limbs and the needle pads at their ends, the same for
 ## every planting of a variant (the crown mesh is cached; the wood is drawn each time).

@@ -40,9 +40,59 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"dragon_pillar": _dragon_pillar(w,d)
 		"guan_gong": _guan_gong(w,d)
 		"altar_terrace": _altar_terrace(w,d)
+		"fire_altar": _fire_altar(w,d)
 		_:
 			return false
 	return true
+
+
+## 拜火祠's altar (native:fanfang/fire_hall, 番坊 B: 火坛是黑石砌的，齐胸高，坛顶的火不高不低地烧着，
+## 看不见柴，也看不见油——人说它三百年没灭过): a chest-high altar of black stone (`stone`: its shades,
+## smoke-glossed) on a wider plinth, a rim round the hollow top, and the fire in it — tongues that
+## stir (the ambience's flames), its own light by day and night (`range`), smoke rising off it
+## (the ambience's). `height` units to the rim; `fire`: the flames' two colours.
+func _fire_altar(w: float, d: float) -> void:
+	var stone: Array = data.get("stone",["262220","2e2a28","1e1a18","3a3634"])
+	var height: float = float(data.get("height",1.3))
+	var fire: Array = data.get("fire",["ffb858","ffd88a"])
+	s.box(root,Vector3(0,0.08,0),Vector3(w,0.16,d),String(stone[1]))
+	s.box(root,Vector3(0,0.24,0),Vector3(w*0.86,0.16,d*0.86),String(stone[3]))
+	# The body in courses of black stone, the joints a shade darker.
+	var courses: int = maxi(3,roundi((height-0.4)/0.22))
+	for course: int in courses:
+		var y: float = 0.32+(course+0.5)*(height-0.4)/courses
+		var shrink: float = 0.02*(course%2)
+		s.box(root,Vector3(0,y,0),Vector3(w*0.7-shrink,(height-0.4)/courses-0.015,d*0.7-shrink),String(stone[course%2]))
+	s.box(root,Vector3(0,height-0.06,0),Vector3(w*0.8,0.12,d*0.8),String(stone[3]))
+	# The rim round the hollow top, and the bed of white ash in it.
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*w*0.34,height+0.06,0),Vector3(w*0.12,0.12,d*0.8),String(stone[2]))
+		s.box(root,Vector3(0,height+0.06,side*d*0.34),Vector3(w*0.8,0.12,d*0.12),String(stone[2]))
+	s.box(root,Vector3(0,height+0.02,0),Vector3(w*0.56,0.04,d*0.56),"9a948a")
+	var flames := Node3D.new()
+	flames.position = Vector3(0,height+0.04,0)
+	flames.set_meta("light_fixture",true)
+	root.add_child(flames)
+	for tongue: int in 7:
+		var a: float = tongue*0.9
+		var flame := Node3D.new()
+		flame.position = Vector3(cos(a)*w*0.14,0,sin(a)*d*0.14)
+		flames.add_child(flame)
+		var tall: float = 0.46-(tongue%3)*0.08
+		s.box(flame,Vector3(0,tall/2,0),Vector3(0.14,tall,0.14),String(fire[tongue%2]))
+		if ambience != null:
+			ambience.flame(flame)
+	s.box(flames,Vector3(0,0.14,0),Vector3(w*0.3,0.28,d*0.3),String(fire[0]))
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,height+0.9,0)
+	light.light_color = Color("ff9a4a")
+	light.omni_range = float(data.get("range",9.0))
+	light.set_meta("day_energy",1.4)
+	light.set_meta("night_energy",2.8)
+	light.set_meta("flicker",0.14)
+	root.add_child(light)
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,height+0.6,0),"6a6460",6,0.3)
 
 ## 祭坛 (jitan.c: 栏杆是用汉白玉作成的，坛面由精细磨过的花岗岩铺成，中间有个台子; 台子的下面有个凸起，
 ## 上面长着细细的青苔): a terrace of fine granite `height` units high (`colors`: its stone), a rail

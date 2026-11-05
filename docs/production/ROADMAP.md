@@ -37,7 +37,7 @@ view goes through the regions.
 | 12b | 黑松山 (`d/chuenyu`), repaired | 黄土大道's spur west (玉螺湖村) | 32/37 | 14/23 | — | 7/7 | 0/0 | The copy of 刘家 (ES2 cut it off; it lives in 玉螺湖村); npc/xiaojuan.c is a copy placed by no room. |
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | block.c and jail.c (wizard rooms), spath1.c (no way in). |
 | 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 25 native | 36 | — | — | — | Done in four packages (`build/plans/关北_计划.md`, DECISIONS「关北 A」–「关北 D」). |
-| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 10 native so far | 13 | — | — | — | A done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」); B–D to come. |
+| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 17 native so far | 20 | — | — | — | A and B done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」「番坊 B」); C–D to come. |
 | | **Total** | | **536/551** | **239/286** | **9/9** | **33/36** special, **22/26** basic | **84/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
@@ -78,7 +78,7 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
 * **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
 * **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇, 水烟阁, 青石村,
-  茅山 灵心观, 晚月庄, 泓水南岸 + 山烟寺, 乔阴县城, 天驼关, 关北, 逆灵宫, 玉螺湖村, 京师, 黑松山, 阴间 and 番坊 A: every map (148); 雪亭镇's facades
+  茅山 灵心观, 晚月庄, 泓水南岸 + 山烟寺, 乔阴县城, 天驼关, 关北, 逆灵宫, 玉螺湖村, 京师, 黑松山, 阴间 and 番坊 A–B: every map (151); 雪亭镇's facades
   are detailed too (`voxel_facade.gd`: age, windows, eaves, each shop's own mark). Desktop frame rate is the bar (DECISIONS「手机端暂停」).
 
 ## After the grey box
@@ -149,7 +149,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    the fire's three questions on the player's own deeds, siding with the 浪人 costs dear): A done (DECISIONS「番坊 A」: the path outside
    忘情谷 on south down the 海崖道 with the sea far below, the port with its jetties and others' boats, the bazaar's four 胡商 stalls,
    the 市舶司 and the 兵部's order to clear the 大秦人 — false to one who learned the 印色 — 卢卡 at 铁盾会's gate, the chapter at that
-   gate); next B (铁盾会, 拜火祠, 日陀罗寺, the questions before the fire and the 铜牒).
+   gate); B done (DECISIONS「番坊 B」「火前问话」: 铁盾会's sanded yard and 安敦's hut, the tablet's tale and the side taken, the 拜火祠's
+   fire of three hundred years and the 火前问话 — three questions on the player's own deeds, answered from the ledger, a lie costing the
+   day — the 铜牒 in hand, 日陀罗寺 with 龙若法王 under the banyan; the generic `questions` act step and `ConfirmPrompt.ask_choices`); next C
+   (鬼笠馆 and 早川's one blow, the 争地 on both sides, the night the tablet is stolen, the reading, the eighth chapter's stub).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 
