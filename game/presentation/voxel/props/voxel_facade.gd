@@ -477,17 +477,22 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		var panels: int = ceili(length/0.5)
 		var want: int = clampi(roundi((float(item.get("at",0.5))*length-0.25)/0.5),0,panels-1)
 		var leaning: bool = String(item["kind"]) in ["broom","kindling"]
+		# A wide thing (a board of notices, the dyed cloth) covers `span` panels about its middle:
+		# every one of them must be free, off the posts and (when roomy) off the windows. The
+		# household's default width (1.0) is a nominal one for narrow things (a string, a broom):
+		# one panel; wider things cover the panels their width reaches past their own.
+		var width: float = float(item.get("width",1.0))
+		var span: int = 1 if width <= 1.0 else maxi(1,ceili(width/0.5)-1)
 		var chosen: int = -1
 		# First well clear of the windows; on a wall with no such room, beside them.
 		for roomy: bool in [true,false]:
 			for offset: int in panels:
 				for i: int in [want+offset,want-offset]:
-					if chosen < 0 and i >= 0 and i < panels and not taken.has("%s%d" % [wall,i]) and _clear(i,bay,leaning,roomy,along_x,fixed,-length/2+0.25+i*0.5,entrances):
+					if chosen < 0 and _free(i,span,panels,wall,taken,bay,leaning,roomy,along_x,fixed,length,entrances):
 						chosen = i
 		if chosen < 0:
 			unknown.append("%s (no room on the %s wall)" % [item["kind"],wall])
 			continue
-		var span: int = maxi(1,ceili(float(item.get("width",1.0))/0.5))
 		for k: int in range(chosen-(span-1)/2,chosen-(span-1)/2+span):
 			taken["%s%d" % [wall,k]] = true
 		placed.append("%s%d" % [wall,chosen])
@@ -501,6 +506,15 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		# The household's wall things first, then a trade's hung sign (the butcher's ox head).
 		if not _own(node,item) and not household.draw(shapes,node,item,float(item.get("width",1.0)),0.3) and not trades.draw(shapes,node,item,float(item.get("width",1.0)),0.3):
 			unknown.append(String(item["kind"]))
+
+## Whether a thing `span` panels wide with its middle on panel `i` fits on the wall: its middle
+## panel clear (`_clear`), and every panel it reaches over on the wall, not taken, off the posts
+## and out of the doorways (it may lap a window's edge: the posts stand only a few panels apart).
+func _free(i: int, span: int, panels: int, wall: String, taken: Dictionary, bay: int, leaning: bool, roomy: bool, along_x: bool, fixed: float, length: float, entrances: Array[Vector3]) -> bool:
+	for k: int in range(i-(span-1)/2,i-(span-1)/2+span):
+		if k < 0 or k >= panels or taken.has("%s%d" % [wall,k]) or not _clear(k,bay,leaning or k != i,roomy,along_x,fixed,-length/2+0.25+k*0.5,entrances):
+			return false
+	return true
 
 ## Whether panel `i` of a wall is free for a hanging: no post, not in a doorway, and for a hung
 ## thing no window (`roomy`: nor a window's neighbour; a leaning thing stands below them).
