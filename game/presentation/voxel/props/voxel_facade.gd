@@ -410,7 +410,9 @@ func _couplets(front: Node3D, spec: Dictionary, half: float, wall_z: float, porc
 ## 竖招: a narrow board hung on an iron arm square off the wall beside the doorway, its words in a
 ## column on both faces (the street's two ways), stirring a little on its hooks.
 func _blade_sign(front: Node3D, spec: Dictionary, half: float, wall_z: float) -> void:
-	var side: float = float(spec.get("side",1.0))
+	# By default on the doorway's south side: both views look from the south, so a sign on the
+	# north side stands behind the porch.
+	var side: float = float(spec.get("side",1.0 if (front.global_transform.basis*Vector3(1,0,0)).z > 0.0 else -1.0))
 	var length: float = float(spec.get("length",1.3))
 	var top: float = float(spec.get("y",2.75))
 	var x: float = side*float(spec.get("x",half+1.1))

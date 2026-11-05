@@ -42791,7 +42791,7 @@ msgstr ""
 msgid "酱"
 msgstr ""
 
-#: data/city/voxel/main.json data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json
+#: data/city/voxel/main.json data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json data/snow/voxel/outdoor.json
 msgid "药"
 msgstr ""
 
@@ -42905,6 +42905,10 @@ msgstr ""
 
 #: data/snow/voxel/hockshop_house.json
 msgid "当铺"
+msgstr ""
+
+#: data/snow/voxel/outdoor.json
+msgid "驿"
 msgstr ""
 
 #: data/snow/voxel/smithy_house.json
