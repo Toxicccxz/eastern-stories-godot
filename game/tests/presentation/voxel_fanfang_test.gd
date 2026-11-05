@@ -6,9 +6,11 @@ extends RefCounted
 ## quay, two jetties, three flat-bottomed boats, the derrick and the crates, the tax table, the
 ## boatmen's lean-to; the bazaar — the stalls of glass, carpets, spice and copper, flat-roofed
 ## 胡商 houses and tiled ones, the black 拜火祠 smoking at the street's end, 铁盾会's gate with its
-## two great shields; the 市舶司 — the desk, the notices, the seized goods, the yard. Its own
-## colours: sea blue-grey and dark basalt where 关北 has dust and grass. The 2D maps decide every
-## way through.
+## two great shields, the lane sloping south; the 市舶司 — the desk, the notices, the seized goods,
+## the yard; 番坊 B's three: 铁盾会's sanded yard with the shield racks, the hacked posts and the
+## 会首's hut with its carpet; the 拜火祠's black hall with the fire on its altar, the shaft of day
+## down the smoke-hole; 日陀罗寺's banyan, bell and Buddha. Its own colours: sea blue-grey and dark
+## basalt where 关北 has dust and grass. The 2D maps decide every way through.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
@@ -16,9 +18,10 @@ const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const TALL: Array[String] = ["standing_rock", "boulder", "banner", "torch", "cairn", "bush", "tree", "campfire", "well", "wine_jars", "firewood", "crocks",
 	"rock_pile", "dead_log", "stele", "cart", "haystack", "notice_post", "horse", "camel", "tethered_horse", "fence", "stone_lion", "drying_rack", "saw_horse",
 	"hearth", "counter", "cauldron", "meat_rack", "lantern_post", "post", "chest_stack", "sacks", "derrick", "lumber", "baskets", "water_vat", "bench",
-	"great_shield", "stall", "lean_to", "mooring_post", "loot_crates", "cargo"]
-const SCENES: Array[String] = ["fanfang_cliff_road", "fanfang_port", "fanfang_bazaar", "fanfang_customs"]
-const MAPS: Array[StringName] = [&"fanfang.cliff_road", &"fanfang.port", &"fanfang.bazaar", &"fanfang.customs"]
+	"great_shield", "stall", "lean_to", "mooring_post", "loot_crates", "cargo", "shield_rack", "fire_altar", "temple_bell", "training_post", "stone_seat",
+	"tea_table", "bed", "travel_chest", "lamp_stand", "sandbags", "prayer_cushion", "buddha", "altar_table", "weapon_rack", "bedding", "lantern_post"]
+const SCENES: Array[String] = ["fanfang_cliff_road", "fanfang_port", "fanfang_bazaar", "fanfang_customs", "fanfang_shield_hall", "fanfang_fire_temple", "fanfang_lama_temple"]
+const MAPS: Array[StringName] = [&"fanfang.cliff_road", &"fanfang.port", &"fanfang.bazaar", &"fanfang.customs", &"fanfang.shield_hall", &"fanfang.fire_temple", &"fanfang.lama_temple"]
 ## Maps that are no rooms: no lived-in life expected.
 const NO_ROOMS: Array[StringName] = [&"fanfang.cliff_road", &"fanfang.port", &"fanfang.bazaar"]
 ## Where a test may put the player on each map (TEST-ONLY).
@@ -26,7 +29,10 @@ const ENTRIES: Dictionary[StringName, Array] = {
 	&"fanfang.cliff_road": [&"fanfang.cliff_top", &"fanfang.cliff_top.valley_arrival"],
 	&"fanfang.port": [&"fanfang.dock", &"fanfang.dock.cliff_arrival"],
 	&"fanfang.bazaar": [&"fanfang.bazaar_west", &"fanfang.bazaar_west.dock_arrival"],
-	&"fanfang.customs": [&"fanfang.office", &"fanfang.office.street_entry"]}
+	&"fanfang.customs": [&"fanfang.office", &"fanfang.office.street_entry"],
+	&"fanfang.shield_hall": [&"fanfang.shield_yard", &"fanfang.shield_yard.gate_arrival"],
+	&"fanfang.fire_temple": [&"fanfang.fire_hall", &"fanfang.fire_hall.street_entry"],
+	&"fanfang.lama_temple": [&"fanfang.temple_yard", &"fanfang.temple_yard.slope_arrival"]}
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -55,11 +61,14 @@ func run_all(tree: SceneTree) -> Dictionary:
 			&"fanfang.port": await _check_port(tree, map)
 			&"fanfang.bazaar": await _check_bazaar(tree, map)
 			&"fanfang.customs": await _check_customs(tree, map)
+			&"fanfang.hall": await _check_shield_hall(tree, map)
+			&"fanfang.fire_temple": await _check_fire_temple(tree, map)
+			&"fanfang.lama_temple": await _check_lama_temple(tree, map)
 	var missing: Array[StringName] = []
 	for map_id: StringName in MAPS:
 		if not _seen.has(map_id):
 			missing.append(map_id)
-	_check(missing.is_empty(), "every map of 番坊 A was seen in the voxel view: missing %s" % [missing])
+	_check(missing.is_empty(), "every map of 番坊 was seen in the voxel view: missing %s" % [missing])
 	session.free()
 	await _frames(tree, 2)
 	return {"assertions": assertions, "failures": failures}
@@ -137,8 +146,13 @@ func _check_port(tree: SceneTree, map: WorldMapController) -> void:
 func _check_bazaar(tree: SceneTree, map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
 	var kinds: Array[String] = _kinds(view)
-	for kind: String in ["stall", "cloth_bolts", "whetstone", "great_shield", "closed_door", "rug", "laundry_line", "hanging_lantern", "torch", "notices", "cart"]:
+	for kind: String in ["stall", "cloth_bolts", "whetstone", "great_shield", "rug", "laundry_line", "hanging_lantern", "torch", "notices", "cart"]:
 		_check(kind in kinds, "the bazaar has its %s" % kind)
+	_check(not "closed_door" in kinds, "番坊 B: 铁盾会's gate and the 拜火祠's door are no longer shut pictures but ways in")
+	var doors: int = 0
+	for building: Dictionary in view.layout.get("buildings", []):
+		doors += (building.get("portals", []) as Array).size()
+	_check(doors == 3, "three buildings open onto the street: the 市舶司, 铁盾会 and the 拜火祠: %d" % doors)
 	var goods: Array[String] = []
 	for look: Dictionary in _looks(map):
 		if look["kind"] == "stall":
@@ -158,6 +172,7 @@ func _check_bazaar(tree: SceneTree, map: WorldMapController) -> void:
 	_check(flat >= 4 and tiled >= 3 and smoking >= 2 and black, "flat-roofed 胡商 houses and tiled ones, the black 拜火祠 and the forge smoking")
 	_check(view.geometry.ambience._puffs.size() >= 2 or view.geometry.ambience._motes.size() >= 10, "spice dust and smoke on the air")
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.bazaar_east", &"fanfang.bazaar_north"]), "walk along the street and up the lane to the gate")
+	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.bazaar_east", &"fanfang.bazaar_slope"]), "and down the slope towards 日陀罗寺")
 
 
 ## The 市舶司: the desk, the notices, the seized goods, the yard's crates and cart.
@@ -172,6 +187,47 @@ func _check_customs(tree: SceneTree, map: WorldMapController) -> void:
 	_check(styles.slice(0, 2) == ["plaster", "brick"], "the office plastered, the yard grey brick: %s" % [styles])
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.yard", &"fanfang.office"]), "walk into the yard and back")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"fanfang.office.papers")), "and up to the desk")
+
+
+## 铁盾会: the sanded yard open to the sky, the shield racks, the hacked posts, the carpet in the hut.
+func _check_shield_hall(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["shield_rack", "training_post", "weapon_rack", "water_vat", "bench", "sandbags", "tea_table", "bedding", "great_shield", "chest_stack", "rug", "torch", "banner", "candlestick", "notices", "window", "trail"]:
+		_check(kind in kinds, "铁盾会 has its %s" % kind)
+	_check(kinds.count("shield_rack") == 2 and kinds.count("training_post") == 3, "two shield racks, three posts")
+	_check(view.layout.get("courtyard", false) and (view.layout.get("light", {}) as Dictionary).has("areas"), "the yard lies open to the sky")
+	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.hall", &"fanfang.shield_yard"]), "walk into the 会首's hut and back")
+
+
+## The 拜火祠: the altar and its fire, the shaft of day, the white kneeling-place; the priest's bare cell.
+func _check_fire_temple(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["fire_altar", "light_shaft", "glow", "water_vat", "stone_seat", "wine_jars", "bed", "travel_chest", "lamp_stand", "wall_lamp", "plaques", "paper_charms"]:
+		_check(kind in kinds, "the 拜火祠 has its %s" % kind)
+	_check(kinds.count("fire_altar") == 1, "one fire, three hundred years")
+	var black: bool = false
+	for look: Dictionary in view.layout.get("wall_looks", []):
+		black = black or Color(String((look.get("colors", ["ffffff"]) as Array)[0])).v < 0.25
+	_check(black, "the hall's walls are black stone")
+	_check(view.geometry.find_children("*", "OmniLight3D", true, false).size() >= 2, "the fire lights the hall, the lamp the cell")
+	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.priest_room", &"fanfang.fire_hall"]), "walk into the cell and back")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"fanfang.fire_hall.questions")), "and up to the fire")
+
+
+## 日陀罗寺: the banyan over the yard, the bell, the Buddha and his butter lamps.
+func _check_lama_temple(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["tree", "prayer_cushion", "temple_bell", "water_vat", "stone_seat", "buddha", "altar_table", "crocks", "candles", "hanging_lantern", "banner_cloth", "window", "trail"]:
+		_check(kind in kinds, "日陀罗寺 has its %s" % kind)
+	var banyan: bool = false
+	for look: Dictionary in _looks(map):
+		banyan = banyan or (look["kind"] == "tree" and look.get("species", "") == "banyan")
+	_check(banyan, "the tree in the yard is a banyan")
+	_check(view.layout.get("courtyard", false) and (view.layout.get("ambience", {}) as Dictionary).has("fall"), "the yard open to the sky, leaves coming down")
+	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.shrine", &"fanfang.temple_yard"]), "walk into the shrine and back")
 
 
 func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapController, place: String) -> void:

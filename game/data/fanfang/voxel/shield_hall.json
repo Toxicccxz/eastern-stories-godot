@@ -1,0 +1,64 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "note": "铁盾会院子、会首的屋 (native:fanfang/shield_yard, shield_hall; 番坊 B): behind the heavy gate a great yard of raked sand trodden into footprints, the rough stone compound wall round it (the same stone as its street front), the shield racks along the north wall with the round shields rim to rim, the hacked posts on the east, a rack of short swords, water vats by the gate, a bench, sandbags; torches on the hall's front, the lane worn from the gate to its door. The 会首's low stone hut north of it: a red-and-yellow carpet, the low table with its copper lamp, bedding rolls along the walls, the old shield leaning on the north wall and the wooden tablet beside it, a barred window. Old and used: sand kicked over the flags at the gate, sweat-dark posts, chips, the hut's walls smoked over the lamp.",
+  "palette": {"wood": ["5a4434", "6a5040", "4a3a2c"], "wall": "8a7a68"},
+  "wall_height": 3.4,
+  "wall_looks": [
+    {"rect": [-480, -144, 480, 544], "style": "brick", "mortar": "5a4e42", "colors": ["8a7a68", "96866e", "7a6a5a", "a2927a"], "note": "the compound's rough stone, as its street front (bazaar.json 铁盾会)"},
+    {"rect": [-272, -560, 272, -144], "style": "brick", "mortar": "4a4238", "colors": ["6a625a", "766e64", "5e564e", "827a70"], "note": "the hut's darker fieldstone"}
+  ],
+  "surfaces": {"fanfang.shield_yard": "town_ground"},
+  "ground": {
+    "town_ground": {"style": "scree", "colors": ["c8b48a", "d2be94", "bca880"], "gravel": 0.2, "stones": 0.01, "pebbles": ["d8c49a", "c0ac84"], "note": "地上铺着沙，踩出一个个脚印: raked sand, trodden"},
+    "floor_shop": {"style": "paving", "stones": ["6a665e", "767268", "5e5a52", "827e74"], "worn": ["8a867c", "92908a"], "bed": "4a4640", "mud": "5a564e", "crack": "48443e", "moss": "5a6a4a", "moss_chance": 0.02, "note": "the hut's stone flags"},
+    "boundary": {"colors": ["7a7a5a", "868662", "6e6e50"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"town_ground": 0.0, "floor_shop": 0.0, "boundary": 0.2}, "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.3, "butterflies": 0},
+  "light": {
+    "areas": [
+      {"rect": [-480, -144, 480, 544], "sky": ["bcd4e4", "081628"], "ambient": ["e0e8ec", "4a6488"], "ambient_energy": [0.52, 0.3], "sun": ["fff6e4", "a4c0ee"], "sun_energy": [1.0, 0.34], "note": "the yard lies open to the sea sky (light.json)"}
+    ]
+  },
+  "life": {
+    "fanfang.shield_yard": {"walls": "brick"},
+    "fanfang.hall": {"walls": "brick"}
+  },
+  "props": [
+    {"kind": "trail", "points": [[0, 470], [-6, 300], [4, 120], [0, -100], [0, -150]], "color": "b8a478", "note": "the lane worn from the gate to the 会首's door"},
+    {"kind": "stains", "at": [-60, 140], "size": [500, 400], "count": 14, "colors": ["b8a478", "ac9870", "c4b088"], "note": "the sand trodden into footprints where the pairs drill"},
+    {"kind": "stains", "at": [384, 192], "size": [80, 300], "count": 6, "colors": ["9a8a66", "a89470"], "note": "chips and sweat round the posts"},
+    {"kind": "stains", "at": [0, 480], "size": [160, 60], "count": 4, "colors": ["b4a07a", "a89468"], "note": "sand kicked over the flags inside the gate"},
+    {"kind": "straw_patch", "at": [-300, 480], "size": [60, 30]},
+    {"kind": "torch", "at": [-120, -140], "size": [16, 16], "height": 2.2, "note": "torches either side of the hut's door, on its front wall"},
+    {"kind": "torch", "at": [120, -140], "size": [16, 16], "height": 2.2},
+    {"kind": "glow", "at": [0, -120], "color": "ffa860", "day": 0.0, "night": 0.8, "range": 8.0, "height": 2.2},
+    {"kind": "lantern_post", "at": [-200, 528], "size": [16, 16], "note": "a lantern on a post by the gate, against the south wall"},
+    {"kind": "glow", "at": [-200, 480], "color": "ffb878", "day": 0.0, "night": 0.7, "range": 7.0, "height": 2.4},
+    {"kind": "banner", "at": [472, -120], "size": [16, 16], "height": 4.2, "cloth": "8a2a22", "trim": "c8a040", "note": "the guild's red cloth with its eagle on a pole in the yard's corner"},
+    {"kind": "rug", "at": [0, -330], "size": [220, 150], "colors": ["8a2a22", "c8a040", "3a4a6a"], "note": "地上铺着一张红底黄花的毡毯 (the carpet merchant's: 铺在他们会首的屋里)"},
+    {"kind": "candlestick", "at": [20, -310], "size": [12, 12], "lit": true, "elevation": 0.55, "note": "the copper lamp on the low table"},
+    {"kind": "glow", "at": [0, -310], "color": "ffc078", "day": 0.3, "night": 0.9, "range": 6.0, "height": 1.2},
+    {"kind": "notices", "at": [54, -548], "size": [40, 12], "height": 1.7, "wall_mounted": true, "note": "the wooden tablet with the guild's one rule, by the old shield (fanfang.hall.landmark.tablet)"},
+    {"kind": "weapon_pegs", "at": [-120, -548], "size": [48, 12], "height": 1.9, "wall_mounted": true, "note": "short swords hung on pegs"},
+    {"kind": "window", "at": [180, -548], "size": [56, 16], "note": "a barred window onto the yard's north wall"},
+    {"kind": "wall_lamp", "at": [250, -400], "size": [16, 12], "height": 2.0, "rotation": -90, "wall_mounted": true},
+    {"kind": "glow", "at": [220, -400], "color": "ffc078", "day": 0.1, "night": 0.6, "range": 5.0, "height": 1.8},
+    {"kind": "stains", "at": [0, -540], "size": [400, 20], "count": 5, "colors": ["5a524a", "6a625a"], "note": "the wall smoked over the lamp"},
+    {"kind": "slippers", "at": [-150, -250], "rotation": 20, "cloth": "5a4a3a"},
+    {"kind": "stains", "at": [0, -200], "size": [140, 60], "count": 3, "colors": ["5e5a52", "66625a"], "note": "the flags worn inside the hut's door"},
+    {"kind": "far_ground", "at": [0, 900], "size": [1400, 400], "colors": ["b09a6a", "bca676", "a48e60"], "elevation": 0.0, "trees": 0, "note": "the bazaar's street beyond the gate"}
+  ],
+  "ambience": {
+    "birds": [{"at": [0, 200], "radius": 400, "count": 2, "height": 7, "color": "f0f0ec", "note": "gulls over the yard"}],
+    "dust": [{"rect": [-400, -80, 400, 480], "count": 10, "color": "d8c8a0", "wind": [0.2, -0.3], "note": "sand kicked up by the drilling pairs"}]
+  },
+  "actors": {
+    "default": {"coat": "5a5a62"},
+    "native.npc.andun": {"coat": "8a7a62"},
+    "native.npc.shield_swordsman": {"coat": "5a5a62"},
+    "native.npc.luca": {"coat": "9a8a6a"}
+  }
+}

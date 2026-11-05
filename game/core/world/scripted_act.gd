@@ -75,7 +75,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -198,6 +198,54 @@ class Facts:
 		return true
 
 
+## One answer a `questions` step offers: true when the player's marks say so.
+class Answer:
+	extends RefCounted
+	var text: String = ""
+	var mark: String = ""
+	var not_mark: String = ""
+	var marks: Array[String] = []
+	var any: Array[String] = []
+
+	## Whether the answer is the truth for a player with these saved marks.
+	func is_true(known: Dictionary) -> bool:
+		return (
+			(mark.is_empty() or known.get(mark, 0) != 0)
+			and (not_mark.is_empty() or known.get(not_mark, 0) == 0)
+			and marks.all(func(each: String) -> bool: return known.get(each, 0) != 0)
+			and (any.is_empty() or any.any(func(each: String) -> bool: return known.get(each, 0) != 0))
+		)
+
+	## {text, mark?, not_mark?, marks?, any?}.
+	static func from_record(reader: ContentRecordReader) -> Answer:
+		var answer := Answer.new()
+		answer.text = reader.required_text("text")
+		answer.mark = reader.text("mark")
+		answer.not_mark = reader.text("not_mark")
+		answer.marks = reader.text_list("marks")
+		answer.any = reader.text_list("any")
+		reader.finish()
+		return answer
+
+
+## One question of a `questions` step and its answers.
+class Question:
+	extends RefCounted
+	var text: String = ""
+	var answers: Array[Answer] = []
+
+	## {text, answers: [Answer]} (two answers or more).
+	static func from_record(reader: ContentRecordReader) -> Question:
+		var question := Question.new()
+		question.text = reader.required_text("text")
+		for record: ContentRecordReader in reader.children("answers"):
+			question.answers.append(Answer.from_record(record))
+		if question.answers.size() < 2:
+			reader.fail("answers", "a question offers two answers or more")
+		reader.finish()
+		return question
+
+
 class Step:
 	extends RefCounted
 	var kind: Kind
@@ -231,6 +279,11 @@ class Step:
 	var flag: String = ""
 	## until_phase: the day phases waited for.
 	var phases: Array[StringName] = []
+	## questions: what is asked, and the steps that follow all true answers (`when_true`) or any
+	## false one (`when_false`).
+	var questions: Array[Question] = []
+	var when_true: Array[Step] = []
+	var when_false: Array[Step] = []
 
 
 ## Whether the branch is for a player of this gender and class, with these `facts` (none:
@@ -378,15 +431,24 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
 		reader.fail("choice", "ask and choice come together")
-	for record: ContentRecordReader in reader.children("steps"):
-		var step: Step = _step(record)
-		record.finish()
-		if step != null:
-			act.steps.append(step)
+	act.steps = _steps(reader, "steps")
 	reader.finish()
 	if act.steps.is_empty():
 		reader.fail("steps", "an act does something")
 	return act
+
+
+## The steps under `key`; a `questions` step only last among them.
+static func _steps(reader: ContentRecordReader, key: String) -> Array[Step]:
+	var steps: Array[Step] = []
+	for record: ContentRecordReader in reader.children(key):
+		var step: Step = _step(record)
+		record.finish()
+		if step != null:
+			if not steps.is_empty() and steps[-1].kind == Kind.QUESTIONS:
+				record.fail("", "a questions step is the last of its branch")
+			steps.append(step)
+	return steps
 
 
 ## A line record (say, emote, line, whisper) is an act of that one line.
@@ -405,7 +467,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -559,4 +621,14 @@ static func _step(reader: ContentRecordReader) -> Step:
 				step.phases.append(StringName(phase_id))
 			if step.phases.is_empty():
 				reader.fail("until_phase", "names at least one day phase")
+		"questions":
+			step.kind = Kind.QUESTIONS
+			for record: ContentRecordReader in reader.children("questions"):
+				step.questions.append(Question.from_record(record))
+			if step.questions.is_empty():
+				reader.fail("questions", "asks at least one question")
+			step.when_true = _steps(reader, "true")
+			step.when_false = _steps(reader, "false")
+			if step.when_true.is_empty() and step.when_false.is_empty():
+				reader.fail("questions", "something follows the answers (true or false steps)")
 	return step

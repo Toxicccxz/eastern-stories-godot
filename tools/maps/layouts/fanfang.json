@@ -150,7 +150,7 @@
       }
     },
     "bazaar": {
-      "note": "番坊 A: the bazaar's one street of beaten earth running east from the dock road, crowded with stalls and low houses — west the felt-and-glass stalls, the 市舶司's grey-walled compound on the south side (an interior map); east the spice sacks and the coppersmith's rack, the black-stone 拜火祠 across the street's east end (番坊 B: its door); a short lane north to 铁盾会's gate with its two great shields (番坊 B: the gate opens). The lane south off the east end down to 日陀罗寺 is 番坊 B's.",
+      "note": "番坊 A: the bazaar's one street of beaten earth running east from the dock road, crowded with stalls and low houses — west the felt-and-glass stalls, the 市舶司's grey-walled compound on the south side (an interior map); east the spice sacks and the coppersmith's rack, the black-stone 拜火祠 across the street's east end with its door onto the fire hall (番坊 B); a short lane north to 铁盾会's gate with its two great shields, the gate open onto its yard (番坊 B); and off the east end between the spice seller's and the hostel a lane of beaten earth sloping south to 日陀罗寺's red wall (寺前坡道, 番坊 B).",
       "file": "fanfang_bazaar.tscn",
       "draw": {
         "technique": "town", "base": "boundary", "bounds": [128, 32, 1760, 1152],
@@ -158,7 +158,8 @@
         "zones": {
           "fanfang.bazaar_west": {"street": "main", "axis": "x", "centre": 656, "span": [192, 864], "width": 288, "ground": "street"},
           "fanfang.bazaar_east": {"street": "main", "axis": "x", "centre": 656, "span": [864, 1536], "width": 288, "ground": "street"},
-          "fanfang.bazaar_north": [1024, 288, 1248, 512, "open", "street", null]
+          "fanfang.bazaar_north": [1024, 288, 1248, 512, "open", "street", null],
+          "fanfang.bazaar_slope": [1056, 800, 1216, 1120, "open", "path", null]
         },
         "roads": [],
         "props": [
@@ -193,13 +194,13 @@
           {"name": "市舶司", "street": "fanfang.bazaar_west", "side": "south", "frontage": "wide", "depth": "deep", "at": 416, "wall": "wall", "roof": "shop_front", "doors": ["fanfang.bazaar_west.south"]},
           {"name": "香料铺", "street": "fanfang.bazaar_west", "side": "south", "frontage": "shop", "depth": "shop", "at": 864, "wall": "wall", "roof": "shop_front"},
           {"name": "胡商客栈", "street": "fanfang.bazaar_east", "side": "south", "frontage": "shop", "depth": "shop", "at": 1408, "wall": "wall", "roof": "shop_front"},
-          {"name": "拜火祠", "rect": [1536, 512, 1760, 800], "wall": "wall", "roof": "shop_front", "note": "the black-stone fire temple across the street's east end (番坊 B: its door and its hall)"},
-          {"name": "铁盾会", "rect": [976, 96, 1296, 288], "wall": "wall", "roof": "shop_front", "note": "铁盾会's front wall and gate at the lane's north end (番坊 B: the gate opens onto its yard)"}
+          {"name": "拜火祠", "rect": [1536, 512, 1760, 800], "street": "fanfang.bazaar_east", "side": "east", "wall": "wall", "roof": "shop_front", "doors": ["fanfang.bazaar_east.east"], "note": "the black-stone fire temple across the street's east end; its door onto the hall (番坊 B)"},
+          {"name": "铁盾会", "rect": [976, 96, 1296, 288], "street": "fanfang.bazaar_north", "side": "north", "wall": "wall", "roof": "shop_front", "doors": ["fanfang.bazaar_north.north"], "note": "铁盾会's front wall and heavy gate at the lane's north end; the gate opens onto its yard (番坊 B)"}
         ]
       },
       "scene": {
         "style": "map", "root": "FanfangBazaar", "map": "fanfang.bazaar", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
-        "shapes": {"Rect_32_96": [32, 96], "Rect_64_32": [64, 32]},
+        "shapes": {"Rect_32_96": [32, 96], "Rect_64_32": [64, 32], "Rect_96_32": [96, 32]},
         "nodes": [
           {
             "node": "service",
@@ -212,7 +213,9 @@
           {"node": "caption", "name": "DockLabel", "at": [232, 580], "text": "西 · 码头", "size": 14},
           {"node": "caption", "name": "TempleLabel", "at": [1648, 640], "text": "拜火祠", "size": 14},
           {"node": "caption", "name": "HallLabel", "at": [1136, 180], "text": "铁盾会", "size": 14},
-          {"node": "passage", "name": "DockPassage", "id": "fanfang.bazaar_west.west", "at": [208, 656], "shape": "Rect_32_96"}
+          {"node": "passage", "name": "DockPassage", "id": "fanfang.bazaar_west.west", "at": [208, 656], "shape": "Rect_32_96"},
+          {"node": "caption", "name": "SlopeLabel", "at": [1136, 1136], "text": "南 · 日陀罗寺", "size": 14},
+          {"node": "passage", "name": "TemplePassage", "id": "fanfang.bazaar_slope.south", "at": [1136, 1104], "shape": "Rect_96_32"}
         ],
         "zones": [{"generated": "zones"}],
         "spawn_points": [
@@ -222,6 +225,7 @@
             "id": "fanfang.bazaar_west.coach_arrival"
           },
           {"name": "BazaarDockArrival", "at": [288, 656], "id": "fanfang.bazaar_west.dock_arrival"},
+          {"name": "BazaarSlopeTempleReturn", "at": [1136, 1040], "id": "fanfang.bazaar_slope.temple_return"},
           {"generated": "markers"}
         ],
         "interactions": [
@@ -271,6 +275,141 @@
         "spawn_points": [{"generated": "markers"}],
         "interactions": [
           {"name": "NoticeInteraction", "id": "fanfang.office.landmark.notice", "room": "fanfang.office", "anchor": ["w", 1, 0], "shape": "Rect_32_64"}
+        ]
+      }
+    },
+    "shield_hall": {
+      "note": "番坊 B: 铁盾会 behind its heavy gate — a great sanded yard where the 大秦 swordsmen drill in pairs (left arm shield, right hand short sword): the shield racks along the north wall, round shields rim to rim; the posts on the east wall hacked by sword points; a rack of short swords, water vats by the gate, a bench; north of it the 会首's low stone hut — a red-and-yellow carpet, a low table with a copper lamp, bedding rolls along the walls, the old shield leaning on the wall with the eagle a shadow, the wooden tablet with the guild's one rule beside it. 安敦 behind his table.",
+      "file": "fanfang_shield_hall.tscn",
+      "draw": {
+        "technique": "interior", "building": "compound",
+        "rooms": {
+          "fanfang.shield_yard": {"floor": "town_ground", "wall": "wall", "size": "grand", "life": {"use": "training_yard", "wealth": "plain", "seed": 81}},
+          "fanfang.hall": {"floor": "floor_shop", "wall": "wall", "size": "room", "life": {"use": "barracks", "wealth": "plain", "seed": 82}}
+        },
+        "props": [
+          ["blocked", "fanfang.shield_yard", ["rel", 0.28, 0.07], 4.0, 0.7, "the shield racks along the north wall, round shields rim to rim (native:fanfang/shield_yard: 北墙下一排盾牌架)", {"look": {"kind": "shield_rack"}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.72, 0.07], 4.0, 0.7, {"look": {"kind": "shield_rack", "shields": 5}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.93, 0.3], 0.9, 0.9, "the posts along the east wall, hacked by sword points (东墙根几根木桩让剑尖戳得坑坑洼洼)", {"look": {"kind": "training_post"}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.93, 0.5], 0.9, 0.9, {"look": {"kind": "training_post"}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.93, 0.7], 0.9, 0.9, {"look": {"kind": "training_post"}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.07, 0.36], 0.6, 2.4, "a rack of short swords on the west wall", {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.07, 0.82], 1.0, 1.0, "water vats by the gate", {"look": {"kind": "water_vat"}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.86, 0.92], 2.0, 0.6, "a bench where the men sit between bouts", {"look": {"kind": "bench"}}],
+          ["blocked", "fanfang.shield_yard", ["rel", 0.2, 0.92], 1.4, 0.8, "sandbags for the yard", {"look": {"kind": "sandbags"}}],
+          ["blocked", "fanfang.hall", ["rel", 0.5, 0.62], 1.6, 0.9, "the low table on the carpet, the copper lamp on it (毯子中间一张矮桌，桌上一盏铜灯)", {"look": {"kind": "tea_table", "wood": "4e3a2c"}}],
+          ["blocked", "fanfang.hall", ["rel", 0.1, 0.42], 0.9, 2.6, "bedding rolls tied along the walls (靠墙一排铺盖卷)", {"look": {"kind": "bedding", "cloth": "8a7a5c", "rotation": 90}}],
+          ["blocked", "fanfang.hall", ["rel", 0.9, 0.42], 0.9, 2.6, {"look": {"kind": "bedding", "cloth": "7a6a50", "rotation": 90}}],
+          ["blocked", "fanfang.hall", ["rel", 0.36, 0.08], 1.0, 0.5, "the old shield leaning on the north wall, the eagle a shadow (墙根靠着一面旧盾)", {"look": {"kind": "great_shield", "height": 1.3, "width": 0.8, "colors": ["6a3a30", "8a7a50", "3e3a36", "5a4a32"]}}],
+          ["blocked", "fanfang.hall", ["rel", 0.88, 0.9], 1.0, 1.0, "a chest", {"look": {"kind": "chest_stack"}}]
+        ],
+        "placed": {
+          "fanfang.hall.andun.1": ["fanfang.hall", ["rel", 0.5, 0.4]],
+          "fanfang.shield_yard.swordsman.1": ["fanfang.shield_yard", ["rel", 0.3, 0.3]],
+          "fanfang.shield_yard.swordsman.2": ["fanfang.shield_yard", ["rel", 0.3, 0.48]],
+          "fanfang.shield_yard.swordsman.3": ["fanfang.shield_yard", ["rel", 0.56, 0.28]],
+          "fanfang.shield_yard.swordsman.4": ["fanfang.shield_yard", ["rel", 0.56, 0.46]],
+          "fanfang.shield_yard.swordsman.5": ["fanfang.shield_yard", ["rel", 0.74, 0.6]],
+          "fanfang.shield_yard.swordsman.6": ["fanfang.shield_yard", ["rel", 0.74, 0.78]]
+        },
+        "doors": {"fanfang.shield_yard.south": "south"},
+        "reach_from": "ShieldYardGateArrival"
+      },
+      "scene": {
+        "style": "map", "root": "FanfangShieldHall", "map": "fanfang.shield_hall", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/shield_hall.json"},
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [
+          {"name": "TabletInteraction", "id": "fanfang.hall.landmark.tablet", "room": "fanfang.hall", "anchor": ["n", 1.6, 0.4], "shape": "Rect_64_32"}
+        ]
+      }
+    },
+    "fire_temple": {
+      "note": "番坊 B: the 拜火祠 — a dark hall of black stone, smoke-glossed, with one thing in it: the chest-high black altar in the middle and the fire of three hundred years on it, no wood, no oil; a smoke-hole in the roof, the stone before the altar worn white by knees; a water vat for the washing of hands, a stone bench by the door, jars of oil nobody has seen used; the 火前问话 happens before the altar. East a low door to the priest's bare cell: a narrow couch, a chest, a lamp, a black slab with a flame cut in it, not a speck of dust.",
+      "file": "fanfang_fire_temple.tscn",
+      "draw": {
+        "technique": "interior", "building": "temple",
+        "rooms": {
+          "fanfang.fire_hall": {"floor": "floor_shop", "wall": "wall", "size": "large", "life": {"use": "temple", "wealth": "plain", "seed": 83}},
+          "fanfang.priest_room": {"floor": "floor_shop", "wall": "wall", "size": "small", "life": {"use": "study", "wealth": "poor", "seed": 84, "tidy": true}}
+        },
+        "props": [
+          ["blocked", "fanfang.fire_hall", ["rel", 0.58, 0.5], 2.2, 2.2, "the black-stone fire altar, chest high, the fire of three hundred years on it (fanfang.fire_hall.landmark.fire)", {"look": {"kind": "fire_altar"}}],
+          ["blocked", "fanfang.fire_hall", ["rel", 0.9, 0.12], 1.2, 1.2, "a water vat for the washing of hands", {"look": {"kind": "water_vat"}}],
+          ["blocked", "fanfang.fire_hall", ["rel", 0.14, 0.9], 1.8, 0.6, "a stone bench by the door", {"look": {"kind": "stone_seat"}}],
+          ["blocked", "fanfang.fire_hall", ["rel", 0.9, 0.88], 1.0, 1.0, "jars of oil nobody has seen used", {"look": {"kind": "wine_jars", "count": 3}}],
+          ["blocked", "fanfang.priest_room", ["rel", 0.5, 0.18], 2.4, 1.0, "a narrow couch (一张窄榻)", {"look": {"kind": "bed", "wood": "5a4a3a"}}],
+          ["blocked", "fanfang.priest_room", ["rel", 0.82, 0.8], 1.0, 1.0, "a wooden chest (一只木箱)", {"look": {"kind": "travel_chest"}}],
+          ["blocked", "fanfang.priest_room", ["rel", 0.18, 0.8], 0.8, 0.8, "a lamp on its stand (一盏灯)", {"look": {"kind": "lamp_stand"}}]
+        ],
+        "placed": {
+          "fanfang.fire_hall.fire_priest.1": ["fanfang.fire_hall", ["rel", 0.3, 0.5]],
+          "fanfang.fire_hall.fire_worshipper.1": ["fanfang.fire_hall", ["rel", 0.72, 0.8]],
+          "fanfang.fire_hall.fire_worshipper.2": ["fanfang.fire_hall", ["rel", 0.74, 0.2]]
+        },
+        "doors": {"fanfang.fire_hall.west": "west"},
+        "reach_from": "FireHallStreetEntry"
+      },
+      "scene": {
+        "style": "map", "root": "FanfangFireTemple", "map": "fanfang.fire_temple", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/fire_temple.json"},
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "service", "name": "QuestionsService", "id": "fanfang.fire_hall.questions", "room": "fanfang.fire_hall", "anchor": ["rel", 0.44, 0.5], "text": "火前 · 问话"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [
+          {"name": "FireInteraction", "id": "fanfang.fire_hall.landmark.fire", "room": "fanfang.fire_hall", "anchor": ["rel", 0.58, 0.32], "shape": "Rect_64_32"}
+        ]
+      }
+    },
+    "lama_temple": {
+      "note": "番坊 B: 日陀罗寺 — a small temple of red-ochre walls with grass on their tops; the great banyan in the middle of the yard, its crown over half of it, air roots grown into trunks, the master's cushion under it where 龙若法王 sits (daemon/class/lama/master.c, placed here); the bronze bell green with age on its frame in a corner, a water vat, a stone bench; east the small shrine with the Buddha from 天竺 (high nose, narrow eyes, curled hair, wet-looking folds) on his dais, the offering table with butter lamps, cushions, palm-leaf sutras heaped in the corner.",
+      "file": "fanfang_lama_temple.tscn",
+      "draw": {
+        "technique": "interior", "building": "temple",
+        "rooms": {
+          "fanfang.temple_yard": {"floor": "floor_yard", "wall": "wall", "size": "large", "life": {"use": "front_yard", "wealth": "poor", "seed": 85}},
+          "fanfang.shrine": {"floor": "floor_wood", "wall": "wall", "size": "room", "life": {"use": "temple", "wealth": "plain", "seed": 86}}
+        },
+        "props": [
+          ["blocked", "fanfang.temple_yard", ["rel", 0.62, 0.5], 2.6, 2.6, "the great banyan in the middle of the yard, its air roots grown into trunks (fanfang.temple_yard.landmark.banyan)", {"look": {"kind": "tree", "species": "banyan", "variant": 1, "scale": 1.3}}],
+          ["blocked", "fanfang.temple_yard", ["rel", 0.62, 0.74], 1.0, 0.8, "the master's cushion under the tree (树下一个蒲团)", {"look": {"kind": "prayer_cushion"}}],
+          ["blocked", "fanfang.temple_yard", ["rel", 0.9, 0.86], 1.6, 1.0, "the bronze bell on its frame in the yard's corner, green with age (院角一口铜钟挂在木架上，钟身发绿)", {"look": {"kind": "temple_bell", "colors": ["4a6a52", "567a5c", "3e5a46"], "frame": "5a3a2a"}}],
+          ["blocked", "fanfang.temple_yard", ["rel", 0.1, 0.86], 1.0, 1.0, "a water vat", {"look": {"kind": "water_vat"}}],
+          ["blocked", "fanfang.temple_yard", ["rel", 0.1, 0.14], 1.2, 0.8, "a stone bench against the wall", {"look": {"kind": "stone_seat"}}],
+          ["blocked", "fanfang.shrine", ["rel", 0.5, 0.12], 2.4, 1.4, "the Buddha from 天竺 on his dais (fanfang.shrine.landmark.buddha)", {"look": {"kind": "buddha"}}],
+          ["blocked", "fanfang.shrine", ["rel", 0.5, 0.36], 2.4, 0.9, "the offering table, butter lamps on it (佛前一张供桌，桌上几盏酥油灯)", {"look": {"kind": "altar_table", "fresh": true}}],
+          ["blocked", "fanfang.shrine", ["rel", 0.5, 0.62], 1.0, 0.8, "a prayer cushion before the table", {"look": {"kind": "prayer_cushion"}}],
+          ["blocked", "fanfang.shrine", ["rel", 0.88, 0.88], 1.0, 1.0, "palm-leaf sutras heaped in the corner (殿角堆着几卷贝叶经)", {"look": {"kind": "crocks", "scrolls": true}}]
+        ],
+        "placed": {
+          "fanfang.temple_yard.lama_master.1": ["fanfang.temple_yard", ["rel", 0.62, 0.88]],
+          "fanfang.temple_yard.indian_monk.1": ["fanfang.temple_yard", ["rel", 0.22, 0.5]],
+          "fanfang.shrine.indian_monk.1": ["fanfang.shrine", ["rel", 0.5, 0.82]]
+        },
+        "doors": {"fanfang.temple_yard.north": "north"},
+        "reach_from": "TempleYardSlopeArrival"
+      },
+      "scene": {
+        "style": "map", "root": "FanfangLamaTemple", "map": "fanfang.lama_temple", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/lama_temple.json"},
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [
+          {"name": "BanyanInteraction", "id": "fanfang.temple_yard.landmark.banyan", "room": "fanfang.temple_yard", "anchor": ["rel", 0.62, 0.63], "shape": "Rect_64_32"},
+          {"name": "BuddhaInteraction", "id": "fanfang.shrine.landmark.buddha", "room": "fanfang.shrine", "anchor": ["rel", 0.5, 0.25], "shape": "Rect_64_32"}
         ]
       }
     }
