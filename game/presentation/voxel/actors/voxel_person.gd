@@ -24,7 +24,7 @@ const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long",
 const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver"]
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
 ## round the shins.
 const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps"]
@@ -310,6 +310,10 @@ func _prop() -> void:
 			# A woodcutter's axe at the side, the blade below the hand, its edge forward.
 			_held(hand, grip + Vector3(0, -0.16, 0.04), Vector3(0.05, 0.4, 0.05), wood)
 			_held(hand, grip + Vector3(0, -0.32, 0.13), Vector3(0.04, 0.15, 0.16), _hex("prop_color", "8a8f94"))
+		"cleaver":
+			# A butcher's broad knife (郑屠夫's 解牛刀) hanging from the hand, the wide blade forward.
+			_held(hand, grip + Vector3(0, -0.06, 0.04), Vector3(0.05, 0.14, 0.05), wood)
+			_held(hand, grip + Vector3(0, -0.22, 0.09), Vector3(0.03, 0.2, 0.18), _hex("prop_color", "c2c6c8"))
 
 
 ## A box of the body at its plain-figure place `at` (torso and head heights follow the height),
