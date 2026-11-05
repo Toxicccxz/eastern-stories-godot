@@ -46,6 +46,9 @@
 		{ "id": "waterfog.eaststair.up", "from_zone": "waterfog.eaststair", "to_zone": "waterfog.east_2f", "to_spawn": "waterfog.east_2f.stairs_arrival", "legacy_room": "es2:d/waterfog/eaststair", "legacy_command": "up" },
 		{ "id": "waterfog.east_2f.down", "from_zone": "waterfog.east_2f", "to_zone": "waterfog.eaststair", "to_spawn": "waterfog.eaststair.stairs_return", "legacy_room": "es2:d/waterfog/east_2f", "legacy_command": "down" }
 	],
+	"services": [
+		{ "id": "waterfog.sroad3.coach", "kind": "coach", "zone": "waterfog.sroad3", "name": "车马行", "reach": 96, "arrival": "waterfog.sroad3.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" }
+	],
 	"doors": [],
 	"landmarks": [
 		{"id": "waterfog.guildhall.landmark.sign", "zone": "waterfog.guildhall", "name": "樟木匾", "policy": "join_class", "action": "加入武者同盟", "class": "fighter", "messages": {"joined": "恭喜，从今天起您已经成为一名武者！", "refused": "你已经参加了其他公会。"}, "long": "要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n一份子，只要你加入武者同盟，就可以向同盟中的各大门派拜师\n学艺。\n", "legacy_source": "d/waterfog/guildhall.c"},

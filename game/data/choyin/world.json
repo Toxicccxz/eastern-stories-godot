@@ -163,6 +163,7 @@
 		{ "id": "choyin.town.n_gate.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.n_gate", "points": ["choyin.n_gate.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 }
 	],
 	"services": [
+		{ "id": "choyin.s_gate.coach", "kind": "coach", "zone": "choyin.s_gate", "name": "车马行", "reach": 96, "arrival": "choyin.s_gate.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
 		{ "id": "choyin.s_street1.well", "kind": "water", "zone": "choyin.s_street1", "name": "大井", "reach": 96, "legacy_source": "d/choyin/s_street1.c" },
 		{ "id": "choyin.s_street1.drink", "kind": "act", "zone": "choyin.s_street1", "name": "大井", "reach": 96, "legacy_source": "d/choyin/s_street1.c", "act": {"verb": "喝水", "acts": [{"thirsty": true, "steps": [{"line": "你在井边用杯子舀起井水喝了几口。\n"}, {"water": 20}]}, {"steps": [{"line": "你已经再也喝不下一滴水了。\n"}]}]} },
 		{ "id": "choyin.cloudpool.water", "kind": "water", "zone": "choyin.cloudpool", "name": "大泽", "reach": 160, "legacy_source": "d/choyin/cloudpool.c" },

@@ -109,7 +109,8 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    「减轻死亡」: three manual slots and a rolling autosave written on a worker, a Load in play, death at 3% experience with the corpse
    waiting and a way back to the autosave); C is done (DECISIONS「数值用到才出现」: 法力, 灵力, 杀气 and 加力 appear when used, a line
    for every number, the keys and the pad read every hover); B is done (DECISIONS「总图」: the 地图 page, voxel land with real miniatures and
-   roads worn into it, marks, 指路 along walked roads). Coach routes and fast travel stay for later: nothing in B needs them.
+   roads worn into it, marks, 指路 along walked roads), and the coach stops after it (DECISIONS「车马行」: twelve carts, picked on the
+   沙盘, a small fare and the road's time).
 3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md).** The canon (three creative baselines, the
    false tomb, timeline, politics, geography), the main story (prologue, ten chapters, finale), the
    twelve faction lines, the five new regions and the style guide are that one document; its §9

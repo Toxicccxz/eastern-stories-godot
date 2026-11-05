@@ -805,6 +805,10 @@ msgstr ""
 msgid "云"
 msgstr ""
 
+#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/fanfang/fanfang_bazaar.tscn scenes/world/green/green_village.tscn scenes/world/guanbei/guanbei_market.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/sanyen/sanyen_temple.tscn scenes/world/snow/snow_outdoor.tscn scenes/world/temple/temple_grounds.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_mountain.tscn
+msgid "车马行 · 靠近坐车"
+msgstr ""
+
 #. es2:d/choyin/n_gate short
 #: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
 msgid "乔阴县城北门"
@@ -6530,6 +6534,48 @@ msgstr ""
 msgid "Ok."
 msgstr ""
 
+#. a 车马行 ride's time on the road: well under an hour.
+#: core/world/coach_lines.gd
+msgid "一盏茶的工夫"
+msgstr ""
+
+#. a 车马行 ride's time on the road: half a 时辰 (an hour).
+#: core/world/coach_lines.gd
+msgid "半个时辰"
+msgstr ""
+
+#. the number two before a measure word (两个时辰), not counted as 二.
+#. es2:obj/money/silver money.base_unit
+#. es2:obj/money/gold money.base_unit
+#: core/world/coach_lines.gd data/common/items.json
+msgid "两"
+msgstr ""
+
+#. a 车马行 ride's time on the road: {count} 时辰 and a half.
+#: core/world/coach_lines.gd
+msgid "{count}个半时辰"
+msgstr ""
+
+#. a 车马行 ride's time on the road: {count} 时辰.
+#: core/world/coach_lines.gd
+msgid "{count}个时辰"
+msgstr ""
+
+#. a 车马行 fare: {coins} 文.
+#: core/world/coach_lines.gd
+msgid "{coins}文"
+msgstr ""
+
+#. a 车马行 fare: {silver} 两 of silver.
+#: core/world/coach_lines.gd
+msgid "{silver}两银子"
+msgstr ""
+
+#. a 车马行 fare: {silver} 两 of silver and {coins} 文.
+#: core/world/coach_lines.gd
+msgid "{silver}两银子{coins}文"
+msgstr ""
+
 #. liuh-ken actions.damage_type
 #. celestrike actions.damage_type
 #. snowwhip actions.damage_type
@@ -7848,6 +7894,22 @@ msgstr ""
 msgid "返回"
 msgstr ""
 
+#. snow.mstreet4.coach name
+#. cloud.entrance.coach name
+#. waterfog.sroad3.coach name
+#. green.path6.coach name
+#. temple.square.coach name
+#. latemoon.entrance.coach name
+#. sanyen.front_yard.coach name
+#. choyin.s_gate.coach name
+#. village.road1.coach name
+#. city.nroad1.coach name
+#. guanbei.market.coach name
+#. fanfang.bazaar_west.coach name
+#: presentation/voxel/props/voxel_town.gd data/snow/world.json data/cloud/world.json data/waterfog/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/sanyen/world.json data/choyin/world.json data/village/world.json data/city/world.json data/guanbei/world.json data/fanfang/world.json
+msgid "车马行"
+msgstr ""
+
 #: presentation/voxel/props/voxel_trade_props.gd
 msgid "大"
 msgstr ""
@@ -8645,6 +8707,51 @@ msgstr ""
 
 #: runtime/world/services/bounty_service.gd
 msgid "看榜"
+msgstr ""
+
+#. the 车马行's cart in the interaction list: take a ride.
+#. the 车马行's question: the button that takes the ride.
+#: runtime/world/services/coach_service.gd
+msgid "坐车"
+msgstr ""
+
+#. the 车马行 cannot take the player there now.
+#: runtime/world/services/coach_service.gd
+msgid "车夫摇摇头：「这会儿去不了。」"
+msgstr ""
+
+#. the player has less money than a 车马行 fare.
+#: runtime/world/services/coach_service.gd
+msgid "你的钱不够付车钱。"
+msgstr ""
+
+#. the 车马行's question before a ride: {place} where to, {fare} the fare, {time} the time on the road.
+#: runtime/world/services/coach_service.gd
+msgid "坐车去{place}？车钱{fare}，路上约{time}。"
+msgstr ""
+
+#. a 车马行 ride that could not set off after all.
+#: runtime/world/services/coach_service.gd
+msgid "车夫摇摇头：「这会儿走不了。」"
+msgstr ""
+
+#. a 车马行 ride paid: {fare} the fare.
+#: runtime/world/services/coach_service.gd
+msgid "你付了{fare}车钱。"
+msgstr ""
+
+#: runtime/world/services/coach_service.gd
+msgid "车马行: the fare (%d) was not taken on the ride to %s"
+msgstr ""
+
+#. a 车马行 ride ends: {time} the time on the road, {place} where it set the player down.
+#: runtime/world/services/coach_service.gd
+msgid "车马行的车走了{time}，把你送到了{place}。"
+msgstr ""
+
+#. a 车马行 ride ends (no time could go by): {place} where it set the player down.
+#: runtime/world/services/coach_service.gd
+msgid "车马行的车把你送到了{place}。"
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
@@ -9497,6 +9604,11 @@ msgstr ""
 msgid "{title} · {region}"
 msgstr ""
 
+#. the 地图 page while the 车马行's cart is on the road.
+#: ui/world/map_page.gd
+msgid "车马行的车上路了……"
+msgstr ""
+
 #. the 地图 page's card for a place a road leads to that the player has not reached.
 #: ui/world/map_page.gd
 msgid "这条路通向哪里，走了才知道。"
@@ -9525,6 +9637,26 @@ msgstr ""
 #. the 地图 page's card: {count} buildings or places here the player has not been in.
 #: ui/world/map_page.gd
 msgid "还有 {count} 处没进去过"
+msgstr ""
+
+#. the 地图 page's card at a 车马行: {fare} what the ride costs, {time} how long the road takes.
+#: ui/world/map_page.gd
+msgid "车钱 {fare}　路上约{time}"
+msgstr ""
+
+#. the 地图 page's card at a 车马行: takes the cart to this place.
+#: ui/world/map_page.gd
+msgid "坐车去这里"
+msgstr ""
+
+#. the 地图 page's card at a 车马行, on the place the player stands in.
+#: ui/world/map_page.gd
+msgid "车马行的车就停在这里。"
+msgstr ""
+
+#. the 地图 page's card at a 车马行, on a place no ride goes to.
+#: ui/world/map_page.gd
+msgid "车马行的车不到这里。"
 msgstr ""
 
 #. the 地图 page's card: {objective} the tracked quest's next step.
@@ -10958,12 +11090,6 @@ msgstr ""
 #: data/common/items.json
 msgid ""
 "白花花的银子，人见人爱的银子。\n"
-msgstr ""
-
-#. es2:obj/money/silver money.base_unit
-#. es2:obj/money/gold money.base_unit
-#: data/common/items.json
-msgid "两"
 msgstr ""
 
 #. es2:obj/money/gold name

@@ -9,6 +9,10 @@ extends Control
 ##
 ## Each place is a button: direction keys and the pad walk between them, the view follows,
 ## confirm goes to the card, left comes back. Mouse: drag to move, wheel to zoom.
+##
+## Opened at a 车马行's cart (DECISIONS「车马行」) the page offers its rides: a cart stands by each
+## place one goes to, the card names the fare and the time on the road and has 坐车去这里, the road
+## there lights up, and once the player has said yes the cart rolls along it before the ride.
 
 ## The zoom the page opens at, and from which the chosen place's pins show.
 const CLOSE_ZOOM: float = 0.62
@@ -31,6 +35,10 @@ const GLOW_SIZE: float = 86.0
 ## A step of the way longer than this crosses from one road to the next: the light jumps it.
 const GLOW_JUMP: float = 120.0
 const WAY_COLOUR: Color = Color(1.0, 0.72, 0.34, 0.85)
+## The 车马行's cart (cart.png, baked like the arrow): its height on the 沙盘 while it rolls, and
+## beside a place a ride goes to.
+const CART_SIZE: float = 64.0
+const CART_MARK_SIZE: float = 30.0
 const MINI_LIGHT: Color = Color(1.2, 1.16, 1.1)
 const GRADE: String = """
 shader_type canvas_item;
@@ -83,6 +91,14 @@ var _way_layer: Node2D
 var _way: PackedVector2Array
 var _way_length: float = 0.0
 var _glows: Array[Sprite2D] = []
+## The rides offered from the 车马行 the menu was opened at, by the place each goes to; what
+## takes the one picked (it answers why not, "" when it goes on). Not callable: no cart here.
+var _rides: Dictionary[StringName, CoachLines.Ride] = {}
+var _choose_ride: Callable
+## The carts standing by the places a ride goes to, and the one rolling along the road.
+var _cart_marks: Array[TextureRect] = []
+var _cart: Sprite2D
+var _riding: Tween
 
 
 func _init() -> void:
@@ -181,6 +197,9 @@ func _haze(from_colour: Color, to_colour: Color, from: Vector2, to: Vector2, rad
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		set_process(is_visible_in_tree())
+		# Another tab, the pause: the cart on the road stops and the ride with it.
+		if not is_visible_in_tree() and riding():
+			_cancel_ride()
 
 
 ## The clouds drift, the light runs along the way.
@@ -240,6 +259,8 @@ func _build_card() -> void:
 func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> void:
 	if state == null:
 		return
+	if riding():
+		_cancel_ride()
 	if _pictures == null:
 		_pictures = AtlasPictures.read()
 		_dress_stage()
@@ -266,7 +287,132 @@ func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> voi
 		_centre = _middle(home)
 		_select(home)
 	_show_goal()
+	_show_cart_marks()
 	_apply_view()
+
+
+## The menu was opened at a 车马行's cart: its rides until clear_rides(). `choose` takes the ride
+## picked and returns why it cannot go, "" when it goes on (to ask first).
+func offer_rides(rides: Array[CoachLines.Ride], choose: Callable) -> void:
+	_rides.clear()
+	for ride: CoachLines.Ride in rides:
+		_rides[ride.cell] = ride
+	_choose_ride = choose
+
+
+## The menu closed: no cart here any more, and a cart on the road stops where it is.
+func clear_rides() -> void:
+	_rides.clear()
+	_choose_ride = Callable()
+	_cancel_ride()
+	_show_cart_marks()
+
+
+## Whether the page offers a 车马行's rides now.
+func offers_rides() -> bool:
+	return _choose_ride.is_valid()
+
+
+## The rides offered, by the place each goes to (tests).
+func rides() -> Dictionary[StringName, CoachLines.Ride]:
+	return _rides
+
+
+## The player said yes to `ride`: the cart rolls along the lit road on the 沙盘 for the feel's
+## coach_ride_ms, the view following it, then `done` is called (at once without the picture).
+## The card stands still meanwhile; the menu closing stops it (done is not called then).
+func play_ride(ride: CoachLines.Ride, done: Callable) -> void:
+	if _pictures == null:
+		done.call()
+		return
+	_light_route(ride.route)
+	var seconds: float = GameContent.catalog().pacing().feel.coach_ride_seconds
+	var texture: Texture2D = _cart_texture()
+	if seconds <= 0.0 or _way.size() < 2 or _way_length <= 0.0 or texture == null:
+		done.call()
+		return
+	# The card's lines grey while the cart rolls; the places stand as they are and take no keys.
+	for button: Button in row_buttons:
+		button.disabled = true
+	# TRANSLATORS: the 地图 page while the 车马行's cart is on the road.
+	status.text = tr("车马行的车上路了……")
+	_cart = Sprite2D.new()
+	_cart.name = "Cart"
+	_cart.texture = texture
+	_cart.offset = Vector2(0.0, -texture.get_size().y * 0.42)
+	_cart.scale = Vector2.ONE * CART_SIZE / maxf(texture.get_size().y, 1.0)
+	_cart.position = _along_way(0.0)
+	_way_layer.add_child(_cart)
+	_riding = create_tween()
+	# The menu runs through the pause; the cart does not.
+	_riding.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
+	_riding.tween_method(_roll_cart, 0.0, _way_length, seconds).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_riding.tween_callback(func() -> void:
+		_riding = null
+		done.call())
+
+
+## Whether the cart is on the road on the 沙盘 now.
+func riding() -> bool:
+	return _riding != null and _riding.is_valid()
+
+
+func _roll_cart(distance: float) -> void:
+	if _cart == null:
+		return
+	var at: Vector2 = _along_way(distance)
+	if not is_equal_approx(at.x, _cart.position.x):
+		_cart.flip_h = at.x < _cart.position.x
+	_cart.position = at
+	_centre = at
+	_apply_view()
+
+
+## The ride stops where the cart is: nothing is paid, nobody goes.
+func _cancel_ride() -> void:
+	if _riding != null and _riding.is_valid():
+		_riding.kill()
+	_riding = null
+	_end_ride()
+	status.text = ""
+
+
+func _end_ride() -> void:
+	if _cart != null:
+		_cart.queue_free()
+		_cart = null
+	for button: Button in row_buttons:
+		button.disabled = false
+
+
+func _cart_texture() -> Texture2D:
+	var path: String = AtlasPictures.DIRECTORY + "cart.png"
+	return load(path) as Texture2D if ResourceLoader.exists(path) else null
+
+
+## A cart by each place a ride goes to.
+func _show_cart_marks() -> void:
+	for mark: TextureRect in _cart_marks:
+		overlay.remove_child(mark)
+		mark.queue_free()
+	_cart_marks.clear()
+	var texture: Texture2D = _cart_texture()
+	if texture == null:
+		return
+	for cell: StringName in _rides:
+		if not cell_buttons.has(cell):
+			continue
+		var mark := TextureRect.new()
+		mark.name = "CartMark"
+		mark.texture = texture
+		mark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		mark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		mark.size = Vector2(CART_MARK_SIZE * texture.get_size().x / maxf(texture.get_size().y, 1.0), CART_MARK_SIZE)
+		mark.set_meta("cell", cell)
+		overlay.add_child(mark)
+		_cart_marks.append(mark)
+	_place_overlays()
 
 
 ## The layers the bake left that do not change: the land, the cloud's shadow, the mist, the clouds.
@@ -379,10 +525,14 @@ func _middle(map_id: StringName) -> Vector2:
 
 
 func _select(map_id: StringName) -> void:
+	if riding():
+		return
 	_selected = map_id
 	status.text = ""
 	_fill_card()
 	_show_pins()
+	if offers_rides():
+		_light_route(_ride_route(map_id))
 	_move_to(_middle(map_id))
 
 
@@ -396,6 +546,8 @@ func _move_to(place: Vector2) -> void:
 
 
 func _enter_card(map_id: StringName) -> void:
+	if riding():
+		return
 	if _selected != map_id:
 		_select(map_id)
 	if not row_buttons.is_empty():
@@ -426,6 +578,8 @@ func _fill_card() -> void:
 	if region != null and region.recommended_exp > 0:
 		# TRANSLATORS: the 地图 page's card: the combat experience the place is meant for.
 		_text(rows, tr("适合经验 {exp} 上下").format({"exp": region.recommended_exp}), UiPalette.MUTED)
+	if offers_rides():
+		_ride_lines()
 	# TRANSLATORS: the 地图 page's card: shows the way to this place.
 	_row(tr("指路到这里"), _point.bind(_selected, &"", tr(cell.name))).theme_type_variation = &"ChipButton"
 	_marks = MapAtlas.marks(catalog, _state, _selected)
@@ -454,6 +608,40 @@ func _fill_card() -> void:
 		# TRANSLATORS: the 地图 page's card: {count} buildings or places here the player has not been in.
 		_text(rows, tr("还有 {count} 处没进去过").format({"count": left}), UiPalette.MUTED)
 	_finish_rows()
+
+
+## Opened at a 车马行: the ride to the chosen place, or why there is none.
+func _ride_lines() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var ride: CoachLines.Ride = _rides.get(_selected)
+	if ride != null:
+		# TRANSLATORS: the 地图 page's card at a 车马行: {fare} what the ride costs, {time} how long the road takes.
+		_text(rows, tr("车钱 {fare}　路上约{time}").format({"fare": CoachLines.fare_text(catalog, ride.fare), "time": CoachLines.duration_text(ride.minutes)}), UiPalette.GOLD)
+		# TRANSLATORS: the 地图 page's card at a 车马行: takes the cart to this place.
+		_row(tr("坐车去这里"), _ride.bind(ride)).theme_type_variation = &"ChipButton"
+	elif catalog.atlas().home_of(catalog, _here_map) == _selected:
+		# TRANSLATORS: the 地图 page's card at a 车马行, on the place the player stands in.
+		_text(rows, tr("车马行的车就停在这里。"), UiPalette.MUTED)
+	else:
+		# TRANSLATORS: the 地图 page's card at a 车马行, on a place no ride goes to.
+		_text(rows, tr("车马行的车不到这里。"), UiPalette.MUTED)
+
+
+## The road of the ride to `cell`; none when no ride goes there.
+func _ride_route(cell: StringName) -> Array[WorldRoute.Step]:
+	var ride: CoachLines.Ride = _rides.get(cell)
+	var steps: Array[WorldRoute.Step] = []
+	if ride != null:
+		steps = ride.route
+	return steps
+
+
+func _ride(ride: CoachLines.Ride) -> void:
+	if not offers_rides():
+		return
+	var why: String = _choose_ride.call(ride)
+	if not why.is_empty():
+		status.text = why
 
 
 func _objective_line(objective: String) -> void:
@@ -631,28 +819,42 @@ func _show_goal() -> void:
 			arrow.texture = load(AtlasPictures.DIRECTORY + "arrow.png") as Texture2D
 		arrow.set_meta("cell", cell)
 		_place_overlays()
-	_light_way(goal)
+	if offers_rides():
+		# At a 车马行 the road that lights up is the chosen ride's.
+		_light_route(_ride_route(_selected))
+	else:
+		_light_way(goal)
 
 
 ## The road to the goal lights up, as far as the player has walked it, and light runs along it.
 func _light_way(goal: MapAtlas.Goal) -> void:
+	var steps: Array[WorldRoute.Step] = []
+	if goal != null:
+		var known: Dictionary[String, int] = {}
+		if goal.waypoint:
+			known = _state.visited_maps
+		steps = WorldRoute.guided(GameContent.catalog(), _here_map, goal.map_id, known)
+	_light_route(steps)
+
+
+## The road of `steps` from where the player stands lights up, and light runs along it.
+func _light_route(steps: Array[WorldRoute.Step]) -> void:
 	for child: Node in _way_layer.get_children():
+		if child == _cart:
+			continue
 		_way_layer.remove_child(child)
 		child.queue_free()
 	_glows.clear()
 	_way = PackedVector2Array()
 	_way_length = 0.0
-	if goal == null:
+	if steps.is_empty():
 		return
 	var catalog: ContentCatalog = GameContent.catalog()
 	var table: AtlasTable = catalog.atlas()
-	var known: Dictionary[String, int] = {}
-	if goal.waypoint:
-		known = _state.visited_maps
 	var add := CanvasItemMaterial.new()
 	add.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	var from: StringName = table.home_of(catalog, _here_map)
-	for step: WorldRoute.Step in WorldRoute.guided(catalog, _here_map, goal.map_id, known):
+	for step: WorldRoute.Step in steps:
 		var to: StringName = table.home_of(catalog, step.to_map)
 		if to == from:
 			continue
@@ -731,6 +933,10 @@ func _place_overlays() -> void:
 		pin.position = _to_view(pin.get_meta("at")) - Vector2(pin.size.x / 2.0, pin.size.y + 8.0)
 	if arrow.visible:
 		arrow.position = _to_view(_middle(arrow.get_meta("cell"))) - Vector2(arrow.size.x / 2.0, arrow.size.y + 26.0)
+	for mark: TextureRect in _cart_marks:
+		var button: Button = cell_buttons.get(mark.get_meta("cell"))
+		if button != null:
+			mark.position = button.position + Vector2(-mark.size.x - 2.0, (button.size.y - mark.size.y) / 2.0)
 
 
 ## The 沙盘 just covers the view; what the card hides is a drag or a step away.
@@ -765,6 +971,8 @@ func _show_zoom_label() -> void:
 
 
 func _sand_input(event: InputEvent) -> void:
+	if riding():
+		return
 	var button := event as InputEventMouseButton
 	if button != null:
 		if button.button_index == MOUSE_BUTTON_LEFT:

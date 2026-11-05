@@ -3,7 +3,8 @@ extends SceneTree
 ## view's own angle, one low warm sun for every place, no people, no HUD, no far scenery, on a
 ## transparent ground. Windowed (it needs the renderer). Run by bake.py, a few maps a run:
 ##   godot --path game --script <this> -- <out dir> <px per unit> <map> ...
-## An argument `@arrow` draws the sand table's arrow instead. Prints TRIM and PIN lines.
+## An argument `@arrow` draws the sand table's arrow instead, `@cart` the 车马行's cart (the
+## `coach` prop, DECISIONS「车马行」). Prints TRIM and PIN lines.
 
 const DROPPED: Array[String] = ["far_peak", "cloud_sea"]
 const SUN_COLOUR := Color("ffba80")
@@ -28,6 +29,10 @@ func _run() -> void:
 	root.size = Vector2i(640, 360)
 	if args.has("@arrow"):
 		await _bake_arrow(out.path_join("arrow.png"))
+		quit()
+		return
+	if args.has("@cart"):
+		await _bake_cart(out.path_join("cart.png"))
 		quit()
 		return
 	for npc: NpcDefinition in GameContent.catalog().npcs():
@@ -185,6 +190,59 @@ func _bake(view: WorldVoxelView, map: WorldMapController, path: String, scale: f
 			print("PIN ", name, " door:", portal.destination_map_id, " ", point.x, " ", point.y)
 	viewport.queue_free()
 	view.process_mode = Node.PROCESS_MODE_INHERIT
+
+
+## The 车马行's cart that stands by a place a ride goes to and rolls along the road on the
+## 沙盘: the world's own `coach` prop, side on from the view's angle, lit like the places.
+func _bake_cart(path: String) -> void:
+	var viewport: SubViewport = _icon_stage(Vector2i(300, 220), 7.0, Vector3(0, 1.2, 0))
+	var shapes := preload("res://presentation/voxel/props/voxel_shapes.gd").new()
+	var town := preload("res://presentation/voxel/props/voxel_town.gd").new()
+	town.rng = RandomNumberGenerator.new()
+	var holder := Node3D.new()
+	holder.rotation.y = -PI / 2.0
+	viewport.add_child(holder)
+	town.draw(shapes, holder, {"kind": "coach"}, 1.5, 5.0)
+	shapes.flush()
+	for _frame: int in 8:
+		await process_frame
+	await RenderingServer.frame_post_draw
+	var picture: Image = viewport.get_texture().get_image()
+	picture.get_region(picture.get_used_rect()).save_png(path)
+
+
+## A small stage of its own for one thing: transparent, the places' sun and sky light, the view's
+## angle; `height` the world units the picture shows top to bottom, looking at `look_at`.
+func _icon_stage(size: Vector2i, height: float, look_at: Vector3) -> SubViewport:
+	var viewport := SubViewport.new()
+	viewport.own_world_3d = true
+	viewport.size = size
+	viewport.transparent_bg = true
+	viewport.msaa_3d = Viewport.MSAA_4X
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var holder := WorldEnvironment.new()
+	holder.environment = Environment.new()
+	holder.environment.background_mode = Environment.BG_COLOR
+	holder.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	holder.environment.ambient_light_color = SKY_COLOUR
+	holder.environment.ambient_light_energy = 0.5
+	viewport.add_child(holder)
+	var sun := DirectionalLight3D.new()
+	sun.light_color = SUN_COLOUR
+	sun.light_energy = 1.4
+	sun.rotation_degrees = Vector3(-26, -50, 0)
+	viewport.add_child(sun)
+	var camera := Camera3D.new()
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.keep_aspect = Camera3D.KEEP_HEIGHT
+	camera.size = height
+	camera.near = 1.0
+	camera.far = 1200.0
+	viewport.add_child(camera)
+	camera.global_transform = Transform3D(Basis.looking_at(Vector3(-21.213203, -26, -21.213203), Vector3.UP), look_at + Vector3(21.213203, 26, 21.213203).normalized() * 600.0)
+	camera.current = true
+	return viewport
 
 
 ## The arrow that stands on the sand table over the goal: a voxel arrow, lit like the places.

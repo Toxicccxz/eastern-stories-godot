@@ -1072,6 +1072,7 @@
         },
         "roads": [],
         "props": [
+          ["blocked", 368, 672, 416, 800, "the 马市's cart for hire against its west wall, below the lane in and above the camel pen, out of every way across the yard (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "a8784a", "coat": "4a4a4e", "curtain": "6a4a8a"}}],
           [
             "blocked",
             784,
@@ -1408,6 +1409,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "MarketCoach",
+            "id": "guanbei.market.coach",
+            "at": [440, 728],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -1457,6 +1465,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "MarketCoachArrival",
+            "at": [452, 756],
+            "id": "guanbei.market.coach_arrival"
+          },
           {
             "name": "MarketStreetArrival",
             "at": [

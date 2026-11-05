@@ -92,6 +92,7 @@
 		{ "id": "snow.school.north", "from_zone": "snow.school", "to_zone": "snow.sroad2", "to_spawn": "snow.sroad2.academy_return", "legacy_room": "es2:d/snow/school", "legacy_command": "north" }
 	],
 	"services": [
+		{ "id": "snow.mstreet4.coach", "kind": "coach", "zone": "snow.mstreet4", "name": "车马行", "reach": 96, "arrival": "snow.mstreet4.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
 		{ "id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace", "name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c" },
 		{ "id": "snow.bank.counter", "kind": "bank", "zone": "snow.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/snow/bank.c" },
 		{ "id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop", "name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c" },
