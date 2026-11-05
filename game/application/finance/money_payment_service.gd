@@ -86,14 +86,15 @@ static func pay(context: MoneyInventoryContext, price: int) -> MoneyPaymentResul
 ## Native (车马行; DECISIONS「车马行」): pays `price` with pay(), first changing a larger coin
 ## into a hundred of the next (BankConversionService, as the 钱庄 would) while the coins carried
 ## would not come out even: one who takes a fare makes change. Not can_afford(): finance.c says
-## 「找不开」 to a purse of coins alone, however many. False when the money is not there or cannot
-## be changed (the change too heavy to carry); nothing is taken then.
+## 「找不开」 to a purse of coins alone, however many. False when the money is not there; nothing
+## is taken then. A change the purse cannot carry (`maximum_encumbrance`) costs the coin changed
+## (BankConversionService): give a limit the change always fits under.
 static func pay_making_change(context: MoneyInventoryContext, allocator: SessionItemIdAllocator, maximum_encumbrance: int, price: int) -> bool:
 	if price < 1 or context == null or not context.is_valid():
 		return false
 	var units: Array[int] = _unit_values()
-	# Gold into silver, silver into coins: twice at most.
-	for _change: int in 3:
+	# A coin changed each pass, the smaller first: a few passes at most for any fare.
+	for _change: int in CHANGE_PASSES:
 		var held: Array[int] = _held(context)
 		if held.is_empty() or held[0] * units[0] + held[1] * units[1] + held[2] < price:
 			return false
@@ -104,6 +105,10 @@ static func pay_making_change(context: MoneyInventoryContext, allocator: Session
 		if not BankConversionService.convert(context, allocator, maximum_encumbrance, from, to, 1).succeeded():
 			return false
 	return false
+
+
+## Changes a pay_making_change() makes at most before it gives up.
+const CHANGE_PASSES: int = 8
 
 
 ## The gold, silver and coins carried (one stack each, as pay() takes them); empty when a stack

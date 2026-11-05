@@ -8,6 +8,11 @@ extends WorldService
 ## road's time goes by (WorldSessionController.pass_game_time()); the arrival autosaves as any
 ## map change does. With the pacing knob coach_travel off (ES2) the cart takes nobody.
 
+## The change the driver counts into the player's hand is theirs however heavy: a change the
+## purse could not carry would cost the coin it changed (BankConversionService), so the carry
+## limit given for the fare's change is none.
+const CHANGE_CARRY: int = 1 << 30
+
 
 func verb() -> String:
 	# TRANSLATORS: the 车马行's cart in the interaction list: take a ride.
@@ -83,7 +88,12 @@ func _ride(to: ServiceDefinition) -> bool:
 	if ride == null or session == null:
 		return false
 	session.shared_ui().close_menu()
-	if not in_reach():
+	if not in_reach() or session.is_transitioning():
+		return false
+	# The purse is looked at before the cart sets off (money dropped while it rolled on the 沙盘
+	# is not there to pay with); nothing changes it between here and the fare taken there.
+	if not map.player_can_afford(ride.fare):
+		session.shared_ui().append_log_lines([tr("你的钱不够付车钱。")])
 		return false
 	var zone: ZoneDefinition = GameContent.catalog().zone(to.zone_id)
 	var result: OldPineMapHandoffResult = session.handoff_led(to.map_id, to.zone_id, zone.combat_location_id, to.arrival_spawn_id)
@@ -97,9 +107,14 @@ func _ride(to: ServiceDefinition) -> bool:
 	if there != null and _pay(there, ride.fare):
 		# TRANSLATORS: a 车马行 ride paid: {fare} the fare.
 		lines.append(tr("你付了{fare}车钱。").format({"fare": CoachLines.fare_text(catalog, ride.fare)}))
-	session.pass_game_time(ride.minutes * 60)
-	# TRANSLATORS: a 车马行 ride ends: {time} the time on the road, {place} where it set the player down.
-	lines.append(tr("车马行的车走了{time}，把你送到了{place}。").format({"time": CoachLines.duration_text(ride.minutes), "place": tr(ride.name)}))
+	else:
+		push_error("车马行: the fare (%d) was not taken on the ride to %s" % [ride.fare, to.service_id])
+	if session.pass_game_time(ride.minutes * 60):
+		# TRANSLATORS: a 车马行 ride ends: {time} the time on the road, {place} where it set the player down.
+		lines.append(tr("车马行的车走了{time}，把你送到了{place}。").format({"time": CoachLines.duration_text(ride.minutes), "place": tr(ride.name)}))
+	else:
+		# TRANSLATORS: a 车马行 ride ends (no time could go by): {place} where it set the player down.
+		lines.append(tr("车马行的车把你送到了{place}。").format({"place": tr(ride.name)}))
 	session.shared_ui().append_log_lines(lines)
 	return true
 
@@ -111,4 +126,4 @@ func _pay(on: WorldMapController, fare: int) -> bool:
 		ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor),
 		on.inventory_state(), on.stack_collection(), on.item_instance_index(),
 	)
-	return MoneyPaymentService.pay_making_change(context, on.item_id_allocator(), player.maximum_encumbrance, fare)
+	return MoneyPaymentService.pay_making_change(context, on.item_id_allocator(), CHANGE_CARRY, fare)

@@ -525,10 +525,11 @@ func _cart(w: float, d: float) -> void:
 			ambience.flutter(cloth,root.position.x)
 
 ## 车马行的车 (native; DECISIONS「车马行」): a two-wheeled cart under an arched oilcloth hood, a
-## curtain hung at its back, a horse in its shafts at +z along the box's long axis, and the driver
-## sat on the front of the bed with his whip and 斗笠, waiting for a fare. `hood` the oilcloth,
-## `curtain`, `colors` the wood, `coat` / `mane` / `blaze` the horse's, `driver` (false: the seat
-## is empty), `driver_coat`, `hat`.
+## curtain hung at its back, a horse in its shafts at +z along the box's long axis, a pennant
+## saying 车马行 on a staff at the back corner (read from either side, so from either view), and
+## the driver sat on the front of the bed with his whip and 斗笠, waiting for a fare. `hood` the
+## oilcloth, `curtain`, `colors` the wood, `coat` / `mane` / `blaze` the horse's, `pennant` its
+## cloth, `driver` (false: the seat is empty), `driver_coat`, `hat`.
 func _coach(w: float, d: float) -> void:
 	var long: float = maxf(w,d)
 	var wide: float = minf(w,d)
@@ -579,6 +580,26 @@ func _coach(w: float, d: float) -> void:
 	var body_h: float = _horse_body(horse,horse_long,String(data.get("coat","6a4632")),mane)
 	s.box(horse,Vector3(0,body_h+0.3,horse_long*0.14),Vector3(0.36,0.1,0.18),String(data.get("curtain","8a3a2a")))
 	_horse_tail(horse,body_h,horse_long,mane)
+	var staff := Node3D.new()
+	staff.position = Vector3(wide*0.4,bed_y,cart_z-cart_len*0.44)
+	coach.add_child(staff)
+	s.box(staff,Vector3(0,0.95,0),Vector3(0.06,1.9,0.06),"5b4433")
+	var pennant := Node3D.new()
+	pennant.position = Vector3(0.03,1.84,0)
+	staff.add_child(pennant)
+	s.box(pennant,Vector3(0.33,-0.22,0),Vector3(0.62,0.4,0.03),String(data.get("pennant","b8412f")))
+	for side: float in [1.0,-1.0]:
+		var title := Label3D.new()
+		title.text = TranslationServer.translate("车马行")
+		title.position = Vector3(0.33,-0.22,0.02*side)
+		title.rotation.y = 0.0 if side > 0.0 else PI
+		title.pixel_size = 0.0045
+		title.font_size = 40
+		title.outline_size = 0
+		title.modulate = Color("f1e3bd")
+		pennant.add_child(title)
+	if ambience != null:
+		ambience.flutter(pennant,root.position.x)
 	if not data.get("driver",true):
 		return
 	# The driver on the front of the bed, his legs over its edge, the whip up.

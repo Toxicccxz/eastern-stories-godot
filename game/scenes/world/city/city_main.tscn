@@ -1447,7 +1447,7 @@ layout_path = "res://data/city/voxel/main.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(1112, 688)
-metadata/look = {"kind": "coach", "rotation": 180, "hood": "3a3a4a", "curtain": "a03a2a"}
+metadata/look = {"kind": "coach", "rotation": 180, "hood": "4a4f86", "curtain": "a03a2a"}
 metadata/footprint = Vector2(48, 160)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]

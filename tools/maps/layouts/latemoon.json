@@ -55,7 +55,7 @@
           ["path", 1280, 3632, 1376, 3680, "flower1: the narrow way south into the secret rooms (one way)"]
         ],
         "props": [
-          ["blocked", 3520, 480, 3680, 528, "a cart on the verge of the way to 晚月庄's gate (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "8a4a5a", "curtain": "e0b0b8"}}],
+          ["blocked", 3520, 480, 3680, 528, "a cart on the verge of the way to 晚月庄's gate (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "9a4a5a", "curtain": "e0b0b8"}}],
           ["blocked", 448, 64, 544, 96, "latemoon6.c: 四面都是单调的墙壁 — a worn mat to kneel on", {"look": {"kind": "bedding", "worn": true}}],
           ["blocked", 944, 64, 976, 96, "a water jug and a bowl on the floor", {"look": {"kind": "crocks"}}],
           ["blocked", 1136, 64, 1168, 96, "latemoon5.c: 你走在一条长廊上 — the gallery's painted columns (roofs: voxel config)", {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],

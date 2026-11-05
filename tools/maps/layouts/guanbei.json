@@ -545,7 +545,6 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 800, 784, 848, 928, "a cart for hire on 槐阳城's main street, the 马市 by (native, 车马行)", {"look": {"kind": "coach", "hood": "8a6a4a", "coat": "4a4a4e", "curtain": "6a4a8a"}}],
           [
             "blocked",
             512,
@@ -897,13 +896,6 @@
         },
         "nodes": [
           {
-            "node": "service",
-            "name": "StreetCoach",
-            "id": "guanbei.street.coach",
-            "at": [772, 840],
-            "text": "车马行 · 靠近坐车"
-          },
-          {
             "generated": "captions"
           },
           {
@@ -983,11 +975,6 @@
           }
         ],
         "spawn_points": [
-          {
-            "name": "StreetCoachArrival",
-            "at": [764, 892],
-            "id": "guanbei.street.coach_arrival"
-          },
           {
             "name": "GateGorgeArrival",
             "at": [
@@ -1085,6 +1072,7 @@
         },
         "roads": [],
         "props": [
+          ["blocked", 624, 832, 752, 880, "the 马市's cart for hire on its south side, by the camel pen, clear of the ways round the horse pen (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "a8784a", "coat": "4a4a4e", "curtain": "6a4a8a"}}],
           [
             "blocked",
             784,
@@ -1421,6 +1409,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "MarketCoach",
+            "id": "guanbei.market.coach",
+            "at": [688, 806],
+            "text": "车马行 · 靠近坐车"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -1470,6 +1465,11 @@
           }
         ],
         "spawn_points": [
+          {
+            "name": "MarketCoachArrival",
+            "at": [728, 800],
+            "id": "guanbei.market.coach_arrival"
+          },
           {
             "name": "MarketStreetArrival",
             "at": [

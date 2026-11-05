@@ -823,33 +823,33 @@
   "fanfang.bazaar": {
    "anchor": [
     124.7,
-    113.5
+    112.5
    ],
    "pins": {
     "door:fanfang.customs": [
      59.6,
-     93.8
+     92.8
     ],
     "door:fanfang.port": [
      51.1,
-     75.3
+     74.3
     ],
     "zone:fanfang.bazaar_east": [
      138.8,
-     132.7
+     131.7
     ],
     "zone:fanfang.bazaar_north": [
      155.8,
-     114.2
+     113.2
     ],
     "zone:fanfang.bazaar_west": [
      79.4,
-     93.8
+     92.8
     ]
    },
    "size": [
     298,
-    187
+    186
    ]
   },
   "fanfang.cliff_road": {
@@ -1364,7 +1364,7 @@
     ]
    },
    "size": [
-    318,
+    314,
     207
    ]
   },
@@ -2296,7 +2296,7 @@
     ]
    },
    "size": [
-    444,
+    442,
     306
    ]
   },
@@ -2386,7 +2386,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "bbaef5633702bfa41f3efd021b5c5e944ba58d12972ba7a124e5a27b5843d091",
+ "fingerprint": "dcadc568eae1547b87aca089eb455e548b10552cb71878e30d7c8fc232841058",
  "frame": [
   -769.1,
   14.6,
@@ -2398,23 +2398,23 @@
  "px": 4.0,
  "regions": {
   "canyon": "6688db071fbbb92360de6513e8f619df483fde6cdc1b63045e3938d177f6245c",
-  "choyin": "dbb9379df0ee3c68f683a27ef3fa49a8aeb9a4873ec8eef270a94fd636669dfc",
+  "choyin": "b8a45a8dacd6758520d32bcc403fb9132b5d82baeb649bcf6431ec7a332bc88f",
   "chuenyu": "a0e68d841185594e6d9d9e5f5cf08f805fadffc64c6114e821c371f219a060a6",
-  "city": "efdab984cf7564e6eb00a24c1727e408f71da79ba2e6eb8c7733097a541561b9",
-  "cloud": "041dccc2103bf4dee0d7394523427400692bcc7df4c8a8f4c7192ab37e54c661",
+  "city": "3f9c3460c99d9a7a31fb294b74e46abd40b160905c65395ee48cd79f3184b434",
+  "cloud": "707319367874ee4f7bab7c1bb98501e0f9272eae92c3b9e98971040b80d290b9",
   "death": "61ec12773235f2448b2942a6f84d7c8463c1aa1378bcc6dc479e061c9a5bb0f4",
-  "fanfang": "2291e0dfcc94ff425124a23b09c63e8536ee611e4775980722119ce63fad03ed",
+  "fanfang": "3eb4c0baf45d58432e13731f45140f4e823c8520998c8598a13750ba8544e552",
   "goathill": "ca21a52cdbf745b5a79d244a07c0c2afaf88f915f58b781868a0f12515e36133",
-  "green": "98e41aa5f8c5516a49570083b8c8fb7a801696ec28fad763976ad782485de7c5",
-  "guanbei": "da086e982178543dcfb64f0b0df529f4c016e336124986a4244f0b47b3b86217",
-  "latemoon": "e6b83b6585c9dc13d558f9ab93a92d44f8423a0ac10d6af1ea966b50fa1087f9",
+  "green": "6c705e469fccadba1e81a710bcd179418c9941ad403bcf13a4feb74086c0fedd",
+  "guanbei": "febe0638dabdf59c726faf2b88c2d79f42a0d229766c95567d9648eb68c31f4d",
+  "latemoon": "38bd0de80639b3285b10b5934484dbd2b1e3560300113ef85771f9169d1e93a4",
   "niling": "6b66090132eaec49be7408b446856136f229b68d1c0cba10305124ec8b6e3beb",
   "oldpine": "9be98f3c85da78fca0ef9ce1d9a938efb001474da9f5bd6101b9fcf4e1b2fa88",
-  "sanyen": "bc66b38ab2674d1858d935a66cda5413e96a744d9945a799a248d5fec789e8cc",
-  "snow": "92b9f260850695f9a3401f800ccadd05274466e59187c5dd2c2762b2e7dfcaf2",
-  "temple": "3d7ad95accf19003c67e698e9b4023891585167ef5f39dedfea3ad77f4df4b4c",
-  "village": "4c7d1123083345fe6cbcbcc3d99162dd08b62f6317f63c470714c75119311ff0",
-  "waterfog": "016aeba72a281b16de962f379e7f8ef1daf2a5f85c704af27c946024c7aac682"
+  "sanyen": "beee216926b7ff1298b0a86c5a68acd7e313a9b172849085f1808240a18c290e",
+  "snow": "0652b0edd07fb19009eb83cb0c09fa6dd1b1b6594233b2916382f3a1550eab5f",
+  "temple": "4064f08d3b19b89e001fe59d6e6a8c612fa085295a2fa6cf96920922408930a9",
+  "village": "3f82b4b7de3797fa86bd406751bc4eabd4ae4265d7e437437b8f871460f2e42c",
+  "waterfog": "acf53fff92465b808965eeeaecf8d2ffb8dc0d9ac868eb7c463b35f9abbe4983"
  },
  "roads": [
   {
@@ -2750,7 +2750,7 @@
   {
    "a": "guanbei.horse_market",
    "at": [
-    3630,
+    3627,
     422
    ],
    "b": "guanbei.town",
@@ -2789,27 +2789,27 @@
      508.0
     ],
     [
-     3793.0,
+     3792.0,
      498.0
     ],
     [
-     3782.0,
+     3781.0,
      487.0
     ],
     [
-     3772.0,
+     3771.0,
      482.0
     ],
     [
-     3763.0,
-     470.0
+     3760.0,
+     471.0
     ],
     [
-     3752.0,
-     465.0
+     3749.0,
+     466.0
     ],
     [
-     3608.0,
+     3609.0,
      437.0
     ]
    ],
@@ -2818,7 +2818,7 @@
     513
    ],
    "stub_b": [
-    3630,
+    3627,
     422
    ]
   },
@@ -3378,7 +3378,7 @@
     2523
    ],
    "stub_b": [
-    2355,
+    2346,
     2427
    ]
   },
@@ -5267,7 +5267,7 @@
    "a": "guanbei.gorge",
    "at": [
     2997,
-    463
+    459
    ],
    "b": "guanbei.town",
    "file": "road_32",
@@ -5449,32 +5449,32 @@
      497.0
     ],
     [
-     3779.0,
-     487.0
+     3780.0,
+     486.0
     ],
     [
-     3765.0,
-     484.0
+     3768.0,
+     482.0
     ],
     [
-     3748.0,
-     477.0
+     3754.0,
+     472.0
     ],
     [
-     3728.0,
-     481.0
+     3736.0,
+     473.0
     ],
     [
-     3709.0,
-     484.0
+     3717.0,
+     476.0
     ],
     [
-     3692.0,
-     491.0
+     3565.0,
+     525.0
     ],
     [
      3523.0,
-     477.0
+     478.0
     ]
    ],
    "stub_a": [
@@ -5483,7 +5483,7 @@
    ],
    "stub_b": [
     3509,
-    463
+    459
    ]
   },
   {

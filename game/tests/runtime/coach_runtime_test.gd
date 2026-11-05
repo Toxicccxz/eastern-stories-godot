@@ -1,12 +1,15 @@
 extends RefCounted
 
 ## 车马行 in the world (DECISIONS「车马行」): every stop's cart stands on its map with its
-## 坐车 in reach of where a ride sets the player down; at 雪亭驿's cart the 地图 page opens on
-## the rides walked to (the card: the fare, the time, 坐车去这里), the question first, then the
-## ride: set down by 绮云镇's cart, 十五文 paid, half a 时辰 gone, said in the log; a purse too
-## light is told so; with the classic knobs no cart takes anybody.
+## 坐车 in reach of where a ride sets the player down, and every way out of its room still walked
+## straight through (the cart blocks none); at 雪亭驿's cart the 地图 page opens on the rides
+## walked to (the card: the fare, the time, 坐车去这里), the question first, then the ride: set
+## down by 绮云镇's cart, 十五文 paid, half a 时辰 gone, said in the log; the page left while the
+## cart rolls on the 沙盘 takes nobody; a purse too light is told so, before and at the cart's
+## setting off; with the classic knobs no cart takes anybody.
 
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
+const MapPlaces := preload("res://tests/support/map_places.gd")
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -17,6 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_stops(tree, session)
 	await _test_offer(tree, session)
 	await _test_ride(tree, session)
+	await _test_left_page(tree, session)
 	await _test_poor(tree, session)
 	session.free()
 	await tree.process_frame
@@ -52,6 +56,36 @@ func _test_stops(tree: SceneTree, session: WorldSessionController) -> void:
 			if (node.get_meta("look", {}) as Dictionary).get("kind", "") == "coach":
 				furnished = furnished or (node as Node2D).global_position.distance_to(cart.point.global_position) < 160.0
 		_check(furnished, "%s: the cart itself stands beside it" % stop.service_id)
+		_check(_ways_clear(map, stop).is_empty(), "%s: every way out of its room walked straight through: %s" % [stop.service_id, _ways_clear(map, stop)])
+
+
+## The ways out of the stop's room a body cannot walk to from beside the cart without going
+## round through a third room: the seams to its neighbours (not behind a door) and its passages.
+func _ways_clear(map: WorldMapController, stop: ServiceDefinition) -> Array[String]:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var blocked: Array[String] = []
+	var from: Vector2 = map.runtime_player_body().global_position
+	var here: Rect2 = MapPlaces.zone_rect(map, stop.zone_id).grow(24.0)
+	var doors: Array[DoorDefinition] = catalog.doors_for_map(stop.map_id)
+	for zone: ZoneDefinition in catalog.zones_for_map(stop.map_id):
+		if zone.zone_id == stop.zone_id or not catalog.zones_adjacent(stop.zone_id, zone.zone_id):
+			continue
+		if doors.any(func(door: DoorDefinition) -> bool: return door.zone_ids().has(stop.zone_id) and door.zone_ids().has(zone.zone_id)):
+			continue
+		var seam: Vector2 = MapPlaces.doorway(map, stop.zone_id, zone.zone_id)
+		if not seam.is_finite():
+			continue
+		var there: Rect2 = MapPlaces.zone_rect(map, zone.zone_id).grow(24.0)
+		var path: PackedVector2Array = MapRoute.path(map, from, MapPlaces.spot(map, zone.zone_id, seam))
+		if path.is_empty() or not Array(path).all(func(point: Vector2) -> bool: return here.has_point(point) or there.has_point(point)):
+			blocked.append(String(zone.zone_id))
+	for portal: PortalDefinition in catalog.portals_for_map(stop.map_id):
+		if portal.source_zone_id != stop.zone_id:
+			continue
+		var path: PackedVector2Array = MapRoute.path(map, from, MapPlaces.passage_spot(map, portal.portal_id))
+		if path.is_empty() or not Array(path).all(func(point: Vector2) -> bool: return here.has_point(point)):
+			blocked.append(String(portal.portal_id))
+	return blocked
 
 
 ## At 雪亭驿's cart: the 地图 page on the rides.
@@ -119,6 +153,35 @@ func _test_ride(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.player_runtime().state.visited_maps.has("cloud.outdoor"), "绮云镇 still walked to")
 
 
+## The ride said yes to, the 地图 page left while the cart rolls on the 沙盘 (another tab):
+## the cart stops, nobody goes, nothing is paid.
+func _test_left_page(tree: SceneTree, session: WorldSessionController) -> void:
+	var cart: CoachService = await _at_cart(tree, session, &"cloud.entrance.coach")
+	if cart == null:
+		return
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var feel: FeelDefinition = pacing.feel
+	pacing.feel = feel.but({"coach_ride_ms": 2000}) # TEST-ONLY: the picture on
+	var ui: SharedGameplayUI = session.shared_ui()
+	var coins: int = _value(session)
+	cart.interact()
+	await tree.process_frame
+	var ride: CoachLines.Ride = ui.map_page.rides().get(&"snow.outdoor")
+	_check(ride != null, "a ride back to 雪亭镇")
+	if ride != null:
+		ui.map_page._select(&"snow.outdoor")
+		_check(cart.choose(ride).is_empty() and ui.is_asking(), "asked")
+		ui.confirm_prompt.confirm_button.pressed.emit()
+		await tree.process_frame
+		_check(ui.map_page.riding() and ui.map_page.row_buttons.all(func(b: Button) -> bool: return b.disabled), "the cart rolls on the 沙盘, the card greyed")
+		ui.menu.show_tab(GameMenu.Tab.INVENTORY)
+		await tree.create_timer(2.3).timeout
+		_check(not ui.map_page.riding() and session.active_map_id() == &"cloud.outdoor" and _value(session) == coins, "another tab: the cart stopped, nobody went, nothing paid")
+	ui.close_menu()
+	pacing.feel = feel
+	await tree.process_frame
+
+
 ## A purse lighter than the fare: told so, nothing asked.
 func _test_poor(tree: SceneTree, session: WorldSessionController) -> void:
 	var cart: CoachService = await _at_cart(tree, session, &"cloud.entrance.coach")
@@ -134,6 +197,9 @@ func _test_poor(tree: SceneTree, session: WorldSessionController) -> void:
 	if rides.is_empty():
 		return
 	_check(cart.choose(rides[0]) == "你的钱不够付车钱。" and not session.shared_ui().is_asking(), "too poor: told, not asked")
+	var before: int = session.shared_ui().log_lines().size()
+	_check(not cart._ride(rides[0].to) and session.active_map_id() == &"cloud.outdoor", "money gone by the time the cart sets off (dropped while it rolled): nobody goes")
+	_check(session.shared_ui().log_lines().slice(before).has("你的钱不够付车钱。"), "and is told why")
 
 
 func _test_classic(tree: SceneTree, session: WorldSessionController) -> void:

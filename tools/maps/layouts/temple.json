@@ -212,7 +212,7 @@
           ["path", 816, 400, 864, 528, "to the 藏经楼's door"]
         ],
         "props": [
-          ["blocked", 528, 2304, 576, 2464, "a cart on the square before 灵心观, for pilgrims (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "4a4a3a", "curtain": "c8b07a"}}],
+          ["blocked", 528, 2304, 576, 2464, "a cart on the square before 灵心观, for pilgrims (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "5c4a78", "curtain": "c8b07a"}}],
           ["wall", 160, 1328, 304, 1648, "the locked room west of the west walkway (drawn only)"],
           ["shutter", 304, 1440, 320, 1536, "its locked door"],
           ["forest", 1056, 704, 1104, 784, "road1: tall pines either side"],

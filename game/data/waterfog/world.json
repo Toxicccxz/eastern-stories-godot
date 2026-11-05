@@ -47,7 +47,7 @@
 		{ "id": "waterfog.east_2f.down", "from_zone": "waterfog.east_2f", "to_zone": "waterfog.eaststair", "to_spawn": "waterfog.eaststair.stairs_return", "legacy_room": "es2:d/waterfog/east_2f", "legacy_command": "down" }
 	],
 	"services": [
-		{ "id": "waterfog.sroad1.coach", "kind": "coach", "zone": "waterfog.sroad1", "name": "车马行", "reach": 96, "arrival": "waterfog.sroad1.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" }
+		{ "id": "waterfog.sroad3.coach", "kind": "coach", "zone": "waterfog.sroad3", "name": "车马行", "reach": 96, "arrival": "waterfog.sroad3.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" }
 	],
 	"doors": [],
 	"landmarks": [

@@ -533,7 +533,7 @@ layout_path = "res://data/sanyen/voxel/grounds.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(808, 2112)
-metadata/look = {"kind": "coach", "hood": "6a5a3a", "curtain": "c89a3a"}
+metadata/look = {"kind": "coach", "hood": "8a6a2a", "curtain": "c89a3a"}
 metadata/footprint = Vector2(48, 160)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]

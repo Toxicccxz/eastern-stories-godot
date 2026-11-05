@@ -230,7 +230,7 @@
           ["path", -1392, 832, -784, 848]
         ],
         "props": [
-          ["blocked", 96, -2080, 144, -1920, "雪亭驿's cart across the street from its door: the post takes fares now the couriers go by 飞鸢栈道 (native, 车马行)", {"look": {"kind": "coach", "rotation": 180}}],
+          ["blocked", -160, -1936, -112, -1776, "雪亭驿's cart by the street's west side, south of its door: the post takes fares now the couriers go by 飞鸢栈道 (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "2f5d8c"}}],
           ["blocked", -48, -96, 48, -48, "the square's old wooden frame", {"look": {"kind": "board"}}],
           ["wall", -160, -2240, -144, -2224, "the old memorial arch (牌坊) at the town's north end"],
           ["wall", 144, -2240, 160, -2224],
@@ -302,7 +302,7 @@
             "node": "service",
             "name": "Mstreet4Coach",
             "id": "snow.mstreet4.coach",
-            "at": [64, -2000],
+            "at": [-88, -1872],
             "text": "车马行 · 靠近坐车"
           },
           {
@@ -527,7 +527,7 @@
         "spawn_points": [
           {
             "name": "Mstreet4CoachArrival",
-            "at": [52, -1956],
+            "at": [-80, -1832],
             "id": "snow.mstreet4.coach_arrival"
           },
           {

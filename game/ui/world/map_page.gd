@@ -197,6 +197,9 @@ func _haze(from_colour: Color, to_colour: Color, from: Vector2, to: Vector2, rad
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		set_process(is_visible_in_tree())
+		# Another tab, the pause: the cart on the road stops and the ride with it.
+		if not is_visible_in_tree() and riding():
+			_cancel_ride()
 
 
 ## The clouds drift, the light runs along the way.
@@ -256,6 +259,8 @@ func _build_card() -> void:
 func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> void:
 	if state == null:
 		return
+	if riding():
+		_cancel_ride()
 	if _pictures == null:
 		_pictures = AtlasPictures.read()
 		_dress_stage()
@@ -299,10 +304,7 @@ func offer_rides(rides: Array[CoachLines.Ride], choose: Callable) -> void:
 func clear_rides() -> void:
 	_rides.clear()
 	_choose_ride = Callable()
-	if _riding != null and _riding.is_valid():
-		_riding.kill()
-	_riding = null
-	_end_ride()
+	_cancel_ride()
 	_show_cart_marks()
 
 
@@ -329,7 +331,8 @@ func play_ride(ride: CoachLines.Ride, done: Callable) -> void:
 	if seconds <= 0.0 or _way.size() < 2 or _way_length <= 0.0 or texture == null:
 		done.call()
 		return
-	for button: Button in row_buttons + cell_buttons.values():
+	# The card's lines grey while the cart rolls; the places stand as they are and take no keys.
+	for button: Button in row_buttons:
 		button.disabled = true
 	# TRANSLATORS: the 地图 page while the 车马行's cart is on the road.
 	status.text = tr("车马行的车上路了……")
@@ -341,6 +344,8 @@ func play_ride(ride: CoachLines.Ride, done: Callable) -> void:
 	_cart.position = _along_way(0.0)
 	_way_layer.add_child(_cart)
 	_riding = create_tween()
+	# The menu runs through the pause; the cart does not.
+	_riding.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 	_riding.tween_method(_roll_cart, 0.0, _way_length, seconds).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_riding.tween_callback(func() -> void:
 		_riding = null
@@ -363,11 +368,20 @@ func _roll_cart(distance: float) -> void:
 	_apply_view()
 
 
+## The ride stops where the cart is: nothing is paid, nobody goes.
+func _cancel_ride() -> void:
+	if _riding != null and _riding.is_valid():
+		_riding.kill()
+	_riding = null
+	_end_ride()
+	status.text = ""
+
+
 func _end_ride() -> void:
 	if _cart != null:
 		_cart.queue_free()
 		_cart = null
-	for button: Button in row_buttons + cell_buttons.values():
+	for button: Button in row_buttons:
 		button.disabled = false
 
 
@@ -511,6 +525,8 @@ func _middle(map_id: StringName) -> Vector2:
 
 
 func _select(map_id: StringName) -> void:
+	if riding():
+		return
 	_selected = map_id
 	status.text = ""
 	_fill_card()
@@ -530,6 +546,8 @@ func _move_to(place: Vector2) -> void:
 
 
 func _enter_card(map_id: StringName) -> void:
+	if riding():
+		return
 	if _selected != map_id:
 		_select(map_id)
 	if not row_buttons.is_empty():

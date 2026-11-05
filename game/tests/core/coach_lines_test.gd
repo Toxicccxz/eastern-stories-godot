@@ -8,7 +8,7 @@ extends RefCounted
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 ## The seven towns and the five schools' gates (owner, 2026-11-04).
 const STOP_MAPS: Array[StringName] = [
-	&"snow.outdoor", &"cloud.outdoor", &"choyin.town", &"city.main", &"village.main", &"guanbei.town", &"fanfang.bazaar",
+	&"snow.outdoor", &"cloud.outdoor", &"choyin.town", &"city.main", &"village.main", &"guanbei.horse_market", &"fanfang.bazaar",
 	&"green.village", &"temple.grounds", &"waterfog.mountain", &"latemoon.manor", &"sanyen.grounds",
 ]
 

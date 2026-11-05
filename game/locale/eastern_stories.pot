@@ -805,7 +805,7 @@ msgstr ""
 msgid "云"
 msgstr ""
 
-#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/fanfang/fanfang_bazaar.tscn scenes/world/green/green_village.tscn scenes/world/guanbei/guanbei_town.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/sanyen/sanyen_temple.tscn scenes/world/snow/snow_outdoor.tscn scenes/world/temple/temple_grounds.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_mountain.tscn
+#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/fanfang/fanfang_bazaar.tscn scenes/world/green/green_village.tscn scenes/world/guanbei/guanbei_market.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/sanyen/sanyen_temple.tscn scenes/world/snow/snow_outdoor.tscn scenes/world/temple/temple_grounds.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_mountain.tscn
 msgid "车马行 · 靠近坐车"
 msgstr ""
 
@@ -7894,6 +7894,22 @@ msgstr ""
 msgid "返回"
 msgstr ""
 
+#. snow.mstreet4.coach name
+#. cloud.entrance.coach name
+#. waterfog.sroad1.coach name
+#. green.path6.coach name
+#. temple.square.coach name
+#. latemoon.entrance.coach name
+#. sanyen.front_yard.coach name
+#. choyin.s_gate.coach name
+#. village.road1.coach name
+#. city.nroad1.coach name
+#. guanbei.market.coach name
+#. fanfang.bazaar_west.coach name
+#: presentation/voxel/props/voxel_town.gd data/snow/world.json data/cloud/world.json data/waterfog/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/sanyen/world.json data/choyin/world.json data/village/world.json data/city/world.json data/guanbei/world.json data/fanfang/world.json
+msgid "车马行"
+msgstr ""
+
 #: presentation/voxel/props/voxel_trade_props.gd
 msgid "大"
 msgstr ""
@@ -8724,9 +8740,18 @@ msgstr ""
 msgid "你付了{fare}车钱。"
 msgstr ""
 
+#: runtime/world/services/coach_service.gd
+msgid "车马行: the fare (%d) was not taken on the ride to %s"
+msgstr ""
+
 #. a 车马行 ride ends: {time} the time on the road, {place} where it set the player down.
 #: runtime/world/services/coach_service.gd
 msgid "车马行的车走了{time}，把你送到了{place}。"
+msgstr ""
+
+#. a 车马行 ride ends (no time could go by): {place} where it set the player down.
+#: runtime/world/services/coach_service.gd
+msgid "车马行的车把你送到了{place}。"
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
@@ -19725,22 +19750,6 @@ msgstr ""
 msgid ""
 "这里是一间窄小的密室，你的面前只有一个破旧的小床(bed)跟一\n"
 "些乾草。\n"
-msgstr ""
-
-#. snow.mstreet4.coach name
-#. cloud.entrance.coach name
-#. waterfog.sroad1.coach name
-#. green.path6.coach name
-#. temple.square.coach name
-#. latemoon.entrance.coach name
-#. sanyen.front_yard.coach name
-#. choyin.s_gate.coach name
-#. village.road1.coach name
-#. city.nroad1.coach name
-#. guanbei.street.coach name
-#. fanfang.bazaar_west.coach name
-#: data/snow/world.json data/cloud/world.json data/waterfog/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/sanyen/world.json data/choyin/world.json data/village/world.json data/city/world.json data/guanbei/world.json data/fanfang/world.json
-msgid "车马行"
 msgstr ""
 
 #. snow.workplace.mill name

@@ -162,7 +162,7 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 560, 752, 720, 800, "a cart for the inland road by the bazaar's south side (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "2a5a5a", "curtain": "c08a3a"}}],
+          ["blocked", 432, 528, 592, 576, "a cart for the inland road on the bazaar's north side (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "2a7a7a", "curtain": "c08a3a"}}],
           ["blocked", 288, 528, 400, 576, "the glass stall: beads and cups laid out on felt", {"look": {"kind": "stall", "goods": "glass", "awning": ["c8443a", "e8c060"]}}],
           ["blocked", 640, 528, 768, 576, "the carpet stall: rugs laid out and hung under its awning", {"look": {"kind": "stall", "goods": "cloth", "awning": ["8a3a2a", "c8a040"]}}],
           ["blocked", 784, 528, 832, 576, "carpets rolled and stacked", {"look": {"kind": "cloth_bolts"}}],
@@ -205,7 +205,7 @@
             "node": "service",
             "name": "BazaarWestCoach",
             "id": "fanfang.bazaar_west.coach",
-            "at": [640, 712],
+            "at": [512, 608],
             "text": "车马行 · 靠近坐车"
           },
           {"generated": "captions"},
@@ -218,7 +218,7 @@
         "spawn_points": [
           {
             "name": "BazaarWestCoachArrival",
-            "at": [688, 708],
+            "at": [560, 616],
             "id": "fanfang.bazaar_west.coach_arrival"
           },
           {"name": "BazaarDockArrival", "at": [288, 656], "id": "fanfang.bazaar_west.dock_arrival"},

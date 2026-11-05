@@ -193,7 +193,7 @@ func _test_services_and_doors() -> void:
 	var outside: Array[StringName] = []
 	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
 		outside.append(service.service_id)
-	_assert_eq(outside, [&"snow.mstreet4.bounty"], "the town's outside has no ES2 room service, only 雪亭驿's bounty board (A2, native)")
+	_assert_eq(outside, [&"snow.mstreet4.coach", &"snow.mstreet4.bounty"], "the town's outside has no ES2 room service, only 雪亭驿's cart (车马行) and bounty board (A2), both native")
 	# The shopkeepers sell from their bodies (4E): the vendor record is on the NPC.
 	for row: Array in [[&"snow.npc.herbalist", &"snow.vendor.herbalist"], [&"snow.npc.smith", &"snow.vendor.smith"], [&"snow.npc.waiter", &"snow.vendor.waiter"]]:
 		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)
