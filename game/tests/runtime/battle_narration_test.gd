@@ -143,7 +143,7 @@ func _hit_status_and_winner() -> void:
 		"( 对手%s )" % Es2CombatMessages.status_message(status.ratio),
 		winner.replace("$N", "你").replace("$n", "对手"),
 	], "action, damage_msg, report_status and winner_msg from the attacker's side %s" % str(_texts(lines)))
-	check(lines.size() == 4 and lines[1].damage == damage and lines[1].rich_text().ends_with("（-%d）[/font_size][/color]" % damage) and not lines[0].has_damage, "the damage rides on its line, small and grey")
+	check(lines.size() == 4 and lines[1].damage == damage and lines[1].rich_text().ends_with("[color=#8b959e]（-%d）[/color]" % damage) and not lines[0].has_damage, "the damage rides on its line, grey")
 	var as_victim := _cast(&"target", &"actor", "学徒", CharacterState.GENDER_MALE, &"target", "对手", CharacterState.GENDER_FEMALE)
 	lines = BattleNarrator.new(_seeded(0)).attack_chain(forward, null, as_victim)
 	check(_texts(lines) == [

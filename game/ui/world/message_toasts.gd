@@ -29,6 +29,8 @@ const LINGER_MAX: float = 14.0
 const LINGER_PER_CHARACTER: float = 0.08
 const PLAIN_TEXT: Color = SharedGameplayUI.PLAIN_LOG_COLOR
 const ACCENT: Color = UiPalette.GOLD
+const STRIPE_WIDTH: float = 3.0
+const STRIPE_GAP: int = 9
 
 
 ## One message: its text and colour (`colored`: an ES2 colour, not the plain text one).
@@ -43,7 +45,8 @@ class Toast:
 	extends RefCounted
 	var panel: PanelContainer
 	var label: Label
-	var style: StyleBoxFlat
+	## The message's colour down the board's left.
+	var stripe: ColorRect
 	var entry: Entry
 	var y: float = 0.0
 	var alpha: float = 0.0
@@ -75,24 +78,30 @@ func _init() -> void:
 		toast.panel = PanelContainer.new()
 		toast.panel.name = "Toast%d" % index
 		toast.panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		toast.style = StyleBoxFlat.new()
-		# 界面重做 3: a square dark plate, its colour a block stripe down the left.
-		toast.style.bg_color = Color(UiPalette.EBONY.lerp(UiPalette.INK, 0.35), 0.9)
-		toast.style.border_color = ACCENT
-		toast.style.border_width_left = 6
-		toast.style.content_margin_left = 14.0
-		toast.style.content_margin_right = 14.0
-		toast.style.content_margin_top = 8.0
-		toast.style.content_margin_bottom = 8.0
-		toast.panel.add_theme_stylebox_override("panel", toast.style)
+		# 像素界面: a small cracked board (GameTheme's ToastPanel), the message's colour a
+		# stripe down its left.
+		toast.panel.theme = GameTheme.shared()
+		toast.panel.theme_type_variation = &"ToastPanel"
+		var row := HBoxContainer.new()
+		row.name = "Row"
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_theme_constant_override("separation", STRIPE_GAP)
+		toast.panel.add_child(row)
+		toast.stripe = ColorRect.new()
+		toast.stripe.name = "Stripe"
+		toast.stripe.custom_minimum_size.x = STRIPE_WIDTH
+		toast.stripe.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		toast.stripe.color = ACCENT
+		row.add_child(toast.stripe)
 		toast.label = Label.new()
 		toast.label.name = "Text"
 		toast.label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		toast.label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		toast.label.add_theme_font_size_override("font_size", 16)
+		toast.label.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 		# The lines come in the shown language already.
 		toast.label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-		toast.panel.add_child(toast.label)
+		toast.label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(toast.label)
 		toast.panel.hide()
 		add_child(toast.panel)
 		_pool.append(toast)
@@ -211,10 +220,10 @@ func _show(entry: Entry) -> void:
 	_fit_label(toast)
 	if entry.colored:
 		toast.label.add_theme_color_override("font_color", entry.color)
-		toast.style.border_color = entry.color
+		toast.stripe.color = entry.color
 	else:
 		toast.label.add_theme_color_override("font_color", PLAIN_TEXT)
-		toast.style.border_color = ACCENT
+		toast.stripe.color = ACCENT
 	toast.age = 0.0
 	toast.linger = clampf(LINGER_MIN + entry.text.length() * LINGER_PER_CHARACTER, LINGER_MIN, LINGER_MAX)
 	toast.leaving = false
@@ -251,7 +260,8 @@ func _free_toast() -> Toast:
 
 ## The label wraps at the toast's width at once, not a frame later.
 func _fit_label(toast: Toast) -> void:
-	toast.label.size = Vector2(maxf(1.0, _width - toast.style.content_margin_left - toast.style.content_margin_right), 0.0)
+	var style: StyleBox = toast.panel.get_theme_stylebox("panel")
+	toast.label.size = Vector2(maxf(1.0, _width - style.content_margin_left - style.content_margin_right - STRIPE_WIDTH - STRIPE_GAP), 0.0)
 
 
 func _height(toast: Toast) -> float:

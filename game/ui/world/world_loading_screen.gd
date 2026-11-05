@@ -42,6 +42,7 @@ func _ready() -> void:
 		backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		backdrop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		add_child(backdrop)
 	var middle := Control.new()
 	middle.name = "Middle"
@@ -60,6 +61,8 @@ func _ready() -> void:
 		_sprite = TextureRect.new()
 		_sprite.name = "Sheet"
 		_sprite.texture = _sheet
+		# Painted frames, not pixel art: smooth when scaled (像素界面 draws 2D nearest).
+		_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		_sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		_sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		_sprite.position = Vector2(-half, -half)
@@ -70,7 +73,7 @@ func _ready() -> void:
 	if _definition.caption:
 		_caption = Label.new()
 		_caption.name = "Caption"
-		_caption.add_theme_font_size_override("font_size", 16)
+		_caption.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 		_caption.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
 		_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_caption.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED

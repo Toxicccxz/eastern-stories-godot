@@ -2,8 +2,9 @@ class_name UiPalette
 extends RefCounted
 
 ## The interface's colours (界面重做, DECISIONS「界面样式」): the voxel world's own materials —
-## ink, ebony, wood, lacquer, gold, lantern light, bone paper — so a window reads as a thing
-## made of what the maps are made of. Every UI colour comes from here.
+## ink, ebony, wood, iron, bronze, lacquer, gold, lantern light, bone paper — so a window reads
+## as a thing made of what the maps are made of, and as old as they are (像素界面: rust,
+## verdigris, worn-through lacquer). Every UI colour comes from here.
 
 const INK := Color("1d1612")
 const EBONY := Color("2e2119")
@@ -23,7 +24,29 @@ const BONE := Color("f1e4c6")
 const MUTED := Color("b8a689")
 const DIM := Color("7c6b58")
 const WARNING := Color("ff9f86")
-## The voxel letters' side (the pixel face's two darker layers).
+## A button's iron plate and its shadowed edge; rust on it.
+const IRON := Color("5b605f")
+const IRON_SIDE := Color("2b2e2f")
+const RUST := Color("8f4a22")
+## A secondary button's bronze and the verdigris on it.
+const BRONZE := Color("7a6034")
+const BRONZE_SIDE := Color("3d2d16")
+const PATINA := Color("4f8f78")
+## A speech bubble's paper and its darker edge; a key's bone tile.
+const PAPER := Color("f1e6c8")
+const PAPER_SIDE := Color("a38a5e")
+const BONE_TILE := Color("d8cdb6")
+const BONE_TILE_SIDE := Color("8f8574")
+## Every sheet's outline.
+const OUTLINE := Color("110b08")
+## The focus rim and cursor.
+const FOCUS := LANTERN
+## A recess cut into the wood (a text field, a scroll track).
+const WELL := Color("251b15")
+## A name on a plate.
+const LIGHT_TEXT := Color("fff3dc")
+## The title's voxel letters: the face over two darker side layers.
+const LETTER := Color("f1e4c6")
 const SIDE_LIGHT := Color("6b3a22")
 const SIDE_DARK := Color("2a160d")
 ## Full-screen dims behind a dialog: warm ink, not blue-black.

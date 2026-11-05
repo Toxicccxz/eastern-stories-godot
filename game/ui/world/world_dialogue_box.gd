@@ -18,7 +18,7 @@ const MIN_WIDTH: float = 560.0
 const MAX_WIDTH: float = 900.0
 const BOTTOM_MARGIN: float = 18.0
 const NAME_SIZE: int = 18
-const TEXT_SIZE: int = 19
+const TEXT_SIZE: int = 18
 const TEXT_COLOR: Color = UiPalette.BONE
 ## What the speaker does rather than says.
 const DEED_COLOR: Color = UiPalette.MUTED

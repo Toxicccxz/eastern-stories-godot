@@ -17,6 +17,9 @@ var shown: StringName = &""
 func _init(pixels: int = 200) -> void:
 	name = "ItemModelView"
 	stretch = true
+	# A rendered model, not pixel art: smooth when the window scales it (像素界面 draws 2D
+	# nearest by default).
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	custom_minimum_size = Vector2(pixels, pixels)
 	# The menu's layout clears minimum widths; the picture keeps its square.
 	set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)

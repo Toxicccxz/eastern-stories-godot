@@ -96,7 +96,7 @@ func _ready() -> void:
 	add_child(content)
 	_title = _label(content)
 	_title.add_theme_color_override("font_color", UiPalette.GOLD)
-	_title.add_theme_font_size_override("font_size", 20)
+	_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
 	_vitality = BattleVitalityBar.new()
 	_vitality.name = "Vitality"
 	content.add_child(_vitality)
@@ -104,7 +104,7 @@ func _ready() -> void:
 	_secondary = _label(content)
 	_powers = _label(content)
 	_intent = _label(content)
-	_intent.add_theme_color_override("font_color", Color("f2d27a"))
+	_intent.add_theme_color_override("font_color", INTENT_COLOR)
 	_intent.visible = false
 	# The tags last (界面重做 4): their line stays when empty (the card does not jump), and
 	# at the foot it reads as the card's margin, not a gap between 气 and 起手.
@@ -532,6 +532,6 @@ static func _label(parent: Node) -> Label:
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.clip_text = true
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	label.add_theme_font_size_override("font_size", 16)
+	label.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	parent.add_child(label)
 	return label

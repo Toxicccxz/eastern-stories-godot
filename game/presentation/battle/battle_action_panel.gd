@@ -145,7 +145,7 @@ func _ready() -> void:
 	_queue.clip_text = true
 	_queue.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_queue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_queue.add_theme_font_size_override("font_size", 16)
+	_queue.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	queue_column.add_child(_queue)
 	_cancel = Button.new()
 	_cancel.name = "CancelQueue"
