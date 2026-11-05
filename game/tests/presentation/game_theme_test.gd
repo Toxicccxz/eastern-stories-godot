@@ -14,6 +14,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_test_theme()
 	_test_materials()
 	_test_pixel_scale()
+	_test_scene_sizes()
 	_test_faces()
 	_test_prompt()
 	await _test_shell(tree)
@@ -147,6 +148,32 @@ func _test_pixel_scale() -> void:
 			_check(total <= stretch * 1.5 + 0.001, "%s at %d percent: never smaller than the interface is laid out for (%.3f)" % [window, percent, total])
 			_check(total >= last - 0.001, "%s: a larger setting is never drawn smaller" % [window])
 			last = total
+
+
+## Sizes written into the interface's scenes are on the pixel face's steps too. The painted
+## maps' own labels (res://scenes/world) are left out: the 2D map is invisible under its voxel
+## view, which draws the world's text itself.
+func _test_scene_sizes() -> void:
+	var off: Array[String] = []
+	var pattern := RegEx.create_from_string("theme_override_font_sizes/[a-z_]+ = (\\d+)")
+	for path: String in _scenes("res://scenes"):
+		if path.begins_with("res://scenes/world/"):
+			continue
+		var text: String = FileAccess.get_file_as_string(path)
+		for found: RegExMatch in pattern.search_all(text):
+			if int(found.get_string(1)) % GameTheme.BODY_SIZE != 0:
+				off.append("%s: %s" % [path, found.get_string(0)])
+	_check(off.is_empty(), "the interface's scenes size their text in whole steps: %s" % [off])
+
+
+func _scenes(folder: String) -> Array[String]:
+	var found: Array[String] = []
+	for file: String in DirAccess.get_files_at(folder):
+		if file.ends_with(".tscn"):
+			found.append(folder.path_join(file))
+	for sub: String in DirAccess.get_directories_at(folder):
+		found.append_array(_scenes(folder.path_join(sub)))
+	return found
 
 
 ## Every text in the pixel face (缝合像素 12 px), aliased and unhinted, 霞鹜文楷 under it for
