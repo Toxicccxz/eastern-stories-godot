@@ -122,9 +122,10 @@ func show_inspection(definition: NpcDefinition, relation: String = "", gender: S
 	if definition == null:
 		_ui.inspection_text.text = ""
 		return
+	# ES2's long text keeps the MUD's hard line breaks; the column wraps it itself.
 	_ui.inspection_text.text = "%s\n%s" % [
 		definition.short_name(title),
-		tr(definition.description).strip_edges(),
+		SharedUiMessageLog.room_prose(tr(definition.description)),
 	]
 	if not relation.is_empty():
 		# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).

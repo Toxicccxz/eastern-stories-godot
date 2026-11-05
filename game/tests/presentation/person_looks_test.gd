@@ -6,7 +6,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 ## Keys a card may carry, and which of them are colours.
-const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose", "bracer_color", "wrap_color"]
+const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose", "bracer_color", "wrap_color", "pouch_color", "tassel_color"]
 const WORDS: Dictionary = {
 	"hair_style": Person.HAIR_STYLES, "headwear": Person.HEADWEAR, "beard": Person.BEARDS,
 	"waist": Person.WAISTS, "prop": Person.PROPS, "shoes": ["dark", "straw", "white"],
@@ -245,6 +245,11 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	if hud.interaction_open():
 		_check(hud.interaction_panel.portrait() != null, "back on 查看, the picture again")
 	hud.dismiss_current_panel()
+	# ES2's long text keeps the MUD's hard line breaks (herbalist.c: three); the narrower
+	# column beside the picture wraps it as one paragraph.
+	var herbalist: NpcDefinition = TestContent.npc(&"snow.npc.herbalist")
+	hud.selection.show_inspection(herbalist)
+	_check(herbalist.description.strip_edges().count("\n") >= 2 and hud.inspection_text.text.get_slice_count("\n") == 2, "杨掌柜's description reads as one paragraph: %s" % hud.inspection_text.text)
 	session.free()
 	await _frames(tree, 2)
 

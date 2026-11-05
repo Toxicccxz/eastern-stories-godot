@@ -18,7 +18,7 @@
       "note": "刘安禄：淳风武馆的门房，来历不明，一手快刀罕有敌手（guard.c）；立绘 Muse 2026-11-05",
       "coat": "47586b", "pants": "2c304b", "skin": "e9cab2", "hair": "1d1d24",
       "hair_style": "topknot", "headwear": "none", "beard": "none",
-      "waist": "belt", "accent": "2e2a26", "prop": "blade_back", "prop_color": "26242a",
+      "waist": "belt", "accent": "2e2a26", "pouch_color": "2f2c3b", "prop": "blade_back", "prop_color": "26242a",
       "height": "standard", "build": "standard"
     },
     "snow.npc.fist_trainer": {
@@ -39,6 +39,27 @@
       "coat": "318172", "pants": "282c2f", "skin": "f6d7be", "hair": "131019",
       "hair_style": "topknot", "headwear": "none", "beard": "none",
       "waist": "belt", "accent": "1f222a", "pouch": false, "height": "standard", "build": "heavy"
+    },
+    "snow.npc.annihir": {
+      "note": "安惜迩：看来斯文、有时心不在焉的年轻钱庄老板，一身稀奇古怪的武功，佩长剑，有隐者风骨（annihir.c）；立绘 Muse 2026-11-05",
+      "coat": "788384", "pants": "24212d", "skin": "e6ccba", "hair": "1d1a20",
+      "hair_style": "topknot", "hair_tie": "2e2a33", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "4d6d64", "prop": "sword_waist", "prop_color": "26242c",
+      "height": "standard", "build": "slim"
+    },
+    "snow.npc.herbalist": {
+      "note": "杨掌柜：桑邻药铺掌柜，有名的大善人，年轻时随山烟寺玄智和尚学医（herbalist.c）；手里一束草药；立绘 Muse 2026-11-05",
+      "coat": "c4682c", "pants": "2b2c33", "skin": "eeb495", "hair": "5e5955",
+      "hair_style": "topknot", "headwear": "none", "beard": "chin_three",
+      "waist": "apron", "apron_color": "678599", "accent": "98453f",
+      "height": "standard", "build": "standard"
+    },
+    "snow.npc.smith": {
+      "note": "王铁匠：正用铁钳夹住红热的铁块放进炉里，使一把铁锤（smith.c）；皮围裙；立绘 Muse 2026-11-05",
+      "coat": "886e62", "pants": "16141b", "skin": "e59c74", "hair": "312324",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "apron", "apron_color": "594137", "accent": "51413e", "prop": "hammer", "prop_color": "6b6560",
+      "height": "standard", "build": "heavy"
     }
   }
 }

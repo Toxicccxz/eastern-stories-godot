@@ -1,16 +1,20 @@
 {
   "people": {
     "player.male": {
-      "note": "男主角：初出江湖的青年，灰蓝布衣、发髻、无兵器；立绘 Muse 2026-11-05（原作没有主角长相）",
-      "coat": "566a8a", "pants": "31343c", "skin": "efc591", "hair": "1f2126",
-      "hair_style": "topknot", "hair_tie": "9299b5", "headwear": "none", "beard": "none",
-      "waist": "sash", "accent": "31343c", "height": "standard", "build": "standard"
+      "note": "男主角：刚出江湖的游侠，苍青劲装、赭红发带和腰带、护腕绑腿、背剑（owner 2026-11-05「更像江湖侠客」；原作没有主角长相）；立绘 Muse 2026-11-05",
+      "coat": "8daea7", "pants": "2d3744", "skin": "f8ccac", "hair": "1f1720",
+      "hair_style": "topknot", "hair_tie": "994b4d", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "994b4d", "prop": "sword_back", "prop_color": "803c3e",
+      "extras": ["bracers", "leg_wraps"], "bracer_color": "291f28", "wrap_color": "302a35",
+      "height": "standard", "build": "standard"
     },
     "player.female": {
-      "note": "女主角：初出江湖的青年，浅灰蓝上衣、裤装、单髻灰蓝带；立绘 Muse 2026-11-05（原作没有主角长相）",
-      "coat": "c0ccd6", "pants": "3f4f5d", "skin": "fcd7a7", "hair": "17181d",
-      "hair_style": "topknot", "hair_tie": "95a3b1", "headwear": "none", "beard": "none",
-      "waist": "sash", "accent": "252932", "height": "standard", "build": "slim"
+      "note": "女主角：刚出江湖的女侠，月白短衣、黛蓝长裤、高马尾朱红发带、护腕绑腿、左腰佩剑垂朱红穗（owner 2026-11-05「更像江湖侠客」；原作没有主角长相）；立绘 Muse 2026-11-05",
+      "coat": "e7f8fe", "pants": "3f4063", "skin": "f5d4c0", "hair": "201e27",
+      "hair_style": "ponytail", "hair_tie": "b9667f", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "2a2c3c", "prop": "sword_waist", "prop_color": "2b2735", "tassel_color": "b9667f",
+      "extras": ["bracers", "leg_wraps"], "bracer_color": "2b2735", "wrap_color": "2a2c3c",
+      "height": "standard", "build": "slim"
     },
     "common.npc.swordsman.master": {
       "note": "柳淳风：温文儒雅的中年人，淳风武馆馆主，四十四岁，丝袍、腰佩玄苏剑（daemon/class/swordsman/master.c）；立绘 Muse 2026-11-05",

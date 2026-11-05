@@ -85,7 +85,7 @@ func _ready() -> void:
 	if waist == "belt":
 		_box(torso, Vector3(0, 0.76, 0.015), Vector3(0.57, 0.12, 0.37), _hex("accent", "a34f3c"))
 		if look.get("pouch", true) != false:
-			_box(torso, Vector3(0.17, 0.6, 0.23), Vector3(0.1, 0.34, 0.07), "bc6943")
+			_box(torso, Vector3(0.17, 0.6, 0.23), Vector3(0.1, 0.34, 0.07), _hex("pouch_color", "bc6943"))
 	elif waist == "sash":
 		_box(torso, Vector3(0, 0.75, 0.015), Vector3(0.58, 0.17, 0.38), _hex("accent", "a34f3c"))
 		_box(torso, Vector3(-0.15, 0.58, 0.2), Vector3(0.09, 0.26, 0.04), _hex("accent", "a34f3c"))
@@ -243,7 +243,7 @@ func _prop() -> void:
 	var grip := Vector3(0, -0.45*_torso_k, 0.04)
 	var metal: String = _hex("metal", "b9a26a")
 	var wood: String = _hex("wood", "6b4a30")
-	var tassel: String = _hex("accent", "a8322a")
+	var tassel: String = _hex("tassel_color", _hex("accent", "a8322a"))
 	match prop:
 		"sword_waist":
 			# From the belt at the left hip, the hilt forward and up, the tip back and down.

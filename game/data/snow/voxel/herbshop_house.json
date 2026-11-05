@@ -17,9 +17,6 @@
   "actors": {
     "default": {
       "coat": "887b56"
-    },
-    "snow.npc.herbalist": {
-      "coat": "718365"
     }
   }
 }
