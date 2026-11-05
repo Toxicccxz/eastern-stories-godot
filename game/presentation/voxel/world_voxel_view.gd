@@ -417,13 +417,14 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 	actors[body.character_id] = actor
 	# The person's card (PersonLooks, DECISIONS「人物外观」) with the map's own entry for them over
 	# it; without a card that entry, else the map's default (a card does not take the default's
-	# keys); the player's card by their gender.
+	# keys); a role whose gender is drawn (旅客) by the one it drew; the player's card by their gender.
 	var actors_config: Dictionary = layout.get("actors",{})
 	var look: Dictionary = actors_config.get("default",{})
 	if body != map.player_body:
 		var npc: NpcRuntimeState = map.npcs.find_resident_npc(body.character_id)
 		if npc != null:
-			look = PersonLooks.resolve(actors_config,String(NpcDefinition.unnamed_id(npc.definition().definition_id)))
+			var drawn: String = String(npc.character_state.gender) if npc.character_state != null else ""
+			look = PersonLooks.resolve(actors_config,String(NpcDefinition.unnamed_id(npc.definition().definition_id)),{},drawn)
 	else:
 		var gender: String = String(map.player_runtime().state.gender) if map.player_runtime() != null else ""
 		look = PersonLooks.resolve({},"",PersonLooks.player(gender))

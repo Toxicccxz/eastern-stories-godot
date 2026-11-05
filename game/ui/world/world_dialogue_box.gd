@@ -183,7 +183,8 @@ func host(speaker_name: String, content: Control, who: NpcRuntimeState = null) -
 	_who = who
 	_open()
 	_hint.hide()
-	_show_busts(true, true)
+	# The player's turn: they choose what to ask.
+	_show_busts(true, false)
 	# The busts and the plate's place for this conversation, not the last one.
 	_place()
 
@@ -209,18 +210,26 @@ func bust_lit(left: bool) -> bool:
 	return bust_shown(left) and (_player_bust if left else _npc_bust).modulate == Color.WHITE
 
 
-## `lines` show above the hosted choices (an answer), without who says them.
+## `lines` show above the hosted choices (the NPC's answer), without who says them; the NPC's
+## bust lit.
 func answer(lines: Array[String]) -> void:
 	var said: Array[String] = []
 	for text: String in lines:
 		var page: String = WorldSpeechBubbles.bubble_text(text)
 		if not page.is_empty():
 			said.append(page)
-	answer_as_written(said)
+	_write_answer(said)
+	_show_busts(false, true)
 
 
-## `lines` above the hosted choices as they stand (你说道：…: not the speaker's words).
+## `lines` above the hosted choices as they stand (你向…打听, 你说道：…, the topics' prompt: the
+## player's own words or turn, not the NPC's); the player's bust lit.
 func answer_as_written(lines: Array[String]) -> void:
+	_write_answer(lines)
+	_show_busts(true, false)
+
+
+func _write_answer(lines: Array[String]) -> void:
 	_text.text = "\n".join(lines)
 	_text.add_theme_color_override("font_color", TEXT_COLOR)
 	_start_typing()

@@ -45,7 +45,9 @@ func _check_cards() -> void:
 		for id: String in people:
 			cards += 1
 			_check(id.get_slice(".", 0) == region or (region == "common" and id.begins_with("player.")), "%s's card is in its region's file (%s)" % [id, region])
-			_check(known.has(id) or id in ["player.male", "player.female"], "%s is someone" % id)
+			# A role whose gender is drawn (旅客) has a card per gender: `<id>.male` / `<id>.female`.
+			var base: String = id.trim_suffix(".male").trim_suffix(".female")
+			_check(known.has(id) or (base != id and known.has(base)) or id in ["player.male", "player.female"], "%s is someone" % id)
 			var card: Dictionary = people[id]
 			for key: String in card:
 				if COLOURS.has(key):
@@ -128,6 +130,9 @@ func _check_resolve() -> void:
 	_check(waiter.get("waist") == "apron" and is_equal_approx(float(waiter.get("scale", 0.0)), 1.2) and not waiter.has("hat"), "the waiter's card, the map's scale over it, not the map's default: %s" % [waiter])
 	_check(PersonLooks.resolve(actors, "x.npc.plain") == {"coat": "222222"}, "no card: the map's entry alone")
 	_check(PersonLooks.resolve(actors, "x.npc.nobody") == actors["default"], "neither: the map's default")
+	# A drawn gender picks `<id>.female` / `<id>.male` when there is one, else `<id>`.
+	var people: Dictionary = PersonLooks.region_cards("snow")
+	_check(PersonLooks.card("snow.npc.waiter", String(CharacterState.GENDER_MALE)) == people["snow.npc.waiter"], "no card for his gender: his own")
 	var her: Dictionary = PersonLooks.region_cards("common").get("player.female", {})
 	_check(not her.is_empty() and PersonLooks.resolve({}, "", PersonLooks.player(String(CharacterState.GENDER_FEMALE))) == her, "the player's card by their gender")
 
@@ -299,6 +304,12 @@ func _check_big_screen(tree: SceneTree) -> void:
 	hud.add_child(content)
 	box.host("店小二", content, waiter)
 	_check(box.bust_shown(false) and box.bust_shown(true), "hosting the waiter: both busts at once")
+	# 打听 takes turns: the player's to choose, the NPC's to answer, the player's own line again.
+	_check(box.bust_lit(true) and not box.bust_lit(false), "the topics: the player's turn")
+	box.answer(["店小二说道：客官里面请。"])
+	_check(box.bust_lit(false) and not box.bust_lit(true), "his answer: he is lit, the player dimmed")
+	box.answer_as_written(["你向店小二打听有关「这里」的消息。"])
+	_check(box.bust_lit(true) and not box.bust_lit(false), "the player's own line: the player lit")
 	var plate: Control = box.get_node("NamePlate")
 	_check(plate.position.x > box.get_node("Box").position.x + box.get_node("Box").size.x / 2.0, "the plate beside his bust on the right")
 	box.host("旁人", content, plain)

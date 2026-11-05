@@ -16,11 +16,25 @@ static var _regions: Dictionary = {}
 
 
 ## The card of `definition_id` (an unnamed NPC definition id, or `player.male`), {} for none.
-static func card(definition_id: String) -> Dictionary:
+## `gender` (CharacterState's): for a role whose gender is drawn (traveller.c), the card
+## `<id>.male` / `<id>.female` when the region has one, else `<id>`'s.
+static func card(definition_id: String, gender: String = "") -> Dictionary:
 	var region: String = definition_id.get_slice(".", 0)
 	if region == PLAYER_PREFIX:
 		region = "common"
-	return _region(region).get(definition_id, {})
+	var people: Dictionary = _region(region)
+	var sexed: String = with_sex(definition_id, gender)
+	return people.get(sexed, {}) if people.has(sexed) else people.get(definition_id, {})
+
+
+## `<id>.male` / `<id>.female` for a person's gender (CharacterState's), `id` for any other.
+static func with_sex(id: String, gender: String) -> String:
+	match StringName(gender):
+		CharacterState.GENDER_MALE:
+			return id + ".male"
+		CharacterState.GENDER_FEMALE:
+			return id + ".female"
+	return id
 
 
 ## The player's card for `gender` (CharacterState's), the male one when there is no other.
@@ -31,10 +45,10 @@ static func player(gender: String) -> Dictionary:
 
 
 ## The look of a person on a map (`actors` from the map's voxel config): their card (`person`,
-## else the card of `definition_id`) with the map's own entry for them over it; without a card,
-## that entry alone, as before cards; with neither, the map's default.
-static func resolve(actors: Dictionary, definition_id: String, person: Dictionary = {}) -> Dictionary:
-	var found: Dictionary = person if not person.is_empty() else card(definition_id)
+## else the card of `definition_id` for their `gender`) with the map's own entry for them over
+## it; without a card, that entry alone, as before cards; with neither, the map's default.
+static func resolve(actors: Dictionary, definition_id: String, person: Dictionary = {}, gender: String = "") -> Dictionary:
+	var found: Dictionary = person if not person.is_empty() else card(definition_id, gender)
 	var own: Dictionary = actors.get(definition_id, {}) if not definition_id.is_empty() else {}
 	if found.is_empty():
 		return own if not own.is_empty() else actors.get("default", {})
