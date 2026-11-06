@@ -306,6 +306,15 @@ func _test_fonxan_line() -> void:
 	var plan: CombatNpcBeatPlan = ready.scheduler.beat_plan(ENEMY)
 	_check(plan != null and plan.size() == 1 and plan.first().action == COUNTER and plan.first().from_line and plan.first().is_perform() and plan.first().cost == 2 and plan.first().confirmed, "封 as its settled first beat (two beats, its whole round)")
 	_check(ready.scheduler.planned_perform_label(ENEMY) == "「封」字诀" and ready.scheduler.pending_special_label(ENEMY).is_empty() and ready.scheduler.next_move_tag(ENEMY, ready.bindings).is_empty() and not ready.scheduler.next_move_guards(ENEMY), "the card reads 要出「封」字诀 from the plan, not from a chat(); no tag, no 守势")
+	# Busy before its turn (封 run on it last round, say): the beat pays the busy through the
+	# busy gate, the planned 封 is dropped with it and stays ready (Codex on #249).
+	ready.bindings[1].busy.start_busy(1)
+	ready.scheduler.choose_attack(_move_with(ready, CombatMoveTags.QUICK).action_id, ready.bindings)
+	var held: CombatSchedulerAdvanceResult = _advance(ready, 1.0)
+	var theirs: Array[CombatSchedulerEvent] = _ordinary_of(held, ENEMY)
+	var ran_special: bool = held.events().any(func(event: CombatSchedulerEvent) -> bool: return event.actor_id == ENEMY and event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null and event.chat.special_label() == "「封」字诀")
+	_check(not ran_special and theirs.size() >= 2 and theirs[0].resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and theirs.slice(1).all(func(event: CombatSchedulerEvent) -> bool: return event.resolution.outcome != CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED), "busy 1 with 封 planned: the first beat pays the busy (no 封), the rest act: %s" % str(ready.scheduler.round_beats_of(ENEMY).spent))
+	_check(not ready.bindings[1].busy.is_busy() and ready.scheduler.round_beats_of(ENEMY).spent[0] == CombatEncounterScheduler.SPENT_BUSY and ready.scheduler._can_special(ready.bindings[1]), "the busy wore off, the beat went on it, 封 did not rest")
 	var small: Fixtures.SchedulerFixture = _fixture(_modern())
 	_learn(small.bindings[1], FONXAN)
 	small.scheduler._skeleton_state(PLAYER).note_attack(&"x", CombatMoveTags.HEAVY, false, false)

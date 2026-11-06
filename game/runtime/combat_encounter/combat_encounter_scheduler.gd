@@ -930,6 +930,10 @@ func _pick_beat(actor: CombatSliceCharacterBinding, beats: CombatRoundBeats, bin
 		entry = _draw_entry(actor, random_source, bindings, maxi(1, beats.remaining), true)
 	if entry == null:
 		return pick
+	# A busy NPC's beat pays its busy whatever it planned (the busy gate, _process_participant):
+	# a planned perform is dropped with it, as the special it announced is (Codex on #249).
+	if actor.busy.is_busy():
+		return pick
 	if entry.is_perform():
 		pick.perform = CombatBeatRules.perform_of(entry.action)
 	else:
