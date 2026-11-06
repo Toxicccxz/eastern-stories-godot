@@ -1,0 +1,159 @@
+{
+  "people": {
+    "cloud.npc.gangster": {
+      "note": "卧龙岗强盗：满脸伤疤，虎背熊腰，一脸凶狠霸道，提鬼头刀，腰里带飞镖（gangster.c）；立绘 Muse 2026-11-05",
+      "coat": "3d4a5a", "pants": "14171f", "skin": "eec39f", "hair": "08060c",
+      "hair_style": "topknot", "waist": "sash", "prop": "sword_waist", "prop_color": "c8ccd2",
+      "accent": "252f3b", "height": "tall", "build": "heavy", "shoes": "dark"
+    },
+    "cloud.npc.butcher": {
+      "note": "郑屠夫：镇北肉铺，剽悍的大块头，盘扣短褂、宽牛皮束带，手提解牛刀（butcher.c）；立绘 Muse 2026-11-05",
+      "coat": "3f536b", "pants": "222f41", "skin": "dab095", "hair": "1d1a1e",
+      "hair_style": "topknot", "waist": "belt", "prop": "cleaver", "prop_color": "c2c6c8",
+      "accent": "7a5a3c", "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "cloud.npc.tea_waiter": {
+      "note": "茶博士：香茗坊招呼客人，茶褐褂子扎布带，黑短髭，手提铜壶；原作还拿抹布，不画是为了和雪亭镇的店小二分开（tea_waiter.c）；立绘 Muse 2026-11-05",
+      "coat": "bf977c", "pants": "34353e", "skin": "e1c4af", "hair": "241e24",
+      "hair_style": "topknot", "beard": "moustache", "waist": "sash", "prop": "teapot",
+      "prop_color": "8a5a34", "accent": "876b59", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "cloud.npc.box_boss": {
+      "note": "林三爷：棺材铺老板，面目慈善的老人，灰发，深灰布衣（box_boss.c）；立绘 Muse 2026-11-05",
+      "coat": "555863", "pants": "363845", "skin": "e2c0ac", "hair": "8f9096",
+      "hair_style": "topknot", "waist": "none", "prop": "none", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.box_waiter": {
+      "note": "棺材铺伙计：垂头丧气，一脸倒霉相，布衣（box_waiter.c）；立绘 Muse 2026-11-05",
+      "coat": "c5aa9a", "pants": "3c3d47", "skin": "f3d9bf", "hair": "23212c",
+      "hair_style": "short", "waist": "none", "prop": "none", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "cloud.npc.god": {
+      "note": "朱鸿雪：慈眉善目的老妇人，其实是东方神教教主；紫玉宝剑藏在身侧只露紫柄，鹿皮小靴（god.c）；立绘 Muse 2026-11-05",
+      "coat": "625476", "pants": "443558", "skin": "f0d3b4", "hair": "9a9a9e",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "sword_waist", "prop_color": "7a4fa3", "accent": "473759", "height": "standard",
+      "build": "slim", "shoes": "dark"
+    },
+    "cloud.npc.tailor": {
+      "note": "裁缝：布庄，看上去很和蔼的老裁缝，正在缝衣服，拿裁衣剪，脖子上挂量衣尺；原作写「老裁缝」，发须画灰（tailor.c）；立绘 Muse 2026-11-05",
+      "coat": "956b47", "pants": "66492e", "skin": "ffdca8", "hair": "9a9a9e",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "none",
+      "accent": "573a1d", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.seller": {
+      "note": "杂货贩：杂货铺的年轻汉子，面带微笑，下巴短须，指间夹着飞镖（seller.c）；立绘 Muse 2026-11-05",
+      "coat": "7e5b43", "pants": "383029", "skin": "f9c9a5", "hair": "261f1c",
+      "hair_style": "topknot", "beard": "full", "waist": "belt", "prop": "none", "accent": "2c2c30",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.doctor": {
+      "note": "药店伙计：十七岁，正在学着配药的小伙计，布衣，手里一把干药材（doctor.c）；立绘 Muse 2026-11-05",
+      "coat": "655344", "pants": "574336", "skin": "d2b697", "hair": "4a3626",
+      "hair_style": "topknot", "waist": "sash", "prop": "none", "accent": "574336",
+      "height": "standard", "build": "slim", "shoes": "straw"
+    },
+    "cloud.npc.weaponor": {
+      "note": "兵器贩子：兵器屋，满脸伤疤（眉、颊、下巴三道），拿长剑（weaponor.c）；立绘 Muse 2026-11-05",
+      "coat": "3b4c60", "pants": "242b37", "skin": "e2b386", "hair": "15181f",
+      "hair_style": "topknot", "waist": "sash", "prop": "sword_waist", "prop_color": "c8ccd2",
+      "accent": "28303d", "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "cloud.npc.monk": {
+      "note": "化缘和尚：从南边山烟寺来化缘，青布袈裟，双手托着化缘的木钵（monk.c）；立绘 Muse 2026-11-05",
+      "coat": "3a5c7d", "pants": "36587a", "skin": "eec39f", "hair": "cbb9a6", "hair_style": "bald",
+      "waist": "none", "prop": "none", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.book_seller": {
+      "note": "潘若秋：书局老板，长得白净，一副读书人的老实相，灰蓝长衫，手持书卷（book_seller.c）；立绘 Muse 2026-11-05",
+      "coat": "718391", "pants": "5d6470", "skin": "f3dfcb", "hair": "201a20",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "book",
+      "prop_color": "8a6a4a", "accent": "5c636e", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "cloud.npc.mei_po": {
+      "note": "媒婆：红娘庄，精明能干的老媒婆，四十三岁，紫色交领长袄到脚面，黑发髻插簪，手拿红手帕（mei_po.c）；立绘 Muse 2026-11-05",
+      "coat": "625677", "pants": "453357", "skin": "eed0ad", "hair": "2e2538",
+      "hair_style": "topknot", "waist": "sash", "prop": "none", "accent": "413254",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.boater": {
+      "note": "船夫：渡口，皮肤晒得黝黑，脸上是多年摆渡的沧桑，手持竹篙（boater.c）；立绘 Muse 2026-11-05",
+      "coat": "9d7a59", "pants": "332219", "skin": "8a5f43", "hair": "4a3520",
+      "hair_style": "topknot", "waist": "sash", "prop": "staff", "prop_color": "c7a76a",
+      "accent": "73543b", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.mother": {
+      "note": "鸨母：浓妆艳抹，身材微胖，全身珠光宝气，紫地舞蝶彩衫，灰紫高髻（mother.c）；立绘 Muse 2026-11-05",
+      "coat": "3f2858", "pants": "260f39", "skin": "f2c29b", "hair": "6e5a7e", "hair_tie": "c9a227",
+      "hair_style": "topknot", "waist": "belt", "prop": "none", "accent": "c9a227",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "cloud.npc.judge": {
+      "note": "宝官：二十二岁，赌场里坐庄，脸上的表情像是看到了你口袋里的钱，匕首别在腰里（judge.c）；立绘 Muse 2026-11-05",
+      "coat": "1e273b", "pants": "131724", "skin": "f3ceab", "hair": "14161c",
+      "hair_style": "topknot", "waist": "belt", "prop": "none", "accent": "0f1218",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.thief": {
+      "note": "飞贼：常出没于大户人家，轻功高强，一身夜行衣，黑布裹头只露双眼（thief.c）；立绘 Muse 2026-11-05",
+      "coat": "1a2235", "pants": "0f1621", "skin": "d9b48f", "hair": "1a2235",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "1a2235", "waist": "sash",
+      "prop": "none", "accent": "0b0c18", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "cloud.npc.b_header": {
+      "note": "陈剑秋：振远镖局总镖头「霹雳刀」，三十八岁，灰青长衫，霜月刀（单刀，刃色霜白）挂在腰侧（b_header.c）；立绘 Muse 2026-11-05",
+      "coat": "445963", "pants": "312b3e", "skin": "e1cbba", "hair": "241e24",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "sword_waist", "prop_color": "c8ccd2", "accent": "6da09c", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.bfighter": {
+      "note": "趟子手：振远镖局负责护镖的趟子手，蓝灰镖局短打，风霜脸短胡茬，单刀挂在腰侧（bfighter.c）；立绘 Muse 2026-11-05",
+      "coat": "2b4368", "pants": "18263e", "skin": "e8b98f", "hair": "12101e",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "8a6a4a", "accent": "74522f", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "cloud.npc.room_gua": {
+      "note": "保镖：张百万的贴身保镖，剽悍的大块头，虎背熊腰，布衣（room_gua.c）；立绘 Muse 2026-11-05",
+      "coat": "9d7757", "pants": "624a37", "skin": "be946b", "hair": "1d1a1e",
+      "hair_style": "topknot", "waist": "sash", "prop": "none", "accent": "614936",
+      "height": "tall", "build": "heavy", "shoes": "dark"
+    },
+    "cloud.npc.millinare": {
+      "note": "张百万：张府主人，精明能干的大奸商，富态，深青锦缎镶金边，金腰带（millinare.c）；立绘 Muse 2026-11-05",
+      "coat": "025e6b", "pants": "18191e", "skin": "f3cfae", "hair": "1d1a1e",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt", "prop": "none",
+      "accent": "c9a227", "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "cloud.npc.jiading": {
+      "note": "张府家丁：俸禄极高，武功不弱，衣着整洁，佩单刀（jiading.c）；立绘 Muse 2026-11-05",
+      "coat": "222d41", "pants": "191d2c", "skin": "ebc39f", "hair": "14161c",
+      "hair_style": "topknot", "waist": "belt", "prop": "sword_waist", "prop_color": "6e4f35",
+      "accent": "273756", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "cloud.npc.worker": {
+      "note": "茶工：茶场里忙活的工人，晒得黝黑，本色粗布褂，双手捧着茶叶（worker.c）；立绘 Muse 2026-11-05",
+      "coat": "ccb88e", "pants": "907058", "skin": "d4a070", "hair": "2a2018",
+      "hair_style": "topknot", "waist": "sash", "prop": "none", "accent": "a08c62",
+      "height": "standard", "build": "slim", "shoes": "straw"
+    },
+    "cloud.npc.chess_player": {
+      "note": "弈者：茶楼楼上下棋的人，十分文气，装束像个雅儒，指间拈着棋子（chess_player.c）；立绘 Muse 2026-11-05",
+      "coat": "bd997a", "pants": "86675d", "skin": "f3d0b0", "hair": "251c2b",
+      "hair_style": "topknot", "waist": "belt", "prop": "none", "accent": "493a3d",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "cloud.npc.girl": {
+      "note": "李师师：怡红院名妓，精通琴棋书画，粉红绸衫；怀抱琵琶是按她的身份补的，原作没写随身物（girl.c）；立绘 Muse 2026-11-05",
+      "coat": "e08395", "pants": "b76d69", "skin": "f7e3d3", "hair": "2a1e22", "hair_tie": "c9a227",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "lute",
+      "prop_color": "472b20", "accent": "fcacba", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    }
+  }
+}
