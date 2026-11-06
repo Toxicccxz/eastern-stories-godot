@@ -27,8 +27,6 @@
     {"kind": "torch", "at": [200, -244], "height": 1.2, "elevation": 1.0, "range": 5.0, "wall_mounted": true, "note": "torches in brackets on the wall"}
   ],
   "actors": {
-    "default": {"coat": "6d5a44"},
-    "oldpine.npc.bandit_leader": {"coat": "7b3a2c", "hat": true},
-    "oldpine.npc.bandit_commander": {"coat": "3a2a22", "hat": true, "note": "常老大, 泼风刀王"}
+    "default": {"coat": "6d5a44"}
   }
 }

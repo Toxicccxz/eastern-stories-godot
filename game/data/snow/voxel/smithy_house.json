@@ -18,9 +18,6 @@
   "actors": {
     "default": {
       "coat": "887b56"
-    },
-    "snow.npc.smith": {
-      "coat": "77604b"
     }
   }
 }
