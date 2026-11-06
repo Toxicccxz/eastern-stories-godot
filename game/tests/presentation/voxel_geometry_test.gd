@@ -229,11 +229,14 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		architecture.build(Vector3(20,0,12),6.0,5.0,data,[door] as Array[Vector3])
 		var colours: Dictionary = {}
 		var count: int = 0
+		var top: float = 0.0
 		for entry: Dictionary in into.batches.values():
 			count += entry["transforms"].size()
 			colours[entry["color"]] = true
+			for transform: Transform3D in entry["transforms"]:
+				top = maxf(top,transform.origin.y)
 		site.queue_free()
-		return [count,colours,architecture.facade.placed,architecture.facade.unknown]
+		return [count,colours,architecture.facade.placed,architecture.facade.unknown,top]
 	var built: Callable = func(data: Dictionary) -> Array: return built_at.call(data,Vector3(0,0,2.5))
 	var plain: Array = built.call(house)
 	var twice: Array = built.call(house)
@@ -289,5 +292,32 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		failures.append("a hanging on the south wall shows (%d forms over %d), on the north wall none (%d), nor a north door's dressing (%d over %d)" % [south[0],bays[0],north[0],back_dressed[0],back_door[0]])
 	if (pair[2] as Array).size() != 2 or pair[2][0] == pair[2][1] or (crowded[3] as Array).is_empty():
 		failures.append("two hangings take two panels (%s); a wall without room says so (%s)" % [pair[2],crowded[3]])
+	# 绮云镇立面: the dyed cloth and the butcher's ox head hang on a wall like the household's
+	# things; a wide thing takes its neighbours' panels, so the next one hangs clear of it.
+	var cloth: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"dyed_cloth","wall":"east","at":0.5},{"kind":"ox_head","wall":"south","at":0.2}]}))
+	var wide: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"notices","wall":"south","at":0.5,"width":1.2},{"kind":"broom","wall":"south","at":0.5}]}))
+	var apart: bool = (wide[2] as Array).size() == 2 and absi(int(String(wide[2][0]).substr(5))-int(String(wide[2][1]).substr(5))) >= 2
+	# A wide thing never lies across a post: asked for on the post at panel 6 (bay 6) of the east
+	# wall, the 1.2-wide board (two panels) moves until neither of its panels is the post's.
+	var over_post: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"notices","wall":"east","at":0.5,"width":1.2}]}))
+	var off_post: bool = false
+	if (over_post[2] as Array).size() == 1:
+		var middle: int = int(String(over_post[2][0]).substr(4))
+		off_post = middle%6 != 0 and (middle+1)%6 != 0
+	if cloth[0] <= bays[0] or not (cloth[3] as Array).is_empty() or (cloth[2] as Array).size() != 2 or not apart or not off_post:
+		failures.append("the dyed cloth and ox head hang on the walls (%s, unknown %s); a broom asked for under a wide board hangs two panels off (%s); a wide board lies across no post (%s)" % [cloth[2],cloth[3],wide[2],over_post[2]])
+	# A 幌杆 (voxel_fixtures.gd `pole_banner`, a layout look) stands its banner over any roof.
+	var fixtures: RefCounted = preload("res://presentation/voxel/props/voxel_fixtures.gd").new()
+	var pole_forms: RefCounted = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
+	var pole := Node3D.new()
+	stage.add_child(pole)
+	fixtures.draw(pole_forms,pole,{"kind":"pole_banner","text":"布庄","height":7.5},0.5,0.5)
+	var pole_top: float = 0.0
+	for entry: Dictionary in pole_forms.batches.values():
+		for transform: Transform3D in entry["transforms"]:
+			pole_top = maxf(pole_top,transform.origin.y)
+	if pole_top < 7.0 or pole.find_children("*","Label3D",true,false).size() != 2:
+		failures.append("a pole banner rises to %.1f units with its name on both faces" % pole_top)
+	pole.queue_free()
 	stage.queue_free()
-	return {"assertions":21,"failures":failures}
+	return {"assertions":23,"failures":failures}
