@@ -14,6 +14,7 @@ var _special: SpecialReport
 ## now, run on the NPC's next beat unless interrupted.
 var _telegraph: NpcSpecialAction
 var _telegraph_label: String = ""
+var _ran_special: NpcSpecialAction
 ## 战斗决策层 4: the name the special ran under, as announced (「封」字诀), for the card's title.
 var _special_label: String = ""
 
@@ -53,6 +54,16 @@ func telegraph() -> NpcSpecialAction:
 
 func telegraph_label() -> String:
 	return _telegraph_label
+
+
+## 战斗拍数 C: the special chat() ran on the spot (npc_telegraph off), for its beats' cost.
+func with_ran_special(action: NpcSpecialAction) -> CombatNpcChatResult:
+	_ran_special = action
+	return self
+
+
+func ran_special() -> NpcSpecialAction:
+	return _ran_special
 
 
 func with_special_label(label: String) -> CombatNpcChatResult:

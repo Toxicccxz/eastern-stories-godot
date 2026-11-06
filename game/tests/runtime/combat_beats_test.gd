@@ -42,6 +42,8 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_point_one_resolve_one()
 	_test_yield()
 	_test_orders_cost_beats()
+	_test_special_busy_in_cost()
+	_test_npc_special_costs()
 	BattlePace.manual_turns = manual_before
 	BattlePace.stance = stance_before
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -54,7 +56,7 @@ static func _rules() -> CombatDecisionRules:
 static func _modern(interleaved: bool = true, cap: int = 1, busy_in_beats: bool = true) -> CombatBeatRules:
 	var costs: Dictionary[StringName, int] = {
 		CombatMoveTags.QUICK: 1, CombatMoveTags.HEAVY: 2, CombatMoveTags.FEINT: 1, CombatMoveTags.GUARD: 1, CombatBeatRules.COST_PLAIN: 1,
-		COUNTER: 2, &"perform/fakefault": 1, &"perform/swordjab": 2, &"perform/qa": 2,
+		COUNTER: 2, &"perform/fakefault": 1, &"perform/swordjab": 2, &"perform/qa": 2, &"perform/busyqa": 2,
 	}
 	return CombatBeatRules.new(2, costs, cap, busy_in_beats, interleaved)
 
@@ -63,6 +65,8 @@ func _fixture(beats: CombatBeatRules, third: bool = false, draws: Array[int] = [
 	var f: Fixtures.SchedulerFixture = Fixtures.new()._fixture(third)
 	var registry := CombatTacticalActionRegistry.new()
 	registry.register_policy(Probe.new(&"perform.qa", CombatTacticalRequest.TargetRule.CURRENT_HOSTILE))
+	# 战斗拍数 C: a perform that leaves the player busy 3 (TEST-ONLY), costing 2.
+	registry.register_policy(Probe.new(&"perform.busyqa", CombatTacticalRequest.TargetRule.CURRENT_HOSTILE, CombatTacticalRequest.Category.MARTIAL_SPECIAL, true, false, 3))
 	f.scheduler.configure_decisions(_rules())
 	f.scheduler.configure_player_tactics(PLAYER, registry)
 	f.scheduler.configure_styles(func(_id: StringName) -> CombatStyle: return null)
@@ -368,6 +372,7 @@ func _test_liuh_line_and_lock() -> void:
 	_check(pressing != null and pressing.first().action == HEAVY_FIST and pressing.first().from_line and pressing.first().cost == 2 and pressing.size() == 1, "drawn afresh while close after a landed hit: 荒山虎吟 (2 beats) is its round")
 	# The player close too: the lock lifts.
 	f.scheduler._skeleton_state(PLAYER).close = true
+	_check(f.scheduler.skeleton_close(PLAYER) and not f.scheduler.skeleton_close(&"nobody"), "战斗拍数 C: the scene reads who stands close")
 	_check(f.scheduler.locked_moves(f.bindings).is_empty() and f.scheduler.choose_attack(HEAVY_FIST, f.bindings), "close: 荒山虎吟 opens and may be chosen")
 	var skeleton: CombatSchoolSkeleton = GameContent.catalog().skill(LIUH).skeleton
 	_check(skeleton.earns_on_own_attack(true, true, false) and not skeleton.earns_on_own_attack(true, false, false) and not skeleton.earns_on_own_attack(false, true, true) and not skeleton.earns_on_opponent_attack(false), "压: a landed hit while close, and only that")
@@ -519,6 +524,74 @@ func _test_orders_cost_beats() -> void:
 	var after: CombatSchedulerAdvanceResult = _advance(g, 0.0)
 	_check(after.outcome == CombatSchedulerAdvanceResult.Outcome.ADVANCED and _ordinary_of(after, PLAYER).is_empty() and not g.scheduler.round_running() and g.scheduler.round_beats_of(PLAYER).spent == ([CombatMoveTags.QUICK, &"perform/qa"] as Array[StringName]), "the perform ran and took the beat left; the round done: %s" % str(g.scheduler.round_beats_of(PLAYER).spent))
 	_check(CombatEncounterScheduler.cost_key_of(CombatTacticalRequest.Category.INTERNAL_FORCE, &"exert.recover") == CombatBeatRules.COST_EXERT and CombatEncounterScheduler.cost_key_of(CombatTacticalRequest.Category.TACTICAL_DEFENSE, CombatSurrenderTacticalPolicy.ACTION_ID).is_empty() and CombatEncounterScheduler.cost_key_of(CombatTacticalRequest.Category.FLEE, CombatFleeTacticalPolicy.ACTION_ID) == CombatBeatRules.COST_FLEE and CombatEncounterScheduler.cost_key_of(CombatTacticalRequest.Category.MARTIAL_SPECIAL, &"perform.counterattack") == COUNTER, "the keys: exert, nothing for 投降, flee, perform/<id>")
+
+
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): a perform's own busy counts into the beats it cost —
+## the beats paid count the busy down, so it loses max(cost, busy) beats, never the sum: the
+## player's perform of 2 leaving busy 3 keeps busy 1 (paid by the next round's first beat);
+## the NPC's 封 as a beat (2) leaves no busy at all (counterattack.c's 1). ES2's busy by
+## rounds keeps the busy whole.
+func _test_special_busy_in_cost() -> void:
+	var f: Fixtures.SchedulerFixture = _fixture(_modern())
+	_npc_beats[ENEMY] = 2
+	_advance(f, 1.0)
+	_check(f.scheduler.player_tactics().submit(CombatTacticalRequest.new(&"busy-1", ID, PLAYER, &"perform.busyqa", CombatTacticalRequest.Category.MARTIAL_SPECIAL), true, ID, f.bindings).accepted(), "the busy perform queued")
+	f.scheduler.open_round()
+	var spent: CombatSchedulerAdvanceResult = _advance(f, 1.0)
+	_check(spent.outcome == CombatSchedulerAdvanceResult.Outcome.ADVANCED and _ordinary_of(spent, PLAYER).is_empty() and f.scheduler.round_beats_of(PLAYER).spent == ([&"perform/busyqa"] as Array[StringName]), "it ran and took the round's two beats")
+	_check(f.bindings[0].busy.busy_value == 1, "its busy 3 less the 2 beats paid: 1 left (%d)" % f.bindings[0].busy.busy_value)
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
+	var next: Array[CombatSchedulerEvent] = _ordinary_of(_round(f), PLAYER)
+	_check(next.size() == 2 and next[0].resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and next[1].resolution.outcome != CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and not f.bindings[0].busy.is_busy(), "the next round: its first beat pays the busy left, the second acts — three beats lost in all, max(2, 3)")
+	# The NPC's 封 as a beat: counterattack.c's own busy 1 goes with the two beats it cost.
+	var g: Fixtures.SchedulerFixture = _fixture(_modern())
+	_learn(g.bindings[1], FONXAN)
+	_npc_beats[ENEMY] = 2
+	_advance(g, 1.0)
+	g.scheduler.choose_attack(_move_with(g, CombatMoveTags.HEAVY).action_id, g.bindings)
+	var round: CombatSchedulerAdvanceResult = _round(g)
+	var ran: bool = round.events().any(func(event: CombatSchedulerEvent) -> bool: return event.actor_id == ENEMY and event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null and event.chat.special_label() == "「封」字诀")
+	_check(ran and g.scheduler.round_beats_of(ENEMY).spent.back() == COUNTER and not g.bindings[1].busy.is_busy(), "封 as its beat: its own busy 1 counted into the 2 it cost, none left")
+	# ES2's busy by rounds: nothing of this.
+	var es2: Fixtures.SchedulerFixture = _fixture(_modern(true, 1, false))
+	_npc_beats[ENEMY] = 2
+	_advance(es2, 1.0)
+	es2.scheduler.player_tactics().submit(CombatTacticalRequest.new(&"busy-2", ID, PLAYER, &"perform.busyqa", CombatTacticalRequest.Category.MARTIAL_SPECIAL), true, ID, es2.bindings)
+	es2.scheduler.open_round()
+	_advance(es2, 1.0)
+	_check(es2.bindings[0].busy.busy_value == 3, "busy by rounds: the busy stays whole (%d)" % es2.bindings[0].busy.busy_value)
+
+
+## 战斗拍数 C: an NPC's chat() special costs its beats as the player's orders do — off the
+## round running while it has beats left, else off its next round; a perform's own busy counts
+## into them; a surrender costs nothing.
+func _test_npc_special_costs() -> void:
+	_check(CombatEncounterScheduler.npc_special_key(NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, &"sword", &"counterattack")) == COUNTER and CombatEncounterScheduler.npc_special_key(NpcSpecialAction.new(NpcSpecialAction.Kind.CAST, &"", &"bolt")) == CombatBeatRules.COST_CAST and CombatEncounterScheduler.npc_special_key(NpcSpecialAction.new(NpcSpecialAction.Kind.EXERT, &"", &"recover")) == CombatBeatRules.COST_EXERT and CombatEncounterScheduler.npc_special_key(NpcSpecialAction.new()).is_empty(), "the keys: perform/<id>, cast, exert, nothing for a surrender")
+	var f: Fixtures.SchedulerFixture = _fixture(_modern())
+	_npc_beats[ENEMY] = 2
+	_advance(f, 1.0)
+	# Between rounds (its chat() ran after its last beat): charged to its next round; the
+	# busy 封 leaves it (1) goes with the beats.
+	f.bindings[1].busy.start_busy(1)
+	f.scheduler._charge_npc_special(f.bindings[1], NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, &"sword", &"counterattack"))
+	_check(not f.bindings[1].busy.is_busy(), "its own busy 1 counted into the 2 beats")
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
+	var round: CombatSchedulerAdvanceResult = _round(f)
+	_check(_ordinary_of(round, ENEMY).is_empty() and f.scheduler.round_beats_of(ENEMY).spent == ([COUNTER] as Array[StringName]) and _ordinary_of(round, PLAYER).size() == 2, "the next round: 封 took its two beats, the player's round alone: %s" % str(_beat_actors(round)))
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
+	var after: CombatSchedulerAdvanceResult = _round(f)
+	_check(_ordinary_of(after, ENEMY).size() == 2, "the round after: its beats are its own again")
+	# A cast between rounds (cost 1): one beat of its next round.
+	f.scheduler._charge_npc_special(f.bindings[1], NpcSpecialAction.new(NpcSpecialAction.Kind.CAST, &"", &"bolt"))
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
+	var cast: CombatSchedulerAdvanceResult = _round(f)
+	_check(_ordinary_of(cast, ENEMY).size() == 1 and f.scheduler.round_beats_of(ENEMY).spent[0] == CombatBeatRules.COST_CAST, "a cast: one beat of the round to come: %s" % str(f.scheduler.round_beats_of(ENEMY).spent))
+	# ES2's one beat: no charge.
+	var es2: Fixtures.SchedulerFixture = _fixture(CombatBeatRules.classic())
+	_advance(es2, 1.0)
+	es2.scheduler._charge_npc_special(es2.bindings[1], NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, &"sword", &"counterattack"))
+	es2.scheduler.choose_attack(_move_with(es2, CombatMoveTags.QUICK).action_id, es2.bindings)
+	_check(_ordinary_of(_round(es2), ENEMY).size() == 1, "经典: the special is a command, the beat is its own")
 
 
 func _check(ok: bool, label: String) -> void:

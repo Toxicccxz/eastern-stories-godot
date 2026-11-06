@@ -142,6 +142,11 @@ static func resolve(
 	calculation._attack_power = CombatMath.skill_power(attack_power_input, rules)
 	# 战斗决策层 1B: the stance's and the move tag's lean on the attack power (0: nothing).
 	var attack_percent: int = attacker.attack_power_percent + CombatMoveTags.attack_percent(action.tag, defender.move_tag, rules.action_tag_bonus_percent, rules.tag_counter_percent)
+	# 战斗拍数 C: the ring's verdict, recorded for the show (no number changes on it).
+	if CombatMoveTags.beats(action.tag, defender.move_tag):
+		calculation._ring = 1
+	elif CombatMoveTags.beats(defender.move_tag, action.tag):
+		calculation._ring = -1
 	if attack_percent != 0:
 		@warning_ignore("integer_division")
 		calculation._attack_power += calculation._attack_power * attack_percent / 100

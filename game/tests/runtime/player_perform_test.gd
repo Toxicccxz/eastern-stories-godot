@@ -323,28 +323,28 @@ func _test_fight(tree: SceneTree) -> void:
 	_check(_submit(&"perform.counterattack") == CombatTacticalResult.Code.ACCEPTED, "「封」 queued all the same (perform <action>)")
 	_coordinator.advance_scheduler(0.0)
 	_ui.refresh_projection()
-	_check(trainee.busy.busy_value == 4 and _player.busy.busy_value == 1, "「封」 runs between rounds: the trainee busy 4, the player 1")
+	# 战斗拍数 C: 「封」's own busy 1 counts into the two beats it cost (DECISIONS「战斗拍数 C」).
+	_check(trainee.busy.busy_value == 4 and _player.busy.busy_value == 0, "「封」 runs between rounds: the trainee busy 4, the player's own busy 1 counted into its beats")
 	var held: CombatTacticalEvent = _last_resolved(scheduler)
 	_check(held != null and held.action.resolved_target_id.is_empty() and held.execution.special.lines()[0].target_id == trainee.character_id, "queued with no target: offensive_target() found the trainee")
 	_check(_log().contains("你使出封山剑法「封」字诀") and _log().contains("措手不及"), "its line in the battle log")
 	_check(_submit(&"perform.swordjab") == CombatTacticalResult.Code.ACCEPTED, "「逐」 queued")
+	# 战斗拍数 C: the busy went with 「封」's beats, so 「逐」 runs at this boundary — a round
+	# sooner than while the busy still stood after the beats (包 B).
 	_coordinator.advance_scheduler(0.0)
-	_check(scheduler.player_tactics().queue_status() == CombatQueuedAction.Status.WAITING_FOR_BUSY and _player.state.vitality.effective == 5000, "it waits while the player is busy")
-	# 战斗拍数 B: 「封」 cost the round's two beats, so the busy it left is paid by the first
-	# beat of the round after; 「逐」 runs at the boundary once the busy is gone.
-	for _round: int in 2:
-		_coordinator.advance_scheduler(1.0)
-		_coordinator.advance_scheduler(0.0)
 	_ui.refresh_projection()
-	_check(_coordinator.active_encounter().queued_player_action() == null and _player.state.vitality.effective == 4990, "then runs: eff_kee 4990 (%d)" % _player.state.vitality.effective)
+	_check(_coordinator.active_encounter().queued_player_action() == null and _player.state.vitality.effective == 4990, "runs at once: eff_kee 4990 (%d)" % _player.state.vitality.effective)
 	var jab: CombatTacticalEvent = _last_resolved(scheduler)
 	_check(jab != null and jab.execution.special != null and jab.execution.special.attacks().size() == 3, "three attacks at the highest draws")
 	var text: String = _log()
 	var line: int = text.find("你使出封山剑法「逐」字诀")
 	_check(line >= 0 and text.find("竹剑", line) > line, "the line, then the blows with the 竹剑")
 	var round_ms_before: int = 0
-	_coordinator.advance_scheduler(1.0)
-	_check(_coordinator.active_encounter().current_target_for(_player.character_id) == trainee.character_id, "a round later the trainee is the current target")
+	# 「封」 and 「逐」 cost two beats each: the next round is the trainee's alone, the one after
+	# the player's first blow names the target.
+	for _round: int in 2:
+		_coordinator.advance_scheduler(1.0)
+	_check(_coordinator.active_encounter().current_target_for(_player.character_id) == trainee.character_id, "two rounds later the trainee is the current target")
 	_check(_submit(&"perform.fakefault") == CombatTacticalResult.Code.ACCEPTED, "「缺」 queued against him")
 	_coordinator.advance_scheduler(0.0)
 	var timed: CharacterTimedApplies = _player.state.timed_applies

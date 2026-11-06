@@ -3,6 +3,8 @@ extends CombatTacticalActionPolicy
 ## TEST ONLY. Deliberately synthetic probe, not ES2 combat/cost/balance.
 ## No execution counters/character caches: exact mutation and RNG are the evidence.
 var _fail_execution: bool
+## 战斗拍数 C: the busy the perform leaves its actor with (0: none), as counterattack.c's 1.
+var _own_busy: int
 
 
 func _init(
@@ -11,9 +13,11 @@ func _init(
 	p_category: int = CombatTacticalRequest.Category.MARTIAL_SPECIAL,
 	item_busy: bool = true,
 	fail_execution: bool = false,
+	own_busy: int = 0,
 ) -> void:
 	super(id, p_category, rule, item_busy)
 	_fail_execution = fail_execution
+	_own_busy = own_busy
 
 
 func validate_request(context: CombatTacticalContext) -> int:
@@ -45,6 +49,8 @@ func execute(context: CombatTacticalContext, random_source: CombatRandomSource) 
 	context.actor.state.recovery.inner_force.current -= 1
 	if context.target != null:
 		context.target.state.recovery.atman.current += 1
+	if _own_busy > 0:
+		context.actor.busy.start_busy(_own_busy)
 	return CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED, &"qa.applied")
 
 
