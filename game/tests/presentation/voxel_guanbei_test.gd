@@ -157,6 +157,37 @@ func _check_town(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		if not open:
 			narrow.append(String(row[0]))
 	_check(narrow.is_empty(), "the ways are wide enough: narrow at %s" % [narrow])
+	# 关北立面 (voxel_facade.gd keys): the smith known by his forge, the saddler by his hooks, the
+	# 王府 by its faded red gate; the earth walls blasted pale at the foot.
+	var smithy: Dictionary = _building(view.layout, [352, 880, 544, 1200])
+	_check(smithy.get("soot", {}).get("door", false) and smithy.has("door_glow") and _hung(smithy, "tool_hooks", "east") == 2, "铁匠铺: the lintel sooted, the forge's light within, hooks either side of its east door")
+	var furrier: Dictionary = _building(view.layout, [352, 480, 544, 800])
+	var saddler: Dictionary = _building(view.layout, [864, 880, 1056, 1200])
+	_check(furrier.get("windows", {}).get("style", "") == "shutters" and _hung(saddler, "tool_hooks", "west") == 2, "皮货铺's shutters; 马具铺's hooks either side of its west door")
+	var palace: Dictionary = _building(view.layout, [448, 0, 960, 192])
+	var look: Dictionary = view.layout.get("door_looks", {}).get("guanbei.palace.gate", {})
+	var yard: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/guanbei/voxel/palace_court.json"))
+	_check(look.get("kind", "") == "old_gate" and look.get("open", false) and int(look.get("size", [160])[0]) < 128 and String(look.get("studs", "")) != "" and Color(String(look.get("leaf", "000000"))).v > 0.6
+		and not palace.has("gate") and int(palace.get("steps", {}).get("count", 0)) == 2 and palace.get("eave_tiles", false),
+		"palace_front: 朱漆的大门褪得发白，门钉倒是黑亮的 — the 王府大门 a door look (pale red leaves, dark studs, swung open once let in, narrowed to the doorway), the gate house's own leaves gone, two steps, 瓦当")
+	_check(yard.get("door_looks", {}).get("guanbei.palace.gate", {}) == look, "the same 王府大门 on the 王府's own map")
+	_check(view.shutters.has(&"guanbei.palace.gate") and view.opened.has(&"guanbei.palace.gate") and view.opened[&"guanbei.palace.gate"].visible != view.shutters[&"guanbei.palace.gate"].visible,
+		"the 王府大门 has its shut look and its open one, one of them shown")
+	var pale: int = 0
+	var marked: int = 0
+	for building: Dictionary in view.layout["buildings"]:
+		var damp: Dictionary = building.get("damp", {}) if building.get("damp") is Dictionary else {}
+		pale += 1 if building.get("construction", "") == "earth" and Color(String(damp.get("color", "000000"))).v > 0.7 else 0
+		var marks: int = 0
+		for key: String in ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot"]:
+			marks += 1 if building.has(key) else 0
+		marked += 1 if marks >= 2 else 0
+	_check(pale >= 7 and marked == 9, "the earth walls sand-blasted pale at the foot (%d), every building old two ways or more (%d)" % [pale, marked])
+	var forge: bool = false
+	for node: Node in view.geometry.find_children("*", "OmniLight3D", true, false):
+		var light := node as OmniLight3D
+		forge = forge or (light.light_color.is_equal_approx(Color("ff6a2a")) and float(light.get_meta("night_energy", 0.0)) > float(light.get_meta("day_energy", 0.0)))
+	_check(forge, "the forge glows within, more by night than by day")
 	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.street", &"guanbei.palace_front"]), "walk from the gate up the street to the 王府's front")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"guanbei.gate.notice")), "and back down to the notice")
 	var button := session.shared_ui().find_child("ViewSide", true, false) as VoxelViewSideButton
@@ -186,6 +217,9 @@ func _check_market(tree: SceneTree, map: WorldMapController) -> void:
 	for building: Dictionary in view.layout.get("buildings", []):
 		flagged = flagged or (building.get("hanging_flag", {}) as Dictionary).get("text", "") == "酒"
 	_check(flagged, "the 酒肆's wine flag over its door (native:guanbei/market: 挑着一面酒旗)")
+	var inn: Dictionary = _building(view.layout, [480, 128, 800, 320])
+	_check(inn.has("door_glow") and inn.get("soot", {}).get("door", false) and _hung(inn, "straw_cape", "south") == 1 and _hung(inn, "hat", "south") == 1 and float(inn.get("patches", 0.0)) > 0.0,
+		"关北立面: the hearth's light within the 酒肆, its lintel sooted, a straw cape and a hat by the door, the mud wall mended")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"guanbei.market", Vector2(980, 790), 56.0)), "walk round the pen's south side to 卢卡's corner")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"guanbei.market", Vector2(640, 440), 48.0)), "and up to the 酒肆's door")
 
@@ -300,6 +334,10 @@ func _check_worksite(tree: SceneTree, session: WorldSessionController, map: Worl
 		cloth += 1 if building.get("construction", "") == "cloth" else 0
 		thatch += 1 if building.get("roof_tiles", "") == "thatch" else 0
 	_check(cloth == 3 and thatch == 2, "three canvas tents, two thatched sheds")
+	var mended: int = 0
+	for building: Dictionary in view.layout.get("buildings", []):
+		mended += 1 if building.get("roof_tiles", "") == "thatch" and float(building.get("patches", 0.0)) > 0.2 and float(building.get("cracks", 0.0)) > 0.0 else 0
+	_check(mended == 2, "关北立面: both sheds' board walls mended and cracked (the tents are cloth: no wall keys)")
 	var rider: Dictionary = (view.layout.get("actors", {}) as Dictionary).get("native.npc.huaiyang_rider", {})
 	_check(rider.has("mount"), "the riders sit a horse in the view (owner Q3: the view only)")
 	var summoned: Array[NpcRuntimeState] = map.summon(&"guanbei.fence_gate.riders") # TEST-ONLY: the riders in, to see them seated
@@ -331,6 +369,25 @@ func _check_barrow(tree: SceneTree, map: WorldMapController) -> void:
 		covered = covered or (look["kind"] == "cart" and look.get("covered", false))
 	_check(lined and covered, "the pit lined with stone at the bottom, the cart under its cloth")
 	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.stone_door", &"guanbei.barrow_mouth", &"guanbei.cart_stand", &"guanbei.barrow_mouth"]), "walk to the door, down to the cart and back")
+
+
+func _building(layout: Dictionary, rect: Array) -> Dictionary:
+	for building: Dictionary in layout["buildings"]:
+		var same: bool = true
+		for i: int in 4:
+			same = same and int(building["rect"][i]) == int(rect[i])
+		if same:
+			return building
+	return {}
+
+
+## How many things of `kind` hang on `wall` of a building.
+func _hung(building: Dictionary, kind: String, wall: String) -> int:
+	var count: int = 0
+	for item: Dictionary in building.get("wall_hangings", []):
+		if String(item.get("kind", "")) == kind and String(item.get("wall", "south")) == wall:
+			count += 1
+	return count
 
 
 func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapController, place: String) -> void:

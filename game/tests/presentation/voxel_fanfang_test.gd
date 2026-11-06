@@ -172,6 +172,56 @@ func _check_bazaar(tree: SceneTree, map: WorldMapController) -> void:
 		smoking += 1 if building.get("smoke", false) else 0
 		black = black or (String(building.get("note", "")).begins_with("拜火祠") and Color(String(building.get("wall", "ffffff"))).v < 0.25)
 	_check(flat >= 4 and tiled >= 3 and smoking >= 2 and black, "flat-roofed 胡商 houses and tiled ones, the black 拜火祠 and the forge smoking")
+	# 番坊立面 (voxel_facade.gd keys): the north row's doors look south and carry each trade's mark;
+	# the south row's look north, so their marks sit on the side walls and on poles at the kerb.
+	var glass: Dictionary = _building(view.layout, [192, 320, 512, 512])
+	var carpets: Dictionary = _building(view.layout, [592, 320, 912, 512])
+	var copper: Dictionary = _building(view.layout, [1248, 320, 1568, 512])
+	_check((glass.get("doors", []) as Array).size() == 1 and (carpets.get("doors", []) as Array).size() == 1 and (copper.get("doors", []) as Array).size() == 1, "the three shops of the north row open onto the street")
+	_check(_hung(glass, "bead_strings", "south") == 2, "bazaar_west: 琉璃珠子一串一串 — bead strings either side of the glass merchant's door")
+	_check(_hung(carpets, "dyed_cloth", "south") == 2 and carpets.get("eave_tiles", false), "bazaar_west: 毡毯挂在竹竿上，红的黄的 — rugs hung either side of the carpet merchant's door, 瓦当 on his tiles")
+	_check(_hung(copper, "copper_wares", "south") == 2 and copper.get("soot", {}).get("door", false) and copper.has("door_glow"), "bazaar_east: 铜器摊上的壶和盘子 — copper wares either side of the smith's door, the door sooted, the forge within")
+	var customs: Dictionary = _building(view.layout, [208, 800, 624, 1072])
+	var spice: Dictionary = _building(view.layout, [704, 800, 1024, 992])
+	var hostel: Dictionary = _building(view.layout, [1248, 800, 1568, 992])
+	_check(_hung(customs, "notices", "east") == 1 and float(customs.get("notices", 0.0)) >= 0.3 and customs.get("eave_tiles", false),
+		"bazaar_west: 市舶司 — the 官府's board on its east wall (seen down the gap), notices on the walls, 瓦当 on the grey tiles")
+	_check(_hung(spice, "string_hang", "east") == 2 and not spice.has("steps"), "bazaar_slope: strings of peppers and garlic on the spice seller's wall over the lane")
+	_check(_hung(hostel, "dyed_cloth", "west") == 1 and hostel.get("roof_weeds", 0.0) > 0.0 and float(hostel.get("patches", 0.0)) > 0.0, "the 胡商客栈: felt hung on its west wall over the lane, the oldest roof and walls of the row")
+	var temple: Dictionary = _building(view.layout, [1536, 512, 1760, 800])
+	var hall: Dictionary = _building(view.layout, [976, 96, 1296, 288])
+	_check(float(temple.get("soot", {}).get("eaves", 0.0)) >= 0.7 and temple.get("soot", {}).get("door", false) and int(temple.get("steps", {}).get("count", 0)) == 2 and Color(String(temple.get("steps", {}).get("color", "ffffff"))).v < 0.3,
+		"bazaar_east: 门口冒着烟…火三百年没灭过 — the 拜火祠's door and eaves blackened, two black steps")
+	_check(int(hall.get("steps", {}).get("count", 0)) == 2 and float(hall.get("cracks", 0.0)) > 0.0 and float(hall.get("foot_weeds", 0.0)) > 0.0, "bazaar_north: 铁盾会's rough stone cracked and weedy, two steps at its gate")
+	var poles: Array[String] = []
+	for look: Dictionary in _looks(map):
+		if String(look["kind"]) == "pole_banner":
+			poles.append(String(look.get("text", "")))
+	poles.sort()
+	_check(poles == ["客栈", "市舶司"], "the 市舶司's banner and the 客栈's on poles at the kerb (their doors look north), none for the spice seller: %s" % [poles])
+	var labels: Dictionary = {}
+	for node: Node in view.geometry.find_children("*", "Label3D", true, false):
+		labels[(node as Label3D).text] = (labels.get((node as Label3D).text, []) as Array) + [node]
+	var low: Array[String] = []
+	for text: String in poles:
+		var high: bool = false
+		for label: Label3D in labels.get(tr(text), []):
+			high = high or label.global_position.y > 5.5
+		if not high:
+			low.append(text)
+	_check(low.is_empty(), "each pole holds its banner over the roofs: %s" % [low])
+	var marked: int = 0
+	for building: Dictionary in view.layout["buildings"]:
+		var marks: int = 0
+		for key: String in ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]:
+			marks += 1 if building.has(key) else 0
+		marked += 1 if marks >= 2 else 0
+	_check(marked == 8, "every house on the bazaar is old two ways or more: %d" % marked)
+	var forges: int = 0
+	for node: Node in view.geometry.find_children("*", "OmniLight3D", true, false):
+		var light := node as OmniLight3D
+		forges += 1 if light.light_color.is_equal_approx(Color("ff6a2a")) and float(light.get_meta("night_energy", 0.0)) > float(light.get_meta("day_energy", 0.0)) else 0
+	_check(forges >= 1, "the coppersmith's forge glows within, more by night than by day")
 	_check(view.geometry.ambience._puffs.size() >= 2 or view.geometry.ambience._motes.size() >= 10, "spice dust and smoke on the air")
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.bazaar_east", &"fanfang.bazaar_north"]), "walk along the street and up the lane to the gate")
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.bazaar_east", &"fanfang.bazaar_slope"]), "and down the slope towards 日陀罗寺")
@@ -241,6 +291,25 @@ func _check_ronin_hall(tree: SceneTree, map: WorldMapController) -> void:
 	_check((actors.get("native.npc.ronin", {}) as Dictionary).get("hat", false) and not (actors.get("fanfang.npc.ronin_master", {}) as Dictionary).get("hat", true), "the 浪人 wear their 斗笠, 早川 does not")
 	_check(view.layout.get("courtyard", false), "the gate yard open to the sky")
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.dojo", &"fanfang.gate_yard"]), "walk onto the boards and back")
+
+
+func _building(layout: Dictionary, rect: Array) -> Dictionary:
+	for building: Dictionary in layout["buildings"]:
+		var same: bool = true
+		for i: int in 4:
+			same = same and int(building["rect"][i]) == int(rect[i])
+		if same:
+			return building
+	return {}
+
+
+## How many things of `kind` hang on `wall` of a building.
+func _hung(building: Dictionary, kind: String, wall: String) -> int:
+	var count: int = 0
+	for item: Dictionary in building.get("wall_hangings", []):
+		if String(item.get("kind", "")) == kind and String(item.get("wall", "south")) == wall:
+			count += 1
+	return count
 
 
 func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapController, place: String) -> void:

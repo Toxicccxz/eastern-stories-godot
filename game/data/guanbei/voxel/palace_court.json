@@ -11,7 +11,7 @@
   ],
   "surfaces": {"guanbei.palace_yard": "floor_yard"},
   "door_looks": {
-    "guanbei.palace.gate": {"kind": "closed_door", "color": "9c4a3c", "trim": "2a2422", "note": "王府大门 from inside (town.json draws it from the street)"}
+    "guanbei.palace.gate": {"kind": "old_gate", "leaf": "c8867a", "studs": "1a1816", "open": true, "size": [104, 32], "note": "王府大门 (native:guanbei/palace_front: 朱漆的大门褪得发白，门钉倒是黑亮的): faded red leaves, black studs, swung open once the guards let one in; narrowed to the gate house's doorway"}
   },
   "ground": {
     "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.08, "broken": 0.03, "sunk": 0.03, "tufts": 0.0, "stones": ["b4a06c", "bca876", "ac9864", "c0ac7a"], "worn": ["a89460", "b09c68"], "bed": "9a8a5a", "joint": 0.05, "mud": "a89460", "crack": "8a7a4e", "note": "the forecourt paved in yellow stone, swept"},

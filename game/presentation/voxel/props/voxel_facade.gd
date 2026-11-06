@@ -567,6 +567,45 @@ func _own(node: Node3D, item: Dictionary) -> bool:
 				shapes.box(node,Vector3(x,top-drop/2,0.2+i*0.004),Vector3(0.3,drop,0.03),dye.to_html(false))
 				shapes.box(node,Vector3(x,top-drop+0.14,0.202+i*0.004),Vector3(0.3,0.28,0.032),dye.darkened(0.3).to_html(false))
 				shapes.box(node,Vector3(x,top+0.04,0.2+i*0.004),Vector3(0.3,0.06,0.1),dye.darkened(0.1).to_html(false))
+		"bead_strings":
+			# 琉璃珠串 (番坊立面: 琉璃珠子一串一串，太阳一照满摊子都是光): strings of coloured glass
+			# beads hung from a rod by a 胡商's window, a few of them catching the light.
+			var colors: Array = item.get("colors",["3a8ac8","e8c040","c84a3a","5ab07a","d8d8f0"])
+			var top: float = float(item.get("top",2.35))
+			var seed: int = int(item.get("seed",0))
+			shapes.box(node,Vector3(0,top,0.1),Vector3(0.9,0.05,0.05),"6a5039")
+			for cord: float in [-0.4,0.4]:
+				shapes.box(node,Vector3(cord,top-0.06,0.08),Vector3(0.05,0.12,0.05),"3a3530")
+			for i: int in 5:
+				var x: float = -0.34+i*0.17
+				var beads: int = 6+(i+seed)%3
+				var hue := Color(String(colors[(i+seed)%colors.size()]))
+				shapes.box(node,Vector3(x,top-beads*0.055,0.1),Vector3(0.015,beads*0.11,0.015),"d8c8a0")
+				for bead: int in beads:
+					var shine: bool = (bead*3+i+seed)%7 == 0
+					shapes.box(node,Vector3(x,top-0.06-bead*0.11,0.1),Vector3(0.07,0.07,0.07),hue.lightened(0.3).to_html(false)+":glow" if shine else hue.to_html(false))
+		"copper_wares":
+			# 铜壶铜盘 (番坊立面: 铜器摊上的壶和盘子敲得叮当响): a kettle and plates of beaten copper
+			# hung on nails from a rail by the coppersmith's door.
+			var copper := Color(String(item.get("copper","c07a3e")))
+			var top: float = float(item.get("top",2.2))
+			var seed: int = int(item.get("seed",0))
+			shapes.box(node,Vector3(0,top,0.06),Vector3(0.95,0.06,0.06),"5a4634")
+			for i: int in 3:
+				var x: float = -0.3+i*0.3
+				shapes.box(node,Vector3(x,top-0.02,0.1),Vector3(0.03,0.08,0.03),"3a3530")
+				var tone: Color = copper.darkened(0.12*((i+seed)%3))
+				if (i+seed)%3 == 1:
+					# A kettle: its body, lid, spout and handle.
+					shapes.box(node,Vector3(x,top-0.34,0.14),Vector3(0.26,0.3,0.2),tone.to_html(false))
+					shapes.box(node,Vector3(x,top-0.17,0.14),Vector3(0.18,0.05,0.14),tone.lightened(0.15).to_html(false))
+					shapes.tilted_box(node,Vector3(x+0.18,top-0.3,0.14),Vector3(0.05,0.2,0.05),tone.to_html(false),Vector3(0,0,-0.6))
+					shapes.box(node,Vector3(x,top-0.1,0.14),Vector3(0.16,0.03,0.03),"3a3530")
+				else:
+					# A plate: a round of beaten copper, its rim and the pale boss in its middle.
+					shapes.box(node,Vector3(x,top-0.3,0.12),Vector3(0.36,0.36,0.03),tone.darkened(0.1).to_html(false))
+					shapes.box(node,Vector3(x,top-0.3,0.125),Vector3(0.28,0.28,0.03),tone.to_html(false))
+					shapes.box(node,Vector3(x,top-0.3,0.14),Vector3(0.1,0.1,0.02),tone.lightened(0.25).to_html(false))
 		_:
 			return false
 	return true

@@ -34,7 +34,7 @@
   },
   "reshape": [],
   "buildings": [
-    {"rect": [128, 64, 192, 896], "portals": ["guanbei.camp.west"], "note": "槐阳城's east wall behind the camp, the 东门 through it (the market is guanbei_market)", "construction": "earth", "wall": "b89a66", "timber": "7a4a3a", "roof": "8a4a3a", "height": 3.4, "roof_form": "none", "foundation": 0.0, "bay": 9, "porch": "none", "lanterns": true, "lantern": "ffb858", "goods": "none", "doorway_width": 3.0, "step": "a89a74", "posts": "8a4a3a"}
+    {"rect": [128, 64, 192, 896], "portals": ["guanbei.camp.west"], "note": "槐阳城's east wall behind the camp, the 东门 through it (the market is guanbei_market)", "construction": "earth", "wall": "b89a66", "timber": "7a4a3a", "roof": "8a4a3a", "height": 3.4, "roof_form": "none", "foundation": 0.0, "bay": 9, "porch": "none", "lanterns": true, "lantern": "ffb858", "goods": "none", "doorway_width": 3.0, "step": "a89a74", "posts": "8a4a3a", "damp": {"height": 0.5, "color": "d8c8a0", "share": 0.7}, "cracks": 0.2, "foot_weeds": 0.15, "weed_colors": ["b8a860", "a89850", "c8b870", "988848"]}
   ],
   "critters": [
     {"kind": "sheep", "rect": [432, 688, 656, 752], "count": 5, "colors": ["e4dccc", "3a302a", "4a403a"], "note": "the flock in its pen"},
