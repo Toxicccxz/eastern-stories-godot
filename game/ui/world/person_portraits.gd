@@ -45,9 +45,14 @@ static func player_id(gender: String) -> String:
 	return "player.female" if gender == CharacterState.GENDER_FEMALE else "player.male"
 
 
-## The id an NPC's pictures go by: its definition's, without a spawn's number.
+## The id an NPC's pictures go by: its definition's, without a spawn's number; for a role whose
+## gender is drawn (旅客, traveller.c) `<id>.male` / `<id>.female` when those pictures exist.
 static func npc_id(npc: NpcRuntimeState) -> String:
-	return "" if npc == null else String(NpcDefinition.unnamed_id(npc.definition().definition_id))
+	if npc == null:
+		return ""
+	var id: String = PersonLooks.shown_id(String(NpcDefinition.unnamed_id(npc.definition().definition_id)))
+	var sexed: String = PersonLooks.with_sex(id, String(npc.character_state.gender) if npc.character_state != null else "")
+	return sexed if sexed != id and full(sexed) != null else id
 
 
 ## The face an NPC talks with: smiling when friendly (ES2 attitude "friendly"), angry when it

@@ -19,9 +19,6 @@
   "actors": {
     "default": {
       "coat": "887b56"
-    },
-    "snow.npc.teacher": {
-      "coat": "737b84"
     }
   }
 }
