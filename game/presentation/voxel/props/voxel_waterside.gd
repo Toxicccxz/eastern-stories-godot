@@ -159,8 +159,19 @@ func _boat(w: float, d: float, ferry: bool) -> void:
 	var length: float = maxf(w,d)
 	var beam: float = minf(w,d)
 	var wood: Array = _colors("colors",["5b4433","6a5039","4f3a2b"])
+	# `burnt` (第八章 B, DECISIONS「舞台道具」): what the fire left of it — the hull charred black,
+	# its middle burnt out to the ribs, no lamp, no net, settled lower in the mud.
+	var burnt: bool = data.get("burnt",false)
+	if burnt:
+		wood = ["1e1a17","2a2422","141210"]
+		hull.position.y -= 0.14
 	var segments: int = maxi(4,ceili(length/0.4))
 	for i: int in segments:
+		if burnt and i > segments/3 and i < segments*2/3 and i%2 == 0:
+			var z_gap: float = -length/2+((float(i)+0.5)/segments)*length
+			for side: float in [-1.0,1.0]:
+				s.tilted_box(hull,Vector3(side*beam*0.3,0.3,z_gap),Vector3(0.06,0.5,0.06),"2a2422",Vector3(0,0,side*0.5))
+			continue
 		var t: float = (float(i)+0.5)/segments
 		var z: float = -length/2+t*length
 		var taper: float = 1.0-pow(absf(t-0.5)*2.0,2.2)*0.75
@@ -170,7 +181,10 @@ func _boat(w: float, d: float, ferry: bool) -> void:
 			s.box(hull,Vector3(side*beam*taper*0.44,0.3+rise,z),Vector3(0.08,0.42,length/segments+0.02),String(wood[i%2]))
 		if i%3==1 and t>0.15 and t<0.85:
 			s.box(hull,Vector3(0,0.38,z),Vector3(beam*taper*0.82,0.06,0.16),"8a6a45")
-	if ferry:
+	if burnt:
+		for ash: int in 4:
+			s.box(hull,Vector3(rng.randf_range(-0.3,0.3)*beam,0.16,rng.randf_range(-0.35,0.35)*length),Vector3(0.3,0.08,0.4),_pick(["302a26","3a3430","1e1a18"]))
+	elif ferry:
 		var canopy: Array = _colors("canopy",["6e5a3a","7d6a45","5f4f34"])
 		var span: float = length*0.36
 		for i: int in 7:
@@ -183,7 +197,7 @@ func _boat(w: float, d: float, ferry: bool) -> void:
 	else:
 		s.box(hull,Vector3(-beam*0.1,0.42,length*0.2),Vector3(beam*0.4,0.1,length*0.25),String(data.get("net","8e8a6c")))
 		s.tilted_box(hull,Vector3(beam*0.2,0.5,-length*0.1),Vector3(0.05,0.05,length*0.7),"8a7044",Vector3(0.1,0,0))
-	if data.get("lamp",true):
+	if data.get("lamp",true) and not burnt:
 		var stern := Vector3(0,0.55,-length*0.42)
 		s.box(hull,stern+Vector3(0,0.35,0),Vector3(0.06,0.7,0.06),"4f3a2b")
 		var housing := Node3D.new()

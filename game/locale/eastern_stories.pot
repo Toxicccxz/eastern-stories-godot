@@ -381,6 +381,7 @@ msgstr ""
 #. native.npc.cult_killer gender
 #. native.npc.lihong gender
 #. native.npc.lihong_weak gender
+#. native.npc.lihong_ashore gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -3650,6 +3651,10 @@ msgstr ""
 
 #: scenes/world/village/village_main.tscn
 msgid "木船 · 划向湖心"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "湖畔 · 等到天黑"
 msgstr ""
 
 #: scenes/world/village/village_main.tscn
@@ -19053,7 +19058,7 @@ msgstr ""
 
 #. main.chapter8/choice/pull text
 #: data/story/chapter8.json
-msgid "你拔出了穿灵。冰里的头睁开了眼，璃虹从冰里跌了出来，商玦笑着散成了黑烟。"
+msgid "你拔出了穿灵。冰里的头睁开了眼，璃虹从冰里跌了出来，商玦笑着散成了黑烟。上岸——天黑之前。"
 msgstr ""
 
 #. main.chapter8/choice/pull reward.deed
@@ -19069,6 +19074,16 @@ msgstr ""
 #. main.chapter8/choice/keep reward.deed
 #: data/story/chapter8.json
 msgid "在玉螺湖底看清了封物，没有动它"
+msgstr ""
+
+#. main.chapter8/night objective
+#: data/story/chapter8.json
+msgid "天黑了。鬼卒从湖里上来——守住村子：湖畔、村口、稻田边。（湖畔的木船边能等到天黑。）"
+msgstr ""
+
+#. main.chapter8/night text
+#: data/story/chapter8.json
+msgid "天亮了。村子烧了一半，渔夫死在岸边，璃虹在田老财家的东房里躺着。钉没了，它每一夜都在长。"
 msgstr ""
 
 #. main.chapter9 title
@@ -19139,6 +19154,7 @@ msgstr ""
 #. native:niling/body_shitou unit
 #. native:latemoon/body_maid unit
 #. native:latemoon/body_zhaorong unit
+#. native:village/body_fisher unit
 #: data/oldpine/items.json data/niling/items.json data/native/items.json
 msgid "具"
 msgstr ""
@@ -32565,10 +32581,37 @@ msgstr ""
 msgid "儿"
 msgstr ""
 
-#. village.npc.woman1 inquiry.儿
+#. village.npc.woman1 inquiry.儿.rules.say
+#: data/village/npcs.json
+msgid "石头昨夜吓得缩在灶底下，一夜没出声。那些东西是从湖里上来的——你去过湖底？"
+msgstr ""
+
+#. village.npc.woman1 inquiry.儿.rules.say
+#: data/village/npcs.json
+msgid "他回来了。夜里还是做梦，喊着不要上车。白天劈柴，劈得比他爹还狠。"
+msgstr ""
+
+#. village.npc.woman1 inquiry.儿.rules.say
 #: data/village/npcs.json
 msgid ""
 "我的儿前两天不见了，我和他爹到处找都找不到。听说黑松山总抓小孩子。\n"
+msgstr ""
+
+#. village.npc.woman1 inquiry topic
+#. native.npc.hell_runner name
+#. native.npc.lihong_ashore inquiry topic
+#: data/village/npcs.json data/niling/npcs.json data/native/npcs.json
+msgid "鬼卒"
+msgstr ""
+
+#. village.npc.woman1 inquiry.鬼卒.rules.say
+#: data/village/npcs.json
+msgid "灰绿的皮，钢叉。从湖里爬上来的，渔夫家的老三死在岸上了。屋顶是它们点的。你拔的？"
+msgstr ""
+
+#. village.npc.woman1 inquiry.鬼卒.rules.say
+#: data/village/npcs.json
+msgid "什么鬼卒？"
 msgstr ""
 
 #. village.npc.woman1 moods.reunited.chat_msg
@@ -32621,6 +32664,21 @@ msgstr ""
 #. village.npc.woman1 calls.steps.say
 #: data/village/npcs.json
 msgid "石头回来那天一句话都不说，到今天才肯开口。恩公，你有空，进来喝碗水。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.emote
+#: data/village/npcs.json
+msgid "从灶房里出来，看见你，手里的柴掉了一根。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.say
+#: data/village/npcs.json
+msgid "昨夜那些东西……是从湖里上来的。渔夫家的老三死在岸上了，我家的草顶烧了半边。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.say
+#: data/village/npcs.json
+msgid "你去过湖底。你拔的？"
 msgstr ""
 
 #. village.npc.woman1 chat_msg_combat.younger
@@ -33251,6 +33309,88 @@ msgid ""
 "你终于划到湖中心了。\n"
 msgstr ""
 
+#. village.lakeside.wait name
+#: data/village/world.json
+msgid "湖畔"
+msgstr ""
+
+#. village.lakeside.wait act.verb
+#. village.lakeside.wait act.acts.choice
+#. guanbei.camp.fire act.verb
+#. guanbei.camp.fire act.acts.choice
+#: data/village/world.json data/guanbei/world.json
+msgid "等到天黑"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"没什么要等的。湖上静得很。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.ask
+#: data/village/world.json
+msgid "在岸上坐到天亮。等的工夫里，世上的事照样走。"
+msgstr ""
+
+#. village.lakeside.wait act.acts.choice
+#: data/village/world.json
+msgid "等到天亮"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你在岸边坐下。湖面上一点声音都没有了。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"天亮了。农妇家的草顶烧去了半边，岸边的两条船只剩黑壳，路口的柳树成了两根黑桩。渔夫倒在泥里，网还攥在手里。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"钉没了。它每一夜都在长。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"鬼卒退了。村子烧了一半。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"天已经黑了。湖里有东西在动。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.ask
+#: data/village/world.json
+msgid "在岸上坐下等到天黑。等的工夫里，世上的事照样走：别处的人该走的走、该好的好。"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你在岸边坐下。船都拴着，渔夫不在。湖面平得像一块铁。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"天黑了。湖面上先是一声水响，然后是第二声、第三声——鬼卒从湖里爬上来了！\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"湖畔、村口、稻田边，三处都有。守住村子。\n"
+msgstr ""
+
 #. village.lake.paddle name
 #: data/village/world.json
 msgid "小船"
@@ -33377,6 +33517,12 @@ msgstr ""
 #. village.seal_altar.pool act.verb
 #: data/village/world.json
 msgid "游上去"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"璃虹扶着坛沿站起来：「带我上去。」你扶着她钻进潭口，冰水灌进领子。头顶亮了——冰龙厅。她趴在潭边喘了半天，说：「上岸。到人家里去。」\n"
 msgstr ""
 
 #. village.seal_altar.pool act.acts.steps.line
@@ -39335,11 +39481,6 @@ msgid ""
 "一个人形的黑影，没有头。它的脖颈处是一片比夜更黑的空，两只手朝前伸着，一下一下地摸索。它不出声——它没有嘴。\n"
 msgstr ""
 
-#. native.npc.hell_runner name
-#: data/niling/npcs.json
-msgid "鬼卒"
-msgstr ""
-
 #. native.npc.hell_runner long
 #: data/niling/npcs.json
 msgid ""
@@ -40477,6 +40618,26 @@ msgstr ""
 #. native.npc.luca calls.steps.say
 #: data/guanbei/npcs.json
 msgid "你知道那文书是假的。"
+msgstr ""
+
+#. native.npc.luca calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "看了一眼湖水，停住了脚。"
+msgstr ""
+
+#. native.npc.luca calls.steps.say
+#: data/guanbei/npcs.json
+msgid "大秦人不会水。我在岸上等你。那东西上来了，我在这儿。"
+msgstr ""
+
+#. native.npc.luca calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "站了起来，短剑出了鞘。"
+msgstr ""
+
+#. native.npc.luca calls.steps.say
+#: data/guanbei/npcs.json
+msgid "上来了。我说过我在这儿。"
 msgstr ""
 
 #. native.npc.luca moods.bitter.chat_msg
@@ -42518,12 +42679,6 @@ msgstr ""
 #: data/guanbei/world.json
 msgid ""
 "告示底下盖着一方大印，印色正红。你见过逆灵宫那叠文书上的印——这一方和那些不一样。\n"
-msgstr ""
-
-#. guanbei.camp.fire act.verb
-#. guanbei.camp.fire act.acts.choice
-#: data/guanbei/world.json
-msgid "等到天黑"
 msgstr ""
 
 #. guanbei.camp.fire act.acts.steps.line
@@ -45514,12 +45669,14 @@ msgstr ""
 
 #. native.npc.lihong name
 #. native.npc.lihong_weak name
+#. native.npc.lihong_ashore name
 #: data/native/npcs.json
 msgid "璃虹"
 msgstr ""
 
 #. native.npc.lihong title
 #. native.npc.lihong_weak title
+#. native.npc.lihong_ashore title
 #: data/native/npcs.json
 msgid "金乌"
 msgstr ""
@@ -45532,6 +45689,7 @@ msgstr ""
 
 #. native.npc.lihong inquiry topic
 #. native.npc.lihong_weak inquiry topic
+#. native.npc.lihong_ashore inquiry topic
 #: data/native/npcs.json
 msgid "封法"
 msgstr ""
@@ -45588,6 +45746,7 @@ msgstr ""
 
 #. native.npc.lihong inquiry topic
 #. native.npc.lihong_weak inquiry topic
+#. native.npc.lihong_ashore inquiry topic
 #: data/native/npcs.json
 msgid "三百年"
 msgstr ""
@@ -45598,6 +45757,7 @@ msgid "三百年。冰里不冷，也不饿，就是长。头在长，我在等�
 msgstr ""
 
 #. native.npc.lihong inquiry topic
+#. native.npc.lihong_ashore inquiry topic
 #: data/native/npcs.json
 msgid "留下"
 msgstr ""
@@ -45699,6 +45859,57 @@ msgstr ""
 #. native.npc.shang_jue_lake calls.steps.say
 #: data/native/npcs.json
 msgid "他要的是鬼成形。"
+msgstr ""
+
+#. native.npc.lihong_ashore long
+#: data/native/npcs.json
+msgid ""
+"璃虹躺在东房的榻上，盖着田老财家的一床旧被。她身上的光只剩一线，像灯芯上的最后一点火。她的眼睛是睁着的，看着房梁。\n"
+msgstr ""
+
+#. native.npc.lihong_ashore inquiry.封法.rules.say
+#: data/native/npcs.json
+msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差宝衣和原令。原令在皇城，宝衣在晚月庄。"
+msgstr ""
+
+#. native.npc.lihong_ashore inquiry topic
+#: data/native/npcs.json
+msgid "它在长"
+msgstr ""
+
+#. native.npc.lihong_ashore inquiry.它在长.rules.say
+#: data/native/npcs.json
+msgid "每一夜。它回了村子，就不会再走远——它在等头。你走得越久，它长得越大。可你不走，三器也凑不齐。去吧。"
+msgstr ""
+
+#. native.npc.lihong_ashore inquiry.鬼卒.rules.say
+#: data/native/npcs.json
+msgid "它的卒子。湖里本来就有，封着的时候爬不上来。昨夜是第一夜，还会有第二夜。"
+msgstr ""
+
+#. native.npc.lihong_ashore inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "再封，须有人留下。我已经没有光了，这一回留下的不会是我。你到时候再想。"
+msgstr ""
+
+#. native.npc.lihong_ashore inquiry.三百年.rules.say
+#: data/native/npcs.json
+msgid "……岸上的风是这样的。我忘了。"
+msgstr ""
+
+#. native.npc.lihong_ashore calls.steps.emote
+#: data/native/npcs.json
+msgid "听见脚步声，眼睛转过来看着你。"
+msgstr ""
+
+#. native.npc.lihong_ashore calls.steps.say
+#: data/native/npcs.json
+msgid "你来了。村子……我听见了。它回了家，先烧了一把。"
+msgstr ""
+
+#. native.npc.lihong_ashore calls.steps.say
+#: data/native/npcs.json
+msgid "钉没了。它每一夜都在长。去京师，去岚城，把三器凑齐——别回头看我。"
 msgstr ""
 
 #. native:snow/letter_to_chen name
@@ -45859,6 +46070,17 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一片巴掌长的羽毛，浅金色，拿在手里不冷也不热。它不沾水，也不化；放在暗处，边上有一圈很淡的光。璃虹说，再封的时候把它放回坛上，她认得它。\n"
+msgstr ""
+
+#. native:village/body_fisher name
+#: data/native/items.json
+msgid "渔夫的尸首"
+msgstr ""
+
+#. native:village/body_fisher long
+#: data/native/items.json
+msgid ""
+"一个渔夫倒在岸边的泥里，脸朝下。网还攥在手里，网里什么都没有。背上三个孔，是钢叉。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

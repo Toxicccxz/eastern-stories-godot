@@ -425,6 +425,14 @@ func configure_recovery_random_source(value: RecoveryCadenceRandomSource) -> boo
 	return true
 
 
+## The day's phase turned on the player's own map (DECISIONS「舞台道具」): the spawns and things of the
+## picture whose conditions read the phase are judged again where the player stands.
+func _phase_turned() -> void:
+	var map: WorldMapController = active_map() as WorldMapController
+	if map != null and map.is_inside_tree() and map.is_map_initialized() and not _transitioning:
+		WorldStoryPresence.stage(self, map, true)
+
+
 func player_recovery_cadence() -> PlayerRecoveryCadence:
 	return _player_recovery_cadence
 
@@ -532,6 +540,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 	var began: DayPhaseDefinition = _day.advance(delta, pacing.day_length_minutes)
 	if began != null:
 		day_phase_began.emit(began)
+		_phase_turned()
 	if pacing.sky_weather:
 		_sky.advance(delta, pacing.day_length_minutes, sky_random_source())
 	var map: WorldMapController = active_map() as WorldMapController
@@ -651,6 +660,7 @@ func pass_game_time(game_seconds: int) -> bool:
 	_day.set_day_seconds(_day.day_seconds() + game_seconds)
 	if _day.phase_index() != before and _day.phase() != null:
 		day_phase_began.emit(_day.phase())
+		_phase_turned()
 	if pacing.sky_weather:
 		_sky.advance(real_seconds, pacing.day_length_minutes, sky_random_source())
 	_away.advance(real_seconds)

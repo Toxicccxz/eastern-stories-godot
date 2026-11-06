@@ -27,8 +27,11 @@ const PEOPLE: Dictionary = {
 	&"village.home": {LIU: 1},
 	&"village.smallstorage": {&"village.npc.rat": 6},
 	&"village.melonguard": {&"village.npc.meloner": 3},
-	&"village.lakeside": {&"village.npc.fisher": 3},
+	&"village.lakeside": {&"village.npc.fisher": 3, &"native.npc.hell_runner": 3},
 	&"village.seal_altar": {&"native.npc.lihong": 1, &"native.npc.shang_jue_lake": 1, &"native.npc.lihong_weak": 1}, # the 封坛 (第八章 A): 璃虹, and the staged 商玦 and summoned 璃虹 on their markers
+	&"village.field": {&"native.npc.hell_runner": 3},
+	&"village.road1": {&"native.npc.hell_runner": 3}, # 第八章 B: the three bands of the night after the sword, on their markers
+	&"village.lordhouse2": {&"native.npc.lihong_ashore": 1}, # 第八章 B: 璃虹 ashore
 }
 
 var _count: int = 0
