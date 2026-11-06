@@ -47,7 +47,7 @@
   },
   "reshape": [],
   "buildings": [
-    {"rect": [816, 256, 896, 448], "portals": [], "note": "the stone door and the passage's end: fitted grey stone, the bird cut over the leaves (the carved_wall on its west face)", "construction": "rubble", "stones": ["8a8278", "9a9288", "7a7268", "a8a098"], "wall": "8a8278", "timber": "5a4a3a", "height": 3.6, "roof_form": "none", "foundation": 0.0, "bay": 3, "porch": "none", "lanterns": false, "goods": "none", "mossy": 0.3}
+    {"rect": [816, 256, 896, 448], "portals": [], "note": "the stone door and the passage's end: fitted grey stone, the bird cut over the leaves (the carved_wall on its west face)", "construction": "rubble", "stones": ["8a8278", "9a9288", "7a7268", "a8a098"], "wall": "8a8278", "timber": "5a4a3a", "height": 3.6, "roof_form": "none", "foundation": 0.0, "bay": 3, "porch": "none", "lanterns": false, "goods": "none", "mossy": 0.3, "damp": {"height": 0.3, "share": 0.6}, "cracks": 0.1, "foot_weeds": 0.3}
   ],
   "props": [
     {"kind": "trail", "points": [[144, 416], [300, 420], [480, 400], [640, 360], [800, 352]], "color": "a08a58", "note": "the ruts to the pit"},

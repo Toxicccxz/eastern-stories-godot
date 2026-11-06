@@ -1880,6 +1880,22 @@ msgstr ""
 msgid "南 · 日陀罗寺"
 msgstr ""
 
+#. native.npc.tax_clerk title
+#. native.npc.tax_clerk inquiry topic
+#. native.npc.glass_merchant inquiry topic
+#. native.npc.feng_lu inquiry topic
+#. native.npc.customs_runner title
+#. native.npc.andun inquiry topic
+#. native.npc.shield_swordsman inquiry topic
+#. native.npc.fire_priest inquiry topic
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/fanfang/npcs.json data/fanfang/voxel/bazaar.json
+msgid "市舶司"
+msgstr ""
+
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/city/voxel/main.json
+msgid "客栈"
+msgstr ""
+
 #. native:fanfang/cliff_top short
 #: scenes/world/fanfang/fanfang_cliff_road.tscn data/fanfang/rooms.json
 msgid "海崖口"
@@ -42200,18 +42216,6 @@ msgstr ""
 msgid "税吏"
 msgstr ""
 
-#. native.npc.tax_clerk title
-#. native.npc.tax_clerk inquiry topic
-#. native.npc.glass_merchant inquiry topic
-#. native.npc.feng_lu inquiry topic
-#. native.npc.customs_runner title
-#. native.npc.andun inquiry topic
-#. native.npc.shield_swordsman inquiry topic
-#. native.npc.fire_priest inquiry topic
-#: data/fanfang/npcs.json data/fanfang/voxel/bazaar.json
-msgid "市舶司"
-msgstr ""
-
 #. native.npc.tax_clerk long
 #: data/fanfang/npcs.json
 msgid ""
@@ -44981,10 +44985,6 @@ msgstr ""
 
 #: data/city/voxel/main.json
 msgid "酱"
-msgstr ""
-
-#: data/city/voxel/main.json
-msgid "客栈"
 msgstr ""
 
 #: data/cloud/voxel/butchery_house.json

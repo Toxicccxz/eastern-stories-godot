@@ -306,6 +306,15 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		off_post = middle%6 != 0 and (middle+1)%6 != 0
 	if cloth[0] <= bays[0] or not (cloth[3] as Array).is_empty() or (cloth[2] as Array).size() != 2 or not apart or not off_post:
 		failures.append("the dyed cloth and ox head hang on the walls (%s, unknown %s); a broom asked for under a wide board hangs two panels off (%s); a wide board lies across no post (%s)" % [cloth[2],cloth[3],wide[2],over_post[2]])
+	# 番坊立面: the glass merchant's bead strings (a few beads glowing) and the coppersmith's wares
+	# hang on a wall like the rest, the same every build.
+	var wares: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"bead_strings","wall":"south","at":0.15},{"kind":"copper_wares","wall":"south","at":0.85}]}))
+	var wares_again: Array = built.call(wide_bays.merged({"wall_hangings":[{"kind":"bead_strings","wall":"south","at":0.15},{"kind":"copper_wares","wall":"south","at":0.85}]}))
+	var glowing: bool = false
+	for colour: String in wares[1]:
+		glowing = glowing or colour.ends_with(":glow")
+	if wares[0] <= bays[0]+20 or wares[0] != wares_again[0] or not (wares[3] as Array).is_empty() or (wares[2] as Array).size() != 2 or not glowing:
+		failures.append("bead strings and copper wares hang on the wall (%d forms over %d, placed %s, unknown %s, glowing %s)" % [wares[0],bays[0],wares[2],wares[3],glowing])
 	# A 幌杆 (voxel_fixtures.gd `pole_banner`, a layout look) stands its banner over any roof.
 	var fixtures: RefCounted = preload("res://presentation/voxel/props/voxel_fixtures.gd").new()
 	var pole_forms: RefCounted = preload("res://presentation/voxel/props/voxel_shapes.gd").new()

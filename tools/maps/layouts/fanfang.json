@@ -173,6 +173,8 @@
           ["blocked", 784, 528, 832, 576, "carpets rolled and stacked", {"look": {"kind": "cloth_bolts"}}],
           ["blocked", 944, 736, 1056, 784, "the spice sacks, open-mouthed", {"look": {"kind": "stall", "goods": "spice", "awning": ["d8a040", "6a4a8a"]}}],
           ["blocked", 1312, 528, 1408, 576, "the coppersmith's rack of kettles and plates", {"look": {"kind": "stall", "goods": "copper", "awning": []}}],
+          ["blocked", 352, 768, 368, 784, "番坊立面: the 市舶司's banner on a pole at the kerb west of its gate (its board hangs over a door that looks north, never seen)", {"look": {"kind": "pole_banner", "text": "市舶司", "cloth": "2e3a5a", "letters": "e6d6a0", "trim": "8a8278", "height": 8.0, "length": 3.0, "width": 1.0}}],
+          ["blocked", 1264, 768, 1280, 784, "番坊立面: the 客栈's banner at the kerb before its north wall, its arm turned west over the street so the cloth hangs clear of the eave", {"look": {"kind": "pole_banner", "text": "客栈", "cloth": "c8a040", "letters": "3a2e26", "trim": "8a3a2a", "height": 8.4, "length": 2.6, "rotation": 180}}],
           ["blocked", 1424, 528, 1456, 560, "his anvil", {"look": {"kind": "whetstone"}}],
           ["blocked", 1056, 304, 1088, 336, "a great shield either side of 铁盾会's gate (fanfang.bazaar_north.landmark.shields)", {"look": {"kind": "great_shield"}}],
           ["blocked", 1184, 304, 1216, 336, {"look": {"kind": "great_shield", "rotation": 0}}],
