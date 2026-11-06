@@ -5,10 +5,14 @@ extends RefCounted
 ## `tag_weights` (DECISIONS「战斗内容」, an NPC's fight style): the draw weighs each move by
 ## its tag's weight (1 when the tag has none, 平 under &""), one random(sum) instead of
 ## random(n); empty or all 1: random(n) as combatd.c.
+## `excluded` (DECISIONS「战斗拍数」): moves the draw leaves out (locked, or costing more beats
+## than are left), weight 0 over the same random(sum); when nothing else is left, the plain
+## draw over all of them.
 static func select_action(
 	input: CombatActionSelectionInput,
 	random_source: CombatRandomSource,
 	tag_weights: Dictionary[StringName, int] = {},
+	excluded: Array[StringName] = [],
 ) -> CombatActionSelectionResult:
 	if input == null:
 		return CombatActionSelectionResult.new()
@@ -69,7 +73,7 @@ static func select_action(
 			action_set.size(),
 		)
 
-	var weights: Array[int] = _weights(action_set, tag_weights)
+	var weights: Array[int] = _weights(action_set, tag_weights, excluded)
 	var selected_index: int = -1
 	var bound: int = action_set.size()
 	if weights.is_empty():
@@ -110,16 +114,16 @@ static func select_action(
 	)
 
 
-## The weight of each move of `action_set` under `tag_weights`; empty when every weight
-## is 1 (the plain draw) or the weights leave nothing to draw.
-static func _weights(action_set: CombatActionSet, tag_weights: Dictionary[StringName, int]) -> Array[int]:
+## The weight of each move of `action_set` under `tag_weights` (0 for the `excluded`); empty
+## when every weight is 1 (the plain draw) or the weights leave nothing to draw.
+static func _weights(action_set: CombatActionSet, tag_weights: Dictionary[StringName, int], excluded: Array[StringName] = []) -> Array[int]:
 	var weights: Array[int] = []
-	if tag_weights.is_empty():
+	if tag_weights.is_empty() and excluded.is_empty():
 		return weights
 	var plain: bool = true
 	var total: int = 0
 	for action: CombatActionDefinition in action_set.actions():
-		var weight: int = maxi(0, tag_weights.get(action.tag, 1))
+		var weight: int = 0 if excluded.has(action.action_id) else maxi(0, tag_weights.get(action.tag, 1))
 		plain = plain and weight == 1
 		total += weight
 		weights.append(weight)

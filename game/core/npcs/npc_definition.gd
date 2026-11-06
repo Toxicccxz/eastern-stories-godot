@@ -45,6 +45,7 @@ var _loadout_entries: Array[NpcLoadoutEntry] = []
 var _bellicosity: int = 0
 ## 战斗决策层 4: the fight style named in the data (CombatStyleTable), &"" for the race's default.
 var _fight_style: StringName = &""
+var _beats: int = 1
 var _hit_condition: NpcHitCondition
 var _killed_enemy: NpcKilledEnemy
 var _capability_ids: Array[StringName] = []
@@ -359,6 +360,18 @@ var fight_style: StringName:
 ## `fight_style` (DECISIONS「战斗内容」). Called once by the loader.
 func with_fight_style(style_id: StringName) -> NpcDefinition:
 	_fight_style = style_id
+	return self
+
+
+## 战斗拍数 A (DECISIONS「战斗拍数」): the beats this NPC has in a round once rounds have more
+## than one (`beats`: 小兵 1, 头目 2); 1 when its record says nothing.
+var beats: int:
+	get:
+		return _beats
+
+
+func with_beats(count: int) -> NpcDefinition:
+	_beats = maxi(1, count)
 	return self
 
 

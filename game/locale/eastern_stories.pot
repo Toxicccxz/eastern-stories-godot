@@ -4301,6 +4301,22 @@ msgstr ""
 msgid "平：没有偏向。"
 msgstr ""
 
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "隙"
+msgstr ""
+
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "压"
+msgstr ""
+
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "连"
+msgstr ""
+
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "够不着"
+msgstr ""
+
 #: core/combat/decision/combat_stance.gd
 msgid "攻"
 msgstr ""
@@ -8164,9 +8180,19 @@ msgstr ""
 msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
 msgstr ""
 
+#. an NPC's read beat changed on what it saw: $N its name.
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "$N临阵变招！"
+msgstr ""
+
 #. an NPC's announced special is lost: {npc} its name, {move} the special's name.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
 msgid "{npc}的{move}被打断了。"
+msgstr ""
+
+#. a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "$N抢得一拍（{label}）！"
 msgstr ""
 
 #. an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
