@@ -18,15 +18,16 @@ const TALL: Array[String] = ["reeds", "tree", "great_tree", "pigsty", "chicken_c
 ## 绮云镇's rooms stand at 11–25%, 饮风客栈二楼 at about 15%.
 const COVERED: float = 0.11
 ## The boat has nothing that blocks but the water round it: it has no furnishings.
-const SCENES: Array[String] = ["village_main", "village_icecave", "farmhouse_house", "liu_house", "lord_house", "melonguard_house"]
-const MAPS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.farmhouse_house", &"village.liu_house", &"village.lord_house", &"village.melonguard_house"]
+const SCENES: Array[String] = ["village_main", "village_icecave", "village_seal_chamber", "farmhouse_house", "liu_house", "lord_house", "melonguard_house"]
+const MAPS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.seal_chamber", &"village.farmhouse_house", &"village.liu_house", &"village.lord_house", &"village.melonguard_house"]
 ## Maps that are no rooms of a house: no lived-in life expected.
-const NO_ROOMS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave"]
+const NO_ROOMS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.seal_chamber"]
 ## Where a test may put the player on each map (TEST-ONLY).
 const ENTRIES: Dictionary[StringName, Array] = {
 	&"village.main": [&"village.road1", &"village.road1.canyon_arrival"],
 	&"village.midlake": [&"village.lake", &"village.lake.boat_arrival"],
 	&"village.icecave": [&"village.lakebottom1", &"village.lakebottom1.dive_arrival"],
+	&"village.seal_chamber": [&"village.seal_altar", &"village.seal_altar.pool_arrival"],
 	&"village.farmhouse_house": [&"village.farmhouse1", &"village.farmhouse1.road4_entry"],
 	&"village.liu_house": [&"village.home", &"village.home.littlegarden_entry"],
 	&"village.lord_house": [&"village.lordhouse1", &"village.lordhouse1.road9_entry"],
@@ -66,6 +67,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 			&"village.main": await _check_main(tree, session, map)
 			&"village.midlake": _check_midlake(map)
 			&"village.icecave": await _check_icecave(tree, map)
+			&"village.seal_chamber": await _check_seal_chamber(tree, map)
 			&"village.farmhouse_house": await _check_farmhouse(tree, map)
 			&"village.liu_house": await _check_liu(tree, map)
 			&"village.lord_house": await _check_lord(tree, map)
@@ -217,6 +219,29 @@ func _check_icecave(tree: SceneTree, map: WorldMapController) -> void:
 	_check(map.npc_runtimes().size() == 6, "six white dragons")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.lakebottom2"), "walk from the frozen way in into the hall")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"village.lakebottom2", Vector2(176, 288), 48.0)), "across it to the ice stair")
+
+
+## 冰下封坛 (第八章 A): the same ice as the cave, the black 封坛 with the head and the hilt in the
+## middle, 璃虹's lit pillar beside it (the room's one warm lamp), the vault with the dragons'
+## shadows, the pool's mouth in the north; 璃虹 a figure that never stirs; the room round, wide
+## enough for the 终章's dozen.
+func _check_seal_chamber(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["seal_altar", "ice_pillar", "ice_dome", "glow_algae"]:
+		_check(kind in kinds, "the chamber has its %s" % kind)
+	_check(kinds.count("seal_altar") == 1, "one 封坛, the layout's blocked box")
+	_check(view.layout["ground"]["cave_floor"]["style"] == "ice" and view.layout["cliffs"]["strata"][0] == "d8eaf4", "the cave's ice, floor and walls")
+	var lit_pillar: bool = view.layout["props"].any(func(prop: Dictionary) -> bool: return prop["kind"] == "ice_pillar" and prop.get("light", false) and String(prop.get("glow", "")).begins_with("fff"))
+	_check(lit_pillar, "璃虹's pillar carries the warm light")
+	_check(view.geometry.ambience._fish.size() >= 3 and view.geometry.find_children("*", "OmniLight3D", true, false).size() >= 2, "the shadows over the vault, the pillar's light and the weed's")
+	_check(view.layout["actors"]["native.npc.lihong"]["body"] == "statue", "璃虹 in the ice never stirs")
+	var room: Rect2 = MapPlaces.zone_rect(map, &"village.seal_altar")
+	_check(room.size.x >= 560 and room.size.y >= 500, "a round room wide enough for the 终章: %s" % room.size)
+	var standing: int = map.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.exists_in_map).size()
+	_check(standing == 1, "璃虹 alone (商玦 waits for 看过封坛, the fallen 璃虹 for the sword): %d" % standing)
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"village.seal_altar.keep")), "from the pool's mouth round to the 封坛's south side")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"village.seal_altar.recite")), "and to 璃虹's pillar")
 
 
 func _check_farmhouse(tree: SceneTree, map: WorldMapController) -> void:

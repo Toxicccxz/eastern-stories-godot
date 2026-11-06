@@ -46,6 +46,8 @@ extends RefCounted
 ## - `set_room`, `clear_room` a flag of the act's room (bamboo3.c's set("exits/enter"), delete());
 ## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book);
 ## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does);
+## - `drain_force` n (native, 第八章 A): the player's force goes down by n, never below 0 (the
+##   cold of the 玄冰 held off with 内力; a branch's `at_least` {force} asks whether they have it);
 ## - `comes` (an NPC) `from` (a zone): the first of them standing there comes beside the player
 ##   (ob->move(this room): melonfarm.c's 瓜农) and is the act's NPC from then on;
 ## - `npc_flag` a flag: the NPC's own set_temp(flag, 1) (an object variable, saved with it);
@@ -75,7 +77,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -260,7 +262,7 @@ class Step:
 	## condition: the ID and its duration.
 	var condition_id: StringName = &""
 	var duration: int = 0
-	## calm, npc_force: the number.
+	## calm, npc_force, drain_force: the number.
 	var value: int = 0
 	## move: where to.
 	var zone_id: StringName = &""
@@ -467,7 +469,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -602,6 +604,11 @@ static func _step(reader: ContentRecordReader) -> Step:
 			step.value = reader.required_integer("water")
 			if step.value <= 0:
 				reader.fail("water", "must be positive")
+		"drain_force":
+			step.kind = Kind.DRAIN_FORCE
+			step.value = reader.required_integer("drain_force")
+			if step.value <= 0:
+				reader.fail("drain_force", "must be positive")
 		"by":
 			step.kind = Kind.BY
 			step.npc_id = StringName(reader.required_text("by"))

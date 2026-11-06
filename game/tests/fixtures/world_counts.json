@@ -104,6 +104,7 @@
 		"village.main",
 		"village.midlake",
 		"village.icecave",
+		"village.seal_chamber",
 		"village.farmhouse_house",
 		"village.liu_house",
 		"village.lord_house",
@@ -153,7 +154,7 @@
 		"fanfang.lama_temple",
 		"fanfang.ronin_hall"
 	],
-	"rooms": 599,
+	"rooms": 600,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -570,10 +571,13 @@
 		"native.s_street2.yu_henchmen",
 		"native.tomb3.hell_runners",
 		"native.yamen_iner.chen_witness",
-		"native.canyon7.gate_soldiers"
+		"native.canyon7.gate_soldiers",
+		"native.seal_altar.lihong",
+		"native.seal_altar.shang_jue",
+		"native.seal_altar.lihong_weak"
 	],
-	"world_npcs": 667,
-	"resident_maps": 152,
+	"world_npcs": 670,
+	"resident_maps": 153,
 	"new_game_items": 1107,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
@@ -681,6 +685,7 @@
 		"village.main": 15,
 		"village.midlake": 1,
 		"village.icecave": 2,
+		"village.seal_chamber": 1,
 		"village.farmhouse_house": 2,
 		"village.liu_house": 2,
 		"village.lord_house": 3,
@@ -835,6 +840,7 @@
 		"village.main": 10,
 		"village.midlake": 0,
 		"village.icecave": 6,
+		"village.seal_chamber": 3,
 		"village.farmhouse_house": 2,
 		"village.liu_house": 7,
 		"village.lord_house": 0,

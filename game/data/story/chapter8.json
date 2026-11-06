@@ -6,9 +6,10 @@
 			"line": "main",
 			"region": "玉螺湖村",
 			"sources": [
-				"native: 主线 第八章 湖底封物 (剧情总纲 §3 第八章, §1 铜牒的封法; 计划 build/plans/番坊_计划.md §3「main.chapter8 桩」; DECISIONS「番坊 C」): the one step the 铜牒 opens; the rest is the eighth chapter's package."
+				"native: 主线 第八章 湖底封物 (剧情总纲 §3 第八章, §1 铜牒的封法; 计划 build/plans/番坊_计划.md §3「main.chapter8 桩」; DECISIONS「番坊 C」): the one step the 铜牒 opens.",
+				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the dive, the cold, the dragons' hall, the pool, 璃虹's three questions and the 封法, the choice — pull (the sword, the head awake, 璃虹 out of the ice; the night is B's) or keep (her feather); the chapter's end either way, the ninth's stub."
 			],
-			"summary": "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。",
+			"summary": "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。渔夫说湖里不太平，别碰那把剑。",
 			"requires": [
 				"main.chapter7"
 			],
@@ -19,15 +20,85 @@
 					"done": {
 						"mark": "下了湖底"
 					},
-					"text": "湖底。",
+					"text": "你潜进了湖底。身后的入口结上了冰。",
 					"target": {
 						"map": "village.main",
 						"zone": "village.lakeside"
 					}
+				},
+				{
+					"id": "cave",
+					"objective": "玄冰上站不住人。顶住寒气，穿过冰龙的厅——它们是守者，不先动手就不打。",
+					"done": {
+						"mark": "到了冰龙厅"
+					},
+					"text": "六条白鳞冰龙抬头看了你一眼，又盘了回去。",
+					"target": {
+						"map": "village.icecave",
+						"zone": "village.lakebottom2"
+					}
+				},
+				{
+					"id": "pool",
+					"objective": "冰龙厅的水潭底下透着白光。潜下去。",
+					"done": {
+						"mark": "看过封坛"
+					},
+					"text": "潭底的黑石台阶下是一间冰室：黑石封坛，冰里的头，钉着它的剑，柱里的人。",
+					"target": {
+						"map": "village.icecave",
+						"zone": "village.lakebottom2"
+					}
+				},
+				{
+					"id": "seal",
+					"objective": "看清封物：冰里的头、钉着它的剑、冰柱里的人。听她说——把铜牒念给冰柱里的人听。",
+					"done": {
+						"mark": "璃虹说了封法"
+					},
+					"text": "璃虹：钉拔，它成形，先回这附近的村子；要灭它，三器齐——穿灵、宝衣、原令；要再封，须有人留下。",
+					"target": {
+						"map": "village.seal_chamber",
+						"zone": "village.seal_altar"
+					}
+				},
+				{
+					"id": "choice",
+					"objective": "商玦劝你拔剑。拔，剑到手、鬼醒；不拔，带着封法去京师和岚城，终章再回来。",
+					"target": {
+						"map": "village.seal_chamber",
+						"zone": "village.seal_altar"
+					},
+					"options": [
+						{
+							"id": "pull",
+							"done": {
+								"mark": "拔了穿灵"
+							},
+							"text": "你拔出了穿灵。冰里的头睁开了眼，璃虹从冰里跌了出来，商玦笑着散成了黑烟。",
+							"reward": {
+								"deed": "在玉螺湖底拔出了穿灵"
+							}
+						},
+						{
+							"id": "keep",
+							"done": {
+								"mark": "查清了封物"
+							},
+							"text": "你没有动那把剑。璃虹给了你一片她的羽：再封的时候，放回坛上。",
+							"reward": {
+								"deed": "在玉螺湖底看清了封物，没有动它"
+							}
+						}
+					]
 				}
 			],
 			"reward": {
-				"deed": "看清了湖底的封物"
+				"milestone": true,
+				"deed": "下到玉螺湖底，看清了三百年的封物",
+				"marks": [
+					"湖底一章"
+				]
 			}
 		}
 	]

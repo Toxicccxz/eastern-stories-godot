@@ -29,6 +29,13 @@
       "prop": "sword_waist", "prop_color": "5a4448", "accent": "5a4448", "height": "standard",
       "build": "slim", "shoes": "dark"
     },
-    "native.npc.keep_ambusher": {"same_as": "oldpine.npc.bandit_guard"}
+    "native.npc.keep_ambusher": {"same_as": "oldpine.npc.bandit_guard"},
+    "native.npc.lihong": {
+      "note": "璃虹：金乌杞庸的妹妹，浅金的衣，长发散着，不戴东西，光脚（第八章 A；在封坛里是地图自己的「冰里的人」看法）",
+      "coat": "e8d8a8", "pants": "d8c898", "skin": "f6e4d4", "hair": "2a2228",
+      "hair_style": "long", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "f0e0b0", "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "native.npc.lihong_weak": {"same_as": "native.npc.lihong"}
   }
 }

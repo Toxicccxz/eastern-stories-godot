@@ -670,6 +670,13 @@
             "id": "village.lakebottom2.westup",
             "at": [72, 288],
             "shape": "Rect_32_128"
+          },
+          {
+            "node": "service",
+            "name": "PoolDive",
+            "id": "village.lakebottom2.pool",
+            "at": [208, 352],
+            "text": "水潭 · 潜下去"
           }
         ],
         "zones": [
@@ -689,6 +696,11 @@
             "id": "village.lakebottom2.valley_arrival"
           },
           {
+            "name": "LakebottomPoolReturn",
+            "at": [272, 344],
+            "id": "village.lakebottom2.pool_return"
+          },
+          {
             "generated": "markers"
           }
         ],
@@ -698,11 +710,169 @@
             "id": "village.lakebottom1.landmark.ice",
             "at": [1088, 208],
             "shape": "Rect_32_32"
+          },
+          {
+            "name": "CarvingInteraction",
+            "id": "village.lakebottom1.landmark.carving",
+            "at": [1040, 464],
+            "shape": "Rect_32_64"
           }
         ],
         "presentation": {
           "script": "res://presentation/voxel/world_voxel_view.gd",
           "layout": "res://data/village/voxel/icecave.json"
+        }
+      }
+    },
+    "seal_chamber": {
+      "note": "冰下封坛 (native:village/seal_altar, 第八章 A): a round ice room under the dragons' pool, its roof one slab of half-clear ice; the black stone 封坛 in the middle with the head in its ice and the sword's hilt standing out of it, 璃虹's pillar beside it, the black stone steps up to the pool's mouth in the north.",
+      "file": "village_seal_chamber.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [-384, -352, 384, 352],
+        "names": {
+          "village.seal_altar": "SealAltar"
+        },
+        "zones": {
+          "village.seal_altar": [-320, -288, 320, 288, "cave_floor"]
+        },
+        "steps": [
+          {
+            "op": "freeze"
+          },
+          {
+            "op": "blobs",
+            "amp": 0.08,
+            "blobs": [
+              [0, 0, 300, 264, 1.3, "the round ice room"]
+            ]
+          },
+          {
+            "op": "clip"
+          },
+          {
+            "op": "drop_pockets",
+            "from": "SealPoolArrival"
+          },
+          {
+            "op": "fill",
+            "fills": [
+              ["water", -48, -288, 48, -224, "the pool's mouth: the way up (an act, not a portal)"],
+              [
+                "blocked",
+                -64,
+                -48,
+                64,
+                48,
+                "the 封坛: black stone, the ice, the head, the hilt",
+                {
+                  "look": {
+                    "kind": "seal_altar"
+                  }
+                }
+              ]
+            ]
+          }
+        ],
+        "reach_from": "SealPoolArrival",
+        "caption_near": {
+          "village.seal_altar": [-150, -230]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "VillageSealChamber",
+        "map": "village.seal_chamber",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_128_96": [128, 96],
+          "Rect_32_32": [32, 32]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "PoolLabel",
+            "at": [60, -200],
+            "text": "潭口",
+            "size": 12
+          },
+          {
+            "node": "service",
+            "name": "PoolUp",
+            "id": "village.seal_altar.pool",
+            "at": [0, -200],
+            "text": "潭口 · 游上去"
+          },
+          {
+            "node": "service",
+            "name": "Recite",
+            "id": "village.seal_altar.recite",
+            "at": [128, -24],
+            "text": "冰柱 · 把铜牒念给她听"
+          },
+          {
+            "node": "service",
+            "name": "Pull",
+            "id": "village.seal_altar.pull",
+            "at": [0, -72],
+            "text": "穿灵 · 拔出来"
+          },
+          {
+            "node": "service",
+            "name": "Keep",
+            "id": "village.seal_altar.keep",
+            "at": [0, 72],
+            "text": "封坛 · 看清了"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "name": "SealPoolArrival",
+            "at": [0, -168],
+            "id": "village.seal_altar.pool_arrival"
+          },
+          {
+            "name": "Lihong",
+            "at": [128, -24],
+            "id": "village.seal_altar.lihong.1"
+          },
+          {
+            "name": "ShangJue",
+            "at": [-144, 32],
+            "id": "village.seal_altar.shang_jue.1"
+          },
+          {
+            "name": "LihongWeak",
+            "at": [104, 64],
+            "id": "village.seal_altar.lihong_weak.1"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "AltarInteraction",
+            "id": "village.seal_altar.landmark.altar",
+            "at": [0, 0],
+            "shape": "Rect_128_96"
+          },
+          {
+            "name": "WallsInteraction",
+            "id": "village.seal_altar.landmark.walls",
+            "at": [-200, 160],
+            "shape": "Rect_32_32"
+          }
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/village/voxel/seal_chamber.json"
         }
       }
     },

@@ -14,7 +14,7 @@ const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
 ## Since the remap every house is its own map, entered by its door from the village's.
-const MAPS: Dictionary = {&"village.main": 15, &"village.farmhouse_house": 2, &"village.liu_house": 2, &"village.melonguard_house": 1, &"village.lord_house": 3, &"village.midlake": 1, &"village.icecave": 2}
+const MAPS: Dictionary = {&"village.main": 15, &"village.farmhouse_house": 2, &"village.liu_house": 2, &"village.melonguard_house": 1, &"village.lord_house": 3, &"village.midlake": 1, &"village.icecave": 2, &"village.seal_chamber": 1}
 const GRASS: StringName = &"village.road6.landmark.grass"
 const WEST: StringName = &"village.road6.west"
 const MELON: StringName = &"es2:d/village/obj/melon"
@@ -28,6 +28,7 @@ const PEOPLE: Dictionary = {
 	&"village.smallstorage": {&"village.npc.rat": 6},
 	&"village.melonguard": {&"village.npc.meloner": 3},
 	&"village.lakeside": {&"village.npc.fisher": 3},
+	&"village.seal_altar": {&"native.npc.lihong": 1, &"native.npc.shang_jue_lake": 1, &"native.npc.lihong_weak": 1}, # the 封坛 (第八章 A): 璃虹, and the staged 商玦 and summoned 璃虹 on their markers
 }
 
 var _count: int = 0
@@ -59,7 +60,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("village."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "26 rooms on the village's, its houses' (the remap), the lake's and the cave's maps: %s" % maps)
+	_check(maps == MAPS, "27 rooms on the village's, its houses' (the remap), the lake's, the cave's and the 封坛's maps: %s" % maps)
 	_check(catalog.region(&"village").display_name == "玉螺湖村", "the region is 玉螺湖村")
 	for id: StringName in [&"village.home.door", &"village.lordhouse1.door"]:
 		_check(catalog.door(id) != null and not catalog.door(id).starts_open, "%s shut" % id)
@@ -318,17 +319,29 @@ func _test_melon(_tree: SceneTree, session: WorldSessionController) -> void:
 	_check(Work.capture(session) != null, "a save takes the rind")
 
 
-## lakebottom2.c's six dragons (aggressive, 1,000,000 exp) fall on whoever comes into their hall,
-## from the valley's way down as from the dive.
+## lakebottom2.c's six dragons (aggressive, 1,000,000 exp) fell on whoever came into their hall;
+## since 第八章 A (DECISIONS「冰龙守者」) they are guardians: on the modern pace they let the player
+## be, from the valley's way down as from the dive, until the player strikes one — then all six
+## at once (complete_set); 经典 keeps ES2's.
 func _test_dragons(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var dragon: NpcDefinition = GameContent.catalog().npc(&"village.npc.dragon")
+	_check(dragon.attitude == NpcDefinition.Attitude.AGGRESSIVE and dragon.has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE) and dragon.dealings().guardian, "dragon.c's aggressive dragons, guardians on the modern pace")
 	_check(session.handoff_to(&"village.main", &"village.valley1", &"village.valley1", &"village.valley1.cave_return").succeeded(), "TEST-ONLY: outside 忘情谷")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.take_passage(tree, map, &"village.valley1.eastdown"), "east down the ice stair")
 	var cave: WorldMapController = session.active_map() as WorldMapController
-	_check(cave.map_id() == &"village.icecave" and player.world_location().zone_id == &"village.lakebottom2", "in the dragons' hall")
+	_check(cave.map_id() == &"village.icecave" and player.world_location().zone_id == &"village.lakebottom2" and player.state.marks.get("到了冰龙厅", 0) == 1, "in the dragons' hall (the way down marks it)")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for _frame: int in range(6):
+		await tree.physics_frame
+		cave.hostilities.process_pending_aggression()
+	_check(not coordinator.has_active_encounter(), "the guardians let the player be")
+	var first: NpcRuntimeState = MapPlaces.npc_at(session, &"village.lakebottom2.dragon.5")
+	_check(first != null and await MapPlaces.drive(tree, cave, MapPlaces.spot(cave, &"village.lakebottom2", cave.runtime_body_for_character(first.character_id).global_position + Vector2(-70, 0), 48.0)) and cave.select_npc(first.character_id), "beside one of them")
+	_check(cave.hostilities.would_join(first).size() == 6, "the forecast: all six would join")
+	cave.attack_selected()
 	for _frame: int in range(6):
 		await tree.physics_frame
 		cave.hostilities.process_pending_aggression()
@@ -340,7 +353,7 @@ func _test_dragons(tree: SceneTree, session: WorldSessionController) -> void:
 			var npc: NpcRuntimeState = cave.find_resident_npc(participant.participant_id)
 			if npc != null and npc.definition().definition_id == &"village.npc.dragon":
 				dragons += 1
-	_check(dragons == 6, "all six dragons at once (complete_set): %d" % dragons)
+	_check(dragons == 6, "struck, all six dragons at once (complete_set): %d" % dragons)
 
 
 ## These lines, one after the other, among the last few of the log (the arrival's text follows).

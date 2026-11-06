@@ -261,3 +261,17 @@ static func chapter7_done(session: WorldSessionController, rome: bool = true, ra
 		_write(state, key)
 	for mark: String in (["火前说了真话", "铜牒到手", "争地过了", "大秦人留下了"] if rome else ["早川见过你", "过了一刀", "铜牒到手", "大秦人被清走"]) + ["读过铜牒", "番坊一章"]:
 		state.marks[mark] = 1
+
+
+## 第八章 done (第八章 A): down the lake, through the cold and the dragons' hall, the pool, 璃虹's
+## three questions and the 封法, 商玦's word — and the choice: `pulled`, the sword drawn (the head
+## awake, 璃虹 out of the ice), else the seal looked over and her feather taken; the chapter's mark
+## 湖底一章 and the ninth chapter's stub open. Its ledger keys and marks as the chapter writes them;
+## the player is not moved and holds neither sword nor feather.
+static func chapter8_done(session: WorldSessionController, pulled: bool = true, rome: bool = true, raid: bool = true) -> void:
+	chapter7_done(session, rome, raid)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter8/lake", "main.chapter8/cave", "main.chapter8/pool", "main.chapter8/seal", "main.chapter8/choice/pull" if pulled else "main.chapter8/choice/keep", "main.chapter8#done"]:
+		_write(state, key)
+	for mark: String in ["下了湖底", "到了冰龙厅", "看过封坛", "见过璃虹", "璃虹说了封法", "商玦劝过你", "拔了穿灵" if pulled else "查清了封物", "湖底一章"]:
+		state.marks[mark] = 1
