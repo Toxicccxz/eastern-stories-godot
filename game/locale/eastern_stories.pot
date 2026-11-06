@@ -19048,7 +19048,7 @@ msgstr ""
 
 #. main.chapter8/seal text
 #: data/story/chapter8.json
-msgid "璃虹：钉拔，它成形，先回这附近的村子；要灭它，三器齐——穿灵、宝衣、原令；要再封，须有人留下。"
+msgid "璃虹：钉拔，它成形，先回这附近的村子；要灭它，三器齐——穿灵、旋芒、宝衣；要再封，须有人留下。"
 msgstr ""
 
 #. main.chapter8/choice objective
@@ -19093,7 +19093,7 @@ msgstr ""
 
 #. main.chapter9 summary
 #: data/story/chapter9.json
-msgid "璃虹说三器齐才灭得了它：穿灵、宝衣、原令——皇城里那道寻剑令的原本，皇叔於兰淳焉当年拿着它钉了鬼的头。去京师。"
+msgid "璃虹说三器齐才灭得了它：穿灵、旋芒、宝衣。旋芒在岚城，岚城寻风而至——先帝找了它一辈子，寻剑的档案和那道寻剑令的原本都在皇城。去京师。"
 msgstr ""
 
 #. main.chapter9 reward.deed
@@ -33569,7 +33569,7 @@ msgstr ""
 
 #. village.seal_altar.recite act.acts.steps.true.say
 #: data/village/world.json
-msgid "要灭它，三器齐：穿灵钉它的头，宝衣挡它的焰，原令——皇城里那道寻剑令的原本——念它的名。少一件，灭不掉，只能再封。"
+msgid "要灭它，三器齐：旋芒斩它，宝衣挡它的黑焰，穿灵最后钉它的头。少一件，灭不掉，只能再封。"
 msgstr ""
 
 #. village.seal_altar.recite act.acts.steps.true.say
@@ -45696,7 +45696,7 @@ msgstr ""
 
 #. native.npc.lihong inquiry.封法.rules.say
 #: data/native/npcs.json
-msgid "钉拔，它成形，先回这附近的村子。要灭它，三器齐：穿灵、宝衣、原令。要再封，须有人留下。——铜上刻了三句，我补了三句，都是实话。"
+msgid "钉拔，它成形，先回这附近的村子。要灭它，三器齐：穿灵、旋芒、宝衣。要再封，须有人留下。——铜上刻了三句，我补了三句，都是实话。"
 msgstr ""
 
 #. native.npc.lihong inquiry.封法.rules.say
@@ -45796,7 +45796,7 @@ msgstr ""
 
 #. native.npc.lihong_weak inquiry.封法.rules.say
 #: data/native/npcs.json
-msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差宝衣和原令。"
+msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。"
 msgstr ""
 
 #. native.npc.lihong_weak inquiry topic
@@ -45869,7 +45869,7 @@ msgstr ""
 
 #. native.npc.lihong_ashore inquiry.封法.rules.say
 #: data/native/npcs.json
-msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差宝衣和原令。原令在皇城，宝衣在晚月庄。"
+msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。旋芒在岚城，宝衣在晚月庄。岚城寻风而至——你们的先帝找了它一辈子，他的档案在皇城。"
 msgstr ""
 
 #. native.npc.lihong_ashore inquiry topic
