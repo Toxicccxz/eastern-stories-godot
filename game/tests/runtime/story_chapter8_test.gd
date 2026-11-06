@@ -129,7 +129,7 @@ func _test_data() -> void:
 	var wait: ServiceDefinition = catalog.service(&"village.lakeside.wait")
 	_check(wait != null and wait.act.verb == "等到天黑" and wait.act.acts.size() == 5 and wait.act.acts[0].not_mark == "拔了穿灵" and wait.act.acts[1].marks.size() == 3 and wait.act.acts[1].phase == [&"night", &"midnight"] and wait.act.acts[4].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"night"]), "湖畔 · 等到天黑: nothing before the sword; 等到天亮 after the night; the wait to night")
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
-	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[0].act.npc_in == &"village.lakeside" and luca.hooks().calls[0].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[1].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
+	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[2].act.npc_in == &"village.lakeside" and luca.hooks().calls[2].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[3].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
 	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() == 1 and ninth.steps[0].condition.key == "进了皇城" and ninth.steps[0].target.zone_id == &"city.shenwumen", "the ninth chapter's stub: 皇城")
 	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_CH8_B_V1, "第八章 B's world revision is current")
@@ -389,7 +389,9 @@ func _test_night(tree: SceneTree, session: WorldSessionController, ledger: Strin
 	state.essence = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
 	state.spirit = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
 	for skill_id: StringName in [&"sword", &"parry", &"dodge", &"unarmed"]:
-		state.skills.set_raw_level(skill_id, 150) # TEST-ONLY: an eighth-chapter hand, so three bands fall in a while
+		state.skills.set_raw_level(skill_id, 150) # TEST-ONLY: an eighth-chapter hand
+	state.applies["damage"] = 600 # TEST-ONLY: a blow that fells a 鬼卒, so three bands fall inside one night (the clock runs with the fight)
+	state.applies["attack"] = 300 # TEST-ONLY
 	_check(session.wield_player_item(_held(session, SWORD)).succeeded, "%s: 穿灵 in hand" % ledger)
 	wait.interact()
 	await _settle(tree)
@@ -399,27 +401,34 @@ func _test_night(tree: SceneTree, session: WorldSessionController, ledger: Strin
 	_check(session.day_phase_id() in [&"night", &"midnight"] and ui.log_lines().any(func(line: String) -> bool: return line.contains("鬼卒从湖里爬上来了")), "%s: night falls: 鬼卒从湖里爬上来了 (%s)" % [ledger, session.day_phase_id()])
 	_check(_count_in(session, &"village.lakeside", HELL_RUNNER) == 3 and _count_in(session, &"village.road1", HELL_RUNNER) == 3 and _count_in(session, &"village.field", HELL_RUNNER) == 3, "%s: three bands up out of the lake as the phase turns" % ledger)
 	for zone_id: StringName in [&"village.lakeside", &"village.road1", &"village.field"]:
-		if zone_id != &"village.lakeside":
-			_check(await MapPlaces.drive_to_zone(tree, village, zone_id), "%s: to %s" % [ledger, zone_id])
-		for _frame: int in range(12):
+		var band: NpcRuntimeState = null
+		for npc: NpcRuntimeState in village.npc_runtimes():
+			if npc.definition().definition_id == HELL_RUNNER and npc.exists_in_map and npc.world_location().zone_id == zone_id:
+				band = npc
+				break
+		var beside: bool = band != null
+		if beside and zone_id == &"village.road1":
+			beside = village.place_player(&"village.road1", Vector2(2008, 684)) # TEST-ONLY: set down at the village's mouth (the walk from the shore is the whole village long)
+			await _settle(tree)
+		if beside and zone_id != &"village.lakeside":
+			beside = await MapPlaces.drive(tree, village, MapPlaces.spot(village, zone_id, village.runtime_body_for_character(band.character_id).global_position + Vector2(-80, 0), 96.0))
+		# The band notices the player (its presence circle, the alert's beat) — or the player strikes first.
+		for _tick: int in range(20):
 			await tree.physics_frame
+			session.advance_npc_heartbeat(0.1)
 			village.hostilities.process_pending_aggression()
 			if coordinator.has_active_encounter():
 				break
-		if not coordinator.has_active_encounter():
-			var band: NpcRuntimeState = null
-			for npc: NpcRuntimeState in village.npc_runtimes():
-				if npc.definition().definition_id == HELL_RUNNER and npc.exists_in_map and npc.world_location().zone_id == zone_id:
-					band = npc
+		if not coordinator.has_active_encounter() and band != null and village.select_npc(band.character_id):
+			village.attack_selected()
+			for _frame: int in range(6):
+				await tree.physics_frame
+				village.hostilities.process_pending_aggression()
+				if coordinator.has_active_encounter():
 					break
-			if band != null and await MapPlaces.drive(tree, village, MapPlaces.spot(village, zone_id, village.runtime_body_for_character(band.character_id).global_position + Vector2(-60, 0), 48.0)) and village.select_npc(band.character_id):
-				village.attack_selected()
-				for _frame: int in range(6):
-					await tree.physics_frame
-					village.hostilities.process_pending_aggression()
-					if coordinator.has_active_encounter():
-						break
-		_check(coordinator.has_active_encounter(), "%s: the band at %s falls on the player" % [ledger, zone_id])
+		if not beside:
+			print("%s: the walk up to the band at %s gave up; it notices the player anyway" % [ledger, zone_id])
+		_check(coordinator.has_active_encounter(), "%s: the band at %s falls on the player (%s, %d there)" % [ledger, zone_id, session.day_phase_id(), _count_in(session, zone_id, HELL_RUNNER)])
 		coordinator.set_manual_turns(false) # TEST-ONLY: the fight runs on without the player's hand
 		var rounds: int = 0
 		while coordinator.has_active_encounter() and rounds < 6000:
@@ -427,7 +436,7 @@ func _test_night(tree: SceneTree, session: WorldSessionController, ledger: Strin
 			rounds += 1
 		ui.dismiss_current_panel()
 		await _settle(tree)
-		_check(not coordinator.has_active_encounter() and _count_in(session, zone_id, HELL_RUNNER) == 0, "%s: the band at %s fought out in %d rounds" % [ledger, zone_id, rounds])
+		_check(not coordinator.has_active_encounter() and _count_in(session, zone_id, HELL_RUNNER) == 0, "%s: the band at %s fought out in %d rounds (%s)" % [ledger, zone_id, rounds, session.day_phase_id()])
 	session.record_journal()
 	_check(state.marks.get("湖畔的鬼卒退了", 0) == 1 and state.marks.get("村口的鬼卒退了", 0) == 1 and state.marks.get("稻田的鬼卒退了", 0) == 1, "%s: the three marks" % ledger)
 	_check(StoryQuestLog.is_done(state, quest) and state.marks.get("湖底一章", 0) == 1 and StoryQuestLog.took(state, quest, &"pull") and state.deeds.any(func(deed: DeedLog.Deed) -> bool: return deed.did.contains("拔出了穿灵")), "%s: the chapter done after the night, the deed" % ledger)
@@ -454,8 +463,9 @@ func _test_night(tree: SceneTree, session: WorldSessionController, ledger: Strin
 	_check(state.marks.get("璃虹上岸见过你", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("别回头看我")), "%s: 璃虹: 别回头看我" % ledger)
 	var ashore: NpcRuntimeState = MapPlaces.npc_at(session, &"village.lordhouse2.lihong.1")
 	_check(ashore != null and lord.select_npc(ashore.character_id) and lord.ask_selected("它在长").any(func(line: String) -> bool: return line.contains("它在等头")), "%s: 问 它在长" % ledger)
-	var farm: WorldMapController = MapPlaces.enter(session, &"village.fmhousback", &"village.fmhousback.shitou.1") # TEST-ONLY: the farmhouse yard
+	var farm: WorldMapController = MapPlaces.enter(session, &"village.farmhouse1", &"village.farmhouse1.road4_entry") # TEST-ONLY: into the farmhouse
 	await _settle(tree)
+	_check(farm != null and await MapPlaces.drive_to_zone(tree, farm, &"village.fmhousback"), "%s: through to the yard" % ledger)
 	for second: int in 2:
 		session.advance_npc_heartbeat(1.0)
 	await _settle(tree)

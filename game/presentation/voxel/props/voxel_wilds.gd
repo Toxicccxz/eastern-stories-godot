@@ -983,7 +983,8 @@ func _stuck_swords(w: float, d: float) -> void:
 ## rafters standing out of them, soot down the eaves and ash heaped at the foot. `colors`: the char.
 func _burnt_roof(w: float, d: float) -> void:
 	var char_colors: Array = _colors("colors",["1a1614","24201c","0e0c0a","302a26"])
-	var base: float = float(data.get("height",2.9))
+	# `lift`: a little above the house's own thatch, so the char shows over it, not inside it.
+	var base: float = float(data.get("height",2.9))+float(data.get("lift",0.35))
 	var rise: float = float(data.get("rise",1.6))
 	var along_x: bool = String(data.get("ridge","x")) == "x"
 	var span: float = d if along_x else w
@@ -993,12 +994,12 @@ func _burnt_roof(w: float, d: float) -> void:
 	for side: float in [-1.0,1.0]:
 		var pieces: int = maxi(3,int(length/1.2))
 		for i: int in pieces:
-			# Gaps where the straw burnt through: every third piece gone, the rest sagging.
-			if (i+int(side>0))%3 == 1:
+			# Gaps where the straw burnt through: every fourth piece gone, the rest a thick black crust.
+			if (i+int(side>0))%4 == 1:
 				continue
 			var u: float = -length/2+(i+0.5)*length/pieces
 			var at := Vector3(u if along_x else side*span/4, base+rise/2-0.08, side*span/4 if along_x else u)
-			var size := Vector3(length/pieces*0.92, 0.12, slope*0.94) if along_x else Vector3(slope*0.94, 0.12, length/pieces*0.92)
+			var size := Vector3(length/pieces*1.02, 0.3, slope*0.98) if along_x else Vector3(slope*0.98, 0.3, length/pieces*1.02)
 			var tilt := Vector3(side*pitch,0,0) if along_x else Vector3(0,0,-side*pitch)
 			s.tilted_box(root,at,size,_pick(char_colors),tilt)
 	# The rafters: the beams the straw hung on, bare and black, a few standing askew.

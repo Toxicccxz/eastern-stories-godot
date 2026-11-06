@@ -110,7 +110,7 @@ func _test_people() -> void:
 	var woman: Array = catalog.npc(&"village.npc.woman1").talk().combat_chat_entries()
 	_check(woman.size() == 2 and woman[0] is NpcFightChat.Wield and (woman[0] as NpcFightChat.Wield).combat_chance == 10 and woman[1] is NpcFightChat.SayByAge, "农妇: wield_weapon(), converse_one()")
 	_check((woman[1] as NpcFightChat.SayByAge).says(14, 30) == ["唉，我那可怜的儿啊，年龄比你还小。!"] and (woman[1] as NpcFightChat.SayByAge).says(30, 30) == ["以大欺小啊你..."], "younger than her: 我那可怜的儿; else 以大欺小")
-	_check(catalog.npc(&"village.npc.woman1").talk().answer("儿").size() == 1 and catalog.npc(&"village.npc.woman1").talk().chat_chance == 20, "农妇 weeps for her son; 儿: 听说黑松山总抓小孩子")
+	_check(catalog.npc(&"village.npc.woman1").talk().inquiry_topics().has("儿") and catalog.npc(&"village.npc.woman1").talk().inquiry_topics().has("鬼卒") and catalog.npc(&"village.npc.woman1").talk().chat_chance == 20, "农妇 weeps for her son; 儿 (by marks since 第八章 B: 听说黑松山总抓小孩子 to a stranger), 鬼卒")
 	_check(Array(catalog.npc(&"village.npc.flowergirl").talk().answer("小娟")) == ["这要到黑松山去问。"], "采花妞: 小娟 is a question for 黑松山")
 	var fisher: NpcTalk = catalog.npc(&"village.npc.fisher").talk()
 	_check(fisher.chat_chance == 2 and fisher.combat_chat_chance == 10 and fisher.answer("桂花").size() == 1, "渔夫: the 水怪; 桂花 (kept: the author's joke, 默认)")

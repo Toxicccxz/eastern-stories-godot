@@ -726,8 +726,6 @@
 				}
 			],
 			"calls": [
-				{"reaction": true, "npc_in": "village.lakeside", "mark": "读过铜牒", "not_mark": "卢卡在湖畔等", "steps": [{"emote": "看了一眼湖水，停住了脚。"}, {"say": "大秦人不会水。我在岸上等你。那东西上来了，我在这儿。"}, {"npc_mood": "waiting"}, {"unfollow": true}, {"mark": "卢卡在湖畔等"}]},
-				{"reaction": true, "npc_in": "village.lakeside", "mark": "拔了穿灵", "not_mark": "卢卡守了湖畔", "steps": [{"emote": "站了起来，短剑出了鞘。"}, {"say": "上来了。我说过我在这儿。"}, {"npc_mood": "going"}, {"mark": "卢卡守了湖畔"}]},
 				{
 					"after": 0,
 					"reaction": true,
@@ -769,7 +767,9 @@
 							"mark": "卢卡恨了你"
 						}
 					]
-				}
+				},
+				{"reaction": true, "npc_in": "village.lakeside", "mark": "读过铜牒", "not_mark": "卢卡在湖畔等", "steps": [{"emote": "看了一眼湖水，停住了脚。"}, {"say": "大秦人不会水。我在岸上等你。那东西上来了，我在这儿。"}, {"npc_mood": "waiting"}, {"unfollow": true}, {"mark": "卢卡在湖畔等"}]},
+				{"reaction": true, "npc_in": "village.lakeside", "mark": "拔了穿灵", "not_mark": "卢卡守了湖畔", "steps": [{"emote": "站了起来，短剑出了鞘。"}, {"say": "上来了。我说过我在这儿。"}, {"npc_mood": "going"}, {"mark": "卢卡守了湖畔"}]}
 			],
 			"moods": {
 				"bitter": {
