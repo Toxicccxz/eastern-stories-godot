@@ -248,12 +248,18 @@ func lesson_refusal(target: NpcRuntimeState, guide: FamilyDefinition.SchoolGuide
 	return guide.refuse_family if not guide.refuse_family.is_empty() else LESSON_REFUSE_FAMILY
 
 
+## Whether a guide's 拆招 is offered at all: only with more than one beat a round (经典's one beat
+## has nothing to point out).
+func lessons_offered() -> bool:
+	return GameContent.catalog().pacing().beat_rules().round_beats > 1
+
+
 ## 拆招 with the selected guide: three harmless rounds (CombatEncounterCoordinator.start_lesson),
 ## opened as a spar is, or the guide's refusal said.
 func lesson_selected() -> CombatSliceInitiationResult:
 	var target: NpcRuntimeState = selected_npc() if _map.gameplay_open() else null
 	var guide: FamilyDefinition.SchoolGuide = selected_guide()
-	if target == null or guide == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
+	if target == null or guide == null or not lessons_offered() or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
 		return CombatSliceInitiationResult.new()
 	var name: String = tr(target.definition().display_name)
 	if GameContent.catalog().zone_forbids_fighting(_player.world_location().zone_id):

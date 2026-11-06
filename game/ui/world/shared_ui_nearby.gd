@@ -385,6 +385,7 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 	if guide != null and map.selection.can_ask(npc):
 		# TRANSLATORS: the popup row on a school's guide: asks them how the school fights (their 打听 topic).
 		offered.append(InteractionOption.new("请教打法", _after(select, actions.teach_context), tr("听{npc}用自己的话讲这门功夫怎么打。").format({"npc": name})))
+	if guide != null and map.selection.can_ask(npc) and map.selection.lessons_offered():
 		var refusal: String = "" if not awake else map.selection.lesson_refusal(npc, guide)
 		if not awake:
 			refusal = tr("%s已经无法战斗了。") % name
