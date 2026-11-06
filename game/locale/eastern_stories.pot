@@ -290,6 +290,11 @@ msgstr ""
 #. native.npc.court_official gender
 #. native.npc.fu_an gender
 #. native.npc.court_herald gender
+#. native.npc.night_guard_lanes gender
+#. native.npc.night_guard_gate gender
+#. native.npc.night_guard_garden gender
+#. native.npc.palace_eunuch gender
+#. native.npc.camp_guard gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -390,11 +395,13 @@ msgstr ""
 #. native.npc.qin_popo gender
 #. native.npc.camp_family gender
 #. native.npc.spice_merchant gender
+#. native.npc.palace_maid gender
+#. native.npc.zhong_momo gender
 #. native.npc.cult_killer gender
 #. native.npc.lihong gender
 #. native.npc.lihong_weak gender
 #. native.npc.lihong_ashore gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -1267,6 +1274,10 @@ msgstr ""
 
 #: scenes/world/city/city_cellar.tscn scenes/world/snow/snow_cellar.tscn
 msgid "向上的阶梯"
+msgstr ""
+
+#: scenes/world/city/city_cellar.tscn
+msgid "石板 · 下去"
 msgstr ""
 
 #. es2:d/city/nroad2 short
@@ -2542,6 +2553,56 @@ msgstr ""
 msgid "枷锁 · 打开枷锁"
 msgstr ""
 
+#. native.npc.palace_maid inquiry topic
+#. native:imperial/cold_yard short
+#: scenes/world/imperial/imperial_cold_palace.tscn data/imperial/npcs.json data/imperial/rooms.json
+msgid "冷宫"
+msgstr ""
+
+#. native:imperial/cold_room short
+#: scenes/world/imperial/imperial_cold_palace.tscn data/imperial/rooms.json
+msgid "冷宫偏屋"
+msgstr ""
+
+#: scenes/world/imperial/imperial_cold_palace.tscn
+msgid "枯井 · 下去"
+msgstr ""
+
+#. native:imperial/garden short
+#: scenes/world/imperial/imperial_garden.tscn data/imperial/rooms.json
+msgid "御花园"
+msgstr ""
+
+#. native:imperial/cold_gate short
+#: scenes/world/imperial/imperial_garden.tscn data/imperial/rooms.json
+msgid "御花园西北角"
+msgstr ""
+
+#. native:imperial/guard_yard short
+#: scenes/world/imperial/imperial_guard_camp.tscn data/imperial/rooms.json
+msgid "大内侍卫营"
+msgstr ""
+
+#. native:imperial/duty_room short
+#: scenes/world/imperial/imperial_guard_camp.tscn data/imperial/rooms.json
+msgid "侍卫营值房"
+msgstr ""
+
+#. native:imperial/lanes_south short
+#: scenes/world/imperial/imperial_lanes.tscn data/imperial/rooms.json
+msgid "西长街"
+msgstr ""
+
+#. native:imperial/lanes_north short
+#: scenes/world/imperial/imperial_lanes.tscn data/imperial/rooms.json
+msgid "西长街北段"
+msgstr ""
+
+#. native:imperial/yangxin_gate short
+#: scenes/world/imperial/imperial_lanes.tscn data/imperial/rooms.json
+msgid "养心门外"
+msgstr ""
+
 #. native:imperial/gate_court short
 #: scenes/world/imperial/imperial_meridian.tscn data/imperial/rooms.json
 msgid "午门内"
@@ -2565,6 +2626,29 @@ msgstr ""
 #. native:imperial/throne_hall short
 #: scenes/world/imperial/imperial_throne_hall.tscn data/imperial/rooms.json
 msgid "太和殿"
+msgstr ""
+
+#. native:imperial/well_bottom short
+#: scenes/world/imperial/imperial_well_tunnel.tscn data/imperial/rooms.json
+msgid "井底"
+msgstr ""
+
+#. native:imperial/tunnel short
+#: scenes/world/imperial/imperial_well_tunnel.tscn data/imperial/rooms.json
+msgid "密道"
+msgstr ""
+
+#. native:imperial/cellar_end short
+#: scenes/world/imperial/imperial_well_tunnel.tscn data/imperial/rooms.json
+msgid "密道北头"
+msgstr ""
+
+#: scenes/world/imperial/imperial_well_tunnel.tscn
+msgid "铁蹬 · 上去"
+msgstr ""
+
+#: scenes/world/imperial/imperial_well_tunnel.tscn
+msgid "石阶 · 上去"
 msgstr ""
 
 #. es2:d/latemoon/park/yard1 short
@@ -7202,7 +7286,7 @@ msgstr ""
 msgid "绝"
 msgstr ""
 
-#: presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/map_page.gd
+#: presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd runtime/world/map/world_map_watches.gd ui/world/map_page.gd
 msgid "？"
 msgstr ""
 
@@ -9114,6 +9198,15 @@ msgstr ""
 msgid "{npc}喝道：「干什麽！」"
 msgstr ""
 
+#: runtime/world/map/world_map_watches.gd runtime/world/world_character_body_2d.gd
+msgid "！"
+msgstr ""
+
+#. say.c: a watcher ({name}) catches the player in the night ({text}).
+#: runtime/world/map/world_map_watches.gd
+msgid "{name}喝道：{text}"
+msgstr ""
+
 #: runtime/world/player_inventory_row_projection.gd
 msgid "主手"
 msgstr ""
@@ -9371,10 +9464,6 @@ msgstr ""
 #. native (A2): the bounty's silver ({silver}, e.g. 五) the 驿站 pays the player.
 #: runtime/world/world_bounties.gd
 msgid "雪亭驿付给你{silver}两银子的赏银。"
-msgstr ""
-
-#: runtime/world/world_character_body_2d.gd
-msgid "！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -18042,6 +18131,7 @@ msgstr ""
 #. native.npc.wei_zhizhong inquiry topic
 #. native.npc.yulan_zhao inquiry topic
 #. native.npc.yu_zijian_court inquiry topic
+#. native.npc.zhong_momo inquiry topic
 #. native.npc.chen_witness inquiry topic
 #: data/story/prologue.json data/imperial/npcs.json data/native/npcs.json
 msgid "寻剑令"
@@ -26311,7 +26401,8 @@ msgid "密门"
 msgstr ""
 
 #. green.station0.well name
-#: data/green/world.json
+#. native.npc.zhong_momo inquiry topic
+#: data/green/world.json data/imperial/npcs.json
 msgid "井"
 msgstr ""
 
@@ -37537,6 +37628,17 @@ msgid ""
 "一本诗词集，上面圈圈点点了一些句子.\n"
 msgstr ""
 
+#. city.midao1.landmark.bed name
+#: data/city/world.json
+msgid "床"
+msgstr ""
+
+#. city.midao1.landmark.bed long
+#: data/city/world.json
+msgid ""
+"一张破旧的小床，铺着些乾草。你拨开乾草——床底下压着一块石板，石板边上有新蹭的泥，像是常有人掀开。\n"
+msgstr ""
+
 #. city.eastdoor1.out name
 #. city.eastdoor2.out name
 #. city.westdoor1.out name
@@ -45530,6 +45632,10 @@ msgid "守门禁军"
 msgstr ""
 
 #. native.npc.wumen_guard title
+#. native.npc.night_guard_lanes title
+#. native.npc.night_guard_gate title
+#. native.npc.night_guard_garden title
+#. native.npc.zhong_momo inquiry topic
 #: data/imperial/npcs.json
 msgid "禁军"
 msgstr ""
@@ -45922,6 +46028,8 @@ msgid "皇上睡得晚。夜里在养心殿，看先帝的手札。"
 msgstr ""
 
 #. native.npc.fu_an inquiry topic
+#. native.npc.palace_eunuch inquiry topic
+#. native.npc.zhong_momo inquiry topic
 #: data/imperial/npcs.json
 msgid "养心殿"
 msgstr ""
@@ -46003,10 +46111,217 @@ msgstr ""
 msgid "……容朕想想。退朝。"
 msgstr ""
 
+#. native.npc.night_guard_lanes name
+#. native.npc.night_guard_gate name
+#. native.npc.night_guard_garden name
+#: data/imperial/npcs.json
+msgid "巡夜禁军"
+msgstr ""
+
+#. native.npc.night_guard_lanes long
+#. native.npc.night_guard_gate long
+#. native.npc.night_guard_garden long
+#: data/imperial/npcs.json
+msgid ""
+"一个披甲的禁军，红缨盔，一手提着灯笼，一手按着刀，走几步停一停，往暗处照一照。\n"
+msgstr ""
+
+#. native.npc.night_guard_lanes inquiry topic
+#. native.npc.night_guard_gate inquiry topic
+#. native.npc.night_guard_garden inquiry topic
+#: data/imperial/npcs.json
+msgid "巡夜"
+msgstr ""
+
+#. native.npc.night_guard_lanes inquiry.巡夜
+#. native.npc.night_guard_gate inquiry.巡夜
+#. native.npc.night_guard_garden inquiry.巡夜
+#: data/imperial/npcs.json
+msgid "夜里宫里不许有人走动。你是哪个宫的？"
+msgstr ""
+
+#. native.npc.night_guard_lanes accept_fight.say
+#. native.npc.night_guard_gate accept_fight.say
+#. native.npc.night_guard_garden accept_fight.say
+#: data/imperial/npcs.json
+msgid "宫里不许比划。"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.say
+#. native.npc.night_guard_gate watch.caught.say
+#. native.npc.night_guard_garden watch.caught.say
+#: data/imperial/npcs.json
+msgid "什么人！"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.lines
+#. native.npc.night_guard_gate watch.caught.lines
+#. native.npc.night_guard_garden watch.caught.lines
+#: data/imperial/npcs.json
+msgid "两个禁军一左一右扭住你的胳膊，提着灯笼把你押到了侍卫营。"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.lines
+#. native.npc.night_guard_gate watch.caught.lines
+#. native.npc.night_guard_garden watch.caught.lines
+#: data/imperial/npcs.json
+msgid "冯策披着衣服从值房里出来，借着灯看了你半晌。"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.lines
+#. native.npc.night_guard_gate watch.caught.lines
+#. native.npc.night_guard_garden watch.caught.lines
+#: data/imperial/npcs.json
+msgid "冯策说道：我认得你。滚出去，别让我看见第二回。"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.lines
+#. native.npc.night_guard_gate watch.caught.lines
+#. native.npc.night_guard_garden watch.caught.lines
+#: data/imperial/npcs.json
+msgid "天亮时，侍卫营的人把你从午门推了出去。"
+msgstr ""
+
+#. native.npc.palace_eunuch name
+#: data/imperial/npcs.json
+msgid "小太监"
+msgstr ""
+
+#. native.npc.palace_eunuch long
+#: data/imperial/npcs.json
+msgid ""
+"一个十几岁的小太监，抱着一摞文书，低着头小步快走，走过你身边的时候眼睛也不抬。\n"
+msgstr ""
+
+#. native.npc.palace_eunuch inquiry.养心殿
+#: data/imperial/npcs.json
+msgid "皇上……皇上在养心殿。你、你是哪个宫的？"
+msgstr ""
+
+#. native.npc.palace_maid name
+#: data/imperial/npcs.json
+msgid "宫女"
+msgstr ""
+
+#. native.npc.palace_maid long
+#: data/imperial/npcs.json
+msgid ""
+"一个穿青衣的宫女，提着一只竹篮，在柏树底下拣落下的枯枝。\n"
+msgstr ""
+
+#. native.npc.palace_maid inquiry.冷宫
+#: data/imperial/npcs.json
+msgid "西北角那边？别去。那里只住着一个老嬷嬷，脾气怪。"
+msgstr ""
+
+#. native.npc.zhong_momo name
+#: data/imperial/npcs.json
+msgid "钟嬷嬷"
+msgstr ""
+
+#. native.npc.zhong_momo title
+#: data/imperial/npcs.json
+msgid "先帝女官"
+msgstr ""
+
+#. native.npc.zhong_momo long
+#: data/imperial/npcs.json
+msgid ""
+"一个七十来岁的老妇人，头发全白了，梳得一丝不乱。她坐在灯下，手里拈着一根绣花针，眼睛却很亮——不像是个住冷宫的人。\n"
+msgstr ""
+
+#. native.npc.zhong_momo calls.steps.emote
+#: data/imperial/npcs.json
+msgid "抬起头看了你一眼，手里的针没有停。"
+msgstr ""
+
+#. native.npc.zhong_momo calls.steps.say
+#: data/imperial/npcs.json
+msgid "又是走那条道的？——不对。你不是他们的人。"
+msgstr ""
+
+#. native.npc.zhong_momo calls.steps.say
+#: data/imperial/npcs.json
+msgid "那口井，二十年来只有一个人走。黑衣裳，戴个黑冠，见了我连头都不点。你是第二个。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.井
+#: data/imperial/npcs.json
+msgid "那口井通到宫外头的祭坛底下。先帝在的时候封过，后来有人又打开了。是谁，我老婆子不说你也猜得到。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry topic
+#: data/imperial/npcs.json
+msgid "先帝"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.先帝
+#: data/imperial/npcs.json
+msgid "先帝……先帝病着的时候，还天天让我念那些找岚城的手札给他听。他走了二十年了。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.寻剑令
+#: data/imperial/npcs.json
+msgid "寻剑令是我誊的。先帝口授，一句话：寻剑，不得扰民一户。我誊了一份，先帝用了宝。——后来外头传的那些，不是这一句。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.养心殿.rules.say
+#: data/imperial/npcs.json
+msgid "皇上睡得晚。养心殿西暖阁的窗，窗闩是坏的，先帝在时就坏了，没人修。夜里门口有侍卫，窗下没有。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.养心殿.rules.say
+#: data/imperial/npcs.json
+msgid "养心殿？你问这个做什么。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.禁军
+#: data/imperial/npcs.json
+msgid "夜里他们提着灯笼走，走几步停一停。灯照得到的地方，他们看得远；灯照不到的地方，他们就是瞎子。御花园的石头后头，他们从来不照。"
+msgstr ""
+
+#. native.npc.camp_guard name
+#. native.npc.camp_guard title
+#: data/imperial/npcs.json
+msgid "大内侍卫"
+msgstr ""
+
+#. native.npc.camp_guard long
+#: data/imperial/npcs.json
+msgid ""
+"一个年轻的侍卫，光着膀子对着木人劈刀，一刀一刀都砍在同一道口子上。\n"
+msgstr ""
+
+#. native.npc.camp_guard chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"大内侍卫一刀劈在木人上，木屑飞了一地。\n"
+msgstr ""
+
+#. native.npc.camp_guard accept_fight.emote
+#: data/imperial/npcs.json
+msgid "收了刀，抱拳。"
+msgstr ""
+
+#. native.npc.camp_guard accept_fight.say
+#: data/imperial/npcs.json
+msgid "侍卫营里练手，请。"
+msgstr ""
+
+#. native.npc.camp_guard inquiry topic
+#: data/imperial/npcs.json
+msgid "冯总教头"
+msgstr ""
+
+#. native.npc.camp_guard inquiry.冯总教头
+#: data/imperial/npcs.json
+msgid "总教头在值房。夜里他也不睡，坐着看簿子。"
+msgstr ""
+
 #. native:imperial/gate_court long
 #: data/imperial/rooms.json
 msgid ""
-"进了铁门，眼前豁然一空：三面是高得望不到头的红墙，墙帽上一溜暗金的琉璃瓦，墙根返着一圈白碱，灰皮剥了几块，露出里面的砖。脚下的青砖大得一块能躺下一个人，砖缝里钻出几茎枯草。身后铁门两扇，门钉锈成了褐色。东边一道矮些的院门关着，门里传来吆喝声和刀碰刀的响，是侍卫营。\n"
+"进了铁门，眼前豁然一空：三面是高得望不到头的红墙，墙帽上一溜暗金的琉璃瓦，墙根返着一圈白碱，灰皮剥了几块，露出里面的砖。脚下的青砖大得一块能躺下一个人，砖缝里钻出几茎枯草。身后铁门两扇，门钉锈成了褐色。东边一道矮些的院门，门里传来吆喝声和刀碰刀的响，是侍卫营。\n"
 msgstr ""
 
 #. native:imperial/bridges long
@@ -46024,13 +46339,85 @@ msgstr ""
 #. native:imperial/square long
 #: data/imperial/rooms.json
 msgid ""
-"好大一片广场。地上铺的砖一眼望不到边，中间一条御道是整块的石板，被车轮和脚磨得发亮。两边一排排大铜缸，缸身生了绿锈，缸沿有一圈被手摸亮的铜色。北面是三层汉白玉的台基，台上立着太和殿，金瓦红柱，殿前一座日晷、一座铜龟。上朝的时候，这里站满了人；不上朝的时候，风从广场上刮过去，什么都没有。\n"
+"好大一片广场。地上铺的砖一眼望不到边，中间一条御道是整块的石板，被车轮和脚磨得发亮。两边一排排大铜缸，缸身生了绿锈，缸沿有一圈被手摸亮的铜色。北面是三层汉白玉的台基，台上立着太和殿，金瓦红柱，殿前一座日晷、一座铜龟。上朝的时候，这里站满了人；不上朝的时候，风从广场上刮过去，什么都没有。西北角一道小门通出去，是西长街。\n"
 msgstr ""
 
 #. native:imperial/throne_hall long
 #: data/imperial/rooms.json
 msgid ""
 "殿里很高，也很暗。十几根金漆的柱子，柱上盘着龙，漆掉了的地方露出底下的红。地上铺着金砖——其实是深灰的，磨得能照见人影，边上几块裂了缝。殿的尽头是一座七层的台子，台上一把龙椅，椅背后一面雕龙的屏风。龙椅很大，坐上去的人显得很小。\n"
+msgstr ""
+
+#. native:imperial/guard_yard long
+#: data/imperial/rooms.json
+msgid ""
+"一座方方的院子，地上是踩实的黄土，东头一排木人，木人身上的麻绳散了，刀口一道压一道。兵器架掉了漆，架上的刀倒擦得雪亮。北边一排营房，窗户开着，里面一排通铺；北墙根一间小值房，门口挂着一盏灯。\n"
+msgstr ""
+
+#. native:imperial/duty_room long
+#: data/imperial/rooms.json
+msgid ""
+"一间窄小的值房，一张桌、一条长凳、一张木床。桌上压着一本值宿的簿子，墨迹一行一行，最后一行还没干。墙上挂着一口刀、一件白袍。夜里这里的灯总是亮着。\n"
+msgstr ""
+
+#. native:imperial/lanes_south long
+#: data/imperial/rooms.json
+msgid ""
+"两道红墙夹着一条长街，墙高得只剩头顶一线天。墙头的铁钩上挂着宫灯，一盏接一盏，灯纸让风吹破了几个洞。街面是青砖，墙根长着一溜青苔。白天太监和宫女低着头来来往往，夜里只有禁军的灯笼一来一回。东边一道小门回太和殿广场。\n"
+msgstr ""
+
+#. native:imperial/lanes_north long
+#: data/imperial/rooms.json
+msgid ""
+"长街到了这里宽了一些，西墙下堆着几口裂了的大缸，缸里积着雨水。东边一道宫门，门里就是养心殿；北头一道垂花门通御花园。\n"
+msgstr ""
+
+#. native:imperial/yangxin_gate long
+#: data/imperial/rooms.json
+msgid ""
+"一道小些的宫门，门楣上的匾写着「养心门」，金字褪成了土黄。门关着，门缝里透出一点灯光。门前两口铜缸，缸里的水结了一层薄薄的绿。\n"
+msgstr ""
+
+#. native:imperial/garden long
+#: data/imperial/rooms.json
+msgid ""
+"园子里到处是太湖石，一块叠着一块，洞眼里长着草。几株古柏，老得树皮一条一条地裂开，枝子伸得比宫墙还高。藤萝架下一条石子路，石子拼成的花纹缺了好些。北面一座小殿，殿门上的漆掉得斑斑驳驳。夜里风一过，柏树沙沙地响，什么人走过都听不见。\n"
+msgstr ""
+
+#. native:imperial/cold_gate long
+#: data/imperial/rooms.json
+msgid ""
+"园子的西北角，一道窄窄的角门，门上的铜锁锈死了，可是门轴是新上过油的。门外的路上长满了草——只有一行被人踩倒的。\n"
+msgstr ""
+
+#. native:imperial/cold_yard long
+#: data/imperial/rooms.json
+msgid ""
+"一个荒了的院子。杂草长到膝盖，台阶缝里钻出小树。廊下的窗纸破了一半，风一吹就呼啦呼啦地响。院子当中一口枯井，井沿上磨出几道绳槽，井口的辘轳不见了，只剩一根木桩。\n"
+msgstr ""
+
+#. native:imperial/cold_room long
+#: data/imperial/rooms.json
+msgid ""
+"一间小屋子，收拾得倒干净：一张床、一张桌、一个绣架，绣架上绷着一幅没绣完的牡丹，线都褪了色。桌上一盏油灯，灯旁一叠发黄的纸，上面的字写得很工整。\n"
+msgstr ""
+
+#. native:imperial/well_bottom long
+#: data/imperial/rooms.json
+msgid ""
+"井底没有水，只有一层湿泥，泥上有脚印，不止一个人的。井壁上嵌着一道一道的铁蹬，往上爬就是冷宫的院子。北边的井壁上开着一个洞，刚够一个人弯腰钻进去。\n"
+msgstr ""
+
+#. native:imperial/tunnel long
+#: data/imperial/rooms.json
+msgid ""
+"一条又窄又长的砖砌甬道，顶上滴着水。砖缝里插着烧剩的蜡烛头，有的还很新。地上掉着一根黑色的丝绦，像是从什么冠上扯下来的。甬道往北一直通到看不见的地方。\n"
+msgstr ""
+
+#. native:imperial/cellar_end long
+#: data/imperial/rooms.json
+msgid ""
+"甬道到这里到了头，几级石阶往上，顶上压着一块石板，石板缝里漏下几根乾草。\n"
 msgstr ""
 
 #. imperial.bridges.landmark.lions name
@@ -46064,6 +46451,44 @@ msgstr ""
 #: data/imperial/world.json
 msgid ""
 "七层台阶上一把金漆的龙椅，椅背上盘着九条龙，扶手的龙头被手握得发亮。椅子太大了：坐垫上另垫了一块厚褥子，脚下还摆着一只脚踏——坐在这上头的人，脚够不着地。\n"
+msgstr ""
+
+#. imperial.tunnel.landmark.cord name
+#: data/imperial/world.json
+msgid "黑丝绦"
+msgstr ""
+
+#. imperial.tunnel.landmark.cord long
+#: data/imperial/world.json
+msgid ""
+"一根黑色的丝绦，一头扯断了，另一头还打着结。是从一顶黑冠上扯下来的——逆灵宫的道士戴的那种。\n"
+msgstr ""
+
+#. imperial.cold_yard.landmark.well name
+#: data/imperial/world.json
+msgid "枯井"
+msgstr ""
+
+#. imperial.cold_yard.landmark.well long
+#: data/imperial/world.json
+msgid ""
+"一口枯井，井沿是青石的，磨出几道深深的绳槽。往下看，黑得看不见底，可是井壁上嵌着一道道铁蹬，最上面那几道擦得发亮。\n"
+msgstr ""
+
+#. imperial.yangxin_gate.landmark.gate name
+#: data/imperial/world.json
+msgid "养心门"
+msgstr ""
+
+#. imperial.yangxin_gate.landmark.gate long
+#: data/imperial/world.json
+msgid ""
+"养心门关着，门闩在里头。门缝里透出一点灯光——皇上睡得晚。（养心殿是这一章后面的事。）\n"
+msgstr ""
+
+#. city.midao1.stone lines
+#: data/imperial/world.json
+msgid "你在密室里转了一圈。除了那张破床和乾草，什么也没有。"
 msgstr ""
 
 #. native.npc.wooden_dummy.1 name

@@ -27,6 +27,7 @@ var spells: WorldMapSpells = WorldMapSpells.new(self)
 var acts: WorldMapActs = WorldMapActs.new(self)
 var mazes: WorldMapMazes = WorldMapMazes.new(self)
 var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
+var watches: WorldMapWatches = WorldMapWatches.new(self)
 var thefts: WorldMapThefts = WorldMapThefts.new(self)
 var debts: WorldMapDebts = WorldMapDebts.new(self)
 var _definition: MapDefinition
@@ -496,6 +497,8 @@ func _zone_exited(body: Node2D, zone: WorldPhysicalZoneArea2D) -> void:
 func _physics_process(_delta: float) -> void:
 	if _initialized and player_body != null and player_body.player_controlled:
 		patrols.hold_player()
+		if not _world_simulation_gate.is_frozen():
+			watches.tick(_delta)
 	if not _initialized or not _zone_check_pending or not player_body.player_controlled or _world_simulation_gate.is_frozen():
 		return
 	# Only re-evaluate Areas reported by physics, while straddling their boundary.

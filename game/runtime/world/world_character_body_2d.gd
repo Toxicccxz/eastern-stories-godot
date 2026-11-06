@@ -379,7 +379,8 @@ const ALERT_NAME_COLOR: Color = Color(1.0, 0.38, 0.38)
 
 ## A red ！ over the name: the gang's first to notice the player, in its alert beat
 ## (DECISIONS「进门一起上」). Made the first time it shows.
-func set_alert_mark(on: bool) -> void:
+## `text`: ！ (it has the player), or ？ (a watcher looking, 第九章 B: DECISIONS「禁军夜巡」).
+func set_alert_mark(on: bool, text: String = "！") -> void:
 	var mark: Label = get_node_or_null("AlertMark") as Label
 	if mark == null:
 		if not on:
@@ -400,6 +401,7 @@ func set_alert_mark(on: bool) -> void:
 		mark.position = Vector2(left - 24.0, top - 5.0)
 		mark.size = Vector2(22.0, 30.0)
 		add_child(mark)
+	mark.text = text
 	mark.visible = on
 
 

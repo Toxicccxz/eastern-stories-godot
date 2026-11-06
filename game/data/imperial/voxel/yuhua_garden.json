@@ -1,0 +1,211 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 26,
+  "note": "御花园、西北角门 (native:imperial/garden, cold_gate; 第九章 B): Taihu rocks piled on each other with grass in their holes, old cypresses with bark split in strips, a pebble path with half its pattern gone, a small hall north with its lacquer flaking; the narrow north-west gate, its lock rusted, its hinges oiled, one trodden line through the weeds beyond. At night the wind in the cypresses; dark behind every rock.",
+  "palette": {
+    "wood": [
+      "7a2a22",
+      "8a3428",
+      "6a2420"
+    ],
+    "wall": "a8362a"
+  },
+  "wall_height": 4.4,
+  "wall_looks": [
+    {
+      "rect": [
+        -2000,
+        -2000,
+        2000,
+        2000
+      ],
+      "style": "plaster",
+      "wall": "a8362a",
+      "colors": [
+        "a8362a",
+        "b03c2e",
+        "9c3226",
+        "b4402e"
+      ],
+      "note": "the 皇城's red walls under glazed coping, a band of white bloom at the foot where the plaster has gone"
+    }
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_yard": {
+      "style": "slabs",
+      "lengths": [
+        2,
+        3
+      ],
+      "depths": [
+        2,
+        2
+      ],
+      "cracks": 0.1,
+      "broken": 0.04,
+      "sunk": 0.03,
+      "tufts": 0.03,
+      "stones": [
+        "8e8c86",
+        "96948c",
+        "86847e",
+        "9c9a92"
+      ],
+      "worn": [
+        "a6a49c",
+        "aeaca4"
+      ],
+      "bed": "6a6862",
+      "joint": 0.04,
+      "mud": "7a7870",
+      "crack": "5a5852",
+      "note": "the 皇城's great paving (native:imperial/gate_court: 青砖大得一块能躺下一个人，砖缝里钻出几茎枯草), worn pale along the way through"
+    },
+    "boundary": {
+      "style": "scree",
+      "colors": [
+        "8a8478",
+        "948e82",
+        "807a6e"
+      ],
+      "gravel": 0.3,
+      "stones": 0.02,
+      "pebbles": [
+        "a8a294",
+        "9a9486"
+      ]
+    }
+  },
+  "flora": {
+    "grass_density": 0.25,
+    "density": {
+      "floor_yard": 0.04,
+      "town_ground": 0.4,
+      "boundary": 0.4
+    },
+    "grass_colors": [
+      "7a8a4a",
+      "8a9a54",
+      "6e7e42",
+      "96a25c"
+    ],
+    "flower_threshold": 1.0,
+    "tree_kinds": [
+      "cypress"
+    ],
+    "wind": 0.5,
+    "butterflies": 0
+  },
+  "life": {},
+  "props": [
+    {
+      "kind": "trail",
+      "points": [
+        [
+          -300,
+          300
+        ],
+        [
+          -100,
+          100
+        ],
+        [
+          100,
+          0
+        ],
+        [
+          300,
+          -200
+        ]
+      ],
+      "color": "b4ac98",
+      "note": "the pebble path, half its pattern gone"
+    },
+    {
+      "kind": "stains",
+      "at": [
+        0,
+        0
+      ],
+      "size": [
+        700,
+        500
+      ],
+      "count": 14,
+      "colors": [
+        "5a6a4a",
+        "6a7a52"
+      ],
+      "note": "moss between the pebbles"
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "6a5a48"
+    },
+    "native.npc.wumen_guard": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军: red-tasselled helmet"
+    },
+    "native.npc.yulan_zhao": {
+      "coat": "d8a830",
+      "hat": true,
+      "note": "the boy's yellow robe, a size too big"
+    },
+    "native.npc.yu_zijian_court": {
+      "coat": "7a2a2a",
+      "hat": true,
+      "note": "a minister's crimson court robe"
+    },
+    "native.npc.court_official": {
+      "coat": "3a4a6a",
+      "hat": true
+    },
+    "native.npc.court_herald": {
+      "coat": "5a4a3a",
+      "hat": true
+    },
+    "native.npc.fu_an": {
+      "coat": "4a5a4a"
+    },
+    "native.npc.feng_ce": {
+      "coat": "e0dcd4",
+      "note": "素白的武官袍服"
+    },
+    "native.npc.wei_zhizhong": {
+      "coat": "6a6458",
+      "hat": true,
+      "note": "the 相国's washed-out robe at court"
+    },
+    "native.npc.night_guard_lanes": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军 with a lantern"
+    },
+    "native.npc.night_guard_gate": {
+      "coat": "9c3226",
+      "hat": true
+    },
+    "native.npc.night_guard_garden": {
+      "coat": "9c3226",
+      "hat": true
+    },
+    "native.npc.palace_eunuch": {
+      "coat": "3a4a5a"
+    },
+    "native.npc.palace_maid": {
+      "coat": "4a6a6a"
+    },
+    "native.npc.zhong_momo": {
+      "coat": "6a6a72",
+      "note": "a faded court gown, neat"
+    },
+    "native.npc.camp_guard": {
+      "coat": "e0dcd4"
+    }
+  }
+}

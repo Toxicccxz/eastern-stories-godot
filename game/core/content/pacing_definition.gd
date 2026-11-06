@@ -133,6 +133,9 @@ var _bury_always_rewards: bool = false
 ## 第八章 A (DECISIONS「寒气」): whether the native hazards run (RoomHazardDefinition.native: the
 ## 玄冰's cold); false (ES2): only the room's text speaks of them.
 var _native_hazards: bool = false
+## Native (第九章 B; DECISIONS「禁军夜巡」): the 皇城's night watch is a stealth — a cone of sight, walls,
+## lanterns and cover, a beat to slip away (NpcWatch); off (经典) it is ES2's presence: in range, caught.
+var _stealth: bool = false
 ## 战斗决策层 1A (DECISIONS「战斗数值」): the combat power knobs (CombatPowerRules, ES2's when
 ## left out), the fight forecast shown before one (combat_forecast; false: RelativeStrength's
 ## line by combat_exp) and whether NPCs carry their ES2 numbers (es2_npc_values: the record's
@@ -269,6 +272,9 @@ var bury_always_rewards: bool:
 	get:
 		return _bury_always_rewards
 ## Whether the native hazards run (false: ES2).
+var stealth: bool:
+	get:
+		return _stealth
 var native_hazards: bool:
 	get:
 		return _native_hazards
@@ -355,6 +361,7 @@ func copy() -> PacingDefinition:
 	record.with_sky_weather(_sky_weather)
 	record.with_story(_story_parley, _bury_always_rewards)
 	record.with_native_hazards(_native_hazards)
+	record.with_stealth(_stealth)
 	record.with_combat(_combat_rules, _combat_forecast, _es2_npc_values)
 	record.with_decisions(_decision_rules)
 	record.with_beats(_beat_rules)
@@ -442,6 +449,12 @@ func with_combat(rules: CombatPowerRules, forecast: bool, es2_npc_values: bool) 
 func with_story(parley: bool, bury_rewards: bool) -> PacingDefinition:
 	_story_parley = parley
 	_bury_always_rewards = bury_rewards
+	return self
+
+
+## This record with the night watch a stealth or ES2's presence (tests, and from_record()).
+func with_stealth(enabled: bool) -> PacingDefinition:
+	_stealth = enabled
 	return self
 
 
@@ -552,7 +565,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("bounty_board", false),
 		reader.integer("bounty_refresh_seconds", 600),
 		reader.boolean("training_dummies", false),
-	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false)).with_native_hazards(reader.boolean("native_hazards", false))
+	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false)).with_native_hazards(reader.boolean("native_hazards", false)).with_stealth(reader.boolean("stealth", false))
 	definition.with_combat(CombatPowerRules.from_record(reader), reader.boolean("combat_forecast", false), reader.boolean("es2_npc_values", true))
 	definition.with_decisions(CombatDecisionRules.from_record(reader))
 	definition.with_beats(CombatBeatRules.from_record(reader))

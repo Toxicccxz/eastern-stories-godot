@@ -451,12 +451,62 @@ func _sync_actors(delta: float) -> void:
 			alert_marks[id] = alert
 		if alert_marks.has(id):
 			alert_marks[id].visible = marked
+			alert_marks[id].text = mark.text if mark != null else alert_marks[id].text
+		_sync_watch_cone(actor, body)
 	for id: StringName in actors.keys():
 		if not seen.has(id):
 			actors[id].queue_free()
 			actors.erase(id)
 			labels.erase(id)
 			alert_marks.erase(id)
+
+## 第九章 B (DECISIONS「禁军夜巡」): a watcher's cone of sight on the ground (meta `watch_cone` the
+## runtime sets: radius px, degrees, alarmed), faint, turned with the body; only at night, when
+## it matters; gone when it stops watching (the meta cleared).
+func _sync_watch_cone(actor: Node3D, body: WorldCharacterBody2D) -> void:
+	var cone: MeshInstance3D = actor.get_node_or_null("WatchCone") as MeshInstance3D
+	var data: Dictionary = body.get_meta("watch_cone", {}) if body.has_meta("watch_cone") else {}
+	if data.is_empty() or not body.visible:
+		if cone != null:
+			cone.visible = false
+		return
+	if cone == null or float(cone.get_meta("radius", 0.0)) != float(data["radius"]) or int(cone.get_meta("degrees", 0)) != int(data["degrees"]):
+		if cone != null:
+			cone.queue_free()
+		cone = _cone_mesh(float(data["radius"]), int(data["degrees"]))
+		cone.name = "WatchCone"
+		actor.add_child(cone)
+	cone.visible = true
+	cone.rotation.y = atan2(body.facing.x, body.facing.y)
+	var material: StandardMaterial3D = cone.material_override as StandardMaterial3D
+	material.albedo_color = Color(1.0, 0.35, 0.25, 0.22) if data.get("alarmed", false) else Color(1.0, 0.92, 0.7, 0.1)
+
+
+func _cone_mesh(radius_px: float, degrees: int) -> MeshInstance3D:
+	var radius: float = VoxelMapGeometry.point(Vector2(radius_px, 0), 0).x - VoxelMapGeometry.point(Vector2.ZERO, 0).x
+	var tool := SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var steps: int = maxi(6, degrees / 10)
+	var half: float = deg_to_rad(float(degrees)) / 2.0
+	for i: int in steps:
+		var a: float = -half + (2.0 * half) * float(i) / float(steps)
+		var b: float = -half + (2.0 * half) * float(i + 1) / float(steps)
+		tool.add_vertex(Vector3(0, 0.03, 0))
+		tool.add_vertex(Vector3(sin(a) * radius, 0.03, cos(a) * radius))
+		tool.add_vertex(Vector3(sin(b) * radius, 0.03, cos(b) * radius))
+	var mesh := MeshInstance3D.new()
+	mesh.mesh = tool.commit()
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.no_depth_test = false
+	mesh.material_override = material
+	mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mesh.set_meta("radius", radius_px)
+	mesh.set_meta("degrees", degrees)
+	return mesh
+
 
 func _make_actor(body: WorldCharacterBody2D) -> void:
 	var actor := Node3D.new()

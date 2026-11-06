@@ -156,9 +156,14 @@
 		"fanfang.ronin_hall",
 		"imperial.meridian",
 		"imperial.court_square",
-		"imperial.taihe_hall"
+		"imperial.taihe_hall",
+		"imperial.guard_camp",
+		"imperial.lanes",
+		"imperial.yuhua_garden",
+		"imperial.cold_palace",
+		"imperial.well_tunnel"
 	],
-	"rooms": 608,
+	"rooms": 620,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -559,6 +564,14 @@
 		"imperial.throne_hall.feng_ce",
 		"imperial.throne_hall.wei_zhizhong",
 		"imperial.throne_hall.officials",
+		"imperial.lanes_south.night_guard",
+		"imperial.lanes_north.night_guard",
+		"imperial.garden.night_guard",
+		"imperial.lanes_south.eunuch",
+		"imperial.garden.maid",
+		"imperial.cold_room.zhong_momo",
+		"imperial.guard_yard.guards",
+		"imperial.duty_room.feng_ce",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -601,9 +614,9 @@
 		"native.xiangguo.wei_zhizhong",
 		"native.xiangguo.servant"
 	],
-	"world_npcs": 703,
-	"resident_maps": 157,
-	"new_game_items": 1134,
+	"world_npcs": 712,
+	"resident_maps": 162,
+	"new_game_items": 1144,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -762,7 +775,12 @@
 		"fanfang.ronin_hall": 2,
 		"imperial.meridian": 3,
 		"imperial.court_square": 1,
-		"imperial.taihe_hall": 1
+		"imperial.taihe_hall": 1,
+		"imperial.guard_camp": 2,
+		"imperial.lanes": 3,
+		"imperial.yuhua_garden": 2,
+		"imperial.cold_palace": 2,
+		"imperial.well_tunnel": 3
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -921,7 +939,12 @@
 		"fanfang.ronin_hall": 10,
 		"imperial.meridian": 4,
 		"imperial.court_square": 0,
-		"imperial.taihe_hall": 10
+		"imperial.taihe_hall": 10,
+		"imperial.guard_camp": 3,
+		"imperial.lanes": 3,
+		"imperial.yuhua_garden": 2,
+		"imperial.cold_palace": 1,
+		"imperial.well_tunnel": 0
 	},
 	"npc_draws_after_oldpine": 2559,
 	"technical_maps": 9,

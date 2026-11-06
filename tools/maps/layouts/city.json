@@ -772,20 +772,8 @@
           "Rect_32_32": [32, 32]
         },
         "stairs": [
-          {
-            "zone": "city.midao1",
-            "name": "Midao1StairsUp",
-            "at": [72, 64],
-            "id": "city.midao1.up",
-            "shape": "StairsShape",
-            "color": "Color(0.4, 0.33, 0.25, 1)",
-            "text": "向上的阶梯",
-            "marker": {
-              "name": "Midao1StairsArrival",
-              "at": [72, 136],
-              "id": "city.midao1.stairs_arrival"
-            }
-          }
+          {"zone": "city.midao1", "name": "Midao1StairsUp", "at": [72, 64], "id": "city.midao1.up", "shape": "StairsShape", "color": "Color(0.4, 0.33, 0.25, 1)", "text": "向上的阶梯", "marker": {"name": "Midao1StairsArrival", "at": [72, 136], "id": "city.midao1.stairs_arrival"}},
+          {"zone": "city.midao1", "name": "Midao1StoneDown", "at": [200, 144], "id": "city.midao1.down", "shape": "StairsShape", "color": "Color(0.4, 0.33, 0.25, 1)", "text": "石板 · 下去", "marker": {"name": "Midao1StoneReturn", "at": [136, 112], "id": "city.midao1.stone_return"}}
         ],
         "nodes": [
           {
@@ -817,6 +805,12 @@
             "name": "Midao1CeilingInteraction",
             "id": "city.midao1.landmark.ceiling",
             "at": [136, 56],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Midao1BedInteraction",
+            "id": "city.midao1.landmark.bed",
+            "at": [200, 88],
             "shape": "Rect_32_32"
           }
         ]
