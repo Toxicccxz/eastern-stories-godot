@@ -75,11 +75,72 @@ func _test_words() -> void:
 	check(SharedGameplayLayout.page_heading("给予 · 店小二", "店小二") == "给予 · 店小二" and SharedGameplayLayout.page_heading("请确认", "店小二") == "请确认", "other headings stay")
 	check(InteractionPanel.without_name_line("店小二\n这位店小二正笑咪咪地忙著。", "店小二") == "这位店小二正笑咪咪地忙著。", "查看 opens on him, not his name")
 	check(InteractionPanel.without_name_line("店小二正笑咪咪地忙著。\n别的。", "店小二") == "店小二正笑咪咪地忙著。\n别的。", "a sentence that names him stays")
+	# A title too long for its row loses its front, from where a part begins, never its name.
+	var chars: Callable = func(text: String) -> float: return float(text.length())
+	check(SharedGameplayLayout.fitted_title(LONG_TITLE, 20.0, chars) == LONG_TITLE, "a title that fits stays whole")
+	check(SharedGameplayLayout.fitted_title(LONG_TITLE, 17.0, chars) == "…「镇国大将军」严廷殷", "one too long drops its title, not half a word: %s" % SharedGameplayLayout.fitted_title(LONG_TITLE, 17.0, chars))
+	check(SharedGameplayLayout.fitted_title(LONG_TITLE, 10.0, chars) == "…严廷殷", "shorter still, the name alone: %s" % SharedGameplayLayout.fitted_title(LONG_TITLE, 10.0, chars))
+	check(SharedGameplayLayout.fitted_title("门房 刘安禄", 5.0, chars) == "…刘安禄", "a title before a space goes the same way")
+
+
+## 天驼关 canyon.camp8's general: a family title and a nickname before the name.
+const LONG_TITLE: String = "天邪派第十六代弟子「镇国大将军」严廷殷"
+const LONG_NAME: String = "严廷殷"
+## The window the world runs in here (人物外观 D's smoke shots).
+const WINDOW := Vector2i(1920, 1080)
+
+
+## The project's own size, which the window stretches.
+static func _base_size() -> Vector2i:
+	return Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width")), int(ProjectSettings.get_setting("display/window/size/viewport_height")))
+
+
+## The popup's title too long for its row beside the forecast's plate (人物外观 D's smoke at
+## 1920×1080: the plate covered half of 严廷殷): at every 界面缩放, scaled as the game scales it
+## (whole pixel steps), the plate sits after the text, inside the row, and the name shows
+## whole; the whole title is the hover. A short one stays as it was.
+func _test_long_title(tree: SceneTree, layout: SharedGameplayLayout, short_title: String) -> void:
+	var title: Label = layout.frame_title
+	var font: Font = title.get_theme_font("font")
+	var font_size: int = title.get_theme_font_size("font_size")
+	var original_size: Vector2i = tree.root.size
+	var original_factor: float = tree.root.content_scale_factor
+	layout.set_title(LONG_TITLE)
+	layout.set_badge(CombatForecast.verdict_word(CombatForecast.Verdict.SURE_LOSS), CombatForecast.Verdict.SURE_LOSS, "")
+	var cut: int = 0
+	for window: Vector2i in [WINDOW, Vector2i(2560, 1440)]:
+		for percent: int in ApplicationUiScale.PERCENTS:
+			tree.root.size = window
+			tree.root.content_scale_factor = ApplicationUiScale.pixel_factor(percent, window, _base_size())
+			for i: int in 4:
+				await tree.process_frame
+			var at: String = "%dx%d at %d%%" % [window.x, window.y, percent]
+			var shown: String = title.text
+			var text_end: float = font.get_string_size(shown, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+			var plate := Rect2(layout.frame_badge.position, layout.frame_badge.size)
+			check(shown.ends_with(LONG_NAME) and text_end <= title.size.x, "%s: the name ends the title, whole in its row: %s (%.0f of %.0f)" % [at, shown, text_end, title.size.x])
+			check(layout.frame_badge.visible and plate.position.x >= text_end and plate.end.x <= title.size.x + 0.5, "%s: the plate after the text, inside the row: text to %.0f, plate %s, row %.0f" % [at, text_end, plate, title.size.x])
+			check(shown == LONG_TITLE or (shown.begins_with(SharedGameplayLayout.TITLE_CUT) and title.tooltip_text == LONG_TITLE), "%s: cut at its front, the whole title the hover" % at)
+			check(plate.position == plate.position.round(), "%s: the plate on whole pixels" % at)
+			cut += 1 if shown != LONG_TITLE else 0
+	check(cut > 0, "the rows are narrow enough to cut it somewhere (the case is tested)")
+	tree.root.size = original_size
+	tree.root.content_scale_factor = original_factor
+	layout.set_title(short_title)
+	for i: int in 4:
+		await tree.process_frame
+	var short_end: float = font.get_string_size(short_title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	check(title.text == short_title and title.tooltip_text.is_empty() and is_equal_approx(layout.frame_badge.position.x, roundf(short_end + SharedGameplayLayout.BADGE_GAP)), "a short title whole, the plate just after it: %s at %.0f" % [title.text, layout.frame_badge.position.x])
 
 
 func _test_world(tree: SceneTree) -> void:
 	# Bubbles and the dialogue box are the feel's (suites run with it off).
 	TestFeel.use()
+	# A real window (the headless one is 64×64), 界面缩放 100% as the game scales it.
+	var original_size: Vector2i = tree.root.size
+	var original_factor: float = tree.root.content_scale_factor
+	tree.root.size = WINDOW
+	tree.root.content_scale_factor = ApplicationUiScale.pixel_factor(ApplicationUiScale.DEFAULT, WINDOW, _base_size())
 	var session: WorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
 	check(session.configure_source_entry("界面", CharacterState.GENDER_FEMALE), "source setup")
 	tree.root.add_child(session)
@@ -97,6 +158,8 @@ func _test_world(tree: SceneTree) -> void:
 	check(waiter != null, "the waiter in the Inn")
 	if waiter == null:
 		session.queue_free()
+		tree.root.size = original_size
+		tree.root.content_scale_factor = original_factor
 		TestFeel.restore()
 		return
 	var body: Node2D = map.runtime_body_for_character(waiter.character_id)
@@ -123,6 +186,9 @@ func _test_world(tree: SceneTree) -> void:
 	if outlook.forecast != null:
 		check(layout.frame_badge.visible and layout.frame_badge_text.text == CombatForecast.verdict_word(outlook.forecast.verdict) and layout.frame_badge.theme_type_variation == GameTheme.verdict_plate(outlook.forecast.verdict) and not layout.frame_badge.tooltip_text.is_empty(), "the forecast's word beside it: %s" % layout.frame_badge_text.text)
 	check(not hud.interaction_panel.look_text().begins_with(name + "\n"), "查看 does not open with his name again: %s" % hud.interaction_panel.look_text().left(30))
+	await _test_long_title(tree, layout, name)
+	if outlook.forecast != null:
+		layout.set_badge(CombatForecast.verdict_word(outlook.forecast.verdict), outlook.forecast.verdict, "")
 	var buy: Button = hud.interaction_panel.button_of("购买")
 	check(buy != null and buy.theme_type_variation == &"RowButton" and not buy.button_pressed, "his rows are list rows")
 	check(hud.interaction_panel.press("购买") and buy.button_pressed and hud.interaction_panel.current() == "购买", "购买's row held down while its page shows")
@@ -149,4 +215,6 @@ func _test_world(tree: SceneTree) -> void:
 	hud.dismiss_current_panel()
 	session.queue_free()
 	await tree.process_frame
+	tree.root.size = original_size
+	tree.root.content_scale_factor = original_factor
 	TestFeel.restore()

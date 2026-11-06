@@ -24,6 +24,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_together(tree, session)
 	await _test_next_room(tree, session)
 	await _test_dragons_again(tree, session)
+	GameContent.catalog().npc(&"village.npc.dragon").dealings().guardian = true # TEST-ONLY: put back
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -132,6 +133,7 @@ func _test_dragons_again(tree: SceneTree, session: WorldSessionController) -> vo
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.vitality = CharacterResourceState.new(10000000, 10000000, 10000000) # TEST-ONLY: the player outlasts six dragons
+	GameContent.catalog().npc(&"village.npc.dragon").dealings().guardian = false # TEST-ONLY: ES2's aggressive dragons, not 第八章 A's guardians
 	var cave: WorldMapController = MapPlaces.enter(session, &"village.lakebottom2", &"village.lakebottom2.valley_arrival") # TEST-ONLY: down from the valley
 	if not _check(cave != null and cave.map_id() == &"village.icecave", "TEST-ONLY: down into the dragons' cave"):
 		return

@@ -243,7 +243,16 @@
 			"limbs": ["头部", "身体", "前爪", "後爪", "尾巴"],
 			"verbs": ["bite", "claw"],
 			"apply": { "attack": 50, "dodge": 120, "armor": 100, "damage": 10 },
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"guardian": true,
+			"accept_fight": [
+				{ "emote": "抬起头看了你一眼，又盘了回去。", "accept": false }
+			],
+			"chat_chance": 6,
+			"chat_msg": ["一条白鳞冰龙慢慢盘过冰面，鳞上的光一闪一闪。\n", "水潭里有东西游过去，很长，水面没有起一点波。\n"],
+			"calls": [
+				{ "reaction": true, "npc_in": "village.lakebottom2", "not_mark": "到了冰龙厅", "steps": [{ "line": "六条白鳞冰龙一起抬起头，看了你一眼，又盘了回去。它们守着这里，守了三百年——你不动手，它们不动。\n", "color": "HIW" }, { "mark": "到了冰龙厅" }] }
+			]
 		}
 	]
 }

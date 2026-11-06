@@ -18,11 +18,12 @@ func use_action(map: WorldMapController, landmark: WorldLandmarkDefinition, acti
 
 ## What looking at the landmark shows (look.c: item_desc, which a function may make):
 ## its authored text unless the policy says otherwise. A `look` landmark's `teaches`
-## marks go to the player who reads it.
+## marks go to the player who reads it. Its `looks` show what one bearing their marks sees.
 func look(map: WorldMapController, landmark: WorldLandmarkDefinition) -> String:
 	if map != null and map.player_runtime() != null:
 		for mark: String in landmark.teaches:
 			map.player_runtime().state.marks[mark] = 1
+		return landmark.description_for(map.player_runtime().state.marks)
 	return landmark.description
 
 

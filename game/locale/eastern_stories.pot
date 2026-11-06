@@ -302,6 +302,7 @@ msgstr ""
 #. native.npc.yu_steward gender
 #. native.npc.yu_henchman gender
 #. native.npc.chen_witness gender
+#. native.npc.shang_jue_lake gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -378,6 +379,8 @@ msgstr ""
 #. native.npc.camp_family gender
 #. native.npc.spice_merchant gender
 #. native.npc.cult_killer gender
+#. native.npc.lihong gender
+#. native.npc.lihong_weak gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -2950,7 +2953,8 @@ msgid "山涧之中"
 msgstr ""
 
 #. es2:d/oldpine/lake short
-#: scenes/world/oldpine/oldpine_gorge.tscn data/oldpine/rooms.json
+#. village.lakebottom2.pool name
+#: scenes/world/oldpine/oldpine_gorge.tscn data/oldpine/rooms.json data/village/world.json
 msgid "水潭"
 msgstr ""
 
@@ -3565,6 +3569,10 @@ msgstr ""
 msgid "冰阶"
 msgstr ""
 
+#: scenes/world/village/village_icecave.tscn
+msgid "水潭 · 潜下去"
+msgstr ""
+
 #. es2:d/village/lakeside short
 #: scenes/world/village/village_main.tscn data/village/rooms.json
 msgid "玉螺湖畔"
@@ -3647,6 +3655,32 @@ msgstr ""
 
 #: scenes/world/village/village_midlake.tscn
 msgid "湖水 · 潜入湖中"
+msgstr ""
+
+#. native:village/seal_altar short
+#: scenes/world/village/village_seal_chamber.tscn data/native/rooms.json
+msgid "冰下封坛"
+msgstr ""
+
+#. village.seal_altar.pool name
+#: scenes/world/village/village_seal_chamber.tscn data/village/world.json
+msgid "潭口"
+msgstr ""
+
+#: scenes/world/village/village_seal_chamber.tscn
+msgid "潭口 · 游上去"
+msgstr ""
+
+#: scenes/world/village/village_seal_chamber.tscn
+msgid "冰柱 · 把铜牒念给她听"
+msgstr ""
+
+#: scenes/world/village/village_seal_chamber.tscn
+msgid "穿灵 · 拔出来"
+msgstr ""
+
+#: scenes/world/village/village_seal_chamber.tscn
+msgid "封坛 · 看清了"
 msgstr ""
 
 #. es2:d/waterfog/swordtomb short
@@ -4324,11 +4358,11 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "「"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "」"
 msgstr ""
 
@@ -11809,7 +11843,8 @@ msgstr ""
 #. native:guanbei/gladius unit
 #. native:fanfang/copper_kettle unit
 #. native:fanfang/katana unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json data/niling/items.json data/guanbei/items.json data/fanfang/items.json
+#. native:village/soul_impaler unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json data/niling/items.json data/guanbei/items.json data/fanfang/items.json data/native/items.json
 msgid "把"
 msgstr ""
 
@@ -14280,8 +14315,9 @@ msgstr ""
 #. city.tavern region
 #. city.shangshu region
 #. city.token region
+#. main.chapter9 region
 #. city name
-#: data/common/atlas.json data/common/journal.json data/city/world.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter9.json data/city/world.json
 msgid "京师"
 msgstr ""
 
@@ -18218,6 +18254,7 @@ msgstr ""
 #. native.npc.barrow_taoist inquiry topic
 #. native.npc.tribute_taoist inquiry topic
 #. native.npc.liu_anlu_home inquiry topic
+#. native.npc.shang_jue_lake inquiry topic
 #: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/native/npcs.json
 msgid "逆灵宫"
 msgstr ""
@@ -18945,12 +18982,12 @@ msgstr ""
 
 #. main.chapter8 summary
 #: data/story/chapter8.json
-msgid "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。"
+msgid "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。渔夫说湖里不太平，别碰那把剑。"
 msgstr ""
 
 #. main.chapter8 reward.deed
 #: data/story/chapter8.json
-msgid "看清了湖底的封物"
+msgid "下到玉螺湖底，看清了三百年的封物"
 msgstr ""
 
 #. main.chapter8/lake objective
@@ -18960,7 +18997,87 @@ msgstr ""
 
 #. main.chapter8/lake text
 #: data/story/chapter8.json
-msgid "湖底。"
+msgid "你到了湖底。从湖心潜下来的，身后的入口结上了冰；从忘情谷下冰阶来的，一下阶就是冰龙的厅。"
+msgstr ""
+
+#. main.chapter8/cave objective
+#: data/story/chapter8.json
+msgid "玄冰上站不住人。顶住寒气，穿过冰龙的厅——它们是守者，不先动手就不打。"
+msgstr ""
+
+#. main.chapter8/cave text
+#: data/story/chapter8.json
+msgid "六条白鳞冰龙抬头看了你一眼，又盘了回去。"
+msgstr ""
+
+#. main.chapter8/pool objective
+#: data/story/chapter8.json
+msgid "冰龙厅的水潭底下透着白光。潜下去。"
+msgstr ""
+
+#. main.chapter8/pool text
+#: data/story/chapter8.json
+msgid "潭底的黑石台阶下是一间冰室：黑石封坛，冰里的头，钉着它的剑，柱里的人。"
+msgstr ""
+
+#. main.chapter8/seal objective
+#: data/story/chapter8.json
+msgid "看清封物：冰里的头、钉着它的剑、冰柱里的人。听她说——把铜牒念给冰柱里的人听。"
+msgstr ""
+
+#. main.chapter8/seal text
+#: data/story/chapter8.json
+msgid "璃虹：钉拔，它成形，先回这附近的村子；要灭它，三器齐——穿灵、宝衣、原令；要再封，须有人留下。"
+msgstr ""
+
+#. main.chapter8/choice objective
+#: data/story/chapter8.json
+msgid "商玦劝你拔剑。拔，剑到手、鬼醒；不拔，带着封法去京师和岚城，终章再回来。"
+msgstr ""
+
+#. main.chapter8/choice/pull text
+#: data/story/chapter8.json
+msgid "你拔出了穿灵。冰里的头睁开了眼，璃虹从冰里跌了出来，商玦笑着散成了黑烟。"
+msgstr ""
+
+#. main.chapter8/choice/pull reward.deed
+#: data/story/chapter8.json
+msgid "在玉螺湖底拔出了穿灵"
+msgstr ""
+
+#. main.chapter8/choice/keep text
+#: data/story/chapter8.json
+msgid "你没有动那把剑。璃虹给了你一片她的羽：再封的时候，放回坛上。"
+msgstr ""
+
+#. main.chapter8/choice/keep reward.deed
+#: data/story/chapter8.json
+msgid "在玉螺湖底看清了封物，没有动它"
+msgstr ""
+
+#. main.chapter9 title
+#: data/story/chapter9.json
+msgid "原令"
+msgstr ""
+
+#. main.chapter9 summary
+#: data/story/chapter9.json
+msgid "璃虹说三器齐才灭得了它：穿灵、宝衣、原令——皇城里那道寻剑令的原本，皇叔於兰淳焉当年拿着它钉了鬼的头。去京师。"
+msgstr ""
+
+#. main.chapter9 reward.deed
+#: data/story/chapter9.json
+msgid "拿到了寻剑令的原本"
+msgstr ""
+
+#. main.chapter9/palace objective
+#: data/story/chapter9.json
+msgid "进皇城，见皇帝，拿到寻剑令的原本。"
+msgstr ""
+
+#. main.chapter9/palace text
+#: data/story/chapter9.json
+msgid "皇城。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -22866,7 +22983,8 @@ msgstr ""
 #. es2:d/chuenyu/obj/feather combined.base_unit
 #. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
 #. native:fanfang/bronze_tablet unit
-#: data/village/items.json data/chuenyu/items.json data/cloud/items.json data/fanfang/items.json
+#. native:village/lihong_feather unit
+#: data/village/items.json data/chuenyu/items.json data/cloud/items.json data/fanfang/items.json data/native/items.json
 msgid "片"
 msgstr ""
 
@@ -31279,7 +31397,8 @@ msgstr ""
 
 #. choyin.taolin.landmark.note action
 #. native:fanfang/bronze_tablet act.verb
-#: data/choyin/world.json data/fanfang/items.json
+#. native:village/soul_impaler act.verb
+#: data/choyin/world.json data/fanfang/items.json data/native/items.json
 msgid "读"
 msgstr ""
 
@@ -32719,6 +32838,29 @@ msgstr ""
 msgid "後爪"
 msgstr ""
 
+#. village.npc.dragon accept_fight.emote
+#: data/village/npcs.json
+msgid "抬起头看了你一眼，又盘了回去。"
+msgstr ""
+
+#. village.npc.dragon chat_msg
+#: data/village/npcs.json
+msgid ""
+"一条白鳞冰龙慢慢盘过冰面，鳞上的光一闪一闪。\n"
+msgstr ""
+
+#. village.npc.dragon chat_msg
+#: data/village/npcs.json
+msgid ""
+"水潭里有东西游过去，很长，水面没有起一点波。\n"
+msgstr ""
+
+#. village.npc.dragon calls.steps.line
+#: data/village/npcs.json
+msgid ""
+"六条白鳞冰龙一起抬起头，看了你一眼，又盘了回去。它们守着这里，守了三百年——你不动手，它们不动。\n"
+msgstr ""
+
 #. es2:d/village/road1 long
 #: data/village/rooms.json
 msgid ""
@@ -33009,6 +33151,73 @@ msgstr ""
 msgid "你在冰洞里苦等良久，冻得昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
 msgstr ""
 
+#. village.lakebottom1.landmark.carving name
+#: data/village/world.json
+msgid "冰壁刻字"
+msgstr ""
+
+#. village.lakebottom1.landmark.carving long
+#: data/village/world.json
+msgid ""
+"入口对面的冰壁上刻着一行字，刻得很深，三百年的冰长过去也没有把它长平。字是中原字，笔画生硬，像是用剑尖一下一下凿出来的：「吾见钉之。」\n"
+msgstr ""
+
+#. village.lakebottom1.landmark.carving looks.long
+#: data/village/world.json
+msgid ""
+"入口对面的冰壁上刻着一行字，刻得很深，三百年的冰长过去也没有把它长平。字是中原字，笔画生硬，像是用剑尖一下一下凿出来的：「吾见钉之。」\n"
+"你认得这笔迹——和铜牒上的一样，几个笔画反了。刻字的人就是那个老兵，他站在这里看见了那把剑钉下去。「钉」字刻得最深。\n"
+msgstr ""
+
+#. village.seal_altar.landmark.altar name
+#. village.seal_altar.keep name
+#: data/village/world.json
+msgid "封坛"
+msgstr ""
+
+#. village.seal_altar.landmark.altar long
+#: data/village/world.json
+msgid ""
+"一座黑石砌的圆坛，齐腰高，坛面磨得发亮。坛心嵌着一块透明的冰，冰里一颗头——闭着眼，眉骨很高，嘴角像在笑。一把剑从头顶直钉下去，钉进坛心的石头里，只有剑柄露在冰外，柄上结着霜。坛边的冰柱里有人。\n"
+msgstr ""
+
+#. village.seal_altar.landmark.altar looks.long
+#: data/village/world.json
+msgid ""
+"坛心的冰裂成了几块。头还在冰里，眼睛睁着了，看着顶上的水潭。钉着它的剑没有了，坛心的石头上只剩一个剑孔，孔里往外冒着一丝黑气。坛边的冰柱空了。\n"
+msgstr ""
+
+#. village.seal_altar.landmark.walls name
+#: data/village/world.json
+msgid "冰壁"
+msgstr ""
+
+#. village.seal_altar.landmark.walls long
+#: data/village/world.json
+msgid ""
+"四壁是整块的冰，冰里有金线一样的纹路，一直盘到顶上。顶是一整块半透明的冰，上面就是冰龙厅的水潭——有影子游过去，很长。壁上刻着一圈金乌的字，和岩洞冰壁上那一行是一个人的笔迹，只是刻得更密，你一个字也不认得。\n"
+msgstr ""
+
+#. village.seal_altar.landmark.walls looks.long
+#: data/village/world.json
+msgid ""
+"四壁是整块的冰，冰里有金线一样的纹路，一直盘到顶上。顶是一整块半透明的冰，上面就是冰龙厅的水潭——有影子游过去，很长。壁上刻着一圈金乌的字，和岩洞冰壁上那一行是一个人的笔迹，只是刻得更密。璃虹说，那是她哥哥钉剑那天刻的，刻的是她的名字，刻了三百遍。\n"
+msgstr ""
+
+#. village.lakebottom1.cold act.acts.steps.line
+#. village.lakebottom2.cold act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"寒气从冰里渗上来。你运起内力顶住了。\n"
+msgstr ""
+
+#. village.lakebottom1.cold act.acts.steps.line
+#. village.lakebottom2.cold act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"寒气刺骨！\n"
+msgstr ""
+
 #. village.lakeside.paddle act.verb
 #: data/village/world.json
 msgid "划向湖心"
@@ -33122,6 +33331,254 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "你找来找去，终于还是没找到熟透的西瓜。\n"
+msgstr ""
+
+#. village.lakebottom2.pool act.verb
+#. village.lakebottom2.pool act.acts.choice
+#: data/village/world.json
+msgid "潜下去"
+msgstr ""
+
+#. village.lakebottom2.pool act.acts.ask
+#: data/village/world.json
+msgid ""
+"水潭底下透着白光——不是鱼。下去了，封坛前的事就得自己担。\n"
+"确定要潜下去吗？"
+msgstr ""
+
+#. village.lakebottom2.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你吸足一口气，扎进水潭。水冷得像刀，白光在底下越来越亮。\n"
+msgstr ""
+
+#. village.lakebottom2.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"潭底是一个洞口，你顺着光钻了过去，脚踩到了黑石的台阶。\n"
+msgstr ""
+
+#. village.seal_altar.pool act.verb
+#: data/village/world.json
+msgid "游上去"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你从潭口钻上去，冰水灌进领子。头顶亮了——冰龙厅。\n"
+msgstr ""
+
+#. village.seal_altar.recite name
+#: data/village/world.json
+msgid "冰柱"
+msgstr ""
+
+#. village.seal_altar.recite act.verb
+#: data/village/world.json
+msgid "把铜牒念给她听"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.say
+#: data/village/world.json
+msgid "我说过了。要再听，问我「封法」。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.say
+#: data/village/world.json
+msgid "念。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.true.line
+#: data/village/world.json
+msgid ""
+"冰里的光稳住了。\n"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.true.say
+#: data/village/world.json
+msgid "一字不差。那片铜上刻的是实话。我再给你三句，铜上没有的。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.true.say
+#: data/village/world.json
+msgid "钉拔，它成形，先回它自己的家——这附近的村子，它记得路。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.true.say
+#: data/village/world.json
+msgid "要灭它，三器齐：穿灵钉它的头，宝衣挡它的焰，原令——皇城里那道寻剑令的原本——念它的名。少一件，灭不掉，只能再封。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.true.say
+#: data/village/world.json
+msgid "要再封，须有人留下。三百年前我哥哥钉了它，没有人肯留，我留下了。这一回，还得有人。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.true.say
+#: data/village/world.json
+msgid "剑就在你眼前。拔不拔，你自己定。我守了三百年，不替你定。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.false.line
+#: data/village/world.json
+msgid ""
+"冰里的光暗了一暗。\n"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.false.say
+#: data/village/world.json
+msgid "不对。那不是铜上的话。再念。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"冰柱里没有人应你。\n"
+msgstr ""
+
+#. village.seal_altar.pull name
+#. native.npc.lihong inquiry topic
+#. native:village/soul_impaler name
+#: data/village/world.json data/native/npcs.json data/native/items.json
+msgid "穿灵"
+msgstr ""
+
+#. village.seal_altar.pull act.verb
+#. village.seal_altar.pull act.acts.choice
+#: data/village/world.json
+msgid "拔出来"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"剑已经在你手里了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你已经记下了封物，没有动它。这把剑，等三器齐了再拔。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你握住剑柄。冰柱里传出一声：「先把铜上的话念给我听。」\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.ask
+#: data/village/world.json
+msgid ""
+"剑一拔，钉就没了。鬼会成形，先回它自己的家——这附近的村子。璃虹会从冰里出来，可她守了三百年，出来就剩半条命。拔了就回不去。\n"
+"要拔吗？"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你握住剑柄。霜化在手心里，一股凉意顺着胳膊直透到肩。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你往上一拔——冰「喀」地一声裂开，剑出来了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"冰里那颗头睁开了眼。它看着你，嘴角的笑更深了些。坛心的剑孔里冒出一丝黑气，顶上的水潭里，龙的影子乱了一乱。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.emote
+#: data/village/world.json
+msgid "大笑起来，笑声在冰室里撞来撞去。"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.say
+#: data/village/world.json
+msgid "三百年。它记得路。"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.keep act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"商玦化作一股黑烟，从潭口散了出去。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"冰柱从头到脚裂开，光灭了。璃虹从冰里跌了出来，跪在坛边。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.say
+#: data/village/world.json
+msgid "……三百年。我站了三百年，站不住了。"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.say
+#: data/village/world.json
+msgid "剑在你手里，钉没了。它每一夜都在长。带我上岸——我还有话，在冰里说不出来的话。"
+msgstr ""
+
+#. village.seal_altar.keep act.verb
+#: data/village/world.json
+msgid "看清了"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你已经记下了。\n"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"来不及了。剑在你手里。\n"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"先把铜上的话念给冰柱里的人听。\n"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你围着封坛走了一圈，把每一样都看清了：坛心的冰、冰里的头、钉着它的剑、剑柄上的霜、坛边柱里的人。你没有碰那把剑。\n"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.say
+#: data/village/world.json
+msgid "好。"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"冰柱里的光亮了一下，一片羽毛从光里落下来，落在坛沿上——浅金的，不化，不湿。\n"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.say
+#: data/village/world.json
+msgid "我的羽。再封的时候，把它放回坛上，我认得它。去京师，去岚城，把三器凑齐了再回来。"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.emote
+#: data/village/world.json
+msgid "冷笑了一声。"
+msgstr ""
+
+#. village.seal_altar.keep act.acts.steps.say
+#: data/village/world.json
+msgid "不拔？那就等它自己出来。"
 msgstr ""
 
 #. city.npc.guard name
@@ -38650,12 +39107,15 @@ msgstr ""
 
 #. native.npc.shang_jue name
 #. native.npc.xuan_mingzi_cliff inquiry topic
-#: data/niling/npcs.json
+#. native.npc.lihong inquiry topic
+#. native.npc.shang_jue_lake name
+#: data/niling/npcs.json data/native/npcs.json
 msgid "商玦"
 msgstr ""
 
 #. native.npc.shang_jue title
-#: data/niling/npcs.json
+#. native.npc.shang_jue_lake title
+#: data/niling/npcs.json data/native/npcs.json
 msgid "逆灵宫宫主"
 msgstr ""
 
@@ -39766,7 +40226,8 @@ msgid "我以为是故事。到了东方，人人都在找一把剑——找剑�
 msgstr ""
 
 #. native.npc.luca inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.shang_jue_lake inquiry topic
+#: data/guanbei/npcs.json data/native/npcs.json
 msgid "头"
 msgstr ""
 
@@ -45047,6 +45508,195 @@ msgstr ""
 msgid "箱子还给我了，书也给了你。里头最要紧的东西，如今在程大人的卷宗里。"
 msgstr ""
 
+#. native.npc.lihong name
+#. native.npc.lihong_weak name
+#: data/native/npcs.json
+msgid "璃虹"
+msgstr ""
+
+#. native.npc.lihong title
+#. native.npc.lihong_weak title
+#: data/native/npcs.json
+msgid "金乌"
+msgstr ""
+
+#. native.npc.lihong long
+#: data/native/npcs.json
+msgid ""
+"冰柱里站着一个女人，看着二十来岁，眼睛是睁着的。她一身浅金的衣，衣角在冰里像还在飘。她身上发着白光，光照在冰上，冰就不化。她的嘴唇没有动，声音却从冰里传出来。\n"
+msgstr ""
+
+#. native.npc.lihong inquiry topic
+#. native.npc.lihong_weak inquiry topic
+#: data/native/npcs.json
+msgid "封法"
+msgstr ""
+
+#. native.npc.lihong inquiry.封法.rules.say
+#: data/native/npcs.json
+msgid "钉拔，它成形，先回这附近的村子。要灭它，三器齐：穿灵、宝衣、原令。要再封，须有人留下。——铜上刻了三句，我补了三句，都是实话。"
+msgstr ""
+
+#. native.npc.lihong inquiry.封法.rules.say
+#: data/native/npcs.json
+msgid "先把铜上的话念给我听。"
+msgstr ""
+
+#. native.npc.lihong inquiry.穿灵.rules.say
+#: data/native/npcs.json
+msgid "它在你手里了。三百年钉着一颗头，钉的是它的名，不是肉——到了灭它那一天，还得是它。"
+msgstr ""
+
+#. native.npc.lihong inquiry.穿灵.rules.say
+#: data/native/npcs.json
+msgid "寒於的剑。三百年前我哥哥借了它来钉这颗头——剑是皇叔的，皇叔是人，人活不过三百年，剑能。"
+msgstr ""
+
+#. native.npc.lihong inquiry topic
+#: data/native/npcs.json
+msgid "杞庸"
+msgstr ""
+
+#. native.npc.lihong inquiry.杞庸.rules.say
+#: data/native/npcs.json
+msgid "我哥哥。金乌的长子。它捉了我，他追到这里，钉了它——然后他走了。金乌不能留在地上，留下来的只能是我。"
+msgstr ""
+
+#. native.npc.lihong inquiry topic
+#: data/native/npcs.json
+msgid "侮天鬼"
+msgstr ""
+
+#. native.npc.lihong inquiry.侮天鬼.rules.say
+#: data/native/npcs.json
+msgid "它没有头的时候，是一团焰。有了头，就有了名，有了名，就能把人当柴烧。这颗头在冰里睡了三百年，它在底下长了三百年。"
+msgstr ""
+
+#. native.npc.lihong inquiry.商玦.rules.say
+#: data/native/npcs.json
+msgid "他要的是鬼成形。成了形的鬼才找得到头，找到了头，他才能把它养成他的。他不骗你，他只是不说完。"
+msgstr ""
+
+#. native.npc.lihong inquiry.商玦.rules.say
+#: data/native/npcs.json
+msgid "逆灵宫的人。他来过，站在潭口上面，看了很久，没下来。"
+msgstr ""
+
+#. native.npc.lihong inquiry topic
+#. native.npc.lihong_weak inquiry topic
+#: data/native/npcs.json
+msgid "三百年"
+msgstr ""
+
+#. native.npc.lihong inquiry.三百年.rules.say
+#: data/native/npcs.json
+msgid "三百年。冰里不冷，也不饿，就是长。头在长，我在等。第一个带着铜来的，是你。"
+msgstr ""
+
+#. native.npc.lihong inquiry topic
+#: data/native/npcs.json
+msgid "留下"
+msgstr ""
+
+#. native.npc.lihong inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "再封，须有人留下。留下的人，就是下一块冰。我哥哥没有留，我留了；这一回要是再封，不会是我——我已经没有光了。"
+msgstr ""
+
+#. native.npc.lihong calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"冰柱里的光亮了一亮。\n"
+msgstr ""
+
+#. native.npc.lihong calls.steps.say
+#: data/native/npcs.json
+msgid "你带着铜来的。三百年了，第一个带着铜来的人。"
+msgstr ""
+
+#. native.npc.lihong calls.steps.say
+#: data/native/npcs.json
+msgid "我是璃虹，杞庸的妹妹。它捉了我，我哥哥钉了它——我就留在这里，照着这块冰。"
+msgstr ""
+
+#. native.npc.lihong calls.steps.say
+#: data/native/npcs.json
+msgid "你念过那片铜。念给我听。念对了，我再说下面的。"
+msgstr ""
+
+#. native.npc.lihong_weak long
+#: data/native/npcs.json
+msgid ""
+"璃虹靠着封坛坐在冰上，身上的光只剩一点，像快灭的灯。她的衣角湿了——三百年来第一次湿。她在喘。\n"
+msgstr ""
+
+#. native.npc.lihong_weak inquiry.封法.rules.say
+#: data/native/npcs.json
+msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差宝衣和原令。"
+msgstr ""
+
+#. native.npc.lihong_weak inquiry topic
+#: data/native/npcs.json
+msgid "上岸"
+msgstr ""
+
+#. native.npc.lihong_weak inquiry.上岸.rules.say
+#: data/native/npcs.json
+msgid "带我上岸。我在冰里三百年，忘了岸上是什么样子。"
+msgstr ""
+
+#. native.npc.lihong_weak inquiry.三百年.rules.say
+#: data/native/npcs.json
+msgid "……别问。先上去。"
+msgstr ""
+
+#. native.npc.shang_jue_lake long
+#: data/native/npcs.json
+msgid ""
+"商玦站在封坛对面，黑衣湿透了贴在身上，水顺着袖口往下滴。他没有看你，看着冰里那颗头，像看一件等了很久的东西。\n"
+msgstr ""
+
+#. native.npc.shang_jue_lake inquiry topic
+#: data/native/npcs.json
+msgid "拔"
+msgstr ""
+
+#. native.npc.shang_jue_lake inquiry.拔.rules.say
+#: data/native/npcs.json
+msgid "商玦看着冰里的头：拔了它。钉着，它是一颗头；拔了，它是一个东西——有形的东西才打得死。"
+msgstr ""
+
+#. native.npc.shang_jue_lake inquiry.头.rules.say
+#: data/native/npcs.json
+msgid "商玦的声音没有起伏：五千年的头。你以为它封着就是安稳？它在长。"
+msgstr ""
+
+#. native.npc.shang_jue_lake inquiry.逆灵宫.rules.say
+#: data/native/npcs.json
+msgid "商玦没有回头：逆灵者，逆天地之灵而用之。你割了我的绳索，我下了崖，就到了这里——比你早一步。"
+msgstr ""
+
+#. native.npc.shang_jue_lake calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"潭口的水面上一响。商玦湿淋淋地站在封坛对面——不是来打的，手垂着。\n"
+msgstr ""
+
+#. native.npc.shang_jue_lake calls.steps.say
+#: data/native/npcs.json
+msgid "拔了它。"
+msgstr ""
+
+#. native.npc.shang_jue_lake calls.steps.say
+#: data/native/npcs.json
+msgid "你拿着剑，鬼醒了才找得到头；找到了头，才灭得了它。你以为它封着就是安稳？它在长。三百年，长了三百年。"
+msgstr ""
+
+#. native.npc.shang_jue_lake calls.steps.say
+#: data/native/npcs.json
+msgid "他要的是鬼成形。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -45184,12 +45834,44 @@ msgid ""
 "一封封好的信，火漆上压着乔阴县印，封皮写着「叔父大人亲启」。程不平说：兵部的印是真的，令不是先帝的；假印和失踪的人都往关北去了——这封信替你敲开天驼关军营的门。\n"
 msgstr ""
 
+#. native:village/soul_impaler long
+#: data/native/items.json
+msgid ""
+"一把三尺长的剑，剑身是透青的，像一条冻住的水。剑脊上刻着两个字：寒於。剑锋上没有血——三百年，它钉的是一颗头，不是人。握在手里，整条胳膊都是凉的。\n"
+msgstr ""
+
+#. native:village/soul_impaler act.acts.steps.line
+#: data/native/items.json
+msgid ""
+"你把剑举到光里。剑脊上两个字：寒於。字下面还有一行小的，是另一只手刻的，刻得很浅：「钉之三百年。杞庸。」\n"
+msgstr ""
+
+#. native:village/lihong_feather name
+#: data/native/items.json
+msgid "璃虹的羽"
+msgstr ""
+
+#. native:village/lihong_feather long
+#: data/native/items.json
+msgid ""
+"一片巴掌长的羽毛，浅金色，拿在手里不冷也不热。它不沾水，也不化；放在暗处，边上有一圈很淡的光。璃虹说，再封的时候把它放回坛上，她认得它。\n"
+msgstr ""
+
 #. native:oldpine/pine_top long
 #: data/native/rooms.json
 msgid ""
 "破旧的栈道到这里到了头。崖上的松树比下面密得多，树冠遮去了大半天光，\n"
 "地上一条踩出来的小径往东去，南边树隙间透着山涧的水声，北边的林子更深。\n"
 "小径旁好几株松树的树干上有刀划的记号。\n"
+msgstr ""
+
+#. native:village/seal_altar long
+#: data/native/rooms.json
+msgid ""
+"一间圆的冰室，顶上是整块半透明的冰，上面就是冰龙厅的水潭，能看见龙的影子游过去。\n"
+"当中一座黑石封坛，坛心一块透明的冰，冰里一颗头，一把剑从头顶直钉下去，剑柄露在冰外。\n"
+"坛边一根冰柱，柱里一个女人，眼睛是睁着的；她身上发着白光，光照在冰上，冰就不化。\n"
+"这里不冷——她的光照着的地方都不冷。脚下黑石的台阶通上去，是潭口。\n"
 msgstr ""
 
 #: data/canyon/voxel/pass.json data/guanbei/voxel/gorge.json

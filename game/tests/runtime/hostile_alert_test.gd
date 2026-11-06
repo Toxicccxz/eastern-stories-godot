@@ -39,6 +39,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		map.set_process(true)
 		TestAlert.use()
 		await _test_beast(tree, session)
+		GameContent.catalog().npc(&"village.npc.dragon").dealings().guardian = true # TEST-ONLY: put back
 	TestAlert.restore()
 	session.free()
 	await tree.process_frame
@@ -203,10 +204,12 @@ func _test_classic(tree: SceneTree, session: WorldSessionController, map: WorldM
 	await _leave(tree, session, map)
 
 
-## The ice cave's 白鳞冰龙 (beasts): the ！ and the log's line, no words.
+## The ice cave's 白鳞冰龙 (beasts): the ！ and the log's line, no words. TEST-ONLY: as ES2's
+## aggressive dragons, not the guardians of 第八章 A (DECISIONS「冰龙守者」).
 func _test_beast(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var said: int = session.shared_ui().log_lines().size()
+	GameContent.catalog().npc(&"village.npc.dragon").dealings().guardian = false # TEST-ONLY
 	var cave: WorldMapController = MapPlaces.enter(session, &"village.lakebottom2", &"village.lakebottom2.valley_arrival") # TEST-ONLY: down from the valley
 	if not _check(cave != null, "TEST-ONLY: down into the dragons' cave"):
 		return

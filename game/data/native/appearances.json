@@ -29,6 +29,79 @@
       "prop": "sword_waist", "prop_color": "5a4448", "accent": "5a4448", "height": "standard",
       "build": "slim", "shoes": "dark"
     },
-    "native.npc.keep_ambusher": {"same_as": "oldpine.npc.bandit_guard"}
+    "native.npc.keep_ambusher": {"same_as": "oldpine.npc.bandit_guard"},
+    "native.npc.lihong": {
+      "note": "璃虹：金乌杞庸的妹妹，浅金的衣，长发散着，不戴东西，光脚（第八章 A；在封坛里是地图自己的「冰里的人」看法）",
+      "coat": "e8d8a8", "pants": "d8c898", "skin": "f6e4d4", "hair": "2a2228",
+      "hair_style": "long", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "f0e0b0", "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "native.npc.lihong_weak": {"same_as": "native.npc.lihong"},
+    "native.npc.outlaw.1": {
+      "note": "流窜毛贼：贼眉鼠眼，补丁叠著补丁，腰间鼓鼓囊囊（悬赏榜）；立绘 Muse 2026-11-06",
+      "coat": "7b7268", "pants": "534643", "skin": "d9a878", "hair": "121115",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "none",
+      "accent": "1e2128", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.outlaw.2": {
+      "note": "剪径贼：满脸横肉，专在山路上拦人剪径（悬赏榜）；立绘 Muse 2026-11-06",
+      "coat": "514341", "pants": "312626", "skin": "e1b083", "hair": "161418",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "524442", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.outlaw.3": {
+      "note": "采花贼：油头粉面，摇著折扇，眼神阴鸷（悬赏榜）；立绘 Muse 2026-11-06",
+      "coat": "3f0f3c", "pants": "24051a", "skin": "e7b288", "hair": "140b16",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "fan",
+      "prop_color": "6a3560", "accent": "370e2b", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.outlaw.4": {
+      "note": "江洋大盗：虬髯大汉，坦胸，身上好几处刀疤，背著大刀（悬赏榜）；立绘 Muse 2026-11-06",
+      "coat": "114b4e", "pants": "012029", "skin": "cfa178", "hair": "03141c",
+      "hair_style": "topknot", "beard": "full", "waist": "belt", "prop": "blade_back",
+      "prop_color": "8a6a45", "accent": "0d454d", "height": "tall", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.outlaw.5": {
+      "note": "杀人魔头：面色青白，目光叫人背脊发凉（悬赏榜）；立绘 Muse 2026-11-06",
+      "coat": "69717a", "pants": "363b4b", "skin": "dfe8ee", "hair": "252833",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "6c727b", "accent": "414755", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.feng_ce": {
+      "note": "冯策：序章的朝廷老武官，鬓发斑白、素白武官袍、腰背笔直（主线序章）；立绘 Muse 2026-11-06",
+      "coat": "f3f3f3", "pants": "dbd7d4", "skin": "dac1b3", "hair": "8a8790",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "sash", "prop": "none",
+      "accent": "c1bcbd", "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "native.npc.song_pu": {
+      "note": "宋朴：冯策的同伴，瘦削的白袍老者，眼睛半开半合，手里转着一串核桃（主线序章）；立绘 Muse 2026-11-06",
+      "coat": "eef0f2", "pants": "bab6c1", "skin": "e8cdb4", "hair": "6a6570",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "none", "prop": "none",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.white_officer": {
+      "note": "白衣武官：冯策带来的朝廷武官，白衣，腰悬长剑，站得笔直（主线序章）；立绘 Muse 2026-11-06",
+      "coat": "f1f1f1", "pants": "d5d1cf", "skin": "f3d3b8", "hair": "16131a",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "2b222a", "accent": "c0bbbb", "height": "standard", "build": "standard",
+      "shoes": "white"
+    },
+    "native.npc.courier": {
+      "note": "信使：风尘满面，白袍下摆沾著泥点，肩上背着文书筒（主线序章）；立绘 Muse 2026-11-06",
+      "coat": "f2f2f2", "pants": "d5d1cf", "skin": "f0c09a", "hair": "17130f",
+      "hair_style": "topknot", "beard": "moustache", "waist": "sash", "prop": "none",
+      "accent": "c0bbbb", "height": "standard", "build": "standard", "shoes": "white"
+    },
+    "native.npc.onlooker": {
+      "note": "江湖客：风尘仆仆，背著个长条布包，探头探脑地张望（主线序章）；立绘 Muse 2026-11-06",
+      "coat": "3b5167", "pants": "202e3c", "skin": "e2b080", "hair": "1f242d", "hair_tie": "785c51",
+      "hair_style": "topknot", "beard": "moustache", "waist": "belt", "prop": "bundle_back",
+      "bundle_color": "a98a6d", "accent": "573f3e", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    }
   }
 }

@@ -1,0 +1,34 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter9",
+			"title": "原令",
+			"line": "main",
+			"region": "京师",
+			"sources": [
+				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the one step the 封法 opens (三器齐: 穿灵、宝衣、原令); the rest is the ninth chapter's package (皇城, 总纲 §3 第九章, §6 皇城卡)."
+			],
+			"summary": "璃虹说三器齐才灭得了它：穿灵、宝衣、原令——皇城里那道寻剑令的原本，皇叔於兰淳焉当年拿着它钉了鬼的头。去京师。",
+			"requires": [
+				"main.chapter8"
+			],
+			"steps": [
+				{
+					"id": "palace",
+					"objective": "进皇城，见皇帝，拿到寻剑令的原本。",
+					"done": {
+						"mark": "进了皇城"
+					},
+					"text": "皇城。",
+					"target": {
+						"map": "city.main",
+						"zone": "city.shenwumen"
+					}
+				}
+			],
+			"reward": {
+				"deed": "拿到了寻剑令的原本"
+			}
+		}
+	]
+}

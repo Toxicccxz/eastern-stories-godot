@@ -450,6 +450,9 @@ static func _parley() -> bool:
 ## (its dealings' `ignores_when`: the 黑冠 on their head, a mark they bear) and so does not
 ## fall on them; read against the player's state, what they carry and wear, where they stand.
 func _ignored(npc: NpcRuntimeState) -> bool:
+	# A guardian (the 白鳞冰龙, DECISIONS「冰龙守者」) lets the player be on the modern pace; 经典 keeps ES2's.
+	if npc.definition().dealings().guardian and GameContent.catalog().pacing().story_parley:
+		return true
 	var condition: JournalEntryDefinition = npc.definition().dealings().ignores_when
 	if condition == null or _player == null or session == null:
 		return false
