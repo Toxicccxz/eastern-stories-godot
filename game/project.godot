@@ -133,7 +133,6 @@ menu_map={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":78,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
-
 menu_tab_previous={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":81,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
@@ -211,13 +210,6 @@ locale/fallback="zh_CN"
 
 [rendering]
 
-; Vulkan, not D3D12: Godot's D3D12 driver reserves at least 64 KB of GPU memory per buffer, and a
-; voxel map holds thousands of small MultiMesh buffers (乔阴县城 1.2 GB under D3D12, 0.1 GB under
-; Vulkan); visited maps stay built, so a long session ran the GPU out of memory (black or grey
-; screens, torn floors, low frame rates). build/leak/census.gd measures it.
-rendering_device/driver.windows="vulkan"
-renderer/rendering_method="mobile"
-; 像素界面: the interface draws its pixel text and frames nearest, so a font pixel stays a sharp
-; square wherever a control lands (DECISIONS「像素界面」).
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true

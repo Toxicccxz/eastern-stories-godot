@@ -15,6 +15,25 @@ The project renderer, feature version, Jolt configuration, scenes, and gameplay 
 diverge per platform. Phase 10A enabled the shared ETC2/ASTC texture import required by the Android
 exporter.
 
+## project.godot
+
+Godot writes `game/project.godot` itself: the editor and the Godot AI plugin save the whole file
+from memory, dropping comments and every setting at Godot's own default. Keep the file in that form
+(change settings in the editor, or let `ProjectSettings.save()` write it) so a save leaves it
+unchanged; reasons go here, not into the file. `tests/application/project_settings_test.gd` fails
+when the file is not as Godot writes it, and pins three settings:
+
+- **Vulkan on Windows.** Godot's D3D12 driver reserves at least 64 KB of GPU memory per buffer, and
+  a voxel map holds thousands of small MultiMesh buffers (乔阴县城 1.2 GB under D3D12, 0.1 GB under
+  Vulkan); visited maps stay built, so a long session ran the GPU out of memory (black or grey
+  screens, torn floors, low frame rates; `build/leak/census.gd` measures it). Vulkan is Godot
+  4.7.2's built-in default, so the file does not list it (new projects get `d3d12` from the
+  project template). If an engine upgrade changes the default, the test fails: write
+  `rendering_device/driver.windows="vulkan"` back under `[rendering]`.
+- **The mobile renderer** (`renderer/rendering_method="mobile"`).
+- **Canvas textures drawn nearest** (`textures/canvas_textures/default_texture_filter=0`): pixel text
+  and frames stay sharp squares wherever a control lands (DECISIONS「像素界面」).
+
 ## Official Godot bootstrap
 
 CI and clean environments can download the pinned official editor/templates with:
