@@ -86,6 +86,29 @@
 			"valid_learn": {
 				"empty_hands": "练柳家拳法必须空手。"
 			},
+			"skeleton": {
+				"earn": "own_hit_while_close",
+				"earn_label": "压",
+				"state": "close",
+				"lock": [
+					{
+						"move": "huang-shan-hu-yin",
+						"unless": "close"
+					}
+				],
+				"npc_if": {
+					"when": "own_last_landed",
+					"do": "huang-shan-hu-yin",
+					"else_pool": [
+						"ao-xue-dong-mei",
+						"gu-ya-ting-tao"
+					]
+				},
+				"interrupts_charge": {
+					"tag": "heavy",
+					"state": "close"
+				}
+			},
 			"actions": [
 				{
 					"id": "gu-song-gua-yue",
@@ -241,6 +264,15 @@
 				"max_force": "你的内力不够，没有办法练封山剑法。",
 				"mapped": "封山剑法必须配合封山派内功才能练。",
 				"weapon": "你必须先找一把剑才能练剑法。"
+			},
+			"skeleton": {
+				"earn": "opponent_missed",
+				"earn_label": "隙",
+				"npc_if": {
+					"when": "player_last_heavy_missed",
+					"do": "perform/counterattack",
+					"else_cooldown": "feng-hui-lu-zhuan"
+				}
 			},
 			"actions": [
 				{

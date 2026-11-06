@@ -61,6 +61,7 @@
 					]
 				}
 			},
+			"beats": 2,
 			"apprentice": {
 				"requires": { "cor": 20, "cps": 20 },
 				"refuse_say": "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？",

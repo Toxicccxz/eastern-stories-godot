@@ -74,6 +74,12 @@ var telegraph: String = ""
 ## 「起手：？」), and whether this one will guard on its next beat instead (「起手：守势」).
 var next_move_known: bool = true
 var next_move_guard: bool = false
+## 战斗拍数 A (DECISIONS「战斗拍数」): the tags of this one's planned beats (an NPC's plan: the
+## first `beat_plan_confirmed` settled, the rest its read; a perform's beat is &""), and its
+## beats in the round that last ran (what each went on, what it won); 包 B draws them.
+var beat_plan_tags: Array[StringName] = []
+var beat_plan_confirmed: int = 0
+var beats: CombatRoundBeats = null
 ## 战斗决策层 2 (DECISIONS「战斗界面」): the conditions on this one (ConditionIds, from
 ## state.conditions), which of 法力, 灵力 and 加力 the player's card shows (the rule of
 ## stats_display.json, DECISIONS「数值用到才出现」), and the 战前预判 of the player against this

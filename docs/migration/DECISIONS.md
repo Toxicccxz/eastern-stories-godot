@@ -64,6 +64,7 @@
 **战斗**
 - 战斗中世界停住；战斗速度（慢 / 标准 / 快）只改一回合用多少真实秒；句子 0.12 秒一句；结束定格 0.8 秒。「手感：战斗」
 - 命中力按 Elo 式指数（100 × 2^(级/10) + 经验/4，`power_curve` modern）；守方闪躲、招架打五折；经验防御是一次最多 40% 的减伤；经典 = combatd.c 原式。「战斗数值」
+- 一回合是一串拍：双方基础 2 拍（NPC 按自己的 `beats`：小兵 1、头目 2），快 / 虚 / 守 1 拍、重 2 拍、绝招 封 2 / 缺 1 / 逐 2；交手序结算（玩家第 1 拍 → 每个 NPC 第 1 拍 → 余拍交替）；每回合最多赢 1 拍，赢法由武学骨架定（封山：对手打空「隙」；柳家拳：近身打实「压」）；忙 N = 没收接下来 N 拍、跨回合扣完；NPC 预告是拍计划（第 1 拍确定、后面预判，预判只被可见事件改并记「变招」）；柳家拳的荒山虎吟近身才能出（「够不着」）；经典 = 双方 1 拍、ES2 参战者序、忙按回合、全招可用。「战斗拍数」
 - 打之前有预判：目标详情、交互窗口和确认页上一行五档（稳赢 / 占优 / 五五开 / 吃亏 / 必败）+ 一句原因，整伙合计，切磋按谁先打中；经典显示按经验的「看起来比你强」。「战斗数值」
 - 前两小时的敌人按玩家四档定数值（老鼠闪躲 15、疯狗、土匪、狼狗）；改过的 NPC 带 `classic` 块，经典模式用 ES2 原值。「战斗数值」
 - 回合等玩家：没有指令时战斗时钟不走（任务时限也不走）；一道指令一回合；忙碌、昏迷、没对手时自动滚；面板「改为自动」回到 ES2 的自动打（经典永远自动）。「战斗决策」
@@ -199,11 +200,12 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
 - `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）、`session_start_slice_ms` 12（开局每帧搭多久；0 = 一帧搭完）。「手感」「手感：战斗」「战斗演出」「连续修炼」「固定俯视体素地图」「加载画面」
-- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的九个开关、死亡的四个开关、`autosave_min_seconds` 和 `stats_appear_when_used` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」「减轻死亡」「自动存档」「数值用到才出现」
+- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的九个开关、战斗拍数的五个开关、死亡的四个开关、`autosave_min_seconds` 和 `stats_appear_when_used` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」「战斗拍数」「减轻死亡」「自动存档」「数值用到才出现」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
 - `player_turns`、`npc_telegraph`、`action_tag_bonus_percent` 15、`tag_counter_percent` 15、`stance_percent` 20、`stance_enforce_percent` 50、`perform_cooldown_rounds` 2（经典 关 / 关 / 0 / 0 / 0 / 0 / 0）。「战斗决策」
 - `npc_special_cooldown_rounds` 3、`recognise_after` 2（经典 0 / 0）。「战斗内容」
+- `round_beats` 2、`beat_costs`（快 / 虚 / 守 / 平 1，重 2，`perform/counterattack` 2，`perform/fakefault` 1，`perform/swordjab` 2，`stance` / `exert` / `item` / `flee` 1）、`earned_beat_cap` 1、`busy_in_beats` 开、`interleaved` 开（经典 1 / 全 1 / 0 / 关 / 关）。「战斗拍数」
 - `death_exp_percent` 3、`death_keeps_potential` 开、`death_keeps_skills` 开、`player_corpse_stays` 开（经典 10 / 关 / 关 / 关）。「减轻死亡」
 - `autosave_min_seconds` 180（经典 0 = 没有自动存档）。「自动存档」
 - `sky_weather` 开（经典关：ES2 从不显示天色，永远晴）。「天气」
@@ -225,6 +227,43 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 战斗拍数 (战斗拍数 A, owner 2026-11-05「记下，做」; 计划 `build/plans/战斗拍数_计划.md` §1–§3 包 A, 纪要 `build/plans/战斗差异化_与Muse讨论.md` 第六、七节; 模型 (c′) 对称拍数、抽牌式结构性否决)
+
+- **ES2：** 一回合 = 一次心跳，每个参战者一回合一次机会（combatd.c fight() / do_attack()，std/char.c heart_beat()），按参战者顺序结算；
+  perform / exert 是命令、不占心跳；busy N 按心跳递减（feature/action.c continue_action()），封字诀没收对方 技能/20+2 **回合**；任何招随时可出。
+  owner 的判断：按钮多但区别看不出、门派打起来一样，「薄」的根子是一回合只做一个决定。
+- **我们（pacing.json 开关，经典值 = ES2；`PacePresets` 经典组一起按回；`CombatBeatRules`）：**
+  - **一回合一串拍** `round_beats` 2（经典 1）：玩家每回合 2 拍；NPC 用自己记录的 `beats`（`tools/migration/overrides/` → npcs.json，没写 = 1：小兵 1，柳淳风、柳绘心、李火狮、魏无极、土匪首领、常老大 2），人多涨的是要分诊的计划个数，不是伤害倍率。
+    `round_beats` 1 且 `interleaved` 关时，调度器走的就是 1B 的那条路，抽数和事件逐位相同（`CombatEncounterScheduler._one_beat()`）。
+  - **拍价** `beat_costs`：按招的标签（快 / 虚 / 守 / 平 1，重 2）或动作键（`perform/counterattack` 2、`perform/fakefault` 1、`perform/swordjab` 2、`stance` / `exert` / `item` / `flee` 1；没写 = 1）。
+    拍不够还要出的招吃掉本回合剩下的拍（没有欠拍）；自动补的拍和 NPC 的计划只从出得起、没被锁的招里抽（`CombatActionSelector` 的 `excluded`，权重 0 同一个 random(和)；一招都出不起时照 random(n)）。
+    这一包里拍价落在**作为一拍打出的动作**上：普通招、骨架 if 排出的绝招；玩家排定的绝招 / 运功 / 物品 / 逃和 NPC chat() 抽到的绝招仍是 ES2 的「命令」、暂不扣拍（包 B 接玩家一侧，NPC 的 chat 绝招等 owner 定）。
+  - **交手序** `interleaved` 开（经典关 = 参战者顺序、各人的拍连着出）：玩家第 1 拍 → 每个 NPC 第 1 拍 → 还有拍的人轮着出；回合中途进场的人下回合才动（与今天同）。
+    克制环在拍与拍之间读「下一拍要出的招」（NPC 计划的下一条，没有就是这回合最后用的那招；玩家选的招用掉后标签留到回合末）；经典仍是回合开头填一次。
+  - **赢拍** `earned_beat_cap` 1（经典 0）：由武学骨架定（下条），每回合最多 +1，赢到的拍排在交手序之后；忙碌、倒下、没对手的人赢不到。记录一行「$N抢得一拍（隙）！」（我们的句子，HIY）。
+  - **忙按拍** `busy_in_beats` 开（经典关）：busy N = 没收目标接下来 N 拍，从最近一拍起、跨回合扣完（每一拍 `ActionBusyState.advance()` 一次）；所有来源同一把尺——封字诀 技能/20+2 **拍**、缺字诀失败 1 拍、运功后的忙、绝招自忙、拾物 1。
+    单位翻译：ES2 的「回合」在现代里是「拍」（封字诀 skill 40 → 4 拍 = 对 2 拍的玩家 2 回合，ES2 是 4 回合）。经典：busy 按回合递减，忙的那一回合整回合没收。
+  - **NPC 拍计划**（`npc_telegraph` 下，`CombatNpcBeatPlan`）：`_draw_next_move` 变成每人一个计划——第 1 拍确定（显示「起手：重」，排的是绝招时显示「要出『封』」），其余按预算抽好标「预判」；
+    确定的拍永不事后改；预判拍到它出手那一拍再核一次，只被可见事件改（它的 if 现在成立 / 不成立了、招被锁了），改了记录一行「$N临阵变招！」（HIC）。
+    忙没收的是最近的一拍（计划第一条随之作废，与今天忙碌丢掉早抽的招同）。原型权重、勇气早抽（每拍一次）、受伤换档、绝招冷却照旧；回合末（它最后一个基础拍之后）照旧跑蓄势绝招、抽下回合计划、chat()；赢来的拍当场加权抽。
+  - **武学骨架**（`skills.json` 每门一块 `skeleton`，`CombatSchoolSkeleton` 一个引擎读，不写门派脚本；没有骨架的武学只有基础拍；只在 `round_beats` > 1 时读）。词汇 v1：
+    `earn`（`opponent_missed` 对手一招落空 / 被闪 / 被架，`own_hit_while_close` 自己近身打实，`chain_changed_move` 换招）+ `earn_label`（隙 / 压 / 连）；`state: close`（开局被拉开，自己任一招落实→近身，落空→被拉开，反击也算；`CombatSkeletonState`）；
+    `lock: [{move, unless}]`（某招非某状态不可出；玩家 `choose_attack` 拒绝、面板按钮灰掉写「够不着」，按钮不重排；经典全亮——动了 ES2「招式恒可用」）；
+    `npc_if: {when, do, else_cooldown?, else_pool?}`（`when`：`player_last_heavy_missed` 目标上一招是重且落空 / `own_last_landed` 自己上一招打实；`do` 招或 `perform/<id>`，绝招在歇就出 `else_cooldown`，出不起（拍不够、没映射）也走它；`when` 不成立从 `else_pool` 里抽）；
+    `interrupts_charge: {tag, state}`（该状态下这一标签的招打实就打断对方蓄势，与玩家虚招同列）。
+    **封山剑法**：`earn opponent_missed`「隙」；if：对手重招打空 → 封，封在歇 → 峰回路转。**柳家拳**：`earn own_hit_while_close`「压」、`state close`、荒山虎吟锁到近身；if：自己上一招打实 → 荒山虎吟，否则从 傲雪冬梅 / 孤崖听涛 抽；近身重招打实打断蓄势。
+    镜像：你出重招打空，封山罚你（它赢一拍、下一拍就是封）；你出重招打实，柳家回你一记更重的。骨架只读普通招（含反击）；绝招（逐的三剑、缺的奋力一击）的落空与打实这一包不算。
+  - **玩家一侧这一包只到内核**：点一下仍是一拍一招，余拍按今天的抽法自动补满（只从出得起、没被锁的招里抽，不过勇气门）；赢拍、近身锁、拍计划都算好、投影给面板（`BattleParticipantProjection.beat_plan_tags / beats`、`BattlePresentationProjection.locked_moves / beat_rules`），版式、拍筹、印章是包 B。
+    玩家唯一看得见的改动：被锁的招灰掉写「够不着」、记录里的「抢得一拍」「临阵变招」、对手卡「要出『封』」也可能来自它的拍计划。
+- **为什么：** owner（五轮与 Muse 的讨论）：一回合一小串决定才厚；多出来的那一个决定由武学定义，节奏通用、赚节奏的方式是门派的、数值不承担门派差异；抽牌式结构性否决（4–8 招喂不起手牌、「没抽到」毒化先见后知的归因链、高手忘招是失忆、经典收不住）。
+  对称、点一拍结算一拍、确定拍不事后改保住先见后知（输只可能是读错、排序错、贪了）。
+- **不做（这一包）：** 玩家点一拍结算一拍与面板（包 B）；场景里的出招动作与声音（包 C）；引路人、见识录的拍习惯、教学（包 D）；第三门骨架；跨门派混搭；每回合重置的能量。
+  顺手的一致化：玩家自动补的那一拍抽到虚招打中也打断对方蓄势（之前只有选中的虚招算）。
+- **探针**（`build/combat/beats_probe.gd`，T2 对老松岭土匪、两门各 6 种子）：回合数 12–14 → 9，每回合决策约 2 倍；柳家拳胜率 2/6 → 6/6，一半来自玩家 2 拍对小兵 1 拍的不对称、一半来自玩家单方面赚拍（土匪没有骨架）；土匪也 2 拍时两门都掉到 1–2/6。这一包没有调数值。
+- **待 owner 决定（PR 里按推荐）：** 改投他派后旧骨架留残缺版；NPC chat() 抽到的绝招要不要也扣拍（推荐包 B 一起接，与玩家排定的绝招同一把尺）；「收势」要；小兵 1 拍对玩家 2 拍的不对称怎么收（小兵也 2 拍 / NPC 也按骨架赚拍 / 赢拍上限按档 / 包 B 过关时按探针重调四档，推荐先试玩再定）。
+- **测试：** `combat_beats_test`（开关与经典值、一拍 = 1B 逐位、交手序 / 不交错、拍价、忙按拍 / 按回合、1vN 各自的拍、隙一回合一次与上限 0、封山 if（赢拍后变招为封、封在歇、小兵出不起）、柳家拳 if 与近身锁与变招、确定拍不事后改、骨架数据）；
+  `combat_decision_test` 的柳绘心一场放宽到 200 回合（她的 if 常把拍花在封上）。现代节奏下抽数顺序又变了：带战斗的 fixture 重录一次（PR 列出）。
 
 ## 车马行 (owner 2026-11-04「都按你的推荐，花钱那个代价稍微小一点，让玩家不心疼；门派山门也加进来」; 计划 `build/plans/车马行_计划.md`: Q1 站点之间坐车、在沙盘上选站, Q2 收钱也过时辰、车钱要小, Q3 七座城镇 + 门派山门)
 

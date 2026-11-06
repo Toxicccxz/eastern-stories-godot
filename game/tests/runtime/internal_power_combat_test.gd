@@ -25,7 +25,7 @@ var _reflected: StandardForceHitResult
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# enforce.c's own SpinBox: the stances (战斗决策层 1B) replace it under the modern pacing.
 	var production: PacingDefinition = GameContent.catalog().pacing()
-	GameContent.catalog().set_pacing(production.copy().with_decisions(CombatDecisionRules.classic()))
+	GameContent.catalog().set_pacing(production.copy().with_decisions(CombatDecisionRules.classic()).with_beats(CombatBeatRules.classic()))
 	_session = Work.create_session(tree)
 	await tree.process_frame
 	await _to_snow(tree)
