@@ -172,10 +172,6 @@
     ]
   },
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "canyon.npc.door_guard": {"coat": "6a5a48", "hat": true},
-    "canyon.npc.guard1": {"coat": "6a5a48", "hat": true},
-    "canyon.npc.guard2": {"coat": "5a4a3a", "hat": true},
-    "canyon.npc.seller": {"coat": "6a6a5a", "hat": true}
+    "default": {"coat": "8a7a5a"}
   }
 }
