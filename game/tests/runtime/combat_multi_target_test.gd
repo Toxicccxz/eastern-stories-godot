@@ -158,10 +158,11 @@ func _modes(tree: SceneTree) -> void:
 			if mode == CombatEncounterMode.Value.LETHAL:
 				(a.relationship if npc_initiator else player.relationship).mark_lethal_target(player.character_id if npc_initiator else a.character_id)
 			# Expected rows derived independently from fight.c, kill.c, combatd start_*.
-			var expected: bool = (cause == CombatTriggerCause.Value.SCRIPTED and mode == CombatEncounterMode.Value.SCRIPTED) or (cause == CombatTriggerCause.Value.PLAYER_SPAR and mode == CombatEncounterMode.Value.SPAR) or (cause in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY] and mode == CombatEncounterMode.Value.LETHAL)
+			var expected: bool = (cause == CombatTriggerCause.Value.SCRIPTED and mode == CombatEncounterMode.Value.SCRIPTED) or (cause == CombatTriggerCause.Value.PLAYER_SPAR and mode == CombatEncounterMode.Value.SPAR) or (cause == CombatTriggerCause.Value.PLAYER_LESSON and mode == CombatEncounterMode.Value.LESSON) or (cause in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY] and mode == CombatEncounterMode.Value.LETHAL)
 			var result: CombatEncounterStartResult = coordinator.start(trigger)
 			_check(result.succeeded() == expected, "cause/mode matrix %d/%d" % [cause, mode])
-			_check(coordinator.action_infos().size() == (0 if expected and mode == CombatEncounterMode.Value.SCRIPTED else 2), "Flee and 投降 production registration respects supported mode")
+			# 战斗拍数 D: a lesson has 逃跑 but no 投降.
+			_check(coordinator.action_infos().size() == (0 if expected and mode == CombatEncounterMode.Value.SCRIPTED else 1 if expected and mode == CombatEncounterMode.Value.LESSON else 2), "Flee and 投降 production registration respects supported mode")
 			if expected:
 				var encounter: CombatEncounter = coordinator.active_encounter()
 				_check(encounter.participant_for(player.character_id).binding.state == player.state and encounter.participant_for(a.character_id).binding.relationship == a.relationship, "mode exact authorities")

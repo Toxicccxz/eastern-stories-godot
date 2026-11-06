@@ -110,8 +110,11 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    and the panel is done (DECISIONS「战斗拍数 B」: one beat chosen, one beat resolved; 收势; 拍不够; the beat chips; the plan's stamps and the
    打法词; the grouped move row); 包 C the fight in the scene with sound is done (DECISIONS「战斗拍数 C」: the hit-stop, the step, the lean
    and the flash on the voxel figures by the move's tag and the ring's verdict, the pauses between beats, seven project-made sounds rationed
-   by weight, the 总音量 setting; a perform's own busy counted into its beats, NPC chat() specials charged); next the gate (the plan's behaviour
-   and pace standards, in the owner's playtest), then 包 D 先见后知 and the guides.
+   by weight, the 总音量 setting; a perform's own busy counted into its beats, NPC chat() specials charged); 包 D 先见后知 and the guides is done
+   (DECISIONS「战斗拍数 D」: the town's hearsay on each school, the doctor reading a wound, the guides' 请教打法 and 拆招 — three harmless rounds with
+   a word as each begins and one verdict after — the 见识录 grown only from what was met, 拜师 greyed with what is short and the school's row on
+   the master's page once its lesson was taken). Next the gate (the plan's behaviour and pace standards, in the owner's playtest); the other
+   schools' guides follow one small package each, on the same data.
    **现代基线三件** (owner 2026-10-28; `build/plans/现代基线_提示词.md`, order A → C → B): A is done (DECISIONS「存档位」「自动存档」
    「减轻死亡」: three manual slots and a rolling autosave written on a worker, a Load in play, death at 3% experience with the corpse
    waiting and a way back to the autosave); C is done (DECISIONS「数值用到才出现」: 法力, 灵力, 杀气 and 加力 appear when used, a line

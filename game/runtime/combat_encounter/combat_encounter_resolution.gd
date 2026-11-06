@@ -33,6 +33,9 @@ var _orders: Dictionary[StringName, Array] = {}
 ## combatd.c's winner_msg in a spar: whose blow ended it, and on whom (A2's 切磋首胜).
 var _spar_winner: StringName = &""
 var _spar_loser: StringName = &""
+## 战斗拍数 D: a lesson's rounds, and the scheduler's count of rounds completed (set_lesson()).
+var _lesson_rounds: int = 0
+var _lesson_rounds_completed: Callable = Callable()
 
 var failure: Failure:
 	get: return _failure
@@ -48,6 +51,13 @@ var departure: StringName:
 func _init(session: WorldSessionController, encounter: CombatEncounter) -> void:
 	_session = session
 	_encounter = encounter
+
+
+## 战斗拍数 D: a lesson ends once `rounds` rounds completed (`rounds_completed` the scheduler's
+## count); without it a lesson runs until a side stops.
+func set_lesson(rounds: int, rounds_completed: Callable) -> void:
+	_lesson_rounds = rounds
+	_lesson_rounds_completed = rounds_completed
 
 ## The NPCs that walked out of this fight and where to (character ID -> zone).
 func walked_out() -> Dictionary[StringName, StringName]:
@@ -69,7 +79,7 @@ func accept_tactical(value: CombatTacticalExecutionResult) -> void:
 		return
 	if value == null or value.outcome != CombatTacticalExecutionResult.Outcome.DISENGAGED:
 		return
-	if _encounter.mode not in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
+	if _encounter.mode not in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]:
 		return
 	_departure = value.departure
 	_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode,
@@ -83,6 +93,9 @@ func accept_tactical(value: CombatTacticalExecutionResult) -> void:
 ## spar goes on to the death. Someone who cannot fight here (gone, not available) stays out.
 func admit(bindings: Array[CombatSliceCharacterBinding], tactical: CombatTacticalExecutionResult) -> void:
 	if _failure != Failure.NONE or _result != null or _encounter.phase != CombatEncounterLifecycle.Value.ACTIVE or tactical == null:
+		return
+	# 战斗拍数 D: nobody joins a lesson, and it never turns lethal.
+	if _encounter.mode == CombatEncounterMode.Value.LESSON:
 		return
 	var player_id: StringName = _session.player_runtime().character_id
 	var player: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, player_id)
@@ -571,6 +584,14 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			and binding.relationship.has_opponent(player_id)
 		):
 			player_being_finished = true
+	# 战斗拍数 D: a lesson ends once its rounds ran (the scheduler counts them), or once one side
+	# stopped (the player fled or fell to something else, the guide walked out); no blow ends it.
+	if _encounter.mode == CombatEncounterMode.Value.LESSON:
+		var rounds_done: bool = _lesson_rounds > 0 and _lesson_rounds_completed.is_valid() and int(_lesson_rounds_completed.call()) >= _lesson_rounds
+		if not rounds_done and any_fight and player_active and any_hostile_active:
+			return
+		_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode, CombatEncounterResultKind.Value.LESSON_CONCLUDED, [], [], subjects)
+		return
 	if _encounter.mode == CombatEncounterMode.Value.SPAR:
 		# combatd.c: positive friendly damage removes reciprocal enemies; no HP score.
 		if any_fight and player_active and any_hostile_active:

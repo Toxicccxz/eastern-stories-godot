@@ -12,6 +12,8 @@ var _attack_usage_bonus: int
 var _projected_apply_damage: int
 var _strength_projection: CombatStrengthProjection
 var _lethal_intent: bool
+## 战斗拍数 D: the blow is a lesson's — it may land, but takes no kee and leaves no wound.
+var harmless: bool = false
 var _mapped_force_skill_id: StringName
 var _force_hit_policy_status: int
 var _mapped_attack_skill_id: StringName
@@ -194,6 +196,12 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 
 
 func _copy() -> CombatAttackerSnapshot:
+	var copied: CombatAttackerSnapshot = _copy_fields()
+	copied.harmless = harmless
+	return copied
+
+
+func _copy_fields() -> CombatAttackerSnapshot:
 	return CombatAttackerSnapshot.new(
 		_character_id,
 		_living,

@@ -108,6 +108,9 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 			return TranslationServer.translate("你输了这场战斗，昏了过去。")
 		CombatEncounterResultKind.Value.SPAR_CONCLUDED:
 			return TranslationServer.translate("切磋结束。")
+		CombatEncounterResultKind.Value.LESSON_CONCLUDED:
+			# TRANSLATORS: the line once a guide's three harmless rounds (拆招) are over.
+			return TranslationServer.translate("三回合拆完了。")
 		CombatEncounterResultKind.Value.FLED:
 			return TranslationServer.translate("你逃离了战斗。走远一些才能摆脱危险。")
 		CombatEncounterResultKind.Value.ABORTED:

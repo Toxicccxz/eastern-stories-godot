@@ -90,6 +90,7 @@
 			"skeleton": {
 				"earn": "own_hit_while_close",
 				"style_word": "抢压",
+				"style_line": "先打实一拳贴上去，贴着才打得出重拳，一拳比一拳沉；打空了就被拉开。",
 				"earn_label": "压",
 				"state": "close",
 				"lock": [
@@ -275,6 +276,7 @@
 			"skeleton": {
 				"earn": "opponent_missed",
 				"style_word": "候隙",
+				"style_line": "不抢先：对方刺空或被架开，那一下就多出一剑，可以追，也可以封。",
 				"earn_label": "隙",
 				"npc_if": {
 					"when": "player_last_heavy_missed",

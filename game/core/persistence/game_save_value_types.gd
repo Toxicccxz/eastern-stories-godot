@@ -326,6 +326,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var known_items: Dictionary[String, int] = {}
 	## CharacterState.known_moves (识招); empty for NPCs.
 	var known_moves: Dictionary[String, int] = {}
+	## CharacterState.insights (战斗拍数 D's 见识录 notes); empty for NPCs.
+	var insights: Dictionary[String, int] = {}
 	## CharacterState.visited_maps, waypoint_map and waypoint_zone (地图页); empty for NPCs.
 	var visited_maps: Dictionary[String, int] = {}
 	var waypoint_map: StringName = &""
@@ -369,7 +371,7 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_known_moves(known_moves).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_known_moves(known_moves, insights).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
 
 	func with_milestones(p_milestones: Dictionary[String, int]) -> CharacterStateSnapshot:
 		milestones = p_milestones.duplicate()
@@ -419,8 +421,9 @@ class CharacterStateSnapshot extends RefCounted:
 		known_items = p_known_items.duplicate()
 		return self
 
-	func with_known_moves(p_known_moves: Dictionary[String, int]) -> CharacterStateSnapshot:
+	func with_known_moves(p_known_moves: Dictionary[String, int], p_insights: Dictionary[String, int] = {}) -> CharacterStateSnapshot:
 		known_moves = p_known_moves.duplicate()
+		insights = p_insights.duplicate()
 		return self
 
 

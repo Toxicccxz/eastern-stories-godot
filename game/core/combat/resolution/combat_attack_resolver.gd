@@ -523,6 +523,9 @@ static func resolve(
 		calculation._defense_iterations += 1
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.DEFENSE_LOOP_COMPLETED
 
+	# 战斗拍数 D: a lesson's blow lands (the ring, the skeletons read it) but draws no blood.
+	if attacker.harmless:
+		calculation._damage_value = 0
 	calculation._requested_damage = calculation._damage_value
 	defender_vitality.apply_damage(calculation._requested_damage)
 	mutation = _mutation_snapshot(
@@ -537,7 +540,7 @@ static func resolve(
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.DAMAGE_APPLIED
 
 	calculation._armor = defender.armor
-	calculation._wound_eligible = attacker.lethal_intent or weapon != null
+	calculation._wound_eligible = (attacker.lethal_intent or weapon != null) and not attacker.harmless
 	calculation._reached_stage = (
 		CombatAttackCalculation.ReachedStage.WOUND_ELIGIBILITY_EVALUATED
 	)

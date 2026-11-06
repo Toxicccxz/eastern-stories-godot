@@ -50,6 +50,9 @@ var earn_label: String = ""
 ## 战斗拍数 B: the word for how this school plays (封山剑法 候隙, 柳家拳 抢压), shown after an
 ## enemy's name once the player's 见识录 knows it; "" for none.
 var style_word: String = ""
+## 战斗拍数 D: the school's way in one plain sentence (the 拜师 page's row once the guide's
+## lesson was taken, the 见识录's 打法 line once the style word is known); "" for none.
+var style_line: String = ""
 var tracks_close: bool = false
 var locks: Array[Lock] = []
 var npc_when: StringName = &""
@@ -140,6 +143,7 @@ static func from_record(reader: ContentRecordReader, skill_id: StringName, id_pr
 		reader.fail("earn", "expected one of %s" % ", ".join(EARNS))
 	skeleton.earn_label = reader.text("earn_label")
 	skeleton.style_word = reader.text("style_word")
+	skeleton.style_line = reader.text("style_line")
 	var state: String = reader.text("state")
 	skeleton.tracks_close = state == String(STATE_CLOSE)
 	if not state.is_empty() and not skeleton.tracks_close:

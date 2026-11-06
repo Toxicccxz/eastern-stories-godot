@@ -913,7 +913,7 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 ## (heaven_soldier.c invocation(); CombatEncounterResolution's allies). Those enemies kill it back.
 ## A spar is no fight of theirs: nobody draws into a 切磋 (it would turn lethal).
 func _allies_join(encounter: CombatEncounter) -> void:
-	if _player == null or encounter.participant_for(_player.character_id) == null or encounter.mode == CombatEncounterMode.Value.SPAR:
+	if _player == null or encounter.participant_for(_player.character_id) == null or encounter.mode in [CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]:
 		return
 	var here: WorldLocationState = _player.world_location()
 	var allies: Array[StringName] = []

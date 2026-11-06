@@ -4049,10 +4049,11 @@ msgstr ""
 msgid "你没有那麽多的%s。"
 msgstr ""
 
+#. a guide's verdict after their lesson: {npc} the guide, {line} what they say.
 #. an NPC's say() in a fight: {npc} its name, {line} what it says.
 #. an NPC's say() out of a fight: {npc} its name, {line} what it says.
 #. a line an NPC said, quoted under a 任务 page entry (as the ask wrote it).
-#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_debts.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd ui/world/journal_stories.gd
+#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_encounter_coordinator.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_debts.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd ui/world/journal_stories.gd
 msgid "{npc}说道：{line}"
 msgstr ""
 
@@ -4365,6 +4366,16 @@ msgstr ""
 msgid "」"
 msgstr ""
 
+#. joins a master's conditions in a line of talk (胆识 20、定力 20).
+#. native (任务系统): after a deed: {place} where, {who} the people who saw it.
+#. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
+#. the 背包's purse line: {coins} the coins carried (三两黄金、二十文钱), or 空 when none.
+#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
+#. between two conditions on the HUD (蛇毒).
+#: core/combat/decision/combat_insights.gd core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
+msgid "、"
+msgstr ""
+
 #: core/combat/decision/combat_move_tags.gd runtime/application/application_shell_controller.gd
 msgid "快"
 msgstr ""
@@ -4381,7 +4392,8 @@ msgstr ""
 msgid "守"
 msgstr ""
 
-#: core/combat/decision/combat_move_tags.gd
+#. a move of that tag in a beat habit: {tag} 快 / 重 / 虚 / 守 / 平.
+#: core/combat/decision/combat_move_tags.gd presentation/codex/codex_content.gd
 msgid "平"
 msgstr ""
 
@@ -5338,15 +5350,6 @@ msgstr ""
 msgid "（在{place}，{who}看见了）"
 msgstr ""
 
-#. native (任务系统): after a deed: {place} where, {who} the people who saw it.
-#. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
-#. the 背包's purse line: {coins} the coins carried (三两黄金、二十文钱), or 空 when none.
-#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
-#. between two conditions on the HUD (蛇毒).
-#: core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
-msgid "、"
-msgstr ""
-
 #. quests.quest_type
 #: core/quests/quest_definition.gd data/common/quests.json
 msgid "杀"
@@ -5515,7 +5518,8 @@ msgid "另有条件（拜师时便知）"
 msgstr ""
 
 #. the same, not met, once the master ({npc}) said what it is: {line} his refusal.
-#: core/relationships/apprentice_conditions.gd
+#. a line of hearsay on a 见识录 entry: {npc} who said it, {line} what.
+#: core/relationships/apprentice_conditions.gd presentation/codex/codex_content.gd
 msgid "{npc}说过：{line}"
 msgstr ""
 
@@ -5567,6 +5571,10 @@ msgstr ""
 #. money in a 拜师 condition: {n} coins.
 #: core/relationships/apprentice_conditions.gd
 msgid "{n} 文钱"
+msgstr ""
+
+#: core/relationships/family_definition.gd
+msgid "打法"
 msgstr ""
 
 #: core/relationships/family_relation.gd
@@ -6910,7 +6918,8 @@ msgid "停"
 msgstr ""
 
 #. the title over the card of one who used a special move the game has no name for.
-#: presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd
+#. a move of that tag in a beat habit: {tag} 快 / 重 / 虚 / 守 / 平.
+#: presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd presentation/codex/codex_content.gd
 msgid "绝招"
 msgstr ""
 
@@ -7311,6 +7320,11 @@ msgstr ""
 msgid "切磋结束。"
 msgstr ""
 
+#. the line once a guide's three harmless rounds (拆招) are over.
+#: presentation/battle/battle_feedback_reader.gd
+msgid "三回合拆完了。"
+msgstr ""
+
 #: presentation/battle/battle_feedback_reader.gd
 msgid "你逃离了战斗。走远一些才能摆脱危险。"
 msgstr ""
@@ -7650,6 +7664,12 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "切磋"
+msgstr ""
+
+#. the battle's name while a guide's three harmless rounds run.
+#. the popup row on a school's guide: three rounds of 拆招, no blood drawn.
+#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_nearby.gd
+msgid "拆招"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -8112,6 +8132,36 @@ msgstr ""
 msgid "这一路的招你都认得。"
 msgstr ""
 
+#. a school's way on its 见识录 entry: {word} the style word (候隙), {line} the way in one sentence.
+#: presentation/codex/codex_content.gd
+msgid "打法 · {word}：{line}"
+msgstr ""
+
+#. the guide's teaching on a 见识录 entry: {npc} the guide, {line} their first line.
+#: presentation/codex/codex_content.gd
+msgid "{npc}讲过：{line}"
+msgstr ""
+
+#. the guide's verdict after their lesson, on a 见识录 entry: {npc} the guide, {line} the verdict.
+#: presentation/codex/codex_content.gd
+msgid "{npc}拆过招，说：{line}"
+msgstr ""
+
+#. a move of that tag in a beat habit: {tag} 快 / 重 / 虚 / 守 / 平.
+#: presentation/codex/codex_content.gd
+msgid "{tag}招"
+msgstr ""
+
+#. a beat habit read of an NPC: {npc} who, {beat} which beat of a round (1 the first), {tag} 快 / 重 / 虚 / 守 / 绝招.
+#: presentation/codex/codex_content.gd
+msgid "{npc}的第 {beat} 拍总是{tag}（看过 {n} 回）。"
+msgstr ""
+
+#. the same, most of the time.
+#: presentation/codex/codex_content.gd
+msgid "{npc}的第 {beat} 拍多半是{tag}（{m} 回里有 {n} 回）。"
+msgstr ""
+
 #: presentation/codex/codex_content.gd
 msgid "没有什么特别之处。"
 msgstr ""
@@ -8418,6 +8468,11 @@ msgstr ""
 #. an NPC's announced special is lost: {npc} its name, {move} the special's name.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
 msgid "{npc}的{move}被打断了。"
+msgstr ""
+
+#. a guide's word as a round of their lesson begins: $N the guide, {line} what they say.
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "$N说道：{line}"
 msgstr ""
 
 #. a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
@@ -8831,6 +8886,21 @@ msgstr ""
 msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
 msgstr ""
 
+#. a guide's refusal of 拆招 to a hurt player, when its data has none.
+#: runtime/world/map/world_map_selection.gd
+msgid "你身上带着伤，先养好了再来拆招。"
+msgstr ""
+
+#. a guide's refusal of 拆招 to another family's member, when its data has none.
+#: runtime/world/map/world_map_selection.gd
+msgid "你是别派的弟子，我不便指点。"
+msgstr ""
+
+#. a guide taking the player on for 拆招, when its data has none.
+#: runtime/world/map/world_map_selection.gd
+msgid "来，拆三回合，点到为止。"
+msgstr ""
+
 #: runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
 msgid "这里禁止战斗。"
 msgstr ""
@@ -8853,6 +8923,11 @@ msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
 msgid "看起来%s并不想跟你较量。"
+msgstr ""
+
+#. the player asks a school's guide for three rounds of 拆招: {npc} the guide, {skill} the school.
+#: runtime/world/map/world_map_selection.gd
+msgid "你向{npc}讨教{skill}，请{npc}拆几招给你看。"
 msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
@@ -10589,7 +10664,11 @@ msgid "基本内功"
 msgstr ""
 
 #. liuh-ken name
-#: ui/world/player_life_overlay.gd data/common/skills.json
+#. family.fonxan hearsay snow.npc.woodcutter topic
+#. family.fonxan hearsay snow.npc.smith topic
+#. family.fonxan hearsay snow.npc.farmer topic
+#. family.fonxan hearsay snow.npc.beggar topic
+#: ui/world/player_life_overlay.gd data/common/skills.json data/common/families.json
 msgid "柳家拳"
 msgstr ""
 
@@ -10656,7 +10735,8 @@ msgid "技能：%s"
 msgstr ""
 
 #. the skills death changed, joined by the list separator below.
-#: ui/world/player_life_overlay.gd
+#. why 拜师 is greyed: the master's conditions the player is short of, joined by ；.
+#: ui/world/player_life_overlay.gd ui/world/shared_ui_nearby.gd
 msgid "；"
 msgstr ""
 
@@ -10887,6 +10967,16 @@ msgstr ""
 msgid "确定切磋"
 msgstr ""
 
+#. the interaction popup's confirm page before 拆招 with a school's guide ({npc}).
+#: ui/world/shared_ui_context_actions.gd
+msgid "{npc}会拆三回合给你看，点到为止、不伤人。确定要讨教吗？"
+msgstr ""
+
+#. the interaction popup's confirm page before 拆招 with a school's guide ({npc}).
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定讨教"
+msgstr ""
+
 #. asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
 #: ui/world/shared_ui_inventory.gd
 msgid ""
@@ -11021,6 +11111,21 @@ msgstr ""
 msgid "打开"
 msgstr ""
 
+#. the popup row on a school's guide: asks them how the school fights (their 打听 topic).
+#: ui/world/shared_ui_nearby.gd
+msgid "请教打法"
+msgstr ""
+
+#. the popup row on a school's guide: asks them how the school fights (their 打听 topic).
+#: ui/world/shared_ui_nearby.gd
+msgid "听{npc}用自己的话讲这门功夫怎么打。"
+msgstr ""
+
+#. the popup row on a school's guide: three rounds of 拆招, no blood drawn.
+#: ui/world/shared_ui_nearby.gd
+msgid "三回合，点到为止、不伤人；打完{npc}会点破这门功夫靠什么赢。"
+msgstr ""
+
 #: ui/world/shared_ui_nearby.gd
 msgid "请安"
 msgstr ""
@@ -11073,6 +11178,11 @@ msgstr ""
 msgid "· {condition}"
 msgstr ""
 
+#. why 拜师 is greyed: the master's conditions the player is short of, joined by ；.
+#: ui/world/shared_ui_nearby.gd
+msgid "还差：{conditions}"
+msgstr ""
+
 #. 查看's line for one who takes no apprentice (annihi.c).
 #: ui/world/shared_ui_nearby.gd
 msgid "不收徒。"
@@ -11106,6 +11216,11 @@ msgstr ""
 #. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
 #: ui/world/shared_ui_nearby.gd
 msgid "传授：{skills}"
+msgstr ""
+
+#. a school's way on its master's 拜师 page: {skill} the school, {line} its way in one sentence.
+#: ui/world/shared_ui_nearby.gd
+msgid "{skill}：{line}"
 msgstr ""
 
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
@@ -12255,6 +12370,16 @@ msgstr ""
 msgid "练柳家拳法必须空手。"
 msgstr ""
 
+#. liuh-ken skeleton.style_word
+#: data/common/skills.json
+msgid "抢压"
+msgstr ""
+
+#. liuh-ken skeleton.style_line
+#: data/common/skills.json
+msgid "先打实一拳贴上去，贴着才打得出重拳，一拳比一拳沉；打空了就被拉开。"
+msgstr ""
+
 #. liuh-ken actions.action
 #: data/common/skills.json
 msgid "$N使一招「古松挂月」，对准$n的$l「呼」地一拳"
@@ -12356,7 +12481,10 @@ msgid "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l"
 msgstr ""
 
 #. fonxansword name
-#: data/common/skills.json
+#. family.fonxan hearsay snow.npc.waiter topic
+#. family.fonxan hearsay snow.npc.guard topic
+#. family.fonxan hearsay snow.npc.trainee topic
+#: data/common/skills.json data/common/families.json
 msgid "封山剑法"
 msgstr ""
 
@@ -12387,6 +12515,16 @@ msgstr ""
 #. mystsword valid_learn.weapon
 #: data/common/skills.json
 msgid "你必须先找一把剑才能练剑法。"
+msgstr ""
+
+#. fonxansword skeleton.style_word
+#: data/common/skills.json
+msgid "候隙"
+msgstr ""
+
+#. fonxansword skeleton.style_line
+#: data/common/skills.json
+msgid "不抢先：对方刺空或被架开，那一下就多出一剑，可以追，也可以封。"
 msgstr ""
 
 #. fonxansword actions.action
@@ -14255,9 +14393,200 @@ msgid "番坊"
 msgstr ""
 
 #. family.fonxan name
+#. family.fonxan hearsay snow.npc.teacher topic
 #. common.npc.swordsman.master family.name
 #: data/common/families.json data/common/npcs.json
 msgid "封山剑派"
+msgstr ""
+
+#. family.fonxan guides liuh-ken teach
+#: data/common/families.json
+msgid "柳家拳没什么花样：先打实一拳，人就贴上去了；贴上去，重拳才够得着，一拳比一拳沉。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken teach
+#: data/common/families.json
+msgid "最怕的是打空。一拳落了空，人就被拉开了，再重的拳头也只砸在风上——得重新打实一拳，才能再贴上去。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken teach
+#: data/common/families.json
+msgid "所以这拳是抢来的。对面守得稳，你就先用快的、虚的去碰，碰着了再压上去。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken teach
+#: data/common/families.json
+msgid "想拜馆主为师？馆主只看{requires}，哪一样不到，他都会摇头。拳脚简单，一拳就是一拳，先跟我拆几招也好。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.accept
+#: data/common/families.json
+msgid "好，拆三回合，点到为止。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.earned
+#: data/common/families.json
+msgid "看见没有？我一拳打实了就贴上来，接着那记重的才够得着你。柳家拳的拳，是这么抢来的。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.not_earned
+#: data/common/families.json
+msgid "三回合我一拳都没打实，就一直够不着你——柳家拳最怕的就是这个。你要学，先学怎么把第一拳打实。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.player_earned
+#: data/common/families.json
+msgid "你贴上来那一记，压得对，就是这个劲。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.refuse_hurt
+#: data/common/families.json
+msgid "你身上带着伤，拆什么招？先去桑邻药铺把伤治好。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.refuse_family
+#: data/common/families.json
+msgid "你是别派的弟子，馆主吩咐过，不许和外人过招。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.rounds
+#: data/common/families.json
+msgid "记住：一回合不是一招，是几手的事。你出一手，我出一手；谁手上还有余力，谁就多出一手。"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.rounds
+#: data/common/families.json
+msgid "看我这一拳——打实了我就贴上来，紧跟着的那一记重的，你躲得开么？"
+msgstr ""
+
+#. family.fonxan guides liuh-ken lesson.rounds
+#: data/common/families.json
+msgid "最后一回合。你要是能让我一拳打空，我就得退开重来；你要是也打实了一拳，就试试压上来。"
+msgstr ""
+
+#. family.fonxan guides fonxansword teach
+#: data/common/families.json
+msgid "爹爹的剑法，我只学了个皮毛。封山剑不抢先，先用引手逗对方出招——对方一剑刺空，或是被我架开，那一下就是空子，我这边就多出一剑来。"
+msgstr ""
+
+#. family.fonxan guides fonxansword teach
+#: data/common/families.json
+msgid "多出来的那一剑最要紧：可以追着刺，也可以用「封」字诀把他封住，一封住，他好几手都出不来。"
+msgstr ""
+
+#. family.fonxan guides fonxansword teach
+#: data/common/families.json
+msgid "可是贪不得。多出来的那一剑要是只顾着攻，对方的下一手就没人守了。爹爹说，封山的剑是等出来的。"
+msgstr ""
+
+#. family.fonxan guides fonxansword teach
+#: data/common/families.json
+msgid "你若想拜爹爹为师，他只看{requires}——不到的，他会说学剑的人要胆大心细。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.accept
+#: data/common/families.json
+msgid "那……只拆三回合，不伤人。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.earned
+#: data/common/families.json
+msgid "方才你那一下刺空了，我手里就多出一剑，那记「封」就是这么来的。封山的剑，是等人露空子。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.not_earned
+#: data/common/families.json
+msgid "三回合你一招都没打空，我就一直没等到空子，只好跟你慢慢磨。封山的剑是等出来的，等不到，就只能这样。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.player_earned
+#: data/common/families.json
+msgid "你也等到了我的空子，多出来的那一剑用得对。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.refuse_hurt
+#: data/common/families.json
+msgid "你带着伤呢，爹爹不许我跟伤者动手。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.refuse_family
+#: data/common/families.json
+msgid "你是别派的人，爹爹说过不能跟江湖人物比武过招。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.rounds
+#: data/common/families.json
+msgid "一回合里你出几手，我也出几手——你出完了，我才接着出。不急。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.rounds
+#: data/common/families.json
+msgid "你尽管来刺。要是刺空了，我手上就多一剑；看清楚我是怎么追上来的。"
+msgstr ""
+
+#. family.fonxan guides fonxansword lesson.rounds
+#: data/common/families.json
+msgid "最后一回合。你也可以不急着出手，等我刺空了再说。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.waiter say
+#: data/common/families.json
+msgid "封山剑法？小的不懂剑，只听来往的武师说：柳馆主的剑从不抢先，专等人家刺空了的那一下。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.guard say
+#: data/common/families.json
+msgid "馆主的剑我看了五年。来踢馆的，十个有九个是自己刺空了，才挨那一下的。想拜他为师？他只看{requires}。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.teacher say
+#: data/common/families.json
+msgid "柳淳风是个读书人，剑法嘛……文绉绉的，依老夫看没什么杀气。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.trainee say
+#: data/common/families.json
+msgid "绘心师妹的剑最吓人的是那记「封」字诀，被封住了好几手都出不来。不过她说剑要等——等什么，我也说不上来。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.herbalist topic
+#: data/common/families.json
+msgid "伤口"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.herbalist say
+#: data/common/families.json
+msgid "这是剑伤，口子又直又深——封山剑的路数，多半是这位$RESPECT自己先刺空了，人家才补的这一剑。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.woodcutter say
+#: data/common/families.json
+msgid "柳家拳？镇上后生练的都是这个。我瞧他们打架，先是一拳碰着人了，立马就贴上去，一拳比一拳重。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.smith say
+#: data/common/families.json
+msgid "李教头那身板，一拳打实了接着就是一记重的，叫什么虎吟。想拜柳馆主的，先去武馆找李教头拆拆招，拳脚简单，一拳就是一拳。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.farmer say
+#: data/common/families.json
+msgid "柳家拳好是好，就是练了脾气暴，李教头那些徒弟三天两头在街上跟人动手。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.beggar say
+#: data/common/families.json
+msgid "柳家拳最怕打空。一拳落了空，人就离远了，再重的拳也够不着——小的挨过，知道。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.herbalist say
+#: data/common/families.json
+msgid "这是拳伤，一片青紫，底下还压着一记重的——柳家拳的路数，人贴上来才打得出这么重。"
+msgstr ""
+
+#. family.fonxan hearsay snow.npc.herbalist say
+#: data/common/families.json
+msgid "这位$RESPECT身上没什么新伤，用不着看。"
 msgstr ""
 
 #. family.fonxan_north name
