@@ -309,12 +309,14 @@ func _check_facades(layout: Dictionary, looks: Array[Dictionary]) -> void:
 	_check(inn.get("blade_sign", {}).get("text", "") == "客栈" and inn.has("door_glow") and inn.has("couplets"), "street13.c: 西去的人不时经过这里 — the 客栈's sign, lit within, couplets")
 	var pawnshop: Dictionary = _building(layout, [824, 3312, 992, 3504])
 	_check(pawnshop.get("blade_sign", {}).get("text", "") == "当" and _hung(pawnshop, "notices", "east") >= 1 and float(pawnshop.get("notices", 0.0)) >= 0.3, "the 当铺: its 当 square off the wall, notices pasted up and boarded")
-	# The narrow shops (3.25–4.5 units: a blade sign's arm would spring past the corner) hold a pennant.
-	var pennants: Dictionary = {}
-	for rect: Array in [[144, 1296, 248, 1488], [848, 1128, 1040, 1240], [1552, 1128, 1744, 1272], [2224, 1296, 2336, 1488], [648, 3312, 816, 3504]]:
-		var shop: Dictionary = _building(layout, rect)
-		pennants[String(shop.get("hanging_flag", {}).get("text", ""))] = not shop.has("blade_sign")
-	_check(pennants == {"茶": true, "杂货": true, "车马": true, "酱": true}, "the narrow shops' pennants (茶 twice, 杂货, 车马, 酱), no blade sign on them: %s" % [pennants])
+	# The narrow shops (3.25–4.5 units: a blade sign's arm would spring past the corner) hold a pennant
+	# where one can hang clear; none holds a blade sign.
+	var wrong: Array[String] = []
+	for row: Array in [[[1552, 1128, 1744, 1272], "车马"], [[2224, 1296, 2336, 1488], "酱"], [[648, 3312, 816, 3504], "茶"], [[144, 1296, 248, 1488], ""], [[848, 1128, 1040, 1240], ""]]:
+		var shop: Dictionary = _building(layout, row[0])
+		if shop.has("blade_sign") or String(shop.get("hanging_flag", {}).get("text", "")) != String(row[1]):
+			wrong.append(String(row[1]) + str(row[0]))
+	_check(wrong.is_empty(), "the narrow shops: 车马, 酱 and the 西二门街 茶铺 hold a pennant, the 西一门 茶铺 and the 杂货 (walled in either side) only their boards, no blade signs: %s" % [wrong])
 	_check(not _building(layout, [280, 1872, 424, 2032]).has("hanging_flag") and not _building(layout, [1552, 4112, 1728, 4240]).has("hanging_flag"),
 		"the 药铺's door looks north and the 笔墨铺's hides behind the 南门's tower: no pennant nobody sees")
 	# The shops whose doors look north hold their names over the roofs on 幌杆 in the layout; the
@@ -383,9 +385,10 @@ func _check_facade_view(view: WorldVoxelView) -> void:
 		if not (board is Dictionary and String(board.get("mount", "")) == "porch"):
 			continue
 		hung += 1
+		# (A blade sign with the same word hangs lower, about 2.0: only the porch's band counts.)
 		var seen: bool = false
 		for label: Label3D in labels.get(tr(String(board["text"])), []):
-			seen = seen or label.global_position.y < 2.8
+			seen = seen or (label.global_position.y > 2.05 and label.global_position.y < 2.8)
 		if not seen:
 			hidden.append(String(board["text"]))
 	_check(hung >= 14 and hidden.is_empty(), "each porch-hung board hangs under the porch's eave: %d hung, hidden %s" % [hung, hidden])
@@ -399,7 +402,7 @@ func _check_facade_view(view: WorldVoxelView) -> void:
 		if light.light_color.is_equal_approx(Color("ff6a2a")) and brighter:
 			forge = true
 	_check(warm >= 3 and forge, "太白酒楼, 车马大店 and the 客栈 glow within, the forge too, more by night than by day (%d warm)" % warm)
-	# (The walk before this opened every door: the swung leaves show, the shut ones not.)
+	# (Shut here; the walks later open it: exactly one of the two forms shows either way.)
 	_check(view.shutters.has(&"city.shangshu.gate.door") and view.opened.has(&"city.shangshu.gate.door") and view.opened[&"city.shangshu.gate.door"].visible != view.shutters[&"city.shangshu.gate.door"].visible,
 		"the 大铁门 has its shut look and its open one, one of them shown")
 
