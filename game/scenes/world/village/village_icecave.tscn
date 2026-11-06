@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://runtime/world/world_landmark_area_2d.gd" id="landmark"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
-[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
 [sub_resource type="RectangleShape2D" id="Rect_32_64"]
@@ -88,23 +87,6 @@ portal_id = &"village.lakebottom2.westup"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="IceStairPassage"]
 shape = SubResource("Rect_32_128")
 
-[node name="PoolDive" type="Marker2D" parent="."]
-position = Vector2(208, 352)
-script = ExtResource("service")
-service_id = &"village.lakebottom2.pool"
-
-[node name="Visual" type="Polygon2D" parent="PoolDive"]
-polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
-color = Color(0.5, 0.85, 1, 1)
-
-[node name="Label" type="Label" parent="PoolDive"]
-offset_left = -100.0
-offset_top = 26.0
-offset_right = 100.0
-mouse_filter = 2
-text = "水潭 · 潜下去"
-horizontal_alignment = 1
-
 [node name="Zones" type="Node2D" parent="."]
 
 [node name="Lakebottom2Zone" type="Area2D" parent="Zones"]
@@ -136,11 +118,6 @@ spawn_point_id = &"village.lakebottom1.dive_arrival"
 position = Vector2(176, 288)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakebottom2.valley_arrival"
-
-[node name="LakebottomPoolReturn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(272, 344)
-script = ExtResource("marker")
-spawn_point_id = &"village.lakebottom2.pool_return"
 
 [node name="Lakebottom2Dragon1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(560, 216)
@@ -217,15 +194,6 @@ landmark_id = &"village.lakebottom1.landmark.ice"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/IceInteraction"]
 shape = SubResource("Rect_32_32")
-
-[node name="CarvingInteraction" type="Area2D" parent="Interactions"]
-position = Vector2(1040, 464)
-collision_layer = 2
-script = ExtResource("landmark")
-landmark_id = &"village.lakebottom1.landmark.carving"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/CarvingInteraction"]
-shape = SubResource("Rect_32_64")
 
 
 [node name="MapView" type="Node" parent="."]
