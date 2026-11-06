@@ -1510,7 +1510,7 @@ msgstr ""
 
 #. cloud.npc.butcher title
 #. es2:u/cloud/butchery short
-#: scenes/world/cloud/butchery_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/butchery_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "镇北肉铺"
 msgstr ""
 
@@ -1633,6 +1633,26 @@ msgstr ""
 msgid "告示"
 msgstr ""
 
+#. cloud.npc.tailor title
+#. es2:u/cloud/tailory short
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
+msgid "布庄"
+msgstr ""
+
+#. city.shangshu.kefang.landmark.book name
+#: scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
+msgid "书"
+msgstr ""
+
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/voxel/outdoor.json
+msgid "斋"
+msgstr ""
+
+#. cloud.npc.judge inquiry topic
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/voxel/outdoor.json
+msgid "赌"
+msgstr ""
+
 #. es2:u/cloud/tearoom2 short
 #: scenes/world/cloud/cloud_tearoom_upstairs.tscn data/cloud/rooms.json
 msgid "香茗坊二楼"
@@ -1640,7 +1660,7 @@ msgstr ""
 
 #. cloud.npc.doctor title
 #. es2:u/cloud/drugstore short
-#: scenes/world/cloud/drugstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/drugstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "药店"
 msgstr ""
 
@@ -1671,12 +1691,6 @@ msgstr ""
 msgid "福"
 msgstr ""
 
-#. cloud.npc.tailor title
-#. es2:u/cloud/tailory short
-#: scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
-msgid "布庄"
-msgstr ""
-
 #. cloud.npc.butcher inquiry topic
 #. cloud.npc.tea_waiter inquiry topic
 #. cloud.npc.box_boss inquiry topic
@@ -1694,7 +1708,7 @@ msgstr ""
 #. cloud.npc.weaponor title
 #. cloud.npc.weaponor inquiry topic
 #. es2:u/cloud/weapony short
-#: scenes/world/cloud/weapony_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/weapony_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "兵器屋"
 msgstr ""
 
@@ -1705,7 +1719,7 @@ msgstr ""
 
 #. cloud.npc.box_waiter title
 #. es2:u/cloud/woodboxy short
-#: scenes/world/cloud/yard_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/yard_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "棺材铺"
 msgstr ""
 
@@ -17125,7 +17139,7 @@ msgid "这类组织规模较小，加入也不甚容易，但是加入後往往�
 msgstr ""
 
 #. help.weapon title
-#: data/common/codex.json data/cloud/voxel/outdoor.json
+#: data/common/codex.json
 msgid "兵器"
 msgstr ""
 
@@ -22906,7 +22920,7 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.box_boss inquiry topic
-#: data/cloud/npcs.json
+#: data/cloud/npcs.json data/cloud/voxel/outdoor.json
 msgid "棺材"
 msgstr ""
 
@@ -23201,11 +23215,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "他脸上的表情仿佛是看到了你口袋里的钱一般。\n"
-msgstr ""
-
-#. cloud.npc.judge inquiry topic
-#: data/cloud/npcs.json data/cloud/voxel/outdoor.json
-msgid "赌"
 msgstr ""
 
 #. cloud.npc.judge inquiry.赌
@@ -35995,11 +36004,6 @@ msgid ""
 "天花板上有一块石板，似乎可以推开。\n"
 msgstr ""
 
-#. city.shangshu.kefang.landmark.book name
-#: data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json
-msgid "书"
-msgstr ""
-
 #. city.shangshu.kefang.landmark.book long
 #: data/city/world.json
 msgid ""
@@ -43789,7 +43793,7 @@ msgstr ""
 msgid "民房"
 msgstr ""
 
-#: data/city/voxel/main.json data/guanbei/voxel/worksite.json
+#: data/city/voxel/main.json data/cloud/voxel/outdoor.json data/guanbei/voxel/worksite.json
 msgid "兵"
 msgstr ""
 
@@ -43845,10 +43849,6 @@ msgstr ""
 msgid "振远"
 msgstr ""
 
-#: data/cloud/voxel/outdoor.json data/cloud/voxel/yard_house.json
-msgid "棺"
-msgstr ""
-
 #: data/cloud/voxel/outdoor.json
 msgid "张府"
 msgstr ""
@@ -43863,6 +43863,10 @@ msgstr ""
 
 #: data/cloud/voxel/weapony_house.json
 msgid "专卖各式兵器"
+msgstr ""
+
+#: data/cloud/voxel/yard_house.json
+msgid "棺"
 msgstr ""
 
 #: data/cloud/voxel/zaihuoy_house.json
