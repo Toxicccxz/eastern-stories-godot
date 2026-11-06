@@ -17,10 +17,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 8,
-			"chat_msg": [
-				"盐脚夫停下来喘口气，抹了一把脸上的盐霜。\n",
-				"盐脚夫把盐包往背上颠了颠，一步一步往上挪。\n"
-			],
+			"chat_msg": ["盐脚夫停下来喘口气，抹了一把脸上的盐霜。\n", "盐脚夫把盐包往背上颠了颠，一步一步往上挪。\n"],
 			"inquiry": {
 				"盐": ["码头那边晒的海盐。背上崖，送到玉螺湖村去换米，一包换一斗。"],
 				"番坊": ["下了崖就是。码头、市集，再往里头是庙。"],
@@ -45,10 +42,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 8,
-			"chat_msg": [
-				"船工往海里啐了一口。\n",
-				"船工哼起一支调子，词你一个字也听不懂。\n"
-			],
+			"chat_msg": ["船工往海里啐了一口。\n", "船工哼起一支调子，词你一个字也听不懂。\n"],
 			"inquiry": {
 				"船": ["不是我们的船。南边商人的，西边商人的。我们只管拴、只管卸，一天三十文。"],
 				"海": ["海上没有路。有路，也是别人的。"],
@@ -75,10 +69,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 8,
-			"chat_msg": [
-				"胡商冲着船工嚷道：慢点！那一箱是琉璃！\n",
-				"胡商拿出一本小册子，在上头记了一笔。\n"
-			],
+			"chat_msg": ["胡商冲着船工嚷道：慢点！那一箱是琉璃！\n", "胡商拿出一本小册子，在上头记了一笔。\n"],
 			"inquiry": {
 				"货": ["胡椒、琉璃、毡子。从西边来，走了一年。到了番坊，交了税，就剩一半。"],
 				"税": ["十抽一！冯大人还说是轻的。"],
@@ -104,10 +95,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"税吏拨了几下算盘，在账上记了一笔。\n",
-				"税吏冲着卸货的胡商喊道：先过秤，再上岸！\n"
-			],
+			"chat_msg": ["税吏拨了几下算盘，在账上记了一笔。\n", "税吏冲着卸货的胡商喊道：先过秤，再上岸！\n"],
 			"inquiry": {
 				"税": ["货上岸，十抽一，市舶司的规矩。你没货？没货就走吧。"],
 				"市舶司": ["市集西头，灰墙的院子。冯大人在里头。"],
@@ -135,10 +123,7 @@
 			],
 			"vendor": "fanfang.vendor.glass",
 			"chat_chance": 8,
-			"chat_msg": [
-				"琉璃商举起一颗珠子，对着太阳眯起眼睛看。\n",
-				"琉璃商吆喝道：西边的火烧出来的琉璃——看看，不买也看看！\n"
-			],
+			"chat_msg": ["琉璃商举起一颗珠子，对着太阳眯起眼睛看。\n", "琉璃商吆喝道：西边的火烧出来的琉璃——看看，不买也看看！\n"],
 			"inquiry": {
 				"琉璃": ["西边的火烧出来的，透亮。中原人喜欢，一串换一斗米。"],
 				"番坊": ["好地方。没人问你从哪来，只问你卖什么。"],
@@ -164,10 +149,7 @@
 			],
 			"vendor": "fanfang.vendor.carpet",
 			"chat_chance": 6,
-			"chat_msg": [
-				"毡毯商慢慢地抚平一张毡毯上的褶子。\n",
-				"毡毯商闭着眼睛，像是睡着了，可你一走近他就睁开了眼。\n"
-			],
+			"chat_msg": ["毡毯商慢慢地抚平一张毡毯上的褶子。\n", "毡毯商闭着眼睛，像是睡着了，可你一走近他就睁开了眼。\n"],
 			"inquiry": {
 				"毡毯": ["一张毡毯，一个女人织一年。你踩在上头，就是踩在她那一年上。"],
 				"花纹": ["一圈套一圈，是路。从家里走出来，走到这儿，还没走完。"],
@@ -193,10 +175,7 @@
 			],
 			"vendor": "fanfang.vendor.spice",
 			"chat_chance": 8,
-			"chat_msg": [
-				"香料商抓了一把胡椒，凑到鼻子底下闻了闻，点点头。\n",
-				"香料商冲着街上喊了一句什么，她的孩子跑过来又跑走了。\n"
-			],
+			"chat_msg": ["香料商抓了一把胡椒，凑到鼻子底下闻了闻，点点头。\n", "香料商冲着街上喊了一句什么，她的孩子跑过来又跑走了。\n"],
 			"inquiry": {
 				"香料": ["胡椒、姜黄、孜然。一勺胡椒，在京师换一勺银子。在番坊，换一张饼。"],
 				"胡饼": ["我自己烤的。芝麻多，盐少。走远路的人带着，一个月不坏。"],
@@ -222,10 +201,7 @@
 			],
 			"vendor": "fanfang.vendor.copper",
 			"chat_chance": 8,
-			"chat_msg": [
-				"铜器商叮叮当当地敲着一只铜盘。\n",
-				"铜器商举起一只铜壶，冲你晃了晃。\n"
-			],
+			"chat_msg": ["铜器商叮叮当当地敲着一只铜盘。\n", "铜器商举起一只铜壶，冲你晃了晃。\n"],
 			"inquiry": {
 				"铜壶": ["装水，装茶，装酒，都行。走远路，水比钱要紧。"],
 				"铜": ["铜是番坊的铜，手艺是我家的手艺。花纹是我爷爷教的，他说是天上的星星。"],
@@ -248,10 +224,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 10,
-			"chat_msg": [
-				"看摊的孩子冲你喊道：看看，看看！\n",
-				"看摊的孩子从麻袋里偷抓了一撮什么，塞进嘴里，脸一下子皱成一团。\n"
-			],
+			"chat_msg": ["看摊的孩子冲你喊道：看看，看看！\n", "看摊的孩子从麻袋里偷抓了一撮什么，塞进嘴里，脸一下子皱成一团。\n"],
 			"inquiry": {
 				"番坊": ["我娘说，番坊就是谁都来、谁都走的地方。"],
 				"大秦人": ["铁盾会的人个子好高。他们说话像唱歌，吵架也像唱歌。"],
@@ -275,10 +248,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 8,
-			"chat_msg": [
-				"说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n",
-				"说书的老胡人停下来，喝了一口水，看着街上的人来来去去。\n"
-			],
+			"chat_msg": ["说书的老胡人说道：……那座城有一百道门，门门都有兵守着。可兵是会老的。\n", "说书的老胡人停下来，喝了一口水，看着街上的人来来去去。\n"],
 			"inquiry": {
 				"故事": ["西边，很远的西边，有一个大国。城一百座，路都是石头铺的，一直铺到海边。后来北边的蛮子来了，城一座一座地烧。剩下的人往东走，走到这里，走不动了。——这不是故事，孩子。这是铁盾会那些人的来历。"],
 				"大秦": ["你们叫它大秦。他们自己叫它别的名字。它已经没有了。"],
@@ -289,7 +259,7 @@
 		},
 		{
 			"id": "native.npc.feng_lu",
-			"legacy_source": "native: 番坊 A (剧情总纲 §3 第七章 ④「市舶吏奉兵部令要清走大秦人」, 要加「市舶吏冯禄【名字续写】」; d/city/eastdoor2.c 的通缉布告作由头; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 A」) — 续写",
+			"legacy_source": "native: 番坊 A (剧情总纲 §3 第七章 ④「市舶吏奉兵部令要清走大秦人」, 要加「市舶吏冯禄【名字续写】」; d/city/eastdoor2.c 的通缉布告作由头; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 A」) — 续写; 番坊 C: at 铁盾会's gate with his four hired 浪人 once the 铜牒 is in the 大秦人's side's hand (staged spawn), his scene and the 对质 (DECISIONS「番坊 C」)",
 			"name": "冯禄",
 			"aliases": ["feng lu", "official", "市舶吏", "冯大人"],
 			"title": "市舶吏",
@@ -305,26 +275,72 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"冯禄翻着账册，嘴里念念有词地算着数目。\n",
-				"冯禄看了一眼门外，又低下头。\n"
-			],
+			"chat_msg": ["冯禄翻着账册，嘴里念念有词地算着数目。\n", "冯禄看了一眼门外，又低下头。\n"],
 			"inquiry": {
-				"文书": { "rules": [
-					{ "asker_marks": ["看出文书是假的"], "lines": [
-						{ "emote": "按住了案上的文书，手指头有点抖。" },
-						{ "say": "印……印是兵部的印。你一个外乡人，懂什么印色？" }
-					] },
-					{ "say": "兵部的令，京师来的，盖着大印。大秦人聚众持械，着本司清出——我也是奉命行事。" }
-				] },
-				"大秦人": ["他们在番坊住了三十年，税从来没拖过。可兵部的令下来了，我有什么法子？"],
+				"文书": {
+					"rules": [
+						{ "asker_marks": ["争地过了"], "say": "……本司回去查。查清了再说。" },
+						{
+							"asker_marks": ["看出文书是假的"],
+							"lines": [
+								{ "emote": "按住了案上的文书，手指头有点抖。" },
+								{ "say": "印……印是兵部的印。你一个外乡人，懂什么印色？" }
+							]
+						},
+						{ "say": "兵部的令，京师来的，盖着大印。大秦人聚众持械，着本司清出——我也是奉命行事。" }
+					]
+				},
+				"大秦人": {
+					"rules": [
+						{ "asker_marks": ["大秦人被清走"], "say": "清走了。浪人作的证，兵部的令，本司照办。——那块地？归谁，不是我说了算。" },
+						{ "asker_marks": ["争地过了"], "say": "……他们留下了。本司回去查那方印。" },
+						{ "say": "他们在番坊住了三十年，税从来没拖过。可兵部的令下来了，我有什么法子？" }
+					]
+				},
 				"浪人": ["鬼笠馆的。他们想要铁盾会那块地，想了好些年了。兵部的令一下，他们比我还高兴。"],
 				"於兰天武": ["京师东二门挂着的那张。各州县都要抄一份，我也抄了。皇叔怎么成了要犯？我一个小吏，不敢问。"],
 				"布告": ["京师东二门的原告，番坊照抄。上头让抄，我就抄。"],
 				"市舶司": ["收税、查货、看船。番坊的船都是外头的，税是我的。"],
 				"船": ["南边来的，西边来的，没有一条是番坊的。番坊人不造船，只卸货。"],
 				"铁盾会": ["市集北头。去吧，去告诉他们：兵部的令是兵部的令，不是我冯禄的令。"]
-			}
+			},
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"npc_in": "fanfang.shield_yard",
+					"not_mark": "争地过了",
+					"steps": [
+						{ "emote": "站在院门里，手里举着那纸文书，身后四个戴斗笠的浪人。" },
+						{ "say": "兵部的令在此：番坊大秦人等，聚众持械，着市舶司即日清出！——安敦，出来说话。" }
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"npc_in": "fanfang.shield_yard",
+					"not_mark": "争地过了",
+					"steps": [
+						{ "comes": "native.npc.andun", "from": "fanfang.hall" },
+						{ "by": "native.npc.andun" },
+						{ "emote": "从屋里出来，左腿先，慢。" },
+						{ "say": "冯大人。三十年，税没拖过一文。令，我看过——印不是兵部的印。" }
+					]
+				},
+				{
+					"after": 7,
+					"scene": true,
+					"npc_in": "fanfang.shield_yard",
+					"not_mark": "争地过了",
+					"steps": [
+						{ "by": "native.npc.feng_lu" },
+						{ "say": "印是不是，不是你一个番人说了算！" },
+						{ "by": "native.npc.andun" },
+						{ "emote": "转过头来看你。" },
+						{ "say": "你有一块印模——卢卡说的。拿出来，对一对。拿不出来……那就看你的了。" }
+					]
+				}
+			]
 		},
 		{
 			"id": "native.npc.customs_clerk",
@@ -342,9 +358,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"书办揉了揉手腕，又蘸了一笔墨。\n"
-			],
+			"chat_msg": ["书办揉了揉手腕，又蘸了一笔墨。\n"],
 			"inquiry": {
 				"文书": ["抄了二十份了，番坊每家门口贴一份。大人说贴，我就抄。"],
 				"布告": ["那张也是我抄的。於兰天武四个字，我写了一百遍。"],
@@ -369,10 +383,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"差役打了个哈欠。\n",
-				"差役看了看墙头上的碎瓷片，又看了看你。\n"
-			],
+			"chat_msg": ["差役打了个哈欠。\n", "差役看了看墙头上的碎瓷片，又看了看你。\n"],
 			"inquiry": {
 				"大秦人": ["铁盾会那些人，个个带剑，个子比我高一头。真要清……就凭我们两个？"],
 				"货": ["后院那些箱子？扣下来的。有的扣了三个月，有的扣了三年。"],
@@ -381,7 +392,7 @@
 		},
 		{
 			"id": "native.npc.andun",
-			"legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ②「大秦剑会会首安敦【名字续写】，祖上三百年前见过金乌族人封头」, §6 番坊卡; doc/help/history:44 皇叔於兰淳焉北征蛮族; doc/help/theme:3「西方还在蛮荒时代」— exiles and swords for hire, no envoy; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 B」) — 续写; his Chinese slow, a word at a time, more left out than said (剧情总纲 §10)",
+			"legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ②「大秦剑会会首安敦【名字续写】，祖上三百年前见过金乌族人封头」, §6 番坊卡; doc/help/history:44 皇叔於兰淳焉北征蛮族; doc/help/theme:3「西方还在蛮荒时代」— exiles and swords for hire, no envoy; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 B」) — 续写; his Chinese slow, a word at a time, more left out than said (剧情总纲 §10); 番坊 C: comes out of his hut at the 争地, on the quay in a 枷 once the 大秦人 are cleared (DECISIONS「番坊 C」)",
 			"name": "安敦",
 			"aliases": ["andun", "master", "会首", "老人", "大秦人"],
 			"title": "铁盾会会首",
@@ -398,23 +409,24 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 8,
-			"chat_msg": [
-				"安敦把铜灯的灯芯拨亮了一点。\n",
-				"安敦看着墙上那面旧盾，很久没有动。\n"
-			],
+			"chat_msg": ["安敦把铜灯的灯芯拨亮了一点。\n", "安敦看着墙上那面旧盾，很久没有动。\n"],
 			"inquiry": {
 				"祖上": ["三百年前。皇叔於兰淳焉，打北方的蛮族——雇了我们。一百二十个剑手，从西边来。打完，留下三十个。我是第十二代。"],
 				"老兵": ["三十个里的一个。他看见了——那个鬼的头，怎么封的。活着的时候不说。死前，刻在一片铜上。"],
 				"铜牒": {
 					"rules": [
 						{ "asker_marks": ["铜牒到手"], "say": "牒在你手里。读了，再还我们一个人情——冯禄来的时候，站在门口。" },
-						{ "asker_marks": ["见了安敦"], "mark_asker": "安敦说了铜牒", "lines": [
-							{ "say": "巴掌大，一片铜。十二代，传到我。三十年前，我把它存进拜火祠——火前最安全，没人敢在火前拿不是自己的东西。" },
-							{ "say": "祠规：火前不说谎。取牒，要过一场问话。三句。" },
-							{ "emote": "看着桌上的灯。" },
-							{ "say": "我们过不了。三十年前，为了这块地，我们对祭司说过一句谎。火记得。" },
-							{ "say": "你不是我们的人。你去。——先想好，站哪边：市舶司要清走我们，浪人要我们的地。" }
-						] },
+						{
+							"asker_marks": ["见了安敦"],
+							"mark_asker": "安敦说了铜牒",
+							"lines": [
+								{ "say": "巴掌大，一片铜。十二代，传到我。三十年前，我把它存进拜火祠——火前最安全，没人敢在火前拿不是自己的东西。" },
+								{ "say": "祠规：火前不说谎。取牒，要过一场问话。三句。" },
+								{ "emote": "看着桌上的灯。" },
+								{ "say": "我们过不了。三十年前，为了这块地，我们对祭司说过一句谎。火记得。" },
+								{ "say": "你不是我们的人。你去。——先想好，站哪边：市舶司要清走我们，浪人要我们的地。" }
+							]
+						},
 						{ "say": "坐下。先说我的祖上。" }
 					]
 				},
@@ -429,17 +441,27 @@
 					"rules": [
 						{ "asker_marks": ["站了大秦人"], "say": "你站了我们这边。去祠里，火前说真话。" },
 						{ "asker_marks": ["站了浪人"], "say": "你去了鬼笠馆。……没有话说。" },
-						{ "asker_marks": ["安敦说了铜牒"], "mark_asker": "站了大秦人", "lines": [
-							{ "emote": "看了你很久，站了起来——慢，左腿先。" },
-							{ "say": "好。那你替我们去火前。三句真话，牒是你的。" },
-							{ "say": "读了，再还我们一个人情：冯禄来的时候，站在门口。" }
-						] },
+						{
+							"asker_marks": ["安敦说了铜牒"],
+							"mark_asker": "站了大秦人",
+							"lines": [
+								{ "emote": "看了你很久，站了起来——慢，左腿先。" },
+								{ "say": "好。那你替我们去火前。三句真话，牒是你的。" },
+								{ "say": "读了，再还我们一个人情：冯禄来的时候，站在门口。" }
+							]
+						},
 						{ "say": "先听我说完铜牒的事。" }
 					]
 				},
-				"市舶司": ["冯禄。兵部的文书，说我们聚众持械。三十年，税没拖过一文。文书的印——卢卡说，你看得出。"],
+				"市舶司": {
+					"rules": [
+						{ "asker_marks": ["争地过了"], "say": "冯禄走了。地还是我们的。——你欠我们的人情，我们记着；我们欠你的，也记着。" },
+						{ "say": "冯禄。兵部的文书，说我们聚众持械。三十年，税没拖过一文。文书的印——卢卡说，你看得出。" }
+					]
+				},
 				"文书": {
 					"rules": [
+						{ "asker_marks": ["争地过了"], "say": "假的。你让他自己看见了。" },
 						{ "asker_marks": ["看出文书是假的"], "say": "你看出来了。假印。兵部没有下这个令——有人借兵部的名字要我们的地。" },
 						{ "say": "冯禄案上压着。你去看。印色——卢卡说你学过。" }
 					]
@@ -464,12 +486,23 @@
 						{ "say": "其中一个，看见那个鬼的头怎么封的。他死前，刻在一片铜上。十二代，传到我——问我「铜牒」。" },
 						{ "mark": "见了安敦" }
 					]
+				},
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "大秦人被清走",
+					"not_mark": "安敦在码头见过你",
+					"npc_in": "fanfang.dock",
+					"steps": [
+						{ "emote": "被两个差役押在船边，手上一副枷。他看见你，看了很久，没有说话。" },
+						{ "mark": "安敦在码头见过你" }
+					]
 				}
 			]
 		},
 		{
 			"id": "native.npc.shield_swordsman",
-			"legacy_source": "native: 番坊 B (剧情总纲 §6 番坊卡「大秦剑会『铁盾会』：流亡者和佣兵，不是使团」; 计划 build/plans/番坊_计划.md §2「大秦剑手 ×6」; DECISIONS「番坊 B」) — 续写",
+			"legacy_source": "native: 番坊 B (剧情总纲 §6 番坊卡「大秦剑会『铁盾会』：流亡者和佣兵，不是使团」; 计划 build/plans/番坊_计划.md §2「大秦剑手 ×6」; DECISIONS「番坊 B」) — 续写; 番坊 C: the three the 会首's hut sends out fight beside the player at the 争地 (summoned; DECISIONS「番坊 C」)",
 			"name": "大秦剑手",
 			"aliases": ["swordsman", "剑手", "大秦人"],
 			"title": "铁盾会",
@@ -485,22 +518,17 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 10,
-			"chat_msg": [
-				"大秦剑手把盾往上一抬，短剑从盾沿底下刺出去。\n",
-				"大秦剑手喊了一声号子，谁也听不懂。\n",
-				"两面盾砰地撞在一起。\n"
-			],
+			"chat_msg": ["大秦剑手把盾往上一抬，短剑从盾沿底下刺出去。\n", "大秦剑手喊了一声号子，谁也听不懂。\n", "两面盾砰地撞在一起。\n"],
 			"chat_chance_combat": 20,
-			"chat_msg_combat": [
-				"大秦剑手喝道：盾！\n"
-			],
+			"chat_msg_combat": ["大秦剑手喝道：盾！\n"],
 			"inquiry": {
 				"会首": ["里头。安敦。我们的头——他说的话，就是会里的话。"],
 				"盾": ["盾在前，剑在后。盾不倒，人不倒。——会首教的。"],
 				"市舶司": ["要清我们走。走哪儿去？西边没有了。"],
 				"浪人": ["刀快。可他们没有盾。"],
 				"卢卡": ["回来了。剑没卖。会首说他做得对。"]
-			}
+			},
+			"fights_beside_player": true
 		},
 		{
 			"id": "native.npc.fire_priest",
@@ -519,10 +547,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"穆护站在火坛前，一动不动，火光在他的白袍上一明一暗。\n",
-				"穆护往火里添了什么，火没有变。\n"
-			],
+			"chat_msg": ["穆护站在火坛前，一动不动，火光在他的白袍上一明一暗。\n", "穆护往火里添了什么，火没有变。\n"],
 			"inquiry": {
 				"火": ["三百年没灭。不是我们在喂它——是它在看我们。"],
 				"祠规": ["一条：火前不说谎。说了，火知道。"],
@@ -576,10 +601,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"拜火的胡商把额头贴在地上，很久没有抬起来。\n",
-				"拜火的胡商低低地念着什么，一句接一句。\n"
-			],
+			"chat_msg": ["拜火的胡商把额头贴在地上，很久没有抬起来。\n", "拜火的胡商低低地念着什么，一句接一句。\n"],
 			"inquiry": {
 				"火": ["我从西边来，走了一年。到了这儿，先拜火，再做生意。"],
 				"祭司": ["穆护不骗人，也不让人骗。做生意的人，怕他。"],
@@ -607,10 +629,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 6,
-			"chat_msg": [
-				"龙若法王拨着念珠，嘴唇动着，没有声音。\n",
-				"龙若法王抬头看了看榕树，说道：阿弥陀佛。\n"
-			],
+			"chat_msg": ["龙若法王拨着念珠，嘴唇动着，没有声音。\n", "龙若法王抬头看了看榕树，说道：阿弥陀佛。\n"],
 			"inquiry": {
 				"剃度": {
 					"rules": [
@@ -659,10 +678,7 @@
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"chat_chance": 8,
-			"chat_msg": [
-				"天竺僧低声念着经，调子一起一伏。\n",
-				"天竺僧双手合十，朝榕树的方向拜了一拜。\n"
-			],
+			"chat_msg": ["天竺僧低声念着经，调子一起一伏。\n", "天竺僧双手合十，朝榕树的方向拜了一拜。\n"],
 			"inquiry": {
 				"法王": ["法王七十一了。他说他还要收十个弟子，收满了就坐化。"],
 				"经": ["贝叶经。从天竺背来的，一片叶子一页。"],
@@ -670,6 +686,184 @@
 				"榕树": ["第一代师父带来的一根枝条。现在你看——一棵树像一片林子。"],
 				"大秦人": ["他们的火在街那头。我们的佛在这头。中间是卖香料的。"]
 			}
+		},
+		{
+			"id": "fanfang.npc.ronin_master",
+			"legacy_source": "daemon/class/ronin/master.c",
+			"name": "早川直义",
+			"aliases": ["master ronin", "ronin", "早川", "馆主"],
+			"title": "鬼笠馆馆主",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个五十来岁的倭人，瘦，背挺得笔直，头发在头顶挽成一个髻。他坐在板屋尽头，一把窄而弯的长刀横在膝上，两只手搭在刀鞘上，一动不动。他的中原话说得很慢，一个字一个字。\n",
+			"attributes": { "str": 26, "cor": 26, "int": 24, "spi": 24, "cps": 28, "per": 22, "con": 26, "kar": 16 },
+			"resources": { "max_force": 1800, "force": 1800 },
+			"force_factor": 10,
+			"combat_exp": 1000000,
+			"score": 200000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 30, "staff": 50, "sword": 100, "throwing": 60, "force": 60, "parry": 100, "dodge": 70 },
+			"carry": [
+				{ "item": "native:fanfang/katana", "source": "native: 番坊 C", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 4,
+			"chat_msg": ["早川直义坐着不动，刀横在膝上。\n", "早川直义的拇指把刀往外推了一寸，又按了回去。\n"],
+			"inquiry": {
+				"铜牒": {
+					"rules": [
+						{ "asker_marks": ["站了大秦人"], "say": "你站了那边。我们没有话说。" },
+						{ "asker_marks": ["铜牒到手"], "say": "在你手里了。火前拿的也好，夜里拿的也好——铜不认人。" },
+						{ "asker_marks": ["过了一刀"], "say": "夜里。拜火祠。火坛前站着，别出声。" },
+						{ "asker_marks": ["站了浪人"], "say": "要铜牒？过我一刀。" },
+						{ "say": "大秦人存在火前的东西。你要？" }
+					]
+				},
+				"一刀": ["一击之内定生死。刀出鞘，只出一次。"],
+				"门规": ["门口那块牌子。一击之内定生死——刀出鞘，只出一次，出了就不收。"],
+				"鬼笠": ["门上那顶斗笠。从倭国来的时候戴的，破了，挂着。馆就叫这个。"],
+				"地": ["铁盾会那块地，三十年前是我们的。火前，他们说了一句谎，地就成了他们的。"],
+				"铁盾会": ["盾在前，剑在后。好。可一击之内，盾没有用。"],
+				"拜火祠": ["火不说谎。人说。"],
+				"大秦人": ["三十年前，他们在火前说了一句谎。火没蹿起来——火也会看人。"],
+				"冯禄": {
+					"rules": [
+						{ "asker_marks": ["争地过了"], "say": "……他的印是假的。我们早知道。" },
+						{ "say": "市舶司的。他要人，我们借他四个。差，是他的差。" }
+					]
+				}
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "站了大秦人",
+					"not_mark": "早川拒了你",
+					"npc_in": "fanfang.dojo",
+					"steps": [
+						{ "emote": "抬眼看了你一下，又低下头。" },
+						{ "say": "你站了那边。我们没有话说。" },
+						{ "mark": "早川拒了你" }
+					]
+				},
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "站了浪人",
+					"not_mark": "早川见过你",
+					"npc_in": "fanfang.dojo",
+					"steps": [
+						{ "emote": "从板屋尽头抬起头。" },
+						{ "say": "要铜牒？过我一刀。" },
+						{ "mark": "早川见过你" }
+					]
+				}
+			],
+			"trials": [
+				{
+					"label": "过他一刀",
+					"asker_marks": ["站了浪人"],
+					"unless_mark": "过了一刀",
+					"confirm": "早川直义的一刀是真砍：\n· 只有一刀，实打实地落在你身上，挨中了会受伤。\n· 接不住，你随后会昏倒；伤得太重会死。\n倒了可以歇好再来。\n确定过他一刀吗？",
+					"blows": [
+						{ "say": "早川直义站了起来，刀还在鞘里。「一击之内定生死。」——刀出鞘了。", "fail": "早川直义把刀插回鞘里：「不够。歇好了再来。」" }
+					],
+					"success": "早川直义收刀入鞘：「过了。今夜，拜火祠——火坛前站着，别出声。」",
+					"mark": "过了一刀",
+					"deed": "在鬼笠馆接下了早川直义的一刀"
+				}
+			]
+		},
+		{
+			"id": "native.npc.ronin",
+			"legacy_source": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — the 鬼笠馆's men; four of them 冯禄's hired hands at the 争地",
+			"name": "浪人",
+			"aliases": ["ronin", "倭人", "浪人"],
+			"title": "鬼笠馆",
+			"gender": "男性",
+			"age": 30,
+			"long": "一个戴斗笠的倭人，斗笠压得很低，只看得见下巴。他腰里一把窄而弯的长刀，两只手一直离刀柄不远。\n",
+			"attributes": { "str": 26, "cor": 26, "int": 18, "spi": 20, "cps": 26, "per": 20, "con": 26, "kar": 14 },
+			"combat_exp": 100000,
+			"attitude": "peaceful",
+			"skills": { "sword": 80, "parry": 70, "dodge": 70, "unarmed": 50, "force": 50 },
+			"carry": [
+				{ "item": "native:fanfang/katana", "source": "native: 番坊 C", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": ["浪人举刀，劈下，收刀——只有一刀。\n", "浪人把斗笠往下按了按。\n"],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": ["浪人喝道：一刀！\n"],
+			"inquiry": {
+				"馆主": ["板屋尽头坐着的。早川。"],
+				"门规": ["一击之内定生死。"],
+				"铁盾会": ["那块地是我们的。"],
+				"冯禄": ["借我们四个。差是他的，刀是我们的。"]
+			}
+		},
+		{
+			"id": "native.npc.ronin_fighting",
+			"legacy_source": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — 冯禄's four with their swords out (summoned by 拿下; all down marks 冯禄的浪人倒了)",
+			"name": "浪人",
+			"aliases": ["ronin", "倭人", "浪人"],
+			"title": "鬼笠馆",
+			"gender": "男性",
+			"age": 30,
+			"long": "一个戴斗笠的倭人，刀已经出了鞘，窄而弯的刀身贴着小臂。\n",
+			"attributes": { "str": 26, "cor": 26, "int": 18, "spi": 20, "cps": 26, "per": 20, "con": 26, "kar": 14 },
+			"combat_exp": 100000,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"skills": { "sword": 80, "parry": 70, "dodge": 70, "unarmed": 50, "force": 50 },
+			"carry": [
+				{ "item": "native:fanfang/katana", "source": "native: 番坊 C", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": ["浪人喝道：一刀！\n"]
+		},
+		{
+			"id": "native.npc.shadow_thief",
+			"legacy_source": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — the 黑影 at the altar on the night after the 一刀 (剧情总纲 §3 第七章 ⑤「浪人替你偷」); peaceful, never named",
+			"name": "黑影",
+			"aliases": ["shadow", "黑影"],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个从头到脚裹在黑布里的人，蹲在火坛后头，只露一双眼睛。火光照不到他。\n",
+			"attributes": { "str": 24, "cor": 26, "int": 20, "spi": 20, "cps": 30, "per": 26, "con": 24, "kar": 14 },
+			"combat_exp": 200000,
+			"attitude": "peaceful",
+			"skills": { "sword": 80, "dodge": 100, "unarmed": 50 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"npc_in": "fanfang.fire_hall",
+					"not_mark": "铜牒到手",
+					"steps": [
+						{ "emote": "从火坛后头站起来，手里一片发黑的铜。" },
+						{ "line": "净室里传出一声骂，是波斯话。门没有开。\n" }
+					]
+				},
+				{
+					"after": 3,
+					"scene": true,
+					"npc_in": "fanfang.fire_hall",
+					"not_mark": "铜牒到手",
+					"steps": [
+						{ "say": "拿着。走。" },
+						{ "give": "native:fanfang/bronze_tablet" },
+						{ "mark": "铜牒到手" },
+						{ "mark": "大秦人被清走" },
+						{ "line": "黑影翻过屋顶的方洞，没了。火坛底下的暗格开着，空的。\n", "color": "HIW" },
+						{ "leave": "native.npc.shadow_thief" }
+					]
+				}
+			]
 		}
 	]
 }

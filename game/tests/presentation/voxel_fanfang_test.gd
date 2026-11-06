@@ -20,8 +20,8 @@ const TALL: Array[String] = ["standing_rock", "boulder", "banner", "torch", "cai
 	"hearth", "counter", "cauldron", "meat_rack", "lantern_post", "post", "chest_stack", "sacks", "derrick", "lumber", "baskets", "water_vat", "bench",
 	"great_shield", "stall", "lean_to", "mooring_post", "loot_crates", "cargo", "shield_rack", "fire_altar", "temple_bell", "training_post", "stone_seat",
 	"tea_table", "bed", "travel_chest", "lamp_stand", "sandbags", "prayer_cushion", "buddha", "altar_table", "weapon_rack", "bedding", "lantern_post"]
-const SCENES: Array[String] = ["fanfang_cliff_road", "fanfang_port", "fanfang_bazaar", "fanfang_customs", "fanfang_shield_hall", "fanfang_fire_temple", "fanfang_lama_temple"]
-const MAPS: Array[StringName] = [&"fanfang.cliff_road", &"fanfang.port", &"fanfang.bazaar", &"fanfang.customs", &"fanfang.shield_hall", &"fanfang.fire_temple", &"fanfang.lama_temple"]
+const SCENES: Array[String] = ["fanfang_cliff_road", "fanfang_port", "fanfang_bazaar", "fanfang_customs", "fanfang_shield_hall", "fanfang_fire_temple", "fanfang_lama_temple", "fanfang_ronin_hall"]
+const MAPS: Array[StringName] = [&"fanfang.cliff_road", &"fanfang.port", &"fanfang.bazaar", &"fanfang.customs", &"fanfang.shield_hall", &"fanfang.fire_temple", &"fanfang.lama_temple", &"fanfang.ronin_hall"]
 ## Maps that are no rooms: no lived-in life expected.
 const NO_ROOMS: Array[StringName] = [&"fanfang.cliff_road", &"fanfang.port", &"fanfang.bazaar"]
 ## Where a test may put the player on each map (TEST-ONLY).
@@ -32,7 +32,8 @@ const ENTRIES: Dictionary[StringName, Array] = {
 	&"fanfang.customs": [&"fanfang.office", &"fanfang.office.street_entry"],
 	&"fanfang.shield_hall": [&"fanfang.shield_yard", &"fanfang.shield_yard.gate_arrival"],
 	&"fanfang.fire_temple": [&"fanfang.fire_hall", &"fanfang.fire_hall.street_entry"],
-	&"fanfang.lama_temple": [&"fanfang.temple_yard", &"fanfang.temple_yard.slope_arrival"]}
+	&"fanfang.lama_temple": [&"fanfang.temple_yard", &"fanfang.temple_yard.slope_arrival"],
+	&"fanfang.ronin_hall": [&"fanfang.gate_yard", &"fanfang.gate_yard.temple_arrival"]}
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -64,6 +65,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 			&"fanfang.hall": await _check_shield_hall(tree, map)
 			&"fanfang.fire_temple": await _check_fire_temple(tree, map)
 			&"fanfang.lama_temple": await _check_lama_temple(tree, map)
+			&"fanfang.ronin_hall": await _check_ronin_hall(tree, map)
 	var missing: Array[StringName] = []
 	for map_id: StringName in MAPS:
 		if not _seen.has(map_id):
@@ -228,6 +230,17 @@ func _check_lama_temple(tree: SceneTree, map: WorldMapController) -> void:
 	_check(banyan, "the tree in the yard is a banyan")
 	_check(view.layout.get("courtyard", false) and (view.layout.get("ambience", {}) as Dictionary).has("fall"), "the yard open to the sky, leaves coming down")
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.shrine", &"fanfang.temple_yard"]), "walk into the shrine and back")
+
+
+func _check_ronin_hall(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["board", "water_vat", "bench", "weapon_rack", "training_post", "chest_stack", "straw_cape", "hanging_lantern", "banner_cloth", "wall_lamp", "window", "scratches", "trail"]:
+		_check(kind in kinds, "鬼笠馆 has its %s" % kind)
+	var actors: Dictionary = view.layout.get("actors", {})
+	_check((actors.get("native.npc.ronin", {}) as Dictionary).get("hat", false) and not (actors.get("fanfang.npc.ronin_master", {}) as Dictionary).get("hat", true), "the 浪人 wear their 斗笠, 早川 does not")
+	_check(view.layout.get("courtyard", false), "the gate yard open to the sky")
+	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.dojo", &"fanfang.gate_yard"]), "walk onto the boards and back")
 
 
 func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapController, place: String) -> void:

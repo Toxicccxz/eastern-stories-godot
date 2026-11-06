@@ -47,7 +47,9 @@ extends RefCounted
 ##   six riders) comes in as the player's own summons: its kills are the player's, and it leaves
 ##   as the fight ends; one following the player (郭承) falls on whoever fights the player in the
 ##   place they stand, stays, and its kills are its own. Both come in as a fight the player is in
-##   opens where they stand (WorldMapHostilities.announce_fight()).
+##   opens where they stand (WorldMapHostilities.announce_fight()). `fights_beside_leaves` (番坊 C)
+##   is the line read as a summoned one goes ({npc} its name; the riders' 拨转马头走了), or the
+##   plain 收了刀，走了 when the record has none.
 var hurt_divisor: int = 0
 var hurt_say: String = ""
 var hurt_color: StringName = ColoredLine.PLAIN
@@ -100,6 +102,7 @@ var attack_ask: String = ""
 var attack_choice: String = ""
 var follows_every_way: bool = false
 var fights_beside_player: bool = false
+var fights_beside_leaves: String = ""
 
 
 ## One of init()'s call_outs (`calls`): when, and what it does.
@@ -313,6 +316,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.fights_beside_player = reader.boolean("fights_beside_player", false)
 		if not hooks.fights_beside_player:
 			reader.fail("fights_beside_player", "only one that does says so")
+		hooks.fights_beside_leaves = reader.text("fights_beside_leaves", "")
+	elif reader.has("fights_beside_leaves"):
+		reader.fail("fights_beside_leaves", "only one that fights beside the player says how it leaves")
 	var spared: ContentRecordReader = reader.child("spared")
 	if spared != null:
 		found = true

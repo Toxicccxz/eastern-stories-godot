@@ -37,7 +37,7 @@ view goes through the regions.
 | 12b | 黑松山 (`d/chuenyu`), repaired | 黄土大道's spur west (玉螺湖村) | 32/37 | 14/23 | — | 7/7 | 0/0 | The copy of 刘家 (ES2 cut it off; it lives in 玉螺湖村); npc/xiaojuan.c is a copy placed by no room. |
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | block.c and jail.c (wizard rooms), spath1.c (no way in). |
 | 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 25 native | 36 | — | — | — | Done in four packages (`build/plans/关北_计划.md`, DECISIONS「关北 A」–「关北 D」). |
-| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 17 native so far | 20 | — | — | — | A and B done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」「番坊 B」); C–D to come. |
+| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 19 native so far | 20 | — | — | — | A–C done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」「番坊 B」「番坊 C」); D to come. |
 | | **Total** | | **536/551** | **239/286** | **9/9** | **33/36** special, **22/26** basic | **84/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
@@ -156,8 +156,12 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    the 市舶司 and the 兵部's order to clear the 大秦人 — false to one who learned the 印色 — 卢卡 at 铁盾会's gate, the chapter at that
    gate); B done (DECISIONS「番坊 B」「火前问话」: 铁盾会's sanded yard and 安敦's hut, the tablet's tale and the side taken, the 拜火祠's
    fire of three hundred years and the 火前问话 — three questions on the player's own deeds, answered from the ledger, a lie costing the
-   day — the 铜牒 in hand, 日陀罗寺 with 龙若法王 under the banyan; the generic `questions` act step and `ConfirmPrompt.ask_choices`); next C
-   (鬼笠馆 and 早川's one blow, the 争地 on both sides, the night the tablet is stolen, the reading, the eighth chapter's stub).
+   day — the 铜牒 in hand, 日陀罗寺 with 龙若法王 under the banyan; the generic `questions` act step and `ConfirmPrompt.ask_choices`); C done
+   (DECISIONS「番坊 C」: 鬼笠馆 through the temple's south door, 早川 from ronin/master.c and his one blow as a story trial; the 争地 — 冯禄
+   and his four hired 浪人 inside 铁盾会's gate, the 印模 held to the paper or a fight with three swordsmen beside the player; the wait for
+   dark on the boards and the 黑影 at the altar with the tablet, the 大秦人 cleared to the quay on the 浪人's side; the tablet read, the
+   chapter's milestone, the eighth chapter's stub); next D (the three masters and their families, 铁盾剑法 and 鬼笠刀法 with the two new
+   `valid_learn` rules, 卢卡 as a companion, the fisherman's line).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

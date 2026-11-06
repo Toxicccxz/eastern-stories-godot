@@ -882,8 +882,9 @@ func dismiss_summoned() -> void:
 				and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 			):
 				if _map.npc_life.player_hears(npc) and session != null and not departing:
-					# TRANSLATORS: one who fought beside the player ({npc}) leaves as the fight ends.
-					session.shared_ui().append_after_fight([ColoredLine.new(TranslationServer.translate("{npc}收了刀，拨转马头走了。").format({"npc": TranslationServer.translate(npc.definition().display_name)}))])
+					# TRANSLATORS: one who fought beside the player ({npc}) leaves as the fight ends (its record may say how).
+					var leaves: String = hooks.fights_beside_leaves if not hooks.fights_beside_leaves.is_empty() else "{npc}收了刀，走了。"
+					session.shared_ui().append_after_fight([ColoredLine.new(TranslationServer.translate(leaves).format({"npc": TranslationServer.translate(npc.definition().display_name)}))])
 				withdraw(npc)
 				summoners.erase(npc.character_id)
 			continue

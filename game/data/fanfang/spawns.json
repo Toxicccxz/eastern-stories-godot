@@ -11,16 +11,110 @@
 		{ "id": "fanfang.bazaar_east.spice", "npc": "native.npc.spice_merchant", "map": "fanfang.bazaar", "zone": "fanfang.bazaar_east", "points": ["fanfang.bazaar_east.spice_merchant.1"], "legacy_room": "native: 番坊 A (the spice stall)", "legacy_quantity": 1 },
 		{ "id": "fanfang.bazaar_east.child", "npc": "native.npc.stall_child", "map": "fanfang.bazaar", "zone": "fanfang.bazaar_east", "points": ["fanfang.bazaar_east.stall_child.1"], "legacy_room": "native: 番坊 A (her son minding the stall)", "legacy_quantity": 1 },
 		{ "id": "fanfang.bazaar_east.copper", "npc": "native.npc.copper_merchant", "map": "fanfang.bazaar", "zone": "fanfang.bazaar_east", "points": ["fanfang.bazaar_east.copper_merchant.1"], "legacy_room": "native: 番坊 A (the coppersmith's rack)", "legacy_quantity": 1 },
-		{ "id": "fanfang.bazaar_north.luca", "npc": "native.npc.luca", "map": "fanfang.bazaar", "zone": "fanfang.bazaar_north", "points": ["fanfang.bazaar_north.luca.1"], "legacy_room": "native: 番坊 A (剧情总纲 §3 第七章 ①; 计划 build/plans/番坊_计划.md §2: 卢卡 at 铁盾会's gate once 关北 is done)", "legacy_quantity": 1, "present": { "mark": "关北一章" } },
+		{ "id": "fanfang.bazaar_north.luca", "npc": "native.npc.luca", "map": "fanfang.bazaar", "zone": "fanfang.bazaar_north", "points": ["fanfang.bazaar_north.luca.1"], "legacy_room": "native: 番坊 A (剧情总纲 §3 第七章 ①; 计划 build/plans/番坊_计划.md §2: 卢卡 at 铁盾会's gate once 关北 is done); 番坊 C: gone once the 大秦人 are cleared (the 浪人's side)", "legacy_quantity": 1, "present": { "mark": "关北一章" }, "until": { "mark": "大秦人被清走" } },
 		{ "id": "fanfang.office.feng_lu", "npc": "native.npc.feng_lu", "map": "fanfang.customs", "zone": "fanfang.office", "points": ["fanfang.office.feng_lu.1"], "legacy_room": "native: 番坊 A (冯禄 behind his desk)", "legacy_quantity": 1 },
 		{ "id": "fanfang.office.clerk", "npc": "native.npc.customs_clerk", "map": "fanfang.customs", "zone": "fanfang.office", "points": ["fanfang.office.customs_clerk.1"], "legacy_room": "native: 番坊 A (the clerk copying)", "legacy_quantity": 1 },
 		{ "id": "fanfang.yard.runners", "npc": "native.npc.customs_runner", "map": "fanfang.customs", "zone": "fanfang.yard", "points": ["fanfang.yard.customs_runner.1", "fanfang.yard.customs_runner.2"], "legacy_room": "native: 番坊 A (two runners keeping the seized goods)", "legacy_quantity": 2 },
-		{ "id": "fanfang.hall.andun", "npc": "native.npc.andun", "map": "fanfang.shield_hall", "zone": "fanfang.hall", "points": ["fanfang.hall.andun.1"], "legacy_room": "native: 番坊 B (安敦 behind his low table)", "legacy_quantity": 1 },
-		{ "id": "fanfang.shield_yard.swordsmen", "npc": "native.npc.shield_swordsman", "map": "fanfang.shield_hall", "zone": "fanfang.shield_yard", "points": ["fanfang.shield_yard.swordsman.1", "fanfang.shield_yard.swordsman.2", "fanfang.shield_yard.swordsman.3", "fanfang.shield_yard.swordsman.4", "fanfang.shield_yard.swordsman.5", "fanfang.shield_yard.swordsman.6"], "legacy_room": "native: 番坊 B (the swordsmen drilling in pairs)", "legacy_quantity": 6 },
-		{ "id": "fanfang.fire_hall.priest", "npc": "native.npc.fire_priest", "map": "fanfang.fire_temple", "zone": "fanfang.fire_hall", "points": ["fanfang.fire_hall.fire_priest.1"], "legacy_room": "native: 番坊 B (穆护 before the fire)", "legacy_quantity": 1 },
+		{ "id": "fanfang.hall.andun", "npc": "native.npc.andun", "map": "fanfang.shield_hall", "zone": "fanfang.hall", "points": ["fanfang.hall.andun.1"], "legacy_room": "native: 番坊 B (安敦 behind his low table); 番坊 C: gone once the 大秦人 are cleared (the 浪人's side)", "legacy_quantity": 1, "until": { "mark": "大秦人被清走" } },
+		{ "id": "fanfang.shield_yard.swordsmen", "npc": "native.npc.shield_swordsman", "map": "fanfang.shield_hall", "zone": "fanfang.shield_yard", "points": ["fanfang.shield_yard.swordsman.1", "fanfang.shield_yard.swordsman.2", "fanfang.shield_yard.swordsman.3", "fanfang.shield_yard.swordsman.4", "fanfang.shield_yard.swordsman.5", "fanfang.shield_yard.swordsman.6"], "legacy_room": "native: 番坊 B (the swordsmen drilling in pairs); 番坊 C: gone once the 大秦人 are cleared (the 浪人's side)", "legacy_quantity": 6, "until": { "mark": "大秦人被清走" } },
+		{
+			"id": "fanfang.fire_hall.priest",
+			"npc": "native.npc.fire_priest",
+			"map": "fanfang.fire_temple",
+			"zone": "fanfang.fire_hall",
+			"points": ["fanfang.fire_hall.fire_priest.1"],
+			"legacy_room": "native: 番坊 B (穆护 before the fire); 番坊 C: in his cell by night",
+			"legacy_quantity": 1,
+			"until": {
+				"phase": ["night", "midnight"]
+			}
+		},
 		{ "id": "fanfang.fire_hall.worshippers", "npc": "native.npc.fire_worshipper", "map": "fanfang.fire_temple", "zone": "fanfang.fire_hall", "points": ["fanfang.fire_hall.fire_worshipper.1", "fanfang.fire_hall.fire_worshipper.2"], "legacy_room": "native: 番坊 B (two merchants at their prayers)", "legacy_quantity": 2 },
 		{ "id": "fanfang.temple_yard.lama", "npc": "fanfang.npc.lama_master", "map": "fanfang.lama_temple", "zone": "fanfang.temple_yard", "points": ["fanfang.temple_yard.lama_master.1"], "legacy_room": "daemon/class/lama/master.c — placed under 日陀罗寺's 榕树 (DECISIONS「番坊 B」: never placed in ES2, his init() commented out)", "legacy_quantity": 1 },
 		{ "id": "fanfang.temple_yard.monk", "npc": "native.npc.indian_monk", "map": "fanfang.lama_temple", "zone": "fanfang.temple_yard", "points": ["fanfang.temple_yard.indian_monk.1"], "legacy_room": "native: 番坊 B (a monk sweeping the yard)", "legacy_quantity": 1 },
-		{ "id": "fanfang.shrine.monk", "npc": "native.npc.indian_monk", "map": "fanfang.lama_temple", "zone": "fanfang.shrine", "points": ["fanfang.shrine.indian_monk.1"], "legacy_room": "native: 番坊 B (a monk at his sutra)", "legacy_quantity": 1 }
+		{ "id": "fanfang.shrine.monk", "npc": "native.npc.indian_monk", "map": "fanfang.lama_temple", "zone": "fanfang.shrine", "points": ["fanfang.shrine.indian_monk.1"], "legacy_room": "native: 番坊 B (a monk at his sutra)", "legacy_quantity": 1 },
+		{
+			"id": "fanfang.priest_room.priest",
+			"npc": "native.npc.fire_priest",
+			"map": "fanfang.fire_temple",
+			"zone": "fanfang.priest_room",
+			"points": ["fanfang.priest_room.fire_priest.1"],
+			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (穆护 in his cell by night)",
+			"legacy_quantity": 1,
+			"present": {
+				"phase": ["night", "midnight"]
+			}
+		},
+		{
+			"id": "fanfang.fire_hall.shadow",
+			"npc": "native.npc.shadow_thief",
+			"map": "fanfang.fire_temple",
+			"zone": "fanfang.fire_hall",
+			"points": ["fanfang.fire_hall.shadow.1"],
+			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (the 黑影 behind the altar on the night after the 一刀)",
+			"legacy_quantity": 1,
+			"present": {
+				"all": [
+					{ "mark": "过了一刀" },
+					{ "phase": ["night", "midnight"] }
+				]
+			},
+			"until": { "mark": "铜牒到手" }
+		},
+		{
+			"id": "fanfang.shield_yard.feng_lu",
+			"npc": "native.npc.feng_lu",
+			"map": "fanfang.shield_hall",
+			"zone": "fanfang.shield_yard",
+			"points": ["fanfang.shield_yard.feng_lu.1"],
+			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (冯禄 inside the gate with his paper once the tablet is in the 大秦人's side's hand)",
+			"legacy_quantity": 1,
+			"present": {
+				"all": [
+					{ "mark": "站了大秦人" },
+					{ "mark": "铜牒到手" }
+				]
+			},
+			"until": { "mark": "争地过了" }
+		},
+		{
+			"id": "fanfang.shield_yard.hired_ronin",
+			"npc": "native.npc.ronin",
+			"map": "fanfang.shield_hall",
+			"zone": "fanfang.shield_yard",
+			"points": ["fanfang.shield_yard.ronin.1", "fanfang.shield_yard.ronin.2", "fanfang.shield_yard.ronin.3", "fanfang.shield_yard.ronin.4"],
+			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (his four hired 浪人 behind him)",
+			"legacy_quantity": 4,
+			"present": {
+				"all": [
+					{ "mark": "站了大秦人" },
+					{ "mark": "铜牒到手" }
+				]
+			},
+			"until": { "mark": "争地过了" }
+		},
+		{ "id": "fanfang.shield_yard.ronin_fighting", "npc": "native.npc.ronin_fighting", "map": "fanfang.shield_hall", "zone": "fanfang.shield_yard", "points": ["fanfang.shield_yard.ronin_fighting.1", "fanfang.shield_yard.ronin_fighting.2", "fanfang.shield_yard.ronin_fighting.3", "fanfang.shield_yard.ronin_fighting.4"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (the same four with swords out, summoned by 拿下; all down marks 冯禄的浪人倒了)", "legacy_quantity": 4, "presence_radius": 400, "summoned": true, "cleared_mark": "冯禄的浪人倒了" },
+		{ "id": "fanfang.shield_yard.swordsmen_beside", "npc": "native.npc.shield_swordsman", "map": "fanfang.shield_hall", "zone": "fanfang.shield_yard", "points": ["fanfang.shield_yard.beside.1", "fanfang.shield_yard.beside.2", "fanfang.shield_yard.beside.3"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (three out of the hut to fight beside the player; summoned, they go as the fight ends)", "legacy_quantity": 3, "summoned": true },
+		{ "id": "fanfang.dojo.master", "npc": "fanfang.npc.ronin_master", "map": "fanfang.ronin_hall", "zone": "fanfang.dojo", "points": ["fanfang.dojo.ronin_master.1"], "legacy_room": "daemon/class/ronin/master.c — 早川直义 as written (name, 男性, 52, peaceful, str 26, int 24, force 1800/10, combat_exp 1000000, score 200000, the seven skills); never placed in ES2, his chat and 武功 commented out, his init() silent; placed at the 板屋's end (番坊 C, DECISIONS「番坊 C」). 续写: the other six attributes, his look, his lines, the 一刀 trial; his family 鬼笠馆浪人 (create_family 11 宗道) and 收徒 are 番坊 D's", "legacy_quantity": 1 },
+		{ "id": "fanfang.dojo.ronin", "npc": "native.npc.ronin", "map": "fanfang.ronin_hall", "zone": "fanfang.dojo", "points": ["fanfang.dojo.ronin.1"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (one at his post)", "legacy_quantity": 1 },
+		{
+			"id": "fanfang.dojo.hired",
+			"npc": "native.npc.ronin",
+			"map": "fanfang.ronin_hall",
+			"zone": "fanfang.dojo",
+			"points": ["fanfang.dojo.ronin.2", "fanfang.dojo.ronin.3", "fanfang.dojo.ronin.4", "fanfang.dojo.ronin.5"],
+			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (the four 冯禄 hires: at 铁盾会's gate from the tablet's taking)",
+			"legacy_quantity": 4,
+			"until": {
+				"all": [
+					{ "mark": "站了大秦人" },
+					{ "mark": "铜牒到手" }
+				]
+			}
+		},
+		{ "id": "fanfang.dojo.hired_back", "npc": "native.npc.ronin", "map": "fanfang.ronin_hall", "zone": "fanfang.dojo", "points": ["fanfang.dojo.ronin_back.1", "fanfang.dojo.ronin_back.2", "fanfang.dojo.ronin_back.3", "fanfang.dojo.ronin_back.4"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (the four back on the boards after 假印的差，我们不接)", "legacy_quantity": 4, "present": { "mark": "印色对上了" } },
+		{ "id": "fanfang.dock.andun", "npc": "native.npc.andun", "map": "fanfang.port", "zone": "fanfang.dock", "points": ["fanfang.dock.andun.1"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (安敦 in a 枷 by the boat once the 大秦人 are cleared)", "legacy_quantity": 1, "present": { "mark": "大秦人被清走" } },
+		{ "id": "fanfang.dock.runners", "npc": "native.npc.customs_runner", "map": "fanfang.port", "zone": "fanfang.dock", "points": ["fanfang.dock.customs_runner.1", "fanfang.dock.customs_runner.2"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (the two runners holding him)", "legacy_quantity": 2, "present": { "mark": "大秦人被清走" } },
+		{ "id": "fanfang.dock.luca", "npc": "native.npc.luca", "map": "fanfang.port", "zone": "fanfang.dock", "points": ["fanfang.dock.luca.1"], "legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (卢卡 left on the quay, one line)", "legacy_quantity": 1, "present": { "mark": "大秦人被清走" } }
 	]
 }

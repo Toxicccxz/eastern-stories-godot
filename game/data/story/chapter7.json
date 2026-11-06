@@ -6,7 +6,7 @@
 			"line": "main",
 			"region": "番坊",
 			"sources": [
-				"native: 主线 第七章 番坊 (剧情总纲 §3 第七章, §6 番坊卡, §9 Q2; 计划 build/plans/番坊_计划.md §3, owner 2026-11-04「按推荐，开工 A」, Q2 火前问玩家自己做过的三件事, Q3 站浪人代价重; DECISIONS「关北 D」 the stub, DECISIONS「番坊 A」「番坊 B」): the way down the 海崖道 to the port and 铁盾会's gate (A); 安敦, the tablet's tale, the side taken and the 拜火祠's 火前问话 (B); 鬼笠馆, the 争地, the reading and the chapter's end are 番坊 C's."
+				"native: 主线 第七章 番坊 (剧情总纲 §3 第七章, §6 番坊卡, §9 Q2; 计划 build/plans/番坊_计划.md §3, owner 2026-11-04「按推荐，开工 A」, Q2 火前问玩家自己做过的三件事, Q3 站浪人代价重; DECISIONS「关北 D」 the stub, DECISIONS「番坊 A」「番坊 B」): the way down the 海崖道 to the port and 铁盾会's gate (A); 安敦, the tablet's tale, the side taken and the 拜火祠's 火前问话 (B); 鬼笠馆, 早川's 一刀, the 争地 on the 大秦人's side (印模 or swords), the night the 浪人 steal the tablet, the reading and the chapter's end (C; DECISIONS「番坊 C」)."
 			],
 			"summary": "卢卡说他的会首安敦在番坊，会首的祖上三百年前见过那个鬼的头是怎么封的。番坊在海边：从玉螺湖村出忘情谷，顺着小路往南，走海崖道下去。",
 			"requires": [
@@ -41,7 +41,10 @@
 					"id": "tablet_tale",
 					"objective": "安敦的祖上把看见的刻在一片铜牒上，传到了他手里——问他「铜牒」。",
 					"done": {
-						"heard": { "npc": "native.npc.andun", "topic": "铜牒" }
+						"heard": {
+							"npc": "native.npc.andun",
+							"topic": "铜牒"
+						}
 					},
 					"text": "铜牒存在拜火祠的火前，三十年了。祠规「火前不说谎」：取牒要过一场问话，三句。大秦人自己过不了——三十年前他们为了这块地在火前说过一句谎。",
 					"target": {
@@ -51,7 +54,7 @@
 				},
 				{
 					"id": "side",
-					"objective": "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，替他们挡住冯禄），还是站浪人（去市集南坡下的鬼笠馆，过早川一刀，让浪人替你偷牒）？",
+					"objective": "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，过早川一刀，让浪人替你偷牒）？",
 					"target": {
 						"map": "fanfang.shield_hall",
 						"zone": "fanfang.hall"
@@ -59,15 +62,23 @@
 					"options": [
 						{
 							"id": "rome",
-							"done": { "mark": "站了大秦人" },
+							"done": {
+								"mark": "站了大秦人"
+							},
 							"text": "你站了大秦人。安敦：「三句真话，牒是你的。读了，再还我们一个人情：冯禄来的时候，站在门口。」",
-							"reward": { "deed": "在番坊站到了大秦人一边" }
+							"reward": {
+								"deed": "在番坊站到了大秦人一边"
+							}
 						},
 						{
 							"id": "ronin",
-							"done": { "mark": "站了浪人" },
+							"done": {
+								"mark": "站了浪人"
+							},
 							"text": "你站了浪人。早川只说了一句：「要铜牒？过我一刀。」",
-							"reward": { "deed": "在番坊站到了浪人一边" }
+							"reward": {
+								"deed": "在番坊站到了浪人一边"
+							}
 						}
 					]
 				},
@@ -85,16 +96,42 @@
 					}
 				},
 				{
+					"id": "gate",
+					"only_after": "rome",
+					"objective": "回铁盾会：冯禄带着他雇的四个浪人到了院门口。站到门口去，对质那纸文书——有印模的，按在印旁边对一对印色；没有的，只能动手。",
+					"done": {
+						"mark": "争地过了"
+					},
+					"text": "冯禄退走了。大秦人留下了，安敦说：「你欠我们的人情，我们记着；我们欠你的，也记着。」",
+					"target": {
+						"map": "fanfang.shield_hall",
+						"zone": "fanfang.shield_yard"
+					}
+				},
+				{
 					"id": "ronin",
 					"only_after": "ronin",
-					"objective": "鬼笠馆（日陀罗寺南边）：过早川一刀；当夜浪人替你把铜牒从拜火祠偷出来。",
+					"objective": "鬼笠馆（日陀罗寺南墙的小门外，坡道底下）：找馆主早川直义，过他一刀——一击之内定生死。",
+					"done": {
+						"mark": "过了一刀"
+					},
+					"text": "早川收刀入鞘：「过了。今夜，拜火祠——火坛前站着，别出声。」",
+					"target": {
+						"map": "fanfang.ronin_hall",
+						"zone": "fanfang.dojo"
+					}
+				},
+				{
+					"id": "theft",
+					"only_after": "ronin",
+					"objective": "等到天黑（鬼笠馆的板地能歇到天黑），去拜火祠的火坛前站着，别出声。浪人替你偷牒。",
 					"done": {
 						"mark": "铜牒到手"
 					},
-					"text": "黑影把铜牒塞进你手里，走了。祠里传出祭司的骂声。",
+					"text": "黑影把铜牒塞进你手里，走了。祠里传出祭司的骂声。第二天，冯禄的文书有了浪人作证——铁盾会空了，安敦被押上了船，卢卡剩在码头上。",
 					"target": {
-						"map": "fanfang.lama_temple",
-						"zone": "fanfang.temple_yard"
+						"map": "fanfang.fire_temple",
+						"zone": "fanfang.fire_hall"
 					}
 				},
 				{
@@ -103,11 +140,15 @@
 					"done": {
 						"mark": "读过铜牒"
 					},
-					"text": "「头在湖底冰下，以穿灵为钉；钉在，鬼不得全；钉拔，鬼成形；要灭它，三器齐；要再封，须有人留下。」"
+					"text": "「头在湖底冰下，以穿灵为钉；钉在，鬼不得全；钉拔，鬼成形；要灭它，三器齐；要再封，须有人留下。」——三百年前的老兵刻的。那把剑是钉子。"
 				}
 			],
 			"reward": {
-				"deed": "到了番坊"
+				"milestone": true,
+				"deed": "从拜火祠取回了三百年前老兵刻下封法的铜牒",
+				"marks": [
+					"番坊一章"
+				]
 			}
 		}
 	]

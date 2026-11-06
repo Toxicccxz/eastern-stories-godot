@@ -5,6 +5,37 @@
 		{ "id": "native:fanfang/pepper", "legacy_sources": ["native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; DECISIONS「番坊 A」) — 续写"], "name": "胡椒", "aliases": ["pepper", "spice", "香料", "胡椒"], "long": "一小布袋胡椒，黑黑的一粒一粒，袋口一松，那股辣味直冲鼻子。在京师，这一袋能换不少银子。\n", "unit": "袋", "material": "cloth", "weight": 200, "value": 200 },
 		{ "id": "native:fanfang/hu_bread", "legacy_sources": ["native: 番坊 A (the bazaar's own food, as d/snow's dumpling is 雪亭镇's; DECISIONS「番坊 A」) — 续写"], "name": "胡饼", "aliases": ["flatbread", "bread", "饼", "胡饼"], "long": "一张烤得焦黄的胡饼，上头撒满芝麻，又硬又香。走远路的人带着，一个月不坏。\n", "unit": "张", "material": "plant", "weight": 300, "value": 15, "food": { "remaining": 3, "supply": 50 } },
 		{ "id": "native:fanfang/copper_kettle", "legacy_sources": ["native: 番坊 A (剧情总纲 §6 番坊卡「胡商市集」; a water vessel, as obj/example/wineskin.c holds wine; DECISIONS「番坊 A」) — 续写"], "name": "铜壶", "aliases": ["copper kettle", "kettle", "壶", "铜壶"], "long": "一把细嘴的铜壶，壶身上敲满了星星似的花纹。装着清水，一路晃荡也不洒。\n", "unit": "把", "material": "copper", "weight": 800, "value": 150, "liquid": { "max_liquid": 8, "type": "water", "name": "清水", "remaining": 8 } },
-		{ "id": "native:fanfang/bronze_tablet", "legacy_sources": ["native: 番坊 B (剧情总纲 §3 第七章 ③「老兵死前把看见的刻在一片铜牒上，传了十二代」, §1 铜牒的封法; 计划 build/plans/番坊_计划.md §2 铜牒; DECISIONS「番坊 B」) — 续写; its 读 (the five lines of the 封法) is 番坊 C's"], "name": "铜牒", "quest": true, "aliases": ["bronze tablet", "tablet", "铜片", "牒", "铜牒"], "long": "巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n", "unit": "片", "material": "copper", "weight": 200, "value": 0, "no_drop": true }
+		{
+			"id": "native:fanfang/bronze_tablet",
+			"legacy_sources": ["native: 番坊 B (剧情总纲 §3 第七章 ③「老兵死前把看见的刻在一片铜牒上，传了十二代」, §1 铜牒的封法; 计划 build/plans/番坊_计划.md §2 铜牒; DECISIONS「番坊 B」) — 续写; its 读 is the five lines of the 封法 (番坊 C, DECISIONS「番坊 C」)"],
+			"name": "铜牒",
+			"quest": true,
+			"aliases": ["bronze tablet", "tablet", "铜片", "牒", "铜牒"],
+			"long": "巴掌大的一片铜，边角磨圆了，颜色发黑，拿在手里沉甸甸的。正面刻着几行字，笔画很深，是用剑尖一下一下刻出来的——字是中原字，刻字的人却不大会写，有几个笔画反了。背面一只展翅的鹰。铜是凉的，可刚从火坛底下取出来的时候，是温的。\n",
+			"unit": "片",
+			"material": "copper",
+			"weight": 200,
+			"value": 0,
+			"no_drop": true,
+			"act": {
+				"verb": "读",
+				"command": "read",
+				"acts": [
+					{
+						"steps": [
+							{ "line": "你把铜牒举到亮处，一行一行地认那些刻反了笔画的字：\n" },
+							{ "line": "「头在湖底冰下，以穿灵为钉；\n", "color": "HIW" },
+							{ "line": "钉在，鬼不得全；\n", "color": "HIW" },
+							{ "line": "钉拔，鬼成形；\n", "color": "HIW" },
+							{ "line": "要灭它，三器齐；\n", "color": "HIW" },
+							{ "line": "要再封，须有人留下。」\n", "color": "HIW" },
+							{ "line": "背面那只鹰的翅膀底下还有一行小字，刻得浅，几乎磨平了：「吾见之。」\n" },
+							{ "mark": "读过铜牒" }
+						]
+					}
+				]
+			}
+		},
+		{ "id": "native:fanfang/katana", "legacy_sources": ["native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — the 浪人's narrow curved long sword (ES2 maps 早川 to sword: ronin/master.c set_skill sword 100); the 浪人刀法 that needs it is 番坊 D's"], "name": "倭刀", "aliases": ["katana", "sword", "刀", "倭刀", "长刀"], "long": "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n", "unit": "把", "material": "iron", "weight": 2400, "value": 2500, "weapon": { "skill": "sword", "damage": 50, "weight_dodge": "equip" } }
 	]
 }

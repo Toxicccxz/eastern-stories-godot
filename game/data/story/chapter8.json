@@ -1,0 +1,34 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter8",
+			"title": "湖底封物",
+			"line": "main",
+			"region": "玉螺湖村",
+			"sources": [
+				"native: 主线 第八章 湖底封物 (剧情总纲 §3 第八章, §1 铜牒的封法; 计划 build/plans/番坊_计划.md §3「main.chapter8 桩」; DECISIONS「番坊 C」): the one step the 铜牒 opens; the rest is the eighth chapter's package."
+			],
+			"summary": "铜牒说：头在湖底冰下，以穿灵为钉。那把剑钉着鬼的头——在玉螺湖底。",
+			"requires": [
+				"main.chapter7"
+			],
+			"steps": [
+				{
+					"id": "lake",
+					"objective": "回玉螺湖村，下湖底，看清封物。别拔那把剑。",
+					"done": {
+						"mark": "下了湖底"
+					},
+					"text": "湖底。",
+					"target": {
+						"map": "village.main",
+						"zone": "village.lakeside"
+					}
+				}
+			],
+			"reward": {
+				"deed": "看清了湖底的封物"
+			}
+		}
+	]
+}
