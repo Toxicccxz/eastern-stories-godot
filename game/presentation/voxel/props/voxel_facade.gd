@@ -24,10 +24,13 @@ extends RefCounted
 ## within: {"color", "day", "night", "embers"}).
 ## On the walls' faces: `wall_hangings` ([{"kind", "wall": "north" | "south" | "east" | "west",
 ## "at": 0..1 along it (west to east, north to south), "y"}]): the household's wall kinds
-## (string_hang, straw_cape, tool_hooks, notices, new_year_print, double_happiness ...) and
-## "broom", "kindling", "winnow", "hat" here.
+## (string_hang, straw_cape, tool_hooks, notices, new_year_print, double_happiness ...), the
+## trades' hung things (ox_head: 西首铺子外挂着个牛头) and "broom", "kindling", "winnow", "hat",
+## "dyed_cloth" (染布晾在墙上的高架上) here. (A 幌杆 over the roof blocks the street, so it is a
+## layout look, voxel_fixtures.gd `pole_banner`, not a building key.)
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const Household = preload("res://presentation/voxel/props/voxel_household.gd")
+const Trades = preload("res://presentation/voxel/props/voxel_trade_props.gd")
 var shapes: Shapes
 var noise: FastNoiseLite
 var ambience: VoxelAmbience
@@ -456,7 +459,11 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 	var face: float = skin(data)
 	var household := Household.new()
 	household.ambience = ambience
-	# One thing to a panel: two strings asked for near each other go to neighbouring panels.
+	var trades := Trades.new()
+	trades.ambience = ambience
+	trades.rng = RandomNumberGenerator.new()
+	# One thing to a panel: two strings asked for near each other go to neighbouring panels; a
+	# wide thing (a board of notices, the dyed cloth) takes the panels it hangs over as well.
 	var taken: Dictionary = {}
 	for item: Dictionary in data["wall_hangings"]:
 		var wall: String = String(item.get("wall","south"))
@@ -470,17 +477,24 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		var panels: int = ceili(length/0.5)
 		var want: int = clampi(roundi((float(item.get("at",0.5))*length-0.25)/0.5),0,panels-1)
 		var leaning: bool = String(item["kind"]) in ["broom","kindling"]
+		# A wide thing (a board of notices, the dyed cloth) covers `span` panels about its middle:
+		# every one of them must be free, off the posts and (when roomy) off the windows. The
+		# household's default width (1.0) is a nominal one for narrow things (a string, a broom):
+		# one panel; wider things cover the panels their width reaches past their own.
+		var width: float = float(item.get("width",1.0))
+		var span: int = 1 if width <= 1.0 else maxi(1,ceili(width/0.5)-1)
 		var chosen: int = -1
 		# First well clear of the windows; on a wall with no such room, beside them.
 		for roomy: bool in [true,false]:
 			for offset: int in panels:
 				for i: int in [want+offset,want-offset]:
-					if chosen < 0 and i >= 0 and i < panels and not taken.has("%s%d" % [wall,i]) and _clear(i,bay,leaning,roomy,along_x,fixed,-length/2+0.25+i*0.5,entrances):
+					if chosen < 0 and _free(i,span,panels,wall,taken,bay,leaning,roomy,along_x,fixed,length,entrances):
 						chosen = i
 		if chosen < 0:
 			unknown.append("%s (no room on the %s wall)" % [item["kind"],wall])
 			continue
-		taken["%s%d" % [wall,chosen]] = true
+		for k: int in range(chosen-(span-1)/2,chosen-(span-1)/2+span):
+			taken["%s%d" % [wall,k]] = true
 		placed.append("%s%d" % [wall,chosen])
 		var along: float = -length/2+0.25+chosen*0.5
 		var node := Node3D.new()
@@ -488,8 +502,19 @@ func hangings(body: Node3D, w: float, d: float, data: Dictionary, entrances: Arr
 		node.rotation.y = atan2(out.x,out.z)
 		body.add_child(node)
 		merge.call(node)
-		if not _own(node,item) and not household.draw(shapes,node,item,float(item.get("width",1.0)),0.3):
+		trades.rng.seed = hash(int(item.get("seed",0)))
+		# The household's wall things first, then a trade's hung sign (the butcher's ox head).
+		if not _own(node,item) and not household.draw(shapes,node,item,float(item.get("width",1.0)),0.3) and not trades.draw(shapes,node,item,float(item.get("width",1.0)),0.3):
 			unknown.append(String(item["kind"]))
+
+## Whether a thing `span` panels wide with its middle on panel `i` fits on the wall: its middle
+## panel clear (`_clear`), and every panel it reaches over on the wall, not taken, off the posts
+## and out of the doorways (it may lap a window's edge: the posts stand only a few panels apart).
+func _free(i: int, span: int, panels: int, wall: String, taken: Dictionary, bay: int, leaning: bool, roomy: bool, along_x: bool, fixed: float, length: float, entrances: Array[Vector3]) -> bool:
+	for k: int in range(i-(span-1)/2,i-(span-1)/2+span):
+		if k < 0 or k >= panels or taken.has("%s%d" % [wall,k]) or not _clear(k,bay,leaning or k != i,roomy,along_x,fixed,-length/2+0.25+k*0.5,entrances):
+			return false
+	return true
 
 ## Whether panel `i` of a wall is free for a hanging: no post, not in a doorway, and for a hung
 ## thing no window (`roomy`: nor a window's neighbour; a leaning thing stands below them).
@@ -524,6 +549,24 @@ func _own(node: Node3D, item: Dictionary) -> bool:
 		"hat":
 			for tier: int in 3:
 				shapes.box(node,Vector3(0,2.0+tier*0.08,0.04),Vector3(0.62-tier*0.2,0.09,0.06),["c4ad72","b39a62","a88f5a"][tier])
+		"dyed_cloth":
+			# 染布: long cloths fresh from the dye vat hung from a rail on brackets high on the
+			# wall, their lower ends still dark and wet.
+			var colors: Array = item.get("colors",["3d5a7a","8a3a3a","4a6f4a","c9b98e"])
+			var top: float = float(item.get("top",3.0))
+			var wide: float = float(item.get("width",1.6))
+			shapes.box(node,Vector3(0,top,0.24),Vector3(wide,0.07,0.07),"6a5039")
+			for bracket: float in [-0.4,0.4]:
+				shapes.box(node,Vector3(bracket*wide,top-0.04,0.12),Vector3(0.06,0.06,0.26),"4a3e30")
+				shapes.tilted_box(node,Vector3(bracket*wide,top-0.2,0.14),Vector3(0.05,0.34,0.05),"4a3e30",Vector3(0.6,0,0))
+			var count: int = maxi(2,floori(wide/0.38))
+			for i: int in count:
+				var x: float = -wide*0.38+i*wide*0.76/maxf(1,count-1)
+				var drop: float = 1.9+0.35*float((i*7)%3)
+				var dye := Color(String(colors[i%colors.size()]))
+				shapes.box(node,Vector3(x,top-drop/2,0.2+i*0.004),Vector3(0.3,drop,0.03),dye.to_html(false))
+				shapes.box(node,Vector3(x,top-drop+0.14,0.202+i*0.004),Vector3(0.3,0.28,0.032),dye.darkened(0.3).to_html(false))
+				shapes.box(node,Vector3(x,top+0.04,0.2+i*0.004),Vector3(0.3,0.06,0.1),dye.darkened(0.1).to_html(false))
 		_:
 			return false
 	return true
