@@ -8,10 +8,6 @@
   "low_walls_left": [[-576, 0, 576, 384], [-576, -384, -320, 384]],
   "actors": {
     "default": {"coat": "887b56"},
-    "snow.npc.waiter": {"coat": "667d84"},
-    "snow.npc.traveller": {"coat": "817b52", "hat": true},
-    "snow.npc.trav_blade": {"coat": "8d6e4e", "hat": true},
-    "snow.npc.scavenger": {"coat": "856448", "hat": true},
     "snow.npc.dog": {"animal": true},
     "snow.npc.crazy_dog": {"animal": true}
   },

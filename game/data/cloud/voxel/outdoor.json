@@ -71,10 +71,6 @@
   },
   "actors": {
     "default": {"coat": "7d7a62"},
-    "cloud.npc.gangster": {"coat": "4a4138", "hat": true},
-    "cloud.npc.worker": {"coat": "6f8a5a", "hat": true},
-    "cloud.npc.boater": {"coat": "5a6a6e", "hat": true},
-    "cloud.npc.thief": {"coat": "3d3a36"},
     "common.npc.garrison": {"coat": "8a3a30", "hat": true}
   },
   "buildings": [

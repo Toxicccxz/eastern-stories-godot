@@ -1,0 +1,58 @@
+{
+  "people": {
+    "oldpine.npc.bandit": {
+      "note": "土匪探哨：十九岁，满脸匪气、百无聊赖，持短剑（bandit.c）；立绘 Muse 2026-11-05",
+      "coat": "354657", "pants": "1a1e26", "skin": "e8be87", "hair": "13131c", "hair_style": "long",
+      "headwear": "none", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "8a6a4a", "accent": "1f2c3a", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "oldpine.npc.tall_bandit": {
+      "note": "土匪：高高瘦瘦，脸色苍白，无精打采，持长剑（tall_bandit.c）；立绘 Muse 2026-11-05",
+      "coat": "cbb59f", "pants": "6e6059", "skin": "e9cfbb", "hair": "332a2f",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "belt",
+      "prop": "sword_waist", "prop_color": "6e6059", "accent": "826e62", "height": "tall",
+      "build": "slim", "shoes": "dark"
+    },
+    "oldpine.npc.fat_bandit": {
+      "note": "土匪：又矮又胖，圆滚滚的眼珠在满脸肥肉里转，短剑、皮甲（fat_bandit.c）；立绘 Muse 2026-11-05",
+      "coat": "93572a", "pants": "2c2724", "skin": "feddc5", "hair": "2c2724",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt",
+      "prop": "sword_waist", "prop_color": "714627", "accent": "714627", "height": "short",
+      "build": "heavy", "shoes": "dark"
+    },
+    "oldpine.npc.bandit_guard": {
+      "note": "土匪喽罗：满脸横肉，凶神恶煞，持短剑（bandit_guard.c；寨里伏击的喽罗同一套）；立绘 Muse 2026-11-05",
+      "coat": "3c4959", "pants": "232a35", "skin": "d9a473", "hair": "13161b",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt",
+      "prop": "sword_waist", "prop_color": "232a35", "accent": "232a35", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "oldpine.npc.bandit_leader": {
+      "note": "土匪首领：眼神凶恶，精光四射的眼珠盯着人的脖子，持刀、皮甲（bandit_leader.c）；立绘 Muse 2026-11-05",
+      "coat": "976652", "pants": "2f282d", "skin": "fac4a5", "hair": "1d1c23",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt",
+      "prop": "blade_back", "prop_color": "493535", "accent": "493535", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "oldpine.npc.bandit_commander": {
+      "note": "常老大：老松寨寨主「泼风刀王」，五十三岁，须发花白，长柄大刀，皮甲外披毛皮大氅（bandit_commander.c）；立绘 Muse 2026-11-05",
+      "coat": "745141", "pants": "312f2f", "skin": "d3a281", "hair": "8f8c88", "hair_style": "long",
+      "headwear": "none", "beard": "full", "waist": "belt", "prop": "glaive",
+      "prop_color": "c9ccd4", "accent": "3a2d2b", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "oldpine.npc.maniac": {
+      "note": "疯老头子：六十七岁，对人龇牙咧嘴，已经完全疯了，穿一件旧袍（maniac.c）；立绘 Muse 2026-11-05",
+      "coat": "b99a79", "pants": "363636", "skin": "f7cdab", "hair": "5f605e", "hair_style": "long",
+      "headwear": "none", "beard": "none", "waist": "belt", "prop": "none", "accent": "786152",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "oldpine.npc.spy": {
+      "note": "黑衣人：鬼鬼祟祟，一身夜行黑衣，飞刀别在腰带上（spy.c）；立绘 Muse 2026-11-05",
+      "coat": "252525", "pants": "151515", "skin": "e5cba6", "hair": "050305",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt", "prop": "none",
+      "accent": "252425", "height": "standard", "build": "slim", "shoes": "dark"
+    }
+  }
+}

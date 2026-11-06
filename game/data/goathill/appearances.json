@@ -1,0 +1,25 @@
+{
+  "people": {
+    "goathill.npc.bandit_hwang": {
+      "note": "黄霸：野羊山三寨主「日月槌」，一对各重四十斤的大金槌（bandit_hwang.c）；立绘 Muse 2026-11-05",
+      "coat": "946553", "pants": "302728", "skin": "f0c891", "hair": "302728",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt", "prop": "hammer",
+      "prop_color": "c48c34", "accent": "58433a", "height": "tall", "build": "heavy",
+      "shoes": "dark"
+    },
+    "goathill.npc.bandit": {
+      "note": "土匪爪牙：眼神凶恶，脸上好几条长刀疤，粗布短褂，持钢刀（bandit.c）；立绘 Muse 2026-11-05",
+      "coat": "a48379", "pants": "876a5f", "skin": "f3dac1", "hair": "241f2c",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "blade_back", "prop_color": "503e3f", "accent": "624f50", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "goathill.npc.bandit_leader": {
+      "note": "土匪首领：练过武功的硬手，一手一把短斧（bandit_leader.c）；立绘 Muse 2026-11-05",
+      "coat": "4f2b1b", "pants": "2a2928", "skin": "fdc091", "hair": "141414",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt", "prop": "axe",
+      "prop_color": "8f9296", "accent": "4b4641", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    }
+  }
+}

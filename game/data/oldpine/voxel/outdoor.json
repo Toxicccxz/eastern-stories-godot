@@ -312,12 +312,6 @@
   ],
   "actors": {
     "default": {"coat": "6d5a44"},
-    "oldpine.npc.bandit": {"coat": "5a4a38"},
-    "oldpine.npc.tall_bandit": {"coat": "6a6252"},
-    "oldpine.npc.fat_bandit": {"coat": "7a5a3c"},
-    "oldpine.npc.bandit_guard": {"coat": "4e4234", "hat": true},
-    "oldpine.npc.bandit_leader": {"coat": "7b3a2c", "hat": true},
-    "oldpine.npc.maniac": {"coat": "8a8270"},
     "oldpine.npc.wolf_dog": {"animal": true, "fur": ["5e5850", "4a4540", "3a3632"], "tail": true, "scale": 1.1}
   }
 }
