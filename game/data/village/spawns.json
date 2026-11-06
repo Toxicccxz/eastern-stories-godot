@@ -31,7 +31,8 @@
 			"zone": "village.lakeside",
 			"points": ["village.lakeside.fisher.1", "village.lakeside.fisher.2", "village.lakeside.fisher.3"],
 			"legacy_room": "d/village/lakeside.c",
-			"legacy_quantity": 3
+			"legacy_quantity": 3,
+			"until": { "mark": "拔了穿灵" }
 		},
 		{
 			"id": "village.icecave.lakebottom2.dragons",
