@@ -51,6 +51,8 @@ func _test_data() -> void:
 	_check(lama != null and lama.teaching() != null and lama.teaching().family_name == "日陀罗寺" and lama.teaching().family_generation == 2 and lama.teaching().apprentice.checks[1].class_id == &"bonze" and lama.teaching().apprentice.answer_after == 2.0, "龙若法王: master.c's 日陀罗寺 (2, 住持), answers in two seconds, takes a 剃度'd bonze")
 	var luca: NpcDefinition = catalog.npc(LUCA)
 	_check(luca != null and luca.hooks() != null and luca.hooks().follows_every_way and luca.hooks().fights_beside_player and luca.hooks().moods.has("going") and luca.talk().inquiry_topics().has("跟我走"), "卢卡: a companion once asked (跟我走)")
+	_check(luca != null and not luca.talk().ask_confirm("跟我走").is_empty() and luca.talk().confirm_applies("跟我走", {"争地过了": 1}) and not luca.talk().confirm_applies("跟我走", {}) and not luca.talk().confirm_applies("跟我走", {"争地过了": 1, "卢卡恨了你": 1}) and not luca.talk().confirm_applies("跟我走", {"争地过了": 1, "卢卡跟上了": 1}), "跟我走 asks its question only when he would come (confirm_marks / confirm_lacks)")
+	_check(andun.talk().confirm_applies("站大秦人", {"安敦说了铜牒": 1}) and not andun.talk().confirm_applies("站大秦人", {"安敦说了铜牒": 1, "站了浪人": 1}), "站大秦人 likewise, once the tablet's tale is told and no side taken")
 	var shield_item: ItemContentDefinition = catalog.item(&"native:fanfang/round_shield")
 	_check(shield_item != null and shield_item.armor_definition() != null and shield_item.armor_definition().armor_type == &"shield", "the 大秦圆盾 is a shield")
 
@@ -70,7 +72,9 @@ func _test_shield_guild(tree: SceneTree, session: WorldSessionController) -> voi
 	var taken: NpcApprenticeship.Outcome = teacher.request_apprentice()
 	await _go_on(tree, ui)
 	_check(taken == NpcApprenticeship.Outcome.RECRUITED and state.marks.get("铁盾会的弟子", 0) == 1 and state.family.has_family() and GameContent.catalog().family(state.family.family_id).display_name == "铁盾会" and teacher.last_lines.any(func(line: String) -> bool: return line.contains("盾在前，剑在后")), "拜师: taken into 铁盾会 (铁盾会的弟子): %s %s" % [taken, teacher.last_lines])
-	# No shield on the arm: 盾呢？
+	# No shield on the arm: 盾呢？ — the 请教 page's quote stops there too (Codex, PR #252).
+	var quote: LearnQuote = teacher.quote(&"shield-sword")
+	_check(quote != null and quote.bound == LearnQuote.Bound.AUTHORED and quote.ceiling == 0 and LearnLines.quote_line(quote, "安敦", GameContent.catalog().skill(&"shield-sword")).contains("盾呢"), "the quote: stopped by the shield rule, 盾呢 in it: %s" % ("" if quote == null else LearnLines.quote_line(quote, "安敦", GameContent.catalog().skill(&"shield-sword"))))
 	var refused: LearnResult = teacher.request_learn(&"shield-sword")
 	_check(refused != null and not refused.success and refused.failure_reason == LearnResult.FailureReason.ARMOR_TYPE_MISSING and teacher.last_lines.any(func(line: String) -> bool: return line.contains("盾呢")), "铁盾剑法 without a shield: 盾呢？没盾的剑法不是我们的剑法 — %s" % [teacher.last_lines])
 	# His shield, worn.

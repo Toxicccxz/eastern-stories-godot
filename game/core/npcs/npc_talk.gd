@@ -29,8 +29,12 @@ var _answer_marks: Dictionary[String, Array] = {}
 ## Topics answered by a function that acts (NpcInquiryRule lists).
 var _inquiry_rules: Dictionary[String, Array] = {}
 ## Native (DECISIONS「刘安禄的揭露」): topics the player confirms before asking (an important
-## choice: the ask turns the NPC on them), {topic: the question}.
+## choice: the ask turns the NPC on them), {topic: the question}. 番坊 D: `confirm_marks` the
+## marks the asker must all hold and `confirm_lacks` those they must not for the question to be
+## asked at all (卢卡's 跟我走 before 冯禄 is seen off answers at once, promising nothing).
 var _confirms: Dictionary[String, String] = {}
+var _confirm_marks: Dictionary[String, Array] = {}
+var _confirm_lacks: Dictionary[String, Array] = {}
 ## relay_say(): what the NPC answers when the player says a line beside it.
 var _relay_say: Dictionary[String, Array] = {}
 var _relay_ask: Array[NpcLine] = []
@@ -123,9 +127,23 @@ func ask_confirm(topic: String) -> String:
 	return _confirms.get(topic, "")
 
 
+## Whether the question is one to ask of a player with these saved marks (confirm_marks all held,
+## confirm_lacks none); a topic with no such conditions always asks.
+func confirm_applies(topic: String, marks: Dictionary) -> bool:
+	for mark: String in _confirm_marks.get(topic, []):
+		if marks.get(mark, 0) == 0:
+			return false
+	for mark: String in _confirm_lacks.get(topic, []):
+		if marks.get(mark, 0) != 0:
+			return false
+	return true
+
+
 ## Called once by the loader.
-func with_confirms(confirms: Dictionary[String, String]) -> NpcTalk:
+func with_confirms(confirms: Dictionary[String, String], confirm_marks: Dictionary[String, Array] = {}, confirm_lacks: Dictionary[String, Array] = {}) -> NpcTalk:
 	_confirms = confirms.duplicate()
+	_confirm_marks = confirm_marks.duplicate()
+	_confirm_lacks = confirm_lacks.duplicate()
 	return self
 
 

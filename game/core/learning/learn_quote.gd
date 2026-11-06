@@ -10,7 +10,9 @@ extends RefCounted
 ## do (LearnPreview). The ceiling is the level the student can reach; -1 when this teacher
 ## does not teach them at all (recognition, asleep, out of reach …).
 
-enum Bound { NONE, TEACHER, BETRAYAL, NOT_DIRECT, POLICY, EXPERIENCE }
+## AUTHORED (番坊 D): the skill's own `learn` rule stops it now (no shield on the arm, a forbidden
+## mark) — the ceiling is where the student stands.
+enum Bound { NONE, TEACHER, BETRAYAL, NOT_DIRECT, POLICY, EXPERIENCE, AUTHORED }
 
 ## What one more learn would do now.
 var now: LearnResult
@@ -50,6 +52,8 @@ static func of(student: CharacterState, context: TeachingContext, skill: SkillDe
 	quote.experience = student.progression.combat_experience
 	if quote.now.failure_reason in NOT_TAUGHT or quote.now.completion == LearnResult.Completion.LEGACY_ERROR:
 		return quote
+	if quote.now.failure_reason in [LearnResult.FailureReason.ARMOR_TYPE_MISSING, LearnResult.FailureReason.FORBIDDEN_MARK]:
+		return quote._stop(quote.level, Bound.AUTHORED)
 	for at: int in range(quote.level, maxi(quote.level, quote.teacher_level)):
 		var prevention: TeacherPolicyResult = context.prevention_policy.evaluate(student, context, at)
 		if prevention.status == TeacherPolicyResult.Status.REJECTED:

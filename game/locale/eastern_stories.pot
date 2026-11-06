@@ -39408,6 +39408,21 @@ msgstr ""
 msgid "跟我走"
 msgstr ""
 
+#. native.npc.luca inquiry.跟我走.confirm_marks
+#: data/guanbei/npcs.json
+msgid "争地过了"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.confirm_lacks
+#: data/guanbei/npcs.json
+msgid "卢卡恨了你"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.confirm_lacks
+#: data/guanbei/npcs.json
+msgid "卢卡跟上了"
+msgstr ""
+
 #. native.npc.luca inquiry.跟我走.rules.say
 #: data/guanbei/npcs.json
 msgid "不。"
@@ -42653,6 +42668,21 @@ msgstr ""
 #. native.npc.andun inquiry topic
 #: data/fanfang/npcs.json
 msgid "站大秦人"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.confirm_marks
+#: data/fanfang/npcs.json
+msgid "安敦说了铜牒"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.confirm_lacks
+#: data/fanfang/npcs.json
+msgid "站了大秦人"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.confirm_lacks
+#: data/fanfang/npcs.json
+msgid "站了浪人"
 msgstr ""
 
 #. native.npc.andun inquiry.站大秦人.rules.say

@@ -117,6 +117,10 @@ static func quote_line(quote: LearnQuote, teacher: String, skill: SkillDefinitio
 			why = _t(refusal if not refusal.is_empty() else "依你目前的能力，没有办法学习这种技能。").trim_suffix("。") # NO_TRANSLATE
 		LearnQuote.Bound.EXPERIENCE:
 			why = _t(QUOTE_EXPERIENCE if quote.ceiling > quote.level else QUOTE_EXPERIENCE_NOW)
+		LearnQuote.Bound.AUTHORED:
+			# 番坊 D: the skill's own `learn` refusal, as the master would say it.
+			var authored: String = skill.learn_armor_refusal if quote.now.failure_reason == LearnResult.FailureReason.ARMOR_TYPE_MISSING else skill.learn_forbidden_refusal
+			why = _t(authored).trim_suffix("。") # NO_TRANSLATE
 	var values: Dictionary = {
 		"npc": npc, "teacher": quote.teacher_level, "count": quote.betrayals,
 		"cap": quote.teacher_level - quote.betrayals * 20, "level": quote.ceiling,
