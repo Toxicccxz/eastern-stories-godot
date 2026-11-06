@@ -24,7 +24,7 @@ const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long",
 const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap", "helmet"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back", "haw_pole"]
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
 ## round the shins; armor (甲): a plate on each shoulder and one on the chest.
 const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor"]
@@ -279,6 +279,14 @@ func _prop() -> void:
 			_tilted(torso, centre, Vector3(0.13, 0.9, 0.1), cloth, Vector3(0, 0, 0.72))
 			for end: float in [-0.3, 0.3]:
 				_tilted(torso, centre + along*end, Vector3(0.15, 0.04, 0.12), Color(cloth).darkened(0.3).to_html(false), Vector3(0, 0, 0.72))
+		"haw_pole":
+			# A candied-haw seller's pole (糖葫芦草靶): held upright, a straw bundle at the top
+			# bristling with red skewers.
+			var straw: String = _hex("prop_color", "c9a35a")
+			_held(hand, grip + Vector3(0, 0.45, 0), Vector3(0.05, 1.5, 0.05), wood)
+			_held(hand, grip + Vector3(0, 1.12, 0), Vector3(0.2, 0.34, 0.2), straw)
+			for spike: Vector3 in [Vector3(0.14, 1.2, 0), Vector3(-0.14, 1.06, 0.03), Vector3(0, 1.16, 0.14), Vector3(0.03, 1.02, -0.14), Vector3(0.1, 0.98, 0.1), Vector3(-0.1, 1.24, -0.08)]:
+				_held(hand, grip + spike, Vector3(0.07, 0.07, 0.07), _hex("tassel_color", "c8282a"))
 		"sword_back", "blade_back":
 			# Across the back, the hilt over the right shoulder.
 			var sheath: String = _hex("prop_color", "3a2a22")

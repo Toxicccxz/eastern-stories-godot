@@ -22,6 +22,14 @@
       "hair_style": "topknot", "headwear": "crown", "headwear_color": "a8bfb0", "beard": "chin_three",
       "waist": "sash", "accent": "7d8aa0", "prop": "sword_waist", "prop_color": "2c2c34",
       "height": "tall", "build": "slim"
+    },
+    "common.npc.garrison": {
+      "note": "县城官兵：执行公务的县城官兵，土灰号衣锈红滚边、锈红裹头，长剑；立绘 Muse 2026-11-06",
+      "coat": "746b5e", "pants": "484038", "skin": "cca07a", "hair": "1c1713",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "914c3f", "beard": "none",
+      "waist": "belt", "prop": "sword_waist", "prop_color": "7a5230", "accent": "3a3439",
+      "extras": ["armor"], "armor_color": "756c5f", "height": "standard", "build": "heavy",
+      "shoes": "dark"
     }
   }
 }

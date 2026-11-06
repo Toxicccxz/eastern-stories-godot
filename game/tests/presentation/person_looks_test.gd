@@ -11,7 +11,7 @@ const WORDS: Dictionary = {
 	"hair_style": Person.HAIR_STYLES, "headwear": Person.HEADWEAR, "beard": Person.BEARDS,
 	"waist": Person.WAISTS, "prop": Person.PROPS, "shoes": ["dark", "straw", "white"],
 }
-const OTHER_KEYS: Array[String] = ["note", "height", "build", "extras", "pouch", "collar", "hat", "scale"]
+const OTHER_KEYS: Array[String] = ["note", "height", "build", "extras", "pouch", "collar", "hat", "scale", "name_alpha"]
 const KINDS: Array[String] = ["full", "bust", "bust_smile", "bust_angry"]
 var assertions: int = 0
 var failures: Array[String] = []
@@ -256,7 +256,7 @@ func _check_in_the_inn(tree: SceneTree) -> void:
 	_check(box.is_open() and not box.bust_shown(false) and not box.bust_shown(true), "a line nobody says shows nobody")
 	_check(lifted >= hud._presentation_layout.toasts.lift + 100.0, "the toasts stand on the player's bust, not over the face: %.0f, %.0f with no bust" % [lifted, hud._presentation_layout.toasts.lift])
 	box.close()
-	# Everyone in 雪亭镇 has pictures now: a stranger from 乔阴 (no pictures yet) speaks.
+	# Everyone in 雪亭镇 has pictures now: a stranger from 京师 (no pictures yet) speaks.
 	var plain := _stranger()
 	_check(PersonPortraits.bust(PersonPortraits.npc_id(plain)) == null, "a stranger without a picture")
 	box.say(plain.definition().display_name, ["%s说道：嗯。" % plain.definition().display_name], &"", plain)
@@ -346,7 +346,7 @@ func _check_big_screen(tree: SceneTree) -> void:
 
 ## Someone from a region whose people have no pictures yet (乔阴's old man).
 func _stranger() -> NpcRuntimeState:
-	return NpcRuntimeState.new(&"test.stranger", GameContent.catalog().npc(&"choyin.npc.oldman"), &"", &"", CharacterState.new())
+	return NpcRuntimeState.new(&"test.stranger", GameContent.catalog().npc(&"city.npc.waiter"), &"", &"", CharacterState.new())
 
 
 ## Whether the pixel touches a see-through one or the picture's edge.
