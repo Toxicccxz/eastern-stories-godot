@@ -23,6 +23,20 @@ const RANDOM_EXPERIENCE_BASE_DIVISOR: int = 1000
 ## Deterministic translation of cmds/std/learn.c after command/world lookup.
 ## The order is intentionally mutation-sensitive and must not be refactored
 ## into an all-validations-first transaction.
+## Native (番坊 D; DECISIONS「番坊 D」): the skill's `learn` rules written in data, judged where
+## valid_learn() is — an armor type the student must wear (铁盾剑法's shield), marks whose bearer
+## it never teaches (a 鬼笠馆 man and 铁盾剑法) — or NONE.
+static func authored_refusal(student: CharacterStateType, context: TeachingContextType, skill: SkillDefinitionType) -> int:
+	if skill == null:
+		return LearnResultType.FailureReason.NONE
+	if not skill.learn_requires_armor_type.is_empty() and not context.worn_armor_types.has(skill.learn_requires_armor_type):
+		return LearnResultType.FailureReason.ARMOR_TYPE_MISSING
+	for mark: String in skill.learn_forbids_marks:
+		if student.marks.get(mark, 0) != 0:
+			return LearnResultType.FailureReason.FORBIDDEN_MARK
+	return LearnResultType.FailureReason.NONE
+
+
 static func learn(
 	student: CharacterStateType,
 	context: TeachingContextType,
@@ -85,6 +99,9 @@ static func learn(
 		return _fail(result, LearnResultType.FailureReason.SKILL_DEFINITION_MISMATCH)
 	if skill_policy == null or skill_policy.skill_id != skill_id:
 		return _fail(result, LearnResultType.FailureReason.SKILL_POLICY_MISMATCH)
+	var authored: int = authored_refusal(student, context, skill_definition)
+	if authored != LearnResultType.FailureReason.NONE:
+		return _fail(result, authored)
 	var learn_policy_result: SkillLearnPolicyResultType = skill_policy.evaluate(student)
 	result.skill_learn_policy_result = learn_policy_result
 	if learn_policy_result.status == SkillLearnPolicyResultType.Status.DEPENDENCY_UNAVAILABLE:

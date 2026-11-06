@@ -142,6 +142,9 @@ func _ask_topic(topic: String) -> void:
 	# (DECISIONS「Ask before an important or deadly choice」).
 	var npc: NpcRuntimeState = map.selected_npc()
 	var confirm: String = "" if npc == null else npc.definition().talk().ask_confirm(topic)
+	# 番坊 D: a question with conditions (confirm_marks / confirm_lacks) is asked only of one it is for.
+	if not confirm.is_empty() and map.player_runtime() != null and not npc.definition().talk().confirm_applies(topic, map.player_runtime().state.marks):
+		confirm = ""
 	if not confirm.is_empty():
 		# TRANSLATORS: the confirm's choice for asking an NPC a topic it may turn on the player for.
 		_ui.questions.ask_first(tr(confirm), tr("问"), _ask_now.bind(topic), map.can_ask_selected, Callable(), tr(topic))

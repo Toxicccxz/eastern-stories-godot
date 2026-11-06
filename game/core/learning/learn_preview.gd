@@ -58,6 +58,9 @@ static func next(
 		return _fail(result, LearnResult.FailureReason.SKILL_DEFINITION_MISMATCH)
 	if skill_policy == null or skill_policy.skill_id != skill_id:
 		return _fail(result, LearnResult.FailureReason.SKILL_POLICY_MISMATCH)
+	var authored: int = LearnService.authored_refusal(student, context, skill_definition)
+	if authored != LearnResult.FailureReason.NONE:
+		return _fail(result, authored)
 	var policy_result: SkillLearnPolicyResult = skill_policy.evaluate(student)
 	result.skill_learn_policy_result = policy_result
 	if policy_result.status == SkillLearnPolicyResult.Status.DEPENDENCY_UNAVAILABLE:

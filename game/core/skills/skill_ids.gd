@@ -75,6 +75,9 @@ const SERPENTFORCE: StringName = &"serpentforce"
 const SHORTSONG_BLADE: StringName = &"shortsong-blade"
 ## Native (关北 D): the 王府's 马上刀法, read from 郭承's 《马刀谱》.
 const GUANBEI_SABER: StringName = &"guanbei-saber"
+## Native (番坊 D): 铁盾会's 铁盾剑法 (a shield on the arm) and 鬼笠馆's 鬼笠刀法 (one blow).
+const SHIELD_SWORD: StringName = &"shield-sword"
+const GHOST_HAT_SWORD: StringName = &"ghost-hat-sword"
 const SNOWSHADE_FORCE: StringName = &"snowshade-force"
 const SNOWSHADE_SWORD: StringName = &"snowshade-sword"
 const SNOWWHIP: StringName = &"snowwhip"

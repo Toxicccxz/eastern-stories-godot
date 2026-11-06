@@ -246,7 +246,7 @@ func request_learn(skill_id: StringName, quiet: bool = false) -> LearnResult:
 		last_learn.failure_reason = LearnResult.FailureReason.TEACHER_UNAVAILABLE
 		return last_learn
 	var player: WorldPlayerRuntimeState = map.player_runtime()
-	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), random)
+	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), random, _worn_armor_types())
 	var registry := SkillLearnPolicyRegistry.new()
 	registry.register_known_legacy_policies()
 	var skill: SkillDefinition = catalog.skill(skill_id)
@@ -267,7 +267,7 @@ func quote(skill_id: StringName) -> LearnQuote:
 	if not teachable_skills().has(skill_id) or not can_teach() or map.world_interaction_random_source() == null:
 		return null
 	var player: WorldPlayerRuntimeState = map.player_runtime()
-	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), WorldInteractionRandomSource.new())
+	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), WorldInteractionRandomSource.new(), _worn_armor_types())
 	var registry := SkillLearnPolicyRegistry.new()
 	registry.register_known_legacy_policies()
 	return LearnQuote.of(player.state, context, GameContent.catalog().skill(skill_id), registry.policy_for(skill_id))
@@ -282,10 +282,21 @@ func preview_learn(skill_id: StringName) -> LearnResult:
 		return null
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	# The recognition policy draws its refusal line: a source that draws nothing.
-	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), WorldInteractionRandomSource.new())
+	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), WorldInteractionRandomSource.new(), _worn_armor_types())
 	var registry := SkillLearnPolicyRegistry.new()
 	registry.register_known_legacy_policies()
 	return LearnPreview.next(player.state, context, catalog.skill(skill_id), registry.policy_for(skill_id))
+
+
+## The armor types the player wears (番坊 D: 铁盾剑法 wants a shield on the arm).
+func _worn_armor_types() -> Array[StringName]:
+	var types: Array[StringName] = []
+	if map == null or map.session == null:
+		return types
+	for row: PlayerInventoryRowProjection in map.session.player_inventory_rows():
+		if row.equipment_slot == PlayerInventoryRowProjection.EquipmentSlot.WORN and not row.armor_type.is_empty() and not types.has(row.armor_type):
+			types.append(row.armor_type)
+	return types
 
 
 func _say(lines: Array[String]) -> void:

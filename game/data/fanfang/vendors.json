@@ -3,6 +3,6 @@
 		{ "id": "fanfang.vendor.glass", "legacy_source": "native: 番坊 A (DECISIONS「番坊 A」) — the glass merchant's beads", "goods": [ { "key": "beads", "item": "native:fanfang/glass_beads" } ] },
 		{ "id": "fanfang.vendor.carpet", "legacy_source": "native: 番坊 A (DECISIONS「番坊 A」) — the carpet merchant's rugs", "goods": [ { "key": "carpet", "item": "native:fanfang/carpet" } ] },
 		{ "id": "fanfang.vendor.spice", "legacy_source": "native: 番坊 A (DECISIONS「番坊 A」) — the spice seller's pepper and her flatbread", "goods": [ { "key": "pepper", "item": "native:fanfang/pepper" }, { "key": "bread", "item": "native:fanfang/hu_bread" } ] },
-		{ "id": "fanfang.vendor.copper", "legacy_source": "native: 番坊 A (DECISIONS「番坊 A」) — the coppersmith's water kettles", "goods": [ { "key": "kettle", "item": "native:fanfang/copper_kettle" } ] }
+		{ "id": "fanfang.vendor.copper", "legacy_source": "native: 番坊 A (DECISIONS「番坊 A」) — the coppersmith's water kettles", "goods": [ { "key": "kettle", "item": "native:fanfang/copper_kettle" }, { "key": "shield", "item": "native:fanfang/round_shield" } ] }
 	]
 }

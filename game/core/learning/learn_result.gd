@@ -37,6 +37,10 @@ enum FailureReason {
 	LEGACY_RANDOM_DENOMINATOR_DIVISION_BY_ZERO,
 	INVALID_DETERMINISTIC_ROLL,
 	LEGACY_NEGATIVE_STUDENT_ESSENCE_DAMAGE,
+	## Native (番坊 D): the skill's own `learn` rules — an armor type not worn, a mark its bearer
+	## is never taught with.
+	ARMOR_TYPE_MISSING,
+	FORBIDDEN_MARK,
 }
 
 enum Completion {
