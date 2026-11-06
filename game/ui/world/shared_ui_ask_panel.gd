@@ -115,6 +115,16 @@ func open_ask() -> void:
 	_presentation_layout.refresh_rows()
 
 
+## 战斗拍数 D: 打听 opened straight on `topic` (请教打法 on a school's guide): the conversation
+## as open_ask() makes it, the topic asked at once.
+func open_ask_topic(topic: String) -> void:
+	open_ask()
+	var map := _session.active_map() as WorldMapController
+	# Asked at once, over the topics' prompt still typing out (no confirm: a guide's topic).
+	if _shown() and map != null and map.ask_topics_selected().has(topic):
+		_ask_now(topic)
+
+
 ## The 打听 panel shows (in the dialogue box, or the shared frame).
 func _shown() -> bool:
 	return _ask_panel != null and (_presentation_layout._content == _ask_panel or _ui.dialogue_box.hosted() == _ask_panel)

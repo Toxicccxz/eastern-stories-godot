@@ -49,6 +49,7 @@ TEXT_KEYS = frozenset({
     "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal", "closing",
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg", "locked",
+    "style_word", "style_line",
 })
 TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs", "sky_levels"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
@@ -465,6 +466,30 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
             for item in value:
                 if isinstance(item, dict) and isinstance(item.get("text"), str):
                     catalog.add(item["text"], relative, note=f"{note}.text")
+        elif key == "guides" and isinstance(value, list):
+            # A school's guide (families.json, 战斗拍数 D): what it teaches, its lesson's lines and verdicts.
+            for guide in value:
+                if not isinstance(guide, dict):
+                    continue
+                for text in guide.get("teach", []):
+                    if isinstance(text, str):
+                        catalog.add(text, relative, note=f"{note} {guide.get('skill', '')} teach")
+                if isinstance(guide.get("teach_topic"), str):
+                    catalog.add(guide["teach_topic"], relative, note=f"{note} {guide.get('skill', '')} teach_topic")
+                lesson = guide.get("lesson", {})
+                for field in ("accept", "earned", "not_earned", "player_earned", "refuse_hurt", "refuse_family"):
+                    if isinstance(lesson.get(field), str):
+                        catalog.add(lesson[field], relative, note=f"{note} {guide.get('skill', '')} lesson.{field}")
+                for text in lesson.get("rounds", []):
+                    if isinstance(text, str):
+                        catalog.add(text, relative, note=f"{note} {guide.get('skill', '')} lesson.rounds")
+        elif key == "hearsay" and isinstance(value, list):
+            # The town's hearsay about a school (families.json): the topic it hangs on and the line.
+            for line in value:
+                if isinstance(line, dict):
+                    for field in ("topic", "say"):
+                        if isinstance(line.get(field), str):
+                            catalog.add(line[field], relative, note=f"{note} {line.get('npc', '')} {field}")
         elif key == "valid_learn" and isinstance(value, dict):
             # A skill's valid_learn() lines, keyed by the rule that refuses.
             for rule, line in value.items():

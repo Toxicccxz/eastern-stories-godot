@@ -26,6 +26,9 @@ class Fighter:
 
 
 var _sides: Dictionary[StringName, Fighter] = {}
+## 战斗拍数 D: a lesson's blows (CombatEncounterMode.LESSON) land but draw no blood: the
+## resolver takes the damage to 0 and rolls no wound (CombatAttackerSnapshot.harmless).
+var harmless: bool = false
 
 
 func clear() -> void:

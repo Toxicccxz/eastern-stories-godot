@@ -223,6 +223,34 @@ func family_named(display_name: String) -> FamilyDefinition:
 	return null
 
 
+## 战斗拍数 D: the guide of the school `skill_id` (families.json `guides`), or null.
+func guide_for(skill_id: StringName) -> FamilyDefinition.SchoolGuide:
+	for definition: FamilyDefinition in _families.values():
+		var guide: FamilyDefinition.SchoolGuide = definition.guide_for(skill_id)
+		if guide != null:
+			return guide
+	return null
+
+
+## The school the NPC `npc_id` guides, or null.
+func guide_of_npc(npc_id: StringName) -> FamilyDefinition.SchoolGuide:
+	for definition: FamilyDefinition in _families.values():
+		for guide: FamilyDefinition.SchoolGuide in definition.guides:
+			if guide.npc_id == npc_id:
+				return guide
+	return null
+
+
+## The town's hearsay about the school `skill_id`, in the data's order.
+func hearsay_for(skill_id: StringName) -> Array[FamilyDefinition.Hearsay]:
+	var lines: Array[FamilyDefinition.Hearsay] = []
+	for definition: FamilyDefinition in _families.values():
+		for line: FamilyDefinition.Hearsay in definition.hearsay:
+			if line.skill_id == skill_id:
+				lines.append(line)
+	return lines
+
+
 ## Called once by ContentCatalogBuilder.
 func set_journal(chains: Array[JournalChainDefinition], topics: Array[CodexTopicDefinition]) -> void:
 	_journal_chains = chains.duplicate()

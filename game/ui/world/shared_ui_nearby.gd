@@ -379,15 +379,34 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 	var here: bool = map.selection.npc_here(npc) == npc
 	if map.selection.can_ask(npc):
 		offered.append(InteractionOption.new("打听", _after(select, actions.ask_context)))
+	# 战斗拍数 D: a school's guide explains its way (its own 打听 topic) and spars three harmless
+	# rounds to show it; the rounds are refused in its words (greyed with them).
+	var guide: FamilyDefinition.SchoolGuide = GameContent.catalog().guide_of_npc(definition.definition_id)
+	if guide != null and map.selection.can_ask(npc):
+		# TRANSLATORS: the popup row on a school's guide: asks them how the school fights (their 打听 topic).
+		offered.append(InteractionOption.new("请教打法", _after(select, actions.teach_context), tr("听{npc}用自己的话讲这门功夫怎么打。").format({"npc": name})))
+	if guide != null and map.selection.can_ask(npc) and map.selection.lessons_offered():
+		var refusal: String = "" if not awake else map.selection.lesson_refusal(npc, guide)
+		if not awake:
+			refusal = tr("%s已经无法战斗了。") % name
+		elif GameContent.catalog().zone_forbids_fighting(_player.world_location().zone_id):
+			refusal = tr("这里禁止战斗。")
+		elif not refusal.is_empty():
+			refusal = CombatInsights.fill(refusal, GameContent.catalog().npc(guide.master_id))
+		# TRANSLATORS: the popup row on a school's guide: three rounds of 拆招, no blood drawn.
+		offered.append(InteractionOption.new("拆招", _after(select, actions.lesson_context), tr("三回合，点到为止、不伤人；打完{npc}会点破这门功夫靠什么赢。").format({"npc": name}), false, refusal))
 	for service: WorldService in thing.services:
 		offered.append(InteractionOption.new(service.verb(), _after(select, service.interact), "", true))
 		var teacher: TeacherService = service as TeacherService
 		if teacher != null and teacher.takes_apprentices():
 			# apprentice.c with one's own master is a greeting (向师父请安).
 			var own: bool = PlayerKillerReward.is_own_master(_player.state, definition)
+			var short: String = "" if awake else tr("你必须先把%s弄醒。") % name
+			if awake and not own:
+				# 战斗拍数 D: a master whose told conditions the player is short of is greyed with them.
+				short = _conditions_short(teacher)
 			offered.append(InteractionOption.new(
-				"请安" if own else "拜师", _after(select, _greet.bind(teacher) if own else _apprentice.bind(teacher)), "", false,
-				"" if awake else tr("你必须先把%s弄醒。") % name,
+				"请安" if own else "拜师", _after(select, _greet.bind(teacher) if own else _apprentice.bind(teacher)), "", false, short,
 			))
 			# What follows a 拜师: the teacher panel's own buttons, here rows on their pages.
 			if teacher.awaits_oath():
@@ -475,6 +494,28 @@ func conditions_text(teacher: TeacherService) -> String:
 	return "\n".join(lines)
 
 
+## 战斗拍数 D: why 拜师 with `teacher` is greyed now — the numeric thresholds a requirements
+## master told (ApprenticeConditions: 胆识, 定力, 灵性, 实战经验) that the player is short of, in
+## one line; "" when none is, when he has offered, or when his answer is his own (a test, an
+## oath, a traitor's welcome, a gender or class he does not take, an answer that comes later:
+## those stay asked, as ES2 asks them).
+func _conditions_short(teacher: TeacherService) -> String:
+	var master: NpcDefinition = teacher.npc.definition()
+	var rule: NpcTeaching.ApprenticeRule = null if teacher.teaching() == null else teacher.teaching().apprentice
+	if rule == null or rule.kind != NpcTeaching.Kind.REQUIREMENTS or rule.answer_after > 0.0 or _player.would_be_taken_by(master) or _player.would_be_attacked_by(master):
+		return ""
+	var missing: PackedStringArray = []
+	for row: ApprenticeConditions.Row in _player.apprentice_conditions(master, _map().player_can_afford):
+		# Only the numeric thresholds (胆识 ≥ 20): a gender, class, money or mark refusal stays the
+		# master's own spoken answer, as ES2 gives it.
+		if row.state == ApprenticeConditions.State.UNMET and row.text.contains("≥"):
+			missing.append(row.text)
+	if missing.is_empty():
+		return ""
+	# TRANSLATORS: why 拜师 is greyed: the master's conditions the player is short of, joined by ；.
+	return tr("还差：{conditions}").format({"conditions": tr("；").join(missing)})
+
+
 ## 查看's line for a master who takes apprentices (not the player's own): how many of his
 ## conditions the player meets; the 拜师 page lists them. "" for none.
 func _conditions_count(map: WorldMapController, thing: WorldNearbyThing) -> String:
@@ -543,6 +584,14 @@ func _profile(teacher: TeacherService) -> String:
 		# TRANSLATORS: what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
 		# TRANSLATORS: joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
 		lines.append(tr("传授：{skills}").format({"skills": tr("、").join(skills)}))
+	# 战斗拍数 D: the way of each school he teaches, in one plain sentence, once its guide's
+	# three rounds were taken (CombatInsights); nothing before.
+	for skill_id: StringName in teacher.teachable_skills():
+		var skill: SkillDefinition = catalog.skill(skill_id)
+		if skill == null or skill.skeleton == null or skill.skeleton.style_line.is_empty() or not CombatInsights.took_lesson(_player.state, skill_id):
+			continue
+		# TRANSLATORS: a school's way on its master's 拜师 page: {skill} the school, {line} its way in one sentence.
+		lines.append(tr("{skill}：{line}").format({"skill": tr(skill.display_name), "line": tr(skill.skeleton.style_line)}))
 	return "\n".join(lines)
 
 

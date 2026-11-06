@@ -110,8 +110,11 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    and the panel is done (DECISIONS「战斗拍数 B」: one beat chosen, one beat resolved; 收势; 拍不够; the beat chips; the plan's stamps and the
    打法词; the grouped move row); 包 C the fight in the scene with sound is done (DECISIONS「战斗拍数 C」: the hit-stop, the step, the lean
    and the flash on the voxel figures by the move's tag and the ring's verdict, the pauses between beats, seven project-made sounds rationed
-   by weight, the 总音量 setting; a perform's own busy counted into its beats, NPC chat() specials charged); next the gate (the plan's behaviour
-   and pace standards, in the owner's playtest), then 包 D 先见后知 and the guides.
+   by weight, the 总音量 setting; a perform's own busy counted into its beats, NPC chat() specials charged); 包 D 先见后知 and the guides is done
+   (DECISIONS「战斗拍数 D」: the town's hearsay on each school, the doctor reading a wound, the guides' 请教打法 and 拆招 — three harmless rounds with
+   a word as each begins and one verdict after — the 见识录 grown only from what was met, 拜师 greyed with what is short and the school's row on
+   the master's page once its lesson was taken). Next the gate (the plan's behaviour and pace standards, in the owner's playtest); the other
+   schools' guides follow one small package each, on the same data.
    **现代基线三件** (owner 2026-10-28; `build/plans/现代基线_提示词.md`, order A → C → B): A is done (DECISIONS「存档位」「自动存档」
    「减轻死亡」: three manual slots and a rolling autosave written on a worker, a Load in play, death at 3% experience with the corpse
    waiting and a way back to the autosave); C is done (DECISIONS「数值用到才出现」: 法力, 灵力, 杀气 and 加力 appear when used, a line
@@ -165,7 +168,13 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    chapter's milestone, the eighth chapter's stub); D done (DECISIONS「番坊 D」: the three masters and their families — 安敦's shield and
    铁盾剑法 that wants it on the arm, 早川's 倭刀 and 鬼笠刀法 with its 一刀, 龙若法王 after 剃度 — the two data learn rules
    `requires_armor_type` / `forbids_marks` and `accept_marks`, 卢卡 as a companion on 跟我走, the fisherman's 水怪 growing worse).
-   The seventh chapter and the 番坊 region are complete; next the eighth chapter 湖底封物 (剧情总纲 §3 第八章): its plan first.
+   The seventh chapter and the 番坊 region are complete. 第八章 湖底封物 (the plan `build/plans/第八章_计划.md`, owner
+   2026-11-06「按推荐，开工 A」: the burnt village shown on stage, the cave cold but passable without the robe, 卢卡 stays
+   ashore): A done (DECISIONS「第八章 A」「寒气」「冰龙守者」: the dive, the 玄冰岩洞's cold held off with 内力 or spared by
+   the 寒於宝衣, the 冰壁刻字, the six dragons as guardians, the pool down to the new 冰下封坛 with the black altar, the head,
+   the hilt and 璃虹 in her pillar, 商玦 come down to urge the sword, the 铜牒 recited to her for the 封法, the choice — pull
+   or keep — ending the chapter either way, the ninth chapter's stub); next B 拔剑的当夜 (the stage-prop mechanism, the
+   three bands of 鬼卒 by night, the fisherman dead, half the village burnt, the fallen 璃虹 ashore, the farm wife's new word).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

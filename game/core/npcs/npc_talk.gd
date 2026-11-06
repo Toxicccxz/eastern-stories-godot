@@ -28,6 +28,8 @@ var _kee_answers: Dictionary[String, Array] = {}
 var _answer_marks: Dictionary[String, Array] = {}
 ## Topics answered by a function that acts (NpcInquiryRule lists).
 var _inquiry_rules: Dictionary[String, Array] = {}
+## How many lines of hearsay were hung on each topic (add_rule_first()).
+var _hung: Dictionary[String, int] = {}
 ## Native (DECISIONS「刘安禄的揭露」): topics the player confirms before asking (an important
 ## choice: the ask turns the NPC on them), {topic: the question}. 番坊 D: `confirm_marks` the
 ## marks the asker must all hold and `confirm_lacks` those they must not for the question to be
@@ -152,6 +154,17 @@ func inquiry_rules(topic: String) -> Array[NpcInquiryRule]:
 	var rules: Array[NpcInquiryRule] = []
 	rules.assign(_inquiry_rules.get(topic, []))
 	return rules
+
+
+## 战斗拍数 D: a line of hearsay (families.json) hung on `topic`, put before the NPC's own
+## rules of it (it asks for marks the NPC's fallback does not), after the lines hung before
+## it (the data's order). The catalog builder calls it.
+func add_rule_first(topic: String, rule: NpcInquiryRule) -> void:
+	var rules: Array = _inquiry_rules.get(topic, [])
+	var at: int = _hung.get(topic, 0)
+	rules.insert(mini(at, rules.size()), rule)
+	_hung[topic] = at + 1
+	_inquiry_rules[topic] = rules
 
 
 ## The lines the player can say beside the NPC that it answers (relay_say()), in authored order.

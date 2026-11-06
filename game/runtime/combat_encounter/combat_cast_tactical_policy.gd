@@ -70,7 +70,7 @@ func validate_execution(context: CombatTacticalContext) -> int:
 
 
 func supports_mode(mode: int) -> bool:
-	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]
+	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]
 
 
 func accepts_no_target() -> bool:

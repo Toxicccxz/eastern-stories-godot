@@ -114,7 +114,7 @@ func _test_data() -> void:
 	_check(door != null and door.teaches == ["见过古冢的金乌"] and catalog.landmark(&"guanbei.sheds.landmark.roll").teaches == ["看过工地名册"], "the stone door's bird and the sheds' roll teach their marks")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter6")
 	_check(quest.steps.size() == 12 and quest.steps[8].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[9].only_after == &"raid" and quest.steps[10].only_after == &"sneak" and quest.steps[11].condition.key == "卢卡说了番坊", "the chapter: site (arrival) → raid or sneak → 卢卡")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_D_V1, "番坊 D's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_CH8_A_V1, "第八章 A's world revision is current")
 
 
 ## From the valley: the gate refused, then (TEST-ONLY: the mark set) through it and north to the

@@ -521,7 +521,7 @@ func _read_the_tablet(tree: SceneTree, session: WorldSessionController, map: Wor
 	session.record_journal()
 	_check(state.quests.has("main.chapter7#done") and state.marks.get("番坊一章", 0) == 1 and DeedLog.done(state, "从拜火祠取回了三百年前老兵刻下封法的铜牒"), "%s: the chapter done: 番坊一章, the deed" % way)
 	var eighth: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter8")
-	_check(eighth != null and eighth.requires == [&"main.chapter7"] and eighth.steps.size() == 1 and StoryQuestLog.current_step(state, eighth) != null and StoryQuestLog.objective(state, quests).contains("湖底") and StoryQuestLog.target(state, quests) != null and StoryQuestLog.target(state, quests).zone_id == &"village.lakeside", "%s: the eighth chapter's stub: 下湖底，看清封物: %s" % [way, StoryQuestLog.objective(state, quests)])
+	_check(eighth != null and eighth.requires == [&"main.chapter7"] and eighth.steps.size() == 5 and StoryQuestLog.current_step(state, eighth) != null and StoryQuestLog.objective(state, quests).contains("湖底") and StoryQuestLog.target(state, quests) != null and StoryQuestLog.target(state, quests).zone_id == &"village.lakeside", "%s: the eighth chapter open (第八章 A): 下湖底，看清封物: %s" % [way, StoryQuestLog.objective(state, quests)])
 	_check(not session.player_held_item_ids().is_empty() and session.player_held_item_ids().has(&"native:fanfang/bronze_tablet"), "%s: the tablet kept" % way)
 
 

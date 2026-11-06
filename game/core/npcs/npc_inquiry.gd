@@ -80,6 +80,8 @@ class Answer:
 	var attacks: bool = false
 	## Whether it leaves for good once it has answered (NpcInquiryRule.leaves; the caller does it).
 	var leaves: bool = false
+	## 战斗拍数 D: the CombatInsights key the asker gets for this answer (hearsay, a guide's 打法); "" none.
+	var hearsay: String = ""
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -190,6 +192,7 @@ static func answer(
 		if taken:
 			return result
 		result.answered = true
+		result.hearsay = rule.hearsay
 		result.hands_over = rule.hands_over
 		result.hands_over_amount = rule.amount
 		for line: NpcLine in rule.after:

@@ -25,10 +25,16 @@ var toasts: MessageToasts
 var barrier: Control
 var frame: PanelContainer
 var frame_title: Label
+## The frame's whole title (frame_title shows it, or as much of its end as fits: set_title()).
+var _title: String = ""
 ## The fight forecast's word beside the title while the popup shows an NPC (界面重做 3:
 ## 稳赢 … 必败 on its plate; its line as the hover).
 var frame_badge: PanelContainer
 var frame_badge_text: Label
+## Between the title's text and the plate.
+const BADGE_GAP: float = 12.0
+## What a title that lost its front starts with.
+const TITLE_CUT: String = "…"
 var mount: VBoxContainer
 var holding: Control
 var details: VBoxContainer
@@ -220,15 +226,17 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	rows.add_child(heading)
 	frame_title = _label(heading, "Title")
 	frame_title.theme_type_variation = &"TitleLabel"
-	# One line, the row's width, cut with … when longer (a long title must not widen the frame
-	# past the screen); KEEPS_WIDTH keeps the layout from wrapping it.
+	# One line, the row's width (a long title must not widen the frame past the screen); one too
+	# long loses its front, not its name (_fit_title()); KEEPS_WIDTH keeps the layout from
+	# wrapping it. The whole title is the hover then.
 	frame_title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	frame_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	frame_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	frame_title.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	frame_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	frame_title.resized.connect(_place_badge)
-	# The forecast's plate sits right after the title's text (placed by _place_badge()).
+	frame_title.mouse_filter = Control.MOUSE_FILTER_PASS
+	frame_title.resized.connect(_fit_title)
+	# The forecast's plate sits right after the title's text (placed by _fit_title()).
 	frame_badge = PanelContainer.new()
 	frame_badge.name = "Badge"
 	frame_badge.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -443,8 +451,8 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.custom_minimum_size = Vector2.ZERO
 	content.show()
-	frame_title.text = title
 	set_badge("", -1)
+	set_title(title)
 	close_button.text = "关闭"
 	frame.show()
 	barrier.show()
@@ -474,7 +482,7 @@ func _open_page(title: String, content: Control, valid: Callable) -> void:
 	content.show()
 	if content.has_method(&"hosted_in_popup"):
 		content.call(&"hosted_in_popup", true)
-	_host.show_page(page_heading(title, frame_title.text))
+	_host.show_page(page_heading(title, _title))
 	# 关闭 (B) goes back to 查看 first.
 	close_button.text = "返回"
 	ui.panel_opened()
@@ -719,22 +727,65 @@ func _button(parent: Node, node_name: String, text: String, action: Callable) ->
 func set_badge(word: String, verdict: int, line: String = "") -> void:
 	frame_badge.visible = not word.is_empty() and verdict >= 0
 	if not frame_badge.visible:
+		# The whole row the title's again.
+		_fit_title()
 		return
 	frame_badge.theme_type_variation = GameTheme.verdict_plate(verdict)
 	frame_badge_text.text = word
 	frame_badge.tooltip_text = line
-	_place_badge.call_deferred()
+	# Once the plate has its new size.
+	_fit_title.call_deferred()
 
 
-## The plate just after the title's text, inside the title's width.
-func _place_badge() -> void:
-	if not is_instance_valid(frame_badge) or not frame_badge.visible:
+## The frame's title (the frame shows as much as fits: _fit_title()).
+func set_title(title: String) -> void:
+	_title = title
+	_fit_title()
+
+
+## The title in the row's width, the plate just after its text: a title too long for both
+## loses its front (fitted_title()), so the plate never covers it and the name at its end
+## shows whole; the whole title is its hover then.
+func _fit_title() -> void:
+	if not is_instance_valid(frame_title) or not is_instance_valid(frame_badge):
 		return
 	var font: Font = frame_title.get_theme_font("font")
-	var text_width: float = 0.0 if font == null else font.get_string_size(frame_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, frame_title.get_theme_font_size("font_size")).x
-	frame_badge.reset_size()
-	var x: float = minf(text_width + 12.0, maxf(0.0, frame_title.size.x - frame_badge.size.x))
-	frame_badge.position = Vector2(x, (frame_title.size.y - frame_badge.size.y) / 2.0).round()
+	var font_size: int = frame_title.get_theme_font_size("font_size")
+	var width: Callable = func(text: String) -> float:
+		return 0.0 if font == null else font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var style: StyleBox = frame_title.get_theme_stylebox("normal")
+	var left: float = 0.0 if style == null else style.get_margin(SIDE_LEFT)
+	var room: float = frame_title.size.x - (0.0 if style == null else style.get_minimum_size().x)
+	if frame_badge.visible:
+		frame_badge.reset_size()
+		room -= frame_badge.size.x + BADGE_GAP
+	# Not laid out yet: the whole title until it is (resized brings it back here).
+	var shown: String = _title if frame_title.size.x <= 0.0 else fitted_title(_title, room, width)
+	if frame_title.text != shown:
+		frame_title.text = shown
+	frame_title.tooltip_text = "" if shown == _title else _title
+	if frame_badge.visible:
+		var x: float = minf(left + width.call(shown) + BADGE_GAP, maxf(0.0, frame_title.size.x - frame_badge.size.x))
+		frame_badge.position = Vector2(x, (frame_title.size.y - frame_badge.size.y) / 2.0).round()
+
+
+## `title` as it fits in `room` by `width` (text → its width): whole; else its end after …,
+## from where a part begins (after a space, · or 」, or at 「) so no word is cut; else as much
+## of its end as fits. A frame's title ends with what it is about: name.c short() puts the name
+## last (天邪派第十六代弟子「镇国大将军」严廷殷 → …「镇国大将军」严廷殷).
+static func fitted_title(title: String, room: float, width: Callable) -> String:
+	if title.length() < 2 or width.call(title) <= room:
+		return title
+	var longest: String = ""
+	for start: int in range(1, title.length()):
+		var tail: String = TITLE_CUT + title.substr(start).strip_edges(true, false)
+		if width.call(tail) > room:
+			continue
+		if longest.is_empty():
+			longest = tail
+		if title[start] == "「" or title[start - 1] in [" ", "·", "」"]:
+			return tail
+	return title if longest.is_empty() else longest
 
 
 ## A form shown in the frame (a business, the loot, a question) has the frame for its box:

@@ -13,8 +13,10 @@ enum Value {
 	## haunt.c do_haunt(): the NPC the player raised kill_ob()s the one its sheet names, who
 	## fights it back; the player stands by on its side, in no fight of their own.
 	SERVANT_KILL,
+	## 战斗拍数 D: the player asks a school's guide for its three harmless rounds (拆招).
+	PLAYER_LESSON,
 }
 
 
 static func is_valid(value: int) -> bool:
-	return value >= Value.PLAYER_LETHAL_ATTACK and value <= Value.SERVANT_KILL
+	return value >= Value.PLAYER_LETHAL_ATTACK and value <= Value.PLAYER_LESSON

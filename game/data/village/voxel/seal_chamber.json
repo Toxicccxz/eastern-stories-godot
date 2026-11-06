@@ -1,0 +1,327 @@
+{
+  "indoor": false,
+  "camera_size": 16,
+  "note": "冰下封坛 (native:village/seal_altar, 第八章 A): a round room of the same ice as the cave above, its walls veined with gold, lit by 璃虹's light in her pillar (the one warm light, day and night) and a little of the pool's blue from the mouth in the north; the vault one slab of half-clear ice with the dragons' shadows going over; the black stone 封坛 in the middle (the layout's blocked box: seal_altar). Not cold here: her light.",
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 56,
+    "depth": 3.0,
+    "top": "6a94b0",
+    "bottom": "0e1c2a",
+    "strata": [
+      "4e7c9a",
+      "3e6484",
+      "2c4c6a"
+    ]
+  },
+  "light": {
+    "sky": [
+      "08141f",
+      "06101a"
+    ],
+    "ambient": [
+      "9cc0d8",
+      "94b8d2"
+    ],
+    "ambient_energy": [
+      0.5,
+      0.48
+    ],
+    "sun": [
+      "b0d0e8",
+      "a8cae4"
+    ],
+    "sun_energy": [
+      0.14,
+      0.12
+    ],
+    "carried": {
+      "color": "cfeef6",
+      "range": 7.0,
+      "day": 0.9,
+      "night": 1.0,
+      "attenuation": 1.0
+    },
+    "note": "under the pool: no day or night; 璃虹's light is the room's"
+  },
+  "cliffs": {
+    "low": 3.2,
+    "high": 5.0,
+    "rise": 100,
+    "step": 0.5,
+    "rough": 0.42,
+    "keep": 96,
+    "trim": [
+      "cliff"
+    ],
+    "grooves": 0.1,
+    "roughness": 0.26,
+    "strata": [
+      "d8eaf4",
+      "c4dcec",
+      "ecf6fc",
+      "b0d0e4",
+      "cfe4f0",
+      "a4c8de"
+    ],
+    "tops": [
+      "ecf6fc",
+      "d8eaf4",
+      "f4fcfe"
+    ],
+    "dark": "10243a",
+    "note": "the same ice as the cave above (the gold veins the text names are the room's long: nothing drawn yet)"
+  },
+  "ground": {
+    "cave_floor": {
+      "style": "ice",
+      "colors": [
+        "c6dcea",
+        "d4e8f2",
+        "e0f0f6",
+        "b8d4e6"
+      ],
+      "cracks": 0.12,
+      "frost": 0.2
+    },
+    "boundary": {
+      "colors": [
+        "6a94b0",
+        "5e88a4",
+        "52789a"
+      ]
+    }
+  },
+  "water": {
+    "kinds": {
+      "water": {
+        "colors": [
+          "3a8cb0",
+          "226a90",
+          "143c5c"
+        ],
+        "depth": 120,
+        "flow": [
+          0.0,
+          0.04
+        ],
+        "speed": 0.08,
+        "swell": 0.02,
+        "foam": 0.08,
+        "rock_foam": 0.3,
+        "bank_foam": 0.3,
+        "bank": [
+          "b0d0e4",
+          "c4dcec",
+          "a4c8de"
+        ],
+        "sky": 0.15,
+        "note": "the pool's mouth, the way up"
+      }
+    }
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "butterflies": 0,
+    "wind": 0.0,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "density": {
+      "cave_floor": 0.0
+    },
+    "root_ferns": false,
+    "cliff_foot_tufts": 0.0,
+    "cliff_tufts": 0.0,
+    "outcrop_colors": [
+      "d8eaf4",
+      "c4dcec",
+      "ecf6fc"
+    ]
+  },
+  "ambience": {
+    "fish": [
+      {
+        "rect": [
+          -300,
+          -300,
+          300,
+          260
+        ],
+        "count": 2,
+        "height": [
+          9.5,
+          11.5
+        ],
+        "color": "1a3a56",
+        "size": 2.4,
+        "note": "the dragons' shadows going over the vault (总纲: 能看见龙的影子游过)"
+      },
+      {
+        "rect": [
+          -260,
+          -280,
+          260,
+          240
+        ],
+        "count": 8,
+        "height": [
+          8.5,
+          10.5
+        ],
+        "color": "1e3e58",
+        "size": 1.0,
+        "note": "the pool's small fish"
+      }
+    ],
+    "dust": [
+      {
+        "rect": [
+          -280,
+          -260,
+          280,
+          240
+        ],
+        "count": 20,
+        "color": "f4ecd8",
+        "wind": [
+          0.04,
+          0.02
+        ],
+        "height": [
+          0.4,
+          2.6
+        ],
+        "note": "motes in 璃虹's light"
+      }
+    ]
+  },
+  "actors": {
+    "native.npc.lihong": {
+      "body": "statue",
+      "stone": "dcecf8",
+      "base": "18283a",
+      "rim": "9cc8dc",
+      "plinth": 0.06,
+      "note": "璃虹 in her pillar: a figure of ice-white that never stirs (her pillar is the ice_pillar prop at her marker, its light hers)"
+    }
+  },
+  "props": [
+    {
+      "kind": "ice_dome",
+      "at": [
+        0,
+        -330
+      ],
+      "size": [
+        640,
+        64
+      ],
+      "height": 9.0,
+      "ribs": 6,
+      "lake": "0e2238",
+      "note": "the vault: one slab of half-clear ice, the pool above it"
+    },
+    {
+      "kind": "ice_pillar",
+      "at": [
+        128,
+        -24
+      ],
+      "size": [
+        56,
+        56
+      ],
+      "height": 4.0,
+      "colors": [
+        "eef8fc",
+        "f6fcfe",
+        "dcecf4",
+        "e8f4f8"
+      ],
+      "light": true,
+      "glow": "fff2d8",
+      "range": 13.0,
+      "energy": 2.2,
+      "note": "璃虹's pillar: her light, warm white, the room's one lamp",
+      "clear": true
+    },
+    {
+      "kind": "ice_pillar",
+      "at": [
+        -250,
+        -140
+      ],
+      "size": [
+        40,
+        40
+      ],
+      "height": 3.6,
+      "note": "a pillar of the room's own ice"
+    },
+    {
+      "kind": "ice_pillar",
+      "at": [
+        240,
+        170
+      ],
+      "size": [
+        36,
+        36
+      ],
+      "height": 3.0
+    },
+    {
+      "kind": "ice_pillar",
+      "at": [
+        -230,
+        180
+      ],
+      "size": [
+        44,
+        44
+      ],
+      "height": 4.0
+    },
+    {
+      "kind": "glow_algae",
+      "at": [
+        -40,
+        -230
+      ],
+      "size": [
+        80,
+        40
+      ],
+      "count": 8,
+      "light": true,
+      "range": 7.0,
+      "energy": 0.9,
+      "glow": "6fd0e8",
+      "note": "the weed round the pool's mouth, the only blue light"
+    },
+    {
+      "kind": "glow_algae",
+      "at": [
+        200,
+        -170
+      ],
+      "size": [
+        80,
+        50
+      ],
+      "count": 6
+    },
+    {
+      "kind": "glow_algae",
+      "at": [
+        -200,
+        60
+      ],
+      "size": [
+        90,
+        50
+      ],
+      "count": 6
+    }
+  ]
+}

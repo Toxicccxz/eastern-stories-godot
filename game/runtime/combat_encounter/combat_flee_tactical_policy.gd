@@ -15,7 +15,7 @@ func validate_execution(context: CombatTacticalContext) -> int:
 	return _validate(context)
 
 func supports_mode(mode: int) -> bool:
-	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]
+	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]
 
 func _validate(context: CombatTacticalContext) -> int:
 	if context == null or context.actor == null or context.target == null:

@@ -86,6 +86,12 @@ class Turn:
 	var line: String = ""
 
 
+## One of a landmark's `looks`: its text for one bearing every one of its marks.
+class Look:
+	var marks: Array[String] = []
+	var long: String = ""
+
+
 ## One of a note_maze's notes: what it reads and the way it names (a portal's legacy_command).
 class MazeNote:
 	extends RefCounted
@@ -116,6 +122,9 @@ var _turns: Array[Turn] = []
 var _combination: Dictionary[String, int] = {}
 var _opens: StringName = &""
 var _legacy_source_path: String
+## Native (第八章 A): `looks` [{marks, long}]: what one bearing all those marks sees instead of
+## `long` (the first that fits; the 封坛 after the sword is drawn, the 刻字 to one who read the 铜牒).
+var _looks: Array[Look] = []
 
 var landmark_id: StringName:
 	get:
@@ -274,6 +283,14 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		definition._turns.append(turn)
 	definition._combination = reader.integer_map("combination")
 	definition._opens = StringName(reader.text("opens"))
+	for record: ContentRecordReader in reader.children("looks"):
+		var look := Look.new()
+		look.marks = record.text_list("marks")
+		look.long = record.required_text("long")
+		record.finish()
+		if look.marks.is_empty():
+			record.fail("marks", "a look is for one bearing marks")
+		definition._looks.append(look)
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -362,7 +379,20 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._turns = _turns.duplicate()
 	copy._combination = _combination.duplicate()
 	copy._opens = _opens
+	copy._looks = _looks.duplicate()
 	return copy
+
+
+## What one bearing `marks` sees: the first of `looks` whose marks they all bear, else `long`.
+func description_for(marks: Dictionary[String, int]) -> String:
+	for look: Look in _looks:
+		if look.marks.all(func(mark: String) -> bool: return marks.get(mark, 0) != 0):
+			return look.long
+	return _description
+
+
+func looks() -> Array[Look]:
+	return _looks.duplicate()
 
 
 func portal_ids() -> Array[StringName]:

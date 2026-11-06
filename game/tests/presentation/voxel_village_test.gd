@@ -18,15 +18,18 @@ const TALL: Array[String] = ["reeds", "tree", "great_tree", "pigsty", "chicken_c
 ## 绮云镇's rooms stand at 11–25%, 饮风客栈二楼 at about 15%.
 const COVERED: float = 0.11
 ## The boat has nothing that blocks but the water round it: it has no furnishings.
-const SCENES: Array[String] = ["village_main", "village_icecave", "farmhouse_house", "liu_house", "lord_house", "melonguard_house"]
-const MAPS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.farmhouse_house", &"village.liu_house", &"village.lord_house", &"village.melonguard_house"]
+const SCENES: Array[String] = ["village_main", "village_icecave", "village_seal_chamber", "farmhouse_house", "liu_house", "lord_house", "melonguard_house"]
+const MAPS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.seal_chamber", &"village.farmhouse_house", &"village.liu_house", &"village.lord_house", &"village.melonguard_house"]
 ## Maps that are no rooms of a house: no lived-in life expected.
-const NO_ROOMS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave"]
+const NO_ROOMS: Array[StringName] = [&"village.main", &"village.midlake", &"village.icecave", &"village.seal_chamber"]
+## The facade keys that read as age or use (voxel_facade.gd).
+const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]
 ## Where a test may put the player on each map (TEST-ONLY).
 const ENTRIES: Dictionary[StringName, Array] = {
 	&"village.main": [&"village.road1", &"village.road1.canyon_arrival"],
 	&"village.midlake": [&"village.lake", &"village.lake.boat_arrival"],
 	&"village.icecave": [&"village.lakebottom1", &"village.lakebottom1.dive_arrival"],
+	&"village.seal_chamber": [&"village.seal_altar", &"village.seal_altar.pool_arrival"],
 	&"village.farmhouse_house": [&"village.farmhouse1", &"village.farmhouse1.road4_entry"],
 	&"village.liu_house": [&"village.home", &"village.home.littlegarden_entry"],
 	&"village.lord_house": [&"village.lordhouse1", &"village.lordhouse1.road9_entry"],
@@ -66,6 +69,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 			&"village.main": await _check_main(tree, session, map)
 			&"village.midlake": _check_midlake(map)
 			&"village.icecave": await _check_icecave(tree, map)
+			&"village.seal_chamber": await _check_seal_chamber(tree, map)
 			&"village.farmhouse_house": await _check_farmhouse(tree, map)
 			&"village.liu_house": await _check_liu(tree, map)
 			&"village.lord_house": await _check_lord(tree, map)
@@ -162,6 +166,7 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		if passage != null and (passage as Node2D).global_position.y > 1696.0 and (passage as Node2D).global_position.x < 0.0:
 			south = true
 	_check(not south and TerrainProbe.blocks_at(map, Vector2(-96, 1712)), "valley1.c: the path runs on south but brush closes it, no exit")
+	_check_facades(view)
 	_check_passing(map, [&"village.road2", &"village.road3", &"village.road4", &"village.road5", &"village.road6"])
 	_check_passing(map, [&"village.road5", &"village.road7", &"village.road8", &"village.road9"])
 	_check(await MapPlaces.drive_through(tree, map, [&"village.road2", &"village.road3", &"village.road4", &"village.melonfarm"]), "walk from the 三叉路口 into the melon field")
@@ -191,6 +196,59 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		await _frames(tree, 2)
 
 
+## 玉螺湖村立面 (voxel_facade.gd keys on `buildings`): each house old its own way, after its text.
+func _check_facades(view: WorldVoxelView) -> void:
+	var layout: Dictionary = view.layout
+	var farmhouse: Dictionary = _building(layout, [1184, 608, 1472, 928])
+	_check(int(farmhouse.get("steps", {}).get("count", 0)) == 1 and float(farmhouse.get("couplets", {}).get("faded", 0.0)) >= 0.4 and farmhouse.get("windows", {}).get("style", "") == "propped"
+		and not farmhouse.has("patches") and not farmhouse.has("cracks") and _hung(farmhouse, "winnow", "south") == 1 and _hung(farmhouse, "hat", "south") == 1,
+		"farmhouse1.c: 朴素，但十分井井有条 — one step, couplets gone pale, sashes propped, nothing mended or cracked, a winnow and a hat on the wall")
+	var liu: Dictionary = _building(layout, [800, 336, 1088, 608])
+	_check(float(liu.get("patches", 0.0)) > 0.3 and float(liu.get("cracks", 0.0)) > 0.0 and float(liu.get("damp", {}).get("height", 0.0)) >= 0.5 and _hung(liu, "broom", "south") == 1 and _hung(liu, "straw_cape", "south") == 1,
+		"home.c: 很破旧的木屋 — boards mended, cracked, deep damp, a broom and a straw cape by the door")
+	var kitchen: Dictionary = _building(layout, [640, 416, 800, 608])
+	_check(float(kitchen.get("soot", {}).get("eaves", 0.0)) >= 0.5 and _hung(kitchen, "kindling", "south") == 1, "smallstorage.c: 四壁已被油烟薰 — the eaves sooted, kindling against the wall")
+	var east_room: Dictionary = _building(layout, [1504, 1792, 1744, 2048])
+	var south_room: Dictionary = _building(layout, [1184, 2048, 1504, 2288])
+	_check(east_room.get("eave_tiles", false) and east_room.get("ridge_tips", false) and south_room.get("eave_tiles", false) and south_room.get("ridge_tips", false)
+		and float(south_room.get("windows", {}).get("share", 0.0)) > float(east_room.get("windows", {}).get("share", 0.0)) and east_room.get("windows", {}).get("style", "") == "propped",
+		"lordhouse2/3.c: old tiles with their 瓦当 and curled ends, the 东房's window open, the 南房's two great windows all open")
+	for id: String in ["village.lordhouse1.door", "village.home.door"]:
+		var look: Dictionary = layout.get("door_looks", {}).get(id, {})
+		_check(look.get("kind", "") == "old_gate" and look.get("open", false) and view.shutters.has(StringName(id)) and view.opened.has(StringName(id))
+			and view.opened[StringName(id)].visible != view.shutters[StringName(id)].visible,
+			"%s: an old gate with its shut look and its open one, one of them shown" % id)
+	var bare: Array[String] = []
+	for building: Dictionary in layout["buildings"]:
+		if building.get("construction", "") == "posts":
+			continue
+		var marks: int = 0
+		for key: String in AGE:
+			marks += 1 if building.has(key) else 0
+		if marks < 2:
+			bare.append(String(building.get("note", building["rect"])).left(20))
+	_check(bare.is_empty(), "every house but the open 瓜棚 carries two marks of age or more: %s" % [bare])
+
+
+func _building(layout: Dictionary, rect: Array) -> Dictionary:
+	for building: Dictionary in layout["buildings"]:
+		var same: bool = true
+		for i: int in 4:
+			same = same and int(building["rect"][i]) == int(rect[i])
+		if same:
+			return building
+	return {}
+
+
+## How many things of `kind` hang on `wall` of a building.
+func _hung(building: Dictionary, kind: String, wall: String) -> int:
+	var count: int = 0
+	for item: Dictionary in building.get("wall_hangings", []):
+		if String(item.get("kind", "")) == kind and String(item.get("wall", "south")) == wall:
+			count += 1
+	return count
+
+
 ## The boat alone on the water: no land about it, the far hills and shore, the flash below.
 func _check_midlake(map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
@@ -217,6 +275,29 @@ func _check_icecave(tree: SceneTree, map: WorldMapController) -> void:
 	_check(map.npc_runtimes().size() == 6, "six white dragons")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.lakebottom2"), "walk from the frozen way in into the hall")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"village.lakebottom2", Vector2(176, 288), 48.0)), "across it to the ice stair")
+
+
+## 冰下封坛 (第八章 A): the same ice as the cave, the black 封坛 with the head and the hilt in the
+## middle, 璃虹's lit pillar beside it (the room's one warm lamp), the vault with the dragons'
+## shadows, the pool's mouth in the north; 璃虹 a figure that never stirs; the room round, wide
+## enough for the 终章's dozen.
+func _check_seal_chamber(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["seal_altar", "ice_pillar", "ice_dome", "glow_algae"]:
+		_check(kind in kinds, "the chamber has its %s" % kind)
+	_check(kinds.count("seal_altar") == 1, "one 封坛, the layout's blocked box")
+	_check(view.layout["ground"]["cave_floor"]["style"] == "ice" and view.layout["cliffs"]["strata"][0] == "d8eaf4", "the cave's ice, floor and walls")
+	var lit_pillar: bool = view.layout["props"].any(func(prop: Dictionary) -> bool: return prop["kind"] == "ice_pillar" and prop.get("light", false) and String(prop.get("glow", "")).begins_with("fff"))
+	_check(lit_pillar, "璃虹's pillar carries the warm light")
+	_check(view.geometry.ambience._fish.size() >= 3 and view.geometry.find_children("*", "OmniLight3D", true, false).size() >= 2, "the shadows over the vault, the pillar's light and the weed's")
+	_check(view.layout["actors"]["native.npc.lihong"]["body"] == "statue", "璃虹 in the ice never stirs")
+	var room: Rect2 = MapPlaces.zone_rect(map, &"village.seal_altar")
+	_check(room.size.x >= 560 and room.size.y >= 500, "a round room wide enough for the 终章: %s" % room.size)
+	var standing: int = map.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.exists_in_map).size()
+	_check(standing == 1, "璃虹 alone (商玦 waits for 看过封坛, the fallen 璃虹 for the sword): %d" % standing)
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"village.seal_altar.keep")), "from the pool's mouth round to the 封坛's south side")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"village.seal_altar.recite")), "and to 璃虹's pillar")
 
 
 func _check_farmhouse(tree: SceneTree, map: WorldMapController) -> void:

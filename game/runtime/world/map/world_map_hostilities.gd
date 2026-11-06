@@ -450,6 +450,9 @@ static func _parley() -> bool:
 ## (its dealings' `ignores_when`: the 黑冠 on their head, a mark they bear) and so does not
 ## fall on them; read against the player's state, what they carry and wear, where they stand.
 func _ignored(npc: NpcRuntimeState) -> bool:
+	# A guardian (the 白鳞冰龙, DECISIONS「冰龙守者」) lets the player be on the modern pace; 经典 keeps ES2's.
+	if npc.definition().dealings().guardian and GameContent.catalog().pacing().story_parley:
+		return true
 	var condition: JournalEntryDefinition = npc.definition().dealings().ignores_when
 	if condition == null or _player == null or session == null:
 		return false
@@ -910,7 +913,7 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 ## (heaven_soldier.c invocation(); CombatEncounterResolution's allies). Those enemies kill it back.
 ## A spar is no fight of theirs: nobody draws into a 切磋 (it would turn lethal).
 func _allies_join(encounter: CombatEncounter) -> void:
-	if _player == null or encounter.participant_for(_player.character_id) == null or encounter.mode == CombatEncounterMode.Value.SPAR:
+	if _player == null or encounter.participant_for(_player.character_id) == null or encounter.mode in [CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]:
 		return
 	var here: WorldLocationState = _player.world_location()
 	var allies: Array[StringName] = []

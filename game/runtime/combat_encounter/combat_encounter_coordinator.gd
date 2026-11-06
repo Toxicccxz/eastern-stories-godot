@@ -24,6 +24,12 @@ var _departure: StringName = &""
 var _departed_encounter_id: StringName = &""
 ## The last fight an NPC walked out of (go.c in a fight, CombatNpcChat._walk_out()).
 var _walked_out_encounter_id: StringName = &""
+## 战斗拍数 D (DECISIONS「战斗拍数 D」): the guide whose lesson the active fight is (a LESSON
+## encounter: three harmless rounds, its lines as the rounds begin, one verdict after).
+var _lesson_guide: FamilyDefinition.SchoolGuide
+var _lesson_guide_id: StringName = &""
+## How many rounds a guide's lesson runs.
+const LESSON_ROUNDS: int = 3
 
 ## Fights aborted by a failure (see _abort_failed_resolution) since the last take.
 ## SuiteResult turns any untaken abort into a test failure.
@@ -130,9 +136,11 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	var downed_target: bool = cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK
 	if initiator == null or target == null or not _session.encounter_participant_is_available(initiator.character_id) or not _session.encounter_participant_is_available(target.character_id, downed_target):
 		return CombatSliceInitiationResult.new()
-	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR] or _entry_sequence == 9223372036854775807:
+	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR, CombatTriggerCause.Value.PLAYER_LESSON] or _entry_sequence == 9223372036854775807:
 		return CombatSliceInitiationResult.new()
-	var spar: bool = cause in [CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR]
+	# 战斗拍数 D: a lesson is a spar in its relationships (reciprocal, nobody kills), in its own mode.
+	var lesson: bool = cause == CombatTriggerCause.Value.PLAYER_LESSON
+	var spar: bool = cause in [CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR] or lesson
 	if directed_kill and cause not in [CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK]:
 		return CombatSliceInitiationResult.new()
 	for binding: CombatSliceCharacterBinding in [initiator, target]:
@@ -160,7 +168,7 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 			CombatTriggerCandidate.new(target.character_id, &"target"),
 		]
 		var trigger := CombatTrigger.new(StringName("production:%d" % _entry_sequence), cause,
-			CombatEncounterMode.Value.SPAR if spar else CombatEncounterMode.Value.LETHAL, initiator.character_id, candidates,
+			CombatEncounterMode.Value.LESSON if lesson else CombatEncounterMode.Value.SPAR if spar else CombatEncounterMode.Value.LETHAL, initiator.character_id, candidates,
 			_session.resolve_encounter_location(initiator.character_id))
 		var started: CombatEncounterStartResult = start(trigger)
 		if started.succeeded():
@@ -170,6 +178,89 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	_restore_entry_relationship(initiator.relationship, first_opponents, first_lethal)
 	_restore_entry_relationship(target.relationship, second_opponents, second_lethal)
 	return receipt
+
+## 战斗拍数 D: the player asks the school's guide (`guide`, standing as `target`) for its three
+## harmless rounds: a LESSON encounter, the guide's lines as its rounds begin, the beats each
+## side wins counted for the verdict said as it ends (lesson_concluded()).
+func start_lesson(player: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding, guide: FamilyDefinition.SchoolGuide) -> CombatSliceInitiationResult:
+	if guide == null:
+		return CombatSliceInitiationResult.new()
+	var receipt: CombatSliceInitiationResult = start_production(player, target, CombatTriggerCause.Value.PLAYER_LESSON)
+	if receipt.outcome != CombatSliceInitiationResult.Outcome.COMPLETED or _active_scheduler == null:
+		return receipt
+	_lesson_guide = guide
+	_lesson_guide_id = target.character_id
+	_active_scheduler.configure_lesson(target.character_id, func(index: int) -> String:
+		return CombatInsights.fill(guide.rounds[index], GameContent.catalog().npc(guide.master_id)) if index < guide.rounds.size() else "")
+	if _resolution != null:
+		_resolution.set_lesson(LESSON_ROUNDS, _active_scheduler.rounds_completed)
+	return receipt
+
+
+## The guide of the active lesson, null outside one.
+func lesson_guide() -> FamilyDefinition.SchoolGuide:
+	return _lesson_guide if _active_encounter != null and _active_encounter.mode == CombatEncounterMode.Value.LESSON else null
+
+
+## 战斗拍数 D: a lesson ended — the guide's one verdict (CombatInsights' three) said and kept on
+## the player's 见识录 (lesson/<skill>): the player won a beat the school's own way, the guide
+## did, or nobody did.
+func _conclude_lesson() -> void:
+	var guide: FamilyDefinition.SchoolGuide = _lesson_guide
+	var guide_id: StringName = _lesson_guide_id
+	_lesson_guide = null
+	_lesson_guide_id = &""
+	if guide == null or _active_scheduler == null or _session == null or _session.player_runtime() == null:
+		return
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	var mine: SkillDefinition = school_of(player.character_id)
+	var verdict: int = CombatInsights.VERDICT_NOTHING_EARNED
+	if mine != null and mine.skill_id == guide.skill_id and _active_scheduler.earned_count(player.character_id) > 0 and not guide.player_earned.is_empty():
+		verdict = CombatInsights.VERDICT_PLAYER_EARNED
+	elif _active_scheduler.earned_count(guide_id) > 0:
+		verdict = CombatInsights.VERDICT_GUIDE_EARNED
+	CombatInsights.lesson_taken(player.state, guide.skill_id, verdict)
+	var npc: NpcRuntimeState = _resident_npc(guide_id)
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	if npc == null or map == null or map.hud() == null:
+		return
+	var said: String = CombatInsights.fill(CombatInsights.verdict_line(guide, verdict), GameContent.catalog().npc(guide.master_id))
+	# TRANSLATORS: a guide's verdict after their lesson: {npc} the guide, {line} what they say.
+	var line: String = TranslationServer.translate("{npc}说道：{line}").format({"npc": TranslationServer.translate(npc.definition().display_name), "line": said})
+	map.hud().npc_says(npc, [ColoredLine.new(line)], [line])
+
+
+## 战斗拍数 D: what the player learns watching an NPC fight (CombatInsights): its beat number
+## `beat` of a round went on `tag`, kept under the school it fights with.
+func _note_habit(character_id: StringName, beat: int, tag: StringName) -> void:
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	var player: WorldPlayerRuntimeState = null if _session == null else _session.player_runtime()
+	if npc == null or player == null:
+		return
+	CombatInsights.note_habit(player.state, npc.definition().definition_id, fighting_skill_of(character_id), beat, tag)
+
+
+## An NPC's blow drew the player's blood: the wound carries its school (the doctor reads it).
+func _note_wound(character_id: StringName) -> void:
+	var player: WorldPlayerRuntimeState = null if _session == null else _session.player_runtime()
+	if player == null:
+		return
+	CombatInsights.set_wounded_by(player.state, fighting_skill_of(character_id))
+
+
+## The skill `character_id` fights with now: the school mapped to its attack's use, else the
+## use itself (unarmed, sword...); &"" when it is not in the fight.
+func fighting_skill_of(character_id: StringName) -> StringName:
+	if _active_encounter == null:
+		return &""
+	var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(_session.encounter_combat_bindings(_active_encounter), character_id)
+	if binding == null or not binding.is_valid():
+		return &""
+	var primary: EquippedWeaponRef = binding.state.equipment.primary_weapon()
+	var use_id: StringName = primary.skill_type if primary != null else CombatSliceProjectionBuilder.UNARMED_SKILL_ID
+	var mapped: StringName = binding.state.skills.mapped_skill(use_id)
+	return use_id if mapped.is_empty() else mapped
+
 
 ## haunt.c do_haunt(): the NPC the player raised (`servant`) kill_ob()s `target`, who only
 ## fights it back (dest->fight_ob(who)); the player stands by on the servant's side, in
@@ -928,6 +1019,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
+		scheduler.configure_insights(_note_habit, _note_wound)
 	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of).with_villagers(_npc_wield_item, _age_of, _idle_partner).with_summons(_summon_beside).with_leaving(_walk_out_move))
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
@@ -1116,6 +1208,12 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 		result,
 	)
 	_completed_feedback = CombatCompletedFeedback.new(encounter_id, _active_scheduler)
+	# 战斗拍数 D: the guide's verdict, with the scheduler's counts still at hand.
+	if result.kind == CombatEncounterResultKind.Value.LESSON_CONCLUDED:
+		_conclude_lesson()
+	else:
+		_lesson_guide = null
+		_lesson_guide_id = &""
 	if _resolution != null and not _resolution.departure.is_empty():
 		_departure = _resolution.departure
 		_departed_encounter_id = encounter_id
@@ -1207,6 +1305,11 @@ func _result_is_allowed_for_mode(result: CombatEncounterResult) -> bool:
 		CombatEncounterMode.Value.SPAR:
 			return result.kind in [
 				CombatEncounterResultKind.Value.SPAR_CONCLUDED,
+				CombatEncounterResultKind.Value.FLED,
+			]
+		CombatEncounterMode.Value.LESSON:
+			return result.kind in [
+				CombatEncounterResultKind.Value.LESSON_CONCLUDED,
 				CombatEncounterResultKind.Value.FLED,
 			]
 		CombatEncounterMode.Value.LETHAL:

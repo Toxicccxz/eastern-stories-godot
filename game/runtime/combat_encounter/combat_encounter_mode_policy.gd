@@ -9,6 +9,8 @@ static func supports(trigger: CombatTrigger) -> bool:
 			return trigger.requested_mode == CombatEncounterMode.Value.SCRIPTED
 		CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR:
 			return trigger.requested_mode == CombatEncounterMode.Value.SPAR
+		CombatTriggerCause.Value.PLAYER_LESSON:
+			return trigger.requested_mode == CombatEncounterMode.Value.LESSON
 		CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY, CombatTriggerCause.Value.SERVANT_KILL:
 			return trigger.requested_mode == CombatEncounterMode.Value.LETHAL
 	return false
@@ -17,7 +19,7 @@ static func supports(trigger: CombatTrigger) -> bool:
 static func relationships_match(trigger: CombatTrigger, participants: Array[CombatParticipant], player_id: StringName) -> bool:
 	if trigger.cause == CombatTriggerCause.Value.SCRIPTED:
 		return true # Preserve CXR3 controlled authored topology boundary.
-	if trigger.cause in [CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK] and trigger.initiator_id != player_id:
+	if trigger.cause in [CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.PLAYER_LESSON, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK] and trigger.initiator_id != player_id:
 		return false
 	if trigger.cause in [CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.NPC_SPAR, CombatTriggerCause.Value.SERVANT_KILL] and trigger.initiator_id == player_id:
 		return false
@@ -34,7 +36,7 @@ static func relationships_match(trigger: CombatTrigger, participants: Array[Comb
 				if fighting or lethal:
 					return false
 				continue
-			if trigger.requested_mode == CombatEncounterMode.Value.SPAR:
+			if trigger.requested_mode in [CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]:
 				# fight.c speaking/accepted branch: reciprocal fight, no lethal marks.
 				# The non-speaking reverse-kill branch is NOT a supported SPAR.
 				if lethal or (fighting and not target.binding.relationship.has_opponent(actor.participant_id)):

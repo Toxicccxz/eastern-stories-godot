@@ -51,6 +51,10 @@ var chance_below: int = 0
 var chance_of: int = 0
 var hands_over: StringName = &""
 var amount: int = 0
+## 战斗拍数 D: the CombatInsights key the asker gets for hearing this rule (hearsay/<skill>/<n>,
+## taught/<skill>; FamilyDefinition); "" for the NPC's own rules. Set by the catalog builder,
+## not read from a record.
+var hearsay: String = ""
 var after: Array[NpcLine] = []
 var after_empty: Array[NpcLine] = []
 ## feature/vendor.c do_vendor_list() (a vendor's `(: do_vendor_list :)` topic): the

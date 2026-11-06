@@ -105,7 +105,7 @@ func _test_codex_record() -> void:
 	for entry: CodexContent.Entry in once:
 		if entry.key == "moves/race/beast":
 			beasts = entry
-	_check(beasts != null and beasts.title == "见识录 · 禽兽" and beasts.text().contains("咬 · ？ · 见过 1 次") and beasts.text().contains("抓 · ？") and not beasts.text().contains("抓 · ？ · 见过"), "the beasts' verbs once a bite was watched: 咬 still ？, 抓 never seen")
+	_check(beasts != null and beasts.title == "见识录 · 禽兽" and beasts.text().contains("咬 · ？ · 见过 1 次") and not beasts.text().contains("抓"), "the beasts' verbs once a bite was watched: 咬 still ？, 抓 never seen so not listed (战斗拍数 D)")
 	MoveRecognition.note(state, bite.action_id)
 	beasts = null
 	for entry: CodexContent.Entry in CodexContent.entries(CodexContent.Section.ARTS, state, catalog):
@@ -127,8 +127,9 @@ func _test_codex_record() -> void:
 func _test_save() -> void:
 	var state := CharacterState.new()
 	state.known_moves = {"es2:adm/daemons/race/beast/bite": 2, "es2:daemon/skill/liuh-ken/gu-song-gua-yue": 1}
-	var snapshot: GameSaveValueTypes.CharacterStateSnapshot = GameSaveValueTypes.CharacterStateSnapshot.new().with_known_moves(state.known_moves)
-	_check(snapshot.known_moves == state.known_moves, "the snapshot carries known_moves (the codec's round trip: game_save_json_codec_test)")
+	state.insights = {"lesson/liuh-ken": 1, "hearsay/liuh-ken/2": 1}
+	var snapshot: GameSaveValueTypes.CharacterStateSnapshot = GameSaveValueTypes.CharacterStateSnapshot.new().with_known_moves(state.known_moves, state.insights)
+	_check(snapshot.known_moves == state.known_moves and snapshot.insights == state.insights, "the snapshot carries known_moves and insights (the codec's round trip: game_save_json_codec_test)")
 
 
 func _check(ok: bool, label: String) -> void:

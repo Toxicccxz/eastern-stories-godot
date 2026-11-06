@@ -98,6 +98,16 @@ var _interrupted: Dictionary[StringName, bool] = {}
 ## null; the cycle from which an NPC may use a special again (its rest after one).
 var _style_for: Callable
 var _special_ready: Dictionary[StringName, int] = {}
+## 战斗拍数 D (DECISIONS「战斗拍数 D」): the rounds completed (a lesson ends on its count); the
+## guide's line as each round begins (configure_lesson: round index -> String); the beats each
+## fighter won this fight; what the player learns watching (configure_insights: an NPC's beat
+## number spent on a tag, the NPC whose move drew the player's blood).
+var _rounds_completed: int = 0
+var _lesson_guide_id: StringName = &""
+var _lesson_lines: Callable = Callable()
+var _earned_counts: Dictionary[StringName, int] = {}
+var _note_habit: Callable = Callable()
+var _note_wound: Callable = Callable()
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -124,6 +134,8 @@ func _init(
 ) -> void:
 	_encounter = p_encounter
 	_config = p_config
+	# 战斗拍数 D: a lesson's blows land but draw no blood (CombatRoundModifiers.harmless).
+	_modifiers.harmless = p_encounter != null and p_encounter.mode == CombatEncounterMode.Value.LESSON
 
 
 ## Configured once before the first advance. Default registry is deliberately empty.
@@ -167,6 +179,37 @@ func configure_beats(rules: CombatBeatRules, beats_for: Callable = Callable()) -
 
 func beat_rules() -> CombatBeatRules:
 	return _beat_rules
+
+
+## 战斗拍数 D: the guide `guide_id` says `lines_for_round.call(index)` (0 the first round; ""
+## says nothing) as each round begins, as its own line in the record. Configured once.
+func configure_lesson(guide_id: StringName, lines_for_round: Callable) -> bool:
+	if _accumulated_input_seconds != 0.0 or _rounds_completed > 0:
+		return false
+	_lesson_guide_id = guide_id
+	_lesson_lines = lines_for_round
+	return true
+
+
+## 战斗拍数 D: what the player learns watching — `habit.call(npc_id, beat_number, tag)` for each
+## beat an NPC took (1 its first of the round; perform for a special), `wounded.call(npc_id)`
+## when an NPC's blow drew the player's blood. Configured once; read only under 识招.
+func configure_insights(habit: Callable, wounded: Callable) -> bool:
+	if _accumulated_input_seconds != 0.0:
+		return false
+	_note_habit = habit
+	_note_wound = wounded
+	return true
+
+
+## The rounds that ran to their end (or ended the fight) so far.
+func rounds_completed() -> int:
+	return _rounds_completed
+
+
+## The beats `actor_id` won by its school this fight.
+func earned_count(actor_id: StringName) -> int:
+	return _earned_counts.get(actor_id, 0)
 
 
 ## The NPCs' fight styles (CombatStyleTable.style_of() behind `style_for`), configured once.
@@ -1141,11 +1184,13 @@ func _run_round(
 		_round_progress = true
 		if not _take_beat(actor_id, beats, bindings, random_source, effect_registry, boundary):
 			_round_running = false
+			_rounds_completed += 1
 			return RoundStep.ENDED
 		# Interleaved: the next fighter's beat; else this one's beats together.
 		if _beat_rules.interleaved:
 			_round_cursor += 1
 	_round_running = false
+	_rounds_completed += 1
 	return RoundStep.DONE
 
 
@@ -1161,6 +1206,12 @@ func _begin_round(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_round_cursor = 0
 	_round_progress = false
 	_round_running = true
+	# 战斗拍数 D: the guide's word for this round, before anyone acts.
+	if _lesson_lines.is_valid() and not _lesson_guide_id.is_empty():
+		var said: String = str(_lesson_lines.call(_rounds_completed))
+		if not said.is_empty():
+			# TRANSLATORS: a guide's word as a round of their lesson begins: $N the guide, {line} what they say.
+			_emit(_note_event(_lesson_guide_id, TranslationServer.translate("$N说道：{line}").format({"line": said}), &""))
 	if not _one_beat() and not _player_id.is_empty() and _find_binding(bindings, _player_id) != null:
 		var mine: CombatRoundBeats = _beats_of(_player_id, bindings)
 		for cost: Array in _pending_costs:
@@ -1273,8 +1324,11 @@ func _take_beat(
 		pick = _pick_beat(actor, beats, bindings, random_source)
 	var event: CombatSchedulerEvent = null
 	var is_player: bool = actor_id == _player_id or (actor != null and actor.is_user)
+	var beat_number: int = beats.beats_taken() + 1
 	if not pick.perform.is_empty():
 		event = _perform_beat(actor, pick.perform, bindings, random_source, effect_registry)
+		if not is_player:
+			_note_habit_of(actor_id, beat_number, &"perform")
 		beats.spend(CombatBeatRules.perform_key(pick.perform), _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
 		# 战斗拍数 C: its own busy counts into the beats paid.
 		_absorb_special_busy(actor, _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
@@ -1305,6 +1359,8 @@ func _take_beat(
 				beats.forfeit()
 		elif struck != null:
 			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag))
+			if npc_beat:
+				_note_habit_of(actor_id, beat_number, struck.tag)
 		else:
 			beats.spend(SPENT_WAIT, 1)
 		var blows: Array = _blows(resolution.forward_result, resolution.chain_result)
@@ -1438,6 +1494,7 @@ func _earn(actor: CombatSliceCharacterBinding, skeleton: CombatSchoolSkeleton, b
 	var beats: CombatRoundBeats = _beats_of(actor.character_id, bindings)
 	if not beats.earn(skeleton.earn, _beat_rules.earned_beat_cap):
 		return
+	_earned_counts[actor.character_id] = _earned_counts.get(actor.character_id, 0) + 1
 	# TRANSLATORS: a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
 	var line: String = TranslationServer.translate("$N抢得一拍（{label}）！").format({"label": skeleton.label()})
 	_emit(_note_event(actor.character_id, line, ColoredLine.HIY))
@@ -1534,7 +1591,8 @@ func _process_participant(
 
 
 ## 识招: the player, in this fight, watched the NPCs' moves this beat (the attack and, when
-## an NPC riposted, its riposte).
+## an NPC riposted, its riposte). 战斗拍数 D: an NPC's blow that drew their blood is noted too
+## (the doctor reads the wound's school).
 func _note_moves_seen(resolution: CombatSliceOpportunityResult, bindings: Array[CombatSliceCharacterBinding]) -> void:
 	if _player_id.is_empty() or _decisions.recognise_after <= 0:
 		return
@@ -1544,9 +1602,21 @@ func _note_moves_seen(resolution: CombatSliceOpportunityResult, bindings: Array[
 	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
 	if forward != null and forward.attacker_id != _player_id and forward.action_selection_result != null and forward.action_selection_result.selected_action != null:
 		MoveRecognition.note(player.state, forward.action_selection_result.selected_action.action_id)
+		if forward.victim_id == _player_id and not _blow(forward.ordinary_attack_result).is_empty() and _note_wound.is_valid():
+			_note_wound.call(forward.attacker_id)
 	var chain: CombatAttackChainResult = resolution.chain_result
 	if chain != null and forward != null and forward.victim_id != _player_id and chain.reverse_action_selection_result != null and chain.reverse_action_selection_result.selected_action != null:
 		MoveRecognition.note(player.state, chain.reverse_action_selection_result.selected_action.action_id)
+		if chain.reverse_victim_id == _player_id and not _blow(chain.reverse_ordinary_result).is_empty() and _note_wound.is_valid():
+			_note_wound.call(chain.reverse_attacker_id)
+
+
+## 战斗拍数 D: an NPC's beat number `beat_number` went on `tag` (perform for a special), told to
+## the one watching (configure_insights) in a fight the player is in, under 识招.
+func _note_habit_of(actor_id: StringName, beat_number: int, tag: StringName) -> void:
+	if _player_id.is_empty() or _decisions.recognise_after <= 0 or not _note_habit.is_valid() or _one_beat():
+		return
+	_note_habit.call(actor_id, beat_number, tag)
 
 
 ## call_out() runs on the driver's clock: a round of the fight is combat_round_ms of

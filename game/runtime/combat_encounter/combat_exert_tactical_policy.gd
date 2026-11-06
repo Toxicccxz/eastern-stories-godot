@@ -57,7 +57,7 @@ func validate_execution(context: CombatTacticalContext) -> int:
 
 
 func supports_mode(mode: int) -> bool:
-	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]
+	return mode in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON]
 
 
 ## A file that aims runs with no current target too (its offensive_target()).

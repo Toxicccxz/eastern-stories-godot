@@ -280,6 +280,26 @@ func ask_context() -> void:
 	_ui.ask.open_ask()
 
 
+## 战斗拍数 D: 请教打法 on a school's guide — its 打听 opened on its own topic (the guide's lines).
+func teach_context() -> void:
+	var map := _session.active_map() as WorldMapController
+	var guide: FamilyDefinition.SchoolGuide = null if map == null else map.selection.selected_guide()
+	if guide != null:
+		_ui.ask.open_ask_topic(guide.teach_topic)
+
+
+## 拆招 with a school's guide, on its confirm page: three rounds, no blood, the guide's refusal
+## said when it will not (WorldMapSelection.lesson_selected()).
+func lesson_context() -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null or map.selected_npc() == null:
+		return
+	var npc: NpcRuntimeState = map.selected_npc()
+	var about: String = _strength_of(npc, true)
+	# TRANSLATORS: the interaction popup's confirm page before 拆招 with a school's guide ({npc}).
+	confirm_in_popup(tr("{npc}会拆三回合给你看，点到为止、不伤人。确定要讨教吗？").format({"npc": tr(npc.definition().display_name)}), "确定讨教", map.selection.lesson_selected, _ui.selection.selected_npc_askable, about)
+
+
 func traverse_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.traverse_selected_portal()
