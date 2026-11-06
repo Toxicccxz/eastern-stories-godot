@@ -255,6 +255,13 @@ func _test_outskirts(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_unreached_maps(tree: SceneTree, session: WorldSessionController) -> void:
 	for map_id: StringName in ENTRIES:
 		var entry: Array = ENTRIES[map_id]
+		# TEST-ONLY: nobody on these maps starts a fight (the 树王坟's 鬼影 and the 护草神兽
+		# attack on sight, and the fight would hold the world against the next map); out of the
+		# way, as choyin_secrets_test and the others meet them.
+		var other: WorldMapController = session.world_map_of(map_id)
+		for npc: NpcRuntimeState in other.npc_runtimes():
+			if npc.exists_in_map:
+				other.npcs.vanish(npc)
 		_check(session.handoff_to(map_id, entry[0], entry[0], entry[1]).succeeded(), "onto %s" % map_id)
 		await tree.physics_frame
 		_check(session.active_map_id() == map_id and session.player_runtime().world_location().zone_id == entry[0], "%s: in %s" % [map_id, entry[0]])

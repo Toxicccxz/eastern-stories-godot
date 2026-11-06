@@ -251,9 +251,10 @@ func _on_world_building(on: bool) -> void:
 	_loading_screen.settle()
 	for frame: int in SETTLE_FRAMES:
 		await get_tree().process_frame
-	var left: float = _loading_screen.seconds_left()
-	if left > 0.0:
-		await get_tree().create_timer(left, true).timeout
+	# Its minimum is wall-clock time, as the picture's frames are: wait on that clock, not on
+	# a game-time timer.
+	while _loading_screen.seconds_left() > 0.0:
+		await get_tree().process_frame
 	if build == _builds:
 		_lift(build)
 

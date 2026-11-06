@@ -104,7 +104,9 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(450.0, 1070.0)), Vector2(0.0, 60.0)), "the slope's end physically stops the player")
 	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-100.0, -200.0)), "forest", "forest obstacle is drawn between the approach and the clearing")
 	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(60.0, 400.0)), Vector2(-150.0, 0.0)), "forest obstacle physically bounds the clearing's west edge")
-	_assert_true((controller.get_node("Characters/Player/Camera2D") as Camera2D).enabled, "player Camera2D is active")
+	# The 2D camera follows the player until the map's voxel view, a frame later, takes over.
+	var voxel_view: WorldVoxelView = controller.get_node_or_null("MapView") as WorldVoxelView
+	_assert_true((controller.get_node("Characters/Player/Camera2D") as Camera2D).enabled != (voxel_view != null and voxel_view._active), "player Camera2D is active unless the voxel view took over")
 	for zone_name: String in ["CentralClearingZone", "SlopeZone", "NorthApproachZone", "EastBridgeZone"]:
 		var zone: Area2D = controller.get_node_or_null("Zones/%s" % zone_name) as Area2D
 		_assert_true(zone != null, "%s persists" % zone_name)

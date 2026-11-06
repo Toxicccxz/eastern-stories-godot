@@ -254,7 +254,7 @@ Godot 4.7.2 lives at `build/toolchain/editor/` (git-ignored; do not delete `buil
 
 ```text
 python tools/ci/verify.py --godot <godot>                                 # full gate (~10 min)
-<godot> --headless --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
+<godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
 <godot> --headless --path game --editor --quit                            # parse/import check
 ```
 
