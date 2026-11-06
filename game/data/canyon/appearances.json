@@ -1,0 +1,75 @@
+{
+  "people": {
+    "canyon.npc.door_guard": {
+      "note": "守门小兵：精悍，交领旧军服，手里紧握著刀，惊惊颤颤的样子；立绘 Muse 2026-11-06",
+      "coat": "92847b", "pants": "5e4e4e", "skin": "f0c8a0", "hair": "17141c",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "5b4c4c", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "canyon.npc.guard1": {
+      "note": "小兵：风沙满面，无精打采，毫无生气，塌着肩；腰刀照守军通例补；立绘 Muse 2026-11-06",
+      "coat": "aa9c8c", "pants": "695c59", "skin": "e8c39a", "hair": "1f151b",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "3a3135", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "canyon.npc.guard2": {
+      "note": "老兵：和小兵同一段描述，更沧桑邋遢；补丁军服、花白胡茬，腰刀照守军通例补；立绘 Muse 2026-11-06",
+      "coat": "7f796c", "pants": "6c5c4c", "skin": "d9a878", "hair": "27221f",
+      "hair_style": "topknot", "beard": "full", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "72685b", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "canyon.npc.leader1": {
+      "note": "小队长：和大队长同一段描述，无须瘦脸、土黄军服与之区分，佩长剑；立绘 Muse 2026-11-06",
+      "coat": "a68547", "pants": "7e6230", "skin": "d9a05e", "hair": "0d0a10",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "c8ccd2", "accent": "b05f2d", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "canyon.npc.captain": {
+      "note": "大队长：不苟言笑、佩长剑；青铜战盔、肩甲、短须按军阶补；立绘 Muse 2026-11-06",
+      "coat": "595b5f", "pants": "303337", "skin": "d8a878", "hair": "14100e",
+      "hair_style": "topknot", "headwear": "helmet", "headwear_color": "a87c3e",
+      "beard": "chin_three", "waist": "belt", "prop": "sword_waist", "prop_color": "c8ccd2",
+      "accent": "8a3b2e", "extras": ["armor"], "armor_color": "8a7a58", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "canyon.npc.leader2": {
+      "note": "老队长：和小队长同一段描述、资历更老；灰丝短须、军服褪色、佩军刀；立绘 Muse 2026-11-06",
+      "coat": "6e4a3f", "pants": "3a2c28", "skin": "c99b78", "hair": "2a2326",
+      "hair_style": "topknot", "beard": "full", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "7a4a3a", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "canyon.npc.vice_general": {
+      "note": "李信：副将，青铜战盔带缨钮，铁灰军服赭红滚边、肩甲，长剑；立绘 Muse 2026-11-06",
+      "coat": "6a6e72", "pants": "16191f", "skin": "e6b58a", "hair": "0d0a10",
+      "hair_style": "topknot", "headwear": "helmet", "headwear_color": "8a6a34", "waist": "belt",
+      "prop": "sword_waist", "prop_color": "c8ccd2", "accent": "8a3b2e", "extras": ["armor"],
+      "armor_color": "7a6a45", "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "canyon.npc.general": {
+      "note": "严廷殷：镇国大将军，火云战甲（红甲深蓝衣），左佩刀右佩剑，破残奇剑缺口泛白光；立绘 Muse 2026-11-06",
+      "coat": "223144", "pants": "161a22", "skin": "eec39f", "hair": "0e0b0f",
+      "hair_style": "topknot", "waist": "belt", "prop": "blade_sword_waist", "prop_color": "c8ccd2",
+      "accent": "751617", "extras": ["armor"], "armor_color": "b12625", "height": "tall",
+      "build": "heavy", "shoes": "dark"
+    },
+    "canyon.npc.adviser": {
+      "note": "赫造基：军师，紫红纶巾（迷幻经纶），手持铁扇剑；立绘 Muse 2026-11-06",
+      "coat": "46304e", "pants": "372238", "skin": "f3d9bf", "hair": "1d1a1e",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "8a3b52", "waist": "sash",
+      "prop": "fan", "prop_color": "3a4148", "accent": "372238", "height": "standard",
+      "build": "slim", "shoes": "dark"
+    },
+    "canyon.npc.seller": {
+      "note": "后备兵：管军械库卖货，眼神锐利、杀不了价；八字胡；立绘 Muse 2026-11-06",
+      "coat": "bf997a", "pants": "70534f", "skin": "f0d3ae", "hair": "1d1822",
+      "hair_style": "topknot", "beard": "moustache", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c8ccd2", "accent": "84655a", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    }
+  }
+}
