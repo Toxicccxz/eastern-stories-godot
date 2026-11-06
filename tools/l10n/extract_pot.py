@@ -531,10 +531,11 @@ def build_catalog(repository: Path = REPOSITORY) -> Catalog:
         for entrance in config.get("entrances", {}).values():
             if isinstance(entrance.get("title"), str):
                 catalog.add(entrance["title"], source)
-        # A building's board over its door, the pennant hung out beside it and the sign hung
-        # square off its wall (雪亭镇立面细化's `blade_sign`).
+        # A building's board over its door, the pennant hung out beside it, the sign hung
+        # square off its wall (雪亭镇立面细化's `blade_sign`) and the banner on the pole over its
+        # roof (绮云镇立面细化's `pole_banner`).
         for building in config.get("buildings", []):
-            for key in ("signboard", "hanging_flag", "blade_sign"):
+            for key in ("signboard", "hanging_flag", "blade_sign", "pole_banner"):
                 value = building.get(key)
                 text = value.get("text") if isinstance(value, dict) else value
                 if isinstance(text, str):

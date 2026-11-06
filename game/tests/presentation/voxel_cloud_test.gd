@@ -14,7 +14,7 @@ const CALMED: Array[StringName] = [&"cloud.npc.gangster", &"cloud.npc.thief", &"
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground (the town's
 ## boundary, a wall, rock, water, a blocked box) or be raised clear of the floor (`elevation`).
 const TALL: Array[String] = ["lantern", "standing_rock", "boulder", "boundary_stone", "water_vat", "firewood", "drying_rack",
-	"cart", "flagpole", "fishing_net", "tea_stall", "banner", "tree", "great_tree", "pavilion", "rockery", "stall", "bench",
+	"cart", "flagpole", "pole_banner", "fishing_net", "tea_stall", "banner", "tree", "great_tree", "pavilion", "rockery", "stall", "bench",
 	"cargo", "training_post", "wine_jars", "notice_post", "well", "screen_wall", "torch"]
 const SCENES: Array[String] = ["cloud_outdoor", "cloud_tearoom_upstairs", "cloud_jiyuan_upstairs", "cloud_duchang_upstairs", "biaoju_house",
 	"bookstore_house", "butchery_house", "drugstore_house", "duchang_house", "yard_house", "jiyuan_house", "rich_house", "marry_house",
@@ -26,6 +26,8 @@ const MAPS: Array[StringName] = [&"cloud.outdoor", &"cloud.tearoom_upstairs", &"
 ## The rooms the walk does not pass through, each entered at its own way in.
 const OTHERS: Array[StringName] = [&"cloud.bookstore", &"cloud.butchery", &"cloud.drugstore", &"cloud.woodboxy", &"cloud.jiyuan", &"cloud.jiyuan2",
 	&"cloud.duchang2", &"cloud.rich", &"cloud.marry_room", &"cloud.monky", &"cloud.tailory", &"cloud.weapony", &"cloud.zaihuoy"]
+## Keys of age and use on a building (voxel_facade.gd and the older facade keys).
+const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -100,9 +102,11 @@ func _check_town(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		if building.has("signboard"):
 			signs.append(String((building["signboard"] as Dictionary).get("text", "")))
 		two_storeys += 1 if building.has("skirt") else 0
-	for text: String in ["香茗坊", "振远镖局", "赌", "怡红院", "张府", "红娘庄", "斋院", "药", "棺", "布庄", "兵器", "杂货", "书局"]:
+	for text: String in ["香茗坊", "振远镖局", "赌", "怡红院", "张府", "红娘庄", "斋院", "药店", "棺材铺", "布庄", "兵器屋", "杂货", "书局"]:
 		_check(text in signs, "a shop front shows its board: %s" % text)
 	_check(two_storeys >= 2, "香茗坊 and 怡红院 stand two storeys over the street (nwroad1.c, nroad2.c)")
+	_check_facades(view.layout)
+	_check_facade_view(view)
 	# 美术规划 §1: 灰青 roofs, none near black; 古槐, willows and bamboo, the blossom is 雪亭镇's.
 	var dark: Array[String] = []
 	for building: Dictionary in view.layout.get("buildings", []):
@@ -151,6 +155,107 @@ func _check_town(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	await _frames(tree, 2)
 
 
+## 绮云镇立面细化 (voxel_facade.gd): every shop known at a glance by a mark of its own, from its
+## room's text where the text names one, and every building old and lived in. Both views look from
+## the south, so the shops whose doors look north (布庄, 书局, 斋院, 赌场) have a 幌杆 (a layout
+## look, voxel_fixtures.gd) at their street corners, its banner over the roof.
+func _check_facades(layout: Dictionary) -> void:
+	var butcher: Dictionary = _building(layout, "cloud.nwroad1.west")
+	_check(_hung(butcher, "ox_head") and String(butcher.get("signboard", {}).get("board", "")) == "d8d0bc", "nwroad1.c: 西首铺子外挂着个牛头; butchery.c: 牛骨雕成的招牌")
+	var tea_house: Dictionary = _building(layout, "cloud.nwroad1.east")
+	_check(tea_house.get("signboard", {}).get("mount", "") == "porch" and tea_house.has("door_glow"), "tearoom.c: 高高悬起的金匾 — hung before the porch, the tea house lit within")
+	var herbs: Dictionary = _building(layout, "cloud.nroad1.north")
+	_check(herbs.get("blade_sign", {}).get("text", "") == "药" and herbs.get("windows", {}).get("sill", "") == "herbs", "药店: the 药 sign and herbs drying on its sills")
+	var arms: Dictionary = _building(layout, "cloud.nroad1.east")
+	_check(arms.get("hanging_flag", {}).get("text", "") == "兵" and _hung(arms, "weapon_pegs"), "兵器屋: the 兵 pennant and blades pegged on its wall")
+	var brothel: Dictionary = _building(layout, "cloud.eroad1.north")
+	_check(brothel.has("door_glow") and brothel.has("couplets") and float(brothel.get("windows", {}).get("share", 0.0)) >= 0.8, "eroad1.c: 春楼 — lit within, its couplets red, every window open")
+	var rich: Dictionary = _building(layout, "cloud.eroad3.north")
+	_check(int(rich.get("steps", {}).get("count", 0)) == 3 and rich.has("door_stones") and rich.has("ridge_beasts"), "张百万家: three steps, drum stones and ridge beasts at its gate")
+	var marry: Dictionary = _building(layout, "cloud.wroad0.north")
+	_check(_hung(marry, "double_happiness") and marry.get("couplets", {}).get("lintel", false), "红娘庄: 囍 on its walls, couplets with a 横批")
+	var coffins: Dictionary = _building(layout, "cloud.nwroad2.west")
+	_check(coffins.get("blade_sign", {}).get("text", "") == "棺材" and String(coffins.get("blade_sign", {}).get("board", "")) == "e8e4d6", "棺材铺: a white sign")
+	var grocer: Dictionary = _building(layout, "cloud.nroad2.west")
+	var back: int = 0
+	for item: Dictionary in grocer.get("wall_hangings", []):
+		back += 1 if String(item.get("wall", "")) == "south" else 0
+	_check(back >= 4, "wroad2.c: 北面是杂货铺, 不过门不朝这个方向开 — its back wall hung with the household's things")
+	_check(_hung(_building(layout, "cloud.nwroad2.south"), "dyed_cloth"), "布庄: dyed cloth drying on its wall onto the market")
+	# Old and lived in (美术规划 §2 item 7): two or more marks of age and use on every building.
+	var young: Array[String] = []
+	for building: Dictionary in layout["buildings"]:
+		var marks: int = 0
+		for key: String in AGE:
+			marks += 1 if building.has(key) else 0
+		if marks < 2:
+			young.append(String(building.get("note", building["rect"])).left(24))
+	_check(young.is_empty(), "every building is old and lived in: %s" % [young])
+	# No two of the houses alike: what hangs on their walls and how they are built.
+	var seen: Dictionary = {}
+	var alike: Array[String] = []
+	for building: Dictionary in layout["buildings"]:
+		if not building.get("portals", []).is_empty() or not building.has("wall_hangings"):
+			continue
+		var kinds: Array = []
+		for item: Dictionary in building["wall_hangings"]:
+			kinds.append("%s:%s" % [item["kind"], item.get("goods", "")])
+		var form: String = "%s %s %s" % [building.get("construction", ""), building.get("roof_form", ""), ",".join(kinds)]
+		if seen.has(form):
+			alike.append(form)
+		seen[form] = true
+	_check(seen.size() >= 3 and alike.is_empty(), "the houses and sheds are dressed each its own way: %s" % [alike])
+
+
+## In the built view: the 幌杆 banners stand over the ridges and the boards hung before the porches
+## sit under the porch eaves where the camera sees them.
+func _check_facade_view(view: WorldVoxelView) -> void:
+	var labels: Dictionary = {}
+	for node: Node in view.geometry.find_children("*", "Label3D", true, false):
+		labels[(node as Label3D).text] = (labels.get((node as Label3D).text, []) as Array) + [node]
+	var low: Array[String] = []
+	for text: String in ["布庄", "书", "斋", "赌"]:
+		var high: bool = false
+		for label: Label3D in labels.get(tr(text), []):
+			high = high or label.global_position.y > 5.5
+		if not high:
+			low.append(text)
+	_check(low.is_empty(), "each 幌杆 holds its banner over the roof: %s" % [low])
+	var hidden: Array[String] = []
+	var hung: int = 0
+	for building: Dictionary in view.layout["buildings"]:
+		var board: Variant = building.get("signboard", null)
+		if not (board is Dictionary and String(board.get("mount", "")) == "porch"):
+			continue
+		hung += 1
+		var seen: bool = false
+		for label: Label3D in labels.get(tr(String(board["text"])), []):
+			seen = seen or label.global_position.y < 2.8
+		if not seen:
+			hidden.append(String(board["text"]))
+	_check(hung >= 12 and hidden.is_empty(), "each porch-hung board hangs under the porch's eave: %d hung, hidden %s" % [hung, hidden])
+	var warm: bool = false
+	for node: Node in view.geometry.find_children("*", "OmniLight3D", true, false):
+		var light := node as OmniLight3D
+		if light.light_color.is_equal_approx(Color("ffa070")):
+			warm = warm or float(light.get_meta("night_energy", 0.0)) > float(light.get_meta("day_energy", 0.0))
+	_check(warm, "怡红院's doorway glows, more by night than by day")
+
+
+func _building(layout: Dictionary, portal: String) -> Dictionary:
+	for building: Dictionary in layout["buildings"]:
+		if portal in building.get("portals", []):
+			return building
+	return {}
+
+
+func _hung(building: Dictionary, kind: String) -> bool:
+	for item: Dictionary in building.get("wall_hangings", []):
+		if String(item.get("kind", "")) == kind:
+			return true
+	return false
+
+
 ## Over 卧龙岗 into town, through the markets to the crossroad; up into 香茗坊's upper floor and
 ## down; into 振远镖局 and the gaming house; on to the ferry landing and 张家花园.
 func _walk_the_town(tree: SceneTree, session: WorldSessionController) -> void:
@@ -159,6 +264,10 @@ func _walk_the_town(tree: SceneTree, session: WorldSessionController) -> void:
 		&"cloud.nwroad1", &"cloud.nwroad2", &"cloud.nwroad3", &"cloud.nroad1", &"cloud.nroad2", &"cloud.cross"]
 	for zone: StringName in road:
 		_check(await MapPlaces.drive_to_zone(tree, map, zone), "walk into " + String(zone))
+	# The main street both ways past the shops (their 幌杆 and door stones leave it clear).
+	_check(await MapPlaces.drive_through(tree, map, [&"cloud.wroad2", &"cloud.wroad1", &"cloud.wroad0"]), "west along the main street")
+	_check(await MapPlaces.drive_through(tree, map, [&"cloud.wroad1", &"cloud.wroad2", &"cloud.cross", &"cloud.eroad1", &"cloud.eroad2", &"cloud.eroad3"]), "and east to the town's end")
+	_check(await MapPlaces.drive_to_zone(tree, map, &"cloud.cross"), "back to the crossroad")
 	for zone: StringName in [&"cloud.tearoom", &"cloud.tearoom2", &"cloud.biaoju", &"cloud.duchang", &"cloud.dukou", &"cloud.park"]:
 		var there: WorldMapController = await MapPlaces.go_to(tree, session, zone)
 		_check(there != null and there.projected_view, "on foot to %s, in its voxel view" % zone)

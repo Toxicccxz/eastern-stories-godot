@@ -364,6 +364,45 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			title.modulate = Color("f1d9a0")
 			title.outline_size = 0
 			cloth.add_child(title)
+		"pole_banner":
+			# 幌杆 (绮云镇立面): a tall pole on a stone foot, a long banner hung from the arm at its
+			# top and stirring in the wind; it rises over the ridge, so both views read the name of
+			# a shop whose door looks north. The arm reaches along +x (turn it with `rotation`);
+			# `height`, `length`, `width`, `cloth`, `letters`, `trim`, `text`.
+			var tall: float = float(data.get("height",8.0))
+			var timber: String = String(data.get("pole","6e5038"))
+			var arm: float = float(data.get("arm",1.4))
+			s.box(root,Vector3(0,0.12,0),Vector3(0.56,0.24,0.56),String(data.get("stone","8c8a7f")))
+			s.box(root,Vector3(0,tall/2,0),Vector3(0.16,tall,0.16),timber)
+			s.box(root,Vector3(0,tall+0.08,0),Vector3(0.26,0.16,0.26),String(data.get("cap","c9a35e")))
+			s.box(root,Vector3(arm/2,tall-0.12,0),Vector3(arm+0.1,0.08,0.08),timber)
+			s.tilted_box(root,Vector3(arm*0.3,tall-0.6,0),Vector3(0.05,1.1,0.05),timber,Vector3(0,0,-0.6))
+			var cloth := Node3D.new()
+			cloth.position = Vector3(arm-0.1,tall-0.18,0)
+			root.add_child(cloth)
+			var drop: float = float(data.get("length",2.6))
+			var wide: float = float(data.get("width",0.9))
+			var dye: String = String(data.get("cloth","b8432f"))
+			var trim: String = String(data.get("trim","2f2a24"))
+			s.box(cloth,Vector3(0,-drop/2,0),Vector3(wide,drop,0.04),dye)
+			s.box(cloth,Vector3(0,-0.06,0),Vector3(wide+0.1,0.12,0.06),trim)
+			for tail: int in 3:
+				s.box(cloth,Vector3((tail-1)*wide*0.32,-drop-0.1,0),Vector3(wide*0.2,0.22,0.04),trim)
+			if data.has("text"):
+				for face: float in [-1.0,1.0]:
+					var title := Label3D.new()
+					title.text = tr(String(data["text"]))
+					title.position = Vector3(0,-drop/2,face*0.03)
+					title.rotation.y = 0.0 if face > 0.0 else PI
+					title.pixel_size = float(data.get("pixel_size",0.011))
+					title.font_size = 56
+					title.width = 60.0
+					title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+					title.outline_size = 0
+					title.modulate = Color(String(data.get("letters","f1e3bd")))
+					cloth.add_child(title)
+			if ambience != null:
+				ambience.flutter(cloth,root.position.x*0.7+root.position.z*0.3)
 		"bear_skin":
 			# 熊皮 (keep3.c): a great bear's hide spread flat, head and paws at its corners.
 			var fur: String = String(data.get("fur","4a3426"))
