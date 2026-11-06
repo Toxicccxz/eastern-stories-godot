@@ -115,40 +115,6 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			light.set_meta("night_energy",1.6)
 			light.set_meta("flicker",0.3)
 			root.add_child(light)
-		"seal_altar":
-			# 封坛 (native:village/seal_altar, 第八章 A): a round dais of black stone, waist high, its top
-			# worn bright; set in it a block of clear ice (`ice`), the head inside (`head`: a dark shape,
-			# the brow and the shut eyes) and the sword driven through it from above, only its hilt and a
-			# hand of blade standing out of the ice, frost on the hilt (`hilt`, `guard`); black steps up
-			# to it all round.
-			var stone: Array = data.get("colors",["141418","1e1e24","0e0e12","2a2a30"])
-			var ice: String = String(data.get("ice","d8eef8"))
-			var head: String = String(data.get("head","2a2024"))
-			var hilt: String = String(data.get("hilt","e8f2f8"))
-			var guard: String = String(data.get("guard","4a6a80"))
-			# The steps round it: two rings of blocks laid tangent to the dais (the long side across the
-			# radius), the lower ring wider.
-			var sides: int = 12
-			for i: int in sides:
-				var a: float = i*TAU/sides
-				s.tilted_box(root,Vector3(cos(a)*w*0.42,0.12,sin(a)*d*0.42),Vector3(0.22,0.24,w*0.3),String(stone[i%2]),Vector3(0,-a,0))
-				s.tilted_box(root,Vector3(cos(a)*w*0.34,0.4,sin(a)*d*0.34),Vector3(0.2,0.32,w*0.24),String(stone[(i+1)%2+1]),Vector3(0,-a,0))
-			s.box(root,Vector3(0,0.5,0),Vector3(w*0.62,1.0,d*0.62),String(stone[0]))
-			s.box(root,Vector3(0,1.02,0),Vector3(w*0.66,0.05,d*0.66),String(stone[3]))
-			s.box(root,Vector3(0,1.06,0),Vector3(w*0.5,0.03,d*0.5),"3a3a42")
-			# The ice set in the top, seen into: the head in it, a little below the surface.
-			s.box(root,Vector3(0,1.36,0),Vector3(w*0.4,0.56,d*0.4),ice+":haze")
-			s.box(root,Vector3(0,1.3,0),Vector3(0.34,0.38,0.3),head)
-			s.box(root,Vector3(0,1.42,0.12),Vector3(0.3,0.08,0.08),Color(head).lightened(0.25).to_html(false))
-			for side: float in [-0.08,0.08]:
-				s.box(root,Vector3(side,1.36,0.16),Vector3(0.06,0.02,0.02),"4a4048")
-			# The sword through it from above: its blade down into the ice, the hilt out of it.
-			s.box(root,Vector3(0,1.42,0),Vector3(0.06,0.7,0.02),"bfe6f4:gloss")
-			s.box(root,Vector3(0,1.7,0),Vector3(0.34,0.06,0.08),guard)
-			s.box(root,Vector3(0,1.9,0),Vector3(0.09,0.36,0.09),hilt)
-			s.box(root,Vector3(0,2.1,0),Vector3(0.13,0.07,0.13),"f2fafd:gloss")
-			for flake: int in 6:
-				s.box(root,Vector3(sin(flake*1.7)*0.05,1.64+(flake%3)*0.12,cos(flake*2.3)*0.05),Vector3(0.12,0.02,0.12),"f6fcfe")
 		"barred_door":
 			# 铁栅门 (native:niling/corridor: 三扇铁栅门, 锁都是新的): a square iron frame the width of
 			# the doorway, upright bars a hand apart, two cross-bands riveted over them and a hasp

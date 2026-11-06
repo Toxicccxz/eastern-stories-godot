@@ -214,8 +214,6 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					push_error("the act could not wait for %s" % [step.phases])
 			ScriptedAct.Kind.WATER:
 				state.recovery.water += step.value
-			ScriptedAct.Kind.DRAIN_FORCE:
-				state.recovery.inner_force.current = maxi(0, state.recovery.inner_force.current - step.value)
 			ScriptedAct.Kind.REINCARNATE:
 				# reincarnate() and the move to REVIVE_ROOM: the lines first, then the session's move.
 				_show(said, hears, npc, spoken)

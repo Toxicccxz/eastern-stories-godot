@@ -87,33 +87,22 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 const ICE: Array = ["e6f2f8","d4e8f2","f2fafd","c0dcea"]
 
 ## 玄冰 (lakebottom1.c: 冰的色泽纯正洁白): a column of ice, narrower upward, its stacked shards a
-## little askew, the cold blue in its shaded faces; frost at its foot. `light` gives it a lamp of
-## its own (`glow`, `range`, `energy`: 璃虹's light in her pillar, 第八章 A); `clear` true makes its
-## shards seen through (haze), the figure inside it showing.
+## little askew, the cold blue in its shaded faces; frost at its foot.
 func _ice_pillar(w: float, d: float) -> void:
 	var tall: float = float(data.get("height",3.4))
 	var colors: Array = _colors("colors",ICE)
-	var finish: String = ":haze" if data.get("clear",false) else ":gloss"
 	var y: float = 0.0
 	var course: int = 0
 	while y < tall:
 		var t: float = y/tall
 		var h: float = rng.randf_range(0.5,0.9)
 		var span: float = lerpf(1.0,0.45,t)
-		s.shard(root,Vector3(rng.randf_range(-0.05,0.05),y+h/2,rng.randf_range(-0.05,0.05)),Vector3(w*span,h,d*span),_pick(colors)+finish,course,rng.randf()*TAU)
+		s.shard(root,Vector3(rng.randf_range(-0.05,0.05),y+h/2,rng.randf_range(-0.05,0.05)),Vector3(w*span,h,d*span),_pick(colors)+":gloss",course,rng.randf()*TAU)
 		y += h*0.86
 		course += 1
 	for i: int in 5:
 		var a: float = i*TAU/5.0
 		s.shard(root,Vector3(cos(a)*w*0.55,0.06,sin(a)*d*0.55),Vector3(0.3,0.12,0.26),_pick(colors),i,a)
-	if data.get("light",false):
-		var lamp := OmniLight3D.new()
-		lamp.position = Vector3(0,tall*0.55,0)
-		lamp.light_color = Color(String(data.get("glow","fff4dc")))
-		lamp.omni_range = float(data.get("range",9.0))
-		lamp.set_meta("day_energy",float(data.get("energy",1.6)))
-		lamp.set_meta("night_energy",float(data.get("energy",1.6)))
-		root.add_child(lamp)
 
 ## 入口处又迅速地结了一层薄冰 (lakebottom1.c): the way in frozen over, a thin sheet across the mouth
 ## seen through, cracks of white in it.

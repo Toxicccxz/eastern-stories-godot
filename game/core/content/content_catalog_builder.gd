@@ -919,16 +919,14 @@ func _check_hazards() -> void:
 		elif zones_taken.has(hazard.zone_id):
 			_errors.append("%s.zone: %s has a hazard already" % [origin, hazard.zone_id])
 		zones_taken[hazard.zone_id] = true
-		for act: ScriptedAct in hazard.acts():
-			if act.moves_player():
+		if hazard.act != null:
+			if hazard.act.moves_player():
 				_errors.append("%s.act: a hazard does not move the player" % origin)
-			# A native hazard's branches may ask of the player (the 内力 that holds the cold off, what
-			# they wear: DECISIONS「寒气」); an ES2 hazard's one act falls on whoever stands there.
-			if (not hazard.native and not act.applies_to(&"", &"")) or act.draws() or not act.ask.is_empty():
-				_errors.append("%s.act: a hazard acts on whoever stands there (no %srolls or question)" % [origin, "" if hazard.native else "conditions, "])
-			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES or step.kind == ScriptedAct.Kind.QUESTIONS):
-				_errors.append("%s.act: a hazard brings no NPC and asks nothing" % origin)
-			_check_act(act, "%s.act" % origin)
+			if not hazard.act.applies_to(&"", &"") or hazard.act.draws() or not hazard.act.ask.is_empty():
+				_errors.append("%s.act: a hazard acts on whoever stands there (no conditions, rolls or question)" % origin)
+			if hazard.act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES):
+				_errors.append("%s.act: a hazard brings no NPC" % origin)
+			_check_act(hazard.act, "%s.act" % origin)
 
 
 ## A trap shuts a door a rule alone operates, between the zone it is left from

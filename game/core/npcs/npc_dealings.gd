@@ -41,10 +41,6 @@ var ignores_when: JournalEntryDefinition = null
 ## only while the game's pacing has `story_parley` on — an ES2 NPC that lets the player be for
 ## a story's sake (the turn's bandits once 霍铮 is home) attacks on sight as ES2 under 经典.
 var ignores_with_parley: bool = false
-## Native (第八章 A; DECISIONS「冰龙守者」): `guardian` true: an aggressive NPC that lets the player
-## be while pacing's story_parley is on, unless they strike first — then its whole room falls
-## on them (进门一起上, as the player's own 攻击 always brings it down); off (经典), aggressive as ES2.
-var guardian: bool = false
 var toll_attack_delay_ms: int = 0
 ## The index of the chat_msg line shouted at a passer-by coming into reach (-1: none).
 var toll_shout: int = -1
@@ -96,7 +92,6 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 		dealings.ignores_when = JournalEntryDefinition.new()
 		JournalEntryDefinition.read_when(reader, dealings.ignores_when, "ignores_when")
 	dealings.ignores_with_parley = reader.boolean("ignores_with_parley", false)
-	dealings.guardian = reader.boolean("guardian", false)
 	if dealings.ignores_with_parley and dealings.ignores_when == null:
 		reader.fail("ignores_with_parley", "goes with ignores_when")
 	dealings.toll_attack_delay_ms = reader.integer("toll_attack_delay_ms", 0)
