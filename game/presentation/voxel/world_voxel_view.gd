@@ -29,6 +29,11 @@ var held_cloud: int = -1
 var left_view: bool = false
 var actors: Dictionary[StringName, Node3D] = {}
 var labels: Dictionary[StringName, Label3D] = {}
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): the camera's size as the layout set it, and the fight's
+## push-in over it (set_zoom(); 1.0: the layout's). The picture only: nothing of the map moves.
+var _camera_base_size: float = 24.0
+var _zoom: float = 1.0
+var _zoom_tween: Tween
 ## The red marks over the heads of NPCs whose 2D body shows its AlertMark (进门一起上).
 var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
@@ -130,7 +135,8 @@ func _build() -> void:
 	# interpolate its first projection from a stale transform during map handoff.
 	camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = float(layout.get("camera_size",24.0))
+	_camera_base_size = float(layout.get("camera_size",24.0))
+	camera.size = _camera_base_size*_zoom
 	camera.near = 0.1
 	camera.far = 160.0
 	world.add_child(camera)
@@ -182,6 +188,9 @@ func release_world() -> void:
 	lighting.release()
 	geometry = null
 	camera = null
+	if _zoom_tween != null and _zoom_tween.is_valid():
+		_zoom_tween.kill()
+	_zoom = 1.0
 	remove_child(world)
 	world.queue_free()
 	world = null
@@ -339,6 +348,24 @@ func _follow(delta: float) -> void:
 	map.view_ground = projection
 	map.view_up = camera.unproject_position(Vector3.UP/VoxelMapGeometry.UNIT)-zero
 	get_viewport().canvas_transform = map.view_ground
+
+## 战斗拍数 C: the camera pushes in to `factor` of the layout's size (below 1: nearer) over
+## `seconds` (0: at once); 1.0 brings it back. The ground's projection follows in _follow().
+func set_zoom(factor: float, seconds: float = 0.0) -> void:
+	_zoom = clampf(factor,0.5,1.0)
+	if _zoom_tween != null and _zoom_tween.is_valid():
+		_zoom_tween.kill()
+	if camera == null:
+		return
+	if seconds <= 0.0:
+		camera.size = _camera_base_size*_zoom
+		return
+	_zoom_tween = create_tween()
+	_zoom_tween.tween_property(camera,"size",_camera_base_size*_zoom,seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+
+## The camera's push-in now (1.0: the layout's size).
+func zoom() -> float:
+	return _zoom
 
 func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	var label := Label3D.new()

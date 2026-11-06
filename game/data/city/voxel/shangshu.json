@@ -41,6 +41,7 @@
     "birds": [{"at": [100, 860], "radius": 260, "count": 2, "height": 6, "color": "3a3029"}]
   },
   "door_looks": {
+    "city.shangshu.gate.door": {"kind": "old_gate", "leaf": "2a2826", "studs": "8a8278", "open": true, "rotation": -90, "size": [128, 32], "note": "shangshu/gate.c: 大铁门 under the black board's gold words — iron leaves, iron studs; swung open once the porter lets you in"},
     "city.shangshu.road1.door": {"kind": "old_gate", "leaf": "2a2420", "studs": false, "note": "road1.c: 平时房门总是关的"},
     "city.shangshu.huayuan.door": {"kind": "curtain", "note": "neizhai's 帘子"}
   },
