@@ -326,6 +326,13 @@ static func _count_word(count: int) -> String:
 	return TranslationServer.translate(words[count]) if words.has(count) else str(count)
 
 
+static func _lines_of(entries: Array[BattleFeedbackProjection]) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	for entry: BattleFeedbackProjection in entries:
+		lines.append_array(entry.lines())
+	return lines
+
+
 func current_projection() -> BattlePresentationProjection:
 	return _projection
 
@@ -386,8 +393,9 @@ func refresh_projection() -> void:
 	# The round's lines first: its blows wait on the cards until they are told.
 	if not entries.is_empty():
 		log_panel.append_entries(entries)
-		for entry: BattleFeedbackProjection in entries:
-			_queue_lines(entry.lines())
+		# 战斗拍数 B: the frame's entries are queued as one, so later beats of one actor told
+		# together fold (fold_beats), each entry still whole in the log.
+		_queue_lines(_lines_of(entries))
 	elif changed:
 		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
 	_present_participants()
@@ -465,8 +473,7 @@ func _present_completed_result() -> void:
 	_held_result = text
 	_hold_left = hold
 	_hold_shield.visible = true
-	for entry: BattleFeedbackProjection in entries:
-		_queue_lines(entry.lines())
+	_queue_lines(_lines_of(entries))
 	if _line_queue.is_empty():
 		_settle_final_cards()
 	var focused: Control = get_viewport().gui_get_focus_owner()

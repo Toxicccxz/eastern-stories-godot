@@ -413,9 +413,9 @@ static func move_tooltip(move: CombatActionDefinition) -> String:
 func _wire_focus() -> void:
 	var row: Array[Button] = []
 	if _moves.get_parent().visible:
-		for id: StringName in _shown_move_ids:
-			if move_buttons.has(id):
-				row.append(move_buttons[id])
+		# In the row's own order (the groups'), not the set's (Codex on #254).
+		for id: StringName in move_order():
+			row.append(move_buttons[id])
 	var orders: Array[Button] = []
 	if _actions.visible:
 		for child: Node in _actions.get_children():
