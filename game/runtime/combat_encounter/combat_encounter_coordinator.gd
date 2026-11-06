@@ -408,6 +408,39 @@ func pending_special_label(actor_id: StringName) -> String:
 	return "" if _active_scheduler == null else _active_scheduler.pending_special_label(actor_id)
 
 
+func planned_perform_label(actor_id: StringName) -> String:
+	return "" if _active_scheduler == null else _active_scheduler.planned_perform_label(actor_id)
+
+
+## 战斗拍数 A (DECISIONS「战斗拍数」): the beats of a round, and what the scheduler keeps of them
+## for the panel — an NPC's plan (its first beat settled, the rest its read), a fighter's beats
+## in the round that last ran, the player's locked moves and why.
+func beat_rules() -> CombatBeatRules:
+	return GameContent.catalog().pacing().beat_rules() if _active_scheduler == null else _active_scheduler.beat_rules()
+
+
+func beat_plan(actor_id: StringName) -> CombatNpcBeatPlan:
+	return null if _active_scheduler == null else _active_scheduler.beat_plan(actor_id)
+
+
+func round_beats_of(actor_id: StringName) -> CombatRoundBeats:
+	return null if _active_scheduler == null else _active_scheduler.round_beats_of(actor_id)
+
+
+func locked_moves() -> Dictionary[StringName, String]:
+	if _active_scheduler == null or _active_encounter == null:
+		return {}
+	return _active_scheduler.locked_moves(_session.encounter_combat_bindings(_active_encounter))
+
+
+## 战斗拍数 A: an NPC's own beats a round (its record's `beats`; 1 when it says nothing).
+func _beats_of_npc(character_id: StringName) -> int:
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	if npc == null or npc.definition() == null:
+		return 1
+	return npc.definition().beats
+
+
 ## 战斗决策层 4: an NPC's fight style (its own, or its race's default), null for none.
 func _style_of_npc(character_id: StringName) -> CombatStyle:
 	var npc: NpcRuntimeState = _resident_npc(character_id)
@@ -822,6 +855,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 		)
 	scheduler.configure_decisions(GameContent.catalog().pacing().decision_rules())
 	scheduler.configure_styles(_style_of_npc)
+	scheduler.configure_beats(GameContent.catalog().pacing().beat_rules(), _beats_of_npc)
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)

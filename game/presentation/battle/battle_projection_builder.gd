@@ -43,6 +43,13 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 				shown.next_move_guard = coordinator.next_move_guards(binding.character_id)
 				shown.next_move_known = MoveRecognition.recognised(session.player_runtime().state, move, GameContent.catalog().pacing().decision_rules(), GameContent.catalog())
 				shown.telegraph = coordinator.pending_special_label(binding.character_id)
+				if shown.telegraph.is_empty():
+					shown.telegraph = coordinator.planned_perform_label(binding.character_id)
+				var plan: CombatNpcBeatPlan = coordinator.beat_plan(binding.character_id)
+				if plan != null:
+					shown.beat_plan_tags = plan.tags()
+					shown.beat_plan_confirmed = plan.confirmed_count()
+			shown.beats = coordinator.round_beats_of(binding.character_id)
 			shown.conditions = state.conditions.sorted_condition_ids()
 			shown.show_mana = GameContent.catalog().stat_shown(&"mana", state)
 			shown.show_atman = GameContent.catalog().stat_shown(&"atman", state)
@@ -84,6 +91,8 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 		projection.manual = coordinator.manual_turns()
 		projection.stances_offered = rules.has_stances()
 		projection.stance = coordinator.stance()
+		projection.locked_moves = coordinator.locked_moves()
+		projection.beat_rules = coordinator.beat_rules()
 	return projection
 
 

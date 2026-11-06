@@ -8,12 +8,17 @@ var _completed_cases: int = 0
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# 战斗拍数 A: this suite pins ES2's busy count-down and one opportunity a participant a
+	# round; the round at ES2's one beat (the modern beats are DECISIONS「战斗拍数」's).
+	var production_pacing: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production_pacing.copy().with_beats(CombatBeatRules.classic()))
 	# The draws pin the player's combat_exp: no 历练 or catch-up on top (A2's knobs at ES2's).
 	var previous: PacingDefinition = Es2Pacing.use_without_progression()
 	for wounded: bool in [false, true]:
 		await _run_case(tree, wounded)
 	Es2Pacing.restore(previous)
 	_eq(_completed_cases, 2, "both integration cases reached cleanup without script failure")
+	GameContent.catalog().set_pacing(production_pacing)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 

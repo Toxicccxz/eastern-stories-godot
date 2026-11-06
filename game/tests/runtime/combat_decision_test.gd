@@ -113,7 +113,8 @@ func _test_telegraph_and_stance() -> void:
 	var tag: StringName = f.scheduler.next_move_tag(ENEMY, f.bindings)
 	_check(not tag.is_empty(), "after its beat the enemy's next move is drawn and its tag known: %s" % tag)
 	var enemy_moves: CombatActionSet = CombatSliceProjectionBuilder.build_action_selection_input(f.bindings[1]).current_action_set()
-	var drawn_id: StringName = f.scheduler._next_moves.get(ENEMY, &"")
+	var drawn_plan: CombatNpcBeatPlan = f.scheduler.beat_plan(ENEMY)
+	var drawn_id: StringName = &"" if drawn_plan == null or drawn_plan.is_empty() else drawn_plan.first().action
 	_check(enemy_moves.actions().any(func(move: CombatActionDefinition) -> bool: return move.action_id == drawn_id), "one of its own moves")
 	f.scheduler.choose_attack(moves[0].action_id, f.bindings)
 	var round: CombatSchedulerAdvanceResult = _advance(f, 1.0)
@@ -152,7 +153,9 @@ func _test_special_telegraph(tree: SceneTree) -> void:
 	var announced_at: int = -1
 	var ran_at: int = -1
 	var seen_label: String = ""
-	for round: int in 60:
+	# 战斗拍数 A: her school's line spends many of her beats on 「封」 (and rests her specials
+	# after each), so her chat()'s announcement takes longer to come.
+	for round: int in 200:
 		if not coordinator.has_active_encounter():
 			break
 		coordinator.advance_scheduler(1.0)
@@ -168,7 +171,7 @@ func _test_special_telegraph(tree: SceneTree) -> void:
 			_check(card != null and card.telegraph == label, "her card shows 要出「%s」" % label)
 		elif label.is_empty() and announced_at >= 0 and ran_at < 0:
 			ran_at = round
-	_check(announced_at >= 0, "she announced a special within 60 rounds (chat_chance_combat 25)")
+	_check(announced_at >= 0, "she announced a special within 200 rounds (chat_chance_combat 25)")
 	_check(ran_at == announced_at + 1, "and it ran (or was lost) on her next beat: %d → %d" % [announced_at, ran_at])
 	var lines: Array[String] = []
 	for event: CombatSchedulerEvent in coordinator.completed_feedback().ordinary_after(0) if not coordinator.has_active_encounter() and coordinator.completed_feedback() != null else coordinator.active_scheduler().events():

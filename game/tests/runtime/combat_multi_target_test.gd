@@ -5,10 +5,15 @@ const TC := CombatTargetResult.Code
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# 战斗拍数 A: this suite pins ES2's busy count-down and one opportunity a participant a
+	# round; the round at ES2's one beat (the modern beats are DECISIONS「战斗拍数」's).
+	var production_pacing: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production_pacing.copy().with_beats(CombatBeatRules.classic()))
 	await _targets(tree)
 	await _modes(tree)
 	await _target_ui(tree)
 	await _disconnected_candidates(tree)
+	GameContent.catalog().set_pacing(production_pacing)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _disconnected_candidates(tree: SceneTree) -> void:

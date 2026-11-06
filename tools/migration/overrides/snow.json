@@ -35,6 +35,7 @@
 			]
 		},
 		"snow.npc.fist_trainer": {
+			"beats": 2,
 			"accept_fight": [
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
@@ -67,6 +68,7 @@
 			]
 		},
 		"snow.npc.teacher": {
+			"beats": 2,
 			"accept_object": [
 				{ "giver_mark": "魏无极", "emote": "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。", "accept": true },
 				{ "value_at_least": 500, "mark_giver": "魏无极", "emote": "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "accept": true },
@@ -217,6 +219,7 @@
 		"snow.npc.annihir": { "accept_fight": [{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }] },
 		"snow.npc.girl": {
 			"fight_style": "guarded",
+			"beats": 2,
 			"accept_fight": [
 				{ "family": "family.fonxan", "gender": "女性", "say": "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？", "accept": false },
 				{ "family": "family.fonxan", "say": "我才不要，你们去找李教头练吧！", "accept": false },
@@ -224,6 +227,7 @@
 			]
 		},
 		"common.npc.swordsman.master": {
+			"beats": 2,
 			"apprentice": {
 				"requires": { "cor": 20, "cps": 20 },
 				"refuse_say": "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？",

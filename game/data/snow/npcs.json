@@ -236,6 +236,7 @@
 				"name": ["在下姓李，名字就叫火狮，人称李教头的便是我。\n"],
 				"柳家拳法": ["哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。\n"]
 			},
+			"beats": 2,
 			"accept_fight": [
 				{ "family": "family.fonxan", "emote": "点了点头。", "say": "进招吧。", "accept": true },
 				{ "say": "馆主吩咐过，不许和来这里的客人过招。", "accept": false }
@@ -308,6 +309,7 @@
 				"读书识字": ["对，读书识字。"],
 				"刘安禄": ["哦 ... 你是说野羊山寨的二寨主，人称血手刘三的刘安禄吗？", "他又出来做恶了？", "你带我去见他，让我跟他说几句话。"]
 			},
+			"beats": 2,
 			"accept_object": [
 				{ "giver_mark": "魏无极", "emote": "点了点头，说道：哦，向你这么有心的学生还真是不多见，好好努力将来必定前途无量，谢了。", "accept": true },
 				{ "value_at_least": 500, "mark_giver": "魏无极", "emote": "点了点头，说道：很好，从今天起你随时可以来问我有关读书识字(literate)的任何问题。", "accept": true },
@@ -592,6 +594,7 @@
 				"柳绘心不住地望著窗外：你还是快走吧，我没空陪你练功夫！\n"
 			],
 			"fight_style": "guarded",
+			"beats": 2,
 			"accept_fight": [
 				{ "family": "family.fonxan", "gender": "女性", "say": "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？", "accept": false },
 				{ "family": "family.fonxan", "say": "我才不要，你们去找李教头练吧！", "accept": false },
