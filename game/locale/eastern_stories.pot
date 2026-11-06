@@ -948,6 +948,23 @@ msgstr ""
 msgid "大井 · 喝水"
 msgstr ""
 
+#. city.shangshu.kefang.landmark.book name
+#: scenes/world/choyin/choyin_town.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
+msgid "书"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/outdoor.json
+msgid "杂货"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn data/choyin/voxel/town.json
+msgid "米"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn data/choyin/voxel/town.json
+msgid "福林楼"
+msgstr ""
+
 #. es2:d/choyin/tomb2 short
 #. es2:d/choyin/tomb3 short
 #: scenes/world/choyin/choyin_tree_hollow.tscn data/choyin/rooms.json
@@ -1637,11 +1654,6 @@ msgstr ""
 #. es2:u/cloud/tailory short
 #: scenes/world/cloud/cloud_outdoor.tscn scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "布庄"
-msgstr ""
-
-#. city.shangshu.kefang.landmark.book name
-#: scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
-msgid "书"
 msgstr ""
 
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/voxel/outdoor.json
@@ -43841,10 +43853,6 @@ msgid "城外土路"
 msgstr ""
 
 #: data/choyin/voxel/town.json
-msgid "福林楼"
-msgstr ""
-
-#: data/choyin/voxel/town.json
 msgid "县衙"
 msgstr ""
 
@@ -43861,6 +43869,10 @@ msgid "老姚布庄"
 msgstr ""
 
 #: data/choyin/voxel/town.json
+msgid "布"
+msgstr ""
+
+#: data/choyin/voxel/town.json
 msgid "酒楼"
 msgstr ""
 
@@ -43870,14 +43882,6 @@ msgstr ""
 
 #: data/choyin/voxel/town.json
 msgid "染坊"
-msgstr ""
-
-#: data/choyin/voxel/town.json data/city/voxel/main.json data/cloud/voxel/outdoor.json
-msgid "杂货"
-msgstr ""
-
-#: data/choyin/voxel/town.json
-msgid "米"
 msgstr ""
 
 #: data/choyin/voxel/town.json
