@@ -59,6 +59,23 @@ var folded: Array[BattleNarrationLine]:
 	get: return _folded
 var is_folded: bool:
 	get: return not _folded.is_empty()
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): for the scene's show and the sounds — the blow's move
+## tag (快 / 重 / 虚 / 守, &"" for 平), the ring's verdict on it (1 克, -1 被克, 0 相持), whether
+## it is one of a special's blows, and a cue a line that is no blow carries (CUE_EARNED: a
+## beat won, 「抢得一拍」).
+const CUE_EARNED: StringName = &"earned"
+var _tag: StringName = &""
+var tag: StringName:
+	get: return _tag
+var _ring: int = 0
+var ring: int:
+	get: return _ring
+var _in_special: bool = false
+var in_special: bool:
+	get: return _in_special
+var _cue: StringName = &""
+var cue: StringName:
+	get: return _cue
 
 
 func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = ColoredLine.PLAIN, p_summary: String = "") -> void:
@@ -75,6 +92,25 @@ func with_blow(p_actor_id: StringName, p_target_id: StringName, p_move: String, 
 	_move = p_move
 	_outcome = p_outcome
 	_band = p_band
+	return self
+
+
+## The blow's tag and the ring's verdict on it (the narrator, once).
+func with_ring(p_tag: StringName, p_ring: int) -> BattleNarrationLine:
+	_tag = p_tag
+	_ring = p_ring
+	return self
+
+
+## The blow is one of a special's (the narrator, once).
+func with_special_blow() -> BattleNarrationLine:
+	_in_special = true
+	return self
+
+
+## A cue for the show on a line that is no blow (the narrator, once).
+func with_cue(p_cue: StringName) -> BattleNarrationLine:
+	_cue = p_cue
 	return self
 
 

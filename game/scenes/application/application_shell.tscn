@@ -567,6 +567,44 @@ layout_mode = 2
 text = "自动存档提示"
 metadata/keeps_width = true
 
+[node name="VolumeRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
+
+[node name="VolumePair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow/VolumePair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
+text = "总音量"
+vertical_alignment = 1
+
+[node name="MasterVolumeSlider" type="HSlider" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow/VolumePair"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+value = 80.0
+
+[node name="MasterVolumeLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow/VolumePair"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "80%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
