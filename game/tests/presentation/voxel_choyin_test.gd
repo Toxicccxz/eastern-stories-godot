@@ -29,9 +29,9 @@ const SCENES: Array[String] = ["choyin_town", "choyin_yamen", "choyin_altar", "c
 const MAPS: Array[StringName] = [&"choyin.town", &"choyin.yamen_compound", &"choyin.temple_altar", &"choyin.hotel_2f", &"choyin.hotel_3f",
 	&"choyin.tree_hollow", &"choyin.lion_cave", &"choyin.east", &"choyin.furnace", &"choyin.guye", &"choyin.crown", &"choyin.cliff_cave",
 	&"choyin.summit", &"choyin.valley", &"choyin.hotel_house", &"choyin.club_house"]
-## Maps that are no rooms (caves, hills, the crown, the valley): no lived-in life expected.
 ## Keys of age and use on a building (voxel_facade.gd and the older facade keys).
 const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]
+## Maps that are no rooms (caves, hills, the crown, the valley): no lived-in life expected.
 const NO_ROOMS: Array[StringName] = [&"choyin.town", &"choyin.tree_hollow", &"choyin.lion_cave", &"choyin.east", &"choyin.furnace",
 	&"choyin.guye", &"choyin.crown", &"choyin.cliff_cave", &"choyin.summit", &"choyin.valley"]
 ## Where a test may put the player on each map (TEST-ONLY).
@@ -290,7 +290,7 @@ func _check_facades(layout: Dictionary, looks: Array[Dictionary]) -> void:
 		"s_street2.c: 雕梁画栋的福林楼 — three steps, drum stones, couplets with a 横批, lit within")
 	var yamen_gate: Dictionary = _building(layout, [528, 1696, 752, 1792])
 	var gate_look: Dictionary = layout.get("door_looks", {}).get("choyin.court1.gate", {})
-	_check(gate_look.get("kind", "") == "old_gate" and gate_look.get("studs", "") == "d6b25a" and gate_look.get("open", false) and not yamen_gate.has("doorway")
+	_check(gate_look.get("kind", "") == "old_gate" and gate_look.get("studs", "") == "d6b25a" and gate_look.get("open", false) and int(gate_look.get("size", [160])[0]) < 120 and not yamen_gate.has("doorway")
 		and int(yamen_gate.get("steps", {}).get("count", 0)) == 3 and float(yamen_gate.get("notices", 0.0)) > 0.0 and not yamen_gate.has("cracks") and not yamen_gate.has("patches"),
 		"court1.c: 高大的大门; s_gate.c: 修缮勤快 — the 衙门大门's look red with gilt studs (swung open once the drum opens it), the hall's doorway open behind it, three steps, the magistrate's notices, no cracks or mends")
 	# The shops whose doors look north hold their names over the roofs on 幌杆 in the layout.
