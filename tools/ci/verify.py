@@ -36,6 +36,12 @@ IMPORT_TIMEOUT_SECONDS = 10 * 60
 SUITE_TIMEOUT_SECONDS = 10 * 60
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 SUITE_RUNNER = "res://tests/run_suite.gd"
+# Every frame steps the game by 1/60 s and the next starts at once. Without it a headless
+# Godot paces physics frames by the wall clock, so a suite awaiting physics frames waits
+# 1/60 s for each (60 of them: 1000 ms against 48 ms). The game's own delta is 1/60 s either
+# way; only the waiting between frames goes. Cold-process children await a frame or two and
+# start without it.
+SUITE_ENGINE_ARGUMENTS = ("--headless", "--fixed-fps", "60")
 # Each suite's time on a CI runner: the order suites start in and the split into shards both
 # come from it. A new suite needs no entry (it counts as default_seconds). When the shards
 # drift apart, refresh it from the `[n/N] PASS ... X s` lines of the shard logs.
@@ -249,11 +255,16 @@ def _kill_tree(process: subprocess.Popen[bytes]) -> None:
         process.wait()
 
 
+def suite_command(godot: Path, suite: str) -> list[str]:
+    """The Godot command line that runs one suite."""
+    return [str(godot), *SUITE_ENGINE_ARGUMENTS, "--path", "game", "--script", SUITE_RUNNER, "--", suite]
+
+
 def _run_suite(
     godot: Path, suite: str, env: dict[str, str], log_path: Path, timeout: float, processes: _SuiteProcesses
 ) -> SuiteRun:
     run = SuiteRun(suite, log_path)
-    command = [str(godot), "--headless", "--path", "game", "--script", SUITE_RUNNER, "--", suite]
+    command = suite_command(godot, suite)
     started = time.monotonic()
     returncode: int | None = None
     with log_path.open("wb") as log:

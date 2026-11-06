@@ -163,13 +163,23 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 		OldPineTestMap.body(controller, "Bandit02").global_position
 	)
 	_assert_true(first_shape.radius + second_shape.radius > bandit_distance, "authored presence regions overlap for multi-bandit case")
+	# TEST-ONLY: the click goes through the 2D picture; the map's voxel view, up a frame after
+	# the map, would take it instead (voxel_gameplay_test clicks through that one).
+	var voxel_view: Node = controller.get_node_or_null("MapView")
+	if voxel_view != null:
+		voxel_view.free()
 	var camera: Camera2D = controller.get_node("Characters/Player/Camera2D") as Camera2D
+	camera.enabled = true
 	camera.make_current()
 	camera.reset_smoothing()
 	await tree.physics_frame
 	await _click_area_through_viewport(pine_area, tree)
+	# DECISIONS「说话和交互」: a click on a thing in reach goes to it, and a landmark with an
+	# action (爬树) opens its popup.
 	var clicked: WorldInteractionTarget = controller.selected_interaction_target()
-	_assert_true(clicked == null or clicked.target_id != &"oldpine.outdoor.landmark.ancient_pine", "a click on the pine selects nothing (owner, 2026-10-11)")
+	_assert_true(clicked != null and clicked.target_id == &"oldpine.outdoor.landmark.ancient_pine" and controller.session.shared_ui().interaction_open(), "a click on the pine in reach opens its popup")
+	controller.session.shared_ui().dismiss_current_panel()
+	await tree.process_frame
 	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "its nearby group selects the pine")
 	var selected: WorldInteractionTarget = controller.selected_interaction_target()
 	_assert_true(selected != null and selected.is_valid(), "real pine picking creates typed selection")
@@ -180,7 +190,7 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	_assert_false(controller.session.shared_ui().attack_is_enabled(), "landmark target never enables Attack")
 	_assert_true(controller.inspect_selected(), "landmark Inspect is available")
 	_assert_true(controller.session.shared_ui().inspection_display().contains("风吹动"), "HUD renders authored pine description")
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -235,7 +245,7 @@ func _test_target_kind_and_inspect_safety(tree: SceneTree) -> void:
 		"Inspect changes no player relationship",
 	)
 	_assert_eq(controller.corpse_states().size(), 0, "Inspect triggers no lifecycle/corpse mutation")
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -542,7 +552,7 @@ func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
 	OldPineTestMap.rejoin(aside)
 	OldPineTestMap.presence_entered(controller, 1, OldPineTestMap.body(controller, "Bandit01"))
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "non-player body never becomes aggression target")
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -607,7 +617,7 @@ func _test_aggression_cancellation_and_gates(tree: SceneTree) -> void:
 	)
 	_assert_eq(player_unavailable.outcome, NpcAggressionDecision.Outcome.PLAYER_NOT_AVAILABLE, "player combat availability gates initial queue")
 	controller.player_runtime().set_combat_available(true)
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -637,7 +647,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	_assert_false(escape.player_runtime().relationship.is_fighting(), "escape window creates no player combat")
 	_assert_true(not HistoricalCombat.cadence_running(escape), "escape window does not start Timer")
 	_assert_eq(escape_random.call_count(), 0, "escape window consumes zero combat RNG")
-	escape.queue_free()
+	escape.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 	var removed: ControllerType = _instantiate_scene(tree)
@@ -658,7 +668,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 		"deferred pass rebuilds registration/existence authority",
 	)
 	_assert_true(not HistoricalCombat.cadence_running(removed), "unregistered cancellation does not start Timer")
-	removed.queue_free()
+	removed.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 	var changed: ControllerType = _instantiate_scene(tree)
@@ -692,7 +702,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	_assert_eq(already_fighting.outcome, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING, "already-fighting NPC never enters pending")
 	_assert_eq(changed.aggression_adapter().pending_count(), 0, "already-fighting enter adds no duplicate pending")
 	OldPineTestMap.rejoin(changed_aside)
-	changed.queue_free()
+	changed.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 	var live_recheck: ControllerType = _instantiate_scene(tree)
@@ -734,7 +744,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	_assert_true(live_recheck.process_pending_aggression().is_empty(), "NPC death before deferred pass cancels pending")
 	_assert_eq(live_recheck.last_aggression_decisions()[0].outcome, NpcAggressionDecision.Outcome.NPC_NOT_ACTIVE, "deferred pass reads committed NPC death")
 	_assert_true(not HistoricalCombat.cadence_running(live_recheck), "all live-authority cancellations leave Timer stopped")
-	live_recheck.queue_free()
+	live_recheck.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -768,7 +778,7 @@ func _test_player_already_fighting_and_timer_semantics(tree: SceneTree) -> void:
 	_assert_true(HistoricalCombat.cadence_running(controller), "idempotent manual Attack keeps the cadence running")
 	_assert_eq(controller.player_runtime().relationship.opponent_ids().size(), 2, "idempotent manual Attack adds no duplicate opponent")
 	OldPineTestMap.rejoin(aside)
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -806,8 +816,8 @@ func _test_multiple_bandits_are_stable_and_rng_free(tree: SceneTree) -> void:
 	)
 	_assert_eq(controller.player_runtime().relationship.opponent_ids().size(), 3, "player receives three distinct opponents")
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "pending set clears after one processing opportunity")
-	controller.queue_free()
-	rng_control.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
+	rng_control.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -875,7 +885,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	var old_npc_random: NpcInitializationRandomSource = controller.npc_random_source()
 	var old_combat_random: CombatRandomSource = controller.combat_random_source()
 	OldPineTestMap.rejoin(aside)
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 	var fresh: ControllerType = _instantiate_scene(tree)
@@ -1064,6 +1074,9 @@ func _traversal_completed(result: RefCounted) -> bool:
 	return false
 
 
+## A mouse click on `area` through the viewport. Each event waits a physics frame and then a
+## process frame: the viewport picks Area2D input between them, and a physics frame alone can
+## come back to back with the next (a catch-up step) before any picking.
 func _click_area_through_viewport(area: Area2D, tree: SceneTree) -> void:
 	var viewport: Viewport = area.get_viewport()
 	var screen_position: Vector2 = area.get_global_transform_with_canvas().origin
@@ -1072,6 +1085,7 @@ func _click_area_through_viewport(area: Area2D, tree: SceneTree) -> void:
 	motion.global_position = screen_position
 	viewport.push_input(motion, true)
 	await tree.physics_frame
+	await tree.process_frame
 	var click: InputEventMouseButton = InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.position = screen_position
@@ -1079,8 +1093,10 @@ func _click_area_through_viewport(area: Area2D, tree: SceneTree) -> void:
 	click.pressed = true
 	viewport.push_input(click, true)
 	await tree.physics_frame
+	await tree.process_frame
 	click.pressed = false
 	viewport.push_input(click, true)
+	await tree.physics_frame
 	await tree.process_frame
 
 

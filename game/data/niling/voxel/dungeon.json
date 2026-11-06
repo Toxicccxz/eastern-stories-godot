@@ -60,7 +60,6 @@
     "default": {"coat": "1a1818", "hat": true},
     "native.npc.niling_jailer": {"coat": "1e1a1a", "hat": true},
     "native.npc.huo_zheng": {"coat": "4a4238", "hat": false},
-    "native.npc.shitou": {"coat": "5a5044", "hat": false, "scale": 0.72},
     "native.npc.guanbei_corvee": {"coat": "5a5248", "hat": false}
   }
 }

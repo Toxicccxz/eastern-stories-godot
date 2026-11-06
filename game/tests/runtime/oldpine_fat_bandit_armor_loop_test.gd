@@ -139,7 +139,7 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	_assert_eq(participant_ids, gang_ids, "multi-aggressor encounter holds the player, then Tall and Fat in stable ID order")
 	_assert_true(npcs[3].relationship.has_lethal_target(controller.player_runtime().character_id), "Tall relationship established")
 	_assert_true(fat.relationship.has_lethal_target(controller.player_runtime().character_id), "Fat relationship established in the same fight")
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 
@@ -387,7 +387,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_true(controller.select_npc(surviving.character_id), "same world continues with surviving NPC")
 	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel)
 
-	controller.queue_free()
+	controller.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 	var fresh: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
@@ -433,7 +433,7 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	_assert_eq((OldPineTestMap.body(fresh, "FatBandit").get_node("AggressionPresence") as Area2D).get_signal_connection_list("body_exited").size(), 1, "fresh Fat exit signal is unique")
 	_assert_eq(fresh.session.shared_ui().inventory_panel.get_signal_connection_list("wear_requested").size(), 1, "fresh Inventory Wear signal is unique")
 	_assert_eq(fresh.session.shared_ui().inventory_panel.get_signal_connection_list("remove_requested").size(), 1, "fresh Inventory Remove signal is unique")
-	fresh.queue_free()
+	fresh.session.queue_free() # the whole Session: a map alone leaves its Session running
 	await tree.process_frame
 
 

@@ -90,6 +90,14 @@ class GameplaySuiteTests(unittest.TestCase):
             ["res://tests/core/b_test.gd", "res://tests/runtime/a_test.gd"], verify.discover_suites(game)
         )
 
+    def test_suites_run_headless_at_a_fixed_frame_rate(self) -> None:
+        command = verify.suite_command(Path("godot"), self.SUITE)
+        self.assertEqual("godot", command[0])
+        self.assertIn("--headless", command)
+        # Frames follow one another at once instead of waiting for the wall clock.
+        self.assertEqual("60", command[command.index("--fixed-fps") + 1])
+        self.assertEqual(["--script", "res://tests/run_suite.gd", "--", self.SUITE], command[-4:])
+
     def test_slowest_suites_start_first(self) -> None:
         times = verify.SuiteTimes({"slow": 300.0, "mid": 90.0, "tied_b": 5.0, "tied_a": 5.0}, 60.0)
         self.assertEqual(
