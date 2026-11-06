@@ -47,7 +47,8 @@
 				"village.lakebottom2.dragon.6"
 			],
 			"legacy_room": "d/village/lakebottom2.c",
-			"legacy_quantity": 6
+			"legacy_quantity": 6,
+			"cleared_mark": "冰龙倒了"
 		},
 		{
 			"id": "village.farmhouse_house.fmhousback.woman1",

@@ -21,13 +21,13 @@ const BUILDS: Dictionary = {
 	"heavy": {"width": 1.2, "depth": 1.18},
 }
 const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long", "short", "bald"]
-const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap"]
+const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap", "helmet"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back"]
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
-## round the shins.
-const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps"]
+## round the shins; armor (甲): a plate on each shoulder and one on the chest.
+const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor"]
 
 var walking: bool = false
 var pace: float = 0.0
@@ -115,6 +115,9 @@ func _ready() -> void:
 		var reach: float = _torso_k
 		_s.box(arm, Vector3(0, -0.14*reach, 0), Vector3(0.2, 0.34*reach, 0.29*_deep), _tone(coat))
 		_s.box(arm, Vector3(0, -0.37*reach, 0.02), Vector3(0.17, 0.16, 0.19), _tone(skin))
+		if extras.has("armor"):
+			# A plate over the shoulder, wider than the sleeve.
+			_s.box(arm, Vector3(side*0.02, -0.03*reach, 0), Vector3(0.26, 0.14*reach, 0.33*_deep + 0.04), _tone(_hex("armor_color", "6a6458")))
 		if extras.has("bracers"):
 			# Over the sleeve's end, just above the hand.
 			_s.box(arm, Vector3(0, -0.25*reach, 0.005), Vector3(0.22, 0.12*reach, 0.3*_deep + 0.02), _tone(_hex("bracer_color", "4a3628")))
@@ -129,6 +132,11 @@ func _ready() -> void:
 		if extras.has("leg_wraps"):
 			# Round the shin from the shoe's top to below the knee.
 			_s.box(leg, Vector3(0, 0.17 - hip + 0.11*_legs_k, 0), Vector3(0.22, 0.22*_legs_k, 0.25), _tone(_hex("wrap_color", "5e4a38")))
+	if extras.has("armor"):
+		# Over the chest, below the collar; a darker band along its foot.
+		var plate: String = _hex("armor_color", "6a6458")
+		_box(torso, Vector3(0, 0.94, 0.185), Vector3(0.46, 0.3, 0.04), plate)
+		_box(torso, Vector3(0, 0.8, 0.19), Vector3(0.48, 0.04, 0.04), Color(plate).darkened(0.25).to_html(false))
 	_prop()
 	if extras.has("towel_neck"):
 		_box(torso, Vector3(0.12, 1.14, 0.12), Vector3(0.12, 0.08, 0.3), _hex("towel", "ece6d6"))
@@ -153,7 +161,7 @@ func _head(skin: String) -> void:
 		_box(torso, Vector3(0.12, 1.53, 0.21), Vector3(0.14, 0.12, 0.05), hair, true)
 	else:
 		_box(torso, Vector3(0, 1.6, 0.0), Vector3(0.44, 0.06, 0.36), Color(skin).darkened(0.04).to_html(false), true)
-	var covered: bool = headwear in ["cloth_cap", "official_cap", "straw_hat"]
+	var covered: bool = headwear in ["cloth_cap", "official_cap", "straw_hat", "helmet"]
 	match style:
 		"topknot":
 			if not covered:
@@ -221,6 +229,14 @@ func _head(skin: String) -> void:
 			_box(torso, Vector3(0, 1.79, -0.2), Vector3(0.3, 0.16, 0.12), black, true)
 			for x: float in [-0.42, 0.42]:
 				_box(torso, Vector3(x, 1.72, -0.12), Vector3(0.36, 0.04, 0.1), black, true)
+		"helmet":
+			# A soldier's bronze or iron helmet (军盔): the bowl over the hair, a rim at the brow,
+			# the knob on top (缨钮) in the tassel's colour.
+			var bronze: String = _hex("headwear_color", "8a6a3a")
+			_box(torso, Vector3(0, 1.66, -0.02), Vector3(0.5, 0.14, 0.45), bronze, true)
+			_box(torso, Vector3(0, 1.75, -0.02), Vector3(0.34, 0.05, 0.31), Color(bronze).lightened(0.08).to_html(false), true)
+			_box(torso, Vector3(0, 1.6, 0.2), Vector3(0.5, 0.04, 0.06), Color(bronze).darkened(0.25).to_html(false), true)
+			_box(torso, Vector3(0, 1.81, -0.02), Vector3(0.07, 0.08, 0.07), _hex("tassel_color", _hex("accent", "a8322a")), true)
 
 
 ## Over the coat from the chest to the knees, its strings round the neck and the waist.
@@ -247,14 +263,22 @@ func _prop() -> void:
 	var tassel: String = _hex("tassel_color", _hex("accent", "a8322a"))
 	match prop:
 		"sword_waist":
-			# From the belt at the left hip, the hilt forward and up, the tip back and down.
-			var sheath: String = _hex("prop_color", "3a2a22")
-			var centre := Vector3(0.3, 0.56, 0.1)
-			var along := Vector3(0, cos(0.5), sin(0.5))
-			_tilted(torso, centre, Vector3(0.06, 0.82, 0.07), sheath, Vector3(0.5, 0, 0))
-			_tilted(torso, centre + along*0.43, Vector3(0.14, 0.04, 0.08), metal, Vector3(0.5, 0, 0))
-			_tilted(torso, centre + along*0.55, Vector3(0.05, 0.18, 0.05), wood, Vector3(0.5, 0, 0))
-			_box(torso, centre + along*0.6 + Vector3(0, -0.1, 0.03), Vector3(0.04, 0.14, 0.04), tassel)
+			_at_hip(0.3, 0.82, 0.06, metal, wood, tassel)
+		"blade_waist":
+			# A broad, shorter sheath at the left hip (腰刀).
+			_at_hip(0.3, 0.7, 0.11, metal, wood, "")
+		"blade_sword_waist":
+			# 左佩刀，右佩剑 (严廷殷): the sabre at the left hip, the sword at the right.
+			_at_hip(0.3, 0.7, 0.11, metal, wood, "")
+			_at_hip(-0.3, 0.82, 0.06, metal, wood, tassel)
+		"bundle_back":
+			# A long cloth-wrapped bundle across the back, tied near each end.
+			var cloth: String = _hex("bundle_color", "8a7a5a")
+			var centre := Vector3(0, 1.0, -0.23)
+			var along := Vector3(-sin(0.72), cos(0.72), 0)
+			_tilted(torso, centre, Vector3(0.13, 0.9, 0.1), cloth, Vector3(0, 0, 0.72))
+			for end: float in [-0.3, 0.3]:
+				_tilted(torso, centre + along*end, Vector3(0.15, 0.04, 0.12), Color(cloth).darkened(0.3).to_html(false), Vector3(0, 0, 0.72))
 		"sword_back", "blade_back":
 			# Across the back, the hilt over the right shoulder.
 			var sheath: String = _hex("prop_color", "3a2a22")
@@ -314,6 +338,19 @@ func _prop() -> void:
 			# A butcher's broad knife (郑屠夫's 解牛刀) hanging from the hand, the wide blade forward.
 			_held(hand, grip + Vector3(0, -0.06, 0.04), Vector3(0.05, 0.14, 0.05), wood)
 			_held(hand, grip + Vector3(0, -0.22, 0.09), Vector3(0.03, 0.2, 0.18), _hex("prop_color", "c2c6c8"))
+
+
+## A sheathed weapon hung from the belt at the hip `x` (0.3 the left, -0.3 the right): the hilt
+## forward and up, the tip back and down; `wide` 0.06 a sword, 0.11 a sabre; a tassel if given.
+func _at_hip(x: float, long: float, wide: float, metal: String, wood: String, tassel: String) -> void:
+	var sheath: String = _hex("prop_color", "3a2a22")
+	var centre := Vector3(x, 0.56, 0.1)
+	var along := Vector3(0, cos(0.5), sin(0.5))
+	_tilted(torso, centre, Vector3(wide, long, 0.07), sheath, Vector3(0.5, 0, 0))
+	_tilted(torso, centre + along*(long/2.0 + 0.02), Vector3(0.14, 0.04, 0.08), metal, Vector3(0.5, 0, 0))
+	_tilted(torso, centre + along*(long/2.0 + 0.14), Vector3(0.05, 0.18, 0.05), wood, Vector3(0.5, 0, 0))
+	if not tassel.is_empty():
+		_box(torso, centre + along*(long/2.0 + 0.19) + Vector3(0, -0.1, 0.03), Vector3(0.04, 0.14, 0.04), tassel)
 
 
 ## A box of the body at its plain-figure place `at` (torso and head heights follow the height),

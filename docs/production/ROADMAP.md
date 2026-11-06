@@ -165,7 +165,13 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    chapter's milestone, the eighth chapter's stub); D done (DECISIONS「番坊 D」: the three masters and their families — 安敦's shield and
    铁盾剑法 that wants it on the arm, 早川's 倭刀 and 鬼笠刀法 with its 一刀, 龙若法王 after 剃度 — the two data learn rules
    `requires_armor_type` / `forbids_marks` and `accept_marks`, 卢卡 as a companion on 跟我走, the fisherman's 水怪 growing worse).
-   The seventh chapter and the 番坊 region are complete; next the eighth chapter 湖底封物 (剧情总纲 §3 第八章): its plan first.
+   The seventh chapter and the 番坊 region are complete. 第八章 湖底封物 (the plan `build/plans/第八章_计划.md`, owner
+   2026-11-06「按推荐，开工 A」: the burnt village shown on stage, the cave cold but passable without the robe, 卢卡 stays
+   ashore): A done (DECISIONS「第八章 A」「寒气」「冰龙守者」: the dive, the 玄冰岩洞's cold held off with 内力 or spared by
+   the 寒於宝衣, the 冰壁刻字, the six dragons as guardians, the pool down to the new 冰下封坛 with the black altar, the head,
+   the hilt and 璃虹 in her pillar, 商玦 come down to urge the sword, the 铜牒 recited to her for the 封法, the choice — pull
+   or keep — ending the chapter either way, the ninth chapter's stub); next B 拔剑的当夜 (the stage-prop mechanism, the
+   three bands of 鬼卒 by night, the fisherman dead, half the village burnt, the fallen 璃虹 ashore, the farm wife's new word).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 
