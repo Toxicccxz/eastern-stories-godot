@@ -11,7 +11,7 @@ const WORDS: Dictionary = {
 	"hair_style": Person.HAIR_STYLES, "headwear": Person.HEADWEAR, "beard": Person.BEARDS,
 	"waist": Person.WAISTS, "prop": Person.PROPS, "shoes": ["dark", "straw", "white"],
 }
-const OTHER_KEYS: Array[String] = ["note", "height", "build", "extras", "pouch", "collar", "hat", "scale"]
+const OTHER_KEYS: Array[String] = ["note", "height", "build", "extras", "pouch", "collar", "hat", "scale", "name_alpha"]
 const KINDS: Array[String] = ["full", "bust", "bust_smile", "bust_angry"]
 var assertions: int = 0
 var failures: Array[String] = []

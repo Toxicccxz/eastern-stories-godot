@@ -1,0 +1,159 @@
+{
+  "people": {
+    "choyin.npc.cityguard": {
+      "note": "守城官兵：站岗的守城兵，蓝号衣，胸前号布写「兵」，长剑；立绘 Muse 2026-11-06",
+      "coat": "345270", "pants": "1c2d42", "skin": "e5d1bd", "hair": "131e2d",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "283e56",
+      "beard": "chin_three", "waist": "belt", "prop": "sword_waist", "prop_color": "c8a24a",
+      "accent": "1c2d42", "extras": ["armor"], "armor_color": "283e56", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.cake_vendor": {
+      "note": "卖饼大叔：相貌朴实，憨厚的脸上挂着和蔼的笑；立绘端一摞大饼、拿锅铲；立绘 Muse 2026-11-06",
+      "coat": "9a6c47", "pants": "65452f", "skin": "dfab73", "hair": "241d1a",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "906746",
+      "beard": "moustache", "waist": "apron", "apron_color": "b79167", "prop": "none",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.dumpling_seller": {
+      "note": "卖包子的小贩，微微一笑招呼人；立绘手托三层蒸笼；立绘 Muse 2026-11-06",
+      "coat": "667786", "pants": "232f3d", "skin": "eec39f", "hair": "14161c",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "627586",
+      "beard": "chin_three", "waist": "apron", "apron_color": "6c7986", "prop": "none",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.boss": {
+      "note": "汤掌柜：福林大酒楼的主人，财大势大；富态，暗纹绸袍、腰带挂钱袋；立绘 Muse 2026-11-06",
+      "coat": "115c60", "pants": "0a3137", "skin": "eec39f", "hair": "08282d",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "0e4148",
+      "beard": "moustache", "waist": "belt", "prop": "none", "accent": "8a6a34",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.sergeant": {
+      "note": "武官（陈显祖）：相貌威武，独自发呆；按剧情的四十八九岁画（数据 29 岁不改），鬓角花白，佩长剑；堂审后的人证用同一套；立绘 Muse 2026-11-06",
+      "coat": "1d4f5b", "pants": "0d2b35", "skin": "d9b48c", "hair": "1a1a20",
+      "hair_style": "topknot", "beard": "full", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "4a3628", "accent": "081219", "extras": ["armor"], "armor_color": "333435",
+      "height": "tall", "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.cucurbit_seller": {
+      "note": "卖糖葫芦的：原作只写吆喝，长相按街头小贩补；扛插满糖葫芦的草靶；立绘 Muse 2026-11-06",
+      "coat": "384c67", "pants": "1f2c3c", "skin": "e0ad76", "hair": "161c27",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "232f3d",
+      "beard": "chin_three", "waist": "belt", "prop": "haw_pole", "prop_color": "c99a5e",
+      "tassel_color": "c93a30", "accent": "161c27", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "choyin.npc.judge_gu": {
+      "note": "衙役：精明强干、满脸正气；砖红公服、白绑腿、黑衙帽；立绘 Muse 2026-11-06",
+      "coat": "901d24", "pants": "dcd4cc", "skin": "e8c39a", "hair": "18161a",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "242126", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "3a3439", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "choyin.npc.magistra": {
+      "note": "带刀侍卫：槐阳王程老王爷麾下骁将，身负绝艺；乌檀木刀黑鞘，王府侍卫服；立绘 Muse 2026-11-06",
+      "coat": "830219", "pants": "64021b", "skin": "e0b48c", "hair": "111114",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "1a1a1e",
+      "beard": "chin_three", "waist": "belt", "prop": "blade_waist", "prop_color": "0d0d10",
+      "accent": "2b2429", "extras": ["armor"], "armor_color": "2b2429", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.crone": {
+      "note": "乾瘪老太婆：怀里抱着竹篓卖东西；立绘篓里是青菜大蒜；立绘 Muse 2026-11-06",
+      "coat": "797f84", "pants": "4e5459", "skin": "e6b58a", "hair": "939aa0",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "565c63",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.visitor.male": {
+      "note": "游客（男）：来乔阴游玩，原作 15–65 岁随机，按二十多岁画；布衣、腰间钱袋；立绘 Muse 2026-11-06",
+      "coat": "14575e", "pants": "123f45", "skin": "ebba89", "hair": "14161c",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "5a4632",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "choyin.npc.visitor.female": {
+      "note": "游客（女）：来乔阴游玩，按二十多岁画；布衣、腰间钱袋；立绘 Muse 2026-11-06",
+      "coat": "83ab6b", "pants": "4a6b4f", "skin": "eec39f", "hair": "16141a",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "6a5138",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.scholar": {
+      "note": "书生：相当斯文，拿着一本书摇头晃脑地读；立绘 Muse 2026-11-06",
+      "coat": "a7b7bf", "pants": "556a7c", "skin": "e6b58a", "hair": "111114",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "a7b7bf", "beard": "none",
+      "waist": "sash", "prop": "book", "accent": "788a98", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "choyin.npc.girl": {
+      "note": "官家小姐：有钱人家的女子，在湖边游湖；粉白衣裙、银钗；立绘 Muse 2026-11-06",
+      "coat": "e6bcb8", "pants": "f0e7cd", "skin": "f2d3c0", "hair": "17130f",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "b97f81",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.maid": {
+      "note": "丫鬟：服侍小姐的丫鬟，无聊地玩弄著衣角；双丫髻；立绘 Muse 2026-11-06",
+      "coat": "a8bbc9", "pants": "323f55", "skin": "eec39f", "hair": "1a1723",
+      "hair_style": "double_bun", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "616983", "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.judgeman": {
+      "note": "程不平：乔阴县县官，出身望族、榜中探花，为官清贫廉正；乌纱帽、圆领青袍、胸前补子；立绘 Muse 2026-11-06",
+      "coat": "26376a", "pants": "141d42", "skin": "eecdaa", "hair": "0b0a1a",
+      "hair_style": "topknot", "headwear": "official_cap", "headwear_color": "111836",
+      "beard": "none", "waist": "belt", "prop": "none", "accent": "151f43", "height": "standard",
+      "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.lady": {
+      "note": "妇人：衣饰华丽，在庙里虔诚膜拜；深紫金边衣裙、银钗；立绘 Muse 2026-11-06",
+      "coat": "4c2839", "pants": "33182c", "skin": "e8c39a", "hair": "170c18",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "c48c34",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "choyin.npc.youngman": {
+      "note": "贵公子：相貌俊美，玉色长袍佩长剑，优雅地看窗外；原作带一顶帽，画作深色小冠；立绘 Muse 2026-11-06",
+      "coat": "b6d4b5", "pants": "274544", "skin": "eec39f", "hair": "151e25",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "1f2c33", "beard": "none",
+      "waist": "belt", "prop": "sword_waist", "prop_color": "2a2a2e", "accent": "274544",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.servant": {
+      "note": "家丁：穿著家人服色，必恭必敬地垂手站在一旁；立绘 Muse 2026-11-06",
+      "coat": "796b5d", "pants": "4f4038", "skin": "d9b48c", "hair": "17130f",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "3b2f2b",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "choyin.npc.guard": {
+      "note": "酒楼守卫：身穿蓝布衣，眼神锐利，是个练家子；长剑；立绘 Muse 2026-11-06",
+      "coat": "334d70", "pants": "1e2d43", "skin": "e4b689", "hair": "0b0d19",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "5a4632", "accent": "162131", "extras": ["armor"], "armor_color": "4a5a70",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "choyin.npc.oldman": {
+      "note": "老者：白发苍苍、老态龙钟，「宽五尺，高三尺」，终年在深山采药；背药篓；立绘 Muse 2026-11-06",
+      "coat": "caba92", "pants": "968464", "skin": "d8b28a", "hair": "dcd6c4",
+      "hair_style": "topknot", "beard": "long", "waist": "belt", "prop": "basket_back",
+      "prop_color": "855c3c", "accent": "615134", "height": "short", "build": "heavy",
+      "shoes": "dark"
+    },
+    "choyin.npc.lboy": {
+      "note": "紫衣童子：乔阴的孤儿，被仙人带上云台；原作没写长相，按名字画紫衣、躬身作揖；立绘 Muse 2026-11-06",
+      "coat": "513577", "pants": "38274e", "skin": "eec39f", "hair": "14101c",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "38274e",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "choyin.npc.ghost": {
+      "note": "孤魂野鬼：原作没写长相，按身份画青白脸、散发、破旧袍子，腰上垂着身上那块布条；哀而不吓人；立绘 Muse 2026-11-06",
+      "coat": "c8cdcf", "pants": "283038", "skin": "d8e2e6", "hair": "1c2126", "hair_style": "long",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "555c64", "height": "standard",
+      "build": "slim", "shoes": "dark", "name_alpha": 0.6
+    },
+    "choyin.npc.yamen_po": {
+      "note": "慕容巡捕：身手矫健；乌檀木刀黑鞘，腰间红线平安符；立绘 Muse 2026-11-06",
+      "coat": "273850", "pants": "18202e", "skin": "f0c191", "hair": "0b0c12",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "14161c", "accent": "131820", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    }
+  }
+}

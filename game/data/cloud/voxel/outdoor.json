@@ -70,8 +70,7 @@
     "fireflies": [{"rect": [3008, 2140, 3476, 2716], "count": 18, "height": 1.0, "note": "the tea field at night"}, {"rect": [784, 184, 1180, 984], "count": 14, "height": 1.1, "note": "over the road on 卧龙岗 at night"}, {"rect": [1052, 3076, 1600, 3166], "count": 10, "height": 0.9}, {"rect": [2406, 1990, 2646, 2230], "count": 8, "height": 0.9}]
   },
   "actors": {
-    "default": {"coat": "7d7a62"},
-    "common.npc.garrison": {"coat": "8a3a30", "hat": true}
+    "default": {"coat": "7d7a62"}
   },
   "buildings": [
     {"rect": [2400, 2576, 2656, 2864], "portals": ["cloud.eroad2.south"], "note": "振远镖局: a great gate in red with gilt studs, its banner over the street", "wall": "c2c6ba", "roof": "456870", "timber": "5e4230", "posts": "a8382c", "construction": "plaster", "height": 3.9, "roof_form": "hip", "rise": 1.6, "eave_lift": 0.35, "foundation": 0.75, "lattice": true, "porch": "tiled", "gate": "red", "goods": "escort", "lantern": "d8452f:glow", "bay": 7, "signboard": {"text": "振远镖局", "width": 2.6, "letters": "efcd6c:glow", "frame": "b89548", "mount": "porch"}, "masses": [{"bounds": [0, 0, 1, 0.55], "height": 4.2, "roof_form": "xieshan", "ridge": "x", "rise": 1.7, "eave_lift": 0.4}, {"bounds": [0, 0.55, 0.3, 1], "height": 3.0, "roof_form": "gable", "ridge": "z", "rise": 1.1}, {"bounds": [0.7, 0.55, 1, 1], "height": 3.0, "roof_form": "gable", "ridge": "z", "rise": 1.1}], "worn": 0.1, "steps": {"count": 2, "color": "9a9a92"}, "door_stones": {"kind": "drum"}, "ridge_beasts": {"count": 3, "color": "3e3f3a"}, "eave_tiles": true, "ridge_tips": true, "stains": 0.15, "damp": {"height": 0.5}, "foot_weeds": 0.25, "patches": 0.05, "wall_hangings": [{"kind": "straw_cape", "wall": "south", "at": 0.15}, {"kind": "hat", "wall": "south", "at": 0.22}, {"kind": "kindling", "wall": "south", "at": 0.85}]},

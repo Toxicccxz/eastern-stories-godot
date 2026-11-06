@@ -102,6 +102,20 @@
       "hair_style": "topknot", "beard": "moustache", "waist": "belt", "prop": "bundle_back",
       "bundle_color": "a98a6d", "accent": "573f3e", "height": "standard", "build": "standard",
       "shoes": "dark"
-    }
+    },
+    "native.npc.yu_steward": {
+      "note": "庾家管事：酱色便衣，腰里的刀用布裹着，手搭在上头（主线第五章）；立绘 Muse 2026-11-06",
+      "coat": "74342a", "pants": "48211d", "skin": "e8b98a", "hair": "170d0d",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "sash", "prop": "blade_waist",
+      "prop_color": "9a8668", "accent": "411e1a", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.yu_henchman": {
+      "note": "庾家打手：便衣壮汉，刀已出鞘，酱色短衣和管事一个颜色（主线第五章）；立绘 Muse 2026-11-06",
+      "coat": "77392e", "pants": "451d18", "skin": "deb48b", "hair": "271111",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "4e221d",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.chen_witness": {"same_as": "choyin.npc.sergeant"}
   }
 }
