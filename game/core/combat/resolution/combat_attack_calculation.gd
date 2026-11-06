@@ -52,6 +52,9 @@ var _weapon_bane: WeaponGhostBane
 var _weapon_bane_amount: int = 0
 var _random_upper_bounds: Array[int] = []
 var _random_draws: Array[int] = []
+## 战斗拍数 C: the counter ring's verdict on this blow (CombatMoveTags.beats): 1 the move
+## counters the defender's, -1 the defender's counters it, 0 neither (or no tags).
+var _ring: int = 0
 
 var selected_limb: StringName:
 	get:
@@ -141,6 +144,9 @@ var weapon_bane_amount: int:
 var reached_stage: int:
 	get:
 		return _reached_stage
+var ring: int:
+	get:
+		return _ring
 
 
 func has_reached(stage: int) -> bool:
@@ -187,4 +193,5 @@ func duplicate_snapshot() -> CombatAttackCalculation:
 	copy._weapon_bane_amount = _weapon_bane_amount
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()
 	copy._random_draws = _random_draws.duplicate()
+	copy._ring = _ring
 	return copy

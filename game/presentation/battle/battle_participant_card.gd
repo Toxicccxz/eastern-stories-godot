@@ -53,6 +53,8 @@ var _special_border: StyleBoxFlat
 var _rest_x: float = 0.0
 ## The 倒 / 亡 stamp on the card as last presented ("" while its fighter stands).
 var _fallen_text: String = ""
+## 战斗拍数 C: the busy shown last (the seal's sound when busy takes hold: 封成, 忙).
+var _shown_busy: int = 0
 var _shown_intent: String = ""
 ## 气 N/N; 精 · 神 (the player's card); 内力 (· 加力 · 法力 · 灵力) (the player's card).
 var _primary: Label
@@ -147,7 +149,8 @@ func _ready() -> void:
 ## name with the forecast's word, its tags and its 起手 / 要出; the current target is the gold
 ## border, an enemy that cannot be picked is dimmed; the hover explains the tags.
 func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"", hold_resources: bool = false) -> void:
-	if value.participant_id != _shown_id:
+	var newly_shown: bool = value.participant_id != _shown_id
+	if newly_shown:
 		_reset_show()
 	_participant_id = value.participant_id
 	var is_player: bool = value.participant_id == player_id
@@ -186,6 +189,9 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	if value.busy_value != 0:
 		# TRANSLATORS: a battle card's tag: busy for %d more beats.
 		states.append(tr("忙 %d") % value.busy_value)
+	if value.busy_value != 0 and _shown_busy == 0 and not newly_shown:
+		BattleSounds.cue(BattleSounds.SEAL)
+	_shown_busy = value.busy_value
 	states.append_array(BattleConditionTags.labels(value.conditions))
 	var dead: bool = value.life_status == CombatSliceLifeStatus.Value.DEAD or value.threshold == CharacterState.LifeThreshold.DEAD
 	var unconscious: bool = value.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS or value.threshold == CharacterState.LifeThreshold.UNCONSCIOUS
@@ -461,6 +467,7 @@ func _show_fallen(text: String) -> void:
 		_resort()
 		return
 	stage.show_fallen(text, seconds)
+	BattleSounds.cue(BattleSounds.SEAL)
 	if seconds <= 0.0:
 		rotation = deg_to_rad(FALL_TILT_DEGREES)
 		return
@@ -506,6 +513,7 @@ func _reset_show() -> void:
 			tween.kill()
 	rotation = 0.0
 	_fallen_text = ""
+	_shown_busy = 0
 	_shown_intent = ""
 	_intent.add_theme_color_override("font_color", INTENT_COLOR)
 	stage.clear()

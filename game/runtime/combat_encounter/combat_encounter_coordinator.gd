@@ -487,6 +487,11 @@ func beat_plan(actor_id: StringName) -> CombatNpcBeatPlan:
 	return null if _active_scheduler == null else _active_scheduler.beat_plan(actor_id)
 
 
+## 战斗拍数 C: whether `actor_id`'s school reads it as close to its target now (the scene).
+func skeleton_close(actor_id: StringName) -> bool:
+	return _active_scheduler != null and _active_scheduler.skeleton_close(actor_id)
+
+
 func round_beats_of(actor_id: StringName) -> CombatRoundBeats:
 	return null if _active_scheduler == null else _active_scheduler.round_beats_of(actor_id)
 

@@ -52,6 +52,7 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 			# 战斗拍数 B: the beats as they stand now (the round to come between rounds).
 			shown.beats = coordinator.beats_now(binding.character_id)
 			shown.round_running = coordinator.round_running()
+			shown.close = coordinator.skeleton_close(binding.character_id)
 			if binding.character_id != player_id and shown.hostile_to_player:
 				var school: SkillDefinition = coordinator.school_of(binding.character_id)
 				if school != null and MoveRecognition.style_known(session.player_runtime().state, school, GameContent.catalog().pacing().decision_rules(), GameContent.catalog()):

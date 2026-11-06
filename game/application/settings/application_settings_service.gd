@@ -217,6 +217,7 @@ func apply_and_persist_ui_scale(percent: int) -> ApplicationSettingsServiceResul
 
 
 static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
+	apply_master_volume(settings.master_volume())
 	BattlePace.speed = settings.battle_speed()
 	BattlePace.hit_flash = settings.hit_flash()
 	BattlePace.after_knockout = settings.after_knockout()
@@ -244,6 +245,38 @@ func apply_and_persist_objective_hints(shown: bool) -> ApplicationSettingsServic
 ## 自动存档提示 (AutosaveNotice; DECISIONS「自动存档」) at once, kept with the other settings.
 func apply_and_persist_autosave_notice(shown: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_autosave_notice(shown)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## 总音量 (DECISIONS「战斗拍数 C」): the Master bus at `percent` of full (0: muted).
+static func apply_master_volume(percent: int) -> void:
+	var bus: int = AudioServer.get_bus_index(&"Master")
+	if bus < 0:
+		return
+	var share: float = clampf(float(percent) / 100.0, 0.0, 1.0)
+	AudioServer.set_bus_mute(bus, share <= 0.0)
+	AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(share, 0.001)))
+
+
+## The 总音量 at once, kept with the other settings.
+func apply_and_persist_master_volume(percent: int) -> ApplicationSettingsServiceResult:
+	if percent < 0 or percent > 100:
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
+	_committed = _committed.with_master_volume(percent)
 	_apply_battle(_committed)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(

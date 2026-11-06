@@ -55,12 +55,25 @@ var _final_cards: bool = false
 ## the cards during the end hold.
 var _was_waiting: bool = false
 var end_stamp: Label
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): the fight in the scene and its sounds, played from the
+## told line as the cards are; the beat the last told blow belonged to ([actor, beat]), so
+## the strip pauses between beats (feel.beat_pause_ms) and waits the windup before a 重; the
+## line the strip waits on now, so it waits once; whether the first beat won this fight had
+## its whole ceremony; whether the round was running on the last refresh (回合间归位).
+var scene_show: BattleSceneShow
+var sounds: BattleSounds
+var _last_beat: Array = []
+var _paused_for: BattleNarrationLine = null
+var _earned_told: bool = false
+var _round_was_running: bool = false
 var _stamp_tween: Tween
 # TRANSLATORS: the stamp over the battle cards when the fight is won.
 const STAMP_WON: String = "胜"
 # TRANSLATORS: the stamp over the battle cards when the fight is lost.
 const STAMP_LOST: String = "败"
 var _fade: Tween
+## 战斗拍数 C: the pauses between beats scaled to fit the round (1: as the feel says).
+var _pause_scale: float = 1.0
 var _recent: VBoxContainer
 var _receipt: Label
 var _yielded_hud: CanvasLayer
@@ -140,6 +153,7 @@ func _end_hold() -> void:
 	_final_cards = false
 	_hold_shield.visible = false
 	end_stamp.visible = false
+	scene_show.end()
 	if _stamp_tween != null and _stamp_tween.is_valid():
 		_stamp_tween.kill()
 	if _session != null:
@@ -160,7 +174,20 @@ func _tell_lines(delta: float) -> void:
 	var spacing: float = _line_spacing
 	_line_wait -= delta
 	while not _line_queue.is_empty() and (spacing <= 0.0 or _line_wait <= 0.0):
+		# 战斗拍数 C: a new beat's first blow waits the pause between beats, a 重's the windup
+		# too (the attacker crouches meanwhile); the clap of the beat landing comes with it.
+		var next: BattleNarrationLine = _line_queue[0]
+		if spacing > 0.0 and _paused_for != next and _starts_beat(next):
+			_paused_for = next
+			var pause: float = _beat_pause(next)
+			if pause > 0.0:
+				_line_wait += pause
+				if next.tag == CombatMoveTags.HEAVY:
+					scene_show.windup(next.actor_id)
+				if _line_wait > 0.0:
+					break
 		var line: BattleNarrationLine = _line_queue.pop_front()
+		_paused_for = null
 		_told.append(line)
 		_show_line(line)
 		if spacing > 0.0:
@@ -206,12 +233,64 @@ func _final_fallen(id: StringName) -> String:
 
 
 ## DECISIONS「战斗演出」: the line told now plays on the cards it concerns (the attacker's
-## title, the one hit's float, flash, shake and the bar stepping down).
+## title, the one hit's float, flash, shake and the bar stepping down). 战斗拍数 C: and in the
+## scene (BattleSceneShow) and the sounds (BattleSounds), the same frame; a blow that fells
+## its target is told as fatal (the hit-stop, the drum, the camera's last move).
 func _show_line(line: BattleNarrationLine) -> void:
+	if line.cue == BattleNarrationLine.CUE_EARNED:
+		scene_show.play_line(line)
+		sounds.play_all(BattleSounds.for_line(line, false, not _earned_told))
+		_earned_told = true
+		return
 	if not line.has_blow and not line.is_special:
 		return
+	var fatal: bool = _fatal(line)
+	if line.has_blow and _starts_beat(line) and not (line.actor_id == _projection.player_id and _projection.manual):
+		# The beat landing: the player's own beat clapped when its button was pressed.
+		sounds.play(BattleSounds.CLAPPER)
+	if line.has_blow:
+		_last_beat = [line.actor_id, line.beat_index]
 	for card: BattleParticipantCard in _cards:
 		card.show_line(line)
+	scene_show.play_line(line, fatal)
+	sounds.play_all(BattleSounds.for_line(line, fatal, false))
+
+
+## Whether `line` is the first blow of a beat not told yet (a blow of another actor or
+## beat than the last told blow's).
+func _starts_beat(line: BattleNarrationLine) -> bool:
+	return line.has_blow and (_last_beat.is_empty() or _last_beat[0] != line.actor_id or _last_beat[1] != line.beat_index)
+
+
+## The pause before a beat's first blow: the pause between beats, and the windup before a
+## 重; at the strip's pace, scaled down when a round's lines would not fit before the next.
+func _beat_pause(line: BattleNarrationLine) -> float:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	var pause: float = feel.beat_pause_seconds
+	if line.tag == CombatMoveTags.HEAVY:
+		pause += feel.scene_windup_seconds
+	return BattlePace.real_seconds(pause) * _pace_share() * _pause_scale
+
+
+## 自动's share of the feel's seconds (the 快 pace); 1 under 手动.
+func _pace_share() -> float:
+	if _projection.turns_offered and not _projection.manual:
+		return float(BattlePace.percent(BattlePace.Speed.FAST)) / 100.0
+	return 1.0
+
+
+## Whether the blow `line` reports fells its target: they are down in the projection (or the
+## finished fight left them so) and no later blow in the queue strikes them.
+func _fatal(line: BattleNarrationLine) -> bool:
+	if not line.has_blow or line.outcome != CombatAttackResult.Outcome.HIT or line.target_id.is_empty():
+		return false
+	for later: BattleNarrationLine in _line_queue:
+		if later.has_blow and later.target_id == line.target_id:
+			return false
+	var value: BattleParticipantProjection = _projection.participant(line.target_id)
+	if value != null and _projection.active:
+		return value.life_status != CombatSliceLifeStatus.Value.ACTIVE or value.threshold == CharacterState.LifeThreshold.DEAD or value.threshold == CharacterState.LifeThreshold.UNCONSCIOUS or value.knockout != null
+	return _final_cards and _session != null and _session.is_initialized() and not _final_fallen(line.target_id).is_empty()
 
 
 ## The 胜 / 败 stamp over the cards once the finished fight's last lines are told (the end
@@ -227,6 +306,7 @@ func _show_end_stamp() -> void:
 	_hold_left = maxf(_hold_left, seconds)
 	end_stamp.text = text
 	end_stamp.visible = true
+	sounds.play(BattleSounds.SEAL)
 	end_stamp.reset_size()
 	end_stamp.pivot_offset = end_stamp.size * 0.5
 	# Over the cards the player sees (they keep to the top of their row since 界面重做 4; a
@@ -269,10 +349,22 @@ func _queue_lines(lines: Array[BattleNarrationLine]) -> void:
 	# 自动 the lines come at the 快 pace (feel.battle_fast_percent) — the show keeps up with
 	# the beats filled in by themselves.
 	var round_seconds: float = BattlePace.real_seconds(GameContent.catalog().pacing().combat_round_seconds)
-	var line_seconds: float = GameContent.catalog().pacing().feel.battle_line_seconds
-	if _projection.turns_offered and not _projection.manual:
-		line_seconds *= float(BattlePace.percent(BattlePace.Speed.FAST)) / 100.0
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	var line_seconds: float = feel.battle_line_seconds * _pace_share()
 	_line_spacing = minf(line_seconds, round_seconds * 0.9 / float(_line_queue.size()))
+	# 战斗拍数 C: the pauses between beats fit in the same nine tenths, scaled down when a
+	# round's beats would not; the scene plays at the strip's pace.
+	scene_show.pace = _pace_share()
+	_pause_scale = 1.0
+	var pauses: float = 0.0
+	var last: Array = _last_beat.duplicate()
+	for line: BattleNarrationLine in _line_queue:
+		if line.has_blow and (last.is_empty() or last[0] != line.actor_id or last[1] != line.beat_index):
+			pauses += BattlePace.real_seconds(feel.beat_pause_seconds + (feel.scene_windup_seconds if line.tag == CombatMoveTags.HEAVY else 0.0)) * _pace_share()
+			last = [line.actor_id, line.beat_index]
+	var room: float = round_seconds * 0.9 - _line_spacing * float(_line_queue.size())
+	if pauses > 0.0 and pauses > room:
+		_pause_scale = maxf(0.0, room / pauses)
 	_tell_lines(0.0)
 
 
@@ -363,6 +455,12 @@ func refresh_projection() -> void:
 			_line_queue.clear()
 			_told.clear()
 			_line_wait = 0.0
+			# 战斗拍数 C: the scene's show begins with the fight (the camera a little nearer).
+			_last_beat = []
+			_paused_for = null
+			_earned_told = false
+			_round_was_running = false
+			scene_show.begin(_voxel_view())
 			if _intent == null:
 				_intent = BattleIntentAdapter.new(_session.combat_encounter_coordinator(), _projection.player_id)
 			if not visible:
@@ -372,6 +470,7 @@ func refresh_projection() -> void:
 		elif not _holding():
 			hide()
 			_restore_world_hud()
+			scene_show.end()
 	var entries: Array[BattleFeedbackProjection] = []
 	if _session.is_initialized():
 		entries = _reader.read_new(_session.combat_encounter_coordinator(), _projection)
@@ -598,6 +697,12 @@ func _build() -> void:
 	end_stamp.add_theme_color_override("font_outline_color", Color(0.05, 0.07, 0.08, 0.9))
 	end_stamp.add_theme_constant_override("outline_size", 8)
 	add_child(end_stamp)
+	scene_show = BattleSceneShow.new()
+	scene_show.name = "SceneShow"
+	add_child(scene_show)
+	sounds = BattleSounds.new()
+	sounds.name = "Sounds"
+	add_child(sounds)
 	log_panel = BattleLogPanel.new()
 	log_panel.name = "CombatLog"
 	log_panel.closed.connect(_focus_battle)
@@ -690,6 +795,17 @@ func _present_participants() -> void:
 	for index: int in values.size():
 		var queued: CombatQueuedAction = _projection.queued_action()
 		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id, not told)
+	# 战斗拍数 C: where the figures stand (close or apart), and home again between rounds.
+	var stances: Array = []
+	for value: BattleParticipantProjection in values:
+		stances.append([value.participant_id, value.current_target_id, value.close])
+	scene_show.settle(stances)
+	if _projection.round_running:
+		_round_was_running = true
+	elif _round_was_running and told:
+		# Home again once the round's last lines are told, not before.
+		_round_was_running = false
+		scene_show.round_over()
 
 
 func _present_recent(lines: Array[BattleNarrationLine]) -> void:
@@ -908,11 +1024,13 @@ func _spare_downed(id: StringName) -> void:
 		_intent.spare_downed(id)
 
 
-## 战斗决策层 1B: the move for this round (the round runs on it).
+## 战斗决策层 1B: the move for this round (the round runs on it). 战斗拍数 C: the clap of the
+## beat as it is pressed.
 func _choose_move(action_id: StringName) -> void:
 	if not _projection.active or _session == null or not _session.is_initialized():
 		return
 	if _session.combat_encounter_coordinator().choose_attack(action_id):
+		sounds.play(BattleSounds.CLAPPER)
 		refresh_projection()
 
 
@@ -1005,6 +1123,14 @@ func _yield_world_hud() -> void:
 	if _yielded_hud != null:
 		_hud_was_visible = _yielded_hud.visible
 		_yielded_hud.hide()
+
+
+## The voxel view of the map the fight is on (null: no scene to show the fight in).
+func _voxel_view() -> WorldVoxelView:
+	if _session == null or not _session.is_initialized():
+		return null
+	var map := _session.active_map() as WorldMapController
+	return null if map == null else map.get_node_or_null("MapView") as WorldVoxelView
 
 
 func _restore_world_hud() -> void:

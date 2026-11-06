@@ -1,0 +1,332 @@
+extends RefCounted
+
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): the fight in the scene and its sounds, off a session —
+## the figures are bare models under a view's actor nodes. The templates by tag (快 / 重 / 虚 /
+## 守 / 平), every duration from the feel and 0 = nothing moves, the three signatures of a hit
+## (克 / 相持 / 被克: the flash's colour and how far the one hit falls back), the hit-stop only
+## where it belongs, the camera moving twice, 柳家拳's close as the figures standing nearer,
+## everyone home between rounds; the sounds rationed by weight and a beat won in full only the
+## first time; the 总音量 setting. Rules, numbers and the fight's draws are untouched.
+const Outcome := CombatAttackResult.Outcome
+const ShellTests := preload("res://tests/application/application_shell_test.gd")
+const ME: StringName = &"me"
+const YOU: StringName = &"you"
+
+var assertions: int = 0
+var failures: Array[String] = []
+var _root: Node3D
+var _view: WorldVoxelView
+var _show: BattleSceneShow
+
+
+func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	_feel_keys()
+	_sound_ration()
+	_volume_setting()
+	await _feel_off_moves_nothing(tree)
+	await _templates(tree)
+	await _signatures(tree)
+	await _camera_and_stance(tree)
+	_teardown(tree)
+	TestFeel.restore()
+	BattlePace.speed = BattlePace.Speed.NORMAL
+	return {"assertions": assertions, "failures": failures}
+
+
+## pacing.json carries the nine durations; left out they are 0.
+func _feel_keys() -> void:
+	var feel: FeelDefinition = TestFeel.production
+	var seconds: Array[float] = [
+		feel.scene_step_seconds, feel.scene_windup_seconds, feel.hit_stop_seconds, feel.scene_flash_seconds, feel.scene_dust_seconds,
+		feel.afterimage_seconds, feel.scene_return_seconds, feel.beat_pause_seconds, feel.battle_zoom_seconds,
+	]
+	check(seconds == [0.12, 0.14, 0.1, 0.06, 0.26, 0.18, 0.32, 0.14, 0.5], "pacing.json: the nine durations: %s" % [seconds])
+	var off := FeelDefinition.new()
+	check(off.scene_step_seconds == 0.0 and off.hit_stop_seconds == 0.0 and off.battle_zoom_seconds == 0.0, "left out: 0")
+	check(feel.hit_stop_seconds >= 0.08 and feel.hit_stop_seconds <= 0.12, "the hit-stop within 80–120 ms")
+	# A beat's show within 0.4 s: the windup, the longest lunge and the freeze.
+	check(feel.scene_windup_seconds + feel.scene_step_seconds * 1.3 + feel.hit_stop_seconds <= 0.4, "a 重 that lands plays out within 0.4 s")
+
+
+## The sounds a told line asks for, by weight: 普通 < 克制 < 绝招 < 致命; a miss by its tag; a
+## beat won in full the first time only.
+func _sound_ration() -> void:
+	var plain: Array[Array] = BattleSounds.for_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0), false, false)
+	check(plain == [[BattleSounds.THUD, 1.0, BattleSounds.PLAIN_HIT_DB]], "a plain hit: the thud, a little under: %s" % [plain])
+	var counter: Array[Array] = BattleSounds.for_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 1), false, false)
+	check(counter == [[BattleSounds.THUD, 1.0, 0.0], [BattleSounds.CRACK, 1.0, 0.0]], "a 克 hit: the thud with the crack over it: %s" % [counter])
+	var countered: Array[Array] = BattleSounds.for_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, -1), false, false)
+	check(countered == [[BattleSounds.THUD, 1.0, BattleSounds.COUNTERED_HIT_DB]], "a 被克 hit: the thud alone, quieter: %s" % [countered])
+	var heavy: Array[Array] = BattleSounds.for_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 0), false, false)
+	check(heavy == [[BattleSounds.THUD, 1.0, 0.0], [BattleSounds.DRUM, 1.0, BattleSounds.DRUM_DB]], "a 重 that lands: the drum under the thud: %s" % [heavy])
+	var special: Array[Array] = BattleSounds.for_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0).with_special_blow(), false, false)
+	check(special.size() == 2 and special[1][0] == BattleSounds.DRUM, "a special's blow: the drum too")
+	var fatal: Array[Array] = BattleSounds.for_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 1), true, false)
+	check(fatal.size() == 3 and fatal[2] == [BattleSounds.DRUM, 1.0, BattleSounds.FATAL_DRUM_DB], "a felling 克 hit: thud, crack and the drum loud: %s" % [fatal])
+	check(BattleSounds.for_line(_blow(Outcome.DODGE, CombatMoveTags.QUICK, 0), false, false) == [[BattleSounds.WHOOSH, BattleSounds.WHOOSH_QUICK_PITCH, 0.0]], "a 快 missed: the whoosh high")
+	check(BattleSounds.for_line(_blow(Outcome.DODGE, CombatMoveTags.HEAVY, 0), false, false) == [[BattleSounds.WHOOSH, BattleSounds.WHOOSH_HEAVY_PITCH, 0.0]], "a 重 missed: the whoosh low")
+	check(BattleSounds.for_line(_blow(Outcome.PARRY, &"", 0), false, false) == [[BattleSounds.CLANG, 1.0, 0.0]], "a parry: the clang")
+	var earned := BattleNarrationLine.new("你抢得一拍（隙）！").with_cue(BattleNarrationLine.CUE_EARNED)
+	check(BattleSounds.for_line(earned, false, true) == [[BattleSounds.CLAPPER, BattleSounds.EARNED_PITCH, BattleSounds.EARNED_FIRST_DB]], "a beat won: the clap an octave up, loud the first time")
+	check(BattleSounds.for_line(earned, false, false) == [[BattleSounds.CLAPPER, BattleSounds.EARNED_PITCH, BattleSounds.EARNED_AGAIN_DB]], "and quiet after")
+	check(BattleSounds.for_line(BattleNarrationLine.new("野狗咆哮。"), false, false).is_empty() and BattleSounds.for_line(BattleNarrationLine.new("x").with_special(ME, "「封」"), false, false).is_empty(), "plain words and a special's opening line: nothing (its blows sound)")
+	for kind: StringName in BattleSounds.FILES:
+		check(ResourceLoader.exists(BattleSounds.DIRECTORY + BattleSounds.FILES[kind]), "the file of %s is there" % kind)
+	# The narrator marks the ring on a blow's line and the cue on a beat won.
+	var cast := BattlePresentationProjection.new(&"e", 0, ME, YOU, [], [], null, 0, -1, -1)
+	var noted: Array[BattleNarrationLine] = BattleNarrator.seen([VisionLine.new("$N抢得一拍（隙）！", ME, &"", ColoredLine.HIY)], cast)
+	check(noted.size() == 1 and noted[0].cue == BattleNarrationLine.CUE_EARNED, "the scheduler's 抢得一拍 note carries the cue")
+	check(BattleNarrator.seen([VisionLine.new("$N退了一步。", ME)], cast)[0].cue.is_empty(), "other words carry none")
+
+
+## 总音量: version 10 of the settings; an older file reads as the default; the Master bus follows.
+func _volume_setting() -> void:
+	var files := ShellTests.MemoryFiles.new()
+	var repository := ApplicationSettingsRepository.new(files)
+	var v9: String = "[application]\nschema_version=9\nwindow_mode=\"windowed\"\nlanguage=\"\"\nbattle_speed=\"normal\"\nhit_flash=true\nui_scale=100\nafter_knockout=\"ask\"\nobjective_hints=true\nday_night=\"follow\"\nautosave_notice=true\nresolution=\"\"\nscreen=-1\n"
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = v9.to_utf8_buffer()
+	var old: ApplicationSettingsResult = repository.load()
+	check(old.succeeded() and old.snapshot().master_volume() == ApplicationSettingsSnapshot.DEFAULT_MASTER_VOLUME, "a version 9 file reads at the default volume")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = v9.replace("schema_version=9", "schema_version=10").to_utf8_buffer()
+	check(not repository.load().succeeded(), "a version 10 file without it rejects")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = (v9.replace("schema_version=9", "schema_version=10") + "master_volume=150\n").to_utf8_buffer()
+	check(not repository.load().succeeded(), "over 100 rejects")
+	check(not ApplicationSettingsSnapshot.defaults().with_master_volume(-1).is_valid() and ApplicationSettingsSnapshot.defaults().with_master_volume(0).is_valid(), "0–100 is the range")
+	var written: ApplicationSettingsResult = repository.write(ApplicationSettingsSnapshot.defaults().with_master_volume(35).with_ui_scale(125))
+	var back: ApplicationSettingsResult = repository.load()
+	check(written.succeeded() and back.succeeded() and back.snapshot().master_volume() == 35 and back.snapshot().ui_scale() == 125, "35 % round-trips beside the other settings")
+	var bus: int = AudioServer.get_bus_index(&"Master")
+	var before_db: float = AudioServer.get_bus_volume_db(bus)
+	var before_mute: bool = AudioServer.is_bus_mute(bus)
+	ApplicationSettingsService.apply_master_volume(50)
+	check(is_equal_approx(AudioServer.get_bus_volume_db(bus), linear_to_db(0.5)) and not AudioServer.is_bus_mute(bus), "50 %: the Master bus at half, not muted")
+	ApplicationSettingsService.apply_master_volume(0)
+	check(AudioServer.is_bus_mute(bus), "0: muted")
+	ApplicationSettingsService.apply_master_volume(100)
+	check(is_zero_approx(AudioServer.get_bus_volume_db(bus)) and not AudioServer.is_bus_mute(bus), "100: full")
+	AudioServer.set_bus_volume_db(bus, before_db)
+	AudioServer.set_bus_mute(bus, before_mute)
+
+
+## The feel off (the suites' default): a line played moves no figure, leaves nothing behind.
+func _feel_off_moves_nothing(tree: SceneTree) -> void:
+	_setup(tree)
+	_show.begin(_view)
+	var me: Node3D = _model(ME)
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 1), true)
+	await tree.process_frame
+	check(me.position == Vector3.ZERO and me.scale == Vector3.ONE and _model(YOU).position == Vector3.ZERO, "nothing moved")
+	check(_show.effect_count() == 0 and _show.zoom_moves == 0 and _view.zoom() == 1.0, "no ghost, no dust, the camera still")
+	check(_show.played.size() == 1 and _show.played[0][1] == BattleSceneShow.TEMPLATE_HEAVY, "the template was still picked (for the suites): %s" % [_show.played])
+	_show.end()
+
+
+## The templates by tag, the feel on and slowed four times so the frames can be read.
+func _templates(tree: SceneTree) -> void:
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	var me: Node3D = _model(ME)
+	var you: Node3D = _model(YOU)
+	# 快: a short dash with a ghost left behind.
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0))
+	check(_show.effect_count() == 1 and _ghost() != null and _ghost().position == Vector3.ZERO, "快: a ghost where it stood")
+	await tree.create_timer(0.3).timeout
+	check(me.position.z > 0.15 and me.position.z <= BattleSceneShow.STEP_QUICK + 0.01 and is_zero_approx(me.position.x), "快: a short step toward the target (%.2f)" % me.position.z)
+	await tree.create_timer(1.6).timeout
+	check(me.position.is_equal_approx(Vector3.ZERO) and _show.effect_count() == 0, "then home, the ghost gone (%s)" % me.position)
+	# 重: the crouch first, held, then the long lunge and the freeze with the shake.
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 0))
+	check(_show.played.back()[1] == BattleSceneShow.TEMPLATE_HEAVY and _show.played.back()[3] == true, "重 landing: the hit-stop")
+	await tree.create_timer(0.3).timeout
+	check(me.scale.y < 0.95 and me.scale.y >= BattleSceneShow.CROUCH - 0.001 and me.position.z < 0.05, "重: crouched (%.3f), not yet moving" % me.scale.y)
+	await tree.create_timer(0.9).timeout
+	check(me.position.z > BattleSceneShow.STEP_HEAVY - 0.1, "重: the long lunge (%.2f)" % me.position.z)
+	await tree.create_timer(2.0).timeout
+	check(me.position.is_equal_approx(Vector3.ZERO) and is_equal_approx(me.scale.y, 1.0), "home and upright again")
+	# 虚: half a dash stopped short, the ghost where it started, the body aside.
+	_show.play_line(_blow(Outcome.DODGE, CombatMoveTags.FEINT, 0))
+	check(_show.played.back()[1] == BattleSceneShow.TEMPLATE_FEINT and _ghost() != null and _ghost().position == Vector3.ZERO, "虚: the ghost left where it started")
+	await tree.create_timer(0.55).timeout
+	check(absf(me.position.x) > 0.05 and me.position.z <= BattleSceneShow.STEP_FEINT * 0.5 + 0.01, "虚: stopped half way and slid aside (%s)" % me.position)
+	await tree.create_timer(2.0).timeout
+	# 守: the sink; on a parry the arc before the chest.
+	_show.play_line(_blow(Outcome.PARRY, CombatMoveTags.GUARD, 0))
+	await tree.create_timer(0.5).timeout
+	check(me.scale.y <= BattleSceneShow.SINK + 0.01 and me.position.z < 0.05, "守: sunk, not stepping (%.3f)" % me.scale.y)
+	check(_show.effect_count() >= 1 and _effect_named("ParryArc") != null, "the parry's arc before the one who parried")
+	await tree.create_timer(2.0).timeout
+	# A windup asked before the line (the strip's half beat): the lunge follows from the crouch.
+	_show.windup(ME)
+	await tree.create_timer(0.3).timeout
+	check(me.scale.y < 0.95, "the windup crouches before the line is told")
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 0))
+	await tree.create_timer(0.3).timeout
+	check(me.position.z > 0.1, "told: the lunge goes at once, no second crouch (%.2f)" % me.position.z)
+	await tree.create_timer(2.2).timeout
+	check(you.position.length() < BattleSceneShow.KNOCKBACK_CAP + 0.01, "the one hit never farther than the cap (%.2f)" % you.position.length())
+	_show.round_over()
+	await tree.create_timer(1.6).timeout
+	check(you.position.is_equal_approx(Vector3.ZERO), "the round over: the one hit home again (%s)" % you.position)
+	# The round ends on the blow itself (the strip's last line): home once its show is done.
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0))
+	_show.round_over()
+	check(_show._running(YOU) and not _show._knock.has(YOU), "knocked and the round over in one frame: the show goes on")
+	await tree.create_timer(0.6).timeout
+	check(you.position.z > 0.1, "knocked back first (%.2f)" % you.position.z)
+	await tree.create_timer(2.5).timeout
+	check(you.position.is_equal_approx(Vector3.ZERO), "then home on its own (%s)" % you.position)
+	_show.end()
+	_show.pace = 1.0
+	TestFeel.restore()
+
+
+## The three signatures of a hit: 克 flashes gold and knocks farthest, 相持 white and a half
+## step, 被克 dim red and barely; a dodge steps aside without a flash.
+func _signatures(tree: SceneTree) -> void:
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	var you: Node3D = _model(YOU)
+	var knocks: Array[float] = []
+	var flashes: Array[Color] = []
+	for ring: int in [1, 0, -1]:
+		_show.round_over()
+		_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, ring))
+		knocks.append(_show._knock[YOU].length())
+		# The flash lands at the impact (0.084 s × 4) and stays 0.24 s.
+		await tree.create_timer(0.45).timeout
+		flashes.append(_flash_colour(you))
+		await tree.create_timer(2.0).timeout
+	check(is_equal_approx(knocks[0], BattleSceneShow.KNOCKBACK[1]) and is_equal_approx(knocks[1], BattleSceneShow.KNOCKBACK[0]) and is_equal_approx(knocks[2], BattleSceneShow.KNOCKBACK[-1]) and knocks[0] > knocks[1] and knocks[1] > knocks[2], "克 farthest, 相持 half a step, 被克 barely: %s" % [knocks])
+	check(flashes == [BattleSceneShow.FLASH_COUNTER, BattleSceneShow.FLASH_HIT, BattleSceneShow.FLASH_COUNTERED], "gold, white, dim red: %s" % [flashes])
+	check(not you.has_meta("battle_flash") and _parts_overlaid(you) == 0, "the flash is one moment: gone after")
+	_show.round_over()
+	_show.play_line(_blow(Outcome.DODGE, CombatMoveTags.QUICK, 0))
+	await tree.create_timer(0.55).timeout
+	check(absf(you.position.x) > 0.05 and not you.has_meta("battle_flash"), "a dodge: aside, no flash (%s)" % you.position)
+	await tree.create_timer(1.6).timeout
+	_show.end()
+	_show.pace = 1.0
+	TestFeel.restore()
+
+
+## The camera moves twice a fight (the opening, the last blow); a beat won flashes gold with
+## a hop the first time only; close is standing nearer the target; the feel's zoom off keeps
+## the camera still; end() brings everything back.
+func _camera_and_stance(tree: SceneTree) -> void:
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	check(_show.zoom_moves == 1 and is_equal_approx(_view.zoom(), BattleSceneShow.ZOOM_OPEN), "the opening: the camera a little nearer")
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0), false)
+	check(_show.zoom_moves == 1, "an ordinary blow: the camera still")
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0), true)
+	check(_show.zoom_moves == 2 and is_equal_approx(_view.zoom(), BattleSceneShow.ZOOM_FINAL) and _show.played.back()[3] == true, "the felling blow: nearer again, with the hit-stop")
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0), true)
+	check(_show.zoom_moves == 2, "and never a third time")
+	await tree.create_timer(2.5).timeout
+	# A beat won.
+	var earned := BattleNarrationLine.new("你抢得一拍（隙）！").with_cue(BattleNarrationLine.CUE_EARNED).with_beat(1, ME)
+	_show.play_line(earned)
+	var me: Node3D = _model(ME)
+	check(_show.earned_shown() and _show._running(ME) and me.has_meta("battle_flash"), "the first beat won: the gold flash and the hop")
+	await tree.create_timer(1.5).timeout
+	_show.play_line(earned)
+	check(not _show._running(ME) and me.has_meta("battle_flash"), "the next: the flash alone")
+	await tree.create_timer(1.0).timeout
+	# Close: standing nearer the target (the round over first: the blows above knocked it back).
+	_show.round_over()
+	await tree.create_timer(1.6).timeout
+	_show.settle([[ME, YOU, true], [YOU, ME, false]])
+	await tree.create_timer(1.6).timeout
+	check(is_equal_approx(me.position.z, BattleSceneShow.CLOSE_STANCE) and _model(YOU).position.is_equal_approx(Vector3.ZERO), "close: a third of a unit nearer (%s)" % me.position)
+	_show.settle([[ME, YOU, false], [YOU, ME, false]])
+	await tree.create_timer(1.6).timeout
+	check(me.position.is_equal_approx(Vector3.ZERO), "apart again")
+	_show.end()
+	check(is_equal_approx(_view.zoom(), 1.0) and _show.effect_count() == 0, "the end: the camera back, nothing left in the scene")
+	# The zoom's feel off: the camera never moves.
+	GameContent.catalog().pacing().feel = TestFeel.production.but({"battle_zoom_ms": 0})
+	_show.begin(_view)
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0), true)
+	check(_show.zoom_moves == 0 and _view.zoom() == 1.0, "battle_zoom_ms 0: the camera still")
+	_show.end()
+	_show.pace = 1.0
+	TestFeel.restore()
+
+
+# --- fixtures -------------------------------------------------------------------------------
+
+
+## Two figures a unit and a half apart along z, each a box under an actor node, in a view
+## that is only their holder (no map).
+func _setup(tree: SceneTree) -> void:
+	_root = Node3D.new()
+	_root.name = "SceneShowTest"
+	tree.root.add_child(_root)
+	_view = WorldVoxelView.new()
+	for pair: Array in [[ME, Vector3(0, 0, 0)], [YOU, Vector3(0, 0, 1.5)]]:
+		var actor := Node3D.new()
+		actor.name = String(pair[0])
+		actor.position = pair[1]
+		_root.add_child(actor)
+		var model := Node3D.new()
+		model.name = "Model"
+		actor.add_child(model)
+		var body := MeshInstance3D.new()
+		body.mesh = BoxMesh.new()
+		body.position = Vector3(0, 0.9, 0)
+		model.add_child(body)
+		_view.actors[pair[0]] = actor
+	_show = BattleSceneShow.new()
+	_root.add_child(_show)
+
+
+func _teardown(tree: SceneTree) -> void:
+	if _root != null:
+		_root.queue_free()
+		_root = null
+	if _view != null:
+		_view.free()
+		_view = null
+
+
+func _model(id: StringName) -> Node3D:
+	return _view.actors[id].get_child(0) as Node3D
+
+
+func _ghost() -> Node3D:
+	return _effect_named("Afterimage")
+
+
+func _effect_named(name: String) -> Node3D:
+	for effect: Node3D in _show._effects:
+		if is_instance_valid(effect) and effect.name == name:
+			return effect
+	return null
+
+
+static func _flash_colour(model: Node3D) -> Color:
+	if not model.has_meta("battle_flash"):
+		return Color.BLACK
+	var overlay := model.get_meta("battle_flash") as StandardMaterial3D
+	return overlay.albedo_color if overlay != null else Color.BLACK
+
+
+static func _parts_overlaid(model: Node3D) -> int:
+	var count: int = 0
+	for part: GeometryInstance3D in BattleSceneShow._parts(model):
+		if part.material_overlay != null:
+			count += 1
+	return count
+
+
+static func _blow(outcome: int, tag: StringName, ring: int) -> BattleNarrationLine:
+	return BattleNarrationLine.new("x", 10 if outcome == Outcome.HIT else -1).with_blow(ME, YOU, "招", outcome, BattleVitalityBar.Band.LIGHT).with_ring(tag, ring).with_beat(1, ME)
+
+
+func check(condition: bool, message: String) -> void:
+	assertions += 1
+	if not condition:
+		failures.append("battle scene show: " + message)

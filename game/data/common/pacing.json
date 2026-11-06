@@ -119,7 +119,16 @@
 			"end_stamp_ms": 600,
 			"turn_cue_ms": 220,
 			"intent_pulse_ms": 500,
-			"beat_chip_ms": 260
+			"beat_chip_ms": 260,
+			"scene_step_ms": 120,
+			"scene_windup_ms": 140,
+			"hit_stop_ms": 100,
+			"scene_flash_ms": 60,
+			"scene_dust_ms": 260,
+			"afterimage_ms": 180,
+			"scene_return_ms": 320,
+			"beat_pause_ms": 140,
+			"battle_zoom_ms": 500
 		}
 	}
 }
