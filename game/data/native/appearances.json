@@ -30,12 +30,6 @@
       "build": "slim", "shoes": "dark"
     },
     "native.npc.keep_ambusher": {"same_as": "oldpine.npc.bandit_guard"},
-    "native.npc.lihong": {
-      "note": "璃虹：金乌杞庸的妹妹，浅金的衣，长发散着，不戴东西，光脚（第八章 A；在封坛里是地图自己的「冰里的人」看法）",
-      "coat": "e8d8a8", "pants": "d8c898", "skin": "f6e4d4", "hair": "2a2228",
-      "hair_style": "long", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
-      "accent": "f0e0b0", "height": "standard", "build": "slim", "shoes": "white"
-    },
     "native.npc.lihong_weak": {"same_as": "native.npc.lihong"},
     "native.npc.outlaw.1": {
       "note": "流窜毛贼：贼眉鼠眼，补丁叠著补丁，腰间鼓鼓囊囊（悬赏榜）；立绘 Muse 2026-11-06",
@@ -116,6 +110,33 @@
       "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "4e221d",
       "height": "standard", "build": "heavy", "shoes": "dark"
     },
-    "native.npc.chen_witness": {"same_as": "choyin.npc.sergeant"}
+    "native.npc.chen_witness": {"same_as": "choyin.npc.sergeant"},
+    "native.npc.lihong": {
+      "note": "璃虹：金乌杞庸的妹妹，封在湖底冰柱里三百年；浅金的长衣长裙，长发散着，不戴东西，光脚（第八章）；身上的白光只用衣服最亮的一阶表现，不画光晕；立绘 Muse 2026-11-06",
+      "coat": "f1d78a", "pants": "be994a", "skin": "efc39d", "hair": "120f13", "hair_style": "long",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "none", "accent": "be994a",
+      "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "native.npc.lihong_ashore": {"same_as": "native.npc.lihong"},
+    "native.npc.shang_jue": {
+      "note": "商玦：逆灵宫宫主，黑衣黑冠的道人，黑得像吸光，双手拢在袖里；城府极深，笑也只是嘴角一点；立绘 Muse 2026-11-06",
+      "coat": "282c31", "pants": "0e1419", "skin": "be8f67", "hair": "04060b",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0e1419", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "161b20", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.shang_jue_lake": {"same_as": "native.npc.shang_jue"},
+    "native.npc.shitou": {
+      "note": "石头：傅家坡农妇的儿子，七岁，头上梳着两个小抓揪，被逆灵宫的车抓去；脸有点脏，粗布衣；立绘 Muse 2026-11-06",
+      "coat": "dbcfbc", "pants": "a08e75", "skin": "e7b489", "hair": "3f3730",
+      "hair_style": "double_bun", "beard": "none", "waist": "belt", "prop": "none",
+      "accent": "6b4f44", "height": "child", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.hell_runner": {
+      "note": "鬼卒：阴司的鬼卒，灰绿皮肤、面目狰狞，手里一柄钢叉（方块人画成枪），眼眶里两点青火；立绘 Muse 2026-11-06",
+      "coat": "3f4a56", "pants": "242b33", "skin": "98ab9a", "hair": "13161b", "hair_style": "long",
+      "beard": "none", "waist": "belt", "prop": "spear", "prop_color": "c8ccd2", "accent": "2e3036",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    }
   }
 }

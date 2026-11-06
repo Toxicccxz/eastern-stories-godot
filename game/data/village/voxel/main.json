@@ -98,10 +98,7 @@
     "fireflies": [{"rect": [440, 1770, 760, 2200], "count": 18, "height": 0.8}, {"rect": [-300, 1160, 0, 1690], "count": 12, "height": 1.0}]
   },
   "actors": {
-    "default": {"coat": "7d7a62"},
-    "village.npc.trader1": {"coat": "6a5a48", "hat": true},
-    "village.npc.flowergirl": {"coat": "d88a9a"},
-    "village.npc.fisher": {"coat": "5e6a5e", "hat": true}
+    "default": {"coat": "7d7a62"}
   },
   "door_looks": {
     "village.lordhouse1.door": {"kind": "old_gate", "leaf": "26221f", "open": true, "rotation": -90, "size": [160, 32], "note": "lordhouse1.c: 一扇漆黑的大门; in the yard's west wall (`rotation` with `size`, as a door in a north-south wall needs), its leaves swung out onto the path once opened"},

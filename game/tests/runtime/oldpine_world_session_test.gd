@@ -580,10 +580,11 @@ func _kill_bandit(
 	))
 	if not controller.select_npc(victim.character_id):
 		return null
-	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others).
-	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
+	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others),
+	# and they stay out of it while the player loots the corpse among them (they would attack on
+	# sight and hold the world through the handoffs that follow).
+	OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	var started: bool = controller.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED
-	OldPineTestMap.rejoin(aside)
 	if not started:
 		return null
 	HistoricalCombat.set_running(controller, false)

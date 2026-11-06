@@ -1,0 +1,43 @@
+{
+  "people": {
+    "village.npc.fisher": {
+      "note": "渔夫：精壮的汉子，头戴斗笠、身披蓑衣，抬头一看眼神精光大盛，很可能是江湖中人；立绘 Muse 2026-11-06",
+      "coat": "324c71", "pants": "202c3b", "skin": "b97c54", "hair": "1b2a45",
+      "hair_style": "topknot", "headwear": "straw_hat", "headwear_color": "e4b76f", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "6f4e2e", "height": "standard",
+      "build": "standard", "shoes": "straw"
+    },
+    "village.npc.woman1": {
+      "note": "傅家坡的农妇：儿子石头不见了，到处找；原作没写长相，按身份画粗布衣、围裙，手里一把菜刀；立绘 Muse 2026-11-06",
+      "coat": "4a5a69", "pants": "778591", "skin": "edc49e", "hair": "23272e",
+      "hair_style": "topknot", "beard": "none", "waist": "apron", "apron_color": "778791",
+      "prop": "none", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "village.npc.oldliu": {
+      "note": "刘老农：快六十了但手脚还算灵活，小娟的爹；身怀绝技，表面上就是个本分老农；立绘 Muse 2026-11-06",
+      "coat": "978262", "pants": "79644b", "skin": "daad82", "hair": "6f5944",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "e0c8a4",
+      "beard": "chin_three", "waist": "belt", "prop": "none", "accent": "6f5944",
+      "height": "standard", "build": "standard", "shoes": "straw"
+    },
+    "village.npc.meloner": {
+      "note": "瓜农：脸被阳光晒得黝黑，一身腱子肉，扎实威猛；立绘抱着一个西瓜；立绘 Muse 2026-11-06",
+      "coat": "63422e", "pants": "342118", "skin": "955e3d", "hair": "221915",
+      "hair_style": "short", "beard": "none", "waist": "belt", "prop": "none", "accent": "4c3124",
+      "height": "standard", "build": "heavy", "shoes": "straw"
+    },
+    "village.npc.flowergirl": {
+      "note": "采花妞：九岁，天真的小女孩在玩耍，手里一朵花；立绘 Muse 2026-11-06",
+      "coat": "5c7284", "pants": "34485a", "skin": "e6b992", "hair": "242531",
+      "hair_style": "double_bun", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "5d7385", "height": "child", "build": "slim", "shoes": "dark"
+    },
+    "village.npc.trader1": {
+      "note": "从关外来的商人：原作文字和京师那个一样，画成另一个人——包头巾、褡裢、驼色袍；立绘 Muse 2026-11-06",
+      "coat": "cb9961", "pants": "906846", "skin": "bd8e5e", "hair": "4d2f30",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "dcc095", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "66493c", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    }
+  }
+}

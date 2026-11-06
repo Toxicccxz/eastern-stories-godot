@@ -70,8 +70,11 @@ Platform exports are intentionally separate from routine verification.
 During development, run only the affected suites (a `*_test.gd` path or a directory of them):
 
 ```text
-<godot> --headless --path game --script res://tests/run_suite.gd -- tests/core tests/runtime/snow_inn_foundation_test.gd
+<godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- tests/core tests/runtime/snow_inn_foundation_test.gd
 ```
+
+`--fixed-fps 60` is what verify uses: each frame steps the game 1/60 s and the next starts at once,
+instead of waiting for the wall clock (a suite that walks or fights runs several times faster).
 
 A new `*_test.gd` suite needs no registration: step 4 finds it. Each suite must pass on its own,
 not rely on what an earlier suite left behind. Steps 3–5 also fail when Godot prints a

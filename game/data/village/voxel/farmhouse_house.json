@@ -35,7 +35,6 @@
     {"kind": "chicken", "rect": [-120, -470, 350, -120], "count": 5, "colors": ["e8dcc8", "c8a878", "c83a2a"]}
   ],
   "actors": {
-    "village.npc.woman1": {"coat": "9a6a5a"}
   },
   "props": [
     {"kind": "window", "at": [288, 112], "size": [64, 16], "rotation": 0, "note": "the window with the crack in it, by the wheel"},

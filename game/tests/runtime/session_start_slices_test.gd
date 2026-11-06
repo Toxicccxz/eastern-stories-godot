@@ -187,10 +187,13 @@ func _test_host(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
+## The frames a request takes. Its limit is the clock's, not a frame count: a save is read on a
+## worker thread while the frames run on, as fast as they come.
 func _while_pending(tree: SceneTree, host: OldPineGameRuntimeHost) -> int:
 	var frames: int = 0
+	var limit: int = Time.get_ticks_msec() + 60_000
 	await tree.process_frame
-	while host.request_pending() and frames < 3000:
+	while host.request_pending() and Time.get_ticks_msec() < limit:
 		await tree.process_frame
 		frames += 1
 	return frames + 1
