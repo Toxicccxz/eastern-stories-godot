@@ -494,18 +494,21 @@ func conditions_text(teacher: TeacherService) -> String:
 	return "\n".join(lines)
 
 
-## 战斗拍数 D: why 拜师 with `teacher` is greyed now — the conditions a requirements master told
-## (ApprenticeConditions, attributes, gender, class) that the player is short of, in one line;
-## "" when none is, when he has offered, or when his answer is his own (a test, an oath, a
-## traitor's welcome: those stay asked, as ES2 asks them).
+## 战斗拍数 D: why 拜师 with `teacher` is greyed now — the numeric thresholds a requirements
+## master told (ApprenticeConditions: 胆识, 定力, 灵性, 实战经验) that the player is short of, in
+## one line; "" when none is, when he has offered, or when his answer is his own (a test, an
+## oath, a traitor's welcome, a gender or class he does not take, an answer that comes later:
+## those stay asked, as ES2 asks them).
 func _conditions_short(teacher: TeacherService) -> String:
 	var master: NpcDefinition = teacher.npc.definition()
 	var rule: NpcTeaching.ApprenticeRule = null if teacher.teaching() == null else teacher.teaching().apprentice
-	if rule == null or rule.kind != NpcTeaching.Kind.REQUIREMENTS or _player.would_be_taken_by(master) or _player.would_be_attacked_by(master):
+	if rule == null or rule.kind != NpcTeaching.Kind.REQUIREMENTS or rule.answer_after > 0.0 or _player.would_be_taken_by(master) or _player.would_be_attacked_by(master):
 		return ""
 	var missing: PackedStringArray = []
 	for row: ApprenticeConditions.Row in _player.apprentice_conditions(master, _map().player_can_afford):
-		if row.state == ApprenticeConditions.State.UNMET and not row.text.begins_with(tr(ApprenticeConditions.COMMONERS)):
+		# Only the numeric thresholds (胆识 ≥ 20): a gender, class, money or mark refusal stays the
+		# master's own spoken answer, as ES2 gives it.
+		if row.state == ApprenticeConditions.State.UNMET and row.text.contains("≥"):
 			missing.append(row.text)
 	if missing.is_empty():
 		return ""
