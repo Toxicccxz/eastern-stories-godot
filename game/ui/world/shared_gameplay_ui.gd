@@ -253,7 +253,7 @@ func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array
 	if teller.is_empty():
 		speech_bubbles.say(speaker, spoken, alert)
 	else:
-		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller)
+		dialogue_box.say(tr(speaker.definition().display_name), spoken, teller, speaker)
 
 
 ## The dialogue box takes the foot of the screen: the toasts stand on it.
@@ -441,6 +441,9 @@ func open_interaction(thing: WorldNearbyThing) -> void:
 	# The target stays on it while the popup shows (time runs on a page; others walk by).
 	nearby.choose(thing.id)
 	_fill_interaction()
+	# 人物立绘: a person's whole picture on 查看 (none for a thing, a corpse, someone without one).
+	var person: bool = thing.kind == WorldNearbyThing.Kind.NPC and thing.npc != null
+	interaction_panel.set_portrait(PersonPortraits.full(PersonPortraits.npc_id(thing.npc)) if person else null)
 	var key: StringName = thing.id
 	_presentation_layout.open_panel(nearby.shown_name(thing), interaction_panel, func() -> bool: return nearby.target() != null and nearby.target().id == key)
 	if not interaction_open():

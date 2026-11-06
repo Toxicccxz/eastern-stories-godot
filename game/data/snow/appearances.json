@@ -1,0 +1,135 @@
+{
+  "people": {
+    "snow.npc.waiter": {
+      "note": "店小二：笑咪咪地忙着，脖子上挂着抹布（waiter.c）；立绘 Muse 2026-11-05",
+      "coat": "e9dcc3", "pants": "3a3b44", "skin": "edbb96", "hair": "23222a",
+      "hair_style": "short", "headwear": "cloth_cap", "headwear_color": "25212b", "beard": "none",
+      "waist": "apron", "apron_color": "718391", "prop": "teapot", "accent": "7a9cc4",
+      "extras": ["towel_neck"], "height": "standard", "build": "slim"
+    },
+    "snow.npc.girl": {
+      "note": "柳绘心：十五岁，粉衣深红裙，白鞘细剑挂腰侧（girl.c: thin_sword, pink_cloth）；立绘 Muse 2026-11-05",
+      "coat": "f9b4b1", "pants": "b54562", "skin": "f8cdb6", "hair": "412128",
+      "hair_style": "double_bun", "hair_tie": "f49a97", "headwear": "none", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "e6ddd2", "accent": "f49a97",
+      "height": "short", "build": "slim"
+    },
+    "snow.npc.guard": {
+      "note": "刘安禄：淳风武馆的门房，来历不明，一手快刀罕有敌手（guard.c）；立绘 Muse 2026-11-05",
+      "coat": "47586b", "pants": "2c304b", "skin": "e9cab2", "hair": "1d1d24",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "2e2a26", "pouch_color": "2f2c3b", "prop": "blade_back", "prop_color": "26242a",
+      "height": "standard", "build": "standard"
+    },
+    "snow.npc.fist_trainer": {
+      "note": "李火狮：孔武有力的大块头，教柳家拳法（fist_trainer.c）；立绘 Muse 2026-11-05",
+      "coat": "b74431", "pants": "232227", "skin": "d99e72", "hair": "1d1d24",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "812822", "height": "tall", "build": "heavy"
+    },
+    "snow.npc.teacher": {
+      "note": "魏无极：中过举人、不愿做官的教书先生（teacher.c）；方巾、抱书；立绘 Muse 2026-11-05",
+      "coat": "575f78", "pants": "353a54", "skin": "cdab9a", "hair": "3a3a40",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "34476c", "beard": "chin_three",
+      "waist": "sash", "accent": "353a54", "prop": "book", "prop_color": "3d4861",
+      "height": "standard", "build": "slim"
+    },
+    "snow.npc.post_officer": {
+      "note": "杜宽：当了十几年雪亭驿长、舍不得离开小山村，镇上的人常来驿站跟他聊天（post_officer.c）；立绘 Muse 2026-11-05",
+      "coat": "318172", "pants": "282c2f", "skin": "f6d7be", "hair": "131019",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "1f222a", "pouch": false, "height": "standard", "build": "heavy"
+    },
+    "snow.npc.annihir": {
+      "note": "安惜迩：看来斯文、有时心不在焉的年轻钱庄老板，一身稀奇古怪的武功，佩长剑，有隐者风骨（annihir.c）；立绘 Muse 2026-11-05",
+      "coat": "788384", "pants": "24212d", "skin": "e6ccba", "hair": "1d1a20",
+      "hair_style": "topknot", "hair_tie": "2e2a33", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "4d6d64", "prop": "sword_waist", "prop_color": "26242c",
+      "height": "standard", "build": "slim"
+    },
+    "snow.npc.herbalist": {
+      "note": "杨掌柜：桑邻药铺掌柜，有名的大善人，年轻时随山烟寺玄智和尚学医（herbalist.c）；手里一束草药；立绘 Muse 2026-11-05",
+      "coat": "c4682c", "pants": "2b2c33", "skin": "eeb495", "hair": "5e5955",
+      "hair_style": "topknot", "headwear": "none", "beard": "chin_three",
+      "waist": "apron", "apron_color": "678599", "accent": "98453f",
+      "height": "standard", "build": "standard"
+    },
+    "snow.npc.smith": {
+      "note": "王铁匠：正用铁钳夹住红热的铁块放进炉里，使一把铁锤（smith.c）；皮围裙；立绘 Muse 2026-11-05",
+      "coat": "886e62", "pants": "16141b", "skin": "e59c74", "hair": "312324",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "apron", "apron_color": "594137", "accent": "51413e", "prop": "hammer", "prop_color": "6b6560",
+      "height": "standard", "build": "heavy"
+    },
+    "snow.npc.keeper": {
+      "note": "庙祝（路人，一类人一套）：七十多岁的老人，佝偻的身影，看着让人心情沉重（keeper.c）；立绘 Muse 2026-11-05",
+      "coat": "625656", "pants": "23212d", "skin": "f0d0ba", "hair": "a09093",
+      "hair_style": "topknot", "headwear": "none", "beard": "long",
+      "waist": "none", "accent": "44353e", "height": "short", "build": "slim"
+    },
+    "snow.npc.drunk": {
+      "note": "醉汉（路人）：喝得醉醺醺的年轻人，带着酒囊（drunk.c；原作 17 岁，立绘画二十出头）；立绘 Muse 2026-11-05",
+      "coat": "f2e3d1", "pants": "8b796c", "skin": "f2d3b8", "hair": "2a2226",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "56484b", "pouch": false, "prop": "gourd", "prop_color": "96684a",
+      "height": "standard", "build": "slim"
+    },
+    "snow.npc.scavenger": {
+      "note": "收破烂的（路人）：自己收破烂、身上也穿得破烂不堪，揣着一本旧书（scavenger.c）；背篓、补丁围裙；立绘 Muse 2026-11-05",
+      "coat": "c9b09f", "pants": "221e29", "skin": "f4dfca", "hair": "221e29",
+      "hair_style": "short", "headwear": "none", "beard": "full",
+      "waist": "apron", "apron_color": "728493", "accent": "473e3d", "prop": "basket_back", "prop_color": "a07c5c",
+      "height": "standard", "build": "standard"
+    },
+    "snow.npc.trainee": {
+      "note": "武馆弟子（路人）：身材高大的汉子，穿麻布衣，正在辛苦地操练（trainee.c）；立绘 Muse 2026-11-05",
+      "coat": "c6ac93", "pants": "947568", "skin": "f4d9c2", "hair": "26202a",
+      "hair_style": "topknot", "hair_tie": "c0a28e", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "654f51", "pouch": false, "height": "tall", "build": "heavy"
+    },
+    "snow.npc.farmer": {
+      "note": "农夫（路人）：面色黝黑，穿蓑衣、草鞋（farmer.c）；立绘 Muse 2026-11-05",
+      "coat": "c4b188", "pants": "514e47", "skin": "b17f4b", "hair": "2d2120",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "none", "accent": "765028", "shoes": "straw", "height": "standard", "build": "standard"
+    },
+    "snow.npc.woodcutter": {
+      "note": "樵夫（路人）：粗壮的大汉，普通樵夫的衣服，手里一把砍柴的斧头（woodcutter.c）；立绘 Muse 2026-11-05",
+      "coat": "c4a594", "pants": "413536", "skin": "f4dcc3", "hair": "2d222a",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "belt", "accent": "46383a", "pouch": false, "prop": "axe", "prop_color": "6b6161",
+      "height": "standard", "build": "heavy"
+    },
+    "snow.npc.traveller.male": {
+      "note": "旅客·男（路人，性别随机：traveller.c 七成男三成女）：来雪亭镇的外地旅客，布衣，斗笠、斜挎包袱；立绘 Muse 2026-11-05",
+      "coat": "716753", "pants": "57443a", "skin": "f5dcc5", "hair": "2d2126",
+      "hair_style": "short", "headwear": "straw_hat", "headwear_color": "c5a588", "beard": "none",
+      "waist": "belt", "accent": "57443a", "pouch": false, "height": "standard", "build": "standard"
+    },
+    "snow.npc.traveller.female": {
+      "note": "旅客·女（路人，性别随机）：来雪亭镇的外地旅客，布衣长裙，斗笠、斜挎包袱；立绘 Muse 2026-11-05",
+      "coat": "8b8568", "pants": "7d6044", "skin": "efc79c", "hair": "47342c",
+      "hair_style": "long", "headwear": "straw_hat", "headwear_color": "b9a76e", "beard": "none",
+      "waist": "belt", "accent": "694e36", "pouch": false, "height": "standard", "build": "slim"
+    },
+    "snow.npc.trav_blade.male": {
+      "note": "带刀旅客·男（路人，性别随机，trav_blade.c 带飞刀）：深色衣、胸前交叉的飞刀带，和普通旅客一眼分得开；立绘 Muse 2026-11-05",
+      "coat": "232936", "pants": "1e212c", "skin": "e8bd8f", "hair": "14161f",
+      "hair_style": "short", "headwear": "straw_hat", "headwear_color": "deb687", "beard": "none",
+      "waist": "belt", "accent": "8f5450", "pouch": false, "height": "standard", "build": "standard"
+    },
+    "snow.npc.trav_blade.female": {
+      "note": "带刀旅客·女（路人，性别随机）：深色衣长裙、交叉的飞刀带；立绘 Muse 2026-11-05",
+      "coat": "1f1e24", "pants": "1a1a1f", "skin": "f2c298", "hair": "1c1a20",
+      "hair_style": "long", "headwear": "straw_hat", "headwear_color": "d9b77c", "beard": "none",
+      "waist": "belt", "accent": "7f553c", "pouch": false, "height": "standard", "build": "slim"
+    },
+    "snow.npc.beggar": {
+      "note": "乞丐（路人）：满脸风霜的老乞丐，揣着一本旧书（beggar.c）；拄棍、补丁围裙；立绘 Muse 2026-11-05",
+      "coat": "c8a496", "pants": "424148", "skin": "e9c9b2", "hair": "4a4443",
+      "hair_style": "long", "headwear": "none", "beard": "full",
+      "waist": "apron", "apron_color": "6e7e8c", "accent": "63666c", "prop": "staff", "prop_color": "8a6a4a",
+      "height": "standard", "build": "slim"
+    }
+  }
+}

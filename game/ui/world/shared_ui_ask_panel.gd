@@ -106,8 +106,9 @@ func open_ask() -> void:
 	if boxed:
 		# Out of the popup: the box is the conversation (DECISIONS「对话框」).
 		_presentation_layout.close_frame(false)
-		_ui.dialogue_box.host(tr(_ui.selection.selected_target.definition().display_name), _ask_panel)
-		_ui.dialogue_box.answer([tr("你可以打听这些事情：")])
+		_ui.dialogue_box.host(tr(_ui.selection.selected_target.definition().display_name), _ask_panel, _ui.selection.selected_target)
+		# The topics' prompt is the player's turn, not the NPC's words.
+		_ui.dialogue_box.answer_as_written([tr("你可以打听这些事情：")])
 		FocusNav.give(FocusNav.first_focusable(_ask_panel, true))
 		return
 	_ui.message_log.open_panel_with_lines(tr("打听 · %s") % tr(_ui.selection.selected_target.definition().display_name), _ask_panel, _ui.selection.selected_npc_askable)

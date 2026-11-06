@@ -12,8 +12,28 @@ extends HBoxContainer
 ## 界面重做 3: the rows are list rows (the marked one a warm block), a thin rule between the
 ## columns, the page's title a heading; the frame's title has the thing's name and, for an
 ## NPC, the fight forecast's word, so 查看 does not open with the name again.
+## 人物立绘 (DECISIONS「人物外观」): on 查看 a person with a picture stands at the popup's right end,
+## whole, at the largest whole multiple of its pixels the popup's height holds.
 
 signal chosen(option: InteractionOption)
+
+## The person's picture, sized by its own minimum (`fit`): ResponsivePanelLayout rewrites every
+## control's custom minimum size from what it first saw, which would undo the fit (and a
+## TextureRect's own minimum size cannot be overridden from a script). Drawn at `fit`, standing
+## on the column's foot.
+class PortraitRect extends Control:
+	var fit := Vector2.ZERO
+	var texture: Texture2D:
+		set(value):
+			texture = value
+			queue_redraw()
+
+	func _get_minimum_size() -> Vector2:
+		return fit
+
+	func _draw() -> void:
+		if texture != null:
+			draw_texture_rect(texture, Rect2(Vector2((size.x - fit.x) / 2.0, size.y - fit.y), fit), false)
 
 const REASON_COLOR: Color = UiPalette.MUTED
 const STATUS_COLOR: Color = UiPalette.GOLD
@@ -40,6 +60,8 @@ var _current: String = ""
 var _looked: bool = false
 ## Set when a page opens (show_page()): a chosen row that opened none is not held down.
 var _page_opened: bool = false
+## The person's whole picture on 查看 (人物立绘), no texture for none.
+var _portrait: PortraitRect
 
 
 func _ready() -> void:
@@ -90,7 +112,44 @@ func _ready() -> void:
 	_held.hide()
 	page.add_child(_held)
 	_mount = _box(page, "Mount")
+	_portrait = PortraitRect.new()
+	_portrait.name = "Portrait"
+	_portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_portrait.size_flags_vertical = Control.SIZE_SHRINK_END
+	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_portrait.hide()
+	add_child(_portrait)
+	resized.connect(_fit_portrait)
 	show_look()
+
+
+## The person's whole picture for 查看 (null: none, the popup is about something else).
+func set_portrait(picture: Texture2D) -> void:
+	_portrait.texture = picture
+	_portrait.visible = picture != null and not page_shown()
+	_fit_portrait()
+
+
+## The picture shown on 查看 now (null for none).
+func portrait() -> Texture2D:
+	return _portrait.texture if _portrait.visible else null
+
+
+## The size the picture is shown at (canvas units).
+func portrait_size() -> Vector2:
+	return _portrait.fit
+
+
+func _fit_portrait() -> void:
+	if _portrait == null or _portrait.texture == null:
+		return
+	var scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
+	var height: float = maxf(size.y, float(PersonPortraits.FULL_SIZE.y) / maxf(scale, 0.001))
+	var fit: Vector2 = PersonPortraits.fitted(PersonPortraits.FULL_SIZE, Vector2(100000.0, height * scale), scale)
+	if fit != _portrait.fit:
+		_portrait.fit = fit
+		_portrait.update_minimum_size()
+		_portrait.queue_redraw()
 
 
 ## Where 查看's details live (hidden): opening them while the popup shows is its 查看.
@@ -116,6 +175,7 @@ func show_look(fresh: bool = false) -> void:
 	_status.visible = _status.get_child_count() > 0
 	_about.visible = not _looked and _about.get_child_count() > 0
 	_look.visible = _looked
+	_portrait.visible = _portrait.texture != null
 	_mark_current()
 
 
@@ -128,6 +188,7 @@ func show_page(title: String) -> void:
 	_status.hide()
 	_about.hide()
 	_look.hide()
+	_portrait.hide()
 	_mount.show()
 	_mark_current()
 

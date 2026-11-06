@@ -68,7 +68,7 @@ func _host_choices(speaker: NpcRuntimeState, text: String, choices: Array[String
 	# TRANSLATORS: the button that leaves a question unanswered (the 拜火祠's 火前问话).
 	_ui.confirm_prompt.ask_choices(TranslationServer.translate(text), choices, "走开")
 	if boxed:
-		_ui.dialogue_box.host(tr(speaker.definition().display_name), _ui.confirm_prompt)
+		_ui.dialogue_box.host(tr(speaker.definition().display_name), _ui.confirm_prompt, speaker)
 		FocusNav.give(FocusNav.first_focusable(_ui.confirm_prompt, true))
 		return
 	# TRANSLATORS: the shared frame's title over a question with several answers.

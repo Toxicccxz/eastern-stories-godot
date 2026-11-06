@@ -1,0 +1,34 @@
+{
+  "people": {
+    "native.npc.bai_daozhang": {
+      "note": "白道长：须眉皆白的老道士，道袍洗得发灰，臂弯里搭一柄拂尘（主线序章）；立绘 Muse 2026-11-05",
+      "coat": "aba09f", "pants": "626b78", "skin": "f4c5ab", "hair": "f5ecdd",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "1e1d24", "beard": "long",
+      "waist": "sash", "prop": "whisk", "prop_color": "eeeae0", "accent": "636c79",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.black_taoist": {
+      "note": "黑衣道士：黑衣黑冠，瘦得颧骨突出，眼神鬼鬼祟祟，抱着石匣（主线序章、第一章）；立绘 Muse 2026-11-05",
+      "coat": "252729", "pants": "0e0e10", "skin": "e3bda0", "hair": "0d0d0f",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "080708", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "27282a", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.black_taoist_pass": {"same_as": "native.npc.black_taoist"},
+    "native.npc.tribute_taoist": {
+      "note": "押车道士：黑衣黑冠，袖子挽到肘上，手里攥一根粗麻绳（主线第三章）；立绘 Muse 2026-11-05",
+      "coat": "2a2832", "pants": "141319", "skin": "ccaf9e", "hair": "15141a",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "26212c", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "29282f", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.liu_anlu_home": {
+      "note": "刘安禄（回到寨里）：雪亭镇那个门房，脱了青布衫，换回一身短打，单刀挂在腰上；立绘 Muse 2026-11-05",
+      "coat": "916e66", "pants": "32303d", "skin": "e9d3c2", "hair": "1d1a23",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "belt",
+      "prop": "sword_waist", "prop_color": "5a4448", "accent": "5a4448", "height": "standard",
+      "build": "slim", "shoes": "dark"
+    },
+    "native.npc.keep_ambusher": {"same_as": "oldpine.npc.bandit_guard"}
+  }
+}
