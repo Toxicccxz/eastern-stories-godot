@@ -12,8 +12,13 @@ extends RefCounted
 ##   back to the hall.
 ## - pull (the 浪人's side): the same way down, then 穿灵 · 拔出来 refused before the 封法, asked first
 ##   after; the sword in hand (no drop), the head awake (the 封坛's second look), 璃虹 gone from her
-##   pillar and fallen beside the 封坛 (the summoned 璃虹), 商玦 gone; the chapter done; a save; back up,
-##   and a blow at one dragon brings all six.
+##   pillar and fallen beside the 封坛 (the summoned 璃虹), 商玦 gone; the chapter not yet done (the night
+##   waits); a save; 璃虹 up the pool with the player and gone to the village. Then (B) the night: the
+##   fishermen gone and one dead on the shore, 湖畔 · 等到天黑 (asked first) and the three bands of 鬼卒
+##   up out of the lake as night falls — the lakeside's on the player at once, the village's mouth and
+##   the paddies walked to — each fought out and its mark; the chapter done, the ninth's stub; 等到天亮
+##   and the burnt things on the stage (the charred roof, the burnt boats and willows: the intact ones
+##   off), 璃虹 in 田老财's 东房 with her word, the farmwife's 你拔的？; a save.
 
 const StoryFixtures := preload("res://tests/support/story_fixtures.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -25,6 +30,9 @@ const FEATHER: StringName = &"native:village/lihong_feather"
 const LIHONG: StringName = &"native.npc.lihong"
 const LIHONG_WEAK: StringName = &"native.npc.lihong_weak"
 const SHANG_JUE: StringName = &"native.npc.shang_jue_lake"
+const LIHONG_ASHORE: StringName = &"native.npc.lihong_ashore"
+const HELL_RUNNER: StringName = &"native.npc.hell_runner"
+const BODY: StringName = &"native:village/body_fisher"
 const COLD_LINE: String = "寒气刺骨！"
 const HELD_LINE: String = "寒气从冰里渗上来。你运起内力顶住了。"
 
@@ -90,10 +98,19 @@ func _test_data() -> void:
 	_check(staged != null and staged.present.key == "看过封坛" and staged.until.key == "湖底一章" and catalog.spawn(&"native.seal_altar.lihong_weak").summoned, "商玦 on the stage from the dive to the chapter's end; the fallen 璃虹 summoned")
 	_check(catalog.portal(&"village.valley1.eastdown").set_mark == "到了冰龙厅", "the valley's way down marks the hall too")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter8")
-	_check(quest != null and quest.steps.size() == 5 and quest.steps[0].condition.key == "下了湖底" and quest.steps[1].condition.key == "到了冰龙厅" and quest.steps[2].condition.key == "看过封坛" and quest.steps[3].condition.key == "璃虹说了封法" and quest.steps[4].options.size() == 2 and quest.steps[4].options[0].condition.key == "拔了穿灵" and quest.steps[4].options[1].condition.key == "查清了封物" and quest.reward.milestone and quest.reward.marks == ["湖底一章"], "the chapter: the lake, the hall, the pool, the 封法, the choice; the milestone")
+	_check(quest != null and quest.steps.size() == 6 and quest.steps[0].condition.key == "下了湖底" and quest.steps[1].condition.key == "到了冰龙厅" and quest.steps[2].condition.key == "看过封坛" and quest.steps[3].condition.key == "璃虹说了封法" and quest.steps[4].options.size() == 2 and quest.steps[4].options[0].condition.key == "拔了穿灵" and quest.steps[4].options[1].condition.key == "查清了封物" and quest.steps[5].only_after == &"pull" and quest.steps[5].condition.parts.size() == 3 and quest.reward.milestone and quest.reward.marks == ["湖底一章"], "the chapter: the lake, the hall, the pool, the 封法, the choice, the night after the sword; the milestone")
+	for id: StringName in [&"native.lakeside.hell_runners", &"native.road1.hell_runners", &"native.field.hell_runners"]:
+		var band: NpcSpawnDefinition = catalog.spawn(id)
+		_check(band != null and band.spawn_point_ids().size() == 3 and band.present != null and band.present.parts.size() == 2 and band.until != null and band.until.key == band.cleared_mark and band.cleared_mark.ends_with("的鬼卒退了"), "%s: three 鬼卒 the night after the sword, until beaten" % id)
+	_check(catalog.spawn(&"village.main.lakeside.fishers").until != null and catalog.spawn(&"village.main.lakeside.fishers").until.key == "拔了穿灵" and catalog.item_spawn(&"native.lakeside.body_fisher") != null and catalog.item(BODY) != null and catalog.item(BODY).no_get, "the fishermen gone once the sword is out, one dead on the shore")
+	_check(catalog.spawn(&"native.lordhouse2.lihong") != null and catalog.spawn(&"native.lordhouse2.lihong").present.key == "拔了穿灵" and catalog.npc(LIHONG_ASHORE) != null and catalog.npc(LIHONG_ASHORE).hooks().calls[0].act.npc_in == &"village.lordhouse2", "璃虹 ashore in 田老财's 东房 from the sword on")
+	var wait: ServiceDefinition = catalog.service(&"village.lakeside.wait")
+	_check(wait != null and wait.act.verb == "等到天黑" and wait.act.acts.size() == 5 and wait.act.acts[0].not_mark == "拔了穿灵" and wait.act.acts[1].marks.size() == 3 and wait.act.acts[1].phase == [&"night", &"midnight"] and wait.act.acts[4].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"night"]), "湖畔 · 等到天黑: nothing before the sword; 等到天亮 after the night; the wait to night")
+	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
+	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[0].act.npc_in == &"village.lakeside" and luca.hooks().calls[0].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[1].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
 	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() == 1 and ninth.steps[0].condition.key == "进了皇城" and ninth.steps[0].target.zone_id == &"city.shenwumen", "the ninth chapter's stub: 皇城")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_CH8_A_V1, "第八章 A's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_CH8_B_V1, "第八章 B's world revision is current")
 
 
 ## Down to the 封坛 from the lake: the dive, the cold (`robe`: worn through the cave, nothing felt),
@@ -314,35 +331,132 @@ func _test_pull(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(weak != null and chamber.select_npc(weak.character_id) and chamber.ask_selected("上岸").any(func(line: String) -> bool: return line.contains("带我上岸")), "%s: 璃虹: 带我上岸" % ledger)
 	_check(chamber.drop_item(_held(session, SWORD)).lines.any(func(line: String) -> bool: return line.contains("不能丢")), "%s: 穿灵 is not dropped" % ledger)
 	session.record_journal()
-	_check(StoryQuestLog.is_done(state, quest) and state.marks.get("湖底一章", 0) == 1 and StoryQuestLog.took(state, quest, &"pull") and state.deeds.any(func(deed: DeedLog.Deed) -> bool: return deed.did.contains("拔出了穿灵")), "%s: the chapter done, the deed" % ledger)
-	_check(StoryQuestLog.is_active(state, GameContent.catalog().story_quest(&"main.chapter9")), "%s: the ninth chapter's stub open" % ledger)
+	_check(not StoryQuestLog.is_done(state, quest) and StoryQuestLog.took(state, quest, &"pull") and state.deeds.any(func(deed: DeedLog.Deed) -> bool: return deed.did.contains("拔出了穿灵")) and StoryQuestLog.current_step(state, quest).step_id == &"night", "%s: the deed; the chapter waits for the night (B)" % ledger)
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	_check(snapshot != null, "%s: a save with the sword" % ledger)
-	# Back up: a blow at one guardian brings all six.
+	# Up the pool with 璃虹, who goes ashore ahead (B: to 田老财's 东房).
 	var up: ActService = chamber.service(&"village.seal_altar.pool") as ActService
 	_check(up != null and await MapPlaces.drive(tree, chamber, MapPlaces.service_spot(chamber, &"village.seal_altar.pool")) and up.in_reach(), "%s: 潭口" % ledger)
 	up.interact()
 	await _settle(tree)
 	await _settle(tree)
 	var cave: WorldMapController = session.active_map() as WorldMapController
-	_check(cave.map_id() == &"village.icecave", "%s: back in the hall" % ledger)
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var first: NpcRuntimeState = MapPlaces.npc_at(session, &"village.lakebottom2.dragon.6")
-	_check(first != null and await MapPlaces.drive(tree, cave, MapPlaces.spot(cave, &"village.lakebottom2", cave.runtime_body_for_character(first.character_id).global_position + Vector2(70, 0), 48.0)) and cave.select_npc(first.character_id) and not coordinator.has_active_encounter(), "%s: beside a dragon, no fight" % ledger)
-	cave.attack_selected()
-	for _frame: int in range(6):
-		await tree.physics_frame
-		cave.hostilities.process_pending_aggression()
-		if coordinator.has_active_encounter():
-			break
-	var dragons: int = 0
-	if coordinator.has_active_encounter():
-		for participant: CombatParticipant in coordinator.active_encounter().participants():
-			var npc: NpcRuntimeState = cave.find_resident_npc(participant.participant_id)
-			if npc != null and npc.definition().definition_id == &"village.npc.dragon":
-				dragons += 1
-	_check(dragons == 6, "%s: struck, all six at once: %d" % [ledger, dragons])
+	_check(cave.map_id() == &"village.icecave" and ui.log_lines().any(func(line: String) -> bool: return line.contains("到人家里去")) and _count_in(session, &"village.seal_altar", LIHONG_WEAK) == 0, "%s: back in the hall, 璃虹 gone ashore ahead" % ledger)
+	await _test_night(tree, session, ledger)
 
+
+## 第八章 B: the night after the sword, from the lakeside (TEST-ONLY: the player set down on the shore).
+func _test_night(tree: SceneTree, session: WorldSessionController, ledger: String) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var ui: SharedGameplayUI = session.shared_ui()
+	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter8")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	session.record_journal()
+	_check(not StoryQuestLog.is_done(state, quest) and StoryQuestLog.current_step(state, quest).step_id == &"night" and StoryQuestLog.objective(state, quests).contains("守住村子"), "%s: the night waits: 守住村子" % ledger)
+	session.day_clock().set_day_seconds(36000) # TEST-ONLY: morning
+	var village: WorldMapController = MapPlaces.enter(session, &"village.lakeside", &"village.lakeside.boat_return") # TEST-ONLY: ashore
+	await _settle(tree)
+	_check(village != null and village.map_id() == &"village.main", "%s: ashore" % ledger)
+	_check(_count_in(session, &"village.lakeside", &"village.npc.fisher") == 0 and not village.floor_item_of(BODY, &"village.lakeside").is_empty(), "%s: the fishermen gone, one dead on the shore" % ledger)
+	_check(_count_in(session, &"village.lakeside", HELL_RUNNER) == 0 and _count_in(session, &"village.road1", HELL_RUNNER) == 0 and _count_in(session, &"village.field", HELL_RUNNER) == 0, "%s: by day no 鬼卒" % ledger)
+	_check(_staged(village, "skiff", true) == 2 and _staged(village, "skiff", false) == 0 and _staged(village, "tree", false) == 0, "%s: the boats whole, the willows green (the burnt ones off the stage)" % ledger)
+	var wait: ActService = village.service(&"village.lakeside.wait") as ActService
+	_check(wait != null and await MapPlaces.drive(tree, village, MapPlaces.service_spot(village, &"village.lakeside.wait")) and wait.in_reach() and wait.verb() == "等到天黑", "%s: 湖畔 · 等到天黑" % ledger)
+	state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: nobody dies here
+	state.essence = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
+	state.spirit = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
+	for skill_id: StringName in [&"sword", &"parry", &"dodge", &"unarmed"]:
+		state.skills.set_raw_level(skill_id, 150) # TEST-ONLY: an eighth-chapter hand, so three bands fall in a while
+	_check(session.wield_player_item(_held(session, SWORD)).succeeded, "%s: 穿灵 in hand" % ledger)
+	wait.interact()
+	await _settle(tree)
+	_check(ui.is_asking() and ui.confirm_prompt.confirm_button.text == "等到天黑", "%s: asked first" % ledger)
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	_check(session.day_phase_id() in [&"night", &"midnight"] and ui.log_lines().any(func(line: String) -> bool: return line.contains("鬼卒从湖里爬上来了")), "%s: night falls: 鬼卒从湖里爬上来了 (%s)" % [ledger, session.day_phase_id()])
+	_check(_count_in(session, &"village.lakeside", HELL_RUNNER) == 3 and _count_in(session, &"village.road1", HELL_RUNNER) == 3 and _count_in(session, &"village.field", HELL_RUNNER) == 3, "%s: three bands up out of the lake as the phase turns" % ledger)
+	for zone_id: StringName in [&"village.lakeside", &"village.road1", &"village.field"]:
+		if zone_id != &"village.lakeside":
+			_check(await MapPlaces.drive_to_zone(tree, village, zone_id), "%s: to %s" % [ledger, zone_id])
+		for _frame: int in range(12):
+			await tree.physics_frame
+			village.hostilities.process_pending_aggression()
+			if coordinator.has_active_encounter():
+				break
+		if not coordinator.has_active_encounter():
+			var band: NpcRuntimeState = null
+			for npc: NpcRuntimeState in village.npc_runtimes():
+				if npc.definition().definition_id == HELL_RUNNER and npc.exists_in_map and npc.world_location().zone_id == zone_id:
+					band = npc
+					break
+			if band != null and await MapPlaces.drive(tree, village, MapPlaces.spot(village, zone_id, village.runtime_body_for_character(band.character_id).global_position + Vector2(-60, 0), 48.0)) and village.select_npc(band.character_id):
+				village.attack_selected()
+				for _frame: int in range(6):
+					await tree.physics_frame
+					village.hostilities.process_pending_aggression()
+					if coordinator.has_active_encounter():
+						break
+		_check(coordinator.has_active_encounter(), "%s: the band at %s falls on the player" % [ledger, zone_id])
+		coordinator.set_manual_turns(false) # TEST-ONLY: the fight runs on without the player's hand
+		var rounds: int = 0
+		while coordinator.has_active_encounter() and rounds < 6000:
+			coordinator.advance_scheduler(1.0)
+			rounds += 1
+		ui.dismiss_current_panel()
+		await _settle(tree)
+		_check(not coordinator.has_active_encounter() and _count_in(session, zone_id, HELL_RUNNER) == 0, "%s: the band at %s fought out in %d rounds" % [ledger, zone_id, rounds])
+	session.record_journal()
+	_check(state.marks.get("湖畔的鬼卒退了", 0) == 1 and state.marks.get("村口的鬼卒退了", 0) == 1 and state.marks.get("稻田的鬼卒退了", 0) == 1, "%s: the three marks" % ledger)
+	_check(StoryQuestLog.is_done(state, quest) and state.marks.get("湖底一章", 0) == 1 and StoryQuestLog.took(state, quest, &"pull") and state.deeds.any(func(deed: DeedLog.Deed) -> bool: return deed.did.contains("拔出了穿灵")), "%s: the chapter done after the night, the deed" % ledger)
+	_check(StoryQuestLog.is_active(state, GameContent.catalog().story_quest(&"main.chapter9")), "%s: the ninth chapter's stub open" % ledger)
+	# Dawn: the burnt things on the stage.
+	_check(await MapPlaces.drive(tree, village, MapPlaces.service_spot(village, &"village.lakeside.wait")) and wait.in_reach(), "%s: back at the shore" % ledger)
+	wait.interact()
+	await _settle(tree)
+	_check(ui.is_asking() and ui.confirm_prompt.confirm_button.text == "等到天亮", "%s: 等到天亮 asked first" % ledger)
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	_check(session.day_phase_id() == &"dawn" and ui.log_lines().any(func(line: String) -> bool: return line.contains("它每一夜都在长")), "%s: dawn: 它每一夜都在长" % ledger)
+	_check(_staged(village, "skiff", true) == 0 and _staged(village, "skiff", false) == 2 and _staged(village, "tree", false) == 2 and _staged(village, "tree", true) == 0, "%s: the burnt boats and willows on the stage, the whole ones off" % ledger)
+	wait.interact()
+	await _settle(tree)
+	_check(not ui.is_asking() and ui.log_lines().any(func(line: String) -> bool: return line.contains("村子烧了一半")), "%s: nothing more to wait for" % ledger)
+	# 璃虹 in 田老财's 东房, the farmwife's word.
+	var lord: WorldMapController = MapPlaces.enter(session, &"village.lordhouse2", &"village.lordhouse2.lihong.1") # TEST-ONLY: into the 东房
+	await _settle(tree)
+	_check(lord != null and _count_in(session, &"village.lordhouse2", LIHONG_ASHORE) == 1, "%s: 璃虹 in the 东房" % ledger)
+	for second: int in 2:
+		session.advance_npc_heartbeat(1.0)
+	await _settle(tree)
+	_check(state.marks.get("璃虹上岸见过你", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("别回头看我")), "%s: 璃虹: 别回头看我" % ledger)
+	var ashore: NpcRuntimeState = MapPlaces.npc_at(session, &"village.lordhouse2.lihong.1")
+	_check(ashore != null and lord.select_npc(ashore.character_id) and lord.ask_selected("它在长").any(func(line: String) -> bool: return line.contains("它在等头")), "%s: 问 它在长" % ledger)
+	var farm: WorldMapController = MapPlaces.enter(session, &"village.fmhousback", &"village.fmhousback.shitou.1") # TEST-ONLY: the farmhouse yard
+	await _settle(tree)
+	for second: int in 2:
+		session.advance_npc_heartbeat(1.0)
+	await _settle(tree)
+	_check(farm != null and state.marks.get("农妇问过你", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("你拔的")), "%s: the farmwife: 你拔的？" % ledger)
+	var woman: NpcRuntimeState = MapPlaces.npc_at(session, &"village.fmhousback.woman1.1")
+	_check(woman != null and farm.select_npc(woman.character_id) and farm.ask_selected("鬼卒").any(func(line: String) -> bool: return line.contains("钢叉")), "%s: 问 鬼卒" % ledger)
+	_check(Work.capture(session) != null, "%s: a save after the night" % ledger)
+
+
+## The scene's staged furnishings of `kind` now on (`on` true) or off the stage.
+func _staged(map: WorldMapController, kind: String, whole: bool) -> int:
+	var found: int = 0
+	var furnishings: Node = map.get_node_or_null("Furnishings")
+	if furnishings == null:
+		return 0
+	for node: Node in furnishings.get_children():
+		var look: Dictionary = node.get_meta("look", {})
+		if String(look.get("kind", "")) != kind or not WorldStoryPresence.is_staged_look(look):
+			continue
+		var intact: bool = not look.get("burnt", false) and not look.get("charred", false)
+		if intact == whole and not node.get_meta("staged_off", false):
+			found += 1
+	return found
 
 func _held(session: WorldSessionController, definition_id: StringName) -> StringName:
 	for row: PlayerInventoryRowProjection in session.player_inventory_rows():

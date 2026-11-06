@@ -168,8 +168,12 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    ashore): A done (DECISIONS「第八章 A」「寒气」「冰龙守者」: the dive, the 玄冰岩洞's cold held off with 内力 or spared by
    the 寒於宝衣, the 冰壁刻字, the six dragons as guardians, the pool down to the new 冰下封坛 with the black altar, the head,
    the hilt and 璃虹 in her pillar, 商玦 come down to urge the sword, the 铜牒 recited to her for the 封法, the choice — pull
-   or keep — ending the chapter either way, the ninth chapter's stub); next B 拔剑的当夜 (the stage-prop mechanism, the
-   three bands of 鬼卒 by night, the fisherman dead, half the village burnt, the fallen 璃虹 ashore, the farm wife's new word).
+   or keep — ending the chapter either way, the ninth chapter's stub); B done (DECISIONS「第八章 B」「舞台道具」: the night after
+   the sword — 璃虹 ashore to 田老财's 东房, the fishermen gone and one dead on the shore, 等到天黑 at the lakeside and three bands
+   of 鬼卒 up out of the lake as night falls, the dawn with half the village burnt by stage props — the charred roof, the burnt
+   boats and willows — the farm wife's 你拔的？, 卢卡 stopping at the shore and taking up his sword by night; the generic stage-prop
+   mechanism and the stage re-judged as the day's phase turns). The eighth chapter is complete; next the ninth 原令 (皇城, a new
+   region, 剧情总纲 §3 第九章, §6 皇城卡): its plan first.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

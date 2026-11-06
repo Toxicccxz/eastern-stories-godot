@@ -125,6 +125,7 @@
     {"rect": [2592, 1216, 2720, 1328], "portals": [], "construction": "earth", "bands": ["a08a66", "94805e", "aa9470"], "wall": "a08a66", "timber": "6a4e38", "roof": "a89a5a", "roof_tiles": "thatch", "straw": ["b8a862", "a89a5a", "c4b470", "9a8c52"], "height": 2.1, "roof_form": "gable", "ridge": "z", "rise": 1.0, "porch": "none", "goods": "none", "lanterns": false, "bay": 4, "foundation": 0.2}
   ],
   "props": [
+    {"kind": "burnt_roof", "at": [1328, 768], "size": [288, 320], "height": 2.9, "rise": 1.6, "ridge": "x", "present": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}, "note": "第八章 B (DECISIONS「舞台道具」): the farmhouse's thatch after the night the 鬼卒 came — what the fire left, over the standing house"},
     {"kind": "far_peak", "at": [-1180, 900], "size": [960, 960], "height": 15, "colors": ["6a8a90", "74949a", "7e9ea2", "648288"], "note": "lake.c: 西面远处是朦胧的群山"},
     {"kind": "far_peak", "at": [-1320, 1560], "size": [1100, 1100], "height": 18, "colors": ["6a8a90", "74949a", "7e9ea2", "648288"], "note": "road5.c: 西面遥远处是连绵的群山"},
     {"kind": "far_peak", "at": [-1120, 2180], "size": [900, 900], "height": 14, "colors": ["6a8a90", "74949a", "7e9ea2", "648288"]},

@@ -59,6 +59,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"carved_wall": _carved_wall(w)
 		"vent": _vent(w,d)
 		"flames": _flames(w,d)
+		"burnt_roof": _burnt_roof(w,d)
 		"quarry_face": _quarry_face(w,d)
 		"bagua": _bagua()
 		"candlestick": _candlestick()
@@ -976,6 +977,49 @@ func _stuck_swords(w: float, d: float) -> void:
 ## 火光冲天 (eight5.c): fire standing up out of scorched ground, tongues of several heights
 ## jumping, embers glowing in the black, its light wavering over everything near (`height`
 ## of the tallest tongue, `count` of tongues).
+## A thatched roof after a fire (第八章 B, DECISIONS「舞台道具」: the farmwife's house the night the
+## 鬼卒 came): drawn over the standing house at its `height`, a charred gable of what straw is left
+## (`rise` to the ridge, `ridge` "x" along the width or "z"), holes burnt through it, the blackened
+## rafters standing out of them, soot down the eaves and ash heaped at the foot. `colors`: the char.
+func _burnt_roof(w: float, d: float) -> void:
+	var char_colors: Array = _colors("colors",["1a1614","24201c","0e0c0a","302a26"])
+	var base: float = float(data.get("height",2.9))
+	var rise: float = float(data.get("rise",1.6))
+	var along_x: bool = String(data.get("ridge","x")) == "x"
+	var span: float = d if along_x else w
+	var length: float = w if along_x else d
+	var slope: float = sqrt(rise*rise+(span/2)*(span/2))
+	var pitch: float = atan2(rise,span/2)
+	for side: float in [-1.0,1.0]:
+		var pieces: int = maxi(3,int(length/1.2))
+		for i: int in pieces:
+			# Gaps where the straw burnt through: every third piece gone, the rest sagging.
+			if (i+int(side>0))%3 == 1:
+				continue
+			var u: float = -length/2+(i+0.5)*length/pieces
+			var at := Vector3(u if along_x else side*span/4, base+rise/2-0.08, side*span/4 if along_x else u)
+			var size := Vector3(length/pieces*0.92, 0.12, slope*0.94) if along_x else Vector3(slope*0.94, 0.12, length/pieces*0.92)
+			var tilt := Vector3(side*pitch,0,0) if along_x else Vector3(0,0,-side*pitch)
+			s.tilted_box(root,at,size,_pick(char_colors),tilt)
+	# The rafters: the beams the straw hung on, bare and black, a few standing askew.
+	var rafters: int = maxi(4,int(length/0.9))
+	for i: int in rafters:
+		var u: float = -length/2+0.3+i*(length-0.6)/maxf(1.0,rafters-1)
+		for side: float in [-1.0,1.0]:
+			var at := Vector3(u if along_x else side*span/4, base+rise/2+0.02, side*span/4 if along_x else u)
+			var size := Vector3(0.1,0.1,slope) if along_x else Vector3(slope,0.1,0.1)
+			var tilt := Vector3(side*pitch,0,rng.randf_range(-0.08,0.08)) if along_x else Vector3(rng.randf_range(-0.08,0.08),0,-side*pitch)
+			s.tilted_box(root,at,size,String(char_colors[3]),tilt)
+	# The ridge beam, and one end of it fallen in.
+	s.tilted_box(root,Vector3(0,base+rise+0.04,0),Vector3(length*0.7,0.14,0.14) if along_x else Vector3(0.14,0.14,length*0.7),String(char_colors[0]),Vector3(0,0,0.06) if along_x else Vector3(0.06,0,0))
+	# Soot down the eaves, ash at the foot.
+	for side: float in [-1.0,1.0]:
+		var at := Vector3(0,base-0.3,side*span/2) if along_x else Vector3(side*span/2,base-0.3,0)
+		s.box(root,at,Vector3(length*0.96,0.6,0.06) if along_x else Vector3(0.06,0.6,length*0.96),"141210")
+	for heap: int in 6:
+		s.box(root,Vector3(rng.randf_range(-0.45,0.45)*w,0.08,rng.randf_range(-0.45,0.45)*d),Vector3(rng.randf_range(0.5,1.1),0.16,rng.randf_range(0.4,0.9)),_pick(["2a2420","3a3430","1e1a18"]))
+
+
 func _flames(w: float, d: float) -> void:
 	s.box(root,Vector3(0,0.02,0),Vector3(w*0.9,0.04,d*0.9),"1f1a17")
 	for ember: int in 9:

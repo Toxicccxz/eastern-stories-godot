@@ -390,7 +390,7 @@
 		},
 		{
 			"id": "native.npc.luca",
-			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ⑤「马市上一个大秦剑手卢卡卖剑换路费」, 第七章 ①②, §6 关北卡「卢卡（过客）」; doc/help/theme:3「西方还在蛮荒时代」— an exile and a sword for hire, no envoy; DECISIONS「关北 A」) — 续写; his Chinese is short and clipped, never wrong (剧情总纲 §10); 番坊 A: at 铁盾会's gate once 关北 is done, his lines there (DECISIONS「番坊 A」); 番坊 C: on the quay with one line once the 大秦人 are cleared (owner Q3; DECISIONS「番坊 C」); 番坊 D: a companion once 冯禄 is seen off (跟我走: follows every way, fights beside the player; 等我 stops him), to the lake's bottom (DECISIONS「番坊 D」)",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ⑤「马市上一个大秦剑手卢卡卖剑换路费」, 第七章 ①②, §6 关北卡「卢卡（过客）」; doc/help/theme:3「西方还在蛮荒时代」— an exile and a sword for hire, no envoy; DECISIONS「关北 A」) — 续写; his Chinese is short and clipped, never wrong (剧情总纲 §10); 番坊 A: at 铁盾会's gate once 关北 is done, his lines there (DECISIONS「番坊 A」); 番坊 C: on the quay with one line once the 大秦人 are cleared (owner Q3; DECISIONS「番坊 C」); 番坊 D: a companion once 冯禄 is seen off (跟我走: follows every way, fights beside the player; 等我 stops him), to the lake's bottom (DECISIONS「番坊 D」); 第八章 B: a 大秦人 cannot swim — he stops at the lakeside (owner Q3) and takes up his sword again the night the 鬼卒 come (DECISIONS「第八章 B」)",
 			"name": "卢卡",
 			"aliases": [
 				"luca",
@@ -726,6 +726,8 @@
 				}
 			],
 			"calls": [
+				{"reaction": true, "npc_in": "village.lakeside", "mark": "读过铜牒", "not_mark": "卢卡在湖畔等", "steps": [{"emote": "看了一眼湖水，停住了脚。"}, {"say": "大秦人不会水。我在岸上等你。那东西上来了，我在这儿。"}, {"npc_mood": "waiting"}, {"unfollow": true}, {"mark": "卢卡在湖畔等"}]},
+				{"reaction": true, "npc_in": "village.lakeside", "mark": "拔了穿灵", "not_mark": "卢卡守了湖畔", "steps": [{"emote": "站了起来，短剑出了鞘。"}, {"say": "上来了。我说过我在这儿。"}, {"npc_mood": "going"}, {"mark": "卢卡守了湖畔"}]},
 				{
 					"after": 0,
 					"reaction": true,

@@ -115,6 +115,7 @@ func _build() -> void:
 		map.session.set_world_building(true)
 	layout = JSON.parse_string(FileAccess.get_file_as_string(layout_path))
 	layout["flora"] = VoxelMapGeometry.merge_flora(_region_file("flora.json"),layout.get("flora",{}))
+	_judge_config_props()
 	world = Node3D.new()
 	world.name = "VoxelWorld"
 	add_child(world)
@@ -159,6 +160,25 @@ func _build() -> void:
 ## bodies or the save changes. The next _process() on this map builds it again as at first.
 ## A build under way stops with it (the map left the tree meanwhile): it waits on the geometry,
 ## which goes too, and the next _process() here begins again.
+## The config's own staged props (DECISIONS「舞台道具」) judged against the player before the build.
+func _judge_config_props() -> void:
+	if map == null or map.session == null or map.session.player_runtime() == null:
+		return
+	var session: WorldSessionController = map.session
+	var player: WorldPlayerRuntimeState = session.player_runtime() as WorldPlayerRuntimeState
+	for prop: Dictionary in layout.get("props",[]):
+		if WorldStoryPresence.is_staged_look(prop):
+			prop["staged_off"] = not WorldStoryPresence.look_on_stage(prop,player,session.player_held_item_ids(),session.player_worn_item_ids(),session.day_phase_id())
+
+## The stage judged again (WorldStoryPresence.stage()): each staged prop shown or hidden as it now stands.
+func restage() -> void:
+	if not _built or geometry == null or map == null or map.session == null or map.session.player_runtime() == null:
+		return
+	var session: WorldSessionController = map.session
+	var player: WorldPlayerRuntimeState = session.player_runtime() as WorldPlayerRuntimeState
+	for entry: Dictionary in geometry.staged_props:
+		(entry["node"] as Node3D).visible = WorldStoryPresence.look_on_stage(entry["look"],player,session.player_held_item_ids(),session.player_worn_item_ids(),session.day_phase_id())
+
 func release_world() -> void:
 	if not _built and not _building:
 		return

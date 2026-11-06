@@ -62,6 +62,9 @@ var side_walls: Array[Node3D] = []
 var _side_high_walls: Array[Node3D] = []
 var mounted_props: Array[Dictionary] = []
 var passage_props: Array[Dictionary] = []
+## Props on the stage only sometimes (`present` / `until` in their look, DECISIONS「舞台道具」): each
+## a node of its own, shown or hidden as the stage is judged (WorldVoxelView.restage()).
+var staged_props: Array[Dictionary] = []
 var palette: Dictionary = {}
 ## Walls of another stuff inside rects (layout `wall_looks`): "rock" (a room built against
 ## the mountain) or "earth" (土墙), with their colours.
@@ -321,6 +324,8 @@ func sync_passages(map: WorldMapController) -> void:
 static func furnishing(node: Node2D) -> Dictionary:
 	var data: Dictionary = (node.get_meta("look") as Dictionary).duplicate()
 	data["at"] = [node.global_position.x,node.global_position.y]
+	if node.has_meta("staged_off"):
+		data["staged_off"] = node.get_meta("staged_off")
 	if not data.has("size"):
 		var box: Vector2 = node.get_meta("footprint")
 		var turned: bool = posmod(roundi(float(data.get("rotation",0))),180)==90
@@ -1160,9 +1165,15 @@ func _prop(data: Dictionary) -> void:
 	var d: float = float(size[1])/UNIT
 	# A prop that never fades, hides or moves as a whole batches with its neighbours (its
 	# swaying, glowing and smoking parts are nodes of their own and stay so).
-	var shown_alone: bool = data.get("occludes",false) or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
+	var staged: bool = data.has("present") or data.has("until")
+	var shown_alone: bool = staged or data.get("occludes",false) or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
 	if not shown_alone:
 		shapes.merge(root,_static_chunk(at))
+	if staged:
+		# Judged against the player before the build (WorldStoryPresence); with nobody to judge for
+		# (the 沙盘's bake, the preview) what waits for a `present` is off, what lasts `until` is on.
+		root.visible = not data.get("staged_off",data.has("present"))
+		staged_props.append({"node":root,"look":data})
 	if _draw_kind(shapes,root,data,w,d):
 		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
 			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})
