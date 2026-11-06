@@ -138,6 +138,9 @@ var _combat_rules: CombatPowerRules = CombatPowerRules.classic()
 ## 战斗决策层 1B (DECISIONS「战斗决策」): the decision layer's knobs (CombatDecisionRules), ES2's
 ## auto-fight when left out.
 var _decision_rules: CombatDecisionRules = CombatDecisionRules.classic()
+## 战斗拍数 A (DECISIONS「战斗拍数」): the beats of a round (CombatBeatRules), ES2's one beat when
+## left out.
+var _beat_rules: CombatBeatRules = CombatBeatRules.classic()
 var _combat_forecast: bool = false
 var _es2_npc_values: bool = true
 var _death_exp_percent: int = ES2_DEATH_EXP_PERCENT
@@ -346,6 +349,7 @@ func copy() -> PacingDefinition:
 	record.with_story(_story_parley, _bury_always_rewards)
 	record.with_combat(_combat_rules, _combat_forecast, _es2_npc_values)
 	record.with_decisions(_decision_rules)
+	record.with_beats(_beat_rules)
 	record.with_death(_death_exp_percent, _death_keeps_potential, _death_keeps_skills, _player_corpse_stays)
 	record.with_autosave(_autosave_min_seconds)
 	record.with_stats_display(_stats_appear_when_used)
@@ -399,6 +403,17 @@ func decision_rules() -> CombatDecisionRules:
 ## This record with the decision knobs set (tests, PacePresets, and from_record()).
 func with_decisions(rules: CombatDecisionRules) -> PacingDefinition:
 	_decision_rules = rules.duplicate_snapshot() if rules != null else CombatDecisionRules.classic()
+	return self
+
+
+## The beats of a round (a snapshot; ES2's one beat when none were set).
+func beat_rules() -> CombatBeatRules:
+	return _beat_rules.duplicate_snapshot()
+
+
+## This record with the beat knobs set (tests, PacePresets, and from_record()).
+func with_beats(rules: CombatBeatRules) -> PacingDefinition:
+	_beat_rules = rules.duplicate_snapshot() if rules != null else CombatBeatRules.classic()
 	return self
 
 
@@ -526,6 +541,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false))
 	definition.with_combat(CombatPowerRules.from_record(reader), reader.boolean("combat_forecast", false), reader.boolean("es2_npc_values", true))
 	definition.with_decisions(CombatDecisionRules.from_record(reader))
+	definition.with_beats(CombatBeatRules.from_record(reader))
 	definition.with_death(reader.integer("death_exp_percent", ES2_DEATH_EXP_PERCENT), reader.boolean("death_keeps_potential", false), reader.boolean("death_keeps_skills", false), reader.boolean("player_corpse_stays", false))
 	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
 	definition.with_stats_display(reader.boolean("stats_appear_when_used", false))
