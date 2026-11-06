@@ -60,6 +60,9 @@ var scribe_functions: Array[StringName] = []
 ## The 神通 its conjure_magic_file() reaches (SpecialFunctions.CONJURES ids).
 var conjure_functions: Array[StringName] = []
 var _valid_enabled_uses: Array[StringName] = []
+## 战斗拍数 A (DECISIONS「战斗拍数」): how this school wins its third beat and what it locks
+## (`skeleton`); null: only the round's base beats.
+var skeleton: CombatSchoolSkeleton = null
 var _actions: Array[CombatActionDefinition] = []
 var _practice: PracticePolicy
 ## valid_learn()'s notify_fail() lines by the rule that refused (VALID_LEARN_KEYS).
@@ -254,6 +257,12 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		definition._actions.append(CombatActionDefinition.from_record(action, id_prefix))
 	if not definition._actions.is_empty() and not CombatActionSet.new(definition._actions).is_valid():
 		reader.fail("actions", "action IDs must be unique")
+	var skeleton_reader: ContentRecordReader = reader.child("skeleton")
+	if skeleton_reader != null:
+		var action_ids: Array[StringName] = []
+		for action: CombatActionDefinition in definition._actions:
+			action_ids.append(action.action_id)
+		definition.skeleton = CombatSchoolSkeleton.from_record(skeleton_reader, definition.skill_id, id_prefix, action_ids)
 	if not kinds.has(kind_text):
 		reader.fail("kind", "expected basic or specialized")
 	if not types.has(type_text):

@@ -68,6 +68,7 @@
 			]
 		},
 		"oldpine.npc.bandit_leader": {
+			"beats": 2,
 			"attitude": "heroism",
 			"bellicosity": 0,
 			"capabilities": [],
@@ -78,6 +79,7 @@
 			}
 		},
 		"oldpine.npc.bandit_commander": {
+			"beats": 2,
 			"attitude": "heroism",
 			"bellicosity": 0,
 			"capabilities": [],
