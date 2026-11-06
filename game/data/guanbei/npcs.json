@@ -390,7 +390,7 @@
 		},
 		{
 			"id": "native.npc.luca",
-			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ⑤「马市上一个大秦剑手卢卡卖剑换路费」, 第七章 ①②, §6 关北卡「卢卡（过客）」; doc/help/theme:3「西方还在蛮荒时代」— an exile and a sword for hire, no envoy; DECISIONS「关北 A」) — 续写; his Chinese is short and clipped, never wrong (剧情总纲 §10); 番坊 A: at 铁盾会's gate once 关北 is done, his lines there (DECISIONS「番坊 A」)",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ⑤「马市上一个大秦剑手卢卡卖剑换路费」, 第七章 ①②, §6 关北卡「卢卡（过客）」; doc/help/theme:3「西方还在蛮荒时代」— an exile and a sword for hire, no envoy; DECISIONS「关北 A」) — 续写; his Chinese is short and clipped, never wrong (剧情总纲 §10); 番坊 A: at 铁盾会's gate once 关北 is done, his lines there (DECISIONS「番坊 A」); 番坊 C: on the quay with one line once the 大秦人 are cleared (owner Q3; DECISIONS「番坊 C」)",
 			"name": "卢卡",
 			"aliases": [
 				"luca",
@@ -441,6 +441,12 @@
 			"inquiry": {
 				"剑": {
 					"rules": [
+						{
+							"asker_marks": [
+								"大秦人被清走"
+							],
+							"say": "不卖了。"
+						},
 						{
 							"asker_marks": [
 								"买了卢卡的剑"
@@ -507,6 +513,12 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"大秦人被清走"
+							],
+							"say": "船上。押走的。——你知道那文书是假的。"
+						},
+						{
+							"asker_marks": [
 								"卢卡在番坊见到你"
 							],
 							"say": "会首在里头。我跟他说了你——他知道你要来。"
@@ -534,6 +546,12 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"大秦人被清走"
+							],
+							"say": "没有我们的地方了。"
+						},
+						{
+							"asker_marks": [
 								"卢卡在番坊见到你"
 							],
 							"say": "就是这里。港口小，人多，各过各的。"
@@ -548,6 +566,12 @@
 				],
 				"安敦": {
 					"rules": [
+						{
+							"asker_marks": [
+								"大秦人被清走"
+							],
+							"say": "船上。押走的。——你知道那文书是假的。"
+						},
 						{
 							"asker_marks": [
 								"卢卡在番坊见到你"
@@ -565,9 +589,38 @@
 						}
 					]
 				},
-				"铁盾会": [
-					"我们的会。剑、盾、饭，都是会里的。会首管。"
-				]
+				"铁盾会": {
+					"rules": [
+						{
+							"asker_marks": [
+								"大秦人被清走"
+							],
+							"say": "空了。"
+						},
+						{
+							"say": "我们的会。剑、盾、饭，都是会里的。会首管。"
+						}
+					]
+				},
+				"文书": {
+					"rules": [
+						{
+							"asker_marks": [
+								"大秦人被清走"
+							],
+							"say": "假的。你知道。我知道。火也知道。"
+						},
+						{
+							"asker_marks": [
+								"争地过了"
+							],
+							"say": "冯禄走了。会首说，你欠的人情，我们记着。"
+						},
+						{
+							"say": "市舶司的那张纸。印是假的——会首看过，说不是兵部的印。可印是不是真的，不是我们说了算。"
+						}
+					]
+				}
 			},
 			"accept_object": [
 				{
@@ -636,8 +689,40 @@
 						}
 					],
 					"npc_in": "fanfang.bazaar_north"
+				},
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "大秦人被清走",
+					"not_mark": "卢卡恨了你",
+					"npc_in": "fanfang.dock",
+					"steps": [
+						{
+							"emote": "坐在栈道头上，没有起身。"
+						},
+						{
+							"say": "你知道那文书是假的。"
+						},
+						{
+							"npc_mood": "bitter"
+						},
+						{
+							"mark": "卢卡恨了你"
+						}
+					]
 				}
-			]
+			],
+			"moods": {
+				"bitter": {
+					"title": "大秦剑手",
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": [
+						"卢卡看着海，没有说话。\n",
+						"卢卡把短剑连鞘放在膝上，手按在上面。\n"
+					]
+				}
+			}
 		},
 		{
 			"id": "native.npc.herdsman",
@@ -2734,6 +2819,7 @@
 				}
 			],
 			"fights_beside_player": true,
+			"fights_beside_leaves": "{npc}收了刀，拨转马头走了。",
 			"chat_chance_combat": 20,
 			"chat_msg_combat": [
 				"王府骑兵的马刀一撩，白衣上开了一道口子。\n",

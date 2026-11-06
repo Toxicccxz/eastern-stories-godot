@@ -12,7 +12,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"fanfang.cliff_road": 3, &"fanfang.port": 2, &"fanfang.bazaar": 4, &"fanfang.customs": 2, &"fanfang.shield_hall": 2, &"fanfang.fire_temple": 2, &"fanfang.lama_temple": 2}
+const MAPS: Dictionary = {&"fanfang.cliff_road": 3, &"fanfang.port": 2, &"fanfang.bazaar": 4, &"fanfang.customs": 2, &"fanfang.shield_hall": 2, &"fanfang.fire_temple": 2, &"fanfang.lama_temple": 2, &"fanfang.ronin_hall": 2}
 ## Where each kind stands (卢卡 is counted on the walk: he comes after 关北).
 const PEOPLE: Dictionary = {
 	&"fanfang.cliff_path": {&"native.npc.salt_porter": 2},
@@ -22,11 +22,17 @@ const PEOPLE: Dictionary = {
 	&"fanfang.bazaar_east": {&"native.npc.spice_merchant": 1, &"native.npc.stall_child": 1, &"native.npc.copper_merchant": 1},
 	&"fanfang.office": {&"native.npc.feng_lu": 1, &"native.npc.customs_clerk": 1},
 	&"fanfang.yard": {&"native.npc.customs_runner": 2},
-	&"fanfang.shield_yard": {&"native.npc.shield_swordsman": 6},
-	&"fanfang.hall": {&"native.npc.andun": 1},
-	&"fanfang.fire_hall": {&"native.npc.fire_priest": 1, &"native.npc.fire_worshipper": 2},
+	&"fanfang.fire_hall": {&"native.npc.fire_worshipper": 2},
 	&"fanfang.temple_yard": {&"fanfang.npc.lama_master": 1, &"native.npc.indian_monk": 1},
 	&"fanfang.shrine": {&"native.npc.indian_monk": 1},
+}
+## On the story's stage (番坊 C: gone once the 大秦人 are cleared, 穆护 in his cell by night, the four hired 浪人
+## at the gate): judged as the player comes onto the map, so counted after a visit.
+const STAGED: Dictionary = {
+	&"fanfang.shield_yard": {&"native.npc.shield_swordsman": 6, &"native.npc.feng_lu": 0, &"native.npc.ronin": 0},
+	&"fanfang.hall": {&"native.npc.andun": 1},
+	&"fanfang.fire_hall": {&"native.npc.fire_priest": 1, &"native.npc.shadow_thief": 0},
+	&"fanfang.dojo": {&"fanfang.npc.ronin_master": 1, &"native.npc.ronin": 5},
 }
 
 var _count: int = 0
@@ -52,7 +58,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("fanfang."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null and String(zone.room_ids()[0]).begins_with("native:fanfang/"), "%s: one native room" % zone.zone_id)
-	_check(maps == MAPS, "seventeen native rooms on seven maps: %s" % maps)
+	_check(maps == MAPS, "nineteen native rooms on eight maps: %s" % maps)
 	_check(catalog.region(&"fanfang").display_name == "番坊", "the region is 番坊")
 	_check(catalog.map(&"fanfang.customs").interior and not catalog.map(&"fanfang.cliff_road").interior and not catalog.map(&"fanfang.port").interior and not catalog.map(&"fanfang.bazaar").interior, "the 市舶司 is indoors, the road, the dock and the bazaar outdoors")
 	_check(catalog.map(&"fanfang.shield_hall").interior and catalog.map(&"fanfang.fire_temple").interior and catalog.map(&"fanfang.lama_temple").interior, "铁盾会, the 拜火祠 and 日陀罗寺 are buildings of their own (番坊 B)")
@@ -62,18 +68,18 @@ func _test_data() -> void:
 	for id: StringName in [&"fanfang.fire_hall.landmark.fire", &"fanfang.hall.landmark.tablet", &"fanfang.temple_yard.landmark.banyan", &"fanfang.shrine.landmark.buddha"]:
 		_check(catalog.landmark(id) != null, "landmark %s" % id)
 	var questions: ServiceDefinition = catalog.service(&"fanfang.fire_hall.questions")
-	_check(questions != null and questions.act != null and questions.act.verb == "问话" and questions.act.acts.size() == 6, "the 火前问话: six branches (the day the fire refused — at dawn, and after; the tablet in hand; the 大秦人's side; the 浪人's; the undecided)")
-	if questions != null and questions.act != null and questions.act.acts.size() == 6:
-		var asked: ScriptedAct = questions.act.acts[3]
+	_check(questions != null and questions.act != null and questions.act.verb == "问话" and questions.act.acts.size() == 7, "the 火前问话: seven branches (the night, 穆护 in his cell; the day the fire refused — at dawn, and after; the tablet in hand; the 大秦人's side; the 浪人's; the undecided)")
+	if questions != null and questions.act != null and questions.act.acts.size() == 7:
+		var asked: ScriptedAct = questions.act.acts[4]
 		var last: ScriptedAct.Step = asked.steps[-1]
 		_check(asked.mark == "站了大秦人" and last.kind == ScriptedAct.Kind.QUESTIONS and last.questions.size() == 3 and last.questions[0].answers.size() == 2 and last.questions[2].answers.size() == 3 and last.questions[0].answers[0].mark == "替南危水保密" and last.questions[2].answers[2].mark == "宝衣给了安妮儿", "three questions on the player's own deeds (owner Q2), their answers true by the saved marks")
 		_check(last.when_true.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.GIVE and step.item_id == &"native:fanfang/bronze_tablet") and last.when_true.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.MARK and step.flag == "铜牒到手") and last.when_false.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SET_TEMP and step.flag == "火不肯"), "all true: the tablet and 铜牒到手; a lie: 火不肯 for the day")
-		_check(questions.act.acts[1].temp == "火不肯" and not questions.act.acts[1].ask.is_empty() and questions.act.acts[1].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"dawn"]), "the day the fire refused: 等到明天 asks first and puts the clock to dawn")
-		_check(questions.act.acts[0].temp == "火不肯" and questions.act.acts[0].phase == [&"dawn"] and questions.act.acts[0].ask.is_empty() and not questions.act.acts[0].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.CLEAR_TEMP), "a lie told at dawn: no wait to offer (the clock would not move), the refusal kept until dawn has passed")
+		_check(questions.act.acts[2].temp == "火不肯" and not questions.act.acts[2].ask.is_empty() and questions.act.acts[2].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"dawn"]), "the day the fire refused: 等到明天 asks first and puts the clock to dawn")
+		_check(questions.act.acts[1].temp == "火不肯" and questions.act.acts[1].phase == [&"dawn"] and questions.act.acts[1].ask.is_empty() and not questions.act.acts[1].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.CLEAR_TEMP), "a lie told at dawn: no wait to offer (the clock would not move), the refusal kept until dawn has passed")
 	var tablet: ItemContentDefinition = catalog.item(&"native:fanfang/bronze_tablet")
 	_check(tablet != null and tablet.quest_item and tablet.no_drop, "the 铜牒 is a quest item nobody drops")
 	var andun: NpcDefinition = catalog.npc(&"native.npc.andun")
-	_check(andun != null and andun.age == 61 and andun.hooks() != null and andun.hooks().calls.size() == 1 and andun.hooks().calls[0].act.npc_in == &"fanfang.hall" and andun.talk().inquiry_topics().has("铜牒") and andun.talk().inquiry_topics().has("站大秦人"), "安敦: 61, meets the player in his hut, tells of the 铜牒 and takes a side")
+	_check(andun != null and andun.age == 61 and andun.hooks() != null and andun.hooks().calls.size() == 2 and andun.hooks().calls[0].act.npc_in == &"fanfang.hall" and andun.hooks().calls[1].act.npc_in == &"fanfang.dock" and andun.talk().inquiry_topics().has("铜牒") and andun.talk().inquiry_topics().has("站大秦人"), "安敦: 61, meets the player in his hut, tells of the 铜牒 and takes a side; in a 枷 on the quay (番坊 C)")
 	var lama: NpcDefinition = catalog.npc(&"fanfang.npc.lama_master")
 	_check(lama != null and lama.age == 71 and lama.class_id == &"lama" and lama.internal_power(&"max_force") == 1500 and lama.internal_power(&"force_factor") == 5 and lama.skill_map().get(&"force") == &"lotusforce" and lama.ordination() != null and lama.teaching() == null, "龙若法王 as master.c makes him: 71, force 1500 / 5, 莲花内功, 剃度 by kneeling (his 日陀罗寺 family and teaching are 番坊 D's)")
 	var south: PortalDefinition = catalog.portal(&"village.valley1.south")
@@ -95,11 +101,11 @@ func _test_data() -> void:
 	var luca_port: NpcSpawnDefinition = catalog.spawn(&"fanfang.bazaar_north.luca")
 	_check(luca_market != null and luca_market.until != null and luca_market.until.key == "关北一章" and luca_port != null and luca_port.present != null and luca_port.present.key == "关北一章", "卢卡 leaves the 马市 for 铁盾会's gate once 关北 is done")
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
-	_check(luca != null and luca.hooks() != null and luca.hooks().calls.size() == 1 and luca.hooks().calls[0].reaction and luca.hooks().calls[0].act.mark == "关北一章" and luca.hooks().calls[0].act.npc_in == &"fanfang.bazaar_north", "卢卡 greets the player at the gate, and only there")
+	_check(luca != null and luca.hooks() != null and luca.hooks().calls.size() == 2 and luca.hooks().calls[0].reaction and luca.hooks().calls[0].act.mark == "关北一章" and luca.hooks().calls[0].act.npc_in == &"fanfang.bazaar_north", "卢卡 greets the player at the gate (and on the quay once the 大秦人 are cleared, 番坊 C)")
 	_check(luca.dealings().object_rules.size() == 5 and luca.dealings().object_rules[1].giver_mark == "卢卡在番坊见到你" and luca.dealings().object_rules[1].gives == &"native:guanbei/gladius", "in 番坊 his sword sells without the 马市's word on the fare")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter7")
-	_check(quest != null and quest.steps.size() == 7 and quest.steps[0].condition.key == "到了番坊" and quest.steps[1].condition.key == "见了安敦" and quest.steps[2].condition.topic == "铜牒" and quest.steps[3].options.size() == 2 and quest.steps[3].options[0].condition.key == "站了大秦人" and quest.steps[4].only_after == &"rome" and quest.steps[4].condition.key == "铜牒到手" and quest.steps[5].only_after == &"ronin" and quest.steps[6].condition.key == "读过铜牒", "the chapter so far: the way down, 安敦, the tablet's tale, the side, the fire or the blade, then the reading (番坊 C)")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_B_V1, "番坊 B's world revision is current")
+	_check(quest != null and quest.steps.size() == 9 and quest.steps[0].condition.key == "到了番坊" and quest.steps[1].condition.key == "见了安敦" and quest.steps[2].condition.topic == "铜牒" and quest.steps[3].options.size() == 2 and quest.steps[3].options[0].condition.key == "站了大秦人" and quest.steps[4].only_after == &"rome" and quest.steps[4].condition.key == "铜牒到手" and quest.steps[5].only_after == &"rome" and quest.steps[5].condition.key == "争地过了" and quest.steps[6].only_after == &"ronin" and quest.steps[6].condition.key == "过了一刀" and quest.steps[7].only_after == &"ronin" and quest.steps[7].condition.key == "铜牒到手" and quest.steps[8].condition.key == "读过铜牒" and quest.reward.milestone and quest.reward.marks == ["番坊一章"], "the whole chapter: the way down, 安敦, the tablet's tale, the side; the fire then the gate, or the blade then the night; the reading; the milestone (番坊 C)")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_C_V1, "番坊 C's world revision is current")
 
 
 ## From the path outside 忘情谷: south down the 海崖道 to the dock and the shed, into the bazaar
@@ -231,6 +237,14 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(luca != null and await MapPlaces.drive(tree, bazaar, MapPlaces.spot(bazaar, &"fanfang.bazaar_north", bazaar.runtime_body_for_character(luca.character_id).global_position + Vector2(0, 60), 64.0)) and bazaar.select_npc(luca.character_id), "beside 卢卡")
 	_check(bazaar.ask_selected("番坊").any(func(line: String) -> bool: return line.contains("就是这里")), "卢卡 on 番坊, now he is here")
 	state.marks.erase("关北一章")
+	# The staged people at their posts, each map visited by day (番坊 C).
+	session.day_clock().set_day_seconds(36000) # TEST-ONLY: mid-morning
+	for entry: Array in [[&"fanfang.shield_yard", &"fanfang.shield_yard.gate_arrival"], [&"fanfang.fire_hall", &"fanfang.fire_hall.street_entry"], [&"fanfang.gate_yard", &"fanfang.gate_yard.temple_arrival"]]:
+		_check(MapPlaces.enter(session, entry[0], entry[1]) != null, "TEST-ONLY: onto the map of %s" % entry[0])
+		await _settle(tree)
+	for zone: StringName in STAGED:
+		for kind: StringName in STAGED[zone]:
+			_check(_count_in(session, zone, kind) == STAGED[zone][kind], "%d %s in %s (staged)" % [STAGED[zone][kind], kind, zone])
 
 
 func _count_in(session: WorldSessionController, zone_id: StringName, definition_id: StringName) -> int:

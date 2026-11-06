@@ -146,6 +146,16 @@ position = Vector2(-82, -124)
 script = ExtResource("marker")
 spawn_point_id = &"fanfang.fire_hall.fire_worshipper.2"
 
+[node name="PriestRoomFirePriest1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(336, 6)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.priest_room.fire_priest.1"
+
+[node name="FireHallShadow1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-182, 99)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.fire_hall.shadow.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
