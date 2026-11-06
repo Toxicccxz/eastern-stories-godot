@@ -1,0 +1,66 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "鬼笠馆门庭、鬼笠馆板地 (native:fanfang/gate_yard, dojo; 番坊 C; daemon/class/ronin/master.c's 早川直义 placed here): the 浪人's hall south of 日陀罗寺 — black-lacquered timber on a plastered wall, the torn 斗笠 nailed over the gate, a yard of beaten earth with the white rule-board (一击之内定生死) and a vat; east the long board hall: black-lacquered planks scored with sword cuts, the sword racks along the north wall, hacked posts, a single lamp, a strip of white cloth with one character, 早川 at the far end on his low dais. Old and used: the lacquer worn grey down the middle where the men stand, cuts in the boards, soot over the lamp, dust in the corners; under the hall's sea-light by day, one lamp by night.",
+  "palette": {"wood": ["2a2622", "36302a", "1e1a18"], "wall": "6a625a"},
+  "wall_height": 3.0,
+  "wall_looks": [
+    {"rect": [-480, -176, -160, 176], "style": "plaster", "wall": "6a625a", "colors": ["6a625a", "767068", "5e5650", "82786e"], "note": "the gate yard's grey plaster, lacquer-black timbers"},
+    {"rect": [-160, -256, 480, 256], "style": "boards", "wall": "2e2a26", "colors": ["2e2a26", "3a3430", "26221e", "443e38"], "note": "the board hall: black-lacquered planking, worn grey at the rails"}
+  ],
+  "surfaces": {"fanfang.gate_yard": "town_ground"},
+  "ground": {
+    "town_ground": {"style": "scree", "colors": ["a89a7a", "b2a484", "9c8e70"], "gravel": 0.15, "stones": 0.01, "pebbles": ["c0b090", "a89878"], "note": "the yard's beaten earth, swept"},
+    "floor_wood": {"style": "planks", "colors": ["2a2622", "34302a", "221e1a"], "worn": ["5a544c", "66605a"], "note": "黑木板，板缝里全是刀口: lacquer worn grey where the men stand"},
+    "boundary": {"colors": ["7a7a5a", "868662", "6e6e50"]}
+  },
+  "flora": {"grass_density": 0.02, "density": {"town_ground": 0.01, "floor_wood": 0.0, "boundary": 0.25}, "grass_colors": ["6e7e58", "7a8a62", "86966a", "92a072"], "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.4, "butterflies": 0},
+  "light": {
+    "areas": [
+      {"rect": [-480, -176, -160, 176], "sky": ["bcd4e4", "081628"], "ambient": ["e0e8ec", "4a6488"], "ambient_energy": [0.52, 0.3], "sun": ["fff6e4", "a4c0ee"], "sun_energy": [1.0, 0.34], "note": "the gate yard lies open to the sea sky (light.json)"}
+    ]
+  },
+  "life": {
+    "fanfang.gate_yard": {"walls": "plaster"},
+    "fanfang.dojo": {"walls": "boards"}
+  },
+  "props": [
+    {"kind": "trail", "points": [[-320, 170], [-316, 60], [-300, -20], [-200, 0], [-150, 0]], "color": "8e8268", "note": "the way from the gate to the hall's door"},
+    {"kind": "stains", "at": [-320, 0], "size": [200, 240], "count": 6, "colors": ["9a8c6e", "a29476"], "note": "the yard trodden to the board"},
+    {"kind": "stains", "at": [-400, 0], "size": [40, 60], "count": 3, "colors": ["8a8070", "948a78"], "note": "two hollows where men have knelt before the rule-board"},
+    {"kind": "straw_cape", "at": [-320, -170], "size": [40, 40], "height": 2.6, "wall_mounted": true, "note": "门楣上挂着一顶破了边的斗笠——这就是「鬼笠」: straw hung over the gate"},
+    {"kind": "hanging_lantern", "at": [-300, -168], "paper": "e8e0c8", "height": 2.4, "note": "a paper lantern at the gate"},
+    {"kind": "glow", "at": [-300, -150], "color": "ffe0b0", "day": 0.0, "night": 0.6, "range": 6.0, "height": 2.2},
+    {"kind": "stains", "at": [60, 0], "size": [560, 200], "count": 16, "colors": ["5a544c", "66605a", "4e4842"], "note": "the lacquer worn grey down the middle where the men stand and strike"},
+    {"kind": "scratches", "at": [60, 40], "size": [500, 160], "count": 24, "color": "8a8478", "note": "刀口 in the boards"},
+    {"kind": "banner_cloth", "at": [160, -248], "size": [40, 12], "height": 2.3, "wall_mounted": true, "cloth": "ece6d8", "note": "a strip of white cloth with one character: 一"},
+    {"kind": "wall_lamp", "at": [300, -236], "size": [16, 12], "height": 2.0, "wall_mounted": true, "note": "the hall's one lamp, over the dais"},
+    {"kind": "glow", "at": [300, -200], "color": "ffc890", "day": 0.15, "night": 1.0, "range": 11.0, "height": 2.0},
+    {"kind": "wall_lamp", "at": [-148, 60], "size": [16, 12], "height": 2.0, "rotation": 90, "wall_mounted": true, "note": "a second lamp inside the door"},
+    {"kind": "glow", "at": [-120, 60], "color": "ffc890", "day": 0.1, "night": 0.9, "range": 10.0, "height": 2.0},
+    {"kind": "candles", "at": [440, 20], "size": [24, 10], "count": 2, "elevation": 0.5, "note": "two candles on the dais by 早川"},
+    {"kind": "glow", "at": [440, 20], "color": "ffb878", "day": 0.2, "night": 0.8, "range": 7.0, "height": 1.2},
+    {"kind": "stains", "at": [300, -244], "size": [200, 16], "count": 4, "colors": ["1a1614", "24201c"], "note": "soot over the lamp"},
+    {"kind": "hanging_lantern", "at": [120, 0], "paper": "f0e0b8", "height": 2.7, "note": "the big paper lantern over the middle of the boards"},
+    {"kind": "glow", "at": [120, 0], "color": "ffd8a0", "day": 0.2, "night": 1.2, "range": 15.0, "height": 2.5},
+    {"kind": "window", "at": [-20, -248], "size": [56, 16], "note": "a shuttered window in the north wall"},
+    {"kind": "window", "at": [-20, 248], "size": [56, 16], "note": "and one in the south"},
+    {"kind": "glow", "at": [-20, -200], "color": "d8e4f0", "day": 0.5, "night": 0.0, "range": 7.0, "height": 2.2, "note": "daylight through the north window"},
+    {"kind": "slippers", "at": [-120, 60], "rotation": 15, "cloth": "4a4038", "note": "straw sandals left inside the door"},
+    {"kind": "slippers", "at": [-120, -70], "rotation": -25, "cloth": "5a5048"},
+    {"kind": "stains", "at": [420, 200], "size": [80, 60], "count": 4, "colors": ["3e3a34", "484440"], "note": "dust swept into the far corner"},
+    {"kind": "far_ground", "at": [-320, -560], "size": [1200, 360], "colors": ["b09a6a", "bca676", "a48e60"], "elevation": 0.0, "trees": 0, "note": "the lane up to the temple's south door beyond the gate"}
+  ],
+  "ambience": {
+    "dust": [{"rect": [-100, -160, 400, 160], "count": 8, "color": "8a8070", "wind": [0.1, 0.0], "note": "dust in the hall's light"}],
+    "birds": [{"at": [-320, 0], "radius": 300, "count": 1, "height": 7, "color": "f0f0ec"}]
+  },
+  "actors": {
+    "default": {"coat": "2e2a26", "hat": true},
+    "fanfang.npc.ronin_master": {"coat": "1e1a1a", "hat": false},
+    "native.npc.ronin": {"coat": "2e2a26", "hat": true},
+    "native.npc.luca": {"coat": "9a8a6a", "hat": false}
+  }
+}

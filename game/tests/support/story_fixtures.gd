@@ -248,3 +248,16 @@ static func chapter7_sided(session: WorldSessionController, rome: bool = true, r
 		_write(state, key)
 	for mark: String in ["到了番坊", "卢卡在番坊见到你", "见了安敦", "安敦说了铜牒", "站了大秦人" if rome else "站了浪人"]:
 		state.marks[mark] = 1
+
+
+## 番坊 C: the seventh chapter done on one side — the 大秦人's (`rome`: the tablet from the fire, 冯禄 faced
+## at the gate) or the 浪人's (早川's 一刀, the tablet stolen by night, the 大秦人 cleared) — and the 铜牒
+## read; the chapter's mark 番坊一章 and the eighth chapter's stub open. Its ledger keys and marks as the
+## chapter writes them; the player is not moved and holds no tablet.
+static func chapter7_done(session: WorldSessionController, rome: bool = true, raid: bool = true) -> void:
+	chapter7_sided(session, rome, raid)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in (["main.chapter7/rome", "main.chapter7/gate"] if rome else ["main.chapter7/ronin", "main.chapter7/theft"]) + ["main.chapter7/read", "main.chapter7#done"]:
+		_write(state, key)
+	for mark: String in (["火前说了真话", "铜牒到手", "争地过了", "大秦人留下了"] if rome else ["早川见过你", "过了一刀", "铜牒到手", "大秦人被清走"]) + ["读过铜牒", "番坊一章"]:
+		state.marks[mark] = 1

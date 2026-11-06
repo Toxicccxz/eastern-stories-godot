@@ -141,7 +141,11 @@
           {"name": "DockCargoMerchant1", "at": [816, 448], "id": "fanfang.dock.cargo_merchant.1"},
           {"name": "DockCargoMerchant2", "at": [1104, 608], "id": "fanfang.dock.cargo_merchant.2"},
           {"name": "DockTaxClerk1", "at": [1200, 464], "id": "fanfang.dock.tax_clerk.1"},
-          {"name": "ShedBoatman1", "at": [352, 688], "id": "fanfang.shed.boatman.1"}
+          {"name": "ShedBoatman1", "at": [352, 688], "id": "fanfang.shed.boatman.1"},
+          {"name": "DockAndun1", "at": [880, 720], "id": "fanfang.dock.andun.1"},
+          {"name": "DockCustomsRunner1", "at": [832, 724], "id": "fanfang.dock.customs_runner.1"},
+          {"name": "DockCustomsRunner2", "at": [928, 724], "id": "fanfang.dock.customs_runner.2"},
+          {"name": "DockLuca1", "at": [1140, 712], "id": "fanfang.dock.luca.1"}
         ],
         "interactions": [
           {"name": "BoatsInteraction", "id": "fanfang.dock.landmark.boats", "at": [616, 1000], "shape": "Rect_64_32"}
@@ -310,7 +314,19 @@
           "fanfang.shield_yard.swordsman.3": ["fanfang.shield_yard", ["rel", 0.56, 0.28]],
           "fanfang.shield_yard.swordsman.4": ["fanfang.shield_yard", ["rel", 0.56, 0.46]],
           "fanfang.shield_yard.swordsman.5": ["fanfang.shield_yard", ["rel", 0.74, 0.6]],
-          "fanfang.shield_yard.swordsman.6": ["fanfang.shield_yard", ["rel", 0.74, 0.78]]
+          "fanfang.shield_yard.swordsman.6": ["fanfang.shield_yard", ["rel", 0.74, 0.78]],
+          "fanfang.shield_yard.feng_lu.1": ["fanfang.shield_yard", ["rel", 0.5, 0.68]],
+          "fanfang.shield_yard.ronin.1": ["fanfang.shield_yard", ["rel", 0.36, 0.76]],
+          "fanfang.shield_yard.ronin.2": ["fanfang.shield_yard", ["rel", 0.64, 0.76]],
+          "fanfang.shield_yard.ronin.3": ["fanfang.shield_yard", ["rel", 0.4, 0.6]],
+          "fanfang.shield_yard.ronin.4": ["fanfang.shield_yard", ["rel", 0.6, 0.6]],
+          "fanfang.shield_yard.beside.1": ["fanfang.shield_yard", ["rel", 0.38, 0.18]],
+          "fanfang.shield_yard.beside.2": ["fanfang.shield_yard", ["rel", 0.5, 0.16]],
+          "fanfang.shield_yard.beside.3": ["fanfang.shield_yard", ["rel", 0.62, 0.18]],
+          "fanfang.shield_yard.ronin_fighting.1": ["fanfang.shield_yard", ["rel", 0.38, 0.84]],
+          "fanfang.shield_yard.ronin_fighting.2": ["fanfang.shield_yard", ["rel", 0.62, 0.84]],
+          "fanfang.shield_yard.ronin_fighting.3": ["fanfang.shield_yard", ["rel", 0.44, 0.76]],
+          "fanfang.shield_yard.ronin_fighting.4": ["fanfang.shield_yard", ["rel", 0.56, 0.76]]
         },
         "doors": {"fanfang.shield_yard.south": "south"},
         "reach_from": "ShieldYardGateArrival"
@@ -320,7 +336,8 @@
         "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/shield_hall.json"},
         "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
         "nodes": [
-          {"generated": "captions"}
+          {"generated": "captions"},
+          {"node": "service", "name": "PapersService", "id": "fanfang.shield_yard.papers", "room": "fanfang.shield_yard", "anchor": ["rel", 0.5, 0.93], "text": "冯禄的文书 · 对质"}
         ],
         "zones": [{"generated": "zones"}],
         "spawn_points": [{"generated": "markers"}],
@@ -350,7 +367,9 @@
         "placed": {
           "fanfang.fire_hall.fire_priest.1": ["fanfang.fire_hall", ["rel", 0.3, 0.5]],
           "fanfang.fire_hall.fire_worshipper.1": ["fanfang.fire_hall", ["rel", 0.72, 0.8]],
-          "fanfang.fire_hall.fire_worshipper.2": ["fanfang.fire_hall", ["rel", 0.74, 0.2]]
+          "fanfang.fire_hall.fire_worshipper.2": ["fanfang.fire_hall", ["rel", 0.74, 0.2]],
+          "fanfang.priest_room.fire_priest.1": ["fanfang.priest_room", ["rel", 0.5, 0.55]],
+          "fanfang.fire_hall.shadow.1": ["fanfang.fire_hall", ["rel", 0.58, 0.74]]
         },
         "doors": {"fanfang.fire_hall.west": "west"},
         "reach_from": "FireHallStreetEntry"
@@ -371,7 +390,7 @@
       }
     },
     "lama_temple": {
-      "note": "番坊 B: 日陀罗寺 — a small temple of red-ochre walls with grass on their tops; the great banyan in the middle of the yard, its crown over half of it, air roots grown into trunks, the master's cushion under it where 龙若法王 sits (daemon/class/lama/master.c, placed here); the bronze bell green with age on its frame in a corner, a water vat, a stone bench; east the small shrine with the Buddha from 天竺 (high nose, narrow eyes, curled hair, wet-looking folds) on his dais, the offering table with butter lamps, cushions, palm-leaf sutras heaped in the corner.",
+      "note": "番坊 B: 日陀罗寺 — a small temple of red-ochre walls with grass on their tops; the great banyan in the middle of the yard, its crown over half of it, air roots grown into trunks, the master's cushion under it where 龙若法王 sits (daemon/class/lama/master.c, placed here); the bronze bell green with age on its frame in a corner, a water vat, a stone bench; east the small shrine with the Buddha from 天竺 (high nose, narrow eyes, curled hair, wet-looking folds) on his dais, the offering table with butter lamps, cushions, palm-leaf sutras heaped in the corner. 番坊 C: a small door in the south wall, the lane down to 鬼笠馆.",
       "file": "fanfang_lama_temple.tscn",
       "draw": {
         "technique": "interior", "building": "temple",
@@ -395,7 +414,7 @@
           "fanfang.temple_yard.indian_monk.1": ["fanfang.temple_yard", ["rel", 0.22, 0.5]],
           "fanfang.shrine.indian_monk.1": ["fanfang.shrine", ["rel", 0.5, 0.82]]
         },
-        "doors": {"fanfang.temple_yard.north": "north"},
+        "doors": {"fanfang.temple_yard.north": "north", "fanfang.temple_yard.south": "south"},
         "reach_from": "TempleYardSlopeArrival"
       },
       "scene": {
@@ -410,6 +429,56 @@
         "interactions": [
           {"name": "BanyanInteraction", "id": "fanfang.temple_yard.landmark.banyan", "room": "fanfang.temple_yard", "anchor": ["rel", 0.62, 0.63], "shape": "Rect_64_32"},
           {"name": "BuddhaInteraction", "id": "fanfang.shrine.landmark.buddha", "room": "fanfang.shrine", "anchor": ["rel", 0.5, 0.25], "shape": "Rect_64_32"}
+        ]
+      }
+    },
+    "ronin_hall": {
+      "note": "番坊 C: 鬼笠馆 — the 浪人's hall south of 日陀罗寺 (daemon/class/ronin/master.c's 早川直义 placed here): the black-lacquered gate with the torn 斗笠 over it, a small yard of beaten earth with the white rule-board (一击之内定生死) by the wall, a water vat, a bench; east the long board hall (板地) floored with black-lacquered planks scored by sword cuts, the sword racks along the north wall, the hacked posts, 早川 on his low dais at the far end with his sword across his knees, his men one blow at a time.",
+      "file": "fanfang_ronin_hall.tscn",
+      "draw": {
+        "technique": "interior", "building": "compound",
+        "rooms": {
+          "fanfang.gate_yard": {"floor": "town_ground", "wall": "wall", "size": "room", "life": {"use": "front_yard", "wealth": "poor", "seed": 87}},
+          "fanfang.dojo": {"floor": "floor_wood", "wall": "wall", "size": "hall", "life": {"use": "training_hall", "wealth": "plain", "seed": 88}}
+        },
+        "props": [
+          ["blocked", "fanfang.gate_yard", ["rel", 0.12, 0.5], 0.5, 1.2, "the white rule-board by the wall: 一击之内定生死 (fanfang.gate_yard.landmark.rule)", {"look": {"kind": "board", "rotation": 90}}],
+          ["blocked", "fanfang.gate_yard", ["rel", 0.88, 0.14], 1.0, 1.0, "a water vat inside the gate", {"look": {"kind": "water_vat"}}],
+          ["blocked", "fanfang.gate_yard", ["rel", 0.5, 0.9], 1.8, 0.6, "a bench against the south wall", {"look": {"kind": "bench"}}],
+          ["blocked", "fanfang.dojo", ["rel", 0.22, 0.07], 3.0, 0.6, "the sword racks along the north wall, the narrow curved swords in rows (墙上一排刀架)", {"look": {"kind": "weapon_rack"}}],
+          ["blocked", "fanfang.dojo", ["rel", 0.56, 0.07], 3.0, 0.6, {"look": {"kind": "weapon_rack"}}],
+          ["blocked", "fanfang.dojo", ["rel", 0.5, 0.93], 0.9, 0.9, "a post hacked by a thousand single cuts", {"look": {"kind": "training_post"}}],
+          ["blocked", "fanfang.dojo", ["rel", 0.72, 0.93], 0.9, 0.9, {"look": {"kind": "training_post"}}],
+          ["blocked", "fanfang.dojo", ["rel", 0.92, 0.5], 1.0, 1.2, "the low dais at the hall's end where 早川 sits (板屋尽头)", {"look": {"kind": "bench", "wood": "2a2622", "rotation": 90}}],
+          ["blocked", "fanfang.dojo", ["rel", 0.92, 0.1], 1.0, 1.0, "a chest in the corner", {"look": {"kind": "chest_stack"}}]
+        ],
+        "placed": {
+          "fanfang.dojo.ronin_master.1": ["fanfang.dojo", ["rel", 0.82, 0.5]],
+          "fanfang.dojo.ronin.1": ["fanfang.dojo", ["rel", 0.24, 0.24]],
+          "fanfang.dojo.ronin.2": ["fanfang.dojo", ["rel", 0.24, 0.78]],
+          "fanfang.dojo.ronin.3": ["fanfang.dojo", ["rel", 0.44, 0.26]],
+          "fanfang.dojo.ronin.4": ["fanfang.dojo", ["rel", 0.44, 0.74]],
+          "fanfang.dojo.ronin.5": ["fanfang.dojo", ["rel", 0.62, 0.3]],
+          "fanfang.dojo.ronin_back.1": ["fanfang.dojo", ["rel", 0.56, 0.7]],
+          "fanfang.dojo.ronin_back.2": ["fanfang.dojo", ["rel", 0.34, 0.84]],
+          "fanfang.dojo.ronin_back.3": ["fanfang.dojo", ["rel", 0.66, 0.78]],
+          "fanfang.dojo.ronin_back.4": ["fanfang.dojo", ["rel", 0.12, 0.88]]
+        },
+        "doors": {"fanfang.gate_yard.north": "north"},
+        "reach_from": "GateYardTempleArrival"
+      },
+      "scene": {
+        "style": "map", "root": "FanfangRoninHall", "map": "fanfang.ronin_hall", "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/fanfang/voxel/ronin_hall.json"},
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "service", "name": "RestService", "id": "fanfang.dojo.rest", "room": "fanfang.dojo", "anchor": ["rel", 0.74, 0.62], "text": "板地 · 歇"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [
+          {"name": "RuleInteraction", "id": "fanfang.gate_yard.landmark.rule", "room": "fanfang.gate_yard", "anchor": ["rel", 0.24, 0.5], "shape": "Rect_32_64"}
         ]
       }
     }

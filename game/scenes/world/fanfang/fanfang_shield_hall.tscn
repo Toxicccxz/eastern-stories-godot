@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_landmark_area_2d.gd" id="landmark"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
+[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
 [sub_resource type="RectangleShape2D" id="Rect_64_32"]
@@ -67,6 +68,23 @@ offset_bottom = -179
 mouse_filter = 2
 theme_override_font_sizes/font_size = 14
 text = "会首的屋"
+
+[node name="PapersService" type="Marker2D" parent="."]
+position = Vector2(0, 468)
+script = ExtResource("service")
+service_id = &"fanfang.shield_yard.papers"
+
+[node name="Visual" type="Polygon2D" parent="PapersService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="PapersService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "冯禄的文书 · 对质"
+horizontal_alignment = 1
 
 [node name="ShieldYardDoor0Shutter" type="ColorRect" parent="Terrain"]
 offset_left = -32
@@ -147,6 +165,66 @@ spawn_point_id = &"fanfang.shield_yard.swordsman.5"
 position = Vector2(215, 374)
 script = ExtResource("marker")
 spawn_point_id = &"fanfang.shield_yard.swordsman.6"
+
+[node name="ShieldYardFengLu1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 312)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.feng_lu.1"
+
+[node name="ShieldYardRonin1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-125, 362)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin.1"
+
+[node name="ShieldYardRonin2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(125, 362)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin.2"
+
+[node name="ShieldYardRonin3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-89, 262)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin.3"
+
+[node name="ShieldYardRonin4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(89, 262)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin.4"
+
+[node name="ShieldYardRoninFighting1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-107, 412)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin_fighting.1"
+
+[node name="ShieldYardRoninFighting2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(107, 412)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin_fighting.2"
+
+[node name="ShieldYardRoninFighting3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-53, 362)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin_fighting.3"
+
+[node name="ShieldYardRoninFighting4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(53, 362)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.ronin_fighting.4"
+
+[node name="ShieldYardBeside1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-107, 1)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.beside.1"
+
+[node name="ShieldYardBeside2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, -12)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.beside.2"
+
+[node name="ShieldYardBeside3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(107, 1)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.shield_yard.beside.3"
 
 [node name="Characters" type="Node2D" parent="."]
 

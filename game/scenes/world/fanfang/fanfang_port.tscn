@@ -160,6 +160,26 @@ position = Vector2(352, 688)
 script = ExtResource("marker")
 spawn_point_id = &"fanfang.shed.boatman.1"
 
+[node name="DockAndun1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(880, 720)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.dock.andun.1"
+
+[node name="DockCustomsRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(832, 724)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.dock.customs_runner.1"
+
+[node name="DockCustomsRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(928, 724)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.dock.customs_runner.2"
+
+[node name="DockLuca1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1140, 712)
+script = ExtResource("marker")
+spawn_point_id = &"fanfang.dock.luca.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
