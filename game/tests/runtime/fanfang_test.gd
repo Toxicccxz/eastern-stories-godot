@@ -81,7 +81,7 @@ func _test_data() -> void:
 	var andun: NpcDefinition = catalog.npc(&"native.npc.andun")
 	_check(andun != null and andun.age == 61 and andun.hooks() != null and andun.hooks().calls.size() == 2 and andun.hooks().calls[0].act.npc_in == &"fanfang.hall" and andun.hooks().calls[1].act.npc_in == &"fanfang.dock" and andun.talk().inquiry_topics().has("铜牒") and andun.talk().inquiry_topics().has("站大秦人"), "安敦: 61, meets the player in his hut, tells of the 铜牒 and takes a side; in a 枷 on the quay (番坊 C)")
 	var lama: NpcDefinition = catalog.npc(&"fanfang.npc.lama_master")
-	_check(lama != null and lama.age == 71 and lama.class_id == &"lama" and lama.internal_power(&"max_force") == 1500 and lama.internal_power(&"force_factor") == 5 and lama.skill_map().get(&"force") == &"lotusforce" and lama.ordination() != null and lama.teaching() == null, "龙若法王 as master.c makes him: 71, force 1500 / 5, 莲花内功, 剃度 by kneeling (his 日陀罗寺 family and teaching are 番坊 D's)")
+	_check(lama != null and lama.age == 71 and lama.class_id == &"lama" and lama.internal_power(&"max_force") == 1500 and lama.internal_power(&"force_factor") == 5 and lama.skill_map().get(&"force") == &"lotusforce" and lama.ordination() != null and lama.teaching() != null and lama.teaching().family_name == "日陀罗寺" and lama.teaching().f_master, "龙若法王 as master.c makes him: 71, force 1500 / 5, 莲花内功, 剃度 by kneeling, 日陀罗寺's 住持 (番坊 D)")
 	var south: PortalDefinition = catalog.portal(&"village.valley1.south")
 	_check(south != null and south.destination_zone_id == &"fanfang.cliff_top" and south.set_mark == "到了番坊" and catalog.portal(&"fanfang.cliff_top.north").destination_zone_id == &"village.valley1", "the path outside 忘情谷 runs on south to the 海崖口 (marking 到了番坊), and back")
 	_check(catalog.portal(&"fanfang.cliff_foot.south").destination_zone_id == &"fanfang.dock" and catalog.portal(&"fanfang.dock.north").destination_zone_id == &"fanfang.cliff_foot", "the steps down to the dock, and back up")
@@ -93,7 +93,7 @@ func _test_data() -> void:
 	_check(notice != null and notice.description.contains("辑拿要犯----於兰天武"), "the wanted notice copied word for word from eastdoor2.c")
 	var papers: ServiceDefinition = catalog.service(&"fanfang.office.papers")
 	_check(papers != null and papers.act != null and papers.act.verb == "看" and papers.act.acts.size() == 2 and papers.act.acts[0].mark == "学过印色", "the 兵部文书: 看, its second sentence for one who learned the 印色")
-	_check(catalog.vendor(&"fanfang.vendor.glass").goods_keys().size() == 1 and catalog.vendor(&"fanfang.vendor.carpet").goods_keys().size() == 1 and catalog.vendor(&"fanfang.vendor.spice").goods_keys().size() == 2 and catalog.vendor(&"fanfang.vendor.copper").goods_keys().size() == 1, "the four merchants' goods")
+	_check(catalog.vendor(&"fanfang.vendor.glass").goods_keys().size() == 1 and catalog.vendor(&"fanfang.vendor.carpet").goods_keys().size() == 1 and catalog.vendor(&"fanfang.vendor.spice").goods_keys().size() == 2 and catalog.vendor(&"fanfang.vendor.copper").goods_keys().size() == 2, "the four merchants' goods (the coppersmith's shields since 番坊 D)")
 	var bread: ItemContentDefinition = catalog.item(&"native:fanfang/hu_bread")
 	var kettle: ItemContentDefinition = catalog.item(&"native:fanfang/copper_kettle")
 	_check(bread != null and bread.category == ItemContentDefinition.CATEGORY_FOOD and kettle != null and kettle.liquid_initial_name == "清水", "the 胡饼 is food, the 铜壶 holds water")
@@ -105,7 +105,7 @@ func _test_data() -> void:
 	_check(luca.dealings().object_rules.size() == 5 and luca.dealings().object_rules[1].giver_mark == "卢卡在番坊见到你" and luca.dealings().object_rules[1].gives == &"native:guanbei/gladius", "in 番坊 his sword sells without the 马市's word on the fare")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter7")
 	_check(quest != null and quest.steps.size() == 9 and quest.steps[0].condition.key == "到了番坊" and quest.steps[1].condition.key == "见了安敦" and quest.steps[2].condition.topic == "铜牒" and quest.steps[3].options.size() == 2 and quest.steps[3].options[0].condition.key == "站了大秦人" and quest.steps[4].only_after == &"rome" and quest.steps[4].condition.key == "铜牒到手" and quest.steps[5].only_after == &"rome" and quest.steps[5].condition.key == "争地过了" and quest.steps[6].only_after == &"ronin" and quest.steps[6].condition.key == "过了一刀" and quest.steps[7].only_after == &"ronin" and quest.steps[7].condition.key == "铜牒到手" and quest.steps[8].condition.key == "读过铜牒" and quest.reward.milestone and quest.reward.marks == ["番坊一章"], "the whole chapter: the way down, 安敦, the tablet's tale, the side; the fire then the gate, or the blade then the night; the reading; the milestone (番坊 C)")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_C_V1, "番坊 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FANFANG_D_V1, "番坊 D's world revision is current")
 
 
 ## From the path outside 忘情谷: south down the 海崖道 to the dock and the shed, into the bazaar

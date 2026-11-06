@@ -12,6 +12,9 @@
 		{ "id": "family.xiaoyao", "name": "逍遥派" },
 		{ "id": "family.tianshan", "name": "天山派" },
 		{ "id": "family.buxuan", "name": "步玄派" },
-		{ "id": "family.huazi", "name": "花紫会" }
+		{ "id": "family.huazi", "name": "花紫会" },
+		{ "id": "family.shield_guild", "name": "铁盾会" },
+		{ "id": "family.ghost_hat_ronin", "name": "鬼笠馆浪人" },
+		{ "id": "family.ritola_temple", "name": "日陀罗寺" }
 	]
 }

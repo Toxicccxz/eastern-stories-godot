@@ -272,6 +272,7 @@ msgstr ""
 #. native.npc.fire_priest gender
 #. native.npc.fire_worshipper gender
 #. fanfang.npc.lama_master gender
+#. fanfang.npc.lama_master apprentice.requires.gender
 #. native.npc.indian_monk gender
 #. fanfang.npc.ronin_master gender
 #. native.npc.ronin gender
@@ -1835,13 +1836,15 @@ msgstr ""
 msgid "拜火祠"
 msgstr ""
 
+#. family.shield_guild name
 #. native.npc.luca inquiry topic
 #. native.npc.feng_lu inquiry topic
 #. native.npc.andun inquiry topic
+#. native.npc.andun family.name
 #. native.npc.shield_swordsman title
 #. fanfang.npc.ronin_master inquiry topic
 #. native.npc.ronin inquiry topic
-#: scenes/world/fanfang/fanfang_bazaar.tscn data/guanbei/npcs.json data/fanfang/npcs.json
+#: scenes/world/fanfang/fanfang_bazaar.tscn data/common/families.json data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "铁盾会"
 msgstr ""
 
@@ -1896,8 +1899,10 @@ msgstr ""
 msgid "火前 · 问话"
 msgstr ""
 
+#. family.ritola_temple name
+#. fanfang.npc.lama_master family.name
 #. native:fanfang/temple_yard short
-#: scenes/world/fanfang/fanfang_lama_temple.tscn data/fanfang/rooms.json
+#: scenes/world/fanfang/fanfang_lama_temple.tscn data/common/families.json data/fanfang/npcs.json data/fanfang/rooms.json
 msgid "日陀罗寺"
 msgstr ""
 
@@ -4880,6 +4885,10 @@ msgstr ""
 msgid "依你目前的能力，没有办法学习这种技能。"
 msgstr ""
 
+#: core/learning/learn_lines.gd
+msgid "%s说道：%s"
+msgstr ""
+
 #: core/learning/learn_lines.gd core/training/training_lines.gd
 msgid "你的潜能已经发挥到极限了，没有办法再成长了。"
 msgstr ""
@@ -6702,6 +6711,7 @@ msgstr ""
 #. snowwhip actions.damage_type
 #. spicyclaw actions.damage_type
 #. bloodystrike actions.damage_type
+#. shield-sword actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "瘀伤"
@@ -6748,6 +6758,7 @@ msgstr ""
 #. snowwhip actions.damage_type
 #. snowshade-sword actions.damage_type
 #. mystsword actions.damage_type
+#. shield-sword actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "刺伤"
@@ -7730,6 +7741,8 @@ msgstr ""
 #. snowshade-sword actions.damage_type
 #. shortsong-blade actions.damage_type
 #. guanbei-saber actions.damage_type
+#. shield-sword actions.damage_type
+#. ghost-hat-sword actions.damage_type
 #. actions.damage_type
 #: presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "割伤"
@@ -10239,7 +10252,8 @@ msgstr ""
 msgid "剑"
 msgstr ""
 
-#: ui/world/player_inventory_panel.gd
+#. fanfang.npc.ronin_master inquiry topic
+#: ui/world/player_inventory_panel.gd data/fanfang/npcs.json
 msgid "刀"
 msgstr ""
 
@@ -11822,8 +11836,9 @@ msgstr ""
 
 #. es2:obj/weapon/shield unit
 #. es2:d/snow/obj/shield unit
+#. native:fanfang/round_shield unit
 #. native:waterfog/guild_token unit
-#: data/common/items.json data/snow/items.json data/native/items.json data/city/voxel/main.json
+#: data/common/items.json data/snow/items.json data/fanfang/items.json data/native/items.json data/city/voxel/main.json
 msgid "面"
 msgstr ""
 
@@ -13461,6 +13476,111 @@ msgstr ""
 msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l"
 msgstr ""
 
+#. shield-sword name
+#: data/common/skills.json
+msgid "铁盾剑法"
+msgstr ""
+
+#. shield-sword practice.done
+#: data/common/skills.json
+msgid "你举着盾，把铁盾剑法练了一遍：盾在前，剑在后。"
+msgstr ""
+
+#. shield-sword practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习铁盾剑法。"
+msgstr ""
+
+#. shield-sword valid_learn.weapon
+#: data/common/skills.json
+msgid "你得先拿一把剑——短剑最好。"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N左臂一抬，一招「盾墙」盾面迎上$n的$l，$w从盾沿底下刺出"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N盾身一侧，一招「侧刺」$w贴着盾沿直刺$n的$l"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N踏前一步，一招「盾撞」整面盾撞向$n的$l"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N盾后$w连刺三下，一招「连刺」剑剑奔$n的$l"
+msgstr ""
+
+#. shield-sword actions.action
+#: data/common/skills.json
+msgid "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向$n的$l"
+msgstr ""
+
+#. ghost-hat-sword name
+#: data/common/skills.json
+msgid "鬼笠刀法"
+msgstr ""
+
+#. ghost-hat-sword practice.done
+#: data/common/skills.json
+msgid "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。"
+msgstr ""
+
+#. ghost-hat-sword practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习鬼笠刀法。"
+msgstr ""
+
+#. ghost-hat-sword valid_learn.weapon
+#: data/common/skills.json
+msgid "刀呢？没刀的刀法不是刀法。"
+msgstr ""
+
+#. ghost-hat-sword actions.action
+#: data/common/skills.json
+msgid "$N手按刀柄，一招「拔刀」$w出鞘的一瞬斜斜划向$n的$l"
+msgstr ""
+
+#. ghost-hat-sword actions.action
+#: data/common/skills.json
+msgid "$N$w平举，一招「横扫」刀光齐腰扫向$n的$l"
+msgstr ""
+
+#. ghost-hat-sword actions.action
+#: data/common/skills.json
+msgid "$N双手握刀举过头顶，一招「下劈」$w直劈$n的$l"
+msgstr ""
+
+#. ghost-hat-sword actions.action
+#: data/common/skills.json
+msgid "$N$w收势回鞘，一招「纳刀」刀背顺势磕向$n的$l"
+msgstr ""
+
+#. ghost-hat-sword actions.action
+#: data/common/skills.json
+msgid "$N退了半步，一招「退步」$w在退势里反撩$n的$l"
+msgstr ""
+
+#. ghost-hat-sword actions.action
+#: data/common/skills.json
+msgid "$N双手握刀，一动不动，忽然一招「一刀」——$w从头顶直劈而下，一击之内定生死，直取$n的$l"
+msgstr ""
+
 #. actions.name
 #: data/common/combat_actions.json
 msgid "挥拳"
@@ -14139,6 +14259,12 @@ msgstr ""
 msgid "花紫会"
 msgstr ""
 
+#. family.ghost_hat_ronin name
+#. fanfang.npc.ronin_master family.name
+#: data/common/families.json data/fanfang/npcs.json
+msgid "鬼笠馆浪人"
+msgstr ""
+
 #. common.npc.swordsman.master name
 #. common.npc.fighter.executioner inquiry topic
 #: data/common/npcs.json
@@ -14748,7 +14874,8 @@ msgstr ""
 #. common.npc.taoist.taolord apprentice.busy_say
 #. common.npc.dancer.master apprentice.busy_say
 #. common.npc.bonze.master apprentice.busy_say
-#: data/common/npcs.json
+#. fanfang.npc.lama_master apprentice.busy_say
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "慢著，一个一个来。"
 msgstr ""
 
@@ -15048,7 +15175,8 @@ msgid "玄智和尚"
 msgstr ""
 
 #. common.npc.bonze.master family.title
-#: data/common/npcs.json
+#. fanfang.npc.lama_master family.title
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "住持"
 msgstr ""
 
@@ -15114,17 +15242,20 @@ msgid "从今以後你的法名叫做{name}。"
 msgstr ""
 
 #. common.npc.bonze.master apprentice.requires.refuse_say
-#: data/common/npcs.json
+#. fanfang.npc.lama_master apprentice.requires.refuse_say
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "阿弥陀佛，女施主不要跟老纳开玩笑。"
 msgstr ""
 
 #. common.npc.bonze.master apprentice.requires.refuse_say
-#: data/common/npcs.json
+#. fanfang.npc.lama_master apprentice.requires.refuse_say
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "阿弥陀佛，施主愿入佛门，请先到小寺剃度出家。"
 msgstr ""
 
 #. common.npc.bonze.master apprentice.accept_say
-#: data/common/npcs.json
+#. fanfang.npc.lama_master apprentice.accept_say
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "阿弥陀佛，善哉！善哉！"
 msgstr ""
 
@@ -32166,6 +32297,41 @@ msgid ""
 "有种的去杀了那水怪，打我算什么英雄？！\n"
 msgstr ""
 
+#. village.npc.fisher inquiry topic
+#: data/village/npcs.json
+msgid "水怪"
+msgstr ""
+
+#. village.npc.fisher inquiry.水怪.rules.say
+#: data/village/npcs.json
+msgid "水怪？……你知道了什么。前天夜里湖心亮了一下，不是鱼。那东西在底下翻身。你要下去？别碰那把剑。"
+msgstr ""
+
+#. village.npc.fisher inquiry.水怪.rules.say
+#: data/village/npcs.json
+msgid "这几天湖里不太平。网下去空的，水底下有东西在动。"
+msgstr ""
+
+#. village.npc.fisher inquiry.水怪.rules.say
+#: data/village/npcs.json
+msgid "不知这水怪又吃了几个人。"
+msgstr ""
+
+#. village.npc.fisher inquiry topic
+#: data/village/npcs.json
+msgid "湖"
+msgstr ""
+
+#. village.npc.fisher inquiry.湖.rules.say
+#: data/village/npcs.json
+msgid "湖底冷。比冬天还冷。我年轻时下去过一回，就一回。"
+msgstr ""
+
+#. village.npc.fisher inquiry.湖.rules.say
+#: data/village/npcs.json
+msgid "玉螺湖。鱼不多了。"
+msgstr ""
+
 #. village.npc.dragon name
 #: data/village/npcs.json
 msgid "白鳞冰龙"
@@ -39146,6 +39312,8 @@ msgstr ""
 
 #. native.npc.luca title
 #. native.npc.luca moods.bitter.title
+#. native.npc.luca moods.going.title
+#. native.npc.luca moods.waiting.title
 #. native.npc.shield_swordsman name
 #: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "大秦剑手"
@@ -39247,6 +39415,7 @@ msgid "头？我们那边的老兵说，东方有一个鬼找自己的头。三�
 msgstr ""
 
 #. native.npc.luca inquiry topic
+#. native.npc.andun family.title
 #. native.npc.shield_swordsman inquiry topic
 #: data/guanbei/npcs.json data/fanfang/npcs.json
 msgid "会首"
@@ -39347,6 +39516,66 @@ msgstr ""
 msgid "市舶司的那张纸。印是假的——会首看过，说不是兵部的印。可印是不是真的，不是我们说了算。"
 msgstr ""
 
+#. native.npc.luca inquiry topic
+#: data/guanbei/npcs.json
+msgid "跟我走"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.confirm_marks
+#: data/guanbei/npcs.json
+msgid "争地过了"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.confirm_lacks
+#: data/guanbei/npcs.json
+msgid "卢卡恨了你"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.confirm_lacks
+#: data/guanbei/npcs.json
+msgid "卢卡跟上了"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.rules.say
+#: data/guanbei/npcs.json
+msgid "不。"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.rules.say
+#: data/guanbei/npcs.json
+msgid "走。"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.rules.lines.emote
+#: data/guanbei/npcs.json
+msgid "把短剑挂上腰，站到你身边。"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.rules.lines.say
+#: data/guanbei/npcs.json
+msgid "会首说了：你去哪儿，我去哪儿。走。"
+msgstr ""
+
+#. native.npc.luca inquiry.跟我走.rules.say
+#: data/guanbei/npcs.json
+msgid "会首没说。冯禄的事了了，再说。"
+msgstr ""
+
+#. native.npc.luca inquiry topic
+#: data/guanbei/npcs.json
+msgid "等我"
+msgstr ""
+
+#. native.npc.luca inquiry.等我.rules.say
+#: data/guanbei/npcs.json
+msgid "好。我在这儿等。"
+msgstr ""
+
+#. native.npc.luca inquiry.等我.rules.say
+#: data/guanbei/npcs.json
+msgid "等什么？"
+msgstr ""
+
 #. native.npc.luca accept_object.say
 #: data/guanbei/npcs.json
 msgid "剑卖了。钱，够了。谢谢。"
@@ -39417,6 +39646,24 @@ msgstr ""
 #: data/guanbei/npcs.json
 msgid ""
 "卢卡把短剑连鞘放在膝上，手按在上面。\n"
+msgstr ""
+
+#. native.npc.luca moods.going.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"卢卡跟在你身后，短剑挂在腰上。\n"
+msgstr ""
+
+#. native.npc.luca moods.going.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"卢卡说道：走。\n"
+msgstr ""
+
+#. native.npc.luca moods.waiting.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"卢卡靠着墙，等你。\n"
 msgstr ""
 
 #. native.npc.herdsman name
@@ -41700,6 +41947,17 @@ msgid ""
 "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n"
 msgstr ""
 
+#. native:fanfang/round_shield name
+#: data/fanfang/items.json
+msgid "大秦圆盾"
+msgstr ""
+
+#. native:fanfang/round_shield long
+#: data/fanfang/items.json
+msgid ""
+"一面大秦人的圆盾，木胎蒙牛皮，铁皮包边，盾心一个铁泡。盾面上漆着一只展翅的鹰，漆掉了一半，盾沿全是剑尖戳出来的白点。左臂套上去正合适。\n"
+msgstr ""
+
 #. native.npc.salt_porter name
 #: data/fanfang/npcs.json
 msgid "盐脚夫"
@@ -42525,6 +42783,21 @@ msgstr ""
 msgid "站大秦人"
 msgstr ""
 
+#. native.npc.andun inquiry.站大秦人.confirm_marks
+#: data/fanfang/npcs.json
+msgid "安敦说了铜牒"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.confirm_lacks
+#: data/fanfang/npcs.json
+msgid "站了大秦人"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.confirm_lacks
+#: data/fanfang/npcs.json
+msgid "站了浪人"
+msgstr ""
+
 #. native.npc.andun inquiry.站大秦人.rules.say
 #: data/fanfang/npcs.json
 msgid "你站了我们这边。去祠里，火前说真话。"
@@ -42605,6 +42878,32 @@ msgstr ""
 msgid "没有头的那个。我们那边的老兵传了三百年。头在哪里，牒上有——去问铜牒。"
 msgstr ""
 
+#. native.npc.andun inquiry topic
+#. native.npc.shield_swordsman inquiry topic
+#: data/fanfang/npcs.json
+msgid "盾"
+msgstr ""
+
+#. native.npc.andun inquiry.盾.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "从架上取下一面圆盾，递给你。"
+msgstr ""
+
+#. native.npc.andun inquiry.盾.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "拿着。盾在前，剑在后——盾不倒，人不倒。套在左臂上，再来学剑。"
+msgstr ""
+
+#. native.npc.andun inquiry.盾.rules.say
+#: data/fanfang/npcs.json
+msgid "盾给过你了。丢了的话，市集铜器铺有卖的。"
+msgstr ""
+
+#. native.npc.andun inquiry.盾.rules.say
+#: data/fanfang/npcs.json
+msgid "盾在前，剑在后。会里的规矩。"
+msgstr ""
+
 #. native.npc.andun calls.steps.emote
 #: data/fanfang/npcs.json
 msgid "抬起头，灰眼睛看了你一会儿，站了起来——慢，左腿先。"
@@ -42628,6 +42927,16 @@ msgstr ""
 #. native.npc.andun calls.steps.emote
 #: data/fanfang/npcs.json
 msgid "被两个差役押在船边，手上一副枷。他看见你，看了很久，没有说话。"
+msgstr ""
+
+#. native.npc.andun apprentice.requires.refuse_say
+#: data/fanfang/npcs.json
+msgid "冯禄的事还没了结。了结了，再说拜师。"
+msgstr ""
+
+#. native.npc.andun apprentice.accept_say
+#: data/fanfang/npcs.json
+msgid "好。盾在前，剑在后——从今天起，你是铁盾会的人。"
 msgstr ""
 
 #. native.npc.shield_swordsman long
@@ -42663,11 +42972,6 @@ msgstr ""
 #. native.npc.shield_swordsman inquiry.会首
 #: data/fanfang/npcs.json
 msgid "里头。安敦。我们的头——他说的话，就是会里的话。"
-msgstr ""
-
-#. native.npc.shield_swordsman inquiry topic
-#: data/fanfang/npcs.json
-msgid "盾"
 msgstr ""
 
 #. native.npc.shield_swordsman inquiry.盾
@@ -43100,6 +43404,26 @@ msgstr ""
 msgid "市舶司的。他要人，我们借他四个。差，是他的差。"
 msgstr ""
 
+#. fanfang.npc.ronin_master inquiry.刀.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "从架上取下一把刀，连鞘扔给你。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.刀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "你的。出鞘，只出一次。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.刀.rules.say
+#: data/fanfang/npcs.json
+msgid "刀给过你了。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.刀.rules.say
+#: data/fanfang/npcs.json
+msgid "架上的刀，都是出过鞘的。"
+msgstr ""
+
 #. fanfang.npc.ronin_master calls.steps.emote
 #: data/fanfang/npcs.json
 msgid "抬眼看了你一下，又低下头。"
@@ -43128,6 +43452,21 @@ msgstr ""
 #. fanfang.npc.ronin_master trials.success
 #: data/fanfang/npcs.json
 msgid "早川直义收刀入鞘：「过了。今夜，拜火祠——火坛前站着，别出声。」"
+msgstr ""
+
+#. fanfang.npc.ronin_master family.title
+#: data/fanfang/npcs.json
+msgid "宗道"
+msgstr ""
+
+#. fanfang.npc.ronin_master apprentice.requires.refuse_say
+#: data/fanfang/npcs.json
+msgid "一刀都没过，拜什么师。"
+msgstr ""
+
+#. fanfang.npc.ronin_master apprentice.accept_say
+#: data/fanfang/npcs.json
+msgid "……刀出鞘，只出一次。记住。从今天起，你是鬼笠馆的人。"
 msgstr ""
 
 #. native.npc.ronin title

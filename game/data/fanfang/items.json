@@ -36,6 +36,22 @@
 				]
 			}
 		},
-		{ "id": "native:fanfang/katana", "legacy_sources": ["native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — the 浪人's narrow curved long sword (ES2 maps 早川 to sword: ronin/master.c set_skill sword 100); the 浪人刀法 that needs it is 番坊 D's"], "name": "倭刀", "aliases": ["katana", "sword", "刀", "倭刀", "长刀"], "long": "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n", "unit": "把", "material": "iron", "weight": 2400, "value": 2500, "weapon": { "skill": "sword", "damage": 50, "weight_dodge": "equip" } }
+		{ "id": "native:fanfang/katana", "legacy_sources": ["native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — the 浪人's narrow curved long sword (ES2 maps 早川 to sword: ronin/master.c set_skill sword 100); the 浪人刀法 that needs it is 番坊 D's"], "name": "倭刀", "aliases": ["katana", "sword", "刀", "倭刀", "长刀"], "long": "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n", "unit": "把", "material": "iron", "weight": 2400, "value": 2500, "weapon": { "skill": "sword", "damage": 50, "weight_dodge": "equip" } },
+		{
+			"id": "native:fanfang/round_shield",
+			"legacy_sources": ["native: 番坊 D (剧情总纲 §3 第七章 ⑤「学短剑加盾那一派招式树」, §6 番坊卡; 计划 build/plans/番坊_计划.md §2 三门武功 §4 要盾才能学／互斥 §6 D 包; DECISIONS「番坊 D」) — 续写 — 大秦剑会's round shield (剧情总纲 §6 番坊卡 盾墙), obj/weapon/shield.c's shape with iron round the rim; 安敦 hands one to his apprentice, the coppersmith sells them"],
+			"name": "大秦圆盾",
+			"aliases": ["round shield", "shield", "盾", "圆盾"],
+			"long": "一面大秦人的圆盾，木胎蒙牛皮，铁皮包边，盾心一个铁泡。盾面上漆着一只展翅的鹰，漆掉了一半，盾沿全是剑尖戳出来的白点。左臂套上去正合适。\n",
+			"unit": "面",
+			"material": "leather",
+			"weight": 6000,
+			"value": 900,
+			"armor": {
+				"type": "shield",
+				"props": { "armor": 7, "defense": 4 },
+				"weight_dodge": "armor"
+			}
+		}
 	]
 }

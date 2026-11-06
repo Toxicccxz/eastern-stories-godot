@@ -301,6 +301,7 @@
 		"es2:d/waterfog/obj/red_hat": { "kind": "headwear", "style": "cap", "color": "c8261e", "accent": "e6b83a:gloss" },
 		"es2:d/waterfog/obj/sorrowfire": { "kind": "sword", "width": 0.085, "blade": "2a2522:gloss", "ridge": "4a2a1e", "guard": "3a302a:gloss", "grip": "2a1f19", "wrap": "5a1a12", "pommel": "3a302a:gloss", "inlay": "a8401c", "tassel": "8a1c12" },
 		"es2:d/waterfog/obj/iron_staff": { "kind": "staff", "thick": 0.065, "shaft": "2f2a26", "cap": "4e4842:gloss", "bands": "3d3631" },
-		"native:fanfang/katana": { "kind": "saber", "curve": 0.08, "blade": "c4ccd0:gloss", "back": "8a9298:gloss", "grip": "2a2622", "wrap": "4a4038", "guard": "6a5a3a", "pommel": "2a2622" }
+		"native:fanfang/katana": { "kind": "saber", "curve": 0.08, "blade": "c4ccd0:gloss", "back": "8a9298:gloss", "grip": "2a2622", "wrap": "4a4038", "guard": "6a5a3a", "pommel": "2a2622" },
+		"native:fanfang/round_shield": { "kind": "shield", "face": "6a3a30", "rim": "3e3a36", "boss": "8a8a8a:gloss", "studs": "8a7a50" }
 	}
 }

@@ -66,6 +66,11 @@ static func _plain_lines(result: LearnResult, teacher: String, skill: SkillDefin
 			# valid_learn()'s own notify_fail() replaces learn.c's (the last call wins).
 			var refusal: String = skill.valid_learn_line(result.skill_learn_policy_result)
 			return [_t(refusal if not refusal.is_empty() else "依你目前的能力，没有办法学习这种技能。")]
+		LearnResult.FailureReason.ARMOR_TYPE_MISSING:
+			# 番坊 D: the skill's own `learn.armor_refusal`, said by the master.
+			return [_t("%s说道：%s") % [npc, _t(skill.learn_armor_refusal)]]
+		LearnResult.FailureReason.FORBIDDEN_MARK:
+			return [_t("%s说道：%s") % [npc, _t(skill.learn_forbidden_refusal)]]
 		LearnResult.FailureReason.POTENTIAL_EXHAUSTED:
 			return [_t("你的潜能已经发挥到极限了，没有办法再成长了。")]
 		LearnResult.FailureReason.TEACHING_TEMPORARILY_DISABLED:
@@ -112,6 +117,10 @@ static func quote_line(quote: LearnQuote, teacher: String, skill: SkillDefinitio
 			why = _t(refusal if not refusal.is_empty() else "依你目前的能力，没有办法学习这种技能。").trim_suffix("。") # NO_TRANSLATE
 		LearnQuote.Bound.EXPERIENCE:
 			why = _t(QUOTE_EXPERIENCE if quote.ceiling > quote.level else QUOTE_EXPERIENCE_NOW)
+		LearnQuote.Bound.AUTHORED:
+			# 番坊 D: the skill's own `learn` refusal, as the master would say it.
+			var authored: String = skill.learn_armor_refusal if quote.now.failure_reason == LearnResult.FailureReason.ARMOR_TYPE_MISSING else skill.learn_forbidden_refusal
+			why = _t(authored).trim_suffix("。") # NO_TRANSLATE
 	var values: Dictionary = {
 		"npc": npc, "teacher": quote.teacher_level, "count": quote.betrayals,
 		"cap": quote.teacher_level - quote.betrayals * 20, "level": quote.ceiling,

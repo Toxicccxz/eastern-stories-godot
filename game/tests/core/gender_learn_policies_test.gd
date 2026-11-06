@@ -307,7 +307,7 @@ func _test_registry_inventory() -> void:
 	_assert_eq(blocked_count, 1, "one explicit hook dependency-blocked")
 
 	var known: RegistryScript = _registry()
-	_assert_eq(known.registered_count(), 71, "71 known active skills (the native 关北马刀 among them)")
+	_assert_eq(known.registered_count(), 73, "73 known active skills (the native 关北马刀, 铁盾剑法, 鬼笠刀法 among them)")
 	var inherited_ids: Array[StringName] = [
 		SkillIdsScript.AXE,
 		SkillIdsScript.BLADE,
@@ -335,8 +335,10 @@ func _test_registry_inventory() -> void:
 		SkillIdsScript.WHIP,
 		SkillIdsScript.YIRONG,
 		SkillIdsScript.GUANBEI_SABER,
+		SkillIdsScript.SHIELD_SWORD,
+		SkillIdsScript.GHOST_HAT_SWORD,
 	]
-	_assert_eq(inherited_ids.size(), 26, "25 inherited std/skill defaults and the native 关北马刀")
+	_assert_eq(inherited_ids.size(), 28, "25 inherited std/skill defaults and the native 关北马刀, 铁盾剑法, 鬼笠刀法")
 	for skill_id: StringName in inherited_ids:
 		_assert_true(
 			known.policy_for(skill_id).get_script() == DefaultPolicyScript,

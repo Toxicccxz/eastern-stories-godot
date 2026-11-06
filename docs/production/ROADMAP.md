@@ -37,7 +37,7 @@ view goes through the regions.
 | 12b | 黑松山 (`d/chuenyu`), repaired | 黄土大道's spur west (玉螺湖村) | 32/37 | 14/23 | — | 7/7 | 0/0 | The copy of 刘家 (ES2 cut it off; it lives in 玉螺湖村); npc/xiaojuan.c is a copy placed by no room. |
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | block.c and jail.c (wizard rooms), spath1.c (no way in). |
 | 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 25 native | 36 | — | — | — | Done in four packages (`build/plans/关北_计划.md`, DECISIONS「关北 A」–「关北 D」). |
-| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 19 native so far | 20 | — | — | — | A–C done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」「番坊 B」「番坊 C」); D to come. |
+| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 19 native | 19 | — | — | — | A–D done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」–「番坊 D」): the region is complete. |
 | | **Total** | | **536/551** | **239/286** | **9/9** | **33/36** special, **22/26** basic | **84/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
@@ -160,8 +160,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    (DECISIONS「番坊 C」: 鬼笠馆 through the temple's south door, 早川 from ronin/master.c and his one blow as a story trial; the 争地 — 冯禄
    and his four hired 浪人 inside 铁盾会's gate, the 印模 held to the paper or a fight with three swordsmen beside the player; the wait for
    dark on the boards and the 黑影 at the altar with the tablet, the 大秦人 cleared to the quay on the 浪人's side; the tablet read, the
-   chapter's milestone, the eighth chapter's stub); next D (the three masters and their families, 铁盾剑法 and 鬼笠刀法 with the two new
-   `valid_learn` rules, 卢卡 as a companion, the fisherman's line).
+   chapter's milestone, the eighth chapter's stub); D done (DECISIONS「番坊 D」: the three masters and their families — 安敦's shield and
+   铁盾剑法 that wants it on the arm, 早川's 倭刀 and 鬼笠刀法 with its 一刀, 龙若法王 after 剃度 — the two data learn rules
+   `requires_armor_type` / `forbids_marks` and `accept_marks`, 卢卡 as a companion on 跟我走, the fisherman's 水怪 growing worse).
+   The seventh chapter and the 番坊 region are complete; next the eighth chapter 湖底封物 (剧情总纲 §3 第八章): its plan first.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

@@ -70,6 +70,14 @@ var _actions: Array[CombatActionDefinition] = []
 var _practice: PracticePolicy
 ## valid_learn()'s notify_fail() lines by the rule that refused (VALID_LEARN_KEYS).
 var _valid_learn_lines: Dictionary[String, String] = {}
+## Native (番坊 D; DECISIONS「番坊 D」): valid_learn() rules written in data, beside the LPC
+## hooks' lines. `learn.requires_armor_type` (an armor type the student must wear: 铁盾剑法's
+## shield) with its `armor_refusal`, and `learn.forbids_marks` (marks whose bearer is never
+## taught: 鬼笠馆's men never learn 铁盾剑法) with its `forbidden_refusal`.
+var learn_requires_armor_type: StringName = &""
+var learn_armor_refusal: String = ""
+var learn_forbids_marks: Array[String] = []
+var learn_forbidden_refusal: String = ""
 
 ## The SkillLearnPolicyResult reasons whose valid_learn() line skills.json can author.
 const VALID_LEARN_KEYS: Dictionary[String, Array] = {
@@ -225,6 +233,17 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 				definition._practice.conjuring = PracticeConjuring.from_record(conjure)
 		practice.finish()
 	definition._valid_learn_lines = reader.text_map("valid_learn")
+	var learn: ContentRecordReader = reader.child("learn")
+	if learn != null:
+		definition.learn_requires_armor_type = StringName(learn.text("requires_armor_type"))
+		definition.learn_armor_refusal = learn.text("armor_refusal")
+		if definition.learn_requires_armor_type.is_empty() != definition.learn_armor_refusal.is_empty():
+			learn.fail("requires_armor_type", "an armor type to wear and what the master says without it go together")
+		definition.learn_forbids_marks = learn.text_list("forbids_marks")
+		definition.learn_forbidden_refusal = learn.text("forbidden_refusal")
+		if definition.learn_forbids_marks.is_empty() != definition.learn_forbidden_refusal.is_empty():
+			learn.fail("forbids_marks", "forbidden marks and what the master says to their bearer go together")
+		learn.finish()
 	for key: String in definition._valid_learn_lines:
 		if not VALID_LEARN_KEYS.has(key):
 			reader.fail("valid_learn", "unknown rule %s (expected %s)" % [key, ", ".join(VALID_LEARN_KEYS.keys())])
