@@ -60,6 +60,9 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var objective_hints_check: CheckButton = %ObjectiveHintsCheck
 @onready var autosave_notice_check: CheckButton = %AutosaveNoticeCheck
 @onready var day_night_option: OptionButton = %DayNightOption
+## 总音量 (DECISIONS「战斗拍数 C」): the Master bus, 0–100.
+@onready var master_volume_slider: HSlider = %MasterVolumeSlider
+@onready var master_volume_label: Label = %MasterVolumeLabel
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
 @onready var settings_cancel_button: Button = %SettingsCancelButton
@@ -744,6 +747,11 @@ func apply_settings() -> bool:
 		var lit: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_day_night(day_night_option.get_selected_id())
 		if lit.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "昼夜设置已生效，但未能保存。"
+			return false
+	if roundi(master_volume_slider.value) != committed.master_volume():
+		var heard: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_master_volume(roundi(master_volume_slider.value))
+		if heard.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "音量已生效，但未能保存。"
 			return false
 	if not _settings_service.can_edit_window_mode():
 		# The platform keeps the window; every other setting has applied above.
@@ -1452,6 +1460,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	objective_hints_check.disabled = not settings_interactive
 	autosave_notice_check.disabled = not settings_interactive
 	day_night_option.disabled = not settings_interactive
+	master_volume_slider.editable = settings_interactive
 	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
@@ -1656,6 +1665,10 @@ func _configure_battle_options() -> void:
 	day_night_option.add_item("一直白天", DayNightPreference.Value.DAY)
 	day_night_option.add_item("一直夜晚", DayNightPreference.Value.NIGHT)
 	day_night_option.tooltip_text = "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+	# 总音量 (DECISIONS「战斗拍数 C」): the game's sounds (the fight's, for now); 0 is silence.
+	master_volume_slider.tooltip_text = "游戏里所有声音的音量；拉到 0 就没有声音"
+	if not master_volume_slider.value_changed.is_connected(_show_master_volume):
+		master_volume_slider.value_changed.connect(_show_master_volume)
 	_select_committed_battle()
 
 
@@ -1675,6 +1688,14 @@ func _select_committed_battle() -> void:
 	var day_night: int = day_night_option.get_item_index(committed.day_night())
 	if day_night >= 0:
 		day_night_option.select(day_night)
+	master_volume_slider.set_value_no_signal(committed.master_volume())
+	_show_master_volume(committed.master_volume())
+
+
+## The 总音量's number beside its slider.
+func _show_master_volume(value: float) -> void:
+	# TRANSLATORS: the 总音量 beside its slider, in percent.
+	master_volume_label.text = tr("%d%%") % roundi(value)
 
 
 func _selected_language() -> String:
@@ -1726,6 +1747,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		objective_hints_check,
 		autosave_notice_check,
 		day_night_option,
+		master_volume_slider,
 		settings_apply_button,
 		settings_cancel_button,
 		backup_recovery_button,
@@ -1778,7 +1800,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check, autosave_notice_check, day_night_option])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check, autosave_notice_check, day_night_option, master_volume_slider])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)

@@ -29,6 +29,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_fight_clock(tree)
 	await _test_lines(tree)
 	await _test_end_hold(tree)
+	await _test_scene_input(tree)
 	_test_card(tree)
 	BattlePace.speed = BattlePace.Speed.NORMAL
 	BattlePace.hit_flash = true
@@ -148,6 +149,68 @@ func _test_lines(tree: SceneTree) -> void:
 		_ui._tell_lines(0.01)
 		waited += 0.01
 	_check(waited < 0.95, "twenty lines told within the round: %.2f s" % waited)
+	TestFeel.restore()
+	await tree.process_frame
+
+
+## 战斗拍数 C: the scene's show and the strip's pauses never lock the input — a beat told
+## still (the lines queued, the figures moving), the next order is taken; the figures are
+## the view's and the show moves their models, not the bodies; the sounds record what played.
+func _test_scene_input(tree: SceneTree) -> void:
+	TestFeel.use()
+	var manual_before: bool = BattlePace.manual_turns
+	BattlePace.manual_turns = true
+	# After the end hold (the last fight over, trainee.2 dead): a fresh trainee.
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "beside a trainee")
+	var trainee: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.1")
+	trainee.character_state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY: outlast the test
+	_player.state.vitality = CharacterResourceState.new(100000, 100000, 100000)
+	map.select_npc(trainee.character_id)
+	var started: CombatSliceInitiationResult = map.attack_selected()
+	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks (%d)" % started.outcome)
+	var waited: float = 0.0
+	while not _coordinator.waiting_for_player() and _coordinator.has_active_encounter() and waited < 5.0:
+		await tree.process_frame
+		waited += 0.05
+	_ui.refresh_projection()
+	var view: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
+	_check(_ui.scene_show.view == view and view != null, "the show plays in the map's voxel view")
+	_check(is_equal_approx(view.zoom(), BattleSceneShow.ZOOM_OPEN) or GameContent.catalog().pacing().feel.battle_zoom_seconds <= 0.0, "the fight began: the camera a little nearer (%.2f)" % view.zoom())
+	var body_before: Vector2 = map.runtime_body_for_character(trainee.character_id).global_position
+	# A move of one beat (a 重 costs the round's two, and the second press must afford one).
+	var cheap: StringName = &""
+	for move: CombatActionDefinition in _coordinator.player_moves():
+		if _coordinator.move_cost(move.action_id) == 1 and not _coordinator.locked_moves().has(move.action_id):
+			cheap = move.action_id
+			break
+	_check(_coordinator.waiting_for_player() and not cheap.is_empty() and _coordinator.choose_attack(cheap), "the first beat ordered")
+	# The round runs on the next advance: the beat, the trainee's, then it waits on the
+	# player's second beat while the strip is still telling the first.
+	_coordinator.advance_scheduler(1.0)
+	_ui.refresh_projection()
+	var showing: bool = not _ui._line_queue.is_empty() or not _ui.scene_show._tweens.is_empty()
+	_check(showing, "the beat's lines are still being told, the figures moving (%d lines queued, %d figures in a show)" % [_ui._line_queue.size(), _ui.scene_show._tweens.size()])
+	_check(_coordinator.waiting_for_player() and _coordinator.choose_attack(cheap), "and the next beat is taken all the same: the input is never locked (waiting %s, %d lines queued)" % [_coordinator.waiting_for_player(), _ui._line_queue.size()])
+	await tree.create_timer(1.5).timeout
+	_ui.refresh_projection()
+	_check(map.runtime_body_for_character(trainee.character_id).global_position == body_before, "the 2D body never moved: the show moved the model only")
+	_check(_ui.sounds.played_kinds().has(BattleSounds.CLAPPER), "the clap of the beats played: %s" % [_ui.sounds.played_kinds()])
+	# The fight ends as the end hold's does (TEST-ONLY: the trainee falls to the next blow).
+	trainee.character_state.vitality = CharacterResourceState.new(1, 1, 100000)
+	_player.state.progression.combat_experience = 100000
+	BattlePace.manual_turns = false
+	for step: int in 600:
+		if not _coordinator.has_active_encounter():
+			break
+		_coordinator.advance_scheduler(1.0)
+	_ui.refresh_projection()
+	_check(not _coordinator.has_active_encounter() and _ui._holding() and _ui.scene_show.view != null, "over: the panel holds, the show still on the scene")
+	await tree.create_timer(2.5).timeout
+	_ui.refresh_projection()
+	_check(not _ui._holding() and _ui.scene_show.view == null and is_equal_approx(view.zoom(), 1.0), "the hold over: the show is over, the camera back (holding %s, zoom %.2f)" % [_ui._holding(), view.zoom()])
+	_player.state.progression.combat_experience = 100
+	BattlePace.manual_turns = manual_before
 	TestFeel.restore()
 	await tree.process_frame
 
