@@ -780,6 +780,287 @@
 					"箱子还给我了，书也给了你。里头最要紧的东西，如今在程大人的卷宗里。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.lihong",
+			"legacy_source": "native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」) — 金乌杞庸's sister of doc/help/history:56–57 (我的妹妹璃虹正在天上巡行，已经被这侮天鬼捉去了), sealed in the ice with the head three hundred years, her light the seal; 续写",
+			"name": "璃虹",
+			"aliases": [
+				"lihong",
+				"li hong",
+				"璃虹",
+				"冰柱里的人",
+				"woman"
+			],
+			"title": "金乌",
+			"gender": "女性",
+			"age": 23,
+			"long": "冰柱里站着一个女人，看着二十来岁，眼睛是睁着的。她一身浅金的衣，衣角在冰里像还在飘。她身上发着白光，光照在冰上，冰就不化。她的嘴唇没有动，声音却从冰里传出来。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 30,
+				"int": 40,
+				"spi": 40,
+				"cps": 40,
+				"per": 40,
+				"con": 30,
+				"kar": 30
+			},
+			"combat_exp": 900000,
+			"score": 9000,
+			"attitude": "peaceful",
+			"fight_deferred": "你的手还没碰到冰柱，就冷得缩了回来。柱里的人连眼睛都没有眨。",
+			"skills": {
+				"dodge": 180,
+				"parry": 150,
+				"force": 200
+			},
+			"inquiry": {
+				"封法": {
+					"rules": [
+						{
+							"asker_marks": [
+								"璃虹说了封法"
+							],
+							"say": "钉拔，它成形，先回这附近的村子。要灭它，三器齐：穿灵、宝衣、原令。要再封，须有人留下。——铜上刻了三句，我补了三句，都是实话。"
+						},
+						{
+							"say": "先把铜上的话念给我听。"
+						}
+					]
+				},
+				"穿灵": {
+					"rules": [
+						{
+							"asker_marks": [
+								"拔了穿灵"
+							],
+							"say": "它在你手里了。三百年钉着一颗头，钉的是它的名，不是肉——到了灭它那一天，还得是它。"
+						},
+						{
+							"say": "寒於的剑。三百年前我哥哥借了它来钉这颗头——剑是皇叔的，皇叔是人，人活不过三百年，剑能。"
+						}
+					]
+				},
+				"杞庸": {
+					"rules": [
+						{
+							"say": "我哥哥。金乌的长子。它捉了我，他追到这里，钉了它——然后他走了。金乌不能留在地上，留下来的只能是我。"
+						}
+					]
+				},
+				"侮天鬼": {
+					"rules": [
+						{
+							"say": "它没有头的时候，是一团焰。有了头，就有了名，有了名，就能把人当柴烧。这颗头在冰里睡了三百年，它在底下长了三百年。"
+						}
+					]
+				},
+				"商玦": {
+					"rules": [
+						{
+							"asker_marks": [
+								"商玦劝过你"
+							],
+							"say": "他要的是鬼成形。成了形的鬼才找得到头，找到了头，他才能把它养成他的。他不骗你，他只是不说完。"
+						},
+						{
+							"say": "逆灵宫的人。他来过，站在潭口上面，看了很久，没下来。"
+						}
+					]
+				},
+				"三百年": {
+					"rules": [
+						{
+							"say": "三百年。冰里不冷，也不饿，就是长。头在长，我在等。第一个带着铜来的，是你。"
+						}
+					]
+				},
+				"留下": {
+					"rules": [
+						{
+							"say": "再封，须有人留下。留下的人，就是下一块冰。我哥哥没有留，我留了；这一回要是再封，不会是我——我已经没有光了。"
+						}
+					]
+				}
+			},
+			"calls": [
+				{
+					"reaction": true,
+					"npc_in": "village.seal_altar",
+					"not_mark": "见过璃虹",
+					"steps": [
+						{
+							"line": "冰柱里的光亮了一亮。\n",
+							"color": "HIW"
+						},
+						{
+							"say": "你带着铜来的。三百年了，第一个带着铜来的人。"
+						},
+						{
+							"say": "我是璃虹，杞庸的妹妹。它捉了我，我哥哥钉了它——我就留在这里，照着这块冰。"
+						},
+						{
+							"say": "你念过那片铜。念给我听。念对了，我再说下面的。"
+						},
+						{
+							"mark": "见过璃虹"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.lihong_weak",
+			"legacy_source": "native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」) — 璃虹 out of the ice once the sword is drawn (总纲 §3 第八章: 出来就剩半条命); she goes ashore with the player in B; 续写",
+			"name": "璃虹",
+			"aliases": [
+				"lihong",
+				"li hong",
+				"璃虹",
+				"woman"
+			],
+			"title": "金乌",
+			"gender": "女性",
+			"age": 23,
+			"long": "璃虹靠着封坛坐在冰上，身上的光只剩一点，像快灭的灯。她的衣角湿了——三百年来第一次湿。她在喘。\n",
+			"attributes": {
+				"str": 10,
+				"cor": 20,
+				"int": 40,
+				"spi": 40,
+				"cps": 20,
+				"per": 30,
+				"con": 10,
+				"kar": 30
+			},
+			"combat_exp": 300000,
+			"score": 3000,
+			"attitude": "peaceful",
+			"fight_deferred": "她连抬手的力气都没有。你下不去手。",
+			"skills": {
+				"dodge": 60,
+				"parry": 40,
+				"force": 80
+			},
+			"inquiry": {
+				"封法": {
+					"rules": [
+						{
+							"say": "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差宝衣和原令。"
+						}
+					]
+				},
+				"上岸": {
+					"rules": [
+						{
+							"say": "带我上岸。我在冰里三百年，忘了岸上是什么样子。"
+						}
+					]
+				},
+				"三百年": {
+					"rules": [
+						{
+							"say": "……别问。先上去。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.shang_jue_lake",
+			"legacy_source": "native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」) — 商玦 of 逆灵宫 C (native.npc.shang_jue), come down to the 封坛 a step ahead of the player (计划 §5 第 5 条); his numbers his own; 续写",
+			"name": "商玦",
+			"aliases": [
+				"shang jue",
+				"shang",
+				"master",
+				"商玦"
+			],
+			"title": "逆灵宫宫主",
+			"gender": "男性",
+			"age": 52,
+			"long": "商玦站在封坛对面，黑衣湿透了贴在身上，水顺着袖口往下滴。他没有看你，看着冰里那颗头，像看一件等了很久的东西。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 30,
+				"spi": 30,
+				"cps": 30,
+				"per": 30,
+				"con": 26,
+				"kar": 4
+			},
+			"combat_exp": 500000,
+			"score": 5000,
+			"attitude": "friendly",
+			"skills": {
+				"sword": 120,
+				"six-chaos-sword": 120,
+				"dodge": 150,
+				"parry": 130,
+				"force": 160
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"fight_deferred": "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
+			"inquiry": {
+				"拔": {
+					"rules": [
+						{
+							"say": "商玦看着冰里的头：拔了它。钉着，它是一颗头；拔了，它是一个东西——有形的东西才打得死。"
+						}
+					]
+				},
+				"头": {
+					"rules": [
+						{
+							"say": "商玦的声音没有起伏：五千年的头。你以为它封着就是安稳？它在长。"
+						}
+					]
+				},
+				"逆灵宫": {
+					"rules": [
+						{
+							"say": "商玦没有回头：逆灵者，逆天地之灵而用之。你割了我的绳索，我下了崖，就到了这里——比你早一步。"
+						}
+					]
+				}
+			},
+			"scene_mark": "商玦劝过你",
+			"calls": [
+				{
+					"after": 8,
+					"scene": true,
+					"not_mark": "商玦劝过你",
+					"steps": [
+						{
+							"line": "潭口的水面上一响。商玦湿淋淋地站在封坛对面——不是来打的，手垂着。\n"
+						},
+						{
+							"say": "拔了它。"
+						}
+					]
+				},
+				{
+					"after": 13,
+					"scene": true,
+					"not_mark": "商玦劝过你",
+					"steps": [
+						{
+							"say": "你拿着剑，鬼醒了才找得到头；找到了头，才灭得了它。你以为它封着就是安稳？它在长。三百年，长了三百年。"
+						},
+						{
+							"by": "native.npc.lihong"
+						},
+						{
+							"say": "他要的是鬼成形。"
+						}
+					]
+				}
+			]
 		}
 	]
 }

@@ -84,6 +84,8 @@
 		"native:snow/letter_to_pan": { "kind": "letter", "paper": "e6d6ae", "fold": "c4b088", "seal": "9a2a1a:gloss", "ink": "2e2119" },
 		"native:cloud/escort_note": { "kind": "paper", "paper": "d4bc80", "ink": "4a3a2a" },
 		"native:oldpine/stone_box": { "kind": "box", "style": "stone", "color": "5a6e68", "color2": "6b817a", "trim": "34443f" },
+		"native:village/soul_impaler": { "kind": "sword", "length": 0.85, "width": 0.1, "blade": "bfe6f4:gloss", "grip": "e8f2f8", "wrap": "9cc8dc", "pommel": "f2fafd:gloss", "guard": "4a6a80" },
+		"native:village/lihong_feather": { "kind": "token", "color": "f0dca0:glow", "border": "f8ecc0:glow", "emblem": "fffaf0:glow", "cord": "e8d090", "tassel": "f0dca0" },
 		"native:latemoon/cold_robe": { "kind": "garment", "style": "robe", "cloth": "e6eef3", "trim": "a9c3d4", "pattern": "cloud", "accent": "c6dae6", "sash": "8fb0c6" },
 		"native:choyin/decree_copy": { "kind": "scroll", "open": true, "paper": "d9c58e", "rod": "6b4a2e", "ink": "2e2119" },
 		"native:choyin/magistrate_letter": { "kind": "letter", "paper": "ddd0a8", "fold": "bfa982", "seal": "b0302a:gloss", "ink": "1d1612" },
