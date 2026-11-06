@@ -330,6 +330,6 @@ settle before any public distribution.
 
 See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~10 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single
-suites: `<godot> --headless --path game --script res://tests/run_suite.gd -- <suite paths>`. Maps: edit
+suites: `<godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- <suite paths>`. Maps: edit
 `tools/maps/layouts/<region>.json`, then `python -m tools.maps.paint <region>` (the tools tests fail on a
 hand-edited scene). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite.
