@@ -134,8 +134,11 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
 * **Voxel config** per map: `game/data/<region>/voxel/<map>.json` (map id without the region,
   e.g. `snow.inn_upstairs` → `snow/voxel/inn_upstairs.json`), named by the layout's
   `scene.presentation`. It holds only what blocks nothing: lights, windows, rugs, wall hangings,
-  small floor things, cut-away walls (`low_walls`), buildings' outward shape, flora, actor looks,
-  entrance labels.
+  small floor things, cut-away walls (`low_walls`), buildings' outward shape, flora, the map's own
+  actor looks (its default and what changes a person on that map alone), entrance labels. A
+  person's look is their card in `game/data/<region>/appearances.json` (by NPC id), drawn by the
+  data-configured `voxel_person.gd`; their 立绘 are `game/assets/portraits/<id>_full.png` /
+  `_bust.png` (flat colour, no outlines; DECISIONS「人物外观」).
 * **Code** in `game/presentation/voxel/`: the view, geometry, lighting and occlusion at the top;
   `props/` (shapes, furniture, fixtures, architecture), `terrain/` (ground, landmass, foliage,
   trees), `actors/`, `shaders/`. A new prop kind goes in the props file of its category and is

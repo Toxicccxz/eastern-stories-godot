@@ -16,9 +16,6 @@
   "actors": {
     "default": {
       "coat": "887b56"
-    },
-    "snow.npc.post_officer": {
-      "coat": "5f7281"
     }
   }
 }
