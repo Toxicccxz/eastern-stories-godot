@@ -431,7 +431,10 @@ func _check_hotel_3f(map: WorldMapController) -> void:
 	var kinds: Array[String] = _kinds(view)
 	_check(kinds.count("closed_door") == 6 and "weapon_rack" in kinds and kinds.count("travel_chest") == 2, "hotel3.c: 客房, 富商大贾, 武师担任守卫")
 	_check(kinds.count("clutter") >= 7 and "pot" in kinds and view.geometry.life.ambience_made.get(&"choyin.hotel3", 0) >= 1, "hotel3.c: each guest's own things outside his door; moths at the corridor's lanterns")
-	_check(String(view.layout.get("actors", {}).get("choyin.npc.guard", {}).get("coat", "")) == "3a5a8a", "hotel3.c: 一个身穿蓝布衣的人")
+	# His look is his card (人物外观), the map adding nothing over it.
+	var guard: Dictionary = PersonLooks.resolve(view.layout.get("actors", {}), "choyin.npc.guard")
+	var cloth := Color(String(guard.get("coat", "000000")))
+	_check(cloth.b > cloth.r + 0.1 and cloth.b > cloth.g, "hotel3.c: 一个身穿蓝布衣的人: %s" % guard.get("coat", ""))
 
 
 func _check_tree_hollow(map: WorldMapController) -> void:
