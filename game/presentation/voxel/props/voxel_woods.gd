@@ -538,6 +538,20 @@ func _paper_slip() -> void:
 func _lone_tree() -> void:
 	var size: float = float(data.get("scale",1.0))
 	root.scale = Vector3.ONE*size
+	if data.get("charred",false):
+		# What a fire left of it (第八章 B, DECISIONS「舞台道具」): the trunk black and split, a few bare
+		# boughs standing out of it, no leaves, ash and fallen sticks at its foot.
+		var char_colors: Array = _colors("colors",["1e1a17","2a2422","141210"])
+		var tall: float = float(data.get("height",3.2))
+		s.box(root,Vector3(0,tall*0.5,0),Vector3(0.34,tall,0.3),String(char_colors[0]))
+		s.box(root,Vector3(0.1,tall*0.55,-0.08),Vector3(0.16,tall*0.9,0.14),String(char_colors[1]))
+		for i: int in 4:
+			var a: float = i*1.7+0.4
+			s.tilted_box(root,Vector3(cos(a)*0.5,tall*0.78+i*0.18,sin(a)*0.5),Vector3(0.1,1.2,0.1),_pick(char_colors),Vector3(sin(a)*0.8,0,-cos(a)*0.8))
+		for stick: int in 5:
+			s.tilted_box(root,Vector3(rng.randf_range(-0.7,0.7),0.05,rng.randf_range(-0.7,0.7)),Vector3(0.06,0.06,rng.randf_range(0.3,0.7)),String(char_colors[stick%3]),Vector3(0,rng.randf()*TAU,0))
+		s.box(root,Vector3(0,0.04,0),Vector3(1.2,0.08,1.1),"2a2622")
+		return
 	var variant: int = int(data.get("variant",rng.randi_range(0,5)))
 	tree_shapes.build(root,s,String(data.get("species","tall_pine")),variant,Transform3D.IDENTITY,null,data.get("colors",[]))
 	if data.get("marks",false):

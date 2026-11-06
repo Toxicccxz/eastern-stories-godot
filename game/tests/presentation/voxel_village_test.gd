@@ -115,6 +115,11 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	for kind: String in ["notice_post", "skiff", "melon_vines", "scarecrow", "farm_tools", "snail_shells", "fishing_net", "great_tree", "far_peak", "cave_mouth", "thicket", "flower_bed", "compound_wall", "pigsty", "cart"]:
 		_check(kind in kinds, "the village has its %s" % kind)
 	_check(kinds.count("far_peak") >= 4, "lake.c: 西面远处是朦胧的群山")
+	# 第八章 B (DECISIONS「舞台道具」): the burnt things wait for the night after the sword; before it the
+	# whole ones stand and the burnt ones are built hidden, nodes of their own.
+	var staged: Array[Dictionary] = view.geometry.staged_props
+	_check(staged.size() == 9 and staged.filter(func(entry: Dictionary) -> bool: return (entry["node"] as Node3D).visible).size() == 4, "nine stage props (two boats and two willows, each whole and burnt, the charred roof): the four whole ones shown, the burnt hidden: %d shown" % staged.filter(func(entry: Dictionary) -> bool: return (entry["node"] as Node3D).visible).size())
+	_check("burnt_roof" in kinds and staged.any(func(entry: Dictionary) -> bool: return entry["look"].get("burnt", false)) and staged.any(func(entry: Dictionary) -> bool: return entry["look"].get("charred", false)), "the farmhouse's charred roof, a burnt skiff and a charred willow among them")
 	var bare: Array[String] = []
 	for prop: Dictionary in view.layout["props"]:
 		if prop["kind"] == "glow" and float(prop.get("day", 0.0)) == 0.0:

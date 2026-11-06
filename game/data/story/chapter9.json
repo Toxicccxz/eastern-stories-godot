@@ -6,9 +6,9 @@
 			"line": "main",
 			"region": "京师",
 			"sources": [
-				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the one step the 封法 opens (三器齐: 穿灵、宝衣、原令); the rest is the ninth chapter's package (皇城, 总纲 §3 第九章, §6 皇城卡)."
+				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the one step the 封法 opens (三器齐: 穿灵、旋芒、宝衣; 旋芒在岚城, and the way to 岚城 starts with the late emperor's search: 剧情总纲 §2 时间线「先帝……念念不忘寻找岚城」, history:71–76); the rest is the ninth chapter's package (皇城, 总纲 §3 第九章, §6 皇城卡)."
 			],
-			"summary": "璃虹说三器齐才灭得了它：穿灵、宝衣、原令——皇城里那道寻剑令的原本，皇叔於兰淳焉当年拿着它钉了鬼的头。去京师。",
+			"summary": "璃虹说三器齐才灭得了它：穿灵、旋芒、宝衣。旋芒在岚城，岚城寻风而至——先帝找了它一辈子，寻剑的档案和那道寻剑令的原本都在皇城。去京师。",
 			"requires": [
 				"main.chapter8"
 			],
