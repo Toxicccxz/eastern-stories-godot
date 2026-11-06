@@ -86,6 +86,9 @@ var _round_cursor: int = 0
 var _round_progress: bool = false
 var _pending_costs: Array = []
 var _yield_pending: bool = false
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): the beats an NPC's chat() special cost it after its
+## round's beats were spent (character_id -> [[key, cost]]), charged to its next round.
+var _npc_pending_costs: Dictionary[StringName, Array] = {}
 ## The special an NPC announced (npc_telegraph), to run on its next beat, and its label.
 var _pending_specials: Dictionary[StringName, NpcSpecialAction] = {}
 var _pending_labels: Dictionary[StringName, String] = {}
@@ -386,6 +389,62 @@ func _charge_player(key: StringName, cost: int, bindings: Array[CombatSliceChara
 ## The player changed their stance (CombatStance): a beat (beat_costs `stance`).
 func note_stance_change(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_charge_player(CombatBeatRules.COST_STANCE, _beat_rules.cost_of_action(CombatBeatRules.COST_STANCE), bindings)
+
+
+## 战斗拍数 C (DECISIONS「战斗拍数 C」): a perform's own busy (counterattack.c's 1, fakefault.c's
+## failed 1, swordjab.c's none) counts into the beats it cost: the beats paid count the busy
+## down first, so a perform loses max(its cost, its busy) beats, never the sum; a busy
+## longer than the cost keeps its rest, confiscated beat by beat as before. ES2's one beat
+## a round, or busy by rounds: untouched.
+func _absorb_special_busy(actor: CombatSliceCharacterBinding, cost: int) -> void:
+	if _one_beat() or not _beat_rules.busy_in_beats or actor == null:
+		return
+	for _beat: int in cost:
+		if actor.busy.busy_value <= 0:
+			return
+		actor.busy.advance()
+
+
+## 战斗拍数 C: an NPC's chat() special (npc.c perform_action / cast_spell / exert_function,
+## a command in ES2) costs its beats as the player's orders do, the same rule for both: off
+## the round running while it has beats left, else off its next round (no debt beyond
+## that); a perform's own busy counts into them. ES2's one beat a round: nothing.
+func _charge_npc_special(actor: CombatSliceCharacterBinding, action: NpcSpecialAction) -> void:
+	if _one_beat() or actor == null or action == null:
+		return
+	var key: StringName = npc_special_key(action)
+	if key.is_empty():
+		return
+	var cost: int = _beat_rules.cost_of_action(key)
+	var beats: CombatRoundBeats = _round_beats.get(actor.character_id) if _round_running else null
+	if beats != null and beats.has_beats():
+		beats.spend(key, cost)
+	else:
+		if not _npc_pending_costs.has(actor.character_id):
+			_npc_pending_costs[actor.character_id] = []
+		_npc_pending_costs[actor.character_id].append([key, cost])
+	if action.kind == NpcSpecialAction.Kind.PERFORM:
+		_absorb_special_busy(actor, cost)
+
+
+## The key an NPC's chat() special is charged under: perform/<id>, cast, exert; &"" for a
+## surrender (no beat).
+static func npc_special_key(action: NpcSpecialAction) -> StringName:
+	match action.kind:
+		NpcSpecialAction.Kind.PERFORM:
+			return CombatBeatRules.perform_key(action.function_id)
+		NpcSpecialAction.Kind.CAST:
+			return CombatBeatRules.COST_CAST
+		NpcSpecialAction.Kind.EXERT:
+			return CombatBeatRules.COST_EXERT
+	return &""
+
+
+## 战斗拍数 C: whether `actor_id`'s school reads it as close to its target now (柳家拳's
+## `state: close`; the voxel figures stand nearer), false for a school without the state.
+func skeleton_close(actor_id: StringName) -> bool:
+	var state: CombatSkeletonState = _skeleton_states.get(actor_id)
+	return state != null and state.close
 
 
 ## The key an order of `category` (CombatTacticalRequest.Category) with `action_id` is
@@ -733,6 +792,8 @@ func _run_pending_special(
 		var sides: Array = _sides_of(actor, bindings)
 		result = _npc_chat.run_special(actor, action, sides[0], sides[1], random_source, effect_registry, _modifiers)
 		_rest_special(actor)
+		# 战斗拍数 C: the special costs its beats, as the player's orders do.
+		_charge_npc_special(actor, action)
 		if result != null:
 			result.with_special_label(label)
 	_interrupted.erase(actor.character_id)
@@ -950,6 +1011,9 @@ func advance(
 	if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.APPLIED and queued != null:
 		var key: StringName = cost_key_of(queued.request.category, queued.request.action_id)
 		_charge_player(key, _beat_rules.cost_of_action(key), bindings)
+		# 战斗拍数 C: a perform's own busy counts into the beats it cost.
+		if queued.request.category == CombatTacticalRequest.Category.MARTIAL_SPECIAL:
+			_absorb_special_busy(_find_binding(bindings, _player_id), _beat_rules.cost_of_action(key))
 	if tactical_result != null and tactical_result.special != null:
 		var special_blows: Array = _report_blows(tactical_result.special)
 		_note_interrupts(special_blows, true)
@@ -1121,7 +1185,12 @@ func _beat_order() -> Array[StringName]:
 
 func _beats_of(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> CombatRoundBeats:
 	if not _round_beats.has(actor_id):
-		_round_beats[actor_id] = CombatRoundBeats.new(actor_id, _base_beats(_find_binding(bindings, actor_id)))
+		var beats := CombatRoundBeats.new(actor_id, _base_beats(_find_binding(bindings, actor_id)))
+		# 战斗拍数 C: what its chat() special cost after its last round's beats were spent.
+		for cost: Array in _npc_pending_costs.get(actor_id, []):
+			beats.spend(cost[0], cost[1])
+		_npc_pending_costs.erase(actor_id)
+		_round_beats[actor_id] = beats
 	return _round_beats[actor_id]
 
 
@@ -1207,6 +1276,8 @@ func _take_beat(
 	if not pick.perform.is_empty():
 		event = _perform_beat(actor, pick.perform, bindings, random_source, effect_registry)
 		beats.spend(CombatBeatRules.perform_key(pick.perform), _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
+		# 战斗拍数 C: its own busy counts into the beats paid.
+		_absorb_special_busy(actor, _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
 		if event != null:
 			_emit(event)
 			var ran: CombatNpcChatResult = event.chat
@@ -1294,6 +1365,9 @@ func _npc_round_end(
 	if chat == null:
 		return true
 	_emit(chat)
+	# 战斗拍数 C: a special its chat() ran on the spot (npc_telegraph off) costs its beats too.
+	if chat.chat != null and chat.chat.ran_special() != null:
+		_charge_npc_special(actor, chat.chat.ran_special())
 	if chat.chat != null and chat.chat.telegraph() != null:
 		_pending_specials[chat.actor_id] = chat.chat.telegraph()
 		_pending_labels[chat.actor_id] = chat.chat.telegraph_label()

@@ -110,7 +110,8 @@ func beat(
 			"npc": TranslationServer.translate(npc.definition().display_name), "move": label,
 		})
 		return CombatNpcChatResult.new([VisionLine.new(line, actor.character_id, &"", ColoredLine.HIY)]).with_telegraph(action, label)
-	return run_special(actor, action, enemies, others, random_source, effects)
+	var ran: CombatNpcChatResult = run_special(actor, action, enemies, others, random_source, effects)
+	return null if ran == null else ran.with_ran_special(action)
 
 
 ## The special `action` run against the fight as it is now (npc.c's perform_action() /
