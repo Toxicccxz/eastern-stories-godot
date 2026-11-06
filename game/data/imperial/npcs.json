@@ -1,0 +1,985 @@
+{
+	"npcs": [
+		{
+			"id": "native.npc.ge_sheng",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章 入口「武举」, §4 第 10 条官府「晋阶：武举」; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 兵部武选司's clerk who keeps the 武考 at the 校武场 (d/city/jiaowu.c: 每年武考也是在此举行的), 续写",
+			"name": "葛升",
+			"aliases": [
+				"ge sheng",
+				"ge",
+				"主事"
+			],
+			"title": "兵部武选司主事",
+			"gender": "男性",
+			"age": 45,
+			"long": "一个四十来岁的官儿，青袍上落着几点墨，坐在棚下的条案后头，面前一本名册、一方砚、一支秃了尖的笔。他看人先看手——手上有没有茧——再看脸。\n",
+			"attributes": {
+				"str": 18,
+				"cor": 18,
+				"int": 26,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 20000,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 30,
+				"dodge": 30,
+				"parry": 30
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"葛升蘸了蘸墨，在名册上勾了一笔。\n",
+				"葛升说道：下一个。\n"
+			],
+			"inquiry": {
+				"武举": {
+					"rules": [
+						{
+							"asker_marks": [
+								"中了武状元"
+							],
+							"say": "三场都过了，还问什么。明日早朝殿试——午门候旨。"
+						},
+						{
+							"asker_marks": [
+								"报了武举"
+							],
+							"say": "名字已经写上了。先是两位校尉，最后是邓将军。打到见血就算，不许下死手。"
+						},
+						{
+							"mark_asker": "报了武举",
+							"lines": [
+								{
+									"emote": "抬眼把你从头看到脚，又看了看你的手。"
+								},
+								{
+									"say": "报武举？今年文武大选，兵部开的科。名字。"
+								},
+								{
+									"emote": "在名册上写了一行，吹了吹墨。"
+								},
+								{
+									"say": "三场：两位御林军校尉，最后是邓将军。打到见血就算，不许下死手。三场都过了，明日殿试。"
+								}
+							]
+						}
+					]
+				},
+				"兵部": [
+					"兵部管天下的兵马，也管武举。小的只管写名字。"
+				],
+				"庾尚书": [
+					"尚书大人的事，不是小的能说的。"
+				],
+				"殿试": {
+					"rules": [
+						{
+							"asker_marks": [
+								"中了武状元"
+							],
+							"say": "明日早朝，午门外候着，有人传你。见了皇上磕头，别抬头看。"
+						},
+						{
+							"say": "先把三场打完再说殿试。"
+						}
+					]
+				}
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "中了武状元",
+					"not_mark": "葛升说了殿试",
+					"steps": [
+						{
+							"emote": "把笔一搁，看了你半晌。"
+						},
+						{
+							"say": "三场都过了。——明日早朝殿试，午门候旨。"
+						},
+						{
+							"mark": "葛升说了殿试"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.exam_lieutenant_1",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 武考 at the 校武场 (d/city/jiaowu.c: 一些御林军正在这里日夜操练……几个骑着高头大马的将领，在场上来回地巡视。每年武考也是在此举行的); one of its three bouts, 续写",
+			"name": "赵勇",
+			"aliases": [
+				"赵勇",
+				"校尉"
+			],
+			"title": "御林军校尉",
+			"gender": "男性",
+			"age": 28,
+			"long": "一个二十来岁的校尉，红袍外头罩着软甲，袖子挽到肘上，胳膊上一道一道的旧疤。他刚和人对过刀，额头上的汗还没干。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 28,
+				"kar": 20
+			},
+			"combat_exp": 250000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 100,
+				"parry": 95,
+				"dodge": 90,
+				"unarmed": 80,
+				"force": 90
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"accept_fight": [
+				{
+					"marks": [
+						"报了武举"
+					],
+					"not_mark": "胜了第一场",
+					"emote": "抱拳行了一礼，摆开了架势。",
+					"say": "武考，点到为止。请。",
+					"accept": true
+				},
+				{
+					"marks": [
+						"胜了第一场"
+					],
+					"say": "你已经过了我这一关。",
+					"accept": false
+				},
+				{
+					"say": "先去葛主事那儿报了名再来。",
+					"accept": false
+				}
+			],
+			"spar_won_mark": "胜了第一场",
+			"inquiry": {
+				"武举": [
+					"第一场是我。打到见血就算，不许下死手。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.exam_lieutenant_2",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 武考 at the 校武场 (d/city/jiaowu.c: 一些御林军正在这里日夜操练……几个骑着高头大马的将领，在场上来回地巡视。每年武考也是在此举行的); one of its three bouts, 续写",
+			"name": "孙锐",
+			"aliases": [
+				"孙锐",
+				"校尉"
+			],
+			"title": "御林军校尉",
+			"gender": "男性",
+			"age": 33,
+			"long": "一个三十出头的校尉，个子不高，站得像钉在地上。他看人的时候眼睛半眯着，像在量你的步子。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 28,
+				"kar": 20
+			},
+			"combat_exp": 350000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 120,
+				"parry": 115,
+				"dodge": 110,
+				"unarmed": 90,
+				"force": 110
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"accept_fight": [
+				{
+					"marks": [
+						"胜了第一场"
+					],
+					"not_mark": "胜了第二场",
+					"emote": "抱拳行了一礼，摆开了架势。",
+					"say": "武考，点到为止。请。",
+					"accept": true
+				},
+				{
+					"marks": [
+						"胜了第二场"
+					],
+					"say": "你已经过了我这一关。",
+					"accept": false
+				},
+				{
+					"say": "赵校尉那一关还没过，轮不到我。",
+					"accept": false
+				}
+			],
+			"spar_won_mark": "胜了第二场",
+			"inquiry": {
+				"武举": [
+					"第二场是我。赵勇那小子手重，我比他手准。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.deng_xiao",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 武考 at the 校武场 (d/city/jiaowu.c: 一些御林军正在这里日夜操练……几个骑着高头大马的将领，在场上来回地巡视。每年武考也是在此举行的); one of its three bouts, 续写",
+			"name": "邓骁",
+			"aliases": [
+				"邓骁",
+				"将军"
+			],
+			"title": "御林军将领",
+			"gender": "男性",
+			"age": 41,
+			"long": "一个四十岁上下的将领，方脸，络腮胡子，骑在一匹高头大马上绕着场子巡视。他下马的时候马鞭往鞍上一挂，一句话不说，先活动手腕。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 28,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 145,
+				"parry": 140,
+				"dodge": 130,
+				"unarmed": 110,
+				"force": 140
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"accept_fight": [
+				{
+					"marks": [
+						"胜了第二场"
+					],
+					"not_mark": "中了武状元",
+					"emote": "抱拳行了一礼，摆开了架势。",
+					"say": "武考，点到为止。请。",
+					"accept": true
+				},
+				{
+					"marks": [
+						"中了武状元"
+					],
+					"say": "你已经过了我这一关。",
+					"accept": false
+				},
+				{
+					"say": "前两场还没打完，找我做什么。",
+					"accept": false
+				}
+			],
+			"spar_won_mark": "中了武状元",
+			"inquiry": {
+				"武举": [
+					"最后一场是我。过了我，明日见皇上。"
+				],
+				"於兰天武": [
+					"当年的武状元。一杆枪挑了七个人，七个人没一个见血——那才叫点到为止。后来他不做官了。"
+				]
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"邓骁勒着马在场边转了一圈。\n",
+				"邓骁说道：手腕子软的，回去再练三年。\n"
+			]
+		},
+		{
+			"id": "native.npc.wumen_guard",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the guards of the 午门's 铁门 (d/city/shenwumen.c: 门上缠着大铁链，还有士兵把守; d/city/jitan.c: 禁卫军的官兵), 续写",
+			"name": "守门禁军",
+			"aliases": [
+				"guard",
+				"禁军"
+			],
+			"title": "禁军",
+			"gender": "男性",
+			"age": 30,
+			"long": "一个披甲的禁军，红缨盔，手里一杆长戟，站在午门的铁门前一动不动。他的眼睛不看人，看的是人的手。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 18,
+				"spi": 18,
+				"cps": 28,
+				"per": 18,
+				"con": 28,
+				"kar": 18
+			},
+			"combat_exp": 150000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 90,
+				"parry": 90,
+				"dodge": 80,
+				"unarmed": 80,
+				"force": 80
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"守门禁军把长戟换了一只手。\n"
+			],
+			"inquiry": {
+				"进宫": [
+					"宫门重地。要进去，要么是皇上宣的，要么是跟着上朝的官。校武场今年开武举，中了的明日殿试；相国府的人，早朝时跟着相国进。"
+				],
+				"皇城": [
+					"你看见的是午门。里头的事，不是你该问的。"
+				]
+			},
+			"accept_fight": [
+				{
+					"say": "天子脚下，谁跟你比划。",
+					"accept": false
+				}
+			]
+		},
+		{
+			"id": "native.npc.wei_zhizhong",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 相国 of d/city/xiangguo/gate.c (虽然相国在朝中也是地位显赫，但与对面尚书府比起来，相国的府第显的寒酸得多); name 续写",
+			"name": "韦执中",
+			"aliases": [
+				"wei zhizhong",
+				"wei",
+				"相国"
+			],
+			"title": "相国",
+			"gender": "男性",
+			"age": 67,
+			"long": "一个瘦小的老人，穿一件洗得发白的旧袍子，袖口补过。他的背有点驼，可是看人的时候眼睛很亮，一句话要想一会儿才出口，出口就不收回。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 24,
+				"int": 32,
+				"spi": 28,
+				"cps": 30,
+				"per": 20,
+				"con": 16,
+				"kar": 24
+			},
+			"combat_exp": 5000,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 150,
+				"dodge": 20
+			},
+			"chat_chance": 5,
+			"chat_msg": [
+				"韦执中翻过一页书，在页边上点了一个墨点。\n",
+				"韦执中咳了两声，把茶壶里的凉茶倒了半盏。\n"
+			],
+			"accept_fight": [
+				{
+					"say": "老夫拿笔的手，拿不动刀。",
+					"accept": false
+				}
+			],
+			"accept_object": [
+				{
+					"item": "native:choyin/luo_card",
+					"lines": [
+						{
+							"emote": "接过名帖，凑到灯下看了看。"
+						},
+						{
+							"say": "骆易的儿子荐来的。他父亲当年在老夫门下读过三年书，后来不读了，去练剑。"
+						},
+						{
+							"say": "坐。说吧，什么事要找到相国府来。"
+						}
+					],
+					"mark_giver": "相国见了名帖",
+					"accept": true
+				},
+				{
+					"say": "老夫不收东西。",
+					"accept": false
+				}
+			],
+			"inquiry": {
+				"兵部": {
+					"rules": [
+						{
+							"asker_marks": [
+								"相国见了名帖"
+							],
+							"say": "兵部？庾子建的兵部。他掌兵马，朝里一半的人是他的门生。你要说什么，先说凭据。"
+						},
+						{
+							"say": "兵部的事，问兵部去。"
+						}
+					]
+				},
+				"寻剑令": {
+					"rules": [
+						{
+							"asker_marks": [
+								"相国见了名帖"
+							],
+							"say": "先帝的寻剑令？老夫当年在场。先帝亲笔，一句话：寻剑，不得扰民一户。后来兵部颁下去的是什么，老夫就不知道了——没人给老夫看。"
+						},
+						{
+							"say": "先帝的事。"
+						}
+					]
+				},
+				"奏本": {
+					"rules": [
+						{
+							"asker_marks": [
+								"殿试过"
+							],
+							"say": "你已经是御前侍卫了，皇上见过你。还要老夫递什么本。"
+						},
+						{
+							"asker_marks": [
+								"相国写了奏本"
+							],
+							"say": "本子写好了。明日卯时，午门外候着，跟着老夫上朝。别说话。"
+						},
+						{
+							"asker_marks": [
+								"相国见了名帖",
+								"程不平写了信"
+							],
+							"mark_asker": "相国写了奏本",
+							"lines": [
+								{
+									"emote": "听你说完，半晌没有出声。"
+								},
+								{
+									"say": "乔阴程县令录了供，槐阳王拒了兵部的令——两处说的是一件事：兵部拿着先帝的寻剑令，干先帝没让干的事。"
+								},
+								{
+									"emote": "铺开一张折子，提笔写了很久，写完吹了吹墨。"
+								},
+								{
+									"say": "本子老夫写了。递上去，庾子建当殿就会驳。驳不驳得倒，要看皇上——皇上十六岁。"
+								},
+								{
+									"say": "明日卯时，午门外候着，跟着老夫上朝。别说话。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"相国见了名帖"
+							],
+							"asker_carries": "抄本",
+							"mark_asker": "相国写了奏本",
+							"lines": [
+								{
+									"emote": "接过那卷发黄的抄本，看了很久，手指在最后一个没有点墨的名字上停了一下。"
+								},
+								{
+									"say": "二十年前的抄本。一句话：寻剑，不得扰民一户。——这是先帝的话，老夫认得。"
+								},
+								{
+									"emote": "铺开一张折子，提笔写了很久。"
+								},
+								{
+									"say": "本子老夫写了。明日卯时，午门外候着，跟着老夫上朝。别说话。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"相国见了名帖"
+							],
+							"say": "空口告兵部尚书？老夫不递这种本。去乔阴找程县令——他录过供。"
+						},
+						{
+							"say": "你是什么人，要老夫递本？"
+						}
+					]
+				},
+				"早朝": {
+					"rules": [
+						{
+							"asker_marks": [
+								"相国写了奏本"
+							],
+							"say": "卯时，午门外。天亮前就得到。"
+						},
+						{
+							"say": "早朝是官的事。"
+						}
+					]
+				},
+				"骆云舟": [
+					"骆家的二小子？他父亲骆易在老夫门下读过书。后来父子俩都去练剑了，可惜了那一手字。"
+				],
+				"庾子建": [
+					"当年打仗是一把好手，老夫亲眼见过。如今……如今他的门生比老夫的书多。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.xiangguo_servant",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 相国府's one old servant, 续写",
+			"name": "老仆",
+			"aliases": [
+				"servant"
+			],
+			"gender": "男性",
+			"age": 63,
+			"long": "一个弯着腰的老仆，手里一把竹扫帚，扫得很慢，扫过的地方一片落叶也没有。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 16,
+				"int": 18,
+				"spi": 18,
+				"cps": 24,
+				"per": 14,
+				"con": 16,
+				"kar": 20
+			},
+			"combat_exp": 500,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 10
+			},
+			"chat_chance": 4,
+			"chat_msg": [
+				"老仆扫着院子里的落叶。\n",
+				"老仆把鸡赶回菜畦边上。\n"
+			],
+			"inquiry": {
+				"相国": [
+					"相国在正厅。夜里在书房，常常看书看到天亮。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.yulan_zhao",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — 少年皇帝 於兰昭 (剧情总纲 §2, name the outline's; doc/help/theme: 十六岁皇帝即位; d/city/npc/walker.c: 皇上太年幼了，朝廷就让那个老不死的把持着; §10 像十六岁，不像皇帝); 续写",
+			"name": "於兰昭",
+			"aliases": [
+				"emperor",
+				"皇帝",
+				"皇上"
+			],
+			"title": "天子",
+			"gender": "男性",
+			"age": 16,
+			"long": "一个十六岁的少年，穿着明黄的龙袍，袍子做得大了一点，袖口挽过一道。他坐得很直，直得像有人在背后看着他。说话之前他总要先看一眼站在百官最前面的那个人。\n",
+			"attributes": {
+				"str": 16,
+				"cor": 18,
+				"int": 28,
+				"spi": 24,
+				"cps": 18,
+				"per": 26,
+				"con": 18,
+				"kar": 26
+			},
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 120,
+				"dodge": 20
+			},
+			"fight_deferred": "你的手刚抬起来，四面的禁军已经拔了刀。",
+			"scene_mark": "殿试过",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"mark": "候了殿试",
+					"not_mark": "殿试过",
+					"steps": [
+						{
+							"line": "太监尖着嗓子喊：「武状元上殿——」百官分成两列，你从当中走过去，跪下。\n"
+						},
+						{
+							"say": "你……你就是今年的武状元？抬起头来。"
+						},
+						{
+							"emote": "看了你一会儿，又看了一眼百官最前头那个人。"
+						},
+						{
+							"by": "native.npc.yu_zijian_court"
+						},
+						{
+							"say": "陛下，校武场三场，臣的武选司亲眼看着打的。此人武艺尚可，出身不明。"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"say": "出身……朕也不知道朕的武状元该是什么出身。"
+						},
+						{
+							"by": "native.npc.yu_zijian_court"
+						},
+						{
+							"say": "臣请陛下赐他一个侍卫的差事——兵部正缺人手，臣可以替陛下看着他。"
+						},
+						{
+							"by": "native.npc.feng_ce"
+						},
+						{
+							"say": "陛下，大内侍卫营归臣管。人，臣来看。"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"emote": "像是松了一口气。"
+						},
+						{
+							"say": "准。赐御前侍卫腰牌——冯总教头，人归你。"
+						},
+						{
+							"give": "native:imperial/guard_token",
+							"lines": [
+								{
+									"line": "一个太监捧着托盘走下台阶，托盘里一块铜腰牌，刻着「御前侍卫」四个字。\n"
+								}
+							]
+						},
+						{
+							"by": "native.npc.yu_zijian_court"
+						},
+						{
+							"emote": "笑了笑，没有再说话。"
+						},
+						{
+							"line": "太监喊：「退朝——」百官鱼贯而出。\n"
+						},
+						{
+							"by": "native.npc.fu_an"
+						},
+						{
+							"whisper": "皇上说，今夜养心殿。冯总教头的人会领你进去。"
+						},
+						{
+							"mark": "见了福安"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"寻剑令": [
+					"父皇的寻剑令……你也知道？——这里说不得。"
+				],
+				"庾尚书": [
+					"……"
+				],
+				"皇叔": [
+					"朕没有皇叔。——布告上写着的那个人，朕不认识。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.yu_zijian_court",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the court in the 太和殿 (剧情总纲 §3 第九章 ①④: 殿试 and 早朝, 庾子建 插话, the boy emperor) — 庾子建 at court, his numbers as d/city/shangshu/npc/shangshu.c (兵部尚书, 54, 短歌刀法 105); the 尚书府's one stays as ES2",
+			"name": "庾子建",
+			"aliases": [
+				"yu shangshu",
+				"yu",
+				"庾尚书"
+			],
+			"title": "兵部尚书",
+			"gender": "男性",
+			"age": 54,
+			"long": "他是当今皇上身边的红人，与宫中的关系也很熟络，手中掌管着\n兵马大权。不过能爬上这个位置，绝不是仅仅因为溜须拍马的缘\n故，当年战功赫赫，才有今天的地位。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 24,
+				"int": 25,
+				"spi": 22,
+				"cps": 26,
+				"per": 20,
+				"con": 24,
+				"kar": 20
+			},
+			"combat_exp": 400000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 70,
+				"shortsong-blade": 105,
+				"force": 80,
+				"wu-shun": 80,
+				"parry": 50,
+				"dodge": 60,
+				"fall-steps": 60
+			},
+			"fight_deferred": "殿上的禁军已经拔了刀，你的手停在半空。",
+			"inquiry": {
+				"寻剑令": [
+					"先帝的旨意，兵部奉旨办差。你是什么人，问这个？"
+				],
+				"槐阳王": [
+					"槐阳王不奉诏。不奉诏是什么，你读过书就知道。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.court_official",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the court in the 太和殿 (剧情总纲 §3 第九章 ①④: 殿试 and 早朝, 庾子建 插话, the boy emperor)",
+			"name": "朝臣",
+			"aliases": [
+				"official"
+			],
+			"gender": "男性",
+			"age": 50,
+			"long": "一个穿朝服的官，笏板捧在胸前，眼睛看着自己的靴尖。\n",
+			"attributes": {
+				"str": 16,
+				"cor": 16,
+				"int": 24,
+				"spi": 20,
+				"cps": 24,
+				"per": 18,
+				"con": 18,
+				"kar": 20
+			},
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 80
+			},
+			"fight_deferred": "殿上的禁军已经拔了刀，你的手停在半空。",
+			"inquiry": {
+				"庾尚书": [
+					"……下官什么都没说。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.fu_an",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the boy emperor's 内侍 (剧情总纲 §3 第九章 ④), 续写",
+			"name": "福安",
+			"aliases": [
+				"fu an",
+				"内侍"
+			],
+			"title": "内侍",
+			"gender": "男性",
+			"age": 15,
+			"long": "一个十五岁的小太监，脸白，眼睛机灵，走路没有声音。他总站在皇上身后半步，皇上一皱眉他就先低头。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 18,
+				"int": 26,
+				"spi": 20,
+				"cps": 22,
+				"per": 22,
+				"con": 16,
+				"kar": 24
+			},
+			"combat_exp": 2000,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 40
+			},
+			"fight_deferred": "福安一缩身子躲到柱子后头去了。",
+			"inquiry": {
+				"皇上": [
+					"皇上睡得晚。夜里在养心殿，看先帝的手札。"
+				],
+				"养心殿": [
+					"养心殿在西边。白天跟着我走，夜里……夜里别问我。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.court_herald",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the court in the 太和殿 (剧情总纲 §3 第九章 ①④: 殿试 and 早朝, 庾子建 插话, the boy emperor) — the 早朝 itself (剧情总纲 §3 第九章 入口「公文」: 程不平的供词 + 槐阳王, 由相国递; 第六章「第九章皇帝先听到的是『槐阳王反了』」)",
+			"name": "司礼太监",
+			"aliases": [
+				"herald",
+				"太监"
+			],
+			"title": "司礼监",
+			"gender": "男性",
+			"age": 48,
+			"long": "一个上了年纪的太监，嗓子尖，站在龙椅下的台阶边上，手里一柄拂尘，替皇上喊话。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 16,
+				"int": 22,
+				"spi": 18,
+				"cps": 26,
+				"per": 16,
+				"con": 16,
+				"kar": 18
+			},
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 30
+			},
+			"fight_deferred": "殿上的禁军已经拔了刀，你的手停在半空。",
+			"scene_mark": "早朝过",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"marks": [
+						"随相国上朝",
+						"踏平了工地"
+					],
+					"not_mark": "早朝过",
+					"steps": [
+						{
+							"say": "有本早奏，无本退朝——"
+						},
+						{
+							"by": "native.npc.wei_zhizhong"
+						},
+						{
+							"say": "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。"
+						},
+						{
+							"by": "native.npc.yu_zijian_court"
+						},
+						{
+							"emote": "冷笑了一声，出班。"
+						},
+						{
+							"say": "兵部的事，相国也要管？"
+						},
+						{
+							"say": "臣也有本：槐阳王程朔，兴兵踏平兵部工地，杀朝廷命官，劫民夫——槐阳王反了。"
+						},
+						{
+							"line": "满殿哗然。\n",
+							"color": "HIR"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"emote": "手按在龙椅的扶手上，看看相国，又看看尚书。"
+						},
+						{
+							"say": "……容朕想想。退、退朝。"
+						},
+						{
+							"line": "太监喊：「退朝——」百官鱼贯而出。\n"
+						},
+						{
+							"by": "native.npc.fu_an"
+						},
+						{
+							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。"
+						},
+						{
+							"mark": "见了福安"
+						}
+					]
+				},
+				{
+					"after": 1,
+					"scene": true,
+					"mark": "随相国上朝",
+					"not_mark": "早朝过",
+					"steps": [
+						{
+							"say": "有本早奏，无本退朝——"
+						},
+						{
+							"by": "native.npc.wei_zhizhong"
+						},
+						{
+							"say": "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。"
+						},
+						{
+							"by": "native.npc.yu_zijian_court"
+						},
+						{
+							"emote": "冷笑了一声，出班。"
+						},
+						{
+							"say": "兵部的事，相国也要管？先帝的旨意是寻剑，兵部办的是寻剑。一个县令、一个藩王，说兵部办错了，凭据呢？"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"emote": "手按在龙椅的扶手上，看看相国，又看看尚书。"
+						},
+						{
+							"say": "……容朕想想。退朝。"
+						},
+						{
+							"line": "太监喊：「退朝——」百官鱼贯而出。\n"
+						},
+						{
+							"by": "native.npc.fu_an"
+						},
+						{
+							"whisper": "皇上请相国的随员到养心殿说话。皇上说……先别出宫。"
+						},
+						{
+							"mark": "见了福安"
+						}
+					]
+				}
+			]
+		}
+	]
+}

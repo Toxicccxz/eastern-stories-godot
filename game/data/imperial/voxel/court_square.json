@@ -1,0 +1,177 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 28,
+  "note": "太和殿广场 (native:imperial/square; 第九章 A): the endless paving, the 御道 down its middle worn to a shine, the bronze vats green with age with a rim rubbed bright, the three-tiered marble terrace on the north with the sundial and the bronze tortoise. On court mornings it fills; otherwise the wind goes over it and there is nothing.",
+  "palette": {
+    "wood": [
+      "7a2a22",
+      "8a3428",
+      "6a2420"
+    ],
+    "wall": "a8362a"
+  },
+  "wall_height": 4.4,
+  "wall_looks": [
+    {
+      "rect": [
+        -2000,
+        -2000,
+        2000,
+        2000
+      ],
+      "style": "plaster",
+      "wall": "a8362a",
+      "colors": [
+        "a8362a",
+        "b03c2e",
+        "9c3226",
+        "b4402e"
+      ],
+      "note": "the 皇城's red walls under glazed coping, a band of white bloom at the foot where the plaster has gone"
+    }
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_yard": {
+      "style": "slabs",
+      "lengths": [
+        2,
+        3
+      ],
+      "depths": [
+        2,
+        2
+      ],
+      "cracks": 0.1,
+      "broken": 0.04,
+      "sunk": 0.03,
+      "tufts": 0.03,
+      "stones": [
+        "8e8c86",
+        "96948c",
+        "86847e",
+        "9c9a92"
+      ],
+      "worn": [
+        "a6a49c",
+        "aeaca4"
+      ],
+      "bed": "6a6862",
+      "joint": 0.04,
+      "mud": "7a7870",
+      "crack": "5a5852",
+      "note": "the 皇城's great paving (native:imperial/gate_court: 青砖大得一块能躺下一个人，砖缝里钻出几茎枯草), worn pale along the way through"
+    },
+    "boundary": {
+      "style": "scree",
+      "colors": [
+        "8a8478",
+        "948e82",
+        "807a6e"
+      ],
+      "gravel": 0.3,
+      "stones": 0.02,
+      "pebbles": [
+        "a8a294",
+        "9a9486"
+      ]
+    }
+  },
+  "flora": {
+    "grass_density": 0.02,
+    "density": {
+      "floor_yard": 0.01,
+      "boundary": 0.2
+    },
+    "grass_colors": [
+      "8a8a52",
+      "9a9458",
+      "a8a062",
+      "7e8048"
+    ],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.3,
+    "butterflies": 0
+  },
+  "life": {},
+  "props": [
+    {
+      "kind": "stains",
+      "at": [
+        0,
+        0
+      ],
+      "size": [
+        140,
+        560
+      ],
+      "count": 12,
+      "colors": [
+        "a6a49c",
+        "aeaca4"
+      ],
+      "note": "the 御道 worn to a shine"
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        -160,
+        -240
+      ],
+      "paper": "e8b050",
+      "height": 3.4
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        160,
+        -240
+      ],
+      "paper": "e8b050",
+      "height": 3.4
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "6a5a48"
+    },
+    "native.npc.wumen_guard": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军: red-tasselled helmet"
+    },
+    "native.npc.yulan_zhao": {
+      "coat": "d8a830",
+      "hat": true,
+      "note": "the boy's yellow robe, a size too big"
+    },
+    "native.npc.yu_zijian_court": {
+      "coat": "7a2a2a",
+      "hat": true,
+      "note": "a minister's crimson court robe"
+    },
+    "native.npc.court_official": {
+      "coat": "3a4a6a",
+      "hat": true
+    },
+    "native.npc.court_herald": {
+      "coat": "5a4a3a",
+      "hat": true
+    },
+    "native.npc.fu_an": {
+      "coat": "4a5a4a"
+    },
+    "native.npc.feng_ce": {
+      "coat": "e0dcd4",
+      "note": "素白的武官袍服"
+    },
+    "native.npc.wei_zhizhong": {
+      "coat": "6a6458",
+      "hat": true,
+      "note": "the 相国's washed-out robe at court"
+    }
+  }
+}

@@ -14,7 +14,8 @@
 		{ "id": "city.house1_house", "region": "city", "scene": "res://scenes/world/city/house1_house.tscn", "entry": "city.house1.street11_entry", "interior": true },
 		{ "id": "city.jiulou_house", "region": "city", "scene": "res://scenes/world/city/jiulou_house.tscn", "entry": "city.jiulou.stairs_return", "interior": true },
 		{ "id": "city.weapon_house", "region": "city", "scene": "res://scenes/world/city/weapon_house.tscn", "entry": "city.weapon.street9_entry", "interior": true },
-		{ "id": "city.shangshu", "region": "city", "scene": "res://scenes/world/city/shangshu.tscn", "entry": "city.shangshu.yuan.gate_entry", "interior": true }
+		{ "id": "city.shangshu", "region": "city", "scene": "res://scenes/world/city/shangshu.tscn", "entry": "city.shangshu.yuan.gate_entry", "interior": true },
+		{ "id": "city.xiangguo", "region": "city", "scene": "res://scenes/world/city/city_xiangguo.tscn", "entry": "city.xiangguo_yard.gate_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "city.nroad2", "map": "city.main", "rooms": ["es2:d/city/nroad2"] },
@@ -71,7 +72,10 @@
 		{ "id": "city.shangshu.road4", "map": "city.shangshu", "rooms": ["es2:d/city/shangshu/road4"] },
 		{ "id": "city.shangshu.feiwu", "map": "city.shangshu", "indoors": true, "rooms": ["es2:d/city/shangshu/feiwu"] },
 		{ "id": "city.wall", "map": "city.wall_top", "rooms": ["es2:d/city/wall"] },
-		{ "id": "city.midao1", "map": "city.cellar", "indoors": true, "rooms": ["es2:d/city/midao1"] }
+		{ "id": "city.midao1", "map": "city.cellar", "indoors": true, "rooms": ["es2:d/city/midao1"] },
+		{ "id": "city.xiangguo_yard", "map": "city.xiangguo", "rooms": ["native:city/xiangguo_yard"] },
+		{ "id": "city.xiangguo_hall", "map": "city.xiangguo", "indoors": true, "rooms": ["native:city/xiangguo_hall"] },
+		{ "id": "city.xiangguo_study", "map": "city.xiangguo", "indoors": true, "rooms": ["native:city/xiangguo_study"] }
 	],
 	"portals": [
 		{ "id": "city.nroad2.north", "from_zone": "city.nroad2", "to_zone": "village.road2", "to_spawn": "village.road2.city_return", "legacy_room": "es2:d/city/nroad2", "legacy_command": "north" },
@@ -95,7 +99,9 @@
 		{ "id": "city.street11.south", "from_zone": "city.street11", "to_zone": "city.house1", "to_spawn": "city.house1.street11_entry", "legacy_room": "es2:d/city/street11", "legacy_command": "south" },
 		{ "id": "city.house1.north", "from_zone": "city.house1", "to_zone": "city.street11", "to_spawn": "city.street11.house1_return", "legacy_room": "es2:d/city/house1", "legacy_command": "north" },
 		{ "id": "city.shangshu.gate.east", "from_zone": "city.shangshu.gate", "to_zone": "city.shangshu.yuan", "to_spawn": "city.shangshu.yuan.gate_entry", "legacy_room": "es2:d/city/shangshu/gate", "legacy_command": "east" },
-		{ "id": "city.shangshu.yuan.west", "from_zone": "city.shangshu.yuan", "to_zone": "city.shangshu.gate", "to_spawn": "city.shangshu.gate.yuan_return", "legacy_room": "es2:d/city/shangshu/yuan", "legacy_command": "west" }
+		{ "id": "city.shangshu.yuan.west", "from_zone": "city.shangshu.yuan", "to_zone": "city.shangshu.gate", "to_spawn": "city.shangshu.gate.yuan_return", "legacy_room": "es2:d/city/shangshu/yuan", "legacy_command": "west" },
+		{ "id": "city.xiangguo_gate.west", "from_zone": "city.xiangguo_gate", "to_zone": "city.xiangguo_yard", "to_spawn": "city.xiangguo_yard.gate_arrival", "legacy_room": "es2:d/city/xiangguo/gate", "legacy_command": "west" },
+		{ "id": "city.xiangguo_yard.east", "from_zone": "city.xiangguo_yard", "to_zone": "city.xiangguo_gate", "to_spawn": "city.xiangguo_gate.yard_return", "legacy_room": "native:city/xiangguo_yard", "legacy_command": "east" }
 	],
 	"doors": [
 		{ "id": "city.shangshu.gate.door", "name": "大铁门", "zones": ["city.shangshu.gate", "city.shangshu.yuan"], "reach": 90, "legacy_room": "es2:d/city/shangshu/gate" },
@@ -108,7 +114,9 @@
 		{ "id": "city.shangshu.gate.porter", "room": "es2:d/city/shangshu/gate", "from_zone": "city.shangshu.gate", "to_zone": "city.shangshu.yuan", "when": "no_mark", "mark": "尚书", "present": "city.npc.shangshu.guard", "spends": true, "lines": ["门房伸手拦住了你的去路，喝道：闯什么闯！"], "legacy_source": "d/city/shangshu/gate.c" },
 		{ "id": "city.shangshu.road2.trainer_north", "room": "es2:d/city/shangshu/road2", "from_zone": "city.shangshu.road2", "to_zone": "city.shangshu.road1", "when": "no_mark", "mark": "尚书", "present": ["city.npc.shangshu.huyuan", "city.npc.shangshu.huyuan1"], "lines": ["护院伸手拦住了你的去路，喝道：闯什么闯！"], "legacy_source": "d/city/shangshu/road2.c" },
 		{ "id": "city.shangshu.road2.trainer_east", "room": "es2:d/city/shangshu/road2", "from_zone": "city.shangshu.road2", "to_zone": "city.shangshu.kefang", "when": "no_mark", "mark": "尚书", "present": ["city.npc.shangshu.huyuan", "city.npc.shangshu.huyuan1"], "lines": ["护院伸手拦住了你的去路，喝道：闯什么闯！"], "legacy_source": "d/city/shangshu/road2.c" },
-		{ "id": "city.feiyuan.flash", "room": "es2:d/city/feiyuan", "from_zone": "city.feiyuan", "to_zone": "city.street6", "when": "never", "pass_lines": ["突然你眼前似乎有什么东西一闪，然后又消失在草丛中。回去在草丛中找找？"], "legacy_source": "d/city/feiyuan.c" }
+		{ "id": "city.feiyuan.flash", "room": "es2:d/city/feiyuan", "from_zone": "city.feiyuan", "to_zone": "city.street6", "when": "never", "pass_lines": ["突然你眼前似乎有什么东西一闪，然后又消失在草丛中。回去在草丛中找找？"], "legacy_source": "d/city/feiyuan.c" },
+		{ "id": "city.wumen.iron_gate", "room": "es2:d/city/wumen", "from_zone": "city.wumen", "to_zone": "imperial.gate_court", "when": "no_mark", "mark": "宫门放行", "present": "native.npc.wumen_guard", "lines": ["守门的禁军把长戟一横：宫门重地，闲人止步。"], "legacy_source": "native: 第九章 A (剧情总纲 §3 第九章 入口, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 铁门 of wumen.c's commented-out create_door(\"north\", \"铁门\", …), opened for the 武状元 who waits for the 殿试 and the 相国's man at the 早朝 (午门 · 候旨); 续写" },
+		{ "id": "city.xiangguo_gate.shut", "room": "es2:d/city/xiangguo/gate", "from_zone": "city.xiangguo_gate", "to_zone": "city.xiangguo_yard", "when": "no_mark", "mark": "相国府开了门", "lines": ["相国府的大门关着。（门边可以叩门。）"], "legacy_source": "native: 第九章 A (计划 build/plans/第九章_计划.md A 包; DECISIONS「第九章 A」) — xiangguo/gate.c had no way in; the gate opens to 骆云舟's card (相国府大门 · 叩门), 续写" }
 	],
 	"landmarks": [
 		{ "id": "city.northdoor.landmark.sign", "zone": "city.northdoor", "name": "告示", "policy": "look", "long": "告示上隐约写著几个人名，但都模糊不可分辨了。\n", "legacy_source": "d/city/northdoor.c" },
@@ -116,7 +124,7 @@
 		{ "id": "city.eastdoor2.landmark.notice", "zone": "city.eastdoor2", "name": "布告", "policy": "look", "long": "布告上写著：辑拿要犯----於兰天武。\n", "legacy_source": "d/city/eastdoor2.c" },
 		{ "id": "city.westdoor1.landmark.notice", "zone": "city.westdoor1", "name": "布告", "policy": "look", "long": "布告上写著：近来有土匪出没，望行人小心。\n", "legacy_source": "d/city/westdoor1.c" },
 		{ "id": "city.westdoor2.landmark.notice", "zone": "city.westdoor2", "name": "布告", "policy": "look", "long": "布告上写著：行人出入需缴纳一两黄金。\n", "legacy_source": "d/city/westdoor2.c" },
-		{ "id": "city.southdoor.landmark.notice", "zone": "city.southdoor", "name": "告示", "policy": "look", "long": "告示上写著：今年文武大选。\n", "legacy_source": "d/city/southdoor.c" },
+		{ "id": "city.southdoor.landmark.notice", "zone": "city.southdoor", "name": "告示", "policy": "look", "long": "告示上写著：今年文武大选。\n", "legacy_source": "d/city/southdoor.c", "looks": [{"marks": ["湖底一章"], "long": "告示上写著：今年文武大选。\n旁边新贴了一张小些的，墨还没干透：「武举在校武场报名。兵部武选司。」\n"}] },
 		{ "id": "city.bank.landmark.sign", "zone": "city.bank", "name": "牌子", "policy": "look", "long": "我们提供的服务有：\nconvert     兑换钱币，自点数目，出门后发现少钱概不负责。\n", "legacy_source": "d/city/bank.c" },
 		{ "id": "city.boots.landmark.sign", "zone": "city.boots", "name": "招牌", "policy": "look", "long": "专卖各式鞋。\n", "legacy_source": "d/city/boots.c" },
 		{ "id": "city.cloth.landmark.sign", "zone": "city.cloth", "name": "招牌", "policy": "look", "long": "匾上三个大字：闯名堂\n", "legacy_source": "d/city/cloth.c" },
@@ -138,6 +146,8 @@
 		{ "id": "city.southdoor.out", "kind": "act", "zone": "city.southdoor", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": {"verb": "出城", "acts": [{"present": "city.npc.guard", "not_mark": "令牌", "steps": [{"line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n"}, {"line": "出城方向的路被京师守城兵挡住了。\n"}]}, {"steps": [{"line": "这个方向没有出路。\n"}]}]} },
 		{ "id": "city.feiyuan.find", "kind": "act", "zone": "city.feiyuan", "name": "草丛", "reach": 128, "legacy_source": "d/city/feiyuan.c", "act": {"verb": "寻找", "acts": [{"carries": "token", "steps": [{"line": "忙活了半天，没有什么新的发现。\n"}]}, {"kar_draw": {"plus": 30, "at_least": 35}, "steps": [{"give": "es2:d/city/obj/token"}, {"line": "你竟找到了一个出城令。\n"}]}, {"steps": [{"line": "白忙了半天，一无所获。\n"}]}]} },
 		{ "id": "city.wall.jump_in", "kind": "act", "zone": "city.wall", "name": "尚书府", "reach": 96, "legacy_source": "d/city/wall.c", "act": {"verb": "跳进去", "acts": [{"steps": [{"move": "city.shangshu.feiwu", "point": "city.shangshu.feiwu.wall_arrival"}]}]} },
-		{ "id": "city.wall.jump_out", "kind": "act", "zone": "city.wall", "name": "京师东街", "reach": 96, "legacy_source": "d/city/wall.c", "act": {"verb": "跳回去", "acts": [{"steps": [{"move": "city.street3", "point": "city.street3.wall_return"}]}]} }
+		{ "id": "city.wall.jump_out", "kind": "act", "zone": "city.wall", "name": "京师东街", "reach": 96, "legacy_source": "d/city/wall.c", "act": {"verb": "跳回去", "acts": [{"steps": [{"move": "city.street3", "point": "city.street3.wall_return"}]}]} },
+		{ "id": "city.wumen.wait", "kind": "act", "zone": "city.wumen", "name": "午门", "reach": 120, "legacy_source": "native: 第九章 A (剧情总纲 §3 第九章 入口, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — waiting at the 午门 till dawn: the 武状元 for his 殿试 (葛升's 午门候旨), the 相国's man for the 早朝; the clock put forward as the 篝火's 等到天黑 (DECISIONS「关北 C」); 续写", "act": {"verb": "候旨", "acts": [{"mark": "宫门放行", "steps": [{"line": "铁门开着。守门的禁军认得你，侧身让开了。\n"}]}, {"mark": "葛升说了殿试", "not_mark": "殿试过", "ask": "在午门外候到天亮殿试。等的工夫里，世上的事照样走：别处的人该走的走、该好的好。", "choice": "候到天亮", "steps": [{"line": "你在午门外的石狮子旁边站定。守门的禁军看了你一眼，没有赶你。\n"}, {"until_phase": ["dawn"]}, {"line": "东方的天空中开始出现一丝微曦。午门外渐渐有了人：坐轿的、骑马的、走路的官，一个个在铁门外排好了班。\n"}, {"line": "铁门「轧轧」地开了。一个太监站在门里尖着嗓子喊：「宣——武状元觐见！」\n", "color": "HIY"}, {"mark": "宫门放行"}, {"mark": "候了殿试"}]}, {"mark": "相国写了奏本", "not_mark": "早朝过", "ask": "在午门外候到天亮，随相国上早朝。等的工夫里，世上的事照样走：别处的人该走的走、该好的好。", "choice": "候到天亮", "steps": [{"line": "你在午门外的石狮子旁边站定。夜里风凉，守门的禁军换了一班。\n"}, {"until_phase": ["dawn"]}, {"line": "天蒙蒙亮，一顶旧轿子停在午门外，韦相国下了轿，朝你点了点头：「跟着我，别说话。」\n"}, {"line": "铁门「轧轧」地开了。百官鱼贯而入，你跟在相国身后。\n", "color": "HIY"}, {"mark": "宫门放行"}, {"mark": "随相国上朝"}]}, {"steps": [{"line": "午门的铁门关着。守门的禁军说道：宫门重地，闲人止步。要进去，要么是皇上宣的，要么是跟着上朝的官。\n"}]}]} },
+		{ "id": "city.xiangguo_gate.knock", "kind": "act", "zone": "city.xiangguo_gate", "name": "相国府大门", "reach": 96, "legacy_source": "native: 第九章 A (剧情总纲 §3 第九章 入口, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — d/city/xiangguo/gate.c's gate opened to one who brings 骆云舟's card, as the 王府's (DECISIONS「关北 B」); 续写", "act": {"verb": "叩门", "acts": [{"mark": "相国府开了门", "steps": [{"line": "大门虚掩着。老仆在院里扫地，看见你点了点头。\n"}]}, {"carries": "名帖", "steps": [{"line": "你叩了叩门。一个老仆开了半扇门，接过名帖看了看，又看了看你。\n"}, {"line": "老仆说道：骆家的人。相国在正厅，请。\n"}, {"line": "门开了。\n"}, {"mark": "相国府开了门"}]}, {"steps": [{"line": "你叩了叩门。半天，一个老仆隔着门说：相国不见生客。有名帖么？\n"}]}]} }
 	]
 }

@@ -33,12 +33,15 @@ class Challenger:
 	var age: int
 	var class_id: StringName
 	var family_id: StringName
+	## The challenger's saved marks (NpcFightRule.marks / not_mark).
+	var marks: Dictionary = {}
 
-	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_family_id: StringName = &"") -> void:
+	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_family_id: StringName = &"", p_marks: Dictionary = {}) -> void:
 		gender = p_gender
 		age = p_age
 		class_id = p_class_id
 		family_id = p_family_id
+		marks = p_marks
 
 
 ## `attitude`: query("attitude") as asked now, for an NPC whose attitude is a function
@@ -53,7 +56,7 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger, attitude: int =
 	var rules: Array[NpcFightRule] = definition.fight_rules()
 	if not rules.is_empty():
 		for rule: NpcFightRule in rules:
-			if not rule.matches(challenger.family_id, challenger.gender, challenger.class_id):
+			if not rule.matches(challenger.family_id, challenger.gender, challenger.class_id, challenger.marks):
 				continue
 			if not rule.emote.is_empty():
 				result.lines.append(Line.new(true, rule.emote))

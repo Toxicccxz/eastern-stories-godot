@@ -10,6 +10,33 @@
 			"id": "native:village/seal_altar",
 			"short": "冰下封坛",
 			"long": "一间圆的冰室，顶上是整块半透明的冰，上面就是冰龙厅的水潭，能看见龙的影子游过去。\n当中一座黑石封坛，坛心一块透明的冰，冰里一颗头，一把剑从头顶直钉下去，剑柄露在冰外。\n坛边一根冰柱，柱里一个女人，眼睛是睁着的；她身上发着白光，光照在冰上，冰就不化。\n这里不冷——她的光照着的地方都不冷。脚下黑石的台阶通上去，是潭口。\n"
+		},
+		{
+			"id": "native:city/xiangguo_yard",
+			"short": "相国府前院",
+			"long": "进了大门是一个小院子。影壁上的白灰掉了一半，露出底下的青砖。院子里没有花，种的是菜：两畦白菜、一架豆角，一只鸡在菜畦边上刨土。北面的正厅是旧的，柱子上的漆剥得斑斑驳驳。真的寒酸——可是扫得很干净。\n",
+			"outdoors": true,
+			"exits": {
+				"east": "es2:d/city/xiangguo/gate",
+				"north": "native:city/xiangguo_hall"
+			}
+		},
+		{
+			"id": "native:city/xiangguo_hall",
+			"short": "相国府正厅",
+			"long": "正厅里只有几把旧椅子、一张八仙桌，桌上一把缺了嘴的茶壶。墙上挂着一幅字，写的是「先天下之忧而忧」，纸已经黄了，裱的边也卷了。西边一道门通到书房，门里透出灯光，书堆得比人还高。\n",
+			"exits": {
+				"south": "native:city/xiangguo_yard",
+				"west": "native:city/xiangguo_study"
+			}
+		},
+		{
+			"id": "native:city/xiangguo_study",
+			"short": "相国府书房",
+			"long": "书房里到处是书：架子上、桌上、地上，一摞一摞，有的用绳子捆着，有的摊开着，上面压着砚台。窗下一张榻，榻上一床旧被子——这屋子的主人常常在这里过夜。桌上一盏油灯，灯芯剪得很短。\n",
+			"exits": {
+				"east": "native:city/xiangguo_hall"
+			}
 		}
 	]
 }

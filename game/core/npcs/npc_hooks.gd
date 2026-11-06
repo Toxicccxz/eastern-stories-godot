@@ -28,6 +28,8 @@ extends RefCounted
 ##   master form when the player struck last (ItemContentDefinition.MASTER_SUFFIX).
 ## - `die_marks_killer` (d/chuenyu/xiaojuan2.c die()): its killer, the player, gets that mark
 ##   (query_temp("last_damage_from")->set("marks/<mark>", 1)).
+## - `spar_won_mark` (native, 第九章 A's 武举: DECISIONS「第九章 A」): the player who wins a spar
+##   against it gets that mark (the 校武场's three bouts, each a step).
 ## - `calls` (xiaojuan2.c, chuenyu.c init()): the call_outs its init() starts when the player
 ##   comes into its room, each `after` seconds (0: at once, as a plain init()) and started anew
 ##   by every arrival (remove_call_out()); when due it acts (a ScriptedAct, its conditions and
@@ -69,6 +71,7 @@ var ghost: bool = false
 var die_item_id: StringName = &""
 var die_item_master: bool = false
 var die_marks_killer: String = ""
+var spar_won_mark: String = ""
 var calls: Array[Call] = []
 var calls_hold: bool = false
 ## Native (主线 A; DECISIONS「剧情演出」): `spared` {mood?, mark?}: 放过 as it lay puts it in
@@ -188,7 +191,7 @@ static func _color(reader: ContentRecordReader, key: String) -> StringName:
 ## The NPC record's `receive_damage` {hurt?: {divisor, line, color?}, pills?: {count, below,
 ## line, color?}}, `kill_ob` {lines}, `revive` {exp_divisor, exp_plus, apply_divisor},
 ## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
-## repeat_after}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `calls`
+## repeat_after}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `spar_won_mark` a mark, `calls`
 ## [{after, ...ScriptedAct}], `calls_hold` true, `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
 ## `follows_every_way` true, `trials` [NpcTrial]; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
@@ -274,6 +277,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	if reader.has("die_marks_killer"):
 		found = true
 		hooks.die_marks_killer = reader.required_text("die_marks_killer")
+	if reader.has("spar_won_mark"):
+		found = true
+		hooks.spar_won_mark = reader.required_text("spar_won_mark")
 	for record: ContentRecordReader in reader.children("calls"):
 		found = true
 		var call := Call.new()

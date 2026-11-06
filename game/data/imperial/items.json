@@ -1,0 +1,5 @@
+{
+	"items": [
+		{"id": "native:imperial/guard_token", "legacy_sources": ["native: 第九章 A (剧情总纲 §3 第九章 入口, §6 皇城卡; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 武状元's 御前侍卫 token from the 殿试, 续写"], "name": "御前侍卫腰牌", "quest": true, "aliases": ["token", "腰牌"], "long": "一块铜腰牌，巴掌大，正面刻着「御前侍卫」四个字，背面一个编号，编号底下有人用刀尖划了一道——上一个带它的人留下的。\n", "unit": "块", "material": "metal", "weight": 100, "value": 0, "no_drop": "这块腰牌不能随便丢。"}
+	]
+}
