@@ -439,6 +439,23 @@ mouse_filter = 2
 text = "木船 · 划向湖心"
 horizontal_alignment = 1
 
+[node name="LakesideWait" type="Marker2D" parent="."]
+position = Vector2(600, 1384)
+script = ExtResource("service")
+service_id = &"village.lakeside.wait"
+
+[node name="Visual" type="Polygon2D" parent="LakesideWait"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="LakesideWait"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "湖畔 · 等到天黑"
+horizontal_alignment = 1
+
 [node name="MelonPick" type="Marker2D" parent="."]
 position = Vector2(1344, 1288)
 script = ExtResource("service")
@@ -801,6 +818,56 @@ position = Vector2(652, 1432)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakeside.fisher.3"
 
+[node name="LakesideHellRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(632, 1264)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.hell_runner.1"
+
+[node name="LakesideHellRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(696, 1264)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.hell_runner.2"
+
+[node name="LakesideHellRunner3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(736, 1264)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.hell_runner.3"
+
+[node name="Road1HellRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1752, 256)
+script = ExtResource("marker")
+spawn_point_id = &"village.road1.hell_runner.1"
+
+[node name="Road1HellRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2008, 256)
+script = ExtResource("marker")
+spawn_point_id = &"village.road1.hell_runner.2"
+
+[node name="Road1HellRunner3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2048, 256)
+script = ExtResource("marker")
+spawn_point_id = &"village.road1.hell_runner.3"
+
+[node name="FieldHellRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(464, 1792)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.hell_runner.1"
+
+[node name="FieldHellRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(504, 1792)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.hell_runner.2"
+
+[node name="FieldHellRunner3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(544, 1792)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.hell_runner.3"
+
+[node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(568, 1304)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.body_fisher.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
@@ -884,230 +951,250 @@ metadata/footprint = Vector2(16, 32)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]
 position = Vector2(816, 1184)
-metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
+metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15, "until": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing04" type="Node2D" parent="Furnishings"]
-position = Vector2(816, 1472)
-metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
+position = Vector2(816, 1184)
+metadata/look = {"kind": "tree", "charred": true, "height": 3.4, "present": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing05" type="Node2D" parent="Furnishings"]
+position = Vector2(816, 1472)
+metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15, "until": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing06" type="Node2D" parent="Furnishings"]
+position = Vector2(816, 1472)
+metadata/look = {"kind": "tree", "charred": true, "height": 3.0, "present": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing07" type="Node2D" parent="Furnishings"]
 position = Vector2(816, 1568)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing06" type="Node2D" parent="Furnishings"]
+[node name="Furnishing08" type="Node2D" parent="Furnishings"]
 position = Vector2(832, 1680)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing07" type="Node2D" parent="Furnishings"]
+[node name="Furnishing09" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 1200)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing08" type="Node2D" parent="Furnishings"]
+[node name="Furnishing10" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 1312)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing09" type="Node2D" parent="Furnishings"]
+[node name="Furnishing11" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 1424)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing10" type="Node2D" parent="Furnishings"]
+[node name="Furnishing12" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 1648)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing11" type="Node2D" parent="Furnishings"]
+[node name="Furnishing13" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 1744)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing12" type="Node2D" parent="Furnishings"]
+[node name="Furnishing14" type="Node2D" parent="Furnishings"]
 position = Vector2(816, 1856)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing13" type="Node2D" parent="Furnishings"]
+[node name="Furnishing15" type="Node2D" parent="Furnishings"]
 position = Vector2(816, 1984)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing14" type="Node2D" parent="Furnishings"]
+[node name="Furnishing16" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 2048)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing15" type="Node2D" parent="Furnishings"]
+[node name="Furnishing17" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 1808)
 metadata/look = {"kind": "tree", "species": "willow", "scale": 1.15}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing16" type="Node2D" parent="Furnishings"]
+[node name="Furnishing18" type="Node2D" parent="Furnishings"]
 position = Vector2(520, 1864)
 metadata/look = {"kind": "scarecrow", "size": [32, 32], "hat": "b8a468", "coat": "6a6a52"}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing17" type="Node2D" parent="Furnishings"]
+[node name="Furnishing19" type="Node2D" parent="Furnishings"]
 position = Vector2(688, 2104)
 metadata/look = {"kind": "scarecrow", "size": [32, 32], "hat": "c4b070", "coat": "5a5a64", "lean": 0.12}
 metadata/footprint = Vector2(32, 16)
 
-[node name="Furnishing18" type="Node2D" parent="Furnishings"]
+[node name="Furnishing20" type="Node2D" parent="Furnishings"]
 position = Vector2(656, 1792)
 metadata/look = {"kind": "farm_tools"}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing19" type="Node2D" parent="Furnishings"]
+[node name="Furnishing21" type="Node2D" parent="Furnishings"]
 position = Vector2(576, 1264)
-metadata/look = {"kind": "skiff", "lamp": true, "float": 0.02, "swell": 0.0, "roll": 0.0, "colors": ["5b4433", "6a5039", "4f3a2b"]}
+metadata/look = {"kind": "skiff", "lamp": true, "float": 0.02, "swell": 0.0, "roll": 0.0, "colors": ["5b4433", "6a5039", "4f3a2b"], "until": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing20" type="Node2D" parent="Furnishings"]
+[node name="Furnishing22" type="Node2D" parent="Furnishings"]
+position = Vector2(576, 1264)
+metadata/look = {"kind": "skiff", "burnt": true, "float": 0.02, "swell": 0.0, "roll": 0.0, "present": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
+metadata/footprint = Vector2(64, 32)
+
+[node name="Furnishing23" type="Node2D" parent="Furnishings"]
 position = Vector2(584, 1440)
-metadata/look = {"kind": "skiff", "lamp": false, "float": 0.02, "swell": 0.0, "roll": 0.0, "colors": ["6a5039", "5b4433", "4a3628"]}
+metadata/look = {"kind": "skiff", "lamp": false, "float": 0.02, "swell": 0.0, "roll": 0.0, "colors": ["6a5039", "5b4433", "4a3628"], "until": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
 metadata/footprint = Vector2(80, 32)
 
-[node name="Furnishing21" type="Node2D" parent="Furnishings"]
+[node name="Furnishing24" type="Node2D" parent="Furnishings"]
+position = Vector2(584, 1440)
+metadata/look = {"kind": "skiff", "burnt": true, "float": 0.02, "swell": 0.0, "roll": 0.0, "present": {"all": [{"mark": "湖畔的鬼卒退了"}, {"mark": "村口的鬼卒退了"}, {"mark": "稻田的鬼卒退了"}]}}
+metadata/footprint = Vector2(80, 32)
+
+[node name="Furnishing25" type="Node2D" parent="Furnishings"]
 position = Vector2(568, 1360)
 metadata/look = {"kind": "snail_shells"}
 metadata/footprint = Vector2(48, 32)
 
-[node name="Furnishing22" type="Node2D" parent="Furnishings"]
+[node name="Furnishing26" type="Node2D" parent="Furnishings"]
 position = Vector2(664, 1256)
 metadata/look = {"kind": "mooring_post"}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing23" type="Node2D" parent="Furnishings"]
+[node name="Furnishing27" type="Node2D" parent="Furnishings"]
 position = Vector2(512, 1256)
 metadata/look = {"kind": "fishing_net", "height": 1.8}
 metadata/footprint = Vector2(64, 16)
 
-[node name="Furnishing24" type="Node2D" parent="Furnishings"]
+[node name="Furnishing28" type="Node2D" parent="Furnishings"]
 position = Vector2(2344, 1008)
 metadata/look = {"kind": "cart"}
 metadata/footprint = Vector2(48, 96)
 
-[node name="Furnishing25" type="Node2D" parent="Furnishings"]
+[node name="Furnishing29" type="Node2D" parent="Furnishings"]
 position = Vector2(1264, 1224)
 metadata/look = {"kind": "melon_vines", "count": 8}
 metadata/footprint = Vector2(64, 48)
 
-[node name="Furnishing26" type="Node2D" parent="Furnishings"]
+[node name="Furnishing30" type="Node2D" parent="Furnishings"]
 position = Vector2(1472, 1224)
 metadata/look = {"kind": "melon_vines", "count": 9}
 metadata/footprint = Vector2(96, 48)
 
-[node name="Furnishing27" type="Node2D" parent="Furnishings"]
+[node name="Furnishing31" type="Node2D" parent="Furnishings"]
 position = Vector2(1360, 1376)
 metadata/look = {"kind": "melon_vines", "count": 8}
 metadata/footprint = Vector2(96, 64)
 
-[node name="Furnishing28" type="Node2D" parent="Furnishings"]
+[node name="Furnishing32" type="Node2D" parent="Furnishings"]
 position = Vector2(1472, 1360)
 metadata/look = {"kind": "melon_vines", "count": 7}
 metadata/footprint = Vector2(64, 64)
 
-[node name="Furnishing29" type="Node2D" parent="Furnishings"]
+[node name="Furnishing33" type="Node2D" parent="Furnishings"]
 position = Vector2(848, 672)
 metadata/look = {"kind": "flower_bed", "flowers": ["e86a8a", "f2c94a", "f4eee0", "c86ad0"]}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing30" type="Node2D" parent="Furnishings"]
+[node name="Furnishing34" type="Node2D" parent="Furnishings"]
 position = Vector2(848, 752)
 metadata/look = {"kind": "flower_bed", "flowers": ["e84a3a", "f28a3a", "f2d870", "f4eee0"]}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing31" type="Node2D" parent="Furnishings"]
+[node name="Furnishing35" type="Node2D" parent="Furnishings"]
 position = Vector2(848, 832)
 metadata/look = {"kind": "flower_bed", "flowers": ["b070e0", "e0a0e8", "f4eee0", "6a8ae8"]}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing32" type="Node2D" parent="Furnishings"]
+[node name="Furnishing36" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 672)
 metadata/look = {"kind": "flower_bed", "flowers": ["f28a3a", "f2c94a", "e84a3a", "f8e0a0"]}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing33" type="Node2D" parent="Furnishings"]
+[node name="Furnishing37" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 752)
 metadata/look = {"kind": "flower_bed", "flowers": ["e8a0b8", "e86a8a", "f4eee0", "d8406a"]}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing34" type="Node2D" parent="Furnishings"]
+[node name="Furnishing38" type="Node2D" parent="Furnishings"]
 position = Vector2(1040, 832)
 metadata/look = {"kind": "flower_bed", "flowers": ["6a8ae8", "a0c0f0", "f4eee0", "c86ad0"]}
 metadata/footprint = Vector2(64, 32)
 
-[node name="Furnishing35" type="Node2D" parent="Furnishings"]
+[node name="Furnishing39" type="Node2D" parent="Furnishings"]
 position = Vector2(-176, 1712)
 metadata/look = {"kind": "thicket", "height": 1.5, "colors": ["3a5a2e", "466a36", "527a3e", "60884a"]}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing36" type="Node2D" parent="Furnishings"]
+[node name="Furnishing40" type="Node2D" parent="Furnishings"]
 position = Vector2(-16, 1712)
 metadata/look = {"kind": "thicket", "height": 1.4, "colors": ["3a5a2e", "466a36", "527a3e", "60884a"]}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing37" type="Node2D" parent="Furnishings"]
+[node name="Furnishing41" type="Node2D" parent="Furnishings"]
 position = Vector2(-256, 1272)
 metadata/look = {"kind": "boulder", "tall": 0.8, "colors": ["7a8468", "868e72", "6e7a60"]}
 metadata/footprint = Vector2(64, 48)
 
-[node name="Furnishing38" type="Node2D" parent="Furnishings"]
+[node name="Furnishing42" type="Node2D" parent="Furnishings"]
 position = Vector2(896, 656)
 metadata/look = {"kind": "baskets", "rotation": 90, "seed": 3}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing39" type="Node2D" parent="Furnishings"]
+[node name="Furnishing43" type="Node2D" parent="Furnishings"]
 position = Vector2(1088, 880)
 metadata/look = {"kind": "flower_stand"}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing40" type="Node2D" parent="Furnishings"]
+[node name="Furnishing44" type="Node2D" parent="Furnishings"]
 position = Vector2(1224, 944)
 metadata/look = {"kind": "firewood"}
 metadata/footprint = Vector2(48, 32)
 
-[node name="Furnishing41" type="Node2D" parent="Furnishings"]
+[node name="Furnishing45" type="Node2D" parent="Furnishings"]
 position = Vector2(1424, 944)
 metadata/look = {"kind": "water_vat"}
 metadata/footprint = Vector2(32, 32)
 
-[node name="Furnishing42" type="Node2D" parent="Furnishings"]
+[node name="Furnishing46" type="Node2D" parent="Furnishings"]
 position = Vector2(1456, 936)
 metadata/look = {"kind": "crocks"}
 metadata/footprint = Vector2(32, 16)
 
-[node name="Furnishing43" type="Node2D" parent="Furnishings"]
+[node name="Furnishing47" type="Node2D" parent="Furnishings"]
 position = Vector2(1128, 1832)
 metadata/look = {"kind": "lantern_post", "size": [16, 16]}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing44" type="Node2D" parent="Furnishings"]
+[node name="Furnishing48" type="Node2D" parent="Furnishings"]
 position = Vector2(1128, 2008)
 metadata/look = {"kind": "lantern_post", "size": [16, 16]}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing45" type="Node2D" parent="Furnishings"]
+[node name="Furnishing49" type="Node2D" parent="Furnishings"]
 position = Vector2(1120, 1680)
 metadata/look = {"kind": "melon_vines", "count": 6, "heap": true}
 metadata/footprint = Vector2(32, 64)
 
-[node name="Furnishing46" type="Node2D" parent="Furnishings"]
+[node name="Furnishing50" type="Node2D" parent="Furnishings"]
 position = Vector2(1952, 264)
 metadata/look = {"kind": "rock_pile", "count": 7, "colors": ["c9a85a", "d6b86a", "b9975a", "a08a58"]}
 metadata/footprint = Vector2(64, 48)
 
-[node name="Furnishing47" type="Node2D" parent="Furnishings"]
+[node name="Furnishing51" type="Node2D" parent="Furnishings"]
 position = Vector2(2344, 280)
 metadata/look = {"kind": "boulder", "tall": 0.9, "colors": ["b9975a", "c9a85a", "9c8050"]}
 metadata/footprint = Vector2(48, 48)
 
-[node name="Furnishing48" type="Node2D" parent="Furnishings"]
+[node name="Furnishing52" type="Node2D" parent="Furnishings"]
 position = Vector2(1872, 416)
 metadata/look = {"kind": "boulder", "tall": 0.7, "colors": ["b9975a", "c9a85a", "9c8050"]}
 metadata/footprint = Vector2(32, 32)
