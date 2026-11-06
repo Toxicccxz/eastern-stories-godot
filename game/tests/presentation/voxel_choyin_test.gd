@@ -397,6 +397,11 @@ func _check_yamen(map: WorldMapController) -> void:
 	for prop: Dictionary in view.layout.get("props", []):
 		plaque = plaque or prop["kind"] == "sign" and prop.get("text", "") == "明镜高悬"
 	_check(plaque, "yamen.c: 正中高悬一匾")
+	# The 衙门大门 is one door on both maps: the yard's config carries the town's look for it.
+	var gate_look: Dictionary = view.layout.get("door_looks", {}).get("choyin.court1.gate", {})
+	var town_look: Dictionary = (JSON.parse_string(FileAccess.get_file_as_string("res://data/choyin/voxel/town.json")) as Dictionary).get("door_looks", {}).get("choyin.court1.gate", {})
+	_check(gate_look.get("kind", "") == "old_gate" and gate_look.get("studs", "") == town_look.get("studs", "x") and gate_look.get("size", []) == town_look.get("size", []) and gate_look.get("open", false),
+		"court1.c: 高大的大门 — the same red studded gate seen from the yard as from the street")
 	_check(kinds.count("pavilion") >= 2 and view.geometry.water.levels.size() > 10 and "zither_table" in kinds, "yamen_yard.c: 亭榭错落有致; yamen_iner.c: 品茶, 吟诗, 作画之所")
 
 
