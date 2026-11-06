@@ -217,6 +217,7 @@ func build() -> ContentCatalog:
 	_check_hazards()
 	_check_exit_rules()
 	_check_combat_data()
+	_check_guides()
 	_check_quest_tiers()
 	_check_journal()
 	_check_story_quests()
@@ -345,6 +346,66 @@ func _check_combat_data() -> void:
 			elif not _npcs[npc_id].loadout_entries().is_empty():
 				# A save leaves a standing conjured NPC out: it must hold no item.
 				_errors.append("skills: '%s' conjures '%s', which carries something" % [skill.skill_id, npc_id])
+
+
+## 战斗拍数 D (FamilyDefinition): a school's guide is an NPC that speaks and has the school;
+## its master takes apprentices; the hearsay hangs on NPCs that speak, on topics they do not
+## answer with fixed lines (those would come first), and is put before their own rules.
+func _check_guides() -> void:
+	for family: FamilyDefinition in _families.values():
+		var origin: String = _origins.get(family.family_id, String(family.family_id))
+		for guide: FamilyDefinition.SchoolGuide in family.guides:
+			var skill: SkillDefinition = _skills.get(guide.skill_id)
+			if skill == null:
+				_errors.append("%s.guides: unknown skill '%s'" % [origin, guide.skill_id])
+			elif skill.skeleton == null or skill.skeleton.style_line.is_empty():
+				_errors.append("%s.guides: '%s' has no skeleton with a style_line to show" % [origin, guide.skill_id])
+			var npc: NpcDefinition = _npcs.get(guide.npc_id)
+			if npc == null or not npc.can_speak():
+				_errors.append("%s.guides: '%s' is no NPC that speaks" % [origin, guide.npc_id])
+			elif skill != null and not _npc_has_skill(npc, guide.skill_id):
+				_errors.append("%s.guides: %s does not have %s" % [origin, guide.npc_id, guide.skill_id])
+			var master: NpcDefinition = _npcs.get(guide.master_id)
+			if guide.master_id.is_empty() or master == null or master.teaching() == null or master.teaching().apprentice == null:
+				_errors.append("%s.guides: master '%s' takes no apprentices" % [origin, guide.master_id])
+			elif skill != null and not _npc_has_skill(master, guide.skill_id):
+				_errors.append("%s.guides: master %s does not teach %s" % [origin, guide.master_id, guide.skill_id])
+			if npc == null or not npc.can_speak():
+				continue
+			if npc.talk().has_answer(guide.teach_topic):
+				_errors.append("%s.guides: %s answers '%s' with its own lines already" % [origin, guide.npc_id, guide.teach_topic])
+				continue
+			# 请教打法 is the guide's own 打听 topic: its lines, the master's conditions filled in.
+			var teach := NpcInquiryRule.new()
+			for said: String in guide.teach:
+				teach.lines.append(NpcLine.new(false, CombatInsights.fill(said, master)))
+			teach.hearsay = CombatInsights.TAUGHT + String(guide.skill_id)
+			npc.talk().add_rule_first(guide.teach_topic, teach)
+		for line: FamilyDefinition.Hearsay in family.hearsay:
+			var npc: NpcDefinition = _npcs.get(line.npc_id)
+			if npc == null or not npc.can_speak():
+				_errors.append("%s.hearsay: '%s' is no NPC that speaks" % [origin, line.npc_id])
+				continue
+			if not line.skill_id.is_empty() and not _skills.has(line.skill_id):
+				_errors.append("%s.hearsay: unknown skill '%s'" % [origin, line.skill_id])
+			if line.topic.strip_edges().is_empty() or NpcInquiry.ENGLISH_TOPICS.values().has(line.topic):
+				_errors.append("%s.hearsay: '%s' is no topic to hang a line on" % [origin, line.topic])
+			if npc.talk().has_answer(line.topic):
+				_errors.append("%s.hearsay: %s answers '%s' with its own lines already" % [origin, line.npc_id, line.topic])
+				continue
+			var guide: FamilyDefinition.SchoolGuide = family.guide_for(line.skill_id)
+			var rule := NpcInquiryRule.new()
+			rule.asker_marks = line.asker_marks.duplicate()
+			rule.lines = [NpcLine.new(false, CombatInsights.fill(line.say, null if guide == null else _npcs.get(guide.master_id)))]
+			rule.hearsay = line.key
+			npc.talk().add_rule_first(line.topic, rule)
+
+
+static func _npc_has_skill(npc: NpcDefinition, skill_id: StringName) -> bool:
+	for level: NpcSkillLevelDefinition in npc.skill_levels():
+		if level.skill_id == skill_id and level.raw_level > 0:
+			return true
+	return false
 
 
 ## god.c's levels rise; each is one qlist file.

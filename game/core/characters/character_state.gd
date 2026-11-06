@@ -86,6 +86,11 @@ var known_items: Dictionary[String, int] = {}
 ## 识招 (MoveRecognition, DECISIONS「战斗内容」): the enemy moves the player has watched in
 ## fights they were in, each with how many times. Native. Saved; empty for NPCs.
 var known_moves: Dictionary[String, int] = {}
+## 战斗拍数 D (CombatInsights, DECISIONS「战斗拍数 D」): what the player has learned of the schools
+## besides their moves — the hearsay heard (hearsay/<skill>/<n>), the guides' lessons taken
+## (lesson/<skill>), the NPCs' beat habits (habit/<npc>/<skill>/<beat>/<tag>: a count). Native.
+## Saved; empty for NPCs.
+var insights: Dictionary[String, int] = {}
 ## The maps the player has stood on (地图页; DECISIONS「总图」), each with the order it was first
 ## reached in. Native. Saved; empty for NPCs.
 var visited_maps: Dictionary[String, int] = {}

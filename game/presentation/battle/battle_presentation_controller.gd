@@ -524,7 +524,7 @@ func _read_strengths() -> bool:
 		if not value.hostile_to_player or _strengths.has(value.participant_id):
 			continue
 		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(value.participant_id)
-		_strengths[value.participant_id] = BattleStrength.read(map, npc, tr(Es2CombatMessages.pronoun(value.gender)), _projection.mode == CombatEncounterMode.Value.SPAR)
+		_strengths[value.participant_id] = BattleStrength.read(map, npc, tr(Es2CombatMessages.pronoun(value.gender)), _projection.mode in [CombatEncounterMode.Value.SPAR, CombatEncounterMode.Value.LESSON])
 		read = true
 	return read
 
@@ -861,6 +861,9 @@ func _mode_name(mode: int) -> String:
 	match mode:
 		CombatEncounterMode.Value.SPAR:
 			return tr("切磋")
+		CombatEncounterMode.Value.LESSON:
+			# TRANSLATORS: the battle's name while a guide's three harmless rounds run.
+			return tr("拆招")
 		CombatEncounterMode.Value.LETHAL:
 			return tr("厮杀")
 	return tr("战斗")

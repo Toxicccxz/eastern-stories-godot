@@ -9,6 +9,14 @@ extends RefCounted
 const NEARBY_REACH: float = 96.0
 # TRANSLATORS: native (A2): 攻击 on one of the 武馆's 木人 (training dummies), which are for sparring only.
 const SPAR_ONLY: String = "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
+## 战斗拍数 D: a guide spars its rounds with one whose eff_kee is at least this share of max_kee.
+const LESSON_KEE_PERCENT: int = 70
+# TRANSLATORS: a guide's refusal of 拆招 to a hurt player, when its data has none.
+const LESSON_REFUSE_HURT: String = "你身上带着伤，先养好了再来拆招。"
+# TRANSLATORS: a guide's refusal of 拆招 to another family's member, when its data has none.
+const LESSON_REFUSE_FAMILY: String = "你是别派的弟子，我不便指点。"
+# TRANSLATORS: a guide taking the player on for 拆招, when its data has none.
+const LESSON_ACCEPT: String = "来，拆三回合，点到为止。"
 
 var _map: WorldMapController
 var selected_target: WorldInteractionTarget
@@ -212,6 +220,72 @@ func spar_selected() -> CombatSliceInitiationResult:
 	return result
 
 
+## 战斗拍数 D (DECISIONS「战斗拍数 D」): the school guided by the selected NPC (families.json
+## `guides`), null for anyone else.
+func selected_guide() -> FamilyDefinition.SchoolGuide:
+	var target: NpcRuntimeState = selected_npc()
+	return null if target == null else GameContent.catalog().guide_of_npc(target.definition().definition_id)
+
+
+## Why the guide will not spar its three rounds with the player now ("" when it will): the
+## player is hurt (eff_kee under LESSON_KEE_PERCENT, as the guide reads it), or of another
+## family than the guide's and its master's; the guide's own words.
+func lesson_refusal(target: NpcRuntimeState, guide: FamilyDefinition.SchoolGuide) -> String:
+	if target == null or guide == null or _player == null:
+		return ""
+	if _kee_percent(_player.state) < LESSON_KEE_PERCENT:
+		return guide.refuse_hurt if not guide.refuse_hurt.is_empty() else LESSON_REFUSE_HURT
+	var own: StringName = _player.state.family.family_id
+	if own.is_empty():
+		return ""
+	var catalog: ContentCatalog = GameContent.catalog()
+	var theirs: Array[StringName] = []
+	for npc: NpcDefinition in [target.definition(), catalog.npc(guide.master_id)]:
+		if npc != null and npc.teaching() != null and not npc.teaching().family_id.is_empty():
+			theirs.append(npc.teaching().family_id)
+	if theirs.has(own):
+		return ""
+	return guide.refuse_family if not guide.refuse_family.is_empty() else LESSON_REFUSE_FAMILY
+
+
+## 拆招 with the selected guide: three harmless rounds (CombatEncounterCoordinator.start_lesson),
+## opened as a spar is, or the guide's refusal said.
+func lesson_selected() -> CombatSliceInitiationResult:
+	var target: NpcRuntimeState = selected_npc() if _map.gameplay_open() else null
+	var guide: FamilyDefinition.SchoolGuide = selected_guide()
+	if target == null or guide == null or not target.definition().can_speak() or target.definition().dealings().is_fight_deferred():
+		return CombatSliceInitiationResult.new()
+	var name: String = tr(target.definition().display_name)
+	if GameContent.catalog().zone_forbids_fighting(_player.world_location().zone_id):
+		_map.hud().append_log_lines([tr("这里禁止战斗。")])
+		return CombatSliceInitiationResult.new()
+	if not target.world_location().shares_combat_location(_player.world_location()) or target.relationship.has_opponent(_player.character_id):
+		return CombatSliceInitiationResult.new()
+	if target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		_map.hud().append_log_lines([tr("%s已经无法战斗了。") % name])
+		return CombatSliceInitiationResult.new()
+	var skill: SkillDefinition = GameContent.catalog().skill(guide.skill_id)
+	# TRANSLATORS: the player asks a school's guide for three rounds of 拆招: {npc} the guide, {skill} the school.
+	var lines: Array[String] = [tr("你向{npc}讨教{skill}，请{npc}拆几招给你看。").format({"npc": name, "skill": tr(skill.display_name) if skill != null else String(guide.skill_id)})]
+	var refusal: String = lesson_refusal(target, guide)
+	if not refusal.is_empty():
+		lines.append(tr("{npc}说道：{line}").format({"npc": name, "line": CombatInsights.fill(refusal, GameContent.catalog().npc(guide.master_id))}))
+		_map.hud().append_log_lines(lines)
+		return CombatSliceInitiationResult.new()
+	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
+	var player_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, _player.character_id)
+	var target_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, target.character_id)
+	var result: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_lesson(player_binding, target_binding, guide)
+	if result.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+		lines.append(tr("看起来%s并不想跟你较量。") % name)
+		_map.hud().append_log_lines(lines)
+		return result
+	var accept: String = guide.accept if not guide.accept.is_empty() else LESSON_ACCEPT
+	lines.append(tr("{npc}说道：{line}").format({"npc": name, "line": CombatInsights.fill(accept, GameContent.catalog().npc(guide.master_id))}))
+	_map.hostilities.announce_fight(lines)
+	return result
+
+
 ## fight.c's answer `target` gives the player now: NpcSparConsent.decide() draws
 ## nothing, so the HUD can know it before asking. `asked`: the spar itself, where an
 ## attitude that is a function (kid2.c) is drawn from the world-interaction stream.
@@ -343,6 +417,9 @@ func ask_selected(topic: String) -> Array[String]:
 		target.forget_topic(forgotten)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
+	# 战斗拍数 D: the town's hearsay and a guide's 打法 heard go on the 见识录.
+	if answer.answered and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		CombatInsights.heard(_player.state, answer.hearsay)
 	# What was said goes on the 任务 page (an NPC out cold, or one that does not know, says nothing).
 	var heard: Array[JournalLog.Fresh] = []
 	var quests_heard: Array[StoryQuestLog.Fresh] = []
