@@ -131,7 +131,7 @@ func _test_data() -> void:
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
 	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[2].act.npc_in == &"village.lakeside" and luca.hooks().calls[2].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[3].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
-	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() == 1 and ninth.steps[0].condition.key == "进了皇城" and ninth.steps[0].target.zone_id == &"city.shenwumen", "the ninth chapter's stub: 皇城")
+	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() >= 1 and ninth.steps[0].target.zone_id == &"city.wumen", "the ninth chapter: 皇城, by the 午门 (第九章 A grew the stub)")
 	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_IMPERIAL_A_V1, "第九章 A's world revision is current")
 
 
@@ -300,7 +300,7 @@ func _test_keep(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(StoryQuestLog.is_done(state, quest) and state.marks.get("湖底一章", 0) == 1 and state.milestones.size() >= 1 and StoryQuestLog.took(state, quest, &"keep") and state.deeds.any(func(deed: DeedLog.Deed) -> bool: return deed.did.contains("没有动它")), "%s: the chapter done, 湖底一章, the deed" % ledger)
 	var ninth: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter9")
-	_check(StoryQuestLog.is_active(state, ninth) and StoryQuestLog.objective(state, quests).begins_with("进皇城") and StoryQuestLog.target(state, quests).zone_id == &"city.shenwumen", "%s: the ninth chapter's stub: 皇城" % ledger)
+	_check(StoryQuestLog.is_active(state, ninth) and StoryQuestLog.objective(state, quests).begins_with("进皇城") and StoryQuestLog.target(state, quests).zone_id == &"city.wumen", "%s: the ninth chapter: 皇城, by the 午门" % ledger)
 	var pull: ActService = chamber.service(&"village.seal_altar.pull") as ActService
 	_check(pull != null and await MapPlaces.drive(tree, chamber, MapPlaces.service_spot(chamber, &"village.seal_altar.pull")) and pull.in_reach(), "%s: at the sword" % ledger)
 	pull.interact()
