@@ -30,7 +30,6 @@
     {"kind": "stains", "at": [120, 120], "size": [180, 120], "count": 5, "colors": ["8a7a4e", "7a6a44"], "note": "the floor worn pale where the racks are gone over"}
   ],
   "actors": {
-    "default": {"coat": "7a6a52"},
-    "canyon.npc.seller": {"coat": "6a6a5a", "hat": true}
+    "default": {"coat": "7a6a52"}
   }
 }

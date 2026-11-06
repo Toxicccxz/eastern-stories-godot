@@ -78,15 +78,6 @@
     ]
   },
   "actors": {
-    "default": {"coat": "6a5a48", "hat": true},
-    "canyon.npc.door_guard": {"coat": "6a5a48", "hat": true},
-    "canyon.npc.guard1": {"coat": "6a5a48", "hat": true},
-    "canyon.npc.guard2": {"coat": "5a4a3a", "hat": true, "scale": 1.05, "note": "老兵"},
-    "canyon.npc.leader1": {"coat": "8a5a3a", "hat": true},
-    "canyon.npc.leader2": {"coat": "7a5030", "hat": true, "note": "老队长"},
-    "canyon.npc.captain": {"coat": "8a3a30", "hat": true},
-    "canyon.npc.vice_general": {"coat": "7a2a24", "hat": true, "scale": 1.08, "note": "李信, 副将"},
-    "canyon.npc.general": {"coat": "c9a24a", "hat": true, "scale": 1.1, "note": "严廷殷, the gold robe"},
-    "canyon.npc.adviser": {"coat": "3a4a6a", "hat": true, "note": "赫造基, 军师"}
+    "default": {"coat": "6a5a48", "hat": true}
   }
 }
