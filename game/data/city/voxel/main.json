@@ -366,7 +366,6 @@
     {"kind": "compound_wall", "at": [896, 3864], "size": [288, 16], "wall": "d2cec2", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},
     {"kind": "compound_wall", "at": [1312, 1984], "size": [128, 32], "wall": "b8b0a0", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},
     {"kind": "compound_wall", "at": [1312, 2048], "size": [128, 32], "wall": "b6b2a8", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},
-    {"kind": "compound_wall", "at": [368, 2960], "size": [32, 128], "wall": "d2cec2", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},
     {"kind": "compound_wall", "at": [1120, 3200], "size": [32, 96], "wall": "b8b0a0", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},
     {"kind": "compound_wall", "at": [1488, 3200], "size": [32, 96], "wall": "b6b2a8", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},
     {"kind": "compound_wall", "at": [1104, 3344], "size": [32, 96], "wall": "d2cec2", "roof": "424a50", "height": 1.3, "wear": 0.5, "note": "a low yard wall: solid in 2D"},

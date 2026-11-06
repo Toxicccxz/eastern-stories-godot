@@ -278,6 +278,18 @@ msgstr ""
 #. native.npc.ronin gender
 #. native.npc.ronin_fighting gender
 #. native.npc.shadow_thief gender
+#. native.npc.ge_sheng gender
+#. native.npc.exam_lieutenant_1 gender
+#. native.npc.exam_lieutenant_2 gender
+#. native.npc.deng_xiao gender
+#. native.npc.wumen_guard gender
+#. native.npc.wei_zhizhong gender
+#. native.npc.xiangguo_servant gender
+#. native.npc.yulan_zhao gender
+#. native.npc.yu_zijian_court gender
+#. native.npc.court_official gender
+#. native.npc.fu_an gender
+#. native.npc.court_herald gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -303,7 +315,7 @@ msgstr ""
 #. native.npc.yu_henchman gender
 #. native.npc.chen_witness gender
 #. native.npc.shang_jue_lake gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -1328,12 +1340,14 @@ msgid "京师东街"
 msgstr ""
 
 #. es2:d/city/xiangguo/gate short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
+#. city.xiangguo_gate.knock name
+#: scenes/world/city/city_main.tscn data/city/rooms.json data/city/world.json
 msgid "相国府大门"
 msgstr ""
 
 #. es2:d/city/wumen short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
+#. city.wumen.wait name
+#: scenes/world/city/city_main.tscn data/city/rooms.json data/city/world.json
 msgid "午门"
 msgstr ""
 
@@ -1413,6 +1427,14 @@ msgstr ""
 msgid "草丛 · 寻找"
 msgstr ""
 
+#: scenes/world/city/city_main.tscn
+msgid "午门 · 候旨"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "相国府大门 · 叩门"
+msgstr ""
+
 #: scenes/world/city/city_main.tscn data/city/voxel/main.json data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json data/snow/voxel/outdoor.json
 msgid "药"
 msgstr ""
@@ -1458,6 +1480,21 @@ msgstr ""
 
 #: scenes/world/city/city_wall_top.tscn
 msgid "尚书府 · 跳进去"
+msgstr ""
+
+#. native:city/xiangguo_yard short
+#: scenes/world/city/city_xiangguo.tscn data/native/rooms.json
+msgid "相国府前院"
+msgstr ""
+
+#. native:city/xiangguo_hall short
+#: scenes/world/city/city_xiangguo.tscn data/native/rooms.json
+msgid "相国府正厅"
+msgstr ""
+
+#. native:city/xiangguo_study short
+#: scenes/world/city/city_xiangguo.tscn data/native/rooms.json
+msgid "相国府书房"
 msgstr ""
 
 #. es2:d/city/cloth short
@@ -2503,6 +2540,31 @@ msgstr ""
 
 #: scenes/world/guanbei/guanbei_worksite.tscn
 msgid "枷锁 · 打开枷锁"
+msgstr ""
+
+#. native:imperial/gate_court short
+#: scenes/world/imperial/imperial_meridian.tscn data/imperial/rooms.json
+msgid "午门内"
+msgstr ""
+
+#. native:imperial/bridges short
+#: scenes/world/imperial/imperial_meridian.tscn data/imperial/rooms.json
+msgid "金水桥"
+msgstr ""
+
+#. native:imperial/taihe_gate short
+#: scenes/world/imperial/imperial_meridian.tscn data/imperial/rooms.json
+msgid "太和门"
+msgstr ""
+
+#. native:imperial/square short
+#: scenes/world/imperial/imperial_square.tscn data/imperial/rooms.json
+msgid "太和殿广场"
+msgstr ""
+
+#. native:imperial/throne_hall short
+#: scenes/world/imperial/imperial_throne_hall.tscn data/imperial/rooms.json
+msgid "太和殿"
 msgstr ""
 
 #. es2:d/latemoon/park/yard1 short
@@ -12249,6 +12311,7 @@ msgstr ""
 #. native:fanfang/carpet unit
 #. native:fanfang/hu_bread unit
 #. native:cloud/escort_note unit
+#. native:choyin/luo_card unit
 #: data/common/items.json data/fanfang/items.json data/native/items.json
 msgid "张"
 msgstr ""
@@ -14862,7 +14925,8 @@ msgstr ""
 
 #. common.npc.fighter.champion name
 #. native.npc.feng_lu inquiry topic
-#: data/common/npcs.json data/fanfang/npcs.json
+#. native.npc.deng_xiao inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json data/imperial/npcs.json
 msgid "於兰天武"
 msgstr ""
 
@@ -15714,7 +15778,8 @@ msgid ""
 msgstr ""
 
 #. common.npc.scholar.master name
-#: data/common/npcs.json
+#. native.npc.wei_zhizhong inquiry topic
+#: data/common/npcs.json data/imperial/npcs.json
 msgid "骆云舟"
 msgstr ""
 
@@ -15737,6 +15802,41 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "很好，$RESPECT多加努力，他日必定有成。\n"
+msgstr ""
+
+#. common.npc.scholar.master inquiry topic
+#: data/common/npcs.json
+msgid "京城"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.say
+#: data/common/npcs.json
+msgid "名帖给过你了。韦相国那老头子脾气怪，可是不收银子，也不怕庾子建——京城里这样的人，数得过来。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.lines.emote
+#: data/common/npcs.json
+msgid "把扇子一收，看了你半晌。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.lines.say
+#: data/common/npcs.json
+msgid "你要进京告兵部尚书？——好。我家在京城住了五代，别的没有，认得几个不收银子的人。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.lines.emote
+#: data/common/npcs.json
+msgid "从袖子里抽出一张大红名帖，提笔写了一行，字写得飞快，最后一笔甩出了格子。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.lines.say
+#: data/common/npcs.json
+msgid "拿着，去西街的相国府，叩门递帖。韦相国是我父亲的老师。他那府里寒酸得很——别笑。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.say
+#: data/common/npcs.json
+msgid "京城？我家在京城，我不爱回去。那里的人说话，十句有九句是给别人听的。"
 msgstr ""
 
 #. common.npc.scholar.sword_soul name
@@ -17939,8 +18039,11 @@ msgid "草叶、布料、麻布、毛皮、木头、皮革；铁、钢、玄铁�
 msgstr ""
 
 #. main.prologue title
+#. native.npc.wei_zhizhong inquiry topic
+#. native.npc.yulan_zhao inquiry topic
+#. native.npc.yu_zijian_court inquiry topic
 #. native.npc.chen_witness inquiry topic
-#: data/story/prologue.json data/native/npcs.json
+#: data/story/prologue.json data/imperial/npcs.json data/native/npcs.json
 msgid "寻剑令"
 msgstr ""
 
@@ -19101,14 +19204,49 @@ msgstr ""
 msgid "拿到了寻剑令的原本"
 msgstr ""
 
-#. main.chapter9/palace objective
+#. main.chapter9/way objective
 #: data/story/chapter9.json
-msgid "进皇城，见皇帝，拿到寻剑令的原本。"
+msgid "进皇城。三条路：校武场的武举、相国府的公文，或者尚书府里有人知道的一条暗路。"
 msgstr ""
 
-#. main.chapter9/palace text
+#. main.chapter9/way/exam text
 #: data/story/chapter9.json
-msgid "皇城。"
+msgid "校武场三场全胜，殿试授了御前侍卫腰牌。退朝时福安凑过来：皇上说，今夜养心殿。"
+msgstr ""
+
+#. main.chapter9/way/exam reward.deed
+#: data/story/chapter9.json
+msgid "在京师校武场中了武状元"
+msgstr ""
+
+#. main.chapter9/way/memorial text
+#: data/story/chapter9.json
+msgid "你随韦相国上了早朝。庾子建当殿驳了奏本，皇上「容朕想想」。退朝时福安追出来：皇上请相国的随员到养心殿说话。"
+msgstr ""
+
+#. main.chapter9/way/memorial reward.deed
+#: data/story/chapter9.json
+msgid "随韦相国上了早朝"
+msgstr ""
+
+#. main.chapter9/way/sneak text
+#: data/story/chapter9.json
+msgid "你从冷宫的井里爬了上来。"
+msgstr ""
+
+#. main.chapter9/way/sneak reward.deed
+#: data/story/chapter9.json
+msgid "从冷宫的枯井潜进了皇城"
+msgstr ""
+
+#. main.chapter9/audience objective
+#: data/story/chapter9.json
+msgid "见皇帝：福安说，养心殿。"
+msgstr ""
+
+#. main.chapter9/audience text
+#: data/story/chapter9.json
+msgid "养心殿里，十六岁的皇帝没有睡。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -22292,7 +22430,8 @@ msgstr ""
 #. es2:d/latemoon/obj/cake unit
 #. es2:d/city/npc/obj/cake unit
 #. native:canyon/seal_mould unit
-#: data/latemoon/items.json data/city/items.json data/guanbei/items.json
+#. native:imperial/guard_token unit
+#: data/latemoon/items.json data/city/items.json data/guanbei/items.json data/imperial/items.json
 msgid "块"
 msgstr ""
 
@@ -29620,7 +29759,9 @@ msgstr ""
 #. native.npc.guo_cheng inquiry topic
 #. native.npc.palace_guard inquiry topic
 #. native.npc.lu_sun inquiry topic
-#: data/choyin/npcs.json data/guanbei/npcs.json
+#. native.npc.ge_sheng inquiry topic
+#. native.npc.wei_zhizhong inquiry topic
+#: data/choyin/npcs.json data/guanbei/npcs.json data/imperial/npcs.json
 msgid "兵部"
 msgstr ""
 
@@ -30135,8 +30276,9 @@ msgstr ""
 #. native.npc.cheng_shuo moods.rebel.title
 #. native.npc.cheng_shuo moods.clean.title
 #. native.npc.nan_weishui_guest inquiry topic
+#. native.npc.yu_zijian_court inquiry topic
 #. native.npc.chen_witness inquiry topic
-#: data/choyin/npcs.json data/guanbei/npcs.json data/native/npcs.json
+#: data/choyin/npcs.json data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "槐阳王"
 msgstr ""
 
@@ -34061,7 +34203,8 @@ msgid ""
 msgstr ""
 
 #. city.npc.boss inquiry topic
-#: data/city/npcs.json
+#. native.npc.fu_an inquiry topic
+#: data/city/npcs.json data/imperial/npcs.json
 msgid "皇上"
 msgstr ""
 
@@ -34245,17 +34388,21 @@ msgstr ""
 
 #. city.npc.shangshu.shangshu name
 #. native.npc.lu_sun inquiry topic
-#: data/city/npcs.json data/guanbei/npcs.json
+#. native.npc.wei_zhizhong inquiry topic
+#. native.npc.yu_zijian_court name
+#: data/city/npcs.json data/guanbei/npcs.json data/imperial/npcs.json
 msgid "庾子建"
 msgstr ""
 
 #. city.npc.shangshu.shangshu title
-#: data/city/npcs.json
+#. native.npc.yu_zijian_court title
+#: data/city/npcs.json data/imperial/npcs.json
 msgid "兵部尚书"
 msgstr ""
 
 #. city.npc.shangshu.shangshu long
-#: data/city/npcs.json
+#. native.npc.yu_zijian_court long
+#: data/city/npcs.json data/imperial/npcs.json
 msgid ""
 "他是当今皇上身边的红人，与宫中的关系也很熟络，手中掌管着\n"
 "兵马大权。不过能爬上这个位置，绝不是仅仅因为溜须拍马的缘\n"
@@ -37204,6 +37351,16 @@ msgstr ""
 msgid "突然你眼前似乎有什么东西一闪，然后又消失在草丛中。回去在草丛中找找？"
 msgstr ""
 
+#. city.wumen.iron_gate lines
+#: data/city/world.json
+msgid "守门的禁军把长戟一横：宫门重地，闲人止步。"
+msgstr ""
+
+#. city.xiangguo_gate.shut lines
+#: data/city/world.json
+msgid "相国府的大门关着。（门边可以叩门。）"
+msgstr ""
+
 #. city.northdoor.landmark.sign long
 #: data/city/world.json
 msgid ""
@@ -37249,6 +37406,13 @@ msgstr ""
 #: data/city/world.json
 msgid ""
 "告示上写著：今年文武大选。\n"
+msgstr ""
+
+#. city.southdoor.landmark.notice looks.long
+#: data/city/world.json
+msgid ""
+"告示上写著：今年文武大选。\n"
+"旁边新贴了一张小些的，墨还没干透：「武举在校武场报名。兵部武选司。」\n"
 msgstr ""
 
 #. city.bank.landmark.sign name
@@ -37449,6 +37613,110 @@ msgstr ""
 #. city.wall.jump_out act.verb
 #: data/city/world.json
 msgid "跳回去"
+msgstr ""
+
+#. city.wumen.wait act.verb
+#: data/city/world.json
+msgid "候旨"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"铁门开着。守门的禁军认得你，侧身让开了。\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.ask
+#: data/city/world.json
+msgid "在午门外候到天亮殿试。等的工夫里，世上的事照样走：别处的人该走的走、该好的好。"
+msgstr ""
+
+#. city.wumen.wait act.acts.choice
+#: data/city/world.json
+msgid "候到天亮"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你在午门外的石狮子旁边站定。守门的禁军看了你一眼，没有赶你。\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"东方的天空中开始出现一丝微曦。午门外渐渐有了人：坐轿的、骑马的、走路的官，一个个在铁门外排好了班。\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"铁门「轧轧」地开了。一个太监站在门里尖着嗓子喊：「宣——武状元觐见！」\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.ask
+#: data/city/world.json
+msgid "在午门外候到天亮，随相国上早朝。等的工夫里，世上的事照样走：别处的人该走的走、该好的好。"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你在午门外的石狮子旁边站定。夜里风凉，守门的禁军换了一班。\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"天蒙蒙亮，一顶旧轿子停在午门外，韦相国下了轿，朝你点了点头：「跟着我，别说话。」\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"铁门「轧轧」地开了。百官鱼贯而入，你跟在相国身后。\n"
+msgstr ""
+
+#. city.wumen.wait act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"午门的铁门关着。守门的禁军说道：宫门重地，闲人止步。要进去，要么是皇上宣的，要么是跟着上朝的官。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.verb
+#. guanbei.palace_front.knock act.verb
+#: data/city/world.json data/guanbei/world.json
+msgid "叩门"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"大门虚掩着。老仆在院里扫地，看见你点了点头。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你叩了叩门。一个老仆开了半扇门，接过名帖看了看，又看了看你。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"老仆说道：骆家的人。相国在正厅，请。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"门开了。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你叩了叩门。半天，一个老仆隔着门说：相国不见生客。有名帖么？\n"
 msgstr ""
 
 #. chuenyu.npc.flower_seller name
@@ -42604,11 +42872,6 @@ msgid ""
 "你见过这只鸟：逆灵宫人腰牌上的徽记，也是这个样子。\n"
 msgstr ""
 
-#. guanbei.palace_front.knock act.verb
-#: data/guanbei/world.json
-msgid "叩门"
-msgstr ""
-
 #. guanbei.palace_front.knock act.acts.steps.line
 #: data/guanbei/world.json
 msgid ""
@@ -45030,6 +45293,779 @@ msgid ""
 "板地是练刀的地方，不是歇脚的。\n"
 msgstr ""
 
+#. native:imperial/guard_token name
+#: data/imperial/items.json
+msgid "御前侍卫腰牌"
+msgstr ""
+
+#. native:imperial/guard_token long
+#: data/imperial/items.json
+msgid ""
+"一块铜腰牌，巴掌大，正面刻着「御前侍卫」四个字，背面一个编号，编号底下有人用刀尖划了一道——上一个带它的人留下的。\n"
+msgstr ""
+
+#. native.npc.ge_sheng name
+#: data/imperial/npcs.json
+msgid "葛升"
+msgstr ""
+
+#. native.npc.ge_sheng title
+#: data/imperial/npcs.json
+msgid "兵部武选司主事"
+msgstr ""
+
+#. native.npc.ge_sheng long
+#: data/imperial/npcs.json
+msgid ""
+"一个四十来岁的官儿，青袍上落着几点墨，坐在棚下的条案后头，面前一本名册、一方砚、一支秃了尖的笔。他看人先看手——手上有没有茧——再看脸。\n"
+msgstr ""
+
+#. native.npc.ge_sheng chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"葛升蘸了蘸墨，在名册上勾了一笔。\n"
+msgstr ""
+
+#. native.npc.ge_sheng chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"葛升说道：下一个。\n"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry topic
+#. native.npc.exam_lieutenant_1 inquiry topic
+#. native.npc.exam_lieutenant_2 inquiry topic
+#. native.npc.deng_xiao inquiry topic
+#: data/imperial/npcs.json
+msgid "武举"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.say
+#: data/imperial/npcs.json
+msgid "三场都过了，还问什么。明日早朝殿试——午门候旨。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.say
+#: data/imperial/npcs.json
+msgid "名字已经写上了。先是两位校尉，最后是邓将军。打到见血就算，不许下死手。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "抬眼把你从头看到脚，又看了看你的手。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.say
+#: data/imperial/npcs.json
+msgid "报武举？今年文武大选，兵部开的科。名字。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "在名册上写了一行，吹了吹墨。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.say
+#: data/imperial/npcs.json
+msgid "三场：两位御林军校尉，最后是邓将军。打到见血就算，不许下死手。三场都过了，明日殿试。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.兵部
+#: data/imperial/npcs.json
+msgid "兵部管天下的兵马，也管武举。小的只管写名字。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry topic
+#. native.npc.yulan_zhao inquiry topic
+#. native.npc.court_official inquiry topic
+#: data/imperial/npcs.json
+msgid "庾尚书"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.庾尚书
+#: data/imperial/npcs.json
+msgid "尚书大人的事，不是小的能说的。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry topic
+#: data/imperial/npcs.json
+msgid "殿试"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.殿试.rules.say
+#: data/imperial/npcs.json
+msgid "明日早朝，午门外候着，有人传你。见了皇上磕头，别抬头看。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.殿试.rules.say
+#: data/imperial/npcs.json
+msgid "先把三场打完再说殿试。"
+msgstr ""
+
+#. native.npc.ge_sheng calls.steps.emote
+#: data/imperial/npcs.json
+msgid "把笔一搁，看了你半晌。"
+msgstr ""
+
+#. native.npc.ge_sheng calls.steps.say
+#: data/imperial/npcs.json
+msgid "三场都过了。——明日早朝殿试，午门候旨。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 name
+#: data/imperial/npcs.json
+msgid "赵勇"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 title
+#. native.npc.exam_lieutenant_2 title
+#: data/imperial/npcs.json
+msgid "御林军校尉"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 long
+#: data/imperial/npcs.json
+msgid ""
+"一个二十来岁的校尉，红袍外头罩着软甲，袖子挽到肘上，胳膊上一道一道的旧疤。他刚和人对过刀，额头上的汗还没干。\n"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 accept_fight.emote
+#. native.npc.exam_lieutenant_2 accept_fight.emote
+#. native.npc.deng_xiao accept_fight.emote
+#: data/imperial/npcs.json
+msgid "抱拳行了一礼，摆开了架势。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 accept_fight.say
+#. native.npc.exam_lieutenant_2 accept_fight.say
+#. native.npc.deng_xiao accept_fight.say
+#: data/imperial/npcs.json
+msgid "武考，点到为止。请。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 accept_fight.say
+#. native.npc.exam_lieutenant_2 accept_fight.say
+#. native.npc.deng_xiao accept_fight.say
+#: data/imperial/npcs.json
+msgid "你已经过了我这一关。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 accept_fight.say
+#: data/imperial/npcs.json
+msgid "先去葛主事那儿报了名再来。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_1 inquiry.武举
+#: data/imperial/npcs.json
+msgid "第一场是我。打到见血就算，不许下死手。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_2 name
+#: data/imperial/npcs.json
+msgid "孙锐"
+msgstr ""
+
+#. native.npc.exam_lieutenant_2 long
+#: data/imperial/npcs.json
+msgid ""
+"一个三十出头的校尉，个子不高，站得像钉在地上。他看人的时候眼睛半眯着，像在量你的步子。\n"
+msgstr ""
+
+#. native.npc.exam_lieutenant_2 accept_fight.say
+#: data/imperial/npcs.json
+msgid "赵校尉那一关还没过，轮不到我。"
+msgstr ""
+
+#. native.npc.exam_lieutenant_2 inquiry.武举
+#: data/imperial/npcs.json
+msgid "第二场是我。赵勇那小子手重，我比他手准。"
+msgstr ""
+
+#. native.npc.deng_xiao name
+#: data/imperial/npcs.json
+msgid "邓骁"
+msgstr ""
+
+#. native.npc.deng_xiao title
+#: data/imperial/npcs.json
+msgid "御林军将领"
+msgstr ""
+
+#. native.npc.deng_xiao long
+#: data/imperial/npcs.json
+msgid ""
+"一个四十岁上下的将领，方脸，络腮胡子，骑在一匹高头大马上绕着场子巡视。他下马的时候马鞭往鞍上一挂，一句话不说，先活动手腕。\n"
+msgstr ""
+
+#. native.npc.deng_xiao accept_fight.say
+#: data/imperial/npcs.json
+msgid "前两场还没打完，找我做什么。"
+msgstr ""
+
+#. native.npc.deng_xiao inquiry.武举
+#: data/imperial/npcs.json
+msgid "最后一场是我。过了我，明日见皇上。"
+msgstr ""
+
+#. native.npc.deng_xiao inquiry.於兰天武
+#: data/imperial/npcs.json
+msgid "当年的武状元。一杆枪挑了七个人，七个人没一个见血——那才叫点到为止。后来他不做官了。"
+msgstr ""
+
+#. native.npc.deng_xiao chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"邓骁勒着马在场边转了一圈。\n"
+msgstr ""
+
+#. native.npc.deng_xiao chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"邓骁说道：手腕子软的，回去再练三年。\n"
+msgstr ""
+
+#. native.npc.wumen_guard name
+#: data/imperial/npcs.json
+msgid "守门禁军"
+msgstr ""
+
+#. native.npc.wumen_guard title
+#: data/imperial/npcs.json
+msgid "禁军"
+msgstr ""
+
+#. native.npc.wumen_guard long
+#: data/imperial/npcs.json
+msgid ""
+"一个披甲的禁军，红缨盔，手里一杆长戟，站在午门的铁门前一动不动。他的眼睛不看人，看的是人的手。\n"
+msgstr ""
+
+#. native.npc.wumen_guard chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"守门禁军把长戟换了一只手。\n"
+msgstr ""
+
+#. native.npc.wumen_guard inquiry topic
+#: data/imperial/npcs.json
+msgid "进宫"
+msgstr ""
+
+#. native.npc.wumen_guard inquiry.进宫
+#: data/imperial/npcs.json
+msgid "宫门重地。要进去，要么是皇上宣的，要么是跟着上朝的官。校武场今年开武举，中了的明日殿试；相国府的人，早朝时跟着相国进。"
+msgstr ""
+
+#. native.npc.wumen_guard inquiry topic
+#. imperial name
+#: data/imperial/npcs.json data/imperial/world.json
+msgid "皇城"
+msgstr ""
+
+#. native.npc.wumen_guard inquiry.皇城
+#: data/imperial/npcs.json
+msgid "你看见的是午门。里头的事，不是你该问的。"
+msgstr ""
+
+#. native.npc.wumen_guard accept_fight.say
+#: data/imperial/npcs.json
+msgid "天子脚下，谁跟你比划。"
+msgstr ""
+
+#. native.npc.wei_zhizhong name
+#: data/imperial/npcs.json
+msgid "韦执中"
+msgstr ""
+
+#. native.npc.wei_zhizhong title
+#. native.npc.xiangguo_servant inquiry topic
+#: data/imperial/npcs.json
+msgid "相国"
+msgstr ""
+
+#. native.npc.wei_zhizhong long
+#: data/imperial/npcs.json
+msgid ""
+"一个瘦小的老人，穿一件洗得发白的旧袍子，袖口补过。他的背有点驼，可是看人的时候眼睛很亮，一句话要想一会儿才出口，出口就不收回。\n"
+msgstr ""
+
+#. native.npc.wei_zhizhong chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"韦执中翻过一页书，在页边上点了一个墨点。\n"
+msgstr ""
+
+#. native.npc.wei_zhizhong chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"韦执中咳了两声，把茶壶里的凉茶倒了半盏。\n"
+msgstr ""
+
+#. native.npc.wei_zhizhong accept_fight.say
+#: data/imperial/npcs.json
+msgid "老夫拿笔的手，拿不动刀。"
+msgstr ""
+
+#. native.npc.wei_zhizhong accept_object.lines.emote
+#: data/imperial/npcs.json
+msgid "接过名帖，凑到灯下看了看。"
+msgstr ""
+
+#. native.npc.wei_zhizhong accept_object.lines.say
+#: data/imperial/npcs.json
+msgid "骆易的儿子荐来的。他父亲当年在老夫门下读过三年书，后来不读了，去练剑。"
+msgstr ""
+
+#. native.npc.wei_zhizhong accept_object.lines.say
+#: data/imperial/npcs.json
+msgid "坐。说吧，什么事要找到相国府来。"
+msgstr ""
+
+#. native.npc.wei_zhizhong accept_object.say
+#: data/imperial/npcs.json
+msgid "老夫不收东西。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.兵部.rules.say
+#: data/imperial/npcs.json
+msgid "兵部？庾子建的兵部。他掌兵马，朝里一半的人是他的门生。你要说什么，先说凭据。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.兵部.rules.say
+#: data/imperial/npcs.json
+msgid "兵部的事，问兵部去。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.寻剑令.rules.say
+#: data/imperial/npcs.json
+msgid "先帝的寻剑令？老夫当年在场。先帝亲笔，一句话：寻剑，不得扰民一户。后来兵部颁下去的是什么，老夫就不知道了——没人给老夫看。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.寻剑令.rules.say
+#: data/imperial/npcs.json
+msgid "先帝的事。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry topic
+#: data/imperial/npcs.json
+msgid "奏本"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.say
+#: data/imperial/npcs.json
+msgid "你已经是御前侍卫了，皇上见过你。还要老夫递什么本。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.say
+#: data/imperial/npcs.json
+msgid "本子写好了。明日卯时，午门外候着，跟着老夫上朝。别说话。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "听你说完，半晌没有出声。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.say
+#: data/imperial/npcs.json
+msgid "乔阴程县令录了供，槐阳王拒了兵部的令——两处说的是一件事：兵部拿着先帝的寻剑令，干先帝没让干的事。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "铺开一张折子，提笔写了很久，写完吹了吹墨。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.say
+#: data/imperial/npcs.json
+msgid "本子老夫写了。递上去，庾子建当殿就会驳。驳不驳得倒，要看皇上——皇上十六岁。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.say
+#: data/imperial/npcs.json
+msgid "明日卯时，午门外候着，跟着老夫上朝。别说话。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "接过那卷发黄的抄本，看了很久，手指在最后一个没有点墨的名字上停了一下。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.say
+#: data/imperial/npcs.json
+msgid "二十年前的抄本。一句话：寻剑，不得扰民一户。——这是先帝的话，老夫认得。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "铺开一张折子，提笔写了很久。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.say
+#: data/imperial/npcs.json
+msgid "本子老夫写了。明日卯时，午门外候着，跟着老夫上朝。别说话。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.say
+#: data/imperial/npcs.json
+msgid "空口告兵部尚书？老夫不递这种本。去乔阴找程县令——他录过供。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.奏本.rules.say
+#: data/imperial/npcs.json
+msgid "你是什么人，要老夫递本？"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry topic
+#: data/imperial/npcs.json
+msgid "早朝"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.早朝.rules.say
+#: data/imperial/npcs.json
+msgid "卯时，午门外。天亮前就得到。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.早朝.rules.say
+#: data/imperial/npcs.json
+msgid "早朝是官的事。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆云舟
+#: data/imperial/npcs.json
+msgid "骆家的二小子？他父亲骆易在老夫门下读过书。后来父子俩都去练剑了，可惜了那一手字。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.庾子建
+#: data/imperial/npcs.json
+msgid "当年打仗是一把好手，老夫亲眼见过。如今……如今他的门生比老夫的书多。"
+msgstr ""
+
+#. native.npc.xiangguo_servant name
+#: data/imperial/npcs.json
+msgid "老仆"
+msgstr ""
+
+#. native.npc.xiangguo_servant long
+#: data/imperial/npcs.json
+msgid ""
+"一个弯着腰的老仆，手里一把竹扫帚，扫得很慢，扫过的地方一片落叶也没有。\n"
+msgstr ""
+
+#. native.npc.xiangguo_servant chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"老仆扫着院子里的落叶。\n"
+msgstr ""
+
+#. native.npc.xiangguo_servant chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"老仆把鸡赶回菜畦边上。\n"
+msgstr ""
+
+#. native.npc.xiangguo_servant inquiry.相国
+#: data/imperial/npcs.json
+msgid "相国在正厅。夜里在书房，常常看书看到天亮。"
+msgstr ""
+
+#. native.npc.yulan_zhao name
+#: data/imperial/npcs.json
+msgid "於兰昭"
+msgstr ""
+
+#. native.npc.yulan_zhao title
+#: data/imperial/npcs.json
+msgid "天子"
+msgstr ""
+
+#. native.npc.yulan_zhao long
+#: data/imperial/npcs.json
+msgid ""
+"一个十六岁的少年，穿着明黄的龙袍，袍子做得大了一点，袖口挽过一道。他坐得很直，直得像有人在背后看着他。说话之前他总要先看一眼站在百官最前面的那个人。\n"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.line
+#: data/imperial/npcs.json
+msgid ""
+"太监尖着嗓子喊：「武状元上殿——」百官分成两列，你从当中走过去，跪下。\n"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.say
+#: data/imperial/npcs.json
+msgid "你……你就是今年的武状元？抬起头来。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.emote
+#: data/imperial/npcs.json
+msgid "看了你一会儿，又看了一眼百官最前头那个人。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.say
+#: data/imperial/npcs.json
+msgid "陛下，校武场三场，臣的武选司亲眼看着打的。此人武艺尚可，出身不明。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.say
+#: data/imperial/npcs.json
+msgid "出身……朕也不知道朕的武状元该是什么出身。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.say
+#: data/imperial/npcs.json
+msgid "臣请陛下赐他一个侍卫的差事——兵部正缺人手，臣可以替陛下看着他。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.say
+#: data/imperial/npcs.json
+msgid "陛下，大内侍卫营归臣管。人，臣来看。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.emote
+#: data/imperial/npcs.json
+msgid "像是松了一口气。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.say
+#: data/imperial/npcs.json
+msgid "准。赐御前侍卫腰牌——冯总教头，人归你。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.lines.line
+#: data/imperial/npcs.json
+msgid ""
+"一个太监捧着托盘走下台阶，托盘里一块铜腰牌，刻着「御前侍卫」四个字。\n"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.emote
+#: data/imperial/npcs.json
+msgid "笑了笑，没有再说话。"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.line
+#. native.npc.court_herald calls.steps.line
+#: data/imperial/npcs.json
+msgid ""
+"太监喊：「退朝——」百官鱼贯而出。\n"
+msgstr ""
+
+#. native.npc.yulan_zhao calls.steps.whisper
+#: data/imperial/npcs.json
+msgid "皇上说，今夜养心殿。冯总教头的人会领你进去。"
+msgstr ""
+
+#. native.npc.yulan_zhao inquiry.寻剑令
+#: data/imperial/npcs.json
+msgid "父皇的寻剑令……你也知道？——这里说不得。"
+msgstr ""
+
+#. native.npc.yulan_zhao inquiry.庾尚书
+#: data/imperial/npcs.json
+msgid "……"
+msgstr ""
+
+#. native.npc.yulan_zhao inquiry topic
+#: data/imperial/npcs.json
+msgid "皇叔"
+msgstr ""
+
+#. native.npc.yulan_zhao inquiry.皇叔
+#: data/imperial/npcs.json
+msgid "朕没有皇叔。——布告上写着的那个人，朕不认识。"
+msgstr ""
+
+#. native.npc.yu_zijian_court inquiry.寻剑令
+#: data/imperial/npcs.json
+msgid "先帝的旨意，兵部奉旨办差。你是什么人，问这个？"
+msgstr ""
+
+#. native.npc.yu_zijian_court inquiry.槐阳王
+#: data/imperial/npcs.json
+msgid "槐阳王不奉诏。不奉诏是什么，你读过书就知道。"
+msgstr ""
+
+#. native.npc.court_official name
+#: data/imperial/npcs.json
+msgid "朝臣"
+msgstr ""
+
+#. native.npc.court_official long
+#: data/imperial/npcs.json
+msgid ""
+"一个穿朝服的官，笏板捧在胸前，眼睛看着自己的靴尖。\n"
+msgstr ""
+
+#. native.npc.court_official inquiry.庾尚书
+#: data/imperial/npcs.json
+msgid "……下官什么都没说。"
+msgstr ""
+
+#. native.npc.fu_an name
+#: data/imperial/npcs.json
+msgid "福安"
+msgstr ""
+
+#. native.npc.fu_an title
+#: data/imperial/npcs.json
+msgid "内侍"
+msgstr ""
+
+#. native.npc.fu_an long
+#: data/imperial/npcs.json
+msgid ""
+"一个十五岁的小太监，脸白，眼睛机灵，走路没有声音。他总站在皇上身后半步，皇上一皱眉他就先低头。\n"
+msgstr ""
+
+#. native.npc.fu_an inquiry.皇上
+#: data/imperial/npcs.json
+msgid "皇上睡得晚。夜里在养心殿，看先帝的手札。"
+msgstr ""
+
+#. native.npc.fu_an inquiry topic
+#: data/imperial/npcs.json
+msgid "养心殿"
+msgstr ""
+
+#. native.npc.fu_an inquiry.养心殿
+#: data/imperial/npcs.json
+msgid "养心殿在西边。白天跟着我走，夜里……夜里别问我。"
+msgstr ""
+
+#. native.npc.court_herald name
+#: data/imperial/npcs.json
+msgid "司礼太监"
+msgstr ""
+
+#. native.npc.court_herald title
+#: data/imperial/npcs.json
+msgid "司礼监"
+msgstr ""
+
+#. native.npc.court_herald long
+#: data/imperial/npcs.json
+msgid ""
+"一个上了年纪的太监，嗓子尖，站在龙椅下的台阶边上，手里一柄拂尘，替皇上喊话。\n"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "有本早奏，无本退朝——"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "臣韦执中有本。乔阴县令程不平录供，槐阳王拒令：兵部奉先帝寻剑之旨，征民夫、设关卡、拿人——先帝的旨意里没有这一句。"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.emote
+#: data/imperial/npcs.json
+msgid "冷笑了一声，出班。"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "兵部的事，相国也要管？"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "臣也有本：槐阳王程朔，兴兵踏平兵部工地，杀朝廷命官，劫民夫——槐阳王反了。"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.line
+#: data/imperial/npcs.json
+msgid ""
+"满殿哗然。\n"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.emote
+#: data/imperial/npcs.json
+msgid "手按在龙椅的扶手上，看看相国，又看看尚书。"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "……容朕想想。退、退朝。"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.whisper
+#: data/imperial/npcs.json
+msgid "皇上请相国的随员到养心殿说话。皇上说……先别出宫。"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "兵部的事，相国也要管？先帝的旨意是寻剑，兵部办的是寻剑。一个县令、一个藩王，说兵部办错了，凭据呢？"
+msgstr ""
+
+#. native.npc.court_herald calls.steps.say
+#: data/imperial/npcs.json
+msgid "……容朕想想。退朝。"
+msgstr ""
+
+#. native:imperial/gate_court long
+#: data/imperial/rooms.json
+msgid ""
+"进了铁门，眼前豁然一空：三面是高得望不到头的红墙，墙帽上一溜暗金的琉璃瓦，墙根返着一圈白碱，灰皮剥了几块，露出里面的砖。脚下的青砖大得一块能躺下一个人，砖缝里钻出几茎枯草。身后铁门两扇，门钉锈成了褐色。东边一道矮些的院门关着，门里传来吆喝声和刀碰刀的响，是侍卫营。\n"
+msgstr ""
+
+#. native:imperial/bridges long
+#: data/imperial/rooms.json
+msgid ""
+"一道弯弯的河从西流到东，河水是绿的，水面上漂着几片落叶。河上并排五座汉白玉的桥，当中一座最宽，栏杆上雕着龙，龙的爪子缺了好几根，青苔从缺口里长出来。桥北是太和门，门前一对铜狮子，被摸了几百年的狮头亮得发黄。\n"
+msgstr ""
+
+#. native:imperial/taihe_gate long
+#: data/imperial/rooms.json
+msgid ""
+"太和门是一座重檐的大门，檐下的彩画褪成了灰绿，几只燕子在斗拱里做了窝，门槛被踩出一道凹。门洞里站着两排禁军，红缨盔，手按着刀。门里就是太和殿前的广场。\n"
+msgstr ""
+
+#. native:imperial/square long
+#: data/imperial/rooms.json
+msgid ""
+"好大一片广场。地上铺的砖一眼望不到边，中间一条御道是整块的石板，被车轮和脚磨得发亮。两边一排排大铜缸，缸身生了绿锈，缸沿有一圈被手摸亮的铜色。北面是三层汉白玉的台基，台上立着太和殿，金瓦红柱，殿前一座日晷、一座铜龟。上朝的时候，这里站满了人；不上朝的时候，风从广场上刮过去，什么都没有。\n"
+msgstr ""
+
+#. native:imperial/throne_hall long
+#: data/imperial/rooms.json
+msgid ""
+"殿里很高，也很暗。十几根金漆的柱子，柱上盘着龙，漆掉了的地方露出底下的红。地上铺着金砖——其实是深灰的，磨得能照见人影，边上几块裂了缝。殿的尽头是一座七层的台子，台上一把龙椅，椅背后一面雕龙的屏风。龙椅很大，坐上去的人显得很小。\n"
+msgstr ""
+
+#. imperial.bridges.landmark.lions name
+#: data/imperial/world.json
+msgid "铜狮"
+msgstr ""
+
+#. imperial.bridges.landmark.lions long
+#: data/imperial/world.json
+msgid ""
+"太和门前一对铜狮子，蹲在汉白玉的座上。狮头被摸了几百年，亮得发黄；身上别处都生了一层暗绿的锈。东边那只脚下踩着一只绣球，西边那只脚下按着一只小狮子。\n"
+msgstr ""
+
+#. imperial.square.landmark.sundial name
+#: data/imperial/world.json
+msgid "日晷"
+msgstr ""
+
+#. imperial.square.landmark.sundial long
+#: data/imperial/world.json
+msgid ""
+"一座汉白玉的日晷，晷面斜斜地朝着南天，铜针的影子落在刻度上。刻度旁有人用指甲刻了一道浅痕——大约是哪个站班的侍卫等下朝等得不耐烦。\n"
+msgstr ""
+
+#. imperial.throne_hall.landmark.throne name
+#: data/imperial/world.json
+msgid "龙椅"
+msgstr ""
+
+#. imperial.throne_hall.landmark.throne long
+#: data/imperial/world.json
+msgid ""
+"七层台阶上一把金漆的龙椅，椅背上盘着九条龙，扶手的龙头被手握得发亮。椅子太大了：坐垫上另垫了一块厚褥子，脚下还摆着一只脚踏——坐在这上头的人，脚够不着地。\n"
+msgstr ""
+
 #. native.npc.wooden_dummy.1 name
 #: data/native/npcs.json
 msgid "木人（初阶）"
@@ -46083,6 +47119,17 @@ msgid ""
 "一个渔夫倒在岸边的泥里，脸朝下。网还攥在手里，网里什么都没有。背上三个孔，是钢叉。\n"
 msgstr ""
 
+#. native:choyin/luo_card name
+#: data/native/items.json
+msgid "骆家名帖"
+msgstr ""
+
+#. native:choyin/luo_card long
+#: data/native/items.json
+msgid ""
+"一张大红的名帖，折成三折。正面一行字：「京师骆氏 骆建炎 拜上 韦相国」，字写得飞快，最后一笔甩出了格子——骆云舟的字。\n"
+msgstr ""
+
 #. native:oldpine/pine_top long
 #: data/native/rooms.json
 msgid ""
@@ -46098,6 +47145,24 @@ msgid ""
 "当中一座黑石封坛，坛心一块透明的冰，冰里一颗头，一把剑从头顶直钉下去，剑柄露在冰外。\n"
 "坛边一根冰柱，柱里一个女人，眼睛是睁着的；她身上发着白光，光照在冰上，冰就不化。\n"
 "这里不冷——她的光照着的地方都不冷。脚下黑石的台阶通上去，是潭口。\n"
+msgstr ""
+
+#. native:city/xiangguo_yard long
+#: data/native/rooms.json
+msgid ""
+"进了大门是一个小院子。影壁上的白灰掉了一半，露出底下的青砖。院子里没有花，种的是菜：两畦白菜、一架豆角，一只鸡在菜畦边上刨土。北面的正厅是旧的，柱子上的漆剥得斑斑驳驳。真的寒酸——可是扫得很干净。\n"
+msgstr ""
+
+#. native:city/xiangguo_hall long
+#: data/native/rooms.json
+msgid ""
+"正厅里只有几把旧椅子、一张八仙桌，桌上一把缺了嘴的茶壶。墙上挂着一幅字，写的是「先天下之忧而忧」，纸已经黄了，裱的边也卷了。西边一道门通到书房，门里透出灯光，书堆得比人还高。\n"
+msgstr ""
+
+#. native:city/xiangguo_study long
+#: data/native/rooms.json
+msgid ""
+"书房里到处是书：架子上、桌上、地上，一摞一摞，有的用绳子捆着，有的摊开着，上面压着砚台。窗下一张榻，榻上一床旧被子——这屋子的主人常常在这里过夜。桌上一盏油灯，灯芯剪得很短。\n"
 msgstr ""
 
 #: data/canyon/voxel/pass.json data/guanbei/voxel/gorge.json

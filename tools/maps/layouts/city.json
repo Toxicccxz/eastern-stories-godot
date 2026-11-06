@@ -81,7 +81,6 @@
           ["shutter", 1184, 4352, 1408, 4400, "the 南门, shut"],
           ["blocked", 1248, 1968, 1376, 2064, "the 皇家祭坛: everyone else walks round it", {"look": {"kind": "altar_terrace", "height": 0.6, "note": "jitan.c: 汉白玉栏杆, 精细磨过的花岗岩坛面, 中间的汉白玉台子, 台子下长着青苔的凸起"}}],
           ["shutter", 1232, 2464, 1360, 2512, "神武门 wrapped in iron chains"],
-          ["shutter", 1232, 2784, 1360, 2832, "午门's great gate"],
           ["blocked", 1120, 2864, 1152, 2896, "the stone lions either side of the 午门", {"look": {"kind": "stone_lion", "note": "wumen.c: 虎视眈眈地盯着来往的人群"}}],
           ["blocked", 1440, 2864, 1472, 2896, {"look": {"kind": "stone_lion", "mirror": true}}],
           ["blocked", 1104, 3152, 1136, 3248, "weapon racks on the 校武场", {"look": {"kind": "weapon_rack", "rotation": 90}}],
@@ -113,8 +112,7 @@
           ["blocked", 1520, 4160, 1536, 4176, "京师立面: 幌杆 at the 笔墨铺's kerb (southdoor.c: 赴京赶考的举子): its west door is behind the 南门's tower from the left view and turned away from the right", {"look": {"kind": "pole_banner", "text": "笔墨", "cloth": "3a4a6a", "letters": "f1e3bd", "height": 8.2, "length": 3.0, "rotation": 90, "elevation": 0.28}}],
           ["blocked", 1520, 1248, 1552, 1280, "京师立面: 【美术提案】 the 车马大店's trough on the kerb south of its doorway (northdoor.c: 骑马的、座轿的); the lantern post moved on to the corner", {"look": {"kind": "trough", "rotation": 90, "elevation": 0.28}}],
           ["blocked", 1008, 1536, 1056, 1568, {"look": {"kind": "stall", "goods": "sweets", "awning": ["f0e4c8", "9a6a2a"]}}],
-          ["blocked", 976, 1872, 1040, 1936, "the 废园's pavilion fallen in", {"look": {"kind": "pavilion", "ruined": true}}],
-          ["shutter", 352, 2896, 384, 3024, "相国府's gate, shut"]
+          ["blocked", 976, 1872, 1040, 1936, "the 废园's pavilion fallen in", {"look": {"kind": "pavilion", "ruined": true}}]
         ],
         "reach_from": "Nroad2VillageArrival",
         "markers_in_middle": ["city.jitan", "city.jiaowu", "city.bridge"],
@@ -139,7 +137,14 @@
           "city.southdoor.guard.3": [1448, 4176],
           "city.bridge.vendor.1": [1200, 3584],
           "city.bridge.caker.1": [1400, 3584],
-          "city.bridge.dumpling_seller.1": [1200, 3816]
+          "city.bridge.dumpling_seller.1": [1200, 3816],
+          "city.wumen.guard.1": [1216, 2880],
+          "city.wumen.guard.2": [1376, 2880],
+          "city.jiaowu.ge_sheng.1": [1168, 3152],
+          "city.jiaowu.feng_ce.1": [1184, 3296],
+          "city.jiaowu.lieutenant_1.1": [1248, 3312],
+          "city.jiaowu.lieutenant_2.1": [1360, 3312],
+          "city.jiaowu.deng_xiao.1": [1392, 3392]
         },
         "gap_at": [],
         "buildings": [
@@ -283,6 +288,8 @@
           "Rect_288_32": [288, 32],
           "Rect_32_64": [32, 64],
           "Rect_32_32": [32, 32],
+          "Rect_128_32": [128, 32],
+          "Rect_32_128": [32, 128],
           "StairsShape": [48, 48],
           "AltarShape": [128, 96]
         },
@@ -447,6 +454,36 @@
             "text": "草丛 · 寻找"
           },
           {
+            "node": "passage",
+            "name": "WumenNorth",
+            "id": "city.wumen.north",
+            "at": [1296, 2848],
+            "shape": "Rect_128_32",
+            "note": "第九章 A: the 午门's 铁门 (wumen.c's commented-out north exit), into the 皇城"
+          },
+          {
+            "node": "service",
+            "name": "WumenWait",
+            "id": "city.wumen.wait",
+            "at": [1296, 2928],
+            "text": "午门 · 候旨"
+          },
+          {
+            "node": "passage",
+            "name": "XiangguoGateWest",
+            "id": "city.xiangguo_gate.west",
+            "at": [368, 2960],
+            "shape": "Rect_32_128",
+            "note": "第九章 A: 相国府's gate, open to 骆云舟's card (the exit rule keeps it shut till then)"
+          },
+          {
+            "node": "service",
+            "name": "XiangguoKnock",
+            "id": "city.xiangguo_gate.knock",
+            "at": [432, 2960],
+            "text": "相国府大门 · 叩门"
+          },
+          {
             "generated": "doors"
           }
         ],
@@ -470,6 +507,16 @@
             "name": "Street3WallReturn",
             "at": [1632, 3040],
             "id": "city.street3.wall_return"
+          },
+          {
+            "name": "WumenPalaceReturn",
+            "at": [1296, 2976],
+            "id": "city.wumen.palace_return"
+          },
+          {
+            "name": "XiangguoGateYardReturn",
+            "at": [448, 2960],
+            "id": "city.xiangguo_gate.yard_return"
           },
           {
             "generated": "stair_markers"
@@ -1586,6 +1633,249 @@
             "anchor": ["rel", 0.625, 0.857]
           }
         ]
+      }
+    },
+    "xiangguo": {
+      "note": "第九章 A: 相国府 behind xiangguo/gate.c's plain gate — a small yard with a whitewashed screen wall half bare, two beds of cabbage, a bean trellis and a hen; the old hall with its few chairs, the square table and a chipped teapot, a yellowed scroll; west of it the study buried in books, a couch by the window where the 相国 sleeps. 寒酸得多, but swept.",
+      "file": "city_xiangguo.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "city.xiangguo_yard": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "room",
+            "life": {
+              "use": "front_yard",
+              "wealth": "poor",
+              "seed": 81
+            }
+          },
+          "city.xiangguo_hall": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "room",
+            "life": {
+              "use": "hall",
+              "wealth": "poor",
+              "seed": 82,
+              "tidy": true
+            }
+          },
+          "city.xiangguo_study": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "small",
+            "life": {
+              "use": "study",
+              "wealth": "poor",
+              "seed": 83
+            }
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "city.xiangguo_yard",
+            [
+              "rel",
+              0.3,
+              0.3
+            ],
+            2.4,
+            1.2,
+            "two beds of cabbage",
+            {
+              "look": {
+                "kind": "herb_bed"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_yard",
+            [
+              "rel",
+              0.3,
+              0.75
+            ],
+            2.0,
+            0.6,
+            "the bean trellis",
+            {
+              "look": {
+                "kind": "fence"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_hall",
+            [
+              "rel",
+              0.5,
+              0.35
+            ],
+            1.6,
+            1.6,
+            "the square table with its chipped teapot",
+            {
+              "look": {
+                "kind": "table",
+                "set": "tea_used",
+                "wood": "5a4634"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_hall",
+            [
+              "rel",
+              0.2,
+              0.15
+            ],
+            1.6,
+            0.6,
+            "a few old chairs along the north wall",
+            {
+              "look": {
+                "kind": "bench_seat",
+                "wood": "5a4634"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_hall",
+            [
+              "rel",
+              0.8,
+              0.15
+            ],
+            1.6,
+            0.6,
+            {
+              "look": {
+                "kind": "bench_seat",
+                "wood": "5a4634"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_study",
+            [
+              "rel",
+              0.5,
+              0.3
+            ],
+            2.2,
+            1.0,
+            "the desk, an inkstone weighting an open book",
+            {
+              "look": {
+                "kind": "writing_desk",
+                "wood": "5a4634"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_study",
+            [
+              "rel",
+              0.15,
+              0.7
+            ],
+            0.9,
+            1.8,
+            "books in stacks taller than a man",
+            {
+              "look": {
+                "kind": "shelf",
+                "rotation": 90
+              }
+            }
+          ],
+          [
+            "blocked",
+            "city.xiangguo_study",
+            [
+              "rel",
+              0.8,
+              0.8
+            ],
+            1.8,
+            0.9,
+            "the couch by the window, an old quilt on it",
+            {
+              "look": {
+                "kind": "bedding",
+                "cloth": "6a6458"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "city.xiangguo_hall.wei_zhizhong.1": [
+            "city.xiangguo_hall",
+            [
+              "rel",
+              0.5,
+              0.6
+            ]
+          ],
+          "city.xiangguo_yard.servant.1": [
+            "city.xiangguo_yard",
+            [
+              "rel",
+              0.55,
+              0.45
+            ]
+          ]
+        },
+        "doors": {
+          "city.xiangguo_yard.east": "east"
+        },
+        "reach_from": "XiangguoYardGateArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "CityXiangguo",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/city/voxel/xiangguo.json"
+        },
+        "map": "city.xiangguo",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
       }
     }
   }

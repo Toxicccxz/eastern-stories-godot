@@ -6,7 +6,8 @@
 			"line": "main",
 			"region": "京师",
 			"sources": [
-				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the one step the 封法 opens (三器齐: 穿灵、旋芒、宝衣; 旋芒在岚城, and the way to 岚城 starts with the late emperor's search: 剧情总纲 §2 时间线「先帝……念念不忘寻找岚城」, history:71–76); the rest is the ninth chapter's package (皇城, 总纲 §3 第九章, §6 皇城卡)."
+				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the one step the 封法 opens (三器齐: 穿灵、旋芒、宝衣; 旋芒在岚城, and the way to 岚城 starts with the late emperor's search: 剧情总纲 §2 时间线「先帝……念念不忘寻找岚城」, history:71–76); the rest is the ninth chapter's package (皇城, 总纲 §3 第九章, §6 皇城卡).",
+				"native: 第九章 A (剧情总纲 §3 第九章 入口三条与 ①④, §6 皇城卡; 计划 build/plans/第九章_计划.md §3 与 A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」): the stub grown into the chapter's first steps — the way in (武举 at the 校武场, 公文 by 骆云舟's card and the 相国's 早朝; 潜入 is B's) and the summons to the 养心殿 (C)."
 			],
 			"summary": "璃虹说三器齐才灭得了它：穿灵、旋芒、宝衣。旋芒在岚城，岚城寻风而至——先帝找了它一辈子，寻剑的档案和那道寻剑令的原本都在皇城。去京师。",
 			"requires": [
@@ -14,15 +15,55 @@
 			],
 			"steps": [
 				{
-					"id": "palace",
-					"objective": "进皇城，见皇帝，拿到寻剑令的原本。",
-					"done": {
-						"mark": "进了皇城"
-					},
-					"text": "皇城。",
+					"id": "way",
+					"objective": "进皇城。三条路：校武场的武举、相国府的公文，或者尚书府里有人知道的一条暗路。",
 					"target": {
 						"map": "city.main",
-						"zone": "city.shenwumen"
+						"zone": "city.wumen"
+					},
+					"options": [
+						{
+							"id": "exam",
+							"done": {
+								"mark": "殿试过"
+							},
+							"text": "校武场三场全胜，殿试授了御前侍卫腰牌。退朝时福安凑过来：皇上说，今夜养心殿。",
+							"reward": {
+								"deed": "在京师校武场中了武状元"
+							}
+						},
+						{
+							"id": "memorial",
+							"done": {
+								"mark": "早朝过"
+							},
+							"text": "你随韦相国上了早朝。庾子建当殿驳了奏本，皇上「容朕想想」。退朝时福安追出来：皇上请相国的随员到养心殿说话。",
+							"reward": {
+								"deed": "随韦相国上了早朝"
+							}
+						},
+						{
+							"id": "sneak",
+							"done": {
+								"mark": "从冷宫井上来"
+							},
+							"text": "你从冷宫的井里爬了上来。",
+							"reward": {
+								"deed": "从冷宫的枯井潜进了皇城"
+							}
+						}
+					]
+				},
+				{
+					"id": "audience",
+					"objective": "见皇帝：福安说，养心殿。",
+					"done": {
+						"mark": "见了皇帝"
+					},
+					"text": "养心殿里，十六岁的皇帝没有睡。",
+					"target": {
+						"map": "imperial.court_square",
+						"zone": "imperial.square"
 					}
 				}
 			],

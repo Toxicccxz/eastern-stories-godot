@@ -302,7 +302,7 @@ func spar_consent(target: NpcRuntimeState, asked: bool = false) -> NpcSparConsen
 	if asked and roll != null:
 		attitude = NpcContentRecords.attitude_of(String(roll.pick(_world_interaction_random.legacy_random(roll.bound))))
 	return NpcSparConsent.decide(target, NpcSparConsent.Challenger.new(
-		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id,
+		player_state.gender, _player.facts.age, player_state.affiliation.class_id, player_state.family.family_id, player_state.marks,
 	), attitude)
 
 

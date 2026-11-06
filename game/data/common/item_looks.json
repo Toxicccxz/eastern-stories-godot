@@ -89,6 +89,8 @@
 		"native:latemoon/cold_robe": { "kind": "garment", "style": "robe", "cloth": "e6eef3", "trim": "a9c3d4", "pattern": "cloud", "accent": "c6dae6", "sash": "8fb0c6" },
 		"native:choyin/decree_copy": { "kind": "scroll", "open": true, "paper": "d9c58e", "rod": "6b4a2e", "ink": "2e2119" },
 		"native:choyin/magistrate_letter": { "kind": "letter", "paper": "ddd0a8", "fold": "bfa982", "seal": "b0302a:gloss", "ink": "1d1612" },
+		"native:choyin/luo_card": { "kind": "letter", "paper": "c83a2a", "fold": "a82a20", "seal": "e8b84a:gloss", "ink": "1d1612" },
+		"native:imperial/guard_token": { "kind": "token", "color": "8a6a3a:gloss", "border": "c89a4a:gloss", "emblem": "e8c060:gloss", "cord": "9c3226", "tassel": "9c3226" },
 		"es2:d/death/obj/hell_armor": { "kind": "armor_suit", "plate": "38343c:gloss", "plate2": "26232a:gloss", "trim": "4a1424", "mirror": "5fd0a8:glow", "cloak": "2a1420" },
 		"es2:d/death/obj/fork": { "kind": "fork", "prongs": 7, "length": 1.1, "head": "3a3a40:gloss", "shaft": "2e2119" },
 		"native:niling/black_crown": { "kind": "headwear", "style": "crown", "color": "221e24", "accent": "4a3e36", "gem": "3e3e46:gloss" },

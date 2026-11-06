@@ -7,7 +7,8 @@ extends RefCounted
 ## without rules uses npc.c accept_fight(). `say` may hold $RESPECT (how the NPC
 ## addresses the challenger) and $SELF (how it calls itself), from rankd.c.
 ## `class_id` is the challenger's query("class") (d/sanyen's monks answer a monk
-## otherwise).
+## otherwise). Native (DECISIONS「第九章 A」): `marks` the challenger must all bear and
+## `not_mark` one they must not (the 校武场's three bouts in order).
 var family_id: StringName
 var gender: StringName
 var class_id: StringName
@@ -16,6 +17,8 @@ var say: String
 var accept: bool
 ## The NPC answers with kill_ob() (annihir.c): the spar becomes its kill.
 var kill: bool
+var marks: Array[String] = []
+var not_mark: String = ""
 
 
 func _init(p_family_id: StringName = &"", p_gender: StringName = &"", p_emote: String = "", p_say: String = "", p_accept: bool = false, p_kill: bool = false, p_class_id: StringName = &"") -> void:
@@ -28,7 +31,12 @@ func _init(p_family_id: StringName = &"", p_gender: StringName = &"", p_emote: S
 	kill = p_kill
 
 
-func matches(challenger_family_id: StringName, challenger_gender: StringName, challenger_class_id: StringName = &"") -> bool:
+func matches(challenger_family_id: StringName, challenger_gender: StringName, challenger_class_id: StringName = &"", challenger_marks: Dictionary = {}) -> bool:
+	for mark: String in marks:
+		if not challenger_marks.has(mark):
+			return false
+	if not not_mark.is_empty() and challenger_marks.has(not_mark):
+		return false
 	return (
 		(family_id.is_empty() or family_id == challenger_family_id) and (gender.is_empty() or gender == challenger_gender)
 		and (class_id.is_empty() or class_id == challenger_class_id)

@@ -1,0 +1,723 @@
+{
+  "maps": {
+    "meridian": {
+      "note": "第九章 A: inside the 午门 — the walled court behind the iron gate (red walls, glazed coping, giant paving, dry grass in the joints); the 金水河 with its five marble bridges and the bronze lions; the 太和门 with its two files of guards.",
+      "file": "imperial_meridian.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "manor",
+        "rooms": {
+          "imperial.gate_court": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "grand"
+          },
+          "imperial.bridges": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "grand"
+          },
+          "imperial.taihe_gate": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "yard"
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.0451,
+              0.5
+            ],
+            2.55,
+            1.4,
+            "the 金水河 crossing the court; the five marble bridges are the gaps between its six stretches",
+            {
+              "look": {
+                "kind": "pool",
+                "color": "3a5a4a",
+                "rim": "c8c4b8",
+                "drip": false
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.2271,
+              0.5
+            ],
+            2.55,
+            1.4,
+            {
+              "look": {
+                "kind": "pool",
+                "color": "3a5a4a",
+                "rim": "c8c4b8",
+                "drip": false
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.409,
+              0.5
+            ],
+            2.55,
+            1.4,
+            {
+              "look": {
+                "kind": "pool",
+                "color": "3a5a4a",
+                "rim": "c8c4b8",
+                "drip": false
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.591,
+              0.5
+            ],
+            2.55,
+            1.4,
+            {
+              "look": {
+                "kind": "pool",
+                "color": "3a5a4a",
+                "rim": "c8c4b8",
+                "drip": false
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.7729,
+              0.5
+            ],
+            2.55,
+            1.4,
+            {
+              "look": {
+                "kind": "pool",
+                "color": "3a5a4a",
+                "rim": "c8c4b8",
+                "drip": false
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.9549,
+              0.5
+            ],
+            2.55,
+            1.4,
+            {
+              "look": {
+                "kind": "pool",
+                "color": "3a5a4a",
+                "rim": "c8c4b8",
+                "drip": false
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.35,
+              0.18
+            ],
+            1.2,
+            1.2,
+            "the bronze lions before the 太和门",
+            {
+              "look": {
+                "kind": "stone_lion"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.bridges",
+            [
+              "rel",
+              0.65,
+              0.18
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "stone_lion"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.gate_court",
+            [
+              "rel",
+              0.15,
+              0.3
+            ],
+            1.2,
+            1.2,
+            "a bronze vat, its rim worn bright",
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.gate_court",
+            [
+              "rel",
+              0.85,
+              0.3
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.gate_court.guard.1": [
+            "imperial.gate_court",
+            [
+              "rel",
+              0.4,
+              0.85
+            ]
+          ],
+          "imperial.gate_court.guard.2": [
+            "imperial.gate_court",
+            [
+              "rel",
+              0.6,
+              0.85
+            ]
+          ],
+          "imperial.taihe_gate.guard.1": [
+            "imperial.taihe_gate",
+            [
+              "rel",
+              0.35,
+              0.2
+            ]
+          ],
+          "imperial.taihe_gate.guard.2": [
+            "imperial.taihe_gate",
+            [
+              "rel",
+              0.65,
+              0.2
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.gate_court.south": {
+            "side": "south",
+            "width": 192
+          },
+          "imperial.taihe_gate.north": {
+            "side": "north",
+            "width": 192
+          }
+        },
+        "reach_from": "GateCourtWumenArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialMeridian",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/meridian.json"
+        },
+        "map": "imperial.meridian",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "LionsInteraction",
+            "id": "imperial.bridges.landmark.lions",
+            "room": "imperial.bridges",
+            "anchor": [
+              "n",
+              0,
+              2.4
+            ],
+            "shape": "Rect_64_32"
+          }
+        ]
+      }
+    },
+    "square": {
+      "note": "第九章 A: the 太和殿 square — an endless paving, the worn stone 御道 down its middle, rows of bronze vats green with age, the three-tiered marble terrace on the north with the sundial and the bronze tortoise.",
+      "file": "imperial_square.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "imperial.square": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "grand"
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.square",
+            [
+              "rel",
+              0.12,
+              0.3
+            ],
+            1.2,
+            1.2,
+            "the bronze vats along the square",
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.square",
+            [
+              "rel",
+              0.12,
+              0.6
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.square",
+            [
+              "rel",
+              0.88,
+              0.3
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.square",
+            [
+              "rel",
+              0.88,
+              0.6
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.square",
+            [
+              "rel",
+              0.3,
+              0.12
+            ],
+            1.0,
+            1.0,
+            "the sundial on the terrace",
+            {
+              "look": {
+                "kind": "stele"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.square",
+            [
+              "rel",
+              0.7,
+              0.12
+            ],
+            1.0,
+            1.0,
+            "the bronze tortoise",
+            {
+              "look": {
+                "kind": "censer"
+              }
+            }
+          ]
+        ],
+        "placed": {},
+        "doors": {
+          "imperial.square.south": {
+            "side": "south",
+            "width": 192
+          },
+          "imperial.square.north": {
+            "side": "north",
+            "width": 160
+          }
+        },
+        "reach_from": "SquareGateArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialSquare",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/court_square.json"
+        },
+        "map": "imperial.court_square",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "SundialInteraction",
+            "id": "imperial.square.landmark.sundial",
+            "room": "imperial.square",
+            "anchor": [
+              "n",
+              -4,
+              2.4
+            ],
+            "shape": "Rect_64_32"
+          }
+        ]
+      }
+    },
+    "throne_hall": {
+      "note": "第九章 A: the 太和殿 — high and dark, gilded pillars wound with dragons (their lacquer gone in places to the red), the floor of dark 金砖 worn to a shine and cracked at the edges, the seven-step dais with the dragon throne, too big for the boy on it.",
+      "file": "imperial_throne_hall.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "imperial.throne_hall": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "grand",
+            "life": {
+              "use": "hall",
+              "wealth": "rich",
+              "seed": 92,
+              "tidy": true
+            }
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.5,
+              0.1
+            ],
+            4.0,
+            2.4,
+            "the seven-step dais with the dragon throne",
+            {
+              "look": {
+                "kind": "jade_dais"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.2,
+              0.35
+            ],
+            0.8,
+            0.8,
+            "the dragon pillars",
+            {
+              "look": {
+                "kind": "dragon_pillar"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.8,
+              0.35
+            ],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "dragon_pillar"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.2,
+              0.7
+            ],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "dragon_pillar"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.8,
+              0.7
+            ],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "dragon_pillar"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.throne_hall.emperor.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.5,
+              0.26
+            ]
+          ],
+          "imperial.throne_hall.herald.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.38,
+              0.3
+            ]
+          ],
+          "imperial.throne_hall.fu_an.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.6,
+              0.3
+            ]
+          ],
+          "imperial.throne_hall.yu_zijian.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.36,
+              0.45
+            ]
+          ],
+          "imperial.throne_hall.feng_ce.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.64,
+              0.45
+            ]
+          ],
+          "imperial.throne_hall.wei_zhizhong.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.64,
+              0.55
+            ]
+          ],
+          "imperial.throne_hall.official.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.32,
+              0.55
+            ]
+          ],
+          "imperial.throne_hall.official.2": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.32,
+              0.65
+            ]
+          ],
+          "imperial.throne_hall.official.3": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.68,
+              0.65
+            ]
+          ],
+          "imperial.throne_hall.official.4": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.68,
+              0.75
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.throne_hall.south": {
+            "side": "south",
+            "width": 160
+          }
+        },
+        "reach_from": "ThroneHallSquareEntry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialThroneHall",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/taihe_hall.json"
+        },
+        "map": "imperial.taihe_hall",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "ThroneInteraction",
+            "id": "imperial.throne_hall.landmark.throne",
+            "room": "imperial.throne_hall",
+            "anchor": [
+              "n",
+              3,
+              3.0
+            ],
+            "shape": "Rect_64_32"
+          }
+        ]
+      }
+    }
+  }
+}
