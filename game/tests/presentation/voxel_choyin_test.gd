@@ -21,7 +21,7 @@ const TALL: Array[String] = ["lantern", "stone_lantern", "standing_rock", "bould
 	"rockery", "stele", "censer", "flagpole", "water_vat", "strange_stone", "boundary_stone", "torch", "bush", "column",
 	"pavilion_post", "compound_wall", "deity", "training_post", "bookcase", "lamp_stand", "lantern_post", "beast_statue",
 	"screen_wall", "flower_stand", "pagoda", "temple_bell", "buddha", "stone_lion", "weapon_rack", "drying_rack", "fishing_net", "tethered_horse",
-	"incense_burner", "herb_bed", "cart", "firewood", "haystack", "well", "drum", "great_stump", "brick_shrine", "city_wall",
+	"incense_burner", "herb_bed", "cart", "firewood", "haystack", "well", "drum", "great_stump", "brick_shrine", "city_wall", "pole_banner",
 	"jade_dais", "vase_hollow", "pill_furnace", "stall", "bench", "stair_run", "pillar_root", "cave_mouth", "flames"]
 const SCENES: Array[String] = ["choyin_town", "choyin_yamen", "choyin_altar", "choyin_hotel_2f", "choyin_hotel_3f", "choyin_tree_hollow",
 	"choyin_lion_cave", "choyin_east", "choyin_furnace", "choyin_guye", "choyin_crown", "choyin_cliff_cave", "choyin_summit", "choyin_valley",
@@ -30,6 +30,8 @@ const MAPS: Array[StringName] = [&"choyin.town", &"choyin.yamen_compound", &"cho
 	&"choyin.tree_hollow", &"choyin.lion_cave", &"choyin.east", &"choyin.furnace", &"choyin.guye", &"choyin.crown", &"choyin.cliff_cave",
 	&"choyin.summit", &"choyin.valley", &"choyin.hotel_house", &"choyin.club_house"]
 ## Maps that are no rooms (caves, hills, the crown, the valley): no lived-in life expected.
+## Keys of age and use on a building (voxel_facade.gd and the older facade keys).
+const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]
 const NO_ROOMS: Array[StringName] = [&"choyin.town", &"choyin.tree_hollow", &"choyin.lion_cave", &"choyin.east", &"choyin.furnace",
 	&"choyin.guye", &"choyin.crown", &"choyin.cliff_cave", &"choyin.summit", &"choyin.valley"]
 ## Where a test may put the player on each map (TEST-ONLY).
@@ -257,6 +259,131 @@ func _check_town(map: WorldMapController) -> void:
 	_check("city_wall" in kinds and "far_ground" in kinds, "s_street5.c: 看到南边的城墙; s_gate.c: 往南则是许多房舍与农田")
 	_check(view.geometry._ground_style(Vector2(1696, 500), "street").get("style", "") == "slabs", "s_street2.c: 青石官道 — old flags, laid in rows")
 	_check(view.lighting.lamps.size() >= 20, "lanterns along the streets for the night")
+	_check_facades(view.layout, _looks(map))
+	_check_facade_view(view)
+
+
+## 乔阴县城立面细化: each shop's mark in the building data, the 幌杆 of the shops whose doors look
+## north in the layout, every building old and lived in, no two houses alike.
+func _check_facades(layout: Dictionary, looks: Array[Dictionary]) -> void:
+	var tavern: Dictionary = _building(layout, [1872, 400, 2160, 624])
+	_check(tavern.get("hanging_flag", {}).get("text", "") == "酒" and tavern.has("door_glow") and tavern.get("signboard", {}).get("mount", "") == "porch",
+		"n_street2.c: 三层楼的酒馆 — a 酒 pennant, lit within, its board before the porch")
+	var smithy: Dictionary = _building(layout, [1360, 400, 1520, 512])
+	_check(smithy.get("soot", {}).get("door", false) and smithy.has("door_glow"), "n_street1.c: 有做粗活的 — the smithy's door sooted, the forge's light within")
+	var cloth_shop: Dictionary = _building(layout, [1232, 640, 1520, 880])
+	_check(cloth_shop.get("blade_sign", {}).get("text", "") == "布" and _hung(cloth_shop, "dyed_cloth", "south") >= 2 and cloth_shop.get("signboard", {}).get("mount", "") == "porch",
+		"n_street2.c: 远近驰名的老姚布庄 — its 布 sign, cloth drying on the wall onto the 石板空地")
+	var wine_house: Dictionary = _building(layout, [592, 912, 768, 1136])
+	_check(wine_house.get("hanging_flag", {}).get("text", "") == "酒" and wine_house.has("door_glow") and wine_house.has("steps"), "w_street2.c: 北边是一家大酒楼 — a 酒 pennant, steps, lit within")
+	var bookshop: Dictionary = _building(layout, [784, 1472, 1024, 1648])
+	_check(not bookshop.has("hanging_flag") and bookshop.get("lattice", "") == "fret" and bookshop.get("windows", {}).get("sill", "") == "orchids",
+		"w_street1.c: 南边则是一间书肆 — door north: no pennant there, fret windows and orchids on the south wall")
+	var dyer: Dictionary = _building(layout, [1040, 1472, 1216, 1648])
+	_check(_hung(dyer, "dyed_cloth", "south") >= 2 and dyer.get("damp", {}).has("color"), "w_street2.c: 南边则有一间染坊 — cloth drying on its south wall, the dye up the wall's foot")
+	var dried_goods: Dictionary = _building(layout, [800, 1872, 944, 2064])
+	_check(dried_goods.get("blade_sign", {}).get("text", "") == "南北货" and _hung(dried_goods, "string_hang", "west") >= 2, "s_street4.c: 贩卖南北货 — its sign square off the door, strings on the wall")
+	var potter: Dictionary = _building(layout, [1120, 1872, 1264, 2064])
+	_check(potter.get("blade_sign", {}).get("text", "") == "陶" and potter.get("windows", {}).get("sill", "") == "pots", "承安街: the potter's 陶 sign and pots on every sill")
+	var tavern_hall: Dictionary = _building(layout, [1856, 1792, 2208, 2048])
+	_check(int(tavern_hall.get("steps", {}).get("count", 0)) == 3 and tavern_hall.has("door_stones") and tavern_hall.get("couplets", {}).get("lintel", false) and tavern_hall.has("door_glow"),
+		"s_street2.c: 雕梁画栋的福林楼 — three steps, drum stones, couplets with a 横批, lit within")
+	var yamen_gate: Dictionary = _building(layout, [528, 1696, 752, 1792])
+	var gate_look: Dictionary = layout.get("door_looks", {}).get("choyin.court1.gate", {})
+	_check(gate_look.get("kind", "") == "old_gate" and gate_look.get("studs", "") == "d6b25a" and gate_look.get("open", false) and not yamen_gate.has("doorway")
+		and int(yamen_gate.get("steps", {}).get("count", 0)) == 3 and float(yamen_gate.get("notices", 0.0)) > 0.0 and not yamen_gate.has("cracks") and not yamen_gate.has("patches"),
+		"court1.c: 高大的大门; s_gate.c: 修缮勤快 — the 衙门大门's look red with gilt studs (swung open once the drum opens it), the hall's doorway open behind it, three steps, the magistrate's notices, no cracks or mends")
+	# The shops whose doors look north hold their names over the roofs on 幌杆 in the layout.
+	var poles: Array[String] = []
+	for look: Dictionary in looks:
+		if String(look["kind"]) == "pole_banner":
+			poles.append(String(look.get("text", "")))
+	poles.sort()
+	_check(poles == ["书", "杂货", "福林楼", "米"], "幌杆 for 书肆, the 西大街's 杂货 and 米店 (doors north) and 福林楼 on the square: %s" % [poles])
+	# Old and lived in (美术规划 §2 item 7): two or more marks of age and use on every building.
+	var young: Array[String] = []
+	for building: Dictionary in layout["buildings"]:
+		var marks: int = 0
+		for key: String in AGE:
+			marks += 1 if building.has(key) else 0
+		if marks < 2:
+			young.append(String(building.get("note", building["rect"])).left(24))
+	_check(young.is_empty(), "every building is old and lived in: %s" % [young])
+	# No two of the houses alike: what hangs on their walls and how they are built.
+	var seen: Dictionary = {}
+	var alike: Array[String] = []
+	var houses: int = 0
+	for building: Dictionary in layout["buildings"]:
+		if building.has("signboard") or building.has("blade_sign") or building.has("ridge_beasts"):
+			continue
+		houses += 1
+		var kinds: Array = []
+		for item: Dictionary in building.get("wall_hangings", []):
+			kinds.append("%s:%s" % [item["kind"], item.get("goods", "")])
+		var form: String = "%s %s %s %s" % [building.get("construction", ""), building.get("roof_form", ""), String(building.get("door_paper", {}).get("kind", "")), ",".join(kinds)]
+		if seen.has(form):
+			alike.append(form)
+		seen[form] = true
+	_check(houses >= 12 and alike.is_empty(), "the %d houses are dressed each its own way: %s" % [houses, alike])
+
+
+## In the built view: the 幌杆 banners stand over the ridges (福林楼's over the square beside its
+## nine-unit hall), the boards hung before the porches sit under the porch eaves where the camera
+## sees them, and the doorways lit within glow more by night than by day.
+func _check_facade_view(view: WorldVoxelView) -> void:
+	var labels: Dictionary = {}
+	for node: Node in view.geometry.find_children("*", "Label3D", true, false):
+		labels[(node as Label3D).text] = (labels.get((node as Label3D).text, []) as Array) + [node]
+	var low: Array[String] = []
+	for text: String in ["书", "杂货", "米", "福林楼"]:
+		var high: bool = false
+		for label: Label3D in labels.get(tr(text), []):
+			high = high or label.global_position.y > 5.5
+		if not high:
+			low.append(text)
+	_check(low.is_empty(), "each 幌杆 holds its banner over the roof: %s" % [low])
+	var hidden: Array[String] = []
+	var hung: int = 0
+	for building: Dictionary in view.layout["buildings"]:
+		var board: Variant = building.get("signboard", null)
+		if not (board is Dictionary and String(board.get("mount", "")) == "porch"):
+			continue
+		hung += 1
+		var seen: bool = false
+		for label: Label3D in labels.get(tr(String(board["text"])), []):
+			seen = seen or label.global_position.y < 2.8
+		if not seen:
+			hidden.append(String(board["text"]))
+	_check(hung >= 6 and hidden.is_empty(), "each porch-hung board hangs under the porch's eave: %d hung, hidden %s" % [hung, hidden])
+	var warm: int = 0
+	var forge: bool = false
+	for node: Node in view.geometry.find_children("*", "OmniLight3D", true, false):
+		var light := node as OmniLight3D
+		var brighter: bool = float(light.get_meta("night_energy", 0.0)) > float(light.get_meta("day_energy", 0.0))
+		if light.light_color.is_equal_approx(Color("ffb060")) and brighter:
+			warm += 1
+		if light.light_color.is_equal_approx(Color("ff6a2a")) and brighter:
+			forge = true
+	_check(warm >= 3 and forge, "the taverns' doorways and the forge glow, more by night than by day (%d warm)" % warm)
+
+
+func _building(layout: Dictionary, rect: Array) -> Dictionary:
+	for building: Dictionary in layout["buildings"]:
+		var same: bool = true
+		for i: int in 4:
+			same = same and int(building["rect"][i]) == int(rect[i])
+		if same:
+			return building
+	return {}
+
+
+## How many things of `kind` hang on `wall` of a building.
+func _hung(building: Dictionary, kind: String, wall: String) -> int:
+	var count: int = 0
+	for item: Dictionary in building.get("wall_hangings", []):
+		if String(item.get("kind", "")) == kind and String(item.get("wall", "south")) == wall:
+			count += 1
+	return count
 
 
 func _check_yamen(map: WorldMapController) -> void:
