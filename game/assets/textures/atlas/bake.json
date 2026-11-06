@@ -823,49 +823,49 @@
   "fanfang.bazaar": {
    "anchor": [
     120.1,
-    122.8
+    120.8
    ],
    "pins": {
     "door:fanfang.customs": [
      59.6,
-     94.8
+     92.8
     ],
     "door:fanfang.fire_temple": [
      165.7,
-     151.3
+     149.3
     ],
     "door:fanfang.lama_temple": [
      93.6,
-     155.9
+     153.9
     ],
     "door:fanfang.port": [
      51.1,
-     76.3
+     74.3
     ],
     "door:fanfang.shield_hall": [
      162.9,
-     110.5
+     108.5
     ],
     "zone:fanfang.bazaar_east": [
      138.8,
-     133.7
+     131.7
     ],
     "zone:fanfang.bazaar_north": [
      155.8,
-     115.2
+     113.2
     ],
     "zone:fanfang.bazaar_slope": [
      106.3,
-     147.6
+     145.6
     ],
     "zone:fanfang.bazaar_west": [
      79.4,
-     94.8
+     92.8
     ]
    },
    "size": [
     298,
-    188
+    186
    ]
   },
   "fanfang.cliff_road": {
@@ -2402,7 +2402,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "f225b48e869f76b5a849d2bf1d49116a98dff48fcb723a4c4ebb567e51cf3e94",
+ "fingerprint": "60d5c2c8ef1e251bb2025a88dcf4583a679bf8ab8602969832764061e5fc295d",
  "frame": [
   -769.1,
   14.6,
@@ -2419,17 +2419,17 @@
   "city": "902ce8d2b1a3da2a3ac34fff0c44efc5892fb810850ce5ea7ee6e16a2221738e",
   "cloud": "c2734ae8bd889b1fc3f47ed51dbdcf85d56e8f1645ee779de91eb3c951c344df",
   "death": "61ec12773235f2448b2942a6f84d7c8463c1aa1378bcc6dc479e061c9a5bb0f4",
-  "fanfang": "890d7668586d89fd9b180f197f8d5ad0b6851fd455591935c92d0185f3e44bda",
+  "fanfang": "6023d4154d8cba8df4f81efff3277c267ca7e8c0338d7bcd011a44404038ca94",
   "goathill": "de6a5c084e84d62ce2fe2ece92c7c664aa43c4eec54261767c5f5593b00f1258",
   "green": "6c705e469fccadba1e81a710bcd179418c9941ad403bcf13a4feb74086c0fedd",
-  "guanbei": "421a8f4090ba63327e5deaba90073d6a2f687a10a7d734d15d45f8f397d9ff62",
+  "guanbei": "b427dcc3d36cc63e53c5af074aeb078cd6de0b63660467d4a9a7f82d71555267",
   "latemoon": "38bd0de80639b3285b10b5934484dbd2b1e3560300113ef85771f9169d1e93a4",
   "niling": "6b66090132eaec49be7408b446856136f229b68d1c0cba10305124ec8b6e3beb",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",
   "sanyen": "beee216926b7ff1298b0a86c5a68acd7e313a9b172849085f1808240a18c290e",
   "snow": "06f323ba4cd39e497aedfcd5c15d8e6e7a1f71de279376d314561ea13ffe6bd0",
   "temple": "4064f08d3b19b89e001fe59d6e6a8c612fa085295a2fa6cf96920922408930a9",
-  "village": "2bcc43288bb819fe553d1509024fad346c38a65efef945816bb328a458858229",
+  "village": "77f6d4d6ef237b9b512fb4a9e43485294248087be95e93d545dd2168bcbcbaa1",
   "waterfog": "e663f0be33477974788d352147d20607b6a42edbbed9ea7252c0818b7f985597"
  },
  "roads": [
@@ -2494,6 +2494,10 @@
      1263.0
     ],
     [
+     799.0,
+     1224.0
+    ],
+    [
      802.0,
      1211.0
     ],
@@ -2507,11 +2511,11 @@
     ],
     [
      809.0,
-     1166.0
+     1172.0
     ],
     [
      811.0,
-     1147.0
+     1148.0
     ],
     [
      813.0,
@@ -2852,40 +2856,40 @@
      1165.0
     ],
     [
-     1108.0,
+     1109.0,
      1188.0
     ],
     [
-     1099.0,
-     1201.0
+     1098.0,
+     1200.0
     ],
     [
-     1089.0,
-     1217.0
+     1087.0,
+     1216.0
     ],
     [
-     1080.0,
-     1228.0
+     1077.0,
+     1233.0
     ],
     [
-     1071.0,
-     1240.0
+     1067.0,
+     1244.0
     ],
     [
-     1061.0,
-     1251.0
+     1058.0,
+     1256.0
     ],
     [
-     1052.0,
-     1269.0
+     1048.0,
+     1268.0
     ],
     [
      832.0,
      1195.0
     ],
     [
-     824.0,
-     1184.0
+     823.0,
+     1185.0
     ],
     [
      818.0,
@@ -2897,15 +2901,15 @@
     ],
     [
      814.0,
-     1143.0
+     1142.0
     ],
     [
-     796.0,
-     1015.0
+     795.0,
+     1014.0
     ]
    ],
    "stub_a": [
-    1023,
+    1020,
     1173
    ],
    "stub_b": [
