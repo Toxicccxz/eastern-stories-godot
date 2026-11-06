@@ -19,7 +19,6 @@
     "village.home": {"hangings": ["straw_cape", "clothes_peg", "tool_hooks:sickles"], "ambience": [{"kind": "dust", "color": "b8ac94", "count": 12, "height": [0.2, 2.2]}]}
   },
   "actors": {
-    "village.npc.oldliu": {"coat": "6a6a58"},
     "village.npc.rat": {"body": "crawler", "scale": 0.55, "colors": ["6a5c50", "5a4e44", "7a6c5e"], "spots": "", "name_distance": 200}
   },
   "door_looks": {

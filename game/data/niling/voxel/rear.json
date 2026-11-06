@@ -45,9 +45,7 @@
   ],
   "actors": {
     "default": {"coat": "1a1818", "hat": true},
-    "native.npc.shang_jue": {"coat": "0e0c10", "hat": true},
     "native.npc.xuan_mingzi": {"coat": "141214", "hat": true},
-    "native.npc.headless_shade": {"coat": "1a1020", "hat": false, "headless": true},
-    "native.npc.hell_runner": {"coat": "3a4a3a", "hat": false}
+    "native.npc.headless_shade": {"coat": "1a1020", "hat": false, "headless": true}
   }
 }

@@ -27,7 +27,6 @@
     "density": {"floor_yard": 0.04}
   },
   "actors": {
-    "village.npc.meloner": {"coat": "7a6a4a", "hat": true}
   },
   "props": [
     {"kind": "far_ground", "at": [120, 0], "size": [1500, 1600], "elevation": -0.32, "colors": ["b8a06c"], "trees": 0, "note": "the field all round"},
