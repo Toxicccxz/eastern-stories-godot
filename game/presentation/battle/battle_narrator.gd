@@ -150,7 +150,7 @@ func _attack(
 	lines.append(BattleNarrationLine.new(
 		vision(_limb_and_weapon(tr(outcome).format({"type": type}), limb, weapon), me, victim, cast), damage if damage > 0 else -1,
 		ColoredLine.PLAIN, summary(me, victim, action, base.outcome, damage, ratio, cast),
-	).with_blow(me, victim, _t(move_name(action)), base.outcome, BattleVitalityBar.band_of_ratio(ratio) if ratio >= 0 and damage > 0 else -1))
+	).with_blow(me, victim, _t(move_name(action)), base.outcome, BattleVitalityBar.band_of_ratio(ratio) if ratio >= 0 and damage > 0 else -1).with_ring(action.tag, base.calculation.ring))
 	if damage <= 0:
 		return
 	if status != null:
@@ -219,7 +219,12 @@ func special(report: SpecialReport, cast: BattlePresentationProjection, label: S
 		while next < attacks.size() and attacks[next].line_index <= index:
 			var attack: SpecialAttack = attacks[next]
 			if attack.attacked():
-				lines.append_array(attack_chain(attack.forward, attack.chain, cast, attack.told, attack.reverse_told))
+				var blows: Array[BattleNarrationLine] = attack_chain(attack.forward, attack.chain, cast, attack.told, attack.reverse_told)
+				# 战斗拍数 C: a special's blows sound and show as a special's.
+				for blow: BattleNarrationLine in blows:
+					if blow.has_blow and blow.actor_id == report.me_id:
+						blow.with_special_blow()
+				lines.append_array(blows)
 			elif attack.guard_index >= 0:
 				# fight() guarded instead (hasten.c): its guard_msg.
 				lines.append(BattleNarrationLine.new(vision(tr(Es2CombatMessages.GUARD[attack.guard_index]), attack.attacker_id, attack.victim_id, cast)))
@@ -260,7 +265,11 @@ static func seen(vision_lines: Array[VisionLine], cast: BattlePresentationProjec
 			text = text.format(slots)
 		if not line.actor_name.is_empty():
 			text = text.replace("$N", _t(line.actor_name))
-		lines.append(BattleNarrationLine.new(vision(text, line.actor_id, line.target_id, cast), -1, line.color))
+		var told := BattleNarrationLine.new(vision(text, line.actor_id, line.target_id, cast), -1, line.color)
+		# 战斗拍数 C: the scheduler's note of a beat won (「$N抢得一拍（隙）！」) cues the show.
+		if line.template.begins_with("$N抢得一拍"):
+			told.with_cue(BattleNarrationLine.CUE_EARNED)
+		lines.append(told)
 	return lines
 
 

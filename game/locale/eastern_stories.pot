@@ -459,6 +459,14 @@ msgid "自动存档提示"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "总音量"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "80%"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "应用"
 msgstr ""
 
@@ -7372,6 +7380,10 @@ msgstr ""
 msgid "{who} · {move} → {whom} · 没伤到"
 msgstr ""
 
+#: presentation/battle/battle_narrator.gd
+msgid "$N抢得一拍"
+msgstr ""
+
 #. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
 #: presentation/battle/battle_participant_card.gd
 msgid "了结"
@@ -8197,6 +8209,10 @@ msgid "昼夜设置已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "音量已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
 msgstr ""
 
@@ -8322,6 +8338,15 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "游戏里所有声音的音量；拉到 0 就没有声音"
+msgstr ""
+
+#. the 总音量 beside its slider, in percent.
+#: runtime/application/application_shell_controller.gd
+msgid "%d%%"
 msgstr ""
 
 #. the battle panel: a perform button greyed while it cools down; {rounds} rounds left.

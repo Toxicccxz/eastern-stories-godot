@@ -56,8 +56,17 @@ outside `addons/` are two, both project-made:
 - `game/scenes/world/common/placeholder_terrain.png`, the flat-colour placeholder atlas of the 2D
   terrain TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)).
 
-No audio, model or external art/audio pack is tracked. This inventory is not a guarantee about
-future content.
+No model or external art/audio pack is tracked; the only audio is the project-made set below.
+This inventory is not a guarantee about future content.
+
+## Audio (project-made)
+
+- `game/assets/audio/battle/` — seven short sounds for the fight (DECISIONS「战斗拍数 C」):
+  `clapper.wav`, `whoosh.wav`, `thud.wav`, `crack.wav`, `clang.wav`, `drum.wav`, `seal.wav`.
+- Origin: synthesized by [tools/audio/synth_battle_sounds.py](../../tools/audio/synth_battle_sounds.py)
+  from sines and filtered noise with the Python standard library alone, a fixed seed per file; no
+  recording, sample pack or outside material went into them. Rerunning the script reproduces them
+  byte for byte. Project-made: no outside licence applies.
 
 ## Fonts
 

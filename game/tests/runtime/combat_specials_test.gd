@@ -365,11 +365,15 @@ func _test_annihir_fight(tree: SceneTree) -> void:
 	var order: int = 0
 	var wearing: bool = false
 	var wore: bool = false
+	# 战斗拍数 C: her 「封」 runs at her round's end; a beat of the player's after it in the
+	# same round pays one of the 4 before the round's events are read (busy in beats).
+	var held_order: int = -1
 	for _round: int in range(300):
 		if not _coordinator.has_active_encounter() or (seen.has_all(["said", "held", "bolt", "powerup"]) and wore):
 			break
 		_coordinator.advance_scheduler(1.0)
 		_ui.refresh_projection()
+		held_order = -1
 		if wearing:
 			var left: Array[CharacterTimedApplies.Entry] = annihir.character_state.timed_applies.entries()
 			_check(left.size() == 1 and left[0].remaining_ms == 149000, "a round of the fight is a second of powerup")
@@ -387,7 +391,7 @@ func _test_annihir_fight(tree: SceneTree) -> void:
 			elif first.template.begins_with("$N使出封山剑法"):
 				seen["counterattack"] = true
 				if first.template.ends_with("措手不及！"):
-					_check(_player.busy.busy_value == 4, "「封」 holds the player 4 rounds (fonxansword 100): %d" % _player.busy.busy_value)
+					held_order = event.progression_order
 					seen["held"] = true
 			elif first.template.contains("射向$n"):
 				if event.chat.damaged(_player.character_id):
@@ -399,6 +403,12 @@ func _test_annihir_fight(tree: SceneTree) -> void:
 				wearing = true
 				_check(annihir.busy.busy_value == 3 and annihir.character_state.timed_applies.entries()[0].remaining_ms == 150000, "powerup: busy 3, 150 s to run")
 				_check(annihir.character_state.attributes.bellicosity >= 175, "bellicosity up")
+		if held_order >= 0:
+			var paid: int = 0
+			for event: CombatSchedulerEvent in scheduler.events_after(held_order):
+				if event.actor_id == _player.character_id and event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED:
+					paid += 1
+			_check(_player.busy.busy_value == 4 - paid, "「封」 holds the player 4 beats (fonxansword 100), %d paid since: %d" % [paid, _player.busy.busy_value])
 	for key: String in ["said", "held", "bolt", "powerup"]:
 		_check(seen.has(key), "安惜迩 shows %s in the fight" % key)
 	_check(wore, "the round after powerup was watched")
