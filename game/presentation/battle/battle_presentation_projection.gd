@@ -38,6 +38,10 @@ var turns_offered: bool = false
 var manual: bool = false
 var stances_offered: bool = false
 var stance: int = CombatStance.Value.ATTACK
+## 战斗拍数 A (DECISIONS「战斗拍数」): the player's moves their school locks now, by ID, with why
+## (够不着); the beats of a round (null: the fight has none / ES2's one beat).
+var locked_moves: Dictionary[StringName, String] = {}
+var beat_rules: CombatBeatRules = null
 
 
 func _init(

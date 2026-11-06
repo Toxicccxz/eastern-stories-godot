@@ -33,7 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# npc.c chat()'s draws are forced by bound here: the decision layer's early move draw
 	# (战斗决策层 1B) would take them, so it stays off, as under ES2's pacing.
 	var production_pacing: PacingDefinition = GameContent.catalog().pacing()
-	GameContent.catalog().set_pacing(production_pacing.copy().with_decisions(CombatDecisionRules.classic()))
+	GameContent.catalog().set_pacing(production_pacing.copy().with_decisions(CombatDecisionRules.classic()).with_beats(CombatBeatRules.classic()))
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)

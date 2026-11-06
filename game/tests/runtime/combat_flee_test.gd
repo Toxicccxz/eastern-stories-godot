@@ -5,12 +5,17 @@ const Multi := preload("res://tests/support/cxr7_session_fixture.gd")
 const FLEE: StringName = CombatFleeTacticalPolicy.ACTION_ID
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# 战斗拍数 A: this suite pins ES2's busy count-down and one opportunity a participant a
+	# round; the round at ES2's one beat (the modern beats are DECISIONS「战斗拍数」's).
+	var production_pacing: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production_pacing.copy().with_beats(CombatBeatRules.classic()))
 	await _ready_and_multi(tree)
 	await _waiting_replace_cancel(tree)
 	await _validation(tree)
 	await _invalidated(tree)
 	await _armed_spar(tree)
 	await _flee_input(tree)
+	GameContent.catalog().set_pacing(production_pacing)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _new(tree: SceneTree) -> WorldSessionController:

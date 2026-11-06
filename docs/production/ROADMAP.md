@@ -105,6 +105,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    包 4 内容 is done (DECISIONS「战斗内容」: every school's moves tagged, the NPCs' fight styles and the specials' rest, 识招 and the
    见识录, the courage draw shown as 守势, the first two hours' fights measured again). The decision layer is complete; what is left is
    the owner's playtest (STATUS 待试玩).
+   **战斗拍数** (owner 2026-11-05; the plan `build/plans/战斗拍数_计划.md`): 包 A the kernel and the NPC side is done (DECISIONS「战斗拍数」:
+   a round as a string of beats, the beats won by a school's skeleton, the NPC's beat plan, 封山剑法 and 柳家拳); next 包 B the player's side
+   and the panel (one beat chosen, one beat resolved; the beat chips; the plan's stamps), then 包 C the fight in the scene with sound, 包 D
+   先见后知 and the guides; the gate (behaviour and pace standards) after 包 B.
    **现代基线三件** (owner 2026-10-28; `build/plans/现代基线_提示词.md`, order A → C → B): A is done (DECISIONS「存档位」「自动存档」
    「减轻死亡」: three manual slots and a rolling autosave written on a worker, a Load in play, death at 3% experience with the corpse
    waiting and a way back to the autosave); C is done (DECISIONS「数值用到才出现」: 法力, 灵力, 杀气 and 加力 appear when used, a line
