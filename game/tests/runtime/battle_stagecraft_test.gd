@@ -232,10 +232,10 @@ func _decision_row(tree: SceneTree) -> void:
 	projection.manual = true
 	projection.waiting = false
 	panel.present(projection)
-	check(is_equal_approx(panel.stance_row.modulate.r, BattleActionPanel.PLAYING_DIM), "the round plays: the row dimmed")
+	check(is_equal_approx(panel.decision_area.modulate.r, BattleActionPanel.PLAYING_DIM), "the round plays: the rows dimmed")
 	projection.waiting = true
 	panel.present(projection)
-	check(panel.stance_row.modulate == Color.WHITE, "waiting: bright")
+	check(panel.decision_area.modulate == Color.WHITE, "waiting: bright")
 	panel.bounce_chosen(0.0)
 	check(panel._bounce == null, "0: no bounce")
 	panel.bounce_chosen(0.22)
@@ -243,7 +243,7 @@ func _decision_row(tree: SceneTree) -> void:
 	projection.manual = false
 	projection.waiting = false
 	panel.present(projection)
-	check(panel.stance_row.modulate == Color.WHITE, "自动: never dimmed")
+	check(panel.decision_area.modulate == Color.WHITE, "自动: never dimmed")
 	panel.free()
 
 

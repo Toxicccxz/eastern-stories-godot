@@ -264,11 +264,73 @@ func _end_stamp_text() -> String:
 
 
 func _queue_lines(lines: Array[BattleNarrationLine]) -> void:
-	_line_queue.append_array(lines)
-	# Set as they come: what waits is told within nine tenths of a round.
+	_line_queue.append_array(fold_beats(lines, _projection))
+	# Set as they come: what waits is told within nine tenths of a round. 战斗拍数 B: under
+	# 自动 the lines come at the 快 pace (feel.battle_fast_percent) — the show keeps up with
+	# the beats filled in by themselves.
 	var round_seconds: float = BattlePace.real_seconds(GameContent.catalog().pacing().combat_round_seconds)
-	_line_spacing = minf(GameContent.catalog().pacing().feel.battle_line_seconds, round_seconds * 0.9 / float(_line_queue.size()))
+	var line_seconds: float = GameContent.catalog().pacing().feel.battle_line_seconds
+	if _projection.turns_offered and not _projection.manual:
+		line_seconds *= float(BattlePace.percent(BattlePace.Speed.FAST)) / 100.0
+	_line_spacing = minf(line_seconds, round_seconds * 0.9 / float(_line_queue.size()))
 	_tell_lines(0.0)
+
+
+## 战斗拍数 B (DECISIONS「战斗拍数」): the strip plays an actor's first beat of the round in
+## full; two or more later beats of theirs told together fold into one line, 「野狗又出两招
+## −12 −9」, with the lines it stands for on its hover (and in the log, as ever). A single
+## later beat is told as it is. The cast gives the names.
+static func fold_beats(lines: Array[BattleNarrationLine], cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
+	var result: Array[BattleNarrationLine] = []
+	var index: int = 0
+	while index < lines.size():
+		var line: BattleNarrationLine = lines[index]
+		if line.beat_index <= 1 or line.actor_id.is_empty():
+			result.append(line)
+			index += 1
+			continue
+		# The run of later-beat lines of this actor (every line of those beats carries the
+		# actor): the blows in it decide the fold.
+		var run: Array[BattleNarrationLine] = []
+		var blows: Array[BattleNarrationLine] = []
+		var actor: StringName = line.actor_id
+		while index < lines.size() and lines[index].beat_index > 1 and lines[index].actor_id == actor:
+			run.append(lines[index])
+			if lines[index].has_blow:
+				blows.append(lines[index])
+			index += 1
+		if blows.size() < 2:
+			result.append_array(run)
+			continue
+		var results := PackedStringArray()
+		for blow: BattleNarrationLine in blows:
+			results.append(_blow_word(blow))
+		# TRANSLATORS: the battle strip's folded line for an actor's later beats of the round: {name} who, {count} how many moves (两 / 三), {results} each blow's −N / 闪 / 挡.
+		var text: String = TranslationServer.translate("{name}又出{count}招 {results}").format({"name": TranslationServer.translate(cast.display_name(actor)), "count": _count_word(blows.size()), "results": " ".join(results)})
+		result.append(BattleNarrationLine.new(text, -1, blows[0].color).with_beat(blows[0].beat_index).with_folded(run))
+	return result
+
+
+static func _blow_word(blow: BattleNarrationLine) -> String:
+	match blow.outcome:
+		CombatAttackResult.Outcome.DODGE:
+			return TranslationServer.translate(BattleCardStage.FLOAT_DODGE)
+		CombatAttackResult.Outcome.PARRY:
+			return TranslationServer.translate(BattleCardStage.FLOAT_PARRY)
+	return ("−%d" % blow.damage) if blow.has_damage else TranslationServer.translate(BattleCardStage.FLOAT_NOTHING)
+
+
+static func _count_word(count: int) -> String:
+	# TRANSLATORS: the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
+	var words: Dictionary[int, String] = {2: "两", 3: "三", 4: "四", 5: "五"}
+	return TranslationServer.translate(words[count]) if words.has(count) else str(count)
+
+
+static func _lines_of(entries: Array[BattleFeedbackProjection]) -> Array[BattleNarrationLine]:
+	var lines: Array[BattleNarrationLine] = []
+	for entry: BattleFeedbackProjection in entries:
+		lines.append_array(entry.lines())
+	return lines
 
 
 func current_projection() -> BattlePresentationProjection:
@@ -331,8 +393,9 @@ func refresh_projection() -> void:
 	# The round's lines first: its blows wait on the cards until they are told.
 	if not entries.is_empty():
 		log_panel.append_entries(entries)
-		for entry: BattleFeedbackProjection in entries:
-			_queue_lines(entry.lines())
+		# 战斗拍数 B: the frame's entries are queued as one, so later beats of one actor told
+		# together fold (fold_beats), each entry still whole in the log.
+		_queue_lines(_lines_of(entries))
 	elif changed:
 		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
 	_present_participants()
@@ -410,8 +473,7 @@ func _present_completed_result() -> void:
 	_held_result = text
 	_hold_left = hold
 	_hold_shield.visible = true
-	for entry: BattleFeedbackProjection in entries:
-		_queue_lines(entry.lines())
+	_queue_lines(_lines_of(entries))
 	if _line_queue.is_empty():
 		_settle_final_cards()
 	var focused: Control = get_viewport().gui_get_focus_owner()
@@ -489,6 +551,7 @@ func _build() -> void:
 	action_panel.move_requested.connect(_choose_move)
 	action_panel.stance_requested.connect(_set_stance)
 	action_panel.manual_toggled.connect(_set_manual)
+	action_panel.yield_requested.connect(_yield_round)
 	_content.add_child(action_panel)
 	_receipt = Label.new()
 	_receipt.name = "IntentReceipt"
@@ -520,6 +583,8 @@ func _build() -> void:
 		line.add_theme_font_size_override("normal_font_size", GameTheme.text_size(16))
 		# Plain battle text a light grey, so HIW lines stand out.
 		line.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
+		# 战斗拍数 B: a folded line opens the log (its hover already lists what it stands for).
+		line.gui_input.connect(_recent_input.bind(index))
 		row.add_child(line)
 	end_stamp = Label.new()
 	end_stamp.name = "EndStamp"
@@ -554,6 +619,9 @@ func _apply_metrics(metrics: SafeAreaMetrics) -> void:
 	log_button.custom_minimum_size.y = header
 	_pause_space.custom_minimum_size.y = header
 	_content.add_theme_constant_override("separation", SHORT_ROW_GAP if short else ROW_GAP)
+	# 战斗拍数 B: the panel closes up on any screen under SHORT_HEIGHT (a desktop 16:9 at 150%
+	# is 480 high and counts as compact for the touch rule), not only a non-touch one.
+	action_panel.set_compact(metrics.content_rect().size.y < ApplicationShellLayout.SHORT_HEIGHT)
 	_content.position = metrics.content_rect().position
 	_content.size = metrics.content_rect().size
 	log_panel.apply_metrics(metrics)
@@ -633,10 +701,17 @@ func _present_recent(lines: Array[BattleNarrationLine]) -> void:
 			text.text = ""
 			text.tooltip_text = ""
 			continue
-		# DECISIONS「战斗界面」: a blow's short form in the strip, ES2's line on hover.
+		# DECISIONS「战斗界面」: a blow's short form in the strip, ES2's line on hover; a folded
+		# line's hover lists the lines it stands for.
 		var shown: BattleNarrationLine = BattleNarrationLine.new(line.summary, -1, line.color) if line.has_summary else line
 		text.text = _fitted(shown, text, text.size.x).rich_text()
-		text.tooltip_text = line.text + ((" " + tr("（-%d）") % line.damage) if line.has_damage else "")
+		if line.is_folded:
+			var texts := PackedStringArray()
+			for inner: BattleNarrationLine in line.folded:
+				texts.append(inner.text + ((" " + tr("（-%d）") % inner.damage) if inner.has_damage else ""))
+			text.tooltip_text = "\n".join(texts)
+		else:
+			text.tooltip_text = line.text + ((" " + tr("（-%d）") % line.damage) if line.has_damage else "")
 
 
 ## The line cut short with an ellipsis so that it and its damage fit `width` (the row's
@@ -655,6 +730,15 @@ func _fitted(line: BattleNarrationLine, label: RichTextLabel, width: float) -> B
 	while words.length() > 1 and font.get_string_size(words + "…", HORIZONTAL_ALIGNMENT_LEFT, -1, size).x > budget:
 		words = words.left(words.length() - 1)
 	return BattleNarrationLine.new(words + "…", line.damage, line.color)
+
+
+## A click on a folded strip line opens the log, where every beat's line stands.
+func _recent_input(event: InputEvent, index: int) -> void:
+	var click := event as InputEventMouseButton
+	if click == null or not click.pressed or click.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if index < _told.size() and _told[index].is_folded:
+		_open_log()
 
 
 func _mode_name(mode: int) -> String:
@@ -844,6 +928,14 @@ func _set_stance(value: int) -> void:
 		_reader.note(lines)
 		_queue_lines(lines)
 	refresh_projection()
+
+
+## 战斗拍数 B: 收势 — the beats left this round given up; the round goes on.
+func _yield_round() -> void:
+	if not _projection.active or _session == null or not _session.is_initialized():
+		return
+	if _session.combat_encounter_coordinator().yield_round():
+		refresh_projection()
 
 
 func _set_manual(on: bool) -> void:

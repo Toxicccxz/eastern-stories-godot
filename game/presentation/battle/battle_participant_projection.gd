@@ -80,6 +80,10 @@ var next_move_guard: bool = false
 var beat_plan_tags: Array[StringName] = []
 var beat_plan_confirmed: int = 0
 var beats: CombatRoundBeats = null
+## 战斗拍数 B: the 打法词 of the school this one fights with, once the player's 见识录 reads it
+## ("" otherwise); whether a round runs now (the card's 剩 N 拍 reads `beats` then).
+var style_word: String = ""
+var round_running: bool = false
 ## 战斗决策层 2 (DECISIONS「战斗界面」): the conditions on this one (ConditionIds, from
 ## state.conditions), which of 法力, 灵力 and 加力 the player's card shows (the rule of
 ## stats_display.json, DECISIONS「数值用到才出现」), and the 战前预判 of the player against this

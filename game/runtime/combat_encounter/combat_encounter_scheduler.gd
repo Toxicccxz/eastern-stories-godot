@@ -71,6 +71,21 @@ var _skeleton_states: Dictionary[StringName, CombatSkeletonState] = {}
 var _round_tags: Dictionary[StringName, StringName] = {}
 ## The events of the advance running (the round's notes go here too).
 var _emitted: Array[CombatSchedulerEvent] = []
+## 战斗拍数 B (DECISIONS「战斗拍数」): the round running now — its fighters in order, the
+## cursor on the one whose beat comes next, whether a beat was taken this pass (a pass
+## without one ends the round), whether a round runs at all (between rounds: false). Under
+## player_turns the player's beat waits for their order (point one, resolve one): advance()
+## returns WAITING_FOR_PLAYER mid-round and resumes on the next order. The beats the
+## player's orders cost before the round began (a perform queued between rounds, a stance
+## changed) are charged when it begins ([key, cost] each); 收势 asked between rounds gives
+## up the whole round once it begins.
+enum RoundStep { DONE, WAITING, ENDED }
+var _round_running: bool = false
+var _round_order: Array[StringName] = []
+var _round_cursor: int = 0
+var _round_progress: bool = false
+var _pending_costs: Array = []
+var _yield_pending: bool = false
 ## The special an NPC announced (npc_telegraph), to run on its next beat, and its label.
 var _pending_specials: Dictionary[StringName, NpcSpecialAction] = {}
 var _pending_labels: Dictionary[StringName, String] = {}
@@ -192,8 +207,19 @@ func _rest_special(actor: CombatSliceCharacterBinding) -> void:
 ## switch off, and a player who can act (not busy, conscious, someone to fight, nothing
 ## queued); an open round runs to its end first.
 func waiting_for_player(bindings: Array[CombatSliceCharacterBinding]) -> bool:
-	if not manual() or _round_open or _tactical == null or _encounter.queued_player_action() != null:
+	if not manual() or _tactical == null or _encounter.queued_player_action() != null:
 		return false
+	# 战斗拍数 B: a round waiting mid-way on the player's next beat.
+	if _round_running and not _one_beat():
+		return _round_cursor < _round_order.size() and _player_beat_waits(_round_order[_round_cursor], bindings)
+	if _round_open:
+		return false
+	return _player_can_act(bindings)
+
+
+## Whether the player could act on a beat now: in the fight, conscious, not busy, with
+## someone to fight.
+func _player_can_act(bindings: Array[CombatSliceCharacterBinding]) -> bool:
 	var actor: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
 	if (
 		actor == null or not actor.exists_in_encounter or not actor.combat_available
@@ -205,6 +231,23 @@ func waiting_for_player(bindings: Array[CombatSliceCharacterBinding]) -> bool:
 	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
 		target_id = _first_initial_target(actor, bindings)
 	return not target_id.is_empty()
+
+
+## 战斗拍数 B: whether the beat of `actor_id` coming up is the player's and waits for their
+## order — player_turns on, no order given, beats left, and the player able to act (one
+## busy pays the beat; one down or without a target forfeits it; an order queued runs at
+## the boundary first). Never in ES2's one-beat round.
+func _player_beat_waits(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
+	if _one_beat() or not manual() or actor_id != _player_id or not _player_choice.is_empty():
+		return false
+	if _encounter.queued_player_action() != null or not _beats_of(_player_id, bindings).has_beats():
+		return false
+	return _player_can_act(bindings)
+
+
+## Whether a round is running (mid-way, waiting on the player or on its next advance).
+func round_running() -> bool:
+	return _round_running
 
 
 func manual() -> bool:
@@ -231,22 +274,136 @@ func player_moves(bindings: Array[CombatSliceCharacterBinding]) -> Array[CombatA
 	return [] if set == null or not set.is_valid() else set.actions()
 
 
-## The player chose `action_id` for this round: it is taken without a draw, and the
-## round runs. False when it is not one of their moves now, or their school locks it.
+## The player chose `action_id` for their next beat: it is taken without a draw, and the
+## round runs (or resumes, 战斗拍数 B: one order is one beat). False when it is not one of
+## their moves now, their school locks it, or it costs more beats than they have (拍不够).
 func choose_attack(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
-	if not locked_move_reason(action_id, bindings).is_empty():
+	if not locked_move_reason(action_id, bindings).is_empty() or not unaffordable_move_reason(action_id, bindings).is_empty():
 		return false
 	for action: CombatActionDefinition in player_moves(bindings):
 		if action.action_id == action_id:
 			_player_choice = action_id
 			_player_choice_tag = action.tag
-			open_round()
+			if not _round_running:
+				open_round()
 			return true
 	return false
 
 
 func player_choice() -> StringName:
 	return _player_choice
+
+
+## 战斗拍数 B: 收势 — the player gives up the beats left this round (a beat won later still
+## comes to them: 封山's wait for 隙). Mid-round the round goes on from the enemies' beats;
+## between rounds the round begins without the player's beats. False when there is nothing
+## to give up (ES2's one beat, 自动, not the player's turn).
+func yield_round(bindings: Array[CombatSliceCharacterBinding]) -> bool:
+	if _one_beat() or not manual() or _tactical == null:
+		return false
+	if _round_running:
+		if not waiting_for_player(bindings):
+			return false
+		_beats_of(_player_id, bindings).yield_rest()
+		return true
+	if _round_open or not _player_can_act(bindings):
+		return false
+	_yield_pending = true
+	open_round()
+	return true
+
+
+## 战斗拍数 B: the beats the player's round holds now — the round running (what is left,
+## what each beat went on, what was won), else the round to come (base beats less what
+## the orders given between rounds cost). An NPC's: its beats in the round running, else
+## its own base beats. ES2's one beat: the round that last ran (null before the first).
+func beats_now(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> CombatRoundBeats:
+	if _one_beat():
+		return _round_beats.get(actor_id)
+	if _round_running:
+		return _beats_of(actor_id, bindings)
+	var preview := CombatRoundBeats.new(actor_id, _base_beats(_find_binding(bindings, actor_id)))
+	if actor_id == _player_id:
+		for cost: Array in _pending_costs:
+			preview.spend(cost[0], cost[1])
+		if _yield_pending:
+			preview.yield_rest()
+	return preview
+
+
+## 战斗拍数 B: why the player cannot afford `action_id` on their next beat (拍不够), "" when
+## they can (or the round is ES2's one beat, where every move costs it).
+func unaffordable_move_reason(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> String:
+	if _one_beat() or _player_id.is_empty():
+		return ""
+	for action: CombatActionDefinition in player_moves(bindings):
+		if action.action_id == action_id:
+			return _unaffordable(_beat_rules.cost_of_tag(action.tag), bindings)
+	return ""
+
+
+## The player's moves they cannot afford now, by ID, with why.
+func unaffordable_moves(bindings: Array[CombatSliceCharacterBinding]) -> Dictionary[StringName, String]:
+	var short: Dictionary[StringName, String] = {}
+	for action: CombatActionDefinition in player_moves(bindings):
+		var reason: String = unaffordable_move_reason(action.action_id, bindings)
+		if not reason.is_empty():
+			short[action.action_id] = reason
+	return short
+
+
+## Why the player cannot afford an action costing `key` (perform/<id>, exert, item, flee;
+## &"": nothing to pay) on their next beat, "" when they can.
+func unaffordable_action_reason(key: StringName, bindings: Array[CombatSliceCharacterBinding]) -> String:
+	if _one_beat() or _player_id.is_empty() or key.is_empty():
+		return ""
+	return _unaffordable(_beat_rules.cost_of_action(key), bindings)
+
+
+func _unaffordable(cost: int, bindings: Array[CombatSliceCharacterBinding]) -> String:
+	var beats: CombatRoundBeats = beats_now(_player_id, bindings)
+	if beats == null or beats.can_afford(cost):
+		return ""
+	if beats.remaining == 0 and beats.yielded > 0:
+		# TRANSLATORS: a battle button greyed because the player gave the round's beats up (收势).
+		return TranslationServer.translate("已收势")
+	# TRANSLATORS: a battle button greyed because the move or action costs more beats than the player has left this round.
+	return TranslationServer.translate("拍不够")
+
+
+## 战斗拍数 B: the player's order outside the moves — a perform, exert, item or flight run
+## at the boundary, a stance changed — costs its beats (CombatBeatRules.beat_costs): off
+## the round running, else off the round to come. ES2's one beat: nothing (a command).
+func _charge_player(key: StringName, cost: int, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if _one_beat() or _player_id.is_empty() or key.is_empty() or cost <= 0:
+		return
+	if _round_running:
+		_beats_of(_player_id, bindings).spend(key, cost)
+	else:
+		_pending_costs.append([key, cost])
+
+
+## The player changed their stance (CombatStance): a beat (beat_costs `stance`).
+func note_stance_change(bindings: Array[CombatSliceCharacterBinding]) -> void:
+	_charge_player(CombatBeatRules.COST_STANCE, _beat_rules.cost_of_action(CombatBeatRules.COST_STANCE), bindings)
+
+
+## The key an order of `category` (CombatTacticalRequest.Category) with `action_id` is
+## charged under: perform/<id>, exert, cast, item, flee; &"" for 投降, 攻击 and a settle
+## (no beat).
+static func cost_key_of(category: int, action_id: StringName) -> StringName:
+	match category:
+		CombatTacticalRequest.Category.MARTIAL_SPECIAL:
+			return CombatBeatRules.perform_key(CombatPerformTacticalPolicy.function_for(action_id))
+		CombatTacticalRequest.Category.INTERNAL_FORCE:
+			return CombatBeatRules.COST_EXERT
+		CombatTacticalRequest.Category.SPELL:
+			return CombatBeatRules.COST_CAST
+		CombatTacticalRequest.Category.ITEM:
+			return CombatBeatRules.COST_ITEM
+		CombatTacticalRequest.Category.FLEE:
+			return CombatBeatRules.COST_FLEE
+	return &""
 
 
 ## 战斗拍数 A: why the player's school locks `action_id` now (够不着), "" when it may be chosen.
@@ -382,6 +539,11 @@ func _base_beats(actor: CombatSliceCharacterBinding) -> int:
 	if _beats_for.is_valid():
 		own = int(_beats_for.call(actor.character_id))
 	return maxi(1, own)
+
+
+## 战斗拍数 B: the skeleton of the school `actor_id` fights with now, for the card's 打法词.
+func school_skeleton(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> CombatSchoolSkeleton:
+	return _skeleton_of(_find_binding(bindings, actor_id))
 
 
 ## The skeleton of the school `actor` fights with now (the skill mapped to its attack's use),
@@ -769,9 +931,11 @@ func advance(
 	if boundary != null and not _inspect(boundary, bindings):
 		return CombatSchedulerAdvanceResult.new()
 	var tactical_result: CombatTacticalExecutionResult = null
+	# 战斗拍数 B: the order queued, to charge its beats once it ran.
+	var queued: CombatQueuedAction = _encounter.queued_player_action()
 	if _tactical != null:
 		# The round's modifiers as they stand (the stance) for a special run at the boundary.
-		if _encounter.queued_player_action() != null:
+		if queued != null:
 			_fill_modifiers(bindings)
 		tactical_result = _tactical.process_command_boundary(bindings, random_source, effect_registry)
 		if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.DISENGAGED:
@@ -782,6 +946,10 @@ func advance(
 			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
 	if boundary != null and tactical_result != null and not (tactical_result.joiners.is_empty() and tactical_result.allies.is_empty() and tactical_result.joins.is_empty()):
 		boundary.admit(bindings, tactical_result)
+	# 战斗拍数 B: the order that ran costs its beats.
+	if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.APPLIED and queued != null:
+		var key: StringName = cost_key_of(queued.request.category, queued.request.action_id)
+		_charge_player(key, _beat_rules.cost_of_action(key), bindings)
 	if tactical_result != null and tactical_result.special != null:
 		var special_blows: Array = _report_blows(tactical_result.special)
 		_note_interrupts(special_blows, true)
@@ -794,6 +962,18 @@ func advance(
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not _inspect(boundary, bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()
+	# 战斗拍数 B: a round waiting mid-way goes on from the player's beat (their order given, or
+	# given up) without the clock moving — the round already paid its cycle; it waits again
+	# on their next beat.
+	if _round_running and not _one_beat():
+		if waiting_for_player(bindings):
+			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER, 0, _emitted)
+		var step: int = _run_round(bindings, random_source, effect_registry, boundary)
+		if step == RoundStep.WAITING:
+			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER, 0, _emitted)
+		if step == RoundStep.DONE:
+			_close_manual_round()
+		return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED, 0, _emitted)
 	# 战斗决策层 1B: under player_turns the clock waits for the player's order; the enemies'
 	# first moves are drawn now, so the first order is not made blind.
 	if waiting_for_player(bindings):
@@ -831,20 +1011,31 @@ func advance(
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, _emitted,
 				)
-		if not _run_round(bindings, random_source, effect_registry, boundary):
+		var step: int = _run_round(bindings, random_source, effect_registry, boundary)
+		if step == RoundStep.ENDED:
 			return CombatSchedulerAdvanceResult.new(
 				CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, _emitted,
 			)
-	if manual() and processed_cycles > 0:
-		# The order's round ran: the clock waits for the next.
-		_round_open = false
-		_player_choice = &""
-		_player_choice_tag = &""
+		if step == RoundStep.WAITING:
+			# 战斗拍数 B: the round waits on the player's next beat; it goes on from there.
+			return CombatSchedulerAdvanceResult.new(
+				CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER, processed_cycles, _emitted,
+			)
+	if processed_cycles > 0:
+		_close_manual_round()
 	return CombatSchedulerAdvanceResult.new(
 		CombatSchedulerAdvanceResult.Outcome.ADVANCED,
 		due_cycles,
 		_emitted,
 	)
+
+
+## The order's round ran: the clock waits for the next (under 自动 nothing to close, and
+## an order left over is dropped with it).
+func _close_manual_round() -> void:
+	_round_open = false
+	_player_choice = &""
+	_player_choice_tag = &""
 
 
 ## An event of this advance: recorded and reported.
@@ -858,35 +1049,62 @@ func _emit(event: CombatSchedulerEvent) -> void:
 ## may win more (its school's skeleton, up to earned_beat_cap); the beats resolve in
 ## exchange order (interleaved: the player's first, each NPC's first, then the rest by
 ## turns) or in combatd.c's participant order, each fighter's together. One who joins
-## during the round acts from the next. Returns false when the fight ended inside it.
+## during the round acts from the next. 战斗拍数 B: the round keeps its place — it stops
+## on the player's beat when that waits for their order (WAITING) and goes on from there
+## on the next call; ENDED when the fight ended inside it, DONE when every beat is spent.
 func _run_round(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
 	boundary: CombatOpportunityBoundary,
-) -> bool:
+) -> int:
+	if not _round_running:
+		_begin_round(bindings)
+	while true:
+		if _round_cursor >= _round_order.size():
+			if not _round_progress:
+				break
+			_round_progress = false
+			_round_cursor = 0
+			continue
+		var actor_id: StringName = _round_order[_round_cursor]
+		var beats: CombatRoundBeats = _beats_of(actor_id, bindings)
+		if not beats.has_beats():
+			_round_cursor += 1
+			continue
+		if _player_beat_waits(actor_id, bindings):
+			return RoundStep.WAITING
+		_round_progress = true
+		if not _take_beat(actor_id, beats, bindings, random_source, effect_registry, boundary):
+			_round_running = false
+			return RoundStep.ENDED
+		# Interleaved: the next fighter's beat; else this one's beats together.
+		if _beat_rules.interleaved:
+			_round_cursor += 1
+	_round_running = false
+	return RoundStep.DONE
+
+
+## A round begins: fresh beats (the player's less what their orders between rounds cost,
+## or none after 收势), the round's tags forgotten, the skeletons' round facts too, the
+## fighters in their order.
+func _begin_round(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_round_beats.clear()
 	_round_tags.clear()
 	for state: CombatSkeletonState in _skeleton_states.values():
 		state.new_round()
-	var order: Array[StringName] = _beat_order()
-	var progress: bool = true
-	while progress:
-		progress = false
-		for actor_id: StringName in order:
-			var beats: CombatRoundBeats = _beats_of(actor_id, bindings)
-			if _beat_rules.interleaved:
-				if not beats.has_beats():
-					continue
-				progress = true
-				if not _take_beat(actor_id, beats, bindings, random_source, effect_registry, boundary):
-					return false
-			else:
-				while beats.has_beats():
-					progress = true
-					if not _take_beat(actor_id, beats, bindings, random_source, effect_registry, boundary):
-						return false
-	return true
+	_round_order = _beat_order()
+	_round_cursor = 0
+	_round_progress = false
+	_round_running = true
+	if not _one_beat() and not _player_id.is_empty() and _find_binding(bindings, _player_id) != null:
+		var mine: CombatRoundBeats = _beats_of(_player_id, bindings)
+		for cost: Array in _pending_costs:
+			mine.spend(cost[0], cost[1])
+		if _yield_pending:
+			mine.yield_rest()
+	_pending_costs.clear()
+	_yield_pending = false
 
 
 ## The fighters' order for the round: combatd.c's participant order; interleaved, the

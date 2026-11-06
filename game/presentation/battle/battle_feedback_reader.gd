@@ -43,6 +43,10 @@ var _narrator: BattleNarrator
 var _encounter_id: StringName = &""
 var _last_order: int = 0
 var _recent: Array[BattleNarrationLine] = []
+## 战斗拍数 B: the round (logical cycle) last read and each actor's beats struck in it, so a
+## beat's lines know which beat of the round they are (the strip folds the later ones).
+var _cycle: int = -1
+var _beats_in_cycle: Dictionary[StringName, int] = {}
 ## The current encounter's opening lines, which the log already holds.
 var _opening: Array[BattleNarrationLine] = []
 var last_consumed_order: int:
@@ -132,6 +136,8 @@ func read_new(
 		_encounter_id = projection.encounter_id
 		_last_order = 0
 		_recent.clear()
+		_cycle = -1
+		_beats_in_cycle.clear()
 		_opening = opening_lines(coordinator, projection.encounter_id)
 		if not _opening.is_empty():
 			read.append(BattleFeedbackProjection.new(0, _opening))
@@ -177,7 +183,11 @@ func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[Comb
 	for ordered: CombatOrderedTargetEvent in targets:
 		read.append(BattleFeedbackProjection.new(ordered.progression_order, _target(ordered.event, projection)))
 	for event: CombatSchedulerEvent in ordinary:
-		read.append(BattleFeedbackProjection.new(event.progression_order, _narrator.opportunity(event, projection)))
+		var lines: Array[BattleNarrationLine] = _narrator.opportunity(event, projection)
+		var beat: int = _beat_of(event)
+		for line: BattleNarrationLine in lines:
+			line.with_beat(beat, event.actor_id)
+		read.append(BattleFeedbackProjection.new(event.progression_order, lines))
 	for event: CombatTacticalEvent in tactics:
 		read.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))
 	read.sort_custom(_earlier)
@@ -191,6 +201,21 @@ func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[Comb
 	if _recent.size() > RECENT_LINES:
 		_recent = _recent.slice(_recent.size() - RECENT_LINES)
 	return next
+
+
+## Which beat of its actor's round `event` is: a struck move counts one; a round's first
+## is 1. A beat with no move (busy, a skip) is told as the first.
+func _beat_of(event: CombatSchedulerEvent) -> int:
+	if event.logical_cycle != _cycle:
+		_cycle = event.logical_cycle
+		_beats_in_cycle.clear()
+	if event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED or event.resolution == null:
+		return 1
+	var forward: CombatSingleAttackExecutionResult = event.resolution.forward_result
+	if forward == null or forward.action_selection_result == null or forward.action_selection_result.selected_action == null:
+		return 1
+	_beats_in_cycle[event.actor_id] = _beats_in_cycle.get(event.actor_id, 0) + 1
+	return _beats_in_cycle[event.actor_id]
 
 
 ## combatd.c announce() as the player reads it (message_vision()): someone else's fall

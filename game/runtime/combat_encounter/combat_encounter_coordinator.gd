@@ -315,6 +315,9 @@ func action_infos() -> Array[CombatTacticalActionInfo]:
 		if reason.is_empty() and tactical != null and tactical.cooldown_left(info.action_id) > 0:
 			# TRANSLATORS: the battle panel: a perform button greyed while it cools down; {rounds} rounds left.
 			reason = TranslationServer.translate("冷却中（还要 {rounds} 回合）").format({"rounds": tactical.cooldown_left(info.action_id)})
+		# 战斗拍数 B: one costing more beats than the player has left is greyed 拍不够.
+		if reason.is_empty() and tactical != null and _active_encounter != null:
+			reason = _active_scheduler.unaffordable_action_reason(CombatEncounterScheduler.cost_key_of(info.category, info.action_id), _session.encounter_combat_bindings(_active_encounter))
 		infos.append(CombatTacticalActionInfo.new(
 			info.action_id, info.category, info.target_rule, info.blocks_when_busy, reason,
 		))
@@ -346,6 +349,64 @@ func player_choice() -> StringName:
 	return &"" if _active_scheduler == null else _active_scheduler.player_choice()
 
 
+## 战斗拍数 B (DECISIONS「战斗拍数」): 收势 — the player gives up the beats left this round.
+func yield_round() -> bool:
+	if _active_scheduler == null or _active_encounter == null or not _fight_input_allowed():
+		return false
+	return _active_scheduler.yield_round(_session.encounter_combat_bindings(_active_encounter))
+
+
+## The beats `actor_id` holds now: the round running, else the round to come (the
+## player's less what their orders cost); null without a fight.
+func beats_now(actor_id: StringName) -> CombatRoundBeats:
+	if _active_scheduler == null or _active_encounter == null:
+		return null
+	return _active_scheduler.beats_now(actor_id, _session.encounter_combat_bindings(_active_encounter))
+
+
+## Whether a round runs now (mid-way, on the player's beat or its next advance).
+func round_running() -> bool:
+	return _active_scheduler != null and _active_scheduler.round_running()
+
+
+## The player's moves costing more beats than they have left, by ID, with why (拍不够).
+func unaffordable_moves() -> Dictionary[StringName, String]:
+	if _active_scheduler == null or _active_encounter == null:
+		return {}
+	return _active_scheduler.unaffordable_moves(_session.encounter_combat_bindings(_active_encounter))
+
+
+## The cost in beats of the player's move `action_id` (its tag's), 1 without a fight.
+func move_cost(action_id: StringName) -> int:
+	for move: CombatActionDefinition in player_moves():
+		if move.action_id == action_id:
+			return beat_rules().cost_of_tag(move.tag)
+	return 1
+
+
+## The cost in beats of an order (CombatTacticalActionInfo), 0 for one that costs none.
+func action_cost(info: CombatTacticalActionInfo) -> int:
+	var key: StringName = CombatEncounterScheduler.cost_key_of(info.category, info.action_id)
+	return 0 if key.is_empty() else beat_rules().cost_of_action(key)
+
+
+## 战斗拍数 B: the 打法词 of the school `actor_id` fights with (its skeleton's), "" when it has
+## none or the round is ES2's one beat.
+func style_word_of(actor_id: StringName) -> String:
+	if _active_scheduler == null or _active_encounter == null:
+		return ""
+	var skeleton: CombatSchoolSkeleton = _active_scheduler.school_skeleton(actor_id, _session.encounter_combat_bindings(_active_encounter))
+	return "" if skeleton == null else skeleton.style_word
+
+
+## The skill behind that school, for 见识录.
+func school_of(actor_id: StringName) -> SkillDefinition:
+	if _active_scheduler == null or _active_encounter == null:
+		return null
+	var skeleton: CombatSchoolSkeleton = _active_scheduler.school_skeleton(actor_id, _session.encounter_combat_bindings(_active_encounter))
+	return null if skeleton == null else GameContent.catalog().skill(skeleton.skill_id)
+
+
 ## The 自动 switch: off, the clock rolls as ES2's; on, it waits for the player's order.
 func set_manual_turns(on: bool) -> void:
 	BattlePace.manual_turns = on
@@ -367,6 +428,9 @@ func decision_rules() -> CombatDecisionRules:
 func set_stance(value: int) -> Array[ColoredLine]:
 	if not CombatStance.is_valid(value):
 		return []
+	# 战斗拍数 B: a stance changed in the fight costs a beat (beat_costs `stance`).
+	if value != BattlePace.stance and _active_scheduler != null and _active_encounter != null and _fight_input_allowed():
+		_active_scheduler.note_stance_change(_session.encounter_combat_bindings(_active_encounter))
 	BattlePace.stance = value
 	var rules: CombatDecisionRules = decision_rules()
 	if not rules.has_stances() or _session == null or not _session.martial_arts().in_own_fight():

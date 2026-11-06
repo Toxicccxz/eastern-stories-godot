@@ -13,6 +13,8 @@ var remaining: int
 var spent: Array[StringName] = []
 ## The beats won this round, by their source (CombatSchoolSkeleton.earn).
 var earned: Array[StringName] = []
+## 战斗拍数 B: the beats given up by 收势 this round (yield_rest()).
+var yielded: int = 0
 ## Whether the fighter's round-end work (its chat, its next plan) already ran: a beat won
 ## after that is taken on a fresh draw.
 var settled: bool = false
@@ -49,6 +51,13 @@ func earn(source: StringName, cap: int) -> bool:
 
 ## The fighter is out of the round (unavailable, no target): nothing left to spend.
 func forfeit() -> void:
+	remaining = 0
+
+
+## 战斗拍数 B: 收势 — the fighter gives up what is left (the panel strikes those chips
+## through); a beat won after it is still taken.
+func yield_rest() -> void:
+	yielded += remaining
 	remaining = 0
 
 

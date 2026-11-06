@@ -65,6 +65,10 @@ var _status: Label
 var _intent: Label
 ## 了结 / 放过, shown while the one on the card waits on the player's choice.
 var choice_row: HBoxContainer
+## 战斗拍数 B: an enemy's beat plan as seals down the card's edge facing the middle.
+var stamps: BattleBeatStamps
+## The card shows at most this many tags; the rest fold into 「…+N」 and the hover.
+const TAGS_SHOWN: int = 2
 var finish_button: Button
 var spare_button: Button
 
@@ -121,6 +125,9 @@ func _ready() -> void:
 	stage = BattleCardStage.new()
 	stage.name = "Stage"
 	add_child(stage)
+	stamps = BattleBeatStamps.new()
+	stamps.name = "Stamps"
+	add_child(stamps)
 	target_button = Button.new()
 	target_button.name = "SelectTarget"
 	target_button.custom_minimum_size = Vector2(64, 64)
@@ -156,6 +163,9 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	else:
 		# TRANSLATORS: the battle card of one fighting beside the player (a 天将, a follower).
 		role = tr("参战")
+	# 战斗拍数 B: the 打法词 after the forecast's word, once the player's 见识录 reads it.
+	if not is_player and not value.style_word.is_empty():
+		role += " · " + tr(value.style_word)
 	_title.text = "%s · %s" % [tr(value.display_name), role]
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
 	if get_theme_stylebox("panel") != border and (_border_flash == null or not _border_flash.is_valid()):
@@ -187,8 +197,23 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		states.append(tr("约 {n} 秒后醒来").format({"n": knockout.revive_seconds}))
 	if not value.available and value.busy_value == 0 and not dead and not unconscious:
 		states.append(tr("无法行动"))
+	# 战斗拍数 B: an enemy's beats left in the round running.
+	if value.hostile_to_player and value.round_running and value.beats != null and value.beats.remaining > 0 and not dead and not unconscious:
+		# TRANSLATORS: an enemy's card: the beats it still has this round.
+		states.append(tr("剩 %d 拍") % value.beats.remaining)
+	# At most TAGS_SHOWN on the card (纪要 §九: three layers at most); the rest fold.
+	var folded := PackedStringArray()
+	if states.size() > TAGS_SHOWN:
+		folded = states.slice(TAGS_SHOWN)
+		states = states.slice(0, TAGS_SHOWN)
+		# TRANSLATORS: a battle card's tags line when more tags than fit: {count} more in the hover.
+		states.append(tr("…+%d") % folded.size())
 	_status.text = " · ".join(states)
-	var explained := PackedStringArray(BattleConditionTags.descriptions(value.conditions))
+	var explained := PackedStringArray()
+	if not folded.is_empty():
+		# TRANSLATORS: a battle card's hover: the tags that did not fit on the card.
+		explained.append(tr("还有：%s") % " · ".join(folded))
+	explained.append_array(BattleConditionTags.descriptions(value.conditions))
 	var intents := PackedStringArray()
 	if value.next_move_guard:
 		# TRANSLATORS: an enemy's card: it will guard on its next beat (combatd.c fight()'s courage gate) instead of a move.
@@ -216,6 +241,11 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	if _intent.visible and _intent.text != _shown_intent:
 		_pulse_intent(not value.telegraph.is_empty())
 	_shown_intent = _intent.text if _intent.visible else ""
+	# 战斗拍数 B: the plan's seals — the settled beat's word, then one ？ per beat it reads.
+	var first: String = ""
+	if value.hostile_to_player and not value.beat_plan_tags.is_empty() and not dead and not unconscious:
+		first = stamp_word(value)
+	stamps.present(first, maxi(0, value.beat_plan_tags.size() - 1) if not first.is_empty() else 0, value.beat_plan_confirmed > 0)
 	# The fall: 倒 for one unconscious (or held for the choice), 亡 for one dead; lifted when
 	# they are up again.
 	var fallen: String = ""
@@ -236,6 +266,21 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	hover.append_array(_number_lines(value, is_player))
 	target_button.tooltip_text = "\n".join(hover)
 	_present_choice(value, knockout)
+
+
+## The word on the first seal: the perform's 「」 word (「封」字诀 → 封) when the settled beat is
+## one, 守 for 守势, ？ for a move not read, else the move's tag.
+static func stamp_word(value: BattleParticipantProjection) -> String:
+	if value.beat_plan_tags.is_empty():
+		return ""
+	if value.beat_plan_tags[0].is_empty() and not value.telegraph.is_empty():
+		var name: String = CombatActionDefinition.name_in(value.telegraph)
+		return name.left(1) if not name.is_empty() else TranslationServer.translate("绝")
+	if value.next_move_guard:
+		return TranslationServer.translate("守")
+	if not value.next_move_known:
+		return "？"
+	return CombatMoveTags.label(value.beat_plan_tags[0])
 
 
 ## 内力, then 加力, 法力 and 灵力 as the numbers' rule shows them.

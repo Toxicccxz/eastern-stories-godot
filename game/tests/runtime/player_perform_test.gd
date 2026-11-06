@@ -330,8 +330,11 @@ func _test_fight(tree: SceneTree) -> void:
 	_check(_submit(&"perform.swordjab") == CombatTacticalResult.Code.ACCEPTED, "「逐」 queued")
 	_coordinator.advance_scheduler(0.0)
 	_check(scheduler.player_tactics().queue_status() == CombatQueuedAction.Status.WAITING_FOR_BUSY and _player.state.vitality.effective == 5000, "it waits while the player is busy")
-	_coordinator.advance_scheduler(1.0)
-	_coordinator.advance_scheduler(0.0)
+	# 战斗拍数 B: 「封」 cost the round's two beats, so the busy it left is paid by the first
+	# beat of the round after; 「逐」 runs at the boundary once the busy is gone.
+	for _round: int in 2:
+		_coordinator.advance_scheduler(1.0)
+		_coordinator.advance_scheduler(0.0)
 	_ui.refresh_projection()
 	_check(_coordinator.active_encounter().queued_player_action() == null and _player.state.vitality.effective == 4990, "then runs: eff_kee 4990 (%d)" % _player.state.vitality.effective)
 	var jab: CombatTacticalEvent = _last_resolved(scheduler)

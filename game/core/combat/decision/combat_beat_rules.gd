@@ -21,6 +21,8 @@ const COST_STANCE: StringName = &"stance"
 const COST_EXERT: StringName = &"exert"
 const COST_ITEM: StringName = &"item"
 const COST_FLEE: StringName = &"flee"
+## 战斗拍数 B: a spell cast as an order (not in the data: it costs 1, as a key left out).
+const COST_CAST: StringName = &"cast"
 const COST_PLAIN: StringName = &"plain"
 const PERFORM_PREFIX: String = "perform/"
 

@@ -16,6 +16,9 @@ var _post_action_policy_id: StringName
 ## shows (the 「」 in the action text, or the data's `name`).
 var _tag: StringName
 var _name: String
+## 战斗拍数 B: the intent group the panel lays the move under (封山剑法's 引 / 守 / 逐; "" for
+## none): a word of the school's data, read by the panel alone.
+var _group: String
 
 var action_id: StringName:
 	get:
@@ -44,6 +47,8 @@ var post_action_policy_id: StringName:
 var tag: StringName:
 	get:
 		return _tag
+var group: String:
+	get: return _group
 var display_name: String:
 	get:
 		return _name
@@ -60,9 +65,11 @@ func _init(
 	p_post_action_policy_id: StringName = &"",
 	p_tag: StringName = &"",
 	p_name: String = "",
+	p_group: String = "",
 ) -> void:
 	_tag = p_tag
 	_name = p_name
+	_group = p_group
 	_action_id = p_action_id
 	_damage_percent = p_damage_percent
 	_force_percent = p_force_percent
@@ -92,7 +99,7 @@ static func from_record(reader: ContentRecordReader, id_prefix: String) -> Comba
 		action_id, reader.integer("damage"), reader.integer("force"),
 		StringName(reader.required_text("damage_type")), action_id,
 		text, reader.text("weapon"), StringName(reader.text("post_action")),
-		tag, reader.text("name", name_in(text)),
+		tag, reader.text("name", name_in(text)), reader.text("group"),
 	)
 	if reader.has("post_action") and not CombatPostActionIds.is_supported(definition.post_action_policy_id):
 		reader.fail("post_action", "'%s' is not ported (%s)" % [definition.post_action_policy_id, ", ".join(CombatPostActionIds.SUPPORTED)])
@@ -119,4 +126,5 @@ func duplicate_snapshot() -> CombatActionDefinition:
 		_post_action_policy_id,
 		_tag,
 		_name,
+		_group,
 	)

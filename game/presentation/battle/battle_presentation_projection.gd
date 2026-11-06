@@ -42,6 +42,25 @@ var stance: int = CombatStance.Value.ATTACK
 ## (够不着); the beats of a round (null: the fight has none / ES2's one beat).
 var locked_moves: Dictionary[StringName, String] = {}
 var beat_rules: CombatBeatRules = null
+## 战斗拍数 B: the player's beats now (the round running: what is left, spent, won, given up;
+## else the round to come), the round that last ran (null before the first), whether a round
+## runs now, the moves costing more than is left (拍不够), each move's and each order's cost
+## in beats (an order of 0: none), the groups' order for the panel's row, and the tag of the
+## current target's next move as the player reads it (&"" unknown: the sub line's 克他这一招).
+var player_beats: CombatRoundBeats = null
+var last_round_beats: CombatRoundBeats = null
+var round_running: bool = false
+var unaffordable_moves: Dictionary[StringName, String] = {}
+var move_costs: Dictionary[StringName, int] = {}
+var action_costs: Dictionary[StringName, int] = {}
+var move_groups: Array[String] = []
+var opponent_tag: StringName = &""
+
+
+## Whether the beats change anything from ES2's one beat a round (the panel's chips, 收势
+## and costs show only then).
+func beats_shown() -> bool:
+	return beat_rules != null and not beat_rules.is_classic() and beat_rules.round_beats > 1
 
 
 func _init(
