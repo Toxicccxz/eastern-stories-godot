@@ -4295,11 +4295,11 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "「"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "」"
 msgstr ""
 
