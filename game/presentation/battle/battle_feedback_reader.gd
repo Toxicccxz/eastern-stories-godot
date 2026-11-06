@@ -136,6 +136,8 @@ func read_new(
 		_encounter_id = projection.encounter_id
 		_last_order = 0
 		_recent.clear()
+		_cycle = -1
+		_beats_in_cycle.clear()
 		_opening = opening_lines(coordinator, projection.encounter_id)
 		if not _opening.is_empty():
 			read.append(BattleFeedbackProjection.new(0, _opening))
@@ -184,7 +186,7 @@ func _read_events(targets: Array[CombatOrderedTargetEvent], ordinary: Array[Comb
 		var lines: Array[BattleNarrationLine] = _narrator.opportunity(event, projection)
 		var beat: int = _beat_of(event)
 		for line: BattleNarrationLine in lines:
-			line.with_beat(beat)
+			line.with_beat(beat, event.actor_id)
 		read.append(BattleFeedbackProjection.new(event.progression_order, lines))
 	for event: CombatTacticalEvent in tactics:
 		read.append(BattleFeedbackProjection.new(event.progression_order, _tactical(event, projection)))

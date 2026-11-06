@@ -21,6 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_move_hover_and_focus(tree)
 	await _beats_panel(tree)
 	_stamps_and_style_word(tree)
+	_folded_beats()
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -309,6 +310,25 @@ func _beats_panel(tree: SceneTree) -> void:
 	check(tree.root.gui_get_focus_owner() == heavy and tip.panel.visible and tip._text.text == "拍不够", "right from the 快 lands on the dimmed 重 and the keys' hover says 拍不够: '%s'" % tip._text.text)
 	support.free()
 	panel.free()
+
+
+## 战斗拍数 B: the strip folds an actor's later beats of the round told together — two or
+## more blows beyond the first beat become 「野狗又出两招 −12 闪」 standing for every line of
+## those beats; a single later beat, and anyone's first beat, are told as they are.
+func _folded_beats() -> void:
+	var cast := BattlePresentationProjection.new(&"e", -1, &"p", &"n", [_one(&"p", "雪工", false, true, false, 80, 80, 100), _one(&"n", "野狗", true, true, true, 50, 50, 100)])
+	var first := BattleNarrationLine.new("野狗咬了你。", 9, ColoredLine.PLAIN, "野狗 · 咬 → 雪工 −9").with_blow(&"n", &"p", "咬", CombatAttackResult.Outcome.HIT, 0).with_beat(1, &"n")
+	var action := BattleNarrationLine.new("野狗张口又咬！").with_beat(2, &"n")
+	var second := BattleNarrationLine.new("野狗咬了你。", 12, ColoredLine.PLAIN, "野狗 · 咬 → 雪工 −12").with_blow(&"n", &"p", "咬", CombatAttackResult.Outcome.HIT, 0).with_beat(2, &"n")
+	var status := BattleNarrationLine.new("( 你受了点轻伤。 )").with_beat(2, &"n")
+	var third := BattleNarrationLine.new("你闪开了。").with_blow(&"n", &"p", "咬", CombatAttackResult.Outcome.DODGE, -1).with_beat(3, &"n")
+	var mine := BattleNarrationLine.new("你踢了野狗。", 5, ColoredLine.PLAIN, "雪工 · 踢 → 野狗 −5").with_blow(&"p", &"n", "踢", CombatAttackResult.Outcome.HIT, 0).with_beat(2, &"p")
+	var folded: Array[BattleNarrationLine] = BattlePresentationController.fold_beats([first, action, second, status, third, mine], cast)
+	check(folded.size() == 3 and folded[0] == first and folded[2] == mine, "the first beat and a single later beat of another stay: %d lines" % folded.size())
+	check(folded.size() == 3 and folded[1].is_folded and folded[1].text == "野狗又出两招 −12 闪" and folded[1].folded.size() == 4 and folded[1].beat_index == 2 and not folded[1].has_blow, "the dog's second and third beats fold into one line standing for their four: '%s'" % (folded[1].text if folded.size() == 3 else ""))
+	check(action.actor_id == &"n" and not action.has_blow, "a beat's action line carries the actor without becoming a blow")
+	var lone: Array[BattleNarrationLine] = BattlePresentationController.fold_beats([first, action, second, status], cast)
+	check(lone.size() == 4 and not lone[1].is_folded, "one later beat alone is told as it is")
 
 
 ## An enemy's card with the beats: the plan's seals (the settled beat's word, ？ for each

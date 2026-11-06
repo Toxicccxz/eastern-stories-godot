@@ -12,7 +12,7 @@ const SIZE: float = 24.0
 const GAP: float = 6.0
 const TOP: float = 46.0
 ## The seal sticks out past the card's edge by this much.
-const OUT: float = 8.0
+const OUT: float = 14.0
 const SOLID := Color(0.72, 0.22, 0.16, 0.96)
 const SOLID_EDGE := Color(0.45, 0.12, 0.08)
 const HOLLOW := Color(0.82, 0.32, 0.24, 0.9)

@@ -8271,6 +8271,11 @@ msgstr ""
 msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
 msgstr ""
 
+#. a battle button greyed because the player gave the round's beats up (收势).
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "已收势"
+msgstr ""
+
 #. a battle button greyed because the move or action costs more beats than the player has left this round.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
 msgid "拍不够"

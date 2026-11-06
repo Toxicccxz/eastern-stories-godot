@@ -289,13 +289,14 @@ static func fold_beats(lines: Array[BattleNarrationLine], cast: BattlePresentati
 			result.append(line)
 			index += 1
 			continue
-		# The run of later-beat lines of this actor: the blows in it decide the fold.
+		# The run of later-beat lines of this actor (every line of those beats carries the
+		# actor): the blows in it decide the fold.
 		var run: Array[BattleNarrationLine] = []
 		var blows: Array[BattleNarrationLine] = []
 		var actor: StringName = line.actor_id
-		while index < lines.size() and lines[index].beat_index > 1 and (lines[index].actor_id == actor or lines[index].actor_id.is_empty()):
+		while index < lines.size() and lines[index].beat_index > 1 and lines[index].actor_id == actor:
 			run.append(lines[index])
-			if lines[index].has_blow and lines[index].actor_id == actor:
+			if lines[index].has_blow:
 				blows.append(lines[index])
 			index += 1
 		if blows.size() < 2:

@@ -85,9 +85,13 @@ func with_special(p_actor_id: StringName, title: String) -> BattleNarrationLine:
 	return self
 
 
-## The beat this line belongs to (the reader, once).
-func with_beat(index: int) -> BattleNarrationLine:
+## The beat this line belongs to (the reader, once), and whose: a line that reports no blow
+## (the action's own words, the status line) takes the beat's actor so the strip can fold the
+## whole beat; a blow's line keeps its own.
+func with_beat(index: int, actor: StringName = &"") -> BattleNarrationLine:
 	_beat_index = maxi(1, index)
+	if _actor_id.is_empty():
+		_actor_id = actor
 	return self
 
 

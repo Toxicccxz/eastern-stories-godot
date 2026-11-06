@@ -84,10 +84,7 @@ func present(beats: CombatRoundBeats, rules: CombatBeatRules, chip_seconds: floa
 		earned = beats.earned.duplicate()
 		var total: int = base + earned.size()
 		for key: StringName in beats.spent:
-			var cost: int = 1
-			if rules != null and not STRUCK_KEYS.has(key):
-				cost = rules.cost_of_action(key) if not CombatBeatRules.perform_of(key).is_empty() or COLORS.has(key) and not CombatMoveTags.ALL.has(key) and key != CombatBeatRules.COST_PLAIN else rules.cost_of_tag(CombatMoveTags.NONE if key == CombatBeatRules.COST_PLAIN else key)
-			for _n: int in maxi(1, cost):
+			for _n: int in _chips_of(rules, key):
 				if slots.size() < total:
 					slots.append(key)
 		for _n: int in beats.yielded:
@@ -108,6 +105,16 @@ func present(beats: CombatRoundBeats, rules: CombatBeatRules, chip_seconds: floa
 	_remaining = remaining
 	custom_minimum_size = Vector2(PAD.x * 2 + maxf(2, slots.size()) * CHIP.x + maxf(1, slots.size() - 1) * GAP, COMPACT_HEIGHT if _compact else HEIGHT)
 	queue_redraw()
+
+
+## How many chips a spent key covers: a tag's price (a 重 lies over two), an order's
+## (perform/<id>, stance, exert, item, flee, cast), one for busy and a wait.
+static func _chips_of(rules: CombatBeatRules, key: StringName) -> int:
+	if rules == null or STRUCK_KEYS.has(key):
+		return 1
+	if not CombatBeatRules.perform_of(key).is_empty() or GLYPHS.has(key):
+		return maxi(1, rules.cost_of_action(key))
+	return maxi(1, rules.cost_of_tag(CombatMoveTags.NONE if key == CombatBeatRules.COST_PLAIN else key))
 
 
 ## The chips' keys in order (tests).
