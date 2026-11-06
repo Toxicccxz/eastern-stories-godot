@@ -482,7 +482,9 @@ func _test_hasten(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.refresh_projection()
 	var text: String = ui.log_panel._text.get_parsed_text()
 	_check(text.contains("你使出步玄七诀第一式「玄羽乱舞」，身法陡然加快！") and text.contains("你迅捷无伦地在书生身旁绕了一圈 ..."), "its lines in the battle log")
-	_check(state.recovery.inner_force.current == 300 - 30 and player.busy.busy_value == 3, "three rounds (query_skill 20 / 20 + 2): 30 force; busy 3 (%d)" % state.recovery.inner_force.current)
+	# 战斗拍数 C (DECISIONS「战斗拍数 C」): hasten.c's busy 3 counts the beat the perform cost
+	# (perform/hasten: 1): 2 left, three beats lost in all.
+	_check(state.recovery.inner_force.current == 300 - 30 and player.busy.busy_value == 2, "three rounds (query_skill 20 / 20 + 2): 30 force; busy 3 less the beat paid: 2 (%d, busy %d)" % [state.recovery.inner_force.current, player.busy.busy_value])
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "nothing aborted: " + coordinator.last_abort_detail())
 	# The 剑灵's chant on the 曼雩台 waits while the fight lasts (the map's time stands still).
 	var soul: NpcRuntimeState = _first(map, SOUL)
