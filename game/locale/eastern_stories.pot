@@ -18631,7 +18631,7 @@ msgstr ""
 
 #. main.chapter8/lake text
 #: data/story/chapter8.json
-msgid "你潜进了湖底。身后的入口结上了冰。"
+msgid "你到了湖底。从湖心潜下来的，身后的入口结上了冰；从忘情谷下冰阶来的，一下阶就是冰龙的厅。"
 msgstr ""
 
 #. main.chapter8/cave objective

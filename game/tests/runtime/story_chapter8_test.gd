@@ -42,7 +42,29 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_pull(tree, pull)
 	pull.free()
 	await tree.process_frame
+	var valley: WorldSessionController = await _session(tree, CharacterState.GENDER_FEMALE)
+	await _test_valley_way(tree, valley)
+	valley.free()
+	await tree.process_frame
 	return {"assertions": _count, "failures": _failures.duplicate()}
+
+
+## The other way down (a review on #261): from 忘情谷 down the ice stair into the dragons' hall, never
+## through the lake — the chapter's first two steps are done by the stair's mark alone, the pool next.
+func _test_valley_way(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter8")
+	StoryFixtures.chapter7_done(session, true, true)
+	session.record_journal()
+	_check(StoryQuestLog.current_step(state, quest).step_id == &"lake", "valley: the chapter open at the lake step")
+	var map: WorldMapController = MapPlaces.enter(session, &"village.valley1", &"village.valley1.cave_return") # TEST-ONLY: outside 忘情谷
+	await _settle(tree)
+	_check(map != null and await MapPlaces.take_passage(tree, map, &"village.valley1.eastdown"), "valley: east down the ice stair")
+	var cave: WorldMapController = session.active_map() as WorldMapController
+	_check(cave.map_id() == &"village.icecave" and session.player_runtime().world_location().zone_id == &"village.lakebottom2" and state.marks.get("到了冰龙厅", 0) == 1 and state.marks.get("下了湖底", 0) == 0, "valley: in the dragons' hall by the stair, the lake never dived")
+	session.record_journal()
+	_check(StoryQuestLog.current_step(state, quest).step_id == &"pool" and StoryQuestLog.objective(state, quests).contains("水潭"), "valley: the lake and the hall both done by the stair; next, the pool")
 
 
 func _test_data() -> void:
@@ -90,7 +112,7 @@ func _test_data() -> void:
 	_check(staged != null and staged.present.key == "看过封坛" and staged.until.key == "湖底一章" and catalog.spawn(&"native.seal_altar.lihong_weak").summoned, "商玦 on the stage from the dive to the chapter's end; the fallen 璃虹 summoned")
 	_check(catalog.portal(&"village.valley1.eastdown").set_mark == "到了冰龙厅", "the valley's way down marks the hall too")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter8")
-	_check(quest != null and quest.steps.size() == 5 and quest.steps[0].condition.key == "下了湖底" and quest.steps[1].condition.key == "到了冰龙厅" and quest.steps[2].condition.key == "看过封坛" and quest.steps[3].condition.key == "璃虹说了封法" and quest.steps[4].options.size() == 2 and quest.steps[4].options[0].condition.key == "拔了穿灵" and quest.steps[4].options[1].condition.key == "查清了封物" and quest.reward.milestone and quest.reward.marks == ["湖底一章"], "the chapter: the lake, the hall, the pool, the 封法, the choice; the milestone")
+	_check(quest != null and quest.steps.size() == 5 and quest.steps[0].condition.parts.size() == 2 and quest.steps[0].condition.parts[0].key == "下了湖底" and quest.steps[0].condition.parts[1].key == "到了冰龙厅" and quest.steps[1].condition.key == "到了冰龙厅" and quest.steps[2].condition.key == "看过封坛" and quest.steps[3].condition.key == "璃虹说了封法" and quest.steps[4].options.size() == 2 and quest.steps[4].options[0].condition.key == "拔了穿灵" and quest.steps[4].options[1].condition.key == "查清了封物" and quest.reward.milestone and quest.reward.marks == ["湖底一章"], "the chapter: the lake (either way down), the hall, the pool, the 封法, the choice; the milestone")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
 	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() == 1 and ninth.steps[0].condition.key == "进了皇城" and ninth.steps[0].target.zone_id == &"city.shenwumen", "the ninth chapter's stub: 皇城")
 	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_CH8_A_V1, "第八章 A's world revision is current")
