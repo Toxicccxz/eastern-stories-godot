@@ -133,6 +133,16 @@ func _check_ask(tree: SceneTree) -> void:
 	(box.hosted().find_child("Leave", true, false) as Button).pressed.emit()
 	await _frames(tree, 2)
 	_check(not box.is_open() and not session.presentation_frozen(), "告辞: back in the world")
+	# A scripted question with answers (番坊 B's 火前问话) speaks with its asker: their bust.
+	var answers: Array[String] = ["一", "二"]
+	hud.ask_choices(npc, "问题", answers, func(_picked: int) -> void: pass)
+	await _frames(tree, 2)
+	_check(box.hosting() and box.who() == npc, "a question with answers speaks with its asker")
+	hud.confirm_prompt.cancel()
+	await _frames(tree, 2)
+	if box.is_open():
+		box.close()
+		await _frames(tree, 2)
 	# Chat stays over the head; what is told is read; a fight shuts the box.
 	var said: Array[ColoredLine] = [ColoredLine.new("%s说道：今天天气不错。" % npc.definition().display_name)]
 	hud.npc_says(npc, said, ["%s说道：今天天气不错。" % npc.definition().display_name])

@@ -51,7 +51,6 @@
   "door_looks": {"snow.hockshop.door": {"kind": "old_gate", "leaf": "5a3e2a", "studs": false, "open": true, "text": "当", "text_y": 0.95, "letters": "1e1a16", "panel": "d8d0bc", "panel_size": 1.25, "pixel_size": 0.023, "rotation": -90, "size": [70, 32], "note": "mstreet3.c: 只有一扇门(door)上面写著一个大大的「当」字 (hockshop.c: 木雕门)"}, "snow.school.gate": {"kind": "old_gate", "leaf": "9c3a2c", "studs": "d6b25a", "rotation": -90, "size": [70, 32], "note": "school1.c: 红漆大门, its gilt studs"}},
   "actors": {
     "default": {"coat": "887b56"},
-    "snow.npc.waiter": {"coat": "667d84"},
     "snow.npc.traveller": {"coat": "817b52", "hat": true},
     "snow.npc.trav_blade": {"coat": "8d6e4e", "hat": true},
     "snow.npc.scavenger": {"coat": "856448", "hat": true},

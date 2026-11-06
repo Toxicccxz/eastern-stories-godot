@@ -1,0 +1,16 @@
+{
+  "people": {
+    "player.male": {
+      "note": "男主角：初出江湖的青年，灰蓝布衣、发髻、无兵器；立绘 Muse 2026-11-05（原作没有主角长相）",
+      "coat": "566a8a", "pants": "31343c", "skin": "efc591", "hair": "1f2126",
+      "hair_style": "topknot", "hair_tie": "9299b5", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "31343c", "height": "standard", "build": "standard"
+    },
+    "player.female": {
+      "note": "女主角：初出江湖的青年，浅灰蓝上衣、裤装、单髻灰蓝带；立绘 Muse 2026-11-05（原作没有主角长相）",
+      "coat": "c0ccd6", "pants": "3f4f5d", "skin": "fcd7a7", "hair": "17181d",
+      "hair_style": "topknot", "hair_tie": "95a3b1", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "252932", "height": "standard", "build": "slim"
+    }
+  }
+}
