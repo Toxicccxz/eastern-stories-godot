@@ -462,6 +462,14 @@
      453.1,
      186.3
     ],
+    "door:city.xiangguo": [
+     178.7,
+     169.6
+    ],
+    "door:imperial.meridian": [
+     270.6,
+     216.8
+    ],
     "door:village.main": [
      519.5,
      53.8
@@ -2402,7 +2410,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "de6a41be34d8a1758c80ecfbb794c2fafe2df4eb6b68f8f42b9e7adaeb42f5eb",
+ "fingerprint": "95b30016b1ecfdd0543a295e837ba3a2299779fd3347f11f5b786ad8744f4895",
  "frame": [
   -769.1,
   14.6,
@@ -2416,13 +2424,14 @@
   "canyon": "b3f86abe68f12d76c5251c0b8a07ea53c85f2a7d181c454d145c746be1ca4ff3",
   "choyin": "54fbbbf8c2a0d3fd2ecd7469734689d96e1b431e481f777f04b6bef970fe191d",
   "chuenyu": "a0e68d841185594e6d9d9e5f5cf08f805fadffc64c6114e821c371f219a060a6",
-  "city": "902ce8d2b1a3da2a3ac34fff0c44efc5892fb810850ce5ea7ee6e16a2221738e",
+  "city": "e68c74a82b4cf3e6a7af81e5e59c81b987578ae3953b083b5fb96f83d6ca38d2",
   "cloud": "c2734ae8bd889b1fc3f47ed51dbdcf85d56e8f1645ee779de91eb3c951c344df",
   "death": "61ec12773235f2448b2942a6f84d7c8463c1aa1378bcc6dc479e061c9a5bb0f4",
   "fanfang": "6023d4154d8cba8df4f81efff3277c267ca7e8c0338d7bcd011a44404038ca94",
   "goathill": "de6a5c084e84d62ce2fe2ece92c7c664aa43c4eec54261767c5f5593b00f1258",
   "green": "6c705e469fccadba1e81a710bcd179418c9941ad403bcf13a4feb74086c0fedd",
   "guanbei": "b427dcc3d36cc63e53c5af074aeb078cd6de0b63660467d4a9a7f82d71555267",
+  "imperial": "d8b21b8388e3044cda3320221d7806d498b25e117f212e0bb6c684fd337e7833",
   "latemoon": "38bd0de80639b3285b10b5934484dbd2b1e3560300113ef85771f9169d1e93a4",
   "niling": "6b66090132eaec49be7408b446856136f229b68d1c0cba10305124ec8b6e3beb",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",

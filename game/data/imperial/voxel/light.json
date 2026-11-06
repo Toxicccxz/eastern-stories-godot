@@ -1,0 +1,76 @@
+{
+  "note": "皇城 (剧情总纲 §6 皇城卡: 红墙金瓦): the same sky as 京师 by day, a little whiter over the great courts; the dusk red on the walls; nights a deep blue with the palace lanterns warm against it — the night is this region's own time (第九章 B's patrols).",
+  "outdoor": {
+    "overcast": {
+      "sky": "a8a8a4",
+      "ambient": "b8b6ae",
+      "sun": "e0ddd4",
+      "note": "under cloud: a flat grey over the red walls"
+    },
+    "sky": {
+      "dawn": "e0d2c0",
+      "day": "c8d4e0",
+      "dusk": "e07a4c",
+      "night": "0a1026",
+      "midnight": "070c20"
+    },
+    "ambient": {
+      "dawn": "dcd0b8",
+      "day": "e8e2d0",
+      "dusk": "d89c70",
+      "night": "4e5e8c",
+      "midnight": "44547e"
+    },
+    "ambient_energy": {
+      "dawn": 0.44,
+      "day": 0.52,
+      "dusk": 0.48,
+      "night": 0.28,
+      "midnight": 0.26
+    },
+    "sun": {
+      "dawn": "ffd8a8",
+      "day": "fff4d4",
+      "dusk": "ff8c4a",
+      "night": "a8bcee",
+      "midnight": "98b0e6"
+    },
+    "sun_energy": {
+      "dawn": 0.6,
+      "day": 1.0,
+      "dusk": 0.85,
+      "night": 0.3,
+      "midnight": 0.26
+    }
+  },
+  "indoor": {
+    "ambient": {
+      "dawn": "c8b8a0",
+      "day": "d0c4ac",
+      "dusk": "c89c80",
+      "night": "605a70",
+      "midnight": "58526c"
+    },
+    "ambient_energy": {
+      "dawn": 0.36,
+      "day": 0.4,
+      "dusk": 0.38,
+      "night": 0.3,
+      "midnight": 0.28
+    },
+    "sun": {
+      "dawn": "ffd8b0",
+      "day": "fff0d0",
+      "dusk": "ffb080",
+      "night": "a0b8ec",
+      "midnight": "9ab4ec"
+    },
+    "sun_energy": {
+      "dawn": 0.26,
+      "day": 0.36,
+      "dusk": 0.3,
+      "night": 0.08,
+      "midnight": 0.06
+    }
+  }
+}

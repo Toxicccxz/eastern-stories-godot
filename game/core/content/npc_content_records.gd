@@ -387,13 +387,16 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	return definition
 
 
-## One `accept_fight` rule: {"family"?, "gender"?, "class"?, "emote"?, "say"?, "accept", "kill"?}.
+## One `accept_fight` rule: {"family"?, "gender"?, "class"?, "marks"?, "not_mark"?, "emote"?, "say"?, "accept", "kill"?}.
 static func _fight_rule(reader: ContentRecordReader) -> NpcFightRule:
 	var rule := NpcFightRule.new(
 		StringName(reader.text("family")), StringName(reader.text("gender")),
 		reader.text("emote"), reader.text("say"), reader.boolean("accept", false), reader.boolean("kill", false),
 		StringName(reader.text("class")),
 	)
+	for mark: String in reader.text_list("marks"):
+		rule.marks.append(mark)
+	rule.not_mark = reader.text("not_mark")
 	if rule.kill and not rule.accept:
 		reader.fail("kill", "only an accepted spar becomes a kill")
 	if not reader.has("accept"):

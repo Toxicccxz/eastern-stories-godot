@@ -1,0 +1,9 @@
+{
+	"rooms": [
+		{"id": "native:imperial/gate_court", "short": "午门内", "long": "进了铁门，眼前豁然一空：三面是高得望不到头的红墙，墙帽上一溜暗金的琉璃瓦，墙根返着一圈白碱，灰皮剥了几块，露出里面的砖。脚下的青砖大得一块能躺下一个人，砖缝里钻出几茎枯草。身后铁门两扇，门钉锈成了褐色。东边一道矮些的院门关着，门里传来吆喝声和刀碰刀的响，是侍卫营。\n", "outdoors": true, "exits": {"south": "es2:d/city/wumen", "north": "native:imperial/bridges"}},
+		{"id": "native:imperial/bridges", "short": "金水桥", "long": "一道弯弯的河从西流到东，河水是绿的，水面上漂着几片落叶。河上并排五座汉白玉的桥，当中一座最宽，栏杆上雕着龙，龙的爪子缺了好几根，青苔从缺口里长出来。桥北是太和门，门前一对铜狮子，被摸了几百年的狮头亮得发黄。\n", "outdoors": true, "exits": {"south": "native:imperial/gate_court", "north": "native:imperial/taihe_gate"}},
+		{"id": "native:imperial/taihe_gate", "short": "太和门", "long": "太和门是一座重檐的大门，檐下的彩画褪成了灰绿，几只燕子在斗拱里做了窝，门槛被踩出一道凹。门洞里站着两排禁军，红缨盔，手按着刀。门里就是太和殿前的广场。\n", "outdoors": true, "exits": {"south": "native:imperial/bridges", "north": "native:imperial/square"}},
+		{"id": "native:imperial/square", "short": "太和殿广场", "long": "好大一片广场。地上铺的砖一眼望不到边，中间一条御道是整块的石板，被车轮和脚磨得发亮。两边一排排大铜缸，缸身生了绿锈，缸沿有一圈被手摸亮的铜色。北面是三层汉白玉的台基，台上立着太和殿，金瓦红柱，殿前一座日晷、一座铜龟。上朝的时候，这里站满了人；不上朝的时候，风从广场上刮过去，什么都没有。\n", "outdoors": true, "exits": {"south": "native:imperial/taihe_gate", "north": "native:imperial/throne_hall"}},
+		{"id": "native:imperial/throne_hall", "short": "太和殿", "long": "殿里很高，也很暗。十几根金漆的柱子，柱上盘着龙，漆掉了的地方露出底下的红。地上铺着金砖——其实是深灰的，磨得能照见人影，边上几块裂了缝。殿的尽头是一座七层的台子，台上一把龙椅，椅背后一面雕龙的屏风。龙椅很大，坐上去的人显得很小。\n", "exits": {"south": "native:imperial/square"}}
+	]
+}

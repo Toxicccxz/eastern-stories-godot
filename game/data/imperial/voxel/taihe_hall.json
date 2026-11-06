@@ -1,0 +1,211 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "note": "太和殿 (native:imperial/throne_hall; 第九章 A): high and dark, the gilded dragon pillars with their lacquer gone in places to the red, 金砖 worn to a shine and cracked at the edges, the seven-step dais and the dragon throne with a thick cushion on it and a footstool before it (the boy's feet do not reach the floor); a carved dragon screen behind. Lamps on tall stands; the light falls in from the door.",
+  "palette": {
+    "wood": [
+      "8a2a22",
+      "9a3428",
+      "7a2420"
+    ],
+    "wall": "8a3026"
+  },
+  "wall_height": 5.0,
+  "wall_looks": [
+    {
+      "rect": [
+        -2000,
+        -2000,
+        2000,
+        2000
+      ],
+      "style": "plaster",
+      "wall": "8a3026",
+      "colors": [
+        "8a3026",
+        "963a2c",
+        "7e2c22",
+        "a04032"
+      ],
+      "note": "red-lacquered walls, dark with age"
+    }
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_wood": {
+      "style": "slabs",
+      "lengths": [
+        1,
+        1
+      ],
+      "depths": [
+        1,
+        1
+      ],
+      "cracks": 0.06,
+      "broken": 0.02,
+      "sunk": 0.0,
+      "tufts": 0.0,
+      "stones": [
+        "3a3a3e",
+        "424246",
+        "36363a",
+        "46464a"
+      ],
+      "worn": [
+        "5a5a5e",
+        "606064"
+      ],
+      "bed": "26262a",
+      "joint": 0.03,
+      "mud": "2e2e32",
+      "crack": "1e1e22",
+      "note": "金砖 (native:imperial/throne_hall: 其实是深灰的，磨得能照见人影，边上几块裂了缝)"
+    },
+    "boundary": {
+      "style": "scree",
+      "colors": [
+        "8a8478",
+        "948e82",
+        "807a6e"
+      ],
+      "gravel": 0.3,
+      "stones": 0.02,
+      "pebbles": [
+        "a8a294",
+        "9a9486"
+      ]
+    }
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "density": {
+      "floor_wood": 0.0,
+      "boundary": 0.0
+    },
+    "grass_colors": [
+      "8a8a52",
+      "9a9458",
+      "a8a062",
+      "7e8048"
+    ],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.0,
+    "butterflies": 0
+  },
+  "life": {
+    "imperial.throne_hall": {
+      "walls": "plaster"
+    }
+  },
+  "props": [
+    {
+      "kind": "stains",
+      "at": [
+        0,
+        60
+      ],
+      "size": [
+        120,
+        420
+      ],
+      "count": 10,
+      "colors": [
+        "5a5a5e",
+        "606064"
+      ],
+      "note": "the 金砖 worn bright from the door to the dais"
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        -260,
+        -120
+      ],
+      "paper": "e8b050",
+      "height": 3.8
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        260,
+        -120
+      ],
+      "paper": "e8b050",
+      "height": 3.8
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        -260,
+        160
+      ],
+      "paper": "e8b050",
+      "height": 3.8
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        260,
+        160
+      ],
+      "paper": "e8b050",
+      "height": 3.8
+    },
+    {
+      "kind": "glow",
+      "at": [
+        0,
+        -200
+      ],
+      "color": "ffd090",
+      "day": 0.3,
+      "night": 0.8,
+      "range": 9.0,
+      "height": 2.4,
+      "note": "the lamps by the throne"
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "6a5a48"
+    },
+    "native.npc.wumen_guard": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军: red-tasselled helmet"
+    },
+    "native.npc.yulan_zhao": {
+      "coat": "d8a830",
+      "hat": true,
+      "note": "the boy's yellow robe, a size too big"
+    },
+    "native.npc.yu_zijian_court": {
+      "coat": "7a2a2a",
+      "hat": true,
+      "note": "a minister's crimson court robe"
+    },
+    "native.npc.court_official": {
+      "coat": "3a4a6a",
+      "hat": true
+    },
+    "native.npc.court_herald": {
+      "coat": "5a4a3a",
+      "hat": true
+    },
+    "native.npc.fu_an": {
+      "coat": "4a5a4a"
+    },
+    "native.npc.feng_ce": {
+      "coat": "e0dcd4",
+      "note": "素白的武官袍服"
+    },
+    "native.npc.wei_zhizhong": {
+      "coat": "6a6458",
+      "hat": true,
+      "note": "the 相国's washed-out robe at court"
+    }
+  }
+}

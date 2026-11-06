@@ -495,6 +495,19 @@ static func _special_of(event: CombatSchedulerEvent, tactical: CombatTacticalExe
 ## attacks), or empty when nobody did.
 ## The blow that ended a spar (combatd.c: a friendly hit that drew kee stops both, and the
 ## hitter wins): its attacker and victim are kept.
+## NpcHooks.spar_won_mark (native, DECISIONS「第九章 A」): the player who won the spar against
+## `loser` gets its mark, and a way that mark finds opens (the 校武场's bouts, one after another).
+func _mark_spar_won(loser: NpcRuntimeState) -> void:
+	var hooks: NpcHooks = null if loser == null else loser.definition().hooks()
+	var player := _session.player_runtime()
+	if hooks == null or hooks.spar_won_mark.is_empty() or player == null or player.state == null:
+		return
+	player.state.marks[hooks.spar_won_mark] = 1
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	if map != null:
+		map.open_found_ways(hooks.spar_won_mark)
+
+
 func _note_spar_winner(event: CombatSchedulerEvent) -> void:
 	if _encounter.mode != CombatEncounterMode.Value.SPAR or event == null:
 		return
@@ -598,7 +611,9 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 			return
 		_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode, CombatEncounterResultKind.Value.SPAR_CONCLUDED, [], [], subjects)
 		if _spar_winner == player_id:
-			_session.progression_rewards().spar_won(_session.resident_npc(_spar_loser))
+			var loser: NpcRuntimeState = _session.resident_npc(_spar_loser)
+			_session.progression_rewards().spar_won(loser)
+			_mark_spar_won(loser)
 		return
 	# One fallen waits on the player's 了结 / 放过: the fight goes on until they choose.
 	if player_active and not _held.is_empty():

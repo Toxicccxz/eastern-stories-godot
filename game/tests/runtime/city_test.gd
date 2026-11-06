@@ -2,7 +2,8 @@ extends RefCounted
 
 ## 京师 (d/city, u/cp): fifty-five rooms on twelve maps — the 北驿道 south of 玉螺湖村's 三叉路口, the
 ## city's streets inside its walls, each building and 尚书府 on a map of its own (the remap), the
-## 太白酒楼's upper floor, the 院墙 and the 地下密室. The
+## 太白酒楼's upper floor, the 院墙 and the 地下密室; 第九章 A opened 相国府 (its yard, hall and study) and
+## put two 禁军 before the 午门 and the 武考's people on the 校武场 (these only from the ninth chapter). The
 ## guards of the five shut gates turn everyone back (guard.c do_out(): with no token, and anyway
 ## there is no way out); the 店小二 lets only one with marks/酒楼 up (go_up()), which a tip of ten
 ## taels gives, and a smaller one lands on the floor (owner, 京师 plan); the bank is no_fight;
@@ -16,7 +17,7 @@ const MapPlaces := preload("res://tests/support/map_places.gd")
 const MAPS: Dictionary = {
 	&"city.main": 33, &"city.bank_house": 1, &"city.weapon_house": 1, &"city.biaoju_house": 1, &"city.cloth_house": 1,
 	&"city.jiulou_house": 1, &"city.boots_house": 1, &"city.house1_house": 1, &"city.upstairs": 1, &"city.shangshu": 12,
-	&"city.wall_top": 1, &"city.cellar": 1,
+	&"city.wall_top": 1, &"city.cellar": 1, &"city.xiangguo": 3,
 }
 const GUARD: StringName = &"city.npc.guard"
 const WAITER: StringName = &"city.npc.waiter"
@@ -43,6 +44,9 @@ const PEOPLE: Dictionary = {
 	&"city.eastdoor2": {GUARD: 3},
 	&"city.street17": {&"snow.npc.scavenger": 1},
 	&"city.southdoor": {GUARD: 3},
+	&"city.wumen": {&"native.npc.wumen_guard": 2},
+	&"city.xiangguo_hall": {&"native.npc.wei_zhizhong": 1},
+	&"city.xiangguo_yard": {&"native.npc.xiangguo_servant": 1},
 	&"city.shangshu.gate": {&"city.npc.shangshu.guard": 1},
 	&"city.shangshu.keting": {&"city.npc.shangshu.shangshu": 1},
 	&"city.shangshu.road1": {&"city.npc.shangshu.huyuan": 1},
@@ -126,6 +130,8 @@ func _test_city(tree: SceneTree, session: WorldSessionController) -> void:
 	for map_id: StringName in MAPS:
 		people.append_array(session.world_map_of(map_id).resident_npcs())
 	for npc: NpcRuntimeState in people:
+		if not npc.exists_in_map:
+			continue # off the stage (第九章 A's 校武场 people, the chapter not begun)
 		var zone: StringName = npc.world_location().zone_id
 		if not found.has(zone):
 			found[zone] = {}

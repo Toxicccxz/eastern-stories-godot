@@ -1,0 +1,174 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "相国府 (native:city/xiangguo_yard, hall, study; 第九章 A; xiangguo/gate.c: 寒酸得多): a small swept yard with cabbages, a bean trellis and a hen; the old hall with its few chairs, the square table and a chipped teapot, a yellowed scroll (先天下之忧而忧); the study buried in books, an oil lamp with a short wick, a couch with an old quilt by the window. Poor and plain, used every day.",
+  "palette": {
+    "wood": [
+      "5a4634",
+      "6a5240",
+      "4a3a2c"
+    ],
+    "wall": "c0baae"
+  },
+  "wall_height": 3.0,
+  "wall_looks": [
+    {
+      "rect": [
+        -1000,
+        -1000,
+        1000,
+        1000
+      ],
+      "style": "plaster",
+      "wall": "c0baae",
+      "colors": [
+        "c0baae",
+        "b4aea2",
+        "aca69a",
+        "c8c2b6"
+      ],
+      "note": "whitewash flaking to the brick"
+    }
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_yard": {
+      "style": "scree",
+      "colors": [
+        "8a8070",
+        "948a78",
+        "7e7466"
+      ],
+      "gravel": 0.2,
+      "stones": 0.02,
+      "pebbles": [
+        "a49a88",
+        "968c7a"
+      ],
+      "note": "the yard swept to the earth"
+    },
+    "floor_wood": {
+      "style": "boards",
+      "colors": [
+        "6a5240",
+        "7a6048",
+        "5a4634"
+      ],
+      "note": "old boards, worn grey by the door"
+    },
+    "boundary": {
+      "style": "scree",
+      "colors": [
+        "8a8478",
+        "948e82",
+        "807a6e"
+      ],
+      "gravel": 0.3,
+      "stones": 0.02,
+      "pebbles": [
+        "a8a294",
+        "9a9486"
+      ]
+    }
+  },
+  "flora": {
+    "grass_density": 0.04,
+    "density": {
+      "floor_yard": 0.03,
+      "floor_wood": 0.0,
+      "boundary": 0.3
+    },
+    "grass_colors": [
+      "7a8a4a",
+      "8a9a54",
+      "6e7e42",
+      "96a25c"
+    ],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.3,
+    "butterflies": 0
+  },
+  "life": {
+    "city.xiangguo_hall": {
+      "walls": "plaster"
+    },
+    "city.xiangguo_study": {
+      "walls": "plaster"
+    }
+  },
+  "props": [
+    {
+      "kind": "wall_scroll",
+      "at": [
+        224,
+        -360
+      ],
+      "size": [
+        56,
+        14
+      ],
+      "height": 1.9,
+      "wall_mounted": true,
+      "note": "先天下之忧而忧, yellowed"
+    },
+    {
+      "kind": "candlestick",
+      "at": [
+        -200,
+        -260
+      ],
+      "size": [
+        12,
+        12
+      ],
+      "lit": true,
+      "note": "the oil lamp in the study"
+    },
+    {
+      "kind": "glow",
+      "at": [
+        -200,
+        -260
+      ],
+      "color": "ffc078",
+      "day": 0.1,
+      "night": 0.7,
+      "range": 5.0,
+      "height": 1.0
+    }
+  ],
+  "critters": [
+    {
+      "kind": "chicken",
+      "rect": [
+        80,
+        120,
+        360,
+        320
+      ],
+      "count": 1,
+      "colors": [
+        "e8dcc8",
+        "c8b89a",
+        "c83a2a"
+      ],
+      "note": "the 相国's one hen in the cabbages"
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "6a5a48"
+    },
+    "native.npc.wei_zhizhong": {
+      "coat": "8a8478",
+      "hat": true,
+      "note": "a washed-out robe, patched at the cuff"
+    },
+    "native.npc.xiangguo_servant": {
+      "coat": "5a5048"
+    }
+  }
+}
