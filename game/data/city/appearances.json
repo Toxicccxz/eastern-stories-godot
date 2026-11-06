@@ -1,0 +1,138 @@
+{
+  "people": {
+    "city.npc.shangshu.shangshu": {
+      "note": "庾子建：兵部尚书，皇上身边的红人，当年战功赫赫；深红官袍金补子、乌纱帽、佩刀，威严精明，不画成脸谱奸臣；立绘 Muse 2026-11-06",
+      "coat": "8d0a10", "pants": "1c1c20", "skin": "d9b48c", "hair": "3a3a40",
+      "hair_style": "topknot", "headwear": "official_cap", "headwear_color": "14151a",
+      "beard": "chin_three", "waist": "belt", "prop": "blade_waist", "prop_color": "6a4a2e",
+      "accent": "2f2f32", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "city.npc.chen": {
+      "note": "陈天星：振远镖局总镖头「刀拳双绝」，六十三岁老当益壮；深靛镖师袍，红色的多情刀；立绘 Muse 2026-11-06",
+      "coat": "2f3a56", "pants": "1b2136", "skin": "be987b", "hair": "8a8d94",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "c1272d", "accent": "090a16", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "city.npc.shangshu.qing_chen": {
+      "note": "庾清尘：尚书府千金，笃信道教，一切素雅；月白衣裙、低髻无饰、普通长剑；立绘 Muse 2026-11-06",
+      "coat": "ecede8", "pants": "464d56", "skin": "f2d3c0", "hair": "2a282f",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "5a4632", "accent": "3a3638", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "city.npc.microsof": {
+      "note": "黑你没商量（魏阮）：钱庄老板，精明、黑心暴富、小肚鸡肠；深紫金边阔袍、金簪、钱袋、佩长剑；立绘 Muse 2026-11-06",
+      "coat": "49325e", "pants": "261830", "skin": "e2b286", "hair": "1e1524",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "pouch_color": "6a4a2e",
+      "prop": "sword_waist", "prop_color": "3a2a22", "tassel_color": "c48c34", "accent": "c48c34",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "city.npc.boss": {
+      "note": "钱掌柜「钱千万」：太白酒楼掌柜，像一个白白胖胖的大面团，一双枣核小眼滴溜溜乱转；立绘 Muse 2026-11-06",
+      "coat": "1a422b", "pants": "2c6b44", "skin": "eab98c", "hair": "23211c",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "849660",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "city.npc.weaponor": {
+      "note": "万晓生：武器店掌柜，须发皆白，闯荡江湖近五十年；深灰蓝袍、腰悬长剑；立绘 Muse 2026-11-06",
+      "coat": "3b4b5a", "pants": "252f3c", "skin": "d8a984", "hair": "d8d5d0",
+      "hair_style": "topknot", "beard": "long", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "4a4450", "accent": "14161f", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "city.npc.clother": {
+      "note": "四喜绸缎庄老板娘：原作没写长相，按身份画高髻金簪、梅紫金纹绸裙；白鞘的无情剑；立绘 Muse 2026-11-06",
+      "coat": "52374a", "pants": "301b2d", "skin": "dbb58f", "hair": "180a16", "hair_tie": "c57e48",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "e8ecf0", "accent": "c57e48", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "city.npc.shoer": {
+      "note": "李掌柜：不难看的女人，经营祖传鞋店；青绿交领短衣配长裙、低髻布带，白鞘的无情剑；立绘 Muse 2026-11-06",
+      "coat": "227771", "pants": "025c5d", "skin": "e0c3a7", "hair": "141c1d", "hair_tie": "269282",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "e8ecf0", "accent": "269282", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "city.npc.waiter": {
+      "note": "太白酒楼的店小二：笑眯眯地忙着，拿挂在脖子上的抹布擦脸；比雪亭镇那个利落体面；立绘 Muse 2026-11-06",
+      "coat": "355271", "pants": "1d2e40", "skin": "ebc299", "hair": "181327",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "e6e2e0",
+      "extras": ["towel_neck"], "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "city.npc.shangshu.guard": {
+      "note": "尚书府门房：没什么官衔，想见尚书的白衣都对他毕恭毕敬；原作没写年纪，按四十多岁画，背手抬颏；立绘 Muse 2026-11-06",
+      "coat": "5f3d30", "pants": "38251f", "skin": "e0b48c", "hair": "1f1414",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "5d3d2e",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "city.npc.guard": {
+      "note": "京师守城兵：站岗的京师官兵，有组织有纪律；黑衣红边、铁盔护肩，长剑，和乔阴、县城的官兵分开；立绘 Muse 2026-11-06",
+      "coat": "27292d", "pants": "101216", "skin": "cfa178", "hair": "1a191a",
+      "hair_style": "topknot", "headwear": "helmet", "headwear_color": "4f4a45", "beard": "none",
+      "waist": "belt", "prop": "sword_waist", "prop_color": "3a2a22", "accent": "712f2d",
+      "extras": ["armor"], "armor_color": "3a3836", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "city.npc.shangshu.huyuan": {
+      "note": "尚书府护院：原作三十到五十九岁随机，按四十岁画；壮实、佩刀、皮护肩；立绘 Muse 2026-11-06",
+      "coat": "3e4c5c", "pants": "26303c", "skin": "ddae7f", "hair": "151b20",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "3f4a59", "accent": "9a7c68", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "city.npc.shangshu.huyuan1": {"same_as": "city.npc.shangshu.huyuan"},
+    "city.npc.shangshu.maid": {
+      "note": "尚书府丫鬟：管厨务，一年四季呆在厨房里，粗重杂活也掩不住天生丽质；粉红长衫、腰前深色围布、单辫；立绘 Muse 2026-11-06",
+      "coat": "c06978", "pants": "3b4a5e", "skin": "f1be90", "hair": "131019", "hair_style": "long",
+      "beard": "none", "waist": "apron", "apron_color": "3b4a5e", "prop": "none",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "city.npc.shangshu.gardener": {
+      "note": "花匠：老老实实的庄园花匠，风霜刻满额头，没人注意过他；手拿花铲，身上那把剑低挂腰侧半掩在衣摆里；立绘 Muse 2026-11-06",
+      "coat": "7c6e63", "pants": "544742", "skin": "d6a373", "hair": "636262",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "4d403d", "accent": "3d3231", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "city.npc.trader": {
+      "note": "商人：从关外来的；皮帽、毛领厚袍，风吹日晒的脸；立绘 Muse 2026-11-06",
+      "coat": "573c2c", "pants": "33241d", "skin": "b58c6a", "hair": "0f090b",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "c5b091",
+      "beard": "chin_three", "waist": "belt", "prop": "none", "accent": "8d6c57",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "city.npc.vendor": {
+      "note": "卖艺壮汉：满脸横肉，口水四溅地说着什么；光膀子、短打，旧褂子披在肩上；立绘 Muse 2026-11-06",
+      "coat": "d39c70", "pants": "3c4856", "skin": "e3ae7d", "hair": "0c090f",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "4a2a33",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "city.npc.caker": {
+      "note": "京师天桥的卖饼大叔：相貌朴实，憨厚和蔼地笑；原作和乔阴那个文字一样，画成另一个人，端一盘饼；立绘 Muse 2026-11-06",
+      "coat": "53647a", "pants": "364353", "skin": "e4b87c", "hair": "191824",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "2e3744",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "city.npc.dumpling_seller": {
+      "note": "京师天桥卖包子的：「热腾腾的包子，来一笼吧？」；和乔阴那个分开画，布帽、捧蒸笼；立绘 Muse 2026-11-06",
+      "coat": "242f40", "pants": "222833", "skin": "dbaa7a", "hair": "0f0f15",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "40536a", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "425469", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "city.npc.walker.male": {
+      "note": "行人（男）：京城街上来往的人，原作二十到六十四岁随机，按三十岁上下画；布衣比乡下体面；立绘 Muse 2026-11-06",
+      "coat": "365b65", "pants": "28424d", "skin": "e5b98f", "hair": "263c48",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "59787e",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "city.npc.walker.female": {
+      "note": "行人（女）：京城街上来往的人，按三十岁上下画；低髻布簪、锈红衣配蓝灰裙；立绘 Muse 2026-11-06",
+      "coat": "b54e43", "pants": "5d7385", "skin": "ecbb8a", "hair": "060508",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "873230",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    }
+  }
+}

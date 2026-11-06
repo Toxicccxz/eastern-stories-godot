@@ -345,8 +345,9 @@ func _check_big_screen(tree: SceneTree) -> void:
 
 
 ## Someone from a region whose people have no pictures yet (乔阴's old man).
+## Someone made up here, so no region's pictures ever reach them.
 func _stranger() -> NpcRuntimeState:
-	return NpcRuntimeState.new(&"test.stranger", GameContent.catalog().npc(&"city.npc.waiter"), &"", &"", CharacterState.new())
+	return NpcRuntimeState.new(&"test.stranger", NpcDefinition.new(&"test.npc.stranger", "", "路人"), &"", &"", CharacterState.new())
 
 
 ## Whether the pixel touches a see-through one or the picture's edge.
