@@ -168,6 +168,14 @@ func _templates(tree: SceneTree) -> void:
 	_show.round_over()
 	await tree.create_timer(1.6).timeout
 	check(you.position.is_equal_approx(Vector3.ZERO), "the round over: the one hit home again (%s)" % you.position)
+	# The round ends on the blow itself (the strip's last line): home once its show is done.
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0))
+	_show.round_over()
+	check(_show._running(YOU) and not _show._knock.has(YOU), "knocked and the round over in one frame: the show goes on")
+	await tree.create_timer(0.6).timeout
+	check(you.position.z > 0.1, "knocked back first (%.2f)" % you.position.z)
+	await tree.create_timer(2.5).timeout
+	check(you.position.is_equal_approx(Vector3.ZERO), "then home on its own (%s)" % you.position)
 	_show.end()
 	_show.pace = 1.0
 	TestFeel.restore()

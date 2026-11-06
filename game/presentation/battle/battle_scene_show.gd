@@ -72,6 +72,8 @@ var _rest: Dictionary[StringName, Vector3] = {}
 var _knock: Dictionary[StringName, Vector3] = {}
 var _tweens: Dictionary[StringName, Tween] = {}
 var _wound_up: Dictionary[StringName, bool] = {}
+## Figures to ease home once the show they are in ends (the round ended on their blow).
+var _go_home: Dictionary[StringName, bool] = {}
 var _effects: Array[Node3D] = []
 var _effect_tweens: Dictionary[Node3D, Tween] = {}
 var _earned_shown: bool = false
@@ -112,6 +114,7 @@ func end() -> void:
 	_rest.clear()
 	_knock.clear()
 	_wound_up.clear()
+	_go_home.clear()
 	for effect: Node3D in _effects:
 		var tween: Tween = _effect_tweens.get(effect)
 		if tween != null and tween.is_valid():
@@ -142,8 +145,11 @@ func settle(stances: Array) -> void:
 			rest = _direction(model, target) * CLOSE_STANCE
 		var changed: bool = not _rest.has(id) or not _rest[id].is_equal_approx(rest)
 		_rest[id] = rest
-		if changed and not _running(id):
-			_ease_home(id, model, seconds)
+		if changed:
+			if _running(id):
+				_go_home[id] = true
+			else:
+				_ease_home(id, model, seconds)
 
 
 ## The round is over: everyone knocked back eases home (回合间归位).
@@ -154,7 +160,12 @@ func round_over() -> void:
 	for id: StringName in _knock.keys():
 		_knock.erase(id)
 		var model: Node3D = _model(id)
-		if model != null and not _running(id):
+		if model == null:
+			continue
+		# Still in the blow's own show (the round ended on it): home once that is done.
+		if _running(id):
+			_go_home[id] = true
+		else:
 			_ease_home(id, model, seconds)
 
 
@@ -454,6 +465,10 @@ func _stop(id: StringName) -> void:
 
 func _done(id: StringName) -> void:
 	_tweens.erase(id)
+	if _go_home.erase(id):
+		var model: Node3D = _model(id)
+		if model != null:
+			_ease_home(id, model, _seconds(_feel().scene_return_seconds))
 
 
 ## Whether `id`'s figure is in a show now.
