@@ -47,6 +47,22 @@ static func is_own(state: CharacterState, action: CombatActionDefinition, catalo
 	return _set_has(catalog.combat_actions().race_action_set(NpcCharacterStateFactory.HUMAN_RACE_ID), action.action_id)
 
 
+## 战斗拍数 B (计划 D's 见识录, the first step): whether the player reads a school's 打法词 — the
+## school is their own, or they have watched its moves one more time than 识招 asks
+## (recognise_after + 1, the third time at 2) over all its moves together; the knob off: always.
+static func style_known(state: CharacterState, skill: SkillDefinition, rules: CombatDecisionRules, catalog: ContentCatalog) -> bool:
+	if skill == null or skill.action_set() == null:
+		return false
+	if rules == null or rules.recognise_after <= 0:
+		return true
+	var seen: int = 0
+	for action: CombatActionDefinition in skill.action_set().actions():
+		if is_own(state, action, catalog):
+			return true
+		seen += times_seen(state, action.action_id)
+	return seen >= rules.recognise_after + 1
+
+
 ## The tag the counter ring says beats `tag`, &"" for 平.
 static func weakness(tag: StringName) -> StringName:
 	for other: StringName in CombatMoveTags.ALL:

@@ -108,6 +108,9 @@ func _test_fight_clock(tree: SceneTree) -> void:
 ## round can tell come closer, all before the next.
 func _test_lines(tree: SceneTree) -> void:
 	TestFeel.use()
+	# 战斗拍数 B: under 自动 the lines come at the 快 pace; the pin below is 手动's.
+	var manual_before: bool = BattlePace.manual_turns
+	BattlePace.manual_turns = true
 	_ui.refresh_projection()
 	_ui._line_queue.clear()
 	_ui._told.clear()
@@ -124,6 +127,18 @@ func _test_lines(tree: SceneTree) -> void:
 	_ui._tell_lines(0.12)
 	told.append(_ui._told.size())
 	_check(told == [1, 1, 2, 3], "told at 0, 0.12, 0.24 s: %s" % [told])
+	BattlePace.manual_turns = false
+	_ui.refresh_projection()
+	_ui._line_queue.clear()
+	_ui._told.clear()
+	_ui._line_wait = 0.0
+	var quick: Array[BattleNarrationLine] = []
+	for index: int in 3:
+		quick.append(BattleNarrationLine.new("快%d句" % index))
+	_ui._queue_lines(quick)
+	_check(_ui._projection.beats_shown() and is_equal_approx(_ui._line_spacing, 0.12 * float(BattlePace.percent(BattlePace.Speed.FAST)) / 100.0), "自动 with the beats: the lines at the 快 pace (%.3f s)" % _ui._line_spacing)
+	BattlePace.manual_turns = manual_before
+	_ui.refresh_projection()
 	var many: Array[BattleNarrationLine] = []
 	for index: int in 20:
 		many.append(BattleNarrationLine.new("句%d" % index))

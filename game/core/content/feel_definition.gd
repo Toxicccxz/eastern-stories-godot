@@ -104,6 +104,8 @@ var _fall_ms: int = 0
 var _end_stamp_ms: int = 0
 var _turn_cue_ms: int = 0
 var _intent_pulse_ms: int = 0
+## 战斗拍数 B: a beat won slides into the panel's chip groove in this long (0: at once).
+var _beat_chip_ms: int = 0
 
 var map_fade_out_seconds: float:
 	get:
@@ -210,6 +212,9 @@ var turn_cue_seconds: float:
 var intent_pulse_seconds: float:
 	get:
 		return float(_intent_pulse_ms) / 1000.0
+var beat_chip_seconds: float:
+	get:
+		return float(_beat_chip_ms) / 1000.0
 
 
 ## Seconds a bubble saying `line` stays up (0: no bubbles).
@@ -284,6 +289,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_end_stamp_ms = int(values.get("end_stamp_ms", _end_stamp_ms))
 	_turn_cue_ms = int(values.get("turn_cue_ms", _turn_cue_ms))
 	_intent_pulse_ms = int(values.get("intent_pulse_ms", _intent_pulse_ms))
+	_beat_chip_ms = int(values.get("beat_chip_ms", _beat_chip_ms))
 	return self
 
 
@@ -302,7 +308,7 @@ const KEYS: Array[String] = [
 	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
 	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms", "session_start_slice_ms", "coach_ride_ms",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
-	"turn_cue_ms", "intent_pulse_ms",
+	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms",
 ]
 
 

@@ -63,6 +63,9 @@ var _valid_enabled_uses: Array[StringName] = []
 ## 战斗拍数 A (DECISIONS「战斗拍数」): how this school wins its third beat and what it locks
 ## (`skeleton`); null: only the round's base beats.
 var skeleton: CombatSchoolSkeleton = null
+## 战斗拍数 B: the order of the moves' intent groups on the panel (`groups`; the moves' own
+## `group` names them); empty: as the groups first appear.
+var groups: Array[String] = []
 var _actions: Array[CombatActionDefinition] = []
 var _practice: PracticePolicy
 ## valid_learn()'s notify_fail() lines by the rule that refused (VALID_LEARN_KEYS).
@@ -257,6 +260,8 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		definition._actions.append(CombatActionDefinition.from_record(action, id_prefix))
 	if not definition._actions.is_empty() and not CombatActionSet.new(definition._actions).is_valid():
 		reader.fail("actions", "action IDs must be unique")
+	for group: String in reader.text_list("groups"):
+		definition.groups.append(group)
 	var skeleton_reader: ContentRecordReader = reader.child("skeleton")
 	if skeleton_reader != null:
 		var action_ids: Array[StringName] = []

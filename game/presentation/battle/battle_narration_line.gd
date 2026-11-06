@@ -48,6 +48,17 @@ var special_title: String:
 	get: return _special_title
 var is_special: bool:
 	get: return not _special_title.is_empty()
+## 战斗拍数 B (DECISIONS「战斗拍数」): which beat of its actor's round this line belongs to (1:
+## the first; the reader counts them), and, for a line the strip folded (「又出两招 −12 −9」),
+## the lines it stands for (empty for any other line).
+var _beat_index: int = 1
+var beat_index: int:
+	get: return _beat_index
+var _folded: Array[BattleNarrationLine] = []
+var folded: Array[BattleNarrationLine]:
+	get: return _folded
+var is_folded: bool:
+	get: return not _folded.is_empty()
 
 
 func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = ColoredLine.PLAIN, p_summary: String = "") -> void:
@@ -71,6 +82,18 @@ func with_blow(p_actor_id: StringName, p_target_id: StringName, p_move: String, 
 func with_special(p_actor_id: StringName, title: String) -> BattleNarrationLine:
 	_actor_id = p_actor_id
 	_special_title = title
+	return self
+
+
+## The beat this line belongs to (the reader, once).
+func with_beat(index: int) -> BattleNarrationLine:
+	_beat_index = maxi(1, index)
+	return self
+
+
+## The lines this folded line stands for (the strip, once).
+func with_folded(lines: Array[BattleNarrationLine]) -> BattleNarrationLine:
+	_folded = lines.duplicate()
 	return self
 
 

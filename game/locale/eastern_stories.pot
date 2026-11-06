@@ -4273,7 +4273,7 @@ msgstr ""
 msgid "虚"
 msgstr ""
 
-#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd
+#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd presentation/battle/battle_action_panel.gd presentation/battle/battle_participant_card.gd
 msgid "守"
 msgstr ""
 
@@ -4305,7 +4305,7 @@ msgstr ""
 msgid "隙"
 msgstr ""
 
-#: core/combat/decision/combat_school_skeleton.gd
+#: core/combat/decision/combat_school_skeleton.gd presentation/battle/battle_action_panel.gd
 msgid "压"
 msgstr ""
 
@@ -6185,17 +6185,20 @@ msgid "二"
 msgstr ""
 
 #. one glyph of a number written in Chinese characters (一, 二, 三...).
-#: core/text/chinese_number.gd
+#. the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
+#: core/text/chinese_number.gd presentation/battle/battle_presentation_controller.gd
 msgid "三"
 msgstr ""
 
 #. one glyph of a number written in Chinese characters (一, 二, 三...).
-#: core/text/chinese_number.gd
+#. the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
+#: core/text/chinese_number.gd presentation/battle/battle_presentation_controller.gd
 msgid "四"
 msgstr ""
 
 #. one glyph of a number written in Chinese characters (一, 二, 三...).
-#: core/text/chinese_number.gd
+#. the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
+#: core/text/chinese_number.gd presentation/battle/battle_presentation_controller.gd
 msgid "五"
 msgstr ""
 
@@ -6625,9 +6628,10 @@ msgid "半个时辰"
 msgstr ""
 
 #. the number two before a measure word (两个时辰), not counted as 二.
+#. the count of moves in a folded battle line: 两 / 三 / 四 / 五, digits beyond.
 #. es2:obj/money/silver money.base_unit
 #. es2:obj/money/gold money.base_unit
-#: core/world/coach_lines.gd data/common/items.json
+#: core/world/coach_lines.gd presentation/battle/battle_presentation_controller.gd data/common/items.json
 msgid "两"
 msgstr ""
 
@@ -6725,19 +6729,29 @@ msgid "$N攻击$n的$l"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "出招"
+msgid "引"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "姿态"
+msgid "逐"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "快捷操作"
+msgid "逼"
+msgstr ""
+
+#. the battle panel's button that gives up the beats left this round (the enemies act, the next round waits for you).
+#: presentation/battle/battle_action_panel.gd
+msgid "收势"
+msgstr ""
+
+#. hover of 收势.
+#: presentation/battle/battle_action_panel.gd
+msgid "放弃这一回合剩下的拍，让对手出招；赢来的拍照样归你。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "现在没有可用的操作。"
+msgid "取消已排定的操作"
 msgstr ""
 
 #. enforce name
@@ -6746,7 +6760,16 @@ msgid "加力"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "取消已排定的操作"
+msgid "现在没有可用的操作。"
+msgstr ""
+
+#. the small corner of an order button: its price in beats.
+#: presentation/battle/battle_action_panel.gd
+msgid "%d拍"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "{action} · 目标：{target}"
 msgstr ""
 
 #. the battle panel's status while the fight's clock waits for the player's order.
@@ -6754,12 +6777,31 @@ msgstr ""
 msgid "等你出招"
 msgstr ""
 
+#. the battle panel: what the player's beats went on this round, in order ({moves}: 快→虚).
+#: presentation/battle/battle_action_panel.gd
+msgid "这一回合已出：{moves}"
+msgstr ""
+
+#. the battle panel: what the player's beats went on this round, in order ({moves}: 快→虚).
+#: presentation/battle/battle_action_panel.gd
+msgid "上一回合：{moves}"
+msgstr ""
+
 #: presentation/battle/battle_action_panel.gd
 msgid "排定：%s"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "{action} · 目标：{target}"
+msgid "忙"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "停"
+msgstr ""
+
+#. the title over the card of one who used a special move the game has no name for.
+#: presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd
+msgid "绝招"
 msgstr ""
 
 #. the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
@@ -6784,11 +6826,6 @@ msgstr ""
 msgid "加力 +%d"
 msgstr ""
 
-#. a move button: {name} the move, {tag} its one-character tag (快 / 重 / 虚 / 守 / 平).
-#: presentation/battle/battle_action_panel.gd
-msgid "{name} · {tag}"
-msgstr ""
-
 #. the battle panel's switch between the player's turns and ES2's auto-fight: the text names what pressing it does.
 #: presentation/battle/battle_action_panel.gd
 msgid "改为自动"
@@ -6800,11 +6837,26 @@ msgid "改为手动"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "现在：每回合等你出招；按下后战斗自己打，招式随机。"
+msgid "现在：每一拍等你出招；按下后战斗自己打，拍自动补满、演出加快。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "现在：战斗自己打；按下后每回合等你出招。"
+msgid "现在：战斗自己打；按下后每一拍等你出招。"
+msgstr ""
+
+#. a move button's sub line: {tag} the move's tag; it beats the target's next move on the ring.
+#: presentation/battle/battle_action_panel.gd
+msgid "{tag} · 克他这招"
+msgstr ""
+
+#. a move button's sub line: {tag} the move's tag; the target's next move beats it on the ring.
+#: presentation/battle/battle_action_panel.gd
+msgid "{tag} · 被他克"
+msgstr ""
+
+#. a move button's sub line: {tag} the move's tag, {cost} its price in beats.
+#: presentation/battle/battle_action_panel.gd
+msgid "{tag} · {cost}拍"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -6922,6 +6974,34 @@ msgstr ""
 #. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
 #: presentation/battle/battle_action_presentation_catalog.gd ui/world/shared_ui_nearby.gd
 msgid "{action}：{what}"
+msgstr ""
+
+#: presentation/battle/battle_beat_chips.gd
+msgid "势"
+msgstr ""
+
+#: presentation/battle/battle_beat_chips.gd
+msgid "功"
+msgstr ""
+
+#: presentation/battle/battle_beat_chips.gd
+msgid "物"
+msgstr ""
+
+#: presentation/battle/battle_beat_chips.gd
+msgid "逃"
+msgstr ""
+
+#: presentation/battle/battle_beat_chips.gd
+msgid "法"
+msgstr ""
+
+#: presentation/battle/battle_beat_chips.gd presentation/battle/battle_participant_card.gd
+msgid "绝"
+msgstr ""
+
+#: presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/map_page.gd
+msgid "？"
 msgstr ""
 
 #. the stamp over the card of one who fell unconscious.
@@ -7224,11 +7304,6 @@ msgstr ""
 msgid "{who} · {move} → {whom} · 没伤到"
 msgstr ""
 
-#. the title over the card of one who used a special move the game has no name for.
-#: presentation/battle/battle_narrator.gd
-msgid "绝招"
-msgstr ""
-
 #. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
 #: presentation/battle/battle_participant_card.gd
 msgid "了结"
@@ -7267,6 +7342,21 @@ msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
 msgid "无法行动"
+msgstr ""
+
+#. an enemy's card: the beats it still has this round.
+#: presentation/battle/battle_participant_card.gd
+msgid "剩 %d 拍"
+msgstr ""
+
+#. a battle card's tags line when more tags than fit: {count} more in the hover.
+#: presentation/battle/battle_participant_card.gd
+msgid "…+%d"
+msgstr ""
+
+#. a battle card's hover: the tags that did not fit on the card.
+#: presentation/battle/battle_participant_card.gd
+msgid "还有：%s"
 msgstr ""
 
 #. an enemy's card: it will guard on its next beat (combatd.c fight()'s courage gate) instead of a move.
@@ -7416,6 +7506,11 @@ msgstr ""
 #. the stamp over the battle cards when the fight is lost.
 #: presentation/battle/battle_presentation_controller.gd
 msgid "败"
+msgstr ""
+
+#. the battle strip's folded line for an actor's later beats of the round: {name} who, {count} how many moves (两 / 三), {results} each blow's −N / 闪 / 挡.
+#: presentation/battle/battle_presentation_controller.gd
+msgid "{name}又出{count}招 {results}"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -7885,10 +7980,6 @@ msgstr ""
 msgid "破绽：{tag}"
 msgstr ""
 
-#: presentation/codex/codex_content.gd ui/world/map_page.gd
-msgid "？"
-msgstr ""
-
 #: presentation/codex/codex_content.gd
 msgid "见过 {n} 次"
 msgstr ""
@@ -8178,6 +8269,11 @@ msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd
 msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
+msgstr ""
+
+#. a battle button greyed because the move or action costs more beats than the player has left this round.
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "拍不够"
 msgstr ""
 
 #. an NPC's read beat changed on what it saw: $N its name.

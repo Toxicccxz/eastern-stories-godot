@@ -49,7 +49,13 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 				if plan != null:
 					shown.beat_plan_tags = plan.tags()
 					shown.beat_plan_confirmed = plan.confirmed_count()
-			shown.beats = coordinator.round_beats_of(binding.character_id)
+			# 战斗拍数 B: the beats as they stand now (the round to come between rounds).
+			shown.beats = coordinator.beats_now(binding.character_id)
+			shown.round_running = coordinator.round_running()
+			if binding.character_id != player_id and shown.hostile_to_player:
+				var school: SkillDefinition = coordinator.school_of(binding.character_id)
+				if school != null and MoveRecognition.style_known(session.player_runtime().state, school, GameContent.catalog().pacing().decision_rules(), GameContent.catalog()):
+					shown.style_word = coordinator.style_word_of(binding.character_id)
 			shown.conditions = state.conditions.sorted_condition_ids()
 			shown.show_mana = GameContent.catalog().stat_shown(&"mana", state)
 			shown.show_atman = GameContent.catalog().stat_shown(&"atman", state)
@@ -93,7 +99,42 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 		projection.stance = coordinator.stance()
 		projection.locked_moves = coordinator.locked_moves()
 		projection.beat_rules = coordinator.beat_rules()
+		# 战斗拍数 B: the chips, the costs, the groups, the target's next move for the sub lines.
+		projection.player_beats = coordinator.beats_now(player_id)
+		projection.last_round_beats = coordinator.round_beats_of(player_id)
+		projection.round_running = coordinator.round_running()
+		projection.unaffordable_moves = coordinator.unaffordable_moves()
+		for move: CombatActionDefinition in projection.moves:
+			projection.move_costs[move.action_id] = coordinator.move_cost(move.action_id)
+		for info: CombatTacticalActionInfo in actions:
+			projection.action_costs[info.action_id] = coordinator.action_cost(info)
+		projection.move_groups = _move_groups(session.player_runtime().state, projection.moves)
+		var target: BattleParticipantProjection = projection.participant(current)
+		if target != null and target.next_move_known and not target.next_move_guard:
+			projection.opponent_tag = target.next_move_tag
 	return projection
+
+
+## 战斗拍数 B: the order of the intent groups of the player's moves: the school's `groups`
+## when the moves are one school's, else as the groups first appear.
+static func _move_groups(state: CharacterState, moves: Array[CombatActionDefinition]) -> Array[String]:
+	var order: Array[String] = []
+	if moves.is_empty():
+		return order
+	for skill_id: StringName in state.skills.raw_skill_ids():
+		var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
+		if skill == null or skill.groups.is_empty() or skill.action_set() == null:
+			continue
+		var ids: Array[StringName] = []
+		for action: CombatActionDefinition in skill.action_set().actions():
+			ids.append(action.action_id)
+		if ids.has(moves[0].action_id):
+			order = skill.groups.duplicate()
+			break
+	for move: CombatActionDefinition in moves:
+		if not move.group.is_empty() and not order.has(move.group):
+			order.append(move.group)
+	return order
 
 
 ## A finished encounter the panel never projected: who the player is, and the

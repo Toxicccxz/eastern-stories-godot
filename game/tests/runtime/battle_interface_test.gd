@@ -19,6 +19,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_enemy_card(tree)
 	_summaries()
 	_move_hover_and_focus(tree)
+	await _beats_panel(tree)
+	_stamps_and_style_word(tree)
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -89,10 +91,10 @@ func _enemy_card(tree: SceneTree) -> void:
 	card.present(dog, &"p", &"n")
 	check(card._title.text == "野狗 · 占优", "the forecast's word after the name: " + card._title.text)
 	check(not card._secondary.visible and not card._powers.visible and card._primary.text == "气 40/100", "an enemy: only 气: " + card._primary.text)
-	check(card.status_text() == "忙 2 · 毒 · 醉", "the tags: " + card.status_text())
+	check(card.status_text() == "忙 2 · 毒 · …+1", "two tags on the card, the rest folded: " + card.status_text())
 	check(card._intent.visible and card._intent.text == "起手：重 · 要出 「封」字诀", "起手 / 要出 on their own line: " + card._intent.text)
 	var hover: String = card.target_button.tooltip_text
-	check(hover.begins_with("选为目标：野狗\n占优：你比它强一些。") and hover.contains("蛇毒：") and hover.contains("醉了：") and hover.contains(CombatMoveTags.description(CombatMoveTags.HEAVY)) and hover.contains("破绽：快招可破。\n气 40 / 有效 70 / 最大 100："), "the hover explains the word, every tag, the move's weakness and 气's numbers: " + hover)
+	check(hover.begins_with("选为目标：野狗\n占优：你比它强一些。\n还有：醉") and hover.contains("蛇毒：") and hover.contains("醉了：") and hover.contains(CombatMoveTags.description(CombatMoveTags.HEAVY)) and hover.contains("破绽：快招可破。\n气 40 / 有效 70 / 最大 100："), "the hover explains the word, every tag, the move's weakness and 气's numbers: " + hover)
 	# 识招 (战斗决策层 4): a move not read yet is 「？」; one who will guard says 守势.
 	dog.next_move_known = false
 	card.present(dog, &"p", &"n")
@@ -193,18 +195,165 @@ func _move_hover_and_focus(tree: SceneTree) -> void:
 	var a: Button = panel.move_buttons[&"es2:test/a"]
 	var b: Button = panel.move_buttons[&"es2:test/b"]
 	var attack: Button = panel.stance_buttons[CombatStance.Value.ATTACK]
+	var guard: Button = panel.stance_buttons[CombatStance.Value.GUARD]
 	var evade: Button = panel.stance_buttons[CombatStance.Value.EVADE]
 	var flee: Button = panel.first_action_button()
-	check(a.tooltip_text == BattleActionPanel.move_tooltip(first) and a.text == "古松挂月 · 快", "the button carries the hover and the tag: " + a.text)
-	check(a.get_node_or_null(a.focus_neighbor_right) == b and b.get_node_or_null(b.focus_neighbor_left) == a, "left and right between the moves")
-	check(b.get_node_or_null(b.focus_neighbor_right) == attack and attack.get_node_or_null(attack.focus_neighbor_left) == b, "right from the last move to the first stance")
-	check(evade.get_node_or_null(evade.focus_neighbor_right) == panel.manual_button and a.focus_neighbor_left.is_empty(), "the 自动 switch ends the row; the first move's left is left to Godot")
-	check(a.get_node_or_null(a.focus_neighbor_bottom) == flee and panel.manual_button.get_node_or_null(panel.manual_button.focus_neighbor_bottom) == flee, "down from the row to the first quick action")
-	check(flee.get_node_or_null(flee.focus_neighbor_top) == b and panel.first_move_button() == b, "up from a quick action to the chosen move, which is where the focus lands when the fight waits")
+	var surrender: Button = panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID]
+	check(a.tooltip_text == BattleActionPanel.move_tooltip(first) and panel.move_title(&"es2:test/a") == "古松挂月" and panel.move_sub(&"es2:test/a") == "快", "the button carries the hover, the name over the tag (no beats: the tag alone): %s / %s" % [panel.move_title(&"es2:test/a"), panel.move_sub(&"es2:test/a")])
+	check(a.get_node_or_null(a.focus_neighbor_right) == b and b.get_node_or_null(b.focus_neighbor_left) == a and b.focus_neighbor_right.is_empty(), "left and right between the moves; the last move ends the row")
+	check(a.get_node_or_null(a.focus_neighbor_left) == attack and attack.get_node_or_null(attack.focus_neighbor_right) == a, "left from the first move to the stance column, right from a stance to the first move")
+	check(attack.get_node_or_null(attack.focus_neighbor_bottom) == guard and guard.get_node_or_null(guard.focus_neighbor_bottom) == evade and evade.get_node_or_null(evade.focus_neighbor_top) == guard and attack.focus_neighbor_top.is_empty(), "the stances walk up and down their column")
+	check(a.get_node_or_null(a.focus_neighbor_bottom) == flee and b.get_node_or_null(b.focus_neighbor_bottom) == flee, "down from the move row to the first order")
+	check(flee.get_node_or_null(flee.focus_neighbor_top) == b and panel.first_move_button() == b, "up from an order to the chosen move, which is where the focus lands when the fight waits")
+	check(flee.get_node_or_null(flee.focus_neighbor_right) == surrender and surrender.get_node_or_null(surrender.focus_neighbor_left) == flee and surrender.focus_neighbor_right.is_empty(), "along the orders; no 收势 without the beats")
+	check(flee.get_node_or_null(flee.focus_neighbor_bottom) == panel.manual_button and panel.manual_button.get_node_or_null(panel.manual_button.focus_neighbor_top) == flee, "down from the orders to 改为自动 and back up")
+	check(not panel.chips.visible and not panel.yield_button.visible, "ES2's one beat: no chips, no 收势")
 	projection.chosen_action_id = &""
 	panel.present(projection)
 	check(panel.first_move_button() == a, "nothing chosen: the first move")
 	panel.free()
+
+
+## 战斗拍数 B: the panel with the beats — the sub lines (the tag with its price, 克他这招 /
+## 被他克 against the target's next move), the groups' ridge and word, a locked or
+## unaffordable move dimmed with why in the same place (the order never changes), the chips
+## as a timeline (spent, won, given up), 收势, the third row, the panel's height, and the
+## keys' hover (FocusTip) on a dimmed move.
+func _beats_panel(tree: SceneTree) -> void:
+	var rules: CombatBeatRules = GameContent.catalog().pacing().beat_rules()
+	var moves: Array[CombatActionDefinition] = []
+	var names: Array[String] = ["峰回路转", "空山鸟语", "御风而行", "旭日东升", "金光泻地", "童子引路", "柳暗花明", "空谷秋鸿"]
+	var tags: Array[StringName] = [CombatMoveTags.QUICK, CombatMoveTags.HEAVY, CombatMoveTags.QUICK, CombatMoveTags.HEAVY, CombatMoveTags.FEINT, CombatMoveTags.FEINT, CombatMoveTags.GUARD, CombatMoveTags.GUARD]
+	var groups: Array[String] = ["逐", "逐", "逐", "逐", "引", "引", "守", "守"]
+	for index: int in names.size():
+		moves.append(CombatActionDefinition.new(StringName("es2:test/%d" % index), 0, 0, &"刺伤", StringName("m%d" % index), "$N使一招「%s」" % names[index], "", &"", tags[index], names[index], groups[index]))
+	var panel := BattleActionPanel.new()
+	tree.root.add_child(panel)
+	var actions: Array[CombatTacticalActionInfo] = [
+		CombatTacticalActionInfo.new(&"perform.counterattack", CombatTacticalRequest.Category.MARTIAL_SPECIAL, CombatTacticalRequest.TargetRule.CURRENT_HOSTILE),
+		CombatTacticalActionInfo.new(CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE, CombatTacticalRequest.TargetRule.NONE),
+		CombatTacticalActionInfo.new(CombatSurrenderTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.TACTICAL_DEFENSE, CombatTacticalRequest.TargetRule.NONE),
+	]
+	var projection := BattlePresentationProjection.new(&"e", CombatEncounterMode.Value.LETHAL, &"p", &"n", [_one(&"p", "雪工", false, true, false, 80, 80, 100)], actions)
+	projection.moves = moves
+	projection.turns_offered = true
+	projection.manual = true
+	projection.waiting = true
+	projection.stances_offered = true
+	projection.beat_rules = rules
+	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	projection.round_running = false
+	projection.move_groups = ["引", "守", "逐"]
+	projection.opponent_tag = CombatMoveTags.HEAVY
+	for move: CombatActionDefinition in moves:
+		projection.move_costs[move.action_id] = rules.cost_of_tag(move.tag)
+	projection.action_costs = {&"perform.counterattack": 2, CombatFleeTacticalPolicy.ACTION_ID: 1, CombatSurrenderTacticalPolicy.ACTION_ID: 0}
+	panel.present(projection)
+	var order: Array[StringName] = panel.move_order()
+	check(order == ([&"es2:test/4", &"es2:test/5", &"es2:test/6", &"es2:test/7", &"es2:test/0", &"es2:test/1", &"es2:test/2", &"es2:test/3"] as Array[StringName]), "the row lays the moves under their groups in the school's order (引 / 守 / 逐), each group in the set's order: %s" % str(order))
+	check(panel.move_group_word(&"es2:test/4") == "引" and panel.move_group_word(&"es2:test/6") == "守" and panel.move_group_word(&"es2:test/0") == "逐" and panel.move_group_word(&"es2:test/5").is_empty() and panel.move_group_word(&"es2:test/1").is_empty(), "the group's word on its first button only")
+	check(panel._move_ridges[&"es2:test/4"].color == BattleActionPanel.GROUP_COLORS["引"] and panel._move_ridges[&"es2:test/0"].color == BattleActionPanel.GROUP_COLORS["逐"] and panel._move_ridges[&"es2:test/4"].color != panel._move_ridges[&"es2:test/0"].color, "each group its ridge colour")
+	check(panel.move_sub(&"es2:test/0") == "快 · 克他这招" and panel.move_sub(&"es2:test/6") == "守 · 被他克" and panel.move_sub(&"es2:test/1") == "重 · 2拍" and panel.move_sub(&"es2:test/4") == "虚 · 1拍", "the sub lines against the target's 重: 快 克他这招, 守 被他克, the rest the tag and its price: %s | %s | %s" % [panel.move_sub(&"es2:test/0"), panel.move_sub(&"es2:test/6"), panel.move_sub(&"es2:test/1")])
+	check(BattleActionPanel.sub_line(CombatMoveTags.QUICK, 1, &"", true) == "快 · 1拍" and BattleActionPanel.sub_line(CombatMoveTags.QUICK, 1, &"", false) == "快" and BattleActionPanel.sub_line(CombatMoveTags.FEINT, 1, CombatMoveTags.QUICK, true) == "虚 · 克他这招", "sub_line: the price with the beats, the tag alone without, the ring first")
+	check(panel.chips.visible and panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel.yield_button.visible and not panel.yield_button.disabled, "two free chips in the groove, 收势 offered while the fight waits")
+	var counter: Label = panel.action_buttons[&"perform.counterattack"].get_node("Cost") as Label
+	var surrender: Label = panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].get_node("Cost") as Label
+	check(counter.text == "2拍" and surrender.text.is_empty() and panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].theme_type_variation == &"ChipButton", "an order's price in its corner; 投降 costs nothing and reads small")
+	check(panel._queue.text == "等你出招", "nothing spent yet: 等你出招 alone: " + panel._queue.text)
+	check(panel.get_combined_minimum_size().y <= 180.0 and panel._moves.get_combined_minimum_size().x <= 1140.0, "eight moves and three orders fit 1280×720's panel: %s / %.0f" % [panel.get_combined_minimum_size(), panel._moves.get_combined_minimum_size().x])
+	# Mid-round: a 快 spent, one beat left, the 重 moves 拍不够 and 荒山-style lock 够不着: dimmed
+	# in place, the row's order the same.
+	projection.round_running = true
+	projection.player_beats.spend(CombatMoveTags.QUICK, 1)
+	projection.unaffordable_moves = {&"es2:test/1": "拍不够", &"es2:test/3": "拍不够"}
+	projection.locked_moves = {&"es2:test/2": "够不着"}
+	panel.present(projection)
+	check(panel.move_order() == order, "the order never changes")
+	var heavy: Button = panel.move_buttons[&"es2:test/1"]
+	var locked: Button = panel.move_buttons[&"es2:test/2"]
+	check(heavy.disabled and panel.move_sub(&"es2:test/1") == "拍不够" and heavy.tooltip_text == "拍不够" and locked.disabled and panel.move_sub(&"es2:test/2") == "够不着" and not panel.move_buttons[&"es2:test/0"].disabled, "the 重 dimmed 拍不够, the locked one 够不着, the 快 bright")
+	check(panel.chips.slots() == ([CombatMoveTags.QUICK, &""] as Array[StringName]) and panel._queue.text == "等你出招 · 这一回合已出：快", "the first chip took the 快's colour; the third row says so: " + panel._queue.text)
+	check(panel.first_move_button() == panel.move_buttons[&"es2:test/4"], "the focus lands on the first move the player may press")
+	# A beat won: a third chip, gold-edged, from 隙; 收势 strikes what is left.
+	projection.player_beats.earn(CombatSchoolSkeleton.EARN_OPPONENT_MISSED, 1)
+	panel.present(projection)
+	check(panel.chips.slots() == ([CombatMoveTags.QUICK, &"", &""] as Array[StringName]) and panel.chips._earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]) and not panel.chips.sliding(), "the won chip joins the groove (the feel off: no slide)")
+	projection.player_beats.yield_rest()
+	projection.waiting = false
+	panel.present(projection)
+	check(panel.chips.slots() == ([CombatMoveTags.QUICK, BattleBeatChips.YIELDED, BattleBeatChips.YIELDED] as Array[StringName]) and panel.yield_button.disabled, "收势: the chips left struck through; nothing to give up while the round plays")
+	# Between rounds the last round's sequence stays readable.
+	projection.round_running = false
+	projection.waiting = true
+	projection.last_round_beats = projection.player_beats
+	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	panel.present(projection)
+	check(panel._queue.text == "等你出招 · 上一回合：快" and panel.chips.slots() == ([&"", &""] as Array[StringName]), "a new round: fresh chips, the last round's moves on the third row: " + panel._queue.text)
+	# The keys' hover: a dimmed move walked to tells why (FocusTip).
+	var support := PadSupport.new()
+	tree.root.add_child(support)
+	var tip: FocusTip = support.focus_tip
+	await tree.process_frame
+	panel.move_buttons[&"es2:test/0"].grab_focus()
+	var key := InputEventKey.new()
+	key.keycode = KEY_RIGHT
+	key.physical_keycode = KEY_RIGHT
+	key.pressed = true
+	Input.parse_input_event(key)
+	await tree.process_frame
+	key = key.duplicate()
+	key.pressed = false
+	Input.parse_input_event(key)
+	await tree.process_frame
+	tip._process(FocusTip.DELAY_SECONDS)
+	check(tree.root.gui_get_focus_owner() == heavy and tip.panel.visible and tip._text.text == "拍不够", "right from the 快 lands on the dimmed 重 and the keys' hover says 拍不够: '%s'" % tip._text.text)
+	support.free()
+	panel.free()
+
+
+## An enemy's card with the beats: the plan's seals (the settled beat's word, ？ for each
+## read beat; the perform's word, 守 for 守势, ？ unread), the 打法词 after the forecast's word
+## once known, the beats left while the round runs.
+func _stamps_and_style_word(tree: SceneTree) -> void:
+	var card := BattleParticipantCard.new()
+	tree.root.add_child(card)
+	var dog: BattleParticipantProjection = _one(&"n", "柳绘心", true, true, true, 90, 100, 100)
+	dog.strength = CombatForecast.Verdict.UNFAVOURED
+	dog.next_move_tag = CombatMoveTags.HEAVY
+	dog.beat_plan_tags = [CombatMoveTags.HEAVY, CombatMoveTags.QUICK]
+	dog.beat_plan_confirmed = 1
+	card.present(dog, &"p", &"n")
+	check(card.stamps.first_text() == "重" and card.stamps.read_count() == 1 and card.stamps.first_settled(), "the first seal 重, solid, one ？ after it: %s / %d" % [card.stamps.first_text(), card.stamps.read_count()])
+	dog.beat_plan_confirmed = 0
+	card.present(dog, &"p", &"n")
+	check(card.stamps.first_text() == "重" and not card.stamps.first_settled(), "the settled beat taken, the read one left: a hollow seal")
+	dog.beat_plan_confirmed = 1
+	check(card._title.text == "柳绘心 · 吃亏", "no 打法词 before the 见识录 knows it")
+	dog.style_word = "候隙"
+	dog.round_running = true
+	dog.beats = CombatRoundBeats.new(&"n", 2)
+	card.present(dog, &"p", &"n")
+	check(card._title.text == "柳绘心 · 吃亏 · 候隙" and card.status_text() == "剩 2 拍", "the 打法词 after the word; the beats left while the round runs: %s | %s" % [card._title.text, card.status_text()])
+	dog.beats.spend(CombatMoveTags.HEAVY, 2)
+	card.present(dog, &"p", &"n")
+	check(card.status_text().is_empty(), "none left: nothing said")
+	dog.next_move_known = false
+	card.present(dog, &"p", &"n")
+	check(card.stamps.first_text() == "？", "not read: ？ on the first seal")
+	dog.next_move_known = true
+	dog.next_move_guard = true
+	card.present(dog, &"p", &"n")
+	check(card.stamps.first_text() == "守", "守势: 守")
+	dog.next_move_guard = false
+	dog.beat_plan_tags = [&""]
+	dog.telegraph = "「封」字诀"
+	card.present(dog, &"p", &"n")
+	check(card.stamps.first_text() == "封" and card.stamps.read_count() == 0, "a perform planned: its 「」 word, nothing after")
+	dog.beat_plan_tags = []
+	card.present(dog, &"p", &"n")
+	check(card.stamps.first_text().is_empty(), "no plan: no seal")
+	check(BattleParticipantCard.stamp_word(dog).is_empty(), "stamp_word of no plan")
+	card.free()
 
 
 ## One participant with 气 current/effective/maximum, 精 and 神 50, 内力 40/60, mana `mana`,
