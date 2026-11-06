@@ -30,7 +30,7 @@
 			}
 		},
 		{ "id": "fanfang.fire_hall.worshippers", "npc": "native.npc.fire_worshipper", "map": "fanfang.fire_temple", "zone": "fanfang.fire_hall", "points": ["fanfang.fire_hall.fire_worshipper.1", "fanfang.fire_hall.fire_worshipper.2"], "legacy_room": "native: 番坊 B (two merchants at their prayers)", "legacy_quantity": 2 },
-		{ "id": "fanfang.temple_yard.lama", "npc": "fanfang.npc.lama_master", "map": "fanfang.lama_temple", "zone": "fanfang.temple_yard", "points": ["fanfang.temple_yard.lama_master.1"], "legacy_room": "daemon/class/lama/master.c — placed under 日陀罗寺's 榕树 (DECISIONS「番坊 B」: never placed in ES2, his init() commented out)", "legacy_quantity": 1 },
+		{ "id": "fanfang.temple_yard.lama", "npc": "fanfang.npc.lama_master", "map": "fanfang.lama_temple", "zone": "fanfang.temple_yard", "points": ["fanfang.temple_yard.lama_master.1"], "legacy_room": "daemon/class/lama/master.c — placed under 日陀罗寺's 榕树 (DECISIONS「番坊 B」: never placed in ES2, his init() commented out); 番坊 D: master.c's create_family(\"日陀罗寺\", 2, \"住持\") and attempt_apprentice()/do_recruit() as written (call_out 2 s, 慢著一个一个来, men only, bonze only, 善哉善哉); its ten-a-day apprentice_available quota dropped (DECISIONS「番坊 D」)", "legacy_quantity": 1 },
 		{ "id": "fanfang.temple_yard.monk", "npc": "native.npc.indian_monk", "map": "fanfang.lama_temple", "zone": "fanfang.temple_yard", "points": ["fanfang.temple_yard.indian_monk.1"], "legacy_room": "native: 番坊 B (a monk sweeping the yard)", "legacy_quantity": 1 },
 		{ "id": "fanfang.shrine.monk", "npc": "native.npc.indian_monk", "map": "fanfang.lama_temple", "zone": "fanfang.shrine", "points": ["fanfang.shrine.indian_monk.1"], "legacy_room": "native: 番坊 B (a monk at his sutra)", "legacy_quantity": 1 },
 		{

@@ -92,6 +92,9 @@ class ApprenticeRule:
 	## The marks whom attempt_apprentice() takes loses (ob->set("marks/书生", 0)); a requirements
 	## master's only. An offer taken (apprentice.c's first branch) never calls it: nothing goes.
 	var unmarks: Array[String] = []
+	## Native (番坊 D): the marks whom the master takes gets, by any road in (铁盾会的弟子: what
+	## 鬼笠馆's `learn.forbids_marks` looks for).
+	var accept_marks: Array[String] = []
 	## attempt_apprentice() first looks the student over (command("look " + id): look.c tells
 	## them 正盯著你看); a requirements master's only.
 	var looks: bool = false
@@ -258,6 +261,9 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			rule.success = apprentice.required_text("success")
 		elif rule.kind == Kind.REFUSES:
 			rule.refuse_say = apprentice.required_text("refuse_say")
+		rule.accept_marks = apprentice.text_list("accept_marks")
+		if not rule.accept_marks.is_empty() and rule.kind in [Kind.REFUSES, Kind.SILENT]:
+			apprentice.fail("accept_marks", "a master who takes nobody marks nobody")
 		for check: RequirementCheck in rule.checks:
 			rule.requires.merge(check.requires, true)
 		apprentice.finish()

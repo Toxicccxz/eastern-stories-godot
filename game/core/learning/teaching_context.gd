@@ -30,6 +30,9 @@ var student_is_fighting: bool
 var deterministic_improvement_roll: int
 var recognition_policy: RecognitionPolicyType
 var prevention_policy: PreventionPolicyType
+## Native (番坊 D): the armor types the student wears (query_temp("armor/<type>")), for a
+## skill's `learn.requires_armor_type`; the runtime fills it from the player's inventory.
+var worn_armor_types: Array[StringName] = []
 
 
 func _init(

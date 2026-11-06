@@ -22,7 +22,7 @@ static func teachable_skills(definition: NpcDefinition, catalog: ContentCatalog)
 ## (`here`), living(), query("int"), query("sen"), its raw skill level and family
 ## (with its privs: only -1 teaches every member).
 ## An NPC never pays sen (only userp(ob) does).
-static func context(npc: NpcRuntimeState, skill_id: StringName, here: bool, student_fighting: bool, random: WorldInteractionRandomSource) -> TeachingContext:
+static func context(npc: NpcRuntimeState, skill_id: StringName, here: bool, student_fighting: bool, random: WorldInteractionRandomSource, worn_armor_types: Array[StringName] = []) -> TeachingContext:
 	var teaching: NpcTeaching = npc.definition().teaching()
 	var state: CharacterState = npc.character_state
 	var result := TeachingContext.new(
@@ -37,6 +37,7 @@ static func context(npc: NpcRuntimeState, skill_id: StringName, here: bool, stud
 		npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
 	)
 	result.student_is_fighting = student_fighting
+	result.worn_armor_types = worn_armor_types
 	result.recognition_policy = NpcRecognitionPolicy.new(teaching, random)
 	if teaching != null and teaching.f_master:
 		result.prevention_policy = FMasterTeacherPreventionPolicy.new()

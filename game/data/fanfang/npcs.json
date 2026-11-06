@@ -392,7 +392,7 @@
 		},
 		{
 			"id": "native.npc.andun",
-			"legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ②「大秦剑会会首安敦【名字续写】，祖上三百年前见过金乌族人封头」, §6 番坊卡; doc/help/history:44 皇叔於兰淳焉北征蛮族; doc/help/theme:3「西方还在蛮荒时代」— exiles and swords for hire, no envoy; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 B」) — 续写; his Chinese slow, a word at a time, more left out than said (剧情总纲 §10); 番坊 C: comes out of his hut at the 争地, on the quay in a 枷 once the 大秦人 are cleared (DECISIONS「番坊 C」)",
+			"legacy_source": "native: 番坊 B (剧情总纲 §3 第七章 ②「大秦剑会会首安敦【名字续写】，祖上三百年前见过金乌族人封头」, §6 番坊卡; doc/help/history:44 皇叔於兰淳焉北征蛮族; doc/help/theme:3「西方还在蛮荒时代」— exiles and swords for hire, no envoy; 计划 build/plans/番坊_计划.md §2; DECISIONS「番坊 B」) — 续写; his Chinese slow, a word at a time, more left out than said (剧情总纲 §10); 番坊 C: comes out of his hut at the 争地, on the quay in a 枷 once the 大秦人 are cleared (DECISIONS「番坊 C」); 番坊 D: 铁盾会's master (family 铁盾会, generation 1 会首), takes one who stood at the gate, teaches 铁盾剑法, hands his apprentice a round shield (DECISIONS「番坊 D」)",
 			"name": "安敦",
 			"aliases": ["andun", "master", "会首", "老人", "大秦人"],
 			"title": "铁盾会会首",
@@ -403,7 +403,7 @@
 			"combat_exp": 600000,
 			"score": 8000,
 			"attitude": "friendly",
-			"skills": { "sword": 120, "parry": 125, "dodge": 90, "unarmed": 80, "force": 100 },
+			"skills": { "sword": 120, "parry": 125, "dodge": 90, "unarmed": 80, "force": 100, "shield-sword": 100 },
 			"carry": [
 				{ "item": "native:guanbei/gladius", "source": "native: 关北 A", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
@@ -470,7 +470,23 @@
 				"卢卡": ["好孩子。走了一个月，剑没卖。"],
 				"大秦": ["没有了。城烧了，人散了。我们不是使臣，是剩下的人。"],
 				"铁盾会": ["盾在前，剑在后。盾不倒，人不倒。三百年，就这一条。"],
-				"鬼": ["没有头的那个。我们那边的老兵传了三百年。头在哪里，牒上有——去问铜牒。"]
+				"鬼": ["没有头的那个。我们那边的老兵传了三百年。头在哪里，牒上有——去问铜牒。"],
+				"盾": {
+					"rules": [
+						{
+							"asker_marks": ["铁盾会的弟子"],
+							"asker_lacks": ["领了圆盾"],
+							"mark_asker": "领了圆盾",
+							"gives": "native:fanfang/round_shield",
+							"lines": [
+								{ "emote": "从架上取下一面圆盾，递给你。" },
+								{ "say": "拿着。盾在前，剑在后——盾不倒，人不倒。套在左臂上，再来学剑。" }
+							]
+						},
+						{ "asker_marks": ["铁盾会的弟子"], "say": "盾给过你了。丢了的话，市集铜器铺有卖的。" },
+						{ "say": "盾在前，剑在后。会里的规矩。" }
+					]
+				}
 			},
 			"calls": [
 				{
@@ -498,7 +514,18 @@
 						{ "mark": "安敦在码头见过你" }
 					]
 				}
-			]
+			],
+			"family": { "name": "铁盾会", "generation": 1, "title": "会首" },
+			"f_master": true,
+			"apprentice": {
+				"kind": "requirements",
+				"class": "swordsman",
+				"requires": [
+					{ "mark": "大秦人留下了", "refuse_say": "冯禄的事还没了结。了结了，再说拜师。" }
+				],
+				"accept_say": "好。盾在前，剑在后——从今天起，你是铁盾会的人。",
+				"accept_marks": ["铁盾会的弟子"]
+			}
 		},
 		{
 			"id": "native.npc.shield_swordsman",
@@ -659,6 +686,19 @@
 				"color": "HIC",
 				"say": "从今以後你的法名叫做{name}。",
 				"class": "bonze"
+			},
+			"family": { "name": "日陀罗寺", "generation": 2, "title": "住持" },
+			"f_master": true,
+			"apprentice": {
+				"kind": "requirements",
+				"class": "bonze",
+				"answer_after": 2,
+				"busy_say": "慢著，一个一个来。",
+				"requires": [
+					{ "gender": "男性", "refuse_say": "阿弥陀佛，女施主不要跟老纳开玩笑。" },
+					{ "class": "bonze", "refuse_say": "阿弥陀佛，施主愿入佛门，请先到小寺剃度出家。" }
+				],
+				"accept_say": "阿弥陀佛，善哉！善哉！"
 			}
 		},
 		{
@@ -702,7 +742,7 @@
 			"combat_exp": 1000000,
 			"score": 200000,
 			"attitude": "peaceful",
-			"skills": { "unarmed": 30, "staff": 50, "sword": 100, "throwing": 60, "force": 60, "parry": 100, "dodge": 70 },
+			"skills": { "unarmed": 30, "staff": 50, "sword": 100, "throwing": 60, "force": 60, "parry": 100, "dodge": 70, "ghost-hat-sword": 100 },
 			"carry": [
 				{ "item": "native:fanfang/katana", "source": "native: 番坊 C", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
@@ -730,6 +770,22 @@
 					"rules": [
 						{ "asker_marks": ["争地过了"], "say": "……他的印是假的。我们早知道。" },
 						{ "say": "市舶司的。他要人，我们借他四个。差，是他的差。" }
+					]
+				},
+				"刀": {
+					"rules": [
+						{
+							"asker_marks": ["鬼笠馆的弟子"],
+							"asker_lacks": ["领了倭刀"],
+							"mark_asker": "领了倭刀",
+							"gives": "native:fanfang/katana",
+							"lines": [
+								{ "emote": "从架上取下一把刀，连鞘扔给你。" },
+								{ "say": "你的。出鞘，只出一次。" }
+							]
+						},
+						{ "asker_marks": ["鬼笠馆的弟子"], "say": "刀给过你了。" },
+						{ "say": "架上的刀，都是出过鞘的。" }
 					]
 				}
 			},
@@ -772,7 +828,18 @@
 					"mark": "过了一刀",
 					"deed": "在鬼笠馆接下了早川直义的一刀"
 				}
-			]
+			],
+			"family": { "name": "鬼笠馆浪人", "generation": 11, "title": "宗道" },
+			"f_master": true,
+			"apprentice": {
+				"kind": "requirements",
+				"class": "swordsman",
+				"requires": [
+					{ "mark": "过了一刀", "refuse_say": "一刀都没过，拜什么师。" }
+				],
+				"accept_say": "……刀出鞘，只出一次。记住。从今天起，你是鬼笠馆的人。",
+				"accept_marks": ["鬼笠馆的弟子"]
+			}
 		},
 		{
 			"id": "native.npc.ronin",

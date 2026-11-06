@@ -1629,6 +1629,155 @@
 					"damage_type": "割伤"
 				}
 			]
+		},
+		{
+			"id": "shield-sword",
+			"name": "铁盾剑法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
+			"legacy_source": "native: 番坊 D (剧情总纲 §3 第七章 ⑤「学短剑加盾那一派招式树」, §6 番坊卡; 计划 build/plans/番坊_计划.md §2 三门武功 §4 要盾才能学／互斥 §6 D 包; DECISIONS「番坊 D」) — 续写; 大秦剑会's short sword behind the round shield (剧情总纲 §3 第七章 ⑤), seven strokes after daemon/skill/fonxansword.c's form; wants a shield on the arm (`learn.requires_armor_type`), never taught to 鬼笠馆's men (`learn.forbids_marks`)",
+			"practice": {
+				"kee": 20,
+				"force": 2,
+				"done": "你举着盾，把铁盾剑法练了一遍：盾在前，剑在后。",
+				"fail": "你的内力或气不够，没有办法练习铁盾剑法。"
+			},
+			"valid_learn": {
+				"weapon": "你得先拿一把剑——短剑最好。"
+			},
+			"learn": {
+				"requires_armor_type": "shield",
+				"armor_refusal": "盾呢？没盾的剑法不是我们的剑法。",
+				"forbids_marks": [
+					"鬼笠馆的弟子"
+				],
+				"forbidden_refusal": "你是鬼笠馆的人。铁盾会的剑法，不教鬼笠馆。"
+			},
+			"actions": [
+				{
+					"id": "dun-qiang",
+					"tag": "guard",
+					"action": "$N左臂一抬，一招「盾墙」盾面迎上$n的$l，$w从盾沿底下刺出",
+					"damage": 20,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "ce-ci",
+					"tag": "quick",
+					"action": "$N盾身一侧，一招「侧刺」$w贴着盾沿直刺$n的$l",
+					"damage": 50,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "dun-zhuang",
+					"tag": "heavy",
+					"action": "$N踏前一步，一招「盾撞」整面盾撞向$n的$l",
+					"damage": 60,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "duan-feng",
+					"tag": "quick",
+					"action": "$N手腕一沉，一招「短锋」$w只探出半尺，点向$n的$l",
+					"damage": 40,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "hui-dun",
+					"tag": "guard",
+					"action": "$N盾面一收，一招「回盾」盾沿磕开来势，$w顺势划向$n的$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "lian-ci",
+					"tag": "feint",
+					"action": "$N盾后$w连刺三下，一招「连刺」剑剑奔$n的$l",
+					"damage": 30,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "dun-xia-yi-jian",
+					"tag": "heavy",
+					"action": "$N矮身藏在盾后，一招「盾下一剑」$w从盾底下猛地刺向$n的$l",
+					"damage": 70,
+					"damage_type": "刺伤"
+				}
+			]
+		},
+		{
+			"id": "ghost-hat-sword",
+			"name": "鬼笠刀法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
+			"legacy_source": "native: 番坊 D (剧情总纲 §3 第七章 ⑤「学短剑加盾那一派招式树」, §6 番坊卡; 计划 build/plans/番坊_计划.md §2 三门武功 §4 要盾才能学／互斥 §6 D 包; DECISIONS「番坊 D」) — 续写; 鬼笠馆's one-blow sword (ES2 maps 早川 to sword: daemon/class/ronin/master.c set_skill sword 100, its 武功 commented out), five strokes and the 一刀 (一击之内定生死: a blow of great weight, not a new mode); never taught to 铁盾会's men (`learn.forbids_marks`)",
+			"practice": {
+				"kee": 25,
+				"force": 3,
+				"done": "你出刀，收刀，把鬼笠刀法练了一遍——一刀，只出一次。",
+				"fail": "你的内力或气不够，没有办法练习鬼笠刀法。"
+			},
+			"valid_learn": {
+				"weapon": "刀呢？没刀的刀法不是刀法。"
+			},
+			"learn": {
+				"forbids_marks": [
+					"铁盾会的弟子"
+				],
+				"forbidden_refusal": "你是铁盾会的人。盾在前的，用不着刀。"
+			},
+			"actions": [
+				{
+					"id": "ba-dao",
+					"tag": "quick",
+					"action": "$N手按刀柄，一招「拔刀」$w出鞘的一瞬斜斜划向$n的$l",
+					"damage": 40,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "heng-sao",
+					"tag": "feint",
+					"action": "$N$w平举，一招「横扫」刀光齐腰扫向$n的$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "xia-pi",
+					"tag": "heavy",
+					"action": "$N双手握刀举过头顶，一招「下劈」$w直劈$n的$l",
+					"damage": 60,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "na-dao",
+					"tag": "guard",
+					"action": "$N$w收势回鞘，一招「纳刀」刀背顺势磕向$n的$l",
+					"damage": 20,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "tui-bu",
+					"tag": "quick",
+					"action": "$N退了半步，一招「退步」$w在退势里反撩$n的$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "yi-dao",
+					"tag": "heavy",
+					"action": "$N双手握刀，一动不动，忽然一招「一刀」——$w从头顶直劈而下，一击之内定生死，直取$n的$l",
+					"damage": 110,
+					"damage_type": "割伤"
+				}
+			]
 		}
 	]
 }

@@ -464,6 +464,10 @@ func _npc_recruit(student: CharacterState, master: NpcDefinition, family: Family
 ## the student's own words). A finished 拜师 ends any other request too.
 func _recruit(student: CharacterState, master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, offered: bool) -> void:
 	var teaching: NpcTeaching = master.teaching()
+	# 番坊 D: the marks its taking them writes (accept_marks), whichever road brought them in.
+	if teaching != null and teaching.apprentice != null:
+		for mark: String in teaching.apprentice.accept_marks:
+			student.marks[mark] = 1
 	var name: String = master.display_name
 	var npc: String = _t(name)
 	# Its family is compared by name, as families.json keeps one ID per name. apprentice.c's
