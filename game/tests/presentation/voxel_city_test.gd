@@ -20,6 +20,8 @@ const TALL: Array[String] = ["reeds", "tree", "great_tree", "compound_wall", "ci
 	"chair", "stool", "flower_stand", "baskets", "crocks", "water_vat", "well", "table", "bench", "bench_seat", "side_table", "bush", "stall", "cart"]
 ## How much of a house's floor its furniture covers at least (美术规划 §2: 地面边缘要满).
 const COVERED: float = 0.11
+## The marks of age and use a building's data can carry (voxel_facade.gd).
+const AGE: Array[String] = ["damp", "stains", "patches", "cracks", "foot_weeds", "roof_weeds", "soot", "notices"]
 const SCENES: Array[String] = ["city_main", "city_upstairs", "city_cellar", "bank_house", "biaoju_house", "boots_house", "cloth_house", "jiulou_house", "weapon_house", "shangshu"]
 const MAPS: Array[StringName] = [&"city.main", &"city.upstairs", &"city.wall_top", &"city.cellar", &"city.bank_house", &"city.biaoju_house", &"city.boots_house",
 	&"city.cloth_house", &"city.house1_house", &"city.jiulou_house", &"city.weapon_house", &"city.shangshu"]
@@ -233,6 +235,8 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		_check(arrow != null and arrow.get_meta("direction") == row[1], "the exit arrow of %s points out of its map" % row[0])
 	var trails: Dictionary = view.layout["exit_trails"]
 	_check(trails.has("city.nroad2.north"), "the 驿道 runs on north past the map's edge")
+	_check_facades(view.layout, _looks(map))
+	_check_facade_view(view)
 	_check_passing(map, [&"city.nroad2", &"city.nroad1", &"city.northdoor", &"city.street16", &"city.street7"])
 	_check_passing(map, [&"city.westdoor1", &"city.street14", &"city.street15", &"city.street7", &"city.street8", &"city.street9", &"city.eastdoor1"])
 	_check_passing(map, [&"city.westdoor2", &"city.street13", &"city.street12", &"city.bridge", &"city.street11", &"city.street10", &"city.eastdoor2"])
@@ -264,6 +268,159 @@ func _check_main(tree: SceneTree, session: WorldSessionController, map: WorldMap
 		_check(view.left_view == left and moved.x > 4 and absf(moved.y) < 2, "D walks screen-right on the crossing from the %s side" % ("left" if left else "right"))
 		_check(map.place_player(&"city.street7", start), "back at the crossing")
 		await _frames(tree, 2)
+
+
+## 京师立面细化: each shop's mark in the building data, the 幌杆 of the four shops whose doors look
+## north in the layout, the 尚书府's iron gate as a door look on both maps, every building old
+## and lived in, no two of the houses alike.
+func _check_facades(layout: Dictionary, looks: Array[Dictionary]) -> void:
+	var bank: Dictionary = _building(layout, [1552, 1280, 1856, 1520])
+	_check(bank.get("hanging_flag", {}).get("coins", false) and int(bank.get("steps", {}).get("count", 0)) == 2 and bank.has("door_stones") and bank.get("signboard", {}).get("mount", "") == "porch"
+		and not bank.has("cracks") and not bank.has("patches") and not bank.has("notices"),
+		"bank.c: 里里外外都打扫得乾乾净净 — the 钱幌, two steps and drum stones, the board before the porch, nothing mended or torn")
+	var weapon: Dictionary = _building(layout, [1920, 1280, 2208, 1520])
+	_check(String(weapon.get("signboard", {}).get("letters", "")).ends_with(":glow") and _hung(weapon, "weapon_pegs", "south") >= 2 and weapon.get("hanging_flag", {}).get("text", "") == "兵",
+		"weapon.c: 金字招牌 — gilt that flashes, blades pegged either side of the door, the 兵 pennant")
+	var boots: Dictionary = _building(layout, [1552, 3312, 1856, 3536])
+	_check(boots.get("blade_sign", {}).get("text", "") == "鞋" and _hung(boots, "animal_hide", "south") >= 2 and float(boots.get("patches", 0.0)) > 0.2 and float(boots.get("cracks", 0.0)) > 0.0,
+		"boots.c: 百年老店, 皮革的气味 — a 鞋 sign, hides on the wall, the oldest shop in the city")
+	var silk: Dictionary = _building(layout, [384, 2224, 720, 2432])
+	_check(silk.get("blade_sign", {}).get("text", "") == "绸缎" and _hung(silk, "banner_cloth", "east") >= 2 and not silk.has("damp") and not silk.has("patches") and not silk.has("cracks") and not silk.has("notices"),
+		"cloth.c: 刚刚开业, 崭新的招牌 — a 绸缎 sign and banners, nothing old on it yet")
+	var tavern: Dictionary = _building(layout, [384, 2496, 720, 2800])
+	_check(tavern.get("hanging_flag", {}).get("text", "") == "酒" and tavern.has("door_glow") and int(tavern.get("steps", {}).get("count", 0)) == 3 and tavern.has("door_stones") and tavern.get("couplets", {}).get("lintel", false),
+		"jiulou.c: 金壁辉煌, 京城的第一大酒楼 — a 酒 pennant, lit within, three steps, drum stones, couplets with a 横批")
+	var gate: Dictionary = _building(layout, [2064, 2848, 2208, 2976])
+	var gate_look: Dictionary = layout.get("door_looks", {}).get("city.shangshu.gate.door", {})
+	var yard: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/city/voxel/shangshu.json"))
+	var yard_look: Dictionary = yard.get("door_looks", {}).get("city.shangshu.gate.door", {})
+	_check(gate_look.get("kind", "") == "old_gate" and gate_look.get("open", false) and int(gate_look.get("rotation", 0)) == -90 and int(gate_look.get("size", [160])[0]) < 160
+		and not gate.has("gate") and int(gate.get("steps", {}).get("count", 0)) == 3 and gate.has("door_stones") and not gate.has("cracks") and not gate.has("patches"),
+		"shangshu/gate.c: 官势显赫 — the 大铁门 a door look (iron leaves, swung open once let in), the gate house's own leaves gone, three steps, drum stones, no wear")
+	_check(yard_look == gate_look, "the same 大铁门 on the 尚书府's own map: %s" % [yard_look])
+	var chancellor: Dictionary = _building(layout, [256, 2880, 352, 3040])
+	_check(int(chancellor.get("steps", {}).get("count", 0)) == 1 and float(chancellor.get("couplets", {}).get("faded", 0.0)) >= 0.4 and float(chancellor.get("cracks", 0.0)) > 0.0 and chancellor.get("signboard", {}).get("text", "") == "相国府",
+		"xiangguo/gate.c: 寒酸得多, 只有牌匾上的「相国府」 — one step, couplets gone pale, cracks, the board kept")
+	var temple: Dictionary = _building(layout, [800, 1424, 992, 1520])
+	_check(float(temple.get("soot", {}).get("eaves", 0.0)) > 0.0 and temple.has("steps") and temple.has("door_stones"), "street15.c: 寺内香烟缭绕 — the 山门's eaves sooted by the incense, steps and stones")
+	var smithy: Dictionary = _building(layout, [304, 3312, 472, 3504])
+	_check(smithy.get("soot", {}).get("door", false) and smithy.has("door_glow"), "the 铁铺: its door sooted, the forge's light within")
+	var inn: Dictionary = _building(layout, [136, 3312, 296, 3504])
+	_check(inn.get("blade_sign", {}).get("text", "") == "客栈" and inn.has("door_glow") and inn.has("couplets"), "street13.c: 西去的人不时经过这里 — the 客栈's sign, lit within, couplets")
+	var pawnshop: Dictionary = _building(layout, [824, 3312, 992, 3504])
+	_check(pawnshop.get("blade_sign", {}).get("text", "") == "当" and _hung(pawnshop, "notices", "east") >= 1 and float(pawnshop.get("notices", 0.0)) >= 0.3, "the 当铺: its 当 square off the wall, notices pasted up and boarded")
+	# The narrow shops (3.25–4.5 units: a blade sign's arm would spring past the corner) hold a pennant.
+	var pennants: Dictionary = {}
+	for rect: Array in [[144, 1296, 248, 1488], [848, 1128, 1040, 1240], [1552, 1128, 1744, 1272], [2224, 1296, 2336, 1488], [648, 3312, 816, 3504]]:
+		var shop: Dictionary = _building(layout, rect)
+		pennants[String(shop.get("hanging_flag", {}).get("text", ""))] = not shop.has("blade_sign")
+	_check(pennants == {"茶": true, "杂货": true, "车马": true, "酱": true}, "the narrow shops' pennants (茶 twice, 杂货, 车马, 酱), no blade sign on them: %s" % [pennants])
+	_check(not _building(layout, [280, 1872, 424, 2032]).has("hanging_flag") and not _building(layout, [1552, 4112, 1728, 4240]).has("hanging_flag"),
+		"the 药铺's door looks north and the 笔墨铺's hides behind the 南门's tower: no pennant nobody sees")
+	# The shops whose doors look north hold their names over the roofs on 幌杆 in the layout; the
+	# 车马大店's trough stands at its kerb.
+	var poles: Array[String] = []
+	var trough: bool = false
+	for look: Dictionary in looks:
+		if String(look["kind"]) == "pole_banner":
+			poles.append(String(look.get("text", "")))
+		trough = trough or String(look["kind"]) == "trough"
+	poles.sort()
+	_check(poles == ["书", "笔墨", "药", "面", "饼"] and trough,
+		"幌杆 for 药, 面, 书 and 饼 (doors north) and 笔墨 (its door hidden by the 南门's tower), and the 车马大店's trough: %s" % [poles])
+	# Old and lived in (美术规划 §2 item 7): the palace hall alone is spotless; every building the
+	# streets see carries two or more marks of age and use, the hidden ones at least their roofs'.
+	var marked: int = 0
+	var bare: Array[String] = []
+	for building: Dictionary in layout["buildings"]:
+		if int(building["rect"][0]) == 1152 and int(building["rect"][1]) == 2592:
+			continue
+		var marks: int = 0
+		for key: String in AGE:
+			marks += 1 if building.has(key) else 0
+		marked += 1 if marks >= 2 else 0
+		if marks == 0 and not building.has("ridge_tips") and not building.has("eave_tiles"):
+			bare.append(String(building.get("note", building["rect"])).left(24))
+	_check(marked >= 50 and bare.is_empty(), "the buildings are old and lived in: %d with two marks or more, bare %s" % [marked, bare])
+	# No two of the houses with a door the streets see alike: how they are built, their door's
+	# paper, what hangs on their walls.
+	var seen: Dictionary = {}
+	var alike: Array[String] = []
+	var houses: int = 0
+	for building: Dictionary in layout["buildings"]:
+		if building.has("signboard") or building.has("blade_sign") or building.has("hanging_flag") or building.has("masses") or not (building.has("door_paper") or building.has("wall_hangings")):
+			continue
+		houses += 1
+		var kinds: Array = []
+		for item: Dictionary in building.get("wall_hangings", []):
+			kinds.append(String(item["kind"]))
+		var form: String = "%s %s %s %s" % [building.get("construction", ""), building.get("roof_form", ""), String(building.get("door_paper", {}).get("kind", "")), ",".join(kinds)]
+		if seen.has(form):
+			alike.append(form)
+		seen[form] = true
+	_check(houses >= 5 and alike.is_empty(), "the %d houses are dressed each its own way: %s" % [houses, alike])
+
+
+## In the built view: the 幌杆 banners stand over the ridges, the boards hung before the porches sit
+## under the porch eaves where the camera sees them, the doorways lit within glow more by night
+## than by day, and the 大铁门 has its shut and its open form.
+func _check_facade_view(view: WorldVoxelView) -> void:
+	var labels: Dictionary = {}
+	for node: Node in view.geometry.find_children("*", "Label3D", true, false):
+		labels[(node as Label3D).text] = (labels.get((node as Label3D).text, []) as Array) + [node]
+	var low: Array[String] = []
+	for text: String in ["药", "面", "书", "饼", "笔墨"]:
+		var high: bool = false
+		for label: Label3D in labels.get(tr(text), []):
+			high = high or label.global_position.y > 5.5
+		if not high:
+			low.append(text)
+	_check(low.is_empty(), "each 幌杆 holds its banner over the roof: %s" % [low])
+	var hidden: Array[String] = []
+	var hung: int = 0
+	for building: Dictionary in view.layout["buildings"]:
+		var board: Variant = building.get("signboard", null)
+		if not (board is Dictionary and String(board.get("mount", "")) == "porch"):
+			continue
+		hung += 1
+		var seen: bool = false
+		for label: Label3D in labels.get(tr(String(board["text"])), []):
+			seen = seen or label.global_position.y < 2.8
+		if not seen:
+			hidden.append(String(board["text"]))
+	_check(hung >= 14 and hidden.is_empty(), "each porch-hung board hangs under the porch's eave: %d hung, hidden %s" % [hung, hidden])
+	var warm: int = 0
+	var forge: bool = false
+	for node: Node in view.geometry.find_children("*", "OmniLight3D", true, false):
+		var light := node as OmniLight3D
+		var brighter: bool = float(light.get_meta("night_energy", 0.0)) > float(light.get_meta("day_energy", 0.0))
+		if light.light_color.is_equal_approx(Color("ffb060")) and brighter:
+			warm += 1
+		if light.light_color.is_equal_approx(Color("ff6a2a")) and brighter:
+			forge = true
+	_check(warm >= 3 and forge, "太白酒楼, 车马大店 and the 客栈 glow within, the forge too, more by night than by day (%d warm)" % warm)
+	# (The walk before this opened every door: the swung leaves show, the shut ones not.)
+	_check(view.shutters.has(&"city.shangshu.gate.door") and view.opened.has(&"city.shangshu.gate.door") and view.opened[&"city.shangshu.gate.door"].visible != view.shutters[&"city.shangshu.gate.door"].visible,
+		"the 大铁门 has its shut look and its open one, one of them shown")
+
+
+func _building(layout: Dictionary, rect: Array) -> Dictionary:
+	for building: Dictionary in layout["buildings"]:
+		var same: bool = true
+		for i: int in 4:
+			same = same and int(building["rect"][i]) == int(rect[i])
+		if same:
+			return building
+	return {}
+
+
+## How many things of `kind` hang on `wall` of a building.
+func _hung(building: Dictionary, kind: String, wall: String) -> int:
+	var count: int = 0
+	for item: Dictionary in building.get("wall_hangings", []):
+		if String(item.get("kind", "")) == kind and String(item.get("wall", "south")) == wall:
+			count += 1
+	return count
 
 
 ## bank.c: 里里外外都打扫得乾乾净净, iron chests, the counter and its sign, the master's books.

@@ -954,7 +954,7 @@ msgid "大井 · 喝水"
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: scenes/world/choyin/choyin_town.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
+#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
 msgid "书"
 msgstr ""
 
@@ -1399,6 +1399,26 @@ msgstr ""
 
 #: scenes/world/city/city_main.tscn
 msgid "草丛 · 寻找"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn data/city/voxel/main.json data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json data/snow/voxel/outdoor.json
+msgid "药"
+msgstr ""
+
+#. es2:obj/weapon/shield unit
+#. es2:d/snow/obj/shield unit
+#. native:fanfang/round_shield unit
+#. native:waterfog/guild_token unit
+#: scenes/world/city/city_main.tscn data/common/items.json data/snow/items.json data/fanfang/items.json data/native/items.json data/city/voxel/main.json
+msgid "面"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn data/city/voxel/main.json
+msgid "饼"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn data/city/voxel/main.json
+msgid "笔墨"
 msgstr ""
 
 #. es2:d/city/jiulou_2 short
@@ -11832,14 +11852,6 @@ msgstr ""
 #. es2:d/snow/obj/shield name
 #: data/common/items.json data/snow/items.json
 msgid "牛皮盾"
-msgstr ""
-
-#. es2:obj/weapon/shield unit
-#. es2:d/snow/obj/shield unit
-#. native:fanfang/round_shield unit
-#. native:waterfog/guild_token unit
-#: data/common/items.json data/snow/items.json data/fanfang/items.json data/native/items.json data/city/voxel/main.json
-msgid "面"
 msgstr ""
 
 #. es2:obj/weapon/sixhammer name
@@ -33172,7 +33184,7 @@ msgid ""
 msgstr ""
 
 #. city.npc.shoer inquiry topic
-#: data/city/npcs.json
+#: data/city/npcs.json data/city/voxel/main.json
 msgid "鞋"
 msgstr ""
 
@@ -44862,7 +44874,7 @@ msgstr ""
 msgid "桃林深处"
 msgstr ""
 
-#: data/choyin/voxel/town.json data/guanbei/voxel/market.json data/snow/voxel/outdoor.json
+#: data/choyin/voxel/town.json data/city/voxel/main.json data/guanbei/voxel/market.json data/snow/voxel/outdoor.json
 msgid "酒"
 msgstr ""
 
@@ -44931,27 +44943,23 @@ msgid "兵"
 msgstr ""
 
 #: data/city/voxel/main.json
+msgid "绸缎"
+msgstr ""
+
+#: data/city/voxel/main.json
 msgid "车马大店"
+msgstr ""
+
+#: data/city/voxel/main.json
+msgid "车马"
 msgstr ""
 
 #: data/city/voxel/main.json
 msgid "酱"
 msgstr ""
 
-#: data/city/voxel/main.json data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json data/snow/voxel/outdoor.json
-msgid "药"
-msgstr ""
-
-#: data/city/voxel/main.json
-msgid "饼"
-msgstr ""
-
 #: data/city/voxel/main.json
 msgid "客栈"
-msgstr ""
-
-#: data/city/voxel/main.json
-msgid "笔墨"
 msgstr ""
 
 #: data/cloud/voxel/butchery_house.json
