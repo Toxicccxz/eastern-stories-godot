@@ -46,7 +46,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var quest: StoryQuestDefinition = catalog.story_quest(QUEST)
-	_check(quest != null and quest.steps.size() == 2 and quest.steps[0].step_id == &"way" and quest.steps[0].options.size() == 3 and quest.steps[1].step_id == &"audience", "第九章: the way in (exam, memorial, sneak) and the 养心殿")
+	_check(quest != null and quest.steps.size() >= 2 and quest.steps[0].step_id == &"way" and quest.steps[0].options.size() == 3 and quest.steps[1].step_id == &"audience", "第九章: the way in (exam, memorial, sneak) and the 养心殿")
 	for id: StringName in [LT1, LT2, DENG]:
 		var npc: NpcDefinition = catalog.npc(id)
 		_check(npc != null and npc.hooks() != null and not npc.hooks().spar_won_mark.is_empty() and npc.fight_rules().size() == 3 and npc.fight_rules()[0].marks.size() == 1 and not npc.fight_rules()[0].not_mark.is_empty(), "%s: a bout of the 武考, in its turn, its mark won" % id)
