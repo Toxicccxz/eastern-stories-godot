@@ -30,6 +30,12 @@
       "waist": "belt", "prop": "sword_waist", "prop_color": "7a5230", "accent": "3a3439",
       "extras": ["armor"], "armor_color": "756c5f", "height": "standard", "build": "heavy",
       "shoes": "dark"
+    },
+    "common.npc.chater2": {
+      "note": "桃干仙：普通百姓，名字是桃谷六仙的玩笑，原作总絮絮叨叨问新手的事；画成比划着说话的五十岁老百姓；立绘 Muse 2026-11-06",
+      "coat": "ccb695", "pants": "86765e", "skin": "cfb796", "hair": "5a4d40",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "sash", "prop": "none",
+      "accent": "5a4d40", "height": "standard", "build": "standard", "shoes": "dark"
     }
   }
 }
