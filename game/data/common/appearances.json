@@ -57,6 +57,13 @@
       "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
       "prop_color": "1a181e", "accent": "303e34", "extras": ["armor"], "armor_color": "8a8278",
       "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "common.npc.dancer.master": {
+      "note": "蓝止萍：晚月庄主，十分出色的美女，一手琵琶闻名千里，美而冷，不信任男子；米白长裙，抱一把琵琶；立绘 Muse 2026-11-07",
+      "coat": "d2c498", "pants": "f4efca", "skin": "e7d9ce", "hair": "1f1f1f", "hair_tie": "b79c6c",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "lute",
+      "prop_color": "a86b5f", "accent": "b79c6c", "height": "standard", "build": "slim",
+      "shoes": "white"
     }
   }
 }
