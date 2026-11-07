@@ -29,6 +29,8 @@ var _map: WorldMapController
 ## where it stands.
 var _people: Dictionary[StringName, Dictionary] = {}
 var random: RandomNumberGenerator = RandomNumberGenerator.new()
+## NpcLifeBook's entry by NPC definition ID (null: none), looked up once: the loop runs every tick.
+var _entries: Dictionary[StringName, NpcLifeBook.Entry] = {}
 
 
 func _init(map: WorldMapController) -> void:
@@ -48,7 +50,7 @@ func advance(delta: float) -> void:
 	# A room's stroll ground is made one step a tick (a grid or its cells: a few ms each).
 	var prepared: bool = false
 	for npc: NpcRuntimeState in _map.npcs.residents:
-		var entry: NpcLifeBook.Entry = NpcLifeBook.entry(NpcDefinition.unnamed_id(npc.definition().definition_id))
+		var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
 		if entry == null or body == null:
 			continue
@@ -150,6 +152,12 @@ func _work_point(point: Vector2, zone: WorldPhysicalZoneArea2D) -> Vector2:
 		if gap <= WORK_FACES_PX and (not best.is_finite() or near.distance_to(point) < best.distance_to(point)):
 			best = near
 	return best
+
+
+func _entry(definition_id: StringName) -> NpcLifeBook.Entry:
+	if not _entries.has(definition_id):
+		_entries[definition_id] = NpcLifeBook.entry(NpcDefinition.unnamed_id(definition_id))
+	return _entries[definition_id]
 
 
 ## Forgets everyone (the map is left, or reset): a post or one that stays put faces its own
