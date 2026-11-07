@@ -426,6 +426,84 @@
       "prop_color": "d7b38e", "accent": "242e3a", "extras": ["armor"], "armor_color": "565a63",
       "height": "standard", "build": "standard", "shoes": "dark"
     },
-    "native.npc.ronin_fighting": {"same_as": "native.npc.ronin"}
+    "native.npc.ronin_fighting": {"same_as": "native.npc.ronin"},
+    "native.npc.niling_winch_taoist": {
+      "note": "绞盘道士：黑衣黑冠，袖子挽着，两手把着绞盘的摇柄，肩膀结实、一脸汗；立绘 Muse 2026-11-07",
+      "coat": "312f30", "pants": "0f141c", "skin": "efd0bd", "hair": "0e1219",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "11141c", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "312e2f", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.niling_gatekeeper": {
+      "note": "门房道士：黑衣黑冠，瘦长脸，手里一本簿子和一支笔，眼睛不看簿子看门洞——谁进来先看冠，再看脸；立绘 Muse 2026-11-07",
+      "coat": "1f272f", "pants": "0e0f13", "skin": "ecccaf", "hair": "18191d",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0e1014", "beard": "none",
+      "waist": "sash", "prop": "book", "prop_color": "9d8077", "accent": "1a232e",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.niling_gate_guard": {
+      "note": "守门道士：黑衣黑冠，背着手站得笔直，腰上一柄短剑，眼睛半闭像在听什么；立绘 Muse 2026-11-07",
+      "coat": "222c36", "pants": "0e121a", "skin": "efd0be", "hair": "212a35",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0d111a", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "a28885", "accent": "342a2a",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_store_taoist": {
+      "note": "货栈道士：黑衣黑冠，壮实，袖子挽着，手里抖着一匹绸缎在数，眼睛往画着符的箱子那边瞟；立绘 Muse 2026-11-07",
+      "coat": "262221", "pants": "0e0f14", "skin": "ebc09f", "hair": "0c0e12",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "252022", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "2a2224", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.niling_chanter": {
+      "note": "诵经道士：黑衣黑冠，年轻、瘦，闭着眼，两手合在身前，诵得又低又快；立绘 Muse 2026-11-07",
+      "coat": "39302f", "pants": "121215", "skin": "ead0b8", "hair": "0f1014",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "101216", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "242d28", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.niling_lead_chanter": {
+      "note": "领诵道士：黑衣黑冠的老道士，手里一只乌黑的木鱼和木槌，一次头也没抬过；立绘 Muse 2026-11-07",
+      "coat": "0c0f17", "pants": "040406", "skin": "eccaae", "hair": "232727",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0b0e17", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "222826", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_steward": {
+      "note": "管事道士：黑衣黑冠，账房的管事，圆脸、比别人胖，手指上全是墨，一手笔一手厚账；立绘 Muse 2026-11-07",
+      "coat": "332825", "pants": "0e121a", "skin": "eccaac", "hair": "302824",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0f131b", "beard": "none",
+      "waist": "sash", "prop": "book", "prop_color": "a2817f", "accent": "312825",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.niling_jailer": {
+      "note": "狱卒道士：黑衣黑冠，靠着甬道的石壁站，腰上一柄短剑和一根卷起来的鞭子；挂钥匙的那个用同一套；立绘 Muse 2026-11-07",
+      "coat": "24282e", "pants": "0c0e12", "skin": "e7bda3", "hair": "0e0f13",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0f1014", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "9e7f78", "accent": "303834",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.huo_zheng": {
+      "note": "霍铮：地牢里的囚徒，高大的汉子瘦得脱了形，颧骨突出，手腕上两道铁链磨出的血痕；头发胡子乱成一团，眼睛却亮得吓人；关久了的蜡黄脸，衣服破成条；立绘 Muse 2026-11-07",
+      "coat": "47554b", "pants": "27312b", "skin": "976e5d", "hair": "04060a", "hair_style": "long",
+      "beard": "full", "waist": "sash", "prop": "none", "accent": "232827", "height": "tall",
+      "build": "slim", "shoes": "dark"
+    },
+    "native.npc.guanbei_corvee": {
+      "note": "关北民夫：地牢里的另一个囚徒，黑瘦，手掌全是老茧，肩上一道挑担磨出的硬皮；河工的交领短褂上印着一个「役」字，扎腿、草鞋；和关北工地上戴枷的民夫不是一个人；立绘 Muse 2026-11-07",
+      "coat": "5a4437", "pants": "5d4739", "skin": "65483d", "hair": "040509",
+      "hair_style": "short", "beard": "none", "waist": "sash", "prop": "none", "accent": "2f2420",
+      "extras": ["leg_wraps"], "wrap_color": "48372d", "height": "standard", "build": "slim",
+      "shoes": "straw"
+    },
+    "native.npc.xuan_mingzi": {
+      "note": "玄冥子：商玦身边的道士，黑衣黑冠，比别的道士高出半个头，腰上一柄长剑和一串钥匙；脸上没有表情，眼睛一直在动；笑只动嘴角；崖径上拔剑的那个用同一套（怒脸）；立绘 Muse 2026-11-07",
+      "coat": "262c2a", "pants": "0e0f13", "skin": "e6c5b1", "hair": "191e24",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0e0f13", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "a18681", "accent": "483c37",
+      "height": "tall", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_jailer_keyed": {"same_as": "native.npc.niling_jailer"},
+    "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"}
   }
 }
