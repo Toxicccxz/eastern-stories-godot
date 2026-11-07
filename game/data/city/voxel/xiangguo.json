@@ -162,11 +162,6 @@
     "default": {
       "coat": "6a5a48"
     },
-    "native.npc.wei_zhizhong": {
-      "coat": "8a8478",
-      "hat": true,
-      "note": "a washed-out robe, patched at the cuff"
-    },
     "native.npc.xiangguo_servant": {
       "coat": "5a5048"
     }

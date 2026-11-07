@@ -149,30 +149,9 @@
     "default": {
       "coat": "6a5a48"
     },
-    "native.npc.yulan_zhao": {
-      "coat": "d8a830",
-      "hat": true,
-      "note": "the boy's yellow robe, a size too big"
-    },
-    "native.npc.court_official": {
-      "coat": "3a4a6a",
-      "hat": true
-    },
-    "native.npc.court_herald": {
-      "coat": "5a4a3a",
-      "hat": true
-    },
-    "native.npc.fu_an": {
-      "coat": "4a5a4a"
-    },
     "native.npc.feng_ce": {
       "coat": "e0dcd4",
       "note": "素白的武官袍服"
-    },
-    "native.npc.wei_zhizhong": {
-      "coat": "6a6458",
-      "hat": true,
-      "note": "the 相国's washed-out robe at court"
     },
     "native.npc.palace_eunuch": {
       "coat": "3a4a5a"

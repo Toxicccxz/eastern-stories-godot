@@ -549,10 +549,46 @@
       "extras": ["armor", "lantern"], "armor_color": "474d4b", "lantern_color": "c78d61",
       "height": "standard", "build": "standard", "shoes": "dark"
     },
+    "native.npc.yulan_zhao": {
+      "note": "明黄龙袍、袖口挽过一道；翼善冠记crown；立绘 Muse 2026-11-07",
+      "coat": "fdc934", "pants": "161618", "skin": "ecc183", "hair": "161618",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "161618", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "d79826", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.wei_zhizhong": {
+      "note": "洗白旧袍、袖口补过；立绘 Muse 2026-11-07",
+      "coat": "92a9b6", "pants": "566679", "skin": "f4cfab", "hair": "e6e2e0",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "161619",
+      "beard": "chin_three", "waist": "sash", "prop": "none", "accent": "657788", "height": "short",
+      "build": "slim", "shoes": "dark"
+    },
+    "native.npc.court_official": {
+      "note": "笏板无词；立绘 Muse 2026-11-07",
+      "coat": "8c0a10", "pants": "2c2d31", "skin": "dba76a", "hair": "260209",
+      "hair_style": "topknot", "headwear": "official_cap", "headwear_color": "260209",
+      "beard": "chin_three", "waist": "belt", "prop": "none", "accent": "453838",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.fu_an": {
+      "note": "十五岁小太监；立绘 Muse 2026-11-07",
+      "coat": "798d9b", "pants": "283443", "skin": "f1d7bc", "hair": "12131a",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "283443", "beard": "none",
+      "waist": "none", "prop": "none", "accent": "bdc8cd", "height": "short", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.court_herald": {
+      "note": "拂尘记whisk；无须；立绘 Muse 2026-11-07",
+      "coat": "5d5148", "pants": "332c29", "skin": "d6b08a", "hair": "181616",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "181616", "beard": "none",
+      "waist": "sash", "prop": "whisk", "prop_color": "f0cda5", "accent": "f0cda5",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
     "native.npc.night_guard_gate": {"same_as": "native.npc.night_guard_lanes"},
     "native.npc.night_guard_garden": {"same_as": "native.npc.night_guard_lanes"},
     "native.npc.yu_zijian_court": {"same_as": "city.npc.shangshu.shangshu"},
     "native.npc.yu_zijian_accused": {"same_as": "city.npc.shangshu.shangshu"},
+    "native.npc.yu_zijian_drawn": {"same_as": "city.npc.shangshu.shangshu"},
     "native.npc.feng_ce_beside": {"same_as": "native.npc.feng_ce"},
     "native.npc.song_pu_messenger": {"same_as": "native.npc.song_pu"},
     "native.npc.neizhai_guard": {"same_as": "city.npc.shangshu.huyuan"},
