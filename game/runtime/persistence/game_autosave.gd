@@ -56,6 +56,8 @@ func begin(session: WorldSessionController, now_ms: int = Time.get_ticks_msec())
 func _write(snapshot: GameSaveSnapshot) -> void:
 	var checked: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	_saved = checked if not checked.succeeded() else _repository.save(snapshot)
+	if _saved.succeeded():
+		_repository.read_summary() # Its row is read here, not when the list opens.
 
 
 func running() -> bool:

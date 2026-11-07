@@ -6,6 +6,8 @@ var _dialogs: Array[ResponsivePanelLayout] = []
 ## The settings dialog is wide enough for its label/control pairs in two columns.
 var _widths: Array[float] = [330.0, 460.0, 720.0, 580.0, 560.0, 520.0]
 var _busy: Label
+## The voxel animation over the busy note (owner, 2026-11-07: a wait shows it is working).
+var _busy_loader: VoxelLoader
 var _window_row: Control
 var _platform_hint: Label
 ## Below this content height (the 界面缩放 at 150%: 480) the dialogs close up their margins
@@ -47,12 +49,21 @@ func _ready() -> void:
 		layout.initialize(shell.get_node(path) as PanelContainer)
 		_dialogs.append(layout)
 		_spacing.append(_authored_spacing(layout.content))
-	# The title's menu column scrolls only on a short screen, and shows no bar for it.
-	_dialogs[0].scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	# The title's menu column never scrolls (owner, 2026-11-07): it moves up to fit instead
+	# (_menu_column); only a screen too short for it at all scrolls it, with no bar.
+	_dialogs[0].scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_dialogs[0].content.minimum_size_changed.connect(_queue_reflow)
 	_busy = shell.get_node("ShellCanvas/BusyOverlay/BusyCenter/BusyLabel") as Label
 	_busy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_busy.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_busy.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	var busy_overlay: Control = _busy.get_parent().get_parent() as Control
+	_busy_loader = VoxelLoader.new()
+	_busy_loader.size = _busy_loader.custom_minimum_size
+	_busy.get_parent().add_child(_busy_loader)
+	busy_overlay.visibility_changed.connect(func() -> void:
+		if busy_overlay.visible:
+			_busy_loader.restart())
 	_presenter = SafeAreaPresenter.find_or_create(self)
 	_presenter.metrics_changed.connect(_reflow)
 	_reflow(_presenter.current_metrics())
@@ -67,24 +78,60 @@ func _update_platform_hint() -> void:
 	_platform_hint.visible = not _window_row.visible
 
 
+var _reflow_queued: bool = false
+
+
+func _queue_reflow() -> void:
+	if _reflow_queued or _presenter == null:
+		return
+	_reflow_queued = true
+	_reflow_later.call_deferred()
+
+
+func _reflow_later() -> void:
+	_reflow_queued = false
+	_reflow(_presenter.current_metrics())
+
+
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics == null:
 		return
 	var short: bool = metrics.content_rect().size.y < SHORT_HEIGHT
 	for index: int in _dialogs.size():
 		_space(_dialogs[index].content, _spacing[index], short)
-		_dialogs[index].apply(metrics, _menu_column(metrics) if index == 0 else metrics.content_rect(), true, _widths[index])
-	_busy.position = metrics.content_rect().position
-	_busy.size = metrics.content_rect().size
+	var menu: ResponsivePanelLayout = _dialogs[0]
+	var needed: float = menu.content.get_combined_minimum_size().y + menu.panel.get_theme_stylebox("panel").get_minimum_size().y
+	var column: Rect2 = _menu_column(metrics, needed)
+	# Scrolled only when even the highest column cannot hold it.
+	var fits: bool = needed <= column.size.y
+	menu.scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED if fits else ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	for index: int in _dialogs.size():
+		_dialogs[index].apply(metrics, column if index == 0 else metrics.content_rect(), true, _widths[index])
+	# The animation above the middle, the note under it: the note's box loses twice the
+	# drop off its top, so its middle sits that much lower and it stays inside the area.
+	var area: Rect2 = metrics.content_rect()
+	var lift: float = minf(_busy_loader.size.y / 2.0 + 10.0, area.size.y / 4.0) if _busy_loader.has_cubes() else 0.0
+	var note_y: float = area.get_center().y + lift
+	_busy_loader.position = Vector2(area.get_center().x - _busy_loader.size.x / 2.0, note_y - 20.0 - _busy_loader.size.y).floor()
+	_busy.position = area.position + Vector2(0.0, 2.0 * lift)
+	_busy.size = area.size - Vector2(0.0, 2.0 * lift)
+
+
+## Where the main menu's column starts (a share of the content area's height) when it fits
+## there, and the highest it may go (just under the logo). The content area keeps its own
+## margin from the bottom.
+const MENU_TOP_SHARE: float = 0.4
+const MENU_HIGHEST_SHARE: float = 0.30
 
 
 ## The main menu on the title (DECISIONS「标题画面」): a column at the lower left, leaving the
-## logo above it and the 沙盘's place to its right; a phone keeps it in the middle.
-static func _menu_column(metrics: SafeAreaMetrics) -> Rect2:
+## logo above it and the 沙盘's place to its right; a phone keeps it in the middle. A short
+## screen lifts it towards the logo, so all `needed` of it shows without scrolling.
+static func _menu_column(metrics: SafeAreaMetrics, needed: float = 0.0) -> Rect2:
 	var area: Rect2 = metrics.content_rect()
 	if metrics.touch_sized():
 		return area
-	var top: float = area.size.y * 0.4
+	var top: float = floorf(clampf(area.size.y - needed, area.size.y * MENU_HIGHEST_SHARE, area.size.y * MENU_TOP_SHARE))
 	return Rect2(area.position + Vector2(area.size.x * 0.06, top), Vector2(minf(340.0, area.size.x * 0.5), area.size.y - top))
 
 
