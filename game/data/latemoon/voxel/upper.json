@@ -63,9 +63,7 @@
   "actors": {
     "default": {"coat": "b87a9a"},
     "latemoon.npc.upstar.statue": {"body": "statue", "stone": "f0ece2", "base": "c8c4b8", "rim": "c9a24a", "plinth": 0.6, "note": "uproom.c: 堂内供奉人灵「区冥」 — a white jade statue"},
-    "latemoon.npc.upstar.bird": {"body": "flyer", "scale": 0.5, "wings": ["e8c84a", "d8a83a"], "hover": 1.6, "note": "金丝雀"},
-    "latemoon.npc.upstar.huei": {"coat": "8aa8c0"},
-    "latemoon.npc.upstar.shinfun": {"coat": "e8a0b4"}
+    "latemoon.npc.upstar.bird": {"body": "flyer", "scale": 0.5, "wings": ["e8c84a", "d8a83a"], "hover": 1.6, "note": "金丝雀"}
   },
   "entrances": {
     "latemoon.upstar.upstar1.northdown": {"title": "楼梯 · 下楼", "label_height": 1.5, "floor_guides": false},

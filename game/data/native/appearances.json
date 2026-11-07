@@ -504,6 +504,7 @@
       "height": "tall", "build": "standard", "shoes": "dark"
     },
     "native.npc.niling_jailer_keyed": {"same_as": "native.npc.niling_jailer"},
-    "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"}
+    "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"},
+    "native.npc.cult_killer": {"same_as": "latemoon.npc.room.killer"}
   }
 }

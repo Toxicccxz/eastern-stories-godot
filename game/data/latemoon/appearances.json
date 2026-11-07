@@ -1,0 +1,174 @@
+{
+  "people": {
+    "latemoon.npc.servant": {
+      "note": "婢女：庄里年轻的婢女，布裙、朴素；另一个二十岁的婢女也用这一套（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "66778d", "pants": "7a818e", "skin": "eacaac", "hair": "18191c",
+      "hair_style": "double_bun", "beard": "none", "waist": "apron", "apron_color": "e2d2b8",
+      "prop": "none", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.yumay": {
+      "note": "蓝雨梅：庄主的养女，负责接待外宾；米色上襦、绿罗裙、鹿皮小靴，手里一枚绣花针（她的兵器）；立绘 Muse 2026-11-07",
+      "coat": "eedcb0", "pants": "225d2e", "skin": "ba967f", "hair": "050409",
+      "hair_style": "double_bun", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "43924a", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "latemoon.npc.funlin": {
+      "note": "芳绫：小灵精，头上两个小包包头，正在受罚、冲人做鬼脸；淡紫绵裙、腰里一条鞭子；立绘 Muse 2026-11-07",
+      "coat": "e0c5ec", "pants": "ad93c0", "skin": "fbd1b9", "hair": "2b2130",
+      "hair_style": "double_bun", "beard": "none", "waist": "belt", "prop": "none",
+      "accent": "645165", "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.girl": {
+      "note": "昭仪：晚月庄第三代弟子，十分可爱、身材玲珑，一举一动像在跳舞；桃粉裙、单髻花簪、绣花鞋，手里一柄纤细的柳玉刀；立绘 Muse 2026-11-07",
+      "coat": "ffafa4", "pants": "ffcec6", "skin": "ffc8b0", "hair": "010101", "hair_tie": "e48a82",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "blade_waist",
+      "prop_color": "e48a82", "accent": "ea8a7d", "height": "standard", "build": "slim",
+      "shoes": "white"
+    },
+    "latemoon.npc.zauron": {
+      "note": "昭蓉：十分漂亮、有礼貌，身上淡淡的香气，步子轻盈；杏黄裙、高髻银翅金簪、玉竹剑（原文和蓝筱薇同一段，衣色发式分开）；立绘 Muse 2026-11-07",
+      "coat": "ffc058", "pants": "febf57", "skin": "fedfcc", "hair": "101013", "hair_tie": "c9a227",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "ba7e2f", "accent": "ba7e2f", "height": "standard", "build": "slim",
+      "shoes": "white"
+    },
+    "latemoon.npc.room.guest": {
+      "note": "芙云：逍遥派第七代弟子，来晚月庄做客；浅灰青衣裙、简单发髻、手里一柄长剑，身上带着包子和一封信（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "acc0c0", "pants": "647c68", "skin": "edc9b3", "hair": "050407",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "425746", "accent": "425746", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "latemoon.npc.room.tguest": {
+      "note": "梦玉楼：天山派第十一代弟子，也是客人，神情淡淡的；雪白衣裙镶浅蓝边、腰悬长剑，腰间一块刻火焰图腾的黑木杀手令牌（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "eaeaea", "pants": "bcc7cf", "skin": "e2c2ac", "hair": "05040a", "hair_tie": "eaeaea",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "3a3630", "accent": "8f9ca1", "height": "standard", "build": "slim",
+      "shoes": "white"
+    },
+    "latemoon.npc.room.fochin": {
+      "note": "曲馥琪：晚月庄第二代弟子，国色天香、温柔娴静，身旁一股寒谷幽香；雪青衣裙、腰带、银翅金簪、鹿皮小靴，身上带一个火摺；立绘 Muse 2026-11-07",
+      "coat": "c1c6f0", "pants": "c7edf9", "skin": "f4e0c7", "hair": "0c0b0b", "hair_tie": "c9a227",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "5ca2bf",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "latemoon.npc.room.spring2": {
+      "note": "圆春：惜春的妹妹，跟姐姐在晚月庄长大，平常帮忙庄内琐事；灰粉绵裙、垂一条单辫；立绘 Muse 2026-11-07",
+      "coat": "ae9297", "pants": "7c6770", "skin": "eed0b5", "hair": "101015", "hair_style": "long",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "b49091", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.room.yushou": {
+      "note": "苗郁淑：很有活力，两眼明亮有神，巾帼不让须眉的气势，刚毅中带着女孩子的娇柔；石青衣裙、高马尾，宝石耳环、胸前一枚钻石胸针；立绘 Muse 2026-11-07",
+      "coat": "4a719a", "pants": "283752", "skin": "f8bf96", "hair": "070607",
+      "hair_style": "ponytail", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "27364f", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.room.old": {
+      "note": "无名老妇：不知姓甚名谁，在晚月很久了，一直看管书房，连庄主都对她很尊敬；宝蓝缎衫、鹿皮小靴、腰里一条鞭子；立绘 Muse 2026-11-07",
+      "coat": "1f5fb0", "pants": "154319", "skin": "e5b183", "hair": "948e8a",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "1c5dad",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.room.killer": {
+      "note": "杀手：书房里的蒙面杀手，粉色交领短衣、长裤扎腿、细剑，蒙面只露眉眼——眉眼像那个无名老妇；第四章的东方神教杀手用同一套（怒脸，衣襟上有血）；立绘 Muse 2026-11-07",
+      "coat": "da697a", "pants": "2b2a2f", "skin": "c6886a", "hair": "05050a",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "613542", "accent": "a64355", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "latemoon.npc.room.spring1": {
+      "note": "惜春：孤儿，和妹妹圆春从小被庄主收留，第四代弟子里武功出色；成熟中带些稚气，飘逸的长发，豆绿裙、绣花鞋；立绘 Muse 2026-11-07",
+      "coat": "a5daab", "pants": "65a369", "skin": "f3d4be", "hair": "060508", "hair_style": "long",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "38723c", "height": "standard",
+      "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.room.servant": {
+      "note": "婢女：年长一些的婢女，在东西厢伺候，布裙、手里一枚花针（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "305d34", "pants": "1c3e20", "skin": "f8d3b0", "hair": "000000",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "538057",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.room.elon": {
+      "note": "瑷伦：晚月庄开山祖师，看上去三十七岁，几百年没变的一张脸；宝蓝缎衫、鹿皮小靴，鞭子挂在腰上、手搭在鞭柄上；立绘 Muse 2026-11-07",
+      "coat": "0058aa", "pants": "043908", "skin": "e7b395", "hair": "000000",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "0069c5",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.room.annihi": {
+      "note": "安妮儿：东方神教教主，三十七岁，住在西厢等「配得上宝衣的人」；碧玉红裎带（绣彩霞江水纹）、鹿皮小靴、腰悬长剑（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "2a302e", "pants": "101014", "skin": "ae6a5d", "hair": "000000", "hair_tie": "3c3e48",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "191b1d", "accent": "6a6365", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "latemoon.npc.room.yuchoun": {
+      "note": "虞琼衣：晚月庄弟子，月白交领上襦配翠绿罗裙，垂鬟髻（原文没写长相，续写；垂鬟词表无，近似记双髻）；立绘 Muse 2026-11-07",
+      "coat": "f3f3ee", "pants": "049108", "skin": "dcc0a5", "hair": "0c0e13",
+      "hair_style": "double_bun", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "045a08", "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.room.shaoin": {
+      "note": "龙韶吟：晚月庄第三代弟子，爱吟诗唱曲的安静姑娘；藕荷交领衣裙、长发半挽（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "c06b7a", "pants": "9b5769", "skin": "fadfca", "hair": "242424", "hair_style": "long",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "c18c8b", "height": "standard",
+      "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.room.shinyu": {
+      "note": "阮欣郁：晚月庄第三代弟子，见人和气、爱笑；天青衣裙、单髻蓝发带（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "7ccafd", "pants": "288ac8", "skin": "e6b097", "hair": "0f0f0f", "hair_tie": "146199",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "42a6e5",
+      "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.room.eton": {
+      "note": "金仪彤：晚月庄第三代弟子，国色天香，可惜眉心一道地煞纹干犯紫斗，恐要玉手染血；玄色衣裙、低髻、珍珠项链、鹿皮小靴；立绘 Muse 2026-11-07",
+      "coat": "1e1e1e", "pants": "111111", "skin": "f3dec2", "hair": "101010",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "414141",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "latemoon.npc.shaowei": {
+      "note": "蓝筱薇：庄主的另一个养女，十分漂亮、带着淡淡的香气；青绫绸裙、头上银翅金簪、手里玉竹剑；立绘 Muse 2026-11-07",
+      "coat": "defdfc", "pants": "3c6a71", "skin": "eed8c4", "hair": "202120", "hair_tie": "c9a227",
+      "hair_style": "long", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "282527", "accent": "4f8c95", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "latemoon.npc.park.flwgirl": {
+      "note": "采花少女：绮云镇居民的小孩，从小到晚月庄摘桂花，跟庄主学了些基本武功；粉色衣裙、一枝红桂花；立绘 Muse 2026-11-07",
+      "coat": "e17987", "pants": "e19693", "skin": "e5a888", "hair": "000000", "hair_tie": "bd5c6a",
+      "hair_style": "double_bun", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "e07a88", "height": "short", "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.park.girl_yu": {
+      "note": "上官钰翎：外号「玉涵湘」，不是晚月庄的人，在园子里；清冷贵气，白色交领上衣配冰蓝长裙、高髻玉簪，手上一枚冰玉戒指（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "f2ede6", "pants": "9cc6db", "skin": "eeceb2", "hair": "0d0e15", "hair_tie": "3e7da9",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "679bb5",
+      "height": "standard", "build": "slim", "shoes": "white"
+    },
+    "latemoon.npc.park.shiren": {
+      "note": "袭人：晚月庄第四代弟子，年纪大一些、稳重，盘髻；素色上衣配青纱裙，胸前挂一道护身符（原文没写长相，续写）；立绘 Muse 2026-11-07",
+      "coat": "ebddce", "pants": "3b5466", "skin": "e6c5b1", "hair": "14100e",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "293a47",
+      "height": "standard", "build": "standard", "shoes": "white"
+    },
+    "latemoon.npc.park.maysan": {
+      "note": "美珊：晚月庄第四代弟子，成熟中带有一些韵味，飘逸的长发十分迷人；酒红长裙、绣花鞋；立绘 Muse 2026-11-07",
+      "coat": "d3242f", "pants": "930f1a", "skin": "f5d3ba", "hair": "1d1216", "hair_style": "long",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "930f1a", "height": "standard",
+      "build": "standard", "shoes": "white"
+    },
+    "latemoon.npc.upstar.shinfun": {
+      "note": "莫欣芳：晚月庄第二代弟子，国色天香、温柔娴静；秋香色衣裙、腰带、银翅金簪、鹿皮小靴；立绘 Muse 2026-11-07",
+      "coat": "9d822d", "pants": "725d20", "skin": "e8b89b", "hair": "191410", "hair_tie": "c6a33a",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "715c1f",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.upstar.huei": {
+      "note": "邢千慧：晚月庄第二代弟子，国色天香、沉稳；黛蓝衣裙、腰系碧玉红裎带（绣彩霞江水纹）、银翅金簪、鹿皮小靴；立绘 Muse 2026-11-07",
+      "coat": "2b3f5e", "pants": "22344e", "skin": "fed5bf", "hair": "1f2323", "hair_tie": "c9a227",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "8a6f4d",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "latemoon.npc.servant2": {"same_as": "latemoon.npc.servant"}
+  }
+}
