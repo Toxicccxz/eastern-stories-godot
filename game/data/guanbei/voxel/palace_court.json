@@ -42,9 +42,6 @@
     {"kind": "straw_patch", "at": [560, 60], "size": [80, 40], "note": "straw by the hitching rail"}
   ],
   "actors": {
-    "default": {"coat": "6a5a48"},
-    "native.npc.palace_steward": {"coat": "7a7268", "hat": true},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"},
-    "native.npc.palace_soldier": {"coat": "8a7a5a"}
+    "default": {"coat": "6a5a48"}
   }
 }
