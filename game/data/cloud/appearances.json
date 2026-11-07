@@ -154,6 +154,12 @@
       "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "lute",
       "prop_color": "472b20", "accent": "fcacba", "height": "standard", "build": "slim",
       "shoes": "dark"
+    },
+    "cloud.npc.lm_guard": {
+      "note": "彩衣少女：晚月庄庄门的女弟子，身形单薄、眼神里透着傲气；艳红绸衫、一条长鞭；立绘 Muse 2026-11-07",
+      "coat": "fb1413", "pants": "ae080c", "skin": "f6caab", "hair": "1b1b1d",
+      "hair_style": "double_bun", "beard": "none", "waist": "belt", "prop": "none",
+      "accent": "ac060c", "height": "standard", "build": "slim", "shoes": "dark"
     }
   }
 }

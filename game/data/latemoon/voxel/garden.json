@@ -85,9 +85,7 @@
     "default": {"coat": "b87a9a"},
     "latemoon.npc.park.bird": {"body": "flyer", "scale": 0.5, "wings": ["e8c84a", "d8a83a"], "hover": 1.6},
     "latemoon.npc.park.rabbit": {"animal": true, "fur": ["f2f0ea", "e8e4dc", "d8d2c8"], "scale": 0.45},
-    "latemoon.npc.park.dodo1": {"animal": true, "fur": ["d8b04a", "c8a03a", "b8902a"], "tail": true, "scale": 0.35},
-    "latemoon.npc.park.flwgirl": {"coat": "e8c860"},
-    "latemoon.npc.park.shiren": {"coat": "7aa8c0"}
+    "latemoon.npc.park.dodo1": {"animal": true, "fur": ["d8b04a", "c8a03a", "b8902a"], "tail": true, "scale": 0.35}
   },
   "entrances": {"latemoon.park.yard1.north": {"title": "前庭"}, "latemoon.park.moondoor.south": {"title": "山路"}}
 }
