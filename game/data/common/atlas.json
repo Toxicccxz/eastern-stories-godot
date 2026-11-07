@@ -21,6 +21,7 @@
 		{"map": "choyin.guye", "name": "姑射山", "x": 622, "y": 885},
 		{"map": "canyon.pass", "name": "天驼关", "x": 101, "y": 448},
 		{"map": "canyon.bamboo", "name": "竹林道", "x": -11, "y": 325},
+		{"map": "lancheng.street", "name": "岚城", "x": 45, "y": 230},
 		{"map": "village.main", "name": "玉螺湖村", "x": 101, "y": 582},
 		{"map": "city.main", "name": "京师", "x": 101, "y": 717},
 		{"map": "chuenyu.main", "name": "黑松山", "x": -22, "y": 459},

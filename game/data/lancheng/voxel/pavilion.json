@@ -1,0 +1,125 @@
+{
+  "indoor": true,
+  "camera_size": 18,
+  "note": "风铃阁 (native:lancheng/bell_hall, quiet_room; 第十章 B): a tall timber hall, its beams dark with age, a thousand small bells hanging from them on faded red cords, longer and shorter, down to head height (strings of bells across the hall); along the north wall the 十铃架 — ten great bells, dark bronze and silent, or bright gold where someone trusts you (the layout's stage props by the trust marks); a lamp or two, swept boards, cushions; 岚翁 on his cushion under them; the quiet room east with its low table and dry books, an empty hook on its wall.",
+  "palette": {
+    "wall": "a8805a",
+    "timber": "6a4a34"
+  },
+  "wall_height": 3.6,
+  "ground": {
+    "floor_wood": {
+      "style": "boards",
+      "colors": [
+        "8a6a50",
+        "7a5e48",
+        "9a7a5a"
+      ],
+      "note": "old boards, worn pale where the door's wind sweeps them"
+    },
+    "wall_wood": {
+      "style": "boards",
+      "colors": [
+        "6a4a34",
+        "5a4030"
+      ]
+    }
+  },
+  "props": [
+    {
+      "kind": "lantern_string",
+      "points": [
+        [
+          -600,
+          -160,
+          3.3000000000000003
+        ],
+        [
+          40,
+          -150,
+          3.3000000000000003
+        ]
+      ],
+      "bells": true,
+      "spacing": 0.35,
+      "sag": 0.2,
+      "note": "千百只小铃: strings of them across the hall"
+    },
+    {
+      "kind": "lantern_string",
+      "points": [
+        [
+          -600,
+          -70,
+          3.2
+        ],
+        [
+          40,
+          -80,
+          3.2
+        ]
+      ],
+      "bells": true,
+      "spacing": 0.35,
+      "sag": 0.3
+    },
+    {
+      "kind": "lantern_string",
+      "points": [
+        [
+          -600,
+          20,
+          3.3000000000000003
+        ],
+        [
+          40,
+          30,
+          3.3000000000000003
+        ]
+      ],
+      "bells": true,
+      "spacing": 0.35,
+      "sag": 0.25
+    },
+    {
+      "kind": "lantern_string",
+      "points": [
+        [
+          -600,
+          110,
+          3.2
+        ],
+        [
+          40,
+          100,
+          3.2
+        ]
+      ],
+      "bells": true,
+      "spacing": 0.35,
+      "sag": 0.3
+    },
+    {
+      "kind": "glow",
+      "at": [
+        -280,
+        -120
+      ],
+      "color": "f0d890",
+      "day": 0.4,
+      "night": 1.4,
+      "range": 7.0,
+      "height": 2.6,
+      "note": "the light off the bright bells"
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "f0ece2"
+    },
+    "native.npc.lan_weng": {
+      "coat": "f4f2ec",
+      "note": "white, his sleeves moving in the door's wind"
+    }
+  }
+}

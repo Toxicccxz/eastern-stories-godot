@@ -12,6 +12,19 @@
 			"region": "lancheng",
 			"scene": "res://scenes/world/lancheng/lancheng_wilds.tscn",
 			"entry": "lancheng.huanying.mirror_arrival"
+		},
+		{
+			"id": "lancheng.street",
+			"region": "lancheng",
+			"scene": "res://scenes/world/lancheng/lancheng_street.tscn",
+			"entry": "lancheng.white_gate.arrival"
+		},
+		{
+			"id": "lancheng.pavilion",
+			"region": "lancheng",
+			"scene": "res://scenes/world/lancheng/lancheng_pavilion.tscn",
+			"entry": "lancheng.bell_hall.street_arrival",
+			"interior": true
 		}
 	],
 	"zones": [
@@ -70,6 +83,55 @@
 			"rooms": [
 				"native:lancheng/calm_east"
 			]
+		},
+		{
+			"id": "lancheng.white_gate",
+			"map": "lancheng.street",
+			"rooms": [
+				"native:lancheng/white_gate"
+			]
+		},
+		{
+			"id": "lancheng.white_street",
+			"map": "lancheng.street",
+			"rooms": [
+				"native:lancheng/white_street"
+			]
+		},
+		{
+			"id": "lancheng.bellsmith",
+			"map": "lancheng.street",
+			"rooms": [
+				"native:lancheng/bellsmith"
+			]
+		},
+		{
+			"id": "lancheng.xiao_house",
+			"map": "lancheng.street",
+			"rooms": [
+				"native:lancheng/xiao_house"
+			]
+		},
+		{
+			"id": "lancheng.street_top",
+			"map": "lancheng.street",
+			"rooms": [
+				"native:lancheng/street_top"
+			]
+		},
+		{
+			"id": "lancheng.bell_hall",
+			"map": "lancheng.pavilion",
+			"rooms": [
+				"native:lancheng/bell_hall"
+			]
+		},
+		{
+			"id": "lancheng.quiet_room",
+			"map": "lancheng.pavilion",
+			"rooms": [
+				"native:lancheng/quiet_room"
+			]
 		}
 	],
 	"portals": [
@@ -88,6 +150,22 @@
 			"to_spawn": "canyon.fantasy1.up_return",
 			"legacy_room": "native:lancheng/huanying",
 			"legacy_command": "down"
+		},
+		{
+			"id": "lancheng.street_top.north",
+			"from_zone": "lancheng.street_top",
+			"to_zone": "lancheng.bell_hall",
+			"to_spawn": "lancheng.bell_hall.street_arrival",
+			"legacy_room": "native:lancheng/street_top",
+			"legacy_command": "north"
+		},
+		{
+			"id": "lancheng.bell_hall.south",
+			"from_zone": "lancheng.bell_hall",
+			"to_zone": "lancheng.street_top",
+			"to_spawn": "lancheng.street_top.pavilion_return",
+			"legacy_room": "native:lancheng/bell_hall",
+			"legacy_command": "south"
 		}
 	],
 	"exit_rules": [
@@ -222,6 +300,226 @@
 			"policy": "look",
 			"long": "黑石垒的坛，一人多高，坛顶压着一块铜盘，盘里的灰被风吹得只剩一层。坛脚的地上画着一圈套一圈的符，每一圈都朝西开口——画符的人一直是顺着风画的。\n",
 			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — 剧情总纲 §2: 逆灵宫替他用魔道卜算剑的去向, 续写"
+		},
+		{
+			"id": "lancheng.white_gate.landmark.gate",
+			"zone": "lancheng.white_gate",
+			"name": "白石门",
+			"policy": "look",
+			"long": "门洞是一整块白石凿出来的，圆的，里外都被风磨亮了。往外看是雾，雾底下很远的地方有山。门洞的顶上刻着两个字，被风磨得快平了，摸得出来：寻风。\n",
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」)"
+		},
+		{
+			"id": "lancheng.xiao_house.landmark.hook",
+			"zone": "lancheng.xiao_house",
+			"name": "门楣上的铜钩",
+			"policy": "look",
+			"long": "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n",
+			"looks": [
+				{
+					"marks": [
+						"石匣开了"
+					],
+					"long": "一只铜钩，钩尖朝上，擦得很亮。你怀里那只铃的绳结，和钩子上磨出来的那道印子，一样宽。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — 萧辟尘「自幼生长於岚城」(daemon/class/fighter/master.c:16), 计划 §7 Q3 默认, 续写"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_snow",
+			"zone": "lancheng.bell_hall",
+			"name": "雪亭的铃",
+			"policy": "look",
+			"long": "雪亭的铃。铃身发暗，刻着「雪亭」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"放过了刘安禄"
+					],
+					"long": "雪亭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：雪亭。\n岚城的铃认人：雪亭有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 放过了刘安禄 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_oldpine",
+			"zone": "lancheng.bell_hall",
+			"name": "老松岭的铃",
+			"policy": "look",
+			"long": "老松岭的铃。铃身发暗，刻着「老松岭」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"安葬无名人"
+					],
+					"long": "老松岭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：老松岭。\n岚城的铃认人：老松岭有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 安葬无名人 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_waterfog",
+			"zone": "lancheng.bell_hall",
+			"name": "水烟阁的铃",
+			"policy": "look",
+			"long": "水烟阁的铃。铃身发暗，刻着「水烟阁」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"替南危水保密"
+					],
+					"long": "水烟阁的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：水烟阁。\n岚城的铃认人：水烟阁有人信你。\n"
+				},
+				{
+					"marks": [
+						"卫沧澜出了尚书府"
+					],
+					"long": "水烟阁的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：水烟阁。\n岚城的铃认人：水烟阁有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 替南危水保密、卫沧澜出了尚书府 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_goathill",
+			"zone": "lancheng.bell_hall",
+			"name": "野羊山的铃",
+			"policy": "look",
+			"long": "野羊山的铃。铃身发暗，刻着「野羊山」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"霍铮回了寨"
+					],
+					"long": "野羊山的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：野羊山。\n岚城的铃认人：野羊山有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 霍铮回了寨 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_latemoon",
+			"zone": "lancheng.bell_hall",
+			"name": "晚月庄的铃",
+			"policy": "look",
+			"long": "晚月庄的铃。铃身发暗，刻着「晚月庄」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"宝衣给了安妮儿"
+					],
+					"long": "晚月庄的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：晚月庄。\n岚城的铃认人：晚月庄有人信你。\n"
+				},
+				{
+					"marks": [
+						"瑷伦守到决战"
+					],
+					"long": "晚月庄的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：晚月庄。\n岚城的铃认人：晚月庄有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 宝衣给了安妮儿、瑷伦守到决战 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_choyin",
+			"zone": "lancheng.bell_hall",
+			"name": "乔阴的铃",
+			"policy": "look",
+			"long": "乔阴的铃。铃身发暗，刻着「乔阴」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"陈显祖作了证"
+					],
+					"long": "乔阴的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：乔阴。\n岚城的铃认人：乔阴有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 陈显祖作了证 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_guanbei",
+			"zone": "lancheng.bell_hall",
+			"name": "关北的铃",
+			"policy": "look",
+			"long": "关北的铃。铃身发暗，刻着「关北」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"关北的骑兵欠你一阵"
+					],
+					"long": "关北的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：关北。\n岚城的铃认人：关北有人信你。\n"
+				},
+				{
+					"marks": [
+						"王府干净"
+					],
+					"long": "关北的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：关北。\n岚城的铃认人：关北有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 关北的骑兵欠你一阵、王府干净 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_fanfang",
+			"zone": "lancheng.bell_hall",
+			"name": "番坊的铃",
+			"policy": "look",
+			"long": "番坊的铃。铃身发暗，刻着「番坊」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"火前说了真话"
+					],
+					"long": "番坊的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：番坊。\n岚城的铃认人：番坊有人信你。\n"
+				},
+				{
+					"marks": [
+						"大秦人留下了"
+					],
+					"long": "番坊的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：番坊。\n岚城的铃认人：番坊有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 火前说了真话、大秦人留下了 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_village",
+			"zone": "lancheng.bell_hall",
+			"name": "玉螺湖村的铃",
+			"policy": "look",
+			"long": "玉螺湖村的铃。铃身发暗，刻着「玉螺湖村」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"查清了封物"
+					],
+					"long": "玉螺湖村的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：玉螺湖村。\n岚城的铃认人：玉螺湖村有人信你。\n"
+				},
+				{
+					"marks": [
+						"村口的鬼卒退了"
+					],
+					"long": "玉螺湖村的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：玉螺湖村。\n岚城的铃认人：玉螺湖村有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 查清了封物、村口的鬼卒退了 holds"
+		},
+		{
+			"id": "lancheng.bell_hall.landmark.bell_city",
+			"zone": "lancheng.bell_hall",
+			"name": "京师的铃",
+			"policy": "look",
+			"long": "京师的铃。铃身发暗，刻着「京师」两个字，一声不响。\n",
+			"looks": [
+				{
+					"marks": [
+						"冯策随你下湖"
+					],
+					"long": "京师的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：京师。\n岚城的铃认人：京师有人信你。\n"
+				},
+				{
+					"marks": [
+						"皇叔入朝"
+					],
+					"long": "京师的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：京师。\n岚城的铃认人：京师有人信你。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 冯策随你下湖、皇叔入朝 holds"
 		}
 	],
 	"services": [
@@ -253,6 +551,13 @@
 							},
 							{
 								"mark": "到了岚城"
+							},
+							{
+								"line": "你站起来往前走了一步。脚下没有空——是一级白石的台阶，台阶上去，就是城门。\n"
+							},
+							{
+								"move": "lancheng.white_gate",
+								"point": "lancheng.white_gate.arrival"
 							}
 						]
 					},
@@ -294,6 +599,13 @@
 							},
 							{
 								"mark": "到了岚城"
+							},
+							{
+								"line": "你站起来往前走了一步。脚下没有空——是一级白石的台阶，台阶上去，就是城门。\n"
+							},
+							{
+								"move": "lancheng.white_gate",
+								"point": "lancheng.white_gate.arrival"
 							}
 						]
 					},
@@ -335,6 +647,13 @@
 							},
 							{
 								"mark": "到了岚城"
+							},
+							{
+								"line": "你站起来往前走了一步。脚下没有空——是一级白石的台阶，台阶上去，就是城门。\n"
+							},
+							{
+								"move": "lancheng.white_gate",
+								"point": "lancheng.white_gate.arrival"
 							}
 						]
 					},
@@ -342,6 +661,83 @@
 						"steps": [
 							{
 								"line": "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.white_gate.out",
+			"kind": "act",
+			"zone": "lancheng.white_gate",
+			"name": "白石门",
+			"reach": 112,
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the way back down to where the wind stopped (history:75 寻风而逝), 续写",
+			"act": {
+				"verb": "出城",
+				"acts": [
+					{
+						"mark": "风眼在西",
+						"ask": "出白石门？城会随风走，下回再来，得重新寻风。",
+						"choice": "出城",
+						"steps": [
+							{
+								"line": "你穿过白石门。脚下一空，又不空——风托着你，雾从两边合拢过来。\n"
+							},
+							{
+								"line": "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+							},
+							{
+								"move": "lancheng.calm_west",
+								"point": "lancheng.wind.west_calm"
+							}
+						]
+					},
+					{
+						"mark": "风眼在北",
+						"ask": "出白石门？城会随风走，下回再来，得重新寻风。",
+						"choice": "出城",
+						"steps": [
+							{
+								"line": "你穿过白石门。脚下一空，又不空——风托着你，雾从两边合拢过来。\n"
+							},
+							{
+								"line": "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+							},
+							{
+								"move": "lancheng.calm_north",
+								"point": "lancheng.wind.north_calm"
+							}
+						]
+					},
+					{
+						"mark": "风眼在东",
+						"ask": "出白石门？城会随风走，下回再来，得重新寻风。",
+						"choice": "出城",
+						"steps": [
+							{
+								"line": "你穿过白石门。脚下一空，又不空——风托着你，雾从两边合拢过来。\n"
+							},
+							{
+								"line": "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+							},
+							{
+								"move": "lancheng.calm_east",
+								"point": "lancheng.wind.east_calm"
+							}
+						]
+					},
+					{
+						"ask": "出白石门？城会随风走，下回再来，得重新寻风。",
+						"choice": "出城",
+						"steps": [
+							{
+								"line": "你穿过白石门。风托着你，雾合拢了。等你站稳，人在风口。\n"
+							},
+							{
+								"move": "lancheng.windgate",
+								"point": "lancheng.wind.gate"
 							}
 						]
 					}

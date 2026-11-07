@@ -4,58 +4,495 @@
 			"id": "native.npc.niling_wind_diviner",
 			"legacy_source": "native: 第十章 A (剧情总纲 §2「逆灵宫替他用魔道卜算剑的去向」, §3 第十章; 计划 build/plans/第十章_计划.md §0 寻风地带「卜风坛」; DECISIONS「第十章 A」) — three 逆灵宫 men who found the 寻风地带 and never the town: they walk with the wind, 续写",
 			"name": "卜风道士",
-			"aliases": ["diviner", "taoist", "道士", "卜风道士"],
+			"aliases": [
+				"diviner",
+				"taoist",
+				"道士",
+				"卜风道士"
+			],
 			"title": "逆灵宫",
 			"gender": "男性",
 			"age": 38,
 			"long": "一个黑衣黑冠的道士，蹲在黑石坛边烧符，符烧完了就看灰往哪边飞，然后在一支竹签上写一笔。他的嘴唇冻得发紫，眼睛红着，像是很多天没睡。\n",
-			"attributes": {"str": 24, "cor": 26, "int": 24, "spi": 26, "cps": 24, "per": 14, "con": 24, "kar": 14},
+			"attributes": {
+				"str": 24,
+				"cor": 26,
+				"int": 24,
+				"spi": 26,
+				"cps": 24,
+				"per": 14,
+				"con": 24,
+				"kar": 14
+			},
 			"combat_exp": 120000,
 			"attitude": "aggressive",
-			"capabilities": ["aggressive_on_player_presence"],
-			"ignores_when": {"wearing": "native:niling/black_crown"},
-			"skills": {"sword": 80, "parry": 75, "dodge": 75, "force": 70, "unarmed": 60},
-			"carry": [
-				{"item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield"},
-				{"item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear"},
-				{"item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear"}
+			"capabilities": [
+				"aggressive_on_player_presence"
 			],
-			"vanishes": {"line": "卜风道士一声不响地散成一股黑烟，被风卷着往西去了。"},
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"sword": 80,
+				"parry": 75,
+				"dodge": 75,
+				"force": 70,
+				"unarmed": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"vanishes": {
+				"line": "卜风道士一声不响地散成一股黑烟，被风卷着往西去了。"
+			},
 			"inquiry": {
-				"岚城": ["卜风道士冷笑：宫主算过，剑就在风那头。跟着风走就是了。"],
-				"风": ["卜风道士道：风往哪边吹，剑就在哪边。……三天了。三天了。"]
+				"岚城": [
+					"卜风道士冷笑：宫主算过，剑就在风那头。跟着风走就是了。"
+				],
+				"风": [
+					"卜风道士道：风往哪边吹，剑就在哪边。……三天了。三天了。"
+				]
 			},
 			"chat_chance_combat": 25,
-			"chat_msg_combat": ["卜风道士尖声道：剑是宫主的！\n", "卜风道士朝坛上喊：有人来抢剑了！\n"]
+			"chat_msg_combat": [
+				"卜风道士尖声道：剑是宫主的！\n",
+				"卜风道士朝坛上喊：有人来抢剑了！\n"
+			]
 		},
 		{
 			"id": "native.npc.niling_wind_diviner_head",
 			"legacy_source": "native: 第十章 A (as native.npc.niling_wind_diviner): the one who keeps the slip, 续写",
 			"name": "卜风道士",
-			"aliases": ["diviner", "taoist", "道士", "卜风道士"],
+			"aliases": [
+				"diviner",
+				"taoist",
+				"道士",
+				"卜风道士"
+			],
 			"title": "逆灵宫",
 			"gender": "男性",
 			"age": 52,
 			"long": "一个瘦高的黑衣道士，黑冠上缀着一圈铜钱，坐在坛顶，手里攥着一支写满了字的竹签，一动不动地盯着坛上的灰。\n",
-			"attributes": {"str": 26, "cor": 28, "int": 26, "spi": 28, "cps": 26, "per": 14, "con": 26, "kar": 14},
+			"attributes": {
+				"str": 26,
+				"cor": 28,
+				"int": 26,
+				"spi": 28,
+				"cps": 26,
+				"per": 14,
+				"con": 26,
+				"kar": 14
+			},
 			"combat_exp": 160000,
 			"attitude": "aggressive",
-			"capabilities": ["aggressive_on_player_presence"],
-			"ignores_when": {"wearing": "native:niling/black_crown"},
-			"skills": {"sword": 95, "parry": 85, "dodge": 85, "force": 80, "unarmed": 70},
-			"carry": [
-				{"item": "es2:obj/longsword", "source": "d/city/npc/guard.c", "equip": "wield"},
-				{"item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear"},
-				{"item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear"},
-				{"item": "native:lancheng/diviner_slip", "source": "native: 第十章 A"}
+			"capabilities": [
+				"aggressive_on_player_presence"
 			],
-			"vanishes": {"line": "卜风道士散成一股黑烟，那支竹签落在坛脚的符灰里。"},
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"sword": 95,
+				"parry": 85,
+				"dodge": 85,
+				"force": 80,
+				"unarmed": 70
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				},
+				{
+					"item": "native:lancheng/diviner_slip",
+					"source": "native: 第十章 A"
+				}
+			],
+			"vanishes": {
+				"line": "卜风道士散成一股黑烟，那支竹签落在坛脚的符灰里。"
+			},
 			"inquiry": {
-				"岚城": ["卜风道士头也不抬：顺风走。宫主说顺风走。"],
-				"风": ["卜风道士攥紧了竹签：风欺人。"]
+				"岚城": [
+					"卜风道士头也不抬：顺风走。宫主说顺风走。"
+				],
+				"风": [
+					"卜风道士攥紧了竹签：风欺人。"
+				]
 			},
 			"chat_chance_combat": 25,
-			"chat_msg_combat": ["卜风道士冷冷地道：又一个寻剑的。\n"]
+			"chat_msg_combat": [
+				"卜风道士冷冷地道：又一个寻剑的。\n"
+			]
+		},
+		{
+			"id": "native.npc.lan_weng",
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡「人不食人间烟火」; 计划 build/plans/第十章_计划.md §2, B 包; DECISIONS「第十章 B」) — the 仙人 whose 旋芒 is (doc/help/history:75: 旋芒宝剑目前乃是属於岚城中一位仙人所有); name 岚翁 续写 (剧情总纲 §3 第十章 ③)",
+			"name": "岚翁",
+			"aliases": [
+				"lan weng",
+				"old man",
+				"老人",
+				"岚翁",
+				"仙人"
+			],
+			"title": "风铃阁",
+			"gender": "男性",
+			"age": 120,
+			"long": "一个白发白须的老人，坐在十铃架下的蒲团上，衣裳是白的，袖口被门口的风吹得一直在动，他的人却一动不动。看不出他有多大年纪——脸上没有几道皱纹，眼睛却老得很。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 18,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 24,
+				"con": 18,
+				"kar": 26
+			},
+			"combat_exp": 5000,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 200,
+				"dodge": 200
+			},
+			"fight_deferred": "你的手还没抬起来，一阵风已经把它按了回去。岚翁连眼睛都没睁。",
+			"calls": [
+				{
+					"after": 1,
+					"not_mark": "见过岚翁",
+					"steps": [
+						{
+							"line": "你一进门，十铃架上的大铃有几口自己响了起来，一声接一声，不是风吹的。\n",
+							"color": "HIY"
+						},
+						{
+							"emote": "睁开眼睛，看了看铃，又看了看你。"
+						},
+						{
+							"say": "响的那几口，是有人信你的地方。暗的那几口，你自己知道为什么。"
+						},
+						{
+							"say": "你是来要剑的。剑在云台。我不卖，也不赏，也不问你拿去做什么。"
+						},
+						{
+							"mark": "见过岚翁"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"旋芒": {
+					"rules": [
+						{
+							"say": "旋芒是寒於氏的剑。寒於氏斩了那东西的头，死前把两把剑分开放——一把钉头，一把寄在风里。三百年前你们拔了钉头的那一把。这一把，在我这里，等人来拔。"
+						}
+					]
+				},
+				"寒於": [
+					"寒於氏是太阳神族的祖。他的血，一份在金乌那里，一份在於兰家——君违嫁过去的那一份。"
+				],
+				"烟城": [
+					"烟城的人二十年前来过，你们先帝派的。他们站在门口问剑，问完就走了，走的时候风还没停——他们没伏下。"
+				],
+				"先帝": {
+					"rules": [
+						{
+							"asker_carries": "原令",
+							"say": "让我看看。……「寻剑，不得扰民一户。」你们先帝要的剑，是不扰民的剑。他要对了。"
+						},
+						{
+							"say": "你们的先帝找了一辈子。他的人到过烟城，没到过这里。"
+						}
+					]
+				},
+				"铃": [
+					"十口铃，十个地方。哪里有人信你，哪里的铃就响。响的是信，不是功劳——你救过的人、你守过的话、你没拿的东西。走近了看，铃身上刻着地名。"
+				],
+				"谁拔": [
+					"剑在云台，自己转着。谁能拔，不是我说了算。响够一半的铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。云台的路，过几日开。"
+				],
+				"岚城": [
+					"岚城不在哪里。风在哪里停，它就在哪里。你们叫它寻风而至，寻风而逝——说得不错。"
+				],
+				"萧辟尘": {
+					"rules": [
+						{
+							"asker_carries": "风铃",
+							"say": "萧家的孩子。那年风大，把他卷出城去了。铃在你手里——那他就还回得来。"
+						},
+						{
+							"say": "萧家的孩子，二十年前被风卷走了。铃丢了，风就找不到他。"
+						}
+					]
+				},
+				"樵夫": [
+					"那个砍柴的？他伏在石头上睡着了，醒来就看见城。他在城里住了三天，吃不惯——我们这里没有饭。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lan_child",
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡「人不食人间烟火」; 计划 build/plans/第十章_计划.md §2, B 包; DECISIONS「第十章 B」) — 续写",
+			"name": "岚童",
+			"aliases": [
+				"child",
+				"girl",
+				"孩子",
+				"岚童"
+			],
+			"gender": "女性",
+			"age": 9,
+			"long": "一个八九岁的小姑娘，白衣裳，头发被风吹得乱蓬蓬的，脖子上挂着一只小铜铃。她蹲在门洞边上，看你看得很认真。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 18,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 24,
+				"con": 18,
+				"kar": 26
+			},
+			"combat_exp": 100,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 20
+			},
+			"fight_deferred": "小姑娘咯咯一笑，往门洞里一闪，不见了，过一会儿又从另一边探出头来。",
+			"calls": [
+				{
+					"after": 0,
+					"not_mark": "岚童问过你",
+					"steps": [
+						{
+							"say": "你是谁的铃带来的？"
+						},
+						{
+							"mark": "岚童问过你"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"铃": {
+					"rules": [
+						{
+							"asker_carries": "风铃",
+							"say": "给我看看！……是尘哥哥的！铃舌上那个字，铃匠爷爷刻的，我认得！尘哥哥回来了吗？"
+						},
+						{
+							"say": "城里人人一只铃。铃丢了，风就不认得你了。"
+						}
+					]
+				},
+				"城": [
+					"城今天在山上头。昨天在湖上头。明天不知道。"
+				],
+				"风": [
+					"风是从城里出去的呀。你们外头的人老往风里走，走着走着就到了。"
+				],
+				"尘哥哥": [
+					"尘哥哥是萧家的。他放风筝，风大，连人带风筝一起飞走了。我没见过他——我是听铃匠爷爷说的。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lan_bellsmith",
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡「人不食人间烟火」; 计划 build/plans/第十章_计划.md §2, B 包; DECISIONS「第十章 B」) — 续写",
+			"name": "老蔺",
+			"title": "铃匠",
+			"aliases": [
+				"bellsmith",
+				"smith",
+				"铃匠",
+				"老蔺"
+			],
+			"gender": "男性",
+			"age": 70,
+			"long": "一个瘦小的老人，系着一条皮围裙，手指上全是铜绿，正拿一把细锉一点一点修一只铃的口。他修一下，敲一下，侧着耳朵听一听。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 18,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 24,
+				"con": 18,
+				"kar": 26
+			},
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 40,
+				"unarmed": 30
+			},
+			"fight_deferred": "老蔺头也不抬：「我这里只有铃。打铃不响，打人更不响。」",
+			"inquiry": {
+				"铃": {
+					"rules": [
+						{
+							"asker_carries": "风铃",
+							"lines": [
+								{
+									"emote": "放下锉，接过你那只铃，凑到眼前看了半天，手有点抖。"
+								},
+								{
+									"say": "是我打的。「尘」字是我刻的，那孩子非要刻在铃舌上，说这样风一吹，就是在叫他的名字。"
+								},
+								{
+									"emote": "拿衣角把铃擦了擦，又还给你。"
+								},
+								{
+									"say": "带着吧。它认得路。"
+								}
+							]
+						},
+						{
+							"say": "城里的铃都是我打的。一个孩子一只，打好了挂在门楣的钩上，孩子长到能自己拿了，就拿下来随身带着。"
+						}
+					]
+				},
+				"萧家": [
+					"萧家就在街那头，第二道弯。那孩子四岁那年，风大，他在院子里放风筝，连人带风筝都卷走了，铃也跟着走了。他娘天天擦那只空钩，擦了二十年，前年也走了。钩子还是亮的——现在是我去擦。"
+				],
+				"旋芒": [
+					"岚翁守着的。不是我们的东西，是寒於氏寄在这里的。我们只是住在它旁边。"
+				],
+				"岚城": [
+					"我们不吃饭，不生火，不种地。风来了就听，风走了就睡。你们外头的人觉得这样过日子没意思——我们觉得你们太吵。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lan_sweeper",
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡「人不食人间烟火」; 计划 build/plans/第十章_计划.md §2, B 包; DECISIONS「第十章 B」) — 续写 (history:75 寻风而至，寻风而逝)",
+			"name": "扫云的老妪",
+			"aliases": [
+				"old woman",
+				"sweeper",
+				"老妪",
+				"婆婆"
+			],
+			"gender": "女性",
+			"age": 80,
+			"long": "一个白发的老婆婆，拿着一把竹扫帚，在街边扫——扫的不是落叶，是飘上来的雾，她一扫，雾就退下去一点。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 18,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 24,
+				"con": 18,
+				"kar": 26
+			},
+			"combat_exp": 500,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 30
+			},
+			"fight_deferred": "老婆婆的扫帚一挥，一团雾扑在你脸上，等你揉开眼睛，她还在原处扫。",
+			"inquiry": {
+				"城": {
+					"rules": [
+						{
+							"asker_marks": [
+								"风眼在西"
+							],
+							"say": "今天城停在西边，底下是天驼关的石头，黄的。"
+						},
+						{
+							"asker_marks": [
+								"风眼在北"
+							],
+							"say": "今天城停在北边，底下是一片湖，绿的，湖上有船。"
+						},
+						{
+							"asker_marks": [
+								"风眼在东"
+							],
+							"say": "今天城停在东边，底下是雪，白茫茫的。"
+						},
+						{
+							"say": "城今天停在哪儿？你自己往门外看。"
+						}
+					]
+				},
+				"雾": [
+					"雾往上爬，爬到街上就不好走了。我扫一扫，它就回去。扫了七十年了。"
+				],
+				"烟城": [
+					"烟城？那是我们的亲戚。烟霞霓岚，四座城，各住各的。烟城的人爱说话，我们不爱。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lan_resident",
+			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡「人不食人间烟火」; 计划 build/plans/第十章_计划.md §2, B 包; DECISIONS「第十章 B」) — 萧辟尘「不食人间烟火」(daemon/class/fighter/master.c:16), 续写",
+			"name": "岚城人",
+			"aliases": [
+				"resident",
+				"townsman",
+				"岚城人"
+			],
+			"gender": "男性",
+			"age": 40,
+			"long": "一个穿白衣的人，在街上慢慢地走，走几步停一下，侧着头听风铃。他看见你，点一点头，没有说话。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 18,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 24,
+				"con": 18,
+				"kar": 26
+			},
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 30
+			},
+			"fight_deferred": "那人往后退了一步，衣袖一飘，你的手就落了空。他看着你，像看一阵不懂事的风。",
+			"inquiry": {
+				"岚城": [
+					"……这里就是。"
+				],
+				"风": [
+					"听。"
+				],
+				"旋芒": [
+					"去问岚翁。"
+				],
+				"吃饭": [
+					"吃饭？……我们不吃。"
+				]
+			}
 		}
 	]
 }

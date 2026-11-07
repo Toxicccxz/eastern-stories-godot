@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm0hsphohnk68"
-path="res://.godot/imported/road_21_a.png-e5cb77380589f02d41900de4b430c022.ctex"
+uid="uid://dcn2qktpfxkc6"
+path="res://.godot/imported/road_34_a.png-3946e96bd8e8dce3e4c176610135bcfc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/atlas/road_21_a.png"
-dest_files=["res://.godot/imported/road_21_a.png-e5cb77380589f02d41900de4b430c022.ctex"]
+source_file="res://assets/textures/atlas/road_34_a.png"
+dest_files=["res://.godot/imported/road_34_a.png-3946e96bd8e8dce3e4c176610135bcfc.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
