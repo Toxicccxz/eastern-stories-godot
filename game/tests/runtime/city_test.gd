@@ -48,12 +48,10 @@ const PEOPLE: Dictionary = {
 	&"city.xiangguo_hall": {&"native.npc.wei_zhizhong": 1},
 	&"city.xiangguo_yard": {&"native.npc.xiangguo_servant": 1},
 	&"city.shangshu.gate": {&"city.npc.shangshu.guard": 1},
-	&"city.shangshu.keting": {&"city.npc.shangshu.shangshu": 1},
 	&"city.shangshu.road1": {&"city.npc.shangshu.huyuan": 1},
 	&"city.shangshu.road2": {&"city.npc.shangshu.huyuan": 1, &"city.npc.shangshu.huyuan1": 1},
 	&"city.shangshu.chufang": {&"city.npc.shangshu.maid": 1},
 	&"city.shangshu.huayuan": {&"city.npc.shangshu.gardener": 1},
-	&"city.shangshu.neizhai": {&"city.npc.shangshu.qing_chen": 1},
 }
 
 var _count: int = 0
@@ -131,7 +129,7 @@ func _test_city(tree: SceneTree, session: WorldSessionController) -> void:
 		people.append_array(session.world_map_of(map_id).resident_npcs())
 	for npc: NpcRuntimeState in people:
 		if not npc.exists_in_map:
-			continue # off the stage (第九章 A's 校武场 people, the chapter not begun)
+			continue # off the stage until the map is entered (第九章 A's 校武场 people, the chapter not begun; E's 庾子建 and 庾清尘, gone once he is in prison)
 		var zone: StringName = npc.world_location().zone_id
 		if not found.has(zone):
 			found[zone] = {}

@@ -78,6 +78,8 @@ const GUANBEI_SABER: StringName = &"guanbei-saber"
 ## Native (番坊 D): 铁盾会's 铁盾剑法 (a shield on the arm) and 鬼笠馆's 鬼笠刀法 (one blow).
 const SHIELD_SWORD: StringName = &"shield-sword"
 const GHOST_HAT_SWORD: StringName = &"ghost-hat-sword"
+## Native (第九章 E): the 大内侍卫's 禁中刀, read from 冯策's 《禁中刀谱》.
+const PALACE_BLADE: StringName = &"palace-blade"
 const SNOWSHADE_FORCE: StringName = &"snowshade-force"
 const SNOWSHADE_SWORD: StringName = &"snowshade-sword"
 const SNOWWHIP: StringName = &"snowwhip"

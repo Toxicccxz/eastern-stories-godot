@@ -64,7 +64,7 @@ func _test_data() -> void:
 	_check(catalog.zone(&"waterfog.guildhall").room_ids() == [&"es2:d/waterfog/guildhall", &"es2:daemon/class/fighter/guildhall"], "the 正厅 also takes daemon/class/fighter/guildhall.c (its own copy's paths lack a slash)")
 	var spawns: Dictionary[StringName, int] = {}
 	for spawn: NpcSpawnDefinition in catalog.spawns():
-		if String(spawn.zone_id).begins_with("waterfog."):
+		if String(spawn.zone_id).begins_with("waterfog.") and not String(spawn.npc_definition_id).begins_with("native."): # ES2's; 第九章 E's 卫沧澜 comes later
 			spawns[spawn.npc_definition_id] = spawns.get(spawn.npc_definition_id, 0) + spawn.spawn_point_ids().size()
 	_check(spawns == {
 		&"waterfog.npc.guard": 4, &"waterfog.npc.watcher": 1, &"waterfog.npc.celes_tiger": 1, &"common.npc.fighter.champion": 1,
@@ -176,7 +176,7 @@ func _test_gate(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(map.accept_zone_presence(hall) and player.world_location().zone_id == &"waterfog.guildhall", "bare-handed, into the 正厅")
 	var masters: Array[StringName] = []
 	for npc: NpcRuntimeState in map.resident_npcs():
-		if npc.world_location().zone_id == &"waterfog.guildhall":
+		if npc.exists_in_map and npc.world_location().zone_id == &"waterfog.guildhall":
 			masters.append(npc.definition().definition_id)
 	_check(masters.size() == 3 and masters.has(CHAMPION) and masters.has(EXECUTIONER) and masters.has(MASTER), "於兰天武, 萧辟尘 and 潘军禅 in the 正厅: %s" % [masters])
 	var champion: NpcRuntimeState = _first(map, CHAMPION)

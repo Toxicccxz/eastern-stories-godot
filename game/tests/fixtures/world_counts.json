@@ -626,11 +626,14 @@
 		"native.xiangguo.servant",
 		"native.shangshu.neizhai_guard",
 		"native.shangshu.wei_canglan",
-		"native.shangshu.courier"
+		"native.shangshu.courier",
+		"native.xiangguo.qing_chen",
+		"native.guildhall.wei_canglan",
+		"native.wumen.song_pu"
 	],
-	"world_npcs": 728,
+	"world_npcs": 731,
 	"resident_maps": 163,
-	"new_game_items": 1150,
+	"new_game_items": 1152,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -842,7 +845,7 @@
 		"cloud.weapony_house": 1,
 		"cloud.zaihuoy_house": 1,
 		"waterfog.mountain": 4,
-		"waterfog.pavilion": 7,
+		"waterfog.pavilion": 8,
 		"waterfog.upstairs": 7,
 		"green.village": 10,
 		"green.mountain": 2,
@@ -907,7 +910,7 @@
 		"village.liu_house": 7,
 		"village.lord_house": 1,
 		"village.melonguard_house": 3,
-		"city.main": 38,
+		"city.main": 39,
 		"city.upstairs": 0,
 		"city.wall_top": 0,
 		"city.cellar": 0,
@@ -919,7 +922,7 @@
 		"city.jiulou_house": 2,
 		"city.weapon_house": 1,
 		"city.shangshu": 10,
-		"city.xiangguo": 2,
+		"city.xiangguo": 3,
 		"chuenyu.main": 3,
 		"chuenyu.upstairs": 3,
 		"chuenyu.prison": 11,
@@ -962,7 +965,7 @@
 		"imperial.well_tunnel": 0,
 		"imperial.yangxin_hall": 3
 	},
-	"npc_draws_after_oldpine": 2562,
+	"npc_draws_after_oldpine": 2568,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {
