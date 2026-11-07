@@ -3,9 +3,9 @@
 		"goathill.npc.bandit": "post",
 		"goathill.npc.bandit_hwang": "still",
 		"goathill.npc.bandit_leader": "post",
-		"goathill.npc.big_worm": "wander",
-		"goathill.npc.fat_worm": "wander",
-		"goathill.npc.huge_worm": "wander",
-		"goathill.npc.worm": "wander"
+		"goathill.npc.big_worm": "still",
+		"goathill.npc.fat_worm": "still",
+		"goathill.npc.huge_worm": "still",
+		"goathill.npc.worm": "still"
 	}
 }
