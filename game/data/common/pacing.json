@@ -80,6 +80,16 @@
 		"coach_fare_base": 10,
 		"coach_fare_per_leg": 5,
 		"coach_minutes_per_leg": 30,
+		"npc_idle": {
+			"enabled": true,
+			"pause_min_ms": 4000,
+			"pause_max_ms": 10000,
+			"stroll_min_px": 32,
+			"stroll_max_px": 104,
+			"home_radius_px": 120,
+			"speed_px": 42,
+			"stop_reach_px": 88
+		},
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,
