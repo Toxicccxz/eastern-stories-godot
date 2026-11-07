@@ -161,9 +161,6 @@
   "actors": {
     "default": {
       "coat": "6a5a48"
-    },
-    "native.npc.xiangguo_servant": {
-      "coat": "5a5048"
     }
   }
 }

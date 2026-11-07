@@ -169,19 +169,6 @@
     "native.npc.feng_ce": {
       "coat": "e0dcd4",
       "note": "素白的武官袍服"
-    },
-    "native.npc.palace_eunuch": {
-      "coat": "3a4a5a"
-    },
-    "native.npc.palace_maid": {
-      "coat": "4a6a6a"
-    },
-    "native.npc.zhong_momo": {
-      "coat": "6a6a72",
-      "note": "a faded court gown, neat"
-    },
-    "native.npc.camp_guard": {
-      "coat": "e0dcd4"
     }
   }
 }

@@ -584,6 +584,52 @@
       "waist": "sash", "prop": "whisk", "prop_color": "f0cda5", "accent": "f0cda5",
       "height": "standard", "build": "standard", "shoes": "dark"
     },
+    "native.npc.yulan_zhao_private": {
+      "note": "夜版天子，与朝服版同脸；手札记book；立绘 Muse 2026-11-07",
+      "coat": "ede7d7", "pants": "17181b", "skin": "e4b67d", "hair": "17181b",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "book",
+      "prop_color": "faf4e2", "accent": "343333", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.palace_eunuch": {
+      "note": "与福安分开：赭袍、红褐帽、个高；一摞文书记book；立绘 Muse 2026-11-07",
+      "coat": "dc9251", "pants": "221c1c", "skin": "f5b784", "hair": "221c1c",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "68453a", "beard": "none",
+      "waist": "sash", "prop": "book", "prop_color": "d9af8b", "accent": "362727",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.palace_maid": {
+      "note": "竹篮无词、发簪无词；立绘 Muse 2026-11-07",
+      "coat": "43897c", "pants": "192325", "skin": "f8caa5", "hair": "161618",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "244557", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.zhong_momo": {
+      "note": "绣花针无词、发簪无词；立绘 Muse 2026-11-07",
+      "coat": "4c5871", "pants": "252a36", "skin": "e3b693", "hair": "e8e8e8",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "64748a", "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.camp_guard": {
+      "note": "光膀子：上衣记肤色，褪到腰上的红上衣记腰带色；单刀在手、近似记blade_waist；立绘 Muse 2026-11-07",
+      "coat": "e0b58b", "pants": "16161a", "skin": "e0b58b", "hair": "16161a",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "blade_waist", "prop_color": "9d9ea1", "accent": "862e2c", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.xiangguo_servant": {
+      "note": "弯腰扫地、竹扫帚记broom；白茬胡子无词；立绘 Muse 2026-11-07",
+      "coat": "978476", "pants": "262424", "skin": "e8b486", "hair": "45413d",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "191818", "beard": "none",
+      "waist": "sash", "prop": "broom", "prop_color": "c49768", "accent": "776254",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.wei_canglan": {
+      "note": "瘦脱形、手腕镣铐旧印；立绘 Muse 2026-11-07",
+      "coat": "e8e2d5", "pants": "b7a797", "skin": "e6c7ab", "hair": "e6e8e9", "hair_style": "long",
+      "headwear": "none", "beard": "long", "waist": "sash", "prop": "book", "prop_color": "262525",
+      "accent": "978678", "height": "standard", "build": "slim", "shoes": "dark"
+    },
     "native.npc.night_guard_gate": {"same_as": "native.npc.night_guard_lanes"},
     "native.npc.night_guard_garden": {"same_as": "native.npc.night_guard_lanes"},
     "native.npc.yu_zijian_court": {"same_as": "city.npc.shangshu.shangshu"},
