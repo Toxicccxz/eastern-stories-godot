@@ -46750,7 +46750,7 @@ msgstr ""
 
 #. native.npc.zhong_momo inquiry.先帝
 #: data/imperial/npcs.json
-msgid "先帝……先帝病着的时候，还天天让我念那些找岚城的手札给他听。他走了二十年了。"
+msgid "先帝……先帝病着的时候，还天天让我念那些找岚城的手札给他听。他走了两年了。"
 msgstr ""
 
 #. native.npc.zhong_momo inquiry.寻剑令.rules.lines.emote
