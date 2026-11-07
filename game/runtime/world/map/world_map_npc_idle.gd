@@ -50,7 +50,7 @@ func advance(delta: float) -> void:
 			continue
 		if person.is_empty() or person["zone"] != zone_id:
 			person = {
-				"home": body.global_position, "zone": zone_id, "facing": body.facing,
+				"home": _home(npc, body, zone_id), "zone": zone_id, "facing": body.facing,
 				"wait": tuning.pause_seconds(random.randf()), "turned": false, "met": false,
 			}
 			_people[npc.character_id] = person
@@ -95,9 +95,24 @@ func advance(delta: float) -> void:
 				)
 
 
-## Forgets everyone (the map is left, or reset): each starts again from where it stands.
+## Forgets everyone (the map is left, or reset): a post or one that stays put faces its own
+## way again, and each starts again from its own spot.
 func clear() -> void:
+	for character_id: StringName in _people:
+		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(character_id)
+		if body != null:
+			_face(body, _people[character_id]["facing"])
 	_people.clear()
+
+
+## Where a person strolls about: its spawn marker while in the room it was put in (the spot
+## does not drift from visit to visit), else where it came into this room.
+func _home(npc: NpcRuntimeState, body: WorldCharacterBody2D, zone_id: StringName) -> Vector2:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
+	if spawn != null and spawn.zone_id == zone_id and marker != null:
+		return marker.global_position
+	return body.global_position
 
 
 ## Whether nothing else has the person now: standing and awake, not fighting or busy, not on
@@ -111,7 +126,7 @@ func _free(npc: NpcRuntimeState) -> bool:
 		and dealings.patrol == null and dealings.watch == null
 		and npc.definition().raising() == null and _map.npcs.summoner_of(npc.character_id).is_empty()
 		and not life.follows_every_way(npc) and not life.departures.has(npc.character_id)
-		and life.scene_npc_id != npc.character_id
+		and life.scene_npc_id != npc.character_id and life.scene_focus_id != npc.character_id
 		and not (_map.player_runtime() != null and _map.player_runtime().led_by == npc.character_id)
 	)
 

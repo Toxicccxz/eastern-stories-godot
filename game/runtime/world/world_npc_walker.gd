@@ -64,14 +64,35 @@ func stroll(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2
 	var candidates: Array[Vector2i] = _clear_of(grid, near, _occupied(character_id))
 	# A stroll keeps off the seams outright: one that only finds a doorway stays put.
 	var off: Array[Vector2i] = _strictly_off_seams(grid, zone, candidates)
+	var allowed: Dictionary[Vector2i, bool] = {}
+	for cell: Vector2i in _strictly_off_seams(grid, zone, grid.free_cells_in(area)):
+		allowed[cell] = true
 	for attempt: int in range(mini(DESTINATION_TRIES, off.size())):
 		var index: int = clampi(int(float(draw.call()) * off.size()), 0, off.size() - 1)
 		var spot: Vector2 = grid.center_of(off[index])
 		off.remove_at(index)
-		if MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot) and _start(grid, character_id, body, spot, false):
-			_strolls[character_id] = speed
-			return true
+		if not MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot):
+			continue
+		var path: PackedVector2Array = grid.path(body.global_position, spot)
+		if path.is_empty() or not _stays(grid, zone, path, allowed):
+			continue
+		path.append(spot)
+		cancel(character_id)
+		_walks[character_id] = path
+		_strolls[character_id] = speed
+		return true
 	return false
+
+
+## Whether every point of `path` past its first (the cell the body leaves from) is one of
+## `allowed`, inside `zone` and a spot a body may stand: a stroll stopped anywhere on it (the
+## player came near, a fight began) leaves the body where it may stay.
+func _stays(grid: Grid, zone: WorldPhysicalZoneArea2D, path: PackedVector2Array, allowed: Dictionary[Vector2i, bool]) -> bool:
+	for index: int in range(1, path.size()):
+		var point: Vector2 = path[index]
+		if not allowed.has(grid.cell_of(point)) or not zone.contains_center(point) or not MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, point):
+			return false
+	return true
 
 
 ## Where the walk ends (its last point), or the body's position when not walking.
@@ -285,11 +306,12 @@ func advance(delta: float) -> void:
 			_walks[character_id] = path
 
 
-## Puts every walking body at its walk's end (the map stops being watched).
+## Puts every walking body at its walk's end (the map stops being watched); a stroll stops
+## where it is (every spot of its way is one a body may stand on).
 func finish_all() -> void:
 	for character_id: StringName in _walks.keys():
 		var body: Node2D = _map.runtime_body_for_character(character_id)
-		if body != null:
+		if body != null and not _strolls.has(character_id):
 			body.global_position = rest_position(character_id, body)
 			_set_walking(body, false)
 	_walks.clear()

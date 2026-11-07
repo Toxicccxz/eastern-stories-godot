@@ -77,6 +77,10 @@ func _test_street(tree: SceneTree, session: WorldSessionController) -> void:
 	var guard_looked: bool = false
 	var in_room: bool = true
 	var near_home: bool = true
+	var on_spots: bool = true
+	var froze_in_place: bool = false
+	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(farmer.spawn_point_id)
+	_check(marker != null and home.distance_to(marker.global_position) < 1.0, "the farmer starts on its spawn marker")
 	for second: int in 90:
 		session.advance_npc_heartbeat(0.5)
 		await tree.physics_frame
@@ -86,11 +90,22 @@ func _test_street(tree: SceneTree, session: WorldSessionController) -> void:
 		near_home = near_home and farmer_body.global_position.distance_to(home) <= reach + WorldNpcWalker.CELL
 		guard_still = guard_still and guard_body.global_position.distance_to(post) < 1.0
 		guard_looked = guard_looked or not guard_body.facing.is_equal_approx(post_facing)
+		# Wherever a stroll is stopped, the body may stand there (and a save keep it).
+		on_spots = on_spots and _off_seams(map, farmer_body.global_position, &"snow.sroad2") and MapPlacementValidator.is_valid_character_position(map, &"snow.sroad2", farmer_body.global_position)
+		if not froze_in_place and second > 40 and map.npc_life.npc_walker().is_strolling(FARMER):
+			# A fight begins (freeze_world_gameplay finishes the walks): a stroll stops where it is.
+			var at: Vector2 = farmer_body.global_position
+			map.npc_life.npc_walker().finish_all()
+			froze_in_place = farmer_body.global_position.distance_to(at) < 0.5 and not map.npc_life.npc_walker().is_walking(FARMER)
 	_check(strolled and farthest > float(tuning.stroll_min_px) * 0.5, "the farmer strolls about (%.0f px at most)" % farthest)
 	_check(in_room, "the farmer stays in sroad2")
 	_check(near_home, "the farmer stays near its own spot (%.0f px)" % reach)
-	_check(_off_seams(map, farmer_body.global_position, &"snow.sroad2"), "the farmer does not stand in the street's mouth")
+	_check(on_spots, "every spot of the farmer's strolls is off the street's mouths and free")
+	_check(froze_in_place, "a stroll stopped by finish_all() stays where it is (no jump)")
 	_check(guard_still and guard_looked, "刘安禄 keeps his spot and looks about")
+	# The player leaves the map: a post faces its own way again; home stays the marker.
+	map.npc_idle.clear()
+	_check(guard_body.facing.is_equal_approx(post_facing), "刘安禄 faces his own way again when the player is gone")
 	# The player walks up: the farmer stops and turns to them.
 	map.npc_life.npc_walker().finish_all()
 	var by: Vector2 = MapPlaces.spot(map, &"snow.sroad2", farmer_body.global_position, float(tuning.stop_reach_px) - 8.0)
@@ -110,6 +125,8 @@ func _test_street(tree: SceneTree, session: WorldSessionController) -> void:
 	var kept: NpcIdleTuning = pacing.npc_idle
 	pacing.npc_idle = NpcIdleTuning.new() # TEST-ONLY: 经典 as PacePresets.of() makes it, put back below
 	map.player_body.global_position = MapPlaces.zone_centre(map, &"snow.square") # TEST-ONLY: far off again
+	# Strolls under way stop (the pace is chosen at New Game, before anyone strolls).
+	map.npc_life.npc_walker().finish_all()
 	await tree.physics_frame
 	var places: Dictionary[StringName, Vector2] = {}
 	for npc: NpcRuntimeState in map.npc_runtimes():
