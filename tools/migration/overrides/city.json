@@ -72,7 +72,6 @@
 				}
 			]
 		},
-		"city.shangshu.keting.shangshu": {"until": {"mark": "庾子建下狱"}},
 		"city.npc.shangshu.qing_chen": {
 			"scene_mark": "见过清尘",
 			"calls": [
