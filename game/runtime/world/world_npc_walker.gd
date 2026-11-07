@@ -22,9 +22,10 @@ const SEAM_CLEAR: float = 48.0
 ## player's push (a body's width), so the way opens.
 const STEP_ASIDE_REACH: float = 112.0
 const STEP_ASIDE_ACROSS: float = 36.0
-## A stroll keeps to cells with this many free cells on every side (NPC 活起来): there a body
-## standing still leaves room to pass it, so one that stops for the player blocks no way.
-const STROLL_OPEN_CELLS: int = 2
+## A stroll keeps to cells with this many free cells on every side (NPC 活起来): off the narrowest
+## ways (a doorway's throat, a plank bridge); one that stops for the player in a narrow place
+## steps aside when pushed (step_aside()). 2 kept most rooms' people still (owner, 2026-11-07).
+const STROLL_OPEN_CELLS: int = 1
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}

@@ -72,9 +72,10 @@ func advance(delta: float) -> void:
 		# The voxel person puts its work down while it attends to the player.
 		body.set_meta(ATTENDING, near)
 		if near:
-			if walker.is_strolling(npc.character_id):
-				walker.cancel(npc.character_id)
-			body.face_toward(_map.player_body.global_position)
+			# One under way finishes its few steps (they end on open ground) before it turns: stopped
+			# half-way it could stand across a narrow way (a plank bridge) the player is on.
+			if not walker.is_strolling(npc.character_id):
+				body.face_toward(_map.player_body.global_position)
 			person["met"] = true
 			# Back at its work once the player goes: it turns to the furniture again.
 			person["settled"] = false
@@ -107,9 +108,11 @@ func advance(delta: float) -> void:
 				var facing: Vector2 = person["facing"]
 				_face(body, facing.rotated(POST_LOOK * (1.0 if random.randf() < 0.5 else -1.0)) if turned else facing)
 			NpcLifeBook.Mode.WANDER, NpcLifeBook.Mode.WORK:
+				# A short reach (a smith by the forge) takes short steps.
+				var reach: float = float(entry.reach(tuning.home_radius_px))
 				walker.stroll(
 					npc.character_id, body, _map.physical_zone(zone_id), person["home"],
-					float(entry.reach(tuning.home_radius_px)), float(tuning.stroll_min_px),
+					reach, minf(float(tuning.stroll_min_px), reach*0.5),
 					float(tuning.stroll_max_px), float(tuning.speed_px), random.randf,
 				)
 
