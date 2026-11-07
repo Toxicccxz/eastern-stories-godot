@@ -1,0 +1,44 @@
+{
+  "people": {
+    "waterfog.npc.guard": {
+      "note": "水烟阁武士：相貌十分魁梧，白色武士氅罩着青色短衣，牛皮靴；练天邪掌，空手；立绘 Muse 2026-11-07",
+      "coat": "c0ccc8", "pants": "1e191b", "skin": "a16863", "hair": "243028",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "3e4c42",
+      "height": "tall", "build": "heavy", "shoes": "dark"
+    },
+    "waterfog.npc.watcher": {
+      "note": "水烟阁司事：看起来十分和蔼可亲，一双眼睛炯炯有神；司事褂、司事帽；立绘 Muse 2026-11-07",
+      "coat": "5193a6", "pants": "2f5733", "skin": "bc7c61", "hair": "16331a",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "5192a6", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "2a4b2e", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "waterfog.npc.servant": {
+      "note": "仆役：十分和蔼可亲，看起来不像是会武功的人；朴素的短褂；立绘 Muse 2026-11-07",
+      "coat": "cdbda5", "pants": "645244", "skin": "e2b78f", "hair": "0c0b0c",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "96836c",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "waterfog.npc.elite_guard": {
+      "note": "水烟阁红衣武士：鲜红锦衣上绣着金色乌鸦徽号，头戴鲜红金乌冠（红色圆顶帽、帽缘一圈金线），眼神十分锐利；立绘 Muse 2026-11-07",
+      "coat": "cc0914", "pants": "1b1213", "skin": "be7a4c", "hair": "7e4c32",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "c00a14", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "7d0117", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "waterfog.npc.elder6": {
+      "note": "陈坚石：水烟阁六长老，横练「石猿功」成名数十年，个性有点顽固；手里一条非常沉重的黑铁杖；立绘 Muse 2026-11-07",
+      "coat": "664531", "pants": "36251b", "skin": "b78561", "hair": "160f0e",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "staff",
+      "prop_color": "3c291f", "accent": "654631", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "waterfog.npc.elder7": {
+      "note": "颜违：水烟阁七长老，七位长老里最年轻的，办事精明干练，每年出外办理武林大会；不带兵器；立绘 Muse 2026-11-07",
+      "coat": "3f648c", "pants": "253929", "skin": "ac735d", "hair": "27382b",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "3f638a",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "waterfog.npc.elder5": {"same_as": "native.npc.nan_weishui_guest"}
+  }
+}
