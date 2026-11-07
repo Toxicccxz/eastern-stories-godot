@@ -89,6 +89,33 @@ text = "向上的阶梯"
 horizontal_alignment = 1
 mouse_filter = 2
 
+[node name="Midao1StoneDown" type="Area2D" parent="."]
+position = Vector2(200, 144)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"city.midao1.down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Midao1StoneDown"]
+shape = SubResource("StairsShape")
+
+[node name="Steps" type="Polygon2D" parent="Midao1StoneDown"]
+polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
+color = Color(0.4, 0.33, 0.25, 1)
+
+[node name="StepLines" type="Line2D" parent="Midao1StoneDown"]
+points = PackedVector2Array(-24, -8, 24, -8, 24, 8, -24, 8)
+width = 2.0
+default_color = Color(0.2, 0.15, 0.1, 1)
+
+[node name="Name" type="Label" parent="Midao1StoneDown"]
+offset_left = -44.0
+offset_top = -50.0
+offset_right = 44.0
+text = "石板 · 下去"
+horizontal_alignment = 1
+mouse_filter = 2
+
 [node name="Zones" type="Node2D" parent="."]
 
 [node name="Midao1Zone" type="Area2D" parent="Zones"]
@@ -106,6 +133,11 @@ shape = SubResource("Rect_256_192")
 position = Vector2(72, 136)
 script = ExtResource("marker")
 spawn_point_id = &"city.midao1.stairs_arrival"
+
+[node name="Midao1StoneReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(136, 112)
+script = ExtResource("marker")
+spawn_point_id = &"city.midao1.stone_return"
 
 [node name="Characters" type="Node2D" parent="."]
 
@@ -151,6 +183,15 @@ script = ExtResource("landmark")
 landmark_id = &"city.midao1.landmark.ceiling"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Midao1CeilingInteraction"]
+shape = SubResource("Rect_32_32")
+
+[node name="Midao1BedInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(200, 88)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"city.midao1.landmark.bed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/Midao1BedInteraction"]
 shape = SubResource("Rect_32_32")
 
 

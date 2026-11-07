@@ -10,17 +10,22 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 ## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised.
-const TALL: Array[String] = ["standing_rock", "boulder", "banner", "torch", "bush", "tree", "well", "stone_lion", "water_vat", "stele", "censer", "dragon_pillar", "jade_dais", "screen_wall"]
-const SCENES: Array[String] = ["imperial/imperial_meridian", "imperial/imperial_square", "imperial/imperial_throne_hall", "city/city_xiangguo"]
-const MAPS: Array[StringName] = [&"imperial.meridian", &"imperial.court_square", &"imperial.taihe_hall", &"city.xiangguo"]
+const TALL: Array[String] = ["standing_rock", "boulder", "banner", "torch", "bush", "tree", "well", "stone_lion", "water_vat", "stele", "censer", "dragon_pillar", "jade_dais", "screen_wall", "lantern_post", "rockery", "training_post"]
+const SCENES: Array[String] = ["imperial/imperial_meridian", "imperial/imperial_square", "imperial/imperial_throne_hall", "city/city_xiangguo", "imperial/imperial_guard_camp", "imperial/imperial_lanes", "imperial/imperial_garden", "imperial/imperial_cold_palace", "imperial/imperial_well_tunnel"]
+const MAPS: Array[StringName] = [&"imperial.meridian", &"imperial.court_square", &"imperial.taihe_hall", &"city.xiangguo", &"imperial.guard_camp", &"imperial.lanes", &"imperial.yuhua_garden", &"imperial.cold_palace", &"imperial.well_tunnel"]
 ## Maps that are no rooms: no lived-in life expected.
-const NO_ROOMS: Array[StringName] = [&"imperial.meridian", &"imperial.court_square"]
+const NO_ROOMS: Array[StringName] = [&"imperial.meridian", &"imperial.court_square", &"imperial.lanes", &"imperial.yuhua_garden", &"imperial.well_tunnel"]
 ## Where a test may put the player on each map (TEST-ONLY).
 const ENTRIES: Dictionary[StringName, Array] = {
 	&"imperial.meridian": [&"imperial.gate_court", &"imperial.gate_court.wumen_arrival"],
 	&"imperial.court_square": [&"imperial.square", &"imperial.square.gate_arrival"],
 	&"imperial.taihe_hall": [&"imperial.throne_hall", &"imperial.throne_hall.square_entry"],
-	&"city.xiangguo": [&"city.xiangguo_yard", &"city.xiangguo_yard.gate_arrival"]}
+	&"city.xiangguo": [&"city.xiangguo_yard", &"city.xiangguo_yard.gate_arrival"],
+	&"imperial.guard_camp": [&"imperial.guard_yard", &"imperial.guard_yard.gate_arrival"],
+	&"imperial.lanes": [&"imperial.lanes_south", &"imperial.lanes_south.square_arrival"],
+	&"imperial.yuhua_garden": [&"imperial.garden", &"imperial.garden.lanes_arrival"],
+	&"imperial.cold_palace": [&"imperial.cold_yard", &"imperial.cold_yard.garden_arrival"],
+	&"imperial.well_tunnel": [&"imperial.well_bottom", &"imperial.well_bottom.well_arrival"]}
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -54,6 +59,12 @@ func run_all(tree: SceneTree) -> Dictionary:
 				_check(kinds.count("dragon_pillar") == 4 and "jade_dais" in kinds, "the 太和殿: four dragon pillars and the dais")
 			&"city.xiangguo":
 				_check("herb_bed" in kinds and "writing_desk" in kinds and "bedding" in kinds, "相国府: cabbages, the desk, the couch")
+			&"imperial.lanes":
+				_check(kinds.count("lantern_post") == 4 and kinds.count("water_vat") == 4, "the 西长街: four lantern posts, the vats")
+			&"imperial.yuhua_garden":
+				_check(kinds.count("rockery") == 3 and kinds.count("tree") >= 2 and kinds.count("lantern_post") == 2, "the 御花园: three rockeries, cypresses, two lanterns")
+			&"imperial.guard_camp":
+				_check(kinds.count("training_post") == 2 and "weapon_rack" in kinds, "the 侍卫营: the posts and the racks")
 	var missing: Array[StringName] = []
 	for map_id: StringName in MAPS:
 		if not _seen.has(map_id):

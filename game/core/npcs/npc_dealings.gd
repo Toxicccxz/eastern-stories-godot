@@ -21,7 +21,7 @@ extends RefCounted
 ## patrols and the thieves it catches there (`patrol`, NpcPatrol: d/choyin/npc/yamen_po.c),
 ## and the sentence it passes on one brought before it (`sentence`, NpcSentence:
 ## d/choyin/npc/judgeman.c), and how one it caught squares it with it (`settle`, NpcSettle:
-## d/village/npc/meloner.c's return melon cost).
+## d/village/npc/meloner.c's return melon cost); native (第九章 B): the night watch it keeps (`watch`, NpcWatch).
 var vendor_id: StringName = &""
 var object_rules: Array[NpcObjectRule] = []
 var initial_flags: Array[StringName] = []
@@ -55,6 +55,7 @@ var wager: NpcWager
 var shop_front: NpcShopFront
 var accept_kill: NpcAcceptKill
 var patrol: NpcPatrol
+var watch: NpcWatch
 var sentence: NpcSentence
 var settle: NpcSettle
 
@@ -119,6 +120,9 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 	var beat: ContentRecordReader = reader.child("patrol")
 	if beat != null:
 		dealings.patrol = NpcPatrol.from_record(beat)
+	var keeping: ContentRecordReader = reader.child("watch")
+	if keeping != null:
+		dealings.watch = NpcWatch.from_record(keeping)
 	var judging: ContentRecordReader = reader.child("sentence")
 	if judging != null:
 		dealings.sentence = NpcSentence.from_record(judging)

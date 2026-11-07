@@ -248,6 +248,10 @@
           "imperial.taihe_gate.north": {
             "side": "north",
             "width": 192
+          },
+          "imperial.gate_court.east": {
+            "side": "east",
+            "width": 128
           }
         },
         "reach_from": "GateCourtWumenArrival"
@@ -424,6 +428,10 @@
           "imperial.square.north": {
             "side": "north",
             "width": 160
+          },
+          "imperial.square.west": {
+            "side": "west",
+            "width": 128
           }
         },
         "reach_from": "SquareGateArrival"
@@ -715,6 +723,1092 @@
               3.0
             ],
             "shape": "Rect_64_32"
+          }
+        ]
+      }
+    },
+    "guard_camp": {
+      "note": "第九章 B: the 大内侍卫营 east of the 午门内 — a square yard of trodden earth, the hacked wooden posts, the weapon racks; 冯策's small duty room north of it, its lamp always lit.",
+      "file": "imperial_guard_camp.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "imperial.guard_yard": {
+            "floor": "town_ground",
+            "wall": "wall",
+            "size": "yard",
+            "life": {
+              "use": "training_yard",
+              "wealth": "plain",
+              "seed": 93
+            }
+          },
+          "imperial.duty_room": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "small",
+            "life": {
+              "use": "barracks",
+              "wealth": "plain",
+              "seed": 94
+            }
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.guard_yard",
+            [
+              "rel",
+              0.85,
+              0.3
+            ],
+            0.6,
+            2.4,
+            "the hacked wooden posts",
+            {
+              "look": {
+                "kind": "training_post"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.guard_yard",
+            [
+              "rel",
+              0.85,
+              0.7
+            ],
+            0.6,
+            2.4,
+            {
+              "look": {
+                "kind": "training_post"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.guard_yard",
+            [
+              "rel",
+              0.15,
+              0.3
+            ],
+            0.6,
+            2.2,
+            "the weapon racks, paint gone, blades bright",
+            {
+              "look": {
+                "kind": "weapon_rack",
+                "rotation": 90
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.duty_room",
+            [
+              "rel",
+              0.5,
+              0.3
+            ],
+            1.8,
+            0.9,
+            "the desk and the duty book",
+            {
+              "look": {
+                "kind": "writing_desk",
+                "wood": "5a4634"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.duty_room",
+            [
+              "rel",
+              0.85,
+              0.75
+            ],
+            0.9,
+            1.8,
+            "the wooden bed",
+            {
+              "look": {
+                "kind": "bedding",
+                "cloth": "8a8478"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.guard_yard.guard.1": [
+            "imperial.guard_yard",
+            [
+              "rel",
+              0.7,
+              0.3
+            ]
+          ],
+          "imperial.guard_yard.guard.2": [
+            "imperial.guard_yard",
+            [
+              "rel",
+              0.7,
+              0.7
+            ]
+          ],
+          "imperial.duty_room.feng_ce.1": [
+            "imperial.duty_room",
+            [
+              "rel",
+              0.5,
+              0.6
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.guard_yard.west": {
+            "side": "west",
+            "width": 128
+          }
+        },
+        "reach_from": "GuardYardGateArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialGuardCamp",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/guard_camp.json"
+        },
+        "map": "imperial.guard_camp",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ],
+          "StairsShape": [
+            48,
+            48
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "lanes": {
+      "note": "第九章 B: the 西长街 — two red walls and a strip of sky, palace lanterns along the coping (paper torn), moss at the walls' foot; its north end wider with cracked vats full of rain, the 养心门 east, the garden gate north. By night the 禁军's lanterns go up and down it.",
+      "file": "imperial_lanes.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "imperial.lanes_south": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "hall"
+          },
+          "imperial.lanes_north": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "hall"
+          },
+          "imperial.yangxin_gate": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "room"
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.08,
+              0.2
+            ],
+            0.6,
+            0.6,
+            "the palace lanterns along the lane (they light whoever stands under them)",
+            {
+              "look": {
+                "kind": "lantern_post",
+                "light": 120
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.92,
+              0.75
+            ],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "lantern_post",
+                "light": 120
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.08,
+              0.8
+            ],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "lantern_post",
+                "light": 120
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.92,
+              0.2
+            ],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "lantern_post",
+                "light": 120
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.12,
+              0.35
+            ],
+            1.2,
+            1.2,
+            "cracked vats full of rain by the west wall (something to crouch behind)",
+            {
+              "look": {
+                "kind": "water_vat",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.12,
+              0.55
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.yangxin_gate",
+            [
+              "rel",
+              0.3,
+              0.2
+            ],
+            1.2,
+            1.2,
+            "the two bronze vats before the 养心门",
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.yangxin_gate",
+            [
+              "rel",
+              0.7,
+              0.2
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.lanes_south.night_guard.1": [
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.5,
+              0.85
+            ]
+          ],
+          "imperial.lanes_south.watch.1": [
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.55,
+              0.85
+            ]
+          ],
+          "imperial.lanes_south.watch.2": [
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.55,
+              0.2
+            ]
+          ],
+          "imperial.lanes_north.watch.1": [
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.55,
+              0.75
+            ]
+          ],
+          "imperial.lanes_north.night_guard.1": [
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.7,
+              0.35
+            ]
+          ],
+          "imperial.lanes_north.watch.2": [
+            "imperial.lanes_north",
+            [
+              "rel",
+              0.75,
+              0.35
+            ]
+          ],
+          "imperial.yangxin_gate.watch.1": [
+            "imperial.yangxin_gate",
+            [
+              "rel",
+              0.5,
+              0.6
+            ]
+          ],
+          "imperial.lanes_south.eunuch.1": [
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.35,
+              0.5
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.lanes_south.east": {
+            "side": "east",
+            "width": 128
+          },
+          "imperial.lanes_north.north": {
+            "side": "north",
+            "width": 128
+          }
+        },
+        "reach_from": "LanesSouthSquareArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialLanes",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/lanes.json"
+        },
+        "map": "imperial.lanes",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ],
+          "StairsShape": [
+            48,
+            48
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "YangxinGateInteraction",
+            "id": "imperial.yangxin_gate.landmark.gate",
+            "room": "imperial.yangxin_gate",
+            "anchor": [
+              "e",
+              0.6,
+              0
+            ],
+            "shape": "Rect_32_64"
+          }
+        ]
+      }
+    },
+    "garden": {
+      "note": "第九章 B: the 御花园 — Taihu rocks piled on each other with grass in their holes, old cypresses with bark split in strips, a small hall north; the north-west corner's narrow gate, its lock rusted, its hinges oiled. By night the wind in the cypresses covers footsteps; the watch never looks behind the rocks.",
+      "file": "imperial_garden.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "imperial.garden": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "grand"
+          },
+          "imperial.cold_gate": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "small"
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.3,
+              0.35
+            ],
+            2.4,
+            1.6,
+            "the Taihu rockery (cover: the watch never looks behind it)",
+            {
+              "look": {
+                "kind": "rockery",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.65,
+              0.55
+            ],
+            2.0,
+            1.8,
+            {
+              "look": {
+                "kind": "rockery",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.2,
+              0.75
+            ],
+            1.6,
+            1.2,
+            {
+              "look": {
+                "kind": "rockery",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.85,
+              0.25
+            ],
+            1.0,
+            1.0,
+            "the old cypresses",
+            {
+              "look": {
+                "kind": "tree",
+                "species": "cypress",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.45,
+              0.85
+            ],
+            1.0,
+            1.0,
+            {
+              "look": {
+                "kind": "tree",
+                "species": "cypress",
+                "cover": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.5,
+              0.12
+            ],
+            0.6,
+            0.6,
+            "a lantern before the small hall",
+            {
+              "look": {
+                "kind": "lantern_post",
+                "light": 120
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.garden",
+            [
+              "rel",
+              0.88,
+              0.85
+            ],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "lantern_post",
+                "light": 120
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.garden.night_guard.1": [
+            "imperial.garden",
+            [
+              "rel",
+              0.5,
+              0.25
+            ]
+          ],
+          "imperial.garden.watch.1": [
+            "imperial.garden",
+            [
+              "rel",
+              0.52,
+              0.25
+            ]
+          ],
+          "imperial.garden.watch.2": [
+            "imperial.garden",
+            [
+              "rel",
+              0.85,
+              0.5
+            ]
+          ],
+          "imperial.garden.watch.3": [
+            "imperial.garden",
+            [
+              "rel",
+              0.7,
+              0.85
+            ]
+          ],
+          "imperial.garden.watch.4": [
+            "imperial.garden",
+            [
+              "rel",
+              0.45,
+              0.6
+            ]
+          ],
+          "imperial.garden.maid.1": [
+            "imperial.garden",
+            [
+              "rel",
+              0.6,
+              0.3
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.garden.south": {
+            "side": "south",
+            "width": 128
+          },
+          "imperial.cold_gate.west": {
+            "side": "west",
+            "width": 96
+          }
+        },
+        "reach_from": "GardenLanesArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialGarden",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/yuhua_garden.json"
+        },
+        "map": "imperial.yuhua_garden",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ],
+          "StairsShape": [
+            48,
+            48
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "cold_palace": {
+      "note": "第九章 B: the 冷宫 — a yard gone to waste, weeds knee-high, saplings in the steps, paper windows half torn, the dry well with its rope grooves and iron rungs bright at the top; 钟嬷嬷's small room north, clean, the unfinished peony on its frame.",
+      "file": "imperial_cold_palace.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "imperial.cold_yard": {
+            "floor": "town_ground",
+            "wall": "wall",
+            "size": "room",
+            "life": {
+              "use": "farm_yard",
+              "wealth": "poor",
+              "seed": 95
+            }
+          },
+          "imperial.cold_room": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "small",
+            "life": {
+              "use": "home",
+              "wealth": "poor",
+              "seed": 96,
+              "tidy": true
+            }
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.cold_yard",
+            [
+              "rel",
+              0.75,
+              0.75
+            ],
+            1.2,
+            0.6,
+            "a broken vat",
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.cold_room",
+            [
+              "rel",
+              0.5,
+              0.3
+            ],
+            1.6,
+            0.9,
+            "the embroidery frame with its faded peony",
+            {
+              "look": {
+                "kind": "writing_desk",
+                "wood": "6a5240"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.cold_room",
+            [
+              "rel",
+              0.85,
+              0.75
+            ],
+            0.9,
+            1.8,
+            "her narrow bed",
+            {
+              "look": {
+                "kind": "bedding",
+                "cloth": "8a7a6a"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.cold_room.zhong_momo.1": [
+            "imperial.cold_room",
+            [
+              "rel",
+              0.4,
+              0.6
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.cold_yard.east": {
+            "side": "east",
+            "width": 96
+          }
+        },
+        "reach_from": "ColdYardGardenArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialColdPalace",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/cold_palace.json"
+        },
+        "map": "imperial.cold_palace",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ],
+          "StairsShape": [
+            48,
+            48
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "generated": "stairs"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          },
+          {
+            "generated": "stair_markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "WellInteraction",
+            "id": "imperial.cold_yard.landmark.well",
+            "room": "imperial.cold_yard",
+            "anchor": [
+              "c",
+              -2,
+              0
+            ],
+            "shape": "Rect_64_32"
+          }
+        ],
+        "stairs": [
+          {
+            "zone": "imperial.cold_yard",
+            "name": "ColdYardWellDown",
+            "id": "imperial.cold_yard.down",
+            "shape": "StairsShape",
+            "color": "Color(0.4, 0.33, 0.25, 1)",
+            "text": "枯井 · 下去",
+            "marker": {
+              "name": "ColdYardWellReturn",
+              "id": "imperial.cold_yard.well_return"
+            },
+            "anchor": [
+              "rel",
+              0.35,
+              0.5
+            ]
+          }
+        ]
+      }
+    },
+    "well_tunnel": {
+      "note": "第九章 B: under the 冷宫's well — wet mud with footprints, iron rungs up; the brick tunnel north, dripping, candle stubs in the joints, a black cord off a 逆灵宫 crown; at its north end steps up to the stone under the 地下密室's bed.",
+      "file": "imperial_well_tunnel.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "imperial.well_bottom": {
+            "floor": "cave_floor",
+            "wall": "wall",
+            "size": "closet"
+          },
+          "imperial.tunnel": {
+            "floor": "cave_floor",
+            "wall": "wall",
+            "size": "large"
+          },
+          "imperial.cellar_end": {
+            "floor": "cave_floor",
+            "wall": "wall",
+            "size": "closet"
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.tunnel",
+            [
+              "rel",
+              0.2,
+              0.3
+            ],
+            0.9,
+            0.9,
+            "bricks fallen from the vault",
+            {
+              "look": {
+                "kind": "rock_pile"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.tunnel",
+            [
+              "rel",
+              0.8,
+              0.7
+            ],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "rock_pile"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.well_bottom",
+            [
+              "rel",
+              0.2,
+              0.3
+            ],
+            0.7,
+            0.7,
+            "a rotten bucket in the mud",
+            {
+              "look": {
+                "kind": "crocks"
+              }
+            }
+          ]
+        ],
+        "placed": {},
+        "doors": {},
+        "reach_from": "WellBottomWellArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialWellTunnel",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/well_tunnel.json"
+        },
+        "map": "imperial.well_tunnel",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ],
+          "StairsShape": [
+            48,
+            48
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "generated": "stairs"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          },
+          {
+            "generated": "stair_markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "CordInteraction",
+            "id": "imperial.tunnel.landmark.cord",
+            "room": "imperial.tunnel",
+            "anchor": [
+              "c",
+              0,
+              1
+            ],
+            "shape": "Rect_64_32"
+          }
+        ],
+        "stairs": [
+          {
+            "zone": "imperial.well_bottom",
+            "name": "WellBottomUp",
+            "id": "imperial.well_bottom.up",
+            "shape": "StairsShape",
+            "color": "Color(0.4, 0.33, 0.25, 1)",
+            "text": "铁蹬 · 上去",
+            "marker": {
+              "name": "WellBottomWellArrival",
+              "id": "imperial.well_bottom.well_arrival"
+            },
+            "anchor": [
+              "rel",
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "zone": "imperial.cellar_end",
+            "name": "CellarEndUp",
+            "id": "imperial.cellar_end.up",
+            "shape": "StairsShape",
+            "color": "Color(0.4, 0.33, 0.25, 1)",
+            "text": "石阶 · 上去",
+            "marker": {
+              "name": "CellarEndStoneArrival",
+              "id": "imperial.cellar_end.stone_arrival"
+            },
+            "anchor": [
+              "rel",
+              0.5,
+              0.25
+            ]
           }
         ]
       }
