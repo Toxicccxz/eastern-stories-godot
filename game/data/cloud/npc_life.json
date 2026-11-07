@@ -1,0 +1,32 @@
+{
+	"people": {
+		"cloud.npc.b_header": "still",
+		"cloud.npc.bfighter": {"mode": "work", "gesture": "drill", "radius": 48},
+		"cloud.npc.boater": "still",
+		"cloud.npc.book_seller": {"mode": "still", "gesture": "count"},
+		"cloud.npc.box_boss": {"mode": "still", "gesture": "count"},
+		"cloud.npc.box_waiter": "still",
+		"cloud.npc.butcher": {"mode": "still", "gesture": "chop"},
+		"cloud.npc.chess_player": {"mode": "still", "pose": "sit"},
+		"cloud.npc.doctor": {"mode": "still", "gesture": "count"},
+		"cloud.npc.fly": "wander",
+		"cloud.npc.gangster": {"mode": "wander", "radius": 80},
+		"cloud.npc.girl": {"mode": "still", "pose": "sit"},
+		"cloud.npc.god": "still",
+		"cloud.npc.jiading": {"mode": "wander", "radius": 64},
+		"cloud.npc.judge": {"mode": "still", "gesture": "count"},
+		"cloud.npc.lm_guard": "wander",
+		"cloud.npc.mei_po": "wander",
+		"cloud.npc.millinare": "still",
+		"cloud.npc.monk": "wander",
+		"cloud.npc.monk_guard": "post",
+		"cloud.npc.mother": {"mode": "wander", "radius": 64},
+		"cloud.npc.room_gua": "post",
+		"cloud.npc.seller": "still",
+		"cloud.npc.tailor": {"mode": "still", "gesture": "count", "pose": "sit"},
+		"cloud.npc.tea_waiter": {"mode": "work", "gesture": "wipe", "radius": 96},
+		"cloud.npc.thief": "wander",
+		"cloud.npc.weaponor": "still",
+		"cloud.npc.worker": {"mode": "work", "gesture": "hoe"}
+	}
+}

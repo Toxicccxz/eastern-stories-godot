@@ -1,0 +1,29 @@
+{
+	"people": {
+		"choyin.npc.boss": {"mode": "still", "gesture": "count"},
+		"choyin.npc.cake_vendor": "still",
+		"choyin.npc.cityguard": "post",
+		"choyin.npc.crane": "wander",
+		"choyin.npc.crone": "still",
+		"choyin.npc.cucurbit_seller": "still",
+		"choyin.npc.dumpling_seller": "still",
+		"choyin.npc.ghost": "wander",
+		"choyin.npc.girl": "wander",
+		"choyin.npc.guard": "post",
+		"choyin.npc.judge_gu": "post",
+		"choyin.npc.judgeman": "still",
+		"choyin.npc.lady": {"mode": "still", "pose": "sit_ground"},
+		"choyin.npc.lboy": "wander",
+		"choyin.npc.lion": {"mode": "wander", "radius": 64},
+		"choyin.npc.magistra": "post",
+		"choyin.npc.maid": {"mode": "wander", "radius": 64},
+		"choyin.npc.oldman": "wander",
+		"choyin.npc.scholar": "still",
+		"choyin.npc.sergeant": "still",
+		"choyin.npc.serpent": {"mode": "wander", "radius": 80},
+		"choyin.npc.servant": "still",
+		"choyin.npc.shadow": {"mode": "wander", "radius": 80},
+		"choyin.npc.visitor": "wander",
+		"choyin.npc.youngman": "still"
+	}
+}

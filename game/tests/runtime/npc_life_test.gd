@@ -12,6 +12,8 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
+## No entry: they never stir (statues, one frozen in ice).
+const NOT_STIRRING: Array[StringName] = [&"latemoon.npc.room.fireangel", &"latemoon.npc.upstar.statue", &"native.npc.lihong"]
 const FARMER: StringName = &"snow.sroad2.farmer.1.character"
 const GUARD: StringName = &"snow.school1.guard.1.character"
 
@@ -35,10 +37,22 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
+	# Everyone has an entry (B: every region), but those who walk their own way (a patrol, a
+	# night watch) and those who never stir (the training dummies, the two spirit statues, 璃虹
+	# in her ice pillar).
+	var missing: Array[StringName] = []
 	for definition: NpcDefinition in catalog.npcs():
 		var id: StringName = NpcDefinition.unnamed_id(definition.definition_id)
-		if String(id).begins_with("snow.npc."):
-			_check(NpcLifeBook.entry(id) != null, "%s has its life entry" % id)
+		if definition.dealings().patrol != null or definition.dealings().watch != null or NOT_STIRRING.has(id) or String(id).begins_with("native.npc.wooden_dummy."):
+			_check(NpcLifeBook.entry(id) == null or definition.dealings().patrol == null, "%s keeps its own walk" % id)
+			continue
+		if NpcLifeBook.entry(id) == null and not missing.has(id):
+			missing.append(id)
+	_check(missing.is_empty(), "everyone has a life entry (missing %s)" % [missing])
+	for id: StringName in NOT_STIRRING:
+		_check(NpcLifeBook.entry(id) == null, "%s never stirs" % id)
+	_check(NpcLifeBook.entry(&"native.npc.wooden_dummy.1") == null, "a training dummy never stirs")
+	_check(NpcLifeBook.entry(&"waterfog.npc.servant").gesture == "chop" and NpcLifeBook.entry(&"temple.npc.guard_taoist1").mode == NpcLifeBook.Mode.POST and NpcLifeBook.entry(&"native.npc.storyteller").pose == "sit_ground", "a few by hand: 柴房's servant chops, 藏经楼's guards keep their post, the old storyteller sits on his felt")
 	_check(NpcLifeBook.entry(&"snow.npc.guard").mode == NpcLifeBook.Mode.POST, "the gate's 刘安禄 keeps his post")
 	_check(NpcLifeBook.entry(&"snow.npc.herbalist").mode == NpcLifeBook.Mode.STILL, "杨掌柜 stays at his counter")
 	_check(NpcLifeBook.entry(&"snow.npc.traveller").mode == NpcLifeBook.Mode.WANDER, "a traveller wanders")

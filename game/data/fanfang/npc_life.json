@@ -1,0 +1,6 @@
+{
+	"people": {
+		"fanfang.npc.lama_master": {"mode": "still", "pose": "sit_ground"},
+		"fanfang.npc.ronin_master": {"mode": "still", "pose": "sit"}
+	}
+}
