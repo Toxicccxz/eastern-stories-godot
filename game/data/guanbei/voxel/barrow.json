@@ -75,10 +75,6 @@
     {"kind": "far_ground", "at": [500, 1200], "size": [1200, 400], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and south"}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "native.npc.barrow_taoist": {"coat": "2a2622", "hat": true},
-    "native.npc.spent_corvee": {"coat": "6a5a48"},
-    "native.npc.site_officer": {"coat": "e0dcd4"},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"}
+    "default": {"coat": "8a7a5a"}
   }
 }

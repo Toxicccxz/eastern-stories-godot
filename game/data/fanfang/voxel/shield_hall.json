@@ -58,7 +58,6 @@
   "actors": {
     "default": {"coat": "5a5a62"},
     "native.npc.andun": {"coat": "8a7a62"},
-    "native.npc.shield_swordsman": {"coat": "5a5a62"},
-    "native.npc.luca": {"coat": "9a8a6a"}
+    "native.npc.shield_swordsman": {"coat": "5a5a62"}
   }
 }

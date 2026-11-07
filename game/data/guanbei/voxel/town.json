@@ -71,9 +71,6 @@
     {"kind": "far_ground", "at": [1420, 800], "size": [400, 1400], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "native.npc.huaiyang_gate_guard": {"coat": "6a5a48", "hat": true},
-    "native.npc.camel_driver": {"coat": "9a8a68", "hat": true},
-    "native.npc.guanbei_smith": {"coat": "5a4a3a"}
+    "default": {"coat": "8a7a5a"}
   }
 }
