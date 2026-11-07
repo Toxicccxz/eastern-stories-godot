@@ -26,6 +26,9 @@ const STEP_ASIDE_ACROSS: float = 36.0
 ## ways (a doorway's throat, a plank bridge); one that stops for the player in a narrow place
 ## steps aside when pushed (step_aside()). 2 kept most rooms' people still (owner, 2026-11-07).
 const STROLL_OPEN_CELLS: int = 1
+## How many cells a stroll may take through tight ground before it is out on open ground (one
+## whose spawn marker stands by a wall or a counter). Without it, those never stirred (2026-11-07).
+const STROLL_LEAD_CELLS: int = 4
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}
@@ -98,9 +101,16 @@ func stroll(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2
 ## `allowed`, inside `zone` and a spot a body may stand: a stroll stopped anywhere on it (the
 ## player came near, a fight began) leaves the body where it may stay.
 func _stays(grid: Grid, zone: WorldPhysicalZoneArea2D, path: PackedVector2Array, allowed: Dictionary[Vector2i, bool]) -> bool:
+	# One whose own spot is tight (by a wall, a counter, a flower bed) steps out to open ground
+	# first: the first STROLL_LEAD_CELLS cells may be narrow, then the way keeps to `allowed`.
+	var out: bool = false
 	for index: int in range(1, path.size()):
 		var point: Vector2 = path[index]
-		if not allowed.has(grid.cell_of(point)) or not zone.contains_center(point) or not MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, point):
+		if not zone.contains_center(point) or not MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, point):
+			return false
+		if allowed.has(grid.cell_of(point)):
+			out = true
+		elif out or index > STROLL_LEAD_CELLS:
 			return false
 	return true
 
