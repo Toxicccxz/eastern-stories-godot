@@ -74,6 +74,6 @@
   ],
   "actors": {
     "default": {"coat": "8a7a5a"},
-    "native.npc.huaiyang_rider": {"coat": "6a4a3a", "hat": true, "mount": {"coat": "5a3a2a", "mane": "2a2420", "cloth": "8a3a2a"}}
+    "native.npc.huaiyang_rider": {"mount": {"coat": "5a3a2a", "mane": "2a2420", "cloth": "8a3a2a"}}
   }
 }
