@@ -40,7 +40,7 @@ func _player(visited: Array[String]) -> CharacterState:
 func _test_table() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var table: AtlasTable = catalog.atlas()
-	_check(table.cells().size() == 37, "37 places: %d" % table.cells().size())
+	_check(table.cells().size() == 38, "38 places (岚城 the 38th, 第十章 B): %d" % table.cells().size())
 	var spots: Dictionary[Vector2, bool] = {}
 	for cell: AtlasCell in table.cells():
 		_check(catalog.map(cell.map_id) != null, "%s is a map" % cell.map_id)
@@ -91,7 +91,7 @@ func _test_pictures() -> void:
 	_check(load(AtlasPictures.DIRECTORY + "arrow.png") != null, "the arrow is baked")
 	for file: String in ["land", "mist", "shade", "clouds"]:
 		_check(pictures.layer(file) != null, "the %s layer is baked" % file)
-	_check(pictures.roads.size() == 34, "a road for each pair of places an ordinary way joins: %d" % pictures.roads.size())
+	_check(pictures.roads.size() == 35, "a road for each pair of places an ordinary way joins (the 35th from 竹林道 up to 岚城, 第十章 B): %d" % pictures.roads.size())
 	for road: AtlasPictures.Road in pictures.roads:
 		_check(catalog.atlas().cell(road.a) != null and catalog.atlas().cell(road.b) != null, "%s joins places" % road.file)
 		_check(pictures.layer(road.file) != null and road.line.size() >= 2, "%s has its layer and its line" % road.file)
