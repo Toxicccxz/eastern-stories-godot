@@ -10,6 +10,10 @@
      30.2,
      85.6
     ],
+    "door:lancheng.wilds": [
+     34.5,
+     68.0
+    ],
     "zone:canyon.bamboo1": [
      59.9,
      66.2
@@ -2410,7 +2414,7 @@
   }
  },
  "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "7937e66696c014d041c7ac899ac48c8b56ccca47afd5cd361e6b378bb219dbb2",
+ "fingerprint": "48f81cd3512b22a3e2678f24d3f1dc521fb0d2d516538ea17b4db6a99a5e87e7",
  "frame": [
   -769.1,
   14.6,
@@ -2421,7 +2425,7 @@
  "places": "ec72cfa4b786c88f5252e019f403739fbc7c81f103b1ad201ae98cf2e7027327",
  "px": 4.0,
  "regions": {
-  "canyon": "b3f86abe68f12d76c5251c0b8a07ea53c85f2a7d181c454d145c746be1ca4ff3",
+  "canyon": "73aaa2545f7ed4551b682c4720b75ae10cdb7737d5cdfc28e51c7c29b5b4a787",
   "choyin": "e86c5bb125296c0342e7aea809dc5f172c88445782575bcf59c836924651acfd",
   "chuenyu": "a0e68d841185594e6d9d9e5f5cf08f805fadffc64c6114e821c371f219a060a6",
   "city": "80b8b8c74ef0f00ede6c2418c1ebb7ca924e1eb9cd2df61cdb1b9af2b5b62896",
@@ -2432,6 +2436,7 @@
   "green": "6c705e469fccadba1e81a710bcd179418c9941ad403bcf13a4feb74086c0fedd",
   "guanbei": "68f325e7b8ebb08d6f38153f7a0d4dea191197aac4c21964e936e92f32f06cd9",
   "imperial": "221cd0b3dc3cbccbb992da98724ce839ebaf818cf5ffdfc6f884c4b7ca0fbbd9",
+  "lancheng": "ca49535c0df182f7be9a2c1f23aedf71ae7bf9ea7d9b606093c51788376615df",
   "latemoon": "0580e10d5d853f330d8bd43fe35f4ba193044eba8b623c890347735356a3e990",
   "niling": "7598784ecdeb19a045aa58c24f7d03da2c12dbd6e54cccd770d7eed08159b393",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",

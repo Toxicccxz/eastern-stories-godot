@@ -1,0 +1,82 @@
+{
+	"rooms": [
+		{
+			"id": "native:lancheng/huanying",
+			"short": "幻影道",
+			"long": "一条往上斜的窄道，两壁是磨得发亮的黄石，亮得像镜子，人走过去，石头里也走过去一个人。道里一股迷香，甜得发腻，白雾贴着地面流，一直流到脚背上。\n往下是镜子里那间三条道的屋子；往上，雾的那头透过来一点风。\n",
+			"exits": {
+				"down": "es2:d/canyon/fantasy1",
+				"up": "native:lancheng/windgate"
+			}
+		},
+		{
+			"id": "native:lancheng/windgate",
+			"short": "风口",
+			"long": "出了窄道，眼前一下子宽了：一片高处的野地，天很近，云很低。风从前头一阵一阵地扑过来，草齐腰，被风按得倒成一片，一起来，又倒下去。\n往北是一片石林，一根一根灰白的石柱立在雾里，像许多人站着。\n",
+			"outdoors": true,
+			"exits": {
+				"down": "native:lancheng/huanying",
+				"north": "native:lancheng/stone_field"
+			}
+		},
+		{
+			"id": "native:lancheng/stone_field",
+			"short": "石林雾野",
+			"long": "石柱一根挨一根，高的有三四丈，都被风磨圆了，迎风的一面刻满一道一道的槽，背风的一面长着青苔。雾是一条一条的，跟着风在石柱之间流。\n几条踩出来的小路在石林里分开，往北、西北、东北各有一处背风的石坳；西边下风头隐约有烟，东边有几顶破帐篷。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:lancheng/windgate",
+				"west": "native:lancheng/diviner_altar",
+				"east": "native:lancheng/ministry_camp",
+				"northwest": "native:lancheng/calm_west",
+				"north": "native:lancheng/calm_north",
+				"northeast": "native:lancheng/calm_east"
+			}
+		},
+		{
+			"id": "native:lancheng/diviner_altar",
+			"short": "卜风坛",
+			"long": "石林西边的下风头，一座黑石垒的小坛，坛上插着几面黑幡，烧剩的符纸一层一层压在坛脚，风一吹就飞起来几张，又落回去。地上画着一圈一圈的符，圈套着圈，都是往西开口的。\n",
+			"outdoors": true,
+			"exits": {
+				"east": "native:lancheng/stone_field"
+			}
+		},
+		{
+			"id": "native:lancheng/ministry_camp",
+			"short": "兵部旧营",
+			"long": "三顶帐篷，两顶塌了，一顶的帆布被风撕成一条一条的，还在拍。一面兵部的旗倒在草里，旗杆断了。营里的锅是冷的，锅底结着一层黑；帐篷边上一堆石头垒的灶，灶里没有灰——这里很久没人生火了。\n",
+			"outdoors": true,
+			"exits": {
+				"west": "native:lancheng/stone_field"
+			}
+		},
+		{
+			"id": "native:lancheng/calm_west",
+			"short": "西边的石坳",
+			"long": "西北一处背风的石坳，三面是石壁，口朝着石林。坳里的草比外头矮，一丛一丛的，石壁脚下堆着被风吹进来的枯叶。\n",
+			"outdoors": true,
+			"exits": {
+				"southeast": "native:lancheng/stone_field"
+			}
+		},
+		{
+			"id": "native:lancheng/calm_north",
+			"short": "北边的石坳",
+			"long": "正北一处深些的石坳，两道石壁夹着，像一只半合的手掌。坳底一块平石，石面上有几道浅浅的印子，像是有人在这里伏过很久。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:lancheng/stone_field"
+			}
+		},
+		{
+			"id": "native:lancheng/calm_east",
+			"short": "东边的石坳",
+			"long": "东北一处背风的石坳，口子窄，里面宽。石壁上垂着几根干枯的藤，藤上不知谁系了一根褪了色的红绳。\n",
+			"outdoors": true,
+			"exits": {
+				"southwest": "native:lancheng/stone_field"
+			}
+		}
+	]
+}

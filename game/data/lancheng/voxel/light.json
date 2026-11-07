@@ -1,0 +1,17 @@
+{
+  "note": "岚城 (第十章; 剧情总纲 §6 岚城卡: 仙城——白石、风铃、雾; 美术规划 §1 岚城): a high, thin sky close overhead — pale blue-green by day, never the dust-white of 关北; dawn and dusk come pearl and violet through the cloud, the dusk a long rose band under the cloud's grey; nights clear and cold, a deep blue-violet with a bright moon on the white stone. Under cloud a cool pearl grey with a warm cast, lighter than 天驼关's. Indoors the light is soft and even through paper and gauze, the lamps a pale gold.",
+  "outdoor": {
+    "overcast": {"sky": "bcc0c4", "ambient": "c8c8c0", "sun": "ece8dc", "note": "under cloud (DECISIONS「天气」): pearl grey with a warm cast over the white stone"},
+    "sky": {"dawn": "e8d4dc", "day": "bcd8dc", "dusk": "c88aa8", "night": "141634", "midnight": "0c0e28"},
+    "ambient": {"dawn": "e2d2d4", "day": "e8e6da", "dusk": "d0a0b0", "night": "626ca0", "midnight": "565e94"},
+    "ambient_energy": {"dawn": 0.46, "day": 0.54, "dusk": 0.48, "night": 0.32, "midnight": 0.3},
+    "sun": {"dawn": "ffd8c8", "day": "fff6e4", "dusk": "ff9a86", "night": "b4c4f4", "midnight": "a4b6ee"},
+    "sun_energy": {"dawn": 0.62, "day": 1.0, "dusk": 0.8, "night": 0.36, "midnight": 0.32}
+  },
+  "indoor": {
+    "ambient": {"dawn": "d8ccc8", "day": "e0d8cc", "dusk": "d0b0ac", "night": "6e6a84", "midnight": "64607c"},
+    "ambient_energy": {"dawn": 0.42, "day": 0.46, "dusk": 0.42, "night": 0.34, "midnight": 0.32},
+    "sun": {"dawn": "ffe0d0", "day": "fff4e0", "dusk": "ffc0a8", "night": "a8bcf0", "midnight": "a0b4ec"},
+    "sun_energy": {"dawn": 0.3, "day": 0.42, "dusk": 0.32, "night": 0.1, "midnight": 0.08}
+  }
+}

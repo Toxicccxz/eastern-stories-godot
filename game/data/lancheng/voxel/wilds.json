@@ -1,0 +1,762 @@
+{
+  "indoor": false,
+  "camera_size": 26,
+  "note": "寻风地带 (native:lancheng/huanying … calm_east; 第十章 A): up the mirror's polished yellow-stone way (幻影道: incense, a mist lying on the ground, the walls shining) onto a high field under low cloud; wind-worn pillars of warm white stone standing like people, grooved on the windward face, moss on the lee; waist-high grass combed one way, mist in long streaks running with the wind between the pillars (all of it reads the map's guiding wind: WorldMapWinds); three sheltered hollows north, still and flowered; the 逆灵宫's black altar at the downwind west edge, black banners, charm ash and the rings they drew; the 兵部's dead camp on the east, its tents in strips, a broken flag, a cold stove of stones, a frozen scout. Old and used: trodden trails, bleached stumps, a cairn someone built on the way up.",
+  "edge": {
+    "minimum_margin": 32,
+    "maximum_margin": 112,
+    "depth": 2.8,
+    "top": "b8b49a",
+    "bottom": "9a9480",
+    "strata": [
+      "d8ccb0",
+      "ccbea0",
+      "c0b294"
+    ]
+  },
+  "cliffs": {
+    "kinds": [
+      "cliff"
+    ],
+    "low": 1.2,
+    "high": 5.4,
+    "rise": 180,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 160,
+    "trim": [
+      "cliff"
+    ],
+    "grooves": 0.14,
+    "strata": [
+      "e2d6bc",
+      "d8ccb0",
+      "eadfca",
+      "ccbea0",
+      "f0e6d2",
+      "c4b494"
+    ],
+    "tops": [
+      "a8b08a",
+      "b4ba94",
+      "9ca480",
+      "c0c29c"
+    ],
+    "south_rise": 1.0,
+    "areas": [
+      {
+        "rect": [
+          640,
+          1504,
+          1024,
+          1792
+        ],
+        "high": 6.4,
+        "strata": [
+          "c8a860",
+          "d6b86a",
+          "b9975a",
+          "e0c47a",
+          "c0a050",
+          "d2b468"
+        ],
+        "tops": [
+          "9a9a6a",
+          "a4a272",
+          "8c8c5e"
+        ],
+        "grooves": 0.04,
+        "note": "the 幻影道's walls: 天驼关's yellow stone, polished like a mirror (stone_forest2.c: 黄石斑斑)"
+      },
+      {
+        "rect": [
+          224,
+          64,
+          1440,
+          544
+        ],
+        "high": 4.6,
+        "note": "the walls round the three hollows, higher on the lee side"
+      },
+      {
+        "rect": [
+          0,
+          640,
+          224,
+          1120
+        ],
+        "high": 3.4,
+        "strata": [
+          "b8b0a0",
+          "c4bcac",
+          "aca494"
+        ],
+        "note": "the downwind edge, greyer, where the altar is"
+      }
+    ],
+    "lifts": []
+  },
+  "exit_trails": {
+    "lancheng.huanying.down": {
+      "cells": 6,
+      "kind": "path",
+      "width": 4
+    },
+    "note": "the polished way runs on down into the mirror"
+  },
+  "ground": {
+    "path": {
+      "style": "scree",
+      "colors": [
+        "c8c0a4",
+        "d4ccae",
+        "bcb498"
+      ],
+      "gravel": 0.45,
+      "stones": 0.06,
+      "pebbles": [
+        "e8e0cc",
+        "d8d0ba",
+        "f2ecdc",
+        "bcb4a0"
+      ],
+      "note": "trails trodden into the turf, white grit from the pillars"
+    },
+    "grass": {
+      "style": "scree",
+      "colors": [
+        "8c9a74",
+        "98a67e",
+        "a4b088"
+      ],
+      "gravel": 0.06,
+      "stones": 0.02,
+      "pebbles": [
+        "e0d8c4",
+        "c8c0aa"
+      ],
+      "note": "high meadow, silver-green, the turf thin over white stone"
+    },
+    "rock": {
+      "style": "scree",
+      "colors": [
+        "c4b894",
+        "d0c49e",
+        "b8ac88"
+      ],
+      "gravel": 0.5,
+      "stones": 0.06,
+      "pebbles": [
+        "e0d8bc",
+        "c8bc9c",
+        "a8a088"
+      ],
+      "note": "the 幻影道's floor and the bare edges"
+    }
+  },
+  "ground_tints": {
+    "bank": "a8a888",
+    "mud": "9a9478",
+    "chips": [
+      "eae2cc",
+      "dcd4bc",
+      "cec6ac"
+    ],
+    "dust": "e8e4d4",
+    "grit": "f2eee0"
+  },
+  "flora": {
+    "grass_density": 0.9,
+    "density": {
+      "grass": 0.95,
+      "path": 0.05,
+      "rock": 0.12
+    },
+    "flower_threshold": 0.42,
+    "blossom_trees": 0.0,
+    "tree_types": [
+      "pine",
+      "dead",
+      "scrub",
+      "pine"
+    ],
+    "tree_kinds": [],
+    "tree_chance": 0.0,
+    "tree_spacing": 120,
+    "cliff_tufts": 0.18,
+    "cliff_flowers": 0.05,
+    "cliff_trees": 0.03,
+    "cliff_tree_types": [
+      "pine",
+      "dead"
+    ],
+    "outcrop_colors": [
+      "e2d6bc",
+      "d8ccb0",
+      "eadfca"
+    ],
+    "wind": 0.6,
+    "butterflies": 0,
+    "meadows": [
+      {
+        "rect": [
+          224,
+          544,
+          1440,
+          1280
+        ],
+        "on": [
+          "grass"
+        ],
+        "scale": [
+          1.5,
+          2.3
+        ],
+        "density": 0.75,
+        "tufts": 3,
+        "note": "齐腰草 over the 石林雾野, combed by the wind"
+      },
+      {
+        "rect": [
+          576,
+          1280,
+          1088,
+          1536
+        ],
+        "on": [
+          "grass"
+        ],
+        "scale": [
+          1.4,
+          2.1
+        ],
+        "density": 0.7,
+        "tufts": 3,
+        "note": "the 风口: 草齐腰，被风按得倒成一片"
+      },
+      {
+        "rect": [
+          256,
+          96,
+          1408,
+          544
+        ],
+        "on": [
+          "grass"
+        ],
+        "scale": [
+          0.8,
+          1.2
+        ],
+        "density": 0.55,
+        "tufts": 2,
+        "note": "shorter in the hollows, out of the wind"
+      }
+    ]
+  },
+  "ambience": {
+    "birds": [
+      {
+        "at": [
+          832,
+          700
+        ],
+        "radius": 360,
+        "count": 2,
+        "height": 16,
+        "color": "3a3a44",
+        "note": "two kites riding the wind over the field"
+      }
+    ],
+    "dust": [
+      {
+        "rect": [
+          224,
+          544,
+          1440,
+          1280
+        ],
+        "count": 46,
+        "color": "e4e6e2",
+        "size": [
+          1.8,
+          0.16,
+          0.6
+        ],
+        "alpha": 0.13,
+        "height": [
+          0.4,
+          2.4
+        ],
+        "wind": [
+          1.0,
+          1.0
+        ],
+        "follows_wind": true,
+        "note": "mist in long streaks running between the pillars with the wind (WorldMapWinds) — by day only, soft and wide (at night thin bright bars read as snow: 美术坑「haze reads as snow」); the grass still shows the wind",
+        "day": true
+      },
+      {
+        "rect": [
+          576,
+          1280,
+          1088,
+          1536
+        ],
+        "count": 18,
+        "color": "e4e6e2",
+        "size": [
+          1.8,
+          0.16,
+          0.6
+        ],
+        "alpha": 0.13,
+        "height": [
+          0.3,
+          2.0
+        ],
+        "wind": [
+          1.0,
+          1.0
+        ],
+        "follows_wind": true,
+        "day": true
+      },
+      {
+        "rect": [
+          224,
+          544,
+          1440,
+          1280
+        ],
+        "count": 26,
+        "color": "c8c09a",
+        "size": [
+          0.08,
+          0.02,
+          0.05
+        ],
+        "height": [
+          0.2,
+          1.6
+        ],
+        "wind": [
+          1.4,
+          1.4
+        ],
+        "follows_wind": true,
+        "note": "grass seed and chaff on the wind"
+      },
+      {
+        "rect": [
+          704,
+          1536,
+          960,
+          1776
+        ],
+        "count": 22,
+        "color": "ece0ee",
+        "size": [
+          0.9,
+          0.08,
+          0.5
+        ],
+        "alpha": 0.22,
+        "height": [
+          0.05,
+          0.6
+        ],
+        "wind": [
+          0.05,
+          -0.12
+        ],
+        "note": "幻影道: the incense mist lying on the floor, creeping up the way"
+      },
+      {
+        "rect": [
+          32,
+          672,
+          224,
+          1088
+        ],
+        "count": 14,
+        "color": "3a3236",
+        "size": [
+          0.06,
+          0.01,
+          0.06
+        ],
+        "height": [
+          0.2,
+          2.2
+        ],
+        "wind": [
+          1.6,
+          1.6
+        ],
+        "follows_wind": true,
+        "note": "charm ash blown off the altar"
+      }
+    ]
+  },
+  "reshape": [],
+  "buildings": [],
+  "props": [
+    {
+      "kind": "trail",
+      "points": [
+        [
+          832,
+          1752
+        ],
+        [
+          832,
+          1660
+        ],
+        [
+          828,
+          1560
+        ],
+        [
+          824,
+          1420
+        ],
+        [
+          808,
+          1290
+        ],
+        [
+          800,
+          1180
+        ]
+      ],
+      "color": "bcb498",
+      "note": "the one trail up from the mirror"
+    },
+    {
+      "kind": "trail",
+      "points": [
+        [
+          800,
+          1180
+        ],
+        [
+          660,
+          1000
+        ],
+        [
+          500,
+          780
+        ],
+        [
+          432,
+          560
+        ],
+        [
+          416,
+          400
+        ]
+      ],
+      "color": "c4bc9e"
+    },
+    {
+      "kind": "trail",
+      "points": [
+        [
+          800,
+          1180
+        ],
+        [
+          880,
+          1000
+        ],
+        [
+          848,
+          760
+        ],
+        [
+          832,
+          560
+        ],
+        [
+          832,
+          360
+        ]
+      ],
+      "color": "c4bc9e"
+    },
+    {
+      "kind": "trail",
+      "points": [
+        [
+          800,
+          1180
+        ],
+        [
+          1008,
+          1000
+        ],
+        [
+          1168,
+          792
+        ],
+        [
+          1240,
+          560
+        ],
+        [
+          1248,
+          400
+        ]
+      ],
+      "color": "c4bc9e"
+    },
+    {
+      "kind": "cairn",
+      "at": [
+        760,
+        1384
+      ],
+      "size": [
+        24,
+        24
+      ],
+      "stones": 9,
+      "note": "a cairn someone built at the top of the way up"
+    },
+    {
+      "kind": "rock_pile",
+      "at": [
+        904,
+        1452
+      ],
+      "size": [
+        30,
+        24
+      ],
+      "count": 5,
+      "colors": [
+        "e2d6bc",
+        "d8ccb0",
+        "eadfca",
+        "ccbea0"
+      ]
+    },
+    {
+      "kind": "dead_log",
+      "at": [
+        520,
+        1160
+      ],
+      "size": [
+        60,
+        18
+      ],
+      "rotation": 30,
+      "note": "a pine the wind laid down, bleached white"
+    },
+    {
+      "kind": "dead_log",
+      "at": [
+        1180,
+        1120
+      ],
+      "size": [
+        52,
+        16
+      ],
+      "rotation": -20
+    },
+    {
+      "kind": "rock_pile",
+      "at": [
+        612,
+        712
+      ],
+      "size": [
+        26,
+        22
+      ],
+      "count": 4,
+      "colors": [
+        "eadfca",
+        "d8ccb0",
+        "f0e6d2"
+      ]
+    },
+    {
+      "kind": "rock_pile",
+      "at": [
+        1080,
+        712
+      ],
+      "size": [
+        26,
+        22
+      ],
+      "count": 4,
+      "colors": [
+        "eadfca",
+        "d8ccb0",
+        "f0e6d2"
+      ]
+    },
+    {
+      "kind": "stains",
+      "at": [
+        88,
+        888
+      ],
+      "size": [
+        140,
+        160
+      ],
+      "count": 9,
+      "colors": [
+        "2a2628",
+        "3a3438",
+        "4a4246"
+      ],
+      "note": "charm ash in rings round the altar, all opening west"
+    },
+    {
+      "kind": "bones",
+      "at": [
+        1592,
+        1040
+      ],
+      "size": [
+        36,
+        26
+      ],
+      "skull": false,
+      "count": 3,
+      "note": "a pack mule's ribs by the dead camp"
+    },
+    {
+      "kind": "rock_pile",
+      "at": [
+        1584,
+        820
+      ],
+      "size": [
+        30,
+        24
+      ],
+      "count": 6,
+      "colors": [
+        "5a5048",
+        "6a6058",
+        "4a4038"
+      ],
+      "note": "the camp's stove of stones, cold, no ash in it"
+    },
+    {
+      "kind": "lost_pack",
+      "at": [
+        1536,
+        872
+      ],
+      "note": "the frozen scout's pack"
+    },
+    {
+      "kind": "stuck_swords",
+      "at": [
+        1600,
+        980
+      ],
+      "size": [
+        24,
+        20
+      ],
+      "count": 2,
+      "note": "two blades stuck in the turf where men gave up"
+    },
+    {
+      "kind": "rock_pile",
+      "at": [
+        416,
+        300
+      ],
+      "size": [
+        28,
+        22
+      ],
+      "count": 4,
+      "colors": [
+        "eadfca",
+        "d8ccb0"
+      ],
+      "note": "the west hollow: leaves blown in against the walls"
+    },
+    {
+      "kind": "rock_pile",
+      "at": [
+        1300,
+        300
+      ],
+      "size": [
+        24,
+        20
+      ],
+      "count": 3,
+      "colors": [
+        "eadfca",
+        "d8ccb0"
+      ]
+    },
+    {
+      "kind": "glow",
+      "at": [
+        832,
+        1700
+      ],
+      "color": "c08ad0",
+      "day": 0.5,
+      "night": 1.1,
+      "range": 5.0,
+      "height": 1.2,
+      "flicker": 0.04,
+      "note": "迷香: the same purple haze as below the mirror, here all round one"
+    },
+    {
+      "kind": "glow",
+      "at": [
+        832,
+        1600
+      ],
+      "color": "d0a0e0",
+      "day": 0.3,
+      "night": 0.8,
+      "range": 4.0,
+      "height": 1.6
+    },
+    {
+      "kind": "glow",
+      "at": [
+        96,
+        900
+      ],
+      "color": "ff7a4a",
+      "day": 0.0,
+      "night": 1.2,
+      "range": 4.0,
+      "height": 2.0,
+      "flicker": 0.2,
+      "note": "the last of a charm smouldering in the altar's copper dish"
+    },
+    {
+      "kind": "glow",
+      "at": [
+        832,
+        330
+      ],
+      "color": "f4ecd0",
+      "day": 0.0,
+      "night": 0.6,
+      "range": 6.0,
+      "height": 3.0,
+      "note": "moonlight pooling white in the north hollow, out of the wind"
+    }
+  ]
+}

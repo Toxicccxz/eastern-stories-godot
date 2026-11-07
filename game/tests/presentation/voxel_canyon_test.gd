@@ -244,11 +244,11 @@ func _check_armory(tree: SceneTree, map: WorldMapController) -> void:
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"canyon.blackmarket", Vector2(280, 160), 48.0)), "and over to the door east")
 
 
-## The mirror's inside and the 竹林道: the sealed ways, bamboo in the gale, the blue-lit stone.
+## The mirror's inside and the 竹林道: the open upper way and the sealed lower one, bamboo in the gale, the blue-lit stone.
 func _check_bamboo(tree: SceneTree, map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
 	var kinds: Array[String] = _kinds(view)
-	_check(kinds.count("cave_mouth") == 2 and kinds.count("barricade") == 2 and "mirror" in kinds and "boulder" in kinds and "tracks" in kinds, "the two sealed ways (整修中), the mirror's inner face, the great yellow stone, small animals' tracks")
+	_check(kinds.count("cave_mouth") == 2 and kinds.count("barricade") == 1 and "mirror" in kinds and "boulder" in kinds and "tracks" in kinds, "the two ways up and down (the lower sealed, 整修中; the upper open since 第十章 A), the mirror's inner face, the great yellow stone, small animals' tracks")
 	var trees: int = 0
 	for chunk: Vector2i in view.geometry._groves:
 		for crown: ArrayMesh in view.geometry._groves[chunk]["crowns"]:
@@ -259,7 +259,7 @@ func _check_bamboo(tree: SceneTree, map: WorldMapController) -> void:
 	for prop: Dictionary in view.layout.get("props", []):
 		blue += 1 if prop["kind"] == "glow" and Color(String(prop.get("color", "000000"))).b > 0.9 else 0
 	_check(blue >= 3, "bamboo3.c: 洋洋洒洒的蓝光从大黄石的四周漫漫而出: %d" % blue)
-	_check(view.geometry.cliffs == null and view.geometry.terrain_cells.get(Vector2i(56, 824), "") == "chasm", "the upper and lower ways are sealed mouths in the floor's dark, not pits")
+	_check(view.geometry.cliffs == null and view.geometry.terrain_cells.get(Vector2i(312, 824), "") == "chasm" and view.geometry.terrain_cells.get(Vector2i(56, 808), "") != "chasm", "the lower way a sealed mouth in the floor's dark, not a pit; the upper one open (第十章 A)")
 	_check(await MapPlaces.drive_through(tree, map, [&"canyon.bamboo1", &"canyon.bamboo2", &"canyon.bamboo3"]), "walk from the mirror up the 竹林道 to the stone")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"canyon.bamboo3.stone")), "and up to the great yellow stone")
 	var narrow: Array[String] = []

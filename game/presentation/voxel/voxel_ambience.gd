@@ -30,6 +30,9 @@ var _blinks: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
 ## fireflies come out only in the dark.
 var night: float = 0.0
+## 第十章 A (DECISIONS「风」): the map's guiding wind as the view gives it each frame (px space unit
+## vector, ZERO still); dust with `follows_wind` drifts along it instead of its own `wind`.
+var guiding_wind: Vector2 = Vector2.ZERO
 
 ## `birds`: [{"at": [x, y] px, "radius": px, "count": n, "height": units, "color": hex}],
 ## `dust`: [{"rect": [x0, y0, x1, y1] px, "count": n, "color": hex, "wind": [x, z], "height": [low, high]}],
@@ -37,7 +40,8 @@ var night: float = 0.0
 ## "colors", "height", "wind"}] (`up`: sparks rising from a fire instead, `glow`: lit by
 ## themselves), `fireflies`: [{"rect", "count", "color", "height"}]; dust may have a `size`
 ## (units: a long streak of mist on the wind; `alpha`: seen through), `flit` (moths: quick darting about a lamp),
-## `day` (seen only while it is light: motes in a sunbeam), `beam` (a faint slanting shaft of
+## `day` (seen only while it is light: motes in a sunbeam), `follows_wind` (carried along the
+## map's guiding wind, `guiding_wind`, its `wind` only how fast), `beam` (a faint slanting shaft of
 ## light from the rect's first edge down into the room, with the motes; day only).
 ## `lightning`: [{"rect", "every" seconds, "color", "height", "range", "energy"}]: a bolt now
 ## and then somewhere over the rect, the land lit white. `smoke`: [{"at": [x, y] px, "height"
@@ -87,7 +91,7 @@ func add(data: Dictionary) -> void:
 			_motes.append({"multi":motes,"index":i,"holder":holder,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":float(band[0])+fposmod(sin(phase*2.3)*1531.2,1.0)*(float(band[1])-float(band[0])),
 				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(phase*3.1)*812.7,1.0)*0.08,
-				"flit":float(cloud.get("flit",0.0)),"day":cloud.get("day",false)})
+				"flit":float(cloud.get("flit",0.0)),"day":cloud.get("day",false),"follows":cloud.get("follows_wind",false)})
 		if cloud.get("beam",false):
 			_beam(cloud,shapes)
 		index += 1
@@ -372,10 +376,20 @@ func advance(delta: float) -> void:
 			(mote["holder"] as Node3D).visible = daylight
 			if not daylight:
 				continue
-		var travel: float = clock*float(mote["speed"])
-		var wind: Vector2 = mote["wind"]
-		var u: float = fposmod(float(mote["u"])+travel*wind.x,1.0)
-		var v: float = fposmod(float(mote["v"])+travel*wind.y,1.0)
+		var u: float
+		var v: float
+		if mote["follows"]:
+			# Along the guiding wind: carried a little each frame (the wind turns, the motes do not jump).
+			var push: Vector2 = guiding_wind*float(mote["speed"])*delta*(mote["wind"] as Vector2).length()*6.0
+			mote["u"] = fposmod(float(mote["u"])+push.x,1.0)
+			mote["v"] = fposmod(float(mote["v"])+push.y,1.0)
+			u = mote["u"]
+			v = mote["v"]
+		else:
+			var travel: float = clock*float(mote["speed"])
+			var wind: Vector2 = mote["wind"]
+			u = fposmod(float(mote["u"])+travel*wind.x,1.0)
+			v = fposmod(float(mote["v"])+travel*wind.y,1.0)
 		var at := Vector3(float(mote["x0"])+u*float(mote["w"]),float(mote["h"])+sin(clock*1.3+float(mote["u"])*9.0)*0.15,float(mote["z0"])+v*float(mote["d"]))
 		var flit: float = mote["flit"]
 		if flit > 0.0:
