@@ -1,0 +1,18 @@
+{
+	"people": {
+		"temple.npc.guard_taoist1": "post",
+		"temple.npc.guard_taoist2": "post",
+		"temple.npc.guard_taoist3": "post",
+		"temple.npc.guest": "wander",
+		"temple.npc.little_taoist1": {"mode": "work", "gesture": "sweep"},
+		"temple.npc.little_taoist2": {"mode": "work", "gesture": "hoe"},
+		"temple.npc.old_taoist": {"mode": "still", "pose": "sit_ground"},
+		"temple.npc.taoist": {"mode": "work", "gesture": "teach", "radius": 48},
+		"temple.npc.taoist2": {"mode": "work", "radius": 48, "gesture": "drill"},
+		"temple.npc.taoist_guard1": "post",
+		"temple.npc.taoist_guard2": "post",
+		"temple.npc.taoist_guard3": "post",
+		"temple.npc.tfighter": "post",
+		"temple.npc.trainer": "post"
+	}
+}

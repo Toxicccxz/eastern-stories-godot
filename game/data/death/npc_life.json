@@ -1,0 +1,7 @@
+{
+	"people": {
+		"death.npc.bgargoyle": "post",
+		"death.npc.hell_guard": "post",
+		"death.npc.wgargoyle": "post"
+	}
+}

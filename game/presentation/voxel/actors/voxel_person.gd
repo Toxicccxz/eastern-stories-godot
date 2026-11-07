@@ -24,13 +24,42 @@ const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long",
 const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap", "helmet"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back", "haw_pole"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back", "haw_pole", "hoe", "pick", "broom", "rod"]
+## The tool a gesture (NpcLifeBook.GESTURES, DECISIONS「街上的人会动」) puts in a hand that holds
+## nothing by its look.
+const GESTURE_TOOLS: Dictionary[String, String] = {
+	"hoe": "hoe", "pick": "pick", "chop": "axe", "hammer": "hammer", "sweep": "broom", "fish": "rod",
+}
+## What the look carries in its hand (the rest hang at the waist or ride on the back, leaving the
+## hand free for a gesture's tool).
+const IN_HAND: Array[String] = ["staff", "spear", "fan", "teapot", "umbrella", "book", "hammer", "glaive", "whisk", "axe", "cleaver", "haw_pole", "hoe", "pick", "broom", "rod"]
+## Seconds one round of a gesture takes.
+const GESTURE_SECONDS: Dictionary[String, float] = {
+	"hoe": 1.9, "pick": 1.7, "chop": 1.4, "hammer": 1.0, "sweep": 1.6, "fish": 5.0, "drill": 1.3,
+	"wipe": 1.8, "teach": 3.6, "count": 0.9,
+}
+## A pose's leg angle (forward, radians): on a low stool, cross-legged on the ground.
+const POSE_LEGS: Dictionary[String, float] = {"sit": -1.2, "sit_ground": -1.5}
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
 ## round the shins; armor (甲): a plate on each shoulder and one on the chest; shield (圆盾, 铁盾会):
 ## strapped to the left forearm.
 const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor", "shield"]
 
 var walking: bool = false
+## What the hands do while the person stands at work ("" none; NpcLifeBook.GESTURES) and how it
+## stays put ("stand", "sit", "sit_ground"); set before it is added (activity()).
+var gesture: String = ""
+var pose: String = "stand"
+## Whether the gesture plays now: the view clears it while the person attends to the player.
+var working: bool = true
+## Whether the person is up and about (the view clears it while it fights or lies senseless): only
+## then does it sit or work.
+var at_ease: bool = true
+## The gesture's tool in a free hand ("" none).
+var _tool: String = ""
+## How far the pose lowers the body.
+var _sink: float = 0.0
+var _seat: Node3D
 var pace: float = 0.0
 var clock: float = 0.0
 var torso: Node3D
@@ -64,6 +93,15 @@ func configure(data: Dictionary) -> void:
 	coat = String(data.get("coat", coat))
 	hat = bool(data.get("hat", false))
 	headless = bool(data.get("headless", false))
+
+
+## The person's work and pose (NpcLifeBook's entry), before it is added: a gesture's tool goes in
+## a hand the look leaves empty.
+func activity(work: String, how: String) -> void:
+	gesture = work
+	pose = how if POSE_LEGS.has(how) else "stand"
+	if GESTURE_TOOLS.has(work) and not IN_HAND.has(_word("prop", "none")):
+		_tool = GESTURE_TOOLS[work]
 
 
 func _ready() -> void:
@@ -148,6 +186,7 @@ func _ready() -> void:
 		_box(torso, Vector3(0, 0.94, 0.185), Vector3(0.46, 0.3, 0.04), plate)
 		_box(torso, Vector3(0, 0.8, 0.19), Vector3(0.48, 0.04, 0.04), Color(plate).darkened(0.25).to_html(false))
 	_prop()
+	_pose()
 	if extras.has("towel_neck"):
 		_box(torso, Vector3(0.12, 1.14, 0.12), Vector3(0.12, 0.08, 0.3), _hex("towel", "ece6d6"))
 		_box(torso, Vector3(0.14, 0.98, 0.21), Vector3(0.1, 0.26, 0.05), _hex("towel", "ece6d6"))
@@ -262,7 +301,13 @@ func _apron() -> void:
 ## The one thing carried: in the right hand (arms[0], the figure's right), at the left hip or on
 ## the back.
 func _prop() -> void:
-	var prop: String = _word("prop", "none")
+	_draw_prop(_word("prop", "none"))
+	if not _tool.is_empty():
+		_draw_prop(_tool)
+
+
+## One thing carried (PROPS) on this body.
+func _draw_prop(prop: String) -> void:
 	if prop == "none":
 		return
 	drawn.append("prop:" + prop)
@@ -352,10 +397,44 @@ func _prop() -> void:
 			# A woodcutter's axe at the side, the blade below the hand, its edge forward.
 			_held(hand, grip + Vector3(0, -0.16, 0.04), Vector3(0.05, 0.4, 0.05), wood)
 			_held(hand, grip + Vector3(0, -0.32, 0.13), Vector3(0.04, 0.15, 0.16), _hex("prop_color", "8a8f94"))
+		"hoe", "pick", "broom":
+			# A long-handled tool hanging from the hand to the ground: its head forward (锄头, 镐)
+			# or a brush of twigs across (扫帚).
+			var reach: float = 0.95*_legs_k
+			_held(hand, grip + Vector3(0, -reach/2.0, 0.04), Vector3(0.05, reach, 0.05), wood)
+			var head: Vector3 = grip + Vector3(0, -reach, 0.04)
+			match prop:
+				"hoe":
+					_held(hand, head + Vector3(0, 0.04, 0.12), Vector3(0.16, 0.05, 0.22), _hex("prop_color", "7a7e82"))
+				"pick":
+					_held(hand, head + Vector3(0, 0.02, 0.0), Vector3(0.06, 0.07, 0.5), _hex("prop_color", "6a6e72"))
+				"broom":
+					_held(hand, head + Vector3(0, -0.06, 0.02), Vector3(0.3, 0.16, 0.08), _hex("prop_color", "b89a5a"))
+		"rod":
+			# A bamboo fishing rod held out forward and a little down, its line hanging from the tip.
+			var bamboo: String = _hex("prop_color", "b8a868")
+			var lean := Vector3(0, -0.29, 0.96)
+			_held_tilted(hand, grip + lean*0.7, Vector3(0.03, 1.4, 0.03), bamboo, Vector3(1.865, 0, 0))
+			_held(hand, grip + lean*1.4 + Vector3(0, -0.3, 0), Vector3(0.01, 0.6, 0.01), "d8d4c8")
 		"cleaver":
 			# A butcher's broad knife (郑屠夫's 解牛刀) hanging from the hand, the wide blade forward.
 			_held(hand, grip + Vector3(0, -0.06, 0.04), Vector3(0.05, 0.14, 0.05), wood)
 			_held(hand, grip + Vector3(0, -0.22, 0.09), Vector3(0.03, 0.2, 0.18), _hex("prop_color", "c2c6c8"))
+
+
+## A pose (POSE_LEGS): the legs reach forward from the hips and the body sinks until the feet
+## touch the ground; on a stool ("sit") a low one is drawn under the hips.
+func _pose() -> void:
+	if not POSE_LEGS.has(pose):
+		return
+	var hip: float = 0.57*_legs_k
+	_sink = hip*(1.0 - cos(absf(POSE_LEGS[pose]))) if pose == "sit" else hip - 0.12
+	drawn.append("pose:" + pose)
+	if pose == "sit":
+		_seat = Node3D.new()
+		add_child(_seat)
+		var height: float = hip - _sink
+		_s.box(_seat, Vector3(0, height/2.0 - 0.02, -0.06), Vector3(0.42, height - 0.04, 0.36), _hex("seat_color", "7a5a3a"))
 
 
 ## A sheathed weapon hung from the belt at the hip `x` (0.3 the left, -0.3 the right): the hilt
@@ -450,7 +529,73 @@ func _process(delta: float) -> void:
 	legs[1].rotation.x = -stride
 	arms[0].rotation.x = -stride*0.75
 	arms[1].rotation.x = stride*0.75
-	torso.position.y = absf(sin(pace))*0.045 if walking else sin(clock*2.1)*0.012
+	for arm: Node3D in arms:
+		arm.rotation.z = 0.0
+	torso.rotation = Vector3.ZERO
+	var posed: bool = not walking and at_ease and POSE_LEGS.has(pose)
+	var sink: float = _sink if posed else 0.0
+	if _seat != null:
+		_seat.visible = posed
+	for leg: Node3D in legs:
+		leg.position.y = 0.57*_legs_k - sink
+		if posed:
+			leg.rotation.x = POSE_LEGS[pose]
+	torso.position.y = (absf(sin(pace))*0.045 if walking else sin(clock*2.1)*0.012) - sink
 	eyes.scale.y = 0.12 if fmod(clock,4.3)<0.13 else 1.0
-	if not walking and fmod(clock,7.2)>5.8:
+	if not walking and working and at_ease and GESTURE_SECONDS.has(gesture):
+		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
+	elif not walking and fmod(clock,7.2)>5.8:
 		arms[1].rotation.x = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8
+
+
+## One moment `t` (0..1) of the gesture's round: arms (0 holds the tool) and the lean of the body.
+## Arms turn forward and up with a negative x.
+func _gesture(t: float) -> void:
+	match gesture:
+		"hoe", "pick", "chop":
+			# Up slowly over the head, down hard, a rest with the tool in the ground.
+			var swing: float = -0.35
+			if t < 0.55:
+				swing = lerpf(-0.35, -2.5, smoothstep(0.0, 1.0, t/0.55))
+			elif t < 0.68:
+				swing = lerpf(-2.5, -0.35, (t - 0.55)/0.13)
+			arms[0].rotation.x = swing
+			arms[1].rotation.x = swing*0.9
+			torso.rotation.x = 0.14 if t >= 0.6 else 0.03
+		"hammer":
+			# One arm up and down on the anvil, the other steadying the work.
+			var strike: float = lerpf(-2.0, -0.5, smoothstep(0.55, 0.7, t)) if t < 0.7 else lerpf(-0.5, -2.0, smoothstep(0.7, 1.0, t))
+			arms[0].rotation.x = strike
+			arms[1].rotation.x = -0.75
+		"sweep":
+			# Both hands low on the broom, swept side to side.
+			var side: float = sin(t*TAU)*0.35
+			arms[0].rotation.x = -0.45
+			arms[1].rotation.x = -0.55
+			arms[0].rotation.z = side
+			arms[1].rotation.z = side
+			torso.rotation.y = side*0.4
+		"fish":
+			# The rod held out; now and then a small jerk of the line.
+			var jerk: float = sin(clampf((t - 0.8)/0.08, 0.0, 1.0)*PI)*0.25
+			arms[0].rotation.x = -0.95 - jerk
+			arms[1].rotation.x = -0.8 - jerk
+		"drill":
+			# Punches, one hand and the other, with a pause to breathe.
+			var left: float = sin(clampf(t/0.2, 0.0, 1.0)*PI)
+			var right: float = sin(clampf((t - 0.3)/0.2, 0.0, 1.0)*PI)
+			arms[0].rotation.x = -0.3 - 1.25*left
+			arms[1].rotation.x = -0.3 - 1.25*right
+			torso.rotation.y = (left - right)*0.18
+		"wipe":
+			# A cloth round and round on the table in front.
+			arms[1].rotation.x = -1.1 + sin(t*TAU)*0.15
+			arms[1].rotation.z = cos(t*TAU)*0.3
+		"teach":
+			# One hand raised, turning as the words go.
+			arms[1].rotation.x = -1.2 + sin(t*TAU)*0.25
+			arms[1].rotation.z = sin(t*TAU*2.0)*0.15
+		"count":
+			# Both hands before the chest, the fingers at the beads.
+			arms[0].rotation.x = -0.9 + sin(t*TAU)*0.06
+			arms[1].rotation.x = -0.9 - sin(t*TAU)*0.06

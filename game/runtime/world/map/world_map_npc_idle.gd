@@ -9,9 +9,16 @@ extends RefCounted
 ## draws the strolls. Ticked on NPC heart_beat time (world time: still in a fight and
 ## while the world is held), only on the active map.
 
+## One at work faces a piece of furniture (the anvil, the counter, a table) this near the edge
+## of its body (pixels), else keeps the way it came.
+const WORK_FACES_PX: float = 40.0
+
 ## How far a post's look turns from its own facing (radians, either way; a body faces in
 ## eighths).
 const POST_LOOK: float = PI / 4.0
+
+## Body meta: true while the person attends to the player (its gesture stops).
+const ATTENDING: StringName = &"npc_attending"
 
 var _map: WorldMapController
 ## {home: Vector2, zone: StringName, facing: Vector2, wait: float, turned: bool, met: bool}
@@ -62,21 +69,33 @@ func advance(delta: float) -> void:
 			npc.character_id == selected
 			or body.global_position.distance_to(_map.player_body.global_position) <= float(tuning.stop_reach_px)
 		)
+		# The voxel person puts its work down while it attends to the player.
+		body.set_meta(ATTENDING, near)
 		if near:
 			if walker.is_strolling(npc.character_id):
 				walker.cancel(npc.character_id)
 			body.face_toward(_map.player_body.global_position)
 			person["met"] = true
+			# Back at its work once the player goes: it turns to the furniture again.
+			person["settled"] = false
 			person["wait"] = tuning.pause_seconds(random.randf())
 			continue
 		if person["met"]:
 			# The player went on: one that stays put faces its own way again.
 			person["met"] = false
-			if not entry.moves():
+			if not entry.moves() and entry.gesture == "":
 				_face(body, person["facing"])
 				person["turned"] = false
 		if walker.is_strolling(npc.character_id):
+			person["settled"] = false
 			continue
+		if not person.get("settled", false):
+			# At its work again: it turns to what it works at.
+			person["settled"] = true
+			if entry.gesture != "":
+				var at: Vector2 = _work_point(body.global_position, _map.physical_zone(zone_id))
+				if at.is_finite():
+					body.face_toward(at)
 		person["wait"] = float(person["wait"]) - delta
 		if float(person["wait"]) > 0.0:
 			continue
@@ -93,6 +112,28 @@ func advance(delta: float) -> void:
 					float(entry.reach(tuning.home_radius_px)), float(tuning.stroll_min_px),
 					float(tuning.stroll_max_px), float(tuning.speed_px), random.randf,
 				)
+
+
+## The nearest point of the furniture of `zone` (the map's Furnishings standing in it and on the
+## stage now: position and footprint) within WORK_FACES_PX of a body at `point` (17 px its half
+## width), else Vector2.INF.
+func _work_point(point: Vector2, zone: WorldPhysicalZoneArea2D) -> Vector2:
+	var furnishings: Node = _map.find_child("Furnishings", false, false)
+	var best: Vector2 = Vector2.INF
+	if furnishings == null:
+		return best
+	for piece: Node in furnishings.get_children():
+		if not (piece is Node2D) or not piece.has_meta("footprint") or bool(piece.get_meta("staged_off", false)):
+			continue
+		if zone != null and not zone.global_rect().has_point((piece as Node2D).global_position):
+			continue
+		var size: Vector2 = piece.get_meta("footprint")
+		var centre: Vector2 = (piece as Node2D).global_position
+		var near: Vector2 = point.clamp(centre - size/2.0, centre + size/2.0)
+		var gap: float = near.distance_to(point) - 17.0
+		if gap <= WORK_FACES_PX and (not best.is_finite() or near.distance_to(point) < best.distance_to(point)):
+			best = near
+	return best
 
 
 ## Forgets everyone (the map is left, or reset): a post or one that stays put faces its own

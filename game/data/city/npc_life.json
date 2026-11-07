@@ -1,0 +1,24 @@
+{
+	"people": {
+		"city.npc.boss": {"mode": "still", "gesture": "count"},
+		"city.npc.caker": "still",
+		"city.npc.chen": "still",
+		"city.npc.clother": {"mode": "still", "gesture": "count"},
+		"city.npc.dumpling_seller": "still",
+		"city.npc.guard": "post",
+		"city.npc.microsof": {"mode": "still", "gesture": "count"},
+		"city.npc.shangshu.gardener": {"mode": "work", "gesture": "hoe"},
+		"city.npc.shangshu.guard": "post",
+		"city.npc.shangshu.huyuan": "post",
+		"city.npc.shangshu.huyuan1": "post",
+		"city.npc.shangshu.maid": {"mode": "work", "gesture": "wipe", "radius": 64},
+		"city.npc.shangshu.qing_chen": {"mode": "still", "pose": "sit"},
+		"city.npc.shangshu.shangshu": "still",
+		"city.npc.shoer": {"mode": "still", "gesture": "count"},
+		"city.npc.trader": "wander",
+		"city.npc.vendor": {"mode": "still", "gesture": "teach"},
+		"city.npc.waiter": {"mode": "work", "radius": 96, "gesture": "wipe"},
+		"city.npc.walker": "wander",
+		"city.npc.weaponor": {"mode": "still", "gesture": "count"}
+	}
+}
