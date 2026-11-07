@@ -11,6 +11,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
+const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 const FARMER: StringName = &"snow.sroad2.farmer.1.character"
 const GUARD: StringName = &"snow.school1.guard.1.character"
 
@@ -20,6 +21,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
+	await _test_person(tree)
 	var session: WorldSessionController = Work.create_session(tree)
 	for frame: int in 4:
 		await tree.process_frame
@@ -41,9 +43,12 @@ func _test_data() -> void:
 	_check(NpcLifeBook.entry(&"snow.npc.herbalist").mode == NpcLifeBook.Mode.STILL, "杨掌柜 stays at his counter")
 	_check(NpcLifeBook.entry(&"snow.npc.traveller").mode == NpcLifeBook.Mode.WANDER, "a traveller wanders")
 	var smith: NpcLifeBook.Entry = NpcLifeBook.entry(&"snow.npc.smith")
-	_check(smith.mode == NpcLifeBook.Mode.WORK and smith.reach(120) == 32, "王铁匠 works by his forge (32 px)")
+	_check(smith.mode == NpcLifeBook.Mode.WORK and smith.reach(120) == 32 and smith.gesture == "hammer", "王铁匠 hammers by his forge (32 px)")
+	_check(NpcLifeBook.entry(&"snow.npc.beggar").pose == "sit_ground", "the beggar sits on the ground")
+	for gesture: String in NpcLifeBook.GESTURES:
+		_check(Person.GESTURE_SECONDS.has(gesture), "the voxel person plays %s" % gesture)
 	_check(NpcLifeBook.parse("work").reach(120) == NpcLifeBook.WORK_RADIUS_PX and NpcLifeBook.parse("wander").reach(120) == 120, "a work entry stays nearer its spot than a wanderer")
-	for bad: Variant in ["dance", {"mode": "wander", "radius": -4}, {"mode": "wander", "pace": 3}, 7]:
+	for bad: Variant in ["dance", {"mode": "wander", "radius": -4}, {"mode": "wander", "pace": 3}, 7, {"mode": "post", "gesture": "hoe"}, {"mode": "wander", "pose": "sit"}, {"mode": "work", "gesture": "juggle"}, {"mode": "still", "pose": "lie_down"}]:
 		var problem: Array[String] = []
 		_check(NpcLifeBook.parse(bad, problem) == null and not problem.is_empty(), "refused: %s" % [bad])
 	_check(NpcLifeBook.entry(&"nobody") == null and NpcLifeBook.entry(&"oldpine.npc.nobody") == null, "no entry: stays put")
@@ -51,6 +56,41 @@ func _test_data() -> void:
 	_check(pacing.npc_idle.enabled and pacing.npc_idle.speed_px > 0 and pacing.npc_idle.stop_reach_px > 0, "people move about (pacing npc_idle on)")
 	_check(not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).npc_idle.enabled, "经典: they stand where they were put")
 	_check(pacing.copy().npc_idle == pacing.npc_idle, "a copy of the pacing keeps its npc_idle")
+
+
+## The voxel person: a gesture's tool in an empty hand (not over the look's own), the arms at
+## work and still while it attends to the player; a stool under one that sits, gone as it walks.
+func _test_person(tree: SceneTree) -> void:
+	var smith: Person = Person.new()
+	smith.configure({"coat": "5a4a3a"})
+	smith.activity("hammer", "stand")
+	tree.root.add_child(smith)
+	_check(smith.drawn.has("prop:hammer"), "a smith at work holds a hammer")
+	var lifted: bool = false
+	for frame: int in 40:
+		smith._process(0.05)
+		lifted = lifted or smith.arms[0].rotation.x < -1.5
+	_check(lifted, "the hammer goes up and down")
+	smith.working = false
+	smith._process(0.05)
+	_check(smith.arms[0].rotation.x > -0.2, "attending to the player, the smith puts the hammer down")
+	smith.free()
+	var carrier: Person = Person.new()
+	carrier.configure({"prop": "staff"})
+	carrier.activity("hoe", "stand")
+	tree.root.add_child(carrier)
+	_check(carrier.drawn.has("prop:staff") and not carrier.drawn.has("prop:hoe"), "a look's own prop stays")
+	carrier.free()
+	var sitter: Person = Person.new()
+	sitter.configure({})
+	sitter.activity("", "sit")
+	tree.root.add_child(sitter)
+	sitter._process(0.05)
+	_check(sitter.drawn.has("pose:sit") and sitter._seat != null and sitter._seat.visible and sitter.legs[0].rotation.x < -1.0 and sitter.torso.position.y < -0.1, "one that sits sits low on a stool, legs forward")
+	sitter.walking = true
+	sitter._process(0.05)
+	_check(not sitter._seat.visible and sitter.torso.position.y > -0.1, "walking, it stands up and leaves the stool")
+	sitter.free()
 
 
 func _test_street(tree: SceneTree, session: WorldSessionController) -> void:
