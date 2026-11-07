@@ -425,8 +425,11 @@ func _sync_actors(delta: float) -> void:
 			# between the walk and idle poses on the intervening frames.
 			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
 		if model is Person:
-			# One attending to the player puts its work down (WorldMapNpcIdle).
+			# One attending to the player puts its work down (WorldMapNpcIdle); one fighting or lying
+			# senseless neither works nor sits.
 			(model as Person).working = not bool(body.get_meta(WorldMapNpcIdle.ATTENDING, false))
+			var resident: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
+			(model as Person).at_ease = resident == null or (resident.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not resident.relationship.is_fighting())
 		# A statue (神像) never turns or falls: its plinth and wings stay with it.
 		if not (model is Person and not (model as Person).stone.is_empty()):
 			var direction: float = atan2(body.facing.x,body.facing.y)

@@ -7,7 +7,7 @@
 		"oldpine.npc.butterfly": "wander",
 		"oldpine.npc.fat_bandit": {"mode": "wander", "radius": 80},
 		"oldpine.npc.maniac": {"mode": "wander", "radius": 80},
-		"oldpine.npc.serpent": "wander",
+		"oldpine.npc.serpent": "still",
 		"oldpine.npc.spy": "still",
 		"oldpine.npc.tall_bandit": {"mode": "wander", "radius": 80},
 		"oldpine.npc.venomsnake": {"mode": "wander", "radius": 48},

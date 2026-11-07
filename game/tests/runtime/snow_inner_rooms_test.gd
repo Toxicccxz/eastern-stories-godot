@@ -34,8 +34,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	session = Work.create_session(tree)
 	await tree.process_frame
+	# TEST-ONLY: the walk round the yard's pillar is the rooms' own (the route helper's path round
+	# it is fragile); 柳绘心 stands where she was put, as before people strolled
+	# (DECISIONS「街上的人会动」, npc_life_test covers the strolls). Put back below.
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var idle: NpcIdleTuning = pacing.npc_idle
+	pacing.npc_idle = NpcIdleTuning.new()
 	await _test_inner_school(tree, session)
 	await _test_storage_and_cellar(tree, session)
+	pacing.npc_idle = idle
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}

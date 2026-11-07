@@ -160,8 +160,16 @@ static func drive(tree: SceneTree, map: WorldMapController, target: Vector2) -> 
 	return arrived
 
 
+## Walks the player into `zone_id` (to its middle). Someone strolling about the room may stop on
+## the spot (DECISIONS「街上的人会动」): being in the room is the walk's end, else a spot is found
+## again round where people stand now.
 static func drive_to_zone(tree: SceneTree, map: WorldMapController, zone_id: StringName) -> bool:
-	return await drive(tree, map, zone_spot(map, zone_id))
+	for attempt: int in 2:
+		var arrived: bool = await drive(tree, map, zone_spot(map, zone_id))
+		var player: WorldPlayerRuntimeState = map.player_runtime()
+		if arrived or (player != null and player.world_location().zone_id == zone_id):
+			return true
+	return false
 
 
 ## The map a zone lies on (the catalog's), so a suite names only the zone.

@@ -22,6 +22,9 @@ const SEAM_CLEAR: float = 48.0
 ## player's push (a body's width), so the way opens.
 const STEP_ASIDE_REACH: float = 112.0
 const STEP_ASIDE_ACROSS: float = 36.0
+## A stroll keeps to cells with this many free cells on every side (NPC 活起来): there a body
+## standing still leaves room to pass it, so one that stops for the player blocks no way.
+const STROLL_OPEN_CELLS: int = 2
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}
@@ -66,7 +69,13 @@ func stroll(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2
 	var off: Array[Vector2i] = _strictly_off_seams(grid, zone, candidates)
 	var allowed: Dictionary[Vector2i, bool] = {}
 	for cell: Vector2i in _strictly_off_seams(grid, zone, grid.free_cells_in(area)):
-		allowed[cell] = true
+		if grid.open(cell, STROLL_OPEN_CELLS):
+			allowed[cell] = true
+	var open: Array[Vector2i] = []
+	for cell: Vector2i in off:
+		if allowed.has(cell):
+			open.append(cell)
+	off = open
 	for attempt: int in range(mini(DESTINATION_TRIES, off.size())):
 		var index: int = clampi(int(float(draw.call()) * off.size()), 0, off.size() - 1)
 		var spot: Vector2 = grid.center_of(off[index])
@@ -383,6 +392,15 @@ class Grid:
 		for collision: CollisionShape2D in parts.static_shapes:
 			result.append(0 if collision.disabled or collision.shape == null else 1)
 		return result
+
+	## Whether every cell within `reach` cells of `cell` is free.
+	func open(cell: Vector2i, reach: int) -> bool:
+		for y: int in range(cell.y - reach, cell.y + reach + 1):
+			for x: int in range(cell.x - reach, cell.x + reach + 1):
+				var near := Vector2i(x, y)
+				if not _astar.is_in_boundsv(near) or _astar.is_point_solid(near):
+					return false
+		return true
 
 	func cell_of(point: Vector2) -> Vector2i:
 		return Vector2i(((point - _origin) / CELL).floor())

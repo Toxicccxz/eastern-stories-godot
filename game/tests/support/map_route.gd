@@ -110,11 +110,29 @@ static func drive(tree: SceneTree, map: Node2D, body: CharacterBody2D, target: V
 		return false
 	points.append(target)
 	var index: int = 0
-	for _frame: int in range(points.size() * 30 + 240):
+	# People stroll about their rooms (DECISIONS「街上的人会动」): one that steps into the way and stops
+	# for the player is walked round, the path found again from here (a few times at most).
+	var replans: int = 4
+	var stuck_at: Vector2 = body.global_position
+	var stuck_frames: int = 0
+	for _frame: int in range(points.size() * 30 + 240 + replans * 120):
 		while index < points.size() and body.global_position.distance_to(points[index]) <= 8.0:
 			index += 1
 		if index >= points.size():
 			break
+		if body.global_position.distance_to(stuck_at) > 2.0:
+			stuck_at = body.global_position
+			stuck_frames = 0
+		else:
+			stuck_frames += 1
+		if stuck_frames >= 20 and replans > 0:
+			var again: PackedVector2Array = path(map, body.global_position, target, avoid)
+			replans -= 1
+			stuck_frames = 0
+			if not again.is_empty():
+				again.append(target)
+				points = again
+				index = 0
 		var delta: Vector2 = points[index] - body.global_position
 		press_toward(body, delta)
 		await tree.physics_frame

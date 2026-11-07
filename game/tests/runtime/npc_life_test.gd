@@ -93,8 +93,17 @@ func _test_person(tree: SceneTree) -> void:
 	carrier.configure({"prop": "staff"})
 	carrier.activity("hoe", "stand")
 	tree.root.add_child(carrier)
-	_check(carrier.drawn.has("prop:staff") and not carrier.drawn.has("prop:hoe"), "a look's own prop stays")
+	_check(carrier.drawn.has("prop:staff") and not carrier.drawn.has("prop:hoe"), "a look's own prop in the hand stays, no tool")
 	carrier.free()
+	var gardener: Person = Person.new()
+	gardener.configure({"prop": "sword_waist"})
+	gardener.activity("hoe", "stand")
+	tree.root.add_child(gardener)
+	_check(gardener.drawn.has("prop:sword_waist") and gardener.drawn.has("prop:hoe"), "a sword at the waist leaves the hand free for the hoe")
+	gardener.at_ease = false
+	gardener._process(0.05)
+	_check(gardener.arms[0].rotation.x > -0.2, "fighting or senseless, nobody works")
+	gardener.free()
 	var sitter: Person = Person.new()
 	sitter.configure({})
 	sitter.activity("", "sit")
@@ -104,6 +113,10 @@ func _test_person(tree: SceneTree) -> void:
 	sitter.walking = true
 	sitter._process(0.05)
 	_check(not sitter._seat.visible and sitter.torso.position.y > -0.1, "walking, it stands up and leaves the stool")
+	sitter.walking = false
+	sitter.at_ease = false
+	sitter._process(0.05)
+	_check(not sitter._seat.visible and sitter.torso.position.y > -0.1 and absf(sitter.legs[0].rotation.x) < 0.01, "knocked senseless, it lies as anyone does (no stool, legs straight)")
 	sitter.free()
 
 

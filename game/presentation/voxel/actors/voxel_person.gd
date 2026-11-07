@@ -30,6 +30,9 @@ const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back",
 const GESTURE_TOOLS: Dictionary[String, String] = {
 	"hoe": "hoe", "pick": "pick", "chop": "axe", "hammer": "hammer", "sweep": "broom", "fish": "rod",
 }
+## What the look carries in its hand (the rest hang at the waist or ride on the back, leaving the
+## hand free for a gesture's tool).
+const IN_HAND: Array[String] = ["staff", "spear", "fan", "teapot", "umbrella", "book", "hammer", "glaive", "whisk", "axe", "cleaver", "haw_pole", "hoe", "pick", "broom", "rod"]
 ## Seconds one round of a gesture takes.
 const GESTURE_SECONDS: Dictionary[String, float] = {
 	"hoe": 1.9, "pick": 1.7, "chop": 1.4, "hammer": 1.0, "sweep": 1.6, "fish": 5.0, "drill": 1.3,
@@ -48,6 +51,11 @@ var gesture: String = ""
 var pose: String = "stand"
 ## Whether the gesture plays now: the view clears it while the person attends to the player.
 var working: bool = true
+## Whether the person is up and about (the view clears it while it fights or lies senseless): only
+## then does it sit or work.
+var at_ease: bool = true
+## The gesture's tool in a free hand ("" none).
+var _tool: String = ""
 ## How far the pose lowers the body.
 var _sink: float = 0.0
 var _seat: Node3D
@@ -91,9 +99,8 @@ func configure(data: Dictionary) -> void:
 func activity(work: String, how: String) -> void:
 	gesture = work
 	pose = how if POSE_LEGS.has(how) else "stand"
-	if GESTURE_TOOLS.has(work) and _word("prop", "none") == "none":
-		look = look.duplicate()
-		look["prop"] = GESTURE_TOOLS[work]
+	if GESTURE_TOOLS.has(work) and not IN_HAND.has(_word("prop", "none")):
+		_tool = GESTURE_TOOLS[work]
 
 
 func _ready() -> void:
@@ -284,7 +291,13 @@ func _apron() -> void:
 ## The one thing carried: in the right hand (arms[0], the figure's right), at the left hip or on
 ## the back.
 func _prop() -> void:
-	var prop: String = _word("prop", "none")
+	_draw_prop(_word("prop", "none"))
+	if not _tool.is_empty():
+		_draw_prop(_tool)
+
+
+## One thing carried (PROPS) on this body.
+func _draw_prop(prop: String) -> void:
 	if prop == "none":
 		return
 	drawn.append("prop:" + prop)
@@ -509,7 +522,7 @@ func _process(delta: float) -> void:
 	for arm: Node3D in arms:
 		arm.rotation.z = 0.0
 	torso.rotation = Vector3.ZERO
-	var posed: bool = not walking and POSE_LEGS.has(pose)
+	var posed: bool = not walking and at_ease and POSE_LEGS.has(pose)
 	var sink: float = _sink if posed else 0.0
 	if _seat != null:
 		_seat.visible = posed
@@ -519,7 +532,7 @@ func _process(delta: float) -> void:
 			leg.rotation.x = POSE_LEGS[pose]
 	torso.position.y = (absf(sin(pace))*0.045 if walking else sin(clock*2.1)*0.012) - sink
 	eyes.scale.y = 0.12 if fmod(clock,4.3)<0.13 else 1.0
-	if not walking and working and GESTURE_SECONDS.has(gesture):
+	if not walking and working and at_ease and GESTURE_SECONDS.has(gesture):
 		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
 	elif not walking and fmod(clock,7.2)>5.8:
 		arms[1].rotation.x = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8

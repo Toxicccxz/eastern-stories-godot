@@ -76,12 +76,14 @@ func advance(delta: float) -> void:
 				walker.cancel(npc.character_id)
 			body.face_toward(_map.player_body.global_position)
 			person["met"] = true
+			# Back at its work once the player goes: it turns to the furniture again.
+			person["settled"] = false
 			person["wait"] = tuning.pause_seconds(random.randf())
 			continue
 		if person["met"]:
 			# The player went on: one that stays put faces its own way again.
 			person["met"] = false
-			if not entry.moves():
+			if not entry.moves() and entry.gesture == "":
 				_face(body, person["facing"])
 				person["turned"] = false
 		if walker.is_strolling(npc.character_id):
@@ -91,7 +93,7 @@ func advance(delta: float) -> void:
 			# At its work again: it turns to what it works at.
 			person["settled"] = true
 			if entry.gesture != "":
-				var at: Vector2 = _work_point(body.global_position)
+				var at: Vector2 = _work_point(body.global_position, _map.physical_zone(zone_id))
 				if at.is_finite():
 					body.face_toward(at)
 		person["wait"] = float(person["wait"]) - delta
@@ -112,15 +114,18 @@ func advance(delta: float) -> void:
 				)
 
 
-## The nearest point of the map's furniture (its Furnishings: position and footprint) within
-## WORK_FACES_PX of a body at `point` (17 px its half width), else Vector2.INF.
-func _work_point(point: Vector2) -> Vector2:
+## The nearest point of the furniture of `zone` (the map's Furnishings standing in it and on the
+## stage now: position and footprint) within WORK_FACES_PX of a body at `point` (17 px its half
+## width), else Vector2.INF.
+func _work_point(point: Vector2, zone: WorldPhysicalZoneArea2D) -> Vector2:
 	var furnishings: Node = _map.find_child("Furnishings", false, false)
 	var best: Vector2 = Vector2.INF
 	if furnishings == null:
 		return best
 	for piece: Node in furnishings.get_children():
-		if not (piece is Node2D) or not piece.has_meta("footprint"):
+		if not (piece is Node2D) or not piece.has_meta("footprint") or bool(piece.get_meta("staged_off", false)):
+			continue
+		if zone != null and not zone.global_rect().has_point((piece as Node2D).global_position):
 			continue
 		var size: Vector2 = piece.get_meta("footprint")
 		var centre: Vector2 = (piece as Node2D).global_position
