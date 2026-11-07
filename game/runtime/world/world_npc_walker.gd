@@ -25,6 +25,9 @@ const STEP_ASIDE_ACROSS: float = 36.0
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}
+## Walks that are a stroll inside the walker's own room (stroll()), at their own speed: the
+## body keeps its collision and presence, as it never leaves the room it stands in.
+var _strolls: Dictionary[StringName, float] = {}
 ## Grids built on this map, by area: the tiles never change, so one serves again while
 ## the same static walls (door wings) stand.
 var _grids: Dictionary[Rect2, Grid] = {}
@@ -36,6 +39,39 @@ func _init(map: WorldMapController) -> void:
 
 func is_walking(character_id: StringName) -> bool:
 	return _walks.has(character_id)
+
+
+## Whether the walk is a stroll inside its own room (stroll()), not a move the rules made.
+func is_strolling(character_id: StringName) -> bool:
+	return _strolls.has(character_id)
+
+
+## Native (NPC 活起来; DECISIONS「街上的人会动」): a few steps about `zone`, the body's own room,
+## at `speed`: to a free spot `least`..`most` from where it stands and within `reach` of
+## `home` (its own spot), off the zone's seams and clear of everyone; `draw` (0..1) picks
+## among the candidates. Its place does not change. False when there is no such spot.
+func stroll(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2D, home: Vector2, reach: float, least: float, most: float, speed: float, draw: Callable) -> bool:
+	if body == null or zone == null or is_walking(character_id) or speed <= 0.0:
+		return false
+	var area: Rect2 = zone.global_rect()
+	var grid: Grid = _grid(area)
+	var near: Array[Vector2i] = []
+	for cell: Vector2i in grid.free_cells_in(area):
+		var spot: Vector2 = grid.center_of(cell)
+		var step: float = spot.distance_to(body.global_position)
+		if step >= least and step <= most and spot.distance_to(home) <= reach:
+			near.append(cell)
+	var candidates: Array[Vector2i] = _clear_of(grid, near, _occupied(character_id))
+	# A stroll keeps off the seams outright: one that only finds a doorway stays put.
+	var off: Array[Vector2i] = _strictly_off_seams(grid, zone, candidates)
+	for attempt: int in range(mini(DESTINATION_TRIES, off.size())):
+		var index: int = clampi(int(float(draw.call()) * off.size()), 0, off.size() - 1)
+		var spot: Vector2 = grid.center_of(off[index])
+		off.remove_at(index)
+		if MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot) and _start(grid, character_id, body, spot, false):
+			_strolls[character_id] = speed
+			return true
+	return false
 
 
 ## Where the walk ends (its last point), or the body's position when not walking.
@@ -142,6 +178,12 @@ static func _clear_of(grid: Grid, cells: Array[Vector2i], others: Array[Vector2]
 ## The cells of `candidates` farther than SEAM_CLEAR from where `zone` joins its map's
 ## other zones, its passages and its doors; all of them when none is.
 func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vector2i]) -> Array[Vector2i]:
+	var clear: Array[Vector2i] = _strictly_off_seams(grid, zone, candidates)
+	return candidates if clear.is_empty() else clear
+
+
+## The cells of `candidates` farther than SEAM_CLEAR from the zone's seams, maybe none.
+func _strictly_off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vector2i]) -> Array[Vector2i]:
 	var seams: Array[Rect2] = []
 	for other: WorldPhysicalZoneArea2D in _map.physical_zones():
 		if other != zone and other.global_rect().grow(1.0).intersects(zone.global_rect()):
@@ -163,7 +205,7 @@ func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vec
 				break
 		if off:
 			clear.append(cell)
-	return candidates if clear.is_empty() else clear
+	return clear
 
 
 ## The grid of `area` as Grid.new() would build it now.
@@ -198,13 +240,15 @@ func _occupied(character_id: StringName) -> Array[Vector2]:
 	return result
 
 
-func _start(grid: Grid, character_id: StringName, body: Node2D, spot: Vector2) -> bool:
+func _start(grid: Grid, character_id: StringName, body: Node2D, spot: Vector2, through: bool = true) -> bool:
 	var path: PackedVector2Array = grid.path(body.global_position, spot)
 	if path.is_empty():
 		return false
 	path.append(spot)
+	# A move the rules made replaces a stroll under way, and walks as such.
+	_strolls.erase(character_id)
 	_walks[character_id] = path
-	_set_walking(body, true)
+	_set_walking(body, through)
 	return true
 
 
@@ -223,7 +267,7 @@ func advance(delta: float) -> void:
 			_walks.erase(character_id)
 			continue
 		var path: PackedVector2Array = _walks[character_id]
-		var budget: float = SPEED * delta
+		var budget: float = _strolls.get(character_id, SPEED) * delta
 		while not path.is_empty() and budget > 0.0:
 			var step: float = body.global_position.distance_to(path[0])
 			if step <= budget:
@@ -235,6 +279,7 @@ func advance(delta: float) -> void:
 				budget = 0.0
 		if path.is_empty():
 			_walks.erase(character_id)
+			_strolls.erase(character_id)
 			_set_walking(body, false)
 		else:
 			_walks[character_id] = path
@@ -248,9 +293,11 @@ func finish_all() -> void:
 			body.global_position = rest_position(character_id, body)
 			_set_walking(body, false)
 	_walks.clear()
+	_strolls.clear()
 
 
 func cancel(character_id: StringName) -> void:
+	_strolls.erase(character_id)
 	if _walks.has(character_id):
 		_walks.erase(character_id)
 		_set_walking(_map.runtime_body_for_character(character_id), false)

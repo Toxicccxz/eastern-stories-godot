@@ -163,6 +163,7 @@ func _advance_ambience(delta: float) -> void:
 			if _chats(npc):
 				# A mood's chat (oldliu.c killhim()) holds its own chance.
 				_act(npc, ambience.chat(npc.chat_talk(), npc.chat_chance if npc.mood() == null else -1))
+	_map.npc_idle.advance(delta)
 	npc_walker().advance(delta)
 	finish_departures(true)
 
@@ -228,6 +229,7 @@ func npc_ambience() -> NpcAmbience:
 ## room now (DECISIONS 茅山 B). A deactivation that is rolled back (a failed handoff or
 ## Continue) keeps them.
 func player_left() -> void:
+	_map.npc_idle.clear()
 	# A scene cannot follow the player off the map.
 	end_scene()
 	# make_stage() tells and hands to the giver wherever they are (tell_object(), move(who)):
@@ -1203,7 +1205,8 @@ func _chats(npc: NpcRuntimeState) -> bool:
 		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
 		and npc.chat_talk().has_chat()
 		and (player_shares_zone(npc) or npc.definition().dealings().patrol != null)
-		and not npc_walker().is_walking(npc.character_id)
+		# A stroll about its own room (WorldMapNpcIdle) is no walk: it chats as one standing.
+		and (not npc_walker().is_walking(npc.character_id) or npc_walker().is_strolling(npc.character_id))
 	)
 
 
