@@ -12,7 +12,8 @@ extends RefCounted
 ## - home_radius_px: a stroll ends no farther than this from the person's own spot (its
 ##   spawn marker), so a crowd does not drift to one end of a street; an entry may set less.
 ## - speed_px: the walking speed of a stroll (pixels a second; a room move walks faster).
-## - stop_reach_px: a person the player comes this near stops and turns to them.
+## - stop_reach_px: a person the player comes this near finishes its few steps (they end on open
+##   ground) and turns to them, and starts no new stroll while the player stays.
 
 var enabled: bool = false
 var pause_min_ms: int = 0
