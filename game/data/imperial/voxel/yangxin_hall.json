@@ -214,20 +214,10 @@
     "default": {
       "coat": "6a5a48"
     },
-    "native.npc.wumen_guard": {
-      "coat": "9c3226",
-      "hat": true,
-      "note": "禁军: red-tasselled helmet"
-    },
     "native.npc.yulan_zhao": {
       "coat": "d8a830",
       "hat": true,
       "note": "the boy's yellow robe, a size too big"
-    },
-    "native.npc.yu_zijian_court": {
-      "coat": "7a2a2a",
-      "hat": true,
-      "note": "a minister's crimson court robe"
     },
     "native.npc.court_official": {
       "coat": "3a4a6a",

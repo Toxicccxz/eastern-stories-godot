@@ -6,7 +6,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 ## Keys a card may carry, and which of them are colours.
-const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose", "bracer_color", "wrap_color", "pouch_color", "tassel_color", "armor_color", "bundle_color", "shield_color"]
+const COLOURS: Array[String] = ["coat", "pants", "skin", "hair", "hair_tie", "accent", "collar_color", "collar_shade", "headwear_color", "apron_color", "prop_color", "metal", "wood", "towel", "shoe_color", "nose", "bracer_color", "wrap_color", "pouch_color", "tassel_color", "armor_color", "bundle_color", "shield_color", "lantern_color"]
 const WORDS: Dictionary = {
 	"hair_style": Person.HAIR_STYLES, "headwear": Person.HEADWEAR, "beard": Person.BEARDS,
 	"waist": Person.WAISTS, "prop": Person.PROPS, "shoes": ["dark", "straw", "white"],

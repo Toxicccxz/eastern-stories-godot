@@ -146,20 +146,10 @@
     "default": {
       "coat": "6a5a48"
     },
-    "native.npc.wumen_guard": {
-      "coat": "9c3226",
-      "hat": true,
-      "note": "禁军: red-tasselled helmet"
-    },
     "native.npc.yulan_zhao": {
       "coat": "d8a830",
       "hat": true,
       "note": "the boy's yellow robe, a size too big"
-    },
-    "native.npc.yu_zijian_court": {
-      "coat": "7a2a2a",
-      "hat": true,
-      "note": "a minister's crimson court robe"
     },
     "native.npc.court_official": {
       "coat": "3a4a6a",
@@ -180,19 +170,6 @@
       "coat": "6a6458",
       "hat": true,
       "note": "the 相国's washed-out robe at court"
-    },
-    "native.npc.night_guard_lanes": {
-      "coat": "9c3226",
-      "hat": true,
-      "note": "禁军 with a lantern"
-    },
-    "native.npc.night_guard_gate": {
-      "coat": "9c3226",
-      "hat": true
-    },
-    "native.npc.night_guard_garden": {
-      "coat": "9c3226",
-      "hat": true
     },
     "native.npc.palace_eunuch": {
       "coat": "3a4a5a"
