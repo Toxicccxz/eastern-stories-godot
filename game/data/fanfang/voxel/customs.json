@@ -43,9 +43,6 @@
     {"kind": "glow", "at": [0, 200], "color": "ffc078", "day": 0.0, "night": 0.4, "range": 5.0, "height": 2.0, "note": "a lantern left by the runners at night"}
   ],
   "actors": {
-    "default": {"coat": "4a5a6a"},
-    "native.npc.feng_lu": {"coat": "3e5a6a", "hat": true},
-    "native.npc.customs_clerk": {"coat": "6a6a62"},
-    "native.npc.customs_runner": {"coat": "3a3e44", "hat": true}
+    "default": {"coat": "4a5a6a"}
   }
 }

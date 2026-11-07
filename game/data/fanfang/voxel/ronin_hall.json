@@ -58,8 +58,6 @@
     "birds": [{"at": [-320, 0], "radius": 300, "count": 1, "height": 7, "color": "f0f0ec"}]
   },
   "actors": {
-    "default": {"coat": "2e2a26", "hat": true},
-    "fanfang.npc.ronin_master": {"coat": "1e1a1a", "hat": false},
-    "native.npc.ronin": {"coat": "2e2a26", "hat": true}
+    "default": {"coat": "2e2a26", "hat": true}
   }
 }
