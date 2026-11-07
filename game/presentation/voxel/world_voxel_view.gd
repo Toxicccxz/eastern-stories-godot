@@ -424,6 +424,12 @@ func _sync_actors(delta: float) -> void:
 			# Render frames may outnumber physics steps: a held direction must not flicker
 			# between the walk and idle poses on the intervening frames.
 			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
+		if model is Person:
+			# One attending to the player puts its work down (WorldMapNpcIdle); one fighting or lying
+			# senseless neither works nor sits.
+			(model as Person).working = not bool(body.get_meta(WorldMapNpcIdle.ATTENDING, false))
+			var resident: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
+			(model as Person).at_ease = resident == null or (resident.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not resident.relationship.is_fighting())
 		# A statue (神像) never turns or falls: its plinth and wings stay with it.
 		if not (model is Person and not (model as Person).stone.is_empty()):
 			var direction: float = atan2(body.facing.x,body.facing.y)
@@ -592,6 +598,12 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model = Person.new()
 		model.coat = look.get("coat","817755")
 		model.configure(look)
+		# What the person does while it stands (DECISIONS「街上的人会动」): its work's gesture and tool,
+		# a stool or the ground it sits on.
+		var npc_life: NpcRuntimeState = map.npcs.find_resident_npc(body.character_id) if body != map.player_body else null
+		var life: NpcLifeBook.Entry = null if npc_life == null else NpcLifeBook.entry(NpcDefinition.unnamed_id(npc_life.definition().definition_id))
+		if life != null:
+			(model as Person).activity(life.gesture, life.pose)
 		actor.add_child(model)
 		# `mount` (关北 C; owner Q3: the 王府's riders sit a horse in the view only — the 2D rule
 		# knows no mounts): a steppe pony under the figure, the rider up on its back, facing +z.

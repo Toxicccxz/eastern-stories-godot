@@ -1,0 +1,11 @@
+{
+	"people": {
+		"goathill.npc.bandit": "post",
+		"goathill.npc.bandit_hwang": "still",
+		"goathill.npc.bandit_leader": "post",
+		"goathill.npc.big_worm": "wander",
+		"goathill.npc.fat_worm": "wander",
+		"goathill.npc.huge_worm": "wander",
+		"goathill.npc.worm": "wander"
+	}
+}

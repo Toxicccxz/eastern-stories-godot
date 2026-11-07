@@ -1,0 +1,18 @@
+{
+	"people": {
+		"chuenyu.npc.bee": "wander",
+		"chuenyu.npc.chuenyu": "still",
+		"chuenyu.npc.cleangirl": {"mode": "work", "gesture": "sweep", "radius": 64},
+		"chuenyu.npc.cook": {"mode": "work", "gesture": "wipe", "radius": 32},
+		"chuenyu.npc.flower_seller": "still",
+		"chuenyu.npc.gardener": {"mode": "work", "gesture": "hoe"},
+		"chuenyu.npc.guard": "post",
+		"chuenyu.npc.guard2": "post",
+		"chuenyu.npc.highrat": "wander",
+		"chuenyu.npc.jiading3": "post",
+		"chuenyu.npc.pigeon": "wander",
+		"chuenyu.npc.smallgardener": {"mode": "work", "gesture": "hoe"},
+		"chuenyu.npc.wolfdog": "wander",
+		"chuenyu.npc.xiaojuan2": {"mode": "still", "pose": "sit_ground"}
+	}
+}

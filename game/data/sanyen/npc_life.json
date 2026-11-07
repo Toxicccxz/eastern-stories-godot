@@ -1,0 +1,12 @@
+{
+	"people": {
+		"sanyen.npc.bonze": "wander",
+		"sanyen.npc.cook_bonze": {"mode": "work", "gesture": "wipe", "radius": 64},
+		"sanyen.npc.cripple": {"mode": "wander", "radius": 48},
+		"sanyen.npc.drug_bonze": {"mode": "work", "gesture": "count", "radius": 40},
+		"sanyen.npc.greeting": "still",
+		"sanyen.npc.little_bonze": "wander",
+		"sanyen.npc.monk": "wander",
+		"sanyen.npc.work_bonze": {"mode": "work", "radius": 56, "gesture": "sweep"}
+	}
+}

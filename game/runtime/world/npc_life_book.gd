@@ -9,8 +9,11 @@ extends RefCounted
 ## - still: stays put (a shopkeeper at the counter, one sitting or lying); turns to the player.
 ## - post: a guard at the gate: stands, now and then looks along the way, and back.
 ## - wander: walks a few steps about the room, stands a while, walks again.
-## - work: as wander, nearer its spot (its work's places; the work's gestures come later).
-## A person without an entry stays put, as before. Embodiment only: no rule reads it.
+## - work: as wander, nearer its spot, and at each stop it works (its `gesture`).
+## `gesture` (any mode but post): what its hands do while it stands (GESTURES; the voxel person
+## plays it, with its tool when its look carries none). `pose` (still only): how it stands
+## (POSES: on a low stool, cross-legged on the ground). A person without an entry stays put, as
+## before. Embodiment only: no rule reads it.
 
 const PEOPLE_KEY: String = "people"
 
@@ -21,6 +24,11 @@ const MODE_NAMES: Dictionary[String, Mode] = {
 }
 ## A work entry without its own radius stays this near its spot.
 const WORK_RADIUS_PX: int = 64
+## What hands do at work (VoxelPerson plays each): 锄地, 挥镐, 劈柴, 打铁, 扫地, 钓鱼, 练拳, 擦桌,
+## 讲书, 拨算盘.
+const GESTURES: Array[String] = ["hoe", "pick", "chop", "hammer", "sweep", "fish", "drill", "wipe", "teach", "count"]
+## How one that stays put is: standing, on a low stool, cross-legged on the ground.
+const POSES: Array[String] = ["stand", "sit", "sit_ground"]
 
 
 class Entry:
@@ -28,6 +36,9 @@ class Entry:
 	var mode: Mode = Mode.STILL
 	## 0: the map's home_radius_px (work: WORK_RADIUS_PX).
 	var radius_px: int = 0
+	## "" none, else one of GESTURES.
+	var gesture: String = ""
+	var pose: String = "stand"
 
 	func moves() -> bool:
 		return mode == Mode.WANDER or mode == Mode.WORK
@@ -71,9 +82,25 @@ static func parse(raw: Variant, problem: Array[String] = []) -> Entry:
 		return null
 	result.radius_px = int(radius)
 	for key: Variant in record.keys():
-		if key != "mode" and key != "radius":
+		if not ["mode", "radius", "gesture", "pose"].has(key):
 			problem.append("unknown key %s" % key)
 			return null
+	var gesture: Variant = record.get("gesture", "")
+	if not (gesture is String) or (gesture != "" and not GESTURES.has(gesture)):
+		problem.append("gesture must be one of %s" % ", ".join(GESTURES))
+		return null
+	if gesture != "" and result.mode == Mode.POST:
+		problem.append("a post makes no gesture")
+		return null
+	result.gesture = gesture
+	var pose: Variant = record.get("pose", "stand")
+	if not (pose is String) or not POSES.has(pose):
+		problem.append("pose must be one of %s" % ", ".join(POSES))
+		return null
+	if pose != "stand" and result.mode != Mode.STILL:
+		problem.append("only one that stays put sits")
+		return null
+	result.pose = pose
 	return result
 
 

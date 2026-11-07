@@ -1,0 +1,12 @@
+{
+	"people": {
+		"waterfog.npc.celes_tiger": "wander",
+		"waterfog.npc.elder5": "still",
+		"waterfog.npc.elder6": "still",
+		"waterfog.npc.elder7": "still",
+		"waterfog.npc.elite_guard": "post",
+		"waterfog.npc.guard": "post",
+		"waterfog.npc.servant": {"mode": "work", "gesture": "chop", "radius": 40},
+		"waterfog.npc.watcher": "still"
+	}
+}

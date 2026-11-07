@@ -1,0 +1,12 @@
+{
+	"people": {
+		"village.npc.dragon": {"mode": "wander", "radius": 80},
+		"village.npc.fisher": {"mode": "work", "radius": 40, "gesture": "fish"},
+		"village.npc.flowergirl": "wander",
+		"village.npc.meloner": "still",
+		"village.npc.oldliu": {"mode": "wander", "radius": 48},
+		"village.npc.rat": "wander",
+		"village.npc.trader1": "wander",
+		"village.npc.woman1": {"mode": "work", "gesture": "hoe", "radius": 64}
+	}
+}
