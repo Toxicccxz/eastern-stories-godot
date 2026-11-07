@@ -1,8 +1,8 @@
 {
 	"people": {
-		"goathill.npc.bandit": {"mode": "wander", "radius": 80},
+		"goathill.npc.bandit": "post",
 		"goathill.npc.bandit_hwang": "still",
-		"goathill.npc.bandit_leader": {"mode": "wander", "radius": 80},
+		"goathill.npc.bandit_leader": "post",
 		"goathill.npc.big_worm": "wander",
 		"goathill.npc.fat_worm": "wander",
 		"goathill.npc.huge_worm": "wander",
