@@ -119,6 +119,10 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 			return entry.parts.any(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn, phase_id))
 		JournalEntryDefinition.When.ALL:
 			return entry.parts.all(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn, phase_id))
+		JournalEntryDefinition.When.AT_LEAST:
+			return entry.parts.filter(func(part: JournalEntryDefinition) -> bool: return holds(part, state, temps, held, zone_id, worn, phase_id)).size() >= entry.amount
+		JournalEntryDefinition.When.NOT:
+			return not holds(entry.parts[0], state, temps, held, zone_id, worn, phase_id)
 		JournalEntryDefinition.When.MARK:
 			return int(state.marks.get(entry.key, 0)) != 0
 		JournalEntryDefinition.When.TEMP:

@@ -358,7 +358,20 @@
 				],
 				"拜师": [
 					"哦....老夫向来有个规矩，凡是想拜我为师的，得接我三招不死，你想试试？\n"
-				]
+				],
+				"皇上": {
+					"rules": [
+						{
+							"asker_marks": [
+								"皇叔入朝"
+							],
+							"say": "老夫在朝上一天，庾子建就不是一个人说了算。"
+						},
+						{
+							"say": "昭儿？……他还小。朝廷的事，老夫不问了。"
+						}
+					]
+				}
 			},
 			"apprentice": {
 				"kind": "trial",
@@ -379,7 +392,32 @@
 					}
 				],
 				"success": "於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！"
-			}
+			},
+			"accept_object": [
+				{
+					"item": "native:imperial/edict_for_uncle",
+					"lines": [
+						{
+							"emote": "接过黄笺，看了一遍，又看了一遍，半晌没有说话。"
+						},
+						{
+							"say": "昭儿的字……还是这么慢。"
+						},
+						{
+							"say": "三百年了，於兰家的人又要去碰那东西。老夫不回去，这孩子一个人扛不住。"
+						},
+						{
+							"emote": "把手诏折好，揣进怀里，站了起来。"
+						},
+						{
+							"say": "传功使的事，交给萧辟尘。——老夫回京。"
+						}
+					],
+					"mark_giver": "皇叔入朝",
+					"destroys": true,
+					"accept": true
+				}
+			]
 		},
 		"waterfog.upstairs.forehall.elder5": {
 			"until": {
@@ -391,6 +429,11 @@
 						"quest": "main.chapter6#started"
 					}
 				]
+			}
+		},
+		"waterfog.pavilion.guildhall.champion": {
+			"until": {
+				"mark": "皇叔入朝"
 			}
 		}
 	},

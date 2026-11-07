@@ -668,6 +668,78 @@
               0.68,
               0.75
             ]
+          ],
+          "imperial.throne_hall.accuse_emperor.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.5,
+              0.27
+            ]
+          ],
+          "imperial.throne_hall.accuse_yu.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.4,
+              0.42
+            ]
+          ],
+          "imperial.throne_hall.accuse_feng.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.6,
+              0.42
+            ]
+          ],
+          "imperial.throne_hall.accuse_official.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.3,
+              0.58
+            ]
+          ],
+          "imperial.throne_hall.accuse_official.2": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.3,
+              0.68
+            ]
+          ],
+          "imperial.throne_hall.accuse_official.3": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.7,
+              0.58
+            ]
+          ],
+          "imperial.throne_hall.accuse_official.4": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.7,
+              0.68
+            ]
+          ],
+          "imperial.throne_hall.yu_drawn.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.45,
+              0.5
+            ]
+          ],
+          "imperial.throne_hall.feng_ce_beside.1": [
+            "imperial.throne_hall",
+            [
+              "rel",
+              0.55,
+              0.62
+            ]
           ]
         },
         "doors": {
@@ -1144,6 +1216,14 @@
               "rel",
               0.35,
               0.5
+            ]
+          ],
+          "imperial.lanes_south.song_pu.1": [
+            "imperial.lanes_south",
+            [
+              "rel",
+              0.2,
+              0.6
             ]
           ]
         },
@@ -2042,6 +2122,14 @@
               0.3,
               0.75
             ]
+          ],
+          "imperial.front_hall.uncle.1": [
+            "imperial.front_hall",
+            [
+              "rel",
+              0.65,
+              0.35
+            ]
           ]
         },
         "doors": {
@@ -2102,6 +2190,30 @@
               1.4
             ],
             "text": "御案 · 比对"
+          },
+          {
+            "node": "service",
+            "name": "FrontHallExpose",
+            "id": "imperial.front_hall.expose",
+            "room": "imperial.front_hall",
+            "anchor": [
+              "c",
+              -2,
+              1
+            ],
+            "text": "朝上揭发 · 揭发"
+          },
+          {
+            "node": "service",
+            "name": "FrontHallUncle",
+            "id": "imperial.front_hall.uncle",
+            "room": "imperial.front_hall",
+            "anchor": [
+              "c",
+              2,
+              1
+            ],
+            "text": "皇叔的通缉 · 先解"
           }
         ],
         "zones": [

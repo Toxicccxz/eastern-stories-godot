@@ -41,7 +41,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
-	_check(quest.steps.size() == 4 and quest.steps[2].step_id == &"decree" and quest.steps[3].step_id == &"choice", "第九章: way, audience, decree, choice")
+	_check(quest.steps.size() >= 4 and quest.steps[2].step_id == &"decree" and quest.steps[3].step_id == &"choice", "第九章: way, audience, decree, choice")
 	var desk: ServiceDefinition = catalog.service(&"imperial.study.desk")
 	_check(desk != null and desk.act.verb == "比对" and desk.act.acts.size() == 6, "御案 · 比对: done, nothing yet, 印色, 印模, 钟嬷嬷, none of them")
 	for id: StringName in [&"native.npc.night_guard_lanes", &"native.npc.night_guard_gate", &"native.npc.night_guard_garden"]:

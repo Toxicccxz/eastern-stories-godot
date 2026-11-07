@@ -122,7 +122,7 @@
 	"landmarks": [
 		{ "id": "city.northdoor.landmark.sign", "zone": "city.northdoor", "name": "告示", "policy": "look", "long": "告示上隐约写著几个人名，但都模糊不可分辨了。\n", "legacy_source": "d/city/northdoor.c" },
 		{ "id": "city.eastdoor1.landmark.notice", "zone": "city.eastdoor1", "name": "布告", "policy": "look", "long": "布告经风吹日晒，字迹已经不可分辨了。\n", "legacy_source": "d/city/eastdoor1.c" },
-		{ "id": "city.eastdoor2.landmark.notice", "zone": "city.eastdoor2", "name": "布告", "policy": "look", "long": "布告上写著：辑拿要犯----於兰天武。\n", "legacy_source": "d/city/eastdoor2.c" },
+		{ "id": "city.eastdoor2.landmark.notice", "zone": "city.eastdoor2", "name": "布告", "policy": "look", "long": "布告上写著：辑拿要犯----於兰天武。\n", "legacy_source": "d/city/eastdoor2.c", "looks": [{"marks": ["皇叔的通缉解了"], "long": "旧布告撕下来了，墙上新贴了一张黄纸，墨还没干：「前诏作废。」围着看的人比贴通缉那天还多。\n"}, {"marks": ["庾子建下狱"], "long": "布告撕了一半，剩下半张在风里拍着墙：「辑拿要犯——」，后头的名字没了。守城的兵说，是兵部尚书下狱那天撕的。\n"}] },
 		{ "id": "city.westdoor1.landmark.notice", "zone": "city.westdoor1", "name": "布告", "policy": "look", "long": "布告上写著：近来有土匪出没，望行人小心。\n", "legacy_source": "d/city/westdoor1.c" },
 		{ "id": "city.westdoor2.landmark.notice", "zone": "city.westdoor2", "name": "布告", "policy": "look", "long": "布告上写著：行人出入需缴纳一两黄金。\n", "legacy_source": "d/city/westdoor2.c" },
 		{ "id": "city.southdoor.landmark.notice", "zone": "city.southdoor", "name": "告示", "policy": "look", "long": "告示上写著：今年文武大选。\n", "legacy_source": "d/city/southdoor.c", "looks": [{"marks": ["湖底一章"], "long": "告示上写著：今年文武大选。\n旁边新贴了一张小些的，墨还没干透：「武举在校武场报名。兵部武选司。」\n"}] },

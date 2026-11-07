@@ -95,6 +95,8 @@
 		"native:imperial/woodcutter_record": { "kind": "paper", "paper": "d8c8a0", "ink": "2a2018" },
 		"native:city/courier_letter": { "kind": "letter", "paper": "d8ccb0", "fold": "b8ac90", "seal": "3a2a2a:gloss", "ink": "1d1612" },
 		"native:city/blinding_charm": { "kind": "paper", "paper": "e8c860", "ink": "c83a2a" },
+		"native:imperial/edict_for_uncle": { "kind": "letter", "paper": "e8d070", "fold": "c8b050", "seal": "c83a2a:gloss", "ink": "1d1612" },
+		"native:imperial/late_emperor_reading": { "kind": "scroll", "paper": "d8ccb0", "rod": "8a6a3a:gloss", "ribbon": "d8b84a" },
 		"native:imperial/guard_token": { "kind": "token", "color": "8a6a3a:gloss", "border": "c89a4a:gloss", "emblem": "e8c060:gloss", "cord": "9c3226", "tassel": "9c3226" },
 		"es2:d/death/obj/hell_armor": { "kind": "armor_suit", "plate": "38343c:gloss", "plate2": "26232a:gloss", "trim": "4a1424", "mirror": "5fd0a8:glow", "cloak": "2a1420" },
 		"es2:d/death/obj/fork": { "kind": "fork", "prongs": 7, "length": 1.1, "head": "3a3a40:gloss", "shaft": "2e2119" },

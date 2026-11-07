@@ -142,6 +142,51 @@ position = Vector2(161, 148)
 script = ExtResource("marker")
 spawn_point_id = &"imperial.throne_hall.official.4"
 
+[node name="ThroneHallAccuseEmperor1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, -151)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_emperor.1"
+
+[node name="ThroneHallAccuseYu1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-89, -57)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_yu.1"
+
+[node name="ThroneHallAccuseFeng1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(89, -57)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_feng.1"
+
+[node name="ThroneHallAccuseOfficial1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-179, 41)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_official.1"
+
+[node name="ThroneHallAccuseOfficial2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-179, 104)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_official.2"
+
+[node name="ThroneHallAccuseOfficial3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(179, 41)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_official.3"
+
+[node name="ThroneHallAccuseOfficial4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(179, 104)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.accuse_official.4"
+
+[node name="ThroneHallYuDrawn1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-44, -8)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.yu_drawn.1"
+
+[node name="ThroneHallFengCeBeside1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(44, 66)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.throne_hall.feng_ce_beside.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

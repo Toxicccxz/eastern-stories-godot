@@ -127,6 +127,40 @@ mouse_filter = 2
 text = "御案 · 比对"
 horizontal_alignment = 1
 
+[node name="FrontHallExpose" type="Marker2D" parent="."]
+position = Vector2(-76, -174)
+script = ExtResource("service")
+service_id = &"imperial.front_hall.expose"
+
+[node name="Visual" type="Polygon2D" parent="FrontHallExpose"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="FrontHallExpose"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "朝上揭发 · 揭发"
+horizontal_alignment = 1
+
+[node name="FrontHallUncle" type="Marker2D" parent="."]
+position = Vector2(60, -174)
+script = ExtResource("service")
+service_id = &"imperial.front_hall.uncle"
+
+[node name="Visual" type="Polygon2D" parent="FrontHallUncle"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="FrontHallUncle"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "皇叔的通缉 · 先解"
+horizontal_alignment = 1
+
 [node name="YangxinYardDoor0Shutter" type="ColorRect" parent="Terrain"]
 offset_left = -400
 offset_top = 208
@@ -222,6 +256,11 @@ spawn_point_id = &"imperial.front_hall.emperor.1"
 position = Vector2(-158, -88)
 script = ExtResource("marker")
 spawn_point_id = &"imperial.front_hall.fu_an.1"
+
+[node name="FrontHallUncle1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(104, -280)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.front_hall.uncle.1"
 
 [node name="Characters" type="Node2D" parent="."]
 

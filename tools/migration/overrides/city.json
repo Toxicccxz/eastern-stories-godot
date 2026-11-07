@@ -2,6 +2,77 @@
 	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
 	"items": ["d/city/obj/token.c"],
 	"set": {
+		"city.npc.shangshu.shangshu": {
+			"inquiry": {
+				"原令": {
+					"rules": [
+						{
+							"asker_marks": [
+								"私了了庾子建"
+							],
+							"say": "原令？什么原令。先帝的旨意，兵部奉旨办差。"
+						},
+						{
+							"asker_marks": [
+								"宋朴传了话"
+							],
+							"say": "东西带来了？给老夫。先帝推敲了二十年的东西，换一卷纸——你不亏。"
+						},
+						{
+							"say": "你是什么人？"
+						}
+					]
+				},
+				"寻剑令": [
+					"先帝的旨意，兵部奉旨办差。"
+				],
+				"岚城": {
+					"rules": [
+						{
+							"asker_marks": [
+								"宋朴传了话"
+							],
+							"say": "先帝推敲遗书最后两句，推敲了二十年。他推出来的东西在老夫手里。你给我那卷原令，它归你。"
+						},
+						{
+							"say": "岚城？说书人的话。"
+						}
+					]
+				}
+			},
+			"accept_object": [
+				{
+					"item": "native:imperial/original_decree",
+					"giver_mark": "宋朴传了话",
+					"unless_giver_mark": "三选一定了",
+					"ask": "原令交给庾子建，当面就没有了。他会留在朝上，终章还会来要那把剑。你换来的是先帝推敲遗书的手稿——寻风的法子。交吗？",
+					"lines": [
+						{
+							"emote": "接过诏书，看也没看，一抬手扔进了火盆。火苗「呼」地窜起来，黄绫卷成了灰。"
+						},
+						{
+							"say": "先帝推敲了二十年遗书最后两句。推出来的是这个——"
+						},
+						{
+							"emote": "从袖子里抽出一卷纸，递给你。"
+						},
+						{
+							"say": "寻风的法子。你要找岚城，拿去。原令的事，到此为止。"
+						}
+					],
+					"gives": "native:imperial/late_emperor_reading",
+					"mark_giver": "私了了庾子建",
+					"destroys": true,
+					"accept": true
+				},
+				{
+					"item": "native:imperial/original_decree",
+					"say": "先帝的东西，你自己留着吧。",
+					"accept": false
+				}
+			]
+		},
+		"city.shangshu.keting.shangshu": {"until": {"mark": "庾子建下狱"}},
 		"city.npc.shangshu.qing_chen": {
 			"scene_mark": "见过清尘",
 			"calls": [

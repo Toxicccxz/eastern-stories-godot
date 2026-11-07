@@ -182,8 +182,8 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    穿灵、旋芒、宝衣; light stealth as a generic `watch`; a strict three-way choice), five packages: A done (DECISIONS「第九章 A」:
    the 午门's 铁门, the 武举 at the 校武场 and the 殿试, 骆云舟's card, 相国府 and the 早朝; the 皇城's first three maps); B done (DECISIONS「第九章 B」「禁军夜巡」: the generic `watch` stealth, the
    cellar's stone, the tunnel, the 冷宫 well and 钟嬷嬷, the 御花园, the 西长街, the 侍卫营); C done (DECISIONS「第九章 C」: the
-   养心殿 and the 御书房, the two decrees compared, the woodcutter's page; the 尚书府's three blanks, 庾清尘 and the 障眼符); next D
-   (the three-way choice), E (consequences and the tenth chapter's stub).
+   养心殿 and the 御书房, the two decrees compared, the woodcutter's page; the 尚书府's three blanks, 庾清尘 and the 障眼符); D done (DECISIONS「第九章 D」: 揭发 with
+   enough proofs, the drawn blade and 冯策 beside, 私了 by the brazier, the 手诏 to 於兰天武); next E (consequences and the tenth chapter's stub).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

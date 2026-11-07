@@ -622,6 +622,222 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "imperial.front_hall.expose",
+			"kind": "act",
+			"zone": "imperial.front_hall",
+			"name": "朝上揭发",
+			"reach": 120,
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — the first of the three: before the court, with the 原令 and the witnesses (Q3: 原令 and two of four, three after the 关北 raid)",
+			"act": {
+				"verb": "揭发",
+				"acts": [
+					{
+						"when": {
+							"any": [
+								{
+									"mark": "庾子建下狱"
+								},
+								{
+									"mark": "私了了庾子建"
+								},
+								{
+									"mark": "皇叔的通缉解了"
+								}
+							]
+						},
+						"steps": [
+							{
+								"line": "皇帝摇摇头：这件事，已经定了。\n"
+							}
+						]
+					},
+					{
+						"not_mark": "对出了原令",
+						"steps": [
+							{
+								"line": "皇帝说道：先看完父皇的匣子。\n"
+							}
+						]
+					},
+					{
+						"when": {
+							"any": [
+								{
+									"all": [
+										{
+											"mark": "踏平了工地"
+										},
+										{
+											"at_least": {
+												"n": 3,
+												"of": [
+													{
+														"mark": "陈显祖作了证"
+													},
+													{
+														"mark": "卫沧澜作证"
+													},
+													{
+														"item": "native:city/courier_letter"
+													},
+													{
+														"item": "native:niling/tribute_ledger"
+													}
+												]
+											}
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"not": {
+												"mark": "踏平了工地"
+											}
+										},
+										{
+											"at_least": {
+												"n": 2,
+												"of": [
+													{
+														"mark": "陈显祖作了证"
+													},
+													{
+														"mark": "卫沧澜作证"
+													},
+													{
+														"item": "native:city/courier_letter"
+													},
+													{
+														"item": "native:niling/tribute_ledger"
+													}
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						"ask": "明日早朝，当着百官揭发兵部尚书庾子建。原令、人证、物证都摆上去——庾子建不会束手。去吗？",
+						"choice": "朝上揭发",
+						"steps": [
+							{
+								"line": "皇帝把原令卷起来，又展开，看了很久。\n"
+							},
+							{
+								"line": "皇帝说道：……好。明天早上，朕当着他们说。冯总教头在殿上，你站在朕下首。\n"
+							},
+							{
+								"until_phase": [
+									"dawn"
+								]
+							},
+							{
+								"line": "东方的天空中开始出现一丝微曦。太监在殿外喊：上朝——\n",
+								"color": "HIY"
+							},
+							{
+								"mark": "要在朝上揭发"
+							},
+							{
+								"move": "imperial.throne_hall",
+								"point": "imperial.throne_hall.square_entry"
+							}
+						]
+					},
+					{
+						"mark": "踏平了工地",
+						"steps": [
+							{
+								"line": "皇帝说道：槐阳王的事，他一定先说。凭这些，压不住他。\n"
+							},
+							{
+								"line": "（关北踏平了工地：揭发要原令加三样人证物证——乔阴陈显祖的证词、卫沧澜、小屋里那人身上的密信、逆灵宫的账册。）\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "皇帝说道：凭这些，朝上压不住他。……再找一样来。\n"
+							},
+							{
+								"line": "（揭发要原令加两样人证物证——乔阴陈显祖的证词、卫沧澜、小屋里那人身上的密信、逆灵宫的账册。）\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "imperial.front_hall.uncle",
+			"kind": "act",
+			"zone": "imperial.front_hall",
+			"name": "皇叔的通缉",
+			"reach": 120,
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — the third: the warrant on 於兰天武 withdrawn by the boy's own hand (eastdoor2.c's 辑拿要犯----於兰天武; 剧情总纲 §2: 罪名是庾子建安的)",
+			"act": {
+				"verb": "先解",
+				"acts": [
+					{
+						"when": {
+							"any": [
+								{
+									"mark": "庾子建下狱"
+								},
+								{
+									"mark": "私了了庾子建"
+								},
+								{
+									"mark": "皇叔的通缉解了"
+								}
+							]
+						},
+						"steps": [
+							{
+								"line": "皇帝摇摇头：这件事，已经定了。\n"
+							}
+						]
+					},
+					{
+						"not_mark": "对出了原令",
+						"steps": [
+							{
+								"line": "皇帝说道：先看完父皇的匣子。\n"
+							}
+						]
+					},
+					{
+						"ask": "先不动庾子建，请皇帝亲笔下手诏，撤了皇叔的通缉、召他回朝。庾子建会留在朝上——可有了皇叔，他就不是一个人说了算。要这样吗？",
+						"choice": "先解通缉",
+						"steps": [
+							{
+								"line": "皇帝咬着嘴唇想了一会儿，提起笔。\n"
+							},
+							{
+								"line": "皇帝说道：朕不敢当着他的面……可这一件，朕自己能做。\n"
+							},
+							{
+								"line": "他写得很慢，一笔一划。写完，取出一方小印盖上，吹了吹墨，递给你。\n"
+							},
+							{
+								"give": "native:imperial/edict_for_uncle"
+							},
+							{
+								"line": "皇帝说道：东二门的布告，今天就撤。皇叔在水烟阁——你替朕送去。\n"
+							},
+							{
+								"mark": "皇叔的通缉解了"
+							},
+							{
+								"mark": "三选一定了"
+							}
+						]
+					}
+				]
+			}
 		}
 	],
 	"exit_rules": [

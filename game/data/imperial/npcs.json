@@ -1894,6 +1894,394 @@
 				"line": "信使一声不响地散成一股黑烟，一封信飘落在地上。"
 			},
 			"die_marks_killer": "小屋的信使倒了"
+		},
+		{
+			"id": "native.npc.yu_zijian_accused",
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — 庾子建 at the 早朝 where he is accused (numbers as shangshu.c)",
+			"name": "庾子建",
+			"aliases": [
+				"yu shangshu",
+				"yu",
+				"庾尚书"
+			],
+			"title": "兵部尚书",
+			"gender": "男性",
+			"age": 54,
+			"long": "他是当今皇上身边的红人，与宫中的关系也很熟络，手中掌管着\n兵马大权。不过能爬上这个位置，绝不是仅仅因为溜须拍马的缘\n故，当年战功赫赫，才有今天的地位。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 24,
+				"int": 25,
+				"spi": 22,
+				"cps": 26,
+				"per": 20,
+				"con": 24,
+				"kar": 20
+			},
+			"combat_exp": 400000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 70,
+				"shortsong-blade": 105,
+				"force": 80,
+				"wu-shun": 80,
+				"parry": 50,
+				"dodge": 60,
+				"fall-steps": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/city/shangshu/npc/obj/blade",
+					"source": "d/city/shangshu/npc/shangshu.c carry_object(blade)->wield()",
+					"equip": "wield"
+				}
+			],
+			"fight_deferred": "殿上的禁军已经拔了刀，你的手停在半空。",
+			"scene_mark": "揭发过",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"marks": [
+						"要在朝上揭发",
+						"踏平了工地"
+					],
+					"not_mark": "揭发过",
+					"steps": [
+						{
+							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"say": "朕……朕有话说。"
+						},
+						{
+							"by": "native.npc.yu_zijian_accused"
+						},
+						{
+							"emote": "抢先出班。"
+						},
+						{
+							"say": "陛下，臣先有本：槐阳王程朔兴兵踏平兵部工地，杀朝廷命官——槐阳王反了。"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"say": "……先听他说。"
+						},
+						{
+							"line": "你走到御案前，把先帝的原令和兵部的抄本并排摊开，又把人证物证一样一样摆上去。\n"
+						},
+						{
+							"line": "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n",
+							"color": "HIY"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"say": "槐阳王拒的，是父皇没下过的令。"
+						},
+						{
+							"say": "庾子建，这三行……是谁加的？"
+						},
+						{
+							"by": "native.npc.yu_zijian_accused"
+						},
+						{
+							"emote": "脸色变了，半晌没有出声。"
+						},
+						{
+							"say": "陛下年幼，被人蒙蔽——"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"emote": "站了起来。"
+						},
+						{
+							"say": "拿下！"
+						},
+						{
+							"by": "native.npc.feng_ce"
+						},
+						{
+							"say": "大内侍卫营听令——"
+						},
+						{
+							"mark": "冯策随你下湖"
+						},
+						{
+							"by": "native.npc.yu_zijian_accused"
+						},
+						{
+							"emote": "退后一步，刀已经出了鞘。"
+						},
+						{
+							"say": "老夫替先帝打了半辈子仗！"
+						},
+						{
+							"leave": "native.npc.feng_ce"
+						},
+						{
+							"leave": "native.npc.yu_zijian_accused"
+						},
+						{
+							"summon": "imperial.throne_hall.yu_drawn"
+						},
+						{
+							"summon": "imperial.throne_hall.feng_ce_beside"
+						}
+					]
+				},
+				{
+					"after": 1,
+					"scene": true,
+					"mark": "要在朝上揭发",
+					"not_mark": "揭发过",
+					"steps": [
+						{
+							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"say": "朕……朕有话说。"
+						},
+						{
+							"line": "你走到御案前，把先帝的原令和兵部的抄本并排摊开，又把人证物证一样一样摆上去。\n"
+						},
+						{
+							"line": "「寻剑，不得扰民一户。」朝臣们一个一个伸长了脖子。\n",
+							"color": "HIY"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"say": "庾子建，这三行……是谁加的？"
+						},
+						{
+							"by": "native.npc.yu_zijian_accused"
+						},
+						{
+							"emote": "脸色变了，半晌没有出声。"
+						},
+						{
+							"say": "陛下年幼，被人蒙蔽——"
+						},
+						{
+							"by": "native.npc.yulan_zhao"
+						},
+						{
+							"emote": "站了起来。"
+						},
+						{
+							"say": "拿下！"
+						},
+						{
+							"by": "native.npc.feng_ce"
+						},
+						{
+							"say": "大内侍卫营听令——"
+						},
+						{
+							"mark": "冯策随你下湖"
+						},
+						{
+							"by": "native.npc.yu_zijian_accused"
+						},
+						{
+							"emote": "退后一步，刀已经出了鞘。"
+						},
+						{
+							"say": "老夫替先帝打了半辈子仗！"
+						},
+						{
+							"leave": "native.npc.feng_ce"
+						},
+						{
+							"leave": "native.npc.yu_zijian_accused"
+						},
+						{
+							"summon": "imperial.throne_hall.yu_drawn"
+						},
+						{
+							"summon": "imperial.throne_hall.feng_ce_beside"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.yu_zijian_drawn",
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — 庾子建 with his blade drawn on the 太和殿 (shangshu.c: 短歌刀法 105, carry_object(blade)->wield())",
+			"name": "庾子建",
+			"aliases": [
+				"yu shangshu",
+				"yu",
+				"庾尚书"
+			],
+			"title": "兵部尚书",
+			"gender": "男性",
+			"age": 54,
+			"long": "他是当今皇上身边的红人，与宫中的关系也很熟络，手中掌管着\n兵马大权。不过能爬上这个位置，绝不是仅仅因为溜须拍马的缘\n故，当年战功赫赫，才有今天的地位。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 24,
+				"int": 25,
+				"spi": 22,
+				"cps": 26,
+				"per": 20,
+				"con": 24,
+				"kar": 20
+			},
+			"combat_exp": 400000,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"blade": 70,
+				"shortsong-blade": 105,
+				"force": 80,
+				"wu-shun": 80,
+				"parry": 50,
+				"dodge": 60,
+				"fall-steps": 60
+			},
+			"carry": [
+				{
+					"item": "es2:d/city/shangshu/npc/obj/blade",
+					"source": "d/city/shangshu/npc/shangshu.c carry_object(blade)->wield()",
+					"equip": "wield"
+				}
+			],
+			"summoned": {
+				"arrive": [
+					"庾子建握着刀，一步一步逼过来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"庾子建被押了下去。"
+				]
+			},
+			"spared": {
+				"mark": "庾子建下狱",
+				"leave": true,
+				"line": "冯策一把扭住庾子建的胳膊，刀「当啷」落在金砖上。两个侍卫上来，把他押了下去。"
+			},
+			"die_marks_killer": "庾子建下狱"
+		},
+		{
+			"id": "native.npc.feng_ce_beside",
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — 冯策 beside the player against the drawn 庾子建 (剧情总纲 §3 第九章: 大内侍卫营冯策终章随你下湖; DECISIONS「关北 C」fights_beside_player)",
+			"name": "冯策",
+			"aliases": [
+				"feng ce",
+				"feng"
+			],
+			"title": "大内侍卫营总教头",
+			"gender": "男性",
+			"age": 58,
+			"long": "一个鬓发斑白的老者，素白的武官袍，刀已经出了鞘，站在你身侧半步。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 28,
+				"spi": 26,
+				"cps": 30,
+				"per": 22,
+				"con": 30,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 150,
+				"sword": 180,
+				"dodge": 160,
+				"parry": 160,
+				"force": 150
+			},
+			"summoned": {
+				"arrive": [
+					"冯策拔刀站到你身边：「老夫来。」"
+				],
+				"color": "HIW",
+				"leave": [
+					"冯策收了刀，退回殿下。"
+				]
+			},
+			"fights_beside_player": true,
+			"fights_beside_leaves": "冯策收了刀，抱拳：湖底的事，算老夫一个。"
+		},
+		{
+			"id": "native.npc.song_pu_messenger",
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — 宋朴, 冯策's 副教头, 庾子建's eyes in the 侍卫营 (续写): the 私了's invitation",
+			"name": "宋朴",
+			"aliases": [
+				"song pu",
+				"song"
+			],
+			"title": "大内侍卫营副教头",
+			"gender": "男性",
+			"age": 55,
+			"long": "一个瘦削的老者，白袍，靠在长街的红墙上，手里捏着一串核桃慢慢地转，像是在等人。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 28,
+				"int": 30,
+				"spi": 28,
+				"cps": 30,
+				"per": 20,
+				"con": 28,
+				"kar": 22
+			},
+			"combat_exp": 300000,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 140,
+				"sword": 150,
+				"dodge": 160,
+				"parry": 150,
+				"force": 140
+			},
+			"calls": [
+				{
+					"after": 1,
+					"reaction": true,
+					"mark": "对出了原令",
+					"not_mark": "宋朴传了话",
+					"steps": [
+						{
+							"emote": "核桃停了。"
+						},
+						{
+							"say": "尚书大人请你过府一叙。御书房里的东西，他知道了。"
+						},
+						{
+							"say": "去不去由你。不过尚书大人说，他手里有先帝推敲了二十年的东西——你要找的那座城。"
+						},
+						{
+							"mark": "宋朴传了话"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"庾尚书": [
+					"尚书大人在府里客厅等你。东街，大铁门。"
+				],
+				"冯策": [
+					"冯总教头是个直人。直人在宫里活不长——这话你别告诉他。"
+				]
+			}
 		}
 	]
 }

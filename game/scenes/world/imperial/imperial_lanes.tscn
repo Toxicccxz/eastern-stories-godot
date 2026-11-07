@@ -224,6 +224,11 @@ position = Vector2(-392, 272)
 script = ExtResource("marker")
 spawn_point_id = &"imperial.lanes_south.eunuch.1"
 
+[node name="LanesSouthSongPu1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-505, 320)
+script = ExtResource("marker")
+spawn_point_id = &"imperial.lanes_south.song_pu.1"
+
 [node name="LanesSouthWatch1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(-242, 440)
 script = ExtResource("marker")
