@@ -1020,10 +1020,14 @@ func _check_winds() -> void:
 			if portal == null or portal.destination_map_id != wind.map_id:
 				_errors.append("%s.enter_portals: '%s' is no way into %s" % [origin, portal_id, wind.map_id])
 		var marks: Dictionary[String, bool] = {}
+		var ids: Dictionary[StringName, bool] = {}
 		for route: WindDefinition.Route in wind.routes:
 			if marks.has(route.mark):
 				_errors.append("%s.routes: two routes share the mark '%s'" % [origin, route.mark])
+			if ids.has(route.route_id):
+				_errors.append("%s.routes: two routes share the id '%s'" % [origin, route.route_id])
 			marks[route.mark] = true
+			ids[route.route_id] = true
 		if not wind.bell_item_id.is_empty() and not _items.has(wind.bell_item_id):
 			_errors.append("%s.bell: unknown item '%s'" % [origin, wind.bell_item_id])
 		for act: ScriptedAct in wind.gale:

@@ -49,6 +49,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 		var kinds: Array[String] = shared._kinds(view)
 		_check(kinds.count("standing_rock") >= 12 and kinds.count("lean_to") == 3 and kinds.count("banner") == 3 and kinds.count("trail") == 4, "the pillars, the dead camp's three tents, the altar's banners and the fallen flag, four trails: %s" % [kinds])
 		# The grass and the mist lean with the wind; still in the calm.
+		map.winds.wind().veer_percent = 0 # TEST-ONLY: steady gusts (restored below)
 		map.winds.tick(0.1)
 		for frame: int in 40:
 			view._process(0.05)
@@ -61,6 +62,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 		for frame: int in 80:
 			view._process(0.05)
 		_check(view.geometry.ambience.guiding_wind.length() < 0.1 and float(view.geometry.foliage.material.get_shader_parameter("gust")) < 0.2, "still in the calm: the grass stands up")
+		map.winds.wind().veer_percent = 15
 	session.free()
 	await _frames(tree, 2)
 	return {"assertions": assertions, "failures": failures}

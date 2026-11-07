@@ -57,6 +57,8 @@
 		"native.npc.night_watch_fighting": {"mode": "wander", "radius": 80},
 		"native.npc.niling_chanter": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.niling_courier": {"mode": "still", "pose": "sit"},
+		"native.npc.niling_wind_diviner": {"mode": "still", "pose": "sit_ground"},
+		"native.npc.niling_wind_diviner_head": {"mode": "still", "pose": "sit"},
 		"native.npc.niling_gate_guard": "post",
 		"native.npc.niling_gatekeeper": {"mode": "still", "pose": "sit"},
 		"native.npc.niling_jailer": "post",

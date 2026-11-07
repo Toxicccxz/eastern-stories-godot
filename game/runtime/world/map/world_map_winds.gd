@@ -19,7 +19,6 @@ var _told: String = ""
 var _bell: String = ""
 var _last_at: Vector2 = Vector2.INF
 var _blowing: bool = false
-var _cleared: bool = false
 
 var session: WorldSessionController:
 	get: return _map.session
@@ -60,7 +59,8 @@ static func entering(portal: PortalDefinition, state: CharacterState, draw: Call
 	var into: WindDefinition = GameContent.catalog().wind_for_map(portal.destination_map_id)
 	if into == null or not into.enter_portal_ids.has(portal.portal_id):
 		return
-	_mark(into, state, into.route_drawn(int(draw.call(into.routes.size()))))
+	var drawn: int = 0 if into.pick == WindDefinition.Pick.FIXED else int(draw.call(into.routes.size()))
+	_mark(into, state, into.route_drawn(drawn))
 
 
 ## The route blowing for this player: their mark's, or one drawn now (no mark yet: a Continue
@@ -71,7 +71,7 @@ func route() -> WindDefinition.Route:
 	var marked: WindDefinition.Route = wind().route_marked(_player.state.marks)
 	if marked != null:
 		return marked
-	var drawn: WindDefinition.Route = wind().route_drawn(_map.world_interaction_random_source().legacy_random(wind().routes.size()))
+	var drawn: WindDefinition.Route = wind().route_drawn(0 if wind().pick == WindDefinition.Pick.FIXED else _map.world_interaction_random_source().legacy_random(wind().routes.size()))
 	_mark(wind(), _player.state, drawn)
 	return drawn
 
@@ -96,11 +96,14 @@ func tick(delta: float) -> void:
 	if session == null or _player == null or not _map.gameplay_open():
 		return
 	if wind() == null:
-		# A map without a wind clears the vane the last one left.
-		if not _cleared and _map.hud() != null:
-			_cleared = true
+		# A map without a wind clears the vane another one left (a death, an act's move).
+		if _map.hud() != null and _map.hud().player_wind != null and _map.hud().player_wind.visible:
 			_map.hud().show_wind("")
 		return
+	# Another map cleared the vane (the player left this one: a passage, a death, an act's move):
+	# coming back, the wind starts afresh.
+	if _blowing and _map.hud() != null and _map.hud().player_wind != null and not _map.hud().player_wind.visible:
+		_blowing = false
 	if session.combat_encounter_coordinator().has_active_encounter():
 		return
 	var location: WorldLocationState = _player.world_location()
@@ -152,7 +155,8 @@ func _gust(may_gale: bool) -> void:
 			lines.append(ColoredLine.new(tr("风从{quarter}边吹过来，草都朝一边倒。").format({"quarter": tr(told)})))
 		_told = told
 	var bell: String = _bell_of(steady, at)
-	if bell != _bell and not bell.is_empty():
+	# Walking, the bell answers every gust (clear into the wind, dull off it); still, it rings once.
+	if not bell.is_empty() and (bell != "still" or _bell != "still"):
 		match bell:
 			"still":
 				# TRANSLATORS: 第十章 A: the wind bell in the calm.

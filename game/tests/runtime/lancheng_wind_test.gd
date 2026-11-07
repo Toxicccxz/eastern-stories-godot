@@ -117,6 +117,12 @@ func _test_gusts(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldCharacterBody2D = wilds.runtime_player_body()
 	var wind: WindDefinition = wilds.winds.wind()
 	wind.veer_percent = 0 # TEST-ONLY: steady gusts (restored below)
+	var missing: Array[StringName] = []
+	for route: WindDefinition.Route in wind.routes:
+		for point_id: StringName in route.points:
+			if not _point(wilds, point_id).is_finite():
+				missing.append(point_id)
+	_check(missing.is_empty(), "every route point stands on the map: missing %s" % [missing])
 	var north: Vector2 = _point(wilds, &"lancheng.wind.north_calm")
 	var fork: Vector2 = _point(wilds, &"lancheng.wind.fork")
 	wilds.winds.tick(0.1)
@@ -137,6 +143,9 @@ func _test_gusts(tree: SceneTree, session: WorldSessionController) -> void:
 	player.global_position = player.global_position + Vector2(0, 90) # TEST-ONLY: back down, with the wind
 	wilds.winds.tick(wind.gust_ms / 1000.0)
 	_check(ui.log_lines().slice(-3).any(func(line: String) -> bool: return line.contains("闷闷")), "walking away the bell rings dull")
+	player.global_position = player.global_position + Vector2(0, 60) # TEST-ONLY: on down the same way
+	wilds.winds.tick(wind.gust_ms / 1000.0)
+	_check(ui.log_lines().slice(-2).any(func(line: String) -> bool: return line.contains("闷闷")), "walking on away, the bell answers again")
 	# The calm.
 	player.global_position = north # TEST-ONLY: in the north hollow
 	await _settle(tree)
