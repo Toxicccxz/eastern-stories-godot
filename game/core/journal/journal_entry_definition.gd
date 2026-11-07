@@ -46,6 +46,10 @@ enum When {
 	## `when` object of its own; HEARD and CHAT are recorded as they happen and cannot be parts.
 	ANY,
 	ALL,
+	## Native (第九章 D; DECISIONS「第九章 D」): at least `amount` of `parts` hold (`at_least`: {n, of: [...]}:
+	## the 揭发 wants so many witnesses and proofs), or the one part does not (`not`).
+	AT_LEAST,
+	NOT,
 	## Native (关北 C; DECISIONS「关北 C」「昼夜」): the day's phase (DayClock, day_phases.json's
 	## phase_id) is one of `phases` — the night watch on the 工地, the 枷锁 opened after dark.
 	## A spawn's stage reads it as the player comes onto the map (never in front of them).
@@ -57,6 +61,7 @@ const WHEN_KEYS: Dictionary[String, int] = {
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
 	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
 	"quest": When.QUEST, "wearing": When.WEARING, "any": When.ANY, "all": When.ALL, "phase": When.PHASE,
+	"at_least": When.AT_LEAST, "not": When.NOT,
 }
 
 var entry_id: StringName
@@ -152,6 +157,27 @@ static func _read_when_object(when: ContentRecordReader, definition: JournalEntr
 					definition.parts.append(part)
 				if definition.parts.is_empty():
 					when.fail(names[0], "joins at least one condition")
+			When.AT_LEAST:
+				var count: ContentRecordReader = when.child("at_least")
+				if count != null:
+					definition.amount = count.required_integer("n")
+					for part_reader: ContentRecordReader in count.children("of"):
+						var part := JournalEntryDefinition.new()
+						_read_when_object(part_reader, part)
+						if part.when in [When.HEARD, When.CHAT]:
+							part_reader.fail("", "heard and chat are recorded as they happen: they cannot be counted")
+						definition.parts.append(part)
+					count.finish()
+					if definition.amount <= 0 or definition.amount > definition.parts.size():
+						when.fail("at_least", "n must be between 1 and the number of conditions")
+			When.NOT:
+				var negated: ContentRecordReader = when.child("not")
+				if negated != null:
+					var part := JournalEntryDefinition.new()
+					_read_when_object(negated, part)
+					if part.when in [When.HEARD, When.CHAT]:
+						negated.fail("", "heard and chat are recorded as they happen: they cannot be negated")
+					definition.parts.append(part)
 			When.PHASE:
 				for phase_id: String in when.text_list("phase"):
 					definition.phases.append(StringName(phase_id))

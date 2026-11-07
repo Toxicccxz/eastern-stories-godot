@@ -7,7 +7,9 @@
 			"region": "京师",
 			"sources": [
 				"native: 第八章 A (剧情总纲 §1 底线一·二, §3 第八章, §6 两处小改; 计划 build/plans/第八章_计划.md, owner 2026-11-06「按推荐，开工 A」: Q2 没宝衣能下但冷, Q3 卢卡不下湖; DECISIONS「第八章 A」): the one step the 封法 opens (三器齐: 穿灵、旋芒、宝衣; 旋芒在岚城, and the way to 岚城 starts with the late emperor's search: 剧情总纲 §2 时间线「先帝……念念不忘寻找岚城」, history:71–76); the rest is the ninth chapter's package (皇城, 总纲 §3 第九章, §6 皇城卡).",
-				"native: 第九章 A (剧情总纲 §3 第九章 入口三条与 ①④, §6 皇城卡; 计划 build/plans/第九章_计划.md §3 与 A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」): the stub grown into the chapter's first steps — the way in (武举 at the 校武场, 公文 by 骆云舟's card and the 相国's 早朝; 潜入 is B's) and the summons to the 养心殿 (C)."
+				"native: 第九章 A (剧情总纲 §3 第九章 入口三条与 ①④, §6 皇城卡; 计划 build/plans/第九章_计划.md §3 与 A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」): the stub grown into the chapter's first steps — the way in (武举 at the 校武场, 公文 by 骆云舟's card and the 相国's 早朝; 潜入 is B's) and the summons to the 养心殿 (C).",
+				"native: 第九章 C (剧情总纲 §3 第九章 ②③④; 计划 build/plans/第九章_计划.md §3 与 C 包; DECISIONS「第九章 C」): the 养心殿 (its gate for the summoned, its window for the one 钟嬷嬷 told), the 御书房's 樟木匣, the two decrees compared three ways; the choice is D's.",
+				"native: 第九章 D (剧情总纲 §3 第九章 选择; 计划 build/plans/第九章_计划.md §3, §7 Q3, D 包; DECISIONS「第九章 D」): the three-way choice — 揭发 (the 早朝 with the 原令 and two of four proofs, three after the 关北 raid; 庾子建 draws, 冯策 beside the player), 私了 (the 原令 into his brazier for the late emperor's reading), 先解通缉 (the boy's 手诏 to 於兰天武 at the 水烟阁)."
 			],
 			"summary": "璃虹说三器齐才灭得了它：穿灵、旋芒、宝衣。旋芒在岚城，岚城寻风而至——先帝找了它一辈子，寻剑的档案和那道寻剑令的原本都在皇城。去京师。",
 			"requires": [
@@ -60,15 +62,84 @@
 					"done": {
 						"mark": "见了皇帝"
 					},
-					"text": "养心殿里，十六岁的皇帝没有睡。",
+					"text": "养心殿里，十六岁的皇帝说：御书房里有父皇的匣子。",
 					"target": {
-						"map": "imperial.court_square",
-						"zone": "imperial.square"
+						"map": "imperial.yangxin_hall",
+						"zone": "imperial.front_hall"
+					}
+				},
+				{
+					"id": "decree",
+					"objective": "御书房：把先帝的原令和兵部的抄本放在一起。",
+					"done": {
+						"mark": "对出了原令"
+					},
+					"text": "原令只一句：寻剑，不得扰民一户。抄本上多出来的三句，是拿着假印的人加的。皇帝给了你一页樵夫的旧记载：风停处即是城。",
+					"target": {
+						"map": "imperial.yangxin_hall",
+						"zone": "imperial.study"
+					}
+				},
+				{
+					"id": "choice",
+					"objective": "怎么办：在养心殿朝上揭发（要原令加两样人证物证，关北踏平了工地的要三样）、去尚书府私了，或请皇上先解皇叔的通缉。",
+					"target": {
+						"map": "imperial.yangxin_hall",
+						"zone": "imperial.front_hall"
+					},
+					"options": [
+						{
+							"id": "expose",
+							"done": {
+								"mark": "庾子建下狱"
+							},
+							"text": "太和殿上，原令和抄本并排摊开。庾子建拔了刀，冯策站在你身边。他下了狱。",
+							"reward": {
+								"deed": "在太和殿上揭发了兵部尚书庾子建"
+							}
+						},
+						{
+							"id": "deal",
+							"done": {
+								"mark": "私了了庾子建"
+							},
+							"text": "原令进了庾子建的火盆。你换来了先帝推敲遗书的手稿。他留在朝上。",
+							"reward": {
+								"deed": "把先帝的原令交给了庾子建"
+							}
+						},
+						{
+							"id": "uncle",
+							"done": {
+								"mark": "皇叔的通缉解了"
+							},
+							"text": "皇帝亲笔写了手诏，东二门的布告撤了。手诏要送到水烟阁。",
+							"reward": {
+								"deed": "请皇帝撤了皇叔於兰天武的通缉"
+							}
+						}
+					]
+				},
+				{
+					"id": "uncle_road",
+					"only_after": "uncle",
+					"objective": "把手诏送到水烟阁，交给皇叔於兰天武。",
+					"done": {
+						"mark": "皇叔入朝"
+					},
+					"text": "於兰天武读了手诏，把传功使交给萧辟尘，回京了。",
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall"
 					}
 				}
 			],
 			"reward": {
-				"deed": "拿到了寻剑令的原本"
+				"milestone": true,
+				"deed": "拿到了寻剑令的原本",
+				"marks": [
+					"皇城一章"
+				]
 			}
 		}
 	]

@@ -43,7 +43,8 @@
 			"zone": "waterfog.guildhall",
 			"points": ["waterfog.guildhall.champion.1"],
 			"legacy_room": "daemon/class/fighter/guildhall.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "mark": "皇叔入朝" }
 		},
 		{
 			"id": "waterfog.pavilion.guildhall.master",
