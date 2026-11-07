@@ -96,9 +96,6 @@
     {"kind": "far_ground", "atlas": false, "at": [1900, 520], "size": [600, 800], "colors": ["7a7a6a", "86867a"], "elevation": 0.0, "clearing": [0, 0, 14, 20], "clearing_color": "8a8270", "roofs": 26, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 4, "note": "the bazaar's roofs east along the road"}
   ],
   "actors": {
-    "default": {"coat": "6a6a5a"},
-    "native.npc.boatman": {"coat": "5e6a6a"},
-    "native.npc.cargo_merchant": {"coat": "8a4a3a", "hat": true},
-    "native.npc.tax_clerk": {"coat": "4a5a6a", "hat": true}
+    "default": {"coat": "6a6a5a"}
   }
 }

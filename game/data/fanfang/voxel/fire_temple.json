@@ -43,8 +43,6 @@
     "dust": [{"rect": [-300, -100, -60, 100], "count": 8, "color": "9a9490", "wind": [0.0, -0.6], "note": "ash on the air over the altar"}]
   },
   "actors": {
-    "default": {"coat": "8a5a3a"},
-    "native.npc.fire_priest": {"coat": "e8e4dc", "hat": true},
-    "native.npc.fire_worshipper": {"coat": "8a5a3a", "hat": true}
+    "default": {"coat": "8a5a3a"}
   }
 }

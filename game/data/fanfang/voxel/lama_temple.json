@@ -49,8 +49,6 @@
     "birds": [{"at": [-280, 0], "radius": 400, "count": 2, "height": 6, "color": "f0f0ec"}]
   },
   "actors": {
-    "default": {"coat": "9a4a2a"},
-    "fanfang.npc.lama_master": {"coat": "8a3a22"},
-    "native.npc.indian_monk": {"coat": "a85a30"}
+    "default": {"coat": "9a4a2a"}
   }
 }

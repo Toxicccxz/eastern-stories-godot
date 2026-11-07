@@ -288,7 +288,9 @@ func _check_ronin_hall(tree: SceneTree, map: WorldMapController) -> void:
 	for kind: String in ["board", "water_vat", "bench", "weapon_rack", "training_post", "chest_stack", "straw_cape", "hanging_lantern", "banner_cloth", "wall_lamp", "window", "scratches", "trail"]:
 		_check(kind in kinds, "鬼笠馆 has its %s" % kind)
 	var actors: Dictionary = view.layout.get("actors", {})
-	_check((actors.get("native.npc.ronin", {}) as Dictionary).get("hat", false) and not (actors.get("fanfang.npc.ronin_master", {}) as Dictionary).get("hat", true), "the 浪人 wear their 斗笠, 早川 does not")
+	var ronin: Dictionary = PersonLooks.resolve(actors, "native.npc.ronin")
+	var master: Dictionary = PersonLooks.resolve(actors, "fanfang.npc.ronin_master")
+	_check(ronin.get("headwear", "") == "straw_hat" and master.get("headwear", "none") == "none", "the 浪人 wear their 斗笠, 早川 does not (their cards): %s / %s" % [ronin.get("headwear", ""), master.get("headwear", "")])
 	_check(view.layout.get("courtyard", false), "the gate yard open to the sky")
 	_check(await MapPlaces.drive_through(tree, map, [&"fanfang.dojo", &"fanfang.gate_yard"]), "walk onto the boards and back")
 

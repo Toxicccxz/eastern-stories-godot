@@ -56,8 +56,6 @@
     "dust": [{"rect": [-400, -80, 400, 480], "count": 10, "color": "d8c8a0", "wind": [0.2, -0.3], "note": "sand kicked up by the drilling pairs"}]
   },
   "actors": {
-    "default": {"coat": "5a5a62"},
-    "native.npc.andun": {"coat": "8a7a62"},
-    "native.npc.shield_swordsman": {"coat": "5a5a62"}
+    "default": {"coat": "5a5a62"}
   }
 }
