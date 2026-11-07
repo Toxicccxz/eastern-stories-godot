@@ -96,7 +96,6 @@
     {"kind": "far_ground", "atlas": false, "at": [1120, 2120], "size": [900, 520], "colors": ["7a7a6a", "86867a"], "elevation": -2.0, "clearing": [0, 0, 22, 11], "clearing_color": "8a8270", "roofs": 34, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 6, "note": "番坊's roofs far down to the south-east, below the cliff's foot"}
   ],
   "actors": {
-    "default": {"coat": "7a7a6a"},
-    "native.npc.salt_porter": {"coat": "8a8270", "hat": true}
+    "default": {"coat": "7a7a6a"}
   }
 }

@@ -57,13 +57,6 @@
     {"kind": "laundry_line", "at": [1136, 1060], "size": [120, 16], "note": "washing across the lane's foot"}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "native.npc.glass_merchant": {"coat": "3a5a8a", "hat": true},
-    "native.npc.carpet_merchant": {"coat": "8a3a2a", "hat": true},
-    "native.npc.spice_merchant": {"coat": "c8862a", "hat": true},
-    "native.npc.copper_merchant": {"coat": "6a4a2a"},
-    "native.npc.stall_child": {"coat": "c8a040"},
-    "native.npc.storyteller": {"coat": "e0d8c0", "hat": true},
-    "native.npc.luca": {"coat": "9a8a6a"}
+    "default": {"coat": "8a7a5a"}
   }
 }

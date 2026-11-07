@@ -137,6 +137,373 @@
       "coat": "3f4a56", "pants": "242b33", "skin": "98ab9a", "hair": "13161b", "hair_style": "long",
       "beard": "none", "waist": "belt", "prop": "spear", "prop_color": "c8ccd2", "accent": "2e3036",
       "height": "standard", "build": "heavy", "shoes": "dark"
-    }
+    },
+    "native.npc.cheng_shuo": {
+      "note": "程朔：槐阳王，六十六岁，背挺得笔直，须发眉毛全白、眼睛亮；灰布袍，腰里一把刀不是摆设；立绘站着（版式是站姿满框）；立绘 Muse 2026-11-06",
+      "coat": "7d7d7d", "pants": "525151", "skin": "dfb083", "hair": "efefef",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "6a4a32", "accent": "505050", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.nan_weishui_guest": {
+      "note": "南危水：当世使剑的名家，槐阳王的弟弟，水烟阁长老；灰蓝素袍、焦殇剑，名家长老的气度；立绘 Muse 2026-11-06",
+      "coat": "344857", "pants": "1c252f", "skin": "d7a77c", "hair": "858383",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "364752", "accent": "566775", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.guo_cheng": {
+      "note": "郭承：王府的刀手，高个子，皮甲马刀，脸让风沙吹得黑红，左边眉毛上一道疤；话少，笑也只是嘴角一扯；立绘 Muse 2026-11-06",
+      "coat": "45302b", "pants": "2e1b1b", "skin": "a8705e", "hair": "241717",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "52322c", "accent": "3f2624", "extras": ["armor"], "armor_color": "715a4d",
+      "height": "tall", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.palace_steward": {
+      "note": "王府管家：干瘦的老头，灰袍子，手里一本账，耳朵上夹着一支笔；王府里唯一不带刀的人；立绘 Muse 2026-11-06",
+      "coat": "85898e", "pants": "46484e", "skin": "eac9a6", "hair": "858383",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "book",
+      "prop_color": "595b61", "accent": "54585e", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.palace_gate_guard": {
+      "note": "王府门军：灰褐短袄外罩皮甲，腰里马刀，眼神不凶只是不让；王府的侍卫、骑兵、练刀的兵都用这一套；立绘 Muse 2026-11-06",
+      "coat": "46342e", "pants": "372524", "skin": "a06a54", "hair": "2e211f",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "7f5543", "accent": "472526", "extras": ["armor"], "armor_color": "715a4d",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.lu_sun": {
+      "note": "吕隼：兵部工地的账房，青袍，腰里别着算盘，手里一本名册；不是武官，可武官都听他的；立绘 Muse 2026-11-06",
+      "coat": "4e7c75", "pants": "284b4d", "skin": "c38b65", "hair": "030308",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "book",
+      "prop_color": "c3ab85", "accent": "152225", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.pei_zhao": {
+      "note": "裴照：兵部工地的白衣武官头领，高半个头，腰悬长剑、黑剑穗，站着像旗杆；左襟绣着三足乌；立绘 Muse 2026-11-06",
+      "coat": "f1f1ef", "pants": "dddddb", "skin": "c18c6e", "hair": "0f0e13",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "3a3a40", "tassel_color": "100e14", "accent": "100e14", "height": "tall",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.site_corvee": {
+      "note": "民夫：黑瘦的汉子，脖子上套着木枷，手掌全是血泡，肩膀磨破了；光脚；立绘 Muse 2026-11-06",
+      "coat": "493e34", "pants": "504339", "skin": "a46c52", "hair": "1a1715",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "714935",
+      "height": "standard", "build": "slim", "shoes": "straw"
+    },
+    "native.npc.freed_corvee": {
+      "note": "回来的民夫：工地上那个民夫被救出来以后，枷没了、脖子上一圈枷印，双手捧着一碗奶茶；挖不动被摘了枷的老民夫也用这一套；立绘 Muse 2026-11-06",
+      "coat": "766759", "pants": "483e34", "skin": "996b54", "hair": "201515",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "403129",
+      "height": "standard", "build": "slim", "shoes": "straw"
+    },
+    "native.npc.camp_family": {
+      "note": "民夫家属：裹着头巾的妇人，搓着一根羊毛绳，眼睛一直往东边看；男人被兵部的人带走四十天了；立绘 Muse 2026-11-06",
+      "coat": "7e7161", "pants": "514539", "skin": "b37751", "hair": "574a3f",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "b1a38b", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "4d4034", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.shepherd": {
+      "note": "牧羊人：老牧羊人，脸晒得像牛皮，眼睛眯着；毡帽、羊皮坎肩、放羊的长鞭；立绘 Muse 2026-11-06",
+      "coat": "3a5461", "pants": "6b848e", "skin": "9a7458", "hair": "44525a",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "818c8e",
+      "beard": "chin_three", "waist": "belt", "prop": "none", "accent": "92795a",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.luca": {
+      "note": "卢卡：高鼻深目的大秦人，褐色短发、一层胡茬；关北的羊皮袄底下露出铁片缀成的甲，一把宽直的短剑；立绘 Muse 2026-11-06",
+      "coat": "a07a4f", "pants": "31241d", "skin": "d1b28d", "hair": "543c2f",
+      "hair_style": "short", "beard": "chin_three", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "948571", "accent": "604334", "extras": ["armor"], "armor_color": "8a7969",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.balang": {
+      "note": "巴朗：矮壮的马贩子，脸上皱纹像刀刻的，腰里别着一根马鞭，羊皮坎肩；立绘 Muse 2026-11-06",
+      "coat": "857868", "pants": "392c2a", "skin": "cfa881", "hair": "4b3c39",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "5a4b44",
+      "height": "short", "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.hu_sanniang": {
+      "note": "胡三娘：塞外酒肆的老板娘，高大，袖子挽到肘，手里一把剁肉的刀；嗓门大、不笑；立绘 Muse 2026-11-06",
+      "coat": "796b5b", "pants": "605245", "skin": "d0a37b", "hair": "16141a",
+      "hair_style": "topknot", "beard": "none", "waist": "apron", "apron_color": "8c7d69",
+      "prop": "cleaver", "prop_color": "6a5240", "height": "tall", "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.qin_popo": {
+      "note": "秦婆子：瘦小的老妇人，裹着补了又补的毡袍，一直看门等儿子老秦；立绘 Muse 2026-11-06",
+      "coat": "7c6e61", "pants": "55483c", "skin": "f1c392", "hair": "7b7b7a",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "6e5b47",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.qin_xiaoliu": {
+      "note": "秦小六：十六岁的半大少年，瘦，眼睛很亮，手里攥着一根马鞭，坐不住；立绘 Muse 2026-11-06",
+      "coat": "957c69", "pants": "645750", "skin": "d5ad83", "hair": "1d1c1c",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "453731",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.lao_qin": {
+      "note": "老秦：瘦得脱了形的汉子，手腕上铁链磨的印子还没褪；从逆灵宫地牢救出来的关北民夫；立绘 Muse 2026-11-06",
+      "coat": "533c30", "pants": "1a1014", "skin": "e1b58a", "hair": "523a2f",
+      "hair_style": "short", "beard": "none", "waist": "belt", "prop": "none", "accent": "8e6f5a",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.huaiyang_gate_guard": {
+      "note": "槐阳城门兵：灰褐短袄、腰里一把弯刀，脸让风沙吹得黑红，看人直来直去；没有皮甲，和王府门军分开；立绘 Muse 2026-11-06",
+      "coat": "77645b", "pants": "53413e", "skin": "b06a4e", "hair": "362426",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "78655c", "accent": "51403d", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.camel_driver": {
+      "note": "驼夫：裹着羊皮袄，脸上一层沙，牙倒是很白；立绘 Muse 2026-11-06",
+      "coat": "b9976f", "pants": "6f5247", "skin": "c09070", "hair": "362a24",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "5c4b46", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "593636", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.guanbei_smith": {
+      "note": "关北的铁匠：光着膀子，胸口的汗混着铁屑，打的是马刀；和雪亭镇的王铁匠分开画；立绘 Muse 2026-11-06",
+      "coat": "72533e", "pants": "463329", "skin": "e2af77", "hair": "2b1f18",
+      "hair_style": "topknot", "beard": "chin_three", "waist": "apron", "apron_color": "60493b",
+      "prop": "hammer", "prop_color": "6f6c67", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.herdsman": {
+      "note": "牧民：穿毡袍，腰里系一条红布带，软底皮靴，赶马来卖；立绘 Muse 2026-11-06",
+      "coat": "cfc3a0", "pants": "9e8a6d", "skin": "d7a46f", "hair": "161618",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "aa2821",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.palace_guard": {"same_as": "native.npc.palace_gate_guard"},
+    "native.npc.huaiyang_rider": {"same_as": "native.npc.palace_gate_guard"},
+    "native.npc.palace_soldier": {"same_as": "native.npc.palace_gate_guard"},
+    "native.npc.site_officer": {"same_as": "native.npc.white_officer"},
+    "native.npc.site_officer_fighting": {"same_as": "native.npc.white_officer"},
+    "native.npc.night_watch": {"same_as": "native.npc.white_officer"},
+    "native.npc.night_watch_fighting": {"same_as": "native.npc.white_officer"},
+    "native.npc.spent_corvee": {"same_as": "native.npc.freed_corvee"},
+    "native.npc.barrow_taoist": {"same_as": "native.npc.tribute_taoist"},
+    "native.npc.passing_taoist": {"same_as": "native.npc.tribute_taoist"},
+    "native.npc.salt_porter": {
+      "note": "盐脚夫：背上的盐包压得腰弯成一张弓（方块人用背篓的方块当盐包），脸上、眉毛上一层汗干了的白盐霜；立绘 Muse 2026-11-06",
+      "coat": "534941", "pants": "534a43", "skin": "986b52", "hair": "04030d",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "basket_back",
+      "prop_color": "cba36c", "accent": "80786c", "height": "standard", "build": "standard",
+      "shoes": "straw"
+    },
+    "native.npc.boatman": {
+      "note": "船工：晒得黑红，光着脚，裤腿卷到膝盖，肩上搭一条湿缆绳；立绘 Muse 2026-11-06",
+      "coat": "384b61", "pants": "343c4b", "skin": "9a5d4b", "hair": "0d0c11",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "671f20",
+      "height": "standard", "build": "standard", "shoes": "straw"
+    },
+    "native.npc.cargo_merchant": {
+      "note": "卸货的胡商：缠头巾、芥黄胡袍，一手指着货骂船工，骂完自己先笑；立绘 Muse 2026-11-06",
+      "coat": "bb831c", "pants": "744b17", "skin": "ca9c66", "hair": "362016",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "cd9a30", "beard": "full",
+      "waist": "belt", "prop": "none", "accent": "945727", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.tax_clerk": {
+      "note": "市舶司的税吏：小帽、灰蓝交领袍，手里一本账；平常坐在码头当中的桌子后头；立绘 Muse 2026-11-06",
+      "coat": "4d5d6c", "pants": "2d3a4a", "skin": "e6bd95", "hair": "16161e",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "7d7472", "beard": "none",
+      "waist": "belt", "prop": "book", "prop_color": "313e4e", "accent": "2e3b4b",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.glass_merchant": {
+      "note": "琉璃商：高鼻子、浓胡子的胡商，深青翻领胡袍，手里托着一只琥珀色的琉璃杯；立绘 Muse 2026-11-06",
+      "coat": "125760", "pants": "05313b", "skin": "aa5234", "hair": "070b12",
+      "hair_style": "short", "beard": "full", "waist": "belt", "prop": "none", "accent": "914231",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.carpet_merchant": {
+      "note": "毡毯商：胡子花白的老胡商，深红胡袍，臂弯里搭一卷红底黄花的毡毯；平常盘腿坐在毡毯堆上；立绘 Muse 2026-11-06",
+      "coat": "7c290c", "pants": "461809", "skin": "884f2c", "hair": "7d857a",
+      "hair_style": "short", "beard": "long", "waist": "belt", "prop": "none", "accent": "b04019",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.spice_merchant": {
+      "note": "香料商：包花纹头巾的胡商妇人，姜黄胡袍，手里一只铜勺子；看摊的孩子是她儿子；立绘 Muse 2026-11-06",
+      "coat": "ba7009", "pants": "5f3b18", "skin": "e5ab6b", "hair": "402a14",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "a3610d", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "87520d", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.copper_merchant": {
+      "note": "铜器商：胳膊粗壮的胡商，皮围裙，一手小锤一手铜盘，在盘子上敲花纹；立绘 Muse 2026-11-06",
+      "coat": "8f4f27", "pants": "582215", "skin": "b35333", "hair": "06070c",
+      "hair_style": "short", "beard": "chin_three", "waist": "apron", "apron_color": "79301e",
+      "prop": "hammer", "prop_color": "a76949", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.stall_child": {
+      "note": "看摊的孩子：七八岁，头发卷卷的，替他娘看香料摊，张着嘴喊「看看，看看」；立绘 Muse 2026-11-06",
+      "coat": "c2720c", "pants": "2d1d10", "skin": "be7643", "hair": "1f100d",
+      "hair_style": "short", "beard": "none", "waist": "belt", "prop": "none", "accent": "986432",
+      "height": "child", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.storyteller": {
+      "note": "说书的老胡人：长白胡子，褪了色的靛蓝旧袍，手里一只铜碗；坐在街边的毡子上讲中原话，讲得很慢；立绘 Muse 2026-11-06",
+      "coat": "455e79", "pants": "4d362c", "skin": "d6bba3", "hair": "9e9e98",
+      "hair_style": "short", "beard": "long", "waist": "belt", "prop": "none", "accent": "88554a",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.feng_lu": {
+      "note": "冯禄：市舶司的头，洗得发白的青袍、袖口磨出了毛，一手按账册一手拈胡子，眼睛总往门口瞟；立绘 Muse 2026-11-06",
+      "coat": "699673", "pants": "354b3c", "skin": "a27460", "hair": "18221d",
+      "hair_style": "topknot", "headwear": "official_cap", "headwear_color": "463f42",
+      "beard": "chin_three", "waist": "belt", "prop": "book", "prop_color": "a9ba84",
+      "accent": "456352", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.customs_clerk": {
+      "note": "书办：瘦瘦的，一支笔一卷纸，抄一行抬一次头；立绘 Muse 2026-11-06",
+      "coat": "344050", "pants": "2f3644", "skin": "b57d60", "hair": "040308",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "none", "accent": "626e7d",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.customs_runner": {
+      "note": "差役：腰里挂着铁尺，靠墙站着，一会儿换一条腿；立绘 Muse 2026-11-06",
+      "coat": "897666", "pants": "50423d", "skin": "dba778", "hair": "221c1e",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "none", "accent": "544740",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.andun": {
+      "note": "安敦：铁盾会的老首领（大秦人），白头发、灰眼睛、鼻梁高得像一道脊，背很直，左腿有旧伤；中原布袍底下露出一截铁片甲的边（只是一条边，方块人不画甲）；立绘 Muse 2026-11-06",
+      "coat": "65869d", "pants": "3d5c6f", "skin": "baa191", "hair": "b7b9b3",
+      "hair_style": "short", "beard": "chin_three", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "b3c1ca", "accent": "3e5d70", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.shield_swordsman": {
+      "note": "大秦剑手：高鼻深目、短发，左臂绑着一面圆盾（盾面全是剑尖戳出的白点），右手一把宽直的短剑；立绘 Muse 2026-11-06",
+      "coat": "a34b2b", "pants": "523125", "skin": "dfb385", "hair": "261714",
+      "hair_style": "short", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "d4c9b7", "accent": "a24a2a", "extras": ["shield"], "shield_color": "d5c8b8",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.fire_priest": {
+      "note": "穆护：拜火祠的祭司，瘦高的老人，白袍、白帽，嘴上蒙一块白布（怕气息污了火），眼睛被火光照得发亮；立绘 Muse 2026-11-06",
+      "coat": "ffffff", "pants": "eeeceb", "skin": "b67073", "hair": "796e6e",
+      "hair_style": "short", "headwear": "cloth_cap", "headwear_color": "ffffff", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "bfbfbf", "height": "tall", "build": "slim",
+      "shoes": "white"
+    },
+    "native.npc.fire_worshipper": {
+      "note": "拜火的胡商：刚进番坊，背上搭着赶路的毡子，鞋底的泥是黄的，双手合在胸前；立绘 Muse 2026-11-06",
+      "coat": "672e16", "pants": "462519", "skin": "9e593a", "hair": "301d15",
+      "hair_style": "short", "headwear": "headscarf", "headwear_color": "a55224",
+      "beard": "chin_three", "waist": "belt", "prop": "none", "accent": "373a2f",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.indian_monk": {
+      "note": "天竺僧：年轻、瘦，光头赤脚，身上斜裹一块赭红的布；立绘 Muse 2026-11-06",
+      "coat": "b83716", "pants": "861909", "skin": "ab6e51", "hair": "3c1e18", "hair_style": "bald",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "6b3e2e", "height": "standard",
+      "build": "slim", "shoes": "straw"
+    },
+    "native.npc.ronin": {
+      "note": "浪人：戴斗笠的倭人，斗笠压得很低只看得见下巴，腰里一把窄而弯的长刀；拔了刀的那几个用同一套（怒脸）；立绘 Muse 2026-11-06",
+      "coat": "1b1f22", "pants": "292e33", "skin": "e2bc76", "hair": "3a4145",
+      "hair_style": "topknot", "headwear": "straw_hat", "headwear_color": "cda967", "beard": "none",
+      "waist": "sash", "prop": "blade_waist", "prop_color": "ba965d", "accent": "616974",
+      "height": "standard", "build": "standard", "shoes": "straw"
+    },
+    "native.npc.shadow_thief": {
+      "note": "黑影：从头到脚裹在黑布里的贼，只露一双眼睛，半弓着腰；黑布分三阶；立绘 Muse 2026-11-06",
+      "coat": "2e323b", "pants": "14191d", "skin": "3f404a", "hair": "1d1f24",
+      "hair_style": "short", "headwear": "headscarf", "headwear_color": "2e323b", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "34414f", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.pass_gate_soldier": {
+      "note": "关门兵：天驼关谷地东壁关门上的兵，铁灰号衣带肩甲，手里横着一杆长枪，枪头擦得雪亮，眼睛盯着出关的人；立绘 Muse 2026-11-06",
+      "coat": "3d4a5a", "pants": "2c313b", "skin": "a0806f", "hair": "10131a",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "spear",
+      "prop_color": "d7b38e", "accent": "242e3a", "extras": ["armor"], "armor_color": "565a63",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.ronin_fighting": {"same_as": "native.npc.ronin"},
+    "native.npc.niling_winch_taoist": {
+      "note": "绞盘道士：黑衣黑冠，袖子挽着，两手把着绞盘的摇柄，肩膀结实、一脸汗；立绘 Muse 2026-11-07",
+      "coat": "312f30", "pants": "0f141c", "skin": "efd0bd", "hair": "0e1219",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "11141c", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "312e2f", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.niling_gatekeeper": {
+      "note": "门房道士：黑衣黑冠，瘦长脸，手里一本簿子和一支笔，眼睛不看簿子看门洞——谁进来先看冠，再看脸；立绘 Muse 2026-11-07",
+      "coat": "1f272f", "pants": "0e0f13", "skin": "ecccaf", "hair": "18191d",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0e1014", "beard": "none",
+      "waist": "sash", "prop": "book", "prop_color": "9d8077", "accent": "1a232e",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.niling_gate_guard": {
+      "note": "守门道士：黑衣黑冠，背着手站得笔直，腰上一柄短剑，眼睛半闭像在听什么；立绘 Muse 2026-11-07",
+      "coat": "222c36", "pants": "0e121a", "skin": "efd0be", "hair": "212a35",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0d111a", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "a28885", "accent": "342a2a",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_store_taoist": {
+      "note": "货栈道士：黑衣黑冠，壮实，袖子挽着，手里抖着一匹绸缎在数，眼睛往画着符的箱子那边瞟；立绘 Muse 2026-11-07",
+      "coat": "262221", "pants": "0e0f14", "skin": "ebc09f", "hair": "0c0e12",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "252022", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "2a2224", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "native.npc.niling_chanter": {
+      "note": "诵经道士：黑衣黑冠，年轻、瘦，闭着眼，两手合在身前，诵得又低又快；立绘 Muse 2026-11-07",
+      "coat": "39302f", "pants": "121215", "skin": "ead0b8", "hair": "0f1014",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "101216", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "242d28", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.niling_lead_chanter": {
+      "note": "领诵道士：黑衣黑冠的老道士，手里一只乌黑的木鱼和木槌，一次头也没抬过；立绘 Muse 2026-11-07",
+      "coat": "0c0f17", "pants": "040406", "skin": "eccaae", "hair": "232727",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0b0e17", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "222826", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_steward": {
+      "note": "管事道士：黑衣黑冠，账房的管事，圆脸、比别人胖，手指上全是墨，一手笔一手厚账；立绘 Muse 2026-11-07",
+      "coat": "332825", "pants": "0e121a", "skin": "eccaac", "hair": "302824",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0f131b", "beard": "none",
+      "waist": "sash", "prop": "book", "prop_color": "a2817f", "accent": "312825",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.niling_jailer": {
+      "note": "狱卒道士：黑衣黑冠，靠着甬道的石壁站，腰上一柄短剑和一根卷起来的鞭子；挂钥匙的那个用同一套；立绘 Muse 2026-11-07",
+      "coat": "24282e", "pants": "0c0e12", "skin": "e7bda3", "hair": "0e0f13",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0f1014", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "9e7f78", "accent": "303834",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.huo_zheng": {
+      "note": "霍铮：地牢里的囚徒，高大的汉子瘦得脱了形，颧骨突出，手腕上两道铁链磨出的血痕；头发胡子乱成一团，眼睛却亮得吓人；关久了的蜡黄脸，衣服破成条；立绘 Muse 2026-11-07",
+      "coat": "47554b", "pants": "27312b", "skin": "976e5d", "hair": "04060a", "hair_style": "long",
+      "beard": "full", "waist": "sash", "prop": "none", "accent": "232827", "height": "tall",
+      "build": "slim", "shoes": "dark"
+    },
+    "native.npc.guanbei_corvee": {
+      "note": "关北民夫：地牢里的另一个囚徒，黑瘦，手掌全是老茧，肩上一道挑担磨出的硬皮；河工的交领短褂上印着一个「役」字，扎腿、草鞋；和关北工地上戴枷的民夫不是一个人；立绘 Muse 2026-11-07",
+      "coat": "5a4437", "pants": "5d4739", "skin": "65483d", "hair": "040509",
+      "hair_style": "short", "beard": "none", "waist": "sash", "prop": "none", "accent": "2f2420",
+      "extras": ["leg_wraps"], "wrap_color": "48372d", "height": "standard", "build": "slim",
+      "shoes": "straw"
+    },
+    "native.npc.xuan_mingzi": {
+      "note": "玄冥子：商玦身边的道士，黑衣黑冠，比别的道士高出半个头，腰上一柄长剑和一串钥匙；脸上没有表情，眼睛一直在动；笑只动嘴角；崖径上拔剑的那个用同一套（怒脸）；立绘 Muse 2026-11-07",
+      "coat": "262c2a", "pants": "0e0f13", "skin": "e6c5b1", "hair": "191e24",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0e0f13", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "a18681", "accent": "483c37",
+      "height": "tall", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_jailer_keyed": {"same_as": "native.npc.niling_jailer"},
+    "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"}
   }
 }

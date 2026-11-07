@@ -34,9 +34,6 @@
     {"kind": "paper_slip", "at": [500, 60], "size": [14, 18], "rotation": 25, "note": "a sheet of the 王府's accounts"}
   ],
   "actors": {
-    "default": {"coat": "6a5a48"},
-    "native.npc.cheng_shuo": {"coat": "6a6058"},
-    "native.npc.palace_guard": {"coat": "5a4a3a", "hat": true},
-    "native.npc.nan_weishui_guest": {"coat": "4a5a6a"}
+    "default": {"coat": "6a5a48"}
   }
 }

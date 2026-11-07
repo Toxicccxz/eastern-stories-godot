@@ -53,9 +53,6 @@
     {"kind": "glow", "at": [768, 236], "color": "ffc080", "day": 0.0, "night": 0.35, "range": 5.0, "height": 1.2, "note": "a butter lamp someone left burning at the 敖包"}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "native.npc.shepherd": {"coat": "6a6a5a", "hat": true},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"},
-    "native.npc.passing_taoist": {"coat": "2a2622", "hat": true}
+    "default": {"coat": "8a7a5a"}
   }
 }

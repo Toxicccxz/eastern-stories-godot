@@ -28,6 +28,7 @@ var acts: WorldMapActs = WorldMapActs.new(self)
 var mazes: WorldMapMazes = WorldMapMazes.new(self)
 var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
 var watches: WorldMapWatches = WorldMapWatches.new(self)
+var npc_idle: WorldMapNpcIdle = WorldMapNpcIdle.new(self)
 var thefts: WorldMapThefts = WorldMapThefts.new(self)
 var debts: WorldMapDebts = WorldMapDebts.new(self)
 var _definition: MapDefinition

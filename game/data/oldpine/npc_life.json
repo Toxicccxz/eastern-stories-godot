@@ -1,0 +1,16 @@
+{
+	"people": {
+		"oldpine.npc.bandit": "post",
+		"oldpine.npc.bandit_commander": "still",
+		"oldpine.npc.bandit_guard": {"mode": "wander", "radius": 80},
+		"oldpine.npc.bandit_leader": {"mode": "wander", "radius": 80},
+		"oldpine.npc.butterfly": "wander",
+		"oldpine.npc.fat_bandit": {"mode": "wander", "radius": 80},
+		"oldpine.npc.maniac": {"mode": "wander", "radius": 80},
+		"oldpine.npc.serpent": "still",
+		"oldpine.npc.spy": "still",
+		"oldpine.npc.tall_bandit": {"mode": "wander", "radius": 80},
+		"oldpine.npc.venomsnake": {"mode": "wander", "radius": 48},
+		"oldpine.npc.wolf_dog": "wander"
+	}
+}

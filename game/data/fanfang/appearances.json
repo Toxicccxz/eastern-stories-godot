@@ -1,0 +1,17 @@
+{
+  "people": {
+    "fanfang.npc.lama_master": {
+      "note": "龙若法王：天竺来的老僧，皮肤黝黑、光头、眉毛全白，耳垂长得几乎到肩，赭红僧衣，手里一串黑木念珠；光脚；立绘 Muse 2026-11-06",
+      "coat": "942919", "pants": "c14d23", "skin": "7c4f39", "hair": "9e9e98", "hair_style": "bald",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "603829", "height": "standard",
+      "build": "standard", "shoes": "straw"
+    },
+    "fanfang.npc.ronin_master": {
+      "note": "早川直义：鬼笠馆的馆主（倭人），瘦，背挺得笔直，头顶挽一个髻，窄而弯的长刀插在腰里，两手搭在刀鞘上；草鞋；立绘 Muse 2026-11-06",
+      "coat": "334459", "pants": "191f30", "skin": "b1896b", "hair": "08060d",
+      "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "blade_waist",
+      "prop_color": "a17458", "accent": "252d3d", "height": "standard", "build": "slim",
+      "shoes": "straw"
+    }
+  }
+}

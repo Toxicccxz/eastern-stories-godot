@@ -74,14 +74,6 @@
   ],
   "actors": {
     "default": {"coat": "8a7a5a"},
-    "native.npc.lu_sun": {"coat": "4a5a6a"},
-    "native.npc.pei_zhao": {"coat": "e8e4dc"},
-    "native.npc.site_officer": {"coat": "e0dcd4"},
-    "native.npc.site_officer_fighting": {"coat": "e0dcd4"},
-    "native.npc.night_watch": {"coat": "e0dcd4"},
-    "native.npc.night_watch_fighting": {"coat": "e0dcd4"},
-    "native.npc.site_corvee": {"coat": "6a5a48"},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"},
-    "native.npc.huaiyang_rider": {"coat": "6a4a3a", "hat": true, "mount": {"coat": "5a3a2a", "mane": "2a2420", "cloth": "8a3a2a"}}
+    "native.npc.huaiyang_rider": {"mount": {"coat": "5a3a2a", "mane": "2a2420", "cloth": "8a3a2a"}}
   }
 }

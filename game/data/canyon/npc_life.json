@@ -1,0 +1,14 @@
+{
+	"people": {
+		"canyon.npc.adviser": "still",
+		"canyon.npc.captain": {"mode": "wander", "radius": 48},
+		"canyon.npc.door_guard": "post",
+		"canyon.npc.general": "still",
+		"canyon.npc.guard1": {"mode": "wander", "radius": 64},
+		"canyon.npc.guard2": {"mode": "wander", "radius": 64},
+		"canyon.npc.leader1": {"mode": "wander", "radius": 48},
+		"canyon.npc.leader2": {"mode": "wander", "radius": 48},
+		"canyon.npc.seller": "still",
+		"canyon.npc.vice_general": "still"
+	}
+}

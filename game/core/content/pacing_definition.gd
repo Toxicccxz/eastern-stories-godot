@@ -329,6 +329,9 @@ var coach_minutes_per_leg: int:
 		return _coach_minutes_per_leg
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
+## How people move about inside their room (the record's `npc_idle`; NpcIdleTuning, DECISIONS
+## 「街上的人会动」); left out, nobody does, as ES2.
+var npc_idle: NpcIdleTuning = NpcIdleTuning.new()
 
 
 ## When an NPC's call_out that answers the player comes: its ES2 time `es2_seconds`, or
@@ -371,6 +374,7 @@ func copy() -> PacingDefinition:
 	record.with_map_page(_map_page)
 	record.with_coach(_coach_travel, _coach_fare_base, _coach_fare_per_leg, _coach_minutes_per_leg)
 	record.feel = feel
+	record.npc_idle = npc_idle
 	return record
 
 
@@ -580,6 +584,9 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
+	var idle: ContentRecordReader = reader.child("npc_idle")
+	if idle != null:
+		definition.npc_idle = NpcIdleTuning.from_record(idle)
 	reader.finish()
 	if definition._combat_round_ms <= 0:
 		reader.fail("combat_round_ms", "must be positive")
