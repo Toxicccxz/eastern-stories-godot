@@ -175,7 +175,7 @@
 			"scatter": [], "spread": 0.0,
 			"ambience": [{"kind": "moths", "max": 2}]
 		},
-		"bell_hall": {"walls": "boards", "grime": 0.15, "hangings": ["wall_lamp"], "hang": 0.06, "tables": ["books"], "pieces": [{"kind": "prayer_cushions", "size": [32, 32]}], "count": 1, "scatter": ["dust"], "spread": 0.02, "ambience": [{"kind": "sunbeam", "max": 2}], "note": "第十章 B: the 风铃阁's hall — swept boards, a lamp or two, books, a few cushions; no hearth, no smoke (不食人间烟火)"},
+		"bell_hall": {"walls": "boards", "grime": 0.15, "hangings": ["wall_lamp"], "hang": 0.06, "tables": ["books"], "pieces": [{"kind": "prayer_cushions", "size": [32, 32]}], "count": 1, "scatter": ["dust"], "spread": 0.02, "ambience": [{"kind": "sunbeam", "max": 2}]},
 		"study": {
 			"walls": "plaster", "grime": 0.2,
 			"hangings": ["wall_scroll:calligraphy", "clothes_peg", "wall_lamp"], "hang": 0.16,
