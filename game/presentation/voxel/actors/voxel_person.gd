@@ -26,8 +26,9 @@ const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
 const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back", "haw_pole"]
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
-## round the shins; armor (甲): a plate on each shoulder and one on the chest.
-const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor"]
+## round the shins; armor (甲): a plate on each shoulder and one on the chest; shield (圆盾, 铁盾会):
+## strapped to the left forearm.
+const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor", "shield"]
 
 var walking: bool = false
 var pace: float = 0.0
@@ -121,6 +122,15 @@ func _ready() -> void:
 		if extras.has("bracers"):
 			# Over the sleeve's end, just above the hand.
 			_s.box(arm, Vector3(0, -0.25*reach, 0.005), Vector3(0.22, 0.12*reach, 0.3*_deep + 0.02), _tone(_hex("bracer_color", "4a3628")))
+		if extras.has("shield") and side > 0.0:
+			# A round shield on the left forearm, held before the body with its face forward and a
+			# little out: two crossed plates for the round edge, a metal boss in the middle.
+			var face: String = _hex("shield_color", "7a6a58")
+			var turn := Vector3(0, 0.35, 0)
+			var centre := Vector3(0.05, -0.27*reach, 0.2)
+			_held_tilted(arm, centre, Vector3(0.44, 0.32, 0.05), face, turn)
+			_held_tilted(arm, centre, Vector3(0.32, 0.44, 0.05), face, turn)
+			_held_tilted(arm, centre + Vector3(sin(0.35), 0, cos(0.35))*0.035, Vector3(0.1, 0.1, 0.04), _hex("metal", "b9a26a"), turn)
 		var leg := Node3D.new()
 		var hip: float = 0.57*_legs_k
 		leg.position = Vector3(side*0.17*maxf(_wide, 0.9), hip, 0)
