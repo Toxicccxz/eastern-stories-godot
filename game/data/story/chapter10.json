@@ -1,0 +1,34 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter10",
+			"title": "旋芒",
+			"line": "main",
+			"region": "天驼关",
+			"sources": [
+				"native: 第九章 E (剧情总纲 §3 第十章 入口: 序章石匣里的风铃、樵夫的记载、萧辟尘; §6 岚城卡「入口是一张寻风地带的图……天驼关镜子那三条路里整修中的幻影道」; 计划 build/plans/第九章_计划.md §3「main.chapter10 桩」; DECISIONS「第九章 E」): the one step the woodcutter's page (or the late emperor's reading) opens; the rest is the tenth chapter's package (岚城, a new region)."
+			],
+			"summary": "樵夫说：风停处即是城。岚城寻风而至，寻风而逝——天驼关石林里那面镜子后头，有一条原作没修完的路。",
+			"requires": [
+				"main.chapter9"
+			],
+			"steps": [
+				{
+					"id": "wind",
+					"objective": "读懂风，找到岚城。",
+					"done": {
+						"mark": "到了岚城"
+					},
+					"text": "风停了。",
+					"target": {
+						"map": "canyon.pass",
+						"zone": "canyon.stone_forest3"
+					}
+				}
+			],
+			"reward": {
+				"deed": "找到了岚城"
+			}
+		}
+	]
+}

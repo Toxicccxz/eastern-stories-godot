@@ -2,6 +2,8 @@
 	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
 	"items": ["d/city/obj/token.c"],
 	"set": {
+		"city.shangshu.keting.shangshu": {"until": {"mark": "庾子建下狱"}},
+		"city.shangshu.neizhai.qing_chen": {"until": {"mark": "庾子建下狱"}},
 		"city.npc.shangshu.shangshu": {
 			"inquiry": {
 				"原令": {
@@ -152,6 +154,7 @@
 				],
 				"庾清尘": {
 					"rules": [
+						{"asker_marks": ["庾子建下狱"], "say": "老爷下了狱，小姐去了相国府。……我在这儿把花浇完，也该走了。"},
 						{
 							"asker_marks": [
 								"湖底一章"

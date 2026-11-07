@@ -232,7 +232,8 @@
 			"zone": "city.shangshu.keting",
 			"points": ["city.shangshu.keting.shangshu.1"],
 			"legacy_room": "d/city/shangshu/keting.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "mark": "庾子建下狱" }
 		},
 		{
 			"id": "city.shangshu.road2.huyuan",
@@ -286,7 +287,8 @@
 			"zone": "city.shangshu.neizhai",
 			"points": ["city.shangshu.neizhai.qing_chen.1"],
 			"legacy_room": "d/city/shangshu/neizhai.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "mark": "庾子建下狱" }
 		}
 	]
 }

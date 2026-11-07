@@ -1587,6 +1587,7 @@
 				"effective_skill": "你的文学素养不够无法提升小无相功的造诣。"
 			}
 		},
+		{"id": "palace-blade", "name": "禁中刀", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"], "legacy_source": "native: 第九章 E (剧情总纲 §3 第九章 选择的后果, §6 皇城卡「大内侍卫的一门刀法（冯策）」, 第十章入口; 计划 build/plans/第九章_计划.md E 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 E」) — the 大内侍卫's blade (剧情总纲 §6 皇城卡: 大内侍卫的一门刀法（冯策）), seven strokes after daemon/skill/shortsong-blade.c's form (as 关北马刀); 续写", "actions": [{"id": "zhi-men", "tag": "guard", "action": "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l", "damage": 40, "damage_type": "割伤"}, {"id": "chu-xun", "tag": "quick", "action": "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！", "damage": 60, "damage_type": "割伤"}, {"id": "ti-deng", "tag": "feint", "action": "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l", "damage": 30, "damage_type": "割伤"}, {"id": "suo-gong", "tag": "heavy", "action": "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l", "damage": 70, "damage_type": "割伤"}, {"id": "na-xia", "tag": "quick", "action": "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到", "damage": 50, "damage_type": "割伤"}, {"id": "hu-jia", "tag": "guard", "action": "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l", "damage": 20, "damage_type": "割伤"}, {"id": "tian-ming", "tag": "heavy", "action": "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l", "damage": 70, "damage_type": "割伤"}]},
 		{
 			"id": "guanbei-saber",
 			"name": "关北马刀",
