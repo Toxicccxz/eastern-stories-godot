@@ -351,8 +351,25 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(watched.exists_in_map and not walker.is_walking(watched.character_id), "by day the traveller is about the square")
 	var idle: WorldMapNpcIdle = map.npc_idle
 	var tuned: NpcIdleTuning = tuning
-	# Night by the clock alone, the player looking on: the ticks do it.
 	var phases: Array[StringName] = tuned.night_phases
+	# On the way to a door, a scene takes it (a fight, a talk alike): it stays, and goes later.
+	tuned.night_phases = [session.day_phase_id()] # TEST-ONLY: it is night now, without a time skip
+	for step: int in 120:
+		session.advance_npc_heartbeat(0.25)
+		await tree.physics_frame
+		if walker.is_walking(watched.character_id):
+			break
+	map.npc_life.scene_focus_id = watched.character_id # TEST-ONLY: a scene looks at it
+	for step: int in 20:
+		session.advance_npc_heartbeat(0.25)
+		await tree.physics_frame
+	_check(watched.exists_in_map and not idle._leaving.has(watched.character_id), "stopped on its way (a scene, a fight): it is not taken off the map")
+	map.npc_life.scene_focus_id = &""
+	walker.cancel(watched.character_id)
+	body.global_position = spot # TEST-ONLY: back on its spot for the walk below
+	await tree.physics_frame
+	tuned.night_phases = phases
+	# Night by the clock alone, the player looking on: the ticks do it.
 	tuned.night_phases = [session.day_phase_id()] # TEST-ONLY: it is night now, without a time skip
 	var walked: bool = false
 	var start: Vector2 = body.global_position
@@ -376,8 +393,15 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	for npc: NpcRuntimeState in travellers:
 		all_in = all_in and not npc.exists_in_map
 	_check(all_in, "coming onto the map at night: the travellers are indoors at once")
-	# Dawn in sight: out of a way out and back to the spot.
+	# Dawn with the player on its spot: it waits till they move on.
 	tuned.night_phases = phases
+	map.player_body.global_position = spot # TEST-ONLY: on the traveller's spot
+	await tree.physics_frame
+	for step: int in 12:
+		session.advance_npc_heartbeat(0.5)
+		await tree.physics_frame
+	_check(not watched.exists_in_map, "dawn with the player on its spot: it does not come out on top of them")
+	# Dawn in sight: out of a way out and back to the spot.
 	map.player_body.global_position = MapPlaces.spot(map, &"snow.square", spot + Vector2(0, 120), 80.0) # TEST-ONLY: the spot in sight
 	await tree.physics_frame
 	var came_from: Vector2 = Vector2.INF

@@ -40,6 +40,11 @@ var _entries: Dictionary[StringName, NpcLifeBook.Entry] = {}
 ## Night (D): who is on the way indoors, by character ID: true walking to a way out, false with
 ## no way to walk (gone once out of sight). Not saved: a save takes the walk's end.
 var _leaving: Dictionary[StringName, bool] = {}
+## Night (D): whether one of the street's idle folk set off (to a way out, or out of one) this tick:
+## one a tick, so dusk costs no frame many grids and paths.
+var _set_off: bool = false
+## No one comes out on a spot the player stands this near (they wait till the player moves on).
+const SPOT_CLEAR_PX: float = 48.0
 
 
 func _init(map: WorldMapController) -> void:
@@ -59,6 +64,7 @@ func advance(delta: float) -> void:
 	# A room's stroll ground is made one step a tick (a grid or its cells: a few ms each).
 	var prepared: bool = false
 	var night: bool = _night_now(tuning)
+	_set_off = false
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
@@ -162,8 +168,9 @@ func judge_night() -> void:
 		if night and npc.exists_in_map and _free(npc):
 			_go_in(npc)
 		elif not night and not npc.exists_in_map:
-			_map.npcs.appear(npc, spawn)
-			_people.erase(npc.character_id)
+			# Out already (the hours went by), on its spot, unless the player stands on it: then the
+			# ticks bring it out once they move on.
+			_come_out(npc, _map.npc_life.npc_walker(), true)
 
 
 ## Whether the day's phase now is one of the night's.
@@ -172,10 +179,11 @@ func _night_now(tuning: NpcIdleTuning) -> bool:
 
 
 ## The spawn of one who may go indoors at night: an ordinary one (not the story's, a summoned,
-## drawn or absent-at-first one, whose comings and goings are their own), else null.
-static func _night_spawn(npc: NpcRuntimeState) -> NpcSpawnDefinition:
+## drawn or absent-at-first one, whose comings and goings are their own) on its own map (one that
+## wandered through a door onto another stays there till its room brings it home), else null.
+func _night_spawn(npc: NpcRuntimeState) -> NpcSpawnDefinition:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	if spawn == null or spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn:
+	if spawn == null or spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn or spawn.map_id != _map.map_id():
 		return null
 	return spawn
 
@@ -193,11 +201,15 @@ func _night_step(npc: NpcRuntimeState, body: WorldCharacterBody2D, night: bool, 
 		_leaving.erase(id)
 		if npc.exists_in_map or not _up(npc):
 			return false
-		_come_out(npc, walker)
+		_come_out(npc, walker, false)
 		return true
 	if not npc.exists_in_map:
 		return true
 	if _leaving.has(id):
+		# A fight, a scene or a talk stopped it on the way: the day's ways till it is free again.
+		if not _free(npc):
+			_leaving.erase(id)
+			return false
 		if bool(_leaving[id]) and walker.is_walking(id):
 			return true
 		if bool(_leaving[id]) or not _map.in_view(body.global_position):
@@ -211,6 +223,9 @@ func _night_step(npc: NpcRuntimeState, body: WorldCharacterBody2D, night: bool, 
 	if not _map.in_view(body.global_position):
 		_go_in(npc)
 		return true
+	if _set_off:
+		return true
+	_set_off = true
 	_leaving[id] = false
 	for spot: Vector2 in _ways_out(body.global_position):
 		if walker.walk_across(id, body, spot):
@@ -231,13 +246,20 @@ func _go_in(npc: NpcRuntimeState) -> void:
 	_map.npcs.withdraw(npc)
 
 
-## Out again at dawn: on its spot, or (its spot in sight) out of the nearest way out and back to it.
-func _come_out(npc: NpcRuntimeState, walker: WorldNpcWalker) -> void:
+## Out again at dawn: on its spot, or (its spot in sight and not `at_once`) out of the nearest way
+## out and back to it. Not while the player stands on the spot.
+func _come_out(npc: NpcRuntimeState, walker: WorldNpcWalker, at_once: bool) -> void:
 	var spawn: NpcSpawnDefinition = _night_spawn(npc)
 	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
 	if spawn == null or marker == null:
 		return
-	var seen: bool = _map.in_view(marker.global_position)
+	if _map.player_body != null and _map.player_body.global_position.distance_to(marker.global_position) < SPOT_CLEAR_PX:
+		return
+	var seen: bool = not at_once and _map.in_view(marker.global_position)
+	if seen:
+		if _set_off:
+			return
+		_set_off = true
 	if not _map.npcs.appear(npc, spawn):
 		return
 	_people.erase(npc.character_id)
