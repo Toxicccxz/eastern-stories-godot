@@ -39,34 +39,51 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-## The layout's bells (the scene's Furnishings) and the bell landmarks name the same marks, region by region.
+## The layout's bells (the scene's Furnishings) and the bell landmarks name the same marks, bell by bell
+## along the rack: each bell's dark piece `until` and bright piece `present` the same marks, the landmark
+## standing over it its looks' marks, and all of them together the plan's table (计划 §4).
 func _test_table() -> void:
 	var scene: Node = (load("res://scenes/world/lancheng/lancheng_pavilion.tscn") as PackedScene).instantiate()
-	var bright: Array[Array] = []
-	var dark: int = 0
+	var bright: Dictionary[int, Array] = {}
+	var dark: Dictionary[int, Array] = {}
 	for node: Node in scene.get_node("Furnishings").get_children():
 		var look: Dictionary = node.get_meta("look", {})
 		if String(look.get("kind", "")) != "temple_bell":
 			continue
+		var x: int = roundi((node as Node2D).position.x)
 		if look.has("present"):
-			bright.append(_marks_of(look["present"]))
+			bright[x] = _sorted(_marks_of(look["present"]))
 		elif look.has("until"):
-			dark += 1
+			dark[x] = _sorted(_marks_of(look["until"]))
+	var heard: Dictionary[int, Array] = {}
+	for node: Node in scene.get_node("Interactions").get_children():
+		var landmark_id: StringName = node.get("landmark_id")
+		if not String(landmark_id).contains(".landmark.bell_"):
+			continue
+		var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
+		var marks: Array = []
+		for look: WorldLandmarkDefinition.Look in landmark.looks():
+			marks.append_array(look.marks)
+		heard[roundi((node as Node2D).position.x)] = _sorted(marks)
 	scene.free()
-	_check(bright.size() == 10 and dark == 10, "ten bells, each dark until and bright when: %d / %d" % [bright.size(), dark])
-	var landmarks: Array[Array] = []
-	for landmark: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(&"lancheng.pavilion"):
-		if String(landmark.landmark_id).contains(".landmark.bell_"):
-			var marks: Array = []
-			for look: WorldLandmarkDefinition.Look in landmark.looks():
-				marks.append_array(look.marks)
-			marks.sort()
-			landmarks.append(marks)
-	for marks: Array in bright:
-		marks.sort()
-	bright.sort()
-	landmarks.sort()
-	_check(bright == landmarks, "the bells' pictures and their landmarks answer to the same marks:\n%s\n%s" % [bright, landmarks])
+	_check(bright.size() == 10 and dark.size() == 10 and heard.size() == 10, "ten bells, each dark and bright, ten bell landmarks: %d / %d / %d" % [bright.size(), dark.size(), heard.size()])
+	var xs: Array = bright.keys()
+	xs.sort()
+	var spots: Array = heard.keys()
+	spots.sort()
+	var every: Array = []
+	for i: int in mini(xs.size(), spots.size()):
+		var x: int = xs[i]
+		_check(dark.get(x, []) == bright[x], "bell %d: dark until and bright present the same marks: %s / %s" % [i, dark.get(x, []), bright[x]])
+		_check(heard[spots[i]] == bright[x], "bell %d: its landmark answers to its marks: %s / %s" % [i, heard[spots[i]], bright[x]])
+		every.append_array(bright[x])
+	_check(_sorted(every) == _sorted(TABLE), "all the bells together are the plan's table: %s" % [every])
+
+
+func _sorted(marks: Array) -> Array:
+	var copy: Array = marks.duplicate()
+	copy.sort()
+	return copy
 
 
 func _marks_of(condition: Dictionary) -> Array:
@@ -126,6 +143,11 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	_check(session.active_map().map_id() == &"lancheng.wilds" and session.player_runtime().world_location().zone_id == &"lancheng.calm_north", "out: in the north hollow, where the wind stopped")
+	await _settle(tree)
+	_check(["风眼在西", "风眼在北", "风眼在东"].filter(func(mark: String) -> bool: return state.marks.get(mark, 0) != 0).size() == 1, "the town drifted: the route drawn afresh on the way out")
+	for mark: String in ["风眼在西", "风眼在东"]:
+		state.marks.erase(mark)
+	state.marks["风眼在北"] = 1 # TEST-ONLY: drawn north again, for the way back in
 	var wilds: WorldMapController = session.active_map() as WorldMapController
 	var lie: ActService = wilds.service(&"lancheng.calm_north.lie_down") as ActService
 	_check(lie != null and await MapPlaces.drive(tree, wilds, MapPlaces.service_spot(wilds, &"lancheng.calm_north.lie_down")) and lie.in_reach(), "at the hollow's 伏地")

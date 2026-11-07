@@ -689,6 +689,15 @@
 								"line": "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
 							},
 							{
+								"unmark": "风眼在西"
+							},
+							{
+								"unmark": "风眼在北"
+							},
+							{
+								"unmark": "风眼在东"
+							},
+							{
 								"move": "lancheng.calm_west",
 								"point": "lancheng.wind.west_calm"
 							}
@@ -704,6 +713,15 @@
 							},
 							{
 								"line": "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+							},
+							{
+								"unmark": "风眼在西"
+							},
+							{
+								"unmark": "风眼在北"
+							},
+							{
+								"unmark": "风眼在东"
 							},
 							{
 								"move": "lancheng.calm_north",
@@ -723,6 +741,15 @@
 								"line": "等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
 							},
 							{
+								"unmark": "风眼在西"
+							},
+							{
+								"unmark": "风眼在北"
+							},
+							{
+								"unmark": "风眼在东"
+							},
+							{
 								"move": "lancheng.calm_east",
 								"point": "lancheng.wind.east_calm"
 							}
@@ -734,6 +761,15 @@
 						"steps": [
 							{
 								"line": "你穿过白石门。风托着你，雾合拢了。等你站稳，人在风口。\n"
+							},
+							{
+								"unmark": "风眼在西"
+							},
+							{
+								"unmark": "风眼在北"
+							},
+							{
+								"unmark": "风眼在东"
 							},
 							{
 								"move": "lancheng.windgate",

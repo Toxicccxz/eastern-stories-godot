@@ -834,7 +834,9 @@ func _lantern_string() -> void:
 			var t: float = clampf(float(j)/count+(vary.randf_range(-0.12,0.12)/count if j>0 and j<count else 0.0),0.0,1.0)
 			var at: Vector3 = a.lerp(b,t)-Vector3(0,sin(t*PI)*sag,0)
 			s.box(root,at,Vector3(0.04,0.04,0.04),"3d3530")
-			if j>0 and j<count and vary.randf()>=0.1 and bells:
+			if not (j>0 and j<count and vary.randf()>=0.1):
+				continue
+			if bells:
 				# 第十章 B: a string of wind bells (岚城's streets), small bronze bells on short cords, no light.
 				var bell := Node3D.new()
 				bell.position = at-Vector3(0,0.14,0)
@@ -844,7 +846,7 @@ func _lantern_string() -> void:
 				s.box(bell,Vector3(0,-0.14,0),Vector3(0.16,0.03,0.16),Shapes.tinted(metal,vary,0.08))
 				if ambience != null:
 					ambience.sway(bell,at.x+at.z,0.22)
-			elif j>0 and j<count and vary.randf()>=0.1:
+			else:
 				var hang := Node3D.new()
 				hang.set_meta("light_fixture",true)
 				hang.position = at-Vector3(0,0.24,0)
