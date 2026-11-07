@@ -4,9 +4,10 @@
 			"id": "main.chapter10",
 			"title": "旋芒",
 			"line": "main",
-			"region": "天驼关",
+			"region": "岚城",
 			"sources": [
-				"native: 第九章 E (剧情总纲 §3 第十章 入口: 序章石匣里的风铃、樵夫的记载、萧辟尘; §6 岚城卡「入口是一张寻风地带的图……天驼关镜子那三条路里整修中的幻影道」; 计划 build/plans/第九章_计划.md §3「main.chapter10 桩」; DECISIONS「第九章 E」): the one step the woodcutter's page (or the late emperor's reading) opens; the rest is the tenth chapter's package (岚城, a new region)."
+				"native: 第九章 E (剧情总纲 §3 第十章 入口: 序章石匣里的风铃、樵夫的记载、萧辟尘; §6 岚城卡「入口是一张寻风地带的图……天驼关镜子那三条路里整修中的幻影道」; 计划 build/plans/第九章_计划.md §3「main.chapter10 桩」; DECISIONS「第九章 E」): the one step the woodcutter's page (or the late emperor's reading) opens; the rest is the tenth chapter's package (岚城, a new region).",
+				"native: 第十章 A (计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」「风」): the 风 step's target is the 石林雾野 above the 幻影道 (its beam goes once one is in the field: the wind leads from there) (the mirror's upper way, open once the ninth chapter is done); the town shows itself where the wind stops (伏地 in the hollow the wind blows out of)."
 			],
 			"summary": "樵夫说：风停处即是城。岚城寻风而至，寻风而逝——天驼关石林里那面镜子后头，有一条原作没修完的路。",
 			"requires": [
@@ -15,14 +16,14 @@
 			"steps": [
 				{
 					"id": "wind",
-					"objective": "读懂风，找到岚城。",
+					"objective": "读懂风，找到岚城。天驼关石林那面镜子里，上道通到哪里？",
 					"done": {
 						"mark": "到了岚城"
 					},
 					"text": "风停了。",
 					"target": {
-						"map": "canyon.pass",
-						"zone": "canyon.stone_forest3"
+						"map": "lancheng.wilds",
+						"zone": "lancheng.stone_field"
 					}
 				}
 			],

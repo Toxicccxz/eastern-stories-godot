@@ -1,0 +1,61 @@
+{
+	"npcs": [
+		{
+			"id": "native.npc.niling_wind_diviner",
+			"legacy_source": "native: 第十章 A (剧情总纲 §2「逆灵宫替他用魔道卜算剑的去向」, §3 第十章; 计划 build/plans/第十章_计划.md §0 寻风地带「卜风坛」; DECISIONS「第十章 A」) — three 逆灵宫 men who found the 寻风地带 and never the town: they walk with the wind, 续写",
+			"name": "卜风道士",
+			"aliases": ["diviner", "taoist", "道士", "卜风道士"],
+			"title": "逆灵宫",
+			"gender": "男性",
+			"age": 38,
+			"long": "一个黑衣黑冠的道士，蹲在黑石坛边烧符，符烧完了就看灰往哪边飞，然后在一支竹签上写一笔。他的嘴唇冻得发紫，眼睛红着，像是很多天没睡。\n",
+			"attributes": {"str": 24, "cor": 26, "int": 24, "spi": 26, "cps": 24, "per": 14, "con": 24, "kar": 14},
+			"combat_exp": 120000,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": {"wearing": "native:niling/black_crown"},
+			"skills": {"sword": 80, "parry": 75, "dodge": 75, "force": 70, "unarmed": 60},
+			"carry": [
+				{"item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield"},
+				{"item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear"},
+				{"item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear"}
+			],
+			"vanishes": {"line": "卜风道士一声不响地散成一股黑烟，被风卷着往西去了。"},
+			"inquiry": {
+				"岚城": ["卜风道士冷笑：宫主算过，剑就在风那头。跟着风走就是了。"],
+				"风": ["卜风道士道：风往哪边吹，剑就在哪边。……三天了。三天了。"]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": ["卜风道士尖声道：剑是宫主的！\n", "卜风道士朝坛上喊：有人来抢剑了！\n"]
+		},
+		{
+			"id": "native.npc.niling_wind_diviner_head",
+			"legacy_source": "native: 第十章 A (as native.npc.niling_wind_diviner): the one who keeps the slip, 续写",
+			"name": "卜风道士",
+			"aliases": ["diviner", "taoist", "道士", "卜风道士"],
+			"title": "逆灵宫",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个瘦高的黑衣道士，黑冠上缀着一圈铜钱，坐在坛顶，手里攥着一支写满了字的竹签，一动不动地盯着坛上的灰。\n",
+			"attributes": {"str": 26, "cor": 28, "int": 26, "spi": 28, "cps": 26, "per": 14, "con": 26, "kar": 14},
+			"combat_exp": 160000,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": {"wearing": "native:niling/black_crown"},
+			"skills": {"sword": 95, "parry": 85, "dodge": 85, "force": 80, "unarmed": 70},
+			"carry": [
+				{"item": "es2:obj/longsword", "source": "d/city/npc/guard.c", "equip": "wield"},
+				{"item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear"},
+				{"item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear"},
+				{"item": "native:lancheng/diviner_slip", "source": "native: 第十章 A"}
+			],
+			"vanishes": {"line": "卜风道士散成一股黑烟，那支竹签落在坛脚的符灰里。"},
+			"inquiry": {
+				"岚城": ["卜风道士头也不抬：顺风走。宫主说顺风走。"],
+				"风": ["卜风道士攥紧了竹签：风欺人。"]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": ["卜风道士冷冷地道：又一个寻剑的。\n"]
+		}
+	]
+}

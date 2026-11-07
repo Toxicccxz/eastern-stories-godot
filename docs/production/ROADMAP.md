@@ -183,7 +183,7 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    the 午门's 铁门, the 武举 at the 校武场 and the 殿试, 骆云舟's card, 相国府 and the 早朝; the 皇城's first three maps); B done (DECISIONS「第九章 B」「禁军夜巡」: the generic `watch` stealth, the
    cellar's stone, the tunnel, the 冷宫 well and 钟嬷嬷, the 御花园, the 西长街, the 侍卫营); C done (DECISIONS「第九章 C」: the
    养心殿 and the 御书房, the two decrees compared, the woodcutter's page; the 尚书府's three blanks, 庾清尘 and the 障眼符); D done (DECISIONS「第九章 D」: 揭发 with
-   enough proofs, the drawn blade and 冯策 beside, 私了 by the brazier, the 手诏 to 於兰天武); E done (DECISIONS「第九章 E」: who leaves the 尚书府 and where they go, 卫沧澜 back at the 水烟阁, 宋朴 at the 午门, 冯策's 《禁中刀谱》, the tenth chapter's stub). The ninth chapter is complete; next the tenth 旋芒 (岚城, a new region) plan.
+   enough proofs, the drawn blade and 冯策 beside, 私了 by the brazier, the 手诏 to 於兰天武); E done (DECISIONS「第九章 E」: who leaves the 尚书府 and where they go, 卫沧澜 back at the 水烟阁, 宋朴 at the 午门, 冯策's 《禁中刀谱》, the tenth chapter's stub). The ninth chapter is complete. The tenth 旋芒 (岚城, a new region `lancheng`, 剧情总纲 §3 第十章, §6 岚城卡) by `build/plans/第十章_计划.md` (owner 2026-11-07「继续做」: Q1 ten bells of trust, five to draw it oneself; Q2 one of three calms drawn each time one comes in; Q3 the bell is 萧辟尘's and the wind brings the drawer — all 默认), three packages: A done (DECISIONS「第十章 A」「风」: the mirror's upper way, the 幻影道, the 寻风地带 with the generic guiding wind `winds`, the 卜风坛 and the 兵部旧营, 伏地 where the wind stops, the 石匣's bell); next B, the 白石街 and the 风铃阁.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

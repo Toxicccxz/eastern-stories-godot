@@ -1,0 +1,6 @@
+{
+	"spawns": [
+		{"id": "lancheng.diviner_altar.diviners", "npc": "native.npc.niling_wind_diviner", "map": "lancheng.wilds", "zone": "lancheng.diviner_altar", "points": ["lancheng.diviner_altar.diviner.1", "lancheng.diviner_altar.diviner.2"], "legacy_room": "native: 第十章 A (剧情总纲 §2, §3 第十章; 计划 build/plans/第十章_计划.md §0 寻风地带「卜风坛」; DECISIONS「第十章 A」) (two burning charms at the black altar)", "legacy_quantity": 2, "present": {"mark": "皇城一章"}, "until": {"mark": "卜风坛的道士倒了"}, "cleared_mark": "卜风坛的道士倒了"},
+		{"id": "lancheng.diviner_altar.head", "npc": "native.npc.niling_wind_diviner_head", "map": "lancheng.wilds", "zone": "lancheng.diviner_altar", "points": ["lancheng.diviner_altar.head.1"], "legacy_room": "native: 第十章 A (as lancheng.diviner_altar.diviners) (the one on top of the altar with the slip)", "legacy_quantity": 1, "present": {"mark": "皇城一章"}, "until": {"mark": "卜风坛的领头倒了"}, "cleared_mark": "卜风坛的领头倒了"}
+	]
+}

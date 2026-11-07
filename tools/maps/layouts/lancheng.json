@@ -1,0 +1,1178 @@
+{
+  "maps": {
+    "wilds": {
+      "note": "寻风地带 (第十章 A; 剧情总纲 §3 第十章 ①, §6 岚城卡): up from the mirror's chamber in 天驼关's 石林 (fantasy1.c's upper way, 上道迷香之味不止, whose dream/tmp.c was only 整修中) a narrow, steep way of polished yellow stone in incense and mist (幻影道) comes out on a high field under low cloud (风口); north of it a forest of wind-worn white pillars (石林雾野) where trails part for three sheltered hollows (west, north, east), the 逆灵宫's black altar at the downwind west edge (卜风坛) and the 兵部's dead camp on the east (兵部旧营). The wind blows out of the town along one of three routes (game/data/lancheng/world.json winds); its points are the spawn points lancheng.wind.*.",
+      "file": "lancheng_wilds.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [
+          0,
+          64,
+          1664,
+          1792
+        ],
+        "zones": {
+          "lancheng.huanying": [
+            704,
+            1536,
+            960,
+            1776,
+            "rock"
+          ],
+          "lancheng.windgate": [
+            576,
+            1280,
+            1088,
+            1536,
+            "grass"
+          ],
+          "lancheng.stone_field": [
+            224,
+            544,
+            1440,
+            1280,
+            "grass"
+          ],
+          "lancheng.diviner_altar": [
+            32,
+            672,
+            224,
+            1088,
+            "rock"
+          ],
+          "lancheng.ministry_camp": [
+            1440,
+            672,
+            1632,
+            1088,
+            "rock"
+          ],
+          "lancheng.calm_west": [
+            256,
+            192,
+            576,
+            544,
+            "grass"
+          ],
+          "lancheng.calm_north": [
+            672,
+            96,
+            992,
+            544,
+            "grass"
+          ],
+          "lancheng.calm_east": [
+            1088,
+            192,
+            1408,
+            544,
+            "grass"
+          ]
+        },
+        "lines": {
+          "ways": [
+            [
+              [
+                832,
+                1752,
+                24,
+                24,
+                24,
+                0,
+                "from the mirror"
+              ],
+              [
+                832,
+                1660,
+                22,
+                30,
+                30,
+                3
+              ],
+              [
+                828,
+                1560,
+                24,
+                56,
+                56,
+                6,
+                "out of the 幻影道"
+              ],
+              [
+                824,
+                1420,
+                26,
+                120,
+                120,
+                10,
+                "the 风口"
+              ],
+              [
+                808,
+                1290,
+                26,
+                150,
+                150,
+                10
+              ],
+              [
+                800,
+                1180,
+                26,
+                160,
+                160,
+                10,
+                "where the trails part"
+              ]
+            ],
+            [
+              [
+                800,
+                1180,
+                24,
+                90,
+                90,
+                8
+              ],
+              [
+                660,
+                1000,
+                24,
+                100,
+                100,
+                10
+              ],
+              [
+                500,
+                780,
+                22,
+                90,
+                90,
+                10
+              ],
+              [
+                432,
+                560,
+                22,
+                70,
+                70,
+                8
+              ],
+              [
+                416,
+                400,
+                22,
+                60,
+                60,
+                4,
+                "the west hollow"
+              ]
+            ],
+            [
+              [
+                800,
+                1180,
+                24,
+                90,
+                90,
+                8
+              ],
+              [
+                880,
+                1000,
+                24,
+                100,
+                100,
+                10
+              ],
+              [
+                848,
+                760,
+                22,
+                90,
+                90,
+                10
+              ],
+              [
+                832,
+                560,
+                22,
+                70,
+                70,
+                8
+              ],
+              [
+                832,
+                360,
+                22,
+                60,
+                60,
+                4,
+                "the north hollow"
+              ]
+            ],
+            [
+              [
+                800,
+                1180,
+                24,
+                90,
+                90,
+                8
+              ],
+              [
+                1008,
+                1000,
+                24,
+                100,
+                100,
+                10
+              ],
+              [
+                1168,
+                792,
+                22,
+                90,
+                90,
+                10
+              ],
+              [
+                1240,
+                560,
+                22,
+                70,
+                70,
+                8
+              ],
+              [
+                1248,
+                400,
+                22,
+                60,
+                60,
+                4,
+                "the east hollow"
+              ]
+            ],
+            [
+              [
+                592,
+                960,
+                20,
+                50,
+                50,
+                6
+              ],
+              [
+                368,
+                920,
+                20,
+                50,
+                50,
+                6
+              ],
+              [
+                208,
+                888,
+                20,
+                40,
+                40,
+                4
+              ],
+              [
+                144,
+                880,
+                18,
+                30,
+                30,
+                2,
+                "to the black altar"
+              ]
+            ],
+            [
+              [
+                1072,
+                960,
+                20,
+                50,
+                50,
+                6
+              ],
+              [
+                1296,
+                920,
+                20,
+                50,
+                50,
+                6
+              ],
+              [
+                1456,
+                896,
+                20,
+                40,
+                40,
+                4
+              ],
+              [
+                1520,
+                880,
+                18,
+                30,
+                30,
+                2,
+                "into the dead camp"
+              ]
+            ]
+          ]
+        },
+        "steps": [
+          {
+            "op": "freeze"
+          },
+          {
+            "op": "blobs",
+            "note": "open ground: the field, the gate, the hollows, the two edges",
+            "amp": 0.22,
+            "seed": [
+              0.013,
+              0.007
+            ],
+            "blobs": [
+              [
+                832,
+                1660,
+                64,
+                110,
+                "the 幻影道, narrow"
+              ],
+              [
+                832,
+                1410,
+                236,
+                116,
+                "the 风口"
+              ],
+              [
+                832,
+                930,
+                560,
+                330,
+                "the 石林雾野"
+              ],
+              [
+                560,
+                760,
+                260,
+                210
+              ],
+              [
+                1104,
+                760,
+                260,
+                210
+              ],
+              [
+                832,
+                1180,
+                330,
+                110
+              ],
+              [
+                416,
+                372,
+                146,
+                156,
+                "the west hollow"
+              ],
+              [
+                832,
+                320,
+                146,
+                206,
+                "the north hollow"
+              ],
+              [
+                1248,
+                372,
+                146,
+                156,
+                "the east hollow"
+              ],
+              [
+                128,
+                880,
+                88,
+                180,
+                "卜风坛"
+              ],
+              [
+                1536,
+                880,
+                88,
+                180,
+                "兵部旧营"
+              ]
+            ]
+          },
+          {
+            "op": "lines",
+            "group": "ways"
+          },
+          {
+            "op": "clip"
+          },
+          {
+            "op": "separate"
+          },
+          {
+            "op": "drop_pockets",
+            "from": "HuanyingMirrorArrival"
+          },
+          {
+            "op": "fill",
+            "note": "what blocks (voxel: game/data/lancheng/voxel/wilds.json)",
+            "fills": [
+              [
+                "blocked",
+                656,
+                784,
+                704,
+                816,
+                "a wind pillar between the west and north trails, grooved on its windward face",
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 3.8,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                976,
+                784,
+                1024,
+                816,
+                "and between the north and east trails",
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 4.0,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                624,
+                592,
+                656,
+                624,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 3.2,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1008,
+                592,
+                1040,
+                624,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 3.4,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                352,
+                976,
+                400,
+                1024,
+                "the tallest pillars stand at the field's edges",
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 4.4,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1264,
+                976,
+                1312,
+                1024,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 4.2,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                320,
+                704,
+                352,
+                736,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 3.4,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1328,
+                704,
+                1360,
+                736,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 3.0,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                560,
+                1184,
+                592,
+                1216,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 2.6,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1072,
+                1200,
+                1104,
+                1232,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 2.8,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                736,
+                912,
+                768,
+                944,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 2.4,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                944,
+                912,
+                976,
+                944,
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 2.6,
+                    "colors": [
+                      "e6dcc6",
+                      "efe6d2",
+                      "d8ccb2",
+                      "f4ecdc"
+                    ],
+                    "cap": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                64,
+                864,
+                112,
+                912,
+                "卜风坛: the 逆灵宫's black altar at the downwind edge",
+                {
+                  "look": {
+                    "kind": "standing_rock",
+                    "height": 1.9,
+                    "colors": [
+                      "2e2a2e",
+                      "3a3438",
+                      "262226",
+                      "443c40"
+                    ],
+                    "cap": "5a5048"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                48,
+                800,
+                64,
+                816,
+                "black banners on the altar, torn by the wind",
+                {
+                  "look": {
+                    "kind": "banner",
+                    "height": 3.0,
+                    "cloth": "1e1a1e",
+                    "trim": "5a2a2a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                48,
+                976,
+                64,
+                992,
+                {
+                  "look": {
+                    "kind": "banner",
+                    "height": 2.6,
+                    "cloth": "1e1a1e",
+                    "trim": "5a2a2a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1504,
+                928,
+                1536,
+                944,
+                "the 兵部's flag lying in the grass, its pole snapped",
+                {
+                  "look": {
+                    "kind": "banner",
+                    "height": 1.0,
+                    "cloth": "8a2a20",
+                    "trim": "c8a040",
+                    "rotation": 80
+                  }
+                }
+              ],
+              [
+                "blocked",
+                288,
+                848,
+                320,
+                880,
+                "loose white stones off the trails",
+                {
+                  "look": {
+                    "kind": "boulder",
+                    "tall": 0.7,
+                    "colors": [
+                      "e2d6bc",
+                      "d8ccb0",
+                      "eadfca"
+                    ],
+                    "lichen_color": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1360,
+                864,
+                1392,
+                896,
+                {
+                  "look": {
+                    "kind": "boulder",
+                    "tall": 0.6,
+                    "colors": [
+                      "e2d6bc",
+                      "d8ccb0",
+                      "eadfca"
+                    ],
+                    "lichen_color": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                800,
+                240,
+                864,
+                272,
+                "the north hollow's flat stone with the marks of someone lying there a long while",
+                {
+                  "look": {
+                    "kind": "boulder",
+                    "tall": 0.35,
+                    "colors": [
+                      "e8dcc6",
+                      "f0e6d2",
+                      "dcd0b8"
+                    ],
+                    "lichen_color": "8a9a7a"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1504,
+                784,
+                1552,
+                832,
+                "兵部旧营: a tent still up, its canvas in strips",
+                {
+                  "look": {
+                    "kind": "lean_to",
+                    "rotation": 200
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1568,
+                896,
+                1616,
+                944,
+                "a fallen tent",
+                {
+                  "look": {
+                    "kind": "lean_to",
+                    "rotation": 160
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1488,
+                976,
+                1536,
+                1024,
+                "and another",
+                {
+                  "look": {
+                    "kind": "lean_to",
+                    "rotation": 230
+                  }
+                }
+              ]
+            ]
+          }
+        ],
+        "reach_from": "HuanyingMirrorArrival",
+        "caption_near": {
+          "lancheng.huanying": [
+            740,
+            1600
+          ],
+          "lancheng.windgate": [
+            640,
+            1330
+          ],
+          "lancheng.stone_field": [
+            300,
+            600
+          ],
+          "lancheng.diviner_altar": [
+            60,
+            700
+          ],
+          "lancheng.ministry_camp": [
+            1460,
+            700
+          ],
+          "lancheng.calm_west": [
+            300,
+            220
+          ],
+          "lancheng.calm_north": [
+            700,
+            130
+          ],
+          "lancheng.calm_east": [
+            1300,
+            220
+          ]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "LanchengWilds",
+        "map": "lancheng.wilds",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "MirrorLabel",
+            "at": [
+              832,
+              1784
+            ],
+            "text": "下 · 镜子",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "DownPassage",
+            "id": "lancheng.huanying.down",
+            "at": [
+              832,
+              1752
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "service",
+            "name": "CalmWestLie",
+            "id": "lancheng.calm_west.lie_down",
+            "at": [
+              416,
+              392
+            ],
+            "text": "背风的石坳"
+          },
+          {
+            "node": "service",
+            "name": "CalmNorthLie",
+            "id": "lancheng.calm_north.lie_down",
+            "at": [
+              832,
+              344
+            ],
+            "text": "背风的石坳"
+          },
+          {
+            "node": "service",
+            "name": "CalmEastLie",
+            "id": "lancheng.calm_east.lie_down",
+            "at": [
+              1248,
+              392
+            ],
+            "text": "背风的石坳"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "name": "HuanyingMirrorArrival",
+            "at": [
+              832,
+              1704
+            ],
+            "id": "lancheng.huanying.mirror_arrival"
+          },
+          {
+            "name": "WindGate",
+            "at": [
+              824,
+              1420
+            ],
+            "id": "lancheng.wind.gate"
+          },
+          {
+            "name": "WindFork",
+            "at": [
+              800,
+              1180
+            ],
+            "id": "lancheng.wind.fork"
+          },
+          {
+            "name": "WindWest1",
+            "at": [
+              660,
+              1000
+            ],
+            "id": "lancheng.wind.west1"
+          },
+          {
+            "name": "WindWest2",
+            "at": [
+              500,
+              780
+            ],
+            "id": "lancheng.wind.west2"
+          },
+          {
+            "name": "WindWest3",
+            "at": [
+              432,
+              560
+            ],
+            "id": "lancheng.wind.west3"
+          },
+          {
+            "name": "WindWestCalm",
+            "at": [
+              416,
+              392
+            ],
+            "id": "lancheng.wind.west_calm"
+          },
+          {
+            "name": "WindNorth1",
+            "at": [
+              880,
+              1000
+            ],
+            "id": "lancheng.wind.north1"
+          },
+          {
+            "name": "WindNorth2",
+            "at": [
+              848,
+              760
+            ],
+            "id": "lancheng.wind.north2"
+          },
+          {
+            "name": "WindNorth3",
+            "at": [
+              832,
+              560
+            ],
+            "id": "lancheng.wind.north3"
+          },
+          {
+            "name": "WindNorthCalm",
+            "at": [
+              832,
+              344
+            ],
+            "id": "lancheng.wind.north_calm"
+          },
+          {
+            "name": "WindEast1",
+            "at": [
+              1008,
+              1000
+            ],
+            "id": "lancheng.wind.east1"
+          },
+          {
+            "name": "WindEast2",
+            "at": [
+              1168,
+              792
+            ],
+            "id": "lancheng.wind.east2"
+          },
+          {
+            "name": "WindEast3",
+            "at": [
+              1240,
+              560
+            ],
+            "id": "lancheng.wind.east3"
+          },
+          {
+            "name": "WindEastCalm",
+            "at": [
+              1248,
+              392
+            ],
+            "id": "lancheng.wind.east_calm"
+          },
+          {
+            "name": "DivinerOne",
+            "at": [
+              160,
+              816
+            ],
+            "id": "lancheng.diviner_altar.diviner.1"
+          },
+          {
+            "name": "DivinerTwo",
+            "at": [
+              120,
+              944
+            ],
+            "id": "lancheng.diviner_altar.diviner.2"
+          },
+          {
+            "name": "DivinerHead",
+            "at": [
+              152,
+              888
+            ],
+            "id": "lancheng.diviner_altar.head.1"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "ShadeBonesInteraction",
+            "id": "lancheng.huanying.landmark.shade_bones",
+            "at": [
+              832,
+              1664
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "ShadeGoathillInteraction",
+            "id": "lancheng.huanying.landmark.shade_goathill",
+            "at": [
+              832,
+              1624
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "ShadeLatemoonInteraction",
+            "id": "lancheng.huanying.landmark.shade_latemoon",
+            "at": [
+              832,
+              1588
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "ShadeCourtInteraction",
+            "id": "lancheng.huanying.landmark.shade_court",
+            "at": [
+              832,
+              1552
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "ScoutInteraction",
+            "id": "lancheng.ministry_camp.landmark.scout",
+            "at": [
+              1520,
+              864
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "FlagInteraction",
+            "id": "lancheng.ministry_camp.landmark.flag",
+            "at": [
+              1520,
+              960
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "AltarInteraction",
+            "id": "lancheng.diviner_altar.landmark.altar",
+            "at": [
+              136,
+              888
+            ],
+            "shape": "Rect_64_32"
+          }
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/lancheng/voxel/wilds.json"
+        }
+      }
+    }
+  }
+}

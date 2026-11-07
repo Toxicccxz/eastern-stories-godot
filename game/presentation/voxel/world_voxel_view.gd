@@ -16,6 +16,8 @@ const VIEW_RADIUS: float = 30.0
 const EXIT_GLOW: String = "f2a43a:glow"
 @export_file("*.json") var layout_path: String
 var map: WorldMapController
+## 第十章 A: the guiding wind as shown, easing toward the rule's (WorldMapWinds.vector()).
+var _wind_shown: Vector2 = Vector2.ZERO
 var camera: Camera3D
 var world: Node3D
 var geometry: VoxelMapGeometry
@@ -105,10 +107,29 @@ func _process(delta: float) -> void:
 	_sync_light()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
 	geometry.water.set_dusk(lighting.weights["dusk"])
+	_sync_wind(delta)
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 	geometry.ambience.night = lighting.amount
 	geometry.ambience.advance(delta)
+
+## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along
+## it, hard in a gust, upright in the calm, wild when it veers; the dust that follows it drifts. The
+## direction eases round (presentation only; the rule is the 2D map's).
+func _sync_wind(delta: float) -> void:
+	if map.winds.wind() == null:
+		return
+	var target: Vector2 = map.winds.vector()
+	if map.winds.gusty():
+		target = target.rotated(sin(Time.get_ticks_msec()/180.0)*1.2)
+	_wind_shown = _wind_shown.lerp(target, clampf(delta*1.6, 0.0, 1.0))
+	geometry.ambience.guiding_wind = _wind_shown
+	if geometry.foliage != null and geometry.foliage.material != null:
+		var strength: float = _wind_shown.length()
+		geometry.foliage.material.set_shader_parameter("gust", 0.05 + strength*(1.3 if map.winds.gusty() else 0.9))
+		if strength > 0.05:
+			geometry.foliage.material.set_shader_parameter("gust_dir", _wind_shown.normalized())
+
 
 ## With the feel's map_loading_slice_ms this goes on over several frames, the session held and
 ## the loading screen over it; otherwise it is over when it returns. Either way the same world.

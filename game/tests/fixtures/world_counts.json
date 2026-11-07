@@ -162,9 +162,10 @@
 		"imperial.yuhua_garden",
 		"imperial.cold_palace",
 		"imperial.well_tunnel",
-		"imperial.yangxin_hall"
+		"imperial.yangxin_hall",
+		"lancheng.wilds"
 	],
-	"rooms": 624,
+	"rooms": 632,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -583,6 +584,8 @@
 		"imperial.throne_hall.feng_ce_beside",
 		"imperial.lanes_south.song_pu",
 		"imperial.front_hall.yulan_tianwu",
+		"lancheng.diviner_altar.diviners",
+		"lancheng.diviner_altar.head",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -631,9 +634,9 @@
 		"native.guildhall.wei_canglan",
 		"native.wumen.song_pu"
 	],
-	"world_npcs": 731,
-	"resident_maps": 163,
-	"new_game_items": 1152,
+	"world_npcs": 734,
+	"resident_maps": 164,
+	"new_game_items": 1162,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -798,7 +801,8 @@
 		"imperial.yuhua_garden": 2,
 		"imperial.cold_palace": 2,
 		"imperial.well_tunnel": 3,
-		"imperial.yangxin_hall": 4
+		"imperial.yangxin_hall": 4,
+		"lancheng.wilds": 8
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -963,7 +967,8 @@
 		"imperial.yuhua_garden": 2,
 		"imperial.cold_palace": 1,
 		"imperial.well_tunnel": 0,
-		"imperial.yangxin_hall": 3
+		"imperial.yangxin_hall": 3,
+		"lancheng.wilds": 3
 	},
 	"npc_draws_after_oldpine": 2568,
 	"technical_maps": 9,

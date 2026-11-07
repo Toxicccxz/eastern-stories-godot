@@ -41,6 +41,8 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary) -> bool:
 			_teapot(data)
 		"cup":
 			_cup(data)
+		"bell":
+			_bell(data)
 		"gourd":
 			_gourd(data)
 		"coins":
@@ -274,6 +276,19 @@ func _cup(data: Dictionary) -> void:
 	_b(Vector3(0, -0.06, 0), Vector3(0.3, 0.24, 0.3), glaze)
 	_b(Vector3(0, 0.07, 0), Vector3(0.34, 0.03, 0.34), _c(data, "rim", "4f7fa0"))
 	_b(Vector3(0, 0.0, 0.155), Vector3(0.1, 0.06, 0.01), _c(data, "pattern", "4f7fa0"))
+
+
+## 铃: a small hand bell (第十章 A: 萧辟尘's wind bell) — a flared bronze body, its tongue below,
+## a knotted cord above.
+func _bell(data: Dictionary) -> void:
+	var metal: String = _c(data, "metal", "6a8a6a:gloss")
+	_b(Vector3(0, -0.2, 0), Vector3(0.36, 0.06, 0.36), metal)
+	_b(Vector3(0, -0.08, 0), Vector3(0.3, 0.18, 0.3), metal)
+	_b(Vector3(0, 0.05, 0), Vector3(0.2, 0.1, 0.2), metal)
+	_b(Vector3(0, 0.12, 0), Vector3(0.08, 0.05, 0.08), _c(data, "crown", metal))
+	_b(Vector3(0, -0.27, 0), Vector3(0.06, 0.08, 0.06), _c(data, "tongue", "c8b070:gloss"))
+	_b(Vector3(0, 0.22, 0), Vector3(0.04, 0.16, 0.04), _c(data, "cord", "d8907a"))
+	_b(Vector3(0, 0.31, 0), Vector3(0.1, 0.05, 0.05), _c(data, "cord", "d8907a"))
 
 
 ## 葫芦: a double gourd with a stopper and a cord.
