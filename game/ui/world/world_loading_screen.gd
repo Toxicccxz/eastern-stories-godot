@@ -8,6 +8,8 @@ extends Control
 ## never slows them. WorldViewOverlay says when it begins and ends.
 
 var _sheet: AtlasTexture
+## The voxel animation, when the definition has cubes (it does instead of the sheet).
+var _loader: VoxelLoader
 var _definition: LoadingScreenDefinition
 var _sprite: TextureRect
 var _caption: Label
@@ -55,7 +57,13 @@ func _ready() -> void:
 	middle.set_anchor_and_offset(SIDE_LEFT, center.x, 0.0)
 	middle.set_anchor_and_offset(SIDE_TOP, center.y, 0.0)
 	var half: float = float(_definition.side_px) / 2.0
-	if not _definition.sheet.is_empty():
+	if not _definition.voxel_cubes.is_empty():
+		_loader = VoxelLoader.new(_definition)
+		_loader.size = _loader.custom_minimum_size
+		_loader.position = (-_loader.size / 2.0).floor()
+		middle.add_child(_loader)
+		half = _loader.size.y / 2.0
+	elif not _definition.sheet.is_empty():
 		_sheet = AtlasTexture.new()
 		_sheet.atlas = load(_definition.sheet) as Texture2D
 		_sprite = TextureRect.new()
@@ -91,6 +99,8 @@ func begin() -> void:
 	modulate.a = 0.0
 	visible = true
 	set_process(true)
+	if _loader != null:
+		_loader.restart()
 	if _caption != null:
 		# TRANSLATORS: under the animation while a map's world is being built.
 		_caption.text = tr("载入中")
@@ -126,9 +136,9 @@ func end(seconds: float) -> void:
 	_tween.tween_callback(_put_away)
 
 
-## The cell of the sheet showing now.
+## The cell of the sheet showing now (the voxel animation: which sixtieth of its round).
 func frame_shown() -> int:
-	return _frame
+	return int(_loader.phase() * 60.0) if _loader != null else _frame
 
 
 func _process(_delta: float) -> void:
@@ -136,6 +146,8 @@ func _process(_delta: float) -> void:
 	var feel: FeelDefinition = GameContent.catalog().pacing().feel
 	if _waiting and not shown() and float(now - _began_ms) / 1000.0 >= feel.map_loading_delay_seconds:
 		_shown_ms = now
+		if _loader != null:
+			_loader.restart()
 		_kill_tween()
 		_tween = create_tween()
 		_tween.tween_property(self, "modulate:a", 1.0, feel.map_loading_fade_seconds)

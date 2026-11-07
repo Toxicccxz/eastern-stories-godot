@@ -43,10 +43,16 @@ func _test_data() -> void:
 	var definition: LoadingScreenDefinition = GameContent.catalog().loading_screen()
 	if not _check(definition != null, "loading_screen.json is in the catalog"):
 		return
-	_check(not definition.sheet.begins_with("res://assets/") or ResourceLoader.exists(definition.sheet), "the sheet it names exists: %s" % definition.sheet)
-	var sheet: Texture2D = load(definition.sheet) as Texture2D
-	_check(sheet != null and sheet.get_width() % definition.columns == 0 and sheet.get_height() % definition.rows == 0, "the sheet cuts into whole cells")
-	_check(definition.frames <= definition.columns * definition.rows and definition.caption, "its frames fit, and it says what it is doing")
+	_check(definition.sheet.is_empty() and definition.voxel_cubes.size() == definition.voxel_colours.size() and definition.voxel_cubes.size() >= 10 and definition.caption, "it builds voxel cubes, each with its colour, and says what it is doing")
+	var loader := VoxelLoader.new(definition)
+	_check(loader.has_cubes() and loader.custom_minimum_size.x > 0.0 and loader.custom_minimum_size.y > 0.0, "the voxel animation has a size: %s" % loader.custom_minimum_size)
+	loader.free()
+	var voxel_errors: Array[String] = []
+	LoadingScreenDefinition.from_record(ContentRecordReader.new({"voxel": {"colours": {"a": "ffffff"}, "cubes": [{"at": [0, 0, 0], "colour": "b"}]}}, "loading", voxel_errors))
+	_check(not voxel_errors.is_empty(), "a cube whose colour is not named is refused")
+	voxel_errors.clear()
+	LoadingScreenDefinition.from_record(ContentRecordReader.new({"voxel": {"colours": {"a": "ffffff"}, "cubes": [{"at": [0, 0], "colour": "a"}]}}, "loading", voxel_errors))
+	_check(not voxel_errors.is_empty(), "a cube without three coordinates is refused")
 	var errors: Array[String] = []
 	LoadingScreenDefinition.from_record(ContentRecordReader.new({"columns": 2, "rows": 2, "frames": 5}, "loading", errors))
 	_check(not errors.is_empty(), "more frames than the sheet has cells is refused")
@@ -58,7 +64,7 @@ func _test_data() -> void:
 	_check(not errors.is_empty(), "an unknown key is refused")
 	errors.clear()
 	var plain: LoadingScreenDefinition = LoadingScreenDefinition.from_record(ContentRecordReader.new({}, "loading", errors))
-	_check(errors.is_empty() and plain.sheet.is_empty() and plain.frames == 1, "with nothing said it is a plain dark screen")
+	_check(errors.is_empty() and plain.sheet.is_empty() and plain.frames == 1 and plain.voxel_cubes.is_empty(), "with nothing said it is a plain dark screen")
 
 
 ## New Game has no fade of its own: dark at once, the world held, then the world comes up.

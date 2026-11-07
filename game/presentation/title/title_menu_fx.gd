@@ -76,7 +76,7 @@ func decorate(button: Button) -> void:
 	var swash := ColorRect.new()
 	swash.name = "Swash"
 	swash.show_behind_parent = true
-	swash.position = Vector2(-26, 3)
+	swash.position = Vector2(-26, 0)
 	swash.size = Vector2(300, 46)
 	swash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var mat := ShaderMaterial.new()
@@ -187,7 +187,7 @@ func _restart(running: Dictionary[Button, Tween], button: Button) -> Tween:
 func _letters(button: Button) -> Label:
 	var holder := Control.new()
 	holder.name = "Letters"
-	holder.position = Vector2(14, 6)
+	holder.position = Vector2(14, GameTheme.TITLE_MENU_PAD_TOP)
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	button.add_child(holder)

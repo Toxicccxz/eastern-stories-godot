@@ -13,7 +13,10 @@ const BANNER_FADE_SHARE: float = 0.2
 const BANNER_MARGIN: float = 16.0
 ## The frame a map changes in is a long one: the view comes back from the frames after it.
 const SETTLE_FRAMES: int = 2
-const ROOM_TEXT_WIDTH: float = 440.0
+const ROOM_TEXT_WIDTH: float = 360.0
+## The room's text shows this many lines at most (界面微调, owner 2026-11-07: the corner
+## took too much of the view); the whole of it is in 消息 and 观察.
+const ROOM_TEXT_LINES: int = 5
 ## Narrower than this beside the status card, the room's text goes under it instead.
 const ROOM_TEXT_MIN_WIDTH: float = 280.0
 
@@ -94,6 +97,8 @@ func _ready() -> void:
 	_room_text.name = "RoomDescription"
 	_room_text.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	_room_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_room_text.max_lines_visible = ROOM_TEXT_LINES
+	_room_text.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_room_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	room_rows.add_child(_room_text)
 	if _session != null:

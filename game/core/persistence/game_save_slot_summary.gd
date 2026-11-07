@@ -36,6 +36,20 @@ func _init(p_slot_id: StringName = &"", p_state: State = State.EMPTY, p_recovera
 	recoverable = p_recoverable
 
 
+## The same row for `p_slot_id`, with `p_recoverable`.
+func copied(p_slot_id: StringName, p_recoverable: bool) -> GameSaveSlotSummary:
+	var copy := GameSaveSlotSummary.new(p_slot_id, state, p_recoverable)
+	copy.display_name = display_name
+	copy.run_id = run_id
+	copy.zone_id = zone_id
+	copy.saved_at_utc = saved_at_utc
+	copy.played_seconds = played_seconds
+	copy.objective = objective
+	copy.ghost = ghost
+	copy.pace = pace
+	return copy
+
+
 ## What `text` says. `current_public_only`: a save of an older world is UNSUPPORTED.
 static func of_text(slot_id: StringName, text: String, current_public_only: bool, recoverable: bool) -> GameSaveSlotSummary:
 	var summary := GameSaveSlotSummary.new(slot_id, State.UNREADABLE, recoverable)

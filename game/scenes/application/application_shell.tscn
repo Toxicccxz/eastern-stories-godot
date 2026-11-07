@@ -73,9 +73,9 @@ theme_type_variation = &"BarePanel"
 [node name="Margin" type="MarginContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_bottom = 4
 
 [node name="VBox" type="VBoxContainer" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin"]
 layout_mode = 2
@@ -128,7 +128,7 @@ alignment = 0
 
 [node name="StatusLabel" type="Label" parent="ShellCanvas/MainMenuPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme_type_variation = &"SmallLabel"
 text = "正在检查存档……"
