@@ -150,7 +150,7 @@ func _test_world(tree: SceneTree) -> void:
 	var layout: SharedGameplayLayout = hud._presentation_layout
 	var map: WorldMapController = session.active_map() as WorldMapController
 	session.set_process(false) # TEST-ONLY: nobody wanders while the player is placed
-	check(layout.overlay.theme == GameTheme.shared() and layout.bar.theme_type_variation == &"HudCard" and hud.player_name.theme_type_variation == &"TitleLabel", "the HUD wears the theme: the card a slab, the name in voxel letters")
+	check(layout.overlay.theme == GameTheme.shared() and layout.bar.theme_type_variation == &"HudCard" and hud.player_name.theme_type_variation == &"HudNameLabel", "the HUD wears the theme: the card a slab, the name in voxel letters")
 	var waiter: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.spawn_point_id == WAITER_POINT:

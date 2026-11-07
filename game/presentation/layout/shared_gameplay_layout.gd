@@ -88,38 +88,38 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	bar.add_child(_bar_scroll)
 	_bar_rows = VBoxContainer.new()
 	_bar_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_bar_rows.add_theme_constant_override("separation", 10)
+	_bar_rows.add_theme_constant_override("separation", 6)
 	_bar_scroll.add_child(_bar_rows)
 	# The card follows its rows at once (a target's buttons appear): no clipped button.
 	_bar_rows.minimum_size_changed.connect(fit_bar)
 	var header := HBoxContainer.new()
 	header.name = "Header"
-	header.add_theme_constant_override("separation", 10)
+	header.add_theme_constant_override("separation", 8)
 	_bar_rows.add_child(header)
 	ui.player_name = Label.new()
 	ui.player_name.name = "PlayerName"
 	ui.player_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ui.player_name.clip_text = true
 	ui.player_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	ui.player_name.theme_type_variation = &"TitleLabel"
+	ui.player_name.theme_type_variation = &"HudNameLabel"
 	ui.player_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	header.add_child(ui.player_name)
 	var view_side := VoxelViewSideButton.new()
 	view_side.name = "ViewSide"
 	view_side.ui = ui
-	view_side.custom_minimum_size = Vector2(88,38)
+	view_side.custom_minimum_size = Vector2(0, HUD_CHIP_HEIGHT)
 	view_side.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	view_side.theme_type_variation = &"ChipButton"
+	view_side.theme_type_variation = &"HudChipButton"
 	header.add_child(view_side)
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	menu_button.theme_type_variation = &"ChipButton"
+	menu_button.theme_type_variation = &"HudChipButton"
 	# Start / M opens it: the card takes no focus.
 	menu_button.focus_mode = Control.FOCUS_NONE
 	InputGlyphs.decorate(menu_button, &"menu_open")
 	var vitals := HBoxContainer.new()
 	vitals.name = "Vitals"
-	vitals.add_theme_constant_override("separation", 14)
+	vitals.add_theme_constant_override("separation", 12)
 	_bar_rows.add_child(vitals)
 	var essence: Array = _stat(vitals, "Essence", "精", ESSENCE_COLOR, 1.0)
 	ui.player_essence = essence[0]
@@ -348,16 +348,16 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 		if above_pad >= BAR_MIN_ABOVE_PAD:
 			_bar_area.size.y = minf(area.size.y, above_pad)
 	bar.position = area.position
-	bar.size = Vector2(minf(CARD_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
+	bar.size = Vector2(minf(CARD_WIDTH_TOUCH if metrics.touch_sized() else CARD_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
 	# Touch rows keep five 64 px buttons on one line at 480 px: the card's narrower sides.
 	bar.theme_type_variation = &"HudCardTouch" if metrics.touch_sized() else &"HudCard"
 	# Touch-sized buttons stay 64 px square so five fit one row on 480 px.
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
-	menu_button.custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(72, 32)
+	menu_button.custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(0, HUD_CHIP_HEIGHT)
 	# The voxel view's side button beside it: a touch target too.
 	var toggle := menu_button.get_parent().get_node("ViewSide") as Control
-	toggle.custom_minimum_size.y = 64.0 if metrics.touch_sized() else 38.0
+	toggle.custom_minimum_size.y = 64.0 if metrics.touch_sized() else HUD_CHIP_HEIGHT
 	contexts.add_theme_constant_override("h_separation", gap)
 	contexts.add_theme_constant_override("v_separation", gap)
 	for button: Node in contexts.get_children():
@@ -659,8 +659,12 @@ func wait_row(hurry: Callable) -> Array:
 	return [text, progress, button]
 
 
-## The status card's look.
-const CARD_WIDTH: float = 480.0
+## The status card's look (界面微调, owner 2026-11-07: it took too much of the view).
+const CARD_WIDTH: float = 400.0
+## Touch rows keep five 64 px buttons on one line.
+const CARD_WIDTH_TOUCH: float = 480.0
+## 切至左侧 and 菜单 on the card's header.
+const HUD_CHIP_HEIGHT: float = 30.0
 ## The least height the card keeps above the movement pad (name, bars, navigation row).
 const BAR_MIN_ABOVE_PAD: float = 200.0
 const TOAST_WIDTH: float = 440.0

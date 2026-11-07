@@ -42,6 +42,10 @@ const SMALL_SIZE: int = 18
 ## pressed (the face two texels lower), the same height so nothing moves but the face.
 const BUTTON_PAD := Vector4(16, 6, 16, 9)
 const SUNK_PAD := Vector4(16, 9, 16, 6)
+## The main menu's rows: the room over the letters (TitleMenuFx sets them there too).
+const TITLE_MENU_PAD_TOP: int = 2
+const HUD_CHIP_PAD := Vector4(10, 3, 10, 6)
+const HUD_CHIP_SUNK_PAD := Vector4(10, 6, 10, 3)
 const KIND := UiBlocks.Kind
 
 static var _shared: GameTheme
@@ -102,6 +106,12 @@ func _init() -> void:
 	set_color("font_shadow_color", &"TitleLabel", UiPalette.SIDE_LIGHT)
 	set_constant("shadow_offset_x", &"TitleLabel", 0)
 	set_constant("shadow_offset_y", &"TitleLabel", PIXEL_STEP)
+	# The status card's name (界面微调, owner 2026-11-07: the card smaller): the voxel letters a
+	# size down, one font pixel of side under them.
+	_label(&"HudNameLabel", UiPalette.GOLD, BODY_SIZE, pixel)
+	set_color("font_shadow_color", &"HudNameLabel", UiPalette.SIDE_LIGHT)
+	set_constant("shadow_offset_x", &"HudNameLabel", 0)
+	set_constant("shadow_offset_y", &"HudNameLabel", 2)
 	_label(&"HeadingLabel", UiPalette.GOLD, BODY_SIZE)
 	_label(&"MutedLabel", UiPalette.MUTED, 0)
 	_label(&"SmallLabel", UiPalette.MUTED, SMALL_SIZE)
@@ -116,6 +126,9 @@ func _init() -> void:
 	_buttons(&"DangerButton", KIND.LACQUER, UiPalette.DANGER, UiPalette.DANGER_SIDE, UiPalette.WARNING, 47)
 	_variation(&"ChipButton", &"Button")
 	_buttons(&"ChipButton", KIND.BRONZE, UiPalette.BRONZE, UiPalette.BRONZE_SIDE, UiPalette.BONE, 53)
+	# The status card's own chips (切至左侧, 菜单): the same bronze, closer round the word.
+	_variation(&"HudChipButton", &"ChipButton")
+	_buttons(&"HudChipButton", KIND.BRONZE, UiPalette.BRONZE, UiPalette.BRONZE_SIDE, UiPalette.BONE, 53, HUD_CHIP_PAD, HUD_CHIP_SUNK_PAD)
 	# A choice that stays chosen (性别): chosen, it is lacquer and stays down.
 	_variation(&"ToggleButton", &"Button")
 	_buttons(&"ToggleButton", KIND.IRON, UiPalette.IRON, UiPalette.IRON_SIDE, UiPalette.BONE, 41)
@@ -182,12 +195,12 @@ func _panels() -> void:
 	set_stylebox("panel", &"ToastPanel", _mat(KIND.WOOD, UiPalette.EBONY.lerp(UiPalette.INK, 0.3), UiPalette.EBONY_SIDE, 64, 20, 5, 2, 67, Vector4(12, 7, 12, 10)))
 
 
-func _buttons(kind_name: StringName, kind: int, top: Color, side: Color, text: Color, seed: int) -> void:
-	set_stylebox("normal", kind_name, _plate(kind, top, side, 3, 0, seed, BUTTON_PAD))
-	set_stylebox("hover", kind_name, _plate(kind, top.lightened(0.12), side, 3, 0, seed, BUTTON_PAD))
-	set_stylebox("pressed", kind_name, _plate(kind, top.darkened(0.08), side, 1, 2, seed, SUNK_PAD))
+func _buttons(kind_name: StringName, kind: int, top: Color, side: Color, text: Color, seed: int, pad: Vector4 = BUTTON_PAD, sunk_pad: Vector4 = SUNK_PAD) -> void:
+	set_stylebox("normal", kind_name, _plate(kind, top, side, 3, 0, seed, pad))
+	set_stylebox("hover", kind_name, _plate(kind, top.lightened(0.12), side, 3, 0, seed, pad))
+	set_stylebox("pressed", kind_name, _plate(kind, top.darkened(0.08), side, 1, 2, seed, sunk_pad))
 	set_stylebox("hover_pressed", kind_name, get_stylebox("pressed", kind_name))
-	set_stylebox("disabled", kind_name, _plate(kind, top.lerp(UiPalette.INK, 0.55), side.lerp(UiPalette.INK, 0.55), 3, 0, seed, BUTTON_PAD))
+	set_stylebox("disabled", kind_name, _plate(kind, top.lerp(UiPalette.INK, 0.55), side.lerp(UiPalette.INK, 0.55), 3, 0, seed, pad))
 	set_stylebox("focus", kind_name, UiBlocks.rim())
 	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		set_color(state, kind_name, text)
@@ -269,7 +282,7 @@ func _menu() -> void:
 ## dark board, the fight forecast's word on a jade, stone or lacquer plate.
 func _world() -> void:
 	_variation(&"HudCard", &"PanelContainer")
-	set_stylebox("panel", &"HudCard", _window(17, Vector4(16, 12, 16, 16), Color(1, 1, 1, 0.95)))
+	set_stylebox("panel", &"HudCard", _window(17, Vector4(12, 8, 12, 12), Color(1, 1, 1, 0.95)))
 	# Touch screens: narrower sides, so five 64 px buttons fit a row at 480 px.
 	_variation(&"HudCardTouch", &"PanelContainer")
 	set_stylebox("panel", &"HudCardTouch", _window(17, Vector4(10, 10, 10, 14), Color(1, 1, 1, 0.95)))
@@ -324,8 +337,10 @@ func _title(pixel: FontFile) -> void:
 	var bare := StyleBoxEmpty.new()
 	bare.content_margin_left = 14
 	bare.content_margin_right = 12
-	bare.content_margin_top = 6
-	bare.content_margin_bottom = 9
+	# Close rows (owner, 2026-11-07: the menu must fit without scrolling); the letters' side
+	# layers hang into the gap under each row.
+	bare.content_margin_top = TITLE_MENU_PAD_TOP
+	bare.content_margin_bottom = 1
 	for state: String in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
 		set_stylebox(state, &"TitleMenuItem", bare)
 	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color", "font_shadow_color"]:
