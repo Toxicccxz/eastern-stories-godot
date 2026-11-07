@@ -36,6 +36,27 @@
       "coat": "ccb695", "pants": "86765e", "skin": "cfb796", "hair": "5a4d40",
       "hair_style": "topknot", "beard": "chin_three", "waist": "sash", "prop": "none",
       "accent": "5a4d40", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "common.npc.fighter.champion": {
+      "note": "於兰天武：水烟阁传功使「大天邪」，当今皇上的叔父，毕生浸淫武学；手里一把暗绿色的鬼头刀（妖刀狗屠），沉甸甸的；肩上两片甲；立绘 Muse 2026-11-07",
+      "coat": "2b372f", "pants": "181b1c", "skin": "9d6352", "hair": "1c1c20",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "blade_waist",
+      "prop_color": "3f4a3a", "accent": "2c3830", "extras": ["armor"], "armor_color": "7e7b7b",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "common.npc.fighter.master": {
+      "note": "萧辟尘：「小天邪」，自幼生长于岚城，仙风道骨、不食人间烟火；一身吹雪残云衣、带、巾，长发和巾带飘着，黑靴，腰悬长剑；立绘 Muse 2026-11-07",
+      "coat": "e3fefe", "pants": "1f2523", "skin": "eee5d1", "hair": "01070e", "hair_tie": "9cc3cf",
+      "hair_style": "long", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "21282f", "accent": "5c91ab", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
+    "common.npc.fighter.executioner": {
+      "note": "潘军禅：水烟阁执法使「书 剑 侠」，柳淳风的结拜义弟，为人风趣、好交朋友；手里一把血红色的长剑（邪剑穿灵）；肩上两片甲；立绘 Muse 2026-11-07",
+      "coat": "364c3a", "pants": "202824", "skin": "ac745f", "hair": "07070c",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "1a181e", "accent": "303e34", "extras": ["armor"], "armor_color": "8a8278",
+      "height": "standard", "build": "standard", "shoes": "dark"
     }
   }
 }
