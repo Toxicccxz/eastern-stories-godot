@@ -24,6 +24,7 @@ var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
+var _winds: Dictionary[StringName, WindDefinition] = {}
 # The NPCs a COMES step calls over (ContentCatalog.called_over()).
 var _called_over: Dictionary[StringName, bool] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
@@ -121,6 +122,10 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: RoomHazardDefinition = RoomHazardDefinition.from_record(record)
 		if _claim(definition.hazard_id, record):
 			_hazards[definition.hazard_id] = definition
+	for record: ContentRecordReader in reader.children("winds"):
+		var definition: WindDefinition = WindDefinition.from_record(record)
+		if _claim(definition.wind_id, record):
+			_winds[definition.wind_id] = definition
 	for record: ContentRecordReader in reader.children("exit_rules"):
 		var definition: ZoneExitRuleDefinition = ZoneExitRuleDefinition.from_record(record)
 		if _claim(definition.rule_id, record):
@@ -215,6 +220,7 @@ func build() -> ContentCatalog:
 	_resolve_landmarks()
 	_check_traps()
 	_check_hazards()
+	_check_winds()
 	_check_exit_rules()
 	_check_combat_data()
 	_check_guides()
@@ -231,6 +237,7 @@ func build() -> ContentCatalog:
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
 	catalog.set_places(_services, _doors, _landmarks, _traps)
 	catalog.set_hazards(_hazards)
+	catalog.set_winds(_winds)
 	catalog.set_called_over(_called_over)
 	catalog.set_exit_rules(_exit_rules)
 	catalog.set_item_spawns(_item_spawns)
@@ -990,6 +997,45 @@ func _check_hazards() -> void:
 			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES or step.kind == ScriptedAct.Kind.QUESTIONS):
 				_errors.append("%s.act: a hazard brings no NPC and asks nothing" % origin)
 			_check_act(act, "%s.act" % origin)
+
+
+## A wind blows on one map (one wind a map), in zones of it; it is picked anew by portals into it;
+## its bell is an item; its gale acts on whoever stands there as a native hazard does (DECISIONS「风」).
+func _check_winds() -> void:
+	var maps_taken: Dictionary[StringName, bool] = {}
+	for wind_id: StringName in _winds.keys():
+		var wind: WindDefinition = _winds[wind_id]
+		var origin: String = _origins[wind_id]
+		if not _maps.has(wind.map_id):
+			_errors.append("%s.map: unknown map '%s'" % [origin, wind.map_id])
+		elif maps_taken.has(wind.map_id):
+			_errors.append("%s.map: %s has a wind already" % [origin, wind.map_id])
+		maps_taken[wind.map_id] = true
+		for zone_id: StringName in wind.zone_ids:
+			var zone: ZoneDefinition = _zones.get(zone_id)
+			if zone == null or zone.map_id != wind.map_id:
+				_errors.append("%s.zones: '%s' is no zone of %s" % [origin, zone_id, wind.map_id])
+		for portal_id: StringName in wind.enter_portal_ids:
+			var portal: PortalDefinition = _portals.get(portal_id)
+			if portal == null or portal.destination_map_id != wind.map_id:
+				_errors.append("%s.enter_portals: '%s' is no way into %s" % [origin, portal_id, wind.map_id])
+		var marks: Dictionary[String, bool] = {}
+		var ids: Dictionary[StringName, bool] = {}
+		for route: WindDefinition.Route in wind.routes:
+			if marks.has(route.mark):
+				_errors.append("%s.routes: two routes share the mark '%s'" % [origin, route.mark])
+			if ids.has(route.route_id):
+				_errors.append("%s.routes: two routes share the id '%s'" % [origin, route.route_id])
+			marks[route.mark] = true
+			ids[route.route_id] = true
+		if not wind.bell_item_id.is_empty() and not _items.has(wind.bell_item_id):
+			_errors.append("%s.bell: unknown item '%s'" % [origin, wind.bell_item_id])
+		for act: ScriptedAct in wind.gale:
+			if act.moves_player() or act.draws() or not act.ask.is_empty():
+				_errors.append("%s.gale: a gale acts on whoever stands there (no move, rolls or question)" % origin)
+			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES or step.kind == ScriptedAct.Kind.QUESTIONS):
+				_errors.append("%s.gale: a gale brings no NPC and asks nothing" % origin)
+			_check_act(act, "%s.gale" % origin)
 
 
 ## A trap shuts a door a rule alone operates, between the zone it is left from

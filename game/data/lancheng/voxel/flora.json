@@ -1,0 +1,19 @@
+{
+  "note": "岚城 (美术规划 §1 岚城: 被风磨圆的白石、铜绿、褪色的红绳; 寻风地带的齐腰草): high-meadow grass, silver-green on top and pale gold at the root, combed one way by the wind; small white, sky-blue and lilac flowers low in the lee of the stones; few trees — squat pines bent flat by the wind, a crooked plum in a hollow, dead stumps bleached white. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "pine": ["4e6a58", "5a7a64", "66866e", "44604e"],
+    "plum": ["e8c8d4", "f0d8e0", "dcb4c4", "f4e4ea"],
+    "scrub": ["7e8a64", "8e9a70", "9ea87c", "707c58"],
+    "shrub": ["74826a", "849276", "94a084", "68765e"],
+    "dead": ["d8d2c4", "e4dece", "ccc6b8", "c0b8a8"]
+  },
+  "bark_colors": {
+    "pine": ["5a4a40", "6a5848"],
+    "plum": ["4a3a34", "5a463e"],
+    "scrub": ["6a5c4c", "7a6a58"],
+    "shrub": ["6a5c4c", "7a6a58"],
+    "dead": ["e0d8c8", "d0c8b6"]
+  },
+  "grass_colors": ["8a9c78", "9cae86", "b0bc92", "c8c69a", "d8cc9c"],
+  "flower_colors": ["f4f2ec", "a8c8e8", "c8b8e4", "f0e0b8"]
+}

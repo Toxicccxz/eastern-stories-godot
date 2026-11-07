@@ -1,7 +1,7 @@
 {
   "indoor": false,
   "camera_size": 21,
-  "note": "梦幻迷境 and 竹林道 (fantasy1.c, bamboo1–3.c): inside the mirror a dark chamber where three ways part, the upper and lower ones sealed (dream/tmp.c, evil/tmp.c: 整修中), the middle one smelling of bamboo; north of it the 竹林道 between tall straight bamboo in a strange wind (风狂无形, 怪异的强风), 黄莺 singing, small animals about, to the great yellow stone that blocks the way, 洋洋洒洒的蓝光 seeping round it.",
+  "note": "梦幻迷境 and 竹林道 (fantasy1.c, bamboo1–3.c): inside the mirror a dark chamber where three ways part, the upper one the 幻影道 up to the 寻风地带 (第十章 A; dream/tmp.c was only 整修中), the lower one sealed (evil/tmp.c: 整修中), the middle one smelling of bamboo; north of it the 竹林道 between tall straight bamboo in a strange wind (风狂无形, 怪异的强风), 黄莺 singing, small animals about, to the great yellow stone that blocks the way, 洋洋洒洒的蓝光 seeping round it.",
   "edge": {
     "minimum_margin": 24,
     "maximum_margin": 64,
@@ -55,13 +55,11 @@
     {"kind": "mushrooms", "at": [330, 620], "size": [32, 24]},
     {"kind": "ferns", "at": [70, 300], "size": [48, 32]},
     {"kind": "ferns", "at": [310, 540], "size": [48, 32]},
-    {"kind": "cave_mouth", "at": [64, 846], "size": [56, 24], "height": 2.4, "colors": ["4a4e58", "565a64", "3e424c"], "slime": "6a6a8a", "note": "fantasy1.c: 上道迷香之味不止 — the upper way, sealed"},
-    {"kind": "barricade", "at": [64, 857], "size": [56, 14], "note": "整修中: planks across the mouth"},
+    {"kind": "cave_mouth", "at": [64, 776], "size": [56, 16], "height": 2.4, "colors": ["4a4e58", "565a64", "3e424c"], "slime": "6a6a8a", "note": "fantasy1.c: 上道迷香之味不止 — the upper way, open since the ninth chapter (第十章 A: the 幻影道 up to the 寻风地带)"},
     {"kind": "cave_mouth", "at": [320, 846], "size": [56, 24], "height": 2.4, "colors": ["4a4e58", "565a64", "3e424c"], "slime": "5a6a4a", "note": "下道呕味不停 — the lower way, sealed"},
     {"kind": "barricade", "at": [320, 857], "size": [56, 14]},
-    {"kind": "rubble", "at": [64, 820], "size": [48, 20], "count": 5, "colors": ["4a4e58", "565a64", "3e424c"]},
     {"kind": "rubble", "at": [320, 820], "size": [48, 20], "count": 5, "colors": ["4a4e58", "565a64", "3e424c"]},
-    {"kind": "glow", "at": [64, 860], "color": "c08ad0", "day": 0.7, "night": 0.9, "range": 4.0, "height": 1.4, "note": "迷香: a purple haze from the upper way"},
+    {"kind": "glow", "at": [64, 812], "color": "c08ad0", "day": 0.7, "night": 0.9, "range": 4.0, "height": 1.4, "note": "迷香: a purple haze from the upper way"},
     {"kind": "glow", "at": [320, 860], "color": "8ab060", "day": 0.6, "night": 0.8, "range": 4.0, "height": 1.0, "note": "呕味: a sick green from the lower"},
     {"kind": "mirror", "at": [192, 1012], "size": [128, 16], "rotation": 180, "height": 3.0, "light": "e0e8ff", "day": 0.9, "night": 0.6, "range": 7.0, "note": "the mirror's inner face, the way back out"},
     {"kind": "stains", "at": [192, 896], "size": [200, 140], "count": 6, "colors": ["2e3038", "363a44"]}

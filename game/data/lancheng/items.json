@@ -1,0 +1,6 @@
+{
+	"items": [
+		{"id": "native:lancheng/wind_bell", "legacy_sources": ["native: 第十章 A (剧情总纲 §3 第十章 入口「序章石匣里的风铃」, §3 序章 白道长「岚城的风铃，寻风的人才用得上」; 计划 build/plans/第十章_计划.md §2, Q3 默认: the bell 萧辟尘 carried out of 岚城 as a child, 续写; DECISIONS「第十章 A」)"], "name": "青铜风铃", "quest": true, "aliases": ["wind bell", "bell", "风铃", "铃"], "long": "一只青铜小铃，比拇指大不了多少，铃身长满了绿锈，只有铃舌是亮的。铃舌上刻着一个小小的「尘」字。挂绳是一截褪成粉橘色的红绳，打着一个孩子才打得出的死结。\n在寻风地带里，它会跟着风响。\n", "unit": "只", "material": "metal", "weight": 50, "value": 0, "no_drop": "这只风铃不能随便丢。"},
+		{"id": "native:lancheng/diviner_slip", "legacy_sources": ["native: 第十章 A (剧情总纲 §2「逆灵宫替他用魔道卜算剑的去向」; 计划 build/plans/第十章_计划.md §0 寻风地带「反面的例子」; DECISIONS「第十章 A」) — the 逆灵宫 diviners' own record, 续写"], "name": "卜风签", "quest": true, "aliases": ["slip", "签", "卜风签"], "long": "一支黑竹签，上面用朱砂密密地写着小字，是卜风的记录：\n「顺风而行，一日，见坛。」\n「顺风而行，二日，又见坛。」\n「顺风而行，三日，又见此坛。」\n最后一行字歪了：「风欺人。」\n", "unit": "支", "material": "wood", "weight": 10, "value": 0}
+	]
+}

@@ -27,6 +27,8 @@ var player_vitality_text: Label
 var player_objective: Label
 ## The 建议 row under it (任务系统, owner Q1): the guide chain's next step while a quest holds 目标.
 var player_advice: Label
+## The 风 row (第十章 A, DECISIONS「风」): where a guiding wind comes from; hidden off its zones.
+var player_wind: Label
 var selected_target_label: Label
 var target_vitality: ProgressBar
 var target_vitality_text: Label
@@ -867,6 +869,14 @@ static func room_prose(text: String) -> String:
 
 func describe_arrival() -> void:
 	message_log.describe_arrival()
+
+
+## The 风 row (WorldMapWinds): `text` shown, "" hides it.
+func show_wind(text: String) -> void:
+	if player_wind == null:
+		return
+	player_wind.text = text
+	player_wind.visible = not text.is_empty()
 
 
 func describe_again() -> void:

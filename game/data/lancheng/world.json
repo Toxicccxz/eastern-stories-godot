@@ -1,0 +1,447 @@
+{
+	"regions": [
+		{
+			"id": "lancheng",
+			"name": "岚城",
+			"recommended_exp": 500000
+		}
+	],
+	"maps": [
+		{
+			"id": "lancheng.wilds",
+			"region": "lancheng",
+			"scene": "res://scenes/world/lancheng/lancheng_wilds.tscn",
+			"entry": "lancheng.huanying.mirror_arrival"
+		}
+	],
+	"zones": [
+		{
+			"id": "lancheng.huanying",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/huanying"
+			]
+		},
+		{
+			"id": "lancheng.windgate",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/windgate"
+			]
+		},
+		{
+			"id": "lancheng.stone_field",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/stone_field"
+			]
+		},
+		{
+			"id": "lancheng.diviner_altar",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/diviner_altar"
+			]
+		},
+		{
+			"id": "lancheng.ministry_camp",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/ministry_camp"
+			]
+		},
+		{
+			"id": "lancheng.calm_west",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/calm_west"
+			]
+		},
+		{
+			"id": "lancheng.calm_north",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/calm_north"
+			]
+		},
+		{
+			"id": "lancheng.calm_east",
+			"map": "lancheng.wilds",
+			"rooms": [
+				"native:lancheng/calm_east"
+			]
+		}
+	],
+	"portals": [
+		{
+			"id": "canyon.fantasy1.up",
+			"from_zone": "canyon.fantasy1",
+			"to_zone": "lancheng.huanying",
+			"to_spawn": "lancheng.huanying.mirror_arrival",
+			"legacy_room": "es2:d/canyon/fantasy1",
+			"legacy_command": "up"
+		},
+		{
+			"id": "lancheng.huanying.down",
+			"from_zone": "lancheng.huanying",
+			"to_zone": "canyon.fantasy1",
+			"to_spawn": "canyon.fantasy1.up_return",
+			"legacy_room": "native:lancheng/huanying",
+			"legacy_command": "down"
+		}
+	],
+	"exit_rules": [
+		{
+			"id": "canyon.fantasy1.up.closed",
+			"room": "es2:d/canyon/fantasy1",
+			"from_zone": "canyon.fantasy1",
+			"to_zone": "lancheng.huanying",
+			"when": "no_mark",
+			"mark": "皇城一章",
+			"lines": [
+				"上头一股迷香，甜得发腻，雾浓得伸手不见五指。你走了两步，脚下一空似的，又转回了原处。"
+			],
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — fantasy1.c's upper way (上道迷香之味不止) into dream/tmp.c, whose whole text was 整修中，请往回走:P: closed until the ninth chapter is done, in the world's own words"
+		}
+	],
+	"landmarks": [
+		{
+			"id": "lancheng.huanying.landmark.shade_bones",
+			"zone": "lancheng.huanying",
+			"name": "雾里的人影",
+			"policy": "look",
+			"long": "雾里站着一个人影。走近了，只是磨亮的黄石上映出来的你自己，跟着你停，跟着你走。\n",
+			"looks": [
+				{
+					"marks": [
+						"安葬无名人"
+					],
+					"long": "雾里站着一个人影，背上一把剑，身形很瘦，穿的是二十年前水烟阁随从的衣裳——你埋过他的骨头。他朝你点了一下头，雾一卷，就没有了。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — fantasy1.c: 不停变动的景象; a shade of one the player met, by their deeds, 续写"
+		},
+		{
+			"id": "lancheng.huanying.landmark.shade_goathill",
+			"zone": "lancheng.huanying",
+			"name": "雾里的人影",
+			"policy": "look",
+			"long": "又一个人影，背对着你，看不清是谁。你一伸手，雾就从指缝里流过去了。\n",
+			"looks": [
+				{
+					"marks": [
+						"霍铮回了寨"
+					],
+					"long": "霍铮蹲在雾里，嘴里叼着一根草：「寨子里都好。石头那小子回家了。」他吐掉草，站起来，散了。\n"
+				},
+				{
+					"marks": [
+						"黄霸坐大了"
+					],
+					"long": "黄霸坐在雾里一块石头上，腆着肚子：「三寨主？如今是寨主了。」他咧嘴一笑，连人带石头一起散了。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — as lancheng.huanying.landmark.shade_bones"
+		},
+		{
+			"id": "lancheng.huanying.landmark.shade_latemoon",
+			"zone": "lancheng.huanying",
+			"name": "雾里的人影",
+			"policy": "look",
+			"long": "雾里一个女人的影子，长发，看不清脸，一晃就不见了。\n",
+			"looks": [
+				{
+					"marks": [
+						"宝衣给了安妮儿"
+					],
+					"long": "安妮儿站在雾里，怀里抱着一件发着寒气的衣裳：「它在我这里。等你用得着的时候。」\n"
+				},
+				{
+					"marks": [
+						"瑷伦守到决战"
+					],
+					"long": "瑷伦站在雾里，手里握着鞭子，三十七岁的脸，几百年的眼睛：「我还守着。去吧。」\n"
+				},
+				{
+					"marks": [
+						"带走了宝衣"
+					],
+					"long": "雾里是瑷伦的背影。她没有回头。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — as lancheng.huanying.landmark.shade_bones"
+		},
+		{
+			"id": "lancheng.huanying.landmark.shade_court",
+			"zone": "lancheng.huanying",
+			"name": "雾里的人影",
+			"policy": "look",
+			"long": "最后一个人影离出口最近，风吹过来，它就淡一分。\n",
+			"looks": [
+				{
+					"marks": [
+						"冯策随你下湖"
+					],
+					"long": "冯策披着衣服站在雾里，跟那夜在侍卫营一样：「湖底的事，算老夫一个。先把剑找来。」\n"
+				},
+				{
+					"marks": [
+						"皇叔入朝"
+					],
+					"long": "於兰天武穿着朝服站在雾里，朝服不合身：「找到城，叫我。」\n"
+				},
+				{
+					"marks": [
+						"私了了庾子建"
+					],
+					"long": "庾子建站在雾里，身边一只火盆，盆里一撮纸灰：「先帝推了二十年。你要是找到了，记得告诉我。」\n"
+				}
+			],
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — as lancheng.huanying.landmark.shade_bones"
+		},
+		{
+			"id": "lancheng.ministry_camp.landmark.scout",
+			"zone": "lancheng.ministry_camp",
+			"name": "冻僵的探子",
+			"policy": "look",
+			"long": "一个穿兵部号衣的人蜷在塌了的帐篷边，早就冻僵了，脸朝着北边的石坳。他怀里揣着半张纸，字被露水泡开了，还认得出几行：\n「第三次。逆风行至石坳，风止。四顾无城。复行。」\n「风又起。」\n纸的背面是兵部的印，印色暗红发黑。\n",
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — the 庾子建's 试过三次，未果 (先帝的解读's note, 第九章 D): the third of his parties, who walked into the wind and on past the calm, 续写"
+		},
+		{
+			"id": "lancheng.ministry_camp.landmark.flag",
+			"zone": "lancheng.ministry_camp",
+			"name": "兵部旗",
+			"policy": "look",
+			"long": "一面兵部的旗倒在草里，旗杆从中间断了，断口是新的白茬——是风折的，不是人砍的。旗面上的「兵」字被风扯得只剩半边。\n",
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」)"
+		},
+		{
+			"id": "lancheng.diviner_altar.landmark.altar",
+			"zone": "lancheng.diviner_altar",
+			"name": "黑石坛",
+			"policy": "look",
+			"long": "黑石垒的坛，一人多高，坛顶压着一块铜盘，盘里的灰被风吹得只剩一层。坛脚的地上画着一圈套一圈的符，每一圈都朝西开口——画符的人一直是顺着风画的。\n",
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — 剧情总纲 §2: 逆灵宫替他用魔道卜算剑的去向, 续写"
+		}
+	],
+	"services": [
+		{
+			"id": "lancheng.calm_west.lie_down",
+			"kind": "act",
+			"zone": "lancheng.calm_west",
+			"name": "背风的石坳",
+			"reach": 128,
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — 樵夫的旧记载: 伏地良久；风止，抬头见白石城，铃声满耳 (doc/help/theme:36–38), 续写",
+			"act": {
+				"verb": "伏地",
+				"acts": [
+					{
+						"mark": "风眼在西",
+						"ask": "伏下身子，等风过去？",
+						"choice": "伏地",
+						"steps": [
+							{
+								"line": "你伏在背风的石头上。风从头顶上过去，一阵，又一阵，越过越远。\n"
+							},
+							{
+								"line": "四下里静下来。然后是铃声——不是一只，是许许多多只，满耳都是，近得像就挂在你头顶上。\n",
+								"color": "HIY"
+							},
+							{
+								"line": "你抬起头。雾散了。一座白石的城浮在石坳外头的半空里，城门开着，城墙上挂满了风铃，一条白石长街从城门里往上绕，绕进云里。\n",
+								"color": "HIW"
+							},
+							{
+								"mark": "到了岚城"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.calm_north.lie_down",
+			"kind": "act",
+			"zone": "lancheng.calm_north",
+			"name": "背风的石坳",
+			"reach": 128,
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — 樵夫的旧记载: 伏地良久；风止，抬头见白石城，铃声满耳 (doc/help/theme:36–38), 续写",
+			"act": {
+				"verb": "伏地",
+				"acts": [
+					{
+						"mark": "风眼在北",
+						"ask": "伏下身子，等风过去？",
+						"choice": "伏地",
+						"steps": [
+							{
+								"line": "你伏在背风的石头上。风从头顶上过去，一阵，又一阵，越过越远。\n"
+							},
+							{
+								"line": "四下里静下来。然后是铃声——不是一只，是许许多多只，满耳都是，近得像就挂在你头顶上。\n",
+								"color": "HIY"
+							},
+							{
+								"line": "你抬起头。雾散了。一座白石的城浮在石坳外头的半空里，城门开着，城墙上挂满了风铃，一条白石长街从城门里往上绕，绕进云里。\n",
+								"color": "HIW"
+							},
+							{
+								"mark": "到了岚城"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.calm_east.lie_down",
+			"kind": "act",
+			"zone": "lancheng.calm_east",
+			"name": "背风的石坳",
+			"reach": 128,
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — 樵夫的旧记载: 伏地良久；风止，抬头见白石城，铃声满耳 (doc/help/theme:36–38), 续写",
+			"act": {
+				"verb": "伏地",
+				"acts": [
+					{
+						"mark": "风眼在东",
+						"ask": "伏下身子，等风过去？",
+						"choice": "伏地",
+						"steps": [
+							{
+								"line": "你伏在背风的石头上。风从头顶上过去，一阵，又一阵，越过越远。\n"
+							},
+							{
+								"line": "四下里静下来。然后是铃声——不是一只，是许许多多只，满耳都是，近得像就挂在你头顶上。\n",
+								"color": "HIY"
+							},
+							{
+								"line": "你抬起头。雾散了。一座白石的城浮在石坳外头的半空里，城门开着，城墙上挂满了风铃，一条白石长街从城门里往上绕，绕进云里。\n",
+								"color": "HIW"
+							},
+							{
+								"mark": "到了岚城"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+							}
+						]
+					}
+				]
+			}
+		}
+	],
+	"winds": [
+		{
+			"id": "lancheng.wilds.wind",
+			"map": "lancheng.wilds",
+			"zones": [
+				"lancheng.windgate",
+				"lancheng.stone_field",
+				"lancheng.diviner_altar",
+				"lancheng.ministry_camp",
+				"lancheng.calm_west",
+				"lancheng.calm_north",
+				"lancheng.calm_east"
+			],
+			"routes": [
+				{
+					"id": "west",
+					"mark": "风眼在西",
+					"points": [
+						"lancheng.wind.gate",
+						"lancheng.wind.fork",
+						"lancheng.wind.west1",
+						"lancheng.wind.west2",
+						"lancheng.wind.west3",
+						"lancheng.wind.west_calm"
+					]
+				},
+				{
+					"id": "north",
+					"mark": "风眼在北",
+					"points": [
+						"lancheng.wind.gate",
+						"lancheng.wind.fork",
+						"lancheng.wind.north1",
+						"lancheng.wind.north2",
+						"lancheng.wind.north3",
+						"lancheng.wind.north_calm"
+					]
+				},
+				{
+					"id": "east",
+					"mark": "风眼在东",
+					"points": [
+						"lancheng.wind.gate",
+						"lancheng.wind.fork",
+						"lancheng.wind.east1",
+						"lancheng.wind.east2",
+						"lancheng.wind.east3",
+						"lancheng.wind.east_calm"
+					]
+				}
+			],
+			"pick": "per_entry",
+			"enter_portals": [
+				"canyon.fantasy1.up"
+			],
+			"calm_radius": 112,
+			"route_radius": 256,
+			"gust_seconds": 5,
+			"veer_percent": 15,
+			"veer_degrees": 100,
+			"bell": "native:lancheng/wind_bell",
+			"upwind_degrees": 55,
+			"gale": {
+				"acts": [
+					{
+						"at_least": {
+							"force": 8
+						},
+						"steps": [
+							{
+								"line": "一阵狂风迎面压过来，压得你喘不过气。你运起内力顶住了。\n"
+							},
+							{
+								"drain_force": 8
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "狂风刮得你站不住脚，一跤摔在草里！风大不能行。\n",
+								"color": "HIR"
+							},
+							{
+								"damage": {
+									"kee": 8
+								}
+							}
+						]
+					}
+				]
+			},
+			"legacy_source": "native: 第十章 A (剧情总纲 §3 第十章 ①, §6 岚城卡; 计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」) — 樵夫的旧记载 (风大不能行……风停处即是城) and 先帝的解读 (风自岚来。逆风而行，风止之处，城见): the wind blows out of the town along one of three routes, drawn as the player comes in by the mirror's upper way (the town drifts: 寻风而至，寻风而逝, doc/help/history:75), 续写"
+		}
+	]
+}

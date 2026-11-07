@@ -24,6 +24,7 @@ var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
+var _winds: Dictionary[StringName, WindDefinition] = {}
 var _called_over: Dictionary[StringName, bool] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
@@ -393,6 +394,19 @@ func traps() -> Array[RoomTrapDefinition]:
 ## Called once by ContentCatalogBuilder after cross-checking.
 func set_hazards(p_hazards: Dictionary[StringName, RoomHazardDefinition]) -> void:
 	_hazards = p_hazards.duplicate()
+
+
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_winds(p_winds: Dictionary[StringName, WindDefinition]) -> void:
+	_winds = p_winds.duplicate()
+
+
+## The wind of a map (one at most, DECISIONS「风」), or null.
+func wind_for_map(map_id: StringName) -> WindDefinition:
+	for definition: WindDefinition in _winds.values():
+		if definition.map_id == map_id:
+			return definition
+	return null
 
 
 func set_called_over(p_called_over: Dictionary[StringName, bool]) -> void:

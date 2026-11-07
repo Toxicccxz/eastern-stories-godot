@@ -28,6 +28,7 @@ var acts: WorldMapActs = WorldMapActs.new(self)
 var mazes: WorldMapMazes = WorldMapMazes.new(self)
 var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
 var watches: WorldMapWatches = WorldMapWatches.new(self)
+var winds: WorldMapWinds = WorldMapWinds.new(self)
 var npc_idle: WorldMapNpcIdle = WorldMapNpcIdle.new(self)
 var thefts: WorldMapThefts = WorldMapThefts.new(self)
 var debts: WorldMapDebts = WorldMapDebts.new(self)
@@ -500,6 +501,7 @@ func _physics_process(_delta: float) -> void:
 		patrols.hold_player()
 		if not _world_simulation_gate.is_frozen():
 			watches.tick(_delta)
+			winds.tick(_delta)
 	if not _initialized or not _zone_check_pending or not player_body.player_controlled or _world_simulation_gate.is_frozen():
 		return
 	# Only re-evaluate Areas reported by physics, while straddling their boundary.
@@ -606,6 +608,7 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 	if not portal.set_mark.is_empty():
 		_player.state.marks[portal.set_mark] = 1
 	mazes.entering(portal, _player.state)
+	WorldMapWinds.entering(portal, _player.state, world_interaction_random_source().legacy_random)
 	return true
 
 

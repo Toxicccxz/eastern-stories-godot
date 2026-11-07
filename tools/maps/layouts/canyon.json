@@ -593,7 +593,7 @@
           ["forest", 80, 0, 128, 96],
           ["forest", 256, 0, 304, 96],
           ["blocked", 128, 0, 256, 64, "the great yellow stone blocking the way north, blue light seeping round it", {"look": {"kind": "boulder", "colors": ["c9a85a", "d6b86a", "b9975a", "e0c47a"], "tall": 1.35, "chips": 5, "lichen_color": "7a8a9a"}}],
-          ["chasm", 32, 800, 96, 864, "fantasy1: the upper way, heavy with incense (dream/tmp.c, 整修中: not placed)"],
+          ["path", 32, 784, 96, 832, "fantasy1: the upper way, heavy with incense, up to the 幻影道 (第十章 A: lancheng_wilds; dream/tmp.c was only 整修中)"],
           ["chasm", 288, 800, 352, 864, "the lower way, reeking (evil/tmp.c, 整修中: not placed)"],
           ["forest", 0, 256, 96, 288, "tall, straight bamboo either side of the path; birds sing in it"],
           ["forest", 272, 256, 384, 288],
@@ -659,6 +659,20 @@
             "shape": "Rect_64_32"
           },
           {
+            "node": "caption",
+            "name": "UpLabel",
+            "at": [64, 856],
+            "text": "上道",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "UpPassage",
+            "id": "canyon.fantasy1.up",
+            "at": [64, 800],
+            "shape": "Rect_64_32"
+          },
+          {
             "node": "service",
             "name": "BambooStone",
             "id": "canyon.bamboo3.stone",
@@ -683,6 +697,11 @@
             "name": "Fantasy1MirrorArrival",
             "at": [192, 912],
             "id": "canyon.fantasy1.mirror_arrival"
+          },
+          {
+            "name": "Fantasy1UpReturn",
+            "at": [96, 872],
+            "id": "canyon.fantasy1.up_return"
           },
           {
             "name": "Bamboo3StoneroomReturn",
