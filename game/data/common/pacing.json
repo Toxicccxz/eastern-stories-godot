@@ -82,12 +82,12 @@
 		"coach_minutes_per_leg": 30,
 		"npc_idle": {
 			"enabled": true,
-			"pause_min_ms": 4000,
-			"pause_max_ms": 10000,
-			"stroll_min_px": 32,
-			"stroll_max_px": 104,
-			"home_radius_px": 120,
-			"speed_px": 42,
+			"pause_min_ms": 2500,
+			"pause_max_ms": 7000,
+			"stroll_min_px": 40,
+			"stroll_max_px": 140,
+			"home_radius_px": 160,
+			"speed_px": 46,
 			"stop_reach_px": 88
 		},
 		"feel": {

@@ -8,7 +8,7 @@
 		"choyin.npc.cucurbit_seller": "still",
 		"choyin.npc.dumpling_seller": "still",
 		"choyin.npc.ghost": "wander",
-		"choyin.npc.girl": "wander",
+		"choyin.npc.girl": "still",
 		"choyin.npc.guard": "post",
 		"choyin.npc.judge_gu": "post",
 		"choyin.npc.judgeman": "still",
@@ -23,7 +23,7 @@
 		"choyin.npc.serpent": "still",
 		"choyin.npc.servant": "still",
 		"choyin.npc.shadow": {"mode": "wander", "radius": 80},
-		"choyin.npc.visitor": "wander",
+		"choyin.npc.visitor": "still",
 		"choyin.npc.youngman": "still"
 	}
 }
