@@ -66,10 +66,6 @@
     {"kind": "far_ground", "at": [700, -300], "size": [1400, 400], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and north along the wall"}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "native.npc.herdsman": {"coat": "6a6a5a", "hat": true},
-    "native.npc.camp_family": {"coat": "7a5a5a"},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"},
-    "native.npc.freed_corvee": {"coat": "6a5a48"}
+    "default": {"coat": "8a7a5a"}
   }
 }

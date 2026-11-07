@@ -46,10 +46,6 @@
     {"kind": "cobweb", "at": [-230, -440], "size": [36, 8], "rotation": 45, "height": 2.6}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "native.npc.hu_sanniang": {"coat": "7a4a3a"},
-    "native.npc.qin_popo": {"coat": "6a6058", "hat": true},
-    "native.npc.qin_xiaoliu": {"coat": "8a7a5a"},
-    "native.npc.lao_qin": {"coat": "6a5a48"}
+    "default": {"coat": "8a7a5a"}
   }
 }
