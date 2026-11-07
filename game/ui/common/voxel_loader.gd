@@ -16,6 +16,8 @@ const HOLD_SHARE: float = 0.8
 ## How long one cube takes to fall into place (share of a round), and from how high (cubes).
 const DROP_SHARE: float = 0.14
 const DROP_CUBES: float = 3.0
+## How far the shadow reaches past the base's cubes' centres, in cubes (0.5 is their edge).
+const SHADOW_PAD: float = 0.7
 
 var _cubes: Array[Vector3i] = []
 var _colours: Array[Color] = []
@@ -70,7 +72,12 @@ func _top_of(at: Vector3i) -> Vector2:
 	return Vector2(float(at.x - at.y) * _half, float(at.x + at.y) * _half / 2.0 - float(at.z) * _half)
 
 
-## Its size and the drawing order.
+## Screen position of grid point `at` on the floor the base stands on.
+func _floor_of(at: Vector2) -> Vector2:
+	return Vector2((at.x - at.y) * _half, (at.x + at.y) * _half / 2.0 + _half)
+
+
+## Its size and the drawing order (the drop and the rise share the room above the shape).
 func _measure() -> void:
 	_order.clear()
 	if _cubes.is_empty():
@@ -83,6 +90,11 @@ func _measure() -> void:
 		var top: Vector2 = _top_of(_cubes[index])
 		low = low.min(top + Vector2(-_half, -_half / 2.0))
 		high = high.max(top + Vector2(_half, _half * 1.5))
+		if _cubes[index].z == 0:
+			for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
+				var floor_point: Vector2 = _floor_of(Vector2(_cubes[index].x, _cubes[index].y) + corner * SHADOW_PAD)
+				low = low.min(floor_point)
+				high = high.max(floor_point)
 	# Further back (smaller x + y) first, lower first.
 	_order.sort_custom(func(a: int, b: int) -> bool:
 		var ca: Vector3i = _cubes[a]
@@ -116,7 +128,7 @@ func _cube_state(rank: int, t: float) -> Vector2:
 		var away: float = (t - HOLD_SHARE) / (1.0 - HOLD_SHARE)
 		# The last to come is the first to go.
 		var stagger: float = clampf(away * 1.6 - 0.6 * float(count - 1 - rank) / float(maxi(count - 1, 1)), 0.0, 1.0)
-		height -= stagger * stagger * DROP_CUBES * _half
+		height += stagger * stagger * DROP_CUBES * _half
 		alpha *= 1.0 - stagger
 	return Vector2(height, alpha)
 
@@ -139,11 +151,9 @@ func _draw() -> void:
 			base_low = base_low.min(Vector2i(at.x, at.y))
 			base_high = base_high.max(Vector2i(at.x, at.y))
 	if base_low.x <= base_high.x:
-		# Past the base's edge by a share of a cube.
-		var pad: float = 0.8
+		var pad: float = SHADOW_PAD
 		for corner: Vector2 in [Vector2(base_low.x - pad, base_low.y - pad), Vector2(base_high.x + pad, base_low.y - pad), Vector2(base_high.x + pad, base_high.y + pad), Vector2(base_low.x - pad, base_high.y + pad)]:
-			# The grid's floor plane, under the bottom faces (half a cube below the tops).
-			ground.append(centre + Vector2((corner.x - corner.y) * _half, (corner.x + corner.y) * _half / 2.0 + _half).round())
+			ground.append((centre + _floor_of(corner)).round())
 		draw_colored_polygon(ground, Color(0.0, 0.0, 0.0, 0.28 * settled))
 	for index: int in _order:
 		var state: Vector2 = _cube_state(index, t)
