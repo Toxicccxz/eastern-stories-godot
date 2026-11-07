@@ -506,12 +506,26 @@
     "native.npc.niling_jailer_keyed": {"same_as": "native.npc.niling_jailer"},
     "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"},
     "native.npc.cult_killer": {"same_as": "latemoon.npc.room.killer"},
+    "native.npc.ge_sheng": {
+      "note": "名册记book；袍上墨点、秃笔无词；立绘 Muse 2026-11-07",
+      "coat": "0e334b", "pants": "041d2b", "skin": "dfbc99", "hair": "151416",
+      "hair_style": "topknot", "headwear": "official_cap", "headwear_color": "2a292a",
+      "beard": "moustache", "waist": "belt", "prop": "book", "prop_color": "8e735f",
+      "accent": "265468", "height": "standard", "build": "standard", "shoes": "dark"
+    },
     "native.npc.exam_lieutenant_1": {
       "note": "软甲记armor；挽袖露疤；立绘 Muse 2026-11-07",
       "coat": "b72225", "pants": "191a1f", "skin": "e0aa84", "hair": "191a1f",
       "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
       "prop_color": "3a3630", "accent": "5d5860", "extras": ["armor"], "armor_color": "999fa1",
       "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "native.npc.exam_lieutenant_2": {
+      "note": "与赵勇同一身校尉红袍软甲，人矮一截；脸和手臂的肤色本地调暖；立绘 Muse 2026-11-07",
+      "coat": "aa2833", "pants": "1a1c20", "skin": "d8aa84", "hair": "0b0e14",
+      "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "sword_waist",
+      "prop_color": "35343a", "accent": "5e585f", "extras": ["armor"], "armor_color": "9aa0a2",
+      "height": "short", "build": "heavy", "shoes": "dark"
     },
     "native.npc.deng_xiao": {
       "note": "重甲记armor；立绘 Muse 2026-11-07",
