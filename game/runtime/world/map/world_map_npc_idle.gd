@@ -3,7 +3,8 @@ extends RefCounted
 ## Native (NPC 活起来; DECISIONS「街上的人会动」): what the people of the map the player is on do
 ## while nothing else moves them — each by its NpcLifeBook entry: strolls about its own room
 ## (wander, work), looks along the way and back (post), or stays put (still). One the player
-## comes near (pacing's npc_idle stop_reach_px), or has selected, stops and turns to them.
+## comes near (pacing's npc_idle stop_reach_px), or has selected, finishes its few steps and turns
+## to them. One that attacks on sight or takes a toll never strolls: it looks about at its spot.
 ## Only the body's place inside its zone changes, never its zone: rooms, room moves
 ## (random_move), reach rules and every ES2 random stream stay as they are; its own stream
 ## draws the strolls. Ticked on NPC heart_beat time (world time: still in a fight and
@@ -44,6 +45,8 @@ func advance(delta: float) -> void:
 		return
 	var walker: WorldNpcWalker = _map.npc_life.npc_walker()
 	var selected: StringName = _map.selection.selected_character_id()
+	# A room's stroll ground is made one step a tick (a grid or its cells: a few ms each).
+	var prepared: bool = false
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var entry: NpcLifeBook.Entry = NpcLifeBook.entry(NpcDefinition.unnamed_id(npc.definition().definition_id))
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
@@ -84,7 +87,7 @@ func advance(delta: float) -> void:
 		if person["met"]:
 			# The player went on: one that stays put faces its own way again.
 			person["met"] = false
-			if not entry.moves() and entry.gesture == "":
+			if (not entry.moves() or _keeps_watch(npc)) and entry.gesture == "":
 				_face(body, person["facing"])
 				person["turned"] = false
 		if walker.is_strolling(npc.character_id):
@@ -101,7 +104,17 @@ func advance(delta: float) -> void:
 		if float(person["wait"]) > 0.0:
 			continue
 		person["wait"] = tuning.pause_seconds(random.randf())
-		match entry.mode:
+		# One that attacks on sight (or takes a toll) keeps its spot and looks about: strolling would
+		# carry its notice where ES2's room put none (a new player's road past 疯狗, 老松林's
+		# bandits the owner keeps avoidable).
+		var mode: NpcLifeBook.Mode = NpcLifeBook.Mode.POST if entry.moves() and _keeps_watch(npc) else entry.mode
+		if entry.moves() and mode != NpcLifeBook.Mode.POST and not walker.ground_ready(_map.physical_zone(zone_id)):
+			if not prepared:
+				walker.prepare_ground(_map.physical_zone(zone_id))
+				prepared = true
+			person["wait"] = 0.0
+			continue
+		match mode:
 			NpcLifeBook.Mode.POST:
 				var turned: bool = not bool(person["turned"])
 				person["turned"] = turned
@@ -172,6 +185,16 @@ func _free(npc: NpcRuntimeState) -> bool:
 		and not life.follows_every_way(npc) and not life.departures.has(npc.character_id)
 		and life.scene_npc_id != npc.character_id and life.scene_focus_id != npc.character_id
 		and not (_map.player_runtime() != null and _map.player_runtime().led_by == npc.character_id)
+	)
+
+
+## Whether the person attacks on sight or takes a toll (its own room's aggression): it does not
+## stroll.
+static func _keeps_watch(npc: NpcRuntimeState) -> bool:
+	var attitude: int = npc.definition().attitude
+	return (
+		attitude == NpcDefinition.Attitude.AGGRESSIVE or attitude == NpcDefinition.Attitude.KILLER
+		or npc.definition().dealings().takes_toll()
 	)
 
 

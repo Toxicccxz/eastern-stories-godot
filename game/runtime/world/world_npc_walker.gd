@@ -35,6 +35,11 @@ var _walks: Dictionary[StringName, PackedVector2Array] = {}
 ## Walks that are a stroll inside the walker's own room (stroll()), at their own speed: the
 ## body keeps its collision and presence, as it never leaves the room it stands in.
 var _strolls: Dictionary[StringName, float] = {}
+## What a stroll may use of each zone, by zone ID: {grid, cells: Array[Vector2i] (open ground off
+## the seams), allowed: the same as a set, standable: whether a body may stand on a cell, found as
+## a walk first crosses it (MapPlacementValidator is dear: not every cell of a big room at once)}.
+## Built once per zone and grid: _grid() makes a new grid when a door opens or shuts.
+var _ground: Dictionary[StringName, Dictionary] = {}
 ## Grids built on this map, by area: the tiles never change, so one serves again while
 ## the same static walls (door wings) stand.
 var _grids: Dictionary[Rect2, Grid] = {}
@@ -60,34 +65,23 @@ func is_strolling(character_id: StringName) -> bool:
 func stroll(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2D, home: Vector2, reach: float, least: float, most: float, speed: float, draw: Callable) -> bool:
 	if body == null or zone == null or is_walking(character_id) or speed <= 0.0:
 		return false
-	var area: Rect2 = zone.global_rect()
-	var grid: Grid = _grid(area)
+	var ground: Dictionary = _stroll_ground(zone)
+	var grid: Grid = ground["grid"]
 	var near: Array[Vector2i] = []
-	for cell: Vector2i in grid.free_cells_in(area):
+	for cell: Vector2i in ground["cells"]:
 		var spot: Vector2 = grid.center_of(cell)
 		var step: float = spot.distance_to(body.global_position)
 		if step >= least and step <= most and spot.distance_to(home) <= reach:
 			near.append(cell)
-	var candidates: Array[Vector2i] = _clear_of(grid, near, _occupied(character_id))
-	# A stroll keeps off the seams outright: one that only finds a doorway stays put.
-	var off: Array[Vector2i] = _strictly_off_seams(grid, zone, candidates)
-	var allowed: Dictionary[Vector2i, bool] = {}
-	for cell: Vector2i in _strictly_off_seams(grid, zone, grid.free_cells_in(area)):
-		if grid.open(cell, STROLL_OPEN_CELLS):
-			allowed[cell] = true
-	var open: Array[Vector2i] = []
-	for cell: Vector2i in off:
-		if allowed.has(cell):
-			open.append(cell)
-	off = open
+	var off: Array[Vector2i] = _clear_of(grid, near, _occupied(character_id))
 	for attempt: int in range(mini(DESTINATION_TRIES, off.size())):
 		var index: int = clampi(int(float(draw.call()) * off.size()), 0, off.size() - 1)
 		var spot: Vector2 = grid.center_of(off[index])
 		off.remove_at(index)
-		if not MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot):
+		if not _standable(grid, zone, ground, grid.cell_of(spot)):
 			continue
 		var path: PackedVector2Array = grid.path(body.global_position, spot)
-		if path.is_empty() or not _stays(grid, zone, path, allowed):
+		if path.is_empty() or not _stays(grid, zone, path, ground):
 			continue
 		path.append(spot)
 		cancel(character_id)
@@ -97,22 +91,84 @@ func stroll(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneArea2
 	return false
 
 
-## Whether every point of `path` past its first (the cell the body leaves from) is one of
-## `allowed`, inside `zone` and a spot a body may stand: a stroll stopped anywhere on it (the
-## player came near, a fight began) leaves the body where it may stay.
-func _stays(grid: Grid, zone: WorldPhysicalZoneArea2D, path: PackedVector2Array, allowed: Dictionary[Vector2i, bool]) -> bool:
+## Whether every point of `path` past its first (the cell the body leaves from) is a spot a body
+## may stand in the zone (`ground`'s standable) and on its open ground (`allowed`): a stroll stopped
+## anywhere on it (the player came near, a fight began) leaves the body where it may stay.
+func _stays(grid: Grid, zone: WorldPhysicalZoneArea2D, path: PackedVector2Array, ground: Dictionary) -> bool:
+	var allowed: Dictionary = ground["allowed"]
 	# One whose own spot is tight (by a wall, a counter, a flower bed) steps out to open ground
 	# first: the first STROLL_LEAD_CELLS cells may be narrow, then the way keeps to `allowed`.
 	var out: bool = false
 	for index: int in range(1, path.size()):
-		var point: Vector2 = path[index]
-		if not zone.contains_center(point) or not MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, point):
+		var cell: Vector2i = grid.cell_of(path[index])
+		if not _standable(grid, zone, ground, cell):
 			return false
-		if allowed.has(grid.cell_of(point)):
+		if allowed.has(cell):
 			out = true
 		elif out or index > STROLL_LEAD_CELLS:
 			return false
 	return true
+
+
+## Whether a body may stand on `cell` of `zone` (in it, clear of its walls and doors), remembered
+## in `ground`.
+func _standable(grid: Grid, zone: WorldPhysicalZoneArea2D, ground: Dictionary, cell: Vector2i) -> bool:
+	var standable: Dictionary = ground["standable"]
+	if not standable.has(cell):
+		var spot: Vector2 = grid.center_of(cell)
+		standable[cell] = zone.contains_center(spot) and MapPlacementValidator.is_valid_character_position(_map, zone.zone_id, spot)
+	return standable[cell]
+
+
+## Whether `zone`'s stroll ground is ready (its grid and _ground's entry built for the walls now).
+func ground_ready(zone: WorldPhysicalZoneArea2D) -> bool:
+	var grid: Grid = _grids.get(zone.global_rect())
+	var cached: Dictionary = _ground.get(zone.zone_id, {})
+	return grid != null and grid.walls == Grid.walls_up(_map.static_nodes()) and not cached.is_empty() and cached["grid"] == grid
+
+
+## One step of making `zone`'s stroll ground ready: its grid, or else its ground (each a few
+## milliseconds on a big street: WorldMapNpcIdle takes one a tick, so no frame pays for many).
+func prepare_ground(zone: WorldPhysicalZoneArea2D) -> void:
+	var grid: Grid = _grids.get(zone.global_rect())
+	if grid == null or grid.walls != Grid.walls_up(_map.static_nodes()):
+		_grid(zone.global_rect())
+	else:
+		_stroll_ground(zone)
+
+
+## What a stroll may use of `zone` (_ground's entry), built now if its grid is new.
+func _stroll_ground(zone: WorldPhysicalZoneArea2D) -> Dictionary:
+	var area: Rect2 = zone.global_rect()
+	var grid: Grid = _grid(area)
+	var cached: Dictionary = _ground.get(zone.zone_id, {})
+	if not cached.is_empty() and cached["grid"] == grid:
+		return cached
+	var free: Array[Vector2i] = grid.free_cells_in(area)
+	# The cells by a seam, marked from each seam's own few cells (as _strictly_off_seams() would
+	# find them, without testing every cell of a big street against every door of the map).
+	var by_seam: Dictionary[Vector2i, bool] = {}
+	for seam: Rect2 in _seams(zone):
+		var clipped: Rect2 = seam.intersection(area.grow(CELL))
+		if clipped.size.x <= 0.0 or clipped.size.y <= 0.0:
+			continue
+		var first: Vector2i = grid.cell_of(clipped.position)
+		var last: Vector2i = grid.cell_of(clipped.end)
+		for y: int in range(first.y, last.y + 1):
+			for x: int in range(first.x, last.x + 1):
+				var cell := Vector2i(x, y)
+				if seam.has_point(grid.center_of(cell)):
+					by_seam[cell] = true
+	var cells: Array[Vector2i] = []
+	var allowed: Dictionary[Vector2i, bool] = {}
+	for cell: Vector2i in free:
+		if not by_seam.has(cell) and grid.open(cell, STROLL_OPEN_CELLS) and zone.contains_center(grid.center_of(cell)):
+			allowed[cell] = true
+			cells.append(cell)
+	var standable: Dictionary[Vector2i, bool] = {}
+	cached = {"grid": grid, "cells": cells, "allowed": allowed, "standable": standable}
+	_ground[zone.zone_id] = cached
+	return cached
 
 
 ## Where the walk ends (its last point), or the body's position when not walking.
@@ -223,8 +279,8 @@ func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vec
 	return candidates if clear.is_empty() else clear
 
 
-## The cells of `candidates` farther than SEAM_CLEAR from the zone's seams, maybe none.
-func _strictly_off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vector2i]) -> Array[Vector2i]:
+## Where `zone` meets the map's other zones, its passages and its doors, each grown by SEAM_CLEAR.
+func _seams(zone: WorldPhysicalZoneArea2D) -> Array[Rect2]:
 	var seams: Array[Rect2] = []
 	for other: WorldPhysicalZoneArea2D in _map.physical_zones():
 		if other != zone and other.global_rect().grow(1.0).intersects(zone.global_rect()):
@@ -236,6 +292,12 @@ func _strictly_off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: 
 		var rectangle: RectangleShape2D = null if wall == null else wall.shape as RectangleShape2D
 		if rectangle != null:
 			seams.append(Rect2(wall.global_position - rectangle.size / 2.0, rectangle.size).grow(SEAM_CLEAR))
+	return seams
+
+
+## The cells of `candidates` farther than SEAM_CLEAR from the zone's seams, maybe none.
+func _strictly_off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vector2i]) -> Array[Vector2i]:
+	var seams: Array[Rect2] = _seams(zone)
 	var clear: Array[Vector2i] = []
 	for cell: Vector2i in candidates:
 		var point: Vector2 = grid.center_of(cell)
