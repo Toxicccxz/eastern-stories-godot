@@ -144,8 +144,6 @@
   ],
   "actors": {
     "default": {"coat": "6c7a86"},
-    "waterfog.npc.guard": {"coat": "4e6a8a"},
-    "waterfog.npc.watcher": {"coat": "3f5f66", "hat": true},
     "waterfog.npc.celes_tiger": {"animal": true, "scale": 1.3, "fur": ["d9d2c2", "c6bca6", "3a3330"], "tail": true, "note": "天邪虎: a great beast, not a man"}
   },
   "entrances": {
