@@ -18,6 +18,8 @@ const ENTERING_LAYER: int = 101
 ## When the menu's letters come up in the first opening (seconds, at its pace): the clouds have
 ## mostly parted. The place's name waits for it.
 const MENU_UP_SECONDS: float = 2.2
+## How long the white holds before the voxel animation comes onto it.
+const LOADER_AFTER_SECONDS: float = 0.2
 
 var definition: TitleScreenDefinition
 var sand: TitleSand
@@ -26,6 +28,8 @@ var logo: TitleLogo
 var menu_fx: TitleMenuFx
 var caption: Label
 var whiteout: ColorRect
+## On the white while a journey is still being set up (the voxel animation every wait shows).
+var loader: VoxelLoader
 var _shell: ApplicationShellController
 var _root: Control
 var _fly: Tween
@@ -77,6 +81,10 @@ func _init() -> void:
 	whiteout.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	whiteout.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_root.add_child(whiteout)
+	loader = VoxelLoader.new()
+	loader.modulate.a = 0.0
+	_root.add_child(loader)
+	loader.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
 	visible = false
 
 
@@ -283,14 +291,22 @@ func _entered() -> void:
 
 
 ## Held white until the journey has begun (or failed), then faded away from over the world.
+## A hold longer than LOADER_AFTER_SECONDS shows the voxel animation on the white.
 func _finish_when_ready() -> void:
 	var tree: SceneTree = get_tree()
+	var held_from: int = Time.get_ticks_msec()
+	var loader_up: bool = false
 	while tree != null and _shell != null and _shell.shell_state().mode() == ApplicationShellState.Mode.STARTING_SESSION:
+		if not loader_up and Time.get_ticks_msec() - held_from >= int(LOADER_AFTER_SECONDS * 1000.0):
+			loader_up = true
+			loader.restart()
+			create_tween().tween_property(loader, "modulate:a", 1.0, 0.2)
 		await tree.process_frame
 	var t := create_tween()
 	t.tween_property(_root, "modulate:a", 0.0, 0.6)
 	await t.finished
 	_entering = false
 	_root.modulate.a = 1.0
+	loader.modulate.a = 0.0
 	_hide()
 	_on_state(_shell.shell_state())

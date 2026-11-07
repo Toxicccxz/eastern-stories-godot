@@ -5,7 +5,8 @@ const Result := preload("res://runtime/persistence/oldpine_runtime_save_load_res
 
 var _repository: GameSaveRepository
 var _operation_in_progress: bool = false
-## The worker task reading a save for a start in slices (-1: none): waited for at quit.
+## The worker task reading a save for a start in slices, or writing a Save in play, or
+## inspecting the slots (-1: none): waited for at quit.
 var _reading_task: int = -1
 
 
@@ -79,6 +80,89 @@ func save_current(session: WorldSessionController) -> OldPineRuntimeSaveLoadResu
 				result.repository = saved
 	_operation_in_progress = false
 	return result
+
+
+## Save in play without holding the frame (owner, 2026-11-07: 存档 froze the game for
+## seconds): the world is captured here, while the tree is paused; the checks, the encoding
+## and the file work run on a worker thread while `frame` ticks and the busy note animates,
+## as the autosave's do. Without a slice or a frame, save_current() as it was.
+func save_current_aside(session: WorldSessionController, slice_usec: int, frame: Signal = Signal()) -> OldPineRuntimeSaveLoadResult:
+	if slice_usec <= 0 or frame.is_null():
+		return save_current(session)
+	if not _begin_operation():
+		return Result.failure(Result.Outcome.REQUEST_REJECTED)
+	var result := Result.failure(Result.Outcome.NO_CURRENT_SESSION)
+	if session != null:
+		var eligibility := OldPineSaveEligibility.inspect(session)
+		if not eligibility.allowed():
+			result = Result.failure(Result.Outcome.SAVE_BLOCKED)
+			result.eligibility = eligibility
+		else:
+			var timestamp: String = Time.get_datetime_string_from_system(true, false) + "Z"
+			var captured := OldPineWorldSaveCapture.new().capture(
+				session,
+				_repository.storage_profile_id(),
+				timestamp,
+				null,
+				_repository.slot_id(),
+				false,
+			)
+			if not captured.succeeded():
+				result = Result.failure(Result.Outcome.CAPTURE_FAILED)
+				result.capture = captured
+			else:
+				var repository: GameSaveRepository = _repository
+				var written: Array = await _aside(func() -> Array:
+					var checked: OldPineWorldCaptureResult = OldPineWorldSaveCapture.check(captured.snapshot)
+					var saved: GameSaveResult = repository.save(captured.snapshot) if checked.succeeded() else null
+					if saved != null and saved.succeeded():
+						repository.read_summary() # Its row is read here, not when the list opens.
+					return [checked, saved], frame)
+				var checked: OldPineWorldCaptureResult = null if written.size() < 2 else written[0]
+				if checked == null:
+					result = Result.failure(Result.Outcome.REPOSITORY_FAILED)
+					result.repository = GameSaveResult.failure(GameSaveResult.Outcome.WRITE_FAILED, "repository", "the save's worker ended without a result")
+				elif not checked.succeeded():
+					result = Result.failure(Result.Outcome.CAPTURE_FAILED)
+					result.capture = checked
+				else:
+					var saved: GameSaveResult = written[1]
+					result = Result.success(session) if saved.succeeded() else Result.failure(Result.Outcome.REPOSITORY_FAILED)
+					result.capture = checked
+					result.repository = saved
+	_operation_in_progress = false
+	return result
+
+
+## The slots' rows and what the slot 继续 reads says, read on a worker thread while `frame`
+## ticks (a whole save is decoded and checked: seconds). `newest`: the newest save's slot,
+## else the one selected. Returns [rows, slot, inspection]; the caller selects the slot.
+## Without a slice or a frame, read here.
+func inspect_aside(newest: bool, slice_usec: int, frame: Signal = Signal()) -> Array:
+	var selected: StringName = _repository.slot_id()
+	var work := func() -> Array:
+		var rows: Array[GameSaveSlotSummary] = slot_summaries()
+		var slot: StringName = GameSaveSlotSummary.newest(rows, selected) if newest else selected
+		return [rows, slot, repository_for(slot).inspect_slot()]
+	if slice_usec <= 0 or frame.is_null():
+		return work.call()
+	_operation_in_progress = true
+	var out: Array = await _aside(work, frame)
+	_operation_in_progress = false
+	if out.size() < 3:
+		var none: Array[GameSaveSlotSummary] = []
+		return [none, selected, GameSaveSlotInspectionResult.new(GameSaveResult.Outcome.READ_FAILED)]
+	return out
+
+
+## `work` on a worker thread; waits on `frame` until it is done.
+func _aside(work: Callable, frame: Signal) -> Array:
+	var out: Array = []
+	_reading_task = WorkerThreadPool.add_task(func() -> void: out.append(work.call()), false, "save aside")
+	while not WorkerThreadPool.is_task_completed(_reading_task):
+		await frame
+	wait_for_reads()
+	return out[0] if not out.is_empty() else []
 
 
 func load_replacing(

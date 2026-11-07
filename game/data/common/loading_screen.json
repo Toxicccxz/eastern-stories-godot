@@ -2,13 +2,38 @@
 	"loading_screen": {
 		"background": "0e0c0a",
 		"backdrop": "",
-		"sheet": "res://assets/textures/loading/ink_ring.png",
-		"columns": 12,
-		"rows": 1,
-		"frames": 12,
-		"fps": 12,
-		"side_px": 96,
+		"sheet": "",
 		"center_percent": [50, 46],
-		"caption": true
+		"caption": true,
+		"voxel": {
+			"cube_px": 14,
+			"cycle_ms": 2600,
+			"colours": {"stone": "8a7860", "path": "a8936d", "pillar": "7a4529", "eave": "9c3a2a", "roof": "b8482f"},
+			"cubes": [
+				{"at": [0, 0, 0], "colour": "stone"},
+				{"at": [0, 1, 0], "colour": "path"},
+				{"at": [0, 2, 0], "colour": "stone"},
+				{"at": [1, 0, 0], "colour": "path"},
+				{"at": [1, 1, 0], "colour": "path"},
+				{"at": [1, 2, 0], "colour": "path"},
+				{"at": [2, 0, 0], "colour": "stone"},
+				{"at": [2, 1, 0], "colour": "path"},
+				{"at": [2, 2, 0], "colour": "stone"},
+				{"at": [0, 0, 1], "colour": "pillar"},
+				{"at": [2, 0, 1], "colour": "pillar"},
+				{"at": [0, 2, 1], "colour": "pillar"},
+				{"at": [2, 2, 1], "colour": "pillar"},
+				{"at": [0, 0, 2], "colour": "eave"},
+				{"at": [0, 1, 2], "colour": "eave"},
+				{"at": [0, 2, 2], "colour": "eave"},
+				{"at": [1, 0, 2], "colour": "eave"},
+				{"at": [1, 1, 2], "colour": "roof"},
+				{"at": [1, 2, 2], "colour": "eave"},
+				{"at": [2, 0, 2], "colour": "eave"},
+				{"at": [2, 1, 2], "colour": "eave"},
+				{"at": [2, 2, 2], "colour": "eave"},
+				{"at": [1, 1, 3], "colour": "roof"}
+			]
+		}
 	}
 }

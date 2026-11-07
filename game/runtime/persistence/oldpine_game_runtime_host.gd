@@ -345,11 +345,23 @@ func request_slot_inspection_of(slot_id: StringName) -> bool:
 	return true
 
 
+## The main menu's look at the saves (at boot, back from a journey): a whole save is decoded
+## and checked, seconds for a big one, so a start in slices does it on a worker thread while
+## the busy note animates (owner, 2026-11-07: 回到主菜单 froze).
 func _execute_slot_inspection(newest: bool = true) -> void:
-	_slots = _coordinator.slot_summaries()
-	if newest:
-		_coordinator.select_slot(GameSaveSlotSummary.newest(_slots, _coordinator.selected_slot()))
-	var result: GameSaveSlotInspectionResult = _coordinator.inspect_slot()
+	if _start_slice_usec() <= 0:
+		_slots = _coordinator.slot_summaries()
+		if newest:
+			_coordinator.select_slot(GameSaveSlotSummary.newest(_slots, _coordinator.selected_slot()))
+		var inspected: GameSaveSlotInspectionResult = _coordinator.inspect_slot()
+		_request_pending = false
+		slot_inspection_completed.emit(inspected)
+		return
+	await _let_frame_draw()
+	var out: Array = await _coordinator.inspect_aside(newest, _start_slice_usec(), _frame)
+	_slots = out[0]
+	_coordinator.select_slot(out[1])
+	var result: GameSaveSlotInspectionResult = out[2]
 	_request_pending = false
 	slot_inspection_completed.emit(result)
 
@@ -401,6 +413,8 @@ func _execute_recovery(source: int) -> void:
 
 
 func _execute_end_session() -> void:
+	# 正在返回主菜单…… is on the screen before the world is taken down.
+	await _let_frame_draw()
 	var session: WorldSessionController = _current_session
 	if session == null or not session_invariant_holds():
 		_last_end_session = OldPineRuntimeSaveLoadResult.failure(
@@ -417,7 +431,9 @@ func _execute_end_session() -> void:
 
 
 func _execute_save() -> void:
-	_last_save = _coordinator.save_current(_current_session)
+	# 正在存档…… is on the screen first; the writing goes on beside the frames.
+	await _let_frame_draw()
+	_last_save = await _coordinator.save_current_aside(_current_session, _start_slice_usec(), _frame)
 	_request_pending = false
 	save_completed.emit(_last_save)
 
