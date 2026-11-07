@@ -49,11 +49,7 @@
   "life": {"waterfog.west_2f": {"walls": "plaster"}, "waterfog.east_2f": {"walls": "plaster"}},
   "ambience": {"dust": [{"rect": [616, 248, 696, 328], "count": 4, "color": "d8d0b0", "wind": [0.9, 0.6], "size": [0.07, 0.03, 0.09], "height": [1.5, 2.3], "note": "moths round the lamp in 聆啸厅"}]},
   "actors": {
-    "default": {"coat": "6a6a5a"},
-    "waterfog.npc.elite_guard": {"coat": "a8382c", "hat": true},
-    "waterfog.npc.elder5": {"coat": "e2ded2"},
-    "waterfog.npc.elder6": {"coat": "5a6a7a"},
-    "waterfog.npc.elder7": {"coat": "7a5a46"}
+    "default": {"coat": "6a6a5a"}
   },
   "entrances": {
     "waterfog.west_2f.down": {"title": "楼梯 · 下楼", "label_height": 1.5, "floor_guides": false},

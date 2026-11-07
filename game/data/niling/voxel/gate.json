@@ -68,9 +68,6 @@
     {"kind": "cobweb", "at": [648, -456], "size": [40, 8], "rotation": -45, "height": 2.8}
   ],
   "actors": {
-    "default": {"coat": "1a1818", "hat": true},
-    "native.npc.niling_gatekeeper": {"coat": "1e1a1a", "hat": true},
-    "native.npc.niling_gate_guard": {"coat": "181616", "hat": true},
-    "native.npc.niling_store_taoist": {"coat": "1e1a1a", "hat": true}
+    "default": {"coat": "1a1818", "hat": true}
   }
 }

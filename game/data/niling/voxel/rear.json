@@ -45,7 +45,6 @@
   ],
   "actors": {
     "default": {"coat": "1a1818", "hat": true},
-    "native.npc.xuan_mingzi": {"coat": "141214", "hat": true},
     "native.npc.headless_shade": {"coat": "1a1020", "hat": false, "headless": true}
   }
 }

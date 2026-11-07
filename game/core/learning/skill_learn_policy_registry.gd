@@ -123,6 +123,8 @@ func _register_inherited_default_policies() -> void:
 		# marks) are the skills' `learn` data, judged by LearnService.authored_refusal().
 		SkillIdsType.SHIELD_SWORD,
 		SkillIdsType.GHOST_HAT_SWORD,
+		# Native (第九章 E): 禁中刀, read from 冯策's manual by anyone, std/skill.c's default (as 关北马刀).
+		SkillIdsType.PALACE_BLADE,
 	]
 	for skill_id: StringName in skill_ids:
 		register_policy(DefaultPolicyType.new(skill_id))

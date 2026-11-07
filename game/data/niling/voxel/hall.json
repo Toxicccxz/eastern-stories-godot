@@ -69,9 +69,6 @@
     {"kind": "cobweb", "at": [-620, -430], "size": [36, 8], "rotation": 45, "height": 2.9}
   ],
   "actors": {
-    "default": {"coat": "1a1818", "hat": true},
-    "native.npc.niling_chanter": {"coat": "1e1a1a", "hat": true},
-    "native.npc.niling_lead_chanter": {"coat": "141212", "hat": true},
-    "native.npc.niling_steward": {"coat": "1e1a1a", "hat": true}
+    "default": {"coat": "1a1818", "hat": true}
   }
 }
