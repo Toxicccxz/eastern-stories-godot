@@ -3941,7 +3941,8 @@ msgstr ""
 #. common.npc.fighter.champion inquiry topic
 #. main.chapter2 region
 #. waterfog name
-#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/waterfog/world.json data/waterfog/voxel/mountain.json
+#. native.npc.wei_canglan inquiry topic
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/waterfog/world.json data/imperial/npcs.json data/waterfog/voxel/mountain.json
 msgid "水烟阁"
 msgstr ""
 
@@ -8042,6 +8043,7 @@ msgstr ""
 #. fonxansword actions.damage_type
 #. snowshade-sword actions.damage_type
 #. shortsong-blade actions.damage_type
+#. palace-blade actions.damage_type
 #. guanbei-saber actions.damage_type
 #. shield-sword actions.damage_type
 #. ghost-hat-sword actions.damage_type
@@ -13870,6 +13872,46 @@ msgstr ""
 msgid "你的文学素养不够无法提升小无相功的造诣。"
 msgstr ""
 
+#. palace-blade name
+#: data/common/skills.json
+msgid "禁中刀"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l"
+msgstr ""
+
+#. palace-blade actions.action
+#: data/common/skills.json
+msgid "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l"
+msgstr ""
+
 #. guanbei-saber name
 #: data/common/skills.json
 msgid "关北马刀"
@@ -14523,8 +14565,9 @@ msgstr ""
 #. canyon.camp region
 #. canyon.seal region
 #. canyon.bamboo region
+#. main.chapter10 region
 #. canyon name
-#: data/common/atlas.json data/common/journal.json data/canyon/world.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter10.json data/canyon/world.json
 msgid "天驼关"
 msgstr ""
 
@@ -19491,6 +19534,32 @@ msgstr ""
 #. main.chapter9/uncle_road text
 #: data/story/chapter9.json
 msgid "於兰天武读了手诏，把传功使交给萧辟尘，回京了。"
+msgstr ""
+
+#. main.chapter10 title
+#. native.npc.feng_ce inquiry topic
+#: data/story/chapter10.json data/native/npcs.json
+msgid "旋芒"
+msgstr ""
+
+#. main.chapter10 summary
+#: data/story/chapter10.json
+msgid "樵夫说：风停处即是城。岚城寻风而至，寻风而逝——天驼关石林里那面镜子后头，有一条原作没修完的路。"
+msgstr ""
+
+#. main.chapter10 reward.deed
+#: data/story/chapter10.json
+msgid "找到了岚城"
+msgstr ""
+
+#. main.chapter10/wind objective
+#: data/story/chapter10.json
+msgid "读懂风，找到岚城。"
+msgstr ""
+
+#. main.chapter10/wind text
+#: data/story/chapter10.json
+msgid "风停了。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -37165,6 +37234,11 @@ msgstr ""
 msgid "庾清尘"
 msgstr ""
 
+#. city.npc.shangshu.gardener inquiry.庾清尘.rules.say
+#: data/city/npcs.json
+msgid "老爷下了狱，小姐去了相国府。……我在这儿把花浇完，也该走了。"
+msgstr ""
+
 #. city.npc.shangshu.gardener inquiry.庾清尘.rules.lines.say
 #. city.npc.shangshu.gardener inquiry.庾清尘.rules.say
 #: data/city/npcs.json
@@ -40670,7 +40744,8 @@ msgid ""
 msgstr ""
 
 #. native:guanbei/saber_manual unit
-#: data/guanbei/items.json
+#. native:imperial/palace_blade_manual unit
+#: data/guanbei/items.json data/imperial/items.json
 msgid "册"
 msgstr ""
 
@@ -42118,7 +42193,8 @@ msgid "王府的骁将有七个，去乔阴县衙帮不平公子的那几个也�
 msgstr ""
 
 #. native.npc.guo_cheng inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.feng_ce inquiry topic
+#: data/guanbei/npcs.json data/native/npcs.json
 msgid "刀谱"
 msgstr ""
 
@@ -45809,6 +45885,17 @@ msgid ""
 "一卷先帝的手稿，推敲商句遗书的最后两句，密密麻麻改了好几遍。最后一页只写着：「风自岚来。逆风而行，风止之处，城见。」页角有庾子建的批注：「试过三次，未果。」\n"
 msgstr ""
 
+#. native:imperial/palace_blade_manual name
+#: data/imperial/items.json
+msgid "禁中刀谱"
+msgstr ""
+
+#. native:imperial/palace_blade_manual long
+#: data/imperial/items.json
+msgid ""
+"一册蓝布面的小本子，边角磨得发白，里头是工笔画的七个人形，一招一式都在宫门、长街、殿上。每一页的边上冯策用小楷批了一句，最后一页是：「刀在鞘里的时候最多。」\n"
+msgstr ""
+
 #. native.npc.ge_sheng name
 #: data/imperial/npcs.json
 msgid "葛升"
@@ -45889,7 +45976,12 @@ msgstr ""
 msgid "庾尚书"
 msgstr ""
 
-#. native.npc.ge_sheng inquiry.庾尚书
+#. native.npc.ge_sheng inquiry.庾尚书.rules.say
+#: data/imperial/npcs.json
+msgid "尚书……下了狱。武选司换了人管。小的只管写名字。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.庾尚书.rules.say
 #: data/imperial/npcs.json
 msgid "尚书大人的事，不是小的能说的。"
 msgstr ""
@@ -46968,6 +47060,11 @@ msgstr ""
 msgid "从墙上摘下那把剑，推门出去了。"
 msgstr ""
 
+#. native.npc.wei_canglan inquiry.水烟阁
+#: data/imperial/npcs.json
+msgid "老夫回去，水烟阁正月十七还选不选盟主，看他们的。老夫只想把那条路——老松岭那条——再走一遍。"
+msgstr ""
+
 #. native.npc.niling_courier name
 #: data/imperial/npcs.json
 msgid "逆灵宫信使"
@@ -47147,6 +47244,18 @@ msgstr ""
 #. native.npc.song_pu_messenger inquiry.冯策
 #: data/imperial/npcs.json
 msgid "冯总教头是个直人。直人在宫里活不长——这话你别告诉他。"
+msgstr ""
+
+#. native.npc.song_pu_messenger chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"宋朴手里的核桃慢慢地转着。\n"
+msgstr ""
+
+#. native.npc.song_pu_messenger chat_msg
+#: data/imperial/npcs.json
+msgid ""
+"宋朴冲你点了点头：尚书大人记着你的情。\n"
 msgstr ""
 
 #. native:imperial/gate_court long
@@ -47743,15 +47852,50 @@ msgstr ""
 msgid "那不是你该去的地方。"
 msgstr ""
 
-#. native.npc.feng_ce inquiry topic
-#: data/native/npcs.json
-msgid "旋芒"
-msgstr ""
-
 #. native.npc.feng_ce inquiry.旋芒
 #. native.npc.white_officer inquiry.寻剑
 #: data/native/npcs.json
 msgid "奉旨办差，闲人少问。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry topic
+#: data/native/npcs.json
+msgid "湖底"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "湖底的事，算老夫一个。大内侍卫营还有三十个能打的——你开口，他们跟老夫走。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "湖底？老夫守的是宫门，不是湖。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.刀谱.rules.say
+#: data/native/npcs.json
+msgid "刀谱给过你了。练到四十，剩下的在刀上，不在谱上。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.刀谱.rules.lines.emote
+#: data/native/npcs.json
+msgid "从值房的抽屉里摸出一册蓝布面的小本子。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.刀谱.rules.lines.say
+#: data/native/npcs.json
+msgid "侍卫营的刀，叫禁中刀。七招，招招在宫门里头——拿去。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.刀谱.rules.lines.say
+#: data/native/npcs.json
+msgid "下湖之前，你学两招侍卫营的刀。七招，招招在宫门里头——拿去。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.刀谱.rules.say
+#: data/native/npcs.json
+msgid "侍卫营的刀谱，不外传。"
 msgstr ""
 
 #. native.npc.song_pu long

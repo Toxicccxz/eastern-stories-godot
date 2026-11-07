@@ -144,7 +144,8 @@
           "city.jiaowu.feng_ce.1": [1184, 3296],
           "city.jiaowu.lieutenant_1.1": [1248, 3312],
           "city.jiaowu.lieutenant_2.1": [1360, 3312],
-          "city.jiaowu.deng_xiao.1": [1392, 3392]
+          "city.jiaowu.deng_xiao.1": [1392, 3392],
+          "city.wumen.song_pu.1": [1440, 2928]
         },
         "gap_at": [],
         "buildings": [
@@ -1831,6 +1832,14 @@
               "rel",
               0.5,
               0.6
+            ]
+          ],
+          "city.xiangguo_yard.qing_chen.1": [
+            "city.xiangguo_yard",
+            [
+              "rel",
+              0.6,
+              0.75
             ]
           ],
           "city.xiangguo_yard.servant.1": [
