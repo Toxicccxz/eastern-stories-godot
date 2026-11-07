@@ -62,6 +62,13 @@
 			"scene": "res://scenes/world/imperial/imperial_well_tunnel.tscn",
 			"entry": "imperial.well_bottom.well_arrival",
 			"interior": true
+		},
+		{
+			"id": "imperial.yangxin_hall",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_yangxin_hall.tscn",
+			"entry": "imperial.yangxin_yard.gate_arrival",
+			"interior": true
 		}
 	],
 	"zones": [
@@ -187,6 +194,37 @@
 			"map": "imperial.well_tunnel",
 			"rooms": [
 				"native:imperial/cellar_end"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.yangxin_yard",
+			"map": "imperial.yangxin_hall",
+			"rooms": [
+				"native:imperial/yangxin_yard"
+			]
+		},
+		{
+			"id": "imperial.front_hall",
+			"map": "imperial.yangxin_hall",
+			"rooms": [
+				"native:imperial/front_hall"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.west_room",
+			"map": "imperial.yangxin_hall",
+			"rooms": [
+				"native:imperial/west_room"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.study",
+			"map": "imperial.yangxin_hall",
+			"rooms": [
+				"native:imperial/study"
 			],
 			"indoors": true
 		}
@@ -337,6 +375,38 @@
 			"to_spawn": "city.midao1.stone_return",
 			"legacy_room": "native:imperial/cellar_end",
 			"legacy_command": "up"
+		},
+		{
+			"id": "imperial.yangxin_gate.east",
+			"from_zone": "imperial.yangxin_gate",
+			"to_zone": "imperial.yangxin_yard",
+			"to_spawn": "imperial.yangxin_yard.gate_arrival",
+			"legacy_room": "native:imperial/yangxin_gate",
+			"legacy_command": "east"
+		},
+		{
+			"id": "imperial.yangxin_yard.west",
+			"from_zone": "imperial.yangxin_yard",
+			"to_zone": "imperial.yangxin_gate",
+			"to_spawn": "imperial.yangxin_gate.yard_return",
+			"legacy_room": "native:imperial/yangxin_yard",
+			"legacy_command": "west"
+		},
+		{
+			"id": "imperial.yangxin_gate.window",
+			"from_zone": "imperial.yangxin_gate",
+			"to_zone": "imperial.west_room",
+			"to_spawn": "imperial.west_room.window_arrival",
+			"legacy_room": "native:imperial/yangxin_gate",
+			"legacy_command": "window"
+		},
+		{
+			"id": "imperial.west_room.window",
+			"from_zone": "imperial.west_room",
+			"to_zone": "imperial.yangxin_gate",
+			"to_spawn": "imperial.yangxin_gate.window_return",
+			"legacy_room": "native:imperial/west_room",
+			"legacy_command": "window"
 		}
 	],
 	"landmarks": [
@@ -387,9 +457,173 @@
 			"policy": "look",
 			"long": "养心门关着，门闩在里头。门缝里透出一点灯光——皇上睡得晚。（养心殿是这一章后面的事。）\n",
 			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」) — the 养心殿's gate; the hall itself is the ninth chapter's C package"
+		},
+		{
+			"id": "imperial.west_room.landmark.map",
+			"zone": "imperial.west_room",
+			"name": "舆图",
+			"policy": "look",
+			"long": "一幅旧舆图，北到关北，南到玉螺湖，西南角用朱笔圈了一个地方，旁边两个小字：「岚城？」。圈是新描的，墨色比舆图上的字深得多——有人常常对着它看。\n",
+			"legacy_source": "native: 第九章 C (剧情总纲 §3 第九章 ②③④, §6 皇城卡; 计划 build/plans/第九章_计划.md C 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」) — the boy reading his father's search (剧情总纲 §2: 只想完成父亲的寻剑), 续写"
 		}
 	],
-	"services": [],
+	"services": [
+		{
+			"id": "imperial.study.chest",
+			"kind": "act",
+			"zone": "imperial.study",
+			"name": "樟木匣",
+			"reach": 96,
+			"legacy_source": "native: 第九章 C (剧情总纲 §3 第九章 ②③④, §6 皇城卡; 计划 build/plans/第九章_计划.md C 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」) — the late emperor's 寻剑 archive (剧情总纲 §3 第九章 ③: 先帝寻剑的档案), 续写",
+			"act": {
+				"verb": "翻看",
+				"acts": [
+					{
+						"mark": "翻过樟木匣",
+						"steps": [
+							{
+								"line": "樟木匣里还剩几册先帝的手札，记的都是岚城：哪年派了谁去，回来说了什么。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "你揭开封条。匣子里一卷黄绫裹着的诏书，一卷兵部存档的复本，底下压着几册手札。\n"
+							},
+							{
+								"line": "诏书只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n",
+								"color": "HIY"
+							},
+							{
+								"line": "兵部的复本同一个日子、同一个开头，「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印。\n"
+							},
+							{
+								"give": "native:imperial/original_decree"
+							},
+							{
+								"give": "native:imperial/war_ministry_copy"
+							},
+							{
+								"mark": "翻过樟木匣"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "imperial.study.desk",
+			"kind": "act",
+			"zone": "imperial.study",
+			"name": "御案",
+			"reach": 96,
+			"legacy_source": "native: 第九章 C (剧情总纲 §3 第九章 ②③④, §6 皇城卡; 计划 build/plans/第九章_计划.md C 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」) — the two decrees laid side by side (剧情总纲 §3 第九章 ③: 印色对不上（第六章学过）), 续写",
+			"act": {
+				"verb": "比对",
+				"acts": [
+					{
+						"mark": "对出了原令",
+						"steps": [
+							{
+								"line": "两卷都在你手里了。原令一句，抄本四句——多出来的三句，是兵部自己加的。\n"
+							}
+						]
+					},
+					{
+						"not_mark": "翻过樟木匣",
+						"steps": [
+							{
+								"line": "御案上空着。先把樟木匣里的东西拿出来。\n"
+							}
+						]
+					},
+					{
+						"mark": "学过印色",
+						"steps": [
+							{
+								"line": "你把两卷并排摊在御案上，就着灯看那两方印。\n"
+							},
+							{
+								"line": "御宝的朱色正红，压得匀匀的。兵部那方印暗红发黑——和逆灵宫账房那叠文书上的，是一方，是拓了模子的那一方。\n",
+								"color": "HIY"
+							},
+							{
+								"line": "原令是真的。抄本上多出来的三句，是拿着假印的人加的。\n"
+							},
+							{
+								"mark": "对出了原令"
+							},
+							{
+								"give": "native:imperial/woodcutter_record",
+								"lines": [
+									{
+										"line": "皇帝从樟木匣底抽出一页发黄的纸递给你：「父皇的手札。樵夫进过岚城——你拿着。」\n"
+									}
+								]
+							}
+						]
+					},
+					{
+						"carries": "印模",
+						"steps": [
+							{
+								"line": "你把印模按在兵部的印旁边。模上的朱砂正红；纸上的印暗红发黑——一模一样的纹，不一样的色。\n",
+								"color": "HIY"
+							},
+							{
+								"line": "抄本上多出来的三句，是拿着假印的人加的。\n"
+							},
+							{
+								"mark": "对出了原令"
+							},
+							{
+								"give": "native:imperial/woodcutter_record",
+								"lines": [
+									{
+										"line": "皇帝从樟木匣底抽出一页发黄的纸递给你：「父皇的手札。樵夫进过岚城——你拿着。」\n"
+									}
+								]
+							}
+						]
+					},
+					{
+						"mark": "钟嬷嬷认过字",
+						"steps": [
+							{
+								"line": "你想起钟嬷嬷的话：「这一卷是我誊的。那一卷不是。」原令上的字工工整整，和她纸上的一样。\n",
+								"color": "HIY"
+							},
+							{
+								"mark": "对出了原令"
+							},
+							{
+								"give": "native:imperial/woodcutter_record",
+								"lines": [
+									{
+										"line": "皇帝从樟木匣底抽出一页发黄的纸递给你：「父皇的手札。樵夫进过岚城——你拿着。」\n"
+									}
+								]
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "两卷摊在御案上，看来看去，印都是红的，字都是工整的。你认不出哪一卷不对。\n"
+							},
+							{
+								"line": "福安小声说：冷宫里有个钟嬷嬷，当年是先帝跟前的女官……先帝的字，她认得。\n"
+							},
+							{
+								"mark": "福安说了钟嬷嬷"
+							}
+						]
+					}
+				]
+			}
+		}
+	],
 	"exit_rules": [
 		{
 			"id": "city.midao1.stone",
@@ -402,6 +636,42 @@
 				"你在密室里转了一圈。除了那张破床和乾草，什么也没有。"
 			],
 			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」) — midao1.c had only a bed and straw; the stone under it is found by looking (床)"
+		},
+		{
+			"id": "imperial.yangxin_gate.shut",
+			"room": "native:imperial/yangxin_gate",
+			"from_zone": "imperial.yangxin_gate",
+			"to_zone": "imperial.yangxin_yard",
+			"when": "no_mark",
+			"mark": "见了福安",
+			"lines": [
+				"养心门关着，门闩在里头。门缝里透出一点灯光。"
+			],
+			"legacy_source": "native: 第九章 C (剧情总纲 §3 第九章 ②③④, §6 皇城卡; 计划 build/plans/第九章_计划.md C 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」) — the 养心门 opens to one the emperor sent for (福安's word after the 殿试 or the 早朝)"
+		},
+		{
+			"id": "imperial.yangxin_gate.window_shut",
+			"room": "native:imperial/yangxin_gate",
+			"from_zone": "imperial.yangxin_gate",
+			"to_zone": "imperial.west_room",
+			"when": "no_mark",
+			"mark": "钟嬷嬷说了窗闩",
+			"lines": [
+				"养心殿的西墙上一排窗，窗纸后面透着灯光。窗都关得死死的——不知道哪一扇是坏的。"
+			],
+			"legacy_source": "native: 第九章 C (剧情总纲 §3 第九章 ②③④, §6 皇城卡; 计划 build/plans/第九章_计划.md C 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」) — the 西暖阁's window whose latch 钟嬷嬷 knows is broken"
+		},
+		{
+			"id": "imperial.front_hall.study",
+			"room": "native:imperial/front_hall",
+			"from_zone": "imperial.front_hall",
+			"to_zone": "imperial.study",
+			"when": "no_mark",
+			"mark": "见了皇帝",
+			"lines": [
+				"御书房的门锁着，钥匙在皇上身上。"
+			],
+			"legacy_source": "native: 第九章 C (剧情总纲 §3 第九章 ②③④, §6 皇城卡; 计划 build/plans/第九章_计划.md C 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」) — the 御书房's door, the key the emperor's"
 		}
 	]
 }

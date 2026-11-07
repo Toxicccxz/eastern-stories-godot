@@ -1534,6 +1534,18 @@
           "city.shangshu.road1.huyuan.1": [
             "city.shangshu.road1",
             ["rel", 0.62, 0.6]
+          ],
+          "city.shangshu.huayuan.neizhai_guard.1": [
+            "city.shangshu.huayuan",
+            ["rel", 0.85, 0.5]
+          ],
+          "city.shangshu.kefang.wei_canglan.1": [
+            "city.shangshu.kefang",
+            ["rel", 0.4, 0.5]
+          ],
+          "city.shangshu.xiaowu.courier.1": [
+            "city.shangshu.xiaowu",
+            ["rel", 0.5, 0.5]
           ]
         },
         "doors": {

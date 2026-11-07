@@ -295,6 +295,10 @@ msgstr ""
 #. native.npc.night_guard_garden gender
 #. native.npc.palace_eunuch gender
 #. native.npc.camp_guard gender
+#. native.npc.yulan_zhao_private gender
+#. native.npc.neizhai_guard gender
+#. native.npc.wei_canglan gender
+#. native.npc.niling_courier gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -1584,8 +1588,9 @@ msgstr ""
 msgid "小路"
 msgstr ""
 
+#. city.npc.shangshu.qing_chen inquiry topic
 #. es2:d/city/shangshu/xiaowu short
-#: scenes/world/city/shangshu.tscn data/city/rooms.json
+#: scenes/world/city/shangshu.tscn data/city/npcs.json data/city/rooms.json
 msgid "小屋"
 msgstr ""
 
@@ -2633,8 +2638,9 @@ msgstr ""
 msgid "井底"
 msgstr ""
 
+#. city.npc.shangshu.qing_chen inquiry topic
 #. native:imperial/tunnel short
-#: scenes/world/imperial/imperial_well_tunnel.tscn data/imperial/rooms.json
+#: scenes/world/imperial/imperial_well_tunnel.tscn data/city/npcs.json data/imperial/rooms.json
 msgid "密道"
 msgstr ""
 
@@ -2649,6 +2655,37 @@ msgstr ""
 
 #: scenes/world/imperial/imperial_well_tunnel.tscn
 msgid "石阶 · 上去"
+msgstr ""
+
+#. native:imperial/yangxin_yard short
+#: scenes/world/imperial/imperial_yangxin_hall.tscn data/imperial/rooms.json
+msgid "养心殿前院"
+msgstr ""
+
+#. native.npc.fu_an inquiry topic
+#. native.npc.palace_eunuch inquiry topic
+#. native.npc.zhong_momo inquiry topic
+#. native:imperial/front_hall short
+#: scenes/world/imperial/imperial_yangxin_hall.tscn data/imperial/npcs.json data/imperial/rooms.json
+msgid "养心殿"
+msgstr ""
+
+#. native:imperial/west_room short
+#: scenes/world/imperial/imperial_yangxin_hall.tscn data/imperial/rooms.json
+msgid "西暖阁"
+msgstr ""
+
+#. native:imperial/study short
+#: scenes/world/imperial/imperial_yangxin_hall.tscn data/imperial/rooms.json
+msgid "御书房"
+msgstr ""
+
+#: scenes/world/imperial/imperial_yangxin_hall.tscn
+msgid "樟木匣 · 翻看"
+msgstr ""
+
+#: scenes/world/imperial/imperial_yangxin_hall.tscn
+msgid "御案 · 比对"
 msgstr ""
 
 #. es2:d/latemoon/park/yard1 short
@@ -12401,6 +12438,7 @@ msgstr ""
 #. native:fanfang/hu_bread unit
 #. native:cloud/escort_note unit
 #. native:choyin/luo_card unit
+#. native:city/blinding_charm unit
 #: data/common/items.json data/fanfang/items.json data/native/items.json
 msgid "张"
 msgstr ""
@@ -14376,7 +14414,8 @@ msgstr ""
 
 #. name
 #. temple name
-#: data/common/atlas.json data/temple/world.json
+#. city.npc.shangshu.qing_chen inquiry topic
+#: data/common/atlas.json data/temple/world.json data/city/npcs.json
 msgid "茅山"
 msgstr ""
 
@@ -14398,7 +14437,8 @@ msgstr ""
 #. oldpine.knife_marks region
 #. main.chapter1 region
 #. oldpine name
-#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/oldpine/world.json
+#. native.npc.wei_canglan inquiry topic
+#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/oldpine/world.json data/imperial/npcs.json
 msgid "老松岭"
 msgstr ""
 
@@ -18132,6 +18172,7 @@ msgstr ""
 #. native.npc.yulan_zhao inquiry topic
 #. native.npc.yu_zijian_court inquiry topic
 #. native.npc.zhong_momo inquiry topic
+#. native.npc.yulan_zhao_private inquiry topic
 #. native.npc.chen_witness inquiry topic
 #: data/story/prologue.json data/imperial/npcs.json data/native/npcs.json
 msgid "寻剑令"
@@ -18466,10 +18507,11 @@ msgstr ""
 #. native.npc.lao_qin inquiry topic
 #. native.npc.lu_sun inquiry topic
 #. native.npc.barrow_taoist inquiry topic
+#. native.npc.niling_courier title
 #. native.npc.tribute_taoist inquiry topic
 #. native.npc.liu_anlu_home inquiry topic
 #. native.npc.shang_jue_lake inquiry topic
-#: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/native/npcs.json
+#: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "逆灵宫"
 msgstr ""
 
@@ -19336,7 +19378,27 @@ msgstr ""
 
 #. main.chapter9/audience text
 #: data/story/chapter9.json
-msgid "养心殿里，十六岁的皇帝没有睡。"
+msgid "养心殿里，十六岁的皇帝说：御书房里有父皇的匣子。"
+msgstr ""
+
+#. main.chapter9/decree objective
+#: data/story/chapter9.json
+msgid "御书房：把先帝的原令和兵部的抄本放在一起。"
+msgstr ""
+
+#. main.chapter9/decree text
+#: data/story/chapter9.json
+msgid "原令只一句：寻剑，不得扰民一户。抄本上多出来的三句，是拿着假印的人加的。皇帝给了你一页樵夫的旧记载：风停处即是城。"
+msgstr ""
+
+#. main.chapter9/choice objective
+#: data/story/chapter9.json
+msgid "怎么办：朝上揭发、私了，或先解皇叔的通缉。（人证物证越多，朝上越站得住：卫沧澜、小屋的密信、陈显祖的证词、逆灵宫的账册。）"
+msgstr ""
+
+#. main.chapter9/choice text
+#: data/story/chapter9.json
+msgid "你做了选择。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -22295,6 +22357,7 @@ msgstr ""
 #. native:snow/letter_to_chen unit
 #. native:snow/letter_to_pan unit
 #. native:choyin/magistrate_letter unit
+#. native:city/courier_letter unit
 #: data/latemoon/items.json data/cloud/items.json data/native/items.json
 msgid "封"
 msgstr ""
@@ -22484,8 +22547,10 @@ msgstr ""
 #. es2:d/latemoon/obj/hankie unit
 #. es2:d/latemoon/obj/book unit
 #. native:niling/scroll_fragment unit
+#. native:imperial/original_decree unit
+#. native:imperial/war_ministry_copy unit
 #. native:choyin/decree_copy unit
-#: data/latemoon/items.json data/niling/items.json data/native/items.json
+#: data/latemoon/items.json data/niling/items.json data/imperial/items.json data/native/items.json
 msgid "卷"
 msgstr ""
 
@@ -22955,7 +23020,8 @@ msgstr ""
 #. es2:d/choyin/obj/chest act.verb
 #. native:niling/tribute_ledger act.verb
 #. native:niling/war_ministry_papers act.verb
-#: data/choyin/items.json data/niling/items.json
+#. imperial.study.chest act.verb
+#: data/choyin/items.json data/niling/items.json data/imperial/world.json
 msgid "翻看"
 msgstr ""
 
@@ -25249,7 +25315,8 @@ msgstr ""
 #. waterfog.npc.elder5 name
 #. native.npc.cheng_shuo inquiry topic
 #. native.npc.nan_weishui_guest name
-#: data/waterfog/npcs.json data/guanbei/npcs.json
+#. native.npc.wei_canglan inquiry topic
+#: data/waterfog/npcs.json data/guanbei/npcs.json data/imperial/npcs.json
 msgid "南危水"
 msgstr ""
 
@@ -30368,6 +30435,7 @@ msgstr ""
 #. native.npc.cheng_shuo moods.clean.title
 #. native.npc.nan_weishui_guest inquiry topic
 #. native.npc.yu_zijian_court inquiry topic
+#. native.npc.yulan_zhao_private inquiry topic
 #. native.npc.chen_witness inquiry topic
 #: data/choyin/npcs.json data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "槐阳王"
@@ -33833,9 +33901,10 @@ msgid ""
 msgstr ""
 
 #. village.seal_altar.pull name
+#. native.npc.yulan_zhao_private inquiry topic
 #. native.npc.lihong inquiry topic
 #. native:village/soul_impaler name
-#: data/village/world.json data/native/npcs.json data/native/items.json
+#: data/village/world.json data/imperial/npcs.json data/native/npcs.json data/native/items.json
 msgid "穿灵"
 msgstr ""
 
@@ -34502,7 +34571,8 @@ msgstr ""
 
 #. city.npc.shangshu.huyuan title
 #. city.npc.shangshu.huyuan1 title
-#: data/city/npcs.json
+#. native.npc.neizhai_guard title
+#: data/city/npcs.json data/imperial/npcs.json
 msgid "尚书府护院"
 msgstr ""
 
@@ -36903,6 +36973,7 @@ msgid ""
 msgstr ""
 
 #. city.npc.shangshu.gardener name
+#. city.npc.shangshu.qing_chen inquiry topic
 #: data/city/npcs.json
 msgid "花匠"
 msgstr ""
@@ -36929,14 +37000,26 @@ msgstr ""
 
 #. city.npc.shangshu.gardener inquiry topic
 #. city.npc.shangshu.qing_chen name
-#: data/city/npcs.json
+#. native.npc.neizhai_guard inquiry topic
+#: data/city/npcs.json data/imperial/npcs.json
 msgid "庾清尘"
 msgstr ""
 
-#. city.npc.shangshu.gardener inquiry.庾清尘
+#. city.npc.shangshu.gardener inquiry.庾清尘.rules.lines.say
+#. city.npc.shangshu.gardener inquiry.庾清尘.rules.say
 #: data/city/npcs.json
 msgid ""
 "什么？清尘出事了？\n"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.庾清尘.rules.lines.emote
+#: data/city/npcs.json
+msgid "放下花剪，四下看了看，压低了声音。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.庾清尘.rules.lines.say
+#: data/city/npcs.json
+msgid "……她撞见了不该见的。老爷把她关在内宅，帘子外头有人守着。你要是能见着她，替我问一声。"
 msgstr ""
 
 #. city.npc.shangshu.qing_chen title
@@ -36950,6 +37033,86 @@ msgid ""
 "她是尚书府的千金。平时一直呆在自己的绣房里，所以虽然外界\n"
 "如何盛传她是如何如何的文雅、娴淑，却极少有能见过她的人。\n"
 "不知从何时起，她竺信起道教来，所以一切讲究素雅。\n"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.emote
+#: data/city/npcs.json
+msgid "放下手里的符纸，看了你一眼，又看了一眼帘子外头。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.say
+#: data/city/npcs.json
+msgid "你不是府里的人。……是花匠伯伯让你来的？"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.say
+#: data/city/npcs.json
+msgid "那天夜里我睡不着，走到小屋外头，听见我爹和一个黑衣人说话。黑衣人说「湖底」，我爹说「子时之前」。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.say
+#: data/city/npcs.json
+msgid "黑衣人走的是祭坛底下的路：顺着转一圈，逆着转三圈，按下去。密室的床底下还有一条道，往南——通到宫里，冷宫的井。我跟过一次。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen calls.steps.say
+#: data/city/npcs.json
+msgid "第二天，我爹就让人守着帘子了。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry topic
+#: data/city/npcs.json
+msgid "父亲"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.父亲
+#: data/city/npcs.json
+msgid "我爹……当年打仗是一把好手。这几年他书房里的灯，夜里总是亮着。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.小屋
+#: data/city/npcs.json
+msgid "小屋里有人。黑衣裳，戴黑冠，白天不出来。我爹每隔几夜去一回。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.密道.rules.say
+#: data/city/npcs.json
+msgid "顺一逆三，按下去。床底下的石板，往南走。符你带着——夜里宫里的禁军眼睛短一截。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.密道.rules.marks_asker
+#: data/city/npcs.json
+msgid "清尘说了密道"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.密道.rules.marks_asker
+#: data/city/npcs.json
+msgid "看过床底的石板"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.密道.rules.lines.say
+#: data/city/npcs.json
+msgid "祭坛那块台子底下有个按钮，顺着转一圈，逆着转三圈，按下去。下面密室的床底下压着一块石板。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.密道.rules.lines.emote
+#: data/city/npcs.json
+msgid "从桌上抽出一张黄纸符，递给你。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.密道.rules.lines.say
+#: data/city/npcs.json
+msgid "茅山的障眼符，花匠伯伯教我画的。带在身上，夜里巡夜的人眼睛短一截。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.茅山
+#: data/city/npcs.json
+msgid "花匠伯伯是茅山的人。我的符是他教的。我爹不知道。"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen inquiry.花匠
+#: data/city/npcs.json
+msgid "花匠伯伯……府里只有他还肯跟我说话。"
 msgstr ""
 
 #. es2:d/city/nroad2 long
@@ -37452,6 +37615,11 @@ msgstr ""
 msgid "相国府的大门关着。（门边可以叩门。）"
 msgstr ""
 
+#. city.shangshu.huayuan.neizhai_guard lines
+#: data/city/world.json
+msgid "护院横过身子挡在帘子前：老爷吩咐了，小姐这几天不见人。"
+msgstr ""
+
 #. city.northdoor.landmark.sign long
 #: data/city/world.json
 msgid ""
@@ -37921,7 +38089,8 @@ msgid ""
 msgstr ""
 
 #. chuenyu.npc.guard name
-#: data/chuenyu/npcs.json
+#. native.npc.neizhai_guard name
+#: data/chuenyu/npcs.json data/imperial/npcs.json
 msgid "护院"
 msgstr ""
 
@@ -42242,8 +42411,9 @@ msgstr ""
 
 #. native.npc.site_officer name
 #. native.npc.site_officer_fighting name
+#. native.npc.wei_canglan inquiry topic
 #. native.npc.white_officer name
-#: data/guanbei/npcs.json data/native/npcs.json
+#: data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "白衣武官"
 msgstr ""
 
@@ -45406,6 +45576,44 @@ msgid ""
 "一块铜腰牌，巴掌大，正面刻着「御前侍卫」四个字，背面一个编号，编号底下有人用刀尖划了一道——上一个带它的人留下的。\n"
 msgstr ""
 
+#. native:imperial/original_decree name
+#: data/imperial/items.json
+msgid "寻剑令原本"
+msgstr ""
+
+#. native:imperial/original_decree long
+#: data/imperial/items.json
+msgid ""
+"一卷黄绫裹着的诏书，只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
+msgstr ""
+
+#. native:imperial/war_ministry_copy name
+#: data/imperial/items.json
+msgid "兵部抄本"
+msgstr ""
+
+#. native:imperial/war_ministry_copy long
+#: data/imperial/items.json
+msgid ""
+"兵部存档的寻剑令复本，同一个日子，同一个开头。「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印，印色暗红发黑。\n"
+msgstr ""
+
+#. native:imperial/woodcutter_record name
+#: data/imperial/items.json
+msgid "樵夫的旧记载"
+msgstr ""
+
+#. native:imperial/woodcutter_record long
+#: data/imperial/items.json
+msgid ""
+"一页发黄的手札，先帝的字：「樵夫言：入山遇风，风大不能行，伏地良久；风止，抬头见白石城，铃声满耳。——风停处即是城。」页边有一行小字，墨色新些：「父皇，儿也想去。」\n"
+msgstr ""
+
+#. native:imperial/woodcutter_record unit
+#: data/imperial/items.json
+msgid "页"
+msgstr ""
+
 #. native.npc.ge_sheng name
 #: data/imperial/npcs.json
 msgid "葛升"
@@ -45480,6 +45688,7 @@ msgstr ""
 #. native.npc.ge_sheng inquiry topic
 #. native.npc.yulan_zhao inquiry topic
 #. native.npc.court_official inquiry topic
+#. native.npc.yulan_zhao_private inquiry topic
 #: data/imperial/npcs.json
 msgid "庾尚书"
 msgstr ""
@@ -45876,11 +46085,13 @@ msgid "相国在正厅。夜里在书房，常常看书看到天亮。"
 msgstr ""
 
 #. native.npc.yulan_zhao name
+#. native.npc.yulan_zhao_private name
 #: data/imperial/npcs.json
 msgid "於兰昭"
 msgstr ""
 
 #. native.npc.yulan_zhao title
+#. native.npc.yulan_zhao_private title
 #: data/imperial/npcs.json
 msgid "天子"
 msgstr ""
@@ -45971,6 +46182,7 @@ msgid "……"
 msgstr ""
 
 #. native.npc.yulan_zhao inquiry topic
+#. native.npc.yulan_zhao_private inquiry topic
 #: data/imperial/npcs.json
 msgid "皇叔"
 msgstr ""
@@ -46025,13 +46237,6 @@ msgstr ""
 #. native.npc.fu_an inquiry.皇上
 #: data/imperial/npcs.json
 msgid "皇上睡得晚。夜里在养心殿，看先帝的手札。"
-msgstr ""
-
-#. native.npc.fu_an inquiry topic
-#. native.npc.palace_eunuch inquiry topic
-#. native.npc.zhong_momo inquiry topic
-#: data/imperial/npcs.json
-msgid "养心殿"
 msgstr ""
 
 #. native.npc.fu_an inquiry.养心殿
@@ -46260,7 +46465,22 @@ msgstr ""
 msgid "先帝……先帝病着的时候，还天天让我念那些找岚城的手札给他听。他走了二十年了。"
 msgstr ""
 
-#. native.npc.zhong_momo inquiry.寻剑令
+#. native.npc.zhong_momo inquiry.寻剑令.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "接过那两卷，凑到灯下，先看了原令，又看了抄本。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.寻剑令.rules.lines.say
+#: data/imperial/npcs.json
+msgid "这一卷是我誊的。先帝口授，一句话，我一笔一笔写的。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.寻剑令.rules.lines.say
+#: data/imperial/npcs.json
+msgid "那一卷不是。字学得像，可是「寻」字最后一笔，我从来不那么钩。"
+msgstr ""
+
+#. native.npc.zhong_momo inquiry.寻剑令.rules.say
 #: data/imperial/npcs.json
 msgid "寻剑令是我誊的。先帝口授，一句话：寻剑，不得扰民一户。我誊了一份，先帝用了宝。——后来外头传的那些，不是这一句。"
 msgstr ""
@@ -46316,6 +46536,262 @@ msgstr ""
 #. native.npc.camp_guard inquiry.冯总教头
 #: data/imperial/npcs.json
 msgid "总教头在值房。夜里他也不睡，坐着看簿子。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private long
+#: data/imperial/npcs.json
+msgid ""
+"一个十六岁的少年，脱了龙袍，只穿一件月白的夹衣，坐在灯下翻他父亲的手札。他看人的时候先往后缩一下，又坐直了——像是想起来自己是皇帝。\n"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.emote
+#: data/imperial/npcs.json
+msgid "听见响动，抬起头，往后缩了一下，又坐直了。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "你……你不是来杀朕的。杀朕的人不翻窗。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "你从哪儿来的？冷宫的井？——那条路，原来真有人走。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "父皇的寻剑令，你也在找？……朕只知道父皇找了一辈子岚城，临走还念着。兵部说征民夫是父皇的意思——朕不知道。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "庾尚书说，皇叔勾结水烟阁谋反，朕的布告是他拟的。朕……信了一半。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "御书房里有父皇的匣子。钥匙在朕这里。你去看——朕跟你去。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.emote
+#: data/imperial/npcs.json
+msgid "把手札合上，示意福安退到门外。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "坐。……白天殿上，朕不敢说话。你也看见了。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "父皇的寻剑令，朕只知道一句：寻剑。兵部说征民夫是父皇的意思——朕不知道是不是。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "还有——槐阳王反了，尚书是这么说的。你从关北来，你说。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.emote
+#: data/imperial/npcs.json
+msgid "看见你腰间那把剑，脸一下子白了。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private calls.steps.say
+#: data/imperial/npcs.json
+msgid "那是……你拔了它？父皇说过，那把剑钉着的东西，不能放出来。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.寻剑令.rules.say
+#: data/imperial/npcs.json
+msgid "原令只一句。多出来的三句……是兵部的。朕现在知道了，可朕不知道该拿它怎么办。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.寻剑令.rules.say
+#: data/imperial/npcs.json
+msgid "父皇的寻剑令在御书房的匣子里。朕跟你去看。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry topic
+#: data/imperial/npcs.json
+msgid "父皇"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.父皇
+#: data/imperial/npcs.json
+msgid "父皇找了一辈子岚城。临走那天还让钟嬷嬷念手札给他听。朕那年十四岁，在帘子外头听。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.皇叔
+#: data/imperial/npcs.json
+msgid "皇叔……朕小时候他抱过朕。后来布告上说他谋反。朕不信，可是朕不敢不信。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.庾尚书
+#: data/imperial/npcs.json
+msgid "他是父皇的老臣，朝里一半的人听他的。白天你也看见了——朕说一句，他说三句。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.槐阳王.rules.say
+#: data/imperial/npcs.json
+msgid "尚书说槐阳王兴兵踏平了兵部的工地，杀了朝廷命官。……你说那是兵部在征民夫？那朕的父皇——父皇的令里有没有这一句？"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.槐阳王.rules.say
+#: data/imperial/npcs.json
+msgid "槐阳王程朔，父皇的老朋友。兵部说他不奉诏。朕没见过他。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry topic
+#. native.npc.wei_canglan inquiry topic
+#: data/imperial/npcs.json
+msgid "岚城"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.岚城
+#: data/imperial/npcs.json
+msgid "寻风而至，寻风而逝——父皇的手札里抄了一百遍。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.穿灵.rules.say
+#: data/imperial/npcs.json
+msgid "你拔了它……那就只能往前走了。父皇的手札里说，要灭它，三样东西都得在。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.穿灵.rules.say
+#: data/imperial/npcs.json
+msgid "父皇说，玉螺湖底钉着一把剑。他说那把剑不能动。"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry topic
+#: data/imperial/npcs.json
+msgid "怎么办"
+msgstr ""
+
+#. native.npc.yulan_zhao_private inquiry.怎么办
+#: data/imperial/npcs.json
+msgid "……朕还没想好。你先看完父皇的匣子。"
+msgstr ""
+
+#. native.npc.neizhai_guard long
+#: data/imperial/npcs.json
+msgid ""
+"一个膀大腰圆的护院，抱着胳膊站在内宅的帘子外头，谁来都先瞪一眼。\n"
+msgstr ""
+
+#. native.npc.neizhai_guard inquiry topic
+#: data/imperial/npcs.json
+msgid "小姐"
+msgstr ""
+
+#. native.npc.neizhai_guard inquiry.小姐
+#. native.npc.neizhai_guard inquiry.庾清尘
+#: data/imperial/npcs.json
+msgid "老爷吩咐了，小姐这几天不见人。"
+msgstr ""
+
+#. native.npc.wei_canglan name
+#: data/imperial/npcs.json
+msgid "卫沧澜"
+msgstr ""
+
+#. native.npc.wei_canglan title
+#: data/imperial/npcs.json
+msgid "武林盟主"
+msgstr ""
+
+#. native.npc.wei_canglan long
+#: data/imperial/npcs.json
+msgid ""
+"一个瘦得脱了形的老人，头发胡子全白了，坐在窗下翻一本诗集。他的手腕上有两道旧印，一圈一圈的，是镣铐磨的。墙上那把剑他没看一眼——像是看了二十年，看够了。\n"
+msgstr ""
+
+#. native.npc.wei_canglan calls.steps.emote
+#: data/imperial/npcs.json
+msgid "从诗集上抬起头，看了你很久。"
+msgstr ""
+
+#. native.npc.wei_canglan calls.steps.say
+#: data/imperial/npcs.json
+msgid "二十年，第一个不是庾家的人进这道门。"
+msgstr ""
+
+#. native.npc.wei_canglan calls.steps.say
+#: data/imperial/npcs.json
+msgid "老夫卫沧澜。——你认得这个名字？不认得也好。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.老松岭
+#: data/imperial/npcs.json
+msgid "二十年前，先帝召老夫进京，带着水烟阁藏的岚城记载。走到老松岭，一队白衣武官把我们围了。随从替老夫挡了刀，死在山洞里。老夫醒来，就在这间屋里了。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.白衣武官.rules.say
+#: data/imperial/npcs.json
+msgid "白衣，腰里是兵部的刀，领头的人老夫认得——庾子建的亲兵。你要人证？老夫活着走出这道门，就是人证。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.南危水.rules.say
+#: data/imperial/npcs.json
+msgid "危水……活着？他回了水烟阁？……好。好。二十年，老夫以为他死在那个洞里了。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.南危水.rules.say
+#: data/imperial/npcs.json
+msgid "南危水是老夫的副手。那天他也在。……老夫不知道他是死是活。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.岚城
+#: data/imperial/npcs.json
+msgid "水烟阁藏的岚城记载，被庾子建收走了。他要的不是剑——是握剑的那只手。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry topic
+#: data/imperial/npcs.json
+msgid "诗集"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.诗集
+#: data/imperial/npcs.json
+msgid "圈的字，从头连起来念。二十年，老夫只能做这个。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry topic
+#: data/imperial/npcs.json
+msgid "走"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "把诗集合上，放回桌上，站起来，腿晃了一下，又站稳了。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.say
+#: data/imperial/npcs.json
+msgid "走。老夫先回水烟阁——要人证的时候，去那里找老夫。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "从墙上摘下那把剑，推门出去了。"
+msgstr ""
+
+#. native.npc.niling_courier name
+#: data/imperial/npcs.json
+msgid "逆灵宫信使"
+msgstr ""
+
+#. native.npc.niling_courier long
+#: data/imperial/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，坐在黑暗里，一动不动，只有眼睛亮。他冠上的丝绦断了一根。\n"
+msgstr ""
+
+#. native.npc.niling_courier vanishes.line
+#: data/imperial/npcs.json
+msgid "信使一声不响地散成一股黑烟，一封信飘落在地上。"
 msgstr ""
 
 #. native:imperial/gate_court long
@@ -46420,6 +46896,30 @@ msgid ""
 "甬道到这里到了头，几级石阶往上，顶上压着一块石板，石板缝里漏下几根乾草。\n"
 msgstr ""
 
+#. native:imperial/yangxin_yard long
+#: data/imperial/rooms.json
+msgid ""
+"养心门里一个小院，比外头的宫院都小，地上的砖扫得很干净。院里两口铜缸，一株海棠，海棠底下一张石凳，石凳上搁着一本翻开的书，书页被露水打湿了。北面就是养心殿。\n"
+msgstr ""
+
+#. native:imperial/front_hall long
+#: data/imperial/rooms.json
+msgid ""
+"殿不大，比太和殿暖和得多。正中一张御座，御座旁的小几上堆着奏折，最上面一本摊开着，朱笔搁在砚台上，笔尖的朱砂已经干了。西边一道帘子是西暖阁，东边一道门是御书房。\n"
+msgstr ""
+
+#. native:imperial/west_room long
+#: data/imperial/rooms.json
+msgid ""
+"西暖阁里一张炕，炕桌上一盏灯、一摞旧手札、一碗凉了的莲子羹。墙上挂着一幅舆图，舆图西南角用朱笔圈了一个地方，旁边写着两个小字：「岚城？」。西墙上一扇窗，窗闩松松地挂着。\n"
+msgstr ""
+
+#. native:imperial/study long
+#: data/imperial/rooms.json
+msgid ""
+"御书房里四壁都是书架，架上的书函一格一格贴着黄签。正中一张御案，案上笔墨齐全。墙角一只樟木匣，匣上贴着一道封条，封条上的字是先帝的：「寻剑」。\n"
+msgstr ""
+
 #. imperial.bridges.landmark.lions name
 #: data/imperial/world.json
 msgid "铜狮"
@@ -46486,9 +46986,140 @@ msgid ""
 "养心门关着，门闩在里头。门缝里透出一点灯光——皇上睡得晚。（养心殿是这一章后面的事。）\n"
 msgstr ""
 
+#. imperial.west_room.landmark.map name
+#: data/imperial/world.json
+msgid "舆图"
+msgstr ""
+
+#. imperial.west_room.landmark.map long
+#: data/imperial/world.json
+msgid ""
+"一幅旧舆图，北到关北，南到玉螺湖，西南角用朱笔圈了一个地方，旁边两个小字：「岚城？」。圈是新描的，墨色比舆图上的字深得多——有人常常对着它看。\n"
+msgstr ""
+
+#. imperial.study.chest name
+#: data/imperial/world.json
+msgid "樟木匣"
+msgstr ""
+
+#. imperial.study.chest act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"樟木匣里还剩几册先帝的手札，记的都是岚城：哪年派了谁去，回来说了什么。\n"
+msgstr ""
+
+#. imperial.study.chest act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"你揭开封条。匣子里一卷黄绫裹着的诏书，一卷兵部存档的复本，底下压着几册手札。\n"
+msgstr ""
+
+#. imperial.study.chest act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"诏书只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
+msgstr ""
+
+#. imperial.study.chest act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"兵部的复本同一个日子、同一个开头，「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印。\n"
+msgstr ""
+
+#. imperial.study.desk name
+#: data/imperial/world.json
+msgid "御案"
+msgstr ""
+
+#. imperial.study.desk act.verb
+#: data/imperial/world.json
+msgid "比对"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"两卷都在你手里了。原令一句，抄本四句——多出来的三句，是兵部自己加的。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"御案上空着。先把樟木匣里的东西拿出来。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"你把两卷并排摊在御案上，就着灯看那两方印。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"御宝的朱色正红，压得匀匀的。兵部那方印暗红发黑——和逆灵宫账房那叠文书上的，是一方，是拓了模子的那一方。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"原令是真的。抄本上多出来的三句，是拿着假印的人加的。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.lines.line
+#: data/imperial/world.json
+msgid ""
+"皇帝从樟木匣底抽出一页发黄的纸递给你：「父皇的手札。樵夫进过岚城——你拿着。」\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"你把印模按在兵部的印旁边。模上的朱砂正红；纸上的印暗红发黑——一模一样的纹，不一样的色。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"抄本上多出来的三句，是拿着假印的人加的。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"你想起钟嬷嬷的话：「这一卷是我誊的。那一卷不是。」原令上的字工工整整，和她纸上的一样。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"两卷摊在御案上，看来看去，印都是红的，字都是工整的。你认不出哪一卷不对。\n"
+msgstr ""
+
+#. imperial.study.desk act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"福安小声说：冷宫里有个钟嬷嬷，当年是先帝跟前的女官……先帝的字，她认得。\n"
+msgstr ""
+
 #. city.midao1.stone lines
 #: data/imperial/world.json
 msgid "你在密室里转了一圈。除了那张破床和乾草，什么也没有。"
+msgstr ""
+
+#. imperial.yangxin_gate.shut lines
+#: data/imperial/world.json
+msgid "养心门关着，门闩在里头。门缝里透出一点灯光。"
+msgstr ""
+
+#. imperial.yangxin_gate.window_shut lines
+#: data/imperial/world.json
+msgid "养心殿的西墙上一排窗，窗纸后面透着灯光。窗都关得死死的——不知道哪一扇是坏的。"
+msgstr ""
+
+#. imperial.front_hall.study lines
+#: data/imperial/world.json
+msgid "御书房的门锁着，钥匙在皇上身上。"
 msgstr ""
 
 #. native.npc.wooden_dummy.1 name
@@ -47553,6 +48184,28 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一张大红的名帖，折成三折。正面一行字：「京师骆氏 骆建炎 拜上 韦相国」，字写得飞快，最后一笔甩出了格子——骆云舟的字。\n"
+msgstr ""
+
+#. native:city/courier_letter name
+#: data/native/items.json
+msgid "密信"
+msgstr ""
+
+#. native:city/courier_letter long
+#: data/native/items.json
+msgid ""
+"一封没有封皮的信，字是庾子建的，一笔不苟：「湖底之事，子时前办妥。人已送去北麓，勿再来府。」信尾没有落款，只盖了一方小印——兵部尚书私印。\n"
+msgstr ""
+
+#. native:city/blinding_charm name
+#: data/native/items.json
+msgid "障眼符"
+msgstr ""
+
+#. native:city/blinding_charm long
+#: data/native/items.json
+msgid ""
+"一张黄纸符，朱砂画的符纹弯弯绕绕，纸角写着一行小字：「茅山 障眼」。带在身上，夜里巡夜的人眼睛短一截。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

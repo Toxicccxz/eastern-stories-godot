@@ -1155,6 +1155,14 @@
           "imperial.lanes_north.north": {
             "side": "north",
             "width": 128
+          },
+          "imperial.yangxin_gate.east": {
+            "side": "east",
+            "width": 128
+          },
+          "imperial.yangxin_gate.window": {
+            "side": "north",
+            "width": 64
           }
         },
         "reach_from": "LanesSouthSquareArrival"
@@ -1809,6 +1817,314 @@
               0.5,
               0.25
             ]
+          }
+        ]
+      }
+    },
+    "yangxin_hall": {
+      "note": "第九章 C: the 养心殿 — a small swept yard inside the 养心门 (two vats, a crab-apple, a stone stool with a book left open in the dew); the hall, warmer than the 太和殿, the throne and a side table piled with memorials, the vermilion brush dry on the stone; west the 西暖阁 with the kang, the boy's lamp, his father's notes and a map with 岚城？ ringed in red, a window whose latch hangs loose; east the 御书房, shelves of yellow-labelled cases, the desk, the camphor chest sealed 寻剑.",
+      "file": "imperial_yangxin_hall.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "imperial.yangxin_yard": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "room"
+          },
+          "imperial.front_hall": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "hall",
+            "life": {
+              "use": "hall",
+              "wealth": "rich",
+              "seed": 97,
+              "tidy": true
+            }
+          },
+          "imperial.west_room": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "room",
+            "life": {
+              "use": "study",
+              "wealth": "rich",
+              "seed": 98
+            }
+          },
+          "imperial.study": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "room",
+            "life": {
+              "use": "library",
+              "wealth": "rich",
+              "seed": 99,
+              "tidy": true
+            }
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "imperial.yangxin_yard",
+            [
+              "rel",
+              0.25,
+              0.3
+            ],
+            1.2,
+            1.2,
+            "the two bronze vats",
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.yangxin_yard",
+            [
+              "rel",
+              0.75,
+              0.3
+            ],
+            1.2,
+            1.2,
+            {
+              "look": {
+                "kind": "water_vat"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.yangxin_yard",
+            [
+              "rel",
+              0.7,
+              0.75
+            ],
+            1.0,
+            1.0,
+            "the crab-apple",
+            {
+              "look": {
+                "kind": "tree",
+                "species": "peach"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.front_hall",
+            [
+              "rel",
+              0.5,
+              0.15
+            ],
+            2.0,
+            1.2,
+            "the throne on its low dais",
+            {
+              "look": {
+                "kind": "grand_chair",
+                "cloth": "d8a830",
+                "wood": "8a2a22"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.front_hall",
+            [
+              "rel",
+              0.75,
+              0.2
+            ],
+            1.6,
+            0.8,
+            "the side table piled with memorials",
+            {
+              "look": {
+                "kind": "writing_desk",
+                "wood": "6a2a22"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.west_room",
+            [
+              "rel",
+              0.4,
+              0.35
+            ],
+            2.4,
+            1.4,
+            "the kang, the lamp and the notes on its table",
+            {
+              "look": {
+                "kind": "bedding",
+                "cloth": "c8b888"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.study",
+            [
+              "rel",
+              0.5,
+              0.45
+            ],
+            2.2,
+            1.0,
+            "the desk",
+            {
+              "look": {
+                "kind": "writing_desk",
+                "wood": "6a2a22"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.study",
+            [
+              "rel",
+              0.5,
+              0.1
+            ],
+            3.0,
+            0.8,
+            "shelves of yellow-labelled cases",
+            {
+              "look": {
+                "kind": "shelf"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "imperial.study",
+            [
+              "rel",
+              0.85,
+              0.8
+            ],
+            1.2,
+            0.8,
+            "the camphor chest sealed 寻剑",
+            {
+              "look": {
+                "kind": "chest_stack"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "imperial.front_hall.emperor.1": [
+            "imperial.front_hall",
+            [
+              "rel",
+              0.5,
+              0.35
+            ]
+          ],
+          "imperial.front_hall.fu_an.1": [
+            "imperial.front_hall",
+            [
+              "rel",
+              0.3,
+              0.75
+            ]
+          ]
+        },
+        "doors": {
+          "imperial.yangxin_yard.west": {
+            "side": "west",
+            "width": 128
+          },
+          "imperial.west_room.window": {
+            "side": "west",
+            "width": 64
+          }
+        },
+        "reach_from": "YangxinYardGateArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ImperialYangxinHall",
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/imperial/voxel/yangxin_hall.json"
+        },
+        "map": "imperial.yangxin_hall",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_64": [
+            32,
+            64
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "service",
+            "name": "StudyChest",
+            "id": "imperial.study.chest",
+            "room": "imperial.study",
+            "anchor": [
+              "c",
+              3,
+              2
+            ],
+            "text": "樟木匣 · 翻看"
+          },
+          {
+            "node": "service",
+            "name": "StudyDesk",
+            "id": "imperial.study.desk",
+            "room": "imperial.study",
+            "anchor": [
+              "c",
+              0,
+              1.4
+            ],
+            "text": "御案 · 比对"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "MapInteraction",
+            "id": "imperial.west_room.landmark.map",
+            "room": "imperial.west_room",
+            "anchor": [
+              "n",
+              0,
+              1.0
+            ],
+            "shape": "Rect_64_32"
           }
         ]
       }
