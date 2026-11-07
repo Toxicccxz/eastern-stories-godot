@@ -1,8 +1,8 @@
 {
 	"people": {
-		"green.npc.kid1": "wander",
-		"green.npc.kid2": "wander",
-		"green.npc.kid3": "wander",
+		"green.npc.kid1": {"mode": "wander", "night": "home"},
+		"green.npc.kid2": {"mode": "wander", "night": "home"},
+		"green.npc.kid3": {"mode": "wander", "night": "home"},
 		"green.npc.kid4": "wander",
 		"green.npc.oldman": {"mode": "still", "pose": "sit"},
 		"green.npc.oldman2": "still",
@@ -12,6 +12,6 @@
 		"green.npc.woman1": "wander",
 		"green.npc.woman2": "wander",
 		"green.npc.worker1": {"mode": "work", "gesture": "hammer", "radius": 40},
-		"green.npc.worker2": {"mode": "work", "gesture": "pick"}
+		"green.npc.worker2": {"mode": "work", "gesture": "pick", "night": "home"}
 	}
 }

@@ -16,7 +16,7 @@
 		"choyin.npc.lboy": "wander",
 		"choyin.npc.lion": {"mode": "wander", "radius": 64},
 		"choyin.npc.magistra": "post",
-		"choyin.npc.maid": {"mode": "wander", "radius": 64},
+		"choyin.npc.maid": {"mode": "wander", "radius": 64, "night": "home"},
 		"choyin.npc.oldman": "wander",
 		"choyin.npc.scholar": "still",
 		"choyin.npc.sergeant": "still",

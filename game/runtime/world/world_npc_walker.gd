@@ -311,6 +311,29 @@ func _strictly_off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: 
 	return clear
 
 
+## A walk across the map to `spot` or the free cell nearest it a body may reach (a way out: a
+## passage, a door's wall), through people as a room move walks (D: one going indoors at night,
+## coming out at dawn). False when no such cell can be reached.
+func walk_across(character_id: StringName, body: Node2D, spot: Vector2) -> bool:
+	if body == null or not spot.is_finite():
+		return false
+	var grid: Grid = Grid.new(_map, Rect2(body.global_position, Vector2.ZERO).expand(spot).grow(CELL * 6.0))
+	var target: Vector2i = grid.cell_of(spot)
+	var ends: Array[Vector2i] = []
+	for radius: int in range(0, 4):
+		for y: int in range(target.y - radius, target.y + radius + 1):
+			for x: int in range(target.x - radius, target.x + radius + 1):
+				var cell := Vector2i(x, y)
+				if grid._astar.is_in_boundsv(cell) and not grid._astar.is_point_solid(cell) and not ends.has(cell):
+					ends.append(cell)
+	ends.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return grid.center_of(a).distance_squared_to(spot) < grid.center_of(b).distance_squared_to(spot))
+	for cell: Vector2i in ends.slice(0, 6):
+		# Onto the spot itself when its own cell is free (a spawn marker), else the cell's middle.
+		if _start(grid, character_id, body, spot if cell == target else grid.center_of(cell)):
+			return true
+	return false
+
+
 ## The grid of `area` as Grid.new() would build it now.
 func _grid(area: Rect2) -> Grid:
 	var walls: PackedByteArray = Grid.walls_up(_map.static_nodes())

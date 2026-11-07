@@ -12,8 +12,10 @@ extends RefCounted
 ## - work: as wander, nearer its spot, and at each stop it works (its `gesture`).
 ## `gesture` (any mode but post): what its hands do while it stands (GESTURES; the voxel person
 ## plays it, with its tool when its look carries none). `pose` (still only): how it stands
-## (POSES: on a low stool, cross-legged on the ground). A person without an entry stays put, as
-## before. Embodiment only: no rule reads it.
+## (POSES: on a low stool, cross-legged on the ground). `night` "home" (wander and work only; D,
+## DECISIONS「夜里冷清」): one of the street's idle folk who goes indoors at night and comes out at
+## dawn — never one the player needs (npc_life_test holds the list to that). A person without an
+## entry stays put, as before.
 
 const PEOPLE_KEY: String = "people"
 
@@ -39,6 +41,8 @@ class Entry:
 	## "" none, else one of GESTURES.
 	var gesture: String = ""
 	var pose: String = "stand"
+	## Goes indoors at night (`night`: "home").
+	var night_home: bool = false
 
 	func moves() -> bool:
 		return mode == Mode.WANDER or mode == Mode.WORK
@@ -82,7 +86,7 @@ static func parse(raw: Variant, problem: Array[String] = []) -> Entry:
 		return null
 	result.radius_px = int(radius)
 	for key: Variant in record.keys():
-		if not ["mode", "radius", "gesture", "pose"].has(key):
+		if not ["mode", "radius", "gesture", "pose", "night"].has(key):
 			problem.append("unknown key %s" % key)
 			return null
 	var gesture: Variant = record.get("gesture", "")
@@ -101,6 +105,14 @@ static func parse(raw: Variant, problem: Array[String] = []) -> Entry:
 		problem.append("only one that stays put sits")
 		return null
 	result.pose = pose
+	var night: Variant = record.get("night", "")
+	if night != "" and night != "home":
+		problem.append("night must be \"home\"")
+		return null
+	if night == "home" and not result.moves():
+		problem.append("only one about the streets goes home at night")
+		return null
+	result.night_home = night == "home"
 	return result
 
 

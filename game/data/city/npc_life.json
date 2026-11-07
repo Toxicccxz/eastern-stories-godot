@@ -15,7 +15,7 @@
 		"city.npc.shangshu.qing_chen": {"mode": "still", "pose": "sit"},
 		"city.npc.shangshu.shangshu": "still",
 		"city.npc.shoer": {"mode": "still", "gesture": "count"},
-		"city.npc.trader": "wander",
+		"city.npc.trader": {"mode": "wander", "night": "home"},
 		"city.npc.vendor": {"mode": "still", "gesture": "teach"},
 		"city.npc.waiter": {"mode": "work", "radius": 96, "gesture": "wipe"},
 		"city.npc.walker": "wander",

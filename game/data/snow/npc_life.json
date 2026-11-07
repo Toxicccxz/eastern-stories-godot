@@ -1,9 +1,9 @@
 {
 	"people": {
 		"snow.npc.traveller": "wander",
-		"snow.npc.trav_blade": "wander",
+		"snow.npc.trav_blade": {"mode": "wander", "night": "home"},
 		"snow.npc.beggar": {"mode": "still", "pose": "sit_ground"},
-		"snow.npc.scavenger": "wander",
+		"snow.npc.scavenger": {"mode": "wander", "night": "home"},
 		"snow.npc.drunk": {"mode": "wander", "radius": 72},
 		"snow.npc.girl": "wander",
 		"snow.npc.dog": "wander",

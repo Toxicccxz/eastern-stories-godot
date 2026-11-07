@@ -681,6 +681,8 @@ func pass_game_time(game_seconds: int) -> bool:
 		_catch_up_revive_random = GodotCombatRandomSource.new(hash([seed, "revive"]), true)
 		map.npc_life.catch_up(real_seconds if limit <= 0 else minf(real_seconds, float(limit)), seed)
 		_catch_up_revive_random = null
+		# NPC 活起来 D (DECISIONS「夜里冷清」): hours went by, as for one who comes back.
+		map.npc_idle.judge_night()
 		if limit > 0 and real_seconds > float(limit):
 			map.npc_life.settle()
 	return true
@@ -748,6 +750,9 @@ func _entering(destination: WorldResidentMapController) -> void:
 	catch_up_map(destination as WorldMapController)
 	# The story's stage on the map the player comes onto (DECISIONS「剧情演出」).
 	WorldStoryPresence.stage(self, destination as WorldMapController)
+	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
+	if destination is WorldMapController:
+		(destination as WorldMapController).npc_idle.judge_night()
 
 
 func _switched(source: WorldResidentMapController, destination: WorldResidentMapController) -> void:
@@ -1126,6 +1131,9 @@ func activate_restore_candidate() -> bool:
 	process_mode = Node.PROCESS_MODE_INHERIT
 	map.set_restore_staging(false)
 	WorldStoryPresence.stage(self, map as WorldMapController)
+	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
+	if map is WorldMapController:
+		(map as WorldMapController).npc_idle.judge_night()
 	if not map.complete_activation() or not _reconcile_active_residents():
 		map.prepare_for_deactivation()
 		map.set_restore_staging(true)
@@ -1652,6 +1660,9 @@ func _activate_first_map(map_id: StringName) -> bool:
 	first.set_restore_staging(false)
 	active_map_slot.add_child(first)
 	WorldStoryPresence.stage(self, first as WorldMapController)
+	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
+	if first is WorldMapController:
+		(first as WorldMapController).npc_idle.judge_night()
 	if not first.complete_activation():
 		return false
 	_initialized = true

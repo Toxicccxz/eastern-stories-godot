@@ -32,6 +32,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_street(tree, session)
 	session.free()
 	await tree.process_frame
+	_test_night_list()
+	session = Work.create_session(tree)
+	for frame: int in 4:
+		await tree.process_frame
+	session.set_process(false)
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or changes room
+	await _test_night(tree, session)
+	session.free()
+	await tree.process_frame
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
@@ -243,6 +252,156 @@ func _off_seams(map: WorldMapController, point: Vector2, zone_id: StringName) ->
 		if zone.zone_id != zone_id and zone.global_rect().grow(1.0).intersects(own) and zone.global_rect().grow(WorldNpcWalker.SEAM_CLEAR - 1.0).has_point(point):
 			return false
 	return true
+
+
+## D (DECISIONS「夜里冷清」): those who go indoors at night are the street's idle folk only — none
+## a player needs at night: no shop, no teacher, no foe or beast, an ordinary spawn, and named in no
+## other data at all (a quest, an act, a hook, a family, a bounty: their own records aside).
+func _test_night_list() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var pacing: PacingDefinition = catalog.pacing()
+	_check(pacing.npc_idle.night_home and pacing.npc_idle.night_phases == [&"night", &"midnight"], "the street empties at 夜晚 and 午夜")
+	_check(not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).npc_idle.night_home, "经典: day and night alike, as ES2")
+	var records: Dictionary = {}
+	var other_text: String = ""
+	for path: String in _data_files("res://data"):
+		var text: String = FileAccess.get_file_as_string(path)
+		var name: String = path.get_file()
+		if name == "npcs.json":
+			var parsed: Variant = JSON.parse_string(text)
+			if parsed is Dictionary:
+				for record: Variant in (parsed as Dictionary).get("npcs", []):
+					if record is Dictionary:
+						records[String(record.get("id", ""))] = record
+		elif not name in ["spawns.json", "appearances.json", "npc_life.json"] and not path.contains("/voxel/"):
+			other_text += text
+	var homers: Array[StringName] = []
+	for definition: NpcDefinition in catalog.npcs():
+		var id: StringName = NpcDefinition.unnamed_id(definition.definition_id)
+		var entry: NpcLifeBook.Entry = NpcLifeBook.entry(id)
+		if entry == null or not entry.night_home or homers.has(id):
+			continue
+		homers.append(id)
+		var record: Dictionary = records.get(String(id), {})
+		_check(not record.has("vendor") and definition.teaching() == null, "%s goes home at night: no shop, no teacher" % id)
+		_check(definition.race_id != &"beast" and definition.attitude != NpcDefinition.Attitude.AGGRESSIVE and definition.attitude != NpcDefinition.Attitude.KILLER and not definition.dealings().takes_toll(), "%s goes home at night: no foe, no beast" % id)
+		_check(not other_text.contains("\"%s\"" % id), "%s goes home at night: named in no quest, act, hook, family or bounty" % id)
+		var ordinary: bool = false
+		for spawn: NpcSpawnDefinition in catalog.spawns():
+			if NpcDefinition.unnamed_id(spawn.npc_definition_id) == id:
+				ordinary = not (spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn)
+		_check(ordinary, "%s goes home at night: an ordinary spawn" % id)
+	_check(homers.size() >= 12 and homers.has(&"snow.npc.trav_blade") and not homers.has(&"snow.npc.beggar") and not homers.has(&"snow.npc.drunk"), "the street's idle folk go home (%d); the beggar and the drunk stay out" % homers.size())
+	for bad: Variant in [{"mode": "still", "night": "home"}, {"mode": "wander", "night": "inn"}]:
+		var problem: Array[String] = []
+		_check(NpcLifeBook.parse(bad, problem) == null and not problem.is_empty(), "refused: %s" % [bad])
+
+
+static func _data_files(root: String) -> Array[String]:
+	var found: Array[String] = []
+	for dir: String in DirAccess.get_directories_at(root):
+		found.append_array(_data_files(root.path_join(dir)))
+	for file: String in DirAccess.get_files_at(root):
+		if file.ends_with(".json"):
+			found.append(root.path_join(file))
+	return found
+
+
+## D on 雪亭镇's square: night falls with the player off to one side, a traveller in sight walks to
+## a way out and is gone there, the others are gone; the farmer (named elsewhere) stays; come dawn
+## they are back; a map the player comes onto at night is empty of them at once.
+func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"snow.square")
+	_check(map != null, "out on the square for the night")
+	if map == null:
+		return
+	var travellers: Array[NpcRuntimeState] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if NpcDefinition.unnamed_id(npc.definition().definition_id) == &"snow.npc.trav_blade" and npc.exists_in_map:
+			travellers.append(npc)
+	_check(travellers.size() >= 2, "travellers on the square (%d)" % travellers.size())
+	if travellers.size() < 2:
+		return
+	var watched: NpcRuntimeState = travellers[0]
+	var body: WorldCharacterBody2D = map.runtime_body_for_character(watched.character_id)
+	var tuning: NpcIdleTuning = GameContent.catalog().pacing().npc_idle
+	var stand: Vector2 = MapPlaces.spot(map, &"snow.square", body.global_position + Vector2(0, 150), 80.0)
+	map.player_body.global_position = stand # TEST-ONLY: in sight of one traveller, not beside them
+	await tree.physics_frame
+	var farmer: NpcRuntimeState = map.find_resident_npc(FARMER)
+	_check(session.wait_until_phase([&"night"]) and session.day_phase_id() == &"night", "night falls (%s)" % session.day_phase_id())
+	map.player_body.global_position = stand # TEST-ONLY: the time skip set nobody aside
+	await tree.physics_frame
+	# The skip went by as for one who comes back: the street's idle folk are in already.
+	var gone_at_once: bool = true
+	for npc: NpcRuntimeState in travellers:
+		gone_at_once = gone_at_once and not npc.exists_in_map
+	_check(gone_at_once, "hours went by: the travellers are indoors already")
+	_check(farmer != null and farmer.exists_in_map, "the farmer (named in a family) stays out")
+	# Watched as night falls: back to dusk, then the night's ticks.
+	session.wait_until_phase([&"dawn"])
+	map.player_body.global_position = stand
+	await tree.physics_frame
+	_check(watched.exists_in_map, "dawn: the traveller is out again")
+	var spot: Vector2 = map.resolve_spawn_marker(watched.spawn_point_id).global_position
+	for step: int in 60:
+		session.advance_npc_heartbeat(0.5)
+		await tree.physics_frame
+	var walker: WorldNpcWalker = map.npc_life.npc_walker()
+	_check(watched.exists_in_map and not walker.is_walking(watched.character_id), "by day the traveller is about the square")
+	var idle: WorldMapNpcIdle = map.npc_idle
+	var tuned: NpcIdleTuning = tuning
+	# Night by the clock alone, the player looking on: the ticks do it.
+	var phases: Array[StringName] = tuned.night_phases
+	tuned.night_phases = [session.day_phase_id()] # TEST-ONLY: it is night now, without a time skip
+	var walked: bool = false
+	var start: Vector2 = body.global_position
+	for step: int in 240:
+		session.advance_npc_heartbeat(0.25)
+		await tree.physics_frame
+		walked = walked or walker.is_walking(watched.character_id)
+		if not watched.exists_in_map:
+			break
+	var near_way: bool = false
+	for way: Vector2 in idle._ways_out(body.global_position):
+		near_way = near_way or way.distance_to(body.global_position) < 96.0
+	_check(not watched.exists_in_map, "night: the traveller goes indoors")
+	_check(walked and near_way and body.global_position.distance_to(start) > 32.0, "in sight, it walked to a way out first (%.0f px from where it stood)" % body.global_position.distance_to(start))
+	# Coming onto a map at night: indoors at once.
+	for npc: NpcRuntimeState in travellers:
+		if not npc.exists_in_map:
+			map.npcs.appear(npc, GameContent.catalog().spawn(npc.spawn_id)) # TEST-ONLY: out again, as if it were day
+	idle.judge_night()
+	var all_in: bool = true
+	for npc: NpcRuntimeState in travellers:
+		all_in = all_in and not npc.exists_in_map
+	_check(all_in, "coming onto the map at night: the travellers are indoors at once")
+	# Dawn in sight: out of a way out and back to the spot.
+	tuned.night_phases = phases
+	map.player_body.global_position = MapPlaces.spot(map, &"snow.square", spot + Vector2(0, 120), 80.0) # TEST-ONLY: the spot in sight
+	await tree.physics_frame
+	var came_from: Vector2 = Vector2.INF
+	for step: int in 240:
+		session.advance_npc_heartbeat(0.25)
+		await tree.physics_frame
+		if watched.exists_in_map and not came_from.is_finite():
+			came_from = body.global_position
+		if watched.exists_in_map and not walker.is_walking(watched.character_id):
+			break
+	_check(watched.exists_in_map and body.global_position.distance_to(spot) < 2.0, "dawn in sight: back on its spot")
+	_check(came_from.is_finite() and came_from.distance_to(spot) > 32.0, "it came out of a way out, not out of the air (%.0f px off)" % (came_from.distance_to(spot) if came_from.is_finite() else -1.0))
+	# 经典: nobody goes indoors.
+	tuned.night_home = false # TEST-ONLY: as PacePresets.of(classic) makes it; put back below
+	tuned.night_phases = [session.day_phase_id()]
+	for step: int in 20:
+		session.advance_npc_heartbeat(0.5)
+		await tree.physics_frame
+	var stayed: bool = true
+	for npc: NpcRuntimeState in travellers:
+		stayed = stayed and npc.exists_in_map
+	tuned.night_home = true
+	tuned.night_phases = phases
+	_check(stayed, "经典: nobody goes indoors")
 
 
 func _check(condition: bool, message: String) -> void:
