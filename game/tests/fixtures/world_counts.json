@@ -161,9 +161,10 @@
 		"imperial.lanes",
 		"imperial.yuhua_garden",
 		"imperial.cold_palace",
-		"imperial.well_tunnel"
+		"imperial.well_tunnel",
+		"imperial.yangxin_hall"
 	],
-	"rooms": 620,
+	"rooms": 624,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -572,6 +573,16 @@
 		"imperial.cold_room.zhong_momo",
 		"imperial.guard_yard.guards",
 		"imperial.duty_room.feng_ce",
+		"imperial.front_hall.emperor",
+		"imperial.front_hall.fu_an",
+		"imperial.throne_hall.accuse_emperor",
+		"imperial.throne_hall.accuse_yu",
+		"imperial.throne_hall.accuse_feng",
+		"imperial.throne_hall.accuse_officials",
+		"imperial.throne_hall.yu_drawn",
+		"imperial.throne_hall.feng_ce_beside",
+		"imperial.lanes_south.song_pu",
+		"imperial.front_hall.yulan_tianwu",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -612,11 +623,14 @@
 		"native.jiaowu.deng_xiao",
 		"native.jiaowu.feng_ce",
 		"native.xiangguo.wei_zhizhong",
-		"native.xiangguo.servant"
+		"native.xiangguo.servant",
+		"native.shangshu.neizhai_guard",
+		"native.shangshu.wei_canglan",
+		"native.shangshu.courier"
 	],
-	"world_npcs": 712,
-	"resident_maps": 162,
-	"new_game_items": 1144,
+	"world_npcs": 728,
+	"resident_maps": 163,
+	"new_game_items": 1150,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -780,7 +794,8 @@
 		"imperial.lanes": 3,
 		"imperial.yuhua_garden": 2,
 		"imperial.cold_palace": 2,
-		"imperial.well_tunnel": 3
+		"imperial.well_tunnel": 3,
+		"imperial.yangxin_hall": 4
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -903,7 +918,7 @@
 		"city.house1_house": 0,
 		"city.jiulou_house": 2,
 		"city.weapon_house": 1,
-		"city.shangshu": 7,
+		"city.shangshu": 10,
 		"city.xiangguo": 2,
 		"chuenyu.main": 3,
 		"chuenyu.upstairs": 3,
@@ -939,14 +954,15 @@
 		"fanfang.ronin_hall": 10,
 		"imperial.meridian": 4,
 		"imperial.court_square": 0,
-		"imperial.taihe_hall": 10,
+		"imperial.taihe_hall": 19,
 		"imperial.guard_camp": 3,
-		"imperial.lanes": 3,
+		"imperial.lanes": 4,
 		"imperial.yuhua_garden": 2,
 		"imperial.cold_palace": 1,
-		"imperial.well_tunnel": 0
+		"imperial.well_tunnel": 0,
+		"imperial.yangxin_hall": 3
 	},
-	"npc_draws_after_oldpine": 2559,
+	"npc_draws_after_oldpine": 2562,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {

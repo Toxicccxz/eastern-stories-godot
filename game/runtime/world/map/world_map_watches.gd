@@ -102,6 +102,8 @@ func sees(npc: NpcRuntimeState, body: WorldCharacterBody2D, watch: NpcWatch) -> 
 	var from: Vector2 = body.global_position
 	var to: Vector2 = _map.player_body.global_position
 	var reach: float = float(watch.lit_radius) if stealth and lit(to, npc) else float(watch.radius)
+	if stealth and _holds(watch.dim_when, false):
+		reach *= watch.dim_scale_percent / 100.0
 	if not watch.sees_direction(from, body.facing, to, reach, stealth):
 		return false
 	return not stealth or clear_line(from, to)

@@ -11,7 +11,8 @@ extends RefCounted
 ## `again_lines` the second time, the first time's `lines`), the world clock goes on to the next of
 ## `until_phase` (the night spent in the 侍卫营) and they are put out at `release_zone` / `release_point`.
 ## The watch keeps only while its `when` holds (the night) and never while `unless` holds (a 腰牌 at the
-## belt). Pacing's `stealth` off (经典) it is ES2's presence: any player within `radius`, any side, seen
+## belt). While `dim_when` holds (a 茅山 障眼符 carried, 第九章 C) its reach is `dim_scale_percent` of itself.
+## Pacing's `stealth` off (经典) it is ES2's presence: any player within `radius`, any side, seen
 ## through anything, caught at once.
 var route: Array[StringName] = []
 var pause_ms: int = 2000
@@ -22,6 +23,8 @@ var lantern: int = 72
 var notice_ms: int = 1200
 var when: JournalEntryDefinition = null
 var unless: JournalEntryDefinition = null
+var dim_when: JournalEntryDefinition = null
+var dim_scale_percent: int = 100
 var say: String = ""
 var mark: String = ""
 var again_mark: String = ""
@@ -35,7 +38,7 @@ var until_phase: Array[StringName] = []
 func is_valid() -> bool:
 	return (
 		route.size() >= 1 and pause_ms >= 0 and radius > 0 and cone_degrees > 0 and cone_degrees <= 360
-		and lit_radius >= radius and lantern >= 0 and notice_ms >= 0 and not mark.is_empty()
+		and lit_radius >= radius and lantern >= 0 and notice_ms >= 0 and dim_scale_percent > 0 and dim_scale_percent <= 100 and not mark.is_empty()
 		and not release_zone_id.is_empty() and not release_point_id.is_empty()
 	)
 
@@ -72,6 +75,10 @@ static func from_record(reader: ContentRecordReader) -> NpcWatch:
 	if reader.has("unless"):
 		watch.unless = JournalEntryDefinition.new()
 		JournalEntryDefinition.read_when(reader, watch.unless, "unless")
+	if reader.has("dim_when"):
+		watch.dim_when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, watch.dim_when, "dim_when")
+	watch.dim_scale_percent = reader.integer("dim_scale_percent", 100)
 	var caught: ContentRecordReader = reader.child("caught")
 	if caught == null:
 		reader.fail("caught", "expected an object")

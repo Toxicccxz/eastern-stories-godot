@@ -9,13 +9,17 @@
 		{"id": "native:imperial/duty_room", "short": "侍卫营值房", "long": "一间窄小的值房，一张桌、一条长凳、一张木床。桌上压着一本值宿的簿子，墨迹一行一行，最后一行还没干。墙上挂着一口刀、一件白袍。夜里这里的灯总是亮着。\n", "exits": {"south": "native:imperial/guard_yard"}},
 		{"id": "native:imperial/lanes_south", "short": "西长街", "long": "两道红墙夹着一条长街，墙高得只剩头顶一线天。墙头的铁钩上挂着宫灯，一盏接一盏，灯纸让风吹破了几个洞。街面是青砖，墙根长着一溜青苔。白天太监和宫女低着头来来往往，夜里只有禁军的灯笼一来一回。东边一道小门回太和殿广场。\n", "outdoors": true, "exits": {"east": "native:imperial/square", "north": "native:imperial/lanes_north"}},
 		{"id": "native:imperial/lanes_north", "short": "西长街北段", "long": "长街到了这里宽了一些，西墙下堆着几口裂了的大缸，缸里积着雨水。东边一道宫门，门里就是养心殿；北头一道垂花门通御花园。\n", "outdoors": true, "exits": {"south": "native:imperial/lanes_south", "east": "native:imperial/yangxin_gate", "north": "native:imperial/garden"}},
-		{"id": "native:imperial/yangxin_gate", "short": "养心门外", "long": "一道小些的宫门，门楣上的匾写着「养心门」，金字褪成了土黄。门关着，门缝里透出一点灯光。门前两口铜缸，缸里的水结了一层薄薄的绿。\n", "outdoors": true, "exits": {"west": "native:imperial/lanes_north"}},
+		{"id": "native:imperial/yangxin_gate", "short": "养心门外", "long": "一道小些的宫门，门楣上的匾写着「养心门」，金字褪成了土黄。门关着，门缝里透出一点灯光。门前两口铜缸，缸里的水结了一层薄薄的绿。\n", "outdoors": true, "exits": {"west": "native:imperial/lanes_north", "east": "native:imperial/yangxin_yard"}},
 		{"id": "native:imperial/garden", "short": "御花园", "long": "园子里到处是太湖石，一块叠着一块，洞眼里长着草。几株古柏，老得树皮一条一条地裂开，枝子伸得比宫墙还高。藤萝架下一条石子路，石子拼成的花纹缺了好些。北面一座小殿，殿门上的漆掉得斑斑驳驳。夜里风一过，柏树沙沙地响，什么人走过都听不见。\n", "outdoors": true, "exits": {"south": "native:imperial/lanes_north", "west": "native:imperial/cold_gate"}},
 		{"id": "native:imperial/cold_gate", "short": "御花园西北角", "long": "园子的西北角，一道窄窄的角门，门上的铜锁锈死了，可是门轴是新上过油的。门外的路上长满了草——只有一行被人踩倒的。\n", "outdoors": true, "exits": {"east": "native:imperial/garden", "west": "native:imperial/cold_yard"}},
 		{"id": "native:imperial/cold_yard", "short": "冷宫", "long": "一个荒了的院子。杂草长到膝盖，台阶缝里钻出小树。廊下的窗纸破了一半，风一吹就呼啦呼啦地响。院子当中一口枯井，井沿上磨出几道绳槽，井口的辘轳不见了，只剩一根木桩。\n", "outdoors": true, "exits": {"east": "native:imperial/cold_gate", "north": "native:imperial/cold_room"}},
 		{"id": "native:imperial/cold_room", "short": "冷宫偏屋", "long": "一间小屋子，收拾得倒干净：一张床、一张桌、一个绣架，绣架上绷着一幅没绣完的牡丹，线都褪了色。桌上一盏油灯，灯旁一叠发黄的纸，上面的字写得很工整。\n", "exits": {"south": "native:imperial/cold_yard"}},
 		{"id": "native:imperial/well_bottom", "short": "井底", "long": "井底没有水，只有一层湿泥，泥上有脚印，不止一个人的。井壁上嵌着一道一道的铁蹬，往上爬就是冷宫的院子。北边的井壁上开着一个洞，刚够一个人弯腰钻进去。\n", "exits": {"north": "native:imperial/tunnel"}},
 		{"id": "native:imperial/tunnel", "short": "密道", "long": "一条又窄又长的砖砌甬道，顶上滴着水。砖缝里插着烧剩的蜡烛头，有的还很新。地上掉着一根黑色的丝绦，像是从什么冠上扯下来的。甬道往北一直通到看不见的地方。\n", "exits": {"south": "native:imperial/well_bottom", "north": "native:imperial/cellar_end"}},
-		{"id": "native:imperial/cellar_end", "short": "密道北头", "long": "甬道到这里到了头，几级石阶往上，顶上压着一块石板，石板缝里漏下几根乾草。\n", "exits": {"south": "native:imperial/tunnel"}}
+		{"id": "native:imperial/cellar_end", "short": "密道北头", "long": "甬道到这里到了头，几级石阶往上，顶上压着一块石板，石板缝里漏下几根乾草。\n", "exits": {"south": "native:imperial/tunnel"}},
+		{"id": "native:imperial/yangxin_yard", "short": "养心殿前院", "long": "养心门里一个小院，比外头的宫院都小，地上的砖扫得很干净。院里两口铜缸，一株海棠，海棠底下一张石凳，石凳上搁着一本翻开的书，书页被露水打湿了。北面就是养心殿。\n", "outdoors": true, "exits": {"west": "native:imperial/yangxin_gate", "north": "native:imperial/front_hall"}},
+		{"id": "native:imperial/front_hall", "short": "养心殿", "long": "殿不大，比太和殿暖和得多。正中一张御座，御座旁的小几上堆着奏折，最上面一本摊开着，朱笔搁在砚台上，笔尖的朱砂已经干了。西边一道帘子是西暖阁，东边一道门是御书房。\n", "exits": {"south": "native:imperial/yangxin_yard", "west": "native:imperial/west_room", "east": "native:imperial/study"}},
+		{"id": "native:imperial/west_room", "short": "西暖阁", "long": "西暖阁里一张炕，炕桌上一盏灯、一摞旧手札、一碗凉了的莲子羹。墙上挂着一幅舆图，舆图西南角用朱笔圈了一个地方，旁边写着两个小字：「岚城？」。西墙上一扇窗，窗闩松松地挂着。\n", "exits": {"east": "native:imperial/front_hall"}},
+		{"id": "native:imperial/study", "short": "御书房", "long": "御书房里四壁都是书架，架上的书函一格一格贴着黄签。正中一张御案，案上笔墨齐全。墙角一只樟木匣，匣上贴着一道封条，封条上的字是先帝的：「寻剑」。\n", "exits": {"west": "native:imperial/front_hall"}}
 	]
 }

@@ -42,6 +42,11 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	known.per = _player.state.attributes.personality
 	if _map.session != null:
 		known.phase_id = _map.session.day_phase_id()
+		var session: WorldSessionController = _map.session
+		var state: CharacterState = _player.state
+		var temps: Dictionary[String, int] = _player.temp_marks
+		known.holds = func(condition: JournalEntryDefinition) -> bool:
+			return JournalLog.holds(condition, state, temps, session.player_held_item_ids(), here, session.player_worn_item_ids(), session.day_phase_id())
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):

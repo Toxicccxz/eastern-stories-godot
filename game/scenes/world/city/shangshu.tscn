@@ -408,6 +408,21 @@ position = Vector2(918, 734)
 script = ExtResource("marker")
 spawn_point_id = &"city.shangshu.neizhai.qing_chen.1"
 
+[node name="ShangshuHuayuanNeizhaiGuard1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(351, 880)
+script = ExtResource("marker")
+spawn_point_id = &"city.shangshu.huayuan.neizhai_guard.1"
+
+[node name="ShangshuKefangWeiCanglan1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(720, -656)
+script = ExtResource("marker")
+spawn_point_id = &"city.shangshu.kefang.wei_canglan.1"
+
+[node name="ShangshuXiaowuCourier1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(720, -1032)
+script = ExtResource("marker")
+spawn_point_id = &"city.shangshu.xiaowu.courier.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

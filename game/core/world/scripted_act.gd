@@ -91,6 +91,9 @@ var temp: String = ""
 var not_temp: String = ""
 var mark: String = ""
 var not_mark: String = ""
+## Native (第九章 D; DECISIONS「第九章 D」): any journal condition the branch asks besides (the 揭发's
+## at_least so many witnesses and proofs); null: none.
+var when: JournalEntryDefinition = null
 ## Native (关北 C): saved marks the player must all have (the 工地's three spawns cleared).
 var marks: Array[String] = []
 ## Native (关北 C): the day phases (phase_id) the branch is for; [] for any hour.
@@ -157,6 +160,8 @@ class Facts:
 	var npc_zone: StringName = &""
 	## The day's phase (`phase`); "" without a clock.
 	var phase_id: StringName = &""
+	## (JournalEntryDefinition) -> whether it holds for the player now (`when`); none: it never does.
+	var holds: Callable = Callable()
 	var draw: Callable = Callable()
 	var _rolls: Array[bool] = []
 	var _kar_drawn: int = -1
@@ -302,6 +307,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and marks.all(func(each: String) -> bool: return known.marks.get(each, 0) != 0)
 		and (not_mark.is_empty() or known.marks.get(not_mark, 0) == 0)
 		and (phase.is_empty() or phase.has(known.phase_id))
+		and (when == null or (known.holds.is_valid() and bool(known.holds.call(when))))
 		and (carries.is_empty() or known.carried.has(carries))
 		and (wears.is_empty() or known.worn.has(wears))
 		and (present.is_empty() or known.present_npcs.has(present))
@@ -391,6 +397,9 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 		act.marks.append(each)
 	for phase_id: String in reader.text_list("phase"):
 		act.phase.append(StringName(phase_id))
+	if reader.has("when"):
+		act.when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, act.when, "when")
 	act.carries = reader.text("carries")
 	act.wears = reader.text("wears")
 	act.present = StringName(reader.text("present"))
