@@ -1,0 +1,25 @@
+{
+	"people": {
+		"snow.npc.traveller": "wander",
+		"snow.npc.trav_blade": "wander",
+		"snow.npc.beggar": "wander",
+		"snow.npc.scavenger": "wander",
+		"snow.npc.drunk": {"mode": "wander", "radius": 72},
+		"snow.npc.girl": "wander",
+		"snow.npc.dog": "wander",
+		"snow.npc.crazy_dog": "wander",
+		"snow.npc.rat": {"mode": "wander", "radius": 80},
+		"snow.npc.guard": "post",
+		"snow.npc.keeper": {"mode": "work", "radius": 56},
+		"snow.npc.farmer": "work",
+		"snow.npc.woodcutter": "work",
+		"snow.npc.trainee": {"mode": "work", "radius": 48},
+		"snow.npc.fist_trainer": {"mode": "work", "radius": 48},
+		"snow.npc.teacher": {"mode": "work", "radius": 40},
+		"snow.npc.waiter": {"mode": "work", "radius": 96},
+		"snow.npc.smith": {"mode": "work", "radius": 32},
+		"snow.npc.post_officer": "still",
+		"snow.npc.annihir": "still",
+		"snow.npc.herbalist": "still"
+	}
+}
