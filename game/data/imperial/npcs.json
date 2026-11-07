@@ -980,6 +980,512 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "native.npc.night_guard_lanes",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — a 禁军 on the night's round (西长街的一来一回; d/city/jitan.c: 禁卫军的官兵), 续写",
+			"name": "巡夜禁军",
+			"aliases": [
+				"guard",
+				"禁军"
+			],
+			"title": "禁军",
+			"gender": "男性",
+			"age": 28,
+			"long": "一个披甲的禁军，红缨盔，一手提着灯笼，一手按着刀，走几步停一停，往暗处照一照。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 18,
+				"spi": 18,
+				"cps": 28,
+				"per": 18,
+				"con": 28,
+				"kar": 18
+			},
+			"combat_exp": 150000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 90,
+				"parry": 90,
+				"dodge": 80,
+				"unarmed": 80,
+				"force": 80
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"inquiry": {
+				"巡夜": [
+					"夜里宫里不许有人走动。你是哪个宫的？"
+				]
+			},
+			"accept_fight": [
+				{
+					"say": "宫里不许比划。",
+					"accept": false
+				}
+			],
+			"watch": {
+				"route": [
+					"imperial.lanes_south.watch.1",
+					"imperial.lanes_south.watch.2",
+					"imperial.lanes_north.watch.1"
+				],
+				"pause_ms": 2500,
+				"sight": {
+					"radius": 150,
+					"cone_degrees": 90,
+					"lit_radius": 240,
+					"lantern": 64
+				},
+				"notice_ms": 1200,
+				"when": {
+					"phase": [
+						"night",
+						"midnight"
+					]
+				},
+				"unless": {
+					"item": "native:imperial/guard_token"
+				},
+				"caught": {
+					"say": "什么人！",
+					"mark": "被禁军拿过",
+					"again_mark": "被禁军拿过两回",
+					"lines": [
+						"两个禁军一左一右扭住你的胳膊，提着灯笼把你押到了侍卫营。",
+						"冯策披着衣服从值房里出来，借着灯看了你半晌。",
+						"冯策说道：我认得你。滚出去，别让我看见第二回。",
+						"天亮时，侍卫营的人把你从午门推了出去。"
+					],
+					"again_lines": [
+						"禁军把你押回了侍卫营。冯策这回没有披衣服，像是一直没睡。",
+						"冯策说道：又是你。这回还放你——下回我就不认得你了。",
+						"天亮时，侍卫营的人又把你从午门推了出去。"
+					],
+					"release_zone": "city.wumen",
+					"release_point": "city.wumen.palace_return",
+					"until_phase": [
+						"dawn"
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.night_guard_gate",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — a 禁军 on the night's round (养心门外一带; d/city/jitan.c: 禁卫军的官兵), 续写",
+			"name": "巡夜禁军",
+			"aliases": [
+				"guard",
+				"禁军"
+			],
+			"title": "禁军",
+			"gender": "男性",
+			"age": 28,
+			"long": "一个披甲的禁军，红缨盔，一手提着灯笼，一手按着刀，走几步停一停，往暗处照一照。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 18,
+				"spi": 18,
+				"cps": 28,
+				"per": 18,
+				"con": 28,
+				"kar": 18
+			},
+			"combat_exp": 150000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 90,
+				"parry": 90,
+				"dodge": 80,
+				"unarmed": 80,
+				"force": 80
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"inquiry": {
+				"巡夜": [
+					"夜里宫里不许有人走动。你是哪个宫的？"
+				]
+			},
+			"accept_fight": [
+				{
+					"say": "宫里不许比划。",
+					"accept": false
+				}
+			],
+			"watch": {
+				"route": [
+					"imperial.lanes_north.watch.2",
+					"imperial.yangxin_gate.watch.1"
+				],
+				"pause_ms": 2500,
+				"sight": {
+					"radius": 150,
+					"cone_degrees": 90,
+					"lit_radius": 240,
+					"lantern": 64
+				},
+				"notice_ms": 1200,
+				"when": {
+					"phase": [
+						"night",
+						"midnight"
+					]
+				},
+				"unless": {
+					"item": "native:imperial/guard_token"
+				},
+				"caught": {
+					"say": "什么人！",
+					"mark": "被禁军拿过",
+					"again_mark": "被禁军拿过两回",
+					"lines": [
+						"两个禁军一左一右扭住你的胳膊，提着灯笼把你押到了侍卫营。",
+						"冯策披着衣服从值房里出来，借着灯看了你半晌。",
+						"冯策说道：我认得你。滚出去，别让我看见第二回。",
+						"天亮时，侍卫营的人把你从午门推了出去。"
+					],
+					"again_lines": [
+						"禁军把你押回了侍卫营。冯策这回没有披衣服，像是一直没睡。",
+						"冯策说道：又是你。这回还放你——下回我就不认得你了。",
+						"天亮时，侍卫营的人又把你从午门推了出去。"
+					],
+					"release_zone": "city.wumen",
+					"release_point": "city.wumen.palace_return",
+					"until_phase": [
+						"dawn"
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.night_guard_garden",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — a 禁军 on the night's round (御花园绕着假山; d/city/jitan.c: 禁卫军的官兵), 续写",
+			"name": "巡夜禁军",
+			"aliases": [
+				"guard",
+				"禁军"
+			],
+			"title": "禁军",
+			"gender": "男性",
+			"age": 28,
+			"long": "一个披甲的禁军，红缨盔，一手提着灯笼，一手按着刀，走几步停一停，往暗处照一照。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 18,
+				"spi": 18,
+				"cps": 28,
+				"per": 18,
+				"con": 28,
+				"kar": 18
+			},
+			"combat_exp": 150000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 90,
+				"parry": 90,
+				"dodge": 80,
+				"unarmed": 80,
+				"force": 80
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"inquiry": {
+				"巡夜": [
+					"夜里宫里不许有人走动。你是哪个宫的？"
+				]
+			},
+			"accept_fight": [
+				{
+					"say": "宫里不许比划。",
+					"accept": false
+				}
+			],
+			"watch": {
+				"route": [
+					"imperial.garden.watch.1",
+					"imperial.garden.watch.2",
+					"imperial.garden.watch.3",
+					"imperial.garden.watch.4"
+				],
+				"pause_ms": 2500,
+				"sight": {
+					"radius": 150,
+					"cone_degrees": 90,
+					"lit_radius": 240,
+					"lantern": 64
+				},
+				"notice_ms": 1200,
+				"when": {
+					"phase": [
+						"night",
+						"midnight"
+					]
+				},
+				"unless": {
+					"item": "native:imperial/guard_token"
+				},
+				"caught": {
+					"say": "什么人！",
+					"mark": "被禁军拿过",
+					"again_mark": "被禁军拿过两回",
+					"lines": [
+						"两个禁军一左一右扭住你的胳膊，提着灯笼把你押到了侍卫营。",
+						"冯策披着衣服从值房里出来，借着灯看了你半晌。",
+						"冯策说道：我认得你。滚出去，别让我看见第二回。",
+						"天亮时，侍卫营的人把你从午门推了出去。"
+					],
+					"again_lines": [
+						"禁军把你押回了侍卫营。冯策这回没有披衣服，像是一直没睡。",
+						"冯策说道：又是你。这回还放你——下回我就不认得你了。",
+						"天亮时，侍卫营的人又把你从午门推了出去。"
+					],
+					"release_zone": "city.wumen",
+					"release_point": "city.wumen.palace_return",
+					"until_phase": [
+						"dawn"
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.palace_eunuch",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — the day's 太监 in the 西长街 (d/city/jitan.c: 宫里的杂役偶尔出入), 续写",
+			"name": "小太监",
+			"aliases": [
+				"eunuch",
+				"太监"
+			],
+			"gender": "男性",
+			"age": 17,
+			"long": "一个十几岁的小太监，抱着一摞文书，低着头小步快走，走过你身边的时候眼睛也不抬。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 14,
+				"int": 20,
+				"spi": 18,
+				"cps": 20,
+				"per": 18,
+				"con": 16,
+				"kar": 20
+			},
+			"combat_exp": 800,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 20
+			},
+			"fight_deferred": "小太监吓得把文书撒了一地，你的手停住了。",
+			"inquiry": {
+				"养心殿": [
+					"皇上……皇上在养心殿。你、你是哪个宫的？"
+				]
+			}
+		},
+		{
+			"id": "native.npc.palace_maid",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — a 宫女 in the 御花园 by day, 续写",
+			"name": "宫女",
+			"aliases": [
+				"maid"
+			],
+			"gender": "女性",
+			"age": 19,
+			"long": "一个穿青衣的宫女，提着一只竹篮，在柏树底下拣落下的枯枝。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 14,
+				"int": 20,
+				"spi": 18,
+				"cps": 20,
+				"per": 22,
+				"con": 16,
+				"kar": 20
+			},
+			"combat_exp": 600,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 20
+			},
+			"fight_deferred": "宫女叫了一声，躲到柏树后面去了。",
+			"inquiry": {
+				"冷宫": [
+					"西北角那边？别去。那里只住着一个老嬷嬷，脾气怪。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.zhong_momo",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — 冷宫的人 (剧情总纲 §3 第九章「要加：冷宫的人」): 先帝的女官, name 续写",
+			"name": "钟嬷嬷",
+			"aliases": [
+				"zhong",
+				"嬷嬷",
+				"老宫女"
+			],
+			"title": "先帝女官",
+			"gender": "女性",
+			"age": 72,
+			"long": "一个七十来岁的老妇人，头发全白了，梳得一丝不乱。她坐在灯下，手里拈着一根绣花针，眼睛却很亮——不像是个住冷宫的人。\n",
+			"attributes": {
+				"str": 12,
+				"cor": 20,
+				"int": 30,
+				"spi": 28,
+				"cps": 30,
+				"per": 20,
+				"con": 14,
+				"kar": 24
+			},
+			"combat_exp": 2000,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 140,
+				"dodge": 20
+			},
+			"fight_deferred": "钟嬷嬷看了你一眼，你的手就放下了。",
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "从冷宫井上来",
+					"not_mark": "钟嬷嬷见过你",
+					"steps": [
+						{
+							"emote": "抬起头看了你一眼，手里的针没有停。"
+						},
+						{
+							"say": "又是走那条道的？——不对。你不是他们的人。"
+						},
+						{
+							"say": "那口井，二十年来只有一个人走。黑衣裳，戴个黑冠，见了我连头都不点。你是第二个。"
+						},
+						{
+							"mark": "钟嬷嬷见过你"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"井": [
+					"那口井通到宫外头的祭坛底下。先帝在的时候封过，后来有人又打开了。是谁，我老婆子不说你也猜得到。"
+				],
+				"先帝": [
+					"先帝……先帝病着的时候，还天天让我念那些找岚城的手札给他听。他走了二十年了。"
+				],
+				"寻剑令": [
+					"寻剑令是我誊的。先帝口授，一句话：寻剑，不得扰民一户。我誊了一份，先帝用了宝。——后来外头传的那些，不是这一句。"
+				],
+				"养心殿": {
+					"rules": [
+						{
+							"asker_marks": [
+								"钟嬷嬷见过你"
+							],
+							"mark_asker": "钟嬷嬷说了窗闩",
+							"say": "皇上睡得晚。养心殿西暖阁的窗，窗闩是坏的，先帝在时就坏了，没人修。夜里门口有侍卫，窗下没有。"
+						},
+						{
+							"say": "养心殿？你问这个做什么。"
+						}
+					]
+				},
+				"禁军": [
+					"夜里他们提着灯笼走，走几步停一停。灯照得到的地方，他们看得远；灯照不到的地方，他们就是瞎子。御花园的石头后头，他们从来不照。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.camp_guard",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡「夜里禁军巡逻——这是本作唯一的潜行区」; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」) — the 大内侍卫 drilling in their yard, 续写",
+			"name": "大内侍卫",
+			"aliases": [
+				"guard",
+				"侍卫"
+			],
+			"title": "大内侍卫",
+			"gender": "男性",
+			"age": 26,
+			"long": "一个年轻的侍卫，光着膀子对着木人劈刀，一刀一刀都砍在同一道口子上。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 18,
+				"spi": 18,
+				"cps": 26,
+				"per": 18,
+				"con": 28,
+				"kar": 18
+			},
+			"combat_exp": 200000,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 110,
+				"parry": 100,
+				"dodge": 90,
+				"unarmed": 90,
+				"force": 90
+			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "d/city/npc/guard.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"大内侍卫一刀劈在木人上，木屑飞了一地。\n"
+			],
+			"accept_fight": [
+				{
+					"emote": "收了刀，抱拳。",
+					"say": "侍卫营里练手，请。",
+					"accept": true
+				}
+			],
+			"inquiry": {
+				"冯总教头": [
+					"总教头在值房。夜里他也不睡，坐着看簿子。"
+				]
+			}
 		}
 	]
 }

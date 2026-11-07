@@ -1,31 +1,407 @@
 {
 	"regions": [
-		{"id": "imperial", "name": "皇城", "recommended_exp": 400000}
+		{
+			"id": "imperial",
+			"name": "皇城",
+			"recommended_exp": 400000
+		}
 	],
 	"maps": [
-		{"id": "imperial.meridian", "region": "imperial", "scene": "res://scenes/world/imperial/imperial_meridian.tscn", "entry": "imperial.gate_court.wumen_arrival", "interior": true},
-		{"id": "imperial.court_square", "region": "imperial", "scene": "res://scenes/world/imperial/imperial_square.tscn", "entry": "imperial.square.gate_arrival", "interior": true},
-		{"id": "imperial.taihe_hall", "region": "imperial", "scene": "res://scenes/world/imperial/imperial_throne_hall.tscn", "entry": "imperial.throne_hall.square_entry", "interior": true}
+		{
+			"id": "imperial.meridian",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_meridian.tscn",
+			"entry": "imperial.gate_court.wumen_arrival",
+			"interior": true
+		},
+		{
+			"id": "imperial.court_square",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_square.tscn",
+			"entry": "imperial.square.gate_arrival",
+			"interior": true
+		},
+		{
+			"id": "imperial.taihe_hall",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_throne_hall.tscn",
+			"entry": "imperial.throne_hall.square_entry",
+			"interior": true
+		},
+		{
+			"id": "imperial.guard_camp",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_guard_camp.tscn",
+			"entry": "imperial.guard_yard.gate_arrival",
+			"interior": true
+		},
+		{
+			"id": "imperial.lanes",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_lanes.tscn",
+			"entry": "imperial.lanes_south.square_arrival",
+			"interior": true
+		},
+		{
+			"id": "imperial.yuhua_garden",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_garden.tscn",
+			"entry": "imperial.garden.lanes_arrival",
+			"interior": true
+		},
+		{
+			"id": "imperial.cold_palace",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_cold_palace.tscn",
+			"entry": "imperial.cold_yard.garden_arrival",
+			"interior": true
+		},
+		{
+			"id": "imperial.well_tunnel",
+			"region": "imperial",
+			"scene": "res://scenes/world/imperial/imperial_well_tunnel.tscn",
+			"entry": "imperial.well_bottom.well_arrival",
+			"interior": true
+		}
 	],
 	"zones": [
-		{"id": "imperial.gate_court", "map": "imperial.meridian", "rooms": ["native:imperial/gate_court"]},
-		{"id": "imperial.bridges", "map": "imperial.meridian", "rooms": ["native:imperial/bridges"]},
-		{"id": "imperial.taihe_gate", "map": "imperial.meridian", "rooms": ["native:imperial/taihe_gate"]},
-		{"id": "imperial.square", "map": "imperial.court_square", "rooms": ["native:imperial/square"]},
-		{"id": "imperial.throne_hall", "map": "imperial.taihe_hall", "indoors": true, "rooms": ["native:imperial/throne_hall"]}
+		{
+			"id": "imperial.gate_court",
+			"map": "imperial.meridian",
+			"rooms": [
+				"native:imperial/gate_court"
+			]
+		},
+		{
+			"id": "imperial.bridges",
+			"map": "imperial.meridian",
+			"rooms": [
+				"native:imperial/bridges"
+			]
+		},
+		{
+			"id": "imperial.taihe_gate",
+			"map": "imperial.meridian",
+			"rooms": [
+				"native:imperial/taihe_gate"
+			]
+		},
+		{
+			"id": "imperial.square",
+			"map": "imperial.court_square",
+			"rooms": [
+				"native:imperial/square"
+			]
+		},
+		{
+			"id": "imperial.throne_hall",
+			"map": "imperial.taihe_hall",
+			"indoors": true,
+			"rooms": [
+				"native:imperial/throne_hall"
+			]
+		},
+		{
+			"id": "imperial.guard_yard",
+			"map": "imperial.guard_camp",
+			"rooms": [
+				"native:imperial/guard_yard"
+			]
+		},
+		{
+			"id": "imperial.duty_room",
+			"map": "imperial.guard_camp",
+			"rooms": [
+				"native:imperial/duty_room"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.lanes_south",
+			"map": "imperial.lanes",
+			"rooms": [
+				"native:imperial/lanes_south"
+			]
+		},
+		{
+			"id": "imperial.lanes_north",
+			"map": "imperial.lanes",
+			"rooms": [
+				"native:imperial/lanes_north"
+			]
+		},
+		{
+			"id": "imperial.yangxin_gate",
+			"map": "imperial.lanes",
+			"rooms": [
+				"native:imperial/yangxin_gate"
+			]
+		},
+		{
+			"id": "imperial.garden",
+			"map": "imperial.yuhua_garden",
+			"rooms": [
+				"native:imperial/garden"
+			]
+		},
+		{
+			"id": "imperial.cold_gate",
+			"map": "imperial.yuhua_garden",
+			"rooms": [
+				"native:imperial/cold_gate"
+			]
+		},
+		{
+			"id": "imperial.cold_yard",
+			"map": "imperial.cold_palace",
+			"rooms": [
+				"native:imperial/cold_yard"
+			]
+		},
+		{
+			"id": "imperial.cold_room",
+			"map": "imperial.cold_palace",
+			"rooms": [
+				"native:imperial/cold_room"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.well_bottom",
+			"map": "imperial.well_tunnel",
+			"rooms": [
+				"native:imperial/well_bottom"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.tunnel",
+			"map": "imperial.well_tunnel",
+			"rooms": [
+				"native:imperial/tunnel"
+			],
+			"indoors": true
+		},
+		{
+			"id": "imperial.cellar_end",
+			"map": "imperial.well_tunnel",
+			"rooms": [
+				"native:imperial/cellar_end"
+			],
+			"indoors": true
+		}
 	],
 	"portals": [
-		{"id": "city.wumen.north", "from_zone": "city.wumen", "to_zone": "imperial.gate_court", "to_spawn": "imperial.gate_court.wumen_arrival", "legacy_room": "es2:d/city/wumen", "legacy_command": "north", "set_mark": "进了皇城"},
-		{"id": "imperial.gate_court.south", "from_zone": "imperial.gate_court", "to_zone": "city.wumen", "to_spawn": "city.wumen.palace_return", "legacy_room": "native:imperial/gate_court", "legacy_command": "south"},
-		{"id": "imperial.taihe_gate.north", "from_zone": "imperial.taihe_gate", "to_zone": "imperial.square", "to_spawn": "imperial.square.gate_arrival", "legacy_room": "native:imperial/taihe_gate", "legacy_command": "north"},
-		{"id": "imperial.square.south", "from_zone": "imperial.square", "to_zone": "imperial.taihe_gate", "to_spawn": "imperial.taihe_gate.square_return", "legacy_room": "native:imperial/square", "legacy_command": "south"},
-		{"id": "imperial.square.north", "from_zone": "imperial.square", "to_zone": "imperial.throne_hall", "to_spawn": "imperial.throne_hall.square_entry", "legacy_room": "native:imperial/square", "legacy_command": "north"},
-		{"id": "imperial.throne_hall.south", "from_zone": "imperial.throne_hall", "to_zone": "imperial.square", "to_spawn": "imperial.square.hall_return", "legacy_room": "native:imperial/throne_hall", "legacy_command": "south"}
+		{
+			"id": "city.wumen.north",
+			"from_zone": "city.wumen",
+			"to_zone": "imperial.gate_court",
+			"to_spawn": "imperial.gate_court.wumen_arrival",
+			"legacy_room": "es2:d/city/wumen",
+			"legacy_command": "north",
+			"set_mark": "进了皇城"
+		},
+		{
+			"id": "imperial.gate_court.south",
+			"from_zone": "imperial.gate_court",
+			"to_zone": "city.wumen",
+			"to_spawn": "city.wumen.palace_return",
+			"legacy_room": "native:imperial/gate_court",
+			"legacy_command": "south"
+		},
+		{
+			"id": "imperial.taihe_gate.north",
+			"from_zone": "imperial.taihe_gate",
+			"to_zone": "imperial.square",
+			"to_spawn": "imperial.square.gate_arrival",
+			"legacy_room": "native:imperial/taihe_gate",
+			"legacy_command": "north"
+		},
+		{
+			"id": "imperial.square.south",
+			"from_zone": "imperial.square",
+			"to_zone": "imperial.taihe_gate",
+			"to_spawn": "imperial.taihe_gate.square_return",
+			"legacy_room": "native:imperial/square",
+			"legacy_command": "south"
+		},
+		{
+			"id": "imperial.square.north",
+			"from_zone": "imperial.square",
+			"to_zone": "imperial.throne_hall",
+			"to_spawn": "imperial.throne_hall.square_entry",
+			"legacy_room": "native:imperial/square",
+			"legacy_command": "north"
+		},
+		{
+			"id": "imperial.throne_hall.south",
+			"from_zone": "imperial.throne_hall",
+			"to_zone": "imperial.square",
+			"to_spawn": "imperial.square.hall_return",
+			"legacy_room": "native:imperial/throne_hall",
+			"legacy_command": "south"
+		},
+		{
+			"id": "imperial.gate_court.east",
+			"from_zone": "imperial.gate_court",
+			"to_zone": "imperial.guard_yard",
+			"to_spawn": "imperial.guard_yard.gate_arrival",
+			"legacy_room": "native:imperial/gate_court",
+			"legacy_command": "east"
+		},
+		{
+			"id": "imperial.guard_yard.west",
+			"from_zone": "imperial.guard_yard",
+			"to_zone": "imperial.gate_court",
+			"to_spawn": "imperial.gate_court.camp_return",
+			"legacy_room": "native:imperial/guard_yard",
+			"legacy_command": "west"
+		},
+		{
+			"id": "imperial.square.west",
+			"from_zone": "imperial.square",
+			"to_zone": "imperial.lanes_south",
+			"to_spawn": "imperial.lanes_south.square_arrival",
+			"legacy_room": "native:imperial/square",
+			"legacy_command": "west"
+		},
+		{
+			"id": "imperial.lanes_south.east",
+			"from_zone": "imperial.lanes_south",
+			"to_zone": "imperial.square",
+			"to_spawn": "imperial.square.lanes_return",
+			"legacy_room": "native:imperial/lanes_south",
+			"legacy_command": "east"
+		},
+		{
+			"id": "imperial.lanes_north.north",
+			"from_zone": "imperial.lanes_north",
+			"to_zone": "imperial.garden",
+			"to_spawn": "imperial.garden.lanes_arrival",
+			"legacy_room": "native:imperial/lanes_north",
+			"legacy_command": "north"
+		},
+		{
+			"id": "imperial.garden.south",
+			"from_zone": "imperial.garden",
+			"to_zone": "imperial.lanes_north",
+			"to_spawn": "imperial.lanes_north.garden_return",
+			"legacy_room": "native:imperial/garden",
+			"legacy_command": "south"
+		},
+		{
+			"id": "imperial.cold_gate.west",
+			"from_zone": "imperial.cold_gate",
+			"to_zone": "imperial.cold_yard",
+			"to_spawn": "imperial.cold_yard.garden_arrival",
+			"legacy_room": "native:imperial/cold_gate",
+			"legacy_command": "west"
+		},
+		{
+			"id": "imperial.cold_yard.east",
+			"from_zone": "imperial.cold_yard",
+			"to_zone": "imperial.cold_gate",
+			"to_spawn": "imperial.cold_gate.yard_return",
+			"legacy_room": "native:imperial/cold_yard",
+			"legacy_command": "east"
+		},
+		{
+			"id": "imperial.cold_yard.down",
+			"from_zone": "imperial.cold_yard",
+			"to_zone": "imperial.well_bottom",
+			"to_spawn": "imperial.well_bottom.well_arrival",
+			"legacy_room": "native:imperial/cold_yard",
+			"legacy_command": "down"
+		},
+		{
+			"id": "imperial.well_bottom.up",
+			"from_zone": "imperial.well_bottom",
+			"to_zone": "imperial.cold_yard",
+			"to_spawn": "imperial.cold_yard.well_return",
+			"legacy_room": "native:imperial/well_bottom",
+			"legacy_command": "up",
+			"set_mark": "从冷宫井上来"
+		},
+		{
+			"id": "city.midao1.down",
+			"from_zone": "city.midao1",
+			"to_zone": "imperial.cellar_end",
+			"to_spawn": "imperial.cellar_end.stone_arrival",
+			"legacy_room": "es2:d/city/midao1",
+			"legacy_command": "down"
+		},
+		{
+			"id": "imperial.cellar_end.up",
+			"from_zone": "imperial.cellar_end",
+			"to_zone": "city.midao1",
+			"to_spawn": "city.midao1.stone_return",
+			"legacy_room": "native:imperial/cellar_end",
+			"legacy_command": "up"
+		}
 	],
 	"landmarks": [
-		{"id": "imperial.bridges.landmark.lions", "zone": "imperial.bridges", "name": "铜狮", "policy": "look", "long": "太和门前一对铜狮子，蹲在汉白玉的座上。狮头被摸了几百年，亮得发黄；身上别处都生了一层暗绿的锈。东边那只脚下踩着一只绣球，西边那只脚下按着一只小狮子。\n", "legacy_source": "native: 第九章 A (剧情总纲 §6 皇城卡; DECISIONS「第九章 A」) — 续写, the bronze pair as d/city/wumen.c's stone lions outside"},
-		{"id": "imperial.square.landmark.sundial", "zone": "imperial.square", "name": "日晷", "policy": "look", "long": "一座汉白玉的日晷，晷面斜斜地朝着南天，铜针的影子落在刻度上。刻度旁有人用指甲刻了一道浅痕——大约是哪个站班的侍卫等下朝等得不耐烦。\n", "legacy_source": "native: 第九章 A (剧情总纲 §6 皇城卡; DECISIONS「第九章 A」) — 续写"},
-		{"id": "imperial.throne_hall.landmark.throne", "zone": "imperial.throne_hall", "name": "龙椅", "policy": "look", "long": "七层台阶上一把金漆的龙椅，椅背上盘着九条龙，扶手的龙头被手握得发亮。椅子太大了：坐垫上另垫了一块厚褥子，脚下还摆着一只脚踏——坐在这上头的人，脚够不着地。\n", "legacy_source": "native: 第九章 A (剧情总纲 §2「少年皇帝 於兰昭」十六岁; DECISIONS「第九章 A」) — 续写"}
+		{
+			"id": "imperial.bridges.landmark.lions",
+			"zone": "imperial.bridges",
+			"name": "铜狮",
+			"policy": "look",
+			"long": "太和门前一对铜狮子，蹲在汉白玉的座上。狮头被摸了几百年，亮得发黄；身上别处都生了一层暗绿的锈。东边那只脚下踩着一只绣球，西边那只脚下按着一只小狮子。\n",
+			"legacy_source": "native: 第九章 A (剧情总纲 §6 皇城卡; DECISIONS「第九章 A」) — 续写, the bronze pair as d/city/wumen.c's stone lions outside"
+		},
+		{
+			"id": "imperial.square.landmark.sundial",
+			"zone": "imperial.square",
+			"name": "日晷",
+			"policy": "look",
+			"long": "一座汉白玉的日晷，晷面斜斜地朝着南天，铜针的影子落在刻度上。刻度旁有人用指甲刻了一道浅痕——大约是哪个站班的侍卫等下朝等得不耐烦。\n",
+			"legacy_source": "native: 第九章 A (剧情总纲 §6 皇城卡; DECISIONS「第九章 A」) — 续写"
+		},
+		{
+			"id": "imperial.throne_hall.landmark.throne",
+			"zone": "imperial.throne_hall",
+			"name": "龙椅",
+			"policy": "look",
+			"long": "七层台阶上一把金漆的龙椅，椅背上盘着九条龙，扶手的龙头被手握得发亮。椅子太大了：坐垫上另垫了一块厚褥子，脚下还摆着一只脚踏——坐在这上头的人，脚够不着地。\n",
+			"legacy_source": "native: 第九章 A (剧情总纲 §2「少年皇帝 於兰昭」十六岁; DECISIONS「第九章 A」) — 续写"
+		},
+		{
+			"id": "imperial.tunnel.landmark.cord",
+			"zone": "imperial.tunnel",
+			"name": "黑丝绦",
+			"policy": "look",
+			"long": "一根黑色的丝绦，一头扯断了，另一头还打着结。是从一顶黑冠上扯下来的——逆灵宫的道士戴的那种。\n",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」) — 续写: the 逆灵宫 man who comes this way to 庾子建 (剧情总纲 §3 第九章 ②)"
+		},
+		{
+			"id": "imperial.cold_yard.landmark.well",
+			"zone": "imperial.cold_yard",
+			"name": "枯井",
+			"policy": "look",
+			"long": "一口枯井，井沿是青石的，磨出几道深深的绳槽。往下看，黑得看不见底，可是井壁上嵌着一道道铁蹬，最上面那几道擦得发亮。\n",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」) — 续写: the 冷宫's dry well the 祭坛's passage comes up into (剧情总纲 §3 第九章 入口「潜入」)"
+		},
+		{
+			"id": "imperial.yangxin_gate.landmark.gate",
+			"zone": "imperial.yangxin_gate",
+			"name": "养心门",
+			"policy": "look",
+			"long": "养心门关着，门闩在里头。门缝里透出一点灯光——皇上睡得晚。（养心殿是这一章后面的事。）\n",
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」) — the 养心殿's gate; the hall itself is the ninth chapter's C package"
+		}
 	],
-	"services": []
+	"services": [],
+	"exit_rules": [
+		{
+			"id": "city.midao1.stone",
+			"room": "es2:d/city/midao1",
+			"from_zone": "city.midao1",
+			"to_zone": "imperial.cellar_end",
+			"when": "no_mark",
+			"mark": "看过床底的石板",
+			"lines": [
+				"你在密室里转了一圈。除了那张破床和乾草，什么也没有。"
+			],
+			"legacy_source": "native: 第九章 B (剧情总纲 §3 第九章 入口「潜入」, §6 皇城卡; 计划 build/plans/第九章_计划.md B 包, owner 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」) — midao1.c had only a bed and straw; the stone under it is found by looking (床)"
+		}
+	]
 }

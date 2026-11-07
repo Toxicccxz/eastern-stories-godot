@@ -180,9 +180,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    mechanism and the stage re-judged as the day's phase turns). The eighth chapter is complete. The ninth 原令 (皇城, a new region
    `imperial`, 剧情总纲 §3 第九章, §6 皇城卡) by `build/plans/第九章_计划.md` (owner 2026-11-06「按你的推荐来」: the 三器 back to
    穿灵、旋芒、宝衣; light stealth as a generic `watch`; a strict three-way choice), five packages: A done (DECISIONS「第九章 A」:
-   the 午门's 铁门, the 武举 at the 校武场 and the 殿试, 骆云舟's card, 相国府 and the 早朝; the 皇城's first three maps); next B
-   (禁军夜巡: the generic `watch`, the 祭坛 tunnel to the 冷宫 well, the 御花园, the 西长街, the 侍卫营), C (养心殿, 御书房, the 原令,
-   the 尚书府's three blanks), D (the three-way choice), E (consequences and the tenth chapter's stub).
+   the 午门's 铁门, the 武举 at the 校武场 and the 殿试, 骆云舟's card, 相国府 and the 早朝; the 皇城's first three maps); B done (DECISIONS「第九章 B」「禁军夜巡」: the generic `watch` stealth, the
+   cellar's stone, the tunnel, the 冷宫 well and 钟嬷嬷, the 御花园, the 西长街, the 侍卫营); next C (养心殿, 御书房, the 原令,
+   the 尚书府's three blanks with 庾清尘 and the 障眼符), D (the three-way choice), E (consequences and the tenth chapter's stub).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

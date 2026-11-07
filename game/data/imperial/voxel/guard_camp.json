@@ -1,0 +1,231 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "大内侍卫营、值房 (native:imperial/guard_yard, duty_room; 第九章 B): a square yard of trodden earth behind the red wall, the posts hacked to the core, the racks with their paint gone and their blades bright, 冯策's narrow duty room with its lamp always lit, the duty book on the desk, a white robe on the wall. Used hard every day.",
+  "palette": {
+    "wood": [
+      "7a2a22",
+      "8a3428",
+      "6a2420"
+    ],
+    "wall": "a8362a"
+  },
+  "wall_height": 4.4,
+  "wall_looks": [
+    {
+      "rect": [
+        -2000,
+        -2000,
+        2000,
+        2000
+      ],
+      "style": "plaster",
+      "wall": "a8362a",
+      "colors": [
+        "a8362a",
+        "b03c2e",
+        "9c3226",
+        "b4402e"
+      ],
+      "note": "the 皇城's red walls under glazed coping, a band of white bloom at the foot where the plaster has gone"
+    }
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_yard": {
+      "style": "slabs",
+      "lengths": [
+        2,
+        3
+      ],
+      "depths": [
+        2,
+        2
+      ],
+      "cracks": 0.1,
+      "broken": 0.04,
+      "sunk": 0.03,
+      "tufts": 0.03,
+      "stones": [
+        "8e8c86",
+        "96948c",
+        "86847e",
+        "9c9a92"
+      ],
+      "worn": [
+        "a6a49c",
+        "aeaca4"
+      ],
+      "bed": "6a6862",
+      "joint": 0.04,
+      "mud": "7a7870",
+      "crack": "5a5852",
+      "note": "the 皇城's great paving (native:imperial/gate_court: 青砖大得一块能躺下一个人，砖缝里钻出几茎枯草), worn pale along the way through"
+    },
+    "boundary": {
+      "style": "scree",
+      "colors": [
+        "8a8478",
+        "948e82",
+        "807a6e"
+      ],
+      "gravel": 0.3,
+      "stones": 0.02,
+      "pebbles": [
+        "a8a294",
+        "9a9486"
+      ]
+    },
+    "town_ground": {
+      "style": "scree",
+      "colors": [
+        "8a7a5e",
+        "948466",
+        "806e54"
+      ],
+      "gravel": 0.3,
+      "stones": 0.03,
+      "pebbles": [
+        "a49478",
+        "968670"
+      ],
+      "note": "trodden earth, hard as stone"
+    },
+    "floor_wood": {
+      "style": "boards",
+      "colors": [
+        "6a5240",
+        "7a6048",
+        "5a4634"
+      ],
+      "note": "the duty room's boards"
+    }
+  },
+  "flora": {
+    "grass_density": 0.02,
+    "density": {
+      "floor_yard": 0.01,
+      "boundary": 0.2
+    },
+    "grass_colors": [
+      "8a8a52",
+      "9a9458",
+      "a8a062",
+      "7e8048"
+    ],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.3,
+    "butterflies": 0
+  },
+  "life": {},
+  "props": [
+    {
+      "kind": "stains",
+      "at": [
+        0,
+        0
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "count": 12,
+      "colors": [
+        "7a6a50",
+        "6e5e46"
+      ],
+      "note": "the yard scuffed bare round the posts"
+    },
+    {
+      "kind": "hanging_lantern",
+      "at": [
+        0,
+        -200
+      ],
+      "paper": "e8b050",
+      "height": 2.8,
+      "note": "the lamp at the duty room's door"
+    },
+    {
+      "kind": "glow",
+      "at": [
+        0,
+        -220
+      ],
+      "color": "ffc078",
+      "day": 0.1,
+      "night": 0.8,
+      "range": 6.0,
+      "height": 1.6
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "6a5a48"
+    },
+    "native.npc.wumen_guard": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军: red-tasselled helmet"
+    },
+    "native.npc.yulan_zhao": {
+      "coat": "d8a830",
+      "hat": true,
+      "note": "the boy's yellow robe, a size too big"
+    },
+    "native.npc.yu_zijian_court": {
+      "coat": "7a2a2a",
+      "hat": true,
+      "note": "a minister's crimson court robe"
+    },
+    "native.npc.court_official": {
+      "coat": "3a4a6a",
+      "hat": true
+    },
+    "native.npc.court_herald": {
+      "coat": "5a4a3a",
+      "hat": true
+    },
+    "native.npc.fu_an": {
+      "coat": "4a5a4a"
+    },
+    "native.npc.feng_ce": {
+      "coat": "e0dcd4",
+      "note": "素白的武官袍服"
+    },
+    "native.npc.wei_zhizhong": {
+      "coat": "6a6458",
+      "hat": true,
+      "note": "the 相国's washed-out robe at court"
+    },
+    "native.npc.night_guard_lanes": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军 with a lantern"
+    },
+    "native.npc.night_guard_gate": {
+      "coat": "9c3226",
+      "hat": true
+    },
+    "native.npc.night_guard_garden": {
+      "coat": "9c3226",
+      "hat": true
+    },
+    "native.npc.palace_eunuch": {
+      "coat": "3a4a5a"
+    },
+    "native.npc.palace_maid": {
+      "coat": "4a6a6a"
+    },
+    "native.npc.zhong_momo": {
+      "coat": "6a6a72",
+      "note": "a faded court gown, neat"
+    },
+    "native.npc.camp_guard": {
+      "coat": "e0dcd4"
+    }
+  }
+}

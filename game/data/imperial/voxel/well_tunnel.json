@@ -1,0 +1,176 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 18,
+  "note": "井底、密道、密道北头 (native:imperial/well_bottom, tunnel, cellar_end; 第九章 B): wet mud with footprints under the well, iron rungs up; the brick tunnel north, dripping, candle stubs in its joints, a black cord off a 逆灵宫 crown; steps up at its end to the stone under the 地下密室's bed, straw falling through the crack.",
+  "palette": {
+    "wood": [
+      "4a3a2c",
+      "5a4634",
+      "3a2e24"
+    ],
+    "wall": "5a5650"
+  },
+  "wall_height": 2.6,
+  "wall_looks": [
+    {
+      "rect": [
+        -2000,
+        -2000,
+        2000,
+        2000
+      ],
+      "style": "brick",
+      "colors": [
+        "5a5650",
+        "625e58",
+        "524e48",
+        "6a6660"
+      ],
+      "note": "old brick, sweating"
+    }
+  ],
+  "door_looks": {},
+  "ground": {
+    "cave_floor": {
+      "style": "scree",
+      "colors": [
+        "3e3a34",
+        "46423c",
+        "36322c"
+      ],
+      "gravel": 0.2,
+      "stones": 0.02,
+      "pebbles": [
+        "5a5650",
+        "4e4a44"
+      ],
+      "note": "wet mud, footprints in it"
+    },
+    "boundary": {
+      "style": "scree",
+      "colors": [
+        "8a8478",
+        "948e82",
+        "807a6e"
+      ],
+      "gravel": 0.3,
+      "stones": 0.02,
+      "pebbles": [
+        "a8a294",
+        "9a9486"
+      ]
+    }
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "density": {
+      "cave_floor": 0.0,
+      "boundary": 0.0
+    },
+    "grass_colors": [
+      "4a5a3a",
+      "566644",
+      "3e4e32",
+      "5e6e48"
+    ],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.0,
+    "butterflies": 0
+  },
+  "life": {},
+  "props": [
+    {
+      "kind": "candlestick",
+      "at": [
+        0,
+        0
+      ],
+      "size": [
+        12,
+        12
+      ],
+      "lit": true,
+      "note": "a candle stub stuck in the brick, still warm"
+    },
+    {
+      "kind": "glow",
+      "at": [
+        0,
+        0
+      ],
+      "color": "ffb070",
+      "day": 0.4,
+      "night": 0.4,
+      "range": 4.0,
+      "height": 1.0
+    }
+  ],
+  "actors": {
+    "default": {
+      "coat": "6a5a48"
+    },
+    "native.npc.wumen_guard": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军: red-tasselled helmet"
+    },
+    "native.npc.yulan_zhao": {
+      "coat": "d8a830",
+      "hat": true,
+      "note": "the boy's yellow robe, a size too big"
+    },
+    "native.npc.yu_zijian_court": {
+      "coat": "7a2a2a",
+      "hat": true,
+      "note": "a minister's crimson court robe"
+    },
+    "native.npc.court_official": {
+      "coat": "3a4a6a",
+      "hat": true
+    },
+    "native.npc.court_herald": {
+      "coat": "5a4a3a",
+      "hat": true
+    },
+    "native.npc.fu_an": {
+      "coat": "4a5a4a"
+    },
+    "native.npc.feng_ce": {
+      "coat": "e0dcd4",
+      "note": "素白的武官袍服"
+    },
+    "native.npc.wei_zhizhong": {
+      "coat": "6a6458",
+      "hat": true,
+      "note": "the 相国's washed-out robe at court"
+    },
+    "native.npc.night_guard_lanes": {
+      "coat": "9c3226",
+      "hat": true,
+      "note": "禁军 with a lantern"
+    },
+    "native.npc.night_guard_gate": {
+      "coat": "9c3226",
+      "hat": true
+    },
+    "native.npc.night_guard_garden": {
+      "coat": "9c3226",
+      "hat": true
+    },
+    "native.npc.palace_eunuch": {
+      "coat": "3a4a5a"
+    },
+    "native.npc.palace_maid": {
+      "coat": "4a6a6a"
+    },
+    "native.npc.zhong_momo": {
+      "coat": "6a6a72",
+      "note": "a faded court gown, neat"
+    },
+    "native.npc.camp_guard": {
+      "coat": "e0dcd4"
+    }
+  }
+}

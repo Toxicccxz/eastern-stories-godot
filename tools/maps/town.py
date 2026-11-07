@@ -10,7 +10,7 @@ each zone a room exit joins them to.
                                                              the edge, or wider than 64 px
              "reach_from": "<marker name>" | ["<marker name>", ...],
              "markers_in_middle": ["<zone>", ...],           open zones that are not streets
-             "placed": {"<spawn point>": [x, y], ...}}       spawn points not packed into slots
+             "placed": {"<spawn point>": [x, y], ...}}       spawn points not packed into slots (one no spawn names: a waypoint)
 
 Rooms that share an edge must be neighbours (room exits in game/data) and every walkable step
 from the reach marker stays between neighbours; a body must reach every room and what the player
@@ -306,6 +306,14 @@ class Town:
                     taken.append(pos)
                 self.spots[self.region.marker_name(point)] = pos
                 text += sc.build('marker', self.style, name=self.region.marker_name(point), at=pos, id=point)
+        # A placed point no spawn names is a waypoint (an NpcWatch's route, 第九章 B): its marker too.
+        named = {point for record in self.region.spawn_records() for point in record['points']}
+        for point, pos in placed.items():
+            if point in named or self.zone_of_point(pos[0], pos[1]) not in self.zones:
+                continue
+            assert all(abs(pos[0] - x) >= 52 or abs(pos[1] - y) >= 52 for x, y in self.passages), ('placed on a passage', point)
+            self.spots[self.region.marker_name(point)] = pos
+            text += sc.build('marker', self.style, name=self.region.marker_name(point), at=pos, id=point)
         return text
 
     def caption_spot(self, zone_id):

@@ -194,7 +194,10 @@ For each package:
 1. Read the relevant LPC and existing code. For a large or architectural change, present a short
    plan and get owner agreement first.
 2. Implement with focused tests for rules, formulas and state transitions (seed/inject RNG).
-3. Run the affected suites during development; run the full `verify.py` once before opening the PR.
+3. Run the affected suites during development. Once the package is committed, run the full
+   `verify.py` once, alongside the self-review; after their fixes, rerun only the suites the fixes
+   touch and the ones that failed, plus `verify.py --skip-gameplay-tests`. The PR's CI runs the
+   whole of `verify.py` on the final commit (owner, 2026-11-06).
 4. Self-review the diff (a fresh-context review pass for large changes).
 5. Launch the game for a smoke check when runtime/UI/scene code changed; report what was and wasn't
    checked live.
@@ -254,7 +257,7 @@ Godot 4.7.2 lives at `build/toolchain/editor/` (git-ignored; do not delete `buil
 
 ```text
 python tools/ci/verify.py --godot <godot>                                 # full gate (~10 min)
-<godot> --headless --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
+<godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
 <godot> --headless --path game --editor --quit                            # parse/import check
 ```
 

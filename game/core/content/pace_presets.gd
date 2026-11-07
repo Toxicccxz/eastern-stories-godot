@@ -27,7 +27,7 @@ static var _applied: PacingDefinition
 static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 	if pace != CharacterState.PACE_CLASSIC:
 		return base
-	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_native_hazards(false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_beats(CombatBeatRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0).with_stats_display(false).with_map_page(false).with_coach(false, base.coach_fare_base, base.coach_fare_per_leg, base.coach_minutes_per_leg)
+	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_native_hazards(false).with_stealth(false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()).with_beats(CombatBeatRules.classic()).with_death(PacingDefinition.ES2_DEATH_EXP_PERCENT, false, false, false).with_autosave(0).with_stats_display(false).with_map_page(false).with_coach(false, base.coach_fare_base, base.coach_fare_per_leg, base.coach_minutes_per_leg)
 
 
 ## The pacing a world of `pace` stands on, whichever the catalog stands on now: what a save of
