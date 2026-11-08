@@ -141,7 +141,9 @@ func _record(kind: StringName, pitch: float, db: float) -> void:
 
 
 ## The voice a sound of `priority` takes: a free one, else the oldest of the lowest priority
-## under it (never one at PRIORITY_KEPT); -1 when none may be taken.
+## under it — the player's own and a kept sound may also cut the oldest of their own priority
+## (a newer blow of theirs over an older one); a kept sound is cut only by another; -1 when none
+## may be taken.
 func _voice_for(priority: int) -> int:
 	for index: int in _players.size():
 		if not _players[index].playing:
@@ -150,7 +152,9 @@ func _voice_for(priority: int) -> int:
 		return -1
 	var best: int = -1
 	for index: int in _players.size():
-		if _voice_priority[index] >= priority or _voice_priority[index] >= PRIORITY_KEPT:
+		var below: bool = _voice_priority[index] < priority
+		var same: bool = _voice_priority[index] == priority and priority >= PRIORITY_MINE
+		if not below and not same:
 			continue
 		if best < 0 or _voice_priority[index] < _voice_priority[best] or (_voice_priority[index] == _voice_priority[best] and _voice_started[index] < _voice_started[best]):
 			best = index

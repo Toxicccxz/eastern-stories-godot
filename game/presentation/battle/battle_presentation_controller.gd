@@ -296,8 +296,10 @@ func _show_line(line: BattleNarrationLine) -> void:
 	var named: bool = mine or fatal or line.is_special
 	var overhead: bool = false
 	if named:
-		var text: String = line.special_title if line.is_special and not line.has_blow else line.move
-		overhead = move_titles.show_title(_voxel_view(), line, text, line.is_special and not line.has_blow, mine)
+		# A special's line (its opening, or its first blow when the blow comes first) carries its
+		# name, in gold; any other blow its move's.
+		var text: String = line.special_title if line.is_special else line.move
+		overhead = move_titles.show_title(_voxel_view(), line, text, line.is_special, mine)
 	for card: BattleParticipantCard in _cards:
 		card.show_line(line, named and not overhead)
 	scene_show.play_line(line, fatal)
