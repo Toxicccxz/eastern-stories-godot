@@ -1,0 +1,77 @@
+{
+  "people": {
+    "temple.npc.taoist": {
+      "note": "清虚，神色和平的中年道士，教徒弟运功；青铜道冠记 crown；立绘 Muse 2026-11-08",
+      "coat": "5c85aa", "pants": "375473", "skin": "f1cca8", "hair": "202023",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "9a6f4f", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "466788", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "temple.npc.taoist2": {
+      "note": "明心，魁梧，练拳的架势；与清虚分开：年轻、壮；立绘 Muse 2026-11-08",
+      "coat": "45617c", "pants": "283d53", "skin": "e6b996", "hair": "141517",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "ac7459", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "7ea4be", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "temple.npc.little_taoist1": {
+      "note": "玄真，扫石阶，竹扫把记 broom；与玄和分开：单发髻、扫帚；立绘 Muse 2026-11-08",
+      "coat": "67819a", "pants": "283649", "skin": "f9d7b5", "hair": "181a28",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "broom", "prop_color": "d6b887", "accent": "3d536a", "height": "short",
+      "build": "slim", "shoes": "dark"
+    },
+    "temple.npc.little_taoist2": {
+      "note": "玄和，浇花除草，手里小水瓢无词；与玄真分开：双发髻、圆脸；立绘 Muse 2026-11-08",
+      "coat": "4a77a1", "pants": "233b57", "skin": "f2c69b", "hair": "151a27",
+      "hair_style": "double_bun", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "274768", "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "temple.npc.old_taoist": {
+      "note": "老道士，补了又补、洗到泛白的旧道袍；拂尘记 whisk；立绘 Muse 2026-11-08",
+      "coat": "d5c6a9", "pants": "292320", "skin": "c6b699", "hair": "655f54",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "66625a",
+      "beard": "chin_three", "waist": "sash", "prop": "whisk", "prop_color": "aba38e",
+      "accent": "786a58", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "temple.npc.guest": {
+      "note": "进香客，富态百姓，非道士；手里一束香无词；立绘 Muse 2026-11-08",
+      "coat": "9a1c23", "pants": "171719", "skin": "f4d3b7", "hair": "171719",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "171719", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "55111a", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "temple.npc.trainer": {
+      "note": "僵尸侍者，「僵尸」是外号，活人，面色冷、不苟言笑，肤色正常；黑道袍佩长剑；立绘 Muse 2026-11-08",
+      "coat": "222121", "pants": "0e1011", "skin": "dba26c", "hair": "0e1011",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "0e1011", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "383634", "accent": "383634",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "temple.npc.tfighter": {
+      "note": "僵尸护法，比侍者年长、更壮，短须；黑道袍佩长剑；立绘 Muse 2026-11-08",
+      "coat": "252526", "pants": "141416", "skin": "d69668", "hair": "141416",
+      "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "141416", "beard": "full",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "353534", "accent": "353534",
+      "height": "standard", "build": "heavy", "shoes": "dark"
+    },
+    "temple.npc.guard_taoist1": {
+      "note": "清灵，藏经楼值守，四十出头、八字胡；八卦黄道袍、蓝紫碧玉冠；立绘 Muse 2026-11-08",
+      "coat": "f9ce58", "pants": "9dbaca", "skin": "ebca99", "hair": "4d3721",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "323454",
+      "beard": "moustache", "waist": "sash", "prop": "none", "accent": "c18d31",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "temple.npc.guard_taoist2": {"same_as": "temple.npc.guard_taoist1"},
+    "temple.npc.guard_taoist3": {"same_as": "temple.npc.guard_taoist1"},
+    "temple.npc.taoist_guard1": {
+      "note": "清风，藏经楼值守，八卦黄道袍、碧玉冠；圆脸短须，身形壮；立绘 Muse 2026-11-08",
+      "coat": "f2bc26", "pants": "6d5018", "skin": "d89c5d", "hair": "231a11",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "d8a421", "beard": "full",
+      "waist": "sash", "prop": "none", "accent": "917524", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "temple.npc.taoist_guard2": {"same_as": "temple.npc.taoist_guard1"},
+    "temple.npc.taoist_guard3": {"same_as": "temple.npc.taoist_guard1"}
+  }
+}

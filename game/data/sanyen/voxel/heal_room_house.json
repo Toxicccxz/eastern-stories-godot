@@ -20,16 +20,7 @@
   ],
   "actors": {
     "default": {"coat": "8a7a5a"},
-    "sanyen.npc.greeting": {"coat": "b8862e", "note": "知客僧: a saffron robe"},
-    "sanyen.npc.monk": {"coat": "7a6a52"},
-    "sanyen.npc.bonze": {"coat": "8a7a62"},
-    "sanyen.npc.cripple": {"coat": "6a5e4e", "note": "跛僧: a patched old robe"},
-    "sanyen.npc.drug_bonze": {"coat": "6a7a5a", "note": "药僧"},
-    "sanyen.npc.cook_bonze": {"coat": "9a8a6a", "note": "烧饭僧: an apron over his robe"},
-    "sanyen.npc.little_bonze": {"coat": "b89a5a"},
-    "sanyen.npc.work_bonze": {"coat": "7a7060"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"},
-    "common.npc.bonze.master": {"coat": "a8342a", "note": "the abbot's red kasaya"}
+    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
   },
   "entrances": {
     "sanyen.heal_room.south": {"title": "庭园"}

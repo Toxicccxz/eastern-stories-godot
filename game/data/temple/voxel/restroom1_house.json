@@ -12,5 +12,5 @@
     {"kind": "slippers", "at": [104, -76], "size": [24, 24], "cloth": "4a4a52"},
     {"kind": "rug", "at": [40, 0], "size": [128, 96], "cloth": "5f6e7a", "border": "a8946a"}
   ],
-  "actors": {"default": {"coat": "4a5a7a"}, "temple.npc.old_taoist": {"coat": "6a6a6e", "hat": true, "note": "老道士"}}
+  "actors": {"default": {"coat": "4a5a7a"}}
 }

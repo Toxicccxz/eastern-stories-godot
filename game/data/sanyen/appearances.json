@@ -1,0 +1,56 @@
+{
+  "people": {
+    "sanyen.npc.greeting": {
+      "note": "知客僧，脸色和蔼，双手合十；青布僧衣；立绘 Muse 2026-11-08",
+      "coat": "5e81a3", "pants": "263648", "skin": "e9c3a2", "hair": "e9c3a2", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "none", "accent": "375b7b",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "sanyen.npc.monk": {
+      "note": "独眼头陀，黑眼罩、束发箍、戒刀；灰布僧衣，留发；立绘 Muse 2026-11-08",
+      "coat": "8c969c", "pants": "353739", "skin": "e8b488", "hair": "161717",
+      "hair_style": "topknot", "headwear": "none", "beard": "chin_three", "waist": "sash",
+      "prop": "blade_waist", "prop_color": "d4d3d2", "accent": "545b62", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "sanyen.npc.bonze": {
+      "note": "僧人，笑眯眯微微颔首；青布僧衣；立绘 Muse 2026-11-08",
+      "coat": "4673a5", "pants": "133359", "skin": "ecb687", "hair": "ecb687", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "none", "accent": "214977",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "sanyen.npc.cripple": {
+      "note": "跛僧人，跛了右腿，拄一根木拐（记 staff），若有所思；青布僧衣；立绘 Muse 2026-11-08",
+      "coat": "5e81a5", "pants": "335779", "skin": "e7b999", "hair": "e7b999", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "staff", "prop_color": "553426",
+      "accent": "253b54", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "sanyen.npc.drug_bonze": {
+      "note": "药僧，精壮年轻，手里一把草药、背一个药篓；青布僧衣；立绘 Muse 2026-11-08",
+      "coat": "5a81a8", "pants": "2d577b", "skin": "f3c7a2", "hair": "f3c7a2", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "basket_back",
+      "prop_color": "56361e", "accent": "1a3857", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "sanyen.npc.cook_bonze": {
+      "note": "烧饭僧，肥胖福泰，系围裙、拿菜刀；青布僧衣；立绘 Muse 2026-11-08",
+      "coat": "5d84a7", "pants": "325879", "skin": "f5c19c", "hair": "f5c19c", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "apron", "apron_color": "ddc099",
+      "prop": "cleaver", "prop_color": "aec5d3", "accent": "ddc099", "height": "standard",
+      "build": "heavy", "shoes": "dark"
+    },
+    "sanyen.npc.little_bonze": {
+      "note": "小沙弥，圆滚滚小光头，为油灯添香油，油壶记 teapot；青布僧衣；立绘 Muse 2026-11-08",
+      "coat": "6184a6", "pants": "3a5b7a", "skin": "f3c7a6", "hair": "f3c7a6", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "teapot",
+      "prop_color": "9a592f", "accent": "243c55", "height": "short", "build": "heavy",
+      "shoes": "dark"
+    },
+    "sanyen.npc.work_bonze": {
+      "note": "扫地僧，肥胖懒散，拿扫把有一下没一下；灰布僧衣；立绘 Muse 2026-11-08",
+      "coat": "8d9ba2", "pants": "546269", "skin": "f3c8a5", "hair": "f3c8a5", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "broom", "prop_color": "d09d70",
+      "accent": "29333a", "height": "standard", "build": "heavy", "shoes": "dark"
+    }
+  }
+}

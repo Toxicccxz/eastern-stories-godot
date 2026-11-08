@@ -30,9 +30,6 @@
   ],
   "door_looks": {"temple.square.door": {"kind": "red_door", "note": "square.c / temple1.c: 红漆木门"}},
   "actors": {
-    "default": {"coat": "4a5a7a"},
-    "common.npc.taoist.taolord": {"coat": "2f3a5a", "hat": true},
-    "temple.npc.trainer": {"coat": "6a7a6a", "note": "僵尸侍者: pale grey-green"},
-    "temple.npc.tfighter": {"coat": "5a6a5a"}
+    "default": {"coat": "4a5a7a"}
   }
 }

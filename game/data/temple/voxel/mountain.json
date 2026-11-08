@@ -92,9 +92,7 @@
     "dust": [{"rect": [1260, 1080, 1500, 1320], "count": 16, "color": "e4ecee", "wind": [-1.4, 0.2], "size": [0.4, 0.02, 0.05], "note": "ladder1.c: 山风吹来带著丝丝的寒意"}]
   },
   "actors": {
-    "default": {"coat": "4a5a7a"},
-    "temple.npc.guest": {"coat": "9a7a5a", "note": "进香客: a pilgrim, not a taoist"},
-    "temple.npc.little_taoist1": {"coat": "4e6a8a", "hat": true}
+    "default": {"coat": "4a5a7a"}
   },
   "entrances": {
     "temple.entrance.north": {"title": "灵心观", "label_height": 1.7}
