@@ -661,7 +661,14 @@
           "village.lakebottom2.dragon.3": [420, 104],
           "village.lakebottom2.dragon.4": [420, 396],
           "village.lakebottom2.dragon.5": [300, 216],
-          "village.lakebottom2.dragon.6": [150, 352]
+          "village.lakebottom2.dragon.6": [150, 352],
+          "village.lakebottom2.shang_jue.1": [330, 300],
+          "village.lakebottom2.shang_jue_fighting.1": [330, 360],
+          "village.lakebottom2.niling_finale.1": [380, 250],
+          "village.lakebottom2.niling_finale.2": [380, 330],
+          "village.lakebottom2.niling_finale.3": [250, 300],
+          "village.lakebottom2.niling_finale.4": [440, 250],
+          "village.lakebottom2.feng_ce_beside.1": [460, 300]
         },
         "gap_at": [
           ["village.lakebottom1", "village.lakebottom2", 304, 128]
@@ -851,6 +858,20 @@
             "id": "village.seal_altar.keep",
             "at": [0, 72],
             "text": "封坛 · 看清了"
+          },
+          {
+            "node": "service",
+            "name": "Face",
+            "id": "village.seal_altar.face",
+            "at": [-96, -40],
+            "text": "坛心 · 迎上去"
+          },
+          {
+            "node": "service",
+            "name": "Nail",
+            "id": "village.seal_altar.nail",
+            "at": [-96, 40],
+            "text": "那颗头 · 钉下去"
           }
         ],
         "zones": [
@@ -873,6 +894,71 @@
             "name": "ShangJue",
             "at": [-144, 32],
             "id": "village.seal_altar.shang_jue.1"
+          },
+          {
+            "name": "Elon",
+            "at": [-200, -96],
+            "id": "village.seal_altar.elon.1"
+          },
+          {
+            "name": "Annie",
+            "at": [-200, 100],
+            "id": "village.seal_altar.annie.1"
+          },
+          {
+            "name": "Nan",
+            "at": [-40, 180],
+            "id": "village.seal_altar.nan.1"
+          },
+          {
+            "name": "Uncle",
+            "at": [200, 120],
+            "id": "village.seal_altar.bearer.1"
+          },
+          {
+            "name": "Xiao",
+            "at": [232, 64],
+            "id": "village.seal_altar.bearer.2"
+          },
+          {
+            "name": "LihongFinale",
+            "at": [60, -140],
+            "id": "village.seal_altar.lihong_finale.1"
+          },
+          {
+            "name": "KeeperElon",
+            "at": [-232, -40],
+            "id": "village.seal_altar.keeper_elon.1"
+          },
+          {
+            "name": "KeeperNan",
+            "at": [24, 200],
+            "id": "village.seal_altar.keeper_nan.1"
+          },
+          {
+            "name": "KeeperXiao",
+            "at": [120, 200],
+            "id": "village.seal_altar.keeper_xiao.1"
+          },
+          {
+            "name": "Demon1",
+            "at": [0, 140],
+            "id": "village.seal_altar.demon.1"
+          },
+          {
+            "name": "Demon2",
+            "at": [-48, 150],
+            "id": "village.seal_altar.demon.2"
+          },
+          {
+            "name": "Demon3",
+            "at": [48, 150],
+            "id": "village.seal_altar.demon.3"
+          },
+          {
+            "name": "Demon4",
+            "at": [0, 190],
+            "id": "village.seal_altar.demon.4"
           },
           {
             "name": "LihongWeak",

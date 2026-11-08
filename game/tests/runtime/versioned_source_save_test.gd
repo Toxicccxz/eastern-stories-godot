@@ -120,6 +120,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			var next: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(roundtrip.snapshot, tree.root)
 			_check(next.succeeded() and next.candidate.active_map().runtime_player_body().global_position == positions[index], "saved restored graph cold roundtrip exact")
 			if next.candidate != null: next.candidate.free()
+			await tree.process_frame
 		for id: StringName in candidate.inventory_state().registered_item_ids():
 			_check(candidate.item_instance_index().resolve(id) != source.item_instance_index().resolve(id), "same item ID, fresh object")
 		candidate.free()
@@ -145,6 +146,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var bad: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(_placed(snapshot, locations[0], position), tree.root)
 		_check(not bad.succeeded(), "invalid position rejects")
 		if bad.candidate != null: bad.candidate.free()
+		await tree.process_frame
 	var corpse_fixture: RefCounted = load("res://tests/support/oldpine_world_save_fixture.gd").new()
 	var corpse_save: GameSaveSnapshot = corpse_fixture.with_fat_bandit_corpse(snapshot)
 	var corpse_restore: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(corpse_save, tree.root)

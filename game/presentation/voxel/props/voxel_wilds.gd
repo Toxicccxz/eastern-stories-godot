@@ -1093,20 +1093,22 @@ func _flames(w: float, d: float) -> void:
 	for ember: int in 9:
 		s.box(root,Vector3(rng.randf_range(-0.4,0.4)*w,0.05,rng.randf_range(-0.4,0.4)*d),Vector3(0.16,0.05,0.12),_pick(["d4562c:glow","e8873a:glow","9e3a22:glow"]))
 	var tall: float = float(data.get("height",2.4))
+	# `colors`: the tongues' three colours, base to tip (终章 B: 侮天鬼's black flame over the 封坛).
+	var tongues: Array = _colors("colors",["e8622f:glow","ffa24a:glow","ffe09a:glow"])
 	for tongue: int in int(data.get("count",8)):
 		var flame := Node3D.new()
 		flame.position = Vector3(rng.randf_range(-0.35,0.35)*w,0.04,rng.randf_range(-0.35,0.35)*d)
 		flame.set_meta("light_fixture",true)
 		root.add_child(flame)
 		var h: float = tall*rng.randf_range(0.35,1.0)
-		s.box(flame,Vector3(0,h*0.3,0),Vector3(0.34,h*0.6,0.34),"e8622f:glow")
-		s.box(flame,Vector3(0,h*0.62,0),Vector3(0.22,h*0.5,0.22),"ffa24a:glow")
-		s.box(flame,Vector3(0,h*0.9,0),Vector3(0.1,h*0.28,0.1),"ffe09a:glow")
+		s.box(flame,Vector3(0,h*0.3,0),Vector3(0.34,h*0.6,0.34),String(tongues[0]))
+		s.box(flame,Vector3(0,h*0.62,0),Vector3(0.22,h*0.5,0.22),String(tongues[1]))
+		s.box(flame,Vector3(0,h*0.9,0),Vector3(0.1,h*0.28,0.1),String(tongues[2]))
 		if ambience != null:
 			ambience.flame(flame)
 	var light := OmniLight3D.new()
 	light.position = Vector3(0,tall*0.6,0)
-	light.light_color = Color("ff8a3d")
+	light.light_color = Color(String(data.get("glow","ff8a3d")))
 	light.omni_range = float(data.get("range",8.0))
 	light.set_meta("day_energy",float(data.get("day",1.8)))
 	light.set_meta("night_energy",3.2)

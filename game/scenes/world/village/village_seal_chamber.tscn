@@ -123,6 +123,40 @@ mouse_filter = 2
 text = "封坛 · 看清了"
 horizontal_alignment = 1
 
+[node name="Face" type="Marker2D" parent="."]
+position = Vector2(-96, -40)
+script = ExtResource("service")
+service_id = &"village.seal_altar.face"
+
+[node name="Visual" type="Polygon2D" parent="Face"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="Face"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "坛心 · 迎上去"
+horizontal_alignment = 1
+
+[node name="Nail" type="Marker2D" parent="."]
+position = Vector2(-96, 40)
+script = ExtResource("service")
+service_id = &"village.seal_altar.nail"
+
+[node name="Visual" type="Polygon2D" parent="Nail"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="Nail"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "那颗头 · 钉下去"
+horizontal_alignment = 1
+
 [node name="Zones" type="Node2D" parent="."]
 
 [node name="SealAltarZone" type="Area2D" parent="Zones"]
@@ -150,6 +184,71 @@ spawn_point_id = &"village.seal_altar.lihong.1"
 position = Vector2(-144, 32)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.shang_jue.1"
+
+[node name="Elon" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-200, -96)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.elon.1"
+
+[node name="Annie" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-200, 100)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.annie.1"
+
+[node name="Nan" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-40, 180)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.nan.1"
+
+[node name="Uncle" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(200, 120)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.bearer.1"
+
+[node name="Xiao" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(232, 64)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.bearer.2"
+
+[node name="LihongFinale" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(60, -140)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.lihong_finale.1"
+
+[node name="KeeperElon" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-232, -40)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.keeper_elon.1"
+
+[node name="KeeperNan" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(24, 200)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.keeper_nan.1"
+
+[node name="KeeperXiao" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(120, 200)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.keeper_xiao.1"
+
+[node name="Demon1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 140)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.demon.1"
+
+[node name="Demon2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-48, 150)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.demon.2"
+
+[node name="Demon3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(48, 150)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.demon.3"
+
+[node name="Demon4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 190)
+script = ExtResource("marker")
+spawn_point_id = &"village.seal_altar.demon.4"
 
 [node name="LihongWeak" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(104, 64)

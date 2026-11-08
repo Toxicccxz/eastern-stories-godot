@@ -203,9 +203,17 @@
       "rim": "9cc8dc",
       "plinth": 0.06,
       "note": "璃虹 in her pillar: a figure of ice-white that never stirs (her pillar is the ice_pillar prop at her marker, its light hers)"
-    }
+    },
+    "native.npc.wutian_gui": {"coat": "1a1020", "hat": false, "headless": true, "note": "终章 B: 侮天鬼, the black flame of a body with no head (the 唤首's shade, niling/voxel/rear.json)"},
+    "native.npc.wutian_gui_blazing": {"coat": "1a1020", "hat": false, "headless": true, "note": "终章 B: 侮天鬼, the black flame of a body with no head (the 唤首's shade, niling/voxel/rear.json)"},
+    "native.npc.wutian_gui_grown": {"coat": "1a1020", "hat": false, "headless": true, "note": "终章 B: 侮天鬼, the black flame of a body with no head (the 唤首's shade, niling/voxel/rear.json)"},
+    "native.npc.wutian_gui_grown_blazing": {"coat": "1a1020", "hat": false, "headless": true, "note": "终章 B: 侮天鬼, the black flame of a body with no head (the 唤首's shade, niling/voxel/rear.json)"},
+    "native.npc.elon_ice": {"body": "statue", "stone": "dcecf8", "base": "18283a", "rim": "9cc8dc", "plinth": 0.06, "note": "终章 B: a keeper in the ice after the 再封, as 璃虹 in hers"},
+    "native.npc.nan_weishui_ice": {"body": "statue", "stone": "dcecf8", "base": "18283a", "rim": "9cc8dc", "plinth": 0.06, "note": "终章 B: a keeper in the ice after the 再封, as 璃虹 in hers"},
+    "native.npc.xiao_pichen_ice": {"body": "statue", "stone": "dcecf8", "base": "18283a", "rim": "9cc8dc", "plinth": 0.06, "note": "终章 B: a keeper in the ice after the 再封, as 璃虹 in hers"}
   },
   "props": [
+    {"kind": "flames", "at": [0, 0], "size": [96, 72], "height": 3.2, "count": 11, "colors": ["2a1838:glow", "4a2a5e:glow", "8a6ab8:glow"], "glow": "6a4a9a", "range": 10.0, "day": 1.2, "present": {"all": [{"mark": "侮天鬼成形"}, {"not": {"any": [{"mark": "侮天鬼灭了"}, {"mark": "瑷伦留在了冰里"}, {"mark": "璃虹留在了冰里"}, {"mark": "南危水留在了冰里"}, {"mark": "萧辟尘留在了冰里"}, {"mark": "你留在了冰里"}]}}]}, "note": "终章 B (DECISIONS「终章 B」): 侮天鬼's black flame over the 封坛 from the moment it takes shape until the end"},
     {
       "kind": "ice_dome",
       "at": [

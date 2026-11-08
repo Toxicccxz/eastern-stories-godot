@@ -97,14 +97,14 @@ func _test_data() -> void:
 	var dive: ServiceDefinition = catalog.service(&"village.lake.dive")
 	_check(dive != null and dive.act.acts[0].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.MARK and step.flag == "下了湖底"), "the lake's dive marks 下了湖底")
 	var pool: ServiceDefinition = catalog.service(&"village.lakebottom2.pool")
-	_check(pool != null and pool.act.verb == "潜下去" and not pool.act.acts[0].ask.is_empty() and pool.act.acts[0].steps[-1].kind == ScriptedAct.Kind.MOVE and pool.act.acts[0].steps[-1].zone_id == &"village.seal_altar", "水潭 · 潜下去: asked first, down to the 封坛")
-	_check(catalog.service(&"village.seal_altar.pool").act.acts[0].steps[-1].point_id == &"village.lakebottom2.pool_return", "潭口 · 游上去: back beside the pool")
+	_check(pool != null and pool.act.verb == "潜下去" and not pool.act.acts[2].ask.is_empty() and pool.act.acts[2].steps[-1].kind == ScriptedAct.Kind.MOVE and pool.act.acts[2].steps[-1].zone_id == &"village.seal_altar", "水潭 · 潜下去: asked first, down to the 封坛")
+	_check(catalog.service(&"village.seal_altar.pool").act.acts[2].steps[-1].point_id == &"village.lakebottom2.pool_return", "潭口 · 游上去: back beside the pool")
 	var recite: ServiceDefinition = catalog.service(&"village.seal_altar.recite")
 	var asked: ScriptedAct = recite.act.acts[1]
 	_check(recite.act.acts.size() == 3 and asked.present == LIHONG and asked.steps[-1].kind == ScriptedAct.Kind.QUESTIONS and asked.steps[-1].questions.size() == 3 and asked.steps[-1].questions.all(func(question: ScriptedAct.Question) -> bool: return question.answers.size() == 2 and question.answers[0].mark == "读过铜牒" and question.answers[1].mark == "信了商玦"), "璃虹's three questions: the 铜牒's words true, 商玦's telling false")
 	_check(asked.steps[-1].when_true.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.MARK and step.flag == "璃虹说了封法") and asked.steps[-1].when_false.size() == 2, "all true: the 封法; a wrong one: 再念")
 	var pull: ServiceDefinition = catalog.service(&"village.seal_altar.pull")
-	_check(pull != null and pull.act.acts.size() == 4 and pull.act.acts[2].not_mark == "璃虹说了封法" and not pull.act.acts[3].ask.is_empty() and pull.act.acts[3].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.GIVE and step.item_id == SWORD) and pull.act.acts[3].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SUMMON and step.spawn_id == &"native.seal_altar.lihong_weak"), "穿灵 · 拔出来: after the 封法, asked first; the sword, the fallen 璃虹")
+	_check(pull != null and pull.act.acts.size() == 7 and pull.act.acts[5].not_mark == "璃虹说了封法" and not pull.act.acts[6].ask.is_empty() and pull.act.acts[6].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.GIVE and step.item_id == SWORD) and pull.act.acts[6].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SUMMON and step.spawn_id == &"native.seal_altar.lihong_weak"), "穿灵 · 拔出来: after the 封法, asked first; the sword, the fallen 璃虹")
 	var keep: ServiceDefinition = catalog.service(&"village.seal_altar.keep")
 	_check(keep != null and keep.act.acts.size() == 4 and keep.act.acts[3].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.GIVE and step.item_id == FEATHER), "封坛 · 看清了: her feather")
 	var sword: ItemContentDefinition = catalog.item(SWORD)
@@ -132,7 +132,7 @@ func _test_data() -> void:
 	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[2].act.npc_in == &"village.lakeside" and luca.hooks().calls[2].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[3].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
 	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() >= 1 and ninth.steps[0].target.zone_id == &"city.wumen", "the ninth chapter: 皇城, by the 午门 (第九章 A grew the stub)")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_A_V1, "终章 A's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_B_V1, "终章 B's world revision is current")
 
 
 ## Down to the 封坛 from the lake: the dive, the cold (`robe`: worn through the cave, nothing felt),
