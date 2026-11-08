@@ -8,7 +8,8 @@
 			"sources": [
 				"native: 第九章 E (剧情总纲 §3 第十章 入口: 序章石匣里的风铃、樵夫的记载、萧辟尘; §6 岚城卡「入口是一张寻风地带的图……天驼关镜子那三条路里整修中的幻影道」; 计划 build/plans/第九章_计划.md §3「main.chapter10 桩」; DECISIONS「第九章 E」): the one step the woodcutter's page (or the late emperor's reading) opens; the rest is the tenth chapter's package (岚城, a new region).",
 				"native: 第十章 A (计划 build/plans/第十章_计划.md A 包; DECISIONS「第十章 A」「风」): the 风 step's target is the 石林雾野 above the 幻影道 (its beam goes once one is in the field: the wind leads from there) (the mirror's upper way, open once the ninth chapter is done); the town shows itself where the wind stops (伏地 in the hollow the wind blows out of).",
-				"native: 第十章 B (计划 build/plans/第十章_计划.md §3 city、elder 两步; DECISIONS「第十章 B」): through the 白石街 to the 风铃阁, where 岚翁 sits under the ten bells and is asked about 旋芒."
+				"native: 第十章 B (计划 build/plans/第十章_计划.md §3 city、elder 两步; DECISIONS「第十章 B」): through the 白石街 to the 风铃阁, where 岚翁 sits under the ten bells and is asked about 旋芒.",
+				"native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」): up the 风铃阁's stair to the 云台, where 旋芒 turns in its whirlwind: drawn by the player (five of the ten bells ring, the trial 接风三刃), by the 皇叔 (come back to court, fetched by the wind) or by 萧辟尘 (his bell hung on his family's hook); the 乘风 back to the mirror; the chapter's end and the finale's stub."
 			],
 			"summary": "樵夫说：风停处即是城。岚城寻风而至，寻风而逝——天驼关石林里那面镜子后头，有一条原作没修完的路。",
 			"requires": [
@@ -53,10 +54,54 @@
 						"map": "lancheng.pavilion",
 						"zone": "lancheng.bell_hall"
 					}
+				},
+				{
+					"id": "choice",
+					"objective": "云台：谁拔旋芒——你自己（十铃里要响五口，先接岚翁的接风三刃）、皇叔（要他已经入朝）、萧辟尘（要带着他的风铃）。",
+					"target": {
+						"map": "lancheng.terrace",
+						"zone": "lancheng.whirl"
+					},
+					"options": [
+						{
+							"id": "self",
+							"done": {
+								"mark": "旋芒在你手里"
+							},
+							"text": "风散了，剑落进你手里。岚翁说：十口铃里有人信你，剑就认你。",
+							"reward": {
+								"deed": "在岚城的云台上拔了旋芒"
+							}
+						},
+						{
+							"id": "uncle",
+							"done": {
+								"mark": "旋芒在皇叔手里"
+							},
+							"text": "风把於兰天武送上云台。三百年前於兰家拔错了一把剑，这一把，他拔了。",
+							"reward": {
+								"deed": "在岚城的云台上，看着旋芒落进皇叔於兰天武手里"
+							}
+						},
+						{
+							"id": "xiao",
+							"done": {
+								"mark": "旋芒在萧辟尘手里"
+							},
+							"text": "铃挂回了萧家的钩上，风把萧辟尘送回了家。剑落进他手里。",
+							"reward": {
+								"deed": "在岚城的云台上，看着旋芒落进萧辟尘手里"
+							}
+						}
+					]
 				}
 			],
 			"reward": {
-				"deed": "找到了岚城"
+				"milestone": true,
+				"deed": "找到了岚城",
+				"marks": [
+					"岚城一章"
+				]
 			}
 		}
 	]

@@ -103,6 +103,68 @@
 			],
 			"legacy_room": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡「人不食人间烟火」; 计划 build/plans/第十章_计划.md §2, B 包; DECISIONS「第十章 B」)",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "lancheng.whirl.lan_weng",
+			"npc": "native.npc.lan_weng_terrace",
+			"map": "lancheng.terrace",
+			"zone": "lancheng.whirl",
+			"points": [
+				"lancheng.whirl.lan_weng.1"
+			],
+			"legacy_room": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) (岚翁 come up after one to the 云台)",
+			"legacy_quantity": 1,
+			"present": {
+				"mark": "见过岚翁"
+			}
+		},
+		{
+			"id": "lancheng.whirl.uncle_wind",
+			"npc": "native.npc.yulan_tianwu_wind",
+			"map": "lancheng.terrace",
+			"zone": "lancheng.whirl",
+			"points": [
+				"lancheng.whirl.uncle.1"
+			],
+			"legacy_room": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) (於兰天武 the wind brought)",
+			"legacy_quantity": 1,
+			"summoned": true
+		},
+		{
+			"id": "lancheng.whirl.xiao_wind",
+			"npc": "native.npc.xiao_pichen_home",
+			"map": "lancheng.terrace",
+			"zone": "lancheng.whirl",
+			"points": [
+				"lancheng.whirl.xiao.1"
+			],
+			"legacy_room": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) (萧辟尘 the wind brought home)",
+			"legacy_quantity": 1,
+			"summoned": true
+		},
+		{
+			"id": "canyon.stone_forest3.song_pu",
+			"npc": "native.npc.song_pu_mirror",
+			"map": "canyon.pass",
+			"zone": "canyon.stone_forest3",
+			"points": [
+				"canyon.stone_forest3.song_pu.1"
+			],
+			"legacy_room": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) (宋朴 waiting at the mirror for whoever comes down from 岚城, on the deal's ledger)",
+			"legacy_quantity": 1,
+			"present": {
+				"all": [
+					{
+						"mark": "私了了庾子建"
+					},
+					{
+						"mark": "岚城一章"
+					}
+				]
+			},
+			"until": {
+				"mark": "宋朴看见了旋芒"
+			}
 		}
 	]
 }
