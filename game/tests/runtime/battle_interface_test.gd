@@ -277,6 +277,12 @@ func _beats_panel(tree: SceneTree) -> void:
 	panel._point(&"es2:test/4")
 	check(panel.strip_text.text == "金光泻地占 1 手，出完还剩 1 手", "a 1-手 move: " + panel.strip_text.text)
 	panel._unpoint(&"es2:test/4")
+	panel.focus_quietly(panel.move_buttons[&"es2:test/1"])
+	check(panel.strip_text.text == "他起手：守" and panel.chips.preview() == [0, true], "the battle's own focus on a move points at nothing: " + panel.strip_text.text)
+	panel.move_buttons[&"es2:test/1"].release_focus()
+	panel._point(&"es2:test/0")
+	panel._move_pressed(&"es2:test/0")
+	check(panel.strip_text.text == "他起手：守" and panel.chips.preview() == [0, true], "pressing the move clears the pointing")
 	# The orders: the perform with its price, the exerts in one 运功 menu, 逃跑 and 投降 small at the end.
 	var row: Array[String] = []
 	for child: Node in panel._actions.get_children():
@@ -285,13 +291,14 @@ func _beats_panel(tree: SceneTree) -> void:
 	check(panel.exert_items() == ([recover, refresh] as Array[StringName]) and not panel.exert_menu.disabled and panel.exert_menu.get_popup().is_item_disabled(1) and panel.exert_menu.get_popup().get_item_text(0) == "运功恢复气 · 1 手", "both exerts in the menu, the one that cannot run greyed: %s" % panel.exert_menu.get_popup().get_item_text(0))
 	var counter: Label = panel.action_buttons[&"perform.counterattack"].get_node("Cost") as Label
 	var surrender: Label = panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].get_node("Cost") as Label
-	check(counter.text == "2手" and surrender.text.is_empty() and panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].theme_type_variation == &"ChipButton" and panel.first_action_button() == panel.action_buttons[CombatFleeTacticalPolicy.ACTION_ID], "an order's price in its corner; 投降 costs nothing and reads small; the first action is still 逃跑")
+	check(counter.text == "2手" and surrender.text.is_empty() and panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].theme_type_variation == &"ChipButton" and panel.first_action_button() == panel.action_buttons[&"perform.counterattack"], "an order's price in its corner; 投降 costs nothing and reads small; the first action is the row's first (the perform), not 逃跑")
 	var chosen: Array[StringName] = []
 	panel.action_requested.connect(func(id: StringName) -> void: chosen.append(id))
 	panel._exert_chosen(0)
 	panel._exert_chosen(1)
 	check(chosen == ([recover] as Array[StringName]), "a 运功 item asks for its exert; a greyed one does nothing: %s" % str(chosen))
-	check(BattleActionPanel.own_busy_of(&"perform.hasten") == 3 and BattleActionPanel.pointed_line("「玄羽乱舞」", 1, 2, -1, 3) == "「玄羽乱舞」占 1 手，出完还剩 1 手；出手后自己要忙 3 手", "玄羽乱舞 is priced 1 and says it leaves the player busy 3: " + BattleActionPanel.pointed_line("「玄羽乱舞」", 1, 2, -1, 3))
+	check(BattleActionPanel.own_busy_of(&"perform.hasten") == 3 and BattleActionPanel.pointed_line("「玄羽乱舞」", 1, 2, -1, 3) == "「玄羽乱舞」占 1 手，出完你这回合没手了；出手后自己要忙 3 手", "玄羽乱舞 is priced 1, its busy 3 takes what is left, and it says so: " + BattleActionPanel.pointed_line("「玄羽乱舞」", 1, 2, -1, 3))
+	check(BattleActionPanel.result_line(CombatEncounterScheduler.SPENT_BUSY, CombatMoveTags.GUARD) == "这一手你在忙", "a beat lost to busy reads as such")
 	check(BattleActionPanel.pointed_line("「封」字诀", 2, 2, -1, 1) == "「封」字诀占 2 手，出完你这回合没手了", "a busy within the price is not mentioned")
 	check(panel._queue.text == "等你出招", "the last row: 等你出招 alone: " + panel._queue.text)
 	check(panel.get_combined_minimum_size().y <= 240.0 and panel.get_combined_minimum_size().x <= 1256.0, "eight moves, the orders and the ring fit 1280×720's panel: %s" % panel.get_combined_minimum_size())

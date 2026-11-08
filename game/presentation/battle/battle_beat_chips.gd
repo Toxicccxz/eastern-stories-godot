@@ -189,12 +189,9 @@ func _gap() -> float:
 	return COMPACT_GAP if _compact else GAP
 
 
-## How many slots are drawn: the beats, the dashed one, and a ghost reaching past them.
+## How many slots are drawn: the beats and the dashed one (a ghost stays within them).
 func _drawn_count() -> int:
-	var count: int = maxi(2, _slots.size()) + (1 if _earnable else 0)
-	if _preview_cost > 0:
-		count = maxi(count, _first_free() + _preview_cost)
-	return count
+	return maxi(2, _slots.size()) + (1 if _earnable else 0)
 
 
 func _fit() -> void:
@@ -280,7 +277,7 @@ func _draw() -> void:
 			draw_colored_polygon(PackedVector2Array([tip + Vector2(-6, -7), tip + Vector2(6, -7), tip]), GOLD)
 	if _preview_cost > 0:
 		var start: int = _first_free()
-		var reach: int = _preview_cost
+		var reach: int = clampi(_preview_cost, 1, maxi(1, count - start))
 		var rect := Rect2(_slot_at(start, groove.position.y), Vector2(reach * chip.x + (reach - 1) * _gap(), chip.y))
 		var fill: Color = Color(_preview_color, 0.5) if _preview_ok else Color(SHORT, 0.55)
 		draw_rect(rect, fill)

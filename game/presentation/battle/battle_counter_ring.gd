@@ -32,7 +32,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	_font = GameTheme.pixel_font()
 	# TRANSLATORS: hover of the battle panel's counter ring.
-	tooltip_text = tr("克制：快克重、重克守、守克虚、虚克快。顺着箭头走一步，就是克它的那一类。")
+	tooltip_text = tr("克制：快克重、重克守、守克虚、虚克快。箭头从克的一方指向被克的一方；想克他起手的那一类，就找指向它的那一印。")
 	_fit()
 
 

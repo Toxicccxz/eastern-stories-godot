@@ -97,6 +97,12 @@ var _seen_spent: int = 0
 var _seen_earned: int = 0
 var _seen_base: int = -1
 var _seen_opponent_tag: StringName = &""
+var _seen_encounter: StringName = &""
+## A focus the battle set itself (the first move when it waits) points at nothing: only the
+## player's own walking or hovering does.
+var _quiet_focus: bool = false
+## Whether the strip shows now (the switches stand at its end when closed up).
+var _strip_shown: bool = false
 
 ## 像素界面: the move button (two lines of the pixel face), an order's (48 high); on a short
 ## screen lower and narrower.
@@ -338,15 +344,20 @@ func set_compact(on: bool) -> void:
 	yield_button.custom_minimum_size.y = action_height
 	for button: Button in [yield_button, exert_menu, _cancel, manual_button, enforce_button]:
 		_fit_order_button(button)
-	var from: Node = _orders if on else strip_row
-	var to: Node = strip_row if on else _orders
-	for node: Node in [_queue, _cancel, enforce_row, manual_button]:
-		if node.get_parent() == from:
-			from.remove_child(node)
-			to.add_child(node)
-	_queue.visible = not on
+	_place_status()
 	for button: Button in [_cancel, manual_button, enforce_button]:
 		button.custom_minimum_size.y = 28.0 if on else 36.0
+
+
+## What waits, 取消, 加力 and 改为自动: at the orders' end; closed up at the strip's end while
+## it shows (the orders' row is full then), else still at the orders' end (经典, a question).
+func _place_status() -> void:
+	var to: Node = strip_row if _compact and _strip_shown else _orders
+	for node: Node in [_queue, _cancel, enforce_row, manual_button]:
+		if node.get_parent() != to:
+			node.get_parent().remove_child(node)
+			to.add_child(node)
+	_queue.visible = to == _orders
 
 
 ## An order button's face: closed up the small pixel size, so the row fits 960 units.
@@ -435,6 +446,9 @@ func present(projection: BattlePresentationProjection) -> void:
 ## then one 运功 menu for every exert, then 逃跑 and 投降 small at the end.
 func _build_actions(ids: Array[StringName]) -> void:
 	_shown_ids = ids
+	_pointed = &""
+	chips.clear_preview()
+	ring.light(&"")
 	action_buttons.clear()
 	_exert_ids.clear()
 	exert_menu.get_popup().clear()
@@ -558,7 +572,9 @@ func _status_text(projection: BattlePresentationProjection) -> String:
 ## sentence; the ring beside it rings the target's next move.
 func _present_strip(projection: BattlePresentationProjection, shown: bool) -> void:
 	var offered: bool = shown and projection.turns_offered
-	strip_row.visible = offered and not is_asking()
+	_strip_shown = offered and not is_asking()
+	strip_row.visible = _strip_shown
+	_place_status()
 	ring.visible = projection.turns_offered and not projection.moves.is_empty() and not is_asking()
 	ring.mark(projection.opponent_tag)
 	_note_result(projection)
@@ -587,6 +603,13 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 		_seen_base = -1
 		_seen_opponent_tag = projection.opponent_tag
 		return
+	if projection.encounter_id != _seen_encounter:
+		_seen_encounter = projection.encounter_id
+		_result = ""
+		_seen_spent = 0
+		_seen_earned = 0
+		_seen_base = beats.base
+		_seen_opponent_tag = projection.opponent_tag
 	var fresh: bool = beats.base != _seen_base or beats.spent.size() < _seen_spent or (beats.spent.is_empty() and _seen_spent > 0)
 	if fresh:
 		# The round ended since the last look: its last beat is the round that last ran's.
@@ -598,7 +621,10 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 		_seen_spent = 0
 		_seen_earned = 0
 	if beats.spent.size() > _seen_spent:
-		_result = result_line(beats.spent[beats.spent.size() - 1], _seen_opponent_tag)
+		# Only a single beat since the last look is measured against the move he showed then
+		# (自动 may have run several): else the tag alone.
+		var before: StringName = _seen_opponent_tag if beats.spent.size() - _seen_spent == 1 else &""
+		_result = result_line(beats.spent[beats.spent.size() - 1], before)
 	if beats.earned.size() > _seen_earned:
 		var won: String = _won_line(beats.earned[beats.earned.size() - 1])
 		_result = won if _result.is_empty() else _result + " · " + won
@@ -618,6 +644,12 @@ static func _won_line(source: StringName) -> String:
 ## 「你出虚，他起手守 · 克」: a beat the player spent on `key` against the target's move
 ## `before` (&"" unknown: no verdict); a perform or an order by its name alone.
 static func result_line(key: StringName, before: StringName) -> String:
+	if key == CombatEncounterScheduler.SPENT_BUSY:
+		# TRANSLATORS: the battle strip after a beat the player lost to being busy.
+		return TranslationServer.translate("这一手你在忙")
+	if key == CombatEncounterScheduler.SPENT_WAIT:
+		# TRANSLATORS: the battle strip after a beat the player let pass.
+		return TranslationServer.translate("这一手你停了")
 	if not CombatMoveTags.ALL.has(key):
 		var word: String = spent_word(key)
 		# TRANSLATORS: the battle strip after a beat that was no move ({action}: a perform's name, 功, 势).
@@ -646,6 +678,8 @@ func _show_sentence() -> void:
 	var pointed: String = _pointed_line()
 	if not pointed.is_empty():
 		strip_text.text = pointed
+		if _pointed_cost_now() > _projection.player_beats.remaining:
+			strip_text.add_theme_color_override("font_color", SHORT_COLOR)
 		return
 	var parts := PackedStringArray()
 	if not _result.is_empty():
@@ -666,22 +700,28 @@ func _show_sentence() -> void:
 ## What the move or action pointed at would take: 「空山鸟语占 2 手，出完还剩 0 手」, or why
 ## the beats cannot pay (red); "" when nothing is pointed at.
 func _pointed_line() -> String:
-	if _pointed.is_empty() or _projection == null or not _projection.beats_shown():
+	if not _pointing():
 		return ""
-	var beats: CombatRoundBeats = _projection.player_beats
-	if beats == null:
-		return ""
-	var cost: int = 0
-	var name: String = ""
-	if move_buttons.has(_pointed):
-		cost = _projection.move_costs.get(_pointed, 1)
-		name = move_title(_pointed)
-	elif action_buttons.has(_pointed):
-		cost = _projection.action_costs.get(_pointed, 0)
-		name = catalog.label_for(_pointed)
+	var cost: int = _pointed_cost_now()
 	if cost <= 0:
 		return ""
-	return pointed_line(name, cost, beats.remaining, _target_beats_left(), own_busy_of(_pointed))
+	var name: String = move_title(_pointed) if move_buttons.has(_pointed) else catalog.label_for(_pointed)
+	return pointed_line(name, cost, _projection.player_beats.remaining, _target_beats_left(), own_busy_of(_pointed))
+
+
+## Whether a move or action is pointed at and the fight waits for the player (while the
+## round plays the focus rests on the move just pressed: that is no question).
+func _pointing() -> bool:
+	return not _pointed.is_empty() and _projection != null and _projection.beats_shown() and _projection.player_beats != null and _projection.waiting and _projection.manual
+
+
+## The price of what is pointed at (0: nothing, or an order that costs none).
+func _pointed_cost_now() -> int:
+	if move_buttons.has(_pointed):
+		return _projection.move_costs.get(_pointed, 1)
+	if action_buttons.has(_pointed):
+		return _projection.action_costs.get(_pointed, 0)
+	return 0
 
 
 ## The busy a perform always leaves its performer in (PerformFunction.own_busy), 0 for any
@@ -695,18 +735,20 @@ static func own_busy_of(id: StringName) -> int:
 ## holding `theirs` this round (-1 unknown); a perform that leaves the performer `busy` longer
 ## than it costs says so after.
 static func pointed_line(name: String, cost: int, left: int, theirs: int, busy: int = 0) -> String:
-	var line: String = _pointed_cost(name, cost, left, theirs)
+	var line: String = _pointed_cost(name, cost, left, theirs, busy)
 	if busy > cost and cost <= left:
 		# TRANSLATORS: the battle strip, after what a perform costs: it leaves the player busy for {busy} moves (手) in all.
 		line += TranslationServer.translate("；出手后自己要忙 {busy} 手").format({"busy": busy})
 	return line
 
 
-static func _pointed_cost(name: String, cost: int, left: int, theirs: int) -> String:
+## The busy a perform leaves counts its beats down first (DECISIONS「战斗拍数 C」): what is
+## left after it is less by max(price, busy).
+static func _pointed_cost(name: String, cost: int, left: int, theirs: int, busy: int) -> String:
 	if cost > left:
 		# TRANSLATORS: the battle strip, pointing at a move the moves left cannot pay: {name}, its price, what is left.
 		return TranslationServer.translate("不够：{name}要 {cost} 手，你还剩 {left} 手").format({"name": name, "cost": cost, "left": left})
-	var after: int = left - cost
+	var after: int = maxi(0, left - maxi(cost, busy))
 	if after > 0:
 		# TRANSLATORS: the battle strip, pointing at a move: {name} takes {cost} moves (手), {after} left after it.
 		return TranslationServer.translate("{name}占 {cost} 手，出完还剩 {after} 手").format({"name": name, "cost": cost, "after": after})
@@ -731,32 +773,48 @@ func _target_beats_left() -> int:
 
 
 func _point(id: StringName) -> void:
+	if _quiet_focus:
+		return
 	_pointed = id
-	if _projection != null and _projection.beats_shown() and _projection.player_beats != null:
-		var cost: int = 0
+	chips.clear_preview()
+	if _pointing():
+		var cost: int = _pointed_cost_now()
 		var key: StringName = BattleBeatChips.FREE
 		if move_buttons.has(id):
-			cost = _projection.move_costs.get(id, 1)
 			key = _move_tags.get(id, CombatMoveTags.NONE)
 			if key == CombatMoveTags.NONE:
 				key = CombatBeatRules.COST_PLAIN
-		elif action_buttons.has(id):
-			cost = _projection.action_costs.get(id, 0)
-			key = CombatBeatRules.perform_key(CombatPerformTacticalPolicy.function_for(id)) if not CombatPerformTacticalPolicy.function_for(id).is_empty() else CombatBeatRules.COST_EXERT
-		chips.set_preview(cost, key, cost <= _projection.player_beats.remaining)
+		elif not CombatPerformTacticalPolicy.function_for(id).is_empty():
+			key = CombatBeatRules.perform_key(CombatPerformTacticalPolicy.function_for(id))
+		else:
+			key = CombatBeatRules.COST_EXERT
+		var left: int = _projection.player_beats.remaining
+		var ok: bool = cost <= left
+		# What it takes this round: its price, or the busy it leaves when longer (within what is left).
+		chips.set_preview(mini(maxi(cost, own_busy_of(id)), left) if ok else cost, key, ok)
 	ring.light(_move_tags.get(id, &""))
 	_show_sentence()
-	if _pointed_line().begins_with(TranslationServer.translate("不够")):
-		strip_text.add_theme_color_override("font_color", SHORT_COLOR)
 
 
 func _unpoint(id: StringName) -> void:
 	if _pointed != id:
 		return
+	_clear_point()
+
+
+## Nothing pointed at: no ghost, no lit arrows, the sentence back.
+func _clear_point() -> void:
 	_pointed = &""
 	chips.clear_preview()
 	ring.light(&"")
 	_show_sentence()
+
+
+## The battle's own focus (the first move when the fight waits): no pointing.
+func focus_quietly(control: Control) -> void:
+	_quiet_focus = true
+	control.grab_focus()
+	_quiet_focus = false
 
 
 ## 快→虚→封's words: what a spent beat went on (busy and waits as 忙 / 停).
@@ -912,6 +970,9 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 	_moves.get_parent().visible = offered and not is_asking()
 	if ids != _shown_move_ids:
 		_shown_move_ids = ids
+		_pointed = &""
+		chips.clear_preview()
+		ring.light(&"")
 		move_buttons.clear()
 		_move_titles.clear()
 		_move_subs.clear()
@@ -1123,6 +1184,7 @@ static func _show_chosen(button: Button, chosen: bool) -> void:
 
 
 func _move_pressed(action_id: StringName) -> void:
+	_clear_point()
 	move_requested.emit(action_id)
 
 
@@ -1138,18 +1200,20 @@ func _queue_status(status: int) -> String:
 	return tr("等你空下来") if status == CombatQueuedAction.Status.WAITING_FOR_BUSY else tr("就绪")
 
 
-## The first action the projection lists that has a button of its own (an exert is an item
-## of the 运功 menu), null without one.
+## The first action button as the row reads (a perform before 运功, 逃跑 and 投降 last; the
+## 运功 menu is no action of its own), null without one: one press there never flees unless
+## fleeing is all there is.
 func first_action_button() -> Button:
-	for id: StringName in _shown_ids:
-		if action_buttons.has(id):
-			return action_buttons[id]
+	for child: Node in _actions.get_children():
+		if child is Button and child != exert_menu:
+			return child as Button
 	return null
 
 
 func _action_pressed(id: StringName) -> void:
 	if _unavailable.has(id):
 		return # Greyed: it cannot run now (its hover says why).
+	_clear_point()
 	var question: PackedStringArray = confirm_text.call(id) if confirm_text.is_valid() else PackedStringArray()
 	if question.size() < 2:
 		action_requested.emit(id)
@@ -1158,7 +1222,9 @@ func _action_pressed(id: StringName) -> void:
 	_actions.hide()
 	yield_button.hide()
 	_moves.get_parent().hide()
+	_strip_shown = false
 	strip_row.hide()
+	_place_status()
 	prompt.show()
 	prompt.ask(question[0], question[1], "取消", "", true)
 	prompt.focus_default()
@@ -1180,7 +1246,9 @@ func _on_prompt_answered(yes: bool) -> void:
 	prompt.hide()
 	_actions.visible = not _shown_ids.is_empty()
 	_moves.get_parent().visible = not _shown_move_ids.is_empty()
-	strip_row.visible = _projection != null and _projection.beats_shown() and _projection.turns_offered
+	_strip_shown = _projection != null and _projection.beats_shown() and _projection.turns_offered
+	strip_row.visible = _strip_shown
+	_place_status()
 	if yes and not id.is_empty():
 		action_requested.emit(id)
 

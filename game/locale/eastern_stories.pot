@@ -7302,6 +7302,16 @@ msgstr ""
 msgid "多一手"
 msgstr ""
 
+#. the battle strip after a beat the player lost to being busy.
+#: presentation/battle/battle_action_panel.gd
+msgid "这一手你在忙"
+msgstr ""
+
+#. the battle strip after a beat the player let pass.
+#: presentation/battle/battle_action_panel.gd
+msgid "这一手你停了"
+msgstr ""
+
 #. the battle strip after a beat that was no move ({action}: a perform's name, 功, 势).
 #: presentation/battle/battle_action_panel.gd
 msgid "你出了{action}"
@@ -7365,10 +7375,6 @@ msgstr ""
 #. the battle strip, pointing at a move that takes the player's last moves this round.
 #: presentation/battle/battle_action_panel.gd
 msgid "{name}占 {cost} 手，出完你这回合没手了"
-msgstr ""
-
-#: presentation/battle/battle_action_panel.gd
-msgid "不够"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -7650,7 +7656,7 @@ msgstr ""
 
 #. hover of the battle panel's counter ring.
 #: presentation/battle/battle_counter_ring.gd
-msgid "克制：快克重、重克守、守克虚、虚克快。顺着箭头走一步，就是克它的那一类。"
+msgid "克制：快克重、重克守、守克虚、虚克快。箭头从克的一方指向被克的一方；想克他起手的那一类，就找指向它的那一印。"
 msgstr ""
 
 #. the small title over the battle panel's counter ring.
