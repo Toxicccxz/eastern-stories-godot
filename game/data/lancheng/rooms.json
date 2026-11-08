@@ -130,10 +130,11 @@
 		{
 			"id": "native:lancheng/bell_hall",
 			"short": "风铃阁",
-			"long": "阁里很高，梁上垂下来千百只小铃，长长短短，一直垂到人头顶上。风从门口进来，它们就从门口那一头响起，一层一层响到里头去。\n北墙下一排木架，架上并排挂着十口大铃，每一口的铃身上刻着一个地名。有的铃亮，有的铃是暗的。\n东边一道小门，门帘半卷着。\n",
+			"long": "阁里很高，梁上垂下来千百只小铃，长长短短，一直垂到人头顶上。风从门口进来，它们就从门口那一头响起，一层一层响到里头去。\n北墙下一排木架，架上并排挂着十口大铃，每一口的铃身上刻着一个地名。有的铃亮，有的铃是暗的。\n东边一道小门，门帘半卷着。西墙边一道窄梯，一直通到阁顶，梯口有风灌下来。\n",
 			"exits": {
 				"south": "native:lancheng/street_top",
-				"east": "native:lancheng/quiet_room"
+				"east": "native:lancheng/quiet_room",
+				"up": "native:lancheng/deck"
 			}
 		},
 		{
@@ -142,6 +143,35 @@
 			"long": "一间小屋，四壁是木板，一张矮几，一个蒲团。墙边一架旧书，书页被风吹得发脆，有几本摊着，压着一块白石。\n墙上一只铜钩，钩上空着。\n",
 			"exits": {
 				"west": "native:lancheng/bell_hall"
+			}
+		},
+		{
+			"id": "native:lancheng/deck",
+			"short": "云台",
+			"long": "风铃阁顶上出去，是一片悬在云上的白石台。台子没有栏杆，四边就是云，云下面很远的地方，有山的影子在慢慢往后退——城在走。\n白石被风磨得发亮，石缝里长着一点青苔。北边台心，风打着旋，一刻也不停。\n",
+			"outdoors": true,
+			"exits": {
+				"down": "native:lancheng/bell_hall",
+				"north": "native:lancheng/whirl",
+				"east": "native:lancheng/cloud_edge"
+			}
+		},
+		{
+			"id": "native:lancheng/whirl",
+			"short": "台心",
+			"long": "台心一股旋风，从石面上直卷上去，卷到看不见的地方。风里有一把剑，剑尖朝下，一圈一圈地转，每转一圈，就有一道白光从风里划出来。\n离得近了，风刮在脸上像刀子。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:lancheng/deck"
+			}
+		},
+		{
+			"id": "native:lancheng/cloud_edge",
+			"short": "云边",
+			"long": "台子的东边，白石到这里就断了，往外一步就是云。云在脚下翻，风从下面往上托，托得人站不稳。\n岚城的人说，剑有了主，风就会送人回去。\n",
+			"outdoors": true,
+			"exits": {
+				"west": "native:lancheng/deck"
 			}
 		}
 	]

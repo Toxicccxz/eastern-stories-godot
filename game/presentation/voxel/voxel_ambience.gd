@@ -27,6 +27,7 @@ var _bolts: Array[Dictionary] = []
 var _sunbeams: Array[Dictionary] = []
 var _fish: Array[Dictionary] = []
 var _blinks: Array[Dictionary] = []
+var _spinning: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
 ## fireflies come out only in the dark.
 var night: float = 0.0
@@ -318,6 +319,11 @@ func smoke(parent: Node3D, at: Vector3, color: String = "8d877c", count: int = 6
 		parent.add_child(puff)
 		_puffs.append({"node":puff,"base":at,"phase":float(i)/count,"rise":3.2 if size>=0.2 else 1.4})
 
+## A thing that turns about its upright (the 云台's whirlwind and the sword in it): `speed` radians
+## a second, from where it was put.
+func spin(node: Node3D, speed: float) -> void:
+	_spinning.append({"node":node,"speed":speed,"turn":node.rotation.y})
+
 ## Something seen only for a moment now and then (lake.c: 忽的见白光一闪): `node` shows for the
 ## first `duty` of every `every` seconds.
 func blink(node: Node3D, every: float, duty: float, phase: float = 0.0) -> void:
@@ -449,6 +455,8 @@ func advance(delta: float) -> void:
 		node.position = boat["base"]+Vector3(0,sin(t)*float(boat["height"]),0)
 		var turn: Vector3 = boat["turn"]
 		node.rotation = turn+Vector3(sin(t*0.7+0.6)*float(boat["roll"])*0.4,0,sin(t*0.83)*float(boat["roll"]))
+	for turning: Dictionary in _spinning:
+		(turning["node"] as Node3D).rotation.y = float(turning["turn"])+clock*float(turning["speed"])
 	for mist: Dictionary in _drifting:
 		var t: float = clock*0.06+float(mist["phase"])
 		(mist["node"] as Node3D).position = mist["base"]+Vector3(sin(t)*float(mist["reach"]),sin(t*0.7)*0.08,sin(t*0.53+1.1)*float(mist["reach"])*0.5)

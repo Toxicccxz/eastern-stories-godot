@@ -248,6 +248,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					push_error("%s could not drop %s" % [npc_name, step.item_id])
 				if npc != null:
 					_map.npc_life.scene_look_at(npc)
+			ScriptedAct.Kind.TAKE:
+				_take_from_player(step.item_id)
 			ScriptedAct.Kind.QUESTIONS:
 				# The questions wait on the player; the rest of the act is theirs to answer.
 				_show(said, hears, npc, spoken)
@@ -353,3 +355,18 @@ func _close_door(npc: NpcRuntimeState, hears: bool) -> void:
 			"npc": TranslationServer.translate(npc.definition().display_name),
 			"door": TranslationServer.translate(chosen.display_name),
 		})])
+
+
+## `take` (第十章 C, DECISIONS「拿走」): destruct(present(id, me)), one the player carries
+## directly of that definition; none carried, nothing (the act's branch asked for it).
+func _take_from_player(definition_id: StringName) -> void:
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	for item_id: StringName in _map.inventory_state().direct_children(carried):
+		var item: ItemInstance = _map.item_instance_index().resolve(item_id)
+		if item == null or item.item_definition_id != definition_id:
+			continue
+		if not _map.floor_items.use_up_one(item_id, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
+			push_error("could not take %s from the player" % definition_id)
+		elif _map.hud() != null and _map.hud().inventory_is_open() and _map.session != null:
+			_map.hud().show_inventory(_map.session.player_inventory_rows())
+		return

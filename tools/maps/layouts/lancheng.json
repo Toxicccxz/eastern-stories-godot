@@ -1788,7 +1788,7 @@
       }
     },
     "pavilion": {
-      "note": "风铃阁 (第十章 B; 剧情总纲 §3 第十章 ③, §1 底线二「岚城风铃阁」): a tall timber hall at the street's top, a thousand small bells hung from its beams; along the north wall the 十铃架, ten great bells each cut with a place's name — the ones where someone trusts you ring and shine (layout stage props by the trust marks, 计划 §4); 岚翁 under them; a quiet room east with his cushion and his books. The stair up to the 云台 is C's.",
+      "note": "风铃阁 (第十章 B; 剧情总纲 §3 第十章 ③, §1 底线二「岚城风铃阁」): a tall timber hall at the street's top, a thousand small bells hung from its beams; along the north wall the 十铃架, ten great bells each cut with a place's name — the ones where someone trusts you ring and shine (layout stage props by the trust marks, 计划 §4); 岚翁 under them; a quiet room east with his cushion and his books. A narrow stair by the west wall up to the 云台 (第十章 C).",
       "file": "lancheng_pavilion.tscn",
       "draw": {
         "technique": "interior",
@@ -2493,6 +2493,10 @@
           "lancheng.bell_hall.south": {
             "side": "south",
             "width": 128
+          },
+          "lancheng.bell_hall.up": {
+            "side": "west",
+            "width": 96
           }
         },
         "reach_from": "BellHallStreetArrival"
@@ -2642,6 +2646,442 @@
         "presentation": {
           "script": "res://presentation/voxel/world_voxel_view.gd",
           "layout": "res://data/lancheng/voxel/pavilion.json"
+        }
+      }
+    },
+    "terrace": {
+      "note": "云台 (第十章 C; 剧情总纲 §3 第十章 ④): out on top of the 风铃阁, a white stone deck hung over the cloud sea with no rail; far below the mountains slip slowly back (the town moving on the wind). In its north middle the whirlwind with 旋芒 turning in it (a layout stage prop until the sword has its hand); the cloud's edge east, where the wind puts one down at 天驼关's mirror (乘风). The stair down south.",
+      "file": "lancheng_terrace.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [
+          0,
+          32,
+          1024,
+          1056
+        ],
+        "zones": {
+          "lancheng.deck": [
+            192,
+            576,
+            832,
+            1024,
+            "town_ground"
+          ],
+          "lancheng.whirl": [
+            256,
+            160,
+            768,
+            576,
+            "town_ground"
+          ],
+          "lancheng.cloud_edge": [
+            832,
+            384,
+            1008,
+            832,
+            "town_ground"
+          ]
+        },
+        "lines": {
+          "deck": [
+            [
+              [
+                512,
+                984,
+                40,
+                70,
+                70,
+                2,
+                "up the stair from the 风铃阁"
+              ],
+              [
+                512,
+                820,
+                44,
+                90,
+                90,
+                6
+              ],
+              [
+                512,
+                600,
+                48,
+                110,
+                110,
+                6
+              ],
+              [
+                512,
+                420,
+                48,
+                120,
+                120,
+                4,
+                "round the whirl"
+              ]
+            ],
+            [
+              [
+                600,
+                760,
+                30,
+                40,
+                40,
+                4
+              ],
+              [
+                760,
+                680,
+                30,
+                40,
+                40,
+                4
+              ],
+              [
+                920,
+                620,
+                30,
+                60,
+                60,
+                2,
+                "out to the cloud's edge"
+              ]
+            ]
+          ]
+        },
+        "steps": [
+          {
+            "op": "freeze"
+          },
+          {
+            "op": "blobs",
+            "note": "the deck: one white stone shelf, round-shouldered, the whirl's ring in its north middle",
+            "amp": 0.16,
+            "seed": [
+              0.013,
+              0.007
+            ],
+            "blobs": [
+              [
+                512,
+                860,
+                230,
+                150,
+                "the stair's landing"
+              ],
+              [
+                512,
+                640,
+                280,
+                170
+              ],
+              [
+                512,
+                380,
+                230,
+                180,
+                "round the whirl"
+              ],
+              [
+                880,
+                620,
+                120,
+                160,
+                "the cloud's edge"
+              ]
+            ]
+          },
+          {
+            "op": "lines",
+            "group": "deck",
+            "kind": "street"
+          },
+          {
+            "op": "clip"
+          },
+          {
+            "op": "separate"
+          },
+          {
+            "op": "drop_pockets",
+            "from": "DeckStairArrival"
+          },
+          {
+            "op": "fill",
+            "note": "what blocks: the whirlwind (stage prop: gone once the sword has its hand) and the stone lanterns",
+            "fills": [
+              [
+                "blocked",
+                480,
+                304,
+                544,
+                368,
+                "the whirlwind with 旋芒 turning in it",
+                {
+                  "look": {
+                    "kind": "whirl",
+                    "until": {
+                      "any": [
+                        {
+                          "mark": "旋芒在你手里"
+                        },
+                        {
+                          "mark": "旋芒在皇叔手里"
+                        },
+                        {
+                          "mark": "旋芒在萧辟尘手里"
+                        }
+                      ]
+                    },
+                    "colors": [
+                      "d0dde6",
+                      "c0d0dc",
+                      "e4edf3"
+                    ],
+                    "rings": 13
+                  }
+                }
+              ],
+              [
+                "blocked",
+                480,
+                304,
+                544,
+                368,
+                "the calm ring where it turned",
+                {
+                  "look": {
+                    "kind": "whirl",
+                    "calm": true,
+                    "present": {
+                      "any": [
+                        {
+                          "mark": "旋芒在你手里"
+                        },
+                        {
+                          "mark": "旋芒在皇叔手里"
+                        },
+                        {
+                          "mark": "旋芒在萧辟尘手里"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              [
+                "blocked",
+                352,
+                704,
+                384,
+                736,
+                "a stone lantern",
+                {
+                  "look": {
+                    "kind": "stone_lantern"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                640,
+                704,
+                672,
+                736,
+                {
+                  "look": {
+                    "kind": "stone_lantern"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                400,
+                960,
+                432,
+                992,
+                "the stair's head, a stone post either side",
+                {
+                  "look": {
+                    "kind": "stone_lantern"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                592,
+                960,
+                624,
+                992,
+                {
+                  "look": {
+                    "kind": "stone_lantern"
+                  }
+                }
+              ]
+            ]
+          }
+        ],
+        "reach_from": "DeckStairArrival",
+        "caption_near": {
+          "lancheng.deck": [
+            300,
+            900
+          ],
+          "lancheng.whirl": [
+            330,
+            250
+          ],
+          "lancheng.cloud_edge": [
+            900,
+            520
+          ]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "LanchengTerrace",
+        "map": "lancheng.terrace",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_96_32": [
+            96,
+            32
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "StairLabel",
+            "at": [
+              512,
+              1004
+            ],
+            "text": "下 · 风铃阁",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "StairPassage",
+            "id": "lancheng.deck.down",
+            "at": [
+              512,
+              976
+            ],
+            "shape": "Rect_96_32"
+          },
+          {
+            "node": "service",
+            "name": "DrawSelf",
+            "id": "lancheng.whirl.self",
+            "at": [
+              448,
+              440
+            ],
+            "text": "旋芒 · 自己拔"
+          },
+          {
+            "node": "service",
+            "name": "DrawUncle",
+            "id": "lancheng.whirl.uncle",
+            "at": [
+              512,
+              460
+            ],
+            "text": "旋芒 · 请皇叔"
+          },
+          {
+            "node": "service",
+            "name": "DrawXiao",
+            "id": "lancheng.whirl.xiao",
+            "at": [
+              576,
+              440
+            ],
+            "text": "旋芒 · 让萧辟尘拔"
+          },
+          {
+            "node": "service",
+            "name": "RideWind",
+            "id": "lancheng.cloud_edge.ride",
+            "at": [
+              940,
+              620
+            ],
+            "text": "云边 · 乘风"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "name": "DeckStairArrival",
+            "at": [
+              512,
+              900
+            ],
+            "id": "lancheng.deck.stair_arrival"
+          },
+          {
+            "name": "LanWengTerrace",
+            "at": [
+              640,
+              400
+            ],
+            "id": "lancheng.whirl.lan_weng.1"
+          },
+          {
+            "name": "UncleWind",
+            "at": [
+              400,
+              330
+            ],
+            "id": "lancheng.whirl.uncle.1"
+          },
+          {
+            "name": "XiaoWind",
+            "at": [
+              624,
+              330
+            ],
+            "id": "lancheng.whirl.xiao.1"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "WhirlInteraction",
+            "id": "lancheng.whirl.landmark.whirl",
+            "at": [
+              512,
+              384
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "CloudsInteraction",
+            "id": "lancheng.cloud_edge.landmark.clouds",
+            "at": [
+              960,
+              700
+            ],
+            "shape": "Rect_64_32"
+          }
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/lancheng/voxel/terrace.json"
         }
       }
     }

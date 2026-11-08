@@ -637,6 +637,9 @@
     "native.npc.yu_zijian_drawn": {"same_as": "city.npc.shangshu.shangshu"},
     "native.npc.feng_ce_beside": {"same_as": "native.npc.feng_ce"},
     "native.npc.song_pu_messenger": {"same_as": "native.npc.song_pu"},
+    "native.npc.song_pu_mirror": {"same_as": "native.npc.song_pu"},
+    "native.npc.yulan_tianwu_wind": {"same_as": "common.npc.fighter.champion"},
+    "native.npc.xiao_pichen_home": {"same_as": "common.npc.fighter.master"},
     "native.npc.neizhai_guard": {"same_as": "city.npc.shangshu.huyuan"},
     "native.npc.niling_courier": {"same_as": "native.npc.niling_gatekeeper"}
   }

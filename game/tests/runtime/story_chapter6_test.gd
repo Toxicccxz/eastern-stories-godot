@@ -114,7 +114,7 @@ func _test_data() -> void:
 	_check(catalog.npc(&"canyon.npc.seller").talk().inquiry_topics() == ["印色"], "the 后备兵 on the 印色")
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
 	_check(luca != null and luca.gender == &"男性" and luca.age == 34 and luca.dealings().object_rules[1].gives == GLADIUS and luca.dealings().object_rules[1].value_at_least == 2000, "卢卡: a man of 34, his sword for twenty taels")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_LANCHENG_B_V1, "第十章 B's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_LANCHENG_C_V1, "第十章 C's world revision is current")
 
 
 ## A woman from the escort: the camp, the mould, the 印色, the gate by the roll, the city, 卢卡, 老秦.

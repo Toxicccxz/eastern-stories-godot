@@ -1,0 +1,31 @@
+{
+	"quests": [
+		{
+			"id": "main.finale",
+			"title": "回到湖底",
+			"line": "main",
+			"region": "玉螺湖村",
+			"sources": [
+				"native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) (剧情总纲 §3 终章: 三器齐才灭，缺一再封; 谁来按事迹): the one step the 云台 opens; the rest is the finale's package."
+			],
+			"summary": "穿灵、旋芒、宝衣。三器凑没凑齐，湖底那颗头都在等。拔钉，斩鬼，或者再封它。",
+			"requires": [
+				"main.chapter10"
+			],
+			"steps": [
+				{
+					"id": "lake",
+					"objective": "回到湖底。拔钉，斩鬼，或者再封它。",
+					"done": {
+						"mark": "回到了湖底"
+					},
+					"text": "湖面平得像一块铁。",
+					"target": {
+						"map": "village.main",
+						"zone": "village.lakeside"
+					}
+				}
+			]
+		}
+	]
+}

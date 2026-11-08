@@ -2301,6 +2301,69 @@
 				"宋朴手里的核桃慢慢地转着。\n",
 				"宋朴冲你点了点头：尚书大人记着你的情。\n"
 			]
+		},
+		{
+			"id": "native.npc.song_pu_mirror",
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 宋朴 (第九章 D: 庾子建's eyes, 续写) waiting at 天驼关's mirror on the 私了 ledger: the hook for 庾子建 at the lake in the finale (计划 §0 章末)",
+			"name": "宋朴",
+			"aliases": [
+				"song pu",
+				"song"
+			],
+			"title": "大内侍卫营副教头",
+			"gender": "男性",
+			"age": 55,
+			"long": "一个瘦削的老者，白袍，站在石林那面镜子旁边，手里捏着一串核桃，没有转。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 28,
+				"int": 30,
+				"spi": 28,
+				"cps": 30,
+				"per": 20,
+				"con": 28,
+				"kar": 22
+			},
+			"combat_exp": 300000,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 140,
+				"sword": 150,
+				"dodge": 160,
+				"parry": 150,
+				"force": 140
+			},
+			"fight_deferred": "宋朴退了半步：我是来传话的。",
+			"calls": [
+				{
+					"after": 1,
+					"reaction": true,
+					"not_mark": "宋朴看见了旋芒",
+					"steps": [
+						{
+							"emote": "从镜子旁边直起身来，核桃在手心里停着。"
+						},
+						{
+							"say": "尚书大人问，剑在谁手里。"
+						},
+						{
+							"emote": "看了你一眼，又看了看你身后的镜子，没等你答。"
+						},
+						{
+							"say": "不用说了。尚书大人会知道的——到了湖边，他自己来问。"
+						},
+						{
+							"mark": "宋朴看见了旋芒"
+						},
+						{
+							"line": "宋朴转身走进石林，雾一合，人就没了。\n"
+						},
+						{
+							"leave": true
+						}
+					]
+				}
+			]
 		}
 	]
 }

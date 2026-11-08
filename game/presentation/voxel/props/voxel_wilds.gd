@@ -41,6 +41,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"lost_pack": _lost_pack()
 		"cloud_sea": _cloud_sea(w,d)
 		"far_peak": _far_peak(w,d)
+		"whirl": _whirl(w,d)
 		"stuck_swords": _stuck_swords(w,d)
 		"stalagmites": _stalagmites(w,d)
 		"overhang": _overhang(w,d)
@@ -912,6 +913,50 @@ func _cloud_sea(w: float, d: float) -> void:
 		if peak.size() > 4 and peak[4]:
 			# A pine bent on the summit, as far peaks are drawn.
 			s.box(root,base+Vector3(0,top+0.5,0),Vector3(0.9,0.6,0.7),"5a6a64"+suffix)
+
+## 旋风 (第十章 C, the 云台's whirl: doc/help/myth 寒於's 旋芒, history:75 属岚城中一位仙人): a column of
+## wind off the white stone, rings of mist (`colors`, `rings`; ":mist", seen through yet white against
+## the white stone) turning about its middle, each wider than the one below, a sword point down in it
+## turning faster (`blade`, `wrap`: the red cord at its grip), lit white by itself; `calm`: once the
+## sword has its hand, only the ring the wind wore into the stone and the cord's frayed end lying on it.
+func _whirl(w: float, d: float) -> void:
+	var radius: float = minf(w,d)*0.5
+	var worn: String = String(data.get("worn","f6f2e6"))
+	for i: int in 14:
+		var a: float = i*TAU/14.0
+		s.tilted_box(root,Vector3(cos(a)*radius*0.9,0.015,sin(a)*radius*0.9),Vector3(radius*0.46,0.03,0.16),worn,Vector3(0,-a,0))
+	if data.get("calm",false):
+		s.tilted_box(root,Vector3(radius*0.3,0.04,-radius*0.2),Vector3(0.42,0.03,0.05),String(data.get("wrap","e8a888")),Vector3(0,0.6,0))
+		return
+	var mist: Array = _colors("colors",["eef2f4","e2e8ec","f8fafa"])
+	var turning := Node3D.new()
+	root.add_child(turning)
+	var rings: int = int(data.get("rings",11))
+	for ring: int in rings:
+		var r: float = radius*(0.45+ring*0.09)
+		var y: float = 0.25+ring*0.42
+		for j: int in 7:
+			var a: float = j*TAU/7.0+ring*0.55
+			s.tilted_box(turning,Vector3(cos(a)*r,y,sin(a)*r),Vector3(r*0.75,0.1,0.14),_pick(mist)+":mist",Vector3(0,-a-PI/2,0.18))
+	var sword := Node3D.new()
+	sword.position = Vector3(0,1.9,0)
+	root.add_child(sword)
+	var blade: String = String(data.get("blade","f4f6f8:glow"))
+	s.box(sword,Vector3(0,-0.55,0),Vector3(0.1,1.3,0.035),blade)
+	s.box(sword,Vector3(0,-1.25,0),Vector3(0.05,0.14,0.03),blade)
+	s.box(sword,Vector3(0,0.13,0),Vector3(0.34,0.05,0.07),String(data.get("guard","c8b890")))
+	s.box(sword,Vector3(0,0.36,0),Vector3(0.06,0.4,0.06),String(data.get("wrap","e8a888")))
+	s.box(sword,Vector3(0,0.6,0),Vector3(0.09,0.08,0.09),blade)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,1.8,0)
+	light.light_color = Color(String(data.get("light","eef4ff")))
+	light.omni_range = float(data.get("range",5.0))
+	light.set_meta("day_energy",float(data.get("day",0.8)))
+	light.set_meta("night_energy",float(data.get("night",2.0)))
+	root.add_child(light)
+	if ambience != null:
+		ambience.spin(turning,float(data.get("speed",1.4)))
+		ambience.spin(sword,float(data.get("speed",1.4))*2.2)
 
 ## A far peak seen across the valleys (wpath4.c: 西面山顶上竖立在虹台中央的「擎天柱」): a main
 ## summit and two shoulders of stepped rock in the blue of distance (`colors`; `haze`: seen
