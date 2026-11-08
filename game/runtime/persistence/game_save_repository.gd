@@ -106,13 +106,39 @@ func read_backup_summary() -> GameSaveSlotSummary:
 	return _summary_of(_profile.backup_path(), false)
 
 
+## Rows already read, by the file's size and its bytes' hash: [the contract asked, the row].
+## A file whose bytes were read before gives the same row without the UTF-8 walk and the
+## parse (owner, 2026-11-07: 读取存档 held the frame a fifth of a second), also once it is the
+## .bak. Shared by every slot's repository, the workers' among them, so under a lock.
+static var _summaries: Dictionary[Vector2i, Array] = {}
+static var _summaries_lock: Mutex = Mutex.new()
+const SUMMARIES_KEPT: int = 32
+
+
 func _summary_of(path: String, recoverable: bool) -> GameSaveSlotSummary:
 	if not _files.file_exists(path):
 		return GameSaveSlotSummary.new(_profile.slot_id, GameSaveSlotSummary.State.EMPTY, recoverable)
 	var read: SaveFileReadResult = _files.read_bytes(path, MAXIMUM_FILE_BYTES)
-	if read.error != OK or not _is_valid_utf8(read.bytes):
+	if read.error != OK:
 		return GameSaveSlotSummary.new(_profile.slot_id, GameSaveSlotSummary.State.UNREADABLE, recoverable)
-	return GameSaveSlotSummary.of_text(_profile.slot_id, read.bytes.get_string_from_utf8(), _requires_current_public_contract(), recoverable)
+	var key := Vector2i(read.bytes.size(), hash(read.bytes))
+	var current_only: bool = _requires_current_public_contract()
+	_summaries_lock.lock()
+	var known: Array = _summaries.get(key, [])
+	_summaries_lock.unlock()
+	if known.size() == 2 and bool(known[0]) == current_only:
+		return (known[1] as GameSaveSlotSummary).copied(_profile.slot_id, recoverable)
+	var summary: GameSaveSlotSummary
+	if not _is_valid_utf8(read.bytes):
+		summary = GameSaveSlotSummary.new(_profile.slot_id, GameSaveSlotSummary.State.UNREADABLE, recoverable)
+	else:
+		summary = GameSaveSlotSummary.of_text(_profile.slot_id, read.bytes.get_string_from_utf8(), current_only, recoverable)
+	_summaries_lock.lock()
+	if _summaries.size() >= SUMMARIES_KEPT:
+		_summaries.clear()
+	_summaries[key] = [current_only, summary.copied(_profile.slot_id, false)]
+	_summaries_lock.unlock()
+	return summary
 
 
 func storage_profile_id() -> StringName:
