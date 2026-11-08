@@ -2,7 +2,7 @@
 	"people": {
 		"common.npc.beggar.master": {"mode": "still", "pose": "sit_ground"},
 		"common.npc.bonze.master": {"mode": "still", "pose": "sit_ground"},
-		"common.npc.chater2": "wander",
+		"common.npc.chater2": {"mode": "wander", "night": "home"},
 		"common.npc.dancer.master": {"mode": "still", "pose": "sit"},
 		"common.npc.fighter.champion": "still",
 		"common.npc.fighter.executioner": "still",

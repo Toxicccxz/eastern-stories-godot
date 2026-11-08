@@ -1173,6 +1173,1477 @@
           "layout": "res://data/lancheng/voxel/wilds.json"
         }
       }
+    },
+    "street": {
+      "note": "白石街 (第十章 B; 剧情总纲 §3 第十章 ②, §6 岚城卡: 白石街、风铃、雾): where the wind stops, the town — the 白石门 on the island's south lip, the mist below it; a white-stone street climbing north in two bends between round-shouldered white houses with bells under every eave; the 铃匠's open workshop on a terrace west of the first bend, the empty 萧家 yard east of the second; the street's top terrace before the 风铃阁's door (a map of its own).",
+      "file": "lancheng_street.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [
+          0,
+          32,
+          1280,
+          1696
+        ],
+        "zones": {
+          "lancheng.white_gate": [
+            448,
+            1344,
+            832,
+            1664,
+            "town_ground"
+          ],
+          "lancheng.white_street": [
+            256,
+            512,
+            1024,
+            1344,
+            "town_ground"
+          ],
+          "lancheng.bellsmith": [
+            64,
+            768,
+            256,
+            1088,
+            "floor_yard"
+          ],
+          "lancheng.xiao_house": [
+            1024,
+            576,
+            1216,
+            896,
+            "floor_yard"
+          ],
+          "lancheng.street_top": [
+            384,
+            224,
+            896,
+            512,
+            "town_ground"
+          ]
+        },
+        "lines": {
+          "street": [
+            [
+              [
+                640,
+                1624,
+                40,
+                70,
+                70,
+                2,
+                "inside the 白石门"
+              ],
+              [
+                640,
+                1440,
+                44,
+                80,
+                80,
+                6
+              ],
+              [
+                560,
+                1250,
+                44,
+                80,
+                80,
+                8,
+                "the first bend"
+              ],
+              [
+                470,
+                1080,
+                44,
+                80,
+                80,
+                8
+              ],
+              [
+                600,
+                880,
+                44,
+                80,
+                80,
+                8
+              ],
+              [
+                800,
+                720,
+                44,
+                80,
+                80,
+                8,
+                "the second bend"
+              ],
+              [
+                700,
+                560,
+                44,
+                80,
+                80,
+                6
+              ],
+              [
+                640,
+                420,
+                48,
+                100,
+                100,
+                4
+              ],
+              [
+                640,
+                252,
+                40,
+                70,
+                70,
+                2,
+                "to the 风铃阁's door"
+              ]
+            ],
+            [
+              [
+                470,
+                1000,
+                30,
+                30,
+                30,
+                4
+              ],
+              [
+                300,
+                940,
+                30,
+                30,
+                30,
+                4
+              ],
+              [
+                160,
+                930,
+                30,
+                50,
+                50,
+                2,
+                "into the bellsmith's yard"
+              ]
+            ],
+            [
+              [
+                760,
+                760,
+                30,
+                30,
+                30,
+                4
+              ],
+              [
+                960,
+                720,
+                30,
+                30,
+                30,
+                4
+              ],
+              [
+                1120,
+                720,
+                30,
+                50,
+                50,
+                2,
+                "into the 萧家 yard"
+              ]
+            ]
+          ]
+        },
+        "steps": [
+          {
+            "op": "freeze"
+          },
+          {
+            "op": "blobs",
+            "note": "the open ground: the gate's little square, the street's bends, the top terrace, the two yards",
+            "amp": 0.18,
+            "seed": [
+              0.011,
+              0.006
+            ],
+            "blobs": [
+              [
+                640,
+                1500,
+                170,
+                130,
+                "inside the gate"
+              ],
+              [
+                560,
+                1250,
+                150,
+                110
+              ],
+              [
+                470,
+                1060,
+                140,
+                120
+              ],
+              [
+                700,
+                780,
+                160,
+                120
+              ],
+              [
+                640,
+                380,
+                230,
+                140,
+                "the top terrace"
+              ],
+              [
+                160,
+                928,
+                88,
+                150,
+                "the bellsmith's yard"
+              ],
+              [
+                1120,
+                736,
+                88,
+                150,
+                "the 萧家 yard"
+              ]
+            ]
+          },
+          {
+            "op": "lines",
+            "group": "street",
+            "kind": "street"
+          },
+          {
+            "op": "clip"
+          },
+          {
+            "op": "separate"
+          },
+          {
+            "op": "drop_pockets",
+            "from": "WhiteGateArrival"
+          },
+          {
+            "op": "fill",
+            "note": "the houses (voxel: game/data/lancheng/voxel/street.json buildings) and what blocks",
+            "fills": [
+              [
+                "wall",
+                320,
+                1376,
+                448,
+                1488,
+                "a white house west of the gate square"
+              ],
+              [
+                "wall",
+                832,
+                1376,
+                960,
+                1488,
+                "and east of it"
+              ],
+              [
+                "wall",
+                272,
+                1152,
+                400,
+                1248
+              ],
+              [
+                "wall",
+                656,
+                1104,
+                800,
+                1200,
+                "a house in the first bend"
+              ],
+              [
+                "wall",
+                752,
+                880,
+                896,
+                992
+              ],
+              [
+                "wall",
+                336,
+                640,
+                480,
+                752
+              ],
+              [
+                "wall",
+                880,
+                560,
+                1008,
+                672
+              ],
+              [
+                "wall",
+                64,
+                768,
+                256,
+                832,
+                "the bellsmith's shop at the back of its yard, open to it"
+              ],
+              [
+                "wall",
+                1040,
+                576,
+                1216,
+                640,
+                "the 萧家 house, shut"
+              ],
+              [
+                "wall",
+                480,
+                96,
+                800,
+                224,
+                "the 风铃阁 (its inside: lancheng_pavilion)"
+              ],
+              [
+                "wall",
+                448,
+                1632,
+                576,
+                1680,
+                "the 白石门's piers either side of the way out"
+              ],
+              [
+                "wall",
+                704,
+                1632,
+                832,
+                1680
+              ],
+              [
+                "blocked",
+                96,
+                864,
+                128,
+                896,
+                "the bellsmith's anvil",
+                {
+                  "look": {
+                    "kind": "anvil"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                208,
+                848,
+                240,
+                896,
+                "a bell half cast, in its frame",
+                {
+                  "look": {
+                    "kind": "temple_bell",
+                    "frame": "8a7a5a",
+                    "colors": [
+                      "6a8a6a",
+                      "5a7a5a",
+                      "7a9a7a"
+                    ]
+                  }
+                }
+              ],
+              [
+                "blocked",
+                80,
+                992,
+                128,
+                1024,
+                "racks of moulds and tongs",
+                {
+                  "look": {
+                    "kind": "tool_rack"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                1168,
+                688,
+                1200,
+                720,
+                "the 萧家's dry well",
+                {
+                  "look": {
+                    "kind": "well"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                576,
+                304,
+                608,
+                336,
+                "a stone lantern on the top terrace",
+                {
+                  "look": {
+                    "kind": "stone_lantern"
+                  }
+                }
+              ],
+              [
+                "blocked",
+                672,
+                304,
+                704,
+                336,
+                {
+                  "look": {
+                    "kind": "stone_lantern"
+                  }
+                }
+              ]
+            ]
+          }
+        ],
+        "reach_from": "WhiteGateArrival",
+        "caption_near": {
+          "lancheng.white_gate": [
+            520,
+            1560
+          ],
+          "lancheng.white_street": [
+            330,
+            1300
+          ],
+          "lancheng.bellsmith": [
+            90,
+            1060
+          ],
+          "lancheng.xiao_house": [
+            1140,
+            860
+          ],
+          "lancheng.street_top": [
+            430,
+            470
+          ]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "LanchengStreet",
+        "map": "lancheng.street",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_96_32": [
+            96,
+            32
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "PavilionLabel",
+            "at": [
+              640,
+              236
+            ],
+            "text": "北 · 风铃阁",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "PavilionPassage",
+            "id": "lancheng.street_top.north",
+            "at": [
+              640,
+              244
+            ],
+            "shape": "Rect_96_32"
+          },
+          {
+            "node": "service",
+            "name": "WhiteGateOut",
+            "id": "lancheng.white_gate.out",
+            "at": [
+              640,
+              1610
+            ],
+            "text": "白石门 · 出城"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "name": "WhiteGateArrival",
+            "at": [
+              640,
+              1560
+            ],
+            "id": "lancheng.white_gate.arrival"
+          },
+          {
+            "name": "StreetTopPavilionReturn",
+            "at": [
+              640,
+              300
+            ],
+            "id": "lancheng.street_top.pavilion_return"
+          },
+          {
+            "name": "LanChild",
+            "at": [
+              576,
+              1520
+            ],
+            "id": "lancheng.white_gate.lan_child.1"
+          },
+          {
+            "name": "Bellsmith",
+            "at": [
+              160,
+              896
+            ],
+            "id": "lancheng.bellsmith.bellsmith.1"
+          },
+          {
+            "name": "Sweeper",
+            "at": [
+              704,
+              760
+            ],
+            "id": "lancheng.white_street.sweeper.1"
+          },
+          {
+            "name": "ResidentOne",
+            "at": [
+              520,
+              1200
+            ],
+            "id": "lancheng.white_street.resident.1"
+          },
+          {
+            "name": "ResidentTwo",
+            "at": [
+              520,
+              980
+            ],
+            "id": "lancheng.white_street.resident.2"
+          },
+          {
+            "name": "ResidentThree",
+            "at": [
+              760,
+              400
+            ],
+            "id": "lancheng.street_top.resident.1"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "HookInteraction",
+            "id": "lancheng.xiao_house.landmark.hook",
+            "at": [
+              1120,
+              672
+            ],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "GateInteraction",
+            "id": "lancheng.white_gate.landmark.gate",
+            "at": [
+              560,
+              1600
+            ],
+            "shape": "Rect_64_32"
+          }
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/lancheng/voxel/street.json"
+        }
+      }
+    },
+    "pavilion": {
+      "note": "风铃阁 (第十章 B; 剧情总纲 §3 第十章 ③, §1 底线二「岚城风铃阁」): a tall timber hall at the street's top, a thousand small bells hung from its beams; along the north wall the 十铃架, ten great bells each cut with a place's name — the ones where someone trusts you ring and shine (layout stage props by the trust marks, 计划 §4); 岚翁 under them; a quiet room east with his cushion and his books. The stair up to the 云台 is C's.",
+      "file": "lancheng_pavilion.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "lancheng.bell_hall": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "large",
+            "life": {
+              "use": "bell_hall",
+              "wealth": "plain",
+              "seed": 131,
+              "tidy": true
+            }
+          },
+          "lancheng.quiet_room": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "room",
+            "life": {
+              "use": "study",
+              "wealth": "plain",
+              "seed": 132,
+              "tidy": true
+            }
+          }
+        },
+        "props": [
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.07,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 雪亭 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "放过了刘安禄"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.07,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "放过了刘安禄"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.166,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 老松岭 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "安葬无名人"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.166,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "安葬无名人"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.261,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 水烟阁 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "替南危水保密"
+                    },
+                    {
+                      "mark": "卫沧澜出了尚书府"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.261,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "替南危水保密"
+                    },
+                    {
+                      "mark": "卫沧澜出了尚书府"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.357,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 野羊山 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "霍铮回了寨"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.357,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "霍铮回了寨"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.452,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 晚月庄 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "宝衣给了安妮儿"
+                    },
+                    {
+                      "mark": "瑷伦守到决战"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.452,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "宝衣给了安妮儿"
+                    },
+                    {
+                      "mark": "瑷伦守到决战"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.548,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 乔阴 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "陈显祖作了证"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.548,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "陈显祖作了证"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.644,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 关北 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "关北的骑兵欠你一阵"
+                    },
+                    {
+                      "mark": "王府干净"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.644,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "关北的骑兵欠你一阵"
+                    },
+                    {
+                      "mark": "王府干净"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.739,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 番坊 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "火前说了真话"
+                    },
+                    {
+                      "mark": "大秦人留下了"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.739,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "火前说了真话"
+                    },
+                    {
+                      "mark": "大秦人留下了"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.835,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 玉螺湖村 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "查清了封物"
+                    },
+                    {
+                      "mark": "村口的鬼卒退了"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.835,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "查清了封物"
+                    },
+                    {
+                      "mark": "村口的鬼卒退了"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.93,
+              0.12
+            ],
+            0.9,
+            0.6,
+            "the bell of 京师 (silent until someone there trusts you)",
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "5a4a3a",
+                "colors": [
+                  "4a4a3a",
+                  "3e3e32",
+                  "55553e"
+                ],
+                "until": {
+                  "any": [
+                    {
+                      "mark": "冯策随你下湖"
+                    },
+                    {
+                      "mark": "皇叔入朝"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.93,
+              0.12
+            ],
+            0.9,
+            0.6,
+            {
+              "look": {
+                "kind": "temple_bell",
+                "frame": "8a3226",
+                "colors": [
+                  "d8b860",
+                  "e8c870",
+                  "c8a850"
+                ],
+                "present": {
+                  "any": [
+                    {
+                      "mark": "冯策随你下湖"
+                    },
+                    {
+                      "mark": "皇叔入朝"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.quiet_room",
+            [
+              "rel",
+              0.5,
+              0.3
+            ],
+            1.0,
+            0.8,
+            "岚翁's cushion and low table",
+            {
+              "look": {
+                "kind": "prayer_cushion"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "lancheng.quiet_room",
+            [
+              "rel",
+              0.8,
+              0.12
+            ],
+            2.0,
+            0.6,
+            "an old shelf of books, wind-dried",
+            {
+              "look": {
+                "kind": "shelf"
+              }
+            }
+          ]
+        ],
+        "placed": {
+          "lancheng.bell_hall.lan_weng.1": [
+            "lancheng.bell_hall",
+            [
+              "rel",
+              0.5,
+              0.42
+            ]
+          ]
+        },
+        "doors": {
+          "lancheng.bell_hall.south": {
+            "side": "south",
+            "width": 128
+          }
+        },
+        "reach_from": "BellHallStreetArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "LanchengPavilion",
+        "map": "lancheng.pavilion",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [
+            64,
+            32
+          ],
+          "Rect_32_32": [
+            32,
+            32
+          ]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "Bell0Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_snow",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.07,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell1Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_oldpine",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.166,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell2Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_waterfog",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.261,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell3Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_goathill",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.357,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell4Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_latemoon",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.452,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell5Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_choyin",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.548,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell6Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_guanbei",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.644,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell7Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_fanfang",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.739,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell8Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_village",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.835,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "Bell9Interaction",
+            "id": "lancheng.bell_hall.landmark.bell_city",
+            "room": "lancheng.bell_hall",
+            "anchor": [
+              "rel",
+              0.93,
+              0.24
+            ],
+            "shape": "Rect_32_32"
+          }
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/lancheng/voxel/pavilion.json"
+        }
+      }
     }
   }
 }

@@ -88,7 +88,9 @@
 			"stroll_max_px": 140,
 			"home_radius_px": 160,
 			"speed_px": 46,
-			"stop_reach_px": 88
+			"stop_reach_px": 88,
+			"night_home": true,
+			"night_phases": ["night", "midnight"]
 		},
 		"feel": {
 			"map_fade_out_ms": 150,

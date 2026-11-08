@@ -1460,6 +1460,42 @@
     190
    ]
   },
+  "lancheng.street": {
+   "anchor": [
+    102.1,
+    80.5
+   ],
+   "pins": {
+    "door:lancheng.pavilion": [
+     159.5,
+     43.0
+    ],
+    "zone:lancheng.bellsmith": [
+     56.6,
+     54.8
+    ],
+    "zone:lancheng.street_top": [
+     148.5,
+     50.2
+    ],
+    "zone:lancheng.white_gate": [
+     48.1,
+     115.9
+    ],
+    "zone:lancheng.white_street": [
+     99.0,
+     82.6
+    ],
+    "zone:lancheng.xiao_house": [
+     158.4,
+     99.2
+    ]
+   },
+   "size": [
+    204,
+    160
+   ]
+  },
   "latemoon.hills": {
    "anchor": [
     211.8,
@@ -2413,8 +2449,8 @@
    ]
   }
  },
- "common": "1275c29b2af98bf5fbbac8e76d84772650838c59b473cef922b5ca093e328cae",
- "fingerprint": "222285a7cc7bc1aa868f7e1e76ef073dad2c29536dc55027afdc7a7f23c55465",
+ "common": "c1ba39048a5df73c8e527e33ff40e8c023a35bc40163ac0a5dcc277e4190b5d1",
+ "fingerprint": "3db583d52bce2510339eb7c7277a02b73accdedf1503ff806c9ef7f7614c7bdb",
  "frame": [
   -769.1,
   14.6,
@@ -2422,21 +2458,21 @@
   823.0
  ],
  "land_done": true,
- "places": "ec72cfa4b786c88f5252e019f403739fbc7c81f103b1ad201ae98cf2e7027327",
+ "places": "4133bedadbda4d7c47c2125cc49070a55658469ec59d1ff01eded4fdfc263a0e",
  "px": 4.0,
  "regions": {
   "canyon": "73aaa2545f7ed4551b682c4720b75ae10cdb7737d5cdfc28e51c7c29b5b4a787",
   "choyin": "e86c5bb125296c0342e7aea809dc5f172c88445782575bcf59c836924651acfd",
   "chuenyu": "a0e68d841185594e6d9d9e5f5cf08f805fadffc64c6114e821c371f219a060a6",
-  "city": "773219cc90121e72da6285615530d35247cfd88a9049170599483292184b5054",
+  "city": "80b8b8c74ef0f00ede6c2418c1ebb7ca924e1eb9cd2df61cdb1b9af2b5b62896",
   "cloud": "4134a0ae753b69827567b6dbee941e31cae55c74d0fe4c198e84390956887124",
   "death": "61ec12773235f2448b2942a6f84d7c8463c1aa1378bcc6dc479e061c9a5bb0f4",
   "fanfang": "129608b8fb5ea6ca494436ce7587f0561b41451f1b42cc055fe3c68f68045122",
   "goathill": "de6a5c084e84d62ce2fe2ece92c7c664aa43c4eec54261767c5f5593b00f1258",
   "green": "6c705e469fccadba1e81a710bcd179418c9941ad403bcf13a4feb74086c0fedd",
   "guanbei": "68f325e7b8ebb08d6f38153f7a0d4dea191197aac4c21964e936e92f32f06cd9",
-  "imperial": "fa90b500a0d4a22c861db2cd5e45cdd0ebedea77def943916a025b9495e50f59",
-  "lancheng": "ca49535c0df182f7be9a2c1f23aedf71ae7bf9ea7d9b606093c51788376615df",
+  "imperial": "221cd0b3dc3cbccbb992da98724ce839ebaf818cf5ffdfc6f884c4b7ca0fbbd9",
+  "lancheng": "30f7c3308857a19ca62d6fe9e2b5278ca3654320c66df8a1e079d9c67b4ba8c9",
   "latemoon": "0580e10d5d853f330d8bd43fe35f4ba193044eba8b623c890347735356a3e990",
   "niling": "7598784ecdeb19a045aa58c24f7d03da2c12dbd6e54cccd770d7eed08159b393",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",
@@ -2550,13 +2586,92 @@
    ]
   },
   {
+   "a": "canyon.bamboo",
+   "at": [
+    2109,
+    434
+   ],
+   "b": "lancheng.street",
+   "file": "road_02",
+   "line": [
+    [
+     2089.0,
+     529.0
+    ],
+    [
+     2218.0,
+     478.0
+    ],
+    [
+     2237.0,
+     476.0
+    ],
+    [
+     2256.0,
+     473.0
+    ],
+    [
+     2276.0,
+     463.0
+    ],
+    [
+     2296.0,
+     458.0
+    ],
+    [
+     2316.0,
+     452.0
+    ],
+    [
+     2336.0,
+     451.0
+    ],
+    [
+     2356.0,
+     455.0
+    ],
+    [
+     2375.0,
+     458.0
+    ],
+    [
+     2394.0,
+     466.0
+    ],
+    [
+     2411.0,
+     465.0
+    ],
+    [
+     2428.0,
+     464.0
+    ],
+    [
+     2445.0,
+     463.0
+    ],
+    [
+     2552.0,
+     448.0
+    ]
+   ],
+   "stub_a": [
+    2109,
+    464
+   ],
+   "stub_b": [
+    2349,
+    444
+   ]
+  },
+  {
    "a": "guanbei.steppe",
    "at": [
     4733,
     1039
    ],
    "b": "guanbei.worksite",
-   "file": "road_02",
+   "file": "road_03",
    "line": [
     [
      4740.0,
@@ -2601,13 +2716,64 @@
    ]
   },
   {
+   "a": "guanbei.steppe",
+   "at": [
+    4382,
+    767
+   ],
+   "b": "guanbei.yurt_camp",
+   "file": "road_04",
+   "line": [
+    [
+     4618.0,
+     906.0
+    ],
+    [
+     4504.0,
+     875.0
+    ],
+    [
+     4494.0,
+     864.0
+    ],
+    [
+     4484.0,
+     853.0
+    ],
+    [
+     4475.0,
+     841.0
+    ],
+    [
+     4468.0,
+     829.0
+    ],
+    [
+     4461.0,
+     816.0
+    ],
+    [
+     4375.0,
+     787.0
+    ]
+   ],
+   "stub_a": [
+    4498,
+    875
+   ],
+   "stub_b": [
+    4382,
+    767
+   ]
+  },
+  {
    "a": "guanbei.barrow",
    "at": [
     5075,
     1207
    ],
    "b": "guanbei.worksite",
-   "file": "road_03",
+   "file": "road_05",
    "line": [
     [
      5335.0,
@@ -2664,64 +2830,13 @@
    ]
   },
   {
-   "a": "guanbei.steppe",
-   "at": [
-    4382,
-    767
-   ],
-   "b": "guanbei.yurt_camp",
-   "file": "road_04",
-   "line": [
-    [
-     4618.0,
-     906.0
-    ],
-    [
-     4504.0,
-     875.0
-    ],
-    [
-     4494.0,
-     864.0
-    ],
-    [
-     4484.0,
-     853.0
-    ],
-    [
-     4475.0,
-     841.0
-    ],
-    [
-     4468.0,
-     829.0
-    ],
-    [
-     4461.0,
-     816.0
-    ],
-    [
-     4375.0,
-     787.0
-    ]
-   ],
-   "stub_a": [
-    4498,
-    875
-   ],
-   "stub_b": [
-    4382,
-    767
-   ]
-  },
-  {
    "a": "guanbei.horse_market",
    "at": [
     4074,
     622
    ],
    "b": "guanbei.yurt_camp",
-   "file": "road_05",
+   "file": "road_06",
    "line": [
     [
      3994.0,
@@ -2788,7 +2903,7 @@
     422
    ],
    "b": "guanbei.town",
-   "file": "road_06",
+   "file": "road_07",
    "line": [
     [
      3932.0,
@@ -2863,7 +2978,7 @@
     1117
    ],
    "b": "fanfang.port",
-   "file": "road_07",
+   "file": "road_08",
    "line": [
     [
      1137.0,
@@ -2938,7 +3053,7 @@
     1240
    ],
    "b": "snow.outdoor",
-   "file": "road_08",
+   "file": "road_09",
    "line": [
     [
      3646.0,
@@ -2962,7 +3077,7 @@
     1492
    ],
    "b": "temple.mountain",
-   "file": "road_09",
+   "file": "road_10",
    "line": [
     [
      4076.0,
@@ -3025,7 +3140,7 @@
     1404
    ],
    "b": "latemoon.manor",
-   "file": "road_10",
+   "file": "road_11",
    "line": [
     [
      1857.0,
@@ -3128,7 +3243,7 @@
     1109
    ],
    "b": "village.main",
-   "file": "road_11",
+   "file": "road_12",
    "line": [
     [
      1277.0,
@@ -3165,13 +3280,52 @@
    ]
   },
   {
+   "a": "snow.outdoor",
+   "at": [
+    3514,
+    1507
+   ],
+   "b": "temple.mountain",
+   "file": "road_13",
+   "line": [
+    [
+     3500.0,
+     1505.0
+    ],
+    [
+     3552.0,
+     1536.0
+    ],
+    [
+     3559.0,
+     1548.0
+    ],
+    [
+     3565.0,
+     1561.0
+    ],
+    [
+     3656.0,
+     1613.0
+    ]
+   ],
+   "stub_a": [
+    3514,
+    1507
+   ],
+   "stub_b": [
+    3543,
+    1553
+   ]
+  },
+  {
    "a": "canyon.pass",
    "at": [
     1840,
     1018
    ],
    "b": "village.main",
-   "file": "road_12",
+   "file": "road_14",
    "line": [
     [
      2014.0,
@@ -3240,52 +3394,13 @@
    ]
   },
   {
-   "a": "snow.outdoor",
-   "at": [
-    3514,
-    1507
-   ],
-   "b": "temple.mountain",
-   "file": "road_13",
-   "line": [
-    [
-     3500.0,
-     1505.0
-    ],
-    [
-     3552.0,
-     1536.0
-    ],
-    [
-     3559.0,
-     1548.0
-    ],
-    [
-     3565.0,
-     1561.0
-    ],
-    [
-     3656.0,
-     1613.0
-    ]
-   ],
-   "stub_a": [
-    3514,
-    1507
-   ],
-   "stub_b": [
-    3543,
-    1553
-   ]
-  },
-  {
    "a": "city.main",
    "at": [
     1603,
     1290
    ],
    "b": "village.main",
-   "file": "road_14",
+   "file": "road_15",
    "line": [
     [
      1557.0,
@@ -3312,7 +3427,7 @@
     2424
    ],
    "b": "choyin.town",
-   "file": "road_15",
+   "file": "road_16",
    "line": [
     [
      2371.0,
@@ -3419,7 +3534,7 @@
     1205
    ],
    "b": "waterfog.mountain",
-   "file": "road_16",
+   "file": "road_17",
    "line": [
     [
      3194.0,
@@ -3470,7 +3585,7 @@
     2517
    ],
    "b": "choyin.town",
-   "file": "road_17",
+   "file": "road_18",
    "line": [
     [
      3110.0,
@@ -3533,7 +3648,7 @@
     1036
    ],
    "b": "goathill.mountain",
-   "file": "road_18",
+   "file": "road_19",
    "line": [
     [
      4324.0,
@@ -3628,7 +3743,7 @@
     1687
    ],
    "b": "green.mountain",
-   "file": "road_19",
+   "file": "road_20",
    "line": [
     [
      4665.0,
@@ -3727,7 +3842,7 @@
     2002
    ],
    "b": "sunhill.mountain",
-   "file": "road_20",
+   "file": "road_21",
    "line": [
     [
      2637.0,
@@ -3779,7 +3894,7 @@
     1765
    ],
    "b": "sunhill.mountain",
-   "file": "road_21",
+   "file": "road_22",
    "line": [
     [
      1857.0,
@@ -3894,7 +4009,7 @@
     1739
    ],
    "b": "green.village",
-   "file": "road_22",
+   "file": "road_23",
    "line": [
     [
      3967.0,
@@ -4001,7 +4116,7 @@
     1659
    ],
    "b": "latemoon.manor",
-   "file": "road_23",
+   "file": "road_24",
    "line": [
     [
      2604.0,
@@ -4052,7 +4167,7 @@
     555
    ],
    "b": "canyon.pass",
-   "file": "road_24",
+   "file": "road_25",
    "line": [
     [
      2085.0,
@@ -4163,7 +4278,7 @@
     2002
    ],
    "b": "sunhill.mountain",
-   "file": "road_25",
+   "file": "road_26",
    "line": [
     [
      2807.0,
@@ -4342,7 +4457,7 @@
     768
    ],
    "b": "village.main",
-   "file": "road_26",
+   "file": "road_27",
    "line": [
     [
      1597.0,
@@ -4469,7 +4584,7 @@
     1229
    ],
    "b": "snow.outdoor",
-   "file": "road_27",
+   "file": "road_28",
    "line": [
     [
      2599.0,
@@ -4576,7 +4691,7 @@
     1318
    ],
    "b": "snow.outdoor",
-   "file": "road_28",
+   "file": "road_29",
    "line": [
     [
      3307.0,
@@ -4719,7 +4834,7 @@
     932
    ],
    "b": "guanbei.gorge",
-   "file": "road_29",
+   "file": "road_30",
    "line": [
     [
      2042.0,
@@ -4970,7 +5085,7 @@
     1932
    ],
    "b": "sunhill.mountain",
-   "file": "road_30",
+   "file": "road_31",
    "line": [
     [
      2981.0,
@@ -5169,7 +5284,7 @@
     1331
    ],
    "b": "snow.outdoor",
-   "file": "road_31",
+   "file": "road_32",
    "line": [
     [
      2856.0,
@@ -5300,7 +5415,7 @@
     459
    ],
    "b": "guanbei.town",
-   "file": "road_32",
+   "file": "road_33",
    "line": [
     [
      2951.0,
@@ -5523,7 +5638,7 @@
     1141
    ],
    "b": "snow.outdoor",
-   "file": "road_33",
+   "file": "road_34",
    "line": [
     [
      2470.0,

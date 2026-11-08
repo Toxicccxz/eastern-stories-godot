@@ -305,6 +305,9 @@ msgstr ""
 #. native.npc.song_pu_messenger gender
 #. native.npc.niling_wind_diviner gender
 #. native.npc.niling_wind_diviner_head gender
+#. native.npc.lan_weng gender
+#. native.npc.lan_bellsmith gender
+#. native.npc.lan_resident gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -407,11 +410,13 @@ msgstr ""
 #. native.npc.spice_merchant gender
 #. native.npc.palace_maid gender
 #. native.npc.zhong_momo gender
+#. native.npc.lan_child gender
+#. native.npc.lan_sweeper gender
 #. native.npc.cult_killer gender
 #. native.npc.lihong gender
 #. native.npc.lihong_weak gender
 #. native.npc.lihong_ashore gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -2704,6 +2709,52 @@ msgstr ""
 
 #: scenes/world/imperial/imperial_yangxin_hall.tscn
 msgid "皇叔的通缉 · 先解"
+msgstr ""
+
+#. native.npc.lan_weng title
+#. native:lancheng/bell_hall short
+#: scenes/world/lancheng/lancheng_pavilion.tscn data/lancheng/npcs.json data/lancheng/rooms.json data/lancheng/voxel/street.json
+msgid "风铃阁"
+msgstr ""
+
+#. native:lancheng/quiet_room short
+#: scenes/world/lancheng/lancheng_pavilion.tscn data/lancheng/rooms.json
+msgid "静室"
+msgstr ""
+
+#. native:lancheng/white_gate short
+#. lancheng.white_gate.landmark.gate name
+#. lancheng.white_gate.out name
+#: scenes/world/lancheng/lancheng_street.tscn data/lancheng/rooms.json data/lancheng/world.json
+msgid "白石门"
+msgstr ""
+
+#. native:lancheng/white_street short
+#: scenes/world/lancheng/lancheng_street.tscn data/lancheng/rooms.json
+msgid "白石街"
+msgstr ""
+
+#. native:lancheng/bellsmith short
+#: scenes/world/lancheng/lancheng_street.tscn data/lancheng/rooms.json
+msgid "铃匠铺"
+msgstr ""
+
+#. native:lancheng/xiao_house short
+#: scenes/world/lancheng/lancheng_street.tscn data/lancheng/rooms.json
+msgid "萧家旧院"
+msgstr ""
+
+#. native:lancheng/street_top short
+#: scenes/world/lancheng/lancheng_street.tscn data/lancheng/rooms.json
+msgid "街尾"
+msgstr ""
+
+#: scenes/world/lancheng/lancheng_street.tscn
+msgid "北 · 风铃阁"
+msgstr ""
+
+#: scenes/world/lancheng/lancheng_street.tscn
+msgid "白石门 · 出城"
 msgstr ""
 
 #. native:lancheng/huanying short
@@ -14678,6 +14729,23 @@ msgid "天驼关"
 msgstr ""
 
 #. name
+#. common.npc.fighter.champion inquiry topic
+#. common.npc.fighter.master inquiry topic
+#. main.chapter10 region
+#. city.npc.shangshu.shangshu inquiry topic
+#. native.npc.yulan_zhao_private inquiry topic
+#. native.npc.wei_canglan inquiry topic
+#. native.npc.niling_wind_diviner inquiry topic
+#. native.npc.niling_wind_diviner_head inquiry topic
+#. native.npc.lan_weng inquiry topic
+#. native.npc.lan_bellsmith inquiry topic
+#. native.npc.lan_resident inquiry topic
+#. lancheng name
+#: data/common/atlas.json data/common/npcs.json data/story/chapter10.json data/city/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/lancheng/world.json
+msgid "岚城"
+msgstr ""
+
+#. name
 #. village.melon region
 #. village.lake region
 #. main.chapter8 region
@@ -15277,8 +15345,11 @@ msgstr ""
 #. common.npc.fighter.champion inquiry topic
 #. common.npc.fighter.master inquiry topic
 #. main.chapter10 title
+#. native.npc.lan_weng inquiry topic
+#. native.npc.lan_bellsmith inquiry topic
+#. native.npc.lan_resident inquiry topic
 #. native.npc.feng_ce inquiry topic
-#: data/common/npcs.json data/story/chapter10.json data/native/npcs.json
+#: data/common/npcs.json data/story/chapter10.json data/lancheng/npcs.json data/native/npcs.json
 msgid "旋芒"
 msgstr ""
 
@@ -15290,19 +15361,6 @@ msgstr ""
 #. common.npc.fighter.champion inquiry.旋芒.rules.say
 #: data/common/npcs.json
 msgid "旋芒……先帝找了一辈子。老夫不找。"
-msgstr ""
-
-#. common.npc.fighter.champion inquiry topic
-#. common.npc.fighter.master inquiry topic
-#. main.chapter10 region
-#. city.npc.shangshu.shangshu inquiry topic
-#. native.npc.yulan_zhao_private inquiry topic
-#. native.npc.wei_canglan inquiry topic
-#. native.npc.niling_wind_diviner inquiry topic
-#. native.npc.niling_wind_diviner_head inquiry topic
-#. lancheng name
-#: data/common/npcs.json data/story/chapter10.json data/city/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/lancheng/world.json
-msgid "岚城"
 msgstr ""
 
 #. common.npc.fighter.champion inquiry.岚城.rules.say
@@ -15388,7 +15446,8 @@ msgid "传功使的事，交给萧辟尘。——老夫回京。"
 msgstr ""
 
 #. common.npc.fighter.master name
-#: data/common/npcs.json
+#. native.npc.lan_weng inquiry topic
+#: data/common/npcs.json data/lancheng/npcs.json
 msgid "萧辟尘"
 msgstr ""
 
@@ -16568,7 +16627,8 @@ msgstr ""
 
 #. quests.target
 #. snow.npc.woodcutter name
-#: data/common/quests.json data/snow/npcs.json
+#. native.npc.lan_weng inquiry topic
+#: data/common/quests.json data/snow/npcs.json data/lancheng/npcs.json
 msgid "樵夫"
 msgstr ""
 
@@ -19754,6 +19814,26 @@ msgstr ""
 #. main.chapter10/wind text
 #: data/story/chapter10.json
 msgid "风停了。"
+msgstr ""
+
+#. main.chapter10/city objective
+#: data/story/chapter10.json
+msgid "白石街尽头的风铃阁。"
+msgstr ""
+
+#. main.chapter10/city text
+#: data/story/chapter10.json
+msgid "风铃阁里，十口大铃，有的响，有的不响。"
+msgstr ""
+
+#. main.chapter10/elder objective
+#: data/story/chapter10.json
+msgid "见岚翁，问他旋芒。"
+msgstr ""
+
+#. main.chapter10/elder text
+#: data/story/chapter10.json
+msgid "岚翁：剑在云台。他不卖，不赏，只问谁拔。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -34428,7 +34508,9 @@ msgstr ""
 #. city.westdoor1.out act.verb
 #. city.westdoor2.out act.verb
 #. city.southdoor.out act.verb
-#: data/city/npcs.json data/city/world.json
+#. lancheng.white_gate.out act.verb
+#. lancheng.white_gate.out act.acts.choice
+#: data/city/npcs.json data/city/world.json data/lancheng/world.json
 msgid "出城"
 msgstr ""
 
@@ -46934,7 +47016,8 @@ msgid "那口井通到宫外头的祭坛底下。先帝在的时候封过，后�
 msgstr ""
 
 #. native.npc.zhong_momo inquiry topic
-#: data/imperial/npcs.json
+#. native.npc.lan_weng inquiry topic
+#: data/imperial/npcs.json data/lancheng/npcs.json
 msgid "先帝"
 msgstr ""
 
@@ -47948,6 +48031,8 @@ msgstr ""
 
 #. native.npc.niling_wind_diviner inquiry topic
 #. native.npc.niling_wind_diviner_head inquiry topic
+#. native.npc.lan_child inquiry topic
+#. native.npc.lan_resident inquiry topic
 #: data/lancheng/npcs.json
 msgid "风"
 msgstr ""
@@ -47994,6 +48079,311 @@ msgstr ""
 #: data/lancheng/npcs.json
 msgid ""
 "卜风道士冷冷地道：又一个寻剑的。\n"
+msgstr ""
+
+#. native.npc.lan_weng name
+#: data/lancheng/npcs.json
+msgid "岚翁"
+msgstr ""
+
+#. native.npc.lan_weng long
+#: data/lancheng/npcs.json
+msgid ""
+"一个白发白须的老人，坐在十铃架下的蒲团上，衣裳是白的，袖口被门口的风吹得一直在动，他的人却一动不动。看不出他有多大年纪——脸上没有几道皱纹，眼睛却老得很。\n"
+msgstr ""
+
+#. native.npc.lan_weng calls.steps.line
+#: data/lancheng/npcs.json
+msgid ""
+"你一进门，十铃架上的大铃有几口自己响了起来，一声接一声，不是风吹的。\n"
+msgstr ""
+
+#. native.npc.lan_weng calls.steps.emote
+#: data/lancheng/npcs.json
+msgid "睁开眼睛，看了看铃，又看了看你。"
+msgstr ""
+
+#. native.npc.lan_weng calls.steps.say
+#: data/lancheng/npcs.json
+msgid "响的那几口，是有人信你的地方。暗的那几口，你自己知道为什么。"
+msgstr ""
+
+#. native.npc.lan_weng calls.steps.say
+#: data/lancheng/npcs.json
+msgid "你是来要剑的。剑在云台。我不卖，也不赏，也不问你拿去做什么。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.旋芒.rules.say
+#: data/lancheng/npcs.json
+msgid "旋芒是寒於氏的剑。寒於氏斩了那东西的头，死前把两把剑分开放——一把钉头，一把寄在风里。三百年前你们拔了钉头的那一把。这一把，在我这里，等人来拔。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry topic
+#: data/lancheng/npcs.json
+msgid "寒於"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.寒於
+#: data/lancheng/npcs.json
+msgid "寒於氏是太阳神族的祖。他的血，一份在金乌那里，一份在於兰家——君违嫁过去的那一份。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry topic
+#. native.npc.lan_sweeper inquiry topic
+#: data/lancheng/npcs.json
+msgid "烟城"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.烟城
+#: data/lancheng/npcs.json
+msgid "烟城的人二十年前来过，你们先帝派的。他们站在门口问剑，问完就走了，走的时候风还没停——他们没伏下。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.先帝.rules.say
+#: data/lancheng/npcs.json
+msgid "让我看看。……「寻剑，不得扰民一户。」你们先帝要的剑，是不扰民的剑。他要对了。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.先帝.rules.say
+#: data/lancheng/npcs.json
+msgid "你们的先帝找了一辈子。他的人到过烟城，没到过这里。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry topic
+#. native.npc.lan_child inquiry topic
+#. native.npc.lan_bellsmith inquiry topic
+#: data/lancheng/npcs.json
+msgid "铃"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.铃
+#: data/lancheng/npcs.json
+msgid "十口铃，十个地方。哪里有人信你，哪里的铃就响。响的是信，不是功劳——你救过的人、你守过的话、你没拿的东西。走近了看，铃身上刻着地名。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry topic
+#: data/lancheng/npcs.json
+msgid "谁拔"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.谁拔
+#: data/lancheng/npcs.json
+msgid "剑在云台，自己转着。谁能拔，不是我说了算。响够一半的铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。云台的路，过几日开。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.岚城
+#: data/lancheng/npcs.json
+msgid "岚城不在哪里。风在哪里停，它就在哪里。你们叫它寻风而至，寻风而逝——说得不错。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.萧辟尘.rules.say
+#: data/lancheng/npcs.json
+msgid "萧家的孩子。那年风大，把他卷出城去了。铃在你手里——那他就还回得来。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.萧辟尘.rules.say
+#: data/lancheng/npcs.json
+msgid "萧家的孩子，二十年前被风卷走了。铃丢了，风就找不到他。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.樵夫
+#: data/lancheng/npcs.json
+msgid "那个砍柴的？他伏在石头上睡着了，醒来就看见城。他在城里住了三天，吃不惯——我们这里没有饭。"
+msgstr ""
+
+#. native.npc.lan_child name
+#: data/lancheng/npcs.json
+msgid "岚童"
+msgstr ""
+
+#. native.npc.lan_child long
+#: data/lancheng/npcs.json
+msgid ""
+"一个八九岁的小姑娘，白衣裳，头发被风吹得乱蓬蓬的，脖子上挂着一只小铜铃。她蹲在门洞边上，看你看得很认真。\n"
+msgstr ""
+
+#. native.npc.lan_child calls.steps.say
+#: data/lancheng/npcs.json
+msgid "你是谁的铃带来的？"
+msgstr ""
+
+#. native.npc.lan_child inquiry.铃.rules.say
+#: data/lancheng/npcs.json
+msgid "给我看看！……是尘哥哥的！铃舌上那个字，铃匠爷爷刻的，我认得！尘哥哥回来了吗？"
+msgstr ""
+
+#. native.npc.lan_child inquiry.铃.rules.say
+#: data/lancheng/npcs.json
+msgid "城里人人一只铃。铃丢了，风就不认得你了。"
+msgstr ""
+
+#. native.npc.lan_child inquiry topic
+#. native.npc.lan_sweeper inquiry topic
+#: data/lancheng/npcs.json
+msgid "城"
+msgstr ""
+
+#. native.npc.lan_child inquiry.城
+#: data/lancheng/npcs.json
+msgid "城今天在山上头。昨天在湖上头。明天不知道。"
+msgstr ""
+
+#. native.npc.lan_child inquiry.风
+#: data/lancheng/npcs.json
+msgid "风是从城里出去的呀。你们外头的人老往风里走，走着走着就到了。"
+msgstr ""
+
+#. native.npc.lan_child inquiry topic
+#: data/lancheng/npcs.json
+msgid "尘哥哥"
+msgstr ""
+
+#. native.npc.lan_child inquiry.尘哥哥
+#: data/lancheng/npcs.json
+msgid "尘哥哥是萧家的。他放风筝，风大，连人带风筝一起飞走了。我没见过他——我是听铃匠爷爷说的。"
+msgstr ""
+
+#. native.npc.lan_bellsmith name
+#: data/lancheng/npcs.json
+msgid "老蔺"
+msgstr ""
+
+#. native.npc.lan_bellsmith title
+#: data/lancheng/npcs.json
+msgid "铃匠"
+msgstr ""
+
+#. native.npc.lan_bellsmith long
+#: data/lancheng/npcs.json
+msgid ""
+"一个瘦小的老人，系着一条皮围裙，手指上全是铜绿，正拿一把细锉一点一点修一只铃的口。他修一下，敲一下，侧着耳朵听一听。\n"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.铃.rules.lines.emote
+#: data/lancheng/npcs.json
+msgid "放下锉，接过你那只铃，凑到眼前看了半天，手有点抖。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.铃.rules.lines.say
+#: data/lancheng/npcs.json
+msgid "是我打的。「尘」字是我刻的，那孩子非要刻在铃舌上，说这样风一吹，就是在叫他的名字。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.铃.rules.lines.emote
+#: data/lancheng/npcs.json
+msgid "拿衣角把铃擦了擦，又还给你。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.铃.rules.lines.say
+#: data/lancheng/npcs.json
+msgid "带着吧。它认得路。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.铃.rules.say
+#: data/lancheng/npcs.json
+msgid "城里的铃都是我打的。一个孩子一只，打好了挂在门楣的钩上，孩子长到能自己拿了，就拿下来随身带着。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry topic
+#: data/lancheng/npcs.json
+msgid "萧家"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.萧家
+#: data/lancheng/npcs.json
+msgid "萧家就在街那头，第二道弯。那孩子四岁那年，风大，他在院子里放风筝，连人带风筝都卷走了，铃也跟着走了。他娘天天擦那只空钩，擦了二十年，前年也走了。钩子还是亮的——现在是我去擦。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.旋芒
+#: data/lancheng/npcs.json
+msgid "岚翁守着的。不是我们的东西，是寒於氏寄在这里的。我们只是住在它旁边。"
+msgstr ""
+
+#. native.npc.lan_bellsmith inquiry.岚城
+#: data/lancheng/npcs.json
+msgid "我们不吃饭，不生火，不种地。风来了就听，风走了就睡。你们外头的人觉得这样过日子没意思——我们觉得你们太吵。"
+msgstr ""
+
+#. native.npc.lan_sweeper name
+#: data/lancheng/npcs.json
+msgid "扫云的老妪"
+msgstr ""
+
+#. native.npc.lan_sweeper long
+#: data/lancheng/npcs.json
+msgid ""
+"一个白发的老婆婆，拿着一把竹扫帚，在街边扫——扫的不是落叶，是飘上来的雾，她一扫，雾就退下去一点。\n"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry.城.rules.say
+#: data/lancheng/npcs.json
+msgid "今天城停在西边，底下是天驼关的石头，黄的。"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry.城.rules.say
+#: data/lancheng/npcs.json
+msgid "今天城停在北边，底下是一片湖，绿的，湖上有船。"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry.城.rules.say
+#: data/lancheng/npcs.json
+msgid "今天城停在东边，底下是雪，白茫茫的。"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry.城.rules.say
+#: data/lancheng/npcs.json
+msgid "城今天停在哪儿？你自己往门外看。"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry topic
+#: data/lancheng/npcs.json
+msgid "雾"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry.雾
+#: data/lancheng/npcs.json
+msgid "雾往上爬，爬到街上就不好走了。我扫一扫，它就回去。扫了七十年了。"
+msgstr ""
+
+#. native.npc.lan_sweeper inquiry.烟城
+#: data/lancheng/npcs.json
+msgid "烟城？那是我们的亲戚。烟霞霓岚，四座城，各住各的。烟城的人爱说话，我们不爱。"
+msgstr ""
+
+#. native.npc.lan_resident name
+#: data/lancheng/npcs.json
+msgid "岚城人"
+msgstr ""
+
+#. native.npc.lan_resident long
+#: data/lancheng/npcs.json
+msgid ""
+"一个穿白衣的人，在街上慢慢地走，走几步停一下，侧着头听风铃。他看见你，点一点头，没有说话。\n"
+msgstr ""
+
+#. native.npc.lan_resident inquiry.岚城
+#: data/lancheng/npcs.json
+msgid "……这里就是。"
+msgstr ""
+
+#. native.npc.lan_resident inquiry.风
+#: data/lancheng/npcs.json
+msgid "听。"
+msgstr ""
+
+#. native.npc.lan_resident inquiry.旋芒
+#: data/lancheng/npcs.json
+msgid "去问岚翁。"
+msgstr ""
+
+#. native.npc.lan_resident inquiry topic
+#: data/lancheng/npcs.json
+msgid "吃饭"
+msgstr ""
+
+#. native.npc.lan_resident inquiry.吃饭
+#: data/lancheng/npcs.json
+msgid "吃饭？……我们不吃。"
 msgstr ""
 
 #. native:lancheng/huanying long
@@ -48045,6 +48435,57 @@ msgstr ""
 #: data/lancheng/rooms.json
 msgid ""
 "东北一处背风的石坳，口子窄，里面宽。石壁上垂着几根干枯的藤，藤上不知谁系了一根褪了色的红绳。\n"
+msgstr ""
+
+#. native:lancheng/white_gate long
+#: data/lancheng/rooms.json
+msgid ""
+"一道白石的门，门洞是圆的，被风磨得没有一个棱角。门外是雾，雾底下很远的地方，隐约是山——城就浮在那上头。\n"
+"门里是一块小小的石坪，坪上的石板一块挨一块，中间被人走出一道浅浅的凹。往北，一条白石长街往上绕。\n"
+msgstr ""
+
+#. native:lancheng/white_street long
+#: data/lancheng/rooms.json
+msgid ""
+"白石铺的长街往上绕了两折。两边的屋子都是白石砌的，墙角磨圆了，背风的一面爬着青苔；家家的檐下都挂着风铃，铜的、竹的、贝壳的，风一过，一街都响。\n"
+"屋子里静悄悄的，没有烟。没有一家的屋顶上有烟囱。\n"
+"西边第一道弯下去是一个敞着的院子，叮叮当当的；东边第二道弯过去，一个小院子的门开着，里头没有声音。\n"
+msgstr ""
+
+#. native:lancheng/bellsmith long
+#: data/lancheng/rooms.json
+msgid ""
+"一个敞着的院子，后头一间棚屋，棚檐下挂满了还没上绳的铃。院子当中一块铁砧，旁边一口铸了一半的铃立在木架上，铃身还是青的。墙边一排木架，架上是泥的铃模、钳子、细锉，一样一样摆得整齐。\n"
+"地上一层铜屑，被风扫到墙角，堆成一道细细的绿线。\n"
+msgstr ""
+
+#. native:lancheng/xiao_house long
+#: data/lancheng/rooms.json
+msgid ""
+"一个小院子，院里一口枯井，井沿上落着叶子。屋门关着，门楣上一只铜钩，钩上什么也没挂，钩子倒擦得很亮——像是一直有人在擦。\n"
+"门框上有一道一道刻的印子，从下往上，最高的一道齐你的腰，旁边刻着一个小小的「尘」字。\n"
+msgstr ""
+
+#. native:lancheng/street_top long
+#: data/lancheng/rooms.json
+msgid ""
+"长街到这里是一块平台，平台尽头一座三层的木阁，檐角一层一层翘上去，每一层的檐下都挂满了铃，风不大，铃也一直在响，一声叠一声，像在说话。\n"
+"阁门开着。门楣上一块旧匾：风铃阁。\n"
+msgstr ""
+
+#. native:lancheng/bell_hall long
+#: data/lancheng/rooms.json
+msgid ""
+"阁里很高，梁上垂下来千百只小铃，长长短短，一直垂到人头顶上。风从门口进来，它们就从门口那一头响起，一层一层响到里头去。\n"
+"北墙下一排木架，架上并排挂着十口大铃，每一口的铃身上刻着一个地名。有的铃亮，有的铃是暗的。\n"
+"东边一道小门，门帘半卷着。\n"
+msgstr ""
+
+#. native:lancheng/quiet_room long
+#: data/lancheng/rooms.json
+msgid ""
+"一间小屋，四壁是木板，一张矮几，一个蒲团。墙边一架旧书，书页被风吹得发脆，有几本摊着，压着一块白石。\n"
+"墙上一只铜钩，钩上空着。\n"
 msgstr ""
 
 #. canyon.fantasy1.up.closed lines
@@ -48169,6 +48610,209 @@ msgid ""
 "黑石垒的坛，一人多高，坛顶压着一块铜盘，盘里的灰被风吹得只剩一层。坛脚的地上画着一圈套一圈的符，每一圈都朝西开口——画符的人一直是顺着风画的。\n"
 msgstr ""
 
+#. lancheng.white_gate.landmark.gate long
+#: data/lancheng/world.json
+msgid ""
+"门洞是一整块白石凿出来的，圆的，里外都被风磨亮了。往外看是雾，雾底下很远的地方有山。门洞的顶上刻着两个字，被风磨得快平了，摸得出来：寻风。\n"
+msgstr ""
+
+#. lancheng.xiao_house.landmark.hook name
+#: data/lancheng/world.json
+msgid "门楣上的铜钩"
+msgstr ""
+
+#. lancheng.xiao_house.landmark.hook long
+#: data/lancheng/world.json
+msgid ""
+"一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n"
+msgstr ""
+
+#. lancheng.xiao_house.landmark.hook looks.long
+#: data/lancheng/world.json
+msgid ""
+"一只铜钩，钩尖朝上，擦得很亮。你怀里那只铃的绳结，和钩子上磨出来的那道印子，一样宽。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_snow name
+#: data/lancheng/world.json
+msgid "雪亭的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_snow long
+#: data/lancheng/world.json
+msgid ""
+"雪亭的铃。铃身发暗，刻着「雪亭」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_snow looks.long
+#: data/lancheng/world.json
+msgid ""
+"雪亭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：雪亭。\n"
+"岚城的铃认人：雪亭有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_oldpine name
+#: data/lancheng/world.json
+msgid "老松岭的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_oldpine long
+#: data/lancheng/world.json
+msgid ""
+"老松岭的铃。铃身发暗，刻着「老松岭」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_oldpine looks.long
+#: data/lancheng/world.json
+msgid ""
+"老松岭的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：老松岭。\n"
+"岚城的铃认人：老松岭有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_waterfog name
+#: data/lancheng/world.json
+msgid "水烟阁的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_waterfog long
+#: data/lancheng/world.json
+msgid ""
+"水烟阁的铃。铃身发暗，刻着「水烟阁」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_waterfog looks.long
+#: data/lancheng/world.json
+msgid ""
+"水烟阁的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：水烟阁。\n"
+"岚城的铃认人：水烟阁有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_goathill name
+#: data/lancheng/world.json
+msgid "野羊山的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_goathill long
+#: data/lancheng/world.json
+msgid ""
+"野羊山的铃。铃身发暗，刻着「野羊山」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_goathill looks.long
+#: data/lancheng/world.json
+msgid ""
+"野羊山的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：野羊山。\n"
+"岚城的铃认人：野羊山有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_latemoon name
+#: data/lancheng/world.json
+msgid "晚月庄的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_latemoon long
+#: data/lancheng/world.json
+msgid ""
+"晚月庄的铃。铃身发暗，刻着「晚月庄」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_latemoon looks.long
+#: data/lancheng/world.json
+msgid ""
+"晚月庄的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：晚月庄。\n"
+"岚城的铃认人：晚月庄有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_choyin name
+#: data/lancheng/world.json
+msgid "乔阴的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_choyin long
+#: data/lancheng/world.json
+msgid ""
+"乔阴的铃。铃身发暗，刻着「乔阴」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_choyin looks.long
+#: data/lancheng/world.json
+msgid ""
+"乔阴的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：乔阴。\n"
+"岚城的铃认人：乔阴有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_guanbei name
+#: data/lancheng/world.json
+msgid "关北的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_guanbei long
+#: data/lancheng/world.json
+msgid ""
+"关北的铃。铃身发暗，刻着「关北」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_guanbei looks.long
+#: data/lancheng/world.json
+msgid ""
+"关北的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：关北。\n"
+"岚城的铃认人：关北有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_fanfang name
+#: data/lancheng/world.json
+msgid "番坊的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_fanfang long
+#: data/lancheng/world.json
+msgid ""
+"番坊的铃。铃身发暗，刻着「番坊」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_fanfang looks.long
+#: data/lancheng/world.json
+msgid ""
+"番坊的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：番坊。\n"
+"岚城的铃认人：番坊有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_village name
+#: data/lancheng/world.json
+msgid "玉螺湖村的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_village long
+#: data/lancheng/world.json
+msgid ""
+"玉螺湖村的铃。铃身发暗，刻着「玉螺湖村」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_village looks.long
+#: data/lancheng/world.json
+msgid ""
+"玉螺湖村的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：玉螺湖村。\n"
+"岚城的铃认人：玉螺湖村有人信你。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_city name
+#: data/lancheng/world.json
+msgid "京师的铃"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_city long
+#: data/lancheng/world.json
+msgid ""
+"京师的铃。铃身发暗，刻着「京师」两个字，一声不响。\n"
+msgstr ""
+
+#. lancheng.bell_hall.landmark.bell_city looks.long
+#: data/lancheng/world.json
+msgid ""
+"京师的铃。它在响——不是风吹的，风停了它也在响。铃身上的字是亮的：京师。\n"
+"岚城的铃认人：京师有人信你。\n"
+msgstr ""
+
 #. lancheng.calm_west.lie_down act.verb
 #. lancheng.calm_west.lie_down act.acts.choice
 #. lancheng.calm_north.lie_down act.verb
@@ -48215,7 +48859,38 @@ msgstr ""
 #. lancheng.calm_east.lie_down act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
+"你站起来往前走了一步。脚下没有空——是一级白石的台阶，台阶上去，就是城门。\n"
+msgstr ""
+
+#. lancheng.calm_west.lie_down act.acts.steps.line
+#. lancheng.calm_north.lie_down act.acts.steps.line
+#. lancheng.calm_east.lie_down act.acts.steps.line
+#: data/lancheng/world.json
+msgid ""
 "你伏在地上等了好一会儿。风还在吹，草还在倒——这里不是风停的地方。\n"
+msgstr ""
+
+#. lancheng.white_gate.out act.acts.ask
+#: data/lancheng/world.json
+msgid "出白石门？城会随风走，下回再来，得重新寻风。"
+msgstr ""
+
+#. lancheng.white_gate.out act.acts.steps.line
+#: data/lancheng/world.json
+msgid ""
+"你穿过白石门。脚下一空，又不空——风托着你，雾从两边合拢过来。\n"
+msgstr ""
+
+#. lancheng.white_gate.out act.acts.steps.line
+#: data/lancheng/world.json
+msgid ""
+"等你站稳，人已经在背风的石坳里了。回头看，只有雾。\n"
+msgstr ""
+
+#. lancheng.white_gate.out act.acts.steps.line
+#: data/lancheng/world.json
+msgid ""
+"你穿过白石门。风托着你，雾合拢了。等你站稳，人在风口。\n"
 msgstr ""
 
 #. lancheng.wilds.wind gale.acts.steps.line
