@@ -157,11 +157,6 @@
 					},
 					{
 						"mark": "关北的骑兵欠你一阵"
-					},
-					{
-						"not": {
-							"quest": "main.finale#done"
-						}
 					}
 				]
 			}
@@ -227,11 +222,6 @@
 				"all": [
 					{
 						"quest": "main.finale/lake"
-					},
-					{
-						"not": {
-							"quest": "main.finale#done"
-						}
 					}
 				]
 			}

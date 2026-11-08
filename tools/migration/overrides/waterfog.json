@@ -571,7 +571,7 @@
 			}
 		},
 		"waterfog.pavilion.guildhall.master": {
-			"until": {"all": [{"quest": "main.finale/lake"}, {"mark": "旋芒在萧辟尘手里"}, {"not": {"quest": "main.finale#done"}}]}
+			"until": {"all": [{"quest": "main.finale/lake"}, {"mark": "旋芒在萧辟尘手里"}]}
 		}
 	},
 	"review": {

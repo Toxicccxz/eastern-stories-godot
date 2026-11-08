@@ -227,6 +227,9 @@ func _on_keep_save(session: WorldSessionController) -> void:
 	if session != _current_session or _request_pending or _kept == null:
 		return
 	if not _kept.begin(session):
+		# Said once, here: a capture that failed left its result behind, taken now so _tell_kept()
+		# does not say it again.
+		_kept.take_finished()
 		_current_session.shared_ui().toasts().push(tr("「决战前」存档没能存下"))
 
 

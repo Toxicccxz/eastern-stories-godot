@@ -54,13 +54,7 @@
 			"points": ["waterfog.guildhall.master.1"],
 			"legacy_room": "daemon/class/fighter/guildhall.c",
 			"legacy_quantity": 1,
-			"until": {
-				"all": [
-					{ "quest": "main.finale/lake" },
-					{ "mark": "旋芒在萧辟尘手里" },
-					{ "not": { "quest": "main.finale#done" } }
-				]
-			}
+			"until": { "all": [{ "quest": "main.finale/lake" }, { "mark": "旋芒在萧辟尘手里" }] }
 		},
 		{
 			"id": "waterfog.pavilion.guildhall.executioner",

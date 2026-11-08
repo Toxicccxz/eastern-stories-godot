@@ -27,10 +27,10 @@
 			}
 		},
 		"latemoon.manor.eastroom.elon": {
-			"until": {"all": [{"mark": "叫来了瑷伦"}, {"not": {"quest": "main.finale#done"}}]}
+			"until": {"mark": "叫来了瑷伦"}
 		},
 		"latemoon.manor.westroom.annihi": {
-			"until": {"all": [{"quest": "main.finale/lake"}, {"mark": "宝衣给了安妮儿"}, {"not": {"quest": "main.finale#done"}}]}
+			"until": {"all": [{"quest": "main.finale/lake"}, {"mark": "宝衣给了安妮儿"}]}
 		},
 		"latemoon.manor.bathroom.fireangel": {
 			"until": {
