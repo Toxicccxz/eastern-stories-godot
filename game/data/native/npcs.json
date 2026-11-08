@@ -960,6 +960,7 @@
 							"marks_asker": [
 								"你留在了冰里"
 							],
+							"epilogue": "ending",
 							"lines": [
 								{
 									"say": "……好。"
@@ -3338,6 +3339,7 @@
 							"marks_asker": [
 								"你留在了冰里"
 							],
+							"epilogue": "ending",
 							"lines": [
 								{
 									"say": "……好。"
@@ -3431,6 +3433,363 @@
 			"combat_exp": 1000,
 			"attitude": "peaceful",
 			"fight_deferred": "你的手还没碰到冰柱，就冷得缩了回来。"
+		},
+		{
+			"id": "native.npc.herald_feng_ce",
+			"legacy_source": "native: 终章 C (剧情总纲 §3 终章「回雪亭：广场上还是那队白衣武官，这回是来宣诏的；结局逐区讲述，从事迹记录里长出来；最后一句留给店小二」; 计划 build/plans/终章_计划.md C 包与 §3b, owner 2026-11-08「按推荐的做」: Q3 片尾后接着玩; DECISIONS「终章 C」「结局讲述」) — 冯策 reads it (第九章 expose)",
+			"name": "冯策",
+			"aliases": [
+				"feng ce",
+				"feng"
+			],
+			"title": "大内侍卫营总教头",
+			"gender": "男性",
+			"age": 58,
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 28,
+				"spi": 26,
+				"cps": 30,
+				"per": 22,
+				"con": 30,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"unarmed": 150,
+				"sword": 180,
+				"dodge": 160,
+				"parry": 160,
+				"force": 150
+			},
+			"long": "冯策站在广场中间，素白的武官袍，手里一卷黄绫。\n",
+			"attitude": "friendly",
+			"fight_deferred": "宣诏的人退了半步：诏书念完再说。",
+			"scene_mark": "宣诏开始",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "宣过诏",
+					"steps": [
+						{
+							"line": "广场上，那队白衣武官又站在了三年前那个地方。这一回，他们是来宣诏的。\n",
+							"color": "HIW"
+						},
+						{
+							"say": "奉旨。"
+						},
+						{
+							"line": "「……玉螺湖妖氛已靖。寻剑令，到此为止。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "侮天鬼灭了"
+							}
+						},
+						{
+							"line": "「……玉螺湖患暂平。湖底守者，朝廷记其名。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "再封了侮天鬼"
+							}
+						},
+						{
+							"line": "念到「瑷伦」两个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "瑷伦留在了冰里"
+							}
+						},
+						{
+							"line": "念到「璃虹」两个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "璃虹留在了冰里"
+							}
+						},
+						{
+							"line": "念到「南危水」三个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "南危水留在了冰里"
+							}
+						},
+						{
+							"line": "念到「萧辟尘」三个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "萧辟尘留在了冰里"
+							}
+						},
+						{
+							"line": "「……前兵部尚书庾子建，伪造诏令，扰民拿人，即日问罪。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "庾子建下狱"
+							}
+						},
+						{
+							"line": "「……兵部尚书庾子建，寻回旋芒，功在社稷。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "旋芒交给了庾子建"
+							}
+						},
+						{
+							"line": "「……皇叔於兰天武，复其爵位。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "皇叔入朝"
+							}
+						},
+						{
+							"say": "江湖上的人，各回各家。"
+						},
+						{
+							"mark": "宣过诏"
+						},
+						{
+							"epilogue": "ending"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.herald_uncle",
+			"legacy_source": "native: 终章 C (剧情总纲 §3 终章「回雪亭：广场上还是那队白衣武官，这回是来宣诏的；结局逐区讲述，从事迹记录里长出来；最后一句留给店小二」; 计划 build/plans/终章_计划.md C 包与 §3b, owner 2026-11-08「按推荐的做」: Q3 片尾后接着玩; DECISIONS「终章 C」「结局讲述」) — 於兰天武 reads it (第九章 uncle)",
+			"name": "於兰天武",
+			"aliases": [
+				"master champion",
+				"champion",
+				"master"
+			],
+			"title": "水烟阁传功使",
+			"gender": "男性",
+			"age": 54,
+			"attributes": {
+				"str": 30,
+				"int": 30,
+				"cor": 30,
+				"cps": 30,
+				"con": 30
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"sword": 80,
+				"blade": 80,
+				"parry": 100,
+				"dodge": 80,
+				"throwing": 50,
+				"celestial": 100,
+				"celestrike": 100,
+				"spring-blade": 80,
+				"pyrobat-steps": 90
+			},
+			"long": "於兰天武一身朝服站在广场中间，手里一卷黄绫。\n",
+			"attitude": "friendly",
+			"fight_deferred": "宣诏的人退了半步：诏书念完再说。",
+			"scene_mark": "宣诏开始",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "宣过诏",
+					"steps": [
+						{
+							"line": "广场上，那队白衣武官又站在了三年前那个地方。这一回，他们是来宣诏的。\n",
+							"color": "HIW"
+						},
+						{
+							"say": "老夫替陛下念。"
+						},
+						{
+							"line": "「……玉螺湖妖氛已靖。寻剑令，到此为止。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "侮天鬼灭了"
+							}
+						},
+						{
+							"line": "「……玉螺湖患暂平。湖底守者，朝廷记其名。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "再封了侮天鬼"
+							}
+						},
+						{
+							"line": "念到「瑷伦」两个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "瑷伦留在了冰里"
+							}
+						},
+						{
+							"line": "念到「璃虹」两个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "璃虹留在了冰里"
+							}
+						},
+						{
+							"line": "念到「南危水」三个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "南危水留在了冰里"
+							}
+						},
+						{
+							"line": "念到「萧辟尘」三个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "萧辟尘留在了冰里"
+							}
+						},
+						{
+							"line": "「……前兵部尚书庾子建，伪造诏令，扰民拿人，即日问罪。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "庾子建下狱"
+							}
+						},
+						{
+							"line": "「……兵部尚书庾子建，寻回旋芒，功在社稷。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "旋芒交给了庾子建"
+							}
+						},
+						{
+							"line": "「……皇叔於兰天武，复其爵位。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "皇叔入朝"
+							}
+						},
+						{
+							"say": "江湖上的人，各回各家。"
+						},
+						{
+							"mark": "宣过诏"
+						},
+						{
+							"epilogue": "ending"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.herald_ministry",
+			"legacy_source": "native: 终章 C (剧情总纲 §3 终章「回雪亭：广场上还是那队白衣武官，这回是来宣诏的；结局逐区讲述，从事迹记录里长出来；最后一句留给店小二」; 计划 build/plans/终章_计划.md C 包与 §3b, owner 2026-11-08「按推荐的做」: Q3 片尾后接着玩; DECISIONS「终章 C」「结局讲述」) — a 兵部 officer reads it (第九章 deal)",
+			"name": "白衣武官",
+			"aliases": [
+				"white officer",
+				"officer"
+			],
+			"gender": "男性",
+			"age": 28,
+			"attributes": {
+				"str": 26,
+				"cor": 26,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 20,
+				"con": 26,
+				"kar": 16
+			},
+			"combat_exp": 20000,
+			"skills": {
+				"unarmed": 60,
+				"sword": 80,
+				"dodge": 70,
+				"parry": 70,
+				"force": 60
+			},
+			"long": "一个白衣武官站在广场中间，手里一卷黄绫，身后站着他的人。\n",
+			"attitude": "friendly",
+			"fight_deferred": "宣诏的人退了半步：诏书念完再说。",
+			"scene_mark": "宣诏开始",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "宣过诏",
+					"steps": [
+						{
+							"line": "广场上，那队白衣武官又站在了三年前那个地方。这一回，他们是来宣诏的。\n",
+							"color": "HIW"
+						},
+						{
+							"say": "兵部奉旨，宣——"
+						},
+						{
+							"line": "「……玉螺湖妖氛已靖。寻剑令，到此为止。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "侮天鬼灭了"
+							}
+						},
+						{
+							"line": "「……玉螺湖患暂平。湖底守者，朝廷记其名。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "再封了侮天鬼"
+							}
+						},
+						{
+							"line": "念到「瑷伦」两个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "瑷伦留在了冰里"
+							}
+						},
+						{
+							"line": "念到「璃虹」两个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "璃虹留在了冰里"
+							}
+						},
+						{
+							"line": "念到「南危水」三个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "南危水留在了冰里"
+							}
+						},
+						{
+							"line": "念到「萧辟尘」三个字，宣诏的人顿了一下。\n",
+							"when": {
+								"mark": "萧辟尘留在了冰里"
+							}
+						},
+						{
+							"line": "「……前兵部尚书庾子建，伪造诏令，扰民拿人，即日问罪。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "庾子建下狱"
+							}
+						},
+						{
+							"line": "「……兵部尚书庾子建，寻回旋芒，功在社稷。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "旋芒交给了庾子建"
+							}
+						},
+						{
+							"line": "「……皇叔於兰天武，复其爵位。」\n",
+							"color": "HIW",
+							"when": {
+								"mark": "皇叔入朝"
+							}
+						},
+						{
+							"say": "江湖上的人，各回各家。"
+						},
+						{
+							"mark": "宣过诏"
+						},
+						{
+							"epilogue": "ending"
+						}
+					]
+				}
+			]
 		}
 	]
 }

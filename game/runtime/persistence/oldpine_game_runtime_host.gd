@@ -211,6 +211,7 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
 	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
 	session.keep_save_requested.connect(_on_keep_save.bind(session))
+	session.epilogue_ended.connect(_on_epilogue_ended.bind(session), CONNECT_DEFERRED)
 	if loaded:
 		_autosave.restart_interval()
 	else:
@@ -220,6 +221,16 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 func _on_autosave_moment(session: WorldSessionController) -> void:
 	if session == _current_session and not _request_pending:
 		_autosave.begin(session)
+
+
+## An ending that ends the journey (终章 C, the player stayed in the ice; DECISIONS「结局讲述」): the
+## shell takes the game back to the main menu (the 决战前 save is still there).
+signal journey_ended
+
+
+func _on_epilogue_ended(final: bool, session: WorldSessionController) -> void:
+	if final and session == _current_session:
+		journey_ended.emit()
 
 
 ## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now.

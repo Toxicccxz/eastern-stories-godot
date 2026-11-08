@@ -1194,6 +1194,15 @@ func _configure_pace_options() -> void:
 	pace_option.select(0)
 
 
+## 终章 C (DECISIONS「结局讲述」): the ending the player stayed in the ice for is told; the journey is
+## over and the main menu comes back, as 回到主菜单 does, without asking.
+func _on_journey_ended() -> void:
+	if _state.mode() != ApplicationShellState.Mode.PLAYING or _host == null or _host.request_pending():
+		return
+	get_tree().paused = true
+	_start_end_session()
+
+
 func _start_end_session() -> bool:
 	if not get_tree().paused or _host == null:
 		return false
@@ -1216,6 +1225,7 @@ func _connect_host(host: OldPineGameRuntimeHost) -> void:
 	host.load_completed.connect(_on_load_completed)
 	host.save_completed.connect(_on_save_completed)
 	host.end_session_completed.connect(_on_end_session_completed)
+	host.journey_ended.connect(_on_journey_ended)
 
 
 func _on_host_startup_completed(result: OldPineRuntimeSaveLoadResult) -> void:

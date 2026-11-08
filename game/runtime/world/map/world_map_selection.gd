@@ -468,6 +468,9 @@ func ask_selected(topic: String) -> Array[String]:
 	# 主线 第五章: an answer that is a leave-taking (陈显祖's 走吧): gone for good, as an act's `leave`.
 	if answer.leaves:
 		_map.npcs.leave_for_good(target)
+	# 终章 C: an answer that ends the story (DECISIONS「结局讲述」).
+	if not answer.epilogue.is_empty():
+		session.play_epilogue(answer.epilogue)
 	if _map.hud().inventory_is_open():
 		_map.hud().show_inventory(session.player_inventory_rows())
 	return answer.texts()

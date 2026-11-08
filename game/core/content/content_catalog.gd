@@ -52,6 +52,7 @@ var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
 var _story_quests: Array[StoryQuestDefinition] = []
 var _story_quests_by_id: Dictionary[StringName, StoryQuestDefinition] = {}
+var _epilogues: Dictionary[StringName, EpilogueDefinition] = {}
 
 
 func _init(
@@ -272,6 +273,15 @@ func set_story_quests(quests: Array[StoryQuestDefinition]) -> void:
 
 
 ## The quests (任务系统: data/story and the regions' quests.json), in authored order.
+func set_epilogues(epilogues: Dictionary[StringName, EpilogueDefinition]) -> void:
+	_epilogues = epilogues.duplicate()
+
+
+## An ending told over the 沙盘 (EpilogueDefinition; DECISIONS「结局讲述」), or null.
+func epilogue(epilogue_id: StringName) -> EpilogueDefinition:
+	return _epilogues.get(epilogue_id)
+
+
 func story_quests() -> Array[StoryQuestDefinition]:
 	return _story_quests
 

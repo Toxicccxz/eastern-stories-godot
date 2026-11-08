@@ -233,12 +233,7 @@
 			"points": ["city.shangshu.keting.shangshu.1"],
 			"legacy_room": "d/city/shangshu/keting.c",
 			"legacy_quantity": 1,
-			"until": {
-				"any": [
-					{ "mark": "庾子建下狱" },
-					{ "all": [{ "quest": "main.finale/lake" }, { "mark": "私了了庾子建" }, { "not": { "any": [{ "mark": "旋芒交给了庾子建" }, { "mark": "庾子建在湖边走了" }] } }] }
-				]
-			}
+			"until": { "mark": "庾子建下狱" }
 		},
 		{
 			"id": "city.shangshu.road2.huyuan",

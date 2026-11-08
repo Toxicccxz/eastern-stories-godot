@@ -123,6 +123,10 @@ var _away: WorldAwayTimes = WorldAwayTimes.new()
 signal autosave_moment
 ## An act's `keep_save` (终章 A; DECISIONS「决战前存档」): the host writes the 决战前 slot now.
 signal keep_save_requested
+## 终章 C (DECISIONS「结局讲述」): an ending was told; `final`: the journey ends with it (the host
+## takes the game back to the main menu).
+signal epilogue_ended(final: bool)
+const EPILOGUE_HOLD: StringName = &"epilogue"
 var _fight_shown: bool = false
 ## Real seconds this character has been played, menus included (not the pause).
 var _played_seconds: float = 0.0
@@ -2412,6 +2416,27 @@ func player_worn_item_ids() -> Dictionary[StringName, bool]:
 		if GameContent.catalog().item(base) != null:
 			worn[base] = true
 	return worn
+
+
+## An ending told over the 沙盘 (an act's or an answer's `epilogue`; DECISIONS「结局讲述」): its cards
+## as they stand for the player now, once what is being read is read; world time stands still while
+## it is told. Nothing when it is unknown or one is being told already.
+func play_epilogue(epilogue_id: StringName) -> void:
+	var definition: EpilogueDefinition = GameContent.catalog().epilogue(epilogue_id)
+	var overlay: EpilogueOverlay = shared_ui().epilogue
+	if definition == null or overlay == null or overlay.active():
+		return
+	var test: Callable = quest_condition_test()
+	var dialogue: WorldDialogueBox = shared_ui().dialogue_box
+	hold_presentation(EPILOGUE_HOLD, true)
+	if not overlay.finished.is_connected(_on_epilogue_finished):
+		overlay.finished.connect(_on_epilogue_finished)
+	overlay.play(definition.shown(test), definition.ends_journey(test), func() -> bool: return dialogue.is_open())
+
+
+func _on_epilogue_finished(final: bool) -> void:
+	hold_presentation(EPILOGUE_HOLD, false)
+	epilogue_ended.emit(final)
 
 
 ## The 决战前 save is asked for (an act's `keep_save`): the host takes the world as it stands.

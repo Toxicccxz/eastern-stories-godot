@@ -66,6 +66,8 @@ extends RefCounted
 ##   for a room's act), as something let fall in a scene;
 ## - `take` (an item; native, 第十章 C, DECISIONS「拿走」): one the player carries of that definition is
 ##   gone (destruct(present(id, me)): 萧辟尘's bell hung back on his family's hook); none carried, nothing;
+## - `epilogue` (an ending's id; native, 终章 C; DECISIONS「结局讲述」): the ending is told over the
+##   沙盘, the world held until it is done (EpilogueDefinition);
 ## - `keep_save` true (native, 终章 A; DECISIONS「决战前存档」): the 决战前 save is written now, as
 ##   the world stands at this step (an act's first step before a point of no return: the dive);
 ## - `summon` (a spawn id; native, 逆灵宫 C): every absent NPC of that summoned spawn of this map
@@ -83,7 +85,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -488,7 +490,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -640,6 +642,11 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"drop":
 			step.kind = Kind.DROP
 			step.item_id = StringName(reader.required_text("drop"))
+		"epilogue":
+			# Native (终章 C; DECISIONS「结局讲述」): the ending told over the 沙盘, by its id (the
+			# world held while it is told).
+			step.kind = Kind.EPILOGUE
+			step.flag = reader.required_text("epilogue")
 		"keep_save":
 			# Native (终章 A; DECISIONS「决战前存档」): the 决战前 slot is written as the world stands
 			# now (only `true` is a step: a save not asked for is no step).
