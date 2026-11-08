@@ -78,6 +78,26 @@
       "headwear": "none", "beard": "chin_three", "waist": "sash", "prop": "staff",
       "prop_color": "d49f5d", "accent": "75030e", "height": "standard", "build": "slim",
       "shoes": "dark"
+    },
+    "common.npc.beggar.master": {
+      "note": "陆得财：浑身脏兮兮的老丐，破烂打补丁的乞丐衣，无精打采；腰挂一只大皮酒囊，网绳上打满了结；立绘 Muse 2026-11-08",
+      "coat": "796958", "pants": "564637", "skin": "d59969", "hair": "56483a", "hair_style": "long",
+      "headwear": "none", "beard": "full", "waist": "belt", "prop": "gourd", "prop_color": "5e3d26",
+      "accent": "685747", "height": "standard", "build": "standard", "shoes": "dark", "pouch": false
+    },
+    "common.npc.scholar.master": {
+      "note": "骆云舟：一身粗布衣，长发束淡青发带，潇洒爱游荡；佩风泉之剑，湛蓝剑身、鹅黄剑柄；立绘 Muse 2026-11-08",
+      "coat": "918377", "pants": "554748", "skin": "e3ba8d", "hair": "1c2625", "hair_tie": "c8e0e8",
+      "hair_style": "long", "headwear": "none", "beard": "moustache", "waist": "sash",
+      "prop": "sword_waist", "prop_color": "33689a", "accent": "8a7a6c", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "common.npc.scholar.sword_soul": {
+      "note": "风泉剑灵：高大的女子人形，整个人是暗蓝色的光，身体淡蓝、轮廓发亮；手持风泉之剑；立绘 Muse 2026-11-08",
+      "coat": "c7eefd", "pants": "75b1fc", "skin": "e3fefd", "hair": "c7eefd", "hair_style": "long",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "sword_waist",
+      "prop_color": "3c7af4", "accent": "a8d4fb", "height": "tall", "build": "slim",
+      "shoes": "white"
     }
   }
 }
