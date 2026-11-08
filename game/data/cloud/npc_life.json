@@ -27,6 +27,6 @@
 		"cloud.npc.tea_waiter": {"mode": "work", "gesture": "wipe", "radius": 96},
 		"cloud.npc.thief": "wander",
 		"cloud.npc.weaponor": "still",
-		"cloud.npc.worker": {"mode": "work", "gesture": "hoe"}
+		"cloud.npc.worker": {"mode": "work", "gesture": "hoe", "night": "home"}
 	}
 }

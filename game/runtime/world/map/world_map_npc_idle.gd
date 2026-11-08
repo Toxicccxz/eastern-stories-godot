@@ -9,6 +9,12 @@ extends RefCounted
 ## (random_move), reach rules and every ES2 random stream stay as they are; its own stream
 ## draws the strolls. Ticked on NPC heart_beat time (world time: still in a fight and
 ## while the world is held), only on the active map.
+## Night (D; DECISIONS「夜里冷清」): the street's idle folk (entries with `night` "home") go indoors
+## while the day's phase is one of npc_idle's night_phases — one in sight walks to the map's nearest
+## way out (a passage, a door) and is gone there, one out of sight is simply gone — and come out
+## at dawn (out of the nearest way out and back to their spot, if the spot is in sight). As the
+## player comes onto a map (judge_night()) it is so at once. Busy or with the player, one waits.
+## Their absence is the NPC's own (withdraw(), saved as any absent one); nothing else is kept.
 
 ## One at work faces a piece of furniture (the anvil, the counter, a table) this near the edge
 ## of its body (pixels), else keeps the way it came.
@@ -31,6 +37,14 @@ var _people: Dictionary[StringName, Dictionary] = {}
 var random: RandomNumberGenerator = RandomNumberGenerator.new()
 ## NpcLifeBook's entry by NPC definition ID (null: none), looked up once: the loop runs every tick.
 var _entries: Dictionary[StringName, NpcLifeBook.Entry] = {}
+## Night (D): who is on the way indoors, by character ID: true walking to a way out, false with
+## no way to walk (gone once out of sight). Not saved: a save takes the walk's end.
+var _leaving: Dictionary[StringName, bool] = {}
+## Night (D): whether one of the street's idle folk set off (to a way out, or out of one) this tick:
+## one a tick, so dusk costs no frame many grids and paths.
+var _set_off: bool = false
+## No one comes out on a spot the player stands this near (they wait till the player moves on).
+const SPOT_CLEAR_PX: float = 48.0
 
 
 func _init(map: WorldMapController) -> void:
@@ -49,10 +63,16 @@ func advance(delta: float) -> void:
 	var selected: StringName = _map.selection.selected_character_id()
 	# A room's stroll ground is made one step a tick (a grid or its cells: a few ms each).
 	var prepared: bool = false
+	var night: bool = _night_now(tuning)
+	_set_off = false
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
 		if entry == null or body == null:
+			continue
+		if tuning.night_home and entry.night_home and _night_spawn(npc) != null and _night_step(npc, body, night, selected, tuning, walker):
+			continue
+		if not npc.exists_in_map:
 			continue
 		var zone_id: StringName = npc.world_location().zone_id
 		var person: Dictionary = _people.get(npc.character_id, {})
@@ -132,6 +152,140 @@ func advance(delta: float) -> void:
 				)
 
 
+## Night (D): as the player comes onto the map (a handoff, Continue, the first map), the street's
+## idle folk are where the hour puts them, at once: indoors by night, on their spots by day.
+func judge_night() -> void:
+	_leaving.clear()
+	var tuning: NpcIdleTuning = GameContent.catalog().pacing().npc_idle
+	if not tuning.enabled or not tuning.night_home or _map.session == null:
+		return
+	var night: bool = _night_now(tuning)
+	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+		var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
+		var spawn: NpcSpawnDefinition = _night_spawn(npc)
+		if entry == null or not entry.night_home or spawn == null or not _up(npc):
+			continue
+		if night and npc.exists_in_map and _free(npc):
+			_go_in(npc)
+		elif not night and not npc.exists_in_map:
+			# Out already (the hours went by), on its spot, unless the player stands on it: then the
+			# ticks bring it out once they move on.
+			_come_out(npc, _map.npc_life.npc_walker(), true)
+
+
+## Whether the day's phase now is one of the night's.
+func _night_now(tuning: NpcIdleTuning) -> bool:
+	return tuning.night_home and _map.session != null and tuning.night_phases.has(_map.session.day_phase_id())
+
+
+## The spawn of one who may go indoors at night: an ordinary one (not the story's, a summoned,
+## drawn or absent-at-first one, whose comings and goings are their own) on its own map (one that
+## wandered through a door onto another stays there till its room brings it home), else null.
+func _night_spawn(npc: NpcRuntimeState) -> NpcSpawnDefinition:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	if spawn == null or spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn or spawn.map_id != _map.map_id():
+		return null
+	return spawn
+
+
+## Alive, awake and not gone for good.
+static func _up(npc: NpcRuntimeState) -> bool:
+	return npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.has_flag(NpcDefinition.FLAG_GONE)
+
+
+## One tick of the night for one of the street's idle folk: true when it took the tick (the rest
+## of the loop leaves it be), false when the day's ways go on (busy, or with the player).
+func _night_step(npc: NpcRuntimeState, body: WorldCharacterBody2D, night: bool, selected: StringName, tuning: NpcIdleTuning, walker: WorldNpcWalker) -> bool:
+	var id: StringName = npc.character_id
+	if not night:
+		_leaving.erase(id)
+		if npc.exists_in_map or not _up(npc):
+			return false
+		_come_out(npc, walker, false)
+		return true
+	if not npc.exists_in_map:
+		return true
+	if _leaving.has(id):
+		# A fight, a scene or a talk stopped it on the way: the day's ways till it is free again.
+		if not _free(npc):
+			_leaving.erase(id)
+			return false
+		if bool(_leaving[id]) and walker.is_walking(id):
+			return true
+		if bool(_leaving[id]) or not _map.in_view(body.global_position):
+			_go_in(npc)
+		return true
+	if not _free(npc) or id == selected or body.global_position.distance_to(_map.player_body.global_position) <= float(tuning.stop_reach_px):
+		return false
+	if walker.is_strolling(id):
+		# Its few steps first.
+		return true
+	if not _map.in_view(body.global_position):
+		_go_in(npc)
+		return true
+	if _set_off:
+		return true
+	_set_off = true
+	_leaving[id] = false
+	for spot: Vector2 in _ways_out(body.global_position):
+		if walker.walk_across(id, body, spot):
+			_leaving[id] = true
+			break
+	return true
+
+
+## Indoors for the night: off the map until dawn.
+func _go_in(npc: NpcRuntimeState) -> void:
+	var walker: WorldNpcWalker = _map.npc_life.npc_walker()
+	walker.cancel(npc.character_id)
+	_leaving.erase(npc.character_id)
+	_people.erase(npc.character_id)
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	if body != null:
+		body.set_meta(ATTENDING, false)
+	_map.npcs.withdraw(npc)
+
+
+## Out again at dawn: on its spot, or (its spot in sight and not `at_once`) out of the nearest way
+## out and back to it. Not while the player stands on the spot.
+func _come_out(npc: NpcRuntimeState, walker: WorldNpcWalker, at_once: bool) -> void:
+	var spawn: NpcSpawnDefinition = _night_spawn(npc)
+	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
+	if spawn == null or marker == null:
+		return
+	if _map.player_body != null and _map.player_body.global_position.distance_to(marker.global_position) < SPOT_CLEAR_PX:
+		return
+	var seen: bool = not at_once and _map.in_view(marker.global_position)
+	if seen:
+		if _set_off:
+			return
+		_set_off = true
+	if not _map.npcs.appear(npc, spawn):
+		return
+	_people.erase(npc.character_id)
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	if not seen or body == null:
+		return
+	for spot: Vector2 in _ways_out(marker.global_position):
+		body.global_position = spot
+		if walker.walk_across(npc.character_id, body, marker.global_position):
+			return
+	body.global_position = marker.global_position
+
+
+## The map's ways out (its passages, its doors), nearest to `point` first, at most three.
+func _ways_out(point: Vector2) -> Array[Vector2]:
+	var ways: Array[Vector2] = []
+	for passage: WorldPassageArea2D in _map.static_nodes().passages:
+		ways.append(passage.global_rect().get_center())
+	for door: WorldDoor in _map.static_nodes().doors:
+		var wall: CollisionShape2D = door.wall_shape()
+		if wall != null:
+			ways.append(wall.global_position)
+	ways.sort_custom(func(a: Vector2, b: Vector2) -> bool: return a.distance_squared_to(point) < b.distance_squared_to(point))
+	return ways.slice(0, 3)
+
+
 ## The nearest point of the furniture of `zone` (the map's Furnishings standing in it and on the
 ## stage now: position and footprint) within WORK_FACES_PX of a body at `point` (17 px its half
 ## width), else Vector2.INF.
@@ -163,6 +317,7 @@ func _entry(definition_id: StringName) -> NpcLifeBook.Entry:
 ## Forgets everyone (the map is left, or reset): a post or one that stays put faces its own
 ## way again, and each starts again from its own spot.
 func clear() -> void:
+	_leaving.clear()
 	for character_id: StringName in _people:
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(character_id)
 		if body != null:

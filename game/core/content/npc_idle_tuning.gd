@@ -14,6 +14,8 @@ extends RefCounted
 ## - speed_px: the walking speed of a stroll (pixels a second; a room move walks faster).
 ## - stop_reach_px: a person the player comes this near finishes its few steps (they end on open
 ##   ground) and turns to them, and starts no new stroll while the player stays.
+## - night_home / night_phases (D, DECISIONS「夜里冷清」): the street's idle folk (life entries with
+##   `night` "home") go indoors while the day's phase is one of night_phases, and come out after.
 
 var enabled: bool = false
 var pause_min_ms: int = 0
@@ -23,6 +25,8 @@ var stroll_max_px: int = 0
 var home_radius_px: int = 0
 var speed_px: int = 0
 var stop_reach_px: int = 0
+var night_home: bool = false
+var night_phases: Array[StringName] = []
 
 const KEYS: Array[String] = [
 	"pause_min_ms", "pause_max_ms", "stroll_min_px", "stroll_max_px", "home_radius_px",
@@ -40,6 +44,9 @@ static func from_record(reader: ContentRecordReader) -> NpcIdleTuning:
 	tuning.enabled = reader.boolean("enabled", false)
 	for key: String in KEYS:
 		tuning.set(key, reader.integer(key, 0))
+	tuning.night_home = reader.boolean("night_home", false)
+	for phase: String in reader.text_list("night_phases"):
+		tuning.night_phases.append(StringName(phase))
 	reader.finish()
 	for key: String in KEYS:
 		if int(tuning.get(key)) < 0:
@@ -48,6 +55,8 @@ static func from_record(reader: ContentRecordReader) -> NpcIdleTuning:
 		reader.fail("pause_max_ms", "must not be below pause_min_ms")
 	if tuning.stroll_max_px < tuning.stroll_min_px:
 		reader.fail("stroll_max_px", "must not be below stroll_min_px")
+	if tuning.night_home and tuning.night_phases.is_empty():
+		reader.fail("night_phases", "must name the night's phases when night_home is on")
 	if tuning.enabled and (tuning.speed_px <= 0 or tuning.pause_max_ms <= 0):
 		reader.fail("speed_px", "speed_px and pause_max_ms must be positive when enabled")
 	return tuning

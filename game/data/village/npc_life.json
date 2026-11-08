@@ -6,7 +6,7 @@
 		"village.npc.meloner": "still",
 		"village.npc.oldliu": {"mode": "wander", "radius": 48},
 		"village.npc.rat": "wander",
-		"village.npc.trader1": "wander",
+		"village.npc.trader1": {"mode": "wander", "night": "home"},
 		"village.npc.woman1": {"mode": "work", "gesture": "hoe", "radius": 64}
 	}
 }
