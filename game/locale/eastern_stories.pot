@@ -15648,7 +15648,7 @@ msgstr ""
 
 #. common.npc.fighter.master inquiry.湖底.rules.say
 #: data/common/npcs.json
-msgid "湖底的事，璃虹比我清楚。"
+msgid "湖底？玉螺湖底下的事，小天邪不问。"
 msgstr ""
 
 #. common.npc.fighter.executioner name
@@ -48371,16 +48371,19 @@ msgid "谁拔"
 msgstr ""
 
 #. native.npc.lan_weng inquiry.谁拔.rules.say
+#. native.npc.lan_weng_terrace inquiry.谁拔.rules.say
 #: data/lancheng/npcs.json
 msgid "你拔的。十口铃里有人信你——到了湖底，别让它们暗下去。"
 msgstr ""
 
 #. native.npc.lan_weng inquiry.谁拔.rules.say
+#. native.npc.lan_weng_terrace inquiry.谁拔.rules.say
 #: data/lancheng/npcs.json
 msgid "於兰家的人拔的。三百年前他们拔错了一把，这一回，看他拔得对不对。"
 msgstr ""
 
 #. native.npc.lan_weng inquiry.谁拔.rules.say
+#. native.npc.lan_weng_terrace inquiry.谁拔.rules.say
 #: data/lancheng/npcs.json
 msgid "萧家的孩子拔的。他回来了一回，又走了。风记得他。"
 msgstr ""
@@ -48633,6 +48636,11 @@ msgstr ""
 
 #. native.npc.lan_weng_terrace inquiry.谁拔.rules.say
 #: data/lancheng/npcs.json
+msgid "风认你了。剑在台心，去拿吧。"
+msgstr ""
+
+#. native.npc.lan_weng_terrace inquiry.谁拔.rules.say
+#: data/lancheng/npcs.json
 msgid "你。那就先接三刃。"
 msgstr ""
 
@@ -48825,14 +48833,13 @@ msgstr ""
 #: data/lancheng/rooms.json
 msgid ""
 "风铃阁顶上出去，是一片悬在云上的白石台。台子没有栏杆，四边就是云，云下面很远的地方，有山的影子在慢慢往后退——城在走。\n"
-"白石被风磨得发亮，石缝里长着一点青苔。北边台心，风打着旋，一刻也不停。\n"
+"白石被风磨得发亮，石缝里长着一点青苔。北边是台心，白石上一圈一圈的印子。\n"
 msgstr ""
 
 #. native:lancheng/whirl long
 #: data/lancheng/rooms.json
 msgid ""
-"台心一股旋风，从石面上直卷上去，卷到看不见的地方。风里有一把剑，剑尖朝下，一圈一圈地转，每转一圈，就有一道白光从风里划出来。\n"
-"离得近了，风刮在脸上像刀子。\n"
+"台子的北边，白石面上被风磨出一圈浅浅的印子，一圈套一圈，像水里的波纹。岚城的人说，这是风在这里转了三百年转出来的。\n"
 msgstr ""
 
 #. native:lancheng/cloud_edge long
@@ -48979,6 +48986,12 @@ msgstr ""
 #: data/lancheng/world.json
 msgid ""
 "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n"
+msgstr ""
+
+#. lancheng.xiao_house.landmark.hook looks.long
+#: data/lancheng/world.json
+msgid ""
+"一只铜钩，钩尖朝上，擦得很亮。钩上挂着一只青铜小铃，绳结是孩子打的死结，风一过就响。萧家的铃回来了。\n"
 msgstr ""
 
 #. lancheng.xiao_house.landmark.hook looks.long
@@ -49404,7 +49417,7 @@ msgstr ""
 #: data/lancheng/world.json
 msgid ""
 "请皇叔来拔？\n"
-"岚翁会摇京师那口铃，风去京城把於兰天武找来。剑跟他走，终章他持剑，你在旁边。"
+"京师那口铃一响，风就去京城把於兰天武找来。剑跟他走，终章他持剑，你在旁边。"
 msgstr ""
 
 #. lancheng.whirl.uncle act.acts.steps.line
@@ -49461,7 +49474,7 @@ msgstr ""
 #. lancheng.whirl.uncle act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
-"（请皇叔拔：第九章要先请皇上撤了他的通缉，他入了朝才行。）\n"
+"（请皇叔拔：只有第九章请皇上先撤了他的通缉、把手诏送到他手里的那一边，他才在朝上。）\n"
 msgstr ""
 
 #. lancheng.whirl.xiao act.verb
@@ -49474,7 +49487,7 @@ msgstr ""
 #: data/lancheng/world.json
 msgid ""
 "让萧辟尘来拔？\n"
-"岚翁会把他的风铃挂回萧家的钩上，风认得铃上的名字，会把他送回来。剑跟他走：他会拿着它去决战，那一战，他可能回不来。铃也还给他了。"
+"岚翁会把他的风铃挂回萧家的钩上，风认得铃上的名字，会把他送回来。剑跟他走：他会拿着它去决战，那一战，他可能回不来。铃也就还给他了。"
 msgstr ""
 
 #. lancheng.whirl.xiao act.acts.steps.line

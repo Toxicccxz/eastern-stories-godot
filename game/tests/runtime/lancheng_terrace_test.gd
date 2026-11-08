@@ -105,7 +105,7 @@ func _test_xiao(tree: SceneTree, session: WorldSessionController) -> void:
 	await _act(tree, terrace, &"lancheng.whirl.self")
 	_check(not ui.is_asking() and _said(_recent(ui, 3), "响了两口铃，还差三口"), "two bells: three short (%s)" % [_recent(ui, 3)])
 	await _act(tree, terrace, &"lancheng.whirl.uncle")
-	_check(not ui.is_asking() and _said(_recent(ui, 3), "通缉"), "the 皇叔 not at court: 还在通缉里")
+	_check(not ui.is_asking() and _said(_recent(ui, 3), "通缉") and _said(_recent(ui, 3), "手诏送到他手里的那一边"), "the 皇叔 not at court: 还在通缉里, only the side that sent him the 手诏")
 	await _act(tree, terrace, &"lancheng.whirl.xiao")
 	_check(not ui.is_asking() and _said(_recent(ui, 3), "风认铃"), "no bell: 风认铃，不认人")
 	_check(not terrace.give_new_item_to_player(BELL).is_empty(), "TEST-ONLY: the bell from the 石匣")
@@ -120,12 +120,20 @@ func _test_xiao(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(StoryQuestLog.took(state, quest, &"xiao") and StoryQuestLog.is_done(state, quest) and DeedLog.done(state, "在岚城的云台上，看着旋芒落进萧辟尘手里"), "the chapter done on 萧辟尘's side")
 	var weng: NpcRuntimeState = _first(session, &"lancheng.whirl", LAN_WENG_TERRACE)
 	_check(weng != null and terrace.select_npc(weng.character_id) and _said(terrace.ask_selected("旋芒"), "萧家的孩子"), "岚翁: it went with 萧家的孩子")
+	_check(weng != null and _said(terrace.ask_selected("谁拔"), "萧家的孩子拔的"), "岚翁 on 谁拔: 萧家的孩子拔的")
+	var hook: WorldLandmarkDefinition = GameContent.catalog().landmark(&"lancheng.xiao_house.landmark.hook")
+	_check(hook != null and hook.looks()[0].marks == ["旋芒在萧辟尘手里"] and hook.looks()[0].long.contains("萧家的铃回来了"), "the 萧家 hook: the bell hangs on it")
 	await _act(tree, terrace, &"lancheng.cloud_edge.ride")
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	_check(session.active_map().map_id() == &"canyon.pass", "down by the wind")
 	var song: NpcRuntimeState = _first(session, &"canyon.stone_forest3", &"native.npc.song_pu_mirror")
 	_check(song != null, "宋朴 at the mirror: the deal's ledger")
+	var gate: Dictionary = {}
+	for spawn: Variant in JSON.parse_string(FileAccess.get_file_as_string("res://data/native/spawns.json"))["spawns"]:
+		if String(spawn["id"]) == "native.wumen.song_pu":
+			gate = spawn
+	_check(gate.get("until", {}) == {"mark": "岚城一章"}, "and no longer at the 午门: one 宋朴 at a time")
 	for second: int in 3:
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
