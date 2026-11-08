@@ -64,6 +64,20 @@
       "hair_style": "topknot", "beard": "none", "waist": "belt", "prop": "lute",
       "prop_color": "a86b5f", "accent": "b79c6c", "height": "standard", "build": "slim",
       "shoes": "white"
+    },
+    "common.npc.taoist.taolord": {
+      "note": "茅山掌门，六指真人；一只眼黑一只眼金；桃木咒剑王禅记 sword_waist，三清冠记 crown；立绘 Muse 2026-11-08",
+      "coat": "1c3659", "pants": "14233a", "skin": "ecb887", "hair": "161618",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "935e33",
+      "beard": "chin_three", "waist": "sash", "prop": "sword_waist", "prop_color": "95724e",
+      "accent": "996233", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "common.npc.bonze.master": {
+      "note": "玄智和尚，山烟寺住持（原文没写长相，续写）：清瘦老方丈，白眉长垂；赭红袈裟罩灰布僧衣，六环黄铜禅杖记 staff；立绘 Muse 2026-11-08",
+      "coat": "a81a21", "pants": "4d5c62", "skin": "e2b899", "hair": "e2b899", "hair_style": "bald",
+      "headwear": "none", "beard": "chin_three", "waist": "sash", "prop": "staff",
+      "prop_color": "d49f5d", "accent": "75030e", "height": "standard", "build": "slim",
+      "shoes": "dark"
     }
   }
 }
