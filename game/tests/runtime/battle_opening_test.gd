@@ -145,8 +145,8 @@ func _test_annihir(tree: SceneTree) -> void:
 	_ui.refresh_projection()
 	var lines: PackedStringArray = _log().split("\n")
 	_check(lines.size() >= 3 and lines[0].begins_with("你对著安惜迩说道：") and lines[1] == "安惜迩说道：咦... 要打就真打吧，光是较量多没意思？" and lines[2] == warning, "the battle log opens with the spar, his answer and kill_ob(): " + str(lines.slice(0, 3)))
-	_check(_warning().is_visible_in_tree() and _warning().text == warning, "pinned under 厮杀")
-	_check(_ui._title.text.begins_with("厮杀"), "the title says 厮杀: " + _ui._title.text)
+	_check(_warning().is_visible_in_tree() and _warning().text == warning, "pinned under 死斗")
+	_check(_ui._title.text == "死斗" and _ui.shown_mode() == CombatEncounterMode.Value.LETHAL and _ui._shade.color == UiPalette.SCRIM_LETHAL, "the title says 死斗, in its look: " + _ui._title.text)
 	_check(_strip().back() == warning and _strip_red(2), "the recent strip ends with it, red, before the first blow")
 	# Flee at once: the result must not repeat the opening the log already has.
 	for attempt: int in range(30):

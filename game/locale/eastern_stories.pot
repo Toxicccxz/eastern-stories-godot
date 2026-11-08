@@ -7889,6 +7889,42 @@ msgstr ""
 msgid "战斗记录"
 msgstr ""
 
+#. the word at the top of the battle screen in a 切磋 (a friendly bout that stops short of harm).
+#: presentation/battle/battle_mode_look.gd presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
+msgid "切磋"
+msgstr ""
+
+#. the word at the top of the battle screen in a fight to the death.
+#: presentation/battle/battle_mode_look.gd
+msgid "死斗"
+msgstr ""
+
+#. the word at the top of the battle screen while a guide's three harmless rounds run.
+#. the popup row on a school's guide: three rounds of 拆招, no blood drawn.
+#: presentation/battle/battle_mode_look.gd ui/world/shared_ui_nearby.gd
+msgid "拆招"
+msgstr ""
+
+#. the word at the top of the battle screen in a story fight.
+#: presentation/battle/battle_mode_look.gd
+msgid "交手"
+msgstr ""
+
+#. the line under 切磋 at the top of the battle screen.
+#: presentation/battle/battle_mode_look.gd
+msgid "点到为止"
+msgstr ""
+
+#. the line under 死斗 at the top of the battle screen.
+#: presentation/battle/battle_mode_look.gd
+msgid "生死各安天命"
+msgstr ""
+
+#. the line under 拆招 at the top of the battle screen (the lesson ends after three rounds).
+#: presentation/battle/battle_mode_look.gd
+msgid "三合为限"
+msgstr ""
+
 #. a battle log line ({line}) and the damage behind it, shown grey.
 #: presentation/battle/battle_narration_line.gd
 msgid "{line} [color=#8b959e]（-{damage}）[/color]"
@@ -7936,6 +7972,11 @@ msgstr ""
 #. the battle card of one who fell: the button that lets them live (the player's side strikes them no more).
 #: presentation/battle/battle_participant_card.gd
 msgid "放过"
+msgstr ""
+
+#. an enemy's battle card, the 预判 row, when nothing could be foreseen.
+#: presentation/battle/battle_participant_card.gd
+msgid "深浅未明"
 msgstr ""
 
 #. the battle card of one fighting beside the player (a 天将, a follower).
@@ -8138,11 +8179,11 @@ msgid "{name}又出{count}招 {results}"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
-msgid "目标：%s"
+msgid "战斗无法正常结束，不会自动重试。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
-msgid "战斗无法正常结束，不会自动重试。"
+msgid "目标：%s"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -8156,25 +8197,6 @@ msgstr ""
 #. the damage behind a battle line, as BattleNarrationLine.rich_text() shows it.
 #: presentation/battle/battle_presentation_controller.gd
 msgid "（-%d）"
-msgstr ""
-
-#: presentation/battle/battle_presentation_controller.gd presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
-msgid "切磋"
-msgstr ""
-
-#. the battle's name while a guide's three harmless rounds run.
-#. the popup row on a school's guide: three rounds of 拆招, no blood drawn.
-#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_nearby.gd
-msgid "拆招"
-msgstr ""
-
-#: presentation/battle/battle_presentation_controller.gd
-msgid "厮杀"
-msgstr ""
-
-#. help.combat title
-#: presentation/battle/battle_presentation_controller.gd data/common/codex.json
-msgid "战斗"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -18393,6 +18415,11 @@ msgstr ""
 #. help.damage paragraphs
 #: data/common/codex.json
 msgid "像精这一项若是当前 93、有效 100、最大 100，是表示说精力的能量用掉（损耗）了 7 点，但是并没有受到任何实体的伤害；而气这一项若是当前 67、有效 82、最大 100，是表示你受到了一些气的实体伤害（外伤、内伤），因此气这种能量的恢复只到 82 为止，虽然这些实体的伤害也会慢慢恢复，但是只有在能量恢复到上限时才会极缓慢地恢复。"
+msgstr ""
+
+#. help.combat title
+#: data/common/codex.json
+msgid "战斗"
 msgstr ""
 
 #. help.combat paragraphs
