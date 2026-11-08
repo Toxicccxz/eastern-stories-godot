@@ -21,6 +21,7 @@ const BUSY: int = 3
 func _init() -> void:
 	id = &"hasten"
 	label = "「玄羽乱舞」"
+	own_busy = BUSY
 
 
 func perform(context: SpecialContext) -> bool:

@@ -174,12 +174,12 @@ func _test_battle_actions(session: WorldSessionController) -> void:
 	var map: WorldMapController = _select(session, session.shared_ui(), &"snow.school2", trainee)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar with the trainee")
 	ui.refresh_projection()
-	var heal: Button = _button(ui.action_panel, "运功疗伤")
-	var recover: Button = _button(ui.action_panel, "运功恢复气")
-	_check(heal != null and heal.disabled and heal.tooltip_text == "战斗中运功疗伤？找死吗？", "运功疗伤 greyed with heal.c's line")
-	_check(recover != null and not recover.disabled and recover.tooltip_text == "运功恢复气：用 20 点内力恢复气", "运功恢复气's hover: " + ("" if recover == null else recover.tooltip_text))
-	if heal != null:
-		heal.pressed.emit()
+	var heal: Array = ui.action_panel.action_by_label("运功疗伤")
+	var recover: Array = ui.action_panel.action_by_label("运功恢复气")
+	_check(not heal.is_empty() and heal[1] and heal[2] == "战斗中运功疗伤？找死吗？", "运功疗伤 greyed with heal.c's line")
+	_check(not recover.is_empty() and not recover[1] and recover[2] == "运功恢复气：用 20 点内力恢复气", "运功恢复气's hover: " + ("" if recover.is_empty() else recover[2]))
+	if not heal.is_empty():
+		ui.action_panel.choose_action(heal[0])
 	ui.refresh_projection()
 	_check(coordinator.has_active_encounter() and ui.current_projection().queued_action() == null, "pressing the greyed button queues nothing")
 	var catalog := BattleActionPresentationCatalog.new()
@@ -243,13 +243,6 @@ func _find(session: WorldSessionController, character_id: StringName) -> NpcRunt
 		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
 		if npc != null:
 			return npc
-	return null
-
-
-func _button(panel: BattleActionPanel, label: String) -> Button:
-	for child: Node in panel._actions.get_children():
-		if (child as Button).text == label:
-			return child as Button
 	return null
 
 

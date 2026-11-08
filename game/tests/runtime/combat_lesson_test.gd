@@ -129,7 +129,7 @@ func _test_harmless_rounds() -> void:
 	var won: int = 0
 	for round: CombatSchedulerAdvanceResult in rounds:
 		for line: String in _chat_lines(round, ENEMY):
-			if line.contains("抢得一拍"):
+			if line.contains("抢得一手"):
 				won += 1
 	_check(earned == won, "the beats won are counted as the log says them (%d)" % earned)
 	# A plain spar in the same fixture draws blood (the kee goes down).

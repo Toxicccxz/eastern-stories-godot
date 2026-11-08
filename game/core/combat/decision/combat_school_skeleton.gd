@@ -30,6 +30,12 @@ const WHEN_OWN_LAST_LANDED: StringName = &"own_last_landed"
 const WHENS: Array[StringName] = [WHEN_PLAYER_LAST_HEAVY_MISSED, WHEN_OWN_LAST_LANDED]
 ## TRANSLATORS: the one-character word of a beat won each way: 隙 an opening the enemy gave, 压 pressing a landed hit, 连 a chained change of move.
 const EARN_LABELS: Dictionary[StringName, String] = {EARN_OPPONENT_MISSED: "隙", EARN_OWN_HIT_WHILE_CLOSE: "压", EARN_CHAIN_CHANGED_MOVE: "连"}
+## 战斗界面第二轮: how each way wins a beat, in the player's words, written under the battle
+## panel's dashed slot (DECISIONS「战斗界面 · 节拍条」).
+## TRANSLATORS: under the battle panel's dashed slot: how the player's school wins one more move this round (隙 / 压 / 连).
+const EARN_HINTS: Dictionary[StringName, String] = {
+	EARN_OPPONENT_MISSED: "对方打空得 1 手", EARN_OWN_HIT_WHILE_CLOSE: "近身打中得 1 手", EARN_CHAIN_CHANGED_MOVE: "换招连打得 1 手",
+}
 ## TRANSLATORS: why a locked move cannot be chosen now: 够不着 the fighter is not close enough.
 const LOCK_REASONS: Dictionary[StringName, String] = {STATE_CLOSE: "够不着"}
 

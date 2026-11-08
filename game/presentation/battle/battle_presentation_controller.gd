@@ -1114,7 +1114,7 @@ func _focus_battle() -> void:
 	# 等你出招: the first move (DECISIONS「战斗界面」), else the first quick action.
 	var move: Button = action_panel.first_move_button() if _projection.waiting and _projection.manual else null
 	var first: Button = move if move != null else action_panel.first_action_button()
-	(first if first != null else log_button).grab_focus()
+	action_panel.focus_quietly(first if first != null else log_button)
 
 
 func _yield_world_hud() -> void:

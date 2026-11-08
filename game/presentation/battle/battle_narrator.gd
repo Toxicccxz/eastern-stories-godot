@@ -266,8 +266,8 @@ static func seen(vision_lines: Array[VisionLine], cast: BattlePresentationProjec
 		if not line.actor_name.is_empty():
 			text = text.replace("$N", _t(line.actor_name))
 		var told := BattleNarrationLine.new(vision(text, line.actor_id, line.target_id, cast), -1, line.color)
-		# 战斗拍数 C: the scheduler's note of a beat won (「$N抢得一拍（隙）！」) cues the show.
-		if line.template.begins_with("$N抢得一拍"):
+		# 战斗拍数 C: the scheduler's note of a beat won (「$N抢得一手（隙）！」) cues the show.
+		if line.template.begins_with("$N抢得一手"):
 			told.with_cue(BattleNarrationLine.CUE_EARNED)
 		lines.append(told)
 	return lines

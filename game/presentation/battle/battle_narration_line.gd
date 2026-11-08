@@ -62,7 +62,7 @@ var is_folded: bool:
 ## 战斗拍数 C (DECISIONS「战斗拍数 C」): for the scene's show and the sounds — the blow's move
 ## tag (快 / 重 / 虚 / 守, &"" for 平), the ring's verdict on it (1 克, -1 被克, 0 相持), whether
 ## it is one of a special's blows, and a cue a line that is no blow carries (CUE_EARNED: a
-## beat won, 「抢得一拍」).
+## beat won, 「抢得一手」).
 const CUE_EARNED: StringName = &"earned"
 var _tag: StringName = &""
 var tag: StringName:

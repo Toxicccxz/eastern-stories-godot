@@ -214,10 +214,10 @@ static func _school_told(state: CharacterState, catalog: ContentCatalog, skill: 
 		var what: String = _t("绝招") if habit.tag == &"perform" else _t("{tag}招").format({"tag": CombatMoveTags.label(habit.tag) if habit.tag != CombatBeatRules.COST_PLAIN else _t("平")})
 		if habit.always():
 			# TRANSLATORS: a beat habit read of an NPC: {npc} who, {beat} which beat of a round (1 the first), {tag} 快 / 重 / 虚 / 守 / 绝招.
-			told.append(_t("{npc}的第 {beat} 拍总是{tag}（看过 {n} 回）。").format({"npc": name, "beat": habit.beat, "tag": what, "n": habit.total}))
+			told.append(_t("{npc}的第 {beat} 手总是{tag}（看过 {n} 回）。").format({"npc": name, "beat": habit.beat, "tag": what, "n": habit.total}))
 		else:
 			# TRANSLATORS: the same, most of the time.
-			told.append(_t("{npc}的第 {beat} 拍多半是{tag}（{m} 回里有 {n} 回）。").format({"npc": name, "beat": habit.beat, "tag": what, "m": habit.total, "n": habit.count}))
+			told.append(_t("{npc}的第 {beat} 手多半是{tag}（{m} 回里有 {n} 回）。").format({"npc": name, "beat": habit.beat, "tag": what, "m": habit.total, "n": habit.count}))
 	return told
 
 

@@ -179,7 +179,7 @@ func _test_one_beat_is_es2() -> void:
 	var round: CombatSchedulerAdvanceResult = _round(f)
 	_check(_beat_actors(round) == ([PLAYER, ENEMY] as Array[StringName]), "one beat each, in participant order: %s" % str(_beat_actors(round)))
 	_check(f.scheduler.round_beats_of(PLAYER).base == 1 and f.scheduler.round_beats_of(PLAYER).spent == ([CombatMoveTags.HEAVY] as Array[StringName]) and f.scheduler.round_beats_of(ENEMY).earned.is_empty(), "the heavy cost the one beat; the enemy (封山) won nothing of the miss")
-	_check(_notes(round, "抢得一拍") == 0 and _notes(round, "变招") == 0, "no beat notes")
+	_check(_notes(round, "抢得一手") == 0 and _notes(round, "变招") == 0, "no beat notes")
 
 
 ## Exchange order: the player's first beat, the enemy's first, then the rest by turns; or
@@ -280,7 +280,7 @@ func _test_opening_earns_once() -> void:
 	_check(missed == 2, "the enemy's two moves missed on the zero draws (%d)" % missed)
 	var beats: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
 	_check(beats.earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]) and _ordinary_of(round, PLAYER).size() == 3, "the player won one beat (隙) and took three; the second miss won nothing (cap 1)")
-	_check(_notes(round, "抢得一拍（隙）") == 1, "the log says so once")
+	_check(_notes(round, "抢得一手（隙）") == 1, "the log says so once")
 	var actors: Array[StringName] = _beat_actors(round)
 	_check(actors == ([PLAYER, ENEMY, PLAYER, ENEMY, PLAYER] as Array[StringName]), "the won beat comes after the exchange: %s" % str(actors))
 	var none: Fixtures.SchedulerFixture = _fixture(_modern(true, 0))
@@ -288,7 +288,7 @@ func _test_opening_earns_once() -> void:
 	_advance(none, 1.0)
 	none.scheduler.choose_attack(_move_with(none, CombatMoveTags.QUICK).action_id, none.bindings)
 	var capped: CombatSchedulerAdvanceResult = _round(none)
-	_check(_ordinary_of(capped, PLAYER).size() == 2 and _notes(capped, "抢得一拍") == 0, "earned_beat_cap 0: nothing won")
+	_check(_ordinary_of(capped, PLAYER).size() == 2 and _notes(capped, "抢得一手") == 0, "earned_beat_cap 0: nothing won")
 
 
 ## A 封山 NPC: the player's 重 misses, so it wins a beat (隙) and, the line's `when` holding,
@@ -303,7 +303,7 @@ func _test_fonxan_line() -> void:
 	var round: CombatSchedulerAdvanceResult = _round(f)
 	var mine: Array[CombatSchedulerEvent] = _ordinary_of(round, PLAYER)
 	_check(mine.size() == 1 and mine[0].resolution.forward_result.ordinary_attack_result.base_result.outcome != CombatAttackResult.Outcome.HIT, "the player's 重 missed")
-	_check(_notes(round, "抢得一拍（隙）") == 1 and f.scheduler.round_beats_of(ENEMY).earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]), "the enemy won a beat of the miss (隙)")
+	_check(_notes(round, "抢得一手（隙）") == 1 and f.scheduler.round_beats_of(ENEMY).earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]), "the enemy won a beat of the miss (隙)")
 	var special: CombatSchedulerEvent = null
 	for event: CombatSchedulerEvent in round.events():
 		if event.actor_id == ENEMY and event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null and event.chat.special_label() == "「封」字诀":
@@ -425,8 +425,8 @@ func _test_point_one_resolve_one() -> void:
 	_check(mine.remaining == 1 and mine.spent == ([CombatMoveTags.QUICK] as Array[StringName]) and mine == f.scheduler.round_beats_of(PLAYER), "one beat left, the 快 spent: the round running's beats")
 	_check(f.scheduler.beats_now(ENEMY, f.bindings).remaining == 1, "the enemy has its second beat still")
 	var heavy: CombatActionDefinition = _move_with(f, CombatMoveTags.HEAVY)
-	_check(f.scheduler.unaffordable_move_reason(heavy.action_id, f.bindings) == "拍不够" and f.scheduler.unaffordable_moves(f.bindings).has(heavy.action_id) and not f.scheduler.choose_attack(heavy.action_id, f.bindings), "a 重 (2) with one beat left: 拍不够, refused")
-	_check(f.scheduler.unaffordable_action_reason(&"perform/qa", f.bindings) == "拍不够" and f.scheduler.unaffordable_action_reason(CombatBeatRules.COST_EXERT, f.bindings).is_empty() and f.scheduler.unaffordable_action_reason(&"", f.bindings).is_empty(), "an order of 2 is 拍不够 too; one of 1 is not; one of nothing never")
+	_check(f.scheduler.unaffordable_move_reason(heavy.action_id, f.bindings) == "手不够" and f.scheduler.unaffordable_moves(f.bindings).has(heavy.action_id) and not f.scheduler.choose_attack(heavy.action_id, f.bindings), "a 重 (2) with one beat left: 拍不够, refused")
+	_check(f.scheduler.unaffordable_action_reason(&"perform/qa", f.bindings) == "手不够" and f.scheduler.unaffordable_action_reason(CombatBeatRules.COST_EXERT, f.bindings).is_empty() and f.scheduler.unaffordable_action_reason(&"", f.bindings).is_empty(), "an order of 2 is 拍不够 too; one of 1 is not; one of nothing never")
 	var held: CombatSchedulerAdvanceResult = _advance(f, 1.0)
 	_check(held.outcome == CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER and held.events().is_empty() and f.scheduler.logical_cycle == cycle + 1, "time does not move while it waits")
 	var feint: CombatActionDefinition = _move_with(f, CombatMoveTags.QUICK)
@@ -484,7 +484,7 @@ func _test_yield() -> void:
 	_advance(sword, 1.0)
 	sword.scheduler.yield_round(sword.bindings)
 	var baited: CombatSchedulerAdvanceResult = _advance(sword, 1.0)
-	_check(baited.outcome == CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER and sword.scheduler.round_running() and _notes(baited, "抢得一拍（隙）") == 1, "the enemy's miss won 隙 after 收势: the won beat waits for the order")
+	_check(baited.outcome == CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER and sword.scheduler.round_running() and _notes(baited, "抢得一手（隙）") == 1, "the enemy's miss won 隙 after 收势: the won beat waits for the order")
 	var won: CombatRoundBeats = sword.scheduler.beats_now(PLAYER, sword.bindings)
 	_check(won.yielded == 2 and won.earned.size() == 1 and won.remaining == 1, "two given up, one won, one to spend")
 	sword.scheduler.choose_attack(_move_with(sword, CombatMoveTags.QUICK).action_id, sword.bindings)
@@ -502,7 +502,7 @@ func _test_orders_cost_beats() -> void:
 	f.scheduler.note_stance_change(f.bindings)
 	var preview: CombatRoundBeats = f.scheduler.beats_now(PLAYER, f.bindings)
 	_check(preview.spent == ([CombatBeatRules.COST_STANCE] as Array[StringName]) and preview.remaining == 1, "a stance changed between rounds: one beat of the round to come")
-	_check(f.scheduler.unaffordable_move_reason(_move_with(f, CombatMoveTags.HEAVY).action_id, f.bindings) == "拍不够", "so a 重 cannot be ordered")
+	_check(f.scheduler.unaffordable_move_reason(_move_with(f, CombatMoveTags.HEAVY).action_id, f.bindings) == "手不够", "so a 重 cannot be ordered")
 	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
 	var round: CombatSchedulerAdvanceResult = _advance(f, 1.0)
 	_check(round.outcome == CombatSchedulerAdvanceResult.Outcome.ADVANCED and _ordinary_of(round, PLAYER).size() == 1 and f.scheduler.round_beats_of(PLAYER).spent == ([CombatBeatRules.COST_STANCE, CombatMoveTags.QUICK] as Array[StringName]), "the round: the stance's beat, the 快, done")

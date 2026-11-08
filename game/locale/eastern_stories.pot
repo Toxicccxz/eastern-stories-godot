@@ -4720,11 +4720,11 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "「"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "」"
 msgstr ""
 
@@ -4750,12 +4750,12 @@ msgstr ""
 msgid "虚"
 msgstr ""
 
-#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd presentation/battle/battle_action_panel.gd presentation/battle/battle_participant_card.gd
+#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd presentation/battle/battle_participant_card.gd
 msgid "守"
 msgstr ""
 
 #. a move of that tag in a beat habit: {tag} 快 / 重 / 虚 / 守 / 平.
-#: core/combat/decision/combat_move_tags.gd presentation/codex/codex_content.gd
+#: core/combat/decision/combat_move_tags.gd presentation/battle/battle_action_panel.gd presentation/codex/codex_content.gd
 msgid "平"
 msgstr ""
 
@@ -4783,12 +4783,24 @@ msgstr ""
 msgid "隙"
 msgstr ""
 
-#: core/combat/decision/combat_school_skeleton.gd presentation/battle/battle_action_panel.gd
+#: core/combat/decision/combat_school_skeleton.gd
 msgid "压"
 msgstr ""
 
 #: core/combat/decision/combat_school_skeleton.gd
 msgid "连"
+msgstr ""
+
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "对方打空得 1 手"
+msgstr ""
+
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "近身打中得 1 手"
+msgstr ""
+
+#: core/combat/decision/combat_school_skeleton.gd
+msgid "换招连打得 1 手"
 msgstr ""
 
 #: core/combat/decision/combat_school_skeleton.gd
@@ -7208,26 +7220,20 @@ msgstr ""
 msgid "$N攻击$n的$l"
 msgstr ""
 
-#: presentation/battle/battle_action_panel.gd
-msgid "引"
+#. the battle panel's one button for every 运功 (exert) the player can do; it opens a list.
+#. an NPC's exert function announced on its card when it has no name of its own.
+#: presentation/battle/battle_action_panel.gd runtime/combat_encounter/combat_npc_chat.gd ui/world/martial_arts_page.gd
+msgid "运功"
 msgstr ""
 
-#: presentation/battle/battle_action_panel.gd
-msgid "逐"
-msgstr ""
-
-#: presentation/battle/battle_action_panel.gd
-msgid "逼"
-msgstr ""
-
-#. the battle panel's button that gives up the beats left this round (the enemies act, the next round waits for you).
+#. the battle panel's button that gives up the moves left this round (the enemies act, the next round waits for you).
 #: presentation/battle/battle_action_panel.gd
 msgid "收势"
 msgstr ""
 
 #. hover of 收势.
 #: presentation/battle/battle_action_panel.gd
-msgid "放弃这一回合剩下的拍，让对手出招；赢来的拍照样归你。"
+msgid "放弃这一回合剩下的手，让对手出招；赢来的手照样归你。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -7243,13 +7249,28 @@ msgstr ""
 msgid "现在没有可用的操作。"
 msgstr ""
 
-#. the small corner of an order button: its price in beats.
+#. hover of a perform that leaves the player busy longer than it costs ({busy} moves, 手; 玄羽乱舞's 3).
 #: presentation/battle/battle_action_panel.gd
-msgid "%d拍"
+msgid "出手后自己要忙 {busy} 手。"
+msgstr ""
+
+#. hover of the battle panel's 运功 button.
+#: presentation/battle/battle_action_panel.gd
+msgid "运功：选一项内功的用法。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
 msgid "{action} · 目标：{target}"
+msgstr ""
+
+#. the small corner of an order button: its price in moves (手) this round.
+#: presentation/battle/battle_action_panel.gd
+msgid "%d手"
+msgstr ""
+
+#. an item of the battle panel's 运功 list: {action} the exert, {cost} its price in moves (手).
+#: presentation/battle/battle_action_panel.gd
+msgid "{action} · {cost} 手"
 msgstr ""
 
 #. the battle panel's status while the fight's clock waits for the player's order.
@@ -7257,18 +7278,103 @@ msgstr ""
 msgid "等你出招"
 msgstr ""
 
-#. the battle panel: what the player's beats went on this round, in order ({moves}: 快→虚).
-#: presentation/battle/battle_action_panel.gd
-msgid "这一回合已出：{moves}"
-msgstr ""
-
-#. the battle panel: what the player's beats went on this round, in order ({moves}: 快→虚).
-#: presentation/battle/battle_action_panel.gd
-msgid "上一回合：{moves}"
-msgstr ""
-
 #: presentation/battle/battle_action_panel.gd
 msgid "排定：%s"
+msgstr ""
+
+#. the battle strip's first words: how many moves (手) the player has left this round; 没手了 none.
+#: presentation/battle/battle_action_panel.gd
+msgid "还剩 %d 手"
+msgstr ""
+
+#. the battle strip's first words: how many moves (手) the player has left this round; 没手了 none.
+#: presentation/battle/battle_action_panel.gd
+msgid "没手了"
+msgstr ""
+
+#. the battle strip: the player's school won one more move this round ({word}: 隙 / 压 / 连).
+#: presentation/battle/battle_action_panel.gd
+msgid "多一手（{word}）"
+msgstr ""
+
+#. the battle strip: the player's school won one more move this round ({word}: 隙 / 压 / 连).
+#: presentation/battle/battle_action_panel.gd
+msgid "多一手"
+msgstr ""
+
+#. the battle strip after a beat the player lost to being busy.
+#: presentation/battle/battle_action_panel.gd
+msgid "这一手你在忙"
+msgstr ""
+
+#. the battle strip after a beat the player let pass.
+#: presentation/battle/battle_action_panel.gd
+msgid "这一手你停了"
+msgstr ""
+
+#. the battle strip after a beat that was no move ({action}: a perform's name, 功, 势).
+#: presentation/battle/battle_action_panel.gd
+msgid "你出了{action}"
+msgstr ""
+
+#. the battle strip after a beat: the player's move's tag, the target's unknown.
+#: presentation/battle/battle_action_panel.gd
+msgid "你出{mine}"
+msgstr ""
+
+#. the battle strip's verdict after a beat: the player's move beat the target's on the ring.
+#: presentation/battle/battle_action_panel.gd
+msgid "克！"
+msgstr ""
+
+#. the battle strip's verdict after a beat: the target's move beat the player's on the ring.
+#: presentation/battle/battle_action_panel.gd
+msgid "被克"
+msgstr ""
+
+#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
+#: presentation/battle/battle_action_panel.gd
+msgid "你出{mine}，他起手{theirs} · {verdict}"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd runtime/world/map/world_map_watches.gd ui/world/map_page.gd
+msgid "？"
+msgstr ""
+
+#. the battle strip: the target holds 守势 (the guard stance) instead of a move, as its card's seal says.
+#. guarded name
+#: presentation/battle/battle_action_panel.gd data/common/combat_styles.json
+msgid "守势"
+msgstr ""
+
+#. the battle strip: the target's next move's tag as the player reads it (？ not known).
+#: presentation/battle/battle_action_panel.gd
+msgid "他起手：%s"
+msgstr ""
+
+#. the battle strip, after what a perform costs: it leaves the player busy for {busy} moves (手) in all.
+#: presentation/battle/battle_action_panel.gd
+msgid "；出手后自己要忙 {busy} 手"
+msgstr ""
+
+#. the battle strip, pointing at a move the moves left cannot pay: {name}, its price, what is left.
+#: presentation/battle/battle_action_panel.gd
+msgid "不够：{name}要 {cost} 手，你还剩 {left} 手"
+msgstr ""
+
+#. the battle strip, pointing at a move: {name} takes {cost} moves (手), {after} left after it.
+#: presentation/battle/battle_action_panel.gd
+msgid "{name}占 {cost} 手，出完还剩 {after} 手"
+msgstr ""
+
+#. the battle strip, pointing at a move that takes the player's last moves while the target still has {theirs} this round.
+#: presentation/battle/battle_action_panel.gd
+msgid "{name}占 {cost} 手，出完你这回合没手了，他连出 {theirs} 手"
+msgstr ""
+
+#. the battle strip, pointing at a move that takes the player's last moves this round.
+#: presentation/battle/battle_action_panel.gd
+msgid "{name}占 {cost} 手，出完你这回合没手了"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -7318,26 +7424,16 @@ msgid "改为手动"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "现在：每一拍等你出招；按下后战斗自己打，拍自动补满、演出加快。"
+msgid "现在：每一手等你出招；按下后战斗自己打，手自动补满、演出加快。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
-msgid "现在：战斗自己打；按下后每一拍等你出招。"
+msgid "现在：战斗自己打；按下后每一手等你出招。"
 msgstr ""
 
-#. a move button's sub line: {tag} the move's tag; it beats the target's next move on the ring.
+#. a move button's sub line: {tag} the move's tag, {cost} its price in moves (手) this round.
 #: presentation/battle/battle_action_panel.gd
-msgid "{tag} · 克他这招"
-msgstr ""
-
-#. a move button's sub line: {tag} the move's tag; the target's next move beats it on the ring.
-#: presentation/battle/battle_action_panel.gd
-msgid "{tag} · 被他克"
-msgstr ""
-
-#. a move button's sub line: {tag} the move's tag, {cost} its price in beats.
-#: presentation/battle/battle_action_panel.gd
-msgid "{tag} · {cost}拍"
+msgid "{tag} · {cost} 手"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -7477,12 +7573,12 @@ msgstr ""
 msgid "法"
 msgstr ""
 
-#: presentation/battle/battle_beat_chips.gd presentation/battle/battle_participant_card.gd
-msgid "绝"
+#: presentation/battle/battle_beat_chips.gd
+msgid "得"
 msgstr ""
 
-#: presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd runtime/world/map/world_map_watches.gd ui/world/map_page.gd
-msgid "？"
+#: presentation/battle/battle_beat_chips.gd presentation/battle/battle_participant_card.gd
+msgid "绝"
 msgstr ""
 
 #. the stamp over the card of one who fell unconscious.
@@ -7556,6 +7652,26 @@ msgstr ""
 
 #: presentation/battle/battle_condition_tags.gd
 msgid "包扎着：每次心跳回气 3。"
+msgstr ""
+
+#. hover of the battle panel's counter ring.
+#: presentation/battle/battle_counter_ring.gd
+msgid "克制：快克重、重克守、守克虚、虚克快。箭头从克的一方指向被克的一方；想克他起手的那一类，就找指向它的那一印。"
+msgstr ""
+
+#. the small title over the battle panel's counter ring.
+#: presentation/battle/battle_counter_ring.gd
+msgid "克制"
+msgstr ""
+
+#. the word on a lit arrow of the counter ring: 克 the lit tag beats the next one; 怕 the one before beats it.
+#: presentation/battle/battle_counter_ring.gd
+msgid "克"
+msgstr ""
+
+#. the word on a lit arrow of the counter ring: 克 the lit tag beats the next one; 怕 the one before beats it.
+#: presentation/battle/battle_counter_ring.gd
+msgid "怕"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
@@ -7791,7 +7907,7 @@ msgid "{who} · {move} → {whom} · 没伤到"
 msgstr ""
 
 #: presentation/battle/battle_narrator.gd
-msgid "$N抢得一拍"
+msgid "$N抢得一手"
 msgstr ""
 
 #. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
@@ -7836,7 +7952,7 @@ msgstr ""
 
 #. an enemy's card: the beats it still has this round.
 #: presentation/battle/battle_participant_card.gd
-msgid "剩 %d 拍"
+msgid "剩 %d 手"
 msgstr ""
 
 #. a battle card's tags line when more tags than fit: {count} more in the hover.
@@ -8517,12 +8633,12 @@ msgstr ""
 
 #. a beat habit read of an NPC: {npc} who, {beat} which beat of a round (1 the first), {tag} 快 / 重 / 虚 / 守 / 绝招.
 #: presentation/codex/codex_content.gd
-msgid "{npc}的第 {beat} 拍总是{tag}（看过 {n} 回）。"
+msgid "{npc}的第 {beat} 手总是{tag}（看过 {n} 回）。"
 msgstr ""
 
 #. the same, most of the time.
 #: presentation/codex/codex_content.gd
-msgid "{npc}的第 {beat} 拍多半是{tag}（{m} 回里有 {n} 回）。"
+msgid "{npc}的第 {beat} 手多半是{tag}（{m} 回里有 {n} 回）。"
 msgstr ""
 
 #: presentation/codex/codex_content.gd
@@ -8825,7 +8941,7 @@ msgstr ""
 
 #. a battle button greyed because the move or action costs more beats than the player has left this round.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
-msgid "拍不够"
+msgid "手不够"
 msgstr ""
 
 #. an NPC's read beat changed on what it saw: $N its name.
@@ -8845,17 +8961,12 @@ msgstr ""
 
 #. a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
-msgid "$N抢得一拍（{label}）！"
+msgid "$N抢得一手（{label}）！"
 msgstr ""
 
 #. an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
 #: runtime/combat_encounter/combat_npc_chat.gd
 msgid "{npc}蓄势待发，似乎要使出{move}！"
-msgstr ""
-
-#. an NPC's exert function announced on its card when it has no name of its own.
-#: runtime/combat_encounter/combat_npc_chat.gd ui/world/martial_arts_page.gd
-msgid "运功"
 msgstr ""
 
 #. common.npc.mind_bug limbs
@@ -14441,11 +14552,6 @@ msgstr ""
 #. burst name
 #: data/common/combat_styles.json
 msgid "爆发"
-msgstr ""
-
-#. guarded name
-#: data/common/combat_styles.json
-msgid "守势"
 msgstr ""
 
 #. beast name

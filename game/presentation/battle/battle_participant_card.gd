@@ -206,7 +206,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	# 战斗拍数 B: an enemy's beats left in the round running.
 	if value.hostile_to_player and value.round_running and value.beats != null and value.beats.remaining > 0 and not dead and not unconscious:
 		# TRANSLATORS: an enemy's card: the beats it still has this round.
-		states.append(tr("剩 %d 拍") % value.beats.remaining)
+		states.append(tr("剩 %d 手") % value.beats.remaining)
 	# At most TAGS_SHOWN on the card (纪要 §九: three layers at most); the rest fold.
 	var folded := PackedStringArray()
 	if states.size() > TAGS_SHOWN:

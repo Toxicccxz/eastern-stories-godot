@@ -66,7 +66,7 @@ func _sound_ration() -> void:
 	check(BattleSounds.for_line(_blow(Outcome.DODGE, CombatMoveTags.QUICK, 0), false, false) == [[BattleSounds.WHOOSH, BattleSounds.WHOOSH_QUICK_PITCH, 0.0]], "a 快 missed: the whoosh high")
 	check(BattleSounds.for_line(_blow(Outcome.DODGE, CombatMoveTags.HEAVY, 0), false, false) == [[BattleSounds.WHOOSH, BattleSounds.WHOOSH_HEAVY_PITCH, 0.0]], "a 重 missed: the whoosh low")
 	check(BattleSounds.for_line(_blow(Outcome.PARRY, &"", 0), false, false) == [[BattleSounds.CLANG, 1.0, 0.0]], "a parry: the clang")
-	var earned := BattleNarrationLine.new("你抢得一拍（隙）！").with_cue(BattleNarrationLine.CUE_EARNED)
+	var earned := BattleNarrationLine.new("你抢得一手（隙）！").with_cue(BattleNarrationLine.CUE_EARNED)
 	check(BattleSounds.for_line(earned, false, true) == [[BattleSounds.CLAPPER, BattleSounds.EARNED_PITCH, BattleSounds.EARNED_FIRST_DB]], "a beat won: the clap an octave up, loud the first time")
 	check(BattleSounds.for_line(earned, false, false) == [[BattleSounds.CLAPPER, BattleSounds.EARNED_PITCH, BattleSounds.EARNED_AGAIN_DB]], "and quiet after")
 	check(BattleSounds.for_line(BattleNarrationLine.new("野狗咆哮。"), false, false).is_empty() and BattleSounds.for_line(BattleNarrationLine.new("x").with_special(ME, "「封」"), false, false).is_empty(), "plain words and a special's opening line: nothing (its blows sound)")
@@ -74,8 +74,8 @@ func _sound_ration() -> void:
 		check(ResourceLoader.exists(BattleSounds.DIRECTORY + BattleSounds.FILES[kind]), "the file of %s is there" % kind)
 	# The narrator marks the ring on a blow's line and the cue on a beat won.
 	var cast := BattlePresentationProjection.new(&"e", 0, ME, YOU, [], [], null, 0, -1, -1)
-	var noted: Array[BattleNarrationLine] = BattleNarrator.seen([VisionLine.new("$N抢得一拍（隙）！", ME, &"", ColoredLine.HIY)], cast)
-	check(noted.size() == 1 and noted[0].cue == BattleNarrationLine.CUE_EARNED, "the scheduler's 抢得一拍 note carries the cue")
+	var noted: Array[BattleNarrationLine] = BattleNarrator.seen([VisionLine.new("$N抢得一手（隙）！", ME, &"", ColoredLine.HIY)], cast)
+	check(noted.size() == 1 and noted[0].cue == BattleNarrationLine.CUE_EARNED, "the scheduler's 抢得一手 note carries the cue")
 	check(BattleNarrator.seen([VisionLine.new("$N退了一步。", ME)], cast)[0].cue.is_empty(), "other words carry none")
 
 
@@ -227,7 +227,7 @@ func _camera_and_stance(tree: SceneTree) -> void:
 	check(_show.zoom_moves == 2, "and never a third time")
 	await tree.create_timer(2.5).timeout
 	# A beat won.
-	var earned := BattleNarrationLine.new("你抢得一拍（隙）！").with_cue(BattleNarrationLine.CUE_EARNED).with_beat(1, ME)
+	var earned := BattleNarrationLine.new("你抢得一手（隙）！").with_cue(BattleNarrationLine.CUE_EARNED).with_beat(1, ME)
 	_show.play_line(earned)
 	var me: Node3D = _model(ME)
 	check(_show.earned_shown() and _show._running(ME) and me.has_meta("battle_flash"), "the first beat won: the gold flash and the hop")
