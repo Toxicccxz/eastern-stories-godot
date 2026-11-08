@@ -13,5 +13,5 @@
     {"kind": "clutter", "items": ["sandals"], "at": [-60, 150], "size": [24, 16]},
     {"kind": "clutter", "items": ["bowls"], "at": [-150, -60], "size": [24, 24]}
   ],
-  "actors": {"default": {"coat": "b3a98c"}, "green.npc.woman2": {"coat": "a89c7e"}}
+  "actors": {"default": {"coat": "b3a98c"}}
 }

@@ -112,10 +112,6 @@
     "fireflies": [{"rect": [200, 1920, 1500, 2040], "count": 14, "height": 0.9, "note": "the shrubs south of the road at night"}, {"rect": [560, 200, 1100, 700], "count": 10, "height": 0.9}]
   },
   "actors": {
-    "default": {"coat": "b3a98c"},
-    "green.npc.worker2": {"coat": "9a9076", "hat": true, "note": "采石工: README a.k.a 绷带村, 因为每个 NPC 身上都有穿布衣"},
-    "green.npc.kid1": {"coat": "c2b89a"},
-    "green.npc.kid2": {"coat": "a8b0a0"},
-    "green.npc.kid3": {"coat": "c8bfa4"}
+    "default": {"coat": "b3a98c"}
   }
 }

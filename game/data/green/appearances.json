@@ -1,0 +1,81 @@
+{
+  "people": {
+    "green.npc.shen": {
+      "note": "沈万年：沈记商行掌柜，精明和气，灰布衣、包头巾，手里一把算盘（续写）；立绘 Muse 2026-11-08",
+      "coat": "63544d", "pants": "463937", "skin": "e7a97a", "hair": "352a2a",
+      "hair_style": "short", "headwear": "cloth_cap", "beard": "moustache", "waist": "sash",
+      "prop": "none", "accent": "8a7868", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "green.npc.oldman2": {
+      "note": "村长：九十五岁，清瘦，白发白长须，背有点驼，拄木拐，眼神狡黠带笑（续写）；立绘 Muse 2026-11-08",
+      "coat": "899999", "pants": "596977", "skin": "d5a46f", "hair": "e0e0d9",
+      "hair_style": "short", "headwear": "cloth_cap", "beard": "long", "waist": "sash",
+      "prop": "staff", "prop_color": "997058", "accent": "5a6c7a", "height": "short",
+      "build": "slim", "shoes": "white"
+    },
+    "green.npc.worker1": {
+      "note": "工匠：结实的中年石匠，短褂扎袖、满身石粉，一手铁锤一手凿子（续写）；立绘 Muse 2026-11-08",
+      "coat": "988463", "pants": "64554b", "skin": "d9ac82", "hair": "171718",
+      "hair_style": "short", "headwear": "cloth_cap", "beard": "moustache", "waist": "none",
+      "prop": "hammer", "prop_color": "9c6532", "accent": "d2bb94", "height": "standard",
+      "build": "standard", "shoes": "straw"
+    },
+    "green.npc.worker2": {
+      "note": "采石工：瘦高，包布巾，肩搭一盘粗麻绳，敞着粗布短褂，草鞋（续写）；立绘 Muse 2026-11-08",
+      "coat": "9a8665", "pants": "745a44", "skin": "e3d0ad", "hair": "2b1f1f",
+      "hair_style": "short", "headwear": "cloth_cap", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "ad8f67", "height": "tall", "build": "slim", "shoes": "straw"
+    },
+    "green.npc.woman1": {
+      "note": "妇人：泼辣能干的村妇，靛蓝衣包头巾，一手陶壶，腰别旧菜刀（续写）；立绘 Muse 2026-11-08",
+      "coat": "282a5b", "pants": "292b5a", "skin": "e39362", "hair": "181839",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "sash",
+      "prop": "cleaver", "prop_color": "9f684d", "accent": "31366a", "height": "standard",
+      "build": "standard", "shoes": "straw"
+    },
+    "green.npc.woman2": {
+      "note": "妇人：四十岁的主妇，土褐衣、围裙，手里长勺，带点操心（续写）；立绘 Muse 2026-11-08",
+      "coat": "794b32", "pants": "673c26", "skin": "e8a378", "hair": "2a1a1c",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "apron",
+      "apron_color": "c4a07a", "prop": "none", "accent": "8a5a3a", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "green.npc.oldman": {
+      "note": "老公公：瘦小干瘪，补丁布衣包头布，腰别一把匕首，和气（续写）；立绘 Muse 2026-11-08",
+      "coat": "b2875c", "pants": "85583a", "skin": "edc999", "hair": "582b23",
+      "hair_style": "short", "headwear": "cloth_cap", "beard": "moustache", "waist": "sash",
+      "prop": "blade_waist", "prop_color": "8e644a", "accent": "ac815d", "height": "short",
+      "build": "slim", "shoes": "straw"
+    },
+    "green.npc.oldwoman": {
+      "note": "老婆婆：矮小，灰白发挽髻，补丁布衣，和气（续写）；立绘 Muse 2026-11-08",
+      "coat": "ceb091", "pants": "a88974", "skin": "fecaa2", "hair": "a7b4b6",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "977864", "height": "short", "build": "standard", "shoes": "straw"
+    },
+    "green.npc.kid1": {
+      "note": "工匠的小孩：七岁，胖乎乎的小男孩，短褂，脸上手上沾着石粉（续写）；立绘 Muse 2026-11-08",
+      "coat": "d6b487", "pants": "b79678", "skin": "f7bc89", "hair": "372224",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "886653", "height": "child", "build": "heavy", "shoes": "white"
+    },
+    "green.npc.kid2": {
+      "note": "小孩：瘦、晒黑的男孩，衣服短了一截，草鞋，满村乱跑（续写）；立绘 Muse 2026-11-08",
+      "coat": "9b8564", "pants": "674735", "skin": "e8b179", "hair": "52272e",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "none", "prop": "none",
+      "accent": "997e60", "height": "child", "build": "slim", "shoes": "straw"
+    },
+    "green.npc.kid3": {
+      "note": "小孩：扎两根小辫、系粉蝴蝶结的女孩，绿底碎花布衫（续写）；立绘 Muse 2026-11-08",
+      "coat": "91b194", "pants": "668a75", "skin": "fec295", "hair": "281918",
+      "hair_style": "ponytail", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "446758", "height": "child", "build": "standard", "shoes": "white"
+    },
+    "green.npc.kid4": {
+      "note": "小孩：六岁的总角小童（原作男女随机，画成都说得通），两个小髻，素色短衣，好奇地往山洞门缝里张望（续写）；立绘 Muse 2026-11-08",
+      "coat": "ac8c62", "pants": "4d3a31", "skin": "e5c697", "hair": "271c1a",
+      "hair_style": "double_bun", "headwear": "none", "beard": "none", "waist": "none",
+      "prop": "none", "accent": "765946", "height": "child", "build": "standard", "shoes": "white"
+    }
+  }
+}

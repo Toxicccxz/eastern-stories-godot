@@ -1,0 +1,71 @@
+{
+  "people": {
+    "chuenyu.npc.chuenyu": {
+      "note": "淳于怀太：强盗出身的堡主，魁梧横肉又透着精明，墨绿暗纹锦袍、腰缠金饰，手里盘着一条蛇鳞皮鞭（chuenyu.c；长相续写）；立绘 Muse 2026-11-08",
+      "coat": "172617", "pants": "374625", "skin": "d59f64", "hair": "0a1a12",
+      "hair_style": "topknot", "headwear": "none", "beard": "moustache", "waist": "belt",
+      "prop": "none", "accent": "8c6d32", "height": "standard", "build": "heavy", "shoes": "dark",
+      "pouch": false
+    },
+    "chuenyu.npc.xiaojuan2": {
+      "note": "小娟：刘老农的独生女，十六岁，被关在地牢里，破烂的粉红布衫带着暗红的污迹，包头巾，一根辫子；立绘 Muse 2026-11-08",
+      "coat": "ea9a9c", "pants": "9d6260", "skin": "e4a783", "hair": "281f21",
+      "hair_style": "ponytail", "headwear": "headscarf", "beard": "none", "waist": "none",
+      "prop": "none", "accent": "b3656d", "height": "standard", "build": "slim", "shoes": "straw"
+    },
+    "chuenyu.npc.flower_seller": {
+      "note": "卖花姑娘：浅青布衣，挎一篮紫花，手里拈着紫花瓣儿；立绘 Muse 2026-11-08",
+      "coat": "b9cde1", "pants": "668caf", "skin": "f9d1b5", "hair": "060505",
+      "hair_style": "ponytail", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "94accd", "height": "standard", "build": "standard",
+      "shoes": "white"
+    },
+    "chuenyu.npc.jiading3": {
+      "note": "紫衣家丁：淳于家的紫衣，包紫头巾，守在铁索桥边，持八楞玄铁锤；立绘 Muse 2026-11-08",
+      "coat": "53356a", "pants": "422757", "skin": "e3b58c", "hair": "231525",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "sash",
+      "prop": "hammer", "prop_color": "be9cd1", "accent": "75538e", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "chuenyu.npc.gardener": {
+      "note": "园工「黑松一剪」：精干的园丁，橄榄布衣包头巾，手里一把长而锋利的园工剪（续写）；立绘 Muse 2026-11-08",
+      "coat": "625b3d", "pants": "635e40", "skin": "ecb88c", "hair": "3b3824",
+      "hair_style": "short", "headwear": "headscarf", "beard": "moustache", "waist": "sash",
+      "prop": "none", "accent": "544c33", "height": "standard", "build": "slim", "shoes": "straw"
+    },
+    "chuenyu.npc.smallgardener": {
+      "note": "小园工：年轻的园工（原文「年轻」，数据 42 岁），浅黄布衣、头巾，持园工剪；立绘 Muse 2026-11-08",
+      "coat": "d7b684", "pants": "b5956c", "skin": "fcd48d", "hair": "392a24",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "987858", "height": "standard", "build": "standard",
+      "shoes": "white"
+    },
+    "chuenyu.npc.guard": {
+      "note": "护院：淳于家的紫衣劲装，守在城堡西廊，持长剑（续写）；立绘 Muse 2026-11-08",
+      "coat": "9461ad", "pants": "4b4878", "skin": "e1aa81", "hair": "221228",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "sash",
+      "prop": "sword_waist", "prop_color": "d99e77", "accent": "83569b", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "chuenyu.npc.guard2": {
+      "note": "狱卒：深褐暗色的衣服，腰挂一串大铁钥匙，阴沉，持长剑，守刑房（续写）；立绘 Muse 2026-11-08",
+      "coat": "382622", "pants": "644a3b", "skin": "dcb28b", "hair": "281a19",
+      "hair_style": "short", "headwear": "headscarf", "beard": "moustache", "waist": "belt",
+      "pouch_color": "7a7670", "prop": "sword_waist", "prop_color": "dcb089", "accent": "6a5144",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "chuenyu.npc.cleangirl": {
+      "note": "女佣人：满脸风霜，素色布衣包头布，手里一把鸡毛掸子；立绘 Muse 2026-11-08",
+      "coat": "bba179", "pants": "947763", "skin": "d8a26d", "hair": "27171a",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "none",
+      "prop": "none", "accent": "775652", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "chuenyu.npc.cook": {
+      "note": "厨子：瘦小精干，白围裙包头巾，持翠绿的碧玉刀，腰挂一只大皮酒袋；立绘 Muse 2026-11-08",
+      "coat": "c4bbb2", "pants": "9a8465", "skin": "e3ccaa", "hair": "4e2e26",
+      "hair_style": "short", "headwear": "headscarf", "beard": "none", "waist": "apron",
+      "apron_color": "f2eee6", "prop": "cleaver", "prop_color": "5fae7a", "accent": "9a8465",
+      "height": "standard", "build": "slim", "shoes": "straw"
+    }
+  }
+}

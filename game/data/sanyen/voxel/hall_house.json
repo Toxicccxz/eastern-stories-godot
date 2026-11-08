@@ -53,8 +53,7 @@
     "sanyen.road1.door": {"kind": "red_door", "leaf": "c9a24a", "trim": "e8c25a", "note": "金门"}
   },
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
+    "default": {"coat": "8a7a5a"}
   },
   "entrances": {
     "sanyen.temple.north": {"title": "走廊"},

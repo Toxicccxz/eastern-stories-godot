@@ -87,5 +87,5 @@
     "lightning": [{"rect": [954, 650, 970, 694], "every": 7.0, "height": 1.8, "range": 4.5, "energy": 1.6, "color": "dfe8ff", "note": "风雷: a flicker deep in the cave mouth"}],
     "fall": [{"rect": [600, 800, 964, 1640], "count": 12, "height": 5.0, "colors": ["6f7a3e", "8a8a48"], "wind": [-0.5, 0.1], "note": "leaves off the little trees on the wall"}]
   },
-  "actors": {"default": {"coat": "b3a98c"}, "green.npc.kid4": {"coat": "c2b89a"}}
+  "actors": {"default": {"coat": "b3a98c"}}
 }

@@ -19,8 +19,7 @@
     {"kind": "hanging_lantern", "at": [140, 80]}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
+    "default": {"coat": "8a7a5a"}
   },
   "entrances": {
     "sanyen.heal_room.south": {"title": "庭园"}

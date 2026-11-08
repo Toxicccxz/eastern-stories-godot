@@ -160,6 +160,12 @@
       "coat": "fb1413", "pants": "ae080c", "skin": "f6caab", "hair": "1b1b1d",
       "hair_style": "double_bun", "beard": "none", "waist": "belt", "prop": "none",
       "accent": "ac060c", "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "cloud.npc.monk_guard": {
+      "note": "护寺武僧：光头精壮，半闭着眼，青布袈裟洗得很干净，持一条磨得光滑的僧棍；立绘 Muse 2026-11-08",
+      "coat": "6d8899", "pants": "446275", "skin": "e9a271", "hair": "e9a271", "hair_style": "bald",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "staff", "prop_color": "9c5b32",
+      "accent": "426176", "height": "standard", "build": "heavy", "shoes": "dark"
     }
   }
 }

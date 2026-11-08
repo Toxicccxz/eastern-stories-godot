@@ -14,5 +14,5 @@
     {"kind": "clutter", "items": ["basket"], "at": [-200, 150], "size": [24, 24]},
     {"kind": "clutter", "items": ["sandals"], "at": [-60, -150], "size": [24, 16]}
   ],
-  "actors": {"default": {"coat": "b3a98c"}, "green.npc.oldman2": {"coat": "8a7e64", "hat": true}}
+  "actors": {"default": {"coat": "b3a98c"}}
 }

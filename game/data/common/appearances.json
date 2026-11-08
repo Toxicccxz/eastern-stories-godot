@@ -98,6 +98,13 @@
       "headwear": "none", "beard": "none", "waist": "sash", "prop": "sword_waist",
       "prop_color": "3c7af4", "accent": "a8d4fb", "height": "tall", "build": "slim",
       "shoes": "white"
+    },
+    "common.npc.juechen.master": {
+      "note": "绝尘子：佛道双修，清癯长须，浅青道袍外搭一串佛珠，戴紫金冠，持两端封着密文的紫铜金刚杖（daemon/class/juechen/master.c）；立绘 Muse 2026-11-08",
+      "coat": "aac9da", "pants": "5d5862", "skin": "fec38c", "hair": "17212e", "hair_style": "long",
+      "headwear": "crown", "headwear_color": "a868b0", "beard": "long", "waist": "sash",
+      "prop": "staff", "prop_color": "9f6297", "accent": "77a1c7", "height": "standard",
+      "build": "slim", "shoes": "dark"
     }
   }
 }

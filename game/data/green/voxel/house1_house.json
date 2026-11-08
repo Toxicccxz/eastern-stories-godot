@@ -12,5 +12,5 @@
     {"kind": "hanging_lantern", "at": [60, 20]},
     {"kind": "stains", "at": [0, 60], "size": [160, 96], "count": 5, "colors": ["a8a798", "9a9a8c", "b2b0a0"], "note": "stone dust where he works"}
   ],
-  "actors": {"default": {"coat": "b3a98c"}, "green.npc.worker1": {"coat": "9e9478"}}
+  "actors": {"default": {"coat": "b3a98c"}}
 }
