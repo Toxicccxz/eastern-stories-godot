@@ -763,7 +763,7 @@ func menu_tab_shown(tab: int) -> void:
 		GameMenu.Tab.JOURNAL:
 			if _session != null:
 				_session.record_journal()
-			quest_page.fill(null if _player == null else _player.state, _player_respect(), _task_lines())
+			quest_page.fill(null if _player == null else _player.state, _player_respect(), _task_lines(), Callable() if _session == null else _session.quest_condition_test())
 			_journal_shown = -1 if _player == null else _records_shown()
 		GameMenu.Tab.MAP:
 			if _session != null:

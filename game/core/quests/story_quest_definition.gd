@@ -86,11 +86,51 @@ class Option:
 		return option
 
 
+## Native (终章 A; DECISIONS「任务清单」): one row under a step's objective on the 任务 page, ticked
+## while its `when` holds (三器 each in whose hands, the 帮手 who came). `count` rows are an
+## `at_least` and show how many of its parts hold out of how many are wanted (「帮手：2／3」).
+## `missing` is the half sentence said while it does not hold (「瑷伦在晚月庄等你去叫」). `if`
+## shows the row only while it holds; a row without `when` is a note (no tick), shown by its `if`.
+## Only shown: the rows never do a step.
+class CheckRow:
+	extends RefCounted
+	var label: String = ""
+	var condition: JournalEntryDefinition
+	var shown_if: JournalEntryDefinition
+	var missing: String = ""
+	var counts: bool = false
+
+	static func from_record(reader: ContentRecordReader) -> CheckRow:
+		var row := CheckRow.new()
+		row.label = reader.required_text("label")
+		row.missing = reader.text("missing")
+		row.counts = reader.boolean("count", false)
+		if reader.has("when"):
+			row.condition = JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(reader, row.condition, "when")
+		if reader.has("if"):
+			row.shown_if = JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(reader, row.shown_if, "if")
+		if row.condition == null and row.shown_if == null:
+			reader.fail("when", "a row is ticked by `when`, or a note shown by `if`")
+		if row.counts and (row.condition == null or row.condition.when != JournalEntryDefinition.When.AT_LEAST):
+			reader.fail("count", "a count row's when is an at_least")
+		if row.condition == null and not row.missing.is_empty():
+			reader.fail("missing", "a note has nothing missing")
+		for condition: JournalEntryDefinition in [row.condition, row.shown_if]:
+			if condition != null and condition.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
+				reader.fail("when", "heard and chat are recorded as they happen: a row cannot ask them")
+		reader.finish()
+		return row
+
+
 class Step:
 	extends RefCounted
 	var step_id: StringName
 	## What to do, as the 目标 row says it.
 	var objective: String = ""
+	## The 任务 page's rows under the objective while this is the step to do (CheckRow).
+	var checklist: Array[CheckRow] = []
 	## The condition that does the step; null for a branch step (`options`).
 	var condition: JournalEntryDefinition
 	var options: Array[Option] = []
@@ -117,6 +157,8 @@ class Step:
 		step.only_after = StringName(reader.text("only_after"))
 		if reader.has("target"):
 			step.target = Target.from_record(reader.child("target"))
+		for record: ContentRecordReader in reader.children("checklist"):
+			step.checklist.append(CheckRow.from_record(record))
 		var seen: Dictionary[StringName, bool] = {}
 		for record: ContentRecordReader in reader.children("options"):
 			var option: Option = Option.from_record(record)

@@ -94,9 +94,17 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 	# What the NPC itself says, for the bubble over its head (DECISIONS「手感」).
 	var spoken: Array[String] = []
 	var moved_away: bool = false
+	# A step's own `when` (DECISIONS「步骤条件」) is judged as it is reached: the facts once, their
+	# marks the player's own (what an earlier step marked counts).
+	var holds: Callable = Callable()
 	for step: ScriptedAct.Step in act.steps:
 		if moved_away:
 			break
+		if step.only_when != null:
+			if not holds.is_valid():
+				holds = facts(room).holds
+			if not holds.is_valid() or not bool(holds.call(step.only_when)):
+				continue
 		match step.kind:
 			ScriptedAct.Kind.LINE:
 				said.append(step.line.colored(npc_name, respect))
@@ -250,6 +258,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					_map.npc_life.scene_look_at(npc)
 			ScriptedAct.Kind.TAKE:
 				_take_from_player(step.item_id)
+			ScriptedAct.Kind.KEEP_SAVE:
+				if _map.session != null:
+					_map.session.request_kept_save()
 			ScriptedAct.Kind.QUESTIONS:
 				# The questions wait on the player; the rest of the act is theirs to answer.
 				_show(said, hears, npc, spoken)

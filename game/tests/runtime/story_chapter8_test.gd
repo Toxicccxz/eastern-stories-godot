@@ -132,7 +132,7 @@ func _test_data() -> void:
 	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[2].act.npc_in == &"village.lakeside" and luca.hooks().calls[2].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[3].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
 	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() >= 1 and ninth.steps[0].target.zone_id == &"city.wumen", "the ninth chapter: 皇城, by the 午门 (第九章 A grew the stub)")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_LANCHENG_C_V1, "第十章 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_A_V1, "终章 A's world revision is current")
 
 
 ## Down to the 封坛 from the lake: the dive, the cold (`robe`: worn through the cave, nothing felt),

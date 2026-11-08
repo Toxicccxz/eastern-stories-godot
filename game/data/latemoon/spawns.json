@@ -165,7 +165,8 @@
 			"zone": "latemoon.room.eastroom",
 			"points": ["latemoon.room.eastroom.elon.1"],
 			"legacy_room": "d/latemoon/room/eastroom.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "all": [{ "mark": "叫来了瑷伦" }, { "not": { "quest": "main.finale#done" } }] }
 		},
 		{
 			"id": "latemoon.manor.westroom.servant",
@@ -183,7 +184,14 @@
 			"zone": "latemoon.room.westroom",
 			"points": ["latemoon.room.westroom.annihi.1"],
 			"legacy_room": "d/latemoon/room/westroom.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": {
+				"all": [
+					{ "quest": "main.finale/lake" },
+					{ "mark": "宝衣给了安妮儿" },
+					{ "not": { "quest": "main.finale#done" } }
+				]
+			}
 		},
 		{
 			"id": "latemoon.manor.corridor7.yuchoun",

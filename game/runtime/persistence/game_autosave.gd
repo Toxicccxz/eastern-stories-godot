@@ -10,6 +10,11 @@ extends RefCounted
 ## and run on a worker while the world goes on. Reads the world, draws nothing from its streams.
 
 var _repository: GameSaveRepository
+## The slot it writes (AUTO_SLOT_ID; KEEP_SLOT_ID for the 决战前 save, DECISIONS「决战前存档」).
+var _slot_id: StringName = GameSaveSnapshot.AUTO_SLOT_ID
+## Whether its moments keep autosave_min_seconds apart (the autosave); false: each one asked for
+## saves whatever the pace (the 决战前 save, in the classic pace too).
+var _rolled: bool = true
 ## The WorkerThreadPool task under way, or -1.
 var _task: int = -1
 ## What the task under way ended in.
@@ -17,8 +22,10 @@ var _saved: GameSaveResult
 var _last_ms: int = -1
 
 
-func _init(repository: GameSaveRepository) -> void:
+func _init(repository: GameSaveRepository, slot_id: StringName = GameSaveSnapshot.AUTO_SLOT_ID, rolled: bool = true) -> void:
 	_repository = repository
+	_slot_id = slot_id
+	_rolled = rolled
 
 
 ## The interval starts now (a save was just loaded: the slot has nothing to add yet).
@@ -28,11 +35,12 @@ func restart_interval(now_ms: int = Time.get_ticks_msec()) -> void:
 
 ## Whether a moment at `now_ms` saves.
 func due(session: WorldSessionController, now_ms: int = Time.get_ticks_msec()) -> bool:
-	var seconds: int = GameContent.catalog().pacing().autosave_min_seconds
-	if seconds <= 0 or _task >= 0 or session == null or session.player_runtime() == null:
+	if _task >= 0 or session == null or session.player_runtime() == null:
 		return false
-	if _last_ms >= 0 and now_ms - _last_ms < seconds * 1000:
-		return false
+	if _rolled:
+		var seconds: int = GameContent.catalog().pacing().autosave_min_seconds
+		if seconds <= 0 or (_last_ms >= 0 and now_ms - _last_ms < seconds * 1000):
+			return false
 	return not session.player_runtime().state.ghost and OldPineSaveEligibility.inspect(session).allowed()
 
 
@@ -41,7 +49,7 @@ func begin(session: WorldSessionController, now_ms: int = Time.get_ticks_msec())
 	if not due(session, now_ms):
 		return false
 	var timestamp: String = Time.get_datetime_string_from_system(true, false) + "Z"
-	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, _repository.storage_profile_id(), timestamp, null, GameSaveSnapshot.AUTO_SLOT_ID, false)
+	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, _repository.storage_profile_id(), timestamp, null, _slot_id, false)
 	# The moment is spent either way: a capture that fails now would fail again at the next door.
 	_last_ms = now_ms
 	if not captured.succeeded():

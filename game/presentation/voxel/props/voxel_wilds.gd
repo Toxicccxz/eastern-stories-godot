@@ -79,6 +79,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"dig_pit": _dig_pit(w,d)
 		"ice_pillar": _ice_pillar(w,d)
 		"thin_ice": _thin_ice(w,d)
+		"black_ice": _black_ice(w,d)
 		"ice_stair": _ice_stair(w,d)
 		"ice_dome": _ice_dome(w,d)
 		"glow_algae": _glow_algae(w,d)
@@ -124,6 +125,27 @@ func _thin_ice(w: float, d: float) -> void:
 	s.box(root,Vector3(0,tall/2,0),Vector3(w,tall,0.08),"b8e4f4:haze")
 	for i: int in 6:
 		s.tilted_box(root,Vector3(rng.randf_range(-0.4,0.4)*w,rng.randf_range(0.3,0.9)*tall,0.05),Vector3(rng.randf_range(0.4,0.9),0.02,0.02),"f0fafe",Vector3(0,0,rng.randf()*TAU))
+
+## 湖面平得像一块铁 (终章 A; DECISIONS「终章 A」): the lake gone under a sheet of black ice the
+## night the seal gives way — plates of it lying a little askew on the water, white cracks across
+## them, and (`light`) a faint cold glow from under, the lamp at the bottom of the lake.
+func _black_ice(w: float, d: float) -> void:
+	var colors: Array = _colors("colors",["1c242e","232c38","182028","2a3440"])
+	for i: int in int(data.get("count",10)):
+		var at := Vector3(rng.randf_range(-0.38,0.38)*w,0.04,rng.randf_range(-0.38,0.38)*d)
+		var size := Vector3(rng.randf_range(0.28,0.5)*w,0.06,rng.randf_range(0.28,0.5)*d)
+		s.shard(root,at,size,_pick(colors)+":gloss",i,rng.randf()*TAU)
+	for i: int in int(data.get("cracks",16)):
+		var at := Vector3(rng.randf_range(-0.44,0.44)*w,0.085,rng.randf_range(-0.44,0.44)*d)
+		s.tilted_box(root,at,Vector3(rng.randf_range(0.5,1.6),0.015,0.035),"c8dce8",Vector3(0,rng.randf()*TAU,0))
+	if data.get("light",false):
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3(0,-0.4,0)
+		lamp.light_color = Color(String(data.get("glow","b8e0f0")))
+		lamp.omni_range = float(data.get("range",6.0))
+		lamp.set_meta("day_energy",float(data.get("energy",0.5)))
+		lamp.set_meta("night_energy",float(data.get("energy",0.5)))
+		root.add_child(lamp)
 
 ## 西面有一冰制的阶梯盘旋而上 (lakebottom2.c): steps of ice winding up round a column of ice, each a
 ## little higher and turned, until they go in at the roof: a thing to look at, the way out is

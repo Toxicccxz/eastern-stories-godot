@@ -53,8 +53,43 @@ class Shown:
 	var entries: Array[String] = []
 	## What to do now ("" once done).
 	var objective: String = ""
+	## The current step's checklist rows as they stand now (only when shown() is given a test).
+	var checklist: Array[Checked] = []
 	## The order of its newest record (quests with the newest news come first).
 	var latest: int = 0
+
+
+## One checklist row as it stands (StoryQuestDefinition.CheckRow): a note, or ticked or not.
+class Checked:
+	extends RefCounted
+	enum Tick { NOTE, DONE, LACKING }
+	var row: StoryQuestDefinition.CheckRow
+	var tick: Tick = Tick.NOTE
+	## A count row: how many of its parts hold, and how many are wanted.
+	var have: int = 0
+	var want: int = 0
+
+
+## The rows of `step`'s checklist shown now, by `test` (a condition -> whether it holds for the
+## player now: what JournalLog.holds says with their things, place and time).
+static func checked(step: StoryQuestDefinition.Step, test: Callable) -> Array[Checked]:
+	var rows: Array[Checked] = []
+	if step == null or not test.is_valid():
+		return rows
+	for row: StoryQuestDefinition.CheckRow in step.checklist:
+		if row.shown_if != null and not bool(test.call(row.shown_if)):
+			continue
+		var view := Checked.new()
+		view.row = row
+		if row.condition != null:
+			view.tick = Checked.Tick.DONE if bool(test.call(row.condition)) else Checked.Tick.LACKING
+			if row.counts:
+				view.want = row.condition.amount
+				for part: JournalEntryDefinition in row.condition.parts:
+					if bool(test.call(part)):
+						view.have += 1
+		rows.append(view)
+	return rows
 
 
 static func key_started(quest: StoryQuestDefinition) -> String:
@@ -250,7 +285,9 @@ static func target(state: CharacterState, quests: Array[StoryQuestDefinition]) -
 
 
 ## The quests begun, of `line` ("" for every line), the one with the newest record first.
-static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], line: String = "") -> Array[Shown]:
+## `test` (a condition -> whether it holds now) fills the current step's checklist; without one
+## it stays empty.
+static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], line: String = "", test: Callable = Callable()) -> Array[Shown]:
 	var result: Array[Shown] = []
 	if state == null:
 		return result
@@ -275,6 +312,7 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 		if not view.done:
 			var step: StoryQuestDefinition.Step = current_step(state, quest)
 			view.objective = "" if step == null else step.objective
+			view.checklist = checked(step, test)
 		result.append(view)
 	result.sort_custom(func(a: Shown, b: Shown) -> bool: return a.latest > b.latest)
 	return result

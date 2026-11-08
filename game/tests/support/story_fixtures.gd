@@ -276,3 +276,38 @@ static func chapter8_done(session: WorldSessionController, pulled: bool = true, 
 		_write(state, key)
 	for mark: String in ["下了湖底", "到了冰龙厅", "看过封坛", "见过璃虹", "璃虹说了封法", "商玦劝过你"] + (["拔了穿灵", "湖畔的鬼卒退了", "村口的鬼卒退了", "稻田的鬼卒退了"] if pulled else ["查清了封物"]) + ["湖底一章"]:
 		state.marks[mark] = 1
+
+
+## 第九章 done (第九章 A–E): in by the 武举, the 养心殿, the 原令 matched — and the choice: `side` expose
+## (庾子建下狱, 冯策随你下湖), deal (私了: 宋朴传了话, 私了了庾子建) or uncle (the 手诏 carried: 皇叔入朝); the
+## chapter's mark 皇城一章 and the tenth chapter opens. Its ledger keys and marks as the chapter writes them.
+static func chapter9_done(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
+	chapter8_done(session, pulled, rome, raid)
+	var state: CharacterState = session.player_runtime().state
+	var keys: Array[String] = ["main.chapter9#started", "main.chapter9/way/exam", "main.chapter9/audience", "main.chapter9/decree", "main.chapter9/choice/%s" % side]
+	if side == "uncle":
+		keys.append("main.chapter9/uncle_road")
+	keys.append("main.chapter9#done")
+	for key: String in keys:
+		_write(state, key)
+	var marks: Array[String] = ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城", "见了福安", "见了皇帝", "翻过樟木匣", "对出了原令", "见过卫沧澜"]
+	match side:
+		"expose": marks.append_array(["庾子建下狱", "冯策随你下湖", "卫沧澜作证", "卫沧澜出了尚书府"])
+		"deal": marks.append_array(["宋朴传了话", "私了了庾子建"])
+		"uncle": marks.append_array(["皇叔的通缉解了", "皇叔入朝"])
+	marks.append("皇城一章")
+	for mark: String in marks:
+		state.marks[mark] = 1
+
+
+## 第十章 done (第十章 A–C): the wind read, 岚翁 asked of 旋芒, and `who` drew it — self (旋芒在你手里: the
+## sword not given, the suite gives it), uncle (旋芒在皇叔手里) or xiao (旋芒在萧辟尘手里); 岚城一章, and the
+## finale (main.finale) begins on the next journal beat.
+static func chapter10_done(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
+	chapter9_done(session, side, pulled, rome, raid)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter10#started", "main.chapter10/wind", "main.chapter10/city", "main.chapter10/elder", "main.chapter10/choice/%s" % who, "main.chapter10#done"]:
+		_write(state, key)
+	var held: Dictionary[String, String] = {"self": "旋芒在你手里", "uncle": "旋芒在皇叔手里", "xiao": "旋芒在萧辟尘手里"}
+	for mark: String in ["到了岚城", "见过岚翁", held[who], "岚城一章"]:
+		state.marks[mark] = 1

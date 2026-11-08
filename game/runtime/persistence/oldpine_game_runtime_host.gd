@@ -38,6 +38,8 @@ var _last_end_session: OldPineRuntimeSaveLoadResult
 var _configured: bool = false
 ## 现代基线 A (DECISIONS「自动存档」): the autosave of whichever Session stands here.
 var _autosave: GameAutosave
+## 终章 A (DECISIONS「决战前存档」): the 决战前 save an act asks for, on its own slot.
+var _kept: GameAutosave
 var _slots: Array[GameSaveSlotSummary] = []
 ## While no journey runs and starts go in slices (DECISIONS「加载画面」), every map's scene is
 ## read on worker threads and held here, so a start does not read them; let go once a journey
@@ -84,6 +86,7 @@ func _ready() -> void:
 			else GameSaveRepository.new(_profile, _files)
 		)
 	_autosave = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID))
+	_kept = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.KEEP_SLOT_ID), GameSaveSnapshot.KEEP_SLOT_ID, false)
 	if _startup_mode == StartupMode.MANUAL:
 		var manual_result: OldPineRuntimeSaveLoadResult = (
 			OldPineRuntimeSaveLoadResult.success(null)
@@ -114,6 +117,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	_frame.emit()
 	_take_read_scenes()
+	_tell_kept()
 	var saved: GameSaveResult = null if _autosave == null else _autosave.take_finished()
 	if saved == null or _current_session == null or not is_instance_valid(_current_session):
 		return
@@ -123,9 +127,25 @@ func _process(_delta: float) -> void:
 		_current_session.shared_ui().toasts().push(tr("已自动存档"))
 
 
-func _exit_tree() -> void:
+## The 决战前 save, once written, is told (always: it is asked for once, before the battle).
+func _tell_kept() -> void:
+	var kept: GameSaveResult = null if _kept == null else _kept.take_finished()
+	if kept == null or _current_session == null or not is_instance_valid(_current_session):
+		return
+	# TRANSLATORS: native (终章 A): the save kept from before the finale's battle was written (DECISIONS「决战前存档」).
+	_current_session.shared_ui().toasts().push(tr("已存下「决战前」存档") if kept.succeeded() else tr("「决战前」存档没能存下"))
+
+
+## Waits for both the autosave and the 决战前 save under way.
+func _wait_saves() -> void:
 	if _autosave != null:
 		_autosave.wait()
+	if _kept != null:
+		_kept.wait()
+
+
+func _exit_tree() -> void:
+	_wait_saves()
 	# Nothing is left loading on a worker thread when the game closes.
 	if _coordinator != null:
 		_coordinator.wait_for_reads()
@@ -180,10 +200,17 @@ func autosave() -> GameAutosave:
 	return _autosave
 
 
+## The 决战前 save (DECISIONS「决战前存档」): an act's keep_save writes through it.
+func kept_save() -> GameAutosave:
+	return _kept
+
+
 ## The Session in the slot from now on: the autosave follows it. A New Game's first moment
 ## saves; a loaded one's interval starts with the load, its slots have nothing to add yet.
 func _session_began(session: WorldSessionController, loaded: bool) -> void:
 	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
+	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
+	session.keep_save_requested.connect(_on_keep_save.bind(session))
 	if loaded:
 		_autosave.restart_interval()
 	else:
@@ -193,6 +220,14 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 func _on_autosave_moment(session: WorldSessionController) -> void:
 	if session == _current_session and not _request_pending:
 		_autosave.begin(session)
+
+
+## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now.
+func _on_keep_save(session: WorldSessionController) -> void:
+	if session != _current_session or _request_pending or _kept == null:
+		return
+	if not _kept.begin(session):
+		_current_session.shared_ui().toasts().push(tr("「决战前」存档没能存下"))
 
 
 func current_session() -> WorldSessionController:
@@ -255,7 +290,7 @@ func slots() -> Array[GameSaveSlotSummary]:
 
 ## The slots' rows now (once the autosave under way is done).
 func read_slots() -> Array[GameSaveSlotSummary]:
-	_autosave.wait()
+	_wait_saves()
 	_slots = _coordinator.slot_summaries()
 	return _slots
 
@@ -540,9 +575,8 @@ func _begin_request() -> bool:
 	if _request_pending or _coordinator == null:
 		return false
 	_request_pending = true
-	# Whatever this asks comes after the autosave under way.
-	if _autosave != null:
-		_autosave.wait()
+	# Whatever this asks comes after the autosave (and a 决战前 save) under way.
+	_wait_saves()
 	return true
 
 
