@@ -42,8 +42,8 @@ const GESTURE_SECONDS: Dictionary[String, float] = {
 const POSE_LEGS: Dictionary[String, float] = {"sit": -1.2, "sit_ground": -1.5}
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
 ## round the shins; armor (甲): a plate on each shoulder and one on the chest; shield (圆盾, 铁盾会):
-## strapped to the left forearm.
-const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor", "shield"]
+## strapped to the left forearm; lantern (灯笼, 巡夜禁军): hung from the left hand.
+const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor", "shield", "lantern"]
 
 var walking: bool = false
 ## What the hands do while the person stands at work ("" none; NpcLifeBook.GESTURES) and how it
@@ -169,6 +169,16 @@ func _ready() -> void:
 			_held_tilted(arm, centre, Vector3(0.44, 0.32, 0.05), face, turn)
 			_held_tilted(arm, centre, Vector3(0.32, 0.44, 0.05), face, turn)
 			_held_tilted(arm, centre + Vector3(sin(0.35), 0, cos(0.35))*0.035, Vector3(0.1, 0.1, 0.04), _hex("metal", "b9a26a"), turn)
+		if extras.has("lantern") and side > 0.0:
+			# A paper lantern hung from the left hand on a short cord, a little forward of the hip:
+			# the body, a dark cap above and below.
+			var paper: String = _hex("lantern_color", "c8402a")
+			var cap: String = Color(paper).darkened(0.55).to_html(false)
+			var hang := Vector3(0, -0.62*reach, 0.08)
+			_held(arm, Vector3(0, -0.47*reach, 0.05), Vector3(0.03, 0.12*reach, 0.03), cap)
+			_held(arm, hang, Vector3(0.2, 0.24, 0.2), paper)
+			_held(arm, hang + Vector3(0, 0.135, 0), Vector3(0.14, 0.03, 0.14), cap)
+			_held(arm, hang - Vector3(0, 0.135, 0), Vector3(0.14, 0.03, 0.14), cap)
 		var leg := Node3D.new()
 		var hip: float = 0.57*_legs_k
 		leg.position = Vector3(side*0.17*maxf(_wide, 0.9), hip, 0)
