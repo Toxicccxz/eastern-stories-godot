@@ -114,8 +114,7 @@
     "fall": [{"rect": [1216, 896, 1600, 1344], "count": 16, "height": 5.0, "colors": ["b8c48a", "d8d0a0", "9aa86a"], "wind": [0.4, 0.1], "note": "poplar leaves"}]
   },
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
+    "default": {"coat": "8a7a5a"}
   },
   "entrances": {
     "sunhill.northriver.north": {"title": "江北渡口"},

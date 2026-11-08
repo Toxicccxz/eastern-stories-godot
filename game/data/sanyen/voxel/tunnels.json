@@ -28,8 +28,7 @@
     {"kind": "tracks", "at": [0, 0], "size": [800, 60]}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
+    "default": {"coat": "8a7a5a"}
   },
   "entrances": {
     "sanyen.tunnel.west": {"title": "晚月庄"},

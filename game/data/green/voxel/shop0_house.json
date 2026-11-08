@@ -16,8 +16,6 @@
     {"kind": "stains", "at": [-250, 0], "size": [96, 64], "count": 4, "colors": ["5a4a36", "4e4030", "62513b"], "note": "mud trodden in at the door"}
   ],
   "actors": {
-    "default": {"coat": "b3a98c"},
-    "green.npc.shen": {"coat": "8a7656", "hat": true},
-    "green.npc.woman1": {"coat": "a59b80"}
+    "default": {"coat": "b3a98c"}
   }
 }

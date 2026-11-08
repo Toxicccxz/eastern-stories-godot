@@ -20,5 +20,5 @@
     {"kind": "stone_door", "at": [-352, 560], "size": [64, 16], "rotation": 0, "note": "the great stone door seen from within"}
   ],
   "ambience": {"dust": [{"rect": [-720, 0, 32, 544], "count": 26, "color": "c8d8f0", "wind": [0.2, -0.3], "note": "motes that hang in the air: something unseen in the room"}]},
-  "actors": {"default": {"coat": "b3a98c"}, "common.npc.juechen.master": {"coat": "d8d2bc", "hat": true}}
+  "actors": {"default": {"coat": "b3a98c"}}
 }

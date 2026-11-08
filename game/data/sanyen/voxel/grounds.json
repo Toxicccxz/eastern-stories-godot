@@ -80,8 +80,7 @@
     "fall": [{"rect": [688, 1920, 1456, 2304], "count": 18, "height": 5.0, "colors": ["b8c48a", "d8d0a0", "9aa86a"], "wind": [0.4, 0.1], "note": "poplar leaves over the yard"}, {"rect": [848, 464, 1152, 928], "count": 10, "height": 3.0, "colors": ["e8c84a", "f2dc7a"], "wind": [0.2, 0.1], "note": "laurel flowers on the walk"}]
   },
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
+    "default": {"coat": "8a7a5a"}
   },
   "door_looks": {
     "sanyen.road1.door": {"kind": "red_door", "leaf": "c9a24a", "trim": "e8c25a", "note": "road1.c / temple.c: 两扇敞开的金门, 价值不菲"}

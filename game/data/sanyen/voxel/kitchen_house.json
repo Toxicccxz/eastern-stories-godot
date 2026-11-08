@@ -21,8 +21,7 @@
     {"kind": "baskets", "at": [260, 160], "size": [32, 32], "note": "greens from the garden"}
   ],
   "actors": {
-    "default": {"coat": "8a7a5a"},
-    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"}
+    "default": {"coat": "8a7a5a"}
   },
   "entrances": {
     "sanyen.kitchen.east": {"title": "走廊"}
