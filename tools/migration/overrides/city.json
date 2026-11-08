@@ -2,7 +2,7 @@
 	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
 	"items": ["d/city/obj/token.c"],
 	"set": {
-		"city.shangshu.keting.shangshu": {"until": {"mark": "庾子建下狱"}},
+		"city.shangshu.keting.shangshu": {"until": {"any": [{"mark": "庾子建下狱"}, {"all": [{"quest": "main.finale/lake"}, {"mark": "私了了庾子建"}, {"not": {"any": [{"mark": "旋芒交给了庾子建"}, {"mark": "庾子建在湖边走了"}]}}]}]}},
 		"city.shangshu.neizhai.qing_chen": {"until": {"mark": "庾子建下狱"}},
 		"city.npc.shangshu.shangshu": {
 			"inquiry": {

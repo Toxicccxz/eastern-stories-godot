@@ -31,11 +31,15 @@ func repository_for(slot_id: StringName) -> GameSaveRepository:
 	return _repository.for_slot(slot_id)
 
 
-## Each slot's row, the player's first and the autosave's last.
+## Each slot's row, the player's first and the autosave's last; the 决战前 one after it once it
+## holds something (DECISIONS「决战前存档」).
 func slot_summaries() -> Array[GameSaveSlotSummary]:
 	var summaries: Array[GameSaveSlotSummary] = []
 	for slot_id: StringName in GameSaveSnapshot.MANUAL_SLOT_IDS + [GameSaveSnapshot.AUTO_SLOT_ID]:
 		summaries.append(repository_for(slot_id).read_summary())
+	var kept: GameSaveSlotSummary = repository_for(GameSaveSnapshot.KEEP_SLOT_ID).read_summary()
+	if kept.state != GameSaveSlotSummary.State.EMPTY or kept.recoverable:
+		summaries.append(kept)
 	return summaries
 
 

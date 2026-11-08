@@ -1132,6 +1132,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		var needs_npc: bool = step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_MOOD, ScriptedAct.Kind.NPC_WIELD] or (step.kind == ScriptedAct.Kind.LEAVE and step.npc_id.is_empty())
 		if not acting and needs_npc:
 			_errors.append("%s: step %d needs the NPC of a greeting or one that came" % [origin, index])
+		if step.only_when != null and step.only_when.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
+			# Heard and chat are recorded as they happen: a step can never ask them (DECISIONS「步骤条件」).
+			_errors.append("%s: step %d's when asks what is only recorded as it happens (heard, chat)" % [origin, index])
 		if step.kind == ScriptedAct.Kind.BY:
 			acting = true
 		if step.kind == ScriptedAct.Kind.COMES:

@@ -26,6 +26,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	TestDeath.use()
 	await _autosave_moments(tree)
 	await _autosave_rolls(tree)
+	await _kept_save(tree)
 	await _death_card_goes_back(tree)
 	await _broken_autosave_keeps_the_card(tree)
 	TestDeath.restore()
@@ -67,6 +68,7 @@ func _slot_ids() -> void:
 	_check(profile.for_slot(SLOT_3).backup_path().ends_with("/slot-3-v1.json.bak") and profile.for_slot(SLOT_3).temp_path().ends_with("/slot-3-v1.json.tmp"), "and its own .bak and .tmp")
 	_check(not profile.for_slot(&"slot-4").is_valid() and not profile.for_slot(GameSaveSnapshot.LEGACY_SLOT_ID).is_valid(), "no slot beyond the game's; the old one is not written")
 	_check(GameSaveStorageProfile.release().canonical_path() == "user://save-data/release/slot-1-v1.json", "release keeps its folder")
+	_check(GameSaveSnapshot.is_slot_id(GameSaveSnapshot.KEEP_SLOT_ID) and profile.for_slot(GameSaveSnapshot.KEEP_SLOT_ID).canonical_path().ends_with("/keep-v1.json") and ApplicationSlotText.slot_name(GameSaveSnapshot.KEEP_SLOT_ID) == "决战前", "the 决战前 slot: a file of its own, its name")
 
 
 ## 存档 opens the list; three rows to save in, the autosave's greyed; an empty one saves at once,
@@ -341,6 +343,40 @@ func _autosave_rolls(tree: SceneTree) -> void:
 	await _frames(tree)
 	var back: WorldSessionController = host.current_session()
 	_check(back != session and back.player_runtime().state.progression.combat_experience == 100, "the one before")
+	shell.free()
+	await _frames(tree)
+
+
+## The 决战前 save (终章 A; DECISIONS「决战前存档」): no row until something is in it; an act's
+## keep_save writes it now (whatever the autosave's interval), on its own slot, and says so; the list to
+## load shows it after the autosave, the list to save in never.
+func _kept_save(tree: SceneTree) -> void:
+	var files: MemoryFiles = MemoryFiles.new()
+	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-kept")
+	var shell: ApplicationShellController = await _shell(tree, files, profile)
+	await _new_game(tree, shell)
+	var host: OldPineGameRuntimeHost = shell.runtime_host()
+	var session: WorldSessionController = host.current_session()
+	var kept_path: String = profile.for_slot(GameSaveSnapshot.KEEP_SLOT_ID).canonical_path()
+	_check(host.read_slots().size() == 4 and not files.files.has(kept_path), "no 决战前 row before one is kept")
+	_check(host.autosave().begin(session), "an autosave just now: its interval runs")
+	await _autosaved(tree, host)
+	session.request_kept_save()
+	var frames: int = 0
+	while host.kept_save().running() and frames < 5000:
+		frames += 1
+		await tree.process_frame
+	await _frames(tree)
+	_check(files.files.has(kept_path), "keep-v1.json written at once, the autosave's interval notwithstanding")
+	var saved: GameSaveResult = SourceEntrySaveRepository.new(profile.for_slot(GameSaveSnapshot.KEEP_SLOT_ID), files).load()
+	_check(saved.succeeded() and saved.snapshot.metadata.slot_id == GameSaveSnapshot.KEEP_SLOT_ID, "a whole save in the 决战前 slot")
+	var toasts: MessageToasts = session.shared_ui().toasts()
+	var told: Array[String] = toasts.shown_texts()
+	for waiting: MessageToasts.Entry in toasts._waiting:
+		told.append(waiting.text)
+	_check(told.has("已存下「决战前」存档"), "the line is told: %s" % [told])
+	var rows: Array[GameSaveSlotSummary] = host.read_slots()
+	_check(rows.size() == 5 and rows[4].slot_id == GameSaveSnapshot.KEEP_SLOT_ID and rows[4].state == GameSaveSlotSummary.State.READY, "the load list: the 决战前 row after the autosave's")
 	shell.free()
 	await _frames(tree)
 

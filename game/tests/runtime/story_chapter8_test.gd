@@ -127,12 +127,12 @@ func _test_data() -> void:
 	_check(catalog.spawn(&"village.main.lakeside.fishers").until != null and catalog.spawn(&"village.main.lakeside.fishers").until.key == "拔了穿灵" and catalog.item_spawn(&"native.lakeside.body_fisher") != null and catalog.item(BODY) != null and catalog.item(BODY).no_get, "the fishermen gone once the sword is out, one dead on the shore")
 	_check(catalog.spawn(&"native.lordhouse2.lihong") != null and catalog.spawn(&"native.lordhouse2.lihong").present.key == "拔了穿灵" and catalog.npc(LIHONG_ASHORE) != null and catalog.npc(LIHONG_ASHORE).hooks().calls[0].act.npc_in == &"village.lordhouse2", "璃虹 ashore in 田老财's 东房 from the sword on")
 	var wait: ServiceDefinition = catalog.service(&"village.lakeside.wait")
-	_check(wait != null and wait.act.verb == "等到天黑" and wait.act.acts.size() == 5 and wait.act.acts[0].not_mark == "拔了穿灵" and wait.act.acts[1].marks.size() == 3 and wait.act.acts[1].phase == [&"night", &"midnight"] and wait.act.acts[4].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"night"]), "湖畔 · 等到天黑: nothing before the sword; 等到天亮 after the night; the wait to night")
+	_check(wait != null and wait.act.verb == "等到天黑" and wait.act.acts.size() == 9 and wait.act.acts[4].not_mark == "拔了穿灵" and wait.act.acts[5].marks.size() == 3 and wait.act.acts[5].phase == [&"night", &"midnight"] and wait.act.acts[8].steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE and step.phases == [&"night"]), "湖畔 · 等到天黑: nothing before the sword; 等到天亮 after the night; the wait to night")
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
 	_check(luca != null and luca.hooks().calls.size() == 4 and luca.hooks().calls[2].act.npc_in == &"village.lakeside" and luca.hooks().calls[2].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNFOLLOW) and luca.hooks().calls[3].act.mark == "拔了穿灵", "卢卡 stops at the lakeside (大秦人不会水) and takes up his sword the night the 鬼卒 come")
 	var ninth: StoryQuestDefinition = catalog.story_quest(&"main.chapter9")
 	_check(ninth != null and ninth.requires == [&"main.chapter8"] and ninth.steps.size() >= 1 and ninth.steps[0].target.zone_id == &"city.wumen", "the ninth chapter: 皇城, by the 午门 (第九章 A grew the stub)")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_LANCHENG_C_V1, "第十章 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_A_V1, "终章 A's world revision is current")
 
 
 ## Down to the 封坛 from the lake: the dive, the cold (`robe`: worn through the cave, nothing felt),

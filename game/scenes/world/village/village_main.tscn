@@ -863,8 +863,118 @@ position = Vector2(544, 1792)
 script = ExtResource("marker")
 spawn_point_id = &"village.field.hell_runner.3"
 
-[node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
+[node name="LakesideFinaleWoman" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(740, 1300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.woman"
+
+[node name="LakesideFinaleHuoZheng" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(608, 1316)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.huo_zheng"
+
+[node name="LakesideFinaleGuoCheng" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(700, 1392)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.guo_cheng"
+
+[node name="LakesideFinaleShield1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(560, 1300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.shield.1"
+
+[node name="LakesideFinaleShield2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(532, 1404)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.shield.2"
+
+[node name="LakesideFinaleFengCe" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(640, 1400)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.feng_ce"
+
+[node name="LakesideFinaleAnnie" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(504, 1292)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.annie"
+
+[node name="LakesideFinaleWaterfog" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(500, 1400)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.waterfog"
+
+[node name="LakesideFinaleWei" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(500, 1400)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.wei"
+
+[node name="LakesideFinaleBearer" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(700, 1296)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.bearer"
+
+[node name="LakesideFinaleXiao" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(700, 1296)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.xiao"
+
+[node name="LakesideFinaleElon" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(744, 1384)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.elon"
+
+[node name="LakesideFinaleYu" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(752, 1428)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.yu"
+
+[node name="LakesideFinaleRunner1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(568, 1304)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale_runner.1"
+
+[node name="LakesideFinaleRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(608, 1304)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale_runner.2"
+
+[node name="LakesideFinaleRunner3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(648, 1304)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale_runner.3"
+
+[node name="Road1FinaleRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2208, 256)
+script = ExtResource("marker")
+spawn_point_id = &"village.road1.finale_runner.1"
+
+[node name="Road1FinaleRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2248, 256)
+script = ExtResource("marker")
+spawn_point_id = &"village.road1.finale_runner.2"
+
+[node name="Road1FinaleRunner3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2288, 256)
+script = ExtResource("marker")
+spawn_point_id = &"village.road1.finale_runner.3"
+
+[node name="FieldFinaleRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(584, 1792)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.finale_runner.1"
+
+[node name="FieldFinaleRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(712, 1792)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.finale_runner.2"
+
+[node name="FieldFinaleRunner3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(464, 1832)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.finale_runner.3"
+
+[node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(688, 1304)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakeside.body_fisher.1"
 

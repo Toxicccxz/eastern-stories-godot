@@ -8,6 +8,9 @@ extends RefCounted
 static func slot_name(slot_id: StringName) -> String:
 	if slot_id == GameSaveSnapshot.AUTO_SLOT_ID:
 		return TranslationServer.translate("自动存档")
+	if slot_id == GameSaveSnapshot.KEEP_SLOT_ID:
+		# TRANSLATORS: the slot kept from before the finale's battle (DECISIONS「决战前存档」).
+		return TranslationServer.translate("决战前")
 	# TRANSLATORS: a manual save slot's name; %d its number, 1 to 3.
 	return TranslationServer.translate("手动存档 %d") % (GameSaveSnapshot.MANUAL_SLOT_IDS.find(slot_id) + 1)
 

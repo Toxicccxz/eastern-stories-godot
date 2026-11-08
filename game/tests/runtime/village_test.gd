@@ -27,10 +27,10 @@ const PEOPLE: Dictionary = {
 	&"village.home": {LIU: 1},
 	&"village.smallstorage": {&"village.npc.rat": 6},
 	&"village.melonguard": {&"village.npc.meloner": 3},
-	&"village.lakeside": {&"village.npc.fisher": 3, &"native.npc.hell_runner": 3},
+	&"village.lakeside": {&"village.npc.fisher": 3, &"native.npc.hell_runner": 6, &"native.npc.woman_lakeside": 1, &"native.npc.huo_zheng_lake": 1, &"native.npc.guo_cheng_lake": 1, &"native.npc.shield_swordsman_lake": 2, &"native.npc.feng_ce_lake": 1, &"native.npc.annie_lake": 1, &"native.npc.nan_weishui_lake": 1, &"native.npc.wei_canglan_lake": 1, &"native.npc.yulan_tianwu_lake": 1, &"native.npc.xiao_pichen_lake": 1, &"native.npc.elon_lake": 1, &"native.npc.yu_zijian_lake": 1}, # 终章 A: who comes to the 点将, on their markers
 	&"village.seal_altar": {&"native.npc.lihong": 1, &"native.npc.shang_jue_lake": 1, &"native.npc.lihong_weak": 1}, # the 封坛 (第八章 A): 璃虹, and the staged 商玦 and summoned 璃虹 on their markers
-	&"village.field": {&"native.npc.hell_runner": 3},
-	&"village.road1": {&"native.npc.hell_runner": 3}, # 第八章 B: the three bands of the night after the sword, on their markers
+	&"village.field": {&"native.npc.hell_runner": 6},
+	&"village.road1": {&"native.npc.hell_runner": 6}, # 第八章 B and 终章 A: the three bands of the night after the sword and of the battle, on their markers
 	&"village.lordhouse2": {&"native.npc.lihong_ashore": 1}, # 第八章 B: 璃虹 ashore
 }
 
