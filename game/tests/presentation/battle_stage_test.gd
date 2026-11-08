@@ -20,6 +20,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_plan()
 	_kinds()
 	_setting()
+	_weapon_sounds()
+	await _voices(tree)
 	await _fight(tree)
 	BattlePace.opening = BattlePace.Opening.OFF
 	BattlePace.manual_turns = false
@@ -112,6 +114,54 @@ func _setting() -> void:
 	_check(not ApplicationSettingsSnapshot.defaults().with_battle_opening(9).is_valid(), "no such opening: invalid")
 
 
+## 战斗演出 C: a blow's sounds by what it was struck with — the player's own: the weapon's layer
+## over a hit (a sword's slice, a hammer's thock, a whip's crack) and, quieter, over a parry; a
+## whip's miss at its own pitch; a bare-handed 抓伤 the claw's slice; a blow between two others:
+## the thud alone, its miss quieter.
+func _weapon_sounds() -> void:
+	var sword: BattleNarrationLine = _blow(&"p", &"n", CombatAttackResult.Outcome.HIT, &"sword", "刺伤")
+	var cues: Array[Array] = BattleSounds.for_line(sword, false, false)
+	_check(cues[0][0] == BattleSounds.SLICE and is_equal_approx(float(cues[0][1]), 1.0) and cues.any(func(cue: Array) -> bool: return cue[0] == BattleSounds.THUD), "a sword's hit: the slice over the thud: %s" % [cues])
+	var hammer: Array[Array] = BattleSounds.for_line(_blow(&"p", &"n", CombatAttackResult.Outcome.HIT, &"hammer", "瘀伤"), false, false)
+	_check(hammer[0][0] == BattleSounds.THOCK and is_equal_approx(float(hammer[0][1]), 0.8), "a hammer's: the thock, low")
+	var whip_miss: Array[Array] = BattleSounds.for_line(_blow(&"p", &"n", CombatAttackResult.Outcome.DODGE, &"whip", "鞭伤"), false, false)
+	_check(whip_miss == [[BattleSounds.WHOOSH, 1.5, 0.0]], "a whip's miss: its own whistle: %s" % [whip_miss])
+	var parry: Array[Array] = BattleSounds.for_line(_blow(&"p", &"n", CombatAttackResult.Outcome.PARRY, &"blade", "割伤"), false, false)
+	_check(parry.size() == 2 and parry[1][0] == BattleSounds.SLICE and float(parry[1][2]) < -6.0, "a blade parried: the clang and a quiet slice")
+	var claw: Array[Array] = BattleSounds.for_line(_blow(&"p", &"n", CombatAttackResult.Outcome.HIT, &"", "抓伤"), false, false)
+	_check(claw[0][0] == BattleSounds.SLICE and is_equal_approx(float(claw[0][1]), 1.3), "a bare-handed claw: a high slice")
+	var fist: Array[Array] = BattleSounds.for_line(_blow(&"p", &"n", CombatAttackResult.Outcome.HIT, &"", "瘀伤"), false, false)
+	_check(not fist.any(func(cue: Array) -> bool: return cue[0] in [BattleSounds.SLICE, BattleSounds.THOCK]), "a fist: no layer")
+	var theirs: BattleNarrationLine = _blow(&"a", &"b", CombatAttackResult.Outcome.HIT, &"sword", "刺伤")
+	_check(not BattleSounds.mine(theirs, &"p") and BattleSounds.for_line(theirs, false, false, false) == [[BattleSounds.THUD, 1.0, BattleSounds.PLAIN_HIT_DB]], "a blow between two others: the thud alone")
+	_check(BattleSounds.for_line(_blow(&"a", &"b", CombatAttackResult.Outcome.DODGE, &"", ""), false, false, false)[0][2] == BattleSounds.OTHERS_MISS_DB, "their miss quieter")
+	_check(BattleSounds.priority_of(theirs, false, &"p") == BattleSounds.PRIORITY_OTHERS and BattleSounds.priority_of(sword, false, &"p") == BattleSounds.PRIORITY_MINE and BattleSounds.priority_of(theirs, true, &"p") == BattleSounds.PRIORITY_KEPT, "priorities: theirs, mine, a felling blow kept")
+	_check(sword.weapon_skill == &"sword" and sword.damage_type == "刺伤", "the line carries what it was struck with")
+
+
+## The voices: a sound of theirs never takes the player's voice; the player's takes theirs.
+func _voices(tree: SceneTree) -> void:
+	var sounds := BattleSounds.new()
+	tree.root.add_child(sounds)
+	await tree.process_frame
+	for index: int in BattleSounds.VOICES:
+		sounds.play(BattleSounds.GONG, 1.0, -30.0, BattleSounds.PRIORITY_MINE)
+	var busy: bool = sounds._players.all(func(player: AudioStreamPlayer) -> bool: return player.playing)
+	if busy:
+		var before: int = sounds.played.size()
+		sounds.play(BattleSounds.THUD, 1.0, -30.0, BattleSounds.PRIORITY_OTHERS)
+		_check(sounds.played.size() == before, "every voice the player's: a sound of theirs is not played")
+		sounds.play(BattleSounds.DRUM, 1.0, -30.0, BattleSounds.PRIORITY_KEPT)
+		_check(sounds.played.size() == before + 1 and sounds._voice_priority.has(BattleSounds.PRIORITY_KEPT), "a felling blow's drum takes the oldest of them")
+	else:
+		_check(sounds._voice_for(BattleSounds.PRIORITY_IDLE) >= 0, "the audio driver plays nothing: a free voice is always there")
+	sounds.free()
+
+
+static func _blow(actor: StringName, target: StringName, outcome: int, weapon: StringName, wound: String) -> BattleNarrationLine:
+	return BattleNarrationLine.new("x").with_blow(actor, target, "金光泻地", outcome, -1).with_ring(CombatMoveTags.QUICK, 0).with_arms(weapon, wound)
+
+
 func _fight(tree: SceneTree) -> void:
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
@@ -171,6 +221,22 @@ func _fight(tree: SceneTree) -> void:
 	# A 切磋 look restained into a 死斗's (the stage's restyle; the fight here is a 死斗 already).
 	arena.restyle(CombatEncounterMode.Value.SPAR, 0.0)
 	_check(arena.look_key == "spar", "restained")
+	# 战斗演出 C: the player's blow named over their head (a sword: pale gold); the trainee's at
+	# the player too; a blow between two others named nowhere; never more than three.
+	var titles: BattleMoveTitles = ui.move_titles
+	var trainee_id: StringName = trainee.character_id
+	ui._show_line(_blow(player_id, trainee_id, CombatAttackResult.Outcome.HIT, &"sword", "刺伤"))
+	_check(titles.shown().size() == 1 and titles.shown()[0] == ["金光泻地", player_id], "the player's move over their head: %s" % [titles.shown()])
+	var label: Label = titles.get_child(titles.get_child_count() - 1) as Label
+	_check(label != null and label.get_theme_color("font_color") == Color("efc77b"), "a thrust's name pale gold")
+	var player_card: BattleParticipantCard = ui._cards[0]
+	_check(not player_card.stage.title.visible, "and not on the card")
+	ui._show_line(_blow(trainee_id, &"someone.else", CombatAttackResult.Outcome.HIT, &"", "瘀伤"))
+	_check(titles.shown().size() == 1, "a blow between two others: no name over a head")
+	for index: int in 4:
+		ui._show_line(_blow(trainee_id, player_id, CombatAttackResult.Outcome.DODGE, &"", "瘀伤"))
+	_check(titles.shown().size() == 3, "three names at most: %d" % titles.shown().size())
+	titles.clear()
 	# The fight ends: the base comes down and the camera goes back.
 	_check(Multi.finish(session), "the fight ends")
 	for _frame: int in 200:

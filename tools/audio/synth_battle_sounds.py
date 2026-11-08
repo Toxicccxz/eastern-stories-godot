@@ -212,6 +212,30 @@ def scrape(rng: random.Random) -> list[float]:
     return render(0.5, sample)
 
 
+def slice_(rng: random.Random) -> list[float]:
+    """战斗演出 C, a blade's layer over a hit: air split by an edge — 2–6 kHz band noise, a thin ring."""
+    band = BandPass(2000.0, 6000.0)
+
+    def sample(t: float) -> float:
+        hiss = band.step(_noise(rng)) * _env(t, 0.002, 0.035) * 1.6
+        ring = math.sin(2 * math.pi * 2200.0 * t) * _env(t, 0.001, 0.05) * 0.35
+        return hiss + ring
+
+    return render(0.12, sample)
+
+
+def thock(rng: random.Random) -> list[float]:
+    """战斗演出 C, a blunt weapon's layer over a hit: a wooden knock — low-passed noise and a 180 Hz body."""
+    low = LowPass(900.0)
+
+    def sample(t: float) -> float:
+        body = math.sin(2 * math.pi * 180.0 * t) * _env(t, 0.001, 0.035)
+        knock = low.step(_noise(rng)) * _env(t, 0.0005, 0.012) * 1.3
+        return body * 0.8 + knock
+
+    return render(0.1, sample)
+
+
 RECIPES = {
     "clapper": clapper,
     "whoosh": whoosh,
@@ -224,6 +248,8 @@ RECIPES = {
     "brick_stone": brick_stone,
     "gong": gong,
     "scrape": scrape,
+    "slice": slice_,
+    "thock": thock,
 }
 
 

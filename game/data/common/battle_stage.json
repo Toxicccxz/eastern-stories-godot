@@ -48,6 +48,28 @@
 			"done_sounds": [["drum", 0.7, 2.0], ["scrape", 1.0, -6.0]]
 		}
 	},
+	"moves": {
+		"_comment": "战斗演出 C (DECISIONS「战斗演出 C」): the move's name over the attacker's head and the blow's sounds by what it was struck with. weapons: by the weapon's skill (\"\" bare-handed) — motion (slam: drops in; slash: drops in with a slant; whip: lashes in from the side; heavy: a bigger, slower drop; rise: comes up from below; quick: small and fast; thrown: a beat late, a streak before it; fist: small, no flourish), size (the title's font size), layer (the sound laid over the hit: slice, thock or crack, \"\" none) at pitch / db, miss_pitch (the whoosh of a miss). claw: a bare-handed 抓伤's layer. colours: the name's colour by the wound; others: gold. shown: the most names over heads at once; seconds: how long one stays (a special's longer, larger).",
+		"weapons": {
+			"sword": {"motion": "slam", "size": 34, "layer": "slice", "pitch": 1.0, "db": -4.0},
+			"blade": {"motion": "slash", "size": 34, "layer": "slice", "pitch": 0.85, "db": -4.0},
+			"dagger": {"motion": "quick", "size": 28, "layer": "slice", "pitch": 1.15, "db": -4.0},
+			"axe": {"motion": "heavy", "size": 38, "layer": "slice", "pitch": 0.7, "db": -4.0},
+			"hammer": {"motion": "heavy", "size": 38, "layer": "thock", "pitch": 0.8, "db": -3.0},
+			"staff": {"motion": "rise", "size": 34, "layer": "thock", "pitch": 1.0, "db": -3.0},
+			"fork": {"motion": "rise", "size": 34, "layer": "slice", "pitch": 0.9, "db": -4.0},
+			"whip": {"motion": "whip", "size": 32, "layer": "crack", "pitch": 1.4, "db": -2.0, "miss_pitch": 1.5},
+			"throwing": {"motion": "thrown", "size": 30, "layer": "slice", "pitch": 1.5, "db": -6.0, "miss_pitch": 1.6},
+			"": {"motion": "fist", "size": 30, "layer": "", "pitch": 1.0, "db": 0.0}
+		},
+		"claw": {"layer": "slice", "pitch": 1.3, "db": -8.0},
+		"colours": {"刺伤": "efc77b", "割伤": "efc77b", "砍伤": "efc77b", "劈伤": "efc77b", "瘀伤": "f1e4c6", "挫伤": "f1e4c6", "擦伤": "f1e4c6", "鞭伤": "7fc4a8", "抓伤": "7fc4a8"},
+		"special_colour": "e9b84c",
+		"special_scale": 1.2,
+		"parry_layer_db": -8.0,
+		"shown": 3,
+		"rise": 2.3
+	},
 	"camera": {
 		"_comment": "The opening move: the view's height over the fighters (the pitch: 41° is the map's own, atan(height / 30)); small rooms (fewer free cells than small_cells) pitch less; zoom: the push-in at most, for a duel (1 the map's; smaller is nearer), crowd_zoom the farthest it stays back to frame a crowd; band: the share of the screen's height the fighters stand in, under the cards and over the panel (the controller passes the real band when it has laid out).",
 		"pitch_degrees": 26.0,

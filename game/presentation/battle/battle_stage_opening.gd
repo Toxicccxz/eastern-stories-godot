@@ -16,6 +16,9 @@ signal finished
 
 enum Kind { FULL, SHORT, OFF }
 
+## 战斗演出 C: the band keeps this much over the fighters' heads for the move's name.
+const TITLE_HEADROOM: float = 1.0
+
 ## Fights opened this run of the game (not saved): the first few open in full.
 static var fights_opened: int = 0
 
@@ -160,7 +163,8 @@ func _fit(player_point: Vector2, others: Array[Vector2], band: Vector2, camera_d
 		var at: Vector3 = VoxelMapGeometry.point(point, 0.9) - target
 		wide = maxf(wide, absf(at.dot(right)))
 		low = minf(low, at.dot(up) - 0.9)
-		high = maxf(high, at.dot(up) + 0.9)
+		# Room over the head for the move's name (BattleMoveTitles' rise and a line of it).
+		high = maxf(high, at.dot(up) + 0.9 + TITLE_HEADROOM)
 	var top: float = clampf(band.x, 0.05, 0.9)
 	var bottom: float = clampf(band.y, top + 0.1, 0.98)
 	var size_needed: float = maxf(wide * 2.0 / (aspect * 0.85), (high - low) / ((bottom - top) * 0.85))

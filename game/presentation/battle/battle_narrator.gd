@@ -150,7 +150,7 @@ func _attack(
 	lines.append(BattleNarrationLine.new(
 		vision(_limb_and_weapon(tr(outcome).format({"type": type}), limb, weapon), me, victim, cast), damage if damage > 0 else -1,
 		ColoredLine.PLAIN, summary(me, victim, action, base.outcome, damage, ratio, cast),
-	).with_blow(me, victim, _t(move_name(action)), base.outcome, BattleVitalityBar.band_of_ratio(ratio) if ratio >= 0 and damage > 0 else -1).with_ring(action.tag, base.calculation.ring))
+	).with_blow(me, victim, _t(move_name(action)), base.outcome, BattleVitalityBar.band_of_ratio(ratio) if ratio >= 0 and damage > 0 else -1).with_ring(action.tag, base.calculation.ring).with_arms(_weapon_skill(armed, weapon_id), String(action.damage_type)))
 	if damage <= 0:
 		return
 	if status != null:
@@ -289,6 +289,14 @@ static func _selected(selection: CombatActionSelectionResult) -> CombatActionDef
 ## do_attack(): $w is the weapon's name, else the action's own "weapon" word,
 ## else it stays as written. No ported action has a "weapon" word (human.c,
 ## beast.c and liuh-ken.c set none), so an unarmed $w stays.
+## 战斗演出 C: the weapon's skill (sword, blade, whip …), &"" bare-handed or unknown.
+static func _weapon_skill(armed: bool, weapon_id: StringName) -> StringName:
+	if not armed:
+		return &""
+	var item: ItemContentDefinition = GameContent.catalog().item(weapon_id)
+	return &"" if item == null else item.weapon_skill_type
+
+
 static func _weapon_name(armed: bool, weapon_id: StringName) -> String:
 	if not armed:
 		return ""

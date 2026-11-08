@@ -7235,7 +7235,7 @@ msgstr ""
 
 #. spicyclaw actions.damage_type
 #. actions.damage_type
-#: data/combat/beast_combat_action_definitions.gd data/common/skills.json data/common/combat_actions.json
+#: data/combat/beast_combat_action_definitions.gd presentation/battle/battle_sounds.gd data/common/skills.json data/common/combat_actions.json
 msgid "抓伤"
 msgstr ""
 
