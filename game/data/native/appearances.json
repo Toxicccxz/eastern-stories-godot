@@ -641,6 +641,53 @@
     "native.npc.yulan_tianwu_wind": {"same_as": "common.npc.fighter.champion"},
     "native.npc.xiao_pichen_home": {"same_as": "common.npc.fighter.master"},
     "native.npc.neizhai_guard": {"same_as": "city.npc.shangshu.huyuan"},
-    "native.npc.niling_courier": {"same_as": "native.npc.niling_gatekeeper"}
+    "native.npc.niling_courier": {"same_as": "native.npc.niling_gatekeeper"},
+    "native.npc.niling_wind_diviner": {
+      "note": "卜风道士：黑衣黑冠，三十八岁，熬夜熬得憔悴，眼眶熬红、嘴唇冻紫；一手一捆竹签、一手一张符；立绘 Muse 2026-11-08",
+      "coat": "292728", "pants": "161519", "skin": "f3cca8", "hair": "161519",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "1e1c1d",
+      "beard": "moustache", "waist": "sash", "prop": "rod", "prop_color": "d2ac8f",
+      "accent": "4a3f39", "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.niling_wind_diviner_head": {
+      "note": "卜风道士领头：瘦高，黑冠缀一圈铜钱，攥一支写满字的竹签；立绘 Muse 2026-11-08",
+      "coat": "272728", "pants": "141517", "skin": "f5caa3", "hair": "141517",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "1c1c1e",
+      "beard": "moustache", "waist": "belt", "prop": "rod", "prop_color": "d0ae92",
+      "accent": "2a2a2c", "height": "tall", "build": "slim", "shoes": "dark", "pouch": false
+    },
+    "native.npc.lan_weng": {
+      "note": "岚翁：白发白须、白衣，袖口被风吹起；脸上没几道皱纹，眼睛却老；立绘 Muse 2026-11-08",
+      "coat": "f2f2f2", "pants": "b9b4aa", "skin": "e7c5a9", "hair": "f2f2f2",
+      "hair_style": "topknot", "headwear": "none", "beard": "long", "waist": "sash", "prop": "none",
+      "accent": "d7d3ca", "height": "standard", "build": "standard", "shoes": "white"
+    },
+    "native.npc.lan_weng_terrace": {"same_as": "native.npc.lan_weng"},
+    "native.npc.lan_child": {
+      "note": "岚童：九岁的小姑娘，白衣，头发被风吹得乱蓬蓬，脖子上挂一只小铜铃；立绘 Muse 2026-11-08",
+      "coat": "e8e8e4", "pants": "aba498", "skin": "e9c9a7", "hair": "3a2a23", "hair_style": "long",
+      "headwear": "none", "beard": "none", "waist": "sash", "prop": "none", "accent": "d2b897",
+      "height": "child", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.lan_bellsmith": {
+      "note": "老蔺：瘦小的老铃匠，皮围裙，手指沾满铜绿，一手细锉一手铜铃；立绘 Muse 2026-11-08",
+      "coat": "ebe8e5", "pants": "635850", "skin": "e6ad83", "hair": "9f8a70",
+      "hair_style": "short", "headwear": "none", "beard": "moustache", "waist": "apron",
+      "apron_color": "8f5a2c", "prop": "rod", "prop_color": "aea29a", "accent": "66472c",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.lan_sweeper": {
+      "note": "扫云的老妪：白发挽髻插木簪，褪色的白衣，竹扫帚；立绘 Muse 2026-11-08",
+      "coat": "dadbd5", "pants": "acb1b4", "skin": "e5c7a9", "hair": "dadbd5",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "broom", "prop_color": "8a6e55", "accent": "d6d6d0", "height": "standard",
+      "build": "standard", "shoes": "white"
+    },
+    "native.npc.lan_resident": {
+      "note": "岚城人：白衣，腰系褪成粉橘的红绳（续写），侧头听风铃；立绘 Muse 2026-11-08",
+      "coat": "f6f2ea", "pants": "c6b3a6", "skin": "f2c7a5", "hair": "221917",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
+      "accent": "e4ad94", "height": "standard", "build": "standard", "shoes": "white"
+    }
   }
 }

@@ -116,10 +116,6 @@
   "actors": {
     "default": {
       "coat": "f0ece2"
-    },
-    "native.npc.lan_weng": {
-      "coat": "f4f2ec",
-      "note": "white, his sleeves moving in the door's wind"
     }
   }
 }
