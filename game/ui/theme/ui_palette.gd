@@ -52,3 +52,7 @@ const SIDE_DARK := Color("2a160d")
 ## Full-screen dims behind a dialog: warm ink, not blue-black.
 const SCRIM := Color(0.06, 0.04, 0.03, 0.9)
 const SCRIM_LIGHT := Color(0.06, 0.04, 0.03, 0.72)
+## 战斗演出 A (DECISIONS「战斗演出 A」): the shade over the scene in a fight — lighter in a
+## 切磋 (the scene reads through), deeper and blood-dark in a 死斗.
+const SCRIM_SPAR := Color(0.06, 0.04, 0.03, 0.45)
+const SCRIM_LETHAL := Color(0.16, 0.05, 0.04, 0.70)

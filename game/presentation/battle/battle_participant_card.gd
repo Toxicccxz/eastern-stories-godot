@@ -57,9 +57,26 @@ var _fallen_text: String = ""
 var _shown_busy: int = 0
 var _shown_intent: String = ""
 ## 气 N/N; 精 · 神 (the player's card); 内力 (· 加力 · 法力 · 灵力) (the player's card).
+## 战斗演出 A (DECISIONS「战斗演出 A」): every card has the same six rows, so every card is one
+## height — name, 气 bar, 气, then the player's (and a helper's) 精 · 神 and 内力 where an
+## enemy's card has its 预判 line and its 起手, then the tags.
 var _primary: Label
 var _secondary: Label
 var _powers: Label
+var _forecast: Label
+## A chip (many fighters): the name and the 气 bar only, CHIP_SIZE.
+const CHIP_SIZE: Vector2 = Vector2(160, 44)
+var _chip: bool = false
+var _hostile: bool = false
+var _is_current: bool = false
+var _content: VBoxContainer
+var _chip_borders: Array[StyleBoxFlat] = []
+var _big_borders: Array[StyleBoxFlat] = []
+## 了结 / 放过 lie over the card's lower rows (the card keeps its height); those rows dim.
+var _choice_band: Control
+const CHOICE_DIM: float = 0.35
+# TRANSLATORS: an enemy's battle card, the 预判 row, when nothing could be foreseen.
+const FORECAST_NONE: String = "深浅未明"
 ## 战斗决策层 2: the one-word tags — 忙 N, the conditions, 昏迷 / 死亡 — and nothing when
 ## there is nothing to say.
 var _status: Label
@@ -96,10 +113,20 @@ func _ready() -> void:
 	_special_border.border_color = Color("fff3c4")
 	_special_border.set_border_width_all(3)
 	_special_border.border_width_bottom = 6
+	_big_borders = [_ordinary_border, _current_border, _special_border]
+	for big: StyleBoxFlat in _big_borders:
+		var chip := big.duplicate() as StyleBoxFlat
+		chip.content_margin_left = 8
+		chip.content_margin_right = 8
+		chip.content_margin_top = 3
+		chip.content_margin_bottom = 3
+		chip.border_width_bottom = 3
+		_chip_borders.append(chip)
 	var content := VBoxContainer.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	content.add_theme_constant_override("separation", 2)
 	add_child(content)
+	_content = content
 	_title = _label(content)
 	_title.add_theme_color_override("font_color", UiPalette.GOLD)
 	_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
@@ -108,6 +135,11 @@ func _ready() -> void:
 	content.add_child(_vitality)
 	_primary = _label(content)
 	_secondary = _label(content)
+	# An enemy's 预判 in the 精 · 神 row: the forecast's line, small and muted (the hover keeps it whole).
+	_forecast = _label(content)
+	_forecast.name = "Forecast"
+	_forecast.add_theme_color_override("font_color", UiPalette.MUTED)
+	_forecast.add_theme_font_size_override("font_size", GameTheme.text_size(14))
 	_powers = _label(content)
 	_intent = _label(content)
 	_intent.add_theme_color_override("font_color", INTENT_COLOR)
@@ -115,11 +147,18 @@ func _ready() -> void:
 	# The tags last (界面重做 4): their line stays when empty (the card does not jump), and
 	# at the foot it reads as the card's margin, not a gap between 气 and 起手.
 	_status = _label(content)
+	# 了结 / 放过 over the lower rows (a band at the card's foot, not a row of its own).
+	_choice_band = Control.new()
+	_choice_band.name = "ChoiceBand"
+	_choice_band.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_choice_band)
 	choice_row = HBoxContainer.new()
 	choice_row.name = "KnockoutChoice"
 	choice_row.add_theme_constant_override("separation", 8)
+	choice_row.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	choice_row.offset_top = -48
 	choice_row.visible = false
-	content.add_child(choice_row)
+	_choice_band.add_child(choice_row)
 	finish_button = _choice_button("FinishButton")
 	finish_button.pressed.connect(func() -> void: finish_requested.emit(_participant_id))
 	spare_button = _choice_button("SpareButton")
@@ -170,16 +209,19 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	if not is_player and not value.style_word.is_empty():
 		role += " · " + tr(value.style_word)
 	_title.text = "%s · %s" % [tr(value.display_name), role]
-	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
+	_is_current = value.participant_id == current_id
+	var border: StyleBoxFlat = _border(1 if _is_current else 0)
 	if get_theme_stylebox("panel") != border and (_border_flash == null or not _border_flash.is_valid()):
 		add_theme_stylebox_override("panel", border)
 	modulate = DIM if value.hostile_to_player and not value.targetable and knockout == null else Color.WHITE
 	if not hold_resources or value.participant_id != _shown_id or _shown_resources.is_empty():
 		_show_resources(value.participant_id, [value.vitality, value.essence, value.spirit])
-	_secondary.visible = is_player
-	_powers.visible = is_player
-	if is_player:
+	# 战斗演出 A: the player's and a helper's card carry 精 · 神 and 内力; an enemy's its 预判 and 起手.
+	_hostile = value.hostile_to_player
+	if not _hostile:
 		_powers.text = " · ".join(_power_parts(value))
+	# TRANSLATORS: keep 深浅未明 short: an enemy's battle card when nothing could be foreseen of them.
+	_forecast.text = value.strength_line if not value.strength_line.is_empty() else tr(FORECAST_NONE)
 	# The tags: 忙 N, the conditions, then 昏迷 / 死亡 (and when they come to); 无法行动 only
 	# when none of those says why.
 	var states := PackedStringArray()
@@ -243,10 +285,10 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		# TRANSLATORS: an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
 		intents.append(tr("要出 {move}").format({"move": value.telegraph}))
 	_intent.text = " · ".join(intents)
-	_intent.visible = value.hostile_to_player
-	if _intent.visible and _intent.text != _shown_intent:
+	_show_rows()
+	if _hostile and _intent.text != _shown_intent:
 		_pulse_intent(not value.telegraph.is_empty())
-	_shown_intent = _intent.text if _intent.visible else ""
+	_shown_intent = _intent.text if _hostile else ""
 	# 战斗拍数 B: the plan's seals — the settled beat's word, then one ？ per beat it reads.
 	var first: String = ""
 	if value.hostile_to_player and not value.beat_plan_tags.is_empty() and not dead and not unconscious:
@@ -336,6 +378,7 @@ static func _track_line(stat_id: StringName, track: BattleResourceProjection) ->
 ## kills the player's master) and 放过 in place of picking the card as a target.
 func _present_choice(value: BattleParticipantProjection, knockout: BattleKnockoutProjection) -> void:
 	choice_row.visible = knockout != null
+	_show_rows()
 	# The card's own button covers it: away while the choice shows (one held is no target).
 	target_button.visible = knockout == null
 	if knockout == null:
@@ -355,6 +398,51 @@ func _present_choice(value: BattleParticipantProjection, knockout: BattleKnockou
 	spare_button.text = tr(SPARE_LABEL)
 	# TRANSLATORS: hover on 放过: nobody on the player's side strikes {name} again; they lie there and come to on their own.
 	spare_button.tooltip_text = tr("放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。").format({"name": name})
+
+
+## 战斗演出 A: the rows the card shows — all six on a big card (the player's side: 精 · 神 and
+## 内力; an enemy: 预判 and 起手), the name and the bar on a chip; under 了结 / 放过 the rows
+## the buttons lie over dim.
+func _show_rows() -> void:
+	var big: bool = not _chip
+	_primary.visible = big
+	_secondary.visible = big and not _hostile
+	_powers.visible = big and not _hostile
+	_forecast.visible = big and _hostile
+	_intent.visible = big and _hostile
+	_status.visible = big
+	stamps.visible = big
+	var under: float = CHOICE_DIM if choice_row.visible else 1.0
+	for row: Control in [_powers, _intent, _status]:
+		row.modulate.a = under
+
+
+## Big or a chip (CHIP_SIZE: the name and the 气 bar).
+func set_chip(chip: bool) -> void:
+	if chip == _chip:
+		return
+	_chip = chip
+	_title.add_theme_font_size_override("font_size", GameTheme.text_size(14 if chip else 20))
+	_content.add_theme_constant_override("separation", 1 if chip else 2)
+	# The target button covers the card (its 64×64 would hold a chip open).
+	target_button.custom_minimum_size = Vector2.ZERO if chip else Vector2(64, 64)
+	if _border_flash == null or not _border_flash.is_valid():
+		add_theme_stylebox_override("panel", _border(1 if _is_current else 0))
+	_show_rows()
+
+
+func is_chip() -> bool:
+	return _chip
+
+
+## Who the card shows.
+func participant_id() -> StringName:
+	return _participant_id
+
+
+## The border: 0 ordinary, 1 the current target, 2 a special's flash; a chip's thinner.
+func _border(kind: int) -> StyleBoxFlat:
+	return (_chip_borders if _chip else _big_borders)[kind]
 
 
 ## `band`: the blow's band for the shake (-1: the band of the value shown).
@@ -497,10 +585,8 @@ func _flash_border() -> void:
 		return
 	if _border_flash != null and _border_flash.is_valid():
 		_border_flash.kill()
-	var back: StyleBoxFlat = get_theme_stylebox("panel") as StyleBoxFlat
-	if back == null or back == _special_border:
-		back = _ordinary_border
-	add_theme_stylebox_override("panel", _special_border)
+	var back: StyleBoxFlat = _border(1 if _is_current else 0)
+	add_theme_stylebox_override("panel", _border(2))
 	_border_flash = create_tween()
 	_border_flash.tween_interval(SPECIAL_BORDER_SECONDS)
 	_border_flash.tween_callback(func() -> void: add_theme_stylebox_override("panel", back))
