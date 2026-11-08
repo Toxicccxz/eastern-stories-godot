@@ -151,6 +151,8 @@ func _exit_tree() -> void:
 func _process(delta: float) -> void:
 	refresh_projection()
 	_tell_lines(delta)
+	if visible:
+		_place_strip()
 	if _strip_open:
 		_strip_left -= delta
 		if _strip_left <= 0.0:
@@ -673,7 +675,6 @@ func _build() -> void:
 	_strip_slot.name = "StripSlot"
 	_strip_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_strip_slot.custom_minimum_size = Vector2(STRIP_WIDTH, STRIP_ROW_HEIGHT)
-	_strip_slot.item_rect_changed.connect(_place_strip)
 	strip_row.add_child(_strip_slot)
 	log_button = Button.new()
 	log_button.name = "CombatLogButton"
@@ -735,7 +736,7 @@ func _build() -> void:
 	_content.add_child(action_panel)
 	_receipt = Label.new()
 	_receipt.name = "IntentReceipt"
-	_receipt.visible = false # Text is projected into the header, not an extra narrow-screen row.
+	_receipt.visible = false # Its text goes to the title's hover, not an extra narrow-screen row.
 	_receipt.add_theme_font_size_override("font_size", GameTheme.text_size(14))
 	_content.add_child(_receipt)
 	_strip = PanelContainer.new()
@@ -1028,16 +1029,18 @@ static func _held_ids(values: Array[BattleParticipantProjection]) -> Array[Strin
 	return held
 
 
-## 战斗演出 A: the strip over its slot under the head, as wide as the slot; open, it reaches
-## down over the cards.
+## 战斗演出 A: the strip over its slot under the head, as wide as the slot and as tall as its
+## lines; open, it reaches down over the cards. Followed each frame while the panel shows and
+## set only when it moved (a signal from the slot's rect fed a layout loop while sessions were
+## built off screen).
 func _place_strip() -> void:
 	if _strip == null or _strip_slot == null or not _strip_slot.is_inside_tree():
 		return
 	var slot: Rect2 = _strip_slot.get_global_rect()
-	_strip.position = slot.position - get_global_rect().position
-	_strip.size = Vector2(slot.size.x, 0.0)
-	_strip.reset_size()
-	_strip.size.x = slot.size.x
+	var wanted := Rect2(slot.position - get_global_rect().position, Vector2(slot.size.x, _strip.get_combined_minimum_size().y))
+	if not _strip.get_rect().is_equal_approx(wanted):
+		_strip.position = wanted.position
+		_strip.size = wanted.size
 
 
 ## Whether the strip shows its three lines (else the newest alone).
@@ -1084,7 +1087,6 @@ func _present_recent(lines: Array[BattleNarrationLine]) -> void:
 			text.tooltip_text = "\n".join(texts)
 		else:
 			text.tooltip_text = line.text + ((" " + tr("（-%d）") % line.damage) if line.has_damage else "")
-	_place_strip.call_deferred()
 
 
 ## The line cut short with an ellipsis so that it and its damage fit `width` (the row's
