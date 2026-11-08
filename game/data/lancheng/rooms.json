@@ -77,6 +77,72 @@
 			"exits": {
 				"southwest": "native:lancheng/stone_field"
 			}
+		},
+		{
+			"id": "native:lancheng/white_gate",
+			"short": "白石门",
+			"long": "一道白石的门，门洞是圆的，被风磨得没有一个棱角。门外是雾，雾底下很远的地方，隐约是山——城就浮在那上头。\n门里是一块小小的石坪，坪上的石板一块挨一块，中间被人走出一道浅浅的凹。往北，一条白石长街往上绕。\n",
+			"outdoors": true,
+			"exits": {
+				"north": "native:lancheng/white_street"
+			}
+		},
+		{
+			"id": "native:lancheng/white_street",
+			"short": "白石街",
+			"long": "白石铺的长街往上绕了两折。两边的屋子都是白石砌的，墙角磨圆了，背风的一面爬着青苔；家家的檐下都挂着风铃，铜的、竹的、贝壳的，风一过，一街都响。\n屋子里静悄悄的，没有烟。没有一家的屋顶上有烟囱。\n西边第一道弯下去是一个敞着的院子，叮叮当当的；东边第二道弯过去，一个小院子的门开着，里头没有声音。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:lancheng/white_gate",
+				"west": "native:lancheng/bellsmith",
+				"east": "native:lancheng/xiao_house",
+				"north": "native:lancheng/street_top"
+			}
+		},
+		{
+			"id": "native:lancheng/bellsmith",
+			"short": "铃匠铺",
+			"long": "一个敞着的院子，后头一间棚屋，棚檐下挂满了还没上绳的铃。院子当中一块铁砧，旁边一口铸了一半的铃立在木架上，铃身还是青的。墙边一排木架，架上是泥的铃模、钳子、细锉，一样一样摆得整齐。\n地上一层铜屑，被风扫到墙角，堆成一道细细的绿线。\n",
+			"outdoors": true,
+			"exits": {
+				"east": "native:lancheng/white_street"
+			}
+		},
+		{
+			"id": "native:lancheng/xiao_house",
+			"short": "萧家旧院",
+			"long": "一个小院子，院里一口枯井，井沿上落着叶子。屋门关着，门楣上一只铜钩，钩上什么也没挂，钩子倒擦得很亮——像是一直有人在擦。\n门框上有一道一道刻的印子，从下往上，最高的一道齐你的腰，旁边刻着一个小小的「尘」字。\n",
+			"outdoors": true,
+			"exits": {
+				"west": "native:lancheng/white_street"
+			}
+		},
+		{
+			"id": "native:lancheng/street_top",
+			"short": "街尾",
+			"long": "长街到这里是一块平台，平台尽头一座三层的木阁，檐角一层一层翘上去，每一层的檐下都挂满了铃，风不大，铃也一直在响，一声叠一声，像在说话。\n阁门开着。门楣上一块旧匾：风铃阁。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:lancheng/white_street",
+				"north": "native:lancheng/bell_hall"
+			}
+		},
+		{
+			"id": "native:lancheng/bell_hall",
+			"short": "风铃阁",
+			"long": "阁里很高，梁上垂下来千百只小铃，长长短短，一直垂到人头顶上。风从门口进来，它们就从门口那一头响起，一层一层响到里头去。\n北墙下一排木架，架上并排挂着十口大铃，每一口的铃身上刻着一个地名。有的铃亮，有的铃是暗的。\n东边一道小门，门帘半卷着。\n",
+			"exits": {
+				"south": "native:lancheng/street_top",
+				"east": "native:lancheng/quiet_room"
+			}
+		},
+		{
+			"id": "native:lancheng/quiet_room",
+			"short": "静室",
+			"long": "一间小屋，四壁是木板，一张矮几，一个蒲团。墙边一架旧书，书页被风吹得发脆，有几本摊着，压着一块白石。\n墙上一只铜钩，钩上空着。\n",
+			"exits": {
+				"west": "native:lancheng/bell_hall"
+			}
 		}
 	]
 }

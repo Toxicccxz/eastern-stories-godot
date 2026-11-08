@@ -821,6 +821,9 @@ func _lantern_string() -> void:
 	# lanterns are not evenly spaced, one or two are missing, their paper not quite one red.
 	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
 	var spacing: float = float(data.get("spacing",0.9))
+	# `bells`: wind bells instead of lanterns (`metal` their bronze), and no lamp.
+	var bells: bool = data.get("bells",false)
+	var metal: String = String(data.get("metal","6a8a6a"))
 	for i: int in ends.size()-1:
 		var a: Vector3 = ends[i]
 		var b: Vector3 = ends[i+1]
@@ -831,7 +834,19 @@ func _lantern_string() -> void:
 			var t: float = clampf(float(j)/count+(vary.randf_range(-0.12,0.12)/count if j>0 and j<count else 0.0),0.0,1.0)
 			var at: Vector3 = a.lerp(b,t)-Vector3(0,sin(t*PI)*sag,0)
 			s.box(root,at,Vector3(0.04,0.04,0.04),"3d3530")
-			if j>0 and j<count and vary.randf()>=0.1:
+			if not (j>0 and j<count and vary.randf()>=0.1):
+				continue
+			if bells:
+				# 第十章 B: a string of wind bells (岚城's streets), small bronze bells on short cords, no light.
+				var bell := Node3D.new()
+				bell.position = at-Vector3(0,0.14,0)
+				root.add_child(bell)
+				s.box(bell,Vector3(0,0.05,0),Vector3(0.02,0.12,0.02),String(data.get("cord","d8907a")))
+				s.box(bell,Vector3(0,-0.06,0),Vector3(0.12,0.12,0.12),Shapes.tinted(metal,vary,0.08))
+				s.box(bell,Vector3(0,-0.14,0),Vector3(0.16,0.03,0.16),Shapes.tinted(metal,vary,0.08))
+				if ambience != null:
+					ambience.sway(bell,at.x+at.z,0.22)
+			else:
 				var hang := Node3D.new()
 				hang.set_meta("light_fixture",true)
 				hang.position = at-Vector3(0,0.24,0)
@@ -841,6 +856,8 @@ func _lantern_string() -> void:
 				s.box(hang,Vector3(0,-0.2,0),Vector3(0.04,0.1,0.04),"c8a24e")
 				if ambience != null:
 					ambience.sway(hang,at.x+at.z,0.06)
+		if bells:
+			continue
 		var middle: Vector3 = a.lerp(b,0.5)-Vector3(0,sag+0.3,0)
 		var lamp := OmniLight3D.new()
 		lamp.position = middle

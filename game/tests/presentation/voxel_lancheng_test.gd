@@ -9,7 +9,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const Imperial := preload("res://tests/presentation/voxel_imperial_test.gd")
-const SCENES: Array[String] = ["lancheng/lancheng_wilds", "canyon/canyon_bamboo"]
+const SCENES: Array[String] = ["lancheng/lancheng_wilds", "canyon/canyon_bamboo", "lancheng/lancheng_street", "lancheng/lancheng_pavilion"]
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -63,6 +63,37 @@ func run_all(tree: SceneTree) -> Dictionary:
 			view._process(0.05)
 		_check(view.geometry.ambience.guiding_wind.length() < 0.1 and float(view.geometry.foliage.material.get_shader_parameter("gust")) < 0.2, "still in the calm: the grass stands up")
 		map.winds.wind().veer_percent = 15
+	# 第十章 B: the 白石街 and the 风铃阁.
+	for entry: Array in [[&"lancheng.white_gate", &"lancheng.white_gate.arrival"], [&"lancheng.bell_hall", &"lancheng.bell_hall.street_arrival"]]:
+		var town: WorldMapController = MapPlaces.enter(session, entry[0], entry[1]) # TEST-ONLY
+		await _frames(tree, 4)
+		if town == null:
+			_check(false, "%s in its voxel view" % entry[0])
+			continue
+		var shared := Imperial.new()
+		var view: WorldVoxelView = town.get_node("MapView") as WorldVoxelView
+		var place: String = String(town.map_id())
+		_check(town.projected_view and view.camera.current, "%s uses its voxel view" % place)
+		_check(view.geometry.unknown_kinds.is_empty(), "every prop kind in %s is drawn: %s" % [place, view.geometry.unknown_kinds])
+		_check(view.geometry.find_children("*", "OmniLight3D", true, false).size() > 0, "%s has a light for the night" % place)
+		var passages: int = 0
+		for node: Node in town.find_children("*", "Area2D", true, false):
+			if node is WorldPassageArea2D:
+				passages += 1
+		_check(view.arrows.size() == view.entrances.size() + town.doors_by_id.size() and view.entrances.size() == passages, "every way out of %s has its bobbing arrow" % place)
+		shared._check_footing(town, view, place)
+		await shared._check_access_and_saves(tree, session, town, view)
+		assertions += shared.assertions
+		failures.append_array(shared.failures)
+		var kinds: Array[String] = shared._kinds(view)
+		if town.map_id() == &"lancheng.street":
+			_check(view.layout.get("buildings", []).size() == 10 and "gate_frame" in kinds and kinds.count("lantern_string") >= 6 and "anvil" in kinds and "well" in kinds, "the 白石街: ten buildings (the 风铃阁's front among them), the 白石门's arch, bells strung across, the anvil, the 萧家 well: %s" % [kinds])
+			var smoke: Array = view.layout.get("buildings", []).filter(func(building: Dictionary) -> bool: return building.get("chimney", false) or building.get("smoke", false))
+			_check(smoke.is_empty(), "不食人间烟火: no chimney, no smoke on any roof")
+		else:
+			var rooms: Dictionary = town.get_node("RoomLife").get_meta("rooms", {}) if town.has_node("RoomLife") else {}
+			_check(not rooms.is_empty(), "the 风铃阁 says what its rooms are used for")
+			_check(kinds.count("temple_bell") == 20 and kinds.count("lantern_string") == 4, "the 十铃架 (each bell dark and bright) and the strings of small bells: %s" % [kinds])
 	session.free()
 	await _frames(tree, 2)
 	return {"assertions": assertions, "failures": failures}

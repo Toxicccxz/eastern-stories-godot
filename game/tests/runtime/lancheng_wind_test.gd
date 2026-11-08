@@ -62,7 +62,7 @@ func _test_rules() -> void:
 	_check(blowing != null and blowing.routes.map(func(route: WindDefinition.Route) -> String: return route.mark) == ROUTE_MARKS, "each route's mark names its hollow")
 	_check(catalog.wind_for_map(&"canyon.bamboo") == null, "no wind in the mirror's chamber")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter10")
-	_check(quest != null and quest.steps.size() == 1 and quest.steps[0].target != null and quest.steps[0].target.zone_id == &"lancheng.stone_field", "第十章 风: the 石林雾野 its target")
+	_check(quest != null and quest.steps[0].step_id == &"wind" and quest.steps[0].target != null and quest.steps[0].target.zone_id == &"lancheng.stone_field", "第十章 风: the 石林雾野 its target")
 
 
 func _ninth_done(session: WorldSessionController) -> void:
@@ -209,7 +209,9 @@ func _test_hollows(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(state.marks.get("到了岚城", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("白石的城")), "风停处即是城: 到了岚城")
 	session.record_journal()
-	_check(StoryQuestLog.current_step(state, GameContent.catalog().story_quest(&"main.chapter10")) == null, "the tenth's 风 step done")
+	var next: StoryQuestDefinition.Step = StoryQuestLog.current_step(state, GameContent.catalog().story_quest(&"main.chapter10"))
+	_check(next != null and next.step_id == &"city", "the tenth's 风 step done, the 风铃阁 next")
+	_check(session.active_map().map_id() == &"lancheng.street" and session.player_runtime().world_location().zone_id == &"lancheng.white_gate", "伏地: up the white step into the town (B)")
 
 
 func _test_people(tree: SceneTree, session: WorldSessionController) -> void:

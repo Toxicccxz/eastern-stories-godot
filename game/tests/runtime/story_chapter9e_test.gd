@@ -44,7 +44,7 @@ func _test_data() -> void:
 	var manual: ItemContentDefinition = catalog.item(MANUAL)
 	_check(manual != null and manual.no_drop and manual.study != null and manual.study.skill_id == &"palace-blade" and manual.study.max_skill == 40, "《禁中刀谱》 reads 禁中刀 to 40")
 	var next: StoryQuestDefinition = catalog.story_quest(&"main.chapter10")
-	_check(next != null and next.title == "旋芒" and next.requires.has(&"main.chapter9") and next.steps.size() == 1 and next.steps[0].step_id == &"wind", "第十章 旋芒: the stub, after the ninth")
+	_check(next != null and next.title == "旋芒" and next.requires.has(&"main.chapter9") and next.steps[0].step_id == &"wind", "第十章 旋芒: after the ninth, the 风 first")
 
 
 func _ready_for_choice(session: WorldSessionController) -> void:
