@@ -406,7 +406,7 @@ func action_infos() -> Array[CombatTacticalActionInfo]:
 		if reason.is_empty() and tactical != null and tactical.cooldown_left(info.action_id) > 0:
 			# TRANSLATORS: the battle panel: a perform button greyed while it cools down; {rounds} rounds left.
 			reason = TranslationServer.translate("冷却中（还要 {rounds} 回合）").format({"rounds": tactical.cooldown_left(info.action_id)})
-		# 战斗拍数 B: one costing more beats than the player has left is greyed 拍不够.
+		# 战斗拍数 B: one costing more beats than the player has left is greyed 手不够.
 		if reason.is_empty() and tactical != null and _active_encounter != null:
 			reason = _active_scheduler.unaffordable_action_reason(CombatEncounterScheduler.cost_key_of(info.category, info.action_id), _session.encounter_combat_bindings(_active_encounter))
 		infos.append(CombatTacticalActionInfo.new(
@@ -460,7 +460,7 @@ func round_running() -> bool:
 	return _active_scheduler != null and _active_scheduler.round_running()
 
 
-## The player's moves costing more beats than they have left, by ID, with why (拍不够).
+## The player's moves costing more beats than they have left, by ID, with why (手不够).
 func unaffordable_moves() -> Dictionary[StringName, String]:
 	if _active_scheduler == null or _active_encounter == null:
 		return {}
@@ -488,6 +488,15 @@ func style_word_of(actor_id: StringName) -> String:
 		return ""
 	var skeleton: CombatSchoolSkeleton = _active_scheduler.school_skeleton(actor_id, _session.encounter_combat_bindings(_active_encounter))
 	return "" if skeleton == null else skeleton.style_word
+
+
+## 战斗界面第二轮: how the school `actor_id` fights with wins a beat (CombatSchoolSkeleton
+## EARN_*), &"" when it has none or the round is ES2's one beat.
+func earn_of(actor_id: StringName) -> StringName:
+	if _active_scheduler == null or _active_encounter == null:
+		return &""
+	var skeleton: CombatSchoolSkeleton = _active_scheduler.school_skeleton(actor_id, _session.encounter_combat_bindings(_active_encounter))
+	return &"" if skeleton == null else skeleton.earn
 
 
 ## The skill behind that school, for 见识录.

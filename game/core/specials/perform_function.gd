@@ -9,6 +9,10 @@ var label: String
 ## The timed apply it starts (CharacterTimedApplies, named by its query_temp() flag),
 ## or empty for none.
 var effect_id: StringName
+## The busy it always leaves its performer in (counterattack.c's 1, hasten.c's 3); 0 for none
+## or one that comes only sometimes (fakefault.c's on a failure). Under 战斗拍数 it counts into
+## the beats the perform costs (max, DECISIONS「战斗拍数 C」); the battle panel says so.
+var own_busy: int = 0
 
 
 func perform(_context: SpecialContext) -> bool:

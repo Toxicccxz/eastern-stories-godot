@@ -111,7 +111,7 @@ func _test_insights() -> void:
 	for candidate: CodexContent.Entry in CodexContent.entries(CodexContent.Section.ARTS, state, catalog):
 		if candidate.key == "moves/fonxansword":
 			hers_entry = candidate
-	_check(hers_entry != null and hers_entry.text().contains("柳绘心的第 1 拍总是绝招招") == false and hers_entry.text().contains("柳绘心的第 1 拍总是绝招"), "封山剑法's entry from her habit alone: %s" % ("-" if hers_entry == null else hers_entry.text()))
+	_check(hers_entry != null and hers_entry.text().contains("柳绘心的第 1 手总是绝招招") == false and hers_entry.text().contains("柳绘心的第 1 手总是绝招"), "封山剑法's entry from her habit alone: %s" % ("-" if hers_entry == null else hers_entry.text()))
 
 
 func _test_records() -> void:

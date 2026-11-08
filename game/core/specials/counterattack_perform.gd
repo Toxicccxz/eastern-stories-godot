@@ -11,6 +11,7 @@ const OWN_BUSY: int = 1
 func _init() -> void:
 	id = &"counterattack"
 	label = "「封」字诀"
+	own_busy = OWN_BUSY
 
 
 func perform(context: SpecialContext) -> bool:

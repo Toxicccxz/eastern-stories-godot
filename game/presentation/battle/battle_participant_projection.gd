@@ -81,7 +81,7 @@ var beat_plan_tags: Array[StringName] = []
 var beat_plan_confirmed: int = 0
 var beats: CombatRoundBeats = null
 ## 战斗拍数 B: the 打法词 of the school this one fights with, once the player's 见识录 reads it
-## ("" otherwise); whether a round runs now (the card's 剩 N 拍 reads `beats` then).
+## ("" otherwise); whether a round runs now (the card's 剩 N 手 reads `beats` then).
 var style_word: String = ""
 var round_running: bool = false
 ## 战斗拍数 C: its school reads it as close to its target (柳家拳's state; the figures stand nearer).

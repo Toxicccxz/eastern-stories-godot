@@ -281,7 +281,7 @@ func _test_shell_battle(tree: SceneTree) -> void:
 	player.busy.start_busy(2)
 	await _settle(tree)
 	_check(ui.current_projection().queue_status == Queue.WAITING_FOR_BUSY, "UI displays WAITING_FOR_BUSY")
-	await _click(tree, ui.action_panel._actions.get_child(1) as Button)
+	await _click(tree, ui.action_panel.action_buttons[ui.action_panel._shown_ids.filter(func(id: StringName) -> bool: return ui.action_panel.action_buttons.has(id))[1]])
 	var replacement_id: StringName = encounter.queued_player_action().request.request_id
 	_check(replacement_id != first_id, "an actual click replaces the busy slot")
 	player.state.recovery.inner_force.current = 0

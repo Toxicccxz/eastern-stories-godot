@@ -208,18 +208,20 @@ func _move_hover_and_focus(tree: SceneTree) -> void:
 	check(flee.get_node_or_null(flee.focus_neighbor_top) == b and panel.first_move_button() == b, "up from an order to the chosen move, which is where the focus lands when the fight waits")
 	check(flee.get_node_or_null(flee.focus_neighbor_right) == surrender and surrender.get_node_or_null(surrender.focus_neighbor_left) == flee and surrender.focus_neighbor_right.is_empty(), "along the orders; no 收势 without the beats")
 	check(flee.get_node_or_null(flee.focus_neighbor_bottom) == panel.manual_button and panel.manual_button.get_node_or_null(panel.manual_button.focus_neighbor_top) == flee, "down from the orders to 改为自动 and back up")
-	check(not panel.chips.visible and not panel.yield_button.visible, "ES2's one beat: no chips, no 收势")
+	check(not panel.strip_row.visible and not panel.yield_button.visible, "ES2's one beat: no strip, no 收势")
 	projection.chosen_action_id = &""
 	panel.present(projection)
 	check(panel.first_move_button() == a, "nothing chosen: the first move")
 	panel.free()
 
 
-## 战斗拍数 B: the panel with the beats — the sub lines (the tag with its price, 克他这招 /
-## 被他克 against the target's next move), the groups' ridge and word, a locked or
-## unaffordable move dimmed with why in the same place (the order never changes), the chips
-## as a timeline (spent, won, given up), 收势, the third row, the panel's height, and the
-## keys' hover (FocusTip) on a dimmed move.
+## 战斗拍数 B / 战斗界面第二轮: the panel with the beats — the moves in columns by tag (快 / 重 /
+## 虚 / 守), each sub line the tag with its price and never a verdict on the target's move, a
+## locked or unaffordable move dimmed with why in the same place (the order never changes),
+## the strip (还剩 N 手, the slots as a timeline — spent, won, given up — the dashed slot while a
+## beat can be won, the sentence: 他起手, a beat's result, what a pointed move would take), the
+## ring (the target's move ringed, the pointed tag lit), the 运功 menu, 收势, the panel's
+## height, and the keys' hover (FocusTip) on a dimmed move.
 func _beats_panel(tree: SceneTree) -> void:
 	var rules: CombatBeatRules = GameContent.catalog().pacing().beat_rules()
 	var moves: Array[CombatActionDefinition] = []
@@ -230,12 +232,18 @@ func _beats_panel(tree: SceneTree) -> void:
 		moves.append(CombatActionDefinition.new(StringName("es2:test/%d" % index), 0, 0, &"刺伤", StringName("m%d" % index), "$N使一招「%s」" % names[index], "", &"", tags[index], names[index], groups[index]))
 	var panel := BattleActionPanel.new()
 	tree.root.add_child(panel)
+	var recover: StringName = CombatExertTacticalPolicy.action_id_for(&"recover")
+	var refresh: StringName = CombatExertTacticalPolicy.action_id_for(&"refresh")
 	var actions: Array[CombatTacticalActionInfo] = [
-		CombatTacticalActionInfo.new(&"perform.counterattack", CombatTacticalRequest.Category.MARTIAL_SPECIAL, CombatTacticalRequest.TargetRule.CURRENT_HOSTILE),
 		CombatTacticalActionInfo.new(CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE, CombatTacticalRequest.TargetRule.NONE),
 		CombatTacticalActionInfo.new(CombatSurrenderTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.TACTICAL_DEFENSE, CombatTacticalRequest.TargetRule.NONE),
+		CombatTacticalActionInfo.new(recover, CombatTacticalRequest.Category.INTERNAL_FORCE, CombatTacticalRequest.TargetRule.NONE),
+		CombatTacticalActionInfo.new(refresh, CombatTacticalRequest.Category.INTERNAL_FORCE, CombatTacticalRequest.TargetRule.NONE, true, "内力不够"),
+		CombatTacticalActionInfo.new(&"perform.counterattack", CombatTacticalRequest.Category.MARTIAL_SPECIAL, CombatTacticalRequest.TargetRule.CURRENT_HOSTILE),
 	]
-	var projection := BattlePresentationProjection.new(&"e", CombatEncounterMode.Value.LETHAL, &"p", &"n", [_one(&"p", "雪工", false, true, false, 80, 80, 100)], actions)
+	var foe: BattleParticipantProjection = _one(&"n", "店小二", true, true, true, 80, 80, 100)
+	foe.beats = CombatRoundBeats.new(&"n", 2)
+	var projection := BattlePresentationProjection.new(&"e", CombatEncounterMode.Value.LETHAL, &"p", &"n", [_one(&"p", "雪工", false, true, false, 80, 80, 100), foe], actions)
 	projection.moves = moves
 	projection.turns_offered = true
 	projection.manual = true
@@ -244,60 +252,94 @@ func _beats_panel(tree: SceneTree) -> void:
 	projection.beat_rules = rules
 	projection.player_beats = CombatRoundBeats.new(&"p", 2)
 	projection.round_running = false
-	projection.move_groups = ["引", "守", "逐"]
-	projection.opponent_tag = CombatMoveTags.HEAVY
+	projection.opponent_tag = CombatMoveTags.GUARD
+	projection.player_earn = CombatSchoolSkeleton.EARN_OPPONENT_MISSED
 	for move: CombatActionDefinition in moves:
 		projection.move_costs[move.action_id] = rules.cost_of_tag(move.tag)
-	projection.action_costs = {&"perform.counterattack": 2, CombatFleeTacticalPolicy.ACTION_ID: 1, CombatSurrenderTacticalPolicy.ACTION_ID: 0}
+	projection.action_costs = {&"perform.counterattack": 2, CombatFleeTacticalPolicy.ACTION_ID: 1, CombatSurrenderTacticalPolicy.ACTION_ID: 0, recover: 1, refresh: 1}
 	panel.present(projection)
 	var order: Array[StringName] = panel.move_order()
-	check(order == ([&"es2:test/4", &"es2:test/5", &"es2:test/6", &"es2:test/7", &"es2:test/0", &"es2:test/1", &"es2:test/2", &"es2:test/3"] as Array[StringName]), "the row lays the moves under their groups in the school's order (引 / 守 / 逐), each group in the set's order: %s" % str(order))
-	var lead: Button = panel.move_buttons[&"es2:test/4"]
-	check(lead.get_node_or_null(lead.focus_neighbor_right) == panel.move_buttons[&"es2:test/5"] and panel.move_buttons[&"es2:test/7"].get_node_or_null(panel.move_buttons[&"es2:test/7"].focus_neighbor_right) == panel.move_buttons[&"es2:test/0"] and panel.stance_buttons[CombatStance.Value.ATTACK].get_node_or_null(panel.stance_buttons[CombatStance.Value.ATTACK].focus_neighbor_right) == lead, "the keys walk the row as laid out (引 → 守 → 逐), the stances enter at its head")
-	check(panel.move_group_word(&"es2:test/4") == "引" and panel.move_group_word(&"es2:test/6") == "守" and panel.move_group_word(&"es2:test/0") == "逐" and panel.move_group_word(&"es2:test/5").is_empty() and panel.move_group_word(&"es2:test/1").is_empty(), "the group's word on its first button only")
-	check(panel._move_ridges[&"es2:test/4"].color == BattleActionPanel.GROUP_COLORS["引"] and panel._move_ridges[&"es2:test/0"].color == BattleActionPanel.GROUP_COLORS["逐"] and panel._move_ridges[&"es2:test/4"].color != panel._move_ridges[&"es2:test/0"].color, "each group its ridge colour")
-	check(panel.move_sub(&"es2:test/0") == "快 · 克他这招" and panel.move_sub(&"es2:test/6") == "守 · 被他克" and panel.move_sub(&"es2:test/1") == "重 · 2拍" and panel.move_sub(&"es2:test/4") == "虚 · 1拍", "the sub lines against the target's 重: 快 克他这招, 守 被他克, the rest the tag and its price: %s | %s | %s" % [panel.move_sub(&"es2:test/0"), panel.move_sub(&"es2:test/6"), panel.move_sub(&"es2:test/1")])
-	check(BattleActionPanel.sub_line(CombatMoveTags.QUICK, 1, &"", true) == "快 · 1拍" and BattleActionPanel.sub_line(CombatMoveTags.QUICK, 1, &"", false) == "快" and BattleActionPanel.sub_line(CombatMoveTags.FEINT, 1, CombatMoveTags.QUICK, true) == "虚 · 克他这招", "sub_line: the price with the beats, the tag alone without, the ring first")
-	check(panel.chips.visible and panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel.yield_button.visible and not panel.yield_button.disabled, "two free chips in the groove, 收势 offered while the fight waits")
+	check(order == ([&"es2:test/0", &"es2:test/2", &"es2:test/1", &"es2:test/3", &"es2:test/4", &"es2:test/5", &"es2:test/6", &"es2:test/7"] as Array[StringName]), "the moves stand in columns by tag (快 / 重 / 虚 / 守), each column in the set's order: %s" % str(order))
+	check(panel.column_tags() == ([CombatMoveTags.QUICK, CombatMoveTags.HEAVY, CombatMoveTags.FEINT, CombatMoveTags.GUARD] as Array[StringName]), "four columns, no empty 平")
+	var lead: Button = panel.move_buttons[&"es2:test/0"]
+	check(lead.get_node_or_null(lead.focus_neighbor_right) == panel.move_buttons[&"es2:test/2"] and panel.move_buttons[&"es2:test/2"].get_node_or_null(panel.move_buttons[&"es2:test/2"].focus_neighbor_right) == panel.move_buttons[&"es2:test/1"] and panel.stance_buttons[CombatStance.Value.ATTACK].get_node_or_null(panel.stance_buttons[CombatStance.Value.ATTACK].focus_neighbor_right) == lead, "the keys walk the columns as laid out, the stances enter at the head")
+	check(panel._move_ridges[&"es2:test/0"].color == BattleBeatChips.COLORS[CombatMoveTags.QUICK] and panel._move_ridges[&"es2:test/4"].color == BattleBeatChips.COLORS[CombatMoveTags.FEINT], "each column its tag's colour")
+	check(panel.move_sub(&"es2:test/0") == "快 · 1 手" and panel.move_sub(&"es2:test/6") == "守 · 1 手" and panel.move_sub(&"es2:test/1") == "重 · 2 手" and panel.move_sub(&"es2:test/4") == "虚 · 1 手", "the sub lines say the tag and its price, never 克他这招 against the target's 守: %s | %s | %s" % [panel.move_sub(&"es2:test/4"), panel.move_sub(&"es2:test/6"), panel.move_sub(&"es2:test/1")])
+	check(BattleActionPanel.sub_line(CombatMoveTags.QUICK, 1, true) == "快 · 1 手" and BattleActionPanel.sub_line(CombatMoveTags.QUICK, 1, false) == "快", "sub_line: the price with the beats, the tag alone without")
+	check(panel.strip_row.visible and panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel._left_word.text == "还剩 2 手" and panel.yield_button.visible and not panel.yield_button.disabled, "the strip: 还剩 2 手 and two free slots; 收势 offered while the fight waits")
+	check(panel.chips.earnable() and panel.chips.earn_hint() == "对方打空得 1 手", "封山's dashed slot says how a third is won: " + panel.chips.earn_hint())
+	check(panel.strip_text.text == "他起手：守" and panel.ring.visible and panel.ring.marked() == CombatMoveTags.GUARD and panel.ring.lit().is_empty(), "the sentence names the target's next move, the ring rings it and lights nothing: " + panel.strip_text.text)
+	# Pointing: the ghost over the slots and the sentence; the ring lights the tag's arrows.
+	panel._point(&"es2:test/1")
+	check(panel.chips.preview() == [2, true] and panel.strip_text.text == "空山鸟语占 2 手，出完你这回合没手了，他连出 2 手" and panel.ring.lit() == CombatMoveTags.HEAVY, "a 重 pointed at: two slots ghosted, what it costs, the ring lights 重: " + panel.strip_text.text)
+	panel._unpoint(&"es2:test/1")
+	check(panel.chips.preview() == [0, true] and panel.strip_text.text == "他起手：守" and panel.ring.lit().is_empty(), "pointing away clears it")
+	panel._point(&"es2:test/4")
+	check(panel.strip_text.text == "金光泻地占 1 手，出完还剩 1 手", "a 1-手 move: " + panel.strip_text.text)
+	panel._unpoint(&"es2:test/4")
+	# The orders: the perform with its price, the exerts in one 运功 menu, 逃跑 and 投降 small at the end.
+	var row: Array[String] = []
+	for child: Node in panel._actions.get_children():
+		row.append((child as Button).text)
+	check(row == ["封字诀", "运功", "逃跑", "投降"], "the order row: the perform by its own word, 运功, then 逃跑 and 投降: %s" % str(row))
+	check(panel.exert_items() == ([recover, refresh] as Array[StringName]) and not panel.exert_menu.disabled and panel.exert_menu.get_popup().is_item_disabled(1) and panel.exert_menu.get_popup().get_item_text(0) == "运功恢复气 · 1 手", "both exerts in the menu, the one that cannot run greyed: %s" % panel.exert_menu.get_popup().get_item_text(0))
 	var counter: Label = panel.action_buttons[&"perform.counterattack"].get_node("Cost") as Label
 	var surrender: Label = panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].get_node("Cost") as Label
-	check(counter.text == "2拍" and surrender.text.is_empty() and panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].theme_type_variation == &"ChipButton", "an order's price in its corner; 投降 costs nothing and reads small")
-	check(panel._queue.text == "等你出招", "nothing spent yet: 等你出招 alone: " + panel._queue.text)
-	check(panel.get_combined_minimum_size().y <= 180.0 and panel._moves.get_combined_minimum_size().x <= 1140.0, "eight moves and three orders fit 1280×720's panel: %s / %.0f" % [panel.get_combined_minimum_size(), panel._moves.get_combined_minimum_size().x])
-	# Mid-round: a 快 spent, one beat left, the 重 moves 拍不够 and 荒山-style lock 够不着: dimmed
-	# in place, the row's order the same.
+	check(counter.text == "2手" and surrender.text.is_empty() and panel.action_buttons[CombatSurrenderTacticalPolicy.ACTION_ID].theme_type_variation == &"ChipButton" and panel.first_action_button() == panel.action_buttons[CombatFleeTacticalPolicy.ACTION_ID], "an order's price in its corner; 投降 costs nothing and reads small; the first action is still 逃跑")
+	var chosen: Array[StringName] = []
+	panel.action_requested.connect(func(id: StringName) -> void: chosen.append(id))
+	panel._exert_chosen(0)
+	panel._exert_chosen(1)
+	check(chosen == ([recover] as Array[StringName]), "a 运功 item asks for its exert; a greyed one does nothing: %s" % str(chosen))
+	check(BattleActionPanel.own_busy_of(&"perform.hasten") == 3 and BattleActionPanel.pointed_line("「玄羽乱舞」", 1, 2, -1, 3) == "「玄羽乱舞」占 1 手，出完还剩 1 手；出手后自己要忙 3 手", "玄羽乱舞 is priced 1 and says it leaves the player busy 3: " + BattleActionPanel.pointed_line("「玄羽乱舞」", 1, 2, -1, 3))
+	check(BattleActionPanel.pointed_line("「封」字诀", 2, 2, -1, 1) == "「封」字诀占 2 手，出完你这回合没手了", "a busy within the price is not mentioned")
+	check(panel._queue.text == "等你出招", "the last row: 等你出招 alone: " + panel._queue.text)
+	check(panel.get_combined_minimum_size().y <= 240.0 and panel.get_combined_minimum_size().x <= 1256.0, "eight moves, the orders and the ring fit 1280×720's panel: %s" % panel.get_combined_minimum_size())
+	# Mid-round: a 虚 spent against his 守 (被克 on the ring), one beat left, the 重 moves 手不够
+	# and a 荒山-style lock 够不着: dimmed in place, the row's order the same.
 	projection.round_running = true
-	projection.player_beats.spend(CombatMoveTags.QUICK, 1)
-	projection.unaffordable_moves = {&"es2:test/1": "拍不够", &"es2:test/3": "拍不够"}
+	projection.player_beats.spend(CombatMoveTags.FEINT, 1)
+	projection.opponent_tag = CombatMoveTags.FEINT
+	projection.unaffordable_moves = {&"es2:test/1": "手不够", &"es2:test/3": "手不够"}
 	projection.locked_moves = {&"es2:test/2": "够不着"}
 	panel.present(projection)
 	check(panel.move_order() == order, "the order never changes")
 	var heavy: Button = panel.move_buttons[&"es2:test/1"]
 	var locked: Button = panel.move_buttons[&"es2:test/2"]
-	check(heavy.disabled and panel.move_sub(&"es2:test/1") == "拍不够" and heavy.tooltip_text == "拍不够" and locked.disabled and panel.move_sub(&"es2:test/2") == "够不着" and not panel.move_buttons[&"es2:test/0"].disabled, "the 重 dimmed 拍不够, the locked one 够不着, the 快 bright")
-	check(panel.chips.slots() == ([CombatMoveTags.QUICK, &""] as Array[StringName]) and panel._queue.text == "等你出招 · 这一回合已出：快", "the first chip took the 快's colour; the third row says so: " + panel._queue.text)
-	check(panel.first_move_button() == panel.move_buttons[&"es2:test/4"], "the focus lands on the first move the player may press")
-	# A beat won: a third chip, gold-edged, from 隙; 收势 strikes what is left.
+	check(heavy.disabled and panel.move_sub(&"es2:test/1") == "手不够" and heavy.tooltip_text == "手不够" and locked.disabled and panel.move_sub(&"es2:test/2") == "够不着" and not panel.move_buttons[&"es2:test/0"].disabled, "the 重 dimmed 手不够, the locked one 够不着, the 快 bright")
+	check(panel.chips.slots() == ([CombatMoveTags.FEINT, &""] as Array[StringName]) and panel._left_word.text == "还剩 1 手", "the first slot took the 虚's colour, one left")
+	check(panel.strip_text.text == "你出虚，他起手守 · 被克　他起手：虚", "the beat's result against the move he showed before it, then his next: " + panel.strip_text.text)
+	panel._point(&"es2:test/1")
+	check(panel.chips.preview() == [2, false] and panel.strip_text.text == "不够：空山鸟语要 2 手，你还剩 1 手", "a 重 with one left: the ghost red, the sentence says why: " + panel.strip_text.text)
+	panel._unpoint(&"es2:test/1")
+	check(panel.first_move_button() == panel.move_buttons[&"es2:test/0"], "the focus lands on the first move the player may press")
+	# A 守 against his 虚 and a beat won: a third slot, gold-edged, from 隙; no dashed slot then.
+	projection.player_beats.spend(CombatMoveTags.GUARD, 1)
 	projection.player_beats.earn(CombatSchoolSkeleton.EARN_OPPONENT_MISSED, 1)
+	projection.opponent_tag = CombatMoveTags.QUICK
 	panel.present(projection)
-	check(panel.chips.slots() == ([CombatMoveTags.QUICK, &"", &""] as Array[StringName]) and panel.chips._earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]) and not panel.chips.sliding(), "the won chip joins the groove (the feel off: no slide)")
+	check(panel.chips.slots() == ([CombatMoveTags.FEINT, CombatMoveTags.GUARD, &""] as Array[StringName]) and panel.chips._earned == ([CombatSchoolSkeleton.EARN_OPPONENT_MISSED] as Array[StringName]) and not panel.chips.sliding() and not panel.chips.earnable(), "the won slot joins the groove (the feel off: no slide), the dashed one goes")
+	check(panel.strip_text.text == "你出守，他起手虚 · 克！ · 多一手（隙）　他起手：快", "克 and the beat won: " + panel.strip_text.text)
 	projection.player_beats.yield_rest()
 	projection.waiting = false
 	panel.present(projection)
-	check(panel.chips.slots() == ([CombatMoveTags.QUICK, BattleBeatChips.YIELDED, BattleBeatChips.YIELDED] as Array[StringName]) and panel.yield_button.disabled, "收势: the chips left struck through; nothing to give up while the round plays")
-	# Between rounds the last round's sequence stays readable.
+	check(panel.chips.slots() == ([CombatMoveTags.FEINT, CombatMoveTags.GUARD, BattleBeatChips.YIELDED] as Array[StringName]) and panel.yield_button.disabled and panel._left_word.text == "没手了", "收势: the slot left struck through; nothing to give up while the round plays")
+	# Between rounds: fresh slots, the dashed one back.
 	projection.round_running = false
 	projection.waiting = true
 	projection.last_round_beats = projection.player_beats
 	projection.player_beats = CombatRoundBeats.new(&"p", 2)
 	panel.present(projection)
-	check(panel._queue.text == "等你出招 · 上一回合：快" and panel.chips.slots() == ([&"", &""] as Array[StringName]), "a new round: fresh chips, the last round's moves on the third row: " + panel._queue.text)
+	check(panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel.chips.earnable() and panel._left_word.text == "还剩 2 手", "a new round: fresh slots, the dashed one back")
 	# The keys' hover: a dimmed move walked to tells why (FocusTip).
+	projection.round_running = true
+	projection.player_beats.spend(CombatMoveTags.QUICK, 1)
+	panel.present(projection)
 	var support := PadSupport.new()
 	tree.root.add_child(support)
 	var tip: FocusTip = support.focus_tip
 	await tree.process_frame
-	panel.move_buttons[&"es2:test/0"].grab_focus()
+	panel.move_buttons[&"es2:test/2"].grab_focus()
 	var key := InputEventKey.new()
 	key.keycode = KEY_RIGHT
 	key.physical_keycode = KEY_RIGHT
@@ -309,7 +351,7 @@ func _beats_panel(tree: SceneTree) -> void:
 	Input.parse_input_event(key)
 	await tree.process_frame
 	tip._process(FocusTip.DELAY_SECONDS)
-	check(tree.root.gui_get_focus_owner() == heavy and tip.panel.visible and tip._text.text == "拍不够", "right from the 快 lands on the dimmed 重 and the keys' hover says 拍不够: '%s'" % tip._text.text)
+	check(tree.root.gui_get_focus_owner() == heavy and tip.panel.visible and tip._text.text == "手不够", "right from the last 快 lands on the dimmed 重 and the keys' hover says 手不够: '%s'" % tip._text.text)
 	support.free()
 	panel.free()
 
@@ -355,7 +397,7 @@ func _stamps_and_style_word(tree: SceneTree) -> void:
 	dog.round_running = true
 	dog.beats = CombatRoundBeats.new(&"n", 2)
 	card.present(dog, &"p", &"n")
-	check(card._title.text == "柳绘心 · 吃亏 · 候隙" and card.status_text() == "剩 2 拍", "the 打法词 after the word; the beats left while the round runs: %s | %s" % [card._title.text, card.status_text()])
+	check(card._title.text == "柳绘心 · 吃亏 · 候隙" and card.status_text() == "剩 2 手", "the 打法词 after the word; the beats left while the round runs: %s | %s" % [card._title.text, card.status_text()])
 	dog.beats.spend(CombatMoveTags.HEAVY, 2)
 	card.present(dog, &"p", &"n")
 	check(card.status_text().is_empty(), "none left: nothing said")

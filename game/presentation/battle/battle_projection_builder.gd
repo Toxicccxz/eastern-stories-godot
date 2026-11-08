@@ -100,7 +100,7 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 		projection.stance = coordinator.stance()
 		projection.locked_moves = coordinator.locked_moves()
 		projection.beat_rules = coordinator.beat_rules()
-		# 战斗拍数 B: the chips, the costs, the groups, the target's next move for the sub lines.
+		# 战斗拍数 B: the chips, the costs, the target's next move for the strip and the ring.
 		projection.player_beats = coordinator.beats_now(player_id)
 		projection.last_round_beats = coordinator.round_beats_of(player_id)
 		projection.round_running = coordinator.round_running()
@@ -109,33 +109,11 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 			projection.move_costs[move.action_id] = coordinator.move_cost(move.action_id)
 		for info: CombatTacticalActionInfo in actions:
 			projection.action_costs[info.action_id] = coordinator.action_cost(info)
-		projection.move_groups = _move_groups(session.player_runtime().state, projection.moves)
+		projection.player_earn = coordinator.earn_of(player_id)
 		var target: BattleParticipantProjection = projection.participant(current)
 		if target != null and target.next_move_known and not target.next_move_guard:
 			projection.opponent_tag = target.next_move_tag
 	return projection
-
-
-## 战斗拍数 B: the order of the intent groups of the player's moves: the school's `groups`
-## when the moves are one school's, else as the groups first appear.
-static func _move_groups(state: CharacterState, moves: Array[CombatActionDefinition]) -> Array[String]:
-	var order: Array[String] = []
-	if moves.is_empty():
-		return order
-	for skill_id: StringName in state.skills.raw_skill_ids():
-		var skill: SkillDefinition = GameContent.catalog().skill(skill_id)
-		if skill == null or skill.groups.is_empty() or skill.action_set() == null:
-			continue
-		var ids: Array[StringName] = []
-		for action: CombatActionDefinition in skill.action_set().actions():
-			ids.append(action.action_id)
-		if ids.has(moves[0].action_id):
-			order = skill.groups.duplicate()
-			break
-	for move: CombatActionDefinition in moves:
-		if not move.group.is_empty() and not order.has(move.group):
-			order.append(move.group)
-	return order
 
 
 ## A finished encounter the panel never projected: who the player is, and the

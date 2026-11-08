@@ -322,7 +322,7 @@ func player_moves(bindings: Array[CombatSliceCharacterBinding]) -> Array[CombatA
 
 ## The player chose `action_id` for their next beat: it is taken without a draw, and the
 ## round runs (or resumes, 战斗拍数 B: one order is one beat). False when it is not one of
-## their moves now, their school locks it, or it costs more beats than they have (拍不够).
+## their moves now, their school locks it, or it costs more beats than they have (手不够).
 func choose_attack(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
 	if not locked_move_reason(action_id, bindings).is_empty() or not unaffordable_move_reason(action_id, bindings).is_empty():
 		return false
@@ -377,7 +377,7 @@ func beats_now(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding
 	return preview
 
 
-## 战斗拍数 B: why the player cannot afford `action_id` on their next beat (拍不够), "" when
+## 战斗拍数 B: why the player cannot afford `action_id` on their next beat (手不够), "" when
 ## they can (or the round is ES2's one beat, where every move costs it).
 func unaffordable_move_reason(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> String:
 	if _one_beat() or _player_id.is_empty():
@@ -414,7 +414,7 @@ func _unaffordable(cost: int, bindings: Array[CombatSliceCharacterBinding]) -> S
 		# TRANSLATORS: a battle button greyed because the player gave the round's beats up (收势).
 		return TranslationServer.translate("已收势")
 	# TRANSLATORS: a battle button greyed because the move or action costs more beats than the player has left this round.
-	return TranslationServer.translate("拍不够")
+	return TranslationServer.translate("手不够")
 
 
 ## 战斗拍数 B: the player's order outside the moves — a perform, exert, item or flight run
@@ -1496,7 +1496,7 @@ func _earn(actor: CombatSliceCharacterBinding, skeleton: CombatSchoolSkeleton, b
 		return
 	_earned_counts[actor.character_id] = _earned_counts.get(actor.character_id, 0) + 1
 	# TRANSLATORS: a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
-	var line: String = TranslationServer.translate("$N抢得一拍（{label}）！").format({"label": skeleton.label()})
+	var line: String = TranslationServer.translate("$N抢得一手（{label}）！").format({"label": skeleton.label()})
 	_emit(_note_event(actor.character_id, line, ColoredLine.HIY))
 
 
