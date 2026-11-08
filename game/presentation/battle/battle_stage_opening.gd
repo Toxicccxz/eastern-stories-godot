@@ -39,6 +39,15 @@ func running() -> bool:
 	return _running
 
 
+## The map's voxel world released while the base was being laid (it went with the world): the
+## opening goes on without it, so the panel is not left waiting.
+func _process(_delta: float) -> void:
+	if _running and arena != null and not is_instance_valid(arena):
+		arena = null
+		if not _laid:
+			_on_laid()
+
+
 ## The kind of opening the next fight takes: OFF / SHORT by the setting, SHORT under 自动 or
 ## after the first opening_full_fights of this run, else FULL.
 static func next_kind(auto: bool) -> int:
@@ -175,7 +184,7 @@ func frame() -> Array:
 func _on_laid() -> void:
 	_laid = true
 	var feel: FeelDefinition = GameContent.catalog().pacing().feel
-	if arena != null and _lift.is_valid():
+	if arena != null and is_instance_valid(arena) and _lift.is_valid():
 		for id: StringName in _fighters:
 			if arena.holds(_fighters[id]):
 				_lift.call(id, arena.top_height(), 0.12 * _scale)
@@ -208,7 +217,10 @@ func _slide_in(seconds: float) -> void:
 		control.position = home + (part[1] as Vector2)
 		_slide_tween.tween_property(control, "position", home, length).set_delay(delay).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 		_slide_tween.tween_property(control, "modulate:a", 1.0, length).set_delay(delay)
-	_slide_tween.chain().tween_callback(_done)
+	# Home again by the containers' own sort (one may have re-sorted while the parts slid).
+	_slide_tween.chain().tween_callback(func() -> void:
+		_settle_slide()
+		_done())
 
 
 func _settle_slide() -> void:
@@ -235,9 +247,9 @@ func skip() -> void:
 		return
 	if _slide_tween != null and _slide_tween.is_valid():
 		_slide_tween.kill()
-	if arena != null and arena.laying():
+	if arena != null and is_instance_valid(arena) and arena.laying():
 		arena.skip()
-	if view != null and view.staged:
+	if view != null and is_instance_valid(view) and view.staged:
 		view.stage(_target, _height, _zoom, 0.0)
 	if not _laid:
 		_on_laid()
@@ -251,7 +263,10 @@ func _input(event: InputEvent) -> void:
 		return
 	if (event is InputEventKey or event is InputEventMouseButton or event is InputEventJoypadButton) and event.is_pressed() and not event.is_echo():
 		skip()
-		get_viewport().set_input_as_handled()
+		# Esc and the menu key still open (the opening is put in place first); any other press is
+		# only the skip.
+		if not event.is_action(&"pause_game") and not event.is_action(&"menu_open"):
+			get_viewport().set_input_as_handled()
 
 
 ## The fight turned from 切磋 to 死斗: the base restained (`seconds`; not skipped).

@@ -187,6 +187,7 @@ func _end_hold() -> void:
 	end_stamp.visible = false
 	scene_show.end()
 	opening.close()
+	_drop_pending_opening()
 	if _stamp_tween != null and _stamp_tween.is_valid():
 		_stamp_tween.kill()
 	if _session != null:
@@ -522,7 +523,7 @@ func refresh_projection() -> void:
 			_restore_world_hud()
 			scene_show.end()
 			opening.close()
-			_opening_pending = false
+			_drop_pending_opening()
 	var entries: Array[BattleFeedbackProjection] = []
 	if _session.is_initialized():
 		entries = _reader.read_new(_session.combat_encounter_coordinator(), _projection)
@@ -622,7 +623,11 @@ func _present_completed_result() -> void:
 		hud.show_combat_result(text)
 		return
 	# The panel stays on the fight's last lines, the world held, then the result (the hold
-	# is set before the lines: the cards settle and the stamp shows under it).
+	# is set before the lines: the cards settle and the stamp shows under it). An opening still
+	# waiting to begin never will: the panel shows as it is.
+	_drop_pending_opening()
+	if opening.running():
+		opening.skip()
 	_final_cards = true
 	_held_result = text
 	_hold_left = hold
@@ -1215,6 +1220,15 @@ func _stage_band() -> Vector2:
 
 ## The band the fighters stand in before the panel is laid out: under the cards, over the panel.
 const DEFAULT_BAND: Vector2 = Vector2(0.42, 0.7)
+
+
+## A fight over before its opening began: the panel's parts shown again (they waited hidden).
+func _drop_pending_opening() -> void:
+	if not _opening_pending:
+		return
+	_opening_pending = false
+	for part: Array in _slide_parts():
+		(part[0] as Control).modulate.a = 1.0
 
 
 func _opening_finished() -> void:

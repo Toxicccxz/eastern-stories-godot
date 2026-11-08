@@ -46,6 +46,8 @@ var _flames: Array[MeshInstance3D] = []
 var _restyle: Dictionary = {}
 var _taking_down: float = -1.0
 var _take_down_seconds: float = 0.3
+## The clock when the base began coming down while still being laid (INF: it was laid).
+var _taken_at: float = INF
 var _rng := RandomNumberGenerator.new()
 
 
@@ -544,6 +546,8 @@ func _advance_restyle(delta: float) -> void:
 
 ## The base taken down over `seconds`, top step first, then freed (0: at once).
 func take_down(seconds: float) -> void:
+	# Bricks not dropped yet stay unseen while the rest come down.
+	_taken_at = _clock if _laying else INF
 	_laying = false
 	_restyle = {}
 	if seconds <= 0.0:
@@ -565,6 +569,8 @@ func _advance_take_down(delta: float) -> void:
 	_taking_down += delta
 	var share: float = _take_down_seconds / float(maxi(1, steps.size()))
 	for brick: Array in _bricks:
+		if float(brick[3]) > _taken_at:
+			continue
 		var from_top: int = steps.size() - 1 - int(brick[0])
 		var p: float = clampf((_taking_down - float(from_top) * share * 0.6) / share, 0.0, 1.0)
 		var rest: Vector3 = brick[2]

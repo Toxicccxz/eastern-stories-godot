@@ -438,6 +438,8 @@ func stage(target: Vector3, height: float, zoom_factor: float, seconds: float) -
 ## The camera back on the player at the map's own pitch and size over `seconds`.
 func unstage(seconds: float) -> void:
 	staged = false
+	if quest_marker != null:
+		quest_marker.visible = true
 	_ease_stage(0.0, VIEW_HEIGHT, seconds)
 	set_zoom(1.0, seconds)
 
@@ -918,7 +920,8 @@ func _sync_quest_marker() -> void:
 		_quest_key = key
 		_place_quest_marker(goal, state)
 	if quest_marker != null:
-		quest_marker.visible = not staged
+		if staged:
+			quest_marker.visible = false
 		quest_marker.position.y = float(quest_marker.get_meta("height", 0.0)) + sin(_arrow_clock * 3.2) * 0.25
 
 
