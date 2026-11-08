@@ -66,10 +66,7 @@
     "smoke": [{"at": [592, 30], "height": 0.4, "color": "9aa4a0", "count": 8, "size": 0.5}, {"at": [640, 30], "height": 0.4, "color": "9aa4a0", "count": 8, "size": 0.5}, {"at": [688, 30], "height": 0.4, "color": "9aa4a0", "count": 8, "size": 0.5}]
   },
   "actors": {
-    "default": {"coat": "3a3a40"},
-    "death.npc.hell_guard": {"coat": "2e2e36", "hat": true, "note": "hell_guard.c: 鬼卒中的精锐"},
-    "death.npc.wgargoyle": {"coat": "e8e6dc", "hat": true, "scale": 1.12, "note": "wgargoyle.c: 死白的脸"},
-    "death.npc.bgargoyle": {"coat": "1a1a1e", "hat": true, "scale": 1.12, "note": "bgargoyle.c: 黝黑的脸"}
+    "default": {"coat": "3a3a40"}
   },
   "buildings": [
     {"rect": [224, 800, 448, 992], "portals": ["death.road1.west"], "construction": "timber", "wall": "4e4238", "timber": "2a2420", "posts": "3a2e28", "roof": "2a2c2e", "height": 3.2, "roof_form": "gable", "ridge": "x", "rise": 1.2, "overhang": 0.7, "porch": "none", "goods": "none", "lanterns": false, "bay": 4, "lattice": true, "foundation": 0.3, "doorway": "dark", "doorway_width": 4.0, "worn": 0.4, "worn_colors": ["3a403a", "444a42"], "window_lights": true, "note": "小店 (inn1.c): warm inside, the fire in the corner — only a glow through its windows from the road"},
