@@ -31,12 +31,32 @@ var _reported_completion_id: StringName = &""
 var _strengths: Dictionary[StringName, BattleStrength] = {}
 var _safe: SafeAreaPresenter
 var _content: VBoxContainer
+## 战斗演出 A: the cards' area — one row (_participants), or the two sides (_sides; each
+## side's [big row, chip row] in _side_rows) — and what the layout was last made for.
+var _card_area: VBoxContainer
 var _participants: HBoxContainer
+var _sides: HBoxContainer
+var _side_rows: Array = []
+var _card_layout_key: String = ""
+var _compact: bool = false
+var _room_width: float = 0.0
 var _cards: Array[BattleParticipantCard] = []
 var _shown_participants: Array[StringName] = []
+## 战斗演出 A: the head — the mode's word, its rule, the line under it — and the shade over
+## the scene, all in the mode's look (BattleModeLook); the mode they show now (-1 none yet).
 var _title: Label
+var _rule: ColorRect
+var _motto: Label
+var _shade: ColorRect
+var _shown_mode: int = -1
 ## kill_ob()'s 看起来X想杀死你！ lines, pinned under the title for the whole fight.
 var _warning: Label
+## The recent strip (floating over its slot under the head), whether it shows three lines,
+## and how long it stays so without a new line.
+var _strip: PanelContainer
+var _strip_slot: Control
+var _strip_open: bool = false
+var _strip_left: float = 0.0
 ## The feel (DECISIONS「手感」): a round's lines are told one after another
 ## (battle_line_ms), the cards follow once they are, and a fight's end holds the panel
 ## on its last lines (battle_end_hold_ms) before the result and the world come back.
@@ -82,15 +102,11 @@ var _saved_focus: WeakRef
 var action_panel: BattleActionPanel
 var log_panel: BattleLogPanel
 var log_button: Button
-## The header's height beside the 战斗记录 button, and the gap between the panel's rows. On a
-## short desktop screen (below ApplicationShellLayout.SHORT_HEIGHT: a 16:9 screen at the 界面缩放
-## 150% is 480 high) both close up, as the dialogs do, so the densest view (a planned move with
-## its target) still fits; a touch-sized layout keeps its 64-unit targets.
-const HEADER_HEIGHT: float = 64.0
-const SHORT_HEADER_HEIGHT: float = 48.0
+## The gap between the panel's rows. On a short desktop screen (below
+## ApplicationShellLayout.SHORT_HEIGHT: a 16:9 screen at the 界面缩放 150% is 480 high) it closes
+## up, as the dialogs do, so the densest view (a planned move with its target) still fits.
 const ROW_GAP: int = 8
 const SHORT_ROW_GAP: int = 4
-var _pause_space: Control
 ## [LB][RB] 换目标 while there is more than one to choose (keys and pad).
 var target_hints: InputHintRow
 
@@ -135,6 +151,12 @@ func _exit_tree() -> void:
 func _process(delta: float) -> void:
 	refresh_projection()
 	_tell_lines(delta)
+	if visible:
+		_place_strip()
+	if _strip_open:
+		_strip_left -= delta
+		if _strip_left <= 0.0:
+			_set_strip_open(false)
 	if _holding():
 		_hold_left -= delta
 		if _hold_left <= 0.0 and _line_queue.is_empty():
@@ -189,6 +211,8 @@ func _tell_lines(delta: float) -> void:
 		var line: BattleNarrationLine = _line_queue.pop_front()
 		_paused_for = null
 		_told.append(line)
+		if _strip_open:
+			_strip_left = STRIP_OPEN_SECONDS # Open, it stays while lines come.
 		_show_line(line)
 		if spacing > 0.0:
 			_line_wait += spacing
@@ -455,6 +479,10 @@ func refresh_projection() -> void:
 			_line_queue.clear()
 			_told.clear()
 			_line_wait = 0.0
+			_shown_mode = -1
+			_card_layout_key = ""
+			_strip_open = false
+			_strip_left = 0.0
 			# 战斗拍数 C: the scene's show begins with the fight (the camera a little nearer).
 			_last_beat = []
 			_paused_for = null
@@ -482,13 +510,16 @@ func refresh_projection() -> void:
 	if warning_text != _warning.text:
 		_warning.text = warning_text
 		_warning.visible = not warnings.is_empty()
-	var heading: String = _mode_name(_projection.mode)
-	if not _receipt.text.is_empty():
-		heading += " · " + _receipt.text
-	_title.text = heading + "\n" + tr("目标：%s") % tr(_projection.display_name(_projection.current_target_id))
+	_show_mode(_projection.mode)
 	if _projection.completion_outcome >= 0:
-		_title.text = "战斗无法正常结束，不会自动重试。"
-	_title.tooltip_text = _title.text
+		_title.text = tr("战斗无法正常结束，不会自动重试。")
+		_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
+	# The last order's receipt, and the target, on the title's hover (the gold border shows
+	# the target; the receipt says why an order was not taken).
+	var hover := PackedStringArray([tr("目标：%s") % tr(_projection.display_name(_projection.current_target_id))])
+	if not _receipt.text.is_empty():
+		hover.append(_receipt.text)
+	_title.tooltip_text = "\n".join(hover)
 	# The round's lines first: its blows wait on the cards until they are told.
 	if not entries.is_empty():
 		log_panel.append_entries(entries)
@@ -582,62 +613,113 @@ func _present_completed_result() -> void:
 
 
 func _build() -> void:
-	var backdrop := ColorRect.new()
-	backdrop.name = "FrozenWorldShade"
-	backdrop.color = Color(UiPalette.INK, 0.62)
-	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(backdrop)
+	_shade = ColorRect.new()
+	_shade.name = "FrozenWorldShade"
+	_shade.color = UiPalette.SCRIM_LETHAL
+	_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_shade)
 	_content = VBoxContainer.new()
 	_content.name = "SafeBattleContent"
 	_content.add_theme_constant_override("separation", ROW_GAP)
 	_content.minimum_size_changed.connect(_refit_content.call_deferred)
 	add_child(_content)
-	var header := HBoxContainer.new()
-	_content.add_child(header)
+	# 战斗演出 A (DECISIONS「战斗演出 A」): the mode at the top in the middle — the brush word,
+	# a short rule in the mode's colour, the line under it — then kill_ob()'s warning; the
+	# corner's 厮杀 / 目标 lines are gone (the gold border shows the target).
+	var head := VBoxContainer.new()
+	head.name = "ModeHead"
+	head.add_theme_constant_override("separation", 2)
+	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_content.add_child(head)
 	_title = Label.new()
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_title.name = "ModeTitle"
+	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title.clip_text = true
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_title.add_theme_color_override("font_color", UiPalette.GOLD)
-	_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
-	header.add_child(_title)
-	log_button = Button.new()
-	log_button.name = "CombatLogButton"
-	log_button.text = "战斗记录"
-	log_button.theme_type_variation = &"ChipButton"
-	log_button.custom_minimum_size = Vector2(144, HEADER_HEIGHT)
-	log_button.pressed.connect(_open_log)
-	header.add_child(log_button)
-	InputGlyphs.decorate(log_button, &"battle_log")
-	# Reserve shared Shell TouchPause space, including desktop touch-capability QA.
-	_pause_space = Control.new()
-	_pause_space.custom_minimum_size = Vector2(64, HEADER_HEIGHT)
-	_pause_space.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	header.add_child(_pause_space)
+	_title.add_theme_font_override("font", load(GameTheme.BRUSH_FONT_PATH) as Font)
+	_title.add_theme_font_size_override("font_size", TITLE_SIZE)
+	_title.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02, 0.9))
+	_title.mouse_filter = Control.MOUSE_FILTER_PASS
+	head.add_child(_title)
+	_rule = ColorRect.new()
+	_rule.name = "ModeRule"
+	_rule.custom_minimum_size = RULE_SIZE
+	_rule.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	head.add_child(_rule)
+	_motto = Label.new()
+	_motto.name = "ModeMotto"
+	_motto.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_motto.add_theme_color_override("font_color", UiPalette.MUTED)
+	_motto.add_theme_font_size_override("font_size", GameTheme.text_size(14))
+	head.add_child(_motto)
 	# The panel covers the log the warning was printed to, and the first round's
 	# lines would push it out of the recent strip: it stays here instead.
 	_warning = Label.new()
 	_warning.name = "KillWarning"
+	_warning.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_warning.add_theme_color_override("font_color", SharedGameplayUI.ALERT_COLOR)
-	_warning.add_theme_font_size_override("font_size", GameTheme.text_size(18))
+	_warning.add_theme_font_size_override("font_size", GameTheme.text_size(16))
 	_warning.visible = false
-	_content.add_child(_warning)
-	var participant_scroll := ScrollContainer.new()
-	participant_scroll.name = "ParticipantScroll"
-	participant_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	participant_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	participant_scroll.follow_focus = true
-	participant_scroll.custom_minimum_size.y = 144
-	participant_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	participant_scroll.resized.connect(_fit_cards)
-	_content.add_child(participant_scroll)
+	head.add_child(_warning)
+	# The recent strip under the head (owner: the bottom lines took room): one line, the
+	# newest; a click opens it to three, over the cards, and it closes by itself. The 战斗记录
+	# chip at its end. The strip itself floats (built after the content, placed over its slot).
+	var strip_row := HBoxContainer.new()
+	strip_row.name = "StripRow"
+	strip_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	strip_row.add_theme_constant_override("separation", 8)
+	_content.add_child(strip_row)
+	_strip_slot = Control.new()
+	_strip_slot.name = "StripSlot"
+	_strip_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_strip_slot.custom_minimum_size = Vector2(STRIP_WIDTH, STRIP_ROW_HEIGHT)
+	strip_row.add_child(_strip_slot)
+	log_button = Button.new()
+	log_button.name = "CombatLogButton"
+	log_button.text = "战斗记录"
+	log_button.theme_type_variation = &"ChipButton"
+	log_button.custom_minimum_size = Vector2(0, STRIP_ROW_HEIGHT)
+	log_button.add_theme_font_size_override("font_size", GameTheme.text_size(14))
+	log_button.pressed.connect(_open_log)
+	strip_row.add_child(log_button)
+	InputGlyphs.decorate(log_button, &"battle_log")
+	# The cards: one row while they fit (4 at most), else the player's side on the left and
+	# the enemies on the right, two big cards a side at most and the rest as chips under them.
+	_card_area = VBoxContainer.new()
+	_card_area.name = "CardArea"
+	_card_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_card_area.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_card_area.resized.connect(_fit_cards)
+	_content.add_child(_card_area)
 	_participants = HBoxContainer.new()
-	_participants.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_participants.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_participants.name = "CardRow"
 	_participants.alignment = BoxContainer.ALIGNMENT_CENTER
 	_participants.add_theme_constant_override("separation", CARD_GAP)
-	participant_scroll.add_child(_participants)
+	_card_area.add_child(_participants)
+	_sides = HBoxContainer.new()
+	_sides.name = "CardSides"
+	_sides.add_theme_constant_override("separation", SIDE_GAP)
+	_sides.visible = false
+	_card_area.add_child(_sides)
+	for side: int in 2:
+		var column := VBoxContainer.new()
+		column.name = "Ours" if side == 0 else "Theirs"
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.add_theme_constant_override("separation", SIDE_CARD_GAP)
+		_sides.add_child(column)
+		var big := HBoxContainer.new()
+		big.name = "Big"
+		big.alignment = BoxContainer.ALIGNMENT_BEGIN if side == 0 else BoxContainer.ALIGNMENT_END
+		big.add_theme_constant_override("separation", SIDE_CARD_GAP)
+		column.add_child(big)
+		var chips := HBoxContainer.new()
+		chips.name = "Chips"
+		chips.alignment = big.alignment
+		chips.add_theme_constant_override("separation", SIDE_CARD_GAP)
+		column.add_child(chips)
+		_side_rows.append([big, chips])
 	target_hints = InputHintRow.new()
 	_content.add_child(target_hints)
 	action_panel = BattleActionPanel.new()
@@ -654,14 +736,26 @@ func _build() -> void:
 	_content.add_child(action_panel)
 	_receipt = Label.new()
 	_receipt.name = "IntentReceipt"
-	_receipt.visible = false # Text is projected into the header, not an extra narrow-screen row.
+	_receipt.visible = false # Its text goes to the title's hover, not an extra narrow-screen row.
 	_receipt.add_theme_font_size_override("font_size", GameTheme.text_size(14))
 	_content.add_child(_receipt)
+	_strip = PanelContainer.new()
+	_strip.name = "RecentStrip"
+	var strip_style := StyleBoxFlat.new()
+	# Open, the strip lies over the cards: nearly opaque so their rows do not read through.
+	strip_style.bg_color = UiPalette.SCRIM
+	strip_style.content_margin_left = 10
+	strip_style.content_margin_right = 10
+	strip_style.content_margin_top = 1
+	strip_style.content_margin_bottom = 1
+	_strip.add_theme_stylebox_override("panel", strip_style)
+	_strip.gui_input.connect(_strip_input)
+	add_child(_strip)
 	_recent = VBoxContainer.new()
 	_recent.name = "RecentFeedback"
 	_recent.add_theme_constant_override("separation", 0)
-	_recent.custom_minimum_size.y = 60
-	_content.add_child(_recent)
+	_recent.mouse_filter = Control.MOUSE_FILTER_PASS
+	_strip.add_child(_recent)
 	for index: int in BattleFeedbackReader.RECENT_LINES:
 		# One row per line, written as the battle log writes it (BattleNarrationLine
 		# rich_text()): the damage small and grey right after the words (owner, modern
@@ -720,16 +814,22 @@ func _apply_metrics(metrics: SafeAreaMetrics) -> void:
 	if metrics == null:
 		return
 	var short: bool = not metrics.touch_sized() and metrics.content_rect().size.y < ApplicationShellLayout.SHORT_HEIGHT
-	var header: float = SHORT_HEADER_HEIGHT if short else HEADER_HEIGHT
-	log_button.custom_minimum_size.y = header
-	_pause_space.custom_minimum_size.y = header
 	_content.add_theme_constant_override("separation", SHORT_ROW_GAP if short else ROW_GAP)
 	# 战斗拍数 B: the panel closes up on any screen under SHORT_HEIGHT (a desktop 16:9 at 150%
 	# is 480 high and counts as compact for the touch rule), not only a non-touch one.
-	action_panel.set_compact(metrics.content_rect().size.y < ApplicationShellLayout.SHORT_HEIGHT)
+	var compact: bool = metrics.content_rect().size.y < ApplicationShellLayout.SHORT_HEIGHT
+	action_panel.set_compact(compact)
+	# 战斗演出 A: a short screen takes a smaller title and lower cards; the motto stays.
+	_compact = compact
+	_title.add_theme_font_size_override("font_size", SHORT_TITLE_SIZE if compact else TITLE_SIZE)
+	# The short screen drops the line under the title (the word and its colour say the mode).
+	_motto.visible = not _motto.text.is_empty() and not compact
+	_strip_slot.custom_minimum_size.x = minf(STRIP_WIDTH, metrics.content_rect().size.x - 200.0)
+	_room_width = metrics.content_rect().size.x
 	_content.position = metrics.content_rect().position
 	_content.size = metrics.content_rect().size
 	log_panel.apply_metrics(metrics)
+	_fit_cards()
 
 
 func _refit_content() -> void:
@@ -743,24 +843,131 @@ func _refit_content() -> void:
 		_content.size = metrics.content_rect().size
 
 
-## The cards share the row's width up to CARD_MAX each (never under CARD_MIN: the row scrolls
-## then), as tall as what they say; the row stands in the middle.
+## 战斗演出 A (DECISIONS「战斗演出 A」): every card is one size — CARD_HEIGHT high (lower on a
+## short screen), as wide as the row shares out between CARD_MIN and CARD_MAX. While they fit
+## (ROW_CARDS at most) they stand in one row in the middle; past that the player's side stands
+## on the left and the enemies on the right, SIDE_BIG big cards a side at most (the current
+## target and one held for 了结 / 放过 first) and the rest as chips (name and 气) under them, as
+## many as fit; the others have no card (换目标 still reaches them).
 const CARD_MIN: float = 300.0
 const CARD_MAX: float = 440.0
 const CARD_GAP: int = 16
+const CARD_HEIGHT: float = 150.0
+const SHORT_CARD_HEIGHT: float = 136.0
+const ROW_CARDS: int = 4
+const SIDE_BIG: int = 2
+const SIDE_GAP: int = 16
+const SIDE_CARD_GAP: int = 8
+## The head: the mode's word (brush), the rule under it.
+const TITLE_SIZE: int = 56
+const SHORT_TITLE_SIZE: int = 40
+const RULE_SIZE: Vector2 = Vector2(120, 3)
+## The recent strip: its width at most, its row's height, how long it stays open untouched.
+const STRIP_WIDTH: float = 760.0
+const STRIP_ROW_HEIGHT: float = 28.0
+const STRIP_OPEN_SECONDS: float = 5.0
 
 
 func _fit_cards() -> void:
-	if _cards.is_empty() or _participants == null:
+	if _cards.is_empty() or _participants == null or _card_area == null:
 		return
-	var room: float = (_participants.get_parent() as Control).size.x
-	# Whole units: at a 界面缩放 of 150% two cards would each be 402.5, laid out as 403, and the
-	# row would scroll by one unit.
-	var each: float = floorf(clampf((room - CARD_GAP * (_cards.size() - 1)) / float(_cards.size()), CARD_MIN, CARD_MAX))
-	for card: BattleParticipantCard in _cards:
+	# The safe area's width, not the area's own (the cards' minimum widths would hold it wide).
+	var room: float = _room_width if _room_width > 0.0 else _card_area.size.x
+	if room <= 0.0:
+		return
+	var height: float = SHORT_CARD_HEIGHT if _compact else CARD_HEIGHT
+	var visible_cards: int = _cards.size()
+	var in_row: int = mini(ROW_CARDS, int(floorf((room + CARD_GAP) / (CARD_MIN + CARD_GAP))))
+	var placement: Array = [] # [card, row, chip] each
+	if visible_cards <= in_row:
+		_participants.visible = true
+		_sides.visible = false
+		# Whole units: at a 界面缩放 of 150% two cards would each be 402.5, laid out as 403.
+		var each: float = floorf(clampf((room - CARD_GAP * (visible_cards - 1)) / float(visible_cards), CARD_MIN, CARD_MAX))
+		for card: BattleParticipantCard in _cards:
+			placement.append([card, _participants, false])
+			card.custom_minimum_size = Vector2(each, height)
+	else:
+		_participants.visible = false
+		_sides.visible = true
+		var side_room: float = floorf((room - SIDE_GAP) / 2.0)
+		var big_count: int = clampi(int(floorf((side_room + SIDE_CARD_GAP) / (CARD_MIN + SIDE_CARD_GAP))), 1, SIDE_BIG)
+		var chip_count: int = maxi(1, int(floorf((side_room + SIDE_CARD_GAP) / (BattleParticipantCard.CHIP_SIZE.x + SIDE_CARD_GAP))))
+		var each: float = floorf(clampf((side_room - SIDE_CARD_GAP * (big_count - 1)) / float(big_count), CARD_MIN, CARD_MAX))
+		for side: int in 2:
+			var members: Array[BattleParticipantCard] = _side_cards(side)
+			var big: Array[BattleParticipantCard] = []
+			for card: BattleParticipantCard in _big_first(members):
+				if big.size() < big_count:
+					big.append(card)
+			var chips: int = 0
+			for card: BattleParticipantCard in members:
+				if big.has(card):
+					placement.append([card, _side_rows[side][0], false])
+					card.custom_minimum_size = Vector2(each, height)
+				elif chips < chip_count:
+					chips += 1
+					placement.append([card, _side_rows[side][1], true])
+					card.custom_minimum_size = BattleParticipantCard.CHIP_SIZE
+				else:
+					placement.append([card, null, true])
+	_place_cards(placement)
+
+
+## The cards of the player's side (0: the player and those beside them) or the enemies' (1),
+## in the cards' order.
+func _side_cards(side: int) -> Array[BattleParticipantCard]:
+	var members: Array[BattleParticipantCard] = []
+	for index: int in mini(_cards.size(), _shown_participants.size()):
+		var value: BattleParticipantProjection = _projection.participant(_shown_participants[index])
+		var hostile: bool = value != null and value.hostile_to_player
+		if (side == 1) == hostile:
+			members.append(_cards[index])
+	return members
+
+
+## `members` with the ones a big card goes to first: the current target, one held for 了结 /
+## 放过, the player; then the rest in order.
+func _big_first(members: Array[BattleParticipantCard]) -> Array[BattleParticipantCard]:
+	var first: Array[BattleParticipantCard] = []
+	var rest: Array[BattleParticipantCard] = []
+	for card: BattleParticipantCard in members:
+		var id: StringName = card.participant_id()
+		var value: BattleParticipantProjection = _projection.participant(id)
+		if id == _projection.current_target_id or id == _projection.player_id or (value != null and value.knockout != null):
+			first.append(card)
+		else:
+			rest.append(card)
+	first.append_array(rest)
+	return first
+
+
+## Each card into its row (null: no card shown) in `placement`'s order, as a chip or big; a
+## card that moves keeps the focus it had.
+func _place_cards(placement: Array) -> void:
+	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	var counts: Dictionary = {}
+	for entry: Array in placement:
+		var card: BattleParticipantCard = entry[0]
+		var row: Container = entry[1]
+		card.set_chip(entry[2])
+		if row == null:
+			card.visible = false
+			continue
+		card.visible = true
+		var at: int = counts.get(row, 0)
+		counts[row] = at + 1
+		if card.get_parent() != row:
+			var had_focus: bool = focused != null and card.is_ancestor_of(focused)
+			if card.get_parent() != null:
+				card.get_parent().remove_child(card)
+			row.add_child(card)
+			if had_focus:
+				FocusNav.give(card.target_button)
+		if card.get_index() != at:
+			row.move_child(card, at)
 		card.size_flags_horizontal = Control.SIZE_FILL
 		card.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-		card.custom_minimum_size.x = each
 
 
 ## The player's card first, then those on the player's side (the soldier they called),
@@ -778,7 +985,8 @@ func _present_participants() -> void:
 	if ids != _shown_participants:
 		_shown_participants = ids
 		for card: BattleParticipantCard in _cards:
-			_participants.remove_child(card)
+			if card.get_parent() != null:
+				card.get_parent().remove_child(card)
 			card.queue_free()
 		_cards.clear()
 		for id: StringName in ids:
@@ -789,12 +997,16 @@ func _present_participants() -> void:
 			card.spare_requested.connect(_spare_downed)
 			_participants.add_child(card)
 			_cards.append(card)
-		_fit_cards()
 	# A blow's 气 shows once its line is told (DECISIONS「手感」).
 	var told: bool = _line_queue.is_empty()
 	for index: int in values.size():
 		var queued: CombatQueuedAction = _projection.queued_action()
 		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id, not told)
+	# Where each card stands (a new target or one held for the choice takes a big card).
+	var key: String = "%s|%s|%s" % [ids, _projection.current_target_id, _held_ids(values)]
+	if key != _card_layout_key:
+		_card_layout_key = key
+		_fit_cards()
 	# 战斗拍数 C: where the figures stand (close or apart), and home again between rounds.
 	var stances: Array = []
 	for value: BattleParticipantProjection in values:
@@ -808,9 +1020,56 @@ func _present_participants() -> void:
 		scene_show.round_over()
 
 
+## The ids of those held for 了结 / 放过 now.
+static func _held_ids(values: Array[BattleParticipantProjection]) -> Array[StringName]:
+	var held: Array[StringName] = []
+	for value: BattleParticipantProjection in values:
+		if value.knockout != null:
+			held.append(value.participant_id)
+	return held
+
+
+## 战斗演出 A: the strip over its slot under the head, as wide as the slot and as tall as its
+## lines; open, it reaches down over the cards. Followed each frame while the panel shows and
+## set only when it moved (a signal from the slot's rect fed a layout loop while sessions were
+## built off screen).
+func _place_strip() -> void:
+	if _strip == null or _strip_slot == null or not _strip_slot.is_inside_tree():
+		return
+	var slot: Rect2 = _strip_slot.get_global_rect()
+	var wanted := Rect2(slot.position - get_global_rect().position, Vector2(slot.size.x, _strip.get_combined_minimum_size().y))
+	if not _strip.get_rect().is_equal_approx(wanted):
+		_strip.position = wanted.position
+		_strip.size = wanted.size
+
+
+## Whether the strip shows its three lines (else the newest alone).
+func strip_open() -> bool:
+	return _strip_open
+
+
+func _set_strip_open(open: bool) -> void:
+	_strip_open = open
+	_strip_left = STRIP_OPEN_SECONDS if open else 0.0
+	_present_recent(_told)
+
+
+## A click on the strip: a folded line opens the log (战斗拍数 B); otherwise the strip opens
+## to three lines, or closes.
+func _strip_input(event: InputEvent) -> void:
+	var click := event as InputEventMouseButton
+	if click == null or not click.pressed or click.button_index != MOUSE_BUTTON_LEFT:
+		return
+	_set_strip_open(not _strip_open)
+	accept_event()
+
+
 func _present_recent(lines: Array[BattleNarrationLine]) -> void:
+	# Closed, the strip shows the newest line alone (the rows keep their lines).
+	var newest: int = mini(lines.size(), _recent.get_child_count()) - 1
 	for index: int in _recent.get_child_count():
-		var row: Node = _recent.get_child(index)
+		var row: Control = _recent.get_child(index)
+		row.visible = _strip_open or index == maxi(newest, 0)
 		var line: BattleNarrationLine = lines[index] if index < lines.size() else null
 		var text: RichTextLabel = row.get_node("Text")
 		if line == null:
@@ -855,18 +1114,30 @@ func _recent_input(event: InputEvent, index: int) -> void:
 		return
 	if index < _told.size() and _told[index].is_folded:
 		_open_log()
+	else:
+		_set_strip_open(not _strip_open)
 
 
-func _mode_name(mode: int) -> String:
-	match mode:
-		CombatEncounterMode.Value.SPAR:
-			return tr("切磋")
-		CombatEncounterMode.Value.LESSON:
-			# TRANSLATORS: the battle's name while a guide's three harmless rounds run.
-			return tr("拆招")
-		CombatEncounterMode.Value.LETHAL:
-			return tr("厮杀")
-	return tr("战斗")
+## 战斗演出 A (DECISIONS「战斗演出 A」): the head and the shade in `mode`'s look (a 切磋 that
+## turns into a 死斗 changes with it).
+func _show_mode(mode: int) -> void:
+	if mode == _shown_mode and _projection.completion_outcome < 0:
+		return
+	_shown_mode = mode
+	var look: BattleModeLook = BattleModeLook.of(mode)
+	_title.text = tr(look.title)
+	_title.add_theme_font_size_override("font_size", SHORT_TITLE_SIZE if _compact else TITLE_SIZE)
+	_title.add_theme_color_override("font_color", look.title_color)
+	_title.add_theme_constant_override("outline_size", 6 if look.outlined else 0)
+	_rule.color = look.accent
+	_motto.text = tr(look.motto)
+	_motto.visible = not look.motto.is_empty() and not _compact
+	_shade.color = look.scrim
+
+
+## The look the head shows now (tests, kits): the mode it was made for.
+func shown_mode() -> int:
+	return _shown_mode
 
 
 ## The battle's keys and pad (owner, gamepad support): LB / RB (Q / E) step the target,

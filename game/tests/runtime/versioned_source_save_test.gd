@@ -107,8 +107,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			for id: StringName in candidate.inventory_state().registered_item_ids():
 				_check(candidate.item_instance_index().resolve(id) != source.item_instance_index().resolve(id), "same item ID, fresh object")
 			candidate.free()
-			# A frame between whole worlds: the freed one's deferred calls drain, as in play (dozens of
-			# worlds built in one frame overflowed the engine's message queue).
+			# A frame between whole sessions: each one built and freed in a row leaves its
+			# deferred layout calls queued, and the run of Snow streets filled the engine's
+			# 32 MB call queue (战斗演出 A's few more battle-panel controls tipped it over).
 			await tree.process_frame
 			continue
 		resaved_maps[locations[index].map_id] = true

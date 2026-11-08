@@ -22,6 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _beats_panel(tree)
 	_stamps_and_style_word(tree)
 	_folded_beats()
+	await _mode_looks_and_one_size(tree)
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -429,6 +430,55 @@ func _stamps_and_style_word(tree: SceneTree) -> void:
 
 ## One participant with 气 current/effective/maximum, 精 and 神 50, 内力 40/60, mana `mana`,
 ## busy `busy` beats, CombatSliceLifeStatus `life`, enforce's `factor`, held for `knockout`.
+## 战斗演出 A (DECISIONS「战斗演出 A」): the mode's word, line and shade; every card one
+## height — the player's 精 · 神 and 内力 rows are an enemy's 预判 and 起手 — a chip shows the
+## name and the bar only, and 了结 / 放过 lie over the lower rows without growing the card.
+func _mode_looks_and_one_size(tree: SceneTree) -> void:
+	var spar: BattleModeLook = BattleModeLook.of(CombatEncounterMode.Value.SPAR)
+	var lethal: BattleModeLook = BattleModeLook.of(CombatEncounterMode.Value.LETHAL)
+	var lesson: BattleModeLook = BattleModeLook.of(CombatEncounterMode.Value.LESSON)
+	check(spar.title == "切磋" and spar.motto == "点到为止" and spar.scrim == UiPalette.SCRIM_SPAR and spar.accent == UiPalette.PATINA and not spar.outlined, "切磋: 点到为止, the light shade, patina")
+	check(lethal.title == "死斗" and lethal.motto == "生死各安天命" and lethal.scrim == UiPalette.SCRIM_LETHAL and lethal.accent == UiPalette.LACQUER and lethal.outlined, "死斗: 生死各安天命, the blood-dark shade, lacquer")
+	check(lesson.title == "拆招" and lesson.motto == "三合为限" and lesson.scrim == UiPalette.SCRIM_SPAR and lesson.accent == UiPalette.GOLD, "拆招: 三合为限, gold")
+	check(BattleModeLook.of(CombatEncounterMode.Value.SCRIPTED).title == "交手" and BattleModeLook.of(CombatEncounterMode.Value.SCRIPTED).motto.is_empty(), "a story fight: 交手, no line")
+	check(UiPalette.SCRIM_SPAR.a < UiPalette.SCRIM_LETHAL.a, "the 切磋 shade is the lighter")
+	var row := HBoxContainer.new()
+	tree.root.add_child(row)
+	var me := BattleParticipantCard.new()
+	var dog := BattleParticipantCard.new()
+	var held := BattleParticipantCard.new()
+	for card: BattleParticipantCard in [me, dog, held]:
+		row.add_child(card)
+		card.custom_minimum_size = Vector2(300, 150)
+		card.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	me.present(_one(&"p", "雪工", false, true, false, 83, 84, 100, 0, 0, 0, 3), &"p", &"n")
+	var enemy: BattleParticipantProjection = _one(&"n", "野狗", true, true, true, 40, 70, 100)
+	enemy.next_move_tag = CombatMoveTags.HEAVY
+	dog.present(enemy, &"p", &"n")
+	held.present(_one(&"k", "工匠", true, false, false, 0, 50, 100, 0, 0, CombatSliceLifeStatus.Value.UNCONSCIOUS, 0, BattleKnockoutProjection.new(3, false, false)), &"p", &"n")
+	await tree.process_frame
+	await tree.process_frame
+	check(is_equal_approx(me.size.y, dog.size.y) and is_equal_approx(dog.size.y, held.size.y), "the player's, an enemy's and a held card are one height: %s %s %s" % [me.size.y, dog.size.y, held.size.y])
+	check(dog._forecast.visible and dog._forecast.text == "深浅未明" and not dog._secondary.visible and dog._intent.visible, "an enemy's 预判 row: nothing foreseen, 深浅未明; its 起手 row")
+	check(me._secondary.visible and me._powers.visible and not me._forecast.visible and not me._intent.visible, "the player's: 精 · 神 and 内力 in those rows")
+	check(held.choice_row.visible and is_equal_approx(held._status.modulate.a, BattleParticipantCard.CHOICE_DIM) and is_equal_approx(held._title.modulate.a, 1.0), "了结 / 放过 over the lower rows, which dim; the name stays")
+	var helper := BattleParticipantCard.new()
+	row.add_child(helper)
+	helper.present(_one(&"h", "天将", false, true, false, 90, 90, 100), &"p", &"n")
+	check(helper._secondary.visible and helper._powers.visible and helper._title.text == "天将 · 参战", "a helper's card as the player's: 精 · 神 and 内力")
+	dog.set_chip(true)
+	dog.custom_minimum_size = BattleParticipantCard.CHIP_SIZE
+	await tree.process_frame
+	await tree.process_frame
+	check(dog.is_chip() and dog._title.visible and dog._vitality.visible and not dog._primary.visible and not dog._forecast.visible and not dog._intent.visible and not dog._status.visible and not dog.stamps.visible, "a chip: the name and the bar only")
+	check(dog.size.y <= BattleParticipantCard.CHIP_SIZE.y + 0.5, "a chip keeps its size: %s" % dog.size)
+	dog.present(enemy, &"p", &"n")
+	check(not dog._intent.visible, "a chip stays a chip when presented again")
+	dog.set_chip(false)
+	check(dog._intent.visible and dog._forecast.visible, "big again: the rows back")
+	row.free()
+
+
 static func _one(
 	id: StringName, name: String, hostile: bool, available: bool, targetable: bool, kee: int, eff_kee: int, max_kee: int,
 	mana: int = 0, busy: int = 0, life: int = 0, factor: int = 0, knockout: BattleKnockoutProjection = null,
