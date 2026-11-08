@@ -1,0 +1,59 @@
+{
+	"_comment": "战斗演出 B (DECISIONS「战斗演出 B」): the stage a fight is fought on — the stepped base of bricks laid under the fighters, its look by mode, and the camera's opening move. Presentation only: nothing here touches a rule, a position or a saved value. Timings are pacing.json's feel (arena_*, opening_*).",
+	"arena": {
+		"_comment": "brick: a brick's side in voxel units (a 16 px cell of the 2D map); tiers: how many steps (small rooms: small_tiers); tier_height: each step's thickness; margin: bricks of top beyond the fighters each way; max_cells: the top at most this many bricks across and deep (beyond it, centred on the player); jitter: the share of each step's edge bricks dropped or added (the base reads laid by hand); lift_seconds: the fighters step up onto the top.",
+		"brick": 0.5,
+		"gap": 0.03,
+		"tiers": 3,
+		"small_tiers": 2,
+		"small_cells": 64,
+		"tier_height": 0.1,
+		"margin": 2,
+		"max_cells": [28, 20],
+		"jitter": 0.18,
+		"height_jitter": 0.02,
+		"drop_height": 0.35
+	},
+	"looks": {
+		"_comment": "By the fight's mode (spar, lethal, lesson; a story fight takes lethal). tiers: bottom to top, each a few colours the bricks pick from; rim: the top step's edge; corners: what stands at the base's four corners (flag / brazier / none); rubble: loose stones scattered round the foot; sounds: a row laid, the stage done.",
+		"spar": {
+			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
+			"rim": "4f8f78",
+			"corners": "flag",
+			"flag": "4f8f78",
+			"flag_edge": "e9b84c",
+			"pole": "5a3820",
+			"rubble": 0,
+			"row_sound": "brick_wood",
+			"done_sounds": [["gong", 1.0, 0.0], ["clapper", 1.5, -4.0], ["clapper", 1.5, -6.0]]
+		},
+		"lesson": {
+			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
+			"rim": "e9b84c",
+			"corners": "none",
+			"rubble": 0,
+			"row_sound": "brick_wood",
+			"done_sounds": [["clapper", 1.0, 0.0]]
+		},
+		"lethal": {
+			"tiers": [["3a1512", "33120f", "411916"], ["4a1712", "421410", "531b15"], ["5c2019", "521c16", "6b1c12"]],
+			"rim": "a3301f",
+			"corners": "brazier",
+			"bowl": "2b2e2f",
+			"flame": "ff8a2a",
+			"flame_core": "ffd27a",
+			"rubble": 26,
+			"rubble_colours": ["4a1712", "6b1c12", "2a0b08", "5b605f"],
+			"row_sound": "brick_stone",
+			"done_sounds": [["drum", 0.7, 2.0], ["scrape", 1.0, -6.0]]
+		}
+	},
+	"camera": {
+		"_comment": "The opening move: the view's height over the fighters (the pitch: 41° is the map's own, atan(height / 30)); small rooms (fewer free cells than small_cells) pitch less; zoom: the push-in at most, for a duel (1 the map's; smaller is nearer), crowd_zoom the farthest it stays back to frame a crowd; band: the share of the screen's height the fighters stand in, under the cards and over the panel (the controller passes the real band when it has laid out).",
+		"pitch_degrees": 26.0,
+		"small_pitch_degrees": 33.0,
+		"zoom": 0.4,
+		"crowd_zoom": 0.85,
+		"final_push": 0.05
+	}
+}

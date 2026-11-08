@@ -12,14 +12,19 @@ enum Speed { SLOW, NORMAL, FAST }
 ## 击倒后 (DECISIONS「了结 / 放过」): ASK holds the player's side's blow on one they were
 ## killing who falls and lets the player choose; FINISH is ES2 (the next blow kills).
 enum AfterKnockout { ASK, FINISH }
+## 战斗开场动画 (DECISIONS「战斗演出 B」): FULL opens the first fights of each run of the game in
+## full and the rest short; SHORT always short; OFF lays the stage at once.
+enum Opening { FULL, SHORT, OFF }
 
 const STORAGE: Dictionary[int, String] = {Speed.SLOW: "slow", Speed.NORMAL: "normal", Speed.FAST: "fast"}
 const KNOCKOUT_STORAGE: Dictionary[int, String] = {AfterKnockout.ASK: "ask", AfterKnockout.FINISH: "finish"}
+const OPENING_STORAGE: Dictionary[int, String] = {Opening.FULL: "full", Opening.SHORT: "short", Opening.OFF: "off"}
 
 static var speed: int = Speed.NORMAL
 ## The fighters' cards flash red when they lose 气.
 static var hit_flash: bool = true
 static var after_knockout: int = AfterKnockout.ASK
+static var opening: int = Opening.FULL
 ## 战斗决策层 1B (DECISIONS「战斗决策」): under pacing player_turns the fight waits for the
 ## player's order each round unless this is off (the panel's 自动 button); the suites run
 ## auto (run_suite.gd). Not saved.
@@ -71,3 +76,15 @@ static func knockout_storage_value(choice: int) -> String:
 
 static func is_valid_knockout(choice: int) -> bool:
 	return KNOCKOUT_STORAGE.has(choice)
+
+
+static func opening_from_storage(text: String) -> int:
+	return OPENING_STORAGE.find_key(text) if OPENING_STORAGE.values().has(text) else -1
+
+
+static func opening_storage_value(choice: int) -> String:
+	return OPENING_STORAGE.get(choice, OPENING_STORAGE[Opening.FULL])
+
+
+static func is_valid_opening(choice: int) -> bool:
+	return OPENING_STORAGE.has(choice)

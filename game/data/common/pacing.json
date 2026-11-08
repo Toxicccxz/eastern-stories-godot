@@ -142,7 +142,15 @@
 			"afterimage_ms": 180,
 			"scene_return_ms": 320,
 			"beat_pause_ms": 140,
-			"battle_zoom_ms": 500
+			"battle_zoom_ms": 500,
+			"arena_brick_ms": 40,
+			"arena_row_ms": 22,
+			"arena_build_max_ms": 700,
+			"arena_take_down_ms": 300,
+			"arena_restyle_ms": 600,
+			"opening_camera_ms": 700,
+			"opening_slide_ms": 500,
+			"opening_full_fights": 3
 		}
 	}
 }

@@ -61,8 +61,9 @@ This inventory is not a guarantee about future content.
 
 ## Audio (project-made)
 
-- `game/assets/audio/battle/` — seven short sounds for the fight (DECISIONS「战斗拍数 C」):
-  `clapper.wav`, `whoosh.wav`, `thud.wav`, `crack.wav`, `clang.wav`, `drum.wav`, `seal.wav`.
+- `game/assets/audio/battle/` — eleven short sounds for the fight (DECISIONS「战斗拍数 C」「战斗演出 B」):
+  `clapper.wav`, `whoosh.wav`, `thud.wav`, `crack.wav`, `clang.wav`, `drum.wav`, `seal.wav`, and the
+  stage's `brick_wood.wav`, `brick_stone.wav`, `gong.wav`, `scrape.wav`.
 - Origin: synthesized by [tools/audio/synth_battle_sounds.py](../../tools/audio/synth_battle_sounds.py)
   from sines and filtered noise with the Python standard library alone, a fixed seed per file; no
   recording, sample pack or outside material went into them. Rerunning the script reproduces them

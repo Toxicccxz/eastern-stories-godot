@@ -17,6 +17,7 @@ const AUTOSAVE_NOTICE_KEY: String = "autosave_notice"
 const RESOLUTION_KEY: String = "resolution"
 const SCREEN_KEY: String = "screen"
 const MASTER_VOLUME_KEY: String = "master_volume"
+const BATTLE_OPENING_KEY: String = "battle_opening"
 ## Version 1 had no language; it is read as following the system language.
 const VERSION_WITHOUT_LANGUAGE: int = 1
 ## Version 2 had no battle settings; it is read as 标准 with the flash on.
@@ -36,6 +37,8 @@ const VERSION_WITHOUT_AUTOSAVE_NOTICE: int = 7
 const VERSION_WITHOUT_DISPLAY: int = 8
 ## Version 9 had no 总音量; it reads as the default volume.
 const VERSION_WITHOUT_VOLUME: int = 9
+## Version 10 had no 战斗开场动画; it reads as 全程.
+const VERSION_WITHOUT_OPENING: int = 10
 
 var _files: SaveFileOperations
 
@@ -64,7 +67,7 @@ func load() -> ApplicationSettingsResult:
 	if typeof(version_value) != TYPE_INT:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	var version: int = int(version_value)
-	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE, VERSION_WITHOUT_DISPLAY, VERSION_WITHOUT_VOLUME]:
+	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE, VERSION_WITHOUT_DISPLAY, VERSION_WITHOUT_VOLUME, VERSION_WITHOUT_OPENING]:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION)
 	if not _has_exact_structure(config, version):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -116,9 +119,13 @@ func load() -> ApplicationSettingsResult:
 	var volume_value: Variant = config.get_value(SECTION, MASTER_VOLUME_KEY, ApplicationSettingsSnapshot.DEFAULT_MASTER_VOLUME)
 	if typeof(volume_value) != TYPE_INT or int(volume_value) < 0 or int(volume_value) > 100:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var opening_value: Variant = config.get_value(SECTION, BATTLE_OPENING_KEY, BattlePace.opening_storage_value(BattlePace.Opening.FULL))
+	var opening: int = BattlePace.opening_from_storage(String(opening_value)) if typeof(opening_value) == TYPE_STRING else -1
+	if not BattlePace.is_valid_opening(opening):
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	return ApplicationSettingsResult.success(
 		ApplicationSettingsSnapshot.new(
-			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value), resolution, int(screen_value), int(volume_value)
+			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value), resolution, int(screen_value), int(volume_value), opening
 		)
 	)
 
@@ -146,6 +153,7 @@ func write(snapshot: ApplicationSettingsSnapshot) -> ApplicationSettingsResult:
 	config.set_value(SECTION, RESOLUTION_KEY, ApplicationWindowSize.storage_value(snapshot.resolution()))
 	config.set_value(SECTION, SCREEN_KEY, snapshot.screen())
 	config.set_value(SECTION, MASTER_VOLUME_KEY, snapshot.master_volume())
+	config.set_value(SECTION, BATTLE_OPENING_KEY, BattlePace.opening_storage_value(snapshot.battle_opening()))
 	var error: int = _files.write_bytes(SETTINGS_PATH, config.encode_to_text().to_utf8_buffer())
 	if error != OK:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.WRITE_FAILURE)
@@ -174,8 +182,10 @@ func _has_exact_structure(config: ConfigFile, version: int) -> bool:
 		expected.append(AUTOSAVE_NOTICE_KEY)
 	if version >= VERSION_WITHOUT_VOLUME:
 		expected.append_array([RESOLUTION_KEY, SCREEN_KEY])
-	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+	if version >= VERSION_WITHOUT_OPENING:
 		expected.append(MASTER_VOLUME_KEY)
+	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		expected.append(BATTLE_OPENING_KEY)
 	if keys.size() != expected.size():
 		return false
 	for key: String in expected:

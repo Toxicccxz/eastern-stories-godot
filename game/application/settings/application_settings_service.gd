@@ -221,6 +221,7 @@ static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 	BattlePace.speed = settings.battle_speed()
 	BattlePace.hit_flash = settings.hit_flash()
 	BattlePace.after_knockout = settings.after_knockout()
+	BattlePace.opening = settings.battle_opening()
 	ObjectiveHints.shown = settings.objective_hints()
 	DayNightPreference.mode = settings.day_night()
 	AutosaveNotice.shown = settings.autosave_notice()
@@ -266,6 +267,28 @@ static func apply_master_volume(percent: int) -> void:
 	var share: float = clampf(float(percent) / 100.0, 0.0, 1.0)
 	AudioServer.set_bus_mute(bus, share <= 0.0)
 	AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(share, 0.001)))
+
+
+## 战斗开场动画 (DECISIONS「战斗演出 B」) at once, kept with the other settings.
+func apply_and_persist_battle_opening(choice: int) -> ApplicationSettingsServiceResult:
+	if not BattlePace.is_valid_opening(choice):
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
+	_committed = _committed.with_battle_opening(choice)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
 
 
 ## The 总音量 at once, kept with the other settings.

@@ -22,9 +22,16 @@ const CRACK: StringName = &"crack"
 const CLANG: StringName = &"clang"
 const DRUM: StringName = &"drum"
 const SEAL: StringName = &"seal"
+## 战斗演出 B (DECISIONS「战斗演出 B」): the stage's — a row of 切磋 boards or 死斗 stones set down,
+## the 切磋's gong, the 死斗's scrape of steel (BattleArena plays them; battle_stage.json names them).
+const BRICK_WOOD: StringName = &"brick_wood"
+const BRICK_STONE: StringName = &"brick_stone"
+const GONG: StringName = &"gong"
+const SCRAPE: StringName = &"scrape"
 const FILES: Dictionary[StringName, String] = {
 	CLAPPER: "clapper.wav", WHOOSH: "whoosh.wav", THUD: "thud.wav", CRACK: "crack.wav",
 	CLANG: "clang.wav", DRUM: "drum.wav", SEAL: "seal.wav",
+	BRICK_WOOD: "brick_wood.wav", BRICK_STONE: "brick_stone.wav", GONG: "gong.wav", SCRAPE: "scrape.wav",
 }
 ## How many sounds may overlap.
 const VOICES: int = 8

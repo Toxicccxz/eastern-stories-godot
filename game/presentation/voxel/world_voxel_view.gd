@@ -12,6 +12,8 @@ const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
 const VIEW_SIDE_ANGLE: float = PI/4.0
 const VIEW_RADIUS: float = 30.0
+## The camera's height over what it looks at (with VIEW_RADIUS, the map's own pitch, about 41°).
+const VIEW_HEIGHT: float = 26.0
 ## The exits' amber: the arrow over each way out and the frame round it on the ground.
 const EXIT_GLOW: String = "f2a43a:glow"
 @export_file("*.json") var layout_path: String
@@ -36,6 +38,16 @@ var labels: Dictionary[StringName, Label3D] = {}
 var _camera_base_size: float = 24.0
 var _zoom: float = 1.0
 var _zoom_tween: Tween
+## 战斗演出 B (DECISIONS「战斗演出 B」): the view staged for a show (a fight's opening) — the camera
+## eased onto `_stage_target` instead of the player (_stage_blend 0 → 1), lower over it
+## (_view_height under VIEW_HEIGHT: a flatter pitch), the exit arrows and the quest marker away.
+## The picture only: the 2D map, the bodies and every rule stay as they are; unstage() gives the
+## camera back. While staged the player stands (a fight holds them).
+var staged: bool = false
+var _stage_target: Vector3 = Vector3.ZERO
+var _stage_blend: float = 0.0
+var _view_height: float = VIEW_HEIGHT
+var _stage_tween: Tween
 ## The red marks over the heads of NPCs whose 2D body shows its AlertMark (进门一起上).
 var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
@@ -232,6 +244,11 @@ func release_world() -> void:
 	if _zoom_tween != null and _zoom_tween.is_valid():
 		_zoom_tween.kill()
 	_zoom = 1.0
+	if _stage_tween != null and _stage_tween.is_valid():
+		_stage_tween.kill()
+	staged = false
+	_stage_blend = 0.0
+	_view_height = VIEW_HEIGHT
 	remove_child(world)
 	world.queue_free()
 	world = null
@@ -350,7 +367,7 @@ func _advance_view_rotation(delta: float) -> void:
 	_turn_elapsed = minf(_turn_elapsed+delta,VIEW_ROTATION_SECONDS)
 	var progress: float = smoothstep(0.0,1.0,_turn_elapsed/VIEW_ROTATION_SECONDS)
 	_view_yaw = lerpf(_turn_from,-VIEW_SIDE_ANGLE if left_view else VIEW_SIDE_ANGLE,progress)
-	_offset = Vector3(sin(_view_yaw)*VIEW_RADIUS,26,cos(_view_yaw)*VIEW_RADIUS)
+	_offset = Vector3(sin(_view_yaw)*VIEW_RADIUS,_view_height,cos(_view_yaw)*VIEW_RADIUS)
 	# Swap the cutaway when the camera crosses the centre, not when the button is hit.
 	var near_left: bool = _view_yaw<0.0
 	if near_left!=_cutaway_left:
@@ -374,8 +391,10 @@ func _follow(delta: float) -> void:
 	else:
 		_target = _target.lerp(wanted,1.0-exp(-delta*8.0))
 	_last_player = at
-	camera.position = _target+_offset
-	camera.look_at(_target,Vector3.UP)
+	_offset.y = _view_height
+	var looked: Vector3 = _target.lerp(_stage_target,_stage_blend) if _stage_blend > 0.0 else _target
+	camera.position = looked+_offset
+	camera.look_at(looked,Vector3.UP)
 	_update_movement_basis()
 	# Reproject on resize; orientation stays fixed between explicit side switches.
 	var zero: Vector2 = camera.unproject_position(Vector3.ZERO)
@@ -393,7 +412,7 @@ func _follow(delta: float) -> void:
 ## 战斗拍数 C: the camera pushes in to `factor` of the layout's size (below 1: nearer) over
 ## `seconds` (0: at once); 1.0 brings it back. The ground's projection follows in _follow().
 func set_zoom(factor: float, seconds: float = 0.0) -> void:
-	_zoom = clampf(factor,0.5,1.0)
+	_zoom = clampf(factor,0.3,1.0)
 	if _zoom_tween != null and _zoom_tween.is_valid():
 		_zoom_tween.kill()
 	if camera == null:
@@ -407,6 +426,49 @@ func set_zoom(factor: float, seconds: float = 0.0) -> void:
 ## The camera's push-in now (1.0: the layout's size).
 func zoom() -> float:
 	return _zoom
+
+## 战斗演出 B: the camera eases onto `target` (a point in the world), `height` over it (the pitch:
+## atan(height / VIEW_RADIUS)) and pushed in to `zoom_factor`, over `seconds` (0: at once).
+func stage(target: Vector3, height: float, zoom_factor: float, seconds: float) -> void:
+	staged = true
+	_stage_target = target
+	_ease_stage(1.0, height, seconds)
+	set_zoom(zoom_factor, seconds)
+
+## The camera back on the player at the map's own pitch and size over `seconds`.
+func unstage(seconds: float) -> void:
+	staged = false
+	if quest_marker != null:
+		quest_marker.visible = true
+	_ease_stage(0.0, VIEW_HEIGHT, seconds)
+	set_zoom(1.0, seconds)
+
+func _ease_stage(blend: float, height: float, seconds: float) -> void:
+	if _stage_tween != null and _stage_tween.is_valid():
+		_stage_tween.kill()
+	if seconds <= 0.0:
+		_stage_blend = blend
+		_view_height = height
+		return
+	_stage_tween = create_tween().set_parallel(true)
+	_stage_tween.tween_property(self,"_stage_blend",blend,seconds).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	_stage_tween.tween_property(self,"_view_height",height,seconds).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+
+## The camera's height over what it looks at now (VIEW_HEIGHT: the map's own pitch).
+func view_height() -> float:
+	return _view_height
+
+## The camera's offset from what it looks at (its yaw is the chosen side's), and the size its
+## layout gives it before any push-in.
+func camera_offset() -> Vector3:
+	return _offset
+
+func base_size() -> float:
+	return _camera_base_size
+
+## Whether the stage's move is done (the camera on its target at its height).
+func stage_settled() -> bool:
+	return _stage_tween == null or not _stage_tween.is_valid() or not _stage_tween.is_running()
 
 func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	var label := Label3D.new()
@@ -840,7 +902,7 @@ func _bob_arrows(delta: float) -> void:
 				near = false
 		else:
 			near = (arrow.get_parent() as Node3D).visible
-		arrow.visible = near
+		arrow.visible = near and not staged
 		arrow.rotation.y = atan2(direction.x,direction.y)
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
@@ -858,6 +920,8 @@ func _sync_quest_marker() -> void:
 		_quest_key = key
 		_place_quest_marker(goal, state)
 	if quest_marker != null:
+		if staged:
+			quest_marker.visible = false
 		quest_marker.position.y = float(quest_marker.get_meta("height", 0.0)) + sin(_arrow_clock * 3.2) * 0.25
 
 

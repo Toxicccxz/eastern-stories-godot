@@ -158,6 +158,60 @@ def seal(rng: random.Random) -> list[float]:
     return render(0.15, sample)
 
 
+def brick_wood(rng: random.Random) -> list[float]:
+    """战斗演出 B, a row of 切磋 boards set down: a short hollow wooden knock."""
+    band = BandPass(600.0, 3200.0)
+
+    def sample(t: float) -> float:
+        knock = math.sin(2 * math.pi * 820.0 * t) * _env(t, 0.001, 0.018) * 0.6
+        hollow = math.sin(2 * math.pi * 310.0 * t) * _env(t, 0.002, 0.03) * 0.5
+        tap = band.step(_noise(rng)) * _env(t, 0.0005, 0.006) * 1.2
+        return knock + hollow + tap
+
+    return render(0.07, sample)
+
+
+def brick_stone(rng: random.Random) -> list[float]:
+    """战斗演出 B, a row of 死斗 stones set down: a dull grinding knock."""
+    low = LowPass(1400.0)
+
+    def sample(t: float) -> float:
+        body = math.sin(2 * math.pi * (140.0 + 60.0 * math.exp(-t / 0.01)) * t) * _env(t, 0.001, 0.025)
+        grit = low.step(_noise(rng)) * _env(t, 0.001, 0.02) * 1.1
+        return body * 0.8 + grit
+
+    return render(0.08, sample)
+
+
+def gong(rng: random.Random) -> list[float]:
+    """战斗演出 B, the 切磋 stage done: a bright gong — inharmonic partials, a slow shimmer."""
+    partials = [(220.0, 1.0, 0.7), (331.0, 0.7, 0.55), (471.0, 0.5, 0.4), (612.0, 0.3, 0.3), (905.0, 0.18, 0.2)]
+    band = BandPass(400.0, 3000.0)
+
+    def sample(t: float) -> float:
+        shimmer = 1.0 + 0.04 * math.sin(2 * math.pi * 5.5 * t)
+        tone = sum(math.sin(2 * math.pi * f * shimmer * t) * a * _env(t, 0.004, d) for f, a, d in partials) * 0.45
+        strike = band.step(_noise(rng)) * _env(t, 0.001, 0.01) * 0.8
+        return tone + strike
+
+    return render(0.9, sample)
+
+
+def scrape(rng: random.Random) -> list[float]:
+    """战斗演出 B, the 死斗 ring done: steel drawn over stone — band noise sweeping down."""
+    band = BandPass(800.0, 3000.0)
+
+    def sample(t: float) -> float:
+        sweep = 3000.0 - 2200.0 * min(1.0, t / 0.45)
+        band.hi.set(sweep)
+        band.lo.set(max(300.0, sweep * 0.35))
+        rasp = 1.0 + 0.5 * math.sin(2 * math.pi * 38.0 * t)
+        shape = math.sin(math.pi * min(1.0, t / 0.5)) ** 0.8
+        return band.step(_noise(rng)) * shape * rasp * 1.5
+
+    return render(0.5, sample)
+
+
 RECIPES = {
     "clapper": clapper,
     "whoosh": whoosh,
@@ -166,6 +220,10 @@ RECIPES = {
     "clang": clang,
     "drum": drum,
     "seal": seal,
+    "brick_wood": brick_wood,
+    "brick_stone": brick_stone,
+    "gong": gong,
+    "scrape": scrape,
 }
 
 

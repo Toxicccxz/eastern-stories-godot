@@ -53,9 +53,13 @@ const GHOST: Color = Color(0.78, 0.86, 0.95, 0.35)
 const DUST: Color = Color("b8a080")
 const SPARK: Color = Color("ffe9a0")
 const ARC: Color = Color(0.95, 0.9, 0.7, 0.8)
-## The camera: a little nearer as the fight begins, nearer on its last blow.
+## The camera: a little nearer as the fight begins, nearer on its last blow. 战斗演出 B: when
+## the fight's opening stages the camera (BattleStageOpening), the begin leaves it to that, and
+## the last blow pushes FINAL_PUSH nearer than wherever the opening left it (never farther out
+## than ZOOM_FINAL).
 const ZOOM_OPEN: float = 0.9
 const ZOOM_FINAL: float = 0.8
+const FINAL_PUSH: float = 0.05
 ## The templates, by tag (play_line() reports which played, for the suites).
 const TEMPLATE_QUICK: StringName = &"quick"
 const TEMPLATE_HEAVY: StringName = &"heavy"
@@ -70,6 +74,8 @@ var pace: float = 1.0
 var _rest: Dictionary[StringName, Vector3] = {}
 ## What each figure was knocked back by this round (cleared between rounds).
 var _knock: Dictionary[StringName, Vector3] = {}
+## 战斗演出 B: how far each figure stands raised (on the stage's top step).
+var _lift: Dictionary[StringName, float] = {}
 var _tweens: Dictionary[StringName, Tween] = {}
 var _wound_up: Dictionary[StringName, bool] = {}
 ## Figures to ease home once the show they are in ends (the round ended on their blow).
@@ -89,15 +95,17 @@ func _ready() -> void:
 	_dust_rng.seed = 7
 
 
-## A fight begins in `p_view`'s map (null: no scene to show it in): the camera a little nearer.
-func begin(p_view: WorldVoxelView) -> void:
+## A fight begins in `p_view`'s map (null: no scene to show it in): the camera a little nearer,
+## unless the fight's opening moves it (`camera_staged`).
+func begin(p_view: WorldVoxelView, camera_staged: bool = false) -> void:
 	end()
 	view = p_view
 	_earned_shown = false
 	_final_zoomed = false
 	zoom_moves = 0
 	played.clear()
-	_zoom(ZOOM_OPEN)
+	if not camera_staged:
+		_zoom(ZOOM_OPEN)
 
 
 ## The fight is over (or the panel left it): everything back, the camera back.
@@ -113,6 +121,7 @@ func end() -> void:
 			_unflash(model)
 	_rest.clear()
 	_knock.clear()
+	_lift.clear()
 	_wound_up.clear()
 	_go_home.clear()
 	for effect: Node3D in _effects:
@@ -123,7 +132,8 @@ func end() -> void:
 			effect.queue_free()
 	_effects.clear()
 	_effect_tweens.clear()
-	if view != null and is_instance_valid(view) and view.zoom() != 1.0:
+	# A staged camera is the opening's to give back (BattleStageOpening.close()).
+	if view != null and is_instance_valid(view) and view.zoom() != 1.0 and not view.staged:
 		_zoom(1.0)
 	view = null
 
@@ -216,7 +226,7 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 		_defend(line.target_id, you, direction, line, impact, stop)
 	if fatal and not _final_zoomed:
 		_final_zoomed = true
-		_zoom(ZOOM_FINAL)
+		_zoom(minf(ZOOM_FINAL, view.zoom() - FINAL_PUSH))
 
 
 ## The template a move's tag plays.
@@ -408,9 +418,27 @@ func _model(id: StringName) -> Node3D:
 
 
 ## Where `id` stands now: its rest (nearer its target when close) plus what it was knocked
-## back by this round.
+## back by this round, raised onto the stage when it stands on it.
 func _stand(id: StringName) -> Vector3:
-	return _rest.get(id, Vector3.ZERO) + _knock.get(id, Vector3.ZERO)
+	return _rest.get(id, Vector3.ZERO) + _knock.get(id, Vector3.ZERO) + Vector3.UP * _lift.get(id, 0.0)
+
+
+## 战斗演出 B: `id` steps up onto the stage (`height` over the ground; 0 down again) over
+## `seconds`.
+func set_lift(id: StringName, height: float, seconds: float) -> void:
+	_lift[id] = height
+	var model: Node3D = _model(id)
+	if model == null:
+		return
+	if _running(id):
+		_go_home[id] = true
+	else:
+		_ease_home(id, model, seconds)
+
+
+## How far `id` stands raised (tests).
+func lift_of(id: StringName) -> float:
+	return _lift.get(id, 0.0)
 
 
 ## The way from `me` to `you` along the ground; without `you`, the way `me` faces.

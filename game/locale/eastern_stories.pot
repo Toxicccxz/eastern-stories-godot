@@ -538,6 +538,10 @@ msgid "80%"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "战斗开场"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "应用"
 msgstr ""
 
@@ -8842,6 +8846,10 @@ msgid "昼夜设置已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "战斗开场已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "音量已生效，但未能保存。"
 msgstr ""
 
@@ -8947,6 +8955,22 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "全程"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "简短"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "关"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "进战斗时搭擂台、镜头拉近的那一段：全程（每次开游戏的头几场完整、之后简短）、一直简短，或者不放"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
