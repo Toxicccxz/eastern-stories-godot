@@ -661,7 +661,7 @@
     "native.npc.xiao_pichen_altar": {"same_as": "common.npc.fighter.master"},
     "native.npc.yulan_tianwu_altar": {"same_as": "common.npc.fighter.champion"},
     "native.npc.annie_altar": {"same_as": "latemoon.npc.room.annihi"},
-    "native.npc.lihong_finale": {"same_as": "native.npc.lihong_weak"},
+    "native.npc.lihong_finale": {"same_as": "native.npc.lihong"},
     "native.npc.elon_ice": {"same_as": "latemoon.npc.room.elon"},
     "native.npc.nan_weishui_ice": {"same_as": "native.npc.nan_weishui_guest"},
     "native.npc.xiao_pichen_ice": {"same_as": "common.npc.fighter.master"},

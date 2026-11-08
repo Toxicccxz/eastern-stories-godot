@@ -97,6 +97,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 	# A step's own `when` (DECISIONS「步骤条件」) is judged as it is reached: the facts once, their
 	# marks the player's own (what an earlier step marked counts).
 	var holds: Callable = Callable()
+	# A mark written here may change what the picture shows (DECISIONS「舞台道具」: the black flame over
+	# the 封坛 as 侮天鬼 takes shape): the map's staged props are judged again at the end; people wait.
+	var marked: bool = false
 	for step: ScriptedAct.Step in act.steps:
 		if moved_away:
 			break
@@ -199,9 +202,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				_player.temp_marks.erase(step.flag)
 			ScriptedAct.Kind.UNMARK:
 				state.marks.erase(step.flag)
+				marked = true
 			ScriptedAct.Kind.MARK:
 				state.marks[step.flag] = 1
 				_map.open_found_ways(step.flag)
+				marked = true
 			ScriptedAct.Kind.SUMMON:
 				_show(said, hears, npc, spoken)
 				if _map.summon(step.spawn_id).is_empty():
@@ -273,6 +278,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				if _map.session != null:
 					_map.session.room_states().clear_flag(room, step.flag)
 	_show(said, hears, npc, spoken)
+	if marked and not moved_away and _map.session != null:
+		WorldStoryPresence.stage_props(_map.session, _map)
 	var hud: SharedGameplayUI = _map.hud()
 	if hud != null and hud.inventory_is_open():
 		hud.show_inventory(_map.session.player_inventory_rows())

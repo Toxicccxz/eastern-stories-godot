@@ -107,6 +107,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			for id: StringName in candidate.inventory_state().registered_item_ids():
 				_check(candidate.item_instance_index().resolve(id) != source.item_instance_index().resolve(id), "same item ID, fresh object")
 			candidate.free()
+			# A frame between whole worlds: the freed one's deferred calls drain, as in play (dozens of
+			# worlds built in one frame overflowed the engine's message queue).
+			await tree.process_frame
 			continue
 		resaved_maps[locations[index].map_id] = true
 		var again: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(candidate, &"test", "2026-09-11T00:00:00Z")
@@ -116,9 +119,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 			var next: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(roundtrip.snapshot, tree.root)
 			_check(next.succeeded() and next.candidate.active_map().runtime_player_body().global_position == positions[index], "saved restored graph cold roundtrip exact")
 			if next.candidate != null: next.candidate.free()
+			await tree.process_frame
 		for id: StringName in candidate.inventory_state().registered_item_ids():
 			_check(candidate.item_instance_index().resolve(id) != source.item_instance_index().resolve(id), "same item ID, fresh object")
 		candidate.free()
+		await tree.process_frame
 	# Runtime Snow zones own their lower edge (half-open Rect2), including exact
 	# street joins. Continue must accept the same physical position/zone pair.
 	var boundary_ids: Array[StringName] = [&"snow.sroad1", &"snow.eroad2", &"snow.eroad3"]
@@ -135,10 +140,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var joined: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(_placed(snapshot, V.WorldLocationSnapshot.new(&"snow", &"snow.outdoor", id, id), point), tree.root)
 		_check(joined.succeeded() and joined.candidate.active_map().runtime_player_body().global_position == point, "Continue preserves exact runtime street join: " + String(id))
 		if joined.candidate != null: joined.candidate.free()
+		await tree.process_frame
 	for position: Vector2 in [Vector2(INF, 0), Vector2(999999, 0)]:
 		var bad: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(_placed(snapshot, locations[0], position), tree.root)
 		_check(not bad.succeeded(), "invalid position rejects")
 		if bad.candidate != null: bad.candidate.free()
+		await tree.process_frame
 	var corpse_fixture: RefCounted = load("res://tests/support/oldpine_world_save_fixture.gd").new()
 	var corpse_save: GameSaveSnapshot = corpse_fixture.with_fat_bandit_corpse(snapshot)
 	var corpse_restore: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(corpse_save, tree.root)

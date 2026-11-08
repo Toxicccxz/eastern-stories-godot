@@ -34929,7 +34929,13 @@ msgstr ""
 #. village.seal_altar.pool act.acts.steps.line
 #: data/village/world.json
 msgid ""
-"你从湖心冒出头来。湖上的黑冰没了，东边的天亮了。\n"
+"你从湖心冒出头来。湖上的黑冰没了。\n"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"东边的天亮了。\n"
 msgstr ""
 
 #. village.seal_altar.pool act.acts.steps.line
@@ -35024,6 +35030,13 @@ msgstr ""
 #. village.seal_altar.pull act.acts.choice
 #: data/village/world.json
 msgid "拔出来"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"事情已经了结了。\n"
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line
@@ -35232,6 +35245,7 @@ msgid ""
 msgstr ""
 
 #. village.seal_altar.face act.acts.steps.line
+#. village.seal_altar.nail act.acts.steps.line
 #: data/village/world.json
 msgid ""
 "坛心的冰里，那颗头闭着眼。\n"
@@ -35246,12 +35260,6 @@ msgstr ""
 #. village.seal_altar.nail act.acts.choice
 #: data/village/world.json
 msgid "钉下去"
-msgstr ""
-
-#. village.seal_altar.nail act.acts.steps.line
-#: data/village/world.json
-msgid ""
-"事情已经了结了。\n"
 msgstr ""
 
 #. village.seal_altar.nail act.acts.steps.line
@@ -51177,6 +51185,14 @@ msgstr ""
 #. native.npc.lihong_finale inquiry.我留下.rules.say
 #: data/native/npcs.json
 msgid "……你在说什么。"
+msgstr ""
+
+#. native.npc.lihong accept_object.say
+#. native.npc.elon_altar accept_object.say
+#. native.npc.nan_weishui_altar accept_object.say
+#. native.npc.xiao_pichen_altar accept_object.say
+#: data/native/npcs.json
+msgid "你已经留下了。"
 msgstr ""
 
 #. native.npc.lihong accept_object.say

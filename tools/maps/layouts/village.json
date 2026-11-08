@@ -663,7 +663,7 @@
           "village.lakebottom2.dragon.5": [300, 216],
           "village.lakebottom2.dragon.6": [150, 352],
           "village.lakebottom2.shang_jue.1": [330, 300],
-          "village.lakebottom2.shang_jue_fighting.1": [330, 300],
+          "village.lakebottom2.shang_jue_fighting.1": [330, 360],
           "village.lakebottom2.niling_finale.1": [380, 250],
           "village.lakebottom2.niling_finale.2": [380, 330],
           "village.lakebottom2.niling_finale.3": [250, 300],
@@ -917,7 +917,7 @@
           },
           {
             "name": "Xiao",
-            "at": [200, 120],
+            "at": [232, 64],
             "id": "village.seal_altar.bearer.2"
           },
           {
@@ -927,17 +927,17 @@
           },
           {
             "name": "KeeperElon",
-            "at": [-200, -96],
+            "at": [-232, -40],
             "id": "village.seal_altar.keeper_elon.1"
           },
           {
             "name": "KeeperNan",
-            "at": [-40, 180],
+            "at": [24, 200],
             "id": "village.seal_altar.keeper_nan.1"
           },
           {
             "name": "KeeperXiao",
-            "at": [200, 120],
+            "at": [120, 200],
             "id": "village.seal_altar.keeper_xiao.1"
           },
           {
@@ -947,17 +947,17 @@
           },
           {
             "name": "Demon2",
-            "at": [0, 140],
+            "at": [-48, 150],
             "id": "village.seal_altar.demon.2"
           },
           {
             "name": "Demon3",
-            "at": [0, 140],
+            "at": [48, 150],
             "id": "village.seal_altar.demon.3"
           },
           {
             "name": "Demon4",
-            "at": [0, 140],
+            "at": [0, 190],
             "id": "village.seal_altar.demon.4"
           },
           {

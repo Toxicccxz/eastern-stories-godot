@@ -178,7 +178,7 @@ script = ExtResource("marker")
 spawn_point_id = &"village.lakebottom2.shang_jue.1"
 
 [node name="Lakebottom2ShangJueFighting1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(330, 300)
+position = Vector2(330, 360)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakebottom2.shang_jue_fighting.1"
 

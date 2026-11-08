@@ -978,6 +978,12 @@
 			"accept_object": [
 				{
 					"item": "native:village/soul_impaler",
+					"giver_mark": "你留在了冰里",
+					"say": "你已经留下了。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
 					"giver_mark": "能灭它",
 					"say": "三器齐了。钉下去，用不着谁留下。",
 					"accept": false
@@ -2890,6 +2896,12 @@
 			"accept_object": [
 				{
 					"item": "native:village/soul_impaler",
+					"giver_mark": "你留在了冰里",
+					"say": "你已经留下了。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
 					"giver_mark": "能灭它",
 					"say": "三器齐了。钉下去，用不着谁留下。",
 					"accept": false
@@ -2992,6 +3004,12 @@
 				}
 			},
 			"accept_object": [
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "你留在了冰里",
+					"say": "你已经留下了。",
+					"accept": false
+				},
 				{
 					"item": "native:village/soul_impaler",
 					"giver_mark": "能灭它",
@@ -3098,6 +3116,12 @@
 				}
 			},
 			"accept_object": [
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "你留在了冰里",
+					"say": "你已经留下了。",
+					"accept": false
+				},
 				{
 					"item": "native:village/soul_impaler",
 					"giver_mark": "能灭它",

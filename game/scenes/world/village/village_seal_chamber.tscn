@@ -206,7 +206,7 @@ script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.bearer.1"
 
 [node name="Xiao" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(200, 120)
+position = Vector2(232, 64)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.bearer.2"
 
@@ -216,17 +216,17 @@ script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.lihong_finale.1"
 
 [node name="KeeperElon" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-200, -96)
+position = Vector2(-232, -40)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.keeper_elon.1"
 
 [node name="KeeperNan" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-40, 180)
+position = Vector2(24, 200)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.keeper_nan.1"
 
 [node name="KeeperXiao" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(200, 120)
+position = Vector2(120, 200)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.keeper_xiao.1"
 
@@ -236,17 +236,17 @@ script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.demon.1"
 
 [node name="Demon2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(0, 140)
+position = Vector2(-48, 150)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.demon.2"
 
 [node name="Demon3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(0, 140)
+position = Vector2(48, 150)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.demon.3"
 
 [node name="Demon4" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(0, 140)
+position = Vector2(0, 190)
 script = ExtResource("marker")
 spawn_point_id = &"village.seal_altar.demon.4"
 

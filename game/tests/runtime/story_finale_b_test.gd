@@ -126,7 +126,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not ui.is_asking() and _said(_recent(ui), "只能再封") and _said(_recent(ui), "问他们「留下」"), "钉下去: only a seal; ask them")
 	var elon: NpcRuntimeState = _first(session, ALTAR, &"native.npc.elon_altar")
 	_check(elon != null and altar.select_npc(elon.character_id) and _said(altar.ask_selected("留下"), "把穿灵给我"), "瑷伦 on 留下")
-	var rule: NpcObjectRule = elon.definition().dealings().object_rules[1]
+	var rule: NpcObjectRule = elon.definition().dealings().object_rules[2]
 	_check(rule.item == SWORD and rule.ask.contains("再封") and rule.mark_giver == "瑷伦留在了冰里", "giving her 穿灵 is asked first")
 	var given: ItemHandlingResult = altar.give_to_selected(_carried(altar, SWORD))
 	await _settle(tree)
@@ -152,7 +152,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 
 func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
-	_ledger(session, "self", "deal", true, ["冰龙倒了", "带走了宝衣", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"])
+	_ledger(session, "self", "deal", true, ["冰龙倒了", "带走了宝衣", "瑷伦守到决战", "叫来了瑷伦", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"])
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.finale")
 	var altar: WorldMapController = MapPlaces.enter(session, ALTAR, &"village.seal_altar.pool_arrival") # TEST-ONLY
 	await _settle(tree)
@@ -165,6 +165,12 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(altar.ask_selected("我留下"), "好") and state.marks.get("你留在了冰里", 0) == 1, "我留下: the player stays")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"seal_self") and state.marks.get("再封了侮天鬼", 0) == 1, "the seal option of one's own")
+	var elon: NpcRuntimeState = _first(session, ALTAR, &"native.npc.elon_altar")
+	_check(elon != null and altar.select_npc(elon.character_id), "瑷伦 still there")
+	if elon != null:
+		altar.give_to_selected(_carried(altar, SWORD))
+		await _settle(tree)
+		_check(state.marks.get("瑷伦留在了冰里", 0) == 0 and session.player_held_item_ids().has(SWORD), "once the player stayed, no one else stays: 穿灵 refused")
 
 
 ## 第十章's ledger, the choices' marks, A's night done; the swords and the feather in hand as the ledger has them.
@@ -184,6 +190,7 @@ func _ledger(session: WorldSessionController, who: String, side: String, pulled:
 		map.give_new_item_to_player(SWORD) # TEST-ONLY
 	else:
 		map.give_new_item_to_player(FEATHER) # TEST-ONLY
+	session.day_clock().set_day_seconds(80000) # TEST-ONLY: the night of the battle (A's 等到天黑)
 	state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: stands in for a tenth-chapter character
 	for skill: StringName in [&"unarmed", &"dodge", &"parry", &"force"]:
 		state.skills.set_raw_level(skill, 400) # TEST-ONLY
