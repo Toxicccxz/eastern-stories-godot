@@ -1156,6 +1156,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			ScriptedAct.Kind.MOVE:
 				if not _zones.has(step.zone_id):
 					_errors.append("%s.move: unknown zone '%s'" % [origin, step.zone_id])
+			ScriptedAct.Kind.TAKE:
+				if not _items.has(step.item_id):
+					_errors.append("%s.take: unknown item '%s'" % [origin, step.item_id])
 			ScriptedAct.Kind.NPC_MOOD:
 				if npc == null or npc.hooks() == null or not npc.hooks().moods.has(step.flag):
 					_errors.append("%s.npc_mood: '%s' is no mood of the NPC's" % [origin, step.flag])

@@ -233,9 +233,31 @@
 				"铃": [
 					"十口铃，十个地方。哪里有人信你，哪里的铃就响。响的是信，不是功劳——你救过的人、你守过的话、你没拿的东西。走近了看，铃身上刻着地名。"
 				],
-				"谁拔": [
-					"剑在云台，自己转着。谁能拔，不是我说了算。响够一半的铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。云台的路，过几日开。"
-				],
+				"谁拔": {
+					"rules": [
+						{
+							"asker_marks": [
+								"旋芒在你手里"
+							],
+							"say": "你拔的。十口铃里有人信你——到了湖底，别让它们暗下去。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在皇叔手里"
+							],
+							"say": "於兰家的人拔的。三百年前他们拔错了一把，这一回，看他拔得对不对。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在萧辟尘手里"
+							],
+							"say": "萧家的孩子拔的。他回来了一回，又走了。风记得他。"
+						},
+						{
+							"say": "剑在云台，自己转着。谁能拔，不是我说了算。响够一半的铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。西墙那道梯子上去，就是云台。"
+						}
+					]
+				},
 				"岚城": [
 					"岚城不在哪里。风在哪里停，它就在哪里。你们叫它寻风而至，寻风而逝——说得不错。"
 				],
@@ -491,6 +513,232 @@
 				],
 				"吃饭": [
 					"吃饭？……我们不吃。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lan_weng_terrace",
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 岚翁 come up after one to the 云台 (history:75 旋芒宝剑目前乃是属於岚城中一位仙人所有; name 续写), who gives the 你拔 its trial: 接风三刃 (elon.c's three blows, as 瑷伦's 三鞭: DECISIONS「第四章 宝衣」)",
+			"name": "岚翁",
+			"aliases": [
+				"lan weng",
+				"old man",
+				"老人",
+				"岚翁",
+				"仙人"
+			],
+			"title": "风铃阁",
+			"gender": "男性",
+			"age": 120,
+			"long": "白发白须的老人站在台心旁边，袖子被旋风扯得笔直，人却一动不动，像是长在白石上的。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 26,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 24,
+				"con": 26,
+				"kar": 26
+			},
+			"combat_exp": 2000000,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 140,
+				"dodge": 200,
+				"parry": 140,
+				"force": 140,
+				"literate": 200
+			},
+			"resources": {
+				"force": 3000,
+				"max_force": 3000
+			},
+			"force_factor": 3,
+			"fight_deferred": "你的手还没抬起来，一阵风已经把它按了回去。岚翁连眼睛都没睁。",
+			"inquiry": {
+				"旋芒": {
+					"rules": [
+						{
+							"asker_marks": [
+								"旋芒在你手里"
+							],
+							"say": "它在你腰间。寒於氏的剑，不扰民——你拿着它，就照它的脾气走。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在皇叔手里"
+							],
+							"say": "跟於兰家的人走了。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在萧辟尘手里"
+							],
+							"say": "跟萧家的孩子走了。"
+						},
+						{
+							"say": "就在风里。谁拔，你来定。你自己，於兰家的人，萧家的孩子——三个都行，风不挑，铃挑。"
+						}
+					]
+				},
+				"谁拔": {
+					"rules": [
+						{
+							"asker_marks": [
+								"旋芒在你手里"
+							],
+							"say": "你拔的。十口铃里有人信你——到了湖底，别让它们暗下去。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在皇叔手里"
+							],
+							"say": "於兰家的人拔的。三百年前他们拔错了一把，这一回，看他拔得对不对。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在萧辟尘手里"
+							],
+							"say": "萧家的孩子拔的。他回来了一回，又走了。风记得他。"
+						},
+						{
+							"asker_marks": [
+								"接下了接风三刃"
+							],
+							"say": "风认你了。剑在台心，去拿吧。"
+						},
+						{
+							"asker_marks": [
+								"要自己拔旋芒"
+							],
+							"asker_lacks": [
+								"接下了接风三刃"
+							],
+							"say": "你。那就先接三刃。"
+						},
+						{
+							"say": "你自己拔，要十口铃里五口有人信你。请於兰家的人，要他在朝上，风才找得到他。让萧家的孩子来，要他的铃——铃在，风认人。"
+						}
+					]
+				},
+				"铃": [
+					"楼下十口铃，响一口，是一处有人信你。"
+				],
+				"接风三刃": [
+					"风里拔剑，先要风认你。我替风出三刃，你站得住，剑就落得下来。"
+				]
+			},
+			"trials": [
+				{
+					"label": "接风三刃",
+					"asker_marks": [
+						"要自己拔旋芒"
+					],
+					"unless_mark": "接下了接风三刃",
+					"confirm": "岚翁替风出三刃，是真打：\n· 每一刃都实打实地削在你身上，挨中了会受伤。\n· 哪一刃接不住，就算没接下，你随后会昏倒。\n· 伤得太重会死。\n倒了可以歇好再来。\n确定接风三刃吗？",
+					"blows": [
+						{
+							"say": "岚翁袖子一拂：第一刃，是从城外来的风。"
+						},
+						{
+							"say": "岚翁点点头：第二刃，是从城里出去的风。",
+							"fail": "岚翁叹了口气：风还不认得你。"
+						},
+						{
+							"say": "岚翁的袖子停了：第三刃，是不动的风。",
+							"fail": "岚翁摇摇头：差一点。歇好了再来。"
+						}
+					],
+					"success": "风停了一停。岚翁说道：站得住。风认你了——剑在台心，去拿吧。",
+					"mark": "接下了接风三刃",
+					"deed": "在岚城的云台上接下了岚翁的接风三刃"
+				}
+			]
+		},
+		{
+			"id": "native.npc.yulan_tianwu_wind",
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 於兰天武 (daemon/class/fighter/champion.c, the 皇叔 come back to court: 第九章 D/E) brought to the 云台 by the wind (计划 §7 Q3 默认), who draws 旋芒 (doc/help/history:30–34: 君违嫁於兰攸, the 寒於 blood in the 於兰 line)",
+			"name": "於兰天武",
+			"aliases": [
+				"yulan tianwu",
+				"champion",
+				"皇叔"
+			],
+			"title": "皇叔",
+			"gender": "男性",
+			"age": 61,
+			"long": "一个须发灰白的老人，一身朝服被风吹得猎猎地响，腰间那把暗绿色的鬼头刀还在。他看着台心的风，像在看一件很久以前的事。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 28,
+				"spi": 28,
+				"cps": 30,
+				"per": 22,
+				"con": 30,
+				"kar": 22
+			},
+			"combat_exp": 3000000,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 150,
+				"blade": 180,
+				"dodge": 160,
+				"parry": 160,
+				"force": 160
+			},
+			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
+			"summoned": {
+				"arrive": [
+					"一阵大风落在台上，於兰天武站在风里。"
+				],
+				"color": "HIW",
+				"leave": [
+					"一阵风卷过来，於兰天武不见了。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.xiao_pichen_home",
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 萧辟尘 (daemon/class/fighter/master.c: 自幼生长於岚城之中……不食人间烟火) brought home to the 云台 by the wind once his bell hangs on his family's hook (计划 §7 Q3 默认, 续写), who draws 旋芒",
+			"name": "萧辟尘",
+			"aliases": [
+				"xiao pichen",
+				"master",
+				"小天邪"
+			],
+			"title": "小天邪",
+			"gender": "男性",
+			"age": 24,
+			"long": "一个白衣的年轻人，长发和巾带被风吹得乱飞，站在台上四下看，看得很慢，像在一样一样认东西。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 28,
+				"int": 30,
+				"spi": 30,
+				"cps": 30,
+				"per": 28,
+				"con": 26,
+				"kar": 26
+			},
+			"combat_exp": 3000000,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 150,
+				"sword": 180,
+				"dodge": 180,
+				"parry": 160,
+				"force": 170
+			},
+			"fight_deferred": "萧辟尘没有看你：这里不打架。",
+			"summoned": {
+				"arrive": [
+					"风把萧辟尘送到了台上。"
+				],
+				"color": "HIW",
+				"leave": [
+					"一阵风卷过来，萧辟尘不见了。"
 				]
 			}
 		}

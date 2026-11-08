@@ -190,6 +190,7 @@
     "res://tests/runtime/imperial_watch_test.gd": 148.6,
     "res://tests/runtime/internal_power_combat_test.gd": 32.4,
     "res://tests/runtime/lancheng_town_test.gd": 60.0,
+    "res://tests/runtime/lancheng_terrace_test.gd": 60.0,
     "res://tests/runtime/lancheng_wind_test.gd": 90.0,
     "res://tests/runtime/latemoon_family_test.gd": 36.4,
     "res://tests/runtime/latemoon_npcs_test.gd": 72.9,

@@ -9,7 +9,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const Imperial := preload("res://tests/presentation/voxel_imperial_test.gd")
-const SCENES: Array[String] = ["lancheng/lancheng_wilds", "canyon/canyon_bamboo", "lancheng/lancheng_street", "lancheng/lancheng_pavilion"]
+const SCENES: Array[String] = ["lancheng/lancheng_wilds", "canyon/canyon_bamboo", "lancheng/lancheng_street", "lancheng/lancheng_pavilion", "lancheng/lancheng_terrace"]
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -63,8 +63,8 @@ func run_all(tree: SceneTree) -> Dictionary:
 			view._process(0.05)
 		_check(view.geometry.ambience.guiding_wind.length() < 0.1 and float(view.geometry.foliage.material.get_shader_parameter("gust")) < 0.2, "still in the calm: the grass stands up")
 		map.winds.wind().veer_percent = 15
-	# 第十章 B: the 白石街 and the 风铃阁.
-	for entry: Array in [[&"lancheng.white_gate", &"lancheng.white_gate.arrival"], [&"lancheng.bell_hall", &"lancheng.bell_hall.street_arrival"]]:
+	# 第十章 B: the 白石街 and the 风铃阁; C: the 云台.
+	for entry: Array in [[&"lancheng.white_gate", &"lancheng.white_gate.arrival"], [&"lancheng.bell_hall", &"lancheng.bell_hall.street_arrival"], [&"lancheng.deck", &"lancheng.deck.stair_arrival"]]:
 		var town: WorldMapController = MapPlaces.enter(session, entry[0], entry[1]) # TEST-ONLY
 		await _frames(tree, 4)
 		if town == null:
@@ -90,6 +90,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 			_check(view.layout.get("buildings", []).size() == 10 and "gate_frame" in kinds and kinds.count("lantern_string") >= 6 and "anvil" in kinds and "well" in kinds, "the 白石街: ten buildings (the 风铃阁's front among them), the 白石门's arch, bells strung across, the anvil, the 萧家 well: %s" % [kinds])
 			var smoke: Array = view.layout.get("buildings", []).filter(func(building: Dictionary) -> bool: return building.get("chimney", false) or building.get("smoke", false))
 			_check(smoke.is_empty(), "不食人间烟火: no chimney, no smoke on any roof")
+		elif town.map_id() == &"lancheng.terrace":
+			_check(kinds.count("whirl") == 2 and kinds.count("cloud_sea") == 4 and kinds.count("far_peak") >= 3 and kinds.count("stone_lantern") == 4, "the 云台: the whirl with 旋芒 and its calm ring (one staged off), cloud on every side, far peaks, the lanterns: %s" % [kinds])
+			var spinning: Array = view.geometry.ambience.get("_spinning")
+			_check(spinning.size() == 2, "the whirl and the sword in it turn: %d" % spinning.size())
 		else:
 			var rooms: Dictionary = town.get_node("RoomLife").get_meta("rooms", {}) if town.has_node("RoomLife") else {}
 			_check(not rooms.is_empty(), "the 风铃阁 says what its rooms are used for")

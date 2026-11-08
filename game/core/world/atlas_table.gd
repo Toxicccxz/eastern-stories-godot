@@ -120,6 +120,9 @@ func _door_between(doors: Array[DoorDefinition], a: StringName, b: StringName) -
 func _nearest(catalog: ContentCatalog, map: MapDefinition, near: Dictionary[StringName, Array]) -> StringName:
 	var seen: Dictionary[StringName, bool] = {map.map_id: true}
 	var level: Array[StringName] = [map.map_id]
+	# The nearest place of the map's own region, however far; else the nearest of any (第十章 C: the
+	# 云台 is the 风铃阁's, one stair further than 天驼关's mirror the wind puts one down at).
+	var fallback: StringName = &""
 	while not level.is_empty():
 		var following: Array[StringName] = []
 		var found: Array[StringName] = []
@@ -137,7 +140,7 @@ func _nearest(catalog: ContentCatalog, map: MapDefinition, near: Dictionary[Stri
 		for candidate: StringName in found:
 			if catalog.map(candidate).region_id == map.region_id:
 				return candidate
-		if not found.is_empty():
-			return found[0]
+		if fallback.is_empty() and not found.is_empty():
+			fallback = found[0]
 		level = following
-	return &""
+	return fallback

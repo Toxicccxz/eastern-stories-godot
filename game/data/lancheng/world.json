@@ -25,6 +25,12 @@
 			"scene": "res://scenes/world/lancheng/lancheng_pavilion.tscn",
 			"entry": "lancheng.bell_hall.street_arrival",
 			"interior": true
+		},
+		{
+			"id": "lancheng.terrace",
+			"region": "lancheng",
+			"scene": "res://scenes/world/lancheng/lancheng_terrace.tscn",
+			"entry": "lancheng.deck.stair_arrival"
 		}
 	],
 	"zones": [
@@ -132,6 +138,27 @@
 			"rooms": [
 				"native:lancheng/quiet_room"
 			]
+		},
+		{
+			"id": "lancheng.deck",
+			"map": "lancheng.terrace",
+			"rooms": [
+				"native:lancheng/deck"
+			]
+		},
+		{
+			"id": "lancheng.whirl",
+			"map": "lancheng.terrace",
+			"rooms": [
+				"native:lancheng/whirl"
+			]
+		},
+		{
+			"id": "lancheng.cloud_edge",
+			"map": "lancheng.terrace",
+			"rooms": [
+				"native:lancheng/cloud_edge"
+			]
 		}
 	],
 	"portals": [
@@ -166,6 +193,22 @@
 			"to_spawn": "lancheng.street_top.pavilion_return",
 			"legacy_room": "native:lancheng/bell_hall",
 			"legacy_command": "south"
+		},
+		{
+			"id": "lancheng.bell_hall.up",
+			"from_zone": "lancheng.bell_hall",
+			"to_zone": "lancheng.deck",
+			"to_spawn": "lancheng.deck.stair_arrival",
+			"legacy_room": "native:lancheng/bell_hall",
+			"legacy_command": "up"
+		},
+		{
+			"id": "lancheng.deck.down",
+			"from_zone": "lancheng.deck",
+			"to_zone": "lancheng.bell_hall",
+			"to_spawn": "lancheng.bell_hall.stair_return",
+			"legacy_room": "native:lancheng/deck",
+			"legacy_command": "down"
 		}
 	],
 	"exit_rules": [
@@ -316,6 +359,12 @@
 			"policy": "look",
 			"long": "一只铜钩，钩尖朝上，擦得很亮。岚城家家门口都有一只，挂的是孩子的铃；这一只空了二十年。\n",
 			"looks": [
+				{
+					"marks": [
+						"旋芒在萧辟尘手里"
+					],
+					"long": "一只铜钩，钩尖朝上，擦得很亮。钩上挂着一只青铜小铃，绳结是孩子打的死结，风一过就响。萧家的铃回来了。\n"
+				},
 				{
 					"marks": [
 						"石匣开了"
@@ -520,6 +569,42 @@
 				}
 			],
 			"legacy_source": "native: 第十章 B (剧情总纲 §3 第十章 ②③, §6 岚城卡; 计划 build/plans/第十章_计划.md B 包, owner 2026-11-07「接着做 B」; DECISIONS「第十章 B」) — the 十铃架 (计划 §4 信任表, §7 Q1 默认): rings while one of 冯策随你下湖、皇叔入朝 holds"
+		},
+		{
+			"id": "lancheng.whirl.landmark.whirl",
+			"zone": "lancheng.whirl",
+			"name": "旋风",
+			"policy": "look",
+			"long": "一股旋风，从台心的白石上直卷上去。风里一把剑，剑尖朝下，一圈一圈地转：剑身是白的，转起来像一圈光。\n剑柄上缠着褪了色的红绳，绳头在风里乱飞。\n",
+			"looks": [
+				{
+					"marks": [
+						"旋芒在你手里"
+					],
+					"long": "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑在你腰间。\n"
+				},
+				{
+					"marks": [
+						"旋芒在皇叔手里"
+					],
+					"long": "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑跟着於兰天武回了京城。\n"
+				},
+				{
+					"marks": [
+						"旋芒在萧辟尘手里"
+					],
+					"long": "台心的风停了。白石上一圈浅浅的印子，是风转了三百年磨出来的。\n剑跟着萧辟尘回了水烟阁。\n"
+				}
+			],
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 旋芒 in its whirlwind on the 云台 (doc/help/myth:3–23 寒於's two swords; history:75 属岚城中一位仙人所有)"
+		},
+		{
+			"id": "lancheng.cloud_edge.landmark.clouds",
+			"zone": "lancheng.cloud_edge",
+			"name": "云海",
+			"policy": "look",
+			"long": "云在脚下翻。云缝里偶尔露出一点地面——山、河、一片黄的石头——一眨眼又合上了。看得久了，会觉得是自己在往前走。\n",
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — the town moving on the wind (history:66–76 寻风而至，寻风而逝)"
 		}
 	],
 	"services": [
@@ -774,6 +859,892 @@
 							{
 								"move": "lancheng.windgate",
 								"point": "lancheng.wind.gate"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.whirl.self",
+			"kind": "act",
+			"zone": "lancheng.whirl",
+			"name": "旋芒",
+			"reach": 120,
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 你拔: five of the ten bells (计划 §4, §7 Q1), the trial 接风三刃 (elon.c's three blows, DECISIONS「第四章 宝衣」)",
+			"act": {
+				"verb": "自己拔",
+				"acts": [
+					{
+						"when": {
+							"any": [
+								{
+									"mark": "旋芒在你手里"
+								},
+								{
+									"mark": "旋芒在皇叔手里"
+								},
+								{
+									"mark": "旋芒在萧辟尘手里"
+								}
+							]
+						},
+						"steps": [
+							{
+								"line": "剑已经有人了。台心的风停着。\n"
+							}
+						]
+					},
+					{
+						"not_mark": "见过岚翁",
+						"steps": [
+							{
+								"line": "风太大，你走不近。守剑的人在楼下风铃阁里。\n"
+							}
+						]
+					},
+					{
+						"mark": "接下了接风三刃",
+						"steps": [
+							{
+								"line": "你走进旋风。风刃从四面八方削过来，削到身上，却不再伤人——它认得你了。\n"
+							},
+							{
+								"line": "你伸手。剑柄落进掌心，凉的，又是暖的。风一下子散了。\n",
+								"color": "HIW"
+							},
+							{
+								"give": "native:lancheng/xuanmang"
+							},
+							{
+								"mark": "旋芒在你手里"
+							},
+							{
+								"by": "native.npc.lan_weng_terrace"
+							},
+							{
+								"emote": "看着台心的风散尽，点了点头。"
+							},
+							{
+								"say": "十口铃里有人信你，剑就认你。拿去吧——不扰民的剑，你们先帝要对了。"
+							},
+							{
+								"say": "云边有风，会送你回去。"
+							}
+						]
+					},
+					{
+						"mark": "要自己拔旋芒",
+						"steps": [
+							{
+								"line": "岚翁说道：先接三刃。风认了你，剑才落得下来。\n"
+							}
+						]
+					},
+					{
+						"when": {
+							"at_least": {
+								"n": 5,
+								"of": [
+									{
+										"any": [
+											{
+												"mark": "放过了刘安禄"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "安葬无名人"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "替南危水保密"
+											},
+											{
+												"mark": "卫沧澜出了尚书府"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "霍铮回了寨"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "宝衣给了安妮儿"
+											},
+											{
+												"mark": "瑷伦守到决战"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "陈显祖作了证"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "关北的骑兵欠你一阵"
+											},
+											{
+												"mark": "王府干净"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "火前说了真话"
+											},
+											{
+												"mark": "大秦人留下了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "查清了封物"
+											},
+											{
+												"mark": "村口的鬼卒退了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "冯策随你下湖"
+											},
+											{
+												"mark": "皇叔入朝"
+											}
+										]
+									}
+								]
+							}
+						},
+						"ask": "自己拔旋芒？十铃架上信你的铃够了。\n拔了，终章是你持剑；萧辟尘和皇叔不会替你。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。",
+						"choice": "自己拔",
+						"steps": [
+							{
+								"mark": "要自己拔旋芒"
+							},
+							{
+								"by": "native.npc.lan_weng_terrace"
+							},
+							{
+								"say": "好。剑在风里，风先要认你。我替风出三刃。"
+							}
+						]
+					},
+					{
+						"when": {
+							"at_least": {
+								"n": 4,
+								"of": [
+									{
+										"any": [
+											{
+												"mark": "放过了刘安禄"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "安葬无名人"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "替南危水保密"
+											},
+											{
+												"mark": "卫沧澜出了尚书府"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "霍铮回了寨"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "宝衣给了安妮儿"
+											},
+											{
+												"mark": "瑷伦守到决战"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "陈显祖作了证"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "关北的骑兵欠你一阵"
+											},
+											{
+												"mark": "王府干净"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "火前说了真话"
+											},
+											{
+												"mark": "大秦人留下了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "查清了封物"
+											},
+											{
+												"mark": "村口的鬼卒退了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "冯策随你下湖"
+											},
+											{
+												"mark": "皇叔入朝"
+											}
+										]
+									}
+								]
+							}
+						},
+						"steps": [
+							{
+								"line": "你走近旋风，风把你推了回来。\n"
+							},
+							{
+								"line": "（十铃架上响了四口铃，还差一口：自己拔，要五处以上有人信你。）\n"
+							}
+						]
+					},
+					{
+						"when": {
+							"at_least": {
+								"n": 3,
+								"of": [
+									{
+										"any": [
+											{
+												"mark": "放过了刘安禄"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "安葬无名人"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "替南危水保密"
+											},
+											{
+												"mark": "卫沧澜出了尚书府"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "霍铮回了寨"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "宝衣给了安妮儿"
+											},
+											{
+												"mark": "瑷伦守到决战"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "陈显祖作了证"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "关北的骑兵欠你一阵"
+											},
+											{
+												"mark": "王府干净"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "火前说了真话"
+											},
+											{
+												"mark": "大秦人留下了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "查清了封物"
+											},
+											{
+												"mark": "村口的鬼卒退了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "冯策随你下湖"
+											},
+											{
+												"mark": "皇叔入朝"
+											}
+										]
+									}
+								]
+							}
+						},
+						"steps": [
+							{
+								"line": "你走近旋风，风把你推了回来。\n"
+							},
+							{
+								"line": "（十铃架上响了三口铃，还差两口：自己拔，要五处以上有人信你。）\n"
+							}
+						]
+					},
+					{
+						"when": {
+							"at_least": {
+								"n": 2,
+								"of": [
+									{
+										"any": [
+											{
+												"mark": "放过了刘安禄"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "安葬无名人"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "替南危水保密"
+											},
+											{
+												"mark": "卫沧澜出了尚书府"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "霍铮回了寨"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "宝衣给了安妮儿"
+											},
+											{
+												"mark": "瑷伦守到决战"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "陈显祖作了证"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "关北的骑兵欠你一阵"
+											},
+											{
+												"mark": "王府干净"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "火前说了真话"
+											},
+											{
+												"mark": "大秦人留下了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "查清了封物"
+											},
+											{
+												"mark": "村口的鬼卒退了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "冯策随你下湖"
+											},
+											{
+												"mark": "皇叔入朝"
+											}
+										]
+									}
+								]
+							}
+						},
+						"steps": [
+							{
+								"line": "你走近旋风，风把你推了回来。\n"
+							},
+							{
+								"line": "（十铃架上响了两口铃，还差三口：自己拔，要五处以上有人信你。）\n"
+							}
+						]
+					},
+					{
+						"when": {
+							"at_least": {
+								"n": 1,
+								"of": [
+									{
+										"any": [
+											{
+												"mark": "放过了刘安禄"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "安葬无名人"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "替南危水保密"
+											},
+											{
+												"mark": "卫沧澜出了尚书府"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "霍铮回了寨"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "宝衣给了安妮儿"
+											},
+											{
+												"mark": "瑷伦守到决战"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "陈显祖作了证"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "关北的骑兵欠你一阵"
+											},
+											{
+												"mark": "王府干净"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "火前说了真话"
+											},
+											{
+												"mark": "大秦人留下了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "查清了封物"
+											},
+											{
+												"mark": "村口的鬼卒退了"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"mark": "冯策随你下湖"
+											},
+											{
+												"mark": "皇叔入朝"
+											}
+										]
+									}
+								]
+							}
+						},
+						"steps": [
+							{
+								"line": "你走近旋风，风把你推了回来。\n"
+							},
+							{
+								"line": "（十铃架上响了一口铃，还差四口：自己拔，要五处以上有人信你。）\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "你走近旋风，风把你推了回来。\n"
+							},
+							{
+								"line": "（十铃架上一口铃也没响：自己拔，要五处以上有人信你。）\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.whirl.uncle",
+			"kind": "act",
+			"zone": "lancheng.whirl",
+			"name": "旋芒",
+			"reach": 120,
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 请皇叔拔: he came back to court (第九章 先解通缉); the wind fetches him (计划 §7 Q3)",
+			"act": {
+				"verb": "请皇叔",
+				"acts": [
+					{
+						"when": {
+							"any": [
+								{
+									"mark": "旋芒在你手里"
+								},
+								{
+									"mark": "旋芒在皇叔手里"
+								},
+								{
+									"mark": "旋芒在萧辟尘手里"
+								}
+							]
+						},
+						"steps": [
+							{
+								"line": "剑已经有人了。台心的风停着。\n"
+							}
+						]
+					},
+					{
+						"not_mark": "见过岚翁",
+						"steps": [
+							{
+								"line": "风太大，你走不近。守剑的人在楼下风铃阁里。\n"
+							}
+						]
+					},
+					{
+						"mark": "皇叔入朝",
+						"ask": "请皇叔来拔？\n京师那口铃一响，风就去京城把於兰天武找来。剑跟他走，终章他持剑，你在旁边。",
+						"choice": "请皇叔",
+						"steps": [
+							{
+								"unmark": "要自己拔旋芒"
+							},
+							{
+								"line": "岚翁伸手往楼下一指。底下风铃阁里，京师那口大铃自己响了一声，又一声。\n"
+							},
+							{
+								"line": "一阵大风从云里落下来，落在台上，风里站着一个人，朝服被吹得猎猎地响。\n",
+								"color": "HIW"
+							},
+							{
+								"summon": "lancheng.whirl.uncle_wind"
+							},
+							{
+								"by": "native.npc.yulan_tianwu_wind"
+							},
+							{
+								"emote": "四下看了一眼，目光落在台心的风上，看了很久。"
+							},
+							{
+								"say": "三百年前，於兰家拔错了一把剑。这一把，我来。"
+							},
+							{
+								"line": "於兰天武走进旋风。风刃削过他的朝服，他一步也没停。他伸手，剑落进他手里，风散了。\n",
+								"color": "HIW"
+							},
+							{
+								"mark": "旋芒在皇叔手里"
+							},
+							{
+								"say": "昭儿还在殿上等我。剑我带回去——决战那日，你来叫我。"
+							},
+							{
+								"line": "又一阵风卷过来，於兰天武不见了。\n"
+							},
+							{
+								"leave": true
+							}
+						]
+					},
+					{
+						"mark": "皇叔的通缉解了",
+						"steps": [
+							{
+								"line": "岚翁说道：京师那口铃还没响到他身上。手诏送到了，他回了朝，风才找得到他。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "岚翁说道：於兰家的人？他还在通缉里，躲在水烟阁，朝廷的事他不碰。风找不到不肯来的人。\n"
+							},
+							{
+								"line": "（请皇叔拔：只有第九章请皇上先撤了他的通缉、把手诏送到他手里的那一边，他才在朝上。）\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.whirl.xiao",
+			"kind": "act",
+			"zone": "lancheng.whirl",
+			"name": "旋芒",
+			"reach": 120,
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 让萧辟尘拔: his bell (计划 §7 Q3: the one he was carried out of the town with) hung on his family's hook, the wind brings him",
+			"act": {
+				"verb": "让萧辟尘拔",
+				"acts": [
+					{
+						"when": {
+							"any": [
+								{
+									"mark": "旋芒在你手里"
+								},
+								{
+									"mark": "旋芒在皇叔手里"
+								},
+								{
+									"mark": "旋芒在萧辟尘手里"
+								}
+							]
+						},
+						"steps": [
+							{
+								"line": "剑已经有人了。台心的风停着。\n"
+							}
+						]
+					},
+					{
+						"not_mark": "见过岚翁",
+						"steps": [
+							{
+								"line": "风太大，你走不近。守剑的人在楼下风铃阁里。\n"
+							}
+						]
+					},
+					{
+						"carries": "风铃",
+						"ask": "让萧辟尘来拔？\n岚翁会把他的风铃挂回萧家的钩上，风认得铃上的名字，会把他送回来。剑跟他走：他会拿着它去决战，那一战，他可能回不来。铃也就还给他了。",
+						"choice": "让萧辟尘拔",
+						"steps": [
+							{
+								"unmark": "要自己拔旋芒"
+							},
+							{
+								"take": "native:lancheng/wind_bell"
+							},
+							{
+								"line": "岚翁接过风铃，拇指在铃舌的「尘」字上摸了一下，朝着白石街的方向摇了摇。\n"
+							},
+							{
+								"line": "底下长街上，萧家门楣那只空钩叮的一声。风从街上一路卷上来，卷到台上，风里站着一个人，白衣，长发，被风吹得乱飞。\n",
+								"color": "HIW"
+							},
+							{
+								"summon": "lancheng.whirl.xiao_wind"
+							},
+							{
+								"by": "native.npc.xiao_pichen_home"
+							},
+							{
+								"emote": "四下看，看了很久。"
+							},
+							{
+								"say": "……城还是这个样子。"
+							},
+							{
+								"say": "铃在，风认人。你替我把铃带回来了。"
+							},
+							{
+								"line": "萧辟尘走进旋风。风绕着他转，转得慢了，像是认得他。剑落进他手里，风散了。\n",
+								"color": "HIW"
+							},
+							{
+								"mark": "旋芒在萧辟尘手里"
+							},
+							{
+								"say": "我回水烟阁。决战那日，剑跟我下湖。"
+							},
+							{
+								"line": "又一阵风卷过来，萧辟尘不见了。\n"
+							},
+							{
+								"leave": true
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "岚翁说道：风认铃，不认人。萧家孩子的铃不在你身上，风就找不到他。\n"
+							},
+							{
+								"line": "（让萧辟尘拔：要带着他的青铜风铃——在老松岭石洞的石匣里，对着寻风地带的风才开。）\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "lancheng.cloud_edge.ride",
+			"kind": "act",
+			"zone": "lancheng.cloud_edge",
+			"name": "云边",
+			"reach": 128,
+			"legacy_source": "native: 第十章 C (剧情总纲 §3 第十章 ④⑤, §9 Q3; 计划 build/plans/第十章_计划.md C 包与 §4 信任表, owner 2026-11-08「继续做」: Q1–Q3 默认; DECISIONS「第十章 C」) — 乘风: the wind puts one down at 天驼关's mirror once the sword has its hand (寻风而逝)",
+			"act": {
+				"verb": "乘风",
+				"acts": [
+					{
+						"when": {
+							"not": {
+								"any": [
+									{
+										"mark": "旋芒在你手里"
+									},
+									{
+										"mark": "旋芒在皇叔手里"
+									},
+									{
+										"mark": "旋芒在萧辟尘手里"
+									}
+								]
+							}
+						},
+						"steps": [
+							{
+								"line": "你往云边走了一步，风把你托了回来。剑还没有主，风不送人。\n"
+							}
+						]
+					},
+					{
+						"ask": "乘风回去？风会把你放在天驼关石林那面镜子前。岚城随风走，下回再来，得重新寻风。",
+						"choice": "乘风",
+						"steps": [
+							{
+								"line": "你往云里迈了一步。风从底下托住你，像一只手。\n"
+							},
+							{
+								"line": "云从身边飞快地往上退，铃声越来越远。等你站稳，眼前是石林，那面镜子里映着你自己。\n",
+								"color": "HIW"
+							},
+							{
+								"unmark": "风眼在西"
+							},
+							{
+								"unmark": "风眼在北"
+							},
+							{
+								"unmark": "风眼在东"
+							},
+							{
+								"move": "canyon.stone_forest3",
+								"point": "canyon.stone_forest3.mirror_return"
 							}
 						]
 					}

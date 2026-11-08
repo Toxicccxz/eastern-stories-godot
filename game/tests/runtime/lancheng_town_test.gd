@@ -131,7 +131,7 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(smith != null and street.select_npc(smith.character_id) and _said(street.ask_selected("铃"), "是我打的"), "老蔺: 是我打的")
 	_check(smith != null and _said(street.ask_selected("萧家"), "空钩"), "老蔺 on 萧家: the empty hook")
 	var hook: WorldLandmarkDefinition = GameContent.catalog().landmark(&"lancheng.xiao_house.landmark.hook")
-	_check(hook != null and hook.looks().size() == 1 and hook.looks()[0].marks == ["石匣开了"], "the 萧家 hook: the bell's knot matches it once the box is opened")
+	_check(hook != null and hook.looks().size() == 2 and hook.looks()[1].marks == ["石匣开了"] and hook.looks()[0].marks == ["旋芒在萧辟尘手里"], "the 萧家 hook: the bell's knot matches it once the box is opened; the bell on it once 萧辟尘 is home (第十章 C)")
 	# Out by the 白石门 and back in by 伏地.
 	street = MapPlaces.enter(session, &"lancheng.white_gate", &"lancheng.white_gate.arrival") # TEST-ONLY
 	await _settle(tree)

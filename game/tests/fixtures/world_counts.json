@@ -165,9 +165,10 @@
 		"imperial.yangxin_hall",
 		"lancheng.wilds",
 		"lancheng.street",
-		"lancheng.pavilion"
+		"lancheng.pavilion",
+		"lancheng.terrace"
 	],
-	"rooms": 639,
+	"rooms": 642,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -594,6 +595,10 @@
 		"lancheng.white_street.sweeper",
 		"lancheng.white_street.residents",
 		"lancheng.street_top.resident",
+		"lancheng.whirl.lan_weng",
+		"lancheng.whirl.uncle_wind",
+		"lancheng.whirl.xiao_wind",
+		"canyon.stone_forest3.song_pu",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -642,8 +647,8 @@
 		"native.guildhall.wei_canglan",
 		"native.wumen.song_pu"
 	],
-	"world_npcs": 741,
-	"resident_maps": 166,
+	"world_npcs": 745,
+	"resident_maps": 167,
 	"new_game_items": 1162,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
@@ -812,7 +817,8 @@
 		"imperial.yangxin_hall": 4,
 		"lancheng.wilds": 8,
 		"lancheng.street": 5,
-		"lancheng.pavilion": 2
+		"lancheng.pavilion": 2,
+		"lancheng.terrace": 3
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -911,7 +917,7 @@
 		"choyin.hotel_house": 2,
 		"choyin.club_house": 0,
 		"canyon.clifftop": 0,
-		"canyon.pass": 9,
+		"canyon.pass": 10,
 		"canyon.armory": 1,
 		"canyon.bamboo": 0,
 		"canyon.stoneroom": 0,
@@ -980,7 +986,8 @@
 		"imperial.yangxin_hall": 3,
 		"lancheng.wilds": 3,
 		"lancheng.street": 6,
-		"lancheng.pavilion": 1
+		"lancheng.pavilion": 1,
+		"lancheng.terrace": 3
 	},
 	"npc_draws_after_oldpine": 2568,
 	"technical_maps": 9,
