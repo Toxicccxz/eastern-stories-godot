@@ -477,12 +477,15 @@ func _show_vitality(id: StringName, current: int, band: int = -1) -> void:
 ## move's name (a special's in gold, larger); the one hit's: the bar stepping down by the
 ## blow (a presentation estimate, settled to the projection once the round's lines are told),
 ## the −N / 闪 / 挡 float, the flash and the shake by the band.
-func show_line(line: BattleNarrationLine) -> void:
+## 战斗演出 C: `title` false — the name shows over the attacker's head in the scene, or not at
+## all (a blow between two others): the card leaves it out.
+func show_line(line: BattleNarrationLine, title: bool = true) -> void:
 	var feel: FeelDefinition = GameContent.catalog().pacing().feel
 	if line.is_special and line.actor_id == _shown_id:
-		stage.show_title(line.special_title, true, feel.special_title_seconds)
+		if title:
+			stage.show_title(line.special_title, true, feel.special_title_seconds)
 		_flash_border()
-	elif line.has_blow and line.actor_id == _shown_id and not line.move.is_empty():
+	elif title and line.has_blow and line.actor_id == _shown_id and not line.move.is_empty():
 		stage.show_title(line.move, false, feel.move_title_seconds)
 	if not line.has_blow or line.target_id != _shown_id:
 		return

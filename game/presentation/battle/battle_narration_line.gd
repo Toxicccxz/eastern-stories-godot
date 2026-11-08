@@ -76,6 +76,15 @@ var in_special: bool:
 var _cue: StringName = &""
 var cue: StringName:
 	get: return _cue
+## 战斗演出 C (DECISIONS「战斗演出 C」): what the blow was struck with — the weapon's skill
+## (sword, blade, whip …; &"" bare-handed) — and the wound it deals (刺伤, 瘀伤 …), for the move's
+## name over the attacker's head and the blow's sounds.
+var _weapon_skill: StringName = &""
+var weapon_skill: StringName:
+	get: return _weapon_skill
+var _damage_type: String = ""
+var damage_type: String:
+	get: return _damage_type
 
 
 func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = ColoredLine.PLAIN, p_summary: String = "") -> void:
@@ -99,6 +108,13 @@ func with_blow(p_actor_id: StringName, p_target_id: StringName, p_move: String, 
 func with_ring(p_tag: StringName, p_ring: int) -> BattleNarrationLine:
 	_tag = p_tag
 	_ring = p_ring
+	return self
+
+
+## What the blow was struck with and the wound it deals (the narrator, once).
+func with_arms(p_weapon_skill: StringName, p_damage_type: String) -> BattleNarrationLine:
+	_weapon_skill = p_weapon_skill
+	_damage_type = p_damage_type
 	return self
 
 

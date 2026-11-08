@@ -85,6 +85,7 @@ var sounds: BattleSounds
 ## 战斗演出 B (DECISIONS「战斗演出 B」): the fight's opening (the stage laid, the camera drawn in, the
 ## panel slid in) and whether it waits for the panel's first layout (it starts the frame after).
 var opening: BattleStageOpening
+var move_titles: BattleMoveTitles
 var _opening_pending: bool = false
 var _head: VBoxContainer
 var _strip_row: HBoxContainer
@@ -185,6 +186,7 @@ func _end_hold() -> void:
 	_final_cards = false
 	_hold_shield.visible = false
 	end_stamp.visible = false
+	move_titles.clear()
 	scene_show.end()
 	opening.close()
 	_drop_pending_opening()
@@ -287,10 +289,19 @@ func _show_line(line: BattleNarrationLine) -> void:
 		sounds.play(BattleSounds.CLAPPER)
 	if line.has_blow:
 		_last_beat = [line.actor_id, line.beat_index]
+	# 战斗演出 C (DECISIONS「战斗演出 C」): the move's name over the attacker's head — only for the
+	# player's own blows, those at them, a felling blow and a special's opening; the card shows
+	# it only when the figure is not in a scene. Others' blows sound thinner.
+	var mine: bool = BattleSounds.mine(line, _projection.player_id)
+	var named: bool = mine or fatal or line.is_special
+	var overhead: bool = false
+	if named:
+		var text: String = line.special_title if line.is_special and not line.has_blow else line.move
+		overhead = move_titles.show_title(_voxel_view(), line, text, line.is_special and not line.has_blow, mine)
 	for card: BattleParticipantCard in _cards:
-		card.show_line(line)
+		card.show_line(line, named and not overhead)
 	scene_show.play_line(line, fatal)
-	sounds.play_all(BattleSounds.for_line(line, fatal, false))
+	sounds.play_all(BattleSounds.for_line(line, fatal, false, mine), BattleSounds.priority_of(line, fatal, _projection.player_id))
 
 
 ## Whether `line` is the first blow of a beat not told yet (a blow of another actor or
@@ -521,6 +532,7 @@ func refresh_projection() -> void:
 		elif not _holding():
 			hide()
 			_restore_world_hud()
+			move_titles.clear()
 			scene_show.end()
 			opening.close()
 			_drop_pending_opening()
@@ -652,6 +664,11 @@ func _build() -> void:
 	_content.add_theme_constant_override("separation", ROW_GAP)
 	_content.minimum_size_changed.connect(_refit_content.call_deferred)
 	add_child(_content)
+	# 战斗演出 C: the names over heads, over the panel (a head near the cards' foot still shows its
+	# name; it stays a moment and goes).
+	move_titles = BattleMoveTitles.new()
+	move_titles.name = "MoveTitles"
+	add_child(move_titles)
 	# 战斗演出 A (DECISIONS「战斗演出 A」): the mode at the top in the middle — the brush word,
 	# a short rule in the mode's colour, the line under it — then kill_ob()'s warning; the
 	# corner's 厮杀 / 目标 lines are gone (the gold border shows the target).
