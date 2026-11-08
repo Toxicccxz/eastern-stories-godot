@@ -105,6 +105,29 @@
       "headwear": "crown", "headwear_color": "a868b0", "beard": "long", "waist": "sash",
       "prop": "staff", "prop_color": "9f6297", "accent": "77a1c7", "height": "standard",
       "build": "slim", "shoes": "dark"
+    },
+    "common.npc.hell_guard": {
+      "note": "子阴鬼卒：茅山道士召来护法的阴间鬼卒，从地底蓝光里升起，手执钢叉、面目狰狞；重钢战甲，五股钢叉（spear 近似）；鬼卒的同类，冷钢灰札甲、深褐皮革包边、带护耳的皮盔（cloth_cap 近似），比牙将矮壮，叉在另一只手；笑脸是「末将奉命来护法」的豪气一笑；立绘 Muse 2026-11-08",
+      "coat": "293739", "pants": "354956", "skin": "91a6a0", "hair": "49302e",
+      "hair_style": "short", "headwear": "cloth_cap", "headwear_color": "684743", "beard": "none",
+      "waist": "belt", "prop": "spear", "prop_color": "667a86", "accent": "46332c",
+      "extras": ["armor"], "armor_color": "293739", "height": "standard", "build": "heavy",
+      "shoes": "dark"
+    },
+    "common.npc.heaven_soldier": {
+      "note": "天甲神兵（第二个字是十天干里随机一个）：茅山道士召来护法的天兵，金光中走出的身穿金色战袍的将官；天兵战甲，金锋剑（手持，sword_waist 近似）；金色札甲、大红战袍和飘带、盔上红缨；笑脸自信、正气；立绘 Muse 2026-11-08",
+      "coat": "e0961c", "pants": "5f1415", "skin": "fdba8d", "hair": "000000",
+      "hair_style": "short", "headwear": "helmet", "headwear_color": "e0961c", "beard": "none",
+      "waist": "belt", "prop": "sword_waist", "prop_color": "fcb428", "tassel_color": "a50409",
+      "accent": "a50409", "extras": ["armor"], "armor_color": "e0961c", "height": "standard",
+      "build": "standard", "shoes": "dark"
+    },
+    "common.npc.zombie": {
+      "note": "僵尸：被符咒控制的僵尸，苍白的脸；茅山道士「驱尸」从尸体里叫起来的，额前贴一张黄符（僵尸追魂符；黄符、伸直的手臂无词）；旧寿衣深靛青、褪色有破口，两臂前伸、手指僵直；立绘 Muse 2026-11-08",
+      "coat": "1d2145", "pants": "34416c", "skin": "b5c599", "hair": "463834",
+      "hair_style": "short", "headwear": "headscarf", "headwear_color": "776557", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "5c605c", "height": "standard",
+      "build": "standard", "shoes": "dark"
     }
   }
 }

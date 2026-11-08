@@ -346,6 +346,19 @@ msgstr ""
 #. native.npc.yulan_tianwu_lake gender
 #. native.npc.xiao_pichen_lake gender
 #. native.npc.yu_zijian_lake gender
+#. native.npc.shang_jue_waiting gender
+#. native.npc.shang_jue_fighting gender
+#. native.npc.niling_taoist_lake gender
+#. native.npc.feng_ce_lakebottom gender
+#. native.npc.wutian_gui gender
+#. native.npc.wutian_gui_blazing gender
+#. native.npc.wutian_gui_grown gender
+#. native.npc.wutian_gui_grown_blazing gender
+#. native.npc.nan_weishui_altar gender
+#. native.npc.xiao_pichen_altar gender
+#. native.npc.yulan_tianwu_altar gender
+#. native.npc.nan_weishui_ice gender
+#. native.npc.xiao_pichen_ice gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -432,6 +445,10 @@ msgstr ""
 #. native.npc.woman_lakeside gender
 #. native.npc.annie_lake gender
 #. native.npc.elon_lake gender
+#. native.npc.elon_altar gender
+#. native.npc.annie_altar gender
+#. native.npc.lihong_finale gender
+#. native.npc.elon_ice gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -4059,6 +4076,14 @@ msgstr ""
 
 #: scenes/world/village/village_seal_chamber.tscn
 msgid "封坛 · 看清了"
+msgstr ""
+
+#: scenes/world/village/village_seal_chamber.tscn
+msgid "坛心 · 迎上去"
+msgstr ""
+
+#: scenes/world/village/village_seal_chamber.tscn
+msgid "那颗头 · 钉下去"
 msgstr ""
 
 #. es2:d/waterfog/swordtomb short
@@ -15532,6 +15557,7 @@ msgstr ""
 #. native.npc.deng_xiao inquiry topic
 #. native.npc.yulan_tianwu_wind name
 #. native.npc.yulan_tianwu_lake name
+#. native.npc.yulan_tianwu_altar name
 #: data/common/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "於兰天武"
 msgstr ""
@@ -15543,6 +15569,7 @@ msgstr ""
 
 #. common.npc.fighter.champion title
 #. native.npc.yulan_tianwu_lake title
+#. native.npc.yulan_tianwu_altar title
 #: data/common/npcs.json data/native/npcs.json
 msgid "水烟阁传功使"
 msgstr ""
@@ -15717,6 +15744,8 @@ msgstr ""
 #. native.npc.lan_weng inquiry topic
 #. native.npc.xiao_pichen_home name
 #. native.npc.xiao_pichen_lake name
+#. native.npc.xiao_pichen_altar name
+#. native.npc.xiao_pichen_ice name
 #: data/common/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "萧辟尘"
 msgstr ""
@@ -19193,6 +19222,7 @@ msgstr ""
 #. native.npc.tribute_taoist inquiry topic
 #. native.npc.liu_anlu_home inquiry topic
 #. native.npc.shang_jue_lake inquiry topic
+#. native.npc.niling_taoist_lake title
 #: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "逆灵宫"
 msgstr ""
@@ -20234,14 +20264,109 @@ msgstr ""
 msgid "你潜下了湖。岸上的人替你守着。"
 msgstr ""
 
+#. main.finale/hall objective
+#: data/story/finale.json
+msgid "冰龙厅：商玦在水潭边等你。"
+msgstr ""
+
+#. main.finale/hall text
+#: data/story/finale.json
+msgid "商玦倒在冰龙厅的水潭边。"
+msgstr ""
+
 #. main.finale/depths objective
 #: data/story/finale.json
-msgid "穿过冰龙厅，下到封坛。"
+msgid "水潭底下就是封坛。潜下去。"
 msgstr ""
 
 #. main.finale/depths text
 #: data/story/finale.json
-msgid "你回到了湖底。"
+msgid "你回到了湖底。坛心的冰里，那颗头睁着眼。"
+msgstr ""
+
+#. main.finale/demon objective
+#: data/story/finale.json
+msgid "封坛：侮天鬼。（钉还钉着的，先拔出穿灵；拔过了的，到坛心「迎上去」。）"
+msgstr ""
+
+#. main.finale/demon text
+#: data/story/finale.json
+msgid "侮天鬼散成一团黑焰，退回了那颗头底下。"
+msgstr ""
+
+#. main.finale/end objective
+#: data/story/finale.json
+msgid "最后一下：三器齐、人够，就钉下去灭了它；不然把穿灵交给一个肯留下的人，再封。"
+msgstr ""
+
+#. main.finale/end/slay text
+#: data/story/finale.json
+msgid "旋芒斩它，宝衣挡它的黑焰，穿灵钉它的头。侮天鬼灭了。"
+msgstr ""
+
+#. main.finale/end/slay reward.deed
+#: data/story/finale.json
+msgid "在玉螺湖底灭了侮天鬼"
+msgstr ""
+
+#. main.finale/end/seal_elon text
+#: data/story/finale.json
+msgid "瑷伦把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。"
+msgstr ""
+
+#. main.finale/end/seal_elon reward.deed
+#: data/story/finale.json
+msgid "在玉螺湖底再封了侮天鬼，瑷伦留在了冰里"
+msgstr ""
+
+#. main.finale/end/seal_lihong text
+#: data/story/finale.json
+msgid "璃虹把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。"
+msgstr ""
+
+#. main.finale/end/seal_lihong reward.deed
+#: data/story/finale.json
+msgid "在玉螺湖底再封了侮天鬼，璃虹留在了冰里"
+msgstr ""
+
+#. main.finale/end/seal_nan text
+#: data/story/finale.json
+msgid "南危水把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。"
+msgstr ""
+
+#. main.finale/end/seal_nan reward.deed
+#: data/story/finale.json
+msgid "在玉螺湖底再封了侮天鬼，南危水留在了冰里"
+msgstr ""
+
+#. main.finale/end/seal_xiao text
+#: data/story/finale.json
+msgid "萧辟尘把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。"
+msgstr ""
+
+#. main.finale/end/seal_xiao reward.deed
+#: data/story/finale.json
+msgid "在玉螺湖底再封了侮天鬼，萧辟尘留在了冰里"
+msgstr ""
+
+#. main.finale/end/seal_self text
+#: data/story/finale.json
+msgid "你把穿灵钉回那颗头上，自己留在了冰里。"
+msgstr ""
+
+#. main.finale/end/seal_self reward.deed
+#: data/story/finale.json
+msgid "在玉螺湖底再封了侮天鬼，自己留在了冰里"
+msgstr ""
+
+#. main.finale/home objective
+#: data/story/finale.json
+msgid "回雪亭镇。"
+msgstr ""
+
+#. main.finale/home text
+#: data/story/finale.json
+msgid "雪亭镇的广场上，那队白衣武官又来了。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -26164,6 +26289,8 @@ msgstr ""
 #. native.npc.nan_weishui_guest name
 #. native.npc.wei_canglan inquiry topic
 #. native.npc.nan_weishui_lake name
+#. native.npc.nan_weishui_altar name
+#. native.npc.nan_weishui_ice name
 #: data/waterfog/npcs.json data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "南危水"
 msgstr ""
@@ -26171,6 +26298,7 @@ msgstr ""
 #. waterfog.npc.elder5 title
 #. native.npc.nan_weishui_guest title
 #. native.npc.nan_weishui_lake title
+#. native.npc.nan_weishui_altar title
 #: data/waterfog/npcs.json data/guanbei/npcs.json data/native/npcs.json
 msgid "水烟阁五长老"
 msgstr ""
@@ -28539,12 +28667,15 @@ msgstr ""
 
 #. latemoon.npc.room.elon name
 #. native.npc.elon_lake name
+#. native.npc.elon_altar name
+#. native.npc.elon_ice name
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid "瑷伦"
 msgstr ""
 
 #. latemoon.npc.room.elon title
 #. native.npc.elon_lake title
+#. native.npc.elon_altar title
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid "晚月庄开山祖师"
 msgstr ""
@@ -28890,6 +29021,7 @@ msgstr ""
 
 #. latemoon.npc.room.annihi name
 #. native.npc.annie_lake name
+#. native.npc.annie_altar name
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid "安妮儿"
 msgstr ""
@@ -34790,6 +34922,25 @@ msgid ""
 "你找来找去，终于还是没找到熟透的西瓜。\n"
 msgstr ""
 
+#. village.lakebottom2.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"商玦站在水潭边，挡着你的路。\n"
+msgstr ""
+
+#. village.lakebottom2.pool act.acts.ask
+#: data/village/world.json
+msgid ""
+"潜下去，就是去见它了。\n"
+"确定潜下去吗？"
+msgstr ""
+
+#. village.lakebottom2.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你吸足一口气，扎进水潭。潭底的光暗得只剩一线，黑气顺着水往上冒。\n"
+msgstr ""
+
 #. village.lakebottom2.pool act.acts.ask
 #: data/village/world.json
 msgid ""
@@ -34812,6 +34963,30 @@ msgstr ""
 #. village.seal_altar.pool act.verb
 #: data/village/world.json
 msgid "游上去"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你已经是冰了。\n"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你从潭口钻上去。冰龙厅里静悄悄的，冰洞、湖底，一路往上，水是清的。\n"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你从湖心冒出头来。湖上的黑冰没了。\n"
+msgstr ""
+
+#. village.seal_altar.pool act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"东边的天亮了。\n"
 msgstr ""
 
 #. village.seal_altar.pool act.acts.steps.line
@@ -34909,9 +35084,50 @@ msgid "拔出来"
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"事情已经了结了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
 #: data/village/world.json
 msgid ""
 "剑已经在你手里了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.ask
+#: data/village/world.json
+msgid ""
+"拔出穿灵，钉就没了，它当场成形。三器、来的人，都在这里了。\n"
+"要拔吗？"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你握住剑柄。冰柱里的光只剩一线。你往上一拔——冰「喀」地一声裂开，剑出来了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"黑焰从坛下涌上来，一团没有头的人形站了起来。那颗头悬在它肩上，眼睛睁着。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"宝衣的下摆一展，黑焰卷到跟前就散了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"没有宝衣挡着，黑焰烧得人睁不开眼。\n"
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line
@@ -35037,6 +35253,157 @@ msgstr ""
 #. village.seal_altar.keep act.acts.steps.say
 #: data/village/world.json
 msgid "不拔？那就等它自己出来。"
+msgstr ""
+
+#. village.seal_altar.face name
+#: data/village/world.json
+msgid "坛心"
+msgstr ""
+
+#. village.seal_altar.face act.verb
+#. village.seal_altar.face act.acts.choice
+#: data/village/world.json
+msgid "迎上去"
+msgstr ""
+
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"焰退回了那颗头底下，一下一下地跳。\n"
+msgstr ""
+
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"它就在你面前。\n"
+msgstr ""
+
+#. village.seal_altar.face act.acts.ask
+#: data/village/world.json
+msgid "迎上去？它长了一整个三百年。来的人、三器，都在这里了。"
+msgstr ""
+
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你走上封坛。坛心的剑孔里，黑气一股一股往上冒。\n"
+msgstr ""
+
+#. village.seal_altar.face act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"钉还钉着。先拔出穿灵，它才成形。\n"
+msgstr ""
+
+#. village.seal_altar.face act.acts.steps.line
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"坛心的冰里，那颗头闭着眼。\n"
+msgstr ""
+
+#. village.seal_altar.nail name
+#: data/village/world.json
+msgid "那颗头"
+msgstr ""
+
+#. village.seal_altar.nail act.verb
+#. village.seal_altar.nail act.acts.choice
+#: data/village/world.json
+msgid "钉下去"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"它还站着。先把它打倒。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.ask
+#: data/village/world.json
+msgid ""
+"钉下去？\n"
+"旋芒斩它，宝衣挡它最后一口黑焰，穿灵钉它的头——灭了它。"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"焰又聚了起来，最后一次。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你拔出旋芒，一剑——焰从中间分开。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.emote
+#: data/village/world.json
+msgid "举起旋芒，一剑劈下去。焰从中间分开。"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.say
+#: data/village/world.json
+msgid "三百年前於兰家拔错了一把。这一把，劈对了。"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.say
+#: data/village/world.json
+msgid "城里的风送我来，就是为了这一下。"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"最后一口黑焰扑上来，宝衣挡住了。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.emote
+#: data/village/world.json
+msgid "把宝衣的下摆一展，挡在你前头。最后一口黑焰散了。"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你握着穿灵，钉进那颗头里。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"头裂开了。焰灭了。冰穹上的龙影一齐抬起头。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"冰柱里的光灭了。璃虹从冰里走出来，倒在你脚边，笑了一下。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"三器不齐，或者守的人不够——灭不了它，只能再封。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"把穿灵交给一个肯留下的人，他把剑钉回去，自己留在冰里。\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"（问他们「留下」。）\n"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"（璃虹的光不多了。那片羽在你手里的话，她还能再守一回。）\n"
 msgstr ""
 
 #. city.npc.guard name
@@ -40887,12 +41254,16 @@ msgstr ""
 #. native.npc.xuan_mingzi_cliff inquiry topic
 #. native.npc.lihong inquiry topic
 #. native.npc.shang_jue_lake name
+#. native.npc.shang_jue_waiting name
+#. native.npc.shang_jue_fighting name
 #: data/niling/npcs.json data/native/npcs.json
 msgid "商玦"
 msgstr ""
 
 #. native.npc.shang_jue title
 #. native.npc.shang_jue_lake title
+#. native.npc.shang_jue_waiting title
+#. native.npc.shang_jue_fighting title
 #: data/niling/npcs.json data/native/npcs.json
 msgid "逆灵宫宫主"
 msgstr ""
@@ -48022,6 +48393,7 @@ msgstr ""
 #. native.npc.song_pu_messenger inquiry topic
 #. native.npc.feng_ce name
 #. native.npc.feng_ce_lake name
+#. native.npc.feng_ce_lakebottom name
 #: data/imperial/npcs.json data/native/npcs.json
 msgid "冯策"
 msgstr ""
@@ -48029,6 +48401,7 @@ msgstr ""
 #. native.npc.feng_ce_beside title
 #. native.npc.feng_ce title
 #. native.npc.feng_ce_lake title
+#. native.npc.feng_ce_lakebottom title
 #: data/imperial/npcs.json data/native/npcs.json
 msgid "大内侍卫营总教头"
 msgstr ""
@@ -50645,6 +51018,7 @@ msgstr ""
 #. native.npc.lihong name
 #. native.npc.lihong_weak name
 #. native.npc.lihong_ashore name
+#. native.npc.lihong_finale name
 #: data/native/npcs.json
 msgid "璃虹"
 msgstr ""
@@ -50652,6 +51026,7 @@ msgstr ""
 #. native.npc.lihong title
 #. native.npc.lihong_weak title
 #. native.npc.lihong_ashore title
+#. native.npc.lihong_finale title
 #: data/native/npcs.json
 msgid "金乌"
 msgstr ""
@@ -50700,6 +51075,10 @@ msgid "我哥哥。金乌的长子。它捉了我，他追到这里，钉了它�
 msgstr ""
 
 #. native.npc.lihong inquiry topic
+#. native.npc.wutian_gui name
+#. native.npc.wutian_gui_blazing name
+#. native.npc.wutian_gui_grown name
+#. native.npc.wutian_gui_grown_blazing name
 #: data/native/npcs.json
 msgid "侮天鬼"
 msgstr ""
@@ -50733,13 +51112,184 @@ msgstr ""
 
 #. native.npc.lihong inquiry topic
 #. native.npc.lihong_ashore inquiry topic
+#. native.npc.elon_altar inquiry topic
+#. native.npc.nan_weishui_altar inquiry topic
+#. native.npc.xiao_pichen_altar inquiry topic
+#. native.npc.yulan_tianwu_altar inquiry topic
+#. native.npc.annie_altar inquiry topic
+#. native.npc.lihong_finale inquiry topic
 #: data/native/npcs.json
 msgid "留下"
+msgstr ""
+
+#. native.npc.lihong inquiry.留下.rules.marks_asker
+#. native.npc.lihong inquiry.我留下.confirm_marks
+#. native.npc.lihong_finale inquiry.留下.rules.marks_asker
+#. native.npc.lihong_finale inquiry.我留下.confirm_marks
+#: data/native/npcs.json
+msgid "璃虹说了或者是你"
+msgstr ""
+
+#. native.npc.lihong inquiry.留下.rules.lines.say
+#: data/native/npcs.json
+msgid "把我的羽还给我——光回来一点，够再守三百年。穿灵交给我，我钉回去。"
+msgstr ""
+
+#. native.npc.lihong inquiry.留下.rules.lines.say
+#. native.npc.lihong_finale inquiry.留下.rules.lines.say
+#: data/native/npcs.json
+msgid "……或者是你。你也可以。"
+msgstr ""
+
+#. native.npc.lihong inquiry.留下.rules.lines.say
+#. native.npc.lihong accept_object.say
+#: data/native/npcs.json
+msgid "我没有光了。没有那片羽，我留不住。"
+msgstr ""
+
+#. native.npc.lihong inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "再封，须有人留下。留下的人，就是下一块冰。我的光不多了——那片羽在你手里，到时候还给我，我还能再守一回。"
 msgstr ""
 
 #. native.npc.lihong inquiry.留下.rules.say
 #: data/native/npcs.json
 msgid "再封，须有人留下。留下的人，就是下一块冰。我哥哥没有留，我留了；这一回要是再封，不会是我——我已经没有光了。"
+msgstr ""
+
+#. native.npc.lihong inquiry topic
+#. native.npc.lihong_finale inquiry topic
+#: data/native/npcs.json
+msgid "我留下"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_marks
+#. native.npc.lihong_finale inquiry.我留下.confirm_marks
+#: data/native/npcs.json
+msgid "侮天鬼倒了"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#: data/native/npcs.json
+msgid "能灭它"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#: data/native/npcs.json
+msgid "瑷伦留在了冰里"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#: data/native/npcs.json
+msgid "璃虹留在了冰里"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#: data/native/npcs.json
+msgid "南危水留在了冰里"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#: data/native/npcs.json
+msgid "萧辟尘留在了冰里"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong inquiry.我留下.rules.marks_asker
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.rules.marks_asker
+#: data/native/npcs.json
+msgid "你留在了冰里"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.confirm_lacks
+#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
+#: data/native/npcs.json
+msgid "侮天鬼灭了"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.rules.say
+#. native.npc.lihong_finale inquiry.我留下.rules.say
+#: data/native/npcs.json
+msgid "三器齐了。灭了它。"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.rules.lines.say
+#. native.npc.lihong_finale inquiry.我留下.rules.lines.say
+#: data/native/npcs.json
+msgid "……好。"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.rules.lines.line
+#. native.npc.lihong_finale inquiry.我留下.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"你握着穿灵走上封坛，一剑钉进那颗头里。冰从坛心长起来，冷得不像冷，像很长很长的一觉。\n"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.rules.say
+#. native.npc.lihong_finale inquiry.我留下.rules.say
+#: data/native/npcs.json
+msgid "……你在说什么。"
+msgstr ""
+
+#. native.npc.lihong accept_object.say
+#. native.npc.elon_altar accept_object.say
+#. native.npc.nan_weishui_altar accept_object.say
+#. native.npc.xiao_pichen_altar accept_object.say
+#: data/native/npcs.json
+msgid "你已经留下了。"
+msgstr ""
+
+#. native.npc.lihong accept_object.say
+#. native.npc.elon_altar inquiry.留下.rules.say
+#. native.npc.elon_altar accept_object.say
+#. native.npc.nan_weishui_altar inquiry.留下.rules.say
+#. native.npc.nan_weishui_altar accept_object.say
+#. native.npc.xiao_pichen_altar inquiry.留下.rules.say
+#. native.npc.xiao_pichen_altar accept_object.say
+#: data/native/npcs.json
+msgid "三器齐了。钉下去，用不着谁留下。"
+msgstr ""
+
+#. native.npc.lihong accept_object.ask
+#: data/native/npcs.json
+msgid ""
+"把穿灵和那片羽交给璃虹？\n"
+"她把剑钉回那颗头上，光回来，再守三百年——再封。"
+msgstr ""
+
+#. native.npc.lihong accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"那片羽在你怀里亮了一下，又暗了——光回到了冰柱里，一下子亮了起来。\n"
+msgstr ""
+
+#. native.npc.lihong accept_object.lines.say
+#: data/native/npcs.json
+msgid "三百年。再三百年。去吧。"
+msgstr ""
+
+#. native.npc.lihong accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"穿灵从你手里滑出去，钉回了那颗头里。冰从坛心长起来，合拢了。\n"
+msgstr ""
+
+#. native.npc.lihong accept_object.say
+#. native.npc.elon_altar inquiry.留下.rules.say
+#. native.npc.elon_altar accept_object.say
+#. native.npc.nan_weishui_altar inquiry.留下.rules.say
+#. native.npc.nan_weishui_altar accept_object.say
+#. native.npc.xiao_pichen_altar inquiry.留下.rules.say
+#. native.npc.xiao_pichen_altar accept_object.say
+#: data/native/npcs.json
+msgid "先把它打倒。"
 msgstr ""
 
 #. native.npc.lihong calls.steps.line
@@ -51222,6 +51772,342 @@ msgstr ""
 #. native.npc.yu_zijian_lake accept_object.lines.say
 #: data/native/npcs.json
 msgid "好。天下会记得是谁带回了它。"
+msgstr ""
+
+#. native.npc.shang_jue_waiting long
+#: data/native/npcs.json
+msgid ""
+"商玦站在冰龙厅的水潭边，黑衣上结了一层霜。他在等你。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.emote
+#: data/native/npcs.json
+msgid "站在水潭边，黑衣上结了一层霜。他看着你，像看一个来晚了的人。"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.say
+#: data/native/npcs.json
+msgid "它找了五千年的头。你要在它找到的那一刻毁了它。"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面四个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"四个黑冠道士从冰柱后面走出来，围住了你。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.say
+#: data/native/npcs.json
+msgid "你们管这叫除魔。我管这叫还债。"
+msgstr ""
+
+#. native.npc.shang_jue_fighting long
+#: data/native/npcs.json
+msgid ""
+"商玦拔出了剑。剑身是黑的，没有一点光。\n"
+msgstr ""
+
+#. native.npc.shang_jue_fighting summoned.arrive
+#: data/native/npcs.json
+msgid "商玦拔出了剑，一步一步走过来。"
+msgstr ""
+
+#. native.npc.shang_jue_fighting summoned.leave
+#: data/native/npcs.json
+msgid "商玦走进了水潭。"
+msgstr ""
+
+#. native.npc.shang_jue_fighting spared.line
+#: data/native/npcs.json
+msgid "商玦撑着剑站起来，看了你一眼，一步一步走进了水潭：「我等下一个三百年。」"
+msgstr ""
+
+#. native.npc.shang_jue_fighting vanishes.line
+#: data/native/npcs.json
+msgid "商玦散成一股黑烟，从水潭上散了出去。"
+msgstr ""
+
+#. native.npc.shang_jue_fighting chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"商玦说道：它不是妖魔。它是金乌欠下的债。\n"
+msgstr ""
+
+#. native.npc.shang_jue_fighting chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"商玦的剑不带风，像念经。\n"
+msgstr ""
+
+#. native.npc.niling_taoist_lake name
+#: data/native/npcs.json
+msgid "黑冠道士"
+msgstr ""
+
+#. native.npc.niling_taoist_lake long
+#: data/native/npcs.json
+msgid ""
+"一个黑衣黑冠的逆灵宫道士，脸冻得发青，手里的剑结了霜。\n"
+msgstr ""
+
+#. native.npc.niling_taoist_lake summoned.arrive
+#: data/native/npcs.json
+msgid "一个黑冠道士从冰柱后面走了出来。"
+msgstr ""
+
+#. native.npc.niling_taoist_lake summoned.leave
+#: data/native/npcs.json
+msgid "黑冠道士退进了冰缝里。"
+msgstr ""
+
+#. native.npc.niling_taoist_lake vanishes.line
+#: data/native/npcs.json
+msgid "黑冠道士一声不响地散成一股黑烟。"
+msgstr ""
+
+#. native.npc.feng_ce_lakebottom long
+#: data/native/npcs.json
+msgid ""
+"冯策一身素白的武官袍，刀已经出了鞘，站在你身侧半步。\n"
+msgstr ""
+
+#. native.npc.feng_ce_lakebottom summoned.arrive
+#: data/native/npcs.json
+msgid "冯策从冰洞里跟了下来，拔刀站到你身边：「老夫来。」"
+msgstr ""
+
+#. native.npc.feng_ce_lakebottom summoned.leave
+#: data/native/npcs.json
+msgid "冯策收了刀，守在了水潭边。"
+msgstr ""
+
+#. native.npc.wutian_gui long
+#. native.npc.wutian_gui_blazing long
+#. native.npc.wutian_gui_grown long
+#. native.npc.wutian_gui_grown_blazing long
+#: data/native/npcs.json
+msgid ""
+"一团人形的黑焰，没有头。那颗头悬在它肩膀上方，眼睛睁着，还没有长上去。它不出声——它没有嘴。\n"
+msgstr ""
+
+#. native.npc.wutian_gui summoned.arrive
+#. native.npc.wutian_gui_blazing summoned.arrive
+#. native.npc.wutian_gui_grown summoned.arrive
+#. native.npc.wutian_gui_grown_blazing summoned.arrive
+#: data/native/npcs.json
+msgid "黑焰从坛下涌上来，一团没有头的人形站了起来。"
+msgstr ""
+
+#. native.npc.wutian_gui summoned.leave
+#. native.npc.wutian_gui_blazing summoned.leave
+#. native.npc.wutian_gui_grown summoned.leave
+#. native.npc.wutian_gui_grown_blazing summoned.leave
+#: data/native/npcs.json
+msgid "黑焰退回了那颗头底下。"
+msgstr ""
+
+#. native.npc.wutian_gui vanishes.line
+#. native.npc.wutian_gui_blazing vanishes.line
+#. native.npc.wutian_gui_grown vanishes.line
+#. native.npc.wutian_gui_grown_blazing vanishes.line
+#: data/native/npcs.json
+msgid "侮天鬼散成一团黑焰，退回了那颗头底下。焰还在一下一下地跳。"
+msgstr ""
+
+#. native.npc.wutian_gui chat_msg_combat
+#. native.npc.wutian_gui_blazing chat_msg_combat
+#. native.npc.wutian_gui_grown chat_msg_combat
+#. native.npc.wutian_gui_grown_blazing chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"黑焰卷过来，冰「嗤」地化了一片。\n"
+msgstr ""
+
+#. native.npc.wutian_gui chat_msg_combat
+#. native.npc.wutian_gui_blazing chat_msg_combat
+#. native.npc.wutian_gui_grown chat_msg_combat
+#. native.npc.wutian_gui_grown_blazing chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"那颗头在它肩上转过来，看着你。\n"
+msgstr ""
+
+#. native.npc.elon_altar long
+#: data/native/npcs.json
+msgid ""
+"瑷伦披着寒於宝衣站在封坛边，衣角压着黑焰的风，一动不动。\n"
+msgstr ""
+
+#. native.npc.elon_altar inquiry.留下.rules.say
+#. native.npc.nan_weishui_altar inquiry.留下.rules.say
+#. native.npc.xiao_pichen_altar inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "我留下了。"
+msgstr ""
+
+#. native.npc.elon_altar inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "把穿灵给我。我把它钉回去，留在冰里——守衣守了几百年，换一样东西守。"
+msgstr ""
+
+#. native.npc.elon_altar accept_object.ask
+#: data/native/npcs.json
+msgid ""
+"把穿灵交给瑷伦？\n"
+"她把剑钉回那颗头上，自己留在冰里——再封。她不会再回晚月庄。"
+msgstr ""
+
+#. native.npc.elon_altar accept_object.lines.emote
+#: data/native/npcs.json
+msgid "接过穿灵，走上封坛，一剑钉进那颗头里。"
+msgstr ""
+
+#. native.npc.elon_altar accept_object.lines.say
+#: data/native/npcs.json
+msgid "宝衣跟着我。下一个来的人，记得它在这里。"
+msgstr ""
+
+#. native.npc.elon_altar accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"冰从坛心长起来，没过她的脚、她的腰、她的肩。她没有回头。\n"
+msgstr ""
+
+#. native.npc.nan_weishui_altar long
+#: data/native/npcs.json
+msgid ""
+"南危水站在封坛边，焦殇剑出了鞘。二十年前的事，他好像终于等到了。\n"
+msgstr ""
+
+#. native.npc.nan_weishui_altar inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "二十年前有人替我死了。这一回，我替他把账还上。把穿灵给我。"
+msgstr ""
+
+#. native.npc.nan_weishui_altar accept_object.ask
+#: data/native/npcs.json
+msgid ""
+"把穿灵交给南危水？\n"
+"他把剑钉回那颗头上，自己留在冰里——再封。水烟阁再也等不到他。"
+msgstr ""
+
+#. native.npc.nan_weishui_altar accept_object.lines.emote
+#: data/native/npcs.json
+msgid "接过穿灵，掂了掂，笑了一下。"
+msgstr ""
+
+#. native.npc.nan_weishui_altar accept_object.lines.say
+#: data/native/npcs.json
+msgid "告诉颜违：五长老这回是真死了。"
+msgstr ""
+
+#. native.npc.nan_weishui_altar accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"他一剑钉进那颗头里。冰从坛心长起来，没过了他。\n"
+msgstr ""
+
+#. native.npc.xiao_pichen_altar long
+#: data/native/npcs.json
+msgid ""
+"萧辟尘握着旋芒站在封坛边，风从潭口灌下来，他的衣角往城的方向飘。\n"
+msgstr ""
+
+#. native.npc.xiao_pichen_altar inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "我说过，回不来就回不来。把穿灵给我。"
+msgstr ""
+
+#. native.npc.xiao_pichen_altar accept_object.ask
+#: data/native/npcs.json
+msgid ""
+"把穿灵交给萧辟尘？\n"
+"他把剑钉回那颗头上，自己留在冰里——再封。旋芒跟着他。"
+msgstr ""
+
+#. native.npc.xiao_pichen_altar accept_object.lines.emote
+#: data/native/npcs.json
+msgid "接过穿灵，回头看了一眼潭口。"
+msgstr ""
+
+#. native.npc.xiao_pichen_altar accept_object.lines.say
+#: data/native/npcs.json
+msgid "城里的风要是问起我，就说我在这里。"
+msgstr ""
+
+#. native.npc.xiao_pichen_altar accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"他一剑钉进那颗头里。冰从坛心长起来，没过了他，旋芒还在他手里转。\n"
+msgstr ""
+
+#. native.npc.yulan_tianwu_altar long
+#: data/native/npcs.json
+msgid ""
+"於兰天武握着旋芒站在封坛边，朝服下摆被黑焰燎焦了一角。\n"
+msgstr ""
+
+#. native.npc.yulan_tianwu_altar inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "老夫的命是朝廷的。冰里，老夫留不得。"
+msgstr ""
+
+#. native.npc.annie_altar long
+#: data/native/npcs.json
+msgid ""
+"安妮儿披着寒於宝衣站在封坛边，黑焰卷到她跟前就散了。\n"
+msgstr ""
+
+#. native.npc.annie_altar inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "东方神教守的是封法，不是冰。留下的，得是跟它有账的人。"
+msgstr ""
+
+#. native.npc.lihong_finale long
+#: data/native/npcs.json
+msgid ""
+"璃虹扶着冰壁站在潭口边，身上的光只剩一点。她跟着你下来了。\n"
+msgstr ""
+
+#. native.npc.lihong_finale inquiry.留下.rules.lines.say
+#: data/native/npcs.json
+msgid "我没有光了，留不住。"
+msgstr ""
+
+#. native.npc.lihong_finale inquiry.留下.rules.say
+#: data/native/npcs.json
+msgid "先下去。"
+msgstr ""
+
+#. native.npc.elon_ice title
+#. native.npc.nan_weishui_ice title
+#. native.npc.xiao_pichen_ice title
+#: data/native/npcs.json
+msgid "守者"
+msgstr ""
+
+#. native.npc.elon_ice long
+#: data/native/npcs.json
+msgid ""
+"冰柱里站着瑷伦，披着寒於宝衣，眼睛睁着。冰里的光是暖的。\n"
+msgstr ""
+
+#. native.npc.nan_weishui_ice long
+#: data/native/npcs.json
+msgid ""
+"冰柱里站着南危水，手按在剑柄上，像还在等什么人。\n"
+msgstr ""
+
+#. native.npc.xiao_pichen_ice long
+#: data/native/npcs.json
+msgid ""
+"冰柱里站着萧辟尘，旋芒在他手里，冰里有一点风的影子。\n"
 msgstr ""
 
 #. native:snow/letter_to_chen name

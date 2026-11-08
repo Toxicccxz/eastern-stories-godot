@@ -6,7 +6,7 @@
 			"line": "main",
 			"region": "玉螺湖村",
 			"sources": [
-				"native: 终章 A (剧情总纲 §3 终章: 三器齐才灭，缺一再封; 谁来按事迹; §9 Q1; 计划 build/plans/终章_计划.md A 包与 §3、§4, owner 2026-11-08「按推荐的做」: Q1 三器在场 + 帮手三拨, Q2 璃虹要羽才能留, Q3 片尾后接着玩; DECISIONS「终章 A」「任务清单」「步骤条件」「决战前存档」) (第十章 C opened it with one step; A: the lakeside, the 点将 and the night the 鬼卒 come up; B the depths, C the way home)."
+				"native: 终章 A (剧情总纲 §3 终章: 三器齐才灭，缺一再封; 谁来按事迹; §9 Q1; 计划 build/plans/终章_计划.md A 包与 §3、§4, owner 2026-11-08「按推荐的做」: Q1 三器在场 + 帮手三拨, Q2 璃虹要羽才能留, Q3 片尾后接着玩; DECISIONS「终章 A」「任务清单」「步骤条件」「决战前存档」) (第十章 C opened it with one step; A: the lakeside, the 点将 and the night the 鬼卒 come up; B: the 冰龙厅, the 封坛, 侮天鬼, 灭 or 再封 (DECISIONS「终章 B」); C the way home)."
 			],
 			"summary": "穿灵、旋芒、宝衣。三器凑没凑齐，湖底那颗头都在等。拔钉，斩鬼，或者再封它。",
 			"requires": [
@@ -424,15 +424,136 @@
 					}
 				},
 				{
-					"id": "depths",
-					"objective": "穿过冰龙厅，下到封坛。",
+					"id": "hall",
+					"objective": "冰龙厅：商玦在水潭边等你。",
 					"done": {
-						"mark": "回到了湖底"
+						"mark": "商玦倒了"
 					},
-					"text": "你回到了湖底。",
+					"text": "商玦倒在冰龙厅的水潭边。",
 					"target": {
 						"map": "village.icecave",
 						"zone": "village.lakebottom2"
+					}
+				},
+				{
+					"id": "depths",
+					"objective": "水潭底下就是封坛。潜下去。",
+					"done": {
+						"mark": "回到了湖底"
+					},
+					"text": "你回到了湖底。坛心的冰里，那颗头睁着眼。",
+					"target": {
+						"map": "village.icecave",
+						"zone": "village.lakebottom2"
+					}
+				},
+				{
+					"id": "demon",
+					"objective": "封坛：侮天鬼。（钉还钉着的，先拔出穿灵；拔过了的，到坛心「迎上去」。）",
+					"done": {
+						"mark": "侮天鬼倒了"
+					},
+					"text": "侮天鬼散成一团黑焰，退回了那颗头底下。",
+					"target": {
+						"map": "village.seal_chamber",
+						"zone": "village.seal_altar"
+					}
+				},
+				{
+					"id": "end",
+					"objective": "最后一下：三器齐、人够，就钉下去灭了它；不然把穿灵交给一个肯留下的人，再封。",
+					"target": {
+						"map": "village.seal_chamber",
+						"zone": "village.seal_altar"
+					},
+					"options": [
+						{
+							"id": "slay",
+							"done": {
+								"mark": "侮天鬼灭了"
+							},
+							"text": "旋芒斩它，宝衣挡它的黑焰，穿灵钉它的头。侮天鬼灭了。",
+							"reward": {
+								"deed": "在玉螺湖底灭了侮天鬼"
+							}
+						},
+						{
+							"id": "seal_elon",
+							"done": {
+								"mark": "瑷伦留在了冰里"
+							},
+							"text": "瑷伦把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。",
+							"reward": {
+								"deed": "在玉螺湖底再封了侮天鬼，瑷伦留在了冰里",
+								"marks": [
+									"再封了侮天鬼"
+								]
+							}
+						},
+						{
+							"id": "seal_lihong",
+							"done": {
+								"mark": "璃虹留在了冰里"
+							},
+							"text": "璃虹把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。",
+							"reward": {
+								"deed": "在玉螺湖底再封了侮天鬼，璃虹留在了冰里",
+								"marks": [
+									"再封了侮天鬼"
+								]
+							}
+						},
+						{
+							"id": "seal_nan",
+							"done": {
+								"mark": "南危水留在了冰里"
+							},
+							"text": "南危水把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。",
+							"reward": {
+								"deed": "在玉螺湖底再封了侮天鬼，南危水留在了冰里",
+								"marks": [
+									"再封了侮天鬼"
+								]
+							}
+						},
+						{
+							"id": "seal_xiao",
+							"done": {
+								"mark": "萧辟尘留在了冰里"
+							},
+							"text": "萧辟尘把穿灵钉回那颗头上，留在了冰里。侮天鬼再封了。",
+							"reward": {
+								"deed": "在玉螺湖底再封了侮天鬼，萧辟尘留在了冰里",
+								"marks": [
+									"再封了侮天鬼"
+								]
+							}
+						},
+						{
+							"id": "seal_self",
+							"done": {
+								"mark": "你留在了冰里"
+							},
+							"text": "你把穿灵钉回那颗头上，自己留在了冰里。",
+							"reward": {
+								"deed": "在玉螺湖底再封了侮天鬼，自己留在了冰里",
+								"marks": [
+									"再封了侮天鬼"
+								]
+							}
+						}
+					]
+				},
+				{
+					"id": "home",
+					"objective": "回雪亭镇。",
+					"done": {
+						"mark": "宣过诏"
+					},
+					"text": "雪亭镇的广场上，那队白衣武官又来了。",
+					"target": {
+						"map": "snow.outdoor",
+						"zone": "snow.square"
 					}
 				}
 			]

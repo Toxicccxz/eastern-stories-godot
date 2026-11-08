@@ -1,0 +1,26 @@
+{
+  "people": {
+    "death.npc.hell_guard": {
+      "note": "子阴鬼牙将（名字前的「子」是十二地支里随机一个）：鬼门关的阴卒，鬼卒中的精锐；冥府战甲，七股钢叉（spear 近似）；比鬼卒高大、黑铁色札甲带暗红边、头盔，灰绿皮、眼里两点青火；立绘 Muse 2026-11-08",
+      "coat": "151519", "pants": "262528", "skin": "92a49a", "hair": "000001",
+      "hair_style": "short", "headwear": "helmet", "headwear_color": "151519", "beard": "none",
+      "waist": "belt", "prop": "spear", "prop_color": "92a895", "accent": "67323b",
+      "extras": ["armor"], "armor_color": "151519", "height": "tall", "build": "heavy",
+      "shoes": "dark"
+    },
+    "death.npc.wgargoyle": {
+      "note": "白无常，217 岁：伸著长长的舌头，死白的脸；从袖中掏出帐册翻看（生死簿，book 近似）；瘦高、白麻长袍、高高的白帽（「一见生财」，高帽无词，official_cap 近似），手指又白又长；立绘 Muse 2026-11-08",
+      "coat": "e5ecee", "pants": "b3c4c9", "skin": "f2fafb", "hair": "9f9ea7",
+      "hair_style": "short", "headwear": "official_cap", "headwear_color": "e5ecee",
+      "beard": "none", "waist": "sash", "prop": "book", "prop_color": "dce5d5", "accent": "b3c4c9",
+      "height": "tall", "build": "slim", "shoes": "white", "scale": 1.12
+    },
+    "death.npc.bgargoyle": {
+      "note": "黑无常，217 岁：伸著长长的舌头，黝黑的脸；见活人喝「喂！阳人来阴间做什么？」；和白无常一对：高帽、黑袍、长舌头，身子更壮，手里一条锁魂铁链（高帽、铁链无词）；立绘 Muse 2026-11-08",
+      "coat": "222222", "pants": "171717", "skin": "605d54", "hair": "020202",
+      "hair_style": "short", "headwear": "official_cap", "headwear_color": "222222",
+      "beard": "none", "waist": "sash", "prop": "none", "accent": "483421", "height": "tall",
+      "build": "standard", "shoes": "dark", "scale": 1.12
+    }
+  }
+}
