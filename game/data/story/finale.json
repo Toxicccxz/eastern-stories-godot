@@ -546,17 +546,24 @@
 				},
 				{
 					"id": "home",
-					"objective": "回雪亭镇。",
+					"objective": "回雪亭镇。广场上，那队白衣武官又来了。",
 					"done": {
 						"mark": "宣过诏"
 					},
-					"text": "雪亭镇的广场上，那队白衣武官又来了。",
+					"text": "雪亭镇的广场上，宣了诏。",
 					"target": {
 						"map": "snow.outdoor",
 						"zone": "snow.square"
 					}
 				}
-			]
+			],
+			"reward": {
+				"milestone": true,
+				"deed": "从玉螺湖底回到了雪亭镇，听了宣诏",
+				"marks": [
+					"终章"
+				]
+			}
 		}
 	]
 }

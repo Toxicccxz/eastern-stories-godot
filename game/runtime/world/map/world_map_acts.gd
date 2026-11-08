@@ -263,6 +263,10 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					_map.npc_life.scene_look_at(npc)
 			ScriptedAct.Kind.TAKE:
 				_take_from_player(step.item_id)
+			ScriptedAct.Kind.EPILOGUE:
+				_show(said, hears, npc, spoken)
+				if _map.session != null:
+					_map.session.play_epilogue(StringName(step.flag))
 			ScriptedAct.Kind.KEEP_SAVE:
 				if _map.session != null:
 					_map.session.request_kept_save()

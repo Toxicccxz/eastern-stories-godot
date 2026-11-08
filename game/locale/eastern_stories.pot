@@ -359,6 +359,9 @@ msgstr ""
 #. native.npc.yulan_tianwu_altar gender
 #. native.npc.nan_weishui_ice gender
 #. native.npc.xiao_pichen_ice gender
+#. native.npc.herald_feng_ce gender
+#. native.npc.herald_uncle gender
+#. native.npc.herald_ministry gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -3624,8 +3627,9 @@ msgstr ""
 msgid "布帘"
 msgstr ""
 
+#. ending cards.title
 #. es2:d/snow/inn short
-#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/inn.json data/snow/voxel/outdoor.json
+#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/story/epilogue.json data/snow/rooms.json data/snow/voxel/inn.json data/snow/voxel/outdoor.json
 msgid "饮风客栈"
 msgstr ""
 
@@ -4127,9 +4131,10 @@ msgstr ""
 #. common.npc.swordsman.master inquiry topic
 #. common.npc.fighter.champion inquiry topic
 #. main.chapter2 region
+#. ending cards.title
 #. waterfog name
 #. native.npc.wei_canglan inquiry topic
-#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/waterfog/world.json data/imperial/npcs.json data/waterfog/voxel/mountain.json
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/story/epilogue.json data/waterfog/world.json data/imperial/npcs.json data/waterfog/voxel/mountain.json
 msgid "水烟阁"
 msgstr ""
 
@@ -8813,7 +8818,8 @@ msgstr ""
 msgid "指路"
 msgstr ""
 
-#: runtime/application/application_shell_controller.gd
+#. ending cards.title
+#: runtime/application/application_shell_controller.gd data/story/epilogue.json
 msgid "东方故事"
 msgstr ""
 
@@ -10396,6 +10402,11 @@ msgstr ""
 #. drift_sense.c: an empty answer to its question stops the conjuring (中止施法。).
 #: ui/world/drift_sense_panel.gd
 msgid "中止施法"
+msgstr ""
+
+#. native (终章 C): under a card of the ending told over the 沙盘: go on.
+#: ui/world/epilogue_overlay.gd
+msgid "E 继续"
 msgstr ""
 
 #: ui/world/game_menu.gd
@@ -14882,15 +14893,17 @@ msgstr ""
 #. snow.weapon_storage region
 #. native.bounty region
 #. main.prologue region
+#. ending cards.title
 #. snow name
-#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/snow/world.json
+#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/story/epilogue.json data/snow/world.json
 msgid "雪亭镇"
 msgstr ""
 
 #. name
 #. main.chapter3 region
+#. ending cards.title
 #. goathill name
-#: data/common/atlas.json data/story/chapter3.json data/goathill/world.json
+#: data/common/atlas.json data/story/chapter3.json data/story/epilogue.json data/goathill/world.json
 msgid "野羊山"
 msgstr ""
 
@@ -14918,9 +14931,10 @@ msgstr ""
 #. oldpine.skeleton region
 #. oldpine.knife_marks region
 #. main.chapter1 region
+#. ending cards.title
 #. oldpine name
 #. native.npc.wei_canglan inquiry topic
-#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/oldpine/world.json data/imperial/npcs.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/story/epilogue.json data/oldpine/world.json data/imperial/npcs.json
 msgid "老松岭"
 msgstr ""
 
@@ -14937,6 +14951,7 @@ msgstr ""
 #. latemoon.old_woman region
 #. latemoon.secret_letter region
 #. main.chapter4 region
+#. ending cards.title
 #. cloud.npc.lm_guard inquiry topic
 #. latemoon.npc.yumay family.name
 #. latemoon.npc.funlin family.name
@@ -14954,7 +14969,7 @@ msgstr ""
 #. latemoon.npc.upstar.shinfun family.name
 #. latemoon.npc.upstar.huei family.name
 #. latemoon name
-#: data/common/atlas.json data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
+#: data/common/atlas.json data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/story/epilogue.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
 msgid "晚月庄"
 msgstr ""
 
@@ -14975,8 +14990,9 @@ msgstr ""
 #. choyin.windspring region
 #. choyin.taolin region
 #. main.chapter5 region
+#. ending cards.title
 #. choyin name
-#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/choyin/world.json data/sanyen/voxel/mountain.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/story/epilogue.json data/choyin/world.json data/sanyen/voxel/mountain.json
 msgid "乔阴县城"
 msgstr ""
 
@@ -15019,8 +15035,9 @@ msgstr ""
 #. village.lake region
 #. main.chapter8 region
 #. main.finale region
+#. ending cards.title
 #. village name
-#: data/common/atlas.json data/common/journal.json data/story/chapter8.json data/story/finale.json data/village/world.json data/chuenyu/voxel/main.json data/city/voxel/main.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter8.json data/story/finale.json data/story/epilogue.json data/village/world.json data/chuenyu/voxel/main.json data/city/voxel/main.json
 msgid "玉螺湖村"
 msgstr ""
 
@@ -15029,8 +15046,9 @@ msgstr ""
 #. city.shangshu region
 #. city.token region
 #. main.chapter9 region
+#. ending cards.title
 #. city name
-#: data/common/atlas.json data/common/journal.json data/story/chapter9.json data/city/world.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter9.json data/story/epilogue.json data/city/world.json
 msgid "京师"
 msgstr ""
 
@@ -15093,6 +15111,7 @@ msgstr ""
 #. name
 #. main.chapter7 title
 #. main.chapter7 region
+#. ending cards.title
 #. native.npc.balang inquiry topic
 #. native.npc.luca inquiry topic
 #. native.npc.salt_porter inquiry topic
@@ -15101,7 +15120,7 @@ msgstr ""
 #. native.npc.stall_child inquiry topic
 #. native.npc.storyteller inquiry topic
 #. fanfang name
-#: data/common/atlas.json data/story/chapter7.json data/guanbei/npcs.json data/fanfang/npcs.json data/fanfang/world.json
+#: data/common/atlas.json data/story/chapter7.json data/story/epilogue.json data/guanbei/npcs.json data/fanfang/npcs.json data/fanfang/world.json
 msgid "番坊"
 msgstr ""
 
@@ -15558,6 +15577,7 @@ msgstr ""
 #. native.npc.yulan_tianwu_wind name
 #. native.npc.yulan_tianwu_lake name
 #. native.npc.yulan_tianwu_altar name
+#. native.npc.herald_uncle name
 #: data/common/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "於兰天武"
 msgstr ""
@@ -15570,6 +15590,7 @@ msgstr ""
 #. common.npc.fighter.champion title
 #. native.npc.yulan_tianwu_lake title
 #. native.npc.yulan_tianwu_altar title
+#. native.npc.herald_uncle title
 #: data/common/npcs.json data/native/npcs.json
 msgid "水烟阁传功使"
 msgstr ""
@@ -19671,6 +19692,7 @@ msgstr ""
 
 #. main.chapter6 title
 #. main.chapter6 region
+#. ending cards.title
 #. canyon.npc.general inquiry topic
 #. village.npc.oldliu inquiry topic
 #. native.npc.guanbei_corvee inquiry topic
@@ -19679,7 +19701,7 @@ msgstr ""
 #. native.npc.camel_driver inquiry topic
 #. native.npc.balang inquiry topic
 #. guanbei name
-#: data/story/chapter6.json data/canyon/npcs.json data/village/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/guanbei/world.json
+#: data/story/chapter6.json data/story/epilogue.json data/canyon/npcs.json data/village/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/guanbei/world.json
 msgid "关北"
 msgstr ""
 
@@ -20234,6 +20256,11 @@ msgstr ""
 msgid "穿灵、旋芒、宝衣。三器凑没凑齐，湖底那颗头都在等。拔钉，斩鬼，或者再封它。"
 msgstr ""
 
+#. main.finale reward.deed
+#: data/story/finale.json
+msgid "从玉螺湖底回到了雪亭镇，听了宣诏"
+msgstr ""
+
 #. main.finale/lake objective
 #: data/story/finale.json
 msgid "回到湖底。拔钉，斩鬼，或者再封它。"
@@ -20361,12 +20388,22 @@ msgstr ""
 
 #. main.finale/home objective
 #: data/story/finale.json
-msgid "回雪亭镇。"
+msgid "回雪亭镇。广场上，那队白衣武官又来了。"
 msgstr ""
 
 #. main.finale/home text
 #: data/story/finale.json
-msgid "雪亭镇的广场上，那队白衣武官又来了。"
+msgid "雪亭镇的广场上，宣了诏。"
+msgstr ""
+
+#. ending cards.title
+#: data/story/epilogue.json
+msgid "玉螺湖底"
+msgstr ""
+
+#. ending cards.title
+#: data/story/epilogue.json
+msgid "终"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -43868,6 +43905,7 @@ msgstr ""
 #. native.npc.site_officer_fighting name
 #. native.npc.wei_canglan inquiry topic
 #. native.npc.white_officer name
+#. native.npc.herald_ministry name
 #: data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "白衣武官"
 msgstr ""
@@ -48394,6 +48432,7 @@ msgstr ""
 #. native.npc.feng_ce name
 #. native.npc.feng_ce_lake name
 #. native.npc.feng_ce_lakebottom name
+#. native.npc.herald_feng_ce name
 #: data/imperial/npcs.json data/native/npcs.json
 msgid "冯策"
 msgstr ""
@@ -48402,6 +48441,7 @@ msgstr ""
 #. native.npc.feng_ce title
 #. native.npc.feng_ce_lake title
 #. native.npc.feng_ce_lakebottom title
+#. native.npc.herald_feng_ce title
 #: data/imperial/npcs.json data/native/npcs.json
 msgid "大内侍卫营总教头"
 msgstr ""
@@ -52108,6 +52148,126 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "冰柱里站着萧辟尘，旋芒在他手里，冰里有一点风的影子。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce long
+#: data/native/npcs.json
+msgid ""
+"冯策站在广场中间，素白的武官袍，手里一卷黄绫。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"广场上，那队白衣武官又站在了三年前那个地方。这一回，他们是来宣诏的。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.say
+#: data/native/npcs.json
+msgid "奉旨。"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"「……玉螺湖妖氛已靖。寻剑令，到此为止。」\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"「……玉螺湖患暂平。湖底守者，朝廷记其名。」\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"念到「瑷伦」两个字，宣诏的人顿了一下。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"念到「璃虹」两个字，宣诏的人顿了一下。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"念到「南危水」三个字，宣诏的人顿了一下。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"念到「萧辟尘」三个字，宣诏的人顿了一下。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"「……前兵部尚书庾子建，伪造诏令，扰民拿人，即日问罪。」\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"「……兵部尚书庾子建，寻回旋芒，功在社稷。」\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.line
+#. native.npc.herald_uncle calls.steps.line
+#. native.npc.herald_ministry calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"「……皇叔於兰天武，复其爵位。」\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce calls.steps.say
+#. native.npc.herald_uncle calls.steps.say
+#. native.npc.herald_ministry calls.steps.say
+#: data/native/npcs.json
+msgid "江湖上的人，各回各家。"
+msgstr ""
+
+#. native.npc.herald_uncle long
+#: data/native/npcs.json
+msgid ""
+"於兰天武一身朝服站在广场中间，手里一卷黄绫。\n"
+msgstr ""
+
+#. native.npc.herald_uncle calls.steps.say
+#: data/native/npcs.json
+msgid "老夫替陛下念。"
+msgstr ""
+
+#. native.npc.herald_ministry long
+#: data/native/npcs.json
+msgid ""
+"一个白衣武官站在广场中间，手里一卷黄绫，身后站着他的人。\n"
+msgstr ""
+
+#. native.npc.herald_ministry calls.steps.say
+#: data/native/npcs.json
+msgid "兵部奉旨，宣——"
 msgstr ""
 
 #. native:snow/letter_to_chen name

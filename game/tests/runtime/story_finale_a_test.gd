@@ -13,7 +13,7 @@ extends RefCounted
 ##   farmwife and 庾子建; the scene says 只能再封 and 庾子建 asks for the sword; the checklist says what is
 ##   missing; the sword given to him (asked first), gone from the bag; the night: nobody keeps the shore,
 ##   the 鬼卒 come at the player.
-## - The 皇叔's ledger: 於兰天武 at the lake with 旋芒, gone from the 养心殿; 瑷伦 called from 晚月庄
+## - The 皇叔's ledger: 於兰天武 at the lake with 旋芒 (and still at the 养心殿: 终章 C); 瑷伦 called from 晚月庄
 ##   (湖底) and at the lake after, her line once.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
@@ -60,7 +60,7 @@ func _test_data() -> void:
 		var spawn: NpcSpawnDefinition = catalog.spawn(spawn_id)
 		_check(spawn != null and spawn.cleared_mark.ends_with("又退了") and spawn.until != null and spawn.until.when == JournalEntryDefinition.When.ANY, "%s: up with the night, held by who came or beaten" % spawn_id)
 	var home: NpcSpawnDefinition = catalog.spawn(&"imperial.front_hall.yulan_tianwu")
-	_check(home != null and home.until != null and JSON.stringify(_spawn_json("imperial", "imperial.front_hall.yulan_tianwu").get("until", {})).contains("main.finale/lake"), "於兰天武 away from the 养心殿 once one has come to the lake")
+	_check(home != null and home.until == null, "於兰天武 stays at the 养心殿 (终章 C: one off the stage would never come back; only who stays in the ice leaves home)")
 
 
 func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
@@ -162,7 +162,7 @@ func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(ui.log_lines(), "剑在这儿") and _said(ui.log_lines(), "你叫了，我就来了"), "the 皇叔: 剑在这儿; 瑷伦: 你叫了，我就来了")
 	var rows: String = _rows(session)
 	_check(rows.contains("旋芒在皇叔手里，他在岸边 ✓") and rows.contains("宝衣在瑷伦身上 ✓") and rows.contains("帮手：2／3 ✗") and rows.contains("这一回只能再封"), "the checklist: the 皇叔, 瑷伦, two 帮手 (%s)" % rows)
-	_check(lake != null and await _absent_at(tree, session, &"imperial.front_hall", &"imperial.front_hall.uncle.1", &"common.npc.fighter.champion"), "於兰天武 away from the 养心殿 while at the lake")
+	_check(lake != null and not await _absent_at(tree, session, &"imperial.front_hall", &"imperial.front_hall.uncle.1", &"common.npc.fighter.champion"), "於兰天武 still at the 养心殿 after the lake (终章 C)")
 
 
 ## The tenth chapter's ledger and the choices' marks (`marks`), the 旋芒 in hand when one drew it.

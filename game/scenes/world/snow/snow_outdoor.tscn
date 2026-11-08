@@ -1058,6 +1058,21 @@ position = Vector2(-256, 128)
 script = ExtResource("marker")
 spawn_point_id = &"snow.square.onlooker"
 
+[node name="SquareHeraldFengCe" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-112, -16)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.herald_feng_ce"
+
+[node name="SquareHeraldUncle" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-112, -16)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.herald_uncle"
+
+[node name="SquareHeraldMinistry" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-112, -16)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.herald_ministry"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

@@ -26,12 +26,7 @@
 				]
 			}
 		},
-		"latemoon.manor.eastroom.elon": {
-			"until": {"mark": "叫来了瑷伦"}
-		},
-		"latemoon.manor.westroom.annihi": {
-			"until": {"all": [{"quest": "main.finale/lake"}, {"mark": "宝衣给了安妮儿"}]}
-		},
+		"latemoon.manor.eastroom.elon": {"until": {"mark": "瑷伦留在了冰里"}},
 		"latemoon.manor.bathroom.fireangel": {
 			"until": {
 				"any": [

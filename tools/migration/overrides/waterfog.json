@@ -570,9 +570,7 @@
 				"mark": "皇叔入朝"
 			}
 		},
-		"waterfog.pavilion.guildhall.master": {
-			"until": {"all": [{"quest": "main.finale/lake"}, {"mark": "旋芒在萧辟尘手里"}]}
-		}
+		"waterfog.pavilion.guildhall.master": {"until": {"mark": "萧辟尘留在了冰里"}}
 	},
 	"review": {
 		"d/waterfog/wpath2.c": {

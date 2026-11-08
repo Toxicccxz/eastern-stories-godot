@@ -54,7 +54,7 @@
 			"points": ["waterfog.guildhall.master.1"],
 			"legacy_room": "daemon/class/fighter/guildhall.c",
 			"legacy_quantity": 1,
-			"until": { "all": [{ "quest": "main.finale/lake" }, { "mark": "旋芒在萧辟尘手里" }] }
+			"until": { "mark": "萧辟尘留在了冰里" }
 		},
 		{
 			"id": "waterfog.pavilion.guildhall.executioner",

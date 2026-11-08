@@ -145,6 +145,8 @@ var selection: SharedUiSelection = SharedUiSelection.new(self)
 var actions: SharedUiContextActions = SharedUiContextActions.new(self)
 var ask: SharedUiAskPanel = SharedUiAskPanel.new(self)
 var dialogue_box: WorldDialogueBox
+## 终章 C (DECISIONS「结局讲述」): the ending told over the 沙盘.
+var epilogue: EpilogueOverlay
 var items: SharedUiInventory = SharedUiInventory.new(self)
 var panels: SharedUiPanels = SharedUiPanels.new(self)
 var questions: SharedUiQuestions = SharedUiQuestions.new(self)
@@ -178,6 +180,8 @@ func _ready() -> void:
 	add_child(dialogue_box)
 	move_child(dialogue_box, 2)
 	dialogue_box.read_out.connect(waits.hurry_teller)
+	epilogue = EpilogueOverlay.new()
+	add_child(epilogue)
 	inspect_button.pressed.connect(actions.inspect_context)
 	attack_button.pressed.connect(actions.attack_context)
 	spar_button.pressed.connect(actions.spar_context)

@@ -25,6 +25,10 @@ static func inspect(
 		return Result.block(Result.Outcome.ACTIVE_COMBAT_ENCOUNTER)
 	if session.scene_held():
 		return Result.block(Result.Outcome.SCENE_RUNNING)
+	# 终章 C (DECISIONS「结局讲述」): an ending waiting or being told is not saved halfway: its marks are
+	# written, and a save taken now would never tell it.
+	if session.epilogue_running():
+		return Result.block(Result.Outcome.SCENE_RUNNING)
 	if session.is_session_swap_suspended():
 		return Result.block(Result.Outcome.SESSION_SWAP_ACTIVE)
 	# dun.c took the player away; the move to its room comes a frame after the fight.

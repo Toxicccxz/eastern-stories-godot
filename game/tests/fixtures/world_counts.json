@@ -677,9 +677,12 @@
 		"native.seal_altar.wutian_gui",
 		"native.seal_altar.wutian_gui_blazing",
 		"native.seal_altar.wutian_gui_grown",
-		"native.seal_altar.wutian_gui_grown_blazing"
+		"native.seal_altar.wutian_gui_grown_blazing",
+		"native.square.herald_feng_ce",
+		"native.square.herald_uncle",
+		"native.square.herald_ministry"
 	],
-	"world_npcs": 787,
+	"world_npcs": 790,
 	"resident_maps": 167,
 	"new_game_items": 1183,
 	"snow_outdoor_passages": 18,
@@ -854,7 +857,7 @@
 	},
 	"map_npcs": {
 		"snow.inn": 3,
-		"snow.outdoor": 18,
+		"snow.outdoor": 21,
 		"snow.inn_upstairs": 6,
 		"snow.cellar": 0,
 		"snow.bank_house": 1,
@@ -1026,7 +1029,7 @@
 	"technical_items": 58,
 	"snow_route": {
 		"inn_npcs": 3,
-		"outdoor_npcs": 18,
+		"outdoor_npcs": 21,
 		"items": 26,
 		"draws": 108
 	}

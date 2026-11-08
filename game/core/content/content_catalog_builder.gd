@@ -37,6 +37,7 @@ var _atlas: AtlasTable = AtlasTable.new()
 var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
 var _story_quests: Array[StoryQuestDefinition] = []
+var _epilogues: Dictionary[StringName, EpilogueDefinition] = {}
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _day_phases: Array[DayPhaseDefinition] = []
 var _sky_levels: Array[String] = []
@@ -154,6 +155,11 @@ func add_document(document: Variant, origin: String) -> void:
 		_journal_chains.append(JournalChainDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("quests"):
 		_story_quests.append(StoryQuestDefinition.from_record(record))
+	for record: ContentRecordReader in reader.children("epilogues"):
+		var epilogue: EpilogueDefinition = EpilogueDefinition.from_record(record)
+		if _epilogues.has(epilogue.epilogue_id):
+			record.fail("id", "duplicate epilogue '%s'" % epilogue.epilogue_id)
+		_epilogues[epilogue.epilogue_id] = epilogue
 	for record: ContentRecordReader in reader.children("codex_topics"):
 		_codex_topics.append(CodexTopicDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("day_phases"):
@@ -227,6 +233,7 @@ func build() -> ContentCatalog:
 	_check_quest_tiers()
 	_check_journal()
 	_check_story_quests()
+	_check_epilogues()
 	_check_progression()
 	_check_day_phases()
 	if _pacing == null:
@@ -250,6 +257,7 @@ func build() -> ContentCatalog:
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_story_quests(_story_quests)
+	catalog.set_epilogues(_epilogues)
 	catalog.set_day_phases(_day_phases)
 	catalog.set_sky_levels(_sky_levels)
 	catalog.set_progression(_progression)
@@ -481,6 +489,20 @@ func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
 
 ## The quests (任务系统) have unique IDs, name quests, zones and maps the game has, and
 ## their conditions name what the game has.
+## An ending's places are maps of the world (DECISIONS「结局讲述」); its conditions as a quest's.
+func _check_epilogues() -> void:
+	for epilogue: EpilogueDefinition in _epilogues.values():
+		var origin: String = "epilogues.%s" % epilogue.epilogue_id
+		if epilogue.final != null:
+			_check_condition(origin + ".final", epilogue.final)
+		for card: EpilogueDefinition.Card in epilogue.cards:
+			if not card.place.is_empty() and not _maps.has(card.place):
+				_errors.append("%s.%s.place: unknown map '%s'" % [origin, card.card_id, card.place])
+			for line: EpilogueDefinition.Line in card.lines:
+				if line.condition != null:
+					_check_condition("%s.%s" % [origin, card.card_id], line.condition)
+
+
 func _check_story_quests() -> void:
 	var quests: Dictionary[StringName, bool] = {}
 	for quest: StoryQuestDefinition in _story_quests:
@@ -699,6 +721,8 @@ func _resolve_npc_dealings() -> void:
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
+				if not inquiry_rule.epilogue.is_empty() and not _epilogues.has(inquiry_rule.epilogue):
+					_errors.append("%s.inquiry.%s.epilogue: unknown ending '%s'" % [origin, topic, inquiry_rule.epilogue])
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
 				for forgotten: String in inquiry_rule.forgets:
@@ -1162,6 +1186,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			ScriptedAct.Kind.TAKE:
 				if not _items.has(step.item_id):
 					_errors.append("%s.take: unknown item '%s'" % [origin, step.item_id])
+			ScriptedAct.Kind.EPILOGUE:
+				if not _epilogues.has(StringName(step.flag)):
+					_errors.append("%s.epilogue: unknown ending '%s'" % [origin, step.flag])
 			ScriptedAct.Kind.NPC_MOOD:
 				if npc == null or npc.hooks() == null or not npc.hooks().moods.has(step.flag):
 					_errors.append("%s.npc_mood: '%s' is no mood of the NPC's" % [origin, step.flag])
