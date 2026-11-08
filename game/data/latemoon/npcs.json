@@ -454,6 +454,17 @@
 				{ "item": "es2:obj/weapon/whip", "source": "obj/weapon/whip.c", "equip": "wield" }
 			],
 			"inquiry": {
+				"湖底": {
+					"confirm": "叫瑷伦随你下湖？她穿着宝衣跟你去玉螺湖，等事情了结。",
+					"confirm_marks": ["瑷伦守到决战", "岚城一章"],
+					"confirm_lacks": ["叫来了瑷伦"],
+					"rules": [
+						{ "asker_marks": ["叫来了瑷伦"], "say": "我去湖边等你。" },
+						{ "asker_marks": ["瑷伦守到决战", "岚城一章"], "mark_asker": "叫来了瑷伦", "lines": [{ "emote": "站起来，把宝衣的带子系紧。" }, { "say": "三百年……不，比三百年长。走吧，我在湖边等你。" }] },
+						{ "asker_marks": ["瑷伦守到决战"], "say": "还不到时候。等湖底那颗头醒了，你再来叫我。" },
+						{ "say": "湖底？你问错人了。" }
+					]
+				},
 				"宝衣": {
 					"rules": [
 						{ "asker_marks": ["瑷伦守到决战"], "say": "衣在我身上。决战那日，你来叫我。" },

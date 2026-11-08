@@ -11,6 +11,10 @@ const SESSION_KIND_OLDPINE: StringName = &"oldpine"
 ## The slots (现代基线 A; DECISIONS「存档位」): three the player saves to, one the autosave rolls.
 const MANUAL_SLOT_IDS: Array[StringName] = [&"slot-1", &"slot-2", &"slot-3"]
 const AUTO_SLOT_ID: StringName = &"auto"
+## Native (终章 A; DECISIONS「决战前存档」): the save an act's `keep_save` writes before a point of
+## no return (the dive into the finale); the autosave never rolls into it, the player never saves to
+## it, and the list shows it only once there is something in it.
+const KEEP_SLOT_ID: StringName = &"keep"
 const DEFAULT_SLOT_ID: StringName = &"slot-1"
 ## The one fixed slot before them: old files name it, and nothing writes it any more.
 const LEGACY_SLOT_ID: StringName = &"default-v1"
@@ -148,7 +152,7 @@ func duplicate_snapshot() -> GameSaveSnapshot:
 
 ## Whether `slot_id` names a slot of the game's.
 static func is_slot_id(slot_id: StringName) -> bool:
-	return slot_id == AUTO_SLOT_ID or MANUAL_SLOT_IDS.has(slot_id)
+	return slot_id == AUTO_SLOT_ID or slot_id == KEEP_SLOT_ID or MANUAL_SLOT_IDS.has(slot_id)
 
 
 func keep_derived(value: RefCounted) -> void:

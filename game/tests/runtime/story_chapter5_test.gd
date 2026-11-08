@@ -71,7 +71,7 @@ func _test_data() -> void:
 	_check(ghouls != null and ghouls.quantity == 2 and ghouls.present != null and ghouls.zone_id == &"choyin.tomb3", "two 鬼卒 in the hollow's sandalwood end while the chapter runs")
 	var hotel: NpcSpawnDefinition = catalog.spawn(&"choyin.hotel_house.hotel1.sergeant")
 	_check(hotel != null and hotel.until != null and hotel.present == null, "the 武官's spawn leaves the stage once the choice is made")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_LANCHENG_C_V1, "第十章 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_A_V1, "终章 A's world revision is current")
 
 
 ## A woman from the kept robe: the drum, the magistrate, the deserter, the hollow, the escort, the trial.

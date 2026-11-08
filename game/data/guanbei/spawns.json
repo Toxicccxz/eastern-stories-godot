@@ -149,7 +149,17 @@
 				"guanbei.drill.guo_cheng.1"
 			],
 			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (郭承 drilling the men)",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": {
+				"all": [
+					{
+						"quest": "main.finale/lake"
+					},
+					{
+						"mark": "关北的骑兵欠你一阵"
+					}
+				]
+			}
 		},
 		{
 			"id": "guanbei.drill.soldiers",
@@ -205,6 +215,13 @@
 					},
 					{
 						"quest": "main.chapter6#started"
+					}
+				]
+			},
+			"until": {
+				"all": [
+					{
+						"quest": "main.finale/lake"
 					}
 				]
 			}

@@ -52,8 +52,9 @@ func _init() -> void:
 
 
 ## `respect`: how NPCs address the player ($RESPECT in quoted lines); `task_lines` quest.c's
-## lines for 朱鸿雪's task ("" for none).
-func fill(state: CharacterState, respect: String, task_lines: String) -> void:
+## lines for 朱鸿雪's task ("" for none); `test` a condition -> whether it holds for the player now
+## (WorldSessionController.quest_condition_test(): the current steps' checklists; none, no rows).
+func fill(state: CharacterState, respect: String, task_lines: String, test: Callable = Callable()) -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var anything: bool = false
 	for line: String in StoryQuestDefinition.LINES:
@@ -61,7 +62,7 @@ func fill(state: CharacterState, respect: String, task_lines: String) -> void:
 		for child: Node in quests.get_children():
 			quests.remove_child(child)
 			child.queue_free()
-		var shown: Array[StoryQuestLog.Shown] = StoryQuestLog.shown(state, catalog.story_quests(), line)
+		var shown: Array[StoryQuestLog.Shown] = StoryQuestLog.shown(state, catalog.story_quests(), line, test)
 		for view: StoryQuestLog.Shown in shown:
 			_show_quest(quests, view)
 		_stories[line].fill(state, respect, line, false)
@@ -91,8 +92,32 @@ func _show_quest(parent: Node, view: StoryQuestLog.Shown) -> void:
 	if not view.objective.is_empty():
 		# TRANSLATORS: under a quest on the 任务 page: {next} what to do now.
 		_label(rows, tr("下一步：{next}").format({"next": tr(view.objective)}), UiPalette.GOLD).name = "Objective"
+	for checked: StoryQuestLog.Checked in view.checklist:
+		_label(rows, checklist_text(checked), UiPalette.GOLD if checked.tick == StoryQuestLog.Checked.Tick.DONE else UiPalette.MUTED).name = "Check"
 	for entry: String in view.entries:
 		_label(rows, "· " + tr(entry), UiPalette.MUTED if view.done else Color(0, 0, 0, 0)).name = "Entry"
+
+
+## A checklist row as the page writes it (DECISIONS「任务清单」): ticked ✓ or not ✗ as the 拜师
+## page's conditions are, a count with how many of how many, what is missing after a dash; a note
+## with a dot.
+static func checklist_text(checked: StoryQuestLog.Checked) -> String:
+	var label: String = TranslationServer.translate(checked.row.label)
+	if checked.row.counts:
+		# TRANSLATORS: a quest checklist row that counts: {label} what is counted, {have} how many there are, {want} how many are wanted.
+		label = TranslationServer.translate("{label}：{have}／{want}").format({"label": label, "have": checked.have, "want": checked.want})
+	match checked.tick:
+		StoryQuestLog.Checked.Tick.DONE:
+			# TRANSLATORS: a quest checklist row that holds: {row} the row.
+			return TranslationServer.translate("  {row} ✓").format({"row": label})
+		StoryQuestLog.Checked.Tick.LACKING:
+			if not checked.row.missing.is_empty():
+				# TRANSLATORS: a quest checklist row that does not hold: {row} the row, {missing} what is missing.
+				return TranslationServer.translate("  {row} ✗——{missing}").format({"row": label, "missing": TranslationServer.translate(checked.row.missing)})
+			# TRANSLATORS: a quest checklist row that does not hold: {row} the row.
+			return TranslationServer.translate("  {row} ✗").format({"row": label})
+	# TRANSLATORS: a quest checklist note (no tick): {row} the note.
+	return TranslationServer.translate("  · {row}").format({"row": label})
 
 
 ## A quest's or a chain's card: a recess with its rows.

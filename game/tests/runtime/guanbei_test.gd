@@ -21,7 +21,8 @@ const PEOPLE: Dictionary = {
 	&"guanbei.inn_hall": {&"native.npc.hu_sanniang": 1, &"native.npc.qin_popo": 1, &"native.npc.qin_xiaoliu": 1},
 	&"guanbei.palace_front": {&"native.npc.palace_gate_guard": 2},
 	&"guanbei.palace_yard": {&"native.npc.palace_steward": 1},
-	&"guanbei.drill": {&"native.npc.guo_cheng": 1, &"native.npc.palace_soldier": 4},
+	# 郭承 is on the story's stage (away at the lake in the finale, 终章 A): counted on the walk.
+	&"guanbei.drill": {&"native.npc.palace_soldier": 4},
 	&"guanbei.palace_hall": {&"native.npc.cheng_shuo": 1, &"native.npc.palace_guard": 2},
 	&"guanbei.camp": {&"native.npc.herdsman": 3, &"native.npc.camp_family": 3},
 	&"guanbei.steppe_road": {&"native.npc.shepherd": 1},
@@ -114,7 +115,7 @@ func _test_data() -> void:
 	_check(door != null and door.teaches == ["见过古冢的金乌"] and catalog.landmark(&"guanbei.sheds.landmark.roll").teaches == ["看过工地名册"], "the stone door's bird and the sheds' roll teach their marks")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter6")
 	_check(quest.steps.size() == 12 and quest.steps[8].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[9].only_after == &"raid" and quest.steps[10].only_after == &"sneak" and quest.steps[11].condition.key == "卢卡说了番坊", "the chapter: site (arrival) → raid or sneak → 卢卡")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_LANCHENG_C_V1, "第十章 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_A_V1, "终章 A's world revision is current")
 
 
 ## From the valley: the gate refused, then (TEST-ONLY: the mark set) through it and north to the
@@ -164,6 +165,7 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("王府放行", 0) == 1 and town.door(&"guanbei.palace.gate").is_open(), "with the letter: 朱门开了")
 	var court: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.palace_yard")
 	_check(court != null and court.map_id() == &"guanbei.palace_court", "through the 王府大门 into the court")
+	_check(_count_in(session, &"guanbei.drill", &"native.npc.guo_cheng") == 1, "郭承 at the drill yard (on the stage: away only at the lake in the finale)")
 	_check(await MapPlaces.drive_through(tree, court, [&"guanbei.drill", &"guanbei.palace_yard"]), "over to the drill yard and back")
 	_check(court.select_landmark(&"guanbei.drill.landmark.posts") and court.inspect_selected() and ui.inspection_text.text.contains("左肩"), "the posts looked at")
 	ui.dismiss_current_panel()

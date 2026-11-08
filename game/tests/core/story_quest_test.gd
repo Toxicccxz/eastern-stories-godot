@@ -21,6 +21,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_save()
 	_test_route()
 	_test_prologue_data()
+	_test_checklist()
+	_test_step_when()
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
@@ -274,6 +276,50 @@ func _test_prologue_data() -> void:
 	for npc_id: StringName in [&"native.npc.feng_ce", &"native.npc.song_pu", &"native.npc.white_officer", &"native.npc.courier", &"native.npc.onlooker"]:
 		_check(catalog.npc(npc_id) != null, "the square's %s is defined" % npc_id)
 	_check(catalog.npc(&"snow.npc.waiter").talk().inquiry_topics().has("官爷"), "店小二 answers 官爷")
+
+
+## 终章 A (DECISIONS「任务清单」): a step's checklist rows — ticked, counted, missing, a note shown by
+## its `if` — read from data and judged by the caller's test; a bad row refused.
+func _test_checklist() -> void:
+	var errors: Array[String] = []
+	var quest: StoryQuestDefinition = _quest({
+		"id": "t.list", "title": "清单", "region": "某地", "summary": "点将。",
+		"steps": [{"id": "gather", "objective": "点将", "done": {"mark": "go"}, "text": "点过了", "checklist": [
+			{"label": "剑", "when": {"mark": "sword"}, "missing": "去拿"},
+			{"label": "帮手", "count": true, "when": {"at_least": {"n": 2, "of": [{"mark": "a"}, {"mark": "b"}, {"mark": "c"}]}}},
+			{"label": "能灭它", "if": {"mark": "a"}},
+			{"label": "只在乙", "if": {"mark": "b"}, "when": {"mark": "sword"}},
+		]}],
+	}, errors)
+	_check(errors.is_empty() and quest.steps[0].checklist.size() == 4, "a checklist of four rows read (%s)" % [errors])
+	var state := CharacterState.new()
+	state.marks["a"] = 1
+	var test: Callable = func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, state, {}, {})
+	var rows: Array[StoryQuestLog.Checked] = StoryQuestLog.checked(quest.steps[0], test)
+	_check(rows.size() == 3 and rows[0].tick == StoryQuestLog.Checked.Tick.LACKING and rows[1].tick == StoryQuestLog.Checked.Tick.LACKING and rows[1].have == 1 and rows[1].want == 2 and rows[2].tick == StoryQuestLog.Checked.Tick.NOTE, "lacking, 1 of 2, a note; the row its `if` hides left out")
+	_check(QuestPage.checklist_text(rows[0]) == "  剑 ✗——去拿" and QuestPage.checklist_text(rows[1]) == "  帮手：1／2 ✗" and QuestPage.checklist_text(rows[2]) == "  · 能灭它", "as the page writes them")
+	state.marks["sword"] = 1
+	state.marks["b"] = 1
+	rows = StoryQuestLog.checked(quest.steps[0], test)
+	_check(rows.size() == 4 and rows[0].tick == StoryQuestLog.Checked.Tick.DONE and rows[1].have == 2 and QuestPage.checklist_text(rows[1]) == "  帮手：2／2 ✓", "ticked once they hold")
+	_check(StoryQuestLog.checked(quest.steps[0], Callable()).is_empty(), "no test, no rows")
+	for bad: Dictionary in [{"label": "x"}, {"label": "x", "count": true, "when": {"mark": "m"}}, {"label": "x", "if": {"mark": "m"}, "missing": "y"}, {"label": "x", "when": {"heard": {"npc": "n", "topic": "t"}}}]:
+		var refused: Array[String] = []
+		_quest({"id": "t.bad", "title": "坏", "region": "某地", "summary": "x", "steps": [{"id": "s", "objective": "o", "done": {"mark": "m"}, "text": "t", "checklist": [bad]}]}, refused)
+		_check(not refused.is_empty(), "a bad row refused: %s" % [bad])
+
+
+## 终章 A (DECISIONS「步骤条件」): a step's own `when` read with it, any step may carry one.
+func _test_step_when() -> void:
+	var errors: Array[String] = []
+	var act: ScriptedAct = ScriptedAct.from_record(ContentRecordReader.new({"steps": [
+		{"say": "总说"}, {"when": {"mark": "came"}, "by": "t.npc"}, {"when": {"not": {"mark": "came"}}, "line": "没来。
+"}, {"keep_save": true},
+	]}, "test", errors))
+	_check(errors.is_empty() and act.steps.size() == 4 and act.steps[0].only_when == null and act.steps[1].only_when != null and act.steps[1].only_when.key == "came" and act.steps[2].only_when.when == JournalEntryDefinition.When.NOT and act.steps[3].kind == ScriptedAct.Kind.KEEP_SAVE, "a step's when read with it; keep_save a step (%s)" % [errors])
+	var refused: Array[String] = []
+	ScriptedAct.from_record(ContentRecordReader.new({"steps": [{"keep_save": false}]}, "test", refused))
+	_check(not refused.is_empty(), "keep_save is true or no step")
 
 
 func _check(ok: bool, label: String) -> void:

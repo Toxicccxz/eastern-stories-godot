@@ -1155,6 +1155,1068 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "native.npc.woman_lakeside",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 傅家坡的农妇 (d/village/npc/woman1.c, her son 石头 of 逆灵宫 D) at the lakeside the night the seal gives way: she opens the 点将 (计划 §0)",
+			"name": "农妇",
+			"aliases": [
+				"woman",
+				"农妇"
+			],
+			"gender": "女性",
+			"age": 30,
+			"long": "傅家坡的农妇，围裙没解，站在岸边的柳树底下，一手攥着衣角，眼睛一直盯着湖面。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 14,
+				"int": 16,
+				"spi": 14,
+				"cps": 16,
+				"per": 18,
+				"con": 14,
+				"kar": 18
+			},
+			"combat_exp": 40,
+			"attitude": "peaceful",
+			"fight_deferred": "她往后退了一步：你要打，去打湖里那个。",
+			"inquiry": {
+				"湖": {
+					"rules": [
+						{
+							"asker_marks": [
+								"查清了封物"
+							],
+							"say": "湖底那盏灯，这几夜一夜比一夜暗。村里人说，灯一灭，水怪就上来。"
+						},
+						{
+							"say": "湖里那东西，这几夜一夜比一夜近。冰底下有东西在敲。"
+						}
+					]
+				},
+				"石头": {
+					"rules": [
+						{
+							"asker_marks": [
+								"石头回家了"
+							],
+							"say": "在家里，门我闩上了。这一回我不让他出门。"
+						},
+						{
+							"say": "……别问了。"
+						}
+					]
+				},
+				"人": {
+					"rules": [
+						{
+							"say": "都是来等你的。我不认得他们，他们认得你。"
+						}
+					]
+				}
+			},
+			"scene_mark": "点过将",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "点过将",
+					"steps": [
+						{
+							"when": {
+								"mark": "查清了封物"
+							},
+							"say": "你回来了。湖底那盏灯，这几夜一夜比一夜暗。"
+						},
+						{
+							"when": {
+								"mark": "拔了穿灵"
+							},
+							"say": "你回来了。湖里那东西，这几夜一夜比一夜近。"
+						},
+						{
+							"line": "湖面平得像一块铁，结着一层黑冰。冰底下有光，一下一下地暗下去。\n",
+							"color": "HIW"
+						},
+						{
+							"say": "这几天岸上来了好些人。都说是来等你的。"
+						},
+						{
+							"when": {
+								"mark": "霍铮回了寨"
+							},
+							"by": "native.npc.huo_zheng_lake"
+						},
+						{
+							"say": "野羊寨的弟兄都来了。村口那条黄土道，交给我们。",
+							"when": {
+								"mark": "霍铮回了寨"
+							}
+						},
+						{
+							"when": {
+								"mark": "关北的骑兵欠你一阵"
+							},
+							"by": "native.npc.guo_cheng_lake"
+						},
+						{
+							"say": "王爷说：关北的骑兵欠你一阵。马在岸上，湖畔这一段，我们守。",
+							"when": {
+								"mark": "关北的骑兵欠你一阵"
+							}
+						},
+						{
+							"when": {
+								"mark": "大秦人留下了"
+							},
+							"by": "native.npc.shield_swordsman_lake"
+						},
+						{
+							"say": "会首让我们来。卢卡说你会来。稻田那边，盾顶着。",
+							"when": {
+								"mark": "大秦人留下了"
+							}
+						},
+						{
+							"when": {
+								"mark": "冯策随你下湖"
+							},
+							"by": "native.npc.feng_ce_lake"
+						},
+						{
+							"say": "大内侍卫营三十个人，老夫都带来了。湖底的事，算老夫一个。",
+							"when": {
+								"mark": "冯策随你下湖"
+							}
+						},
+						{
+							"when": {
+								"mark": "宝衣给了安妮儿"
+							},
+							"by": "native.npc.annie_lake"
+						},
+						{
+							"say": "宝衣在我身上。东方神教守了三百年——三器齐了，我们就不必再守。",
+							"when": {
+								"mark": "宝衣给了安妮儿"
+							}
+						},
+						{
+							"when": {
+								"mark": "替南危水保密"
+							},
+							"by": "native.npc.nan_weishui_lake"
+						},
+						{
+							"say": "二十年前，老松岭有人替我挡了一刀。今天我来还。",
+							"when": {
+								"mark": "替南危水保密"
+							}
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "卫沧澜出了尚书府"
+									},
+									{
+										"not": {
+											"mark": "替南危水保密"
+										}
+									}
+								]
+							},
+							"by": "native.npc.wei_canglan_lake"
+						},
+						{
+							"say": "水烟阁来了。关了二十年的人，今天也出门了。",
+							"when": {
+								"all": [
+									{
+										"mark": "卫沧澜出了尚书府"
+									},
+									{
+										"not": {
+											"mark": "替南危水保密"
+										}
+									}
+								]
+							}
+						},
+						{
+							"when": {
+								"mark": "旋芒在皇叔手里"
+							},
+							"by": "native.npc.yulan_tianwu_lake"
+						},
+						{
+							"emote": "手里的旋芒转了一转，一道白光。",
+							"when": {
+								"mark": "旋芒在皇叔手里"
+							}
+						},
+						{
+							"say": "老夫说过会回来。剑在这儿。",
+							"when": {
+								"mark": "旋芒在皇叔手里"
+							}
+						},
+						{
+							"when": {
+								"mark": "旋芒在萧辟尘手里"
+							},
+							"by": "native.npc.xiao_pichen_lake"
+						},
+						{
+							"say": "我拿旋芒来了。回不来，就回不来。",
+							"when": {
+								"mark": "旋芒在萧辟尘手里"
+							}
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "私了了庾子建"
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "旋芒交给了庾子建"
+												},
+												{
+													"mark": "庾子建在湖边走了"
+												}
+											]
+										}
+									}
+								]
+							},
+							"by": "native.npc.yu_zijian_lake"
+						},
+						{
+							"say": "剑交给朝廷。你一个江湖人，拿着它像什么话。",
+							"when": {
+								"all": [
+									{
+										"mark": "私了了庾子建"
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "旋芒交给了庾子建"
+												},
+												{
+													"mark": "庾子建在湖边走了"
+												}
+											]
+										}
+									}
+								]
+							}
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "宋朴看见了旋芒"
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "旋芒交给了庾子建"
+												},
+												{
+													"mark": "庾子建在湖边走了"
+												}
+											]
+										}
+									},
+									{
+										"mark": "旋芒在你手里"
+									}
+								]
+							},
+							"say": "宋朴说，剑在你身上。"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "宋朴看见了旋芒"
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "旋芒交给了庾子建"
+												},
+												{
+													"mark": "庾子建在湖边走了"
+												}
+											]
+										}
+									},
+									{
+										"mark": "旋芒在皇叔手里"
+									}
+								]
+							},
+							"say": "宋朴说，剑在皇叔手里。皇叔，朝廷的剑，该回朝廷。"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "宋朴看见了旋芒"
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "旋芒交给了庾子建"
+												},
+												{
+													"mark": "庾子建在湖边走了"
+												}
+											]
+										}
+									},
+									{
+										"mark": "旋芒在萧辟尘手里"
+									}
+								]
+							},
+							"say": "宋朴说，剑在一个江湖人手里。"
+						},
+						{
+							"by": "native.npc.woman_lakeside"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"any": [
+											{
+												"item": "native:village/soul_impaler"
+											},
+											{
+												"mark": "查清了封物"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"item": "native:lancheng/xuanmang"
+											},
+											{
+												"mark": "旋芒在皇叔手里"
+											},
+											{
+												"mark": "旋芒在萧辟尘手里"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"item": "native:latemoon/cold_robe"
+											},
+											{
+												"wearing": "native:latemoon/cold_robe"
+											},
+											{
+												"mark": "叫来了瑷伦"
+											},
+											{
+												"mark": "宝衣给了安妮儿"
+											}
+										]
+									},
+									{
+										"at_least": {
+											"n": 3,
+											"of": [
+												{
+													"mark": "霍铮回了寨"
+												},
+												{
+													"mark": "关北的骑兵欠你一阵"
+												},
+												{
+													"mark": "大秦人留下了"
+												},
+												{
+													"not": {
+														"mark": "冰龙倒了"
+													}
+												},
+												{
+													"mark": "冯策随你下湖"
+												},
+												{
+													"mark": "宝衣给了安妮儿"
+												},
+												{
+													"any": [
+														{
+															"mark": "替南危水保密"
+														},
+														{
+															"mark": "卫沧澜出了尚书府"
+														}
+													]
+												}
+											]
+										}
+									}
+								]
+							},
+							"line": "三器都在，来的人也够。今夜能灭它。\n",
+							"color": "HIY"
+						},
+						{
+							"when": {
+								"not": {
+									"all": [
+										{
+											"any": [
+												{
+													"item": "native:village/soul_impaler"
+												},
+												{
+													"mark": "查清了封物"
+												}
+											]
+										},
+										{
+											"any": [
+												{
+													"item": "native:lancheng/xuanmang"
+												},
+												{
+													"mark": "旋芒在皇叔手里"
+												},
+												{
+													"mark": "旋芒在萧辟尘手里"
+												}
+											]
+										},
+										{
+											"any": [
+												{
+													"item": "native:latemoon/cold_robe"
+												},
+												{
+													"wearing": "native:latemoon/cold_robe"
+												},
+												{
+													"mark": "叫来了瑷伦"
+												},
+												{
+													"mark": "宝衣给了安妮儿"
+												}
+											]
+										},
+										{
+											"at_least": {
+												"n": 3,
+												"of": [
+													{
+														"mark": "霍铮回了寨"
+													},
+													{
+														"mark": "关北的骑兵欠你一阵"
+													},
+													{
+														"mark": "大秦人留下了"
+													},
+													{
+														"not": {
+															"mark": "冰龙倒了"
+														}
+													},
+													{
+														"mark": "冯策随你下湖"
+													},
+													{
+														"mark": "宝衣给了安妮儿"
+													},
+													{
+														"any": [
+															{
+																"mark": "替南危水保密"
+															},
+															{
+																"mark": "卫沧澜出了尚书府"
+															}
+														]
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							"line": "三器不齐，或者守的人不够——这一回，只能再封。缺的是什么，任务页上记着。\n",
+							"color": "HIY"
+						},
+						{
+							"say": "天一黑，它就上来。你什么时候下湖，我们就什么时候守。"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.huo_zheng_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 霍铮 (逆灵宫 D: 霍铮回了寨) and 野羊寨, keeping the village mouth (§4 表二 野羊寨)",
+			"name": "霍铮",
+			"aliases": [
+				"huo zheng",
+				"huo",
+				"chief"
+			],
+			"title": "野羊山大寨主",
+			"gender": "男性",
+			"age": 46,
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 22,
+				"spi": 22,
+				"cps": 24,
+				"per": 18,
+				"con": 28,
+				"kar": 12
+			},
+			"combat_exp": 20000,
+			"skills": {
+				"unarmed": 50,
+				"dodge": 45,
+				"parry": 45,
+				"blade": 45
+			},
+			"long": "霍铮扛着一把开山刀站在岸边，肉养回来了一些，手腕上的铁链印子还在。身后野羊寨的弟兄蹲了一排。\n",
+			"attitude": "friendly",
+			"fight_deferred": "霍铮咧嘴一笑：要打，等今夜过了。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "我在逆灵宫的地牢里见过那东西的影子。这一回，它别想上岸。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.guo_cheng_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 郭承 and 关北's riders (关北 D: 关北的骑兵欠你一阵), keeping the lakeside (§4 表二 关北骑兵)",
+			"name": "郭承",
+			"aliases": [
+				"guo cheng",
+				"captain",
+				"骁将",
+				"郭承"
+			],
+			"title": "王府骁将",
+			"gender": "男性",
+			"age": 36,
+			"attributes": {
+				"str": 29,
+				"cor": 30,
+				"int": 24,
+				"spi": 26,
+				"cps": 30,
+				"per": 20,
+				"con": 30,
+				"kar": 16
+			},
+			"combat_exp": 300000,
+			"skills": {
+				"blade": 90,
+				"parry": 85,
+				"dodge": 85,
+				"unarmed": 70,
+				"force": 80
+			},
+			"long": "郭承牵着马站在柳树边，皮甲上落了一层土。六骑在他身后一字排开，马不叫。\n",
+			"attitude": "friendly",
+			"fight_deferred": "郭承按着刀：今夜的刀，留给湖里的。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "马不怕鬼。人怕。我们这几个，不怕。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.shield_swordsman_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 铁盾会's swordsmen (番坊 C: 大秦人留下了), keeping the rice field (§4 表二 铁盾会)",
+			"name": "大秦剑手",
+			"aliases": [
+				"swordsman",
+				"剑手",
+				"大秦人"
+			],
+			"title": "铁盾会",
+			"gender": "男性",
+			"age": 30,
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 18,
+				"spi": 20,
+				"cps": 26,
+				"per": 18,
+				"con": 28,
+				"kar": 16
+			},
+			"combat_exp": 150000,
+			"skills": {
+				"sword": 80,
+				"parry": 90,
+				"dodge": 70,
+				"unarmed": 60,
+				"force": 50
+			},
+			"long": "一个高鼻深目的异族汉子，左臂的圆盾擦得锃亮，短剑横在盾沿上。他看着湖，嘴里念着一句谁也听不懂的话。\n",
+			"attitude": "friendly",
+			"fight_deferred": "大秦剑手把盾一抬：不。今夜，那边。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "会首说，这是还人情。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.feng_ce_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 冯策 and the 大内侍卫营 (第九章 D: 冯策随你下湖) (§4 表二 大内侍卫营)",
+			"name": "冯策",
+			"aliases": [
+				"feng ce",
+				"feng"
+			],
+			"title": "大内侍卫营总教头",
+			"gender": "男性",
+			"age": 58,
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 28,
+				"spi": 26,
+				"cps": 30,
+				"per": 22,
+				"con": 30,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"unarmed": 150,
+				"sword": 180,
+				"dodge": 160,
+				"parry": 160,
+				"force": 150
+			},
+			"long": "冯策一身素白的武官袍，刀在腰上，站得笔直。三十个大内侍卫散在岸上，没有一个说话。\n",
+			"attitude": "friendly",
+			"fight_deferred": "冯策摇了摇头：留着力气，湖底用。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "湖底的事，算老夫一个。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.annie_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 安妮儿 of 东方神教 with 寒於宝衣 (第四章: 宝衣给了安妮儿; 剧情总纲 §2 东方神教 等一个配得上三器的人) (§4 表一 宝衣, 表二 东方神教)",
+			"name": "安妮儿",
+			"aliases": [
+				"annihier"
+			],
+			"gender": "女性",
+			"age": 37,
+			"combat_exp": 5000000,
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"force": 100,
+				"parry": 100,
+				"pyrobat-steps": 100,
+				"snowshade-force": 100,
+				"snowshade-sword": 100,
+				"sword": 100
+			},
+			"long": "安妮儿披着寒於宝衣站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n",
+			"attitude": "friendly",
+			"fight_deferred": "安妮儿没有动：我不是来跟你打的。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "金乌的人等了三百年，等一个配得上三器的人。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.nan_weishui_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 南危水 (第二章: 替南危水保密), the 水烟阁 come to the lake (§4 表二 水烟阁; a keeper of 剧情总纲 §9 Q1)",
+			"name": "南危水",
+			"aliases": [
+				"nan weishuey",
+				"nan",
+				"weishuey",
+				"五长老"
+			],
+			"title": "水烟阁五长老",
+			"gender": "男性",
+			"age": 52,
+			"attributes": {
+				"str": 25,
+				"cor": 30,
+				"int": 26,
+				"spi": 28,
+				"cps": 30,
+				"per": 22,
+				"con": 27,
+				"kar": 18
+			},
+			"combat_exp": 800000,
+			"skills": {
+				"force": 100,
+				"unarmed": 95,
+				"sword": 100,
+				"parry": 80,
+				"dodge": 95,
+				"celestial": 100,
+				"celestrike": 90,
+				"fonxansword": 100
+			},
+			"long": "南危水站在岸上，焦殇剑背在身后。他看着湖面，二十年前的事像是又回来了。\n",
+			"attitude": "friendly",
+			"fight_deferred": "南危水淡淡道：不是时候。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "二十年。够了。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.wei_canglan_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 卫沧澜 (第九章 C/E: 卫沧澜出了尚书府) with the 水烟阁 when 南危水 is not (§4 表二 水烟阁)",
+			"name": "卫沧澜",
+			"aliases": [
+				"wei canglan",
+				"wei",
+				"盟主"
+			],
+			"title": "武林盟主",
+			"gender": "男性",
+			"age": 62,
+			"attributes": {
+				"str": 24,
+				"cor": 30,
+				"int": 28,
+				"spi": 30,
+				"cps": 30,
+				"per": 22,
+				"con": 20,
+				"kar": 24
+			},
+			"combat_exp": 900000,
+			"skills": {
+				"sword": 160,
+				"parry": 150,
+				"dodge": 140,
+				"force": 160,
+				"unarmed": 120
+			},
+			"long": "卫沧澜拄着一根竹杖站在岸边，背比在尚书府的时候直了一些。水烟阁的弟子围在他身边。\n",
+			"attitude": "friendly",
+			"fight_deferred": "卫沧澜摆了摆手：老夫这把骨头，留着下湖。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "老夫在客房里关了二十年，出来第一件事，是来看这个湖。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.yulan_tianwu_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 於兰天武 with 旋芒 (第十章 C: 旋芒在皇叔手里) (§4 表一 旋芒)",
+			"name": "於兰天武",
+			"aliases": [
+				"master champion",
+				"champion",
+				"master"
+			],
+			"title": "水烟阁传功使",
+			"gender": "男性",
+			"age": 54,
+			"attributes": {
+				"str": 30,
+				"int": 30,
+				"cor": 30,
+				"cps": 30,
+				"con": 30
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"sword": 80,
+				"blade": 80,
+				"parry": 100,
+				"dodge": 80,
+				"throwing": 50,
+				"celestial": 100,
+				"celestrike": 100,
+				"spring-blade": 80,
+				"pyrobat-steps": 90
+			},
+			"long": "於兰天武一身朝服，手里握着旋芒。剑身一转，一道白光从湖面上掠过去。\n",
+			"attitude": "friendly",
+			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "三百年前於兰家拔错了一把剑。这一回，老夫看着它落下去。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.xiao_pichen_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 萧辟尘 with 旋芒 (第十章 C: 旋芒在萧辟尘手里; a keeper of 剧情总纲 §9 Q1) (§4 表一 旋芒)",
+			"name": "萧辟尘",
+			"aliases": [
+				"master fighter",
+				"master",
+				"fighter"
+			],
+			"gender": "男性",
+			"age": 24,
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 24,
+				"cps": 30
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 100,
+				"sword": 60,
+				"blade": 40,
+				"throwing": 40,
+				"force": 100,
+				"parry": 60,
+				"dodge": 60,
+				"literate": 60,
+				"perception": 80,
+				"six-chaos-sword": 80,
+				"celestial": 100,
+				"celestrike": 100,
+				"stormdance": 50,
+				"pyrobat-steps": 50
+			},
+			"long": "萧辟尘背着旋芒站在岸边，风从湖上过来，他的衣角往城的方向飘。\n",
+			"attitude": "friendly",
+			"fight_deferred": "萧辟尘摇头：今夜不打你。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "城里的人说，风会送我回去。先过了今夜。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.elon_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 瑷伦 with 寒於宝衣, called from 晚月庄 (第四章: 瑷伦守到决战「决战那日，你来叫我」) (§4 表一 宝衣; a keeper of 剧情总纲 §9 Q1)",
+			"name": "瑷伦",
+			"aliases": [
+				"eelon"
+			],
+			"title": "晚月庄开山祖师",
+			"gender": "女性",
+			"age": 37,
+			"attributes": {
+				"str": 21,
+				"int": 28
+			},
+			"combat_exp": 3000000,
+			"skills": {
+				"unarmed": 150,
+				"dodge": 150,
+				"sword": 120,
+				"force": 150,
+				"parry": 120,
+				"whip": 150,
+				"iceforce": 130,
+				"throwing": 150,
+				"stormdance": 130,
+				"tenderzhi": 130,
+				"snowwhip": 130
+			},
+			"long": "瑷伦披着寒於宝衣站在岸边，衣角压着湖风，一动不动。鞭子还在腰上。\n",
+			"attitude": "friendly",
+			"fight_deferred": "瑷伦看了你一眼：留着力气。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "我在这里。你下去的时候，我在你前头。"
+						}
+					]
+				}
+			},
+			"calls": [
+				{
+					"after": 1,
+					"reaction": true,
+					"not_mark": "瑷伦到了湖畔",
+					"steps": [
+						{
+							"emote": "看见你，点了点头。"
+						},
+						{
+							"say": "你叫了，我就来了。宝衣在我身上。"
+						},
+						{
+							"mark": "瑷伦到了湖畔"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.yu_zijian_lake",
+			"legacy_source": "native: 终章 A (剧情总纲 §3 终章「谁来：按事迹」, §9 Q1; 计划 build/plans/终章_计划.md A 包与 §4, owner 2026-11-08「按推荐的做」; DECISIONS「终章 A」) — 庾子建 come to the lake for the sword (第九章 D 私了: 终章出现在湖底要剑; 剧情总纲 §2 想要旋芒; 底线一: the battle does not decide his end)",
+			"name": "庾子建",
+			"aliases": [
+				"yu shangshu",
+				"yu"
+			],
+			"title": "兵部尚书",
+			"gender": "男性",
+			"age": 54,
+			"attributes": {
+				"str": 27,
+				"int": 25
+			},
+			"combat_exp": 400000,
+			"skills": {
+				"blade": 70,
+				"shortsong-blade": 105,
+				"force": 80,
+				"wu-shun": 80,
+				"parry": 50,
+				"dodge": 60,
+				"fall-steps": 60
+			},
+			"long": "庾子建骑着马停在岸边的柳树下，一身便服，身后跟着几个兵部的白衣武官。他不看湖，只看你。\n",
+			"attitude": "friendly",
+			"fight_deferred": "庾子建笑了笑：本官是来要剑的，不是来打架的。",
+			"inquiry": {
+				"剑": {
+					"rules": [
+						{
+							"asker_marks": [
+								"旋芒交给了庾子建"
+							],
+							"say": "剑在朝廷手里了。湖底的事，本官等着看。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在皇叔手里"
+							],
+							"say": "皇叔的剑……本官不好硬要。可湖底的事办砸了，朝上总得有人说话。"
+						},
+						{
+							"asker_marks": [
+								"旋芒在萧辟尘手里"
+							],
+							"say": "一个江湖人拿着天下的剑。你们好自为之。"
+						},
+						{
+							"say": "剑交给朝廷。交给本官，天下就记得是朝廷带回了它。"
+						}
+					]
+				},
+				"不交": {
+					"confirm": "不把剑交给庾子建？他会带着他的人回京城去。",
+					"confirm_lacks": [
+						"旋芒交给了庾子建",
+						"庾子建在湖边走了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"旋芒交给了庾子建"
+							],
+							"say": "已经交了。"
+						},
+						{
+							"mark_asker": "庾子建在湖边走了",
+							"leaves": true,
+							"lines": [
+								{
+									"say": "好。湖底的事，本官等着看。"
+								},
+								{
+									"emote": "翻身上马，带着他的人往京城去了。"
+								}
+							]
+						}
+					]
+				}
+			},
+			"accept_object": [
+				{
+					"item": "native:lancheng/xuanmang",
+					"ask": "把旋芒交给庾子建？\n交了，这一回三器不齐，只能再封；京城会记得是兵部尚书带回了剑。",
+					"lines": [
+						{
+							"emote": "接过剑，掂了掂，交给身后的武官。"
+						},
+						{
+							"say": "好。天下会记得是谁带回了它。"
+						}
+					],
+					"mark_giver": "旋芒交给了庾子建",
+					"destroys": true,
+					"accept": true
+				}
+			]
 		}
 	]
 }

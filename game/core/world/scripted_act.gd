@@ -25,7 +25,9 @@ extends RefCounted
 ## in that zone (d/chuenyu/xiaojuan2.c: environment() == the 地牢's 刑房). The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. `ghost` true or false: the player is a
-## ghost or not (is_ghost(): d/death/npc/bgargoyle.c death_stage()). The steps run in order:
+## ghost or not (is_ghost(): d/death/npc/bgargoyle.c death_stage()). The steps run in order; any
+## step may carry a `when` (native, 终章 A; DECISIONS「步骤条件」): it runs only if that holds then,
+## else the next step runs (who came to the lake says their line, who did not is passed over):
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
 ##   written as the player reads it, 你 for $N);
 ## - `damage` {gin, kee, sen}: receive_damage() on the player;
@@ -64,6 +66,8 @@ extends RefCounted
 ##   for a room's act), as something let fall in a scene;
 ## - `take` (an item; native, 第十章 C, DECISIONS「拿走」): one the player carries of that definition is
 ##   gone (destruct(present(id, me)): 萧辟尘's bell hung back on his family's hook); none carried, nothing;
+## - `keep_save` true (native, 终章 A; DECISIONS「决战前存档」): the 决战前 save is written now, as
+##   the world stands at this step (an act's first step before a point of no return: the dive);
 ## - `summon` (a spawn id; native, 逆灵宫 C): every absent NPC of that summoned spawn of this map
 ##   comes in on its marker (keep2.c's guards new()'d by a room rule, hell_guard.c's 鬼卒 risen
 ##   by an invocation), as a trap's `summon` does; an aggressive one falls on the player at once;
@@ -79,7 +83,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -293,6 +297,10 @@ class Step:
 	var questions: Array[Question] = []
 	var when_true: Array[Step] = []
 	var when_false: Array[Step] = []
+	## Native (终章 A; DECISIONS「步骤条件」): the step runs only when this holds for the player at
+	## that moment (the facts' `holds`, as a branch's `when`); else it is passed over and the next one
+	## runs. null: always. A scene with many people in it says each one's line only if they came.
+	var only_when: JournalEntryDefinition = null
 
 
 ## Whether the branch is for a player of this gender and class, with these `facts` (none:
@@ -480,12 +488,15 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
 		reader.fail("", "a step does exactly one thing: %s" % [kinds])
 		return null
+	if reader.has("when"):
+		step.only_when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, step.only_when, "when")
 	match kinds[0]:
 		"line":
 			step.kind = Kind.LINE
@@ -629,6 +640,12 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"drop":
 			step.kind = Kind.DROP
 			step.item_id = StringName(reader.required_text("drop"))
+		"keep_save":
+			# Native (终章 A; DECISIONS「决战前存档」): the 决战前 slot is written as the world stands
+			# now (only `true` is a step: a save not asked for is no step).
+			step.kind = Kind.KEEP_SAVE
+			if not reader.boolean("keep_save", false):
+				reader.fail("keep_save", "is true")
 		"take":
 			step.kind = Kind.TAKE
 			step.item_id = StringName(reader.required_text("take"))

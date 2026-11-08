@@ -121,6 +121,8 @@ var _away: WorldAwayTimes = WorldAwayTimes.new()
 ## A moment the autosave may take (GameAutosave): a map change landed, or a fight is over and
 ## its panel gone.
 signal autosave_moment
+## An act's `keep_save` (终章 A; DECISIONS「决战前存档」): the host writes the 决战前 slot now.
+signal keep_save_requested
 var _fight_shown: bool = false
 ## Real seconds this character has been played, menus included (not the pause).
 var _played_seconds: float = 0.0
@@ -2410,6 +2412,28 @@ func player_worn_item_ids() -> Dictionary[StringName, bool]:
 		if GameContent.catalog().item(base) != null:
 			worn[base] = true
 	return worn
+
+
+## The 决战前 save is asked for (an act's `keep_save`): the host takes the world as it stands.
+func request_kept_save() -> void:
+	keep_save_requested.emit()
+
+
+## A condition -> whether it holds for the player now, with what they carry and wear, where they
+## stand and the day's phase as they are at this moment (the 任务 page's checklists, DECISIONS
+## 「任务清单」); an invalid Callable before the session is up.
+func quest_condition_test() -> Callable:
+	if not _initialized or _player == null or _player.state == null or _inventory == null or _item_index == null:
+		return Callable()
+	var state: CharacterState = _player.state
+	var temps: Dictionary[String, int] = _player.temp_marks
+	var held: Dictionary[StringName, bool] = player_held_item_ids()
+	var worn: Dictionary[StringName, bool] = player_worn_item_ids()
+	var location: WorldLocationState = _player.world_location()
+	var zone_id: StringName = &"" if location == null else location.zone_id
+	var phase_id: StringName = day_phase_id()
+	return func(condition: JournalEntryDefinition) -> bool:
+		return JournalLog.holds(condition, state, temps, held, zone_id, worn, phase_id)
 
 
 ## Looks for the entries and items now (tests; advance_journal()).
