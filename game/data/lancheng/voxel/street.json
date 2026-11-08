@@ -986,17 +986,6 @@
     "default": {
       "coat": "f0ece2",
       "note": "岚城人: white, sleeves lifting in the wind"
-    },
-    "native.npc.lan_child": {
-      "coat": "f4f0e8",
-      "note": "a small bronze bell at her neck"
-    },
-    "native.npc.lan_bellsmith": {
-      "coat": "8a6a50",
-      "note": "a leather apron, copper-green hands"
-    },
-    "native.npc.lan_sweeper": {
-      "coat": "e8e4d8"
     }
   }
 }
