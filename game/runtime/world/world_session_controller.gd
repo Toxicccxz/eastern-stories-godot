@@ -2434,6 +2434,12 @@ func play_epilogue(epilogue_id: StringName) -> void:
 	overlay.play(definition.shown(test), definition.ends_journey(test), func() -> bool: return dialogue.is_open())
 
 
+## An ending is waiting for the box to be read or being told (nothing saves meanwhile).
+func epilogue_running() -> bool:
+	var overlay: EpilogueOverlay = shared_ui().epilogue if has_node("SharedGameplayUI") else null
+	return overlay != null and overlay.active()
+
+
 func _on_epilogue_finished(final: bool) -> void:
 	hold_presentation(EPILOGUE_HOLD, false)
 	epilogue_ended.emit(final)

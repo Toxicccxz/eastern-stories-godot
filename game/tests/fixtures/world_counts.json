@@ -1024,13 +1024,13 @@
 		"lancheng.pavilion": 1,
 		"lancheng.terrace": 3
 	},
-	"npc_draws_after_oldpine": 2619,
+	"npc_draws_after_oldpine": 2616,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {
 		"inn_npcs": 3,
 		"outdoor_npcs": 21,
 		"items": 26,
-		"draws": 111
+		"draws": 108
 	}
 }

@@ -25,6 +25,8 @@ var _index: int = -1
 var _final: bool = false
 var _pending: bool = false
 var _active: bool = false
+## The last card read: fading out, every key still its own until it is gone.
+var _closing: bool = false
 var _wait_for: Callable = Callable()
 var _fly: Tween
 
@@ -96,6 +98,7 @@ func play(cards: Array[Array], final: bool, wait_for: Callable = Callable()) -> 
 	_wait_for = wait_for
 	_pending = true
 	_active = true
+	_closing = false
 
 
 func active() -> bool:
@@ -137,7 +140,7 @@ func _begin() -> void:
 
 ## The next card; after the last, the end.
 func advance() -> void:
-	if not _active or _pending:
+	if not _active or _pending or _closing:
 		return
 	if _index + 1 >= _cards.size():
 		_end()
@@ -162,12 +165,14 @@ func _show(index: int) -> void:
 
 
 func _end() -> void:
-	_active = false
+	_closing = true
 	var fade := create_tween()
 	fade.tween_property(_veil, "modulate:a", 1.0, FADE_SECONDS)
 	fade.tween_callback(func() -> void:
 		visible = false
 		_index = -1
+		_closing = false
+		_active = false
 		finished.emit(_final))
 
 

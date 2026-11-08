@@ -60,6 +60,7 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	var overlay: EpilogueOverlay = ui.epilogue
 	_check(overlay.active() and session.presentation_held(WorldSessionController.EPILOGUE_HOLD), "the ending told, the world held")
+	_check(not OldPineSaveEligibility.inspect(session).allowed(), "no saving while the ending is told (its marks are written)")
 	var titles: Array[String] = await _read_all(tree, overlay)
 	_check(titles.size() >= 12 and titles[0].contains("雪亭镇") and titles[-1].contains("东方故事"), "the cards that say something, 雪亭镇 first, the credits last (a card with nothing for the ledger is passed over: %s)" % [titles])
 	var all_lines: String = "\n".join(titles)

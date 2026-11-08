@@ -30,6 +30,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.epilogue_ended.emit(false)
 	await _frames(tree)
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and shell.runtime_host().current_session() == session, "an ending that does not end the journey: the world goes on")
+	_check(shell.request_pause(), "paused while the last card fades (the end is not lost)")
+	await _frames(tree)
 	session.epilogue_ended.emit(true)
 	for frame: int in 600:
 		await tree.process_frame

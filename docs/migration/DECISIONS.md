@@ -305,7 +305,7 @@
 ## 结局讲述 (终章 C; 计划 `build/plans/终章_计划.md` §3a 第 3 条)
 
 - **ES2：** 没有。
-- **我们：** 数据 `epilogues`（`EpilogueDefinition`：`id`、`final`（when）、`cards`：`id`、`place`（一张图，飞到它在地图页上的地点）、`title`、`lines`：`text` + 可选 `when`），内容清单 `story/epilogue.json`。act 步骤 `epilogue`、问话规则 `epilogue` 都调 `WorldSessionController.play_epilogue()`：按玩家此刻的印记挑出卡和句子，`hold_presentation`（世界时间停、人不走），`EpilogueOverlay`（`SharedGameplayUI.epilogue`，CanvasLayer 40）等对话框读完再开始：标题画面的沙盘（`TitleSand`）铺满屏幕，镜头 1.6 秒飞到卡的地点，下方一条暗底，标题 36、句子 18，E／A／点击翻页，最后一张淡出；结束发 `epilogue_ended(final)`，`final` 时宿主发 `journey_ended`，壳层暂停并结束这一局回主菜单。
+- **我们：** 数据 `epilogues`（`EpilogueDefinition`：`id`、`final`（when）、`cards`：`id`、`place`（一张图，飞到它在地图页上的地点）、`title`、`lines`：`text` + 可选 `when`），内容清单 `story/epilogue.json`。act 步骤 `epilogue`、问话规则 `epilogue` 都调 `WorldSessionController.play_epilogue()`：按玩家此刻的印记挑出卡和句子，`hold_presentation`（世界时间停、人不走），`EpilogueOverlay`（`SharedGameplayUI.epilogue`，CanvasLayer 40）等对话框读完再开始：标题画面的沙盘（`TitleSand`）铺满屏幕，镜头 1.6 秒飞到卡的地点，下方一条暗底，标题 36、句子 18，E／A／点击翻页，最后一张淡出（淡出时按键仍归它）；结束发 `epilogue_ended(final)`，`final` 时宿主发 `journey_ended`，壳层暂停并结束这一局回主菜单（暂停菜单开着也一样；别的请求在跑就稍后再试，不丢）。等着讲和正在讲的时候不能存档（同演出：印记已经写下，存在半当中就再也讲不到）。
 - **为什么：** owner 的沙盘要「上古卷轴式、有意境」；结局讲在沙盘上，一处一处，玩家看得见是哪里。
 
 ## 终章 B (剧情总纲 §3 终章「三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留下」, §9 Q1; 计划 `build/plans/终章_计划.md` B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项)

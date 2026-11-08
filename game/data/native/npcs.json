@@ -3569,7 +3569,10 @@
 				"int": 30,
 				"cor": 30,
 				"cps": 30,
-				"con": 30
+				"con": 30,
+				"spi": 22,
+				"per": 20,
+				"kar": 20
 			},
 			"combat_exp": 1000000,
 			"skills": {
