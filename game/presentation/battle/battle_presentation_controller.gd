@@ -82,6 +82,13 @@ var end_stamp: Label
 ## its whole ceremony; whether the round was running on the last refresh (回合间归位).
 var scene_show: BattleSceneShow
 var sounds: BattleSounds
+## 战斗演出 B (DECISIONS「战斗演出 B」): the fight's opening (the stage laid, the camera drawn in, the
+## panel slid in) and whether it waits for the panel's first layout (it starts the frame after).
+var opening: BattleStageOpening
+var _opening_pending: bool = false
+var _head: VBoxContainer
+var _strip_row: HBoxContainer
+var _shade_tween: Tween
 var _last_beat: Array = []
 var _paused_for: BattleNarrationLine = null
 var _earned_told: bool = false
@@ -149,6 +156,9 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
+	if _opening_pending and _projection.active:
+		_opening_pending = false
+		_start_opening()
 	refresh_projection()
 	_tell_lines(delta)
 	if visible:
@@ -176,6 +186,7 @@ func _end_hold() -> void:
 	_hold_shield.visible = false
 	end_stamp.visible = false
 	scene_show.end()
+	opening.close()
 	if _stamp_tween != null and _stamp_tween.is_valid():
 		_stamp_tween.kill()
 	if _session != null:
@@ -191,7 +202,8 @@ func _end_hold() -> void:
 ## The next waiting line joins the recent strip: battle_line_ms apart, closer when more wait
 ## than a round leaves time for (they are all told before the next round's).
 func _tell_lines(delta: float) -> void:
-	if _line_queue.is_empty():
+	# 战斗演出 B: the lines wait while the stage is laid and the panel slides in.
+	if _line_queue.is_empty() or _opening_pending or (opening.running() and not opening.instant):
 		return
 	var spacing: float = _line_spacing
 	_line_wait -= delta
@@ -488,7 +500,17 @@ func refresh_projection() -> void:
 			_paused_for = null
 			_earned_told = false
 			_round_was_running = false
-			scene_show.begin(_voxel_view())
+			var stage_view: WorldVoxelView = _voxel_view()
+			scene_show.begin(stage_view, stage_view != null)
+			# 战斗演出 B: the panel's parts wait hidden; the opening starts once they are laid out
+			# (the next frame). 关 lays the stage at once, now.
+			if BattleStageOpening.next_instant(_projection.turns_offered and not _projection.manual):
+				_present_participants()
+				_start_opening()
+			else:
+				_opening_pending = true
+				for part: Array in _slide_parts():
+					(part[0] as Control).modulate.a = 0.0
 			if _intent == null:
 				_intent = BattleIntentAdapter.new(_session.combat_encounter_coordinator(), _projection.player_id)
 			if not visible:
@@ -499,6 +521,8 @@ func refresh_projection() -> void:
 			hide()
 			_restore_world_hud()
 			scene_show.end()
+			opening.close()
+			_opening_pending = false
 	var entries: Array[BattleFeedbackProjection] = []
 	if _session.is_initialized():
 		entries = _reader.read_new(_session.combat_encounter_coordinator(), _projection)
@@ -631,6 +655,7 @@ func _build() -> void:
 	head.add_theme_constant_override("separation", 2)
 	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_content.add_child(head)
+	_head = head
 	_title = Label.new()
 	_title.name = "ModeTitle"
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -671,6 +696,7 @@ func _build() -> void:
 	strip_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	strip_row.add_theme_constant_override("separation", 8)
 	_content.add_child(strip_row)
+	_strip_row = strip_row
 	_strip_slot = Control.new()
 	_strip_slot.name = "StripSlot"
 	_strip_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -794,6 +820,10 @@ func _build() -> void:
 	scene_show = BattleSceneShow.new()
 	scene_show.name = "SceneShow"
 	add_child(scene_show)
+	opening = BattleStageOpening.new()
+	opening.name = "StageOpening"
+	opening.finished.connect(_opening_finished)
+	add_child(opening)
 	sounds = BattleSounds.new()
 	sounds.name = "Sounds"
 	add_child(sounds)
@@ -1123,6 +1153,8 @@ func _recent_input(event: InputEvent, index: int) -> void:
 func _show_mode(mode: int) -> void:
 	if mode == _shown_mode and _projection.completion_outcome < 0:
 		return
+	# A 切磋 that turns 死斗 mid-fight: the stage restained and the shade deepening with it.
+	var turned: bool = _shown_mode >= 0 and BattleModeLook.friendly(_shown_mode) and not BattleModeLook.friendly(mode)
 	_shown_mode = mode
 	var look: BattleModeLook = BattleModeLook.of(mode)
 	_title.text = tr(look.title)
@@ -1132,7 +1164,64 @@ func _show_mode(mode: int) -> void:
 	_rule.color = look.accent
 	_motto.text = tr(look.motto)
 	_motto.visible = not look.motto.is_empty() and not _compact
-	_shade.color = look.scrim
+	if _shade_tween != null and _shade_tween.is_valid():
+		_shade_tween.kill()
+	if turned:
+		opening.restyle(mode)
+		_shade_tween = create_tween()
+		_shade_tween.tween_property(_shade, "color", look.scrim, BattlePace.real_seconds(GameContent.catalog().pacing().feel.arena_restyle_seconds) * 0.7)
+	else:
+		_shade.color = look.scrim
+
+
+## 战斗演出 B: the panel's parts as the opening slides them in — [part, from offset, delay share]:
+## the title from above, then the strip and the cards (down), the hints and the panel (up).
+func _slide_parts() -> Array:
+	return [
+		[_head, Vector2(0, -30), 0.0], [_strip_row, Vector2(0, -24), 0.12], [_strip, Vector2.ZERO, 0.12],
+		[_card_area, Vector2(0, -24), 0.18], [target_hints, Vector2(0, 40), 0.3], [action_panel, Vector2(0, 40), 0.3],
+	]
+
+
+## The opening (战斗演出 B), once the panel is laid out: the fighters where their bodies stand,
+## the band between the cards and the panel, the parts to slide; under 自动 the short one.
+func _start_opening() -> void:
+	var map := _session.active_map() as WorldMapController if _session != null and _session.is_initialized() else null
+	var fighters: Dictionary[StringName, Vector2] = {}
+	if map != null:
+		for value: BattleParticipantProjection in _projection.participants():
+			var body: Node2D = map.player_body if value.participant_id == _projection.player_id else map.runtime_body_for_character(value.participant_id)
+			if body != null:
+				fighters[value.participant_id] = body.global_position
+	opening.open(_voxel_view(), map, fighters, _projection.player_id, _projection.mode, _stage_band(), _slide_parts(), scene_show.set_lift, _projection.turns_offered and not _projection.manual)
+
+
+## The share of the screen's height between the cards' foot and the panel's top (where the
+## fighters should stand), as (top, bottom).
+func _stage_band() -> Vector2:
+	var height: float = get_viewport_rect().size.y
+	if height <= 0.0:
+		return DEFAULT_BAND
+	var top: float = _card_area.get_global_rect().position.y
+	for card: BattleParticipantCard in _cards:
+		if card.visible:
+			top = maxf(top, card.get_global_rect().end.y)
+	var bottom: float = target_hints.get_global_rect().position.y if target_hints.visible else action_panel.get_global_rect().position.y
+	# Not laid out yet (关 starts at once): where the band stands on a 16:9 screen.
+	if bottom - top < height * 0.1:
+		return DEFAULT_BAND
+	return Vector2(top / height, bottom / height)
+
+
+## The band the fighters stand in before the panel is laid out: under the cards, over the panel.
+const DEFAULT_BAND: Vector2 = Vector2(0.42, 0.7)
+
+
+func _opening_finished() -> void:
+	if _projection.active:
+		_present_participants()
+		_tell_lines(0.0)
+		_focus_battle()
 
 
 ## The look the head shows now (tests, kits): the mode it was made for.

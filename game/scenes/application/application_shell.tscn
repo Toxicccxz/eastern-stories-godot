@@ -605,6 +605,26 @@ text = "80%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="BattleOpeningPair" type="HBoxContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/keeps_width = true
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow/BattleOpeningPair"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+metadata/keeps_width = true
+text = "战斗开场"
+vertical_alignment = 1
+
+[node name="BattleOpeningOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/VolumeRow/BattleOpeningPair"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)

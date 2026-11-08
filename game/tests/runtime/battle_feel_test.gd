@@ -20,6 +20,9 @@ var _coordinator: CombatEncounterCoordinator
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_pace()
 	_test_settings()
+	# 战斗演出 B: the settings above set 战斗开场 back to 全程; this suite pins the fight's own
+	# feel, so its fights lay the stage at once (battle_stage_test has the opening).
+	BattlePace.opening = BattlePace.Opening.OFF
 	_session = Work.create_session(tree)
 	await tree.process_frame
 	await _to_snow(tree)
@@ -176,7 +179,8 @@ func _test_scene_input(tree: SceneTree) -> void:
 	_ui.refresh_projection()
 	var view: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
 	_check(_ui.scene_show.view == view and view != null, "the show plays in the map's voxel view")
-	_check(is_equal_approx(view.zoom(), BattleSceneShow.ZOOM_OPEN) or GameContent.catalog().pacing().feel.battle_zoom_seconds <= 0.0, "the fight began: the camera a little nearer (%.2f)" % view.zoom())
+	# 战斗演出 B: the opening stages the camera (here at once: 关); the show leaves it there.
+	_check(view.staged and is_equal_approx(view.zoom(), float(_ui.opening.frame()[2])) and view.zoom() < 1.0, "the fight began: the opening drew the camera in (%.2f)" % view.zoom())
 	var body_before: Vector2 = map.runtime_body_for_character(trainee.character_id).global_position
 	# A move of one beat (a 重 costs the round's two, and the second press must afford one).
 	var cheap: StringName = &""

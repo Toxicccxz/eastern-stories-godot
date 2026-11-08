@@ -126,6 +126,18 @@ var _afterimage_ms: int = 0
 var _scene_return_ms: int = 0
 var _beat_pause_ms: int = 0
 var _battle_zoom_ms: int = 0
+## 战斗演出 B (DECISIONS「战斗演出 B」): the opening — a brick dropping into place, the gap between
+## rows, the whole base at most, the base taken down, a 切磋 turning 死斗 (the bricks restained),
+## the camera's move, the panel sliding in; opening_full_fights: the fights each run of the game
+## opens in full before the short one (a count, not ms).
+var _arena_brick_ms: int = 0
+var _arena_row_ms: int = 0
+var _arena_build_max_ms: int = 0
+var _arena_take_down_ms: int = 0
+var _arena_restyle_ms: int = 0
+var _opening_camera_ms: int = 0
+var _opening_slide_ms: int = 0
+var _opening_full_fights: int = 0
 
 var map_fade_out_seconds: float:
 	get:
@@ -262,6 +274,30 @@ var beat_pause_seconds: float:
 var battle_zoom_seconds: float:
 	get:
 		return float(_battle_zoom_ms) / 1000.0
+var arena_brick_seconds: float:
+	get:
+		return float(_arena_brick_ms) / 1000.0
+var arena_row_seconds: float:
+	get:
+		return float(_arena_row_ms) / 1000.0
+var arena_build_max_seconds: float:
+	get:
+		return float(_arena_build_max_ms) / 1000.0
+var arena_take_down_seconds: float:
+	get:
+		return float(_arena_take_down_ms) / 1000.0
+var arena_restyle_seconds: float:
+	get:
+		return float(_arena_restyle_ms) / 1000.0
+var opening_camera_seconds: float:
+	get:
+		return float(_opening_camera_ms) / 1000.0
+var opening_slide_seconds: float:
+	get:
+		return float(_opening_slide_ms) / 1000.0
+var opening_full_fights: int:
+	get:
+		return _opening_full_fights
 
 
 ## Seconds a bubble saying `line` stays up (0: no bubbles).
@@ -346,6 +382,14 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_scene_return_ms = int(values.get("scene_return_ms", _scene_return_ms))
 	_beat_pause_ms = int(values.get("beat_pause_ms", _beat_pause_ms))
 	_battle_zoom_ms = int(values.get("battle_zoom_ms", _battle_zoom_ms))
+	_arena_brick_ms = int(values.get("arena_brick_ms", _arena_brick_ms))
+	_arena_row_ms = int(values.get("arena_row_ms", _arena_row_ms))
+	_arena_build_max_ms = int(values.get("arena_build_max_ms", _arena_build_max_ms))
+	_arena_take_down_ms = int(values.get("arena_take_down_ms", _arena_take_down_ms))
+	_arena_restyle_ms = int(values.get("arena_restyle_ms", _arena_restyle_ms))
+	_opening_camera_ms = int(values.get("opening_camera_ms", _opening_camera_ms))
+	_opening_slide_ms = int(values.get("opening_slide_ms", _opening_slide_ms))
+	_opening_full_fights = int(values.get("opening_full_fights", _opening_full_fights))
 	return self
 
 
@@ -366,6 +410,7 @@ const KEYS: Array[String] = [
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
 	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms",
 	"scene_step_ms", "scene_windup_ms", "hit_stop_ms", "scene_flash_ms", "scene_dust_ms", "afterimage_ms", "scene_return_ms", "beat_pause_ms", "battle_zoom_ms",
+	"arena_brick_ms", "arena_row_ms", "arena_build_max_ms", "arena_take_down_ms", "arena_restyle_ms", "opening_camera_ms", "opening_slide_ms", "opening_full_fights",
 ]
 
 

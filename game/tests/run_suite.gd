@@ -41,6 +41,8 @@ func _run() -> void:
 	WorldSessionController.keep_map_scenes = true
 	# 战斗决策层 1B: the suites drive fights with advance_scheduler(); the clock rolls on (自动).
 	BattlePace.manual_turns = false
+	# 战斗演出 B: the suites lay the stage at once (the opening has its own suite).
+	BattlePace.opening = BattlePace.Opening.OFF
 	TestFeel.turn_off()
 	TestAway.turn_off()
 	TestAlert.turn_off()

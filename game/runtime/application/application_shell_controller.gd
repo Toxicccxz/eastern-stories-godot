@@ -57,6 +57,7 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var battle_speed_option: OptionButton = %BattleSpeedOption
 @onready var hit_flash_check: CheckButton = %HitFlashCheck
 @onready var knockout_option: OptionButton = %KnockoutOption
+@onready var battle_opening_option: OptionButton = %BattleOpeningOption
 @onready var objective_hints_check: CheckButton = %ObjectiveHintsCheck
 @onready var autosave_notice_check: CheckButton = %AutosaveNoticeCheck
 @onready var day_night_option: OptionButton = %DayNightOption
@@ -276,6 +277,7 @@ func _ready() -> void:
 	resolution_option.item_selected.connect(_on_display_selected)
 	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
 	knockout_option.get_popup().window_input.connect(_popup_system_input.bind(knockout_option))
+	battle_opening_option.get_popup().window_input.connect(_popup_system_input.bind(battle_opening_option))
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
 	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
 	# Pad support (owner, DECISIONS「手柄」): last, so it sees every
@@ -440,7 +442,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, resolution_option, ui_scale_option, language_option, battle_speed_option, knockout_option, day_night_option, pace_option]:
+	for option: OptionButton in [window_mode_option, resolution_option, ui_scale_option, language_option, battle_speed_option, knockout_option, battle_opening_option, day_night_option, pace_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -747,6 +749,11 @@ func apply_settings() -> bool:
 		var lit: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_day_night(day_night_option.get_selected_id())
 		if lit.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "昼夜设置已生效，但未能保存。"
+			return false
+	if battle_opening_option.get_selected_id() != committed.battle_opening():
+		var opened: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_battle_opening(battle_opening_option.get_selected_id())
+		if opened.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "战斗开场已生效，但未能保存。"
 			return false
 	if roundi(master_volume_slider.value) != committed.master_volume():
 		var heard: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_master_volume(roundi(master_volume_slider.value))
@@ -1462,6 +1469,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	battle_speed_option.disabled = not settings_interactive
 	hit_flash_check.disabled = not settings_interactive
 	knockout_option.disabled = not settings_interactive
+	battle_opening_option.disabled = not settings_interactive
 	objective_hints_check.disabled = not settings_interactive
 	autosave_notice_check.disabled = not settings_interactive
 	day_night_option.disabled = not settings_interactive
@@ -1660,6 +1668,11 @@ func _configure_battle_options() -> void:
 	knockout_option.add_item("询问", BattlePace.AfterKnockout.ASK)
 	knockout_option.add_item("直接了结", BattlePace.AfterKnockout.FINISH)
 	knockout_option.tooltip_text = "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+	battle_opening_option.clear()
+	battle_opening_option.add_item("全程", BattlePace.Opening.FULL)
+	battle_opening_option.add_item("简短", BattlePace.Opening.SHORT)
+	battle_opening_option.add_item("关", BattlePace.Opening.OFF)
+	battle_opening_option.tooltip_text = "进战斗时搭擂台、镜头拉近的那一段：全程（每次开游戏的头几场完整、之后简短）、一直简短，或者不放"
 	# 目标提示 (DECISIONS「新手链与当前目标」): off hides the status card's 目标 row and the toasts' 下一步.
 	objective_hints_check.tooltip_text = "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
 	# 自动存档提示 (DECISIONS「自动存档」): only the line; the autosave goes on.
@@ -1685,6 +1698,9 @@ func _select_committed_battle() -> void:
 	if index >= 0:
 		battle_speed_option.select(index)
 	hit_flash_check.set_pressed_no_signal(committed.hit_flash())
+	var opening_index: int = battle_opening_option.get_item_index(committed.battle_opening())
+	if opening_index >= 0:
+		battle_opening_option.select(opening_index)
 	var knockout: int = knockout_option.get_item_index(committed.after_knockout())
 	if knockout >= 0:
 		knockout_option.select(knockout)
@@ -1749,6 +1765,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		battle_speed_option,
 		hit_flash_check,
 		knockout_option,
+		battle_opening_option,
 		objective_hints_check,
 		autosave_notice_check,
 		day_night_option,
@@ -1805,7 +1822,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check, autosave_notice_check, day_night_option, master_volume_slider])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, day_night_option, master_volume_slider])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)
