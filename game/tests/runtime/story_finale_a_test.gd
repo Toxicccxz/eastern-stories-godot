@@ -45,7 +45,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.finale")
-	_check(quest != null and quest.requires == [&"main.chapter10"] and quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id) == [&"lake", &"gather", &"shore", &"depths"], "main.finale: lake, gather, shore, depths after 第十章")
+	_check(quest != null and quest.requires == [&"main.chapter10"] and quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id).slice(0, 4) == [&"lake", &"gather", &"shore", &"hall"], "main.finale: lake, gather, shore, then the 冰龙厅 (终章 B) after 第十章")
 	var gather: StoryQuestDefinition.Step = quest.step(&"gather")
 	_check(gather.checklist.size() == 20 and gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts).size() == 1, "the 点将 checklist: twenty rows, one count")
 	var count: StoryQuestDefinition.CheckRow = gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts)[0]
@@ -106,7 +106,7 @@ func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	session.record_journal()
-	_check(session.active_map().map_id() == &"village.icecave" and state.marks.get("终章下了湖底", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"depths", "down into the ice cave: the depths next")
+	_check(session.active_map().map_id() == &"village.icecave" and state.marks.get("终章下了湖底", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"hall", "down into the ice cave: the 冰龙厅 next")
 
 
 func _test_hard(tree: SceneTree, session: WorldSessionController) -> void:

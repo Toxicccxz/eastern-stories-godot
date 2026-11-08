@@ -277,7 +277,7 @@ func _check_icecave(tree: SceneTree, map: WorldMapController) -> void:
 	_check(float(view.layout.get("flora", {}).get("cliff_foot_tufts", 1.0)) == 0.0, "no grass on the ice")
 	var hall: Rect2 = MapPlaces.zone_rect(map, &"village.lakebottom2")
 	_check(hall.size.x >= 640 and hall.size.y >= 480, "lakebottom2.c: 突然变得非常宽阔: %s" % hall.size)
-	_check(map.npc_runtimes().size() == 6, "six white dragons")
+	_check(map.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.exists_in_map).size() == 6, "six white dragons (the finale's 商玦 and his four off the stage)")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.lakebottom2"), "walk from the frozen way in into the hall")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"village.lakebottom2", Vector2(176, 288), 48.0)), "across it to the ice stair")
 

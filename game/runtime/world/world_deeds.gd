@@ -35,7 +35,8 @@ func report(did: String) -> DeedLog.Deed:
 	return deed
 
 
-## The NPC definitions awake in `zone_id` on the active map, each once.
+## The NPC definitions awake in `zone_id` on the active map, each once (only who stands there: one off
+## the story's stage, absent from the map, saw nothing).
 func witnesses(zone_id: StringName) -> Array[StringName]:
 	var result: Array[StringName] = []
 	var map: WorldMapController = _session.active_map() as WorldMapController
@@ -43,7 +44,7 @@ func witnesses(zone_id: StringName) -> Array[StringName]:
 		return result
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		var location: WorldLocationState = npc.world_location()
-		if location == null or location.zone_id != zone_id or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		if location == null or location.zone_id != zone_id or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
 		var definition_id: StringName = npc.definition().definition_id
 		if not result.has(definition_id):

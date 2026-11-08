@@ -172,6 +172,41 @@ position = Vector2(150, 352)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakebottom2.dragon.6"
 
+[node name="Lakebottom2ShangJue1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(330, 300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.shang_jue.1"
+
+[node name="Lakebottom2ShangJueFighting1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(330, 300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.shang_jue_fighting.1"
+
+[node name="Lakebottom2NilingFinale1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(380, 250)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.niling_finale.1"
+
+[node name="Lakebottom2NilingFinale2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(380, 330)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.niling_finale.2"
+
+[node name="Lakebottom2NilingFinale3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(250, 300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.niling_finale.3"
+
+[node name="Lakebottom2NilingFinale4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(440, 250)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.niling_finale.4"
+
+[node name="Lakebottom2FengCeBeside1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(460, 300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.feng_ce_beside.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

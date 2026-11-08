@@ -881,11 +881,141 @@
 				"留下": {
 					"rules": [
 						{
+							"asker_marks": [
+								"回到了湖底"
+							],
+							"asker_carries": "native:village/lihong_feather",
+							"marks_asker": [
+								"璃虹说了或者是你"
+							],
+							"lines": [
+								{
+									"say": "把我的羽还给我——光回来一点，够再守三百年。穿灵交给我，我钉回去。"
+								},
+								{
+									"say": "……或者是你。你也可以。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"回到了湖底"
+							],
+							"marks_asker": [
+								"璃虹说了或者是你"
+							],
+							"lines": [
+								{
+									"say": "我没有光了。没有那片羽，我留不住。"
+								},
+								{
+									"say": "……或者是你。你也可以。"
+								}
+							]
+						},
+						{
+							"asker_carries": "native:village/lihong_feather",
+							"say": "再封，须有人留下。留下的人，就是下一块冰。我的光不多了——那片羽在你手里，到时候还给我，我还能再守一回。"
+						},
+						{
 							"say": "再封，须有人留下。留下的人，就是下一块冰。我哥哥没有留，我留了；这一回要是再封，不会是我——我已经没有光了。"
+						}
+					]
+				},
+				"我留下": {
+					"confirm": "你留下？你会成为下一块冰。\n片尾以后回到主菜单；「决战前」存档还在。",
+					"confirm_marks": [
+						"璃虹说了或者是你",
+						"侮天鬼倒了"
+					],
+					"confirm_lacks": [
+						"能灭它",
+						"瑷伦留在了冰里",
+						"璃虹留在了冰里",
+						"南危水留在了冰里",
+						"萧辟尘留在了冰里",
+						"你留在了冰里",
+						"侮天鬼灭了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"能灭它"
+							],
+							"say": "三器齐了。灭了它。"
+						},
+						{
+							"asker_marks": [
+								"璃虹说了或者是你",
+								"侮天鬼倒了"
+							],
+							"asker_lacks": [
+								"瑷伦留在了冰里",
+								"璃虹留在了冰里",
+								"南危水留在了冰里",
+								"萧辟尘留在了冰里",
+								"你留在了冰里",
+								"侮天鬼灭了"
+							],
+							"marks_asker": [
+								"你留在了冰里"
+							],
+							"lines": [
+								{
+									"say": "……好。"
+								},
+								{
+									"line": "你握着穿灵走上封坛，一剑钉进那颗头里。冰从坛心长起来，冷得不像冷，像很长很长的一觉。\n"
+								}
+							]
+						},
+						{
+							"say": "……你在说什么。"
 						}
 					]
 				}
 			},
+			"accept_object": [
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "能灭它",
+					"say": "三器齐了。钉下去，用不着谁留下。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "侮天鬼倒了",
+					"giver_carries": "native:village/lihong_feather",
+					"ask": "把穿灵和那片羽交给璃虹？\n她把剑钉回那颗头上，光回来，再守三百年——再封。",
+					"lines": [
+						{
+							"line": "那片羽在你怀里亮了一下，又暗了——光回到了冰柱里，一下子亮了起来。\n",
+							"color": "HIW"
+						},
+						{
+							"say": "三百年。再三百年。去吧。"
+						},
+						{
+							"line": "穿灵从你手里滑出去，钉回了那颗头里。冰从坛心长起来，合拢了。\n",
+							"color": "HIW"
+						}
+					],
+					"mark_giver": "璃虹留在了冰里",
+					"destroys": true,
+					"accept": true
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "侮天鬼倒了",
+					"say": "我没有光了。没有那片羽，我留不住。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"say": "先把它打倒。",
+					"accept": false
+				}
+			],
 			"calls": [
 				{
 					"reaction": true,
@@ -2217,6 +2347,1066 @@
 					"accept": true
 				}
 			]
+		},
+		{
+			"id": "native.npc.shang_jue_waiting",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 商玦 at the 冰龙厅's pool the night of the battle (§0「冰龙厅」), his two lines; he draws (shang_jue_fighting)",
+			"name": "商玦",
+			"aliases": [
+				"shang jue",
+				"shang",
+				"master",
+				"商玦"
+			],
+			"title": "逆灵宫宫主",
+			"gender": "男性",
+			"age": 52,
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 30,
+				"spi": 30,
+				"cps": 30,
+				"per": 30,
+				"con": 26,
+				"kar": 4
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"sword": 120,
+				"six-chaos-sword": 120,
+				"dodge": 150,
+				"parry": 130,
+				"force": 160
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"long": "商玦站在冰龙厅的水潭边，黑衣上结了一层霜。他在等你。\n",
+			"attitude": "friendly",
+			"fight_deferred": "商玦摆了摆手：急什么。",
+			"scene_mark": "商玦说过",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "商玦说过",
+					"steps": [
+						{
+							"emote": "站在水潭边，黑衣上结了一层霜。他看着你，像看一个来晚了的人。"
+						},
+						{
+							"say": "它找了五千年的头。你要在它找到的那一刻毁了它。"
+						},
+						{
+							"when": {
+								"not": {
+									"mark": "冰龙倒了"
+								}
+							},
+							"line": "六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面四个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。\n",
+							"color": "HIW"
+						},
+						{
+							"when": {
+								"mark": "冰龙倒了"
+							},
+							"line": "四个黑冠道士从冰柱后面走出来，围住了你。\n",
+							"color": "HIR"
+						},
+						{
+							"when": {
+								"mark": "冰龙倒了"
+							},
+							"summon": "native.lakebottom2.niling_finale"
+						},
+						{
+							"when": {
+								"mark": "冯策随你下湖"
+							},
+							"summon": "native.lakebottom2.feng_ce_beside"
+						},
+						{
+							"say": "你们管这叫除魔。我管这叫还债。"
+						},
+						{
+							"leave": true
+						},
+						{
+							"summon": "native.lakebottom2.shang_jue_fighting"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.shang_jue_fighting",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 商玦 drawn (§0「冰龙厅」): beaten, spared he walks into the pool (我等下一个三百年), finished he goes up in black smoke",
+			"name": "商玦",
+			"aliases": [
+				"shang jue",
+				"shang",
+				"master",
+				"商玦"
+			],
+			"title": "逆灵宫宫主",
+			"gender": "男性",
+			"age": 52,
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 30,
+				"spi": 30,
+				"cps": 30,
+				"per": 30,
+				"con": 26,
+				"kar": 4
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"sword": 120,
+				"six-chaos-sword": 120,
+				"dodge": 150,
+				"parry": 130,
+				"force": 160
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"long": "商玦拔出了剑。剑身是黑的，没有一点光。\n",
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"summoned": {
+				"arrive": [
+					"商玦拔出了剑，一步一步走过来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"商玦走进了水潭。"
+				]
+			},
+			"spared": {
+				"mark": "放过了商玦",
+				"leave": true,
+				"line": "商玦撑着剑站起来，看了你一眼，一步一步走进了水潭：「我等下一个三百年。」"
+			},
+			"vanishes": {
+				"line": "商玦散成一股黑烟，从水潭上散了出去。"
+			},
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"商玦说道：它不是妖魔。它是金乌欠下的债。\n",
+				"商玦的剑不带风，像念经。\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_taoist_lake",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 商玦's four in the 冰龙厅 when the dragons are no more",
+			"name": "黑冠道士",
+			"aliases": [
+				"taoist",
+				"道士",
+				"黑冠道士"
+			],
+			"title": "逆灵宫",
+			"gender": "男性",
+			"age": 38,
+			"attributes": {
+				"str": 24,
+				"cor": 26,
+				"int": 24,
+				"spi": 26,
+				"cps": 24,
+				"per": 14,
+				"con": 24,
+				"kar": 14
+			},
+			"combat_exp": 120000,
+			"skills": {
+				"sword": 80,
+				"parry": 75,
+				"dodge": 75,
+				"force": 70,
+				"unarmed": 60
+			},
+			"long": "一个黑衣黑冠的逆灵宫道士，脸冻得发青，手里的剑结了霜。\n",
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"summoned": {
+				"arrive": [
+					"一个黑冠道士从冰柱后面走了出来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"黑冠道士退进了冰缝里。"
+				]
+			},
+			"vanishes": {
+				"line": "黑冠道士一声不响地散成一股黑烟。"
+			}
+		},
+		{
+			"id": "native.npc.feng_ce_lakebottom",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 冯策 beside the player in the 冰龙厅 (第九章 D: 冯策随你下湖)",
+			"name": "冯策",
+			"aliases": [
+				"feng ce",
+				"feng"
+			],
+			"title": "大内侍卫营总教头",
+			"gender": "男性",
+			"age": 58,
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 28,
+				"spi": 26,
+				"cps": 30,
+				"per": 22,
+				"con": 30,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"unarmed": 150,
+				"sword": 180,
+				"dodge": 160,
+				"parry": 160,
+				"force": 150
+			},
+			"long": "冯策一身素白的武官袍，刀已经出了鞘，站在你身侧半步。\n",
+			"attitude": "friendly",
+			"summoned": {
+				"arrive": [
+					"冯策从冰洞里跟了下来，拔刀站到你身边：「老夫来。」"
+				],
+				"color": "HIW",
+				"leave": [
+					"冯策收了刀，守在了水潭边。"
+				]
+			},
+			"fights_beside_player": true,
+			"fights_beside_leaves": "冯策收了刀：「潭底下的事，老夫帮不上。老夫守着潭口。」"
+		},
+		{
+			"id": "native.npc.wutian_gui",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 侮天鬼 (doc/help/history:51–60: 寒於用宝剑镇压了五千年的「侮天鬼」, 正在四处寻找他的头颅; myth:1–24), headless with its head hung over its shoulder; 妖魔不解释 (剧情总纲 §10): no topics; 宝衣挡着它的黑焰",
+			"name": "侮天鬼",
+			"aliases": [
+				"wutian gui",
+				"ghost",
+				"侮天鬼",
+				"无头鬼"
+			],
+			"gender": "男性",
+			"age": 5000,
+			"long": "一团人形的黑焰，没有头。那颗头悬在它肩膀上方，眼睛睁着，还没有长上去。它不出声——它没有嘴。\n",
+			"attributes": {
+				"str": 34,
+				"cor": 34,
+				"int": 10,
+				"spi": 30,
+				"cps": 30,
+				"per": 4,
+				"con": 36,
+				"kar": 2
+			},
+			"combat_exp": 600000,
+			"resources": {"max_kee": 2400, "max_gin": 1200, "max_sen": 1200, "max_force": 1600, "force": 1600},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"unarmed": 150,
+				"dodge": 130,
+				"parry": 140,
+				"force": 150
+			},
+			"summoned": {
+				"arrive": [
+					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"黑焰退回了那颗头底下。"
+				]
+			},
+			"vanishes": {
+				"line": "侮天鬼散成一团黑焰，退回了那颗头底下。焰还在一下一下地跳。"
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"黑焰卷过来，冰「嗤」地化了一片。\n",
+				"那颗头在它肩上转过来，看着你。\n"
+			]
+		},
+		{
+			"id": "native.npc.wutian_gui_blazing",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 侮天鬼 (doc/help/history:51–60: 寒於用宝剑镇压了五千年的「侮天鬼」, 正在四处寻找他的头颅; myth:1–24), headless with its head hung over its shoulder; 妖魔不解释 (剧情总纲 §10): no topics; 没有宝衣，它的黑焰烧得人睁不开眼",
+			"name": "侮天鬼",
+			"aliases": [
+				"wutian gui",
+				"ghost",
+				"侮天鬼",
+				"无头鬼"
+			],
+			"gender": "男性",
+			"age": 5000,
+			"long": "一团人形的黑焰，没有头。那颗头悬在它肩膀上方，眼睛睁着，还没有长上去。它不出声——它没有嘴。\n",
+			"attributes": {
+				"str": 34,
+				"cor": 34,
+				"int": 10,
+				"spi": 30,
+				"cps": 30,
+				"per": 4,
+				"con": 36,
+				"kar": 2
+			},
+			"combat_exp": 800000,
+			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"unarmed": 170,
+				"dodge": 150,
+				"parry": 160,
+				"force": 170
+			},
+			"summoned": {
+				"arrive": [
+					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"黑焰退回了那颗头底下。"
+				]
+			},
+			"vanishes": {
+				"line": "侮天鬼散成一团黑焰，退回了那颗头底下。焰还在一下一下地跳。"
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"黑焰卷过来，冰「嗤」地化了一片。\n",
+				"那颗头在它肩上转过来，看着你。\n"
+			]
+		},
+		{
+			"id": "native.npc.wutian_gui_grown",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 侮天鬼 (doc/help/history:51–60: 寒於用宝剑镇压了五千年的「侮天鬼」, 正在四处寻找他的头颅; myth:1–24), headless with its head hung over its shoulder; 妖魔不解释 (剧情总纲 §10): no topics; 它长了一整个三百年；宝衣挡着它的黑焰",
+			"name": "侮天鬼",
+			"aliases": [
+				"wutian gui",
+				"ghost",
+				"侮天鬼",
+				"无头鬼"
+			],
+			"gender": "男性",
+			"age": 5000,
+			"long": "一团人形的黑焰，没有头。那颗头悬在它肩膀上方，眼睛睁着，还没有长上去。它不出声——它没有嘴。\n",
+			"attributes": {
+				"str": 34,
+				"cor": 34,
+				"int": 10,
+				"spi": 30,
+				"cps": 30,
+				"per": 4,
+				"con": 36,
+				"kar": 2
+			},
+			"combat_exp": 800000,
+			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"unarmed": 170,
+				"dodge": 150,
+				"parry": 160,
+				"force": 170
+			},
+			"summoned": {
+				"arrive": [
+					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"黑焰退回了那颗头底下。"
+				]
+			},
+			"vanishes": {
+				"line": "侮天鬼散成一团黑焰，退回了那颗头底下。焰还在一下一下地跳。"
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"黑焰卷过来，冰「嗤」地化了一片。\n",
+				"那颗头在它肩上转过来，看着你。\n"
+			]
+		},
+		{
+			"id": "native.npc.wutian_gui_grown_blazing",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 侮天鬼 (doc/help/history:51–60: 寒於用宝剑镇压了五千年的「侮天鬼」, 正在四处寻找他的头颅; myth:1–24), headless with its head hung over its shoulder; 妖魔不解释 (剧情总纲 §10): no topics; 它长了一整个三百年，没有宝衣挡着",
+			"name": "侮天鬼",
+			"aliases": [
+				"wutian gui",
+				"ghost",
+				"侮天鬼",
+				"无头鬼"
+			],
+			"gender": "男性",
+			"age": 5000,
+			"long": "一团人形的黑焰，没有头。那颗头悬在它肩膀上方，眼睛睁着，还没有长上去。它不出声——它没有嘴。\n",
+			"attributes": {
+				"str": 34,
+				"cor": 34,
+				"int": 10,
+				"spi": 30,
+				"cps": 30,
+				"per": 4,
+				"con": 36,
+				"kar": 2
+			},
+			"combat_exp": 1000000,
+			"resources": {"max_kee": 3800, "max_gin": 1900, "max_sen": 1900, "max_force": 2600, "force": 2600},
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"unarmed": 190,
+				"dodge": 170,
+				"parry": 180,
+				"force": 190
+			},
+			"summoned": {
+				"arrive": [
+					"黑焰从坛下涌上来，一团没有头的人形站了起来。"
+				],
+				"color": "HIR",
+				"leave": [
+					"黑焰退回了那颗头底下。"
+				]
+			},
+			"vanishes": {
+				"line": "侮天鬼散成一团黑焰，退回了那颗头底下。焰还在一下一下地跳。"
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"黑焰卷过来，冰「嗤」地化了一片。\n",
+				"那颗头在它肩上转过来，看着你。\n"
+			]
+		},
+		{
+			"id": "native.npc.elon_altar",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 瑷伦 at the 封坛 with 寒於宝衣 (a keeper: 剧情总纲 §9 Q1)",
+			"name": "瑷伦",
+			"aliases": [
+				"eelon"
+			],
+			"title": "晚月庄开山祖师",
+			"gender": "女性",
+			"age": 37,
+			"attributes": {
+				"str": 21,
+				"int": 28
+			},
+			"combat_exp": 3000000,
+			"skills": {
+				"unarmed": 150,
+				"dodge": 150,
+				"sword": 120,
+				"force": 150,
+				"parry": 120,
+				"whip": 150,
+				"iceforce": 130,
+				"throwing": 150,
+				"stormdance": 130,
+				"tenderzhi": 130,
+				"snowwhip": 130
+			},
+			"skill_map": {
+				"dodge": "stormdance",
+				"unarmed": "tenderzhi",
+				"force": "iceforce",
+				"whip": "snowwhip"
+			},
+			"long": "瑷伦披着寒於宝衣站在封坛边，衣角压着黑焰的风，一动不动。\n",
+			"attitude": "friendly",
+			"fight_deferred": "瑷伦看了你一眼：留着力气。",
+			"inquiry": {
+				"留下": {
+					"rules": [
+						{
+							"asker_marks": [
+								"能灭它"
+							],
+							"say": "三器齐了。钉下去，用不着谁留下。"
+						},
+						{
+							"asker_marks": [
+								"瑷伦留在了冰里"
+							],
+							"say": "我留下了。"
+						},
+						{
+							"asker_marks": [
+								"侮天鬼倒了"
+							],
+							"say": "把穿灵给我。我把它钉回去，留在冰里——守衣守了几百年，换一样东西守。"
+						},
+						{
+							"say": "先把它打倒。"
+						}
+					]
+				}
+			},
+			"accept_object": [
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "能灭它",
+					"say": "三器齐了。钉下去，用不着谁留下。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "侮天鬼倒了",
+					"ask": "把穿灵交给瑷伦？\n她把剑钉回那颗头上，自己留在冰里——再封。她不会再回晚月庄。",
+					"lines": [
+						{
+							"emote": "接过穿灵，走上封坛，一剑钉进那颗头里。"
+						},
+						{
+							"say": "宝衣跟着我。下一个来的人，记得它在这里。"
+						},
+						{
+							"line": "冰从坛心长起来，没过她的脚、她的腰、她的肩。她没有回头。\n",
+							"color": "HIW"
+						}
+					],
+					"mark_giver": "瑷伦留在了冰里",
+					"destroys": true,
+					"accept": true
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"say": "先把它打倒。",
+					"accept": false
+				}
+			]
+		},
+		{
+			"id": "native.npc.nan_weishui_altar",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 南危水 at the 封坛 (a keeper: 剧情总纲 §9 Q1)",
+			"name": "南危水",
+			"aliases": [
+				"nan weishuey",
+				"nan",
+				"weishuey",
+				"五长老"
+			],
+			"title": "水烟阁五长老",
+			"gender": "男性",
+			"age": 52,
+			"attributes": {
+				"str": 25,
+				"cor": 30,
+				"int": 26,
+				"spi": 28,
+				"cps": 30,
+				"per": 22,
+				"con": 27,
+				"kar": 18
+			},
+			"combat_exp": 800000,
+			"skills": {
+				"force": 100,
+				"unarmed": 95,
+				"sword": 100,
+				"parry": 80,
+				"dodge": 95,
+				"celestial": 100,
+				"celestrike": 90,
+				"fonxansword": 100
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"sword": "fonxansword",
+				"parry": "fonxansword"
+			},
+			"long": "南危水站在封坛边，焦殇剑出了鞘。二十年前的事，他好像终于等到了。\n",
+			"attitude": "friendly",
+			"fight_deferred": "南危水淡淡道：不是时候。",
+			"inquiry": {
+				"留下": {
+					"rules": [
+						{
+							"asker_marks": [
+								"能灭它"
+							],
+							"say": "三器齐了。钉下去，用不着谁留下。"
+						},
+						{
+							"asker_marks": [
+								"南危水留在了冰里"
+							],
+							"say": "我留下了。"
+						},
+						{
+							"asker_marks": [
+								"侮天鬼倒了"
+							],
+							"say": "二十年前有人替我死了。这一回，我替他把账还上。把穿灵给我。"
+						},
+						{
+							"say": "先把它打倒。"
+						}
+					]
+				}
+			},
+			"accept_object": [
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "能灭它",
+					"say": "三器齐了。钉下去，用不着谁留下。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "侮天鬼倒了",
+					"ask": "把穿灵交给南危水？\n他把剑钉回那颗头上，自己留在冰里——再封。水烟阁再也等不到他。",
+					"lines": [
+						{
+							"emote": "接过穿灵，掂了掂，笑了一下。"
+						},
+						{
+							"say": "告诉颜违：五长老这回是真死了。"
+						},
+						{
+							"line": "他一剑钉进那颗头里。冰从坛心长起来，没过了他。\n",
+							"color": "HIW"
+						}
+					],
+					"mark_giver": "南危水留在了冰里",
+					"destroys": true,
+					"accept": true
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"say": "先把它打倒。",
+					"accept": false
+				}
+			]
+		},
+		{
+			"id": "native.npc.xiao_pichen_altar",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 萧辟尘 at the 封坛 with 旋芒 (a keeper: 剧情总纲 §9 Q1; 第十章「他去决战，可能死在那里」)",
+			"name": "萧辟尘",
+			"aliases": [
+				"master fighter",
+				"master",
+				"fighter"
+			],
+			"gender": "男性",
+			"age": 24,
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 24,
+				"cps": 30
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 100,
+				"sword": 60,
+				"blade": 40,
+				"throwing": 40,
+				"force": 100,
+				"parry": 60,
+				"dodge": 60,
+				"literate": 60,
+				"perception": 80,
+				"six-chaos-sword": 80,
+				"celestial": 100,
+				"celestrike": 100,
+				"stormdance": 50,
+				"pyrobat-steps": 50
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword",
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"dodge": "pyrobat-steps",
+				"move": "pyrobat-steps"
+			},
+			"long": "萧辟尘握着旋芒站在封坛边，风从潭口灌下来，他的衣角往城的方向飘。\n",
+			"attitude": "friendly",
+			"fight_deferred": "萧辟尘摇头：今夜不打你。",
+			"inquiry": {
+				"留下": {
+					"rules": [
+						{
+							"asker_marks": [
+								"能灭它"
+							],
+							"say": "三器齐了。钉下去，用不着谁留下。"
+						},
+						{
+							"asker_marks": [
+								"萧辟尘留在了冰里"
+							],
+							"say": "我留下了。"
+						},
+						{
+							"asker_marks": [
+								"侮天鬼倒了"
+							],
+							"say": "我说过，回不来就回不来。把穿灵给我。"
+						},
+						{
+							"say": "先把它打倒。"
+						}
+					]
+				}
+			},
+			"accept_object": [
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "能灭它",
+					"say": "三器齐了。钉下去，用不着谁留下。",
+					"accept": false
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"giver_mark": "侮天鬼倒了",
+					"ask": "把穿灵交给萧辟尘？\n他把剑钉回那颗头上，自己留在冰里——再封。旋芒跟着他。",
+					"lines": [
+						{
+							"emote": "接过穿灵，回头看了一眼潭口。"
+						},
+						{
+							"say": "城里的风要是问起我，就说我在这里。"
+						},
+						{
+							"line": "他一剑钉进那颗头里。冰从坛心长起来，没过了他，旋芒还在他手里转。\n",
+							"color": "HIW"
+						}
+					],
+					"mark_giver": "萧辟尘留在了冰里",
+					"destroys": true,
+					"accept": true
+				},
+				{
+					"item": "native:village/soul_impaler",
+					"say": "先把它打倒。",
+					"accept": false
+				}
+			]
+		},
+		{
+			"id": "native.npc.yulan_tianwu_altar",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 於兰天武 at the 封坛 with 旋芒 (第十章 C: 旋芒在皇叔手里)",
+			"name": "於兰天武",
+			"aliases": [
+				"master champion",
+				"champion",
+				"master"
+			],
+			"title": "水烟阁传功使",
+			"gender": "男性",
+			"age": 54,
+			"attributes": {
+				"str": 30,
+				"int": 30,
+				"cor": 30,
+				"cps": 30,
+				"con": 30
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"sword": 80,
+				"blade": 80,
+				"parry": 100,
+				"dodge": 80,
+				"throwing": 50,
+				"celestial": 100,
+				"celestrike": 100,
+				"spring-blade": 80,
+				"pyrobat-steps": 90
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"blade": "spring-blade",
+				"dodge": "pyrobat-steps"
+			},
+			"long": "於兰天武握着旋芒站在封坛边，朝服下摆被黑焰燎焦了一角。\n",
+			"attitude": "friendly",
+			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
+			"inquiry": {
+				"留下": {
+					"rules": [
+						{
+							"say": "老夫的命是朝廷的。冰里，老夫留不得。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.annie_altar",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 安妮儿 at the 封坛 with 寒於宝衣 (第四章: 宝衣给了安妮儿)",
+			"name": "安妮儿",
+			"aliases": [
+				"annihier"
+			],
+			"gender": "女性",
+			"age": 37,
+			"combat_exp": 5000000,
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"force": 100,
+				"parry": 100,
+				"pyrobat-steps": 100,
+				"snowshade-force": 100,
+				"snowshade-sword": 100,
+				"sword": 100
+			},
+			"skill_map": {
+				"sword": "snowshade-sword",
+				"parry": "snowshade-sword",
+				"force": "snowshade-force",
+				"dodge": "pyrobat-steps"
+			},
+			"long": "安妮儿披着寒於宝衣站在封坛边，黑焰卷到她跟前就散了。\n",
+			"attitude": "friendly",
+			"fight_deferred": "安妮儿没有动：我不是来跟你打的。",
+			"inquiry": {
+				"留下": {
+					"rules": [
+						{
+							"say": "东方神教守的是封法，不是冰。留下的，得是跟它有账的人。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.lihong_finale",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 璃虹 come down to the 封坛 on the pulled ledger (第八章 B: ashore, her light gone), with nothing left to stay with",
+			"name": "璃虹",
+			"aliases": [
+				"lihong",
+				"li hong",
+				"璃虹",
+				"woman"
+			],
+			"title": "金乌",
+			"gender": "女性",
+			"age": 23,
+			"attributes": {
+				"str": 10,
+				"cor": 20,
+				"int": 40,
+				"spi": 40,
+				"cps": 20,
+				"per": 30,
+				"con": 10,
+				"kar": 30
+			},
+			"combat_exp": 300000,
+			"skills": {
+				"dodge": 60,
+				"parry": 40,
+				"force": 80
+			},
+			"long": "璃虹扶着冰壁站在潭口边，身上的光只剩一点。她跟着你下来了。\n",
+			"inquiry": {
+				"留下": {
+					"rules": [
+						{
+							"asker_marks": [
+								"回到了湖底"
+							],
+							"marks_asker": [
+								"璃虹说了或者是你"
+							],
+							"lines": [
+								{
+									"say": "我没有光了，留不住。"
+								},
+								{
+									"say": "……或者是你。你也可以。"
+								}
+							]
+						},
+						{
+							"say": "先下去。"
+						}
+					]
+				},
+				"我留下": {
+					"confirm": "你留下？你会成为下一块冰。\n片尾以后回到主菜单；「决战前」存档还在。",
+					"confirm_marks": [
+						"璃虹说了或者是你",
+						"侮天鬼倒了"
+					],
+					"confirm_lacks": [
+						"能灭它",
+						"瑷伦留在了冰里",
+						"璃虹留在了冰里",
+						"南危水留在了冰里",
+						"萧辟尘留在了冰里",
+						"你留在了冰里",
+						"侮天鬼灭了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"能灭它"
+							],
+							"say": "三器齐了。灭了它。"
+						},
+						{
+							"asker_marks": [
+								"璃虹说了或者是你",
+								"侮天鬼倒了"
+							],
+							"asker_lacks": [
+								"瑷伦留在了冰里",
+								"璃虹留在了冰里",
+								"南危水留在了冰里",
+								"萧辟尘留在了冰里",
+								"你留在了冰里",
+								"侮天鬼灭了"
+							],
+							"marks_asker": [
+								"你留在了冰里"
+							],
+							"lines": [
+								{
+									"say": "……好。"
+								},
+								{
+									"line": "你握着穿灵走上封坛，一剑钉进那颗头里。冰从坛心长起来，冷得不像冷，像很长很长的一觉。\n"
+								}
+							]
+						},
+						{
+							"say": "……你在说什么。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.elon_ice",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 瑷伦 in the ice after the 再封 (§7 Q2: 冰柱里看得见他)",
+			"name": "瑷伦",
+			"aliases": [
+				"ice",
+				"冰柱"
+			],
+			"title": "守者",
+			"gender": "女性",
+			"age": 37,
+			"long": "冰柱里站着瑷伦，披着寒於宝衣，眼睛睁着。冰里的光是暖的。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 20,
+				"int": 20,
+				"spi": 20,
+				"cps": 20,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"fight_deferred": "你的手还没碰到冰柱，就冷得缩了回来。"
+		},
+		{
+			"id": "native.npc.nan_weishui_ice",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 南危水 in the ice after the 再封 (§7 Q2: 冰柱里看得见他)",
+			"name": "南危水",
+			"aliases": [
+				"ice",
+				"冰柱"
+			],
+			"title": "守者",
+			"gender": "男性",
+			"age": 37,
+			"long": "冰柱里站着南危水，手按在剑柄上，像还在等什么人。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 20,
+				"int": 20,
+				"spi": 20,
+				"cps": 20,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"fight_deferred": "你的手还没碰到冰柱，就冷得缩了回来。"
+		},
+		{
+			"id": "native.npc.xiao_pichen_ice",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 萧辟尘 in the ice after the 再封 (§7 Q2: 冰柱里看得见他)",
+			"name": "萧辟尘",
+			"aliases": [
+				"ice",
+				"冰柱"
+			],
+			"title": "守者",
+			"gender": "男性",
+			"age": 37,
+			"long": "冰柱里站着萧辟尘，旋芒在他手里，冰里有一点风的影子。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 20,
+				"int": 20,
+				"spi": 20,
+				"cps": 20,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"fight_deferred": "你的手还没碰到冰柱，就冷得缩了回来。"
 		}
 	]
 }
