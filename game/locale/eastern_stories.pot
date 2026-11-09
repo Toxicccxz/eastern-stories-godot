@@ -16070,7 +16070,7 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry.宝衣.rules.lines.say
 #. waterfog.npc.elder5 inquiry.宝衣.rules.lines.say
 #: data/common/npcs.json data/waterfog/npcs.json
-msgid "还有——野羊山那边前夜起了火。一伙黑冠道士烧了土地庙，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
+msgid "还有——野羊山那边前夜出了事。一伙黑冠道士摸上山，抓走了寨里两个人，挨个问：那天闯道观的孩子是谁。他们在找你。"
 msgstr ""
 
 #. common.npc.fighter.executioner inquiry.宝衣.rules.say
@@ -31733,17 +31733,17 @@ msgstr ""
 
 #. choyin.npc.judgeman calls.steps.say
 #: data/choyin/npcs.json
-msgid "水烟阁的南五长老……是我三叔。他活着的事，二十年里只有你替他瞒过——叔父来信说了。"
+msgid "你上过水烟阁？那里有位南五长老——我们程家的人，家里当他死了二十年。……见没见过他，本县不问。"
 msgstr ""
 
 #. choyin.npc.judgeman calls.steps.say
 #: data/choyin/npcs.json
-msgid "你今天来，不管为什么，本县先谢你一句。"
+msgid "说吧，你今天来，为的什么事。"
 msgstr ""
 
 #. choyin.npc.judgeman calls.steps.say
 #: data/choyin/npcs.json
-msgid "水烟阁来信，说我三叔装死二十年的事让人告到长老会去了。……你来乔阴，是为别的事吧。说。"
+msgid "水烟阁来了消息：南五长老装死二十年，让人告到了长老会。那是我们程家的人。……你来乔阴，是为别的事吧。说。"
 msgstr ""
 
 #. choyin.npc.lady long
@@ -43523,7 +43523,7 @@ msgstr ""
 
 #. native.npc.guo_cheng calls.steps.say
 #: data/guanbei/npcs.json
-msgid "你就是把野羊寨的霍铮从逆灵宫地牢里背出来的那个？工地上有两个民夫跟他关过一个牢——他们认得你。"
+msgid "你就是把野羊寨的霍铮从逆灵宫地牢里背出来的那个？关北有两个从那地牢逃回来的民夫，跟他关过一个牢——他们认得你。"
 msgstr ""
 
 #. native.npc.guo_cheng calls.steps.say
@@ -46122,12 +46122,12 @@ msgstr ""
 
 #. native.npc.andun calls.steps.say
 #: data/fanfang/npcs.json
-msgid "关北的事传到海边了：有人借了槐阳王的兵，踏平了兵部的工地。兵部说关北反了——说的是你吧。坐。"
+msgid "关北的事传到海边了：有人借了槐阳王的兵，踏平了兵部的工地。兵部说关北反了——说的是你吧。"
 msgstr ""
 
 #. native.npc.andun calls.steps.say
 #: data/fanfang/npcs.json
-msgid "关北的工地一夜里少了一半人，兵部到今天没查出是谁。……是你。坐。"
+msgid "关北的工地一夜里少了一半人，兵部到今天没查出是谁。……是你。"
 msgstr ""
 
 #. native.npc.andun apprentice.requires.refuse_say
@@ -46998,7 +46998,13 @@ msgstr ""
 #. fanfang.office.papers act.acts.steps.line
 #: data/fanfang/world.json
 msgid ""
-"底下兵部的大印旁边，还压着一方「镇国大将军」印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。落款的日子，是关北工地出事后的第三天。\n"
+"落款的日子，是关北工地出事后的第三天。\n"
+msgstr ""
+
+#. fanfang.office.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"底下兵部的大印旁边，还压着一方「镇国大将军」印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n"
 msgstr ""
 
 #. fanfang.fire_hall.questions name
@@ -50763,7 +50769,7 @@ msgstr ""
 
 #. native.npc.feng_ce calls.steps.say
 #: data/native/npcs.json
-msgid "玉螺湖那一夜烧了半个村子——是你拔的剑。皇上不知道，老夫知道。……拔了就往前走，别回头。"
+msgid "玉螺湖那一夜烧了半个村子——是你拔的剑。……拔了就往前走，别回头。"
 msgstr ""
 
 #. native.npc.feng_ce calls.steps.say
@@ -51241,7 +51247,7 @@ msgstr ""
 
 #. native.npc.inn_raider greeting.say
 #: data/native/npcs.json
-msgid "就是他！海捕文书上的人——逆灵宫的同党，拿下！"
+msgid "就是你！海捕文书上画的人——逆灵宫的同党，拿下！"
 msgstr ""
 
 #. native.npc.inn_raider chat_msg_combat
