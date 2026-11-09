@@ -154,15 +154,15 @@ func _check_door_looks(view: WorldVoxelView) -> void:
 		for node: Node in pawn.find_children("*", "Label3D", true, false):
 			lettered = lettered or ((node as Label3D).text == tr("当") and (node as Label3D).global_transform.basis.z.normalized().x < -0.9)
 	_check(lettered, "the 当 is on the pawnshop's door, facing the street (west)")
-	# The door opens as the player comes and stays open (world.json: closable false): its leaves
-	# swing back, one 当 turned south to the camera.
+	# The door stands open for good (world.json: open, closable false; DECISIONS「街门常开」): its
+	# leaves swung back, one 当 turned south to the camera.
 	var swung: Node3D = view.opened.get(&"snow.hockshop.door")
 	var still_read: bool = false
 	if swung != null:
 		for node: Node in swung.find_children("*", "Label3D", true, false):
 			still_read = still_read or ((node as Label3D).text == tr("当") and (node as Label3D).global_transform.basis.z.normalized().z > 0.9)
 	_check(still_read, "the pawnshop's door standing open still shows its 当 to the street")
-	_check(view.shutters.has(&"snow.school.gate") and view.opened.has(&"snow.school.gate"), "the 武馆's red gate is drawn, and drawn standing open (DECISIONS「武馆大门常开」)")
+	_check(view.shutters.has(&"snow.school.gate") and view.opened.has(&"snow.school.gate"), "the 武馆's red gate is drawn, and drawn standing open (DECISIONS「街门常开」)")
 	# One arrow on one way: the gate's own gives way while the passage through it shows its arrow.
 	var gate_arrow: Node3D = view.arrows.get(&"snow.school.gate")
 	_check(gate_arrow != null and (gate_arrow.get_meta("passages", []) as Array).has(&"snow.school1.east"), "the gate knows the passage through it")

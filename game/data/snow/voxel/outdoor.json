@@ -48,7 +48,7 @@
     {"rect": [-160, -2240, -144, -2224], "from": ["wall"], "to": "street", "note": "the 牌坊's posts are the prop's"},
     {"rect": [144, -2240, 160, -2224], "from": ["wall"], "to": "street"}
   ],
-  "door_looks": {"snow.hockshop.door": {"kind": "old_gate", "leaf": "5a3e2a", "studs": false, "open": true, "text": "当", "text_y": 0.95, "letters": "1e1a16", "panel": "d8d0bc", "panel_size": 1.25, "pixel_size": 0.023, "rotation": -90, "size": [70, 32], "note": "mstreet3.c: 只有一扇门(door)上面写著一个大大的「当」字 (hockshop.c: 木雕门)"}, "snow.school.gate": {"kind": "old_gate", "leaf": "9c3a2c", "studs": "d6b25a", "rotation": -90, "size": [70, 32], "open": true, "note": "school1.c: 红漆大门, its gilt studs; it stands open for good (DECISIONS「武馆大门常开」)"}},
+  "door_looks": {"snow.hockshop.door": {"kind": "old_gate", "leaf": "5a3e2a", "studs": false, "open": true, "text": "当", "text_y": 0.95, "letters": "1e1a16", "panel": "d8d0bc", "panel_size": 1.25, "pixel_size": 0.023, "rotation": -90, "size": [70, 32], "note": "mstreet3.c: 只有一扇门(door)上面写著一个大大的「当」字 (hockshop.c: 木雕门)"}, "snow.school.gate": {"kind": "old_gate", "leaf": "9c3a2c", "studs": "d6b25a", "rotation": -90, "size": [70, 32], "open": true, "note": "school1.c: 红漆大门, its gilt studs; it stands open for good (DECISIONS「街门常开」)"}},
   "actors": {
     "default": {"coat": "887b56"},
     "snow.npc.dog": {"animal": true},

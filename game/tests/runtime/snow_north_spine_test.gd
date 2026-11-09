@@ -70,7 +70,7 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.active_map_id() == &"snow.outdoor", "physical Inn doorway")
 	geometry_tests(snow)
 	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1"]), "north into the street")
-	check(snow.door(&"snow.school.gate").is_open(), "the school's red gate stands open (DECISIONS「武馆大门常开」)")
+	check(snow.door(&"snow.school.gate").is_open(), "the school's red gate stands open (DECISIONS「街门常开」)")
 	var mstreet2: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet2")
 	await solid(tree, session, snow, &"snow.mstreet2", MapPlaces.spot(snow, &"snow.mstreet2", Vector2(mstreet2.position.x, mstreet2.position.y + 48)), "move_left", "mstreet2 west beside the smithy doorway")
 	for zone: StringName in [&"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]:

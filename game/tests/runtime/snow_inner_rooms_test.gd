@@ -192,7 +192,7 @@ func _test_inner_school(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.school1"]) and await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "up the street to the school's red gate")
-	_check(map.door(&"snow.school.gate").is_open(), "the school gate stands open (DECISIONS「武馆大门常开」)")
+	_check(map.door(&"snow.school.gate").is_open(), "the school gate stands open (DECISIONS「街门常开」)")
 	_check(await MapPlaces.take_passage(tree, map, &"snow.school1.east"), "through the red gate into the 武馆 (its own map)")
 	map = session.active_map() as WorldMapController
 	await tree.physics_frame

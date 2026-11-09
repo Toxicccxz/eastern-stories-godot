@@ -25,7 +25,7 @@ func _run() -> void:
 		# Serializer fixture only; physical/live routes have separate real-input proof.
 		map.player_body.position = MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school2")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.school2"))
-		check(map.set_door_open(&"snow.school.gate", false),"writer shuts the transient door (as a room rule would: it stands open, DECISIONS「武馆大门常开」)")
+		check(map.set_door_open(&"snow.school.gate", false),"writer shuts the transient door (as a room rule would: it stands open, DECISIONS「街门常开」)")
 		map.player_body.position = MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", &"snow.schoolhall")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.schoolhall"))
 		check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED,"writer recruits")

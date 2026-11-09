@@ -213,7 +213,7 @@ func physical_tests(tree: SceneTree) -> void:
 	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.school1"]), "up the street and in at the school entrance")
 	check(session.player_runtime().world_location().zone_id == &"snow.school1", "physical school1")
-	# The 红漆大门 stands open for good (DECISIONS「武馆大门常开」): nothing to work, on either map.
+	# The 红漆大门 stands open for good (DECISIONS「街门常开」): nothing to work, on either map.
 	var gate: CollisionShape2D = MapPlaces.door_wall(map, &"snow.school.gate")
 	check(map.door(&"snow.school.gate").is_open() and compound.door(&"snow.school.gate").is_open() and gate.disabled, "the red gate stands open (one door, two maps)")
 	check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "up to the red gate")
