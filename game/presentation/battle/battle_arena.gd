@@ -3,17 +3,18 @@ extends Node3D
 
 ## 战斗演出 B (DECISIONS「战斗演出 B」): the stage a fight is fought on — owner 2026-11-08: an
 ## uneven square base in thin steps, like a low pyramid, laid quickly out of voxel bricks under
-## the fighters. Three steps (two in a small room), each a brick narrower all round than the one
-## below; the top holds every fighter with a brick to spare (centred on the player when they
-## stand too far apart); a brick only where the 2D map is free (a table or a wall leaves its
-## cell open); every step's edge loses and gains a few bricks, its bricks a little uneven in
-## height and colour, so the base reads laid by hand. It is laid from the bottom step up, row by
-## row from the far side to the near, each brick dropping into place; a row's knock sounds as it
-## lands. Its look is the mode's (battle_stage.json): a 切磋's pale boards with flags at the
-## corners and a gong; a 死斗's blood-dark cracked stone, loose rubble round the foot, braziers
-## at the corners, a low drum and a scrape of steel. A 切磋 that turns 死斗 is restained from the
-## middle out. At the fight's end it is taken down, top step first.
-## Presentation only: the base is drawn in the voxel world, never in the 2D map; it moves no
+## the fighters. Three steps, each a brick narrower all round than the one below; the top holds
+## every fighter's place with a brick to spare; every step's edge loses and gains a few bricks,
+## its bricks a little uneven in height and colour, so the base reads laid by hand. It is laid
+## from the bottom step up, row by row from the far side to the near, each brick dropping into
+## place; a row's knock sounds as it lands. Its look is the mode's (battle_stage.json): a 切磋's
+## pale boards with flags at the corners and a gong; a 死斗's blood-dark cracked stone, loose
+## rubble round the foot, braziers at the corners, a low drum and a scrape of steel. A 切磋 that
+## turns 死斗 is restained from the middle out. At the fight's end it is taken down, top step first.
+## 战斗演出 D (DECISIONS「战斗演出 D」): the stage is no longer cut to the map's free cells — it is
+## the standard size for the fighters' places (formation()), laid in its own square turned to
+## face the camera, and raised over the map (BattleStageOpening moves it; a lamp of its own over
+## it). Presentation only: the base is drawn in the voxel world, never in the 2D map; it moves no
 ## body, blocks nothing and is not saved.
 
 signal laid
@@ -26,7 +27,8 @@ static var _data: Dictionary = {}
 ## The steps, bottom first: each the cells it covers ({Vector2i: true}), and the cells' 2D
 ## origin (the grid the map's tiles sit on).
 var steps: Array[Dictionary] = []
-var origin: Vector2 = Vector2.ZERO
+## The stage's own grid: a cell's centre at every multiple of CELL (the stage's middle at 0, 0).
+var origin: Vector2 = -Vector2(CELL, CELL) / 2.0
 var look_key: String = ""
 var _look: Dictionary = {}
 var _arena: Dictionary = {}
@@ -49,6 +51,10 @@ var _take_down_seconds: float = 0.3
 ## The clock when the base began coming down while still being laid (INF: it was laid).
 var _taken_at: float = INF
 var _rng := RandomNumberGenerator.new()
+var _seed: int = 0
+var _light: OmniLight3D
+## A re-lay (one joined): no finishing sounds again.
+var _quiet: bool = false
 
 
 ## The stage's data (battle_stage.json), read once.
@@ -135,7 +141,7 @@ func centre_of(cell: Vector2i) -> Vector2:
 	return origin + (Vector2(cell) + Vector2(0.5, 0.5)) * CELL
 
 
-## Whether the top step holds `point` (2D): one standing there stands on the stage.
+## Whether the top step holds `point` (the stage's own 2D, px): one standing there stands on it.
 func holds(point: Vector2) -> bool:
 	return not steps.is_empty() and steps.back().has(cell_of(point))
 
@@ -143,6 +149,17 @@ func holds(point: Vector2) -> bool:
 ## The top step's height over the ground.
 func top_height() -> float:
 	return float(steps.size()) * float(_arena.get("tier_height", 0.1))
+
+
+## The base's footprint in its own frame (units; x along its x, y along its z), `margin` wider
+## all round (its rubble, a lunge to the edge).
+func footprint(margin: float) -> Rect2:
+	if steps.is_empty() or steps[0].is_empty():
+		return Rect2()
+	var box := Rect2(centre_of(steps[0].keys()[0]), Vector2.ZERO)
+	for cell: Vector2i in steps[0]:
+		box = box.expand(centre_of(cell) - Vector2(CELL, CELL) / 2.0).expand(centre_of(cell) + Vector2(CELL, CELL) / 2.0)
+	return Rect2(box.position / VoxelMapGeometry.UNIT, box.size / VoxelMapGeometry.UNIT).grow(margin)
 
 
 ## The number of bricks (tests).
@@ -155,35 +172,98 @@ func laying() -> bool:
 	return _laying
 
 
-## Lays a base under `fighters` (2D points) on `map`, `player` the player's point, in `mode`'s
-## look; `seconds_scale` scales the feel's times (the 战斗速度, the short opening); `short`: the
-## whole base drops at once in a few rows. The grid follows the map's tiles.
-func lay(map: WorldMapController, fighters: Array[Vector2], player: Vector2, mode: int, seconds_scale: float = 1.0, short: bool = false) -> void:
+## The fighters' places on the stage (its own 2D, px: x to the camera's right, y toward the
+## camera), by `formation` (battle_stage.json): the player on the left, their side's others
+## behind them (further left), the other side on the right facing them, `rows` to a column (the
+## first in front), each column's back rows a little further out. `mine`: the player first, then
+## those on their side; `theirs`: the other side, the one the player faces first.
+static func formation(mine: Array[StringName], theirs: Array[StringName], data_formation: Dictionary) -> Dictionary[StringName, Vector2]:
+	var spots: Dictionary[StringName, Vector2] = {}
+	var gap: float = float(data_formation.get("gap", 2.4))
+	var column: float = float(data_formation.get("column", 1.1))
+	var row: float = float(data_formation.get("row", 1.0))
+	var rows: int = maxi(1, int(data_formation.get("rows", 3)))
+	var stagger: float = float(data_formation.get("stagger", 0.35))
+	for side: int in 2:
+		var ids: Array[StringName] = mine if side == 0 else theirs
+		var sign: float = -1.0 if side == 0 else 1.0
+		# The player stands alone in front; their helpers' columns are behind them.
+		var columns: Array[Array] = []
+		var rest: Array[StringName] = ids.duplicate()
+		if side == 0 and not rest.is_empty():
+			columns.append([rest.pop_front()])
+		while not rest.is_empty():
+			var count: int = mini(rows, rest.size())
+			columns.append(rest.slice(0, count))
+			rest = rest.slice(count)
+		for at: int in columns.size():
+			var people: Array = columns[at]
+			for index: int in people.size():
+				var depth: float = (float(index) - float(people.size() - 1) / 2.0) * row
+				if people.size() == 3:
+					depth = [0.0, -row, row][index]
+				var out: float = gap / 2.0 + float(at) * column + stagger * signf(-depth)
+				spots[people[index]] = Vector2(sign * out, depth) * VoxelMapGeometry.UNIT
+	return spots
+
+
+## Lays a standard base under `spots` (formation()'s places, the stage's own px), `player` the
+## player's, in `mode`'s look; `seconds_scale` scales the feel's times (the 战斗速度, the short
+## opening); `short`: each whole step drops at once. `place_seed`: the same place, the same base.
+func lay(spots: Array[Vector2], player: Vector2, mode: int, seconds_scale: float = 1.0, short: bool = false, place_seed: int = 0) -> void:
 	_arena = data().get("arena", {})
 	look_key = look_for(mode)
 	_look = data().get("looks", {}).get(look_key, {})
-	origin = _grid_origin(map)
-	var player_cell: Vector2i = cell_of(player)
-	_rng.seed = hash(player_cell)
+	_seed = place_seed
+	_plan_steps(spots, player)
+	_build(seconds_scale, short)
+
+
+func _plan_steps(spots: Array[Vector2], player: Vector2) -> void:
+	_rng.seed = _seed
 	var cells: Array[Vector2i] = []
-	for point: Vector2 in fighters:
+	for point: Vector2 in spots:
 		cells.append(cell_of(point))
+	var all_free := func(_cell: Vector2i) -> bool: return true
+	var size: Array = _arena.get("max_cells", [28, 20])
+	steps = plan(cells, cell_of(player), all_free, int(_arena.get("tiers", 3)), int(_arena.get("margin", 2)), Vector2i(int(size[0]), int(size[1])), float(_arena.get("jitter", 0.18)), _rng)
+
+
+## One who joined: the base laid again (quickly) when `spots` no longer all stand on its top.
+func grow_to(spots: Array[Vector2], player: Vector2) -> void:
+	if steps.is_empty() or spots.all(holds):
+		return
+	_laying = false
+	_restyle = {}
+	for node: Node3D in _dressing:
+		if is_instance_valid(node):
+			node.queue_free()
+	_dressing.clear()
+	_flames.clear()
+	for mesh: MultiMeshInstance3D in _meshes:
+		mesh.queue_free()
+	_meshes.clear()
+	_plan_steps(spots, player)
+	# Laid wider at once, quietly (the fight goes on on it).
+	_quiet = true
+	_build(0.0, true)
+	_quiet = false
+
+
+## Whether the room around `point` (2D, on `map`) is small: few free cells within eight (the
+## camera pitches less there, so the view stays inside the room).
+static func small_room(map: WorldMapController, point: Vector2) -> bool:
 	var blocked: Array[Rect2] = _blocked_rects(map)
 	var parts: WorldMapStaticNodes = map.static_nodes()
 	var free := func(cell: Vector2i) -> bool:
-		var centre: Vector2 = centre_of(cell)
+		var centre: Vector2 = point + Vector2(cell) * CELL
 		if not parts.walkable_tile(centre):
 			return false
 		for rect: Rect2 in blocked:
 			if rect.has_point(centre):
 				return false
 		return true
-	var tiers: int = int(_arena.get("tiers", 3))
-	if _free_around(player_cell, free) < int(_arena.get("small_cells", 64)):
-		tiers = int(_arena.get("small_tiers", 2))
-	var size: Array = _arena.get("max_cells", [28, 20])
-	steps = plan(cells, player_cell, free, tiers, int(_arena.get("margin", 2)), Vector2i(int(size[0]), int(size[1])), float(_arena.get("jitter", 0.18)), _rng)
-	_build(seconds_scale, short)
+	return _free_around(Vector2i.ZERO, free) < int(data().get("arena", {}).get("small_cells", 64))
 
 
 ## Whether the room around `cell` is small: its free cells within eight cells.
@@ -196,19 +276,7 @@ static func _free_around(cell: Vector2i, free: Callable) -> int:
 	return count
 
 
-## Whether the stage stands in a small room (two steps; the camera pitches less).
-func small() -> bool:
-	return steps.size() < int(data().get("arena", {}).get("tiers", 3))
-
-
-static func _grid_origin(map: WorldMapController) -> Vector2:
-	var layers: Array[TileMapLayer] = map.static_nodes().layers
-	if layers.is_empty():
-		return Vector2.ZERO
-	return (layers[0].to_global(layers[0].map_to_local(Vector2i.ZERO)) - Vector2(CELL, CELL) / 2.0).posmod(CELL)
-
-
-## The map's walls, door wings and furniture as 2D rectangles (what blocks a brick).
+## The map's walls, door wings and furniture as 2D rectangles (what makes a room small).
 static func _blocked_rects(map: WorldMapController) -> Array[Rect2]:
 	var rects: Array[Rect2] = []
 	for collision: CollisionShape2D in map.static_nodes().static_shapes:
@@ -275,6 +343,7 @@ func _build(seconds_scale: float, short: bool) -> void:
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		add_child(mesh)
 		_meshes.append(mesh)
+	_lamp()
 	var counters: Array[int] = []
 	counters.resize(steps.size())
 	_bricks.clear()
@@ -308,6 +377,21 @@ func _build(seconds_scale: float, short: bool) -> void:
 	set_process(true)
 	if _rows.is_empty() or _laid_at <= 0.0:
 		_finish_laying()
+
+
+## The stage's own lamp over its middle (the look's `light`): the fighters read clear over the
+## darkened map, a room's lamps or none.
+func _lamp() -> void:
+	if _light == null:
+		_light = OmniLight3D.new()
+		_light.name = "StageLight"
+		_light.shadow_enabled = false
+		add_child(_light)
+	var lamp: Dictionary = _look.get("light", {})
+	_light.light_color = Color(String(lamp.get("colour", "ffe6c0")))
+	_light.light_energy = float(lamp.get("energy", 1.0))
+	_light.omni_range = float(lamp.get("range", 7.0))
+	_light.position = Vector3(0.0, float(lamp.get("height", 3.2)), float(lamp.get("forward", 1.2)))
 
 
 static func _on_edge(cells: Dictionary, cell: Vector2i) -> bool:
@@ -371,8 +455,9 @@ func _finish_laying() -> void:
 	_laying = false
 	for brick: Array in _bricks:
 		_meshes[brick[0]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), brick[2]))
-	for sound: Array in _look.get("done_sounds", []):
-		BattleSounds.cue(StringName(sound[0]), float(sound[1]), float(sound[2]))
+	if not _quiet:
+		for sound: Array in _look.get("done_sounds", []):
+			BattleSounds.cue(StringName(sound[0]), float(sound[1]), float(sound[2]))
 	_dress(_look)
 	laid.emit()
 
@@ -494,6 +579,7 @@ func restyle(mode: int, seconds: float) -> void:
 		skip()
 	look_key = key
 	_look = data().get("looks", {}).get(key, {})
+	_lamp()
 	for node: Node3D in _dressing:
 		if is_instance_valid(node):
 			node.queue_free()
@@ -555,6 +641,8 @@ func take_down(seconds: float) -> void:
 		return
 	_take_down_seconds = seconds
 	_taking_down = 0.0
+	if _light != null:
+		create_tween().tween_property(_light, "light_energy", 0.0, seconds)
 	for node: Node3D in _dressing:
 		if is_instance_valid(node):
 			create_tween().tween_property(node, "scale", Vector3.ZERO, seconds * 0.4)

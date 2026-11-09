@@ -1,18 +1,30 @@
 {
-	"_comment": "战斗演出 B (DECISIONS「战斗演出 B」): the stage a fight is fought on — the stepped base of bricks laid under the fighters, its look by mode, and the camera's opening move. Presentation only: nothing here touches a rule, a position or a saved value. Timings are pacing.json's feel (arena_*, opening_*).",
+	"_comment": "战斗演出 B (DECISIONS「战斗演出 B」): the stage a fight is fought on — the stepped base of bricks laid under the fighters, its look by mode, and the camera's opening move. 战斗演出 D: the stage the standard size for the fighters' places (formation), raised over the map with them, the map below it the backdrop (each look's backdrop). Presentation only: nothing here touches a rule, a position or a saved value. Timings are pacing.json's feel (arena_*, opening_*).",
 	"arena": {
-		"_comment": "brick: a brick's side in voxel units (a 16 px cell of the 2D map); tiers: how many steps (small rooms: small_tiers); tier_height: each step's thickness; margin: bricks of top beyond the fighters each way; max_cells: the top at most this many bricks across and deep (beyond it, centred on the player); jitter: the share of each step's edge bricks dropped or added (the base reads laid by hand); lift_seconds: the fighters step up onto the top.",
+		"_comment": "brick: a brick's side in voxel units (a 16 px cell of the 2D map); tiers: how many steps; tier_height: each step's thickness; margin: bricks of top beyond the fighters' places each way; max_cells: the top at most this many bricks across and deep; jitter: the share of each step's edge bricks dropped or added (the base reads laid by hand); small_cells: a room with fewer free cells round the player is small (the camera pitches less); float_height: how high over the map the stage rises (战斗演出 D; in a room at least over its walls).",
 		"brick": 0.5,
 		"gap": 0.03,
 		"tiers": 3,
-		"small_tiers": 2,
 		"small_cells": 64,
 		"tier_height": 0.1,
 		"margin": 2,
 		"max_cells": [28, 20],
 		"jitter": 0.18,
 		"height_jitter": 0.02,
-		"drop_height": 0.35
+		"drop_height": 0.35,
+		"float_height": 3.4
+	},
+	"formation": {
+		"_comment": "战斗演出 D: where the fighters stand on the stage, in voxel units — the player on the left, their side's others behind them, the other side on the right; gap: between the player and the one they face; column: between columns of a side; row: between those of a column (front to back); rows: at most this many to a column; stagger: a column's back row this much further out (its front row as much in), so no one stands hidden behind another.",
+		"gap": 2.4,
+		"column": 1.15,
+		"row": 1.2,
+		"rows": 3,
+		"stagger": 0.45
+	},
+	"backdrop": {
+		"_comment": "战斗演出 D: the map under the raised stage — shade: the share of the panel's own shade (the mode's scrim) kept over the whole screen while the backdrop is up (the backdrop darkens the map, not the fighters). Each look's backdrop: tint, darken (0..1), fade (toward grey, 0..1), blur_lod / blur_px (how soft); light: the stage's own lamp (colour, energy, range, height and forward of the stage's middle).",
+		"shade": 0.3
 	},
 	"looks": {
 		"_comment": "By the fight's mode (spar, lethal, lesson; a story fight takes lethal). tiers: bottom to top, each a few colours the bricks pick from; rim: the top step's edge; corners: what stands at the base's four corners (flag / brazier / none); rubble: loose stones scattered round the foot; sounds: a row laid, the stage done.",
@@ -25,7 +37,9 @@
 			"pole": "5a3820",
 			"rubble": 0,
 			"row_sound": "brick_wood",
-			"done_sounds": [["gong", 1.0, 0.0], ["clapper", 1.5, -4.0], ["clapper", 1.5, -6.0]]
+			"done_sounds": [["gong", 1.0, 0.0], ["clapper", 1.5, -4.0], ["clapper", 1.5, -6.0]],
+			"backdrop": {"tint": "fff1dc", "darken": 0.18, "fade": 0.25, "blur_lod": 3.0, "blur_px": 6.0},
+			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2}
 		},
 		"lesson": {
 			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
@@ -33,7 +47,9 @@
 			"corners": "none",
 			"rubble": 0,
 			"row_sound": "brick_wood",
-			"done_sounds": [["clapper", 1.0, 0.0]]
+			"done_sounds": [["clapper", 1.0, 0.0]],
+			"backdrop": {"tint": "fff1dc", "darken": 0.18, "fade": 0.25, "blur_lod": 3.0, "blur_px": 6.0},
+			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2}
 		},
 		"lethal": {
 			"tiers": [["3a1512", "33120f", "411916"], ["4a1712", "421410", "531b15"], ["5c2019", "521c16", "6b1c12"]],
@@ -45,7 +61,9 @@
 			"rubble": 26,
 			"rubble_colours": ["4a1712", "6b1c12", "2a0b08", "5b605f"],
 			"row_sound": "brick_stone",
-			"done_sounds": [["drum", 0.7, 2.0], ["scrape", 1.0, -6.0]]
+			"done_sounds": [["drum", 0.7, 2.0], ["scrape", 1.0, -6.0]],
+			"backdrop": {"tint": "d07a66", "darken": 0.45, "fade": 0.4, "blur_lod": 3.0, "blur_px": 6.0},
+			"light": {"colour": "ffb48a", "energy": 1.0, "range": 7.5, "height": 3.2, "forward": 1.2}
 		}
 	},
 	"moves": {

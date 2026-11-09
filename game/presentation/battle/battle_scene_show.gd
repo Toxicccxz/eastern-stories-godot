@@ -19,7 +19,8 @@ extends Node
 ## light with sparks before the chest. The camera moves twice: a little nearer as the fight
 ## begins, nearer again on its last blow (WorldVoxelView.set_zoom()).
 ## Presentation only: it moves each figure's model (the child of the view's actor node,
-## whose own position the view sets from the 2D body every frame), never the 2D body, a
+## whose own position the view sets from the 2D body every frame — or, 战斗演出 D, from its place
+## on the raised stage, WorldVoxelView.place_actor()), never the 2D body, a
 ## rule, a draw or a saved value. Every duration is pacing.json's feel, 0 = that piece is
 ## not shown; all scale with the 战斗速度 (BattlePace) and the 自动 pace the strip uses.
 
@@ -74,8 +75,6 @@ var pace: float = 1.0
 var _rest: Dictionary[StringName, Vector3] = {}
 ## What each figure was knocked back by this round (cleared between rounds).
 var _knock: Dictionary[StringName, Vector3] = {}
-## 战斗演出 B: how far each figure stands raised (on the stage's top step).
-var _lift: Dictionary[StringName, float] = {}
 var _tweens: Dictionary[StringName, Tween] = {}
 var _wound_up: Dictionary[StringName, bool] = {}
 ## Figures to ease home once the show they are in ends (the round ended on their blow).
@@ -121,7 +120,6 @@ func end() -> void:
 			_unflash(model)
 	_rest.clear()
 	_knock.clear()
-	_lift.clear()
 	_wound_up.clear()
 	_go_home.clear()
 	for effect: Node3D in _effects:
@@ -418,27 +416,9 @@ func _model(id: StringName) -> Node3D:
 
 
 ## Where `id` stands now: its rest (nearer its target when close) plus what it was knocked
-## back by this round, raised onto the stage when it stands on it.
+## back by this round (战斗演出 D: the stage's place is the actor node's, not the model's).
 func _stand(id: StringName) -> Vector3:
-	return _rest.get(id, Vector3.ZERO) + _knock.get(id, Vector3.ZERO) + Vector3.UP * _lift.get(id, 0.0)
-
-
-## 战斗演出 B: `id` steps up onto the stage (`height` over the ground; 0 down again) over
-## `seconds`.
-func set_lift(id: StringName, height: float, seconds: float) -> void:
-	_lift[id] = height
-	var model: Node3D = _model(id)
-	if model == null:
-		return
-	if _running(id):
-		_go_home[id] = true
-	else:
-		_ease_home(id, model, seconds)
-
-
-## How far `id` stands raised (tests).
-func lift_of(id: StringName) -> float:
-	return _lift.get(id, 0.0)
+	return _rest.get(id, Vector3.ZERO) + _knock.get(id, Vector3.ZERO)
 
 
 ## The way from `me` to `you` along the ground; without `you`, the way `me` faces.
@@ -547,6 +527,7 @@ func _ghost(model: Node3D) -> void:
 	pale.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	pale.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	pale.albedo_color = GHOST
+	pale.render_priority = VoxelBackdrop.OVER_BACKDROP
 	for part: GeometryInstance3D in _parts(ghost):
 		part.material_override = pale
 		part.material_overlay = null
@@ -605,6 +586,7 @@ func _parry_arc(model: Node3D, toward: Vector3) -> void:
 	glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	glow.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	glow.albedo_color = ARC
+	glow.render_priority = VoxelBackdrop.OVER_BACKDROP
 	var side := Vector3(-toward.z, 0.0, toward.x)
 	var mesh := BoxMesh.new()
 	mesh.size = Vector3(0.1, 0.1, 0.04)
