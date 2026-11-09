@@ -137,6 +137,9 @@ var _arena_take_down_ms: int = 0
 var _arena_restyle_ms: int = 0
 var _opening_camera_ms: int = 0
 var _opening_slide_ms: int = 0
+## 战斗演出 D (DECISIONS「战斗演出 D」): the fighters and their stage rising off the map into the air
+## (and the map going soft beneath them).
+var _opening_rise_ms: int = 0
 var _opening_full_fights: int = 0
 
 var map_fade_out_seconds: float:
@@ -295,6 +298,9 @@ var opening_camera_seconds: float:
 var opening_slide_seconds: float:
 	get:
 		return float(_opening_slide_ms) / 1000.0
+var opening_rise_seconds: float:
+	get:
+		return float(_opening_rise_ms) / 1000.0
 var opening_full_fights: int:
 	get:
 		return _opening_full_fights
@@ -389,6 +395,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_arena_restyle_ms = int(values.get("arena_restyle_ms", _arena_restyle_ms))
 	_opening_camera_ms = int(values.get("opening_camera_ms", _opening_camera_ms))
 	_opening_slide_ms = int(values.get("opening_slide_ms", _opening_slide_ms))
+	_opening_rise_ms = int(values.get("opening_rise_ms", _opening_rise_ms))
 	_opening_full_fights = int(values.get("opening_full_fights", _opening_full_fights))
 	return self
 
@@ -410,7 +417,7 @@ const KEYS: Array[String] = [
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
 	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms",
 	"scene_step_ms", "scene_windup_ms", "hit_stop_ms", "scene_flash_ms", "scene_dust_ms", "afterimage_ms", "scene_return_ms", "beat_pause_ms", "battle_zoom_ms",
-	"arena_brick_ms", "arena_row_ms", "arena_build_max_ms", "arena_take_down_ms", "arena_restyle_ms", "opening_camera_ms", "opening_slide_ms", "opening_full_fights",
+	"arena_brick_ms", "arena_row_ms", "arena_build_max_ms", "arena_take_down_ms", "arena_restyle_ms", "opening_camera_ms", "opening_slide_ms", "opening_rise_ms", "opening_full_fights",
 ]
 
 

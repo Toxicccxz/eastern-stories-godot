@@ -9,6 +9,10 @@ extends RefCounted
 ## marker away, the panel's lines waiting, the base laid in rows under the fighters, the player
 ## stepping up onto it, the panel back in place, a key putting the next opening in place at
 ## once, the base taken down and the camera given back at the end. Rules are untouched.
+## 战斗演出 D (DECISIONS「战斗演出 D」): the stage the standard size for the fighters' places (the
+## player left, their side behind, the other side right in ranks), raised over the map with the
+## fighters' figures on it while their 2D bodies stay put, the map below a backdrop, all of it
+## back at the end; a key puts the stage up at once.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
 
@@ -18,6 +22,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_plan()
+	_formation()
 	_kinds()
 	_setting()
 	_weapon_sounds()
@@ -71,6 +76,29 @@ func _plan() -> void:
 	_check(BattleArena.look_for(CombatEncounterMode.Value.SPAR) == "spar" and BattleArena.look_for(CombatEncounterMode.Value.LESSON) == "lesson" and BattleArena.look_for(CombatEncounterMode.Value.LETHAL) == "lethal" and BattleArena.look_for(CombatEncounterMode.Value.SCRIPTED) == "lethal", "the look by mode")
 	var looks: Dictionary = BattleArena.data().get("looks", {})
 	_check(looks.get("spar", {}).get("corners") == "flag" and looks.get("lethal", {}).get("corners") == "brazier" and int(looks.get("lethal", {}).get("rubble", 0)) > 0, "切磋 flags, 死斗 braziers and rubble")
+
+
+## 战斗演出 D: the places on the stage — a duel face to face across the gap, the player on the
+## left; a helper behind the player; six foes in two ranks of three on the right, the back of each
+## a little further out, no two in one place.
+func _formation() -> void:
+	var data: Dictionary = BattleArena.data().get("formation", {})
+	var gap: float = float(data.get("gap", 2.4)) * VoxelMapGeometry.UNIT
+	var duel: Dictionary[StringName, Vector2] = BattleArena.formation([&"p"], [&"n"], data)
+	_check(duel[&"p"].x < 0.0 and duel[&"n"].x > 0.0 and is_equal_approx(duel[&"n"].x - duel[&"p"].x, gap) and is_zero_approx(duel[&"p"].y), "a duel: the player left, the foe right, the gap between: %s" % [duel])
+	var foes: Array[StringName] = [&"a", &"b", &"c", &"d", &"e", &"f"]
+	var crowd: Dictionary[StringName, Vector2] = BattleArena.formation([&"p", &"helper"], foes, data)
+	_check(crowd[&"helper"].x < crowd[&"p"].x, "a helper stands behind the player")
+	_check(foes.all(func(id: StringName) -> bool: return crowd[id].x > 0.0), "every foe on the right")
+	var column: float = float(data.get("column", 1.15)) * VoxelMapGeometry.UNIT
+	var pair: Dictionary[StringName, Vector2] = BattleArena.formation([&"p"], [&"a", &"b"], data)
+	_check(absf(pair[&"a"].x - pair[&"b"].x) >= float(data.get("stagger", 0.45)) * 2.0 * VoxelMapGeometry.UNIT - 0.01, "two side by side: apart across the screen too")
+	_check(is_equal_approx(crowd[&"a"].x, gap / 2.0) and is_equal_approx(crowd[&"d"].x, gap / 2.0 + column) and is_zero_approx(crowd[&"a"].y) and is_zero_approx(crowd[&"d"].y), "six foes in two ranks of three, each led from the middle")
+	_check(crowd[&"b"].x > crowd[&"a"].x and crowd[&"b"].y < crowd[&"a"].y, "a rank's back row further out")
+	var places: Dictionary = {}
+	for id: StringName in crowd:
+		places[crowd[id]] = true
+	_check(places.size() == crowd.size(), "no two in one place")
 
 
 func _kinds() -> void:
@@ -186,6 +214,7 @@ func _fight(tree: SceneTree) -> void:
 	var trainee: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.school2.trainee.2")
 	for state: CharacterState in [session.player_runtime().state, trainee.character_state]:
 		state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY: nobody falls
+	var trainee_body: WorldCharacterBody2D = map.runtime_body_for_character(trainee.character_id)
 	map.select_npc(trainee.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "an attack starts")
 	await tree.process_frame
@@ -195,6 +224,9 @@ func _fight(tree: SceneTree) -> void:
 	_check(opening.running() and opening.kind == BattleStageOpening.Kind.FULL, "the first fight opens in full")
 	var arena: BattleArena = opening.arena
 	_check(arena != null and arena.get_parent() == view.world and arena.laying(), "the base is being laid in the map's voxel world")
+	var player_at: Vector2 = map.player_body.global_position
+	var trainee_at: Vector2 = trainee_body.global_position
+	_check(opening.backdrop != null and opening.backdrop.get_parent() == view.world and opening.risen() < 1.0, "the backdrop is there and the stage still rising")
 	_check(view.staged, "the camera is staged")
 	var frame: Array = opening.frame()
 	var pitch: float = rad_to_deg(atan(float(frame[1]) / WorldVoxelView.VIEW_RADIUS))
@@ -212,9 +244,22 @@ func _fight(tree: SceneTree) -> void:
 			break
 		await tree.process_frame
 	_check(not opening.running() and not arena.laying(), "the opening is done in time")
-	_check(arena.brick_count() > 40 and (arena.steps.size() == 3 or arena.steps.size() == 2), "a base of %d bricks in %d steps" % [arena.brick_count(), arena.steps.size()])
+	_check(arena.brick_count() > 40 and arena.steps.size() == 3, "a base of %d bricks in %d steps" % [arena.brick_count(), arena.steps.size()])
 	var player_id: StringName = session.player_runtime().character_id
-	_check(arena.holds(map.player_body.global_position) and is_equal_approx(ui.scene_show.lift_of(player_id), arena.top_height()), "the player stands on the top step (%.2f)" % ui.scene_show.lift_of(player_id))
+	var trainee_id: StringName = trainee.character_id
+	_check(_stage_up(opening, view, arena), "the stage in the air, square to the camera, its own size")
+	await tree.process_frame
+	_check(_on_stage(opening, view, [player_id, trainee_id]), "the figures stand in their places on the stage")
+	_check(map.player_body.global_position == player_at and trainee_body.global_position == trainee_at, "the 2D bodies have not moved")
+	_check(view.camera.unproject_position(opening.spots()[player_id]).x < view.camera.unproject_position(opening.spots()[trainee_id]).x, "the player on the left, the trainee on the right")
+	_check(opening.backdrop.visible and is_equal_approx(opening.backdrop.amount, 1.0) and float(opening.backdrop.parameter("darken")) > 0.0 and _holds_stage(opening.backdrop, arena), "the map round the stage a soft, darker backdrop; the stage's own space clear")
+	_check(ui._shade.modulate.a < 1.0, "the panel's shade lighter: the backdrop darkens the map instead")
+	# One who joins (a 天将 summoned) gets a place at the back of their side; the base grows to hold them.
+	var joined: Dictionary[StringName, Vector2] = {player_id: player_at, trainee_id: trainee_at, &"test.joiner": trainee_at}
+	opening.seat(joined, [trainee_id, &"test.joiner"])
+	_check(opening.spots().has(&"test.joiner") and _stage_up(opening, view, arena) and view.placed_at(&"test.joiner") != null, "one who joins: a place on the stage, the base wide enough")
+	var others_named: bool = view.labels.keys().any(func(id: StringName) -> bool: return id != player_id and id != trainee_id and view.labels[id].visible)
+	_check(not others_named, "no name shown over those left on the map")
 	_check(is_equal_approx(ui._head.modulate.a, 1.0) and is_equal_approx(ui.action_panel.modulate.a, 1.0), "the panel in place")
 	_check(ui._told.size() == told + 1, "the waiting line told once it is done")
 	_check(is_equal_approx(view.view_height(), float(frame[1])) and is_equal_approx(view.zoom(), float(frame[2])), "the camera where the opening put it")
@@ -224,7 +269,6 @@ func _fight(tree: SceneTree) -> void:
 	# 战斗演出 C: the player's blow named over their head (a sword: pale gold); the trainee's at
 	# the player too; a blow between two others named nowhere; never more than three.
 	var titles: BattleMoveTitles = ui.move_titles
-	var trainee_id: StringName = trainee.character_id
 	ui._show_line(_blow(player_id, trainee_id, CombatAttackResult.Outcome.HIT, &"sword", "刺伤"))
 	_check(titles.shown().size() == 1 and titles.shown()[0] == ["金光泻地", player_id], "the player's move over their head: %s" % [titles.shown()])
 	var label: Label = titles.get_child(titles.get_child_count() - 1) as Label
@@ -246,6 +290,15 @@ func _fight(tree: SceneTree) -> void:
 		await tree.process_frame
 	_check(not is_instance_valid(arena), "the base taken down")
 	_check(not view.staged and is_equal_approx(view.view_height(), WorldVoxelView.VIEW_HEIGHT) and is_equal_approx(view.zoom(), 1.0), "the camera given back (height %.2f, zoom %.2f)" % [view.view_height(), view.zoom()])
+	for _frame: int in 60:
+		if not ui.opening.landing():
+			break
+		await tree.process_frame
+	await tree.process_frame
+	_check(not ui.opening.landing() and not view.placing() and view.placed_at(player_id) == null, "everyone down again")
+	_check(view.actors[player_id].position.is_equal_approx(VoxelMapGeometry.point(map.player_body.global_position, 0.02)) and view.actors[trainee_id].position.is_equal_approx(VoxelMapGeometry.point(trainee_body.global_position, 0.02)), "each figure back where its body stands")
+	_check(view.world.get_children().all(func(node: Node) -> bool: return not node is VoxelBackdrop or node.is_queued_for_deletion()), "the backdrop gone")
+	_check(is_equal_approx(ui._shade.modulate.a, 1.0), "the shade its own again")
 	# Later fights open short; a key puts one in place at once.
 	BattleStageOpening.fights_opened = GameContent.catalog().pacing().feel.opening_full_fights
 	for _frame: int in 60:
@@ -260,6 +313,7 @@ func _fight(tree: SceneTree) -> void:
 	key.pressed = true
 	ui.opening._input(key)
 	_check(not ui.opening.running() and ui.opening.arena != null and not ui.opening.arena.laying() and is_equal_approx(ui._head.modulate.a, 1.0), "a key: everything in place at once")
+	_check(is_equal_approx(ui.opening.risen(), 1.0) and _stage_up(ui.opening, view, ui.opening.arena) and is_equal_approx(ui.opening.backdrop.amount, 1.0), "a key: the stage up and the backdrop in at once")
 	Multi.finish(session)
 	for _frame: int in 60:
 		ui.refresh_projection()
@@ -269,6 +323,41 @@ func _fight(tree: SceneTree) -> void:
 
 
 const Multi := preload("res://tests/support/cxr7_session_fixture.gd")
+
+
+## The stage up in the air at its height, turned to the camera's yaw, every place on its top.
+func _stage_up(opening: BattleStageOpening, view: WorldVoxelView, arena: BattleArena) -> bool:
+	var height: float = float(BattleArena.data().get("arena", {}).get("float_height", 2.6))
+	var yaw: float = -WorldVoxelView.VIEW_SIDE_ANGLE if view.left_view else WorldVoxelView.VIEW_SIDE_ANGLE
+	if arena.position.y < height - 0.001 or not is_equal_approx(arena.rotation.y, yaw):
+		_failures.append("battle stage: up at %.2f (want at least %.2f), turned %.2f (want %.2f)" % [arena.position.y, height, arena.rotation.y, yaw])
+		return false
+	for id: StringName in opening.spots():
+		var local: Vector3 = arena.to_local(opening.spots()[id])
+		if not arena.holds(Vector2(local.x, local.z) * VoxelMapGeometry.UNIT) or not is_equal_approx(local.y, arena.top_height()):
+			_failures.append("battle stage: %s not on the top (%s)" % [id, local])
+			return false
+	return true
+
+
+## The backdrop leaves the stage's own space clear: the base's footprint (and a little more), in
+## the stage's frame as it stands now.
+func _holds_stage(backdrop: VoxelBackdrop, arena: BattleArena) -> bool:
+	var box: Vector4 = backdrop.parameter("box")
+	var foot: Rect2 = arena.footprint(0.0)
+	var inverse: Projection = backdrop.parameter("stage_inverse")
+	var origin: Vector4 = inverse * Vector4(arena.global_position.x, arena.global_position.y, arena.global_position.z, 1.0)
+	return box.x < foot.position.x and box.y < foot.position.y and box.z > foot.end.x and box.w > foot.end.y and Vector3(origin.x, origin.y, origin.z).is_zero_approx()
+
+
+## Each of `ids` drawn at its place on the stage (its actor node there; the model on it).
+func _on_stage(opening: BattleStageOpening, view: WorldVoxelView, ids: Array) -> bool:
+	for id: StringName in ids:
+		var spot: Variant = view.placed_at(id)
+		if spot == null or not opening.spots().has(id) or not view.actors[id].position.is_equal_approx(spot):
+			_failures.append("battle stage: %s at %s, placed %s" % [id, view.actors[id].position, spot])
+			return false
+	return true
 
 
 func _check(ok: bool, label: String) -> void:

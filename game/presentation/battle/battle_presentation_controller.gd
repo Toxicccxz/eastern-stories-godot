@@ -162,6 +162,8 @@ func _process(delta: float) -> void:
 		_start_opening()
 	refresh_projection()
 	_tell_lines(delta)
+	# 战斗演出 D: the backdrop darkens the map under the raised stage; the shade keeps a little.
+	_shade.modulate.a = opening.shade_share()
 	if visible:
 		_place_strip()
 	if _strip_open:
@@ -1038,6 +1040,9 @@ func _present_participants() -> void:
 		ids.append(value.participant_id)
 	if ids != _shown_participants:
 		_shown_participants = ids
+		# 战斗演出 D: one who joined gets a place on the raised stage.
+		var sides: Array = _fighters(_active_map())
+		opening.seat(sides[0], sides[1])
 		for card: BattleParticipantCard in _cards:
 			if card.get_parent() != null:
 				card.get_parent().remove_child(card)
@@ -1210,14 +1215,31 @@ func _slide_parts() -> Array:
 ## The opening (战斗演出 B), once the panel is laid out: the fighters where their bodies stand,
 ## the band between the cards and the panel, the parts to slide; under 自动 the short one.
 func _start_opening() -> void:
-	var map := _session.active_map() as WorldMapController if _session != null and _session.is_initialized() else null
+	var map := _active_map()
+	var sides: Array = _fighters(map)
+	opening.open(_voxel_view(), map, sides[0], _projection.player_id, sides[1], _projection.mode, _stage_band(), _slide_parts(), _projection.turns_offered and not _projection.manual)
+
+
+func _active_map() -> WorldMapController:
+	return _session.active_map() as WorldMapController if _session != null and _session.is_initialized() else null
+
+
+## 战斗演出 D: [each fighter's 2D point by id, those on the other side (the player's target first)].
+func _fighters(map: WorldMapController) -> Array:
 	var fighters: Dictionary[StringName, Vector2] = {}
+	var foes: Array[StringName] = []
 	if map != null:
 		for value: BattleParticipantProjection in _projection.participants():
 			var body: Node2D = map.player_body if value.participant_id == _projection.player_id else map.runtime_body_for_character(value.participant_id)
-			if body != null:
-				fighters[value.participant_id] = body.global_position
-	opening.open(_voxel_view(), map, fighters, _projection.player_id, _projection.mode, _stage_band(), _slide_parts(), scene_show.set_lift, _projection.turns_offered and not _projection.manual)
+			if body == null:
+				continue
+			fighters[value.participant_id] = body.global_position
+			if value.hostile_to_player and value.participant_id != _projection.player_id:
+				if value.participant_id == _projection.current_target_id:
+					foes.push_front(value.participant_id)
+				else:
+					foes.append(value.participant_id)
+	return [fighters, foes]
 
 
 ## The share of the screen's height between the cards' foot and the panel's top (where the

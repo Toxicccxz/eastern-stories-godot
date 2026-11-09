@@ -48,6 +48,13 @@ var _stage_target: Vector3 = Vector3.ZERO
 var _stage_blend: float = 0.0
 var _view_height: float = VIEW_HEIGHT
 var _stage_tween: Tween
+## 战斗演出 D (DECISIONS「战斗演出 D」): figures shown somewhere other than their bodies (on a stage
+## raised over the map): id -> [where Vector3, facing yaw]. Each is drawn between its body's point
+## and that place by `placed_blend` (0 at its body, 1 there), facing that way while placed; while any
+## is placed, the names over the others and the things on the floor are not shown (the map is the
+## backdrop then). The body, its collision and everything saved stay where they are.
+var _placed: Dictionary[StringName, Array] = {}
+var placed_blend: float = 0.0
 ## The red marks over the heads of NPCs whose 2D body shows its AlertMark (进门一起上).
 var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
@@ -249,6 +256,7 @@ func release_world() -> void:
 	staged = false
 	_stage_blend = 0.0
 	_view_height = VIEW_HEIGHT
+	release_placed()
 	remove_child(world)
 	world.queue_free()
 	world = null
@@ -470,6 +478,23 @@ func base_size() -> float:
 func stage_settled() -> bool:
 	return _stage_tween == null or not _stage_tween.is_valid() or not _stage_tween.is_running()
 
+## 战斗演出 D: `id`'s figure shown at `at` (a point in the world) facing `yaw`, as far as
+## placed_blend takes it from its body.
+func place_actor(id: StringName, at: Vector3, yaw: float) -> void:
+	_placed[id] = [at, yaw]
+
+## Every figure back on its body.
+func release_placed() -> void:
+	_placed.clear()
+	placed_blend = 0.0
+
+## Where `id`'s figure is shown placed, or null when it is not (tests).
+func placed_at(id: StringName) -> Variant:
+	return _placed[id][0] if _placed.has(id) else null
+
+func placing() -> bool:
+	return not _placed.is_empty() and placed_blend > 0.0
+
 func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	var label := Label3D.new()
 	label.text = text
@@ -480,6 +505,9 @@ func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 	label.no_depth_test = true
 	label.outline_size = 6
 	label.modulate = Color("f0e6ce")
+	# 战斗演出 D: a name over a head on a raised stage shows over the map's backdrop.
+	label.render_priority = VoxelBackdrop.OVER_BACKDROP
+	label.outline_render_priority = VoxelBackdrop.OVER_BACKDROP - 1
 	parent.add_child(label)
 	return label
 
@@ -500,13 +528,17 @@ func _sync_actors(delta: float) -> void:
 		actor.visible = body.visible and body.is_visible_in_tree()
 		var at: Vector2 = body.global_position
 		var next: Vector3 = VoxelMapGeometry.point(at,0.02)
+		# 战斗演出 D: a placed figure is drawn toward its place (it stands there, not walking).
+		var place: Array = _placed.get(id,[]) if placed_blend > 0.0 else []
+		if not place.is_empty():
+			next = next.lerp(place[0],placed_blend)
 		var step: float = actor.position.distance_to(next)
 		actor.position = next
 		var model: Node3D = actor.get_child(0) as Node3D
 		if model is Person or model is Crawler or model is Snake or model is Flyer:
 			# Render frames may outnumber physics steps: a held direction must not flicker
 			# between the walk and idle poses on the intervening frames.
-			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
+			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5 and place.is_empty()
 		if model is Person:
 			# One attending to the player puts its work down (WorldMapNpcIdle); one fighting or lying
 			# senseless neither works nor sits.
@@ -515,7 +547,7 @@ func _sync_actors(delta: float) -> void:
 			(model as Person).at_ease = resident == null or (resident.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not resident.relationship.is_fighting())
 		# A statue (神像) never turns or falls: its plinth and wings stay with it.
 		if not (model is Person and not (model as Person).stone.is_empty()):
-			var direction: float = atan2(body.facing.x,body.facing.y)
+			var direction: float = atan2(body.facing.x,body.facing.y) if place.is_empty() else float(place[1])
 			model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
 			var npc: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
 			var life: CharacterRuntimeLifeStatus.Value = map.player_runtime().life_status if body == map.player_body else (npc.life_status if npc != null else CharacterRuntimeLifeStatus.Value.ACTIVE)
@@ -529,7 +561,7 @@ func _sync_actors(delta: float) -> void:
 			color.a *= float(label.get_meta("name_alpha",1.0))
 			label.modulate = color
 			var reveal_distance: float = float(label.get_meta("name_distance",-1.0))
-			label.visible = reveal_distance<0 or at.distance_squared_to(map.player_body.global_position)<=reveal_distance*reveal_distance or id==hovered or id==map.selected_character_id()
+			label.visible = (reveal_distance<0 or at.distance_squared_to(map.player_body.global_position)<=reveal_distance*reveal_distance or id==hovered or id==map.selected_character_id()) and (not placing() or _placed.has(id))
 		var mark := body.get_node_or_null("AlertMark") as Label
 		var marked: bool = mark != null and mark.visible
 		if marked and not alert_marks.has(id):
@@ -539,7 +571,7 @@ func _sync_actors(delta: float) -> void:
 			alert.modulate = mark.get_theme_color("font_color")
 			alert_marks[id] = alert
 		if alert_marks.has(id):
-			alert_marks[id].visible = marked
+			alert_marks[id].visible = marked and (not placing() or _placed.has(id))
 			alert_marks[id].text = mark.text if mark != null else alert_marks[id].text
 		_sync_watch_cone(actor, body)
 	for id: StringName in actors.keys():
@@ -555,7 +587,7 @@ func _sync_actors(delta: float) -> void:
 func _sync_watch_cone(actor: Node3D, body: WorldCharacterBody2D) -> void:
 	var cone: MeshInstance3D = actor.get_node_or_null("WatchCone") as MeshInstance3D
 	var data: Dictionary = body.get_meta("watch_cone", {}) if body.has_meta("watch_cone") else {}
-	if data.is_empty() or not body.visible:
+	if data.is_empty() or not body.visible or (placing() and _placed.has(body.character_id)):
 		if cone != null:
 			cone.visible = false
 		return
@@ -736,6 +768,11 @@ func _sync_objects() -> void:
 		if view != null and map.corpses.corpse_is_live_in_world(corpse):
 			_object(corpse.corpse_item_instance_id,view.global_position,map.corpses.corpse_name(corpse),true)
 			seen[corpse.corpse_item_instance_id] = true
+			# 战斗演出 D: one felled on a raised stage lies there until the stage comes down.
+			var place: Array = _placed.get(corpse.victim_character_id,[]) if placed_blend > 0.0 else []
+			if not place.is_empty():
+				var node: Node3D = objects[corpse.corpse_item_instance_id]
+				node.position = node.position.lerp(place[0],placed_blend)
 	for id: StringName in objects.keys():
 		if not seen.has(id):
 			objects[id].queue_free()
@@ -773,6 +810,8 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 	var label := objects[id].get_node_or_null("Title") as Label3D
 	if label != null and label.text != title:
 		label.text = title
+	if label != null:
+		label.visible = not placing()
 
 func _make_entrances() -> void:
 	for node: Node in geometry.areas:
