@@ -35,6 +35,8 @@ class Goal:
 	var map_id: StringName
 	var zone_id: StringName
 	var waypoint: bool = false
+	## Whom the quest step is about there (StoryQuestDefinition.Target.npc_ids); none for a 指路.
+	var npc_ids: Array[StringName] = []
 
 
 ## `map_id` is under the player's feet: the first time counts.
@@ -187,6 +189,7 @@ static func goal(catalog: ContentCatalog, state: CharacterState) -> Goal:
 			return null
 		result.map_id = target.map_id
 		result.zone_id = target.zone_id
+		result.npc_ids = target.npc_ids
 	return result
 
 

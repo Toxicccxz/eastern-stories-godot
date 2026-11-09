@@ -49,15 +49,17 @@
 					"text": "铜牒存在拜火祠的火前，三十年了。祠规「火前不说谎」：取牒要过一场问话，三句。大秦人自己过不了——三十年前他们为了这块地在火前说过一句谎。",
 					"target": {
 						"map": "fanfang.shield_hall",
-						"zone": "fanfang.hall"
+						"zone": "fanfang.hall",
+						"npcs": ["native.npc.andun"]
 					}
 				},
 				{
 					"id": "side",
-					"objective": "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，过早川一刀，让浪人替你偷牒）？",
+					"objective": "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，过早川一刀，让浪人替你偷牒——浪人会作证，市舶司就把大秦人清出番坊）？",
 					"target": {
 						"map": "fanfang.shield_hall",
-						"zone": "fanfang.hall"
+						"zone": "fanfang.hall",
+						"npcs": ["native.npc.andun"]
 					},
 					"options": [
 						{
@@ -92,7 +94,8 @@
 					"text": "火静了。穆护从火坛底下取出铜牒，放在你手里——还是温的。「火前拿的，谁也不能说你偷。」",
 					"target": {
 						"map": "fanfang.fire_temple",
-						"zone": "fanfang.fire_hall"
+						"zone": "fanfang.fire_hall",
+						"npcs": ["native.npc.fire_priest", "native.npc.shadow_thief"]
 					}
 				},
 				{
@@ -105,7 +108,8 @@
 					"text": "冯禄退走了。大秦人留下了，安敦说：「你欠我们的人情，我们记着；我们欠你的，也记着。」",
 					"target": {
 						"map": "fanfang.shield_hall",
-						"zone": "fanfang.shield_yard"
+						"zone": "fanfang.shield_yard",
+						"npcs": ["native.npc.feng_lu", "native.npc.ronin"]
 					}
 				},
 				{
@@ -118,7 +122,8 @@
 					"text": "早川收刀入鞘：「过了。今夜，拜火祠——火坛前站着，别出声。」",
 					"target": {
 						"map": "fanfang.ronin_hall",
-						"zone": "fanfang.dojo"
+						"zone": "fanfang.dojo",
+						"npcs": ["fanfang.npc.ronin_master"]
 					}
 				},
 				{
@@ -131,7 +136,8 @@
 					"text": "黑影把铜牒塞进你手里，走了。祠里传出祭司的骂声。第二天，冯禄的文书有了浪人作证——铁盾会空了，安敦被押上了船，卢卡剩在码头上。",
 					"target": {
 						"map": "fanfang.fire_temple",
-						"zone": "fanfang.fire_hall"
+						"zone": "fanfang.fire_hall",
+						"npcs": ["native.npc.fire_priest", "native.npc.shadow_thief"]
 					}
 				},
 				{

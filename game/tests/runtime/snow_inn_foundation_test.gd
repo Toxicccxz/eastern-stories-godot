@@ -46,7 +46,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(player.armor.item_instance_id_in_slot(&"cloth") == entry.birth.cloth.item_instance_id, "same actual cloth instance ID")
 	_check(map._item_index.resolve(entry.birth.cloth.item_instance_id).item_instance_id == entry.birth.cloth.item_instance_id, "cloth resolves through injected index")
 	_check(player.armor.aggregate_numeric_modifiers().armor == 1 and player.state.equipment.are_both_hands_empty(), "cloth worn with no weapon")
-	_check(map._inventory.registered_item_ids().size() == 5, "cloth plus the travellers' cloth and coins")
+	_check(map._inventory.registered_item_ids().size() == 7, "cloth plus the travellers' cloth and coins, and the two white-clad's swords (主线修补 B: off the stage until the fifth chapter)")
 	_check(player.world_location().same_location(SnowWorldDefinitions.birth_location()), "Snow region/map/zone/combat location exact")
 	_check(player.world_location().region_id == &"snow", "not disguised as Old Pine")
 	var body: WorldCharacterBody2D = map.runtime_player_body()
@@ -70,8 +70,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var residents: Array[StringName] = []
 	for npc: NpcRuntimeState in map.resident_npcs():
 		residents.append(npc.definition_id)
-	_check(residents == [&"snow.npc.traveller", &"snow.npc.traveller", &"snow.npc.waiter"], "the Inn's authored population: two travellers and the waiter")
-	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 4, "Player plus one body per NPC, no dummies")
+	_check(residents == [&"snow.npc.traveller", &"snow.npc.traveller", &"snow.npc.waiter", &"native.npc.inn_raider", &"native.npc.inn_raider"], "the Inn's authored population: two travellers and the waiter, and the two white-clad of 主线修补 B (off the stage until the fifth chapter)")
+	_check(map.find_children("*", "CharacterBody2D", true, false).size() == 6, "Player plus one body per NPC, no dummies")
 	var inn_portals: Array[PortalDefinition] = GameContent.catalog().portals_for_map(SnowWorldDefinitions.INN_MAP_ID)
 	_check(inn_portals.size() == 2 and inn_portals[0].portal_id == SnowWorldDefinitions.INN_EXIT_PORTAL_ID and inn_portals[1].portal_id == &"snow.inn.up", "the authored east exit and the stairs up (4C); NW (d/wiz) is not migrated")
 	var exits: Dictionary[String, StringName] = GameContent.catalog().room(&"es2:d/snow/inn").exits()

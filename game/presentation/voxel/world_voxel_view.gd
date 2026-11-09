@@ -16,6 +16,12 @@ const VIEW_RADIUS: float = 30.0
 const VIEW_HEIGHT: float = 26.0
 ## The exits' amber: the arrow over each way out and the frame round it on the ground.
 const EXIT_GLOW: String = "f2a43a:glow"
+## The exit arrows' size against the arrow as built (owner, 2026-11-09: smaller).
+const ARROW_SCALE: float = 0.6
+## The quest marker's arrow over a way out, against an exit arrow: a little larger, it stands in its place.
+const QUEST_ARROW_SCALE: float = 1.25
+## The quest marker over a person: a small red arrow turning over their head (radians a second).
+const QUEST_SPIN: float = 2.4
 @export_file("*.json") var layout_path: String
 var map: WorldMapController
 ## 第十章 A: the guiding wind as shown, easing toward the rule's (WorldMapWinds.vector()).
@@ -68,10 +74,11 @@ var opened: Dictionary[StringName, Node3D] = {}
 ## its room, a door's away from the side the player stands on.
 var arrows: Dictionary[StringName, Node3D] = {}
 var _arrow_clock: float = 0.0
-## The quest marker (任务系统; DECISIONS「任务系统」, owner Q3): a tall vermilion arrow with a
-## 「目标」 label over the way out that leads towards the tracked quest's target map
-## (WorldRoute), or, on that map, a pillar of light in the target zone. Presentation only: it
-## reads the quest state and the 2D map and changes nothing.
+## The quest marker (任务系统; DECISIONS「任务系统」「箭头」): a vermilion arrow with a 「目标」
+## label in place of the amber one over the way out that leads towards the tracked quest's
+## target map (WorldRoute), or, on that map, a small red arrow turning over the head of the one
+## the step is about (else over the target zone). Presentation only: it reads the quest state and
+## the 2D map and changes nothing.
 const QUEST_GLOW: String = "d9452c"
 var quest_marker: Node3D
 ## What the marker was placed for ("" none): the target and the quest ledger's size.
@@ -858,6 +865,15 @@ func _make_entrances() -> void:
 		world.add_child(holder)
 		arrows[id] = _arrow(holder,Vector2.ZERO)
 		arrows[id].set_meta("door",true)
+		# A building's door over the passage into it (one door, two maps): while the passage's own
+		# arrow shows (the door open), the door's would stand over it, a second arrow on one way.
+		var through: Array[StringName] = []
+		var definition: DoorDefinition = GameContent.catalog().door(id)
+		for portal_id: StringName in entrances:
+			var portal: PortalDefinition = GameContent.catalog().portal(portal_id)
+			if definition != null and definition.zone_ids().has(portal.source_zone_id) and definition.zone_ids().has(portal.destination_zone_id):
+				through.append(portal_id)
+		arrows[id].set_meta("passages",through)
 
 ## The way the exit leads: its original command's compass direction (diagonals too);
 ## for a verb without one (stairs, `enter`), across the passage's thin side, away from
@@ -926,6 +942,7 @@ func _arrow(parent: Node3D, direction: Vector2) -> Node3D:
 		if instance.get_parent() == arrow:
 			instance.material_override = glow
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	arrow.scale = Vector3.ONE*ARROW_SCALE
 	return arrow
 
 func _bob_arrows(delta: float) -> void:
@@ -947,33 +964,83 @@ func _bob_arrows(delta: float) -> void:
 			var definition: DoorDefinition = GameContent.catalog().door(id)
 			if definition != null and not definition.found_by.is_empty() and not door.is_open():
 				near = false
+			for portal_id: StringName in arrow.get_meta("passages",[]):
+				if (entrances[portal_id]["node"] as Node3D).visible:
+					near = false
 		else:
 			near = (arrow.get_parent() as Node3D).visible
+		# The way the quest marker leads by (or a door on it): its red arrow stands there instead.
+		var way: StringName = &"" if quest_marker == null else quest_marker.get_meta("way",&"")
+		if not way.is_empty() and (way == id or (arrow.get_meta("passages",[]) as Array).has(way)):
+			near = false
 		arrow.visible = near and not staged
 		arrow.rotation.y = atan2(direction.x,direction.y)
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
 
 ## The quest marker follows the player's 指路, else the tracked quest (MapAtlas.goal): placed
-## anew when the goal or the ledger changes, bobbing with the exit arrows meanwhile. It stands beside the
-## world (a child of the view, in the world's coordinates), not in it: the world is the map's
-## portrait and is rebuilt the same whether a quest is on or not.
+## anew when the goal or the ledger changes, bobbing with the exit arrows meanwhile; over a
+## person it follows them. It stands beside the world (a child of the view, in the world's
+## coordinates), not in it: the world is the map's portrait and is rebuilt the same whether a
+## quest is on or not.
 func _sync_quest_marker() -> void:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var state: CharacterState = null if player == null else player.state
 	var goal: MapAtlas.Goal = null if state == null else MapAtlas.goal(GameContent.catalog(), state)
-	var key: String = "" if goal == null else "%s/%s/%s/%d/%d" % [goal.map_id, goal.zone_id, goal.waypoint, state.quests.size(), state.visited_maps.size()]
+	var key: String = "" if goal == null else "%s/%s/%s/%s/%d/%d" % [goal.map_id, goal.zone_id, goal.waypoint, goal.npc_ids, state.quests.size(), state.visited_maps.size()]
 	if key != _quest_key:
 		_quest_key = key
 		_place_quest_marker(goal, state)
-	if quest_marker != null:
-		if staged:
-			quest_marker.visible = false
-		quest_marker.position.y = float(quest_marker.get_meta("height", 0.0)) + sin(_arrow_clock * 3.2) * 0.25
+	if quest_marker == null:
+		return
+	if staged:
+		quest_marker.visible = false
+	var bob: float = sin(_arrow_clock * 3.2) * 0.2
+	if quest_marker.has_meta("npc_ids"):
+		_follow_quest_person(bob)
+	else:
+		quest_marker.position.y = float(quest_marker.get_meta("height", 0.0)) + bob
+	var spinner: Node3D = quest_marker.get_node_or_null("Spinner") as Node3D
+	if spinner != null:
+		spinner.rotation.y = _arrow_clock * QUEST_SPIN
 
 
-## The way out towards `goal`'s map, or its zone on this map; nothing when there is no goal or
-## no way. A 指路 keeps to the roads the player has walked.
+## The quest marker over the nearest standing one of the people the step is about, else over its
+## zone: one who walks off is followed, one who falls or leaves hands it back to the zone.
+func _follow_quest_person(bob: float) -> void:
+	var ids: Array = quest_marker.get_meta("npc_ids")
+	var player: Vector2 = map.player_body.global_position
+	var best: StringName = &""
+	var nearest: float = INF
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not actors.has(npc.character_id):
+			continue
+		var definition_id: StringName = npc.definition().definition_id
+		if not ids.has(definition_id) and not ids.has(NpcDefinition.unnamed_id(definition_id)):
+			continue
+		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+		if body == null or not actors[npc.character_id].visible:
+			continue
+		var distance: float = body.global_position.distance_squared_to(player)
+		if distance < nearest:
+			nearest = distance
+			best = npc.character_id
+	quest_marker.set_meta("over", best)
+	# Over a person the arrow says it all; over an empty zone it is named.
+	var label := quest_marker.get_node_or_null("Label") as Label3D
+	if label != null:
+		label.visible = best.is_empty()
+	if best.is_empty():
+		var point: Vector3 = quest_marker.get_meta("zone_point")
+		quest_marker.position = point + Vector3(0, float(quest_marker.get_meta("height", 0.0)) + bob, 0)
+		return
+	# Over the name over the head, whatever the body's size.
+	var head: float = (labels[best].position.y if labels.has(best) else 2.2) + 0.45
+	quest_marker.position = actors[best].position + Vector3(0, head + bob, 0)
+
+
+## The way out towards `goal`'s map, or its zone (the person the step is about) on this map;
+## nothing when there is no goal or no way. A 指路 keeps to the roads the player has walked.
 func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 	if quest_marker != null:
 		quest_marker.queue_free()
@@ -981,7 +1048,7 @@ func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 	if goal == null or world == null:
 		return
 	if goal.map_id == map.map_id():
-		_place_quest_pillar(goal.zone_id, goal.waypoint)
+		_place_quest_spinner(goal.zone_id, goal.waypoint, goal.npc_ids)
 		return
 	var known: Dictionary[String, int] = {}
 	if goal.waypoint:
@@ -990,35 +1057,30 @@ func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 	if steps.is_empty():
 		return
 	var step: WorldRoute.Step = steps[0]
-	var at: Vector3
-	var direction: Vector2 = Vector2.ZERO
-	if step.portal != null:
-		if not entrances.has(step.portal.portal_id):
-			# A way a landmark opens has no entrance to stand over: the room it is taken from.
-			_place_quest_pillar(step.portal.source_zone_id, goal.waypoint)
-			return
-		var entrance: Dictionary = entrances[step.portal.portal_id]
-		at = (entrance["node"] as Node3D).position
-		direction = _outward(entrance["passage"], step.portal)
-	else:
+	if step.portal != null and not entrances.has(step.portal.portal_id):
+		# A way a landmark opens has no entrance to stand over: the room it is taken from.
+		_place_quest_spinner(step.portal.source_zone_id, goal.waypoint, [])
+		return
+	if step.portal == null:
 		# A room command that moves the player (the 铁索 down a cliff): over its service point.
 		var point: WorldServicePoint = map.service_point(step.service.service_id)
 		if point == null:
 			return
-		at = VoxelMapGeometry.point(point.global_position)
+		_quest_spinner_at(VoxelMapGeometry.point(point.global_position), goal.waypoint)
+		quest_marker.set_meta("way", step.service.service_id)
+		return
+	# The exit's own amber arrow gives way to this one (_bob_arrows): one red arrow, in its place.
+	var entrance: Dictionary = entrances[step.portal.portal_id]
+	var direction: Vector2 = _outward(entrance["passage"], step.portal)
 	quest_marker = Node3D.new()
 	quest_marker.name = "QuestMarker"
-	quest_marker.position = at + Vector3(0, 2.4, 0)
-	quest_marker.set_meta("height", 2.4)
-	quest_marker.set_meta("way", step.portal.portal_id if step.portal != null else step.service.service_id)
+	quest_marker.position = (entrance["node"] as Node3D).position + Vector3(0, 1.0, 0)
+	quest_marker.set_meta("height", 1.0)
+	quest_marker.set_meta("way", step.portal.portal_id)
 	add_child(quest_marker)
 	var arrow: Node3D = _arrow(quest_marker, direction)
-	arrow.scale = Vector3(1.6, 1.6, 1.6)
-	if direction == Vector2.ZERO:
-		# No way to point: the arrow points down at the spot.
-		arrow.rotation.x = PI / 2.0
-	else:
-		arrow.rotation.y = atan2(direction.x, direction.y)
+	arrow.scale = Vector3.ONE * ARROW_SCALE * QUEST_ARROW_SCALE
+	arrow.rotation.y = atan2(direction.x, direction.y)
 	var glow := StandardMaterial3D.new()
 	glow.albedo_color = Color(QUEST_GLOW)
 	glow.emission_enabled = true
@@ -1028,30 +1090,59 @@ func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 		var instance := mesh as GeometryInstance3D
 		if instance.get_parent() == arrow:
 			instance.material_override = glow
-	_quest_label(quest_marker, 1.4, goal.waypoint)
+	# Over the exit's own name (its label at 1.6 over the floor), clear of it.
+	_quest_label(quest_marker, 1.55, goal.waypoint)
 
 
-## A pillar of light up from the ground in the zone, thin, so it reads from across the map and hides nothing.
-func _place_quest_pillar(zone_id: StringName, waypoint: bool) -> void:
+## On the target's map: the turning arrow over the person the step is about (`npc_ids`, followed
+## by _follow_quest_person), else over the middle of the zone at a head's height.
+func _place_quest_spinner(zone_id: StringName, waypoint: bool, npc_ids: Array) -> void:
 	var zone: WorldPhysicalZoneArea2D = map.physical_zone(zone_id)
 	if zone == null:
 		return
+	var point: Vector3 = VoxelMapGeometry.point(zone.global_rect().get_center())
+	_quest_spinner_at(point, waypoint)
+	quest_marker.set_meta("target_zone", zone_id)
+	if not npc_ids.is_empty():
+		quest_marker.set_meta("npc_ids", npc_ids)
+		quest_marker.set_meta("zone_point", point)
+		_follow_quest_person(0.0)
+
+
+## A small red arrow pointing down, solid (it has a thickness, so it reads as a thing as it
+## turns), over `at` at a head's height.
+func _quest_spinner_at(at: Vector3, waypoint: bool) -> void:
 	quest_marker = Node3D.new()
 	quest_marker.name = "QuestMarker"
-	quest_marker.position = VoxelMapGeometry.point(zone.global_rect().get_center())
-	quest_marker.set_meta("height", 0.0)
-	quest_marker.set_meta("target_zone", zone_id)
+	quest_marker.position = at + Vector3(0, 2.4, 0)
+	quest_marker.set_meta("height", 2.4)
 	add_child(quest_marker)
+	var spinner := Node3D.new()
+	spinner.name = "Spinner"
+	quest_marker.add_child(spinner)
 	var s := Shapes.new()
-	for step: int in 6:
-		s.box(quest_marker, Vector3(0, 0.5 + step * 1.0, 0), Vector3(0.5 - step * 0.05, 1.0, 0.5 - step * 0.05), QUEST_GLOW + ":glow")
+	# The head, its rows widening from the tip at the bottom; the shaft over it.
+	for row: int in 5:
+		s.box(spinner, Vector3(0, 0.07 + row * 0.13, 0), Vector3(0.16 + row * 0.16, 0.13, 0.22), QUEST_GLOW)
+	s.box(spinner, Vector3(0, 0.9, 0), Vector3(0.3, 0.5, 0.22), QUEST_GLOW)
 	s.flush()
-	_quest_label(quest_marker, 6.8, waypoint)
+	var glow := StandardMaterial3D.new()
+	glow.albedo_color = Color(QUEST_GLOW)
+	glow.emission_enabled = true
+	glow.emission = Color(QUEST_GLOW)
+	glow.emission_energy_multiplier = 0.6
+	for mesh: Node in spinner.find_children("*", "GeometryInstance3D", true, false):
+		var instance := mesh as GeometryInstance3D
+		instance.material_override = glow
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	spinner.scale = Vector3.ONE * 0.8
+	_quest_label(quest_marker, 1.35, waypoint)
 
 
 func _quest_label(parent: Node3D, height: float, waypoint: bool) -> void:
 	# TRANSLATORS: the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
 	var label: Label3D = _label(parent, tr("指路") if waypoint else tr("目标"), height)
+	label.name = "Label"
 	label.modulate = Color("ffd9c2")
 	label.outline_modulate = Color("5a1a10")
 	label.outline_size = 9

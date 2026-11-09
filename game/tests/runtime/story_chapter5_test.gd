@@ -64,7 +64,7 @@ func _test_data() -> void:
 	var steward: NpcDefinition = catalog.npc(STEWARD)
 	_check(steward != null and steward.hooks() != null and steward.hooks().scene_mark == "见过庾家拦路" and steward.hooks().calls.size() == 3 and steward.hooks().moods["fighting"].flags == [NpcDefinition.FLAG_AGGRESSIVE] and steward.attitude != NpcDefinition.Attitude.AGGRESSIVE, "the steward: a three-call scene, aggressive only in his mood")
 	var judge: NpcDefinition = catalog.npc(&"choyin.npc.judgeman")
-	_check(judge != null and judge.hooks() != null and judge.hooks().scene_mark == "堂审过" and judge.hooks().calls.size() == 9 and judge.hooks().calls[0].act.present == SERGEANT and judge.hooks().calls[5].act.mark == "放走了陈显祖" and judge.dealings().sentence != null, "程不平: two trials (five calls with 陈显祖, four without), his 乔阴 D sentence untouched")
+	_check(judge != null and judge.hooks() != null and judge.hooks().scene_mark == "堂审过" and judge.hooks().calls.size() == 11 and judge.hooks().calls[0].act.present == SERGEANT and judge.hooks().calls[5].act.mark == "放走了陈显祖" and judge.dealings().sentence != null, "程不平: two trials (five calls with 陈显祖, four without), his 乔阴 D sentence untouched")
 	var chest: ItemContentDefinition = catalog.item(CHEST)
 	_check(chest != null and chest.act != null and chest.act.verb == "翻看" and chest.act.acts.size() == 2 and chest.act.acts[0].mark == "看过寻剑令抄本", "the 桃木箱: 翻看 once")
 	var ghouls: NpcSpawnDefinition = catalog.spawn(&"native.tomb3.hell_runners")

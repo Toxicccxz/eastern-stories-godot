@@ -99,8 +99,8 @@
 		{ "id": "snow.mstreet4.bounty", "kind": "bounty", "zone": "snow.mstreet4", "name": "官府悬赏", "reach": 96, "legacy_source": "native: A2 经验节奏 (雪亭驿的悬赏榜, DECISIONS「经验节奏」)" }
 	],
 	"doors": [
-		{ "id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"], "reach": 90, "legacy_room": "es2:d/snow/school1" },
-		{ "id": "snow.hockshop.door", "name": "木雕门", "zones": ["snow.mstreet3", "snow.hockshop"], "reach": 85, "closable": false, "legacy_room": "es2:d/snow/hockshop" },
+		{ "id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"], "reach": 90, "open": true, "closable": false, "legacy_room": "es2:d/snow/school1" },
+		{ "id": "snow.hockshop.door", "name": "木雕门", "zones": ["snow.mstreet3", "snow.hockshop"], "reach": 85, "open": true, "closable": false, "legacy_room": "es2:d/snow/hockshop" },
 		{ "id": "snow.inn_2f.north_door", "name": "房门", "zones": ["snow.inn_2f", "snow.n_room"], "reach": 90, "legacy_room": "es2:d/snow/inn_2f" },
 		{ "id": "snow.inn_2f.east_door", "name": "房门", "zones": ["snow.inn_2f", "snow.e_room"], "reach": 90, "legacy_room": "es2:d/snow/inn_2f" },
 		{ "id": "snow.inn_2f.west_door", "name": "房门", "zones": ["snow.inn_2f", "snow.w_room"], "reach": 90, "legacy_room": "es2:d/snow/inn_2f" }

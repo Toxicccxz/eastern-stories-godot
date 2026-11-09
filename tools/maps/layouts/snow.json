@@ -609,7 +609,7 @@
         "placed": {
           "snow.inn.main_floor.inn.traveller.1": [-224, 128],
           "snow.inn.main_floor.inn.traveller.2": [248, 224],
-          "snow.inn.main_floor.inn.waiter.1": [0, -160]
+          "snow.inn.main_floor.inn.waiter.1": [0, -160], "snow.inn.main_floor.raider.1": [-224, -128], "snow.inn.main_floor.raider.2": [224, -128]
         }
       },
       "scene": {

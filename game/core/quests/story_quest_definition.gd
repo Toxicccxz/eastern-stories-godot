@@ -33,11 +33,16 @@ class Target:
 	extends RefCounted
 	var map_id: StringName
 	var zone_id: StringName
+	## Whom the step is about there (NPC definition ids, `npcs`): the voxel view's marker turns
+	## over the nearest of them standing on the map, else over the zone. Empty: the zone.
+	var npc_ids: Array[StringName] = []
 
 	static func from_record(reader: ContentRecordReader) -> Target:
 		var target := Target.new()
 		target.map_id = StringName(reader.required_text("map"))
 		target.zone_id = StringName(reader.required_text("zone"))
+		for npc: String in reader.text_list("npcs"):
+			target.npc_ids.append(StringName(npc))
 		reader.finish()
 		return target
 

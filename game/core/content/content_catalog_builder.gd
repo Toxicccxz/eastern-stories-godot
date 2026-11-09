@@ -532,6 +532,9 @@ func _check_story_quests() -> void:
 					_errors.append("%s.target: no zone '%s'" % [at, step.target.zone_id])
 				elif zone.map_id != step.target.map_id:
 					_errors.append("%s.target: zone '%s' is not on map '%s'" % [at, step.target.zone_id, step.target.map_id])
+				for npc: StringName in step.target.npc_ids:
+					if not _npcs.has(npc):
+						_errors.append("%s.target: no npc '%s'" % [at, npc])
 
 
 ## The progression table names NPCs, zones and chains the game has.

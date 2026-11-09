@@ -81,6 +81,7 @@
 		"native:snow/letter_to_chen": { "kind": "letter", "paper": "e9dcb8", "seal": "a3301f:gloss" },
 		"native:oldpine/cloth_strip": { "kind": "cloth_strip", "cloth": "a8926a", "mark": "3a2a1e" },
 		"native:waterfog/guild_token": { "kind": "token", "color": "6a5530:gloss", "border": "d8b04a:gloss", "emblem": "e8b84a:gloss", "cord": "8a2a20", "tassel": "8a2a20" },
+		"native:snow/old_letter": { "kind": "letter", "paper": "d8c79a", "fold": "b09a6c", "seal": "7a5a3a", "ink": "3a2c20" },
 		"native:snow/letter_to_pan": { "kind": "letter", "paper": "e6d6ae", "fold": "c4b088", "seal": "9a2a1a:gloss", "ink": "2e2119" },
 		"native:cloud/escort_note": { "kind": "paper", "paper": "d4bc80", "ink": "4a3a2a" },
 		"native:oldpine/stone_box": { "kind": "box", "style": "stone", "color": "5a6e68", "color2": "6b817a", "trim": "34443f" },
