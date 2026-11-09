@@ -368,7 +368,7 @@ func _test_gate(tree: SceneTree, session: WorldSessionController, learned: bool)
 	for second: int in 9:
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
-	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("着市舶司即日清出")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("印不是兵部的印")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("拿出来，对一对")), "%s: 冯禄 reads his order, 安敦 comes out: 印不是兵部的印 … 拿出来，对一对: %s" % [way, ui.log_lines().slice(-6)])
+	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("着市舶司即日清出")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("不是真印盖的")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("拿出来，对一对")), "%s: 冯禄 reads his order, 安敦 comes out: 印不是兵部的印 … 拿出来，对一对: %s" % [way, ui.log_lines().slice(-6)])
 	_check(_count_in(session, &"fanfang.shield_yard", &"native.npc.andun") == 1, "%s: 安敦 in the yard" % way)
 	var papers: ActService = hall.service(&"fanfang.shield_yard.papers") as ActService
 	_check(papers != null and await MapPlaces.drive(tree, hall, MapPlaces.service_spot(hall, &"fanfang.shield_yard.papers")) and papers.in_reach() and papers.verb() == "对质", "%s: 冯禄的文书 · 对质 at the gate" % way)

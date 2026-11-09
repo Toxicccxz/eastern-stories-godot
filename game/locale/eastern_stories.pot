@@ -21614,7 +21614,7 @@ msgstr ""
 
 #. snow.npc.waiter inquiry.官爷.rules.lines.say
 #: data/snow/npcs.json
-msgid "$RESPECT醒啦？您昨儿傍晚才到，说是来投淳风武馆的，饭没吃完就困得睁不开眼，是小的扶您上的楼。这封信落在桌上了，小的替您收着呢。"
+msgid "$RESPECT，您来的那天傍晚说是来投淳风武馆的，饭没吃完就困得睁不开眼，是小的扶您上的楼。这封信落在桌上了，小的一直替您收着呢。"
 msgstr ""
 
 #. snow.npc.waiter inquiry.官爷.rules.lines.emote
@@ -42613,7 +42613,7 @@ msgstr ""
 
 #. native.npc.luca inquiry.文书.rules.say
 #: data/guanbei/npcs.json
-msgid "市舶司的那张纸。印是假的——会首看过，说不是兵部的印。可印是不是真的，不是我们说了算。"
+msgid "市舶司的那张纸。印是假的——会首看过，说那方镇国大将军的印不是真印盖的。可印是不是真的，不是我们说了算。"
 msgstr ""
 
 #. native.npc.luca inquiry topic
@@ -45628,7 +45628,7 @@ msgstr ""
 
 #. native.npc.feng_lu inquiry.文书.rules.lines.say
 #: data/fanfang/npcs.json
-msgid "印……印是兵部的印。你一个外乡人，懂什么印色？"
+msgid "印……兵部的文书，镇国大将军的印，哪一样是假的？你一个外乡人，懂什么印色？"
 msgstr ""
 
 #. native.npc.feng_lu inquiry.文书.rules.say
@@ -45710,7 +45710,7 @@ msgstr ""
 
 #. native.npc.feng_lu calls.steps.say
 #: data/fanfang/npcs.json
-msgid "冯大人。三十年，税没拖过一文。令，我看过——印不是兵部的印。"
+msgid "冯大人。三十年，税没拖过一文。令，我看过——那方镇国大将军的印，不是真印盖的。"
 msgstr ""
 
 #. native.npc.feng_lu calls.steps.say
@@ -46888,7 +46888,7 @@ msgstr ""
 #. fanfang.office.papers act.acts.steps.line
 #: data/fanfang/world.json
 msgid ""
-"底下一方大印，印色暗红发黑。你见过这个颜色：逆灵宫那叠文书上的印就是这样。印模上的真印是正红的，泛黄光。\n"
+"底下兵部的印旁边，还压着一方「镇国大将军」印，印色暗红发黑。你见过这个颜色：逆灵宫那叠文书上的印就是这样。印模上的真印是正红的，泛黄光。\n"
 msgstr ""
 
 #. fanfang.office.papers act.acts.steps.line
@@ -46900,7 +46900,7 @@ msgstr ""
 #. fanfang.office.papers act.acts.steps.line
 #: data/fanfang/world.json
 msgid ""
-"底下一方兵部的大印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n"
+"底下兵部的大印旁边，还压着一方「镇国大将军」印，印色暗红。冯禄说这是京师来的令，谁也不敢不认。\n"
 msgstr ""
 
 #. fanfang.fire_hall.questions name
@@ -47048,7 +47048,7 @@ msgstr ""
 #. fanfang.shield_yard.papers act.acts.steps.line
 #: data/fanfang/world.json
 msgid ""
-"你把印模翻过来，按在冯禄手里那纸文书的大印旁边，举起来对着光。\n"
+"你把印模翻过来，按在冯禄手里那纸文书的「镇国大将军」印旁边，举起来对着光。\n"
 msgstr ""
 
 #. fanfang.shield_yard.papers act.acts.steps.line
@@ -47064,7 +47064,7 @@ msgstr ""
 
 #. fanfang.shield_yard.papers act.acts.steps.say
 #: data/fanfang/world.json
-msgid "这……这是兵部的印……"
+msgid "这……这是兵部发的文书……"
 msgstr ""
 
 #. fanfang.shield_yard.papers act.acts.steps.say
@@ -48874,7 +48874,7 @@ msgstr ""
 #. imperial.study.chest act.acts.steps.line
 #: data/imperial/world.json
 msgid ""
-"兵部的复本同一个日子、同一个开头，「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印。\n"
+"兵部的复本同一个日子、同一个开头，「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印，旁边还有一方「镇国大将军」印。\n"
 msgstr ""
 
 #. imperial.study.desk name
@@ -48926,7 +48926,7 @@ msgstr ""
 #. imperial.study.desk act.acts.steps.line
 #: data/imperial/world.json
 msgid ""
-"你把印模按在兵部的印旁边。模上的朱砂正红；纸上的印暗红发黑——一模一样的纹，不一样的色。\n"
+"你把印模按在抄本那方「镇国大将军」印旁边。模上的朱砂正红；纸上的印暗红发黑——一模一样的纹，不一样的色。\n"
 msgstr ""
 
 #. imperial.study.desk act.acts.steps.line
@@ -50828,7 +50828,7 @@ msgstr ""
 
 #. native.npc.bai_daozhang inquiry.风铃
 #: data/native/npcs.json
-msgid "二十年前一阵怪风过隘口，风停的地方落下这只铃，还有一个哭着的孩子。孩子让过路的江湖人领走了；铃，老道不敢留在观里——寻风的东西，就封进石匣，埋回风停的地方。"
+msgid "二十年前一阵怪风过隘口，风停的地方落下这只铃。先帝寻岚城的人把它收了，拿来问老道；老道不敢留，也不敢让他们带进京——寻风的东西，就封进石匣，埋回风停的地方。"
 msgstr ""
 
 #. native.npc.bai_daozhang inquiry.黑衣道士
