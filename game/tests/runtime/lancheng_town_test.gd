@@ -170,7 +170,7 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("见过岚翁", 0) == 1 and _said(ui.log_lines(), "有人信你的地方"), "岚翁 under the bells: 响的那几口，是有人信你的地方")
 	var weng: NpcRuntimeState = _first(session, &"lancheng.bell_hall", LAN_WENG)
 	_check(weng != null and hall.select_npc(weng.character_id) and _said(hall.ask_selected("旋芒"), "寒於氏"), "岚翁 on 旋芒: 寒於氏的剑")
-	_check(weng != null and _said(hall.ask_selected("谁拔"), "一半"), "岚翁 on 谁拔: half the bells, or someone the wind will fetch")
+	_check(weng != null and _said(hall.ask_selected("谁拔"), "响够六口铃"), "岚翁 on 谁拔: six of the bells (主线修补 A), or someone the wind will fetch")
 	_check(weng != null and _said(hall.ask_selected("萧辟尘"), "回得来"), "岚翁 on 萧辟尘, the bell carried: 他还回得来")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"elder") or StoryQuestLog.current_step(state, quest) == null or StoryQuestLog.current_step(state, quest).step_id != &"elder", "the elder step done")

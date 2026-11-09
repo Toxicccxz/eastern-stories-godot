@@ -103,7 +103,7 @@ func _test_xiao(tree: SceneTree, session: WorldSessionController) -> void:
 	await _to_terrace(tree, session, HARD, "deal")
 	var terrace: WorldMapController = session.active_map() as WorldMapController
 	await _act(tree, terrace, &"lancheng.whirl.self")
-	_check(not ui.is_asking() and _said(_recent(ui, 3), "响了两口铃，还差三口"), "two bells: three short (%s)" % [_recent(ui, 3)])
+	_check(not ui.is_asking() and _said(_recent(ui, 3), "响了两口铃，还差四口"), "two bells: four short (six wanted) (%s)" % [_recent(ui, 3)])
 	await _act(tree, terrace, &"lancheng.whirl.uncle")
 	_check(not ui.is_asking() and _said(_recent(ui, 3), "通缉") and _said(_recent(ui, 3), "手诏送到他手里的那一边"), "the 皇叔 not at court: 还在通缉里, only the side that sent him the 手诏")
 	await _act(tree, terrace, &"lancheng.whirl.xiao")

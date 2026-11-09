@@ -147,7 +147,7 @@
 				},
 				{
 					"id": "choice",
-					"objective": "宝衣到手。交回瑷伦守到决战，交给安妮儿，或者带着它走出晚月庄的大门。",
+					"objective": "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事。",
 					"target": {
 						"map": "latemoon.manor",
 						"zone": "latemoon.room.eastroom",
