@@ -15,7 +15,8 @@ extends RefCounted
 ## back at the end; a key puts the stage up at once.
 ## 战斗演出 E (DECISIONS「战斗演出 E」): the two sides — the stage's halves lit in their colours
 ## with a seam between, the player's card a side panel on the left with their bust, the target's
-## on the right, banner or ink; a name plate under each fighter's feet in their side's colour
+## on the right, each on a voxel banner let down as the panel opens and flapping when its side
+## strikes; a name plate under each fighter's feet in their side's colour
 ## (a back rank's over the head), clicked to pick a target.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
@@ -284,7 +285,7 @@ func _fight(tree: SceneTree) -> void:
 	_check(glow.size() == 2 and is_equal_approx(glow[0], float(lethal_glow.get("mine", -1))) and is_equal_approx(glow[1], float(lethal_glow.get("theirs", -1))), "a 死斗's stage: each half lit in its side's colour: %s" % [glow])
 	var left: BattleParticipantCard = _panel_of(ui, 0)
 	var right: BattleParticipantCard = _panel_of(ui, 1)
-	_check(left != null and left.participant_id() == player_id and left.panel_style() == String(BattleArena.data().get("panels", {}).get("style", "")) and left._portrait.texture != null and String(left._portrait.texture.resource_path).contains("player."), "the player's card the left panel, their bust chosen (shown where a whole multiple of its pixels fits)")
+	_check(left != null and left.participant_id() == player_id and left.panel_style() == BattlePresentationController.PANEL_STYLE and left._portrait.texture != null and String(left._portrait.texture.resource_path).contains("player."), "the player's card the left panel, their bust chosen (shown where a whole multiple of its pixels fits)")
 	_check(right != null and right.participant_id() == trainee_id and right.get_global_rect().position.x > left.get_global_rect().end.x, "the trainee's the right panel")
 	await tree.process_frame
 	var plates: Dictionary = ui.nameplates.shown()
@@ -303,11 +304,16 @@ func _fight(tree: SceneTree) -> void:
 		press.pressed = true
 		plate._gui_input(press)
 	_check(picked == [trainee_id], "a click on the trainee's plate picks them")
-	BattleArena.data()["panels"]["style"] = "ink"
-	ui._fit_cards()
-	_check(_panel_of(ui, 0).panel_style() == "ink" and _panel_of(ui, 1).panel_style() == "ink", "the ink style for both panels")
-	BattleArena.data()["panels"]["style"] = "banner"
-	ui._fit_cards()
+	# The banners: voxel cloth on a pole, the target's ends gold; a strike flaps its side's.
+	var mine_banner: BattleVoxelBanner = left.banner()
+	var theirs_banner: BattleVoxelBanner = right.banner()
+	_check(mine_banner.cloth_rows > 0 and mine_banner._mesh.multimesh.instance_count > BattleVoxelBanner.COLUMNS * mine_banner.cloth_rows and theirs_banner.current == (ui.current_projection().current_target_id == trainee_id) and not mine_banner.current, "voxel banners, the target's (when there is one) marked: rows %d bricks %s current %s/%s" % [mine_banner.cloth_rows, mine_banner._mesh.multimesh.instance_count if mine_banner._mesh.multimesh != null else -1, mine_banner.current, theirs_banner.current])
+	_check(is_equal_approx(mine_banner.unfurled(), 1.0) and is_equal_approx(theirs_banner.unfurled(), 1.0), "let down by the time the opening is over")
+	mine_banner.gust_now = 0.0
+	theirs_banner.gust_now = 0.0
+	ui._show_line(_blow(trainee_id, player_id, CombatAttackResult.Outcome.DODGE, &"", "瘀伤"))
+	_check(theirs_banner.gust_now > 0.0 and is_zero_approx(mine_banner.gust_now), "the trainee strikes: their banner flaps, the player's still: %.2f / %.2f" % [theirs_banner.gust_now, mine_banner.gust_now])
+	ui.move_titles.clear()
 	_check(is_equal_approx(ui._head.modulate.a, 1.0) and is_equal_approx(ui.action_panel.modulate.a, 1.0), "the panel in place")
 	_check(ui._told.size() == told + 1, "the waiting line told once it is done")
 	_check(is_equal_approx(view.view_height(), float(frame[1])) and is_equal_approx(view.zoom(), float(frame[2])), "the camera where the opening put it")

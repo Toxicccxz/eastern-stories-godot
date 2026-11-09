@@ -20,6 +20,8 @@ extends Node
 ## figures there); while it runs the panel tells no line (they wait).
 
 signal finished
+## 战斗演出 E: the panel begins to slide in, over `seconds` (0: at once).
+signal sliding(seconds: float)
 
 enum Kind { FULL, SHORT, OFF }
 
@@ -416,6 +418,7 @@ func _hide_slide() -> void:
 func _slide_in(seconds: float) -> void:
 	if _slide_tween != null and _slide_tween.is_valid():
 		_slide_tween.kill()
+	sliding.emit(seconds)
 	if seconds <= 0.0:
 		_settle_slide()
 		_done()

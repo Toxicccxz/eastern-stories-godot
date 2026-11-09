@@ -315,6 +315,12 @@ func _show_line(line: BattleNarrationLine) -> void:
 		card.show_line(line, named and not overhead)
 	scene_show.play_line(line, fatal)
 	sounds.play_all(BattleSounds.for_line(line, fatal, false, mine), BattleSounds.priority_of(line, fatal, _projection.player_id))
+	# 战斗演出 E: the striking side's banner flaps (a special's or a felling blow's hardest).
+	var actor: BattleParticipantProjection = _projection.participant(line.actor_id)
+	if actor != null:
+		var panel: BattleParticipantCard = _panel_card(1 if actor.hostile_to_player else 0)
+		if panel != null:
+			panel.flap(1.0 if line.is_special or line.in_special or fatal else (0.75 if line.tag == CombatMoveTags.HEAVY else 0.5))
 
 
 ## Whether `line` is the first blow of a beat not told yet (a blow of another actor or
@@ -887,6 +893,7 @@ func _build() -> void:
 	opening = BattleStageOpening.new()
 	opening.name = "StageOpening"
 	opening.finished.connect(_opening_finished)
+	opening.sliding.connect(_unfurl_panels)
 	add_child(opening)
 	sounds = BattleSounds.new()
 	sounds.name = "Sounds"
@@ -971,7 +978,7 @@ func _fit_cards() -> void:
 	_participants.visible = false
 	_sides.visible = false
 	var panels: Dictionary = BattleArena.data().get("panels", {})
-	var style: String = String(panels.get("style", "banner"))
+	var style: String = PANEL_STYLE
 	var width: float = float(panels.get("compact_width" if _compact else "width", 164.0 if _compact else 196.0))
 	var mine: BattleParticipantCard = null
 	for card: BattleParticipantCard in _side_cards(0):
@@ -994,10 +1001,15 @@ func _fit_cards() -> void:
 		var card: BattleParticipantCard = mine if side == 0 else theirs
 		if card == null:
 			continue
+		# A panel newly put up mid-fight (a new target) lets its banner down; at the fight's start the
+		# opening's slide does (_unfurl_panels()).
+		var fresh: bool = card.panel_style().is_empty()
 		var key: String = "mine" if side == 0 else "theirs"
 		var picture: Texture2D = _portrait_of(card.participant_id(), side == 1)
 		card.set_panel(style, side, picture, _portrait_size(width) if picture != null else Vector2.ZERO, Color(String(sides.get(key, "4f8f78"))), Color(String(sides.get("name_" + key, "9fdcc4"))))
 		card.custom_minimum_size = Vector2(width, 0)
+		if fresh and not _opening_pending and not opening.running():
+			card.unfurl(BattlePace.real_seconds(PANEL_UNFURL_SECONDS))
 	for slot: Control in _flank_slots:
 		slot.custom_minimum_size.x = width
 	_lay_panels()
@@ -1018,7 +1030,7 @@ func _lay_panels() -> void:
 			if card == null or not card.visible or card.panel_style().is_empty():
 				continue
 			var rows: float = card.get_combined_minimum_size().y - card.portrait_size().y
-			var room := Vector2(slot.custom_minimum_size.x + 12.0, slot.size.y - FLANK_TOP - FLANK_FOOT - rows)
+			var room := Vector2(slot.custom_minimum_size.x + 12.0, slot.size.y - FLANK_TOP - _flank_foot(slot) - rows)
 			var each: Vector2 = _portrait_fit(room, screen_scale)
 			if card.portrait_texture() != null and each.x < fit.x:
 				fit = each
@@ -1029,8 +1041,36 @@ func _lay_panels() -> void:
 		var panel_size: Vector2 = card.get_combined_minimum_size()
 		var slot: Control = entry[1]
 		# Its foot never below the slot's (the hints and the panel below draw over it and take clicks).
-		var top: float = maxf(0.0, minf(FLANK_TOP, slot.size.y - panel_size.y - FLANK_FOOT * 0.5))
+		var top: float = maxf(0.0, minf(FLANK_TOP, slot.size.y - panel_size.y - _flank_foot(slot)))
 		card.place_panel(Vector2(0.0 if entry[0] == 0 else slot.size.x - panel_size.x, top), panel_size)
+
+
+## The card in the side panel (0 left, 1 right), or null.
+func _panel_card(side: int) -> BattleParticipantCard:
+	if side >= _flank_slots.size():
+		return null
+	for child: Node in _flank_slots[side].get_children():
+		var card := child as BattleParticipantCard
+		if card != null and card.visible and not card.panel_style().is_empty():
+			return card
+	return null
+
+
+## 战斗演出 E: the opening's panel slides in — both banners let down from their poles over the
+## first part of it (quick: owner, the opening is short).
+func _unfurl_panels(seconds: float) -> void:
+	# As the card area begins to show (its share of the slide's delay, _slide_parts()).
+	var delay: float = seconds * CARD_AREA_SLIDE_DELAY
+	for side: int in 2:
+		var card: BattleParticipantCard = _panel_card(side)
+		if card != null:
+			card.unfurl(minf(seconds, BattlePace.real_seconds(PANEL_UNFURL_SECONDS)), delay)
+
+
+## Room under a side panel for its banner's swallowtail (its cords may hang past it).
+func _flank_foot(slot: Control) -> float:
+	var brick: float = slot.custom_minimum_size.x / float(BattleVoxelBanner.COLUMNS)
+	return maxf(FLANK_FOOT, float(BattleVoxelBanner.TAIL_ROWS + 1) * brick)
 
 
 ## A side panel's rows changed size (了结 / 放过 came, a row grew): laid again, once a frame.
@@ -1332,7 +1372,7 @@ func _show_mode(mode: int) -> void:
 func _slide_parts() -> Array:
 	return [
 		[_head, Vector2(0, -30), 0.0], [_strip_row, Vector2(0, -24), 0.12], [_strip, Vector2.ZERO, 0.12],
-		[_card_area, Vector2(0, -24), 0.18], [target_hints, Vector2(0, 40), 0.3], [action_panel, Vector2(0, 40), 0.3],
+		[_card_area, Vector2(0, -24), CARD_AREA_SLIDE_DELAY], [target_hints, Vector2(0, 40), 0.3], [action_panel, Vector2(0, 40), 0.3],
 	]
 
 
@@ -1398,8 +1438,13 @@ func _stage_band() -> Rect2:
 const DEFAULT_BAND: Rect2 = Rect2(0.17, 0.2, 0.66, 0.48)
 ## Room over a side panel for the banner's pole.
 const FLANK_TOP: float = 14.0
-## Room under a side panel for the banner's cords.
+## Room under a side panel at least (the banner's swallowtail asks more: _flank_foot()).
 const FLANK_FOOT: float = 26.0
+## 战斗演出 E: the side panels are banners (owner 2026-11-09 chose 阵旗); how long one takes to come
+## down from its pole.
+const PANEL_STYLE: String = "banner"
+const PANEL_UNFURL_SECONDS: float = 0.35
+const CARD_AREA_SLIDE_DELAY: float = 0.18
 
 
 ## A fight over before its opening began: the panel's parts shown again (they waited hidden).

@@ -31,8 +31,7 @@
 		"seam": "140b07"
 	},
 	"panels": {
-		"_comment": "战斗演出 E: the two big panels at the screen's sides — the player's on the left, the current target's (or one waiting on 了结 / 放过) on the right, each with its 立绘 bust. style: banner (a cloth on a pole, cord tassels below; the target's pole ends gold) or ink (no frame: the bust fading into an ink wash, a thin side line). width / compact_width: logical px.",
-		"style": "banner",
+		"_comment": "战斗演出 E: the two big panels at the screen's sides — the player's on the left, the current target's (or one waiting on 了结 / 放过) on the right, each with its 立绘 bust, on a voxel banner (BattleVoxelBanner: a dyed cloth on a pole, swallowtail and cords; the target's pole ends gold). width / compact_width: logical px.",
 		"width": 204,
 		"compact_width": 168
 	},

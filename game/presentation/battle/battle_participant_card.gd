@@ -91,7 +91,7 @@ const TAGS_SHOWN: int = 2
 var finish_button: Button
 var spare_button: Button
 ## 战斗演出 E (DECISIONS「战斗演出 E」): a side panel — the card at the screen's side, its 立绘 bust
-## over its rows, dressed by BattlePanelChrome (banner / ink); "" an ordinary card.
+## over its rows, on a voxel banner (BattlePanelChrome); "" an ordinary card.
 var _panel_style: String = ""
 var _panel_side: int = 0
 var _portrait: TextureRect
@@ -99,16 +99,7 @@ var _chrome: BattlePanelChrome
 var _panel_box: StyleBoxEmpty
 var _name_colour: Color = UiPalette.GOLD
 var _panel_rest: Vector2 = Vector2.ZERO
-const PORTRAIT_FADE_CODE: String = """
-shader_type canvas_item;
-uniform bool fade = false;
-void fragment() {
-	vec4 picture = texture(TEXTURE, UV);
-	// The ink style: the bust's lower part fades into the wash.
-	COLOR = vec4(picture.rgb, picture.a * (fade ? 1.0 - smoothstep(0.62, 1.0, UV.y) : 1.0));
-}
-"""
-static var _fade_shader: Shader
+var _unfurl_rows: Tween
 
 
 func _ready() -> void:
@@ -154,12 +145,6 @@ func _ready() -> void:
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_portrait.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_portrait.visible = false
-	if _fade_shader == null:
-		_fade_shader = Shader.new()
-		_fade_shader.code = PORTRAIT_FADE_CODE
-	var fade := ShaderMaterial.new()
-	fade.shader = _fade_shader
-	_portrait.material = fade
 	content.add_child(_portrait)
 	_title = _label(content)
 	_title.add_theme_color_override("font_color", UiPalette.GOLD)
@@ -254,7 +239,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	_title.text = "%s · %s" % [tr(value.display_name), role]
 	_is_current = value.participant_id == current_id
 	if not _panel_style.is_empty():
-		_chrome.dress(_panel_style, _panel_side, _is_current, _chrome.side_colour)
+		_chrome.dress(_panel_side, _is_current, _chrome.side_colour)
 	var border: StyleBox = _border(1 if _is_current else 0)
 	if get_theme_stylebox("panel") != border and (_border_flash == null or not _border_flash.is_valid()):
 		add_theme_stylebox_override("panel", border)
@@ -493,7 +478,7 @@ func _border(kind: int) -> StyleBox:
 	return (_chip_borders if _chip else _big_borders)[kind]
 
 
-## 战斗演出 E: the card as a side panel in `style` (banner / ink; "" back to an ordinary card) on
+## 战斗演出 E: the card as a side panel in `style` ("banner"; "" back to an ordinary card) on
 ## `side` (0 the player's, on the left; 1 the other, on the right), `picture` its bust at
 ## `picture_size` (null: none), its cloth's edge `colour`, its name in `name_colour`.
 func set_panel(style: String, side: int, picture: Texture2D = null, picture_size: Vector2 = Vector2.ZERO, colour: Color = UiPalette.PATINA, name_colour: Color = UiPalette.GOLD) -> void:
@@ -503,10 +488,9 @@ func set_panel(style: String, side: int, picture: Texture2D = null, picture_size
 	_portrait.texture = picture if panel else null
 	_portrait.visible = panel and picture != null
 	_portrait.custom_minimum_size = picture_size
-	(_portrait.material as ShaderMaterial).set_shader_parameter("fade", style == "ink")
 	_chrome.visible = panel
 	if panel:
-		_chrome.dress(style, side, _is_current, colour)
+		_chrome.dress(side, _is_current, colour)
 	_name_colour = name_colour if panel else UiPalette.GOLD
 	_title.add_theme_color_override("font_color", _name_colour)
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if panel else HORIZONTAL_ALIGNMENT_LEFT
@@ -528,6 +512,34 @@ func place_panel(at: Vector2, size_now: Vector2) -> void:
 	size = size_now
 	if (_shake == null or not _shake.is_valid()) and (_fall == null or not _fall.is_valid()):
 		position = at + Vector2(0.0, FALL_SINK if not _fallen_text.is_empty() else 0.0)
+
+
+## 战斗演出 E: the banner let down from its pole over `seconds` (0: at once), the rows coming up on
+## the cloth as it falls.
+func unfurl(seconds: float, delay: float = 0.0) -> void:
+	if _panel_style.is_empty():
+		return
+	_chrome.let_down(seconds, delay)
+	if _unfurl_rows != null and _unfurl_rows.is_valid():
+		_unfurl_rows.kill()
+	if seconds <= 0.0:
+		_content.modulate.a = 1.0
+		return
+	_content.modulate.a = 0.0
+	_unfurl_rows = create_tween()
+	_unfurl_rows.tween_interval(delay + seconds * 0.4)
+	_unfurl_rows.tween_property(_content, "modulate:a", 1.0, seconds * 0.6)
+
+
+## The banner flaps (`amount` 0 .. 1): its side struck.
+func flap(amount: float) -> void:
+	if not _panel_style.is_empty():
+		_chrome.gust(amount)
+
+
+## The banner (tests).
+func banner() -> BattleVoxelBanner:
+	return _chrome.banner
 
 
 ## The bust chosen for the panel (shown or not).
