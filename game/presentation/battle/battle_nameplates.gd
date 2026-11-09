@@ -60,7 +60,7 @@ func present(entries: Array, p_view: WorldVoxelView, p_opening: BattleStageOpeni
 		plate.edge = Color(String(sides.get("theirs" if hostile else "mine", "c8402a" if hostile else "4f8f78")))
 		plate.name_colour = Color(String(sides.get("name_theirs" if hostile else "name_mine", "f39a80" if hostile else "9fdcc4")))
 		plate.card = entry[6]
-		plate.mouse_filter = Control.MOUSE_FILTER_STOP if plate.pickable else Control.MOUSE_FILTER_PASS
+		plate.mouse_filter = Control.MOUSE_FILTER_STOP if plate.pickable else Control.MOUSE_FILTER_IGNORE
 		var card: BattleParticipantCard = entry[6]
 		plate.tooltip_text = card.target_button.tooltip_text if card != null else ""
 		plate.queue_redraw()
@@ -98,22 +98,23 @@ func _process(_delta: float) -> void:
 
 
 func _place() -> void:
-	var ready: bool = view != null and is_instance_valid(view) and view.camera != null and view.placing() and (opening == null or not opening.running())
+	var shown: bool = view != null and is_instance_valid(view) and view.camera != null and view.placing() and (opening == null or not opening.running())
 	for id: StringName in _plates:
 		var plate: Plate = _plates[id]
-		if not ready or not view.actors.has(id):
+		# Only those standing on the stage (one never seated stands on the map under it).
+		if not shown or not view.actors.has(id) or view.placed_at(id) == null:
 			plate.visible = false
 			continue
 		var actor: Node3D = view.actors[id]
 		plate.back = opening != null and opening.back_rank(id)
-		var size: Vector2 = BACK_SIZE if plate.back else FRONT_SIZE
+		var plate_size: Vector2 = BACK_SIZE if plate.back else FRONT_SIZE
 		var at: Vector2
 		if plate.back:
-			at = view.camera.unproject_position(actor.global_position + Vector3.UP * HEAD_RISE) - Vector2(size.x * 0.5, size.y)
+			at = view.camera.unproject_position(actor.global_position + Vector3.UP * HEAD_RISE) - Vector2(plate_size.x * 0.5, plate_size.y)
 		else:
-			at = view.camera.unproject_position(actor.global_position) + Vector2(-size.x * 0.5, UNDER_PX)
+			at = view.camera.unproject_position(actor.global_position) + Vector2(-plate_size.x * 0.5, UNDER_PX)
 		# The viewport's own coordinates, as BattleMoveTitles places the names over heads.
-		plate.size = size
+		plate.size = plate_size
 		plate.position = at.round()
 		plate.visible = true
 		plate.queue_redraw()

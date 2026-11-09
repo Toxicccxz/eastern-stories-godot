@@ -57,11 +57,11 @@ func _draw_banner(box: Rect2) -> void:
 	draw_rect(Rect2(Vector2(box.end.x - 4, box.position.y), Vector2(4, box.size.y)), side_colour)
 	draw_rect(Rect2(Vector2(box.position.x, box.end.y - 5), Vector2(box.size.x, 5)), side_colour.darkened(0.45))
 	# The pole across the top, past the cloth, and its two knobs.
-	var pole := Rect2(Vector2(box.position.x - 10, box.position.y - 9), Vector2(box.size.x + 20, 8))
+	var pole := Rect2(Vector2(box.position.x - 6, box.position.y - 9), Vector2(box.size.x + 12, 8))
 	draw_rect(pole, POLE)
 	draw_rect(Rect2(pole.position, Vector2(pole.size.x, 2)), POLE_LIGHT)
 	var knob: Color = UiPalette.LANTERN if current else KNOB
-	for x: float in [pole.position.x - 6, pole.end.x - 4]:
+	for x: float in [pole.position.x - 2, pole.end.x - 8]:
 		draw_rect(Rect2(Vector2(x, pole.position.y - 2), Vector2(10, 12)), knob)
 		draw_rect(Rect2(Vector2(x, pole.position.y - 2), Vector2(10, 2)), knob.lightened(0.3))
 	# Three cords hanging from the hem, a knot on each.

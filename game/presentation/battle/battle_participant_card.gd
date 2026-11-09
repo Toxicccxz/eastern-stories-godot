@@ -526,8 +526,8 @@ func set_panel(style: String, side: int, picture: Texture2D = null, picture_size
 func place_panel(at: Vector2, size_now: Vector2) -> void:
 	_panel_rest = at
 	size = size_now
-	if (_shake == null or not _shake.is_valid()) and (_fall == null or not _fall.is_valid()) and _fallen_text.is_empty():
-		position = at
+	if (_shake == null or not _shake.is_valid()) and (_fall == null or not _fall.is_valid()):
+		position = at + Vector2(0.0, FALL_SINK if not _fallen_text.is_empty() else 0.0)
 
 
 ## The bust chosen for the panel (shown or not).
@@ -541,11 +541,12 @@ func portrait_size() -> Vector2:
 
 
 ## The bust at `size` (zero: not shown — too little room for even one of its pixels a pixel).
-func fit_portrait(size: Vector2) -> void:
+func fit_portrait(bust: Vector2) -> void:
 	if _portrait.texture == null:
 		return
-	_portrait.custom_minimum_size = size
-	_portrait.visible = size != Vector2.ZERO
+	if _portrait.custom_minimum_size != bust:
+		_portrait.custom_minimum_size = bust
+	_portrait.visible = bust != Vector2.ZERO
 
 
 ## The side panel's style ("" an ordinary card) and its bust (tests).
@@ -678,7 +679,8 @@ func _show_fallen(text: String) -> void:
 		return
 	_fall = create_tween().set_parallel(true)
 	_fall.tween_property(self, "rotation", deg_to_rad(FALL_TILT_DEGREES), seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	_fall.tween_property(self, "position:y", position.y + FALL_SINK, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	var from_y: float = _panel_rest.y if not _panel_style.is_empty() and not get_parent() is Container else position.y
+	_fall.tween_property(self, "position:y", from_y + FALL_SINK, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 
 
 ## The 起手 / 要出 line flashes (white for a 要出, pale gold for a 起手) and settles to its
@@ -702,6 +704,12 @@ func _flash_border() -> void:
 		return
 	if _border_flash != null and _border_flash.is_valid():
 		_border_flash.kill()
+	if not _panel_style.is_empty():
+		# A side panel: its chrome flashes pale gold.
+		_chrome.modulate = Color(1.6, 1.5, 1.1)
+		_border_flash = create_tween()
+		_border_flash.tween_property(_chrome, "modulate", Color.WHITE, SPECIAL_BORDER_SECONDS)
+		return
 	var back: StyleBox = _border(1 if _is_current else 0)
 	add_theme_stylebox_override("panel", _border(2))
 	_border_flash = create_tween()

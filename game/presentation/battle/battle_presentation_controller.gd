@@ -42,6 +42,9 @@ var _side_rows: Array = []
 var _flanks: HBoxContainer
 var _flank_slots: Array[Control] = []
 var nameplates: BattleNameplates
+## Those waiting on 了结 / 放过 whose panel the player passed over by picking another target.
+var _passed_held: Dictionary[StringName, bool] = {}
+var _relay_queued: bool = false
 var _card_layout_key: String = ""
 var _compact: bool = false
 var _room_width: float = 0.0
@@ -515,6 +518,7 @@ func refresh_projection() -> void:
 			_line_wait = 0.0
 			_shown_mode = -1
 			_card_layout_key = ""
+			_passed_held.clear()
 			_strip_open = false
 			_strip_left = 0.0
 			# 战斗拍数 C: the scene's show begins with the fight (the camera a little nearer).
@@ -1003,7 +1007,7 @@ func _fit_cards() -> void:
 ## pole, its bust the largest whole multiple of its pixels that leaves the rows and the cords room
 ## (none when not even one fits), as tall as its rows.
 func _lay_panels() -> void:
-	var scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
+	var screen_scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
 	# The two busts one size: the smaller of what each panel has room for.
 	var panels: Array = []
 	var fit := Vector2.INF
@@ -1015,30 +1019,44 @@ func _lay_panels() -> void:
 				continue
 			var rows: float = card.get_combined_minimum_size().y - card.portrait_size().y
 			var room := Vector2(slot.custom_minimum_size.x + 12.0, slot.size.y - FLANK_TOP - FLANK_FOOT - rows)
-			var each: Vector2 = _portrait_fit(room, scale)
+			var each: Vector2 = _portrait_fit(room, screen_scale)
 			if card.portrait_texture() != null and each.x < fit.x:
 				fit = each
 			panels.append([side, slot, card])
 	for entry: Array in panels:
 		var card: BattleParticipantCard = entry[2]
 		card.fit_portrait(fit if fit.is_finite() else Vector2.ZERO)
-		var size: Vector2 = card.get_combined_minimum_size()
-		card.place_panel(Vector2(0.0 if entry[0] == 0 else (entry[1] as Control).size.x - size.x, FLANK_TOP), size)
+		var panel_size: Vector2 = card.get_combined_minimum_size()
+		var slot: Control = entry[1]
+		# Its foot never below the slot's (the hints and the panel below draw over it and take clicks).
+		var top: float = maxf(0.0, minf(FLANK_TOP, slot.size.y - panel_size.y - FLANK_FOOT * 0.5))
+		card.place_panel(Vector2(0.0 if entry[0] == 0 else slot.size.x - panel_size.x, top), panel_size)
+
+
+## A side panel's rows changed size (了结 / 放过 came, a row grew): laid again, once a frame.
+func _relay_panels() -> void:
+	if _relay_queued:
+		return
+	_relay_queued = true
+	(func() -> void:
+		_relay_queued = false
+		if is_instance_valid(self):
+			_lay_panels()).call_deferred()
 
 
 ## The bust's size in `room` (canvas units): the largest whole multiple of its pixels, zero when
 ## not even one fits.
-static func _portrait_fit(room: Vector2, scale: float) -> Vector2:
-	var times: int = floori(minf(room.x, room.y) * scale / float(PersonPortraits.BUST_SIZE.x) + 0.001)
-	return Vector2.ZERO if times < 1 else Vector2(PersonPortraits.BUST_SIZE) * times / maxf(scale, 0.001)
+static func _portrait_fit(room: Vector2, screen_scale: float) -> Vector2:
+	var times: int = floori(minf(room.x, room.y) * screen_scale / float(PersonPortraits.BUST_SIZE.x) + 0.001)
+	return Vector2.ZERO if times < 1 else Vector2(PersonPortraits.BUST_SIZE) * times / maxf(screen_scale, 0.001)
 
 
-## 战斗演出 E: the other side's card in the right panel — one waiting on 了结 / 放过, else the
-## current target, else the first.
+## 战斗演出 E: the other side's card in the right panel — one waiting on 了结 / 放过 (unless the
+## player picked another target since they fell), else the current target, else the first.
 func _focus_card(members: Array[BattleParticipantCard]) -> BattleParticipantCard:
 	for card: BattleParticipantCard in members:
 		var value: BattleParticipantProjection = _projection.participant(card.participant_id())
-		if value != null and value.knockout != null:
+		if value != null and value.knockout != null and not _passed_held.has(card.participant_id()):
 			return card
 	for card: BattleParticipantCard in members:
 		if card.participant_id() == _projection.current_target_id:
@@ -1063,10 +1081,10 @@ func _portrait_of(id: StringName, hostile: bool) -> Texture2D:
 
 ## The bust's size in a panel `width` wide: a whole multiple of its pixels.
 func _portrait_size(width: float) -> Vector2:
-	var scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
+	var screen_scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
 	# The panel may grow a little for the next whole multiple (the bust reads from across the screen).
 	var room: float = width + 12.0
-	return PersonPortraits.fitted(PersonPortraits.BUST_SIZE, Vector2(room, room) * scale, scale)
+	return PersonPortraits.fitted(PersonPortraits.BUST_SIZE, Vector2(room, room) * screen_scale, screen_scale)
 
 
 ## The cards of the player's side (0: the player and those beside them) or the enemies' (1),
@@ -1151,6 +1169,7 @@ func _present_participants() -> void:
 			var card := BattleParticipantCard.new()
 			card.name = "Participant%d" % _cards.size()
 			card.target_requested.connect(_change_target)
+			card.minimum_size_changed.connect(_relay_panels)
 			card.finish_requested.connect(_finish_downed)
 			card.spare_requested.connect(_spare_downed)
 			_participants.add_child(card)
@@ -1161,7 +1180,7 @@ func _present_participants() -> void:
 		var queued: CombatQueuedAction = _projection.queued_action()
 		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id, not told)
 	# Where each card stands (a new target or one held for the choice takes a big card).
-	var key: String = "%s|%s|%s" % [ids, _projection.current_target_id, _held_ids(values)]
+	var key: String = "%s|%s|%s|%s" % [ids, _projection.current_target_id, _held_ids(values), _passed_held.keys()]
 	if key != _card_layout_key:
 		_card_layout_key = key
 		_fit_cards()
@@ -1459,6 +1478,12 @@ func step_target(direction: int) -> void:
 func _change_target(id: StringName) -> void:
 	if _intent == null:
 		return
+	# 战斗演出 E: one waiting on 了结 / 放过 gives the right panel to the target picked now (their
+	# plate still shows them fallen; picking them back brings their choice back).
+	for value: BattleParticipantProjection in _projection.participants():
+		if value.knockout != null and value.participant_id != id:
+			_passed_held[value.participant_id] = true
+	_passed_held.erase(id)
 	target_submitting.emit()
 	var result: CombatTargetResult = _intent.change_target(_projection.encounter_id, id)
 	_receipt.text = tr("换目标：%s") % BattleFeedbackReader.target_reason(result.code)
