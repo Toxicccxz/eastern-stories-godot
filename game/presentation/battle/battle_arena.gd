@@ -53,6 +53,8 @@ var _taken_at: float = INF
 var _rng := RandomNumberGenerator.new()
 var _seed: int = 0
 var _light: OmniLight3D
+## A re-lay (one joined): no finishing sounds again.
+var _quiet: bool = false
 
 
 ## The stage's data (battle_stage.json), read once.
@@ -228,7 +230,7 @@ func _plan_steps(spots: Array[Vector2], player: Vector2) -> void:
 
 
 ## One who joined: the base laid again (quickly) when `spots` no longer all stand on its top.
-func grow_to(spots: Array[Vector2], player: Vector2, seconds_scale: float) -> void:
+func grow_to(spots: Array[Vector2], player: Vector2) -> void:
 	if steps.is_empty() or spots.all(holds):
 		return
 	_laying = false
@@ -242,7 +244,10 @@ func grow_to(spots: Array[Vector2], player: Vector2, seconds_scale: float) -> vo
 		mesh.queue_free()
 	_meshes.clear()
 	_plan_steps(spots, player)
-	_build(seconds_scale, true)
+	# Laid wider at once, quietly (the fight goes on on it).
+	_quiet = true
+	_build(0.0, true)
+	_quiet = false
 
 
 ## Whether the room around `point` (2D, on `map`) is small: few free cells within eight (the
@@ -450,8 +455,9 @@ func _finish_laying() -> void:
 	_laying = false
 	for brick: Array in _bricks:
 		_meshes[brick[0]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), brick[2]))
-	for sound: Array in _look.get("done_sounds", []):
-		BattleSounds.cue(StringName(sound[0]), float(sound[1]), float(sound[2]))
+	if not _quiet:
+		for sound: Array in _look.get("done_sounds", []):
+			BattleSounds.cue(StringName(sound[0]), float(sound[1]), float(sound[2]))
 	_dress(_look)
 	laid.emit()
 

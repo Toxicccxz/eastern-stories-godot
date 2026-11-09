@@ -50,5 +50,6 @@ void fragment() {
 	colour *= mix(vec3(1.0), tint, amount);
 	colour *= 1.0 - darken * amount;
 	ALBEDO = colour;
-	ALPHA = inside ? 0.0 : 1.0;
+	// Comes in with `amount`: the map's see-through things (not in the screen texture) fade, not pop.
+	ALPHA = inside ? 0.0 : smoothstep(0.0, 0.15, amount);
 }

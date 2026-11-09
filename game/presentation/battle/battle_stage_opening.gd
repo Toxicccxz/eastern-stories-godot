@@ -226,6 +226,15 @@ func _set_rise(progress: float) -> void:
 func seat(fighters: Dictionary[StringName, Vector2], foes: Array[StringName]) -> void:
 	if arena == null or not is_instance_valid(arena) or _local.is_empty():
 		return
+	# One gone from the fight while still standing on the map (fled, let go) comes down; the
+	# fallen stay (their corpse lies on the stage).
+	for id: StringName in _local.keys():
+		if not fighters.has(id) and id != _player_id and view != null and is_instance_valid(view) and view.actors.has(id):
+			_local.erase(id)
+			_spots.erase(id)
+			_mine.erase(id)
+			_theirs.erase(id)
+			view.unplace(id)
 	var added: bool = false
 	for id: StringName in fighters:
 		if _local.has(id):
@@ -238,7 +247,7 @@ func seat(fighters: Dictionary[StringName, Vector2], foes: Array[StringName]) ->
 	if not added:
 		return
 	_local = BattleArena.formation(_mine, _theirs, BattleArena.data().get("formation", {}))
-	arena.grow_to(_points(), _local[_player_id], _scale)
+	arena.grow_to(_points(), _local[_player_id])
 	_place()
 	if backdrop != null and is_instance_valid(backdrop):
 		backdrop.hold(arena.global_transform, arena.footprint(BACKDROP_MARGIN))

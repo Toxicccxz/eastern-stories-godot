@@ -483,6 +483,10 @@ func stage_settled() -> bool:
 func place_actor(id: StringName, at: Vector3, yaw: float) -> void:
 	_placed[id] = [at, yaw]
 
+## `id`'s figure back on its body (it left the show).
+func unplace(id: StringName) -> void:
+	_placed.erase(id)
+
 ## Every figure back on its body.
 func release_placed() -> void:
 	_placed.clear()
@@ -533,6 +537,9 @@ func _sync_actors(delta: float) -> void:
 		if not place.is_empty():
 			next = next.lerp(place[0],placed_blend)
 		var step: float = actor.position.distance_to(next)
+		# On a stage already up, one coming or moving to a place there goes, not jumps.
+		if not place.is_empty() and placed_blend >= 1.0 and step > 0.01:
+			next = actor.position.lerp(next,minf(1.0,delta*10.0))
 		actor.position = next
 		var model: Node3D = actor.get_child(0) as Node3D
 		if model is Person or model is Crawler or model is Snake or model is Flyer:
@@ -1115,7 +1122,8 @@ func _reveal_entrances() -> void:
 		var entry: Dictionary = entrances[id]
 		var passage: WorldPassageArea2D = entry["passage"]
 		var distance: float = passage.global_position.distance_to(map.player_body.global_position)
-		(entry["node"] as Node3D).visible = passage.is_open() and distance<900.0
+		# 战斗演出 D: the map is the backdrop while figures stand on a raised stage.
+		(entry["node"] as Node3D).visible = passage.is_open() and distance<900.0 and not placing()
 
 func _plant_contacts() -> PackedVector3Array:
 	var contacts := PackedVector3Array()

@@ -55,7 +55,8 @@ func set_look(look: Dictionary, seconds: float = 0.0) -> void:
 		_look_tween.kill()
 	var tint := Color(String(look.get("tint", "ffffff")))
 	var values: Dictionary = {
-		"tint": Vector3(tint.r, tint.g, tint.b),
+		# A Color, so the engine turns the authored sRGB into linear (source_color).
+		"tint": tint,
 		"darken": float(look.get("darken", 0.3)),
 		"fade": float(look.get("fade", 0.3)),
 		"blur_lod": float(look.get("blur_lod", 3.0)),
