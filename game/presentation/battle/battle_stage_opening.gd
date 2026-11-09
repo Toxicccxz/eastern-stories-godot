@@ -20,6 +20,8 @@ extends Node
 ## figures there); while it runs the panel tells no line (they wait).
 
 signal finished
+## 战斗演出 E: the panel begins to slide in, over `seconds` (0: at once).
+signal sliding(seconds: float)
 
 enum Kind { FULL, SHORT, OFF }
 
@@ -103,10 +105,10 @@ var instant: bool = false
 
 ## The opening of a fight on `map` shown in `p_view`: `fighters` each one's 2D point by id,
 ## `player_id` among them, `foes` those on the other side (the one the player faces first);
-## `mode` the fight's; `band` the share of the screen's height the fighters should stand in (top,
-## bottom: under the cards, over the panel); `slide` the panel's parts to slide in, each
+## `mode` the fight's; `band` the share of the screen the fighters should stand in (战斗演出 E:
+## between the side panels, under the head, over the panel); `slide` the panel's parts to slide in, each
 ## [Control, from offset Vector2, delay share].
-func open(p_view: WorldVoxelView, map: WorldMapController, fighters: Dictionary[StringName, Vector2], player_id: StringName, foes: Array[StringName], mode: int, band: Vector2, slide: Array, auto: bool) -> void:
+func open(p_view: WorldVoxelView, map: WorldMapController, fighters: Dictionary[StringName, Vector2], player_id: StringName, foes: Array[StringName], mode: int, band: Rect2, slide: Array, auto: bool) -> void:
 	close(0.0)
 	instant = next_instant(auto)
 	kind = next_kind(auto)
@@ -256,7 +258,7 @@ func seat(fighters: Dictionary[StringName, Vector2], foes: Array[StringName]) ->
 ## Where the camera looks, how high over it and how near: on the player and the middle of the
 ## others on the stage, as near as everyone still stands inside the band (the stage's zoom for a
 ## duel, back to its crowd_zoom for a crowd), the band's middle where the fighters' middle shows.
-func _frame(band: Vector2, small: bool) -> void:
+func _frame(band: Rect2, small: bool) -> void:
 	var camera_data: Dictionary = BattleArena.data().get("camera", {})
 	var degrees: float = float(camera_data.get("small_pitch_degrees" if small else "pitch_degrees", 26.0))
 	_height = WorldVoxelView.VIEW_RADIUS * tan(deg_to_rad(degrees))
@@ -275,13 +277,13 @@ func _frame(band: Vector2, small: bool) -> void:
 	_target = fit[0]
 	_zoom = clampf(fit[1], float(camera_data.get("zoom", 0.4)), float(camera_data.get("crowd_zoom", 0.85)))
 	if fit.size() > 2:
-		_target = fit[0] + (fit[2] as Vector3) * _shift(fit, band)
+		_target = fit[0] + (fit[2] as Vector3) * _shift(fit, band) + (fit[5] as Vector3) * _shift_across(band)
 
 
 ## [target, zoom needed, the camera's up, low, high] for the player and `others` (their feet in
 ## the world), `edges` (the stage's foot) shown too: the target halfway between the player and the
 ## others' middle.
-func _fit(player_foot: Vector3, others: Array[Vector3], band: Vector2, camera_data: Dictionary, edges: Array[Vector3] = []) -> Array:
+func _fit(player_foot: Vector3, others: Array[Vector3], band: Rect2, camera_data: Dictionary, edges: Array[Vector3] = []) -> Array:
 	var lift := Vector3.UP * 0.9
 	var player: Vector3 = player_foot + lift
 	var middle := Vector3.ZERO
@@ -314,19 +316,31 @@ func _fit(player_foot: Vector3, others: Array[Vector3], band: Vector2, camera_da
 		var at: Vector3 = edge - target
 		wide = maxf(wide, absf(at.dot(right)))
 		low = minf(low, at.dot(up) - 0.15)
-	var top: float = clampf(band.x, 0.05, 0.9)
-	var bottom: float = clampf(band.y, top + 0.1, 0.98)
-	var size_needed: float = maxf(wide * 2.0 / (aspect * 0.85), (high - low) / ((bottom - top) * 0.85))
-	return [target, size_needed / view.base_size(), up, low, high]
+	var top: float = clampf(band.position.y, 0.05, 0.9)
+	var bottom: float = clampf(band.end.y, top + 0.1, 0.98)
+	var across: float = clampf(band.size.x, 0.3, 1.0)
+	var size_needed: float = maxf(wide * 2.0 / (aspect * across * 0.9), (high - low) / ((bottom - top) * 0.85))
+	return [target, size_needed / view.base_size(), up, low, high, right]
 
 
 ## How far along the camera's up the look-at point moves so that the fighters' middle shows at
 ## the band's middle (the zoom chosen).
-func _shift(fit: Array, band: Vector2) -> float:
-	var top: float = clampf(band.x, 0.05, 0.9)
-	var bottom: float = clampf(band.y, top + 0.1, 0.98)
+func _shift(fit: Array, band: Rect2) -> float:
+	var top: float = clampf(band.position.y, 0.05, 0.9)
+	var bottom: float = clampf(band.end.y, top + 0.1, 0.98)
 	var size: float = view.base_size() * _zoom
 	return (float(fit[3]) + float(fit[4])) / 2.0 - size * (0.5 - (top + bottom) / 2.0)
+
+
+## How far along the camera's right the look-at point moves so the fighters' middle shows at the
+## band's middle across (the side panels may stand unevenly).
+func _shift_across(band: Rect2) -> float:
+	var aspect: float = 16.0 / 9.0
+	var visible: Rect2 = view.get_viewport().get_visible_rect() if view.is_inside_tree() else Rect2()
+	if visible.size.y > 0.0:
+		aspect = visible.size.x / visible.size.y
+	var width: float = view.base_size() * _zoom * aspect
+	return -width * (band.get_center().x - 0.5)
 
 
 ## The camera's frame (tests): [target, height, zoom].
@@ -337,6 +351,28 @@ func frame() -> Array:
 ## Each fighter's place in the world on the raised stage (tests, kits).
 func spots() -> Dictionary[StringName, Vector3]:
 	return _spots
+
+
+## 战斗演出 E: whether `id` stands behind another of their side in their column (their name plate
+## goes over their head, the front one's under the feet).
+func back_rank(id: StringName) -> bool:
+	if not _local.has(id):
+		return false
+	var rows: int = maxi(1, int(BattleArena.data().get("formation", {}).get("rows", 3)))
+	for side: Array[StringName] in [_mine, _theirs]:
+		var at: int = side.find(id)
+		if at < 0:
+			continue
+		# The columns as formation() lays them: the player alone first on their side, then `rows`.
+		var start: int = 0
+		var lead: int = 1 if side == _mine else 0
+		if at < lead:
+			return false
+		start = at - (at - lead) % rows
+		for other: int in range(start, mini(side.size(), start + rows)):
+			if other != at and _local.has(side[other]) and _local[side[other]].y > _local[id].y:
+				return true
+	return false
 
 
 ## How far the stage has risen now (0 .. 1).
@@ -382,6 +418,7 @@ func _hide_slide() -> void:
 func _slide_in(seconds: float) -> void:
 	if _slide_tween != null and _slide_tween.is_valid():
 		_slide_tween.kill()
+	sliding.emit(seconds)
 	if seconds <= 0.0:
 		_settle_slide()
 		_done()
@@ -425,6 +462,8 @@ func _done() -> void:
 func skip() -> void:
 	if not _running:
 		return
+	# The banners down at once too.
+	sliding.emit(0.0)
 	_slid = true
 	if _slide_tween != null and _slide_tween.is_valid():
 		_slide_tween.kill()

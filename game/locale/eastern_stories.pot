@@ -8162,6 +8162,11 @@ msgstr ""
 msgid "精 %s · 神 %s"
 msgstr ""
 
+#. a battle side panel (narrower than a card): 精 and 神 now (their maximums in the hover).
+#: presentation/battle/battle_participant_card.gd
+msgid "精 %d　神 %d"
+msgstr ""
+
 #. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
 #: presentation/battle/battle_presentation_controller.gd
 msgid ""

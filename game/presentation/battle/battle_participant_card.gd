@@ -90,6 +90,16 @@ var stamps: BattleBeatStamps
 const TAGS_SHOWN: int = 2
 var finish_button: Button
 var spare_button: Button
+## 战斗演出 E (DECISIONS「战斗演出 E」): a side panel — the card at the screen's side, its 立绘 bust
+## over its rows, on a voxel banner (BattlePanelChrome); "" an ordinary card.
+var _panel_style: String = ""
+var _panel_side: int = 0
+var _portrait: TextureRect
+var _chrome: BattlePanelChrome
+var _panel_box: StyleBoxEmpty
+var _name_colour: Color = UiPalette.GOLD
+var _panel_rest: Vector2 = Vector2.ZERO
+var _unfurl_rows: Tween
 
 
 func _ready() -> void:
@@ -127,6 +137,15 @@ func _ready() -> void:
 	content.add_theme_constant_override("separation", 2)
 	add_child(content)
 	_content = content
+	_portrait = TextureRect.new()
+	_portrait.name = "Portrait"
+	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_portrait.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_portrait.visible = false
+	content.add_child(_portrait)
 	_title = _label(content)
 	_title.add_theme_color_override("font_color", UiPalette.GOLD)
 	_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
@@ -181,6 +200,15 @@ func _ready() -> void:
 	target_button.add_theme_stylebox_override("focus", focus)
 	target_button.pressed.connect(_request_target)
 	add_child(target_button) # Native focus/touch overlay; no extra narrow-screen row.
+	_chrome = BattlePanelChrome.new()
+	_chrome.name = "Chrome"
+	_chrome.visible = false
+	add_child(_chrome)
+	_panel_box = StyleBoxEmpty.new()
+	_panel_box.content_margin_left = 14
+	_panel_box.content_margin_right = 14
+	_panel_box.content_margin_top = 8
+	_panel_box.content_margin_bottom = 10
 
 
 ## `hold_resources`: 气, 精 and 神 stay as shown (the blow's line is not told yet).
@@ -210,7 +238,9 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		role += " · " + tr(value.style_word)
 	_title.text = "%s · %s" % [tr(value.display_name), role]
 	_is_current = value.participant_id == current_id
-	var border: StyleBoxFlat = _border(1 if _is_current else 0)
+	if not _panel_style.is_empty():
+		_chrome.dress(_panel_side, _is_current, _chrome.side_colour)
+	var border: StyleBox = _border(1 if _is_current else 0)
 	if get_theme_stylebox("panel") != border and (_border_flash == null or not _border_flash.is_valid()):
 		add_theme_stylebox_override("panel", border)
 	modulate = DIM if value.hostile_to_player and not value.targetable and knockout == null else Color.WHITE
@@ -440,9 +470,104 @@ func participant_id() -> StringName:
 	return _participant_id
 
 
-## The border: 0 ordinary, 1 the current target, 2 a special's flash; a chip's thinner.
-func _border(kind: int) -> StyleBoxFlat:
+## The border: 0 ordinary, 1 the current target, 2 a special's flash; a chip's thinner; a side
+## panel has none (its chrome dresses it).
+func _border(kind: int) -> StyleBox:
+	if not _panel_style.is_empty():
+		return _panel_box
 	return (_chip_borders if _chip else _big_borders)[kind]
+
+
+## 战斗演出 E: the card as a side panel in `style` ("banner"; "" back to an ordinary card) on
+## `side` (0 the player's, on the left; 1 the other, on the right), `picture` its bust at
+## `picture_size` (null: none), its cloth's edge `colour`, its name in `name_colour`.
+func set_panel(style: String, side: int, picture: Texture2D = null, picture_size: Vector2 = Vector2.ZERO, colour: Color = UiPalette.PATINA, name_colour: Color = UiPalette.GOLD) -> void:
+	_panel_style = style
+	_panel_side = side
+	var panel: bool = not style.is_empty()
+	_portrait.texture = picture if panel else null
+	_portrait.visible = panel and picture != null
+	_portrait.custom_minimum_size = picture_size
+	_chrome.visible = panel
+	if panel:
+		_chrome.dress(side, _is_current, colour)
+	_name_colour = name_colour if panel else UiPalette.GOLD
+	_title.add_theme_color_override("font_color", _name_colour)
+	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if panel else HORIZONTAL_ALIGNMENT_LEFT
+	# A panel is narrower than a card: its rows a size smaller, 精 and 神 without their maximums.
+	if not _shown_resources.is_empty():
+		_show_resources(_shown_id, _shown_resources)
+	for row: Label in [_primary, _secondary, _powers, _intent, _status]:
+		row.add_theme_font_size_override("font_size", GameTheme.text_size(14 if panel else 16))
+	if not _chip:
+		_title.add_theme_font_size_override("font_size", GameTheme.text_size(18 if panel else 20))
+	if _border_flash == null or not _border_flash.is_valid():
+		add_theme_stylebox_override("panel", _border(1 if _is_current else 0))
+
+
+## 战斗演出 E: a side panel laid at `at` (its slot's own coordinates), `size` big; a shake or a fall
+## comes back here.
+func place_panel(at: Vector2, size_now: Vector2) -> void:
+	_panel_rest = at
+	size = size_now
+	if (_shake == null or not _shake.is_valid()) and (_fall == null or not _fall.is_valid()):
+		position = at + Vector2(0.0, FALL_SINK if not _fallen_text.is_empty() else 0.0)
+
+
+## 战斗演出 E: the banner let down from its pole over `seconds` (0: at once), the rows coming up on
+## the cloth as it falls.
+func unfurl(seconds: float, delay: float = 0.0) -> void:
+	if _panel_style.is_empty():
+		return
+	_chrome.let_down(seconds, delay)
+	if _unfurl_rows != null and _unfurl_rows.is_valid():
+		_unfurl_rows.kill()
+	if seconds <= 0.0:
+		_content.modulate.a = 1.0
+		return
+	_content.modulate.a = 0.0
+	_unfurl_rows = create_tween()
+	_unfurl_rows.tween_interval(delay + seconds * 0.4)
+	_unfurl_rows.tween_property(_content, "modulate:a", 1.0, seconds * 0.6)
+
+
+## The banner flaps (`amount` 0 .. 1): its side struck.
+func flap(amount: float) -> void:
+	if not _panel_style.is_empty():
+		_chrome.gust(amount)
+
+
+## The banner (tests).
+func banner() -> BattleVoxelBanner:
+	return _chrome.banner
+
+
+## The bust chosen for the panel (shown or not).
+func portrait_texture() -> Texture2D:
+	return _portrait.texture
+
+
+## The bust's size now (zero: none shown).
+func portrait_size() -> Vector2:
+	return _portrait.custom_minimum_size if _portrait.visible else Vector2.ZERO
+
+
+## The bust at `size` (zero: not shown — too little room for even one of its pixels a pixel).
+func fit_portrait(bust: Vector2) -> void:
+	if _portrait.texture == null:
+		return
+	if _portrait.custom_minimum_size != bust:
+		_portrait.custom_minimum_size = bust
+	_portrait.visible = bust != Vector2.ZERO
+
+
+## The side panel's style ("" an ordinary card) and its bust (tests).
+func panel_style() -> String:
+	return _panel_style
+
+
+func portrait() -> Texture2D:
+	return _portrait.texture if _portrait.visible else null
 
 
 ## `band`: the blow's band for the shake (-1: the band of the value shown).
@@ -542,6 +667,8 @@ func _resort() -> void:
 	var parent := get_parent() as Container
 	if parent != null:
 		parent.queue_sort()
+	elif not _panel_style.is_empty():
+		position = _panel_rest
 
 
 ## The fall: the card sinks FALL_SINK px, tilts FALL_TILT_DEGREES, and the stage veils it
@@ -564,7 +691,8 @@ func _show_fallen(text: String) -> void:
 		return
 	_fall = create_tween().set_parallel(true)
 	_fall.tween_property(self, "rotation", deg_to_rad(FALL_TILT_DEGREES), seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	_fall.tween_property(self, "position:y", position.y + FALL_SINK, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	var from_y: float = _panel_rest.y if not _panel_style.is_empty() and not get_parent() is Container else position.y
+	_fall.tween_property(self, "position:y", from_y + FALL_SINK, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 
 
 ## The 起手 / 要出 line flashes (white for a 要出, pale gold for a 起手) and settles to its
@@ -588,7 +716,13 @@ func _flash_border() -> void:
 		return
 	if _border_flash != null and _border_flash.is_valid():
 		_border_flash.kill()
-	var back: StyleBoxFlat = _border(1 if _is_current else 0)
+	if not _panel_style.is_empty():
+		# A side panel: its chrome flashes pale gold.
+		_chrome.modulate = Color(1.6, 1.5, 1.1)
+		_border_flash = create_tween()
+		_border_flash.tween_property(_chrome, "modulate", Color.WHITE, SPECIAL_BORDER_SECONDS)
+		return
+	var back: StyleBox = _border(1 if _is_current else 0)
 	add_theme_stylebox_override("panel", _border(2))
 	_border_flash = create_tween()
 	_border_flash.tween_interval(SPECIAL_BORDER_SECONDS)
@@ -640,6 +774,9 @@ func _show_resources(id: StringName, resources: Array[BattleResourceProjection])
 	_primary.text = tr("气 %s") % _track(resources[0])
 	# TRANSLATORS: the player's card: 精 and 神, each current/maximum.
 	_secondary.text = tr("精 %s · 神 %s") % [_track(resources[1]), _track(resources[2])]
+	if not _panel_style.is_empty():
+		# TRANSLATORS: a battle side panel (narrower than a card): 精 and 神 now (their maximums in the hover).
+		_secondary.text = tr("精 %d　神 %d") % [resources[1].current, resources[2].current]
 
 
 ## The 气 bar's value now (the tween's, while it moves).

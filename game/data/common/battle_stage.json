@@ -22,12 +22,25 @@
 		"rows": 3,
 		"stagger": 0.45
 	},
+	"sides": {
+		"_comment": "战斗演出 E (DECISIONS「战斗演出 E」): the two sides' colours — mine the player's side (铜绿), theirs the other (朱漆): the stage's halves lit from the front edge, the name plates' edges and names, the side panels' cloth edges; name_*: the names' lighter shade; seam: the dark line down the stage's middle.",
+		"mine": "4f8f78",
+		"theirs": "c8402a",
+		"name_mine": "9fdcc4",
+		"name_theirs": "f39a80",
+		"seam": "140b07"
+	},
+	"panels": {
+		"_comment": "战斗演出 E: the two big panels at the screen's sides — the player's on the left, the current target's (or one waiting on 了结 / 放过) on the right, each with its 立绘 bust, on a voxel banner (BattleVoxelBanner: a dyed cloth on a pole, swallowtail and cords; the target's pole ends gold). width / compact_width: logical px.",
+		"width": 204,
+		"compact_width": 168
+	},
 	"backdrop": {
 		"_comment": "战斗演出 D: the map under the raised stage — shade: the share of the panel's own shade (the mode's scrim) kept over the whole screen while the backdrop is up (the backdrop darkens the map, not the fighters). Each look's backdrop: tint, darken (0..1), fade (toward grey, 0..1), blur_lod / blur_px (how soft); light: the stage's own lamp (colour, energy, range, height and forward of the stage's middle).",
 		"shade": 0.3
 	},
 	"looks": {
-		"_comment": "By the fight's mode (spar, lethal, lesson; a story fight takes lethal). tiers: bottom to top, each a few colours the bricks pick from; rim: the top step's edge; corners: what stands at the base's four corners (flag / brazier / none); rubble: loose stones scattered round the foot; sounds: a row laid, the stage done.",
+		"_comment": "By the fight's mode (spar, lethal, lesson; a story fight takes lethal). tiers: bottom to top, each a few colours the bricks pick from; rim: the top step's edge; corners: what stands at the base's four corners (flag / brazier / none); rubble: loose stones scattered round the foot; sounds: a row laid, the stage done; glow (战斗演出 E): how strongly each half of the top is lit in its side's colour.",
 		"spar": {
 			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
 			"rim": "4f8f78",
@@ -39,7 +52,8 @@
 			"row_sound": "brick_wood",
 			"done_sounds": [["gong", 1.0, 0.0], ["clapper", 1.5, -4.0], ["clapper", 1.5, -6.0]],
 			"backdrop": {"tint": "fff1dc", "darken": 0.18, "fade": 0.25, "blur_lod": 3.0, "blur_px": 6.0},
-			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2}
+			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2},
+			"glow": {"mine": 0.75, "theirs": 0.6}
 		},
 		"lesson": {
 			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
@@ -49,7 +63,8 @@
 			"row_sound": "brick_wood",
 			"done_sounds": [["clapper", 1.0, 0.0]],
 			"backdrop": {"tint": "fff1dc", "darken": 0.18, "fade": 0.25, "blur_lod": 3.0, "blur_px": 6.0},
-			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2}
+			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2},
+			"glow": {"mine": 0.75, "theirs": 0.6}
 		},
 		"lethal": {
 			"tiers": [["3a1512", "33120f", "411916"], ["4a1712", "421410", "531b15"], ["5c2019", "521c16", "6b1c12"]],
@@ -63,7 +78,8 @@
 			"row_sound": "brick_stone",
 			"done_sounds": [["drum", 0.7, 2.0], ["scrape", 1.0, -6.0]],
 			"backdrop": {"tint": "d07a66", "darken": 0.45, "fade": 0.4, "blur_lod": 3.0, "blur_px": 6.0},
-			"light": {"colour": "ffb48a", "energy": 1.0, "range": 7.5, "height": 3.2, "forward": 1.2}
+			"light": {"colour": "ffb48a", "energy": 1.0, "range": 7.5, "height": 3.2, "forward": 1.2},
+			"glow": {"mine": 1.0, "theirs": 0.9}
 		}
 	},
 	"moves": {
@@ -92,7 +108,7 @@
 		"_comment": "The opening move: the view's height over the fighters (the pitch: 41° is the map's own, atan(height / 30)); small rooms (fewer free cells than small_cells) pitch less; zoom: the push-in at most, for a duel (1 the map's; smaller is nearer), crowd_zoom the farthest it stays back to frame a crowd; band: the share of the screen's height the fighters stand in, under the cards and over the panel (the controller passes the real band when it has laid out).",
 		"pitch_degrees": 26.0,
 		"small_pitch_degrees": 33.0,
-		"zoom": 0.4,
+		"zoom": 0.35,
 		"crowd_zoom": 0.85,
 		"final_push": 0.05
 	}

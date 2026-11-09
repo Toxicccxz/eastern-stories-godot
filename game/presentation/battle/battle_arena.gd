@@ -14,7 +14,11 @@ extends Node3D
 ## 战斗演出 D (DECISIONS「战斗演出 D」): the stage is no longer cut to the map's free cells — it is
 ## the standard size for the fighters' places (formation()), laid in its own square turned to
 ## face the camera, and raised over the map (BattleStageOpening moves it; a lamp of its own over
-## it). Presentation only: the base is drawn in the voxel world, never in the 2D map; it moves no
+## it). 战斗演出 E (DECISIONS「战斗演出 E」): the two sides read on it — the top's left half (the
+## player's) lit from its front edge in the player's side colour, the right half in the other
+## side's (the mode says how strongly), a dark seam down the middle; every step's front edge a
+## lighter row, so the steps read as steps.
+## Presentation only: the base is drawn in the voxel world, never in the 2D map; it moves no
 ## body, blocks nothing and is not saved.
 
 signal laid
@@ -360,6 +364,9 @@ func _build(seconds_scale: float, short: bool) -> void:
 			var colour: Color = rim if top_edge else Color(String(colours[_rng.randi_range(0, colours.size() - 1)]))
 			var shade: float = _rng.randf_range(-0.05, 0.05)
 			colour = colour.lightened(shade) if shade > 0.0 else colour.darkened(-shade)
+			# 战斗演出 E: a step's front edge (toward the camera) a lighter row.
+			if not top_edge and not steps[index].has(cell + Vector2i(0, 1)):
+				colour = colour.lightened(FRONT_EDGE_LIGHTEN)
 			var centre: Vector2 = centre_of(cell)
 			var rest := Vector3(centre.x / VoxelMapGeometry.UNIT, (float(index) + 0.5) * tier_height + _rng.randf_range(-height_jitter, height_jitter), centre.y / VoxelMapGeometry.UNIT)
 			var slot: int = counters[index]
@@ -377,6 +384,74 @@ func _build(seconds_scale: float, short: bool) -> void:
 	set_process(true)
 	if _rows.is_empty() or _laid_at <= 0.0:
 		_finish_laying()
+
+
+const FRONT_EDGE_LIGHTEN: float = 0.22
+const GLOW_SHADER_CODE: String = """
+shader_type spatial;
+render_mode unshaded, blend_add, cull_disabled, depth_draw_never, shadows_disabled, fog_disabled;
+uniform vec4 colour : source_color = vec4(1.0);
+uniform float strength = 0.5;
+void fragment() {
+	// UV.y 0 at the back, 1 at the front edge: brightest at the front, gone by the back third.
+	float rise = smoothstep(0.3, 1.0, UV.y);
+	ALBEDO = colour.rgb * strength * rise;
+}
+"""
+static var _glow_shader: Shader
+
+
+## 战斗演出 E: each half of the top lit in its side's colour from the front edge (the look's
+## `glow`: how strongly, the player's side and the other), the dark seam between them.
+func _sides_glow(look: Dictionary) -> void:
+	if steps.is_empty() or steps.back().is_empty():
+		return
+	var sides: Dictionary = data().get("sides", {})
+	var glow: Dictionary = look.get("glow", {})
+	var top := Rect2(centre_of(steps.back().keys()[0]), Vector2.ZERO)
+	for cell: Vector2i in steps.back():
+		top = top.expand(centre_of(cell) - Vector2(CELL, CELL) / 2.0).expand(centre_of(cell) + Vector2(CELL, CELL) / 2.0)
+	top = Rect2(top.position / VoxelMapGeometry.UNIT, top.size / VoxelMapGeometry.UNIT)
+	var height: float = top_height() + 0.012
+	if _glow_shader == null:
+		_glow_shader = Shader.new()
+		_glow_shader.code = GLOW_SHADER_CODE
+	var holder := Node3D.new()
+	holder.name = "SidesGlow"
+	add_child(holder)
+	_dressing.append(holder)
+	for side: int in 2:
+		var key: String = "mine" if side == 0 else "theirs"
+		var left: float = top.position.x if side == 0 else 0.0
+		var right: float = 0.0 if side == 0 else top.end.x
+		if right - left <= 0.0:
+			continue
+		var plane := PlaneMesh.new()
+		plane.size = Vector2(right - left, top.size.y)
+		var material := ShaderMaterial.new()
+		material.shader = _glow_shader
+		material.set_shader_parameter("colour", Color(String(sides.get(key, "4f8f78" if side == 0 else "c8402a"))))
+		material.set_shader_parameter("strength", float(glow.get(key, 0.4)))
+		plane.material = material
+		var mesh := MeshInstance3D.new()
+		mesh.name = "Glow_" + key
+		mesh.mesh = plane
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mesh.position = Vector3((left + right) / 2.0, height, top.get_center().y)
+		holder.add_child(mesh)
+	var seam: MeshInstance3D = _box(holder, Vector3(0.07, 0.016, top.size.y), Vector3(0.0, height, top.get_center().y), Color(String(sides.get("seam", "140b07"))))
+	seam.name = "Seam"
+
+
+## How strongly each half of the top glows now ([mine, theirs]; tests).
+func glow_strengths() -> Array[float]:
+	var found: Array[float] = []
+	for node: Node3D in _dressing:
+		if is_instance_valid(node) and node.name == "SidesGlow":
+			for key: String in ["mine", "theirs"]:
+				var mesh := node.get_node_or_null("Glow_" + key) as MeshInstance3D
+				found.append(float((mesh.mesh.material as ShaderMaterial).get_shader_parameter("strength")) if mesh != null else 0.0)
+	return found
 
 
 ## The stage's own lamp over its middle (the look's `light`): the fighters read clear over the
@@ -486,6 +561,7 @@ func _dress(look: Dictionary) -> void:
 			for cell: Vector2i in _corners():
 				if steps[0].has(cell):
 					_brazier(cell, look, height)
+	_sides_glow(look)
 	var rubble: int = int(look.get("rubble", 0))
 	if rubble > 0:
 		_rubble(rubble, look.get("rubble_colours", ["4a1712"]))
@@ -600,6 +676,8 @@ func restyle(mode: int, seconds: float) -> void:
 		var top_edge: bool = index == steps.size() - 1 and _on_edge(steps[index], brick[1])
 		var pick: Array = colours[mini(index, colours.size() - 1)] if not colours.is_empty() else ["4a1712"]
 		var to: Color = rim if top_edge else Color(String(pick[_rng.randi_range(0, pick.size() - 1)]))
+		if not top_edge and not steps[index].has(Vector2i(brick[1]) + Vector2i(0, 1)):
+			to = to.lightened(FRONT_EDGE_LIGHTEN)
 		plan_colours.append([brick[4], to, Vector2(brick[1]).distance_to(centre) / reach * seconds * 0.7])
 	_restyle = {"clock": 0.0, "seconds": maxf(0.001, seconds), "colours": plan_colours}
 	set_process(true)

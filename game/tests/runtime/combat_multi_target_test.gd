@@ -233,20 +233,25 @@ func _target_ui(tree: SceneTree) -> void:
 	_check(ui._cards.size() == 3 and ui._cards[0].target_button.disabled, "UI collection/self disabled")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.busy.start_busy(2)
-	await _click(tree, ui._cards[1].target_button)
-	var a: StringName = ui.current_projection().current_target_id
-	_check(a == session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_id, "a real click selects A while busy")
-	await _click(tree, ui.action_panel.first_action_button())
-	await _click(tree, ui._cards[2].target_button)
+	var a: StringName = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].character_id
 	var b: StringName = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_id
-	_check(ui.current_projection().current_target_id == b and ui.current_projection().queued_action().resolved_target_id == a, "clicked current B vs queued A")
-	# DECISIONS「战斗界面」: the current target is the gold border, the planned one a tag.
-	_check((ui._cards[2].get_theme_stylebox("panel") as StyleBoxFlat).border_color == BattleParticipantCard.GOLD and (ui._cards[1].get_theme_stylebox("panel") as StyleBoxFlat).border_color != BattleParticipantCard.GOLD and ui._cards[1]._status.text.contains("已排定目标"), "visibly distinct: gold border vs 已排定目标 tag")
-	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "a target click does not leak to world")
-	ui._cards[1].target_button.grab_focus()
-	await _key(tree, KEY_ENTER, true)
-	await _key(tree, KEY_ENTER, false)
-	_check(ui.current_projection().current_target_id == a, "keyboard accept targets focused card")
+	# 战斗演出 E: the target by the keys (Q / E; a name plate on the stage takes a click); the
+	# right side panel shows the current target, the left the player.
+	for _step: int in 3:
+		if ui.current_projection().current_target_id == a:
+			break
+		await _press(tree, KEY_E)
+	_check(ui.current_projection().current_target_id == a, "E picks A while busy")
+	await _click(tree, ui.action_panel.first_action_button())
+	await _press(tree, KEY_E)
+	_check(ui.current_projection().current_target_id == b and ui.current_projection().queued_action().resolved_target_id == a, "picked current B vs queued A")
+	# The current target is the right panel (its pole's ends gold), the planned one a tag on its card.
+	await _settle(tree)
+	_check(_panel(ui, 1) == ui._cards[2] and ui._cards[2]._chrome.current and ui._cards[1]._status.text.contains("已排定目标"), "visibly distinct: B in the right panel, gold; A's card tagged 已排定目标")
+	_check(_panel(ui, 0) == ui._cards[0], "the player's card the left panel")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "a target key does not leak to world")
+	await _press(tree, KEY_Q)
+	_check(ui.current_projection().current_target_id == a, "Q steps back to A")
 	await _click(tree, ui.log_button)
 	await _press(tree, KEY_BACKSPACE)
 	_check(not ui.log_panel.visible and ui.visible and not tree.paused, "返回 (Backspace) closes the log first")
@@ -258,23 +263,26 @@ func _target_ui(tree: SceneTree) -> void:
 	safe.metrics = _window(Vector2(1280, 720), 1.5)
 	(shell.get_node("SafeAreaPresentation") as SafeAreaPresenter).set_capability(safe)
 	await _settle(tree)
-	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "three cards inside a 16:9 screen at 150%")
-	# 战斗演出 A: three cards do not fit one row at 150%: the player on the left, the enemies on
-	# the right — the current target (A, picked by the keys above) a big card, B a chip.
-	_check(ui._sides.visible and not ui._participants.visible, "three cards at 150%: two sides")
-	_check(not ui._cards[1].is_chip() and ui._cards[2].is_chip() and not ui._cards[0].is_chip(), "the current target (A) and the player big, B a chip: chips %s visible %s" % [ui._cards.map(func(c: BattleParticipantCard) -> bool: return c.is_chip()), ui._cards.map(func(c: BattleParticipantCard) -> bool: return c.visible)])
-	for card: BattleParticipantCard in ui._cards:
-		_check(card.visible and safe.metrics.content_rect().encloses(card.get_global_rect()), "%s wholly inside the screen: %s" % [card.name, card.get_global_rect()])
-	ui._cards[2].target_button.grab_focus()
+	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "the battle inside a 16:9 screen at 150%")
+	# 战斗演出 E: the two side panels (the player; the current target A), B's card not shown.
+	_check(not ui._sides.visible and not ui._participants.visible, "no row of cards")
+	_check(_panel(ui, 0) == ui._cards[0] and _panel(ui, 1) == ui._cards[1] and not ui._cards[2].visible, "the player left, A right, B no card: visible %s" % [ui._cards.map(func(c: BattleParticipantCard) -> bool: return c.visible)])
+	for card: BattleParticipantCard in [ui._cards[0], ui._cards[1]]:
+		_check(safe.metrics.content_rect().encloses(card.get_global_rect()), "%s wholly inside the screen: %s" % [card.name, card.get_global_rect()])
+	await _press(tree, KEY_E)
 	await _settle(tree)
-	_check(safe.metrics.content_rect().encloses(ui._cards[2].target_button.get_global_rect()), "the chip's target button is reachable by focus")
-	_check(ui.current_projection().current_target_id == a, "focus alone is not a gameplay target change")
-	await _key(tree, KEY_ENTER, true)
-	await _key(tree, KEY_ENTER, false)
-	await _settle(tree)
-	_check(ui.current_projection().current_target_id == b and not ui._cards[2].is_chip() and ui._cards[1].is_chip(), "picking the chip makes B the target and its card big, A a chip")
+	_check(ui.current_projection().current_target_id == b and _panel(ui, 1) == ui._cards[2] and not ui._cards[1].visible, "E makes B the target: B's card the right panel, A's not shown")
 	_check(Multi.finish(session), "UI cleanup")
 	shell.free()
 	await _settle(tree, 2)
 	tree.root.size = original
 	tree.root.content_scale_size = scale
+
+
+## 战斗演出 E: the card in the side panel (0 left, 1 right), or null.
+static func _panel(ui: BattlePresentationController, side: int) -> BattleParticipantCard:
+	for child: Node in ui._flank_slots[side].get_children():
+		var card := child as BattleParticipantCard
+		if card != null and card.visible:
+			return card
+	return null
