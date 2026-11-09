@@ -686,7 +686,7 @@
 	],
 	"world_npcs": 794,
 	"resident_maps": 167,
-	"new_game_items": 1185,
+	"new_game_items": 1187,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -1032,7 +1032,7 @@
 	"snow_route": {
 		"inn_npcs": 5,
 		"outdoor_npcs": 21,
-		"items": 26,
+		"items": 28,
 		"draws": 108
 	}
 }
