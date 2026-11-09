@@ -11,6 +11,8 @@ import shutil
 import stat
 import subprocess
 import sys
+import time
+import urllib.error
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -33,15 +35,36 @@ class BootstrapError(RuntimeError):
     """Raised when the pinned toolchain cannot be prepared safely."""
 
 
-def _download(url: str, destination: Path) -> None:
+# GitHub's release downloads time out now and then (HTTP 502/503/504) for runners: a server error
+# or a dropped connection is tried again after these pauses (seconds); a client error is not.
+RETRY_PAUSES = (5, 15, 30, 60, 90)
+
+
+def _download(url: str, destination: Path, pause=time.sleep) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_suffix(destination.suffix + ".part")
-    if temporary.exists():
-        temporary.unlink()
-    print(f"Downloading {url}")
-    with urllib.request.urlopen(url) as response, temporary.open("wb") as output:
-        shutil.copyfileobj(response, output)
-    temporary.replace(destination)
+    for attempt, wait in enumerate((0,) + RETRY_PAUSES):
+        if wait:
+            print(f"Retrying {url} in {wait} s (attempt {attempt + 1})")
+            pause(wait)
+        if temporary.exists():
+            temporary.unlink()
+        print(f"Downloading {url}")
+        try:
+            with urllib.request.urlopen(url, timeout=120) as response, temporary.open("wb") as output:
+                shutil.copyfileobj(response, output)
+        except urllib.error.HTTPError as error:
+            if error.code < 500 and error.code != 429 or attempt == len(RETRY_PAUSES):
+                raise
+            print(f"Download failed: {error}")
+            continue
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
+            if attempt == len(RETRY_PAUSES):
+                raise
+            print(f"Download failed: {error}")
+            continue
+        temporary.replace(destination)
+        return
 
 
 def _parse_sha512_sums(text: str) -> dict[str, str]:

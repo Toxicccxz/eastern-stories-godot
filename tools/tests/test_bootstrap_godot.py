@@ -58,6 +58,40 @@ class BootstrapGodotTest(unittest.TestCase):
             )
         download.assert_not_called()
 
+    def test_download_retries_server_errors_then_succeeds(self) -> None:
+        import io
+        import urllib.error
+
+        attempts: list[str] = []
+
+        def flaky(url: str, timeout: float | None = None):
+            attempts.append(url)
+            if len(attempts) < 3:
+                raise urllib.error.HTTPError(url, 504, "Gateway Time-out", None, None)
+            return io.BytesIO(b"payload")
+
+        pauses: list[float] = []
+        destination = self.root / "file.txt"
+        with mock.patch.object(bootstrap_godot.urllib.request, "urlopen", side_effect=flaky):
+            bootstrap_godot._download("https://example.invalid/file.txt", destination, pause=pauses.append)
+        self.assertEqual(destination.read_bytes(), b"payload")
+        self.assertEqual(len(attempts), 3)
+        self.assertEqual(pauses, list(bootstrap_godot.RETRY_PAUSES[:2]))
+
+    def test_download_does_not_retry_client_errors(self) -> None:
+        import urllib.error
+
+        attempts: list[str] = []
+
+        def missing(url: str, timeout: float | None = None):
+            attempts.append(url)
+            raise urllib.error.HTTPError(url, 404, "Not Found", None, None)
+
+        with mock.patch.object(bootstrap_godot.urllib.request, "urlopen", side_effect=missing):
+            with self.assertRaises(urllib.error.HTTPError):
+                bootstrap_godot._download("https://example.invalid/missing", self.root / "missing", pause=lambda _seconds: None)
+        self.assertEqual(len(attempts), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
