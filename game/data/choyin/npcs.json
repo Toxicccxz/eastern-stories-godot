@@ -383,7 +383,9 @@
 				{ "after": 1, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "emote": "看了看堂下——只有你一个人。" }, { "say": "人证呢？" }] },
 				{ "after": 4, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "接过抄本，对着文书上的印看了半晌。" }, { "say": "纸能证纸，不能证人。你放他走了。" }] },
 				{ "after": 8, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "提笔，停了停，还是写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。" }, { "give": "native:choyin/magistrate_letter" }] },
-				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "退堂。" }, { "mark": "只留了文书" }, { "mark": "程不平写了信" }] }
+				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "退堂。" }, { "mark": "只留了文书" }, { "mark": "程不平写了信" }] },
+				{ "after": 1, "reaction": true, "mark": "替南危水保密", "not_mark": "程不平提过三叔", "npc_in": "choyin.yamen", "steps": [{ "say": "你上过水烟阁？那里有位南五长老——我们程家的人，家里当他死了二十年。……见没见过他，本县不问。" }, { "say": "说吧，你今天来，为的什么事。" }, { "mark": "程不平提过三叔" }] },
+				{ "after": 1, "reaction": true, "mark": "告发了南危水", "not_mark": "程不平提过三叔", "npc_in": "choyin.yamen", "steps": [{ "say": "水烟阁来了消息：南五长老装死二十年，让人告到了长老会。那是我们程家的人。……你来乔阴，是为别的事吧。说。" }, { "mark": "程不平提过三叔" }] }
 			]
 		},
 		{

@@ -628,6 +628,7 @@
 		"native.seal_altar.lihong",
 		"native.seal_altar.shang_jue",
 		"native.seal_altar.lihong_weak",
+		"native.inn.raiders",
 		"native.lakeside.hell_runners",
 		"native.road1.hell_runners",
 		"native.field.hell_runners",
@@ -680,11 +681,12 @@
 		"native.seal_altar.wutian_gui_grown_blazing",
 		"native.square.herald_feng_ce",
 		"native.square.herald_uncle",
-		"native.square.herald_ministry"
+		"native.square.herald_ministry",
+		"native.lakeside.stragglers"
 	],
-	"world_npcs": 790,
+	"world_npcs": 794,
 	"resident_maps": 167,
-	"new_game_items": 1183,
+	"new_game_items": 1187,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -856,7 +858,7 @@
 		"lancheng.terrace": 3
 	},
 	"map_npcs": {
-		"snow.inn": 3,
+		"snow.inn": 5,
 		"snow.outdoor": 21,
 		"snow.inn_upstairs": 6,
 		"snow.cellar": 0,
@@ -957,7 +959,7 @@
 		"canyon.bamboo": 0,
 		"canyon.stoneroom": 0,
 		"canyon.camp": 14,
-		"village.main": 41,
+		"village.main": 43,
 		"village.midlake": 0,
 		"village.icecave": 13,
 		"village.seal_chamber": 16,
@@ -1028,9 +1030,9 @@
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {
-		"inn_npcs": 3,
+		"inn_npcs": 5,
 		"outdoor_npcs": 21,
-		"items": 26,
+		"items": 28,
 		"draws": 108
 	}
 }
