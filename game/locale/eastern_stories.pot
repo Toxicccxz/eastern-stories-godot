@@ -15505,6 +15505,45 @@ msgstr ""
 msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
 msgstr ""
 
+#. common.npc.swordsman.master inquiry topic
+#. native.npc.lan_weng inquiry topic
+#. native:snow/old_letter name
+#: data/common/npcs.json data/lancheng/npcs.json data/native/items.json
+msgid "荐信"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.荐信.rules.say
+#: data/common/npcs.json
+msgid "老岑的信，你留着。末一行我不认得——他说过他在山里见过一座城，我只当是饿昏了的话。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.荐信.rules.lines.emote
+#: data/common/npcs.json
+msgid "接过信，看了很久，又折好还给你。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.荐信.rules.lines.say
+#: data/common/npcs.json
+msgid "老岑……二十多年前我在山里迷了路，三天没吃东西，是个砍柴的老人领我下的山。他不识几个字——这封信，他写了多久啊。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.荐信.rules.lines.say
+#: data/common/npcs.json
+msgid "他托你来，武馆的门你随时进。拜不拜师，你自己定。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.荐信.rules.lines.say
+#: data/common/npcs.json
+msgid "末一行我不认得。他说过他在山里见过一座城，铃声满耳……我只当是饿昏了的话。你收好。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.荐信.rules.say
+#. canyon.npc.general inquiry.信.rules.say
+#. native.npc.lan_weng inquiry.荐信.rules.say
+#: data/common/npcs.json data/canyon/npcs.json data/lancheng/npcs.json
+msgid "什么信？"
+msgstr ""
+
 #. common.npc.swordsman.master inquiry.水烟阁.rules.say
 #: data/common/npcs.json
 msgid "信已经给你了。去水烟阁找潘军禅，他是我的结拜义弟，见信如见我。"
@@ -15513,6 +15552,11 @@ msgstr ""
 #. common.npc.swordsman.master inquiry.水烟阁.rules.lines.emote
 #: data/common/npcs.json
 msgid "听你说完山洞里的事，沉默了半晌。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
+#: data/common/npcs.json
+msgid "洞里那个道士，是你杀的？……头一回手上沾血，夜里睡得着就好。睡不着，来武馆找我，我陪你坐一坐。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
@@ -19200,7 +19244,7 @@ msgstr ""
 
 #. main.chapter2/choice objective
 #: data/story/chapter2.json
-msgid "替南危水保密，还是告诉七长老颜违？"
+msgid "替南危水保密（他欠你一个人情，到了关北替你引见他哥哥槐阳王），还是告诉七长老颜违（颜违借这件事坐稳代盟主，南危水不会再和你同路）？"
 msgstr ""
 
 #. main.chapter2/choice/keep text
@@ -19215,7 +19259,7 @@ msgstr ""
 
 #. main.chapter2/choice/tell text
 #: data/story/chapter2.json
-msgid "你把南危水的事告诉了七长老颜违。颜违当日便以代盟主自居；南危水先你一步去了关北。"
+msgid "你把南危水的事告诉了七长老颜违。颜违当日便以代盟主自居；南危水闭门不出，水烟阁来信告诉了关北。"
 msgstr ""
 
 #. main.chapter2/choice/tell reward.deed
@@ -19560,7 +19604,7 @@ msgstr ""
 
 #. main.chapter4/choice objective
 #: data/story/chapter4.json
-msgid "宝衣到手。交回瑷伦守到决战，交给安妮儿，或者带着它走出晚月庄的大门。"
+msgid "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事。"
 msgstr ""
 
 #. main.chapter4/choice/to_annie text
@@ -19747,7 +19791,7 @@ msgstr ""
 
 #. main.chapter6/seal text
 #: data/story/chapter6.json
-msgid "印模上的朱砂正红、泛黄光；兵部文书上的印色暗红发黑。字口一笔不差，只差一个颜色。你记住了这个颜色。"
+msgid "印模上的朱砂正红、泛黄光；兵部文书上那方「镇国大将军」印暗红发黑。字口一笔不差，只差一个颜色：兵部的文书是真的，镇国大将军的印是照模子浇的，令是兵部添的。"
 msgstr ""
 
 #. main.chapter6/gate objective
@@ -19897,7 +19941,7 @@ msgstr ""
 
 #. main.chapter7/side objective
 #: data/story/chapter7.json
-msgid "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，过早川一刀，让浪人替你偷牒）？"
+msgid "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，过早川一刀，让浪人替你偷牒——浪人会作证，市舶司就把大秦人清出番坊）？"
 msgstr ""
 
 #. main.chapter7/side/rome text
@@ -20218,7 +20262,7 @@ msgstr ""
 
 #. main.chapter10/choice objective
 #: data/story/chapter10.json
-msgid "云台：谁拔旋芒——你自己（十铃里要响五口，先接岚翁的接风三刃）、皇叔（要他已经入朝）、萧辟尘（要带着他的风铃）。"
+msgid "云台：谁拔旋芒——你自己（十铃里要响六口，先接岚翁的接风三刃）、皇叔（要他已经入朝）、萧辟尘（要带着他的风铃）。"
 msgstr ""
 
 #. main.chapter10/choice/self text
@@ -20328,12 +20372,12 @@ msgstr ""
 
 #. main.finale/end objective
 #: data/story/finale.json
-msgid "最后一下：三器齐、人够，就钉下去灭了它；不然把穿灵交给一个肯留下的人，再封。"
+msgid "最后一下：三器齐、人够，可以钉下去灭了它——宝衣会烧掉；也可以把穿灵交给一个肯留下的人，再封。"
 msgstr ""
 
 #. main.finale/end/slay text
 #: data/story/finale.json
-msgid "旋芒斩它，宝衣挡它的黑焰，穿灵钉它的头。侮天鬼灭了。"
+msgid "旋芒斩它，宝衣挡它的黑焰，穿灵钉它的头。侮天鬼灭了，宝衣烧成了灰。"
 msgstr ""
 
 #. main.finale/end/slay reward.deed
@@ -21558,14 +21602,34 @@ msgstr ""
 msgid "官爷"
 msgstr ""
 
-#. snow.npc.waiter inquiry.官爷
+#. snow.npc.waiter inquiry.官爷.rules.lines.say
 #: data/snow/npcs.json
 msgid "外头广场上来了官爷，一队白衣的武官，还有两位老者坐着，说是大内来的高手。这位$RESPECT要是闲，去瞧瞧热闹也好。"
 msgstr ""
 
-#. snow.npc.waiter inquiry.官爷
+#. snow.npc.waiter inquiry.官爷.rules.lines.say
 #: data/snow/npcs.json
 msgid "小哥您有所不知，这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.官爷.rules.lines.say
+#: data/snow/npcs.json
+msgid "$RESPECT醒啦？您昨儿傍晚才到，说是来投淳风武馆的，饭没吃完就困得睁不开眼，是小的扶您上的楼。这封信落在桌上了，小的替您收着呢。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.官爷.rules.lines.emote
+#: data/snow/npcs.json
+msgid "从柜台底下摸出一封折了又折的信，递给你。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.官爷.rules.lines.say
+#: data/snow/npcs.json
+msgid "对了，外头广场上来了官爷，一队白衣的武官，还有两位老者坐着，说是大内来的高手。$RESPECT要是闲，去瞧瞧热闹也好。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.官爷.rules.lines.say
+#: data/snow/npcs.json
+msgid "这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
 msgstr ""
 
 #. snow.npc.annihir title
@@ -23367,6 +23431,7 @@ msgstr ""
 #. es2:d/latemoon/room/npc/obj/letter unit
 #. es2:u/cloud/npc/obj/letter unit
 #. native:snow/letter_to_chen unit
+#. native:snow/old_letter unit
 #. native:snow/letter_to_pan unit
 #. native:choyin/magistrate_letter unit
 #. native:city/courier_letter unit
@@ -33301,11 +33366,6 @@ msgstr ""
 msgid "出关往北，谷地东壁有一道关门，我的兵守着。凭这封信，他们放你。关北是槐阳王的地界，到了那边，别提我。"
 msgstr ""
 
-#. canyon.npc.general inquiry.信.rules.say
-#: data/canyon/npcs.json
-msgid "什么信？"
-msgstr ""
-
 #. canyon.npc.general inquiry.程不平.rules.say
 #: data/canyon/npcs.json
 msgid "老王爷的侄子，清贫廉正，榜中探花——书读多了的人才敢写那种信。"
@@ -35365,7 +35425,8 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "钉下去？\n"
-"旋芒斩它，宝衣挡它最后一口黑焰，穿灵钉它的头——灭了它。"
+"旋芒斩它，宝衣挡它最后一口黑焰，穿灵钉它的头——灭了它。宝衣挡完那一口，就烧成灰了。\n"
+"不钉，就问一个肯留下的人「留下」：它还在冰下封着，宝衣还在，那人留在冰里。"
 msgstr ""
 
 #. village.seal_altar.nail act.acts.steps.line
@@ -35404,6 +35465,12 @@ msgstr ""
 #. village.seal_altar.nail act.acts.steps.emote
 #: data/village/world.json
 msgid "把宝衣的下摆一展，挡在你前头。最后一口黑焰散了。"
+msgstr ""
+
+#. village.seal_altar.nail act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"挡完这一口，宝衣的下摆烧没了。火一寸一寸往上走，整件衣裳化成了灰。寒於留它三百年，就为挡这一下。\n"
 msgstr ""
 
 #. village.seal_altar.nail act.acts.steps.line
@@ -35949,6 +36016,7 @@ msgstr ""
 #. native.npc.lu_sun inquiry topic
 #. native.npc.wei_zhizhong inquiry topic
 #. native.npc.yu_zijian_court name
+#. native.npc.wei_canglan inquiry topic
 #. native.npc.yu_zijian_accused name
 #. native.npc.yu_zijian_drawn name
 #. native.npc.yu_zijian_lake name
@@ -36014,6 +36082,16 @@ msgstr ""
 #. city.npc.shangshu.shangshu accept_object.lines.emote
 #: data/city/npcs.json
 msgid "接过诏书，看也没看，一抬手扔进了火盆。火苗「呼」地窜起来，黄绫卷成了灰。"
+msgstr ""
+
+#. city.npc.shangshu.shangshu accept_object.lines.say
+#: data/city/npcs.json
+msgid "你以为老夫要的是权？权，老夫有了。皇上怕我，朝里一半的人听我——可那是怕，不是服。"
+msgstr ""
+
+#. city.npc.shangshu.shangshu accept_object.lines.say
+#: data/city/npcs.json
+msgid "谁握着那把能救天下的剑，谁就是天下的恩人。恩人说话，皇上只能听，天下也只能听。老夫要的是这个——名正言顺。"
 msgstr ""
 
 #. city.npc.shangshu.shangshu accept_object.lines.say
@@ -41886,7 +41964,7 @@ msgstr ""
 #. native:canyon/seal_mould act.acts.steps.line
 #: data/guanbei/items.json
 msgid ""
-"你把印模翻过来，按在兵部文书末尾那方大印旁边，对着光看。\n"
+"你把印模翻过来，按在兵部文书末尾那方「镇国大将军」印旁边，对着光看。\n"
 msgstr ""
 
 #. native:canyon/seal_mould act.acts.steps.line
@@ -41904,7 +41982,13 @@ msgstr ""
 #. native:canyon/seal_mould act.acts.steps.line
 #: data/guanbei/items.json
 msgid ""
-"你记住了这个颜色。往后再见到兵部的印，一眼就能看出是哪一方盖的。\n"
+"你想明白了：文书上兵部自己的印是真的——文书确实出自兵部；旁边这方「镇国大将军」印是照赫造基卖出去的模子浇的，严廷殷从没盖过。兵部借镇国大将军的名头设卡拿人，令是在先帝那一句后头添的；人，就是拿这样的文书抓走的。\n"
+msgstr ""
+
+#. native:canyon/seal_mould act.acts.steps.line
+#: data/guanbei/items.json
+msgid ""
+"你记住了这个颜色。往后再见到这方印，一眼就能看出是哪一颗盖的。\n"
 msgstr ""
 
 #. native:canyon/seal_mould act.acts.steps.line
@@ -48288,6 +48372,11 @@ msgstr ""
 msgid "记载上写着：岚城人出城都带一只铃，铃上刻着名字。铃在，风认人；铃丢了，人就回不去了。"
 msgstr ""
 
+#. native.npc.wei_canglan inquiry.庾子建
+#: data/imperial/npcs.json
+msgid "他留着老夫，不杀不放，是要水烟阁一直有个「盟主还活着」的念想——盟主在，阁里就不另立；不另立，武林就没有一个能说话的人。二十年，他来过三回，每回只问一句：岚城的记载，还有没有没抄全的。"
+msgstr ""
+
 #. native.npc.wei_canglan inquiry topic
 #: data/imperial/npcs.json
 msgid "诗集"
@@ -48831,7 +48920,7 @@ msgstr ""
 #. imperial.study.desk act.acts.steps.lines.line
 #: data/imperial/world.json
 msgid ""
-"皇帝从樟木匣底抽出一页发黄的纸递给你：「父皇的手札。樵夫进过岚城——你拿着。」\n"
+"皇帝从樟木匣底抽出一页发黄的纸递给你：「父皇的手札。樵夫进过岚城——你拿着。寻剑的事，父皇没办完；朕交给你了。」\n"
 msgstr ""
 
 #. imperial.study.desk act.acts.steps.line
@@ -48922,6 +49011,12 @@ msgstr ""
 #: data/imperial/world.json
 msgid ""
 "（关北踏平了工地：揭发要原令加三样人证物证——乔阴陈显祖的证词、卫沧澜、小屋里那人身上的密信、逆灵宫的账册。）\n"
+msgstr ""
+
+#. imperial.front_hall.expose act.acts.steps.line
+#: data/imperial/world.json
+msgid ""
+"（陈显祖带着箱子走了——他的证词，这回算不上。）\n"
 msgstr ""
 
 #. imperial.front_hall.expose act.acts.steps.line
@@ -49221,12 +49316,37 @@ msgstr ""
 
 #. native.npc.lan_weng inquiry.谁拔.rules.say
 #: data/lancheng/npcs.json
-msgid "剑在云台，自己转着。谁能拔，不是我说了算。响够一半的铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。西墙那道梯子上去，就是云台。"
+msgid "剑在云台，自己转着。谁能拔，不是我说了算。响够六口铃，你自己可以试；不够，就请一个信得过的人来——风会替你去叫。西墙那道梯子上去，就是云台。"
 msgstr ""
 
 #. native.npc.lan_weng inquiry.岚城
 #: data/lancheng/npcs.json
 msgid "岚城不在哪里。风在哪里停，它就在哪里。你们叫它寻风而至，寻风而逝——说得不错。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.荐信.rules.say
+#: data/lancheng/npcs.json
+msgid "风停处，替我再看一眼。——他让你看的，你看过了。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.荐信.rules.lines.emote
+#: data/lancheng/npcs.json
+msgid "接过信，只看了末一行，嘴角动了一下。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.荐信.rules.lines.say
+#: data/lancheng/npcs.json
+msgid "这是风纹，岚城的字。写的是：「风停处，替我再看一眼。」"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.荐信.rules.lines.say
+#: data/lancheng/npcs.json
+msgid "那个砍柴的。他在城里住了三天，走的时候问我要了这几个字，说出去以后怕忘了。——他没忘。"
+msgstr ""
+
+#. native.npc.lan_weng inquiry.荐信.rules.lines.emote
+#: data/lancheng/npcs.json
+msgid "把信还给你。"
 msgstr ""
 
 #. native.npc.lan_weng inquiry.萧辟尘.rules.say
@@ -49477,7 +49597,7 @@ msgstr ""
 
 #. native.npc.lan_weng_terrace inquiry.谁拔.rules.say
 #: data/lancheng/npcs.json
-msgid "你自己拔，要十口铃里五口有人信你。请於兰家的人，要他在朝上，风才找得到他。让萧家的孩子来，要他的铃——铃在，风认人。"
+msgid "你自己拔，要十口铃里六口有人信你。请於兰家的人，要他在朝上，风才找得到他。让萧家的孩子来，要他的铃——铃在，风认人。"
 msgstr ""
 
 #. native.npc.lan_weng_terrace inquiry.铃
@@ -50211,31 +50331,37 @@ msgstr ""
 #. lancheng.whirl.self act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
-"（十铃架上响了四口铃，还差一口：自己拔，要五处以上有人信你。）\n"
+"（十铃架上响了五口铃，还差一口：自己拔，要六处以上有人信你。）\n"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
-"（十铃架上响了三口铃，还差两口：自己拔，要五处以上有人信你。）\n"
+"（十铃架上响了四口铃，还差两口：自己拔，要六处以上有人信你。）\n"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
-"（十铃架上响了两口铃，还差三口：自己拔，要五处以上有人信你。）\n"
+"（十铃架上响了三口铃，还差三口：自己拔，要六处以上有人信你。）\n"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
-"（十铃架上响了一口铃，还差四口：自己拔，要五处以上有人信你。）\n"
+"（十铃架上响了两口铃，还差四口：自己拔，要六处以上有人信你。）\n"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.line
 #: data/lancheng/world.json
 msgid ""
-"（十铃架上一口铃也没响：自己拔，要五处以上有人信你。）\n"
+"（十铃架上响了一口铃，还差五口：自己拔，要六处以上有人信你。）\n"
+msgstr ""
+
+#. lancheng.whirl.self act.acts.steps.line
+#: data/lancheng/world.json
+msgid ""
+"（十铃架上一口铃也没响：自己拔，要六处以上有人信你。）\n"
 msgstr ""
 
 #. lancheng.whirl.uncle act.verb
@@ -50555,6 +50681,11 @@ msgstr ""
 
 #. native.npc.feng_ce inquiry.寻剑.rules.lines.say
 #: data/native/npcs.json
+msgid "奉旨寻剑。先帝没寻到的那一把，皇上要寻到。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.寻剑.rules.lines.say
+#: data/native/npcs.json
 msgid "大声点，让众位兄弟都听见了。"
 msgstr ""
 
@@ -50697,7 +50828,7 @@ msgstr ""
 
 #. native.npc.bai_daozhang inquiry.风铃
 #: data/native/npcs.json
-msgid "岚城的东西，岚城的风才送得到。老道只知道这些。"
+msgid "二十年前一阵怪风过隘口，风停的地方落下这只铃，还有一个哭着的孩子。孩子让过路的江湖人领走了；铃，老道不敢留在观里——寻风的东西，就封进石匣，埋回风停的地方。"
 msgstr ""
 
 #. native.npc.bai_daozhang inquiry.黑衣道士
@@ -50707,7 +50838,7 @@ msgstr ""
 
 #. native.npc.bai_daozhang inquiry.寻剑
 #: data/native/npcs.json
-msgid "冯总教头奉旨寻的是旋芒宝剑。老道陪他走这一趟，是怕他们挖出不该挖的东西。"
+msgid "冯总教头奉旨寻的是旋芒宝剑。皇上要寻岚城，满朝只有老道知道岚城的东西埋在哪儿——老道不说，他们挖遍西南也要挖；说了，老道还能在旁边看着。"
 msgstr ""
 
 #. native.npc.bai_daozhang inquiry.老松寨
@@ -50767,7 +50898,7 @@ msgstr ""
 
 #. native.npc.bai_daozhang calls.steps.say
 #: data/native/npcs.json
-msgid "小友，那道士往老松岭去了。他慌忙间掉了一块布条——你拾起来看看，那上头是老松寨的记号。"
+msgid "小友，那道士往老松岭去了。官军追的是人——那种人翻山比猴子快，他们追不上。他慌忙间掉的那块布条倒会说话：你拾起来看看，那上头是老松寨的记号。"
 msgstr ""
 
 #. native.npc.black_taoist_pass long
@@ -51395,9 +51526,19 @@ msgstr ""
 msgid "拔"
 msgstr ""
 
-#. native.npc.shang_jue_lake inquiry.拔.rules.say
+#. native.npc.shang_jue_lake inquiry.拔.rules.lines.say
 #: data/native/npcs.json
 msgid "商玦看着冰里的头：拔了它。钉着，它是一颗头；拔了，它是一个东西——有形的东西才打得死。"
+msgstr ""
+
+#. native.npc.shang_jue_lake inquiry.拔.rules.lines.emote
+#: data/native/npcs.json
+msgid "抬起右手给你看：掌心一片焦黑，像握过烧红的铁。"
+msgstr ""
+
+#. native.npc.shang_jue_lake inquiry.拔.rules.lines.say
+#: data/native/npcs.json
+msgid "我试过。寒於的剑认干净的手——修过逆灵天书的人碰它，就是这个样子。所以要你来。"
 msgstr ""
 
 #. native.npc.shang_jue_lake inquiry.头.rules.say
@@ -52306,6 +52447,14 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一面黄铜腰牌，正面铸着一只展翅的金乌，背面刻着「水烟阁」三字和一个「岭」字。铜面发黑，边角磨得发亮，不知在谁身上挂了多少年。\n"
+msgstr ""
+
+#. native:snow/old_letter long
+#: data/native/items.json
+msgid ""
+"一封折了又折的信，信封上写着「雪亭镇淳风武馆 柳馆主 亲启」，字歪歪扭扭，一看就是不常拿笔的手。\n"
+"信里写：「柳爷：当年您在山里迷了路，是小老儿领您下的山。如今小老儿要走了，这孩子没处去，求您收下。山里老岑。」\n"
+"末一行不是字，是几道弯弯的纹，像风。\n"
 msgstr ""
 
 #. native:snow/letter_to_pan name

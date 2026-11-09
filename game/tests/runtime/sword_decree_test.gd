@@ -53,7 +53,7 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	var waiter: NpcRuntimeState = _npc_of(session, &"snow.npc.waiter")
 	_check(map.select_npc(waiter.character_id) and map.ask_topics_selected().has("官爷"), "店小二 in reach, 官爷 to ask: %s" % [map.ask_topics_selected()])
 	var said: Array[String] = map.ask_selected("官爷")
-	_check(said.size() == 3 and said[1].contains("外头广场上来了官爷") and said[2].contains("旋芒宝剑"), "the waiter's two lines: %s" % [said])
+	_check(said.any(func(line: String) -> bool: return line.contains("这封信落在桌上")) and said.any(func(line: String) -> bool: return line.contains("外头广场上来了官爷")) and said.any(func(line: String) -> bool: return line.contains("旋芒宝剑")) and said[-1].contains("荐信"), "the 荐信 handed back, then the waiter's two lines: %s" % [said])
 	_check(state.quests.has("main.prologue/waiter") and StoryQuestLog.objective(state, quests) == "去镇前的广场，看看官爷们在做什么。", "recorded at the ask; on to the square: %s" % [state.quests])
 	_check(ui.log_lines().has("【见闻】店小二说外头广场上来了大内的官爷，叫你去瞧瞧。") and ui.log_lines().has("下一步：去镇前的广场，看看官爷们在做什么。"), "told with its next")
 	# The square: 冯策 asked about 寻剑 is the official way; the onlooker's way is then closed.
@@ -72,7 +72,7 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(map.select_npc(feng.character_id), "冯策 in reach")
 	var deeds_before: int = state.deeds.size()
 	said = map.ask_selected("寻剑")
-	_check(said.size() == 3 and said[1].contains("大声点，让众位兄弟都听见了") and said[2].contains("西南二十四里，黄石隘口"), "冯策's order and the courier's answer: %s" % [said])
+	_check(said.size() == 4 and said[1].contains("奉旨寻剑") and said[2].contains("大声点，让众位兄弟都听见了") and said[3].contains("西南二十四里，黄石隘口"), "冯策's order and the courier's answer: %s" % [said])
 	_check(state.quests.has("main.prologue/square/official") and not state.quests.has("main.prologue/square/crowd") and StoryQuestLog.objective(state, quests) == "去西南二十四里的黄石隘口，看他们找什么。", "the official way taken: %s" % [state.quests])
 	_check(state.deeds.size() == deeds_before + 1 and state.deeds[-1].did == "在广场上当面向大内的总教头问了寻剑的事" and state.deeds[-1].where == &"snow.square" and state.deeds[-1].seen_by.has(&"native.npc.feng_ce") and state.deeds[-1].seen_by.has(&"native.npc.onlooker"), "the deed, seen by those on the square: %s" % [state.deeds[-1].seen_by if state.deeds.size() > deeds_before else []])
 	_check(ui.log_lines().any(func(line: String) -> bool: return line.begins_with("【事迹】在广场上当面向大内的总教头问了寻剑的事（在") and line.contains("冯策")), "told as a 【事迹】 line with who saw: %s" % [ui.log_lines().slice(maxi(0, ui.log_lines().size() - 4))])
