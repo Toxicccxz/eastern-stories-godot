@@ -213,33 +213,23 @@ func physical_tests(tree: SceneTree) -> void:
 	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.school1"]), "up the street and in at the school entrance")
 	check(session.player_runtime().world_location().zone_id == &"snow.school1", "physical school1")
+	# The 红漆大门 stands open for good (DECISIONS「武馆大门常开」): nothing to work, on either map.
 	var gate: CollisionShape2D = MapPlaces.door_wall(map, &"snow.school.gate")
+	check(map.door(&"snow.school.gate").is_open() and compound.door(&"snow.school.gate").is_open() and gate.disabled, "the red gate stands open (one door, two maps)")
 	check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "up to the red gate")
-	await MapPlaces.push(tree, &"move_right", 30)
-	check(map.player_body.position.x < gate.global_position.x - 16.0 and not map.door(&"snow.school.gate").is_open() and session.active_map() == map, "closed real collision")
-	check(map.open_door(&"snow.school.gate"),"open west")
-	await tree.physics_frame
-	check(gate.disabled and TerrainProbe.blocks_at(map, gate.global_position + Vector2(48, -80)),"only door collision disabled: the compound's wall stands")
+	check(not map.can_operate_door(&"snow.school.gate") and not map.close_door(&"snow.school.gate"), "nothing to open or shut")
+	check(TerrainProbe.blocks_at(map, gate.global_position + Vector2(48, -80)), "the compound's wall stands beside the gateway")
 	check(not MapPlacementValidator.is_valid_character_position(map,&"snow.school1",gate.global_position),"open doorway save rejected")
-	check(compound.door(&"snow.school.gate").is_open(), "opened from the street, open inside too (one door, two maps)")
 	check(await MapPlaces.take_passage(tree, map, &"snow.school1.east"), "through into the yard")
 	await tree.physics_frame
 	await tree.physics_frame
 	check(session.active_map() == compound and session.player_runtime().world_location().zone_id == &"snow.school2", "in the practice yard, the 武馆's own map")
-	var inner_gate: CollisionShape2D = MapPlaces.door_wall(compound, &"snow.school.gate")
 	check(await MapPlaces.drive(tree, compound, MapPlaces.door_spot(compound, &"snow.school.gate", &"snow.school2")), "beside the gate inside")
-	check(compound.close_door(&"snow.school.gate"),"close east")
-	await tree.physics_frame
-	check(not inner_gate.disabled and not map.door(&"snow.school.gate").is_open(),"close collision restored, shut on the street too")
-	await MapPlaces.push(tree, &"move_left", 30)
-	check(compound.player_body.position.x > inner_gate.global_position.x + 16.0 and session.active_map() == compound,"inside closed blocks")
-	check(compound.open_door(&"snow.school.gate"),"open east")
+	check(not compound.can_operate_door(&"snow.school.gate") and not compound.close_door(&"snow.school.gate"), "nor from inside")
 	check(await MapPlaces.take_passage(tree, compound, &"snow.school2.west"), "back through the gate")
 	await tree.physics_frame
 	await tree.physics_frame
 	check(session.active_map() == map and session.player_runtime().world_location().zone_id == &"snow.school1", "back in the gate court")
-	check(map.close_door(&"snow.school.gate"),"close west")
-	check(map.open_door(&"snow.school.gate"),"reopen west")
 	check(await MapPlaces.take_passage(tree, map, &"snow.school1.east"), "in again")
 	await tree.physics_frame
 	await tree.physics_frame

@@ -22,7 +22,7 @@
 				{
 					"id": "gate",
 					"objective": "过老松寨的寨门：留下买路钱、叫阵，或者打进去。",
-					"target": { "map": "oldpine.outdoor", "zone": "oldpine.outdoor.keep_gate" },
+					"target": { "map": "oldpine.outdoor", "zone": "oldpine.outdoor.keep_gate", "npcs": ["oldpine.npc.bandit_guard"] },
 					"options": [
 						{
 							"id": "pay",
@@ -47,7 +47,7 @@
 				{
 					"id": "boss",
 					"objective": "到聚义厅找常老大，问黑衣道士的去向。",
-					"target": { "map": "oldpine.keep_hall", "zone": "oldpine.outdoor.keep_hall" },
+					"target": { "map": "oldpine.keep_hall", "zone": "oldpine.outdoor.keep_hall", "npcs": ["oldpine.npc.bandit_commander"] },
 					"options": [
 						{
 							"id": "talk",
@@ -74,7 +74,7 @@
 					"objective": "拦住黑衣道士。",
 					"done": { "mark": "黑衣道士倒了" },
 					"text": "黑衣道士落败，石匣还锁着，留在洞里。",
-					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth" }
+					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth", "npcs": ["native.npc.black_taoist"] }
 				},
 				{
 					"id": "wall",

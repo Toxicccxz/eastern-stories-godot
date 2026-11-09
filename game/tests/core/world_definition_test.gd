@@ -199,7 +199,7 @@ func _test_services_and_doors() -> void:
 		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)
 	_assert_true(catalog.services_for_map(SnowWorld.INN_MAP_ID).is_empty(), "the Inn has no room service")
 	var gate: DoorDefinition = catalog.door(&"snow.school.gate")
-	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable], ["红漆大门", [&"snow.school1", &"snow.school2"], true], "school1.c create_door")
+	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable, gate.starts_open], ["红漆大门", [&"snow.school1", &"snow.school2"], false, true], "school1.c create_door, standing open for good (DECISIONS「武馆大门常开」)")
 	var hockshop: DoorDefinition = catalog.door(&"snow.hockshop.door")
 	_assert_eq([hockshop.map_id, hockshop.map_ids(), hockshop.closable], [SnowWorld.OUTDOOR_MAP_ID, [SnowWorld.OUTDOOR_MAP_ID, &"snow.hockshop_house"], false], "pawn shop door is open-only, on its portal from the street into the shop's own map")
 	_assert_eq(gate.map_ids(), [SnowWorld.OUTDOOR_MAP_ID, &"snow.school_compound"], "the red gate stands on the way from the gate court into the 武馆")

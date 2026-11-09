@@ -14,7 +14,7 @@
 				{
 					"id": "lead",
 					"objective": "黑衣道士往野羊山北麓去了。去打听北麓的道观：野羊寨的黄霸在山路边的土地庙里；淳风武馆的门房刘安禄也知道——若他肯说。",
-					"target": { "map": "goathill.temple_house", "zone": "goathill.temple1" },
+					"target": { "map": "goathill.temple_house", "zone": "goathill.temple1", "npcs": ["goathill.npc.bandit_hwang"] },
 					"options": [
 						{
 							"id": "liu",
@@ -186,7 +186,8 @@
 					"text": "黄霸跪下让位，霍铮派弟兄送石头回傅家坡。野羊寨欠你一条命。",
 					"target": {
 						"map": "goathill.temple_house",
-						"zone": "goathill.temple1"
+						"zone": "goathill.temple1",
+						"npcs": ["goathill.npc.bandit_hwang", "native.npc.huo_zheng", "native.npc.liu_anlu_home"]
 					}
 				},
 				{
@@ -199,7 +200,8 @@
 					"text": "商玦割断绳索下了崖。玄冥子断后，和你一战，倒在崖径上；逆灵天书的残卷落在他身边。",
 					"target": {
 						"map": "niling.backhill",
-						"zone": "niling.cliff_path"
+						"zone": "niling.cliff_path",
+						"npcs": ["native.npc.xuan_mingzi_cliff"]
 					}
 				}
 			],

@@ -154,8 +154,8 @@ func physical_test(tree: SceneTree) -> bool:
 	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	var snow: WorldMapController = session.active_map() as WorldMapController
 	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1", &"snow.school1"]), "up the street and in at the school entrance")
-	# The inner court is another map since the remap; its way in is the school gate's portal, which the shut gate bounds.
-	check(session.player_runtime().world_location().zone_id == &"snow.school1" and not snow.door(&"snow.school.gate").is_open() and not await MapPlaces.take_passage(tree, snow, &"snow.school1.east", 240) and session.active_map() == snow and session.player_runtime().world_location().zone_id == &"snow.school1", "P2 school entrance opens east; inner closed gate still bounds travel")
+	# The inner court is another map since the remap; its way in is the school gate's portal, the gate standing open (DECISIONS「武馆大门常开」).
+	check(session.player_runtime().world_location().zone_id == &"snow.school1" and snow.door(&"snow.school.gate").is_open(), "P2 school entrance; the red gate stands open")
 	check(await MapPlaces.take_passage(tree, snow, &"snow.mstreet1.west"), "back out and west into the bank's door")
 	await tree.physics_frame
 	await tree.physics_frame

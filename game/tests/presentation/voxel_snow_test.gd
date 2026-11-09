@@ -162,7 +162,17 @@ func _check_door_looks(view: WorldVoxelView) -> void:
 		for node: Node in swung.find_children("*", "Label3D", true, false):
 			still_read = still_read or ((node as Label3D).text == tr("当") and (node as Label3D).global_transform.basis.z.normalized().z > 0.9)
 	_check(still_read, "the pawnshop's door standing open still shows its 当 to the street")
-	_check(view.shutters.has(&"snow.school.gate"), "the 武馆's red gate is drawn")
+	_check(view.shutters.has(&"snow.school.gate") and view.opened.has(&"snow.school.gate"), "the 武馆's red gate is drawn, and drawn standing open (DECISIONS「武馆大门常开」)")
+	# One arrow on one way: the gate's own gives way while the passage through it shows its arrow.
+	var gate_arrow: Node3D = view.arrows.get(&"snow.school.gate")
+	_check(gate_arrow != null and (gate_arrow.get_meta("passages", []) as Array).has(&"snow.school1.east"), "the gate knows the passage through it")
+	if gate_arrow != null and view.entrances.has(&"snow.school1.east"):
+		var entrance: Node3D = view.entrances[&"snow.school1.east"]["node"]
+		var shown: bool = entrance.visible
+		entrance.visible = true
+		view._bob_arrows(0.0)
+		_check(not gate_arrow.visible, "no second arrow over the gate while the passage's shows")
+		entrance.visible = shown
 
 
 ## The smithy's forge lights its doorway, more by night than by day.

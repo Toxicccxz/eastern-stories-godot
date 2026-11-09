@@ -22,7 +22,8 @@
 					"text": "严廷殷看了信：兵部的印是真的，令不是先帝的——这话他不敢说。他的印丢过一回，找回来了；那三天的事，军师比他清楚。",
 					"target": {
 						"map": "canyon.camp",
-						"zone": "canyon.camp8"
+						"zone": "canyon.camp8",
+						"npcs": ["canyon.npc.general"]
 					}
 				},
 				{
@@ -34,7 +35,8 @@
 					"text": "赫造基收了八两银子：真印丢的那几天他拓了模子，卖了一份给兵部来的人。留着的那一份印模，他给了你。",
 					"target": {
 						"map": "canyon.camp",
-						"zone": "canyon.camp8"
+						"zone": "canyon.camp8",
+						"npcs": ["canyon.npc.adviser"]
 					}
 				},
 				{
@@ -58,7 +60,8 @@
 					"text": "关门兵放了行。门后的军道绕过骆驼东峰往北折。",
 					"target": {
 						"map": "canyon.pass",
-						"zone": "canyon.canyon7"
+						"zone": "canyon.canyon7",
+						"npcs": ["native.npc.pass_gate_soldier"]
 					}
 				},
 				{
@@ -94,7 +97,8 @@
 					"text": "程朔读了信：兵部的印是真的，令不是先帝的——他早说了。失踪的人在草原东边兵部的工地上挖一座古冢，挖不动的让道士的车接走。两条路：借他的兵踏平，或者让郭承带你夜里进去。",
 					"target": {
 						"map": "guanbei.palace",
-						"zone": "guanbei.palace_hall"
+						"zone": "guanbei.palace_hall",
+						"npcs": ["native.npc.cheng_shuo"]
 					}
 				},
 				{
@@ -102,7 +106,8 @@
 					"objective": "借槐阳王的兵踏平工地（问程朔「借兵」：救下所有人，但兵部会说关北反了），或带骁将郭承夜里潜入（在校场问郭承「潜入」：救一半，王府干净）。",
 					"target": {
 						"map": "guanbei.palace",
-						"zone": "guanbei.palace_hall"
+						"zone": "guanbei.palace_hall",
+						"npcs": ["native.npc.cheng_shuo"]
 					},
 					"options": [
 						{
@@ -149,7 +154,8 @@
 					"text": "王府的六骑冲进了工地。白衣武官倒了，裴照倒了，吕隼趴在他的名册上。你打开了八副枷锁，八个民夫回营地去了；古冢口的道士丢下车跑了。兵部的文书明天就到京师：槐阳王反了。",
 					"target": {
 						"map": "guanbei.worksite",
-						"zone": "guanbei.sheds"
+						"zone": "guanbei.sheds",
+						"npcs": ["native.npc.site_corvee"]
 					}
 				},
 				{
@@ -162,7 +168,8 @@
 					"text": "夜里的工地只有两个守夜的。你和郭承解开了四副枷锁——王石头、刘拐子、巴图、胡阿大跑了；第四副铁销响了，守夜的武官扑上来。打完，郭承说：走。另外四个人的名字，你在名册上见过：老魏、周二牛、陈满仓、马三。",
 					"target": {
 						"map": "guanbei.worksite",
-						"zone": "guanbei.sheds"
+						"zone": "guanbei.sheds",
+						"npcs": ["native.npc.site_corvee"]
 					}
 				},
 				{
@@ -174,7 +181,8 @@
 					"text": "卢卡说他的会首安敦在番坊，番坊的人知道那个鬼的事。番坊在海边：从玉螺湖村出忘情谷，走海崖道。",
 					"target": {
 						"map": "guanbei.horse_market",
-						"zone": "guanbei.market"
+						"zone": "guanbei.market",
+						"npcs": ["native.npc.luca"]
 					}
 				}
 			],

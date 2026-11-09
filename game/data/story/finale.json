@@ -432,7 +432,8 @@
 					"text": "商玦倒在冰龙厅的水潭边。",
 					"target": {
 						"map": "village.icecave",
-						"zone": "village.lakebottom2"
+						"zone": "village.lakebottom2",
+						"npcs": ["native.npc.shang_jue_fighting", "native.npc.shang_jue_waiting"]
 					}
 				},
 				{
@@ -456,7 +457,8 @@
 					"text": "侮天鬼散成一团黑焰，退回了那颗头底下。",
 					"target": {
 						"map": "village.seal_chamber",
-						"zone": "village.seal_altar"
+						"zone": "village.seal_altar",
+						"npcs": ["native.npc.wutian_gui", "native.npc.wutian_gui_blazing", "native.npc.wutian_gui_grown", "native.npc.wutian_gui_grown_blazing"]
 					}
 				},
 				{
@@ -464,7 +466,8 @@
 					"objective": "最后一下：三器齐、人够，就钉下去灭了它；不然把穿灵交给一个肯留下的人，再封。",
 					"target": {
 						"map": "village.seal_chamber",
-						"zone": "village.seal_altar"
+						"zone": "village.seal_altar",
+						"npcs": ["native.npc.lihong", "native.npc.lihong_finale"]
 					},
 					"options": [
 						{
@@ -553,7 +556,8 @@
 					"text": "雪亭镇的广场上，宣了诏。",
 					"target": {
 						"map": "snow.outdoor",
-						"zone": "snow.square"
+						"zone": "snow.square",
+						"npcs": ["native.npc.herald_feng_ce", "native.npc.herald_ministry", "native.npc.herald_uncle"]
 					}
 				}
 			],

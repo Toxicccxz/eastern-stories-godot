@@ -52,7 +52,8 @@
 					"text": "岚翁：剑在云台。他不卖，不赏，只问谁拔。",
 					"target": {
 						"map": "lancheng.pavilion",
-						"zone": "lancheng.bell_hall"
+						"zone": "lancheng.bell_hall",
+						"npcs": ["native.npc.lan_weng"]
 					}
 				},
 				{
@@ -60,7 +61,8 @@
 					"objective": "云台：谁拔旋芒——你自己（十铃里要响五口，先接岚翁的接风三刃）、皇叔（要他已经入朝）、萧辟尘（要带着他的风铃）。",
 					"target": {
 						"map": "lancheng.terrace",
-						"zone": "lancheng.whirl"
+						"zone": "lancheng.whirl",
+						"npcs": ["native.npc.lan_weng_terrace"]
 					},
 					"options": [
 						{

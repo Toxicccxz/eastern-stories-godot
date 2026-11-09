@@ -34,7 +34,8 @@
 					"text": "程不平看得出文书是真的，可要动兵部的人，须有人证——印是谁盖的，人去了哪，得有人在堂上说。他指了一个人：福林酒楼里日日发呆、丢了箱子的武官，姓陈。",
 					"target": {
 						"map": "choyin.yamen_compound",
-						"zone": "choyin.yamen"
+						"zone": "choyin.yamen",
+						"npcs": ["choyin.npc.judgeman"]
 					}
 				},
 				{
@@ -46,7 +47,8 @@
 					"text": "陈显祖见了兵部的印脸色就变：他是二十年前老松岭那队白衣武官里的逃兵。当年念给全队听的寻剑令抄本一直藏在他的桃木箱里——箱子丢在树王坟的树洞里。",
 					"target": {
 						"map": "choyin.hotel_house",
-						"zone": "choyin.hotel1"
+						"zone": "choyin.hotel1",
+						"npcs": ["choyin.npc.sergeant"]
 					}
 				},
 				{
@@ -70,7 +72,8 @@
 					"text": "槐阳王也收到过兵部「征三千民夫修官道寻剑」的令。老王爷拒了。",
 					"target": {
 						"map": "choyin.town",
-						"zone": "choyin.court1"
+						"zone": "choyin.court1",
+						"npcs": ["choyin.npc.magistra"]
 					}
 				},
 				{
@@ -78,7 +81,8 @@
 					"objective": "护送陈显祖进衙门作证（问他「作证」），或放他带箱子走（「走吧」）。",
 					"target": {
 						"map": "choyin.hotel_house",
-						"zone": "choyin.hotel1"
+						"zone": "choyin.hotel1",
+						"npcs": ["choyin.npc.sergeant", "choyin.npc.boss"]
 					},
 					"options": [
 						{
@@ -112,7 +116,8 @@
 					"text": "程不平录了供，写信给叔父槐阳王：假印和失踪的人都往关北去了。",
 					"target": {
 						"map": "choyin.yamen_compound",
-						"zone": "choyin.yamen"
+						"zone": "choyin.yamen",
+						"npcs": ["choyin.npc.judgeman"]
 					}
 				}
 			],

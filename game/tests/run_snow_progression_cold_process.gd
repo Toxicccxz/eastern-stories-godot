@@ -25,7 +25,7 @@ func _run() -> void:
 		# Serializer fixture only; physical/live routes have separate real-input proof.
 		map.player_body.position = MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school2")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.school2"))
-		check(map.open_door(&"snow.school.gate"),"writer opens transient door")
+		check(map.set_door_open(&"snow.school.gate", false),"writer shuts the transient door (as a room rule would: it stands open, DECISIONS「武馆大门常开」)")
 		map.player_body.position = MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", &"snow.schoolhall")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.schoolhall"))
 		check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED,"writer recruits")
@@ -54,7 +54,7 @@ func _run() -> void:
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text,"whole snapshot exact")
 			var map := session.active_map() as WorldMapController
 			var school := map.service(&"snow.school_compound.schoolhall.master") as TeacherService
-			check(not map.door(&"snow.school.gate").is_open() and not MapPlaces.door_wall(map, &"snow.school.gate").disabled,"cold-closed gate")
+			check(map.door(&"snow.school.gate").is_open() and MapPlaces.door_wall(map, &"snow.school.gate").disabled,"cold: the gate stands open again, as it starts")
 			check(not session.player_runtime().apprenticeship_request.is_pending() and not school.ui.panel.visible,"pending/UI not restored")
 			check(map.player_body.position == MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", &"snow.schoolhall"),"exact school position")
 			check(session.player_runtime().facts.title == "封山剑派第十四代弟子" and session.player_runtime().state.affiliation.class_id == &"swordsman","title/class")
