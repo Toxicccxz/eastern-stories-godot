@@ -336,8 +336,9 @@ func _show_line(line: BattleNarrationLine) -> void:
 
 
 ## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): what a 重 left behind — 失衡 over the one it threw
-## off balance (red, their next beat's seal struck through on their card), 露空 over the one it
-## left open (pale blue); the scene plays the reel or the lurch.
+## off balance (red, with the seal's thud), 露空 over the one it left open (pale blue); the scene
+## plays the reel or the lurch. (The card's plan seals already show the next beat by the time the
+## line is told: the lost beat is not struck there.)
 func _show_heavy_aftermath(line: BattleNarrationLine) -> void:
 	var staggered: bool = line.cue == BattleNarrationLine.CUE_STAGGER
 	scene_show.play_line(line)
@@ -349,9 +350,6 @@ func _show_heavy_aftermath(line: BattleNarrationLine) -> void:
 	move_titles.show_word(_voxel_view(), line.actor_id, word, BattleMoveTitles.STAGGER_COLOUR if staggered else BattleMoveTitles.EXPOSED_COLOUR)
 	if staggered:
 		sounds.play(BattleSounds.SEAL)
-		for index: int in mini(_cards.size(), _shown_participants.size()):
-			if _shown_participants[index] == line.actor_id:
-				_cards[index].strike_next_beat()
 
 
 ## Whether `line` is the first blow of a beat not told yet (a blow of another actor or
@@ -1391,7 +1389,7 @@ func _show_mode(mode: int) -> void:
 	_title.text = tr(look.title)
 	_title.add_theme_font_size_override("font_size", SHORT_TITLE_SIZE if _compact else TITLE_SIZE)
 	# The word in blocks when the pixel face draws it; the Label's own letters then hidden.
-	var built: bool = _voxel_title.present(_title.text, mode)
+	var built: bool = _projection.completion_outcome < 0 and _voxel_title.present(_title.text, mode)
 	_title.add_theme_color_override("font_color", Color(look.title_color, 0.0) if built else look.title_color)
 	_title.add_theme_constant_override("outline_size", 6 if look.outlined and not built else 0)
 	_rule.color = look.accent

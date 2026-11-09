@@ -262,8 +262,7 @@ func _camera_and_stance(tree: SceneTree) -> void:
 
 
 ## 战斗拍数 E: the scheduler's notes of 失衡 and 露空 carry their cues; the one thrown off balance
-## reels, the one left open lurches, and both are back upright after; the card's first seal is
-## struck through until the plan changes.
+## reels, the one left open lurches, and both are back upright after.
 func _heavy_aftermath(tree: SceneTree) -> void:
 	var cast := BattlePresentationProjection.new(&"e", 0, ME, YOU, [], [], null, 0, -1, -1)
 	var noted: Array[BattleNarrationLine] = BattleNarrator.seen([VisionLine.new("$N被震得失衡，丢了一手！", YOU, &"", ColoredLine.HIR), VisionLine.new("$N一招落空，露出了破绽！", ME, &"", ColoredLine.HIC)], cast)
@@ -284,13 +283,6 @@ func _heavy_aftermath(tree: SceneTree) -> void:
 	check(is_zero_approx(_model(ME).rotation.z) and not _show.side_running(ME), "end(): upright at once")
 	_show.pace = 1.0
 	TestFeel.restore()
-	var stamps := BattleBeatStamps.new()
-	stamps.present("重", 1, true)
-	stamps.strike_first()
-	check(stamps.first_struck(), "the card's first seal struck through")
-	stamps.present("快", 0, true)
-	check(not stamps.first_struck(), "the plan changed: a fresh seal")
-	stamps.free()
 
 
 ## The mode's word in blocks (owner 2026-11-09): each pixel of the pixel face one block, from

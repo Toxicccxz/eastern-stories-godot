@@ -83,7 +83,7 @@ func _test_chosen_move_draws_nothing() -> void:
 	_assert_true(missing.succeeded and missing.random_attempted and random.call_count() == 2, "a chosen move not in the set (the weapon changed): drawn as before")
 
 
-func _input(tag: StringName, rules: CombatPowerRules, defender_tag: StringName = &"", attack_percent: int = 0, damage_percent: int = 0, dodge_percent: int = 0, parry_percent: int = 0, strength: int = 0) -> CombatAttackInput:
+func _input(tag: StringName, rules: CombatPowerRules, defender_tag: StringName = &"", attack_percent: int = 0, damage_percent: int = 0, dodge_percent: int = 0, parry_percent: int = 0, strength: int = 0, beat_blow: bool = false) -> CombatAttackInput:
 	var attacker := CombatAttackerSnapshot.new(
 		&"attacker-1", true, 0, 0, 0, &"unarmed", 10, 0, 40,
 		CombatStrengthProjection.new(strength, 0, 0), false, &"", CombatHitPolicyStatus.Value.NOT_APPLICABLE,
@@ -91,6 +91,7 @@ func _input(tag: StringName, rules: CombatPowerRules, defender_tag: StringName =
 	)
 	attacker.attack_power_percent = attack_percent
 	attacker.damage_percent_bonus = damage_percent
+	attacker.beat_blow = beat_blow
 	var defender := CombatDefenderSnapshot.new(&"defender-1", true, false, 0, 0, 0, 10, 0, 10, 0, 0, false, [&"头"])
 	defender.dodge_power_percent = dodge_percent
 	defender.parry_power_percent = parry_percent
@@ -136,15 +137,17 @@ func _test_heavy_blow() -> void:
 	var rules := CombatPowerRules.new(CombatPowerRules.PowerCurve.CLASSIC, 100, 10, 1, 100, CombatPowerRules.ExperienceDefense.CLASSIC, 0, 200, 150, 20, 10).with_heavy_blow(150)
 	_assert_true(rules.is_valid() and not rules.is_classic() and rules.duplicate_snapshot().heavy_blow_percent == 150 and not CombatPowerRules.classic().with_heavy_blow(150).is_classic(), "the knob is valid, copied and not ES2's")
 	_assert_eq(CombatMoveTags.damage_percent(CombatMoveTags.HEAVY, CombatMoveTags.GUARD, 15, 15, true), 15, "on the whole blow a 重 keeps only the counter at the weapon's share")
-	var heavy: Array = _resolve(_input(CombatMoveTags.HEAVY, rules))
+	var heavy: Array = _resolve(_input(CombatMoveTags.HEAVY, rules, &"", 0, 0, 0, 0, 0, true))
 	_assert_eq([heavy[0], heavy[1]], [[1, 600, 600, 40], 87], "重: the same bounds (no draw more), 35 + 150 % = 87 (not 42 + 150 %)")
-	var quick: Array = _resolve(_input(CombatMoveTags.QUICK, rules))
+	var riposte: Array = _resolve(_input(CombatMoveTags.HEAVY, rules))
+	_assert_eq(riposte[1], 42, "a 重 that is not the beat's own blow (a riposte, a special's): the old lean, +20 %")
+	var quick: Array = _resolve(_input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 0, true))
 	_assert_eq([quick[0], quick[1]], [[1, 732, 732, 40], 28], "快 untouched: 28 — a 重 lands about three times a 快 here")
-	var strong: CombatAttackInput = _input(CombatMoveTags.HEAVY, rules, &"", 0, 0, 0, 0, 20)
+	var strong: CombatAttackInput = _input(CombatMoveTags.HEAVY, rules, &"", 0, 0, 0, 0, 20, true)
 	var vitality := CharacterResourceState.new(200, 200, 200)
 	var rng := ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0])
 	CombatAttackResolver.resolve(strong, CharacterResourceState.new(100, 100, 100), vitality, CharacterResourceState.new(100, 100, 100), rng)
-	var weak: CombatAttackInput = _input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 20)
+	var weak: CombatAttackInput = _input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 20, true)
 	var weak_vitality := CharacterResourceState.new(200, 200, 200)
 	CombatAttackResolver.resolve(weak, CharacterResourceState.new(100, 100, 100), weak_vitality, CharacterResourceState.new(100, 100, 100), ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0]))
 	_assert_eq([200 - vitality.current, 200 - weak_vitality.current], [125, 43], "the strength's share is weighed too: 重 %d against 快 %d" % [200 - vitality.current, 200 - weak_vitality.current])

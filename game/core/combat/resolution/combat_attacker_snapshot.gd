@@ -30,6 +30,9 @@ var _martial_hit_wound: MartialHitWound
 ## power and the damage, applied at combatd.c's percent sites; 0 changes nothing.
 var attack_power_percent: int = 0
 var damage_percent_bonus: int = 0
+## 战斗拍数 E: the blow is the beat's own (the move the fighter paid its beats for), so a 重 weighs
+## two beats (CombatPowerRules.heavy_blow_percent); a riposte's or a special's blow does not.
+var beat_blow: bool = false
 
 var character_id: StringName:
 	get:
@@ -192,6 +195,7 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 	var copy: CombatAttackerSnapshot = _copy()
 	copy.attack_power_percent = attack_power_percent
 	copy.damage_percent_bonus = damage_percent_bonus
+	copy.beat_blow = beat_blow
 	return copy
 
 

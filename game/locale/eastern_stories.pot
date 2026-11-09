@@ -9087,7 +9087,7 @@ msgstr ""
 msgid "$N说道：{line}"
 msgstr ""
 
-#. an enemy strikes a second time in a row while the player's heavy (重) move took their last move (手) this round: $N the enemy.
+#. an enemy struck twice in a row while the player's heavy (重) move took their last move (手) this round: $N the enemy.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
 msgid "$N趁你收招，连出两手！"
 msgstr ""

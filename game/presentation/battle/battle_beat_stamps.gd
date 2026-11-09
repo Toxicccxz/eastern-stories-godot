@@ -18,14 +18,11 @@ const SOLID_EDGE := Color(0.45, 0.12, 0.08)
 const HOLLOW := Color(0.82, 0.32, 0.24, 0.9)
 const TEXT := Color("f5e6c8")
 const DASH: float = 3.0
-const STRIKE := Color(0.12, 0.08, 0.06, 0.95)
 
 var _first: String = ""
 var _read: int = 0
 ## Whether the first seal is a settled beat (solid) or one only read (hollow, its word kept).
 var _settled: bool = true
-## 战斗拍数 E: the first seal struck through (失衡 took that beat), until the plan changes.
-var _struck: bool = false
 var _font: Font
 
 
@@ -40,23 +37,10 @@ func _ready() -> void:
 func present(first: String, read: int, settled: bool = true) -> void:
 	if first == _first and read == _read and settled == _settled:
 		return
-	_struck = false
 	_first = first
 	_read = maxi(0, read)
 	_settled = settled
 	queue_redraw()
-
-
-## 战斗拍数 E: 失衡 took the first beat — a stroke of ink through its seal.
-func strike_first() -> void:
-	if _first.is_empty():
-		return
-	_struck = true
-	queue_redraw()
-
-
-func first_struck() -> bool:
-	return _struck
 
 
 func first_settled() -> bool:
@@ -83,8 +67,6 @@ func _draw() -> void:
 	else:
 		_dashed(seal, HOLLOW)
 	_word(seal, _first)
-	if _struck:
-		draw_line(seal.position + Vector2(-3, SIZE * 0.78), seal.position + Vector2(SIZE + 3, SIZE * 0.22), STRIKE, 3.5)
 	for _index: int in _read:
 		y += SIZE + GAP
 		var hollow := Rect2(Vector2(x, y), Vector2(SIZE, SIZE))

@@ -16,6 +16,8 @@ class Fighter:
 	var dodge_percent: int = 0
 	var parry_percent: int = 0
 	var move_tag: StringName = &""
+	## 战斗拍数 E: this fighter's beat runs now — its own blow is the beat's (CombatAttackerSnapshot.beat_blow).
+	var beat_blow: bool = false
 
 	func add(p_attack: int, p_damage: int, p_dodge: int, p_parry: int) -> Fighter:
 		attack_percent += p_attack
