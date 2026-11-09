@@ -37,6 +37,11 @@ var _card_area: VBoxContainer
 var _participants: HBoxContainer
 var _sides: HBoxContainer
 var _side_rows: Array = []
+## 战斗演出 E (DECISIONS「战斗演出 E」): the two side panels' slots (left: the player's; right: the
+## other side's in focus) with the stage between them, and the name plates on the stage.
+var _flanks: HBoxContainer
+var _flank_slots: Array[Control] = []
+var nameplates: BattleNameplates
 var _card_layout_key: String = ""
 var _compact: bool = false
 var _room_width: float = 0.0
@@ -189,6 +194,7 @@ func _end_hold() -> void:
 	_hold_shield.visible = false
 	end_stamp.visible = false
 	move_titles.clear()
+	nameplates.clear()
 	scene_show.end()
 	opening.close()
 	_drop_pending_opening()
@@ -537,6 +543,7 @@ func refresh_projection() -> void:
 			hide()
 			_restore_world_hud()
 			move_titles.clear()
+			nameplates.clear()
 			scene_show.end()
 			opening.close()
 			_drop_pending_opening()
@@ -670,6 +677,12 @@ func _build() -> void:
 	add_child(_content)
 	# 战斗演出 C: the names over heads, over the panel (a head near the cards' foot still shows its
 	# name; it stays a moment and goes).
+	# 战斗演出 E: the name plates under the fighters' feet (over the panel's rows: a plate is
+	# clicked to pick a target).
+	nameplates = BattleNameplates.new()
+	nameplates.name = "Nameplates"
+	nameplates.target_requested.connect(_change_target)
+	add_child(nameplates)
 	move_titles = BattleMoveTitles.new()
 	move_titles.name = "MoveTitles"
 	add_child(move_titles)
@@ -772,6 +785,27 @@ func _build() -> void:
 		chips.add_theme_constant_override("separation", SIDE_CARD_GAP)
 		column.add_child(chips)
 		_side_rows.append([big, chips])
+	_flanks = HBoxContainer.new()
+	_flanks.name = "Flanks"
+	_flanks.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_flanks.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_card_area.add_child(_flanks)
+	for side: int in 2:
+		# A plain Control: the panel in it is laid by _lay_panels() (its height never holds the
+		# battle's rows open; the bust shrinks to the room there is).
+		var slot := Control.new()
+		slot.name = "Mine" if side == 0 else "Theirs"
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		slot.resized.connect(_lay_panels)
+		_flank_slots.append(slot)
+		if side == 1:
+			var middle := Control.new()
+			middle.name = "Stage"
+			middle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			middle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_flanks.add_child(middle)
+		_flanks.add_child(slot)
 	target_hints = InputHintRow.new()
 	_content.add_child(target_hints)
 	action_panel = BattleActionPanel.new()
@@ -925,49 +959,114 @@ const STRIP_OPEN_SECONDS: float = 5.0
 
 
 func _fit_cards() -> void:
-	if _cards.is_empty() or _participants == null or _card_area == null:
+	if _cards.is_empty() or _flanks == null:
 		return
-	# The safe area's width, not the area's own (the cards' minimum widths would hold it wide).
-	var room: float = _room_width if _room_width > 0.0 else _card_area.size.x
-	if room <= 0.0:
-		return
-	var height: float = SHORT_CARD_HEIGHT if _compact else CARD_HEIGHT
-	var visible_cards: int = _cards.size()
-	var in_row: int = mini(ROW_CARDS, int(floorf((room + CARD_GAP) / (CARD_MIN + CARD_GAP))))
-	var placement: Array = [] # [card, row, chip] each
-	if visible_cards <= in_row:
-		_participants.visible = true
-		_sides.visible = false
-		# Whole units: at a 界面缩放 of 150% two cards would each be 402.5, laid out as 403.
-		var each: float = floorf(clampf((room - CARD_GAP * (visible_cards - 1)) / float(visible_cards), CARD_MIN, CARD_MAX))
-		for card: BattleParticipantCard in _cards:
-			placement.append([card, _participants, false])
-			card.custom_minimum_size = Vector2(each, height)
-	else:
-		_participants.visible = false
-		_sides.visible = true
-		var side_room: float = floorf((room - SIDE_GAP) / 2.0)
-		var big_count: int = clampi(int(floorf((side_room + SIDE_CARD_GAP) / (CARD_MIN + SIDE_CARD_GAP))), 1, SIDE_BIG)
-		var chip_count: int = maxi(1, int(floorf((side_room + SIDE_CARD_GAP) / (BattleParticipantCard.CHIP_SIZE.x + SIDE_CARD_GAP))))
-		var each: float = floorf(clampf((side_room - SIDE_CARD_GAP * (big_count - 1)) / float(big_count), CARD_MIN, CARD_MAX))
-		for side: int in 2:
-			var members: Array[BattleParticipantCard] = _side_cards(side)
-			var big: Array[BattleParticipantCard] = []
-			for card: BattleParticipantCard in _big_first(members):
-				if big.size() < big_count:
-					big.append(card)
-			var chips: int = 0
-			for card: BattleParticipantCard in members:
-				if big.has(card):
-					placement.append([card, _side_rows[side][0], false])
-					card.custom_minimum_size = Vector2(each, height)
-				elif chips < chip_count:
-					chips += 1
-					placement.append([card, _side_rows[side][1], true])
-					card.custom_minimum_size = BattleParticipantCard.CHIP_SIZE
-				else:
-					placement.append([card, null, true])
+	# 战斗演出 E: no row of cards — the player's card a side panel on the left, the other side's
+	# one in focus (one waiting on 了结 / 放过 first, else the current target) on the right; every
+	# other card unshown (their name plates on the stage stand for them; 换目标 still reaches them).
+	_participants.visible = false
+	_sides.visible = false
+	var panels: Dictionary = BattleArena.data().get("panels", {})
+	var style: String = String(panels.get("style", "banner"))
+	var width: float = float(panels.get("compact_width" if _compact else "width", 164.0 if _compact else 196.0))
+	var mine: BattleParticipantCard = null
+	for card: BattleParticipantCard in _side_cards(0):
+		if mine == null or card.participant_id() == _projection.player_id:
+			mine = card
+			if card.participant_id() == _projection.player_id:
+				break
+	var theirs: BattleParticipantCard = _focus_card(_side_cards(1))
+	var placement: Array = []
+	for card: BattleParticipantCard in _cards:
+		if card == mine:
+			placement.append([card, _flank_slots[0], false])
+		elif card == theirs:
+			placement.append([card, _flank_slots[1], false])
+		else:
+			placement.append([card, null, false])
 	_place_cards(placement)
+	var sides: Dictionary = BattleArena.data().get("sides", {})
+	for side: int in 2:
+		var card: BattleParticipantCard = mine if side == 0 else theirs
+		if card == null:
+			continue
+		var key: String = "mine" if side == 0 else "theirs"
+		var picture: Texture2D = _portrait_of(card.participant_id(), side == 1)
+		card.set_panel(style, side, picture, _portrait_size(width) if picture != null else Vector2.ZERO, Color(String(sides.get(key, "4f8f78"))), Color(String(sides.get("name_" + key, "9fdcc4"))))
+		card.custom_minimum_size = Vector2(width, 0)
+	for slot: Control in _flank_slots:
+		slot.custom_minimum_size.x = width
+	_lay_panels()
+
+
+## 战斗演出 E: each side panel in its slot — at the slot's outer edge under room for the banner's
+## pole, its bust the largest whole multiple of its pixels that leaves the rows and the cords room
+## (none when not even one fits), as tall as its rows.
+func _lay_panels() -> void:
+	var scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
+	# The two busts one size: the smaller of what each panel has room for.
+	var panels: Array = []
+	var fit := Vector2.INF
+	for side: int in _flank_slots.size():
+		var slot: Control = _flank_slots[side]
+		for child: Node in slot.get_children():
+			var card := child as BattleParticipantCard
+			if card == null or not card.visible or card.panel_style().is_empty():
+				continue
+			var rows: float = card.get_combined_minimum_size().y - card.portrait_size().y
+			var room := Vector2(slot.custom_minimum_size.x + 12.0, slot.size.y - FLANK_TOP - FLANK_FOOT - rows)
+			var each: Vector2 = _portrait_fit(room, scale)
+			if card.portrait_texture() != null and each.x < fit.x:
+				fit = each
+			panels.append([side, slot, card])
+	for entry: Array in panels:
+		var card: BattleParticipantCard = entry[2]
+		card.fit_portrait(fit if fit.is_finite() else Vector2.ZERO)
+		var size: Vector2 = card.get_combined_minimum_size()
+		card.place_panel(Vector2(0.0 if entry[0] == 0 else (entry[1] as Control).size.x - size.x, FLANK_TOP), size)
+
+
+## The bust's size in `room` (canvas units): the largest whole multiple of its pixels, zero when
+## not even one fits.
+static func _portrait_fit(room: Vector2, scale: float) -> Vector2:
+	var times: int = floori(minf(room.x, room.y) * scale / float(PersonPortraits.BUST_SIZE.x) + 0.001)
+	return Vector2.ZERO if times < 1 else Vector2(PersonPortraits.BUST_SIZE) * times / maxf(scale, 0.001)
+
+
+## 战斗演出 E: the other side's card in the right panel — one waiting on 了结 / 放过, else the
+## current target, else the first.
+func _focus_card(members: Array[BattleParticipantCard]) -> BattleParticipantCard:
+	for card: BattleParticipantCard in members:
+		var value: BattleParticipantProjection = _projection.participant(card.participant_id())
+		if value != null and value.knockout != null:
+			return card
+	for card: BattleParticipantCard in members:
+		if card.participant_id() == _projection.current_target_id:
+			return card
+	return members[0] if not members.is_empty() else null
+
+
+## The bust a side panel shows for `id`: the player's by their gender, an NPC's by its
+## definition (an enemy's angry face when it has one); null when there is none.
+func _portrait_of(id: StringName, hostile: bool) -> Texture2D:
+	if _session == null or not _session.is_initialized():
+		return null
+	if id == _projection.player_id:
+		var player: WorldPlayerRuntimeState = _session.player_runtime() as WorldPlayerRuntimeState
+		return PersonPortraits.bust(PersonPortraits.player_id(String(player.state.gender))) if player != null else null
+	var map: WorldMapController = _active_map()
+	var npc: NpcRuntimeState = map.find_resident_npc(id) if map != null else null
+	if npc == null:
+		return null
+	return PersonPortraits.bust(PersonPortraits.npc_id(npc), "angry" if hostile else PersonPortraits.expression(npc))
+
+
+## The bust's size in a panel `width` wide: a whole multiple of its pixels.
+func _portrait_size(width: float) -> Vector2:
+	var scale: float = get_viewport().get_final_transform().get_scale().x if is_inside_tree() else 1.0
+	# The panel may grow a little for the next whole multiple (the bust reads from across the screen).
+	var room: float = width + 12.0
+	return PersonPortraits.fitted(PersonPortraits.BUST_SIZE, Vector2(room, room) * scale, scale)
 
 
 ## The cards of the player's side (0: the player and those beside them) or the enemies' (1),
@@ -1005,7 +1104,7 @@ func _place_cards(placement: Array) -> void:
 	var counts: Dictionary = {}
 	for entry: Array in placement:
 		var card: BattleParticipantCard = entry[0]
-		var row: Container = entry[1]
+		var row: Control = entry[1]
 		card.set_chip(entry[2])
 		if row == null:
 			card.visible = false
@@ -1066,6 +1165,12 @@ func _present_participants() -> void:
 	if key != _card_layout_key:
 		_card_layout_key = key
 		_fit_cards()
+	# 战斗演出 E: the name plates on the stage (each with its card's 气 and hover).
+	var plates: Array = []
+	for index: int in values.size():
+		var value: BattleParticipantProjection = values[index]
+		plates.append([value.participant_id, tr(value.display_name), value.hostile_to_player, value.participant_id == _projection.current_target_id, value.targetable, _cards[index].fallen_text(), _cards[index]])
+	nameplates.present(plates, _voxel_view(), opening)
 	# 战斗拍数 C: where the figures stand (close or apart), and home again between rounds.
 	var stances: Array = []
 	for value: BattleParticipantProjection in values:
@@ -1242,25 +1347,40 @@ func _fighters(map: WorldMapController) -> Array:
 	return [fighters, foes]
 
 
-## The share of the screen's height between the cards' foot and the panel's top (where the
-## fighters should stand), as (top, bottom).
-func _stage_band() -> Vector2:
-	var height: float = get_viewport_rect().size.y
-	if height <= 0.0:
+## The share of the screen where the fighters should stand: (left, top) to (right, bottom) —
+## 战斗演出 E: between the two side panels, from under the recent strip to the panel's top.
+func _stage_band() -> Rect2:
+	var screen: Vector2 = get_viewport_rect().size
+	if screen.y <= 0.0 or screen.x <= 0.0:
 		return DEFAULT_BAND
 	var top: float = _card_area.get_global_rect().position.y
-	for card: BattleParticipantCard in _cards:
-		if card.visible:
-			top = maxf(top, card.get_global_rect().end.y)
 	var bottom: float = target_hints.get_global_rect().position.y if target_hints.visible else action_panel.get_global_rect().position.y
+	var left: float = 0.0
+	var right: float = screen.x
+	if _flank_slots.size() == 2:
+		left = _flank_slots[0].get_global_rect().end.x
+		right = _flank_slots[1].get_global_rect().position.x
+		for slot: Control in _flank_slots:
+			for child: Node in slot.get_children():
+				var card := child as BattleParticipantCard
+				if card != null and card.visible:
+					if slot == _flank_slots[0]:
+						left = maxf(left, card.get_global_rect().end.x)
+					else:
+						right = minf(right, card.get_global_rect().position.x)
 	# Not laid out yet (关 starts at once): where the band stands on a 16:9 screen.
-	if bottom - top < height * 0.1:
+	if bottom - top < screen.y * 0.1 or right - left < screen.x * 0.3:
 		return DEFAULT_BAND
-	return Vector2(top / height, bottom / height)
+	return Rect2(left / screen.x, top / screen.y, (right - left) / screen.x, (bottom - top) / screen.y)
 
 
-## The band the fighters stand in before the panel is laid out: under the cards, over the panel.
-const DEFAULT_BAND: Vector2 = Vector2(0.42, 0.7)
+## The band the fighters stand in before the panel is laid out: between the side panels, under
+## the head, over the panel.
+const DEFAULT_BAND: Rect2 = Rect2(0.17, 0.2, 0.66, 0.48)
+## Room over a side panel for the banner's pole.
+const FLANK_TOP: float = 14.0
+## Room under a side panel for the banner's cords.
+const FLANK_FOOT: float = 26.0
 
 
 ## A fight over before its opening began: the panel's parts shown again (they waited hidden).

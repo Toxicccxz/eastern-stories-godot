@@ -13,6 +13,10 @@ extends RefCounted
 ## player left, their side behind, the other side right in ranks), raised over the map with the
 ## fighters' figures on it while their 2D bodies stay put, the map below a backdrop, all of it
 ## back at the end; a key puts the stage up at once.
+## 战斗演出 E (DECISIONS「战斗演出 E」): the two sides — the stage's halves lit in their colours
+## with a seam between, the player's card a side panel on the left with their bust, the target's
+## on the right, banner or ink; a name plate under each fighter's feet in their side's colour
+## (a back rank's over the head), clicked to pick a target.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
 
@@ -23,6 +27,7 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_plan()
 	_formation()
+	_ranks()
 	_kinds()
 	_setting()
 	_weapon_sounds()
@@ -99,6 +104,19 @@ func _formation() -> void:
 	for id: StringName in crowd:
 		places[crowd[id]] = true
 	_check(places.size() == crowd.size(), "no two in one place")
+
+
+## 战斗演出 E: who stands in a back rank (their plate over their head): in each column of three,
+## the two behind the nearest; the player and a lone helper never.
+func _ranks() -> void:
+	var opening := BattleStageOpening.new()
+	opening._player_id = &"p"
+	opening._mine = [&"p", &"h"]
+	opening._theirs = [&"a", &"b", &"c", &"d"]
+	opening._local = BattleArena.formation(opening._mine, opening._theirs, BattleArena.data().get("formation", {}))
+	_check(not opening.back_rank(&"p") and not opening.back_rank(&"h"), "the player and a lone helper: front")
+	_check(not opening.back_rank(&"c") and opening.back_rank(&"a") and opening.back_rank(&"b") and not opening.back_rank(&"d"), "three in a column: the nearest in front, the two behind it back; one alone in the next: front")
+	opening.free()
 
 
 func _kinds() -> void:
@@ -260,6 +278,36 @@ func _fight(tree: SceneTree) -> void:
 	_check(opening.spots().has(&"test.joiner") and _stage_up(opening, view, arena) and view.placed_at(&"test.joiner") != null, "one who joins: a place on the stage, the base wide enough")
 	var others_named: bool = view.labels.keys().any(func(id: StringName) -> bool: return id != player_id and id != trainee_id and view.labels[id].visible)
 	_check(not others_named, "no name shown over those left on the map")
+	# 战斗演出 E: the two sides on the stage, the side panels, the name plates.
+	var glow: Array[float] = arena.glow_strengths()
+	var lethal_glow: Dictionary = BattleArena.data().get("looks", {}).get("lethal", {}).get("glow", {})
+	_check(glow.size() == 2 and is_equal_approx(glow[0], float(lethal_glow.get("mine", -1))) and is_equal_approx(glow[1], float(lethal_glow.get("theirs", -1))), "a 死斗's stage: each half lit in its side's colour: %s" % [glow])
+	var left: BattleParticipantCard = _panel_of(ui, 0)
+	var right: BattleParticipantCard = _panel_of(ui, 1)
+	_check(left != null and left.participant_id() == player_id and left.panel_style() == String(BattleArena.data().get("panels", {}).get("style", "")) and left._portrait.texture != null and String(left._portrait.texture.resource_path).contains("player."), "the player's card the left panel, their bust chosen (shown where a whole multiple of its pixels fits)")
+	_check(right != null and right.participant_id() == trainee_id and right.get_global_rect().position.x > left.get_global_rect().end.x, "the trainee's the right panel")
+	await tree.process_frame
+	var plates: Dictionary = ui.nameplates.shown()
+	_check(plates.has(player_id) and plates.has(trainee_id), "a name plate for each: %s" % [plates.keys()])
+	if plates.has(player_id) and plates.has(trainee_id):
+		var mine: Rect2 = plates[player_id][0]
+		var theirs: Rect2 = plates[trainee_id][0]
+		var feet: Vector2 = view.camera.unproject_position(view.actors[player_id].global_position)
+		_check(mine.end.x < theirs.position.x and not plates[player_id][1] and mine.position.y >= feet.y - 1.0, "the player's plate on the left, under their feet; the trainee's on the right")
+	var picked: Array[StringName] = []
+	ui.nameplates.target_requested.connect(func(id: StringName) -> void: picked.append(id))
+	var plate: Control = ui.nameplates.plate(trainee_id)
+	if plate != null:
+		var press := InputEventMouseButton.new()
+		press.button_index = MOUSE_BUTTON_LEFT
+		press.pressed = true
+		plate._gui_input(press)
+	_check(picked == [trainee_id], "a click on the trainee's plate picks them")
+	BattleArena.data()["panels"]["style"] = "ink"
+	ui._fit_cards()
+	_check(_panel_of(ui, 0).panel_style() == "ink" and _panel_of(ui, 1).panel_style() == "ink", "the ink style for both panels")
+	BattleArena.data()["panels"]["style"] = "banner"
+	ui._fit_cards()
 	_check(is_equal_approx(ui._head.modulate.a, 1.0) and is_equal_approx(ui.action_panel.modulate.a, 1.0), "the panel in place")
 	_check(ui._told.size() == told + 1, "the waiting line told once it is done")
 	_check(is_equal_approx(view.view_height(), float(frame[1])) and is_equal_approx(view.zoom(), float(frame[2])), "the camera where the opening put it")
@@ -323,6 +371,15 @@ func _fight(tree: SceneTree) -> void:
 
 
 const Multi := preload("res://tests/support/cxr7_session_fixture.gd")
+
+
+## The card in the side panel (0 left, 1 right), or null.
+static func _panel_of(ui: BattlePresentationController, side: int) -> BattleParticipantCard:
+	for child: Node in ui._flank_slots[side].get_children():
+		var card := child as BattleParticipantCard
+		if card != null and card.visible:
+			return card
+	return null
 
 
 ## The stage up in the air at its height, turned to the camera's yaw, every place on its top.

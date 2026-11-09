@@ -51,8 +51,9 @@ var _stage_tween: Tween
 ## 战斗演出 D (DECISIONS「战斗演出 D」): figures shown somewhere other than their bodies (on a stage
 ## raised over the map): id -> [where Vector3, facing yaw]. Each is drawn between its body's point
 ## and that place by `placed_blend` (0 at its body, 1 there), facing that way while placed; while any
-## is placed, the names over the others and the things on the floor are not shown (the map is the
-## backdrop then). The body, its collision and everything saved stay where they are.
+## is placed, no name over a head (战斗演出 E: the battle's name plates stand for the placed ones) and
+## nothing on the floor is named (the map is the backdrop then). The body, its collision and
+## everything saved stay where they are.
 var _placed: Dictionary[StringName, Array] = {}
 var placed_blend: float = 0.0
 ## The red marks over the heads of NPCs whose 2D body shows its AlertMark (进门一起上).
@@ -568,7 +569,7 @@ func _sync_actors(delta: float) -> void:
 			color.a *= float(label.get_meta("name_alpha",1.0))
 			label.modulate = color
 			var reveal_distance: float = float(label.get_meta("name_distance",-1.0))
-			label.visible = (reveal_distance<0 or at.distance_squared_to(map.player_body.global_position)<=reveal_distance*reveal_distance or id==hovered or id==map.selected_character_id()) and (not placing() or _placed.has(id))
+			label.visible = (reveal_distance<0 or at.distance_squared_to(map.player_body.global_position)<=reveal_distance*reveal_distance or id==hovered or id==map.selected_character_id()) and not placing()
 		var mark := body.get_node_or_null("AlertMark") as Label
 		var marked: bool = mark != null and mark.visible
 		if marked and not alert_marks.has(id):
