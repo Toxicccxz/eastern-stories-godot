@@ -34,7 +34,7 @@ func _test_letter(tree: SceneTree, session: WorldSessionController) -> void:
 	var waiter: NpcRuntimeState = _first(session, spawn.zone_id, &"snow.npc.waiter")
 	_check(waiter != null and map.select_npc(waiter.character_id), "店小二 in reach")
 	var said: Array[String] = map.ask_selected("官爷")
-	_check(_said(said, "昨儿傍晚才到") and _said(said, "这封信落在桌上") and _said(said, "外头广场上来了官爷") and _said(said, "旋芒宝剑"), "the letter handed back, then the officials: %s" % [said])
+	_check(_said(said, "来的那天傍晚") and _said(said, "这封信落在桌上") and _said(said, "外头广场上来了官爷") and _said(said, "旋芒宝剑"), "the letter handed back, then the officials: %s" % [said])
 	_check(_carried(session, LETTER) == 1 and state.marks.get("拿回了荐信", 0) == 1, "the 荐信 carried, 拿回了荐信")
 	said = map.ask_selected("官爷")
 	_check(_carried(session, LETTER) == 1 and _said(said, "外头广场上来了官爷") and not _said(said, "这封信"), "asked again: the officials alone, no second letter: %s" % [said])
