@@ -81,7 +81,11 @@ func physical_tests(tree: SceneTree) -> void:
 		await walk.round_trip(tree, session, Work.capture(session), String(zone))
 		if zone != &"snow.crossroad":
 			var street: Rect2 = MapPlaces.zone_rect(snow, zone)
-			await solid(tree, session, snow, zone, MapPlaces.spot(snow, zone, Vector2(street.end.x, street.get_center().y)), "move_right", "Hockshop's shut door or mst4's houses east")
+			var east_y: float = street.get_center().y
+			if zone == &"snow.mstreet3":
+				# The pawnshop's door stands open (DECISIONS「街门常开」): its wall beside the doorway.
+				east_y = MapPlaces.door_wall(snow, &"snow.hockshop.door").global_position.y + 112.0
+			await solid(tree, session, snow, zone, MapPlaces.spot(snow, zone, Vector2(street.end.x, east_y)), "move_right", "the Hockshop's wall beside its open door or mst4's houses east")
 			# 4B: the west fronts are doors (herbshop.c, postoffice.c); each shop is its own map (the remap).
 			var shop: StringName = &"snow.herbshop" if zone == &"snow.mstreet3" else &"snow.postoffice"
 			check(await MapPlaces.take_passage(tree, snow, StringName(String(zone) + ".west")), "into the shop west of " + String(zone))
