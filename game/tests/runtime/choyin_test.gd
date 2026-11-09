@@ -76,8 +76,9 @@ func _test_data() -> void:
 	var asked := ZoneExitRuleDefinition.Leaver.new()
 	asked.marks = {"书生": 1}
 	_check(rule.refuses(stranger, false) and not rule.refuses(asked, false) and rule.lines == ["东行的道路被骆云舟挡住了."], "east into the 桃林 only with marks/书生")
-	for id: StringName in [&"choyin.yamen.door", &"choyin.fence.door", &"choyin.club.door"]:
+	for id: StringName in [&"choyin.fence.door", &"choyin.club.door"]:
 		_check(catalog.door(id) != null and not catalog.door(id).starts_open, "%s shut" % id)
+	_check(catalog.door(&"choyin.yamen.door").starts_open and not catalog.door(&"choyin.yamen.door").closable, "the 大堂's 铜钉大门 stands open for good (DECISIONS「街门常开」)")
 	var statue: WorldLandmarkDefinition = catalog.landmark(&"choyin.w_street1.landmark.statue")
 	_check(statue.policy == &"lift" and statue.description.contains("「举」字") and not statue.description.contains("□"), "the stone lion's 「举」 (默认), lifted (乔阴 B)")
 	_check(catalog.service(&"choyin.s_street1.well").kind == &"water" and catalog.service(&"choyin.cloudpool.water").kind == &"water", "the well and the marsh fill a wineskin")

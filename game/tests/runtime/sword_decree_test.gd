@@ -41,12 +41,16 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.refresh_exploration()
 	_check(not ui.player_objective.visible and not ui.player_advice.visible, "目标提示 off: neither row")
 	ObjectiveHints.shown = true
-	# The marker on the inn's map: the first step's target is the inn itself, so a pillar in the room.
+	# The marker on the inn's map: the first step's target is the inn's room and the waiter in it, so
+	# the turning arrow over his head (owner, 2026-11-09).
 	var inn: WorldMapController = session.active_map() as WorldMapController
 	var view: WorldVoxelView = inn.get_node_or_null("MapView") as WorldVoxelView
 	if view != null and view._built:
 		view._sync_quest_marker()
 		_check(view.quest_marker != null and view.quest_marker.get_meta("target_zone", &"") == &"snow.inn.main_floor", "the inn's marker stands in the inn's room: %s" % [null if view.quest_marker == null else view.quest_marker.get_meta("target_zone", &"")])
+		var waiter_id: StringName = _npc_of(session, &"snow.npc.waiter").character_id
+		_check(view.quest_marker != null and view.quest_marker.get_meta("over", &"") == waiter_id and view.quest_marker.get_node_or_null("Spinner") != null, "over the waiter's head, turning: %s" % [null if view.quest_marker == null else view.quest_marker.get_meta("over", &"")])
+		_check(view.quest_marker != null and view.actors.has(waiter_id) and view.quest_marker.position.y > view.actors[waiter_id].position.y + 2.0 and Vector2(view.quest_marker.position.x, view.quest_marker.position.z).distance_to(Vector2(view.actors[waiter_id].position.x, view.actors[waiter_id].position.z)) < 0.01, "standing over him")
 	# 店小二: 官爷.
 	await _stand_at(tree, session, WAITER_SPAWN)
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -64,6 +68,8 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	if square_view != null and square_view._built:
 		square_view._sync_quest_marker()
 		_check(square_view.quest_marker != null and square_view.quest_marker.get_meta("target_zone", &"") == &"snow.square", "on the target's map the marker stands in the square itself")
+		var over: StringName = &"" if square_view.quest_marker == null else square_view.quest_marker.get_meta("over", &"")
+		_check(over in [_npc_of(session, &"native.npc.feng_ce").character_id, _npc_of(session, &"native.npc.onlooker").character_id], "over 冯策 or the onlooker, whoever is nearer: %s" % over)
 	var feng: NpcRuntimeState = _npc_of(session, &"native.npc.feng_ce")
 	var onlooker: NpcRuntimeState = _npc_of(session, &"native.npc.onlooker")
 	_check(feng != null and onlooker != null and _npc_of(session, &"native.npc.song_pu") != null and _npc_of(session, &"native.npc.courier") != null and _npc_of(session, &"native.npc.white_officer") != null, "the officials, the courier and the onlooker stand on the square")
@@ -87,6 +93,8 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	if square_view != null and square_view._built:
 		square_view._sync_quest_marker()
 		_check(square_view.quest_marker != null and square_view.quest_marker.get_meta("way", &"") == &"snow.sroad4.southwest", "the marker moved to the road out of town: %s" % [null if square_view.quest_marker == null else square_view.quest_marker.get_meta("way", &"")])
+		square_view._bob_arrows(0.0)
+		_check(not square_view.arrows[&"snow.sroad4.southwest"].visible, "the road's amber arrow gives way to the red one: one arrow there")
 	# 黄石隘口: arriving does the pass step; the officials are digging there (the stage,
 	# WorldStoryPresence) and the scene begins as the player comes in (DECISIONS「剧情演出」).
 	var rewards_before: int = _rewards(session).size()

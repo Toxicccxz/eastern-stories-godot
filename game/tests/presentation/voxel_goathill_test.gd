@@ -87,7 +87,9 @@ func _check_mountain(tree: SceneTree, session: WorldSessionController, map: Worl
 	for _step: int in range(3):
 		heights.append(arrow.position.y if arrow != null else 0.0)
 		await _frames(tree, 12)
-	_check(arrow != null and arrow.visible and heights[0] != heights[1] and heights[1] != heights[2], "the arrow by the near exit shows and bobs: %s" % [heights])
+	# Unless the quest marker leads out that way: then its red arrow stands there instead (DECISIONS「箭头」).
+	var quest_way: bool = view.quest_marker != null and view.quest_marker.get_meta("way", &"") == &"goathill.mroad1.south"
+	_check(arrow != null and (arrow.visible or quest_way) and heights[0] != heights[1] and heights[1] != heights[2], "the arrow by the near exit shows and bobs: %s, quest way %s" % [heights, quest_way])
 	var road: Array[StringName] = [&"goathill.mroad2", &"goathill.mroad3", &"goathill.mroad4", &"goathill.mroad5", &"goathill.slope1", &"goathill.mroad6", &"goathill.canyon1", &"goathill.canyon2", &"goathill.canyon3"]
 	for zone: StringName in road:
 		_check(await MapPlaces.drive_to_zone(tree, map, zone), "walk the road into " + String(zone))

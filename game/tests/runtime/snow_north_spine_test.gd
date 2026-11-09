@@ -70,7 +70,7 @@ func physical_tests(tree: SceneTree) -> void:
 	check(session.active_map_id() == &"snow.outdoor", "physical Inn doorway")
 	geometry_tests(snow)
 	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1"]), "north into the street")
-	await solid(tree, session, snow, &"snow.school1", MapPlaces.door_spot(snow, &"snow.school.gate", &"snow.school1"), "move_right", "School closed gate")
+	check(snow.door(&"snow.school.gate").is_open(), "the school's red gate stands open (DECISIONS「街门常开」)")
 	var mstreet2: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet2")
 	await solid(tree, session, snow, &"snow.mstreet2", MapPlaces.spot(snow, &"snow.mstreet2", Vector2(mstreet2.position.x, mstreet2.position.y + 48)), "move_left", "mstreet2 west beside the smithy doorway")
 	for zone: StringName in [&"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]:
@@ -81,7 +81,11 @@ func physical_tests(tree: SceneTree) -> void:
 		await walk.round_trip(tree, session, Work.capture(session), String(zone))
 		if zone != &"snow.crossroad":
 			var street: Rect2 = MapPlaces.zone_rect(snow, zone)
-			await solid(tree, session, snow, zone, MapPlaces.spot(snow, zone, Vector2(street.end.x, street.get_center().y)), "move_right", "Hockshop's shut door or mst4's houses east")
+			var east_y: float = street.get_center().y
+			if zone == &"snow.mstreet3":
+				# The pawnshop's door stands open (DECISIONS「街门常开」): its wall beside the doorway.
+				east_y = MapPlaces.door_wall(snow, &"snow.hockshop.door").global_position.y + 112.0
+			await solid(tree, session, snow, zone, MapPlaces.spot(snow, zone, Vector2(street.end.x, east_y)), "move_right", "the Hockshop's wall beside its open door or mst4's houses east")
 			# 4B: the west fronts are doors (herbshop.c, postoffice.c); each shop is its own map (the remap).
 			var shop: StringName = &"snow.herbshop" if zone == &"snow.mstreet3" else &"snow.postoffice"
 			check(await MapPlaces.take_passage(tree, snow, StringName(String(zone) + ".west")), "into the shop west of " + String(zone))

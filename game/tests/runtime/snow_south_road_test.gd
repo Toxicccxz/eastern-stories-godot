@@ -217,7 +217,7 @@ func _test_shops(tree: SceneTree) -> void:
 	await tree.physics_frame
 	await tree.physics_frame
 	_check(session.active_map() == street and await MapPlaces.drive_through(tree, map, [&"snow.mstreet4", &"snow.mstreet3"]) and await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.hockshop.door", &"snow.mstreet3")), "back down to the Hockshop's door")
-	_check(map.open_door(&"snow.hockshop.door"), "the Hockshop door opens")
+	_check(map.door(&"snow.hockshop.door").is_open(), "the Hockshop door stands open (DECISIONS「街门常开」)")
 	_check(await MapPlaces.take_passage(tree, map, &"snow.mstreet3.east"), "in through the Hockshop's door")
 	await tree.physics_frame
 	await tree.physics_frame

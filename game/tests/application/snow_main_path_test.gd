@@ -280,8 +280,8 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	check(_plain(hud.log_lines().back()) == "你必须先用 enable 选择你要用的内功心法。", "打坐 without an enabled force (exercise.c)")
 	hud.dismiss_current_panel()
 	await _settle(tree)
-	# Beside 李火狮 the school gate is in reach too; the nearer one, he, is the context.
-	check(_beside(map, &"snow.school2", &"snow.school2.fist_trainer.1") and map.can_operate_door(&"snow.school.gate"), "TEST-ONLY placement beside 李火狮, by the gate")
+	# Beside 李火狮 by the gate, which stands open with nothing to work (DECISIONS「街门常开」): he is the context.
+	check(_beside(map, &"snow.school2", &"snow.school2.fist_trainer.1") and not map.can_operate_door(&"snow.school.gate"), "TEST-ONLY placement beside 李火狮, by the open gate")
 	await _settle(tree)
 	check(_plain(map.interaction_title()) == "李火狮 · 请教", "the context button offers his lessons, not the gate: " + map.interaction_title())
 	var yard: TeacherService = map.service(&"snow.school_compound.school2.fist_trainer") as TeacherService

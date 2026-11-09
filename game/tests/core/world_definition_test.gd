@@ -199,9 +199,17 @@ func _test_services_and_doors() -> void:
 		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)
 	_assert_true(catalog.services_for_map(SnowWorld.INN_MAP_ID).is_empty(), "the Inn has no room service")
 	var gate: DoorDefinition = catalog.door(&"snow.school.gate")
-	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable], ["红漆大门", [&"snow.school1", &"snow.school2"], true], "school1.c create_door")
+	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable, gate.starts_open], ["红漆大门", [&"snow.school1", &"snow.school2"], false, true], "school1.c create_door, standing open for good (DECISIONS「街门常开」)")
 	var hockshop: DoorDefinition = catalog.door(&"snow.hockshop.door")
-	_assert_eq([hockshop.map_id, hockshop.map_ids(), hockshop.closable], [SnowWorld.OUTDOOR_MAP_ID, [SnowWorld.OUTDOOR_MAP_ID, &"snow.hockshop_house"], false], "pawn shop door is open-only, on its portal from the street into the shop's own map")
+	_assert_eq([hockshop.map_id, hockshop.map_ids(), hockshop.closable, hockshop.starts_open], [SnowWorld.OUTDOOR_MAP_ID, [SnowWorld.OUTDOOR_MAP_ID, &"snow.hockshop_house"], false, true], "pawn shop door stands open for good (DECISIONS「街门常开」), on its portal from the street into the shop's own map")
+	# One door, one arrow (DECISIONS「箭头」): a door joining two maps stands over the passages between
+	# its two rooms (the view drops its own arrow while theirs shows); a door within one map has none.
+	for door: DoorDefinition in catalog.doors():
+		var through: int = 0
+		for portal: PortalDefinition in catalog.portals():
+			if door.zone_ids().has(portal.source_zone_id) and door.zone_ids().has(portal.destination_zone_id):
+				through += 1
+		_assert_true(through == (2 if door.map_ids().size() == 2 else 0), "%s: %d passages through it, %d maps" % [door.door_id, through, door.map_ids().size()])
 	_assert_eq(gate.map_ids(), [SnowWorld.OUTDOOR_MAP_ID, &"snow.school_compound"], "the red gate stands on the way from the gate court into the 武馆")
 	for map: MapDefinition in catalog.maps():
 		_assert_false(map.entry_spawn_id.is_empty(), "%s has an entry spawn" % map.map_id)

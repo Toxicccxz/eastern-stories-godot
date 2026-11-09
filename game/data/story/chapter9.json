@@ -65,7 +65,8 @@
 					"text": "养心殿里，十六岁的皇帝说：御书房里有父皇的匣子。",
 					"target": {
 						"map": "imperial.yangxin_hall",
-						"zone": "imperial.front_hall"
+						"zone": "imperial.front_hall",
+						"npcs": ["native.npc.fu_an", "native.npc.yulan_zhao_private"]
 					}
 				},
 				{
@@ -130,7 +131,8 @@
 					"text": "於兰天武读了手诏，把传功使交给萧辟尘，回京了。",
 					"target": {
 						"map": "waterfog.pavilion",
-						"zone": "waterfog.guildhall"
+						"zone": "waterfog.guildhall",
+						"npcs": ["common.npc.fighter.champion"]
 					}
 				}
 			],

@@ -17,12 +17,12 @@
 					"objective": "跟店小二打听广场上的「官爷」。",
 					"done": { "heard": { "npc": "snow.npc.waiter", "topic": "官爷" } },
 					"text": "店小二说外头广场上来了大内的官爷，叫你去瞧瞧。",
-					"target": { "map": "snow.inn", "zone": "snow.inn.main_floor" }
+					"target": { "map": "snow.inn", "zone": "snow.inn.main_floor", "npcs": ["snow.npc.waiter"] }
 				},
 				{
 					"id": "square",
 					"objective": "去镇前的广场，看看官爷们在做什么。",
-					"target": { "map": "snow.outdoor", "zone": "snow.square" },
+					"target": { "map": "snow.outdoor", "zone": "snow.square", "npcs": ["native.npc.feng_ce", "native.npc.onlooker"] },
 					"options": [
 						{
 							"id": "official",
@@ -50,7 +50,7 @@
 					"objective": "看官队在山壁下挖什么。",
 					"done": { "mark": "隘口的道士" },
 					"text": "官队挖出一只刻着风纹的石匣；一个黑衣黑冠的道士从崖上掠下，抢了匣子就逃，掉下一块布条。白道长说匣里是岚城的风铃。",
-					"target": { "map": "canyon.pass", "zone": "canyon.canyon1" }
+					"target": { "map": "canyon.pass", "zone": "canyon.canyon1", "npcs": ["native.npc.bai_daozhang", "native.npc.black_taoist_pass"] }
 				},
 				{
 					"id": "strip",

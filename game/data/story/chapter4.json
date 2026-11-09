@@ -18,7 +18,8 @@
 					"objective": "寒於的宝衣在哪？水烟阁的潘军禅、南危水知道旧事。",
 					"target": {
 						"map": "waterfog.upstairs",
-						"zone": "waterfog.forehall"
+						"zone": "waterfog.forehall",
+						"npcs": ["waterfog.npc.elder5"]
 					},
 					"options": [
 						{
@@ -61,7 +62,8 @@
 					"text": "安妮儿——东方神教的一代教主——在西厢住了三年。她说她等一件东西，也等一个配得上它的人。",
 					"target": {
 						"map": "latemoon.manor",
-						"zone": "latemoon.room.westroom"
+						"zone": "latemoon.room.westroom",
+						"npcs": ["latemoon.npc.room.annihi"]
 					}
 				},
 				{
@@ -73,7 +75,8 @@
 					"text": "瑷伦认了：衣在庄里，她守着，守了几百年——三十七岁的脸。宝衣不白给：接她三鞭，站着不倒，再谈。",
 					"target": {
 						"map": "latemoon.manor",
-						"zone": "latemoon.room.eastroom"
+						"zone": "latemoon.room.eastroom",
+						"npcs": ["latemoon.npc.room.elon"]
 					}
 				},
 				{
@@ -85,7 +88,8 @@
 					"text": "你接下了瑷伦的三鞭。她收起鞭子，问你一句：你拿它去做什么。",
 					"target": {
 						"map": "latemoon.manor",
-						"zone": "latemoon.room.eastroom"
+						"zone": "latemoon.room.eastroom",
+						"npcs": ["latemoon.npc.room.elon"]
 					}
 				},
 				{
@@ -93,7 +97,8 @@
 					"objective": "瑷伦问：你拿它去做什么？——为了斩鬼、交给安妮儿，还是不知道。",
 					"target": {
 						"map": "latemoon.manor",
-						"zone": "latemoon.room.eastroom"
+						"zone": "latemoon.room.eastroom",
+						"npcs": ["latemoon.npc.room.elon"]
 					},
 					"options": [
 						{
@@ -145,7 +150,8 @@
 					"objective": "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事。",
 					"target": {
 						"map": "latemoon.manor",
-						"zone": "latemoon.room.eastroom"
+						"zone": "latemoon.room.eastroom",
+						"npcs": ["latemoon.npc.room.elon"]
 					},
 					"options": [
 						{
