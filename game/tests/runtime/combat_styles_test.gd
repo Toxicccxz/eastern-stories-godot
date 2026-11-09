@@ -210,6 +210,11 @@ func _test_courage_with_the_move() -> void:
 ## A session: 柳绘心 (守势) announces her counterattack, runs it on her next beat under its
 ## announced name (the result carries it for the card), then rests four rounds.
 func _test_girl_label_and_rest(tree: SceneTree) -> void:
+	# TEST-ONLY (战斗拍数 E): no 失衡 here — her 「封」 (counterattack.c) cannot be used on a busy
+	# target, and her 重 would often leave the player so; the announcement is what is tested.
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var beats_before: CombatBeatRules = pacing.beat_rules()
+	pacing.with_beats(beats_before.duplicate_snapshot().with_heavy(0, beats_before.exposed_percent))
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -249,6 +254,7 @@ func _test_girl_label_and_rest(tree: SceneTree) -> void:
 	_check(not announced.is_empty() and announced.contains("「") and announced.contains("」"), "she announced her special by name: %s" % announced)
 	_check(ran_label == announced, "the special ran under the announced name (not the line's first 「」): '%s' / '%s'" % [ran_label, announced])
 	_check(ran_cycle >= 0 and ready_at == ran_cycle + 5 and seen_after == 0, "守势 rests four rounds after it: ready at %d (ran at %d), nothing announced meanwhile (%d)" % [ready_at, ran_cycle, seen_after])
+	pacing.with_beats(beats_before)
 	session.free()
 	await tree.process_frame
 

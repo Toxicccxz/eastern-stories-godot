@@ -229,6 +229,8 @@ func _test_in_town(tree: SceneTree) -> void:
 	var receipt: CombatEncounterCompletionResult = coordinator.last_completion()
 	_check(not coordinator.has_active_encounter() and receipt != null and receipt.succeeded() and receipt.terminal_result.kind == CombatEncounterResultKind.Value.LESSON_CONCLUDED and steps <= 4, "over after three rounds (%d steps), concluded as a lesson" % steps)
 	_check(state.vitality.current == 300 and state.vitality.effective == 300 and trainer.character_state.vitality.current == trainer_kee, "nobody lost kee: %d / %d" % [state.vitality.current, trainer.character_state.vitality.current])
+	# 战斗拍数 E: a 失衡 still owed when the fight ended went with it.
+	_check(not player.busy.is_busy() and not trainer.busy.is_busy(), "nobody left reeling after the lesson: %d / %d" % [player.busy.busy_value, trainer.busy.busy_value])
 	_check(said.any(func(line: String) -> bool: return line.contains("一回合不是一招")) and said.any(func(line: String) -> bool: return line.contains("最后一回合")), "his three lines as the rounds began: %s" % [said])
 	var verdict: int = CombatInsights.lesson_verdict(state, LIUH)
 	_check(verdict != 0 and hud.message_log.log_lines().any(func(line: String) -> bool: return line.begins_with("李火狮说道：") and line.contains(CombatInsights.verdict_line(guide, verdict).left(8))), "his verdict (%d) said and kept: %s" % [verdict, hud.message_log.log_lines().slice(-3)])

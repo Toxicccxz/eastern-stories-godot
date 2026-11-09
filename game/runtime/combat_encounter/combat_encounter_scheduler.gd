@@ -116,6 +116,8 @@ var _note_wound: Callable = Callable()
 ## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): who stands open after a 重 of theirs was dodged
 ## or parried (露空), until the next blow at them.
 var _exposed: Dictionary[StringName, bool] = {}
+## Who owes a beat to 失衡 still (until their busy beat is paid, or the fight ends).
+var _staggered: Dictionary[StringName, bool] = {}
 ## Who was said to strike twice while the player recovered from a 重 this round (said once).
 var _combo_told: Dictionary[StringName, bool] = {}
 ## The beats each NPC took since the player's 重 this round (-1 at: no 重 yet this round).
@@ -646,6 +648,19 @@ func _use_opening(actor_id: StringName) -> void:
 	var target: StringName = _encounter.current_target_for(actor_id)
 	if target != actor_id and _exposed.has(target):
 		_exposed.erase(target)
+
+
+## 战斗拍数 E: the fight is over — a 失衡 still owed is dropped (the beat it took belonged to
+## the fight; out of it nobody stands reeling).
+func release_stagger(participants: Array[CombatParticipant]) -> void:
+	for participant: CombatParticipant in participants:
+		if not _staggered.has(participant.participant_id) or participant.binding == null or participant.binding.busy == null:
+			continue
+		var busy: ActionBusyState = participant.binding.busy
+		for _beat: int in _beat_rules.stagger_beats:
+			if busy.busy_value > 0:
+				busy.advance()
+	_staggered.clear()
 
 
 ## 战斗拍数 E: whether `actor_id` stands open after a 重 of theirs missed (露空).
@@ -1393,6 +1408,8 @@ func _take_beat(
 		var struck: CombatActionDefinition = _struck_move(resolution)
 		if resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED:
 			beats.spend(SPENT_BUSY, 1)
+			if actor != null and not actor.busy.is_busy():
+				_staggered.erase(actor_id)
 			# ES2's busy counts down once a heart beat: a busy round is lost whole.
 			if not _beat_rules.busy_in_beats:
 				beats.forfeit()
@@ -1567,6 +1584,7 @@ func _note_heavy(attacker_id: StringName, victim_id: StringName, move: CombatAct
 		var victim: CombatSliceCharacterBinding = _find_binding(bindings, victim_id)
 		if victim != null and victim.life_status == CombatSliceLifeStatus.Value.ACTIVE and not victim.busy.is_busy():
 			victim.busy.start_busy(_beat_rules.stagger_beats)
+			_staggered[victim_id] = true
 			# TRANSLATORS: a 重 move landed and threw its victim off balance: $N the one hit, who loses their next beat (手).
 			_emit(_note_event(victim_id, TranslationServer.translate("$N被震得失衡，丢了一手！"), ColoredLine.HIR))
 	elif outcome in [CombatAttackResult.Outcome.DODGE, CombatAttackResult.Outcome.PARRY] and _beat_rules.exposed_percent > 0:
