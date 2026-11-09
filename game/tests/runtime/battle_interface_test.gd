@@ -317,6 +317,13 @@ func _beats_panel(tree: SceneTree) -> void:
 	check(heavy.disabled and panel.move_sub(&"es2:test/1") == "手不够" and heavy.tooltip_text == "手不够" and locked.disabled and panel.move_sub(&"es2:test/2") == "够不着" and not panel.move_buttons[&"es2:test/0"].disabled, "the 重 dimmed 手不够, the locked one 够不着, the 快 bright")
 	check(panel.chips.slots() == ([CombatMoveTags.FEINT, &""] as Array[StringName]) and panel._left_word.text == "还剩 1 手", "the first slot took the 虚's colour, one left")
 	check(panel.strip_text.text == "你出虚，他起手守 · 被克　他起手：虚", "the beat's result against the move he showed before it, then his next: " + panel.strip_text.text)
+	# 战斗拍数 E: his beats spent and one left to the player — the sentence says so.
+	foe.beats.spend(CombatMoveTags.QUICK, 1)
+	foe.beats.spend(CombatMoveTags.QUICK, 1)
+	panel.present(projection)
+	check(panel.strip_text.text == "你出虚，他起手守 · 被克　他没手了，你还有 1 手　他起手：虚", "he has no move left this round, the player one: " + panel.strip_text.text)
+	foe.beats = CombatRoundBeats.new(&"n", 2)
+	panel.present(projection)
 	panel._point(&"es2:test/1")
 	check(panel.chips.preview() == [2, false] and panel.strip_text.text == "不够：空山鸟语要 2 手，你还剩 1 手", "a 重 with one left: the ghost red, the sentence says why: " + panel.strip_text.text)
 	panel._unpoint(&"es2:test/1")

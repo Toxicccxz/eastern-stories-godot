@@ -573,6 +573,12 @@ func pulse_choice() -> void:
 
 
 ## The banner flaps (`amount` 0 .. 1): its side struck.
+## 战斗拍数 E: a 重 threw this one off balance — their next beat's seal is struck through.
+func strike_next_beat() -> void:
+	if stamps != null:
+		stamps.strike_first()
+
+
 func flap(amount: float) -> void:
 	if not _panel_style.is_empty():
 		_chrome.gust(amount)

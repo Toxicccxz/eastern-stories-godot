@@ -55,6 +55,8 @@ var _shown_participants: Array[StringName] = []
 ## 战斗演出 A: the head — the mode's word, its rule, the line under it — and the shade over
 ## the scene, all in the mode's look (BattleModeLook); the mode they show now (-1 none yet).
 var _title: Label
+## The mode's word in blocks over the Label (owner 2026-11-09); the Label keeps the text.
+var _voxel_title: BattleModeTitle
 var _rule: ColorRect
 var _motto: Label
 var _shade: ColorRect
@@ -234,6 +236,11 @@ func _tell_lines(delta: float) -> void:
 				_line_wait += pause
 				if next.tag == CombatMoveTags.HEAVY:
 					scene_show.windup(next.actor_id)
+					# 战斗拍数 E: the 气 gathering fills the striker's banner.
+					var striker: BattleParticipantProjection = _projection.participant(next.actor_id)
+					var banner: BattleParticipantCard = null if striker == null else _panel_card(1 if striker.hostile_to_player else 0)
+					if banner != null:
+						banner.flap(0.9)
 				if _line_wait > 0.0:
 					break
 		var line: BattleNarrationLine = _line_queue.pop_front()
@@ -294,6 +301,9 @@ func _show_line(line: BattleNarrationLine) -> void:
 		sounds.play_all(BattleSounds.for_line(line, false, not _earned_told))
 		_earned_told = true
 		return
+	if line.cue == BattleNarrationLine.CUE_STAGGER or line.cue == BattleNarrationLine.CUE_EXPOSED:
+		_show_heavy_aftermath(line)
+		return
 	if not line.has_blow and not line.is_special:
 		return
 	var fatal: bool = _fatal(line)
@@ -323,6 +333,25 @@ func _show_line(line: BattleNarrationLine) -> void:
 		var panel: BattleParticipantCard = _panel_card(1 if actor.hostile_to_player else 0)
 		if panel != null:
 			panel.flap(1.0 if line.is_special or line.in_special or fatal else (0.75 if line.tag == CombatMoveTags.HEAVY else 0.5))
+
+
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): what a 重 left behind — 失衡 over the one it threw
+## off balance (red, their next beat's seal struck through on their card), 露空 over the one it
+## left open (pale blue); the scene plays the reel or the lurch.
+func _show_heavy_aftermath(line: BattleNarrationLine) -> void:
+	var staggered: bool = line.cue == BattleNarrationLine.CUE_STAGGER
+	scene_show.play_line(line)
+	# TRANSLATORS: over the head of one a 重 move threw off balance (they lose their next move); two or three characters.
+	var word: String = tr("失衡")
+	if not staggered:
+		# TRANSLATORS: over the head of one whose 重 move missed and left them open; two or three characters.
+		word = tr("露空")
+	move_titles.show_word(_voxel_view(), line.actor_id, word, BattleMoveTitles.STAGGER_COLOUR if staggered else BattleMoveTitles.EXPOSED_COLOUR)
+	if staggered:
+		sounds.play(BattleSounds.SEAL)
+		for index: int in mini(_cards.size(), _shown_participants.size()):
+			if _shown_participants[index] == line.actor_id:
+				_cards[index].strike_next_beat()
 
 
 ## Whether `line` is the first blow of a beat not told yet (a blow of another actor or
@@ -575,6 +604,8 @@ func refresh_projection() -> void:
 	if _projection.completion_outcome >= 0:
 		_title.text = tr("战斗无法正常结束，不会自动重试。")
 		_title.add_theme_font_size_override("font_size", GameTheme.text_size(20))
+		_voxel_title.present("", -1)
+		_title.add_theme_color_override("font_color", UiPalette.BONE)
 	# The last order's receipt, and the target, on the title's hover (the gold border shows
 	# the target; the receipt says why an order was not taken).
 	var hover := PackedStringArray([tr("目标：%s") % tr(_projection.display_name(_projection.current_target_id))])
@@ -718,6 +749,8 @@ func _build() -> void:
 	_title.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02, 0.9))
 	_title.mouse_filter = Control.MOUSE_FILTER_PASS
 	head.add_child(_title)
+	_voxel_title = BattleModeTitle.new()
+	_title.add_child(_voxel_title)
 	_rule = ColorRect.new()
 	_rule.name = "ModeRule"
 	_rule.custom_minimum_size = RULE_SIZE
@@ -1357,8 +1390,10 @@ func _show_mode(mode: int) -> void:
 	var look: BattleModeLook = BattleModeLook.of(mode)
 	_title.text = tr(look.title)
 	_title.add_theme_font_size_override("font_size", SHORT_TITLE_SIZE if _compact else TITLE_SIZE)
-	_title.add_theme_color_override("font_color", look.title_color)
-	_title.add_theme_constant_override("outline_size", 6 if look.outlined else 0)
+	# The word in blocks when the pixel face draws it; the Label's own letters then hidden.
+	var built: bool = _voxel_title.present(_title.text, mode)
+	_title.add_theme_color_override("font_color", Color(look.title_color, 0.0) if built else look.title_color)
+	_title.add_theme_constant_override("outline_size", 6 if look.outlined and not built else 0)
 	_rule.color = look.accent
 	_motto.text = tr(look.motto)
 	_motto.visible = not look.motto.is_empty() and not _compact
