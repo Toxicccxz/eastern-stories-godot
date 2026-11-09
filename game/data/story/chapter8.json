@@ -67,7 +67,8 @@
 					"text": "璃虹：钉拔，它成形，先回这附近的村子；要灭它，三器齐——穿灵、旋芒、宝衣；要再封，须有人留下。",
 					"target": {
 						"map": "village.seal_chamber",
-						"zone": "village.seal_altar"
+						"zone": "village.seal_altar",
+						"npcs": ["native.npc.lihong"]
 					}
 				},
 				{
@@ -75,7 +76,8 @@
 					"objective": "商玦劝你拔剑。拔，剑到手、鬼醒；不拔，带着封法去京师和岚城，终章再回来。",
 					"target": {
 						"map": "village.seal_chamber",
-						"zone": "village.seal_altar"
+						"zone": "village.seal_altar",
+						"npcs": ["native.npc.lihong", "native.npc.lihong_finale"]
 					},
 					"options": [
 						{

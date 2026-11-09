@@ -39,19 +39,14 @@ func physical_tests(tree: SceneTree) -> void:
 	check(GameContent.catalog().zone(&"snow.hockshop").room_ids() == [&"es2:d/snow/hockshop"], "source metadata")
 	check(GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.mstreet3") and GameContent.catalog().zones_adjacent(&"snow.mstreet3", &"snow.hockshop"), "two-way local neighbor")
 	check(GameContent.catalog().zone(&"snow.hockshop2") != null and GameContent.catalog().portal(&"snow.hockshop2") == null and GameContent.catalog().zones_adjacent(&"snow.hockshop", &"snow.hockshop2"), "4B: the storage room is walked into, no portal")
-	check(not snow.door(&"snow.hockshop.door").is_open() and not shop.door(&"snow.hockshop.door").is_open() and not snow.open_door(&"snow.hockshop.door") and not ui.in_reach(), "fresh closed (on both maps) / no remote interaction in Inn")
+	# The pawnshop's door stands open for good (DECISIONS「街门常开」): nothing to work, on either map.
+	check(snow.door(&"snow.hockshop.door").is_open() and shop.door(&"snow.hockshop.door").is_open() and not snow.open_door(&"snow.hockshop.door") and not ui.in_reach(), "fresh: open on both maps / no remote interaction in Inn")
 	await tree.physics_frame
 	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1", &"snow.mstreet2", &"snow.mstreet3"]), "up the street to the Hockshop")
 	check(await MapPlaces.drive(tree, snow, MapPlaces.door_spot(snow, &"snow.hockshop.door", &"snow.mstreet3")), "up to its door")
 	var door_wall: CollisionShape2D = MapPlaces.door_wall(snow, &"snow.hockshop.door")
-	await MapPlaces.push(tree, &"move_right", 40)
-	check(snow.player_body.position.x < door_wall.global_position.x - 16.0 and session.player_runtime().world_location().zone_id == &"snow.mstreet3", "closed collision stops physical input")
-	check(snow.can_operate_door(&"snow.hockshop.door") and not ui.in_reach(), "street offers door, never trade")
-	var before: Vector2 = snow.player_body.position
-	check(snow.open_door(&"snow.hockshop.door") and snow.player_body.position == before, "open-only no teleport")
-	await tree.physics_frame
-	await tree.physics_frame
+	check(not snow.can_operate_door(&"snow.hockshop.door") and not ui.in_reach(), "the street offers no door to work, and never trade")
 	check(door_wall.disabled, "only door collision disabled")
 	check(MapPlaces.door_wall(shop, &"snow.hockshop.door").disabled, "the door stands open on the shop's side too (one door on both maps)")
 	check(not MapPlacementValidator.is_valid_character_position(shop, &"snow.hockshop", MapPlaces.door_wall(shop, &"snow.hockshop.door").global_position), "open threshold still save-invalid for closed cold restore")
@@ -94,13 +89,12 @@ func physical_tests(tree: SceneTree) -> void:
 			check(fresh.activate_restore_candidate(), "activate Hockshop restore")
 			fresh.set_process(false)
 			var new_shop: WorldMapController = fresh.active_map() as WorldMapController
-			check(new_shop.map_id() == &"snow.hockshop_house" and not new_shop.door(&"snow.hockshop.door").is_open() and new_shop.player_body.position == shop.player_body.position and (new_shop.service(&"snow.hockshop.counter") as HockshopService).in_reach(), "exact restore closed door and service")
+			check(new_shop.map_id() == &"snow.hockshop_house" and new_shop.door(&"snow.hockshop.door").is_open() and new_shop.player_body.position == shop.player_body.position and (new_shop.service(&"snow.hockshop.counter") as HockshopService).in_reach(), "exact restore, the door open as it starts, and service")
 			check(GameSaveJsonCodec.encode(Work.capture(fresh)).text == encoded.text, "whole snapshot equality / no rewrite")
 			shop.player_body.player_controlled = false # isolate two simultaneously loaded test bodies
 			(shop.player_body.get_node("CollisionShape2D") as CollisionShape2D).disabled = true # the restored body starts where it stands
 			await tree.physics_frame
 			check(await MapPlaces.drive(tree, new_shop, MapPlaces.door_spot(new_shop, &"snow.hockshop.door", &"snow.hockshop")), "back to the door inside")
-			check(new_shop.open_door(&"snow.hockshop.door"), "reopen from inside after restore")
 			await tree.physics_frame
 			check(await MapPlaces.take_passage(tree, new_shop, &"snow.hockshop.west"), "out onto the street")
 			await tree.physics_frame

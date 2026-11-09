@@ -16,14 +16,14 @@
 					"objective": "回雪亭镇淳风武馆，把山洞里的事告诉柳淳风。",
 					"done": { "heard": { "npc": "common.npc.swordsman.master", "topic": "水烟阁" } },
 					"text": "柳淳风写了一封引荐信，让你去水烟阁找他的结拜义弟、执法使潘军禅；他说二十年前失在老松岭的那趟镖是振远镖局押的。",
-					"target": { "map": "snow.school_compound", "zone": "snow.schoolhall" }
+					"target": { "map": "snow.school_compound", "zone": "snow.schoolhall", "npcs": ["common.npc.swordsman.master"] }
 				},
 				{
 					"id": "escort",
 					"objective": "去绮云镇振远镖局，问陈剑秋二十年前的失镖。",
 					"done": { "heard": { "npc": "cloud.npc.b_header", "topic": "失镖" } },
 					"text": "陈剑秋拿出二十年前的镖单：押的是水烟阁盟主印一方、密件一匣，失镖于老松岭，无一人生还。振远至今不提这桩丢人事。",
-					"target": { "map": "cloud.biaoju_house", "zone": "cloud.biaoju" }
+					"target": { "map": "cloud.biaoju_house", "zone": "cloud.biaoju", "npcs": ["cloud.npc.b_header"] }
 				},
 				{
 					"id": "tomb",
@@ -44,19 +44,19 @@
 					"objective": "上楼找五长老南危水，拿证据问他山洞里的骸骨。",
 					"done": { "mark": "南危水承认了" },
 					"text": "南危水承认了：山洞里死的是他的随从阿岭，伏击的是白衣武官，盟主卫沧澜被带走。他装死二十年，是怕哥哥槐阳王知道朝廷伏击了自己的弟弟会反。",
-					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall" }
+					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall", "npcs": ["waterfog.npc.elder5", "waterfog.npc.elder7"] }
 				},
 				{
 					"id": "pan",
 					"objective": "拿着引荐信到前厅找执法使潘军禅，问「邪剑穿灵」。",
 					"done": { "mark": "潘军禅说了鱼饵" },
 					"text": "潘军禅说那把邪剑穿灵是仿剑、是鱼饵：去年一个黑衣道士来试过它，往野羊山北麓去了。",
-					"target": { "map": "waterfog.pavilion", "zone": "waterfog.guildhall" }
+					"target": { "map": "waterfog.pavilion", "zone": "waterfog.guildhall", "npcs": ["common.npc.fighter.executioner"] }
 				},
 				{
 					"id": "choice",
 					"objective": "替南危水保密，还是告诉七长老颜违？",
-					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall" },
+					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall", "npcs": ["waterfog.npc.elder5", "waterfog.npc.elder7"] },
 					"options": [
 						{
 							"id": "keep",

@@ -127,7 +127,7 @@
 	],
 	"doors": [
 		{"id": "choyin.court1.gate", "name": "衙门大门", "zones": ["choyin.court1", "choyin.yamen_yard"], "reach": 90, "closable": false, "operable": false, "found_by": "击了鼓", "legacy_room": "es2:d/choyin/court1"},
-		{ "id": "choyin.yamen.door", "name": "铜钉大门", "zones": ["choyin.yamen_yard", "choyin.yamen"], "reach": 90, "legacy_room": "es2:d/choyin/yamen" },
+		{ "id": "choyin.yamen.door", "name": "铜钉大门", "zones": ["choyin.yamen_yard", "choyin.yamen"], "reach": 90, "open": true, "closable": false, "legacy_room": "es2:d/choyin/yamen" },
 		{ "id": "choyin.fence.door", "name": "柴门", "zones": ["choyin.fence", "choyin.club"], "reach": 90, "legacy_room": "es2:d/choyin/fence" },
 		{ "id": "choyin.club.door", "name": "柴门", "zones": ["choyin.club", "choyin.yard"], "reach": 90, "legacy_room": "es2:d/choyin/club" }
 	],
