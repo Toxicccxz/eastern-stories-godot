@@ -39,7 +39,8 @@ void vertex() {
 	// to side); a strike adds a quick hard shake.
 	float swing = 1.0 + gust * 1.6;
 	float pitch = (sway_pitch * sin(TIME * 0.85 + 0.6) + sway_pitch * 0.3 * sin(TIME * 1.9)) * swing + gust * 0.12 * sin(TIME * 27.0 + 0.4);
-	float roll = (sway_roll * sin(TIME * 1.15) + sway_roll * 0.35 * sin(TIME * 2.3 + 1.3)) * swing * lean + gust * 0.06 * sin(TIME * 31.0);
+	// Side to side less than forward and back (a strike must not swing the tails out of the picture).
+	float roll = (sway_roll * sin(TIME * 1.15) + sway_roll * 0.35 * sin(TIME * 2.3 + 1.3)) * (1.0 + gust * 0.8) * lean + gust * 0.025 * sin(TIME * 31.0);
 	vec3 from_pivot = origin - pivot;
 	vec3 turned = vec3(from_pivot.x, from_pivot.y * cos(pitch) - from_pivot.z * sin(pitch), from_pivot.y * sin(pitch) + from_pivot.z * cos(pitch));
 	turned = vec3(turned.x * cos(roll) - turned.y * sin(roll), turned.x * sin(roll) + turned.y * cos(roll), turned.z);

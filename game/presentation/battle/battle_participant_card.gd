@@ -512,6 +512,10 @@ func set_panel(style: String, side: int, picture: Texture2D = null, picture_size
 	choice_row.z_index = 1 if panel else 0
 	stage.stamp_centre = Vector2(0.5, 0.24) if panel else Vector2(0.5, 0.5)
 	for button: Button in [finish_button, spare_button]:
+		# On a panel the row keeps to the panel's width (a long 了结（任务目标、弑师） cut, whole in the hover).
+		button.custom_minimum_size = Vector2(0, 40) if panel else Vector2(96, 48)
+		button.clip_text = panel
+		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS if panel else TextServer.OVERRUN_NO_TRIMMING
 		if panel:
 			button.add_theme_color_override("font_color", UiPalette.LANTERN)
 			button.add_theme_color_override("font_hover_color", UiPalette.LIGHT_TEXT)
