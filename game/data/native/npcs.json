@@ -157,6 +157,10 @@
 		},
 		{
 			"id": "native.npc.feng_ce",
+			"calls": [
+				{"after": 1, "reaction": true, "mark": "拔了穿灵", "not_mark": "冯策提过穿灵", "npc_in": "imperial.duty_room", "steps": [{"say": "玉螺湖那一夜烧了半个村子——是你拔的剑。皇上不知道，老夫知道。……拔了就往前走，别回头。"}, {"mark": "冯策提过穿灵"}]},
+				{"after": 1, "reaction": true, "mark": "查清了封物", "not_mark": "冯策提过穿灵", "npc_in": "imperial.duty_room", "steps": [{"say": "你在湖底没动那把剑。老夫活了五十八年，见过的人十个有九个会动。"}, {"mark": "冯策提过穿灵"}]}
+			],
 			"legacy_source": "native: 任务系统 寻剑令 (剧情总纲 §3 序章; one of doc/help/theme's two unnamed 老者, named by the outline; DECISIONS「任务系统」)",
 			"name": "冯策",
 			"aliases": ["feng ce", "feng"],
@@ -664,6 +668,51 @@
 					]
 				}
 			}
+		},
+		{
+			"id": "native.npc.inn_raider",
+			"legacy_source": "native: 主线修补 B (owner 2026-11-09「按推荐做」「开始 B 包」; build/plans/主线修补_计划.md B 包; DECISIONS「主线修补 B」) — 庾子建's answer to the 堂审: two of the 兵部's white-clad with a 海捕文书, at 饮风客栈 (续写)",
+			"name": "白衣武官",
+			"aliases": [
+				"white officer",
+				"officer",
+				"武官"
+			],
+			"gender": "男性",
+			"age": 31,
+			"long": "一个身著白衣的朝廷武官，腰悬长剑。他把客栈的桌子一张张掀开，靴子踩在碎碗上，手里攥着一张海捕文书，上头画的人像你。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 24,
+				"int": 18,
+				"spi": 18,
+				"cps": 22,
+				"per": 16,
+				"con": 24,
+				"kar": 14
+			},
+			"combat_exp": 50000,
+			"score": 800,
+			"bellicosity": 1500,
+			"attitude": "aggressive",
+			"skills": {
+				"unarmed": 80,
+				"sword": 100,
+				"dodge": 90,
+				"parry": 90,
+				"force": 60
+			},
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"greeting": {
+				"say": "就是他！海捕文书上的人——逆灵宫的同党，拿下！"
+			},
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"白衣武官喝道：兵部的文书在此，你还敢动手？\n",
+				"白衣武官一脚踢翻了长凳。\n"
+			]
 		},
 		{
 			"id": "native.npc.yu_henchman",

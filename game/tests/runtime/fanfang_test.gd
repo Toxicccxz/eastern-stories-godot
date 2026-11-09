@@ -79,7 +79,7 @@ func _test_data() -> void:
 	var tablet: ItemContentDefinition = catalog.item(&"native:fanfang/bronze_tablet")
 	_check(tablet != null and tablet.quest_item and tablet.no_drop, "the 铜牒 is a quest item nobody drops")
 	var andun: NpcDefinition = catalog.npc(&"native.npc.andun")
-	_check(andun != null and andun.age == 61 and andun.hooks() != null and andun.hooks().calls.size() == 2 and andun.hooks().calls[0].act.npc_in == &"fanfang.hall" and andun.hooks().calls[1].act.npc_in == &"fanfang.dock" and andun.talk().inquiry_topics().has("铜牒") and andun.talk().inquiry_topics().has("站大秦人"), "安敦: 61, meets the player in his hut, tells of the 铜牒 and takes a side; in a 枷 on the quay (番坊 C)")
+	_check(andun != null and andun.age == 61 and andun.hooks() != null and andun.hooks().calls.size() == 4 and andun.hooks().calls[0].act.npc_in == &"fanfang.hall" and andun.hooks().calls[1].act.npc_in == &"fanfang.dock" and andun.talk().inquiry_topics().has("铜牒") and andun.talk().inquiry_topics().has("站大秦人"), "安敦: 61, meets the player in his hut, tells of the 铜牒 and takes a side; in a 枷 on the quay (番坊 C)")
 	var lama: NpcDefinition = catalog.npc(&"fanfang.npc.lama_master")
 	_check(lama != null and lama.age == 71 and lama.class_id == &"lama" and lama.internal_power(&"max_force") == 1500 and lama.internal_power(&"force_factor") == 5 and lama.skill_map().get(&"force") == &"lotusforce" and lama.ordination() != null and lama.teaching() != null and lama.teaching().family_name == "日陀罗寺" and lama.teaching().f_master, "龙若法王 as master.c makes him: 71, force 1500 / 5, 莲花内功, 剃度 by kneeling, 日陀罗寺's 住持 (番坊 D)")
 	var south: PortalDefinition = catalog.portal(&"village.valley1.south")
