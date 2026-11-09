@@ -38,13 +38,14 @@ var _material: ShaderMaterial
 var _mesh: MultiMeshInstance3D
 var _camera: Camera3D
 var _unfurl_tween: Tween
-var _clock: float = 0.0
+var _box: BoxMesh
 
 
 func _init() -> void:
 	transparent_bg = true
 	own_world_3d = true
-	render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	# Drawn only while its panel shows (BattlePanelChrome._fit()).
+	render_target_update_mode = SubViewport.UPDATE_DISABLED
 	msaa_3d = Viewport.MSAA_DISABLED
 	size = Vector2i(64, 64)
 	_material = ShaderMaterial.new()
@@ -119,10 +120,11 @@ func build(rows: int, p_side: int, dye: Color, p_current: bool) -> void:
 	multi.transform_format = MultiMesh.TRANSFORM_3D
 	multi.use_colors = true
 	multi.use_custom_data = true
-	var box := BoxMesh.new()
-	box.size = Vector3.ONE
-	box.material = _material
-	multi.mesh = box
+	if _box == null:
+		_box = BoxMesh.new()
+		_box.size = Vector3.ONE
+		_box.material = _material
+	multi.mesh = _box
 	multi.instance_count = bricks.size()
 	for index: int in bricks.size():
 		var brick: Array = bricks[index]
@@ -175,7 +177,8 @@ func let_down(seconds: float, delay: float = 0.0) -> void:
 
 ## How far it is let down now (0 .. 1; tests).
 func unfurled() -> float:
-	return float(_material.get_shader_parameter("unfurl"))
+	var share: Variant = _material.get_shader_parameter("unfurl")
+	return 1.0 if share == null else float(share)
 
 
 ## A flap (`amount` 0 .. 1; the strongest asked wins), dying away.

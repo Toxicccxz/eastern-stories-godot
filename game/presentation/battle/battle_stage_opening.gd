@@ -462,6 +462,8 @@ func _done() -> void:
 func skip() -> void:
 	if not _running:
 		return
+	# The banners down at once too.
+	sliding.emit(0.0)
 	_slid = true
 	if _slide_tween != null and _slide_tween.is_valid():
 		_slide_tween.kill()

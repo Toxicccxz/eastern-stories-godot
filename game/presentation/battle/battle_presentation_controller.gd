@@ -45,6 +45,8 @@ var nameplates: BattleNameplates
 ## Those waiting on 了结 / 放过 whose panel the player passed over by picking another target.
 var _passed_held: Dictionary[StringName, bool] = {}
 var _relay_queued: bool = false
+## Who each side panel showed last this fight (a new one there lets its banner down).
+var _panel_shown: Array[StringName] = [&"", &""]
 var _card_layout_key: String = ""
 var _compact: bool = false
 var _room_width: float = 0.0
@@ -525,6 +527,7 @@ func refresh_projection() -> void:
 			_shown_mode = -1
 			_card_layout_key = ""
 			_passed_held.clear()
+			_panel_shown = [&"", &""]
 			_strip_open = false
 			_strip_left = 0.0
 			# 战斗拍数 C: the scene's show begins with the fight (the camera a little nearer).
@@ -1001,9 +1004,11 @@ func _fit_cards() -> void:
 		var card: BattleParticipantCard = mine if side == 0 else theirs
 		if card == null:
 			continue
-		# A panel newly put up mid-fight (a new target) lets its banner down; at the fight's start the
-		# opening's slide does (_unfurl_panels()).
-		var fresh: bool = card.panel_style().is_empty()
+		# A panel showing someone new mid-fight (a new target) lets its banner down; at the fight's start
+		# the opening's slide does (_unfurl_panels()). One who joined does not (the cards are made
+		# again then, the people on the panels the same).
+		var fresh: bool = card.participant_id() != _panel_shown[side]
+		_panel_shown[side] = card.participant_id()
 		var key: String = "mine" if side == 0 else "theirs"
 		var picture: Texture2D = _portrait_of(card.participant_id(), side == 1)
 		card.set_panel(style, side, picture, _portrait_size(width) if picture != null else Vector2.ZERO, Color(String(sides.get(key, "4f8f78"))), Color(String(sides.get("name_" + key, "9fdcc4"))))

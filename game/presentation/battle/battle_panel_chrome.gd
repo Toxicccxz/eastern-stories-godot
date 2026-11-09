@@ -18,19 +18,21 @@ var _drawn: Rect2 = Rect2()
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	show_behind_parent = true
-	banner = BattleVoxelBanner.new()
-	banner.name = "VoxelBanner"
-	add_child(banner)
 	resized.connect(_fit)
 	visibility_changed.connect(_fit)
 
 
+## Dressed as `p_side`'s banner (the banner is made the first time: a card never a panel has none).
 func dress(p_side: int, p_current: bool, colour: Color) -> void:
-	if p_side == side and p_current == current and colour == side_colour and _drawn.has_area():
+	if banner != null and p_side == side and p_current == current and colour == side_colour and _drawn.has_area():
 		return
 	side = p_side
 	current = p_current
 	side_colour = colour
+	if banner == null:
+		banner = BattleVoxelBanner.new()
+		banner.name = "VoxelBanner"
+		add_child(banner)
 	_fit()
 
 
