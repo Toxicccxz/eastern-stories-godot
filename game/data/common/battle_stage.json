@@ -6,11 +6,11 @@
 		"gap": 0.03,
 		"tiers": 3,
 		"small_cells": 64,
-		"tier_height": 0.1,
+		"tier_height": 0.065,
 		"margin": 2,
 		"max_cells": [28, 20],
-		"jitter": 0.18,
-		"height_jitter": 0.02,
+		"jitter": 0.34,
+		"height_jitter": 0.03,
 		"drop_height": 0.35,
 		"float_height": 3.4
 	},
@@ -40,7 +40,7 @@
 		"shade": 0.3
 	},
 	"looks": {
-		"_comment": "By the fight's mode (spar, lethal, lesson; a story fight takes lethal). tiers: bottom to top, each a few colours the bricks pick from; rim: the top step's edge; corners: what stands at the base's four corners (flag / brazier / none); rubble: loose stones scattered round the foot; sounds: a row laid, the stage done; glow (战斗演出 E): how strongly each half of the top is lit in its side's colour.",
+		"_comment": "By the fight's mode (spar, lethal, lesson; a story fight takes lethal). tiers: bottom to top, each a few colours the bricks pick from; rim: the top step's edge; corners: what stands at the base's four corners (flag / brazier / none); rubble: loose stones scattered round the foot; sounds: a row laid, the stage done; glow (战斗演出 E): how strongly each half of the top is lit in its side's colour; glow_bricks: the glowing bricks set among the stone (their colours; the share of a step's edge bricks and of the top's inner ones that glow).",
 		"spar": {
 			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
 			"rim": "4f8f78",
@@ -48,23 +48,27 @@
 			"flag": "4f8f78",
 			"flag_edge": "e9b84c",
 			"pole": "5a3820",
-			"rubble": 0,
 			"row_sound": "brick_wood",
 			"done_sounds": [["gong", 1.0, 0.0], ["clapper", 1.5, -4.0], ["clapper", 1.5, -6.0]],
 			"backdrop": {"tint": "fff1dc", "darken": 0.18, "fade": 0.25, "blur_lod": 3.0, "blur_px": 6.0},
 			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2},
-			"glow": {"mine": 0.75, "theirs": 0.6}
+			"glow": {"mine": 0.75, "theirs": 0.6},
+			"glow_bricks": {"colours": ["6fe3c8", "4fd1b8", "9af0dc"], "edge": 0.12, "top": 0.025},
+			"rubble": 12,
+			"rubble_colours": ["8a5a35", "a06a3e", "6f7a80"]
 		},
 		"lesson": {
 			"tiers": [["8a5a35", "7d5230", "93623b"], ["a06a3e", "96633a", "a8744a"], ["b07a4a", "a57046", "ba8556"]],
 			"rim": "e9b84c",
 			"corners": "none",
-			"rubble": 0,
 			"row_sound": "brick_wood",
 			"done_sounds": [["clapper", 1.0, 0.0]],
 			"backdrop": {"tint": "fff1dc", "darken": 0.18, "fade": 0.25, "blur_lod": 3.0, "blur_px": 6.0},
 			"light": {"colour": "ffe8c4", "energy": 1.1, "range": 7.5, "height": 3.2, "forward": 1.2},
-			"glow": {"mine": 0.75, "theirs": 0.6}
+			"glow": {"mine": 0.75, "theirs": 0.6},
+			"glow_bricks": {"colours": ["f2c75c", "e9b84c", "ffd98a"], "edge": 0.1, "top": 0.02},
+			"rubble": 10,
+			"rubble_colours": ["8a5a35", "a06a3e", "6f7a80"]
 		},
 		"lethal": {
 			"tiers": [["3a1512", "33120f", "411916"], ["4a1712", "421410", "531b15"], ["5c2019", "521c16", "6b1c12"]],
@@ -79,7 +83,8 @@
 			"done_sounds": [["drum", 0.7, 2.0], ["scrape", 1.0, -6.0]],
 			"backdrop": {"tint": "d07a66", "darken": 0.45, "fade": 0.4, "blur_lod": 3.0, "blur_px": 6.0},
 			"light": {"colour": "ffb48a", "energy": 1.0, "range": 7.5, "height": 3.2, "forward": 1.2},
-			"glow": {"mine": 1.0, "theirs": 0.9}
+			"glow": {"mine": 1.0, "theirs": 0.9},
+			"glow_bricks": {"colours": ["e8461a", "ff5a1f", "ff7a2a"], "edge": 0.14, "top": 0.03}
 		}
 	},
 	"moves": {
