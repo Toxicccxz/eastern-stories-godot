@@ -1,10 +1,10 @@
 {
   "people": {
     "player.male": {
-      "note": "男主角：刚出江湖的游侠，苍青劲装、赭红发带和腰带、护腕绑腿、背剑（owner 2026-11-05「更像江湖侠客」；原作没有主角长相）；立绘 Muse 2026-11-05",
-      "coat": "8daea7", "pants": "2d3744", "skin": "f8ccac", "hair": "1f1720",
-      "hair_style": "topknot", "hair_tie": "994b4d", "headwear": "none", "beard": "none",
-      "waist": "sash", "accent": "994b4d", "prop": "sword_back", "prop_color": "803c3e",
+      "note": "男主角：刚出江湖的游侠，苍青劲装、赭红发带和腰带、护腕绑腿、背剑（owner 2026-11-05「更像江湖侠客」；原作没有主角长相）；立绘 Muse 2026-11-05，2026-11-09 按新精细度重画（红头带）",
+      "coat": "63aeb0", "pants": "2d5a66", "skin": "f8ccac", "hair": "1f1720",
+      "hair_style": "topknot", "hair_tie": "c94d2f", "headwear": "none", "beard": "none",
+      "waist": "sash", "accent": "c94d2f", "prop": "sword_back", "prop_color": "803c3e",
       "extras": ["bracers", "leg_wraps"], "bracer_color": "291f28", "wrap_color": "302a35",
       "height": "standard", "build": "standard"
     },
