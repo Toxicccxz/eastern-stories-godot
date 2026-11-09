@@ -60,11 +60,13 @@ static func attack_percent(tag: StringName, other: StringName, bonus: int, count
 	return percent
 
 
-## The damage percent for `tag`: heavy +p, the rest −p, plus the counter.
-static func damage_percent(tag: StringName, other: StringName, bonus: int, counter: int) -> int:
+## The damage percent for `tag`: heavy +p, the rest −p, plus the counter. 战斗拍数 E:
+## `heavy_whole`, a heavy's lean goes on its whole blow instead (CombatPowerRules.heavy_blow_percent).
+static func damage_percent(tag: StringName, other: StringName, bonus: int, counter: int, heavy_whole: bool = false) -> int:
 	var percent: int = 0
 	if tag == HEAVY:
-		percent += bonus
+		if not heavy_whole:
+			percent += bonus
 	elif tag != NONE:
 		percent -= bonus
 	if beats(tag, other):

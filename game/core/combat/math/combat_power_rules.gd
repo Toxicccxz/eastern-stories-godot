@@ -41,6 +41,10 @@ var exp_defense_softness: int = 200
 ## percent at combatd.c's percent sites; 0 (ES2): tags are words only.
 var action_tag_bonus_percent: int = 0
 var tag_counter_percent: int = 0
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): a 重 that lands takes this much more on its whole
+## blow (the weapon's share and the strength's, before the experience defense), in the place of
+## its lean on the weapon's share; 0 (ES2): no such site. Two beats' worth of blow.
+var heavy_blow_percent: int = 0
 
 
 func _init(
@@ -73,6 +77,7 @@ func is_valid() -> bool:
 		power_base > 0 and power_doubling_levels > 0 and power_cap_levels > 0 and exp_power_divisor > 0
 		and defense_power_percent > 0 and exp_defense_max_percent >= 0 and exp_defense_max_percent < 100
 		and exp_defense_softness >= 0 and action_tag_bonus_percent >= 0 and tag_counter_percent >= 0
+		and heavy_blow_percent >= 0
 	)
 
 
@@ -81,7 +86,7 @@ func is_classic() -> bool:
 	return (
 		curve == PowerCurve.CLASSIC and exp_power_divisor == 1 and defense_power_percent == 100
 		and experience_defense == ExperienceDefense.CLASSIC
-		and action_tag_bonus_percent == 0 and tag_counter_percent == 0
+		and action_tag_bonus_percent == 0 and tag_counter_percent == 0 and heavy_blow_percent == 0
 	)
 
 
@@ -90,7 +95,13 @@ func duplicate_snapshot() -> CombatPowerRules:
 		curve, power_base, power_doubling_levels, exp_power_divisor, defense_power_percent,
 		experience_defense, exp_defense_max_percent, exp_defense_softness, power_cap_levels,
 		action_tag_bonus_percent, tag_counter_percent,
-	)
+	).with_heavy_blow(heavy_blow_percent)
+
+
+## This record with the 重 blow's knob set (战斗拍数 E).
+func with_heavy_blow(percent: int) -> CombatPowerRules:
+	heavy_blow_percent = percent
+	return self
 
 
 ## The percent of a blow the MODERN experience defense takes from an attacker with
@@ -122,7 +133,7 @@ static func from_record(reader: ContentRecordReader) -> CombatPowerRules:
 		DEFENSES[defense_text], reader.integer("exp_defense_max_percent", 0), reader.integer("exp_defense_softness", 200),
 		reader.integer("power_cap_levels", 150),
 		reader.integer("action_tag_bonus_percent", 0), reader.integer("tag_counter_percent", 0),
-	)
+	).with_heavy_blow(reader.integer("heavy_blow_percent", 0))
 	if not rules.is_valid():
 		reader.fail("power_curve", "the combat power knobs must be positive (exp_defense_max_percent below 100)")
 	return rules
