@@ -8278,6 +8278,11 @@ msgstr ""
 msgid "下令：%s"
 msgstr ""
 
+#. the battle's line strip, when the player picks a move while one who fell waits on their choice (the buttons are on the right side's banner).
+#: presentation/battle/battle_presentation_controller.gd
+msgid "对手倒下了，先在右边的旗上选「了结」或「放过」。"
+msgstr ""
+
 #: presentation/battle/battle_presentation_controller.gd
 msgid "取消：%s"
 msgstr ""

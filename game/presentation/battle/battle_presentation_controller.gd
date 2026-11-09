@@ -1642,9 +1642,31 @@ func _spare_downed(id: StringName) -> void:
 func _choose_move(action_id: StringName) -> void:
 	if not _projection.active or _session == null or not _session.is_initialized():
 		return
+	# 战斗演出 E: the fight waits on 了结 / 放过 and nobody else is there to strike: a move would go
+	# nowhere — the question said plainly instead, its buttons calling for the eye.
+	if _awaiting_choice():
+		_present_recent([BattleNarrationLine.new(tr(CHOOSE_FIRST))])
+		var panel: BattleParticipantCard = _panel_card(1)
+		if panel != null:
+			panel.pulse_choice()
+		return
 	if _session.combat_encounter_coordinator().choose_attack(action_id):
 		sounds.play(BattleSounds.CLAPPER)
 		refresh_projection()
+
+
+## Whether the fight waits on the player's 了结 / 放过 with no one else to strike (no target).
+func _awaiting_choice() -> bool:
+	if not _projection.current_target_id.is_empty():
+		return false
+	for value: BattleParticipantProjection in _projection.participants():
+		if value.knockout != null:
+			return true
+	return false
+
+
+# TRANSLATORS: the battle's line strip, when the player picks a move while one who fell waits on their choice (the buttons are on the right side's banner).
+const CHOOSE_FIRST: String = "对手倒下了，先在右边的旗上选「了结」或「放过」。"
 
 
 ## The stance: set at once; enforce.c's lines (攻's 加力) join the battle log.

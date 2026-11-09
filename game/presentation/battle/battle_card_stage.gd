@@ -18,6 +18,9 @@ const TITLE_SIZE: int = 36
 const SPECIAL_SIZE: int = 54
 const FLOAT_SIZE: int = 18
 const STAMP_SIZE: int = 72
+## Where the 倒 / 亡 stamp stands, as a share of the card (a side panel's high, over its bust:
+## its 了结 / 放过 stay clear).
+var stamp_centre: Vector2 = Vector2(0.5, 0.5)
 ## The slam: from this scale to 1 in SLAM_SECONDS, then the hold, then FADE_SECONDS out.
 const SLAM_FROM: float = 1.3
 const SLAM_SECONDS: float = 0.08
@@ -121,7 +124,7 @@ func show_fallen(text: String, seconds: float) -> void:
 		return
 	stamp.visible = true
 	stamp.reset_size()
-	_centre(stamp, size * 0.5)
+	_centre(stamp, size * stamp_centre)
 	stamp.pivot_offset = stamp.size * 0.5
 	if seconds <= 0.0:
 		stamp.modulate = Color.WHITE

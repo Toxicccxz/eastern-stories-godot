@@ -100,6 +100,7 @@ var _panel_box: StyleBoxEmpty
 var _name_colour: Color = UiPalette.GOLD
 var _panel_rest: Vector2 = Vector2.ZERO
 var _unfurl_rows: Tween
+var _choice_pulse: Tween
 
 
 func _ready() -> void:
@@ -442,7 +443,7 @@ func _show_rows() -> void:
 	_intent.visible = big and _hostile
 	_status.visible = big
 	stamps.visible = big
-	var under: float = CHOICE_DIM if choice_row.visible else 1.0
+	var under: float = CHOICE_DIM if choice_row.visible and _panel_style.is_empty() else 1.0
 	for row: Control in [_powers, _intent, _status]:
 		row.modulate.a = under
 
@@ -494,6 +495,29 @@ func set_panel(style: String, side: int, picture: Texture2D = null, picture_size
 	_name_colour = name_colour if panel else UiPalette.GOLD
 	_title.add_theme_color_override("font_color", _name_colour)
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if panel else HORIZONTAL_ALIGNMENT_LEFT
+	# 了结 / 放过 on a panel: a row of its own at its foot, drawn over the fall's veil (owner
+	# 2026-11-09: laid over the narrow panel's rows under the 倒 stamp they did not read as the
+	# fight's question, and the fight waits on them); the stamp high, over the bust.
+	var choice_home: Control = _content if panel else _choice_band
+	if choice_row.get_parent() != choice_home:
+		choice_row.get_parent().remove_child(choice_row)
+		choice_home.add_child(choice_row)
+		if panel:
+			choice_row.set_anchors_preset(Control.PRESET_TOP_LEFT)
+			choice_row.custom_minimum_size = Vector2(0, 40)
+		else:
+			choice_row.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+			choice_row.offset_top = -48
+			choice_row.custom_minimum_size = Vector2.ZERO
+	choice_row.z_index = 1 if panel else 0
+	stage.stamp_centre = Vector2(0.5, 0.24) if panel else Vector2(0.5, 0.5)
+	for button: Button in [finish_button, spare_button]:
+		if panel:
+			button.add_theme_color_override("font_color", UiPalette.LANTERN)
+			button.add_theme_color_override("font_hover_color", UiPalette.LIGHT_TEXT)
+		else:
+			button.remove_theme_color_override("font_color")
+			button.remove_theme_color_override("font_hover_color")
 	# A panel is narrower than a card: its rows a size smaller, 精 and 神 without their maximums.
 	if not _shown_resources.is_empty():
 		_show_resources(_shown_id, _shown_resources)
@@ -529,6 +553,19 @@ func unfurl(seconds: float, delay: float = 0.0) -> void:
 	_unfurl_rows = create_tween()
 	_unfurl_rows.tween_interval(delay + seconds * 0.4)
 	_unfurl_rows.tween_property(_content, "modulate:a", 1.0, seconds * 0.6)
+
+
+## 了结 / 放过 call for the eye (the player pressed a move while the fight waits on them).
+func pulse_choice() -> void:
+	if not choice_row.visible:
+		return
+	if _choice_pulse != null and _choice_pulse.is_valid():
+		_choice_pulse.kill()
+	_choice_pulse = create_tween()
+	for step: int in 3:
+		_choice_pulse.tween_property(choice_row, "modulate", Color(1.8, 1.6, 1.0), 0.12)
+		_choice_pulse.tween_property(choice_row, "modulate", Color.WHITE, 0.18)
+	flap(0.6)
 
 
 ## The banner flaps (`amount` 0 .. 1): its side struck.

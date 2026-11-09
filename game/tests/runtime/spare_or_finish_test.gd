@@ -163,6 +163,15 @@ func _test_spare(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(card != null and card.finish_button.text == "了结", "no task on him: 了结 alone")
 	if card == null:
 		return
+	# 战斗演出 E (owner 2026-11-09, the fight looked stuck): on the right side panel the choice is a row
+	# of its own over the fall's veil; a move pressed while it waits goes nowhere and says so.
+	var ui: BattlePresentationController = _ui(session)
+	_check(ui._panel_card(1) == card and card.choice_row.get_parent() == card._content and card.choice_row.z_index > 0 and card.choice_row.visible, "the choice a row of its own on the right panel")
+	var moves: Array = ui.action_panel.move_buttons.keys()
+	if not moves.is_empty():
+		ui._choose_move(moves[0])
+		var shown: String = (ui._recent.get_child(0).get_child(0) as RichTextLabel).get_parsed_text()
+		_check(shown.contains("了结") and shown.contains("放过") and coordinator.held_victims() == [quarryman.character_id], "a move while it waits: the question said instead: " + shown)
 	card.spare_button.pressed.emit()
 	_check(coordinator.held_victims().is_empty(), "放过")
 	coordinator.advance_scheduler(0.0)
