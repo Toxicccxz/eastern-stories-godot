@@ -1,8 +1,8 @@
 {
   "people": {
     "goathill.npc.bandit_hwang": {
-      "note": "黄霸：野羊山三寨主「日月槌」，一对各重四十斤的大金槌（bandit_hwang.c）；立绘 Muse 2026-11-05",
-      "coat": "946553", "pants": "302728", "skin": "f0c891", "hair": "302728",
+      "note": "黄霸：野羊山三寨主「日月槌」，一对各重四十斤的大金槌（bandit_hwang.c）；立绘 Muse 2026-11-05，2026-11-09 按新精细度重画（深色交领短褂、皮护胸）",
+      "coat": "4b3025", "pants": "2b1815", "skin": "f0c891", "hair": "302728",
       "hair_style": "short", "headwear": "none", "beard": "none", "waist": "belt", "prop": "hammer",
       "prop_color": "c48c34", "accent": "58433a", "height": "tall", "build": "heavy",
       "shoes": "dark"
