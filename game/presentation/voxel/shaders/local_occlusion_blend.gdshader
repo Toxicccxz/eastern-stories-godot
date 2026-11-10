@@ -7,7 +7,7 @@ void vertex() {
 }
 
 void fragment() {
-	float reveal = local_reveal(world_vertex);
+	float reveal = local_reveal(world_vertex, world_normal(INV_VIEW_MATRIX, NORMAL));
 	if (reveal <= 0.001) {
 		discard;
 	}

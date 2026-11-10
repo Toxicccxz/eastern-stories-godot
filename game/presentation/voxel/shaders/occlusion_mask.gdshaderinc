@@ -10,14 +10,23 @@ uniform vec4 subjects[16];
 uniform int subject_count = 0;
 varying vec3 world_vertex;
 
-float local_reveal(vec3 point) {
+// `normal` is the drawn face's world normal. A face whose front side the subject stands on
+// cannot come between the subject and the camera (both are on that side of its plane), so it
+// never fades: the wall behind a person stays solid when they walk up to it, and only roofs,
+// walls and boughs that really stand between them and the eye open up.
+float local_reveal(vec3 point, vec3 normal) {
 	float reveal = 0.0;
 	for (int i = 0; i < subject_count; i++) {
 		vec3 d = point - subjects[i].xyz;
 		vec2 offset = vec2(dot(d, eye_right), dot(d, eye_up) / 1.25);
 		float radius = length(offset) / subjects[i].w;
 		float in_front = smoothstep(0.12, 0.38, dot(d, toward_eye));
-		reveal = max(reveal, (1.0 - smoothstep(0.78, 1.0, radius)) * in_front);
+		float behind_face = 1.0 - smoothstep(0.05, 0.3, dot(-d, normal));
+		reveal = max(reveal, (1.0 - smoothstep(0.78, 1.0, radius)) * in_front * behind_face);
 	}
 	return reveal;
+}
+
+vec3 world_normal(mat4 inv_view, vec3 view_normal) {
+	return normalize((inv_view * vec4(view_normal, 0.0)).xyz);
 }

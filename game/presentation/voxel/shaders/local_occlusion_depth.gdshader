@@ -7,7 +7,7 @@ void vertex() {
 }
 
 void fragment() {
-	if (local_reveal(world_vertex) <= 0.001) {
+	if (local_reveal(world_vertex, world_normal(INV_VIEW_MATRIX, NORMAL)) <= 0.001) {
 		discard;
 	}
 	// Runs AFTER the opaque scene (including actors), BEFORE any reveal colour.
