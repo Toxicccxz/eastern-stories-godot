@@ -3,7 +3,7 @@ extends RefCounted
 ## 天气 (美术优化 G, owner 批准 2026-10-27; DECISIONS「天气」): natured.c's five weather_msg
 ## lines (day_phases.json sky_levels), the SkyState that turns through them one step at a
 ## time every 2–4 game hours from an injected stream, the pacing's sky_weather knob (ES2:
-## off; 经典 off), and the catalog's lines.
+## off), and the catalog's lines.
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -99,7 +99,6 @@ func _knob() -> void:
 	var errors: Array[String] = []
 	var read: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "sky_weather": true}, "pacing", errors))
 	_check(read.sky_weather and errors.is_empty() and read.copy().sky_weather, "read and copied")
-	_check(not PacePresets.of(read, CharacterState.PACE_CLASSIC).sky_weather and PacePresets.of(read, CharacterState.PACE_MODERN).sky_weather, "经典 turns it off; 现代 keeps the catalog's")
 	_check(GameContent.catalog().pacing().sky_weather, "pacing.json: on")
 
 

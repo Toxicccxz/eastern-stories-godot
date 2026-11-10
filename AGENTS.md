@@ -65,8 +65,10 @@ slow, opaque or punishing.
 * Nothing changes silently. Every change to ES2 behaviour gets one short entry in
   `docs/migration/DECISIONS.md`: what ES2 does, what we do, why.
 * Ported formulas are not edited in place. Pacing, balance and rule changes go into explicit,
-  data-configured knobs; the knob keeps ES2's value as its **经典模式** (classic) value, and the
-  default is the agreed modern one.
+  data-configured knobs set to the agreed modern value; DECISIONS records what ES2 did. There is
+  one game: no player-selectable 经典模式 (owner, 2026-11-10; DECISIONS「取消经典模式」), and new
+  content is not written a second time for it. A knob's ES2 value stays where suites pin a ported
+  formula against the LPC (`game/tests/support/es2_pacing.gd`).
 * Changes inside an owner-approved plan need no further question. Changes that alter the game's
   direction — a system's design, a region's story, removing ES2 content — need the owner's
   agreement first.

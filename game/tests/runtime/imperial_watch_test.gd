@@ -40,9 +40,9 @@ func _test_data() -> void:
 	_check(not cone.sees_direction(Vector2.ZERO, Vector2.DOWN, Vector2(0, 200), 150.0, true), "the cone: not beyond its reach")
 	_check(not cone.sees_direction(Vector2.ZERO, Vector2.DOWN, Vector2(100, 10), 150.0, true), "the cone: not at its side (90°)")
 	_check(not cone.sees_direction(Vector2.ZERO, Vector2.DOWN, Vector2(0, -100), 150.0, true), "the cone: not behind")
-	_check(cone.sees_direction(Vector2.ZERO, Vector2.DOWN, Vector2(0, -100), 150.0, false), "经典: behind too (in range, seen)")
+	_check(cone.sees_direction(Vector2.ZERO, Vector2.DOWN, Vector2(0, -100), 150.0, false), "stealth off: behind too (in range, seen)")
 	var pacing: PacingDefinition = catalog.pacing()
-	_check(pacing.stealth and not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).stealth, "the game's night watch is a stealth; 经典 turns it off")
+	_check(pacing.stealth and not PacingDefinition.new(1000).stealth, "the game's night watch is a stealth; left out, ES2's presence")
 
 
 func _test_night(tree: SceneTree, session: WorldSessionController) -> void:

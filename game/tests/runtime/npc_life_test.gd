@@ -77,7 +77,7 @@ func _test_data() -> void:
 	_check(NpcLifeBook.entry(&"nobody") == null and NpcLifeBook.entry(&"oldpine.npc.nobody") == null, "no entry: stays put")
 	var pacing: PacingDefinition = catalog.pacing()
 	_check(pacing.npc_idle.enabled and pacing.npc_idle.speed_px > 0 and pacing.npc_idle.stop_reach_px > 0, "people move about (pacing npc_idle on)")
-	_check(not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).npc_idle.enabled, "经典: they stand where they were put")
+	_check(not PacingDefinition.new(1000).npc_idle.enabled, "left out (ES2): they stand where they were put")
 	_check(pacing.copy().npc_idle == pacing.npc_idle, "a copy of the pacing keeps its npc_idle")
 
 
@@ -221,12 +221,12 @@ func _test_street(tree: SceneTree, session: WorldSessionController) -> void:
 	var toward: Vector2 = (map.player_body.global_position - farmer_body.global_position).normalized()
 	_check(stood.distance_to(by) <= float(tuning.stop_reach_px), "the player stands within reach (%.0f px)" % stood.distance_to(by))
 	_check(stayed and farmer_body.facing.dot(toward) > 0.7, "the farmer stops and turns to the player")
-	# 经典: nobody moves.
+	# npc_idle off: nobody moves.
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	var kept: NpcIdleTuning = pacing.npc_idle
-	pacing.npc_idle = NpcIdleTuning.new() # TEST-ONLY: 经典 as PacePresets.of() makes it, put back below
+	pacing.npc_idle = NpcIdleTuning.new() # TEST-ONLY: the knob left out, put back below
 	map.player_body.global_position = MapPlaces.zone_centre(map, &"snow.square") # TEST-ONLY: far off again
-	# Strolls under way stop (the pace is chosen at New Game, before anyone strolls).
+	# Strolls under way stop (the pacing is read before anyone strolls).
 	map.npc_life.npc_walker().finish_all()
 	await tree.physics_frame
 	var places: Dictionary[StringName, Vector2] = {}
@@ -261,7 +261,7 @@ func _test_night_list() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var pacing: PacingDefinition = catalog.pacing()
 	_check(pacing.npc_idle.night_home and pacing.npc_idle.night_phases == [&"night", &"midnight"], "the street empties at 夜晚 and 午夜")
-	_check(not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).npc_idle.night_home, "经典: day and night alike, as ES2")
+	_check(not PacingDefinition.new(1000).npc_idle.night_home, "left out (ES2): day and night alike")
 	var records: Dictionary = {}
 	var other_text: String = ""
 	for path: String in _data_files("res://data"):
@@ -414,8 +414,8 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 			break
 	_check(watched.exists_in_map and body.global_position.distance_to(spot) < 2.0, "dawn in sight: back on its spot")
 	_check(came_from.is_finite() and came_from.distance_to(spot) > 32.0, "it came out of a way out, not out of the air (%.0f px off)" % (came_from.distance_to(spot) if came_from.is_finite() else -1.0))
-	# 经典: nobody goes indoors.
-	tuned.night_home = false # TEST-ONLY: as PacePresets.of(classic) makes it; put back below
+	# night_home off: nobody goes indoors.
+	tuned.night_home = false # TEST-ONLY: the knob off; put back below
 	tuned.night_phases = [session.day_phase_id()]
 	for step: int in 20:
 		session.advance_npc_heartbeat(0.5)

@@ -161,7 +161,7 @@ func stats_display() -> StatDisplayTable:
 	return _stats_display
 
 
-## Whether the number `stat_id` shows for `state` at the pace in force.
+## Whether the number `stat_id` shows for `state` under the pacing in force.
 func stat_shown(stat_id: StringName, state: CharacterState) -> bool:
 	var stat: StatDisplayDefinition = _stats_display.stat(stat_id)
 	return stat == null or not pacing().stats_appear_when_used or stat.shown(state)
@@ -491,14 +491,14 @@ func items() -> Array[ItemContentDefinition]:
 	return result
 
 
-## The NPC's definition; under es2_npc_values (DECISIONS「战斗数值」: 经典) the record's
+## The NPC's definition; under es2_npc_values (DECISIONS「战斗数值」: ES2's numbers) the record's
 ## `classic` block laid over it, where it has one.
 func npc(npc_definition_id: StringName) -> NpcDefinition:
 	return npc_under(_pacing, npc_definition_id)
 
 
 ## npc() as `pacing` has it, whatever the catalog stands on now: a save is read and checked
-## before its pace is applied (OldPineWorldRestoreComposition).
+## under one pacing (OldPineWorldRestoreComposition).
 func npc_under(pacing: PacingDefinition, npc_definition_id: StringName) -> NpcDefinition:
 	var definition: NpcDefinition = _npcs.get(npc_definition_id)
 	if definition != null and pacing != null and pacing.es2_npc_values and definition.es2_variant() != null:

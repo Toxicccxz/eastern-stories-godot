@@ -5,8 +5,8 @@
 A modern wuxia RPG built on ES2 (owner, 2026-10-23; DECISIONS「产品定位」; AGENTS.md "Mission"):
 rules and movement on 2D maps, every map shown in a fixed-angle voxel view (owner, 2026-10-22). ES2's
 world — regions, NPCs, items, skills, families, quests and their text — is the foundation; where its
-rules, pacing or presentation would put a modern player off we change them, keeping ES2's value as the
-经典模式 knob, and owner-approved new content fills its gaps. Every change is recorded in
+rules, pacing or presentation would put a modern player off we change them through data knobs (one
+game, no 经典模式: DECISIONS「取消经典模式」), and owner-approved new content fills its gaps. Every change is recorded in
 [DECISIONS](../migration/DECISIONS.md). No release date is set; steady, playable progress matters
 more than speed.
 

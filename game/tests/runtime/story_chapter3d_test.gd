@@ -3,7 +3,7 @@ extends RefCounted
 ## 逆灵宫 D (owner's plan, 2026-10-29; DECISIONS「逆灵宫 D」): what the third chapter's endings
 ## leave behind, from the two ledgers (StoryFixtures):
 ## - rescued (霍铮 home): the turn's four bandits let the player be (ignores_when 霍铮回了寨, under
-##   the modern pace's story_parley; a 经典 session still gets ES2's attack on sight), 刘安禄
+##   the pacing's story_parley; with the knob off it is ES2's attack on sight), 刘安禄
 ##   gone from 淳风武馆's gate and standing in the 土地庙 as 二寨主 (spared and 霍铮 home), 霍铮
 ##   there too; the 农妇's scene at 傅家坡 (thanks for the son the stockade sent home: her mood
 ##   团圆, 石头 in the yard from the next visit);
@@ -26,10 +26,14 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_chased(tree, chased)
 	chased.free()
 	await tree.process_frame
-	var classic: WorldSessionController = await _session(tree, CharacterState.PACE_CLASSIC)
-	await _test_classic(tree, classic)
-	classic.free()
+	# TEST-ONLY: the story_parley knob off, as ES2 has it; put back below.
+	var production: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production.copy().with_story(false, false))
+	var without_parley: WorldSessionController = await _session(tree)
+	await _test_without_parley(tree, without_parley)
+	without_parley.free()
 	await tree.process_frame
+	GameContent.catalog().set_pacing(production)
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
@@ -131,16 +135,16 @@ func _test_chased(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 ## 经典: the turn's bandits attack on sight, 霍铮 home or not (no story parley).
-func _test_classic(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_without_parley(tree: SceneTree, session: WorldSessionController) -> void:
 	StoryFixtures.chapter3_rescued(session)
 	session.record_journal()
-	_check(not GameContent.catalog().pacing().story_parley, "经典: no story parley")
+	_check(not GameContent.catalog().pacing().story_parley, "story_parley off")
 	var mountain: WorldMapController = MapPlaces.enter(session, &"goathill.mroad4", &"goathill.mroad4.rope_return")
 	await _settle(tree)
 	for second: int in 4:
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
-	_check(mountain != null and session.combat_encounter_coordinator().has_active_encounter(), "经典: the bandits attack as ES2, 霍铮 or no 霍铮")
+	_check(mountain != null and session.combat_encounter_coordinator().has_active_encounter(), "story_parley off: the bandits attack as ES2, 霍铮 or no 霍铮")
 	await _flee(tree, session)
 
 
@@ -177,9 +181,9 @@ func _count_in(session: WorldSessionController, zone_id: StringName, definition_
 	return found
 
 
-func _session(tree: SceneTree, pace: StringName = CharacterState.PACE_MODERN) -> WorldSessionController:
+func _session(tree: SceneTree) -> WorldSessionController:
 	var session: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
-	session.configure_source_entry("逆灵宫", CharacterState.GENDER_MALE, pace)
+	session.configure_source_entry("逆灵宫", CharacterState.GENDER_MALE)
 	session.deterministic_combat_seed = true
 	session.deterministic_npc_seed = true
 	session.deterministic_world_interaction_seed = true

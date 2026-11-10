@@ -325,14 +325,12 @@ func selected_slot() -> StringName:
 	return _coordinator.selected_slot()
 
 
-func request_new_game(display_name: String, gender: StringName, pace: StringName = CharacterState.PACE_MODERN) -> bool:
+func request_new_game(display_name: String, gender: StringName) -> bool:
 	if not NamePolicy.is_valid(display_name) or gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
-		return false
-	if pace not in [CharacterState.PACE_MODERN, CharacterState.PACE_CLASSIC]:
 		return false
 	if not _empty_session_invariant_holds() or not _begin_request():
 		return false
-	call_deferred("_execute_new_game", display_name, gender, pace)
+	call_deferred("_execute_new_game", display_name, gender)
 	return true
 
 
@@ -415,9 +413,9 @@ func _execute_slot_inspection(newest: bool = true) -> void:
 	slot_inspection_completed.emit(result)
 
 
-func _execute_new_game(display_name: String, gender: StringName, pace: StringName) -> void:
+func _execute_new_game(display_name: String, gender: StringName) -> void:
 	await _let_frame_draw()
-	_last_new_game = await _create_new_game(display_name, gender, pace)
+	_last_new_game = await _create_new_game(display_name, gender)
 	_request_pending = false
 	new_game_completed.emit(_last_new_game)
 
@@ -508,11 +506,11 @@ func _execute_load(source: int = -1) -> void:
 var opening_card: bool = true
 
 
-func _create_new_game(display_name: String, gender: StringName, pace: StringName = CharacterState.PACE_MODERN) -> OldPineRuntimeSaveLoadResult:
+func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntimeSaveLoadResult:
 	var session: WorldSessionController = _instantiate_new_game_session()
 	if session == null:
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
-	if not session.configure_source_entry(display_name, gender, pace):
+	if not session.configure_source_entry(display_name, gender):
 		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
 	if opening_card:

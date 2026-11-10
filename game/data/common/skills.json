@@ -265,14 +265,7 @@
 			"perform_rules": {
 				"powerfocus": {
 					"when": {
-						"all": [
-							{
-								"mark": "学了点字诀"
-							},
-							{
-								"pace": "modern"
-							}
-						]
+						"mark": "学了点字诀"
 					},
 					"numbers": {
 						"force": 30,

@@ -70,7 +70,7 @@ func _test_remembered_rows() -> void:
 	var text: String = JSON.stringify({
 		"metadata": {"format_id": GameSaveSnapshot.FORMAT_ID, "schema_version": GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "saved_at_utc": "2026-11-07T10:00:00Z"},
 		"world_content_revision": WorldContentRevision.Value.keys()[WorldContentRevision.CURRENT_PUBLIC],
-		"player": {"identity": {"display_name": "凌雪"}, "world_location": {"zone_id": "snow.inn"}, "character": {"pace": "modern"}},
+		"player": {"identity": {"display_name": "凌雪"}, "world_location": {"zone_id": "snow.inn"}, "character": {}},
 	})
 	files.files[path] = text.to_utf8_buffer()
 	var first: GameSaveSlotSummary = repository.read_summary()

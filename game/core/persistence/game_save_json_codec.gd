@@ -3,6 +3,10 @@ extends RefCounted
 
 const Values := preload("res://core/persistence/game_save_value_types.gd")
 const Endpoint := preload("res://core/inventory/containment_endpoint.gd")
+## What a character's `pace` held while the game had two paces (DECISIONS「取消经典模式」);
+## no save is written with it now.
+const RETIRED_MODERN_PACE: String = "modern"
+const RETIRED_CLASSIC_PACE: String = "classic"
 
 var _current_public_only: bool = false
 var _error: GameSaveResult
@@ -151,8 +155,6 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.seen_npcs:
 			seen[key] = _i(value.seen_npcs[key])
 		result["seen_npcs"] = seen
-	if not value.pace.is_empty():
-		result["pace"] = String(value.pace)
 	# The 任务 page's entries, the items carried (百科), the 历练 ledger and the quests, in
 	# order: written only when there are some.
 	for field: String in ["journal", "known_items", "known_moves", "insights", "visited_maps", "milestones", "quests"]:
@@ -558,11 +560,15 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var deeds: Array[DeedLog.Deed] = []
 	if object.has("deeds"):
 		deeds = _decode_deeds(object["deeds"], path + ".deeds")
-	var pace: StringName = &""
+	# A save from before the 经典 pace was taken out (DECISIONS「取消经典模式」) carries `pace`:
+	# "modern" was this game and reads on; "classic" was a world on other rules and is refused.
 	if object.has("pace"):
-		pace = StringName(_string(object["pace"], path + ".pace"))
-		if pace not in [CharacterState.PACE_MODERN, CharacterState.PACE_CLASSIC]:
-			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".pace", "expected modern or classic")
+		var pace: String = _string(object["pace"], path + ".pace")
+		if pace == RETIRED_CLASSIC_PACE:
+			_fail(GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, path + ".pace", "the classic pace is no longer in the game")
+			return null
+		if pace != RETIRED_MODERN_PACE:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".pace", "expected modern")
 			return null
 	var counters: Dictionary[String, int] = {}
 	if object.has("counters"):
@@ -580,7 +586,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("bounty"):
 		bounty = _decode_bounty(object["bounty"], path + ".bounty")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_known_moves(known_moves, insights).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_known_moves(known_moves, insights).with_atlas(visited_maps, waypoint_map, waypoint_zone).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_quests(quests).with_deeds(deeds)
 
 
 ## A non-empty list of deeds (DeedLog), each {did, where?, seen_by?}.

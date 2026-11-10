@@ -2,7 +2,7 @@ class_name CombatBeatRules
 extends RefCounted
 
 ## 战斗拍数 A (DECISIONS「战斗拍数」): a round is a string of beats, not one move. Each knob
-## keeps ES2's value as its 经典 value — a record without them is ES2's one heart beat, one
+## keeps ES2's value as the value left out — a record without them is ES2's one heart beat, one
 ## move, one busy count per round:
 ## - round_beats: the beats each side has in a round (the player's; an NPC's own `beats`
 ##   stands in for it, DECISIONS「战斗拍数」). 1 (ES2): one move a round.

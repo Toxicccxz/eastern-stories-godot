@@ -30,7 +30,7 @@ var fight_deferred: String = ""
 ## `attack_unless_marks` several: 主线 A, the keep's gate takes money or a challenge).
 var attack_unless_marks: Array[String] = []
 ## Native (主线 A; DECISIONS「老松寨的三条路」): the toll is the story's parley, held only
-## while pacing's story_parley is on; off (经典), it is plain aggressive, as ES2's was.
+## while pacing's story_parley is on; off, it is plain aggressive, as ES2's was.
 var parley: bool = false
 ## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): a journal `when` under which one that attacks on
 ## sight takes the player for one of its own (the 黑冠 worn, 野羊寨's chief brought home) —
@@ -39,11 +39,11 @@ var parley: bool = false
 var ignores_when: JournalEntryDefinition = null
 ## Native (逆灵宫 D; DECISIONS「逆灵宫 D」): `ignores_with_parley` true: the `ignores_when` above holds
 ## only while the game's pacing has `story_parley` on — an ES2 NPC that lets the player be for
-## a story's sake (the turn's bandits once 霍铮 is home) attacks on sight as ES2 under 经典.
+## a story's sake (the turn's bandits once 霍铮 is home) attacks on sight as ES2 with story_parley off.
 var ignores_with_parley: bool = false
 ## Native (第八章 A; DECISIONS「冰龙守者」): `guardian` true: an aggressive NPC that lets the player
 ## be while pacing's story_parley is on, unless they strike first — then its whole room falls
-## on them (进门一起上, as the player's own 攻击 always brings it down); off (经典), aggressive as ES2.
+## on them (进门一起上, as the player's own 攻击 always brings it down); off, aggressive as ES2.
 var guardian: bool = false
 var toll_attack_delay_ms: int = 0
 ## The index of the chat_msg line shouted at a passer-by coming into reach (-1: none).

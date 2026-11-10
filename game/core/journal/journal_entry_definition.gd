@@ -59,20 +59,14 @@ enum When {
 	## each one the condition it names (its when, key, amount, parts), so nothing that asks a
 	## condition later ever meets this kind.
 	COND,
-	## Native (势力线第一批 封山 B; DECISIONS「条件看模式」): the game's pace (CharacterState.pace, chosen
-	## at New Game) is `key`: "classic" for 经典, "modern" for any other. What the game adds to ES2's
-	## rules for today's players (柳淳风's way with the 大黄石) asks it, so 经典 keeps ES2's.
-	PACE,
 }
-
-const PACES: Array[String] = ["modern", "classic"]
 
 const WHEN_KEYS: Dictionary[String, int] = {
 	"mark": When.MARK, "temp": When.TEMP, "item": When.ITEM, "seen": When.SEEN, "heard": When.HEARD,
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
 	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
 	"quest": When.QUEST, "wearing": When.WEARING, "any": When.ANY, "all": When.ALL, "phase": When.PHASE,
-	"at_least": When.AT_LEAST, "not": When.NOT, "cond": When.COND, "pace": When.PACE,
+	"at_least": When.AT_LEAST, "not": When.NOT, "cond": When.COND,
 }
 
 ## The `cond` conditions read since the last link_named(): each waits to become what it names.
@@ -195,10 +189,6 @@ static func _read_when_object(when: ContentRecordReader, definition: JournalEntr
 			When.COND:
 				definition.key = when.required_text("cond")
 				_unlinked.append(definition)
-			When.PACE:
-				definition.key = when.required_text("pace")
-				if not PACES.has(definition.key):
-					when.fail("pace", "expected one of %s" % [PACES])
 			When.PHASE:
 				for phase_id: String in when.text_list("phase"):
 					definition.phases.append(StringName(phase_id))

@@ -108,12 +108,6 @@ var quests: Dictionary[String, int] = {}
 ## What the player did, where and who saw it (DeedLog), in the order it happened. Native
 ## (任务系统). Saved; empty for NPCs.
 var deeds: Array[DeedLog.Deed] = []
-## Native (前两小时 E; DECISIONS「经典模式总开关」): the pace this character plays at, chosen
-## at New Game and never changed since: PACE_CLASSIC puts the progression knobs at ES2's
-## (PacePresets); "" or PACE_MODERN is the game's. Saved; empty for NPCs.
-const PACE_MODERN: StringName = &"modern"
-const PACE_CLASSIC: StringName = &"classic"
-var pace: StringName = &""
 ## The 雪亭驿 bounty board as this player sees it (BountyBoard). Native (A2). Saved while
 ## something was posted; empty for NPCs.
 var bounty := BountyState.new()

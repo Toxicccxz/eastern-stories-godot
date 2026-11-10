@@ -489,7 +489,7 @@ func _fill_interaction() -> void:
 
 
 ## 界面重做 3: the fight forecast's word (稳赢 … 必败) beside the popup's title, on its
-## plate, for an NPC; its line is the hover. None under ES2's own strength words (classic).
+## plate, for an NPC; its line is the hover. None under ES2's own strength words (combat_forecast off).
 func _show_forecast(thing: WorldNearbyThing) -> void:
 	var outlook: CombatOutlook = nearby.outlook_of(thing)
 	if outlook == null or outlook.forecast == null:

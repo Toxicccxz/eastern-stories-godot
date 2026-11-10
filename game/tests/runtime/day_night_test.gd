@@ -144,7 +144,6 @@ func _world(tree: SceneTree) -> void:
 		_check(fresh.sky_state().level() == 3 and fresh.sky_state().minutes_left() == 55, "and under the same cloud, the change as far off: %d, %d" % [fresh.sky_state().level(), fresh.sky_state().minutes_left()])
 		fresh.free()
 		await tree.process_frame
-	_check(PacePresets.of(GameContent.catalog().pacing(), CharacterState.PACE_CLASSIC).day_length_minutes == 24, "经典's day is ES2's 24 minutes")
 
 
 func _frames(tree: SceneTree, count: int) -> void:
