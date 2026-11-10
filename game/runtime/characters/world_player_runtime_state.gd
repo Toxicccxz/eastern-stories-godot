@@ -177,6 +177,16 @@ func _after_recruit(outcome: NpcApprenticeship.Outcome, family: FamilyDefinition
 	return outcome
 
 
+## Native (势力线; DECISIONS「晋阶」): the family title was raised (a quest's `rank`): the title kept
+## (and saved) is put together again as assign_apprentice() would write it now.
+func family_rank_changed() -> void:
+	if not _state.family.has_family() or not _state.affiliation.has_family_rank:
+		return
+	var family: FamilyDefinition = GameContent.catalog().family(_state.family.family_id)
+	if family != null:
+		_facts = PlayerIdentityFacts.new(_facts.display_name, NpcApprenticeship.member_title(family.display_name, _state.family.generation, _state.affiliation.family_title, _master()), _facts.age)
+
+
 ## combatd.c killer_reward(): set("title", ...) for one who killed their master.
 func take_title(title: String) -> void:
 	_facts = PlayerIdentityFacts.new(_facts.display_name, title, _facts.age)

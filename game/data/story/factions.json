@@ -1,0 +1,382 @@
+{
+	"factions": [
+		{
+			"id": "fonxan",
+			"name": "封山剑派",
+			"layer": "sect",
+			"place": "雪亭镇",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/swordsman/master.c"
+			],
+			"lines": [
+				{
+					"text": "你是封山剑派的弟子，师父是柳淳风。",
+					"when": {
+						"family": "family.fonxan"
+					}
+				},
+				{
+					"text": "柳淳风认得老岑的信：淳风武馆的门，你随时进。",
+					"when": {
+						"mark": "柳淳风认了荐信"
+					}
+				},
+				{
+					"text": "柳淳风替你给水烟阁的潘军禅写过一封信。",
+					"when": {
+						"mark": "柳淳风的引荐信"
+					}
+				},
+				{
+					"text": "雪亭镇上没人再敢借淳风武馆的名头收钱。是你清的。",
+					"when": {
+						"mark": "守馆办完了"
+					}
+				},
+				{
+					"text": "逄义认了那块腰牌。他欠武馆一句交代。",
+					"when": {
+						"mark": "逄义认了腰牌"
+					}
+				},
+				{
+					"text": "武馆的人都知道，是你说破了门房的来历。",
+					"when": {
+						"mark": "说破了刘安禄"
+					}
+				},
+				{
+					"text": "刘安禄的来历，你替他瞒着。他欠你一句话。",
+					"when": {
+						"mark": "替刘安禄瞒了"
+					}
+				},
+				{
+					"text": "你和血手刘三动过刀，放了他一条路。",
+					"when": {
+						"mark": "放过了刘安禄"
+					}
+				}
+			]
+		},
+		{
+			"id": "zhenyuan",
+			"name": "振远镖局",
+			"layer": "sect",
+			"place": "绮云镇",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/b_header.c, d/city/npc/chen.c"
+			],
+			"lines": [
+				{
+					"text": "你是振远镖局的人。",
+					"when": {
+						"family": "family.zhenyuan"
+					}
+				},
+				{
+					"text": "陈剑秋把二十年前那张镖单交给了你。这件事，振远至今不提。",
+					"when": {
+						"mark": "看过镖单"
+					}
+				}
+			]
+		},
+		{
+			"id": "celestial",
+			"name": "天邪派",
+			"layer": "sect",
+			"place": "水烟阁",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/fighter/master.c, champion.c, executioner.c; d/waterfog/npc/elder5.c, elder7.c"
+			],
+			"lines": [
+				{
+					"text": "你是天邪派的弟子。",
+					"when": {
+						"family": "family.celestial"
+					}
+				},
+				{
+					"text": "潘军禅给你看过那柄「邪剑穿灵」：它是鱼饵。",
+					"when": {
+						"mark": "潘军禅说了鱼饵"
+					}
+				},
+				{
+					"text": "南危水把二十年的事托给了你。你没有告诉别人。",
+					"when": {
+						"mark": "替南危水保密"
+					}
+				},
+				{
+					"text": "颜违记得，五长老的事是你告诉他的。他从那天起代行盟主之职。",
+					"when": {
+						"mark": "告发了南危水"
+					}
+				},
+				{
+					"text": "盟主卫沧澜是你从尚书府带出来的。",
+					"when": {
+						"mark": "卫沧澜出了尚书府"
+					}
+				},
+				{
+					"text": "於兰天武的通缉是你解的。他回了京。",
+					"when": {
+						"mark": "皇叔入朝"
+					}
+				}
+			]
+		},
+		{
+			"id": "juechen",
+			"name": "绝尘派",
+			"layer": "sect",
+			"place": "青石村",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/juechen/master.c"
+			],
+			"lines": [
+				{
+					"text": "你是绝尘派的弟子。",
+					"when": {
+						"family": "family.juechen"
+					}
+				}
+			]
+		},
+		{
+			"id": "maoshan",
+			"name": "茅山派",
+			"layer": "sect",
+			"place": "灵心观",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/taoist/taolord.c"
+			],
+			"lines": [
+				{
+					"text": "你是茅山派的弟子。",
+					"when": {
+						"family": "family.maoshan"
+					}
+				}
+			]
+		},
+		{
+			"id": "latemoon",
+			"name": "晚月庄",
+			"layer": "sect",
+			"place": "晚月庄",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/dancer/master.c, d/latemoon/room/npc/elon.c"
+			],
+			"lines": [
+				{
+					"text": "你是晚月庄的弟子。",
+					"when": {
+						"family": "family.latemoon"
+					}
+				},
+				{
+					"text": "寒於宝衣留在晚月庄。瑷伦替你守到决战。",
+					"when": {
+						"mark": "瑷伦守到决战"
+					}
+				},
+				{
+					"text": "宝衣是你带出庄的。那一夜，庄里死了人。",
+					"when": {
+						"mark": "带走了宝衣"
+					}
+				},
+				{
+					"text": "晚月庄守了几百年的宝衣，你交给了外人。",
+					"when": {
+						"mark": "宝衣给了安妮儿"
+					}
+				}
+			]
+		},
+		{
+			"id": "sanyen",
+			"name": "山烟寺",
+			"layer": "sect",
+			"place": "山烟寺",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/bonze/master.c"
+			],
+			"lines": [
+				{
+					"text": "你是山烟寺的弟子。",
+					"when": {
+						"family": "family.sanyen"
+					}
+				}
+			]
+		},
+		{
+			"id": "buxuan",
+			"name": "步玄派",
+			"layer": "sect",
+			"place": "乔阴县城",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/scholar/master.c"
+			],
+			"lines": [
+				{
+					"text": "你是步玄派的弟子。",
+					"when": {
+						"family": "family.buxuan"
+					}
+				},
+				{
+					"text": "骆云舟把骆家的名帖给了你。",
+					"when": {
+						"mark": "骆云舟给了名帖"
+					}
+				}
+			]
+		},
+		{
+			"id": "huazi",
+			"name": "花紫会",
+			"layer": "sect",
+			"place": "乔阴县城",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/beggar/master.c"
+			],
+			"lines": [
+				{
+					"text": "你是花紫会的人。",
+					"when": {
+						"family": "family.huazi"
+					}
+				}
+			]
+		},
+		{
+			"id": "court",
+			"name": "官府",
+			"layer": "tie",
+			"place": "乔阴 · 天驼关 · 京师",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — d/choyin/npc/judgeman.c, d/canyon/npc/general.c; the 朝廷 is the main story's"
+			],
+			"lines": [
+				{
+					"text": "乔阴知县程不平替你写过一封信。",
+					"when": {
+						"mark": "程不平写了信"
+					}
+				},
+				{
+					"text": "陈显祖是你护送进县衙作的证。",
+					"when": {
+						"mark": "陈显祖作了证"
+					}
+				},
+				{
+					"text": "天驼关的严廷殷看过程不平的信。",
+					"when": {
+						"mark": "严廷殷看了信"
+					}
+				},
+				{
+					"text": "你是今科的武状元。",
+					"when": {
+						"mark": "中了武状元"
+					}
+				},
+				{
+					"text": "兵部尚书庾子建是你在朝上揭发的。",
+					"when": {
+						"mark": "庾子建下狱"
+					}
+				},
+				{
+					"text": "你和庾子建私了了。兵部记着这份情，也记着这笔账。",
+					"when": {
+						"mark": "私了了庾子建"
+					}
+				},
+				{
+					"text": "大内侍卫营的冯策说过：算老夫一个。",
+					"when": {
+						"mark": "冯策随你下湖"
+					}
+				}
+			]
+		},
+		{
+			"id": "dongfang",
+			"name": "东方神教",
+			"layer": "secret",
+			"place": "绮云镇",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/god.c, d/latemoon/room/npc/annihi.c"
+			],
+			"lines": [
+				{
+					"text": "安妮儿说，她在等一个配得上宝衣的人。",
+					"when": {
+						"mark": "安妮儿说了等"
+					}
+				},
+				{
+					"text": "安妮儿说你配得上。东方神教记得你。",
+					"when": {
+						"mark": "宝衣给了安妮儿"
+					}
+				},
+				{
+					"text": "宝衣出了庄，没进安妮儿的门。她记下了你的名字。",
+					"when": {
+						"mark": "安妮儿记下了"
+					}
+				},
+				{
+					"text": "你放过了神教的那个杀手。",
+					"when": {
+						"mark": "放过了神教杀手"
+					}
+				}
+			]
+		},
+		{
+			"id": "niling",
+			"name": "逆灵宫",
+			"layer": "secret",
+			"place": "野羊山北麓",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — doc/help/plan:26–31"
+			],
+			"lines": [
+				{
+					"text": "你进过那座黑砖道观。",
+					"when": {
+						"mark": "进了逆灵宫"
+					}
+				},
+				{
+					"text": "你见过「唤首」。他们知道有生人进过后殿。",
+					"when": {
+						"mark": "见过唤首"
+					}
+				},
+				{
+					"text": "地牢里的人是你放走的。逆灵宫在找那天闯道观的孩子。",
+					"when": {
+						"mark": "霍铮回了寨"
+					}
+				},
+				{
+					"text": "玄冥子欠你一条命。他说过：带着残卷来后山找他。",
+					"when": {
+						"mark": "放过了玄冥子"
+					}
+				}
+			]
+		}
+	]
+}

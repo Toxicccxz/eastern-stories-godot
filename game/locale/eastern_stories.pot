@@ -99,6 +99,7 @@ msgstr ""
 #. snow.npc.herbalist gender
 #. snow.npc.trav_blade gender.then
 #. snow.npc.beggar gender
+#. snow.npc.mercenary gender
 #. goathill.npc.bandit_hwang gender
 #. goathill.npc.bandit gender
 #. goathill.npc.bandit_leader gender
@@ -363,6 +364,8 @@ msgstr ""
 #. native.npc.herald_feng_ce gender
 #. native.npc.herald_uncle gender
 #. native.npc.herald_ministry gender
+#. native.npc.fake_disciple_head gender
+#. native.npc.fake_disciple gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -1715,9 +1718,11 @@ msgstr ""
 #. cloud.li_shishi region
 #. cloud.chess region
 #. cloud.wangyou_grass region
+#. zhenyuan place
+#. dongfang place
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/factions.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -1807,8 +1812,9 @@ msgstr ""
 msgid "斋"
 msgstr ""
 
+#. snow.npc.mercenary inquiry topic
 #. cloud.npc.judge inquiry topic
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/voxel/outdoor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/snow/npcs.json data/cloud/npcs.json data/cloud/voxel/outdoor.json
 msgid "赌"
 msgstr ""
 
@@ -3567,12 +3573,13 @@ msgstr ""
 #. name
 #. family.sanyen name
 #. common.npc.bonze.master family.name
+#. sanyen place
+#. sanyen name
 #. cloud.npc.monk inquiry topic
 #. cloud.npc.monk_guard inquiry topic
-#. sanyen name
 #. fanfang.npc.lama_master inquiry topic
 #. native.npc.indian_monk inquiry topic
-#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/fanfang/npcs.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/story/factions.json data/cloud/npcs.json data/sanyen/world.json data/fanfang/npcs.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
 msgid "山烟寺"
 msgstr ""
 
@@ -3721,7 +3728,9 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
 #. cloud.npc.b_header inquiry topic
-#: scenes/world/snow/snow_outdoor.tscn data/common/npcs.json data/cloud/npcs.json data/snow/voxel/outdoor.json
+#. native.npc.fake_disciple_head inquiry topic
+#. native.npc.fake_disciple inquiry topic
+#: scenes/world/snow/snow_outdoor.tscn data/common/npcs.json data/cloud/npcs.json data/native/npcs.json data/snow/voxel/outdoor.json
 msgid "淳风武馆"
 msgstr ""
 
@@ -3777,6 +3786,10 @@ msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
 msgid "西南 · 黄石隘口"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "淳风武馆收徒"
 msgstr ""
 
 #. es2:d/snow/school2 short
@@ -3911,7 +3924,8 @@ msgid "灵心观前"
 msgstr ""
 
 #. name
-#: scenes/world/temple/temple_mountain.tscn data/common/atlas.json data/temple/voxel/grounds.json data/temple/voxel/mountain.json
+#. maoshan place
+#: scenes/world/temple/temple_mountain.tscn data/common/atlas.json data/story/factions.json data/temple/voxel/grounds.json data/temple/voxel/mountain.json
 msgid "灵心观"
 msgstr ""
 
@@ -4133,9 +4147,10 @@ msgstr ""
 #. common.npc.fighter.champion inquiry topic
 #. main.chapter2 region
 #. ending cards.title
+#. celestial place
 #. waterfog name
 #. native.npc.wei_canglan inquiry topic
-#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/story/epilogue.json data/waterfog/world.json data/imperial/npcs.json data/waterfog/voxel/mountain.json
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/atlas.json data/common/npcs.json data/story/chapter2.json data/story/epilogue.json data/story/factions.json data/waterfog/world.json data/imperial/npcs.json data/waterfog/voxel/mountain.json
 msgid "水烟阁"
 msgstr ""
 
@@ -5777,6 +5792,20 @@ msgstr ""
 msgid "（在{place}，{who}看见了）"
 msgstr ""
 
+#. help.newbie paragraphs
+#. help.guild paragraphs
+#: core/quests/faction_definition.gd presentation/codex/codex_content.gd data/common/codex.json
+msgid "门派"
+msgstr ""
+
+#: core/quests/faction_definition.gd
+msgid "交情"
+msgstr ""
+
+#: core/quests/faction_definition.gd
+msgid "秘密"
+msgstr ""
+
 #. quests.quest_type
 #: core/quests/quest_definition.gd data/common/quests.json
 msgid "杀"
@@ -5870,6 +5899,10 @@ msgstr ""
 
 #: core/quests/story_quest_definition.gd
 msgid "差事"
+msgstr ""
+
+#: core/quests/story_quest_definition.gd
+msgid "the 历练 is the quest's"
 msgstr ""
 
 #. native (任务系统): a quest began: {title} its name, {summary} its sentence on the 任务 page.
@@ -6141,6 +6174,7 @@ msgstr ""
 #. common.npc.fighter.champion family.title
 #. common.npc.fighter.master family.title
 #. snow.npc.girl family.title
+#. snow.npc.mercenary family.title
 #. temple.npc.trainer family.title
 #. temple.npc.tfighter family.title
 #. latemoon.npc.funlin family.title
@@ -8656,12 +8690,6 @@ msgstr ""
 msgid "物品"
 msgstr ""
 
-#. help.newbie paragraphs
-#. help.guild paragraphs
-#: presentation/codex/codex_content.gd data/common/codex.json
-msgid "门派"
-msgstr ""
-
 #: presentation/codex/codex_content.gd
 msgid "人物"
 msgstr ""
@@ -10000,6 +10028,11 @@ msgstr ""
 msgid "到了，指路收起。"
 msgstr ""
 
+#. native (势力线, 晋阶): a quest raised the player in their family: {title} the whole title now (封山剑派第十四代大弟子).
+#: runtime/world/world_session_controller.gd
+msgid "【晋阶】你现在是{title}。"
+msgstr ""
+
 #: ui/bank/bank_exchange_panel.gd
 msgid "支付货币"
 msgstr ""
@@ -10477,11 +10510,6 @@ msgstr ""
 
 #: ui/world/game_menu.gd
 msgid "系统"
-msgstr ""
-
-#. the 声望 tab until reputation is built (ROADMAP "After the grey box": quest and reputation systems).
-#: ui/world/game_menu.gd
-msgid "江湖上对你的看法，日后会记在这里。"
 msgstr ""
 
 #. the 系统 tab during a fight: the other tabs wait until it is over.
@@ -12010,6 +12038,16 @@ msgstr ""
 msgid "朱鸿雪的任务：还有{time}"
 msgstr ""
 
+#. the 声望 page while no house has anything to say of the player.
+#: ui/world/standing_page.gd
+msgid "江湖上还没有哪一家记得你。"
+msgstr ""
+
+#. a house on the 声望 page: {name} its name, {layer} 门派 / 交情 / 秘密, {place} where it is.
+#: ui/world/standing_page.gd
+msgid "{name} · {layer} · {place}"
+msgstr ""
+
 #. the 偷窃 list's question: {npc} the one the player means to steal from.
 #: ui/world/steal_panel.gd
 msgid "想从{npc}身上偷什么？"
@@ -13202,7 +13240,8 @@ msgstr ""
 #. family.fonxan hearsay snow.npc.waiter topic
 #. family.fonxan hearsay snow.npc.guard topic
 #. family.fonxan hearsay snow.npc.trainee topic
-#: data/common/skills.json data/common/families.json
+#. native.npc.fake_disciple_head inquiry topic
+#: data/common/skills.json data/common/families.json data/native/npcs.json
 msgid "封山剑法"
 msgstr ""
 
@@ -14943,8 +14982,10 @@ msgstr ""
 #. native.bounty region
 #. main.prologue region
 #. ending cards.title
+#. fonxan place
+#. faction.fonxan region
 #. snow name
-#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/story/epilogue.json data/snow/world.json
+#: data/common/atlas.json data/common/journal.json data/story/prologue.json data/story/epilogue.json data/story/factions.json data/story/faction_fonxan.json data/snow/world.json
 msgid "雪亭镇"
 msgstr ""
 
@@ -14966,8 +15007,9 @@ msgstr ""
 #. name
 #. green.jade region
 #. green.maze region
+#. juechen place
 #. green name
-#: data/common/atlas.json data/common/journal.json data/green/world.json
+#: data/common/atlas.json data/common/journal.json data/story/factions.json data/green/world.json
 msgid "青石村"
 msgstr ""
 
@@ -15001,6 +15043,8 @@ msgstr ""
 #. latemoon.secret_letter region
 #. main.chapter4 region
 #. ending cards.title
+#. latemoon place
+#. latemoon name
 #. cloud.npc.lm_guard inquiry topic
 #. latemoon.npc.yumay family.name
 #. latemoon.npc.funlin family.name
@@ -15017,8 +15061,7 @@ msgstr ""
 #. latemoon.npc.park.maysan family.name
 #. latemoon.npc.upstar.shinfun family.name
 #. latemoon.npc.upstar.huei family.name
-#. latemoon name
-#: data/common/atlas.json data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/story/epilogue.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
+#: data/common/atlas.json data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/story/epilogue.json data/story/factions.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
 msgid "晚月庄"
 msgstr ""
 
@@ -15040,8 +15083,10 @@ msgstr ""
 #. choyin.taolin region
 #. main.chapter5 region
 #. ending cards.title
+#. buxuan place
+#. huazi place
 #. choyin name
-#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/story/epilogue.json data/choyin/world.json data/sanyen/voxel/mountain.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/story/epilogue.json data/story/factions.json data/choyin/world.json data/sanyen/voxel/mountain.json
 msgid "乔阴县城"
 msgstr ""
 
@@ -15176,7 +15221,10 @@ msgstr ""
 #. family.fonxan name
 #. family.fonxan hearsay snow.npc.teacher topic
 #. common.npc.swordsman.master family.name
-#: data/common/families.json data/common/npcs.json
+#. fonxan name
+#. faction.fonxan title
+#. snow.npc.mercenary family.name
+#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_fonxan.json data/snow/npcs.json
 msgid "封山剑派"
 msgstr ""
 
@@ -15377,44 +15425,49 @@ msgid "封山剑派北宗"
 msgstr ""
 
 #. family.zhenyuan name
+#. zhenyuan name
 #. cloud.npc.b_header family.name
 #. cloud.npc.bfighter family.name
 #. city.npc.chen family.name
 #. city.npc.chen inquiry topic
-#: data/common/families.json data/cloud/npcs.json data/city/npcs.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
+#: data/common/families.json data/story/factions.json data/cloud/npcs.json data/city/npcs.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
 msgid "振远镖局"
 msgstr ""
 
 #. family.dongfang name
+#. dongfang name
 #. cloud.npc.god family.name
 #. latemoon.npc.room.annihi family.name
-#: data/common/families.json data/cloud/npcs.json data/latemoon/npcs.json
+#: data/common/families.json data/story/factions.json data/cloud/npcs.json data/latemoon/npcs.json
 msgid "东方神教"
 msgstr ""
 
 #. family.celestial name
 #. common.npc.fighter.champion family.name
 #. common.npc.fighter.master family.name
-#: data/common/families.json data/common/npcs.json
+#. celestial name
+#: data/common/families.json data/common/npcs.json data/story/factions.json
 msgid "天邪派"
 msgstr ""
 
 #. family.juechen name
 #. common.npc.juechen.master family.name
 #. common.npc.juechen.master inquiry topic
-#: data/common/families.json data/common/npcs.json
+#. juechen name
+#: data/common/families.json data/common/npcs.json data/story/factions.json
 msgid "绝尘派"
 msgstr ""
 
 #. family.maoshan name
 #. common.npc.taoist.taolord family.name
 #. common.npc.taoist.taolord inquiry topic
+#. maoshan name
 #. temple.npc.trainer family.name
 #. temple.npc.trainer inquiry topic
 #. temple.npc.tfighter family.name
 #. temple.npc.tfighter inquiry topic
 #. city.npc.shangshu.gardener inquiry topic
-#: data/common/families.json data/common/npcs.json data/temple/npcs.json data/city/npcs.json
+#: data/common/families.json data/common/npcs.json data/story/factions.json data/temple/npcs.json data/city/npcs.json
 msgid "茅山派"
 msgstr ""
 
@@ -15432,13 +15485,15 @@ msgstr ""
 
 #. family.buxuan name
 #. common.npc.scholar.master family.name
-#: data/common/families.json data/common/npcs.json
+#. buxuan name
+#: data/common/families.json data/common/npcs.json data/story/factions.json
 msgid "步玄派"
 msgstr ""
 
 #. family.huazi name
 #. common.npc.beggar.master family.name
-#: data/common/families.json data/common/npcs.json
+#. huazi name
+#: data/common/families.json data/common/npcs.json data/story/factions.json
 msgid "花紫会"
 msgstr ""
 
@@ -15450,7 +15505,8 @@ msgstr ""
 
 #. common.npc.swordsman.master name
 #. common.npc.fighter.executioner inquiry topic
-#: data/common/npcs.json
+#. snow.npc.mercenary inquiry topic
+#: data/common/npcs.json data/snow/npcs.json
 msgid "柳淳风"
 msgstr ""
 
@@ -15475,6 +15531,126 @@ msgstr ""
 #. common.npc.scholar.master family.title
 #: data/common/npcs.json
 msgid "掌门人"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#: data/common/npcs.json
+msgid "武馆的事"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.say
+#: data/common/npcs.json
+msgid "镇上清净了。门户的名头不是谁都能借的——这一回，是你替武馆拿回来的。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.say
+#: data/common/npcs.json
+msgid "镇西官道上那几个人，你去会一会。先看清他们凭的是什么，再动手。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.lines.emote
+#: data/common/npcs.json
+msgid "放下手里的茶，看了你一眼。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.lines.say
+#: data/common/npcs.json
+msgid "既入了门，武馆的事你也该担一件。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.lines.say
+#: data/common/npcs.json
+msgid "这几日有来投师的人说，在镇西的青石官道上交过「拜师钱」——十两银子，收钱的自称封山弟子。淳风武馆收徒，从来不收这个钱。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.lines.say
+#: data/common/npcs.json
+msgid "我不便去。掌门出手打几个骗子，传出去是笑话。你是新面孔，他们不认得你——去看看他们凭的是什么。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.武馆的事.rules.say
+#: data/common/npcs.json
+msgid "武馆自家的事，不劳外人费心。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#. snow.npc.mercenary inquiry topic
+#. native.npc.fake_disciple_head inquiry topic
+#: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
+msgid "腰牌"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.say
+#: data/common/npcs.json
+msgid "牌我收着。逄师弟什么时候自己来取，什么时候还他。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.say
+#: data/common/npcs.json
+msgid "他认了就好。牌给我吧。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.say
+#: data/common/npcs.json
+msgid "牌没带回来？……丢了也好，省得再有人拿它骗人。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.say
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
+msgid "门户的名头，不是谁都能借的。这件事你办得干净——从今日起，你是这一辈的大弟子。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.say
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
+msgid "还有一件事，李教头会同你说。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.emote
+#: data/common/npcs.json
+msgid "接过腰牌翻过来，看见背面那个字，半晌没有说话。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.say
+#: data/common/npcs.json
+msgid "逄……是逄义师弟的牌。同辈里他的剑不比我差，只是好赌。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.say
+#: data/common/npcs.json
+msgid "牌是真的，人是假的——那就是牌从他手里流出去了。他这些年多半泡在绮云镇的赌场里。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.say
+#: data/common/npcs.json
+msgid "你去问他一句：牌是怎么到外人手里的。问明白了，再把牌带回来。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.lines.emote
+#: data/common/npcs.json
+msgid "把腰牌递还给你。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.腰牌.rules.say
+#: data/common/npcs.json
+msgid "封山弟子人人有一块腰牌，正面一座山，背面是自己的姓。你的那块，等你的剑入了门再说。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#. snow.npc.mercenary name
+#: data/common/npcs.json data/snow/npcs.json
+msgid "逄义"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.逄义.rules.say
+#: data/common/npcs.json
+msgid "他肯认，就还是封山的人。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.逄义.rules.say
+#: data/common/npcs.json
+msgid "逄师弟与我同辈，剑上的天分不在我之下。……好赌，多年不回武馆了。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.淳风武馆
@@ -15631,6 +15807,51 @@ msgstr ""
 #. common.npc.swordsman.master inquiry.水烟阁.rules.say
 #: data/common/npcs.json
 msgid "水烟阁在青石官道西头的山上，武者同盟的总坛。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.emote
+#: data/common/npcs.json
+msgid "把腰牌收进袖里。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
+msgid "牌我替他收着。他什么时候戒了赌，什么时候自己来取。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.say
+#: data/common/npcs.json
+msgid "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "刘兄弟的事，李教头回过我了。规矩是先父立的，我不能为他破。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "五年前我留他，是我的事；今天你说破，是你的事。都没有错。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "……说到规矩。我年轻时在天驼关的竹林里留过一卷书，写的也是这两个字。改日同你说。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "李教头说，那伙人认错了人。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.emote
+#: data/common/npcs.json
+msgid "看了你很久。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话——往后，也替武馆担着。"
 msgstr ""
 
 #. common.npc.swordsman.master apprentice.refuse_say
@@ -19323,6 +19544,7 @@ msgid "把五长老南危水装死二十年的事告诉了七长老颜违"
 msgstr ""
 
 #. main.chapter3 title
+#. niling name
 #. goathill.npc.bandit_hwang inquiry topic
 #. native.npc.niling_winch_taoist inquiry topic
 #. native.npc.niling_gatekeeper inquiry topic
@@ -19337,7 +19559,6 @@ msgstr ""
 #. native.npc.guanbei_corvee inquiry topic
 #. native.npc.shang_jue inquiry topic
 #. native.npc.niling_jailer_keyed inquiry topic
-#. niling name
 #. native.npc.lao_qin inquiry topic
 #. native.npc.lu_sun inquiry topic
 #. native.npc.barrow_taoist inquiry topic
@@ -19348,7 +19569,7 @@ msgstr ""
 #. native.npc.liu_anlu_home inquiry topic
 #. native.npc.shang_jue_lake inquiry topic
 #. native.npc.niling_taoist_lake title
-#: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
+#: data/story/chapter3.json data/story/factions.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "逆灵宫"
 msgstr ""
 
@@ -20500,14 +20721,596 @@ msgstr ""
 msgid "雪亭镇的广场上，宣了诏。"
 msgstr ""
 
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "淳风武馆的门房换了个年轻人。刘安禄在野羊山上当他的二寨主，逢年过节下山喝一回酒。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "淳风武馆的门房还是那张桌子。刘安禄的事，镇上没人再提。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "淳风武馆的门房空了一冬。刘安禄走的那天没有人送，柳淳风在门里站了很久。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "淳风武馆的门房还是那张桌子。刘安禄的来历，武馆里只有三个人知道。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "开春，你回了一趟山里，在老岑的坟前把信末那一行念给他听：风停处，替我再看一眼。——看过了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "广场上的人散了。卖馄饨的说，那天的官爷，跟三年前来的是同一拨。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "瀑布后的山洞里，那座无名的坟前多了一块碑，碑上没有字。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "瀑布后的山洞空了。那块腰牌后来回到了水烟阁，挂在葬剑亭里。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "老松寨的寨门还在，买路钱一年比一年收得少。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "这一年正月十七，虹台上没有推选。五长老的椅子空着，说是等一个回不来的人。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "这一年正月十七，虹台上推选盟主。卫沧澜回来了，没有人再提「代盟主」三个字。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "这一年正月十七，南危水上了虹台，只说了一句：老松岭的那个人，替我死了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "这一年正月十七，七长老颜违做了盟主。他说二十年的旧案，到此为止。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "传功使的位置空着。弟子们说，萧师父回城里去了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "东厢的门关着。庄里的人说，守衣人去守另一件东西了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "瑷伦回了东厢，宝衣挂在墙上。她说，几百年了，该歇一歇。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "瑷伦回了东厢，墙上挂衣的钉子空着。她说，衣裳烧了，守衣人也该歇了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "安妮儿把宝衣带回了东方神教。神教的香案上，多了一盏长明灯。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "安妮儿回了东方神教，带回去的是一捧灰。神教的香案上，多了一只小瓷坛、一盏长明灯。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "庄里少了一件东西，多了一个故事。池边的人说，护庄的光，那年暗了一暗。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "野羊寨的旗子又插回了山顶。霍铮说，逆灵宫的黑砖，拆下来正好砌寨墙。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "黄霸还在土地庙里收他的供。北麓的黑砖道观，没人敢上去看一眼。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "有人说在北边的雪里见过一个黑衣人，说话像念经。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "程不平的卷宗送上了京城。陈显祖回了乡，桃木箱里只剩一件旧官服。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "陈显祖带着他的箱子走了，没人知道去了哪里。福林酒楼的说书人，把这件事编成了一段新书。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "县衙门口的大皮鼓，又有人敢去敲了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "京城的诏书到了槐阳：槐阳王不反。城门上那张「槐阳反」的告示，郭承亲手撕了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "槐阳城门上那张告示还贴着：槐阳反。程朔说，随他们说。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "槐阳王府照旧不问兵部的事。草原上没救出来的四个人，后来有两个自己走了回来。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "铁盾会的院子里又练起了盾。卢卡说，等他攒够了钱，要回海那边去看一看。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "铁盾会的院子空了。鬼笠馆的浪人占了那块地，早川直义从此不再出刀。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "拜火祠的火，一年到头没有灭过。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "傅家坡的草顶重新铺过了。渔夫的网挂在他家门口，没有人去收。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "玉螺湖的渔夫照旧撒网。湖底那盏灯，再没有人见过。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "石头长高了一截，天天往湖边跑。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "庾子建在天牢里过了冬。少年皇帝第一次在早朝上，说了一整句话。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "京城里都说，是兵部尚书带回了那把剑。皇帝在早朝上，一句话也没有说。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "庾子建还在兵部。他派人去过一回玉螺湖，回来的人说，湖面上什么也没有。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "於兰天武回了朝，把旋芒挂在养心殿的墙上，对少年皇帝说：剑是用来记事的。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "於兰天武回了朝，站在少年皇帝身后。"
+msgstr ""
+
 #. ending cards.title
 #: data/story/epilogue.json
 msgid "玉螺湖底"
 msgstr ""
 
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰下封坛一片空。三百年的冰化了一半，水是清的。冰龙还在，只是不再抬头。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰下封坛的冰柱里，瑷伦披着宝衣站着，眼睛睁着。三百年后，会有人来叫醒她。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰下封坛的冰柱里，璃虹的光又亮了。她说过：第一个带着铜来的，是你。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰下封坛的冰柱里，南危水手按剑柄，像还在等什么人。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰下封坛的冰柱里，萧辟尘握着旋芒。岚城的风，每年会吹到湖面上一回。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰下封坛的冰柱里，站着一个年轻人。没有人知道他的名字。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "店小二擦着桌子：「小哥您有所不知——前几天有个人从湖那边回来，说湖水清得能看见底。我说，那是人家的功劳，那碗茶不收钱。」"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "店小二擦着桌子：「小哥您有所不知——前几天有个人从湖那边回来，说湖底冰里站着一个人。我说，那是替咱们守着的，逢年过节，要给他留一碗酒。」"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "店小二擦着桌子：「前些日子有个客官从这儿走出去，就再没回来。楼上那间房，我一直给他留着。」"
+msgstr ""
+
 #. ending cards.title
 #: data/story/epilogue.json
 msgid "终"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "那少年，便是你。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "那少年，留在了冰里。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "以《东方故事 2》（Eastern Stories 2）为底。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "谢谢 ES2 的作者们，和 MUD 年代守着它的巫师们。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "也谢谢你，走到了这里。"
+msgstr ""
+
+#. court place
+#: data/story/factions.json
+msgid "乔阴 · 天驼关 · 京师"
+msgstr ""
+
+#. niling place
+#: data/story/factions.json
+msgid "野羊山北麓"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "你是封山剑派的弟子，师父是柳淳风。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "柳淳风认得老岑的信：淳风武馆的门，你随时进。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "柳淳风替你给水烟阁的潘军禅写过一封信。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "雪亭镇上没人再敢借淳风武馆的名头收钱。是你清的。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "逄义认了那块腰牌。他欠武馆一句交代。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "武馆的人都知道，是你说破了门房的来历。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "刘安禄的来历，你替他瞒着。他欠你一句话。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "你和血手刘三动过刀，放了他一条路。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "你是振远镖局的人。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "陈剑秋把二十年前那张镖单交给了你。这件事，振远至今不提。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "你是天邪派的弟子。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "潘军禅给你看过那柄「邪剑穿灵」：它是鱼饵。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "南危水把二十年的事托给了你。你没有告诉别人。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "颜违记得，五长老的事是你告诉他的。他从那天起代行盟主之职。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "盟主卫沧澜是你从尚书府带出来的。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "於兰天武的通缉是你解的。他回了京。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "你是绝尘派的弟子。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "你是茅山派的弟子。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "你是晚月庄的弟子。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "寒於宝衣留在晚月庄。瑷伦替你守到决战。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "宝衣是你带出庄的。那一夜，庄里死了人。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "晚月庄守了几百年的宝衣，你交给了外人。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "你是山烟寺的弟子。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
+msgid "你是步玄派的弟子。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
+msgid "骆云舟把骆家的名帖给了你。"
+msgstr ""
+
+#. huazi lines.text
+#: data/story/factions.json
+msgid "你是花紫会的人。"
+msgstr ""
+
+#. court name
+#: data/story/factions.json
+msgid "官府"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "乔阴知县程不平替你写过一封信。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "陈显祖是你护送进县衙作的证。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "天驼关的严廷殷看过程不平的信。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "你是今科的武状元。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "兵部尚书庾子建是你在朝上揭发的。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "你和庾子建私了了。兵部记着这份情，也记着这笔账。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "大内侍卫营的冯策说过：算老夫一个。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "安妮儿说，她在等一个配得上宝衣的人。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "安妮儿说你配得上。东方神教记得你。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "宝衣出了庄，没进安妮儿的门。她记下了你的名字。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你放过了神教的那个杀手。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "你进过那座黑砖道观。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "你见过「唤首」。他们知道有生人进过后殿。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "地牢里的人是你放走的。逆灵宫在找那天闯道观的孩子。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "玄冥子欠你一条命。他说过：带着残卷来后山找他。"
+msgstr ""
+
+#. faction.fonxan summary
+#: data/story/faction_fonxan.json
+msgid "拜了柳淳风，淳风武馆的事就是你的事。"
+msgstr ""
+
+#. faction.fonxan/hear objective
+#: data/story/faction_fonxan.json
+msgid "问柳淳风「武馆的事」。"
+msgstr ""
+
+#. faction.fonxan/hear text
+#: data/story/faction_fonxan.json
+msgid "柳淳风说，镇西的青石官道上有人打着淳风武馆的旗号，向来投师的人收十两「拜师钱」。"
+msgstr ""
+
+#. faction.fonxan/fakes objective
+#: data/story/faction_fonxan.json
+msgid "去镇西的青石官道，会一会那几个收「拜师钱」的「封山弟子」。"
+msgstr ""
+
+#. faction.fonxan/fakes text
+#: data/story/faction_fonxan.json
+msgid "为首的罗七倒了，两个帮闲一哄而散。他胸前那块腰牌却是真的：背面刻着一个「逄」字，系绳上拴着绮云镇赌场的竹筹。"
+msgstr ""
+
+#. faction.fonxan/pang objective
+#: data/story/faction_fonxan.json
+msgid "腰牌是从绮云镇的赌场流出来的。去赌场找那个姓逄的，问他「腰牌」。"
+msgstr ""
+
+#. faction.fonxan/pang text
+#: data/story/faction_fonxan.json
+msgid "逄义——柳淳风的同辈师弟——认了：牌是他赌输了押给罗七的。"
+msgstr ""
+
+#. faction.fonxan/report objective
+#: data/story/faction_fonxan.json
+msgid "把腰牌带回淳风武馆，交给柳淳风。"
+msgstr ""
+
+#. faction.fonxan/report text
+#: data/story/faction_fonxan.json
+msgid "柳淳风收下了这件事。「门户的名头，不是谁都能借的。」"
+msgstr ""
+
+#. faction.fonxan/report reward.deed
+#: data/story/faction_fonxan.json
+msgid "清了打着淳风武馆旗号收拜师钱的人"
+msgstr ""
+
+#. faction.fonxan/report reward.rank.title
+#. latemoon.npc.yumay family.title
+#. latemoon.npc.shaowei family.title
+#: data/story/faction_fonxan.json data/latemoon/npcs.json
+msgid "大弟子"
+msgstr ""
+
+#. faction.fonxan/gate objective
+#: data/story/faction_fonxan.json
+msgid "罗七在镇上嚷过：武馆的门房是野羊山的血手刘三。李火狮在等一句话，问他「门房」——说破，他今天就得离开武馆；替他瞒，这句话从此算在你头上。"
+msgstr ""
+
+#. faction.fonxan/gate/reveal text
+#: data/story/faction_fonxan.json
+msgid "你对李火狮说了实话：门房刘安禄就是野羊山的血手刘三。武馆不留匪，他当天离开了武馆。"
+msgstr ""
+
+#. faction.fonxan/gate/reveal reward.deed
+#: data/story/faction_fonxan.json
+msgid "说破了淳风武馆门房的来历"
+msgstr ""
+
+#. faction.fonxan/gate/cover text
+#: data/story/faction_fonxan.json
+msgid "你对李火狮说：那伙骗子认错了人。刘安禄留在了武馆。"
+msgstr ""
+
+#. faction.fonxan/gate/cover reward.deed
+#: data/story/faction_fonxan.json
+msgid "替淳风武馆的门房瞒下了来历"
+msgstr ""
+
+#. faction.fonxan/book objective
+#: data/story/faction_fonxan.json
+msgid "柳淳风提过，他年轻时在天驼关的竹林里留下过一卷书。"
+msgstr ""
+
+#. faction.fonxan/book text
+#: data/story/faction_fonxan.json
+msgid "那卷书有了去处。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -20780,6 +21583,11 @@ msgstr ""
 #. oldpine.npc.bandit_guard inquiry topic
 #: data/oldpine/npcs.json
 msgid "叫阵"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.叫阵.confirm
+#: data/oldpine/npcs.json
+msgid "叫阵是跟常老大单打独斗——寨里的人不插手，但常老大的泼风刀下，没几个人站得住。要叫阵吗？"
 msgstr ""
 
 #. oldpine.npc.bandit_guard inquiry.叫阵.rules.say
@@ -21173,6 +21981,7 @@ msgid "多谢这位$RESPECT！"
 msgstr ""
 
 #. snow.npc.guard title
+#. snow.npc.fist_trainer inquiry topic
 #. city.npc.shangshu.guard name
 #: data/snow/npcs.json data/city/npcs.json
 msgid "门房"
@@ -21209,9 +22018,45 @@ msgid ""
 "刘安禄说道：你快走吧，就算我输了你啦....\n"
 msgstr ""
 
+#. snow.npc.guard calls.steps.emote
+#: data/snow/npcs.json
+msgid "看见你，放下了手里的扫帚。"
+msgstr ""
+
+#. snow.npc.guard calls.steps.say
+#: data/snow/npcs.json
+msgid "李教头同我说了。……那句话是你替我挡的。"
+msgstr ""
+
+#. snow.npc.guard calls.steps.say
+#: data/snow/npcs.json
+msgid "我欠你一句话。哪天你用得着野羊山的人，开口。"
+msgstr ""
+
+#. snow.npc.guard calls.steps.emote
+#: data/snow/npcs.json
+msgid "背着一个青布包袱，望着往野羊山去的那条路。"
+msgstr ""
+
+#. snow.npc.guard calls.steps.say
+#: data/snow/npcs.json
+msgid "话是你说的。我不怨你——五年前我就该走。"
+msgstr ""
+
+#. snow.npc.guard calls.steps.say
+#: data/snow/npcs.json
+msgid "馆主留我到今天，是他的情分；武馆的规矩，是老馆主的。两样都没错。"
+msgstr ""
+
 #. snow.npc.guard inquiry topic
 #: data/snow/npcs.json
 msgid "刘老三"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.confirm
+#. snow.npc.guard inquiry.血手刘三.confirm
+#: data/snow/npcs.json
+msgid "刘安禄的来历不简单。当面问出这个名字，是把事情挑明——他未必肯善罢甘休。要问吗？"
 msgstr ""
 
 #. snow.npc.guard inquiry.刘老三.rules.say
@@ -21350,6 +22195,170 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。\n"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.say
+#: data/snow/npcs.json
+msgid "话是你说的，馆主也认了。武馆的规矩，谁也不能例外。……老刘走的时候，把门房的钥匙擦得干干净净。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.say
+#: data/snow/npcs.json
+msgid "你说认错了人，我就当是认错了人。弟子们那边，我去压。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "老刘前些日子不辞而别，门房的桌子空着。偏偏那几个骗子又在镇上嚷，说他是野羊山的二寨主。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "弟子们都在猜。有人说该报官，有人说该上野羊山问个明白。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "馆主不开口。骗子是你打发的——老刘到底是什么人，你给大伙一句话：说破，还是替他瞒下来。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "那天你和老刘在门口动了刀，弟子们都看见了——那套刀法，不是一个门房使得出来的。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "偏偏那几个骗子又在镇上嚷，说他是野羊山的血手刘三。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "馆主不开口。你和他交过手，你最清楚——他是什么人，你给大伙一句话：说破，还是替他瞒下来。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "那几个骗子在镇上嚷，说咱们门房老刘是野羊山的二寨主，叫什么血手刘三。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "老刘在武馆五年，扫地、守门、记账，没出过一回错。可弟子们听见了，就得有个说法：武馆不留匪，这是老馆主立的规矩。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.lines.say
+#: data/snow/npcs.json
+msgid "馆主不开口。骗子是你打发的，话是你听见的——他是什么人，你给大伙一句话：说破，还是替他瞒下来。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.say
+#: data/snow/npcs.json
+msgid "门房老刘？在武馆五年了，话不多，人勤快。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry topic
+#: data/snow/npcs.json
+msgid "说破门房的来历"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm
+#: data/snow/npcs.json
+msgid ""
+"告诉李火狮：门房刘安禄就是野羊山的血手刘三。\n"
+"武馆不留匪——这句话出口，他今天就得离开武馆，弟子们会记得是你说的。\n"
+"要说破吗？"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm_marks
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm_marks
+#: data/snow/npcs.json
+msgid "李火狮说了门房"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm_lacks
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm_lacks
+#: data/snow/npcs.json
+msgid "说破了刘安禄"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm_lacks
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm_lacks
+#: data/snow/npcs.json
+msgid "替刘安禄瞒了"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.rules.say
+#: data/snow/npcs.json
+msgid "你已经说过了。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.rules.say
+#: data/snow/npcs.json
+msgid "你前头说的是认错了人。话出了口，就别改了。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.rules.lines.emote
+#: data/snow/npcs.json
+msgid "的脸沉了下来。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.rules.lines.say
+#: data/snow/npcs.json
+msgid "……血手刘三。五年，我天天和他一张桌子吃饭。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.rules.lines.say
+#: data/snow/npcs.json
+msgid "规矩是老馆主立的，我去回馆主。你做得对——只是往后弟子们看你，眼神会不一样。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.说破门房的来历.rules.say
+#: data/snow/npcs.json
+msgid "说破什么？"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry topic
+#: data/snow/npcs.json
+msgid "替门房瞒下来"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm
+#: data/snow/npcs.json
+msgid ""
+"告诉李火狮：那伙骗子认错了人。\n"
+"刘安禄留在武馆，欠你一句话；可这句话从此算在你头上，日后再有人认出他，弟子们先问的是你。\n"
+"要替他瞒吗？"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.rules.say
+#: data/snow/npcs.json
+msgid "认错了人。我已经同弟子们说过了。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.rules.say
+#: data/snow/npcs.json
+msgid "话已经出了口，瞒不回去了。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.rules.lines.emote
+#: data/snow/npcs.json
+msgid "盯着你看了一会儿，慢慢点了点头。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.rules.lines.say
+#: data/snow/npcs.json
+msgid "认错了人。好，我就这么同弟子们说。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.rules.lines.say
+#: data/snow/npcs.json
+msgid "你担着这句话，就担到底。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.替门房瞒下来.rules.say
+#: data/snow/npcs.json
+msgid "瞒什么？"
 msgstr ""
 
 #. snow.npc.fist_trainer accept_fight.emote
@@ -21906,6 +22915,95 @@ msgstr ""
 #. snow.npc.beggar accept_object.say
 #: data/snow/npcs.json
 msgid "多谢这位$RESPECT，您好心一定会有好报的！"
+msgstr ""
+
+#. snow.npc.mercenary long
+#: data/snow/npcs.json
+msgid ""
+"逄义是封山派中和柳淳风同辈的弟子，但是生性好赌的他并不受师父\n"
+"及同门师兄弟的喜爱，因此辈分虽高，却未曾担任门中任何重要职务\n"
+"。逄义经常外出，美其名曰：旅行，实则避债，碍于门规又不敢做那\n"
+"打家劫舍的勾当，因此经常四处寻找赚钱发财的机会。\n"
+msgstr ""
+
+#. snow.npc.mercenary inquiry topic
+#: data/snow/npcs.json
+msgid "赚钱"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.赚钱
+#: data/snow/npcs.json
+msgid "真的？哪里有钱赚？"
+msgstr ""
+
+#. snow.npc.mercenary inquiry topic
+#: data/snow/npcs.json
+msgid "发财"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.发财
+#: data/snow/npcs.json
+msgid "发财我倒不敢想，只要有人肯雇用(employment)我，手边有几百两银子就好了。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.employment
+#: data/snow/npcs.json
+msgid "是的，一天一百两银子，只要不违背侠义道，我可以做任何事。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.柳淳风
+#: data/snow/npcs.json
+msgid "柳淳风是在下同门师兄。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.赌
+#: data/snow/npcs.json
+msgid "阁下如果也爱好此道，不如改天兄弟陪阁下玩几手？"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.say
+#: data/snow/npcs.json
+msgid "牌你带回去交给师兄。我没脸拿。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.emote
+#: data/snow/npcs.json
+msgid "手里的骰子掉在了桌上。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.say
+#: data/snow/npcs.json
+msgid "……是我的牌。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.say
+#: data/snow/npcs.json
+msgid "上个月手气背，欠了场子里一个姓罗的十二两。他不要银子，只要这块牌，说是拿去「挂两天」。我当他要个彩头。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.say
+#: data/snow/npcs.json
+msgid "他拿去雪亭收拜师钱？打的是师兄的旗号？"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.emote
+#: data/snow/npcs.json
+msgid "半天没说话，把面前剩的几个筹码推开了。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.say
+#: data/snow/npcs.json
+msgid "门规我没犯过——不偷不抢，不打家劫舍。可牌是我押出去的，这一条赖不掉。你带回去交给师兄，就说逄义认了。"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.say
+#: data/snow/npcs.json
+msgid "什么腰牌？在下的腰牌好好地……"
+msgstr ""
+
+#. snow.npc.mercenary inquiry.腰牌.rules.lines.emote
+#: data/snow/npcs.json
+msgid "摸了摸腰间，没有说下去。"
 msgstr ""
 
 #. es2:d/snow/inn long
@@ -23750,7 +24848,8 @@ msgstr ""
 #. es2:d/city/npc/obj/cake unit
 #. native:canyon/seal_mould unit
 #. native:imperial/guard_token unit
-#: data/latemoon/items.json data/city/items.json data/guanbei/items.json data/imperial/items.json
+#. native:snow/fonxan_tally unit
+#: data/latemoon/items.json data/city/items.json data/guanbei/items.json data/imperial/items.json data/native/items.json
 msgid "块"
 msgstr ""
 
@@ -26600,6 +27699,11 @@ msgstr ""
 msgid "保密"
 msgstr ""
 
+#. waterfog.npc.elder5 inquiry.保密.confirm
+#: data/waterfog/npcs.json
+msgid "替南危水保密，七长老颜违就永远不会从你这里知道这件事。要答应他吗？"
+msgstr ""
+
 #. waterfog.npc.elder5 inquiry.保密.rules.say
 #: data/waterfog/npcs.json
 msgid "多谢。到了关北，老夫替你引见槐阳王。"
@@ -26701,6 +27805,11 @@ msgstr ""
 #. waterfog.npc.elder7 inquiry topic
 #: data/waterfog/npcs.json
 msgid "南危水的事"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.南危水的事.confirm
+#: data/waterfog/npcs.json
+msgid "把南危水装死二十年的事告诉七长老，他就再也瞒不住了。要说吗？"
 msgstr ""
 
 #. waterfog.npc.elder7 inquiry.南危水的事.rules.say
@@ -28279,12 +29388,6 @@ msgid ""
 "晚月庄接待外宾的工作向来由她负责。\n"
 msgstr ""
 
-#. latemoon.npc.yumay family.title
-#. latemoon.npc.shaowei family.title
-#: data/latemoon/npcs.json
-msgid "大弟子"
-msgstr ""
-
 #. latemoon.npc.yumay chat_msg
 #: data/latemoon/npcs.json
 msgid ""
@@ -28878,6 +29981,11 @@ msgid ""
 "她看上去三十七岁。庄里最老的仆妇说，她小时候见到的瑷伦也是这张脸。鞭子挂在腰上，手搭在鞭柄上，像搭在一个老朋友的肩上。\n"
 msgstr ""
 
+#. latemoon.npc.room.elon inquiry.湖底.confirm
+#: data/latemoon/npcs.json
+msgid "叫瑷伦随你下湖？她穿着宝衣跟你去玉螺湖，等事情了结。"
+msgstr ""
+
 #. latemoon.npc.room.elon inquiry.湖底.confirm_marks
 #: data/latemoon/npcs.json
 msgid "瑷伦守到决战"
@@ -28971,6 +30079,13 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry topic
 #: data/latemoon/npcs.json
 msgid "为了斩鬼"
+msgstr ""
+
+#. latemoon.npc.room.elon inquiry.为了斩鬼.confirm
+#. latemoon.npc.room.elon inquiry.交给安妮儿.confirm
+#. latemoon.npc.room.elon inquiry.不知道.confirm
+#: data/latemoon/npcs.json
+msgid "这是你给守衣人的答复，说出去就改不了。"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.为了斩鬼.rules.marks_asker
@@ -31210,6 +32325,14 @@ msgstr ""
 msgid "作证"
 msgstr ""
 
+#. choyin.npc.sergeant inquiry.作证.confirm
+#: data/choyin/npcs.json
+msgid ""
+"护送陈显祖进衙门作证：他会跟着你走，从福林酒楼到县衙。\n"
+"路上会有人拦。\n"
+"确定吗？"
+msgstr ""
+
 #. choyin.npc.sergeant inquiry.作证.rules.say
 #: data/choyin/npcs.json
 msgid "我跟着你。到了衙门再说。"
@@ -31243,6 +32366,13 @@ msgstr ""
 #. choyin.npc.sergeant inquiry topic
 #: data/choyin/npcs.json
 msgid "走吧"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.confirm
+#: data/choyin/npcs.json
+msgid ""
+"放陈显祖带着箱子走：他交出抄本，一去不回——公堂上就没有人证了。\n"
+"确定吗？"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry.走吧.rules.say
@@ -41318,7 +42448,7 @@ msgstr ""
 
 #. native.npc.huo_zheng inquiry.逆灵宫
 #: data/niling/npcs.json
-msgid "霍铮咬着牙道：两年前他们上山，寨子折了一半弟兄。老子带人来烧他们的观，中了埋伏——老子和老二，一个也没回去。"
+msgid "霍铮咬着牙道：两年前他们上山，寨子折了一半弟兄。老子带人来烧他们的观，中了埋伏——跟老子上山的弟兄，一个也没回去。"
 msgstr ""
 
 #. native.npc.huo_zheng inquiry topic
@@ -41365,7 +42495,7 @@ msgstr ""
 
 #. native.npc.huo_zheng inquiry.二寨主
 #: data/niling/npcs.json
-msgid "霍铮低声道：老二在丹房。他们说的「入丹房」，就是那个意思。别问了。"
+msgid "霍铮低声道：老二就是老刘。那天他不肯跟来，骂老子是去送死。……他骂得对。"
 msgstr ""
 
 #. native.npc.huo_zheng chat_msg_combat
@@ -42741,6 +43871,11 @@ msgstr ""
 msgid "跟我走"
 msgstr ""
 
+#. native.npc.luca inquiry.跟我走.confirm
+#: data/guanbei/npcs.json
+msgid "让卢卡跟着你走——他会跟你去每一个地方，站在你这边打。要叫他跟上吗？"
+msgstr ""
+
 #. native.npc.luca inquiry.跟我走.confirm_marks
 #: data/guanbei/npcs.json
 msgid "争地过了"
@@ -43320,6 +44455,11 @@ msgstr ""
 msgid "借兵"
 msgstr ""
 
+#. native.npc.cheng_shuo inquiry.借兵.confirm
+#: data/guanbei/npcs.json
+msgid "借槐阳王的兵踏平工地——救下所有人，可兵部会以此定关北「反」。要借吗？"
+msgstr ""
+
 #. native.npc.cheng_shuo inquiry.借兵.rules.say
 #: data/guanbei/npcs.json
 msgid "兵已经给你了。郭承在校场点人，六骑够了——多了反而是反。"
@@ -43572,6 +44712,11 @@ msgstr ""
 #. native.npc.guo_cheng calls.steps.say
 #: data/guanbei/npcs.json
 msgid "听说你在野羊山追一个道士，回头的时候地牢里的人没了。……这回到了工地，先救人。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.confirm
+#: data/guanbei/npcs.json
+msgid "带郭承夜里潜入工地——救得几个算几个，王府干净。要这么做吗？"
 msgstr ""
 
 #. native.npc.guo_cheng inquiry.潜入.rules.say
@@ -46015,6 +47160,11 @@ msgstr ""
 #. native.npc.andun inquiry topic
 #: data/fanfang/npcs.json
 msgid "站大秦人"
+msgstr ""
+
+#. native.npc.andun inquiry.站大秦人.confirm
+#: data/fanfang/npcs.json
+msgid "站到大秦人一边——在拜火祠过问话取铜牒，替他们挡住冯禄的文书。从此鬼笠馆不见你，浪人刀法学不到。要站大秦人吗？"
 msgstr ""
 
 #. native.npc.andun inquiry.站大秦人.confirm_marks
@@ -51524,6 +52674,14 @@ msgstr ""
 msgid "我留下"
 msgstr ""
 
+#. native.npc.lihong inquiry.我留下.confirm
+#. native.npc.lihong_finale inquiry.我留下.confirm
+#: data/native/npcs.json
+msgid ""
+"你留下？你会成为下一块冰。\n"
+"片尾以后回到主菜单；「决战前」存档还在。"
+msgstr ""
+
 #. native.npc.lihong inquiry.我留下.confirm_marks
 #. native.npc.lihong_finale inquiry.我留下.confirm_marks
 #: data/native/npcs.json
@@ -52103,6 +53261,11 @@ msgstr ""
 msgid "不交"
 msgstr ""
 
+#. native.npc.yu_zijian_lake inquiry.不交.confirm
+#: data/native/npcs.json
+msgid "不把剑交给庾子建？他会带着他的人回京城去。"
+msgstr ""
+
 #. native.npc.yu_zijian_lake inquiry.不交.confirm_lacks
 #: data/native/npcs.json
 msgid "旋芒交给了庾子建"
@@ -52601,6 +53764,167 @@ msgstr ""
 msgid "兵部奉旨，宣——"
 msgstr ""
 
+#. native.npc.fake_disciple_head name
+#: data/native/npcs.json
+msgid "罗七"
+msgstr ""
+
+#. native.npc.fake_disciple_head title
+#. native.npc.fake_disciple title
+#: data/native/npcs.json
+msgid "封山弟子"
+msgstr ""
+
+#. native.npc.fake_disciple_head long
+#: data/native/npcs.json
+msgid ""
+"一个三十上下的汉子，穿一件不合身的青布长衫，腰里别着一柄竹剑，胸前挂一块黄杨木腰牌，逢人便把牌子亮一亮。他身后的旗杆上挑着一面布旗：淳风武馆收徒。\n"
+msgstr ""
+
+#. native.npc.fake_disciple_head chat_msg
+#: data/native/npcs.json
+msgid ""
+"罗七把胸前的腰牌一亮，高声道：淳风武馆收徒！封山剑法，童叟无欺！先交十两拜师钱！\n"
+msgstr ""
+
+#. native.npc.fake_disciple_head chat_msg
+#: data/native/npcs.json
+msgid ""
+"罗七对过路的人道：这位小哥，想学剑么？柳馆主是我师父。\n"
+msgstr ""
+
+#. native.npc.fake_disciple_head chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"罗七叫道：弟兄们并肩子上！\n"
+msgstr ""
+
+#. native.npc.fake_disciple_head chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"罗七的竹剑乱挥一气，一招封山剑法也没有。\n"
+msgstr ""
+
+#. native.npc.fake_disciple_head chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"罗七喘着气嚷道：你们武馆自己门口就站着野羊山的血手刘三，倒有脸来管老子！\n"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry topic
+#. native.npc.fake_disciple inquiry topic
+#: data/native/npcs.json
+msgid "拜师钱"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.拜师钱
+#: data/native/npcs.json
+msgid "十两银子。交了钱，明日辰时到武馆点卯，柳馆主亲自教。"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.淳风武馆
+#: data/native/npcs.json
+msgid "就在镇里，石狮子后头。不过馆主近来不见生人——拜师的事，都交给我们师兄弟几个办了。"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.腰牌.rules.lines.emote
+#: data/native/npcs.json
+msgid "把胸前的木牌摘下来，在你眼前晃了晃。"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.腰牌.rules.lines.say
+#: data/native/npcs.json
+msgid "看清楚：正面一座山，背面是姓。封山弟子人手一块，假不了。"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.封山剑法
+#: data/native/npcs.json
+msgid "封山剑法，讲究的是……是一个快字。别问那么多，交了钱自然教你。"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry topic
+#: data/native/npcs.json
+msgid "冒牌"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.冒牌.confirm
+#: data/native/npcs.json
+msgid ""
+"当面说破他们是冒牌的。三个人收了钱还没走，不会善罢甘休——他们会一起动手。\n"
+"要说破吗？"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.冒牌.confirm_lacks
+#: data/native/npcs.json
+msgid "说破了冒牌弟子"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.冒牌.rules.say
+#: data/native/npcs.json
+msgid "少废话！"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.冒牌.rules.lines.emote
+#: data/native/npcs.json
+msgid "的脸色变了。"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.冒牌.rules.lines.say
+#: data/native/npcs.json
+msgid "……你是武馆的人？"
+msgstr ""
+
+#. native.npc.fake_disciple_head inquiry.冒牌.rules.lines.say
+#: data/native/npcs.json
+msgid "弟兄们，这小子要砸咱们的饭碗！"
+msgstr ""
+
+#. native.npc.fake_disciple_head spared.line
+#: data/native/npcs.json
+msgid ""
+"罗七把腰牌扯下来扔在地上：拿去！牌是绮云镇赌场里一个姓逄的押给我的，不是偷的！……你们武馆的门房是野羊山的血手刘三，你们怎么不查他？\n"
+"罗七爬起来，头也不回地往西跑了。"
+msgstr ""
+
+#. native.npc.fake_disciple name
+#: data/native/npcs.json
+msgid "帮闲"
+msgstr ""
+
+#. native.npc.fake_disciple long
+#: data/native/npcs.json
+msgid ""
+"一个游手好闲的后生，学着武馆弟子的样子在腰里扎了一条麻布带子，手里攥着一把还没捂热的碎银。\n"
+msgstr ""
+
+#. native.npc.fake_disciple chat_msg
+#: data/native/npcs.json
+msgid ""
+"帮闲扯着嗓子喊：拜师的这边交钱！\n"
+msgstr ""
+
+#. native.npc.fake_disciple chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"帮闲叫道：七哥，这小子手硬！\n"
+msgstr ""
+
+#. native.npc.fake_disciple chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"帮闲一边打一边往后缩。\n"
+msgstr ""
+
+#. native.npc.fake_disciple inquiry.拜师钱
+#: data/native/npcs.json
+msgid "十两，交给七哥。"
+msgstr ""
+
+#. native.npc.fake_disciple inquiry.淳风武馆
+#: data/native/npcs.json
+msgid "我……我们都是武馆的弟子。问七哥去。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -52846,6 +54170,17 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一张黄纸符，朱砂画的符纹弯弯绕绕，纸角写着一行小字：「茅山 障眼」。带在身上，夜里巡夜的人眼睛短一截。\n"
+msgstr ""
+
+#. native:snow/fonxan_tally name
+#: data/native/items.json
+msgid "封山腰牌"
+msgstr ""
+
+#. native:snow/fonxan_tally long
+#: data/native/items.json
+msgid ""
+"一块黄杨木腰牌，正面刻着一座山，背面一个「逄」字，包浆很厚，是戴了十几年的东西。系绳上还拴着一枚竹筹，烙着「绮云 · 赌」三个字。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

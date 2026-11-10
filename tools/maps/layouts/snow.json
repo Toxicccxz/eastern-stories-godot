@@ -230,6 +230,7 @@
           ["path", -1392, 832, -784, 848]
         ],
         "props": [
+          ["blocked", -1104, 944, -1088, 960, "罗七's banner pole on the highway's south verge (native, 势力线 封山 A: 守馆): there from the day 柳淳风 speaks of him until he is beaten (stage prop, DECISIONS「舞台道具」)", {"look": {"kind": "pole_banner", "text": "淳风武馆收徒", "cloth": "e8dcc0", "letters": "8a2a20", "trim": "8a2a20", "height": 7.2, "length": 4.5, "present": {"quest": "faction.fonxan/hear"}, "until": {"mark": "冒牌头目倒了"}}}],
           ["blocked", -160, -1936, -112, -1776, "雪亭驿's cart by the street's west side, south of its door: the post takes fares now the couriers go by 飞鸢栈道 (native, 车马行)", {"look": {"kind": "coach", "rotation": 180, "hood": "2f5d8c"}}],
           ["blocked", -48, -96, 48, -48, "the square's old wooden frame", {"look": {"kind": "board"}}],
           ["wall", -160, -2240, -144, -2224, "the old memorial arch (牌坊) at the town's north end"],
@@ -283,7 +284,7 @@
           "snow.school1.guard.1": [320, -464],
           "snow.sroad2.farmer.1": [-656, 688],
           "snow.sroad2.farmer.2": [-304, 920],
-          "snow.sroad4.crazy_dog.1": [-1600, 1016]
+          "snow.sroad4.crazy_dog.1": [-1600, 1016], "snow.sroad3.fake_head.1": [-1080, 912], "snow.sroad3.fake_disciple.1": [-1168, 936], "snow.sroad3.fake_disciple.2": [-1000, 944], "snow.crossroad.liu_anlu.1": [-96, -2488]
         }
       },
       "scene": {

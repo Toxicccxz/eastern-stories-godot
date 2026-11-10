@@ -2535,6 +2535,11 @@ func tell_quests(fresh: Array[StoryQuestLog.Fresh]) -> void:
 			progression_rewards().quest_done(entry.quest)
 		if not reward.deed.is_empty():
 			deeds().report(reward.deed)
+		if not reward.rank_title.is_empty() and _player.state.family.family_id == reward.rank_family:
+			_player.family_rank_changed()
+			if hud != null:
+				# TRANSLATORS: native (势力线, 晋阶): a quest raised the player in their family: {title} the whole title now (封山剑派第十四代大弟子).
+				hud.append_colored_lines([ColoredLine.new(tr("【晋阶】你现在是{title}。").format({"title": _player.shown_title()}), ColoredLine.HIY)])
 
 
 var _deeds: WorldDeeds

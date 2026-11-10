@@ -17,7 +17,12 @@ extends RefCounted
 ## 任务 page records when it is done; its `objective` what the status card's 目标 row says
 ## while it is the one to do; its `target` where that is (a map and a zone: the marker). The
 ## reward is a 历练 (MilestoneRewards, kind QUEST) when `milestone` is set, and a deed
-## (DeedLog) when `deed` is; an option may carry its own.
+## (DeedLog) when `deed` is; an option may carry its own, and so may a plain step (势力线: a
+## deed done and a rank given half way down a line).
+##
+## Native (势力线第一批; DECISIONS「势力线的选择」): a branch step of a 势力 quest says how much it
+## weighs: `weight` "big" (the line's one split) or "small" (owner 2026-11-09: 每条线 1 个大分裂 +
+## 最多 2 个小选择, the rest is play). The main story's branches say nothing.
 
 const LINE_MAIN: String = "main"
 const LINE_FACTION: String = "faction"
@@ -26,6 +31,9 @@ const LINE_ERRAND: String = "errand"
 const LINES: Array[String] = [LINE_MAIN, LINE_FACTION, LINE_REGION, LINE_ERRAND]
 ## The columns' player names, in LINES order.
 const LINE_TITLES: Dictionary[String, String] = {LINE_MAIN: "主线", LINE_FACTION: "势力", LINE_REGION: "地区", LINE_ERRAND: "差事"}
+const WEIGHT_BIG: String = "big"
+const WEIGHT_SMALL: String = "small"
+const WEIGHTS: Array[String] = [WEIGHT_BIG, WEIGHT_SMALL]
 
 
 ## Where a step leads: a map and a zone of it.
@@ -47,7 +55,7 @@ class Target:
 		return target
 
 
-## What a quest or an option gives once done.
+## What a quest, an option or a step gives once done.
 class Reward:
 	extends RefCounted
 	## A 历练 reward of kind QUEST for the quest (once).
@@ -56,15 +64,26 @@ class Reward:
 	var deed: String = ""
 	## Marks set on the player (CharacterState.marks), for what later quests or NPCs ask.
 	var marks: Array[String] = []
+	## Native (势力线第一批; DECISIONS「晋阶」): `rank` {family, title}: a member of that family is
+	## from now on its `title` (弟子 → 大弟子: CharacterAffiliationState.family_title, what
+	## apprentice.c's assign_apprentice() wrote once and nothing in ES2 ever raised). One who is
+	## not of the family gets nothing.
+	var rank_family: StringName = &""
+	var rank_title: String = ""
 
 	func is_empty() -> bool:
-		return not milestone and deed.is_empty() and marks.is_empty()
+		return not milestone and deed.is_empty() and marks.is_empty() and rank_title.is_empty()
 
 	static func from_record(reader: ContentRecordReader) -> Reward:
 		var reward := Reward.new()
 		reward.milestone = reader.boolean("milestone", false)
 		reward.deed = reader.text("deed")
 		reward.marks = reader.text_list("marks")
+		var rank: ContentRecordReader = reader.child("rank") if reader.has("rank") else null
+		if rank != null:
+			reward.rank_family = StringName(rank.required_text("family"))
+			reward.rank_title = rank.required_text("title")
+			rank.finish()
 		reader.finish()
 		return reward
 
@@ -118,7 +137,8 @@ class CheckRow:
 			JournalEntryDefinition.read_when(reader, row.shown_if, "if")
 		if row.condition == null and row.shown_if == null:
 			reader.fail("when", "a row is ticked by `when`, or a note shown by `if`")
-		if row.counts and (row.condition == null or row.condition.when != JournalEntryDefinition.When.AT_LEAST):
+		# A named condition (`cond`) is what it names only once linked: the catalog builder asks then.
+		if row.counts and (row.condition == null or not row.condition.when in [JournalEntryDefinition.When.AT_LEAST, JournalEntryDefinition.When.COND]):
 			reader.fail("count", "a count row's when is an at_least")
 		if row.condition == null and not row.missing.is_empty():
 			reader.fail("missing", "a note has nothing missing")
@@ -144,6 +164,10 @@ class Step:
 	var target: Target
 	## The option (of an earlier step) this step waits for; "" for every way.
 	var only_after: StringName = &""
+	## What a plain step gives when done (a branch's options carry their own).
+	var reward: Reward = Reward.new()
+	## A branch's weight in its line: WEIGHT_BIG, WEIGHT_SMALL, or "" (unsaid: the main story's).
+	var weight: String = ""
 
 	func is_branch() -> bool:
 		return not options.is_empty()
@@ -180,6 +204,15 @@ class Step:
 			reader.fail("done", "a step says what does it: `done`, or `options`")
 		if step.options.size() == 1:
 			reader.fail("options", "a branch has at least two options")
+		step.weight = reader.text("weight")
+		if not step.weight.is_empty() and (not step.is_branch() or not WEIGHTS.has(step.weight)):
+			reader.fail("weight", "a branch's weight is one of %s" % [WEIGHTS])
+		if reader.has("reward"):
+			step.reward = Reward.from_record(reader.child("reward"))
+			if step.is_branch():
+				reader.fail("reward", "a branch's options carry the rewards")
+			if step.reward.milestone:
+				reader.fail("reward", "the 历练 is the quest's")
 		if not step.is_branch() and step.text.is_empty():
 			reader.fail("text", "a step records what happened")
 		reader.finish()
@@ -209,6 +242,11 @@ func step(step_id: StringName) -> Step:
 		if candidate.step_id == step_id:
 			return candidate
 	return null
+
+
+## How many of the quest's branch steps weigh `weight`.
+func branches_of(weight: String) -> int:
+	return steps.filter(func(candidate: Step) -> bool: return candidate.is_branch() and candidate.weight == weight).size()
 
 
 ## The step an option belongs to, or null.

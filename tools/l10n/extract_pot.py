@@ -58,6 +58,9 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
     "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
     "lift", "closed", "read", "out", "open_below", "close_below", "close_beyond", "again",
+    # What a topic asks before it is put (NpcTalk's `confirm`), and a sentence of an ending's card
+    # or of a 势力's card on the 声望 page (EpilogueDefinition, FactionDefinition: {text, when}).
+    "confirm", "text",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
 ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver"})
@@ -339,6 +342,11 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
     if isinstance(document, dict) and "quests" in document:
         _extract_quests(document, relative, catalog)
         return
+    if isinstance(document, dict) and "factions" in document:
+        # The 声望 page's houses (FactionDefinition): where each is; its name and sentences are walked below.
+        for faction in document["factions"]:
+            if isinstance(faction, dict) and isinstance(faction.get("place"), str):
+                catalog.add(faction["place"], relative, note=f"{faction.get('id', '')} place")
     # A document's own list of lines (day_phases.json sky_levels: natured.c's weather_msg).
     if isinstance(document, dict):
         for key, value in document.items():
@@ -371,6 +379,13 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
             for key in ("objective", "text"):
                 if isinstance(step.get(key), str) and step[key]:
                     catalog.add(step[key], relative, note=f"{step_id} {key}")
+            # A plain step's own deed (势力线: a deed done half way down a line).
+            step_reward = step.get("reward")
+            if isinstance(step_reward, dict) and isinstance(step_reward.get("deed"), str):
+                catalog.add(step_reward["deed"], relative, note=f"{step_id} reward.deed")
+            # A rank's title is shown inside the family title (封山剑派第十四代大弟子).
+            if isinstance(step_reward, dict) and isinstance(step_reward.get("rank"), dict) and isinstance(step_reward["rank"].get("title"), str):
+                catalog.add(step_reward["rank"]["title"], relative, note=f"{step_id} reward.rank.title")
             for option in step.get("options", []):
                 if not isinstance(option, dict):
                     continue

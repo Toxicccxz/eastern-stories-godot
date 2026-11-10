@@ -311,3 +311,30 @@ static func chapter10_done(session: WorldSessionController, who: String = "self"
 	var held: Dictionary[String, String] = {"self": "旋芒在你手里", "uncle": "旋芒在皇叔手里", "xiao": "旋芒在萧辟尘手里"}
 	for mark: String in ["到了岚城", "见过岚翁", held[who], "岚城一章"]:
 		state.marks[mark] = 1
+
+
+## 势力线 封山 (DECISIONS「封山 A」): taken in by 柳淳风, as apprentice.c's recruit leaves the state
+## (NpcApprenticeship._recruit(): 第十四代弟子, class swordsman). The line begins on the next journal beat.
+static func fonxan_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.fonxan", 14)
+	state.apprenticeship.master_teacher_id = &"common.npc.swordsman.master"
+	state.apprenticeship.legacy_master_name = "柳淳风"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.class_id = &"swordsman"
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
+## 封山 A's 守馆 done: 柳淳风 heard, 罗七 and his two beaten, 逄义 asked, the 腰牌 given back
+## (大弟子); 李火狮 waits for the word on the 门房.
+static func fonxan_guarded(session: WorldSessionController) -> void:
+	fonxan_joined(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.fonxan#started", "faction.fonxan/hear", "faction.fonxan/fakes", "faction.fonxan/pang", "faction.fonxan/report"]:
+		_write(state, key)
+	for mark: String in ["柳淳风说了冒牌", "说破了冒牌弟子", "冒牌头目倒了", "冒牌帮闲倒了", "逄义认了腰牌", "守馆办完了"]:
+		state.marks[mark] = 1
+	state.affiliation.family_title = "大弟子"
