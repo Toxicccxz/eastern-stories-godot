@@ -9,7 +9,7 @@ uniform vec3 toward_eye = vec3(0.0, 0.0, 1.0);
 uniform vec4 subjects[16];
 uniform int subject_count = 0;
 // The share of an occluder's pixels left out at the heart of an opening (VoxelOcclusion.HOLES).
-uniform float holes = 0.5;
+uniform float holes = 1.0;
 // Screen pixels per dither dot at a 720-line view; a larger window scales the dots with it.
 uniform float dot_lines = 360.0;
 varying vec3 world_vertex;
@@ -30,7 +30,8 @@ float local_reveal(vec3 point, vec3 normal) {
 		float radius = length(offset) / subjects[i].w;
 		float in_front = smoothstep(0.12, 0.38, dot(d, toward_eye));
 		float behind_face = 1.0 - smoothstep(0.05, 0.3, dot(-d, normal));
-		reveal = max(reveal, (1.0 - smoothstep(0.6, 1.0, radius)) * in_front * behind_face);
+		// Opener the nearer the middle: clear over the person, thinning to solid at the rim.
+		reveal = max(reveal, (1.0 - smoothstep(0.4, 1.0, radius)) * in_front * behind_face);
 	}
 	return reveal;
 }

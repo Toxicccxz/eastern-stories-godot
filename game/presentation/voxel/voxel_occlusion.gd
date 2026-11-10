@@ -6,8 +6,10 @@ extends RefCounted
 ## object, its collision and its shadow remain intact. State belongs to this map.
 const SHADER = preload("res://presentation/voxel/shaders/local_occlusion.gdshader")
 const LIMIT: int = 16
-## The share of an occluder's pixels left out at the heart of an opening: an even checker.
-const HOLES: float = 0.5
+## The share of an occluder's pixels left out at the heart of an opening (owner 2026-11-10:
+## the nearer the middle, the clearer): the inner part over the person is clear, and the dots
+## thicken evenly to solid at the rim.
+const HOLES: float = 1.0
 var materials: Dictionary[String, ShaderMaterial] = {}
 var subjects := PackedVector4Array()
 var roots: Array[Node3D] = []
