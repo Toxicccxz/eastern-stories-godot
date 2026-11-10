@@ -47192,6 +47192,11 @@ msgid ""
 "冯禄退出了铁盾会的门。院子里的大秦人把盾举起来，一齐喊了一声——你听不懂，可听得出是什么意思。\n"
 msgstr ""
 
+#. fanfang.shield_yard.papers act.acts.steps.say
+#: data/fanfang/world.json
+msgid "番坊欠你一个人情。决战那天——不管在哪儿，铁盾会的盾到。"
+msgstr ""
+
 #. fanfang.shield_yard.papers act.acts.steps.line
 #: data/fanfang/world.json
 msgid ""
