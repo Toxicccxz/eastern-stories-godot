@@ -7,9 +7,9 @@ extends RefCounted
 const SHADER = preload("res://presentation/voxel/shaders/local_occlusion.gdshader")
 const LIMIT: int = 16
 ## The share of an occluder's pixels left out at the heart of an opening (owner 2026-11-10:
-## the nearer the middle, the clearer): the inner part over the person is clear, and the dots
-## thicken evenly to solid at the rim.
-const HOLES: float = 1.0
+## the nearer the middle, the clearer; fully clear was a touch too much): over the person two
+## dots in sixteen stay, and the dots thicken evenly to solid at the rim.
+const HOLES: float = 0.9
 var materials: Dictionary[String, ShaderMaterial] = {}
 var subjects := PackedVector4Array()
 var roots: Array[Node3D] = []
