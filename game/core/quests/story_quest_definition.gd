@@ -254,9 +254,13 @@ var excludes: Array[StringName] = []
 ## Native (势力线第一批 封山 B; DECISIONS「线断了」): `lapses` {when, text}: a quest begun and not
 ## done is over the moment `when` holds (a 势力 line whose member left the family): its steps
 ## are asked no more, it gives nothing, and the 任务 page keeps what was recorded and adds
-## `text`. It is not done: what `requires` it stays closed.
+## `text`. It is not done: what `requires` it stays closed. `mark` (optional) is set on the player
+## as it lapses, for the NPCs of the line to ask (`asker_lacks`, `unless_giver_mark`): what they
+## would say and take of one walking the line, they do not of one who walked out of it — and
+## not again of one who came back, for the line itself does not begin twice.
 var lapses: JournalEntryDefinition
 var lapsed_text: String = ""
+var lapsed_mark: String = ""
 var steps: Array[Step] = []
 var reward: Reward = Reward.new()
 
@@ -303,6 +307,7 @@ static func from_record(reader: ContentRecordReader) -> StoryQuestDefinition:
 		definition.lapses = JournalEntryDefinition.new()
 		JournalEntryDefinition.read_when(lapses, definition.lapses)
 		definition.lapsed_text = lapses.required_text("text")
+		definition.lapsed_mark = lapses.text("mark")
 		if definition.lapses.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
 			lapses.fail("when", "heard and chat are recorded as they happen: a quest lapses on what holds")
 		lapses.finish()

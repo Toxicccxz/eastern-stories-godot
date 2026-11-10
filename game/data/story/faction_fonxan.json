@@ -15,7 +15,8 @@
 			},
 			"lapses": {
 				"when": {"not": {"any": [{"family": "family.fonxan"}, {"family": "family.fonxan_north"}]}},
-				"text": "你已经不是封山的人了。淳风武馆的事，到此为止。"
+				"text": "你已经不是封山的人了。淳风武馆的事，到此为止。",
+				"mark": "封山的线断了"
 			},
 			"steps": [
 				{

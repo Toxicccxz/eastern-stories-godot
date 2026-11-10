@@ -4035,6 +4035,11 @@
 				{
 					"after": 1,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
@@ -4051,6 +4056,11 @@
 				{
 					"after": 5,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
@@ -4061,6 +4071,11 @@
 				{
 					"after": 8,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
@@ -4074,6 +4089,11 @@
 				{
 					"after": 11,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"mark": "大秦人留下了",
 					"not_mark": "内院撞见了",
 					"steps": [
@@ -4091,11 +4111,19 @@
 				{
 					"after": 15,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
 							"comes": "common.npc.swordsman.master",
 							"from": "snow.schoolhall"
+						},
+						{
+							"by": "common.npc.swordsman.master"
 						},
 						{
 							"emote": "站在廊下，不知已经看了多久。"
@@ -4108,6 +4136,11 @@
 				{
 					"after": 19,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
@@ -4121,6 +4154,11 @@
 				{
 					"after": 24,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
@@ -4134,6 +4172,11 @@
 				{
 					"after": 29,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"mark": "竹书给了柳绘心",
 					"not_mark": "内院撞见了",
 					"steps": [
@@ -4148,6 +4191,11 @@
 				{
 					"after": 29,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"mark": "竹书给了柳淳风",
 					"not_mark": "内院撞见了",
 					"steps": [
@@ -4162,6 +4210,11 @@
 				{
 					"after": 34,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{
@@ -4178,6 +4231,11 @@
 				{
 					"after": 38,
 					"scene": true,
+					"when": {
+						"not": {
+							"mark": "封山的线断了"
+						}
+					},
 					"not_mark": "内院撞见了",
 					"steps": [
 						{

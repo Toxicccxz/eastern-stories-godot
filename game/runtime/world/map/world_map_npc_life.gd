@@ -533,7 +533,7 @@ func waits() -> Array[WorldWait]:
 			var call: NpcHooks.Call = hooks.calls[index]
 			# A scene's lines are the ones judged for the player as it began (封山 B: a scene with a
 			# line for either holder of the book tells one of the two, and counts one).
-			if call.scene and (npc.character_id != scene_npc_id or not _scene_calls.has(index)):
+			if call.scene and npc.character_id == scene_npc_id and not _scene_calls.has(index):
 				continue
 			if call.hurry and (call.act.ghost_state < 0 or (call.act.ghost_state == 1) == _player.state.ghost):
 				told.append(index)

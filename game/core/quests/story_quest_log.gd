@@ -232,6 +232,8 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 			continue
 		if quest.lapses != null and test.call(quest.lapses):
 			_write(state, key_lapsed(quest))
+			if not quest.lapsed_mark.is_empty():
+				state.marks[quest.lapsed_mark] = 1
 			recorded.append(Fresh.new(Kind.LAPSED, quest))
 			continue
 		while true:

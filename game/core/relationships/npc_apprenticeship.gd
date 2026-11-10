@@ -133,6 +133,8 @@ static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule, s
 			return check
 		if not check.mark.is_empty() and student.marks.get(check.mark, 0) == 0:
 			return check
+		if not check.not_mark.is_empty() and student.marks.get(check.not_mark, 0) != 0:
+			return check
 		if check.cannot_afford > 0 and student_affords.is_valid() and bool(student_affords.call(check.cannot_afford)):
 			return check
 		for key: StringName in check.requires:

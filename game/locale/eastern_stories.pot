@@ -16008,6 +16008,11 @@ msgstr ""
 msgid "规矩是规矩。北宗的人，我不能再教了。"
 msgstr ""
 
+#. common.npc.swordsman.master accept_object.say
+#: data/common/npcs.json
+msgid "这卷书，你不是已经给了绘心么。……拿回去还她。"
+msgstr ""
+
 #. common.npc.swordsman.master accept_object.ask
 #: data/common/npcs.json
 msgid ""
@@ -16106,7 +16111,12 @@ msgstr ""
 msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话——往后，也替武馆担着。"
 msgstr ""
 
-#. common.npc.swordsman.master apprentice.refuse_say
+#. common.npc.swordsman.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "你跟了绘心，就是北宗的人。本宗的门，我不能再为你开。"
+msgstr ""
+
+#. common.npc.swordsman.master apprentice.requires.refuse_say
 #: data/common/npcs.json
 msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
 msgstr ""
@@ -23322,6 +23332,11 @@ msgstr ""
 msgid "爹爹练剑的时候，我在窗后头看过。"
 msgstr ""
 
+#. snow.npc.girl accept_object.say
+#: data/snow/npcs.json
+msgid "这是爹爹收起来的那一卷……你从哪里拿来的？还回去吧。"
+msgstr ""
+
 #. snow.npc.girl accept_object.ask
 #: data/snow/npcs.json
 msgid ""
@@ -23358,6 +23373,11 @@ msgstr ""
 #. snow.npc.girl accept_object.say
 #: data/snow/npcs.json
 msgid "这上头是……爹爹的名字？你先去见过爹爹再说吧。"
+msgstr ""
+
+#. snow.npc.girl accept_fight.say
+#: data/snow/npcs.json
+msgid "北宗就我们两个人，打坏了谁教阿桂他们？"
 msgstr ""
 
 #. snow.npc.girl accept_fight.say

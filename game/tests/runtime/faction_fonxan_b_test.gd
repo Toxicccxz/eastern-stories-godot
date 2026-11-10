@@ -75,7 +75,20 @@ func _test_data() -> void:
 	var north: StoryQuestDefinition.Reward = split.options[1].reward
 	_check(orthodox.rank_family == &"family.fonxan" and orthodox.rank_title == "掌门传人" and orthodox.branch_to.is_empty(), "本宗: 掌门传人")
 	_check(north.branch_from == &"family.fonxan" and north.branch_to == &"family.fonxan_north" and north.branch_title == "弟子" and north.rank_title.is_empty(), "北宗: the branch family")
-	_check(quest.lapses != null and quest.lapsed_text.contains("不是封山的人"), "the line lapses for one who left the family")
+	_check(quest.lapses != null and quest.lapsed_text.contains("不是封山的人") and quest.lapsed_mark == "封山的线断了", "the line lapses for one who left the family, and marks them")
+	# What the line's people do for one walking it, they do not for one who walked out of it (or came back: the line does not begin twice).
+	var master: NpcDefinition = catalog.npc(MASTER)
+	var books: Array = master.dealings().object_rules.filter(func(rule: NpcObjectRule) -> bool: return rule.item == BOOK)
+	_check(books.size() == 3 and (books[0] as NpcObjectRule).giver_mark == "竹书给了柳绘心" and not (books[0] as NpcObjectRule).accept and (books[1] as NpcObjectRule).accept and (books[1] as NpcObjectRule).unless_giver_mark == "封山的线断了" and (books[1] as NpcObjectRule).giver_family == &"family.fonxan", "柳淳风 takes the book of a 封山 disciple still in the line, and not one already given to his daughter")
+	var gone: Dictionary[String, int] = {"内院撞见了": 1, "柳淳风说过门房": 1, "封山的线断了": 1}
+	var no_flags: Dictionary[StringName, bool] = {}
+	var nothing_carried: Array[String] = []
+	for topic: String in ["本宗", "竹书"]:
+		var answer: NpcInquiryRule = NpcInquiryRule.decide(master.talk().inquiry_rules(topic), gone, null, &"", &"", 0, no_flags, nothing_carried, &"family.fonxan")
+		_check(answer != null and answer.mark_asker.is_empty() and answer.marks_asker.is_empty(), "柳淳风's 「%s」 to one who left and came back: a word, and nothing given" % topic)
+	_check(not master.talk().confirm_applies("本宗", gone), "and no confirm of a choice that is not theirs")
+	var comes: Array = catalog.npc(BOY).hooks().calls.filter(func(call: NpcHooks.Call) -> bool: return call.act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES))
+	_check(comes.size() == 1 and (comes[0] as NpcHooks.Call).act.steps[1].kind == ScriptedAct.Kind.BY and catalog.npc(BOY).hooks().calls.all(func(call: NpcHooks.Call) -> bool: return call.act.when != null), "柳淳风 speaks for himself once he has come in (nobody says his lines if he cannot); every call of the scene asks that the line still runs")
 	# The 「点」字诀: listed by the skill, asked of whoever would use it, its numbers the skill's.
 	var sword: SkillDefinition = catalog.skill(&"fonxansword")
 	_check(sword.perform_functions.has(POINT) and sword.perform_when.has(POINT) and sword.perform_number(POINT, "force") == 30 and sword.perform_number(POINT, "slip_busy") == 2, "封山剑法 has the 「点」字诀, with a condition and its numbers")
@@ -172,7 +185,7 @@ func _test_lapse() -> void:
 	state.family = FamilyState.new(&"family.celestial", 3)
 	var told: Array[StoryQuestLog.Fresh] = StoryQuestLog.record(state, no_temps, nothing, &"", quests).filter(func(fresh: StoryQuestLog.Fresh) -> bool: return fresh.quest == quest)
 	_check(told.size() == 1 and told[0].kind == StoryQuestLog.Kind.LAPSED and told[0].reward() == null, "another family: the line lapses, and gives nothing")
-	_check(StoryQuestLog.is_lapsed(state, quest) and not StoryQuestLog.is_active(state, quest) and not StoryQuestLog.is_done(state, quest), "over, and not done")
+	_check(StoryQuestLog.is_lapsed(state, quest) and not StoryQuestLog.is_active(state, quest) and not StoryQuestLog.is_done(state, quest) and state.marks.get("封山的线断了", 0) == 1, "over, not done, and marked")
 	_check(StoryQuestLog.told_lines(told[0], true, state)[0].text.contains("【任务中止】封山剑派"), "told once")
 	_check(StoryQuestLog.record(state, no_temps, nothing, &"", quests).filter(func(fresh: StoryQuestLog.Fresh) -> bool: return fresh.quest == quest).is_empty(), "and only once")
 	var shown: Array[StoryQuestLog.Shown] = StoryQuestLog.shown(state, quests, StoryQuestDefinition.LINE_FACTION)
@@ -342,6 +355,9 @@ func _test_north(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.standing_page.fill(session.quest_condition_test())
 	_check(ui.standing_page.shown_text().contains("你是封山剑派北宗的人") and ui.standing_page.shown_text().contains("立了北宗") and not ui.standing_page.shown_text().contains("师父是柳淳风"), "the 声望 page: of the 北宗: %s" % ui.standing_page.shown_text())
 	_check(_ending_lines(session, &"snow").any(func(line: String) -> bool: return line.contains("开了一道侧门")), "the ending's 雪亭 card: the side gate")
+	var shut: NpcTeaching.RequirementCheck = NpcApprenticeship.refusal(state, catalog.npc(MASTER).teaching().apprentice)
+	_check(shut != null and shut.not_mark == "跟了北宗" and shut.refuse_say.contains("本宗的门"), "选了不能改: 柳淳风 does not take one of the 北宗 back as his apprentice")
+	_check(catalog.npc(GIRL).fight_rules()[0].family_id == &"family.fonxan_north", "柳绘心 has a word for her one fellow who asks to spar")
 	var refusal: NpcTeaching.RecognizeRule = catalog.npc(MASTER).teaching().recognize(state.family.family_id, state.marks)
 	_check(refusal != null and not refusal.accept and refusal.lines.size() == 1, "and says why (his recognize_apprentice())")
 	# 封山守渡口, the eighth band: with two others, 能灭它's helpers hold.
