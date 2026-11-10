@@ -11,7 +11,8 @@ extends RefCounted
 ## forest's first five are unchanged) and when the keep's hall got its own map (remap R3: its four
 ## draw last, after the stone, so they and everyone drawn after keep2's leader got other rolls; the
 ## first fourteen and next_npc_draw are unchanged) and when A2 added the 历练 ledger and the
-## catch-up carry (milestones, gain_carry: empty and 0 on every NPC, no draw moved); set
+## catch-up carry (milestones, gain_carry: empty and 0 on every NPC, no draw moved) and when the
+## 经典 pace went (DECISIONS「取消经典模式」: `pace` gone from every character, no draw moved); set
 ## UPDATE_OLDPINE_SPAWN_BASELINE=1 to rewrite it
 ## deliberately.
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")

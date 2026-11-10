@@ -3,7 +3,7 @@ extends RefCounted
 
 ## The knobs 战斗决策层 1A puts on combatd.c's three ratios (DECISIONS「战斗数值」, owner
 ## 2026-10-31: the fight must follow the player's growth, no cliff, no 老鼠), each with ES2's
-## value as its 经典 value; the resolver's draws and formulas stay, these only change what is
+## value when left out; the resolver's draws and formulas stay, these only change what is
 ## fed to them. A rules record left out (tests built on PacingDefinition.new(), Es2Pacing) is
 ## ES2 bit for bit.
 ##

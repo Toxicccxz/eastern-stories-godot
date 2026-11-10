@@ -1,7 +1,7 @@
 extends RefCounted
 
 ## 昼夜 (DECISIONS「昼夜」): natured.c's eight phases (day_phases.json), the DayClock that goes
-## round them, the pacing's day_length_minutes (ES2's 24, 经典 24), and the voxel light's five
+## round them, the pacing's day_length_minutes (ES2's 24), and the voxel light's five
 ## frames over them (VoxelLighting.frame_weights_at(), resolve_frames(), merge_profile()).
 
 var _count: int = 0
@@ -85,7 +85,6 @@ func _day_length() -> void:
 	var production: PacingDefinition = GameContent.catalog().pacing()
 	_check(production.day_length_minutes == 24, "pacing.json: 24 (owner Q3: the default is ES2's)")
 	TestDay.restore()
-	_check(PacePresets.of(read, CharacterState.PACE_CLASSIC).day_length_minutes == 24 and PacePresets.of(read, CharacterState.PACE_MODERN).day_length_minutes == 48, "经典 puts the day back to 24; 现代 keeps the catalog's")
 
 
 func _frame_weights() -> void:

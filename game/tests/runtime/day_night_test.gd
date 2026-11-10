@@ -102,7 +102,7 @@ func _world(tree: SceneTree) -> void:
 	await tree.create_timer(0.5).timeout
 	await _frames(tree, 2)
 	_check(view.lighting.cloud > VoxelLighting.CLOUD_AMOUNTS[3] and view.lighting.cloud < 1.0, "the view greys toward it over twenty seconds: %s" % view.lighting.cloud)
-	# 经典: the sky is clear and the text says nothing of it.
+	# sky_weather off: the sky is clear and the text says nothing of it.
 	var production: PacingDefinition = GameContent.catalog().pacing()
 	GameContent.catalog().set_pacing(production.copy().with_sky_weather(false))
 	_check(session.sky_level() == 0 and hud.message_log.sky_line(hud.card.current_zone()) == noon.desc_msg + "。", "with sky_weather off the look has the phase's line alone")
@@ -144,7 +144,6 @@ func _world(tree: SceneTree) -> void:
 		_check(fresh.sky_state().level() == 3 and fresh.sky_state().minutes_left() == 55, "and under the same cloud, the change as far off: %d, %d" % [fresh.sky_state().level(), fresh.sky_state().minutes_left()])
 		fresh.free()
 		await tree.process_frame
-	_check(PacePresets.of(GameContent.catalog().pacing(), CharacterState.PACE_CLASSIC).day_length_minutes == 24, "经典's day is ES2's 24 minutes")
 
 
 func _frames(tree: SceneTree, count: int) -> void:

@@ -146,7 +146,6 @@ static func restore(
 		if not deed.is_valid():
 			return null
 		state.deeds.append(deed.duplicate_deed())
-	state.pace = snapshot.pace
 	if not snapshot.bounty.is_valid():
 		return null
 	state.bounty = snapshot.bounty.duplicate_state()

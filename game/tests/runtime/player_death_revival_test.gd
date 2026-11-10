@@ -50,7 +50,7 @@ func _death_rules() -> void:
 	check(not no_killer.penalized and accident.progression.combat_experience == 500 and accident.conditions.size() == 0, "no killer: conditions cleared, no penalty")
 
 
-## DECISIONS「减轻死亡」: the record's knobs lighten killer_reward(); 经典 is ES2 to the digit.
+## DECISIONS「减轻死亡」: the record's knobs lighten killer_reward(); left out, it is ES2 to the digit.
 func _modern_death() -> void:
 	var modern: PacingDefinition = PacingDefinition.new(1000).with_death(3, true, true, true)
 	var state: CharacterState = _dying()
@@ -62,14 +62,14 @@ func _modern_death() -> void:
 	check([state.vitality.current, state.vitality.effective] == [1, 1] and state.ghost, "现代: still a ghost at 1/1, 阴间 is walked")
 	var accident: CharacterState = _dying()
 	check(not PlayerDeathRules.die(accident, false, modern).penalized and accident.progression.combat_experience == 1234, "现代: no killer, no penalty")
-	var classic: PacingDefinition = PacePresets.of(PacingDefinition.new(1000).with_death(3, true, true, true).with_autosave(180), CharacterState.PACE_CLASSIC)
-	check(classic.death_exp_percent == 10 and not classic.death_keeps_potential and not classic.death_keeps_skills and not classic.player_corpse_stays and classic.autosave_min_seconds == 0, "经典 puts all of them back and has no autosave")
+	var classic: PacingDefinition = PacingDefinition.new(1000)
+	check(classic.death_exp_percent == PacingDefinition.ES2_DEATH_EXP_PERCENT and not classic.death_keeps_potential and not classic.death_keeps_skills and not classic.player_corpse_stays and classic.autosave_min_seconds == 0, "a record without the knobs: ES2's price, and no autosave")
 	var with_knobs: CharacterState = _dying()
 	var plain: CharacterState = _dying()
 	var a: PlayerDeathResult = PlayerDeathRules.die(with_knobs, true, classic)
 	var b: PlayerDeathResult = PlayerDeathRules.die(plain, true)
-	check(a.combat_experience_lost == b.combat_experience_lost and a.potential_lost == b.potential_lost and a.skill_changes.size() == b.skill_changes.size() and a.enabled_skills_cleared == b.enabled_skills_cleared, "经典 costs what ES2 costs, item by item")
-	check(with_knobs.progression.combat_experience == 1111 and with_knobs.skills.raw_level(&"unarmed") == 2 and not with_knobs.skills.has_raw_level(&"liuh-ken") and with_knobs.skills.mapped_skill(&"unarmed") == &"", "经典: combat_exp / 10, every skill a level, enables gone")
+	check(a.combat_experience_lost == b.combat_experience_lost and a.potential_lost == b.potential_lost and a.skill_changes.size() == b.skill_changes.size() and a.enabled_skills_cleared == b.enabled_skills_cleared, "without the knobs it costs what ES2 costs, item by item")
+	check(with_knobs.progression.combat_experience == 1111 and with_knobs.skills.raw_level(&"unarmed") == 2 and not with_knobs.skills.has_raw_level(&"liuh-ken") and with_knobs.skills.mapped_skill(&"unarmed") == &"", "without the knobs: combat_exp / 10, every skill a level, enables gone")
 
 
 func _dying() -> CharacterState:

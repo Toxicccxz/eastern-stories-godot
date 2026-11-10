@@ -4,7 +4,7 @@ extends RefCounted
 ## one; the 沙盘 agrees with the ways' compass; a new player knows only where they stand and
 ## what an ordinary way off it leads to; hidden ways show nothing; marks come from the
 ## definitions; 指路 keeps to walked roads, follows the player and folds up on arrival; the
-## page shows all this, the pad reaches every button, and the 经典 pace has no page.
+## page shows all this, the pad reaches every button, and with map_page off there is no page.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
 var _count: int = 0
@@ -24,7 +24,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_page(tree, session)
 	await _test_waypoint_in_the_world(tree, session)
 	await _test_stubs(tree, session)
-	await _test_classic(tree, session)
+	await _test_knob_off(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -350,9 +350,9 @@ func _test_marker(tree: SceneTree, session: WorldSessionController, way: PortalD
 	MapAtlas.point_to(state, way.destination_map_id, way.destination_zone_id)
 
 
-func _test_classic(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_knob_off(tree: SceneTree, session: WorldSessionController) -> void:
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
-	_check(pacing.map_page and not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).map_page, "现代 has the page, 经典 not")
+	_check(pacing.map_page and not PacingDefinition.new(1000).map_page, "the game has the page; left out (ES2), not")
 	pacing.with_map_page(false)
 	var hud: SharedGameplayUI = session.shared_ui()
 	var menu: GameMenu = hud.menu

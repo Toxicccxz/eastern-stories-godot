@@ -208,13 +208,11 @@ func _test_bury_landmark() -> void:
 func _test_pacing_knobs() -> void:
 	var errors: Array[String] = []
 	var es2: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000}, "p", errors))
-	_check(errors.is_empty() and not es2.story_parley and not es2.bury_always_rewards, "left out (经典): no parley, the burial rolls")
+	_check(errors.is_empty() and not es2.story_parley and not es2.bury_always_rewards, "left out (ES2): no parley, the burial rolls")
 	var ours: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "story_parley": true, "bury_always_rewards": true}, "p", errors))
 	_check(errors.is_empty() and ours.story_parley and ours.bury_always_rewards and ours.copy().story_parley and ours.copy().bury_always_rewards, "set, and kept by copy()")
 	var production: PacingDefinition = GameContent.catalog().pacing()
 	_check(production.story_parley and production.bury_always_rewards, "the game's pacing has both on")
-	var classic: PacingDefinition = PacePresets.of(production, CharacterState.PACE_CLASSIC)
-	_check(not classic.story_parley and not classic.bury_always_rewards and PacePresets.of(production, CharacterState.PACE_MODERN).story_parley, "经典 turns both off; 现代 keeps them")
 
 
 ## 伪墓 as loaded: after 寻剑令, on the strip; its steps and branches; 寻剑令's new steps.

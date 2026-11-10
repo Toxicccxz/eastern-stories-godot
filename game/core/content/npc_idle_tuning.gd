@@ -6,7 +6,7 @@ extends RefCounted
 ## game/data/common/pacing.json. Who moves how is each person's entry in
 ## game/data/<region>/npc_life.json (NpcLifeBook). Only the body's place inside its zone
 ## changes: which room it is in, and when it changes room, stay ES2's (random_move). Left
-## out (or `enabled` false, 经典模式): everyone stands where they were put, as before.
+## out (or `enabled` false): everyone stands where they were put, as before.
 ## - pause_min_ms / pause_max_ms: how long one stands before its next stroll or look.
 ## - stroll_min_px / stroll_max_px: how far one stroll goes (straight-line, from where it is).
 ## - home_radius_px: a stroll ends no farther than this from the person's own spot (its

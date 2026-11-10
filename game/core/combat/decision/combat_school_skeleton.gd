@@ -11,7 +11,7 @@ extends RefCounted
 ## - state: `close` — the fighter starts pulled apart, is close once a move of its lands,
 ##   apart again once one misses (CombatSkeletonState).
 ## - lock: [{move, unless}] — the move cannot be chosen unless the fighter is in that state
-##   (够不着). The 经典 round never locks (DECISIONS: ES2's moves are always available).
+##   (够不着). ES2's one-beat round never locks (DECISIONS: ES2's moves are always available).
 ## - npc_if: {when, do, else_cooldown?, else_pool?} — the one line an NPC of this school plays
 ##   by: when `when` holds (player_last_heavy_missed: its target's last move was 重 and missed;
 ##   own_last_landed: its own last move landed) it does `do` (a move, or perform/<id>);

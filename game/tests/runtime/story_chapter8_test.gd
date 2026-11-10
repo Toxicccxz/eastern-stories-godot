@@ -90,7 +90,7 @@ func _test_data() -> void:
 		_check(cold != null and cold.native and cold.unless_wearing() == [ROBE] and cold.first_ms == 3000 and cold.every_ms == 6000 and cold.acts().size() == 2 and cold.acts()[0].at_least.get("force", 0) == 12 and cold.acts()[0].steps[1].kind == ScriptedAct.Kind.DRAIN_FORCE and cold.acts()[1].steps[1].kind == ScriptedAct.Kind.DAMAGE and cold.acts()[1].steps[1].amounts.get("kee", 0) == 24, "%s: the cold, native, spared by the 宝衣; 内力 first, then kee" % zone_id)
 	_check(catalog.hazard_in(&"village.seal_altar") == null, "the 封坛 is not cold: 璃虹's light")
 	var pacing: PacingDefinition = catalog.pacing()
-	_check(pacing.native_hazards and pacing.story_parley and not PacePresets.of(pacing, CharacterState.PACE_CLASSIC).native_hazards and PacePresets.of(pacing, CharacterState.PACE_MODERN).native_hazards, "the game's pacing runs the native hazards; 经典 turns them off")
+	_check(pacing.native_hazards and pacing.story_parley, "the game's pacing runs the native hazards")
 	var errors: Array[String] = []
 	var es2: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000}, "pacing", errors))
 	_check(errors.is_empty() and not es2.native_hazards and PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "native_hazards": true}, "pacing", errors)).copy().native_hazards, "left out: none (ES2); set, and kept by copy()")

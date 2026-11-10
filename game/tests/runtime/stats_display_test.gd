@@ -38,7 +38,7 @@ func _test_table() -> void:
 	StatDisplayDefinition.from_record(ContentRecordReader.new({"id": "x", "name": "x", "hint": "x", "when_resource": "gold"}, "test", errors))
 	StatDisplayDefinition.from_record(ContentRecordReader.new({"id": "y", "name": "y", "hint": "y", "when_nonzero": "gold"}, "test", errors))
 	_check(errors.size() == 2, "a condition on nothing known is refused: %s" % [errors])
-	_check(GameContent.catalog().pacing().stats_appear_when_used and not PacePresets.of(GameContent.catalog().pacing(), CharacterState.PACE_CLASSIC).stats_appear_when_used, "现代 on, 经典 off")
+	_check(GameContent.catalog().pacing().stats_appear_when_used and not PacingDefinition.new(1000).stats_appear_when_used, "the game: on; left out (ES2): off")
 
 
 func _test_rules() -> void:
@@ -76,9 +76,9 @@ func _test_rules() -> void:
 	_check(catalog.stat_shown(&"enforce", state), "加力 once set")
 	state.attributes.force_factor = 0
 	var base: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(PacePresets.of(base, CharacterState.PACE_CLASSIC))
+	catalog.set_pacing(base.copy().with_stats_display(false))
 	for stat_id: StringName in [&"mana", &"atman", &"bellicosity", &"enforce"]:
-		_check(catalog.stat_shown(stat_id, state), "经典 shows '%s' as score.c does" % stat_id)
+		_check(catalog.stat_shown(stat_id, state), "the knob off shows '%s' as score.c does" % stat_id)
 	catalog.set_pacing(base)
 
 
@@ -117,9 +117,9 @@ func _test_arts_page(session: WorldSessionController) -> void:
 	_check(page.respirate_rows.all(func(row: Control) -> bool: return row.visible) and not page.meditate_button.get_parent().visible, "基本法术 brings 修行 alone")
 	state.skills.remove_skill(SkillIds.MAGIC)
 	var base: PacingDefinition = GameContent.catalog().pacing()
-	GameContent.catalog().set_pacing(PacePresets.of(base, CharacterState.PACE_CLASSIC))
+	GameContent.catalog().set_pacing(base.copy().with_stats_display(false))
 	page.refresh()
-	_check(quiet.all(func(row: Control) -> bool: return row.visible) and page.bellicosity_text.text.begins_with("杀气 0 · 定力"), "经典: both sections, 杀气 0 as ES2 lists it")
+	_check(quiet.all(func(row: Control) -> bool: return row.visible) and page.bellicosity_text.text.begins_with("杀气 0 · 定力"), "the knob off: both sections, 杀气 0 as ES2 lists it")
 	GameContent.catalog().set_pacing(base)
 
 

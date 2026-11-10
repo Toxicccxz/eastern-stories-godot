@@ -248,7 +248,7 @@ func lesson_refusal(target: NpcRuntimeState, guide: FamilyDefinition.SchoolGuide
 	return guide.refuse_family if not guide.refuse_family.is_empty() else LESSON_REFUSE_FAMILY
 
 
-## Whether a guide's 拆招 is offered at all: only with more than one beat a round (经典's one beat
+## Whether a guide's 拆招 is offered at all: only with more than one beat a round (ES2's one beat
 ## has nothing to point out).
 func lessons_offered() -> bool:
 	return GameContent.catalog().pacing().beat_rules().round_beats > 1

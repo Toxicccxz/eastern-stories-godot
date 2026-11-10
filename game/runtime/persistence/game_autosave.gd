@@ -13,7 +13,7 @@ var _repository: GameSaveRepository
 ## The slot it writes (AUTO_SLOT_ID; KEEP_SLOT_ID for the 决战前 save, DECISIONS「决战前存档」).
 var _slot_id: StringName = GameSaveSnapshot.AUTO_SLOT_ID
 ## Whether its moments keep autosave_min_seconds apart (the autosave); false: each one asked for
-## saves whatever the pace (the 决战前 save, in the classic pace too).
+## saves (the 决战前 save).
 var _rolled: bool = true
 ## The WorkerThreadPool task under way, or -1.
 var _task: int = -1

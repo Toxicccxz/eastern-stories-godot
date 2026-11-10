@@ -15,8 +15,6 @@ var cells: Dictionary[StringName, StatCell] = {}
 var potential_cap: StatCell
 var catch_up: Label
 var kills: StatCell
-## 前两小时 E: the pace the character plays at (现代 / 经典).
-var pace: Label
 ## 前两小时 A: the one-time 历练 rewards given (CharacterState.milestones), newest first.
 var milestones: Label
 ## How many 历练 lines the sheet shows; the rest is a count.
@@ -66,8 +64,6 @@ func _init() -> void:
 	kills = StatCell.new("Kills")
 	kills.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	growth.add_child(kills)
-	pace = _line(growth, "Pace")
-	pace.add_theme_color_override("font_color", UiPalette.MUTED)
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
 	for row: int in GIFTS.size():
 		_cells(nature, "Gifts%d" % row, GIFTS[row])
@@ -109,8 +105,6 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 	}
 	for stat_id: StringName in gifts:
 		_show(state, stat_id, str(gifts[stat_id]))
-	# TRANSLATORS: the character sheet: {pace} is 现代 or 经典 (DECISIONS「经典模式总开关」).
-	pace.text = tr("节奏：{pace}（开局选定）").format({"pace": PacePresets.shown_name(state.pace)})
 	milestones.text = milestone_text(state)
 	if session != null:
 		var carried: int = session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id))

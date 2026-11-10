@@ -164,7 +164,7 @@ func _test_gusts(tree: SceneTree, session: WorldSessionController) -> void:
 	wilds.winds.tick(wind.gust_ms / 1000.0)
 	_check(state.vitality.current == kee - 8 and ui.log_lines().slice(-3).any(func(line: String) -> bool: return line.contains("风大不能行")), "without 内力 it throws one down (气 −8)")
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
-	pacing.with_native_hazards(false) # TEST-ONLY: 经典
+	pacing.with_native_hazards(false) # TEST-ONLY: the knob off
 	kee = state.vitality.current
 	wilds.winds.tick(wind.gust_ms / 1000.0)
 	_check(state.vitality.current == kee, "经典: no gale")

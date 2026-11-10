@@ -354,7 +354,7 @@ func _swap_in(
 			return Result.failure(Result.Outcome.ROLLBACK_FAILED)
 		return Result.failure(Result.Outcome.ACTIVATION_FAILED)
 	if current != null:
-		# Out of the slot now: one Session stands in it, and its pace leaves the catalog to the new one's.
+		# Out of the slot now: one Session stands in it.
 		if current.get_parent() != null:
 			current.get_parent().remove_child(current)
 		current.queue_free()
