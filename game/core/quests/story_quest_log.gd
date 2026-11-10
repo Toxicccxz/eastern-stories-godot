@@ -29,12 +29,14 @@ class Fresh:
 		step = p_step
 		option = p_option
 
-	## What this gives: the option's reward, the quest's at its end; null otherwise.
+	## What this gives: the option's reward or the plain step's, the quest's at its end; null otherwise.
 	func reward() -> StoryQuestDefinition.Reward:
 		if kind == Kind.DONE:
 			return quest.reward
 		if option != null:
 			return option.reward
+		if step != null and not step.reward.is_empty():
+			return step.reward
 		return null
 
 	## What the 任务 page records for it ("" for a start).
@@ -233,6 +235,7 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 						break
 			elif test.call(step.condition):
 				_write(state, key_step(quest, step))
+				_mark(state, step.reward)
 				fresh = Fresh.new(Kind.STEP, quest, step)
 			if fresh == null:
 				break
@@ -250,6 +253,9 @@ static func _mark(state: CharacterState, reward: StoryQuestDefinition.Reward) ->
 		return
 	for mark: String in reward.marks:
 		state.marks[mark] = 1
+	# 晋阶 (DECISIONS「晋阶」): only one of that family rises in it.
+	if not reward.rank_title.is_empty() and state.family.family_id == reward.rank_family and state.affiliation.has_family_rank:
+		state.affiliation.family_title = reward.rank_title
 
 
 ## The quest the 目标 row and the marker follow: an active main-line quest, else the active

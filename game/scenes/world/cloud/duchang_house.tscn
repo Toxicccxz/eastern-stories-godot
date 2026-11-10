@@ -132,6 +132,11 @@ position = Vector2(-200, -216)
 script = ExtResource("marker")
 spawn_point_id = &"cloud.duchang.judge.1"
 
+[node name="DuchangPangYi1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(112, 57)
+script = ExtResource("marker")
+spawn_point_id = &"cloud.duchang.pang_yi.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

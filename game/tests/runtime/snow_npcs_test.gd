@@ -39,7 +39,7 @@ func _test_population(session: WorldSessionController) -> void:
 				var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 				_check(body != null and MapPlacementValidator.is_valid_character_position(map, spawn.zone_id, body.global_position), "%s body is inside its zone, clear of walls" % point_id)
 				placed += 1
-	_check(placed == 53, "fifty-three Snow NPCs (主线修补 B: the inn's two white-clad after the 堂审): travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E); 柳绘心 (offense/defense routes); 飞刀 travellers 3 (Old Pine B); the 武馆's five 木人 (A2, native); the square's 冯策, 宋朴, three 白衣武官, 信使 and 江湖客 (任务系统, native); the 宣诏's three heralds (终章 C, native)")
+	_check(placed == 57, "fifty-seven Snow NPCs (势力线 封山 A: 罗七 and his two on the 青石官道, 刘安禄 at the 山坳 once 说破; 主线修补 B: the inn's two white-clad after the 堂审): travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E); 柳绘心 (offense/defense routes); 飞刀 travellers 3 (Old Pine B); the 武馆's five 木人 (A2, native); the square's 冯策, 宋朴, three 白衣武官, 信使 and 江湖客 (任务系统, native); the 宣诏's three heralds (终章 C, native)")
 
 
 func _test_authored_facts(session: WorldSessionController) -> void:

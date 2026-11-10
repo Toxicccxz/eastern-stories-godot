@@ -1732,41 +1732,7 @@
 										]
 									},
 									{
-										"at_least": {
-											"n": 3,
-											"of": [
-												{
-													"mark": "霍铮回了寨"
-												},
-												{
-													"mark": "关北的骑兵欠你一阵"
-												},
-												{
-													"mark": "大秦人留下了"
-												},
-												{
-													"not": {
-														"mark": "冰龙倒了"
-													}
-												},
-												{
-													"mark": "冯策随你下湖"
-												},
-												{
-													"mark": "宝衣给了安妮儿"
-												},
-												{
-													"any": [
-														{
-															"mark": "替南危水保密"
-														},
-														{
-															"mark": "卫沧澜出了尚书府"
-														}
-													]
-												}
-											]
-										}
+										"cond": "finale.helpers"
 									}
 								]
 							},
@@ -1817,41 +1783,7 @@
 											]
 										},
 										{
-											"at_least": {
-												"n": 3,
-												"of": [
-													{
-														"mark": "霍铮回了寨"
-													},
-													{
-														"mark": "关北的骑兵欠你一阵"
-													},
-													{
-														"mark": "大秦人留下了"
-													},
-													{
-														"not": {
-															"mark": "冰龙倒了"
-														}
-													},
-													{
-														"mark": "冯策随你下湖"
-													},
-													{
-														"mark": "宝衣给了安妮儿"
-													},
-													{
-														"any": [
-															{
-																"mark": "替南危水保密"
-															},
-															{
-																"mark": "卫沧澜出了尚书府"
-															}
-														]
-													}
-												]
-											}
+											"cond": "finale.helpers"
 										}
 									]
 								}
@@ -3850,6 +3782,213 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "native.npc.fake_disciple_head",
+			"legacy_source": "native: 势力线第一批 封山 A (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 A, owner 2026-11-09「按推荐开工」; DECISIONS「封山 A」) — 守馆: the one who took 逄义's 腰牌 for a debt at 绮云镇's 赌场 and collects a 拜师钱 under 淳风武馆's name (续写; ES2 has no such swindler: the nearest is u/cloud/npc/gangster.c's toll)",
+			"name": "罗七",
+			"aliases": [
+				"luo qi",
+				"luo",
+				"fake disciple"
+			],
+			"title": "封山弟子",
+			"gender": "男性",
+			"age": 29,
+			"long": "一个三十上下的汉子，穿一件不合身的青布长衫，腰里别着一柄竹剑，胸前挂一块黄杨木腰牌，逢人便把牌子亮一亮。他身后的旗杆上挑着一面布旗：淳风武馆收徒。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 18,
+				"int": 20,
+				"spi": 14,
+				"cps": 16,
+				"per": 18,
+				"con": 20,
+				"kar": 16
+			},
+			"combat_exp": 250,
+			"score": 40,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"not": {
+					"mark": "说破了冒牌弟子"
+				}
+			},
+			"skills": {
+				"sword": 12,
+				"parry": 10,
+				"dodge": 10,
+				"unarmed": 10
+			},
+			"resources": {
+				"kee": 110,
+				"max_kee": 110
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/bamboo_sword",
+					"source": "d/snow/obj/bamboo_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:obj/money/silver",
+					"source": "obj/money/silver.c",
+					"amount": 10
+				}
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"罗七把胸前的腰牌一亮，高声道：淳风武馆收徒！封山剑法，童叟无欺！先交十两拜师钱！\n",
+				"罗七对过路的人道：这位小哥，想学剑么？柳馆主是我师父。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"罗七叫道：弟兄们并肩子上！\n",
+				"罗七的竹剑乱挥一气，一招封山剑法也没有。\n",
+				"罗七喘着气嚷道：你们武馆自己门口就站着野羊山的血手刘三，倒有脸来管老子！\n"
+			],
+			"inquiry": {
+				"拜师钱": [
+					"十两银子。交了钱，明日辰时到武馆点卯，柳馆主亲自教。"
+				],
+				"淳风武馆": [
+					"就在镇里，石狮子后头。不过馆主近来不见生人——拜师的事，都交给我们师兄弟几个办了。"
+				],
+				"腰牌": {
+					"rules": [
+						{
+							"lines": [
+								{
+									"emote": "把胸前的木牌摘下来，在你眼前晃了晃。"
+								},
+								{
+									"say": "看清楚：正面一座山，背面是姓。封山弟子人手一块，假不了。"
+								}
+							]
+						}
+					]
+				},
+				"封山剑法": [
+					"封山剑法，讲究的是……是一个快字。别问那么多，交了钱自然教你。"
+				],
+				"冒牌": {
+					"confirm": "当面说破他们是冒牌的。三个人收了钱还没走，不会善罢甘休——他们会一起动手。\n要说破吗？",
+					"confirm_lacks": [
+						"说破了冒牌弟子"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"说破了冒牌弟子"
+							],
+							"say": "少废话！"
+						},
+						{
+							"mark_asker": "说破了冒牌弟子",
+							"lines": [
+								{
+									"emote": "的脸色变了。"
+								},
+								{
+									"say": "……你是武馆的人？"
+								},
+								{
+									"say": "弟兄们，这小子要砸咱们的饭碗！"
+								}
+							]
+						}
+					]
+				}
+			},
+			"die_carries": {
+				"item": "native:snow/fonxan_tally"
+			},
+			"spared": {
+				"mark": "放过了罗七",
+				"leave": true,
+				"drop": "native:snow/fonxan_tally",
+				"line": "罗七把腰牌扯下来扔在地上：拿去！牌是绮云镇赌场里一个姓逄的押给我的，不是偷的！……你们武馆的门房是野羊山的血手刘三，你们怎么不查他？\n罗七爬起来，头也不回地往西跑了。"
+			}
+		},
+		{
+			"id": "native.npc.fake_disciple",
+			"legacy_source": "native: 势力线第一批 封山 A (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 A, owner 2026-11-09「按推荐开工」; DECISIONS「封山 A」) — 守馆: 罗七's two hangers-on with the banner (续写)",
+			"name": "帮闲",
+			"aliases": [
+				"hanger-on",
+				"fake disciple",
+				"lackey"
+			],
+			"title": "封山弟子",
+			"gender": "男性",
+			"age": 22,
+			"long": "一个游手好闲的后生，学着武馆弟子的样子在腰里扎了一条麻布带子，手里攥着一把还没捂热的碎银。\n",
+			"attributes": {
+				"str": 18,
+				"cor": 14,
+				"int": 14,
+				"spi": 12,
+				"cps": 12,
+				"per": 14,
+				"con": 16,
+				"kar": 14
+			},
+			"combat_exp": 80,
+			"score": 10,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"not": {
+					"mark": "说破了冒牌弟子"
+				}
+			},
+			"skills": {
+				"unarmed": 8,
+				"dodge": 5
+			},
+			"resources": {
+				"kee": 60,
+				"max_kee": 60
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:obj/money/silver",
+					"source": "obj/money/silver.c",
+					"amount": 2
+				}
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"帮闲扯着嗓子喊：拜师的这边交钱！\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"帮闲叫道：七哥，这小子手硬！\n",
+				"帮闲一边打一边往后缩。\n"
+			],
+			"inquiry": {
+				"拜师钱": [
+					"十两，交给七哥。"
+				],
+				"淳风武馆": [
+					"我……我们都是武馆的弟子。问七哥去。"
+				]
+			}
 		}
 	]
 }

@@ -90,6 +90,20 @@
       "hair_style": "topknot", "beard": "moustache", "waist": "sash", "prop": "none",
       "accent": "c0bbbb", "height": "standard", "build": "standard", "shoes": "white"
     },
+    "native.npc.fake_disciple_head": {
+      "note": "罗七：自称封山弟子的骗子，不合身的青布长衫，腰里一柄竹剑，胸前挂着逄义的黄杨木腰牌（势力线 封山 A）",
+      "coat": "4f6a78", "pants": "3a3f48", "skin": "d9a67c", "hair": "1f1c1a",
+      "hair_style": "topknot", "headwear": "none", "beard": "moustache",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "c4b45e", "accent": "c9a24a",
+      "height": "standard", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.fake_disciple": {
+      "note": "帮闲：游手好闲的后生，学武馆弟子在腰里扎一条麻布带子（势力线 封山 A）",
+      "coat": "8a7a5c", "pants": "4a4238", "skin": "e0b088", "hair": "241d1a",
+      "hair_style": "short", "headwear": "none", "beard": "none",
+      "waist": "sash", "prop": "none", "accent": "b8a682",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
     "native.npc.onlooker": {
       "note": "江湖客：风尘仆仆，背著个长条布包，探头探脑地张望（主线序章）；立绘 Muse 2026-11-06",
       "coat": "3b5167", "pants": "202e3c", "skin": "e2b080", "hair": "1f242d", "hair_tie": "785c51",

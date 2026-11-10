@@ -14,6 +14,7 @@
 		"snow.npc.guard": "post",
 		"snow.npc.keeper": {"mode": "work", "radius": 56, "gesture": "sweep"},
 		"snow.npc.trainee": {"mode": "work", "radius": 48, "gesture": "drill"},
+		"snow.npc.mercenary": {"mode": "still", "pose": "sit"},
 		"snow.npc.fist_trainer": {"mode": "work", "radius": 48, "gesture": "teach"},
 		"snow.npc.teacher": {"mode": "work", "radius": 40, "gesture": "teach"},
 		"snow.npc.waiter": {"mode": "work", "radius": 96, "gesture": "wipe"},

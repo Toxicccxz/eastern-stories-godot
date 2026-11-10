@@ -54,6 +54,11 @@ enum When {
 	## phase_id) is one of `phases` — the night watch on the 工地, the 枷锁 opened after dark.
 	## A spawn's stage reads it as the player comes onto the map (never in front of them).
 	PHASE,
+	## Native (势力线; DECISIONS「具名条件」): the named condition `key` of data/story/conditions.json
+	## (`cond`). Only while the documents are being read: the catalog builder's link_named() makes
+	## each one the condition it names (its when, key, amount, parts), so nothing that asks a
+	## condition later ever meets this kind.
+	COND,
 }
 
 const WHEN_KEYS: Dictionary[String, int] = {
@@ -61,8 +66,11 @@ const WHEN_KEYS: Dictionary[String, int] = {
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
 	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
 	"quest": When.QUEST, "wearing": When.WEARING, "any": When.ANY, "all": When.ALL, "phase": When.PHASE,
-	"at_least": When.AT_LEAST, "not": When.NOT,
+	"at_least": When.AT_LEAST, "not": When.NOT, "cond": When.COND,
 }
+
+## The `cond` conditions read since the last link_named(): each waits to become what it names.
+static var _unlinked: Array[JournalEntryDefinition] = []
 
 var entry_id: StringName
 var when: int = When.MARK
@@ -178,6 +186,9 @@ static func _read_when_object(when: ContentRecordReader, definition: JournalEntr
 					if part.when in [When.HEARD, When.CHAT]:
 						negated.fail("", "heard and chat are recorded as they happen: they cannot be negated")
 					definition.parts.append(part)
+			When.COND:
+				definition.key = when.required_text("cond")
+				_unlinked.append(definition)
 			When.PHASE:
 				for phase_id: String in when.text_list("phase"):
 					definition.phases.append(StringName(phase_id))
@@ -186,3 +197,59 @@ static func _read_when_object(when: ContentRecordReader, definition: JournalEntr
 			_:
 				definition.key = when.required_text(names[0])
 	when.finish()
+
+
+## A new set of documents is about to be read (ContentCatalogBuilder): none of an earlier set's
+## `cond`s wait any more.
+static func forget_unlinked() -> void:
+	_unlinked.clear()
+
+
+## Makes every `cond` read since the last call the condition it names in `named` ({id: condition},
+## data/story/conditions.json). A name nobody defined, a condition that names itself (through
+## others or not) and a named HEARD or CHAT (they are recorded as they happen and are never
+## asked later) are reported to `errors`.
+static func link_named(named: Dictionary[String, JournalEntryDefinition], errors: Array[String]) -> void:
+	for id: String in named:
+		if named[id].when in [When.HEARD, When.CHAT]:
+			errors.append("conditions.%s: heard and chat are recorded as they happen: they cannot be named" % id)
+	var waiting: Array[JournalEntryDefinition] = _unlinked.duplicate()
+	_unlinked.clear()
+	var nothing: Array[String] = []
+	for entry: JournalEntryDefinition in waiting:
+		_link(entry, named, nothing, errors)
+
+
+## Whether `entry` is linked now (it was no `cond`, or became what it names). One that could not be
+## stays a `cond`: it holds for nobody, and nothing is copied into a ring.
+static func _link(entry: JournalEntryDefinition, named: Dictionary[String, JournalEntryDefinition], trail: Array[String], errors: Array[String]) -> bool:
+	if entry.when != When.COND:
+		return true
+	var id: String = entry.key
+	if not named.has(id):
+		errors.append("cond: no condition '%s'" % id)
+		return false
+	var longer: Array[String] = trail.duplicate()
+	longer.append(id)
+	if trail.has(id):
+		errors.append("conditions.%s: names itself (%s)" % [id, " -> ".join(longer)])
+		return false
+	var target: JournalEntryDefinition = named[id]
+	if not _link_tree(target, named, longer, errors):
+		return false
+	entry.when = target.when
+	entry.key = target.key
+	entry.topic = target.topic
+	entry.amount = target.amount
+	entry.parts = target.parts
+	entry.phases = target.phases
+	return true
+
+
+static func _link_tree(entry: JournalEntryDefinition, named: Dictionary[String, JournalEntryDefinition], trail: Array[String], errors: Array[String]) -> bool:
+	if entry.when == When.COND:
+		return _link(entry, named, trail, errors)
+	var linked: bool = true
+	for part: JournalEntryDefinition in entry.parts:
+		linked = _link_tree(part, named, trail, errors) and linked
+	return linked

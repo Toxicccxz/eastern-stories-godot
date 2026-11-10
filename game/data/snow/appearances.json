@@ -21,6 +21,13 @@
       "waist": "belt", "accent": "2e2a26", "pouch_color": "2f2c3b", "prop": "blade_back", "prop_color": "26242a",
       "height": "standard", "build": "standard"
     },
+    "snow.npc.mercenary": {
+      "note": "逄义：封山派与柳淳风同辈的弟子，三十三岁，好赌、避债；旧布衣，长剑（mercenary.c: longsword, cloth）（势力线 封山 A）",
+      "coat": "7d7a70", "pants": "3b3a40", "skin": "dcae88", "hair": "201c1c",
+      "hair_style": "topknot", "headwear": "none", "beard": "moustache",
+      "waist": "belt", "prop": "sword_waist", "prop_color": "8f9499", "accent": "5a4a3a",
+      "height": "tall", "build": "slim", "shoes": "dark"
+    },
     "snow.npc.fist_trainer": {
       "note": "李火狮：孔武有力的大块头，教柳家拳法（fist_trainer.c）；立绘 Muse 2026-11-05",
       "coat": "b74431", "pants": "232227", "skin": "d99e72", "hair": "1d1d24",

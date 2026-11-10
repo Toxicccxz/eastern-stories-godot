@@ -38,6 +38,10 @@ var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
 var _story_quests: Array[StoryQuestDefinition] = []
 var _epilogues: Dictionary[StringName, EpilogueDefinition] = {}
+## Native (势力线; DECISIONS「具名条件」): the named conditions (`conditions`: {id, when}) a `cond` names.
+var _conditions: Dictionary[String, JournalEntryDefinition] = {}
+## Native (势力线; DECISIONS「势力名册」): the 声望 page's houses, in authored order.
+var _factions: Array[FactionDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _day_phases: Array[DayPhaseDefinition] = []
 var _sky_levels: Array[String] = []
@@ -48,6 +52,11 @@ var _opening: OpeningDefinition
 var _loading_screen: LoadingScreenDefinition
 var _title_screen: TitleScreenDefinition
 var _origins: Dictionary[StringName, String] = {}
+
+
+func _init() -> void:
+	# The `cond`s of a set of documents nobody built wait for nothing.
+	JournalEntryDefinition.forget_unlinked()
 
 
 func errors() -> Array[String]:
@@ -155,6 +164,18 @@ func add_document(document: Variant, origin: String) -> void:
 		_journal_chains.append(JournalChainDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("quests"):
 		_story_quests.append(StoryQuestDefinition.from_record(record))
+	for record: ContentRecordReader in reader.children("conditions"):
+		var id: String = record.required_text("id")
+		# Traceability, as a quest's `sources`; never shown.
+		record.text_list("sources")
+		var condition := JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(record, condition, "when")
+		record.finish()
+		if _conditions.has(id):
+			record.fail("id", "duplicate condition '%s'" % id)
+		_conditions[id] = condition
+	for record: ContentRecordReader in reader.children("factions"):
+		_factions.append(FactionDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("epilogues"):
 		var epilogue: EpilogueDefinition = EpilogueDefinition.from_record(record)
 		if _epilogues.has(epilogue.epilogue_id):
@@ -202,6 +223,8 @@ func add_document(document: Variant, origin: String) -> void:
 
 
 func build() -> ContentCatalog:
+	# First of all: every `cond` becomes the condition it names, so what follows reads none.
+	JournalEntryDefinition.link_named(_conditions, _errors)
 	_add_named_npcs()
 	_add_named_items()
 	_add_mastered_items()
@@ -234,6 +257,7 @@ func build() -> ContentCatalog:
 	_check_journal()
 	_check_story_quests()
 	_check_epilogues()
+	_check_conditions_and_factions()
 	_check_progression()
 	_check_day_phases()
 	if _pacing == null:
@@ -258,6 +282,8 @@ func build() -> ContentCatalog:
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_story_quests(_story_quests)
 	catalog.set_epilogues(_epilogues)
+	catalog.set_factions(_factions)
+	catalog.set_conditions(_conditions)
 	catalog.set_day_phases(_day_phases)
 	catalog.set_sky_levels(_sky_levels)
 	catalog.set_progression(_progression)
@@ -455,6 +481,8 @@ func _check_journal() -> void:
 ## A condition (a journal entry's `when`, a quest's `starts` or a step's `done`) names an
 ## item, NPC, topic, milestone kind, skill, family or zone the game has.
 func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
+	for part: JournalEntryDefinition in entry.parts:
+		_check_condition(origin, part)
 	match entry.when:
 		JournalEntryDefinition.When.ITEM:
 			if not _items.has(StringName(entry.key)):
@@ -487,6 +515,25 @@ func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
 					_errors.append("%s.phase: no day phase '%s'" % [origin, phase_id])
 
 
+## A reward's rank (DECISIONS「晋阶」) is in a family the game has.
+func _check_reward(origin: String, reward: StoryQuestDefinition.Reward) -> void:
+	if reward != null and not reward.rank_title.is_empty() and not _families.has(reward.rank_family):
+		_errors.append("%s.rank: no family '%s'" % [origin, reward.rank_family])
+
+
+## The named conditions and the 声望 page's houses name what the game has; a house has one id.
+func _check_conditions_and_factions() -> void:
+	for id: String in _conditions:
+		_check_condition("conditions.%s" % id, _conditions[id])
+	var seen: Dictionary[StringName, bool] = {}
+	for faction: FactionDefinition in _factions:
+		if seen.has(faction.faction_id):
+			_errors.append("factions: duplicate faction '%s'" % faction.faction_id)
+		seen[faction.faction_id] = true
+		for index: int in faction.lines.size():
+			_check_condition("factions.%s.lines[%d]" % [faction.faction_id, index], faction.lines[index].condition)
+
+
 ## The quests (任务系统) have unique IDs, name quests, zones and maps the game has, and
 ## their conditions name what the game has.
 ## An ending's places are maps of the world (DECISIONS「结局讲述」); its conditions as a quest's.
@@ -513,6 +560,7 @@ func _check_story_quests() -> void:
 		var origin: String = "quests.%s" % quest.quest_id
 		if quest.starts != null:
 			_check_condition(origin + ".starts", quest.starts)
+		_check_reward(origin + ".reward", quest.reward)
 		for other: StringName in quest.requires + quest.excludes:
 			if other == quest.quest_id:
 				_errors.append("%s: names itself" % origin)
@@ -524,6 +572,12 @@ func _check_story_quests() -> void:
 				_check_condition(at + ".done", step.condition)
 			for option: StoryQuestDefinition.Option in step.options:
 				_check_condition("%s.%s.done" % [at, option.option_id], option.condition)
+				_check_reward("%s.%s.reward" % [at, option.option_id], option.reward)
+			_check_reward(at + ".reward", step.reward)
+			for row: StoryQuestDefinition.CheckRow in step.checklist:
+				# A count row may name its at_least (`cond`): it is one only now, linked.
+				if row.counts and row.condition != null and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
+					_errors.append("%s.checklist: a count row's when is an at_least" % at)
 			if step.target != null:
 				var zone: ZoneDefinition = _zones.get(step.target.zone_id)
 				if not _maps.has(step.target.map_id):
@@ -724,6 +778,8 @@ func _resolve_npc_dealings() -> void:
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
+				if not inquiry_rule.asker_family.is_empty() and not _families.has(inquiry_rule.asker_family):
+					_errors.append("%s.inquiry.%s.asker_family: unknown family '%s'" % [origin, topic, inquiry_rule.asker_family])
 				if not inquiry_rule.epilogue.is_empty() and not _epilogues.has(inquiry_rule.epilogue):
 					_errors.append("%s.inquiry.%s.epilogue: unknown ending '%s'" % [origin, topic, inquiry_rule.epilogue])
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
@@ -772,6 +828,13 @@ func _check_spawns() -> void:
 			_errors.append("%s.draw: '%s' has nothing to draw from" % [_origins[group_first[group].spawn_id], group])
 	for definition: NpcSpawnDefinition in _spawns.values():
 		var origin: String = _origins[definition.spawn_id]
+		if not definition.same_person.is_empty():
+			# The same person elsewhere: one definition, one map, and no more of them than of the first.
+			var first: NpcSpawnDefinition = _spawns.get(definition.same_person)
+			if first == null or first == definition:
+				_errors.append("%s.same_person: unknown spawn '%s'" % [origin, definition.same_person])
+			elif first.npc_definition_id != definition.npc_definition_id or first.map_id != definition.map_id or first.quantity < definition.quantity or not first.same_person.is_empty():
+				_errors.append("%s.same_person: '%s' is not the same NPC on the same map" % [origin, definition.same_person])
 		if not _npcs.has(definition.npc_definition_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, definition.npc_definition_id])
 		elif _npcs[definition.npc_definition_id].conjuring() != null:

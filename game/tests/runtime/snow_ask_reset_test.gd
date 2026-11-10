@@ -42,7 +42,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var trainer: NpcTalk = catalog.npc(&"snow.npc.fist_trainer").talk()
-	_check(trainer.inquiry_topics() == ["here", "name", "柳家拳法", "打法"] and not trainer.has_chat(), "李火狮: here, name, 柳家拳法, then his 打法 (战斗拍数 D)")
+	_check(trainer.inquiry_topics() == ["here", "name", "柳家拳法", "门房", "说破门房的来历", "替门房瞒下来", "打法"] and not trainer.has_chat(), "李火狮: here, name, 柳家拳法, the 门房 and its two answers (势力线 封山 A), then his 打法 (战斗拍数 D): %s" % [trainer.inquiry_topics()])
 	var teacher: NpcTalk = catalog.npc(&"snow.npc.teacher").talk()
 	_check(teacher.answer("学费").size() == 6 and teacher.answer("刘安禄").size() == 3, "魏无极: ask.c says the strings, skips 0 and the function (学费 with its native sixth line, DECISIONS「客栈的老鼠」)")
 	_check(catalog.npc(&"snow.npc.post_officer").talk().inquiry_topics() == ["驿站", "悬赏", "送信"], "杜宽: 驿站 (mail omitted), then the native 悬赏 and 送信 (DECISIONS「雪亭驿的信」)")
@@ -65,7 +65,10 @@ func _test_inquiry_rule() -> void:
 	var teacher: NpcDefinition = catalog.npc(&"snow.npc.teacher")
 	var asker := NpcInquiry.Asker.new(CharacterState.GENDER_FEMALE, 14, &"")
 	var none := ScriptedWorldInteractionRandomSource.new([])
-	_check(NpcInquiry.topics(trainer) == ["这里", "名字", "传闻", "柳家拳法", "打法"], "listing: 这里/名字/传闻, then his own; here/name answer behind 这里/名字")
+	_check(NpcInquiry.topics(trainer) == ["这里", "名字", "传闻", "柳家拳法", "门房", "说破门房的来历", "替门房瞒下来", "打法"], "listing: 这里/名字/传闻, then his own; here/name answer behind 这里/名字")
+	var no_marks: Dictionary[String, int] = {}
+	var nothing_forgotten: Array[String] = []
+	_check(NpcInquiry.topics(trainer, nothing_forgotten, no_marks) == ["这里", "名字", "传闻", "柳家拳法", "门房", "打法"], "listing for one he has not put the question to: the 门房's two answers are left out (listed_marks)")
 	_check(NpcInquiry.ask(trainer, &"男性", 28, true, asker, "这里", "淳风武馆大院", none) == [
 		"你向李火狮问道：这位壮士，小女子初到贵宝地，不知这里有些什麽风土人情？",
 		"李火狮说道：这里当然是淳风武馆，不然还是哪里？",
@@ -230,7 +233,7 @@ func _test_ask_panel(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.ask_is_enabled(), "打听 李火狮")
 	hud.open_ask()
 	await tree.process_frame
-	_check(hud.ask_topics_shown() == ["这里", "名字", "传闻", "柳家拳法", "打法"], "the topics")
+	_check(hud.ask_topics_shown() == ["这里", "名字", "传闻", "柳家拳法", "门房", "打法"], "the topics: %s" % [hud.ask_topics_shown()])
 	hud.ask._ask_topic("柳家拳法")
 	_check(hud.ask_answer_text() == "你向李火狮打听有关『柳家拳法』的消息。\n李火狮说道：哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。", "the answer under the list")
 	_check(hud.log_lines().back() == "李火狮说道：哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。", "and in the log")
