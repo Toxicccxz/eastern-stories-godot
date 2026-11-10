@@ -4,7 +4,7 @@ extends RefCounted
 ## one; the 沙盘 agrees with the ways' compass; a new player knows only where they stand and
 ## what an ordinary way off it leads to; hidden ways show nothing; marks come from the
 ## definitions; 指路 keeps to walked roads, follows the player and folds up on arrival; the
-## page shows all this, the pad reaches every button, and the 经典 pace has no page.
+## page shows all this, the pad reaches every button, and with map_page off there is no page.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
 var _count: int = 0

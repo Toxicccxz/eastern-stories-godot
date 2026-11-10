@@ -161,7 +161,8 @@ The following version-specific details are the current implementation snapshot d
 - 取消经典模式 (owner, 2026-11-10): no save carries a character `pace`. A file written while the game
   had two paces still has it: `"modern"` is read on and the field dropped; `"classic"` is refused as
   another development contract's (`INCOMPATIBLE_DEVELOPMENT_CONTRACT`, the slot's row 「来自不兼容的版本」),
-  never read as a modern world and never deleted.
+  never read as a modern world; reading and listing leave the file alone (a later Save into that
+  slot replaces it as it would any file: to `.bak`, then gone with the Save after).
 - Restore consumes zero gameplay RNG. The combat, NPC-initialization, and world-interaction streams resume
   from their exact saved seed/state pairs.
 

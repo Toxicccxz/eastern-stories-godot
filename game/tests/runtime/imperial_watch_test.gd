@@ -3,13 +3,13 @@ extends RefCounted
 ## 第九章 B 禁军夜巡 (owner's plan, 2026-11-06「按你的推荐来」Q2 轻潜行; DECISIONS「第九章 B」「禁军夜巡」):
 ## - data: the three night guards' watches (routes on their maps' markers, a 90° cone, lanterns, the
 ##   night only, a 腰牌 at the belt spares one; caught: the mark, 冯策's lines, dawn, out at the 午门);
-##   NpcWatch's cone on its own; pacing's stealth on, 经典 off.
+##   NpcWatch's cone on its own; pacing's stealth on.
 ## - the night's way in (from the eighth chapter's ledger): the 地下密室's stone refused till the bed is
 ##   looked at (看过床底的石板), then down; the tunnel's black cord; up the well (从冷宫井上来: the quest's
 ##   sneak), 钟嬷嬷's three lines and her 窗闩; the 御花园 at night with its guard on stage: a rock between
 ##   them hides the player, the cone's back hides them, the lantern's light reaches further; in front of
 ##   it, a ？ while it looks, caught when the beat is through — the mark, 冯策's line, dawn, out at the
-##   午门; caught again, the second time's line; the 腰牌 at the belt, it does not look; 经典, any side.
+##   午门; caught again, the second time's line; the 腰牌 at the belt, it does not look; stealth off, any side.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -129,7 +129,7 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	garden.watches.tick(2.0)
 	await _settle(tree)
 	_check(state.marks.get("被禁军拿过两回", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("下回我就不认得你了")), "caught again: the second time's word")
-	# The 腰牌 spares one; 经典 sees on every side.
+	# The 腰牌 spares one; with stealth off it sees on every side.
 	_check(session.wait_until_phase([&"night"]), "a third night")
 	garden = MapPlaces.enter(session, &"imperial.garden", &"imperial.garden.lanes_arrival") # TEST-ONLY
 	await _settle(tree)
@@ -143,10 +143,10 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	body.facing = Vector2.DOWN
 	player = garden.runtime_player_body()
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
-	pacing.with_stealth(false) # TEST-ONLY: 经典
+	pacing.with_stealth(false) # TEST-ONLY: the knob off
 	player.global_position = body.global_position + Vector2(0, -90) # TEST-ONLY: behind him
 	await _settle(tree)
-	_check(garden.watches.sees(guard, body, guard.definition().dealings().watch), "经典: behind him, in range, seen (the 腰牌 aside: sees() is the eye alone)")
+	_check(garden.watches.sees(guard, body, guard.definition().dealings().watch), "stealth off: behind him, in range, seen (the 腰牌 aside: sees() is the eye alone)")
 	pacing.with_stealth(true)
 	await _settle(tree)
 	var before_marks: int = state.marks.size()

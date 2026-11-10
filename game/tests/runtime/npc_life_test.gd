@@ -2,11 +2,11 @@ extends RefCounted
 
 ## NPC 活起来 A (owner, 2026-11-06「按推荐，开工 A」; DECISIONS「街上的人会动」):
 ## - data: every 雪亭镇 person has an npc_life.json entry; the file's entries parse; a bad one
-##   is refused; pacing's npc_idle on, 经典 off.
+##   is refused; pacing's npc_idle on.
 ## - on 雪亭镇's street with the player far off: a farmer (work) strolls about sroad2 and only
 ##   there, near its own spot, never into a doorway or the street's mouth, keeps its room; the
 ##   gate's 刘安禄 (post) never leaves his spot but looks about; the player walks up: the farmer
-##   stops and turns to them; 经典: nobody moves.
+##   stops and turns to them; npc_idle off: nobody moves.
 
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -241,7 +241,7 @@ func _test_street(tree: SceneTree, session: WorldSessionController) -> void:
 		var body: Node2D = map.runtime_body_for_character(character_id)
 		if body != null and body.global_position.distance_to(places[character_id]) > 1.0:
 			moved.append(character_id)
-	_check(moved.is_empty(), "经典: nobody moves (%s)" % [moved])
+	_check(moved.is_empty(), "npc_idle off: nobody moves (%s)" % [moved])
 
 
 ## Whether `point` keeps WorldNpcWalker.SEAM_CLEAR from where `zone_id` meets the map's other
@@ -425,7 +425,7 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 		stayed = stayed and npc.exists_in_map
 	tuned.night_home = true
 	tuned.night_phases = phases
-	_check(stayed, "经典: nobody goes indoors")
+	_check(stayed, "night_home off: nobody goes indoors")
 
 
 func _check(condition: bool, message: String) -> void:

@@ -134,7 +134,7 @@ func _test_chased(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(backhill.select_npc(xuan.character_id) and backhill.ask_selected("商玦").any(func(said: String) -> bool: return said.contains("他不要我了")), "and his word on 商玦")
 
 
-## 经典: the turn's bandits attack on sight, 霍铮 home or not (no story parley).
+## story_parley off: the turn's bandits attack on sight, 霍铮 home or not (no story parley).
 func _test_without_parley(tree: SceneTree, session: WorldSessionController) -> void:
 	StoryFixtures.chapter3_rescued(session)
 	session.record_journal()

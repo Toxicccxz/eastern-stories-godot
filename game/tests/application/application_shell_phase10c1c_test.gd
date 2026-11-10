@@ -506,8 +506,7 @@ func _test_native_gamepad_navigation(tree: SceneTree) -> void:
 	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
 	await _send_joy(tree, JOY_BUTTON_A)
 	_assert_true(shell.female_button.button_pressed, "D-pad and A choose 女性")
-	# The 节奏 option sits between 女性 and 开始旅程 (前两小时 E).
-	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
+	# 开始旅程 is right under the two genders.
 	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
 	await _send_joy(tree, JOY_BUTTON_A)
 	await _wait_frames(tree, 4)
