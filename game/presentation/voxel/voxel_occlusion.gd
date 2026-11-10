@@ -1,12 +1,13 @@
 class_name VoxelOcclusion
 extends RefCounted
 
-## Only the pixels between a subject and the fixed camera fade. The rest of each
+## Only the pixels between a subject and the fixed camera open, as a screen-door pattern of
+## dots (owner 2026-11-10, after pixel-art games' dithered see-through). The rest of each
 ## object, its collision and its shadow remain intact. State belongs to this map.
 const SHADER = preload("res://presentation/voxel/shaders/local_occlusion.gdshader")
-const BLEND = preload("res://presentation/voxel/shaders/local_occlusion_blend.gdshader")
-const DEPTH = preload("res://presentation/voxel/shaders/local_occlusion_depth.gdshader")
 const LIMIT: int = 16
+## The share of an occluder's pixels left out at the heart of an opening: an even checker.
+const HOLES: float = 0.5
 var materials: Dictionary[String, ShaderMaterial] = {}
 var subjects := PackedVector4Array()
 var roots: Array[Node3D] = []
@@ -26,21 +27,12 @@ func register(root: Node3D) -> void:
 			var material := ShaderMaterial.new()
 			material.shader = SHADER
 			material.set_shader_parameter("tint", original.albedo_color)
-			var blend := ShaderMaterial.new()
-			blend.shader = BLEND
-			blend.set_shader_parameter("tint", original.albedo_color)
-			var depth := ShaderMaterial.new()
-			depth.shader = DEPTH
-			depth.render_priority = -100
-			blend.render_priority = -99
-			material.next_pass = depth
-			depth.next_pass = blend
-			for pass_material: ShaderMaterial in [material,blend]:
-				pass_material.set_shader_parameter("vertex_tint",original.vertex_color_use_as_albedo)
-				pass_material.set_shader_parameter("emission_tint",emission)
-				pass_material.set_shader_parameter("night_only",original.get_meta("night_only",false))
+			material.set_shader_parameter("vertex_tint",original.vertex_color_use_as_albedo)
+			material.set_shader_parameter("emission_tint",emission)
+			material.set_shader_parameter("night_only",original.get_meta("night_only",false))
+			material.set_shader_parameter("holes",HOLES)
 			materials[key] = material
-		# The blended colour pass must not erase sunlight shadows as the player moves.
+		# The opening's dots must not punch holes in sunlight shadows as the player moves.
 		if mesh.cast_shadow != GeometryInstance3D.SHADOW_CASTING_SETTING_OFF:
 			var shadow: GeometryInstance3D
 			if mesh is MultiMeshInstance3D:
@@ -58,25 +50,15 @@ func register(root: Node3D) -> void:
 
 func set_night(amount: float) -> void:
 	for material: ShaderMaterial in materials.values():
-		for pass_material: ShaderMaterial in _passes(material):
-			pass_material.set_shader_parameter("night_amount",amount)
-
-func _passes(first: ShaderMaterial) -> Array[ShaderMaterial]:
-	var result: Array[ShaderMaterial] = []
-	var material: ShaderMaterial = first
-	while material!=null:
-		result.append(material)
-		material = material.next_pass as ShaderMaterial
-	return result
+		material.set_shader_parameter("night_amount",amount)
 
 func update(camera: Camera3D, points: PackedVector4Array) -> void:
 	subjects = points.slice(0, LIMIT)
 	var padded: PackedVector4Array = subjects.duplicate()
 	padded.resize(LIMIT)
 	for material: ShaderMaterial in materials.values():
-		for pass_material: ShaderMaterial in _passes(material):
-			pass_material.set_shader_parameter("eye_right", camera.global_basis.x)
-			pass_material.set_shader_parameter("eye_up", camera.global_basis.y)
-			pass_material.set_shader_parameter("toward_eye", camera.global_basis.z)
-			pass_material.set_shader_parameter("subjects", padded)
-			pass_material.set_shader_parameter("subject_count", subjects.size())
+		material.set_shader_parameter("eye_right", camera.global_basis.x)
+		material.set_shader_parameter("eye_up", camera.global_basis.y)
+		material.set_shader_parameter("toward_eye", camera.global_basis.z)
+		material.set_shader_parameter("subjects", padded)
+		material.set_shader_parameter("subject_count", subjects.size())
