@@ -1,0 +1,118 @@
+{
+	"quests": [
+		{
+			"id": "faction.fonxan",
+			"title": "封山剑派",
+			"line": "faction",
+			"region": "雪亭镇",
+			"sources": [
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线原则 and 第 1 条: 门派就是势力线, 拜师即入门, 辈分即晋阶, 每条线 1 个大分裂 + 最多 2 个小选择; 计划 build/plans/势力线第一批_计划.md §3, owner 2026-11-09「按推荐开工」; DECISIONS「封山 A」). daemon/class/swordsman/master.c (柳淳风, 刘兄弟在寒舍管事已经五年了, 过去之事不须再提); d/snow/npc/guard.c (刘安禄: 除了馆主柳淳风没有人知道他的出身来历; 野羊山寨二寨主 血手刘三); d/snow/npc/mercenary.c (逄义: 和柳淳风同辈的弟子, 生性好赌, 避债, 碍于门规又不敢做那打家劫舍的勾当), which ES2 wrote and placed nowhere. A: 守馆 and the 门房 (the first small choice); B: the 竹书, the 南北宗 split, the 点字诀."
+			],
+			"summary": "拜了柳淳风，淳风武馆的事就是你的事。",
+			"starts": {
+				"family": "family.fonxan"
+			},
+			"steps": [
+				{
+					"id": "hear",
+					"objective": "问柳淳风「武馆的事」。",
+					"done": {
+						"mark": "柳淳风说了冒牌"
+					},
+					"text": "柳淳风说，镇西的青石官道上有人打着淳风武馆的旗号，向来投师的人收十两「拜师钱」。",
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.schoolhall",
+						"npcs": ["common.npc.swordsman.master"]
+					}
+				},
+				{
+					"id": "fakes",
+					"objective": "去镇西的青石官道，会一会那几个收「拜师钱」的「封山弟子」。",
+					"done": {
+						"mark": "冒牌头目倒了"
+					},
+					"text": "为首的罗七倒了，两个帮闲一哄而散。他胸前那块腰牌却是真的：背面刻着一个「逄」字，系绳上拴着绮云镇赌场的竹筹。",
+					"target": {
+						"map": "snow.outdoor",
+						"zone": "snow.sroad3",
+						"npcs": ["native.npc.fake_disciple_head"]
+					}
+				},
+				{
+					"id": "pang",
+					"objective": "腰牌是从绮云镇的赌场流出来的。去赌场找那个姓逄的，问他「腰牌」。",
+					"done": {
+						"mark": "逄义认了腰牌"
+					},
+					"text": "逄义——柳淳风的同辈师弟——认了：牌是他赌输了押给罗七的。",
+					"target": {
+						"map": "cloud.duchang_house",
+						"zone": "cloud.duchang",
+						"npcs": ["snow.npc.mercenary"]
+					}
+				},
+				{
+					"id": "report",
+					"objective": "把腰牌带回淳风武馆，交给柳淳风。",
+					"done": {
+						"mark": "守馆办完了"
+					},
+					"text": "柳淳风收下了这件事。「门户的名头，不是谁都能借的。」",
+					"reward": {
+						"deed": "清了打着淳风武馆旗号收拜师钱的人",
+						"rank": {
+							"family": "family.fonxan",
+							"title": "大弟子"
+						}
+					},
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.schoolhall",
+						"npcs": ["common.npc.swordsman.master"]
+					}
+				},
+				{
+					"id": "gate",
+					"objective": "罗七在镇上嚷过：武馆的门房是野羊山的血手刘三。李火狮在等一句话，问他「门房」——说破，武馆从此没有他的位置；替他瞒，这句话从此算在你头上。",
+					"weight": "small",
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.school2",
+						"npcs": ["snow.npc.fist_trainer"]
+					},
+					"options": [
+						{
+							"id": "reveal",
+							"done": {
+								"mark": "说破了刘安禄"
+							},
+							"text": "你对李火狮说了实话：门房刘安禄就是野羊山的血手刘三。武馆不留匪。",
+							"reward": {
+								"deed": "说破了淳风武馆门房的来历"
+							}
+						},
+						{
+							"id": "cover",
+							"done": {
+								"mark": "替刘安禄瞒了"
+							},
+							"text": "你对李火狮说：那伙骗子认错了人。武馆里没人再提这件事。",
+							"reward": {
+								"deed": "替淳风武馆的门房瞒下了来历"
+							}
+						}
+					]
+				},
+				{
+					"id": "book",
+					"objective": "柳淳风提过，他年轻时在天驼关的竹林里留下过一卷书。",
+					"done": {
+						"mark": "竹书有了去处"
+					},
+					"text": "那卷书有了去处。"
+				}
+			]
+		}
+	]
+}

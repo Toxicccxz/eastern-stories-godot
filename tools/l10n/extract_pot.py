@@ -58,9 +58,12 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
     "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
     "lift", "closed", "read", "out", "open_below", "close_below", "close_beyond", "again",
+    # What a topic asks before it is put (NpcTalk's `confirm`), and a sentence of an ending's card
+    # or of a 势力's card on the 声望 page (EpilogueDefinition, FactionDefinition: {text, when}).
+    "confirm", "text",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
-ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver"})
+ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks"})
 HEADER = """\
 # Eastern Stories translation template.
 # Source language: Simplified Chinese (zh_CN); each message ID is the source text.
@@ -339,6 +342,11 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
     if isinstance(document, dict) and "quests" in document:
         _extract_quests(document, relative, catalog)
         return
+    if isinstance(document, dict) and "factions" in document:
+        # The 声望 page's houses (FactionDefinition): where each is; its name and sentences are walked below.
+        for faction in document["factions"]:
+            if isinstance(faction, dict) and isinstance(faction.get("place"), str):
+                catalog.add(faction["place"], relative, note=f"{faction.get('id', '')} place")
     # A document's own list of lines (day_phases.json sky_levels: natured.c's weather_msg).
     if isinstance(document, dict):
         for key, value in document.items():
@@ -364,6 +372,7 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
         reward = quest.get("reward")
         if isinstance(reward, dict) and isinstance(reward.get("deed"), str):
             catalog.add(reward["deed"], relative, note=f"{quest_id} reward.deed")
+        _add_rank(reward, relative, f"{quest_id} reward.rank.title", catalog)
         for step in quest.get("steps", []):
             if not isinstance(step, dict):
                 continue
@@ -371,6 +380,11 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
             for key in ("objective", "text"):
                 if isinstance(step.get(key), str) and step[key]:
                     catalog.add(step[key], relative, note=f"{step_id} {key}")
+            # A plain step's own deed (势力线: a deed done half way down a line).
+            step_reward = step.get("reward")
+            if isinstance(step_reward, dict) and isinstance(step_reward.get("deed"), str):
+                catalog.add(step_reward["deed"], relative, note=f"{step_id} reward.deed")
+            _add_rank(step_reward, relative, f"{step_id} reward.rank.title", catalog)
             for option in step.get("options", []):
                 if not isinstance(option, dict):
                     continue
@@ -380,6 +394,13 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
                 option_reward = option.get("reward")
                 if isinstance(option_reward, dict) and isinstance(option_reward.get("deed"), str):
                     catalog.add(option_reward["deed"], relative, note=f"{option_id} reward.deed")
+                _add_rank(option_reward, relative, f"{option_id} reward.rank.title", catalog)
+
+
+def _add_rank(reward: object, relative: str, note: str, catalog: Catalog) -> None:
+    """A reward's rank title is shown inside the family title (封山剑派第十四代大弟子)."""
+    if isinstance(reward, dict) and isinstance(reward.get("rank"), dict) and isinstance(reward["rank"].get("title"), str):
+        catalog.add(reward["rank"]["title"], relative, note=note)
 
 
 def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:

@@ -64,6 +64,7 @@ var journal_page: VBoxContainer
 var quest_text: Label
 ## 任务: the four columns of quests and story chains (任务系统).
 var quest_page: QuestPage
+var standing_page: StandingPage
 var codex_page: CodexPage
 var map_page: MapPage
 ## How many records (journal entries and quest keys) the 任务 page showed when it was filled last.
@@ -685,7 +686,8 @@ func _build_menu() -> void:
 	codex_page = CodexPage.new()
 	map_page = MapPage.new()
 	map_page.rows_changed = func() -> void: menu.refresh_rows()
-	menu.build(self, character_sheet, arts_page, inventory_page, journal_page, map_page, codex_page)
+	standing_page = StandingPage.new()
+	menu.build(self, character_sheet, arts_page, inventory_page, journal_page, map_page, standing_page, codex_page)
 
 
 func _heading(parent: Node, text: String) -> Label:
@@ -774,6 +776,10 @@ func menu_tab_shown(tab: int) -> void:
 				_session.record_journal()
 			var location: WorldLocationState = null if _player == null else _player.world_location()
 			map_page.fill(null if _player == null else _player.state, &"" if location == null else location.map_id, &"" if location == null else location.zone_id)
+		GameMenu.Tab.STANDING:
+			if _session != null:
+				_session.record_journal()
+			standing_page.fill(Callable() if _session == null else _session.quest_condition_test())
 		GameMenu.Tab.CODEX:
 			if _session != null:
 				_session.record_journal()

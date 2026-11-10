@@ -958,7 +958,7 @@
           ["blocked", "cloud.duchang", ["rel", 0.06416, 0.91719], 1.8823, 1.4117, {"look": {"kind": "wine_jars", "count": 4}}],
           ["blocked", "cloud.duchang", ["rel", 0.12799, 0.01719], 3.7647, 0.4705, {"look": {"kind": "bench_seat", "cloth": "8a2f2a"}}]
         ],
-        "placed": {},
+        "placed": {"cloud.duchang.pang_yi.1": ["cloud.duchang", ["rel", 0.66, 0.62]]},
         "doors": {
           "cloud.duchang.north": "north"
         },

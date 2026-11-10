@@ -42,6 +42,9 @@ var asker_carries: String = ""
 var asker_lacks: Array[String] = []
 var asker_class: StringName = &""
 var asker_gender: StringName = &""
+## Native (势力线第一批; DECISIONS「问话看门派」): the family the asker must be of (FamilyState.family_id;
+## NpcObjectRule's `giver_family` on the asking side): what a master says to its own only.
+var asker_family: StringName = &""
 var lines: Array[NpcLine] = []
 var mark_asker: String = ""
 ## Native (主线 第四章): more marks set on the asker at once (an answer that is both a choice
@@ -67,8 +70,10 @@ var forgets: Array[String] = []
 var make: NpcMaking
 
 
-func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = []) -> bool:
+func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = [], family_id: StringName = &"") -> bool:
 	if (not asker_class.is_empty() and class_id != asker_class) or (not asker_gender.is_empty() and gender != asker_gender):
+		return false
+	if not asker_family.is_empty() and family_id != asker_family:
 		return false
 	if not asker_carries.is_empty() and not carried.has(asker_carries):
 		return false
@@ -85,9 +90,9 @@ func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender:
 	return true
 
 
-static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = []) -> NpcInquiryRule:
+static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = [], family_id: StringName = &"") -> NpcInquiryRule:
 	for rule: NpcInquiryRule in rules:
-		if not rule.matches(marks, class_id, gender, combat_exp, npc_flags, carried):
+		if not rule.matches(marks, class_id, gender, combat_exp, npc_flags, carried, family_id):
 			continue
 		if rule.chance_of > 0 and (random == null or random.legacy_random(rule.chance_of) >= rule.chance_below):
 			continue
@@ -110,6 +115,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	if rule.leaves and rule.attacks:
 		reader.fail("leaves", "one that leaves does not attack")
 	rule.asker_class = StringName(reader.text("asker_class"))
+	rule.asker_family = StringName(reader.text("asker_family"))
 	rule.asker_gender = StringName(reader.text("asker_gender"))
 	if not rule.asker_gender.is_empty() and not NpcTeaching.GENDERS.has(rule.asker_gender):
 		reader.fail("asker_gender", "expected one of %s" % [NpcTeaching.GENDERS])

@@ -106,6 +106,8 @@ static func _look_when(look: Dictionary, key: String) -> JournalEntryDefinition:
 	var errors: Array[String] = []
 	var definition := JournalEntryDefinition.new()
 	JournalEntryDefinition.read_when(ContentRecordReader.new({key: look[key]}, "stage prop look", errors), definition, key)
+	# A look is read after the catalog was built: a `cond` in it is linked here (DECISIONS「具名条件」).
+	JournalEntryDefinition.link_named(GameContent.catalog().conditions(), errors)
 	if not errors.is_empty():
 		push_error("a stage prop's %s: %s" % [key, errors])
 	_look_whens[text] = definition

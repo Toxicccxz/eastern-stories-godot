@@ -1230,9 +1230,11 @@ func _update_occlusion() -> void:
 	var targets := PackedVector4Array()
 	var visible: Rect2 = get_viewport().get_visible_rect().grow(64)
 	var player: Vector3 = VoxelMapGeometry.point(map.player_body.global_position)
+	# Everyone on screen, not only those near the player: an opening that appeared only as a
+	# person came within a few steps popped in under the player's eyes (owner 2026-11-10).
 	var nearby: Array[Node3D] = []
 	for actor: Node3D in actors.values():
-		if actor.visible and actor.position.distance_squared_to(player)<=196:
+		if actor.visible:
 			nearby.append(actor)
 	nearby.sort_custom(func(a: Node3D,b: Node3D) -> bool: return a.position.distance_squared_to(player)<b.position.distance_squared_to(player))
 	for actor: Node3D in nearby:

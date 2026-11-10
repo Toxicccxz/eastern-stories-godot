@@ -682,11 +682,15 @@
 		"native.square.herald_feng_ce",
 		"native.square.herald_uncle",
 		"native.square.herald_ministry",
-		"native.lakeside.stragglers"
+		"native.lakeside.stragglers",
+		"native.sroad3.fake_head",
+		"native.sroad3.fake_disciples",
+		"native.duchang.pang_yi",
+		"native.crossroad.liu_anlu"
 	],
-	"world_npcs": 794,
+	"world_npcs": 799,
 	"resident_maps": 167,
-	"new_game_items": 1187,
+	"new_game_items": 1198,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -859,7 +863,7 @@
 	},
 	"map_npcs": {
 		"snow.inn": 5,
-		"snow.outdoor": 21,
+		"snow.outdoor": 25,
 		"snow.inn_upstairs": 6,
 		"snow.cellar": 0,
 		"snow.bank_house": 1,
@@ -891,7 +895,7 @@
 		"cloud.bookstore_house": 1,
 		"cloud.butchery_house": 7,
 		"cloud.drugstore_house": 1,
-		"cloud.duchang_house": 1,
+		"cloud.duchang_house": 2,
 		"cloud.yard_house": 10,
 		"cloud.jiyuan_house": 1,
 		"cloud.rich_house": 8,
@@ -1031,8 +1035,8 @@
 	"technical_items": 58,
 	"snow_route": {
 		"inn_npcs": 5,
-		"outdoor_npcs": 21,
-		"items": 28,
+		"outdoor_npcs": 25,
+		"items": 37,
 		"draws": 108
 	}
 }

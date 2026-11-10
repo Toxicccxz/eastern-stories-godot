@@ -205,6 +205,7 @@ static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> 
 	var confirms: Dictionary[String, String] = {}
 	var confirm_marks: Dictionary[String, Array] = {}
 	var confirm_lacks: Dictionary[String, Array] = {}
+	var listed_marks: Dictionary[String, Array] = {}
 	var topics: ContentRecordReader = reader.child("inquiry")
 	if topics != null:
 		for topic: String in topics.keys():
@@ -235,6 +236,8 @@ static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> 
 					confirm_lacks[topic] = answer.text_list("confirm_lacks")
 				elif answer.has("confirm_marks") or answer.has("confirm_lacks"):
 					answer.fail("confirm_marks", "conditions on a question the topic does not ask")
+				if answer.has("listed_marks"):
+					listed_marks[topic] = answer.text_list("listed_marks")
 				answer.finish()
 				continue
 			var cases: Array[NpcTalk.KeeAnswer] = []
@@ -298,7 +301,7 @@ static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> 
 		said.finish()
 		if line != null:
 			relay_ask.append(line)
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_confirms(confirms, confirm_marks, confirm_lacks).with_relay_ask(relay_ask).with_chat_chance_roll(chance_roll).with_combat_chat_chance_roll(combat_roll)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_confirms(confirms, confirm_marks, confirm_lacks).with_listed_marks(listed_marks).with_relay_ask(relay_ask).with_chat_chance_roll(chance_roll).with_combat_chat_chance_roll(combat_roll)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; drink only outside a
@@ -374,6 +377,7 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	definition.with_once(reader.boolean("once", false))
 	definition.with_pacing(StringName(reader.text("pacing")))
 	definition.with_cleared_mark(reader.text("cleared_mark"))
+	definition.with_same_person(StringName(reader.text("same_person")))
 	definition.with_presence(_presence(reader, "present"), _presence(reader, "until"))
 	if definition.staged and (reader.boolean("summoned", false) or reader.has("draw")):
 		reader.fail("present", "a spawn on the story's stage is neither summoned nor drawn")

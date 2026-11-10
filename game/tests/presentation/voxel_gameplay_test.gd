@@ -197,9 +197,9 @@ func run_all(tree: SceneTree) -> Dictionary:
 		for actor: Node3D in street_view.actors.values():
 			var model := actor.get_child(0) as Node3D
 			var centre: Vector3 = model.to_global(Vector3.UP*(1.0 if model is Person else 0.5))
-			actual_person = actual_person or (actor.visible and actor.position.distance_squared_to(VoxelMapGeometry.point(outdoor.player_body.global_position))<=196 and centre.distance_to(Vector3(subject.x,subject.y,subject.z))<0.01)
+			actual_person = actual_person or (actor.visible and centre.distance_to(Vector3(subject.x,subject.y,subject.z))<0.01)
 		people_only = people_only and actual_person
-	_check(people_only,"local transparency follows only the player and nearby visible actors, never an empty doorway")
+	_check(people_only,"local transparency follows only the player and visible actors on screen, never an empty doorway")
 	var foliage: VoxelFoliage = street_view.geometry.foliage
 	_check(foliage.roots.size()>100 and foliage.flowers.size()>50,"real outdoor grass and flower clusters are instanced")
 	# Crossing foliage leaves a short contact trace, then it recovers without a save/state edit.

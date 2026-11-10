@@ -7,9 +7,9 @@ void vertex() {
 }
 
 void fragment() {
-	// The entire unaffected surface stays in the opaque pipeline. In particular,
-	// overlapping roof tiles / window trim keep correct depth and normal shadows.
-	if (local_reveal(world_vertex, world_normal(INV_VIEW_MATRIX, NORMAL)) > 0.001) {
+	// One opaque pass: around a subject an occluder leaves out a screen-door pattern of dots
+	// and keeps the rest fully lit, so overlapping tiles keep correct depth and normal shading.
+	if (dithered_out(local_reveal(world_vertex, world_normal(INV_VIEW_MATRIX, NORMAL)), FRAGCOORD.xy, VIEWPORT_SIZE)) {
 		discard;
 	}
 	ALBEDO = tint.rgb * (vertex_tint ? COLOR.rgb : vec3(1.0));

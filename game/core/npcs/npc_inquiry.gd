@@ -37,6 +37,8 @@ class Asker:
 	var combat_exp: int = 0
 	## The ids of what the asker carries (NpcInquiryRule.asker_carries; ScriptedAct.Facts.carried).
 	var carried: Array[String] = []
+	## The asker's family (NpcInquiryRule.asker_family); "" for none. Set by who makes the asker.
+	var family_id: StringName = &""
 
 	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_kee_percent: int = 100, p_marks: Dictionary[String, int] = {}, p_combat_exp: int = 0, p_carried: Array[String] = []) -> void:
 		gender = p_gender
@@ -93,12 +95,17 @@ class Answer:
 
 
 ## What the player can ask `definition` about, in ES2's listing order; a topic the NPC
-## deleted (`forgotten`) is gone, though 这里, 名字 and 传闻 are always there to ask.
-static func topics(definition: NpcDefinition, forgotten: Array[String] = []) -> Array[String]:
+## deleted (`forgotten`) is gone, though 这里, 名字 and 传闻 are always there to ask. `marks` are
+## the asker's saved marks: a topic with `listed_marks` (NpcTalk.listed_for()) is left out for one
+## who does not hold them; null lists every topic (what the NPC can be asked at all).
+static func topics(definition: NpcDefinition, forgotten: Array[String] = [], marks: Variant = null) -> Array[String]:
 	var result: Array[String] = DEFAULT_TOPICS.duplicate()
 	if definition == null:
 		return result
-	for topic: String in definition.talk().inquiry_topics():
+	var talk: NpcTalk = definition.talk()
+	for topic: String in talk.inquiry_topics():
+		if marks is Dictionary and not talk.listed_for(topic, marks):
+			continue
 		if not result.has(topic) and not ENGLISH_TOPICS.values().has(topic) and not forgotten.has(topic):
 			result.append(topic)
 	return result
@@ -184,7 +191,7 @@ static func answer(
 	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
 	# followed its 0 does not follow; a function that does nothing (command("?")) still
 	# leaves ask.c to its own lines.
-	var rule: NpcInquiryRule = null if deleted else NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender, asker.combat_exp, npc_flags, asker.carried)
+	var rule: NpcInquiryRule = null if deleted else NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender, asker.combat_exp, npc_flags, asker.carried, asker.family_id)
 	if rule != null:
 		_with(result, lines)
 		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)

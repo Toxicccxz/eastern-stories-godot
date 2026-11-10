@@ -80,6 +80,7 @@
 		"es2:daemon/class/scholar/windspring": { "kind": "sword", "blade": "2f7ab8:gloss", "ridge": "1f5a8a:gloss", "guard": "d8bf7a:gloss", "grip": "e8d06a", "wrap": "c9a83a", "inlay": "8fd0f0:gloss", "tassel": "e8d06a" },
 		"native:snow/letter_to_chen": { "kind": "letter", "paper": "e9dcb8", "seal": "a3301f:gloss" },
 		"native:oldpine/cloth_strip": { "kind": "cloth_strip", "cloth": "a8926a", "mark": "3a2a1e" },
+		"native:snow/fonxan_tally": { "kind": "token", "color": "b89a5a", "border": "7a5a30", "emblem": "5a4028", "cord": "3a4a6a", "tassel": "c9b27a" },
 		"native:waterfog/guild_token": { "kind": "token", "color": "6a5530:gloss", "border": "d8b04a:gloss", "emblem": "e8b84a:gloss", "cord": "8a2a20", "tassel": "8a2a20" },
 		"native:snow/old_letter": { "kind": "letter", "paper": "d8c79a", "fold": "b09a6c", "seal": "7a5a3a", "ink": "3a2c20" },
 		"native:snow/letter_to_pan": { "kind": "letter", "paper": "e6d6ae", "fold": "c4b088", "seal": "9a2a1a:gloss", "ink": "2e2119" },

@@ -56,14 +56,28 @@ func _init(controller: WorldMapController) -> void:
 func spawn_actors() -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var loadout_content: Array[NpcLoadoutItemDefinition] = catalog.loadout_item_definitions()
+	# Where the NPC stream stood as each spawn was made: a `same_person` spawn is made from there again.
+	# (Only the game's own stream can be read back; a scripted one of a test just draws on.)
+	var rolled_from: Dictionary[StringName, RandomStreamSnapshot] = {}
+	var stream: GodotNpcInitializationRandomSource = _npc_random as GodotNpcInitializationRandomSource
 	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
+		var rolls: NpcInitializationRandomSource = _npc_random
+		if stream != null and not spawn.same_person.is_empty():
+			# DECISIONS「同一个人的另一处」: the first one's rolls over again, none taken from the stream.
+			var replay := GodotNpcInitializationRandomSource.new()
+			if not rolled_from.has(spawn.same_person) or not replay.restore_random_state(rolled_from[spawn.same_person]):
+				push_error("spawn %s: %s was not made before it on this map" % [spawn.spawn_id, spawn.same_person])
+				return false
+			rolls = replay
+		elif stream != null:
+			rolled_from[spawn.spawn_id] = stream.capture_random_state()
 		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
 			spawn,
 			catalog.npc(spawn.npc_definition_id),
 			_map.location_for_zone(spawn.zone_id),
 			_inventory,
 			_stacks,
-			_npc_random,
+			rolls,
 			loadout_content,
 			_item_id_allocator.scope,
 		)

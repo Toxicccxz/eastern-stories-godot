@@ -1,0 +1,47 @@
+{
+	"conditions": [
+		{
+			"id": "finale.helpers",
+			"sources": [
+				"native: 终章 A (计划 build/plans/终章_计划.md §4 表二; DECISIONS「终章 A」): 帮手三拨以上才「能灭它」——七拨里来了几拨. 势力线第一批 (计划 build/plans/势力线第一批_计划.md §2 第 1 条; DECISIONS「具名条件」) gives the list this one home: the 点将 checklist, the 等到天黑 act and the 封坛's 钉下去 all name it."
+			],
+			"when": {
+				"at_least": {
+					"n": 3,
+					"of": [
+						{
+							"mark": "霍铮回了寨"
+						},
+						{
+							"mark": "关北的骑兵欠你一阵"
+						},
+						{
+							"mark": "大秦人留下了"
+						},
+						{
+							"not": {
+								"mark": "冰龙倒了"
+							}
+						},
+						{
+							"mark": "冯策随你下湖"
+						},
+						{
+							"mark": "宝衣给了安妮儿"
+						},
+						{
+							"any": [
+								{
+									"mark": "替南危水保密"
+								},
+								{
+									"mark": "卫沧澜出了尚书府"
+								}
+							]
+						}
+					]
+				}
+			}
+		}
+	]
+}

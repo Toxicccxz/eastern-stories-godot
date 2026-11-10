@@ -155,6 +155,21 @@ var cleared_mark: String:
 		return _cleared_mark
 
 
+## Native (势力线 封山 A; DECISIONS「同一个人的另一处」): `same_person` — this spawn is another place
+## the person of that spawn (on the same map, made before it) stands at another time of the story
+## (刘安禄 at the 山坳 once he has left the 武馆's gate). It is made with the rolls that one was made
+## with: the same attributes, and no draw taken from the world's NPC stream.
+var _same_person: StringName = &""
+var same_person: StringName:
+	get:
+		return _same_person
+
+
+func with_same_person(spawn_id: StringName) -> NpcSpawnDefinition:
+	_same_person = spawn_id
+	return self
+
+
 func with_cleared_mark(mark: String) -> NpcSpawnDefinition:
 	_cleared_mark = mark
 	return self

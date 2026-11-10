@@ -29,8 +29,6 @@ const WINDOW_SIZE: Vector2 = Vector2(920, 600)
 const MAP_MARGIN: float = 24.0
 ## 系统's column of buttons.
 const SYSTEM_WIDTH: float = 400.0
-# TRANSLATORS: the 声望 tab until reputation is built (ROADMAP "After the grey box": quest and reputation systems).
-const STANDING_PLACEHOLDER: String = "江湖上对你的看法，日后会记在这里。"
 # TRANSLATORS: the 系统 tab during a fight: the other tabs wait until it is over.
 const FIGHT_HINT: String = "战斗中只能使用系统功能。"
 
@@ -62,7 +60,7 @@ var _reveal_frames: int = 0
 var _reveal_tree: SceneTree
 
 
-func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, map_page: Control, codex_page: Control) -> void:
+func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, map_page: Control, standing_page: Control, codex_page: Control) -> void:
 	_ui = ui
 	name = "GameMenu"
 	layer = LAYER
@@ -145,9 +143,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	fight_hint = _placeholder(FIGHT_HINT)
 	fight_hint.name = "FightHint"
 	system_mount.add_child(fight_hint)
-	var standing := _placeholder(STANDING_PLACEHOLDER)
-	standing.name = "StandingPage"
-	for page: Control in [character_page, arts_page, inventory_page, journal_page, map_page, standing, codex_page, system_mount]:
+	for page: Control in [character_page, arts_page, inventory_page, journal_page, map_page, standing_page, codex_page, system_mount]:
 		if page.get_parent() != null:
 			page.reparent(page_rows, false)
 		else:

@@ -37,6 +37,10 @@ var _hung: Dictionary[String, int] = {}
 var _confirms: Dictionary[String, String] = {}
 var _confirm_marks: Dictionary[String, Array] = {}
 var _confirm_lacks: Dictionary[String, Array] = {}
+## Native (势力线 封山 A; DECISIONS「话题按印记列出」): `listed_marks` — a topic of rules is on the list
+## of what can be asked only for one who holds all these marks (李火狮's two answers on the 门房
+## once he has put the question: listed to everyone they would give 刘安禄 away).
+var _listed_marks: Dictionary[String, Array] = {}
 ## relay_say(): what the NPC answers when the player says a line beside it.
 var _relay_say: Dictionary[String, Array] = {}
 var _relay_ask: Array[NpcLine] = []
@@ -139,6 +143,21 @@ func confirm_applies(topic: String, marks: Dictionary) -> bool:
 		if marks.get(mark, 0) != 0:
 			return false
 	return true
+
+
+## Whether `topic` is on the list for a player with these saved marks (its listed_marks all held);
+## a topic with none is listed to everyone.
+func listed_for(topic: String, marks: Dictionary) -> bool:
+	for mark: String in _listed_marks.get(topic, []):
+		if marks.get(mark, 0) == 0:
+			return false
+	return true
+
+
+## Called once by the loader.
+func with_listed_marks(listed_marks: Dictionary[String, Array]) -> NpcTalk:
+	_listed_marks = listed_marks.duplicate()
+	return self
 
 
 ## Called once by the loader.
