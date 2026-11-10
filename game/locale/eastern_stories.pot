@@ -366,6 +366,9 @@ msgstr ""
 #. native.npc.herald_ministry gender
 #. native.npc.fake_disciple_head gender
 #. native.npc.fake_disciple gender
+#. native.npc.north_pupil_boy gender
+#. native.npc.shield_youth gender
+#. native.npc.liu_chunfeng_lake gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -456,6 +459,9 @@ msgstr ""
 #. native.npc.annie_altar gender
 #. native.npc.lihong_finale gender
 #. native.npc.elon_ice gender
+#. native.npc.north_pupil_girl gender
+#. native.npc.liu_huixin_north gender
+#. native.npc.liu_huixin_lake gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -1791,6 +1797,14 @@ msgstr ""
 
 #: scenes/world/cloud/cloud_outdoor.tscn
 msgid "[启事] 由此入镇收取黄金一两"
+msgstr ""
+
+#. family.fonxan_north name
+#. snow.npc.girl family.name
+#. native.npc.liu_huixin_north family.name
+#. native.npc.liu_huixin_lake title
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/families.json data/snow/npcs.json data/native/npcs.json
+msgid "封山剑派北宗"
 msgstr ""
 
 #. oldpine.outdoor.landmark.clearing_sign name
@@ -5915,6 +5929,11 @@ msgstr ""
 msgid "【任务完成】{title}"
 msgstr ""
 
+#. native (任务系统, 线断了): a quest was cut short: {title} its name, {text} why.
+#: core/quests/story_quest_log.gd
+msgid "【任务中止】{title}：{text}"
+msgstr ""
+
 #. a 拜师 condition: an attribute ({what}: 胆识, 定力, 灵性, 实战经验) at least {required}; the student has {have}.
 #: core/relationships/apprentice_conditions.gd
 msgid "{what} ≥ {required}（你 {have}）"
@@ -6173,6 +6192,7 @@ msgstr ""
 
 #. common.npc.fighter.champion family.title
 #. common.npc.fighter.master family.title
+#. faction.fonxan/split/north reward.branch.title
 #. snow.npc.girl family.title
 #. snow.npc.mercenary family.title
 #. temple.npc.trainer family.title
@@ -6192,7 +6212,8 @@ msgstr ""
 #. latemoon.npc.upstar.shinfun family.title
 #. latemoon.npc.upstar.huei family.title
 #. city.npc.chen family.title
-#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json
+#. native.npc.liu_huixin_north family.title
+#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/story/faction_fonxan.json data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "弟子"
 msgstr ""
 
@@ -6588,8 +6609,29 @@ msgstr ""
 msgid "你请先用 enable 指令选择你要使用的外功。"
 msgstr ""
 
-#: core/specials/perform_service.gd
+#: core/specials/perform_service.gd core/specials/powerfocus_perform.gd
 msgid "你所使用的外功中没有这种功能。"
+msgstr ""
+
+#: core/specials/powerfocus_perform.gd
+msgid "「点」字诀"
+msgstr ""
+
+#: core/specials/powerfocus_perform.gd
+msgid "「点」字诀只能对战斗中的对手使用。"
+msgstr ""
+
+#: core/specials/powerfocus_perform.gd
+msgid "$N使出封山剑法「点」字诀，可是内力不继，剑尖一颤，手中的剑险些脱手飞出！"
+msgstr ""
+
+#: core/specials/powerfocus_perform.gd
+msgid "$N使出封山剑法「点」字诀，劲力尽数聚在剑尖，一剑直刺$n！"
+msgstr ""
+
+#. hover of 使出「点」字诀: {force} the internal power one thrust takes.
+#: core/specials/powerfocus_perform.gd
+msgid "用 {force} 点内力把劲力聚在剑尖，这一剑伤得更重；内力不够，剑会险些脱手，白白耽误几手"
 msgstr ""
 
 #: core/specials/saveme_spell.gd
@@ -10033,6 +10075,11 @@ msgstr ""
 msgid "【晋阶】你现在是{title}。"
 msgstr ""
 
+#. native (势力线, 分宗): a quest moved the player to a branch of their family: {title} the whole title now (封山剑派北宗第十四代弟子).
+#: runtime/world/world_session_controller.gd
+msgid "【分宗】你现在是{title}。"
+msgstr ""
+
 #: ui/bank/bank_exchange_panel.gd
 msgid "支付货币"
 msgstr ""
@@ -11119,6 +11166,9 @@ msgstr ""
 
 #. native.npc.luca inquiry topic
 #. native.npc.yu_zijian_lake inquiry topic
+#. native.npc.north_pupil_boy inquiry topic
+#. native.npc.north_pupil_girl inquiry topic
+#. native.npc.shield_youth inquiry topic
 #: ui/world/player_inventory_panel.gd data/guanbei/npcs.json data/native/npcs.json
 msgid "剑"
 msgstr ""
@@ -11488,6 +11538,11 @@ msgstr ""
 #. a quest on the 任务 page once done: {title} its name, {region} where it happened.
 #: ui/world/quest_page.gd
 msgid "{title} · {region} · 已完成"
+msgstr ""
+
+#. a quest on the 任务 page cut short before its end (the player left the family whose line it was): {title} its name, {region} where it happened.
+#: ui/world/quest_page.gd
+msgid "{title} · {region} · 已中止"
 msgstr ""
 
 #. a quest checklist row that counts: {label} what is counted, {have} how many there are, {want} how many are wanted.
@@ -15418,12 +15473,6 @@ msgstr ""
 msgid "这位$RESPECT身上没什么新伤，用不着看。"
 msgstr ""
 
-#. family.fonxan_north name
-#. snow.npc.girl family.name
-#: data/common/families.json data/snow/npcs.json
-msgid "封山剑派北宗"
-msgstr ""
-
 #. family.zhenyuan name
 #. zhenyuan name
 #. cloud.npc.b_header family.name
@@ -15506,12 +15555,15 @@ msgstr ""
 #. common.npc.swordsman.master name
 #. common.npc.fighter.executioner inquiry topic
 #. snow.npc.mercenary inquiry topic
-#: data/common/npcs.json data/snow/npcs.json
+#. native.npc.liu_huixin_north inquiry topic
+#. native.npc.liu_chunfeng_lake name
+#: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
 msgid "柳淳风"
 msgstr ""
 
 #. common.npc.swordsman.master nickname
-#: data/common/npcs.json
+#. native.npc.liu_chunfeng_lake nickname
+#: data/common/npcs.json data/native/npcs.json
 msgid "风雨双侠"
 msgstr ""
 
@@ -15531,6 +15583,148 @@ msgstr ""
 #. common.npc.scholar.master family.title
 #: data/common/npcs.json
 msgid "掌门人"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#. snow.npc.girl inquiry topic
+#: data/common/npcs.json data/snow/npcs.json
+msgid "竹书"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.say
+#: data/common/npcs.json
+msgid "书在匣里。年轻时的糊涂话，留着给自己看。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.say
+#: data/common/npcs.json
+msgid "书在绘心那里。……她读得比我当年明白。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.say
+#: data/common/npcs.json
+msgid "竹林道尽头那块大黄石，照我教你的法子推。书取出来，带回来。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.lines.emote
+#: data/common/npcs.json
+msgid "看着窗外的竹影，半晌才开口。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.lines.say
+#: data/common/npcs.json
+msgid "二十岁那年，我在天驼关的竹林里住过一冬，悟出一点架剑的道理，写成一卷，起名《悟疾风劲竹书》，留在竹林尽头的石室里。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.lines.say
+#: data/common/npcs.json
+msgid "石室的口子有一块大黄石堵着。硬推，没有几十年的内力推不动——我当年也推不动。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.lines.say
+#: data/common/npcs.json
+msgid "那块石头不是那样推的。贴着它左下角那道青苔印，肩抵住，脚蹬石根；等风过竹林、石头自己松那一下，再发力。竹子是这么弯的，石头也是这么开的。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.lines.say
+#: data/common/npcs.json
+msgid "书只有那一本。你替我取出来。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.竹书.rules.say
+#: data/common/npcs.json
+msgid "一卷旧书罢了。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#: data/common/npcs.json
+msgid "本宗"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.confirm
+#: data/common/npcs.json
+msgid ""
+"跟柳淳风守本宗：封山的剑不外传。\n"
+"他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来。\n"
+"这是封山这条线的大分裂，选了不能改。要跟师父吗？"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.say
+#: data/common/npcs.json
+msgid "本宗的规矩，从今往后是你我两个人守。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.say
+#: data/common/npcs.json
+msgid "你选了。武馆的门不拦你——只是剑，我不能再教了。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.marks_asker
+#: data/common/npcs.json
+msgid "跟了本宗"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.marks_asker
+#. snow.npc.girl inquiry.北宗.rules.marks_asker
+#: data/common/npcs.json data/snow/npcs.json
+msgid "学了点字诀"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.lines.emote
+#: data/common/npcs.json
+msgid "点了点头，像是早知道，又像是松了一口气。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.lines.say
+#: data/common/npcs.json
+msgid "好。那从今日起，「点」字诀归你。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.lines.say
+#: data/common/npcs.json
+msgid "平时使剑，内力聚在手臂上；「点」字诀把劲力聚在剑尖，以意使剑。刺出去的那一下，比你现在重得多——内力不够的时候别使，剑会脱手。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.lines.emote
+#: data/common/npcs.json
+msgid "拔出玄苏剑，剑尖在你面前的青砖上轻轻一点。砖没有裂，砖下的土陷下去一个指头深的坑。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.lines.say
+#: data/common/npcs.json
+msgid "封山这一辈，掌门的剑往后传给你。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.lines.say
+#: data/common/npcs.json
+msgid "绘心……她要走，我不拦。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.say
+#: data/common/npcs.json
+msgid "封山剑派只有一宗。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#. snow.npc.girl inquiry topic
+#. native.npc.liu_huixin_north inquiry topic
+#: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
+msgid "点字诀"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.点字诀.rules.say
+#: data/common/npcs.json
+msgid "劲在剑尖，意在剑先。内力不够的时候别使。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.点字诀.rules.say
+#: data/common/npcs.json
+msgid "绘心自己悟的那一路，劲发得早了半分。你替我告诉她——不，不必说是我说的。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.点字诀.rules.say
+#: data/common/npcs.json
+msgid "「点」字诀是掌门一脉单传的。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
@@ -15809,6 +16003,54 @@ msgstr ""
 msgid "水烟阁在青石官道西头的山上，武者同盟的总坛。"
 msgstr ""
 
+#. common.npc.swordsman.master recognize_apprentice.say
+#: data/common/npcs.json
+msgid "规矩是规矩。北宗的人，我不能再教了。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.say
+#: data/common/npcs.json
+msgid "这卷书，你不是已经给了绘心么。……拿回去还她。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.ask
+#: data/common/npcs.json
+msgid ""
+"把《悟疾风劲竹书》交给柳淳风。\n"
+"他会把它收进匣里，不再示人。书只有这一本，给出去就读不到了；柳绘心也读不到。\n"
+"要交给他吗？"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.emote
+#: data/common/npcs.json
+msgid "接过书，没有翻开，用袖口把封皮上的灰擦了。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
+msgid "直竹贵地生……二十岁写的。那时候以为自己什么都懂。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
+msgid "年轻时的糊涂话，收起来罢。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.emote
+#: data/common/npcs.json
+msgid "把书收进了案头的匣里。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
+msgid "绘心这些日子常往内院去，一去就是半天。你改日替我看一眼。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.say
+#: data/common/npcs.json
+msgid "这卷书……你从竹林里取出来的？先留着读。武馆的事办完了，再同我说。"
+msgstr ""
+
 #. common.npc.swordsman.master accept_object.lines.emote
 #: data/common/npcs.json
 msgid "把腰牌收进袖里。"
@@ -15827,6 +16069,16 @@ msgstr ""
 #. common.npc.swordsman.master accept_object.say
 #: data/common/npcs.json
 msgid "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "你跟了她。……也好。她一个人，我不放心。"
+msgstr ""
+
+#. common.npc.swordsman.master calls.steps.say
+#: data/common/npcs.json
+msgid "武馆的门不拦你。剑，我不能再教了——规矩是规矩。"
 msgstr ""
 
 #. common.npc.swordsman.master calls.steps.say
@@ -15859,7 +16111,12 @@ msgstr ""
 msgid "刘兄弟的来历，五年前我就知道。你替他担了这句话——往后，也替武馆担着。"
 msgstr ""
 
-#. common.npc.swordsman.master apprentice.refuse_say
+#. common.npc.swordsman.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "你跟了绘心，就是北宗的人。本宗的门，我不能再为你开。"
+msgstr ""
+
+#. common.npc.swordsman.master apprentice.requires.refuse_say
 #: data/common/npcs.json
 msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
 msgstr ""
@@ -16231,6 +16488,8 @@ msgstr ""
 #. native.npc.yulan_tianwu_lake inquiry topic
 #. native.npc.xiao_pichen_lake inquiry topic
 #. native.npc.elon_lake inquiry topic
+#. native.npc.liu_chunfeng_lake inquiry topic
+#. native.npc.liu_huixin_lake inquiry topic
 #: data/common/npcs.json data/latemoon/npcs.json data/native/npcs.json
 msgid "湖底"
 msgstr ""
@@ -17461,7 +17720,11 @@ msgstr ""
 
 #. quests.target
 #. snow.npc.girl name
-#: data/common/quests.json data/snow/npcs.json
+#. native.npc.north_pupil_boy inquiry topic
+#. native.npc.north_pupil_girl inquiry topic
+#. native.npc.liu_huixin_north name
+#. native.npc.liu_huixin_lake name
+#: data/common/quests.json data/snow/npcs.json data/native/npcs.json
 msgid "柳绘心"
 msgstr ""
 
@@ -20748,6 +21011,16 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
+msgid "淳风武馆照旧每天卯时开门，「剑不外传」四个字还挂在正厅。绮云镇口多了一块「北宗」的木牌，柳淳风从没去看过，也从没叫人摘。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "淳风武馆的内院开了一道侧门，镇上的孩子从那里进出。柳淳风书房朝着内院的那扇窗，一冬天都没有关。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
 msgid "开春，你回了一趟山里，在老岑的坟前把信末那一行念给他听：风停处，替我再看一眼。——看过了。"
 msgstr ""
 
@@ -21023,6 +21296,11 @@ msgstr ""
 
 #. fonxan lines.text
 #: data/story/factions.json
+msgid "你是封山剑派北宗的人，和柳绘心同辈。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
 msgid "柳淳风认得老岑的信：淳风武馆的门，你随时进。"
 msgstr ""
 
@@ -21054,6 +21332,26 @@ msgstr ""
 #. fonxan lines.text
 #: data/story/factions.json
 msgid "你和血手刘三动过刀，放了他一条路。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "《悟疾风劲竹书》在柳淳风的匣里。是你从竹林里取回来给他的。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "柳绘心读到了父亲年轻时写的书。是你给她的。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "柳淳风认你是掌门传人，「点」字诀是他亲传的。北宗的牌子挂在绮云镇口。"
+msgstr ""
+
+#. fonxan lines.text
+#: data/story/factions.json
+msgid "你跟柳绘心立了北宗。柳淳风不再教你，武馆的门还开着。"
 msgstr ""
 
 #. zhenyuan lines.text
@@ -21231,6 +21529,11 @@ msgstr ""
 msgid "拜了柳淳风，淳风武馆的事就是你的事。"
 msgstr ""
 
+#. faction.fonxan lapses.text
+#: data/story/faction_fonxan.json
+msgid "你已经不是封山的人了。淳风武馆的事，到此为止。"
+msgstr ""
+
 #. faction.fonxan/hear objective
 #: data/story/faction_fonxan.json
 msgid "问柳淳风「武馆的事」。"
@@ -21308,14 +21611,89 @@ msgstr ""
 msgid "替淳风武馆的门房瞒下了来历"
 msgstr ""
 
-#. faction.fonxan/book objective
+#. faction.fonxan/bamboo_hear objective
 #: data/story/faction_fonxan.json
-msgid "柳淳风提过，他年轻时在天驼关的竹林里留下过一卷书。"
+msgid "问柳淳风「竹书」。"
 msgstr ""
 
-#. faction.fonxan/book text
+#. faction.fonxan/bamboo_hear text
 #: data/story/faction_fonxan.json
-msgid "那卷书有了去处。"
+msgid "柳淳风二十岁那年在天驼关的竹林里住过一冬，写了一卷《悟疾风劲竹书》，留在竹林尽头、大黄石后面的石室里。"
+msgstr ""
+
+#. faction.fonxan/bamboo objective
+#: data/story/faction_fonxan.json
+msgid "去天驼关的竹林道，照柳淳风教的法子推开尽头的大黄石，从石室的书柜里取出那卷书。"
+msgstr ""
+
+#. faction.fonxan/bamboo text
+#: data/story/faction_fonxan.json
+msgid "《悟疾风劲竹书》到手了。薄薄一卷，末尾署着柳淳风的名字。"
+msgstr ""
+
+#. faction.fonxan/book objective
+#: data/story/faction_fonxan.json
+msgid "书只有一本：交给柳淳风，他会收进匣里；交给柳绘心，她头一回读到父亲年轻时写的字。给出去就读不到了——想读，先读。"
+msgstr ""
+
+#. faction.fonxan/book/father text
+#: data/story/faction_fonxan.json
+msgid "你把书交给了柳淳风。他没有翻开，收进了案头的匣里：年轻时的糊涂话。"
+msgstr ""
+
+#. faction.fonxan/book/father reward.deed
+#: data/story/faction_fonxan.json
+msgid "把《悟疾风劲竹书》带回来交给了柳淳风"
+msgstr ""
+
+#. faction.fonxan/book/daughter text
+#: data/story/faction_fonxan.json
+msgid "你把书交给了柳绘心。她头一回读到父亲二十岁时写的字：直竹贵地生。"
+msgstr ""
+
+#. faction.fonxan/book/daughter reward.deed
+#: data/story/faction_fonxan.json
+msgid "把《悟疾风劲竹书》带回来交给了柳绘心"
+msgstr ""
+
+#. faction.fonxan/yard objective
+#: data/story/faction_fonxan.json
+msgid "柳绘心这些日子常往武馆的内院去。过些时候再回淳风武馆，到内院看看。"
+msgstr ""
+
+#. faction.fonxan/yard text
+#: data/story/faction_fonxan.json
+msgid "内院里，柳绘心在教外人学封山剑——镇上交不起拜师钱的孩子。柳淳风撞见了。"
+msgstr ""
+
+#. faction.fonxan/split objective
+#: data/story/faction_fonxan.json
+msgid "封山要分南北了。跟柳淳风守本宗（问他「本宗」）：剑不外传，他亲传「点」字诀，你是掌门传人，柳绘心离开武馆。跟柳绘心立北宗（问她「北宗」）：剑往外传，她教你「点」字诀，你转入北宗，柳淳风不再教你。"
+msgstr ""
+
+#. faction.fonxan/split/orthodox text
+#: data/story/faction_fonxan.json
+msgid "你跟了柳淳风：封山只有一宗，剑不外传。他把「点」字诀传给了你。柳绘心带着「北宗」两个字去了绮云镇。"
+msgstr ""
+
+#. faction.fonxan/split/orthodox reward.deed
+#: data/story/faction_fonxan.json
+msgid "在封山的南北之争里守了本宗"
+msgstr ""
+
+#. faction.fonxan/split/orthodox reward.rank.title
+#: data/story/faction_fonxan.json
+msgid "掌门传人"
+msgstr ""
+
+#. faction.fonxan/split/north text
+#: data/story/faction_fonxan.json
+msgid "你跟了柳绘心：北宗的剑往外传。她把自己悟的「点」字诀教给了你。柳淳风不再教你。"
+msgstr ""
+
+#. faction.fonxan/split/north reward.deed
+#: data/story/faction_fonxan.json
+msgid "和柳绘心立了封山剑派北宗"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -22865,6 +23243,143 @@ msgid ""
 "柳绘心不住地望著窗外：你还是快走吧，我没空陪你练功夫！\n"
 msgstr ""
 
+#. snow.npc.girl inquiry.竹书.rules.say
+#: data/snow/npcs.json
+msgid "我每天夜里读一页。爹爹年轻的时候，字写得比现在放得开。"
+msgstr ""
+
+#. snow.npc.girl inquiry.竹书.rules.say
+#: data/snow/npcs.json
+msgid "爹爹把它锁起来了，是不是？……他什么都锁起来。"
+msgstr ""
+
+#. snow.npc.girl inquiry.竹书.rules.say
+#: data/snow/npcs.json
+msgid "爹爹在天驼关写过一卷书，我只听李教头提过一句。他从来不让我看。"
+msgstr ""
+
+#. snow.npc.girl inquiry topic
+#. native.npc.liu_huixin_north inquiry topic
+#: data/snow/npcs.json data/native/npcs.json
+msgid "北宗"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.confirm
+#: data/snow/npcs.json
+msgid ""
+"跟柳绘心立北宗：封山的剑往外传。\n"
+"你转入封山剑派北宗，和她同辈；她把自己悟出来的「点」字诀教给你。柳淳风不再教你武功，「掌门传人」的名分没有了。这不算叛师：评价不清零，也不记背叛。封山在虹台上的那一票，会被颜违拿「给北宗一个座」来换。\n"
+"这是封山这条线的大分裂，选了不能改。要跟她吗？"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.say
+#: data/snow/npcs.json
+msgid "北宗现在有两个人了。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.say
+#: data/snow/npcs.json
+msgid "你选了爹爹那一边。我不怪你。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.marks_asker
+#: data/snow/npcs.json
+msgid "跟了北宗"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.lines.emote
+#: data/snow/npcs.json
+msgid "的眼圈红了一下，很快又忍了回去。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.lines.say
+#: data/snow/npcs.json
+msgid "那北宗就有两个人了。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.lines.say
+#: data/snow/npcs.json
+msgid "「点」字诀爹爹没教过我，是我自己看他练剑悟的：劲不在手臂上，在剑尖上。你看——"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.lines.emote
+#: data/snow/npcs.json
+msgid "的细剑平平递出，剑尖在廊柱上一点，柱子背面迸出一小块木屑。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.lines.say
+#: data/snow/npcs.json
+msgid "内力不够的时候别使，剑会脱手。我脱过好几回。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.lines.say
+#: data/snow/npcs.json
+msgid "爹爹不会再教你了。对不起。……可是阿桂他们，往后也算你的师弟师妹。"
+msgstr ""
+
+#. snow.npc.girl inquiry.北宗.rules.say
+#: data/snow/npcs.json
+msgid "北宗？绮云镇口的公告上还这么写呢。爹爹说那是旧名。"
+msgstr ""
+
+#. snow.npc.girl inquiry.点字诀.rules.say
+#: data/snow/npcs.json
+msgid "劲不在手臂上，在剑尖上。内力不够别使，剑会脱手。"
+msgstr ""
+
+#. snow.npc.girl inquiry.点字诀.rules.say
+#: data/snow/npcs.json
+msgid "爹爹练剑的时候，我在窗后头看过。"
+msgstr ""
+
+#. snow.npc.girl accept_object.say
+#: data/snow/npcs.json
+msgid "这是爹爹收起来的那一卷……你从哪里拿来的？还回去吧。"
+msgstr ""
+
+#. snow.npc.girl accept_object.ask
+#: data/snow/npcs.json
+msgid ""
+"把《悟疾风劲竹书》交给柳绘心。\n"
+"她会头一回读到父亲年轻时写的字。书只有这一本，给出去就读不到了；柳淳风不会再见到它。\n"
+"要交给她吗？"
+msgstr ""
+
+#. snow.npc.girl accept_object.lines.emote
+#: data/snow/npcs.json
+msgid "接过书，翻开第一页，手停住了。"
+msgstr ""
+
+#. snow.npc.girl accept_object.lines.say
+#: data/snow/npcs.json
+msgid "「直竹贵地生，风吹动不止」……这是爹爹的字。他从来没给我看过。"
+msgstr ""
+
+#. snow.npc.girl accept_object.lines.say
+#: data/snow/npcs.json
+msgid "「起迄中空立，随风飘不定」——原来他年轻的时候，也想过剑可以是弯的。"
+msgstr ""
+
+#. snow.npc.girl accept_object.lines.emote
+#: data/snow/npcs.json
+msgid "把书抱在怀里。"
+msgstr ""
+
+#. snow.npc.girl accept_object.lines.say
+#: data/snow/npcs.json
+msgid "你……过两日到内院来。我给你看一样东西。别告诉爹爹。"
+msgstr ""
+
+#. snow.npc.girl accept_object.say
+#: data/snow/npcs.json
+msgid "这上头是……爹爹的名字？你先去见过爹爹再说吧。"
+msgstr ""
+
+#. snow.npc.girl accept_fight.say
+#: data/snow/npcs.json
+msgid "北宗就我们两个人，打坏了谁教阿桂他们？"
+msgstr ""
+
 #. snow.npc.girl accept_fight.say
 #: data/snow/npcs.json
 msgid "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？"
@@ -24255,7 +24770,8 @@ msgid "两个寨兵领着石头出了庙门。石头回头看了你一眼，没�
 msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.emote
-#: data/goathill/npcs.json
+#. native.npc.north_pupil_boy calls.steps.emote
+#: data/goathill/npcs.json data/native/npcs.json
 msgid "转过身来，看着你。"
 msgstr ""
 
@@ -35132,6 +35648,12 @@ msgstr ""
 #. canyon.bamboo3.stone act.acts.steps.line
 #: data/canyon/world.json
 msgid ""
+"你照柳淳风教的法子，肩抵住青苔印，脚蹬石根，等风过竹林的那一下才发力——大黄石缓缓的向左边移动，而出现了一个小小的隙缝。\n"
+msgstr ""
+
+#. canyon.bamboo3.stone act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
 "你出力不太够喔！\n"
 msgstr ""
 
@@ -36032,6 +36554,18 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "稻田边没人守。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"渡口——柳淳风的玄苏剑出了鞘，淳风武馆的弟子在船边站成了一排。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"渡口——柳绘心把细剑一横。她身后那几个人握的是竹剑，没有一个往后退。\n"
 msgstr ""
 
 #. village.lakeside.wait act.acts.steps.line
@@ -43804,7 +44338,8 @@ msgstr ""
 
 #. native.npc.luca inquiry topic
 #. native.npc.andun name
-#: data/guanbei/npcs.json data/fanfang/npcs.json
+#. native.npc.shield_youth inquiry topic
+#: data/guanbei/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "安敦"
 msgstr ""
 
@@ -46431,7 +46966,8 @@ msgstr ""
 #. fanfang.npc.lama_master inquiry topic
 #. native.npc.indian_monk inquiry topic
 #. fanfang.npc.ronin_master inquiry topic
-#: data/fanfang/npcs.json
+#. native.npc.shield_youth title
+#: data/fanfang/npcs.json data/native/npcs.json
 msgid "大秦人"
 msgstr ""
 
@@ -53704,6 +54240,7 @@ msgstr ""
 
 #. native.npc.fake_disciple_head inquiry topic
 #. native.npc.fake_disciple inquiry topic
+#. native.npc.north_pupil_boy inquiry topic
 #: data/native/npcs.json
 msgid "拜师钱"
 msgstr ""
@@ -53809,6 +54346,208 @@ msgstr ""
 #. native.npc.fake_disciple inquiry.淳风武馆
 #: data/native/npcs.json
 msgid "我……我们都是武馆的弟子。问七哥去。"
+msgstr ""
+
+#. native.npc.north_pupil_boy name
+#. native.npc.liu_huixin_north inquiry topic
+#: data/native/npcs.json
+msgid "阿桂"
+msgstr ""
+
+#. native.npc.north_pupil_boy long
+#: data/native/npcs.json
+msgid ""
+"一个十二三岁的男孩，裤脚短了一截，手里的竹剑是自己削的，握柄上缠着一圈麻绳。\n"
+msgstr ""
+
+#. native.npc.north_pupil_boy inquiry.剑
+#: data/native/npcs.json
+msgid "绘心姐说，剑尖别抬，等别人先刺空。我等了三天了，小满总也不刺。"
+msgstr ""
+
+#. native.npc.north_pupil_boy inquiry.拜师钱
+#: data/native/npcs.json
+msgid "十两。我娘说，够我们家吃一年的。"
+msgstr ""
+
+#. native.npc.north_pupil_boy inquiry.柳绘心
+#: data/native/npcs.json
+msgid "绘心姐不收钱。她说爹爹不教的，她教。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.emote
+#: data/native/npcs.json
+msgid "握着阿桂的手腕，把他手里的竹剑往下压了半寸。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "剑尖别抬。等他刺空了，你这一剑才有地方去。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "绘心姐，我娘说武馆的拜师钱要十两……我们家一年也攒不下。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "我不收钱。爹爹不教的，我教。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.emote
+#: data/native/npcs.json
+msgid "把圆盾靠在墙根，学着她的样子把竹剑平平递出去。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "会首说：我们的盾，换你们的剑。等别人先刺空——这个，大秦没有。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.emote
+#: data/native/npcs.json
+msgid "站在廊下，不知已经看了多久。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "绘心。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "封山的剑不外传。雪亭这一支本来叫北宗；我接了掌门，才并回本宗，把这两个字去了——并回去的条件只有一条：剑不外传。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "去了两个字，剑就不是封山的剑了么？阿桂他爹去年死在卧龙岗的强盗手里。他要是会一招「封」，死的就不是他。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "「起迄中空立，随风飘不定」——竹子弯了才不折。爹爹，这是你二十岁自己写的。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "我二十岁也这样想过，还写成了一卷书。后来才知道：随风飘的不是竹子，是没有根的东西。"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "你是这一辈的大弟子。本宗的规矩，你守不守？"
+msgstr ""
+
+#. native.npc.north_pupil_boy calls.steps.say
+#: data/native/npcs.json
+msgid "你要是觉得我没有错，就留下来。北宗只有我一个人，我的剑也只学了个皮毛——可它是往外传的。"
+msgstr ""
+
+#. native.npc.north_pupil_girl name
+#: data/native/npcs.json
+msgid "小满"
+msgstr ""
+
+#. native.npc.north_pupil_girl long
+#: data/native/npcs.json
+msgid ""
+"一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n"
+msgstr ""
+
+#. native.npc.north_pupil_girl inquiry.剑
+#: data/native/npcs.json
+msgid "我不刺。绘心姐说了，先刺的人吃亏。"
+msgstr ""
+
+#. native.npc.north_pupil_girl inquiry.柳绘心
+#: data/native/npcs.json
+msgid "绘心姐的剑上系着一条粉穗子。等我学会了「封」，她说也给我系一条。"
+msgstr ""
+
+#. native.npc.shield_youth name
+#: data/native/npcs.json
+msgid "铁盾会少年"
+msgstr ""
+
+#. native.npc.shield_youth long
+#: data/native/npcs.json
+msgid ""
+"一个十六七岁的异族少年，高鼻深目，头发卷得像羊毛。左臂上套着一面小圆盾，右手握着一柄竹剑——握法还是握短剑的握法。\n"
+msgstr ""
+
+#. native.npc.shield_youth inquiry.安敦
+#: data/native/npcs.json
+msgid "会首说，欠了人情要还，学了本事也要还。我们的盾，换你们的剑。"
+msgstr ""
+
+#. native.npc.shield_youth inquiry.剑
+#: data/native/npcs.json
+msgid "我们的剑短，只往前。她的剑会等。"
+msgstr ""
+
+#. native.npc.liu_huixin_north long
+#: data/native/npcs.json
+msgid ""
+"柳绘心在镇口的公告旁支了一张小桌，身后立着一根新削的旗杆：「封山剑派北宗」。字是她自己写的。\n"
+msgstr ""
+
+#. native.npc.liu_huixin_north inquiry.北宗
+#: data/native/npcs.json
+msgid "镇口的公告上写着「封山剑派北宗所在的雪亭镇」。雪亭不要这两个字了，我就把它带到还写着它的地方来。"
+msgstr ""
+
+#. native.npc.liu_huixin_north inquiry.柳淳风
+#: data/native/npcs.json
+msgid "爹爹没有拦我。他站在武馆门里，一直看到我过了卧龙岗。"
+msgstr ""
+
+#. native.npc.liu_huixin_north inquiry.点字诀
+#: data/native/npcs.json
+msgid "你那一诀是爹爹亲传的，比我自己悟的准。"
+msgstr ""
+
+#. native.npc.liu_huixin_north inquiry.阿桂
+#: data/native/npcs.json
+msgid "他们隔几天走卧龙岗过来。强盗现在不大敢拦了——他们手里有竹剑。"
+msgstr ""
+
+#. native.npc.liu_huixin_north calls.steps.say
+#: data/native/npcs.json
+msgid "……是你。"
+msgstr ""
+
+#. native.npc.liu_huixin_north calls.steps.say
+#: data/native/npcs.json
+msgid "牌子是我自己写的。字不好，爹爹看见要笑的。"
+msgstr ""
+
+#. native.npc.liu_chunfeng_lake title
+#: data/native/npcs.json
+msgid "封山剑派掌门人"
+msgstr ""
+
+#. native.npc.liu_chunfeng_lake long
+#: data/native/npcs.json
+msgid ""
+"柳淳风站在渡口的船头，玄苏剑还在鞘里。他身后，淳风武馆的弟子在岸边站成了一排，没有一个人说话。\n"
+msgstr ""
+
+#. native.npc.liu_chunfeng_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "封山的剑不外传。可也没有哪一条规矩说，外面的事封山不管。"
+msgstr ""
+
+#. native.npc.liu_huixin_lake long
+#: data/native/npcs.json
+msgid ""
+"柳绘心站在渡口的船边，细剑横在臂弯里。阿桂他们没有来——她身后是几个镇上的后生，握的是竹剑，手都在抖，脚却没有动。\n"
+msgstr ""
+
+#. native.npc.liu_huixin_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "爹爹说剑不外传。可是你看——传出去的剑，今夜站在这里。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

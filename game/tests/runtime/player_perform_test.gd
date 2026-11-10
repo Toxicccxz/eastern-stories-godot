@@ -70,8 +70,9 @@ func _test_content() -> void:
 	var labels: Array[String] = []
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		labels.append(SpecialFunctions.perform(function_id).label)
-	_check(labels == ["「封」字诀", "「逐」字诀", "「缺」字诀", "「玄羽乱舞」"], "doc/skill/fonxansword names them; scholar/mysterrier/hasten.c's 玄羽乱舞: " + str(labels))
-	_check(SpecialFunctions.perform(&"powerfocus") == null, "「点」字诀 (powerfocus) has no file")
+	_check(labels == ["「封」字诀", "「逐」字诀", "「缺」字诀", "「点」字诀", "「玄羽乱舞」"], "doc/skill/fonxansword names them; scholar/mysterrier/hasten.c's 玄羽乱舞: " + str(labels))
+	# ES2 only describes 「点」字诀 (no file); the game wrote one, taught in 封山's line (DECISIONS「点字诀」).
+	_check(SpecialFunctions.perform(&"powerfocus") is PowerfocusPerform and not SpecialFunctions.perform(&"powerfocus").number_keys.is_empty(), "「点」字诀 (powerfocus) is the game's own file, its numbers in skills.json")
 	var catalog := BattleActionPresentationCatalog.new()
 	_check(catalog.label_for(CombatPerformTacticalPolicy.action_id_for(&"swordjab")) == "使出「逐」字诀", "the battle button: " + catalog.label_for(&"perform.swordjab"))
 	_check(SpecialFunctions.ending(&"fonxansword") is FakefaultPerform and SpecialFunctions.ending(&"powerup") == null, "fakefault.c ends its own timed apply; powerup is an exert")

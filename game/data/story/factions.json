@@ -6,13 +6,20 @@
 			"layer": "sect",
 			"place": "雪亭镇",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/swordsman/master.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/swordsman/master.c",
+				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」)"
 			],
 			"lines": [
 				{
 					"text": "你是封山剑派的弟子，师父是柳淳风。",
 					"when": {
 						"family": "family.fonxan"
+					}
+				},
+				{
+					"text": "你是封山剑派北宗的人，和柳绘心同辈。",
+					"when": {
+						"family": "family.fonxan_north"
 					}
 				},
 				{
@@ -55,6 +62,30 @@
 					"text": "你和血手刘三动过刀，放了他一条路。",
 					"when": {
 						"mark": "放过了刘安禄"
+					}
+				},
+				{
+					"text": "《悟疾风劲竹书》在柳淳风的匣里。是你从竹林里取回来给他的。",
+					"when": {
+						"mark": "竹书给了柳淳风"
+					}
+				},
+				{
+					"text": "柳绘心读到了父亲年轻时写的书。是你给她的。",
+					"when": {
+						"mark": "竹书给了柳绘心"
+					}
+				},
+				{
+					"text": "柳淳风认你是掌门传人，「点」字诀是他亲传的。北宗的牌子挂在绮云镇口。",
+					"when": {
+						"mark": "跟了本宗"
+					}
+				},
+				{
+					"text": "你跟柳绘心立了北宗。柳淳风不再教你，武馆的门还开着。",
+					"when": {
+						"mark": "跟了北宗"
 					}
 				}
 			]

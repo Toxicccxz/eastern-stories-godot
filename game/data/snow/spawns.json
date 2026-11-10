@@ -203,7 +203,8 @@
 			"zone": "snow.nyard",
 			"points": ["snow.nyard.girl.1"],
 			"legacy_room": "d/snow/nyard.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "any": [{ "mark": "竹书给了柳淳风" }, { "mark": "竹书给了柳绘心" }] }
 		}
 	]
 }

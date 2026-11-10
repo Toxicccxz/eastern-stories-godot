@@ -4,13 +4,14 @@ extends RefCounted
 ## Native (任务系统; DECISIONS「任务系统」): the player's quests (StoryQuestDefinition) on
 ## CharacterState.quests, a {key: order} ledger like the journal's: "<quest>#started" when it
 ## began, "<quest>/<step>" when a step was done, "<quest>/<step>/<option>" when a branch step
-## was done by that option, "<quest>#done" when the quest ended. Nothing is ever taken back.
+## was done by that option, "<quest>#done" when the quest ended, "<quest>#lapsed" when it was
+## cut short (StoryQuestDefinition.lapses). Nothing is ever taken back.
 ## Only the current step's condition is looked at, in order (JournalLog.holds, with the
 ## zone the player stands in); an asked answer (heard()) and a chat line (chat_heard()) are
 ## looked at as they happen, as the journal's are. The runtime tells what was recorded
 ## (told_lines), gives the rewards (Fresh.reward) and writes the deeds.
 
-enum Kind { STARTED, STEP, DONE }
+enum Kind { STARTED, STEP, DONE, LAPSED }
 
 
 ## One thing just recorded.
@@ -51,6 +52,8 @@ class Shown:
 	extends RefCounted
 	var quest: StoryQuestDefinition
 	var done: bool = false
+	## Cut short (StoryQuestDefinition.lapses): over, with nothing more to do, and not done.
+	var lapsed: bool = false
 	## The step and option texts recorded, in the order they happened.
 	var entries: Array[String] = []
 	## What to do now ("" once done).
@@ -102,6 +105,10 @@ static func key_done(quest: StoryQuestDefinition) -> String:
 	return "%s#done" % quest.quest_id
 
 
+static func key_lapsed(quest: StoryQuestDefinition) -> String:
+	return "%s#lapsed" % quest.quest_id
+
+
 static func key_step(quest: StoryQuestDefinition, step: StoryQuestDefinition.Step, option: StoryQuestDefinition.Option = null) -> String:
 	if option != null:
 		return "%s/%s/%s" % [quest.quest_id, step.step_id, option.option_id]
@@ -116,9 +123,14 @@ static func is_done(state: CharacterState, quest: StoryQuestDefinition) -> bool:
 	return state != null and state.quests.has(key_done(quest))
 
 
-## Started and not yet done.
+## Cut short before its end (DECISIONS「线断了」).
+static func is_lapsed(state: CharacterState, quest: StoryQuestDefinition) -> bool:
+	return state != null and state.quests.has(key_lapsed(quest))
+
+
+## Started and neither done nor cut short.
 static func is_active(state: CharacterState, quest: StoryQuestDefinition) -> bool:
-	return is_started(state, quest) and not is_done(state, quest)
+	return is_started(state, quest) and not is_done(state, quest) and not is_lapsed(state, quest)
 
 
 static func step_done(state: CharacterState, quest: StoryQuestDefinition, step: StoryQuestDefinition.Step) -> bool:
@@ -218,6 +230,12 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 			recorded.append(Fresh.new(Kind.STARTED, quest))
 		if not is_active(state, quest):
 			continue
+		if quest.lapses != null and test.call(quest.lapses):
+			_write(state, key_lapsed(quest))
+			if not quest.lapsed_mark.is_empty():
+				state.marks[quest.lapsed_mark] = 1
+			recorded.append(Fresh.new(Kind.LAPSED, quest))
+			continue
 		while true:
 			var step: StoryQuestDefinition.Step = current_step(state, quest)
 			if step == null:
@@ -256,6 +274,12 @@ static func _mark(state: CharacterState, reward: StoryQuestDefinition.Reward) ->
 	# 晋阶 (DECISIONS「晋阶」): only one of that family rises in it.
 	if not reward.rank_title.is_empty() and state.family.family_id == reward.rank_family and state.affiliation.has_family_rank:
 		state.affiliation.family_title = reward.rank_title
+	# 分宗 (DECISIONS「分宗」): the same generation in the branch, no master, no betrayal.
+	if not reward.branch_to.is_empty() and state.family.family_id == reward.branch_from and state.affiliation.has_family_rank:
+		state.family = FamilyState.new(reward.branch_to, state.family.generation)
+		state.apprenticeship.master_teacher_id = &""
+		state.apprenticeship.legacy_master_name = ""
+		state.affiliation.family_title = reward.branch_title
 
 
 ## The quest the 目标 row and the marker follow: an active main-line quest, else the active
@@ -303,7 +327,8 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 		var view := Shown.new()
 		view.quest = quest
 		view.done = is_done(state, quest)
-		view.latest = int(state.quests[key_done(quest) if view.done else key_started(quest)])
+		view.lapsed = is_lapsed(state, quest)
+		view.latest = int(state.quests[key_done(quest) if view.done else key_lapsed(quest) if view.lapsed else key_started(quest)])
 		var recorded: Array[Array] = []
 		for step: StoryQuestDefinition.Step in quest.steps:
 			var option: StoryQuestDefinition.Option = option_taken(state, quest, step)
@@ -315,7 +340,9 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 		recorded.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
 		for entry: Array in recorded:
 			view.entries.append(entry[1])
-		if not view.done:
+		if view.lapsed:
+			view.entries.append(quest.lapsed_text)
+		elif not view.done:
 			var step: StoryQuestDefinition.Step = current_step(state, quest)
 			view.objective = "" if step == null else step.objective
 			view.checklist = checked(step, test)
@@ -342,6 +369,9 @@ static func told_lines(fresh: Fresh, with_next: bool, state: CharacterState) -> 
 		Kind.DONE:
 			# TRANSLATORS: native (任务系统): a quest ended: {title} its name.
 			lines.append(ColoredLine.new(_t("【任务完成】{title}").format({"title": _t(fresh.quest.title)}), ColoredLine.HIW))
+		Kind.LAPSED:
+			# TRANSLATORS: native (任务系统, 线断了): a quest was cut short: {title} its name, {text} why.
+			lines.append(ColoredLine.new(_t("【任务中止】{title}：{text}").format({"title": _t(fresh.quest.title), "text": _t(fresh.quest.lapsed_text)}), ColoredLine.HIW))
 	return lines
 
 

@@ -114,6 +114,9 @@ class RequirementCheck:
 	var gender: String = ""
 	var class_id: StringName = &""
 	var mark: String = ""
+	## Native (势力线第一批 封山 B; DECISIONS「分宗」): a mark the student must NOT hold (one who went
+	## to the 北宗 is not taken back by the 本宗's master).
+	var not_mark: String = ""
 	var cannot_afford: int = 0
 	var refuse_say: String = ""
 	var refuse_marks: Array[String] = []
@@ -273,7 +276,7 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 	return teaching
 
 
-## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "mark"?, "cannot_afford"?,
+## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "mark"?, "not_mark"?, "cannot_afford"?,
 ## "refuse_say", "refuse_marks"?}]: checked in turn, each with its say.
 static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) -> void:
 	for record: ContentRecordReader in apprentice.children("requires"):
@@ -291,6 +294,9 @@ static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) 
 				continue
 			if key == "mark":
 				check.mark = record.required_text("mark")
+				continue
+			if key == "not_mark":
+				check.not_mark = record.required_text("not_mark")
 				continue
 			if key == "refuse_marks":
 				check.refuse_marks = record.text_list("refuse_marks")

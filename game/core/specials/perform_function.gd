@@ -13,10 +13,18 @@ var effect_id: StringName
 ## or one that comes only sometimes (fakefault.c's on a failure). Under 战斗拍数 it counts into
 ## the beats the perform costs (max, DECISIONS「战斗拍数 C」); the battle panel says so.
 var own_busy: int = 0
+## Native (DECISIONS「点字诀」): the numbers the file reads from its skill's record (skills.json
+## `perform_rules.<id>.numbers`), each required there; [] for a file whose numbers are ES2's own.
+var number_keys: Array[String] = []
 
 
 func perform(_context: SpecialContext) -> bool:
 	return false
+
+
+## What it does and costs, for its battle button's hover; "" for none.
+func hint(_catalog: ContentCatalog) -> String:
+	return ""
 
 
 ## The call_out() that ends `entry` in a fight (remove_effect()), for `context.me`,

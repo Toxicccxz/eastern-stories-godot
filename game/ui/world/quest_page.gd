@@ -83,11 +83,14 @@ func _show_quest(parent: Node, view: StoryQuestLog.Shown) -> void:
 	if view.done:
 		# TRANSLATORS: a quest on the 任务 page once done: {title} its name, {region} where it happened.
 		title = tr("{title} · {region} · 已完成").format({"title": tr(view.quest.title), "region": tr(view.quest.region)})
+	elif view.lapsed:
+		# TRANSLATORS: a quest on the 任务 page cut short before its end (the player left the family whose line it was): {title} its name, {region} where it happened.
+		title = tr("{title} · {region} · 已中止").format({"title": tr(view.quest.title), "region": tr(view.quest.region)})
 	else:
 		# TRANSLATORS: a quest on the 任务 page: {title} its name, {region} where it happens.
 		title = tr("{title} · {region}").format({"title": tr(view.quest.title), "region": tr(view.quest.region)})
 	var rows: VBoxContainer = card(parent).get_child(0) as VBoxContainer
-	_label(rows, title, UiPalette.MUTED if view.done else UiPalette.LANTERN).name = "Title"
+	_label(rows, title, UiPalette.MUTED if view.done or view.lapsed else UiPalette.LANTERN).name = "Title"
 	_label(rows, tr(view.quest.summary), UiPalette.MUTED).name = "Summary"
 	if not view.objective.is_empty():
 		# TRANSLATORS: under a quest on the 任务 page: {next} what to do now.
@@ -95,7 +98,7 @@ func _show_quest(parent: Node, view: StoryQuestLog.Shown) -> void:
 	for checked: StoryQuestLog.Checked in view.checklist:
 		_label(rows, checklist_text(checked), UiPalette.GOLD if checked.tick == StoryQuestLog.Checked.Tick.DONE else UiPalette.MUTED).name = "Check"
 	for entry: String in view.entries:
-		_label(rows, "· " + tr(entry), UiPalette.MUTED if view.done else Color(0, 0, 0, 0)).name = "Entry"
+		_label(rows, "· " + tr(entry), UiPalette.MUTED if view.done or view.lapsed else Color(0, 0, 0, 0)).name = "Entry"
 
 
 ## A checklist row as the page writes it (DECISIONS「任务清单」): ticked ✓ or not ✗ as the 拜师

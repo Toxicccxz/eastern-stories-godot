@@ -70,9 +70,17 @@ class Reward:
 	## not of the family gets nothing.
 	var rank_family: StringName = &""
 	var rank_title: String = ""
+	## Native (势力线第一批 封山 B; DECISIONS「分宗」): `branch` {from, to, title}: a member of the
+	## family `from` is from now on of its branch `to`, in the generation they had, its `title`,
+	## with no master (the branch's own teach their fellows: learn.c's same-family rule). It is no
+	## betrayal: recruit.c's score 0 and betrayer + 1 are for one who kneels to another family's
+	## master. One who is not of `from` gets nothing.
+	var branch_from: StringName = &""
+	var branch_to: StringName = &""
+	var branch_title: String = ""
 
 	func is_empty() -> bool:
-		return not milestone and deed.is_empty() and marks.is_empty() and rank_title.is_empty()
+		return not milestone and deed.is_empty() and marks.is_empty() and rank_title.is_empty() and branch_to.is_empty()
 
 	static func from_record(reader: ContentRecordReader) -> Reward:
 		var reward := Reward.new()
@@ -84,6 +92,16 @@ class Reward:
 			reward.rank_family = StringName(rank.required_text("family"))
 			reward.rank_title = rank.required_text("title")
 			rank.finish()
+		var branch: ContentRecordReader = reader.child("branch") if reader.has("branch") else null
+		if branch != null:
+			reward.branch_from = StringName(branch.required_text("from"))
+			reward.branch_to = StringName(branch.required_text("to"))
+			reward.branch_title = branch.required_text("title")
+			if reward.branch_from == reward.branch_to:
+				branch.fail("to", "a branch is another family than the one it leaves")
+			if not reward.rank_title.is_empty():
+				reader.fail("branch", "a reward raises in a family or moves to its branch, not both")
+			branch.finish()
 		reader.finish()
 		return reward
 
@@ -233,6 +251,16 @@ var sources: Array[String] = []
 var starts: JournalEntryDefinition
 var requires: Array[StringName] = []
 var excludes: Array[StringName] = []
+## Native (势力线第一批 封山 B; DECISIONS「线断了」): `lapses` {when, text}: a quest begun and not
+## done is over the moment `when` holds (a 势力 line whose member left the family): its steps
+## are asked no more, it gives nothing, and the 任务 page keeps what was recorded and adds
+## `text`. It is not done: what `requires` it stays closed. `mark` (optional) is set on the player
+## as it lapses, for the NPCs of the line to ask (`asker_lacks`, `unless_giver_mark`): what they
+## would say and take of one walking the line, they do not of one who walked out of it — and
+## not again of one who came back, for the line itself does not begin twice.
+var lapses: JournalEntryDefinition
+var lapsed_text: String = ""
+var lapsed_mark: String = ""
 var steps: Array[Step] = []
 var reward: Reward = Reward.new()
 
@@ -274,6 +302,15 @@ static func from_record(reader: ContentRecordReader) -> StoryQuestDefinition:
 		definition.requires.append(StringName(quest_id))
 	for quest_id: String in reader.text_list("excludes"):
 		definition.excludes.append(StringName(quest_id))
+	var lapses: ContentRecordReader = reader.child("lapses") if reader.has("lapses") else null
+	if lapses != null:
+		definition.lapses = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(lapses, definition.lapses)
+		definition.lapsed_text = lapses.required_text("text")
+		definition.lapsed_mark = lapses.text("mark")
+		if definition.lapses.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
+			lapses.fail("when", "heard and chat are recorded as they happen: a quest lapses on what holds")
+		lapses.finish()
 	var seen: Dictionary[StringName, bool] = {}
 	var options: Dictionary[StringName, bool] = {}
 	for record: ContentRecordReader in reader.children("steps"):

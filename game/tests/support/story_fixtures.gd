@@ -338,3 +338,23 @@ static func fonxan_guarded(session: WorldSessionController) -> void:
 	for mark: String in ["柳淳风说了冒牌", "说破了冒牌弟子", "冒牌头目倒了", "冒牌帮闲倒了", "逄义认了腰牌", "守馆办完了"]:
 		state.marks[mark] = 1
 	state.affiliation.family_title = "大弟子"
+
+
+## 封山 A done to the 门房 (替他瞒 unless `revealed`), and 柳淳风 has said his word on it: the 竹书
+## is next (封山 B).
+static func fonxan_gated(session: WorldSessionController, revealed: bool = false) -> void:
+	fonxan_guarded(session)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.fonxan/gate/%s" % ("reveal" if revealed else "cover"))
+	for mark: String in ["李火狮说了门房", "说破了刘安禄" if revealed else "替刘安禄瞒了", "柳淳风说过门房"]:
+		state.marks[mark] = 1
+
+
+## 封山 B's 竹书 fetched and given, to 柳绘心 (`to_daughter`) or to 柳淳风: the 内院 is next.
+static func fonxan_book_given(session: WorldSessionController, to_daughter: bool) -> void:
+	fonxan_gated(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.fonxan/bamboo_hear", "faction.fonxan/bamboo", "faction.fonxan/book/%s" % ("daughter" if to_daughter else "father")]:
+		_write(state, key)
+	for mark: String in ["柳淳风说了推法", "竹书给了柳绘心" if to_daughter else "竹书给了柳淳风"]:
+		state.marks[mark] = 1

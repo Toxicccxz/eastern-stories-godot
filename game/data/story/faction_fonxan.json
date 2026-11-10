@@ -6,11 +6,17 @@
 			"line": "faction",
 			"region": "雪亭镇",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线原则 and 第 1 条: 门派就是势力线, 拜师即入门, 辈分即晋阶, 每条线 1 个大分裂 + 最多 2 个小选择; 计划 build/plans/势力线第一批_计划.md §3, owner 2026-11-09「按推荐开工」; DECISIONS「封山 A」). daemon/class/swordsman/master.c (柳淳风, 刘兄弟在寒舍管事已经五年了, 过去之事不须再提); d/snow/npc/guard.c (刘安禄: 除了馆主柳淳风没有人知道他的出身来历; 野羊山寨二寨主 血手刘三); d/snow/npc/mercenary.c (逄义: 和柳淳风同辈的弟子, 生性好赌, 避债, 碍于门规又不敢做那打家劫舍的勾当), which ES2 wrote and placed nowhere. A: 守馆 and the 门房 (the first small choice); B: the 竹书, the 南北宗 split, the 点字诀."
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线原则 and 第 1 条: 门派就是势力线, 拜师即入门, 辈分即晋阶, 每条线 1 个大分裂 + 最多 2 个小选择; 计划 build/plans/势力线第一批_计划.md §3, owner 2026-11-09「按推荐开工」; DECISIONS「封山 A」). daemon/class/swordsman/master.c (柳淳风, 刘兄弟在寒舍管事已经五年了, 过去之事不须再提); d/snow/npc/guard.c (刘安禄: 除了馆主柳淳风没有人知道他的出身来历; 野羊山寨二寨主 血手刘三); d/snow/npc/mercenary.c (逄义: 和柳淳风同辈的弟子, 生性好赌, 避债, 碍于门规又不敢做那打家劫舍的勾当), which ES2 wrote and placed nowhere. A: 守馆 and the 门房 (the first small choice); B: the 竹书, the 南北宗 split, the 点字诀.",
+				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — d/canyon/bamboo/bamboo3.c (move stone: force 560, max_force 560, force_factor 40), bamboo/train.c (search: the 书匣 with the one 悟疾风劲竹书, 柳淳风's name under 直竹贵地生), d/snow/npc/girl.c (封山剑派北宗 第 14 代 弟子), u/cloud/entrance.c (封山剑派北宗所在的雪亭镇), doc/skill/fonxansword (perform powerfocus 「点」字诀, which ES2 describes and never wrote). The 竹书 (the second small choice), the 内院 scene, the split (the line's one big choice) and what leaving the family does to the line (lapses)."
 			],
 			"summary": "拜了柳淳风，淳风武馆的事就是你的事。",
 			"starts": {
 				"family": "family.fonxan"
+			},
+			"lapses": {
+				"when": {"not": {"any": [{"family": "family.fonxan"}, {"family": "family.fonxan_north"}]}},
+				"text": "你已经不是封山的人了。淳风武馆的事，到此为止。",
+				"mark": "封山的线断了"
 			},
 			"steps": [
 				{
@@ -105,12 +111,155 @@
 					]
 				},
 				{
-					"id": "book",
-					"objective": "柳淳风提过，他年轻时在天驼关的竹林里留下过一卷书。",
+					"id": "bamboo_hear",
+					"objective": "问柳淳风「竹书」。",
 					"done": {
-						"mark": "竹书有了去处"
+						"any": [
+							{
+								"mark": "柳淳风说了推法"
+							},
+							{
+								"item": "es2:d/canyon/bamboo/obj/parry_book"
+							},
+							{
+								"mark": "竹书给了柳淳风"
+							},
+							{
+								"mark": "竹书给了柳绘心"
+							}
+						]
 					},
-					"text": "那卷书有了去处。"
+					"text": "柳淳风二十岁那年在天驼关的竹林里住过一冬，写了一卷《悟疾风劲竹书》，留在竹林尽头、大黄石后面的石室里。",
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.schoolhall",
+						"npcs": [
+							"common.npc.swordsman.master"
+						]
+					}
+				},
+				{
+					"id": "bamboo",
+					"objective": "去天驼关的竹林道，照柳淳风教的法子推开尽头的大黄石，从石室的书柜里取出那卷书。",
+					"done": {
+						"any": [
+							{
+								"item": "es2:d/canyon/bamboo/obj/parry_book"
+							},
+							{
+								"mark": "竹书给了柳淳风"
+							},
+							{
+								"mark": "竹书给了柳绘心"
+							}
+						]
+					},
+					"text": "《悟疾风劲竹书》到手了。薄薄一卷，末尾署着柳淳风的名字。",
+					"target": {
+						"map": "canyon.bamboo",
+						"zone": "canyon.bamboo3"
+					}
+				},
+				{
+					"id": "book",
+					"weight": "small",
+					"objective": "书只有一本：交给柳淳风，他会收进匣里；交给柳绘心，她头一回读到父亲年轻时写的字。给出去就读不到了——想读，先读。",
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.schoolhall",
+						"npcs": [
+							"common.npc.swordsman.master",
+							"snow.npc.girl"
+						]
+					},
+					"options": [
+						{
+							"id": "father",
+							"done": {
+								"mark": "竹书给了柳淳风"
+							},
+							"text": "你把书交给了柳淳风。他没有翻开，收进了案头的匣里：年轻时的糊涂话。",
+							"reward": {
+								"deed": "把《悟疾风劲竹书》带回来交给了柳淳风"
+							}
+						},
+						{
+							"id": "daughter",
+							"done": {
+								"mark": "竹书给了柳绘心"
+							},
+							"text": "你把书交给了柳绘心。她头一回读到父亲二十岁时写的字：直竹贵地生。",
+							"reward": {
+								"deed": "把《悟疾风劲竹书》带回来交给了柳绘心"
+							}
+						}
+					]
+				},
+				{
+					"id": "yard",
+					"objective": "柳绘心这些日子常往武馆的内院去。过些时候再回淳风武馆，到内院看看。",
+					"done": {
+						"any": [
+							{
+								"mark": "内院的话说完了"
+							},
+							{
+								"mark": "跟了本宗"
+							},
+							{
+								"mark": "跟了北宗"
+							}
+						]
+					},
+					"text": "内院里，柳绘心在教外人学封山剑——镇上交不起拜师钱的孩子。柳淳风撞见了。",
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.innerhall"
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "封山要分南北了。跟柳淳风守本宗（问他「本宗」）：剑不外传，他亲传「点」字诀，你是掌门传人，柳绘心离开武馆。跟柳绘心立北宗（问她「北宗」）：剑往外传，她教你「点」字诀，你转入北宗，柳淳风不再教你。",
+					"target": {
+						"map": "snow.school_compound",
+						"zone": "snow.innerhall",
+						"npcs": [
+							"common.npc.swordsman.master",
+							"snow.npc.girl"
+						]
+					},
+					"options": [
+						{
+							"id": "orthodox",
+							"done": {
+								"mark": "跟了本宗"
+							},
+							"text": "你跟了柳淳风：封山只有一宗，剑不外传。他把「点」字诀传给了你。柳绘心带着「北宗」两个字去了绮云镇。",
+							"reward": {
+								"deed": "在封山的南北之争里守了本宗",
+								"rank": {
+									"family": "family.fonxan",
+									"title": "掌门传人"
+								}
+							}
+						},
+						{
+							"id": "north",
+							"done": {
+								"mark": "跟了北宗"
+							},
+							"text": "你跟了柳绘心：北宗的剑往外传。她把自己悟的「点」字诀教给了你。柳淳风不再教你。",
+							"reward": {
+								"deed": "和柳绘心立了封山剑派北宗",
+								"branch": {
+									"from": "family.fonxan",
+									"to": "family.fonxan_north",
+									"title": "弟子"
+								}
+							}
+						}
+					]
 				}
 			]
 		}

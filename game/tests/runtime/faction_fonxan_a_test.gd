@@ -51,7 +51,7 @@ func _test_data() -> void:
 	var quest: StoryQuestDefinition = catalog.story_quest(QUEST)
 	_check(quest != null and quest.line == StoryQuestDefinition.LINE_FACTION and quest.starts.when == JournalEntryDefinition.When.FAMILY and quest.starts.key == "family.fonxan", "faction.fonxan: a 势力 quest that begins with 拜师")
 	var ids: Array = [] if quest == null else quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"hear", &"fakes", &"pang", &"report", &"gate", &"book"], "its steps: %s" % [ids])
+	_check(ids == [&"hear", &"fakes", &"pang", &"report", &"gate", &"bamboo_hear", &"bamboo", &"book", &"yard", &"split"], "its steps: %s" % [ids])
 	var gate: StoryQuestDefinition.Step = quest.step(&"gate")
 	_check(gate.is_branch() and gate.weight == StoryQuestDefinition.WEIGHT_SMALL and gate.options.size() == 2 and not gate.options[0].reward.deed.is_empty() and not gate.options[1].reward.deed.is_empty(), "the 门房 is a small choice of two, each a deed")
 	_check(gate.objective.contains("没有他的位置") and gate.objective.contains("算在你头上"), "the cost of either way is said before the choice (owner: 选前说代价)")

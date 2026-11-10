@@ -90,6 +90,9 @@ static func of(student: CharacterState, master: NpcDefinition, request: NpcAppre
 			rows.append(Row.new(_t(CLASSES.get(check.class_id, OTHER_CLASS)), _state(student.affiliation.class_id == check.class_id)))
 		if not check.mark.is_empty():
 			rows.append(_mark_row(student, check, npc, respect))
+		# What closes the door (封山 B: 跟了北宗) is a row only for one it is closed to, in the master's words.
+		if not check.not_mark.is_empty() and student.marks.get(check.not_mark, 0) != 0:
+			rows.append(Row.new(_t(SAID_MARK).format({"npc": npc, "line": NpcTalk.line(check.refuse_say).replace("$RESPECT", _t(respect)).strip_edges()}), State.UNMET))
 		if check.cannot_afford > 0 and affords.is_valid():
 			rows.append(Row.new(_t(POOR).format({"money": money(check.cannot_afford)}), _state(not bool(affords.call(check.cannot_afford)))))
 		for key: StringName in check.requires:

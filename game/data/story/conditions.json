@@ -3,7 +3,8 @@
 		{
 			"id": "finale.helpers",
 			"sources": [
-				"native: 终章 A (计划 build/plans/终章_计划.md §4 表二; DECISIONS「终章 A」): 帮手三拨以上才「能灭它」——七拨里来了几拨. 势力线第一批 (计划 build/plans/势力线第一批_计划.md §2 第 1 条; DECISIONS「具名条件」) gives the list this one home: the 点将 checklist, the 等到天黑 act and the 封坛's 钉下去 all name it."
+				"native: 终章 A (计划 build/plans/终章_计划.md §4 表二; DECISIONS「终章 A」): 帮手三拨以上才「能灭它」——七拨里来了几拨. 势力线第一批 (计划 build/plans/势力线第一批_计划.md §2 第 1 条; DECISIONS「具名条件」) gives the list this one home: the 点将 checklist, the 等到天黑 act and the 封坛's 钉下去 all name it.",
+				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 封山守渡口, the eighth: 柳淳风 and his disciples (本宗) or 柳绘心 and those she taught (北宗); three are still enough."
 			],
 			"when": {
 				"at_least": {
@@ -36,6 +37,16 @@
 								},
 								{
 									"mark": "卫沧澜出了尚书府"
+								}
+							]
+						},
+						{
+							"any": [
+								{
+									"mark": "跟了本宗"
+								},
+								{
+									"mark": "跟了北宗"
 								}
 							]
 						}
