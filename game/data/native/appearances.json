@@ -90,6 +90,30 @@
       "hair_style": "topknot", "beard": "moustache", "waist": "sash", "prop": "none",
       "accent": "c0bbbb", "height": "standard", "build": "standard", "shoes": "white"
     },
+    "native.npc.north_pupil_boy": {
+      "note": "阿桂：镇上的孩子，十二岁，裤脚短一截的旧布衣，自己削的竹剑别在腰里（势力线 封山 B）",
+      "coat": "7d8a6b", "pants": "5a5248", "skin": "e2b48c", "hair": "231c18",
+      "hair_style": "topknot", "headwear": "none", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "c4b45e", "accent": "a89a70",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.north_pupil_girl": {
+      "note": "小满：镇上的孩子，十岁，两条小辫，洗得发白的蓝布衫，竹剑比胳膊长（势力线 封山 B）",
+      "coat": "8fa3b8", "pants": "6d6470", "skin": "f2c8ac", "hair": "2a1d1a",
+      "hair_style": "double_bun", "hair_tie": "c85a50", "headwear": "none", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "c4b45e", "accent": "c85a50",
+      "height": "short", "build": "slim", "shoes": "dark"
+    },
+    "native.npc.shield_youth": {
+      "note": "铁盾会少年：十六岁的大秦人，卷发，短袍，左臂套小圆盾，右手一柄竹剑（势力线 封山 B，番坊站了大秦人的那一边）",
+      "coat": "a8442f", "pants": "6b5a48", "skin": "e6b890", "hair": "6a4a2c",
+      "hair_style": "short", "headwear": "none", "beard": "none",
+      "waist": "belt", "prop": "sword_waist", "prop_color": "c4b45e", "accent": "c9a24a",
+      "height": "standard", "build": "standard", "shoes": "dark"
+    },
+    "native.npc.liu_huixin_north": {"same_as": "snow.npc.girl"},
+    "native.npc.liu_huixin_lake": {"same_as": "snow.npc.girl"},
+    "native.npc.liu_chunfeng_lake": {"same_as": "common.npc.swordsman.master"},
     "native.npc.fake_disciple_head": {
       "note": "罗七：自称封山弟子的骗子，不合身的青布长衫，腰里一柄竹剑，胸前挂着逄义的黄杨木腰牌（势力线 封山 A）",
       "coat": "4f6a78", "pants": "3a3f48", "skin": "d9a67c", "hair": "1f1c1a",

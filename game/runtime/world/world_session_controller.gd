@@ -2540,6 +2540,12 @@ func tell_quests(fresh: Array[StoryQuestLog.Fresh]) -> void:
 			if hud != null:
 				# TRANSLATORS: native (势力线, 晋阶): a quest raised the player in their family: {title} the whole title now (封山剑派第十四代大弟子).
 				hud.append_colored_lines([ColoredLine.new(tr("【晋阶】你现在是{title}。").format({"title": _player.shown_title()}), ColoredLine.HIY)])
+		# _mark() moved them already: one who was of `from` is of `to` now.
+		if not reward.branch_to.is_empty() and _player.state.family.family_id == reward.branch_to:
+			_player.family_rank_changed()
+			if hud != null:
+				# TRANSLATORS: native (势力线, 分宗): a quest moved the player to a branch of their family: {title} the whole title now (封山剑派北宗第十四代弟子).
+				hud.append_colored_lines([ColoredLine.new(tr("【分宗】你现在是{title}。").format({"title": _player.shown_title()}), ColoredLine.HIY)])
 
 
 var _deeds: WorldDeeds

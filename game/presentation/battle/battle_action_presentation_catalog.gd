@@ -80,6 +80,9 @@ func tooltip_for(action_id: StringName) -> String:
 		var hurts: String = {BoltSpell.Track.GIN: tr("吸取对方的精"), BoltSpell.Track.SEN: tr("伤对方的神"), BoltSpell.Track.KEE: tr("伤对方的气")}[bolt.track]
 		# TRANSLATORS: hover of 施法「紫光」「白光」「青光」 (the bolts of 茅山道术): {hurts} what a hit does (吸取对方的精); {mana} mana and {sen} sen; it can fail.
 		what = tr("{hurts}（{mana} 法力、{sen} 神，可能失败）").format({"hurts": hurts, "mana": BoltSpell.MANA_COST, "sen": bolt.sen_cost})
+	var perform: PerformFunction = SpecialFunctions.perform(CombatPerformTacticalPolicy.function_for(action_id))
+	if perform != null:
+		what = perform.hint(GameContent.catalog())
 	if _settle_of(action_id) != null:
 		what = tr(_settle_of(action_id).hint)
 	if action_id == CombatKillTacticalPolicy.ACTION_ID:

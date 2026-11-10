@@ -47,15 +47,15 @@ func _test_data() -> void:
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.finale")
 	_check(quest != null and quest.requires == [&"main.chapter10"] and quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id).slice(0, 4) == [&"lake", &"gather", &"shore", &"hall"], "main.finale: lake, gather, shore, then the 冰龙厅 (终章 B) after 第十章")
 	var gather: StoryQuestDefinition.Step = quest.step(&"gather")
-	_check(gather.checklist.size() == 20 and gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts).size() == 1, "the 点将 checklist: twenty rows, one count")
+	_check(gather.checklist.size() == 22 and gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts).size() == 1, "the 点将 checklist: twenty-two rows (封山 B: 封山守渡口, either 宗), one count")
 	var count: StoryQuestDefinition.CheckRow = gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts)[0]
-	_check(count.condition.when == JournalEntryDefinition.When.AT_LEAST and count.condition.amount == 3 and count.condition.parts.size() == 7, "帮手: three of seven")
+	_check(count.condition.when == JournalEntryDefinition.When.AT_LEAST and count.condition.amount == 3 and count.condition.parts.size() == 8, "帮手: three of eight (封山 B added 封山守渡口)")
 	var wait: ServiceDefinition = catalog.service(&"village.lakeside.wait")
 	var first: ScriptedAct = wait.act.acts[0]
 	_check(first.steps[0].kind == ScriptedAct.Kind.KEEP_SAVE and first.steps[1].kind == ScriptedAct.Kind.MARK and first.steps[1].flag == "下了决战" and not first.ask.is_empty(), "等到天黑 on the finale: the 决战前 save first, asked first")
 	_check(wait.act.acts.size() == 9 and wait.act.acts.slice(0, 3).all(func(act: ScriptedAct) -> bool: return act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.UNTIL_PHASE)), "three branches by the day's phase (each crosses into the night), the 第八章 ones after")
 	var held: Array[ScriptedAct.Step] = first.steps.filter(func(step: ScriptedAct.Step) -> bool: return step.only_when != null)
-	_check(held.size() == 7 and held[0].kind == ScriptedAct.Kind.MARK and held[0].flag == "能灭它", "能灭它 marked by a step's own when; six lines of who keeps where")
+	_check(held.size() == 9 and held[0].kind == ScriptedAct.Kind.MARK and held[0].flag == "能灭它", "能灭它 marked by a step's own when; eight lines of who keeps where (封山 B: the 渡口, either 宗)")
 	for spawn_id: StringName in [&"native.lakeside.finale_runners", &"native.road1.finale_runners", &"native.field.finale_runners"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(spawn_id)
 		_check(spawn != null and spawn.cleared_mark.ends_with("又退了") and spawn.until != null and spawn.until.when == JournalEntryDefinition.When.ANY, "%s: up with the night, held by who came or beaten" % spawn_id)

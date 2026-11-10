@@ -983,6 +983,16 @@ position = Vector2(608, 1304)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakeside.straggler.2"
 
+[node name="LakesideFinaleFonxan" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(656, 1320)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.fonxan"
+
+[node name="LakesideFinaleFonxanNorth" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(656, 1320)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.fonxan_north"
+
 [node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(688, 1304)
 script = ExtResource("marker")

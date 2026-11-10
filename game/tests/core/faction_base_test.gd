@@ -193,7 +193,7 @@ func _test_asker_family() -> void:
 	_check(NpcInquiry.topics(trainer).has("说破门房的来历") and NpcInquiry.topics(trainer, forgotten, nobody).has("门房") and not NpcInquiry.topics(trainer, forgotten, nobody).has("说破门房的来历") and NpcInquiry.topics(trainer, forgotten, asked).has("说破门房的来历"), "listed_marks: off the list until the mark is held; with no marks given, every topic")
 	# A `cond` read once the catalog is built (a stage prop's look) is linked against the catalog's.
 	var late: JournalEntryDefinition = WorldStoryPresence._look_when({"present": {"cond": "finale.helpers"}}, "present")
-	_check(late != null and late.when == JournalEntryDefinition.When.AT_LEAST and late.parts.size() == 7, "a look's cond is linked as it is read")
+	_check(late != null and late.when == JournalEntryDefinition.When.AT_LEAST and late.parts.size() == 8, "a look's cond is linked as it is read")
 
 
 func _test_weight() -> void:
@@ -232,10 +232,10 @@ func _test_loaded_data() -> void:
 	var sects: Array[FactionDefinition] = factions.filter(func(faction: FactionDefinition) -> bool: return faction.layer == FactionDefinition.LAYER_SECT)
 	var secrets: Array[FactionDefinition] = factions.filter(func(faction: FactionDefinition) -> bool: return faction.layer == FactionDefinition.LAYER_SECRET)
 	_check(factions.size() == 12 and sects.size() == 9 and secrets.size() == 2, "the roster: 剧情总纲 §4's twelve, nine 门派 and two 秘密 (%d, %d, %d)" % [factions.size(), sects.size(), secrets.size()])
-	# The finale's 帮手 list has one home now and is still an at_least of seven wherever it is asked.
+	# The finale's 帮手 list has one home now and is an at_least of eight wherever it is asked (封山 B added 封山守渡口).
 	var gather: StoryQuestDefinition.Step = catalog.story_quest(&"main.finale").step(&"gather")
 	var count_rows: Array[StoryQuestDefinition.CheckRow] = gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts)
-	_check(count_rows.size() == 1 and count_rows[0].condition.when == JournalEntryDefinition.When.AT_LEAST and count_rows[0].condition.amount == 3 and count_rows[0].condition.parts.size() == 7, "main.finale: 帮手 counts three of seven (finale.helpers)")
+	_check(count_rows.size() == 1 and count_rows[0].condition.when == JournalEntryDefinition.When.AT_LEAST and count_rows[0].condition.amount == 3 and count_rows[0].condition.parts.size() == 8, "main.finale: 帮手 counts three of eight (finale.helpers)")
 	for path: String in ["res://data/story/finale.json", "res://data/village/world.json", "res://data/native/npcs.json"]:
 		var text: String = FileAccess.get_file_as_string(path)
 		_check(not text.contains("关北的骑兵欠你一阵\"}, {\"mark\": \"大秦人留下了\"}, {\"not\"") and text.contains("finale.helpers"), "%s names the list, never writes it out" % path)

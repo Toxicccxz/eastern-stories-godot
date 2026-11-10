@@ -369,6 +369,10 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
         for key in ("title", "region", "summary"):
             if isinstance(quest.get(key), str):
                 catalog.add(quest[key], relative, note=f"{quest_id} {key}")
+        # What the 任务 page says of a line cut short (线断了).
+        lapses = quest.get("lapses")
+        if isinstance(lapses, dict) and isinstance(lapses.get("text"), str):
+            catalog.add(lapses["text"], relative, note=f"{quest_id} lapses.text")
         reward = quest.get("reward")
         if isinstance(reward, dict) and isinstance(reward.get("deed"), str):
             catalog.add(reward["deed"], relative, note=f"{quest_id} reward.deed")
@@ -401,6 +405,9 @@ def _add_rank(reward: object, relative: str, note: str, catalog: Catalog) -> Non
     """A reward's rank title is shown inside the family title (封山剑派第十四代大弟子)."""
     if isinstance(reward, dict) and isinstance(reward.get("rank"), dict) and isinstance(reward["rank"].get("title"), str):
         catalog.add(reward["rank"]["title"], relative, note=note)
+    # 分宗: the title in the branch, shown the same way (封山剑派北宗第十四代弟子).
+    if isinstance(reward, dict) and isinstance(reward.get("branch"), dict) and isinstance(reward["branch"].get("title"), str):
+        catalog.add(reward["branch"]["title"], relative, note=note.replace("rank", "branch"))
 
 
 def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:

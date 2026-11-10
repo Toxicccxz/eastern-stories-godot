@@ -48,7 +48,7 @@ static func martial_for(character: CharacterState, catalog: ContentCatalog, func
 
 static func _reaches(character: CharacterState, catalog: ContentCatalog, use: StringName, function_id: StringName) -> bool:
 	var mapped: StringName = character.skills.mapped_skill(use)
-	return not mapped.is_empty() and (_has(catalog.skill(mapped), function_id) or _has(catalog.skill(use), function_id))
+	return not mapped.is_empty() and (_has(catalog.skill(mapped), function_id, character) or _has(catalog.skill(use), function_id, character))
 
 
 ## perform <function_id> for `context.me` (`context.target` the named target).
@@ -68,16 +68,18 @@ static func perform(context: SpecialContext, function_id: StringName) -> bool:
 	var function: PerformFunction = SpecialFunctions.perform(function_id)
 	if function == null:
 		return false
-	if _has(context.catalog.skill(mapped), function_id) and function.perform(context):
+	if _has(context.catalog.skill(mapped), function_id, me.state) and function.perform(context):
 		if context.random.call(ROLL) < me.query_skill(mapped):
 			context.improve(mapped, 1, true)
 		return true
-	if _has(context.catalog.skill(martial), function_id) and function.perform(context):
+	if _has(context.catalog.skill(martial), function_id, me.state) and function.perform(context):
 		if context.random.call(ROLL) < me.state.skills.raw_level(martial):
 			context.improve(martial, 1, true)
 		return true
 	return false
 
 
-static func _has(skill: SkillDefinition, function_id: StringName) -> bool:
-	return skill != null and skill.perform_functions.has(function_id)
+## Whether `skill`'s file is `function_id` for `character`: the skill lists it, and what it asks
+## of them first (SkillDefinition.perform_when: 「点」字诀 is taught, DECISIONS「绝招要学过」) holds.
+static func _has(skill: SkillDefinition, function_id: StringName, character: CharacterState) -> bool:
+	return skill != null and skill.performs(function_id, character)

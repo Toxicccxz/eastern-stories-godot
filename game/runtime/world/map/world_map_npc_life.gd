@@ -29,6 +29,9 @@ var came_from_zone_id: StringName = &""
 ## scenes. Not saved: a scene begins anew as the player comes in.
 var scene_npc_id: StringName = &""
 var scene_focus_id: StringName = &""
+## The scene's calls judged for the player as it began (indices into its NPC's calls): the lines
+## it tells, and the ones its counter counts.
+var _scene_calls: Dictionary[int, bool] = {}
 ## Whose scene or told story a line is being said of ("" none): the player reads it in the
 ## dialogue box (DECISIONS「对话框」), what only sets the mood stays over people's heads.
 var teller: StringName = &""
@@ -528,6 +531,10 @@ func waits() -> Array[WorldWait]:
 		var waiting: Array[int] = []
 		for index: int in hooks.calls.size():
 			var call: NpcHooks.Call = hooks.calls[index]
+			# A scene's lines are the ones judged for the player as it began (封山 B: a scene with a
+			# line for either holder of the book tells one of the two, and counts one).
+			if call.scene and (npc.character_id != scene_npc_id or not _scene_calls.has(index)):
+				continue
 			if call.hurry and (call.act.ghost_state < 0 or (call.act.ghost_state == 1) == _player.state.ghost):
 				told.append(index)
 				if ambience.has_call(npc.character_id, NpcAmbience.own_call(index)):
@@ -929,7 +936,11 @@ func _start_own_calls(npc: NpcRuntimeState) -> void:
 				facts.npc_zone = npc.world_location().zone_id
 			if _player == null or not call.act.applies_to(_player.state.gender, _player.state.affiliation.class_id, facts):
 				continue
+			if not staged and scene_npc_id.is_empty():
+				_scene_calls.clear()
 			staged = true
+			if scene_npc_id.is_empty():
+				_scene_calls[index] = true
 		if call.reaction:
 			npc_ambience().start_reaction(npc.character_id, call.after, NpcAmbience.own_call(index))
 		else:
@@ -997,6 +1008,7 @@ func _advance_scene() -> void:
 func end_scene() -> void:
 	if scene_npc_id.is_empty():
 		return
+	_scene_calls.clear()
 	scene_npc_id = &""
 	scene_focus_id = &""
 	if session != null:

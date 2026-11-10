@@ -3989,6 +3989,480 @@
 					"我……我们都是武馆的弟子。问七哥去。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.north_pupil_boy",
+			"legacy_source": "native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 南北宗: one of the town's children 柳绘心 teaches in the 武馆's 内院 for nothing (总纲: 北宗传外人); the 内院 scene is his to begin (d/snow/innerhall.c: 平常武馆弟子没有馆主的允许是不敢到这里来的)",
+			"name": "阿桂",
+			"aliases": [
+				"a gui",
+				"gui",
+				"pupil"
+			],
+			"gender": "男性",
+			"age": 12,
+			"long": "一个十二三岁的男孩，裤脚短了一截，手里的竹剑是自己削的，握柄上缠着一圈麻绳。\n",
+			"attributes": {
+				"str": 12,
+				"cor": 16,
+				"int": 16,
+				"spi": 14,
+				"cps": 14,
+				"per": 16,
+				"con": 12,
+				"kar": 18
+			},
+			"combat_exp": 30,
+			"skills": {
+				"sword": 5,
+				"dodge": 5
+			},
+			"attitude": "friendly",
+			"fight_deferred": "阿桂把竹剑藏到身后：绘心姐说，不许跟人动手。",
+			"inquiry": {
+				"剑": [
+					"绘心姐说，剑尖别抬，等别人先刺空。我等了三天了，小满总也不刺。"
+				],
+				"拜师钱": [
+					"十两。我娘说，够我们家吃一年的。"
+				],
+				"柳绘心": [
+					"绘心姐不收钱。她说爹爹不教的，她教。"
+				]
+			},
+			"scene_mark": "内院撞见了",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "snow.npc.girl"
+						},
+						{
+							"emote": "握着阿桂的手腕，把他手里的竹剑往下压了半寸。"
+						},
+						{
+							"say": "剑尖别抬。等他刺空了，你这一剑才有地方去。"
+						}
+					]
+				},
+				{
+					"after": 5,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"say": "绘心姐，我娘说武馆的拜师钱要十两……我们家一年也攒不下。"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "snow.npc.girl"
+						},
+						{
+							"say": "我不收钱。爹爹不教的，我教。"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"mark": "大秦人留下了",
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "native.npc.shield_youth"
+						},
+						{
+							"emote": "把圆盾靠在墙根，学着她的样子把竹剑平平递出去。"
+						},
+						{
+							"say": "会首说：我们的盾，换你们的剑。等别人先刺空——这个，大秦没有。"
+						}
+					]
+				},
+				{
+					"after": 15,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"comes": "common.npc.swordsman.master",
+							"from": "snow.schoolhall"
+						},
+						{
+							"emote": "站在廊下，不知已经看了多久。"
+						},
+						{
+							"say": "绘心。"
+						}
+					]
+				},
+				{
+					"after": 19,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "common.npc.swordsman.master"
+						},
+						{
+							"say": "封山的剑不外传。雪亭这一支本来叫北宗；我接了掌门，才并回本宗，把这两个字去了——并回去的条件只有一条：剑不外传。"
+						}
+					]
+				},
+				{
+					"after": 24,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "snow.npc.girl"
+						},
+						{
+							"say": "去了两个字，剑就不是封山的剑了么？阿桂他爹去年死在卧龙岗的强盗手里。他要是会一招「封」，死的就不是他。"
+						}
+					]
+				},
+				{
+					"after": 29,
+					"scene": true,
+					"mark": "竹书给了柳绘心",
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "snow.npc.girl"
+						},
+						{
+							"say": "「起迄中空立，随风飘不定」——竹子弯了才不折。爹爹，这是你二十岁自己写的。"
+						}
+					]
+				},
+				{
+					"after": 29,
+					"scene": true,
+					"mark": "竹书给了柳淳风",
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "common.npc.swordsman.master"
+						},
+						{
+							"say": "我二十岁也这样想过，还写成了一卷书。后来才知道：随风飘的不是竹子，是没有根的东西。"
+						}
+					]
+				},
+				{
+					"after": 34,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "common.npc.swordsman.master"
+						},
+						{
+							"emote": "转过身来，看着你。"
+						},
+						{
+							"say": "你是这一辈的大弟子。本宗的规矩，你守不守？"
+						}
+					]
+				},
+				{
+					"after": 38,
+					"scene": true,
+					"not_mark": "内院撞见了",
+					"steps": [
+						{
+							"by": "snow.npc.girl"
+						},
+						{
+							"say": "你要是觉得我没有错，就留下来。北宗只有我一个人，我的剑也只学了个皮毛——可它是往外传的。"
+						},
+						{
+							"mark": "内院的话说完了"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.north_pupil_girl",
+			"legacy_source": "native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 南北宗: another of the children in the 内院",
+			"name": "小满",
+			"aliases": [
+				"xiao man",
+				"man",
+				"pupil"
+			],
+			"gender": "女性",
+			"age": 10,
+			"long": "一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n",
+			"attributes": {
+				"str": 10,
+				"cor": 18,
+				"int": 18,
+				"spi": 16,
+				"cps": 18,
+				"per": 18,
+				"con": 10,
+				"kar": 20
+			},
+			"combat_exp": 20,
+			"skills": {
+				"sword": 4,
+				"dodge": 6
+			},
+			"attitude": "friendly",
+			"fight_deferred": "小满摇摇头，一步也不肯动：先刺的人吃亏。",
+			"inquiry": {
+				"剑": [
+					"我不刺。绘心姐说了，先刺的人吃亏。"
+				],
+				"柳绘心": [
+					"绘心姐的剑上系着一条粉穗子。等我学会了「封」，她说也给我系一条。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.shield_youth",
+			"legacy_source": "native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 北宗的剑 (计划 §8: 番坊站了大秦人的, 安敦 sends one of his to trade 盾 for 剑): the 铁盾会's boy learning in the 内院, only where 大秦人留下了 (番坊 C)",
+			"name": "铁盾会少年",
+			"aliases": [
+				"shield youth",
+				"youth",
+				"大秦人"
+			],
+			"title": "大秦人",
+			"gender": "男性",
+			"age": 16,
+			"long": "一个十六七岁的异族少年，高鼻深目，头发卷得像羊毛。左臂上套着一面小圆盾，右手握着一柄竹剑——握法还是握短剑的握法。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 20,
+				"int": 16,
+				"spi": 16,
+				"cps": 20,
+				"per": 18,
+				"con": 20,
+				"kar": 16
+			},
+			"combat_exp": 800,
+			"skills": {
+				"sword": 20,
+				"parry": 25,
+				"dodge": 15,
+				"unarmed": 15
+			},
+			"attitude": "friendly",
+			"fight_deferred": "少年把圆盾一抬，摇了摇头：不打。来学的。",
+			"inquiry": {
+				"安敦": [
+					"会首说，欠了人情要还，学了本事也要还。我们的盾，换你们的剑。"
+				],
+				"剑": [
+					"我们的剑短，只往前。她的剑会等。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.liu_huixin_north",
+			"legacy_source": "native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 柳绘心 (d/snow/npc/girl.c: 封山剑派北宗 第 14 代 弟子) once the player keeps 本宗: out of the 武馆, under her own 北宗 board at 绮云镇's gate, where the town's notice still says 封山剑派北宗所在的雪亭镇 (u/cloud/entrance.c). Her skills and things are girl.c's; the attributes it leaves to the roll are fixed here, as every staged other-self (霍铮, 卫沧澜 by the lake)",
+			"name": "柳绘心",
+			"aliases": [
+				"liuh wheixin",
+				"liuh",
+				"wheixin"
+			],
+			"gender": "女性",
+			"age": 15,
+			"long": "柳绘心在镇口的公告旁支了一张小桌，身后立着一根新削的旗杆：「封山剑派北宗」。字是她自己写的。\n",
+			"attributes": {
+				"str": 16,
+				"cor": 24,
+				"int": 27,
+				"spi": 20,
+				"cps": 11,
+				"per": 27,
+				"con": 16,
+				"kar": 20
+			},
+			"resources": {
+				"max_force": 200,
+				"force": 200
+			},
+			"combat_exp": 1000,
+			"force_factor": 2,
+			"family": {
+				"name": "封山剑派北宗",
+				"generation": 14,
+				"title": "弟子"
+			},
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 20,
+				"parry": 40,
+				"dodge": 50,
+				"sword": 30,
+				"force": 30,
+				"literate": 70,
+				"fonxanforce": 40,
+				"fonxansword": 40,
+				"liuh-ken": 40,
+				"chaos-steps": 70
+			},
+			"skill_map": {
+				"unarmed": "liuh-ken",
+				"sword": "fonxansword",
+				"parry": "fonxansword",
+				"dodge": "chaos-steps"
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/snow/obj/pink_cloth",
+					"source": "d/snow/npc/obj/pink_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/snow/obj/shoe",
+					"source": "d/snow/npc/obj/shoe.c",
+					"equip": "wear"
+				}
+			],
+			"fight_style": "guarded",
+			"beats": 2,
+			"fight_deferred": "柳绘心摇了摇头：北宗的剑是教人的，不是拿来比的。",
+			"inquiry": {
+				"北宗": [
+					"镇口的公告上写着「封山剑派北宗所在的雪亭镇」。雪亭不要这两个字了，我就把它带到还写着它的地方来。"
+				],
+				"柳淳风": [
+					"爹爹没有拦我。他站在武馆门里，一直看到我过了卧龙岗。"
+				],
+				"点字诀": [
+					"你那一诀是爹爹亲传的，比我自己悟的准。"
+				],
+				"阿桂": [
+					"他们隔几天走卧龙岗过来。强盗现在不大敢拦了——他们手里有竹剑。"
+				]
+			},
+			"calls": [
+				{
+					"after": 1,
+					"reaction": true,
+					"not_mark": "见过北宗的牌子",
+					"steps": [
+						{
+							"say": "……是你。"
+						},
+						{
+							"say": "牌子是我自己写的。字不好，爹爹看见要笑的。"
+						},
+						{
+							"mark": "见过北宗的牌子"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.liu_chunfeng_lake",
+			"legacy_source": "native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 终章's eighth band, 封山守渡口: 柳淳风 (daemon/class/swordsman/master.c) and the 武馆's disciples by the boats, for the player who kept 本宗 (计划 §3 封山 B 第 5 条; 终章 A's others: 霍铮, 郭承, 卫沧澜)",
+			"name": "柳淳风",
+			"aliases": [
+				"master swordsman",
+				"swordsman",
+				"master"
+			],
+			"nickname": "风雨双侠",
+			"title": "封山剑派掌门人",
+			"gender": "男性",
+			"age": 44,
+			"long": "柳淳风站在渡口的船头，玄苏剑还在鞘里。他身后，淳风武馆的弟子在岸边站成了一排，没有一个人说话。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 30,
+				"int": 24,
+				"spi": 24,
+				"cps": 27,
+				"per": 22,
+				"con": 26,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 40,
+				"parry": 120,
+				"dodge": 80,
+				"sword": 150,
+				"force": 40
+			},
+			"attitude": "friendly",
+			"fight_deferred": "柳淳风摇了摇头：今夜的剑，留给湖里上来的东西。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "封山的剑不外传。可也没有哪一条规矩说，外面的事封山不管。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.liu_huixin_lake",
+			"legacy_source": "native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 终章's eighth band, 封山守渡口: 柳绘心 and the grown lads of the town she taught, for the player who went 北宗",
+			"name": "柳绘心",
+			"aliases": [
+				"liuh wheixin",
+				"liuh",
+				"wheixin"
+			],
+			"title": "封山剑派北宗",
+			"gender": "女性",
+			"age": 15,
+			"long": "柳绘心站在渡口的船边，细剑横在臂弯里。阿桂他们没有来——她身后是几个镇上的后生，握的是竹剑，手都在抖，脚却没有动。\n",
+			"attributes": {
+				"str": 16,
+				"cor": 24,
+				"int": 27,
+				"spi": 20,
+				"cps": 11,
+				"per": 27,
+				"con": 16,
+				"kar": 20
+			},
+			"combat_exp": 1000,
+			"skills": {
+				"unarmed": 20,
+				"parry": 40,
+				"dodge": 50,
+				"sword": 30,
+				"force": 30
+			},
+			"attitude": "friendly",
+			"fight_deferred": "柳绘心：现在不行。等今夜过了，我陪你拆。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "爹爹说剑不外传。可是你看——传出去的剑，今夜站在这里。"
+						}
+					]
+				}
+			}
 		}
 	]
 }

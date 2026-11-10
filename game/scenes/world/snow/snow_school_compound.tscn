@@ -405,6 +405,26 @@ position = Vector2(-871, -127)
 script = ExtResource("marker")
 spawn_point_id = &"snow.school2.wooden_dummy.5"
 
+[node name="InnerhallLiuHuixin1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1288, -50)
+script = ExtResource("marker")
+spawn_point_id = &"snow.innerhall.liu_huixin.1"
+
+[node name="InnerhallPupil1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1220, 18)
+script = ExtResource("marker")
+spawn_point_id = &"snow.innerhall.pupil.1"
+
+[node name="InnerhallPupil2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1356, 18)
+script = ExtResource("marker")
+spawn_point_id = &"snow.innerhall.pupil.2"
+
+[node name="InnerhallShieldYouth1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1288, 69)
+script = ExtResource("marker")
+spawn_point_id = &"snow.innerhall.shield_youth.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

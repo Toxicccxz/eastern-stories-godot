@@ -57,6 +57,7 @@
           ["wall", 1152, 1216, 1232, 1248],
           ["blocked", 752, 1152, 800, 1168, "the government notice at the gate (entrance.c's sign)", {"look": {"kind": "notice_post", "text": "[启事] 由此入镇收取黄金一两", "paper": "e6dcbf"}}],
           ["blocked", 1040, 1120, 1088, 1168, "a tea stall for travellers just inside the gate", {"look": {"kind": "tea_stall"}}],
+          ["blocked", 976, 1056, 992, 1072, "柳绘心's 北宗 board by the town gate (native, 势力线 封山 B: the player kept 本宗 and she left the 武馆; u/cloud/entrance.c's notice still calls 雪亭 the seat of 封山剑派北宗) — a stage prop (DECISIONS「舞台道具」)", {"look": {"kind": "pole_banner", "text": "封山剑派北宗", "cloth": "f1e6d2", "letters": "b54562", "trim": "b54562", "height": 7.2, "length": 4.5, "present": {"mark": "跟了本宗"}}}],
           ["blocked", 928, 1280, 976, 1344, "market stalls along the street's edges: the butcher's by its door (腥膻)", {"look": {"kind": "stall", "goods": "meat", "rotation": 90, "awning": ["b8a27a", "7a4a3a"]}}],
           ["blocked", 928, 1504, 976, 1568, "tea by the tea house (茶香)", {"look": {"kind": "stall", "goods": "tea", "rotation": 90, "awning": ["c8bc94", "4f6f5a"]}}],
           ["blocked", 1184, 1584, 1264, 1616, {"look": {"kind": "stall", "goods": "sweets", "awning": ["d8c49c", "a8442f"]}}],
@@ -108,6 +109,7 @@
         "markers_in_middle": ["cloud.eroad4"],
         "placed": {
           "cloud.dragonhill.hummock.gangster.1": [924, 584],
+          "cloud.entrance.liu_huixin.1": [944, 1088],
           "cloud.dragonhill.hummock.gangster.2": [1124, 584]
         },
         "buildings": [

@@ -1490,6 +1490,10 @@
           "snow.school2.wooden_dummy.4": ["snow.school2", ["s", 10.5, 2]],
           "snow.school2.wooden_dummy.5": ["snow.school2", ["e", 2, -3.5]],
           "snow.nyard.girl.1": ["snow.nyard", ["c", -1.5, 1]],
+          "snow.innerhall.liu_huixin.1": ["snow.innerhall", ["c", 0, -1]],
+          "snow.innerhall.pupil.1": ["snow.innerhall", ["c", -2, 1]],
+          "snow.innerhall.pupil.2": ["snow.innerhall", ["c", 2, 1]],
+          "snow.innerhall.shield_youth.1": ["snow.innerhall", ["c", 0, 2.5]],
           "snow.weapon_storage.bamboo_sword.1": ["snow.weapon_storage", ["c", 1, 1.5]]
         },
         "reach_from": "School2GateEntry"

@@ -85,7 +85,7 @@ func _test_rules() -> void:
 		weak.numbers = strong.numbers.duplicate()
 		weak.numbers[key] -= 1
 		var act: ScriptedAct = stone.act_for(&"男性", &"", weak)
-		_check(act == stone.acts[1] and act.steps.size() == 1 and act.steps[0].line.text == WEAK + "\n", "one short of %s: %s" % [key, WEAK])
+		_check(act == stone.acts[2] and act.steps.size() == 1 and act.steps[0].line.text == WEAK + "\n", "one short of %s: %s" % [key, WEAK])
 	_check(gap.act_for(&"男性", &"", strong) == null, "no gap before the push")
 	var open := ScriptedAct.Facts.new()
 	open.numbers = strong.numbers.duplicate()
@@ -94,7 +94,7 @@ func _test_rules() -> void:
 	var bookcase: RoomActDefinition = catalog.service(BOOKCASE).act
 	var fresh := ScriptedAct.Facts.new()
 	fresh.item_exists = func(_id: StringName) -> bool: return false
-	_check(bookcase.act_for(&"男性", &"", fresh) == bookcase.acts[1] and bookcase.acts[1].steps.size() == 2, "no book in the world: the line and the 书匣 (no room flag kept)")
+	_check(bookcase.act_for(&"男性", &"", fresh) == bookcase.acts[2] and bookcase.acts[2].steps.size() == 2, "no book in the world: the line and the 书匣 (no room flag kept)")
 	var exists := ScriptedAct.Facts.new()
 	exists.item_exists = func(id: StringName) -> bool: return id == BOOK
 	_check(bookcase.act_for(&"男性", &"", exists) == bookcase.acts[0], "the book exists somewhere: nothing (F_UNIQUE, 默认)")

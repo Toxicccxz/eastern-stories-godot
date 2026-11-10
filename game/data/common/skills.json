@@ -259,8 +259,29 @@
 			"perform": [
 				"counterattack",
 				"swordjab",
-				"fakefault"
+				"fakefault",
+				"powerfocus"
 			],
+			"perform_rules": {
+				"powerfocus": {
+					"when": {
+						"all": [
+							{
+								"mark": "学了点字诀"
+							},
+							{
+								"pace": "modern"
+							}
+						]
+					},
+					"numbers": {
+						"force": 30,
+						"damage": 12,
+						"damage_percent": 25,
+						"slip_busy": 2
+					}
+				}
+			},
 			"practice": {
 				"kee": 30,
 				"force": 3,

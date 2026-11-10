@@ -519,6 +519,10 @@ func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
 func _check_reward(origin: String, reward: StoryQuestDefinition.Reward) -> void:
 	if reward != null and not reward.rank_title.is_empty() and not _families.has(reward.rank_family):
 		_errors.append("%s.rank: no family '%s'" % [origin, reward.rank_family])
+	if reward != null and not reward.branch_to.is_empty():
+		for family_id: StringName in [reward.branch_from, reward.branch_to]:
+			if not _families.has(family_id):
+				_errors.append("%s.branch: no family '%s'" % [origin, family_id])
 
 
 ## The named conditions and the 声望 page's houses name what the game has; a house has one id.
@@ -532,6 +536,10 @@ func _check_conditions_and_factions() -> void:
 		seen[faction.faction_id] = true
 		for index: int in faction.lines.size():
 			_check_condition("factions.%s.lines[%d]" % [faction.faction_id, index], faction.lines[index].condition)
+	# What a perform asks first (DECISIONS「绝招要学过」) names what the game has.
+	for skill: SkillDefinition in _skills.values():
+		for function_id: StringName in skill.perform_when:
+			_check_condition("skills.%s.perform_rules.%s.when" % [skill.skill_id, function_id], skill.perform_when[function_id])
 
 
 ## The quests (任务系统) have unique IDs, name quests, zones and maps the game has, and
@@ -560,6 +568,8 @@ func _check_story_quests() -> void:
 		var origin: String = "quests.%s" % quest.quest_id
 		if quest.starts != null:
 			_check_condition(origin + ".starts", quest.starts)
+		if quest.lapses != null:
+			_check_condition(origin + ".lapses", quest.lapses)
 		_check_reward(origin + ".reward", quest.reward)
 		for other: StringName in quest.requires + quest.excludes:
 			if other == quest.quest_id:

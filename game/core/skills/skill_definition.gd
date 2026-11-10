@@ -54,6 +54,13 @@ var exert_functions: Array[StringName] = []
 ## The perform actions and spells its perform_action_file() and cast_spell_file()
 ## reach (SpecialFunctions ids).
 var perform_functions: Array[StringName] = []
+## Native (势力线第一批 封山 B; DECISIONS「绝招要学过」「点字诀」): `perform_rules` {action: {when?,
+## numbers?}}. `when` is a journal condition (a mark, the pace) perform.c asks of whoever would
+## use that action through this skill: until it holds the action is not theirs (not offered, and
+## refused as one the skill does not have). `numbers` are what the action's file reads
+## (PerformFunction.number_keys), all of them, each 0 or more.
+var perform_when: Dictionary[StringName, JournalEntryDefinition] = {}
+var perform_numbers: Dictionary[StringName, Dictionary] = {}
 var cast_functions: Array[StringName] = []
 ## The 符 its scribe_spell_file() reaches (SpecialFunctions.SCRIBES ids).
 var scribe_functions: Array[StringName] = []
@@ -262,6 +269,7 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		if not SpecialFunctions.PERFORMS.has(StringName(function_id)):
 			reader.fail("perform", "no perform action %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.PERFORMS)])
 		definition.perform_functions.append(StringName(function_id))
+	_read_perform_rules(reader, definition)
 	for function_id: String in reader.text_list("cast"):
 		if not SpecialFunctions.CASTS.has(StringName(function_id)):
 			reader.fail("cast", "no spell %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.CASTS)])
@@ -295,3 +303,61 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		reader.fail("enable", "a specialized skill is enabled for a use, a basic one for none")
 	reader.finish()
 	return definition
+
+
+## The number `key` of this skill's perform `function_id` (`perform_rules.<id>.numbers`); 0 when
+## the record gives none.
+func perform_number(function_id: StringName, key: String) -> int:
+	var numbers: Dictionary = perform_numbers.get(function_id, {})
+	return int(numbers.get(key, 0))
+
+
+## Whether perform.c reaches `function_id` through this skill for `state`: the skill has the
+## action, and its `when` (none: anyone) holds for them.
+func performs(function_id: StringName, state: CharacterState) -> bool:
+	if not perform_functions.has(function_id):
+		return false
+	var when: JournalEntryDefinition = perform_when.get(function_id)
+	if when == null:
+		return true
+	var no_temps: Dictionary[String, int] = {}
+	var nothing_held: Dictionary[StringName, bool] = {}
+	return state != null and JournalLog.holds(when, state, no_temps, nothing_held)
+
+
+static func _read_perform_rules(reader: ContentRecordReader, definition: SkillDefinition) -> void:
+	var rules: ContentRecordReader = reader.child("perform_rules") if reader.has("perform_rules") else null
+	var ruled: Array[String] = []
+	if rules != null:
+		ruled = rules.keys()
+	for function_id: String in ruled:
+		if not definition.perform_functions.has(StringName(function_id)):
+			rules.fail(function_id, "the skill has no such perform")
+			continue
+		var rule: ContentRecordReader = rules.child(function_id)
+		if rule == null:
+			continue
+		if rule.has("when"):
+			var when := JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(rule, when)
+			definition.perform_when[StringName(function_id)] = when
+		var numbers: ContentRecordReader = rule.child("numbers") if rule.has("numbers") else null
+		if numbers != null:
+			var read: Dictionary = {}
+			for key: String in numbers.keys():
+				read[key] = numbers.required_integer(key)
+				if int(read[key]) < 0:
+					numbers.fail(key, "must be 0 or more")
+			numbers.finish()
+			definition.perform_numbers[StringName(function_id)] = read
+		rule.finish()
+	if rules != null:
+		rules.finish()
+	for function_id: StringName in definition.perform_functions:
+		var function: PerformFunction = SpecialFunctions.perform(function_id)
+		var given: Dictionary = definition.perform_numbers.get(function_id, {})
+		if function == null:
+			continue
+		for key: String in function.number_keys:
+			if not given.has(key):
+				reader.fail("perform_rules", "%s needs the number '%s'" % [function_id, key])
