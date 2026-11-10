@@ -94,6 +94,7 @@
 			},
 			"beats": 2,
 			"accept_object": [
+				{ "item": "native:snow/fonxan_tally", "giver_mark": "守馆办完了", "accept": true, "lines": [{ "emote": "把腰牌收进袖里。" }, { "say": "找回来了？我替他收着。" }] },
 				{ "item": "native:snow/fonxan_tally", "giver_mark": "逄义认了腰牌", "accept": true, "mark_giver": "守馆办完了", "lines": [{ "emote": "把腰牌收进袖里。" }, { "say": "牌我替他收着。他什么时候戒了赌，什么时候自己来取。" }, { "say": "门户的名头，不是谁都能借的。这件事你办得干净——从今日起，你是这一辈的大弟子。" }, { "say": "还有一件事，李教头会同你说。" }] },
 				{ "item": "native:snow/fonxan_tally", "accept": false, "say": "牌是逄师弟的。你先去绮云镇问他一句，牌是怎么到外人手里的。" }
 			],

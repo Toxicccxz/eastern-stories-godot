@@ -54,6 +54,7 @@ var _story_quests: Array[StoryQuestDefinition] = []
 var _story_quests_by_id: Dictionary[StringName, StoryQuestDefinition] = {}
 var _epilogues: Dictionary[StringName, EpilogueDefinition] = {}
 var _factions: Array[FactionDefinition] = []
+var _conditions: Dictionary[String, JournalEntryDefinition] = {}
 
 
 func _init(
@@ -279,6 +280,16 @@ func set_epilogues(epilogues: Dictionary[StringName, EpilogueDefinition]) -> voi
 
 
 ## An ending told over the 沙盘 (EpilogueDefinition; DECISIONS「结局讲述」), or null.
+## Native (势力线; DECISIONS「具名条件」): the named conditions, for a `when` read after the catalog
+## was built (a stage prop's look): JournalEntryDefinition.link_named() with these.
+func set_conditions(conditions: Dictionary[String, JournalEntryDefinition]) -> void:
+	_conditions = conditions.duplicate()
+
+
+func conditions() -> Dictionary[String, JournalEntryDefinition]:
+	return _conditions
+
+
 ## Native (势力线; DECISIONS「势力名册」): the 声望 page's houses, in authored order.
 func set_factions(factions: Array[FactionDefinition]) -> void:
 	_factions = factions.duplicate()

@@ -95,12 +95,17 @@ class Answer:
 
 
 ## What the player can ask `definition` about, in ES2's listing order; a topic the NPC
-## deleted (`forgotten`) is gone, though 这里, 名字 and 传闻 are always there to ask.
-static func topics(definition: NpcDefinition, forgotten: Array[String] = []) -> Array[String]:
+## deleted (`forgotten`) is gone, though 这里, 名字 and 传闻 are always there to ask. `marks` are
+## the asker's saved marks: a topic with `listed_marks` (NpcTalk.listed_for()) is left out for one
+## who does not hold them; null lists every topic (what the NPC can be asked at all).
+static func topics(definition: NpcDefinition, forgotten: Array[String] = [], marks: Variant = null) -> Array[String]:
 	var result: Array[String] = DEFAULT_TOPICS.duplicate()
 	if definition == null:
 		return result
-	for topic: String in definition.talk().inquiry_topics():
+	var talk: NpcTalk = definition.talk()
+	for topic: String in talk.inquiry_topics():
+		if marks is Dictionary and not talk.listed_for(topic, marks):
+			continue
 		if not result.has(topic) and not ENGLISH_TOPICS.values().has(topic) and not forgotten.has(topic):
 			result.append(topic)
 	return result

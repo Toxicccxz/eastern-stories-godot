@@ -54,7 +54,7 @@ func _test_data() -> void:
 	_check(ids == [&"hear", &"fakes", &"pang", &"report", &"gate", &"book"], "its steps: %s" % [ids])
 	var gate: StoryQuestDefinition.Step = quest.step(&"gate")
 	_check(gate.is_branch() and gate.weight == StoryQuestDefinition.WEIGHT_SMALL and gate.options.size() == 2 and not gate.options[0].reward.deed.is_empty() and not gate.options[1].reward.deed.is_empty(), "the 门房 is a small choice of two, each a deed")
-	_check(gate.objective.contains("离开武馆") and gate.objective.contains("算在你头上"), "the cost of either way is said before the choice (owner: 选前说代价)")
+	_check(gate.objective.contains("没有他的位置") and gate.objective.contains("算在你头上"), "the cost of either way is said before the choice (owner: 选前说代价)")
 	_check(quest.step(&"report").reward.rank_title == "大弟子" and quest.step(&"report").reward.rank_family == &"family.fonxan", "守馆 done: 大弟子")
 	# 逄义: ES2's own, placed at last.
 	var pang: NpcDefinition = catalog.npc(PANG)
@@ -168,6 +168,10 @@ func _test_guarding(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hall.select_npc(master.character_id), "柳淳风 selected again")
 	hall.give_to_selected(_carried(session, TALLY))
 	_check(_carried(session, TALLY).is_empty() and state.marks.get("守馆办完了", 0) == 1, "the 腰牌 given back: 守馆办完了")
+	# TEST-ONLY: another 牌 in hand once the matter is closed (told without it, then found): taken quietly.
+	hall.give_new_item_to_player(TALLY)
+	var again: ItemHandlingResult = hall.give_to_selected(_carried(session, TALLY))
+	_check(_carried(session, TALLY).is_empty() and again != null and not again.lines.any(func(line: String) -> bool: return line.contains("大弟子")), "a 牌 given afterwards is taken with a word, the rise is not said twice")
 	session.record_journal()
 	_check(state.quests.has("faction.fonxan/report") and state.affiliation.family_title == "大弟子", "step report done: 大弟子 (%s)" % state.affiliation.family_title)
 	_check(player.shown_title().contains("大弟子") and player.facts.title.contains("大弟子"), "the title shown and kept: %s / %s" % [player.shown_title(), player.facts.title])
@@ -192,10 +196,12 @@ func _test_reveal(tree: SceneTree, session: WorldSessionController) -> void:
 	var yard: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.gate_entry")
 	await _settle(tree)
 	var trainer: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.school2.fist_trainer.1")
-	_check(_said(_ask(yard, trainer, "说破门房的来历"), "说破什么") and not state.marks.has("说破了刘安禄"), "before 李火狮 has put the question, the word is not taken")
+	_check(yard.select_npc(trainer.character_id) and yard.ask_topics_selected().has("门房") and not yard.ask_topics_selected().has("说破门房的来历") and not yard.ask_topics_selected().has("替门房瞒下来"), "before 李火狮 has put the question, the two answers are not on the list (listed_marks)")
+	_check(_ask(yard, trainer, "说破门房的来历").is_empty() and not state.marks.has("说破了刘安禄"), "and cannot be asked")
 	_check(_said(_ask(yard, trainer, "门房"), "武馆不留匪") and state.marks.get("李火狮说了门房", 0) == 1, "李火狮 puts the question")
+	_check(yard.ask_topics_selected().has("说破门房的来历") and yard.ask_topics_selected().has("替门房瞒下来"), "now both answers are listed")
 	var talk: NpcTalk = GameContent.catalog().npc(TRAINER).talk()
-	_check(talk.ask_confirm("说破门房的来历").contains("离开武馆") and talk.ask_confirm("替门房瞒下来").contains("算在你头上") and talk.confirm_applies("说破门房的来历", state.marks), "the confirms say what each way costs, and ask now")
+	_check(talk.ask_confirm("说破门房的来历").contains("没有他的位置") and talk.ask_confirm("替门房瞒下来").contains("算在你头上") and talk.confirm_applies("说破门房的来历", state.marks), "the confirms say what each way costs, and ask now")
 	_check(_said(_ask(yard, trainer, "说破门房的来历"), "血手刘三") and state.marks.get("说破了刘安禄", 0) == 1, "说破")
 	_check(_said(_ask(yard, trainer, "替门房瞒下来"), "瞒不回去") and not state.marks.has("替刘安禄瞒了"), "the other way is closed")
 	session.record_journal()
@@ -206,6 +212,14 @@ func _test_reveal(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_count_in(session, &"snow.school1", GUARD) == 0 and _count_in(session, &"snow.crossroad", GUARD) == 1, "刘安禄 has left the gate and stands at the 山坳 (%d, %d)" % [_count_in(session, &"snow.school1", GUARD), _count_in(session, &"snow.crossroad", GUARD)])
 	var road: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.crossroad.liu_anlu.1")
 	_check(road != null and GameContent.catalog().npc(GUARD).talk().inquiry_topics().has("刘老三"), "he is the same man there: guard.c's 刘老三 can still be asked")
+	# DECISIONS「同一个人的另一处」: made with the gate's rolls over again — the same attributes, no draw of the world's.
+	var gate: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.school1.guard.1")
+	var same: bool = gate != null and road != null
+	if same:
+		for attribute: StringName in [&"strength", &"courage", &"intelligence", &"spirituality", &"composure", &"personality", &"constitution", &"karma"]:
+			same = same and int(gate.character_state.attributes.get(attribute)) == int(road.character_state.attributes.get(attribute))
+	_check(same, "the 刘安禄 of the 山坳 has the attributes of the one at the gate (same_person)")
+	_check(GameContent.catalog().spawn(&"native.crossroad.liu_anlu").same_person == &"snow.outdoor.school1.guard", "the 山坳's spawn names the gate's")
 	var standing: SharedGameplayUI = session.shared_ui()
 	standing.standing_page.fill(session.quest_condition_test())
 	_check(standing.standing_page.shown_text().contains("是你说破了门房的来历"), "the 声望 page says so")
@@ -247,6 +261,13 @@ func _test_gone_home(tree: SceneTree, session: WorldSessionController) -> void:
 	MapPlaces.enter(session, &"snow.school1", &"snow.school1.gate_return")
 	await _settle(tree)
 	_check(_count_in(session, &"snow.school1", GUARD) == 0 and _count_in(session, &"snow.crossroad", GUARD) == 0, "he is at the stockade, not at the 山坳")
+	yard = MapPlaces.enter(session, &"snow.school2", &"snow.school2.gate_entry")
+	await _settle(tree)
+	trainer = MapPlaces.npc_at(session, &"snow.school2.fist_trainer.1")
+	_check(_said(_ask(yard, trainer, "门房"), "回了野羊山") and not _said(_ask(yard, trainer, "门房"), "钥匙"), "李火狮 afterwards: he went back to the hills (no keys handed in)")
+	session.record_journal()
+	var told: Array = StoryQuestLog.shown(state, GameContent.catalog().story_quests(), StoryQuestDefinition.LINE_FACTION)[0].entries
+	_check(not told.any(func(entry: String) -> bool: return entry.contains("离开了武馆") or entry.contains("留在了武馆")), "the 任务 page's record does not say where he is (he was gone already): %s" % [told])
 	_check(_ending_lines(session, &"snow").any(func(line: String) -> bool: return line.contains("二寨主")) and not _ending_lines(session, &"snow").any(func(line: String) -> bool: return line.contains("门房空了一冬")), "the ending keeps the line of the one who went home")
 
 

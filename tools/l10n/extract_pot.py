@@ -63,7 +63,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "confirm", "text",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
-ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver"})
+ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks"})
 HEADER = """\
 # Eastern Stories translation template.
 # Source language: Simplified Chinese (zh_CN); each message ID is the source text.
@@ -372,6 +372,7 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
         reward = quest.get("reward")
         if isinstance(reward, dict) and isinstance(reward.get("deed"), str):
             catalog.add(reward["deed"], relative, note=f"{quest_id} reward.deed")
+        _add_rank(reward, relative, f"{quest_id} reward.rank.title", catalog)
         for step in quest.get("steps", []):
             if not isinstance(step, dict):
                 continue
@@ -383,9 +384,7 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
             step_reward = step.get("reward")
             if isinstance(step_reward, dict) and isinstance(step_reward.get("deed"), str):
                 catalog.add(step_reward["deed"], relative, note=f"{step_id} reward.deed")
-            # A rank's title is shown inside the family title (封山剑派第十四代大弟子).
-            if isinstance(step_reward, dict) and isinstance(step_reward.get("rank"), dict) and isinstance(step_reward["rank"].get("title"), str):
-                catalog.add(step_reward["rank"]["title"], relative, note=f"{step_id} reward.rank.title")
+            _add_rank(step_reward, relative, f"{step_id} reward.rank.title", catalog)
             for option in step.get("options", []):
                 if not isinstance(option, dict):
                     continue
@@ -395,6 +394,13 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
                 option_reward = option.get("reward")
                 if isinstance(option_reward, dict) and isinstance(option_reward.get("deed"), str):
                     catalog.add(option_reward["deed"], relative, note=f"{option_id} reward.deed")
+                _add_rank(option_reward, relative, f"{option_id} reward.rank.title", catalog)
+
+
+def _add_rank(reward: object, relative: str, note: str, catalog: Catalog) -> None:
+    """A reward's rank title is shown inside the family title (封山剑派第十四代大弟子)."""
+    if isinstance(reward, dict) and isinstance(reward.get("rank"), dict) and isinstance(reward["rank"].get("title"), str):
+        catalog.add(reward["rank"]["title"], relative, note=note)
 
 
 def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:

@@ -398,7 +398,7 @@ static func _kee_percent(state: CharacterState) -> int:
 func ask_topics_selected() -> Array[String]:
 	var topics: Array[String] = []
 	if can_ask_selected():
-		topics = NpcInquiry.topics(selected_npc().definition(), selected_npc().forgotten_topics())
+		topics = NpcInquiry.topics(selected_npc().definition(), selected_npc().forgotten_topics(), _player.state.marks)
 	return topics
 
 

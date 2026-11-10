@@ -283,6 +283,7 @@ func build() -> ContentCatalog:
 	catalog.set_story_quests(_story_quests)
 	catalog.set_epilogues(_epilogues)
 	catalog.set_factions(_factions)
+	catalog.set_conditions(_conditions)
 	catalog.set_day_phases(_day_phases)
 	catalog.set_sky_levels(_sky_levels)
 	catalog.set_progression(_progression)
@@ -575,7 +576,7 @@ func _check_story_quests() -> void:
 			_check_reward(at + ".reward", step.reward)
 			for row: StoryQuestDefinition.CheckRow in step.checklist:
 				# A count row may name its at_least (`cond`): it is one only now, linked.
-				if row.counts and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
+				if row.counts and row.condition != null and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
 					_errors.append("%s.checklist: a count row's when is an at_least" % at)
 			if step.target != null:
 				var zone: ZoneDefinition = _zones.get(step.target.zone_id)
@@ -777,6 +778,8 @@ func _resolve_npc_dealings() -> void:
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
+				if not inquiry_rule.asker_family.is_empty() and not _families.has(inquiry_rule.asker_family):
+					_errors.append("%s.inquiry.%s.asker_family: unknown family '%s'" % [origin, topic, inquiry_rule.asker_family])
 				if not inquiry_rule.epilogue.is_empty() and not _epilogues.has(inquiry_rule.epilogue):
 					_errors.append("%s.inquiry.%s.epilogue: unknown ending '%s'" % [origin, topic, inquiry_rule.epilogue])
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
@@ -825,6 +828,13 @@ func _check_spawns() -> void:
 			_errors.append("%s.draw: '%s' has nothing to draw from" % [_origins[group_first[group].spawn_id], group])
 	for definition: NpcSpawnDefinition in _spawns.values():
 		var origin: String = _origins[definition.spawn_id]
+		if not definition.same_person.is_empty():
+			# The same person elsewhere: one definition, one map, and no more of them than of the first.
+			var first: NpcSpawnDefinition = _spawns.get(definition.same_person)
+			if first == null or first == definition:
+				_errors.append("%s.same_person: unknown spawn '%s'" % [origin, definition.same_person])
+			elif first.npc_definition_id != definition.npc_definition_id or first.map_id != definition.map_id or first.quantity < definition.quantity or not first.same_person.is_empty():
+				_errors.append("%s.same_person: '%s' is not the same NPC on the same map" % [origin, definition.same_person])
 		if not _npcs.has(definition.npc_definition_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, definition.npc_definition_id])
 		elif _npcs[definition.npc_definition_id].conjuring() != null:

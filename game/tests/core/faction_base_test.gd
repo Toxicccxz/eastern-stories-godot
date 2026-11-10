@@ -185,6 +185,15 @@ func _test_asker_family() -> void:
 	var rules: Array[NpcInquiryRule] = [own, anyone]
 	_check(NpcInquiryRule.decide(rules, marks, null, &"", &"", 0, no_flags, nothing, &"family.fonxan") == own, "decide: the family's own rule first")
 	_check(NpcInquiryRule.decide(rules, marks) == anyone, "decide: a stranger falls through to the next")
+	# A topic listed only to one who holds its marks (李火狮's two answers on the 门房).
+	var trainer: NpcDefinition = GameContent.catalog().npc(&"snow.npc.fist_trainer")
+	var nobody: Dictionary[String, int] = {}
+	var asked: Dictionary[String, int] = {"李火狮说了门房": 1}
+	var forgotten: Array[String] = []
+	_check(NpcInquiry.topics(trainer).has("说破门房的来历") and NpcInquiry.topics(trainer, forgotten, nobody).has("门房") and not NpcInquiry.topics(trainer, forgotten, nobody).has("说破门房的来历") and NpcInquiry.topics(trainer, forgotten, asked).has("说破门房的来历"), "listed_marks: off the list until the mark is held; with no marks given, every topic")
+	# A `cond` read once the catalog is built (a stage prop's look) is linked against the catalog's.
+	var late: JournalEntryDefinition = WorldStoryPresence._look_when({"present": {"cond": "finale.helpers"}}, "present")
+	_check(late != null and late.when == JournalEntryDefinition.When.AT_LEAST and late.parts.size() == 7, "a look's cond is linked as it is read")
 
 
 func _test_weight() -> void:

@@ -15816,6 +15816,11 @@ msgstr ""
 
 #. common.npc.swordsman.master accept_object.lines.say
 #: data/common/npcs.json
+msgid "找回来了？我替他收着。"
+msgstr ""
+
+#. common.npc.swordsman.master accept_object.lines.say
+#: data/common/npcs.json
 msgid "牌我替他收着。他什么时候戒了赌，什么时候自己来取。"
 msgstr ""
 
@@ -21280,12 +21285,12 @@ msgstr ""
 
 #. faction.fonxan/gate objective
 #: data/story/faction_fonxan.json
-msgid "罗七在镇上嚷过：武馆的门房是野羊山的血手刘三。李火狮在等一句话，问他「门房」——说破，他今天就得离开武馆；替他瞒，这句话从此算在你头上。"
+msgid "罗七在镇上嚷过：武馆的门房是野羊山的血手刘三。李火狮在等一句话，问他「门房」——说破，武馆从此没有他的位置；替他瞒，这句话从此算在你头上。"
 msgstr ""
 
 #. faction.fonxan/gate/reveal text
 #: data/story/faction_fonxan.json
-msgid "你对李火狮说了实话：门房刘安禄就是野羊山的血手刘三。武馆不留匪，他当天离开了武馆。"
+msgid "你对李火狮说了实话：门房刘安禄就是野羊山的血手刘三。武馆不留匪。"
 msgstr ""
 
 #. faction.fonxan/gate/reveal reward.deed
@@ -21295,7 +21300,7 @@ msgstr ""
 
 #. faction.fonxan/gate/cover text
 #: data/story/faction_fonxan.json
-msgid "你对李火狮说：那伙骗子认错了人。刘安禄留在了武馆。"
+msgid "你对李火狮说：那伙骗子认错了人。武馆里没人再提这件事。"
 msgstr ""
 
 #. faction.fonxan/gate/cover reward.deed
@@ -22199,6 +22204,11 @@ msgstr ""
 
 #. snow.npc.fist_trainer inquiry.门房.rules.say
 #: data/snow/npcs.json
+msgid "话是你说的，馆主也认了。老刘回了野羊山——这扇门，他不会再进了。"
+msgstr ""
+
+#. snow.npc.fist_trainer inquiry.门房.rules.say
+#: data/snow/npcs.json
 msgid "话是你说的，馆主也认了。武馆的规矩，谁也不能例外。……老刘走的时候，把门房的钥匙擦得干干净净。"
 msgstr ""
 
@@ -22266,26 +22276,8 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "告诉李火狮：门房刘安禄就是野羊山的血手刘三。\n"
-"武馆不留匪——这句话出口，他今天就得离开武馆，弟子们会记得是你说的。\n"
+"武馆不留匪——这句话出口，武馆从此没有他的位置，弟子们会记得是你说的。\n"
 "要说破吗？"
-msgstr ""
-
-#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm_marks
-#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm_marks
-#: data/snow/npcs.json
-msgid "李火狮说了门房"
-msgstr ""
-
-#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm_lacks
-#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm_lacks
-#: data/snow/npcs.json
-msgid "说破了刘安禄"
-msgstr ""
-
-#. snow.npc.fist_trainer inquiry.说破门房的来历.confirm_lacks
-#. snow.npc.fist_trainer inquiry.替门房瞒下来.confirm_lacks
-#: data/snow/npcs.json
-msgid "替刘安禄瞒了"
 msgstr ""
 
 #. snow.npc.fist_trainer inquiry.说破门房的来历.rules.say
@@ -22327,7 +22319,7 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "告诉李火狮：那伙骗子认错了人。\n"
-"刘安禄留在武馆，欠你一句话；可这句话从此算在你头上，日后再有人认出他，弟子们先问的是你。\n"
+"武馆里没人再提这件事，刘安禄欠你一句话；可这句话从此算在你头上，日后再有人认出他，弟子们先问的是你。\n"
 "要替他瞒吗？"
 msgstr ""
 
@@ -29984,21 +29976,6 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.湖底.confirm
 #: data/latemoon/npcs.json
 msgid "叫瑷伦随你下湖？她穿着宝衣跟你去玉螺湖，等事情了结。"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_marks
-#: data/latemoon/npcs.json
-msgid "瑷伦守到决战"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_marks
-#: data/latemoon/npcs.json
-msgid "岚城一章"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_lacks
-#: data/latemoon/npcs.json
-msgid "叫来了瑷伦"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.湖底.rules.say
@@ -43876,21 +43853,6 @@ msgstr ""
 msgid "让卢卡跟着你走——他会跟你去每一个地方，站在你这边打。要叫他跟上吗？"
 msgstr ""
 
-#. native.npc.luca inquiry.跟我走.confirm_marks
-#: data/guanbei/npcs.json
-msgid "争地过了"
-msgstr ""
-
-#. native.npc.luca inquiry.跟我走.confirm_lacks
-#: data/guanbei/npcs.json
-msgid "卢卡恨了你"
-msgstr ""
-
-#. native.npc.luca inquiry.跟我走.confirm_lacks
-#: data/guanbei/npcs.json
-msgid "卢卡跟上了"
-msgstr ""
-
 #. native.npc.luca inquiry.跟我走.rules.say
 #: data/guanbei/npcs.json
 msgid "不。"
@@ -47165,21 +47127,6 @@ msgstr ""
 #. native.npc.andun inquiry.站大秦人.confirm
 #: data/fanfang/npcs.json
 msgid "站到大秦人一边——在拜火祠过问话取铜牒，替他们挡住冯禄的文书。从此鬼笠馆不见你，浪人刀法学不到。要站大秦人吗？"
-msgstr ""
-
-#. native.npc.andun inquiry.站大秦人.confirm_marks
-#: data/fanfang/npcs.json
-msgid "安敦说了铜牒"
-msgstr ""
-
-#. native.npc.andun inquiry.站大秦人.confirm_lacks
-#: data/fanfang/npcs.json
-msgid "站了大秦人"
-msgstr ""
-
-#. native.npc.andun inquiry.站大秦人.confirm_lacks
-#: data/fanfang/npcs.json
-msgid "站了浪人"
 msgstr ""
 
 #. native.npc.andun inquiry.站大秦人.rules.say
@@ -52634,9 +52581,7 @@ msgid "留下"
 msgstr ""
 
 #. native.npc.lihong inquiry.留下.rules.marks_asker
-#. native.npc.lihong inquiry.我留下.confirm_marks
 #. native.npc.lihong_finale inquiry.留下.rules.marks_asker
-#. native.npc.lihong_finale inquiry.我留下.confirm_marks
 #: data/native/npcs.json
 msgid "璃虹说了或者是你"
 msgstr ""
@@ -52682,60 +52627,16 @@ msgid ""
 "片尾以后回到主菜单；「决战前」存档还在。"
 msgstr ""
 
-#. native.npc.lihong inquiry.我留下.confirm_marks
-#. native.npc.lihong_finale inquiry.我留下.confirm_marks
-#: data/native/npcs.json
-msgid "侮天鬼倒了"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#: data/native/npcs.json
-msgid "能灭它"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#: data/native/npcs.json
-msgid "瑷伦留在了冰里"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#: data/native/npcs.json
-msgid "璃虹留在了冰里"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#: data/native/npcs.json
-msgid "南危水留在了冰里"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#: data/native/npcs.json
-msgid "萧辟尘留在了冰里"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong inquiry.我留下.rules.marks_asker
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.rules.marks_asker
-#: data/native/npcs.json
-msgid "你留在了冰里"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.confirm_lacks
-#. native.npc.lihong_finale inquiry.我留下.confirm_lacks
-#: data/native/npcs.json
-msgid "侮天鬼灭了"
-msgstr ""
-
 #. native.npc.lihong inquiry.我留下.rules.say
 #. native.npc.lihong_finale inquiry.我留下.rules.say
 #: data/native/npcs.json
 msgid "三器齐了。灭了它。"
+msgstr ""
+
+#. native.npc.lihong inquiry.我留下.rules.marks_asker
+#. native.npc.lihong_finale inquiry.我留下.rules.marks_asker
+#: data/native/npcs.json
+msgid "你留在了冰里"
 msgstr ""
 
 #. native.npc.lihong inquiry.我留下.rules.lines.say
@@ -53264,16 +53165,6 @@ msgstr ""
 #. native.npc.yu_zijian_lake inquiry.不交.confirm
 #: data/native/npcs.json
 msgid "不把剑交给庾子建？他会带着他的人回京城去。"
-msgstr ""
-
-#. native.npc.yu_zijian_lake inquiry.不交.confirm_lacks
-#: data/native/npcs.json
-msgid "旋芒交给了庾子建"
-msgstr ""
-
-#. native.npc.yu_zijian_lake inquiry.不交.confirm_lacks
-#: data/native/npcs.json
-msgid "庾子建在湖边走了"
 msgstr ""
 
 #. native.npc.yu_zijian_lake inquiry.不交.rules.say
@@ -53852,11 +53743,6 @@ msgstr ""
 msgid ""
 "当面说破他们是冒牌的。三个人收了钱还没走，不会善罢甘休——他们会一起动手。\n"
 "要说破吗？"
-msgstr ""
-
-#. native.npc.fake_disciple_head inquiry.冒牌.confirm_lacks
-#: data/native/npcs.json
-msgid "说破了冒牌弟子"
 msgstr ""
 
 #. native.npc.fake_disciple_head inquiry.冒牌.rules.say
