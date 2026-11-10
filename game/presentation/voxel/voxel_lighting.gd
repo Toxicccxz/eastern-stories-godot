@@ -25,6 +25,18 @@ const BLEND_MINUTES: float = 60.0
 const FRAME_FADE_SECONDS: float = 0.9
 const LAMP_FADE_BEGIN: float = 18.0
 const LAMP_FADE_END: float = 26.0
+## Lamp shadows (DECISIONS「灯影」): only the LAMP_SHADOWS lit lamps nearest the player cast
+## one — every lamp casting cost a town's night half its frame, and beyond the nearest few
+## the picture hardly differs. A lamp entering or leaving that set fades its shadow over
+## LAMP_SHADOW_FADE_SECONDS and never switches it: the hard swap between lamps exchanging
+## ranks flickered a lit doorway. One already casting keeps its place until another is nearer
+## by LAMP_SHADOW_HOLD of its distance (two lamps alike do not take turns), and the set is
+## read again every LAMP_SHADOW_RANK_SECONDS. Out of doors the shadows come up with the night
+## as the lamps do (lamp_shadow_count()): under the sun a lamp's shadow cannot be seen.
+const LAMP_SHADOWS: int = 8
+const LAMP_SHADOW_FADE_SECONDS: float = 0.6
+const LAMP_SHADOW_HOLD: float = 0.8
+const LAMP_SHADOW_RANK_SECONDS: float = 0.2
 ## Keys that are not frame maps: merged whole (merge_profile()).
 const WHOLE_KEYS: Array[String] = ["carried", "areas", "note", "overcast"]
 ## The cloud (DECISIONS「天气」): how far each SkyState level greys the day (0 clear .. 1
@@ -45,6 +57,11 @@ var environment: Environment
 var sun: DirectionalLight3D
 var occlusion: VoxelOcclusion
 var lamps: Array[Light3D] = []
+## The lamps casting a shadow now (LAMP_SHADOWS), nearest first.
+var casting: Array[Light3D] = []
+var _rank_in: float = 0.0
+var _shadows_ranked: bool = false
+var _shadows_settled: bool = false
 var windows: Array[StandardMaterial3D] = []
 ## Translucent light (a moonbeam through the pines): materials whose meta `haze` holds
 ## their [day, night] opacity.
@@ -118,9 +135,8 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		light.shadow_bias = 0.06
 		light.shadow_normal_bias = 0.45
 		light.shadow_blur = 1.5
-		# Never alternate a lit doorway between shadowed and unshadowed as nearby
-		# lamps exchange distance ranks. Cull the entire distant light after it fades.
-		light.shadow_enabled = true
+		# The nearest few cast a shadow (LAMP_SHADOWS), chosen at the first advance().
+		light.shadow_enabled = false
 		lamps.append(light)
 		if light.has_meta("flicker"):
 			flickering.append(light)
@@ -161,6 +177,9 @@ func release() -> void:
 	occlusion = null
 	carried = null
 	lamps.clear()
+	casting.clear()
+	_shadows_ranked = false
+	_shadows_settled = false
 	windows.clear()
 	hazes.clear()
 	flickering.clear()
@@ -295,7 +314,75 @@ func advance(delta: float, player: Vector3) -> void:
 		_apply()
 	elif not indoor or not flickering.is_empty():
 		_apply_lamps(amount)
+	_advance_lamp_shadows(delta)
 	_clock += delta
+
+## Which lamps cast a shadow (LAMP_SHADOWS): the set read again now and then, each lamp's
+## shadow faded toward being in it or out of it. The first reading sets them at once.
+func _advance_lamp_shadows(delta: float) -> void:
+	var first: bool = not _shadows_ranked
+	_rank_in -= delta
+	if first or _rank_in <= 0.0:
+		_rank_in = LAMP_SHADOW_RANK_SECONDS
+		_shadows_ranked = true
+		var nearest: Array[Light3D] = _nearest_lamps()
+		if nearest != casting:
+			casting = nearest
+			_shadows_settled = false
+	if _shadows_settled:
+		return
+	var step: float = 1.0 if first else delta/LAMP_SHADOW_FADE_SECONDS
+	_shadows_settled = true
+	for lamp: Light3D in lamps:
+		if lamp == carried:
+			continue
+		var goal: float = 1.0 if casting.has(lamp) else 0.0
+		var share: float = lamp.shadow_opacity if lamp.shadow_enabled else 0.0
+		if is_equal_approx(share,goal):
+			continue
+		share = move_toward(share,goal,step)
+		# A lamp gone dark (faded with distance, hidden with its wall) has no shadow to fade.
+		if share < 0.001 or (goal == 0.0 and not lamp.is_visible_in_tree()):
+			share = 0.0
+		if share > 0.0:
+			lamp.shadow_opacity = share
+		if lamp.shadow_enabled != (share > 0.0):
+			lamp.shadow_enabled = share > 0.0
+		if not is_equal_approx(share,goal):
+			_shadows_settled = false
+
+## How many lamps cast a shadow now: LAMP_SHADOWS indoors, where the lamps are the light;
+## out of doors as far as the night has come (none by day, half at dusk, all by night).
+func lamp_shadow_count() -> int:
+	return LAMP_SHADOWS if indoor else ceili(LAMP_SHADOWS*clampf(amount,0.0,1.0)-0.0001)
+
+## The lamp_shadow_count() lit lamps nearest the player (on the ground plane, as the lamps'
+## own fade), nearest first; one casting now counts as nearer by LAMP_SHADOW_HOLD. Never the
+## carried light, and never one that is dark or hidden with its wall.
+func _nearest_lamps() -> Array[Light3D]:
+	var found: Array[Light3D] = []
+	var reach: PackedFloat32Array = []
+	var count: int = lamp_shadow_count()
+	if count <= 0:
+		return found
+	for lamp: Light3D in lamps:
+		if lamp == carried or not lamp.is_visible_in_tree():
+			continue
+		var offset: Vector3 = lamp.global_position-_player
+		var far: float = Vector2(offset.x,offset.z).length()
+		if casting.has(lamp):
+			far *= LAMP_SHADOW_HOLD
+		var at: int = reach.size()
+		while at > 0 and reach[at-1] > far:
+			at -= 1
+		if at >= count:
+			continue
+		found.insert(at,lamp)
+		reach.insert(at,far)
+		if found.size() > count:
+			found.resize(count)
+			reach.resize(count)
+	return found
 
 func _apply_lamps(blend: float) -> void:
 	for lamp: Light3D in lamps:
