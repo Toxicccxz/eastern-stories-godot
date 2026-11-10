@@ -52,6 +52,7 @@ func _test_attack(tree: SceneTree) -> void:
 	_check(said.size() == 2 and said[0].begins_with("你对著武馆弟子喝道：「") and said[0].ends_with("今日不是你死就是我活！」") and said[1] == warning, "kill.c's line, then obj->kill_ob(me): " + str(said))
 	_check(_hud.combat_log.text.ends_with("[color=#%s]%s[/color]" % [SharedGameplayUI.ALERT_COLOR.to_html(false), warning]), "the warning in HIR red in the log")
 	_ui.refresh_projection()
+	_check_projection_is_the_queries()
 	_check(_warning().is_visible_in_tree() and _warning().text == warning, "pinned under the title: " + _warning().text)
 	_check(_log().begins_with("\n".join(PackedStringArray(said))), "the battle log opens with both: " + _log().left(120))
 	_check(_strip() == said and _strip_red(1) and not _strip_red(0), "the recent strip shows them, the warning in red: " + str(_strip()))
@@ -61,6 +62,7 @@ func _test_attack(tree: SceneTree) -> void:
 		_coordinator.advance_scheduler(1.0)
 		_ui.refresh_projection()
 	_check(_coordinator.has_active_encounter() and not _strip().has(warning) and _warning().is_visible_in_tree(), "still pinned once the blows push it out of the recent strip")
+	_check_projection_is_the_queries()
 	await _finish(tree)
 	var result: String = _hud.log_lines().back()
 	_check(not result.contains(warning) and not result.contains("喝道"), "the fight's result does not repeat the opening: " + result)
@@ -163,6 +165,42 @@ func _test_annihir(tree: SceneTree) -> void:
 	after.assign(_hud.log_lines().slice(before))
 	_check(after.count(warning) == 1 and not after.back().contains(warning) and after.back().begins_with("你逃离了战斗"), "the warning is written once; the result does not repeat it: " + str(after.slice(-2)))
 	await tree.process_frame
+
+
+## The panel's projection is built from one read of the fight a frame (CombatEncounterRead):
+## what it shows is what the coordinator's own queries answer, one by one.
+func _check_projection_is_the_queries() -> void:
+	var shown: BattlePresentationProjection = BattleProjectionBuilder.build(_session)
+	_check(shown.active and shown.participants().size() == 2, "a fight to project")
+	var moves: Array[CombatActionDefinition] = _coordinator.player_moves()
+	var shown_ids: Array[StringName] = []
+	for move: CombatActionDefinition in shown.moves:
+		shown_ids.append(move.action_id)
+	var ids: Array[StringName] = []
+	var costs: Dictionary[StringName, int] = {}
+	for move: CombatActionDefinition in moves:
+		ids.append(move.action_id)
+		costs[move.action_id] = _coordinator.move_cost(move.action_id)
+	_check(shown_ids == ids and not ids.is_empty(), "the player's moves: %s / %s" % [str(shown_ids), str(ids)])
+	_check(shown.move_costs == costs, "each move's beats: %s / %s" % [str(shown.move_costs), str(costs)])
+	_check(shown.locked_moves == _coordinator.locked_moves() and shown.unaffordable_moves == _coordinator.unaffordable_moves(), "the locked and the unaffordable moves")
+	_check(shown.player_earn == _coordinator.earn_of(shown.player_id) and shown.waiting == _coordinator.waiting_for_player() and shown.round_running == _coordinator.round_running(), "how the player's school wins a beat, whether the clock waits, whether a round runs")
+	var orders: Array[CombatTacticalActionInfo] = _coordinator.action_infos()
+	var same_orders: bool = shown.actions().size() == orders.size()
+	for index: int in mini(shown.actions().size(), orders.size()):
+		same_orders = same_orders and shown.actions()[index].action_id == orders[index].action_id and shown.actions()[index].unavailable_reason == orders[index].unavailable_reason
+	_check(same_orders and not orders.is_empty(), "the orders and why each is greyed")
+	for fighter: BattleParticipantProjection in shown.participants():
+		var id: StringName = fighter.participant_id
+		var beats: CombatRoundBeats = _coordinator.beats_now(id)
+		_check((fighter.beats == null) == (beats == null) and (beats == null or (fighter.beats.remaining == beats.remaining and fighter.beats.spent == beats.spent)), "%s: the beats held" % fighter.display_name)
+		_check(fighter.targetable == _coordinator.player_can_target(id) and fighter.display_name == _session.encounter_display_name(id), "%s: whether the player may target them, their name" % fighter.display_name)
+		if id == shown.player_id:
+			continue
+		_check(fighter.next_move_tag == _coordinator.next_move_tag(id), "%s: the tag of the move to come" % fighter.display_name)
+		var school: SkillDefinition = _coordinator.school_of(id)
+		var known: bool = school != null and MoveRecognition.style_known(_player.state, school, GameContent.catalog().pacing().decision_rules(), GameContent.catalog())
+		_check(fighter.style_word == (_coordinator.style_word_of(id) if known and fighter.hostile_to_player else ""), "%s: the 打法词" % fighter.display_name)
 
 
 func _finish(tree: SceneTree) -> void:
