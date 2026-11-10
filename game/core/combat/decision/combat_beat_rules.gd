@@ -16,6 +16,13 @@ extends RefCounted
 ## - interleaved: the round resolves in exchange order — the player's first beat, each
 ##   NPC's first beat, then the remaining beats by turns; false (ES2): combatd.c's
 ##   participant order, each one's beats together.
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」), what a 重 does besides its blow (the blow itself is
+## CombatPowerRules.heavy_blow_percent):
+## - stagger_beats: a 重 that lands throws its victim off balance (失衡): busy this many beats,
+##   so the victim's nearest beat is lost (the next round's first when none is left in this).
+##   0 (ES2): none.
+## - exposed_percent: a 重 dodged or parried leaves its striker open (露空): the next blow at
+##   them finds their dodge and parry this much lower. 0 (ES2): none.
 
 const COST_STANCE: StringName = &"stance"
 const COST_EXERT: StringName = &"exert"
@@ -31,6 +38,8 @@ var beat_costs: Dictionary[StringName, int] = {}
 var earned_beat_cap: int = 0
 var busy_in_beats: bool = false
 var interleaved: bool = false
+var stagger_beats: int = 0
+var exposed_percent: int = 0
 
 
 func _init(p_round_beats: int = 1, p_beat_costs: Dictionary[StringName, int] = {}, p_earned_beat_cap: int = 0, p_busy_in_beats: bool = false, p_interleaved: bool = false) -> void:
@@ -46,7 +55,7 @@ static func classic() -> CombatBeatRules:
 
 
 func is_valid() -> bool:
-	if round_beats < 1 or earned_beat_cap < 0:
+	if round_beats < 1 or earned_beat_cap < 0 or stagger_beats < 0 or exposed_percent < 0 or exposed_percent > 100:
 		return false
 	for key: StringName in beat_costs:
 		if beat_costs[key] < 1:
@@ -56,7 +65,7 @@ func is_valid() -> bool:
 
 ## Whether the beats change anything from ES2's one beat a round.
 func is_classic() -> bool:
-	return round_beats <= 1 and earned_beat_cap == 0 and not busy_in_beats and not interleaved and beat_costs.values().all(func(cost: int) -> bool: return cost == 1)
+	return round_beats <= 1 and earned_beat_cap == 0 and not busy_in_beats and not interleaved and stagger_beats == 0 and exposed_percent == 0 and beat_costs.values().all(func(cost: int) -> bool: return cost == 1)
 
 
 ## The cost of a move with `tag` (平 under &"").
@@ -81,7 +90,14 @@ static func perform_of(key: StringName) -> StringName:
 
 
 func duplicate_snapshot() -> CombatBeatRules:
-	return CombatBeatRules.new(round_beats, beat_costs, earned_beat_cap, busy_in_beats, interleaved)
+	return CombatBeatRules.new(round_beats, beat_costs, earned_beat_cap, busy_in_beats, interleaved).with_heavy(stagger_beats, exposed_percent)
+
+
+## This record with the 重's 失衡 and 露空 set (战斗拍数 E).
+func with_heavy(p_stagger_beats: int, p_exposed_percent: int) -> CombatBeatRules:
+	stagger_beats = p_stagger_beats
+	exposed_percent = p_exposed_percent
+	return self
 
 
 static func from_record(reader: ContentRecordReader) -> CombatBeatRules:
@@ -93,7 +109,7 @@ static func from_record(reader: ContentRecordReader) -> CombatBeatRules:
 	var rules := CombatBeatRules.new(
 		reader.integer("round_beats", 1), costs, reader.integer("earned_beat_cap", 0),
 		reader.boolean("busy_in_beats", false), reader.boolean("interleaved", false),
-	)
+	).with_heavy(reader.integer("stagger_beats", 0), reader.integer("exposed_percent", 0))
 	if not rules.is_valid():
-		reader.fail("round_beats", "round_beats and every beat cost are at least 1, earned_beat_cap at least 0")
+		reader.fail("round_beats", "round_beats and every beat cost are at least 1, earned_beat_cap and stagger_beats at least 0, exposed_percent 0 to 100")
 	return rules

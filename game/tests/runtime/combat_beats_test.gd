@@ -44,6 +44,9 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_orders_cost_beats()
 	_test_special_busy_in_cost()
 	_test_npc_special_costs()
+	_test_heavy_stagger()
+	_test_heavy_exposed()
+	_test_combo_note()
 	BattlePace.manual_turns = manual_before
 	BattlePace.stance = stance_before
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -51,6 +54,15 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 
 static func _rules() -> CombatDecisionRules:
 	return CombatDecisionRules.new(true, true, 20, 50, 2, 3, 2)
+
+
+## The gates' draws (bounds of 100 and more: attack against dodge, against parry) at their top,
+## the rest (the limb, the damage, the courage) at 0: the blows land, and lightly.
+class TopRandom:
+	extends ScriptedCombatRandomSource
+
+	func next_below(exclusive_upper_bound: int) -> int:
+		return exclusive_upper_bound - 1 if exclusive_upper_bound >= 100 else 0
 
 
 static func _modern(interleaved: bool = true, cap: int = 1, busy_in_beats: bool = true) -> CombatBeatRules:
@@ -598,3 +610,104 @@ func _check(ok: bool, label: String) -> void:
 	_assertions += 1
 	if not ok:
 		_failures.append("combat beats: " + label)
+
+
+## A fight to the death (kill_ob() both ways): a landed blow does not end a friendly fight.
+func _lethal(f: Fixtures.SchedulerFixture) -> Fixtures.SchedulerFixture:
+	f.random = TopRandom.new()
+	f.bindings[0].relationship.mark_lethal_target(ENEMY)
+	f.bindings[1].relationship.mark_lethal_target(PLAYER)
+	return f
+
+
+func _base_outcome(event: CombatSchedulerEvent) -> int:
+	var forward: CombatSingleAttackExecutionResult = event.resolution.forward_result
+	if forward == null or forward.ordinary_attack_result == null or not forward.ordinary_attack_result.has_base_result:
+		return -1
+	return forward.ordinary_attack_result.base_result.outcome
+
+
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): a 重 that lands throws its victim off balance —
+## their nearest beat is lost (this round's, or the next round's first when none is left), one
+## already busy keeps their busy; at 0 (and in ES2's one beat) nothing.
+func _test_heavy_stagger() -> void:
+	var f: Fixtures.SchedulerFixture = _lethal(_fixture(_modern().with_heavy(1, 30)))
+	_advance(f, 1.0)
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.HEAVY).action_id, f.bindings)
+	var round: CombatSchedulerAdvanceResult = _round(f)
+	var mine: Array[CombatSchedulerEvent] = _ordinary_of(round, PLAYER)
+	var theirs: Array[CombatSchedulerEvent] = _ordinary_of(round, ENEMY)
+	_check(mine.size() == 1 and _base_outcome(mine[0]) == CombatAttackResult.Outcome.HIT, "the player's 重 landed on the top draws")
+	_check(_notes(round, "失衡") == 1, "the log says the enemy lost its balance")
+	_check(theirs.size() == 1 and theirs[0].resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and not f.bindings[1].busy.is_busy(), "the enemy's one beat this round was lost to it, the busy spent: %s %s busy %d life %d kee %d/%d out %d kinds %s" % [str(_beat_actors(round)), str(theirs.map(func(e: CombatSchedulerEvent) -> int: return e.resolution.outcome)), f.bindings[1].busy.busy_value, f.bindings[1].life_status, f.bindings[1].state.vitality.current, f.bindings[1].state.vitality.maximum, round.outcome, str(round.events().map(func(e: CombatSchedulerEvent) -> String: return "%d:%s:%d" % [e.kind, e.actor_id, e.skip_reason]))])
+	_check(f.scheduler.round_beats_of(ENEMY).spent == ([CombatEncounterScheduler.SPENT_BUSY] as Array[StringName]), "spent on busy")
+	# A 快 landing throws nobody.
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
+	var quick: CombatSchedulerAdvanceResult = _round(f)
+	_check(_notes(quick, "失衡") == 0 and _ordinary_of(quick, ENEMY).any(func(event: CombatSchedulerEvent) -> bool: return event.resolution.outcome != CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED), "a 快 that lands: the enemy keeps its beat")
+	# Two beats against the player's 重: the first is lost, the second acts.
+	var boss: Fixtures.SchedulerFixture = _lethal(_fixture(_modern().with_heavy(1, 30)))
+	_npc_beats[ENEMY] = 2
+	_advance(boss, 1.0)
+	boss.scheduler.choose_attack(_move_with(boss, CombatMoveTags.HEAVY).action_id, boss.bindings)
+	var two: Array[CombatSchedulerEvent] = _ordinary_of(_round(boss), ENEMY)
+	_check(two.size() == 2 and two[0].resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and two[1].resolution.outcome != CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED, "a 头目 of two beats loses the first, acts on the second")
+	# Already busy: the busy stands, not stretched or cut.
+	var busy: Fixtures.SchedulerFixture = _lethal(_fixture(_modern().with_heavy(1, 30)))
+	_npc_beats[ENEMY] = 2
+	busy.bindings[1].busy.start_busy(3)
+	_advance(busy, 1.0)
+	busy.scheduler.choose_attack(_move_with(busy, CombatMoveTags.HEAVY).action_id, busy.bindings)
+	var held: CombatSchedulerAdvanceResult = _round(busy)
+	_check(_notes(held, "失衡") == 0 and busy.bindings[1].busy.busy_value == 1, "one already busy keeps their busy (3 − 2 beats = 1)")
+	# The knob at 0: the 重 lands, the enemy keeps its beat.
+	var off: Fixtures.SchedulerFixture = _lethal(_fixture(_modern()))
+	_advance(off, 1.0)
+	off.scheduler.choose_attack(_move_with(off, CombatMoveTags.HEAVY).action_id, off.bindings)
+	var kept: CombatSchedulerAdvanceResult = _round(off)
+	_check(_notes(kept, "失衡") == 0 and _ordinary_of(kept, ENEMY).size() == 1 and _ordinary_of(kept, ENEMY)[0].resolution.outcome != CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED, "stagger_beats 0: nothing lost")
+	# ES2's one beat: never, whatever the knob.
+	var es2: Fixtures.SchedulerFixture = _lethal(_fixture(CombatBeatRules.classic().with_heavy(1, 30)))
+	_advance(es2, 1.0)
+	es2.scheduler.choose_attack(_move_with(es2, CombatMoveTags.HEAVY).action_id, es2.bindings)
+	_check(_notes(_round(es2), "失衡") == 0 and not es2.bindings[1].busy.is_busy(), "one beat a round: no 失衡")
+
+
+## 战斗拍数 E: a 重 dodged leaves the striker open (露空) — the next blow at them finds their
+## dodge exposed_percent lower — and the blow uses it up.
+func _test_heavy_exposed() -> void:
+	var dodge_at: Array[int] = []
+	for exposed: int in [30, 0]:
+		var f: Fixtures.SchedulerFixture = _fixture(_modern().with_heavy(1, exposed))
+		_advance(f, 1.0)
+		f.scheduler.choose_attack(_move_with(f, CombatMoveTags.HEAVY).action_id, f.bindings)
+		var first: CombatSchedulerAdvanceResult = _advance(f, 1.0)
+		var mine: Array[CombatSchedulerEvent] = _ordinary_of(first, PLAYER)
+		_check(mine.size() == 1 and _base_outcome(mine[0]) == CombatAttackResult.Outcome.DODGE, "the player's 重 was dodged on the zero draws (%d)" % exposed)
+		_check(_notes(first, "露出了破绽") == (1 if exposed > 0 else 0), "露空 %d: said so only with the knob" % exposed)
+		var theirs: Array[CombatSchedulerEvent] = _ordinary_of(first, ENEMY)
+		if theirs.is_empty():
+			theirs = _ordinary_of(_round(f), ENEMY)
+		var forward: CombatSingleAttackExecutionResult = null if theirs.is_empty() else theirs[0].resolution.forward_result
+		dodge_at.append(-1 if forward == null or forward.ordinary_attack_result == null or not forward.ordinary_attack_result.has_base_result else forward.ordinary_attack_result.base_result.calculation.dodge_power)
+		_check(not f.scheduler.exposed(PLAYER), "the enemy's blow used the opening up (%d)" % exposed)
+	_check(dodge_at.size() == 2 and dodge_at[1] > 0 and dodge_at[0] < dodge_at[1], "the player's dodge against that blow: %s (open, then not)" % str(dodge_at))
+
+
+## 战斗拍数 E: a 头目 of two beats striking twice while the player's 重 took their beats: the log
+## says 「趁你收招，连出两手」 once; not when the 重 threw it off balance (its first beat lost), nor
+## after a 快.
+func _test_combo_note() -> void:
+	var f: Fixtures.SchedulerFixture = _fixture(_modern().with_heavy(1, 30))
+	_npc_beats[ENEMY] = 2
+	_advance(f, 1.0)
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.HEAVY).action_id, f.bindings)
+	var missed: CombatSchedulerAdvanceResult = _round(f)
+	_check(_notes(missed, "趁你收招，连出两手") == 1 and _ordinary_of(missed, ENEMY).size() == 2, "the 重 missed, he struck twice: said once")
+	f.scheduler.choose_attack(_move_with(f, CombatMoveTags.QUICK).action_id, f.bindings)
+	_check(_notes(_round(f), "趁你收招") == 0, "after a 快: nothing said")
+	var thrown: Fixtures.SchedulerFixture = _lethal(_fixture(_modern().with_heavy(1, 30)))
+	_npc_beats[ENEMY] = 2
+	_advance(thrown, 1.0)
+	thrown.scheduler.choose_attack(_move_with(thrown, CombatMoveTags.HEAVY).action_id, thrown.bindings)
+	_check(_notes(_round(thrown), "趁你收招") == 0, "the 重 threw him off balance: his first beat lost, no 连出")

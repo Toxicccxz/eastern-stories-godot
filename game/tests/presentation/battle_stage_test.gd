@@ -282,6 +282,7 @@ func _fight(tree: SceneTree) -> void:
 	# 战斗演出 E: the two sides on the stage, the side panels, the name plates.
 	var glow: Array[float] = arena.glow_strengths()
 	var lethal_glow: Dictionary = BattleArena.data().get("looks", {}).get("lethal", {}).get("glow", {})
+	_check(arena.glowing_bricks() > 0 and arena.glowing_bricks() < arena.brick_count() / 3, "glowing bricks set among the stone: %d of %d" % [arena.glowing_bricks(), arena.brick_count()])
 	_check(glow.size() == 2 and is_equal_approx(glow[0], float(lethal_glow.get("mine", -1))) and is_equal_approx(glow[1], float(lethal_glow.get("theirs", -1))), "a 死斗's stage: each half lit in its side's colour: %s" % [glow])
 	var left: BattleParticipantCard = _panel_of(ui, 0)
 	var right: BattleParticipantCard = _panel_of(ui, 1)

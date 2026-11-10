@@ -98,6 +98,8 @@ var _seen_earned: int = 0
 var _seen_base: int = -1
 var _seen_opponent_tag: StringName = &""
 var _seen_encounter: StringName = &""
+## 战斗拍数 E: the record of the round last looked at (a round run whole between looks is new).
+var _seen_round: CombatRoundBeats = null
 ## A focus the battle set itself (the first move when it waits) points at nothing: only the
 ## player's own walking or hovering does.
 var _quiet_focus: bool = false
@@ -610,7 +612,11 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 		_seen_earned = 0
 		_seen_base = beats.base
 		_seen_opponent_tag = projection.opponent_tag
-	var fresh: bool = beats.base != _seen_base or beats.spent.size() < _seen_spent or (beats.spent.is_empty() and _seen_spent > 0)
+		_seen_round = projection.last_round_beats
+	# 战斗拍数 E: a round that ran whole between two looks (a 重 against one who lost its beat)
+	# is a round of its own too: its beats are another record.
+	var whole: bool = projection.last_round_beats != null and projection.last_round_beats != _seen_round and projection.last_round_beats != beats
+	var fresh: bool = whole or beats.base != _seen_base or beats.spent.size() < _seen_spent or (beats.spent.is_empty() and _seen_spent > 0)
 	if fresh:
 		# The round ended since the last look: its last beat is the round that last ran's.
 		var last: CombatRoundBeats = projection.last_round_beats
@@ -632,6 +638,7 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 	_seen_earned = beats.earned.size()
 	_seen_base = beats.base
 	_seen_opponent_tag = projection.opponent_tag
+	_seen_round = projection.last_round_beats
 
 
 ## 「多一手（隙）」: a beat the player's school won (`source`: CombatSchoolSkeleton EARN_*).
@@ -692,6 +699,11 @@ func _show_sentence() -> void:
 		elif target.next_move_known and target.next_move_guard:
 			# TRANSLATORS: the battle strip: the target holds 守势 (the guard stance) instead of a move, as its card's seal says.
 			tag = tr("守势")
+		# 战斗拍数 E: the target has spent its beats and the player still has some.
+		var left: int = 0 if _projection.player_beats == null else _projection.player_beats.remaining
+		if _projection.waiting and left > 0 and _target_beats_left() == 0:
+			# TRANSLATORS: the battle strip: the target has no move (手) left this round while the player still has {left}.
+			parts.append(TranslationServer.translate("他没手了，你还有 {left} 手").format({"left": left}))
 		# TRANSLATORS: the battle strip: the target's next move's tag as the player reads it (？ not known).
 		parts.append(tr("他起手：%s") % tag)
 	strip_text.text = "　".join(parts)

@@ -269,6 +269,11 @@ static func seen(vision_lines: Array[VisionLine], cast: BattlePresentationProjec
 		# 战斗拍数 C: the scheduler's note of a beat won (「$N抢得一手（隙）！」) cues the show.
 		if line.template.begins_with("$N抢得一手"):
 			told.with_cue(BattleNarrationLine.CUE_EARNED)
+		# 战斗拍数 E: its notes of 失衡 and 露空 cue the show too.
+		elif line.template.begins_with("$N被震得失衡"):
+			told.with_cue(BattleNarrationLine.CUE_STAGGER)
+		elif line.template.begins_with("$N一招落空"):
+			told.with_cue(BattleNarrationLine.CUE_EXPOSED)
 		lines.append(told)
 	return lines
 

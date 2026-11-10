@@ -13,6 +13,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_action_records()
 	_test_chosen_move_draws_nothing()
 	_test_resolver_percents()
+	_test_heavy_blow()
 	_test_records_and_presets()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
@@ -82,14 +83,15 @@ func _test_chosen_move_draws_nothing() -> void:
 	_assert_true(missing.succeeded and missing.random_attempted and random.call_count() == 2, "a chosen move not in the set (the weapon changed): drawn as before")
 
 
-func _input(tag: StringName, rules: CombatPowerRules, defender_tag: StringName = &"", attack_percent: int = 0, damage_percent: int = 0, dodge_percent: int = 0, parry_percent: int = 0) -> CombatAttackInput:
+func _input(tag: StringName, rules: CombatPowerRules, defender_tag: StringName = &"", attack_percent: int = 0, damage_percent: int = 0, dodge_percent: int = 0, parry_percent: int = 0, strength: int = 0, beat_blow: bool = false) -> CombatAttackInput:
 	var attacker := CombatAttackerSnapshot.new(
 		&"attacker-1", true, 0, 0, 0, &"unarmed", 10, 0, 40,
-		CombatStrengthProjection.new(0, 0, 0), false, &"", CombatHitPolicyStatus.Value.NOT_APPLICABLE,
+		CombatStrengthProjection.new(strength, 0, 0), false, &"", CombatHitPolicyStatus.Value.NOT_APPLICABLE,
 		&"", CombatHitPolicyStatus.Value.NOT_APPLICABLE, CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT, null, &"force", 0,
 	)
 	attacker.attack_power_percent = attack_percent
 	attacker.damage_percent_bonus = damage_percent
+	attacker.beat_blow = beat_blow
 	var defender := CombatDefenderSnapshot.new(&"defender-1", true, false, 0, 0, 0, 10, 0, 10, 0, 0, false, [&"头"])
 	defender.dodge_power_percent = dodge_percent
 	defender.parry_power_percent = parry_percent
@@ -129,6 +131,28 @@ func _test_resolver_percents() -> void:
 	_assert_eq(no_rules.slice(0, 2), plain.slice(0, 2), "zero percents: untouched even with the knobs on")
 
 
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): heavy_blow_percent puts a 重's weight on its whole
+## blow, in the place of its lean on the weapon's share; no draw more, the other tags untouched.
+func _test_heavy_blow() -> void:
+	var rules := CombatPowerRules.new(CombatPowerRules.PowerCurve.CLASSIC, 100, 10, 1, 100, CombatPowerRules.ExperienceDefense.CLASSIC, 0, 200, 150, 20, 10).with_heavy_blow(150)
+	_assert_true(rules.is_valid() and not rules.is_classic() and rules.duplicate_snapshot().heavy_blow_percent == 150 and not CombatPowerRules.classic().with_heavy_blow(150).is_classic(), "the knob is valid, copied and not ES2's")
+	_assert_eq(CombatMoveTags.damage_percent(CombatMoveTags.HEAVY, CombatMoveTags.GUARD, 15, 15, true), 15, "on the whole blow a 重 keeps only the counter at the weapon's share")
+	var heavy: Array = _resolve(_input(CombatMoveTags.HEAVY, rules, &"", 0, 0, 0, 0, 0, true))
+	_assert_eq([heavy[0], heavy[1]], [[1, 600, 600, 40], 87], "重: the same bounds (no draw more), 35 + 150 % = 87 (not 42 + 150 %)")
+	var riposte: Array = _resolve(_input(CombatMoveTags.HEAVY, rules))
+	_assert_eq(riposte[1], 42, "a 重 that is not the beat's own blow (a riposte, a special's): the old lean, +20 %")
+	var quick: Array = _resolve(_input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 0, true))
+	_assert_eq([quick[0], quick[1]], [[1, 732, 732, 40], 28], "快 untouched: 28 — a 重 lands about three times a 快 here")
+	var strong: CombatAttackInput = _input(CombatMoveTags.HEAVY, rules, &"", 0, 0, 0, 0, 20, true)
+	var vitality := CharacterResourceState.new(200, 200, 200)
+	var rng := ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0])
+	CombatAttackResolver.resolve(strong, CharacterResourceState.new(100, 100, 100), vitality, CharacterResourceState.new(100, 100, 100), rng)
+	var weak: CombatAttackInput = _input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 20, true)
+	var weak_vitality := CharacterResourceState.new(200, 200, 200)
+	CombatAttackResolver.resolve(weak, CharacterResourceState.new(100, 100, 100), weak_vitality, CharacterResourceState.new(100, 100, 100), ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0]))
+	_assert_eq([200 - vitality.current, 200 - weak_vitality.current], [125, 43], "the strength's share is weighed too: 重 %d against 快 %d" % [200 - vitality.current, 200 - weak_vitality.current])
+
+
 func _test_records_and_presets() -> void:
 	var errors: Array[String] = []
 	var bare: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000}, "p", errors))
@@ -136,15 +160,20 @@ func _test_records_and_presets() -> void:
 	_assert_true(errors.is_empty() and not bare_rules.player_turns and not bare_rules.npc_telegraph and not bare_rules.has_stances() and bare_rules.perform_cooldown_rounds == 0 and bare.combat_rules().action_tag_bonus_percent == 0, "a record without the knobs: ES2's auto-fight")
 	var read: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({
 		"combat_round_ms": 1000, "player_turns": true, "npc_telegraph": true, "stance_percent": 20, "stance_enforce_percent": 50,
-		"perform_cooldown_rounds": 2, "action_tag_bonus_percent": 15, "tag_counter_percent": 15,
+		"perform_cooldown_rounds": 2, "action_tag_bonus_percent": 15, "tag_counter_percent": 15, "heavy_blow_percent": 150,
+		"stagger_beats": 1, "exposed_percent": 30,
 	}, "p", errors))
+	_assert_true(read.combat_rules().heavy_blow_percent == 150 and read.beat_rules().stagger_beats == 1 and read.beat_rules().exposed_percent == 30 and read.copy().beat_rules().exposed_percent == 30, "战斗拍数 E's three knobs are read and copied")
+	_assert_true(bare.combat_rules().heavy_blow_percent == 0 and bare.beat_rules().stagger_beats == 0 and bare.beat_rules().exposed_percent == 0, "left out: ES2's (none)")
 	var rules: CombatDecisionRules = read.decision_rules()
 	_assert_true(errors.is_empty() and rules.player_turns and rules.npc_telegraph and rules.stance_percent == 20 and rules.stance_enforce_percent == 50 and rules.perform_cooldown_rounds == 2 and read.combat_rules().action_tag_bonus_percent == 15 and read.combat_rules().tag_counter_percent == 15, "the knobs are read: %s" % [errors])
 	_assert_true(read.copy().decision_rules().player_turns and read.copy().combat_rules().tag_counter_percent == 15, "copy() keeps them")
 	var classic: PacingDefinition = PacePresets.of(read, CharacterState.PACE_CLASSIC)
 	_assert_true(not classic.decision_rules().player_turns and not classic.decision_rules().npc_telegraph and not classic.decision_rules().has_stances() and classic.combat_rules().action_tag_bonus_percent == 0, "经典 puts the decision layer away")
+	_assert_true(classic.combat_rules().heavy_blow_percent == 0 and classic.beat_rules().stagger_beats == 0 and classic.beat_rules().exposed_percent == 0, "经典: no 重 blow, 失衡 or 露空")
 	var production: PacingDefinition = GameContent.catalog().pacing()
 	_assert_true(production.decision_rules().player_turns and production.decision_rules().npc_telegraph and production.decision_rules().stance_percent == 20 and production.decision_rules().perform_cooldown_rounds == 2 and production.combat_rules().action_tag_bonus_percent == 15, "pacing.json: the decision layer is the default")
+	_assert_true(production.combat_rules().heavy_blow_percent == 150 and production.beat_rules().stagger_beats == 1 and production.beat_rules().exposed_percent == 30, "pacing.json: 重 ×2.5, 失衡 1, 露空 30")
 	var side := CombatRoundModifiers.new()
 	CombatStance.apply(side.side(&"p"), CombatStance.Value.ATTACK, 20)
 	_assert_eq([side.read(&"p").damage_percent, side.read(&"p").dodge_percent, side.read(&"p").parry_percent, side.read(&"p").attack_percent], [20, -20, -20, 0], "攻: damage +p, dodge and parry −p")

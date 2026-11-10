@@ -138,6 +138,11 @@ func _test_telegraph_and_stance() -> void:
 ## A session: 柳绘心's perform (chat_chance_combat 25, counterattack) is announced one beat
 ## before it runs — 蓄势待发 on its card and in the log, the special on her next beat.
 func _test_special_telegraph(tree: SceneTree) -> void:
+	# TEST-ONLY (战斗拍数 E): no 失衡 here — her 「封」 (counterattack.c) cannot be used on a busy
+	# target, and her 重 would often leave the player so; the announcement is what is tested.
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var beats_before: CombatBeatRules = pacing.beat_rules()
+	pacing.with_beats(beats_before.duplicate_snapshot().with_heavy(0, beats_before.exposed_percent))
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -180,6 +185,7 @@ func _test_special_telegraph(tree: SceneTree) -> void:
 				lines.append(line.template)
 	_check(lines.any(func(line: String) -> bool: return line.contains("蓄势待发") and line.contains(seen_label)), "the log says 柳绘心蓄势待发，似乎要使出「%s」: %s" % [seen_label, lines.slice(0, 6)])
 	_check(lines.any(func(line: String) -> bool: return line.contains("被打断了") and line.contains(seen_label)), "busy on her next beat: 柳绘心的%s被打断了: %s" % [seen_label, lines.slice(0, 8)])
+	pacing.with_beats(beats_before)
 	session.free()
 	await tree.process_frame
 

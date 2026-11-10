@@ -217,6 +217,7 @@ static func build_attack_input(
 		attacker_snapshot.harmless = modifiers.harmless
 		attacker_snapshot.attack_power_percent = mine.attack_percent
 		attacker_snapshot.damage_percent_bonus = mine.damage_percent
+		attacker_snapshot.beat_blow = mine.beat_blow
 		defender_snapshot.dodge_power_percent = theirs.dodge_percent
 		defender_snapshot.parry_power_percent = theirs.parry_percent
 		defender_snapshot.move_tag = theirs.move_tag

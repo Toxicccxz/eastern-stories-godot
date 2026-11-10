@@ -1188,6 +1188,9 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 	# outlives the fight only takes its applies back.
 	for participant: CombatParticipant in _active_encounter.participants():
 		participant.binding.state.timed_applies.forget_targets()
+	# 战斗拍数 E: a 失衡 still owed ends with the fight.
+	if _active_scheduler != null:
+		_active_scheduler.release_stagger(_active_encounter.participants())
 	# No await or deferred work: the Core stays RESOLVING throughout world return.
 	# Local thaw only prepares the map; the same global gate still blocks gameplay.
 	if not _session.thaw_world_after_encounter(encounter_id):

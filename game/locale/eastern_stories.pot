@@ -7400,6 +7400,11 @@ msgstr ""
 msgid "守势"
 msgstr ""
 
+#. the battle strip: the target has no move (手) left this round while the player still has {left}.
+#: presentation/battle/battle_action_panel.gd
+msgid "他没手了，你还有 {left} 手"
+msgstr ""
+
 #. the battle strip: the target's next move's tag as the player reads it (？ not known).
 #: presentation/battle/battle_action_panel.gd
 msgid "他起手：%s"
@@ -7999,6 +8004,14 @@ msgstr ""
 msgid "$N抢得一手"
 msgstr ""
 
+#: presentation/battle/battle_narrator.gd
+msgid "$N被震得失衡"
+msgstr ""
+
+#: presentation/battle/battle_narrator.gd
+msgid "$N一招落空"
+msgstr ""
+
 #. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
 #: presentation/battle/battle_participant_card.gd
 msgid "了结"
@@ -8213,6 +8226,16 @@ msgstr ""
 msgid "败"
 msgstr ""
 
+#. over the head of one a 重 move threw off balance (they lose their next move); two or three characters.
+#: presentation/battle/battle_presentation_controller.gd
+msgid "失衡"
+msgstr ""
+
+#. over the head of one whose 重 move missed and left them open; two or three characters.
+#: presentation/battle/battle_presentation_controller.gd
+msgid "露空"
+msgstr ""
+
 #. the battle strip's folded line for an actor's later beats of the round: {name} who, {count} how many moves (两 / 三), {results} each blow's −N / 闪 / 挡.
 #: presentation/battle/battle_presentation_controller.gd
 msgid "{name}又出{count}招 {results}"
@@ -8277,6 +8300,11 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "下令：%s"
+msgstr ""
+
+#. the battle's line strip, when the player picks a move while one who fell waits on their choice (the buttons are on the right side's banner).
+#: presentation/battle/battle_presentation_controller.gd
+msgid "对手倒下了，先在右边的旗上选「了结」或「放过」。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
@@ -9058,6 +9086,21 @@ msgstr ""
 #. a guide's word as a round of their lesson begins: $N the guide, {line} what they say.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
 msgid "$N说道：{line}"
+msgstr ""
+
+#. an enemy struck twice in a row while the player's heavy (重) move took their last move (手) this round: $N the enemy.
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "$N趁你收招，连出两手！"
+msgstr ""
+
+#. a 重 move landed and threw its victim off balance: $N the one hit, who loses their next beat (手).
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "$N被震得失衡，丢了一手！"
+msgstr ""
+
+#. a 重 move was dodged or parried and left its striker open: $N the striker; the next blow at them finds them easier to hit.
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "$N一招落空，露出了破绽！"
 msgstr ""
 
 #. a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).

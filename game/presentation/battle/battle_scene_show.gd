@@ -23,6 +23,12 @@ extends Node
 ## on the raised stage, WorldVoxelView.place_actor()), never the 2D body, a
 ## rule, a draw or a saved value. Every duration is pacing.json's feel, 0 = that piece is
 ## not shown; all scale with the 战斗速度 (BattlePace) and the 自动 pace the strip uses.
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): a 重 is two beats and looks it — a longer crouch
+## with the 气 gathering into the figure (motes drawn in, a warm glow), then a freeze HEAVY_STOP
+## times longer, the one hit thrown HEAVY_KNOCK times farther in a bigger burst of dust; a 快 is
+## quicker and sharper. A 重 that lands throws the one hit off balance (失衡: they reel side to
+## side in a dull red), one dodged or parried leaves its striker open (露空: a stumble forward
+## in a cold flash).
 
 ## Steps, in voxel units (a figure is about 1.8 tall).
 const STEP_QUICK: float = 0.35
@@ -34,6 +40,13 @@ const STEP_SPECIAL: float = 0.3
 ## farther than KNOCKBACK_CAP from where it stands.
 const KNOCKBACK: Dictionary[int, float] = {1: 0.5, 0: 0.3, -1: 0.15}
 const KNOCKBACK_CAP: float = 1.0
+## 战斗拍数 E: a 重's freeze and throw against an ordinary blow's; a 快's lunge as a part of the step.
+const HEAVY_STOP: float = 1.8
+const HEAVY_KNOCK: float = 1.7
+const QUICK_LUNGE: float = 0.5
+## 失衡's reel (radians, side to side) and 露空's stumble (forward, voxel units).
+const REEL: float = 14.0 * PI / 180.0
+const STUMBLE: float = 0.18
 const DODGE_SIDE: float = 0.25
 const PARRY_BACK: float = 0.1
 const FEINT_SIDE: float = 0.2
@@ -50,6 +63,11 @@ const FLASH_COUNTER: Color = Color(1.0, 0.86, 0.45, 0.9)
 const FLASH_COUNTERED: Color = Color(0.5, 0.18, 0.16, 0.55)
 const FLASH_EARNED: Color = Color(1.0, 0.84, 0.4, 0.8)
 const FLASH_SPECIAL: Color = Color(1.0, 0.9, 0.6, 0.6)
+## 战斗拍数 E: the 气 gathering before a 重, 失衡's dull red, 露空's cold flash.
+const FLASH_CHARGE: Color = Color(1.0, 0.7, 0.32, 0.3)
+const CHARGE_MOTE: Color = Color("ffcf6a")
+const FLASH_STAGGER: Color = Color(0.62, 0.16, 0.12, 0.6)
+const FLASH_EXPOSED: Color = Color(0.62, 0.78, 0.95, 0.55)
 const GHOST: Color = Color(0.78, 0.86, 0.95, 0.35)
 const DUST: Color = Color("b8a080")
 const SPARK: Color = Color("ffe9a0")
@@ -76,6 +94,8 @@ var _rest: Dictionary[StringName, Vector3] = {}
 ## What each figure was knocked back by this round (cleared between rounds).
 var _knock: Dictionary[StringName, Vector3] = {}
 var _tweens: Dictionary[StringName, Tween] = {}
+## 战斗拍数 E: 失衡's reel and 露空's stumble, apart from the blow's own show (rotation:z, a lean).
+var _side_tweens: Dictionary[StringName, Tween] = {}
 var _wound_up: Dictionary[StringName, bool] = {}
 ## Figures to ease home once the show they are in ends (the round ended on their blow).
 var _go_home: Dictionary[StringName, bool] = {}
@@ -111,12 +131,21 @@ func begin(p_view: WorldVoxelView, camera_staged: bool = false) -> void:
 func end() -> void:
 	for id: StringName in _tweens.keys():
 		_stop(id)
+	for tween: Tween in _side_tweens.values():
+		if tween.is_valid():
+			tween.kill()
+	for id: StringName in _side_tweens.keys():
+		var reeled: Node3D = _model(id)
+		if reeled != null:
+			reeled.rotation.z = 0.0
+	_side_tweens.clear()
 	for id: StringName in _rest.keys():
 		var model: Node3D = _model(id)
 		if model != null:
 			model.position = Vector3.ZERO
 			model.scale = Vector3.ONE
 			model.rotation.x = 0.0
+			model.rotation.z = 0.0
 			_unflash(model)
 	_rest.clear()
 	_knock.clear()
@@ -186,6 +215,7 @@ func windup(actor_id: StringName) -> void:
 		return
 	_stop(actor_id)
 	_wound_up[actor_id] = true
+	_charge(model, seconds)
 	var tween: Tween = _tween(actor_id)
 	tween.set_parallel(true)
 	tween.tween_property(model, "scale:y", CROUCH, seconds * 0.5).set_ease(Tween.EASE_OUT)
@@ -203,6 +233,12 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 	if line.cue == BattleNarrationLine.CUE_EARNED:
 		_earned(line.actor_id)
 		return
+	if line.cue == BattleNarrationLine.CUE_STAGGER:
+		_staggered(line.actor_id)
+		return
+	if line.cue == BattleNarrationLine.CUE_EXPOSED:
+		_exposed(line.actor_id, line.target_id)
+		return
 	if line.is_special and not line.has_blow:
 		_special_opening(line.actor_id, line.target_id)
 		return
@@ -216,6 +252,8 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 	var template: StringName = template_of(line.tag)
 	var landed: bool = line.outcome == CombatAttackResult.Outcome.HIT
 	var stop: float = _seconds(_feel().hit_stop_seconds) if landed and (template == TEMPLATE_HEAVY or line.in_special or fatal) else 0.0
+	if template == TEMPLATE_HEAVY:
+		stop *= HEAVY_STOP
 	played.append([line.actor_id, template, line.outcome, stop > 0.0])
 	if played.size() > 64:
 		played.pop_front()
@@ -260,10 +298,11 @@ func _attack(id: StringName, model: Node3D, direction: Vector3, template: String
 	match template:
 		TEMPLATE_QUICK:
 			_ghost(model)
-			tween.tween_property(model, "position", home + direction * STEP_QUICK, step * 0.7).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-			impact = step * 0.7
+			tween.tween_property(model, "position", home + direction * STEP_QUICK, step * QUICK_LUNGE).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+			impact = step * QUICK_LUNGE
 		TEMPLATE_HEAVY:
 			if not _wound_up.get(id, false) and windup_seconds > 0.0:
+				_charge(model, windup_seconds)
 				_together(tween).tween_property(model, "scale:y", CROUCH, windup_seconds * 0.5).set_ease(Tween.EASE_OUT)
 				tween.tween_property(model, "rotation:x", LEAN * 0.5, windup_seconds * 0.5).set_ease(Tween.EASE_OUT)
 				tween.set_parallel(false)
@@ -297,6 +336,8 @@ func _attack(id: StringName, model: Node3D, direction: Vector3, template: String
 			tween.tween_property(model, "position", struck + side * SHAKE, stop * 0.25)
 			tween.tween_property(model, "position", struck - side * SHAKE, stop * 0.25)
 		tween.tween_property(model, "position", struck, 0.0)
+	if template == TEMPLATE_QUICK:
+		back *= 0.6 # 快 is back on guard at once.
 	_together(tween).tween_property(model, "position", home, back).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(model, "scale:y", 1.0, back)
 	tween.tween_property(model, "rotation:x", 0.0, back)
@@ -324,9 +365,10 @@ func _defend(id: StringName, model: Node3D, direction: Vector3, line: BattleNarr
 	match line.outcome:
 		CombatAttackResult.Outcome.HIT:
 			var colour: Color = FLASH_COUNTER if line.ring > 0 else FLASH_COUNTERED if line.ring < 0 else FLASH_HIT
-			tween.tween_callback(_flash.bind(model, colour, flash_seconds))
-			tween.tween_callback(_dust.bind(model))
-			var knocked: Vector3 = _knock.get(id, Vector3.ZERO) + direction * KNOCKBACK.get(line.ring, KNOCKBACK[0])
+			var heavy: bool = template_of(line.tag) == TEMPLATE_HEAVY
+			tween.tween_callback(_flash.bind(model, colour, flash_seconds * (2.0 if heavy else 1.0)))
+			tween.tween_callback(_dust.bind(model, 2.0 if heavy else 1.0))
+			var knocked: Vector3 = _knock.get(id, Vector3.ZERO) + direction * KNOCKBACK.get(line.ring, KNOCKBACK[0]) * (HEAVY_KNOCK if heavy else 1.0)
 			if knocked.length() > KNOCKBACK_CAP:
 				knocked = knocked.normalized() * KNOCKBACK_CAP
 			_knock[id] = knocked
@@ -394,6 +436,50 @@ func _earned(actor_id: StringName) -> void:
 	tween.tween_property(model, "position", home + Vector3.UP * 0.12, hop * 0.5).set_ease(Tween.EASE_OUT)
 	tween.tween_property(model, "position", home, hop * 0.5).set_ease(Tween.EASE_IN)
 	tween.tween_callback(_done.bind(actor_id))
+
+
+## 战斗拍数 E: 失衡 — the one a 重 landed on reels side to side in a dull red, after the blow's
+## freeze and recoil (the note comes the frame after the blow's line).
+func _staggered(actor_id: StringName) -> void:
+	var model: Node3D = _model(actor_id)
+	var seconds: float = _seconds(_feel().scene_return_seconds)
+	if model == null or seconds <= 0.0:
+		return
+	var tween: Tween = _side_tween(actor_id)
+	tween.tween_interval(_seconds(_feel().hit_stop_seconds) * HEAVY_STOP + _seconds(_feel().scene_step_seconds))
+	tween.tween_callback(_flash.bind(model, FLASH_STAGGER, seconds * 1.2))
+	for sway: float in [REEL, -REEL * 0.8, REEL * 0.5, 0.0]:
+		tween.tween_property(model, "rotation:z", sway, seconds * 0.3).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+
+
+## 战斗拍数 E: 露空 — the striker whose 重 missed lurches on past where it meant to land, in a
+## cold flash, and rights itself.
+func _exposed(actor_id: StringName, _target_id: StringName) -> void:
+	var model: Node3D = _model(actor_id)
+	var seconds: float = _seconds(_feel().scene_return_seconds)
+	if model == null or seconds <= 0.0:
+		return
+	var tween: Tween = _side_tween(actor_id)
+	tween.tween_interval(_seconds(_feel().scene_step_seconds) * 1.3)
+	tween.tween_callback(_flash.bind(model, FLASH_EXPOSED, seconds * 0.8))
+	tween.tween_property(model, "rotation:z", -REEL * 0.6, seconds * 0.25).set_ease(Tween.EASE_OUT)
+	tween.tween_property(model, "rotation:z", REEL * 0.3, seconds * 0.3).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(model, "rotation:z", 0.0, seconds * 0.3).set_ease(Tween.EASE_IN_OUT)
+
+
+func _side_tween(id: StringName) -> Tween:
+	var old: Tween = _side_tweens.get(id)
+	if old != null and old.is_valid():
+		old.kill()
+	var tween: Tween = create_tween()
+	_side_tweens[id] = tween
+	return tween
+
+
+## Whether `id` reels or lurches now (tests).
+func side_running(id: StringName) -> bool:
+	var tween: Tween = _side_tweens.get(id)
+	return tween != null and tween.is_valid() and tween.is_running()
 
 
 ## Whether the first beat won this fight had its whole ceremony already (the sounds follow).
@@ -542,8 +628,8 @@ func _ghost(model: Node3D) -> void:
 
 
 ## A puff of dust at the figure's feet: a few small cubes rising and spreading, shrinking away.
-func _dust(model: Node3D) -> void:
-	var seconds: float = _seconds(_feel().scene_dust_seconds)
+func _dust(model: Node3D, amount: float = 1.0) -> void:
+	var seconds: float = _seconds(_feel().scene_dust_seconds) * sqrt(amount)
 	if seconds <= 0.0 or not is_instance_valid(model) or model.get_parent() == null:
 		return
 	var puff := Node3D.new()
@@ -558,7 +644,7 @@ func _dust(model: Node3D) -> void:
 	material.roughness = 1.0
 	var tween: Tween = create_tween().set_parallel(true)
 	_effect_tweens[puff] = tween
-	for index: int in 4:
+	for index: int in roundi(4.0 * amount):
 		var mote := MeshInstance3D.new()
 		mote.mesh = mesh
 		mote.material_override = material
@@ -567,9 +653,44 @@ func _dust(model: Node3D) -> void:
 		var out := Vector3(cos(angle), 0.0, sin(angle))
 		mote.position = out * 0.12 + Vector3.UP * 0.06
 		puff.add_child(mote)
-		tween.tween_property(mote, "position", out * 0.4 + Vector3.UP * 0.25, seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(mote, "position", out * 0.4 * amount + Vector3.UP * 0.25 * sqrt(amount), seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 		tween.tween_property(mote, "scale", Vector3.ONE * 0.05, seconds).set_ease(Tween.EASE_IN)
 	tween.chain().tween_callback(_drop_effect.bind(puff))
+
+
+## 战斗拍数 E: the 气 gathering before a 重 — a warm glow over the figure the crouch long, and
+## eight motes drawn in from a ring round it to its chest, brightening as they come.
+func _charge(model: Node3D, seconds: float) -> void:
+	if seconds <= 0.0 or not is_instance_valid(model) or model.get_parent() == null:
+		return
+	_flash(model, FLASH_CHARGE, seconds)
+	var gather := Node3D.new()
+	gather.name = "Charge"
+	gather.position = model.position
+	model.get_parent().add_child(gather)
+	_effects.append(gather)
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3.ONE * 0.09
+	var glow := StandardMaterial3D.new()
+	glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	glow.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	glow.albedo_color = Color(CHARGE_MOTE, 0.25)
+	glow.render_priority = VoxelBackdrop.OVER_BACKDROP
+	var tween: Tween = create_tween().set_parallel(true)
+	_effect_tweens[gather] = tween
+	var chest := Vector3.UP * 1.0
+	for index: int in 8:
+		var mote := MeshInstance3D.new()
+		mote.mesh = mesh
+		mote.material_override = glow
+		mote.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var angle: float = TAU * float(index) / 8.0 + _dust_rng.randf_range(-0.2, 0.2)
+		mote.position = Vector3(cos(angle) * 0.75, _dust_rng.randf_range(0.3, 1.6), sin(angle) * 0.75)
+		gather.add_child(mote)
+		tween.tween_property(mote, "position", chest, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(mote, "scale", Vector3.ONE * 0.4, seconds).set_ease(Tween.EASE_IN)
+	tween.tween_property(glow, "albedo_color:a", 0.95, seconds * 0.8)
+	tween.chain().tween_callback(_drop_effect.bind(gather))
 
 
 ## A parry: an arc of light before the chest, facing `toward`, and three sparks off it.

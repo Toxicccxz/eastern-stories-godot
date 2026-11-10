@@ -11,6 +11,11 @@ const CHAT_AFTER: Array[int] = [
 ]
 ## What a beat went on when no move was struck (CombatRoundBeats.spent).
 const SPENT_BUSY: StringName = &"busy"
+## 战斗拍数 E: a beat whose blow felled someone (no 失衡 or 露空 noted on it).
+const FELLED: Array[int] = [
+	CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH,
+	CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_UNCONSCIOUS,
+]
 const SPENT_WAIT: StringName = &"wait"
 
 
@@ -108,6 +113,16 @@ var _lesson_lines: Callable = Callable()
 var _earned_counts: Dictionary[StringName, int] = {}
 var _note_habit: Callable = Callable()
 var _note_wound: Callable = Callable()
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): who stands open after a 重 of theirs was dodged
+## or parried (露空), until the next blow at them.
+var _exposed: Dictionary[StringName, bool] = {}
+## Who owes a beat to 失衡 still (until their busy beat is paid, or the fight ends).
+var _staggered: Dictionary[StringName, bool] = {}
+## Who was said to strike twice while the player recovered from a 重 this round (said once).
+var _combo_told: Dictionary[StringName, bool] = {}
+## The beats each NPC took since the player's 重 this round (-1 at: no 重 yet this round).
+var _heavy_spent_at: int = -1
+var _npc_beats_after_heavy: Dictionary[StringName, int] = {}
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -622,6 +637,35 @@ func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		theirs.move_tag = tag
 		if tag == CombatMoveTags.GUARD:
 			theirs.add(0, 0, bonus, bonus)
+	# 战斗拍数 E: one standing open (露空) dodges and parries the next blow worse.
+	for open_id: StringName in _exposed:
+		_modifiers.side(open_id).add(0, 0, -_beat_rules.exposed_percent, -_beat_rules.exposed_percent)
+
+
+## 战斗拍数 E: a beat `actor_id` took at one standing open (its target) used the opening up,
+## whatever it was (a blow, a special's several, nothing that landed).
+func _use_opening(actor_id: StringName) -> void:
+	var target: StringName = _encounter.current_target_for(actor_id)
+	if target != actor_id and _exposed.has(target):
+		_exposed.erase(target)
+
+
+## 战斗拍数 E: the fight is over — a 失衡 still owed is dropped (the beat it took belonged to
+## the fight; out of it nobody stands reeling).
+func release_stagger(participants: Array[CombatParticipant]) -> void:
+	for participant: CombatParticipant in participants:
+		if not _staggered.has(participant.participant_id) or participant.binding == null or participant.binding.busy == null:
+			continue
+		var busy: ActionBusyState = participant.binding.busy
+		for _beat: int in _beat_rules.stagger_beats:
+			if busy.busy_value > 0:
+				busy.advance()
+	_staggered.clear()
+
+
+## 战斗拍数 E: whether `actor_id` stands open after a 重 of theirs missed (露空).
+func exposed(actor_id: StringName) -> bool:
+	return _exposed.has(actor_id)
 
 
 ## Whether the round is ES2's one beat (round_beats 1, not interleaved): then every draw and
@@ -1200,6 +1244,9 @@ func _run_round(
 func _begin_round(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_round_beats.clear()
 	_round_tags.clear()
+	_combo_told.clear()
+	_heavy_spent_at = -1
+	_npc_beats_after_heavy.clear()
 	for state: CombatSkeletonState in _skeleton_states.values():
 		state.new_round()
 	_round_order = _beat_order()
@@ -1330,6 +1377,7 @@ func _take_beat(
 		if not is_player:
 			_note_habit_of(actor_id, beat_number, &"perform")
 		beats.spend(CombatBeatRules.perform_key(pick.perform), _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
+		_use_opening(actor_id)
 		# 战斗拍数 C: its own busy counts into the beats paid.
 		_absorb_special_busy(actor, _beat_rules.cost_of_action(CombatBeatRules.perform_key(pick.perform)))
 		if event != null:
@@ -1342,7 +1390,13 @@ func _take_beat(
 		if beats.has_beats() or beats.settled:
 			return true
 		return _npc_round_end(actor, beats, bindings, random_source, effect_registry, boundary)
+	# 战斗拍数 E: the blow of this beat is the beat's own (a 重 weighs two); none other is.
+	if not _one_beat():
+		_modifiers.side(actor_id).beat_blow = true
 	event = _process_participant(participant, bindings, random_source, effect_registry, pick.chosen, pick.courage, pick.ordered)
+	if not _one_beat():
+		_modifiers.side(actor_id).beat_blow = false
+		_use_opening(actor_id)
 	if event == null:
 		beats.spend(SPENT_WAIT, 1)
 		return true
@@ -1354,6 +1408,8 @@ func _take_beat(
 		var struck: CombatActionDefinition = _struck_move(resolution)
 		if resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED:
 			beats.spend(SPENT_BUSY, 1)
+			if actor != null and not actor.busy.is_busy():
+				_staggered.erase(actor_id)
 			# ES2's busy counts down once a heart beat: a busy round is lost whole.
 			if not _beat_rules.busy_in_beats:
 				beats.forfeit()
@@ -1361,6 +1417,14 @@ func _take_beat(
 			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag))
 			if npc_beat:
 				_note_habit_of(actor_id, beat_number, struck.tag)
+				if _heavy_spent_at >= 0:
+					var after: int = _npc_beats_after_heavy.get(actor_id, 0) + 1
+					_npc_beats_after_heavy[actor_id] = after
+					if after == 2:
+						_tell_combo(actor, bindings)
+			elif is_player and struck.tag == CombatMoveTags.HEAVY:
+				_heavy_spent_at = beats.beats_taken()
+				_npc_beats_after_heavy.clear()
 		else:
 			beats.spend(SPENT_WAIT, 1)
 		var blows: Array = _blows(resolution.forward_result, resolution.chain_result)
@@ -1459,7 +1523,9 @@ func _note_skeleton(resolution: CombatSliceOpportunityResult, bindings: Array[Co
 		return
 	var move: CombatActionDefinition = _struck_move(resolution)
 	if move != null and forward.ordinary_attack_result != null and forward.ordinary_attack_result.has_base_result:
-		_note_blow(forward.attacker_id, forward.victim_id, move, forward.ordinary_attack_result.base_result.outcome == CombatAttackResult.Outcome.HIT, bindings)
+		var outcome: CombatAttackResult.Outcome = forward.ordinary_attack_result.base_result.outcome
+		_note_blow(forward.attacker_id, forward.victim_id, move, outcome == CombatAttackResult.Outcome.HIT, bindings)
+		_note_heavy(forward.attacker_id, forward.victim_id, move, outcome, resolution.outcome in FELLED, bindings)
 	var chain: CombatAttackChainResult = resolution.chain_result
 	if chain == null or not chain.reverse_execution_reached or forward.riposte_request == null:
 		return
@@ -1485,6 +1551,48 @@ func _note_blow(attacker_id: StringName, victim_id: StringName, move: CombatActi
 	var theirs: CombatSchoolSkeleton = _skeleton_of(victim)
 	if theirs != null and theirs.earns_on_opponent_attack(landed):
 		_earn(victim, theirs, bindings)
+
+
+## 战斗拍数 E: an NPC at the player struck twice since the player's 重 took their last beat —
+## the log says so once a round (「趁你收招，连出两手」), after the second blow: the price of a 重
+## seen as it is paid. Its beats lost to busy (失衡) do not count.
+func _tell_combo(actor: CombatSliceCharacterBinding, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if _one_beat() or _player_id.is_empty() or actor == null or _combo_told.has(actor.character_id):
+		return
+	if _encounter.current_target_for(actor.character_id) != _player_id or not _round_beats.has(_player_id) or _round_beats[_player_id].has_beats():
+		return
+	var player: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
+	if player == null or player.life_status != CombatSliceLifeStatus.Value.ACTIVE:
+		return
+	_combo_told[actor.character_id] = true
+	# TRANSLATORS: an enemy struck twice in a row while the player's heavy (重) move took their last move (手) this round: $N the enemy.
+	_emit(_note_event(actor.character_id, TranslationServer.translate("$N趁你收招，连出两手！"), ColoredLine.HIR))
+
+
+## 战斗拍数 E (DECISIONS「战斗拍数 E · 重招」): what a beat's forward blow means beyond itself.
+## Any blow at one standing open uses up their 露空; a 重 that lands throws its victim off
+## balance (失衡: busy stagger_beats, so their nearest beat is lost; one already busy keeps
+## their busy), a 重 dodged or parried leaves its striker open (露空). No draw is taken here.
+func _note_heavy(attacker_id: StringName, victim_id: StringName, move: CombatActionDefinition, outcome: CombatAttackResult.Outcome, felled: bool, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if _one_beat():
+		return
+	_exposed.erase(victim_id)
+	# A blow that fells someone (the victim, or the striker on the riposte): no 失衡, no 露空.
+	if move.tag != CombatMoveTags.HEAVY or felled:
+		return
+	if outcome == CombatAttackResult.Outcome.HIT and _beat_rules.stagger_beats > 0:
+		var victim: CombatSliceCharacterBinding = _find_binding(bindings, victim_id)
+		if victim != null and victim.life_status == CombatSliceLifeStatus.Value.ACTIVE and not victim.busy.is_busy():
+			victim.busy.start_busy(_beat_rules.stagger_beats)
+			_staggered[victim_id] = true
+			# TRANSLATORS: a 重 move landed and threw its victim off balance: $N the one hit, who loses their next beat (手).
+			_emit(_note_event(victim_id, TranslationServer.translate("$N被震得失衡，丢了一手！"), ColoredLine.HIR))
+	elif outcome in [CombatAttackResult.Outcome.DODGE, CombatAttackResult.Outcome.PARRY] and _beat_rules.exposed_percent > 0:
+		var attacker: CombatSliceCharacterBinding = _find_binding(bindings, attacker_id)
+		if attacker != null and attacker.life_status == CombatSliceLifeStatus.Value.ACTIVE:
+			_exposed[attacker_id] = true
+			# TRANSLATORS: a 重 move was dodged or parried and left its striker open: $N the striker; the next blow at them finds them easier to hit.
+			_emit(_note_event(attacker_id, TranslationServer.translate("$N一招落空，露出了破绽！"), ColoredLine.HIC))
 
 
 ## `actor` wins a beat this round by its school (within earned_beat_cap), and the log says so.

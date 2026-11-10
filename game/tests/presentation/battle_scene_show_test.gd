@@ -27,6 +27,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _templates(tree)
 	await _signatures(tree)
 	await _camera_and_stance(tree)
+	await _heavy_aftermath(tree)
+	_mode_title(tree)
 	_teardown(tree)
 	TestFeel.restore()
 	BattlePace.speed = BattlePace.Speed.NORMAL
@@ -40,12 +42,14 @@ func _feel_keys() -> void:
 		feel.scene_step_seconds, feel.scene_windup_seconds, feel.hit_stop_seconds, feel.scene_flash_seconds, feel.scene_dust_seconds,
 		feel.afterimage_seconds, feel.scene_return_seconds, feel.beat_pause_seconds, feel.battle_zoom_seconds,
 	]
-	check(seconds == [0.12, 0.14, 0.1, 0.06, 0.26, 0.18, 0.32, 0.14, 0.5], "pacing.json: the nine durations: %s" % [seconds])
+	check(seconds == [0.12, 0.3, 0.1, 0.06, 0.26, 0.18, 0.32, 0.14, 0.5], "pacing.json: the nine durations: %s" % [seconds])
 	var off := FeelDefinition.new()
 	check(off.scene_step_seconds == 0.0 and off.hit_stop_seconds == 0.0 and off.battle_zoom_seconds == 0.0, "left out: 0")
 	check(feel.hit_stop_seconds >= 0.08 and feel.hit_stop_seconds <= 0.12, "the hit-stop within 80–120 ms")
-	# A beat's show within 0.4 s: the windup, the longest lunge and the freeze.
-	check(feel.scene_windup_seconds + feel.scene_step_seconds * 1.3 + feel.hit_stop_seconds <= 0.4, "a 重 that lands plays out within 0.4 s")
+	# 战斗拍数 E: a 重 is two beats and looks it — the windup, the long lunge and the longer freeze
+	# within 0.7 s; a 快's lunge is over in a tenth of that.
+	check(feel.scene_windup_seconds + feel.scene_step_seconds * 1.3 + feel.hit_stop_seconds * BattleSceneShow.HEAVY_STOP <= 0.7, "a 重 that lands plays out within 0.7 s")
+	check(feel.scene_step_seconds * BattleSceneShow.QUICK_LUNGE <= 0.07, "a 快 lands within 0.07 s")
 
 
 ## The sounds a told line asks for, by weight: 普通 < 克制 < 绝招 < 致命; a miss by its tag; a
@@ -138,11 +142,12 @@ func _templates(tree: SceneTree) -> void:
 	# 重: the crouch first, held, then the long lunge and the freeze with the shake.
 	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 0))
 	check(_show.played.back()[1] == BattleSceneShow.TEMPLATE_HEAVY and _show.played.back()[3] == true, "重 landing: the hit-stop")
-	await tree.create_timer(0.3).timeout
+	await tree.create_timer(0.7).timeout
 	check(me.scale.y < 0.95 and me.scale.y >= BattleSceneShow.CROUCH - 0.001 and me.position.z < 0.05, "重: crouched (%.3f), not yet moving" % me.scale.y)
-	await tree.create_timer(0.9).timeout
+	check(_effect_named("Charge") != null, "重: the 气 gathering round the figure")
+	await tree.create_timer(1.1).timeout
 	check(me.position.z > BattleSceneShow.STEP_HEAVY - 0.1, "重: the long lunge (%.2f)" % me.position.z)
-	await tree.create_timer(2.0).timeout
+	await tree.create_timer(2.6).timeout
 	check(me.position.is_equal_approx(Vector3.ZERO) and is_equal_approx(me.scale.y, 1.0), "home and upright again")
 	# 虚: half a dash stopped short, the ghost where it started, the body aside.
 	_show.play_line(_blow(Outcome.DODGE, CombatMoveTags.FEINT, 0))
@@ -158,7 +163,7 @@ func _templates(tree: SceneTree) -> void:
 	await tree.create_timer(2.0).timeout
 	# A windup asked before the line (the strip's half beat): the lunge follows from the crouch.
 	_show.windup(ME)
-	await tree.create_timer(0.3).timeout
+	await tree.create_timer(0.7).timeout
 	check(me.scale.y < 0.95, "the windup crouches before the line is told")
 	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 0))
 	await tree.create_timer(0.3).timeout
@@ -254,6 +259,46 @@ func _camera_and_stance(tree: SceneTree) -> void:
 	_show.end()
 	_show.pace = 1.0
 	TestFeel.restore()
+
+
+## 战斗拍数 E: the scheduler's notes of 失衡 and 露空 carry their cues; the one thrown off balance
+## reels, the one left open lurches, and both are back upright after.
+func _heavy_aftermath(tree: SceneTree) -> void:
+	var cast := BattlePresentationProjection.new(&"e", 0, ME, YOU, [], [], null, 0, -1, -1)
+	var noted: Array[BattleNarrationLine] = BattleNarrator.seen([VisionLine.new("$N被震得失衡，丢了一手！", YOU, &"", ColoredLine.HIR), VisionLine.new("$N一招落空，露出了破绽！", ME, &"", ColoredLine.HIC)], cast)
+	check(noted.size() == 2 and noted[0].cue == BattleNarrationLine.CUE_STAGGER and noted[1].cue == BattleNarrationLine.CUE_EXPOSED, "the notes of 失衡 and 露空 carry their cues")
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	var you: Node3D = _model(YOU)
+	_show.play_line(BattleNarrationLine.new("x").with_cue(BattleNarrationLine.CUE_STAGGER).with_beat(1, YOU))
+	check(_show.side_running(YOU), "失衡: the one thrown off balance reels")
+	await tree.create_timer(1.6).timeout
+	check(absf(you.rotation.z) > 0.01, "reeling side to side (%.3f)" % you.rotation.z)
+	await tree.create_timer(2.0).timeout
+	check(not _show.side_running(YOU) and is_zero_approx(you.rotation.z), "then upright again")
+	_show.play_line(BattleNarrationLine.new("x").with_cue(BattleNarrationLine.CUE_EXPOSED).with_beat(1, ME))
+	check(_show.side_running(ME), "露空: the striker lurches")
+	_show.end()
+	check(is_zero_approx(_model(ME).rotation.z) and not _show.side_running(ME), "end(): upright at once")
+	_show.pace = 1.0
+	TestFeel.restore()
+
+
+## The mode's word in blocks (owner 2026-11-09): each pixel of the pixel face one block, from
+## the font's outlines (no rendering); a word the face cannot draw builds nothing.
+func _mode_title(tree: SceneTree) -> void:
+	var lethal: Array = BattleModeTitle.mask_of("死斗")
+	var ink: int = 0
+	for row: PackedByteArray in lethal:
+		ink += row.count(1)
+	check(lethal.size() >= 9 and lethal.size() <= 12 and (lethal[0] as PackedByteArray).size() == 24 and ink > 60, "死斗: two 12-pixel glyphs, %d rows, %d pixels of ink" % [lethal.size(), ink])
+	check(BattleModeTitle.mask_of("").is_empty() and BattleModeTitle.mask_of("͸").is_empty(), "nothing, or a glyph the face lacks: no mask")
+	var title := BattleModeTitle.new()
+	tree.root.add_child(title)
+	check(title.present("切磋", CombatEncounterMode.Value.SPAR) and title.built() and title.block_count() > 40, "切磋 builds (%d blocks)" % title.block_count())
+	check(not title.present("", -1) and not title.built(), "an empty word: nothing built (the Label shows)")
+	title.queue_free()
 
 
 # --- fixtures -------------------------------------------------------------------------------

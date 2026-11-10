@@ -64,6 +64,10 @@ var is_folded: bool:
 ## it is one of a special's blows, and a cue a line that is no blow carries (CUE_EARNED: a
 ## beat won, 「抢得一手」).
 const CUE_EARNED: StringName = &"earned"
+## 战斗拍数 E: a 重 landed and threw its victim off balance (失衡); a 重 missed and left its
+## striker open (露空). The line's actor is the one it befell.
+const CUE_STAGGER: StringName = &"stagger"
+const CUE_EXPOSED: StringName = &"exposed"
 var _tag: StringName = &""
 var tag: StringName:
 	get: return _tag

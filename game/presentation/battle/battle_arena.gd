@@ -17,7 +17,9 @@ extends Node3D
 ## it). 战斗演出 E (DECISIONS「战斗演出 E」): the two sides read on it — the top's left half (the
 ## player's) lit from its front edge in the player's side colour, the right half in the other
 ## side's (the mode says how strongly), a dark seam down the middle; every step's front edge a
-## lighter row, so the steps read as steps.
+## lighter row, so the steps read as steps. Owner 2026-11-09: the steps thinner, their edges more
+## broken, and glowing bricks set among them like old rune stones (the look's `glow_bricks`: a
+## 切磋's jade, a 死斗's embers, a 拆招's gold), breathing slowly (glow_brick.gdshader).
 ## Presentation only: the base is drawn in the voxel world, never in the 2D map; it moves no
 ## body, blocks nothing and is not saved.
 
@@ -36,7 +38,8 @@ var origin: Vector2 = -Vector2(CELL, CELL) / 2.0
 var look_key: String = ""
 var _look: Dictionary = {}
 var _arena: Dictionary = {}
-## Each brick: [step, cell, rest Vector3, start seconds, colour Color, multimesh index].
+## Each brick: [step, cell, rest Vector3, start seconds, colour Color, instance slot, drop, its
+## MultiMesh's index in _meshes (each step has a stone one and a glowing one), glows].
 var _bricks: Array[Array] = []
 var _meshes: Array[MultiMeshInstance3D] = []
 var _clock: float = 0.0
@@ -347,9 +350,45 @@ func _build(seconds_scale: float, short: bool) -> void:
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		add_child(mesh)
 		_meshes.append(mesh)
+	# The glowing bricks: which cells (their own draw, so the stone's stays the same at one place),
+	# then a MultiMesh of them per step after the stone ones.
+	var glow_look: Dictionary = _look.get("glow_bricks", {})
+	var glow_rng := RandomNumberGenerator.new()
+	glow_rng.seed = _seed + 97
+	var glowing: Dictionary = {}
+	var glow_counts: Array[int] = []
+	for index: int in steps.size():
+		var count: int = 0
+		for cell: Vector2i in steps[index]:
+			var edge: bool = _on_edge(steps[index], cell)
+			var share: float = float(glow_look.get("edge", 0.0)) if edge else (float(glow_look.get("top", 0.0)) if index == steps.size() - 1 else 0.0)
+			if glow_rng.randf() < share:
+				glowing[Vector3i(cell.x, cell.y, index)] = true
+				count += 1
+		glow_counts.append(count)
+	for index: int in steps.size():
+		var mesh := MultiMeshInstance3D.new()
+		mesh.name = "Glow%d" % index
+		var multi := MultiMesh.new()
+		multi.transform_format = MultiMesh.TRANSFORM_3D
+		multi.use_colors = true
+		var box := BoxMesh.new()
+		box.size = Vector3(brick - gap, tier_height, brick - gap)
+		if _glow_material == null:
+			_glow_material = ShaderMaterial.new()
+			_glow_material.shader = GLOW_SHADER
+		box.material = _glow_material
+		multi.mesh = box
+		multi.instance_count = glow_counts[index]
+		mesh.multimesh = multi
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(mesh)
+		_meshes.append(mesh)
+		_meshes[index].multimesh.instance_count = steps[index].size() - glow_counts[index]
+	var glow_colours: Array = glow_look.get("colours", ["ffb347"])
 	_lamp()
 	var counters: Array[int] = []
-	counters.resize(steps.size())
+	counters.resize(steps.size() * 2)
 	_bricks.clear()
 	_rows.clear()
 	for order: int in rows.size():
@@ -369,13 +408,17 @@ func _build(seconds_scale: float, short: bool) -> void:
 				colour = colour.lightened(FRONT_EDGE_LIGHTEN)
 			var centre: Vector2 = centre_of(cell)
 			var rest := Vector3(centre.x / VoxelMapGeometry.UNIT, (float(index) + 0.5) * tier_height + _rng.randf_range(-height_jitter, height_jitter), centre.y / VoxelMapGeometry.UNIT)
-			var slot: int = counters[index]
-			counters[index] += 1
+			var glows: bool = glowing.has(Vector3i(cell.x, cell.y, index))
+			if glows:
+				colour = Color(String(glow_colours[glow_rng.randi_range(0, glow_colours.size() - 1)]))
+			var mesh_index: int = index + (steps.size() if glows else 0)
+			var slot: int = counters[mesh_index]
+			counters[mesh_index] += 1
 			# Short rows: the bricks of a row land a little one after another.
 			var stagger: float = minf(row_seconds * 0.6, 0.004 * float(at)) if not short else 0.0
-			_bricks.append([index, cell, rest, start + stagger, colour, slot, drop])
-			_meshes[index].multimesh.set_instance_color(slot, colour)
-			_meshes[index].multimesh.set_instance_transform(slot, Transform3D(Basis().scaled(Vector3.ZERO), rest))
+			_bricks.append([index, cell, rest, start + stagger, colour, slot, drop, mesh_index, glows])
+			_meshes[mesh_index].multimesh.set_instance_color(slot, colour)
+			_meshes[mesh_index].multimesh.set_instance_transform(slot, Transform3D(Basis().scaled(Vector3.ZERO), rest))
 	_clock = 0.0
 	_next_row_sound = 0
 	_last_row_sound = -1.0
@@ -399,6 +442,17 @@ void fragment() {
 }
 """
 static var _glow_shader: Shader
+const GLOW_SHADER: Shader = preload("res://presentation/voxel/shaders/glow_brick.gdshader")
+var _glow_material: ShaderMaterial
+
+
+## The glowing bricks laid now (tests).
+func glowing_bricks() -> int:
+	var count: int = 0
+	for brick: Array in _bricks:
+		if bool(brick[8]):
+			count += 1
+	return count
 
 
 ## 战斗演出 E: each half of the top lit in its side's colour from the front edge (the look's
@@ -495,7 +549,7 @@ func _process(delta: float) -> void:
 func _advance_laying() -> void:
 	for brick: Array in _bricks:
 		var t: float = _clock - float(brick[3])
-		var mesh: MultiMeshInstance3D = _meshes[brick[0]]
+		var mesh: MultiMeshInstance3D = _meshes[brick[7]]
 		var rest: Vector3 = brick[2]
 		if t < 0.0:
 			continue
@@ -529,7 +583,7 @@ func skip() -> void:
 func _finish_laying() -> void:
 	_laying = false
 	for brick: Array in _bricks:
-		_meshes[brick[0]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), brick[2]))
+		_meshes[brick[7]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), brick[2]))
 	if not _quiet:
 		for sound: Array in _look.get("done_sounds", []):
 			BattleSounds.cue(StringName(sound[0]), float(sound[1]), float(sound[2]))
@@ -540,14 +594,25 @@ func _finish_laying() -> void:
 # --- the dressing: flags, braziers, rubble ----------------------------------------------------
 
 
-## The base's corners (2D cells of the bottom step's box), those free of bricks or not.
+## The base's corners: the bottom step's brick nearest each corner of its box (a broken edge may
+## leave the box's own corner cells empty).
 func _corners() -> Array[Vector2i]:
 	if steps.is_empty() or steps[0].is_empty():
 		return []
 	var box := Rect2i(steps[0].keys()[0], Vector2i.ONE)
 	for cell: Vector2i in steps[0]:
 		box = box.expand(cell).expand(cell + Vector2i.ONE)
-	return [box.position, Vector2i(box.end.x - 1, box.position.y), Vector2i(box.position.x, box.end.y - 1), box.end - Vector2i.ONE]
+	var found: Array[Vector2i] = []
+	for corner: Vector2i in [box.position, Vector2i(box.end.x - 1, box.position.y), Vector2i(box.position.x, box.end.y - 1), box.end - Vector2i.ONE]:
+		var best: Vector2i = corner
+		var nearest: float = INF
+		for cell: Vector2i in steps[0]:
+			var distance: float = Vector2(cell - corner).length_squared()
+			if distance < nearest:
+				nearest = distance
+				best = cell
+		found.append(best)
+	return found
 
 
 func _dress(look: Dictionary) -> void:
@@ -678,6 +743,9 @@ func restyle(mode: int, seconds: float) -> void:
 		var to: Color = rim if top_edge else Color(String(pick[_rng.randi_range(0, pick.size() - 1)]))
 		if not top_edge and not steps[index].has(Vector2i(brick[1]) + Vector2i(0, 1)):
 			to = to.lightened(FRONT_EDGE_LIGHTEN)
+		if bool(brick[8]):
+			var glows_now: Array = _look.get("glow_bricks", {}).get("colours", ["ffb347"])
+			to = Color(String(glows_now[_rng.randi_range(0, glows_now.size() - 1)]))
 		plan_colours.append([brick[4], to, Vector2(brick[1]).distance_to(centre) / reach * seconds * 0.7])
 	_restyle = {"clock": 0.0, "seconds": maxf(0.001, seconds), "colours": plan_colours}
 	set_process(true)
@@ -698,7 +766,7 @@ func _advance_restyle(delta: float) -> void:
 		var entry: Array = colours[at]
 		var p: float = 1.0 if part <= 0.0 else clampf((now - float(entry[2])) / part, 0.0, 1.0)
 		var colour: Color = (entry[0] as Color).lerp(entry[1], p)
-		_meshes[_bricks[at][0]].multimesh.set_instance_color(_bricks[at][5], colour)
+		_meshes[_bricks[at][7]].multimesh.set_instance_color(_bricks[at][5], colour)
 		if p >= 1.0:
 			_bricks[at][4] = entry[1]
 	if now >= float(_restyle["seconds"]) or float(_restyle["seconds"]) <= 0.001:
@@ -741,6 +809,6 @@ func _advance_take_down(delta: float) -> void:
 		var p: float = clampf((_taking_down - float(from_top) * share * 0.6) / share, 0.0, 1.0)
 		var rest: Vector3 = brick[2]
 		var shrink: float = 1.0 - p
-		_meshes[brick[0]].multimesh.set_instance_transform(brick[5], Transform3D(Basis().scaled(Vector3(shrink, shrink, shrink)), rest + Vector3.DOWN * 0.2 * p))
+		_meshes[brick[7]].multimesh.set_instance_transform(brick[5], Transform3D(Basis().scaled(Vector3(shrink, shrink, shrink)), rest + Vector3.DOWN * 0.2 * p))
 	if _taking_down >= _take_down_seconds:
 		queue_free()

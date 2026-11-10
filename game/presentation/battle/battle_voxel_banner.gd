@@ -22,7 +22,7 @@ const COLUMNS: int = 26
 const TAIL_ROWS: int = 5
 const CORD_ROWS: int = 7
 ## Bricks of room round the banner (the pole's ends, the sway).
-const MARGIN_SIDE: int = 3
+const MARGIN_SIDE: int = 6
 const MARGIN_TOP: int = 3
 const MARGIN_FOOT: int = 1
 const THICKNESS: float = 0.5
@@ -134,6 +134,7 @@ func build(rows: int, p_side: int, dye: Color, p_current: bool) -> void:
 	_mesh.multimesh = multi
 	_material.set_shader_parameter("rows", float(cloth_rows + TAIL_ROWS + CORD_ROWS))
 	_material.set_shader_parameter("lean", -1.0 if side == 0 else 1.0)
+	_material.set_shader_parameter("pivot", Vector3(float(COLUMNS) / 2.0, 0.5, 0.0))
 	_frame()
 
 
@@ -151,8 +152,8 @@ static func bricks_wide() -> int:
 func _frame() -> void:
 	var high: float = float(bricks_high(cloth_rows))
 	var middle := Vector3(float(COLUMNS) / 2.0, float(MARGIN_TOP) - high / 2.0, 0.0)
-	var yaw: float = deg_to_rad(10.0) * (1.0 if side == 0 else -1.0)
-	var pitch: float = deg_to_rad(7.0)
+	var yaw: float = deg_to_rad(14.0) * (1.0 if side == 0 else -1.0)
+	var pitch: float = deg_to_rad(12.0)
 	var away := Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * cos(pitch)) * 60.0
 	_camera.size = high
 	_camera.position = middle + away

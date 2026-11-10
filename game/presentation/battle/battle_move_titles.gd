@@ -18,6 +18,11 @@ const SLIDE_PX: float = 40.0
 const RISE_PX: float = 20.0
 const FADE_SECONDS: float = 0.15
 
+## 战斗拍数 E: the words a 重 leaves over a head — 失衡 in red, 露空 in pale blue.
+const STAGGER_COLOUR: Color = Color("e0503a")
+const EXPOSED_COLOUR: Color = Color("9cc8ee")
+const WORD_SIZE: int = 30
+
 ## Each name shown: {label, id, mine, offset, streak}.
 var _shown: Array[Dictionary] = []
 var _font: Font
@@ -74,6 +79,35 @@ func show_title(view: WorldVoxelView, line: BattleNarrationLine, text: String, s
 	var entry: Dictionary = {"label": label, "id": line.actor_id, "mine": mine, "offset": Vector2.ZERO, "streak": null, "view": view}
 	_shown.append(entry)
 	_animate(entry, String(look.get("motion", "slam")) if not special else "heavy", hold)
+	_place(entry)
+	return true
+
+
+## 战斗拍数 E: a word over `actor_id`'s head (失衡, 露空) in `colour`, slammed in big; always
+## shown (it counts as the player's), held as long as a move's name. False when the figure is
+## not in the scene.
+func show_word(view: WorldVoxelView, actor_id: StringName, text: String, colour: Color) -> bool:
+	if view == null or not is_instance_valid(view) or view.camera == null or not view.actors.has(actor_id) or text.is_empty():
+		return false
+	var hold: float = GameContent.catalog().pacing().feel.move_title_seconds
+	if hold <= 0.0:
+		return true
+	_make_room(int(BattleArena.data().get("moves", {}).get("shown", 3)), true)
+	var label := Label.new()
+	label.name = "StatusWord"
+	label.text = text
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_override("font", _font)
+	label.add_theme_font_size_override("font_size", WORD_SIZE)
+	label.add_theme_color_override("font_color", colour)
+	label.add_theme_color_override("font_outline_color", BRUSH_OUTLINE)
+	label.add_theme_constant_override("outline_size", 8)
+	add_child(label)
+	label.reset_size()
+	label.pivot_offset = label.size * 0.5
+	var entry: Dictionary = {"label": label, "id": actor_id, "mine": true, "offset": Vector2.ZERO, "streak": null, "view": view}
+	_shown.append(entry)
+	_animate(entry, "heavy", hold)
 	_place(entry)
 	return true
 
