@@ -34,6 +34,52 @@ var night: float = 0.0
 ## 第十章 A (DECISIONS「风」): the map's guiding wind as the view gives it each frame (px space unit
 ## vector, ZERO still); dust with `follows_wind` drifts along it instead of its own `wind`.
 var guiding_wind: Vector2 = Vector2.ZERO
+## DECISIONS「氛围动画」: the view's camera. What stirs out of its sight is not moved (each
+## frame's pose is the clock's, so it is where it should be when it comes back into sight), and a
+## slow sway is written only once it has moved a step: a moved thing is work for the renderer
+## (its bounds, its lights, the shadows it casts), however little it moved. Unset: all of it moves.
+var camera: Camera3D
+## What the camera sees (local units): the middle of the screen and its right and up, and how
+## far the screen reaches along them, grown by SEEN_MARGIN (a flag's cloth, a puff's rise reach
+## past where they hang, a waterfall's spray past its foot, a ferry past its middle). The view is
+## orthogonal, so a thing is on screen exactly when its offset along right and up is within that;
+## `_watching` false (no camera, another projection): all of it.
+var _watching: bool = false
+var _sight_origin := Vector3.ZERO
+var _sight_right := Vector3.RIGHT
+var _sight_up := Vector3.UP
+var _sight_half := Vector2.ZERO
+const SEEN_MARGIN: float = 4.0
+## Whether lamps cast shadows now (the view sets it from the lighting): a stirring flag's
+## shadow is then cast by a still copy (`_shadow_flag`).
+var lamp_shadows: bool = false
+var _flags_still_shadow: bool = false
+var _flags_shadowed: int = 0
+## How a flag's cloth hangs at rest (the middle of its flutter).
+const FLAG_REST := Vector3(0.0,0.2,0.0)
+## Radians a hanging thing turns before it is written again (a bell's slow swing: well under
+## a pixel at the view's scale).
+const SWAY_STEP: float = 0.004
+## Things that stay put while they stir, each kind's entries near the screen (`_STAYING`), worked
+## out again only once the sight has moved: a few hundred hangings on a big map, a few dozen near.
+var _near: Dictionary[String, Array] = {}
+## The sight `_near` was worked out for (and how many things there were then).
+var _near_watching: bool = false
+var _near_origin := Vector3.INF
+var _near_right := Vector3.ZERO
+var _near_up := Vector3.ZERO
+var _near_half := Vector2.ZERO
+var _near_count: int = -1
+## Units past the screen `_near` reaches: the sight may move half of it before it is worked out again.
+const SEEN_SLACK: float = 2.0
+## Kinds that stay put while they stir: [the entry's node, its rest place in its parent ("": the
+## node's own position, which the stirring never moves)].
+const _STAYING: Dictionary = {
+	"_flags": ["node", ""], "_swaying": ["node", ""], "_floating": ["node", "base"], "_puffs": ["node", "base"],
+	"_sprays": ["node", "base"], "_bubbles": ["node", "base"], "_drops": ["drop", "at"], "_flame_entries": ["node", ""],
+}
+## `_flames` as entries, for `_near`.
+var _flame_entries: Array[Dictionary] = []
 
 ## `birds`: [{"at": [x, y] px, "radius": px, "count": n, "height": units, "color": hex}],
 ## `dust`: [{"rect": [x0, y0, x1, y1] px, "count": n, "color": hex, "wind": [x, z], "height": [low, high]}],
@@ -81,18 +127,21 @@ func add(data: Dictionary) -> void:
 		var grain: Array = cloud.get("size",[0.07,0.05,0.07])
 		# One MultiMesh for the cloud (a draw call, not one per mote).
 		var alpha: float = float(cloud.get("alpha",1.0))
-		var motes: MultiMesh = _swarm(Vector3(float(grain[0]),float(grain[1]),float(grain[2])),int(cloud.get("count",24)),false,alpha < 1.0,alpha < 1.0)
+		# `height`: [low, high] units the motes keep between (moths under a lamp hang high).
+		var band: Array = cloud.get("height",[0.2,1.8])
+		var flit: float = float(cloud.get("flit",0.0))
+		var reach := Vector3(0.22*flit,0.15+0.12*flit,0.22*flit)+Vector3(float(grain[0]),float(grain[1]),float(grain[2]))
+		var motes: MultiMesh = _swarm(Vector3(float(grain[0]),float(grain[1]),float(grain[2])),int(cloud.get("count",24)),false,alpha < 1.0,alpha < 1.0,
+			_within(r,float(band[0]),float(band[1]),reach))
 		var holder := get_child(get_child_count()-1) as MultiMeshInstance3D
 		var tone := Color(String(cloud.get("color","c8b48a")),alpha)
 		for i: int in motes.instance_count:
 			motes.set_instance_color(i,tone)
 			var phase: float = i*12.9898+index*3.7
-			# `height`: [low, high] units the motes keep between (moths under a lamp hang high).
-			var band: Array = cloud.get("height",[0.2,1.8])
 			_motes.append({"multi":motes,"index":i,"holder":holder,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":float(band[0])+fposmod(sin(phase*2.3)*1531.2,1.0)*(float(band[1])-float(band[0])),
 				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(phase*3.1)*812.7,1.0)*0.08,
-				"flit":float(cloud.get("flit",0.0)),"day":cloud.get("day",false),"follows":cloud.get("follows_wind",false)})
+				"flit":float(cloud.get("flit",0.0)),"day":cloud.get("day",false),"follows":cloud.get("follows_wind",false),"top":float(band[1])+0.5})
 		if cloud.get("beam",false):
 			_beam(cloud,shapes)
 		index += 1
@@ -101,13 +150,14 @@ func add(data: Dictionary) -> void:
 		var colors: Array = drift.get("colors",["8a5a36","a8794a","6e8a47"])
 		var wind: Array = drift.get("wind",[0.4,0.2])
 		# One MultiMesh for the whole drift (a draw call, not one per needle).
-		var needles: MultiMesh = _swarm(Vector3(0.18,0.018,0.035) if not drift.get("up",false) else Vector3(0.06,0.06,0.06),int(drift.get("count",20)),false,drift.get("glow",false))
+		var needles: MultiMesh = _swarm(Vector3(0.18,0.018,0.035) if not drift.get("up",false) else Vector3(0.06,0.06,0.06),int(drift.get("count",20)),false,drift.get("glow",false),false,
+			_within(r,0.0,float(drift.get("height",5.0)),Vector3(0.4,0.2,0.2)))
 		for i: int in needles.instance_count:
 			needles.set_instance_color(i,Color(String(colors[i%colors.size()])))
 			var phase: float = i*7.3121+index*3.1
 			_falling.append({"multi":needles,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.9)*24634.6,1.0),"t":fposmod(sin(phase*2.7)*9137.1,1.0),
-				"height":float(drift.get("height",5.0)),"wind":Vector2(float(wind[0]),float(wind[1])),"rate":0.09+fposmod(sin(phase*3.3)*512.9,1.0)*0.06,"up":drift.get("up",false)})
+				"height":float(drift.get("height",5.0)),"wind":Vector2(float(wind[0]),float(wind[1])),"rate":0.09+fposmod(sin(phase*3.3)*512.9,1.0)*0.06,"up":drift.get("up",false),"top":float(drift.get("height",5.0))})
 		index += 1
 	for swarm: Dictionary in data.get("fireflies",[]):
 		var r: Array = swarm["rect"]
@@ -116,12 +166,13 @@ func add(data: Dictionary) -> void:
 			_glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 			_glow.albedo_color = Color(String(swarm.get("color","d9f27a")))
 			_glow.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		var flies: MultiMesh = _swarm(Vector3.ONE*0.07,int(swarm.get("count",12)),true)
+		var flies: MultiMesh = _swarm(Vector3.ONE*0.07,int(swarm.get("count",12)),true,false,false,
+			_within(r,float(swarm.get("height",1.0)),float(swarm.get("height",1.0)),Vector3(0.1,0.45,0.1)))
 		var holder := get_child(get_child_count()-1) as MultiMeshInstance3D
 		for i: int in flies.instance_count:
 			var phase: float = i*5.137+index*1.3
 			_fireflies.append({"node":holder,"multi":flies,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
-				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.3)*24634.6,1.0),"h":float(swarm.get("height",1.0)),"phase":phase})
+				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.3)*24634.6,1.0),"h":float(swarm.get("height",1.0)),"phase":phase,"top":float(swarm.get("height",1.0))+0.5})
 		index += 1
 	for school: Dictionary in data.get("fish",[]):
 		_school(school,index,shapes)
@@ -218,9 +269,17 @@ func _lightning(storm: Dictionary, index: int) -> void:
 	_bolts.append({"bolt":bolt,"flash":flash,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 		"every":float(storm.get("every",6.0)),"phase":index*0.37,"strike":-1,"top":top,"energy":float(storm.get("energy",5.0))})
 
+## The box (local units) a swarm's things keep within: its rect (px) between `low` and `high`,
+## grown by `reach` (how far a thing strays past its place, and its own size).
+func _within(r: Array, low: float, high: float, reach: Vector3) -> AABB:
+	var box := AABB(Vector3(float(r[0])/32.0,low,float(r[1])/32.0),Vector3((float(r[2])-float(r[0]))/32.0,high-low,(float(r[3])-float(r[1]))/32.0)).abs()
+	return box.expand(box.position-reach).expand(box.end+reach)
+
 ## Many small boxes moved together each frame: one MultiMesh (instance colours for needles,
-## the shared glow for fireflies) under one instance.
-func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false, see_through: bool = false) -> MultiMesh:
+## the shared glow for fireflies) under one instance. `bounds`: where its things keep, the
+## MultiMesh's own box (DECISIONS「氛围动画」): without it the renderer works the box out again
+## from every thing each frame they move (and the swarm is culled and lit by a box 64 units wide).
+func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false, see_through: bool = false, bounds: AABB = AABB()) -> MultiMesh:
 	var cube := BoxMesh.new()
 	cube.size = size
 	var multi := MultiMesh.new()
@@ -228,11 +287,12 @@ func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false, see_thr
 	multi.use_colors = not glowing
 	multi.mesh = cube
 	multi.instance_count = count
+	multi.custom_aabb = bounds
 	var instance := MultiMeshInstance3D.new()
 	instance.multimesh = multi
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	# Never culled by its first frame's bounds: the instances move all over their rect.
-	instance.extra_cull_margin = 64.0
+	# Without bounds: never culled by its first frame's box (the things move all over their rect).
+	instance.extra_cull_margin = 0.0 if bounds.has_volume() else 64.0
 	if glowing:
 		instance.material_override = _glow
 	else:
@@ -337,6 +397,42 @@ func flame(node: Node3D) -> void:
 func flutter(node: Node3D, phase: float) -> void:
 	_flags.append({"node":node,"phase":phase})
 
+## DECISIONS「氛围动画」: while lamps cast shadows a stirring cloth would have the lamps near it
+## draw their shadows again every frame it moves. So then the cloth casts none, and a still copy
+## of it, hung as the cloth hangs at rest, casts its shadow instead; without lamp shadows (out of
+## doors by day) the cloth casts its own as before.
+func _shadow_flag(flag: Dictionary, still: bool) -> bool:
+	var cloth: Node3D = flag["node"]
+	if not flag.has("twin"):
+		if not still:
+			return true
+		if not cloth.is_inside_tree() or not cloth.get_parent() is Node3D:
+			return false
+		var twin := Node3D.new()
+		twin.transform = Transform3D(Basis.from_euler(FLAG_REST),cloth.position)
+		var parts: Array = []
+		for part: Node in cloth.find_children("*","GeometryInstance3D",true,false):
+			var shape := part as GeometryInstance3D
+			if shape.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF:
+				continue
+			parts.append([shape,shape.cast_shadow])
+			if shape is Label3D:
+				continue
+			var copy := shape.duplicate(0) as GeometryInstance3D
+			for inner: Node in copy.get_children():
+				copy.remove_child(inner)
+				inner.free()
+			copy.transform = cloth.global_transform.affine_inverse()*shape.global_transform
+			copy.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+			twin.add_child(copy)
+		cloth.get_parent().add_child(twin)
+		flag["twin"] = twin
+		flag["parts"] = parts
+	(flag["twin"] as Node3D).visible = still
+	for entry: Array in flag["parts"]:
+		(entry[0] as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if still else entry[1]
+	return true
+
 ## A drop falling from `height` onto the floor at a (local) point, every few seconds:
 ## water by default, or grit (`color`) trickling from loose rock.
 func drip(parent: Node3D, at: Vector3, height: float, color: String = "") -> void:
@@ -365,8 +461,123 @@ func drip(parent: Node3D, at: Vector3, height: float, color: String = "") -> voi
 	parent.add_child(ring)
 	_drops.append({"drop":drop,"ring":ring,"at":at,"height":height,"phase":fposmod(at.x*0.37+at.z*0.71,1.0)})
 
+## What the camera sees this frame, in local units (`_watching`).
+func _watch() -> void:
+	_watching = false
+	if camera == null or not camera.is_inside_tree() or not is_inside_tree() or camera.projection != Camera3D.PROJECTION_ORTHOGONAL:
+		return
+	var screen: Vector2 = camera.get_viewport().get_visible_rect().size
+	var to_local: Transform3D = global_transform.affine_inverse()
+	var turn: Basis = to_local.basis*camera.global_basis
+	_sight_right = turn.x.normalized()
+	_sight_up = turn.y.normalized()
+	_sight_origin = to_local*camera.project_ray_origin(screen/2.0)
+	var corner: Vector3 = to_local*camera.project_ray_origin(Vector2.ZERO)-_sight_origin
+	_sight_half = Vector2(absf(corner.dot(_sight_right)), absf(corner.dot(_sight_up)))+Vector2.ONE*SEEN_MARGIN
+	_watching = true
+
+## Whether a (local) point, or anything within `reach` units of it, is on screen.
+func _seen(at: Vector3, reach: float = 0.0) -> bool:
+	var off: Vector3 = at-_sight_origin
+	return absf(off.dot(_sight_right)) <= _sight_half.x+reach and absf(off.dot(_sight_up)) <= _sight_half.y+reach
+
+## Where a thing that stays put while it stirs stands (local), from its rest place in its parent.
+func _anchor(node: Node3D, rest: Vector3) -> Vector3:
+	return to_local(node.get_parent().to_global(rest)) if node.get_parent() is Node3D else rest
+
+## Whether an entry's thing is within `reach` of the camera's sight; its place is worked out once,
+## when it first can be (in the tree; till then it counts as seen).
+func _in_sight(entry: Dictionary, node: Node3D, rest: Vector3, reach: float = 0.0) -> bool:
+	if not _watching:
+		return true
+	var anchor: Variant = entry.get("anchor")
+	if anchor == null:
+		if not node.is_inside_tree():
+			return true
+		anchor = _anchor(node, rest)
+		entry["anchor"] = anchor
+	return _seen(anchor, reach)
+
+## Whether any of a swarm's rect (local units, its things up to its `top`) is in the camera's sight.
+func _rect_in_sight(entry: Dictionary) -> bool:
+	if not _watching:
+		return true
+	var w: float = float(entry["w"])
+	var d: float = float(entry["d"])
+	var top: float = float(entry["top"])
+	var middle := Vector3(float(entry["x0"])+w/2.0, top/2.0, float(entry["z0"])+d/2.0)
+	return _seen(middle, Vector3(w, top, d).length()/2.0)
+
+## `_near` worked out again when the sight has moved, turned or widened past what it allowed for,
+## or there are more things than then.
+func _refresh_near() -> void:
+	if _flame_entries.size() != _flames.size():
+		_flame_entries.clear()
+		for node: Node3D in _flames:
+			_flame_entries.append({"node": node})
+	var count: int = 0
+	for kind: String in _STAYING:
+		count += (get(kind) as Array).size()
+	if count == _near_count and _watching == _near_watching and (not _watching or (
+			_sight_origin.distance_to(_near_origin) <= SEEN_SLACK/2.0 and _sight_right.dot(_near_right) > 0.99995
+			and _sight_up.dot(_near_up) > 0.99995 and _sight_half.x <= _near_half.x and _sight_half.y <= _near_half.y)):
+		return
+	_near_count = count
+	_near_watching = _watching
+	_near_origin = _sight_origin
+	_near_right = _sight_right
+	_near_up = _sight_up
+	_near_half = _sight_half
+	for kind: String in _STAYING:
+		var spec: Array = _STAYING[kind]
+		var near: Array = []
+		for entry: Dictionary in get(kind):
+			var node: Node3D = entry[spec[0]]
+			if not node.is_inside_tree():
+				# Placed later: counted as seen till then, and looked at again.
+				_near_count = -1
+			if _in_sight(entry, node, node.position if String(spec[1]).is_empty() else entry[spec[1]], SEEN_SLACK):
+				near.append(entry)
+		_near[kind] = near
+
+## Where a mote is now (its swarm's MultiMesh holds it there).
+func _mote_place(mote: Dictionary) -> Vector3:
+	var u: float = mote["u"]
+	var v: float = mote["v"]
+	if not mote["follows"]:
+		var travel: float = clock*float(mote["speed"])
+		var wind: Vector2 = mote["wind"]
+		u = fposmod(u+travel*wind.x,1.0)
+		v = fposmod(v+travel*wind.y,1.0)
+	var at := Vector3(float(mote["x0"])+u*float(mote["w"]),float(mote["h"])+sin(clock*1.3+float(mote["u"])*9.0)*0.15,float(mote["z0"])+v*float(mote["d"]))
+	var flit: float = mote["flit"]
+	if flit > 0.0:
+		# A moth: quick darts about its lamp, never far from it.
+		var t: float = clock*4.5+float(mote["v"])*20.0
+		at += Vector3(sin(t*1.9)*0.22,sin(t*3.1)*0.12,cos(t*2.3)*0.22)*flit
+	return at
+
+## A falling needle (or a rising spark) now: where it is and how it is turned.
+func _needle_pose(needle: Dictionary) -> Transform3D:
+	var life: float = fposmod(clock*float(needle["rate"])+float(needle["t"]),1.0)
+	var wind: Vector2 = needle["wind"]
+	var u: float = fposmod(float(needle["u"])+life*wind.x*0.08,1.0)
+	var v: float = fposmod(float(needle["v"])+life*wind.y*0.08,1.0)
+	var at := Vector3(float(needle["x0"])+u*float(needle["w"])+sin(clock*1.7+float(needle["t"])*9.0)*0.2,float(needle["height"])*(life if needle["up"] else 1.0-life),float(needle["z0"])+v*float(needle["d"]))
+	var turn := Basis.from_euler(Vector3(sin(clock*2.1+float(needle["u"])*7.0)*0.6,clock*1.3+float(needle["v"])*6.0,0))
+	return Transform3D(turn,at)
+
+## A firefly now: where it is, and its glow as its size.
+func _fly_pose(fly: Dictionary) -> Transform3D:
+	var t: float = clock*0.25+float(fly["phase"])
+	var at := Vector3(float(fly["x0"])+fposmod(float(fly["u"])+sin(t)*0.08+sin(t*2.3)*0.03,1.0)*float(fly["w"]),float(fly["h"])+sin(t*3.1)*0.35,float(fly["z0"])+fposmod(float(fly["v"])+cos(t*0.8)*0.08,1.0)*float(fly["d"]))
+	var glow: float = 0.4+0.6*maxf(0.0,sin(clock*2.7+float(fly["phase"])*3.0))
+	return Transform3D(Basis.from_scale(Vector3.ONE*glow),at)
+
 func advance(delta: float) -> void:
 	clock += delta
+	_watch()
+	_refresh_near()
 	for bird: Dictionary in _birds:
 		var t: float = clock*float(bird["speed"])+float(bird["phase"])
 		var node: Node3D = bird["node"]
@@ -377,54 +588,55 @@ func advance(delta: float) -> void:
 		(bird["wings"][0] as Node3D).rotation.z = flap
 		(bird["wings"][1] as Node3D).rotation.z = -flap
 	var daylight: bool = night < 0.5
+	# Whether the swarm of the thing at hand is in sight (a swarm's things come one after another).
+	var swarm: MultiMesh = null
+	var swarm_seen: bool = true
 	for mote: Dictionary in _motes:
 		if mote["day"]:
 			(mote["holder"] as Node3D).visible = daylight
 			if not daylight:
 				continue
-		var u: float
-		var v: float
 		if mote["follows"]:
 			# Along the guiding wind: carried a little each frame (the wind turns, the motes do not jump).
 			var push: Vector2 = guiding_wind*float(mote["speed"])*delta*(mote["wind"] as Vector2).length()*6.0
 			mote["u"] = fposmod(float(mote["u"])+push.x,1.0)
 			mote["v"] = fposmod(float(mote["v"])+push.y,1.0)
-			u = mote["u"]
-			v = mote["v"]
-		else:
-			var travel: float = clock*float(mote["speed"])
-			var wind: Vector2 = mote["wind"]
-			u = fposmod(float(mote["u"])+travel*wind.x,1.0)
-			v = fposmod(float(mote["v"])+travel*wind.y,1.0)
-		var at := Vector3(float(mote["x0"])+u*float(mote["w"]),float(mote["h"])+sin(clock*1.3+float(mote["u"])*9.0)*0.15,float(mote["z0"])+v*float(mote["d"]))
-		var flit: float = mote["flit"]
-		if flit > 0.0:
-			# A moth: quick darts about its lamp, never far from it.
-			var t: float = clock*4.5+float(mote["v"])*20.0
-			at += Vector3(sin(t*1.9)*0.22,sin(t*3.1)*0.12,cos(t*2.3)*0.22)*flit
-		(mote["multi"] as MultiMesh).set_instance_transform(int(mote["index"]),Transform3D(Basis.IDENTITY,at))
+		if mote["multi"] != swarm:
+			swarm = mote["multi"]
+			swarm_seen = _rect_in_sight(mote)
+		if not swarm_seen:
+			continue
+		(mote["multi"] as MultiMesh).set_instance_transform(int(mote["index"]),Transform3D(Basis.IDENTITY,_mote_place(mote)))
 	for beam: Dictionary in _sunbeams:
 		var node: MeshInstance3D = beam["node"]
 		node.visible = daylight
 		(beam["material"] as StandardMaterial3D).albedo_color.a = float(beam["alpha"])*clampf(1.0-night*2.0,0.0,1.0)
-	for puff: Dictionary in _puffs:
-		var life: float = fposmod(clock*0.28+float(puff["phase"]),1.0)
+	for puff: Dictionary in _near["_puffs"]:
 		var node: MeshInstance3D = puff["node"]
+		var life: float = fposmod(clock*0.28+float(puff["phase"]),1.0)
 		node.position = puff["base"]+Vector3(sin(life*4.0+float(puff["phase"])*6.0)*0.15+life*0.6,life*float(puff["rise"]),life*0.25)
 		node.scale = Vector3.ONE*(0.5+life*2.2)*(1.0-smoothstep(0.75,1.0,life))
-	for flag: Dictionary in _flags:
+	if lamp_shadows != _flags_still_shadow or _flags.size() != _flags_shadowed:
+		_flags_still_shadow = lamp_shadows
+		_flags_shadowed = _flags.size()
+		for flag: Dictionary in _flags:
+			if not _shadow_flag(flag,lamp_shadows):
+				# Not hung yet: tried again next frame.
+				_flags_shadowed = -1
+	for flag: Dictionary in _near["_flags"]:
+		var cloth: Node3D = flag["node"]
 		var t: float = clock*3.2+float(flag["phase"])
-		(flag["node"] as Node3D).rotation = Vector3(sin(t*1.7)*0.12,sin(t)*0.45+0.2,sin(t*2.3)*0.08)
-	for node: Node3D in _flames:
+		cloth.rotation = Vector3(sin(t*1.7)*0.12,sin(t)*0.45+FLAG_REST.y,sin(t*2.3)*0.08)
+	for flame: Dictionary in _near["_flame_entries"]:
+		var node: Node3D = flame["node"]
 		node.scale.y = 0.75+0.35*absf(sin(clock*11.0+node.position.x*7.0))+0.15*sin(clock*23.0)
 	for needle: Dictionary in _falling:
-		var life: float = fposmod(clock*float(needle["rate"])+float(needle["t"]),1.0)
-		var wind: Vector2 = needle["wind"]
-		var u: float = fposmod(float(needle["u"])+life*wind.x*0.08,1.0)
-		var v: float = fposmod(float(needle["v"])+life*wind.y*0.08,1.0)
-		var at := Vector3(float(needle["x0"])+u*float(needle["w"])+sin(clock*1.7+float(needle["t"])*9.0)*0.2,float(needle["height"])*(life if needle["up"] else 1.0-life),float(needle["z0"])+v*float(needle["d"]))
-		var turn := Basis.from_euler(Vector3(sin(clock*2.1+float(needle["u"])*7.0)*0.6,clock*1.3+float(needle["v"])*6.0,0))
-		(needle["multi"] as MultiMesh).set_instance_transform(int(needle["index"]),Transform3D(turn,at))
+		if needle["multi"] != swarm:
+			swarm = needle["multi"]
+			swarm_seen = _rect_in_sight(needle)
+		if not swarm_seen:
+			continue
+		(needle["multi"] as MultiMesh).set_instance_transform(int(needle["index"]),_needle_pose(needle))
 	var dark: float = clampf((night-0.35)/0.5,0.0,1.0)
 	if _glow != null:
 		_glow.albedo_color.a = dark
@@ -433,25 +645,27 @@ func advance(delta: float) -> void:
 		node.visible = dark > 0.01
 		if not node.visible:
 			continue
-		var t: float = clock*0.25+float(fly["phase"])
-		var at := Vector3(float(fly["x0"])+fposmod(float(fly["u"])+sin(t)*0.08+sin(t*2.3)*0.03,1.0)*float(fly["w"]),float(fly["h"])+sin(t*3.1)*0.35,float(fly["z0"])+fposmod(float(fly["v"])+cos(t*0.8)*0.08,1.0)*float(fly["d"]))
-		var glow: float = 0.4+0.6*maxf(0.0,sin(clock*2.7+float(fly["phase"])*3.0))
-		(fly["multi"] as MultiMesh).set_instance_transform(int(fly["index"]),Transform3D(Basis.from_scale(Vector3.ONE*glow),at))
-	for spray: Dictionary in _sprays:
+		if fly["multi"] != swarm:
+			swarm = fly["multi"]
+			swarm_seen = _rect_in_sight(fly)
+		if not swarm_seen:
+			continue
+		(fly["multi"] as MultiMesh).set_instance_transform(int(fly["index"]),_fly_pose(fly))
+	for spray: Dictionary in _near["_sprays"]:
+		var node: MeshInstance3D = spray["node"]
 		var life: float = fposmod(clock*0.35+float(spray["phase"]),1.0)
 		var a: float = float(spray["angle"])+life*0.6
-		var node: MeshInstance3D = spray["node"]
 		node.position = spray["base"]+Vector3(cos(a)*float(spray["radius"])*(0.3+life*0.9),0.2+life*2.2,sin(a)*float(spray["radius"])*(0.3+life*0.9)*0.6)
 		node.scale = Vector3.ONE*(0.5+life*1.6)*(1.0-smoothstep(0.6,1.0,life))
-	for bubble: Dictionary in _bubbles:
-		var life: float = fposmod(clock*0.45+float(bubble["phase"]),1.0)
+	for bubble: Dictionary in _near["_bubbles"]:
 		var node: MeshInstance3D = bubble["node"]
+		var life: float = fposmod(clock*0.45+float(bubble["phase"]),1.0)
 		node.visible = life < 0.8
 		node.position = bubble["base"]+Vector3(sin(life*12.0)*0.03,-0.35+life*0.42,0)
 		node.scale = Vector3.ONE*(0.5+life*0.8)
-	for boat: Dictionary in _floating:
-		var t: float = clock*1.4+float(boat["phase"])
+	for boat: Dictionary in _near["_floating"]:
 		var node: Node3D = boat["node"]
+		var t: float = clock*1.4+float(boat["phase"])
 		node.position = boat["base"]+Vector3(0,sin(t)*float(boat["height"]),0)
 		var turn: Vector3 = boat["turn"]
 		node.rotation = turn+Vector3(sin(t*0.7+0.6)*float(boat["roll"])*0.4,0,sin(t*0.83)*float(boat["roll"]))
@@ -488,14 +702,20 @@ func advance(delta: float) -> void:
 	for entry: Dictionary in _blinks:
 		var cycle: float = fposmod(clock+float(entry["phase"]),float(entry["every"]))
 		(entry["node"] as Node3D).visible = cycle < float(entry["duty"])
-	for hanging: Dictionary in _swaying:
+	for hanging: Dictionary in _near["_swaying"]:
+		var node: Node3D = hanging["node"]
 		var t: float = clock*1.1+float(hanging["phase"])
-		(hanging["node"] as Node3D).rotation = Vector3(sin(t)*float(hanging["amount"]),0,sin(t*0.73+1.3)*float(hanging["amount"])*0.7)
-	for entry: Dictionary in _drops:
-		var cycle: float = fposmod(clock/2.6+float(entry["phase"]),1.0)
-		var fall: float = clampf(cycle/0.35,0.0,1.0)
+		var turn := Vector3(sin(t)*float(hanging["amount"]),0,sin(t*0.73+1.3)*float(hanging["amount"])*0.7)
+		var shown: Variant = hanging.get("shown")
+		if shown != null and absf(turn.x-(shown as Vector3).x) < SWAY_STEP and absf(turn.z-(shown as Vector3).z) < SWAY_STEP:
+			continue
+		hanging["shown"] = turn
+		node.rotation = turn
+	for entry: Dictionary in _near["_drops"]:
 		var drop: MeshInstance3D = entry["drop"]
 		var ring: MeshInstance3D = entry["ring"]
+		var cycle: float = fposmod(clock/2.6+float(entry["phase"]),1.0)
+		var fall: float = clampf(cycle/0.35,0.0,1.0)
 		drop.visible = cycle<0.35
 		drop.position = entry["at"]+Vector3(0,float(entry["height"])*(1.0-fall*fall),0)
 		ring.visible = cycle>=0.35 and cycle<0.7
