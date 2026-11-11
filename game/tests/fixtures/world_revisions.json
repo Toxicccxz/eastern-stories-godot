@@ -4,6 +4,11 @@
 			"revision": "SOURCE_ENTRY_FONXAN_B_V1",
 			"spawn_points": 806,
 			"fingerprint": "f8f7d83a79b33346bc1e4f1b8d0316bb77d0516dd1117293416aa589d81f6672"
+		},
+		{
+			"revision": "SOURCE_ENTRY_REVIEW_TAIL_V1",
+			"spawn_points": 806,
+			"fingerprint": "697ece24fffcadaa2bb56b4c09d2fa95d8ce5af4dc1d708703b84fdb5fea6ef2"
 		}
 	]
 }
