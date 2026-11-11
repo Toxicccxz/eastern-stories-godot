@@ -83,6 +83,8 @@ const QUEST_GLOW: String = "d9452c"
 var quest_marker: Node3D
 ## What the marker was placed for ("" none): the target and the quest ledger's size.
 var _quest_key: String = ""
+## The twinkling points over what does something but may not look it (DECISIONS「交互闪光点」).
+var glints: VoxelGlints
 var _built: bool = false
 ## _build() is going on over several frames behind the loading screen (DECISIONS「加载画面」).
 var _building: bool = false
@@ -138,6 +140,7 @@ func _process(delta: float) -> void:
 	_reveal_entrances()
 	_bob_arrows(delta)
 	_sync_quest_marker()
+	_sync_glints(delta)
 	_update_occlusion()
 	_sync_light()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
@@ -286,6 +289,9 @@ func release_world() -> void:
 		quest_marker.queue_free()
 	quest_marker = null
 	_quest_key = ""
+	if glints != null:
+		glints.queue_free()
+	glints = null
 	occlusion = VoxelOcclusion.new()
 	lighting.release()
 	geometry = null
@@ -1016,6 +1022,16 @@ func _bob_arrows(delta: float) -> void:
 		arrow.rotation.y = atan2(direction.x,direction.y)
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
+
+## The glints, made once the world stands, beside it like the quest marker; away while staged.
+func _sync_glints(delta: float) -> void:
+	if glints == null:
+		if world == null:
+			return
+		glints = VoxelGlints.new()
+		add_child(glints)
+		glints.build(map)
+	glints.advance(delta, staged or placing())
 
 ## The quest marker follows the player's 指路, else the tracked quest (MapAtlas.goal): placed
 ## anew when the goal or the ledger changes, bobbing with the exit arrows meanwhile; over a
