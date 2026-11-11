@@ -147,6 +147,13 @@ func capture(
 		if not projected.is_empty():
 			saved_location = projected[0]
 			saved_position = projected[1]
+		# Saved only where Continue lets it stand (one gone in by a door at night stands in its
+		# footprint): the nearest such spot (MapPlacementValidator, the one check both ends use).
+		saved_position = _placed(
+			session.world_map_of(saved_location.map_id), saved_location.zone_id, saved_position,
+			MapPlacementValidator.is_valid_character_position, MapPlacementValidator.nearest_character_position,
+			"npc %s" % String(npc.character_id),
+		)
 		var live_loadout_ids: Array[StringName] = []
 		for item: ItemInstance in npc.loadout_items():
 			if session.inventory_state().is_registered(item.item_instance_id):
@@ -223,7 +230,11 @@ func capture(
 				corpse.maximum_contents_encumbrance,
 				worn,
 				_location_snapshot(location),
-				_position_snapshot(view.global_position),
+				_position_snapshot(_placed(
+					corpse_maps[index], location.zone_id, view.global_position,
+					MapPlacementValidator.is_valid_corpse_position, MapPlacementValidator.nearest_corpse_position,
+					"corpse %s" % String(corpse.corpse_item_instance_id),
+				)),
 			)
 		)
 		# Its age, while corpses decay (with corpse_rot_seconds 0 it would change nothing).
@@ -241,7 +252,12 @@ func capture(
 			var location: WorldLocationState = map.dropped_item_location(item_id)
 			if view == null or location == null:
 				return Result.failure(Result.Outcome.INVALID_CAPTURED_SNAPSHOT, "floor_items.%s" % String(item_id), "dropped item without a view")
-			floor_snapshots.append(Values.FloorItemSnapshot.new(item_id, _location_snapshot(location), _position_snapshot(view.global_position)))
+			var lies: Vector2 = _placed(
+				map, location.zone_id, view.global_position,
+				MapPlacementValidator.is_valid_character_position, MapPlacementValidator.nearest_character_position,
+				"floor item %s" % String(item_id),
+			)
+			floor_snapshots.append(Values.FloorItemSnapshot.new(item_id, _location_snapshot(location), _position_snapshot(lies)))
 
 	var snapshot: GameSaveSnapshot = GameSaveSnapshot.new(
 		Values.GameSaveMetadata.new(
@@ -268,6 +284,20 @@ func capture(
 	if not checked:
 		return Result.success(snapshot)
 	return check(snapshot)
+
+
+## Where a thing other than the player is saved: where it is when `valid` (a MapPlacementValidator
+## check) holds there, else the nearest spot `nearest` finds, else where it is (Continue moves it
+## too, or leaves it; it never refuses the save for it). A shift is logged; the world is not touched.
+static func _placed(map: WorldMapController, zone_id: StringName, position: Vector2, valid: Callable, nearest: Callable, what: String) -> Vector2:
+	if map == null or bool(valid.call(map, zone_id, position)):
+		return position
+	var spot: Vector2 = nearest.call(map, zone_id, position)
+	if not spot.is_finite():
+		push_warning("save: %s at %s in %s has no spot Continue accepts near it; saved where it is" % [what, position, zone_id])
+		return position
+	push_warning("save: %s at %s in %s saved at %s, the nearest spot Continue accepts" % [what, position, zone_id, spot])
+	return spot
 
 
 ## The checks a captured `snapshot` passes before it is written: the save's own rules and a

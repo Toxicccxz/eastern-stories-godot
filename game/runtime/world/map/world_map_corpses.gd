@@ -351,15 +351,14 @@ func _destruct_corpse(corpse: CorpseState) -> bool:
 
 
 ## A corpse lies where its body fell. It is wider than the body, so beside a wall it is
-## shifted (sideways first, at most 40 px, same zone) until it fits; Continue validates it.
+## shifted (sideways first, at most CORPSE_SHIFT_PX, same zone) until it fits; where nothing
+## near fits it (a narrow way), it lies on the nearest spot a body could stand — the one check
+## a save takes it by and Continue checks it by (MapPlacementValidator.is_valid_corpse_position()).
 func corpse_position(death_position: Vector2, death_location: WorldLocationState) -> Vector2:
-	if death_location == null or MapPlacementValidator.is_valid_corpse_position(_map, death_location.zone_id, death_position):
+	if death_location == null:
 		return death_position
-	for distance: int in range(8, 41, 8):
-		for offset: Vector2 in [Vector2(distance, 0), Vector2(-distance, 0), Vector2(0, distance), Vector2(0, -distance)]:
-			if MapPlacementValidator.is_valid_corpse_position(_map, death_location.zone_id, death_position + offset):
-				return death_position + offset
-	return death_position
+	var spot: Vector2 = MapPlacementValidator.nearest_corpse_position(_map, death_location.zone_id, death_position)
+	return spot if spot.is_finite() else death_position
 
 
 ## A restored corpse is already indexed and interactive.

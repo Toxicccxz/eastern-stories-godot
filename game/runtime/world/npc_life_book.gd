@@ -55,6 +55,9 @@ class Entry:
 
 
 static var _regions: Dictionary[String, Dictionary] = {}
+## Continue's and a save's checks read entries on a worker thread while the map's ticks read them
+## on the main one: the files are read, and the regions written, under this lock.
+static var _lock: Mutex = Mutex.new()
 
 
 ## The entry of `definition_id`, or null (it stays put).
@@ -63,12 +66,17 @@ static func entry(definition_id: StringName) -> Entry:
 	var dot: int = id.find(".")
 	if dot <= 0:
 		return null
-	return _region(id.substr(0, dot)).get(id)
+	_lock.lock()
+	var found: Entry = _region(id.substr(0, dot)).get(id)
+	_lock.unlock()
+	return found
 
 
 ## Forgets what was read (a suite that writes its own files).
 static func reset() -> void:
+	_lock.lock()
 	_regions.clear()
+	_lock.unlock()
 
 
 ## `raw` (a file's entry) as an Entry, or null with `problem[0]` saying why.

@@ -48,8 +48,8 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-The current public content is **SOURCE_ENTRY_FANFANG_A_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list)
-with root schema3 and item schema3: every region's maps, with one NPC record per authored spawn point
+The current public content is **SOURCE_ENTRY_FONXAN_B_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list; `tests/core/world_revision_test.gd` fails when the NPC spawn points' fingerprint changes without a new revision and its row in `tests/fixtures/world_revisions.json`)
+with root schema 4 and item schema 3: every region's maps, with one NPC record per authored spawn point
 (see below). P2B first published this shape with SOURCE_ENTRY_LAKE_V1 and ten NPC slots; each
 later world publication added one revision. Placement validation, physical body binding and full
 current capture/restore are published together.
@@ -85,8 +85,8 @@ The following version-specific details are the current implementation snapshot d
   save model exists. Embedded v1 has no food/liquid; v2 includes food but no liquid; v3 requires both
   arrays. Each version has a strict key set. Legal v1/v2 decode into v3 without granting/refilling
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
-  records contain only stable item ID, typed content and remaining (empty0 is live). Root schema3 /
-  SOURCE_ENTRY_FANFANG_A_V1 is the current public content marker (one per package since SOURCE_ENTRY_OLDPINE_TRAIL_V1); schema 3 (DECISIONS「昼夜」) adds the
+  records contain only stable item ID, typed content and remaining (empty0 is live). Root schema 4 /
+  SOURCE_ENTRY_FONXAN_B_V1 is the current public content marker (one per package since SOURCE_ENTRY_OLDPINE_TRAIL_V1); schema 3 (DECISIONS「昼夜」) adds the
   root's required `day_seconds`, schema 4 (DECISIONS「天气」) the root's required `sky_level` and
   `sky_minutes_left`; an older file is refused. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).
@@ -105,8 +105,18 @@ The following version-specific details are the current implementation snapshot d
 ## Durable world boundary
 
 - Player location is the sole saved active-map authority and includes region, map, zone, combat-location,
-  and physical position. Restore rejects unknown or contradictory placement instead of guessing or
-  clamping it.
+  and physical position. Restore rejects unknown or contradictory placement of the player instead of
+  guessing or clamping it.
+- Everyone and everything else (NPCs, corpses, dropped items) is saved and restored by one check,
+  `MapPlacementValidator` (a character's footprint; a corpse's own footprint, or a body's where none
+  fits near it). Save writes a thing off such a spot on the nearest spot that is one; Continue moves
+  one a save put wrong (an older save, a redrawn map) to the nearest such spot, or leaves it where it
+  was saved when none is near, and logs it — it never refuses a save for a non-player position
+  (全项目审查「存得进去、读不出来」, 2026-11-10).
+- Alive and absent is durable for a summoned, drawn or staged spawn's NPC and for the street's idle
+  folk indoors at night (DECISIONS「夜里冷清」; `WorldMapNpcIdle.goes_home_at_night()`, the one rule
+  Save's eligibility, the save's own check and Continue read). Continue restores the saved hour and
+  sky before it judges who is on the stage or indoors.
 - Stable ACTIVE, fully committed UNCONSCIOUS, and coherent completed DEAD character states are durable.
 - Save is rejected while any restart-unsafe transition is present: incomplete lifecycle work, a live
   FINAL corpse, opponents or lethal intent, guarding state, pending aggression or combat cadence, an
