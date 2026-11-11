@@ -181,11 +181,12 @@ func start_finished() -> bool:
 	return _start_finished
 
 
-## Between two maps of a start in slices: once this frame's share is spent the session stands
-## still (nothing of it processes) until the next frame. With no slice it does nothing and the
-## start is one frame. Nothing runs between: the world comes out as the one-frame start's.
-func _breathe_start() -> void:
-	if _start_pump == null or Time.get_ticks_usec() < _start_slice_ends:
+## Between two pieces of a start in slices: once this frame's share is spent (`now`: whatever
+## is left of it) the session stands still (nothing of it processes) until the next frame.
+## With no slice it does nothing and the start is one frame. Nothing runs between: the world
+## comes out as the one-frame start's.
+func _breathe_start(now: bool = false) -> void:
+	if _start_pump == null or (not now and Time.get_ticks_usec() < _start_slice_ends):
 		return
 	var mode: ProcessMode = process_mode
 	process_mode = Node.PROCESS_MODE_DISABLED
@@ -338,7 +339,24 @@ func set_world_building(on: bool) -> void:
 	_world_building = on
 	if on:
 		hold_presentation(WORLD_BUILD_HOLD, true)
+	else:
+		_worlds_built += 1
 	world_building_changed.emit(on)
+
+
+## The map worlds built since the journey began (set_world_building()).
+var _worlds_built: int = 0
+
+
+## A frame's share of building a map's world (WorldVoxelView._build()): the loading screen's
+## (the feel's map_loading_slice_ms, long: that screen has one small animation to keep moving).
+## The first world of a journey begun in slices is built under the title, still playing: at
+## the start's own share (session_start_slice_ms), when that is the shorter.
+func world_building_slice_usec() -> int:
+	var slice: int = roundi(GameContent.catalog().pacing().feel.map_loading_slice_seconds * 1000000.0)
+	if slice > 0 and start_slice_usec > 0 and _worlds_built == 0:
+		return mini(slice, start_slice_usec)
+	return slice
 
 
 func world_building() -> bool:
@@ -1617,7 +1635,12 @@ func _initialize_restore_authorities() -> bool:
 
 func _initialize_source_residents() -> bool:
 	# Every map binds the same authority graph. Fresh source entry alone starts in Inn.
-	if not ((await _bind_residents_staged()) and _activate_first_map(SnowWorldDefinitions.INN_MAP_ID) and _initialize_player_recovery()):
+	if not await _bind_residents_staged():
+		return false
+	# The first map comes alive and everyone settles in one piece (no frame goes by with the
+	# world half begun): a frame of its own, not the end of the last maps'.
+	await _breathe_start(true)
+	if not (_activate_first_map(SnowWorldDefinitions.INN_MAP_ID) and _initialize_player_recovery()):
 		return false
 	# The world ran before the player came into it (DECISIONS「别的地图时间补算」): every
 	# NPC is as time away leaves it (one create() made with less force than its maximum has
@@ -1627,15 +1650,35 @@ func _initialize_source_residents() -> bool:
 	return true
 
 
+## The staged map comes beneath the slot and starts there. In a start in slices it starts a
+## piece at a time (initialize_step(): a big town's people are several frames' share), and a
+## frame may go by between two pieces with the map in the tree: unseen, its tile layers off
+## (begin_start_in_steps()) and standing still (staged anew before each wait, the people just
+## made having areas of their own).
+func _start_staged(map: WorldResidentMapController) -> bool:
+	if _start_pump == null:
+		active_map_slot.add_child(map)
+		return map.initialize_map()
+	map.begin_start_in_steps()
+	active_map_slot.add_child(map)
+	var step: WorldResidentMapController.StartStep = map.initialize_step()
+	while step == WorldResidentMapController.StartStep.MORE:
+		if Time.get_ticks_usec() >= _start_slice_ends:
+			map.set_restore_staging(true)
+			await _breathe_start()
+		step = map.initialize_step()
+	map.end_start_in_steps()
+	return step == WorldResidentMapController.StartStep.DONE
+
+
 ## Ready-time binding once per resident map, in initialization order. Each map is
-## then detached, inert, until it becomes active (so a start in slices breathes between
-## maps with none of them in the tree).
+## then detached, inert, until it becomes active (a start in slices breathes between maps,
+## and inside one between two of its spawns: _start_staged()).
 func _bind_residents_staged() -> bool:
 	for map: WorldResidentMapController in _residents_in_initialization_order():
 		await _breathe_start()
 		map.set_restore_staging(true)
-		active_map_slot.add_child(map)
-		if not map.initialize_map():
+		if not await _start_staged(map):
 			return false
 		map.prepare_for_deactivation()
 		map.set_restore_staging(true)
@@ -1725,8 +1768,7 @@ func _initialize_restore_residents() -> bool:
 	for resident: WorldResidentMapController in _residents_in_initialization_order():
 		await _breathe_start()
 		resident.set_restore_staging(true)
-		active_map_slot.add_child(resident)
-		if not resident.initialize_map():
+		if not await _start_staged(resident):
 			_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.BODY_BINDING_FAILED
 			return false
 		# Runtime binding may create fresh interaction Areas (for example CorpseView).
