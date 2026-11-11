@@ -75,8 +75,15 @@ func screen_scale() -> Vector2:
 	return view_ground.get_scale().abs() if projected_view else get_viewport().get_canvas_transform().get_scale().abs()
 
 
+## initialize_step() has done the map's own binding.
+var _start_begun: bool = false
+## A piece after the binding failed: the map stays failed (the piece is not made over again).
+var _start_failed: bool = false
+
+
 func _ready() -> void:
-	initialize_map()
+	if not starts_in_steps:
+		initialize_map()
 
 
 func map_id() -> StringName:
@@ -91,8 +98,39 @@ func configure_session(value: WorldSessionController) -> bool:
 
 
 func initialize_map() -> bool:
+	var step: StartStep = StartStep.MORE
+	while step == StartStep.MORE:
+		step = initialize_step()
+	return step == StartStep.DONE
+
+
+## initialize_map() a piece at a time: the map's own binding, then a spawn's people a call
+## (WorldMapNpcs.spawn_next(); a restore's saved ones, restore_next()), MORE until all is done.
+## The map comes out as initialize_map() makes it, however the calls are spread over frames.
+func initialize_step() -> StartStep:
 	if _initialized:
-		return true
+		return StartStep.DONE
+	if _start_failed:
+		return StartStep.FAILED
+	if not _start_begun:
+		if not _begin_initialization():
+			return StartStep.FAILED
+		_start_begun = true
+		return StartStep.MORE
+	var restoring: bool = session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE
+	var made: StartStep = npcs.restore_next() if restoring else npcs.spawn_next()
+	_start_failed = made == StartStep.FAILED
+	if made != StartStep.DONE:
+		return made
+	prepare_for_deactivation()
+	if not player_body.pushed_against.is_connected(_on_pushed_against):
+		player_body.pushed_against.connect(_on_pushed_against)
+	_initialized = true
+	_initialization_count += 1
+	return StartStep.DONE
+
+
+func _begin_initialization() -> bool:
 	_definition = GameContent.catalog().map(map)
 	player_body = get_node_or_null("%Player") as WorldCharacterBody2D
 	if not _configured or _definition == null or player_body == null:
@@ -108,14 +146,6 @@ func initialize_map() -> bool:
 	npcs.map_characters = MapCharacterRuntimeState.new(map)
 	combat_lifecycle.effects = SkillImprovementEffectRegistry.new()
 	combat_lifecycle.effects.register_legacy_defaults()
-	var restoring: bool = session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE
-	if not (npcs.restore_actors() if restoring else npcs.spawn_actors()):
-		return false
-	prepare_for_deactivation()
-	if not player_body.pushed_against.is_connected(_on_pushed_against):
-		player_body.pushed_against.connect(_on_pushed_against)
-	_initialized = true
-	_initialization_count += 1
 	return true
 
 

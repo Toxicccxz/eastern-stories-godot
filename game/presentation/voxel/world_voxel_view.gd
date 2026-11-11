@@ -173,7 +173,7 @@ func _build() -> void:
 	world.name = "VoxelWorld"
 	add_child(world)
 	geometry = VoxelMapGeometry.new()
-	geometry.slice_usec = roundi(slice*1000000.0) if covered else 0
+	geometry.slice_usec = map.session.world_building_slice_usec() if covered else 0
 	world.add_child(geometry)
 	# The screen goes dark first: the first long piece of work comes after a frame of it.
 	await geometry.breathe(true)

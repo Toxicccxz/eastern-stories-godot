@@ -86,6 +86,18 @@ func legacy_source_paths() -> Array[String]:
 	return _legacy_source_paths.duplicate()
 
 
+## The valid ones of `content` by item id; an id two valid ones share maps to null, so it is
+## found by neither (as when each lookup scanned the list).
+static func by_id(content: Array[NpcLoadoutItemDefinition]) -> Dictionary[StringName, NpcLoadoutItemDefinition]:
+	var result: Dictionary[StringName, NpcLoadoutItemDefinition] = {}
+	for one: NpcLoadoutItemDefinition in content:
+		if one == null or not one.is_valid():
+			continue
+		var id: StringName = one.item_definition_id()
+		result[id] = null if result.has(id) else one
+	return result
+
+
 func is_valid() -> bool:
 	if _item_definition == null or _item_definition.item_definition_id.is_empty():
 		return false
