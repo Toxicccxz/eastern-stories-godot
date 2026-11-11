@@ -1118,6 +1118,12 @@ func activate_restore_candidate() -> bool:
 		return false
 	process_mode = Node.PROCESS_MODE_INHERIT
 	map.set_restore_staging(false)
+	# The saved hour and sky first: who is on the stage and who is indoors is judged by them (a
+	# save taken at night comes back with the night watch out and the street's idle folk in).
+	if _restore_preparation != null:
+		_day.set_day_seconds(_restore_preparation.day_seconds)
+		_played_seconds = float(_restore_preparation.played_seconds)
+		_sky.set_state(_restore_preparation.sky_level, _restore_preparation.sky_minutes_left)
 	WorldStoryPresence.stage(self, map as WorldMapController)
 	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
 	if map is WorldMapController:
@@ -1137,10 +1143,6 @@ func activate_restore_candidate() -> bool:
 	_restore_candidate_staged = false
 	_activation_frame = Engine.get_process_frames()
 	_away.restore(restored_away_ms())
-	if _restore_preparation != null:
-		_day.set_day_seconds(_restore_preparation.day_seconds)
-		_played_seconds = float(_restore_preparation.played_seconds)
-		_sky.set_state(_restore_preparation.sky_level, _restore_preparation.sky_minutes_left)
 	var world_map: WorldMapController = map as WorldMapController
 	if world_map != null:
 		world_map.npc_life.restored_zone_id = _player.world_location().zone_id
@@ -1749,6 +1751,11 @@ func _initialize_restore_residents() -> bool:
 	return active_map_slot.get_child_count() == 1
 
 
+## The player stands exactly where the save has them, or Continue is refused. Everyone and
+## everything else stands where the save has them when MapPlacementValidator lets them (the one
+## check a save is taken by), else on the nearest spot it does — moved, and the move logged — or,
+## with none near, where the save has them: an old save, or a map redrawn since, is never refused
+## for a corpse, an NPC or a dropped thing a few pixels off.
 func _validate_restore_positions() -> bool:
 	var player_location: WorldLocationState = _player.world_location()
 	var player_map: WorldResidentMapController = _resident_maps.get(
@@ -1762,28 +1769,45 @@ func _validate_restore_positions() -> bool:
 		return false
 	for entry: OldPineRestoredNpcEntry in _restore_preparation.npc_entries():
 		var location: WorldLocationState = entry.runtime.world_location()
-		if not MapPlacementValidator.is_valid_character_position(
-			_resident_maps.get(location.map_id),
-			location.zone_id,
-			entry.map_position,
-		):
-			return false
+		var map: WorldMapController = _resident_maps.get(location.map_id) as WorldMapController
+		var spot: Vector2 = _restored_spot(map, location.zone_id, entry.map_position, MapPlacementValidator.is_valid_character_position, MapPlacementValidator.nearest_character_position, "npc %s" % String(entry.runtime.character_id))
+		if spot != entry.map_position:
+			entry.map_position = spot
+			var body: WorldCharacterBody2D = map.runtime_body_for_character(entry.runtime.character_id)
+			if body != null:
+				body.global_position = spot
 	for entry: OldPineRestoredCorpseEntry in _restore_preparation.corpse_entries():
-		if not MapPlacementValidator.is_valid_corpse_position(
-			_resident_maps.get(entry.world_location.map_id),
-			entry.world_location.zone_id,
-			entry.map_position,
-		):
-			return false
+		var map: WorldMapController = _resident_maps.get(entry.world_location.map_id) as WorldMapController
+		var corpse_id: StringName = entry.state.corpse_item_instance_id
+		var spot: Vector2 = _restored_spot(map, entry.world_location.zone_id, entry.map_position, MapPlacementValidator.is_valid_corpse_position, MapPlacementValidator.nearest_corpse_position, "corpse %s" % String(corpse_id))
+		if spot != entry.map_position:
+			entry.map_position = spot
+			var view: CombatSliceCorpseView = map.corpse_view_for(corpse_id)
+			if view != null:
+				view.global_position = spot
 	# A dropped item lies where its holder stood.
 	for record: GameSaveValueTypes.FloorItemSnapshot in _restore_preparation.floor_items:
-		if not MapPlacementValidator.is_valid_character_position(
-			_resident_maps.get(record.world_location.map_id),
-			record.world_location.zone_id,
-			Vector2(record.map_position.x, record.map_position.y),
-		):
-			return false
+		var map: WorldMapController = _resident_maps.get(record.world_location.map_id) as WorldMapController
+		var at: Vector2 = Vector2(record.map_position.x, record.map_position.y)
+		var spot: Vector2 = _restored_spot(map, record.world_location.zone_id, at, MapPlacementValidator.is_valid_character_position, MapPlacementValidator.nearest_character_position, "floor item %s" % String(record.item_instance_id))
+		if spot != at and map != null:
+			var view: WorldFloorItemView = map.floor_item_view(record.item_instance_id)
+			if view != null:
+				view.global_position = spot
 	return true
+
+
+## Where a restored thing stands (_validate_restore_positions()): `at`, or the nearest spot `valid`
+## accepts, else `at`; a move or a spot not found is logged.
+static func _restored_spot(map: WorldMapController, zone_id: StringName, at: Vector2, valid: Callable, nearest: Callable, what: String) -> Vector2:
+	if map == null or bool(valid.call(map, zone_id, at)):
+		return at
+	var spot: Vector2 = nearest.call(map, zone_id, at)
+	if not spot.is_finite():
+		push_warning("continue: %s at %s in %s has no spot near it a save accepts; left where it was saved" % [what, at, zone_id])
+		return at
+	push_warning("continue: %s at %s in %s moved to %s, the nearest spot a save accepts" % [what, at, zone_id, spot])
+	return spot
 
 
 func _new_item_instance_scope() -> StringName:

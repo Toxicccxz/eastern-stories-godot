@@ -279,8 +279,12 @@ static func _restore_npc_ledger(
 					and (definition.hooks() == null or not definition.hooks().follows_every_way)
 					and not _wandered_to(definition, spawn.zone_id, saved.world_location.zone_id)
 				)
-				# Alive and not in the world: only a summoned or drawn spawn's NPC waiting for its room.
-				or (not saved.exists_in_world and saved.life_status != &"dead" and not spawn.starts_absent)
+				# Alive and not in the world: only a summoned or drawn spawn's NPC waiting for its room,
+				# or one of the street's idle folk indoors for the night on its own map (DECISIONS「夜里冷清」).
+				or (
+					not saved.exists_in_world and saved.life_status != &"dead" and not spawn.starts_absent
+					and not (saved.world_location.map_id == spawn.map_id and WorldMapNpcIdle.goes_home_at_night(spawn, pacing))
+				)
 			):
 				return Result.failure(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,

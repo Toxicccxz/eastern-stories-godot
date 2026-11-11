@@ -105,7 +105,7 @@ func _test_data() -> void:
 	_check(luca.dealings().object_rules.size() == 5 and luca.dealings().object_rules[1].giver_mark == "卢卡在番坊见到你" and luca.dealings().object_rules[1].gives == &"native:guanbei/gladius", "in 番坊 his sword sells without the 马市's word on the fare")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter7")
 	_check(quest != null and quest.steps.size() == 9 and quest.steps[0].condition.key == "到了番坊" and quest.steps[1].condition.key == "见了安敦" and quest.steps[2].condition.topic == "铜牒" and quest.steps[3].options.size() == 2 and quest.steps[3].options[0].condition.key == "站了大秦人" and quest.steps[4].only_after == &"rome" and quest.steps[4].condition.key == "铜牒到手" and quest.steps[5].only_after == &"rome" and quest.steps[5].condition.key == "争地过了" and quest.steps[6].only_after == &"ronin" and quest.steps[6].condition.key == "过了一刀" and quest.steps[7].only_after == &"ronin" and quest.steps[7].condition.key == "铜牒到手" and quest.steps[8].condition.key == "读过铜牒" and quest.reward.milestone and quest.reward.marks == ["番坊一章"], "the whole chapter: the way down, 安敦, the tablet's tale, the side; the fire then the gate, or the blade then the night; the reading; the milestone (番坊 C)")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_C_V1, "终章 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FONXAN_B_V1, "封山 B's world revision is current (world_revision_test binds it to the spawn points)")
 
 
 ## From the path outside 忘情谷: south down the 海崖道 to the dock and the shed, into the bazaar

@@ -114,9 +114,11 @@ static func left_out(npc: NpcRuntimeState) -> bool:
 	return npc.definition().conjuring() != null and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 
 
+## Alive and off the map is a state its spawn allows: a summoned, drawn or staged one waiting
+## for its room or the story, or one of the street's idle folk indoors for the night.
 static func _summoned(npc: NpcRuntimeState) -> bool:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	return spawn != null and spawn.starts_absent
+	return spawn != null and (spawn.starts_absent or WorldMapNpcIdle.goes_home_at_night(spawn, GameContent.catalog().pacing()))
 
 
 static func _inspect_character(
@@ -143,7 +145,7 @@ static func _inspect_character(
 	if relationship.guarding:
 		return Result.block(Result.Outcome.GUARDING, character_id)
 	# A summoned NPC is alive and not in the world until its room calls it in (a drawn
-	# one until its room's reset draws it).
+	# one until its room's reset draws it); one of the street's idle folk is indoors by night.
 	if (life_status == CharacterRuntimeLifeStatus.Value.DEAD and exists_in_world) or (life_status != CharacterRuntimeLifeStatus.Value.DEAD and not exists_in_world and not may_be_absent):
 		return Result.block(
 			Result.Outcome.LIFE_EXISTENCE_CONTRADICTION,

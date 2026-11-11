@@ -577,20 +577,29 @@ func _test_strict_position_and_cross_reference_failures(tree: SceneTree) -> void
 	)
 	_assert_eq(invalid_decay_result.outcome, OldPineWorldRestoreResult.Outcome.INCONSISTENT_CORPSE_STATE, "out-of-domain corpse decay stage is rejected")
 
-	var invalid_corpse_position: Values.CorpseSnapshot = Values.CorpseSnapshot.new(
+	var narrow_corpse_position: Values.CorpseSnapshot = Values.CorpseSnapshot.new(
 		corpse.corpse_item_instance_id, corpse.victim_character_id,
 		corpse.victim_display_name, corpse.victim_gender, corpse.victim_age,
 		corpse.decay_stage, corpse.maximum_contents_encumbrance,
 		corpse.worn_items, corpse.world_location,
 		Values.MapPositionSnapshot.new(PINE1_NARROW_WAY.x, PINE1_NARROW_WAY.y),
 	)
-	var invalid_corpse_position_result: OldPineWorldRestoreResult = (
+	var narrow_corpse_result: OldPineWorldRestoreResult = (
 		OldPineWorldRestoreService.build_candidate(
-			_snapshot_with_corpses(corpse_snapshot, [invalid_corpse_position]),
+			_snapshot_with_corpses(corpse_snapshot, [narrow_corpse_position]),
 			tree.root,
 		)
 	)
-	_assert_eq(invalid_corpse_position_result.outcome, OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION, "corpse uses its own footprint for collision validation")
+	# A way too narrow for a corpse's own footprint: it lies where a body could stand (the one
+	# check a save takes it by, MapPlacementValidator.is_valid_corpse_position()).
+	_assert_eq(narrow_corpse_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "a corpse on a way too narrow for its own footprint lies where a body could stand")
+	if narrow_corpse_result.candidate != null:
+		var narrow_map: WorldMapController = narrow_corpse_result.candidate.world_map_of(corpse.world_location.map_id)
+		var narrow_view: CombatSliceCorpseView = narrow_map.corpse_view_for(corpse.corpse_item_instance_id)
+		_assert_true(narrow_view != null and narrow_view.global_position == PINE1_NARROW_WAY, "and is not moved")
+		_assert_false(MapPlacementValidator.corpse_fits(narrow_map, corpse.world_location.zone_id, PINE1_NARROW_WAY), "(its own footprint does not fit there)")
+		_free_node(narrow_corpse_result.candidate)
+		await tree.process_frame
 
 	var overlap_session: WorldSessionController = _new_game(
 		tree, 1211, 1212, 1213,

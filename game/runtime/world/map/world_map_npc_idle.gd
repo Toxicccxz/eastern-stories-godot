@@ -183,9 +183,25 @@ func _night_now(tuning: NpcIdleTuning) -> bool:
 ## wandered through a door onto another stays there till its room brings it home), else null.
 func _night_spawn(npc: NpcRuntimeState) -> NpcSpawnDefinition:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	if spawn == null or spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn or spawn.map_id != _map.map_id():
+	if not _ordinary(spawn) or spawn.map_id != _map.map_id():
 		return null
 	return spawn
+
+
+static func _ordinary(spawn: NpcSpawnDefinition) -> bool:
+	return spawn != null and not (spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn)
+
+
+## Whether the people of `spawn` are of the street's idle folk who go indoors at night under
+## `pacing` (its npc_idle on, night_home on, their life entry's `night` "home", an ordinary
+## spawn): alive and off the map is where the night leaves them, and where a save may hold them —
+## the one rule OldPineSaveEligibility, the save's own check and Continue's check read
+## (DECISIONS「夜里冷清」). Safe on a worker thread (NpcLifeBook reads its files under a lock).
+static func goes_home_at_night(spawn: NpcSpawnDefinition, pacing: PacingDefinition) -> bool:
+	if pacing == null or not pacing.npc_idle.enabled or not pacing.npc_idle.night_home or not _ordinary(spawn):
+		return false
+	var entry: NpcLifeBook.Entry = NpcLifeBook.entry(spawn.npc_definition_id)
+	return entry != null and entry.night_home
 
 
 ## Alive, awake and not gone for good.
