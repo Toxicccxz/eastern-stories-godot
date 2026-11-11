@@ -99,6 +99,9 @@ var map: WorldMapController
 var _enemies: Array[NpcRuntimeState] = []
 var _allies: Array[NpcRuntimeState] = []
 var _fight: Dictionary = {}
+var _experience: int = 0
+## Each foe's and helper's exp as first seen, by spawn point (a duel's blows add to it).
+var _base_exp: Dictionary[StringName, int] = {}
 
 
 func _init(p_tree: SceneTree) -> void:
@@ -186,8 +189,7 @@ func _run_at(experience: int, duels: int, seed: int) -> Result:
 	result.experience = experience
 	result.expected_enemies = _enemies.size()
 	result.expected_allies = _allies.size()
-	var state: CharacterState = session.player_runtime().state
-	Grown.grow(state, experience, 50, true)
+	_experience = experience
 	session.configure_combat_random_source(Specials.Seeded.new(seed))
 	for duel: int in duels:
 		await _reset()
@@ -210,8 +212,10 @@ func _run_at(experience: int, duels: int, seed: int) -> Result:
 ## Everyone back as the fight opens: the foes and helpers standing at their points and whole, the
 ## player whole (on the buffer), nobody's fight remembered.
 func _reset() -> void:
-	var state: CharacterState = session.player_runtime().state
-	Grown.heal(state)
+	# Grown anew each duel: what a duel taught (exp, skills, potential) is not carried into the next.
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var state: CharacterState = player.state
+	Grown.grow(state, _experience, 50, true)
 	state.attributes.force_factor = 0
 	# The last duel's dead taken away (a corpse a duel would fill the room).
 	for corpse: CorpseState in map.corpses._corpse_states.duplicate():
@@ -256,6 +260,10 @@ func _reset() -> void:
 func _tune(npc: NpcRuntimeState) -> void:
 	var facts: Dictionary = tune.get(String(npc.definition().definition_id), {})
 	var s: CharacterState = npc.character_state
+	# Back to the exp it was made with (a duel's blows taught them too), then this run's tuning.
+	if not _base_exp.has(npc.spawn_point_id):
+		_base_exp[npc.spawn_point_id] = s.progression.combat_experience
+	s.progression.combat_experience = _base_exp[npc.spawn_point_id]
 	if facts.has("exp"):
 		s.progression.combat_experience = int(facts["exp"])
 	for skill: String in facts.get("skills", {}):
@@ -293,7 +301,11 @@ func _duel(result: Result, first: bool) -> Array:
 		session.advance_npc_heartbeat(1.0)
 		map.hostilities.process_pending_aggression()
 	if not coordinator.has_active_encounter():
-		result.notes.append("no fight opened")
+		var why: String = "no fight opened" if player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE else "the player lies fallen (精 / 神)"
+		if not result.notes.has(why):
+			result.notes.append(why)
+		if player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+			result.stuck += 1
 		return [false, 0, false]
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	var enemies_in: int = 0
