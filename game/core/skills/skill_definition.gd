@@ -55,7 +55,7 @@ var exert_functions: Array[StringName] = []
 ## reach (SpecialFunctions ids).
 var perform_functions: Array[StringName] = []
 ## Native (势力线第一批 封山 B; DECISIONS「绝招要学过」「点字诀」): `perform_rules` {action: {when?,
-## numbers?}}. `when` is a journal condition (a mark, the pace) perform.c asks of whoever would
+## numbers?}}. `when` is a journal condition (a mark) perform.c asks of whoever would
 ## use that action through this skill: until it holds the action is not theirs (not offered, and
 ## refused as one the skill does not have). `numbers` are what the action's file reads
 ## (PerformFunction.number_keys), all of them, each 0 or more.

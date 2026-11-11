@@ -48,8 +48,8 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	# The snapshot's getters return deep copies: read each one once.
 	var saved_player: Values.PlayerRuntimeSnapshot = snapshot.player
 	var npc_states: Array[Values.NpcSpawnStateSnapshot] = snapshot.npc_spawn_states
-	# A world of the save's pace, not the catalog's now: 木人 and the NPCs' classic values follow it.
-	var pacing: PacingDefinition = PacePresets.of_save(GameContent.catalog(), saved_player.character.pace)
+	# The pacing the world is checked under: read once, here (this may run on a worker).
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	if saved_player.character_id != WorldSessionController.PLAYER_ID:
 		return Result.failure(
 			Result.Outcome.UNKNOWN_CONTENT_ID,

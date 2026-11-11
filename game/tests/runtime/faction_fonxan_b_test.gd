@@ -1,7 +1,7 @@
 extends RefCounted
 
 ## 势力线第一批 封山 B (计划 build/plans/势力线第一批_计划.md §3; DECISIONS「封山 B」): the 竹书 — 柳淳风's
-## way with the 大黄石 (the mark opens it, 经典 still asks 560), the one book given to the father or to
+## way with the 大黄石 (the mark opens it), the one book given to the father or to
 ## the daughter; the 内院 scene (the children, the 铁盾会's boy where 大秦人留下了, 柳淳风 walking in);
 ## the split — 本宗 (掌门传人, 柳绘心 to 绮云镇's gate) or 北宗 (the branch family, no betrayal) — each
 ## with the 「点」字诀; 封山守渡口 as the finale's eighth band, the ending's 雪亭 lines; and the line
@@ -24,7 +24,6 @@ const GAP: StringName = &"canyon.bamboo3.gap"
 const BOOKCASE: StringName = &"canyon.train.bookcase"
 const QUEST: StringName = &"faction.fonxan"
 const POINT: StringName = &"powerfocus"
-const WEAK: String = "你出力不太够喔！"
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -93,7 +92,6 @@ func _test_data() -> void:
 	var sword: SkillDefinition = catalog.skill(&"fonxansword")
 	_check(sword.perform_functions.has(POINT) and sword.perform_when.has(POINT) and sword.perform_number(POINT, "force") == 30 and sword.perform_number(POINT, "slip_busy") == 2, "封山剑法 has the 「点」字诀, with a condition and its numbers")
 	_check(SpecialFunctions.perform(POINT).label == "「点」字诀" and catalog.pacing().beat_rules().cost_of_action(CombatBeatRules.perform_key(POINT)) == 2, "「点」字诀 costs two moves")
-	_check(not PacePresets.of(catalog.pacing(), CharacterState.PACE_CLASSIC).beat_rules().cost_of_action(CombatBeatRules.perform_key(POINT)) > 1, "经典's beats are ES2's")
 	# Who stands where.
 	var inner: NpcSpawnDefinition = catalog.spawn(&"native.innerhall.liu_huixin")
 	_check(inner != null and inner.npc_definition_id == GIRL and inner.same_person == &"snow.school_compound.nyard.girl" and inner.zone_id == &"snow.innerhall", "柳绘心 in the 内院 is the one of the 书房 (same_person)")
@@ -106,24 +104,15 @@ func _test_data() -> void:
 	_check(gather.checklist.any(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.label == "封山（柳淳风）守渡口") and gather.checklist.any(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.label == "北宗（柳绘心）守渡口"), "点将 has a row for either 封山")
 
 
-## The stone and the bookcase, branch by branch; the pace as a condition.
+## The stone and the bookcase, branch by branch.
 func _test_rules() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var stone: RoomActDefinition = catalog.service(STONE).act
-	_check(stone.acts.size() == 3 and stone.acts[0].at_least.get("force", 0) == 560 and stone.acts[1].mark == "柳淳风说了推法" and stone.acts[1].when != null and stone.acts[1].when.when == JournalEntryDefinition.When.PACE and stone.acts[1].at_least.is_empty(), "the 大黄石: ES2's 560 first, then 柳淳风's way (现代), then the refusal")
-	var modern := CharacterState.new()
-	var classic := CharacterState.new()
-	classic.pace = CharacterState.PACE_CLASSIC
-	var no_temps: Dictionary[String, int] = {}
-	var nothing: Dictionary[StringName, bool] = {}
+	_check(stone.acts.size() == 3 and stone.acts[0].at_least.get("force", 0) == 560 and stone.acts[1].mark == "柳淳风说了推法" and stone.acts[1].when == null and stone.acts[1].at_least.is_empty(), "the 大黄石: ES2's 560 first, then 柳淳风's way, then the refusal")
 	var taught := ScriptedAct.Facts.new()
 	taught.marks = {"柳淳风说了推法": 1}
-	taught.holds = func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, modern, no_temps, nothing)
 	_check(stone.act_for(&"男性", &"", taught) == stone.acts[1], "taught, with no force at all: the stone opens")
-	taught.holds = func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, classic, no_temps, nothing)
-	_check(stone.act_for(&"男性", &"", taught) == stone.acts[2], "经典: taught or not, the stone asks its 560")
 	var untaught := ScriptedAct.Facts.new()
-	untaught.holds = func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, modern, no_temps, nothing)
 	_check(stone.act_for(&"男性", &"", untaught) == stone.acts[2], "one 柳淳风 never told: as ES2")
 	var bookcase: RoomActDefinition = catalog.service(BOOKCASE).act
 	var given := ScriptedAct.Facts.new()
@@ -132,7 +121,7 @@ func _test_rules() -> void:
 	_check(bookcase.acts.size() == 3 and bookcase.act_for(&"男性", &"", given) == bookcase.acts[1] and bookcase.acts[1].steps.size() == 1, "the book once given is not found again, even if it left the world")
 
 
-## 「点」字诀: only for one taught, never in 经典; one thrust the harder, or a slip.
+## 「点」字诀: only for one taught; one thrust the harder, or a slip.
 func _test_point() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var state := CharacterState.new()
@@ -143,9 +132,6 @@ func _test_point() -> void:
 	_check(PerformService.offered(state, catalog) == [&"counterattack", &"swordjab", &"fakefault"], "untaught: the three ES2 wrote: %s" % [PerformService.offered(state, catalog)])
 	state.marks["学了点字诀"] = 1
 	_check(PerformService.offered(state, catalog).has(POINT), "taught: the 「点」字诀 is offered")
-	state.pace = CharacterState.PACE_CLASSIC
-	_check(not PerformService.offered(state, catalog).has(POINT), "经典 has no such perform")
-	state.pace = &""
 	state.recovery.inner_force = CharacterInternalResourceState.new(100, 100)
 	state.progression.combat_experience = 1000
 	var foe := CharacterState.new()
@@ -221,14 +207,9 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(bamboo.place_player(&"canyon.bamboo3", MapPlaces.service_spot(bamboo, STONE)), "TEST-ONLY: at the stone")
 	await _settle(tree)
 	_resources(player, 100, 100, 100)
-	state.pace = CharacterState.PACE_CLASSIC # TEST-ONLY: as a 经典 game
 	stone.interact()
 	await tree.physics_frame
-	_check(ui.log_lines()[-1] == WEAK and not session.room_states().has_flag(&"canyon.bamboo3", "exits/enter"), "经典: %s" % ui.log_lines()[-1])
-	state.pace = &""
-	stone.interact()
-	await tree.physics_frame
-	_check(ui.log_lines()[-1].contains("照柳淳风教的法子") and session.room_states().has_flag(&"canyon.bamboo3", "exits/enter"), "现代, taught: the stone moves: %s" % ui.log_lines()[-1])
+	_check(ui.log_lines()[-1].contains("照柳淳风教的法子") and session.room_states().has_flag(&"canyon.bamboo3", "exits/enter"), "taught: the stone moves: %s" % ui.log_lines()[-1])
 	_check(player.state.vitality.current == 40 and player.state.recovery.inner_force.current < 560, "it costs what ES2's push costs (60 kee), and asks no force")
 	(bamboo.service(GAP) as ActService).interact()
 	await _settle(tree)

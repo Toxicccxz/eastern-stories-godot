@@ -1,7 +1,7 @@
 class_name CombatDecisionRules
 extends RefCounted
 
-## 战斗决策层 1B's knobs (DECISIONS「战斗决策」), each with ES2's value as its 经典 value: a
+## 战斗决策层 1B's knobs (DECISIONS「战斗决策」), each with ES2's value when left out: a
 ## record without them is ES2's auto-fight.
 ## - player_turns: the fight's clock waits for the player's order each round (the
 ##   BattlePace 自动 switch lets it roll as ES2); false (ES2): every beat on the clock.

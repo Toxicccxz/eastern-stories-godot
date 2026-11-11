@@ -2,7 +2,7 @@ extends RefCounted
 
 ## 战斗决策层 1A (DECISIONS「战斗数值」): an NPC record's `classic` block holds the ES2 numbers
 ## the modern record changed; ContentCatalog.npc() hands the block's definition out under
-## pacing es2_npc_values (经典) and the modern one otherwise.
+## pacing es2_npc_values and the modern one otherwise.
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
@@ -10,7 +10,7 @@ var _failures: Array[String] = []
 
 func run_all() -> Dictionary[String, Variant]:
 	_test_overlay()
-	_test_catalog_by_pace()
+	_test_catalog_by_knob()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 
@@ -37,7 +37,7 @@ func _test_overlay() -> void:
 	_assert_true(es2.skill_levels()[0].raw_level == 120 and es2.resource_overrides().is_empty() and es2.es2_variant() == null, "with ES2's dodge and no kee override")
 
 
-func _test_catalog_by_pace() -> void:
+func _test_catalog_by_knob() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
 	_assert_true(not production.es2_npc_values, "pacing.json: the modern numbers")
@@ -47,9 +47,9 @@ func _test_catalog_by_pace() -> void:
 	_assert_true(bandit != null and bandit.combat_experience == 250 and bandit.es2_variant().combat_experience == 600, "土匪探哨 at 250 exp (ES2: 600)")
 	var dog: NpcDefinition = catalog.npc(&"snow.npc.dog")
 	_assert_true(dog != null and dog.es2_variant() == null, "野狗 was not changed: no block")
-	catalog.set_pacing(PacePresets.of(production, CharacterState.PACE_CLASSIC))
+	catalog.set_pacing(production.copy().with_combat(CombatPowerRules.classic(), false, true))
 	var classic_rat: NpcDefinition = catalog.npc(&"snow.npc.rat")
-	_assert_true(classic_rat == rat.es2_variant() and classic_rat.skill_levels()[0].raw_level == 120, "经典: the catalog hands out the ES2 variant")
+	_assert_true(classic_rat == rat.es2_variant() and classic_rat.skill_levels()[0].raw_level == 120, "es2_npc_values: the catalog hands out the ES2 variant")
 	_assert_true(catalog.npc(&"oldpine.npc.bandit").combat_experience == 600 and catalog.npc(&"snow.npc.dog") == dog, "the bandit's 600, the dog itself")
 	catalog.set_pacing(production)
 	_assert_true(catalog.npc(&"snow.npc.rat") == rat, "back to the modern one")

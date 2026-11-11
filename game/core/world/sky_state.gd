@@ -7,7 +7,7 @@ extends RefCounted
 ## does (the pacing's day_length_minutes real minutes a day; stopped in a fight, the menu, a
 ## transition) and is saved as `sky_level` and `sky_minutes_left`. It decides nothing: no
 ## NPC, door, spawn or fight reads it; the voxel view dims and greys the light by it and the
-## outdoor room's text gets its line. With the pacing's `sky_weather` off (经典) the session
+## outdoor room's text gets its line. With the pacing's `sky_weather` off the session
 ## never advances it and reports level 0.
 const LEVELS: int = 5
 ## Game minutes between two changes: MIN_MINUTES + random(MAX_MINUTES - MIN_MINUTES + 1).

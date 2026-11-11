@@ -27,7 +27,6 @@ var played_seconds: int = 0
 ## The objective at the save, in the source language: shown through tr().
 var objective: String = ""
 var ghost: bool = false
-var pace: StringName = CharacterState.PACE_MODERN
 
 
 func _init(p_slot_id: StringName = &"", p_state: State = State.EMPTY, p_recoverable: bool = false) -> void:
@@ -46,7 +45,6 @@ func copied(p_slot_id: StringName, p_recoverable: bool) -> GameSaveSlotSummary:
 	copy.played_seconds = played_seconds
 	copy.objective = objective
 	copy.ghost = ghost
-	copy.pace = pace
 	return copy
 
 
@@ -73,6 +71,10 @@ static func of_text(slot_id: StringName, text: String, current_public_only: bool
 	var character: Variant = player.get("character")
 	if typeof(identity) != TYPE_DICTIONARY or typeof(location) != TYPE_DICTIONARY or typeof(character) != TYPE_DICTIONARY:
 		return summary
+	# A 经典 world (DECISIONS「取消经典模式」): the codec refuses it, and the row says so.
+	if str(character.get("pace", "")) == GameSaveJsonCodec.RETIRED_CLASSIC_PACE:
+		summary.state = State.UNSUPPORTED
+		return summary
 	summary.state = State.READY
 	var allocator: Variant = root.get("item_id_allocator")
 	if typeof(allocator) == TYPE_DICTIONARY:
@@ -83,7 +85,6 @@ static func of_text(slot_id: StringName, text: String, current_public_only: bool
 	summary.played_seconds = maxi(int(str(root.get("played_seconds", "0"))), 0)
 	summary.objective = str(root.get("objective", ""))
 	summary.ghost = typeof(character.get("ghost")) == TYPE_BOOL and bool(character.get("ghost"))
-	summary.pace = StringName(str(character.get("pace", CharacterState.PACE_MODERN)))
 	return summary
 
 

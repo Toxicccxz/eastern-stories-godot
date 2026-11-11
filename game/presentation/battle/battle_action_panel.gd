@@ -17,7 +17,7 @@ extends PanelContainer
 ## - What waits and the planned order, 取消, 加力 and 改为自动 at the orders' end.
 ## - On the right the counter ring (BattleCounterRing): the target's next move ringed, the
 ##   tag pointed at lit with what it beats and what beats it.
-## ES2's one-beat round (经典) shows no strip, no costs and no 收势. The panel never locks
+## ES2's one-beat round shows no strip, no costs and no 收势. The panel never locks
 ## input to a show: the buttons answer whenever the rule says the player may act.
 
 signal action_requested(action_id: StringName)
@@ -352,7 +352,7 @@ func set_compact(on: bool) -> void:
 
 
 ## What waits, 取消, 加力 and 改为自动: at the orders' end; closed up at the strip's end while
-## it shows (the orders' row is full then), else still at the orders' end (经典, a question).
+## it shows (the orders' row is full then), else still at the orders' end (the one-beat round, a question).
 func _place_status() -> void:
 	var to: Node = strip_row if _compact and _strip_shown else _orders
 	for node: Node in [_queue, _cancel, enforce_row, manual_button]:
@@ -1146,7 +1146,7 @@ func _show_lines(id: StringName, move: CombatActionDefinition, projection: Battl
 	sub.text = sub_line(move.tag, projection.move_costs.get(id, 1), projection.beats_shown())
 
 
-## 「快 · 1 手」; without the beats (经典) the tag alone.
+## 「快 · 1 手」; without the beats the tag alone.
 static func sub_line(tag: StringName, cost: int, beats_shown: bool) -> String:
 	var label: String = CombatMoveTags.label(tag)
 	if not beats_shown:

@@ -12,7 +12,7 @@ extends RefCounted
 ## `until_phase` (the night spent in the 侍卫营) and they are put out at `release_zone` / `release_point`.
 ## The watch keeps only while its `when` holds (the night) and never while `unless` holds (a 腰牌 at the
 ## belt). While `dim_when` holds (a 茅山 障眼符 carried, 第九章 C) its reach is `dim_scale_percent` of itself.
-## Pacing's `stealth` off (经典) it is ES2's presence: any player within `radius`, any side, seen
+## Pacing's `stealth` off it is ES2's presence: any player within `radius`, any side, seen
 ## through anything, caught at once.
 var route: Array[StringName] = []
 var pause_ms: int = 2000

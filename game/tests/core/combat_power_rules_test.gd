@@ -135,9 +135,6 @@ func _test_records_and_presets() -> void:
 	_assert_true(errors.is_empty() and rules.curve == CombatPowerRules.PowerCurve.MODERN and rules.power_cap_levels == 150 and rules.exp_power_divisor == 4 and rules.defense_power_percent == 50 and rules.experience_defense == CombatPowerRules.ExperienceDefense.MODERN and rules.exp_defense_max_percent == 40 and read.combat_forecast and not read.es2_npc_values, "the knobs are read: %s" % [errors])
 	var copied: PacingDefinition = read.copy()
 	_assert_true(copied.combat_rules().curve == CombatPowerRules.PowerCurve.MODERN and copied.combat_forecast and not copied.es2_npc_values, "copy() keeps them")
-	var classic: PacingDefinition = PacePresets.of(read, CharacterState.PACE_CLASSIC)
-	_assert_true(classic.combat_rules().is_classic() and not classic.combat_forecast and classic.es2_npc_values, "经典 puts the fight back at ES2's")
-	_assert_true(PacePresets.of(read, CharacterState.PACE_MODERN) == read, "现代 leaves the record")
 	var broken: Array[String] = []
 	PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "power_curve": "steep", "exp_defense_max_percent": 100}, "p", broken))
 	_assert_eq(broken.size(), 2, "an unknown curve and a whole-blow defense are refused: %s" % [broken])

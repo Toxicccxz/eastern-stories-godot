@@ -152,8 +152,6 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 				if key.begins_with(prefix):
 					return true
 			return false
-		JournalEntryDefinition.When.PACE:
-			return (state.pace == CharacterState.PACE_CLASSIC) == (entry.key == "classic")
 		JournalEntryDefinition.When.COND:
 			# A named condition is linked as the content is built: one left over names nothing.
 			push_error("JournalLog: the named condition '%s' was never linked" % entry.key)
