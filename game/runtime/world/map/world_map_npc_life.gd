@@ -623,7 +623,7 @@ func take_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> NpcApprenticeTri
 	var narrator := BattleNarrator.new()
 	var attack := func() -> Variant:
 		var seen: Array[ColoredLine] = []
-		var blow: CombatSliceOpportunityResult = _map.attack_player_outside_fight(npc)
+		var blow: CombatSliceOpportunityResult = _map.attack_player_outside_fight(npc, trial.blow_modifiers())
 		if blow == null:
 			return null
 		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):

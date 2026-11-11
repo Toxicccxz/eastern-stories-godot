@@ -8,6 +8,9 @@ extends RefCounted
 ## holds every mark of `asker_marks` and lacks `unless_mark`, asked first (`confirm`). Past
 ## the last blow `success` is said, the player gets `mark` and the deed `deed` is written;
 ## one who falls may rest and come again. The NPC's 拜师 test, if it has one, is untouched.
+## DECISIONS「考验三招」: a trial's blows may carry only `inner_force_percent` of the force
+## hook's bonus and never kill (`lethal` false: one who fails at most falls); both default to
+## elon.c's real do_attack() (100, true).
 
 var label: String = ""
 var asker_marks: Array[String] = []
@@ -17,6 +20,18 @@ var blows: Array[NpcTeaching.TrialBlow] = []
 var success: String = ""
 var mark: String = ""
 var deed: String = ""
+var inner_force_percent: int = 100
+var lethal: bool = true
+
+
+## The blows' modifiers for the resolver (CombatRoundModifiers), or null for elon.c's own.
+func blow_modifiers() -> CombatRoundModifiers:
+	if inner_force_percent == 100 and lethal:
+		return null
+	var modifiers := CombatRoundModifiers.new()
+	modifiers.inner_force_percent = inner_force_percent
+	modifiers.spare_life = not lethal
+	return modifiers
 
 
 ## Whether a player with these marks is offered it now.
@@ -38,7 +53,8 @@ func as_rule() -> NpcTeaching.ApprenticeRule:
 	return rule
 
 
-## {label, asker_marks?: [mark], unless_mark?, confirm, blows: [{say, fail?}], success, mark, deed?}.
+## {label, asker_marks?: [mark], unless_mark?, confirm, blows: [{say, fail?}], success, mark, deed?,
+## inner_force_percent?: 0..100 (100), lethal?: bool (true)}.
 static func from_record(reader: ContentRecordReader) -> NpcTrial:
 	var trial := NpcTrial.new()
 	trial.label = reader.required_text("label")
@@ -56,5 +72,9 @@ static func from_record(reader: ContentRecordReader) -> NpcTrial:
 	trial.success = reader.required_text("success")
 	trial.mark = reader.required_text("mark")
 	trial.deed = reader.text("deed")
+	trial.inner_force_percent = reader.integer("inner_force_percent", 100)
+	if trial.inner_force_percent < 0 or trial.inner_force_percent > 100:
+		reader.fail("inner_force_percent", "a percent from 0 to 100")
+	trial.lethal = reader.boolean("lethal", true)
 	reader.finish()
 	return trial

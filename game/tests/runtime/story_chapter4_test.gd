@@ -1,7 +1,7 @@
 extends RefCounted
 
-## 第四章 宝衣 (owner's plan, 2026-10-30; DECISIONS「第四章 宝衣」), from the two third-chapter ledgers
-## (StoryFixtures), three sessions:
+## 第四章 宝衣 (owner's plan, 2026-10-30; DECISIONS「第四章 宝衣」「考验三招」), from the two
+## third-chapter ledgers (StoryFixtures), four sessions:
 ## - kept (rescued, a woman): 潘军禅 says 归月神族保管; the manor; 安妮儿 waits; 瑷伦 admits the robe and
 ##   asks for her three lashes (her story trial on the popup, not her 拜师); stood, her one question,
 ##   answered 斩鬼 (she names the dance to a woman); the second 密室's 八卦图 offers 有凤来仪, danced the
@@ -12,9 +12,18 @@ extends RefCounted
 ##   it back; the night on the next visit: the 婢女 and 昭蓉 dead on the floor, the 东方神教杀手 in the
 ##   前厅 (attacks; spared, her 令牌 falls), 芙云, 梦玉楼 and the 凤凰 gone, 瑷伦, 安妮儿 and the 老妇 speak.
 ## - annie (rescued, a man): 蓝筱薇 fetched from the 内厅 dances; the robe given to 安妮儿: 配得上.
+## - fall (rescued, a woman): one who never sat fails her lashes and falls, alive.
+## The lashes are stood by grown characters (tests/support/grown_character.gd), not made-up kee;
+## the kept session first measures how often 晚月庄's recommended character stands them.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+## DECISIONS「考验三招」: a character of 晚月庄's recommended_exp who sat about an hour (half its
+## max_force cap) stands her lashes six or seven times in ten.
+const SAMPLES: int = 200
+const PASS_LOW: float = 0.55
+const PASS_HIGH: float = 0.80
 const ROBE: StringName = &"native:latemoon/cold_robe"
 const TOKEN: StringName = &"es2:d/latemoon/room/npc/obj/token"
 const CLUMSY: String = "你在卦象中跳起舞来。但似乎不得要领！"
@@ -37,6 +46,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var annie: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
 	await _test_annie(tree, annie)
 	annie.free()
+	await tree.process_frame
+	var fall: WorldSessionController = await _session(tree, CharacterState.GENDER_FEMALE)
+	await _test_fall(tree, fall)
+	fall.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
@@ -92,7 +105,8 @@ func _test_kept(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(said.any(func(line: String) -> bool: return line.contains("接我三鞭")) and state.marks.get("瑷伦说了三鞭", 0) == 1 and state.quests.has("main.chapter4/keeper") and StoryQuestLog.objective(state, quests).begins_with("接瑷伦三鞭"), "瑷伦: 守了几百年, 接我三鞭: %s" % [said])
 	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
 	_check(trials.size() == 1 and trials[0].label == "接她三鞭" and trials[0].confirm.begins_with("瑷伦的三鞭是真打"), "her trial is now a row of the popup, asked first")
-	state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY: stand the lashes
+	_test_pass_rate(manor, elon, trials[0], state)
+	Grown.grow(state, 10000, 100) # TEST-ONLY: 晚月庄's recommended_exp, max_force at its cap (always stood)
 	var result: NpcApprenticeTrial.Result = manor.npc_life.take_story_trial(elon, trials[0])
 	await _told(tree, session, manor, elon)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and result.blows == 3 and state.marks.get("接下了瑷伦三鞭", 0) == 1 and DeedLog.done(state, "接下了守衣人瑷伦的三鞭"), "three lashes stood: the mark and the deed; outcome %s" % result.outcome)
@@ -179,7 +193,7 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	var elon: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
 	_ask(manor, elon, "宝衣")
 	session.record_journal()
-	state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY
+	Grown.grow(state, 10000, 100) # TEST-ONLY: grown, max_force at its cap (always stood)
 	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
 	_check(trials.size() == 1, "a man is offered her lashes too (her 拜师 is women's only)")
 	_check(manor.npc_life.take_story_trial(elon, trials[0]).outcome == NpcApprenticeTrial.Outcome.PASSED, "stood")
@@ -295,7 +309,7 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 	var elon: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
 	_ask(manor, elon, "宝衣")
 	session.record_journal()
-	state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY
+	Grown.grow(state, 10000, 100) # TEST-ONLY: grown, max_force at its cap (always stood)
 	manor.npc_life.take_story_trial(elon, manor.npc_life.story_trials_offered(elon)[0])
 	session.record_journal()
 	var said: Array[String] = _ask(manor, elon, "交给安妮儿")
@@ -340,6 +354,52 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 ## TEST-ONLY: the player beside the NPC of `point_id`, a heart beat after (its reaction call).
+## Her lashes struck SAMPLES times at a grown character (Grown: 10000 exp, half the max_force cap)
+## as take_story_trial() strikes them (attack_player_outside_fight() with the trial's modifiers),
+## nothing written: how often all three are stood, and that nobody dies of them.
+func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
+	_check(trial.inner_force_percent == 21 and not trial.lethal, "her lashes: a fifth of her inner force, never lethal (DECISIONS「考验三招」)")
+	var elon_force: int = elon.character_state.recovery.inner_force.current
+	var passed: int = 0
+	var dead: int = 0
+	for sample: int in SAMPLES:
+		Grown.grow(state, 10000)
+		elon.character_state.recovery.inner_force.current = elon_force
+		var stood: bool = true
+		for blow: int in trial.blows.size():
+			if manor.attack_player_outside_fight(elon, trial.blow_modifiers()) == null:
+				stood = false
+				break
+			if state.vitality.current < 0:
+				stood = false
+				dead += 1 if state.is_death_threshold_reached() else 0
+				break
+		passed += 1 if stood else 0
+	var rate: float = float(passed) / SAMPLES
+	_check(rate >= PASS_LOW and rate <= PASS_HIGH, "10000 exp, an hour of 打坐 (kee %d): stood %d of %d (%.0f%%), within %.0f–%.0f%%" % [state.vitality.maximum, passed, SAMPLES, rate * 100.0, PASS_LOW * 100.0, PASS_HIGH * 100.0])
+	_check(dead == 0, "a lash that is not stood never kills (%d)" % dead)
+	elon.character_state.recovery.inner_force.current = elon_force
+
+
+## One who never sat (max_force 0, kee 100) cannot stand them: the trial fails, the player falls
+## and wakes — never dies of it (lethal false) — and may come again.
+func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.chapter3_rescued(session)
+	session.record_journal()
+	var manor: WorldMapController = MapPlaces.enter(session, &"latemoon.latemoon1", &"latemoon.latemoon1.dance_arrival")
+	await _settle(tree)
+	var elon: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
+	state.marks["瑷伦说了三鞭"] = 1 # TEST-ONLY: she asked for her lashes (the kept session walks there)
+	Grown.grow(state, 10000, 0) # TEST-ONLY: never sat
+	var trials: Array[NpcTrial] = manor.npc_life.story_trials_offered(elon)
+	_check(trials.size() == 1 and state.vitality.maximum == 100, "fall: offered, kee 100")
+	var result: NpcApprenticeTrial.Result = manor.npc_life.take_story_trial(elon, trials[0])
+	await _settle(tree)
+	_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED and state.marks.get("接下了瑷伦三鞭", 0) == 0, "fall: not stood (%d blows)" % result.blows)
+	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not state.is_death_threshold_reached(), "fall: the player falls, alive (%s)" % CharacterRuntimeLifeStatus.Value.find_key(session.player_runtime().life_status))
+
+
 func _beside(tree: SceneTree, session: WorldSessionController, map: WorldMapController, point_id: StringName) -> NpcRuntimeState:
 	var npc: NpcRuntimeState = MapPlaces.npc_at(session, point_id)
 	var body: Node2D = null if npc == null else map.runtime_body_for_character(npc.character_id)

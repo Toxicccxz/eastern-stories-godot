@@ -31,6 +31,11 @@ var _sides: Dictionary[StringName, Fighter] = {}
 ## 战斗拍数 D: a lesson's blows (CombatEncounterMode.LESSON) land but draw no blood: the
 ## resolver takes the damage to 0 and rolls no wound (CombatAttackerSnapshot.harmless).
 var harmless: bool = false
+## A story trial's blows (NpcTrial.inner_force_percent / lethal, DECISIONS「考验三招」): only
+## this percent of the force hook's bonus (and its force wound) counts, and no blow wounds
+## past eff_kee 0 (the one who fails falls, and wakes).
+var inner_force_percent: int = 100
+var spare_life: bool = false
 
 
 func clear() -> void:
