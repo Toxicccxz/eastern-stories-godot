@@ -246,7 +246,7 @@ func _test_shell(tree: SceneTree) -> void:
 		if items.size() > 1:
 			seconds.append(items[1].global_position.x)
 	_check(firsts.all(func(x: float) -> bool: return is_equal_approx(x, firsts[0])), "the first column lines up: %s" % [firsts])
-	_check(seconds.size() == 3 and seconds.all(func(x: float) -> bool: return is_equal_approx(x, seconds[0]) and x > firsts[0]), "the second column lines up beside it: %s" % [seconds])
+	_check(seconds.size() == 4 and seconds.all(func(x: float) -> bool: return is_equal_approx(x, seconds[0]) and x > firsts[0]), "the second column lines up beside it: %s" % [seconds])
 	_check(shell.cancel_settings(), "设置 closes")
 	await tree.process_frame
 	# 性别: the choice shows as it is made.

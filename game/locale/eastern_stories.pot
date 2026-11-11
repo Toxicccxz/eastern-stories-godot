@@ -513,6 +513,10 @@ msgid "界面缩放"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "画质"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "语言"
 msgstr ""
 
@@ -8917,6 +8921,10 @@ msgstr ""
 msgid "小"
 msgstr ""
 
+#: presentation/voxel/world_voxel_view.gd
+msgid "画面卡顿时，可以在「设置」里把「画质」调低"
+msgstr ""
+
 #. the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
 #: presentation/voxel/world_voxel_view.gd
 msgid "指路"
@@ -8949,6 +8957,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "自动存档提示已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "画质已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -9097,6 +9109,18 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "高"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "低"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "高：影子边缘柔和、斜线平滑、近处的灯都投影；低：影子边缘硬、斜线有锯齿、只有最近的几盏灯投影，画面更流畅"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd

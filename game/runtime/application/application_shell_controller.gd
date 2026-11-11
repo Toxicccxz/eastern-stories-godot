@@ -47,6 +47,8 @@ signal interaction_changed
 ## 界面缩放 (ApplicationUiScale): on every platform.
 @onready var ui_scale_row: Control = %UiScaleRow
 @onready var ui_scale_option: OptionButton = %UiScaleOption
+## 画质 (GraphicsQuality; DECISIONS「画质」), beside the 界面缩放.
+@onready var graphics_quality_option: OptionButton = %GraphicsQualityOption
 @onready var language_row: Control = %LanguageRow
 @onready var language_option: OptionButton = %LanguageOption
 ## 战斗速度 and 受击闪红 (BattlePace, DECISIONS「手感」): on every platform.
@@ -274,6 +276,7 @@ func _ready() -> void:
 	knockout_option.get_popup().window_input.connect(_popup_system_input.bind(knockout_option))
 	battle_opening_option.get_popup().window_input.connect(_popup_system_input.bind(battle_opening_option))
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
+	graphics_quality_option.get_popup().window_input.connect(_popup_system_input.bind(graphics_quality_option))
 	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
 	# Pad support (owner, DECISIONS「手柄」): last, so it sees every
 	# input event before the touch adapter takes touches.
@@ -437,7 +440,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, resolution_option, ui_scale_option, language_option, battle_speed_option, knockout_option, battle_opening_option, day_night_option]:
+	for option: OptionButton in [window_mode_option, resolution_option, ui_scale_option, graphics_quality_option, language_option, battle_speed_option, knockout_option, battle_opening_option, day_night_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -739,6 +742,11 @@ func apply_settings() -> bool:
 		var notice: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_autosave_notice(autosave_notice_check.button_pressed)
 		if notice.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "自动存档提示已生效，但未能保存。"
+			return false
+	if graphics_quality_option.get_selected_id() != committed.graphics_quality():
+		var drawn: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_graphics_quality(graphics_quality_option.get_selected_id())
+		if drawn.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "画质已生效，但未能保存。"
 			return false
 	if day_night_option.get_selected_id() != committed.day_night():
 		var lit: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_day_night(day_night_option.get_selected_id())
@@ -1456,6 +1464,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	language_row.visible = _localization != null
 	language_option.disabled = not settings_interactive or not language_row.visible
 	ui_scale_option.disabled = not settings_interactive
+	graphics_quality_option.disabled = not settings_interactive
 	battle_speed_option.disabled = not settings_interactive
 	hit_flash_check.disabled = not settings_interactive
 	knockout_option.disabled = not settings_interactive
@@ -1673,6 +1682,11 @@ func _configure_battle_options() -> void:
 	day_night_option.add_item("一直白天", DayNightPreference.Value.DAY)
 	day_night_option.add_item("一直夜晚", DayNightPreference.Value.NIGHT)
 	day_night_option.tooltip_text = "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
+	# 画质 (DECISIONS「画质」): graphics_quality.json's two levels.
+	graphics_quality_option.clear()
+	graphics_quality_option.add_item("高", GraphicsQuality.Value.HIGH)
+	graphics_quality_option.add_item("低", GraphicsQuality.Value.LOW)
+	graphics_quality_option.tooltip_text = "高：影子边缘柔和、斜线平滑、近处的灯都投影；低：影子边缘硬、斜线有锯齿、只有最近的几盏灯投影，画面更流畅"
 	# 总音量 (DECISIONS「战斗拍数 C」): the game's sounds (the fight's, for now); 0 is silence.
 	master_volume_slider.tooltip_text = "游戏里所有声音的音量；拉到 0 就没有声音"
 	if not master_volume_slider.value_changed.is_connected(_show_master_volume):
@@ -1699,6 +1713,9 @@ func _select_committed_battle() -> void:
 	var day_night: int = day_night_option.get_item_index(committed.day_night())
 	if day_night >= 0:
 		day_night_option.select(day_night)
+	var quality: int = graphics_quality_option.get_item_index(committed.graphics_quality())
+	if quality >= 0:
+		graphics_quality_option.select(quality)
 	master_volume_slider.set_value_no_signal(committed.master_volume())
 	_show_master_volume(committed.master_volume())
 
@@ -1752,6 +1769,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		window_mode_option,
 		resolution_option,
 		ui_scale_option,
+		graphics_quality_option,
 		battle_speed_option,
 		hit_flash_check,
 		knockout_option,
@@ -1809,7 +1827,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 		ApplicationShellState.Mode.SETTINGS:
 			if window_mode_row.visible:
 				controls.append_array([window_mode_option, resolution_option])
-			controls.append(ui_scale_option)
+			controls.append_array([ui_scale_option, graphics_quality_option])
 			if language_row.visible:
 				controls.append(language_option)
 			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, day_night_option, master_volume_slider])

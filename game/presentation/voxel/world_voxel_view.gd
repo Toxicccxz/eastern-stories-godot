@@ -91,6 +91,11 @@ var _building: bool = false
 var _active: bool = false
 var _old_modulate: Color = Color.WHITE
 var _old_msaa: Viewport.MSAA = Viewport.MSAA_DISABLED
+## The 画质 (GraphicsQuality.revision) this view last applied (DECISIONS「画质」).
+var _quality_applied: int = -1
+## The slow-frame hint's watch (GraphicsQualityHint) and the last frame's real time.
+var _slow_watch: GraphicsQualityHint
+var _frame_usec: int = 0
 var _target: Vector3
 var _offset := Vector3(21.213203,26,21.213203)
 var _view_yaw: float = VIEW_SIDE_ANGLE
@@ -124,6 +129,9 @@ func _process(delta: float) -> void:
 			return
 	if not _active:
 		_activate()
+	if _quality_applied != GraphicsQuality.revision:
+		_apply_quality()
+	_watch_frames()
 	_advance_view_rotation(delta)
 	_follow(delta)
 	_sync_actors(delta)
@@ -144,6 +152,30 @@ func _process(delta: float) -> void:
 	geometry.ambience.camera = camera
 	geometry.ambience.lamp_shadows = lighting.lamp_shadow_count() > 0
 	geometry.ambience.advance(delta)
+
+## 画质 (DECISIONS「画质」): what this view holds of it — the viewport's MSAA, the sun shadow's
+## splits, how many lamps cast. The renderer's own part GraphicsQuality.apply() has set.
+func _apply_quality() -> void:
+	_quality_applied = GraphicsQuality.revision
+	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
+	if lighting.sun != null:
+		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
+	if _active:
+		get_viewport().msaa_3d = GraphicsQuality.msaa()
+
+## DECISIONS「画质」: on 高, the hint never told before, a run of slow seconds (real time, not the
+## game's; GraphicsQualityHint) says once that 画质 can go lower. Never in a headless run.
+func _watch_frames() -> void:
+	var now: int = Time.get_ticks_usec()
+	var real: float = 0.0 if _frame_usec == 0 else float(now-_frame_usec)/1000000.0
+	_frame_usec = now
+	if GraphicsQuality.hint_told or GraphicsQuality.level != GraphicsQuality.Value.HIGH or map.session == null or DisplayServer.get_name() == "headless":
+		return
+	if _slow_watch == null:
+		_slow_watch = GraphicsQualityHint.new()
+	if _slow_watch.advance(real):
+		map.session.shared_ui().toasts().push(tr("画面卡顿时，可以在「设置」里把「画质」调低"))
+		GraphicsQuality.note_hint_told()
 
 ## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along
 ## it, hard in a gust, upright in the calm, wild when it veers; the dust that follows it drifts. The
@@ -322,7 +354,7 @@ func _activate() -> void:
 	_old_modulate = map.modulate
 	map.modulate.a = 0.0
 	_old_msaa = get_viewport().msaa_3d
-	get_viewport().msaa_3d = Viewport.MSAA_4X
+	get_viewport().msaa_3d = GraphicsQuality.msaa()
 	(map.player_body.get_node("Camera2D") as Camera2D).enabled = false
 	world.visible = true
 	camera.current = true
@@ -340,6 +372,8 @@ func _deactivate() -> void:
 	if not _active:
 		return
 	_active = false
+	_slow_watch = null
+	_frame_usec = 0
 	map.projected_view = false
 	map.modulate = _old_modulate
 	map.player_body.movement_basis = Transform2D.IDENTITY

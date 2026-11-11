@@ -34,6 +34,7 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 			requested = requested.with_language(LocalizationService.FOLLOW_SYSTEM)
 		_localization.apply(requested.language())
 	_apply_battle(requested)
+	GraphicsQuality.keep_hint_told = _keep_quality_hint_told
 	_window_capability.prepare_platform_window()
 	_window_capability.apply_ui_scale(requested.ui_scale())
 	if requested.window_mode() == ApplicationWindowMode.Value.FULLSCREEN and not _window_capability.offers_exclusive_fullscreen():
@@ -225,6 +226,8 @@ static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 	ObjectiveHints.shown = settings.objective_hints()
 	DayNightPreference.mode = settings.day_night()
 	AutosaveNotice.shown = settings.autosave_notice()
+	GraphicsQuality.apply(settings.graphics_quality())
+	GraphicsQuality.hint_told = settings.quality_hint_told()
 
 
 ## 目标提示 (ObjectiveHints; DECISIONS「新手链与当前目标」) at once, kept with the other settings.
@@ -333,6 +336,36 @@ func apply_and_persist_day_night(mode: int) -> ApplicationSettingsServiceResult:
 		repository_result.outcome(),
 		_committed,
 	)
+
+
+## 画质 (GraphicsQuality; DECISIONS「画质」) at once, kept with the other settings.
+func apply_and_persist_graphics_quality(quality: int) -> ApplicationSettingsServiceResult:
+	if not GraphicsQuality.is_valid(quality):
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
+	_committed = _committed.with_graphics_quality(quality)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## The 画质 slow-frame hint was told (GraphicsQuality.note_hint_told()): kept, never told again.
+func _keep_quality_hint_told() -> void:
+	if _committed.quality_hint_told():
+		return
+	_committed = _committed.with_quality_hint_told(true)
+	_repository.write(_committed)
 
 
 func committed_snapshot() -> ApplicationSettingsSnapshot:
