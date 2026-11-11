@@ -4,10 +4,9 @@ extends Control
 ## The prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」,「交互箭头」): under the
 ## target (SharedUiNearby.target_focus()) the key and what it does (交互, or a door's 打开 …) on a
 ## dark plate; 界面重做 3 moved it from over the thing, where it covered the name over its head
-## and the bubble. The target itself is marked in the voxel view, by a small green arrow over it
-## (WorldVoxelView.show_focus(); owner, 2026-11-11: in place of a ring round it). Drawn over the
-## map, under the HUD's panels; hidden while a panel, the menu or a fight has the screen. A click
-## or tap on the prompt is E.
+## and the bubble. No ring round the target (owner, 2026-11-11; DECISIONS「交互闪光点」). Drawn
+## over the map, under the HUD's panels; hidden while a panel, the menu or a fight has the screen.
+## A click or tap on the prompt is E.
 
 ## The prompt keeps this far (map units) from the thing's middle, under it or beside it.
 const CLEAR_RADIUS: float = 26.0
@@ -25,8 +24,6 @@ var _prompt: PanelContainer
 var _prompt_text: Label
 ## The thing's middle on the screen (INF: nothing marked).
 var _marked_at: Vector2 = Vector2.INF
-## The voxel view told of the focus (show_focus()), to take it back from when the prompt hides.
-var _view: WorldVoxelView
 ## Where the prompt shows: under the thing, beside it, or over it.
 enum Place { BELOW, SIDE, ABOVE }
 var _place: Place = Place.BELOW
@@ -105,7 +102,6 @@ func _process(delta: float) -> void:
 		_focus = _ui.nearby.target_focus()
 		if _focus != null:
 			_prompt_text.text = _focus.title
-		_show_in_view(map, _focus)
 	var at: Vector2 = Vector2.INF if _focus == null else _focus.at()
 	if not at.is_finite():
 		_hide()
@@ -151,24 +147,11 @@ func _on_prompt_input(event: InputEvent) -> void:
 		_ui.interact()
 
 
-## The map's voxel view marks `focus` (and no other view keeps an old one).
-func _show_in_view(map: WorldMapController, focus: WorldFocus) -> void:
-	var view: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
-	if _view != view and is_instance_valid(_view):
-		_view.show_focus(null)
-	_view = view
-	if _view != null:
-		_view.show_focus(focus)
-
-
 func _hide() -> void:
 	_focus = null
 	_since_refresh = INF
 	_prompt.visible = false
 	_marked_at = Vector2.INF
-	if is_instance_valid(_view):
-		_view.show_focus(null)
-	_view = null
 
 
 ## The active map while the player walks it with nothing else on the screen.

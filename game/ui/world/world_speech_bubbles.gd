@@ -12,8 +12,6 @@ const MAX_WIDTH: float = 220.0
 const LIFT: float = 54.0
 ## With no room above (the screen's top, the status card), its top edge below the body's middle.
 const DROP: float = 26.0
-## Over the arrows over a head (voxel view), the bubble's bottom this far above their top (map units).
-const MARKS_GAP: float = 6.0
 const EDGE: float = 4.0
 ## 界面重做 3: said lines on paper (GameTheme's PaperPanel), a 喝令 in lacquer red on it, what
 ## the NPC only does on a dark plate in a quieter colour.
@@ -128,10 +126,7 @@ func _process(delta: float) -> void:
 			var lift: float = maxf(LIFT, _ui.focus_marker.lift_over(body) + 4.0)
 			var head: Vector2 = map.screen_position(body.global_position, lift)
 			if map.projected_view:
-				# Over the arrows over the head too (the quest's, the interaction one; 交互箭头).
-				var voxel: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
-				var marks: float = 0.0 if voxel == null else voxel.marks_over(character_id) * VoxelMapGeometry.UNIT + MARKS_GAP
-				head = map.screen_position(body.global_position, maxf(90.0, marks)) + Vector2.UP * maxf(0.0, lift-LIFT)
+				head = map.screen_position(body.global_position, 90.0) + Vector2.UP * maxf(0.0, lift-LIFT)
 			var at: Vector2 = head - Vector2(bubble.size.x / 2.0, bubble.size.y)
 			var view: Rect2 = get_viewport().get_visible_rect().grow(-EDGE)
 			if at.y < view.position.y or Rect2(at, bubble.size).intersects(_ui.card_rect()):
