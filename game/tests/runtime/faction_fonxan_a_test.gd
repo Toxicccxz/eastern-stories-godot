@@ -186,6 +186,9 @@ func _test_guarding(tree: SceneTree, session: WorldSessionController) -> void:
 	var standing: String = ui.standing_page.shown_text()
 	_check(standing.contains("封山剑派 · 门派 · 雪亭镇") and standing.contains("你是封山剑派的弟子") and standing.contains("是你清的") and standing.contains("逄义认了那块腰牌"), "the 声望 page: 封山's card, in sentences: %s" % standing)
 	_check(not standing.contains("天邪派") and not standing.contains("逆灵宫"), "houses with nothing to say are left out")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.fonxan_guarded)
+	_check(handoff.is_empty(), "守馆 played leaves what fonxan_guarded writes: %s" % [handoff])
 
 
 ## 说破: he leaves the gate, and stands at the 山坳; 柳淳风 and he each say it once.
@@ -224,6 +227,9 @@ func _test_reveal(tree: SceneTree, session: WorldSessionController) -> void:
 	standing.standing_page.fill(session.quest_condition_test())
 	_check(standing.standing_page.shown_text().contains("是你说破了门房的来历"), "the 声望 page says so")
 	_check(_ending_lines(session, &"snow").any(func(line: String) -> bool: return line.contains("门房空了一冬")), "the ending's 雪亭 card: the gate stood empty")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.fonxan_gated.bind(true))
+	_check(handoff.is_empty(), "门房 played (说破) leaves what fonxan_gated(revealed) writes: %s" % [handoff])
 
 
 ## 替他瞒: he stays at the gate.
@@ -244,6 +250,9 @@ func _test_cover(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(_count_in(session, &"snow.school1", GUARD) == 1 and _count_in(session, &"snow.crossroad", GUARD) == 0, "刘安禄 is still the 门房")
 	_check(_ending_lines(session, &"snow").any(func(line: String) -> bool: return line.contains("只有三个人知道")), "the ending's 雪亭 card: three know")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.fonxan_gated.bind(false))
+	_check(handoff.is_empty(), "门房 played (瞒) leaves what fonxan_gated(cover) writes: %s" % [handoff])
 
 
 ## Spared and home already (第三章's rescue): the gate was empty before the question; 李火狮 asks where he went.

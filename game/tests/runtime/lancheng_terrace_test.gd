@@ -95,6 +95,10 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_first(session, &"canyon.stone_forest3", &"native.npc.song_pu_mirror") == null, "no 宋朴: not the deal's ledger")
 	var master: String = await _ask_at(tree, session, &"waterfog.guildhall", &"waterfog.guildhall.master.1", &"common.npc.fighter.master", "旋芒")
 	_check(master.contains("是你。好"), "萧辟尘: 是你。好 (%s)" % master)
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes (but for
+	# the earlier chapters' choices, which _to_terrace() sets as the ledger's, TEST-ONLY).
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("self", "expose", false, true, false), TABLE)
+	_check(handoff.is_empty(), "旋芒 played (drawn yourself) leaves what chapter10_done(self) writes: %s" % [handoff])
 
 
 func _test_xiao(tree: SceneTree, session: WorldSessionController) -> void:
@@ -140,6 +144,10 @@ func _test_xiao(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("宋朴看见了旋芒", 0) == 1 and _said(ui.log_lines(), "剑在谁手里") and _first(session, &"canyon.stone_forest3", &"native.npc.song_pu_mirror") == null, "宋朴: 尚书大人问，剑在谁手里; then gone")
 	var master: String = await _ask_at(tree, session, &"waterfog.guildhall", &"waterfog.guildhall.master.1", &"common.npc.fighter.master", "湖底")
 	_check(master.contains("我拿旋芒去"), "萧辟尘 at the 水烟阁 on 湖底 (%s)" % master)
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes (but for
+	# the earlier chapters' choices, which _to_terrace() sets as the ledger's, TEST-ONLY).
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("xiao", "deal", false, true, false), TABLE)
+	_check(handoff.is_empty(), "旋芒 played (萧辟尘) leaves what chapter10_done(xiao) writes: %s" % [handoff])
 
 
 func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
@@ -165,6 +173,10 @@ func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not ui.is_asking() and _said(_recent(ui, 3), "剑已经有人了"), "自己拔 after: the sword has its hand")
 	var uncle: String = await _ask_at(tree, session, &"imperial.front_hall", &"imperial.front_hall.uncle.1", &"common.npc.fighter.champion", "旋芒")
 	_check(uncle.contains("在老夫手里"), "於兰天武 at the 养心殿: 在老夫手里 (%s)" % uncle)
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes (but for
+	# the earlier chapters' choices, which _to_terrace() sets as the ledger's, TEST-ONLY).
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("uncle", "uncle", false, true, false), TABLE)
+	_check(handoff.is_empty(), "旋芒 played (皇叔) leaves what chapter10_done(uncle) writes: %s" % [handoff])
 
 
 ## The ninth chapter's marks on a ledger (`side`: expose, deal or uncle), the bells' marks given, the

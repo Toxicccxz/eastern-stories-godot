@@ -39,20 +39,28 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 ## Into the 后殿 in the crown: the scene plays, the ghouls come, and (TEST-ONLY: sent away for
 ## beaten) fall; the `ghosts` step and the `choice` next.
-func _test_scene_and_ghosts(tree: SceneTree, session: WorldSessionController, verbose: bool = true) -> void:
+func _test_scene_and_ghosts(tree: SceneTree, session: WorldSessionController, verbose: bool = true, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
-	StoryFixtures.chapter3_dungeon_done(session)
+	# story_through_test: played up to here, not written.
+	if not played:
+		StoryFixtures.chapter3_dungeon_done(session)
 	session.record_journal()
 	_check(StoryQuestLog.objective(state, quests).begins_with("牢门开不了"), "at the altar step: %s" % [StoryQuestLog.objective(state, quests)])
-	_check(session.handoff_to(&"niling.slope", &"niling.goods_path", &"niling.goods_path", &"niling.goods_path.gate_return").succeeded(), "on the goods road")
+	if played:
+		_check(session.player_runtime().world_location().zone_id == &"niling.goods_path", "on the goods road" + " (walked there)")
+	else:
+		_check(session.handoff_to(&"niling.slope", &"niling.goods_path", &"niling.goods_path", &"niling.goods_path.gate_return").succeeded(), "on the goods road")
 	var slope: WorldMapController = session.active_map() as WorldMapController
 	await _settle(tree)
-	var crown: StringName = slope.give_new_item_to_player(CROWN)
-	_check(not crown.is_empty() and session.wear_player_item(crown).succeeded, "the 黑冠 on (TEST-ONLY: given)")
+	# Played on from B the crown is still on; else TEST-ONLY given.
+	if not session.player_worn_item_ids().has(CROWN):
+		var crown: StringName = slope.give_new_item_to_player(CROWN)
+		_check(not crown.is_empty() and session.wear_player_item(crown).succeeded, "the 黑冠 put on (TEST-ONLY: given)")
+	_check(session.player_worn_item_ids().has(CROWN), "the 黑冠 on")
 	var gate: WorldMapController = await MapPlaces.go_to(tree, session, &"niling.yard")
-	_check(gate != null and gate.map_id() == &"niling.gate" and await MapPlaces.drive(tree, gate, MapPlaces.door_spot(gate, &"niling.front.door", &"niling.yard")) and gate.open_door(&"niling.front.door") and await MapPlaces.take_passage(tree, gate, &"niling.yard.north"), "through the 山门 and the 殿门")
+	_check(gate != null and gate.map_id() == &"niling.gate" and await MapPlaces.drive(tree, gate, MapPlaces.door_spot(gate, &"niling.front.door", &"niling.yard")) and (gate.door(&"niling.front.door").is_open() or gate.open_door(&"niling.front.door")) and await MapPlaces.take_passage(tree, gate, &"niling.yard.north"), "through the 山门 and the 殿门 (opened by hand, or still open from B)")
 	var hall: WorldMapController = session.active_map() as WorldMapController
 	await _settle(tree)
 	_check(hall != null and hall.map_id() == &"niling.hall", "in the 前殿")
@@ -108,7 +116,7 @@ func _test_scene_and_ghosts(tree: SceneTree, session: WorldSessionController, ve
 
 
 ## The rescue: the key, 霍铮's cell, the followers, the backhill empty, 黄霸's scene, the end.
-func _test_rescue(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_rescue(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
@@ -128,7 +136,9 @@ func _test_rescue(tree: SceneTree, session: WorldSessionController) -> void:
 	session.npc_spared(keyed)
 	_check(not dungeon.floor_item_of(KEY, &"niling.corridor").is_empty() and state.marks.get("狱卒交了钥匙", 0) == 1, "spared, he drops the key (spared.drop)")
 	var key_item: StringName = dungeon.give_new_item_to_player(KEY)
-	_check(not key_item.is_empty() and await MapPlaces.drive(tree, dungeon, MapPlaces.door_spot(dungeon, &"niling.cell_huo.door", &"niling.corridor")) and dungeon.open_door(&"niling.cell_huo.door"), "the key in hand (TEST-ONLY): 霍铮's door opens")
+	# Played on from B (which tries the door with a TEST-ONLY key of its own) it stands open already.
+	var cell_open: bool = dungeon.door(&"niling.cell_huo.door").is_open()
+	_check(not key_item.is_empty() and await MapPlaces.drive(tree, dungeon, MapPlaces.door_spot(dungeon, &"niling.cell_huo.door", &"niling.corridor")) and (cell_open or dungeon.open_door(&"niling.cell_huo.door")), "the key in hand (TEST-ONLY): 霍铮's door opens")
 	_check(await MapPlaces.drive_to_zone(tree, dungeon, &"niling.cell_huo"), "into his cell")
 	session.advance_npc_heartbeat(0.5)
 	await _settle(tree)
@@ -215,6 +225,11 @@ func _test_rescue(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_count_in(session, &"niling.cliff_path", &"native.npc.xuan_mingzi_cliff") == 0, "玄冥子 went with his master: nobody on the path")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save at the chapter's end")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
+	# (from its own fixture; played on from the chapters before, story_through_test checks it).
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_rescued)
+		_check(handoff.is_empty(), "逆灵宫 C played (rescue) leaves what chapter3_rescued writes: %s" % [handoff])
 
 
 ## The chase: the back door asked, the cliff, 玄冥子, the 残卷; the dungeon after.
@@ -273,6 +288,9 @@ func _test_chase(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not dungeon.floor_item_of(&"native:niling/body_huo", &"niling.cell_huo").is_empty() and not dungeon.floor_item_of(&"native:niling/body_shitou", &"niling.cell_shitou").is_empty(), "two bodies in the cells")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save after the chase")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_chased)
+	_check(handoff.is_empty(), "逆灵宫 C played (chase) leaves what chapter3_chased writes: %s" % [handoff])
 
 
 ## A walk into `zone_id` with a heart beat after it (the followers walk after the player).
