@@ -283,7 +283,7 @@ func inspect(
 	if event != null and event.resolution != null and event.resolution.outcome in FAILED_OPPORTUNITIES:
 		fail(Failure.OPPORTUNITY_FAILED)
 		return false
-	_note_spar_winner(event)
+	_note_spar_winner(event, special)
 	for victim: CombatSliceCharacterBinding in bindings:
 		if (not victim.exists_in_encounter and victim.life_status != CombatSliceLifeStatus.Value.DEAD) or (victim.life_status == CombatSliceLifeStatus.Value.ACTIVE and not victim.combat_available):
 			fail(Failure.PARTICIPANT_STATE_INVALID)
@@ -508,17 +508,22 @@ func _mark_spar_won(loser: NpcRuntimeState) -> void:
 		map.open_found_ways(hooks.spar_won_mark)
 
 
-func _note_spar_winner(event: CombatSchedulerEvent) -> void:
-	if _encounter.mode != CombatEncounterMode.Value.SPAR or event == null:
+## A special's attacks (the player's 逐 / 点, 缺's due blow, an NPC chat special) end a spar
+## the same way an ordinary opportunity does: each forward blow and riposte, in order.
+func _note_spar_winner(event: CombatSchedulerEvent, special: SpecialReport) -> void:
+	if _encounter.mode != CombatEncounterMode.Value.SPAR:
 		return
-	var opportunity: CombatSliceOpportunityResult = event.resolution
-	if opportunity == null:
-		return
-	var forward: CombatSingleAttackExecutionResult = opportunity.forward_result
+	if event != null and event.resolution != null:
+		_note_spar_blows(event.resolution.forward_result, event.resolution.chain_result)
+	if special != null:
+		for attack: SpecialAttack in special.attacks():
+			_note_spar_blows(attack.forward, attack.chain)
+
+
+func _note_spar_blows(forward: CombatSingleAttackExecutionResult, chain: CombatAttackChainResult) -> void:
 	if forward != null and forward.post_relationship_result != null and forward.post_relationship_result.winner_selection_reached:
 		_spar_winner = forward.attacker_id
 		_spar_loser = forward.victim_id
-	var chain: CombatAttackChainResult = opportunity.chain_result
 	if chain != null and chain.reverse_execution_reached and chain.reverse_relationship_result != null and chain.reverse_relationship_result.winner_selection_reached:
 		_spar_winner = chain.reverse_attacker_id
 		_spar_loser = chain.reverse_victim_id
