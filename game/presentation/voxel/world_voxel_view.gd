@@ -83,6 +83,28 @@ const QUEST_GLOW: String = "d9452c"
 var quest_marker: Node3D
 ## What the marker was placed for ("" none): the target and the quest ledger's size.
 var _quest_key: String = ""
+## The interaction marker (owner, 2026-11-11; DECISIONS「交互箭头」): in place of the ring that was
+## round what E / A goes to (WorldFocusMarker), a small patina-green arrow, the quest marker's
+## turning arrow made smaller, bobbing over it. Over a person it stands over the name; over the one
+## the quest marker is over, above that red arrow; over anything else at FOCUS_HEIGHTS by its kind.
+## Presentation only: what is focused is the HUD's (SharedUiNearby.target_focus()).
+const FOCUS_GLOW: String = "3dbb8c"
+## Against the quest marker's turning arrow.
+const FOCUS_ARROW_SCALE: float = 0.7
+## Over the floor, by WorldNearbyThing.Kind, for what has no head: a corpse or a floor item over its
+## name (at 0.7), a door over its lintel's exit arrow, a landmark or a room's service at a head's height.
+const FOCUS_HEIGHTS: Dictionary[WorldNearbyThing.Kind, float] = {
+	WorldNearbyThing.Kind.CORPSE: 1.25,
+	WorldNearbyThing.Kind.ITEM: 1.25,
+	WorldNearbyThing.Kind.LANDMARK: 2.2,
+	WorldNearbyThing.Kind.DOOR: 3.6,
+	WorldNearbyThing.Kind.SERVICE: 2.2,
+}
+## Over a name: the gap from the name to the arrow's tip, and to its tip over a quest marker there.
+const FOCUS_OVER_NAME: float = 0.4
+const FOCUS_OVER_QUEST: float = 1.5
+var focus_marker: Node3D
+var _focus: WorldFocus
 var _built: bool = false
 ## _build() is going on over several frames behind the loading screen (DECISIONS「加载画面」).
 var _building: bool = false
@@ -130,6 +152,7 @@ func _process(delta: float) -> void:
 	_reveal_entrances()
 	_bob_arrows(delta)
 	_sync_quest_marker()
+	_sync_focus_marker()
 	_update_occlusion()
 	_sync_light()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
@@ -252,6 +275,9 @@ func release_world() -> void:
 		quest_marker.queue_free()
 	quest_marker = null
 	_quest_key = ""
+	if focus_marker != null:
+		focus_marker.queue_free()
+	focus_marker = null
 	occlusion = VoxelOcclusion.new()
 	lighting.release()
 	geometry = null
@@ -1120,26 +1146,87 @@ func _quest_spinner_at(at: Vector3, waypoint: bool) -> void:
 	quest_marker.position = at + Vector3(0, 2.4, 0)
 	quest_marker.set_meta("height", 2.4)
 	add_child(quest_marker)
+	_spinner(quest_marker, QUEST_GLOW, 0.8)
+	_quest_label(quest_marker, 1.35, waypoint)
+
+
+## The turning arrow as built, tip to the shaft's top (voxel units, before its scale).
+const SPINNER_HEIGHT: float = 1.15
+
+
+## The turning arrow under `parent`, pointing down with its tip at the parent's origin, `size` times
+## as built (the quest marker's 0.8: about 1.1 tall), in `colour`, glowing a little by night.
+func _spinner(parent: Node3D, colour: String, size: float) -> Node3D:
 	var spinner := Node3D.new()
 	spinner.name = "Spinner"
-	quest_marker.add_child(spinner)
+	parent.add_child(spinner)
 	var s := Shapes.new()
 	# The head, its rows widening from the tip at the bottom; the shaft over it.
 	for row: int in 5:
-		s.box(spinner, Vector3(0, 0.07 + row * 0.13, 0), Vector3(0.16 + row * 0.16, 0.13, 0.22), QUEST_GLOW)
-	s.box(spinner, Vector3(0, 0.9, 0), Vector3(0.3, 0.5, 0.22), QUEST_GLOW)
+		s.box(spinner, Vector3(0, 0.07 + row * 0.13, 0), Vector3(0.16 + row * 0.16, 0.13, 0.22), colour)
+	s.box(spinner, Vector3(0, 0.9, 0), Vector3(0.3, 0.5, 0.22), colour)
 	s.flush()
 	var glow := StandardMaterial3D.new()
-	glow.albedo_color = Color(QUEST_GLOW)
+	glow.albedo_color = Color(colour)
 	glow.emission_enabled = true
-	glow.emission = Color(QUEST_GLOW)
+	glow.emission = Color(colour)
 	glow.emission_energy_multiplier = 0.6
 	for mesh: Node in spinner.find_children("*", "GeometryInstance3D", true, false):
 		var instance := mesh as GeometryInstance3D
 		instance.material_override = glow
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	spinner.scale = Vector3.ONE * 0.8
-	_quest_label(quest_marker, 1.35, waypoint)
+	spinner.scale = Vector3.ONE * size
+	return spinner
+
+
+## What E / A goes to now, for the interaction marker (null: nothing; WorldFocusMarker sets it).
+func show_focus(focus: WorldFocus) -> void:
+	_focus = focus
+
+
+## How high over `id`'s feet the arrows over them reach at the top of their bob (voxel units; 0:
+## none), for a speech bubble to stand clear of them (WorldSpeechBubbles).
+func marks_over(id: StringName) -> float:
+	if not actors.has(id):
+		return 0.0
+	var top: float = 0.0
+	var bob: float = sin(_arrow_clock * 3.2) * 0.2
+	for marker: Node3D in [quest_marker, focus_marker]:
+		if marker == null or not marker.visible:
+			continue
+		var over: bool = marker.get_meta("over", &"") == id if marker == quest_marker else _focus != null and _focus.thing != null and _focus.thing.kind == WorldNearbyThing.Kind.NPC and _focus.thing.id == id
+		var spinner: Node3D = marker.get_node_or_null("Spinner") as Node3D
+		if over and spinner != null:
+			top = maxf(top, marker.position.y - bob + 0.2 + SPINNER_HEIGHT * spinner.scale.y - actors[id].position.y)
+	return top
+
+
+## The interaction marker over what is focused (show_focus()), bobbing and turning with the quest
+## marker; away while staged, while figures are placed on a stage, or with nothing focused.
+func _sync_focus_marker() -> void:
+	var at: Vector2 = Vector2.INF if _focus == null or _focus.thing == null else _focus.at()
+	if not at.is_finite() or staged or placing() or world == null:
+		if focus_marker != null:
+			focus_marker.visible = false
+		return
+	if focus_marker == null:
+		focus_marker = Node3D.new()
+		focus_marker.name = "FocusMarker"
+		add_child(focus_marker)
+		_spinner(focus_marker, FOCUS_GLOW, 0.8 * FOCUS_ARROW_SCALE)
+	var bob: float = sin(_arrow_clock * 3.2) * 0.2
+	var id: StringName = _focus.thing.id
+	var where: Vector3
+	if _focus.thing.kind == WorldNearbyThing.Kind.NPC and actors.has(id):
+		# Over the name over the head, whatever the body's size; over the quest's red arrow there.
+		var name_at: float = labels[id].position.y if labels.has(id) else 2.2
+		var quest_over: bool = quest_marker != null and quest_marker.visible and quest_marker.get_meta("over", &"") == id
+		where = actors[id].position + Vector3(0, name_at + (FOCUS_OVER_QUEST if quest_over else FOCUS_OVER_NAME), 0)
+	else:
+		where = VoxelMapGeometry.point(at) + Vector3(0, float(FOCUS_HEIGHTS.get(_focus.thing.kind, 2.2)), 0)
+	focus_marker.position = where + Vector3(0, bob, 0)
+	focus_marker.visible = true
+	(focus_marker.get_node("Spinner") as Node3D).rotation.y = _arrow_clock * QUEST_SPIN
 
 
 func _quest_label(parent: Node3D, height: float, waypoint: bool) -> void:

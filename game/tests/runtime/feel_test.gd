@@ -244,7 +244,7 @@ func _test_toll_bubble(tree: SceneTree, session: WorldSessionController) -> void
 	hud.nearby.refresh()
 	hud.focus_marker._process(0.2)
 	var focus: WorldFocus = hud.focus_marker.focus()
-	_check(focus != null and focus.thing != null and focus.thing.id == robber.character_id and hud.focus_marker.prompt_text() == "交互", "the ring and prompt (交互) on him: %s" % hud.focus_marker.prompt_text())
+	_check(focus != null and focus.thing != null and focus.thing.id == robber.character_id and hud.focus_marker.prompt_text() == "交互", "the prompt (交互) on him: %s" % hud.focus_marker.prompt_text())
 	_check(WorldSpeechBubbles.bubble_text("店小二懒洋洋地打了个哈欠。") == "店小二懒洋洋地打了个哈欠。" and WorldSpeechBubbles.bubble_text("店小二说道：客官里边请。") == "客官里边请。", "a said line loses its speaker; something done keeps it")
 	TestFeel.restore()
 	hud.npc_says(robber, [ColoredLine.new("强盗喝道：站住！")], ["强盗喝道：站住！"])

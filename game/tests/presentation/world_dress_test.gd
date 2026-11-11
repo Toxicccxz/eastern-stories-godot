@@ -1,8 +1,8 @@
 extends RefCounted
 
 ## 界面重做 3 (DECISIONS「界面样式」): the world's surfaces in GameTheme. The status card a
-## slab, the name in voxel letters; the E prompt by the ring at his feet, clear of the player
-## and of the name over his head; a said
+## slab, the name in voxel letters; the E prompt at his feet, clear of the player and of the
+## name over his head, and the small green arrow over his name in the voxel view; a said
 ## line on paper; the interaction popup the menu's window with the name once (its title, and
 ## the fight forecast's word on its plate beside it), its rows list rows, the open one held
 ## down; a page's heading without the name again; a dangerous choice in dark lacquer, its
@@ -99,6 +99,21 @@ static func _base_size() -> Vector2i:
 ## 1920×1080: the plate covered half of 严廷殷): at every 界面缩放, scaled as the game scales it
 ## (whole pixel steps), the plate sits after the text, inside the row, and the name shows
 ## whole; the whole title is the hover. A short one stays as it was.
+## The voxel view marks him with the small green arrow over his name (DECISIONS「交互箭头」), no ring.
+func _check_focus_arrow(map: WorldMapController, id: StringName) -> void:
+	var view: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
+	if view == null or not view._built:
+		return
+	view._sync_focus_marker()
+	var arrow: Node3D = view.focus_marker
+	var spinner: Node3D = null if arrow == null else arrow.get_node_or_null("Spinner") as Node3D
+	var actor: Node3D = view.actors.get(id)
+	var name_at: float = view.labels[id].position.y if view.labels.has(id) else 2.2
+	check(arrow != null and arrow.visible and spinner != null and actor != null and arrow.position.y > actor.position.y + name_at and Vector2(arrow.position.x, arrow.position.z).distance_to(Vector2(actor.position.x, actor.position.z)) < 0.01, "the small arrow over his name: %s" % [null if arrow == null else arrow.position])
+	var material := (spinner.find_children("*", "GeometryInstance3D", true, false)[0] as GeometryInstance3D).material_override as StandardMaterial3D if spinner != null else null
+	check(material != null and material.albedo_color == Color(WorldVoxelView.FOCUS_GLOW) and spinner.scale.x < 0.8, "green and smaller than the quest's red arrow")
+
+
 func _test_long_title(tree: SceneTree, layout: SharedGameplayLayout, short_title: String) -> void:
 	var title: Label = layout.frame_title
 	var font: Font = title.get_theme_font("font")
@@ -169,14 +184,21 @@ func _test_world(tree: SceneTree) -> void:
 	hud.refresh_exploration()
 	hud.focus_marker._process(0.2)
 	var prompt: Control = hud.focus_marker.get_node("FocusPrompt") as Control
-	var ring: Vector2 = map.screen_position(hud.focus_marker.focus().at())
+	var feet: Vector2 = map.screen_position(hud.focus_marker.focus().at())
 	var prompt_rect := Rect2(prompt.position, prompt.size)
 	var player_rect: Rect2 = hud.focus_marker._player_rect(map)
-	check(prompt.visible and prompt.theme_type_variation == &"ToastPanel" and prompt_rect.end.y > ring.y and not prompt_rect.grow(-1.0).intersects(player_rect), "the E prompt by the ring at his feet (not over his name), clear of the player south of him, on a dark plate: %s, ring %s, player %s" % [prompt_rect, ring, player_rect])
+	check(prompt.visible and prompt.theme_type_variation == &"ToastPanel" and prompt_rect.end.y > feet.y and not prompt_rect.grow(-1.0).intersects(player_rect), "the E prompt at his feet (not over his name), clear of the player south of him, on a dark plate: %s, feet %s, player %s" % [prompt_rect, feet, player_rect])
+	_check_focus_arrow(map, waiter.character_id)
 	hud.speech_bubbles.say(waiter, ["店小二说道：客官里边请。"])
 	var entry: Array = hud.speech_bubbles._bubbles.get(waiter.character_id, [null])
 	var bubble: PanelContainer = entry[0] as PanelContainer
 	check(bubble != null and bubble.theme_type_variation == &"PaperPanel" and hud.speech_bubbles.text_of(waiter.character_id) == "客官里边请。", "what he says is on paper")
+	var view: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
+	if bubble != null and view != null and view._built and view.focus_marker != null:
+		hud.speech_bubbles._process(0.0)
+		var spinner: Node3D = view.focus_marker.get_node("Spinner") as Node3D
+		var arrow_top: Vector2 = view.camera.unproject_position(view.focus_marker.position + Vector3(0, 0.2 + WorldVoxelView.SPINNER_HEIGHT * spinner.scale.y, 0))
+		check(bubble.position.y + bubble.size.y <= arrow_top.y, "the bubble stands over the green arrow, not on it: bottom %.0f, arrow top %.0f" % [bubble.position.y + bubble.size.y, arrow_top.y])
 	hud.speech_bubbles.forget(waiter.character_id)
 
 	check(hud.interact() and hud.interaction_open(), "E opens his popup")

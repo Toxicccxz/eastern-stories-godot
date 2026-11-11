@@ -51,6 +51,16 @@ func _test_decree(tree: SceneTree, session: WorldSessionController, played: bool
 		var waiter_id: StringName = _npc_of(session, &"snow.npc.waiter").character_id
 		_check(view.quest_marker != null and view.quest_marker.get_meta("over", &"") == waiter_id and view.quest_marker.get_node_or_null("Spinner") != null, "over the waiter's head, turning: %s" % [null if view.quest_marker == null else view.quest_marker.get_meta("over", &"")])
 		_check(view.quest_marker != null and view.actors.has(waiter_id) and view.quest_marker.position.y > view.actors[waiter_id].position.y + 2.0 and Vector2(view.quest_marker.position.x, view.quest_marker.position.z).distance_to(Vector2(view.actors[waiter_id].position.x, view.actors[waiter_id].position.z)) < 0.01, "standing over him")
+		# E / A on him too: the small green interaction arrow stands over the red one, clear of it
+		# (DECISIONS「交互箭头」).
+		var thing := WorldNearbyThing.new(WorldNearbyThing.Kind.NPC, waiter_id, "店小二", 0.0)
+		view.show_focus(WorldFocus.new("交互", thing, inn.runtime_body_for_character(waiter_id)))
+		view._sync_focus_marker()
+		var red_top: float = 0.0 if view.quest_marker == null else view.quest_marker.position.y + WorldVoxelView.SPINNER_HEIGHT * (view.quest_marker.get_node("Spinner") as Node3D).scale.y
+		_check(view.focus_marker != null and view.focus_marker.visible and view.quest_marker != null and view.quest_marker.visible and view.focus_marker.position.y > red_top + 0.05 and Vector2(view.focus_marker.position.x, view.focus_marker.position.z).distance_to(Vector2(view.quest_marker.position.x, view.quest_marker.position.z)) < 0.01, "the interaction arrow over the quest's, both shown: %s over %s" % [null if view.focus_marker == null else view.focus_marker.position.y, red_top])
+		view.show_focus(null)
+		view._sync_focus_marker()
+		_check(not view.focus_marker.visible, "nothing focused: no interaction arrow")
 	# 店小二: 官爷.
 	await _stand_at(tree, session, WAITER_SPAWN)
 	var map: WorldMapController = session.active_map() as WorldMapController
