@@ -9,6 +9,7 @@ extends RefCounted
 const Fixtures := preload("res://tests/runtime/combat_encounter_scheduler_test.gd")
 const Probe := preload("res://tests/support/cxr5_probe_policy.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
 const GIRL: StringName = &"snow.nyard.girl.1.character"
 const PLAYER: StringName = Fixtures.ACTOR_ID
 const ENEMY: StringName = Fixtures.TARGET_ID
@@ -27,6 +28,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_cooldown()
 	_test_classic_is_auto()
 	await _test_special_telegraph(tree)
+	await _test_stance_from_panel(tree)
 	BattlePace.manual_turns = manual_before
 	BattlePace.stance = stance_before
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -132,7 +134,7 @@ func _test_telegraph_and_stance() -> void:
 	f.scheduler.choose_attack(moves[0].action_id, f.bindings)
 	_advance(f, 1.0)
 	mine = f.scheduler._modifiers.read(PLAYER)
-	_check(mine.attack_percent == -20 and mine.dodge_percent == 20 and mine.damage_percent == 0 and mine.move_tag == moves[0].tag, "游走: attack −20, dodge +20; the chosen move's tag held")
+	_check(mine.attack_percent == -10 and mine.dodge_percent == 20 and mine.damage_percent == 0 and mine.move_tag == moves[0].tag, "游走: attack −10 (half), dodge +20; the chosen move's tag held")
 
 
 ## A session: 柳绘心's perform (chat_chance_combat 25, counterattack) is announced one beat
@@ -186,6 +188,36 @@ func _test_special_telegraph(tree: SceneTree) -> void:
 	_check(lines.any(func(line: String) -> bool: return line.contains("蓄势待发") and line.contains(seen_label)), "the log says 柳绘心蓄势待发，似乎要使出「%s」: %s" % [seen_label, lines.slice(0, 6)])
 	_check(lines.any(func(line: String) -> bool: return line.contains("被打断了") and line.contains(seen_label)), "busy on her next beat: 柳绘心的%s被打断了: %s" % [seen_label, lines.slice(0, 8)])
 	pacing.with_beats(beats_before)
+	session.free()
+	await tree.process_frame
+
+
+## DECISIONS「姿态整记」: a fight opens with the stance's 加力 (no click needed), and the panel's
+## stance buttons reach set_stance: 守 takes the 加力 off, 攻 puts it back.
+func _test_stance_from_panel(tree: SceneTree) -> void:
+	var session: WorldSessionController = Work.create_session(tree)
+	await tree.process_frame
+	session.set_process(false)
+	BattlePace.manual_turns = true
+	BattlePace.stance = CombatStance.Value.ATTACK
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	Grown.grow(player.state, 5000) # TEST-ONLY: an enabled force with a limit
+	player.state.attributes.force_factor = 0
+	var limit: int = session.martial_arts().enforce_limit()
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.nyard", &"snow.nyard.girl.1")
+	await tree.physics_frame
+	map.select_npc(GIRL)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	_check(limit > 0 and map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED and coordinator.has_active_encounter(), "the player attacks 柳绘心 (force limit %d)" % limit)
+	_check(player.state.attributes.force_factor == limit / 2, "the fight opens at 攻 with 加力 half the limit, unclicked: %d" % player.state.attributes.force_factor)
+	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
+	ui.refresh_projection()
+	var guard: Button = ui.action_panel.stance_buttons[CombatStance.Value.GUARD]
+	_check(guard.visible and not guard.disabled, "the 守 button is offered")
+	guard.pressed.emit()
+	_check(BattlePace.stance == CombatStance.Value.GUARD and player.state.attributes.force_factor == 0, "守 from the panel: the stance set, 加力 off")
+	ui.action_panel.stance_buttons[CombatStance.Value.ATTACK].pressed.emit()
+	_check(BattlePace.stance == CombatStance.Value.ATTACK and player.state.attributes.force_factor == limit / 2, "攻 from the panel: 加力 back to half the limit")
 	session.free()
 	await tree.process_frame
 

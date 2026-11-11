@@ -1,8 +1,9 @@
 extends RefCounted
 
 ## 终章 B 湖底 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 B」), from 第十章's
-## ledger with the night of A done (下了决战, the dive: 终章下了湖底) — TEST-ONLY marks; the foes are worn down
-## before each fight so it ends in a few rounds (the fight itself is the combat suites'):
+## ledger with the night of A done (下了决战, the dive: 终章下了湖底) — TEST-ONLY marks; a character grown to
+## 15 万 exp fights each fight out on 自动, empty-handed (how hard it is for the main story's own, sword in
+## hand and every beat ordered: boss_strength_finale_test / boss_strength_demon_test):
 ## - The data: main.finale's eight steps, 侮天鬼's four forms (stronger without the robe, stronger grown),
 ##   the keepers' 穿灵, 璃虹's feather, the services of the 封坛.
 ## - 灭 (seal kept, 旋芒 in hand, 安妮儿 with the robe, every 帮手, 能灭它): the 冰龙厅 — 商玦's two lines,
@@ -16,6 +17,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+const GROWN_EXP: int = 150000
 const SWORD: StringName = &"native:village/soul_impaler"
 const XUANMANG: StringName = &"native:lancheng/xuanmang"
 const FEATHER: StringName = &"native:village/lihong_feather"
@@ -48,8 +51,10 @@ func _test_data() -> void:
 	var end: StoryQuestDefinition.Step = quest.step(&"end")
 	_check(end.options.size() == 6 and end.option(&"slay") != null and end.option(&"seal_self") != null and end.options.slice(1).all(func(option: StoryQuestDefinition.Option) -> bool: return option.reward.marks == ["再封了侮天鬼"]), "灭, or five ways to seal it again (each marks 再封了侮天鬼)")
 	var forms: Array = [&"native.npc.wutian_gui", &"native.npc.wutian_gui_blazing", &"native.npc.wutian_gui_grown", &"native.npc.wutian_gui_grown_blazing"]
-	var exp: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).combat_experience)
-	_check(exp[0] < exp[1] and exp[0] < exp[2] and exp[1] <= exp[3] and exp[2] < exp[3], "侮天鬼: stronger without the robe, stronger grown (%s)" % [exp])
+	# DECISIONS「主线必打的仗」: the forms differ by their kee (and a little by their levels); the
+	# fights themselves are boss_strength_test's (robe, unpulled the easiest; no robe, pulled the hardest).
+	var kee: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).resource_overrides().vitality().maximum())
+	_check(kee[0] < kee[1] and kee[0] < kee[2] and kee[1] <= kee[3] and kee[2] < kee[3], "侮天鬼: stronger without the robe, stronger grown (kee %s)" % [kee])
 	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).talk().inquiry_topics().is_empty()), "妖魔不解释: no topics")
 	var sword: ItemContentDefinition = catalog.item(SWORD)
 	_check(sword.give_to.has(&"native.npc.elon_altar") and sword.give_to.has(&"native.npc.lihong"), "穿灵 can be given to a keeper")
@@ -143,7 +148,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	# Nobody kept the shore on this ledger: the 鬼卒 waiting there come at the player as they surface.
 	var shore: WorldMapController = session.active_map() as WorldMapController
 	await _until_fight(tree, session, shore)
-	_check(_first(session, &"village.lakeside", &"native.npc.hell_runner") != null, "the 鬼卒 nobody kept wait on the shore")
+	_check(_first(session, &"village.lakeside", &"native.npc.hell_runner_finale") != null, "the 鬼卒 nobody kept wait on the shore")
 	await _fight_out(tree, session, shore)
 	MapPlaces.enter(session, ALTAR, &"village.seal_altar.pool_arrival") # TEST-ONLY: down again
 	await _settle(tree)
@@ -192,10 +197,10 @@ func _ledger(session: WorldSessionController, who: String, side: String, pulled:
 	else:
 		map.give_new_item_to_player(FEATHER) # TEST-ONLY
 	session.day_clock().set_day_seconds(80000) # TEST-ONLY: the night of the battle (A's 等到天黑)
-	state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: stands in for a tenth-chapter character
-	for skill: StringName in [&"unarmed", &"dodge", &"parry", &"force"]:
-		state.skills.set_raw_level(skill, 400) # TEST-ONLY
-	state.progression.combat_experience = 3000000 # TEST-ONLY
+	# TEST-ONLY: a character grown well past the finale's arrival (DECISIONS「主线必打的仗」: 37275 on the main
+	# story alone, 52294 exploring on the way), 柳家拳 empty-handed on 自动 (ES2's courage gate): at 8 万 it
+	# lost to 商玦 and his four; the fights are fought out as they come.
+	Grown.grow(state, GROWN_EXP)
 	session.record_journal()
 
 
@@ -206,18 +211,8 @@ func _until_fight(tree: SceneTree, session: WorldSessionController, map: WorldMa
 			break
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
-		_wear_down(map)
 		map.hostilities.process_pending_aggression()
 	_check(coordinator.has_active_encounter(), "a fight opens on %s" % map.map_id())
-
-
-## TEST-ONLY: the foes on the map worn down before the fight opens (the encounter takes their state as
-## it opens; a fresh test character cannot land many blows on a tenth-chapter foe).
-func _wear_down(map: WorldMapController) -> void:
-	for npc: NpcRuntimeState in map.resident_npcs():
-		if npc.exists_in_map and npc.definition().attitude == NpcDefinition.Attitude.AGGRESSIVE:
-			npc.character_state.vitality = CharacterResourceState.new(1, 1, 100)
-			npc.character_state.essence = CharacterResourceState.new(1, 1, 100)
 
 
 func _fight_out(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:

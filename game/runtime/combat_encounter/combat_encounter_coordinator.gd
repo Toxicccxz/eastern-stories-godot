@@ -558,10 +558,28 @@ func set_stance(value: int) -> Array[ColoredLine]:
 		return []
 	if _session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
 		return []
-	var limit: int = _session.martial_arts().enforce_limit()
+	return _session.martial_arts().enforce(_stance_enforce_points(value, rules))
+
+
+## The 加力 the stance puts: stance_enforce_percent of the limit under 攻, none otherwise.
+func _stance_enforce_points(value: int, rules: CombatDecisionRules) -> int:
+	if value != CombatStance.Value.ATTACK:
+		return 0
 	@warning_ignore("integer_division")
-	var points: int = limit * rules.stance_enforce_percent / 100 if value == CombatStance.Value.ATTACK else 0
-	return _session.martial_arts().enforce(points)
+	return _session.martial_arts().enforce_limit() * rules.stance_enforce_percent / 100
+
+
+## A fight the player is in opens with the stance's 加力 (DECISIONS「姿态整记」): a force learned
+## since the last click, or a factor loaded with the save, would otherwise not match the stance
+## shown. Quietly: enforce.c's "Ok." belongs to a click.
+func _open_with_stance(encounter: CombatEncounter) -> void:
+	var rules: CombatDecisionRules = GameContent.catalog().pacing().decision_rules()
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	if not rules.has_stances() or encounter.participant_for(player.character_id) == null:
+		return
+	if player.state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
+		return
+	EnforceService.enforce(player.state, _stance_enforce_points(BattlePace.stance, rules), _session.martial_arts().force_level())
 
 
 func stance() -> int:
@@ -1071,6 +1089,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	_active_encounter = encounter
 	_active_scheduler = scheduler
 	_last_completion = null
+	_open_with_stance(encounter)
 	_unspent_at_start = _player_unspent()
 	_session.progression_rewards().fight_began()
 	_completed_feedback = null

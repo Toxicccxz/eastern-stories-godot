@@ -369,6 +369,8 @@ msgstr ""
 #. native.npc.north_pupil_boy gender
 #. native.npc.shield_youth gender
 #. native.npc.liu_chunfeng_lake gender
+#. native.npc.hell_runner_tomb gender
+#. native.npc.hell_runner_finale gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -35912,6 +35914,8 @@ msgstr ""
 #. village.npc.woman1 inquiry topic
 #. native.npc.hell_runner name
 #. native.npc.lihong_ashore inquiry topic
+#. native.npc.hell_runner_tomb name
+#. native.npc.hell_runner_finale name
 #: data/village/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "鬼卒"
 msgstr ""
@@ -43510,25 +43514,33 @@ msgid ""
 msgstr ""
 
 #. native.npc.hell_runner long
-#: data/niling/npcs.json
+#. native.npc.hell_runner_tomb long
+#. native.npc.hell_runner_finale long
+#: data/niling/npcs.json data/native/npcs.json
 msgid ""
 "一个灰绿皮肤、面目狰狞的鬼卒，手里一柄钢叉。它的眼眶里没有眼珠，只有两点青火。\n"
 msgstr ""
 
 #. native.npc.hell_runner chat_msg_combat
-#: data/niling/npcs.json
+#. native.npc.hell_runner_tomb chat_msg_combat
+#. native.npc.hell_runner_finale chat_msg_combat
+#: data/niling/npcs.json data/native/npcs.json
 msgid ""
 "鬼卒喝道：孽障！随我赴阴司受审吧。\n"
 msgstr ""
 
 #. native.npc.hell_runner chat_msg_combat
-#: data/niling/npcs.json
+#. native.npc.hell_runner_tomb chat_msg_combat
+#. native.npc.hell_runner_finale chat_msg_combat
+#: data/niling/npcs.json data/native/npcs.json
 msgid ""
 "鬼卒的钢叉带起一股腥风。\n"
 msgstr ""
 
 #. native.npc.hell_runner vanishes.line
-#: data/niling/npcs.json
+#. native.npc.hell_runner_tomb vanishes.line
+#. native.npc.hell_runner_finale vanishes.line
+#: data/niling/npcs.json data/native/npcs.json
 msgid "鬼卒一声不响地散成一股黑烟，钢叉当啷掉在地上。"
 msgstr ""
 

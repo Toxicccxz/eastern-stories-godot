@@ -4,7 +4,10 @@ extends RefCounted
 ## 姿态 (DECISIONS「战斗决策」): the player's standing lean for the fight, three buttons in
 ## place of enforce.c's SpinBox under the modern pacing. 攻 ATTACK: damage +p, dodge and
 ## parry −p, and 加力 to stance_enforce_percent of its limit; 守 GUARD: parry +p, damage −p;
-## 游走 EVADE: dodge +p, attack power −p. Set at once, kept until changed, never queued.
+## 游走 EVADE: dodge +p, attack power −p/2 (the attack power counts in both of the striker's
+## gates, dodge and parry, the dodge in one of the foe's: at −p 游走 lost more than it saved in an
+## even fight; DECISIONS「姿态整记」). Set at once, kept until changed, never queued; 攻 at
+## every session's start.
 
 enum Value { ATTACK, GUARD, EVADE }
 
@@ -39,4 +42,5 @@ static func apply(side: CombatRoundModifiers.Fighter, value: int, percent: int) 
 		Value.GUARD:
 			side.add(0, -percent, 0, percent)
 		Value.EVADE:
-			side.add(-percent, 0, percent, 0)
+			@warning_ignore("integer_division")
+			side.add(-percent / 2, 0, percent, 0)
