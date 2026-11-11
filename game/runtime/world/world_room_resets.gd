@@ -27,25 +27,43 @@ func _init(rooms: Array[String], period_seconds: int, random: WorldInteractionRa
 ## The rooms of every map whose reset() means something, in catalog order.
 static func resetting_rooms() -> Array[String]:
 	var rooms: Array[String] = []
+	var seen: Dictionary[String, bool] = {}
 	var catalog: ContentCatalog = GameContent.catalog()
 	for spawn: NpcSpawnDefinition in catalog.spawns():
-		if not rooms.has(spawn.legacy_source_room_path):
-			rooms.append(spawn.legacy_source_room_path)
+		_add_room(rooms, seen, spawn.legacy_source_room_path)
+	# Map by map, as the catalog has the maps; each list is gone through once (a journey's
+	# start makes this in the frame the world comes alive: asking the catalog for one map's
+	# goes through every one of the world).
+	var item_rooms: Dictionary[StringName, Array] = {}
+	for spawn: ItemSpawnDefinition in catalog.item_spawns():
+		_add_to(item_rooms, spawn.map_id, spawn.legacy_source_room_path)
+	var counted_rooms: Dictionary[StringName, Array] = {}
+	for landmark: WorldLandmarkDefinition in catalog.landmarks():
+		if landmark.setting("limit") > 0:
+			_add_to(counted_rooms, landmark.map_id, landmark.legacy_source_path)
 	for map: MapDefinition in catalog.maps():
-		for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map.map_id):
-			if not rooms.has(spawn.legacy_source_room_path):
-				rooms.append(spawn.legacy_source_room_path)
+		for room: String in item_rooms.get(map.map_id, []):
+			_add_room(rooms, seen, room)
 	for landmark: WorldLandmarkDefinition in catalog.hidden_passages():
-		if not rooms.has(landmark.legacy_source_path):
-			rooms.append(landmark.legacy_source_path)
+		_add_room(rooms, seen, landmark.legacy_source_path)
 	for trap: RoomTrapDefinition in catalog.traps():
-		if not rooms.has(trap.legacy_source_path):
-			rooms.append(trap.legacy_source_path)
+		_add_room(rooms, seen, trap.legacy_source_path)
 	for map: MapDefinition in catalog.maps():
-		for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map.map_id):
-			if landmark.setting("limit") > 0 and not rooms.has(landmark.legacy_source_path):
-				rooms.append(landmark.legacy_source_path)
+		for room: String in counted_rooms.get(map.map_id, []):
+			_add_room(rooms, seen, room)
 	return rooms
+
+
+static func _add_room(rooms: Array[String], seen: Dictionary[String, bool], room: String) -> void:
+	if not seen.has(room):
+		seen[room] = true
+		rooms.append(room)
+
+
+static func _add_to(rooms_by_map: Dictionary[StringName, Array], map_id: StringName, room: String) -> void:
+	if not rooms_by_map.has(map_id):
+		rooms_by_map[map_id] = []
+	rooms_by_map[map_id].append(room)
 
 
 ## The maps each room's reset() acts on (WorldMapNpcs.reset_room()): those holding

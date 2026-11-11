@@ -78,8 +78,22 @@ func create_spawn_instances(
 	loadout_content: Array[NpcLoadoutItemDefinition],
 	item_instance_scope: StringName = &"",
 ) -> Array[NpcRuntimeState]:
+	return create_spawn_instances_with(spawn, definition, location, inventory, stacks, random_source, NpcLoadoutItemDefinition.by_id(loadout_content), item_instance_scope)
+
+
+## create_spawn_instances() with the loadout content by item id already at hand (the catalog's
+## loadout_items_by_id(), made once for every spawn of the world).
+func create_spawn_instances_with(
+	spawn: NpcSpawnDefinitionType,
+	definition: NpcDefinitionType,
+	location: WorldLocationStateType,
+	inventory: InventoryStateType,
+	stacks: StackCollectionType,
+	random_source: RandomSourceType,
+	content: Dictionary[StringName, NpcLoadoutItemDefinition],
+	item_instance_scope: StringName = &"",
+) -> Array[NpcRuntimeState]:
 	var result: Array[NpcRuntimeState] = []
-	var content: Dictionary[StringName, NpcLoadoutItemDefinition] = _content_by_id(loadout_content)
 	if (
 		spawn == null
 		or not spawn.is_valid()
@@ -131,7 +145,23 @@ func create_one(
 	loadout_content: Array[NpcLoadoutItemDefinition],
 	item_instance_scope: StringName = &"",
 ) -> NpcRuntimeStateType:
-	return _create_one(definition, character_id, spawn_id, spawn_point_id, location, inventory, stacks, random_source, _content_by_id(loadout_content), item_instance_scope)
+	return _create_one(definition, character_id, spawn_id, spawn_point_id, location, inventory, stacks, random_source, NpcLoadoutItemDefinition.by_id(loadout_content), item_instance_scope)
+
+
+## create_one() with the loadout content by item id already at hand.
+func create_one_with(
+	definition: NpcDefinitionType,
+	character_id: StringName,
+	spawn_id: StringName,
+	spawn_point_id: StringName,
+	location: WorldLocationStateType,
+	inventory: InventoryStateType,
+	stacks: StackCollectionType,
+	random_source: RandomSourceType,
+	content: Dictionary[StringName, NpcLoadoutItemDefinition],
+	item_instance_scope: StringName = &"",
+) -> NpcRuntimeStateType:
+	return _create_one(definition, character_id, spawn_id, spawn_point_id, location, inventory, stacks, random_source, content, item_instance_scope)
 
 
 func _create_one(
@@ -563,20 +593,6 @@ func _apply_loadout(
 					return []
 			created.append(item)
 	return created
-
-
-## The valid loadout content by item id; an id two valid contents share maps to null,
-## so it is found by neither (as when each lookup scanned the list).
-static func _content_by_id(
-	loadout_content: Array[NpcLoadoutItemDefinition],
-) -> Dictionary[StringName, NpcLoadoutItemDefinition]:
-	var result: Dictionary[StringName, NpcLoadoutItemDefinition] = {}
-	for content: LoadoutItemDefinitionType in loadout_content:
-		if content == null or not content.is_valid():
-			continue
-		var id: StringName = content.item_definition_id()
-		result[id] = null if result.has(id) else content
-	return result
 
 
 static func _find_content(
