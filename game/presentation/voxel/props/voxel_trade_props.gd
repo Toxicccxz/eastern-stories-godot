@@ -90,7 +90,9 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			if kind=="bookcase":
 				# `books`: only so many on the shelves (lordhouse3.c: 上面很摆了几本书), spaced out.
 				var shelved: int = int(data.get("books",0))
-				var across: int = maxi(2,floori(w/0.28))
+				# Between the posts: a row of w/0.28 ran its last book out through the end post, its
+				# end flush with the side (and fighting it for the pixels as the camera moved).
+				var across: int = maxi(2,floori((w-0.44)/0.28)+1)
 				for row: int in 2:
 					for col: int in across:
 						if shelved > 0 and not book_at(row*across+col,2*across,shelved):
