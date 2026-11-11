@@ -5,7 +5,7 @@ extends RefCounted
 ## every half hour and sells a floor item, while rooms reset and NPCs wander, heal and come
 ## to. The rooms go round the regions in a fixed order (snow, then one room of each region
 ## in turn), so a run is the same run every time and a longer one reaches all of them. The
-## day turns (TestDay: five game hours a stay, about seven days and their nights), the
+## day turns (TestDay: five game hours a stay, nearly six days and their nights), the
 ## gangs' alert beat and the modern death price are on, as the player has them. Each stay
 ## ends with a Save, restored and compared every ten minutes; every hour play goes on in
 ## the restored world, as after Continue. Nothing may stall: fights end, nobody stays busy,
@@ -47,10 +47,11 @@ const VICTIMS: Array[Array] = [
 	[&"snow.herbshop.woodcutter.1", &"snow.herbshop_house"], [&"snow.inn_2f.rat.1", &"snow.inn_upstairs"],
 ]
 const SWORD_POINT: StringName = &"snow.weapon_storage.bamboo_sword.1"
-## The stays of a run without ES_SOAK_HOURS: about the time the Snow-only soak took (39 stays
-## there; a stay in a region not seen for hours catches up more), every region reached by the
-## 23rd. CI's suite timeout is 600 s and the soak is the longest suite.
-const DEFAULT_STAYS: int = 36
+## The stays of a run without ES_SOAK_HOURS: about the time the Snow-only soak took on CI (39
+## stays there, 415 s; a stay in a region not seen for hours catches up more: 36 stays took
+## 547 s), every region reached by the 23rd. CI's suite timeout is 600 s and the soak is the
+## longest suite.
+const DEFAULT_STAYS: int = 28
 ## Rooms that start the round: the 竹剑's shelf first (time to reset within the soak), the
 ## trainee's yard, then the regions in turn.
 const FIRST_ROOMS: Array[StringName] = [&"snow.weapon_storage", &"snow.school2"]
