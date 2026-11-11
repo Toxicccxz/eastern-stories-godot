@@ -51,53 +51,73 @@ func _init(controller: WorldMapController) -> void:
 	_map = controller
 
 
-## Spawns are created in authored order: it fixes each NPC's random draws and
-## loadout item identities.
-func spawn_actors() -> bool:
+## The map's spawns in authored order and the one spawn_next() makes next (-1: not begun).
+var _spawns_due: Array[NpcSpawnDefinition] = []
+var _spawn_at: int = -1
+## Where the NPC stream stood as each spawn was made: a `same_person` spawn is made from there again.
+## (Only the game's own stream can be read back; a scripted one of a test just draws on.)
+var _rolled_from: Dictionary[StringName, RandomStreamSnapshot] = {}
+
+
+## Spawns are created in authored order: it fixes each NPC's random draws and loadout item
+## identities. A spawn a call (a journey's start in slices breathes between two): the next
+## spawn's people, MORE until the last is made; then what follows them all, and DONE. The
+## same people in the same order with the same draws, however the calls are spread.
+func spawn_next() -> WorldResidentMapController.StartStep:
 	var catalog: ContentCatalog = GameContent.catalog()
-	var loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition] = catalog.loadout_items_by_id()
-	# Where the NPC stream stood as each spawn was made: a `same_person` spawn is made from there again.
-	# (Only the game's own stream can be read back; a scripted one of a test just draws on.)
-	var rolled_from: Dictionary[StringName, RandomStreamSnapshot] = {}
-	var stream: GodotNpcInitializationRandomSource = _npc_random as GodotNpcInitializationRandomSource
-	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
-		var rolls: NpcInitializationRandomSource = _npc_random
-		if stream != null and not spawn.same_person.is_empty():
-			# DECISIONS「同一个人的另一处」: the first one's rolls over again, none taken from the stream.
-			var replay := GodotNpcInitializationRandomSource.new()
-			if not rolled_from.has(spawn.same_person) or not replay.restore_random_state(rolled_from[spawn.same_person]):
-				push_error("spawn %s: %s was not made before it on this map" % [spawn.spawn_id, spawn.same_person])
-				return false
-			rolls = replay
-		elif stream != null:
-			rolled_from[spawn.spawn_id] = stream.capture_random_state()
-		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances_with(
-			spawn,
-			catalog.npc(spawn.npc_definition_id),
-			_map.location_for_zone(spawn.zone_id),
-			_inventory,
-			_stacks,
-			rolls,
-			loadout_content,
-			_item_id_allocator.scope,
-		)
-		if created.size() != spawn.quantity:
-			push_error("spawn %s could not be created; check its npc, map and zone" % spawn.spawn_id)
-			return false
-		for npc: NpcRuntimeState in created:
-			if not _register_loadout(npc):
-				return false
-		for npc: NpcRuntimeState in created:
-			var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
-			if marker == null or not _add_npc_body(npc, marker.global_position):
-				return false
-			if spawn.starts_absent:
-				npc.set_exists_in_map(false)
-				_npc_bodies[npc.character_id].refresh_runtime_state()
+	if _spawn_at < 0:
+		_spawns_due = catalog.spawns_for_map(map)
+		_rolled_from = {}
+		_spawn_at = 0
+	if _spawn_at < _spawns_due.size():
+		if not _make_spawn(_spawns_due[_spawn_at], catalog):
+			return WorldResidentMapController.StartStep.FAILED
+		_spawn_at += 1
+		return WorldResidentMapController.StartStep.MORE
+	_spawns_due = []
+	_rolled_from = {}
 	# road2.c: create() → setup() → reset() puts the first draw on duty.
 	for group: StringName in _draw_groups(""):
 		_draw_on_duty(group, false)
-	return _map.floor_items.spawn_floor_items()
+	return WorldResidentMapController.StartStep.DONE if _map.floor_items.spawn_floor_items() else WorldResidentMapController.StartStep.FAILED
+
+
+func _make_spawn(spawn: NpcSpawnDefinition, catalog: ContentCatalog) -> bool:
+	var stream: GodotNpcInitializationRandomSource = _npc_random as GodotNpcInitializationRandomSource
+	var rolls: NpcInitializationRandomSource = _npc_random
+	if stream != null and not spawn.same_person.is_empty():
+		# DECISIONS「同一个人的另一处」: the first one's rolls over again, none taken from the stream.
+		var replay := GodotNpcInitializationRandomSource.new()
+		if not _rolled_from.has(spawn.same_person) or not replay.restore_random_state(_rolled_from[spawn.same_person]):
+			push_error("spawn %s: %s was not made before it on this map" % [spawn.spawn_id, spawn.same_person])
+			return false
+		rolls = replay
+	elif stream != null:
+		_rolled_from[spawn.spawn_id] = stream.capture_random_state()
+	var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances_with(
+		spawn,
+		catalog.npc(spawn.npc_definition_id),
+		_map.location_for_zone(spawn.zone_id),
+		_inventory,
+		_stacks,
+		rolls,
+		catalog.loadout_items_by_id(),
+		_item_id_allocator.scope,
+	)
+	if created.size() != spawn.quantity:
+		push_error("spawn %s could not be created; check its npc, map and zone" % spawn.spawn_id)
+		return false
+	for npc: NpcRuntimeState in created:
+		if not _register_loadout(npc):
+			return false
+	for npc: NpcRuntimeState in created:
+		var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
+		if marker == null or not _add_npc_body(npc, marker.global_position):
+			return false
+		if spawn.starts_absent:
+			npc.set_exists_in_map(false)
+			_npc_bodies[npc.character_id].refresh_runtime_state()
+	return true
 
 
 func _register_loadout(npc: NpcRuntimeState) -> bool:

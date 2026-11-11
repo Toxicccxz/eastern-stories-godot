@@ -60,15 +60,41 @@ func _world_text(session: WorldSessionController) -> String:
 
 
 ## Frames until `session`'s start is over; whether it stood still (no processing, no time
-## played) at every frame boundary before that.
+## played) at every frame boundary before that; the boundaries a map was in the tree at (`held`:
+## its people are made a spawn at a time), and whether each such map was unseen, standing
+## still and with its tile layers off (`unseen`).
 func _follow(tree: SceneTree, session: WorldSessionController) -> Dictionary:
 	var frames: int = 0
 	var inert: bool = true
-	while is_instance_valid(session) and not session.start_finished() and frames < 3000:
+	var held: int = 0
+	var unseen: bool = true
+	while is_instance_valid(session) and not session.start_finished() and frames < 6000:
 		await tree.process_frame
 		frames += 1
 		inert = inert and (session.start_finished() or (session.process_mode == Node.PROCESS_MODE_DISABLED and session.played_seconds() == 0))
-	return {"frames": frames, "inert": inert}
+		if session.start_finished():
+			break
+		for child: Node in session.active_map_slot.get_children():
+			var map: WorldResidentMapController = child as WorldResidentMapController
+			held += 1
+			unseen = unseen and map != null and not map.visible and map.process_mode == Node.PROCESS_MODE_DISABLED and not map.is_map_initialized() and _layers(map, false) and _areas_quiet(map)
+	return {"frames": frames, "inert": inert, "held": held, "unseen": unseen}
+
+
+## Whether every tile layer of `map` is on (`enabled`) or every one off.
+func _layers(map: Node, enabled: bool) -> bool:
+	for node: Node in map.find_children("*", "TileMapLayer", true, false):
+		if (node as TileMapLayer).enabled != enabled:
+			return false
+	return true
+
+
+## No area of `map` watches or is watched (a staged map's).
+func _areas_quiet(map: Node) -> bool:
+	for node: Node in map.find_children("*", "Area2D", true, false):
+		if (node as Area2D).monitoring or (node as Area2D).monitorable:
+			return false
+	return true
 
 
 func _test_new_game(tree: SceneTree) -> void:
@@ -87,6 +113,13 @@ func _test_new_game(tree: SceneTree) -> void:
 	_check(sliced.start_finished() and sliced.is_initialized() and sliced.active_map_id() == &"snow.inn", "and is over some frames later, in the inn")
 	_check(seen["frames"] > 100, "a frame for every map or so: %d frames" % seen["frames"])
 	_check(seen["inert"], "the world stood still between the frames")
+	# A town's people are several frames' share: frames go by inside a map too, the map there.
+	_check(seen["held"] > 400, "a map's people are made a spawn at a time, frames going by between: %d" % seen["held"])
+	_check(seen["unseen"], "a map in the tree at a frame's end is unseen, standing still, its areas quiet and its tile layers off")
+	var as_it_was: bool = true
+	for map: WorldMapController in sliced.world_maps():
+		as_it_was = as_it_was and map.visible and not map.starts_in_steps and _layers(map, true) and map.is_map_initialized()
+	_check(as_it_was and sliced.active_map_child_count() == 1, "afterwards every map is shown and its layers on, as a one-frame start leaves them")
 	_check(sliced.process_mode == Node.PROCESS_MODE_INHERIT and sliced.get_node_or_null("StartPump") == null, "then it runs as any session, the pump gone")
 	sliced.set_process(false)
 	_check(_world_text(sliced) == text, "the same world as the one-frame start")
@@ -114,6 +147,7 @@ func _test_continue(tree: SceneTree) -> void:
 		return
 	var seen: Dictionary = await _follow(tree, begun.candidate)
 	_check(seen["frames"] > 100 and seen["inert"], "over many frames, standing still: %d" % seen["frames"])
+	_check(seen["unseen"], "a saved map in the tree at a frame's end is unseen and still as well (%d)" % seen["held"])
 	var finished: OldPineWorldRestoreResult = OldPineWorldRestoreService.finish_candidate(begun)
 	if finished.succeeded():
 		finished.candidate.set_process(false)

@@ -2,7 +2,8 @@ extends RefCounted
 
 ## Runtime paths made cheaper must give what they gave before (performance, owner
 ## 2026-10-11): the walker's KEEP_CLEAR filter, its grids kept by area while the same
-## walls stand, the map's static nodes, a fight's bindings made for its participants only.
+## walls stand, the map's static nodes, a fight's bindings made for its participants only,
+## the indexes a journey's start is made with.
 ## Room resets on the maps holding the room's content only are compared whole (same seeds,
 ## same save) outside the suites.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
@@ -22,6 +23,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_grids_follow_doors(tree, session)
 	await _test_fight_bindings(tree, session)
 	_test_room_maps()
+	_test_start_indexes()
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -239,6 +241,42 @@ func _test_room_maps() -> void:
 			if not maps_by_room.get(landmark.legacy_source_path, []).has(map.map_id):
 				missing.append(landmark.landmark_id)
 	_check(missing.is_empty(), "every spawn, item spawn and landmark's room lists its map: %s" % [missing])
+
+
+## A journey's start: the loadout content by item id is the catalog's, made once, and is what
+## going through the list for each spawn gave; the rooms that reset are the same rooms in the
+## same order (their first intervals are drawn in it) as asking the catalog map by map gave.
+func _test_start_indexes() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var index: Dictionary[StringName, NpcLoadoutItemDefinition] = catalog.loadout_items_by_id()
+	var listed: Dictionary[StringName, NpcLoadoutItemDefinition] = NpcLoadoutItemDefinition.by_id(catalog.loadout_item_definitions())
+	var same: bool = index.size() == listed.size() and index.size() > 1000
+	for id: StringName in listed:
+		same = same and index.has(id) and index[id] == listed[id]
+	_check(same, "the catalog's loadout index is the list's, item for item (%d)" % index.size())
+	_check(is_same(index, catalog.loadout_items_by_id()) and index.is_read_only(), "made once, shared and read only")
+	var twice: Array[NpcLoadoutItemDefinition] = [listed.values()[0], listed.values()[0], listed.values()[1], null]
+	var shared: Dictionary[StringName, NpcLoadoutItemDefinition] = NpcLoadoutItemDefinition.by_id(twice)
+	_check(shared.size() == 2 and shared[twice[0].item_definition_id()] == null and shared[twice[2].item_definition_id()] == twice[2], "an id two contents share is found by neither; a missing one is passed over")
+	var rooms: Array[String] = []
+	for spawn: NpcSpawnDefinition in catalog.spawns():
+		if not rooms.has(spawn.legacy_source_room_path):
+			rooms.append(spawn.legacy_source_room_path)
+	for map: MapDefinition in catalog.maps():
+		for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map.map_id):
+			if not rooms.has(spawn.legacy_source_room_path):
+				rooms.append(spawn.legacy_source_room_path)
+	for landmark: WorldLandmarkDefinition in catalog.hidden_passages():
+		if not rooms.has(landmark.legacy_source_path):
+			rooms.append(landmark.legacy_source_path)
+	for trap: RoomTrapDefinition in catalog.traps():
+		if not rooms.has(trap.legacy_source_path):
+			rooms.append(trap.legacy_source_path)
+	for map: MapDefinition in catalog.maps():
+		for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map.map_id):
+			if landmark.setting("limit") > 0 and not rooms.has(landmark.legacy_source_path):
+				rooms.append(landmark.legacy_source_path)
+	_check(WorldRoomResets.resetting_rooms() == rooms and rooms.size() > 300, "the resetting rooms are the same, in the same order (%d)" % rooms.size())
 
 
 func _check(condition: bool, label: String) -> void:

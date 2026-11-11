@@ -401,6 +401,13 @@ func landmark(landmark_id: StringName) -> WorldLandmarkDefinition:
 	return _landmarks.get(landmark_id)
 
 
+## Every landmark of the world, in catalog order.
+func landmarks() -> Array[WorldLandmarkDefinition]:
+	var result: Array[WorldLandmarkDefinition] = []
+	result.assign(_landmarks.values())
+	return result
+
+
 func landmarks_for_map(map_id: StringName) -> Array[WorldLandmarkDefinition]:
 	var result: Array[WorldLandmarkDefinition] = []
 	for definition: WorldLandmarkDefinition in _landmarks.values():
