@@ -170,6 +170,8 @@
       "hair_style": "double_bun", "beard": "none", "waist": "belt", "prop": "none",
       "accent": "6b4f44", "height": "child", "build": "standard", "shoes": "dark"
     },
+    "native.npc.hell_runner_tomb": {"same_as": "native.npc.hell_runner"},
+    "native.npc.hell_runner_finale": {"same_as": "native.npc.hell_runner"},
     "native.npc.hell_runner": {
       "note": "鬼卒：阴司的鬼卒，灰绿皮肤、面目狰狞，手里一柄钢叉（方块人画成枪），眼眶里两点青火；立绘 Muse 2026-11-06",
       "coat": "3f4a56", "pants": "242b33", "skin": "98ab9a", "hair": "13161b", "hair_style": "long",

@@ -1204,14 +1204,14 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 150000,
+			"combat_exp": 200000,
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
-				"sword": 45,
-				"six-chaos-sword": 45,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 55,
+				"parry": 80,
 				"force": 160
 			},
 			"skill_map": {
@@ -2412,12 +2412,12 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 150000,
+			"combat_exp": 200000,
 			"skills": {
-				"sword": 45,
-				"six-chaos-sword": 45,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 55,
+				"parry": 80,
 				"force": 160
 			},
 			"skill_map": {
@@ -2504,12 +2504,12 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 150000,
+			"combat_exp": 200000,
 			"skills": {
-				"sword": 45,
-				"six-chaos-sword": 45,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 55,
+				"parry": 80,
 				"force": 160
 			},
 			"carry": [
@@ -2573,11 +2573,11 @@
 				"con": 24,
 				"kar": 14
 			},
-			"combat_exp": 20000,
+			"combat_exp": 25000,
 			"skills": {
-				"sword": 40,
-				"parry": 35,
-				"dodge": 35,
+				"sword": 80,
+				"parry": 75,
+				"dodge": 75,
 				"force": 70,
 				"unarmed": 60
 			},
@@ -2689,16 +2689,16 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 100000,
+			"combat_exp": 295000,
 			"resources": {"max_kee": 2400, "max_gin": 1200, "max_sen": 1200, "max_force": 1600, "force": 1600},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"unarmed": 110,
-				"dodge": 90,
-				"parry": 100,
+				"unarmed": 150,
+				"dodge": 130,
+				"parry": 140,
 				"force": 150
 			},
 			"summoned": {
@@ -2742,16 +2742,16 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 100000,
+			"combat_exp": 200000,
 			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"unarmed": 105,
-				"dodge": 85,
-				"parry": 95,
+				"unarmed": 170,
+				"dodge": 150,
+				"parry": 160,
 				"force": 170
 			},
 			"summoned": {
@@ -2795,16 +2795,16 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 100000,
+			"combat_exp": 200000,
 			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"unarmed": 105,
-				"dodge": 85,
-				"parry": 95,
+				"unarmed": 170,
+				"dodge": 150,
+				"parry": 160,
 				"force": 170
 			},
 			"summoned": {
@@ -2848,16 +2848,16 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 90000,
+			"combat_exp": 85000,
 			"resources": {"max_kee": 3800, "max_gin": 1900, "max_sen": 1900, "max_force": 2600, "force": 2600},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"unarmed": 95,
-				"dodge": 75,
-				"parry": 85,
+				"unarmed": 190,
+				"dodge": 170,
+				"parry": 180,
 				"force": 190
 			},
 			"summoned": {
@@ -4579,6 +4579,107 @@
 						}
 					]
 				}
+			}
+		},
+		{
+			"id": "native.npc.hell_runner_tomb",
+			"legacy_source": "native: DECISIONS「主线必打的仗」— the 鬼卒 of 第三章 (native.npc.hell_runner) as they stand in the tree hollow in 第五章: the same ghoul, its exp set for that chapter's must-win fight (owner 2026-11-10「按这个调」)",
+			"name": "鬼卒",
+			"aliases": [
+				"hell runner",
+				"ghoul",
+				"guard"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个灰绿皮肤、面目狰狞的鬼卒，手里一柄钢叉。它的眼眶里没有眼珠，只有两点青火。\n",
+			"attributes": {
+				"str": 32,
+				"cor": 28,
+				"int": 10,
+				"spi": 20,
+				"cps": 24,
+				"per": 10,
+				"con": 30,
+				"kar": 2
+			},
+			"combat_exp": 12000,
+			"score": 300,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"fork": 45,
+				"parry": 40,
+				"dodge": 35,
+				"unarmed": 30
+			},
+			"carry": [
+				{
+					"item": "es2:obj/npc/obj/steel_fork",
+					"source": "obj/npc/obj/steel_fork.c",
+					"equip": "wield"
+				}
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"鬼卒喝道：孽障！随我赴阴司受审吧。\n",
+				"鬼卒的钢叉带起一股腥风。\n"
+			],
+			"vanishes": {
+				"line": "鬼卒一声不响地散成一股黑烟，钢叉当啷掉在地上。"
+			}
+		},
+		{
+			"id": "native.npc.hell_runner_finale",
+			"legacy_source": "native: DECISIONS「主线必打的仗」— the 鬼卒 of 第三章 (native.npc.hell_runner) as they come at the 湖畔 on the night of the 终章 when nobody guards it: the same ghoul, its exp set for that must-win fight (owner 2026-11-10「按这个调」)",
+			"name": "鬼卒",
+			"aliases": [
+				"hell runner",
+				"ghoul",
+				"guard"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个灰绿皮肤、面目狰狞的鬼卒，手里一柄钢叉。它的眼眶里没有眼珠，只有两点青火。\n",
+			"attributes": {
+				"str": 32,
+				"cor": 28,
+				"int": 10,
+				"spi": 20,
+				"cps": 24,
+				"per": 10,
+				"con": 30,
+				"kar": 2
+			},
+			"combat_exp": 100000,
+			"score": 300,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"fork": 88,
+				"parry": 78,
+				"dodge": 78,
+				"unarmed": 30
+			},
+			"resources": { "max_kee": 850 },
+			"carry": [
+				{
+					"item": "es2:obj/npc/obj/steel_fork",
+					"source": "obj/npc/obj/steel_fork.c",
+					"equip": "wield"
+				}
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"鬼卒喝道：孽障！随我赴阴司受审吧。\n",
+				"鬼卒的钢叉带起一股腥风。\n"
+			],
+			"vanishes": {
+				"line": "鬼卒一声不响地散成一股黑烟，钢叉当啷掉在地上。"
 			}
 		}
 	]

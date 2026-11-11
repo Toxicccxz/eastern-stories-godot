@@ -46,6 +46,8 @@
 		"native.npc.guo_cheng": {"mode": "work", "gesture": "drill", "radius": 48},
 		"native.npc.headless_shade": {"mode": "wander", "radius": 80},
 		"native.npc.hell_runner": {"mode": "wander", "radius": 80},
+		"native.npc.hell_runner_tomb": {"mode": "wander", "radius": 80},
+		"native.npc.hell_runner_finale": {"mode": "wander", "radius": 80},
 		"native.npc.inn_raider": {"mode": "wander", "radius": 80},
 		"native.npc.herdsman": {"mode": "still", "pose": "sit"},
 		"native.npc.hu_sanniang": {"mode": "still", "gesture": "chop"},

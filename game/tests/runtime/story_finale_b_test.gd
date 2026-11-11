@@ -1,8 +1,8 @@
 extends RefCounted
 
 ## 终章 B 湖底 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 B」), from 第十章's
-## ledger with the night of A done (下了决战, the dive: 终章下了湖底) — TEST-ONLY marks; the foes are worn down
-## before each fight so it ends in a few rounds (the fight itself is the combat suites'):
+## ledger with the night of A done (下了决战, the dive: 终章下了湖底) — TEST-ONLY marks; a character grown to
+## 8 万 exp fights each fight out (how hard it is for the main story's own: boss_strength_test):
 ## - The data: main.finale's eight steps, 侮天鬼's four forms (stronger without the robe, stronger grown),
 ##   the keepers' 穿灵, 璃虹's feather, the services of the 封坛.
 ## - 灭 (seal kept, 旋芒 in hand, 安妮儿 with the robe, every 帮手, 能灭它): the 冰龙厅 — 商玦's two lines,
@@ -16,6 +16,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+const GROWN_EXP: int = 80000
 const SWORD: StringName = &"native:village/soul_impaler"
 const XUANMANG: StringName = &"native:lancheng/xuanmang"
 const FEATHER: StringName = &"native:village/lihong_feather"
@@ -145,7 +147,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	# Nobody kept the shore on this ledger: the 鬼卒 waiting there come at the player as they surface.
 	var shore: WorldMapController = session.active_map() as WorldMapController
 	await _until_fight(tree, session, shore)
-	_check(_first(session, &"village.lakeside", &"native.npc.hell_runner") != null, "the 鬼卒 nobody kept wait on the shore")
+	_check(_first(session, &"village.lakeside", &"native.npc.hell_runner_finale") != null, "the 鬼卒 nobody kept wait on the shore")
 	await _fight_out(tree, session, shore)
 	MapPlaces.enter(session, ALTAR, &"village.seal_altar.pool_arrival") # TEST-ONLY: down again
 	await _settle(tree)
@@ -194,10 +196,9 @@ func _ledger(session: WorldSessionController, who: String, side: String, pulled:
 	else:
 		map.give_new_item_to_player(FEATHER) # TEST-ONLY
 	session.day_clock().set_day_seconds(80000) # TEST-ONLY: the night of the battle (A's 等到天黑)
-	state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: stands in for a tenth-chapter character
-	for skill: StringName in [&"unarmed", &"dodge", &"parry", &"force"]:
-		state.skills.set_raw_level(skill, 400) # TEST-ONLY
-	state.progression.combat_experience = 3000000 # TEST-ONLY
+	# TEST-ONLY: a character grown past the finale's arrival (DECISIONS「主线必打的仗」: 37275 on the main
+	# story alone, 52294 exploring on the way), 柳家拳 empty-handed; the fights are fought out as they come.
+	Grown.grow(state, GROWN_EXP)
 	session.record_journal()
 
 
@@ -208,18 +209,8 @@ func _until_fight(tree: SceneTree, session: WorldSessionController, map: WorldMa
 			break
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
-		_wear_down(map)
 		map.hostilities.process_pending_aggression()
 	_check(coordinator.has_active_encounter(), "a fight opens on %s" % map.map_id())
-
-
-## TEST-ONLY: the foes on the map worn down before the fight opens (the encounter takes their state as
-## it opens; a fresh test character cannot land many blows on a tenth-chapter foe).
-func _wear_down(map: WorldMapController) -> void:
-	for npc: NpcRuntimeState in map.resident_npcs():
-		if npc.exists_in_map and npc.definition().attitude == NpcDefinition.Attitude.AGGRESSIVE:
-			npc.character_state.vitality = CharacterResourceState.new(1, 1, 100)
-			npc.character_state.essence = CharacterResourceState.new(1, 1, 100)
 
 
 func _fight_out(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:

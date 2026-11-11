@@ -95,7 +95,7 @@ func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(asked[0] == 1 and state.marks.get("下了决战", 0) == 1 and state.marks.get("能灭它", 0) == 1, "the 决战前 save asked for once; 下了决战, 能灭它")
 	_check(session.day_phase_id() == &"night" and _said(ui.log_lines(), "关北的马") and _said(ui.log_lines(), "黄土道") and _said(ui.log_lines(), "圆盾"), "the night: the three places held")
 	await _settle(tree)
-	_check(_first(session, LAKESIDE, &"native.npc.hell_runner") == null, "no 鬼卒 on the shore: the riders keep it")
+	_check(_first(session, LAKESIDE, &"native.npc.hell_runner_finale") == null, "no 鬼卒 on the shore: the riders keep it")
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"shore", "the shore next: down the lake")
 	# Out on the boat and down.
 	await _act(tree, lake, &"village.lakeside.paddle")
@@ -144,7 +144,7 @@ func _test_hard(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(state.marks.get("能灭它", 0) == 0 and _said(ui.log_lines(), "湖畔没人守") and _said(ui.log_lines(), "村口没人守") and _said(ui.log_lines(), "稻田边没人守"), "the night: nobody keeps anywhere")
 	await _settle(tree)
-	_check(_first(session, LAKESIDE, &"native.npc.hell_runner") != null, "the 鬼卒 on the shore come at the player")
+	_check(_first(session, LAKESIDE, &"native.npc.hell_runner_finale") != null, "the 鬼卒 on the shore come at the player")
 
 
 func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:

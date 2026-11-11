@@ -2139,7 +2139,7 @@
 				"con": 24,
 				"kar": 6
 			},
-			"combat_exp": 30000,
+			"combat_exp": 13000,
 			"score": 1500,
 			"attitude": "peaceful",
 			"skills": {
@@ -2483,7 +2483,7 @@
 				"con": 28,
 				"kar": 10
 			},
-			"combat_exp": 80000,
+			"combat_exp": 35000,
 			"score": 3500,
 			"attitude": "peaceful",
 			"skills": {
@@ -2642,7 +2642,7 @@
 				"con": 26,
 				"kar": 12
 			},
-			"combat_exp": 30000,
+			"combat_exp": 13000,
 			"score": 1200,
 			"attitude": "aggressive",
 			"skills": {
@@ -2744,13 +2744,13 @@
 				"con": 26,
 				"kar": 12
 			},
-			"combat_exp": 10000,
+			"combat_exp": 25000,
 			"score": 1200,
 			"attitude": "aggressive",
 			"skills": {
-				"sword": 45,
-				"parry": 35,
-				"dodge": 35,
+				"sword": 80,
+				"parry": 70,
+				"dodge": 70,
 				"unarmed": 60,
 				"force": 60
 			},

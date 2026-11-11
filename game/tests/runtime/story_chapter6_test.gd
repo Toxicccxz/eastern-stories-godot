@@ -39,6 +39,7 @@ const MOULD: StringName = &"native:canyon/seal_mould"
 const GLADIUS: StringName = &"native:guanbei/gladius"
 const SOLDIER: StringName = &"native.npc.pass_gate_soldier"
 const GUO: StringName = &"native.npc.guo_cheng"
+const Grown := preload("res://tests/support/grown_character.gd")
 const RIDER: StringName = &"native.npc.huaiyang_rider"
 const OFFICER: StringName = &"native.npc.site_officer"
 const OFFICER_FIGHTING: StringName = &"native.npc.site_officer_fighting"
@@ -639,9 +640,10 @@ func _fight_out(session: WorldSessionController) -> int:
 	return rounds
 
 
+## TEST-ONLY: a character grown to the sixth chapter's arrival exploring on the way (DECISIONS「主线必打的仗」:
+## 11625 on the main story alone, 17432 exploring), 柳家拳 empty-handed, fights the fight out with the helpers.
 func _full(player: WorldPlayerRuntimeState) -> void:
-	player.state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: nobody dies here
-	player.state.essence = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
+	Grown.grow(player.state, 17432)
 
 
 func _beside(tree: SceneTree, session: WorldSessionController, map: WorldMapController, point_id: StringName, offset: Vector2 = Vector2(0, 56)) -> NpcRuntimeState:
