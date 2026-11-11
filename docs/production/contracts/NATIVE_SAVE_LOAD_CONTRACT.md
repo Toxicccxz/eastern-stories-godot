@@ -48,7 +48,7 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-The current public content is **SOURCE_ENTRY_FONXAN_B_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package that changes the world's NPC spawn points adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list; `tests/core/world_revision_test.gd` fails when the spawn points' fingerprint changes without a new revision and its row in `tests/fixtures/world_revisions.json`)
+The current public content is **SOURCE_ENTRY_FONXAN_B_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list; `tests/core/world_revision_test.gd` fails when the NPC spawn points' fingerprint changes without a new revision and its row in `tests/fixtures/world_revisions.json`)
 with root schema 4 and item schema 3: every region's maps, with one NPC record per authored spawn point
 (see below). P2B first published this shape with SOURCE_ENTRY_LAKE_V1 and ten NPC slots; each
 later world publication added one revision. Placement validation, physical body binding and full

@@ -30,18 +30,18 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 		file.store_string(JSON.stringify({"revisions": rows}, "\t", false) + "\n")
 		file.close()
 	_check(not rows.is_empty(), "the fixture reads and holds the revisions")
+	# A revision may ship the spawn points of the one before (a package that changed other
+	# content): rows may share a fingerprint, never a revision.
 	var revisions: Dictionary[String, bool] = {}
-	var fingerprints: Dictionary[String, String] = {}
+	var order: int = -1
 	for row: Variant in rows:
 		if not _check(row is Dictionary and row.get("revision") is String and row.get("fingerprint") is String, "a row is {revision, spawn_points, fingerprint}: %s" % [row]):
 			continue
 		var revision: String = row["revision"]
-		var print_of: String = row["fingerprint"]
-		_check(WorldContentRevision.parsed(revision) >= 0, "%s is a WorldContentRevision" % revision)
+		_check(WorldContentRevision.parsed(revision) > order, "%s is a WorldContentRevision later than the row before" % revision)
 		_check(not revisions.has(revision), "%s has one row" % revision)
-		_check(not fingerprints.has(print_of), "%s's spawn points differ from %s's: a new revision is new content" % [revision, fingerprints.get(print_of, "")])
+		order = maxi(order, WorldContentRevision.parsed(revision))
 		revisions[revision] = true
-		fingerprints[print_of] = revision
 	var last: Variant = rows.back() if not rows.is_empty() else null
 	_check(last is Dictionary and last.get("revision") == current, "the last row is CURRENT_PUBLIC (%s)" % current)
 	_check(
