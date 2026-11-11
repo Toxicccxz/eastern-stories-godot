@@ -5,7 +5,7 @@ extends RefCounted
 ## every half hour and sells a floor item, while rooms reset and NPCs wander, heal and come
 ## to. The rooms go round the regions in a fixed order (snow, then one room of each region
 ## in turn), so a run is the same run every time and a longer one reaches all of them. The
-## day turns (TestDay: five game hours a stay, about eight days and their nights), the
+## day turns (TestDay: five game hours a stay, about seven days and their nights), the
 ## gangs' alert beat and the modern death price are on, as the player has them. Each stay
 ## ends with a Save, restored and compared every ten minutes; every hour play goes on in
 ## the restored world, as after Continue. Nothing may stall: fights end, nobody stays busy,
@@ -47,9 +47,10 @@ const VICTIMS: Array[Array] = [
 	[&"snow.herbshop.woodcutter.1", &"snow.herbshop_house"], [&"snow.inn_2f.rat.1", &"snow.inn_upstairs"],
 ]
 const SWORD_POINT: StringName = &"snow.weapon_storage.bamboo_sword.1"
-## The stays of a run without ES_SOAK_HOURS: as many as before the regions went round (39),
-## so CI's time stays the same.
-const DEFAULT_STAYS: int = 39
+## The stays of a run without ES_SOAK_HOURS: about the time the Snow-only soak took (39 stays
+## there; a stay in a region not seen for hours catches up more), every region reached by the
+## 23rd. CI's suite timeout is 600 s and the soak is the longest suite.
+const DEFAULT_STAYS: int = 36
 ## Rooms that start the round: the 竹剑's shelf first (time to reset within the soak), the
 ## trainee's yard, then the regions in turn.
 const FIRST_ROOMS: Array[StringName] = [&"snow.weapon_storage", &"snow.school2"]
@@ -168,6 +169,7 @@ func _soak() -> void:
 		if not await _enter(room):
 			check(false, "could not place the player in %s" % room)
 			return
+		_visited_regions[String(room).get_slice(".", 0)] = true
 		await _act(stay, room)
 		await _pass(STAY_SECONDS)
 		if _stopped:
@@ -191,9 +193,6 @@ func _soak() -> void:
 	# A day is day_length_minutes real minutes (DayClock); a stay ends five game hours on.
 	var days: int = _now / (GameContent.catalog().pacing().day_length_minutes * 60)
 	check(nights >= days - 1 and (days < 2 or nights >= 1), "the day turned: %d nights in %d days" % [nights, days])
-	_visited_regions = {}
-	for stay: int in stays:
-		_visited_regions[String(rooms[stay % rooms.size()]).get_slice(".", 0)] = true
 	check(_visited_regions.size() >= mini(stays - 2, REGIONS_AT_LEAST), "the stays went round the regions: %s" % [_visited_regions.keys()])
 	check(_knockouts >= 1 and _wakings >= _knockouts, "every knocked-out NPC came to: %d of %d" % [_wakings, _knockouts])
 	check(_respawns >= 1 and _homecomings >= 1 and _sword_back, "rooms reset: %d respawns, %d homecomings, sword back %s" % [_respawns, _homecomings, _sword_back])

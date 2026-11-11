@@ -32,7 +32,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _through(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
-	if not await _chapter(tree, "寻剑令", Decree.new(), func(suite: RefCounted) -> void: await suite._test_decree(tree, session)):
+	if not await _chapter(tree, "寻剑令", Decree.new(), func(suite: RefCounted) -> void: await suite._test_decree(tree, session, true)):
 		return
 	# 伪墓 begins in 老松林: up the road north out of 雪亭镇.
 	if not await _walk(tree, session, &"oldpine.outdoor.central_clearing", "寻剑令 → 伪墓"):

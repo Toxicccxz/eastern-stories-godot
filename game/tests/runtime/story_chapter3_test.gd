@@ -41,10 +41,10 @@ func _test_ways(tree: SceneTree, session: WorldSessionController, played: bool =
 	var tarp: ActService = mountain.service(&"goathill.mroad4.tarp") as ActService
 	_check(rope != null and tarp != null and rope.in_reach() and tarp.in_reach() and rope.verb() == "攀绳上去" and tarp.verb() == "钻进车里", "绳索 · 攀绳上去 and 油布 · 钻进车里 at the turn")
 	# A stranger: the escort refuses the rope.
-	var before_rope: int = ui.log_lines().size()
 	rope.interact()
 	await _settle(tree)
-	_check(session.active_map_id() == &"goathill.mountain" and ui.log_lines().slice(before_rope).any(func(line: String) -> bool: return line.contains("此处无路")), "the rope refused while the escort stands there: %s" % [ui.log_lines().slice(before_rope)])
+	# Among the last lines (the log keeps sixty; a room's line may come after the refusal).
+	_check(session.active_map_id() == &"goathill.mountain" and ui.log_lines().slice(-4).any(func(line: String) -> bool: return line.contains("此处无路")), "the rope refused while the escort stands there: %s" % [ui.log_lines().slice(-4)])
 	# 跟车: under the oil-cloth, asked first, hoisted up with the boxes.
 	tarp.interact()
 	await tree.physics_frame

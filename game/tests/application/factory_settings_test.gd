@@ -142,7 +142,7 @@ func _rat(tree: SceneTree, session: WorldSessionController) -> bool:
 	if not _check(rat != null, "a rat upstairs"):
 		return false
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var aborted: int = CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before the rat")
 	var rat_body: WorldCharacterBody2D = upstairs.runtime_body_for_character(rat.character_id)
 	await MapPlaces.drive(tree, upstairs, MapPlaces.spot(upstairs, rat.world_location().zone_id, rat_body.global_position, 64.0))
 	# A rat may have come at the player on the way (they are aggressive): that fight is the one.
@@ -171,10 +171,11 @@ func _rat(tree: SceneTree, session: WorldSessionController) -> bool:
 		frames += 1
 		await tree.process_frame
 	_check(not coordinator.has_active_encounter(), "the fight ends (%d frames, %d orders)" % [frames, orders])
-	_check(orders >= 2 and waits >= 2, "fought by orders, the round waiting for them: %d orders, %d waits" % [orders, waits])
+	# A rat has little 气: one blow may end it, so one order is enough; each was waited for.
+	_check(orders >= 1 and waits >= orders, "fought by orders, the round waiting for each: %d orders, %d waits" % [orders, waits])
 	# A wound past its life kills outright (damage.c die()); one that only fells it waits on the choice.
 	_check(rat.life_status == CharacterRuntimeLifeStatus.Value.DEAD and coordinator.held_victims().is_empty(), "the rat dead, nobody left waiting on 了结 / 放过 (%d 了结)" % finished)
-	_check(CombatEncounterCoordinator.take_aborted_total() == aborted, "no fight aborted")
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted")
 	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "the player stands")
 	# The panel's hold over, as a player walks on after.
 	frames = 0

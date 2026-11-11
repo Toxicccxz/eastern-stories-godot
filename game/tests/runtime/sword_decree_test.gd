@@ -20,7 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_decree(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
@@ -175,9 +175,11 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(snapshot != null and decoded.snapshot != null and decoded.snapshot.player.character.quests == state.quests and decoded.snapshot.player.character.deeds.size() == state.deeds.size() and decoded.snapshot.player.character.deeds[-1].equals(state.deeds[-1]), "saved and read back: %s" % [decoded.detail])
-	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.prologue_done)
-	_check(handoff.is_empty(), "寻剑令 played leaves what prologue_done writes: %s" % [handoff])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
+	# (played on into 伪墓, story_through_test checks it).
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.prologue_done)
+		_check(handoff.is_empty(), "寻剑令 played leaves what prologue_done writes: %s" % [handoff])
 
 
 func _session(tree: SceneTree) -> WorldSessionController:
