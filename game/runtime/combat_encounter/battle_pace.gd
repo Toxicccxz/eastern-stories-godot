@@ -29,7 +29,8 @@ static var opening: int = Opening.FULL
 ## player's order each round unless this is off (the panel's 自动 button); the suites run
 ## auto (run_suite.gd). Not saved.
 static var manual_turns: bool = true
-## The player's stance (CombatStance), kept from fight to fight; 攻 at New Game.
+## The player's stance (CombatStance), kept from fight to fight; 攻 at every session's start
+## (OldPineGameRuntimeHost: New Game and Continue alike, so no other character's stance carries).
 static var stance: int = CombatStance.Value.ATTACK
 
 

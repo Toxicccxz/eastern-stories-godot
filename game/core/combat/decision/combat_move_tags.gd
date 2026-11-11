@@ -60,8 +60,9 @@ static func attack_percent(tag: StringName, other: StringName, bonus: int, count
 	return percent
 
 
-## The damage percent for `tag`: heavy +p, the rest −p, plus the counter. 战斗拍数 E:
-## `heavy_whole`, a heavy's lean goes on its whole blow instead (CombatPowerRules.heavy_blow_percent).
+## The damage percent for `tag`: heavy +p, the rest −p, plus the counter; the resolver puts it
+## on the whole blow (DECISIONS「姿态整记」). 战斗拍数 E: `heavy_whole`, a heavy's lean is
+## CombatPowerRules.heavy_blow_percent instead of +p.
 static func damage_percent(tag: StringName, other: StringName, bonus: int, counter: int, heavy_whole: bool = false) -> int:
 	var percent: int = 0
 	if tag == HEAVY:

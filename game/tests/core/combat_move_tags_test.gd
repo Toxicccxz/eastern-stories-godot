@@ -108,6 +108,14 @@ func _resolve(input: CombatAttackInput) -> Array:
 	return [rng.requested_bounds(), 100 - vitality.current, result]
 
 
+## As _resolve, with a strength draw of 10 after the damage draw.
+func _resolve_strong(input: CombatAttackInput) -> Array:
+	var vitality := CharacterResourceState.new(200, 200, 200)
+	var rng := ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0])
+	var result: CombatAttackResult = CombatAttackResolver.resolve(input, CharacterResourceState.new(100, 100, 100), vitality, CharacterResourceState.new(100, 100, 100), rng)
+	return [rng.requested_bounds(), 200 - vitality.current, result]
+
+
 func _test_resolver_percents() -> void:
 	# Level 10 against level 10 (unarmed): ap 333, dp 333, pp 333 under the classic curve.
 	var classic: CombatPowerRules = CombatPowerRules.classic()
@@ -127,6 +135,12 @@ func _test_resolver_percents() -> void:
 	_assert_eq([feint[0], feint[1]], [[1, 666, 600, 40], 28], "虚: the parry power −20 % (bound 600), damage −20 %")
 	var stance: Array = _resolve(_input(CombatMoveTags.NONE, rules, &"", 0, 20, 20, -20))
 	_assert_eq([stance[0], stance[1]], [[1, 732, 600, 40], 42], "the round's percents: dodge +20 (bound 732), parry −20 (600), damage +20")
+	# DECISIONS「姿态整记」: the percents weigh the whole blow, strength too — an unarmed fighter's
+	# weapon share alone is all a 攻 used to raise. Strength 20 (draw 10): 35 + (20 + 10) / 2 = 50.
+	var strong_plain: Array = _resolve_strong(_input(CombatMoveTags.NONE, rules, &"", 0, 0, 0, 0, 20))
+	var strong_stance: Array = _resolve_strong(_input(CombatMoveTags.NONE, rules, &"", 0, 20, 0, 0, 20))
+	var strong_quick: Array = _resolve_strong(_input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 20))
+	_assert_eq([strong_plain[1], strong_stance[1], strong_quick[1]], [50, 60, 40], "with strength: 平 50, 攻 +20 % on the whole 60 (not 57), 快 −20 % 40 (not 43)")
 	var no_rules: Array = _resolve(_input(CombatMoveTags.NONE, rules, &"", 0, 0, 0, 0))
 	_assert_eq(no_rules.slice(0, 2), plain.slice(0, 2), "zero percents: untouched even with the knobs on")
 
@@ -150,7 +164,7 @@ func _test_heavy_blow() -> void:
 	var weak: CombatAttackInput = _input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 20, true)
 	var weak_vitality := CharacterResourceState.new(200, 200, 200)
 	CombatAttackResolver.resolve(weak, CharacterResourceState.new(100, 100, 100), weak_vitality, CharacterResourceState.new(100, 100, 100), ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0]))
-	_assert_eq([200 - vitality.current, 200 - weak_vitality.current], [125, 43], "the strength's share is weighed too: 重 %d against 快 %d" % [200 - vitality.current, 200 - weak_vitality.current])
+	_assert_eq([200 - vitality.current, 200 - weak_vitality.current], [125, 40], "the strength's share is weighed too (快 −20 % on the whole 50, DECISIONS「姿态整记」): 重 %d against 快 %d" % [200 - vitality.current, 200 - weak_vitality.current])
 
 
 func _test_records_and_presets() -> void:
@@ -176,7 +190,7 @@ func _test_records_and_presets() -> void:
 	_assert_eq([side.read(&"p").damage_percent, side.read(&"p").dodge_percent, side.read(&"p").parry_percent, side.read(&"p").attack_percent], [20, -20, -20, 0], "攻: damage +p, dodge and parry −p")
 	CombatStance.apply(side.side(&"g"), CombatStance.Value.GUARD, 20)
 	CombatStance.apply(side.side(&"e"), CombatStance.Value.EVADE, 20)
-	_assert_true(side.read(&"g").parry_percent == 20 and side.read(&"g").damage_percent == -20 and side.read(&"e").dodge_percent == 20 and side.read(&"e").attack_percent == -20 and side.read(&"nobody").dodge_percent == 0, "守: parry +p, damage −p; 游走: dodge +p, attack −p; others nothing")
+	_assert_true(side.read(&"g").parry_percent == 20 and side.read(&"g").damage_percent == -20 and side.read(&"e").dodge_percent == 20 and side.read(&"e").attack_percent == -10 and side.read(&"nobody").dodge_percent == 0, "守: parry +p, damage −p; 游走: dodge +p, attack −p/2; others nothing")
 
 
 func _assert_true(value: bool, message: String) -> void:
