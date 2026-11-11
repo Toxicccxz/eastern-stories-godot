@@ -770,6 +770,11 @@ func drop_item(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
 	return result
 
 
+## Whether drop_item() would destruct the carried `item_id` (drop.c: worth nothing).
+func drop_destroys(item_id: StringName) -> bool:
+	return can_handle_items() and ItemHandlingService.drop_destroys(item_id, item_authorities())
+
+
 ## A container lying in the player's place within reach (feature/move.c
 ## max_encumbrance), the selected one first; empty when none is.
 func container_in_reach() -> StringName:

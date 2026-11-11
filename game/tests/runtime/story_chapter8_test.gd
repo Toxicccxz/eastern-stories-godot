@@ -307,6 +307,8 @@ func _test_keep(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(not ui.is_asking() and not session.player_held_item_ids().get(SWORD, false) and ui.log_lines().any(func(line: String) -> bool: return line.contains("等三器齐了再拔")), "%s: the sword left for the 终章" % ledger)
 	_check(chamber.drop_item(_held(session, FEATHER)).lines.any(func(line: String) -> bool: return line.contains("不能丢")), "%s: the feather is not dropped" % ledger)
+	# DECISIONS「任务物品不丢」: she knows her feather in the player's hand (asker_carries by its alias 羽).
+	_check(chamber.select_npc(MapPlaces.npc_at(session, &"village.seal_altar.lihong.1").character_id) and chamber.ask_selected("留下").any(func(line: String) -> bool: return line.contains("那片羽在你手里")), "%s: 璃虹 on 留下 knows the feather in hand" % ledger)
 	var up: ActService = chamber.service(&"village.seal_altar.pool") as ActService
 	_check(up != null and await MapPlaces.drive(tree, chamber, MapPlaces.service_spot(chamber, &"village.seal_altar.pool")) and up.in_reach() and up.verb() == "游上去", "%s: 潭口 · 游上去" % ledger)
 	up.interact()

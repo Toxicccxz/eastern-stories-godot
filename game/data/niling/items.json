@@ -72,6 +72,7 @@
 			"material": "paper",
 			"weight": 300,
 			"value": 10,
+			"no_drop": "这叠文书不能随便丢。",
 			"act": {
 				"verb": "翻看",
 				"command": "read",
@@ -130,7 +131,8 @@
 			"unit": "卷",
 			"material": "paper",
 			"weight": 300,
-			"value": 0
+			"value": 0,
+			"no_drop": "这卷残卷不能随便丢。"
 		},
 		{
 			"id": "native:niling/body_huo",

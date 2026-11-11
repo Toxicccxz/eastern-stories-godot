@@ -250,6 +250,17 @@ static func drop(player: WorldPlayerRuntimeState, id: StringName, amount: int, f
 	return result
 
 
+## Whether drop() of the carried `id` would destruct it (worth nothing, and not no_drop): the
+## 背包 asks first (owner, modern fixes; DECISIONS「任务物品不丢」), drop.c asks nothing.
+static func drop_destroys(id: StringName, authorities: Authorities) -> bool:
+	if authorities == null or not authorities.is_valid():
+		return false
+	var content: ItemContentDefinition = _content(authorities, id)
+	if content == null or content.no_drop or not authorities.context.inventory.is_direct_child(id, authorities.context.endpoint()):
+		return false
+	return HeldItemFacts.value_of(id, content, authorities.context.stacks, authorities.foods) == 0
+
+
 ## put.c: into a container (feature/move.c set_max_encumbrance()) where the player
 ## is; it takes what fits under its capacity.
 static func put(player: WorldPlayerRuntimeState, id: StringName, amount: int, container_id: StringName, authorities: Authorities) -> ItemHandlingResult:
