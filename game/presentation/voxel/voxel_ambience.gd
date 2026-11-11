@@ -41,14 +41,15 @@ var guiding_wind: Vector2 = Vector2.ZERO
 var camera: Camera3D
 ## What the camera sees (local units): the middle of the screen and its right and up, and how
 ## far the screen reaches along them, grown by SEEN_MARGIN (a flag's cloth, a puff's rise reach
-## past where they hang). The view is orthogonal, so a thing is on screen exactly when its offset
-## along right and up is within that; `_watching` false (no camera, another projection): all of it.
+## past where they hang, a waterfall's spray past its foot, a ferry past its middle). The view is
+## orthogonal, so a thing is on screen exactly when its offset along right and up is within that;
+## `_watching` false (no camera, another projection): all of it.
 var _watching: bool = false
 var _sight_origin := Vector3.ZERO
 var _sight_right := Vector3.RIGHT
 var _sight_up := Vector3.UP
 var _sight_half := Vector2.ZERO
-const SEEN_MARGIN: float = 3.0
+const SEEN_MARGIN: float = 4.0
 ## Whether lamps cast shadows now (the view sets it from the lighting): a stirring flag's
 ## shadow is then cast by a still copy (`_shadow_flag`).
 var lamp_shadows: bool = false
