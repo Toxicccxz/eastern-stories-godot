@@ -1,12 +1,16 @@
 extends RefCounted
 
-## Hours of world time on Snow and Old Pine (about three; ES_SOAK_HOURS=<n> runs
-## longer): the player stays five minutes in every room in turn, knocks a trainee out,
-## kills an NPC every half hour and sells a floor item, while rooms reset and NPCs
-## wander, heal and come to. Each stay ends with a Save, restored and compared every
-## ten minutes; every hour play goes on in the restored world, as after Continue. Nothing
-## may stall: fights end, nobody stays busy, out cold, mid-walk, dead past its room's
-## reset or away from home past it, no fight aborts and no error is logged.
+## Hours of world time across every region (about three; ES_SOAK_HOURS=<n> runs longer):
+## the player stays five minutes in every room in turn, knocks a trainee out, kills an NPC
+## every half hour and sells a floor item, while rooms reset and NPCs wander, heal and come
+## to. The rooms go round the regions in a fixed order (snow, then one room of each region
+## in turn), so a run is the same run every time and a longer one reaches all of them. The
+## day turns (TestDay: five game hours a stay, nearly six days and their nights), the
+## gangs' alert beat and the modern death price are on, as the player has them. Each stay
+## ends with a Save, restored and compared every ten minutes; every hour play goes on in
+## the restored world, as after Continue. Nothing may stall: fights end, nobody stays busy,
+## out cold, mid-walk, dead past its room's reset or away from home past it, no fight
+## aborts and no error is logged.
 ## TEST-ONLY: the player is strong enough to win every fight and is placed in each room
 ## instead of walking there (the windowed walkthrough walks them).
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
@@ -36,7 +40,6 @@ const ENTRIES: Dictionary[StringName, Array] = {
 	&"snow.cellar": [&"snow.secret_storage", &"snow.secret_storage.stairs_arrival"],
 	&"oldpine.outdoor": [&"oldpine.outdoor.central_clearing", &"oldpine.outdoor.central_clearing.player_start"],
 }
-const OLD_PINE_ROOMS: Array[StringName] = [&"oldpine.outdoor.north_approach", &"oldpine.outdoor.slope"]
 ## Killed in turn, one every KILL_EVERY_STAYS stays (spawn point, its map).
 const VICTIMS: Array[Array] = [
 	[&"snow.eroad2.dog.1", &"snow.outdoor"], [&"snow.sroad2.farmer.1", &"snow.outdoor"],
@@ -44,6 +47,18 @@ const VICTIMS: Array[Array] = [
 	[&"snow.herbshop.woodcutter.1", &"snow.herbshop_house"], [&"snow.inn_2f.rat.1", &"snow.inn_upstairs"],
 ]
 const SWORD_POINT: StringName = &"snow.weapon_storage.bamboo_sword.1"
+## The stays of a run without ES_SOAK_HOURS: about the time the Snow-only soak took on CI (39
+## stays there, 415 s; a stay in a region not seen for hours catches up more: 36 stays took
+## 547 s), every region reached by the 23rd. CI's suite timeout is 600 s and the soak is the
+## longest suite.
+const DEFAULT_STAYS: int = 28
+## Rooms that start the round: the 竹剑's shelf first (time to reset within the soak), the
+## trainee's yard, then the regions in turn.
+const FIRST_ROOMS: Array[StringName] = [&"snow.weapon_storage", &"snow.school2"]
+## Snow first (the victims and the 竹剑 are there), then the rest as the world opens up.
+const REGION_ORDER: Array[String] = ["snow", "oldpine"]
+const NIGHT_PHASES: Array[StringName] = [&"night", &"midnight"]
+const REGIONS_AT_LEAST: int = 18
 
 
 ## Script errors and push_error() (a room reset that could not lay its item, say).
@@ -81,15 +96,24 @@ var _sword_gone_at: int = -1
 var _sword_back: bool = false
 var _stopped: bool = false
 var _restore_msec: int = 0
+var _visited_regions: Dictionary[String, bool] = {}
 
 
 func run_all(tree: SceneTree) -> Dictionary:
 	_tree = tree
 	var errors := LoggedErrors.new()
 	OS.add_logger(errors)
-	# The world as the game runs it: its people move while the player is away (TestAway).
+	# The world as the game runs it: its people move while the player is away (TestAway), the
+	# day turns (TestDay), a gang shouts before it falls on the player (TestAlert), and death
+	# costs the modern price (TestDeath; no autosave here: no runtime host).
 	TestAway.use()
+	TestDay.use()
+	TestAlert.use()
+	TestDeath.use()
 	await _soak()
+	TestDeath.restore()
+	TestAlert.restore()
+	TestDay.restore()
 	TestAway.restore()
 	OS.remove_logger(errors)
 	check(errors.lines.is_empty(), "no error logged in %d world seconds: %s" % [_now, errors.lines.slice(0, 5)])
@@ -136,25 +160,25 @@ func _soak() -> void:
 	player.state.progression.combat_experience = 1000000
 	player.state.recovery.inner_force.maximum = 39600
 	player.state.vitality = CharacterResourceState.new(10000, 10000, 10000)
-	var rooms: Array[StringName] = []
-	for zone: ZoneDefinition in GameContent.catalog().zones():
-		if String(zone.zone_id).begins_with("snow."):
-			rooms.append(zone.zone_id)
-	rooms.append_array(OLD_PINE_ROOMS)
-	# The 竹剑 goes first, so its shelf has time to reset within the soak.
-	rooms.erase(&"snow.weapon_storage")
-	rooms.push_front(&"snow.weapon_storage")
+	var rooms: Array[StringName] = _rooms()
 	var hours: float = float(OS.get_environment("ES_SOAK_HOURS")) if OS.has_environment("ES_SOAK_HOURS") else 0.0
-	var stays: int = rooms.size() if hours <= 0.0 else ceili(hours * 3600.0 / STAY_SECONDS)
+	var stays: int = DEFAULT_STAYS if hours <= 0.0 else ceili(hours * 3600.0 / STAY_SECONDS)
+	var nights: int = 0
+	var was_night: bool = false
 	for stay: int in stays:
 		var room: StringName = rooms[stay % rooms.size()]
 		if not await _enter(room):
 			check(false, "could not place the player in %s" % room)
 			return
+		_visited_regions[String(room).get_slice(".", 0)] = true
 		await _act(stay, room)
 		await _pass(STAY_SECONDS)
 		if _stopped:
 			return
+		var night: bool = NIGHT_PHASES.has(_session.day_phase_id())
+		if night and not was_night:
+			nights += 1
+		was_night = night
 		if not await _settle_for_save():
 			return
 		var snapshot: GameSaveSnapshot = Work.capture(_session)
@@ -167,8 +191,44 @@ func _soak() -> void:
 				return
 			_restore_msec += Time.get_ticks_msec() - started
 	check(_fights >= stays / KILL_EVERY_STAYS, "the fights happened: %d" % _fights)
+	# A day is day_length_minutes real minutes (DayClock); a stay ends five game hours on.
+	var days: int = _now / (GameContent.catalog().pacing().day_length_minutes * 60)
+	check(nights >= days - 1 and (days < 2 or nights >= 1), "the day turned: %d nights in %d days" % [nights, days])
+	check(_visited_regions.size() >= mini(stays - 2, REGIONS_AT_LEAST), "the stays went round the regions: %s" % [_visited_regions.keys()])
 	check(_knockouts >= 1 and _wakings >= _knockouts, "every knocked-out NPC came to: %d of %d" % [_wakings, _knockouts])
 	check(_respawns >= 1 and _homecomings >= 1 and _sword_back, "rooms reset: %d respawns, %d homecomings, sword back %s" % [_respawns, _homecomings, _sword_back])
+
+
+## Every room once, in a fixed order: FIRST_ROOMS, then one room of each region in turn
+## (REGION_ORDER first, the rest by name), each region's rooms in the catalog's order.
+func _rooms() -> Array[StringName]:
+	var by_region: Dictionary[String, Array] = {}
+	for zone: ZoneDefinition in GameContent.catalog().zones():
+		if FIRST_ROOMS.has(zone.zone_id):
+			continue
+		var region: String = String(zone.zone_id).get_slice(".", 0)
+		if not by_region.has(region):
+			by_region[region] = []
+		by_region[region].append(zone.zone_id)
+	var regions: Array[String] = REGION_ORDER.duplicate()
+	var rest: Array[String] = []
+	for region: String in by_region:
+		if not regions.has(region):
+			rest.append(region)
+	rest.sort()
+	regions.append_array(rest)
+	var rooms: Array[StringName] = FIRST_ROOMS.duplicate()
+	var turn: int = 0
+	var left: bool = true
+	while left:
+		left = false
+		for region: String in regions:
+			var list: Array = by_region.get(region, [])
+			if turn < list.size():
+				rooms.append(list[turn])
+				left = true
+		turn += 1
+	return rooms
 
 
 ## One stay's own action: the 竹剑 taken and sold, a knock-out, or a kill.
@@ -224,12 +284,19 @@ func _act(stay: int, room: StringName) -> void:
 			if npc != null:
 				break
 		check(npc != null, "someone at %s" % victim[0])
-		# A victim still dead from an earlier stay waits for its room's reset.
+		# A victim still dead from an earlier stay waits for its room's reset. By night people walk
+		# home (DECISIONS「夜里冷清」): one may cross into the next room between the step beside it and
+		# the blow (DIFFERENT_LOCATION), so the player steps beside it again, a few times at most.
 		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-			check(_beside(map, npc), "beside %s" % victim[0])
-			await _tree.physics_frame
-			map.select_npc(npc.character_id)
-			check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter(), "attack %s" % victim[0])
+			var outcome: int = -1
+			for attempt: int in 4:
+				check(_beside(map, npc), "beside %s" % victim[0])
+				await _tree.physics_frame
+				map.select_npc(npc.character_id)
+				outcome = map.attack_selected().outcome
+				if outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter():
+					break
+			check(outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter(), "attack %s (%d, %s)" % [victim[0], outcome, _where()])
 
 
 ## World time in one-second steps, as frames pass it, with a physics frame every ten

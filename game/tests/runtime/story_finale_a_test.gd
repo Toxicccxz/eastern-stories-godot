@@ -18,6 +18,7 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const QuestPageScript := preload("res://ui/world/quest_page.gd")
 const SWORD: StringName = &"native:lancheng/xuanmang"
 const LAKESIDE: StringName = &"village.lakeside"
@@ -85,7 +86,11 @@ func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not rows.contains("只能再封") and not rows.contains("庾子建"), "nothing missing")
 	# 等到天黑: asked first, the 决战前 save asked for, the night, every place held.
 	var asked: Array[int] = [0]
-	session.keep_save_requested.connect(func() -> void: asked[0] += 1)
+	# The 决战前 save as the host takes it the moment it is asked for (GameAutosave.begin() on the keep slot).
+	var kept: Array[GameSaveSnapshot] = [null]
+	session.keep_save_requested.connect(func() -> void:
+		asked[0] += 1
+		kept[0] = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-11T00:00:00Z", null, GameSaveSnapshot.KEEP_SLOT_ID, false).snapshot)
 	session.day_clock().set_day_seconds(43200) # TEST-ONLY: the day
 	await _act(tree, lake, &"village.lakeside.wait")
 	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("决战前"), "等到天黑 asked first: the 决战前 save named")
@@ -107,6 +112,23 @@ func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	session.record_journal()
 	_check(session.active_map().map_id() == &"village.icecave" and state.marks.get("终章下了湖底", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"hall", "down into the ice cave: the 冰龙厅 next")
+	# The 决战前 save taken out and read back (Continue from the keep slot): the lakeside before the battle.
+	if not _check(kept[0] != null and kept[0].metadata.slot_id == GameSaveSnapshot.KEEP_SLOT_ID, "the 决战前 save was taken the moment it was asked for"):
+		return
+	var text: String = GameSaveJsonCodec.encode(kept[0]).text
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(text).snapshot, tree.root)
+	if not _check(restored.succeeded() and restored.candidate.activate_restore_candidate(), "the 决战前 save restores: %s" % restored.path):
+		if is_instance_valid(restored.candidate):
+			restored.candidate.free()
+		return
+	var before: WorldSessionController = restored.candidate
+	var again: GameSaveSnapshot = OldPineWorldSaveCapture.new().capture(before, &"test", "2026-09-11T00:00:00Z", null, GameSaveSnapshot.KEEP_SLOT_ID, false).snapshot
+	_check(again != null and before.player_runtime().world_location().zone_id == LAKESIDE and before.active_map_id() == MapPlaces.map_of(LAKESIDE), "Continue from it: at the lakeside (%s)" % before.player_runtime().world_location().zone_id)
+	var before_quest: StoryQuestDefinition.Step = StoryQuestLog.current_step(before.player_runtime().state, quest)
+	_check(before_quest != null and before_quest.step_id in [&"gather", &"shore"] and before.player_runtime().state.marks.get("点过将", 0) == 1, "before the battle: the 点将 done, the shore ahead (%s)" % [before_quest.step_id if before_quest != null else &""])
+	_check(again != null and GameSaveJsonCodec.encode(again).text == text, "read back exactly as it was kept")
+	before.free()
+	await tree.process_frame
 
 
 func _test_hard(tree: SceneTree, session: WorldSessionController) -> void:
@@ -268,7 +290,8 @@ func _settle(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-func _check(condition: bool, message: String) -> void:
+func _check(condition: bool, message: String) -> bool:
 	_count += 1
 	if not condition:
 		_failures.append(message)
+	return condition

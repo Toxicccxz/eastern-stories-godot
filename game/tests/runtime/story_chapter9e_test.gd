@@ -11,6 +11,7 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const MANUAL: StringName = &"native:imperial/palace_blade_manual"
 const FENG: StringName = &"native.npc.feng_ce"
 const YU: StringName = &"city.npc.shangshu.shangshu"
@@ -112,6 +113,13 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	var ge: NpcRuntimeState = _first(session, &"city.jiaowu", GE)
 	_check(ge != null and school.select_npc(ge.character_id) and _said(school.ask_selected("庾尚书"), "下了狱"), "expose: 葛升: 尚书下了狱")
 	_check(_first(session, &"city.wumen", SONG) == null, "expose: no 宋朴 at the 午门")
+	# Save and Continue with the ninth chapter done, exact.
+	var walker: RefCounted = Work.new()
+	await walker.round_trip(tree, session, Work.capture(session), "第九章 E (expose)")
+	_check(walker._failures.is_empty(), "expose: the save reads back exactly: %s" % [walker._failures])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind("expose", false, true, false))
+	_check(handoff.is_empty(), "第九章 E played (expose) leaves what chapter9_done(expose) writes: %s" % [handoff])
 
 
 func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
@@ -130,6 +138,9 @@ func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
 	MapPlaces.enter(session, &"city.xiangguo_yard", &"city.xiangguo_yard.qing_chen.1") # TEST-ONLY
 	await _settle(tree)
 	_check(_first(session, &"city.xiangguo_yard", QING) == null, "deal: nobody new in the 相国府's yard")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind("deal", false, true, false))
+	_check(handoff.is_empty(), "第九章 E played (deal) leaves what chapter9_done(deal) writes: %s" % [handoff])
 
 
 func _said(lines: Array, part: String) -> bool:

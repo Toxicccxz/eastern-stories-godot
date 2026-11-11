@@ -313,7 +313,14 @@ func _test_keep(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	await _settle(tree)
 	_check(session.active_map().map_id() == &"village.icecave" and session.player_runtime().world_location().zone_id == &"village.lakebottom2", "%s: back in the hall" % ledger)
-	_check(Work.capture(session) != null, "%s: a save with the feather" % ledger)
+	# Save and Continue with the feather, exact (the eighth chapter's own round trip).
+	Work.login_maxima(session) # TEST-ONLY: the strength the suite gave, as Continue derives it
+	var walker: RefCounted = Work.new()
+	await walker.round_trip(tree, session, Work.capture(session), "%s: with the feather" % ledger)
+	_check(walker._failures.is_empty(), "%s: a save with the feather reads back exactly: %s" % [ledger, walker._failures])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter8_done.bind(false, true, true))
+	_check(handoff.is_empty(), "湖底 played (kept) leaves what chapter8_done(keep) writes: %s" % [handoff])
 
 
 func _test_pull(tree: SceneTree, session: WorldSessionController) -> void:
@@ -365,6 +372,9 @@ func _test_pull(tree: SceneTree, session: WorldSessionController) -> void:
 	var cave: WorldMapController = session.active_map() as WorldMapController
 	_check(cave.map_id() == &"village.icecave" and ui.log_lines().any(func(line: String) -> bool: return line.contains("到人家里去")) and _count_in(session, &"village.seal_altar", LIHONG_WEAK) == 0, "%s: back in the hall, 璃虹 gone ashore ahead" % ledger)
 	await _test_night(tree, session, ledger)
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter8_done.bind(true, false, false))
+	_check(handoff.is_empty(), "湖底 played (pulled, the night) leaves what chapter8_done(pull) writes: %s" % [handoff])
 
 
 ## 第八章 B: the night after the sword, from the lakeside (TEST-ONLY: the player set down on the shore).
@@ -472,7 +482,11 @@ func _test_night(tree: SceneTree, session: WorldSessionController, ledger: Strin
 	_check(farm != null and state.marks.get("农妇问过你", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("你拔的")), "%s: the farmwife: 你拔的？" % ledger)
 	var woman: NpcRuntimeState = MapPlaces.npc_at(session, &"village.fmhousback.woman1.1")
 	_check(woman != null and farm.select_npc(woman.character_id) and farm.ask_selected("鬼卒").any(func(line: String) -> bool: return line.contains("钢叉")), "%s: 问 鬼卒" % ledger)
-	_check(Work.capture(session) != null, "%s: a save after the night" % ledger)
+	# Save and Continue after the night, exact.
+	Work.login_maxima(session) # TEST-ONLY: the strength the suite gave, as Continue derives it
+	var walker: RefCounted = Work.new()
+	await walker.round_trip(tree, session, Work.capture(session), "%s: after the night" % ledger)
+	_check(walker._failures.is_empty(), "%s: a save after the night reads back exactly: %s" % [ledger, walker._failures])
 
 
 ## The scene's staged furnishings of `kind` now on (`on` true) or off the stage.

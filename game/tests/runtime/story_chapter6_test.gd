@@ -261,6 +261,9 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	var guo: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.drill.guo_cheng.1")
 	_check(guo != null and state.marks.get("郭承跟上了", 0) == 1 and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and ui.log_lines().any(func(line: String) -> bool: return line.contains("六骑听你的")), "郭承: 王爷的话到了 — he follows: %s" % [ui.log_lines().slice(-3)])
 	_check(_ask(court, guo, "潜入").any(func(line: String) -> bool: return line.contains("白天踏过去")), "潜入 of 郭承 after 借兵: 不用潜")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true))
+	_check(handoff.is_empty(), "关北 A–B played (借兵) leaves what chapter6_planned(raid) writes: %s" % [handoff])
 
 
 ## A man from the release: the letter opens the gate; (TEST-ONLY) four taels refused, five taken;
@@ -450,6 +453,9 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	var inn: WorldMapController = await _go_with(tree, session, &"guanbei.inn_hall")
 	var lao_qin: NpcRuntimeState = await _beside(tree, session, inn, &"guanbei.inn_hall.lao_qin.1")
 	_check(_ask(inn, lao_qin, "工地").any(func(line: String) -> bool: return line.contains("该踏平")), "老秦: 那地方该踏平")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true))
+	_check(handoff.is_empty(), "关北 C played (the raid) leaves what chapter6_site_done(raid) writes: %s" % [handoff])
 
 
 ## 潜入 (关北 C): the 工地 by day turns the player away; 等到天黑 at the fire; the night's four 枷, the watch,
@@ -588,6 +594,9 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 		await _settle(tree)
 	var cheng2: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.palace_hall.cheng_shuo.1")
 	_check(hall2 != null and state.marks.get("程朔知道了", 0) == 1 and state.marks.get("王府干净", 0) == 1 and cheng2 != null and cheng2.has_flag(StringName(NpcMood.FLAG_PREFIX + "clean")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("王府不知道")), "程朔 in his 干净 mood: 夜里的事，王府不知道: %s" % [ui.log_lines().slice(-3)])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false))
+	_check(handoff.is_empty(), "关北 C played (the sneak) leaves what chapter6_site_done(sneak) writes: %s" % [handoff])
 
 
 ## TEST-ONLY: MapPlaces.go_to with 郭承 given time to walk after the player at each door (go.c follow_me():

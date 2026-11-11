@@ -247,6 +247,9 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_ask(hotel, boss, "武官").any(func(line: String) -> bool: return line.contains("进了衙门就没再回来")), "汤掌柜: 进了衙门就没再回来")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter5_escorted)
+	_check(handoff.is_empty(), "人证 played (escorted) leaves what chapter5_escorted writes: %s" % [handoff])
 
 
 ## A man from the taken robe: the chest returned first, the 抄本 from his hand, 走吧, the trial without him.
@@ -341,6 +344,9 @@ func _test_released(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hotel != null and _count_in(session, &"choyin.hotel1", SERGEANT) == 0, "the 武官's stool empty (until release)")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter5_released)
+	_check(handoff.is_empty(), "人证 played (released) leaves what chapter5_released writes: %s" % [handoff])
 
 
 ## TEST-ONLY: the player beside the NPC of `point_id`, a heart beat after (its reaction call or scene).

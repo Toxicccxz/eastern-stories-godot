@@ -22,6 +22,10 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# The day at the game's length (TestDay): wait_until_phase() turns the hours it waits into
+	# real seconds by it, and with the day standing still an evening's wait would be years of
+	# recovery, resets and catch-up. The sessions here do not process, so no frame moves it.
+	TestDay.use()
 	_test_data()
 	await _test_person(tree)
 	var session: WorldSessionController = Work.create_session(tree)
@@ -41,6 +45,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_night(tree, session)
 	session.free()
 	await tree.process_frame
+	TestDay.restore()
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
