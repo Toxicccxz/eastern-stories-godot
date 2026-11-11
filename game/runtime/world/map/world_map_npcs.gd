@@ -519,10 +519,18 @@ func reset_room(legacy_room: String) -> void:
 		if landmark.legacy_source_path == legacy_room:
 			_map.floor_items.landmark_use_counts.erase(landmark.landmark_id)
 	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map):
-		if spawn.legacy_source_room_path != legacy_room or spawn.starts_absent:
+		if spawn.legacy_source_room_path != legacy_room:
+			continue
+		# DECISIONS「主线卡死点」: an ES2 room's own people the story takes off one day are made anew
+		# where they died while they are on the stage (NpcSpawnDefinition.resident); the living are
+		# left as the story has them (陈显祖 following the player out of the 福林酒楼).
+		var resident: bool = spawn.resident and _resident_on_stage(spawn)
+		if spawn.starts_absent and not resident:
 			continue
 		for point_id: StringName in spawn.spawn_point_ids():
 			var npc: NpcRuntimeState = _npc_at_point(point_id)
+			if resident and (npc == null or npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD):
+				continue
 			if npc == null:
 				# Gone through a door onto another map (a wanderer): brought home from there.
 				npc = session.bring_npc_home(point_id, _map)
@@ -547,6 +555,14 @@ func reset_room(legacy_room: String) -> void:
 					push_error("room reset could not lay %s on %s" % [spawn.item_definition_id, point_id])
 	for group: StringName in _draw_groups(legacy_room):
 		_draw_on_duty(group, true)
+
+
+## A resident spawn (only `until`) the story has not taken off its stage yet, by the player's state now.
+func _resident_on_stage(spawn: NpcSpawnDefinition) -> bool:
+	var player: WorldPlayerRuntimeState = null if session == null else session.player_runtime() as WorldPlayerRuntimeState
+	if player == null or player.state == null:
+		return false
+	return WorldStoryPresence.on_stage(spawn.present, spawn.until, player, session.player_held_item_ids(), session.player_worn_item_ids(), session.day_phase_id())
 
 
 ## The draw groups of this map's spawns, in authored order; of one room's, unless "".

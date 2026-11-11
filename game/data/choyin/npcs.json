@@ -350,6 +350,10 @@
 			"inquiry": {
 				"兵部文书": {
 					"rules": [
+						{ "asker_marks": ["堂审过", "陈显祖进了大堂", "程不平给了信"], "asker_lacks": ["程不平写了信"], "marks_asker": ["陈显祖作了证", "程不平写了信"], "lines": [{ "say": "陈显祖的供词录下了，信也给了你。他留在内厅——庾家的人进不了这道门。" }] },
+						{ "asker_marks": ["堂审过", "陈显祖进了大堂"], "asker_lacks": ["程不平写了信"], "gives": "native:choyin/magistrate_letter", "marks_asker": ["程不平给了信", "陈显祖作了证", "程不平写了信"], "lines": [{ "emote": "把录好的供词压在文书底下，另取一张纸写了一封信，封好，压上县印。" }, { "say": "堂没审完，供词本县录下了。这封信给家叔槐阳王——假印和失踪的人都往关北去了，拿着它去天驼关，军营的门会开。" }, { "say": "陈显祖留在衙门里。庾家的人进不了这道门。" }] },
+						{ "asker_marks": ["堂审过", "放走了陈显祖", "程不平给了信"], "asker_lacks": ["程不平写了信"], "marks_asker": ["只留了文书", "程不平写了信"], "lines": [{ "say": "信给了你。本县只能照纸写——退堂。" }] },
+						{ "asker_marks": ["堂审过", "放走了陈显祖"], "asker_lacks": ["程不平写了信"], "gives": "native:choyin/magistrate_letter", "marks_asker": ["程不平给了信", "只留了文书", "程不平写了信"], "lines": [{ "emote": "对着抄本和文书上的印看了半晌，提笔写了一封信，封好，压上县印。" }, { "say": "纸能证纸，不能证人。这封信给家叔槐阳王，本县只能照纸写——假印和失踪的人都往关北去了，拿着它去天驼关。" }] },
 						{ "asker_marks": ["程不平写了信"], "say": "文书本县看过了，信也写了。拿着信去天驼关——假印和失踪的人都往关北去了。" },
 						{ "asker_marks": ["程不平要人证"], "say": "文书本县看过了。印是真的——所以才要人证。福林酒楼里那位姓陈的武官，去问他。" },
 						{ "asker_carries": "文书", "mark_asker": "程不平要人证", "lines": [{ "emote": "接过文书，一张一张看过去，看到末尾的印，看了很久。" }, { "say": "印是兵部的，不假。纸是新的，字也是新的——这不是先帝的令。" }, { "say": "可要动兵部的人，须有人证：印是谁盖的，人去了哪，得有人站在这堂上说。纸能证纸，不能证人。" }, { "say": "本县指你一个人。福林酒楼里有个武官，姓陈，日日坐在堂下发呆，丢了一个箱子——二十年前老松岭那队白衣武官，他在里头。你把这文书拿给他看。" }] },
@@ -367,6 +371,10 @@
 				"槐阳王": ["家叔。本县这个县官，是叔父保举的——所以乔阴县的衙门，不认兵部的私令。"],
 				"供词": {
 					"rules": [
+						{ "asker_marks": ["堂审过", "陈显祖进了大堂", "程不平给了信"], "asker_lacks": ["程不平写了信"], "marks_asker": ["陈显祖作了证", "程不平写了信"], "lines": [{ "say": "陈显祖的供词录下了，信也给了你。他留在内厅——庾家的人进不了这道门。" }] },
+						{ "asker_marks": ["堂审过", "陈显祖进了大堂"], "asker_lacks": ["程不平写了信"], "gives": "native:choyin/magistrate_letter", "marks_asker": ["程不平给了信", "陈显祖作了证", "程不平写了信"], "lines": [{ "emote": "把录好的供词压在文书底下，另取一张纸写了一封信，封好，压上县印。" }, { "say": "堂没审完，供词本县录下了。这封信给家叔槐阳王——假印和失踪的人都往关北去了，拿着它去天驼关，军营的门会开。" }, { "say": "陈显祖留在衙门里。庾家的人进不了这道门。" }] },
+						{ "asker_marks": ["堂审过", "放走了陈显祖", "程不平给了信"], "asker_lacks": ["程不平写了信"], "marks_asker": ["只留了文书", "程不平写了信"], "lines": [{ "say": "信给了你。本县只能照纸写——退堂。" }] },
+						{ "asker_marks": ["堂审过", "放走了陈显祖"], "asker_lacks": ["程不平写了信"], "gives": "native:choyin/magistrate_letter", "marks_asker": ["程不平给了信", "只留了文书", "程不平写了信"], "lines": [{ "emote": "对着抄本和文书上的印看了半晌，提笔写了一封信，封好，压上县印。" }, { "say": "纸能证纸，不能证人。这封信给家叔槐阳王，本县只能照纸写——假印和失踪的人都往关北去了，拿着它去天驼关。" }] },
 						{ "asker_marks": ["陈显祖作了证"], "say": "陈显祖的供词有力：原令只一句，征民夫、拿人的不是先帝的令——人证、物证都在。叔父见了这封信，关北的兵不会再替人修官道。" },
 						{ "asker_marks": ["只留了文书"], "say": "没有供词，只有纸。本县写信时迟疑了半晌——叔父信不信纸，本县不敢说。" },
 						{ "say": "还没有供词。" }
@@ -378,11 +386,11 @@
 				{ "after": 1, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "mark": "陈显祖进了大堂" }, { "emote": "拿起惊堂木，没有拍下去，放回了书案上。" }, { "say": "堂下何人？" }] },
 				{ "after": 4, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.sergeant" }, { "emote": "跪下了。" }, { "say": "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。" }] },
 				{ "after": 8, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "抄本呈上来。" }, { "emote": "接过抄本，对着文书上的印看了半晌，提笔录供。" }, { "say": "印是兵部的，令不是先帝的。录了。" }] },
-				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "另取一张纸，写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。" }, { "give": "native:choyin/magistrate_letter" }] },
+				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "另取一张纸，写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。" }, { "give": "native:choyin/magistrate_letter" }, { "mark": "程不平给了信" }] },
 				{ "after": 16, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "陈显祖，你留在衙门里。庾家的人进不了这道门。" }, { "leave": "choyin.npc.sergeant" }, { "line": "两名带刀侍卫领着陈显祖进了内厅。\n" }, { "mark": "陈显祖作了证" }, { "mark": "程不平写了信" }] },
 				{ "after": 1, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "emote": "看了看堂下——只有你一个人。" }, { "say": "人证呢？" }] },
 				{ "after": 4, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "接过抄本，对着文书上的印看了半晌。" }, { "say": "纸能证纸，不能证人。你放他走了。" }] },
-				{ "after": 8, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "提笔，停了停，还是写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。" }, { "give": "native:choyin/magistrate_letter" }] },
+				{ "after": 8, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "提笔，停了停，还是写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。" }, { "give": "native:choyin/magistrate_letter" }, { "mark": "程不平给了信" }] },
 				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "退堂。" }, { "mark": "只留了文书" }, { "mark": "程不平写了信" }] },
 				{ "after": 1, "reaction": true, "mark": "替南危水保密", "not_mark": "程不平提过三叔", "npc_in": "choyin.yamen", "steps": [{ "say": "你上过水烟阁？那里有位南五长老——我们程家的人，家里当他死了二十年。……见没见过他，本县不问。" }, { "say": "说吧，你今天来，为的什么事。" }, { "mark": "程不平提过三叔" }] },
 				{ "after": 1, "reaction": true, "mark": "告发了南危水", "not_mark": "程不平提过三叔", "npc_in": "choyin.yamen", "steps": [{ "say": "水烟阁来了消息：南五长老装死二十年，让人告到了长老会。那是我们程家的人。……你来乔阴，是为别的事吧。说。" }, { "mark": "程不平提过三叔" }] }

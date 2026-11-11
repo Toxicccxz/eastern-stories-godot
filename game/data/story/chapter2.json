@@ -55,6 +55,7 @@
 				},
 				{
 					"id": "choice",
+					"keeps": ["waterfog.npc.elder5"],
 					"objective": "替南危水保密（他欠你一个人情，到了关北替你引见他哥哥槐阳王），还是告诉七长老颜违（颜违借这件事坐稳代盟主，南危水不会再和你同路）？",
 					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall", "npcs": ["waterfog.npc.elder5", "waterfog.npc.elder7"] },
 					"options": [

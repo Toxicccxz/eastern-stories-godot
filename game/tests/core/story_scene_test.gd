@@ -52,7 +52,7 @@ func _test_quest_condition() -> void:
 	_check(not JournalLog.holds(_when({"when": {"quest": "main.prologue/squared"}}), state, temps, held), "a longer key is another key")
 
 
-## A spawn on the stage: present / until read as whens; neither summoned nor drawn.
+## A spawn on the stage: present / until read as whens; never drawn, summoned only with a present.
 func _test_spawn_presence() -> void:
 	var errors: Array[String] = []
 	var spawn: NpcSpawnDefinition = NpcContentRecords.spawn_from_record(ContentRecordReader.new({
@@ -65,12 +65,31 @@ func _test_spawn_presence() -> void:
 		"id": "t.plain", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "r", "legacy_quantity": 1,
 	}, "test", errors))
 	_check(errors.is_empty() and not plain.staged and not plain.starts_absent, "a spawn without them is there from the start")
-	NpcContentRecords.spawn_from_record(ContentRecordReader.new({
-		"id": "t.bad", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "r", "legacy_quantity": 1,
+	# DECISIONS「主线卡死点」: a summoned spawn may be on the stage from its `present` on (a scene's late
+	# beat calls them; cut short, the stage puts them on), never with an `until` alone; a drawn one never.
+	var called: NpcSpawnDefinition = NpcContentRecords.spawn_from_record(ContentRecordReader.new({
+		"id": "t.called", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "r", "legacy_quantity": 1,
 		"summoned": true, "present": {"mark": "x"},
 	}, "test", errors))
-	_check(errors.size() == 1 and errors[0].contains("present"), "a summoned spawn is not on the stage: %s" % [errors])
+	_check(errors.is_empty() and called.summoned and called.staged and not called.remade_by_reset(), "a summoned spawn with a present: called, on the stage, never remade: %s" % [errors])
+	NpcContentRecords.spawn_from_record(ContentRecordReader.new({
+		"id": "t.bad", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "r", "legacy_quantity": 1,
+		"summoned": true, "until": {"mark": "x"},
+	}, "test", errors))
+	_check(errors.size() == 1 and errors[0].contains("present"), "a summoned spawn with an until alone is refused: %s" % [errors])
 	errors.clear()
+	NpcContentRecords.spawn_from_record(ContentRecordReader.new({
+		"id": "t.drawn", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "r", "legacy_quantity": 1,
+		"draw": "g", "present": {"mark": "x"},
+	}, "test", errors))
+	_check(errors.size() == 1 and errors[0].contains("present"), "a drawn spawn is not on the stage: %s" % [errors])
+	errors.clear()
+	# An ES2 room's own, only `until`: a resident, remade by the reset while on the stage.
+	var resident: NpcSpawnDefinition = NpcContentRecords.spawn_from_record(ContentRecordReader.new({
+		"id": "t.resident", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "d/x/room.c", "legacy_quantity": 1,
+		"until": {"mark": "x"},
+	}, "test", errors))
+	_check(errors.is_empty() and resident.resident and resident.remade_by_reset() and not spawn.resident and not spawn.remade_by_reset(), "an ES2 resident (until alone) is remade; a native staged one is not")
 	var item: ItemSpawnDefinition = ItemSpawnDefinition.from_record(ContentRecordReader.new({
 		"id": "t.item", "item": "t:thing", "map": "m", "zone": "z", "points": ["p1"], "legacy_room": "native", "legacy_quantity": 1,
 		"present": {"quest": "q/step"},

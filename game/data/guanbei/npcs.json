@@ -2239,6 +2239,69 @@
 					"present": "native.npc.guo_cheng",
 					"steps": [
 						{
+							"mark": "工地打起来了"
+						},
+						{
+							"by": "native.npc.lu_sun"
+						},
+						{
+							"say": "拿下！"
+						},
+						{
+							"line": "六个白衣武官抽了剑围上来。栅栏外马蹄声炸响——王府的六骑冲了进来！\n",
+							"color": "HIR"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"leave": "native.npc.site_officer"
+						},
+						{
+							"summon": "guanbei.fence_gate.riders"
+						},
+						{
+							"summon": "guanbei.fence_gate.officers_fighting"
+						},
+						{
+							"by": "native.npc.pei_zhao"
+						},
+						{
+							"say": "二十年前就该把你们这些人都料理干净。"
+						},
+						{
+							"npc_mood": "fighting"
+						},
+						{
+							"by": "native.npc.lu_sun"
+						},
+						{
+							"npc_mood": "fighting"
+						}
+					]
+				},
+				{
+					"after": 7,
+					"mark": "工地动过手",
+					"not_mark": "工地打起来了",
+					"present": "native.npc.guo_cheng",
+					"steps": [
+						{
+							"mark": "工地打起来了"
+						},
+						{
 							"by": "native.npc.lu_sun"
 						},
 						{

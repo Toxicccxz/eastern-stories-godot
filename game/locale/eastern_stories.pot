@@ -5826,6 +5826,13 @@ msgid ""
 "就凭你这种小角色也想? 还不快滚!"
 msgstr ""
 
+#. 朱鸿雪 calls off a kill task whose target is gone from the world (dead for good, or left with the story); {target} is the name.
+#: core/quests/quest_giver.gd
+msgid ""
+"朱鸿雪摆了摆手，说道：\n"
+"『{target}』那件事不必办了。"
+msgstr ""
+
 #. god.c: the player comes back after the time ran out; 朱鸿雪 then gives another task.
 #: core/quests/quest_giver.gd
 msgid ""
@@ -7951,6 +7958,11 @@ msgstr ""
 msgid "你住了手，放了{name}一条生路。"
 msgstr ""
 
+#. {name} fell, and a step of the 任务 page still hangs on them: the player's side stops, there is nothing to choose.
+#: presentation/battle/battle_feedback_reader.gd
+msgid "你住了手：{name}还有用，留{name}一条命。"
+msgstr ""
+
 #: presentation/battle/battle_feedback_reader.gd
 msgid "未知结果"
 msgstr ""
@@ -9580,6 +9592,11 @@ msgstr ""
 #. a guide taking the player on for 拆招, when its data has none.
 #: runtime/world/map/world_map_selection.gd
 msgid "来，拆三回合，点到为止。"
+msgstr ""
+
+#. the player tries to attack {npc}, who lies unconscious and whom a step of the 任务 page still needs.
+#: runtime/world/map/world_map_selection.gd
+msgid "{npc}已经倒了。{npc}还有用，留{npc}一条命。"
 msgstr ""
 
 #: runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
@@ -20459,7 +20476,7 @@ msgstr ""
 
 #. main.chapter7/side objective
 #: data/story/chapter7.json
-msgid "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，过早川一刀，让浪人替你偷牒——浪人会作证，市舶司就把大秦人清出番坊）？"
+msgid "市舶司要清走大秦人，鬼笠馆的浪人想要他们的地。站大秦人（问安敦「站大秦人」：拜火祠过问话取牒，再替他们挡住冯禄），还是站浪人（去日陀罗寺南墙小门外的鬼笠馆，问早川「站浪人」，过他一刀，让浪人替你偷牒——浪人会作证，市舶司就把大秦人清出番坊）？"
 msgstr ""
 
 #. main.chapter7/side/rome text
@@ -33183,6 +33200,72 @@ msgstr ""
 #. fanfang.office.papers name
 #: data/choyin/npcs.json data/niling/items.json data/fanfang/world.json
 msgid "兵部文书"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
+#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
+#: data/choyin/npcs.json
+msgid "陈显祖作了证"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
+#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
+#: data/choyin/npcs.json
+msgid "程不平写了信"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
+#: data/choyin/npcs.json
+msgid "陈显祖的供词录下了，信也给了你。他留在内厅——庾家的人进不了这道门。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
+#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
+#: data/choyin/npcs.json
+msgid "程不平给了信"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.emote
+#. choyin.npc.judgeman inquiry.供词.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "把录好的供词压在文书底下，另取一张纸写了一封信，封好，压上县印。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
+#: data/choyin/npcs.json
+msgid "堂没审完，供词本县录下了。这封信给家叔槐阳王——假印和失踪的人都往关北去了，拿着它去天驼关，军营的门会开。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
+#: data/choyin/npcs.json
+msgid "陈显祖留在衙门里。庾家的人进不了这道门。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
+#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
+#: data/choyin/npcs.json
+msgid "只留了文书"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
+#: data/choyin/npcs.json
+msgid "信给了你。本县只能照纸写——退堂。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.emote
+#. choyin.npc.judgeman inquiry.供词.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "对着抄本和文书上的印看了半晌，提笔写了一封信，封好，压上县印。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
+#: data/choyin/npcs.json
+msgid "纸能证纸，不能证人。这封信给家叔槐阳王，本县只能照纸写——假印和失踪的人都往关北去了，拿着它去天驼关。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.say
@@ -48174,6 +48257,7 @@ msgid ""
 msgstr ""
 
 #. fanfang.npc.ronin_master inquiry.铜牒.rules.say
+#. fanfang.npc.ronin_master inquiry.站浪人.rules.say
 #. fanfang.npc.ronin_master calls.steps.say
 #: data/fanfang/npcs.json
 msgid "你站了那边。我们没有话说。"
@@ -48198,6 +48282,41 @@ msgstr ""
 #. fanfang.npc.ronin_master inquiry.铜牒.rules.say
 #: data/fanfang/npcs.json
 msgid "大秦人存在火前的东西。你要？"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry topic
+#: data/fanfang/npcs.json
+msgid "站浪人"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.站浪人.confirm
+#: data/fanfang/npcs.json
+msgid "站到浪人一边——过早川一刀，夜里让浪人替你从拜火祠偷出铜牒；浪人会给冯禄的文书作证，市舶司就把大秦人清出番坊。从此铁盾会不认你，大秦人的盾剑学不到。要站浪人吗？"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.站浪人.rules.say
+#: data/fanfang/npcs.json
+msgid "站过了。刀在这里——过我一刀。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.站浪人.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "看了你很久，把刀从膝上拿起来，横在你面前。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.站浪人.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "好。铜牒，我们替你拿——火前拿不到的东西，夜里拿。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.站浪人.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "先过我一刀。一击之内定生死。"
+msgstr ""
+
+#. fanfang.npc.ronin_master inquiry.站浪人.rules.say
+#: data/fanfang/npcs.json
+msgid "大秦人的铜牒，你还没听他们说过。先去铁盾会。"
 msgstr ""
 
 #. fanfang.npc.ronin_master inquiry topic
@@ -48851,6 +48970,18 @@ msgstr ""
 #. fanfang.shield_yard.papers act.acts.steps.say
 #: data/fanfang/world.json
 msgid "……本司、本司回去查。"
+msgstr ""
+
+#. fanfang.shield_yard.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"冯禄挨过你那一顿，那纸文书再没人提。\n"
+msgstr ""
+
+#. fanfang.shield_yard.papers act.acts.steps.line
+#: data/fanfang/world.json
+msgid ""
+"差是冯禄的差。他倒了，跟他来的人也就散了。院子里的大秦人把盾举起来，一齐喊了一声——你听不懂，可听得出是什么意思。\n"
 msgstr ""
 
 #. fanfang.shield_yard.papers act.acts.ask
@@ -52624,6 +52755,41 @@ msgstr ""
 #. native.npc.bai_daozhang inquiry.老松寨
 #: data/native/npcs.json
 msgid "老松岭上的匪寨。那道士慌忙间掉了块布条，上头刻的就是老松寨的记号。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry topic
+#: data/native/npcs.json
+msgid "布条"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.布条.rules.say
+#: data/native/npcs.json
+msgid "就是你手里那块。上头那个记号——一棵松、三道横——是老松寨的。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.布条.rules.say
+#: data/native/npcs.json
+msgid "那道士掉的，就落在土坑边上。拾起来看看——上头是老松寨的记号。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.布条.rules.say
+#: data/native/npcs.json
+msgid "给了你了。上头那个记号，是老松寨的。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.布条.rules.lines.emote
+#: data/native/npcs.json
+msgid "从袖子里取出一块粗麻布条。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.布条.rules.lines.say
+#: data/native/npcs.json
+msgid "方才一个黑衣黑冠的道士从崖上掠下来，抢了石匣就走，慌忙间掉了这个。老道替你拾起来了——上头刻的是老松寨的记号。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.布条.rules.say
+#: data/native/npcs.json
+msgid "什么布条？"
 msgstr ""
 
 #. native.npc.bai_daozhang calls.steps.line

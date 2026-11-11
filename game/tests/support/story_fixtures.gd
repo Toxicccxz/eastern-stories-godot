@@ -238,16 +238,23 @@ static func chapter6_done(session: WorldSessionController, raid: bool = true) ->
 		state.marks[mark] = 1
 
 
-## 番坊 B: in 番坊 after 关北 (`raid`), 卢卡 met at the gate, 安敦 met in his hall and asked of the 铜牒,
-## and a side taken — the 大秦人's (`rome`: 安敦's 站大秦人) or the 浪人's (番坊 C's 早川). Its ledger
-## keys and marks as the chapter writes them; the player is not moved.
-static func chapter7_sided(session: WorldSessionController, rome: bool = true, raid: bool = true) -> void:
+## 番坊 B: in 番坊 after 关北 (`raid`), 卢卡 met at the gate, 安敦 met in his hall and asked of the 铜牒;
+## no side taken yet. Its ledger keys and marks as the chapter writes them; the player is not moved.
+static func chapter7_told(session: WorldSessionController, raid: bool = true) -> void:
 	chapter6_done(session, raid)
 	var state: CharacterState = session.player_runtime().state
-	for key: String in ["main.chapter7#started", "main.chapter7/fanfang", "main.chapter7/hall", "main.chapter7/tablet_tale", "main.chapter7/side/rome" if rome else "main.chapter7/side/ronin"]:
+	for key: String in ["main.chapter7#started", "main.chapter7/fanfang", "main.chapter7/hall", "main.chapter7/tablet_tale"]:
 		_write(state, key)
-	for mark: String in ["到了番坊", "卢卡在番坊见到你", "见了安敦", "安敦说了铜牒", "站了大秦人" if rome else "站了浪人"]:
+	for mark: String in ["到了番坊", "卢卡在番坊见到你", "见了安敦", "安敦说了铜牒"]:
 		state.marks[mark] = 1
+
+
+## chapter7_told() and a side taken — the 大秦人's (`rome`: 安敦's 站大秦人) or the 浪人's (早川's 站浪人).
+static func chapter7_sided(session: WorldSessionController, rome: bool = true, raid: bool = true) -> void:
+	chapter7_told(session, raid)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "main.chapter7/side/rome" if rome else "main.chapter7/side/ronin")
+	state.marks["站了大秦人" if rome else "站了浪人"] = 1
 
 
 ## 番坊 C: the seventh chapter done on one side — the 大秦人's (`rome`: the tablet from the fire, 冯禄 faced
