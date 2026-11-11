@@ -11,7 +11,11 @@ extends RefCounted
 ## DECISIONS「考验三招」: a trial's blows may carry only `inner_force_percent` of the force
 ## hook's bonus and never kill (`lethal` false: the blows leave no wound and no condition, only
 ## kee lost; one who fails falls, wakes, rests and may come again); both default to elon.c's
-## real do_attack() (100, true).
+## real do_attack() (100, true). `relents_after_falls` (0: never): once the player has fallen
+## that many times to it (the count kept in their marks, `falls_key()`), the next go is struck
+## without any inner force (no more than 3 × 25 kee against the 100 any player has, so it is
+## stood) and opens with `relent_say`; that go waits for the player's kee to be full
+## (`rest_say` until then), so a player who comes straight back from a fall is not felled again.
 
 var label: String = ""
 var asker_marks: Array[String] = []
@@ -23,16 +27,30 @@ var mark: String = ""
 var deed: String = ""
 var inner_force_percent: int = 100
 var lethal: bool = true
+var relents_after_falls: int = 0
+var relent_say: String = ""
+var rest_say: String = ""
 
 
 ## The blows' modifiers for the resolver (CombatRoundModifiers), or null for elon.c's own.
-func blow_modifiers() -> CombatRoundModifiers:
-	if inner_force_percent == 100 and lethal:
+## Relenting: no inner force at all, and no wound.
+func blow_modifiers(relenting: bool = false) -> CombatRoundModifiers:
+	if inner_force_percent == 100 and lethal and not relenting:
 		return null
 	var modifiers := CombatRoundModifiers.new()
-	modifiers.inner_force_percent = inner_force_percent
-	modifiers.spare_life = not lethal
+	modifiers.inner_force_percent = 0 if relenting else inner_force_percent
+	modifiers.spare_life = relenting or not lethal
 	return modifiers
+
+
+## The player's mark that counts their falls to this trial (saved with the marks).
+func falls_key() -> String:
+	return "倒在了考验里：" + mark
+
+
+## Whether the next go is the relenting one (the player fell relents_after_falls times).
+func relents(marks: Dictionary[String, int]) -> bool:
+	return relents_after_falls > 0 and marks.get(falls_key(), 0) >= relents_after_falls
 
 
 ## Whether a player with these marks is offered it now.
@@ -55,7 +73,8 @@ func as_rule() -> NpcTeaching.ApprenticeRule:
 
 
 ## {label, asker_marks?: [mark], unless_mark?, confirm, blows: [{say, fail?}], success, mark, deed?,
-## inner_force_percent?: 0..100 (100), lethal?: bool (true)}.
+## inner_force_percent?: 0..100 (100), lethal?: bool (true), relents_after_falls?: int (0),
+## relent_say?, rest_say? (both required with relents_after_falls)}.
 static func from_record(reader: ContentRecordReader) -> NpcTrial:
 	var trial := NpcTrial.new()
 	trial.label = reader.required_text("label")
@@ -77,5 +96,11 @@ static func from_record(reader: ContentRecordReader) -> NpcTrial:
 	if trial.inner_force_percent < 0 or trial.inner_force_percent > 100:
 		reader.fail("inner_force_percent", "a percent from 0 to 100")
 	trial.lethal = reader.boolean("lethal", true)
+	trial.relents_after_falls = reader.integer("relents_after_falls", 0)
+	if trial.relents_after_falls < 0:
+		reader.fail("relents_after_falls", "a count of falls, 0 or more")
+	if trial.relents_after_falls > 0:
+		trial.relent_say = reader.required_text("relent_say")
+		trial.rest_say = reader.required_text("rest_say")
 	reader.finish()
 	return trial

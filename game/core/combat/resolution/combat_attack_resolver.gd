@@ -283,6 +283,8 @@ static func resolve(
 	if (
 		strength_projection.force_factor != 0
 		and not attacker.mapped_force_skill_id.is_empty()
+		# A story trial's blow struck without inner force (inner_force_percent 0): no force hook.
+		and attacker.inner_force_percent > 0
 	):
 		if attacker_force == null:
 			return _finish(

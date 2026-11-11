@@ -388,7 +388,9 @@ func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: Np
 
 
 ## One who never sat (max_force 0, kee 100) cannot stand them: the trial fails, the player falls
-## and wakes — never dies of it, no wound or condition left (lethal false) — and may come again.
+## and wakes — never dies of it, no wound or condition left (lethal false) — and may come again;
+## after two falls she relents (relents_after_falls): not before the player has their breath back,
+## then without inner force, so the third go is stood; the count is kept by Save and Continue.
 func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	StoryFixtures.chapter3_rescued(session)
@@ -405,6 +407,56 @@ func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED and state.marks.get("接下了瑷伦三鞭", 0) == 0, "fall: not stood (%d blows)" % result.blows)
 	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not state.is_death_threshold_reached(), "fall: the player falls, alive (%s)" % CharacterRuntimeLifeStatus.Value.find_key(session.player_runtime().life_status))
 	_check(state.vitality.effective == state.vitality.maximum and state.conditions.size() == 0, "fall: no wound, no iceshock — a rest makes the player whole (eff_kee %d/%d, %s)" % [state.vitality.effective, state.vitality.maximum, state.conditions.sorted_condition_ids()])
+	var trial: NpcTrial = trials[0]
+	_check(trial.relents_after_falls == 2 and state.marks.get(trial.falls_key(), 0) == 1, "fall: the fall counted (%d)" % state.marks.get(trial.falls_key(), 0))
+	_check(await _wake(tree, session), "fall: the player wakes")
+	Grown.heal(state) # TEST-ONLY: rested
+	result = manor.npc_life.take_story_trial(elon, trials[0])
+	await _settle(tree)
+	_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED and state.marks.get(trial.falls_key(), 0) == 2, "fall: a second go, a second fall (%d)" % state.marks.get(trial.falls_key(), 0))
+	_check(await _wake(tree, session), "fall: awake again")
+	# She relents now, but not on one who is still short of breath.
+	state.vitality.current = state.vitality.maximum - 1 # TEST-ONLY: not yet rested
+	var before: int = session.shared_ui().log_lines().size()
+	result = manor.npc_life.take_story_trial(elon, trials[0])
+	_check(result.outcome == NpcApprenticeTrial.Outcome.NOT_RUN and result.blows == 0 and session.shared_ui().log_lines().slice(before).any(func(line: String) -> bool: return line.contains("气还没喘匀")), "fall: short of breath, she will not strike yet")
+	# The count is kept by Save and Continue.
+	Grown.heal(state)
+	var snapshot: GameSaveSnapshot = _capture(session)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(encoded.text).snapshot, tree.root)
+	_check(restored.succeeded() and restored.candidate.player_runtime().state.marks.get(trial.falls_key(), 0) == 2, "fall: the two falls survive Save and Continue")
+	if restored.succeeded():
+		restored.candidate.free()
+		await tree.process_frame
+	# Struck without inner force, the lashes cannot fell the 100 kee every player has.
+	var felled: int = 0
+	var elon_force: int = elon.character_state.recovery.inner_force.current
+	for sample: int in SAMPLES:
+		Grown.heal(state)
+		elon.character_state.recovery.inner_force.current = elon_force
+		for blow: int in trial.blows.size():
+			manor.attack_player_outside_fight(elon, trial.blow_modifiers(true))
+		felled += 1 if state.vitality.current < 0 else 0
+	_check(felled == 0, "fall: relenting, her three lashes never fell a kee of 100 (%d of %d)" % [felled, SAMPLES])
+	Grown.heal(state)
+	elon.character_state.recovery.inner_force.current = elon_force
+	before = session.shared_ui().log_lines().size()
+	result = manor.npc_life.take_story_trial(elon, trials[0])
+	await _told(tree, session, manor, elon)
+	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and state.marks.get("接下了瑷伦三鞭", 0) == 1, "fall: the third go is stood (%s)" % NpcApprenticeTrial.Outcome.find_key(result.outcome))
+	_check(session.shared_ui().log_lines().slice(before).any(func(line: String) -> bool: return line.contains("这份硬气，我认")), "fall: her word before it")
+
+
+## The fallen player comes to (session time; at most five minutes of it).
+func _wake(tree: SceneTree, session: WorldSessionController) -> bool:
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	for second: int in 300:
+		if player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			break
+		session._process(1.0)
+	await _settle(tree)
+	return player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 
 
 func _beside(tree: SceneTree, session: WorldSessionController, map: WorldMapController, point_id: StringName) -> NpcRuntimeState:
