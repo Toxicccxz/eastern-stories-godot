@@ -67,7 +67,7 @@
 			"map": "fanfang.shield_hall",
 			"zone": "fanfang.shield_yard",
 			"points": ["fanfang.shield_yard.feng_lu.1"],
-			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (冯禄 inside the gate with his paper once the tablet is in the 大秦人's side's hand)",
+			"legacy_room": "native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 (冯禄 inside the gate with his paper once the tablet is in the 大秦人's side's hand); 主线卡死点 (DECISIONS「主线卡死点」): struck down, the 对质 ends the 争地 without him",
 			"legacy_quantity": 1,
 			"present": {
 				"all": [
@@ -75,7 +75,8 @@
 					{ "mark": "铜牒到手" }
 				]
 			},
-			"until": { "mark": "争地过了" }
+			"until": { "mark": "争地过了" },
+			"cleared_mark": "冯禄倒了"
 		},
 		{
 			"id": "fanfang.shield_yard.hired_ronin",

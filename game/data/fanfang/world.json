@@ -232,6 +232,22 @@
 						]
 					},
 					{
+						"mark": "冯禄倒了",
+						"steps": [
+							{ "line": "冯禄倒在院门口，那纸文书掉在他手边，没有人去捡。\n" },
+							{ "mark": "争地过了" },
+							{ "mark": "大秦人留下了" },
+							{ "leave": "native.npc.feng_lu" },
+							{ "leave": "native.npc.ronin" },
+							{ "leave": "native.npc.ronin" },
+							{ "leave": "native.npc.ronin" },
+							{ "leave": "native.npc.ronin" },
+							{ "line": "差是冯禄的差。他倒了，跟他来的人也就散了。院子里的大秦人把盾举起来，一齐喊了一声——你听不懂，可听得出是什么意思。\n", "color": "HIW" },
+							{ "by": "native.npc.andun" },
+							{ "say": "番坊欠你一个人情。决战那天——不管在哪儿，铁盾会的盾到。" }
+						]
+					},
+					{
 						"present": "native.npc.feng_lu",
 						"marks": ["冯禄的浪人倒了"],
 						"steps": [
@@ -256,6 +272,9 @@
 							{ "by": "native.npc.feng_lu" },
 							{ "emote": "盯着那方印，嘴张了张，没有声音。" },
 							{ "say": "这……这是兵部发的文书……" },
+							{ "mark": "印色对上了" },
+							{ "mark": "争地过了" },
+							{ "mark": "大秦人留下了" },
 							{ "by": "native.npc.ronin" },
 							{ "say": "假印的差，我们不接。" },
 							{ "line": "四个浪人把刀收回鞘里，转身出了门。\n" },
@@ -267,9 +286,6 @@
 							{ "say": "……本司、本司回去查。" },
 							{ "leave": "native.npc.feng_lu" },
 							{ "line": "冯禄退出了铁盾会的门。院子里的大秦人把盾举起来，一齐喊了一声——你听不懂，可听得出是什么意思。\n", "color": "HIW" },
-							{ "mark": "印色对上了" },
-							{ "mark": "争地过了" },
-							{ "mark": "大秦人留下了" },
 							{ "by": "native.npc.andun" },
 							{ "say": "番坊欠你一个人情。决战那天——不管在哪儿，铁盾会的盾到。" }
 						]

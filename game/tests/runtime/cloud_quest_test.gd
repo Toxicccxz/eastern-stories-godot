@@ -98,7 +98,8 @@ func _test_give() -> void:
 	var never := func(_target: String) -> bool: return false
 	var before: int = state.vitality.current
 	result = QuestGiver.give(state, GameContent.catalog().quest_tiers(), never, ScriptedWorldInteractionRandomSource.new([]).legacy_random)
-	_check(result.outcome == QuestGiver.Outcome.NONE_AVAILABLE and result.lines.is_empty() and state.vitality.current == before and state.quest.finished == -13 and state.quest.has_task(), "no quest in the game at all: nothing happens (she returns 0)")
+	# DECISIONS「主线卡死点」: the task's own target cannot be killed now either: called off first, no penalty.
+	_check(result.outcome == QuestGiver.Outcome.NONE_AVAILABLE and ColoredLine.texts(result.lines).size() == 1 and ColoredLine.texts(result.lines)[0].contains("不必办了") and state.vitality.current == before and state.quest.finished == -13 and not state.quest.has_task(), "no quest in the game at all: the task called off, nothing else (she returns 0): %s" % [ColoredLine.texts(result.lines)])
 
 
 ## The tier: the highest god.c level combat_exp reaches, tfinished / 3 up or down,

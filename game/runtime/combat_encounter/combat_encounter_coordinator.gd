@@ -909,6 +909,7 @@ func _abort_failed_resolution() -> void:
 	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
 	if map != null:
 		for victim: CombatSliceCharacterBinding in bindings:
+			map.keep_alive(victim)
 			var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
 			if required != null and victim.exists_in_encounter:
 				map.execute_encounter_lifecycle(victim, required, bindings, victim.relationship.last_damage_from_id)

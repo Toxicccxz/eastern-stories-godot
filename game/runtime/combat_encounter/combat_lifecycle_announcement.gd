@@ -10,6 +10,8 @@ const DEAD: StringName = &"dead"
 const REVIVE: StringName = &"revive"
 ## DECISIONS「了结 / 放过」: the player spared one who fell.
 const SPARED: StringName = &"spared"
+## DECISIONS「主线卡死点」: one a story step still hangs on fell, and the player's side stopped.
+const KEPT: StringName = &"kept"
 
 var _victim_id: StringName
 var victim_id: StringName:

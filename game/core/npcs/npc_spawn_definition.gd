@@ -90,6 +90,25 @@ var staged: bool:
 		return _present != null or _until != null
 
 
+## Native (主线卡死点; DECISIONS「主线卡死点」): an ES2 room's own people whom the story only takes
+## off its stage one day (`until`, no `present`: there from the world's start, as in ES2). While
+## they are on the stage, a room reset makes one who died anew, as ES2's reset() does.
+var resident: bool:
+	get:
+		return (
+			_present == null and _until != null and _initial_spawn_policy == InitialSpawnPolicy.INITIAL_ONLY
+			and not _once and not _legacy_source_room_path.begins_with("native")
+		)
+
+
+## Whether a room reset makes one of this spawn who died anew: an ES2 room's object (not on the
+## story's stage, not summoned, not made once), one of a draw group, or a resident on its stage.
+func remade_by_reset() -> bool:
+	if _once or summoned:
+		return false
+	return drawn or not staged or resident
+
+
 func with_presence(p_present: JournalEntryDefinition, p_until: JournalEntryDefinition) -> NpcSpawnDefinition:
 	_present = p_present
 	_until = p_until

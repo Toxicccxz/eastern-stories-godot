@@ -241,6 +241,9 @@ static func _announce(announcement: CombatLifecycleAnnouncement, projection: Bat
 	elif announcement.event == CombatLifecycleAnnouncement.SPARED:
 		# TRANSLATORS: the player chose 放过 for {name}, who lies unconscious: nobody on their side strikes them again.
 		lines.append(BattleNarrationLine.new(TranslationServer.translate("你住了手，放了{name}一条生路。").format({"name": name})))
+	elif announcement.event == CombatLifecycleAnnouncement.KEPT:
+		# TRANSLATORS: {name} fell, and a step of the 任务 page still hangs on them: the player's side stops, there is nothing to choose.
+		lines.append(BattleNarrationLine.new(TranslationServer.translate("你住了手：{name}还有用，留{name}一条命。").format({"name": name})))
 	return lines
 
 

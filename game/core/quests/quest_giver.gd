@@ -43,6 +43,12 @@ static func give(state: CharacterState, tiers: Array[QuestTier], available: Call
 		result.lines.append(ColoredLine.new(_t("朱鸿雪奇怪的眼神盯着你,说:\n就凭你这种小角色也想? 还不快滚!")))
 		return result
 	var quest: CharacterQuestState = state.quest
+	# Deviation (DECISIONS「主线卡死点」): a kill task whose target cannot be killed any more (dead
+	# for good, off the story's stage, kept by it) is called off: no penalty, no count, a new draw.
+	if quest.has_task() and quest.current.type == QuestDefinition.KILL and not available.call(quest.current.target):
+		# TRANSLATORS: 朱鸿雪 calls off a kill task whose target is gone from the world (dead for good, or left with the story); {target} is the name.
+		result.lines.append(ColoredLine.new(_t("朱鸿雪摆了摆手，说道：\n『{target}』那件事不必办了。").format({"target": _t(quest.current.target)})))
+		quest.clear_task()
 	if quest.has_task() and not quest.is_expired():
 		result.outcome = Outcome.HAS_TASK
 		return result

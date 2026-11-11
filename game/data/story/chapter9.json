@@ -123,6 +123,7 @@
 				},
 				{
 					"id": "uncle_road",
+					"keeps": ["common.npc.fighter.champion"],
 					"only_after": "uncle",
 					"objective": "把手诏送到水烟阁，交给皇叔於兰天武。",
 					"done": {

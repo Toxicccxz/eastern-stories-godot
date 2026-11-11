@@ -186,6 +186,10 @@ class Step:
 	var reward: Reward = Reward.new()
 	## A branch's weight in its line: WEIGHT_BIG, WEIGHT_SMALL, or "" (unsaid: the main story's).
 	var weight: String = ""
+	## Native (主线卡死点; DECISIONS「主线卡死点」): the people (NPC definition ids) the step hangs on.
+	## Until it is done (unless the quest ended, or an earlier option it waits for was not taken)
+	## they are knocked down, never killed (StoryKeeps).
+	var keeps: Array[StringName] = []
 
 	func is_branch() -> bool:
 		return not options.is_empty()
@@ -202,6 +206,8 @@ class Step:
 		step.objective = reader.required_text("objective")
 		step.text = reader.text("text")
 		step.only_after = StringName(reader.text("only_after"))
+		for npc: String in reader.text_list("keeps"):
+			step.keeps.append(StringName(npc))
 		if reader.has("target"):
 			step.target = Target.from_record(reader.child("target"))
 		for record: ContentRecordReader in reader.children("checklist"):

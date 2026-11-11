@@ -288,12 +288,15 @@ func inspect(
 		if (not victim.exists_in_encounter and victim.life_status != CombatSliceLifeStatus.Value.DEAD) or (victim.life_status == CombatSliceLifeStatus.Value.ACTIVE and not victim.combat_available):
 			fail(Failure.PARTICIPANT_STATE_INVALID)
 			return false
+		var map: WorldMapController = _session.active_map() as WorldMapController
+		# DECISIONS「主线卡死点」: one the story keeps only falls.
+		if map != null:
+			map.keep_alive(victim)
 		var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
 		if required == null:
 			continue
 		# char.c heart_beat falls or dies whatever the fight: an armed spar's
 		# wound can kill (combatd.c wounds on `is_killing || weapon`).
-		var map: WorldMapController = _session.active_map() as WorldMapController
 		var hitter: StringName = special.last_hitter(victim.character_id) if special != null else last_hitter(event, victim.character_id)
 		var receipt: CombatSliceLifecycleResult = null if map == null else map.execute_encounter_lifecycle(victim, required, bindings, hitter)
 		_lifecycles.append(receipt)
@@ -324,6 +327,8 @@ func inspect(
 ## blow kills), nor for one of the player's own side; one of theirs lying down keeps its
 ## mark (it strikes nobody), and with nobody standing to strike there is nothing to ask.
 func _hold(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceCharacterBinding) -> void:
+	if _encounter.mode == CombatEncounterMode.Value.LETHAL and _keep(bindings, victim):
+		return
 	if BattlePace.after_knockout != BattlePace.AfterKnockout.ASK or _encounter.mode != CombatEncounterMode.Value.LETHAL:
 		return
 	var player_id: StringName = _session.player_runtime().character_id
@@ -344,6 +349,26 @@ func _hold(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceChar
 		relationship.remove_lethal_relation(victim.character_id)
 	_held[victim.character_id] = holders
 	_revive_remainder_ms.erase(victim.character_id)
+
+
+## DECISIONS「主线卡死点」: `victim` fell and a story step still hangs on them (StoryKeeps): whoever
+## was killing them stops (remove_killer()), with nothing to choose — no 了结, whatever 击倒后 says.
+## One the player's side was killing is spared as by 放过 (its `spared` hooks: a mood, a mark) and
+## the battle says why. True when they are kept.
+func _keep(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceCharacterBinding) -> bool:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	if map == null or not map.story_keeps(victim.character_id):
+		return false
+	var player: CombatParticipant = _encounter.participant_for(_session.player_runtime().character_id)
+	var by_player: bool = false
+	for binding: CombatSliceCharacterBinding in bindings:
+		if binding.relationship.has_lethal_target(victim.character_id):
+			by_player = by_player or (player != null and _plays_for_player(binding.character_id, player))
+			binding.relationship.remove_lethal_relation(victim.character_id)
+	if by_player:
+		_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.KEPT))
+		_session.npc_spared(_session.resident_npc(victim.character_id))
+	return true
 
 
 ## The player, or one on their side they called (a soldier, a 阴鬼卒, their zombie).

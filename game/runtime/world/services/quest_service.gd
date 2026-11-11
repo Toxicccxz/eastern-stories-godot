@@ -23,8 +23,11 @@ func request_quest() -> QuestGiver.Outcome:
 		return last_outcome
 	var catalog: ContentCatalog = GameContent.catalog()
 	var state: CharacterState = map.player_runtime().state
+	var session: WorldSessionController = map.session
+	# DECISIONS「主线卡死点」: the targets that can be killed now (WorldQuestTargets), not only placed.
+	var available: Callable = func(target: String) -> bool: return WorldQuestTargets.at_hand(session, target)
 	var result: QuestGiver.Result = QuestGiver.give(
-		state, catalog.quest_tiers(), catalog.quest_target_available,
+		state, catalog.quest_tiers(), available,
 		map.world_interaction_random_source().legacy_random, catalog.pacing().quest_time_percent,
 	)
 	last_outcome = result.outcome

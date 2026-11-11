@@ -21,6 +21,7 @@
 				},
 				{
 					"id": "square",
+					"keeps": ["native.npc.feng_ce", "native.npc.onlooker"],
 					"objective": "去镇前的广场，看看官爷们在做什么。",
 					"target": { "map": "snow.outdoor", "zone": "snow.square", "npcs": ["native.npc.feng_ce", "native.npc.onlooker"] },
 					"options": [
