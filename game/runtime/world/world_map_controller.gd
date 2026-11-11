@@ -1658,8 +1658,8 @@ func kills_one_way(id: StringName, requested_target: StringName = &"") -> bool:
 	return hostilities.kills_one_way(id, requested_target)
 
 
-func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunityResult:
-	return hostilities.attack_player_outside_fight(npc)
+func attack_player_outside_fight(npc: NpcRuntimeState, modifiers: CombatRoundModifiers = null) -> CombatSliceOpportunityResult:
+	return hostilities.attack_player_outside_fight(npc, modifiers)
 
 
 # --- forwarded to WorldMapCombatLifecycle (combat_lifecycle) ---

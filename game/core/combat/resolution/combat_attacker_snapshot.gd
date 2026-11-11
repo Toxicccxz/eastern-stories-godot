@@ -14,6 +14,9 @@ var _strength_projection: CombatStrengthProjection
 var _lethal_intent: bool
 ## 战斗拍数 D: the blow is a lesson's — it may land, but takes no kee and leaves no wound.
 var harmless: bool = false
+## A story trial's blow (CombatRoundModifiers.inner_force_percent / spare_life).
+var inner_force_percent: int = 100
+var spare_life: bool = false
 var _mapped_force_skill_id: StringName
 var _force_hit_policy_status: int
 var _mapped_attack_skill_id: StringName
@@ -202,6 +205,8 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 func _copy() -> CombatAttackerSnapshot:
 	var copied: CombatAttackerSnapshot = _copy_fields()
 	copied.harmless = harmless
+	copied.inner_force_percent = inner_force_percent
+	copied.spare_life = spare_life
 	return copied
 
 

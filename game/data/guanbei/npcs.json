@@ -360,6 +360,11 @@
 			},
 			"carry": [
 				{
+					"item": "es2:obj/weapon/whip",
+					"source": "obj/weapon/whip.c",
+					"equip": "wield"
+				},
+				{
 					"item": "es2:obj/cloth",
 					"source": "obj/cloth.c",
 					"equip": "wear"
@@ -423,6 +428,11 @@
 				"force": 60
 			},
 			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "obj/longsword.c",
+					"equip": "wield"
+				},
 				{
 					"item": "es2:obj/cloth",
 					"source": "obj/cloth.c",
@@ -888,6 +898,11 @@
 				"dodge": 30
 			},
 			"carry": [
+				{
+					"item": "es2:d/village/npc/obj/knife",
+					"source": "d/village/npc/obj/knife.c",
+					"equip": "wield"
+				},
 				{
 					"item": "es2:obj/cloth",
 					"source": "obj/cloth.c",

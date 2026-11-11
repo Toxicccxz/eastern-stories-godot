@@ -215,6 +215,8 @@ static func build_attack_input(
 		var mine: CombatRoundModifiers.Fighter = modifiers.read(attacker.character_id)
 		var theirs: CombatRoundModifiers.Fighter = modifiers.read(defender.character_id)
 		attacker_snapshot.harmless = modifiers.harmless
+		attacker_snapshot.inner_force_percent = modifiers.inner_force_percent
+		attacker_snapshot.spare_life = modifiers.spare_life
 		attacker_snapshot.attack_power_percent = mine.attack_percent
 		attacker_snapshot.damage_percent_bonus = mine.damage_percent
 		attacker_snapshot.beat_blow = mine.beat_blow

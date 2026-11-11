@@ -12636,6 +12636,7 @@ msgstr ""
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
 #. native:niling/cell_key unit
+#. native:niling/shang_jue_sword unit
 #. native:guanbei/saber unit
 #. native:guanbei/gladius unit
 #. native:fanfang/copper_kettle unit
@@ -42488,6 +42489,17 @@ msgid ""
 "一个小孩子的尸首，头上两个小抓揪。他蜷在墙角，手里还攥着一颗小石子。\n"
 msgstr ""
 
+#. native:niling/shang_jue_sword name
+#: data/niling/items.json
+msgid "黑剑"
+msgstr ""
+
+#. native:niling/shang_jue_sword long
+#: data/niling/items.json
+msgid ""
+"一把通体乌黑的长剑，剑身上没有一点光，像是把照上去的光都吃了进去。握在手里冰凉，剑脊上刻着一行细字，看不懂。\n"
+msgstr ""
+
 #. native.npc.niling_winch_taoist name
 #: data/niling/npcs.json
 msgid "绞盘道士"
@@ -49362,7 +49374,7 @@ msgstr ""
 #. native.npc.wumen_guard long
 #: data/imperial/npcs.json
 msgid ""
-"一个披甲的禁军，红缨盔，手里一杆长戟，站在午门的铁门前一动不动。他的眼睛不看人，看的是人的手。\n"
+"一个披甲的禁军，红缨盔，手按着腰刀，站在午门的铁门前一动不动。他的眼睛不看人，看的是人的手。\n"
 msgstr ""
 
 #. native.npc.wumen_guard chat_msg
