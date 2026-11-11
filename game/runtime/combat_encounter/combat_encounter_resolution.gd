@@ -289,9 +289,10 @@ func inspect(
 			fail(Failure.PARTICIPANT_STATE_INVALID)
 			return false
 		var map: WorldMapController = _session.active_map() as WorldMapController
-		# DECISIONS「主线卡死点」: one the story keeps only falls.
-		if map != null:
-			map.keep_alive(victim)
+		# DECISIONS「主线卡死点」: one the story keeps only falls; struck again lying there, whoever
+		# struck stops (else a fight on someone who cannot die would never end).
+		if map != null and map.keep_alive(victim):
+			_keep(bindings, victim)
 		var required: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.inspect_lifecycle(victim)
 		if required == null:
 			continue

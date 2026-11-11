@@ -1703,8 +1703,8 @@ func story_keeps(character_id: StringName) -> bool:
 
 
 ## DECISIONS「主线卡死点」: WorldMapCombatLifecycle.keep_alive().
-func keep_alive(victim: CombatSliceCharacterBinding) -> void:
-	combat_lifecycle.keep_alive(victim)
+func keep_alive(victim: CombatSliceCharacterBinding) -> bool:
+	return combat_lifecycle.keep_alive(victim)
 
 
 func player_fall_below_zero(even_unconscious: bool = false) -> void:

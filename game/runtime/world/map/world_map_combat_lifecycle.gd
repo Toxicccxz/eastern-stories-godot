@@ -286,21 +286,23 @@ func kept(character_id: StringName) -> bool:
 ## DECISIONS「主线卡死点」: before a fighter's fall or death is looked at (inspect_lifecycle()), one
 ## the story still keeps is left only to fall: a wound past its effective 精 / 气 / 神 leaves it at 0
 ## (char.c heart_beat() would kill), and one lying unconscious struck again stays at 0 (it would die).
-func keep_alive(victim: CombatSliceCharacterBinding) -> void:
+## True when it was one lying unconscious: whoever struck them is to stop (CombatEncounterResolution).
+func keep_alive(victim: CombatSliceCharacterBinding) -> bool:
 	if victim == null or victim.is_user or victim.state == null:
-		return
+		return false
 	var lying: bool = victim.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS
 	var tracks: Array[CharacterResourceState] = [victim.state.essence, victim.state.vitality, victim.state.spirit]
 	# Most looks find nobody at death's door: the story is asked only then.
 	if not tracks.any(func(track: CharacterResourceState) -> bool: return track.effective < 0 or (lying and track.current < 0)):
-		return
+		return false
 	if not kept(victim.character_id):
-		return
+		return false
 	for track: CharacterResourceState in tracks:
 		if track.effective < 0:
 			track.effective = 0
 		if lying and track.current < 0:
 			track.current = 0
+	return lying
 
 
 ## Map-owned physical publication; rules remain in the existing lifecycle/death

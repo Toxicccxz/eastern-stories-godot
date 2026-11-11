@@ -95,6 +95,9 @@ func _test_witness_kept(tree: SceneTree, session: WorldSessionController) -> voi
 	await _settle(tree)
 	_check(not coordinator.has_active_encounter() and chen.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "the fight over in %d rounds: he lies unconscious, not dead (%s)" % [rounds, CharacterRuntimeLifeStatus.Value.find_key(chen.life_status)])
 	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("还有用")), "the battle says why the player stopped: %s" % [ui.log_lines().slice(-6)])
+	# Struck at again where he lies: refused, no fight that could never end.
+	hotel.select_npc(chen.character_id)
+	_check(hotel.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not coordinator.has_active_encounter() and ui.log_lines().any(func(line: String) -> bool: return line.contains("已经倒了")), "attacked again lying there: refused (已经倒了): %s" % [ui.log_lines().slice(-2)])
 	for second: int in 240:
 		if chen.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 			break

@@ -799,6 +799,11 @@ func kill_target() -> StringName:
 	for other: CombatParticipant in participants:
 		if other.side_id == me.side_id or not _session.encounter_participant_is_available(other.participant_id, true):
 			continue
+		# DECISIONS「主线卡死点」: one the story keeps, lying there, is nobody's to finish.
+		var map: WorldMapController = _session.active_map() as WorldMapController
+		var lying: NpcRuntimeState = _resident_npc(other.participant_id)
+		if lying != null and lying.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and map != null and map.story_keeps(other.participant_id):
+			continue
 		for ally: CombatParticipant in participants:
 			if ally.side_id == me.side_id and ally.binding.relationship.has_opponent(other.participant_id):
 				return other.participant_id
