@@ -138,6 +138,7 @@ func _process(delta: float) -> void:
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 	geometry.ambience.night = lighting.amount
+	geometry.ambience.camera = camera
 	geometry.ambience.advance(delta)
 
 ## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along
