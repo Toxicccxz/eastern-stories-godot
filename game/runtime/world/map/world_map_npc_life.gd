@@ -619,11 +619,22 @@ func take_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> NpcApprenticeTri
 	if not offers_story_trial(npc, trial):
 		return NpcApprenticeTrial.Result.new()
 	var player: WorldPlayerRuntimeState = _player
+	var hud: SharedGameplayUI = _map.hud()
+	# NpcTrial.relents_after_falls: the go after enough falls is struck without inner force, once
+	# the player has their breath back.
+	var relenting: bool = trial.relents(player.state.marks)
+	if relenting and player.state.vitality.current < player.state.vitality.maximum:
+		if hud != null:
+			hud.append_colored_lines([ColoredLine.new(tr(trial.rest_say))])
+		return NpcApprenticeTrial.Result.new()
+	if relenting and hud != null:
+		hud.append_colored_lines([ColoredLine.new(tr(trial.relent_say))])
+	var modifiers: CombatRoundModifiers = trial.blow_modifiers(relenting)
 	var cast: BattlePresentationProjection = BattleProjectionBuilder.cast_of(_map.session, [npc.character_id])
 	var narrator := BattleNarrator.new()
 	var attack := func() -> Variant:
 		var seen: Array[ColoredLine] = []
-		var blow: CombatSliceOpportunityResult = _map.attack_player_outside_fight(npc)
+		var blow: CombatSliceOpportunityResult = _map.attack_player_outside_fight(npc, modifiers)
 		if blow == null:
 			return null
 		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):
@@ -640,8 +651,9 @@ func take_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> NpcApprenticeTri
 		_map.open_found_ways(trial.mark)
 		return NpcApprenticeship.Outcome.ACKNOWLEDGED
 	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(trial.as_rule(), NpcApprenticeship.new(), attack, stands, passed)
+	if result.outcome == NpcApprenticeTrial.Outcome.FAILED and trial.relents_after_falls > 0:
+		player.state.marks[trial.falls_key()] = int(player.state.marks.get(trial.falls_key(), 0)) + 1
 	var spacing: float = GameContent.catalog().pacing().trial_blow_seconds
-	var hud: SharedGameplayUI = _map.hud()
 	# The deed is told once the last blow has been (the 【事迹】 line after her words, not before).
 	var deed := func() -> void:
 		if _map.session != null and not trial.deed.is_empty():

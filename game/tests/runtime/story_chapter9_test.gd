@@ -16,6 +16,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Specials := preload("res://tests/runtime/combat_specials_test.gd")
+const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const QUEST: StringName = &"main.chapter9"
 const TOKEN: StringName = &"native:imperial/guard_token"
 const CARD: StringName = &"native:choyin/luo_card"
@@ -103,8 +105,11 @@ func _test_exam(tree: SceneTree, session: WorldSessionController) -> void:
 		_heal(state)
 		_check(await MapPlaces.drive(tree, city, MapPlaces.spot(city, &"city.jiaowu", city.runtime_body_for_character(npc.character_id).global_position, 56.0)), "exam: up to %s" % npc.definition().display_name)
 		city.select_npc(npc.character_id)
-		_check(city.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "exam: 切磋 with %s" % npc.definition().display_name)
-		_run(session)
+		if npc == lt1:
+			await _win_by_swordjab(tree, session, npc)
+		else:
+			_check(city.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "exam: 切磋 with %s" % npc.definition().display_name)
+			_run(session)
 		await _settle(tree)
 		_check(state.marks.get(bout[1], 0) == 1, "exam: %s won (%s)" % [npc.definition().display_name, bout[1]])
 		_check(not city.spar_consent(npc).accepted, "exam: %s will not spar again" % npc.definition().display_name)
@@ -200,6 +205,42 @@ func _test_memorial(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("早朝过", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("槐阳王反了")), "memorial: the 早朝, 庾子建's 槐阳王反了 (the raid)")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"memorial") and StoryQuestLog.current_step(state, quest).step_id == &"audience", "memorial: the way taken by the 奏本")
+
+
+## The first bout ended by 封山剑法's 「逐」 (swordjab.c's attacks, a special's, not an ordinary
+## opportunity): the spar is won all the same — its 历练 line and its mark (spar_won_mark).
+## TEST-ONLY: 赵勇's combat_exp (the reward counts, swordjab.c's draw passes), a sword and 封山剑法
+## enabled, every draw the highest; the deterministic draws come back after.
+func _win_by_swordjab(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeState) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var exp_before: int = state.progression.combat_experience
+	state.progression.combat_experience = npc.character_state.progression.combat_experience
+	state.skills.set_raw_level(&"sword", 260)
+	state.skills.set_raw_level(&"fonxansword", 260)
+	state.skills.map_skill(&"sword", &"fonxansword")
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var sword := ItemInstance.new(&"test:exam_sword", &"es2:obj/longsword")
+	_check(context.inventory.register_item(sword, GameContent.catalog().item(sword.item_definition_id).own_weight) and context.index.register_snapshot(sword) and context.inventory._apply_reparent(sword.item_instance_id, context.endpoint()), "exam: a sword in hand")
+	_check(session.wield_player_item(sword.item_instance_id).succeeded, "exam: the sword wielded")
+	session.configure_combat_random_source(Specials.Pattern.new())
+	var city: WorldMapController = session.active_map() as WorldMapController
+	_check(city.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "exam: 切磋 with %s" % npc.definition().display_name)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	var rewards_before: int = session.shared_ui().log_lines().size()
+	_check(coordinator.submit_player_action(CombatTacticalRequest.new(
+		&"chapter9-test:swordjab", encounter.encounter_id, session.player_runtime().character_id, &"perform.swordjab",
+		CombatTacticalRequest.Category.MARTIAL_SPECIAL,
+	)).code == CombatTacticalResult.Code.ACCEPTED, "exam: 「逐」 queued")
+	coordinator.advance_scheduler(0.0)
+	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0, "exam: the first 「逐」 blow that draws blood ends the bout: " + coordinator.last_abort_detail())
+	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
+	session.shared_ui().dismiss_current_panel()
+	await _settle(tree)
+	var lines: Array[String] = session.shared_ui().log_lines().slice(rewards_before)
+	_check(lines.any(func(line: String) -> bool: return line.begins_with("【历练】你第一次在切磋中胜过了") and line.contains(npc.definition().display_name)), "exam: won by 「逐」, its 历练 line: %s" % [lines])
+	session.configure_combat_random_source(Specials.Seeded.new(9))
+	state.progression.combat_experience = exp_before
 
 
 func _strong(state: CharacterState) -> void:

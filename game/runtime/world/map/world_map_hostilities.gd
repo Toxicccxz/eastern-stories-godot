@@ -947,8 +947,9 @@ func _allies_join(encounter: CombatEncounter) -> void:
 ## (champion.c's accept test): TYPE_REGULAR, as a special file's direct attack, with
 ## the encounter random source and skill_improved() effects. A kee below zero falls
 ## only on the heart beat after (player_fall_below_zero()). Null when either cannot
-## take part (not here, not conscious, already fighting).
-func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunityResult:
+## take part (not here, not conscious, already fighting). `modifiers`: a story trial's
+## (NpcTrial.blow_modifiers()), else none.
+func attack_player_outside_fight(npc: NpcRuntimeState, modifiers: CombatRoundModifiers = null) -> CombatSliceOpportunityResult:
 	if (
 		npc == null or _player == null or not npc.exists_in_map or not _player.exists_in_world
 		or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
@@ -968,5 +969,5 @@ func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunity
 	player_binding.post_actions = _map.combat_lifecycle.post_actions
 	npc_binding.post_actions = _map.combat_lifecycle.post_actions
 	var participants: Array[CombatSliceCharacterBinding] = [player_binding, npc_binding]
-	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(npc_binding, player_binding, participants, _combat_random, _map.combat_lifecycle.effects)
+	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(npc_binding, player_binding, participants, _combat_random, _map.combat_lifecycle.effects, modifiers)
 	return null if result.forward_result == null else result

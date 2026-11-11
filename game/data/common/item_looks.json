@@ -111,6 +111,7 @@
 		"native:niling/war_ministry_papers": { "kind": "paper", "paper": "f2ead6", "ink": "c8302a" },
 		"native:niling/cell_key": { "kind": "key", "metal": "2a2a2e:gloss", "tag": "1d1a1a" },
 		"native:niling/scroll_fragment": { "kind": "scroll", "paper": "2c2830", "rod": "1d1612", "ribbon": "5a1a2a", "torn": "d9c9a0" },
+		"native:niling/shang_jue_sword": { "kind": "sword", "length": 1.0, "width": 0.09, "blade": "17161a:gloss", "ridge": "26242a:gloss", "guard": "2a2328:gloss", "grip": "141012", "wrap": "3a1a24", "pommel": "2a2328:gloss" },
 		"native:canyon/seal_mould": { "kind": "seal", "mould": true, "stone": "8f6a48", "face": "c8302a" },
 		"native:guanbei/saber": { "kind": "saber", "curve": 0.12, "blade": "b4bcc0:gloss", "back": "7a8288:gloss", "grip": "5a3a24", "wrap": "a0703f", "guard": "6b5a40", "pommel": "6b5a40" },
 		"native:guanbei/gladius": { "kind": "sword", "length": 0.75, "width": 0.11, "blade": "b8c0c4:gloss", "grip": "e6dcc0", "wrap": "cfc29e", "pommel": "dcd0b0", "guard": "6f6a5e" },

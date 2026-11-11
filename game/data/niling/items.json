@@ -167,6 +167,28 @@
 			"weight": 20000,
 			"value": 0,
 			"no_get": true
+		},
+		{
+			"id": "native:niling/shang_jue_sword",
+			"legacy_sources": [
+				"native: 终章 B (剧情总纲 §3 终章; DECISIONS「终章 B」「主线人物的武功」) — the sword 商玦 draws at the 冰龙厅 (商玦拔出了剑。剑身是黑的，没有一点光); 续写"
+			],
+			"name": "黑剑",
+			"aliases": [
+				"black sword",
+				"sword",
+				"剑"
+			],
+			"long": "一把通体乌黑的长剑，剑身上没有一点光，像是把照上去的光都吃了进去。握在手里冰凉，剑脊上刻着一行细字，看不懂。\n",
+			"unit": "把",
+			"material": "blacksteel",
+			"weight": 8000,
+			"value": 3000,
+			"weapon": {
+				"skill": "sword",
+				"damage": 45,
+				"weight_dodge": "equip"
+			}
 		}
 	]
 }

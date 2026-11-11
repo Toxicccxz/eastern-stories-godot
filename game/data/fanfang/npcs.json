@@ -404,6 +404,7 @@
 			"score": 8000,
 			"attitude": "friendly",
 			"skills": { "sword": 120, "parry": 125, "dodge": 90, "unarmed": 80, "force": 100, "shield-sword": 100 },
+			"skill_map": { "sword": "shield-sword", "parry": "shield-sword" },
 			"carry": [
 				{ "item": "native:guanbei/gladius", "source": "native: 关北 A", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
@@ -843,7 +844,9 @@
 					"label": "过他一刀",
 					"asker_marks": ["站了浪人"],
 					"unless_mark": "过了一刀",
-					"confirm": "早川直义的一刀是真砍：\n· 只有一刀，实打实地落在你身上，挨中了会受伤。\n· 接不住，你随后会昏倒；伤得太重会死。\n倒了可以歇好再来。\n确定过他一刀吗？",
+					"confirm": "早川直义的一刀是真砍：\n· 只有一刀，实打实地落在你身上，挨中了会受伤。\n· 接不住，你随后会昏倒；他收着刀，不会要你的命。\n倒了可以歇好再来。\n确定过他一刀吗？",
+					"inner_force_percent": 21,
+					"lethal": false,
 					"blows": [
 						{ "say": "早川直义站了起来，刀还在鞘里。「一击之内定生死。」——刀出鞘了。", "fail": "早川直义把刀插回鞘里：「不够。歇好了再来。」" }
 					],
@@ -926,6 +929,7 @@
 			"attitude": "peaceful",
 			"skills": { "sword": 80, "dodge": 100, "unarmed": 50 },
 			"carry": [
+				{ "item": "native:fanfang/katana", "source": "native: 番坊 C (the 鬼笠馆's 倭刀)", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"calls": [

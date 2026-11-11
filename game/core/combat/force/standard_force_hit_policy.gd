@@ -105,12 +105,13 @@ static func _resolve_reflection_check(
 	attacker_vitality.apply_damage(reflection_damage * 2)
 	var current_after_damage: int = attacker_vitality.current
 	var effective_after_damage: int = attacker_vitality.effective
-	attacker_vitality.apply_wound(reflection_damage)
+	if not input.spare_life:
+		attacker_vitality.apply_wound(reflection_damage)
 	result._reflection_mutation = StandardForceReflectionMutationResult.new(
 		true,
-		true,
+		not input.spare_life,
 		reflection_damage * 2,
-		reflection_damage,
+		0 if input.spare_life else reflection_damage,
 		current_before,
 		effective_before,
 		current_after_damage,
