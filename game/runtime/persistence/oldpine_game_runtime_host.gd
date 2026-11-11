@@ -208,6 +208,8 @@ func kept_save() -> GameAutosave:
 ## The Session in the slot from now on: the autosave follows it. A New Game's first moment
 ## saves; a loaded one's interval starts with the load, its slots have nothing to add yet.
 func _session_began(session: WorldSessionController, loaded: bool) -> void:
+	# The stance is no save's: every character, new or loaded, starts at 攻 (DECISIONS「姿态整记」).
+	BattlePace.stance = CombatStance.Value.ATTACK
 	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
 	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
 	session.keep_save_requested.connect(_on_keep_save.bind(session))

@@ -269,10 +269,6 @@ static func resolve(
 		calculation._damage_value += (
 			action.damage_percent * calculation._damage_value / 100
 		)
-	var damage_percent: int = attacker.damage_percent_bonus + CombatMoveTags.damage_percent(action.tag, defender.move_tag, rules.action_tag_bonus_percent, rules.tag_counter_percent, rules.heavy_blow_percent > 0 and attacker.beat_blow)
-	if damage_percent != 0:
-		@warning_ignore("integer_division")
-		calculation._damage_value += damage_percent * calculation._damage_value / 100
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.ACTION_DAMAGE_READY
 
 	var strength_projection: CombatStrengthProjection = attacker.strength_projection
@@ -472,6 +468,12 @@ static func resolve(
 		)
 	if calculation._damage_value < 0:
 		calculation._damage_value = 0
+	# DECISIONS「姿态整记」: the stance's and the move tag's damage percents weigh the whole blow,
+	# weapon and strength (an unarmed fighter's weapon share is 0: on it alone they did nothing).
+	var damage_percent: int = attacker.damage_percent_bonus + CombatMoveTags.damage_percent(action.tag, defender.move_tag, rules.action_tag_bonus_percent, rules.tag_counter_percent, rules.heavy_blow_percent > 0 and attacker.beat_blow)
+	if damage_percent != 0:
+		@warning_ignore("integer_division")
+		calculation._damage_value += damage_percent * calculation._damage_value / 100
 	# 战斗拍数 E: a 重 the fighter paid its beats for weighs two — its whole blow, weapon and
 	# strength (no draw); a riposte's or a special's 重 keeps the lean above.
 	if action.tag == CombatMoveTags.HEAVY and rules.heavy_blow_percent > 0 and attacker.beat_blow:

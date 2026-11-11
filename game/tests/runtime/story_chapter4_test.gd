@@ -364,7 +364,7 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 ## as take_story_trial() strikes them (attack_player_outside_fight() with the trial's modifiers),
 ## nothing written: how often all three are stood, and that nobody dies of them.
 func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
-	_check(trial.inner_force_percent == 21 and not trial.lethal, "her lashes: a fifth of her inner force, never lethal (DECISIONS「考验三招」)")
+	_check(trial.inner_force_percent == 23 and not trial.lethal, "her lashes: about a quarter of her inner force (23: back to six or seven in ten once the tags weighed the whole blow, DECISIONS「姿态整记」), never lethal (DECISIONS「考验三招」)")
 	var elon_force: int = elon.character_state.recovery.inner_force.current
 	var elon_kee: Array[int] = [elon.character_state.vitality.current, elon.character_state.vitality.effective]
 	var wounded: int = 0

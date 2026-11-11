@@ -417,9 +417,13 @@ func _test_return_menu_continue_roundtrip(tree: SceneTree) -> void:
 	_assert_eq(shell.runtime_host().session_slot.get_child_count(), 0, "Return empties SessionSlot")
 	_assert_eq(shell.runtime_host().staging_slot.get_child_count(), 0, "Return leaves StagingSlot empty")
 	_assert_true(shell.continue_enabled(), "post-return inspection refreshes Continue")
+	var stance_before: int = BattlePace.stance
+	BattlePace.stance = CombatStance.Value.EVADE # the last character's
 	_assert_true(shell.request_continue_from_menu(), "real Continue queues after Return")
 	await _wait_frames(tree, 4)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "Continue restores gameplay")
+	_assert_eq(BattlePace.stance, CombatStance.Value.ATTACK, "the loaded character starts at 攻, not at the last one's 游走 (DECISIONS「姿态整记」)")
+	BattlePace.stance = stance_before
 	_assert_true(shell.runtime_host().session_invariant_holds(), "Continue restores exactly one Session")
 	_assert_true(shell.runtime_host().current_session().get_instance_id() != original_session_id, "restored Session has fresh runtime identity")
 	_free_node(shell)

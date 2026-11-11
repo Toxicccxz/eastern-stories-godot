@@ -470,7 +470,6 @@ func _test_chillgaze_fight(tree: SceneTree, session: WorldSessionController) -> 
 	state.skills.set_raw_level(&"iceforce", 300)
 	state.skills.map_skill(&"force", &"iceforce")
 	state.recovery.inner_force = CharacterInternalResourceState.new(1000, 1000)
-	state.attributes.force_factor = 10
 	state.progression.combat_experience = 1000000
 	state.spirit = CharacterResourceState.new(500, 500, 500)
 	var servant: NpcRuntimeState = await _beside(tree, map, session, SERVANT)
@@ -479,6 +478,8 @@ func _test_chillgaze_fight(tree: SceneTree, session: WorldSessionController) -> 
 	session.configure_combat_random_source(Forced.new()) # TEST-ONLY: every roll its highest
 	map.select_npc(servant.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "attacking a 婢女")
+	# TEST-ONLY: 加力 10 once the fight is open (it opens with the stance's, DECISIONS「姿态整记」).
+	state.attributes.force_factor = 10
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	ui.refresh_projection()
 	var labels: Array[String] = []

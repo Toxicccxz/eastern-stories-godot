@@ -23,7 +23,7 @@ const BOOK: StringName = &"es2:d/choyin/obj/magic_book"
 const SERGEANT: StringName = &"choyin.npc.sergeant"
 const STEWARD: StringName = &"native.npc.yu_steward"
 const HENCHMAN: StringName = &"native.npc.yu_henchman"
-const GHOUL: StringName = &"native.npc.hell_runner"
+const GHOUL: StringName = &"native.npc.hell_runner_tomb" # DECISIONS「主线必打的仗」: the hollow's own
 const WITNESS: StringName = &"native.npc.chen_witness"
 const GATE: StringName = &"choyin.court1.gate"
 
