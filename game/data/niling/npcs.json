@@ -33,6 +33,11 @@
 			},
 			"carry": [
 				{
+					"item": "es2:d/oldpine/obj/long_sword",
+					"source": "d/oldpine/obj/long_sword.c",
+					"equip": "wield"
+				},
+				{
 					"item": "es2:d/oldpine/npc/obj/black_cloth",
 					"source": "d/oldpine/npc/obj/black_cloth.c",
 					"equip": "wear"
@@ -896,10 +901,10 @@
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
-				"sword": 120,
-				"six-chaos-sword": 120,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 130,
+				"parry": 80,
 				"force": 160
 			},
 			"skill_map": {

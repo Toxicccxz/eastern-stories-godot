@@ -152,8 +152,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -224,8 +224,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -296,8 +296,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -354,7 +354,7 @@
 			"title": "禁军",
 			"gender": "男性",
 			"age": 30,
-			"long": "一个披甲的禁军，红缨盔，手里一杆长戟，站在午门的铁门前一动不动。他的眼睛不看人，看的是人的手。\n",
+			"long": "一个披甲的禁军，红缨盔，手按着腰刀，站在午门的铁门前一动不动。他的眼睛不看人，看的是人的手。\n",
 			"attributes": {
 				"str": 28,
 				"cor": 26,
@@ -376,8 +376,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -765,17 +765,34 @@
 				"con": 24,
 				"kar": 20
 			},
-			"combat_exp": 400000,
+			"combat_exp": 100000,
 			"attitude": "peaceful",
 			"skills": {
-				"blade": 70,
-				"shortsong-blade": 105,
-				"force": 80,
-				"wu-shun": 80,
-				"parry": 50,
-				"dodge": 60,
-				"fall-steps": 60
+				"blade": 50,
+				"shortsong-blade": 70,
+				"force": 50,
+				"wu-shun": 50,
+				"parry": 40,
+				"dodge": 45,
+				"fall-steps": 45
 			},
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "wu-shun",
+				"dodge": "fall-steps"
+			},
+			"resources": {
+				"force": 600,
+				"max_force": 600,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"force_factor": 10,
 			"fight_deferred": "殿上的禁军已经拔了刀，你的手停在半空。",
 			"inquiry": {
 				"寻剑令": [
@@ -1024,8 +1041,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -1128,8 +1145,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -1231,8 +1248,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -1501,8 +1518,8 @@
 			},
 			"carry": [
 				{
-					"item": "es2:obj/longsword",
-					"source": "d/city/npc/guard.c",
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
 					"equip": "wield"
 				},
 				{
@@ -1729,6 +1746,10 @@
 				"dodge": 70,
 				"force": 70
 			},
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade"
+			},
 			"carry": [
 				{
 					"item": "es2:d/city/shangshu/npc/obj/blade",
@@ -1935,17 +1956,34 @@
 				"con": 24,
 				"kar": 20
 			},
-			"combat_exp": 400000,
+			"combat_exp": 100000,
 			"attitude": "peaceful",
 			"skills": {
-				"blade": 70,
-				"shortsong-blade": 105,
-				"force": 80,
-				"wu-shun": 80,
-				"parry": 50,
-				"dodge": 60,
-				"fall-steps": 60
+				"blade": 50,
+				"shortsong-blade": 70,
+				"force": 50,
+				"wu-shun": 50,
+				"parry": 40,
+				"dodge": 45,
+				"fall-steps": 45
 			},
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "wu-shun",
+				"dodge": "fall-steps"
+			},
+			"resources": {
+				"force": 600,
+				"max_force": 600,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"force_factor": 10,
 			"carry": [
 				{
 					"item": "es2:d/city/shangshu/npc/obj/blade",
@@ -2158,20 +2196,37 @@
 				"con": 24,
 				"kar": 20
 			},
-			"combat_exp": 400000,
+			"combat_exp": 100000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"blade": 70,
-				"shortsong-blade": 105,
-				"force": 80,
-				"wu-shun": 80,
-				"parry": 50,
-				"dodge": 60,
-				"fall-steps": 60
+				"blade": 50,
+				"shortsong-blade": 70,
+				"force": 50,
+				"wu-shun": 50,
+				"parry": 40,
+				"dodge": 45,
+				"fall-steps": 45
 			},
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "wu-shun",
+				"dodge": "fall-steps"
+			},
+			"resources": {
+				"force": 600,
+				"max_force": 600,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"force_factor": 10,
 			"carry": [
 				{
 					"item": "es2:d/city/shangshu/npc/obj/blade",
@@ -2221,11 +2276,18 @@
 			"attitude": "friendly",
 			"skills": {
 				"unarmed": 150,
-				"sword": 180,
+				"blade": 180,
 				"dodge": 160,
 				"parry": 160,
 				"force": 150
 			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
+					"equip": "wield"
+				}
+			],
 			"summoned": {
 				"arrive": [
 					"冯策拔刀站到你身边：「老夫来。」"
@@ -2269,6 +2331,13 @@
 				"parry": 150,
 				"force": 140
 			},
+			"carry": [
+				{
+					"item": "es2:obj/longsword",
+					"source": "obj/longsword.c",
+					"equip": "wield"
+				}
+			],
 			"calls": [
 				{
 					"after": 1,

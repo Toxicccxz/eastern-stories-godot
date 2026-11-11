@@ -171,7 +171,8 @@
 			"attributes": { "str": 30, "cor": 30, "int": 28, "spi": 26, "cps": 30, "per": 22, "con": 30, "kar": 20 },
 			"combat_exp": 500000,
 			"attitude": "friendly",
-			"skills": { "unarmed": 150, "sword": 180, "dodge": 160, "parry": 160, "force": 150 },
+			"skills": { "unarmed": 150, "blade": 180, "dodge": 160, "parry": 160, "force": 150 },
+			"carry": [{ "item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield" }],
 			"inquiry": {
 				"寻剑": {
 					"rules": [
@@ -201,6 +202,7 @@
 			"combat_exp": 300000,
 			"attitude": "friendly",
 			"skills": { "unarmed": 140, "sword": 150, "dodge": 160, "parry": 150, "force": 140 },
+			"carry": [{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }],
 			"inquiry": {
 				"寻剑": ["老夫只是陪冯总教头走一趟。寻剑的事，问他去。"],
 				"黄石隘口": ["方位信使已经报过了，还问老夫？"]
@@ -218,6 +220,7 @@
 			"combat_exp": 20000,
 			"attitude": "friendly",
 			"skills": { "unarmed": 60, "sword": 80, "dodge": 70, "parry": 70, "force": 60 },
+			"carry": [{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }],
 			"inquiry": {
 				"寻剑": ["奉旨办差，闲人少问。"]
 			}
@@ -1187,10 +1190,10 @@
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
-				"sword": 120,
-				"six-chaos-sword": 120,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 130,
+				"parry": 80,
 				"force": 160
 			},
 			"skill_map": {
@@ -1951,11 +1954,18 @@
 			"combat_exp": 500000,
 			"skills": {
 				"unarmed": 150,
-				"sword": 180,
+				"blade": 180,
 				"dodge": 160,
 				"parry": 160,
 				"force": 150
 			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
+					"equip": "wield"
+				}
+			],
 			"long": "冯策一身素白的武官袍，刀在腰上，站得笔直。三十个大内侍卫散在岸上，没有一个说话。\n",
 			"attitude": "friendly",
 			"fight_deferred": "冯策摇了摇头：留着力气，湖底用。",
@@ -2259,16 +2269,33 @@
 				"str": 27,
 				"int": 25
 			},
-			"combat_exp": 400000,
+			"combat_exp": 100000,
 			"skills": {
-				"blade": 70,
-				"shortsong-blade": 105,
-				"force": 80,
-				"wu-shun": 80,
-				"parry": 50,
-				"dodge": 60,
-				"fall-steps": 60
+				"blade": 50,
+				"shortsong-blade": 70,
+				"force": 50,
+				"wu-shun": 50,
+				"parry": 40,
+				"dodge": 45,
+				"fall-steps": 45
 			},
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "wu-shun",
+				"dodge": "fall-steps"
+			},
+			"resources": {
+				"force": 600,
+				"max_force": 600,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"force_factor": 10,
 			"long": "庾子建骑着马停在岸边的柳树下，一身便服，身后跟着几个兵部的白衣武官。他不看湖，只看你。\n",
 			"attitude": "friendly",
 			"fight_deferred": "庾子建笑了笑：本官是来要剑的，不是来打架的。",
@@ -2369,10 +2396,10 @@
 			},
 			"combat_exp": 500000,
 			"skills": {
-				"sword": 120,
-				"six-chaos-sword": 120,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 130,
+				"parry": 80,
 				"force": 160
 			},
 			"skill_map": {
@@ -2461,12 +2488,19 @@
 			},
 			"combat_exp": 500000,
 			"skills": {
-				"sword": 120,
-				"six-chaos-sword": 120,
+				"sword": 70,
+				"six-chaos-sword": 70,
 				"dodge": 150,
-				"parry": 130,
+				"parry": 80,
 				"force": 160
 			},
+			"carry": [
+				{
+					"item": "native:niling/shang_jue_sword",
+					"source": "native: 终章 B (商玦拔出了剑。剑身是黑的，没有一点光)",
+					"equip": "wield"
+				}
+			],
 			"skill_map": {
 				"sword": "six-chaos-sword",
 				"parry": "six-chaos-sword"
@@ -2588,11 +2622,18 @@
 			"combat_exp": 500000,
 			"skills": {
 				"unarmed": 150,
-				"sword": 180,
+				"blade": 180,
 				"dodge": 160,
 				"parry": 160,
 				"force": 150
 			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
+					"equip": "wield"
+				}
+			],
 			"long": "冯策一身素白的武官袍，刀已经出了鞘，站在你身侧半步。\n",
 			"attitude": "friendly",
 			"summoned": {
@@ -3447,7 +3488,7 @@
 			"combat_exp": 500000,
 			"skills": {
 				"unarmed": 150,
-				"sword": 180,
+				"blade": 180,
 				"dodge": 160,
 				"parry": 160,
 				"force": 150

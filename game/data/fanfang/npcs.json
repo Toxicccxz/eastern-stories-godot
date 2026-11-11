@@ -404,6 +404,7 @@
 			"score": 8000,
 			"attitude": "friendly",
 			"skills": { "sword": 120, "parry": 125, "dodge": 90, "unarmed": 80, "force": 100, "shield-sword": 100 },
+			"skill_map": { "sword": "shield-sword", "parry": "shield-sword" },
 			"carry": [
 				{ "item": "native:guanbei/gladius", "source": "native: 关北 A", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
@@ -909,6 +910,7 @@
 			"attitude": "peaceful",
 			"skills": { "sword": 80, "dodge": 100, "unarmed": 50 },
 			"carry": [
+				{ "item": "native:fanfang/katana", "source": "native: 番坊 C (the 鬼笠馆's 倭刀)", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
 			"calls": [
