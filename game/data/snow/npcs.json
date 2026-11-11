@@ -403,6 +403,7 @@
 					"rules": [
 						{ "asker_marks": ["脚钱"], "say": "往后有信，还找你。" },
 						{ "asker_marks": ["信送到了"], "gives": "es2:obj/money/silver", "mark_asker": "脚钱", "say": "送到了？好，说好的脚钱。往后有信，还找你。" },
+						{ "asker_marks": ["雪亭驿的信"], "asker_not_carries": "mail", "gives": "native:snow/letter_to_chen", "say": "信丢了？……还好驿里留着底子，我再誊一封。这回别再弄丢了，陈镖头的镖局就在绮云镇街上。" },
 						{ "asker_marks": ["雪亭驿的信"], "say": "信送到了么？陈镖头的镖局就在绮云镇街上。" },
 						{ "gives": "native:snow/letter_to_chen", "mark_asker": "雪亭驿的信", "say": "正好有封信，要送到绮云镇振远镖局陈镖头手里。驿里就我一个走不开——你若肯跑这一趟，回来给你一两脚钱。出镇往南过卧龙岗，岗上有强人，别跟他们纠缠，走你的路就是。" }
 					]
