@@ -21,6 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check_cards()
 	_check_portrait_files()
 	_check_resolve()
+	_check_spawned_looks()
 	await _check_figures(tree)
 	await _check_light_figures(tree)
 	await _check_in_the_inn(tree)
@@ -152,6 +153,45 @@ func _check_resolve() -> void:
 	_check(PersonPortraits.npc_id(pass_taoist) == "native.npc.black_taoist" and PersonPortraits.full(PersonPortraits.npc_id(pass_taoist)) != null, "and his pictures")
 	var her: Dictionary = PersonLooks.region_cards("common").get("player.female", {})
 	_check(not her.is_empty() and PersonLooks.resolve({}, "", PersonLooks.player(String(CharacterState.GENDER_FEMALE))) == her, "the player's card by their gender")
+
+
+## Everyone a spawn puts on a map looks like someone there: a card of their own (or one per drawn
+## gender), or an entry in that map's voxel `actors`; never the map's default figure alone. A beast
+## (race beast) resolves to an animal (`animal`) or a body (crawler, flyer, snake …), never a person.
+func _check_spawned_looks() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var configs: Dictionary = {}
+	var missing: Array[String] = []
+	var people_beasts: Array[String] = []
+	for spawn: NpcSpawnDefinition in catalog.spawns():
+		var id: String = String(NpcDefinition.unnamed_id(spawn.npc_definition_id))
+		var map: MapDefinition = catalog.map(spawn.map_id)
+		if map == null:
+			continue
+		if not configs.has(map.map_id):
+			configs[map.map_id] = _voxel_actors(map.scene_path)
+		var actors: Dictionary = configs[map.map_id]
+		var carded: bool = not PersonLooks.card(id).is_empty() or not PersonLooks.card(id, String(CharacterState.GENDER_MALE)).is_empty() or not PersonLooks.card(id, String(CharacterState.GENDER_FEMALE)).is_empty()
+		if not carded and not actors.has(id):
+			missing.append("%s on %s" % [id, map.map_id])
+			continue
+		var npc: NpcDefinition = catalog.npc(StringName(id))
+		if npc != null and npc.race_id == &"beast":
+			var look: Dictionary = PersonLooks.resolve(actors, id)
+			if not look.get("animal", false) and not look.has("body"):
+				people_beasts.append("%s on %s" % [id, map.map_id])
+	_check(missing.is_empty(), "every spawned NPC has a card or an entry on its map: missing %s" % [missing])
+	_check(people_beasts.is_empty(), "every spawned beast is an animal or a body, not a person: %s" % [people_beasts])
+
+
+## The `actors` of the voxel config a painted map's scene names (its WorldVoxelView's layout_path).
+func _voxel_actors(scene_path: String) -> Dictionary:
+	var scene: String = FileAccess.get_file_as_string(scene_path)
+	var found: RegExMatch = RegEx.create_from_string("layout_path = \"([^\"]+)\"").search(scene)
+	if found == null:
+		return {}
+	var config: Variant = JSON.parse_string(FileAccess.get_file_as_string(found.get_string(1)))
+	return (config as Dictionary).get("actors", {}) if config is Dictionary else {}
 
 
 ## The figure draws what its look names and nothing more; every word on the list builds.

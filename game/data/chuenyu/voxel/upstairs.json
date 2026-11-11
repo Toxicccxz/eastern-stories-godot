@@ -13,6 +13,9 @@
   "life": {
     "chuenyu.kitchen": {"ambience": [{"kind": "smoke"}, {"kind": "steam"}], "note": "烤山猪"}
   },
+  "actors": {
+    "chuenyu.npc.pigeon": {"body": "flyer", "scale": 0.5, "wings": ["d8d4cc", "8a8a8e"], "hover": 1.6, "note": "pigeon.c: 一只乖巧的小信鸽"}
+  },
   "props": [
     {"kind": "far_ground", "at": [344, -520], "size": [1400, 700], "elevation": -8.0, "colors": ["2e4430:haze"], "trees": 30, "crowns": ["1e3428:haze", "28402e:haze", "324c36:haze"], "clearing": [0, 6, 22, 4], "clearing_color": "7ca8b0:haze", "note": "yiantai.c: 从这里你可以一直望到山脚"},
     {"kind": "rug", "at": [344, 420], "size": [256, 160], "elevation": 0.05, "cloth": "6a2a24", "motif": "8a5a3e", "border": "c8a050"},

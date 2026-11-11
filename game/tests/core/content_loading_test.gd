@@ -21,8 +21,13 @@ func _test_shipped_content_loads() -> void:
 	_eq(GameContent.load_errors(), [], "shipped content has no errors")
 	var catalog: ContentCatalog = GameContent.catalog()
 	_eq(catalog.items().is_empty() or catalog.npcs().is_empty() or catalog.spawns().is_empty() or catalog.vendors().is_empty(), false, "every content kind is present")
+	var undefined_skills: Array[String] = []
 	for item: ItemContentDefinition in catalog.items():
 		_eq(item.is_valid(), true, "%s is valid" % item.item_definition_id)
+		# Wielding it and landing a blow teaches its basic skill (the 武学 page names it).
+		if item.weapon_skill_type != &"" and catalog.skill(item.weapon_skill_type) == null:
+			undefined_skills.append("%s (%s)" % [item.item_definition_id, item.weapon_skill_type])
+	_eq(undefined_skills, [], "every weapon's skill is defined in skills.json")
 	_eq(catalog.native_item_projections().is_valid, true, "item role projections are consistent")
 	_eq(catalog.native_item_projections().has_item_definition(CorpseState.ITEM_DEFINITION_ID), true, "rule-created corpse item is projected")
 	_eq(catalog.item(CorpseState.ITEM_DEFINITION_ID), null, "corpse is not authored content")
