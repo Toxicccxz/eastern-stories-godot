@@ -241,7 +241,7 @@
           ["blocked", 160, -2640, 192, -2608, {"look": {"kind": "standing_rock", "height": 1.8, "colors": ["958361", "84744f", "a49272"]}}],
           ["blocked", -240, -2384, -208, -2352, {"look": {"kind": "boulder", "colors": ["8a8062", "9a8f70"]}}],
           ["blocked", 176, -2384, 224, -2368, "the government notice about the 野羊山 bandits", {"look": {"kind": "board"}}],
-          ["blocked", -112, -2112, -96, -2064, "雪亭驿's bounty board on the street, clear of its porch roof (native, A2 经验节奏)", {"look": {"kind": "board", "rotation": 90}}],
+          ["blocked", -96, -2112, -80, -2064, "雪亭驿's bounty board on the street, clear of its porch roof (native, A2 经验节奏)", {"look": {"kind": "board", "rotation": 90}}],
           ["blocked", -160, -2160, -128, -2112, "雪亭驿's horse trough by its wall north of the door, by the hitching post (postoffice.c: 官府文书跟军令往来; south of the door stands the 车马行 cart)", {"look": {"kind": "trough"}}],
           ["blocked", -160, -1152, -128, -1120, "打铁铺子's quench tub and its coal by the wall (smithy.c: 火炉中冒出的火光, 叮叮当当)", {"look": {"kind": "water_vat", "glaze": "4a4a44", "lid": false}}],
           ["blocked", -160, -1200, -128, -1168, {"look": {"kind": "coal_heap"}}],
