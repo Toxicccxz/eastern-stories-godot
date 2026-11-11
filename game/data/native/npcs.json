@@ -2573,11 +2573,11 @@
 				"con": 24,
 				"kar": 14
 			},
-			"combat_exp": 120000,
+			"combat_exp": 20000,
 			"skills": {
-				"sword": 80,
-				"parry": 75,
-				"dodge": 75,
+				"sword": 40,
+				"parry": 35,
+				"dodge": 35,
 				"force": 70,
 				"unarmed": 60
 			},
