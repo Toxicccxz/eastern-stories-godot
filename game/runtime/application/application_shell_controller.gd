@@ -1682,10 +1682,10 @@ func _configure_battle_options() -> void:
 	day_night_option.add_item("一直白天", DayNightPreference.Value.DAY)
 	day_night_option.add_item("一直夜晚", DayNightPreference.Value.NIGHT)
 	day_night_option.tooltip_text = "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
-	# 画质 (DECISIONS「画质」): the levels as graphics_quality.json names them.
+	# 画质 (DECISIONS「画质」): graphics_quality.json's two levels.
 	graphics_quality_option.clear()
-	for quality: int in [GraphicsQuality.Value.HIGH, GraphicsQuality.Value.LOW]:
-		graphics_quality_option.add_item(GraphicsQuality.label(quality), quality)
+	graphics_quality_option.add_item("高", GraphicsQuality.Value.HIGH)
+	graphics_quality_option.add_item("低", GraphicsQuality.Value.LOW)
 	graphics_quality_option.tooltip_text = "高：影子边缘柔和、斜线平滑、近处的灯都投影；低：影子边缘硬、斜线有锯齿、只有最近的几盏灯投影，画面更流畅"
 	# 总音量 (DECISIONS「战斗拍数 C」): the game's sounds (the fight's, for now); 0 is silence.
 	master_volume_slider.tooltip_text = "游戏里所有声音的音量；拉到 0 就没有声音"

@@ -36,7 +36,6 @@ func _levels() -> void:
 	var low: Dictionary = GraphicsQuality.settings(GraphicsQuality.Value.LOW)
 	_check(low.get("shadow_filter") == "hard" and int(low.get("sun_shadow_size")) == 2048, "低: hard shadows, a 2048 sun shadow")
 	_check(GraphicsQuality.msaa(GraphicsQuality.Value.LOW) == Viewport.MSAA_DISABLED and GraphicsQuality.sun_shadow_mode(GraphicsQuality.Value.LOW) == DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS and GraphicsQuality.lamp_shadows(GraphicsQuality.Value.LOW) == 4, "低: no MSAA, two splits, four lamps")
-	_check(GraphicsQuality.label(GraphicsQuality.Value.HIGH) == "高" and GraphicsQuality.label(GraphicsQuality.Value.LOW) == "低", "called 高 and 低")
 
 
 func _device_default() -> void:

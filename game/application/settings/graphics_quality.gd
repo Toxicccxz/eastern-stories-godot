@@ -56,15 +56,11 @@ static func data() -> Dictionary:
 	return _data
 
 
-## A level's values (the data's `levels` entry): label, shadow_filter, sun_shadow_size,
+## A level's values (the data's `levels` entry): shadow_filter, sun_shadow_size,
 ## sun_splits, msaa, lamp_shadows.
 static func settings(value: int = level) -> Dictionary:
 	var levels: Dictionary = data().get("levels", {})
 	return levels.get(storage_value(value), levels.get(STORAGE[Value.HIGH], {}))
-
-
-static func label(value: int) -> String:
-	return String(settings(value).get("label", storage_value(value)))
 
 
 ## What the 3D viewport's MSAA is at this level.
