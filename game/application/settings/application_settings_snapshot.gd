@@ -13,7 +13,11 @@ extends RefCounted
 ## an older file reads as 自动, wherever the system opens the window.
 ## Version 10 adds the 总音量 (DECISIONS「战斗拍数 C」); an older file reads as DEFAULT_MASTER_VOLUME.
 ## Version 11 adds the 战斗开场动画 (DECISIONS「战斗演出 B」); an older file reads as 全程 (FULL).
-const SCHEMA_VERSION: int = 11
+## Version 12 adds the 画质 and whether its slow-frame hint was told (DECISIONS「画质」); an older
+## file reads as this machine's first level (GraphicsQuality.device_default()), not told.
+const SCHEMA_VERSION: int = 12
+## The 画质 is this machine's first level (GraphicsQuality.device_default()).
+const DEVICE_QUALITY: int = -1
 ## The 总音量 at first start, in percent of full.
 const DEFAULT_MASTER_VOLUME: int = 80
 ## The monitor is not known: the window stays where the system opens it.
@@ -33,6 +37,8 @@ var _resolution: Vector2i
 var _screen: int
 var _master_volume: int
 var _battle_opening: int
+var _graphics_quality: int
+var _quality_hint_told: bool
 
 
 func _init(
@@ -50,6 +56,8 @@ func _init(
 	p_screen: int = NO_SCREEN,
 	p_master_volume: int = DEFAULT_MASTER_VOLUME,
 	p_battle_opening: int = BattlePace.Opening.FULL,
+	p_graphics_quality: int = DEVICE_QUALITY,
+	p_quality_hint_told: bool = false,
 ) -> void:
 	_version = p_version
 	_window_mode = p_window_mode
@@ -65,6 +73,8 @@ func _init(
 	_screen = p_screen
 	_master_volume = p_master_volume
 	_battle_opening = p_battle_opening
+	_graphics_quality = GraphicsQuality.device_default() if p_graphics_quality == DEVICE_QUALITY else p_graphics_quality
+	_quality_hint_told = p_quality_hint_told
 
 
 func version() -> int:
@@ -133,45 +143,63 @@ func battle_opening() -> int:
 	return _battle_opening
 
 
+## 画质 (GraphicsQuality.Value).
+func graphics_quality() -> int:
+	return _graphics_quality
+
+
+## The slow-frame hint (DECISIONS「画质」) has been told.
+func quality_hint_told() -> bool:
+	return _quality_hint_told
+
+
+func with_graphics_quality(quality: int) -> ApplicationSettingsSnapshot:
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, quality, _quality_hint_told)
+
+
+func with_quality_hint_told(told: bool) -> ApplicationSettingsSnapshot:
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, told)
+
+
 func with_battle_opening(choice: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, choice)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, choice, _graphics_quality, _quality_hint_told)
 
 
 func with_display(mode: int, resolution: Vector2i, screen: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, resolution, screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, resolution, screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_window_mode(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_language(language: String) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_battle(speed: int, flash: bool, after_knockout: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_ui_scale(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_objective_hints(shown: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_day_night(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, mode, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, mode, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 ## 总音量 (DECISIONS「战斗拍数 C」): 0–100, the Master bus.
 func with_master_volume(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, percent, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, percent, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func with_autosave_notice(shown: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, shown, _resolution, _screen, _master_volume, _battle_opening)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, shown, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
 
 
 func is_valid() -> bool:
@@ -186,6 +214,7 @@ func is_valid() -> bool:
 		and _screen >= NO_SCREEN
 		and _master_volume >= 0 and _master_volume <= 100
 		and BattlePace.is_valid_opening(_battle_opening)
+		and GraphicsQuality.is_valid(_graphics_quality)
 	)
 
 

@@ -96,7 +96,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_snapshot_and_repository() -> void:
 	var defaults: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
 	_assert_true(defaults.is_valid(), "default settings snapshot is valid")
-	_assert_eq(defaults.version(), 11, "settings schema is v11 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜, 自动存档提示, 分辨率, 总音量, 战斗开场)")
+	_assert_eq(defaults.version(), 12, "settings schema is v12 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜, 自动存档提示, 分辨率, 总音量, 战斗开场, 画质)")
 	_assert_eq(defaults.window_mode(), ApplicationWindowMode.Value.WINDOWED, "desktop-safe default is Windowed")
 	_assert_false(ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION + 1).is_valid(), "unsupported snapshot version rejects")
 	_assert_eq(defaults.ui_scale(), 100, "the UI scale starts at 100%")

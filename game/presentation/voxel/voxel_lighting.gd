@@ -57,7 +57,14 @@ var environment: Environment
 var sun: DirectionalLight3D
 var occlusion: VoxelOcclusion
 var lamps: Array[Light3D] = []
-## The lamps casting a shadow now (LAMP_SHADOWS), nearest first.
+## How many lamps may cast at most: LAMP_SHADOWS, or fewer at a lower 画质 (DECISIONS「画质」;
+## the view sets it). A change is read at the next advance().
+var lamp_shadow_limit: int = LAMP_SHADOWS:
+	set(value):
+		if value != lamp_shadow_limit:
+			lamp_shadow_limit = value
+			_rank_in = 0.0
+## The lamps casting a shadow now (lamp_shadow_limit), nearest first.
 var casting: Array[Light3D] = []
 var _rank_in: float = 0.0
 var _shadows_ranked: bool = false
@@ -351,10 +358,10 @@ func _advance_lamp_shadows(delta: float) -> void:
 		if not is_equal_approx(share,goal):
 			_shadows_settled = false
 
-## How many lamps cast a shadow now: LAMP_SHADOWS indoors, where the lamps are the light;
+## How many lamps cast a shadow now: lamp_shadow_limit indoors, where the lamps are the light;
 ## out of doors as far as the night has come (none by day, half at dusk, all by night).
 func lamp_shadow_count() -> int:
-	return LAMP_SHADOWS if indoor else ceili(LAMP_SHADOWS*clampf(amount,0.0,1.0)-0.0001)
+	return lamp_shadow_limit if indoor else ceili(lamp_shadow_limit*clampf(amount,0.0,1.0)-0.0001)
 
 ## The lamp_shadow_count() lit lamps nearest the player (on the ground plane, as the lamps'
 ## own fade), nearest first; one casting now counts as nearer by LAMP_SHADOW_HOLD. Never the
