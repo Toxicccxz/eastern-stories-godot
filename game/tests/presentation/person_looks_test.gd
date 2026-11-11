@@ -22,6 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check_portrait_files()
 	_check_resolve()
 	await _check_figures(tree)
+	await _check_light_figures(tree)
 	await _check_in_the_inn(tree)
 	await _check_big_screen(tree)
 	return {"assertions": assertions, "failures": failures}
@@ -203,6 +204,97 @@ func _check_figures(tree: SceneTree) -> void:
 	await tree.process_frame
 	stage.queue_free()
 	await tree.process_frame
+
+
+## A figure costs little to draw and nothing to stand: a limb's plain colours are one batch
+## (their colours kept, on the instances), and a part is written only when it moves — one set
+## to the place it has is still sent to the renderer with everything on it, every frame.
+func _check_light_figures(tree: SceneTree) -> void:
+	var stage := Node3D.new()
+	tree.root.add_child(stage)
+	var waiter: Node3D = Person.new()
+	waiter.configure(PersonLooks.card("snow.npc.waiter"))
+	stage.add_child(waiter)
+	var batches: int = 0
+	var boxes: int = 0
+	var colours: Dictionary[String, bool] = {}
+	for node: Node in waiter.find_children("*", "MultiMeshInstance3D", true, false):
+		var batch: MultiMesh = (node as MultiMeshInstance3D).multimesh
+		batches += 1
+		boxes += batch.instance_count
+		for index: int in batch.instance_count:
+			if batch.use_colors:
+				colours[batch.get_instance_color(index).linear_to_srgb().to_html(false)] = true
+	_check(batches <= 12 and boxes >= 30, "the waiter is %d boxes in %d batches: a limb's plain colours are one" % [boxes, batches])
+	# The headless dummy renderer keeps no instance colours: the windowed pass reads them.
+	if DisplayServer.get_name() != "headless":
+		for key: String in ["coat", "pants", "skin", "hair"]:
+			var hex: String = Color(String(PersonLooks.card("snow.npc.waiter").get(key, ""))).to_html(false)
+			_check(colours.has(hex), "the waiter's %s (%s) is still on him: %s" % [key, hex, str(colours.keys())])
+	# Standing: nothing is written but the breath's few steps and a blink. A counter under a
+	# part hears of each frame in which the part was written, changed or not.
+	var plain: Node3D = Person.new()
+	stage.add_child(plain)
+	var watch: Dictionary[String, MoveCount] = {}
+	for part: Array in [["leg", plain.legs[0]], ["arm", plain.arms[0]], ["torso", plain.torso]]:
+		var counter := MoveCount.new()
+		(part[1] as Node3D).add_child(counter)
+		counter.set_notify_transform(true)
+		watch[part[0]] = counter
+	await _frames(tree, 2)
+	plain.clock = 0.2
+	for counter: MoveCount in watch.values():
+		counter.moves = 0
+	await _frames(tree, 120)
+	# An arm hangs from the torso: it moves with the breath, never by itself.
+	_check(watch["leg"].moves == 0 and watch["arm"].moves <= watch["torso"].moves, "two seconds standing: the legs are not written once, the left arm only with the torso (%d, %d, %d)" % [watch["leg"].moves, watch["arm"].moves, watch["torso"].moves])
+	_check(watch["torso"].moves > 0 and watch["torso"].moves <= 20, "the breath goes in steps, a few a second: written in %d frames of 120" % watch["torso"].moves)
+	# Walking writes every frame, as it must; standing again stops.
+	plain.walking = true
+	await _frames(tree, 2)
+	for counter: MoveCount in watch.values():
+		counter.moves = 0
+	await _frames(tree, 30)
+	_check(watch["leg"].moves >= 28 and watch["arm"].moves >= 28, "walking: the limbs swing every frame (%d, %d of 30)" % [watch["leg"].moves, watch["arm"].moves])
+	plain.walking = false
+	await _frames(tree, 2)
+	plain.clock = 0.2
+	for counter: MoveCount in watch.values():
+		counter.moves = 0
+	await _frames(tree, 30)
+	_check(watch["leg"].moves == 0 and watch["arm"].moves <= watch["torso"].moves and is_zero_approx(plain.legs[0].rotation.x) and is_zero_approx(plain.arms[0].rotation.x), "stopped: back at rest, and still (%d, %d, %d)" % [watch["leg"].moves, watch["arm"].moves, watch["torso"].moves])
+	# One at work goes on moving; one sitting keeps the seat and the sunk hip.
+	var smith: Node3D = Person.new()
+	smith.activity("hammer", "stand")
+	stage.add_child(smith)
+	var swing := MoveCount.new()
+	smith.arms[0].add_child(swing)
+	swing.set_notify_transform(true)
+	await _frames(tree, 2)
+	swing.moves = 0
+	var before: float = smith.arms[0].rotation.x
+	var moved: bool = false
+	for _frame: int in 60:
+		await tree.process_frame
+		moved = moved or not is_equal_approx(smith.arms[0].rotation.x, before)
+	_check(moved and swing.moves >= 56, "one at the anvil goes on hammering: written in %d frames of 60" % swing.moves)
+	var sitter: Node3D = Person.new()
+	sitter.activity("", "sit")
+	stage.add_child(sitter)
+	await _frames(tree, 2)
+	_check(is_equal_approx(sitter.legs[0].rotation.x, Person.POSE_LEGS["sit"]) and is_equal_approx(sitter.legs[1].rotation.x, Person.POSE_LEGS["sit"]) and sitter.legs[0].position.y < plain.legs[0].position.y, "one sitting: both legs forward, the hip sunk")
+	stage.queue_free()
+	await tree.process_frame
+
+
+## Counts the times the part above it is written (its transform set, changed or not).
+class MoveCount:
+	extends Node3D
+	var moves: int = 0
+
+	func _notification(what: int) -> void:
+		if what == NOTIFICATION_TRANSFORM_CHANGED:
+			moves += 1
 
 
 ## In the inn: the waiter's figure wears his card, the player hers; talking with him shows both

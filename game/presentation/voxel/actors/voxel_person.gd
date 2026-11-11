@@ -40,6 +40,8 @@ const GESTURE_SECONDS: Dictionary[String, float] = {
 }
 ## A pose's leg angle (forward, radians): on a low stool, cross-legged on the ground.
 const POSE_LEGS: Dictionary[String, float] = {"sit": -1.2, "sit_ground": -1.5}
+## The step of the breath's rise (the torso goes up and down 0.012 at rest).
+const BREATH_STEP: float = 0.004
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
 ## round the shins; armor (甲): a plate on each shoulder and one on the chest; shield (圆盾, 铁盾会):
 ## strapped to the left forearm; lantern (灯笼, 巡夜禁军): hung from the left hand.
@@ -203,6 +205,9 @@ func _ready() -> void:
 	for extra: String in EXTRAS:
 		if extras.has(extra):
 			drawn.append(extra)
+	# A limb's plain colours are one batch (DECISIONS「搭建开销」): a figure was some twenty
+	# draws, a street of forty people a thousand.
+	_s.pool_plain_colours()
 	_s.flush()
 
 
@@ -534,28 +539,50 @@ func _process(delta: float) -> void:
 		return
 	clock += delta
 	pace += delta * (10.5 if walking else 1.0)
+	# The frame's pose first, then only what differs from the one shown is written: a part
+	# set to the place it has is still sent to the renderer with everything on it, every
+	# frame, and redraws the shadows of the lamps about it. One standing still costs nothing.
 	var stride: float = sin(pace)*0.55 if walking else 0.0
-	legs[0].rotation.x = stride
-	legs[1].rotation.x = -stride
-	arms[0].rotation.x = -stride*0.75
-	arms[1].rotation.x = stride*0.75
-	for arm: Node3D in arms:
-		arm.rotation.z = 0.0
-	torso.rotation = Vector3.ZERO
 	var posed: bool = not walking and at_ease and POSE_LEGS.has(pose)
 	var sink: float = _sink if posed else 0.0
 	if _seat != null:
 		_seat.visible = posed
-	for leg: Node3D in legs:
-		leg.position.y = 0.57*_legs_k - sink
-		if posed:
-			leg.rotation.x = POSE_LEGS[pose]
-	torso.position.y = (absf(sin(pace))*0.045 if walking else sin(clock*2.1)*0.012) - sink
-	eyes.scale.y = 0.12 if fmod(clock,4.3)<0.13 else 1.0
-	if not walking and working and at_ease and GESTURE_SECONDS.has(gesture):
+	var leg_y: float = 0.57*_legs_k - sink
+	_place(legs[0], Vector3(POSE_LEGS[pose] if posed else stride, 0.0, 0.0), leg_y)
+	_place(legs[1], Vector3(POSE_LEGS[pose] if posed else -stride, 0.0, 0.0), leg_y)
+	var gesturing: bool = not walking and working and at_ease and GESTURE_SECONDS.has(gesture)
+	if gesturing:
+		# The gesture writes the arms and the lean itself, from this rest.
+		arms[0].rotation = Vector3(-stride*0.75, 0.0, 0.0)
+		arms[1].rotation = Vector3(stride*0.75, 0.0, 0.0)
+		torso.rotation = Vector3.ZERO
+	else:
+		var lift: float = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8 if not walking and fmod(clock,7.2)>5.8 else stride*0.75
+		_turn(arms[0], Vector3(-stride*0.75, 0.0, 0.0))
+		_turn(arms[1], Vector3(lift, 0.0, 0.0))
+		_turn(torso, Vector3.ZERO)
+	# The breath is a hundredth of the figure's height: in steps, a few a second.
+	var rise: float = absf(sin(pace))*0.045 if walking else snappedf(sin(clock*2.1)*0.012, BREATH_STEP)
+	if not is_equal_approx(torso.position.y, rise - sink):
+		torso.position.y = rise - sink
+	var lids: float = 0.12 if fmod(clock,4.3)<0.13 else 1.0
+	if not is_equal_approx(eyes.scale.y, lids):
+		eyes.scale.y = lids
+	if gesturing:
 		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
-	elif not walking and fmod(clock,7.2)>5.8:
-		arms[1].rotation.x = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8
+
+
+## A part turned to `angles`, written only when it is not there already.
+static func _turn(part: Node3D, angles: Vector3) -> void:
+	if not part.rotation.is_equal_approx(angles):
+		part.rotation = angles
+
+
+## A leg turned to `angles` at the height `y`, written only when it is not there already.
+static func _place(part: Node3D, angles: Vector3, y: float) -> void:
+	_turn(part, angles)
+	if not is_equal_approx(part.position.y, y):
+		part.position.y = y
 
 
 ## One moment `t` (0..1) of the gesture's round: arms (0 holds the tool) and the lean of the body.
