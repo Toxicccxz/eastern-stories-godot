@@ -115,10 +115,12 @@ static func left_out(npc: NpcRuntimeState) -> bool:
 
 
 ## Alive and off the map is a state its spawn allows: a summoned, drawn or staged one waiting
-## for its room or the story, or one of the street's idle folk indoors for the night.
+## for its room or the story, or one of an ordinary spawn indoors for the night on its own map
+## (WorldMapNpcIdle.may_be_indoors(): the rule Continue reads too).
 static func _summoned(npc: NpcRuntimeState) -> bool:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-	return spawn != null and (spawn.starts_absent or WorldMapNpcIdle.goes_home_at_night(spawn, GameContent.catalog().pacing()))
+	var location: WorldLocationState = npc.world_location()
+	return spawn != null and (spawn.starts_absent or (location != null and WorldMapNpcIdle.may_be_indoors(spawn, location.map_id)))
 
 
 static func _inspect_character(

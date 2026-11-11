@@ -65,9 +65,14 @@ func advance(delta: float) -> void:
 	var prepared: bool = false
 	var night: bool = _night_now(tuning)
 	_set_off = false
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+		# Indoors, and nothing in force sends it in now (judge_night() found the player on its spot).
+		if body != null and not npc.exists_in_map and _up(npc) and _night_spawn(npc) != null and not goes_home_at_night(_night_spawn(npc), pacing):
+			_come_out(npc, walker, false)
+			continue
 		if entry == null or body == null:
 			continue
 		if tuning.night_home and entry.night_home and _night_spawn(npc) != null and _night_step(npc, body, night, selected, tuning, walker):
@@ -153,23 +158,25 @@ func advance(delta: float) -> void:
 
 
 ## Night (D): as the player comes onto the map (a handoff, Continue, the first map), the street's
-## idle folk are where the hour puts them, at once: indoors by night, on their spots by day.
+## idle folk are where the hour puts them, at once: indoors by night, on their spots by day. One
+## indoors whom the rules in force no longer send home (night_home turned off, its `night` "home"
+## taken out since the save) is out on its spot too, by night as well (DECISIONS「读档放行回屋的人」).
 func judge_night() -> void:
 	_leaving.clear()
-	var tuning: NpcIdleTuning = GameContent.catalog().pacing().npc_idle
-	if not tuning.enabled or not tuning.night_home or _map.session == null:
+	if _map.session == null:
 		return
-	var night: bool = _night_now(tuning)
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var night: bool = pacing.npc_idle.enabled and _night_now(pacing.npc_idle)
 	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
-		var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
 		var spawn: NpcSpawnDefinition = _night_spawn(npc)
-		if entry == null or not entry.night_home or spawn == null or not _up(npc):
+		if spawn == null or not _up(npc):
 			continue
-		if night and npc.exists_in_map and _free(npc):
+		var kept_in: bool = night and goes_home_at_night(spawn, pacing)
+		if kept_in and npc.exists_in_map and _free(npc):
 			_go_in(npc)
-		elif not night and not npc.exists_in_map:
-			# Out already (the hours went by), on its spot, unless the player stands on it: then the
-			# ticks bring it out once they move on.
+		elif not kept_in and not npc.exists_in_map:
+			# Out already (the hours went by, or nothing sends it in now), on its spot, unless the
+			# player stands on it: then the ticks bring it out once they move on.
 			_come_out(npc, _map.npc_life.npc_walker(), true)
 
 
@@ -192,11 +199,21 @@ static func _ordinary(spawn: NpcSpawnDefinition) -> bool:
 	return spawn != null and not (spawn.staged or spawn.summoned or spawn.starts_absent or spawn.drawn)
 
 
+## Whether one of `spawn`'s people, alive, may be off the map `map_id` it is on: one of an
+## ordinary spawn on its own map — indoors for the night, under the rules in force when it went
+## in. The one rule OldPineSaveEligibility, the save's own check and Continue's check read
+## (DECISIONS「夜里冷清」「读档放行回屋的人」): it asks nothing of pacing or of the life entries, so a
+## save stays readable when night_home is turned off or a person's `night` "home" taken out; the
+## map puts back, as the player comes onto it, one the rules now in force keep out (judge_night()).
+## Safe on a worker thread.
+static func may_be_indoors(spawn: NpcSpawnDefinition, map_id: StringName) -> bool:
+	return _ordinary(spawn) and spawn.map_id == map_id
+
+
 ## Whether the people of `spawn` are of the street's idle folk who go indoors at night under
 ## `pacing` (its npc_idle on, night_home on, their life entry's `night` "home", an ordinary
-## spawn): alive and off the map is where the night leaves them, and where a save may hold them —
-## the one rule OldPineSaveEligibility, the save's own check and Continue's check read
-## (DECISIONS「夜里冷清」). Safe on a worker thread (NpcLifeBook reads its files under a lock).
+## spawn): alive and off the map is where the night leaves them (DECISIONS「夜里冷清」). Safe on a
+## worker thread (NpcLifeBook reads its files under a lock).
 static func goes_home_at_night(spawn: NpcSpawnDefinition, pacing: PacingDefinition) -> bool:
 	if pacing == null or not pacing.npc_idle.enabled or not pacing.npc_idle.night_home or not _ordinary(spawn):
 		return false

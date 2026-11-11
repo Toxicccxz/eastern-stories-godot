@@ -105,6 +105,13 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	# Caught.
 	_check(not session.player_held_item_ids().get(TOKEN, false), "no 腰牌 at the belt")
 	player.global_position = at + Vector2(0, 80) # TEST-ONLY
+	# The menu open (world time held) before him: the map's own physics frames run on past his
+	# whole beat, and he does not look, let alone catch.
+	session.hold_world_time(&"test_menu")
+	for frame: int in ceili(watch.notice_ms / 1000.0 * Engine.physics_ticks_per_second * 1.5):
+		await tree.physics_frame
+	_check(session.active_map() == garden and state.marks.get("被禁军拿过", 0) == 0 and not body.alert_mark_shown(), "the menu open before him: the world held, he neither looks nor catches")
+	session.release_world_time(&"test_menu")
 	await _settle(tree)
 	garden.watches.tick(0.5)
 	_check(body.alert_mark_shown() and session.active_map() == garden and state.marks.get("被禁军拿过", 0) == 0, "a ？ while he looks, not yet caught")
