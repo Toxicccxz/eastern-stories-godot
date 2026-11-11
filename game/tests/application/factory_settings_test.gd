@@ -116,11 +116,20 @@ func _play(tree: SceneTree) -> void:
 ## allowed (up the stairs a rat may fall on the player at once, and a fight skips the moment).
 func _autosaved(tree: SceneTree, host: OldPineGameRuntimeHost, files: MemoryFiles, profile: GameSaveStorageProfile) -> void:
 	var auto_path: String = profile.for_slot(GameSaveSnapshot.AUTO_SLOT_ID).canonical_path()
+	var repository := SourceEntrySaveRepository.new(profile.for_slot(GameSaveSnapshot.AUTO_SLOT_ID), files)
+	var saved: GameSaveResult = null
 	var frames: int = 0
-	while (host.autosave().running() or not files.files.has(auto_path)) and frames < SETTLE_FRAMES:
+	# A second autosave (the rat's fight over) may be rotating the file as it is read (BACKUP_AVAILABLE
+	# for that moment): read again once nothing is writing, until a whole save reads back.
+	while frames < SETTLE_FRAMES:
+		if not host.autosave().running() and files.files.has(auto_path):
+			saved = repository.load()
+			if saved.succeeded():
+				break
 		frames += 1
 		await tree.process_frame
-	var saved: GameSaveResult = SourceEntrySaveRepository.new(profile.for_slot(GameSaveSnapshot.AUTO_SLOT_ID), files).load()
+	if saved == null:
+		saved = repository.load()
 	_check(saved.succeeded() and saved.snapshot.player.world_location.map_id == &"snow.inn_upstairs", "autosaved upstairs, a whole save: %s" % ("whole" if saved.succeeded() else str(saved.outcome)))
 
 

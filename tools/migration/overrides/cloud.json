@@ -197,6 +197,11 @@
 				"忘忧草": ["我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"],
 				"失镖": {
 					"rules": [
+						{ "asker_marks": ["看过镖单"], "asker_lacks": ["南危水承认了"], "asker_not_carries": "escort note", "gives": "native:cloud/escort_note", "lines": [
+							{ "emote": "皱了皱眉。" },
+							{ "say": "镖单丢了？……镖局的底账里还有一张存根，拿去吧。别再丢了。" },
+							{ "emote": "从柜子最底下又翻出一张发黄的镖单，递给你。" }
+						] },
 						{ "asker_marks": ["看过镖单"], "say": "镖单你拿着。这事振远认了二十年，你要翻出来，别说是从我这儿翻的。" },
 						{ "asker_marks": ["柳淳风的引荐信"], "gives": "native:cloud/escort_note", "mark_asker": "看过镖单", "lines": [
 							{ "emote": "脸色一变，半晌才道：" },

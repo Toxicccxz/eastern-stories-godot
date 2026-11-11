@@ -29,6 +29,10 @@ const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去�
 # TRANSLATORS: asked before a gift ({item}) to a master ({npc}) who will take the player as apprentice at once; {warning} is the 拜师 question (betrayal, first master or change of master).
 const GIVE_RECRUITS_AT_ONCE: String = "{npc}收下{item}，就会当场收你为徒。\n{warning}"
 
+## DECISIONS「任务物品不丢」: drop.c destructs what is worth nothing at once; the 背包 asks first.
+# TRANSLATORS: asked before 丢下 of a thing worth nothing ({item}), which drop.c destructs at once.
+const DROP_WORTHLESS_WARNING: String = "{item}不值钱，丢在地上就没人会注意它——丢下就再也找不回来了。\n确定要丢下吗？"
+
 var _ui: SharedGameplayUI
 ## The rows show_inventory() opens the 背包 page with.
 var _opening_rows: Array[PlayerInventoryRowProjection] = []
@@ -284,6 +288,23 @@ func _ask_before_gift(rule: NpcObjectRule, npc: NpcRuntimeState, content: ItemCo
 
 
 func drop_item(id: StringName, amount: int) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	if not map.drop_destroys(id):
+		map.drop_item(id, amount)
+		return
+	var item_name: String = ""
+	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
+		if row.item_instance_id == id:
+			var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
+			item_name = "" if content == null else tr(content.display_name)
+	# 取消 goes back to the 背包 the question came from.
+	_ui.questions.ask_danger(tr(DROP_WORTHLESS_WARNING).format({"item": item_name}), "确定丢下", _drop_now.bind(id, amount), func() -> bool: return _carries(id), open_inventory)
+
+
+## The 丢下 asked about, on whichever map the player stands on by then.
+func _drop_now(id: StringName, amount: int) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.drop_item(id, amount)
 

@@ -35,9 +35,13 @@ var leaves: bool = false
 ## stays in the ice: 璃虹's 我留下); "" for none.
 var epilogue: StringName = &""
 var asker_marks: Array[String] = []
-## Native (主线 A; DECISIONS「剧情演出」): an id of something the asker carries (present(id, me),
-## as ScriptedAct's `carries`): a letter of introduction shown, a token in hand.
+## Native (主线 A; DECISIONS「剧情演出」): an alias something the asker carries answers to
+## (present(id, me), as ScriptedAct's `carries`): a letter of introduction shown, a token in hand.
+## The catalog checks some item answers to it (DECISIONS「任务物品不丢」).
 var asker_carries: String = ""
+## Native (主线物品; DECISIONS「任务物品不丢」): an alias nothing the asker carries answers to (the
+## letter lost, stolen or burnt: the one who wrote it writes another).
+var asker_not_carries: String = ""
 ## Native (主线 B): marks the asker must NOT have (the other side of a choice already made).
 var asker_lacks: Array[String] = []
 var asker_class: StringName = &""
@@ -77,6 +81,8 @@ func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender:
 		return false
 	if not asker_carries.is_empty() and not carried.has(asker_carries):
 		return false
+	if not asker_not_carries.is_empty() and carried.has(asker_not_carries):
+		return false
 	for mark: String in asker_lacks:
 		if marks.get(mark, 0) != 0:
 			return false
@@ -104,6 +110,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	var rule := NpcInquiryRule.new()
 	rule.asker_marks = reader.text_list("asker_marks")
 	rule.asker_carries = reader.text("asker_carries")
+	rule.asker_not_carries = reader.text("asker_not_carries")
 	rule.asker_lacks = reader.text_list("asker_lacks")
 	rule.asker_exp_at_least = reader.integer("asker_exp_at_least", 0)
 	rule.npc_flag = StringName(reader.text("npc_flag"))

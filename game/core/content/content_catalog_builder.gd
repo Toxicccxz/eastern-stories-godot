@@ -795,6 +795,10 @@ func _resolve_npc_dealings() -> void:
 					_errors.append("%s.inquiry.%s.asker_family: unknown family '%s'" % [origin, topic, inquiry_rule.asker_family])
 				if not inquiry_rule.epilogue.is_empty() and not _epilogues.has(inquiry_rule.epilogue):
 					_errors.append("%s.inquiry.%s.epilogue: unknown ending '%s'" % [origin, topic, inquiry_rule.epilogue])
+				# What a rule asks the asker to carry (or not) is an alias, as an act's `carries`.
+				for alias: String in [inquiry_rule.asker_carries, inquiry_rule.asker_not_carries]:
+					if not alias.is_empty() and not _answers_to(alias):
+						_errors.append("%s.inquiry.%s: no item answers to '%s'" % [origin, topic, alias])
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
 				for forgotten: String in inquiry_rule.forgets:

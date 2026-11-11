@@ -1420,6 +1420,10 @@ func drop_item(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
 	return floor_items.drop_item(item_id, amount)
 
 
+func drop_destroys(item_id: StringName) -> bool:
+	return floor_items.drop_destroys(item_id)
+
+
 func container_in_reach() -> StringName:
 	return floor_items.container_in_reach()
 

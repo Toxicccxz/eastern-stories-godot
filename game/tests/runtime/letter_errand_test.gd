@@ -25,7 +25,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var post: NpcDefinition = catalog.npc(&"snow.npc.post_officer")
-	_check(post.talk().inquiry_topics() == ["驿站", "悬赏", "送信"] and post.talk().answer("驿站").size() == 2 and post.talk().inquiry_rules("送信").size() == 4, "杜宽: 驿站 with its second line, 送信 by four rules, 悬赏")
+	_check(post.talk().inquiry_topics() == ["驿站", "悬赏", "送信"] and post.talk().answer("驿站").size() == 2 and post.talk().inquiry_rules("送信").size() == 5, "杜宽: 驿站 with its second line, 送信 by five rules (the fifth copies a lost letter: DECISIONS「任务物品不丢」), 悬赏")
 	var letter: ItemContentDefinition = catalog.item(LETTER)
 	_check(letter != null and letter.display_name == "雪亭驿的书信" and letter.unit == "封", "the letter is a native item")
 	var chain: JournalChainDefinition = null

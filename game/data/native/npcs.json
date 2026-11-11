@@ -958,7 +958,7 @@
 							"asker_marks": [
 								"回到了湖底"
 							],
-							"asker_carries": "native:village/lihong_feather",
+							"asker_carries": "羽",
 							"marks_asker": [
 								"璃虹说了或者是你"
 							],
@@ -988,7 +988,7 @@
 							]
 						},
 						{
-							"asker_carries": "native:village/lihong_feather",
+							"asker_carries": "羽",
 							"say": "再封，须有人留下。留下的人，就是下一块冰。我的光不多了——那片羽在你手里，到时候还给我，我还能再守一回。"
 						},
 						{
