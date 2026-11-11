@@ -145,6 +145,9 @@ func _test_way_down(tree: SceneTree, session: WorldSessionController, raid: bool
 	papers.interact()
 	await _settle(tree)
 	_check(state.marks.get("看出文书是假的", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("印是假的")), "%s: the 兵部文书's seal is false" % ledger)
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_done.bind(raid))
+	_check(handoff.is_empty(), "关北 D played leaves what chapter6_done writes (%s)" % ledger + ": %s" % [handoff])
 
 
 ## 番坊 B on a ledger (`raid`: the 工地 raided, else sneaked; 旧案 kept and the 宝衣 left with 瑷伦 on both):
@@ -156,6 +159,7 @@ func _test_hall_and_fire(tree: SceneTree, session: WorldSessionController, raid:
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter7")
 	StoryFixtures.chapter6_done(session, raid)
+	session.player_runtime().state.marks["卢卡在番坊见到你"] = 1 # TEST-ONLY: met at the gate, as _test_way_down plays it
 	state.marks["到了番坊"] = 1 # TEST-ONLY: the 海崖道 walked (_test_way_down)
 	session.record_journal()
 	var step: StoryQuestDefinition.Step = StoryQuestLog.current_step(state, quest)
@@ -251,6 +255,9 @@ func _test_hall_and_fire(tree: SceneTree, session: WorldSessionController, raid:
 		var walker: RefCounted = Work.new()
 		await walker.round_trip(tree, session, snapshot, "番坊 B in the 拜火祠 (%s)" % ledger)
 		_check(walker._failures.is_empty(), "%s: Save/Continue restores exactly: %s" % [ledger, str(walker._failures)])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_told.bind(raid))
+	_check(handoff.is_empty(), "番坊 B played leaves what chapter7_told writes: %s" % [handoff])
 
 
 ## With the feel on (the dialogue box, DECISIONS「对话框」) the questions' answers show in the box, as 打听's
@@ -428,6 +435,10 @@ func _test_gate(tree: SceneTree, session: WorldSessionController, learned: bool)
 		_check(state.marks.get("早川拒了你", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("没有话说")) and _count_in(session, &"fanfang.dojo", &"native.npc.ronin") == 5, "the seal: 早川: 你站了那边。我们没有话说; the four back on the boards")
 		var master: NpcRuntimeState = MapPlaces.npc_at(session, &"fanfang.dojo.ronin_master.1")
 		_check(master != null and dojo.npc_life.story_trials_offered(master).is_empty(), "the seal: no 一刀 offered to the 大秦人's friend")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	if learned: # the swords' way erased the 印色 (TEST-ONLY) that 关北 always teaches
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_done.bind(true, true))
+		_check(handoff.is_empty(), "番坊 C played (the 大秦人's) leaves what chapter7_done(rome) writes: %s" % [handoff])
 
 
 ## DECISIONS「主线卡死点」: the player kills 冯禄 at the gate before any 对质 (no 印模: 「没有的，只能动手」);
@@ -555,6 +566,9 @@ func _test_ronin_night(tree: SceneTree, session: WorldSessionController) -> void
 	_check(luca != null and await MapPlaces.drive(tree, port, MapPlaces.spot(port, &"fanfang.dock", port.runtime_body_for_character(luca.character_id).global_position + Vector2(0, -60), 64.0)) and port.select_npc(luca.character_id) and port.ask_selected("会首").any(func(line: String) -> bool: return line.contains("押走的")), "night: 卢卡: 船上。押走的")
 	# The tablet read: the chapter done on this side, the eighth chapter's stub.
 	await _read_the_tablet(tree, session, port, "night")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_done.bind(false, false))
+	_check(handoff.is_empty(), "番坊 C played (the 浪人's) leaves what chapter7_done(ronin) writes: %s" % [handoff])
 
 
 ## TEST-ONLY: 卢卡 no longer at the gate once the 大秦人 are cleared.

@@ -22,12 +22,14 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-func _test_entrance(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_entrance(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter3")
-	StoryFixtures.chapter2_done(session, true)
+	# story_through_test: played up to here, not written.
+	if not played:
+		StoryFixtures.chapter2_done(session, true)
 	session.record_journal()
 	_check(StoryQuestLog.is_done(state, GameContent.catalog().story_quest(&"main.chapter2")) and StoryQuestLog.is_active(state, quest) and StoryQuestLog.objective(state, quests).begins_with("黑衣道士往野羊山北麓去了。"), "逆灵宫 begins as 旧案 ends: %s" % [StoryQuestLog.objective(state, quests)])
 	# 刘安禄: 放过 before the reveal changes nothing; revealed (TEST-ONLY: his mood put on, not asked
@@ -107,6 +109,11 @@ func _test_entrance(tree: SceneTree, session: WorldSessionController) -> void:
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(snapshot != null and decoded.snapshot != null and decoded.snapshot.player.character.quests == state.quests and decoded.snapshot.player.character.marks.get("放过了刘安禄", 0) == 1, "saved and read back: %s" % [decoded.detail])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
+	# (from its own fixture; played on from the chapters before, story_through_test checks it).
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_entry_done.bind(true))
+		_check(handoff.is_empty(), "逆灵宫's entrance played leaves what chapter3_entry_done(liu) writes: %s" % [handoff])
 
 
 func _session(tree: SceneTree) -> WorldSessionController:

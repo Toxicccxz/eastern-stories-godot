@@ -25,12 +25,14 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-func _test_ways(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_ways(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter3")
-	StoryFixtures.chapter3_entry_done(session, true)
+	# story_through_test: played up to here, not written.
+	if not played:
+		StoryFixtures.chapter3_entry_done(session, true)
 	session.record_journal()
 	_check(StoryQuestLog.is_active(state, quest) and StoryQuestLog.objective(state, quests).begins_with("逆灵宫就在裂口上头。"), "at the gate step: %s" % [StoryQuestLog.objective(state, quests)])
 	# The turn: the escort and the cart on the stage; the bandits go (TEST-ONLY, as the entry suite).
@@ -39,9 +41,10 @@ func _test_ways(tree: SceneTree, session: WorldSessionController) -> void:
 	var tarp: ActService = mountain.service(&"goathill.mroad4.tarp") as ActService
 	_check(rope != null and tarp != null and rope.in_reach() and tarp.in_reach() and rope.verb() == "攀绳上去" and tarp.verb() == "钻进车里", "绳索 · 攀绳上去 and 油布 · 钻进车里 at the turn")
 	# A stranger: the escort refuses the rope.
+	var before_rope: int = ui.log_lines().size()
 	rope.interact()
 	await _settle(tree)
-	_check(session.active_map_id() == &"goathill.mountain" and _last_log(ui).contains("此处无路"), "the rope refused while the escort stands there: %s" % _last_log(ui))
+	_check(session.active_map_id() == &"goathill.mountain" and ui.log_lines().slice(before_rope).any(func(line: String) -> bool: return line.contains("此处无路")), "the rope refused while the escort stands there: %s" % [ui.log_lines().slice(before_rope)])
 	# 跟车: under the oil-cloth, asked first, hoisted up with the boxes.
 	tarp.interact()
 	await tree.physics_frame
@@ -132,12 +135,18 @@ func _test_ways(tree: SceneTree, session: WorldSessionController) -> void:
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(snapshot != null and decoded.snapshot != null and decoded.snapshot.player.character.quests == state.quests and decoded.snapshot.player.character.marks.get("跟车进了逆灵宫", 0) == 1, "saved and read back: %s" % [decoded.detail])
-	# The crown off: the guards fall on the player.
-	_check(session.remove_player_item(crown).succeeded and not session.player_worn_item_ids().has(CROWN), "the crown taken off")
-	for second: int in 4:
-		session.advance_npc_heartbeat(1.0)
-		await _settle(tree)
-	_check(session.combat_encounter_coordinator().has_active_encounter(), "bareheaded in the yard: the guards attack")
+	# The crown off: the guards fall on the player (played on, the crown stays: B goes on in it).
+	if not played:
+		_check(session.remove_player_item(crown).succeeded and not session.player_worn_item_ids().has(CROWN), "the crown taken off")
+		for second: int in 4:
+			session.advance_npc_heartbeat(1.0)
+			await _settle(tree)
+		_check(session.combat_encounter_coordinator().has_active_encounter(), "bareheaded in the yard: the guards attack")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
+	# (from its own fixture; played on from the chapters before, story_through_test checks it).
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_yard_done)
+		_check(handoff.is_empty(), "逆灵宫 A played leaves what chapter3_yard_done writes: %s" % [handoff])
 
 
 ## Onto the turn from the temple's road, the bandits gone (TEST-ONLY), the player by the cart.

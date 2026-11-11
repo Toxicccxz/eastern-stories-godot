@@ -29,21 +29,29 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-func _test_hall_and_dungeon(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_hall_and_dungeon(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter3")
-	StoryFixtures.chapter3_yard_done(session)
+	# story_through_test: played up to here, not written.
+	if not played:
+		StoryFixtures.chapter3_yard_done(session)
 	session.record_journal()
 	_check(StoryQuestLog.is_active(state, quest) and StoryQuestLog.objective(state, quests).begins_with("前殿的门关着。"), "at the hall step: %s" % [StoryQuestLog.objective(state, quests)])
 	# On the goods road before the gate, the crown on (TEST-ONLY: given, as 黄霸 would; bareheaded
 	# in the yard the guards would rise at once), then in through the 山门 to the yard.
-	_check(session.handoff_to(&"niling.slope", &"niling.goods_path", &"niling.goods_path", &"niling.goods_path.gate_return").succeeded(), "on the goods road before the gate")
+	if played:
+		_check(session.player_runtime().world_location().zone_id == &"niling.goods_path", "on the goods road before the gate" + " (walked there)")
+	else:
+		_check(session.handoff_to(&"niling.slope", &"niling.goods_path", &"niling.goods_path", &"niling.goods_path.gate_return").succeeded(), "on the goods road before the gate")
 	var slope: WorldMapController = session.active_map() as WorldMapController
 	await _settle(tree)
-	var crown: StringName = slope.give_new_item_to_player(CROWN)
-	_check(not crown.is_empty() and session.wear_player_item(crown).succeeded and session.player_worn_item_ids().has(CROWN), "the 黑冠 on")
+	# Played on from A the crown is still on; else TEST-ONLY given.
+	if not session.player_worn_item_ids().has(CROWN):
+		var crown: StringName = slope.give_new_item_to_player(CROWN)
+		_check(not crown.is_empty() and session.wear_player_item(crown).succeeded, "the 黑冠 put on")
+	_check(session.player_worn_item_ids().has(CROWN), "the 黑冠 on")
 	var gate: WorldMapController = await MapPlaces.go_to(tree, session, &"niling.yard")
 	_check(gate != null and gate.map_id() == &"niling.gate", "through the 山门 into the yard")
 	await _settle(tree)
@@ -124,17 +132,34 @@ func _test_hall_and_dungeon(tree: SceneTree, session: WorldSessionController) ->
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(snapshot != null and decoded.snapshot != null and decoded.snapshot.player.character.quests == state.quests and decoded.snapshot.player.character.marks.get("看过账册", 0) == 1, "saved and read back: %s" % [decoded.detail])
-	# Back up, the crown off in the 前殿: the room comes down on the player.
-	_check(await MapPlaces.drive_to_zone(tree, dungeon, &"niling.corridor") and await MapPlaces.take_passage(tree, dungeon, &"niling.corridor.up"), "up the stair")
-	hall = session.active_map() as WorldMapController
-	await _settle(tree)
-	_check(hall != null and hall.map_id() == &"niling.hall" and await MapPlaces.drive_to_zone(tree, hall, &"niling.front"), "back in the 前殿")
-	_check(session.remove_player_item(crown).succeeded and not session.player_worn_item_ids().has(CROWN), "the crown taken off")
-	for second: int in 4:
-		session.advance_npc_heartbeat(1.0)
+	# Back up, the crown off in the 前殿: the room comes down on the player (played on, the crown
+	# stays: C goes on in it).
+	if not played:
+		_check(await MapPlaces.drive_to_zone(tree, dungeon, &"niling.corridor") and await MapPlaces.take_passage(tree, dungeon, &"niling.corridor.up"), "up the stair")
+		hall = session.active_map() as WorldMapController
 		await _settle(tree)
-	var encounter: CombatEncounter = session.combat_encounter_coordinator().active_encounter()
-	_check(encounter != null and encounter.participants().size() >= 4, "bareheaded before the five: the room rises together (%s in the fight)" % ("none" if encounter == null else str(encounter.participants().size())))
+		_check(hall != null and hall.map_id() == &"niling.hall" and await MapPlaces.drive_to_zone(tree, hall, &"niling.front"), "back in the 前殿")
+		_check(session.remove_player_item(_worn(session, CROWN)).succeeded and not session.player_worn_item_ids().has(CROWN), "the crown taken off")
+		for second: int in 4:
+			session.advance_npc_heartbeat(1.0)
+			await _settle(tree)
+		var encounter: CombatEncounter = session.combat_encounter_coordinator().active_encounter()
+		_check(encounter != null and encounter.participants().size() >= 4, "bareheaded before the five: the room rises together (%s in the fight)" % ("none" if encounter == null else str(encounter.participants().size())))
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
+	# (from its own fixture; played on from the chapters before, story_through_test checks it).
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_dungeon_done)
+		_check(handoff.is_empty(), "逆灵宫 B played leaves what chapter3_dungeon_done writes: %s" % [handoff])
+
+
+## The worn instance of `definition_id` ("" when none is worn).
+func _worn(session: WorldSessionController, definition_id: StringName) -> StringName:
+	var armor: ArmorState = session.player_runtime().armor
+	for slot: StringName in armor.occupied_slots():
+		var reference: EquippedArmorRef = armor.equipped_ref_in_slot(slot)
+		if reference != null and StringName(String(reference.item_definition_id).get_slice("#", 0)) == definition_id:
+			return reference.item_instance_id
+	return &""
 
 
 ## The floor item of `definition_id` in `zone_id`, walked to and taken; "" when none.

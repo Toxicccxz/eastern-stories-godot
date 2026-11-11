@@ -188,10 +188,44 @@ func round_trip(tree: SceneTree, source: WorldSessionController, snapshot: GameS
 	_check(fresh.activate_restore_candidate(), label + " activation")
 	_check(fresh.player_runtime() != source.player_runtime() and fresh.inventory_state() != source.inventory_state(), label + " fresh authorities")
 	var after: GameSaveSnapshot = capture(fresh)
-	_check(after != null and GameSaveJsonCodec.encode(after).text == encoded.text, label + " entire snapshot exact, no rebirth/refill/reward/RNG")
+	var again: String = "" if after == null else GameSaveJsonCodec.encode(after).text
+	_check(after != null and again == encoded.text, label + " entire snapshot exact, no rebirth/refill/reward/RNG" + ("" if again == encoded.text else first_difference(encoded.text, again)))
 	_check(fresh.item_instance_index().snapshot_ids() == fresh.inventory_state().registered_item_ids(), label + " index exactly derived")
 	fresh.free()
 	await tree.process_frame
+
+
+## TEST-ONLY: the player's 精/气/神 maxima as Continue derives them (race/human.c at login,
+## OldPineWorldRestoreService), for a suite that raised them to outlast its fights and then
+## compares a round trip: what is left to compare is what the save itself keeps.
+static func login_maxima(session: WorldSessionController) -> void:
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	CharacterDerivedValues.refresh_human_player_maxima(player.state, player.facts.age)
+
+
+## Where two save texts part (a failed round trip names it): the path of keys down to it and a
+## little of each side.
+static func first_difference(saved: String, again: String) -> String:
+	var at: int = 0
+	while at < mini(saved.length(), again.length()) and saved[at] == again[at]:
+		at += 1
+	var keys: Array[String] = []
+	var depth: int = 0
+	for index: int in range(at - 1, -1, -1):
+		var c: String = saved[index]
+		if c == "}" or c == "]":
+			depth += 1
+		elif c == "{" or c == "[":
+			if depth == 0:
+				var quote_end: int = saved.rfind("\":", index)
+				var quote_start: int = saved.rfind("\"", quote_end - 1)
+				if quote_end > 0 and quote_start >= 0 and saved.substr(quote_end + 2, index - quote_end - 2).strip_edges().is_empty():
+					keys.push_front(saved.substr(quote_start + 1, quote_end - quote_start - 1))
+			else:
+				depth -= 1
+	return " — at %s: saved …%s… again …%s…" % ["/".join(keys), saved.substr(at, 80).replace("
+", " ").replace("	", ""), again.substr(at, 80).replace("
+", " ").replace("	", "")]
 
 
 static func create_session(tree: SceneTree) -> WorldSessionController:
