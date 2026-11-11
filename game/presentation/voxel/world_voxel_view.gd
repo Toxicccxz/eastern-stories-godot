@@ -526,7 +526,10 @@ func _label(parent: Node3D, text: String, height: float = 2.2) -> Label3D:
 func _sync_actors(delta: float) -> void:
 	var hovered: StringName = pick_at(get_viewport().get_mouse_position()) if _context_names else &""
 	var bodies: Array[WorldCharacterBody2D] = [map.player_body]
+	# Everyone here by id, once a frame (asking the map for each is a search through them all).
+	var residents: Dictionary[StringName, NpcRuntimeState] = {}
 	for npc: NpcRuntimeState in map.npc_runtimes():
+		residents[npc.character_id] = npc
 		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 		if body != null:
 			bodies.append(body)
@@ -558,13 +561,13 @@ func _sync_actors(delta: float) -> void:
 			# One attending to the player puts its work down (WorldMapNpcIdle); one fighting or lying
 			# senseless neither works nor sits.
 			(model as Person).working = not bool(body.get_meta(WorldMapNpcIdle.ATTENDING, false))
-			var resident: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
+			var resident: NpcRuntimeState = residents.get(id)
 			(model as Person).at_ease = resident == null or (resident.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not resident.relationship.is_fighting())
 		# A statue (神像) never turns or falls: its plinth and wings stay with it.
 		if not (model is Person and not (model as Person).stone.is_empty()):
 			var direction: float = atan2(body.facing.x,body.facing.y) if place.is_empty() else float(place[1])
 			model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
-			var npc: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
+			var npc: NpcRuntimeState = residents.get(id)
 			var life: CharacterRuntimeLifeStatus.Value = map.player_runtime().life_status if body == map.player_body else (npc.life_status if npc != null else CharacterRuntimeLifeStatus.Value.ACTIVE)
 			var unconscious: bool = life == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
 			model.rotation.z = PI/2 if unconscious else 0.0
