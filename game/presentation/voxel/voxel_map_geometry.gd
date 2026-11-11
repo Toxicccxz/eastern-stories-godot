@@ -15,6 +15,10 @@ const Garden = preload("res://presentation/voxel/props/voxel_garden.gd")
 const Household = preload("res://presentation/voxel/props/voxel_household.gd")
 const Critter = preload("res://presentation/voxel/actors/voxel_critter.gd")
 const UNIT: float = 32.0
+## Kinds hung overhead, between the camera and whoever walks beneath (a lantern over a shop's
+## counter covered the head of the player standing there to trade, owner 2026-11-11): they open
+## over a person like any occluder (VoxelOcclusion) unless their look says `occludes: false`.
+const OVERHEAD_KINDS: Array[String] = ["hanging_lantern","lantern_string","hanging_rope"]
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
 var occluders: Array[Dictionary] = []
@@ -1178,7 +1182,8 @@ func _prop(data: Dictionary) -> void:
 	# A prop that never fades, hides or moves as a whole batches with its neighbours (its
 	# swaying, glowing and smoking parts are nodes of their own and stay so).
 	var staged: bool = data.has("present") or data.has("until")
-	var shown_alone: bool = staged or data.get("occludes",false) or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
+	var occludes: bool = data.get("occludes",OVERHEAD_KINDS.has(String(data["kind"])))
+	var shown_alone: bool = staged or occludes or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
 	if not shown_alone:
 		shapes.merge(root,_static_chunk(at))
 	if staged:
@@ -1194,7 +1199,7 @@ func _prop(data: Dictionary) -> void:
 			for i: int in 3:
 				shapes.box(cover,Vector3(0,-0.045,(i-1)*d/3),Vector3(w,0.09,d/3-0.015),"9f7953")
 			passage_props.append({"node":root,"cover":cover,"portal":StringName(data["portal"])})
-		if data.get("occludes",false):
+		if occludes:
 			occluders.append({"node":root})
 	else:
 		# A misspelt kind would otherwise leave a silent gap on the map.
