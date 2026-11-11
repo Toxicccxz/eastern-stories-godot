@@ -55,7 +55,7 @@ func _init(controller: WorldMapController) -> void:
 ## loadout item identities.
 func spawn_actors() -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
-	var loadout_content: Array[NpcLoadoutItemDefinition] = catalog.loadout_item_definitions()
+	var loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition] = catalog.loadout_items_by_id()
 	# Where the NPC stream stood as each spawn was made: a `same_person` spawn is made from there again.
 	# (Only the game's own stream can be read back; a scripted one of a test just draws on.)
 	var rolled_from: Dictionary[StringName, RandomStreamSnapshot] = {}
@@ -71,7 +71,7 @@ func spawn_actors() -> bool:
 			rolls = replay
 		elif stream != null:
 			rolled_from[spawn.spawn_id] = stream.capture_random_state()
-		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(
+		var created: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances_with(
 			spawn,
 			catalog.npc(spawn.npc_definition_id),
 			_map.location_for_zone(spawn.zone_id),
@@ -708,7 +708,7 @@ func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 	if marker == null or catalog.npc(spawn.npc_definition_id) == null:
 		push_error("room reset has no marker or NPC for %s" % dead.spawn_point_id)
 		return false
-	var fresh: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
+	var fresh: NpcRuntimeState = NpcCharacterStateFactory.new().create_one_with(
 		catalog.npc(spawn.npc_definition_id),
 		NpcGeneration.next(dead.character_id, dead.spawn_point_id),
 		spawn.spawn_id,
@@ -717,7 +717,7 @@ func _respawn_npc(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
 		_inventory,
 		_stacks,
 		_npc_random,
-		catalog.loadout_item_definitions(),
+		catalog.loadout_items_by_id(),
 		_item_id_allocator.scope,
 	)
 	if fresh == null or not _register_loadout(fresh):
@@ -807,10 +807,10 @@ func _new_summoned(definition: NpcDefinition, location: WorldLocationState, posi
 	var number: int = String(allocation.item_instance_id).get_slice(SessionItemIdAllocator.DYNAMIC_SEPARATOR, 1).to_int()
 	var point_id: StringName = SummonedNpc.point_id(number, definition_id)
 	var spawn: NpcSpawnDefinition = SummonedNpc.spawn(point_id, definition_id, map, location.zone_id)
-	var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one(
+	var npc: NpcRuntimeState = NpcCharacterStateFactory.new().create_one_with(
 		definition, NpcGeneration.character_id(point_id, 1), spawn.spawn_id, point_id,
 		_map.location_for_zone(location.zone_id), _inventory, _stacks, _npc_random,
-		catalog.loadout_item_definitions(), _item_id_allocator.scope,
+		catalog.loadout_items_by_id(), _item_id_allocator.scope,
 	)
 	if npc == null:
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])

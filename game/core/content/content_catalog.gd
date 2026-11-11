@@ -38,6 +38,8 @@ var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinitio
 var _native_item_projections: NativeItemDefinitionProjections
 var _loadout_item_definitions: Array[NpcLoadoutItemDefinition] = []
 var _loadout_items_built: bool = false
+var _loadout_items_by_id: Dictionary[StringName, NpcLoadoutItemDefinition] = {}
+var _loadout_items_indexed: bool = false
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _journal_chains: Array[JournalChainDefinition] = []
@@ -740,6 +742,17 @@ func loadout_item_definitions() -> Array[NpcLoadoutItemDefinition]:
 			_loadout_item_definitions.append(definition.loadout_item_definition())
 		_loadout_items_built = true
 	return _loadout_item_definitions.duplicate()
+
+
+## loadout_item_definitions() by item id (NpcLoadoutItemDefinition.by_id()), made once: going
+## through every item of the game for each NPC made was a third of a journey's start. Shared,
+## so read only.
+func loadout_items_by_id() -> Dictionary[StringName, NpcLoadoutItemDefinition]:
+	if not _loadout_items_indexed:
+		_loadout_items_by_id = NpcLoadoutItemDefinition.by_id(loadout_item_definitions())
+		_loadout_items_by_id.make_read_only()
+		_loadout_items_indexed = true
+	return _loadout_items_by_id
 
 
 ## Every authored item role plus the rule-created corpse item. The projection
