@@ -301,8 +301,12 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	# Faces of two colours in one plane step apart (Shapes.settle_coplanar), on worker threads
 	# while the loading screen goes on.
 	if shapes.settle_coplanar_in_background():
+		# A room's are done within this frame's share; a big map's take a few frames.
 		while slice_usec > 0 and not shapes.settling_done():
-			await breathe(true)
+			if Time.get_ticks_usec() < _slice_ends:
+				OS.delay_usec(200)
+			else:
+				await breathe(true)
 		shapes.finish_settling()
 	shapes.pool_plain_colours()
 	for key: Variant in shapes.batches:
