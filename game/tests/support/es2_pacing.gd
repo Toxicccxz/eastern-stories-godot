@@ -16,17 +16,15 @@ static func use() -> PacingDefinition:
 
 
 ## Only the responsiveness knobs at ES2's (DECISIONS「响应性」): each call_out its own
-## seconds, a master's test in one go, no fade; the gains stay the game's. For suites that
-## pin a call_out's ES2 time (taolord.c's two seconds, a greeting's one, three lashes at once).
+## seconds, a master's test in one go, no fade. Everything else stays the game's as the
+## suite runner left it: the fight, its decisions and beats, the NPCs' modern values, the
+## story's parley, the stealth, the gains. For suites that pin a call_out's ES2 time
+## (taolord.c's two seconds, a greeting's one, three lashes at once); a suite that also pins
+## a fight's LPC numbers says so with use_combat().
 static func use_reactions() -> PacingDefinition:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(PacingDefinition.new(
-		roundi(production.combat_round_seconds * 1000.0), production.room_reset_seconds, production.player_exp_gain,
-		production.player_recovery_gain, production.quest_time_percent, production.npc_thirst, production.player_wake_seconds,
-	).with_responsiveness(0, 0, roundi(production.heart_beat_seconds * 1000.0), 0).with_progression(
-		production.milestone_rewards, production.catch_up_max_percent, production.staged_potential_cap, production.player_exercise_gain,
-	).with_training(production.bounty_board, production.bounty_refresh_seconds, production.training_dummies).with_day_length(production.day_length_minutes))
+	catalog.set_pacing(production.copy().with_responsiveness(0, 0, roundi(production.heart_beat_seconds * 1000.0), 0))
 	return production
 
 
