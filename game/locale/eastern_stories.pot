@@ -5713,10 +5713,6 @@ msgstr ""
 msgid "既然$RESPECT赐教，$SELF只好奉陪。"
 msgstr ""
 
-#: core/npcs/npc_trial.gd
-msgid "倒在了考验里："
-msgstr ""
-
 #: core/persistence/game_save_json_codec.gd
 msgid "not a task 朱鸿雪 gives, or all default"
 msgstr ""

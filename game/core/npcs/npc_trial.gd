@@ -45,7 +45,7 @@ func blow_modifiers(relenting: bool = false) -> CombatRoundModifiers:
 
 ## The player's mark that counts their falls to this trial (saved with the marks).
 func falls_key() -> String:
-	return "倒在了考验里：" + mark
+	return "trial_falls:" + mark
 
 
 ## Whether the next go is the relenting one (the player fell relents_after_falls times).
