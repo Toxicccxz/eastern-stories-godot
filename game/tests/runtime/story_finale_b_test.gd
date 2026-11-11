@@ -2,7 +2,8 @@ extends RefCounted
 
 ## 终章 B 湖底 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 B」), from 第十章's
 ## ledger with the night of A done (下了决战, the dive: 终章下了湖底) — TEST-ONLY marks; a character grown to
-## 8 万 exp fights each fight out (how hard it is for the main story's own: boss_strength_test):
+## 15 万 exp fights each fight out on 自动, empty-handed (how hard it is for the main story's own, sword in
+## hand and every beat ordered: boss_strength_finale_test / boss_strength_demon_test):
 ## - The data: main.finale's eight steps, 侮天鬼's four forms (stronger without the robe, stronger grown),
 ##   the keepers' 穿灵, 璃虹's feather, the services of the 封坛.
 ## - 灭 (seal kept, 旋芒 in hand, 安妮儿 with the robe, every 帮手, 能灭它): the 冰龙厅 — 商玦's two lines,
@@ -17,7 +18,7 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Grown := preload("res://tests/support/grown_character.gd")
-const GROWN_EXP: int = 80000
+const GROWN_EXP: int = 150000
 const SWORD: StringName = &"native:village/soul_impaler"
 const XUANMANG: StringName = &"native:lancheng/xuanmang"
 const FEATHER: StringName = &"native:village/lihong_feather"
@@ -196,8 +197,9 @@ func _ledger(session: WorldSessionController, who: String, side: String, pulled:
 	else:
 		map.give_new_item_to_player(FEATHER) # TEST-ONLY
 	session.day_clock().set_day_seconds(80000) # TEST-ONLY: the night of the battle (A's 等到天黑)
-	# TEST-ONLY: a character grown past the finale's arrival (DECISIONS「主线必打的仗」: 37275 on the main
-	# story alone, 52294 exploring on the way), 柳家拳 empty-handed; the fights are fought out as they come.
+	# TEST-ONLY: a character grown well past the finale's arrival (DECISIONS「主线必打的仗」: 37275 on the main
+	# story alone, 52294 exploring on the way), 柳家拳 empty-handed on 自动 (ES2's courage gate): at 8 万 it
+	# lost to 商玦 and his four; the fights are fought out as they come.
 	Grown.grow(state, GROWN_EXP)
 	session.record_journal()
 
