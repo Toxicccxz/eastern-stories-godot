@@ -103,7 +103,7 @@ func initialize_map() -> bool:
 
 
 ## initialize_map() a piece at a time: the map's own binding, then a spawn's people a call
-## (WorldMapNpcs.spawn_next(); a restore places its saved ones in one), MORE until all is done.
+## (WorldMapNpcs.spawn_next(); a restore's saved ones, restore_next()), MORE until all is done.
 ## The map comes out as initialize_map() makes it, however the calls are spread over frames.
 func initialize_step() -> StartStep:
 	if _initialized:
@@ -113,13 +113,10 @@ func initialize_step() -> StartStep:
 			return StartStep.FAILED
 		_start_begun = true
 		return StartStep.MORE
-	if session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE:
-		if not npcs.restore_actors():
-			return StartStep.FAILED
-	else:
-		var made: StartStep = npcs.spawn_next()
-		if made != StartStep.DONE:
-			return made
+	var restoring: bool = session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE
+	var made: StartStep = npcs.restore_next() if restoring else npcs.spawn_next()
+	if made != StartStep.DONE:
+		return made
 	prepare_for_deactivation()
 	if not player_body.pushed_against.is_connected(_on_pushed_against):
 		player_body.pushed_against.connect(_on_pushed_against)

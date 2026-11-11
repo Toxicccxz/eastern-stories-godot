@@ -19,6 +19,8 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _test_new_game(tree)
 	await _test_continue(tree)
 	await _test_failed_continue(tree)
+	pacing.feel = feel.but({"map_loading_slice_ms": 40})
+	await _test_first_world(tree)
 	pacing.feel = feel.but({"session_start_slice_ms": 2})
 	await _test_host(tree)
 	pacing.feel = feel
@@ -156,6 +158,31 @@ func _test_continue(tree: SceneTree) -> void:
 		_check(_save_text(finished.candidate) == text, "the same world as the save")
 		finished.candidate.free()
 		await tree.process_frame
+
+
+## The first map's world is built under the title, still playing: at the start's share of a
+## frame, not the loading screen's long one; every world after it at the loading screen's.
+func _test_first_world(tree: SceneTree) -> void:
+	var whole: WorldSessionController = _session(0)
+	tree.root.add_child(whole)
+	whole.set_process(false)
+	_check(whole.world_building_slice_usec() == 40000, "a one-frame start's first world is built at the loading screen's share")
+	whole.free()
+	await tree.process_frame
+	var sliced: WorldSessionController = _session(3000)
+	tree.root.add_child(sliced)
+	await _follow(tree, sliced)
+	sliced.set_process(false)
+	_check(sliced.start_finished() and sliced.world_building_slice_usec() == 3000, "a start in slices builds its first world at the start's share")
+	sliced.set_world_building(true)
+	_check(sliced.world_building_slice_usec() == 3000, "while it is being built")
+	sliced.set_world_building(false)
+	_check(sliced.world_building_slice_usec() == 40000, "and the worlds after it at the loading screen's")
+	sliced.start_slice_usec = 90000
+	sliced._worlds_built = 0
+	_check(sliced.world_building_slice_usec() == 40000, "never a longer share than the loading screen's")
+	sliced.free()
+	await tree.process_frame
 
 
 ## A save that no longer fits (the player off the map, as an old save after a layout change)

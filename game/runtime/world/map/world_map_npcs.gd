@@ -131,19 +131,39 @@ func _register_loadout(npc: NpcRuntimeState) -> bool:
 	return true
 
 
-## Restore places the saved NPCs and corpses of this map, exactly where they were.
-func restore_actors() -> bool:
-	for entry: OldPineRestoredNpcEntry in session.restored_npc_entries():
+## The saved NPCs standing on this map in saved order and the one restore_next() places next
+## (-1: not begun).
+var _restores_due: Array[OldPineRestoredNpcEntry] = []
+var _restore_at: int = -1
+
+
+## Restore places the saved NPCs and corpses of this map, exactly where they were. An NPC a
+## call (a Continue's start in slices breathes between two, as spawn_next()), MORE until the
+## last stands; then the corpses and what lies on the floor, and DONE.
+func restore_next() -> WorldResidentMapController.StartStep:
+	if _restore_at < 0:
+		_restores_due = []
+		for entry: OldPineRestoredNpcEntry in session.restored_npc_entries():
+			if entry.runtime.world_location().map_id == map:
+				_restores_due.append(entry)
+		_restore_at = 0
+	if _restore_at < _restores_due.size():
+		var entry: OldPineRestoredNpcEntry = _restores_due[_restore_at]
 		var npc: NpcRuntimeState = entry.runtime
-		if npc.world_location().map_id != map:
-			continue
 		# register_npc() is a live-spawn API and marks existence true. Restore
 		# immediately reapplies the persisted tombstone fact before any frame.
 		var saved_exists: bool = npc.exists_in_map
 		if not _add_npc_body(npc, entry.map_position):
-			return false
+			return WorldResidentMapController.StartStep.FAILED
 		npc.set_exists_in_map(saved_exists)
 		_npc_bodies[npc.character_id].refresh_runtime_state()
+		_restore_at += 1
+		return WorldResidentMapController.StartStep.MORE
+	_restores_due = []
+	return WorldResidentMapController.StartStep.DONE if _restore_rest() else WorldResidentMapController.StartStep.FAILED
+
+
+func _restore_rest() -> bool:
 	for entry: OldPineRestoredCorpseEntry in session.restored_corpse_entries():
 		if entry.world_location.map_id == map and _map.corpses.publish_corpse_view(entry.state, entry.map_position, entry.world_location):
 			_map.corpses.set_age(entry.state.corpse_item_instance_id, entry.age_ms)

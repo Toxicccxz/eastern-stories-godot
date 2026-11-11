@@ -339,7 +339,24 @@ func set_world_building(on: bool) -> void:
 	_world_building = on
 	if on:
 		hold_presentation(WORLD_BUILD_HOLD, true)
+	else:
+		_worlds_built += 1
 	world_building_changed.emit(on)
+
+
+## The map worlds built since the journey began (set_world_building()).
+var _worlds_built: int = 0
+
+
+## A frame's share of building a map's world (WorldVoxelView._build()): the loading screen's
+## (the feel's map_loading_slice_ms, long: that screen has one small animation to keep moving).
+## The first world of a journey begun in slices is built under the title, still playing: at
+## the start's own share (session_start_slice_ms), when that is the shorter.
+func world_building_slice_usec() -> int:
+	var slice: int = roundi(GameContent.catalog().pacing().feel.map_loading_slice_seconds * 1000000.0)
+	if slice > 0 and start_slice_usec > 0 and _worlds_built == 0:
+		return mini(slice, start_slice_usec)
+	return slice
 
 
 func world_building() -> bool:
