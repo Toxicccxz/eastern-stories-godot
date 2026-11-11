@@ -6,6 +6,20 @@ const CHARACTER_FOOTPRINT: Vector2 = Vector2(34.0, 34.0)
 ## body can stand, its footprint fits. Tiles are tested against a polygon on that circle.
 const CHARACTER_ROUND_SIDES: int = 16
 const CORPSE_FOOTPRINT: Vector2 = Vector2(76.0, 18.0)
+## nearest_*(): how far from where a thing is it looks for a spot this check accepts, ring by
+## ring this many pixels apart, in these directions (the four ways first, as a corpse beside a
+## wall is shifted sideways; then the diagonals; then between them).
+const NEAREST_STEP_PX: int = 8
+const NEAREST_REACH_PX: int = 160
+## A corpse is shifted this far at most to fit its own footprint; past it, it lies where a body
+## could stand (a way too narrow for it).
+const CORPSE_SHIFT_PX: int = 48
+const NEAREST_DIRECTIONS: Array[Vector2] = [
+	Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1),
+	Vector2(0.70710678, 0.70710678), Vector2(-0.70710678, 0.70710678), Vector2(0.70710678, -0.70710678), Vector2(-0.70710678, -0.70710678),
+	Vector2(0.92387953, 0.38268343), Vector2(-0.92387953, 0.38268343), Vector2(0.92387953, -0.38268343), Vector2(-0.92387953, -0.38268343),
+	Vector2(0.38268343, 0.92387953), Vector2(-0.38268343, 0.92387953), Vector2(0.38268343, -0.92387953), Vector2(-0.38268343, -0.92387953),
+]
 
 
 static func is_valid_character_position(
@@ -16,12 +30,66 @@ static func is_valid_character_position(
 	return _is_valid_position(map, zone_id, position, CHARACTER_FOOTPRINT, true)
 
 
+## A corpse lies where its own footprint fits, or, where none does near it (a way too narrow
+## for it: corpse_position()), where a body could stand. The one check a save is taken by and
+## Continue is checked by.
 static func is_valid_corpse_position(
 	map: WorldResidentMapController,
 	zone_id: StringName,
 	position: Vector2,
 ) -> bool:
+	return corpse_fits(map, zone_id, position) or is_valid_character_position(map, zone_id, position)
+
+
+## Whether a corpse's own footprint fits there.
+static func corpse_fits(
+	map: WorldResidentMapController,
+	zone_id: StringName,
+	position: Vector2,
+) -> bool:
 	return _is_valid_position(map, zone_id, position, CORPSE_FOOTPRINT)
+
+
+## `position` when a character may stand there in `zone_id`, else the nearest spot in that zone
+## where one may (within NEAREST_REACH_PX), else Vector2.INF.
+static func nearest_character_position(
+	map: WorldResidentMapController,
+	zone_id: StringName,
+	position: Vector2,
+) -> Vector2:
+	return _nearest(map, zone_id, position, CHARACTER_FOOTPRINT, true, NEAREST_REACH_PX)
+
+
+## Where a corpse falling at `position` lies: there or the nearest spot within CORPSE_SHIFT_PX
+## where its own footprint fits, else the nearest where a body could stand (within
+## NEAREST_REACH_PX), else Vector2.INF.
+static func nearest_corpse_position(
+	map: WorldResidentMapController,
+	zone_id: StringName,
+	position: Vector2,
+) -> Vector2:
+	var spot: Vector2 = _nearest(map, zone_id, position, CORPSE_FOOTPRINT, false, CORPSE_SHIFT_PX)
+	return spot if spot.is_finite() else nearest_character_position(map, zone_id, position)
+
+
+static func _nearest(
+	map: WorldResidentMapController,
+	zone_id: StringName,
+	position: Vector2,
+	footprint_size: Vector2,
+	round: bool,
+	reach: int,
+) -> Vector2:
+	if not position.is_finite():
+		return Vector2.INF
+	if _is_valid_position(map, zone_id, position, footprint_size, round):
+		return position
+	for distance: int in range(NEAREST_STEP_PX, reach + 1, NEAREST_STEP_PX):
+		for direction: Vector2 in NEAREST_DIRECTIONS:
+			var spot: Vector2 = position + direction * distance
+			if _is_valid_position(map, zone_id, spot, footprint_size, round):
+				return spot
+	return Vector2.INF
 
 
 static func _is_valid_position(
