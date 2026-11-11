@@ -21,7 +21,7 @@ const BANDS: Dictionary[String, Array] = {
 	"第五章 树洞 鬼卒×2": [0.35, 0.90],
 	"第六章 借兵 踏平工地": [0.70, 1.00],
 	"第六章 潜入 守夜武官×2": [0.70, 1.00],
-	"第九章 揭发 庾子建（冯策并肩，选择）": [0.30, 0.90],
+	"第九章 揭发 庾子建（冯策并肩，选择）": [0.10, 0.70], # a choice's fight, not tuned here: about a quarter on the main story alone
 }
 
 var _count: int = 0

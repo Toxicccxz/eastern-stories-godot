@@ -897,7 +897,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 200000,
+			"combat_exp": 170000,
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
@@ -1297,7 +1297,7 @@
 				"con": 30,
 				"kar": 2
 			},
-			"combat_exp": 6000,
+			"combat_exp": 5000,
 			"score": 300,
 			"attitude": "aggressive",
 			"capabilities": [

@@ -1204,7 +1204,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 200000,
+			"combat_exp": 170000,
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
@@ -2412,7 +2412,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 200000,
+			"combat_exp": 170000,
 			"skills": {
 				"sword": 70,
 				"six-chaos-sword": 70,
@@ -2504,7 +2504,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 200000,
+			"combat_exp": 170000,
 			"skills": {
 				"sword": 70,
 				"six-chaos-sword": 70,
@@ -2848,7 +2848,7 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 85000,
+			"combat_exp": 75000,
 			"resources": {"max_kee": 3800, "max_gin": 1900, "max_sen": 1900, "max_force": 2600, "force": 2600},
 			"attitude": "aggressive",
 			"capabilities": [
@@ -4603,7 +4603,7 @@
 				"con": 30,
 				"kar": 2
 			},
-			"combat_exp": 12000,
+			"combat_exp": 12500,
 			"score": 300,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -4653,7 +4653,7 @@
 				"con": 30,
 				"kar": 2
 			},
-			"combat_exp": 100000,
+			"combat_exp": 90000,
 			"score": 300,
 			"attitude": "aggressive",
 			"capabilities": [
