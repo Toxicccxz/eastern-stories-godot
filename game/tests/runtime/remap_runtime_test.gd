@@ -63,7 +63,7 @@ func _test_who_leaves_home() -> void:
 
 
 func _test_revision() -> void:
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FINALE_C_V1, "终章 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FONXAN_B_V1, "封山 B's world revision is current (world_revision_test binds it to the spawn points)")
 	var named: bool = true
 	for value: int in WorldContentRevision.Value.values():
 		var text: String = WorldContentRevision.serialized(value as WorldContentRevision.Value)
