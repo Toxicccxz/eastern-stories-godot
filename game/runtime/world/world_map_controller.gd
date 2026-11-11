@@ -77,6 +77,8 @@ func screen_scale() -> Vector2:
 
 ## initialize_step() has done the map's own binding.
 var _start_begun: bool = false
+## A piece after the binding failed: the map stays failed (the piece is not made over again).
+var _start_failed: bool = false
 
 
 func _ready() -> void:
@@ -108,6 +110,8 @@ func initialize_map() -> bool:
 func initialize_step() -> StartStep:
 	if _initialized:
 		return StartStep.DONE
+	if _start_failed:
+		return StartStep.FAILED
 	if not _start_begun:
 		if not _begin_initialization():
 			return StartStep.FAILED
@@ -115,6 +119,7 @@ func initialize_step() -> StartStep:
 		return StartStep.MORE
 	var restoring: bool = session != null and session.bootstrap_mode() == WorldSessionController.BootstrapMode.RESTORE
 	var made: StartStep = npcs.restore_next() if restoring else npcs.spawn_next()
+	_start_failed = made == StartStep.FAILED
 	if made != StartStep.DONE:
 		return made
 	prepare_for_deactivation()
