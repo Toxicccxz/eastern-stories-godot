@@ -114,6 +114,11 @@ signal next_slice
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
 
+func _notification(what: int) -> void:
+	# A worker thread may still be settling this map's boxes (Shapes.settle_coplanar_in_background).
+	if what == NOTIFICATION_PREDELETE:
+		shapes.abandon_settling()
+
 func _init() -> void:
 	grove_noise.seed = 2741
 	grove_noise.frequency = 0.0035
@@ -150,6 +155,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	rng.seed = 7819
 	furniture.rng = rng
 	shapes.spatial_batching = true
+	shapes.settle_for_map = true
 	indoor = layout.get("indoor", false)
 	shapes.spatial_cell_size = 6.0 if indoor else 12.0
 	flora = layout.get("flora", {})
@@ -288,6 +294,12 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	for lamp: Node in find_children("*","OmniLight3D",true,false):
 		var light := lamp as OmniLight3D
 		light_bounds.append(light.global_transform*light.get_aabb())
+	# Faces of two colours in one plane step apart (Shapes.settle_coplanar), on worker threads
+	# while the loading screen goes on.
+	if shapes.settle_coplanar_in_background():
+		while slice_usec > 0 and not shapes.settling_done():
+			await breathe(true)
+		shapes.finish_settling()
 	shapes.pool_plain_colours()
 	for key: Variant in shapes.batches:
 		shapes.flush_one(key,light_bounds)

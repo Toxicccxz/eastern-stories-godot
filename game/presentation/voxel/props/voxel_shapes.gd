@@ -24,6 +24,53 @@ var merged: Dictionary[Node3D, Node3D] = {}
 var compact: Dictionary[Node3D, bool] = {}
 ## A merged node's place in the node it merges into, read when the first form is drawn into it.
 var _merged_pose: Dictionary[Node3D, Transform3D] = {}
+## How far a box's face steps back behind a later box's face of another colour in its plane
+## (settle_coplanar): about a hundred times the depth buffer's grain at the map's camera, far
+## below a pixel.
+const COPLANAR_STEP: float = 0.001
+## A face narrower than this (units) is a sliver at the map's camera: under two pixels.
+const SLIVER: float = 0.03
+## A face smaller than this every way is a speck there (two or three pixels): its fight is lost
+## in the picture.
+const SPECK: float = 0.08
+## A box of a map's ground (a place with meta `flat`) this wide both ways is one of its cells
+## (VoxelMapGeometry's tiles and beds, 16 px), side by side with its neighbours, and whatever is
+## laid on it lies above it: left as it is (voxel_coplanar_test checks that nothing lies flush).
+const GROUND_CELL: float = 0.5
+## Layers a face may step back to stay under every later face it overlaps; past them it takes
+## any layer those faces leave free.
+const COPLANAR_LAYERS: int = 4
+## The boxes drawn since the last settle_coplanar(), in the order drawn: [batch entry, index].
+var _unsettled: Array = []
+## Drawn for the map's camera (VoxelMapGeometry): faces it never sees, and slivers, are left as
+## they are. Off for a thing that turns (the 背包's item, VoxelItemLook): every face shows.
+var settle_for_map: bool = false
+## The faces of a box square to the world that are settled, as axis*2 (+1 the face toward
+## the axis's negative end): the map's camera never sees an underside or a north face.
+const _MAP_FACES: Array[int] = [0,1,2,4]
+const _ALL_FACES: Array[int] = [0,1,2,4,5]
+const _AXIS_NORMALS: Array[Vector3] = [Vector3.RIGHT,Vector3.LEFT,Vector3.UP,Vector3.DOWN,Vector3.BACK,Vector3.FORWARD]
+## _normal_code() of each of those normals.
+const _AXIS_CODES: Array[int] = [192*65536+128*256+128,64*65536+128*256+128,128*65536+192*256+128,128*65536+64*256+128,128*65536+128*256+192,128*65536+128*256+64]
+## Faces are looked up by their plane in steps of 1/_PLANE_CELLS of a unit.
+const _PLANE_CELLS: float = 100.0
+## ... and by the cells of their plane they cover, 1/_AREA_CELLS of a unit across.
+const _AREA_CELLS: float = 0.5
+## Two faces must share more than this along each side to overlap (half on each).
+const _EDGE: float = 0.00025
+## Places being settled: {"items", "stepped" (once done)}.
+var _settling: Array[Dictionary] = []
+## The WorkerThreadPool group task settling them, or -1.
+var _task: int = -1
+## Threads a background settle uses.
+const SETTLE_THREADS: int = 4
+## Faces stepped back so far (settle_coplanar).
+var stepped_faces: int = 0
+## Suites only (off in the game): while set, every batch flushed by any Shapes is kept in
+## `flushed` as it went out ({"by" (the Shapes' instance id), "parent", "color", "mesh", "transforms", "colors"}), so a suite can
+## look at what a figure, an item or a map drew after the batches are gone.
+static var keep_flushed: bool = false
+static var flushed: Array[Dictionary] = []
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material);
 ## "<hex>:glow" gives off its own light (a red paper lantern, gilt letters catching the sun);
@@ -74,6 +121,9 @@ func merge(node: Node3D, into: Node3D) -> void:
 	compact[into] = true
 
 func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
+	# Worker threads may be settling the batches: nothing is drawn into them meanwhile.
+	if _task >= 0:
+		finish_settling()
 	transform = frame*transform
 	if merged.has(parent):
 		var into: Node3D = merged[parent]
@@ -91,7 +141,336 @@ func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) 
 	if entry == null:
 		entry = {"parent":parent,"color":hex,"mesh":mesh,"transforms":[]}
 		batches[key] = entry
-	(entry["transforms"] as Array).append(transform)
+	var transforms: Array = entry["transforms"]
+	if mesh == cube:
+		_unsettled.append([entry,transforms.size()])
+	transforms.append(transform)
+
+## Two boxes of one place in different colours whose faces lie in one plane and overlap fight
+## over every pixel there (z-fighting): which one wins flips as the camera moves by a hair, so
+## the face flickers while the camera eases after the player and is still only once it stops
+## (owner, 2026-11-11: a shelf's boards, a belt, a drumstick's crust). The later box is the
+## detail drawn over the earlier one (the board over its post, the crust over the meat), so the
+## earlier box's face steps back by COPLANAR_STEP, one behind both by twice that, and so on:
+## the same picture, without the fight. Boxes of different places (parents) never meet here;
+## same-coloured faces are left as they are (their fight shows nothing). pool_plain_colours()
+## and flush() settle what is left first.
+func settle_coplanar() -> void:
+	if _task >= 0:
+		finish_settling()
+		return
+	_queue_unsettled()
+	for group: Dictionary in _settling:
+		stepped_faces += _settle_group(group)
+	_settling.clear()
+
+## settle_coplanar() on the WorkerThreadPool, a place to a thread (a big map's build: a map has
+## a hundred places, sharing nothing), while the loading screen goes on; true when there is
+## something to wait for (settling_done(), then finish_settling()). Drawing anything more first
+## waits for it.
+func settle_coplanar_in_background() -> bool:
+	if _task >= 0:
+		finish_settling()
+	_queue_unsettled()
+	if _settling.is_empty():
+		return false
+	# The biggest places first, so that no thread is left with one at the end. A few threads: more
+	# only wait on each other (measured: GDScript's shared values, its allocator).
+	_settling.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return (a["items"] as Array).size() > (b["items"] as Array).size())
+	_task = WorkerThreadPool.add_group_task(_settle_group_at,_settling.size(),SETTLE_THREADS,true,"voxel coplanar faces")
+	return true
+
+func settling_done() -> bool:
+	return _task < 0 or WorkerThreadPool.is_group_task_completed(_task)
+
+func finish_settling() -> void:
+	if _task >= 0:
+		WorkerThreadPool.wait_for_group_task_completion(_task)
+		_task = -1
+		for group: Dictionary in _settling:
+			stepped_faces += int(group["stepped"])
+		_settling.clear()
+	settle_coplanar()
+
+## Waits for any worker thread and drops what was to be settled (a build given up half way).
+func abandon_settling() -> void:
+	if _task >= 0:
+		WorkerThreadPool.wait_for_group_task_completion(_task)
+		_task = -1
+	_settling.clear()
+	_unsettled.clear()
+
+func _queue_unsettled() -> void:
+	if _unsettled.is_empty():
+		return
+	var groups: Dictionary = {}
+	for item: Array in _unsettled:
+		var parent: Variant = (item[0] as Dictionary)["parent"]
+		if not groups.has(parent):
+			groups[parent] = []
+		(groups[parent] as Array).append(item)
+	_unsettled.clear()
+	for parent: Variant in groups:
+		_settling.append({"items":groups[parent],"stepped":0,"ground":settle_for_map and (parent as Node).get_meta("flat",false)})
+
+## On a worker thread: touches only its own place's boxes.
+func _settle_group_at(index: int) -> void:
+	var group: Dictionary = _settling[index]
+	group["stepped"] = _settle_group(group)
+
+## A place's boxes, latest first; the count of faces stepped back.
+func _settle_group(group: Dictionary) -> int:
+	var items: Array = group["items"]
+	var cells: Dictionary = {}
+	var ground: bool = group.get("ground",false)
+	var stepped: int = 0
+	for next: int in range(items.size()-1,-1,-1):
+		stepped += _settle_box(items[next],cells,ground)
+	return stepped
+
+## A box (latest first) against the faces of the boxes of its place drawn after it, found by
+## their plane and the cells of that plane they cover (_PLANE_CELLS, _AREA_CELLS). A box
+## square to the world (most are, turned or not) is its own bounds: its faces are rectangles of
+## the world's planes. One turned some other way takes the long way (_settle_turned).
+func _settle_box(item: Array, cells: Dictionary, ground: bool = false) -> int:
+	var entry: Dictionary = item[0]
+	var index: int = item[1]
+	var transforms: Array = entry["transforms"]
+	var t: Transform3D = transforms[index]
+	var x: Vector3 = t.basis.x
+	var y: Vector3 = t.basis.y
+	var z: Vector3 = t.basis.z
+	if absf(x.x*x.y)+absf(x.y*x.z)+absf(x.z*x.x)+absf(y.x*y.y)+absf(y.y*y.z)+absf(y.z*y.x)+absf(z.x*z.y)+absf(z.y*z.z)+absf(z.z*z.x) > 0.0000000001:
+		return _settle_turned(item,cells)
+	var size := Vector3(absf(x.x)+absf(y.x)+absf(z.x),absf(x.y)+absf(y.y)+absf(z.y),absf(x.z)+absf(y.z)+absf(z.z))
+	if ground and absf(size.x-GROUND_CELL) < 0.02 and absf(size.z-GROUND_CELL) < 0.02:
+		return 0
+	var low: Vector3 = t.origin-size*0.5
+	var high: Vector3 = t.origin+size*0.5
+	var colour: String = entry["color"]
+	var stepped: int = 0
+	for face: int in (_MAP_FACES if settle_for_map else _ALL_FACES):
+		var axis: int = face >> 1
+		var ahead: bool = face & 1 == 0
+		var u: int = 1 if axis == 0 else 0
+		var v: int = 1 if axis == 2 else 2
+		if settle_for_map and (minf(size[u],size[v]) < SLIVER or maxf(size[u],size[v]) < SPECK):
+			continue
+		var area := Rect2(low[u]+_EDGE,low[v]+_EDGE,size[u]-_EDGE*2.0,size[v]-_EDGE*2.0)
+		var d: float = high[axis] if ahead else -low[axis]
+		var deepest: float = minf(COPLANAR_STEP*COPLANAR_LAYERS,(size[axis]-COPLANAR_STEP)*0.5)
+		var record: Array = [_AXIS_NORMALS[face],d,null,null,null,colour,area,true]
+		var later: Array[float] = _later_planes(cells,_AXIS_CODES[face],record,deepest)
+		var plane_at: float = d if later.is_empty() else _clear_of(d,later,deepest)
+		record[1] = plane_at
+		# A box's own faces never meet (one colour): filed at once.
+		_file(cells,_AXIS_CODES[face],record)
+		if plane_at != d:
+			stepped += 1
+			if ahead:
+				high[axis] -= d-plane_at
+			else:
+				low[axis] += d-plane_at
+	if stepped > 0:
+		transforms[index] = Transform3D(Basis.from_scale(high-low),(high+low)*0.5)
+	return stepped
+
+## A box turned other than square to the world (a crust a quarter turned on the meat, a worn
+## patch askew on the floor): each face by its own normal.
+func _settle_turned(item: Array, cells: Dictionary) -> int:
+	var entry: Dictionary = item[0]
+	var index: int = item[1]
+	var transforms: Array = entry["transforms"]
+	var t: Transform3D = transforms[index]
+	var colour: String = entry["color"]
+	var steps := PackedFloat32Array([0.0,0.0,0.0,0.0,0.0,0.0])
+	for axis: int in 3:
+		var column: Vector3 = t.basis[axis]
+		var length: float = column.length()
+		if length < 0.00001:
+			continue
+		var half_a: Vector3 = t.basis[(axis+1)%3]*0.5
+		var half_b: Vector3 = t.basis[(axis+2)%3]*0.5
+		for side: int in 2:
+			var normal: Vector3 = column/length if side == 0 else -column/length
+			# No camera of the game looks up at an underside; the map's never sees a north face,
+			# nor a sliver too thin to show a fight.
+			if normal.y < -0.99 or (settle_for_map and (_unseen_on_map(normal) or minf(half_a.length(),half_b.length()) < SLIVER*0.5 or maxf(half_a.length(),half_b.length()) < SPECK*0.5)):
+				continue
+			var centre: Vector3 = t.origin+normal*length*0.5
+			# The plane's two coordinates: the world axes the normal lies least along.
+			var u: int = 0 if absf(normal.x) < 0.7 else 1
+			var v: int = 2 if absf(normal.z) < 0.7 else 1
+			if u == v:
+				v = 2
+			var reach := Vector2(absf(half_a[u])+absf(half_b[u]),absf(half_a[v])+absf(half_b[v]))
+			var area := Rect2(centre[u]-reach.x,centre[v]-reach.y,reach.x*2.0,reach.y*2.0)
+			var d: float = normal.dot(centre)
+			# Never through the box (its other face may step back as far).
+			var deepest: float = minf(COPLANAR_STEP*COPLANAR_LAYERS,(length-COPLANAR_STEP)*0.5)
+			var record: Array = [normal,d,centre,half_a,half_b,colour,area,false]
+			var later: Array[float] = _later_planes(cells,_normal_code(Vector3i((normal*64.0).round())),record,deepest)
+			var plane_at: float = d if later.is_empty() else _clear_of(d,later,deepest)
+			record[1] = plane_at
+			steps[axis*2+side] = d-plane_at
+			# A turned normal may round either way: the face is filed under each way it may.
+			var floor_n := Vector3i((normal*64.0).floor())
+			var ceil_n := Vector3i((normal*64.0).ceil())
+			for cx: int in range(floor_n.x,ceil_n.x+1):
+				for cy: int in range(floor_n.y,ceil_n.y+1):
+					for cz: int in range(floor_n.z,ceil_n.z+1):
+						_file(cells,_normal_code(Vector3i(cx,cy,cz)),record)
+	var stepped: int = 0
+	for axis: int in 3:
+		var ahead: float = steps[axis*2]
+		var behind: float = steps[axis*2+1]
+		if ahead == 0.0 and behind == 0.0:
+			continue
+		stepped += int(ahead > 0.0)+int(behind > 0.0)
+		var column: Vector3 = t.basis[axis]
+		var length: float = column.length()
+		var direction: Vector3 = column/length
+		t.origin += direction*(behind-ahead)*0.5
+		t.basis[axis] = direction*(length-ahead-behind)
+	if stepped > 0:
+		transforms[index] = t
+	return stepped
+
+## Where the later faces of other colours that `record` (a face: [normal, plane, centre, half
+## edges, colour, area, square to the world]) overlaps now lie: their planes, each as far back
+## as it stepped, from just before this one to as deep as it may go.
+func _later_planes(cells: Dictionary, code: int, record: Array, deepest: float) -> Array[float]:
+	var found: Array[float] = []
+	var d: float = record[1]
+	var area: Rect2 = record[6]
+	var colour: String = record[5]
+	var square: bool = record[7]
+	var reach: float = deepest+COPLANAR_STEP
+	# On the map, faces that share only a strip under a pixel wide (two floor tiles lapping by
+	# a hair) show no fight there.
+	var least: float = SLIVER if settle_for_map else 0.0005
+	var cu_end: int = floori(area.end.x*_AREA_CELLS)
+	var cv_start: int = floori(area.position.y*_AREA_CELLS)
+	var cv_end: int = floori(area.end.y*_AREA_CELLS)
+	for at_d: int in range(floori((d-reach)*_PLANE_CELLS),floori((d+COPLANAR_STEP)*_PLANE_CELLS)+1):
+		for cu: int in range(floori(area.position.x*_AREA_CELLS),cu_end+1):
+			for cv: int in range(cv_start,cv_end+1):
+				var near: Variant = cells.get(Vector4i(code,at_d,cu,cv))
+				if near == null:
+					continue
+				for other: Array in near:
+					var at: float = other[1]
+					if absf(at-d) >= reach or other[5] == colour or not area.intersects(other[6]):
+						continue
+					# Two faces square to the world under one code overlap where their areas do.
+					if square and other[7]:
+						var shared: Rect2 = area.intersection(other[6])
+						if minf(shared.size.x,shared.size.y) < least-_EDGE*2.0:
+							continue
+					elif not _same_way(other[0],record[0]) or not _faces_overlap(_centre(record),_half(record,0),_half(record,1),_centre(other),_half(other,0),_half(other,1),least):
+						continue
+					found.append(at)
+	return found
+
+## Files a face's record under `code`, its plane and its cells, for the earlier boxes.
+static func _file(cells: Dictionary, code: int, record: Array) -> void:
+	var area: Rect2 = record[6]
+	var at_d: int = floori(float(record[1])*_PLANE_CELLS)
+	var cv_start: int = floori(area.position.y*_AREA_CELLS)
+	var cv_end: int = floori(area.end.y*_AREA_CELLS)
+	for cu: int in range(floori(area.position.x*_AREA_CELLS),floori(area.end.x*_AREA_CELLS)+1):
+		for cv: int in range(cv_start,cv_end+1):
+			var key := Vector4i(code,at_d,cu,cv)
+			var list: Variant = cells.get(key)
+			if list == null:
+				cells[key] = [record]
+			else:
+				(list as Array).append(record)
+
+## A face record's centre and half edges; a square face's from its area and plane.
+static func _centre(record: Array) -> Vector3:
+	if not record[7]:
+		return record[2]
+	var normal: Vector3 = record[0]
+	var area: Rect2 = record[6]
+	var axis: int = normal.abs().max_axis_index()
+	var centre := Vector3.ZERO
+	centre[axis] = float(record[1])*normal[axis]
+	centre[1 if axis == 0 else 0] = area.get_center().x
+	centre[1 if axis == 2 else 2] = area.get_center().y
+	return centre
+
+static func _half(record: Array, which: int) -> Vector3:
+	if not record[7]:
+		return record[3+which]
+	var normal: Vector3 = record[0]
+	var area: Rect2 = record[6]
+	var axis: int = normal.abs().max_axis_index()
+	var half := Vector3.ZERO
+	if which == 0:
+		half[1 if axis == 0 else 0] = area.size.x*0.5+_EDGE
+	else:
+		half[1 if axis == 2 else 2] = area.size.y*0.5+_EDGE
+	return half
+
+## Whether the map's camera, from either side or turning between them (WorldVoxelView: always
+## south of what it looks at, 45 degrees east or west), never sees a face turned this way.
+static func _unseen_on_map(normal: Vector3) -> bool:
+	for yaw: float in [-PI/4.0,0.0,PI/4.0]:
+		if normal.dot(Vector3(sin(yaw)*30.0,26.0,cos(yaw)*30.0)) > -0.5:
+			return false
+	return true
+
+## Two faces look the same way when their normals differ by less than half a code's step in each
+## part (some half a degree): more than that, they cross along a line, not lie in one plane.
+static func _same_way(a: Vector3, b: Vector3) -> bool:
+	var apart: Vector3 = (a-b).abs()
+	return apart.x < 0.5/64.0 and apart.y < 0.5/64.0 and apart.z < 0.5/64.0
+
+static func _normal_code(n: Vector3i) -> int:
+	return (n.x+128)*65536+(n.y+128)*256+n.z+128
+
+## Where a face at `d` goes among the planes `others` of the later faces it overlaps: behind each
+## one it is too near (the later face wins, as drawn over it), no deeper than `deepest`. Many
+## tiles each overlapping the next (worn patches, paving) would push the first ever deeper: then
+## the free place nearest where it was drawn, before or behind its neighbours as it falls.
+static func _clear_of(d: float, others: Array[float], deepest: float) -> float:
+	var at: float = d
+	var moved: bool = true
+	while moved:
+		moved = false
+		for other: float in others:
+			if absf(at-other) < COPLANAR_STEP-0.00001:
+				at = other-COPLANAR_STEP
+				moved = true
+	if d-at <= deepest+0.00001:
+		return at
+	var places: Array[float] = [d]
+	for other: float in others:
+		places.append(other-COPLANAR_STEP)
+		places.append(other+COPLANAR_STEP)
+	places.sort()
+	places.reverse()
+	for place: float in places:
+		if place > d+0.00001 or d-place > deepest+0.00001:
+			continue
+		if others.all(func(other: float) -> bool: return absf(place-other) >= COPLANAR_STEP-0.00001):
+			return place
+	return d
+
+## Whether two rectangles of one plane (centres, half edges) share more than a strip `least`
+## wide (by default, more than an edge).
+static func _faces_overlap(c1: Vector3, a1: Vector3, b1: Vector3, c2: Vector3, a2: Vector3, b2: Vector3, least: float = 0.0005) -> bool:
+	var apart: Vector3 = c2-c1
+	for axis: Vector3 in [a1,b1,a2,b2]:
+		var length: float = axis.length()
+		if length < 0.00001:
+			continue
+		var unit: Vector3 = axis/length
+		var reach: float = absf(a1.dot(unit))+absf(b1.dot(unit))+absf(a2.dot(unit))+absf(b2.dot(unit))
+		if reach-absf(apart.dot(unit)) <= least:
+			return false
+	return true
 
 func _slot(thing: Variant) -> int:
 	var slot: Variant = _slots.get(thing)
@@ -137,6 +516,7 @@ func _plain(hex: String) -> bool:
 ## place and shape are the same, and the light-aware split still applies. Once everything is
 ## drawn, so that any colour made to glow on the way stays out.
 func pool_plain_colours() -> void:
+	settle_coplanar()
 	var pooled: Dictionary = {}
 	for key: Vector4i in batches:
 		var entry: Dictionary = batches[key]
@@ -160,6 +540,7 @@ func pool_plain_colours() -> void:
 	batches = pooled
 
 func flush(light_bounds: Array[AABB] = []) -> void:
+	settle_coplanar()
 	for key: Variant in batches:
 		flush_one(key,light_bounds)
 	batches.clear()
@@ -167,6 +548,8 @@ func flush(light_bounds: Array[AABB] = []) -> void:
 ## One batch of flush(), for a build that goes over several frames; batches.clear() is the caller's.
 func flush_one(key: Variant, light_bounds: Array[AABB] = []) -> void:
 	var entry: Dictionary = batches[key]
+	if keep_flushed:
+		flushed.append({"by":get_instance_id(),"parent":entry["parent"],"color":entry["color"],"mesh":entry["mesh"],"transforms":(entry["transforms"] as Array).duplicate(),"colors":entry.get("colors",PackedColorArray())})
 	_flush_batch(entry,entry["transforms"],entry.get("colors",PackedColorArray()),light_bounds)
 
 ## `cuts`: how many times a box has been cut in two on the way here. Halving a batch ends by
