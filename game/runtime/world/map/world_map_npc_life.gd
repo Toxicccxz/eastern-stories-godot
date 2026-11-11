@@ -928,6 +928,10 @@ func _start_own_calls(npc: NpcRuntimeState) -> void:
 	for index: int in hooks.calls.size():
 		var call: NpcHooks.Call = hooks.calls[index]
 		if call.scene:
+			# DECISIONS「主线卡死点」: one led in under arrest (or waiting on the sentence) watches no
+			# scene: they are taken out again before it could end, and it would not be played again.
+			if _player != null and (_player.in_custody() or _player.awaiting_sentence):
+				continue
 			# A scene's calls are judged now, once (DECISIONS「剧情演出」): the ones for the
 			# player come whatever the earlier ones change (a `not_mark` marked by the first).
 			if facts == null:

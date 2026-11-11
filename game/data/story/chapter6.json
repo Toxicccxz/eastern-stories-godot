@@ -146,6 +146,7 @@
 				},
 				{
 					"id": "raid",
+					"keeps": ["native.npc.guo_cheng"],
 					"only_after": "raid",
 					"objective": "踏平工地：打倒白衣武官、队长裴照和监工吕隼，打开民夫棚前的枷锁。",
 					"done": {
@@ -160,6 +161,7 @@
 				},
 				{
 					"id": "sneak",
+					"keeps": ["native.npc.guo_cheng"],
 					"only_after": "sneak",
 					"objective": "夜里跟着郭承潜进工地，到民夫棚解枷。救得几个算几个，救不完的别回头。",
 					"done": {
@@ -174,6 +176,7 @@
 				},
 				{
 					"id": "luca",
+					"keeps": ["native.npc.luca"],
 					"objective": "回马市问大秦剑手卢卡「会首」——他们那边也传说一个找自己脑袋的鬼。",
 					"done": {
 						"mark": "卢卡说了番坊"

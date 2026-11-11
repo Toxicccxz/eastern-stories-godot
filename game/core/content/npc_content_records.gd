@@ -379,8 +379,12 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	definition.with_cleared_mark(reader.text("cleared_mark"))
 	definition.with_same_person(StringName(reader.text("same_person")))
 	definition.with_presence(_presence(reader, "present"), _presence(reader, "until"))
-	if definition.staged and (reader.boolean("summoned", false) or reader.has("draw")):
-		reader.fail("present", "a spawn on the story's stage is neither summoned nor drawn")
+	# DECISIONS「主线卡死点」: a summoned spawn may carry a `present` too: a scene's late beat calls
+	# them, and the stage puts them on once the scene was cut short before it (no `until` alone).
+	if definition.staged and reader.has("draw"):
+		reader.fail("present", "a spawn on the story's stage is not drawn")
+	if definition.staged and definition.summoned and definition.present == null:
+		reader.fail("present", "a summoned spawn on the story's stage says when it is on (`present`)")
 	reader.finish()
 	if not definition.pacing.is_empty() and not NpcSpawnDefinition.PACING_KNOBS.has(definition.pacing):
 		reader.fail("pacing", "expected one of %s" % [NpcSpawnDefinition.PACING_KNOBS])

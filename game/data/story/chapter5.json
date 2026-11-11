@@ -78,6 +78,7 @@
 				},
 				{
 					"id": "choice",
+					"keeps": ["choyin.npc.sergeant"],
 					"objective": "护送陈显祖进衙门作证（问他「作证」），或放他带箱子走（「走吧」）。",
 					"target": {
 						"map": "choyin.hotel_house",

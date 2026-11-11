@@ -52,6 +52,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		await _test_gate(tree, gate, learned)
 		gate.free()
 		await tree.process_frame
+	var struck: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
+	await _test_gate_struck(tree, struck)
+	struck.free()
+	await tree.process_frame
 	var night: WorldSessionController = await _session(tree, CharacterState.GENDER_FEMALE)
 	await _test_ronin_night(tree, night)
 	night.free()
@@ -426,6 +430,50 @@ func _test_gate(tree: SceneTree, session: WorldSessionController, learned: bool)
 		_check(master != null and dojo.npc_life.story_trials_offered(master).is_empty(), "the seal: no 一刀 offered to the 大秦人's friend")
 
 
+## DECISIONS「主线卡死点」: the player kills 冯禄 at the gate before any 对质 (no 印模: 「没有的，只能动手」);
+## the 对质 then ends the 争地 without him — his four leave, the 大秦人 stay — and the chapter goes on.
+func _test_gate_struck(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var ui: SharedGameplayUI = session.shared_ui()
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter7")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	StoryFixtures.chapter7_sided(session, true, true)
+	state.quests["main.chapter7/rome"] = state.quests.size() + 1
+	for mark: String in ["火前说了真话", "铜牒到手"]:
+		state.marks[mark] = 1
+	state.marks.erase("学过印色")
+	session.record_journal()
+	var bazaar: WorldMapController = MapPlaces.enter(session, &"fanfang.bazaar_north", &"fanfang.bazaar_north.hall_return")
+	await _settle(tree)
+	var hall: WorldMapController = await MapPlaces.go_to(tree, session, &"fanfang.shield_yard")
+	for second: int in 9:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var feng: NpcRuntimeState = null
+	for npc: NpcRuntimeState in ([] if hall == null else hall.npc_runtimes()):
+		if npc.definition().definition_id == &"native.npc.feng_lu" and npc.world_location().zone_id == &"fanfang.shield_yard" and npc.exists_in_map:
+			feng = npc
+	_check(bazaar != null and hall != null and feng != null, "struck: 冯禄 inside the gate")
+	if feng == null:
+		return
+	_full(session.player_runtime())
+	_check(hall.relocate_player(feng.world_location().zone_id, feng.spawn_point_id), "struck: beside 冯禄")
+	await _settle(tree)
+	hall.select_npc(feng.character_id)
+	_check(hall.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "struck: the player attacks 冯禄")
+	_fight_out(session)
+	await _settle(tree)
+	session.record_journal()
+	_check(not coordinator.has_active_encounter() and feng.life_status == CharacterRuntimeLifeStatus.Value.DEAD and state.marks.get("冯禄倒了", 0) == 1 and not state.marks.has("争地过了"), "struck: 冯禄 dead (击倒后 直接了结 in the suites), 冯禄倒了; the 争地 still open")
+	var papers: ActService = hall.service(&"fanfang.shield_yard.papers") as ActService
+	_check(papers != null and await MapPlaces.drive(tree, hall, MapPlaces.service_spot(hall, &"fanfang.shield_yard.papers")) and papers.in_reach(), "struck: at 冯禄的文书")
+	papers.interact()
+	await _settle(tree)
+	_check(not ui.is_asking() and ui.log_lines().any(func(line: String) -> bool: return line.contains("跟他来的人也就散了")) and state.marks.get("争地过了", 0) == 1 and state.marks.get("大秦人留下了", 0) == 1 and _count_in(session, &"fanfang.shield_yard", &"native.npc.ronin") == 0, "struck: 对质 without him — his four gone, 争地过了, 大秦人留下了: %s" % [ui.log_lines().slice(-4)])
+	session.record_journal()
+	_check(state.quests.has("main.chapter7/gate") and StoryQuestLog.current_step(state, quest).step_id == &"read", "struck: the gate step done; next, to read the 铜牒")
+
+
 ## The 浪人's side: 早川's one blow (a story trial on the popup, asked first), the wait for dark on the boards,
 ## the 黑影 at the altar with the tablet by night, and the morning after — the 大秦人 cleared.
 func _test_ronin_night(tree: SceneTree, session: WorldSessionController) -> void:
@@ -433,7 +481,8 @@ func _test_ronin_night(tree: SceneTree, session: WorldSessionController) -> void
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter7")
-	StoryFixtures.chapter7_sided(session, false, false)
+	# DECISIONS「主线卡死点」: no fixture writes the side — 安敦 told of the 铜牒, the player asks 早川 「站浪人」.
+	StoryFixtures.chapter7_told(session, false)
 	session.record_journal()
 	session.day_clock().set_day_seconds(36000) # TEST-ONLY: mid-morning
 	var temple_yard: WorldMapController = MapPlaces.enter(session, &"fanfang.temple_yard", &"fanfang.temple_yard.slope_arrival")
@@ -444,6 +493,12 @@ func _test_ronin_night(tree: SceneTree, session: WorldSessionController) -> void
 		session.advance_npc_heartbeat(1.0)
 	await _settle(tree)
 	var master: NpcRuntimeState = MapPlaces.npc_at(session, &"fanfang.dojo.ronin_master.1")
+	_check(master != null and dojo.npc_life.story_trials_offered(master).is_empty() and master.definition().talk().inquiry_topics().has("站浪人"), "night: no 一刀 before the side is taken; 早川 has 站浪人")
+	_check(master != null and await MapPlaces.drive(tree, dojo, MapPlaces.spot(dojo, &"fanfang.dojo", dojo.runtime_body_for_character(master.character_id).global_position + Vector2(-60, 0), 64.0)) and dojo.select_npc(master.character_id), "night: beside 早川")
+	_check(dojo.ask_selected("站浪人").any(func(line: String) -> bool: return line.contains("先过我一刀")) and state.marks.get("站了浪人", 0) == 1, "night: 早川 站浪人 (asked first): 先过我一刀")
+	_check(dojo.ask_selected("站浪人").any(func(line: String) -> bool: return line.contains("站过了")), "night: asked again: 站过了")
+	session.record_journal()
+	_check(state.quests.has("main.chapter7/side/ronin") and StoryQuestLog.current_step(state, quest).step_id == &"ronin", "night: the side taken the 浪人's way; next, the blow")
 	var trials: Array[NpcTrial] = [] if master == null else dojo.npc_life.story_trials_offered(master)
 	_check(master != null and trials.size() == 1 and trials[0].label == "过他一刀" and trials[0].confirm.begins_with("早川直义的一刀是真砍") and trials[0].blows.size() == 1, "night: 过他一刀 on the popup, asked first, one blow")
 	# The 板地 by day: nothing to wait for before the blow.

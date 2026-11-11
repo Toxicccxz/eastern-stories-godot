@@ -140,6 +140,11 @@ func attack_selected() -> CombatSliceInitiationResult:
 	if target.definition().spar_only():
 		_map.hud().append_log_lines([tr(SPAR_ONLY)])
 		return CombatSliceInitiationResult.new()
+	# DECISIONS「主线卡死点」: one the story keeps, lying unconscious, is not to be finished.
+	if target.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and _map.story_keeps(target.character_id):
+		# TRANSLATORS: the player tries to attack {npc}, who lies unconscious and whom a step of the 任务 page still needs.
+		_map.hud().append_log_lines([tr("{npc}已经倒了。{npc}还有用，留{npc}一条命。").format({"npc": tr(target.definition().display_name)})])
+		return CombatSliceInitiationResult.new()
 	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
 	# obj->kill_ob(me) warns the player (_map.hostilities.announce_fight()).
 	var shout: String = tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({

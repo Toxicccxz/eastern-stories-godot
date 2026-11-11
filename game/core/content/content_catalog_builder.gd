@@ -588,6 +588,9 @@ func _check_story_quests() -> void:
 				# A count row may name its at_least (`cond`): it is one only now, linked.
 				if row.counts and row.condition != null and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
 					_errors.append("%s.checklist: a count row's when is an at_least" % at)
+			for npc: StringName in step.keeps:
+				if not _npcs.has(npc):
+					_errors.append("%s.keeps: no npc '%s'" % [at, npc])
 			if step.target != null:
 				var zone: ZoneDefinition = _zones.get(step.target.zone_id)
 				if not _maps.has(step.target.map_id):

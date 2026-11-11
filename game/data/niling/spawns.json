@@ -174,9 +174,11 @@
 				"niling.altar.hell_runner.1",
 				"niling.altar.hell_runner.2"
 			],
-			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (summoned at the scene's end)",
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (summoned at the scene's end); 主线卡死点 (DECISIONS「主线卡死点」): on the stage from the scene on, for one whose scene was cut short before its last beat",
 			"legacy_quantity": 2,
 			"summoned": true,
+			"present": { "mark": "见过唤首" },
+			"until": { "mark": "祭坛的鬼卒倒了" },
 			"cleared_mark": "祭坛的鬼卒倒了"
 		},
 		{

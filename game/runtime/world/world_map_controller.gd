@@ -1697,5 +1697,15 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	return combat_lifecycle.execute_encounter_lifecycle(victim, opportunity, participants, last_hitter_id)
 
 
+## DECISIONS「主线卡死点」: WorldMapCombatLifecycle.kept().
+func story_keeps(character_id: StringName) -> bool:
+	return combat_lifecycle.kept(character_id)
+
+
+## DECISIONS「主线卡死点」: WorldMapCombatLifecycle.keep_alive().
+func keep_alive(victim: CombatSliceCharacterBinding) -> bool:
+	return combat_lifecycle.keep_alive(victim)
+
+
 func player_fall_below_zero(even_unconscious: bool = false) -> void:
 	combat_lifecycle.player_fall_below_zero(even_unconscious)
