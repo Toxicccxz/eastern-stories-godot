@@ -36,6 +36,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 			_check(vine != null and Vector2(vine.position.x, vine.position.z).is_equal_approx(area / VoxelMapGeometry.UNIT) and is_equal_approx(vine.position.y, VoxelGlints.HEIGHT), "over the vine's own place")
 			_check(vine != null and (vine.material_override as StandardMaterial3D).no_depth_test, "out of doors drawn over the tree it hangs from")
 			_check(not VoxelGlints._outdoors(&"snow.inn.main_floor") and VoxelGlints._outdoors(&"oldpine.outdoor.east_bridge"), "indoors (behind the roof) and out of doors told apart")
+			_check(vine != null and (vine.material_override as StandardMaterial3D).billboard_keep_scale, "facing the camera, keeping the twinkle's swell")
 			view.glints.advance(0.3, true)
 			_check(not view.glints.visible, "away on a stage")
 			view.glints.advance(0.0, false)

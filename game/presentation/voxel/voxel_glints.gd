@@ -40,14 +40,16 @@ func build(map: WorldMapController) -> void:
 	# Out of doors over whatever stands there (the tree a vine hangs from, the rock), so never
 	# hidden by it; indoors behind the walls and the roof like the room itself.
 	var materials: Array[StandardMaterial3D] = [_material(false), _material(true)]
+	var quad := QuadMesh.new()
+	quad.size = Vector2.ONE * SIZE
 	for landmark_id: StringName in map.landmark_areas:
 		var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
 		if landmark == null or not worth_a_glint(landmark):
 			continue
-		_add(landmark_id, _middle(map.landmark_areas[landmark_id]), materials[int(_outdoors(landmark.zone_id))])
+		_add(landmark_id, _middle(map.landmark_areas[landmark_id]), materials[int(_outdoors(landmark.zone_id))], quad)
 	for service: WorldService in map.service_nodes:
 		if service is ActService:
-			_add(service.service_id(), service.anchor(), materials[int(_outdoors(service.definition.zone_id))])
+			_add(service.service_id(), service.anchor(), materials[int(_outdoors(service.definition.zone_id))], quad)
 			_acts[service.service_id()] = service as ActService
 
 
@@ -81,11 +83,9 @@ func advance(delta: float, hidden: bool) -> void:
 		point.transparency = lerpf(0.25 - 0.2 * breath, 0.0, flash)
 
 
-func _add(id: StringName, at: Vector2, material: Material) -> void:
-	var quad := QuadMesh.new()
-	quad.size = Vector2.ONE * SIZE
+func _add(id: StringName, at: Vector2, material: Material, quad: QuadMesh) -> void:
 	var point := MeshInstance3D.new()
-	point.name = String(id)
+	point.name = String(id).replace(".", "_")
 	point.mesh = quad
 	point.material_override = material
 	point.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -114,6 +114,8 @@ static func _material(over_all: bool) -> StandardMaterial3D:
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	# The twinkle swells the point (its scale), which a billboard drops unless told to keep it.
+	material.billboard_keep_scale = true
 	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR
 	return material
 
