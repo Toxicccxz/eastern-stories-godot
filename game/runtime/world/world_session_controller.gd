@@ -2030,7 +2030,16 @@ func resident_npc(character_id: StringName) -> NpcRuntimeState:
 
 
 func _find_resident_npc(character_id: StringName) -> NpcRuntimeState:
+	# The map the player is on first: nearly everyone asked after is there (a fight's panel
+	# asks each fighter's name every frame), and an id lives on one map only.
+	var here: WorldResidentMapController = active_map()
+	if here != null:
+		var near: NpcRuntimeState = here.find_resident_npc(character_id)
+		if near != null:
+			return near
 	for map: WorldResidentMapController in _resident_maps.values():
+		if map == here:
+			continue
 		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
 		if npc != null:
 			return npc

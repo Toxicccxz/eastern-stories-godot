@@ -405,9 +405,18 @@ func unaffordable_move_reason(action_id: StringName, bindings: Array[CombatSlice
 
 ## The player's moves they cannot afford now, by ID, with why.
 func unaffordable_moves(bindings: Array[CombatSliceCharacterBinding]) -> Dictionary[StringName, String]:
+	return unaffordable_among(player_moves(bindings), bindings)
+
+
+## Those of `moves` (the player's, player_moves()) they cannot afford now, by ID, with why:
+## the beats they hold are read once for all of them.
+func unaffordable_among(moves: Array[CombatActionDefinition], bindings: Array[CombatSliceCharacterBinding]) -> Dictionary[StringName, String]:
 	var short: Dictionary[StringName, String] = {}
-	for action: CombatActionDefinition in player_moves(bindings):
-		var reason: String = unaffordable_move_reason(action.action_id, bindings)
+	if _one_beat() or _player_id.is_empty() or moves.is_empty():
+		return short
+	var beats: CombatRoundBeats = beats_now(_player_id, bindings)
+	for action: CombatActionDefinition in moves:
+		var reason: String = _short_of(beats, _beat_rules.cost_of_tag(action.tag))
 		if not reason.is_empty():
 			short[action.action_id] = reason
 	return short
@@ -422,7 +431,11 @@ func unaffordable_action_reason(key: StringName, bindings: Array[CombatSliceChar
 
 
 func _unaffordable(cost: int, bindings: Array[CombatSliceCharacterBinding]) -> String:
-	var beats: CombatRoundBeats = beats_now(_player_id, bindings)
+	return _short_of(beats_now(_player_id, bindings), cost)
+
+
+## Why `beats` (the player's, beats_now()) do not pay `cost`, "" when they do.
+func _short_of(beats: CombatRoundBeats, cost: int) -> String:
 	if beats == null or beats.can_afford(cost):
 		return ""
 	if beats.remaining == 0 and beats.yielded > 0:
@@ -535,9 +548,21 @@ func locked_move_reason(action_id: StringName, bindings: Array[CombatSliceCharac
 
 ## The player's locked moves now, by ID, with why.
 func locked_moves(bindings: Array[CombatSliceCharacterBinding]) -> Dictionary[StringName, String]:
+	return locked_among(player_moves(bindings), bindings)
+
+
+## Those of `moves` (the player's, player_moves()) their school locks now, by ID, with why:
+## the school and its state are read once for all of them.
+func locked_among(moves: Array[CombatActionDefinition], bindings: Array[CombatSliceCharacterBinding]) -> Dictionary[StringName, String]:
 	var locked: Dictionary[StringName, String] = {}
-	for action: CombatActionDefinition in player_moves(bindings):
-		var reason: String = locked_move_reason(action.action_id, bindings)
+	if _one_beat() or _player_id.is_empty() or moves.is_empty():
+		return locked
+	var skeleton: CombatSchoolSkeleton = _skeleton_of(_find_binding(bindings, _player_id))
+	if skeleton == null:
+		return locked
+	var state: CombatSkeletonState = _skeleton_state(_player_id)
+	for action: CombatActionDefinition in moves:
+		var reason: String = skeleton.lock_reason(action.action_id, state)
 		if not reason.is_empty():
 			locked[action.action_id] = reason
 	return locked

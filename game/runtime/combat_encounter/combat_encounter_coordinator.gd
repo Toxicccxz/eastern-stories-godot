@@ -389,11 +389,14 @@ func register_tactical_policy(policy: CombatTacticalActionPolicy) -> bool:
 	return not has_active_encounter() and _tactical_registry.register_policy(policy)
 
 
-func action_infos() -> Array[CombatTacticalActionInfo]:
+func action_infos(read: CombatEncounterRead = null) -> Array[CombatTacticalActionInfo]:
 	var infos: Array[CombatTacticalActionInfo] = []
 	var player: CharacterState = null
 	if _session != null and _session.player_runtime() != null:
 		player = _session.player_runtime().state
+	# The fighters' bindings once for every order's 手不够 (the battle panel asks each frame).
+	var bindings: Array[CombatSliceCharacterBinding] = []
+	var bound: bool = false
 	for info: CombatTacticalActionInfo in _tactical_registry.action_infos():
 		var policy: CombatTacticalActionPolicy = _tactical_registry.find(info.action_id)
 		if _active_encounter != null and not policy.supports_mode(_active_encounter.mode):
@@ -408,18 +411,36 @@ func action_infos() -> Array[CombatTacticalActionInfo]:
 			reason = TranslationServer.translate("冷却中（还要 {rounds} 回合）").format({"rounds": tactical.cooldown_left(info.action_id)})
 		# 战斗拍数 B: one costing more beats than the player has left is greyed 手不够.
 		if reason.is_empty() and tactical != null and _active_encounter != null:
-			reason = _active_scheduler.unaffordable_action_reason(CombatEncounterScheduler.cost_key_of(info.category, info.action_id), _session.encounter_combat_bindings(_active_encounter))
+			if not bound:
+				bound = true
+				bindings = _bindings_of(read)
+			reason = _active_scheduler.unaffordable_action_reason(CombatEncounterScheduler.cost_key_of(info.category, info.action_id), bindings)
 		infos.append(CombatTacticalActionInfo.new(
 			info.action_id, info.category, info.target_rule, info.blocks_when_busy, reason,
 		))
 	return infos
 
 
+## One read of the running fight for the battle panel's projection (CombatEncounterRead):
+## the fighters' bindings derived once for all of its questions. Without a scheduler (a fight
+## held for 了结 / 放过) it still has the bindings and answers the rest as the queries here do.
+func read() -> CombatEncounterRead:
+	if _active_encounter == null:
+		return CombatEncounterRead.new()
+	return CombatEncounterRead.new(_active_scheduler, _session.encounter_combat_bindings(_active_encounter))
+
+
+## The fighters' bindings for a query: those of `read` when the caller made one this frame
+## (action_infos(), waiting_for_player(), player_can_target()), else derived now.
+func _bindings_of(read: CombatEncounterRead) -> Array[CombatSliceCharacterBinding]:
+	return _session.encounter_combat_bindings(_active_encounter) if read == null else read.bindings()
+
+
 ## 战斗决策层 1B (DECISIONS「战斗决策」): the fight's clock waits for the player's order.
-func waiting_for_player() -> bool:
+func waiting_for_player(read: CombatEncounterRead = null) -> bool:
 	if _active_scheduler == null or _active_encounter == null or _active_encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
 		return false
-	return _active_scheduler.waiting_for_player(_session.encounter_combat_bindings(_active_encounter))
+	return _active_scheduler.waiting_for_player(_bindings_of(read))
 
 
 ## The moves the player may choose from now.
@@ -645,10 +666,10 @@ func change_player_target(request: CombatTargetRequest) -> CombatTargetResult:
 
 
 ## Advisory projection only. Receipt always revalidates exact current bindings.
-func player_can_target(target_id: StringName) -> bool:
+func player_can_target(target_id: StringName, read: CombatEncounterRead = null) -> bool:
 	if not _target_input_allowed() or _world_gate.freeze_owner_id() != _active_encounter.encounter_id:
 		return false
-	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
+	var bindings: Array[CombatSliceCharacterBinding] = _bindings_of(read)
 	return _active_scheduler.bindings_match_encounter(bindings) and _active_scheduler.can_target(
 		_session.player_runtime().character_id, target_id, bindings,
 	)

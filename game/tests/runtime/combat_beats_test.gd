@@ -47,6 +47,7 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_heavy_stagger()
 	_test_heavy_exposed()
 	_test_combo_note()
+	_test_one_read()
 	BattlePace.manual_turns = manual_before
 	BattlePace.stance = stance_before
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -604,6 +605,70 @@ func _test_npc_special_costs() -> void:
 	es2.scheduler._charge_npc_special(es2.bindings[1], NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, &"sword", &"counterattack"))
 	es2.scheduler.choose_attack(_move_with(es2, CombatMoveTags.QUICK).action_id, es2.bindings)
 	_check(_ordinary_of(_round(es2), ENEMY).size() == 1, "经典: the special is a command, the beat is its own")
+
+
+## The battle panel asks through one CombatEncounterRead a frame (the bindings, the player's
+## moves, their beats and their school read once): it answers what the scheduler answers move
+## by move, with a lock in force, with a beat already spent, and in ES2's one beat.
+func _test_one_read() -> void:
+	var f: Fixtures.SchedulerFixture = _fixture(_modern())
+	_learn(f.bindings[0], LIUH)
+	_learn(f.bindings[1], LIUH)
+	_npc_beats[ENEMY] = 2
+	_advance(f, 1.0)
+	_check(_read_matches(f, "apart") and CombatEncounterRead.new(f.scheduler, f.bindings).locked_moves().get(HEAVY_FIST, "") == "够不着", "one read, a lock in force: 荒山虎吟 够不着, as move by move")
+	f.scheduler.note_stance_change(f.bindings)
+	var short: Dictionary[StringName, String] = CombatEncounterRead.new(f.scheduler, f.bindings).unaffordable_moves()
+	_check(_read_matches(f, "a beat spent") and short.get(HEAVY_FIST, "") == "手不够" and not short.has(QUICK_FIST), "one read, a beat spent on the stance: the 重 手不够, the 快 not: %s" % str(short))
+	f.scheduler.choose_attack(QUICK_FIST, f.bindings)
+	_advance(f, 1.0)
+	_check(_read_matches(f, "mid-round"), "one read with the round running")
+	var classic: Fixtures.SchedulerFixture = _fixture(CombatBeatRules.classic())
+	_learn(classic.bindings[0], LIUH)
+	_advance(classic, 1.0)
+	var es2 := CombatEncounterRead.new(classic.scheduler, classic.bindings)
+	_check(_read_matches(classic, "one beat") and es2.locked_moves().is_empty() and es2.unaffordable_moves().is_empty() and es2.skeleton(PLAYER) == null, "ES2's one beat: nothing locked, nothing short, no skeleton")
+	var none := CombatEncounterRead.new()
+	_check(none.bindings().is_empty() and none.player_moves().is_empty() and none.locked_moves().is_empty() and none.unaffordable_moves().is_empty() and none.move_cost(null) == 1 and none.beats_now(PLAYER) == null and none.next_move(ENEMY) == null and none.skeleton(PLAYER) == null, "without a fight: nothing, and a move costs 1")
+
+
+## Whether a read of `f` answers what the scheduler's own queries answer, one by one.
+func _read_matches(f: Fixtures.SchedulerFixture, label: String) -> bool:
+	var read := CombatEncounterRead.new(f.scheduler, f.bindings)
+	var moves: Array[CombatActionDefinition] = f.scheduler.player_moves(f.bindings)
+	# The action set is built afresh for each asking: the same moves by ID, and the read's own
+	# kept (the very array) for its later questions.
+	var same: bool = _ids(read.player_moves()) == _ids(moves) and is_same(read.player_moves(), read.player_moves()) and not moves.is_empty()
+	var locked: Dictionary[StringName, String] = {}
+	var short: Dictionary[StringName, String] = {}
+	for move: CombatActionDefinition in moves:
+		var lock: String = f.scheduler.locked_move_reason(move.action_id, f.bindings)
+		if not lock.is_empty():
+			locked[move.action_id] = lock
+		var reason: String = f.scheduler.unaffordable_move_reason(move.action_id, f.bindings)
+		if not reason.is_empty():
+			short[move.action_id] = reason
+		same = same and read.move_cost(move) == f.scheduler.beat_rules().cost_of_tag(move.tag)
+	same = same and read.locked_moves() == locked and f.scheduler.locked_moves(f.bindings) == locked
+	same = same and read.unaffordable_moves() == short and f.scheduler.unaffordable_moves(f.bindings) == short
+	for id: StringName in [PLAYER, ENEMY]:
+		var mine: CombatRoundBeats = read.beats_now(id)
+		var theirs: CombatRoundBeats = f.scheduler.beats_now(id, f.bindings)
+		same = same and (mine == null) == (theirs == null) and (mine == null or (mine.remaining == theirs.remaining and mine.spent == theirs.spent))
+		same = same and read.skeleton(id) == f.scheduler.school_skeleton(id, f.bindings)
+	var coming: CombatActionDefinition = read.next_move(ENEMY)
+	var asked: CombatActionDefinition = f.scheduler.next_move(ENEMY, f.bindings)
+	same = same and (coming == null) == (asked == null) and (coming == null or coming.action_id == asked.action_id)
+	if not same:
+		_failures.append("the read differs from the queries (%s): locked %s / %s, short %s / %s" % [label, str(read.locked_moves()), str(locked), str(read.unaffordable_moves()), str(short)])
+	return same
+
+
+static func _ids(moves: Array[CombatActionDefinition]) -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for move: CombatActionDefinition in moves:
+		ids.append(move.action_id)
+	return ids
 
 
 func _check(ok: bool, label: String) -> void:

@@ -15,7 +15,14 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 		return BattlePresentationProjection.new()
 	var player_id: StringName = session.player_runtime().character_id
 	var participants: Array[BattleParticipantProjection] = []
-	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
+	# This runs every frame of a fight: the bindings and the player's moves are derived once
+	# for everything below (CombatEncounterRead), the rules and the catalog fetched once.
+	var read: CombatEncounterRead = coordinator.read()
+	var bindings: Array[CombatSliceCharacterBinding] = read.bindings()
+	var catalog: ContentCatalog = GameContent.catalog()
+	var decisions: CombatDecisionRules = catalog.pacing().decision_rules()
+	var player_state: CharacterState = session.player_runtime().state
+	var running: bool = coordinator.round_running()
 	var held: Array[StringName] = coordinator.held_victims()
 	for participant: CombatParticipant in encounter.participants():
 		# go.c: one who walked out of the fight is no longer in it.
@@ -33,15 +40,15 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 				_internal(state.recovery.inner_force), _internal(state.recovery.mana),
 				_internal(state.recovery.atman), binding.busy.busy_value, binding.life_status,
 				state.life_threshold(), binding.exists_in_encounter and binding.combat_available,
-				coordinator.player_can_target(binding.character_id),
+				coordinator.player_can_target(binding.character_id, read),
 				state.gender, state.skills.mapped_skill(&"dodge"), state.attributes.force_factor,
 				_knockout(session, binding.character_id) if held.has(binding.character_id) else null,
 			)
 			if binding.character_id != player_id:
-				var move: CombatActionDefinition = coordinator.next_move(binding.character_id)
+				var move: CombatActionDefinition = read.next_move(binding.character_id)
 				shown.next_move_tag = &"" if move == null else move.tag
 				shown.next_move_guard = coordinator.next_move_guards(binding.character_id)
-				shown.next_move_known = MoveRecognition.recognised(session.player_runtime().state, move, GameContent.catalog().pacing().decision_rules(), GameContent.catalog())
+				shown.next_move_known = MoveRecognition.recognised(player_state, move, decisions, catalog)
 				shown.telegraph = coordinator.pending_special_label(binding.character_id)
 				if shown.telegraph.is_empty():
 					shown.telegraph = coordinator.planned_perform_label(binding.character_id)
@@ -50,17 +57,18 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 					shown.beat_plan_tags = plan.tags()
 					shown.beat_plan_confirmed = plan.confirmed_count()
 			# 战斗拍数 B: the beats as they stand now (the round to come between rounds).
-			shown.beats = coordinator.beats_now(binding.character_id)
-			shown.round_running = coordinator.round_running()
+			shown.beats = read.beats_now(binding.character_id)
+			shown.round_running = running
 			shown.close = coordinator.skeleton_close(binding.character_id)
 			if binding.character_id != player_id and shown.hostile_to_player:
-				var school: SkillDefinition = coordinator.school_of(binding.character_id)
-				if school != null and MoveRecognition.style_known(session.player_runtime().state, school, GameContent.catalog().pacing().decision_rules(), GameContent.catalog()):
-					shown.style_word = coordinator.style_word_of(binding.character_id)
+				var skeleton: CombatSchoolSkeleton = read.skeleton(binding.character_id)
+				var school: SkillDefinition = null if skeleton == null else catalog.skill(skeleton.skill_id)
+				if school != null and MoveRecognition.style_known(player_state, school, decisions, catalog):
+					shown.style_word = skeleton.style_word
 			shown.conditions = state.conditions.sorted_condition_ids()
-			shown.show_mana = GameContent.catalog().stat_shown(&"mana", state)
-			shown.show_atman = GameContent.catalog().stat_shown(&"atman", state)
-			shown.show_enforce = GameContent.catalog().stat_shown(&"enforce", state)
+			shown.show_mana = catalog.stat_shown(&"mana", state)
+			shown.show_atman = catalog.stat_shown(&"atman", state)
+			shown.show_enforce = catalog.stat_shown(&"enforce", state)
 			var strength: BattleStrength = strengths.get(binding.character_id)
 			if strength != null and shown.hostile_to_player:
 				shown.strength = strength.verdict
@@ -71,10 +79,10 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 	var tactical: CombatTacticalRuntime = null if scheduler == null else scheduler.player_tactics()
 	var actions: Array[CombatTacticalActionInfo] = []
 	if tactical != null:
-		actions = coordinator.action_infos()
+		actions = coordinator.action_infos(read)
 	# The 加力 row only while enforce.c can act: the player's own active fight, conscious.
 	var enforce_limit: int = -1
-	if session.martial_arts().in_own_fight() and not session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
+	if session.martial_arts().in_own_fight() and not player_state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
 		enforce_limit = session.martial_arts().enforce_limit()
 	# One held for 了结 / 放过 is nobody's target, whatever the fight last named.
 	var current: StringName = encounter.current_target_for(player_id)
@@ -91,25 +99,28 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 	# 战斗决策层 1B: the player's turn, moves and stance (only in the player's own fight).
 	if tactical != null:
 		var rules: CombatDecisionRules = coordinator.decision_rules()
-		projection.moves = coordinator.player_moves()
+		projection.moves = read.player_moves()
 		projection.chosen_action_id = coordinator.player_choice()
-		projection.waiting = coordinator.waiting_for_player()
+		projection.waiting = coordinator.waiting_for_player(read)
 		projection.turns_offered = rules.player_turns
 		projection.manual = coordinator.manual_turns()
 		projection.stances_offered = rules.has_stances()
 		projection.stance = coordinator.stance()
-		projection.locked_moves = coordinator.locked_moves()
+		projection.locked_moves = read.locked_moves()
 		projection.beat_rules = coordinator.beat_rules()
 		# 战斗拍数 B: the chips, the costs, the target's next move for the strip and the ring.
-		projection.player_beats = coordinator.beats_now(player_id)
+		projection.player_beats = read.beats_now(player_id)
 		projection.last_round_beats = coordinator.round_beats_of(player_id)
-		projection.round_running = coordinator.round_running()
-		projection.unaffordable_moves = coordinator.unaffordable_moves()
+		projection.round_running = running
+		projection.unaffordable_moves = read.unaffordable_moves()
 		for move: CombatActionDefinition in projection.moves:
-			projection.move_costs[move.action_id] = coordinator.move_cost(move.action_id)
+			# The first move of an ID says its cost, as CombatEncounterCoordinator.move_cost().
+			if not projection.move_costs.has(move.action_id):
+				projection.move_costs[move.action_id] = read.move_cost(move)
 		for info: CombatTacticalActionInfo in actions:
 			projection.action_costs[info.action_id] = coordinator.action_cost(info)
-		projection.player_earn = coordinator.earn_of(player_id)
+		var own: CombatSchoolSkeleton = read.skeleton(player_id)
+		projection.player_earn = &"" if own == null else own.earn
 		var target: BattleParticipantProjection = projection.participant(current)
 		if target != null and target.next_move_known and not target.next_move_guard:
 			projection.opponent_tag = target.next_move_tag
