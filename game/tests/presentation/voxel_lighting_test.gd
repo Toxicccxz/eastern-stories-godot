@@ -7,7 +7,8 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary:
 	var world := Node3D.new()
 	tree.root.add_child(world)
-	# More than eight nearby lamps reproduced the old rank-based shadow swaps.
+	# Twelve door lamps, more than cast a shadow at once (DECISIONS「灯影」): the old hard swap
+	# between lamps exchanging ranks flickered a doorway; all twelve casting cost the frame.
 	for i: int in 12:
 		var lamp := OmniLight3D.new()
 		lamp.position = Vector3((i%4)*2.0,2.0,(i/4)*2.0)
@@ -17,23 +18,49 @@ func run_all(tree: SceneTree) -> Dictionary:
 	var lighting := VoxelLighting.new()
 	lighting.build(world,VoxelOcclusion.new(),false)
 	lighting.set_night(true,true)
+	lighting.advance(0.05,Vector3(-4.0,0,2))
+	_check(lighting.casting.size() == VoxelLighting.LAMP_SHADOWS and _full(lighting) == _nearest(lighting,Vector3(-4.0,0,2)) and _shares(lighting).count(0.0) == 4,"at the first look the eight nearest cast, whole, and the other four not at all: %s" % str(_shares(lighting)))
 	var steady: bool = true
+	var soft: bool = true
+	var paired: bool = true
+	var most: int = 0
+	var before: Array[float] = _shares(lighting)
 	for step: int in 80:
 		lighting.advance(0.05,Vector3(-4.0+step*0.15,0,2))
-		for lamp: Light3D in lighting.lamps:
-			steady = steady and lamp.shadow_enabled and lamp.visible and is_equal_approx(lamp.light_energy,2.0)
-	_check(steady,"approaching and passing twelve door lamps never swaps shadows or nearby brightness")
+		var now: Array[float] = _shares(lighting)
+		for index: int in lighting.lamps.size():
+			var lamp: Light3D = lighting.lamps[index]
+			steady = steady and lamp.visible and is_equal_approx(lamp.light_energy,2.0)
+			# A shadow moves a fade's step at most, and is on exactly while it has any share.
+			soft = soft and absf(now[index]-before[index]) <= 0.05/VoxelLighting.LAMP_SHADOW_FADE_SECONDS+0.001
+			paired = paired and lamp.shadow_enabled == (now[index] > 0.0)
+		most = maxi(most,_full(lighting).size())
+		before = now
+	_check(steady,"approaching and passing twelve door lamps never changes their brightness")
+	_check(soft and paired and most <= VoxelLighting.LAMP_SHADOWS,"and no shadow switches: each fades in or out, never more than eight whole at once (soft %s, paired %s, most %d)" % [soft,paired,most])
+	var away := Vector3(-4.0+79*0.15,0,2)
+	var swapped: bool = _full(lighting) != _nearest(lighting,Vector3(-4.0,0,2))
+	for step: int in 20:
+		lighting.advance(0.05,away)
+	_check(swapped and _full(lighting) == _nearest(lighting,away) and _shares(lighting).count(0.0) == 4,"having walked past, the eight nearest there cast and the others have faded out: %s" % str(_shares(lighting)))
+	# Standing between two lamps alike (the eighth and the ninth by a hair): they do not take turns.
+	var held: Array[Light3D] = lighting.casting.duplicate()
+	var turns: bool = false
+	for step: int in 40:
+		lighting.advance(0.05,away+Vector3(0.02 if step%2 == 0 else -0.02,0,0.02 if step%4 < 2 else -0.02))
+		turns = turns or _set_of(lighting.casting) != _set_of(held)
+	_check(not turns and lighting._shadows_settled,"a step this way and that keeps the same eight")
 	var first: Light3D = lighting.lamps[0]
 	var previous: float = first.light_energy
 	var smooth: bool = true
 	for step: int in 61:
 		lighting.advance(1.0/30.0,Vector3(-16.0-step*0.2,0,0))
-		smooth = smooth and first.light_energy<=previous+0.0001 and previous-first.light_energy<0.08 and first.shadow_enabled
+		smooth = smooth and first.light_energy<=previous+0.0001 and previous-first.light_energy<0.08
 		previous = first.light_energy
-	_check(smooth,"a distant lamp fades its whole light smoothly without losing its shadow first")
-	_check(not first.visible and is_zero_approx(first.light_energy),"a fully faded lamp is culled from the renderer")
-	lighting.advance(0.1,Vector3(-25.8,0,0))
-	_check(first.visible and first.light_energy<0.01 and first.shadow_enabled,"approaching a culled lamp restores it at near-zero brightness with its shadow already enabled")
+	_check(smooth,"a distant lamp fades its whole light smoothly")
+	_check(not first.visible and is_zero_approx(first.light_energy) and not lighting.casting.has(first),"a fully faded lamp is culled from the renderer and casts nothing")
+	lighting.advance(0.3,Vector3(-25.8,0,0))
+	_check(first.visible and first.light_energy<0.01 and first.shadow_enabled and first.shadow_opacity<=0.5+0.0001,"approaching a culled lamp restores it at near-zero brightness, its shadow fading in with it: %s" % first.shadow_opacity)
 	lighting.advance(0.1,Vector3.ZERO)
 	_check(first.visible and is_equal_approx(first.light_energy,2.0),"returning restores the authored night brightness")
 	lighting.set_night(false)
@@ -41,6 +68,14 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(first.light_energy>0.5 and first.light_energy<2.0 and first.shadow_enabled,"day/night blends brightness without switching doorway shadows")
 	lighting.advance(0.45,Vector3.ZERO)
 	_check(is_equal_approx(first.light_energy,0.5),"daylight restores the authored day brightness")
+	lighting.advance(1.0,Vector3.ZERO)
+	_check(lighting.lamp_shadow_count() == 0 and lighting.casting.is_empty() and _shares(lighting).count(0.0) == 12,"out of doors by day no lamp casts: under the sun its shadow cannot be seen")
+	lighting.set_frame("dusk",true)
+	lighting.advance(1.0,Vector3.ZERO)
+	_check(lighting.lamp_shadow_count() == 4 and _full(lighting).size() == 4,"at dusk the shadows are coming up with the lamps: four")
+	lighting.set_night(true,true)
+	lighting.advance(1.0,Vector3.ZERO)
+	_check(lighting.lamp_shadow_count() == VoxelLighting.LAMP_SHADOWS and _full(lighting).size() == VoxelLighting.LAMP_SHADOWS,"by night all eight again")
 	# A cut-away parent remains hidden; light updates cannot resurrect its wall window.
 	world.visible = false
 	lighting.advance(0.1,Vector3.ZERO)
@@ -55,7 +90,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	var indoor := VoxelLighting.new()
 	indoor.build(interior,VoxelOcclusion.new(),true)
 	indoor.advance(1.0,Vector3.ZERO)
-	_check(window.visible and window.shadow_enabled and is_equal_approx(window.light_energy,1.2),"interior windows retain stable authored lighting across a large compound")
+	_check(window.visible and window.shadow_enabled and is_equal_approx(window.light_energy,1.2) and is_zero_approx(indoor.amount) and indoor.lamp_shadow_count() == VoxelLighting.LAMP_SHADOWS,"interior windows retain stable authored lighting across a large compound, and cast by day too (indoors the lamps are the light)")
 	interior.free()
 	_check_frames(tree)
 	_check_cloud(tree)
@@ -216,6 +251,41 @@ func _check_light_batches(tree: SceneTree) -> void:
 	shapes.flush()
 	_check(plain.get_child_count()==1,"geometry without excess lights keeps its original batching")
 	plain.free()
+
+## Each lamp's share of shadow, in the lamps' order: its opacity while it casts, else 0.
+static func _shares(lighting: VoxelLighting) -> Array[float]:
+	var shares: Array[float] = []
+	for lamp: Light3D in lighting.lamps:
+		shares.append(lamp.shadow_opacity if lamp.shadow_enabled else 0.0)
+	return shares
+
+## The lamps casting a whole shadow, as a set (their indices in order).
+static func _full(lighting: VoxelLighting) -> Array[int]:
+	var whole: Array[int] = []
+	for index: int in lighting.lamps.size():
+		if lighting.lamps[index].shadow_enabled and is_equal_approx(lighting.lamps[index].shadow_opacity,1.0):
+			whole.append(index)
+	return whole
+
+## The eight lamps nearest `player` on the ground plane, as a set (their indices in order).
+static func _nearest(lighting: VoxelLighting, player: Vector3) -> Array[int]:
+	var order: Array[int] = []
+	for index: int in lighting.lamps.size():
+		order.append(index)
+	order.sort_custom(func(a: int, b: int) -> bool:
+		var to_a: Vector3 = lighting.lamps[a].global_position-player
+		var to_b: Vector3 = lighting.lamps[b].global_position-player
+		return Vector2(to_a.x,to_a.z).length() < Vector2(to_b.x,to_b.z).length())
+	var nearest: Array[int] = order.slice(0,VoxelLighting.LAMP_SHADOWS)
+	nearest.sort()
+	return nearest
+
+static func _set_of(lamps: Array[Light3D]) -> Array[int]:
+	var ids: Array[int] = []
+	for lamp: Light3D in lamps:
+		ids.append(lamp.get_instance_id())
+	ids.sort()
+	return ids
 
 func _check(ok: bool, label: String) -> void:
 	assertions += 1
