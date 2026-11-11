@@ -299,7 +299,8 @@ func drop_item(id: StringName, amount: int) -> void:
 		if row.item_instance_id == id:
 			var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
 			item_name = "" if content == null else tr(content.display_name)
-	_ui.ask_danger(tr(DROP_WORTHLESS_WARNING).format({"item": item_name}), "确定丢下", _drop_now.bind(id, amount), func() -> bool: return _carries(id))
+	# 取消 goes back to the 背包 the question came from.
+	_ui.questions.ask_danger(tr(DROP_WORTHLESS_WARNING).format({"item": item_name}), "确定丢下", _drop_now.bind(id, amount), func() -> bool: return _carries(id), open_inventory)
 
 
 ## The 丢下 asked about, on whichever map the player stands on by then.
