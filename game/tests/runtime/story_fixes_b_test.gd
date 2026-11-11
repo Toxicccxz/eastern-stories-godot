@@ -39,7 +39,7 @@ func _test_data() -> void:
 	_check(FileAccess.get_file_as_string("res://data/common/npcs.json").count("把门闩上") == 2, "柳淳风 tells of the fire on 老松寨 (both ways the letter is written)")
 	_check(FileAccess.get_file_as_string("res://data/waterfog/npcs.json").contains("他们在找你") and FileAccess.get_file_as_string("res://data/common/npcs.json").contains("他们在找你"), "南危水 and 潘军禅 tell of the burnt 土地庙")
 	_check(FileAccess.get_file_as_string("res://data/fanfang/world.json").contains("关北工地出事后的第三天"), "the 番坊 order dated after the 关北 dig")
-	_check(FileAccess.get_file_as_string("res://data/fanfang/world.json").count("铁盾会的盾到") == 2, "主线修补 C: 安敦 promises the 铁盾会 for the last battle, on both ways the land is held")
+	_check(FileAccess.get_file_as_string("res://data/fanfang/world.json").count("铁盾会的盾到") == 3, "主线修补 C: 安敦 promises the 铁盾会 for the last battle, on every way the land is held (主线卡死点: 冯禄 struck down too)")
 	var raid: NpcSpawnDefinition = catalog.spawn(&"native.inn.raiders")
 	_check(raid != null and raid.zone_id == &"snow.inn.main_floor" and raid.cleared_mark == "客栈的白衣人退了", "two white-clad in the inn until beaten")
 
