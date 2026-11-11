@@ -11819,6 +11819,13 @@ msgid ""
 "{warning}"
 msgstr ""
 
+#. asked before 丢下 of a thing worth nothing ({item}), which drop.c destructs at once.
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"{item}不值钱，丢在地上就没人会注意它——丢下就再也找不回来了。\n"
+"确定要丢下吗？"
+msgstr ""
+
 #: ui/world/shared_ui_inventory.gd
 msgid "确定送出"
 msgstr ""
@@ -11826,6 +11833,10 @@ msgstr ""
 #. the 给予 page's title: {npc} whom the player gives to.
 #: ui/world/shared_ui_inventory.gd
 msgid "给予 · {npc}"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "确定丢下"
 msgstr ""
 
 #: ui/world/shared_ui_inventory.gd
@@ -15949,6 +15960,27 @@ msgstr ""
 msgid "什么信？"
 msgstr ""
 
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.emote
+#. native.npc.shang_jue calls.steps.emote
+#: data/common/npcs.json data/niling/npcs.json
+msgid "看了你一眼。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
+#: data/common/npcs.json
+msgid "信没了？……罢了，我再写一封。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.emote
+#: data/common/npcs.json
+msgid "提笔又写了一封信，封好了交给你。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
+#: data/common/npcs.json
+msgid "这回收好。潘军禅认信不认人。"
+msgstr ""
+
 #. common.npc.swordsman.master inquiry.水烟阁.rules.say
 #: data/common/npcs.json
 msgid "信已经给你了。去水烟阁找潘军禅，他是我的结拜义弟，见信如见我。"
@@ -16547,6 +16579,11 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.lines.say
 #: data/common/npcs.json
 msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.say
+#: data/common/npcs.json
+msgid "柳大哥让你来的？信呢？没有他的信，执法使的佩剑不是你问得的。信丢了，回武馆找他再写一封。"
 msgstr ""
 
 #. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.say
@@ -22933,6 +22970,11 @@ msgstr ""
 
 #. snow.npc.post_officer inquiry.送信.rules.say
 #: data/snow/npcs.json
+msgid "信丢了？……还好驿里留着底子，我再誊一封。这回别再弄丢了，陈镖头的镖局就在绮云镇街上。"
+msgstr ""
+
+#. snow.npc.post_officer inquiry.送信.rules.say
+#: data/snow/npcs.json
 msgid "信送到了么？陈镖头的镖局就在绮云镇街上。"
 msgstr ""
 
@@ -27255,6 +27297,21 @@ msgstr ""
 msgid "失镖"
 msgstr ""
 
+#. cloud.npc.b_header inquiry.失镖.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "皱了皱眉。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.lines.say
+#: data/cloud/npcs.json
+msgid "镖单丢了？……镖局的底账里还有一张存根，拿去吧。别再丢了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "从柜子最底下又翻出一张发黄的镖单，递给你。"
+msgstr ""
+
 #. cloud.npc.b_header inquiry.失镖.rules.say
 #: data/cloud/npcs.json
 msgid "镖单你拿着。这事振远认了二十年，你要翻出来，别说是从我这儿翻的。"
@@ -28185,6 +28242,11 @@ msgstr ""
 #. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.say
 #: data/waterfog/npcs.json
 msgid "死的是老夫的随从阿岭。那年老夫押着盟主印和密件过老松岭，白衣武官在瀑布前伏击，阿岭替老夫挡了刀，盟主卫沧澜被他们带走了。老夫逃进山洞，在石壁上刻了那些字——让人以为南危水死在那里。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.say
+#: data/waterfog/npcs.json
+msgid "两块碑你都看过了。……空口说的事，老夫不认。拿出凭据来——镖局的镖单，或是山洞里的东西。"
 msgstr ""
 
 #. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.say
@@ -33266,6 +33328,21 @@ msgstr ""
 #. choyin.npc.judgeman inquiry.供词.rules.lines.say
 #: data/choyin/npcs.json
 msgid "纸能证纸，不能证人。这封信给家叔槐阳王，本县只能照纸写——假印和失踪的人都往关北去了，拿着它去天驼关。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#: data/choyin/npcs.json
+msgid "信呢？……丢了？"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "叹了口气，另取一张纸，照着底稿又写了一封，封好，压上县印。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#: data/choyin/npcs.json
+msgid "县印还在本县手里，信就还写得出来。这回收好——拿着它去天驼关。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.say
@@ -43286,11 +43363,6 @@ msgstr ""
 #. native.npc.shang_jue calls.steps.line
 #: data/niling/npcs.json
 msgid "黑焰里的人形散成一股黑烟，坛上又只剩一团焰。"
-msgstr ""
-
-#. native.npc.shang_jue calls.steps.emote
-#: data/niling/npcs.json
-msgid "看了你一眼。"
 msgstr ""
 
 #. native.npc.shang_jue calls.steps.say
