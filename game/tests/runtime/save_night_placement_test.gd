@@ -4,7 +4,9 @@ extends RefCounted
 ## back wrong.
 ## - the street's idle folk indoors at night (DECISIONS「夜里冷清」): alive and off the map, a save
 ##   takes them (the save's check, its own check, Continue's check: one rule) and Continue keeps
-##   them in till dawn; a map left at night and saved by day elsewhere saves too.
+##   them in till dawn; a map left at night and saved by day elsewhere saves too. night_home turned
+##   off, or a person's `night` "home" taken out, after a night save: Continue still reads it and has
+##   them out on the street (DECISIONS「读档放行回屋的人」).
 ## - corpses, NPCs and dropped things: a corpse falling on any NPC's spot of the world lies where
 ##   Continue accepts it (MapPlacementValidator, the one check both ends use); a thing saved off
 ##   such a spot is saved on the nearest one; Continue moves one a save put wrong (an old save)
@@ -84,6 +86,32 @@ func _test_night_home(tree: SceneTree, session: WorldSessionController) -> void:
 		_check(out, "dawn after Continue: the travellers are out again")
 		candidate.free()
 		await tree.process_frame
+	# Saved at night with them indoors; then night_home turned off, or their `night` "home" taken out
+	# of the life entries: Continue still reads the save, and they are out on the street, night or not.
+	var tuning: NpcIdleTuning = GameContent.catalog().pacing().npc_idle
+	var entry: NpcLifeBook.Entry = NpcLifeBook.entry(TRAVELLER)
+	for change: String in ["night_home off", "off the list"]:
+		var undo: Callable
+		if change == "night_home off":
+			undo = func() -> void: tuning.night_home = true
+		else:
+			undo = func() -> void: entry.night_home = true
+		var changed: Callable
+		if change == "night_home off":
+			changed = func() -> void: tuning.night_home = false # TEST-ONLY: the knob turned off since the save
+		else:
+			changed = func() -> void: entry.night_home = false # TEST-ONLY: their `night` "home" taken out since the save
+		var after: WorldSessionController = await _continue(tree, session, "saved at night, then %s" % change, changed)
+		undo.call()
+		if after != null:
+			var street: WorldMapController = after.active_map() as WorldMapController
+			var out_now: bool = true
+			for id: StringName in travellers:
+				var npc: NpcRuntimeState = street.find_resident_npc(id)
+				out_now = out_now and npc != null and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+			_check(after.day_phase_id() == &"night" and out_now, "saved at night, then %s: Continue has the travellers out on the square" % change)
+			after.free()
+			await tree.process_frame
 	# Away from the square while they are in, and day there.
 	var inn: WorldMapController = MapPlaces.enter(session, &"snow.inn.main_floor", &"snow.inn.main_floor.square_return") # TEST-ONLY: through the inn's door
 	if not _check(inn != null and inn.map_id() != map.map_id(), "into the inn at night"):
@@ -191,15 +219,17 @@ func _test_night_stage_on_continue(tree: SceneTree, session: WorldSessionControl
 	await tree.process_frame
 
 
-## Save (the save's own check included), the file's text, then Continue's candidate, activated;
-## null when any of it is refused.
-func _continue(tree: SceneTree, session: WorldSessionController, label: String) -> WorldSessionController:
+## Save (the save's own check included), the file's text, then (`between`: what changed since)
+## Continue's candidate, activated; null when any of it is refused.
+func _continue(tree: SceneTree, session: WorldSessionController, label: String, between: Callable = Callable()) -> WorldSessionController:
 	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-11-10T00:00:00Z")
 	if not _check(captured.outcome == OldPineWorldCaptureResult.Outcome.SUCCESS, "%s: the save is taken: %s %s %s" % [label, captured.outcome, captured.path, captured.detail]):
 		return null
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(captured.snapshot).text)
 	if not _check(decoded.succeeded(), "%s: the save's text reads: %s" % [label, decoded.outcome]):
 		return null
+	if between.is_valid():
+		between.call()
 	var result: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 	if not _check(result.succeeded(), "%s: Continue reads it: %s %s %s" % [label, result.outcome, result.path, result.detail]):
 		if result.candidate != null:

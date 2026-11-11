@@ -48,7 +48,7 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-The current public content is **SOURCE_ENTRY_FONXAN_B_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list; `tests/core/world_revision_test.gd` fails when the NPC spawn points' fingerprint changes without a new revision and its row in `tests/fixtures/world_revisions.json`)
+The current public content is the newest `WorldContentRevision` value, `CURRENT_PUBLIC` (a package that changes what a save is checked against adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list; `tests/core/world_revision_test.gd` fails when the fingerprint of the content facts Continue checks a save against changes without a new revision and its row in `tests/fixtures/world_revisions.json`)
 with root schema 4 and item schema 3: every region's maps, with one NPC record per authored spawn point
 (see below). P2B first published this shape with SOURCE_ENTRY_LAKE_V1 and ten NPC slots; each
 later world publication added one revision. Placement validation, physical body binding and full
@@ -86,7 +86,7 @@ The following version-specific details are the current implementation snapshot d
   arrays. Each version has a strict key set. Legal v1/v2 decode into v3 without granting/refilling
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
   records contain only stable item ID, typed content and remaining (empty0 is live). Root schema 4 /
-  SOURCE_ENTRY_FONXAN_B_V1 is the current public content marker (one per package since SOURCE_ENTRY_OLDPINE_TRAIL_V1); schema 3 (DECISIONS「昼夜」) adds the
+  `WorldContentRevision.CURRENT_PUBLIC` is the current public content marker (one per package since SOURCE_ENTRY_OLDPINE_TRAIL_V1); schema 3 (DECISIONS「昼夜」) adds the
   root's required `day_seconds`, schema 4 (DECISIONS「天气」) the root's required `sky_level` and
   `sky_minutes_left`; an older file is refused. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).

@@ -51,9 +51,12 @@ func _init(controller: WorldMapController) -> void:
 	_map = controller
 
 
-## Every physics frame of the running world.
+## Every physics frame of the running world. World time held (the menu, the interaction
+## window, a presentation beat): the watcher neither walks nor counts its look.
 func tick(delta: float) -> void:
 	if session == null or _player == null or _catching or not _map.gameplay_open():
+		return
+	if session.world_time_held() or session.presentation_frozen():
 		return
 	if session.combat_encounter_coordinator().has_active_encounter():
 		return

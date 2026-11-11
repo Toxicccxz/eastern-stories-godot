@@ -324,6 +324,7 @@
     "native.npc.site_officer_fighting": {"same_as": "native.npc.white_officer"},
     "native.npc.night_watch": {"same_as": "native.npc.white_officer"},
     "native.npc.night_watch_fighting": {"same_as": "native.npc.white_officer"},
+    "native.npc.inn_raider": {"same_as": "native.npc.white_officer"},
     "native.npc.spent_corvee": {"same_as": "native.npc.freed_corvee"},
     "native.npc.barrow_taoist": {"same_as": "native.npc.tribute_taoist"},
     "native.npc.passing_taoist": {"same_as": "native.npc.tribute_taoist"},
