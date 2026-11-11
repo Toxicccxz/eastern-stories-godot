@@ -13,6 +13,9 @@ var _defender_force_skill_type: StringName
 var _defender_effective_force_skill_level: int
 var _defender_current_force: int
 var _defender_armor_vs_force: int
+## A story trial's exchange (CombatAttackerSnapshot.spare_life): a reflection takes the
+## attacker's kee but leaves no wound.
+var spare_life: bool = false
 
 var provider_id: StringName:
 	get:
@@ -78,6 +81,11 @@ func _init(
 	_defender_effective_force_skill_level = p_defender_effective_force_skill_level
 	_defender_current_force = p_defender_current_force
 	_defender_armor_vs_force = p_defender_armor_vs_force
+
+
+func sparing(value: bool) -> StandardForceHitInput:
+	spare_life = value
+	return self
 
 
 func is_valid() -> bool:

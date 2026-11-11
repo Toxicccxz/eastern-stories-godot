@@ -59,6 +59,7 @@ static func grow(state: CharacterState, experience: int, force_percent: int = 50
 
 
 static func heal(state: CharacterState) -> void:
+	state.conditions.clear()
 	for resource: CharacterResourceState in [state.essence, state.vitality, state.spirit]:
 		resource.effective = resource.maximum
 		resource.current = resource.maximum

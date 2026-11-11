@@ -314,7 +314,7 @@ static func resolve(
 						defender.effective_force_skill_level,
 						defender.current_inner_force,
 						defender.armor_vs_force,
-					),
+					).sparing(attacker.spare_life),
 					attacker_force,
 					attacker_essence,
 					attacker_vitality,
@@ -427,7 +427,7 @@ static func resolve(
 				mutation,
 				standard_force_result,
 			)
-		if roll > defender.armor and defender_conditions != null and _condition_below(defender_conditions, hit.condition_id, hit.below):
+		if roll > defender.armor and defender_conditions != null and not attacker.spare_life and _condition_below(defender_conditions, hit.condition_id, hit.below):
 			defender_conditions.add_or_replace_duration(hit.condition_id, hit.duration)
 			calculation._hit_condition_applied = true
 			calculation._hit_condition = hit
@@ -545,7 +545,8 @@ static func resolve(
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.DAMAGE_APPLIED
 
 	calculation._armor = defender.armor
-	calculation._wound_eligible = (attacker.lethal_intent or weapon != null) and not attacker.harmless
+	# A story trial's blow (spare_life) leaves no lasting wound: the kee it took comes back.
+	calculation._wound_eligible = (attacker.lethal_intent or weapon != null) and not attacker.harmless and not attacker.spare_life
 	calculation._reached_stage = (
 		CombatAttackCalculation.ReachedStage.WOUND_ELIGIBILITY_EVALUATED
 	)
@@ -572,7 +573,7 @@ static func resolve(
 			)
 		calculation._wound_roll_performed = true
 		if wound_roll > calculation._armor:
-			calculation._wound_amount = _spared(attacker, defender_vitality, calculation._requested_damage - calculation._armor)
+			calculation._wound_amount = calculation._requested_damage - calculation._armor
 			defender_vitality.apply_wound(calculation._wound_amount)
 			mutation = _mutation_snapshot(
 				true,
@@ -642,9 +643,13 @@ static func _force_share(attacker: CombatAttackerSnapshot, contribution: int) ->
 	return contribution * attacker.inner_force_percent / 100 if contribution > 0 else contribution
 
 
-## A trial's blow (spare_life) wounds no further than eff_kee 0: the one who fails falls, and wakes.
-static func _spared(attacker: CombatAttackerSnapshot, vitality: CharacterResourceState, amount: int) -> int:
-	return mini(amount, maxi(vitality.effective, 0)) if attacker.spare_life else amount
+## A trial's blow (spare_life) wounds nobody: what would have wounded the kee takes it instead
+## (it comes back as kee does), and no condition comes of it. The one who fails falls, and wakes.
+static func _wound_or_spare(attacker: CombatAttackerSnapshot, vitality: CharacterResourceState, amount: int) -> void:
+	if attacker.spare_life:
+		vitality.apply_damage(amount)
+	else:
+		vitality.apply_wound(amount)
 
 
 ## iceforce.c hit_ob() after ::hit_ob(): when std/force.c returned a number (not its
@@ -677,8 +682,8 @@ static func _force_hit_wound(
 			standard_force_result,
 		)
 	if roll > total:
-		defender_vitality.apply_wound(_spared(attacker, defender_vitality, total))
-		if defender_conditions != null:
+		_wound_or_spare(attacker, defender_vitality, total)
+		if defender_conditions != null and not attacker.spare_life:
 			@warning_ignore("integer_division")
 			defender_conditions.add_or_replace_duration(wound.condition_id, standard_force_result.factor / wound.factor_divisor)
 		calculation._force_wound = total
@@ -715,9 +720,9 @@ static func _martial_hit_wound(
 	if roll <= defender.strength:
 		return null
 	@warning_ignore("integer_division")
-	var amount: int = _spared(attacker, defender_vitality, (bonus - wound.at_least) / 2)
+	var amount: int = (bonus - wound.at_least) / 2
 	if amount > 0:
-		defender_vitality.apply_wound(amount)
+		_wound_or_spare(attacker, defender_vitality, amount)
 	var count: int = wound.messages.size()
 	var pick: int = _draw(random_source, count, calculation)
 	if not _is_valid_draw(pick, count):

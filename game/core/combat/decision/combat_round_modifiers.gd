@@ -32,8 +32,9 @@ var _sides: Dictionary[StringName, Fighter] = {}
 ## resolver takes the damage to 0 and rolls no wound (CombatAttackerSnapshot.harmless).
 var harmless: bool = false
 ## A story trial's blows (NpcTrial.inner_force_percent / lethal, DECISIONS「考验三招」): only
-## this percent of the force hook's bonus (and its force wound) counts, and no blow wounds
-## past eff_kee 0 (the one who fails falls, and wakes).
+## this percent of the force hook's bonus (and its force wound) counts, and no blow of the
+## exchange leaves a wound or a condition: what would have wounded takes kee instead, so the one
+## who fails falls and wakes, and a full rest makes them whole.
 var inner_force_percent: int = 100
 var spare_life: bool = false
 

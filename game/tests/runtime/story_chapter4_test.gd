@@ -360,6 +360,8 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
 	_check(trial.inner_force_percent == 21 and not trial.lethal, "her lashes: a fifth of her inner force, never lethal (DECISIONS「考验三招」)")
 	var elon_force: int = elon.character_state.recovery.inner_force.current
+	var elon_kee: Array[int] = [elon.character_state.vitality.current, elon.character_state.vitality.effective]
+	var wounded: int = 0
 	var passed: int = 0
 	var dead: int = 0
 	for sample: int in SAMPLES:
@@ -374,15 +376,19 @@ func _test_pass_rate(manor: WorldMapController, elon: NpcRuntimeState, trial: Np
 				stood = false
 				dead += 1 if state.is_death_threshold_reached() else 0
 				break
+		wounded += 1 if state.vitality.effective < state.vitality.maximum or state.conditions.size() > 0 else 0
 		passed += 1 if stood else 0
 	var rate: float = float(passed) / SAMPLES
 	_check(rate >= PASS_LOW and rate <= PASS_HIGH, "10000 exp, an hour of 打坐 (kee %d): stood %d of %d (%.0f%%), within %.0f–%.0f%%" % [state.vitality.maximum, passed, SAMPLES, rate * 100.0, PASS_LOW * 100.0, PASS_HIGH * 100.0])
 	_check(dead == 0, "a lash that is not stood never kills (%d)" % dead)
+	_check(wounded == 0, "nor leaves a wound or a condition (iceshock): only kee is lost (%d)" % wounded)
 	elon.character_state.recovery.inner_force.current = elon_force
+	elon.character_state.vitality.effective = elon_kee[1]
+	elon.character_state.vitality.current = elon_kee[0]
 
 
 ## One who never sat (max_force 0, kee 100) cannot stand them: the trial fails, the player falls
-## and wakes — never dies of it (lethal false) — and may come again.
+## and wakes — never dies of it, no wound or condition left (lethal false) — and may come again.
 func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	StoryFixtures.chapter3_rescued(session)
@@ -398,6 +404,7 @@ func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.FAILED and state.marks.get("接下了瑷伦三鞭", 0) == 0, "fall: not stood (%d blows)" % result.blows)
 	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not state.is_death_threshold_reached(), "fall: the player falls, alive (%s)" % CharacterRuntimeLifeStatus.Value.find_key(session.player_runtime().life_status))
+	_check(state.vitality.effective == state.vitality.maximum and state.conditions.size() == 0, "fall: no wound, no iceshock — a rest makes the player whole (eff_kee %d/%d, %s)" % [state.vitality.effective, state.vitality.maximum, state.conditions.sorted_condition_ids()])
 
 
 func _beside(tree: SceneTree, session: WorldSessionController, map: WorldMapController, point_id: StringName) -> NpcRuntimeState:

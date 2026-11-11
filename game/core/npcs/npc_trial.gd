@@ -9,8 +9,9 @@ extends RefCounted
 ## the last blow `success` is said, the player gets `mark` and the deed `deed` is written;
 ## one who falls may rest and come again. The NPC's 拜师 test, if it has one, is untouched.
 ## DECISIONS「考验三招」: a trial's blows may carry only `inner_force_percent` of the force
-## hook's bonus and never kill (`lethal` false: one who fails at most falls); both default to
-## elon.c's real do_attack() (100, true).
+## hook's bonus and never kill (`lethal` false: the blows leave no wound and no condition, only
+## kee lost; one who fails falls, wakes, rests and may come again); both default to elon.c's
+## real do_attack() (100, true).
 
 var label: String = ""
 var asker_marks: Array[String] = []
