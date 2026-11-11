@@ -11,8 +11,8 @@ extends RefCounted
 ## What the fingerprint holds (content_lines()), each a fact Continue reads:
 ## - every spawn point: its spawn, NPC, map and zone, and whether one of it may be absent (starts
 ##   absent; an ordinary spawn's, indoors for the night: WorldMapNpcIdle.may_be_indoors());
-## - every NPC definition: its name (a corpse's), race (body weight), age (fixed or drawn), whether it
-##   draws a name, follows every way, may leave home (a saved one on another map), its chant's stages,
+## - every NPC definition: its name (a corpse's), race (body weight), age and gender (fixed or drawn), the
+##   names it may draw, whether it follows every way, may leave home (a saved one on another map), its chant's stages,
 ##   whether it is summoned / conjured / raised, and the kinds and counts of what it carries;
 ## - every zone's map and combat location, every map's region; every floor item spawn point's item
 ##   and zone; every note maze's number of notes; every armour's type (a corpse's worn things).
@@ -105,6 +105,10 @@ static func content_lines() -> PackedStringArray:
 static func npc_line(npc: NpcDefinition, catalog: ContentCatalog) -> String:
 	var roll: NpcRandomInteger = npc.age_roll()
 	var age: String = "drawn %d %d %d" % [roll._base, roll._sign, roll._bound] if roll != null else ("fixed %d" % npc.age if npc.has_authored_age else "none")
+	var drawn: NpcRandomText = npc.gender_roll()
+	var gender: String = "drawn %d %d %s %s" % [drawn._bound, drawn._below, drawn._then, drawn._else] if drawn != null else ("fixed %s" % npc.gender if npc.has_authored_gender else "none")
+	var names: PackedStringArray = PackedStringArray(npc.name_pick())
+	names.sort()
 	var hooks: NpcHooks = npc.hooks()
 	var talks: Array[NpcTalk] = [npc.talk()]
 	if hooks != null:
@@ -125,8 +129,8 @@ static func npc_line(npc: NpcDefinition, catalog: ContentCatalog) -> String:
 	for id: String in carried:
 		kinds.append("%s*%d" % [id, carried[id]])
 	kinds.sort()
-	return "npc|%s|%s|%s|age:%s|named:%s|follows:%s|leaves:%s|chants:%d|made:%s%s%s|carries:%s" % [
-		npc.definition_id, npc.display_name, npc.race_id, age, not npc.name_pick().is_empty(),
+	return "npc|%s|%s|%s|age:%s|gender:%s|names:%s|follows:%s|leaves:%s|chants:%d|made:%s%s%s|carries:%s" % [
+		npc.definition_id, npc.display_name, npc.race_id, age, gender, ",".join(names),
 		hooks != null and hooks.follows_every_way, leaves, 0 if hooks == null else hooks.chant_stages.size(),
 		npc.summoning() != null, npc.conjuring() != null, npc.raising() != null, ",".join(kinds),
 	]

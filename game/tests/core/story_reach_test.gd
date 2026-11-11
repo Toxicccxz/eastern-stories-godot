@@ -77,6 +77,8 @@ class Source:
 	var zone: StringName = &""
 	var needs_marks: Array[String] = []
 	var needs_items: Array[String] = []
+	## An item's giver that is a corpse: the NPC who carries it ("" for none).
+	var carrier: StringName = &""
 
 	func _copy() -> Source:
 		var source := Source.new()
@@ -86,6 +88,7 @@ class Source:
 		source.zone = zone
 		source.needs_marks = needs_marks.duplicate()
 		source.needs_items = needs_items.duplicate()
+		source.carrier = carrier
 		return source
 
 	func with_gate(npc_id: StringName) -> Source:
@@ -166,10 +169,10 @@ func _test_what_it_sees(catalog: ContentCatalog) -> void:
 	var asks := Source.new()
 	asks.origin = "t"
 	check._writers["t:asked"] = [asks.with_needs(["t:mark"], [])]
-	_check(check._hangs(_when(JournalEntryDefinition.When.MARK, "t:asked"), catalog, none).contains("asker_marks: 「t:mark」 only by " + String(MORTAL)), "a writer rule whose asker_marks only a mortal writes hangs on them")
+	_check(check._hangs(_when(JournalEntryDefinition.When.MARK, "t:asked"), catalog, none).contains("it needs a mark: 「t:mark」 only by " + String(MORTAL)), "a writer rule whose asker_marks only a mortal writes hangs on them")
 	check._givers["t:item"] = [mortal]
 	check._writers["t:asked"] = [asks.with_needs([], ["t:item"])]
-	_check(check._hangs(_when(JournalEntryDefinition.When.MARK, "t:asked"), catalog, none).contains("carries: the item t:item only from " + String(MORTAL)), "a writer rule whose carries only a mortal gives hangs on them")
+	_check(check._hangs(_when(JournalEntryDefinition.When.MARK, "t:asked"), catalog, none).contains("it needs an item: the item t:item only from " + String(MORTAL)), "a writer rule whose carries only a mortal gives hangs on them")
 	check._held["t:mark"] = true
 	_check(check._hangs(_when(JournalEntryDefinition.When.MARK, "t:mark"), catalog, none).is_empty(), "a mark an earlier step on the way was done by is held")
 	check._held.clear()
@@ -202,6 +205,25 @@ func _test_what_it_sees(catalog: ContentCatalog) -> void:
 	_check(_mark_role({"name": "x", "mark": "m"}, "mark", ["dance", "steps"], "steps") == "read", "a dance step's mark is read")
 	_check(_mark_role({"policy": "search", "mark": "m"}, "mark", ["landmarks"], "landmarks") == "read", "a searched landmark's mark is read")
 	_check(_mark_role({"mark": "m"}, "mark", ["steps"], "steps") == "write", "an act step's mark is written")
+	# Walked from data: a carried thing comes off its carrier's corpse; a gift rule needs the gift and
+	# the giver's mark; an act's branch needs the marks it is gated by.
+	var walked: Object = (get_script() as Script).new()
+	var from := Source.new()
+	from.origin = "t/npcs.json"
+	walked._walk({"npcs": [{
+		"id": String(MORTAL), "carry": [{"item": "t:carried"}],
+		"accept_object": [{"item": "t:gift", "giver_mark": "t:given", "accept": true, "mark_giver": "t:thanked"}],
+		"acts": [{"mark": "t:gate", "steps": [{"mark": "t:after"}]}],
+	}]}, [] as Array[String], from)
+	var carried: Array = walked._givers.get("t:carried", [])
+	_check(carried.size() == 1 and carried[0].carrier == MORTAL, "a carried thing's giver is its carrier's corpse")
+	_check(walked._hangs(_when(JournalEntryDefinition.When.ITEM, "t:carried"), catalog, none).is_empty(), "one who can be killed gives what they carry")
+	var keeping: Dictionary[StringName, bool] = {MORTAL: true}
+	_check(walked._hangs(_when(JournalEntryDefinition.When.ITEM, "t:carried"), catalog, keeping).contains("not killed"), "one kept (never killed) does not")
+	var thanked: Array = walked._writers.get("t:thanked", [])
+	_check(thanked.size() == 1 and thanked[0].needs_items.has("t:gift") and thanked[0].needs_marks.has("t:given"), "a gift rule needs the gift and the giver's mark")
+	var after: Array = walked._writers.get("t:after", [])
+	_check(after.size() == 1 and after[0].needs_marks.has("t:gate"), "an act's branch needs the mark it is gated by")
 
 
 
@@ -409,6 +431,11 @@ static func item_ids(item: String, catalog: ContentCatalog) -> Array[String]:
 ## What `source` needs that a killing can take away for good — one standing, or a mark or an item
 ## its rule asks for that only such a one writes or gives — or "".
 func _fragile_need(source: Source, catalog: ContentCatalog, kept: Dictionary[StringName, bool]) -> String:
+	if not source.carrier.is_empty():
+		# Off the corpse of one who is never killed (or kept, knocked down, while the step waits): never.
+		var carrier: NpcDefinition = catalog.npc(source.carrier)
+		if carrier == null or kept.has(source.carrier) or carrier.dealings().is_fight_deferred() or carrier.spar_only():
+			return "carried by %s, who is not killed" % source.carrier
 	if not source.npc.is_empty() and not _sturdy(source.npc, &"", catalog, kept):
 		return String(source.npc)
 	for npc_id: StringName in source.gates:
@@ -417,11 +444,11 @@ func _fragile_need(source: Source, catalog: ContentCatalog, kept: Dictionary[Str
 	for mark: String in source.needs_marks:
 		var why: String = _mark_hangs(mark, catalog, kept)
 		if not why.is_empty():
-			return "its asker_marks: " + why
+			return "it needs a mark: " + why
 	for item: String in source.needs_items:
 		var why: String = _item_hangs(item, catalog, kept)
 		if not why.is_empty():
-			return "its carries: " + why
+			return "it needs an item: " + why
 	return ""
 
 
@@ -471,12 +498,27 @@ func _walk(value: Variant, path: Array[String], source: Source) -> void:
 		need_marks.append_array(_strings(record.get(key)))
 	for key: String in NEED_ITEM_KEYS:
 		need_items.append_array(_strings(record.get(key)))
+	# A gift rule (accept_object) wants the thing given and the giver's marks.
+	if last == "accept_object":
+		need_items.append_array(_strings(record.get("item")))
+		need_items.append_array(_strings(record.get("giver_carries")))
+		need_marks.append_array(_strings(record.get("giver_mark")))
+	# An act's branch gated by marks the player holds (`mark`, `marks` beside its `steps`).
+	if record.has("steps"):
+		need_marks.append_array(_strings(record.get("mark")))
+		need_marks.append_array(_strings(record.get("marks")))
 	if not need_marks.is_empty() or not need_items.is_empty():
 		here = here.with_needs(need_marks, need_items)
 	var anyone := Source.new()
 	anyone.origin = here.origin
 	if STURDY_GIVE_PARENTS.has(last) and record.get("item") is String:
-		_note(_givers, record["item"], anyone)
+		# What an NPC carries comes off their corpse: given only by one who can be killed.
+		var giver: Source = anyone
+		if last == "carry" and not here.npc.is_empty():
+			giver = Source.new()
+			giver.origin = here.origin
+			giver.carrier = here.npc
+		_note(_givers, record["item"], giver)
 	for key: Variant in record:
 		var child: Variant = record[key]
 		var name: String = str(key)
