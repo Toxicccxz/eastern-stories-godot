@@ -91,9 +91,12 @@ func points(of: WindDefinition.Route) -> PackedVector2Array:
 	return laid
 
 
-## Every physics frame of the running world.
+## Every physics frame of the running world. World time held (the menu, the interaction
+## window, a presentation beat): no gust comes and none is counted toward.
 func tick(delta: float) -> void:
 	if session == null or _player == null or not _map.gameplay_open():
+		return
+	if session.world_time_held() or session.presentation_frozen():
 		return
 	if wind() == null:
 		# A map without a wind clears the vane another one left (a death, an act's move).
