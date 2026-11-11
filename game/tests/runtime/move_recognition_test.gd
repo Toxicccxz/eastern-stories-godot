@@ -119,8 +119,8 @@ func _test_codex_record() -> void:
 			own = entry
 	_check(own != null and own.title == "见识录 · 柳家拳" and own.text().contains("这一路的招你都认得") and own.text().contains("古松挂月 · 守 · 破绽：重"), "one's own school: every move read: " + ("-" if own == null else own.text().left(80)))
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(PacePresets.of(production, CharacterState.PACE_CLASSIC))
-	_check(CodexContent.entries(CodexContent.Section.ARTS, state, catalog).all(func(entry: CodexContent.Entry) -> bool: return not entry.key.begins_with("moves/")), "经典: no 见识录 (every tag is read)")
+	catalog.set_pacing(production.copy().with_decisions(CombatDecisionRules.classic()))
+	_check(CodexContent.entries(CodexContent.Section.ARTS, state, catalog).all(func(entry: CodexContent.Entry) -> bool: return not entry.key.begins_with("moves/")), "recognise_after 0 (ES2): no 见识录 (every tag is read)")
 	catalog.set_pacing(production)
 
 

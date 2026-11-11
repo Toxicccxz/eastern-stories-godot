@@ -316,7 +316,7 @@ func system_only() -> bool:
 	return _system_only
 
 
-## Whether `tab` is there: 地图 is the pace's (PacingDefinition.map_page).
+## Whether `tab` is there: 地图 is the pacing's (PacingDefinition.map_page).
 static func tab_available(tab: int) -> bool:
 	return tab != Tab.MAP or GameContent.catalog().pacing().map_page
 

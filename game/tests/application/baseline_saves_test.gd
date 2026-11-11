@@ -2,7 +2,7 @@ extends RefCounted
 
 ## 现代基线 A (DECISIONS「存档位」「自动存档」「减轻死亡」): the slots through the shell: three
 ## to save in and the autosave's, never mixed; the list that reads files lightly; a Load in play
-## that replaces the world or leaves it as it was, at the right pace; the autosave at its
+## that replaces the world or leaves it as it was; the autosave at its
 ## moments, skipped when it cannot, on its own thread; and the death card's way back to it.
 const MemoryFiles = preload("res://tests/application/application_shell_test.gd").MemoryFiles
 const SHELL = preload("res://scenes/application/application_shell.tscn")
@@ -20,8 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_slot_ids()
 	await _slots_stay_apart(tree)
 	await _load_in_play(tree)
-	await _pace_of_a_load_in_play(tree)
-	await _saves_of_either_pace(tree)
+	await _saves_from_two_paces(tree)
 	await _failed_row_leaves_the_menu_as_it_was(tree)
 	TestDeath.use()
 	await _autosave_moments(tree)
@@ -168,66 +167,41 @@ func _load_in_play(tree: SceneTree) -> void:
 	await _frames(tree)
 
 
-## PacePresets: a Load in play builds the new Session beside the old one; the catalog ends on
-## the new one's pace whichever it is, and on its own once they are gone.
-func _pace_of_a_load_in_play(tree: SceneTree) -> void:
-	var own: PacingDefinition = GameContent.catalog().pacing()
-	var files: MemoryFiles = MemoryFiles.new()
-	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-pace")
-	var shell: ApplicationShellController = await _shell(tree, files, profile)
-	await _new_game(tree, shell, CharacterState.PACE_CLASSIC)
-	_check(GameContent.catalog().pacing() != own, "a classic world stands on its own pacing")
-	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(0), "saved")
-	await _frames(tree)
-	shell.dismiss_current_result()
-	_check(shell.request_load_slots() and shell.choose_slot_row(0) and shell.confirm_current_result(), "读取 the classic save over the classic world")
-	await _frames(tree)
-	var restored: WorldSessionController = shell.runtime_host().current_session()
-	_check(restored != null and restored.player_runtime().state.pace == CharacterState.PACE_CLASSIC, "the classic character")
-	_check(GameContent.catalog().pacing() != own and not GameContent.catalog().pacing().sky_weather and not GameContent.catalog().pacing().story_parley, "the catalog stays classic (the old Session's going does not put it back)")
-	shell.free()
-	await _frames(tree)
-	_check(GameContent.catalog().pacing() == own, "with the Sessions gone, the catalog's own pacing")
-	# A failed candidate leaves the world it would have replaced on its pace.
-	var classic: PacingDefinition = PacePresets.apply(GameContent.catalog(), CharacterState.PACE_CLASSIC)
-	var second: PacingDefinition = PacePresets.apply(GameContent.catalog(), CharacterState.PACE_MODERN)
-	_check(classic == own and second == own, "each stands on the same base")
-	PacePresets.restore(GameContent.catalog(), second, CharacterState.PACE_MODERN)
-	_check(GameContent.catalog().pacing() != own and not GameContent.catalog().pacing().sky_weather, "the second gone, the first's pace again")
-	PacePresets.restore(GameContent.catalog(), classic, CharacterState.PACE_CLASSIC)
-	_check(GameContent.catalog().pacing() == own, "the last gone, the catalog's own")
-
-
-## A save is checked under its own pace, not the catalog's: a classic save reads on the main
-## menu of a fresh start (木人, the NPCs' classic values), and either pace over the other in play.
-func _saves_of_either_pace(tree: SceneTree) -> void:
+## 取消经典模式 (DECISIONS「取消经典模式」): a save from the time of two paces. One that was 现代
+## reads on; one that was 经典 is named on its row, cannot be continued, and stays on disk.
+func _saves_from_two_paces(tree: SceneTree) -> void:
 	var own: PacingDefinition = GameContent.catalog().pacing()
 	var files: MemoryFiles = MemoryFiles.new()
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-paces")
 	var shell: ApplicationShellController = await _shell(tree, files, profile)
-	await _new_game(tree, shell, CharacterState.PACE_CLASSIC)
-	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(0), "a classic save in slot 1")
-	await _frames(tree)
-	shell.free()
-	await _frames(tree)
-	_check(GameContent.catalog().pacing() == own, "the catalog is modern again")
-	shell = await _shell(tree, files, profile)
-	_check(shell.continue_enabled(), "a fresh start: the classic save can be continued")
 	await _new_game(tree, shell)
-	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(1), "a modern save in slot 2, in a modern world")
+	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(0), "a save in slot 1")
 	await _frames(tree)
-	shell.dismiss_current_result()
-	_check(shell.request_load_slots() and shell.choose_slot_row(0) and shell.confirm_current_result(), "the classic save over the modern world")
-	await _frames(tree, 12)
-	var classic: WorldSessionController = shell.runtime_host().current_session()
-	_check(classic.player_runtime().state.pace == CharacterState.PACE_CLASSIC and not GameContent.catalog().pacing().training_dummies and not GameContent.catalog().pacing().sky_weather, "a classic world, on classic pacing")
-	_check(shell.request_pause() and shell.request_load_slots() and shell.choose_slot_row(1) and shell.confirm_current_result(), "the modern save over the classic world")
-	await _frames(tree, 12)
-	var modern: WorldSessionController = shell.runtime_host().current_session()
-	_check(modern != classic and modern.player_runtime().state.pace == CharacterState.PACE_MODERN and GameContent.catalog().pacing() == own, "a modern world, on the catalog's own pacing")
 	shell.free()
 	await _frames(tree)
-	_check(GameContent.catalog().pacing() == own, "and it stays")
+	var path: String = profile.for_slot(SLOT_1).canonical_path()
+	var written: String = files.files[path].get_string_from_utf8()
+	var at: int = written.find("\"character\": {", written.find("\"player\""))
+	_check(at >= 0 and not written.contains("\"pace\""), "a save writes no pace")
+	at += "\"character\": {".length()
+	files.files[path] = (written.substr(0, at) + "\"pace\": \"modern\"," + written.substr(at)).to_utf8_buffer()
+	shell = await _shell(tree, files, profile)
+	_check(shell.continue_enabled() and shell.request_load_slots() and shell.choose_slot_row(0), "an older 现代 save is picked from the list")
+	await _frames(tree, 12)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and GameContent.catalog().pacing() == own, "and played on, on the catalog's own pacing")
+	shell.free()
+	await _frames(tree)
+	var classic: PackedByteArray = (written.substr(0, at) + "\"pace\": \"classic\"," + written.substr(at)).to_utf8_buffer()
+	files.files[path] = classic
+	shell = await _shell(tree, files, profile)
+	_check(not shell.continue_enabled(), "an older 经典 save cannot be continued")
+	_check(shell.request_load_slots() and shell.slot_panel.buttons()[0].text.contains("来自不兼容的版本"), "its row says it is from another version: " + shell.slot_panel.buttons()[0].text)
+	_check(shell.choose_slot_row(0), "picking it")
+	await _frames(tree)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.MAIN_MENU and not shell.continue_enabled() and shell.status_text().contains("不兼容"), "the main menu says to start a new game: " + shell.status_text())
+	_check(files.files[path] == classic, "and the file is left as it was")
+	shell.free()
+	await _frames(tree)
 
 
 ## A row that looks whole and does not load: told, and 继续 and 恢复 still mean the slot the
@@ -467,7 +441,7 @@ func _broken_autosave_keeps_the_card(tree: SceneTree) -> void:
 	await _frames(tree)
 
 
-## autosave_min_seconds 0 (经典, and every suite): no moment saves, the card offers nothing.
+## autosave_min_seconds 0 (ES2, and every suite): no moment saves, the card offers nothing.
 func _no_autosave_when_off(tree: SceneTree) -> void:
 	var files: MemoryFiles = MemoryFiles.new()
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("baseline-off")
@@ -493,16 +467,14 @@ func _shell(tree: SceneTree, files: MemoryFiles, profile: GameSaveStorageProfile
 	return shell
 
 
-func _new_game(tree: SceneTree, shell: ApplicationShellController, pace: StringName = CharacterState.PACE_MODERN, display_name: String = "凌雪") -> void:
+func _new_game(tree: SceneTree, shell: ApplicationShellController, display_name: String = "凌雪") -> void:
 	if shell.request_new_game_from_menu() and shell.shell_state().mode() == ApplicationShellState.Mode.RESULT:
 		shell.confirm_current_result()
 	shell.runtime_host().opening_card = false
 	shell.player_name_edit.text = display_name
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
-	shell.select_new_game_pace(pace)
 	_check(shell.submit_new_game_setup(), "New Game")
 	await _frames(tree)
-	shell.select_new_game_pace(CharacterState.PACE_MODERN)
 
 
 func _frames(tree: SceneTree, count: int = 8) -> void:

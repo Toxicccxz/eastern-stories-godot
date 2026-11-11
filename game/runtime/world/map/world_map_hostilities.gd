@@ -441,7 +441,7 @@ func _toll_due(npc: NpcRuntimeState) -> bool:
 	return delay_ms <= 0 or toll_contact_seconds.get(npc.character_id, 0.0) * 1000.0 >= delay_ms
 
 
-## Whether the story's parley holds (DECISIONS「老松寨的三条路」; 经典: off).
+## Whether the story's parley holds (DECISIONS「老松寨的三条路」; the story_parley knob).
 static func _parley() -> bool:
 	return GameContent.catalog().pacing().story_parley
 
@@ -450,13 +450,13 @@ static func _parley() -> bool:
 ## (its dealings' `ignores_when`: the 黑冠 on their head, a mark they bear) and so does not
 ## fall on them; read against the player's state, what they carry and wear, where they stand.
 func _ignored(npc: NpcRuntimeState) -> bool:
-	# A guardian (the 白鳞冰龙, DECISIONS「冰龙守者」) lets the player be on the modern pace; 经典 keeps ES2's.
+	# A guardian (the 白鳞冰龙, DECISIONS「冰龙守者」) lets the player be while story_parley is on; off, it is ES2's.
 	if npc.definition().dealings().guardian and GameContent.catalog().pacing().story_parley:
 		return true
 	var condition: JournalEntryDefinition = npc.definition().dealings().ignores_when
 	if condition == null or _player == null or session == null:
 		return false
-	# An ES2 NPC's story leniency (ignores_with_parley) is the modern pace's: 经典 keeps it ES2's.
+	# An ES2 NPC's story leniency (ignores_with_parley) holds while story_parley is on: off, it is ES2's.
 	if npc.definition().dealings().ignores_with_parley and not GameContent.catalog().pacing().story_parley:
 		return false
 	var location: WorldLocationState = _player.world_location()

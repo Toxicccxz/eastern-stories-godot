@@ -8,7 +8,7 @@ extends RefCounted
 ## (init()'s remove_call_out()). Its timing is not saved: a Continue in the room waits
 ## the first time again, as a player coming in does.
 ## Native (第八章 A; DECISIONS「寒气」): a `native` hazard is the game's own (the 玄冰's cold, which
-## ES2 only spoke of) and runs only while pacing's native_hazards is on (经典: off); it spares
+## ES2 only spoke of) and runs only while pacing's native_hazards is on; it spares
 ## whoever wears one of `unless_wearing` (the 寒於宝衣) or bears one of `unless_marks`: the time
 ## passes, nothing is done to them. Its `act` may hold `acts`, branches as a room's command has
 ## them (ScriptedAct: the first for the player acts; `at_least` {force} the 内力 that holds the cold off).

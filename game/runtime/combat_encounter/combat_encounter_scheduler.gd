@@ -537,7 +537,7 @@ static func cost_key_of(category: int, action_id: StringName) -> StringName:
 
 
 ## 战斗拍数 A: why the player's school locks `action_id` now (够不着), "" when it may be chosen.
-## The 经典 round (one beat) never locks.
+## ES2's one-beat round never locks.
 func locked_move_reason(action_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> String:
 	if _one_beat() or _player_id.is_empty():
 		return ""

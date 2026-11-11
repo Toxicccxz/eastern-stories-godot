@@ -165,8 +165,8 @@ func _test_rules() -> void:
 	var rules: CombatBeatRules = GameContent.catalog().pacing().beat_rules()
 	_check(rules.round_beats == 2 and rules.earned_beat_cap == 1 and rules.busy_in_beats and rules.interleaved, "pacing.json: two beats a round, one may be won, busy in beats, exchange order")
 	_check(rules.cost_of_tag(CombatMoveTags.HEAVY) == 2 and rules.cost_of_tag(CombatMoveTags.QUICK) == 1 and rules.cost_of_tag(&"") == 1 and rules.cost_of_action(COUNTER) == 2 and rules.cost_of_action(&"perform/fakefault") == 1 and rules.cost_of_action(&"perform/swordjab") == 2 and rules.cost_of_action(CombatBeatRules.COST_STANCE) == 1 and rules.cost_of_action(&"perform/unknown") == 1, "the costs: 重 2, the rest 1; 封 2, 缺 1, 逐 2; a key left out costs 1")
-	var classic: CombatBeatRules = PacePresets.of(GameContent.catalog().pacing(), CharacterState.PACE_CLASSIC).beat_rules()
-	_check(classic.is_classic() and classic.round_beats == 1 and classic.earned_beat_cap == 0 and not classic.busy_in_beats and not classic.interleaved and classic.cost_of_tag(CombatMoveTags.HEAVY) == 1, "经典 puts the round back at ES2's one beat")
+	var classic: CombatBeatRules = CombatBeatRules.classic()
+	_check(classic.is_classic() and classic.round_beats == 1 and classic.earned_beat_cap == 0 and not classic.busy_in_beats and not classic.interleaved and classic.cost_of_tag(CombatMoveTags.HEAVY) == 1, "the knobs left out: ES2's one beat")
 	_check(CombatBeatRules.classic().is_classic() and not rules.is_classic() and not CombatBeatRules.new(1, {}, 0, false, true).is_classic(), "is_classic(): the record without the knobs; not with any of them set")
 	_check(CombatBeatRules.perform_of(COUNTER) == &"counterattack" and CombatBeatRules.perform_of(QUICK_SWORD).is_empty() and CombatBeatRules.perform_key(&"swordjab") == &"perform/swordjab", "perform/<id> keys")
 	var errors: Array[String] = []

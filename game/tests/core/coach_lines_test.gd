@@ -2,7 +2,7 @@ extends RefCounted
 
 ## 车马行 (DECISIONS「车马行」) as rules: the twelve stops and their arrival points, a ride only
 ## to a stop walked to by roads walked, the fare (10 文 + 5 文 a leg, by the 五文) and the
-## road's time (30 game minutes a leg) as the driver says them, the knobs (经典: no coach), and
+## road's time (30 game minutes a leg) as the driver says them, the knobs, and
 ## the fare paid with change made from silver or gold.
 
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -86,8 +86,6 @@ func _test_knobs() -> void:
 	_check(pacing.coach_travel and [pacing.coach_fare_base, pacing.coach_fare_per_leg, pacing.coach_minutes_per_leg] == [10, 5, 30], "pacing.json: the coach, 10 + 5 文 a leg, 30 minutes a leg")
 	_check(pacing.feel.coach_ride_seconds == 0.0, "suites ride without the 沙盘's picture (feel off)")
 	_check(not PacingDefinition.new().coach_travel, "without the knob: no coach (ES2)")
-	var classic: PacingDefinition = PacePresets.of(pacing, CharacterState.PACE_CLASSIC)
-	_check(not classic.coach_travel and classic.coach_fare_base == 10, "经典: no coach")
 	_check(pacing.copy().coach_travel and pacing.copy().coach_minutes_per_leg == 30, "copy() keeps them")
 
 

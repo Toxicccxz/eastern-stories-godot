@@ -27,7 +27,7 @@ func _init(p_stat_id: StringName, p_display_name: String, p_hint: String) -> voi
 	hint = p_hint
 
 
-## Whether `state` has a use for it. The 经典 pace does not ask (ContentCatalog.stat_shown()).
+## Whether `state` has a use for it. With stats_appear_when_used off nobody asks (ContentCatalog.stat_shown()).
 func shown(state: CharacterState) -> bool:
 	if when_skill.is_empty() and when_resource.is_empty() and when_nonzero.is_empty():
 		return true

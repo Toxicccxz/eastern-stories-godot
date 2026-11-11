@@ -64,12 +64,12 @@ extends RefCounted
 ## The day (DECISIONS「昼夜」):
 ## - day_length_minutes: real minutes one game day of natured.c's 1440 minutes takes, the
 ##   voxel view's light and the outdoor rooms' line going round with it. ES2: 24 (one game
-##   minute a real second), also the default (owner Q3); 经典 is 24 too.
+##   minute a real second), also the default (owner Q3).
 ##
 ## The sky (DECISIONS「天气」):
 ## - sky_weather: the cloud turns through natured.c's five weather_msg lines (SkyState), the
 ##   outdoor room's text ending with the line and the voxel view greying by it. false (ES2:
-##   the lines are declared and never shown; the sky is always clear); 经典 is false too.
+##   the lines are declared and never shown; the sky is always clear).
 ##
 ## Death and autosave (现代基线 A; DECISIONS「减轻死亡」「自动存档」); left out, each is ES2's:
 ## - death_exp_percent: what killer_reward() takes of combat_exp, in percent. 10 (ES2).
@@ -134,7 +134,7 @@ var _bury_always_rewards: bool = false
 ## 玄冰's cold); false (ES2): only the room's text speaks of them.
 var _native_hazards: bool = false
 ## Native (第九章 B; DECISIONS「禁军夜巡」): the 皇城's night watch is a stealth — a cone of sight, walls,
-## lanterns and cover, a beat to slip away (NpcWatch); off (经典) it is ES2's presence: in range, caught.
+## lanterns and cover, a beat to slip away (NpcWatch); off it is ES2's presence: in range, caught.
 var _stealth: bool = false
 ## 战斗决策层 1A (DECISIONS「战斗数值」): the combat power knobs (CombatPowerRules, ES2's when
 ## left out), the fight forecast shown before one (combat_forecast; false: RelativeStrength's
@@ -378,7 +378,7 @@ func copy() -> PacingDefinition:
 	return record
 
 
-## This record with the death knobs set (tests, PacePresets, and from_record()).
+## This record with the death knobs set (tests, and from_record()).
 func with_death(exp_percent: int, keeps_potential: bool, keeps_skills: bool, corpse_stays: bool) -> PacingDefinition:
 	_death_exp_percent = exp_percent
 	_death_keeps_potential = keeps_potential
@@ -387,25 +387,25 @@ func with_death(exp_percent: int, keeps_potential: bool, keeps_skills: bool, cor
 	return self
 
 
-## This record with the autosave's least interval set (seconds; tests, PacePresets, and from_record()).
+## This record with the autosave's least interval set (seconds; tests, and from_record()).
 func with_autosave(min_seconds: int) -> PacingDefinition:
 	_autosave_min_seconds = min_seconds
 	return self
 
 
-## This record with the numbers appearing when used, or all shown (tests, PacePresets, and from_record()).
+## This record with the numbers appearing when used, or all shown (tests, and from_record()).
 func with_stats_display(appear_when_used: bool) -> PacingDefinition:
 	_stats_appear_when_used = appear_when_used
 	return self
 
 
-## This record with the 地图 page on or off (tests, PacePresets, and from_record()).
+## This record with the 地图 page on or off (tests, and from_record()).
 func with_map_page(on: bool) -> PacingDefinition:
 	_map_page = on
 	return self
 
 
-## This record with the coach stops on or off and their fare and time (tests, PacePresets, and from_record()).
+## This record with the coach stops on or off and their fare and time (tests, and from_record()).
 func with_coach(on: bool, fare_base: int, fare_per_leg: int, minutes_per_leg: int) -> PacingDefinition:
 	_coach_travel = on
 	_coach_fare_base = fare_base
@@ -419,7 +419,7 @@ func decision_rules() -> CombatDecisionRules:
 	return _decision_rules.duplicate_snapshot()
 
 
-## This record with the decision knobs set (tests, PacePresets, and from_record()).
+## This record with the decision knobs set (tests, and from_record()).
 func with_decisions(rules: CombatDecisionRules) -> PacingDefinition:
 	_decision_rules = rules.duplicate_snapshot() if rules != null else CombatDecisionRules.classic()
 	return self
@@ -430,7 +430,7 @@ func beat_rules() -> CombatBeatRules:
 	return _beat_rules.duplicate_snapshot()
 
 
-## This record with the beat knobs set (tests, PacePresets, and from_record()).
+## This record with the beat knobs set (tests, and from_record()).
 func with_beats(rules: CombatBeatRules) -> PacingDefinition:
 	_beat_rules = rules.duplicate_snapshot() if rules != null else CombatBeatRules.classic()
 	return self
@@ -441,7 +441,7 @@ func combat_rules() -> CombatPowerRules:
 	return _combat_rules.duplicate_snapshot()
 
 
-## This record with the combat knobs set (tests, PacePresets, and from_record()).
+## This record with the combat knobs set (tests, and from_record()).
 func with_combat(rules: CombatPowerRules, forecast: bool, es2_npc_values: bool) -> PacingDefinition:
 	_combat_rules = rules.duplicate_snapshot() if rules != null else CombatPowerRules.classic()
 	_combat_forecast = forecast
