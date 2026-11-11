@@ -17,6 +17,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_test_slow_sway_written_by_steps(tree)
 	_test_swarms_keep_in_their_box()
 	_test_swarm_out_of_sight_is_left(tree)
+	_test_flag_shadow_still_under_lamps(tree)
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -170,6 +171,42 @@ func _test_swarm_out_of_sight_is_left(tree: SceneTree) -> void:
 	ambience.advance(0.1)
 	_check(not ambience._rect_in_sight(ambience._falling[0]), "a swarm out of sight is left")
 	_check(ambience._rect_in_sight(ambience._falling[4]), "a swarm in sight is moved")
+	(stage["viewport"] as Node).free()
+
+
+## While lamps cast shadows a fluttering cloth casts none and a still copy at its rest hang casts
+## it (shadow only); without lamp shadows the cloth casts its own again and the copy is hidden.
+func _test_flag_shadow_still_under_lamps(tree: SceneTree) -> void:
+	var stage: Dictionary = _stage(tree)
+	var ambience: VoxelAmbience = stage["ambience"]
+	ambience.camera = stage["camera"]
+	var pole := Node3D.new()
+	pole.position = Vector3(1.0, 0.0, 0.0)
+	ambience.add_child(pole)
+	var cloth := Node3D.new()
+	cloth.position = Vector3(0.1, 5.0, 0.0)
+	pole.add_child(cloth)
+	var shapes = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
+	shapes.box(cloth, Vector3(0.5, 0.0, 0.0), Vector3(1.0, 2.0, 0.04), "b8432f")
+	shapes.flush()
+	var part := cloth.get_child(0) as GeometryInstance3D
+	ambience.flutter(cloth, 0.0)
+	ambience.advance(0.1)
+	_check(part.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_ON and pole.get_child_count() == 1, "by day the cloth casts its own shadow, no copy")
+	ambience.lamp_shadows = true
+	ambience.advance(0.1)
+	var twin: Node3D = pole.get_child(1) as Node3D if pole.get_child_count() == 2 else null
+	_check(twin != null and twin.visible and part.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF, "under lamp shadows the cloth casts none, a still copy does")
+	if twin != null:
+		var copy := twin.get_child(0) as GeometryInstance3D
+		_check(twin.get_child_count() == 1 and copy.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY and twin.rotation.is_equal_approx(Ambience.FLAG_REST)
+			and twin.position.is_equal_approx(cloth.position) and copy.transform.is_equal_approx(part.transform), "the copy hangs where the cloth rests, shadow only")
+		var still: Transform3D = twin.transform
+		ambience.advance(0.3)
+		_check(twin.transform == still and cloth.rotation != Ambience.FLAG_REST, "the cloth flutters, its copy stays")
+	ambience.lamp_shadows = false
+	ambience.advance(0.1)
+	_check(part.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_ON and twin != null and not twin.visible, "lamp shadows gone: the cloth casts again, the copy hidden")
 	(stage["viewport"] as Node).free()
 
 

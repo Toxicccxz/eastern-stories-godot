@@ -49,6 +49,13 @@ var _sight_right := Vector3.RIGHT
 var _sight_up := Vector3.UP
 var _sight_half := Vector2.ZERO
 const SEEN_MARGIN: float = 3.0
+## Whether lamps cast shadows now (the view sets it from the lighting): a stirring flag's
+## shadow is then cast by a still copy (`_shadow_flag`).
+var lamp_shadows: bool = false
+var _flags_still_shadow: bool = false
+var _flags_shadowed: int = 0
+## How a flag's cloth hangs at rest (the middle of its flutter).
+const FLAG_REST := Vector3(0.0,0.2,0.0)
 ## Radians a hanging thing turns before it is written again (a bell's slow swing: well under
 ## a pixel at the view's scale).
 const SWAY_STEP: float = 0.004
@@ -389,6 +396,42 @@ func flame(node: Node3D) -> void:
 func flutter(node: Node3D, phase: float) -> void:
 	_flags.append({"node":node,"phase":phase})
 
+## DECISIONS「氛围动画」: while lamps cast shadows a stirring cloth would have the lamps near it
+## draw their shadows again every frame it moves. So then the cloth casts none, and a still copy
+## of it, hung as the cloth hangs at rest, casts its shadow instead; without lamp shadows (out of
+## doors by day) the cloth casts its own as before.
+func _shadow_flag(flag: Dictionary, still: bool) -> bool:
+	var cloth: Node3D = flag["node"]
+	if not flag.has("twin"):
+		if not still:
+			return true
+		if not cloth.is_inside_tree() or not cloth.get_parent() is Node3D:
+			return false
+		var twin := Node3D.new()
+		twin.transform = Transform3D(Basis.from_euler(FLAG_REST),cloth.position)
+		var parts: Array = []
+		for part: Node in cloth.find_children("*","GeometryInstance3D",true,false):
+			var shape := part as GeometryInstance3D
+			if shape.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF:
+				continue
+			parts.append([shape,shape.cast_shadow])
+			if shape is Label3D:
+				continue
+			var copy := shape.duplicate(0) as GeometryInstance3D
+			for inner: Node in copy.get_children():
+				copy.remove_child(inner)
+				inner.free()
+			copy.transform = cloth.global_transform.affine_inverse()*shape.global_transform
+			copy.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+			twin.add_child(copy)
+		cloth.get_parent().add_child(twin)
+		flag["twin"] = twin
+		flag["parts"] = parts
+	(flag["twin"] as Node3D).visible = still
+	for entry: Array in flag["parts"]:
+		(entry[0] as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if still else entry[1]
+	return true
+
 ## A drop falling from `height` onto the floor at a (local) point, every few seconds:
 ## water by default, or grit (`color`) trickling from loose rock.
 func drip(parent: Node3D, at: Vector3, height: float, color: String = "") -> void:
@@ -572,10 +615,17 @@ func advance(delta: float) -> void:
 		var life: float = fposmod(clock*0.28+float(puff["phase"]),1.0)
 		node.position = puff["base"]+Vector3(sin(life*4.0+float(puff["phase"])*6.0)*0.15+life*0.6,life*float(puff["rise"]),life*0.25)
 		node.scale = Vector3.ONE*(0.5+life*2.2)*(1.0-smoothstep(0.75,1.0,life))
+	if lamp_shadows != _flags_still_shadow or _flags.size() != _flags_shadowed:
+		_flags_still_shadow = lamp_shadows
+		_flags_shadowed = _flags.size()
+		for flag: Dictionary in _flags:
+			if not _shadow_flag(flag,lamp_shadows):
+				# Not hung yet: tried again next frame.
+				_flags_shadowed = -1
 	for flag: Dictionary in _near["_flags"]:
 		var cloth: Node3D = flag["node"]
 		var t: float = clock*3.2+float(flag["phase"])
-		cloth.rotation = Vector3(sin(t*1.7)*0.12,sin(t)*0.45+0.2,sin(t*2.3)*0.08)
+		cloth.rotation = Vector3(sin(t*1.7)*0.12,sin(t)*0.45+FLAG_REST.y,sin(t*2.3)*0.08)
 	for flame: Dictionary in _near["_flame_entries"]:
 		var node: Node3D = flame["node"]
 		node.scale.y = 0.75+0.35*absf(sin(clock*11.0+node.position.x*7.0))+0.15*sin(clock*23.0)
