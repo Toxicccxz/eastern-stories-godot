@@ -1,19 +1,19 @@
 class_name WorldFocusMarker
 extends Control
 
-## The ring and the prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」): a ring
-## round the target (SharedUiNearby.target_focus()) and under it the key and what it does
-## (交互, or a door's 打开 …) on a dark plate; 界面重做 3 moved it from over the thing, where
-## it covered the name over its head and the bubble. Drawn over the map, under the HUD's
-## panels; hidden while a panel, the menu or a fight has the screen. A click or tap on the
-## prompt is E.
+## The prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」,「交互箭头」): under the
+## target (SharedUiNearby.target_focus()) the key and what it does (交互, or a door's 打开 …) on a
+## dark plate; 界面重做 3 moved it from over the thing, where it covered the name over its head
+## and the bubble. No ring round the target (owner, 2026-11-11; DECISIONS「交互闪光点」). Drawn
+## over the map, under the HUD's panels; hidden while a panel, the menu or a fight has the screen.
+## A click or tap on the prompt is E.
 
-const RING_COLOR: Color = Color(UiPalette.LANTERN, 0.9)
-const RING_RADIUS: float = 26.0
+## The prompt keeps this far (map units) from the thing's middle, under it or beside it.
+const CLEAR_RADIUS: float = 26.0
 ## Over the thing (no room under it: the screen's bottom), the prompt's bottom edge this far
 ## above the thing's middle.
 const PROMPT_LIFT: float = 50.0
-## The prompt's top this far below the ring (screen units).
+## The prompt's top this far below CLEAR_RADIUS (screen units).
 const PROMPT_DROP: float = 6.0
 const REFRESH_SECONDS: float = 0.1
 
@@ -22,14 +22,14 @@ var _focus: WorldFocus
 var _since_refresh: float = INF
 var _prompt: PanelContainer
 var _prompt_text: Label
-var _ring_at: Vector2 = Vector2.INF
-## Where the prompt shows: under the ring, beside it, or over the thing.
+## The thing's middle on the screen (INF: nothing marked).
+var _marked_at: Vector2 = Vector2.INF
+## Where the prompt shows: under the thing, beside it, or over it.
 enum Place { BELOW, SIDE, ABOVE }
 var _place: Place = Place.BELOW
 ## The player's figure on the screen, from the feet to over the name (projected units).
 const PLAYER_HEIGHT: float = 110.0
 const PLAYER_HALF_WIDTH: float = 26.0
-var _ring_scale: float = 1.0
 
 
 func configure(ui: SharedGameplayUI) -> void:
@@ -70,16 +70,16 @@ func _ready() -> void:
 ## How far over its middle the marked thing's top is now, with the prompt (0: unmarked).
 func lift_over(node: Node2D) -> float:
 	# The thing itself, or a service it offers from where it stands.
-	if not _prompt.visible or _place != Place.ABOVE or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+	if not _prompt.visible or _place != Place.ABOVE or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > CLEAR_RADIUS):
 		return 0.0
 	return PROMPT_LIFT + _prompt.size.y
 
 
 ## How far under its middle the marked thing's prompt reaches when it shows below it (0: not).
 func drop_under(node: Node2D) -> float:
-	if not _prompt.visible or _place != Place.BELOW or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+	if not _prompt.visible or _place != Place.BELOW or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > CLEAR_RADIUS):
 		return 0.0
-	return _prompt.position.y + _prompt.size.y - _ring_at.y
+	return _prompt.position.y + _prompt.size.y - _marked_at.y
 
 
 ## The prompt's text now ("" when nothing is marked).
@@ -107,14 +107,13 @@ func _process(delta: float) -> void:
 		_hide()
 		return
 	var screen: Vector2 = map.screen_position(at)
-	_ring_scale = map.screen_scale().x
 	_prompt.visible = true
 	_prompt.reset_size()
 	var view: Rect2 = get_viewport().get_visible_rect().grow(-4.0)
 	var scale: Vector2 = map.screen_scale()
 	var spots: Dictionary[Place, Vector2] = {
-		Place.BELOW: screen + Vector2(-_prompt.size.x / 2.0, RING_RADIUS * scale.y + PROMPT_DROP),
-		Place.SIDE: screen + Vector2(RING_RADIUS * scale.x + PROMPT_DROP, -_prompt.size.y / 2.0),
+		Place.BELOW: screen + Vector2(-_prompt.size.x / 2.0, CLEAR_RADIUS * scale.y + PROMPT_DROP),
+		Place.SIDE: screen + Vector2(CLEAR_RADIUS * scale.x + PROMPT_DROP, -_prompt.size.y / 2.0),
 		Place.ABOVE: screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y),
 	}
 	var avoid: Array[Rect2] = [_ui.card_rect(), _player_rect(map)]
@@ -128,9 +127,7 @@ func _process(delta: float) -> void:
 	place.x = clampf(place.x, view.position.x, maxf(view.position.x, view.end.x - _prompt.size.x))
 	place.y = clampf(place.y, view.position.y, maxf(view.position.y, view.end.y - _prompt.size.y))
 	_prompt.position = place.round()
-	if not _ring_at.is_equal_approx(screen):
-		_ring_at = screen
-		queue_redraw()
+	_marked_at = screen
 
 
 ## The player's figure on the screen (feet to name), which the prompt keeps clear of.
@@ -150,18 +147,11 @@ func _on_prompt_input(event: InputEvent) -> void:
 		_ui.interact()
 
 
-func _draw() -> void:
-	if _ring_at.is_finite():
-		draw_arc(_ring_at, RING_RADIUS * _ring_scale, 0.0, TAU, 40, RING_COLOR, 2.0, true)
-
-
 func _hide() -> void:
 	_focus = null
 	_since_refresh = INF
-	if _prompt.visible or _ring_at.is_finite():
-		_prompt.visible = false
-		_ring_at = Vector2.INF
-		queue_redraw()
+	_prompt.visible = false
+	_marked_at = Vector2.INF
 
 
 ## The active map while the player walks it with nothing else on the screen.

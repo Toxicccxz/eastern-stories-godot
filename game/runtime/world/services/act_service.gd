@@ -30,6 +30,11 @@ func context_title() -> String:
 	return "" if title.is_empty() or _act_for_player() == null else title
 
 
+## Whether the player has a branch of it here, wherever they stand (its glint, VoxelGlints).
+func offers_player() -> bool:
+	return _act_for_player() != null
+
+
 ## The button: the player's branch, asked first when it must be.
 func interact() -> void:
 	if not in_reach():
