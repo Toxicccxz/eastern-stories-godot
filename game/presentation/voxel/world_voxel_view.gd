@@ -1180,26 +1180,32 @@ func _landmark_opening(portal_id: StringName) -> Area2D:
 
 
 ## Where in `rect` a marker over a room stands: its middle, or, when that is no ground to walk
-## on (the 山涧's middle is the stream, a hall's may be a pillar), the walkable cell nearest it.
+## on (the 山涧's middle is the stream, a hall's may be a pillar), a walkable cell close by.
 static func quest_ground(on: WorldMapController, rect: Rect2) -> Vector2:
 	var middle: Vector2 = rect.get_center()
 	var tiles: WorldMapStaticNodes = on.static_nodes()
 	if tiles.walkable_tile(middle):
 		return middle
+	# Ring by ring out from the middle, one ring past the first that has ground (a nearer cell
+	# may lie at a ring's corner): a long street is not searched end to end.
 	var best: Vector2 = middle
 	var nearest: float = INF
 	var step: float = 16.0
-	var x: float = rect.position.x+step*0.5
-	while x < rect.end.x:
-		var y: float = rect.position.y+step*0.5
-		while y < rect.end.y:
-			var at := Vector2(x,y)
-			var gap: float = at.distance_squared_to(middle)
-			if gap < nearest and tiles.walkable_tile(at):
-				nearest = gap
-				best = at
-			y += step
-		x += step
+	var rings: int = ceili(maxf(rect.size.x,rect.size.y)/step)
+	var last: int = rings
+	for ring: int in range(1,rings+1):
+		if ring > last:
+			break
+		for i: int in range(-ring,ring+1):
+			for cell: Vector2 in [Vector2(i,-ring),Vector2(i,ring),Vector2(-ring,i),Vector2(ring,i)]:
+				var at: Vector2 = middle+cell*step
+				if not rect.has_point(at):
+					continue
+				var gap: float = at.distance_squared_to(middle)
+				if gap < nearest and tiles.walkable_tile(at):
+					nearest = gap
+					best = at
+					last = mini(last,ring+1)
 	return best
 
 

@@ -259,8 +259,8 @@ func _settle_box(item: Array, cells: Dictionary, ground: bool = false) -> int:
 		var area := Rect2(low[u]+_EDGE,low[v]+_EDGE,size[u]-_EDGE*2.0,size[v]-_EDGE*2.0)
 		var d: float = high[axis] if ahead else -low[axis]
 		var deepest: float = minf(COPLANAR_STEP*COPLANAR_LAYERS,(size[axis]-COPLANAR_STEP)*0.5)
-		var record: Array = [_AXIS_NORMALS[face],d,null,null,null,colour,area,true]
-		var later: Array[float] = _later_planes(cells,_AXIS_CODES[face],record,deepest)
+		var record: Array = [_AXIS_NORMALS[face],d,null,null,null,colour,area,true,d]
+		var later: PackedVector2Array = _later_planes(cells,_AXIS_CODES[face],record)
 		var plane_at: float = d if later.is_empty() else _clear_of(d,later,deepest)
 		record[1] = plane_at
 		# A box's own faces never meet (one colour): filed at once.
@@ -308,8 +308,8 @@ func _settle_turned(item: Array, cells: Dictionary) -> int:
 			var d: float = normal.dot(centre)
 			# Never through the box (its other face may step back as far).
 			var deepest: float = minf(COPLANAR_STEP*COPLANAR_LAYERS,(length-COPLANAR_STEP)*0.5)
-			var record: Array = [normal,d,centre,half_a,half_b,colour,area,false]
-			var later: Array[float] = _later_planes(cells,_normal_code(Vector3i((normal*64.0).round())),record,deepest)
+			var record: Array = [normal,d,centre,half_a,half_b,colour,area,false,d]
+			var later: PackedVector2Array = _later_planes(cells,_normal_code(Vector3i((normal*64.0).round())),record)
 			var plane_at: float = d if later.is_empty() else _clear_of(d,later,deepest)
 			record[1] = plane_at
 			steps[axis*2+side] = d-plane_at
@@ -336,16 +336,16 @@ func _settle_turned(item: Array, cells: Dictionary) -> int:
 		transforms[index] = t
 	return stepped
 
-## Where the later faces of other colours that `record` (a face: [normal, plane, centre, half
-## edges, colour, area, square to the world]) overlaps now lie: their planes, each as far back
-## as it stepped, from just before this one to as deep as it may go.
-func _later_planes(cells: Dictionary, code: int, record: Array, deepest: float) -> Array[float]:
-	var found: Array[float] = []
+## The later faces of other colours that `record` (a face: [normal, plane, centre, half edges,
+## colour, area, square to the world, plane as drawn]) overlaps, from just before it to as deep
+## as any face steps: each (where it lies now, where it was drawn).
+func _later_planes(cells: Dictionary, code: int, record: Array) -> PackedVector2Array:
+	var found := PackedVector2Array()
 	var d: float = record[1]
 	var area: Rect2 = record[6]
 	var colour: String = record[5]
 	var square: bool = record[7]
-	var reach: float = deepest+COPLANAR_STEP
+	var reach: float = COPLANAR_STEP*(COPLANAR_LAYERS+2)
 	# On the map, faces that share only a strip under a pixel wide (two floor tiles lapping by
 	# a hair) show no fight there.
 	var least: float = SLIVER if settle_for_map else 0.0005
@@ -369,7 +369,7 @@ func _later_planes(cells: Dictionary, code: int, record: Array, deepest: float) 
 							continue
 					elif not _same_way(other[0],record[0]) or not _faces_overlap(_centre(record),_half(record,0),_half(record,1),_centre(other),_half(other,0),_half(other,1),least):
 						continue
-					found.append(at)
+					found.append(Vector2(at,float(other[8])))
 	return found
 
 ## Files a face's record under `code`, its plane and its cells, for the earlier boxes.
@@ -430,31 +430,41 @@ static func _same_way(a: Vector3, b: Vector3) -> bool:
 static func _normal_code(n: Vector3i) -> int:
 	return (n.x+128)*65536+(n.y+128)*256+n.z+128
 
-## Where a face at `d` goes among the planes `others` of the later faces it overlaps: behind each
-## one it is too near (the later face wins, as drawn over it), no deeper than `deepest`. Many
-## tiles each overlapping the next (worn patches, paving) would push the first ever deeper: then
-## the free place nearest where it was drawn, before or behind its neighbours as it falls.
-static func _clear_of(d: float, others: Array[float], deepest: float) -> float:
+## Where a face drawn at `d` goes among the later faces it overlaps (`others`: each where it
+## lies now and where it was drawn): behind every one drawn in its plane, however far that one
+## stepped back itself (the later face wins, as drawn over it), and clear of any other it would
+## now meet; no deeper than `deepest`. Many tiles each overlapping the next (worn patches,
+## paving) would push the first ever deeper: then the free place nearest where it was drawn,
+## before or behind its neighbours as it falls.
+static func _clear_of(d: float, others: PackedVector2Array, deepest: float) -> float:
 	var at: float = d
+	for other: Vector2 in others:
+		if absf(other.y-d) < COPLANAR_STEP*0.5:
+			at = minf(at,other.x-COPLANAR_STEP)
 	var moved: bool = true
 	while moved:
 		moved = false
-		for other: float in others:
-			if absf(at-other) < COPLANAR_STEP-0.00001:
-				at = other-COPLANAR_STEP
+		for other: Vector2 in others:
+			if absf(at-other.x) < COPLANAR_STEP-0.00001:
+				at = other.x-COPLANAR_STEP
 				moved = true
 	if d-at <= deepest+0.00001:
 		return at
 	var places: Array[float] = [d]
-	for other: float in others:
-		places.append(other-COPLANAR_STEP)
-		places.append(other+COPLANAR_STEP)
+	for other: Vector2 in others:
+		places.append(other.x-COPLANAR_STEP)
+		places.append(other.x+COPLANAR_STEP)
 	places.sort()
 	places.reverse()
 	for place: float in places:
 		if place > d+0.00001 or d-place > deepest+0.00001:
 			continue
-		if others.all(func(other: float) -> bool: return absf(place-other) >= COPLANAR_STEP-0.00001):
+		var clear: bool = true
+		for other: Vector2 in others:
+			if absf(place-other.x) < COPLANAR_STEP-0.00001:
+				clear = false
+				break
+		if clear:
 			return place
 	return d
 

@@ -91,6 +91,34 @@ func _test_layers_and_exceptions() -> void:
 	_check(_box_of(shapes, "00aa00", 1) == Transform3D(Basis.IDENTITY, Vector3(6, 0.5, 0)), "a box touching another side by side is left as it is")
 	_check(_box_of(shapes, "0000aa", 1) == Transform3D(Basis.from_scale(Vector3(0.5, 0.5, 0.5)), Vector3(0, 0.75, 0)), "another place's box is never stepped")
 	_check(_box_of(shapes, "f0f0f0", 0) == Transform3D(Basis.from_scale(Vector3(0.5, 0.0015, 0.5)), Vector3(8, 0.99925, 0)) and is_equal_approx(top.call("aa0000", 3), 1.0), "a sheet too thin to step back is left as it is")
+	# A wall, a board on it and letters on the board in the wall's colour, all flush: the board
+	# stays before the wall though the letters' colour is the wall's (the board stepped behind
+	# the letters, and the wall must go behind the board, not stop beside it).
+	var sign := Shapes.new()
+	sign.box(holder, Vector3(20, 1, 0), Vector3(2, 2, 0.2), "aa0000")
+	sign.box(holder, Vector3(20, 1, 0.05), Vector3(1, 1, 0.1), "00aa00")
+	sign.box(holder, Vector3(20, 1, 0.075), Vector3(0.4, 0.4, 0.05), "aa0000")
+	sign.settle_coplanar()
+	var front := func(s: Shapes, hex: String, index: int) -> float:
+		var t: Transform3D = _box_of(s, hex, index)
+		return t.origin.z + t.basis.get_scale().z / 2
+	_check(is_equal_approx(front.call(sign, "aa0000", 1), 0.1) and front.call(sign, "00aa00", 0) < 0.1 and front.call(sign, "aa0000", 0) < front.call(sign, "00aa00", 0) - Shapes.COPLANAR_STEP * 0.9, "letters before the board before the wall: %.4f %.4f %.4f" % [front.call(sign, "aa0000", 1), front.call(sign, "00aa00", 0), front.call(sign, "aa0000", 0)])
+	# Three tiles in a row, each lapping the next: each later one before the one it laps.
+	var row := Shapes.new()
+	for i: int in 3:
+		row.box(holder, Vector3(30 + i * 0.8, 0.5, 0), Vector3(1, 1, 1), ["aa0000", "00aa00", "0000aa"][i])
+	row.settle_coplanar()
+	var tile_top := func(hex: String) -> float:
+		var t: Transform3D = _box_of(row, hex, 0)
+		return t.origin.y + t.basis.get_scale().y / 2
+	_check(tile_top.call("0000aa") > tile_top.call("00aa00") + Shapes.COPLANAR_STEP * 0.9 and tile_top.call("00aa00") > tile_top.call("aa0000") + Shapes.COPLANAR_STEP * 0.9, "each tile before the one drawn before it: %.4f %.4f %.4f" % [tile_top.call("aa0000"), tile_top.call("00aa00"), tile_top.call("0000aa")])
+	# A turned box steps back too: the meat drawn turned under a square crust.
+	var turned := Shapes.new()
+	turned.tilted_box(holder, Vector3(40, 0.12, 0), Vector3(0.3, 0.38, 0.28), "b0602e", Vector3(0, PI / 4, 0))
+	turned.box(holder, Vector3(40, 0.16, 0), Vector3(0.2, 0.3, 0.2), "7e3c18")
+	turned.settle_coplanar()
+	var meat: Transform3D = _box_of(turned, "b0602e", 0)
+	_check(is_equal_approx(meat.origin.y + meat.basis.get_scale().y / 2, 0.31 - Shapes.COPLANAR_STEP) and CoplanarFaces.fights(_drawn(turned)).is_empty(), "a turned box's top steps down under a square one")
 	# Settled on worker threads, a place to a thread: the same as at once.
 	var at_once := Shapes.new()
 	var threaded := Shapes.new()
