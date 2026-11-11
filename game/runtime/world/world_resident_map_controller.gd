@@ -77,6 +77,46 @@ func initialize_map() -> bool:
 	return false
 
 
+## How a piece of a map's start came out (initialize_step()).
+enum StartStep { MORE, DONE, FAILED }
+## Set before the map enters the tree by a start in slices (WorldSessionController): _ready
+## leaves the start to the one who calls initialize_step().
+var starts_in_steps: bool = false
+
+
+## initialize_map() a piece at a time: MORE until the map is initialized.
+func initialize_step() -> StartStep:
+	return StartStep.FAILED
+
+
+var _steps_shown: bool = true
+var _steps_layers: Array[TileMapLayer] = []
+
+
+## Before the map enters the tree to start in steps, frames going by with it there: it is not
+## drawn, and its tile layers are off (a layer in the tree builds its collision at the frame's
+## end: a town's worth, for a map that leaves the tree as soon as its people are made).
+func begin_start_in_steps() -> void:
+	starts_in_steps = true
+	_steps_shown = visible
+	visible = false
+	_steps_layers = []
+	for node: Node in find_children("*", "TileMapLayer", true, false):
+		var layer: TileMapLayer = node as TileMapLayer
+		if layer.enabled:
+			layer.enabled = false
+			_steps_layers.append(layer)
+
+
+## The start in steps is over (before the map leaves the tree in that same frame): as it was.
+func end_start_in_steps() -> void:
+	starts_in_steps = false
+	for layer: TileMapLayer in _steps_layers:
+		layer.enabled = true
+	_steps_layers = []
+	visible = _steps_shown
+
+
 func is_map_initialized() -> bool:
 	return false
 
