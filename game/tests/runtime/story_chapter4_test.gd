@@ -165,6 +165,9 @@ func _test_kept(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(manor != null and _count_in(session, &"latemoon.latemoon1", &"latemoon.npc.servant") == 2 and _count_in(session, &"latemoon.latemoon1", &"native.npc.cult_killer") == 0 and _count_in(session, &"latemoon.room.bathroom", &"latemoon.npc.room.fireangel") == 1 and _count_in(session, &"latemoon.room.lstudio", &"latemoon.npc.room.killer") == 1, "kept: the 婢女, the 凤凰 and the 书房's killer where ES2 put them")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter4_kept)
+	_check(handoff.is_empty(), "宝衣 played (kept) leaves what chapter4_kept writes: %s" % [handoff])
 
 
 ## A man from the chase: 南危水, the trial, 不知道, his clumsy dance, 芳绫's, the robe carried out; the night.
@@ -289,6 +292,9 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(old.has_flag(StringName(NpcMood.FLAG_PREFIX + "broken")) and _recent(ui).any(func(line: String) -> bool: return line.contains("我一直没拦住")), "the 老妇: 是她")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter4_taken)
+	_check(handoff.is_empty(), "宝衣 played (taken) leaves what chapter4_taken writes: %s" % [handoff])
 
 
 ## A man from the rescue who gives the robe to 安妮儿, 蓝筱薇 having danced for him.

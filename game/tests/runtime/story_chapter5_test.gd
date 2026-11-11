@@ -71,7 +71,7 @@ func _test_data() -> void:
 	_check(ghouls != null and ghouls.quantity == 2 and ghouls.present != null and ghouls.zone_id == &"choyin.tomb3", "two 鬼卒 in the hollow's sandalwood end while the chapter runs")
 	var hotel: NpcSpawnDefinition = catalog.spawn(&"choyin.hotel_house.hotel1.sergeant")
 	_check(hotel != null and hotel.until != null and hotel.present == null, "the 武官's spawn leaves the stage once the choice is made")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_FONXAN_B_V1, "封山 B's world revision is current (world_revision_test binds it to the spawn points)")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.values().back(), "the newest world revision is current (world_revision_test binds it to the content Continue checks)")
 
 
 ## A woman from the kept robe: the drum, the magistrate, the deserter, the hollow, the escort, the trial.
@@ -247,6 +247,9 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_ask(hotel, boss, "武官").any(func(line: String) -> bool: return line.contains("进了衙门就没再回来")), "汤掌柜: 进了衙门就没再回来")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter5_escorted)
+	_check(handoff.is_empty(), "人证 played (escorted) leaves what chapter5_escorted writes: %s" % [handoff])
 
 
 ## A man from the taken robe: the chest returned first, the 抄本 from his hand, 走吧, the trial without him.
@@ -341,6 +344,9 @@ func _test_released(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hotel != null and _count_in(session, &"choyin.hotel1", SERGEANT) == 0, "the 武官's stool empty (until release)")
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter5_released)
+	_check(handoff.is_empty(), "人证 played (released) leaves what chapter5_released writes: %s" % [handoff])
 
 
 ## TEST-ONLY: the player beside the NPC of `point_id`, a heart beat after (its reaction call or scene).

@@ -20,12 +20,14 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-func _test_chapter(tree: SceneTree, session: WorldSessionController) -> void:
+func _test_chapter(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter2")
-	StoryFixtures.chapter1_done(session, true)
+	# story_through_test: played up to here, not written.
+	if not played:
+		StoryFixtures.chapter1_done(session, true)
 	session.record_journal()
 	_check(StoryQuestLog.is_done(state, GameContent.catalog().story_quest(&"main.chapter1")) and StoryQuestLog.is_active(state, quest) and StoryQuestLog.objective(state, quests) == "回雪亭镇淳风武馆，把山洞里的事告诉柳淳风。", "旧案 begins as 伪墓 ends: %s" % [state.quests])
 	# 柳淳风: the letter.
@@ -123,6 +125,11 @@ func _test_chapter(tree: SceneTree, session: WorldSessionController) -> void:
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(snapshot != null and decoded.snapshot != null and decoded.snapshot.player.character.quests == state.quests and decoded.snapshot.player.character.marks.get("告发了南危水", 0) == 1, "saved and read back: %s" % [decoded.detail])
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
+	# (from its own fixture; played on from the chapters before, story_through_test checks it).
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter2_done.bind(false))
+		_check(handoff.is_empty(), "旧案 played (told) leaves what chapter2_done(told) writes: %s" % [handoff])
 
 
 func _session(tree: SceneTree) -> WorldSessionController:

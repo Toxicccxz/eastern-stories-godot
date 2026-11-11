@@ -280,10 +280,11 @@ static func _restore_npc_ledger(
 					and not _wandered_to(definition, spawn.zone_id, saved.world_location.zone_id)
 				)
 				# Alive and not in the world: only a summoned or drawn spawn's NPC waiting for its room,
-				# or one of the street's idle folk indoors for the night on its own map (DECISIONS「夜里冷清」).
+				# or one of an ordinary spawn indoors for the night on its own map, whatever the switches say now
+				# (DECISIONS「夜里冷清」「读档放行回屋的人」: the map puts back one they no longer keep in).
 				or (
 					not saved.exists_in_world and saved.life_status != &"dead" and not spawn.starts_absent
-					and not (saved.world_location.map_id == spawn.map_id and WorldMapNpcIdle.goes_home_at_night(spawn, pacing))
+					and not WorldMapNpcIdle.may_be_indoors(spawn, saved.world_location.map_id)
 				)
 			):
 				return Result.failure(

@@ -251,6 +251,9 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(study != null and _count_in(session, &"snow.innerhall", BOY) == 1 and _count_in(session, &"snow.innerhall", LITTLE) == 1 and _count_in(session, &"snow.innerhall", YOUTH) == 0, "two children with her; no 铁盾会 boy where the 大秦人 did not stay")
 	ui.standing_page.fill(session.quest_condition_test())
 	_check(ui.standing_page.shown_text().contains("在柳淳风的匣里"), "the 声望 page says where the book is")
+	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.fonxan_book_given.bind(false))
+	_check(handoff.is_empty(), "竹书 played (to 柳淳风) leaves what fonxan_book_given(father) writes: %s" % [handoff])
 
 
 ## The book to the daughter, the scene with the 铁盾会's boy, and the 北宗.

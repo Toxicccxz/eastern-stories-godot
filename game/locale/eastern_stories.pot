@@ -13958,6 +13958,26 @@ msgstr ""
 msgid "基本鞭法"
 msgstr ""
 
+#. hammer name
+#: data/common/skills.json
+msgid "基本锤法"
+msgstr ""
+
+#. axe name
+#: data/common/skills.json
+msgid "基本斧法"
+msgstr ""
+
+#. dagger name
+#: data/common/skills.json
+msgid "基本匕法"
+msgstr ""
+
+#. fork name
+#: data/common/skills.json
+msgid "基本叉法"
+msgstr ""
+
 #. tenderzhi name
 #: data/common/skills.json
 msgid "柔虹指"

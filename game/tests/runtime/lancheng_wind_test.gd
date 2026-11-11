@@ -157,6 +157,14 @@ func _test_gusts(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(wind.off_route(wilds.winds.points(wind.route_marked(state.marks)), player.global_position) > wind.route_radius, "the east trail is far off the north route")
 	state.recovery.inner_force = CharacterInternalResourceState.new(100, 100) # TEST-ONLY
+	# The menu open (world time held) far off the route: the map's own physics frames run on past
+	# a gust and more, and none comes.
+	session.hold_world_time(&"test_menu")
+	var gale_lines: int = ui.log_lines().filter(func(line: String) -> bool: return line.contains("运起内力")).size()
+	for frame: int in ceili(wind.gust_ms / 1000.0 * Engine.physics_ticks_per_second * 1.5):
+		await tree.physics_frame
+	_check(state.recovery.inner_force.current == 100 and ui.log_lines().filter(func(line: String) -> bool: return line.contains("运起内力")).size() == gale_lines, "the menu open: the world held, no gust and no gale (内力 %d)" % state.recovery.inner_force.current)
+	session.release_world_time(&"test_menu")
 	wilds.winds.tick(wind.gust_ms / 1000.0)
 	_check(state.recovery.inner_force.current == 92 and ui.log_lines().slice(-3).any(func(line: String) -> bool: return line.contains("运起内力")), "the gale: 内力 holds it off (100 → 92)")
 	state.recovery.inner_force = CharacterInternalResourceState.new(0, 100) # TEST-ONLY

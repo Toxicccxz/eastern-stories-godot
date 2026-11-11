@@ -1035,6 +1035,34 @@
 			"legacy_source": "daemon/skill/whip.c"
 		},
 		{
+			"id": "hammer",
+			"name": "基本锤法",
+			"kind": "basic",
+			"type": "martial",
+			"legacy_source": "daemon/skill/hammer.c"
+		},
+		{
+			"id": "axe",
+			"name": "基本斧法",
+			"kind": "basic",
+			"type": "martial",
+			"legacy_source": "daemon/skill/axe.c"
+		},
+		{
+			"id": "dagger",
+			"name": "基本匕法",
+			"kind": "basic",
+			"type": "martial",
+			"legacy_source": "daemon/skill/dagger.c"
+		},
+		{
+			"id": "fork",
+			"name": "基本叉法",
+			"kind": "basic",
+			"type": "martial",
+			"legacy_source": "daemon/skill/fork.c"
+		},
+		{
 			"id": "tenderzhi",
 			"name": "柔虹指",
 			"kind": "specialized",

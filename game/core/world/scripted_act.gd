@@ -231,7 +231,7 @@ class Answer:
 			and (any.is_empty() or any.any(func(each: String) -> bool: return known.get(each, 0) != 0))
 		)
 
-	## {text, mark?, not_mark?, marks?, any?}.
+	## {text, mark?, not_mark?, marks?, any?, note?}.
 	static func from_record(reader: ContentRecordReader) -> Answer:
 		var answer := Answer.new()
 		answer.text = reader.required_text("text")
@@ -239,6 +239,8 @@ class Answer:
 		answer.not_mark = reader.text("not_mark")
 		answer.marks = reader.text_list("marks")
 		answer.any = reader.text_list("any")
+		# An authoring note (why a wrong answer's mark is written by nothing); not shown.
+		reader.text("note")
 		reader.finish()
 		return answer
 
