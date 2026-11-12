@@ -670,7 +670,9 @@
           "village.lakebottom2.niling_finale.2": [380, 330],
           "village.lakebottom2.niling_finale.3": [250, 300],
           "village.lakebottom2.niling_finale.4": [440, 250],
-          "village.lakebottom2.feng_ce_beside.1": [460, 300]
+          "village.lakebottom2.feng_ce_beside.1": [460, 300],
+          "village.lakebottom2.yulan_tianwu_beside.1": [470, 360],
+          "village.lakebottom2.xiao_pichen_beside.1": [470, 240]
         },
         "gap_at": [
           ["village.lakebottom1", "village.lakebottom2", 304, 128]

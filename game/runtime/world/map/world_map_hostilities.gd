@@ -912,7 +912,8 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 ## Native (关北 C; DECISIONS「替玩家打的 NPC」): as a fight the player is in opens, every NPC that
 ## fights beside them (NpcHooks.fights_beside_player) and stands conscious in the player's place,
 ## not yet in it — one the player's side summoned (the 王府's riders, summoners) or one following
-## them (郭承) — kill_ob()s the player's living enemies and comes in on their side, as the 天将 do
+## them (郭承), or one standing its ground there (`fights_beside_here`: the 湖畔's sword-bearer) —
+## kill_ob()s the player's living enemies and comes in on their side, as the 天将 do
 ## (heaven_soldier.c invocation(); CombatEncounterResolution's allies). Those enemies kill it back.
 ## A spar is no fight of theirs: nobody draws into a 切磋 (it would turn lethal).
 func _allies_join(encounter: CombatEncounter) -> void:
@@ -928,7 +929,7 @@ func _allies_join(encounter: CombatEncounter) -> void:
 			or encounter.participant_for(npc.character_id) != null or not npc.world_location().shares_combat_location(here)
 		):
 			continue
-		if _map.npcs.summoner_of(npc.character_id) == _player.character_id or npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER):
+		if _map.npcs.summoner_of(npc.character_id) == _player.character_id or npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or hooks.fights_beside_here:
 			allies.append(npc.character_id)
 	if allies.is_empty():
 		return
