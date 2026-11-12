@@ -294,10 +294,11 @@ func _act(stay: int, room: StringName) -> void:
 			if npc != null:
 				break
 		check(npc != null, "someone at %s" % victim[0])
-		# A victim still dead from an earlier stay waits for its room's reset. By night people walk
-		# home (DECISIONS「夜里冷清」): one may cross into the next room between the step beside it and
-		# the blow (DIFFERENT_LOCATION), so the player steps beside it again, a few times at most.
-		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		# A victim still dead from an earlier stay waits for its room's reset, and one gone home for
+		# the night (DECISIONS「夜里冷清」: off the map, nobody to pick) for the morning. By night people
+		# walk home: one may cross into the next room between the step beside it and the blow
+		# (DIFFERENT_LOCATION), so the player steps beside it again, a few times at most.
+		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.exists_in_map:
 			var outcome: int = -1
 			for attempt: int in 4:
 				check(_beside(map, npc), "beside %s" % victim[0])
