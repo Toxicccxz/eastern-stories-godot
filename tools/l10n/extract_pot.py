@@ -49,7 +49,7 @@ TEXT_KEYS = frozenset({
     "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal", "closing",
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg", "locked",
-    "style_word", "style_line",
+    "style_word", "style_line", "summary", "intro", "seat",
 })
 TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs", "sky_levels"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
@@ -424,8 +424,9 @@ def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:
                     catalog.add(entry[key], relative, note=f"{chain_id}/{entry.get('id', '')} {key}")
     for topic in document.get("codex_topics", []):
         topic_id = str(topic.get("id", ""))
-        if isinstance(topic.get("title"), str):
-            catalog.add(topic["title"], relative, note=f"{topic_id} title")
+        for key in ("group", "title"):
+            if isinstance(topic.get(key), str):
+                catalog.add(topic[key], relative, note=f"{topic_id} {key}")
         for paragraph in topic.get("paragraphs", []):
             if isinstance(paragraph, dict):
                 paragraph = paragraph.get("heading")

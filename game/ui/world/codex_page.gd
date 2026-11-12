@@ -183,7 +183,17 @@ func _rebuild_list() -> void:
 		entry_list.remove_child(child)
 		child.queue_free()
 	entry_buttons.clear()
+	var group: String = ""
 	for entry: CodexContent.Entry in _entries:
+		if entry.group != group and not entry.group.is_empty():
+			# A group's heading above its first entry (江湖常识: 入门, 传说); not a stop for keys or pad.
+			var heading := Label.new()
+			heading.name = "Group%d" % entry_list.get_child_count()
+			heading.text = entry.group
+			heading.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+			heading.theme_type_variation = &"MutedLabel"
+			entry_list.add_child(heading)
+		group = entry.group
 		var button := Button.new()
 		button.name = "Entry%d" % entry_buttons.size()
 		button.text = entry.title

@@ -3,6 +3,7 @@
 		{
 			"id": "unarmed",
 			"name": "基本拳脚",
+			"summary": "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/unarmed.c",
@@ -12,6 +13,7 @@
 		{
 			"id": "sword",
 			"name": "基本剑法",
+			"summary": "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山剑法、六阴追魂剑这些剑法都激发在它上面；没学过专门剑法的人，手里有剑也只能凭它出招。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/sword.c"
@@ -19,6 +21,7 @@
 		{
 			"id": "blade",
 			"name": "基本刀法",
+			"summary": "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/blade.c"
@@ -26,6 +29,7 @@
 		{
 			"id": "parry",
 			"name": "基本招架",
+			"summary": "用手中兵刃或一双肉掌格开来招的功夫。不少剑法、刀法、杖法也能激发为招架，用本门的招式化解对方的攻势。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/parry.c",
@@ -45,6 +49,7 @@
 		{
 			"id": "dodge",
 			"name": "基本轻功",
+			"summary": "闪身避让的功夫，对方的招式能不能落在身上，多半看它。倒乱七星步、火蝠身法、七宝天岚舞这类身法都激发在它上面。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/dodge.c",
@@ -59,6 +64,7 @@
 		{
 			"id": "force",
 			"name": "基本内功",
+			"summary": "一切内功的根基。内力的上限看它，打坐积下的内力才有地方存，运功调息、回气提神也都靠它；封山派内功、天邪神功等各家心法都要激发在它上面。内功修炼有成，根骨也会随之改善。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/force.c",
@@ -73,6 +79,7 @@
 		{
 			"id": "liuh-ken",
 			"name": "柳家拳",
+			"summary": "乔阴柳家的柳东芦于七十年前所创：他是封山剑派第十二代掌门，以剑术成名，却把家传拳法融进封山剑意，创出这套适合膂力不强之人习练的拳法，补上了封山剑派近战的短处，后来更凭它力压群雄，夺得第九代武林盟主之位。柳家拳分内八套、外八套，流传在外的多是外八套，不须内功根基，容易上手；内八套是柳家秘传，外形一样，内力窍门却全然不同。练时须空手。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -146,6 +153,7 @@
 		{
 			"id": "fonxanforce",
 			"name": "封山派内功",
+			"summary": "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -164,6 +172,7 @@
 		{
 			"id": "serpentforce",
 			"name": "伏蛟功",
+			"summary": "花紫会一脉的内功，龙头陆得财身怀此功。练功须在有水的地方，既耗气也耗内力。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -182,6 +191,7 @@
 		{
 			"id": "spring-blade",
 			"name": "春风快意刀",
+			"summary": "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -249,6 +259,7 @@
 		{
 			"id": "fonxansword",
 			"name": "封山剑法",
+			"summary": "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -366,6 +377,7 @@
 		{
 			"id": "chaos-steps",
 			"name": "倒乱七星步法",
+			"summary": "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -394,6 +406,7 @@
 		{
 			"id": "celestial",
 			"name": "天邪神功",
+			"summary": "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -419,6 +432,7 @@
 		{
 			"id": "necromancy",
 			"name": "茅山道术",
+			"summary": "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。",
 			"kind": "specialized",
 			"type": "knowledge",
 			"enable": [
@@ -466,6 +480,7 @@
 		{
 			"id": "taoism",
 			"name": "天师正道",
+			"summary": "道家的主要学问，茅山派大多数武功、法术都要以它为基础。天师正道修行不够就强练道家武功法术，很容易走火入魔、坠入魔道；杀气太重的人，也修不了它。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/taoism.c",
@@ -480,6 +495,7 @@
 		{
 			"id": "gouyee",
 			"name": "谷衣心法",
+			"summary": "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -502,6 +518,7 @@
 		{
 			"id": "scratching",
 			"name": "天师剑法",
+			"summary": "茅山派的剑法，招名「三清归真」「众士护佑」「群魔辟易」「西出紫关」，取道家护法驱魔之意。练这门剑须有相当的内力。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -568,6 +585,7 @@
 		{
 			"id": "literate",
 			"name": "读书识字",
+			"summary": "认字读书的本事。不识字就读不了任何书谱；识字越深，研读书册时长进越快。勤学苦读，悟性也会慢慢提高，有些讲究文墨的心法也要它做底子。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/literate.c",
@@ -577,6 +595,7 @@
 		{
 			"id": "music",
 			"name": "音律",
+			"summary": "宫商声律的学问。音律之学有成，灵性会随之提高；步玄派的步玄七诀以音律为根底，音律修为不够，便领悟不了更深的诀窍。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/music.c",
@@ -586,6 +605,7 @@
 		{
 			"id": "instruments",
 			"name": "乐器",
+			"summary": "吹拉弹拨的技艺，与音律之学互为表里。步玄派掌门骆云舟也传这一门。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/instruments.c"
@@ -593,6 +613,7 @@
 		{
 			"id": "move",
 			"name": "基本行动",
+			"summary": "赶路奔走的根底。脚下快的人追得上人，也甩得开追兵；倒乱七星步、步玄七诀、火蝠身法这类身法，都能激发为行动。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/move.c"
@@ -600,6 +621,7 @@
 		{
 			"id": "staff",
 			"name": "基本杖法",
+			"summary": "使杖、使棍的根底。山烟寺的流云杖法、绝尘派的金刚杖法都激发在它上面。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/staff.c"
@@ -607,6 +629,7 @@
 		{
 			"id": "throwing",
 			"name": "基本暗器",
+			"summary": "暗器出手的功夫，准头与劲道都看它。晚月庄、花紫会的人多精于此道。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/throwing.c"
@@ -614,6 +637,7 @@
 		{
 			"id": "perception",
 			"name": "听风辨器之术",
+			"summary": "临敌时凭风声辨出兵刃来路的本事，专门用来对付看不见的敌人：鬼魂、隐形的妖物，或是在光线昏暗的地方交手。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/perception.c"
@@ -621,6 +645,7 @@
 		{
 			"id": "stealing",
 			"name": "偷窃",
+			"summary": "顺手牵羊的手上功夫，下手越熟越不易被人察觉，运气好坏也有几分关系。花紫会龙头陆得财懂这一手，街上的飞贼也靠它吃饭。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/stealing.c"
@@ -628,6 +653,7 @@
 		{
 			"id": "celestrike",
 			"name": "天邪神掌",
+			"summary": "模拟灵兽天邪虎神态的掌法，与天邪神功相配而成，招式有「大天罗式」「小天罗式」「雪阳三连月」「灵动五方鼓」「风雷七星断」。须空手练，天邪神功火候不足、内力太弱都练不成。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -700,6 +726,7 @@
 		{
 			"id": "six-chaos-sword",
 			"name": "六阴追魂剑法",
+			"summary": "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -767,6 +794,7 @@
 		{
 			"id": "pyrobat-steps",
 			"name": "火蝠身法",
+			"summary": "仿蝙蝠夜飞的身法，招名「寒蝠掠江」「轻蝠点梢」「夜蝠旋身」「火蝠曳空」，侧身一让，便叫来招扑了个空。天邪派与振远镖局都有高手使这门身法。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -789,6 +817,7 @@
 		{
 			"id": "stormdance",
 			"name": "七宝天岚舞",
+			"summary": "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -816,6 +845,7 @@
 		{
 			"id": "magic",
 			"name": "基本法术",
+			"summary": "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/magic.c"
@@ -823,6 +853,7 @@
 		{
 			"id": "spells",
 			"name": "基本咒文",
+			"summary": "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/spells.c"
@@ -830,6 +861,7 @@
 		{
 			"id": "tao-mystery",
 			"name": "小天魔道",
+			"summary": "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/tao-mystery.c"
@@ -837,6 +869,7 @@
 		{
 			"id": "magic-array",
 			"name": "奇门遁甲",
+			"summary": "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。",
 			"kind": "specialized",
 			"type": "knowledge",
 			"enable": [
@@ -858,6 +891,7 @@
 		{
 			"id": "juechen-force",
 			"name": "绝尘心法",
+			"summary": "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -873,6 +907,7 @@
 		{
 			"id": "jingang-staff",
 			"name": "金刚杖法",
+			"summary": "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -923,6 +958,7 @@
 		{
 			"id": "cloudstaff",
 			"name": "流云杖法",
+			"summary": "山烟寺的杖法，招名「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」，可攻可守。番坊日陀罗寺的龙若法王也传这门杖法。练这门杖须有相当的膂力。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -973,6 +1009,7 @@
 		{
 			"id": "lotusforce",
 			"name": "莲华心法",
+			"summary": "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -995,6 +1032,7 @@
 		{
 			"id": "buddhism",
 			"name": "大乘佛法",
+			"summary": "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/buddhism.c",
@@ -1005,6 +1043,7 @@
 		{
 			"id": "chanting",
 			"name": "诵经",
+			"summary": "佛门弟子的日课，晨钟暮鼓之间念诵经文。山烟寺、日陀罗寺的僧人都会这一门。",
 			"kind": "basic",
 			"type": "knowledge",
 			"legacy_source": "daemon/skill/chanting.c"
@@ -1012,6 +1051,7 @@
 		{
 			"id": "essencemagic",
 			"name": "八识神通",
+			"summary": "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力：心识救醒昏迷濒死之人，神识恢复心神，光识放出驱逐黑暗的光芒、专克魔界与阴界之物，灵识看见隐形的灵界阴界生物，隐识暂时隐身，游识传到另一位修行者身边，空识把灵力化为潜能；唯有寂识用处不明，许多高僧却相信它是突破修行的最后关隘。须与高深的佛法相辅，佛法修为不够便学不了。",
 			"kind": "specialized",
 			"type": "knowledge",
 			"enable": [
@@ -1030,6 +1070,7 @@
 		{
 			"id": "whip",
 			"name": "基本鞭法",
+			"summary": "使鞭的根底，软鞭出手要收得回来。晚月庄的寒雪鞭法激发在它上面。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/whip.c"
@@ -1037,6 +1078,7 @@
 		{
 			"id": "hammer",
 			"name": "基本锤法",
+			"summary": "使锤一类重兵器的根底，凭的是一身力气。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/hammer.c"
@@ -1044,6 +1086,7 @@
 		{
 			"id": "axe",
 			"name": "基本斧法",
+			"summary": "使斧的根底，大开大合，一斧下去要劈得开。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/axe.c"
@@ -1051,6 +1094,7 @@
 		{
 			"id": "dagger",
 			"name": "基本匕法",
+			"summary": "使匕首一类短刃的根底，贴身近打，出手要快。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/dagger.c"
@@ -1058,6 +1102,7 @@
 		{
 			"id": "fork",
 			"name": "基本叉法",
+			"summary": "使钢叉一类长兵的根底。阴间的鬼卒，手里多是钢叉。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/fork.c"
@@ -1065,6 +1110,7 @@
 		{
 			"id": "tenderzhi",
 			"name": "柔虹指",
+			"summary": "晚月庄的指法，只有女子才能练，须空手。招名「菊楼采月」「雪桥翦梅」「柳亭簪花」「桃坟扑蝶」，身影忽前忽后，一转身指尖已点到要害。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1120,6 +1166,7 @@
 		{
 			"id": "snowwhip",
 			"name": "寒雪鞭法",
+			"summary": "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1184,6 +1231,7 @@
 		{
 			"id": "iceforce",
 			"name": "意寒功",
+			"summary": "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1207,6 +1255,7 @@
 		{
 			"id": "snowshade-force",
 			"name": "雪影心法",
+			"summary": "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1222,6 +1271,7 @@
 		{
 			"id": "snowshade-sword",
 			"name": "雪影剑法",
+			"summary": "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1286,6 +1336,7 @@
 		{
 			"id": "mysterrier",
 			"name": "步玄七诀",
+			"summary": "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1316,6 +1367,7 @@
 		{
 			"id": "mystforce",
 			"name": "步玄心法",
+			"summary": "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1331,6 +1383,7 @@
 		{
 			"id": "mystsword",
 			"name": "小步玄剑",
+			"summary": "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1382,6 +1435,7 @@
 		{
 			"id": "spicyclaw",
 			"name": "油流麻香手",
+			"summary": "花紫会的手上功夫，忽掌忽爪，招名多带市井气——「撺锅手」「撮灰手」「梁上君子」「随棍上身」，劲力一吐，能听见对方骨节作响。须空手练，内力太弱的人练不成。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1461,6 +1515,7 @@
 		{
 			"id": "shortsong-blade",
 			"name": "短歌刀法",
+			"summary": "招名全出自《短歌行》——「对酒当歌」「人生几何」「譬如朝露」「去日苦多」……弯刀似月，刀势常由下而上撩斩。官府的带刀侍卫、高门大户的护院多使这一路刀法。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1522,6 +1577,7 @@
 		{
 			"id": "fall-steps",
 			"name": "秋风步",
+			"summary": "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1544,6 +1600,7 @@
 		{
 			"id": "bloodystrike",
 			"name": "密宗大手印",
+			"summary": "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1607,6 +1664,7 @@
 		{
 			"id": "iron-cloth",
 			"name": "铁布衫",
+			"summary": "外门护体硬功：闭目凝神，气走全身，不躲不闪也能硬受来招。",
 			"kind": "basic",
 			"type": "martial",
 			"legacy_source": "daemon/skill/iron-cloth.c"
@@ -1614,6 +1672,7 @@
 		{
 			"id": "wu-shun",
 			"name": "小无相功",
+			"summary": "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1629,10 +1688,11 @@
 				"effective_skill": "你的文学素养不够无法提升小无相功的造诣。"
 			}
 		},
-		{"id": "palace-blade", "name": "禁中刀", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"], "legacy_source": "native: 第九章 E (剧情总纲 §3 第九章 选择的后果, §6 皇城卡「大内侍卫的一门刀法（冯策）」, 第十章入口; 计划 build/plans/第九章_计划.md E 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 E」) — the 大内侍卫's blade (剧情总纲 §6 皇城卡: 大内侍卫的一门刀法（冯策）), seven strokes after daemon/skill/shortsong-blade.c's form (as 关北马刀); 续写", "actions": [{"id": "zhi-men", "tag": "guard", "action": "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l", "damage": 40, "damage_type": "割伤"}, {"id": "chu-xun", "tag": "quick", "action": "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！", "damage": 60, "damage_type": "割伤"}, {"id": "ti-deng", "tag": "feint", "action": "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l", "damage": 30, "damage_type": "割伤"}, {"id": "suo-gong", "tag": "heavy", "action": "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l", "damage": 70, "damage_type": "割伤"}, {"id": "na-xia", "tag": "quick", "action": "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到", "damage": 50, "damage_type": "割伤"}, {"id": "hu-jia", "tag": "guard", "action": "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l", "damage": 20, "damage_type": "割伤"}, {"id": "tian-ming", "tag": "heavy", "action": "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l", "damage": 70, "damage_type": "割伤"}]},
+		{"id": "palace-blade", "name": "禁中刀", "summary": "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"], "legacy_source": "native: 第九章 E (剧情总纲 §3 第九章 选择的后果, §6 皇城卡「大内侍卫的一门刀法（冯策）」, 第十章入口; 计划 build/plans/第九章_计划.md E 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 E」) — the 大内侍卫's blade (剧情总纲 §6 皇城卡: 大内侍卫的一门刀法（冯策）), seven strokes after daemon/skill/shortsong-blade.c's form (as 关北马刀); 续写", "actions": [{"id": "zhi-men", "tag": "guard", "action": "$N横刀当胸，一招「值门」$w刀背一磕，顺势削向$n的$l", "damage": 40, "damage_type": "割伤"}, {"id": "chu-xun", "tag": "quick", "action": "$N脚下一错，一招「出巡」$w贴着身子递出，直取$n的$l！", "damage": 60, "damage_type": "割伤"}, {"id": "ti-deng", "tag": "feint", "action": "$N刀尖一挑，一招「提灯」$w晃过$n眼前，刀锋却落向$n的$l", "damage": 30, "damage_type": "割伤"}, {"id": "suo-gong", "tag": "heavy", "action": "$N沉肩坠肘，一招「锁宫」$w自上而下劈向$n的$l", "damage": 70, "damage_type": "割伤"}, {"id": "na-xia", "tag": "quick", "action": "$N欺身而上，一招「拿下」$w刀柄撞向$n的$l，刀刃跟着就到", "damage": 50, "damage_type": "割伤"}, {"id": "hu-jia", "tag": "guard", "action": "$N退半步护住身后，一招「护驾」$w画了个半圆，扫过$n的$l", "damage": 20, "damage_type": "割伤"}, {"id": "tian-ming", "tag": "heavy", "action": "$N大喝一声，一招「天明」$w自下而上斜劈，刀光照亮了$n的$l", "damage": 70, "damage_type": "割伤"}]},
 		{
 			"id": "guanbei-saber",
 			"name": "关北马刀",
+			"summary": "关北槐阳王府骑兵的马上刀法，七式从「扬鞭」「回马」「斩缰」到「破阵」「归鞘」，刀自下而上撩出。刀谱每一页的边上都写着同一句话：「撩，不是砍。」",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1694,6 +1754,7 @@
 		{
 			"id": "shield-sword",
 			"name": "铁盾剑法",
+			"summary": "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [
@@ -1773,6 +1834,7 @@
 		{
 			"id": "ghost-hat-sword",
 			"name": "鬼笠刀法",
+			"summary": "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。",
 			"kind": "specialized",
 			"type": "martial",
 			"enable": [

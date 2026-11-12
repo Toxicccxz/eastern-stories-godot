@@ -1,8 +1,8 @@
 extends RefCounted
 ## The 任务 page's 江湖见闻 and the 百科 (界面重构 C): entries are recorded the first time
-## their condition holds and kept; only what happened shows (owner Q3); the 百科 holds the
-## ES2 help files for players without MUD commands (owner Q2) and lists only skills learned,
-## items carried, families and people met.
+## their condition holds and kept; only what happened shows (owner Q3); the 百科's 江湖常识 is
+## 入门 then 传说 (百科重写) and it lists only skills learned, items carried, families and
+## people met, each skill and family with what it is.
 
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
@@ -83,18 +83,31 @@ func _test_records_refused() -> void:
 	_check(not errors.is_empty(), "a chain without entries is refused")
 
 
-## ES2's help files for players, their commands put as the game's buttons (owner Q2).
+## 江湖常识 (DECISIONS「百科重写」): the 入门 entries first, then the 传说 kept from ES2's
+## help files; no MUD commands, players, wizards, authors' asides or bylines.
 func _test_help_topics() -> void:
 	var topics: Array[CodexTopicDefinition] = GameContent.catalog().codex_topics()
 	var titles: Array[String] = []
+	var groups: Array[String] = []
 	for topic: CodexTopicDefinition in topics:
 		titles.append(topic.title)
-	_check(topics.size() == 20 and titles[0] == "新手指南" and titles.has("精气神") and titles.has("主题故事"), "the 江湖常识: %s" % [titles])
+		if groups.is_empty() or groups.back() != topic.group:
+			groups.append(topic.group)
+	_check(titles[0] == "初入江湖" and titles.has("精气神") and titles.has("学武") and titles.has("主题故事") and titles.has("历史"), "the 江湖常识: %s" % [titles])
+	_check(groups == ["入门", "传说"], "入门, then 传说: %s" % [groups])
+	var bare: Array[String] = []
+	for skill_id: StringName in GameContent.catalog().skill_ids():
+		if GameContent.catalog().skill(skill_id).summary.is_empty():
+			bare.append(String(skill_id))
+	for family_id: StringName in [&"family.fonxan", &"family.fonxan_north", &"family.zhenyuan", &"family.dongfang", &"family.celestial", &"family.juechen", &"family.maoshan", &"family.latemoon", &"family.sanyen", &"family.xiaoyao", &"family.tianshan", &"family.buxuan", &"family.huazi", &"family.shield_guild", &"family.ghost_hat_ronin", &"family.ritola_temple"]:
+		if GameContent.catalog().family(family_id).intro.is_empty():
+			bare.append(String(family_id))
+	_check(bare.is_empty(), "every skill has a summary and every family an intro: %s" % [bare])
 	var commands := RegEx.create_from_string("\\b(score|enable|exercise|meditate|respirate|kill|fight|help|study|learn|surrender|wield|tear|quit|who|login)\\b")
 	var mud: Array[String] = []
 	for topic: CodexTopicDefinition in topics:
 		for paragraph: String in topic.paragraphs:
-			if commands.search(paragraph) != null or paragraph.contains("玩家") or paragraph.contains("巫师"):
+			if commands.search(paragraph) != null or paragraph.contains("玩家") or paragraph.contains("巫师") or paragraph.contains("东方故事") or paragraph.contains("Annihilator") or paragraph.contains("二十世纪") or paragraph.contains("美少女"):
 				mud.append("%s: %s" % [topic.title, paragraph.left(30)])
 	_check(mud.is_empty(), "no MUD commands, players or wizards left: %s" % [mud])
 
@@ -144,12 +157,12 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	_check(state.journal.has("canyon.bamboo/slipcase") and state.journal.has("canyon.bamboo/book"), "the book in the case counts as carried: %s" % [state.journal.keys()])
 	ui.menu.show_tab(GameMenu.Tab.CODEX)
 	var codex: CodexPage = ui.codex_page
-	_check(codex.is_visible_in_tree() and codex.current_section() == CodexContent.Section.LORE and codex.entry_buttons.size() == 20, "百科 opens on 江湖常识: %d" % codex.entry_buttons.size())
+	_check(codex.is_visible_in_tree() and codex.current_section() == CodexContent.Section.LORE and codex.entry_buttons.size() == GameContent.catalog().codex_topics().size() and codex.entry_list.get_node_or_null("Group0") != null, "百科 opens on 江湖常识: %d" % codex.entry_buttons.size())
 	# 界面重做 2: the list on the left, the entry read on the right; a section opens on its first.
 	var first: String = codex.entries()[0].key
 	_check(codex.open_key() == first and codex.entry_buttons[first].button_pressed and codex.article.visible and codex.shown_text().begins_with(codex.entries()[0].title), "its first entry is read at once: " + codex.shown_text().left(40))
-	codex.entry_buttons["help.health"].pressed.emit()
-	_check(codex.open_key() == "help.health" and codex.shown_text().begins_with("精气神") and codex.shown_text().contains("当前") and codex.list_scroll.visible and codex.entry_buttons["help.health"].button_pressed and not codex.entry_buttons[first].button_pressed, "an entry is read beside the list: " + codex.shown_text().left(40))
+	codex.entry_buttons["guide.health"].pressed.emit()
+	_check(codex.open_key() == "guide.health" and codex.shown_text().begins_with("精气神") and codex.shown_text().contains("当前") and codex.list_scroll.visible and codex.entry_buttons["guide.health"].button_pressed and not codex.entry_buttons[first].button_pressed, "an entry is read beside the list: " + codex.shown_text().left(40))
 	codex.entry_buttons["help.theme"].grab_focus()
 	await tree.process_frame
 	_check(codex.open_key() == "help.theme" and codex.entry_buttons["help.theme"].button_pressed, "moving onto an entry reads it")
@@ -175,6 +188,29 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	_check(codex.entry_buttons.has(String(stranger.definition_id)), "met: listed")
 	codex.open_entry(String(stranger.definition_id))
 	_check(codex.shown_text().begins_with(stranger.short_name()), "the person's entry: " + codex.shown_text().left(40))
+	# 百科重写: a skill's entry leads with what it is; a family's with its intro, its head only once met.
+	codex.section_buttons[CodexContent.Section.ARTS].pressed.emit()
+	var skill: SkillDefinition = GameContent.catalog().skill(&"liuh-ken")
+	state.skills.set_raw_level(skill.skill_id, 1)
+	codex.fill(state)
+	codex.open_entry(String(skill.skill_id))
+	_check(not skill.summary.is_empty() and codex.shown_text().split("\n")[1] == skill.summary, "武学: the skill's summary first: " + codex.shown_text().left(60))
+	var fonxan: FamilyDefinition = GameContent.catalog().family(&"family.fonxan")
+	var head: NpcDefinition = GameContent.catalog().npc(fonxan.head_id)
+	state.seen_npcs.erase(String(fonxan.head_id))
+	var disciple: NpcDefinition = null
+	for npc: NpcDefinition in GameContent.catalog().npcs():
+		if npc.definition_id != fonxan.head_id and CodexContent._family_of(npc, GameContent.catalog()) == fonxan:
+			disciple = npc
+			break
+	state.seen_npcs[String(disciple.definition_id)] = state.seen_npcs.size() + 1
+	codex.section_buttons[CodexContent.Section.FAMILIES].pressed.emit()
+	codex.open_entry(String(fonxan.family_id))
+	var before: String = codex.shown_text()
+	_check(before.contains(fonxan.intro) and not before.contains(head.short_name() + "，在"), "门派: the intro once a disciple is met, not the head: " + before.left(80))
+	state.seen_npcs[String(fonxan.head_id)] = state.seen_npcs.size() + 1
+	codex.fill(state)
+	_check(codex.shown_text().contains("为首的是%s，在%s。" % [head.short_name(), fonxan.seat]), "and the head with their seat once met: " + codex.shown_text().left(120))
 	ui.menu.close()
 	session.queue_free()
 	await tree.process_frame

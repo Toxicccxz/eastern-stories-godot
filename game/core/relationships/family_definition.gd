@@ -14,6 +14,12 @@ var guides: Array[SchoolGuide] = []
 var hearsay: Array[Hearsay] = []
 ## Where the guides and hearsay come from (native work, named in the data); "" for none.
 var origin: String = ""
+## The 百科's 门派 entry (DECISIONS「百科重写」): what a traveller hears of the family, shown once
+## one of its people is met; `head_id` its head (an NPC id; "" none), named with `seat` (where
+## they sit, player text) once that person is met too.
+var intro: String = ""
+var head_id: StringName = &""
+var seat: String = ""
 
 
 ## One school's guide: `npc_id` the disciple, `master_id` whose `requires` the lines quote,
@@ -74,6 +80,11 @@ func guide_for(skill_id: StringName) -> SchoolGuide:
 static func from_record(reader: ContentRecordReader) -> FamilyDefinition:
 	var definition := FamilyDefinition.new(StringName(reader.required_text("id")), reader.required_text("name"))
 	definition.origin = reader.text("origin")
+	definition.intro = reader.text("intro")
+	definition.head_id = StringName(reader.text("head"))
+	definition.seat = reader.text("seat")
+	if definition.seat.is_empty() != definition.head_id.is_empty():
+		reader.fail("seat", "a head and their seat go together")
 	for record: ContentRecordReader in reader.children("guides"):
 		var guide := SchoolGuide.new()
 		guide.skill_id = StringName(record.required_text("skill"))
