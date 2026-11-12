@@ -10,7 +10,9 @@ extends RefCounted
 ##   exp / (1000 + exp / 1000)) points a 请教, a level up past (level + 1)^2 points, so about
 ##   level^3 / 3 points to reach it), no higher than learn.c's gate (level^3 / 10 <= exp);
 ## - max_force: `force_percent` of exercise.c's cap for that force (half by default: about an
-##   hour of 打坐 at 10000 exp), the force full, kee and the rest at their age-14 maxima.
+##   hour of 打坐 at 10000 exp at today's pacing), the force full, kee and the rest at their age-14
+##   maxima. The cap follows the force level only: a change to how fast 打坐 goes does not move it,
+##   so such a change needs `force_percent` (and the trial and boss numbers) reworked by hand.
 ## Nothing is put in the hand: New Game's player is unarmed, and a sword is the caller's.
 
 const PAIRS: Array[Array] = [

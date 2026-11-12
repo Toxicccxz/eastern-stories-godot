@@ -31458,9 +31458,34 @@ msgstr ""
 msgid "晚月庄第一代弟子"
 msgstr ""
 
+#. latemoon.npc.room.elon trials.confirm
+#: data/latemoon/npcs.json
+msgid ""
+"瑷伦的三鞭是真打：\n"
+"· 每一鞭都实打实地落在你身上。\n"
+"· 哪一鞭接不住，就算没接下：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n"
+"· 接不接得住看气长不长：气随内力上限涨，内力上限靠打坐——先向师父学一门内功、装上，再去打坐。\n"
+"确定接她三鞭吗？"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.deed
+#: data/latemoon/npcs.json
+msgid "接下了守衣人瑷伦的三鞭"
+msgstr ""
+
 #. latemoon.npc.room.elon trials.label
 #: data/latemoon/npcs.json
 msgid "接她三鞭"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.relent_say
+#: data/latemoon/npcs.json
+msgid "瑷伦看了你很久：倒了两回，还站到我面前来。这份硬气，我认——这三鞭，我不用内力。"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.rest_say
+#: data/latemoon/npcs.json
+msgid "瑷伦摆摆手：你的气还没喘匀。歇好了再来。"
 msgstr ""
 
 #. latemoon.npc.room.elon trials.success
@@ -49191,6 +49216,21 @@ msgstr ""
 msgid "从板屋尽头抬起头。"
 msgstr ""
 
+#. fanfang.npc.ronin_master trials.confirm
+#: data/fanfang/npcs.json
+msgid ""
+"早川直义的一刀是真砍：\n"
+"· 只有一刀，实打实地落在你身上，挨中了会受伤。\n"
+"· 接不住，你随后会昏倒；他收着刀，不会要你的命。\n"
+"倒了可以歇好再来。\n"
+"确定过他一刀吗？"
+msgstr ""
+
+#. fanfang.npc.ronin_master trials.deed
+#: data/fanfang/npcs.json
+msgid "在鬼笠馆接下了早川直义的一刀"
+msgstr ""
+
 #. fanfang.npc.ronin_master trials.label
 #: data/fanfang/npcs.json
 msgid "过他一刀"
@@ -52333,6 +52373,21 @@ msgstr ""
 #. native.npc.lan_weng_terrace inquiry.接风三刃
 #: data/lancheng/npcs.json
 msgid "风里拔剑，先要风认你。我替风出三刃，你站得住，剑就落得下来。"
+msgstr ""
+
+#. native.npc.lan_weng_terrace trials.confirm
+#: data/lancheng/npcs.json
+msgid ""
+"岚翁替风出三刃，是真打：\n"
+"· 每一刃都实打实地削在你身上，挨中了会受伤。\n"
+"· 哪一刃接不住，就算没接下，你随后会昏倒；风只认人，不要人的命。\n"
+"倒了可以歇好再来。\n"
+"确定接风三刃吗？"
+msgstr ""
+
+#. native.npc.lan_weng_terrace trials.deed
+#: data/lancheng/npcs.json
+msgid "在岚城的云台上接下了岚翁的接风三刃"
 msgstr ""
 
 #. native.npc.lan_weng_terrace trials.blows.say
