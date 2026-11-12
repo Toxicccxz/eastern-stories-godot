@@ -264,6 +264,8 @@ python tools/ci/verify.py --godot <godot>                                 # full
 ```
 
 To look at any voxel map from the editor: open `res://tests/dev/voxel_preview.tscn` and press F6.
+To set up any fight (who, how many, which family, what level; played or run N times for a win rate):
+open `res://tests/dev/battle_lab.tscn` and press F6, or run `res://tests/dev/battle_lab/run_battle_lab.gd`.
 
 Write logs and scratch output under `build/`, never the repository root or `game/`.
 

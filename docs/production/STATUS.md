@@ -374,4 +374,6 @@ See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single
 suites: `<godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- <suite paths>`. Maps: edit
 `tools/maps/layouts/<region>.json`, then `python -m tools.maps.paint <region>` (the tools tests fail on a
-hand-edited scene). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite.
+hand-edited scene). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite. Any fight at will
+(试战台: N 对 M、门派对门派、等级对等级，亲手打或批量跑胜率): `res://tests/dev/battle_lab.tscn` + F6, or
+`--script res://tests/dev/battle_lab/run_battle_lab.gd -- me=family.fonxan:30 foe=family.celestial:30,2 n=40`.
