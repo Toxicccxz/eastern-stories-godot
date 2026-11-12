@@ -159,6 +159,12 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	knock.interact()
 	await _settle(tree)
 	_check(not state.marks.has("王府放行") and ui.log_lines().any(func(line: String) -> bool: return line.contains("有凭据再来")), "empty-handed: 王爷不见生人，有凭据再来")
+	# DECISIONS「任务物品不丢」: one whose letter was written and lost is sent back to 程不平.
+	state.marks["程不平写了信"] = 1 # TEST-ONLY: the letter written in 乔阴, then lost
+	knock.interact()
+	await _settle(tree)
+	_check(not state.marks.has("王府放行") and ui.log_lines().any(func(line: String) -> bool: return line.contains("找程县令再写一封")), "the letter lost: back to 乔阴 for another")
+	state.marks.erase("程不平写了信")
 	town.give_new_item_to_player(&"native:choyin/magistrate_letter") # TEST-ONLY: 程不平's letter (story_chapter6_test earns it)
 	knock.interact()
 	await _settle(tree)

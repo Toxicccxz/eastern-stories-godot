@@ -13,6 +13,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_npc_and_spawn_records()
 	_test_cross_reference_checks()
 	_test_summoned_and_seal_checks()
+	_test_quest_item_words()
 	_test_missing_files_fail_closed()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
@@ -260,6 +261,37 @@ func _test_summoned_and_seal_checks() -> void:
 		"id": "t.soldier", "legacy_source": "t/soldier.c", "name": "天将", "aliases": ["soldier"], "name_pick": ["天甲神兵"],
 	}, "t.npcs[0]", errors))
 	_eq(errors.has("t.npcs[0].name_pick: names the NPC's own name among them"), true, "the name it is defined with is one it may draw")
+
+
+## DECISIONS「任务物品不丢」: what the player is asked to carry or wear names an item there is, so
+## a word written wrong fails at load (an act's `wears` alias, a gift's `item` and `giver_carries`,
+## a condition's `wearing` at any depth, a hazard's `unless_wearing`).
+func _test_quest_item_words() -> void:
+	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	builder.add_document({
+		"items": [{"id": "t:crown", "legacy_sources": ["t/crown.c"], "name": "黑冠", "aliases": ["black crown"], "weight": 1}],
+		"npcs": [{"id": "t.npc", "legacy_source": "t/npc.c", "name": "人", "aliases": ["man"],
+			"ignores_when": {"any": [{"mark": "x"}, {"wearing": "t:crwon"}]},
+			"accept_object": [
+				{"item": "t:crwn", "accept": true, "lines": [{"say": "好。"}]},
+				{"giver_carries": "t:crow", "accept": true, "lines": [{"say": "好。"}]},
+			],
+			"calls": [{"after": 1, "wears": "blak crown", "steps": [{"say": "新来的？"}]}],
+		}],
+		"spawns": [{"id": "t.spawn", "npc": "t.npc", "map": "m", "zone": "z", "points": ["p"], "legacy_room": "native: t", "legacy_quantity": 1, "present": {"wearing": "t:cown"}}],
+		"hazards": [{"id": "t.cold", "zone": "z", "room": "t:r", "first_seconds": 3, "every_seconds": 6, "native": true, "unless_wearing": ["t:robe"], "act": {"steps": [{"line": "冷。\n"}]}, "legacy_source": "native: t"}],
+	}, "t")
+	_eq(builder.build(), null, "nothing is built")
+	var errors: Array[String] = builder.errors()
+	for expected: String in [
+		"t.npcs[0].ignores_when.wearing: no item 't:crwon'",
+		"t.npcs[0].accept_object.item: unknown item 't:crwn'",
+		"t.npcs[0].accept_object.giver_carries: unknown item 't:crow'",
+		"t.npcs[0].calls[0].wears: no item answers to 'blak crown'",
+		"t.spawns[0].present.wearing: no item 't:cown'",
+		"t.hazards[0].unless_wearing: unknown item 't:robe'",
+	]:
+		_eq(errors.has(expected), true, "load fails on: " + expected)
 
 
 func _test_missing_files_fail_closed() -> void:
