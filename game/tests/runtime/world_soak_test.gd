@@ -301,17 +301,22 @@ func _act(stay: int, room: StringName) -> void:
 		# its door (then it is let be, as one already in).
 		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.exists_in_map:
 			var outcome: int = -1
+			var let_be: bool = false
 			for attempt: int in 4:
 				# Gone in at its door meanwhile (dusk sends the street home): nobody to strike now.
 				if not npc.exists_in_map:
 					break
 				check(_beside(map, npc), "beside %s" % victim[0])
 				await _tree.physics_frame
-				map.select_npc(npc.character_id)
+				# Wandered into a room where nobody may fight (kill.c's no_fight: the 做工场 at dusk) or no
+				# longer to be picked: let be, as one already in.
+				if GameContent.catalog().zone_forbids_fighting(npc.world_location().zone_id) or not map.select_npc(npc.character_id):
+					let_be = true
+					break
 				outcome = map.attack_selected().outcome
 				if outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter():
 					break
-			check(outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter() or not npc.exists_in_map, "attack %s (%d, %s)" % [victim[0], outcome, _where()])
+			check(outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter() or not npc.exists_in_map or let_be, "attack %s (%d, %s)" % [victim[0], outcome, _where()])
 			# Fought out where it began (world time going on), then back to the stay's own room: the
 			# stay is spent there, not beside the victim in 雪亭.
 			var fought: int = 0
