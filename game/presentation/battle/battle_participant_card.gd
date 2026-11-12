@@ -572,6 +572,45 @@ func pulse_choice() -> void:
 	flap(0.6)
 
 
+## owner 2026-11-11「战旗在飘动/抖动的时候上面的字不跟着动」: a side panel's rows ride its cloth —
+## the card turns about the pole and stretches as the cloth's middle swings, flaps and shakes
+## (BattlePanelChrome.cloth_motion()); the banner's picture undoes it. Not a panel: upright.
+## The most it turns or stretches: a strike's shake must not tip the words over. A fallen card
+## keeps its fall's tilt instead.
+const RIDE_MAX_ANGLE: float = 0.08
+const RIDE_MAX_STRETCH: float = 0.06
+
+
+func _process(_delta: float) -> void:
+	# A fallen card keeps its own tilt (_show_fallen), the banner with it.
+	if not _fallen_text.is_empty():
+		scale = Vector2.ONE
+		_chrome.ride(Transform2D.IDENTITY)
+		return
+	if _panel_style.is_empty() or not _chrome.visible or _chrome.banner == null:
+		if rotation != 0.0 or scale != Vector2.ONE:
+			rotation = 0.0
+			scale = Vector2.ONE
+			_chrome.ride(Transform2D.IDENTITY)
+		return
+	var motion: Array = _chrome.cloth_motion()
+	var pivot: Vector2 = motion[0]
+	var angle: float = clampf(float(motion[1]), -RIDE_MAX_ANGLE, RIDE_MAX_ANGLE)
+	var stretch: float = clampf(float(motion[2]), 1.0 - RIDE_MAX_STRETCH, 1.0 + RIDE_MAX_STRETCH)
+	pivot_offset = pivot
+	rotation = angle
+	scale = Vector2(1.0, stretch)
+	_chrome.ride(Transform2D(0.0, pivot) * Transform2D(angle, Vector2.ZERO) * Transform2D(0.0, Vector2(1.0, stretch), 0.0, Vector2.ZERO) * Transform2D(0.0, -pivot))
+
+
+## Where the card is laid out on screen, without the turn and stretch it rides its cloth by (a
+## panel's sway may carry it a few pixels past its slot, as the banner itself).
+func laid_global_rect() -> Rect2:
+	var parent := get_parent() as CanvasItem
+	var origin: Transform2D = parent.get_global_transform() if parent != null else Transform2D.IDENTITY
+	return origin * Rect2(position, size)
+
+
 ## The banner flaps (`amount` 0 .. 1): its side struck.
 func flap(amount: float) -> void:
 	if not _panel_style.is_empty():

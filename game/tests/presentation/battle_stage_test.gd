@@ -314,6 +314,17 @@ func _fight(tree: SceneTree) -> void:
 	theirs_banner.gust_now = 0.0
 	ui._show_line(_blow(trainee_id, player_id, CombatAttackResult.Outcome.DODGE, &"", "瘀伤"))
 	_check(theirs_banner.gust_now > 0.0 and is_zero_approx(mine_banner.gust_now), "the trainee strikes: their banner flaps, the player's still: %.2f / %.2f" % [theirs_banner.gust_now, mine_banner.gust_now])
+	# owner 2026-11-11 (the words stood still on a flapping banner): the rows ride the cloth — the
+	# card turns and stretches about the pole as the cloth's middle does (the shader's sums at the
+	# banner's own clock), the picture drawn through the inverse so the banner stays where it hangs.
+	theirs_banner.clock = 0.9
+	right._process(0.0)
+	var motion: Array = right._chrome.cloth_motion()
+	var turn: float = clampf(float(motion[1]), -BattleParticipantCard.RIDE_MAX_ANGLE, BattleParticipantCard.RIDE_MAX_ANGLE)
+	_check(absf(turn) > 0.001 and is_equal_approx(right.rotation, turn) and right.pivot_offset == motion[0] and is_equal_approx(right.scale.y, clampf(float(motion[2]), 1.0 - BattleParticipantCard.RIDE_MAX_STRETCH, 1.0 + BattleParticipantCard.RIDE_MAX_STRETCH)) and not right._chrome._ride.is_equal_approx(Transform2D.IDENTITY), "the flapping banner's card turns with its cloth: %.4f about %s, stretch %.3f" % [right.rotation, right.pivot_offset, right.scale.y])
+	theirs_banner.clock = 1.4
+	right._process(0.0)
+	_check(not is_equal_approx(right.rotation, turn), "and goes on moving with it: %.4f → %.4f" % [turn, right.rotation])
 	ui.move_titles.clear()
 	_check(is_equal_approx(ui._head.modulate.a, 1.0) and is_equal_approx(ui.action_panel.modulate.a, 1.0), "the panel in place")
 	_check(ui._told.size() == told + 1, "the waiting line told once it is done")

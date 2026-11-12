@@ -268,7 +268,7 @@ func _target_ui(tree: SceneTree) -> void:
 	_check(not ui._sides.visible and not ui._participants.visible, "no row of cards")
 	_check(_panel(ui, 0) == ui._cards[0] and _panel(ui, 1) == ui._cards[1] and not ui._cards[2].visible, "the player left, A right, B no card: visible %s" % [ui._cards.map(func(c: BattleParticipantCard) -> bool: return c.visible)])
 	for card: BattleParticipantCard in [ui._cards[0], ui._cards[1]]:
-		_check(safe.metrics.content_rect().encloses(card.get_global_rect()), "%s wholly inside the screen: %s" % [card.name, card.get_global_rect()])
+		_check(safe.metrics.content_rect().encloses(card.laid_global_rect()), "%s wholly inside the screen: %s" % [card.name, card.laid_global_rect()])
 	await _press(tree, KEY_E)
 	await _settle(tree)
 	_check(ui.current_projection().current_target_id == b and _panel(ui, 1) == ui._cards[2] and not ui._cards[1].visible, "E makes B the target: B's card the right panel, A's not shown")
