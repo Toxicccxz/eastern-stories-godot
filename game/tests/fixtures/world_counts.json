@@ -666,6 +666,8 @@
 		"native.lakebottom2.shang_jue_fighting",
 		"native.lakebottom2.niling_finale",
 		"native.lakebottom2.feng_ce_beside",
+		"native.lakebottom2.yulan_tianwu_beside",
+		"native.lakebottom2.xiao_pichen_beside",
 		"native.seal_altar.elon",
 		"native.seal_altar.annie",
 		"native.seal_altar.nan_weishui",
@@ -695,7 +697,7 @@
 		"native.lakeside.liu_chunfeng",
 		"native.lakeside.liu_huixin"
 	],
-	"world_npcs": 806,
+	"world_npcs": 808,
 	"resident_maps": 167,
 	"new_game_items": 1231,
 	"snow_outdoor_passages": 18,
@@ -972,7 +974,7 @@
 		"canyon.camp": 14,
 		"village.main": 45,
 		"village.midlake": 0,
-		"village.icecave": 13,
+		"village.icecave": 15,
 		"village.seal_chamber": 16,
 		"village.farmhouse_house": 2,
 		"village.liu_house": 7,
@@ -1037,7 +1039,7 @@
 		"lancheng.pavilion": 1,
 		"lancheng.terrace": 3
 	},
-	"npc_draws_after_oldpine": 2616,
+	"npc_draws_after_oldpine": 2623,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {

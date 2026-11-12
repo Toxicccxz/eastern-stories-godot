@@ -74,7 +74,7 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	await _until_fight(tree, session, hall)
 	_check(_said(ui.log_lines(), "五千年的头") and _said(ui.log_lines(), "白鳞冰龙") and _said(ui.log_lines(), "还债"), "商玦's two lines; the dragons fall on his four")
-	_check(_first(session, HALL, &"native.npc.niling_taoist_lake") == null and _first(session, HALL, &"native.npc.feng_ce_lakebottom") != null, "no 道士 left standing; 冯策 beside")
+	_check(_first(session, HALL, &"native.npc.niling_taoist_lake") == null and _first(session, HALL, &"native.npc.feng_ce_lakebottom") != null and _first(session, HALL, &"native.npc.yulan_tianwu_lakebottom") == null and _first(session, HALL, &"native.npc.xiao_pichen_lakebottom") == null, "no 道士 left standing; 冯策 beside; 旋芒 in hand, nobody else called (DECISIONS「主线必打的仗」)")
 	await _fight_out(tree, session, hall)
 	session.record_journal()
 	_check(state.marks.get("商玦倒了", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"depths", "商玦 down: down the pool next")
@@ -115,7 +115,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, &"village.lakebottom2.pool_return") # TEST-ONLY
 	await _settle(tree)
 	await _until_fight(tree, session, hall)
-	_check(_said(ui.log_lines(), "四个黑冠道士") and _first(session, HALL, &"native.npc.feng_ce_lakebottom") == null, "the dragons beaten: his four come; no 冯策 on this ledger")
+	_check(_said(ui.log_lines(), "四个黑冠道士") and _first(session, HALL, &"native.npc.feng_ce_lakebottom") == null and _first(session, HALL, &"native.npc.xiao_pichen_lakebottom") != null, "the dragons beaten: his four come; no 冯策 on this ledger; 萧辟尘, who pulled 旋芒, beside the player (DECISIONS「主线必打的仗」)")
 	await _fight_out(tree, session, hall)
 	session.record_journal()
 	_check(state.marks.get("商玦倒了", 0) == 1, "商玦 and his four down")
