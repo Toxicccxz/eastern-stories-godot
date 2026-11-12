@@ -15,8 +15,8 @@ var _effects: SkillImprovementEffectRegistry
 ## (actor_id, bindings) -> Array[SpecialSide]: the others in the actor's room, the
 ## fight's and bystanders' (roar.c); none gives the fight's others only.
 var _room: Callable
-## (character_id) -> String: kill_ob()'s warning from that character.
-var _warning_of: Callable
+## (character_id) -> String: the name kill_ob()'s warning gives that character.
+var _killer_name_of: Callable
 ## (character_id) -> String: that character's name as the player reads it.
 var _name_of: Callable
 var _aims: bool = false
@@ -24,7 +24,7 @@ var function_id: StringName:
 	get: return _function_id
 
 
-func _init(p_function_id: StringName, p_room: Callable = Callable(), p_warning_of: Callable = Callable(), p_name_of: Callable = Callable()) -> void:
+func _init(p_function_id: StringName, p_room: Callable = Callable(), p_killer_name_of: Callable = Callable(), p_name_of: Callable = Callable()) -> void:
 	var function: ExertFunction = ExertFunctions.find(p_function_id)
 	var aims: bool = function != null and function.aims
 	super(action_id_for(p_function_id), CombatTacticalRequest.Category.INTERNAL_FORCE,
@@ -32,7 +32,7 @@ func _init(p_function_id: StringName, p_room: Callable = Callable(), p_warning_o
 	_function_id = p_function_id
 	_aims = aims
 	_room = p_room
-	_warning_of = p_warning_of
+	_killer_name_of = p_killer_name_of
 	_name_of = p_name_of
 	_effects = SkillImprovementEffectRegistry.new()
 	_effects.register_legacy_defaults()
@@ -102,10 +102,13 @@ func execute(context: CombatTacticalContext, random_source: CombatRandomSource) 
 		actor.participant_id, _room_of(actor.participant_id, context.bindings), offensive, _name_of,
 	)
 	var lines: Array[ColoredLine] = result.lines
-	# feature/attack.c kill_ob() tells its victim: 看起来X想杀死你！
-	for killer_id: StringName in result.killers:
-		if _warning_of.is_valid():
-			lines.append(ColoredLine.new(_warning_of.call(killer_id), ColoredLine.HIR))
+	# feature/attack.c kill_ob() tells its victim: 看起来X想杀死你！ (one line a name: CombatKillWarning).
+	if _killer_name_of.is_valid():
+		var names: Array[String] = []
+		for killer_id: StringName in result.killers:
+			names.append(_killer_name_of.call(killer_id))
+		for warning: String in CombatKillWarning.lines(names):
+			lines.append(ColoredLine.new(warning, ColoredLine.HIR))
 	return CombatTacticalExecutionResult.new(
 		CombatTacticalExecutionResult.Outcome.APPLIED if result.succeeded() else CombatTacticalExecutionResult.Outcome.FAILED,
 		_function_id, lines, null, result.killers,

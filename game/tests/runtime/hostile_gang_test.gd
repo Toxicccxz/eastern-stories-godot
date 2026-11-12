@@ -13,7 +13,8 @@ const GATE: StringName = &"city.eastdoor1"
 const STREET: StringName = &"city.street9"
 const NEXT_GATE: StringName = &"city.eastdoor2"
 const GUARD: StringName = &"city.npc.guard"
-const WARNING: String = "看起来京师守城兵想杀死你！"
+## The three at once: one line for them (DECISIONS「同名杀意合一行」).
+const WARNING: String = "看起来京师守城兵（×3）想杀死你！"
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -88,7 +89,11 @@ func _test_gate(tree: SceneTree, session: WorldSessionController) -> void:
 	for npc: NpcRuntimeState in _guards(map, NEXT_GATE):
 		_check(encounter.participant_for(npc.character_id) == null and not npc.relationship.is_fighting(), "the next gate's 守城兵 stay where they are")
 	var lines: Array[String] = session.shared_ui().log_lines().slice(said)
-	_check(lines.count(WARNING) == 3, "kill_ob()'s warning from each: %s" % [lines])
+	var warned: int = 0
+	for line: String in lines:
+		if line.contains("想杀死你"):
+			warned += 1
+	_check(lines.count(WARNING) == 1 and warned == 1, "kill_ob()'s warning from all three, one line: %s" % [lines])
 	await _flee(tree, session)
 	_check(not coordinator.has_active_encounter() and player.world_location().zone_id == GATE, "fled, still at the gate")
 	await _place(tree, map, GATE, MapPlaces.zone_centre(map, GATE) + Vector2(0, 40))

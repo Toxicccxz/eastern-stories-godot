@@ -265,7 +265,8 @@ func _test_toll_window(tree: SceneTree, session: WorldSessionController) -> void
 	var said: int = session.shared_ui().log_lines().size()
 	map._process(delay * 0.5)
 	_check(session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id), "the whole time in his reach: he attacks (kill_passenger)")
-	_check(session.shared_ui().log_lines().slice(said).has("看起来卧龙岗强盗想杀死你！"), "kill_ob()'s warning: " + str(session.shared_ui().log_lines().slice(said)))
+	# Both robbers of the road at once: one line for them (DECISIONS「同名杀意合一行」).
+	_check(session.shared_ui().log_lines().slice(said).has("看起来卧龙岗强盗（×2）想杀死你！"), "kill_ob()'s warning: " + str(session.shared_ui().log_lines().slice(said)))
 	await tree.physics_frame
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER) and robbers[0].definition().toll_attack_delay_ms(robbers[0].flags(), player.state) == 0, "having fought, he attacks at once from then on")
 	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY

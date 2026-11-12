@@ -154,10 +154,16 @@ func _test_roar(tree: SceneTree) -> void:
 			joined += 1
 	_check(joined == struck.size() and encounter.participants().size() == struck.size() + 1, "everyone struck kills the player now: %d of %d, %d in the fight" % [joined, struck.size(), encounter.participants().size()])
 	_check(encounter.participant_for(withstood[0].character_id) == null and withstood[0].character_state.spirit.current == withstood[0].character_state.spirit.maximum, "who withstood is untouched and stays out")
-	_check(_ui._warning.text.count("想杀死你") == struck.size(), "a warning for each who turned on the player, none for who withstood")
+	var struck_names: Array[String] = []
+	for npc: NpcRuntimeState in struck:
+		struck_names.append(npc.definition().display_name)
+	# Those of one name share a line (DECISIONS「同名杀意合一行」).
+	var warned: String = "
+".join(PackedStringArray(CombatKillWarning.lines(struck_names)))
+	_check(_ui._warning.text == warned, "a warning for those who turned on the player (one line a name, its count), none for who withstood: " + _ui._warning.text)
 	_check(_player.relationship.has_opponent(first.character_id) and not _player.relationship.has_lethal_target(here[1].character_id), "the player only fights back")
-	_check(_log().contains("你深深地吸一口气，开始发出有如猛虎般的啸声！") and _log().contains("看起来武馆弟子想杀死你！"), "roar's line and kill_ob()'s warnings in the battle log")
-	_check(_ui._warning.visible and _ui._warning.text.contains("看起来武馆弟子想杀死你！"), "and pinned: " + _ui._warning.text)
+	_check(_log().contains("你深深地吸一口气，开始发出有如猛虎般的啸声！") and _log().contains("看起来武馆弟子（×"), "roar's line and kill_ob()'s warnings in the battle log")
+	_check(_ui._warning.visible and _ui._warning.text.begins_with("看起来武馆弟子（×"), "and pinned: " + _ui._warning.text)
 	var hurt: bool = true
 	for npc: NpcRuntimeState in struck:
 		hurt = hurt and npc.character_state.spirit.current < npc.character_state.spirit.maximum
