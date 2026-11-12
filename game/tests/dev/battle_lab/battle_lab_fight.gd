@@ -91,11 +91,19 @@ var allies: Array[NpcRuntimeState] = []
 var foes: Array[NpcRuntimeState] = []
 ## What went wrong setting up, or "".
 var error: String = ""
+## The player's side in the fight start_live() opened.
+var player_side: StringName = &""
 ## Print each duel's end (run_battle_lab.gd's `verbose`).
 var verbose: bool = false
 var _made: Array[NpcRuntimeState] = []
 ## Where the player stood as the place was set up: everyone is put back round it.
 var _origin: Vector2 = Vector2.ZERO
+## Weapons made for the player so far (each one's id counts on).
+var _weapons_made: int = 0
+## The seed the fighters are made from, the same for every duel of a setup (spec "seed"; 0: one drawn).
+var _npc_seed: int = 1
+## A duel the fight could not be closed after: the batch stops there.
+var _broken: bool = false
 
 
 func _init(p_tree: SceneTree) -> void:
@@ -128,6 +136,9 @@ func close() -> void:
 func setup(p_spec: Dictionary) -> bool:
 	spec = p_spec
 	error = ""
+	_broken = false
+	var seed: int = int(spec.get("seed", 0))
+	_npc_seed = seed if seed != 0 else randi_range(1, 999999)
 	if session == null:
 		await make_session()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -178,6 +189,8 @@ func start_live() -> bool:
 	var seed: int = int(spec.get("seed", 0))
 	session.configure_combat_random_source(_Seeded.new(seed if seed != 0 else randi()))
 	var opened: bool = start()
+	if opened:
+		player_side = session.combat_encounter_coordinator().active_encounter().participant_for(session.player_runtime().character_id).side_id
 	session.set_process(true)
 	return opened
 
@@ -207,6 +220,8 @@ func run(duels: int, seed: int = 7, each: Callable = Callable()) -> Result:
 	session.set_process(false)
 	session.configure_combat_random_source(_Seeded.new(seed if seed != 0 else randi()))
 	for duel: int in duels:
+		if _broken:
+			break
 		await _reset()
 		if duel == 0:
 			var forecast: CombatForecast = CombatForecastBuilder.for_attack(map, foes[0])
@@ -251,8 +266,11 @@ func _duel(result: Result, first: bool) -> void:
 		if not lost and (s.vitality.current < BUFFER or s.vitality.effective < BUFFER):
 			lost = true
 			lost_at = rounds
+		if lost:
+			# Lost: the foes dropped so the fight closes (what follows counts for nothing).
 			for npc: NpcRuntimeState in foes:
-				npc.character_state.vitality = CharacterResourceState.new(1, 1, npc.character_state.vitality.maximum)
+				if npc.character_state.vitality.current >= 0:
+					npc.character_state.vitality = CharacterResourceState.new(-1, 1, npc.character_state.vitality.maximum)
 	if coordinator.has_active_encounter():
 		result.stuck += 1
 		for npc: NpcRuntimeState in foes:
@@ -261,6 +279,11 @@ func _duel(result: Result, first: bool) -> void:
 			if not coordinator.has_active_encounter():
 				break
 			coordinator.advance_scheduler(1.0)
+		session.shared_ui().dismiss_current_panel()
+		s.vitality = CharacterResourceState.new(real, real, real)
+		if coordinator.has_active_encounter():
+			_broken = true
+			result.notes.append("有一场打了 %d 步还收不了场，批量就此停下" % (MAX_STEPS + 200))
 		return
 	session.shared_ui().dismiss_current_panel()
 	var left: int = s.vitality.current - BUFFER
@@ -270,13 +293,13 @@ func _duel(result: Result, first: bool) -> void:
 	if not lost and (player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or ending == null or ending.kind != CombatEncounterResultKind.Value.VICTORY or not ending.winning_side_ids().has(my_side)):
 		lost = true
 		lost_at = rounds
-		var note: String = "有一场以「%s」收场" % ending_word(ending)
+		var note: String = "有一场以「%s」收场" % ending_word(ending, my_side)
 		if not result.notes.has(note):
 			result.notes.append(note)
 	result.duels += 1
 	if verbose:
 		var sides: Array = (allies + foes).map(func(npc: NpcRuntimeState) -> String: return "%s %d/%d %s" % [npc.definition().display_name, npc.character_state.vitality.current, npc.character_state.vitality.maximum, CharacterRuntimeLifeStatus.Value.find_key(npc.life_status)])
-		print("  %s 回合 %d（输在 %d）步 %d 收场 %s 我 %d/%d %s" % ["输" if lost else "赢", rounds, lost_at, steps, ending_word(ending), left, real, sides])
+		print("  %s 回合 %d（输在 %d）步 %d 我 %d/%d %s" % ["输" if lost else "赢", rounds, lost_at, steps, left, real, sides])
 	if lost:
 		result.lost_rounds.append(lost_at)
 	else:
@@ -290,7 +313,12 @@ func _reset() -> void:
 	for corpse: CorpseState in map.corpses._corpse_states.duplicate():
 		map.corpses._destruct_corpse(corpse)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_make_player(spec.get("player", {}), false)
+	# One that lay unconscious (精 or 神 run out: the buffer covers only kee) is stood up again.
+	if player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+		player.set_combat_available(true)
+		map.player_body.refresh_runtime_state()
+	_make_player(spec.get("player", {}))
 	_forget(player.relationship)
 	player.busy.restore(0, 0)
 	# The game takes the summoned away as a fight ends (WorldMapNpcs.dismiss_summoned()): both
@@ -304,6 +332,10 @@ func _reset() -> void:
 
 ## Both sides made as the spec has them, round where the player stood. False (and `error`) when not.
 func _place_sides() -> bool:
+	# The same people every time: their ages, names and drawn attributes from one seed.
+	var stream: GodotNpcInitializationRandomSource = map.npc_random_source() as GodotNpcInitializationRandomSource
+	if stream != null:
+		stream.configure_seed(_npc_seed)
 	allies = _make_side(spec.get("allies", []), _origin, -1.0)
 	if error.is_empty():
 		foes = _make_side(spec.get("foes", []), _origin + Vector2(SPACING * 3.0, 0.0), 1.0)
@@ -314,7 +346,7 @@ func _place_sides() -> bool:
 func _take_away_made() -> void:
 	for npc: NpcRuntimeState in _made:
 		if map != null and map.npcs.find_resident_npc(npc.character_id) != null:
-			map.npcs.vanish(npc)
+			map.npcs.destruct_summoned(npc)
 	_made.clear()
 	allies.clear()
 	foes.clear()
@@ -353,8 +385,9 @@ func _clear_place() -> void:
 			map.npcs.withdraw(npc)
 
 
-## The player made as `facts` say; `arm` takes up the weapon too (setup does, a duel's reset does not).
-func _make_player(facts: Dictionary, arm: bool = true) -> bool:
+## The player made as `facts` say, the weapon taken up again (a duel may have knocked it away or
+## broken it: WorldMapCombatLifecycle's bash).
+func _make_player(facts: Dictionary) -> bool:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var level: int = maxi(int(facts.get("level", 20)), 1)
 	var family_id: StringName = StringName(str(facts.get("family", "")))
@@ -373,8 +406,7 @@ func _make_player(facts: Dictionary, arm: bool = true) -> bool:
 		Roster.level_player(player.state, template, level, age)
 		weapon = Roster.weapon_of(template)
 	player.state.attributes.force_factor = 0
-	if arm:
-		_wield(weapon)
+	_wield(weapon)
 	return true
 
 
@@ -433,10 +465,15 @@ func _wield(definition_id: StringName) -> void:
 			adapter.unwield(player, weapon.instance_id, session._inventory)
 	if definition_id.is_empty() or GameContent.catalog().item(definition_id) == null:
 		return
-	var held := StringName("lab:" + String(definition_id))
 	var context: MoneyInventoryContext = MoneyInventoryContext.new(ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor),
 		session.inventory_state(), session.stack_collection(), session.item_instance_index())
-	if not context.index.has_snapshot(held):
+	# The one made before, if it is still that weapon and still the player's; else a new one (the old
+	# one lies where it was knocked, or is what its breaking turned it into).
+	var held := StringName("lab:%s:%d" % [definition_id, _weapons_made])
+	var kept: ItemInstance = context.index.resolve(held) if context.index.has_snapshot(held) else null
+	if kept == null or kept.item_definition_id != definition_id or not context.inventory.is_direct_child(held, context.endpoint()):
+		_weapons_made += 1
+		held = StringName("lab:%s:%d" % [definition_id, _weapons_made])
 		var item := ItemInstance.new(held, definition_id)
 		context.inventory.register_item(item, GameContent.catalog().item(definition_id).own_weight)
 		context.index.register_snapshot(item)
@@ -456,11 +493,11 @@ func _fail(message: String) -> bool:
 
 
 ## A fight's end in words (null: none).
-static func ending_word(ending: CombatEncounterResult) -> String:
+static func ending_word(ending: CombatEncounterResult, my_side: StringName) -> String:
 	if ending == null:
 		return "—"
 	match ending.kind:
-		CombatEncounterResultKind.Value.VICTORY: return "我方胜" if ending.winning_side_ids().has(&"player") else "对方胜"
+		CombatEncounterResultKind.Value.VICTORY: return "我方胜" if ending.winning_side_ids().has(my_side) else "对方胜"
 		CombatEncounterResultKind.Value.DEFEAT: return "我方败"
 		CombatEncounterResultKind.Value.FLED: return "有人逃了"
 	return str(CombatEncounterResultKind.Value.find_key(ending.kind))

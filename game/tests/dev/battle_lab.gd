@@ -89,8 +89,8 @@ func _process(_delta: float) -> void:
 	var completion: CombatEncounterCompletionResult = coordinator.last_completion()
 	var ending: CombatEncounterResult = null if completion == null else completion.terminal_result
 	var player: WorldPlayerRuntimeState = fight.session.player_runtime()
-	var text: String = "打完了：%s" % ("?" if ending == null else CombatEncounterResultKind.Value.find_key(ending.kind))
-	text += "\n你：%s，气血 %d/%d" % [CharacterRuntimeLifeStatus.Value.find_key(player.life_status), player.state.vitality.current, player.state.vitality.maximum]
+	var text: String = "打完了：%s" % BattleLabFight.ending_word(ending, fight.player_side)
+	text += "\n你：%s，气血 %d/%d" % [BattleLabFight.life_word(player.life_status), player.state.vitality.current, player.state.vitality.maximum]
 	_result.text = text
 	_status.text = "再点「摆好」或「开打」重来"
 

@@ -5,12 +5,12 @@ extends SceneTree
 ##
 ## <godot> --headless --fixed-fps 60 --path game --script res://tests/dev/battle_lab/run_battle_lab.gd -- <args>
 ##   me=<family>:<level>        the player (family id, or "-" for the story-grown sword build)
-##   ally=<fighter> foe=<fighter>  repeatable; a fighter is <family id or npc:<definition id>>[:<level>][x<count>]
+##   ally=<fighter> foe=<fighter>  repeatable; a fighter is <family id or npc:<definition id>>[:<level>][,<count>]
 ##   place=<zone id>  n=<duels> (20)  seed=<n> (7)  spec=<json file, from the project's parent folder>
 ##   verbose            print each duel's end
 ##   families           list the families and their template NPCs, then quit
 ## e.g. -- me=family.fonxan:30 foe=family.celestial:30 n=40
-##      -- me=-:20 ally=npc:snow.npc.girl foe=npc:oldpine.npc.bandit:0x3
+##      -- me=-:20 ally=npc:snow.npc.girl foe=npc:oldpine.npc.bandit:0,3
 
 const Roster := preload("res://tests/dev/battle_lab/battle_lab_roster.gd")
 
@@ -40,7 +40,15 @@ func _run() -> void:
 		var value: String = arg.substr(key.length() + 1)
 		match key:
 			"spec":
-				spec = JSON.parse_string(FileAccess.get_file_as_string(ProjectSettings.globalize_path("res://").path_join("../" + value)))
+				var read: Variant = JSON.parse_string(FileAccess.get_file_as_string(ProjectSettings.globalize_path("res://").path_join("../" + value)))
+				if not read is Dictionary:
+					print("SETUP FAILED: %s is not a JSON object" % value)
+					quit(1)
+					return
+				spec = read
+				for side: String in ["allies", "foes"]:
+					if not spec.get(side) is Array:
+						spec[side] = []
 			"me":
 				spec["player"] = {"family": "" if value.get_slice(":", 0) == "-" else value.get_slice(":", 0), "level": int(value.get_slice(":", 1)) if value.contains(":") else 20}
 			"ally":
@@ -68,15 +76,10 @@ func _run() -> void:
 	quit()
 
 
-## <family id | npc:<definition id>>[:<level>][x<count>]
+## <family id | npc:<definition id>>[:<level>][,<count>]
 static func fighter(text: String) -> Dictionary:
-	var count: int = 1
-	if text.contains("x"):
-		var tail: String = text.get_slice("x", text.get_slice_count("x") - 1)
-		if tail.is_valid_int():
-			count = int(tail)
-			text = text.substr(0, text.length() - tail.length() - 1)
-	var out: Dictionary = {"count": count}
+	var out: Dictionary = {"count": maxi(int(text.get_slice(",", 1)), 1) if text.contains(",") else 1}
+	text = text.get_slice(",", 0)
 	var parts: PackedStringArray = text.split(":")
 	if parts[0] == "npc":
 		out["npc"] = parts[1]

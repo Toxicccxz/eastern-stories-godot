@@ -45,6 +45,7 @@ func _check_fight(tree: SceneTree) -> void:
 		"player": {"family": "family.fonxan", "level": 25},
 		"allies": [{"family": "family.fonxan_north", "level": 20}],
 		"foes": [{"family": "family.celestial", "level": 20, "count": 2}],
+		"seed": 5,
 	}
 	var fight := BattleLabFight.new(tree)
 	_check(await fight.setup(spec), "the lab sets the fight up: %s" % fight.error)
@@ -57,7 +58,13 @@ func _check_fight(tree: SceneTree) -> void:
 	_check(first.ours_in == 2 and first.theirs_in == 2, "two on each side in the fight: %d / %d" % [first.ours_in, first.theirs_in])
 	var again: BattleLabFight.Result = await fight.run(3, 11)
 	_check(again.wins == first.wins and again.won_rounds == first.won_rounds and again.lost_rounds == first.lost_rounds, "the same seed fights the same: %d/%d %s %s" % [again.wins, first.wins, again.won_rounds, first.won_rounds])
-	_check(not fight.error.is_empty() or fight.session.combat_encounter_coordinator().has_active_encounter() == false, "no fight is left running")
+	_check(not fight.session.combat_encounter_coordinator().has_active_encounter(), "no fight is left running")
+	var weapon: EquippedWeaponRef = fight.session.player_runtime().state.equipment.primary_weapon()
+	_check(weapon != null, "the player holds a weapon again after the duels")
+	var kees: Array = fight.foes.map(func(npc: NpcRuntimeState) -> int: return npc.character_state.vitality.maximum)
+	_check(await fight.setup(spec), "the same spec sets up again")
+	var again_kees: Array = fight.foes.map(func(npc: NpcRuntimeState) -> int: return npc.character_state.vitality.maximum)
+	_check(kees == again_kees, "the same seed makes the same foes: %s / %s" % [kees, again_kees])
 	# An unknown fighter is refused, and says why.
 	_check(not await fight.setup({"foes": [{"npc": "no.such.npc"}]}) and fight.error.contains("no.such.npc"), "an unknown NPC is refused: %s" % fight.error)
 	_check(not await fight.setup({"foes": []}), "a fight needs a foe")
