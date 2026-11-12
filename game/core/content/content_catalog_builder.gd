@@ -395,6 +395,8 @@ func _check_combat_data() -> void:
 func _check_guides() -> void:
 	for family: FamilyDefinition in _families.values():
 		var origin: String = _origins.get(family.family_id, String(family.family_id))
+		if not family.head_id.is_empty() and not _npcs.has(family.head_id):
+			_errors.append("%s.head: unknown NPC '%s'" % [origin, family.head_id])
 		for guide: FamilyDefinition.SchoolGuide in family.guides:
 			var skill: SkillDefinition = _skills.get(guide.skill_id)
 			if skill == null:

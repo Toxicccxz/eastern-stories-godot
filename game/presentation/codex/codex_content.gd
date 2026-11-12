@@ -2,10 +2,11 @@ class_name CodexContent
 extends RefCounted
 
 ## The 百科's entries (界面重构 C), put together from the data and what the player has met:
-## 江湖常识 are the ES2 help files for players (codex.json); 武学 the skills the player has
+## 江湖常识 are codex.json's topics, 入门 then 传说; 武学 the skills the player has
 ## learned, 物品 the items they have carried, 门派 the families whose people they have met
 ## or that they belong to, 人物 the people they have met. Nothing unmet is listed, so
-## nothing is given away. Every text is in the shown language.
+## nothing is given away. 武学 and 门派 lead with what the art or the family is (their `summary`,
+## `intro`; DECISIONS「百科重写」), a family's head only once met. Every text is in the shown language.
 
 enum Section { LORE, ARTS, ITEMS, FAMILIES, PEOPLE }
 
@@ -28,6 +29,8 @@ class Entry:
 	extends RefCounted
 	var key: String
 	var title: String
+	## The heading it is listed under ("" none: the section is one list).
+	var group: String = ""
 	var paragraphs: Array[Paragraph] = []
 
 	func _init(p_key: String, p_title: String) -> void:
@@ -64,10 +67,9 @@ static func _lore(catalog: ContentCatalog) -> Array[Entry]:
 	var result: Array[Entry] = []
 	for topic: CodexTopicDefinition in catalog.codex_topics():
 		var entry := Entry.new(String(topic.topic_id), _t(topic.title))
+		entry.group = _t(topic.group)
 		for index: int in topic.paragraphs.size():
 			entry.add(_t(topic.paragraphs[index]), Paragraph.Kind.HEADING if topic.headings.has(index) else Paragraph.Kind.BODY)
-		if not topic.byline.is_empty():
-			entry.add("—— " + topic.byline, Paragraph.Kind.NOTE)
 		result.append(entry)
 	return result
 
@@ -86,6 +88,8 @@ static func _arts(state: CharacterState, catalog: ContentCatalog) -> Array[Entry
 		return a.display_name < b.display_name if a.kind == b.kind else a.kind == SkillDefinition.Kind.BASIC)
 	for skill: SkillDefinition in skills:
 		var entry := Entry.new(String(skill.skill_id), _t(skill.display_name))
+		if not skill.summary.is_empty():
+			entry.add(_t(skill.summary))
 		entry.add("{kind} · {type}".format({
 			"kind": _t("基本功夫" if skill.kind == SkillDefinition.Kind.BASIC else "特殊技能"),
 			"type": _t("知识" if skill.skill_type == SkillDefinition.Type.KNOWLEDGE else "武功"),
@@ -263,6 +267,12 @@ static func _families(state: CharacterState, catalog: ContentCatalog) -> Array[E
 	for family_id: StringName in order:
 		var family: FamilyDefinition = catalog.family(family_id)
 		var entry := Entry.new(String(family_id), _t(family.display_name))
+		if not family.intro.is_empty():
+			entry.add(_t(family.intro))
+		var head: NpcDefinition = null if family.head_id.is_empty() or not state.seen_npcs.has(String(family.head_id)) else catalog.npc(family.head_id)
+		if head != null:
+			# TRANSLATORS: a family's head on its 百科 entry, once met: {head} their name, {seat} where they sit.
+			entry.add(_t("为首的是{head}，在{seat}。").format({"head": head.short_name(), "seat": _t(family.seat)}), Paragraph.Kind.NOTE)
 		if family_id == own:
 			entry.add(_t("你是{family}的弟子。").format({"family": _t(family.display_name)}))
 		var names: Array[String] = []
