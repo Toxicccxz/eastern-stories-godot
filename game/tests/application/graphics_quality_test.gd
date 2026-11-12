@@ -57,10 +57,10 @@ func _storage() -> void:
 	var text: String = files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8()
 	_check(written.succeeded() and text.contains("graphics_quality=\"low\"") and text.contains("quality_hint_told=true"), "低 and the hint told are kept: %s" % text)
 	var back: ApplicationSettingsResult = repository.load()
-	_check(back.succeeded() and back.snapshot().graphics_quality() == GraphicsQuality.Value.LOW and back.snapshot().quality_hint_told() and back.snapshot().version() == 12, "and read back")
+	_check(back.succeeded() and back.snapshot().graphics_quality() == GraphicsQuality.Value.LOW and back.snapshot().quality_hint_told() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION, "and read back")
 	var lines := PackedStringArray()
-	for line: String in text.replace("schema_version=12", "schema_version=11").split("\n"):
-		if not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told="):
+	for line: String in text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=11").split("\n"):
+		if not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told=") and not line.begins_with("pause_on_focus_loss="):
 			lines.append(line)
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()
@@ -68,7 +68,7 @@ func _storage() -> void:
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = text.replace("graphics_quality=\"low\"", "graphics_quality=\"ultra\"").to_utf8_buffer()
 	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "an unknown level is refused")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = text.replace("quality_hint_told=true\n", "").to_utf8_buffer()
-	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a version 12 file without the hint's key is refused")
+	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a current file without the hint's key is refused")
 	_check(not ApplicationSettingsSnapshot.defaults().with_graphics_quality(5).is_valid(), "a snapshot with no such level is invalid")
 	_check(ApplicationSettingsSnapshot.defaults().graphics_quality() == GraphicsQuality.device_default(), "the default is this machine's first level")
 

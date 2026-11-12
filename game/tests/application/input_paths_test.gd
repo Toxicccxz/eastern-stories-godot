@@ -13,12 +13,25 @@ var _count: int = 0
 var _failures: Array[String] = []
 
 
+## A desktop window in a headless run (MobileLifecycleCapability.desktop_focus() is off there).
+class DesktopWindow extends MobileLifecycleCapability:
+	func enabled() -> bool:
+		return false
+
+	func desktop_focus() -> bool:
+		return true
+
+
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	_test_focus_pause_setting()
+	_test_key_names()
 	var shell: ApplicationShellController = await _start(tree, "input-paths")
 	if shell != null:
 		await _test_card_after_pause(tree, shell)
 		await _test_pause_in_dialogue(tree, shell)
 		await _test_pause_in_scene(tree, shell)
+		await _test_window_focus(tree, shell)
+		await _test_key_page(tree, shell)
 		await _test_pause_in_epilogue(tree, shell)
 		shell.queue_free()
 		await tree.process_frame
@@ -167,7 +180,123 @@ func _test_pause_in_epilogue(tree: SceneTree, shell: ApplicationShellController)
 	_check(overlay.card_index() == 1, "E turns the card again: %d" % overlay.card_index())
 
 
+## 切出窗口时暂停 is kept with the settings (version 13), on by default; an older file reads on.
+func _test_focus_pause_setting() -> void:
+	_check(ApplicationSettingsSnapshot.defaults().pause_on_focus_loss(), "切出窗口时暂停 is on by default")
+	var files := ShellTests.MemoryFiles.new()
+	var repository := ApplicationSettingsRepository.new(files)
+	_check(repository.write(ApplicationSettingsSnapshot.defaults().with_pause_on_focus_loss(false)).succeeded(), "written")
+	var text: String = files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8()
+	var back: ApplicationSettingsResult = repository.load()
+	_check(back.succeeded() and not back.snapshot().pause_on_focus_loss() and text.contains("pause_on_focus_loss=false"), "off is kept: %s" % text)
+	_check(back.snapshot().with_ui_scale(125).pause_on_focus_loss() == false, "another setting changed keeps it")
+	var lines := PackedStringArray()
+	for line: String in text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=12").split("\n"):
+		if not line.begins_with("pause_on_focus_loss="):
+			lines.append(line)
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
+	var old: ApplicationSettingsResult = repository.load()
+	_check(old.succeeded() and old.snapshot().pause_on_focus_loss(), "a version 12 file reads as on")
+
+
+## The letter keys are bound by position; the glyph names the letter (here, QWERTY's).
+func _test_key_names() -> void:
+	for action: StringName in [&"move_up", &"interact", &"menu_open"]:
+		for event: InputEvent in InputMap.action_get_events(action):
+			var key := event as InputEventKey
+			if key != null and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z:
+				_check(key.keycode == KEY_NONE, "%s: by position only" % action)
+	_check(InputGlyphs.key_names(&"move_up") == PackedStringArray(["W", "Up"]), "走 up: W / Up: %s" % [InputGlyphs.key_names(&"move_up")])
+	_check(InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.XBOX) == PackedStringArray(["A"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.PLAYSTATION) == PackedStringArray(["×"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.NINTENDO) == PackedStringArray(["B"]), "交互 on the three pads")
+	_check(bool(ProjectSettings.get_setting("input_devices/joypads/ignore_joypad_on_unfocused_application")), "Godot drops a pad's input while the window has no focus")
+
+
+## The window losing its focus: 系统 over the game, the world held, a pad steering nothing;
+## back, 系统 stays until 继续. With the setting off the game runs on, a pad still steers nothing.
+func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> void:
+	var session: WorldSessionController = shell.runtime_host().current_session()
+	var map := session.active_map() as WorldMapController
+	shell.lifecycle_adapter().set_capability(DesktopWindow.new())
+	var minutes: float = session.day_clock().day_minutes()
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	await _frames(tree, 2)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and tree.paused and not shell.interaction_allowed(), "the window lost its focus: paused")
+	var standing: Vector2 = map.runtime_player_body().global_position
+	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 1.0))
+	await _frames(tree, 2)
+	_check(not Input.is_action_pressed(&"move_right"), "a pad pushed in the background presses nothing")
+	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 0.0))
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	await _frames(tree, 4)
+	_check(shell.interaction_allowed() and shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and shell.lifecycle_info.visible, "back: still paused, 系统 says why")
+	_check(is_equal_approx(session.day_clock().day_minutes(), minutes), "no game time went by")
+	await _key(tree, KEY_ESCAPE)
+	await _frames(tree, 2)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not tree.paused, "Esc: playing again")
+	_check(map.runtime_player_body().global_position == standing, "the player stood still")
+	# Paused by the player first: coming back leaves it paused.
+	await _key(tree, KEY_ESCAPE)
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	await _frames(tree, 2)
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	await _frames(tree, 4)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED, "paused before, paused after")
+	await _key(tree, KEY_ESCAPE)
+	await _frames(tree, 2)
+	# The setting off: the window's focus pauses nothing; the pad is still not heard.
+	shell._settings_service.apply_and_persist_pause_on_focus_loss(false)
+	shell._apply_focus_pause(false)
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	await _frames(tree, 2)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not tree.paused, "切出窗口时暂停 off: the game runs on")
+	standing = map.runtime_player_body().global_position
+	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 1.0))
+	await _frames(tree, 10)
+	_check(not Input.is_action_pressed(&"move_right") and map.runtime_player_body().global_position == standing, "and a pad in the background still steers nothing")
+	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 0.0))
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	await _frames(tree, 2)
+	shell._settings_service.apply_and_persist_pause_on_focus_loss(true)
+	shell._apply_focus_pause(true)
+	shell.lifecycle_adapter().set_capability(MobileLifecycleCapability.new())
+
+
+## 按键一览 from 设置 (reached from 系统) with a pad and with keys: every action, read-only;
+## B / Esc close it and only it.
+func _test_key_page(tree: SceneTree, shell: ApplicationShellController) -> void:
+	await _key(tree, KEY_ESCAPE)
+	_check(shell.request_settings_from_pause(), "系统 → 设置")
+	await _frames(tree, 2)
+	shell.keys_button.grab_focus()
+	await _joy(tree, JOY_BUTTON_A)
+	var page: KeyBindingsPage = shell.key_page
+	_check(page.visible and tree.root.gui_get_focus_owner() == page.back_button, "A on 按键一览: the page, 返回 focused")
+	var walk: Array[String] = page.row_text("走路")
+	_check(walk.size() == 2 and walk[0].contains("W") and walk[0].contains("Up") and walk[1].contains("LS"), "走路: keys and pad: %s" % [walk])
+	_check(page.row_text("暂停（系统）") == ["Esc", "Back"], "暂停: %s" % [page.row_text("暂停（系统）")])
+	await _joy(tree, JOY_BUTTON_DPAD_UP)
+	_check(tree.root.gui_get_focus_owner() == page.back_button, "the focus stays on the page")
+	await _joy(tree, JOY_BUTTON_B)
+	_check(not page.visible and shell.shell_state().mode() == ApplicationShellState.Mode.SETTINGS and tree.root.gui_get_focus_owner() == shell.keys_button, "B: back to 设置, on 按键一览")
+	await _key(tree, KEY_ENTER)
+	_check(page.visible, "Enter opens it")
+	await _key(tree, KEY_ESCAPE)
+	_check(not page.visible and shell.shell_state().mode() == ApplicationShellState.Mode.SETTINGS, "Esc closes the page only")
+	await _key(tree, KEY_ESCAPE)
+	await _frames(tree, 2)
+	await _key(tree, KEY_ESCAPE)
+	await _frames(tree, 2)
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "back to playing")
+
+
 # --- helpers -------------------------------------------------------------------------
+
+func _motion(axis: JoyAxis, value: float) -> InputEventJoypadMotion:
+	var event := InputEventJoypadMotion.new()
+	event.axis = axis
+	event.axis_value = value
+	return event
+
 
 func _key(tree: SceneTree, keycode: Key, physical: bool = false) -> void:
 	for pressed: bool in [true, false]:

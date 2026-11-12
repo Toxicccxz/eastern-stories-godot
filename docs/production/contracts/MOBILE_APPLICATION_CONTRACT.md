@@ -93,7 +93,10 @@ iOS gains no synthetic Android Back/exit button; visible controls remain availab
 ## Activity, freeze and explicit Resume
 
 The LifecycleAdapter translates application pause/resume/focus-out/focus-in notifications
-on Android/iOS only. A single Shell-owned `ApplicationActivity` records independent
+on Android/iOS; on the desktop it translates the window's focus-out/focus-in alone, while the
+setting 切出窗口时暂停 is on (DECISIONS「切出窗口」; on by default). The same activity path
+pauses the desktop game and asks for an explicit Resume. A desktop window without focus takes
+no pad input whatever the setting. A single Shell-owned `ApplicationActivity` records independent
 foreground/focus facts plus presentation readiness and derives interaction permission.
 Duplicates and either notification order must not duplicate effective transitions.
 

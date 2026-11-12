@@ -31,6 +31,10 @@ var focus_tip: FocusTip
 var _held: StringName = &""
 var _held_seconds: float = 0.0
 var _next_repeat: float = 0.0
+## The window has no focus: a pad steers nothing (DECISIONS「切出窗口」), whatever
+## 切出窗口时暂停 says. project.godot's ignore_joypad_on_unfocused_application asks Godot the
+## same; this holds where the platform still delivers the pad's events.
+var _window_unfocused: bool = false
 
 
 func _ready() -> void:
@@ -49,7 +53,20 @@ func _exit_tree() -> void:
 		get_viewport().gui_focus_changed.disconnect(_on_focus_changed)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_window_unfocused = true
+		_held = &""
+		_release_pad_actions()
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		_window_unfocused = false
+
+
 func _input(event: InputEvent) -> void:
+	if _window_unfocused and (event is InputEventJoypadButton or event is InputEventJoypadMotion):
+		get_viewport().set_input_as_handled()
+		_release_pad_actions(event)
+		return
 	InputDevices.shared().observe(event)
 	focus_tip.observe(event)
 	_track_hold(event)
@@ -63,6 +80,18 @@ func _process(delta: float) -> void:
 	var target: Control = scroll_target(get_tree())
 	if target != null:
 		scroll(target, axis * SCROLL_SPEED * delta)
+
+
+## Lets go of every action a pad holds (or `event` would press): Godot set them before this
+## node saw the event, and walking reads them (Input.get_vector).
+func _release_pad_actions(event: InputEvent = null) -> void:
+	for action: StringName in InputMap.get_actions():
+		if event != null and not event.is_action(action):
+			continue
+		for bound: InputEvent in InputMap.action_get_events(action):
+			if (bound is InputEventJoypadButton or bound is InputEventJoypadMotion) and Input.is_action_pressed(action):
+				Input.action_release(action)
+				break
 
 
 ## A pad's direction (D-pad or stick) pressed starts a hold; let go, it ends.

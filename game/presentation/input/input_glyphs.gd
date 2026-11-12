@@ -50,6 +50,8 @@ const _PAD_AXES: Dictionary[int, Array] = {
 	JOY_AXIS_TRIGGER_LEFT: ["LT", "L2", "ZL"],
 	JOY_AXIS_TRIGGER_RIGHT: ["RT", "R2", "ZR"],
 }
+## PlayStation's face buttons, written as signs where a glyph has no text.
+const _SHAPE_SIGNS: Dictionary[int, String] = {Shape.CROSS: "×", Shape.RING: "○", Shape.SQUARE: "□", Shape.TRIANGLE: "△"}
 const _KEY_NAMES: Dictionary[String, String] = {
 	"Escape": "Esc", "PageUp": "PgUp", "PageDown": "PgDn", "Backspace": "Backspace",
 }
@@ -94,6 +96,34 @@ static func glyph_for(action: StringName, devices: InputDevices = InputDevices.s
 	return null
 
 
+## Every key `action` is bound to, by name (the key page, 按键一览).
+static func key_names(action: StringName) -> PackedStringArray:
+	var names := PackedStringArray()
+	if InputMap.has_action(action):
+		for event: InputEvent in InputMap.action_get_events(action):
+			if event is InputEventKey and not names.has(key_name(event)):
+				names.append(key_name(event))
+	return names
+
+
+## Every pad button and stick `action` is bound to on a pad of `style`, by name (the key
+## page): the face buttons as the pad prints them (PlayStation's shapes as signs).
+static func pad_names(action: StringName, style: int) -> PackedStringArray:
+	var names := PackedStringArray()
+	if not InputMap.has_action(action):
+		return names
+	for event: InputEvent in InputMap.action_get_events(action):
+		var shown: String = ""
+		if event is InputEventJoypadButton:
+			var glyph: Glyph = pad_button_glyph(event.button_index, style)
+			shown = glyph.text if not glyph.text.is_empty() else _SHAPE_SIGNS.get(glyph.shape, "")
+		elif event is InputEventJoypadMotion and _PAD_AXES.has(event.axis):
+			shown = _PAD_AXES[event.axis][style]
+		if not shown.is_empty() and not names.has(shown):
+			names.append(shown)
+	return names
+
+
 static func pad_button_glyph(button: int, style: int) -> Glyph:
 	if _XBOX_FACES.has(button):
 		match style:
@@ -107,8 +137,15 @@ static func pad_button_glyph(button: int, style: int) -> Glyph:
 	return Glyph.new(Shape.PILL, str(button))
 
 
+## A key bound by position (the letter keys: DECISIONS「按键」) shows the letter the player's own
+## layout prints there (Z for W on AZERTY).
 static func key_name(event: InputEventKey) -> String:
-	var code: Key = event.keycode if event.keycode != KEY_NONE else event.physical_keycode
+	var code: Key = event.keycode
+	if code == KEY_NONE and event.physical_keycode != KEY_NONE:
+		# A headless run has no keyboard layout to ask (it says so as an error).
+		code = KEY_NONE if DisplayServer.get_name() == "headless" else DisplayServer.keyboard_get_label_from_physical(event.physical_keycode)
+		if code == KEY_NONE:
+			code = event.physical_keycode
 	var shown: String = OS.get_keycode_string(code)
 	return _KEY_NAMES.get(shown, shown)
 

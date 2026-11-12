@@ -38,6 +38,7 @@ func _settle(tree: SceneTree, frames: int = 12) -> void:
 func _key(tree: SceneTree, key: Key, pressed: bool) -> void:
 	var event: InputEventKey = InputEventKey.new()
 	event.keycode = key
+	event.physical_keycode = key # As the OS sends it: the letter keys are bound by position.
 	event.pressed = pressed
 	Input.parse_input_event(event)
 	await _settle(tree)

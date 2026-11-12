@@ -15,7 +15,8 @@ extends RefCounted
 ## Version 11 adds the 战斗开场动画 (DECISIONS「战斗演出 B」); an older file reads as 全程 (FULL).
 ## Version 12 adds the 画质 and whether its slow-frame hint was told (DECISIONS「画质」); an older
 ## file reads as this machine's first level (GraphicsQuality.device_default()), not told.
-const SCHEMA_VERSION: int = 12
+## Version 13 adds 切出窗口时暂停 (DECISIONS「切出窗口」); an older file reads as on.
+const SCHEMA_VERSION: int = 13
 ## The 画质 is this machine's first level (GraphicsQuality.device_default()).
 const DEVICE_QUALITY: int = -1
 ## The 总音量 at first start, in percent of full.
@@ -39,6 +40,7 @@ var _master_volume: int
 var _battle_opening: int
 var _graphics_quality: int
 var _quality_hint_told: bool
+var _pause_on_focus_loss: bool
 
 
 func _init(
@@ -58,6 +60,7 @@ func _init(
 	p_battle_opening: int = BattlePace.Opening.FULL,
 	p_graphics_quality: int = DEVICE_QUALITY,
 	p_quality_hint_told: bool = false,
+	p_pause_on_focus_loss: bool = true,
 ) -> void:
 	_version = p_version
 	_window_mode = p_window_mode
@@ -75,6 +78,7 @@ func _init(
 	_battle_opening = p_battle_opening
 	_graphics_quality = GraphicsQuality.device_default() if p_graphics_quality == DEVICE_QUALITY else p_graphics_quality
 	_quality_hint_told = p_quality_hint_told
+	_pause_on_focus_loss = p_pause_on_focus_loss
 
 
 func version() -> int:
@@ -153,53 +157,62 @@ func quality_hint_told() -> bool:
 	return _quality_hint_told
 
 
+## 切出窗口时暂停 (DECISIONS「切出窗口」): the window losing its focus pauses the game.
+func pause_on_focus_loss() -> bool:
+	return _pause_on_focus_loss
+
+
+func with_pause_on_focus_loss(paused: bool) -> ApplicationSettingsSnapshot:
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, paused)
+
+
 func with_graphics_quality(quality: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_quality_hint_told(told: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, told, _pause_on_focus_loss)
 
 
 func with_battle_opening(choice: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, choice, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, choice, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_display(mode: int, resolution: Vector2i, screen: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, resolution, screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, resolution, screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_window_mode(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_language(language: String) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_battle(speed: int, flash: bool, after_knockout: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_ui_scale(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_objective_hints(shown: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown, _day_night, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_day_night(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, mode, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, mode, _autosave_notice, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 ## 总音量 (DECISIONS「战斗拍数 C」): 0–100, the Master bus.
 func with_master_volume(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, percent, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, _autosave_notice, _resolution, _screen, percent, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func with_autosave_notice(shown: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, shown, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints, _day_night, shown, _resolution, _screen, _master_volume, _battle_opening, _graphics_quality, _quality_hint_told, _pause_on_focus_loss)
 
 
 func is_valid() -> bool:

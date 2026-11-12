@@ -526,6 +526,10 @@ msgid "语言"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "切出窗口时暂停"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "战斗速度"
 msgstr ""
 
@@ -565,6 +569,10 @@ msgstr ""
 msgid "应用"
 msgstr ""
 
+#: scenes/application/application_shell.tscn ui/common/key_bindings_page.gd
+msgid "按键一览"
+msgstr ""
+
 #: scenes/application/application_shell.tscn
 msgid "请选择一份检查过的存档来恢复。游戏不会替你选择。"
 msgstr ""
@@ -593,7 +601,7 @@ msgstr ""
 msgid "关闭"
 msgstr ""
 
-#: scenes/ui/player_inventory_panel.tscn ui/world/game_menu.gd
+#: scenes/ui/player_inventory_panel.tscn ui/common/key_bindings_page.gd ui/world/game_menu.gd
 msgid "背包"
 msgstr ""
 
@@ -8437,7 +8445,7 @@ msgstr ""
 msgid "战斗描写会显示在这里。"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd
+#: presentation/battle/battle_presentation_controller.gd ui/common/key_bindings_page.gd
 msgid "换目标"
 msgstr ""
 
@@ -8832,7 +8840,7 @@ msgid "江湖常识"
 msgstr ""
 
 #. common.npc.fighter.champion inquiry topic
-#: presentation/codex/codex_content.gd ui/world/game_menu.gd data/common/npcs.json
+#: presentation/codex/codex_content.gd ui/common/key_bindings_page.gd ui/world/game_menu.gd data/common/npcs.json
 msgid "武学"
 msgstr ""
 
@@ -8956,7 +8964,7 @@ msgstr ""
 msgid "窗口模式由这个平台管理。"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/common/key_bindings_page.gd
 msgid "菜单"
 msgstr ""
 
@@ -9001,7 +9009,7 @@ msgstr ""
 msgid "行贿"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/common/slot_list_panel.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/common/key_bindings_page.gd ui/common/slot_list_panel.gd
 msgid "返回"
 msgstr ""
 
@@ -9039,6 +9047,11 @@ msgstr ""
 msgid "指路"
 msgstr ""
 
+#. on 系统 after the desktop window lost its focus (切出窗口时暂停).
+#: runtime/application/application_shell_controller.gd
+msgid "切到别的窗口时，游戏暂停了。"
+msgstr ""
+
 #. ending cards.title
 #: runtime/application/application_shell_controller.gd data/story/epilogue.json
 msgid "东方故事"
@@ -9062,6 +9075,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "目标提示已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "切出窗口时暂停已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -9198,6 +9215,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -10099,7 +10120,7 @@ msgstr ""
 msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
 msgstr ""
 
-#: runtime/world/services/quest_service.gd ui/world/game_menu.gd ui/world/inventory_sections.gd
+#: runtime/world/services/quest_service.gd ui/common/key_bindings_page.gd ui/world/game_menu.gd ui/world/inventory_sections.gd
 msgid "任务"
 msgstr ""
 
@@ -10279,6 +10300,76 @@ msgstr ""
 
 #: ui/common/confirm_prompt.gd
 msgid "确定"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "走路"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "交互 · 继续"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "确认"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "返回 · 取消"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "观察"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "菜单翻页"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd ui/world/game_menu.gd
+msgid "角色"
+msgstr ""
+
+#. guanbei.side_hall.landmark.map name
+#: ui/common/key_bindings_page.gd ui/world/game_menu.gd data/guanbei/world.json
+msgid "地图"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "暂停（系统）"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "滚动长文"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "战斗：换目标"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "战斗：记录"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "战斗：收回指令"
+msgstr ""
+
+#. under 按键一览's title (DECISIONS「按键」).
+#: ui/common/key_bindings_page.gd
+msgid "字母键按键盘上的位置算，这里写的是你的键盘在那个位置印的字。暂时不能改键；手柄可以在 Steam 的控制器设置里改。"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "动作"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "键盘"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "手柄"
 msgstr ""
 
 #: ui/common/training_progress.gd
@@ -10668,15 +10759,6 @@ msgstr ""
 #. drift_sense.c: an empty answer to its question stops the conjuring (中止施法。).
 #: ui/world/drift_sense_panel.gd
 msgid "中止施法"
-msgstr ""
-
-#: ui/world/game_menu.gd
-msgid "角色"
-msgstr ""
-
-#. guanbei.side_hall.landmark.map name
-#: ui/world/game_menu.gd data/guanbei/world.json
-msgid "地图"
 msgstr ""
 
 #. guide.standing paragraphs

@@ -102,7 +102,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_snapshot_and_repository() -> void:
 	var defaults: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
 	_assert_true(defaults.is_valid(), "default settings snapshot is valid")
-	_assert_eq(defaults.version(), 12, "settings schema is v12 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜, 自动存档提示, 分辨率, 总音量, 战斗开场, 画质)")
+	_assert_eq(defaults.version(), 13, "settings schema is v13 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜, 自动存档提示, 分辨率, 总音量, 战斗开场, 画质, 切出窗口时暂停)")
 	_assert_eq(defaults.window_mode(), ApplicationWindowMode.Value.WINDOWED, "desktop-safe default is Windowed")
 	_assert_false(ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION + 1).is_valid(), "unsupported snapshot version rejects")
 	_assert_eq(defaults.ui_scale(), 100, "the UI scale starts at 100%")
@@ -789,6 +789,7 @@ func _test_native_held_key_repeat(tree: SceneTree) -> void:
 func _send_key(key: Key, pressed: bool, echo: bool = false) -> void:
 	var event := InputEventKey.new()
 	event.keycode = key
+	event.physical_keycode = key # As the OS sends it: the letter keys are bound by position.
 	event.pressed = pressed
 	event.echo = echo
 	Input.parse_input_event(event)
