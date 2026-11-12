@@ -25,9 +25,6 @@ size = Vector2(32, 64)
 [sub_resource type="RectangleShape2D" id="Rect_1408_384"]
 size = Vector2(1408, 384)
 
-[sub_resource type="RectangleShape2D" id="Rect_384_224"]
-size = Vector2(384, 224)
-
 [sub_resource type="RectangleShape2D" id="Rect_384_160"]
 size = Vector2(384, 160)
 
@@ -133,13 +130,13 @@ zone_id = &"guanbei.steppe_road"
 shape = SubResource("Rect_1408_384")
 
 [node name="CairnZone" type="Area2D" parent="Zones"]
-position = Vector2(768, 208)
+position = Vector2(768, 176)
 collision_layer = 0
 script = ExtResource("zone")
 zone_id = &"guanbei.cairn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/CairnZone"]
-shape = SubResource("Rect_384_224")
+shape = SubResource("Rect_384_160")
 
 [node name="RiseZone" type="Area2D" parent="Zones"]
 position = Vector2(1344, 720)
@@ -215,7 +212,7 @@ position_smoothing_speed = 6.0
 [node name="Interactions" type="Node2D" parent="."]
 
 [node name="OboInteraction" type="Area2D" parent="Interactions"]
-position = Vector2(768, 248)
+position = Vector2(768, 240)
 collision_layer = 2
 script = ExtResource("landmark")
 landmark_id = &"guanbei.cairn.landmark.obo"

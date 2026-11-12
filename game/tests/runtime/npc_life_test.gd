@@ -431,6 +431,59 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	tuned.night_home = true
 	tuned.night_phases = phases
 	_check(stayed, "night_home off: nobody goes indoors")
+	await _test_dusk_cut_short(tree, session, map, watched, spot)
+
+
+## 全项目审查第四批: one on its way indoors at dusk when the player leaves the map is indoors (the
+## map's walks end at the way out as the player leaves), and back on its spot by day; one left at a
+## way out by day (an older save), or whose walk the hours overtook, is put back on its spot.
+func _test_dusk_cut_short(tree: SceneTree, session: WorldSessionController, map: WorldMapController, watched: NpcRuntimeState, spot: Vector2) -> void:
+	var tuned: NpcIdleTuning = GameContent.catalog().pacing().npc_idle
+	var phases: Array[StringName] = tuned.night_phases
+	var idle: WorldMapNpcIdle = map.npc_idle
+	var walker: WorldNpcWalker = map.npc_life.npc_walker()
+	var body: WorldCharacterBody2D = map.runtime_body_for_character(watched.character_id)
+	var on_way := func() -> bool:
+		return bool(idle._leaving.get(watched.character_id, false)) and walker.is_walking(watched.character_id)
+	var looking_on: Vector2 = MapPlaces.spot(map, &"snow.square", spot + Vector2(0, 120), 80.0)
+	map.player_body.global_position = looking_on # TEST-ONLY: the spot in sight
+	await tree.physics_frame
+	tuned.night_phases = [session.day_phase_id()] # TEST-ONLY: dusk now, without a time skip
+	for step: int in 240:
+		session.advance_npc_heartbeat(0.25)
+		await tree.physics_frame
+		if on_way.call():
+			break
+	_check(on_way.call(), "dusk: the traveller walks to a way out")
+	var inn: OldPineMapHandoffResult = session.handoff_to(&"snow.inn", &"snow.inn.main_floor", &"snow.inn.main_floor", &"snow.inn.main_floor.square_return")
+	_check(inn.succeeded(), "the player steps into the inn meanwhile: %d" % inn.outcome)
+	_check(not watched.exists_in_map and not idle._leaving.has(watched.character_id), "it is indoors, not left standing at the way out")
+	tuned.night_phases = phases
+	var back: OldPineMapHandoffResult = session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry")
+	_check(back.succeeded(), "back out on the square by day: %d" % back.outcome)
+	_check(watched.exists_in_map and body.global_position.distance_to(spot) < 2.0, "by day it is on its spot again (%.0f px off)" % body.global_position.distance_to(spot))
+	# Left at a way out by day (a save from before this fix): coming onto the map puts it back.
+	map.player_body.global_position = looking_on # TEST-ONLY
+	await tree.physics_frame
+	body.global_position = idle._ways_out(spot)[0] # TEST-ONLY: where an older save left it
+	idle.judge_night()
+	_check(watched.exists_in_map and body.global_position.distance_to(spot) < 2.0, "stranded at a way out by day: back on its spot")
+	# Its walk indoors overtaken by the hours (wait_until_phase()): back on its spot, not walking on.
+	tuned.night_phases = [session.day_phase_id()] # TEST-ONLY: dusk again
+	for step: int in 240:
+		session.advance_npc_heartbeat(0.25)
+		await tree.physics_frame
+		if on_way.call():
+			break
+	_check(on_way.call(), "dusk again: on its way")
+	tuned.night_phases = phases
+	idle.judge_night() # what wait_until_phase() calls once the hours are by
+	_check(watched.exists_in_map and not walker.is_walking(watched.character_id) and body.global_position.distance_to(spot) < 2.0, "the hours overtook its walk: back on its spot, standing")
+	# Someone strolling near its spot is left as it is.
+	var near: Vector2 = spot + Vector2(20, 0)
+	body.global_position = near # TEST-ONLY: a stroll's end beside its spot
+	idle.judge_night()
+	_check(body.global_position == near, "one strolling about its spot stays where it is: %s -> %s (spot %s)" % [near, body.global_position, spot])
 
 
 func _check(condition: bool, message: String) -> void:
