@@ -475,12 +475,9 @@ func _follow(delta: float) -> void:
 ## draws every small thing (a pebble, a petal, a rut's edge) a little differently each frame, so
 ## the ground shimmers while the camera moves and settles only when it stops (owner, 2026-11-12:
 ## the forest path). Moved by whole pixels, the picture only shifts: nothing in it changes.
-func on_pixels(at: Vector3) -> Vector3:
-	var viewport: Viewport = get_viewport() if is_inside_tree() else null
-	if viewport == null or camera == null or camera.projection != Camera3D.PROJECTION_ORTHOGONAL:
-		return at
-	var lines: float = float(viewport.get_texture().get_size().y)*viewport.scaling_3d_scale
-	if lines < 1.0 or camera.size <= 0.0:
+## `lines`: the picture's height in pixels (picture_lines()).
+func on_pixels(at: Vector3, lines: float = picture_lines()) -> Vector3:
+	if camera == null or camera.projection != Camera3D.PROJECTION_ORTHOGONAL or lines < 1.0 or camera.size <= 0.0:
 		return at
 	var pixel: float = camera.size/lines
 	var right: Vector3 = camera.basis.x.normalized()
@@ -488,6 +485,14 @@ func on_pixels(at: Vector3) -> Vector3:
 	var across: float = at.dot(right)
 	var rise: float = at.dot(up)
 	return at+right*(roundf(across/pixel)*pixel-across)+up*(roundf(rise/pixel)*pixel-rise)
+
+## How many pixels high the 3D picture is drawn (the window's, times the 3D scale); 0 where none is
+## drawn (headless: a stand-in texture of a few pixels).
+func picture_lines() -> float:
+	var viewport: Viewport = get_viewport() if is_inside_tree() else null
+	if viewport == null or DisplayServer.get_name() == "headless":
+		return 0.0
+	return float(viewport.get_texture().get_size().y)*viewport.scaling_3d_scale
 
 ## 战斗拍数 C: the camera pushes in to `factor` of the layout's size (below 1: nearer) over
 ## `seconds` (0: at once); 1.0 brings it back. The ground's projection follows in _follow().

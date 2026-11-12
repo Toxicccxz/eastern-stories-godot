@@ -89,8 +89,9 @@ func _test_lantern_over_the_counter(tree: SceneTree, session: WorldSessionContro
 func _test_camera_on_pixels(tree: SceneTree, session: WorldSessionController) -> void:
 	var map := session.active_map() as WorldMapController
 	var view := map.get_node("MapView") as WorldVoxelView
-	var viewport: Viewport = view.get_viewport()
-	var pixel: float = view.camera.size / (float(viewport.get_texture().get_size().y) * viewport.scaling_3d_scale)
+	# A picture 720 pixels high (headless draws none: the camera is left as it is there).
+	var lines: float = view.picture_lines() if view.picture_lines() > 0.0 else 720.0
+	var pixel: float = view.camera.size / lines
 	var right: Vector3 = view.camera.basis.x.normalized()
 	var up: Vector3 = view.camera.basis.y.normalized()
 	var on_grid := func(at: Vector3) -> bool:
@@ -101,13 +102,13 @@ func _test_camera_on_pixels(tree: SceneTree, session: WorldSessionController) ->
 	var every: bool = true
 	for share: float in [0.0, 0.37, 0.5, 1.73, 12.2]:
 		var wanted: Vector3 = start + right * (pixel * share) + up * (pixel * share * 0.6)
-		var at: Vector3 = view.on_pixels(wanted)
-		every = every and on_grid.call(at) and at.distance_to(wanted) <= pixel * 0.75 and view.on_pixels(at).is_equal_approx(at)
+		var at: Vector3 = view.on_pixels(wanted, lines)
+		every = every and on_grid.call(at) and at.distance_to(wanted) <= pixel * 0.75 and view.on_pixels(at, lines).is_equal_approx(at)
 	_check(every, "any place of the camera goes to the nearest pixel's (pixel %.4f)" % pixel)
 	map.player_body.global_position += Vector2(5.3, 2.9)
 	for i: int in 3:
 		await tree.process_frame
-	_check(on_grid.call(view.camera.position), "and while it follows the player it stands on one: %s" % view.camera.position)
+	_check(view.picture_lines() == 0.0 or on_grid.call(view.camera.position), "and while it follows the player it stands on one: %s" % view.camera.position)
 
 
 ## The 山涧 (老松林's gorge): the way on toward 雪亭镇 is up the cliff, so the arrow stands over
