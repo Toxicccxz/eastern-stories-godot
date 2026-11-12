@@ -8,6 +8,8 @@ uniform float bend_radius = 1.05;
 // Gusts rolling across long grass (layout flora `wind`): 0 keeps the town's light sway.
 uniform float gust = 0.0;
 uniform vec2 gust_dir = vec2(0.8, 0.6);
+#include "show_space.gdshaderinc"
+varying vec3 world_vertex;
 
 void vertex() {
 	vec3 root = MODEL_MATRIX[3].xyz;
@@ -33,9 +35,14 @@ void vertex() {
 	vec3 displacement = offset * height * min(height * 1.8, 1.0);
 	// Instances have rotation and uniform scale; avoid a matrix inverse per leaf vertex.
 	VERTEX += transpose(mat3(MODEL_MATRIX)) * displacement / dot(MODEL_MATRIX[0].xyz, MODEL_MATRIX[0].xyz);
+	world_vertex = world + displacement;
 }
 
 void fragment() {
+	// A tuft in front of a fight's stage gives way with the ground it grows on.
+	if (show_reveal(world_vertex, INV_VIEW_MATRIX[2].xyz) >= 0.75) {
+		discard;
+	}
 	ALBEDO = COLOR.rgb;
 	ROUGHNESS = 0.95;
 	SPECULAR = 0.12;

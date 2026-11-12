@@ -20,6 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	session.configure_npc_ambience_random_source(Still.Still.new())
 	await _frames(tree, 4)
 	await _test_lantern_over_the_counter(tree, session)
+	await _test_camera_on_pixels(tree, session)
 	await _test_arrow_over_the_cliff(tree, session)
 	session.queue_free()
 	await _frames(tree, 2)
@@ -80,6 +81,34 @@ func _test_lantern_over_the_counter(tree: SceneTree, session: WorldSessionContro
 			found = true
 	_check(found, "the lantern over the counter is one of the room's occluders")
 	_check(VoxelMapGeometry.OVERHEAD_KINDS.has("hanging_lantern"), "as every hanging lantern is")
+
+
+## The camera stands on the picture's pixel grid however far it has eased (owner, 2026-11-12: the
+## forest path shimmered while the camera followed): moved by part of a pixel, everything small
+## is drawn a little differently; by whole pixels the picture only shifts.
+func _test_camera_on_pixels(tree: SceneTree, session: WorldSessionController) -> void:
+	var map := session.active_map() as WorldMapController
+	var view := map.get_node("MapView") as WorldVoxelView
+	# A picture 720 pixels high (headless draws none: the camera is left as it is there).
+	var lines: float = view.picture_lines() if view.picture_lines() > 0.0 else 720.0
+	var pixel: float = view.camera.size / lines
+	var right: Vector3 = view.camera.basis.x.normalized()
+	var up: Vector3 = view.camera.basis.y.normalized()
+	var on_grid := func(at: Vector3) -> bool:
+		var across: float = at.dot(right) / pixel
+		var rise: float = at.dot(up) / pixel
+		return absf(across - roundf(across)) < 0.01 and absf(rise - roundf(rise)) < 0.01
+	var start: Vector3 = view.camera.position
+	var every: bool = true
+	for share: float in [0.0, 0.37, 0.5, 1.73, 12.2]:
+		var wanted: Vector3 = start + right * (pixel * share) + up * (pixel * share * 0.6)
+		var at: Vector3 = view.on_pixels(wanted, lines)
+		every = every and on_grid.call(at) and at.distance_to(wanted) <= pixel * 0.75 and view.on_pixels(at, lines).is_equal_approx(at)
+	_check(every, "any place of the camera goes to the nearest pixel's (pixel %.4f)" % pixel)
+	map.player_body.global_position += Vector2(5.3, 2.9)
+	for i: int in 3:
+		await tree.process_frame
+	_check(view.picture_lines() == 0.0 or on_grid.call(view.camera.position), "and while it follows the player it stands on one: %s" % view.camera.position)
 
 
 ## The 山涧 (老松林's gorge): the way on toward 雪亭镇 is up the cliff, so the arrow stands over

@@ -13,6 +13,13 @@ const HOLES: float = 0.9
 var materials: Dictionary[String, ShaderMaterial] = {}
 var subjects := PackedVector4Array()
 var roots: Array[Node3D] = []
+## 战斗演出 (owner, 2026-11-12: the gorge's walls hid a stage raised in it): a show's space — a
+## fight's stage over the map, from its foot to over the fighters' heads — that every occluder
+## standing in it or between it and the eye gives way to outright, with a rim of dots
+## (occlusion_mask: show_reveal). Empty: none.
+var show: Dictionary = {}
+## Materials that are no occluder but give way to the show too (the meadow's grass).
+var _sharing: Array[ShaderMaterial] = []
 
 func register(root: Node3D) -> void:
 	roots.append(root)
@@ -33,6 +40,7 @@ func register(root: Node3D) -> void:
 			material.set_shader_parameter("emission_tint",emission)
 			material.set_shader_parameter("night_only",original.get_meta("night_only",false))
 			material.set_shader_parameter("holes",HOLES)
+			_show_on(material)
 			materials[key] = material
 		# The opening's dots must not punch holes in sunlight shadows as the player moves.
 		if mesh.cast_shadow != GeometryInstance3D.SHADOW_CASTING_SETTING_OFF:
@@ -49,6 +57,37 @@ func register(root: Node3D) -> void:
 			mesh.get_parent().add_child(shadow)
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		mesh.material_override = materials[key]
+
+## Holds the show's space: `stage` the stage's transform in the world (its middle and foot, its
+## turn), `footprint` in its own frame (units; x along its x, y along its z) and `low` .. `high`
+## its height over the foot.
+func hold_show(stage: Transform3D, footprint: Rect2, low: float, high: float) -> void:
+	show = {"inverse": Projection(stage.affine_inverse()), "box": Vector4(footprint.position.x, footprint.position.y, footprint.end.x, footprint.end.y), "span": Vector2(low, high)}
+	for material: ShaderMaterial in materials.values():
+		_show_on(material)
+	for material: ShaderMaterial in _sharing:
+		_show_on(material)
+
+## The show is over: every occluder whole again (but where a person opens it).
+func clear_show() -> void:
+	show = {}
+	for material: ShaderMaterial in materials.values():
+		_show_on(material)
+	for material: ShaderMaterial in _sharing:
+		_show_on(material)
+
+## `material` (its shader includes show_space) gives way to the show as the occluders do.
+func share_show(material: ShaderMaterial) -> void:
+	if material != null and not _sharing.has(material):
+		_sharing.append(material)
+		_show_on(material)
+
+func _show_on(material: ShaderMaterial) -> void:
+	material.set_shader_parameter("show_on", 0.0 if show.is_empty() else 1.0)
+	if not show.is_empty():
+		material.set_shader_parameter("show_inverse", show["inverse"])
+		material.set_shader_parameter("show_box", show["box"])
+		material.set_shader_parameter("show_span", show["span"])
 
 func set_night(amount: float) -> void:
 	for material: ShaderMaterial in materials.values():

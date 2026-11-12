@@ -273,6 +273,7 @@ func _fight(tree: SceneTree) -> void:
 	_check(view.camera.unproject_position(opening.spots()[player_id]).x < view.camera.unproject_position(opening.spots()[trainee_id]).x, "the player on the left, the trainee on the right")
 	_check(opening.backdrop.visible and is_equal_approx(opening.backdrop.amount, 1.0) and float(opening.backdrop.parameter("darken")) > 0.0 and _holds_stage(opening.backdrop, arena), "the map round the stage a soft, darker backdrop; the stage's own space clear")
 	_check(ui._shade.modulate.a < 1.0, "the panel's shade lighter: the backdrop darkens the map instead")
+	_check(_clears_front(view, arena, opening), "what stands in the stage's space or before it gives way (the occluders and the grass): %s" % [view.occlusion.show])
 	# One who joins (a 天将 summoned) gets a place at the back of their side; the base grows to hold them.
 	var joined: Dictionary[StringName, Vector2] = {player_id: player_at, trainee_id: trainee_at, &"test.joiner": trainee_at}
 	opening.seat(joined, [trainee_id, &"test.joiner"])
@@ -361,6 +362,7 @@ func _fight(tree: SceneTree) -> void:
 			break
 		await tree.process_frame
 	await tree.process_frame
+	_check(view.occlusion.show.is_empty() and _show_on(view) == [0.0], "everyone down: the map whole again: %s" % [_show_on(view)])
 	_check(not ui.opening.landing() and not view.placing() and view.placed_at(player_id) == null, "everyone down again")
 	_check(view.actors[player_id].position.is_equal_approx(VoxelMapGeometry.point(map.player_body.global_position, 0.02)) and view.actors[trainee_id].position.is_equal_approx(VoxelMapGeometry.point(trainee_body.global_position, 0.02)), "each figure back where its body stands")
 	_check(view.world.get_children().all(func(node: Node) -> bool: return not node is VoxelBackdrop or node.is_queued_for_deletion()), "the backdrop gone")
@@ -417,6 +419,34 @@ func _stage_up(opening: BattleStageOpening, view: WorldVoxelView, arena: BattleA
 
 ## The backdrop leaves the stage's own space clear: the base's footprint (and a little more), in
 ## the stage's frame as it stands now.
+## The view's occluders (and its grass) give way round the raised stage: its space from under its
+## foot to over the fighters' heads, its footprint all round (owner, 2026-11-12: a gorge's walls
+## hid the stage).
+func _clears_front(view: WorldVoxelView, arena: BattleArena, opening: BattleStageOpening) -> bool:
+	var show: Dictionary = view.occlusion.show
+	if show.is_empty() or _show_on(view) != [1.0] or view.occlusion.materials.is_empty():
+		return false
+	var box: Vector4 = show["box"]
+	var span: Vector2 = show["span"]
+	var foot: Rect2 = arena.footprint(0.0)
+	var inverse: Projection = show["inverse"]
+	var origin: Vector4 = inverse * Vector4(arena.global_position.x, arena.global_position.y, arena.global_position.z, 1.0)
+	var heads: bool = true
+	for id: StringName in opening.spots():
+		heads = heads and opening.spots()[id].y - arena.global_position.y + 1.9 <= span.y
+	return box.x <= foot.position.x and box.y <= foot.position.y and box.z >= foot.end.x and box.w >= foot.end.y and span.x < 0.0 and heads and Vector3(origin.x, origin.y, origin.z).is_zero_approx()
+
+
+## The show_on of every material that gives way to a show (VoxelOcclusion), each value once.
+func _show_on(view: WorldVoxelView) -> Array:
+	var values: Array = []
+	for material: ShaderMaterial in view.occlusion.materials.values() + view.occlusion._sharing:
+		var on: float = float(material.get_shader_parameter("show_on"))
+		if not values.has(on):
+			values.append(on)
+	return values
+
+
 func _holds_stage(backdrop: VoxelBackdrop, arena: BattleArena) -> bool:
 	var box: Vector4 = backdrop.parameter("box")
 	var foot: Rect2 = arena.footprint(0.0)
