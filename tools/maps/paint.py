@@ -66,6 +66,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -170,7 +171,27 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
                  'layout_path = "' + presentation['layout'] + '"\n')
     text += furnishings(entry['draw'])
     text += life.scene_node(life.rooms_of(entry))
+    zones_apart(text, scene['map'])
     return drawn.tiles.apply(text)
+
+
+_SHAPE = re.compile(r'\[sub_resource type="RectangleShape2D" id="([^"]+)"\]\nsize = Vector2\(([-\d.]+), ([-\d.]+)\)')
+_ZONE = re.compile(r'\[node name="([^"]+)" type="Area2D" parent="Zones"\]\nposition = Vector2\(([-\d.]+), ([-\d.]+)\)\n'
+                   r'[^\[]*?zone_id = &"([^"]+)"\n\n\[node name="CollisionShape2D" type="CollisionShape2D" '
+                   r'parent="Zones/\1"\]\nshape = SubResource\("([^"]+)"\)')
+
+
+def zones_apart(text: str, map_id: str) -> None:
+    """No two zones of one painted map overlap, whatever technique drew them: a body there would
+    stand in both, and a save refuses that spot (MapPlacementValidator's one zone per centre)."""
+    sizes = {m[1]: (float(m[2]), float(m[3])) for m in _SHAPE.finditer(text)}
+    rects = []
+    for m in _ZONE.finditer(text):
+        (x, y), (w, h) = (float(m[2]), float(m[3])), sizes[m[5]]
+        rects.append((m[4], (x - w / 2, y - h / 2, x + w / 2, y + h / 2)))
+    for i, (a, (ax0, ay0, ax1, ay1)) in enumerate(rects):
+        for b, (bx0, by0, bx1, by1) in rects[i + 1:]:
+            assert not (ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1), ('zones overlap', map_id, a, b)
 
 
 def furnishings(draw: dict) -> str:

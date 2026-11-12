@@ -66,6 +66,10 @@ static func inspect(
 					corpse.corpse_item_instance_id,
 					"live corpse has reached FINAL without completed destruction",
 				)
+		# A making or a told test is a call_out, not saved: the thing or the deed would be lost
+		# while its temp mark stays (筱薇 takes no second 竹子).
+		if not map.npc_life.makings.is_empty() or not map.npc_life.trials.is_empty():
+			return Result.block(Result.Outcome.NPC_WORKING, map.map_id(), "an NPC is making something or telling a test")
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var player_result: OldPineSaveEligibilityResult = _inspect_character(
@@ -94,6 +98,11 @@ static func inspect(
 		)
 		if not npc_result.allowed():
 			return npc_result
+	# The capture's own check of where the player stands (OldPineWorldSaveCapture), asked first so
+	# that a refusal for it says so and the autosave waits for the player to step on.
+	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
+	if body != null and player != null and player.world_location() != null and body.character_id == player.character_id and not MapPlacementValidator.is_valid_character_position(session.active_map(), player.world_location().zone_id, body.global_position):
+		return Result.block(Result.Outcome.PLAYER_POSITION, player.character_id, "position outside saved zone or inside obstacle")
 	return Result.allow()
 
 
