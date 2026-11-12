@@ -284,6 +284,36 @@ func _beats_panel(tree: SceneTree) -> void:
 	panel._point(&"es2:test/0")
 	panel._move_pressed(&"es2:test/0")
 	check(panel.strip_text.text == "他起手：守" and panel.chips.preview() == [0, true], "pressing the move clears the pointing")
+	# 节拍填格: the feel off, a move taken fills its slot when the record shows it (no effect);
+	# on, its beat flies from its button and fills the slot now, the count following once it is full.
+	check(not panel.fill_beat(&"es2:test/1") and panel.chips.pending_count() == 0 and not panel.beat_fill.playing(), "the feel off: no fill, nothing held")
+	TestFeel.use()
+	check(panel.fill_beat(&"es2:test/1") and panel.chips.pending_count() == 2 and panel.beat_fill.playing(), "a 重 taken: its two slots held, the fill playing")
+	check(panel._left_word.text == "还剩 2 手", "while it fills the count waits: " + panel._left_word.text)
+	# The 重 resolves the next frame and closes the round: the strip waits for the fill.
+	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	projection.last_round_beats = CombatRoundBeats.new(&"p", 2)
+	projection.last_round_beats.spend(CombatMoveTags.HEAVY, 2)
+	panel.present(projection)
+	check(panel.chips.pending_count() == 2 and panel.chips._shown_slots() == ([CombatMoveTags.HEAVY, CombatMoveTags.HEAVY] as Array[StringName]) and panel._left_word.text == "还剩 2 手", "the round closed under the fill: the two slots still filling, the count still 2: " + panel._left_word.text)
+	panel.beat_fill.advance(1.0)
+	check(not panel.beat_fill.playing() and panel.chips.pending_count() == 0 and panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel._left_word.text == "还剩 2 手", "full: the new round shows, fresh slots: " + panel._left_word.text)
+	# A beat the record has not caught up with when the fill is full: held, the count less it.
+	check(panel.fill_beat(&"es2:test/0") and panel.chips.pending_count() == 1, "a 快 taken: one slot held")
+	panel.beat_fill.advance(1.0)
+	check(panel.chips.pending_count() == 1 and panel._left_word.text == "还剩 1 手", "full before the record: still held, the count less it: " + panel._left_word.text)
+	projection.player_beats.spend(CombatMoveTags.QUICK, 1)
+	projection.round_running = true
+	projection.waiting = false
+	panel.present(projection)
+	check(panel.chips.pending_count() == 0 and panel.chips.slots() == ([CombatMoveTags.QUICK, &""] as Array[StringName]) and panel._left_word.text == "还剩 1 手", "the record has it: the record's slot: " + panel._left_word.text)
+	TestFeel.restore()
+	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	projection.last_round_beats = null
+	projection.round_running = false
+	projection.waiting = true
+	panel.present(projection)
+	check(panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel._left_word.text == "还剩 2 手", "a new round: fresh slots")
 	# The orders: the perform with its price, the exerts in one 运功 menu, 逃跑 and 投降 small at the end.
 	var row: Array[String] = []
 	for child: Node in panel._actions.get_children():

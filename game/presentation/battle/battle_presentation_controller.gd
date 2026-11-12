@@ -201,6 +201,7 @@ func _end_hold() -> void:
 	_hold_shield.visible = false
 	end_stamp.visible = false
 	move_titles.clear()
+	action_panel.beat_fill.clear()
 	nameplates.clear()
 	scene_show.end()
 	opening.close()
@@ -1685,6 +1686,8 @@ func _choose_move(action_id: StringName) -> void:
 		return
 	if _session.combat_encounter_coordinator().choose_attack(action_id):
 		sounds.play(BattleSounds.CLAPPER)
+		# 节拍填格: the move's beat flies from its button into the strip and fills its slot.
+		action_panel.fill_beat(action_id)
 		refresh_projection()
 
 

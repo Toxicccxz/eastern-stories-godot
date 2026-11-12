@@ -72,6 +72,13 @@ var _left_word: Label
 var chips: BattleBeatChips
 var strip_text: Label
 var ring: BattleCounterRing
+## 节拍填格 (DECISIONS「节拍填格」): the pressed move's beat flying up and filling its slot, drawn
+## over the whole panel; whether it is still filling (the count waits for it).
+var beat_fill: BattleBeatFill
+var _filling: bool = false
+## The count before the press, shown while its fill plays; the font size the count was fitted at.
+var _left_before: int = 0
+var _left_px: int = -1
 ## The rows that dim while the round plays (DECISIONS「战斗演出」; the buttons' own disabled
 ## state is the rule's) and are bright while the fight waits for the player.
 var decision_area: VBoxContainer
@@ -166,6 +173,7 @@ func _ready() -> void:
 	_left_word.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	_left_word.custom_minimum_size.y = BattleBeatChips.CHIP.y + BattleBeatChips.PAD.y * 2
 	_left_word.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_left_word.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_left_word.add_theme_font_size_override("font_size", GameTheme.text_size(18))
 	_left_word.add_theme_color_override("font_color", UiPalette.LANTERN)
 	strip_row.add_child(_left_word)
@@ -290,6 +298,11 @@ func _ready() -> void:
 	prompt.confirmed.connect(_on_prompt_answered.bind(true))
 	prompt.cancelled.connect(_on_prompt_answered.bind(false))
 	column.add_child(prompt)
+	# 节拍填格: over the whole panel, after everything else (the rows dim while the round plays).
+	beat_fill = BattleBeatFill.new()
+	beat_fill.name = "BeatFill"
+	beat_fill.finished.connect(_fill_finished)
+	add_child(beat_fill)
 
 
 func _notification(what: int) -> void:
@@ -583,13 +596,76 @@ func _present_strip(projection: BattlePresentationProjection, shown: bool) -> vo
 	if not offered:
 		return
 	var beats: CombatRoundBeats = projection.player_beats
-	chips.present(beats, projection.beat_rules, GameContent.catalog().pacing().feel.beat_chip_seconds)
+	if not beat_fill.playing():
+		# A fill stopped short (the fight is over): the strip is let go.
+		chips.release()
+		_filling = false
+	chips.present(beats, projection.beat_rules, GameContent.catalog().pacing().feel.beat_chip_seconds, projection.last_round_beats)
 	var can_earn: bool = beats != null and not projection.player_earn.is_empty() and projection.beat_rules != null and beats.earned.size() < projection.beat_rules.earned_beat_cap
 	chips.set_earnable(can_earn, TranslationServer.translate(CombatSchoolSkeleton.EARN_HINTS.get(projection.player_earn, "")) if can_earn else "")
 	chips.set_cursor(projection.waiting and projection.manual)
-	var left: int = 0 if beats == null else beats.remaining
+	_show_left()
+	_show_sentence()
+
+
+## The strip's first words: how many 手 are left — less a press the record does not show yet,
+## once its fill has filled.
+func _show_left() -> void:
+	_fit_left_word()
+	var beats: CombatRoundBeats = null if _projection == null else _projection.player_beats
+	var left: int = _left_before if _filling else (0 if beats == null else maxi(0, beats.remaining - chips.pending_count()))
 	# TRANSLATORS: the battle strip's first words: how many moves (手) the player has left this round; 没手了 none.
 	_left_word.text = tr("还剩 %d 手") % left if left > 0 else tr("没手了")
+
+
+## The count keeps one width (its longest words): the slots never shift as it changes.
+func _fit_left_word() -> void:
+	var font: Font = _left_word.get_theme_font(&"font")
+	if font == null:
+		return
+	var px: int = _left_word.get_theme_font_size(&"font_size")
+	if px == _left_px:
+		return
+	_left_px = px
+	var width: float = 0.0
+	for words: String in [tr("还剩 %d 手") % 9, tr("没手了")]:
+		width = maxf(width, font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px).x)
+	_left_word.custom_minimum_size.x = ceilf(width)
+
+
+## 节拍填格: the move pressed (and taken by the fight) sends its beat from its button into the
+## strip, filling its slot (a 重's two); the slot stays filled until the round's record has it.
+## False with the feel off (the slot fills when the record shows it, as before) or no free slot.
+func fill_beat(action_id: StringName) -> bool:
+	var seconds: float = GameContent.catalog().pacing().feel.beat_fill_seconds
+	var button: Button = move_buttons.get(action_id)
+	if seconds <= 0.0 or _projection == null or not _strip_shown or button == null or not chips.is_visible_in_tree():
+		return false
+	var key: StringName = _move_tags.get(action_id, CombatMoveTags.NONE)
+	if key == CombatMoveTags.NONE:
+		key = CombatBeatRules.COST_PLAIN
+	var before: int = 0 if _projection.player_beats == null else maxi(0, _projection.player_beats.remaining - chips.pending_count())
+	var run: Array[int] = chips.hold(key, _projection.move_costs.get(action_id, 1))
+	if run.is_empty():
+		return false
+	_left_before = before
+	var to_local: Transform2D = beat_fill.get_global_transform().affine_inverse()
+	var from: Rect2 = to_local * button.get_global_rect()
+	var to: Rect2 = to_local * (chips.get_global_transform() * chips.slot_rect(run[0], run[1]))
+	_filling = beat_fill.play(from, to, BattleBeatChips.color_of(key), BattleBeatChips.glyph_of(key), seconds)
+	if not _filling:
+		chips.release()
+	_show_left()
+	return _filling
+
+
+## The fill is full: the strip and the count take the record's last look.
+func _fill_finished() -> void:
+	if beat_fill.playing():
+		return
+	_filling = false
+	chips.release()
+	_show_left()
 	_show_sentence()
 
 
