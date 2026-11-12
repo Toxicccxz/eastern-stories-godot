@@ -377,14 +377,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	var tab: int = GameMenu.tab_for_event(event)
+	# The menu key and the pause key (Esc, Back) are the shell's even in the dialogue box and a
+	# scene: 系统 opens over them, which stand still behind it (DECISIONS「剧情演出」).
+	var shell_key: bool = event.is_action_pressed(&"menu_open") or event.is_action_pressed(&"pause_game")
 	# The dialogue box (DECISIONS「对话框」): E / A is 继续 or the focused choice; only the menu
-	# takes another key.
-	if dialogue_box.is_open() and not event.is_action_pressed(&"menu_open"):
+	# and the pause take another key.
+	if dialogue_box.is_open() and not shell_key:
 		get_viewport().set_input_as_handled()
 		_dialogue_key(event)
 		return
-	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu takes another key.
-	if _session != null and _session.scene_held() and not event.is_action_pressed(&"menu_open"):
+	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu and the pause take another key.
+	if _session != null and _session.scene_held() and not shell_key:
 		get_viewport().set_input_as_handled()
 		if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
 			waits.hurry()

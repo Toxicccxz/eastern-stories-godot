@@ -17,7 +17,9 @@ const FADE_SECONDS: float = 0.8
 var sand: TitleSand
 var title_label: Label
 var lines_label: Label
-var hint_label: Label
+## 继续 with the key or button the player's device has for it (InputGlyphs), as in the
+## dialogue box; a click on it goes on too.
+var hint: Button
 var _root: Control
 var _veil: ColorRect
 var _cards: Array[Array] = []
@@ -73,13 +75,17 @@ func _init() -> void:
 	lines_label.add_theme_font_size_override("font_size", 18)
 	lines_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	column.add_child(lines_label)
-	hint_label = Label.new()
-	hint_label.name = "Hint"
-	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	hint_label.add_theme_color_override("font_color", UiPalette.MUTED)
+	hint = Button.new()
+	hint.name = "Hint"
 	# TRANSLATORS: native (终章 C): under a card of the ending told over the 沙盘: go on.
-	hint_label.text = "E 继续"
-	column.add_child(hint_label)
+	hint.text = "继续"
+	hint.flat = true
+	hint.add_theme_color_override("font_color", UiPalette.MUTED)
+	hint.add_theme_color_override("font_hover_color", UiPalette.LANTERN)
+	hint.focus_mode = Control.FOCUS_NONE
+	hint.size_flags_horizontal = Control.SIZE_SHRINK_END
+	InputGlyphs.decorate(hint, &"interact")
+	column.add_child(hint)
 	_veil = ColorRect.new()
 	_veil.name = "Veil"
 	_veil.color = Color.BLACK
@@ -99,6 +105,12 @@ func play(cards: Array[Array], final: bool, wait_for: Callable = Callable()) -> 
 	_pending = true
 	_active = true
 	_closing = false
+
+
+## The game menu (CanvasLayer 60, above this one) is up.
+func _menu_presented() -> bool:
+	var ui := get_parent() as SharedGameplayUI
+	return ui != null and ui.menu != null and ui.menu.is_presented()
 
 
 func active() -> bool:
@@ -176,9 +188,13 @@ func _end() -> void:
 		finished.emit(_final))
 
 
-## While it is told, every key and button is its own: E, A or a click goes on.
+## While it is told, every key and button is its own: E, A or a click goes on. The pause key
+## and the menu's are the shell's (系统 and the menu sit above it, the telling standing still
+## behind them; 审查修补 M), and while either is up nothing here takes a key.
 func _input(event: InputEvent) -> void:
 	if not _active or _pending or event.is_echo() or not event.is_pressed():
+		return
+	if get_tree().paused or _menu_presented() or event.is_action_pressed(&"pause_game") or event.is_action_pressed(&"menu_open"):
 		return
 	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventMouseButton:
 		get_viewport().set_input_as_handled()
