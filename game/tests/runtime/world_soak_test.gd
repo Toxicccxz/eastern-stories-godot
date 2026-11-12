@@ -295,19 +295,23 @@ func _act(stay: int, room: StringName) -> void:
 				break
 		check(npc != null, "someone at %s" % victim[0])
 		# A victim still dead from an earlier stay waits for its room's reset, and one gone home for
-		# the night (DECISIONS「夜里冷清」: off the map, nobody to pick) for the morning. By night people
+		# the night (DECISIONS「夜里冷清」: off the map, nobody to pick) for the morning. At dusk people
 		# walk home: one may cross into the next room between the step beside it and the blow
-		# (DIFFERENT_LOCATION), so the player steps beside it again, a few times at most.
+		# (DIFFERENT_LOCATION), so the player steps beside it again, a few times at most, or go in at
+		# its door (then it is let be, as one already in).
 		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.exists_in_map:
 			var outcome: int = -1
 			for attempt: int in 4:
+				# Gone in at its door meanwhile (dusk sends the street home): nobody to strike now.
+				if not npc.exists_in_map:
+					break
 				check(_beside(map, npc), "beside %s" % victim[0])
 				await _tree.physics_frame
 				map.select_npc(npc.character_id)
 				outcome = map.attack_selected().outcome
 				if outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter():
 					break
-			check(outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter(), "attack %s (%d, %s)" % [victim[0], outcome, _where()])
+			check(outcome == CombatSliceInitiationResult.Outcome.COMPLETED or _session.combat_encounter_coordinator().has_active_encounter() or not npc.exists_in_map, "attack %s (%d, %s)" % [victim[0], outcome, _where()])
 			# Fought out where it began (world time going on), then back to the stay's own room: the
 			# stay is spent there, not beside the victim in 雪亭.
 			var fought: int = 0
