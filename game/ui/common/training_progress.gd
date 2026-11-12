@@ -113,10 +113,15 @@ func _on_visibility_changed() -> void:
 		hide() # The last run's lines go with the page.
 
 
+## Why the last run stopped (TrainingRun.Stop; NONE before any).
+var last_stop: TrainingRun.Stop = TrainingRun.Stop.NONE
+
+
 func _end() -> void:
 	var run: PlayerTrainingRun = _run
 	_run = null
 	var lines: Array[ColoredLine] = run.finish()
+	last_stop = run.training.stop
 	status.text = "\n".join(ColoredLine.texts(lines))
 	bar.hide()
 	stop_button.hide()

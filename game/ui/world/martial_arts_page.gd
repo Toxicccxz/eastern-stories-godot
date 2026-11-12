@@ -65,6 +65,8 @@ var study_row: HFlowContainer
 var feedback: Label
 ## The continuous 练习 / 打坐 / 冥思 / 修行 under way, under the row that started it.
 var progress: TrainingProgress
+## 歇到回满 (DECISIONS「歇到回满」), under both columns while 精, 气 or 神 is below full.
+var rest_button: Button
 ## Action -> its button: enable:<use>:<skill>, disable:<use>, practice:<use>,
 ## practice_run:<use>, exert:<function>, conjure:<function>, cast:<function>,
 ## self_learn:<skill>, study:<item instance>.
@@ -200,6 +202,9 @@ func _init() -> void:
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log,
 	# and these lines are there already.
 	feedback = _label("LastLines")
+	rest_button = _button(self, "Rest", RestLines.BUTTON)
+	rest_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	rest_button.pressed.connect(_rest)
 	progress = TrainingProgress.new()
 	add_child(progress)
 	progress.finished.connect(_run_finished)
@@ -277,6 +282,10 @@ func refresh() -> void:
 	for amount: SpinBox in [exercise_amount, enforce_amount, meditate_amount, respirate_amount]:
 		amount.editable = not running
 	exercise_target.disabled = running
+	rest_button.visible = WorldSessionController.rest_offered() and not RestRules.rested(state)
+	var refused: String = _session.rest_refusal()
+	rest_button.disabled = running or not refused.is_empty()
+	rest_button.tooltip_text = tr(RestLines.HINT) if refused.is_empty() else refused
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
 	_fit_cards()
 
@@ -606,8 +615,18 @@ func _run_finished(_lines: Array[ColoredLine]) -> void:
 	if not is_visible_in_tree():
 		return
 	refresh()
-	if is_instance_valid(_run_button) and _run_button.is_visible_in_tree():
+	# Stopped for want of 精, 气 or 神 (the step refused): the rest is the next thing to do.
+	if progress.last_stop in [TrainingRun.Stop.REFUSED, TrainingRun.Stop.WASTE_ESSENCE] and rest_button.visible and not rest_button.disabled:
+		rest_button.grab_focus()
+	elif is_instance_valid(_run_button) and _run_button.is_visible_in_tree():
 		_run_button.grab_focus()
+
+
+## 歇到回满: the menu closes, the player rests, and it opens again on this page once full.
+func _rest() -> void:
+	if _session == null or progress.running() or _session.shared_ui() == null:
+		return
+	_session.shared_ui().rest(_session.shared_ui().menu.open.bind(GameMenu.Tab.MARTIAL_ARTS))
 
 
 func _exercise() -> void:

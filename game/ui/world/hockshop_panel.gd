@@ -132,6 +132,9 @@ static func sell_text(result: HockshopSellResult) -> String:
 		if delivered < result.valuation.actual_payout:
 			return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。") % delivered
 		return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。") % delivered
+	if result.outcome == HockshopSellResult.Outcome.TOO_HEAVY:
+		# TRANSLATORS: a pawnshop sale refused before anything moved (DECISIONS「拿不动就不收钱」).
+		return TranslationServer.translate("这笔钱你拿不动：身上太重，没有卖。先放下些东西再来。")
 	if result.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE:
 		return TranslationServer.translate("交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。").format({
 			"stage": result.stage, "delivered": delivered,

@@ -14,6 +14,85 @@
 - **为什么只是暂定：** 成长角色假设潜能（经验的一半）全花在武功上，实际玩家受精的回复限制只会更弱；模拟的打法是固定的（每手打第一个还站着的敌人、默认姿态、不用绝招和守势），会用绝招和克制的玩家更强。对手强弱几乎全由经验项决定，胜率在经验上很陡、一档 40 局也有约 ±8% 的噪声，成长节奏定了要重量。侮天鬼一仗要打二十回合上下、商玦两回合就分胜负：前者是玩家的气不长，后者是旋芒和商玦都一下见血，调对手的经验都治不了，等 owner 定。
 - **测试：** `boss_strength_test`（第三到六章、第九章揭发）、`boss_strength_finale_test`（湖畔、冰龙厅）、`boss_strength_demon_test`（侮天鬼四形态，最好打的不比最难打的难）：固定种子、成长角色、每场 16 局、宽区间（没帮手的 35–90%、帮手在场的 70–100%）；`story_chapter6_test` 和 `story_finale_b_test` 不再给 100 万气、不再把敌人的气压到 1，改用成长角色真打（第六章 17432 经验、终章 15 万经验，空手柳家拳，剧情测试照旧是自动打法——自动打法要过 ES2 的勇气关又空手，比模拟弱得多：终章 8 万经验在「再封」那条路上输给商玦和四个道士）。模拟只让剧情里在场的人上（`away`）：冰龙厅的六条冰龙、甬道里没钥匙的两个狱卒先撤下地图——模拟的玩家先动手、一动手整间屋子一起上，冰龙曾在每档第一局跟着上，一局拖到一千五百多步（这一个套件六分钟）；阵容检查也数「别的人」，再有外人上场就报。
 
+## Fresh water supply loop (S6B only) — J 款
+
+(已被「拿不动就不收钱」取代，2026-11-12：牛皮酒袋和别的货一样，付钱后拿不动就不卖、不收钱。条目其余各款仍在 DECISIONS。)
+
+- **J — wineskin-specific Vendor extension:** Explicitly extend S4B waiter A–D ONLY to this offer.
+  Resolve/validate item/liquid/persistence facts and canonical price before affordability/payment;
+  malformed static facts reject free. Preserve S3B0/1/2 and ordered payment. After payment allocate
+  → full-weight registration → index → fresh liquid state → post-payment capacity transfer.
+  No pre-payment final-weight preflight. Paid failure retains money and sequence/ID consumption;
+  destroy only safe parentless product through authoritative ItemLifecycle, then liquid association,
+  then derived index. No refund/drop/orphan Save/timer/fallback. Cleanup failure is authority failure.
+  Truthful paid=true/delivered=false. Dumpling remains unchanged; no generic Vendor/Bank policy.
+
+## Snow waiter / dumpling supply loop (S4B only) — A、B 末句、C 款
+
+(已被「拿不动就不收钱」取代，2026-11-12：买不动的货不再收钱，先说明原因。条目其余各款仍在 DECISIONS。)
+
+- **A — Vendor-specific Type B:** Resolve/quote, affordability, successful ordered payment,
+  allocate/create goods, then attempt full-weight delivery. Ordinary capacity failure keeps all
+  payment/depletion and consumed IDs/sequences. Immediately remove the provably parentless
+  product through authoritative ItemLifecycle, remove associated food state only after removal,
+  then update the derived index. No refund, ground drop, orphan persistence, timer or retry.
+  Cleanup failure is an explicit authority failure; no fallback. This is separately approved
+  for Vendor, not inherited from Workplace S2 or Bank S3B and not a general failed-transfer policy.
+  Capacity admission still uses post-payment inventory, never an earlier final-weight preflight.
+- **C — Type B truthful presentation:** Report paid=true/delivered=false when paid goods
+  are not received. Suppress LPC Vendor's unconditional success text without changing money order.
+  Preserve underlying affordability, payment, allocation, transfer and cleanup evidence.
+
+## Currency exchange / payment core (S3B only) — C、D 款
+
+(已被「拿不动就不收钱」取代，2026-11-12：换完拿不动的兑换先拒绝，原币目标币都不动；已有目标堆也查。条目其余各款仍在 DECISIONS。)
+
+- **C — Bank-only Type B:** New target allocation and authored amount1 creation precede its
+  one-unit-weight transfer attempt. On ordinary failed delivery, establish the converted target
+  amount, debit source in source order, then immediately destroy the parentless target through
+  ItemLifecycle. Forget index state only after authoritative removal. Keep consumed sequence;
+  no refund/source restoration/drop/persistent orphan/timer/retry. Cleanup failure is an authority
+  failure with no fallback. This is separately approved for Bank, not inherited from S2 or applicable
+  to Vendor. Exact MudOS cleanup timing is deliberately not preserved.
+- **D — Type A:** Existing target growth has no transfer/capacity admission. New targets move at
+  amount1 before full growth and before source debit. No final/net/gross weight preflight or
+  post-growth veto; over-cap results and strict-cap equality are retained.
+
+## Snow Workplace undeliverable reward cleanup (S2 only)
+
+(已被「拿不动就不收钱」取代，2026-11-12：工钱拿不动时先说明、不干活，不再扣了精神又销毁工钱。)
+
+**Decision (owner-approved):** When the source work reward is created but cannot be moved to
+Player because of capacity, Native preserves the already-applied sen30 then gin30 costs and
+consumed SessionItemIdAllocator sequence, then immediately destroys the undelivered reward
+through the existing ItemLifecycle authority. Its derived index snapshot is removed only after
+authoritative destruction. Native does not refund the work cost, drop the reward, persist the
+orphan or introduce a cleanup timer.
+
+**Compatibility impact:** `d/snow/workplace.c` ignores `silver->move(me)` failure; source leaves
+a transient ownerless object for later MudOS/driver cleanup (`feature/move.c`, `feature/clean_up.c`).
+Immediate deterministic cleanup replaces only that infrastructure lifetime, not eligibility,
+resource order, reward amount, inventory outcome or allocator consumption. Exact cleanup-timing
+parity is not claimed. Cleanup failure is an authority error with no alternate destruction or
+persistent-orphan fallback. This decision applies only to the audited Snow Workplace path; it is
+not a general policy for future failed transfers.
+
+## Hockshop valuation / payout / sell lifecycle (H2) — H、I 款
+
+(已被「拿不动就不收钱」取代，2026-11-12：钱拿不动的卖断先拒绝；拿得动的整份付清。条目其余各款仍在 DECISIONS。)
+
+- **H — Type A ordered partial capacity result:** Sold item remains held/equipped during
+  admission. Ordinary capacity refusal continues after its required cleanup; retain earlier
+  delivered money and destroy the sold item after normal attempts complete, even if both fail.
+  No refund, rollback, ground drop, final-total/net-weight preflight or existing-stack bypass.
+- **I — NEW Hockshop-specific Type B cleanup:** Immediately after each ordinary capacity
+  refusal, destroy that parentless clone through authoritative ItemLifecycle, retaining consumed
+  allocator sequence/ID, BEFORE attempting the next denomination. No orphan persistence, ID reuse,
+  cleanup timer or compensation. This deliberately replaces later MudOS cleanup, NOT its exact
+  timing, and is separately approved, NOT inherited from Work/Bank/Vendor. Cleanup failure returns
+  AUTHORITY_FAILURE, retains reached effects and stops: no later denomination or sold-item
+  destruction. This supersedes H1's suggested all-attempts-before-cleanup order.
+
 ## 条件看模式 (势力线第一批 封山 B)
 
 (已被「取消经典模式」取代：游戏只有一种节奏，条件 `{"pace"}` 删掉；大黄石的推法和「点」字诀学了就有。)

@@ -105,6 +105,16 @@ class GameplaySuiteTests(unittest.TestCase):
             verify.suite_order(["tied_b", "new", "tied_a", "mid", "slow"], times),
         )
 
+    def test_long_suites_have_their_own_limit(self) -> None:
+        self.assertEqual(verify.suite_timeout("res://tests/core/anything_test.gd"), verify.SUITE_TIMEOUT_SECONDS)
+        soak = "res://tests/runtime/world_soak_test.gd"
+        self.assertGreater(verify.suite_timeout(soak), verify.SUITE_TIMEOUT_SECONDS)
+        # Each override names a suite that exists and leaves room over its recorded time.
+        times = verify.load_suite_times()
+        for suite, limit in verify.SUITE_TIMEOUT_OVERRIDES.items():
+            self.assertTrue((REPOSITORY / "game" / suite.removeprefix("res://")).is_file(), suite)
+            self.assertGreaterEqual(limit, 2 * times.of(suite), suite)
+
     def test_recorded_suite_times_are_usable(self) -> None:
         times = verify.load_suite_times()
         self.assertGreater(times.default_seconds, 0)

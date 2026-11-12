@@ -129,19 +129,14 @@ func purchase_failures() -> void:
 		f = funded()
 		var foods: FoodCollection = FoodCollection.new()
 		result = buy_dumpling(f.context, foods, f.allocator, capacity)
-		# Source coins 100->85, silver weighs37: 122+80=202; prepayment137+80=217.
-		check(f.context.select(COIN).amount == 85 and f.allocator.next_dynamic_sequence == 2, "capacity checked AFTER payment/allocation")
+		# Source coins 100->85, silver weighs37: 122+80=202; prepayment137+80=217. DECISIONS
+		# 「拿不动就不收钱」: the weight after payment is checked before any money moves.
 		check(result.delivered == (capacity == 202), "exact postpayment full weight admission " + str(capacity))
-		if capacity == 201:
-			check(result.paid and result.outcome == VendorPurchaseResult.Outcome.DELIVERY_FAILED and result.cleanup.succeeded(), "capacity paid/no product with authoritative cleanup")
-			check(not f.context.inventory.is_registered(result.item_id) and not f.context.index.has_snapshot(result.item_id) and foods.state(result.item_id) == null, "no parentless orphan")
-	failing = Finance.FailingRemoval.new()
-	failing.block_parentless = true
-	f = funded(failing)
-	var foods: FoodCollection = FoodCollection.new()
-	result = buy_dumpling(f.context, foods, f.allocator, 201)
-	check(result.outcome == VendorPurchaseResult.Outcome.AUTHORITY_FAILURE and result.paid and not result.cleanup.succeeded(), "cleanup failure explicit; not fake success")
-	check(f.context.inventory.is_registered(result.item_id) and f.context.index.has_snapshot(result.item_id) and foods.state(result.item_id) != null, "failed removal retains food/index until authoritative removal")
+		if capacity == 202:
+			check(f.context.select(COIN).amount == 85 and f.allocator.next_dynamic_sequence == 2, "paid and delivered")
+		else:
+			check(not result.paid and result.outcome == VendorPurchaseResult.Outcome.TOO_HEAVY and result.allocation == null, "too heavy: refused before payment")
+			check(f.context.select(COIN).amount == 100 and f.allocator.next_dynamic_sequence == 1 and foods.instance_ids().is_empty(), "too heavy: no coin taken, nothing made")
 	f = funded()
 	result = buy_dumpling(f.context, RefusingFood.new(), f.allocator, 1000)
 	check(result.paid and result.outcome == VendorPurchaseResult.Outcome.CREATION_FAILED and result.cleanup.succeeded() and not f.context.inventory.is_registered(result.item_id) and not f.context.index.has_snapshot(result.item_id), "partially registered parentless product cleanup")

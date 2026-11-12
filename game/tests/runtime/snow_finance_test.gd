@@ -152,20 +152,25 @@ func _bank() -> bool:
 		check(result.succeeded() and result.target_id == result.source_id and amount(f.context, type) == 7, "same type identity/final")
 		check(result.target_change.amount_change.amount_before == 7 and result.target_change.amount_change.amount_after == 10 and result.source_change.amount_change.amount_before == 10 and result.source_change.amount_change.amount_after == 7, "temporary growth, then subtraction")
 		check(result.transfer == null and result.allocation == null and f.allocator.next_dynamic_sequence == 1, "no same-type allocation or capacity veto")
+	# DECISIONS「拿不动就不收钱」: an exchange that would end over the limit and heavier than it
+	# began is refused before anything moves, a new pile or one held already.
 	var f: Fixture = amounts(0,2,0)
 	ballast(f.context, 925) # current999
 	var result: BankConversionResult = BankConversionService.convert(f.context, f.allocator, 1000, SILVER, COIN, 1)
-	check(result.succeeded() and f.context.inventory.contents_weight(f.context.endpoint()) == 1062, "new one-unit exact cap then overcap1062")
+	check(result.outcome == BankConversionResult.Outcome.TOO_HEAVY and amount(f.context, SILVER) == 2 and f.context.inventory.contents_weight(f.context.endpoint()) == 999 and f.allocator.next_dynamic_sequence == 1, "new pile over the limit refused, nothing moves")
 	f = amounts(0,2,1)
 	ballast(f.context, 925) # current1000
 	result = BankConversionService.convert(f.context, f.allocator, 1000, SILVER, COIN, 1)
-	check(result.succeeded() and result.transfer == null and f.context.inventory.contents_weight(f.context.endpoint()) == 1063, "existing overcap1063 no transfer")
+	check(result.outcome == BankConversionResult.Outcome.TOO_HEAVY and amount(f.context, COIN) == 1 and f.context.inventory.contents_weight(f.context.endpoint()) == 1000, "existing pile over the limit refused too")
+	f = amounts(0,2,0)
+	ballast(f.context, 925 - 63) # current936: 1 silver -> 100 coins ends at exactly 999
+	result = BankConversionService.convert(f.context, f.allocator, 999, SILVER, COIN, 1)
+	check(result.succeeded() and f.context.inventory.contents_weight(f.context.endpoint()) == 999 and amount(f.context, COIN) == 100, "ends exactly at the limit: done")
 	f = amounts(0,0,200)
 	ballast(f.context, 800)
 	result = BankConversionService.convert(f.context, f.allocator, 1000, COIN, SILVER, 100)
-	check(result.outcome == BankConversionResult.Outcome.DELIVERY_FAILED and amount(f.context, COIN) == 100 and amount(f.context, SILVER) == 0, "capacity rejection still debits")
-	check(result.target_change.amount_change.requested_amount == 1 and result.cleanup.removal.succeeded and result.cleanup.index_forgotten, "target amount then authoritative cleanup")
-	check(f.context.inventory.contents_weight(f.context.endpoint()) == 900 and f.allocator.next_dynamic_sequence == 2 and not f.context.inventory.is_registered(result.target_id), "no orphan/refund/ID reuse")
+	check(result.succeeded() and amount(f.context, COIN) == 100 and amount(f.context, SILVER) == 1, "lighter at the limit: done (the new pile's move is not a veto)")
+	check(f.context.inventory.contents_weight(f.context.endpoint()) == 937 and f.allocator.next_dynamic_sequence == 2, "937, one ID")
 	f = amounts(0,1,200)
 	ballast(f.context, 763)
 	result = BankConversionService.convert(f.context, f.allocator, 1000, COIN, SILVER, 100)
@@ -173,7 +178,7 @@ func _bank() -> bool:
 	f = amounts(0,0,100)
 	ballast(f.context, 900)
 	result = BankConversionService.convert(f.context, f.allocator, 1000, COIN, SILVER, 100)
-	check(result.outcome == BankConversionResult.Outcome.DELIVERY_FAILED and f.context.stacks.registered_count() == 0 and f.context.inventory.contents_weight(f.context.endpoint()) == 900, "both exhausted source and failed target removed")
+	check(result.succeeded() and amount(f.context, COIN) == 0 and amount(f.context, SILVER) == 1 and f.context.inventory.contents_weight(f.context.endpoint()) == 937, "all coins to one silver at the limit: done")
 
 
 	return true
@@ -197,14 +202,16 @@ func _errors() -> bool:
 	f.context.stacks._apply_amount(&"gold", CurrencyArithmetic.MAXIMUM)
 	check(MoneyPaymentService.can_afford(f.context, 1).outcome == MoneyAffordabilityResult.Outcome.ARITHMETIC_FAILURE and MoneyPaymentService.pay(f.context, 1).outcome == MoneyPaymentResult.Outcome.ARITHMETIC_FAILURE, "value overflow")
 	var result: BankConversionResult = BankConversionService.convert(f.context, f.allocator, 9999, GOLD, COIN, CurrencyArithmetic.MAXIMUM)
-	check(result.outcome == BankConversionResult.Outcome.ARITHMETIC_FAILURE and result.stage == BankConversionResult.Stage.TARGET_AMOUNT and result.transfer.succeeded and amount(f.context, COIN) == 1, "late multiplication failure preserves new/move amount1")
-	check(amount(f.context, GOLD) == CurrencyArithmetic.MAXIMUM and f.allocator.next_dynamic_sequence == 2, "late overflow no source debit/ID rollback")
+	# The carry check multiplies first (DECISIONS「拿不动就不收钱」): an overflow fails before anything moves.
+	check(result.outcome == BankConversionResult.Outcome.ARITHMETIC_FAILURE and result.allocation == null and amount(f.context, COIN) == 0, "multiplication overflow fails before anything moves")
+	check(amount(f.context, GOLD) == CurrencyArithmetic.MAXIMUM and f.allocator.next_dynamic_sequence == 1, "overflow: no source debit, no ID")
 	var inv: FailingRemoval = FailingRemoval.new()
 	f = Fixture.new(inv)
 	add_money(f.context, COIN, 200, &"coin")
 	inv.block_parentless = true
 	result = BankConversionService.convert(f.context, f.allocator, 200, COIN, SILVER, 100)
-	check(result.outcome == BankConversionResult.Outcome.AUTHORITY_FAILURE and result.stage == BankConversionResult.Stage.CLEANUP, "failed-target lifecycle failure")
+	# Lighter after: done, the new pile's move no veto (DECISIONS「拿不动就不收钱」); no cleanup to fail.
+	check(result.succeeded() and result.cleanup == null, "lighter exchange at the limit needs no cleanup")
 	check(amount(f.context, COIN) == 100 and f.context.inventory.is_registered(result.target_id) and f.context.index.has_snapshot(result.target_id), "no cleanup fallback and no source refund")
 	check(CurrencyArithmetic.add(CurrencyArithmetic.MAXIMUM, 1) == -1 and CurrencyArithmetic.multiply(CurrencyArithmetic.MAXIMUM, 2) == -1, "checked arithmetic primitives")
 	inv = FailingRemoval.new()

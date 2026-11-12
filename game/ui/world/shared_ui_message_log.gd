@@ -128,6 +128,15 @@ func log_lines() -> Array[String]:
 	return _log_lines.duplicate()
 
 
+## The log emptied, its lines and their colours together. Nothing in play calls it: a suite that
+## plays several chapters on one session starts each on an empty log, as the chapter's own suite
+## does (the log keeps only the last MAX_LOG_LINES, and a suite reads what was said after a line).
+func clear() -> void:
+	_log_lines.clear()
+	_log_colors.clear()
+	_ui.combat_log.text = ""
+
+
 ## ES2 room text keeps the MUD's hard line breaks; the UI wraps it itself.
 static func room_prose(text: String) -> String:
 	return text.strip_edges().replace("\n", "")

@@ -184,41 +184,58 @@ func ownership_tests() -> void:
 
 
 func payout_tests() -> void:
-	# Source240 => silver2 weighs74, coin40 weighs40, sold sword still weighs3000.
-	for row: Array in [[114,240,2,40],[50,40,0,40],[90,200,2,0],[20,0,0,0],[74,200,2,0],[40,40,0,40]]:
+	# Source240 => silver2 weighs74, coin40 weighs40 (114), the sold sword weighs3000. DECISIONS
+	# 「拿不动就不收钱」: the sale goes through when the money fits once the sword has gone, paid in
+	# full (the payout's move counts the sword still held); a sale that leaves the player lighter
+	# goes through even over the limit; else nothing moves at all (the light sword below).
+	for row: Array in [[114 - 3000, true], [113 - 3000, true], [0, true], [114, true]]:
 		var trace: TraceInventory = TraceInventory.new()
 		var f: Fixture = fixture(SHORT, trace)
 		trace.trace.clear()
 		var result: HockshopSellResult = f.sell(3000 + row[0])
-		check(result.outcome == HockshopSellResult.Outcome.SOLD and result.payout.delivered_value == row[1], "source capacity matrix " + str(row))
-		check(Finance.amount(f.context, Finance.SILVER) == row[2] and Finance.amount(f.context, Finance.COIN) == row[3], "literal delivered amounts")
+		if not row[1]:
+			check(result.outcome == HockshopSellResult.Outcome.TOO_HEAVY and result.payout == null, "money that would not fit refuses the sale " + str(row))
+			check(f.context.inventory.is_registered(&"sale") and f.allocator.next_dynamic_sequence == 1 and Finance.amount(f.context, Finance.SILVER) == 0 and Finance.amount(f.context, Finance.COIN) == 0, "refused: sword kept, no ID spent, no money")
+			check(trace.trace.is_empty(), "refused: nothing created or removed")
+			continue
+		check(result.outcome == HockshopSellResult.Outcome.SOLD and result.payout.delivered_value == 240, "paid whole once it fits " + str(row))
+		check(Finance.amount(f.context, Finance.SILVER) == 2 and Finance.amount(f.context, Finance.COIN) == 40, "literal delivered amounts")
 		check(result.payout.attempts.size() == 2 and result.payout.attempts[0].denomination == Finance.SILVER and result.payout.attempts[1].denomination == Finance.COIN, "silver then coin")
 		check(result.payout.attempts[0].creation.amount_after == 2 and result.payout.attempts[0].creation.own_weight_after == 74 and result.payout.attempts[1].creation.amount_after == 40, "full denomination before admission")
+		check(not result.payout.attempts[0].capacity_rejected and not result.payout.attempts[1].capacity_rejected, "no part of the money lost")
 		check(f.allocator.next_dynamic_sequence == 3 and not f.context.inventory.is_registered(&"sale"), "both attempt IDs spent, sold last")
 		check(trace.trace[-1] == "remove:sale", "sold weight retained until final lifecycle")
-		for attempt: HockshopPayoutAttempt in result.payout.attempts:
-			if attempt.capacity_rejected:
-				check(attempt.cleanup.succeeded() and not f.context.inventory.is_registered(attempt.item_id) and not f.context.index.has_snapshot(attempt.item_id), "failed clone gone/no orphan")
-		if row[2] == 0:
-			check(trace.trace.find("remove:finance-test.dynamic.1") < trace.trace.find("create:finance-test.dynamic.2"), "immediate silver cleanup BEFORE coin creation")
 		check(f.context.index.snapshot_ids() == f.context.inventory.registered_item_ids() and Finance.amount(f.context, Finance.GOLD) == 0, "index exact/no gold")
-		check(f.allocator.allocate(f.context.inventory).item_instance_id == &"finance-test.dynamic.3", "failed IDs never reused")
 	for amount: int in [100,99,10000]:
 		var f: Fixture = Fixture.new()
 		var result: HockshopPayoutResult = HockshopPayoutService.pay(f.context, f.allocator, 150000, amount)
 		check(result.outcome == HockshopPayoutResult.Outcome.COMPLETE and result.attempts.size() == 1 and f.allocator.next_dynamic_sequence == 2, "skip zero denominations " + str(amount))
 		check(result.delivered_value == amount and Finance.amount(f.context, Finance.GOLD) == 0, "even10000 pays100silver notgold")
 		check(Finance.amount(f.context, Finance.COIN) == (99 if amount == 99 else 0), "single coin branch literal")
-	for capacity: int in [3000+37+5+50,3000+37+5+114]:
+	# With money held already (old silver 1 = 37, old coin 5): 42 + 114 once the sword has gone.
+	for capacity: int in [156, 3000+37+5+114]:
 		var f: Fixture = fixture()
 		Finance.add_money(f.context, Finance.SILVER, 1, &"old-silver")
 		Finance.add_money(f.context, Finance.COIN, 5, &"old-coin")
 		var result: HockshopSellResult = f.sell(capacity)
-		var silver_fit: bool = capacity == 3156
-		check(result.outcome == HockshopSellResult.Outcome.SOLD and result.payout.attempts[0].delivered == silver_fit, "existing silver cannot bypass full74 admission")
-		check(f.context.inventory.is_registered(&"old-silver") != silver_fit and not f.context.inventory.is_registered(&"old-coin"), "old merge identities destroyed iff delivered")
-		check(Finance.amount(f.context, Finance.SILVER) == (3 if silver_fit else 1) and Finance.amount(f.context, Finance.COIN) == 45, "net merged quantity exact")
+		check(result.outcome == HockshopSellResult.Outcome.SOLD and result.payout.attempts[0].delivered and result.payout.attempts[1].delivered, "existing stacks: all of it delivered " + str(capacity))
+		check(not f.context.inventory.is_registered(&"old-silver") and not f.context.inventory.is_registered(&"old-coin"), "old merge identities absorbed")
+		check(Finance.amount(f.context, Finance.SILVER) == 3 and Finance.amount(f.context, Finance.COIN) == 45, "net merged quantity exact")
 		check(f.context.stacks.stack_state(result.payout.attempts[1].item_id).amount == 45 and f.context.index.snapshot_ids() == f.context.inventory.registered_item_ids(), "incoming coin survives/index exact")
+	# TEST-ONLY: a sword of 10 that fetches 114 of money: heavier after, so the limit decides.
+	for limit: int in [113, 114]:
+		var light: Fixture = fixture()
+		light.context.inventory.update_own_weight(&"sale", 10)
+		var sold: HockshopSellResult = light.sell(limit)
+		if limit == 113:
+			check(sold.outcome == HockshopSellResult.Outcome.TOO_HEAVY and sold.payout == null, "money that would not fit refuses the sale")
+			check(light.context.inventory.is_registered(&"sale") and light.allocator.next_dynamic_sequence == 1 and Finance.amount(light.context, Finance.SILVER) == 0 and Finance.amount(light.context, Finance.COIN) == 0, "refused: sword kept, no ID spent, no money")
+		else:
+			check(sold.outcome == HockshopSellResult.Outcome.SOLD and sold.payout.delivered_value == 240, "exactly at the limit: sold, paid whole")
+	var heavy: Fixture = fixture()
+	heavy.context.inventory.update_own_weight(&"sale", 10)
+	Finance.add_money(heavy.context, Finance.SILVER, 1, &"old-silver")
+	check(heavy.sell(150).outcome == HockshopSellResult.Outcome.TOO_HEAVY and Finance.amount(heavy.context, Finance.SILVER) == 1 and heavy.context.inventory.is_registered(&"sale"), "existing silver counted: refused, nothing moves")
 
 
 func lifecycle_tests() -> void:
@@ -259,15 +276,17 @@ func failure_tests() -> void:
 	var inv: TraceInventory = TraceInventory.new()
 	inv.block_parentless = true
 	var f: Fixture = fixture(SHORT, inv)
-	var result: HockshopSellResult = f.sell(3050)
-	check(result.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE and result.payout.attempts.size() == 1 and result.removal == null, "cleanup failure stops before coin AND sold destruction")
+	# The sale checks first (DECISIONS「拿不动就不收钱」); the payout's own cleanup stays as a defence.
+	var payout: HockshopPayoutResult = HockshopPayoutService.pay(f.context, f.allocator, 3050, 240)
+	check(payout.outcome != HockshopPayoutResult.Outcome.COMPLETE and payout.attempts.size() == 1, "payout cleanup failure stops before coin")
 	check(f.allocator.next_dynamic_sequence == 2 and f.context.inventory.is_registered(&"sale") and f.context.inventory.is_registered(&"finance-test.dynamic.1"), "failed cleanup no alternate deletion/rollback")
 	inv = TraceInventory.new()
 	inv.block_parentless = true
 	f = fixture(SHORT, inv)
-	result = f.sell(3090)
-	check(result.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE and result.payout.delivered_value == 200 and result.removal == null, "coin cleanup failure preserves earlier successful silver")
-	check(f.context.inventory.is_registered(&"sale") and f.allocator.next_dynamic_sequence == 3, "second cleanup failure retains sold item and both allocations")
+	payout = HockshopPayoutService.pay(f.context, f.allocator, 3090, 240)
+	check(payout.outcome != HockshopPayoutResult.Outcome.COMPLETE and payout.delivered_value == 200, "coin cleanup failure preserves earlier successful silver")
+	check(f.context.inventory.is_registered(&"sale") and f.allocator.next_dynamic_sequence == 3, "second cleanup failure retains both allocations")
+	var result: HockshopSellResult
 	inv = TraceInventory.new()
 	f = fixture(SHORT, inv)
 	inv.block_id = &"sale"
@@ -288,7 +307,7 @@ func failure_tests() -> void:
 	f = fixture()
 	# Registration failure after allocation, using existing index virtual seam.
 	f.context.index = RefusingIndex.new()
-	var payout: HockshopPayoutResult = HockshopPayoutService.pay(f.context, f.allocator, 150000, 240)
+	payout = HockshopPayoutService.pay(f.context, f.allocator, 150000, 240)
 	check(payout.outcome == HockshopPayoutResult.Outcome.AUTHORITY_FAILURE and payout.attempts.size() == 1 and f.allocator.next_dynamic_sequence == 2, "registration failure not ordinary capacity")
 	var captured: NativeItemSnapshotCaptureResult = NativeItemPersistenceComposition.capture(f.context.inventory, f.context.stacks, f.context.index, [], [], Food.definitions(), f.foods, f.liquids)
 	check(not captured.succeeded, "invalid graph fails capture rather than normalizing")
@@ -302,7 +321,8 @@ func failure_tests() -> void:
 
 func persistence_tests(tree: SceneTree) -> void:
 	# Full production capture/JSON/restore, not a new item save model.
-	for row: Array in [[SHORT,114,240],[SHORT,50,40],[SHORT,20,0],[LEATHER,1000,160],[TestContent.DUMPLING_ITEM_ID,1000,12],[TestContent.WINESKIN_ITEM_ID,1000,16]]:
+	# DECISIONS「拿不动就不收钱」: room for the money once the sword has gone is enough; paid whole.
+	for row: Array in [[SHORT,114,240],[SHORT,50,240],[SHORT,20,240],[LEATHER,1000,160],[TestContent.DUMPLING_ITEM_ID,1000,12],[TestContent.WINESKIN_ITEM_ID,1000,16]]:
 		var random: Recovery.RandomSequence = Recovery.RandomSequence.new()
 		var session: WorldSessionController = Recovery.create_session(tree, random)
 		var context: MoneyInventoryContext = Food.context(session)

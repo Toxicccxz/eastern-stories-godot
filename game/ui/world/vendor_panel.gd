@@ -62,6 +62,9 @@ func present(title: String, labels: Dictionary[String, String]) -> void:
 func show_purchase(result: VendorPurchaseResult, goods_name: String) -> void:
 	if result.delivered:
 		feedback.text = tr("已付款，%s已放入你的随身物品。") % goods_name
+	elif result.outcome == VendorPurchaseResult.Outcome.TOO_HEAVY:
+		# TRANSLATORS: a purchase refused before payment (DECISIONS「拿不动就不收钱」): %s the goods.
+		feedback.text = tr("你身上太重，拿不动%s了，没有付钱。先放下些东西再来买。") % goods_name
 	elif result.paid:
 		feedback.text = tr("已付款，但未收到%s。") % goods_name + (tr("负重过高。") if result.outcome == VendorPurchaseResult.Outcome.DELIVERY_FAILED else tr("物品状态异常，请停止操作。"))
 	# buy.c: can_afford() 0 and 2.

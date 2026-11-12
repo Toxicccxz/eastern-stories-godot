@@ -1,7 +1,7 @@
 extends RefCounted
 
 ## 第十章 A 风 (owner's plan build/plans/第十章_计划.md, 2026-11-07「继续做」: Q1–Q3 默认; DECISIONS「第十章 A」「风」),
-## from the eighth chapter's ledger with the ninth's marks written as A–E write them (TEST-ONLY):
+## from the ninth chapter's end (StoryFixtures.chapter9_done, the deal):
 ## - WindDefinition: the wind blows from a point ahead along the route toward the player (walking into it
 ##   leads to the calm), still within calm_radius of the last point; how far one stands off the route; a
 ##   way walked into the wind; the quarter it comes from; the catalog's wind on lancheng.wilds.
@@ -12,7 +12,7 @@ extends RefCounted
 ##   nothing with native_hazards off: 经典).
 ## - The 石匣 opens to the wind there (the bell inside), not elsewhere, once.
 ## - 伏地 in the hollow the wind blows out of: asked first, 到了岚城 and the tenth's 风 step done; in another
-##   hollow: 风还没停.
+##   hollow: 风还没停; the hand-over to B's fixture (chapter10_arrived).
 ## - The 卜风坛's diviners stand there once the ninth is done and let one in a 黑冠 be; 萧辟尘 speaks of
 ##   岚城 and of the bell, 於兰天武 of 旋芒.
 
@@ -66,10 +66,7 @@ func _test_rules() -> void:
 
 
 func _ninth_done(session: WorldSessionController) -> void:
-	StoryFixtures.chapter8_done(session, false, true, false)
-	var state: CharacterState = session.player_runtime().state
-	for mark: String in ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城", "见了福安", "见了皇帝", "翻过樟木匣", "对出了原令", "见过卫沧澜", "宋朴传了话", "私了了庾子建"]:
-		state.marks[mark] = 1 # TEST-ONLY: as 第九章 A–D write them (the deal)
+	StoryFixtures.chapter9_done(session, "deal", false, true, false)
 	session.record_journal()
 
 
@@ -220,6 +217,9 @@ func _test_hollows(tree: SceneTree, session: WorldSessionController) -> void:
 	var next: StoryQuestDefinition.Step = StoryQuestLog.current_step(state, GameContent.catalog().story_quest(&"main.chapter10"))
 	_check(next != null and next.step_id == &"city", "the tenth's 风 step done, the 风铃阁 next")
 	_check(session.active_map().map_id() == &"lancheng.street" and session.player_runtime().world_location().zone_id == &"lancheng.white_gate", "伏地: up the white step into the town (B)")
+	# 章与章之间的衔接: what this package played out holds what B's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_arrived.bind("deal", false, true, false))
+	_check(handoff.is_empty(), "第十章 A played leaves what chapter10_arrived writes: %s" % [handoff])
 
 
 func _test_people(tree: SceneTree, session: WorldSessionController) -> void:
