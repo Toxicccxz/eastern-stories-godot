@@ -48,9 +48,11 @@ var heavy_blow_percent: int = 0
 ## 空手对兵器 (DECISIONS「空手对兵器」): combatd.c do_attack() (4) gives a bare-handed defender
 ## no parry at all against a weapon (pp = 0), doubles an armed defender's parry against bare
 ## hands (pp *= 2), and a bare-handed blow has no weapon share (apply/damage is a weapon's).
-## These knobs apply to the player's trained bare hands only (empty hand, a fist art enabled on
-## unarmed: CombatAttackerSnapshot / CombatDefenderSnapshot.trained_bare_hands); untrained hands,
-## NPCs, beasts and the like keep combatd.c's rule whatever the knobs say.
+## The knobs apply in the player's own fights only: the bare-hand parry and damage to the player's
+## trained bare hands (empty hand, a fist art enabled on unarmed: CombatAttackerSnapshot /
+## CombatDefenderSnapshot.trained_bare_hands), the armed parry to a weapon meeting those hands or
+## held by the player against anyone's bare hands (CombatDefenderSnapshot.player); NPCs among
+## themselves, and untrained hands against a weapon, keep combatd.c's rule.
 ## - bare_parry_percent: a bare-handed defender's parry against a weapon, this percent of what
 ##   their unarmed skill gives (the parry they have against bare hands); 0 (ES2): none.
 ## - armed_parry_percent: an armed defender's parry against bare hands, this percent of their
@@ -124,9 +126,9 @@ func with_bare_hands(p_bare_parry_percent: int, p_armed_parry_percent: int, p_ba
 
 ## The parry power a defender brings against this blow (combatd.c do_attack() (4) under the
 ## 空手对兵器 knobs): `armed` the defender holds a weapon, `weapon` the attacker does; `parry` is
-## the power of their parry skill, `bare` of their unarmed skill; `trained` the bare-handed side
-## (the attacker against an armed defender, the defender against a weapon) is the player's
-## trained bare hands, the only ones the knobs touch.
+## the power of their parry skill, `bare` of their unarmed skill; `trained` the knobs apply to this
+## blow (armed: the attacker's hands are the player's trained ones, or the defender is the player;
+## bare against a weapon: the defender's hands are the player's trained ones).
 func parry_power(armed: bool, weapon: bool, parry: int, bare: int, trained: bool = true) -> int:
 	if armed:
 		if weapon:

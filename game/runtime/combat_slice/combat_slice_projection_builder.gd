@@ -210,8 +210,10 @@ static func build_attack_input(
 	)
 	if defender.content != null and defender.content.is_ghost:
 		defender_snapshot.ghost_atman = defender.state.recovery.atman.current
-	# 空手对兵器: the player's bare hands with a fist art enabled (NPCs keep combatd.c's).
+	# 空手对兵器: the player's bare hands with a fist art enabled, and the player defending (NPCs
+	# among themselves keep combatd.c's).
 	attacker_snapshot.trained_bare_hands = attacker.is_user and primary == null and not mapped_attack_id.is_empty()
+	defender_snapshot.player = defender.is_user
 	defender_snapshot.trained_bare_hands = defender.is_user and defender.state.equipment.is_primary_hand_empty() and not defender.state.skills.mapped_skill(UNARMED_SKILL_ID).is_empty()
 	# 战斗决策层 1B: the round's standing modifiers (stance, a 守 move, the move tag held).
 	if modifiers != null:

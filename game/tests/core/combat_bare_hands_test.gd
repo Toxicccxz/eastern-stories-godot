@@ -87,6 +87,12 @@ func _test_resolver() -> void:
 	_assert_eq(_bounds(_input(modern, true, false)).slice(0, 4), [1, 2667, 2666 + 499, 20], "modern: bare hands parry a sword at 150 % of their unarmed (333 → 499); the sword's blow untouched")
 	_assert_eq(_bounds(_input(modern, true, true)), _bounds(_input(es2, true, true)), "sword on sword: nothing changes")
 	_assert_eq(_bounds(_input(modern, false, false)), _bounds(_input(_rules(150, 100, 0), false, false)).slice(0, 3) + [40] + _bounds(_input(modern, false, false)).slice(4), "bare on bare: the unarmed parry as ES2's; only the bare share added")
+	# The player armed against an NPC's bare hands: parried as a weapon, not doubled.
+	var npc_fist: CombatAttackInput = _input(modern, false, true, 20, 0, 10, 10, 20, 0, false)
+	var defender: CombatDefenderSnapshot = npc_fist.defender
+	defender.player = true
+	_assert_eq(_bounds(CombatAttackInput.new(npc_fist.attacker, defender, npc_fist.selected_action, null, modern)).slice(0, 3), [1, 2667, 2666 + 333], "an NPC's bare hands on the player's sword: parried as a weapon (333), not doubled")
+	_assert_eq(_bounds(CombatAttackInput.new(npc_fist.attacker, defender, npc_fist.selected_action, null, es2)).slice(0, 3), [1, 2667, 2666 + 666], "ES2: doubled")
 	# Untrained hands (no fist art, or not the player's): combatd.c's rule whatever the knobs say.
 	_assert_eq(_bounds(_input(modern, false, true, 20, 0, 10, 10, 20, 0, false)).slice(0, 4), [1, 2667, 2666 + 666, 20], "untrained bare hands on a sword: doubled parry, no bare share, as ES2")
 	_assert_eq(_bounds(_input(modern, true, false, 20, 0, 10, 10, 20, 0, false)).slice(0, 3), [1, 2667, 2666 + 1], "a sword on untrained bare hands: no parry, as ES2")

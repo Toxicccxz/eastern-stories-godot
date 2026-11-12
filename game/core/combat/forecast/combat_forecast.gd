@@ -217,7 +217,7 @@ static func parry_gate(input: CombatAttackInput) -> float:
 	var ap: int = attack_power(input)
 	var pp: int
 	if defender.has_primary_weapon:
-		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, attacker.trained_bare_hands)
+		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, attacker.trained_bare_hands or defender.player)
 	elif attacker.has_weapon and (input.rules.bare_parry_percent == 0 or not defender.trained_bare_hands):
 		pp = 0
 	else:

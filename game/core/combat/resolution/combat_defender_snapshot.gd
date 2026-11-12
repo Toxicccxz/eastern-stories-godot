@@ -29,6 +29,8 @@ var move_tag: StringName = &""
 ## 空手对兵器 (DECISIONS「空手对兵器」): the defender is the player's trained bare hands — no weapon
 ## in hand and a fist art enabled on unarmed — so CombatPowerRules' bare-hand knobs apply to their parry.
 var trained_bare_hands: bool = false
+## 空手对兵器: the defender is the player (an armed player parries bare hands as a weapon, not doubled).
+var player: bool = false
 
 var character_id: StringName:
 	get:
@@ -138,6 +140,7 @@ func duplicate_snapshot() -> CombatDefenderSnapshot:
 	copy.parry_power_percent = parry_power_percent
 	copy.move_tag = move_tag
 	copy.trained_bare_hands = trained_bare_hands
+	copy.player = player
 	return copy
 
 

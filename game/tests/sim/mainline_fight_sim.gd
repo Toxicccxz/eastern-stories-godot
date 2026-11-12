@@ -143,7 +143,8 @@ class Result:
 
 
 ## Tuning, this run only (run_mainline_fight_sim.gd's `tune=`): NPC definition ID -> {"exp": n,
-## "skills": {skill: raw level}, "kee": n, "force": n} put on each foe of that definition as a duel opens.
+## "skills": {skill: raw level}, "kee": n, "force": n, "applies": {key: n}} put on each foe of that
+## definition as a duel opens.
 var tune: Dictionary = {}
 ## Print each duel's end (run_mainline_fight_sim.gd's `verbose`).
 var verbose: bool = false
@@ -365,6 +366,8 @@ func _tune(npc: NpcRuntimeState) -> void:
 		s.vitality = CharacterResourceState.new(int(facts["kee"]), int(facts["kee"]), int(facts["kee"]))
 	if facts.has("force"):
 		s.recovery.inner_force.maximum = int(facts["force"])
+	for key: String in facts.get("applies", {}):
+		s.applies[key] = int(facts["applies"][key])
 
 
 func _forget(relationship: CombatRelationshipState) -> void:

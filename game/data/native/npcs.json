@@ -592,14 +592,14 @@
 				"con": 26,
 				"kar": 8
 			},
-			"combat_exp": 60000,
+			"combat_exp": 12000,
 			"score": 1200,
 			"attitude": "peaceful",
 			"skills": {
-				"blade": 70,
-				"parry": 65,
-				"dodge": 60,
-				"unarmed": 50
+				"blade": 40,
+				"parry": 35,
+				"dodge": 35,
+				"unarmed": 30
 			},
 			"carry": [
 				{
@@ -760,17 +760,17 @@
 				"con": 28,
 				"kar": 6
 			},
-			"combat_exp": 60000,
+			"combat_exp": 8000,
 			"score": 1000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"blade": 65,
-				"parry": 60,
-				"dodge": 55,
-				"unarmed": 45
+				"blade": 30,
+				"parry": 25,
+				"dodge": 25,
+				"unarmed": 20
 			},
 			"carry": [
 				{

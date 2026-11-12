@@ -63,6 +63,7 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	await _told(tree, session, terrace, weng)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and result.blows == 3 and state.marks.get("接下了接风三刃", 0) == 1 and DeedLog.done(state, "在岚城的云台上接下了岚翁的接风三刃"), "three blows stood: the mark and the deed")
 	_check(terrace.npc_life.story_trials_offered(weng).is_empty(), "not offered twice")
+	_blow_under_100(terrace, weng, trials[0], state)
 	await _act(tree, terrace, &"lancheng.whirl.self")
 	session.record_journal()
 	_check(state.marks.get("旋芒在你手里", 0) == 1 and session.player_held_item_ids().has(SWORD), "the sword drawn: in one's hand")
@@ -299,3 +300,27 @@ func _check(condition: bool, message: String) -> void:
 	_count += 1
 	if not condition:
 		_failures.append(message)
+
+
+## DECISIONS「姿态整记」: the trial's blow weighs its whole damage by its tag now; a landed blow still
+## takes less than 100 气 from the character the suite plays (twenty landed blows sampled, nobody's
+## kee, wound or force kept).
+func _blow_under_100(map: WorldMapController, npc: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
+	var kee: CharacterResourceState = state.vitality
+	var force: int = npc.character_state.recovery.inner_force.current
+	var hardest: int = 0
+	var landed: int = 0
+	for sample: int in 60:
+		if landed >= 20:
+			break
+		state.vitality = CharacterResourceState.new(100000, 100000, 100000)
+		npc.character_state.recovery.inner_force.current = force
+		if map.attack_player_outside_fight(npc, trial.blow_modifiers()) == null:
+			break
+		var lost: int = 100000 - mini(state.vitality.current, state.vitality.effective)
+		if lost > 0:
+			landed += 1
+			hardest = maxi(hardest, lost)
+	state.vitality = kee
+	npc.character_state.recovery.inner_force.current = force
+	_check(landed > 0 and hardest < 100, "%s's blow (%s): the hardest of %d landed took %d 气, under 100" % [npc.definition().display_name, trial.label, landed, hardest])
