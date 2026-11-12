@@ -6,7 +6,7 @@ extends SceneTree
 ## `weapon`: the sword build wields this instead of the fight's own weapon.
 ## `ordinary`: MainlineFightSim.ORDINARY (a few fights of the first two hours and ES2's regions) instead.
 ## `rules`: CombatPowerRules knobs for this run (e.g. rules=bare_parry_percent:50,bare_damage_percent:60).
-## `low`: each fight's first exp only (the main story alone).
+## `low`: each fight's first exp only (the main story alone; an `exploring_only` fight's one exp).
 ## `tune`: MainlineFightSim.tune for this run (a path from the project's parent folder, e.g. build/x.json).
 ## Prints a table: the lineup, each exp's win rate and median rounds of the won duels, and the
 ## game's 战前预判 before the fight.
@@ -42,6 +42,8 @@ func _run() -> void:
 			var pacing: PacingDefinition = GameContent.catalog().pacing()
 			var rules: CombatPowerRules = pacing.combat_rules()
 			for pair: String in arg.substr(6).split(","):
+				if not pair.get_slice(":", 0) in rules:
+					print("unknown CombatPowerRules knob: %s" % pair.get_slice(":", 0))
 				rules.set(pair.get_slice(":", 0), int(pair.get_slice(":", 1)))
 			GameContent.catalog().set_pacing(pacing.copy().with_combat(rules, pacing.combat_forecast, pacing.es2_npc_values))
 		elif arg.begins_with("weapon="):
