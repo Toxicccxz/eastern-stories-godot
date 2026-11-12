@@ -115,10 +115,8 @@ func _away_and_back(tree: SceneTree) -> void:
 func _limit_settles(tree: SceneTree) -> void:
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	for limit: int in [60, 0]:
-		var record: PacingDefinition = PacingDefinition.new(
-			roundi(pacing.combat_round_seconds * 1000.0), pacing.room_reset_seconds, pacing.player_exp_gain,
-			pacing.player_recovery_gain, pacing.quest_time_percent, pacing.npc_thirst, pacing.player_wake_seconds,
-		).with_responsiveness(0, 0, roundi(pacing.heart_beat_seconds * 1000.0), 0).with_away_catch_up_limit(limit)
+		# The game's record (as the suite runner left it), only the limit changed.
+		var record: PacingDefinition = pacing.copy().with_away_catch_up_limit(limit)
 		GameContent.catalog().set_pacing(record)
 		var session: WorldSessionController = Work.create_session(tree)
 		await tree.process_frame

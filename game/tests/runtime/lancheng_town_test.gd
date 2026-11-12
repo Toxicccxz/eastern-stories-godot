@@ -1,7 +1,7 @@
 extends RefCounted
 
 ## 第十章 B 白石街与风铃阁 (owner's plan build/plans/第十章_计划.md, 2026-11-07「接着做 B」: Q1–Q3 默认;
-## DECISIONS「第十章 B」), from the eighth chapter's ledger with the ninth's marks (TEST-ONLY):
+## DECISIONS「第十章 B」), from A's end (StoryFixtures.chapter10_arrived, the deal) or the ninth's (chapter9_done):
 ## - The trust table: each of the ten great bells in the 风铃阁 is two pieces in one box, the dark one `until`
 ##   and the bright one `present` the same marks, and the bell's landmark answers to exactly those marks.
 ## - 伏地 brings one up into the town at the 白石门; the 白石门's 出城 (asked first) puts one back in the
@@ -9,7 +9,8 @@ extends RefCounted
 ## - The town's people: 岚童 asks whose bell brought you and knows 萧辟尘's; 老蔺 made it; the sweeper says
 ##   where the town has stopped by the route drawn; the 萧家 hook.
 ## - Up the street to the 风铃阁 (the quest's city step), 岚翁's greeting under the bells (见过岚翁), 旋芒 asked
-##   (the elder step); ten bells bright for a ledger of every trust, two for a hard one.
+##   (the elder step), the hand-over to C's fixture (chapter10_asked); ten bells bright for a ledger of every
+##   trust, two for a hard one.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -94,21 +95,17 @@ func _marks_of(condition: Dictionary) -> Array:
 
 
 func _ninth_done(session: WorldSessionController) -> void:
-	StoryFixtures.chapter8_done(session, false, true, false)
-	var state: CharacterState = session.player_runtime().state
-	for mark: String in ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城", "见了福安", "见了皇帝", "翻过樟木匣", "对出了原令", "见过卫沧澜", "宋朴传了话", "私了了庾子建"]:
-		state.marks[mark] = 1 # TEST-ONLY: as 第九章 A–D write them (the deal)
+	StoryFixtures.chapter9_done(session, "deal", false, true, false)
 	session.record_journal()
 
 
 func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
-	_ninth_done(session)
+	StoryFixtures.chapter10_arrived(session, "deal", false, true, false)
 	for mark: String in ["风眼在西", "风眼在东"]:
 		state.marks.erase(mark)
 	state.marks["风眼在北"] = 1 # TEST-ONLY: the north route drawn
-	state.marks["到了岚城"] = 1 # TEST-ONLY: as 伏地 writes it (lancheng_wind_test walks it)
 	session.record_journal()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter10")
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"city", "the 风铃阁 next")
@@ -175,6 +172,9 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"elder") or StoryQuestLog.current_step(state, quest) == null or StoryQuestLog.current_step(state, quest).step_id != &"elder", "the elder step done")
 	_check(weng != null and weng.definition().dealings().is_fight_deferred() and weng.definition().dealings().fight_deferred.contains("按了回去"), "岚翁 cannot be fought: a wind holds the hand back")
+	# 章与章之间的衔接: what this package played out holds what C's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_asked.bind("deal", false, true, false))
+	_check(handoff.is_empty(), "第十章 B played leaves what chapter10_asked writes: %s" % [handoff])
 
 
 func _test_bells(tree: SceneTree, session: WorldSessionController, marks: Array[String], bright: int) -> void:

@@ -248,7 +248,18 @@ static func go_to(tree: SceneTree, session: WorldSessionController, zone_id: Str
 			return null
 		# The arrival's zone Areas report a frame later.
 		await tree.physics_frame
+		await until_built(tree, session)
 	return map if await drive_to_zone(tree, map, zone_id) else null
+
+
+## With the feel's map_loading_slice_ms (TestFeel.use_shipped()) a map's world goes up over frames
+## behind the loading screen, the world held and the player standing: frames until it is shown.
+## At once with the slices off (the suites' default).
+static func until_built(tree: SceneTree, session: WorldSessionController, frames: int = 60 * 30) -> void:
+	for _frame: int in frames:
+		if not session.world_building() and not session.presentation_held(WorldSessionController.WORLD_BUILD_HOLD):
+			return
+		await tree.process_frame
 
 
 ## Through each zone's middle in turn, so the walk takes exactly that order of rooms.

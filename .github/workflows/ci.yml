@@ -57,7 +57,8 @@ jobs:
     runs-on: ubuntu-24.04
     # The suites take ~250 single-core minutes (2026-11-02) and grow with each region: when
     # a shard nears 15 minutes, add one to the matrix. verify.py splits them by the times in
-    # tools/ci/suite_seconds.json. The longest suite, ~9 minutes, is the floor for a shard.
+    # tools/ci/suite_seconds.json. The longest suite (the world soak, ~4 minutes; its own
+    # limit in verify.py) is the floor for a shard.
     timeout-minutes: 45
     strategy:
       fail-fast: false
