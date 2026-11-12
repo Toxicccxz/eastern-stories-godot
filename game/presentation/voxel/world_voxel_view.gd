@@ -1113,7 +1113,13 @@ func _place_quest_marker(goal: MapAtlas.Goal, state: CharacterState) -> void:
 		return
 	var step: WorldRoute.Step = steps[0]
 	if step.portal != null and not entrances.has(step.portal.portal_id):
-		# A way a landmark opens has no entrance to stand over: the room it is taken from.
+		# A way a landmark opens (a cliff to climb, a hole to go down) has no entrance to stand
+		# over: over the landmark, else over the room it is taken from.
+		var opener: Area2D = _landmark_opening(step.portal.portal_id)
+		if opener != null:
+			_quest_spinner_at(VoxelMapGeometry.point(VoxelGlints._middle(opener)), goal.waypoint)
+			quest_marker.set_meta("way", step.portal.portal_id)
+			return
 		_place_quest_spinner(step.portal.source_zone_id, goal.waypoint, [])
 		return
 	if step.portal == null:
@@ -1155,13 +1161,52 @@ func _place_quest_spinner(zone_id: StringName, waypoint: bool, npc_ids: Array) -
 	var zone: WorldPhysicalZoneArea2D = map.physical_zone(zone_id)
 	if zone == null:
 		return
-	var point: Vector3 = VoxelMapGeometry.point(zone.global_rect().get_center())
+	var point: Vector3 = VoxelMapGeometry.point(quest_ground(map, zone.global_rect()))
 	_quest_spinner_at(point, waypoint)
 	quest_marker.set_meta("target_zone", zone_id)
 	if not npc_ids.is_empty():
 		quest_marker.set_meta("npc_ids", npc_ids)
 		quest_marker.set_meta("zone_point", point)
 		_follow_quest_person(0.0)
+
+
+## The landmark of this map whose use takes `portal_id` (the 山涧's cliff that is climbed).
+func _landmark_opening(portal_id: StringName) -> Area2D:
+	for landmark_id: StringName in map.landmark_areas:
+		var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
+		if landmark != null and landmark.portal_ids().has(portal_id):
+			return map.landmark_areas[landmark_id]
+	return null
+
+
+## Where in `rect` a marker over a room stands: its middle, or, when that is no ground to walk
+## on (the 山涧's middle is the stream, a hall's may be a pillar), a walkable cell close by.
+static func quest_ground(on: WorldMapController, rect: Rect2) -> Vector2:
+	var middle: Vector2 = rect.get_center()
+	var tiles: WorldMapStaticNodes = on.static_nodes()
+	if tiles.walkable_tile(middle):
+		return middle
+	# Ring by ring out from the middle, one ring past the first that has ground (a nearer cell
+	# may lie at a ring's corner): a long street is not searched end to end.
+	var best: Vector2 = middle
+	var nearest: float = INF
+	var step: float = 16.0
+	var rings: int = ceili(maxf(rect.size.x,rect.size.y)/step)
+	var last: int = rings
+	for ring: int in range(1,rings+1):
+		if ring > last:
+			break
+		for i: int in range(-ring,ring+1):
+			for cell: Vector2 in [Vector2(i,-ring),Vector2(i,ring),Vector2(-ring,i),Vector2(ring,i)]:
+				var at: Vector2 = middle+cell*step
+				if not rect.has_point(at):
+					continue
+				var gap: float = at.distance_squared_to(middle)
+				if gap < nearest and tiles.walkable_tile(at):
+					nearest = gap
+					best = at
+					last = mini(last,ring+1)
+	return best
 
 
 ## A small red arrow pointing down, solid (it has a thickness, so it reads as a thing as it

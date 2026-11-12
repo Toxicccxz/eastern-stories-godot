@@ -15,6 +15,10 @@ const Garden = preload("res://presentation/voxel/props/voxel_garden.gd")
 const Household = preload("res://presentation/voxel/props/voxel_household.gd")
 const Critter = preload("res://presentation/voxel/actors/voxel_critter.gd")
 const UNIT: float = 32.0
+## Kinds hung overhead, between the camera and whoever walks beneath (a lantern over a shop's
+## counter covered the head of the player standing there to trade, owner 2026-11-11): they open
+## over a person like any occluder (VoxelOcclusion) unless their look says `occludes: false`.
+const OVERHEAD_KINDS: Array[String] = ["hanging_lantern","lantern_string","hanging_rope"]
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
 var occluders: Array[Dictionary] = []
@@ -114,6 +118,11 @@ signal next_slice
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
 
+func _notification(what: int) -> void:
+	# A worker thread may still be settling this map's boxes (Shapes.settle_coplanar_in_background).
+	if what == NOTIFICATION_PREDELETE:
+		shapes.abandon_settling()
+
 func _init() -> void:
 	grove_noise.seed = 2741
 	grove_noise.frequency = 0.0035
@@ -150,6 +159,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	rng.seed = 7819
 	furniture.rng = rng
 	shapes.spatial_batching = true
+	shapes.settle_for_map = true
 	indoor = layout.get("indoor", false)
 	shapes.spatial_cell_size = 6.0 if indoor else 12.0
 	flora = layout.get("flora", {})
@@ -288,6 +298,16 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	for lamp: Node in find_children("*","OmniLight3D",true,false):
 		var light := lamp as OmniLight3D
 		light_bounds.append(light.global_transform*light.get_aabb())
+	# Faces of two colours in one plane step apart (Shapes.settle_coplanar), on worker threads
+	# while the loading screen goes on.
+	if shapes.settle_coplanar_in_background():
+		# A room's are done within this frame's share; a big map's take a few frames.
+		while slice_usec > 0 and not shapes.settling_done():
+			if Time.get_ticks_usec() < _slice_ends:
+				OS.delay_usec(200)
+			else:
+				await breathe(true)
+		shapes.finish_settling()
 	shapes.pool_plain_colours()
 	for key: Variant in shapes.batches:
 		shapes.flush_one(key,light_bounds)
@@ -1166,7 +1186,8 @@ func _prop(data: Dictionary) -> void:
 	# A prop that never fades, hides or moves as a whole batches with its neighbours (its
 	# swaying, glowing and smoking parts are nodes of their own and stay so).
 	var staged: bool = data.has("present") or data.has("until")
-	var shown_alone: bool = staged or data.get("occludes",false) or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
+	var occludes: bool = data.get("occludes",OVERHEAD_KINDS.has(String(data["kind"])))
+	var shown_alone: bool = staged or occludes or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
 	if not shown_alone:
 		shapes.merge(root,_static_chunk(at))
 	if staged:
@@ -1182,7 +1203,7 @@ func _prop(data: Dictionary) -> void:
 			for i: int in 3:
 				shapes.box(cover,Vector3(0,-0.045,(i-1)*d/3),Vector3(w,0.09,d/3-0.015),"9f7953")
 			passage_props.append({"node":root,"cover":cover,"portal":StringName(data["portal"])})
-		if data.get("occludes",false):
+		if occludes:
 			occluders.append({"node":root})
 	else:
 		# A misspelt kind would otherwise leave a silent gap on the map.
