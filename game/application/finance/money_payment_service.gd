@@ -107,6 +107,43 @@ static func pay_making_change(context: MoneyInventoryContext, allocator: Session
 	return false
 
 
+## The gold, silver and coins pay() would leave of `held` (held_amounts()) for `price`: its
+## arithmetic, nothing moved (CarryRoom asks it before money moves). Empty when pay() would not
+## complete.
+@warning_ignore("integer_division")
+static func amounts_after(held: Array[int], price: int) -> Array[int]:
+	var units: Array[int] = _unit_values()
+	if held.size() != 3 or price < 1:
+		return []
+	var after: Array[int] = []
+	after.assign(held)
+	var remaining: int = price
+	for i: int in 3:
+		if held[i] <= 0 or units[i] <= 0 or remaining < units[i]:
+			continue
+		var value: int = CurrencyArithmetic.multiply(held[i], units[i])
+		if value < 0:
+			return []
+		if value >= remaining:
+			after[i] = held[i] - remaining / units[i]
+			remaining %= units[i]
+		elif i == 2:
+			return []
+		else:
+			after[i] = 0
+			remaining -= value
+	if remaining != 0:
+		return []
+	return after
+
+
+## The gold, silver and coins carried (as pay() takes them); empty when a stack cannot be read.
+static func held_amounts(context: MoneyInventoryContext) -> Array[int]:
+	if context == null or not context.is_valid():
+		return []
+	return _held(context)
+
+
 ## Changes a pay_making_change() makes at most before it gives up.
 const CHANGE_PASSES: int = 8
 

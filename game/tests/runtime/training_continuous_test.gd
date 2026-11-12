@@ -68,7 +68,7 @@ func _test_learn_until_gin_would_be_wasted() -> void:
 	var gain: int = _state.skills.learned_progress(&"sword") - learned
 	var expected: Array[String] = [
 		"你向柳淳风请教「基本剑法」3 次：基本剑法进度 +%d，精 -%d，潜能 -3。" % [gain, cost * 3],
-		"停下：精不够了。请教一次耗精 %d，精须多于此数（你还有 5）；再请教只会白白累垮，先休息吧。" % cost,
+		"停下：精不够了。请教一次耗精 %d，精须多于此数（你还有 5）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。" % cost,
 	]
 	_check(_hud.log_lines().slice(logged) == expected, "the log has the summary and why it stopped, no lesson's lines: %s" % [_hud.log_lines().slice(logged)])
 	_check(_school.ui.feedback.text == "\n".join(expected), "the panel repeats them")

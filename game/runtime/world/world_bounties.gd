@@ -181,26 +181,34 @@ func _pay(npc: NpcRuntimeState, spared: bool) -> bool:
 		# TRANSLATORS: native (A2): the player spared the bounty's outlaw ({outlaw}); it is taken to the 驿站.
 		lines.append(ColoredLine.new(tr("你把{outlaw}捆了个结实，托路过的官差押往雪亭驿。").format({"outlaw": tr(_npc_name(posting.tier.npc_id))})))
 	lines.append_array(MilestoneRewards.lines(grant, tr(_npc_name(posting.tier.npc_id))))
-	var paid: int = _give_silver(posting.tier.silver)
-	if paid > 0:
+	var paid: Vector2i = _give_silver(posting.tier.silver)
+	if paid.x > 0:
 		# TRANSLATORS: native (A2): the bounty's silver ({silver}, e.g. 五) the 驿站 pays the player.
-		lines.append(ColoredLine.new(tr("雪亭驿付给你{silver}两银子的赏银。").format({"silver": ChineseNumber.of(paid)})))
+		lines.append(ColoredLine.new(tr("雪亭驿付给你{silver}两银子的赏银。").format({"silver": ChineseNumber.of(paid.x)})))
+	if paid.y > 0:
+		# TRANSLATORS: native (DECISIONS「拿不动就不收钱」): {silver} (e.g. 二) of the bounty's silver the player could not carry lies at their feet.
+		lines.append(ColoredLine.new(tr("其中{silver}两你拿不动，掉在你的脚边。").format({"silver": ChineseNumber.of(paid.y)})))
 	var hud: SharedGameplayUI = _session.shared_ui()
 	if hud != null:
 		hud.append_after_fight(lines)
 	return true
 
 
-## The tier's silver in the player's hands (or at their feet when too heavy).
-func _give_silver(amount: int) -> int:
+## The tier's silver in the player's hands (or at their feet when too heavy): [how many
+## were given, how many of them lie at the player's feet].
+func _give_silver(amount: int) -> Vector2i:
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var silver: ItemContentDefinition = GameContent.catalog().currency_item(CurrencyDenomination.Value.SILVER)
 	if map == null or silver == null:
-		return 0
-	var given: int = 0
+		return Vector2i.ZERO
+	var given: Vector2i = Vector2i.ZERO
 	for coin: int in amount:
-		if not map.give_new_item_to_player(silver.item_definition_id).is_empty():
-			given += 1
+		var id: StringName = map.give_new_item_to_player(silver.item_definition_id)
+		if id.is_empty():
+			continue
+		given.x += 1
+		if not map.floor_items.at_feet_line(id, silver).is_empty():
+			given.y += 1
 	return given
 
 

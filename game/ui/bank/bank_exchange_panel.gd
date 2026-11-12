@@ -88,8 +88,9 @@ func show_conversion(result: BankConversionResult) -> void:
 	match result.outcome:
 		BankConversionResult.Outcome.SUCCESS:
 			feedback.text = tr("兑换成功：扣除 {paid}，取得 {received}。").format({"paid": result.source_quantity, "received": result.target_quantity})
-		BankConversionResult.Outcome.DELIVERY_FAILED:
-			feedback.text = "负重过高，兑换未交付：原币已扣除，未收到目标货币；未交付物品已清理，无退款。"
+		BankConversionResult.Outcome.TOO_HEAVY:
+			# TRANSLATORS: a 钱庄 exchange refused before anything moved (DECISIONS「拿不动就不收钱」).
+			feedback.text = "换成这么多你拿不动：身上太重，这笔没有换。少换一些，或先放下些东西。"
 		BankConversionResult.Outcome.SOURCE_MISSING:
 			feedback.text = "你没有直接携带这种货币。"
 		BankConversionResult.Outcome.INSUFFICIENT_SOURCE:

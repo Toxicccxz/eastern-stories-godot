@@ -2,6 +2,10 @@ class_name BankConversionService
 extends RefCounted
 
 ## std/room/bank.c::do_convert with explicit canonical inputs, no room/UI/parser.
+## Deviation (DECISIONS「拿不动就不收钱」): bank.c takes the source coins whether or not the
+## player can carry what they become (a new target pile that does not fit is lost; a pile held
+## already grows past the limit). An exchange whose result would not fit, once the source coins
+## are gone, is refused before anything moves (TOO_HEAVY).
 @warning_ignore("integer_division")
 static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllocator,
 	maximum_encumbrance: int, from: CurrencyDenomination.Value,
@@ -41,6 +45,18 @@ static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllo
 	if q == 0:
 		result.outcome = BankConversionResult.Outcome.ROUNDED_TO_ZERO
 		return result
+	var gained: int = CurrencyArithmetic.multiply(CurrencyArithmetic.multiply(q, bv1) / bv2, target_content.stack_base_weight)
+	var lost: int = CurrencyArithmetic.multiply(q, source_content.stack_base_weight)
+	if gained < 0 or lost < 0:
+		result.outcome = BankConversionResult.Outcome.ARITHMETIC_FAILURE
+		return result
+	var carried: int = CarryRoom.carried(context)
+	if gained > lost and carried - lost + gained > maximum_encumbrance:
+		result.outcome = BankConversionResult.Outcome.TOO_HEAVY
+		return result
+	# Decided here: the new pile's one-unit move below (before the source is debited) must not
+	# veto an exchange that ends within the limit, or lighter than it began.
+	var admitted: int = maxi(maximum_encumbrance, carried + target_content.stack_base_weight)
 	var created: bool = target.outcome == CurrencyStackSelection.Outcome.ABSENT
 	if created:
 		result.stage = BankConversionResult.Stage.ALLOCATION
@@ -70,7 +86,7 @@ static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllo
 			result.outcome = BankConversionResult.Outcome.ARITHMETIC_FAILURE
 			return _cleanup_failed_creation(context, result)
 		result.transfer = CombinedStackService.transfer_and_merge(context.stacks, context.inventory,
-			result.target_id, InventoryTransferDestination.new(context.endpoint(), true, true, maximum_encumbrance),
+			result.target_id, InventoryTransferDestination.new(context.endpoint(), true, true, admitted),
 			null, null, context.owner)
 		if not context.index.forget_destroyed_snapshots(result.transfer.absorbed_instance_ids, context.inventory):
 			result.outcome = BankConversionResult.Outcome.AUTHORITY_FAILURE

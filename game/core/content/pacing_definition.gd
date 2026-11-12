@@ -87,6 +87,10 @@ extends RefCounted
 ## - coach_travel (车马行; DECISIONS「车马行」): a coach stop's cart takes the player to another stop they
 ##   have walked to, for coach_fare_base + coach_fare_per_leg 文 a leg (rounded up to 5 文) and
 ##   coach_minutes_per_leg game minutes a leg. false (ES2 has no coach): every way is walked.
+## - rest_world_scale, rest_limit_seconds (歇到回满; DECISIONS「歇到回满」): the 请教 and 武学 pages
+##   offer a rest that lets world time pass, the world running this many times as fast, for
+##   at most rest_limit_seconds of world time (real seconds at ES2's pace). 0 (ES2 has no rest
+##   command): no such rest.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -160,6 +164,8 @@ var _coach_travel: bool = false
 var _coach_fare_base: int = 0
 var _coach_fare_per_leg: int = 0
 var _coach_minutes_per_leg: int = 0
+var _rest_world_scale: int = 0
+var _rest_limit_seconds: int = 0
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -327,6 +333,14 @@ var coach_fare_per_leg: int:
 var coach_minutes_per_leg: int:
 	get:
 		return _coach_minutes_per_leg
+## How many times as fast the world runs while the player rests (0: no rest offered).
+var rest_world_scale: int:
+	get:
+		return _rest_world_scale
+## The longest one rest goes on, in world seconds.
+var rest_limit_seconds: int:
+	get:
+		return _rest_limit_seconds
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 ## How people move about inside their room (the record's `npc_idle`; NpcIdleTuning, DECISIONS
@@ -373,6 +387,7 @@ func copy() -> PacingDefinition:
 	record.with_stats_display(_stats_appear_when_used)
 	record.with_map_page(_map_page)
 	record.with_coach(_coach_travel, _coach_fare_base, _coach_fare_per_leg, _coach_minutes_per_leg)
+	record.with_rest(_rest_world_scale, _rest_limit_seconds)
 	record.feel = feel
 	record.npc_idle = npc_idle
 	return record
@@ -411,6 +426,13 @@ func with_coach(on: bool, fare_base: int, fare_per_leg: int, minutes_per_leg: in
 	_coach_fare_base = fare_base
 	_coach_fare_per_leg = fare_per_leg
 	_coach_minutes_per_leg = minutes_per_leg
+	return self
+
+
+## This record with 歇到回满's pace and longest rest set (tests, and from_record()).
+func with_rest(world_scale: int, limit_seconds: int) -> PacingDefinition:
+	_rest_world_scale = world_scale
+	_rest_limit_seconds = limit_seconds
 	return self
 
 
@@ -581,6 +603,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("coach_travel", false), reader.integer("coach_fare_base", 0),
 		reader.integer("coach_fare_per_leg", 0), reader.integer("coach_minutes_per_leg", 0),
 	)
+	definition.with_rest(reader.integer("rest_world_scale", 0), reader.integer("rest_limit_seconds", 0))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -637,4 +660,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("coach_fare_base", "the coach's fare must not be negative")
 	if definition._coach_minutes_per_leg < 0:
 		reader.fail("coach_minutes_per_leg", "must not be negative")
+	if definition._rest_world_scale < 0 or definition._rest_limit_seconds < 0:
+		reader.fail("rest_world_scale", "歇到回满's pace and longest rest must not be negative")
+	if definition._rest_world_scale > 0 and definition._rest_limit_seconds <= 0:
+		reader.fail("rest_limit_seconds", "a rest offered needs a longest rest")
 	return definition

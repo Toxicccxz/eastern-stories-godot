@@ -1,7 +1,7 @@
 class_name HockshopSellResult
 extends RefCounted
 
-enum Outcome { REJECTED, SOLD, AUTHORITY_FAILURE }
+enum Outcome { REJECTED, SOLD, AUTHORITY_FAILURE, TOO_HEAVY }
 enum Stage { VALUATION, PAYOUT, ITEM_REMOVAL, FOOD_FORGET, LIQUID_FORGET, INDEX_FORGET, COMPLETE }
 var outcome: Outcome = Outcome.REJECTED
 var stage: Stage = Stage.VALUATION

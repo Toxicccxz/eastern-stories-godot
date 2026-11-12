@@ -47,13 +47,13 @@ func _run() -> void:
 						if context.index.resolve(id).item_definition_id == TestContent.CLOTH_ITEM_ID: cloth = id
 					context.inventory.update_own_weight(cloth, 150000 - 74 - 50 - (37 if args[1] == "overcap" else 0))
 				var converted: BankConversionResult = BankConversionService.convert(context, session.item_id_allocator(), 150000, Test.GOLD, Test.SILVER, 1)
-				if args[1] == "failed":
-					check(converted.outcome == BankConversionResult.Outcome.DELIVERY_FAILED and converted.cleanup.succeeded() and not context.inventory.is_registered(converted.target_id), "failed target absent")
+				if args[1] in ["overcap", "failed"]:
+					# DECISIONS「拿不动就不收钱」: 100 silver would not fit: refused, nothing moves.
+					check(converted.outcome == BankConversionResult.Outcome.TOO_HEAVY and converted.allocation == null and Test.amount(context, Test.SILVER) == 0, "too heavy: refused")
+					check(Test.amount(context, Test.GOLD) == 2 and session.item_id_allocator().next_dynamic_sequence == 4, "no source debit, no ID")
 				else:
 					check(converted.succeeded() and Test.amount(context, Test.SILVER) == 100, "new target100")
-					if args[1] == "overcap":
-						check(context.inventory.contents_weight(context.endpoint()) == 153626, "one-unit equality admission then overcap survives Save")
-				check(Test.amount(context, Test.GOLD) == 1 and session.item_id_allocator().next_dynamic_sequence == 5, "source debit/sequence")
+					check(Test.amount(context, Test.GOLD) == 1 and session.item_id_allocator().next_dynamic_sequence == 5, "source debit/sequence")
 			"denominations":
 				check(Test.amount(context, Test.GOLD) == 2 and Test.amount(context, Test.COIN) == 50, "all canonical denominations")
 		check(SourceFixture.rng_state(session) == rng, "zero gameplay RNG consumption")
