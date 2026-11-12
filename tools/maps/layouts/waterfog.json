@@ -372,8 +372,8 @@
           ["blocked", 1728, 208, 1808, 384, "kitchen.c: 东首一座大灶", {"look": {"kind": "cauldron", "rotation": 90}}],
           ["blocked", 1744, 400, 1808, 464, "灶边堆著许多瓦瓮", {"look": {"kind": "wine_jars", "count": 7}}],
           ["blocked", 1744, 144, 1808, 192, {"look": {"kind": "wine_jars", "count": 4}}],
-          ["blocked", 1584, 144, 1680, 208, "北边是一张方桌，桌上锅碗瓢盆一应俱全", {"look": {"kind": "square_table", "pots": true}}],
-          ["blocked", 1488, 224, 1520, 384, "西边则是一个橱柜", {"look": {"kind": "sundry_shelf", "rotation": 90, "goods": ["bowls", "jars", "bowls"]}}],
+          ["blocked", 1584, 144, 1680, 208, "北边是一张方桌，桌上锅碗瓢盆一应俱全", {"look": {"kind": "square_table"}}],
+          ["blocked", 1488, 224, 1520, 384, "西边则是一个橱柜", {"look": {"kind": "sundry_shelf", "rotation": 90}}],
           ["blocked", 1536, 448, 1584, 496, {"look": {"kind": "water_vat"}}],
 
           ["blocked", 128, 672, 160, 704, "beside the white stone stairs: a stand of potted orchids", {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],

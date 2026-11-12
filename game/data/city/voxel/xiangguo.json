@@ -110,21 +110,16 @@
         56,
         14
       ],
-      "height": 1.9,
       "wall_mounted": true,
       "note": "先天下之忧而忧, yellowed"
     },
     {
       "kind": "candlestick",
-      "at": [
-        -200,
-        -260
-      ],
+      "at": [-256, -288],
       "size": [
         12,
         12
-      ],
-      "lit": true,
+      ], "elevation": 1.25, "height": 0.4,
       "note": "the oil lamp in the study"
     },
     {

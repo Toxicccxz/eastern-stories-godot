@@ -23,7 +23,6 @@
     {"kind": "glow", "at": [340, 52], "size": [16, 16], "color": "ff2a1a", "day": 1.4, "night": 1.4, "range": 1.6, "height": 1.0, "flicker": 0.3},
     {"kind": "bones", "at": [250, 60], "size": [56, 32]},
     {"kind": "bones", "at": [60, 280], "size": [40, 24]},
-    {"kind": "stalagmites", "at": [60, 120], "size": [48, 48]},
     {"kind": "drip", "at": [200, 280]},
     {"kind": "drip", "at": [120, 60]},
     {"kind": "slime", "at": [180, 60], "size": [48, 32]},

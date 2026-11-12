@@ -20,12 +20,12 @@
     "fanfang.yard": {"walls": "brick"}
   },
   "props": [
-    {"kind": "notices", "at": [-238, -176], "size": [16, 80], "rotation": 90, "height": 1.6, "wall_mounted": true, "note": "the notices on the west wall, 京师's wanted notice newest (fanfang.office.landmark.notice)"},
-    {"kind": "notices", "at": [-238, -280], "size": [16, 48], "rotation": 90, "height": 1.5, "wall_mounted": true},
+    {"kind": "notices", "at": [-238, -176], "size": [16, 80], "rotation": 90, "wall_mounted": true, "note": "the notices on the west wall, 京师's wanted notice newest (fanfang.office.landmark.notice)"},
+    {"kind": "notices", "at": [-238, -280], "size": [16, 48], "rotation": 90, "wall_mounted": true},
     {"kind": "paper_slip", "at": [100, -200], "size": [16, 12], "rotation": 10, "note": "the 兵部文书 on the desk's corner, a weight on it"},
-    {"kind": "candlestick", "at": [140, -160], "size": [12, 12], "lit": true, "elevation": 1.0, "note": "a candle on the desk"},
-    {"kind": "wall_lamp", "at": [200, -352], "size": [16, 12], "height": 2.0, "wall_mounted": true, "note": "an oil lamp by the door"},
-    {"kind": "wall_lamp", "at": [-200, -16], "size": [16, 12], "height": 2.0, "wall_mounted": true},
+    {"kind": "candlestick", "at": [140, -160], "size": [12, 12], "elevation": 1.0, "note": "a candle on the desk"},
+    {"kind": "wall_lamp", "at": [200, -352], "size": [16, 12], "wall_mounted": true, "note": "an oil lamp by the door"},
+    {"kind": "wall_lamp", "at": [-200, -16], "size": [16, 12], "wall_mounted": true},
     {"kind": "glow", "at": [112, -150], "color": "ffc078", "day": 0.25, "night": 0.9, "range": 6.0, "height": 1.4, "note": "the desk's candle"},
     {"kind": "glow", "at": [-120, -260], "color": "ffc078", "day": 0.15, "night": 0.7, "range": 5.0, "height": 1.6},
     {"kind": "cloth_bolts", "at": [-200, -40], "size": [32, 24], "note": "a roll of felt seized, sealed with a paper strip"},

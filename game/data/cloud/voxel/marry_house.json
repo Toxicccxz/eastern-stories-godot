@@ -6,8 +6,8 @@
   "props": [
     {"kind": "sign", "at": [-16, -206], "size": [48, 16], "text": "囍", "wall_mounted": true, "board": "c0392b", "letters": "efcd6c:glow", "height": 2.3, "tall": 0.8},
     {"kind": "sign", "at": [-240, -206], "size": [96, 16], "text": "缔结或解除婚约", "wall_mounted": true, "board": "262220", "letters": "e6c66e", "wrap": true, "tall": 0.7, "pixel_size": 0.0048},
-    {"kind": "prayer_cushion", "at": [-56, -112], "size": [32, 32], "cloth": "c0392b"},
-    {"kind": "prayer_cushion", "at": [24, -112], "size": [32, 32], "cloth": "c0392b"},
+    {"kind": "prayer_cushion", "at": [-56, -112], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [24, -112], "size": [32, 32]},
     {"kind": "runner", "at": [-16, 40], "size": [320, 48], "rotation": 90},
     {"kind": "hanging_lantern", "at": [-176, -60], "flicker": 0.06, "paper": "d8452f:glow"},
     {"kind": "hanging_lantern", "at": [144, -60], "flicker": 0.06, "paper": "d8452f:glow"},

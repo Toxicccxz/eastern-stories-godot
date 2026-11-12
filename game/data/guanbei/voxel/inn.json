@@ -26,10 +26,10 @@
     {"kind": "hanging_lantern", "at": [260, -60], "paper": "d8b070", "height": 2.4},
     {"kind": "hanging_lantern", "at": [-280, 380], "paper": "d8b070", "height": 2.4},
     {"kind": "hanging_lantern", "at": [260, 380], "paper": "d8b070", "height": 2.4},
-    {"kind": "candlestick", "at": [300, 40], "size": [12, 12], "lit": true, "note": "a candle on the counter"},
-    {"kind": "animal_hide", "at": [-404, 60], "size": [48, 16], "rotation": 90, "height": 1.6, "wall_mounted": true, "note": "skins nailed to the west wall (native:guanbei/inn_hall: 墙上挂着皮囊和马鞭)"},
-    {"kind": "animal_hide", "at": [-404, 260], "size": [48, 16], "rotation": 90, "height": 1.6, "wall_mounted": true},
-    {"kind": "tool_hooks", "at": [120, -100], "size": [64, 12], "height": 1.7, "wall_mounted": true, "note": "whips and halters hung by the north door"},
+    {"kind": "candlestick", "at": [284, 80], "size": [12, 12], "elevation": 1.32, "height": 0.4, "note": "a candle on the counter"},
+    {"kind": "animal_hide", "at": [-404, 60], "size": [48, 16], "rotation": 90, "wall_mounted": true, "note": "skins nailed to the west wall (native:guanbei/inn_hall: 墙上挂着皮囊和马鞭)"},
+    {"kind": "animal_hide", "at": [-404, 260], "size": [48, 16], "rotation": 90, "wall_mounted": true},
+    {"kind": "tool_hooks", "at": [120, -100], "size": [64, 12], "wall_mounted": true, "note": "whips and halters hung by the north door"},
     {"kind": "straw_patch", "at": [-360, 400], "size": [80, 40], "note": "straw blown into the corner"},
     {"kind": "paper_slip", "at": [-300, 300], "size": [14, 18], "rotation": 20, "note": "a tally slip dropped by the waiting"},
     {"kind": "stool", "at": [-240, 300], "size": [20, 20], "wood": "5a4634", "note": "a stool pulled up to the west table"},
@@ -42,7 +42,7 @@
     {"kind": "hanging_lantern", "at": [-16, -280], "paper": "d8b070", "height": 2.3, "note": "the back room's lantern"},
     {"kind": "stains", "at": [-150, -350], "size": [120, 100], "count": 5, "colors": ["6a5a44", "7a6a50"], "note": "spilt wine round the vats, the sour smell"},
     {"kind": "straw_patch", "at": [80, -330], "size": [110, 70], "note": "fodder spilt from the bales"},
-    {"kind": "meat_hooks", "at": [-16, -440], "size": [120, 12], "height": 2.2, "wall_mounted": true, "note": "strips of meat drying from the beam (native:guanbei/inn_back: 房梁上吊着一串串风干的肉条)"},
+    {"kind": "meat_hooks", "at": [-16, -440], "size": [120, 12], "wall_mounted": true, "note": "strips of meat drying from the beam (native:guanbei/inn_back: 房梁上吊着一串串风干的肉条)"},
     {"kind": "cobweb", "at": [-230, -440], "size": [36, 8], "rotation": 45, "height": 2.6}
   ],
   "actors": {

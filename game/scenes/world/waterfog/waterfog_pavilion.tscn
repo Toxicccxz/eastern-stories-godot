@@ -541,12 +541,12 @@ metadata/footprint = Vector2(64, 48)
 
 [node name="Furnishing27" type="Node2D" parent="Furnishings"]
 position = Vector2(1632, 176)
-metadata/look = {"kind": "square_table", "pots": true}
+metadata/look = {"kind": "square_table"}
 metadata/footprint = Vector2(96, 64)
 
 [node name="Furnishing28" type="Node2D" parent="Furnishings"]
 position = Vector2(1504, 304)
-metadata/look = {"kind": "sundry_shelf", "rotation": 90, "goods": ["bowls", "jars", "bowls"]}
+metadata/look = {"kind": "sundry_shelf", "rotation": 90}
 metadata/footprint = Vector2(32, 160)
 
 [node name="Furnishing29" type="Node2D" parent="Furnishings"]

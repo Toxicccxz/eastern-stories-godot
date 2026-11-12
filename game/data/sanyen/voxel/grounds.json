@@ -47,7 +47,7 @@
   ],
   "props": [
     {"kind": "pavilion_roof", "at": [1080, 1808], "size": [336, 256], "elevation": 3.24, "occludes": true, "roof": "a8802a:gloss", "timber": "8a5a34", "frieze": "2f6a5a", "rise": 1.1, "overhang": 0.6, "bells": true, "finial": "c9a24a", "note": "door.c: 上方覆著镶金的瓦片"},
-    {"kind": "sign", "at": [1088, 1932], "size": [112, 16], "text": "山烟寺", "board": "2f8a62:gloss", "frame": "c9a24a", "letters": "e8c25a", "height": 2.3, "tall": 0.56, "note": "door.c: 瓦片的下方挂著一方翡翠匾额, 上面写著『山烟寺』三个烫金大字"},
+    {"kind": "sign", "at": [1088, 1932], "size": [112, 16], "text": "山烟寺", "wall_mounted": true, "board": "2f8a62:gloss", "frame": "c9a24a", "letters": "e8c25a", "height": 2.3, "tall": 0.56, "note": "door.c: 瓦片的下方挂著一方翡翠匾额, 上面写著『山烟寺』三个烫金大字"},
     {"kind": "hanging_lantern", "at": [968, 1940], "elevation": -0.8, "paper": "d8452f:glow"},
     {"kind": "hanging_lantern", "at": [1208, 1940], "elevation": -0.8, "paper": "d8452f:glow"},
     {"kind": "trail", "points": [[1000, 1930], [1000, 1700]], "color": "b8ac8e", "note": "the side doors worn by the feet"},

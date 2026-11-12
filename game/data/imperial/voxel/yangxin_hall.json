@@ -158,19 +158,6 @@
       "height": 3.2
     },
     {
-      "kind": "candlestick",
-      "at": [
-        -690,
-        -230
-      ],
-      "size": [
-        12,
-        12
-      ],
-      "lit": true,
-      "note": "the boy's lamp in the 西暖阁"
-    },
-    {
       "kind": "glow",
       "at": [
         -690,
@@ -192,7 +179,6 @@
         80,
         16
       ],
-      "height": 1.9,
       "wall_mounted": true,
       "note": "the map with 岚城？ ringed in red"
     },

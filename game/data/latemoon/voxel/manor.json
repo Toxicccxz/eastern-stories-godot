@@ -54,7 +54,7 @@
     {"kind": "compound_wall", "at": [472, 2720], "size": [16, 384], "wall": "b4d0c4", "roof": "4e585c", "height": 2.8, "wear": 0.35, "windows": 1, "note": "wroad1: the wall west of the lane"},
     {"kind": "compound_wall", "at": [760, 3304], "size": [560, 16], "wall": "b4d0c4", "roof": "4e585c", "height": 2.8, "wear": 0.35, "occludes": true, "note": "wroad2: the wall south of the lane"},
     {"kind": "moon_gate", "at": [2864, 872], "size": [160, 16], "colors": ["dfe8e2", "d2ddd6", "e8eee9"], "cap": "4e585c", "note": "the way through the wall into the 湘园, a round gate"},
-    {"kind": "sign", "at": [3404, 592], "size": [128, 16], "rotation": 90, "text": "晚月庄", "board": "2e3a34", "letters": "e8c25a", "frame": "c9a24a", "height": 3.0, "tall": 0.6, "note": "entrance.c: 一扇拱门(door), 檐顶下面写着「晚月庄」"},
+    {"kind": "sign", "at": [3404, 592], "size": [128, 16], "rotation": 90, "text": "晚月庄", "wall_mounted": true, "board": "2e3a34", "letters": "e8c25a", "frame": "c9a24a", "height": 3.0, "tall": 0.6, "note": "entrance.c: 一扇拱门(door), 檐顶下面写着「晚月庄」"},
     {"kind": "pavilion_roof", "at": [3392, 592], "size": [64, 224], "elevation": 3.3, "roof": "4e585c", "timber": "6e2a20", "frieze": "3a7a6a", "rise": 0.5, "overhang": 0.4, "bells": false, "finial": "4e585c", "note": "the eaves over the arch"},
     {"kind": "pavilion_roof", "at": [3072, 592], "size": [64, 224], "elevation": 3.4, "roof": "4e585c", "timber": "a8382a", "frieze": "3a7a6a", "rise": 0.6, "overhang": 0.5, "bells": false, "finial": "4e585c", "note": "gate.c: 一个有著朱红漆大门大宅院 — the gate roof over the red door"},
     {"kind": "tree", "at": [3456, 456], "size": [32, 32], "species": "locust", "scale": 1.1, "variant": 0},

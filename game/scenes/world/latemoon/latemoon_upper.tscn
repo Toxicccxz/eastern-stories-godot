@@ -492,7 +492,7 @@ metadata/footprint = Vector2(32, 112)
 
 [node name="Furnishing06" type="Node2D" parent="Furnishings"]
 position = Vector2(848, 208)
-metadata/look = {"kind": "writing_desk", "colors": ["5a2e24", "6a3828", "4e2820"]}
+metadata/look = {"kind": "writing_desk"}
 metadata/footprint = Vector2(64, 32)
 
 [node name="Furnishing07" type="Node2D" parent="Furnishings"]

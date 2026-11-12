@@ -355,7 +355,7 @@
               ["path", 672, 1568, 736, 1600, "the way into 山洞"],
               ["path", 672, 544, 736, 640, "the way into 石室"],
               ["grass", 1136, 288, 1200, 384, "the way into 石室"],
-              ["blocked", 560, 2384, 608, 2432, "mossed boulders at the hill's foot and by the stream", {"look": {"kind": "boulder", "colors": ["6a6e62", "757a6c", "5f6358"], "moss": ["4d6a3c", "5d7a45"]}}],
+              ["blocked", 560, 2384, 608, 2432, "mossed boulders at the hill's foot and by the stream", {"look": {"kind": "boulder", "colors": ["6a6e62", "757a6c", "5f6358"]}}],
               ["blocked", 1408, 576, 1440, 608, {"look": {"kind": "boulder", "colors": ["6a6e62", "757a6c", "5f6358"]}}]
             ]
           }
@@ -1548,7 +1548,9 @@
           ["blocked", "green.cave1", ["nw", 0, 0], 2, 1.5, "cave1.c: 脚下偶尔踩到石头或是些莫名其妙的东西", {"look": {"kind": "boulder", "colors": ["5c5f5a", "666963", "535652"]}}],
           ["blocked", "green.cave1", ["se", 0, 0.6], 1.6, 1.6, {"look": {"kind": "boulder", "colors": ["5c5f5a", "666963", "535652"]}}],
           ["blocked", "green.cave2", ["ne", 0, 0.4], 2, 1.5, {"look": {"kind": "boulder", "colors": ["5c5f5a", "666963", "535652"]}}],
-          ["blocked", "green.cave2", ["sw", 0.4, 0], 1.6, 1.2, {"look": {"kind": "boulder", "colors": ["5c5f5a", "666963", "535652"]}}]
+          ["blocked", "green.cave2", ["sw", 0.4, 0], 1.6, 1.2, {"look": {"kind": "boulder", "colors": ["5c5f5a", "666963", "535652"]}}],
+          ["blocked", "green.cave2", ["rel", 0.0667, 0.3636], 1.4117, 1.4117, "blocks: nobody walks through it", {"look": {"kind": "stalagmites", "size": [48, 48], "count": 4, "height": 0.9}}],
+          ["blocked", "green.cave1", ["rel", 1.0, 0.6818], 1.4117, 1.4117, "blocks: nobody walks through it", {"look": {"kind": "stalagmites", "size": [40, 40], "count": 3, "height": 0.8}}]
         ],
         "placed": {},
         "doors": {
@@ -1621,7 +1623,8 @@
         "props": [
           ["blocked", "green.outdoor", ["w", 0, -2], 1.2, 1.2, "outdoor.c: 西边有两张石椅", {"look": {"kind": "stone_seat", "rotation": 90}}],
           ["blocked", "green.outdoor", ["w", 0, 2], 1.2, 1.2, {"look": {"kind": "stone_seat", "rotation": 90, "seed": 4}}],
-          ["blocked", "green.cavehall", ["n", 0, 0], 2.4, 2, "cavehall.c: 北面是一座佛像，佛像顶部有一颗夜明珠发出莹莹的光芒", {"look": {"kind": "buddha", "occludes": true}}]
+          ["blocked", "green.cavehall", ["n", 0, 0], 2.4, 2, "cavehall.c: 北面是一座佛像，佛像顶部有一颗夜明珠发出莹莹的光芒", {"look": {"kind": "buddha", "occludes": true}}],
+          ["blocked", "green.cavehall", ["rel", 0.5213, 0.3167], 0.9411, 0.9411, "before the Buddha, its ash swept (a tall piece: blocks, review fix P)", {"look": {"kind": "incense_burner", "size": [32, 32]}}]
         ],
         "placed": {
           "green.cavehall.master.1": [

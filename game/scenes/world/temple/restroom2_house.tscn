@@ -156,7 +156,7 @@ layout_path = "res://data/temple/voxel/restroom2_house.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(-136, -120)
-metadata/look = {"kind": "bed", "cloth": "8a6a4a", "rotation": 90}
+metadata/look = {"kind": "bed", "quilt": "8a6a4a", "rotation": 90}
 metadata/footprint = Vector2(80, 112)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]

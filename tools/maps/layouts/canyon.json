@@ -1054,8 +1054,7 @@
             "camp5: two cane chairs on the north side",
             {
               "look": {
-                "kind": "chair",
-                "cane": true
+                "kind": "chair"
               }
             }
           ],
@@ -1067,8 +1066,7 @@
             0.94,
             {
               "look": {
-                "kind": "chair",
-                "cane": true
+                "kind": "chair"
               }
             }
           ],
@@ -1097,7 +1095,6 @@
             {
               "look": {
                 "kind": "chair",
-                "cane": true,
                 "rotation": 180
               }
             }
@@ -1111,7 +1108,6 @@
             {
               "look": {
                 "kind": "chair",
-                "cane": true,
                 "rotation": 180
               }
             }
