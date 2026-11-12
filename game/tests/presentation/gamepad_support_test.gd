@@ -341,6 +341,24 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	await _frames(tree, 2)
 	_check(not layout.frame.visible and tree.root.gui_get_focus_owner() == null, "B again: back to walking")
 
+	# The keyboard's E on a focused row presses it, as Enter and A do and as in the dialogue
+	# box (审查修补 M).
+	await _joy(tree, JOY_BUTTON_A)
+	ui.interaction_panel.button_of(label).grab_focus()
+	for pressed: bool in [true, false]:
+		var e := InputEventKey.new()
+		e.keycode = KEY_E
+		e.physical_keycode = KEY_E
+		e.pressed = pressed
+		Input.parse_input_event(e)
+		await tree.process_frame
+	await _frames(tree, 2)
+	_check(layout.page() != null and ui.interaction_panel.current() == label, "E on a focused row: its page")
+	ui.dismiss_current_panel()
+	ui.dismiss_current_panel()
+	await tree.process_frame
+	InputDevices.shared().set_kind(InputDevices.Kind.GAMEPAD, InputDevices.PadStyle.XBOX)
+
 	# A button's A press is its own (it fires on release): nothing else opens on the press.
 	await _joy(tree, JOY_BUTTON_A)
 	ui.interaction_panel.button_of(label).grab_focus()

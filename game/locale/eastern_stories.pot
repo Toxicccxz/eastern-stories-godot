@@ -16,8 +16,9 @@ msgstr ""
 msgid "新游戏"
 msgstr ""
 
+#. native (终章 C): under a card of the ending told over the 沙盘: go on.
 #. at the foot of the dialogue box: goes to the next line.
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
 msgid "继续"
 msgstr ""
 
@@ -514,6 +515,10 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn
 msgid "画质"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "这个窗口大小下，三档界面缩放画出来一样大。"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -10665,11 +10670,6 @@ msgstr ""
 msgid "中止施法"
 msgstr ""
 
-#. native (终章 C): under a card of the ending told over the 沙盘: go on.
-#: ui/world/epilogue_overlay.gd
-msgid "E 继续"
-msgstr ""
-
 #: ui/world/game_menu.gd
 msgid "角色"
 msgstr ""
@@ -19294,7 +19294,7 @@ msgstr ""
 
 #. guide.start paragraphs
 #: data/common/codex.json
-msgid "走近一个人、一件东西，脚下会出现「E 交互」。按 E（手柄 A）或点它，能做的事都列在交互窗口里；只有一件事可做的，直接就做了。"
+msgid "走近一个人、一件东西，脚下会出现「交互」和该按的键（键盘、手柄各画各的）。按那个键或点它，能做的事都列在交互窗口里；只有一件事可做的，直接就做了。"
 msgstr ""
 
 #. guide.start paragraphs
