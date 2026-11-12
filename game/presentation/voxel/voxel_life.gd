@@ -21,15 +21,16 @@ const HANGING_KINDS: Dictionary = {"talismans":{"kind":"paper_charms","size":[40
 const AMBIENCE_KINDS: Array[String] = ["moths","smoke","steam","incense","sparks","sunbeam","dust","flies"]
 ## What each ambience kind hangs on, by prop kind.
 const ANCHORS: Dictionary = {
-	"lamp": ["hanging_lantern","wall_lamp","lamp_stand","candles","lantern","lantern_post","oil_lamp"],
+	"lamp": ["hanging_lantern","wall_lamp","lamp_stand","candles","lantern","lantern_post"],
 	"stove": ["hearth","tea_stove","cauldron","brazier","campfire","pill_furnace","forge"],
 	"censer": ["censer","incense_burner","altar","altar_table","fire_altar"],
 	"forge": ["forge"],
 	"window": ["window"],
 	"block": ["chopping_block","meat_rack","meat_hooks"]}
 const ANCHOR_OF: Dictionary = {"moths":"lamp","smoke":"stove","steam":"stove","incense":"censer","sparks":"forge","sunbeam":"window","flies":"block"}
-## How high each lamp kind holds its flame (units): its moths keep just under it.
-const LAMP_HEIGHT: Dictionary = {"hanging_lantern":3.0,"wall_lamp":2.1,"lamp_stand":1.7,"candles":1.1,"lantern":1.6,"lantern_post":2.6,"oil_lamp":1.1}
+## How high each lamp kind holds its flame (units): its moths keep just under it. A hanging
+## lantern hung at a `height` of its own has its flame there (the anchor's `flame`).
+const LAMP_HEIGHT: Dictionary = {"hanging_lantern":3.0,"wall_lamp":2.1,"lamp_stand":1.7,"candles":1.1,"lantern":1.6,"lantern_post":2.6}
 ## Props that smoke of themselves (their own `ambience.smoke`): no second plume over them.
 const SELF_SMOKING: Array[String] = ["hearth","tea_stove","cauldron","brazier","campfire","censer","incense_burner","pill_furnace","fire_altar"]
 ## A plume's colour, puff count, puff size and height off the floor, by kind.
@@ -116,7 +117,10 @@ func _anchor(data: Dictionary) -> void:
 			var into := Vector2.ZERO
 			if data.get("wall_mounted",false) or kind=="window":
 				into = Vector2(0,1).rotated(-deg_to_rad(float(data.get("rotation",0))))
-			_anchors.append({"kind":kind,"at":Vector2(data["at"][0],data["at"][1]),"into":into,"elevation":float(data.get("elevation",0.0))})
+			var anchor: Dictionary = {"kind":kind,"at":Vector2(data["at"][0],data["at"][1]),"into":into,"elevation":float(data.get("elevation",0.0))}
+			if kind=="hanging_lantern" and data.has("height"):
+				anchor["flame"] = float(data["height"])
+			_anchors.append(anchor)
 			return
 
 ## The look of a room's walls by its use (`walls`): plaster in the map's own wall colour, shaded a
@@ -264,7 +268,7 @@ static func plan_ambience(spec: Array, rect: Rect2, anchors: Array[Dictionary], 
 			var head: String = String(anchor["kind"])
 			match kind:
 				"moths":
-					var top: float = float(LAMP_HEIGHT.get(head,2.0))+float(anchor["elevation"])
+					var top: float = float(anchor.get("flame",LAMP_HEIGHT.get(head,2.0)))+float(anchor["elevation"])
 					out["dust"].append({"rect":[at.x-26,at.y-26,at.x+26,at.y+26],"count":count if count>0 else 2+random.randi_range(0,1),"color":String(entry.get("color","e8dcc0")),
 						"size":[0.05,0.03,0.05],"height":[top-0.55,top+0.05],"wind":[0.6,0.5],"flit":1.0})
 				"smoke","steam","incense":
@@ -276,7 +280,7 @@ static func plan_ambience(spec: Array, rect: Rect2, anchors: Array[Dictionary], 
 					var look: Array = PLUMES[kind]
 					if LAMP_HEIGHT.has(head):
 						# An oil lamp's thread of soot from just over its flame.
-						look = ["6a665e",3,0.08,float(LAMP_HEIGHT[head])+0.1]
+						look = ["6a665e",3,0.08,float(anchor.get("flame",LAMP_HEIGHT[head]))+0.1]
 					out["smoke"].append({"at":[at.x,at.y],"height":float(look[3])+float(anchor["elevation"]),"color":String(entry.get("color",look[0])),"count":count if count>0 else int(look[1]),"size":float(look[2])})
 				"sparks":
 					out["fall"].append({"rect":[at.x-22,at.y-22,at.x+22,at.y+22],"count":count if count>0 else 10,"up":true,"glow":true,"colors":["ffd890","ff9a40","ff6a2a"],"height":1.9,"wind":[0.2,0.1]})

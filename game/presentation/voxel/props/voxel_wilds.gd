@@ -456,7 +456,8 @@ func _campfire(w: float, d: float) -> void:
 func _banner() -> void:
 	var height: float = float(data.get("height",3.4))
 	var cloth: String = String(data.get("cloth","8e3b2c"))
-	s.tilted_box(root,Vector3(0,height/2,0),Vector3(0.12,height,0.12),"5c4635",Vector3(0,0,0.04))
+	# `pole`: its pole's colour (逆灵宫's black poles).
+	s.tilted_box(root,Vector3(0,height/2,0),Vector3(0.12,height,0.12),String(data.get("pole","5c4635")),Vector3(0,0,0.04))
 	s.box(root,Vector3(0,0.15,0),Vector3(0.5,0.3,0.5),"7d7262")
 	for strip: int in 4:
 		var piece := Node3D.new()

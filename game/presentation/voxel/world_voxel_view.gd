@@ -887,7 +887,7 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 			node.add_child(model)
 			VoxelItemLook.build(model,carried)
 			VoxelItemLook.lay(model,carried,float(absi(String(id).hash())%360)*TAU/360.0)
-		elif look.is_empty() or not geometry.draw_look(s,node,look):
+		elif look.is_empty() or not geometry.draw_look(s,node,look,"floor item %s" % content.item_definition_id):
 			s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
 		s.flush()
 		_label(node,title,0.7).name = "Title"
@@ -1296,7 +1296,7 @@ func _make_shutters() -> void:
 				look["size"] = [rect.size.y,rect.size.x]
 			var open_keys: Variant = look.get("open",null)
 			look.erase("open")
-			geometry.draw_look(s,node,look)
+			geometry.draw_look(s,node,look,"door %s" % id)
 			if open_keys is Dictionary or open_keys == true:
 				# `open`: the look again, for the door standing open (true: the kind's own `open`;
 				# a dictionary: keys over the shut look's), in the same place and turned the same way.
@@ -1307,7 +1307,7 @@ func _make_shutters() -> void:
 				swung.visible = false
 				world.add_child(swung)
 				var drawn := Shapes.new()
-				geometry.draw_look(drawn,swung,open)
+				geometry.draw_look(drawn,swung,open,"door %s standing open" % id)
 				drawn.flush()
 				opened[id] = swung
 		elif geometry.indoor:

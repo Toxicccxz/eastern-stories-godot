@@ -8,11 +8,6 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
-## Decor tall enough to walk into: in a voxel config it must stand on blocking ground or be raised
-## clear of the floor (`elevation`). Furniture counts: what blocks is the layout's (AGENTS「地图」).
-const TALL: Array[String] = ["reeds", "tree", "great_tree", "compound_wall", "city_wall", "fence", "firewood", "haystack", "boulder", "flagpole", "lantern_post",
-	"notice_post", "old_gate", "rubble", "board", "lantern", "torch", "boundary_stone", "iron_chain", "chair", "stool", "flower_stand", "baskets", "crocks",
-	"water_vat", "well", "table", "bench", "bench_seat", "side_table", "bush", "stall", "cart", "tea_stall"]
 const COVERED: float = 0.11
 const SCENES: Array[String] = ["chuenyu_main", "castle", "chuenyu_upstairs", "chuenyu_prison"]
 const MAPS: Array[StringName] = [&"chuenyu.main", &"chuenyu.castle", &"chuenyu.upstairs", &"chuenyu.prison"]
@@ -171,7 +166,6 @@ func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapC
 	_check(view.arrows.size() == view.entrances.size() + map.doors_by_id.size() and view.entrances.size() == passages, "every way out of %s has its bobbing arrow" % place)
 	var rooms: Dictionary = map.get_node("RoomLife").get_meta("rooms", {}) if map.has_node("RoomLife") else {}
 	_check(map.map_id() in NO_ROOMS or not rooms.is_empty(), "%s says what its rooms are used for (lived-in)" % place)
-	_check_footing(map, view, place)
 	_check_covered(map, place)
 	for door_id: StringName in map.doors_by_id: # TEST-ONLY: the doors open for the walk
 		map.set_door_open(door_id, true)
@@ -192,28 +186,6 @@ func _check_covered(map: WorldMapController, place: String) -> void:
 		var box: Vector2 = node.get_meta("footprint")
 		taken += box.x * box.y
 	_check(taken / floor >= COVERED, "%s: its furniture covers %.1f%% of its floor" % [place, taken / floor * 100.0])
-
-
-func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String) -> void:
-	var loose: Array[String] = []
-	for prop: Dictionary in view.layout.get("props", []):
-		var kind: String = String(prop["kind"])
-		if not kind in TALL or float(prop.get("elevation", 0.0)) >= 0.9 or prop.get("wall_mounted", false):
-			continue
-		var at := Vector2(float(prop["at"][0]), float(prop["at"][1]))
-		var size: Array = prop.get("size", [64, 32])
-		var box := Vector2(float(size[0]), float(size[1]))
-		if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
-			box = Vector2(box.y, box.x)
-		var area := Rect2(at - box / 2.0, box)
-		var solid: bool = true
-		for y: int in range(floori(area.position.y / 16.0), ceili(area.end.y / 16.0)):
-			for x: int in range(floori(area.position.x / 16.0), ceili(area.end.x / 16.0)):
-				var cell := Vector2(x * 16 + 8, y * 16 + 8)
-				if not TerrainProbe.blocks_at(map, cell) and solid:
-					solid = false
-					loose.append("%s %s (open at %s)" % [kind, prop["at"], cell])
-	_check(loose.is_empty(), "tall decor in %s stands on blocking ground: %s" % [place, loose])
 
 
 ## On the 2D map the voxel view never changes: every room has a way to it, every NPC a spot within

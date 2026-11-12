@@ -19,6 +19,8 @@ const UNIT: float = 32.0
 ## counter covered the head of the player standing there to trade, owner 2026-11-11): they open
 ## over a person like any occluder (VoxelOcclusion) unless their look says `occludes: false`.
 const OVERHEAD_KINDS: Array[String] = ["hanging_lantern","lantern_string","hanging_rope"]
+## Kinds always on a wall (else a look's `wall_mounted` says so): hidden with a cut-away wall.
+const MOUNTED_KINDS: Array[String] = ["window","wall_scroll","closed_door"]
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
 var occluders: Array[Dictionary] = []
@@ -1156,11 +1158,16 @@ func _tree(at: Vector3, pink: bool, local: Dictionary = {}, random: RandomNumber
 			shapes.box(self,at+drop,Vector3(0.1,0.025,0.08),"d095ae" if pink else "9c995e")
 
 ## Draws a look (a door's closed state, a floor item) into a node of the view's own; false
-## if no props file knows its kind.
-func draw_look(into: Shapes, parent: Node3D, data: Dictionary) -> bool:
+## if no props file knows its kind, which is then recorded in `unknown_kinds` (`what` says whose
+## look it was) as a prop's is.
+func draw_look(into: Shapes, parent: Node3D, data: Dictionary, what: String = "") -> bool:
 	var size: Array = data.get("size",[32,32])
 	parent.rotation.y = deg_to_rad(float(data.get("rotation",0)))
-	return _draw_kind(into,parent,data,float(size[0])/UNIT,float(size[1])/UNIT)
+	if _draw_kind(into,parent,data,float(size[0])/UNIT,float(size[1])/UNIT):
+		return true
+	unknown_kinds.append(String(data.get("kind","")))
+	push_error("Voxel map: unknown look kind \"%s\" for %s" % [data.get("kind",""),what])
+	return false
 
 func _draw_kind(into: Shapes, root: Node3D, data: Dictionary, w: float, d: float) -> bool:
 	return furniture.draw(into,root,data,w,d) or fixtures.draw(into,root,data,w,d) or trade_props.draw(into,root,data,w,d) or wilds.draw(into,root,data,w,d) \
@@ -1187,7 +1194,7 @@ func _prop(data: Dictionary) -> void:
 	# swaying, glowing and smoking parts are nodes of their own and stay so).
 	var staged: bool = data.has("present") or data.has("until")
 	var occludes: bool = data.get("occludes",OVERHEAD_KINDS.has(String(data["kind"])))
-	var shown_alone: bool = staged or occludes or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
+	var shown_alone: bool = staged or occludes or data.get("wall_mounted",false) or data.has("portal") or data["kind"] in MOUNTED_KINDS
 	if not shown_alone:
 		shapes.merge(root,_static_chunk(at))
 	if staged:
@@ -1196,7 +1203,7 @@ func _prop(data: Dictionary) -> void:
 		root.visible = not data.get("staged_off",data.has("present"))
 		staged_props.append({"node":root,"look":data})
 	if _draw_kind(shapes,root,data,w,d):
-		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
+		if data.get("wall_mounted",false) or data["kind"] in MOUNTED_KINDS:
 			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})
 		if data.has("portal"):
 			var cover := _node(at)
