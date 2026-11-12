@@ -138,6 +138,7 @@
 			"turn_cue_ms": 220,
 			"intent_pulse_ms": 500,
 			"beat_chip_ms": 260,
+			"beat_fill_ms": 450,
 			"scene_step_ms": 120,
 			"scene_windup_ms": 300,
 			"hit_stop_ms": 100,

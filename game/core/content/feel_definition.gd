@@ -68,6 +68,9 @@ extends RefCounted
 ##   stand; beat_pause_ms the pause between one beat's lines and the next's; battle_zoom_ms the
 ##   camera pushing in a little as the fight begins and on its last blow, and back after.
 ##   All scale with the 战斗速度 (BattlePace) and the 自动 pace, as the lines do.
+## - beat_fill_ms (DECISIONS「节拍填格」): a move pressed sends its beat from its button into the
+##   strip and fills its slot in this long (0: no effect; the slot fills when the round's record
+##   shows it, as before).
 
 ## A bubble of this many characters or fewer shows for speech_bubble_ms alone.
 const BUBBLE_SHORT_CHARACTERS: int = 24
@@ -116,6 +119,8 @@ var _turn_cue_ms: int = 0
 var _intent_pulse_ms: int = 0
 ## 战斗拍数 B: a beat won slides into the panel's chip groove in this long (0: at once).
 var _beat_chip_ms: int = 0
+## 节拍填格 (the header above).
+var _beat_fill_ms: int = 0
 ## 战斗拍数 C: the fight in the scene (the header above).
 var _scene_step_ms: int = 0
 var _scene_windup_ms: int = 0
@@ -250,6 +255,9 @@ var intent_pulse_seconds: float:
 var beat_chip_seconds: float:
 	get:
 		return float(_beat_chip_ms) / 1000.0
+var beat_fill_seconds: float:
+	get:
+		return float(_beat_fill_ms) / 1000.0
 var scene_step_seconds: float:
 	get:
 		return float(_scene_step_ms) / 1000.0
@@ -379,6 +387,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_turn_cue_ms = int(values.get("turn_cue_ms", _turn_cue_ms))
 	_intent_pulse_ms = int(values.get("intent_pulse_ms", _intent_pulse_ms))
 	_beat_chip_ms = int(values.get("beat_chip_ms", _beat_chip_ms))
+	_beat_fill_ms = int(values.get("beat_fill_ms", _beat_fill_ms))
 	_scene_step_ms = int(values.get("scene_step_ms", _scene_step_ms))
 	_scene_windup_ms = int(values.get("scene_windup_ms", _scene_windup_ms))
 	_hit_stop_ms = int(values.get("hit_stop_ms", _hit_stop_ms))
@@ -415,7 +424,7 @@ const KEYS: Array[String] = [
 	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
 	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms", "session_start_slice_ms", "coach_ride_ms",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
-	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms",
+	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms", "beat_fill_ms",
 	"scene_step_ms", "scene_windup_ms", "hit_stop_ms", "scene_flash_ms", "scene_dust_ms", "afterimage_ms", "scene_return_ms", "beat_pause_ms", "battle_zoom_ms",
 	"arena_brick_ms", "arena_row_ms", "arena_build_max_ms", "arena_take_down_ms", "arena_restyle_ms", "opening_camera_ms", "opening_slide_ms", "opening_rise_ms", "opening_full_fights",
 ]

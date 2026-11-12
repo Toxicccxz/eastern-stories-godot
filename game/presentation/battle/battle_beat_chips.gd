@@ -14,6 +14,10 @@ extends Control
 ## move lays its ghost over the slots it would take, red where the beats cannot pay
 ## (set_preview). Every value is the projection's (CombatRoundBeats) or the panel's; nothing
 ## here touches a rule.
+##
+## 节拍填格 (DECISIONS「节拍填格」): a move pressed holds its slots as spent from the press
+## (`hold`) — the panel's fill plays over them — until the round's record shows them spent, a new
+## round comes, or PENDING_SECONDS pass.
 
 const CHIP := Vector2(96, 44)
 const COMPACT_CHIP := Vector2(56, 28)
@@ -46,6 +50,8 @@ const GLYPHS: Dictionary[StringName, String] = {
 	CombatBeatRules.COST_FLEE: "逃", CombatBeatRules.COST_CAST: "法",
 }
 const STRUCK_KEYS: Array[StringName] = [&"busy", &"wait", &"yielded"]
+## A pressed move's slots wait this long at most for the record to show them spent.
+const PENDING_SECONDS: float = 3.0
 const FREE: StringName = &""
 const YIELDED: StringName = &"yielded"
 
@@ -71,12 +77,63 @@ var _sliding_from: int = 0
 var _slide_tween: Tween
 var _font: Font
 var _compact: bool = false
+## 节拍填格: a pressed move's slots before the record has them — from `_pending_first`,
+## `_pending_count` long, on `_pending_key` — and how long they may still wait.
+var _pending_first: int = -1
+var _pending_count: int = 0
+var _pending_key: StringName = FREE
+var _pending_left: float = 0.0
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_font = GameTheme.pixel_font()
 	_fit()
+	set_process(false)
+
+
+## 节拍填格: a pressed move takes `cost` slots from the first free one on `key` now, before the
+## round's record has them; returns [first, count], or [] when no slot is free or a press waits.
+func hold(key: StringName, cost: int) -> Array[int]:
+	if _pending_first >= 0:
+		return []
+	var first: int = _first_free()
+	var count: int = mini(maxi(1, cost), _slots.size() - first)
+	if count <= 0:
+		return []
+	_pending_first = first
+	_pending_count = count
+	_pending_key = key
+	_pending_left = PENDING_SECONDS
+	set_process(true)
+	queue_redraw()
+	return [first, count]
+
+
+## The slots a press holds that the record does not show yet (0: none).
+func pending_count() -> int:
+	return _pending_count if _pending_first >= 0 else 0
+
+
+## Slot `index`'s rect (a run `count` long) in this control, as it lies still.
+func slot_rect(index: int, count: int = 1) -> Rect2:
+	var chip: Vector2 = _chip()
+	var n: int = maxi(1, count)
+	return Rect2(_slot_at(index, 2.0), Vector2(n * chip.x + (n - 1) * _gap(), chip.y))
+
+
+func _process(delta: float) -> void:
+	_pending_left -= delta
+	if _pending_left <= 0.0:
+		_drop_pending()
+
+
+func _drop_pending() -> void:
+	_pending_first = -1
+	_pending_count = 0
+	_pending_key = FREE
+	set_process(false)
+	queue_redraw()
 
 
 ## A short screen: smaller slots.
@@ -119,6 +176,9 @@ func present(beats: CombatRoundBeats, rules: CombatBeatRules, chip_seconds: floa
 		_start_slide(chip_seconds)
 	elif fresh_round:
 		_stop_slide()
+	# 节拍填格: a press's hold goes once the record has its slots, or with a new round.
+	if _pending_first >= 0 and (fresh_round or _spent_count(slots) >= _pending_first + _pending_count):
+		_drop_pending()
 	_slots = slots
 	_spans = spans
 	_earned = earned
@@ -212,8 +272,31 @@ static func _chips_of(rules: CombatBeatRules, key: StringName) -> int:
 
 
 func _first_free() -> int:
-	var at: int = _slots.find(FREE)
-	return _slots.size() if at < 0 else at
+	var shown: Array[StringName] = _shown_slots()
+	var at: int = shown.find(FREE)
+	return shown.size() if at < 0 else at
+
+
+## How many slots from the left are spent or given up (the free ones follow them).
+static func _spent_count(slots: Array[StringName]) -> int:
+	var at: int = slots.find(FREE)
+	return slots.size() if at < 0 else at
+
+
+## The slots as drawn: the record's, with a press's hold over them.
+func _shown_slots() -> Array[StringName]:
+	var slots: Array[StringName] = _slots.duplicate()
+	if _pending_first >= 0:
+		for index: int in range(_pending_first, mini(_pending_first + _pending_count, slots.size())):
+			slots[index] = _pending_key
+	return slots
+
+
+func _shown_spans() -> Array[Vector2i]:
+	var spans: Array[Vector2i] = _spans.duplicate()
+	if _pending_first >= 0:
+		spans.append(Vector2i(_pending_first, mini(_pending_count, _slots.size() - _pending_first)))
+	return spans
 
 
 func _start_slide(seconds: float) -> void:
@@ -245,19 +328,20 @@ func _draw() -> void:
 	draw_rect(groove, GROOVE)
 	draw_rect(groove, GROOVE_EDGE, false, 1.0)
 	var size_px: int = 12 if _compact else GameTheme.text_size(18)
-	# The free and given-up slots one by one; a spending's run as one long slot.
+	# The free and given-up slots one by one; a spending's run as one long slot (a press's hold too).
+	var shown: Array[StringName] = _shown_slots()
 	var covered: Dictionary[int, bool] = {}
-	for span: Vector2i in _spans:
-		var key: StringName = _slots[span.x]
+	for span: Vector2i in _shown_spans():
+		var key: StringName = shown[span.x]
 		var at: Vector2 = _slot_at(span.x, groove.position.y)
 		var width: float = span.y * chip.x + (span.y - 1) * _gap()
 		_draw_slot(Rect2(at, Vector2(width, chip.y)), key, span.x, size_px)
 		for n: int in span.y:
 			covered[span.x + n] = true
-	for index: int in _slots.size():
+	for index: int in shown.size():
 		if covered.has(index):
 			continue
-		_draw_slot(Rect2(_slot_at(index, groove.position.y), chip), _slots[index], index, size_px)
+		_draw_slot(Rect2(_slot_at(index, groove.position.y), chip), shown[index], index, size_px)
 	var dashed_at: int = _slots.size()
 	if _earnable:
 		var rect := Rect2(_slot_at(dashed_at, groove.position.y), chip)
@@ -344,6 +428,15 @@ func _draw_dashed(rect: Rect2, color: Color) -> void:
 func _draw_centered(text: String, baseline_centre: Vector2, size_px: int, color: Color) -> void:
 	var width: float = _font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x
 	draw_string(_font, Vector2(baseline_centre.x - width * 0.5, baseline_centre.y), text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px, color)
+
+
+## A spent key's colour and its one character (the fill carries them).
+static func color_of(key: StringName) -> Color:
+	return _color_of(key)
+
+
+static func glyph_of(key: StringName) -> String:
+	return _glyph_of(key)
 
 
 static func _color_of(key: StringName) -> Color:

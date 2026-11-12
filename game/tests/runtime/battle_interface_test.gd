@@ -284,6 +284,27 @@ func _beats_panel(tree: SceneTree) -> void:
 	panel._point(&"es2:test/0")
 	panel._move_pressed(&"es2:test/0")
 	check(panel.strip_text.text == "他起手：守" and panel.chips.preview() == [0, true], "pressing the move clears the pointing")
+	# 节拍填格: the feel off, a move taken fills its slot when the record shows it (no effect);
+	# on, its beat flies from its button and fills the slot now, the count following once it is full.
+	check(not panel.fill_beat(&"es2:test/1") and panel.chips.pending_count() == 0 and not panel.beat_fill.playing(), "the feel off: no fill, nothing held")
+	TestFeel.use()
+	check(panel.fill_beat(&"es2:test/1") and panel.chips.pending_count() == 2 and panel.beat_fill.playing(), "a 重 taken: its two slots held, the fill playing")
+	check(panel._left_word.text == "还剩 2 手", "while it fills the count waits: " + panel._left_word.text)
+	panel.beat_fill.advance(1.0)
+	check(not panel.beat_fill.playing() and panel._left_word.text == "没手了", "full: the count follows: " + panel._left_word.text)
+	var pressed := CombatRoundBeats.new(&"p", 2)
+	pressed.spend(CombatMoveTags.HEAVY, 2)
+	projection.player_beats = pressed
+	projection.round_running = true
+	projection.waiting = false
+	panel.present(projection)
+	check(panel.chips.pending_count() == 0 and panel.chips.slots() == ([CombatMoveTags.HEAVY, CombatMoveTags.HEAVY] as Array[StringName]) and panel._left_word.text == "没手了", "the record has the 重: the hold goes, the slots the record's")
+	TestFeel.restore()
+	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	projection.round_running = false
+	projection.waiting = true
+	panel.present(projection)
+	check(panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel._left_word.text == "还剩 2 手", "a new round: fresh slots")
 	# The orders: the perform with its price, the exerts in one 运功 menu, 逃跑 and 投降 small at the end.
 	var row: Array[String] = []
 	for child: Node in panel._actions.get_children():
