@@ -144,7 +144,9 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
 * **Code** in `game/presentation/voxel/`: the view, geometry, lighting and occlusion at the top;
   `props/` (shapes, furniture, fixtures, architecture), `terrain/` (ground, landmass, foliage,
   trees), `actors/`, `shaders/`. A new prop kind goes in the props file of its category and is
-  data-configured (size, colours); no per-map or per-region scripts.
+  data-configured (size, colours); no per-map or per-region scripts. Every kind and key a look
+  or building may carry is registered in `game/data/common/voxel_prop_keys.json` (`tall` for
+  what a person cannot walk through: it stands on blocking ground); a key nothing reads fails.
 * **The 2D runtime stays authoritative.** Positions, collision, reach, doors, saves and RNG are
   the 2D map's; the voxel view only shows them and never changes a rule or a saved value.
 * **Richness standard** for every room, street and wild map, whatever its region's style:
