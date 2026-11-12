@@ -50,7 +50,7 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(weng != null and terrace.npc_life.story_trials_offered(weng).is_empty(), "岚翁 on the 云台; no trial before one chooses to draw")
 	_check(_whirl_shown(terrace), "the whirlwind turns, 旋芒 in it")
 	await _act(tree, terrace, &"lancheng.whirl.self")
-	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("接风三刃"), "自己拔 asked first: the trial named")
+	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("接风三刃") and ui.confirm_prompt.message.text.contains("跟你并肩打"), "自己拔 asked first: the trial named, and what the other way brings (DECISIONS「主线必打的仗」: the bearer fights beside you)")
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	_check(state.marks.get("要自己拔旋芒", 0) == 1 and state.marks.get("旋芒在你手里", 0) == 0, "chosen; not drawn yet")
