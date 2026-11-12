@@ -4,12 +4,16 @@ extends RefCounted
 ## Finds faces that fight in the depth buffer (z-fighting): two boxes of one place (parent), in
 ## different colours, whose faces look the same way, lie in one plane and overlap by more than an
 ## edge. Such a face flickers while the camera moves (owner, 2026-11-11). Reads what Shapes kept
-## while `keep_flushed` was set. Undersides are left out: no camera of the game sees them.
+## while `keep_flushed` was set. Undersides are left out: no camera of the game sees them. A
+## stone (Shapes.shard) shows one flat face, its top: the part of it any of its shapes covers.
 
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 ## Faces nearer than this to one plane fight too (a collar 0.0002 before the face it touches);
 ## settled faces are at least Shapes.COPLANAR_STEP apart.
 const NEAR: float = 0.0008
+## How far across a stone's top (Shapes._stone_mesh), as a part of its size, it surely reaches
+## whichever way its corners were chipped.
+const STONE_TOP: float = 0.6
 
 
 ## The fights among `entries` (Shapes.flushed), described, at most `limit` of them.
@@ -19,8 +23,7 @@ const NEAR: float = 0.0008
 static func fights(entries: Array[Dictionary], limit: int = 20, for_map: bool = false) -> PackedStringArray:
 	var by_parent: Dictionary = {}
 	for entry: Dictionary in entries:
-		if not entry["mesh"] is BoxMesh:
-			continue
+		var stone: bool = not entry["mesh"] is BoxMesh
 		var parent: Variant = entry["parent"]
 		if not by_parent.has(parent):
 			by_parent[parent] = []
@@ -28,7 +31,7 @@ static func fights(entries: Array[Dictionary], limit: int = 20, for_map: bool = 
 		var transforms: Array = entry["transforms"]
 		for i: int in transforms.size():
 			var colour: String = String(entry["color"]) if colors.is_empty() else colors[i].to_html(false)
-			(by_parent[parent] as Array).append([transforms[i], colour, entry.get("by", 0)])
+			(by_parent[parent] as Array).append([transforms[i], colour, entry.get("by", 0), stone])
 	var found := PackedStringArray()
 	for parent: Variant in by_parent:
 		var place: String = String((parent as Node).name) if parent is Node else "?"
@@ -44,19 +47,20 @@ static func _fights_in(boxes: Array, place: String, found: PackedStringArray, li
 	var cells: Dictionary = {}
 	for box: Array in boxes:
 		var t: Transform3D = box[0]
-		for axis: int in 3:
+		var stone: bool = box[3]
+		for axis: int in ([1] if stone else [0, 1, 2]):
 			var column: Vector3 = t.basis[axis]
 			var length: float = column.length()
 			if length < 0.00001:
 				continue
-			for side: float in [1.0, -1.0]:
+			for side: float in ([1.0] if stone else [1.0, -1.0]):
 				var normal: Vector3 = column / length * side
-				var half_a: Vector3 = t.basis[(axis + 1) % 3] * 0.5
-				var half_b: Vector3 = t.basis[(axis + 2) % 3] * 0.5
+				var half_a: Vector3 = t.basis[(axis + 1) % 3] * (0.5 * STONE_TOP if stone else 0.5)
+				var half_b: Vector3 = t.basis[(axis + 2) % 3] * (0.5 * STONE_TOP if stone else 0.5)
 				if normal.y < -0.99 or (for_map and (Shapes._unseen_on_map(normal) or minf(half_a.length(), half_b.length()) < Shapes.SLIVER * 0.5 or maxf(half_a.length(), half_b.length()) < Shapes.SPECK * 0.5)):
 					continue
 				var centre: Vector3 = t.origin + column * 0.5 * side
-				var face: Array = [normal, normal.dot(centre), centre, t.basis[(axis + 1) % 3] * 0.5, t.basis[(axis + 2) % 3] * 0.5, box[1], box[2]]
+				var face: Array = [normal, normal.dot(centre), centre, half_a, half_b, box[1], box[2]]
 				var key := Vector4i(roundi(normal.x * 64.0), roundi(normal.y * 64.0), roundi(normal.z * 64.0), roundi(float(face[1]) * 2000.0))
 				var reach: Vector3 = (face[3] as Vector3).abs() + (face[4] as Vector3).abs()
 				var low := Vector3i((centre - reach).floor())

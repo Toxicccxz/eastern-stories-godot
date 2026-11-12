@@ -236,6 +236,8 @@ func _build() -> void:
 		await geometry.breathe()
 	for shutter: Node3D in shutters.values()+opened.values():
 		occlusion.register(shutter)
+	if geometry.foliage != null:
+		occlusion.share_show(geometry.foliage.material)
 	await geometry.breathe()
 	var indoor: bool = layout.get("indoor",false)
 	lighting.build(world,occlusion,indoor,VoxelLighting.merge_profile(_region_light(indoor),layout.get("light",{})))
@@ -453,6 +455,7 @@ func _follow(delta: float) -> void:
 	var looked: Vector3 = _target.lerp(_stage_target,_stage_blend) if _stage_blend > 0.0 else _target
 	camera.position = looked+_offset
 	camera.look_at(looked,Vector3.UP)
+	camera.position = on_pixels(camera.position)
 	_update_movement_basis()
 	# Reproject on resize; orientation stays fixed between explicit side switches.
 	var zero: Vector2 = camera.unproject_position(Vector3.ZERO)
@@ -466,6 +469,25 @@ func _follow(delta: float) -> void:
 	map.view_ground = projection
 	map.view_up = camera.unproject_position(Vector3.UP/VoxelMapGeometry.UNIT)-zero
 	get_viewport().canvas_transform = map.view_ground
+
+## `at` (the camera's place, turned as it is) moved across the screen onto the picture's pixel
+## grid: the camera eases after the player, and an orthographic view moved by part of a pixel
+## draws every small thing (a pebble, a petal, a rut's edge) a little differently each frame, so
+## the ground shimmers while the camera moves and settles only when it stops (owner, 2026-11-12:
+## the forest path). Moved by whole pixels, the picture only shifts: nothing in it changes.
+func on_pixels(at: Vector3) -> Vector3:
+	var viewport: Viewport = get_viewport() if is_inside_tree() else null
+	if viewport == null or camera == null or camera.projection != Camera3D.PROJECTION_ORTHOGONAL:
+		return at
+	var lines: float = float(viewport.get_texture().get_size().y)*viewport.scaling_3d_scale
+	if lines < 1.0 or camera.size <= 0.0:
+		return at
+	var pixel: float = camera.size/lines
+	var right: Vector3 = camera.basis.x.normalized()
+	var up: Vector3 = camera.basis.y.normalized()
+	var across: float = at.dot(right)
+	var rise: float = at.dot(up)
+	return at+right*(roundf(across/pixel)*pixel-across)+up*(roundf(rise/pixel)*pixel-rise)
 
 ## 战斗拍数 C: the camera pushes in to `factor` of the layout's size (below 1: nearer) over
 ## `seconds` (0: at once); 1.0 brings it back. The ground's projection follows in _follow().

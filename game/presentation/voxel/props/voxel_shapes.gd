@@ -40,7 +40,13 @@ const GROUND_CELL: float = 0.5
 ## Layers a face may step back to stay under every later face it overlaps; past them it takes
 ## any layer those faces leave free.
 const COPLANAR_LAYERS: int = 4
-## The boxes drawn since the last settle_coplanar(), in the order drawn: [batch entry, index].
+## A stone (shard) has one flat face, its top, reaching at most this part of its size across
+## (_stone_mesh: corners at 0.5 chipped out by up to 0.065, the top 0.91 of them): settled as
+## that square, so a face it might cover steps back too (owner, 2026-11-12: a forest path's mud,
+## banks and grit, laid as stones at one height, flickered).
+const STONE_TOP_REACH: float = 1.03
+## The boxes and stones drawn since the last settle_coplanar(), in the order drawn: [batch entry,
+## index, whether a stone].
 var _unsettled: Array = []
 ## Drawn for the map's camera (VoxelMapGeometry): faces it never sees, and slivers, are left as
 ## they are. Off for a thing that turns (the 背包's item, VoxelItemLook): every face shows.
@@ -114,13 +120,13 @@ func shard(parent: Node3D, at: Vector3, size: Vector3, hex: String, variant: int
 	variant = posmod(variant, 8)
 	if not stones.has(variant):
 		stones[variant] = _stone_mesh(variant)
-	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant])
+	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant], true)
 
 func merge(node: Node3D, into: Node3D) -> void:
 	merged[node] = into
 	compact[into] = true
 
-func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
+func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh, stone: bool = false) -> void:
 	# Worker threads may be settling the batches: nothing is drawn into them meanwhile.
 	if _task >= 0:
 		finish_settling()
@@ -142,8 +148,8 @@ func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) 
 		entry = {"parent":parent,"color":hex,"mesh":mesh,"transforms":[]}
 		batches[key] = entry
 	var transforms: Array = entry["transforms"]
-	if mesh == cube:
-		_unsettled.append([entry,transforms.size()])
+	if mesh == cube or stone:
+		_unsettled.append([entry,transforms.size(),stone])
 	transforms.append(transform)
 
 ## Two boxes of one place in different colours whose faces lie in one plane and overlap fight
@@ -225,7 +231,8 @@ func _settle_group(group: Dictionary) -> int:
 	var ground: bool = group.get("ground",false)
 	var stepped: int = 0
 	for next: int in range(items.size()-1,-1,-1):
-		stepped += _settle_box(items[next],cells,ground)
+		var item: Array = items[next]
+		stepped += _settle_turned(item,cells,true) if item[2] else _settle_box(item,cells,ground)
 	return stepped
 
 ## A box (latest first) against the faces of the boxes of its place drawn after it, found by
@@ -276,22 +283,22 @@ func _settle_box(item: Array, cells: Dictionary, ground: bool = false) -> int:
 	return stepped
 
 ## A box turned other than square to the world (a crust a quarter turned on the meat, a worn
-## patch askew on the floor): each face by its own normal.
-func _settle_turned(item: Array, cells: Dictionary) -> int:
+## patch askew on the floor): each face by its own normal. A stone: its top alone.
+func _settle_turned(item: Array, cells: Dictionary, stone: bool = false) -> int:
 	var entry: Dictionary = item[0]
 	var index: int = item[1]
 	var transforms: Array = entry["transforms"]
 	var t: Transform3D = transforms[index]
 	var colour: String = entry["color"]
 	var steps := PackedFloat32Array([0.0,0.0,0.0,0.0,0.0,0.0])
-	for axis: int in 3:
+	for axis: int in ([1] if stone else [0,1,2]):
 		var column: Vector3 = t.basis[axis]
 		var length: float = column.length()
 		if length < 0.00001:
 			continue
-		var half_a: Vector3 = t.basis[(axis+1)%3]*0.5
-		var half_b: Vector3 = t.basis[(axis+2)%3]*0.5
-		for side: int in 2:
+		var half_a: Vector3 = t.basis[(axis+1)%3]*(0.5*STONE_TOP_REACH if stone else 0.5)
+		var half_b: Vector3 = t.basis[(axis+2)%3]*(0.5*STONE_TOP_REACH if stone else 0.5)
+		for side: int in ([0] if stone else [0,1]):
 			var normal: Vector3 = column/length if side == 0 else -column/length
 			# No camera of the game looks up at an underside; the map's never sees a north face,
 			# nor a sliver too thin to show a fight.

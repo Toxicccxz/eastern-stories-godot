@@ -9,7 +9,9 @@ void vertex() {
 void fragment() {
 	// One opaque pass: around a subject an occluder leaves out a screen-door pattern of dots
 	// and keeps the rest fully lit, so overlapping tiles keep correct depth and normal shading.
-	if (dithered_out(local_reveal(world_vertex, world_normal(INV_VIEW_MATRIX, NORMAL)), FRAGCOORD.xy, VIEWPORT_SIZE)) {
+	// A show's space (a fight's stage) is cleared outright; its rim and the people thin out.
+	float show = show_reveal(world_vertex, toward_eye);
+	if (show >= 1.0 || dithered_out(max(show, local_reveal(world_vertex, world_normal(INV_VIEW_MATRIX, NORMAL))), FRAGCOORD.xy, VIEWPORT_SIZE)) {
 		discard;
 	}
 	ALBEDO = tint.rgb * (vertex_tint ? COLOR.rgb : vec3(1.0));

@@ -13,6 +13,7 @@ uniform float holes = 0.9;
 // Screen pixels per dither dot at a 720-line view; a larger window scales the dots with it.
 uniform float dot_lines = 360.0;
 varying vec3 world_vertex;
+#include "show_space.gdshaderinc"
 
 // 4×4 ordered dither: any share of it is an even screen-door pattern, and a larger share keeps
 // every dot of a smaller one, so the opening's edge thins out evenly into the whole surface.

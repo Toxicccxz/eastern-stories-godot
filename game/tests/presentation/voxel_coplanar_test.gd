@@ -9,8 +9,9 @@ const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
 const Work = preload("res://tests/runtime/snow_work_income_test.gd")
 const Still = preload("res://tests/runtime/snow_south_road_test.gd")
-## Maps drawn whole: a street, rooms full of shelves and people, a wild gorge.
-const MAPS: Array[StringName] = [&"snow.inn.main_floor", &"snow.school2", &"snow.school", &"snow.hockshop", &"snow.square"]
+## Maps drawn whole: a street, rooms full of shelves and people, and 老松林's forest paths (worn
+## dirt, banks and grit laid as stones over the ground), each entered at a spawn point of its own.
+const MAPS: Dictionary[StringName, StringName] = {&"snow.inn.main_floor": &"", &"snow.school2": &"", &"snow.school": &"", &"snow.hockshop": &"", &"snow.square": &"", &"oldpine.outdoor.central_clearing": &"oldpine.outdoor.central_clearing.player_start"}
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -18,6 +19,7 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary:
 	_test_shelf()
 	_test_drumstick()
+	_test_stones()
 	_test_layers_and_exceptions()
 	Shapes.keep_flushed = true
 	_test_item_looks()
@@ -64,6 +66,26 @@ func _test_drumstick() -> void:
 	var meat: Transform3D = _box_of(shapes, "b0602e", 0)
 	_check(is_equal_approx(meat.origin.y + meat.basis.get_scale().y / 2, 0.31 - Shapes.COPLANAR_STEP), "the meat's top steps down under the crust's")
 	_check(CoplanarFaces.fights(_drawn(shapes)).is_empty(), "and nothing fights")
+	holder.free()
+
+
+## A forest path's mud and grit, laid as stones (Shapes.shard) at one height in two colours, over a
+## box as high: their flat tops fight as boxes' faces do (owner, 2026-11-12: the forest path
+## flickered). The last laid wins; the stone under it steps down, the box under both further.
+func _test_stones() -> void:
+	var holder := Node3D.new()
+	var shapes := Shapes.new()
+	shapes.box(holder, Vector3(0.05, 0.019, 0.0), Vector3(0.3, 0.015, 0.3), "b8ad8b")
+	shapes.shard(holder, Vector3(0.0, 0.014, 0.0), Vector3(0.7, 0.025, 0.8), "ae9669", 3, 0.4)
+	shapes.shard(holder, Vector3(0.15, 0.014, 0.1), Vector3(0.6, 0.025, 0.5), "91805c", 5, 1.3)
+	_check(CoplanarFaces.fights(_drawn(shapes)).size() >= 2, "laid as written, the stones' tops and the box's fight: %s" % [CoplanarFaces.fights(_drawn(shapes))])
+	shapes.settle_coplanar()
+	_check(CoplanarFaces.fights(_drawn(shapes)).is_empty(), "settled, nothing fights: %s" % [CoplanarFaces.fights(_drawn(shapes))])
+	var top := func(t: Transform3D) -> float: return t.origin.y + t.basis.get_scale().y / 2.0
+	_check(is_equal_approx(top.call(_box_of(shapes, "91805c", 0)), 0.0265), "the last stone's top as laid")
+	_check(is_equal_approx(top.call(_box_of(shapes, "ae9669", 0)), 0.0265 - Shapes.COPLANAR_STEP), "the stone under it a step down")
+	_check(top.call(_box_of(shapes, "b8ad8b", 0)) <= 0.0265 - 2.0 * Shapes.COPLANAR_STEP + 0.00001, "the box under both further down")
+	_check(shapes.stepped_faces == 2, "two tops stepped (a stone's sides are no box's): %d" % shapes.stepped_faces)
 	holder.free()
 
 
@@ -202,7 +224,7 @@ func _test_maps(tree: SceneTree) -> void:
 		var map: WorldMapController = session.active_map() as WorldMapController
 		if session.active_map_id() != def.map_id:
 			Shapes.flushed.clear()
-			map = MapPlaces.enter(session, zone_id, def.entry_spawn_id)
+			map = MapPlaces.enter(session, zone_id, def.entry_spawn_id if MAPS[zone_id].is_empty() else MAPS[zone_id])
 		_check(map != null, "enter %s" % zone_id)
 		if map == null:
 			continue

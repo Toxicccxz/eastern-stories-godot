@@ -29,6 +29,9 @@ enum Kind { FULL, SHORT, OFF }
 const TITLE_HEADROOM: float = 1.0
 ## 战斗演出 D: the show's space reaches this far (units) past the base's foot all round.
 const BACKDROP_MARGIN: float = 0.6
+## What stands between the eye and the stage gives way over the base's foot and this high over
+## its top (the fighters, a lunge's leap; owner, 2026-11-12: a gorge's walls hid the stage).
+const CLEAR_OVER: float = 2.4
 
 ## Fights opened this run of the game (not saved): the first few open in full.
 static var fights_opened: int = 0
@@ -219,8 +222,16 @@ func _set_rise(progress: float) -> void:
 		backdrop.amount = eased
 		if arena != null and is_instance_valid(arena):
 			backdrop.hold(arena.global_transform, arena.footprint(BACKDROP_MARGIN))
+	_hold_clear()
 	if view != null and is_instance_valid(view):
 		view.placed_blend = eased
+
+
+## The map's occluders give way round the stage where it stands now (VoxelOcclusion.hold_show).
+func _hold_clear() -> void:
+	if view == null or not is_instance_valid(view) or arena == null or not is_instance_valid(arena) or not arena.is_inside_tree():
+		return
+	view.occlusion.hold_show(arena.global_transform, arena.footprint(0.1), -0.1, arena.top_height() + CLEAR_OVER)
 
 
 ## Someone joined the fight (summoned, or one more of a gang): a place for them at the back of
@@ -253,6 +264,7 @@ func seat(fighters: Dictionary[StringName, Vector2], foes: Array[StringName]) ->
 	_place()
 	if backdrop != null and is_instance_valid(backdrop):
 		backdrop.hold(arena.global_transform, arena.footprint(BACKDROP_MARGIN))
+	_hold_clear()
 
 
 ## Where the camera looks, how high over it and how near: on the player and the middle of the
@@ -561,6 +573,7 @@ func _finish_landing() -> void:
 	_landing = []
 	if shown != null and is_instance_valid(shown):
 		(shown as WorldVoxelView).release_placed()
+		(shown as WorldVoxelView).occlusion.clear_show()
 	if veil != null and is_instance_valid(veil):
 		(veil as Node).queue_free()
 
