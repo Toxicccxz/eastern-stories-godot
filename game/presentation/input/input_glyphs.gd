@@ -50,8 +50,8 @@ const _PAD_AXES: Dictionary[int, Array] = {
 	JOY_AXIS_TRIGGER_LEFT: ["LT", "L2", "ZL"],
 	JOY_AXIS_TRIGGER_RIGHT: ["RT", "R2", "ZR"],
 }
-## PlayStation's face buttons, written as signs where a glyph has no text.
-const _SHAPE_SIGNS: Dictionary[int, String] = {Shape.CROSS: "×", Shape.RING: "○", Shape.SQUARE: "□", Shape.TRIANGLE: "△"}
+## PlayStation's face buttons, written out where a glyph has no text (the key page).
+const _SHAPE_SIGNS: Dictionary[int, String] = {Shape.CROSS: "叉", Shape.RING: "圈", Shape.SQUARE: "方", Shape.TRIANGLE: "三角"}
 const _KEY_NAMES: Dictionary[String, String] = {
 	"Escape": "Esc", "PageUp": "PgUp", "PageDown": "PgDn", "Backspace": "Backspace",
 }

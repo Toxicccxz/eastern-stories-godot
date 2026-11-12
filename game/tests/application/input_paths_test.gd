@@ -207,7 +207,7 @@ func _test_key_names() -> void:
 			if key != null and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z:
 				_check(key.keycode == KEY_NONE, "%s: by position only" % action)
 	_check(InputGlyphs.key_names(&"move_up") == PackedStringArray(["W", "Up"]), "走 up: W / Up: %s" % [InputGlyphs.key_names(&"move_up")])
-	_check(InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.XBOX) == PackedStringArray(["A"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.PLAYSTATION) == PackedStringArray(["×"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.NINTENDO) == PackedStringArray(["B"]), "交互 on the three pads")
+	_check(InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.XBOX) == PackedStringArray(["A"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.PLAYSTATION) == PackedStringArray(["叉"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.NINTENDO) == PackedStringArray(["B"]), "交互 on the three pads")
 	_check(bool(ProjectSettings.get_setting("input_devices/joypads/ignore_joypad_on_unfocused_application")), "Godot drops a pad's input while the window has no focus")
 
 
