@@ -199,6 +199,18 @@ func _test_scene_input(tree: SceneTree) -> void:
 	_check(_coordinator.waiting_for_player(), "waiting on the next beat while the first is told (%d lines queued)" % _ui._line_queue.size())
 	_ui._choose_move(cheap)
 	_check(_coordinator.player_choice() == cheap and _ui.action_panel.chips.pending_count() == 1 and _ui.action_panel.beat_fill.playing(), "and the next beat is taken all the same, its slot filling at once: the input is never locked (choice %s, held %d)" % [_coordinator.player_choice(), _ui.action_panel.chips.pending_count()])
+	# The last beat resolves the next frame and closes the round; the strip waits for the fill.
+	for frame: int in 3:
+		await tree.process_frame
+	_ui.refresh_projection()
+	_check(_ui.action_panel.beat_fill.playing() and _ui.action_panel.chips.frozen() and _ui.action_panel.chips.pending_count() == 1, "a few frames on, the fill still plays over its slot (playing %s, frozen %s, held %d)" % [_ui.action_panel.beat_fill.playing(), _ui.action_panel.chips.frozen(), _ui.action_panel.chips.pending_count()])
+	await tree.create_timer(0.6).timeout
+	_ui.refresh_projection()
+	_check(not _ui.action_panel.beat_fill.playing() and not _ui.action_panel.chips.frozen(), "full: the strip takes the fight's record again")
+	# The suite runs the fight's clock itself: once the beat is resolved its slot is the record's.
+	_coordinator.advance_scheduler(1.0)
+	_ui.refresh_projection()
+	_check(_ui.action_panel.chips.pending_count() == 0, "the beat resolved: nothing held")
 	await tree.create_timer(1.5).timeout
 	_ui.refresh_projection()
 	_check(map.runtime_body_for_character(trainee.character_id).global_position == body_before, "the 2D body never moved: the show moved the model only")

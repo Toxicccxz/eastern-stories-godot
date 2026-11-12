@@ -290,17 +290,26 @@ func _beats_panel(tree: SceneTree) -> void:
 	TestFeel.use()
 	check(panel.fill_beat(&"es2:test/1") and panel.chips.pending_count() == 2 and panel.beat_fill.playing(), "a 重 taken: its two slots held, the fill playing")
 	check(panel._left_word.text == "还剩 2 手", "while it fills the count waits: " + panel._left_word.text)
+	# The 重 resolves the next frame and closes the round: the strip waits for the fill.
+	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	projection.last_round_beats = CombatRoundBeats.new(&"p", 2)
+	projection.last_round_beats.spend(CombatMoveTags.HEAVY, 2)
+	panel.present(projection)
+	check(panel.chips.pending_count() == 2 and panel.chips._shown_slots() == ([CombatMoveTags.HEAVY, CombatMoveTags.HEAVY] as Array[StringName]) and panel._left_word.text == "还剩 2 手", "the round closed under the fill: the two slots still filling, the count still 2: " + panel._left_word.text)
 	panel.beat_fill.advance(1.0)
-	check(not panel.beat_fill.playing() and panel._left_word.text == "没手了", "full: the count follows: " + panel._left_word.text)
-	var pressed := CombatRoundBeats.new(&"p", 2)
-	pressed.spend(CombatMoveTags.HEAVY, 2)
-	projection.player_beats = pressed
+	check(not panel.beat_fill.playing() and panel.chips.pending_count() == 0 and panel.chips.slots() == ([&"", &""] as Array[StringName]) and panel._left_word.text == "还剩 2 手", "full: the new round shows, fresh slots: " + panel._left_word.text)
+	# A beat the record has not caught up with when the fill is full: held, the count less it.
+	check(panel.fill_beat(&"es2:test/0") and panel.chips.pending_count() == 1, "a 快 taken: one slot held")
+	panel.beat_fill.advance(1.0)
+	check(panel.chips.pending_count() == 1 and panel._left_word.text == "还剩 1 手", "full before the record: still held, the count less it: " + panel._left_word.text)
+	projection.player_beats.spend(CombatMoveTags.QUICK, 1)
 	projection.round_running = true
 	projection.waiting = false
 	panel.present(projection)
-	check(panel.chips.pending_count() == 0 and panel.chips.slots() == ([CombatMoveTags.HEAVY, CombatMoveTags.HEAVY] as Array[StringName]) and panel._left_word.text == "没手了", "the record has the 重: the hold goes, the slots the record's")
+	check(panel.chips.pending_count() == 0 and panel.chips.slots() == ([CombatMoveTags.QUICK, &""] as Array[StringName]) and panel._left_word.text == "还剩 1 手", "the record has it: the record's slot: " + panel._left_word.text)
 	TestFeel.restore()
 	projection.player_beats = CombatRoundBeats.new(&"p", 2)
+	projection.last_round_beats = null
 	projection.round_running = false
 	projection.waiting = true
 	panel.present(projection)

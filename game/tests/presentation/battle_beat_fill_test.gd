@@ -3,8 +3,7 @@ extends RefCounted
 ## 节拍填格 (DECISIONS「节拍填格」): a move pressed sends its beat from its button into the strip
 ## and fills its slot. The feel's duration (left out = 0); the fill's phases (the bar flies, then
 ## the slot fills from the left, then flashes) and its end; no time = nothing shown; clear() stops
-## it; the strip holding a pressed move's slots until the round's record has them, a new round
-## comes or a while passes. Rules, numbers and the fight's draws are untouched.
+## it; the strip holding a pressed move's slots and staying as it was while the fill plays. Rules, numbers and the fight's draws are untouched.
 
 var assertions: int = 0
 var failures: Array[String] = []
@@ -60,32 +59,51 @@ func _fill(tree: SceneTree) -> void:
 	await tree.process_frame
 
 
-## The strip holds a pressed move's slots (a 重 two) from the press; the record catching up lets them
-## go, so does a new round or PENDING_SECONDS; a second press waits for the first.
+## The strip holds a pressed move's slots (a 重 two) from the press and stays as it was while the
+## fill plays — the beat resolved the next frame, or a round closed with it, shows once released;
+## the hold goes when the record has a beat there (priced as it ran), with a new round or after
+## PENDING_SECONDS; a second press waits for the first.
 func _hold(tree: SceneTree) -> void:
 	var chips := BattleBeatChips.new()
 	tree.root.add_child(chips)
 	var rules: CombatBeatRules = GameContent.catalog().pacing().beat_rules()
 	var beats := CombatRoundBeats.new(&"p", 2)
 	chips.present(beats, rules, 0.0)
-	check(chips.hold(CombatMoveTags.HEAVY, 2) == ([0, 2] as Array[int]) and chips.pending_count() == 2, "a 重 pressed: two slots held from the first")
+	check(chips.hold(CombatMoveTags.HEAVY, 2) == ([0, 2] as Array[int]) and chips.pending_count() == 2 and chips.frozen(), "a 重 pressed: two slots held from the first, the strip still")
 	check(chips._shown_slots() == ([CombatMoveTags.HEAVY, CombatMoveTags.HEAVY] as Array[StringName]) and chips.slots() == ([&"", &""] as Array[StringName]), "drawn spent while the record still has them free")
 	check(chips.hold(CombatMoveTags.QUICK, 1).is_empty(), "a second press waits for the first")
-	beats.spend(CombatMoveTags.HEAVY, 2)
-	chips.present(beats, rules, 0.0)
-	check(chips.pending_count() == 0 and not chips.is_processing(), "the record has them: the hold goes")
+	# The 重 closed the round the next frame: the new round waits for the fill.
+	var closed := CombatRoundBeats.new(&"p", 2)
+	closed.spend(CombatMoveTags.HEAVY, 2)
+	chips.present(CombatRoundBeats.new(&"p", 2), rules, 0.0, closed)
+	check(chips.pending_count() == 2 and chips._shown_slots() == ([CombatMoveTags.HEAVY, CombatMoveTags.HEAVY] as Array[StringName]), "the next round waits while the fill plays")
+	chips.release()
+	check(not chips.frozen() and chips.pending_count() == 0 and chips.slots() == ([&"", &""] as Array[StringName]), "released: the new round, the hold gone")
+	# The record has the beat as it ran: a 快 pressed that came to the record as it was.
 	var next := CombatRoundBeats.new(&"p", 2)
-	chips.present(next, rules, 0.0)
-	check(chips.hold(CombatMoveTags.QUICK, 1) == ([0, 1] as Array[int]), "a 快 in the new round: the first slot")
-	next.spend(CombatMoveTags.FEINT, 1)
-	chips.present(next, rules, 0.0)
-	check(chips.pending_count() == 0, "the record has a beat there: the hold goes")
-	check(chips.hold(CombatMoveTags.QUICK, 1) == ([1, 1] as Array[int]), "the next press takes the slot after")
-	chips.present(CombatRoundBeats.new(&"p", 2), rules, 0.0)
-	check(chips.pending_count() == 0, "a new round: the hold goes")
 	chips.hold(CombatMoveTags.QUICK, 1)
+	next.spend(CombatMoveTags.QUICK, 1)
+	chips.present(next, rules, 0.0, closed)
+	chips.release()
+	check(chips.pending_count() == 0 and chips.slots() == ([CombatMoveTags.QUICK, &""] as Array[StringName]), "the record has it: the hold goes, the record's slot")
+	# A 重 pressed that ran as a wait (one slot): the hold goes all the same.
+	var third := CombatRoundBeats.new(&"p", 2)
+	chips.present(third, rules, 0.0, closed)
+	chips.hold(CombatMoveTags.HEAVY, 2)
+	third.spend(&"wait", 1)
+	chips.present(third, rules, 0.0, closed)
+	chips.release()
+	check(chips.pending_count() == 0 and chips.slots() == ([&"wait", &""] as Array[StringName]), "a 重 the record has as one wait: the hold goes, nothing left drawn")
+	# The record not there yet when the fill ends (the round's first beat waits on its clock): the
+	# hold stays until it is, or a while passes.
+	var fourth := CombatRoundBeats.new(&"p", 2)
+	chips.present(fourth, rules, 0.0, closed)
+	chips.hold(CombatMoveTags.QUICK, 1)
+	chips.release()
+	chips.present(fourth, rules, 0.0, closed)
+	check(chips.pending_count() == 1 and not chips.frozen(), "released before the record: the slot stays held")
 	chips._process(BattleBeatChips.PENDING_SECONDS + 0.1)
-	check(chips.pending_count() == 0 and not chips.is_processing(), "a hold the record never shows goes after %s s" % BattleBeatChips.PENDING_SECONDS)
+	check(chips.pending_count() == 0 and not chips.is_processing() and not chips.frozen(), "a hold the record never shows goes after %s s" % BattleBeatChips.PENDING_SECONDS)
 	check(chips.slot_rect(1).position.x > chips.slot_rect(0).end.x and chips.slot_rect(0, 2).end.x == chips.slot_rect(1).end.x, "slot rects: one after another, a run of two as wide as both")
 	chips.queue_free()
 	await tree.process_frame

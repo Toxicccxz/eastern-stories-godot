@@ -16,8 +16,10 @@ extends Control
 ## here touches a rule.
 ##
 ## 节拍填格 (DECISIONS「节拍填格」): a move pressed holds its slots as spent from the press
-## (`hold`) — the panel's fill plays over them — until the round's record shows them spent, a new
-## round comes, or PENDING_SECONDS pass.
+## (`hold`) — the panel's fill plays over them — and the strip stays as it was until the fill is
+## full (`release`): a beat resolved the next frame, or a round that closed with it, shows only
+## then. The hold goes once the record has a beat there, a new round comes, or PENDING_SECONDS
+## pass.
 
 const CHIP := Vector2(96, 44)
 const COMPACT_CHIP := Vector2(56, 28)
@@ -83,6 +85,14 @@ var _pending_first: int = -1
 var _pending_count: int = 0
 var _pending_key: StringName = FREE
 var _pending_left: float = 0.0
+## While a fill plays the strip stays as it was; the record's last look waits here ([beats,
+## rules, chip_seconds], empty: none).
+var _frozen: bool = false
+var _latest: Array = []
+## The last round's record as last looked at, and as it was at the press (another since: the
+## round closed, the hold goes).
+var _last_seen: CombatRoundBeats = null
+var _hold_last: CombatRoundBeats = null
 
 
 func _ready() -> void:
@@ -105,6 +115,8 @@ func hold(key: StringName, cost: int) -> Array[int]:
 	_pending_count = count
 	_pending_key = key
 	_pending_left = PENDING_SECONDS
+	_frozen = true
+	_hold_last = _last_seen
 	set_process(true)
 	queue_redraw()
 	return [first, count]
@@ -122,10 +134,26 @@ func slot_rect(index: int, count: int = 1) -> Rect2:
 	return Rect2(_slot_at(index, 2.0), Vector2(n * chip.x + (n - 1) * _gap(), chip.y))
 
 
+## The fill is full: the strip takes the record's last look (a new round, the beat resolved).
+func release() -> void:
+	if not _frozen:
+		return
+	_frozen = false
+	var latest: Array = _latest
+	_latest = []
+	if not latest.is_empty():
+		present(latest[0], latest[1], latest[2], latest[3])
+
+
+func frozen() -> bool:
+	return _frozen
+
+
 func _process(delta: float) -> void:
 	_pending_left -= delta
 	if _pending_left <= 0.0:
 		_drop_pending()
+		release()
 
 
 func _drop_pending() -> void:
@@ -145,7 +173,13 @@ func set_compact(on: bool) -> void:
 
 ## The beats as the projection has them (`rules` prices each spent key; a 重 covers two
 ## slots). `chip_seconds`: feel.beat_chip_ms, the slide of a beat won (0: at once).
-func present(beats: CombatRoundBeats, rules: CombatBeatRules, chip_seconds: float) -> void:
+## 节拍填格: `last` is the last round's record (a new one since a press: the round closed).
+func present(beats: CombatRoundBeats, rules: CombatBeatRules, chip_seconds: float, last: CombatRoundBeats = null) -> void:
+	if _frozen:
+		_latest = [beats, rules, chip_seconds, last]
+		return
+	var round_passed: bool = _pending_first >= 0 and last != _hold_last
+	_last_seen = last
 	var slots: Array[StringName] = []
 	var spans: Array[Vector2i] = []
 	var earned: Array[StringName] = []
@@ -176,8 +210,9 @@ func present(beats: CombatRoundBeats, rules: CombatBeatRules, chip_seconds: floa
 		_start_slide(chip_seconds)
 	elif fresh_round:
 		_stop_slide()
-	# 节拍填格: a press's hold goes once the record has its slots, or with a new round.
-	if _pending_first >= 0 and (fresh_round or _spent_count(slots) >= _pending_first + _pending_count):
+	# 节拍填格: a press's hold goes once the record has a beat where it lies (priced as it ran:
+	# a 重 that came to a wait is one slot), or with a new round.
+	if _pending_first >= 0 and (fresh_round or round_passed or _spent_count(slots) > _pending_first):
 		_drop_pending()
 	_slots = slots
 	_spans = spans
