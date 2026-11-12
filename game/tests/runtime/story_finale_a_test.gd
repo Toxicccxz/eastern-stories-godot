@@ -8,7 +8,7 @@ extends RefCounted
 ## - A kind ledger (seal kept, 旋芒 in hand, every 帮手): at the lakeside the 点将 — each one who came says a
 ##   line, 能灭它; the checklist ticks all three 器 and 7／3 帮手; 等到天黑 asked first (the 决战前 save
 ##   asked for), the night, every place held, no 鬼卒 on the shore; the boat, the dive asked first, down to
-##   the ice cave, the depths next.
+##   the ice cave, the depths next; the hand-over to B's fixture (StoryFixtures.finale_dived).
 ## - A hard ledger (the deal, the sword drawn from the lake, the robe taken off and left, no 帮手): only the
 ##   farmwife and 庾子建; the scene says 只能再封 and 庾子建 asks for the sword; the checklist says what is
 ##   missing; the sword given to him (asked first), gone from the bag; the night: nobody keeps the shore,
@@ -112,6 +112,10 @@ func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	session.record_journal()
 	_check(session.active_map().map_id() == &"village.icecave" and state.marks.get("终章下了湖底", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"hall", "down into the ice cave: the 冰龙厅 next")
+	# 章与章之间的衔接: what this package played out holds what B's fixture writes (but for the earlier
+	# chapters' choices, which _ledger() sets, TEST-ONLY).
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_dived.bind("self", "expose", false), TABLE)
+	_check(handoff.is_empty(), "终章 A played leaves what finale_dived writes: %s" % [handoff])
 	# The 决战前 save taken out and read back (Continue from the keep slot): the lakeside before the battle.
 	if not _check(kept[0] != null and kept[0].metadata.slot_id == GameSaveSnapshot.KEEP_SLOT_ID, "the 决战前 save was taken the moment it was asked for"):
 		return

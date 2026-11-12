@@ -1,7 +1,8 @@
 extends RefCounted
 
-## 第九章 E 后果 (owner's plan, 2026-11-06「按你的推荐来」; DECISIONS「第九章 E」), from the eighth chapter's
-## ledger with the ninth's way, audience and decree done (TEST-ONLY: the marks written as A–D write them):
+## 第九章 E 后果 (owner's plan, 2026-11-06「按你的推荐来」; DECISIONS「第九章 E」), from C's end
+## (StoryFixtures.chapter9_compared) or D's (chapter9_done: story_chapter9d_test checks D's play leaves it;
+## E adds nothing to the ledger, so the hand-over to 第十章 is that check):
 ## - 冯策 in his duty room: 刀谱 hands over the 《禁中刀谱》 once the 殿试 is passed (冯策给了刀谱), asked
 ##   again only 给过你了; 研读 reads 禁中刀 to 40, past it 太浅了; 湖底 refused until he goes down with you.
 ## - expose (庾子建下狱): the chapter done and the tenth's 旋芒 opened (its 风 step next); 庾子建 gone from his
@@ -49,10 +50,7 @@ func _test_data() -> void:
 
 
 func _ready_for_choice(session: WorldSessionController) -> void:
-	StoryFixtures.chapter8_done(session, false, true, false)
-	var state: CharacterState = session.player_runtime().state
-	for mark: String in ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城", "见了福安", "见了皇帝", "翻过樟木匣", "对出了原令", "见过卫沧澜"]:
-		state.marks[mark] = 1 # TEST-ONLY: as A–C write them
+	StoryFixtures.chapter9_compared(session, false, false, true, false)
 	session.record_journal()
 
 
@@ -85,9 +83,7 @@ func _test_feng(tree: SceneTree, session: WorldSessionController) -> void:
 
 func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
-	_ready_for_choice(session)
-	for mark: String in ["卫沧澜作证", "卫沧澜出了尚书府", "要在朝上揭发", "冯策随你下湖", "庾子建下狱"]:
-		state.marks[mark] = 1 # TEST-ONLY: as D writes them
+	StoryFixtures.chapter9_done(session, "expose", false, true, false)
 	session.record_journal()
 	var catalog: ContentCatalog = GameContent.catalog()
 	var next: StoryQuestDefinition = catalog.story_quest(&"main.chapter10")
@@ -117,16 +113,11 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, Work.capture(session), "第九章 E (expose)")
 	_check(walker._failures.is_empty(), "expose: the save reads back exactly: %s" % [walker._failures])
-	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind("expose", false, true, false))
-	_check(handoff.is_empty(), "第九章 E played (expose) leaves what chapter9_done(expose) writes: %s" % [handoff])
 
 
 func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
-	_ready_for_choice(session)
-	for mark: String in ["宋朴传了话", "私了了庾子建"]:
-		state.marks[mark] = 1 # TEST-ONLY: as D writes them
+	StoryFixtures.chapter9_done(session, "deal", false, true, false)
 	session.record_journal()
 	_check(StoryQuestLog.is_done(state, GameContent.catalog().story_quest(&"main.chapter9")), "deal: the ninth done")
 	MapPlaces.enter(session, &"city.shangshu.keting", &"city.shangshu.keting.shangshu.1") # TEST-ONLY
@@ -138,9 +129,6 @@ func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
 	MapPlaces.enter(session, &"city.xiangguo_yard", &"city.xiangguo_yard.qing_chen.1") # TEST-ONLY
 	await _settle(tree)
 	_check(_first(session, &"city.xiangguo_yard", QING) == null, "deal: nobody new in the 相国府's yard")
-	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind("deal", false, true, false))
-	_check(handoff.is_empty(), "第九章 E played (deal) leaves what chapter9_done(deal) writes: %s" % [handoff])
 
 
 func _said(lines: Array, part: String) -> bool:

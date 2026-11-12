@@ -143,6 +143,9 @@ func _test_exam(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("今夜养心殿")), "exam: 今夜养心殿")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"exam") and StoryQuestLog.current_step(state, quest).step_id == &"audience", "exam: the way taken by the 武举, the 养心殿 next")
+	# 章与章之间的衔接: what this package played out holds what C's fixture writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_entered.bind("exam", false, true, true))
+	_check(handoff.is_empty(), "第九章 A played (exam) leaves what chapter9_entered(exam) writes: %s" % [handoff])
 
 
 func _test_memorial(tree: SceneTree, session: WorldSessionController) -> void:
@@ -205,6 +208,9 @@ func _test_memorial(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("早朝过", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("槐阳王反了")), "memorial: the 早朝, 庾子建's 槐阳王反了 (the raid)")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"memorial") and StoryQuestLog.current_step(state, quest).step_id == &"audience", "memorial: the way taken by the 奏本")
+	# 章与章之间的衔接: what this package played out holds what chapter9_entered(memorial) writes.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_entered.bind("memorial", true, true, true))
+	_check(handoff.is_empty(), "第九章 A played (memorial) leaves what chapter9_entered(memorial) writes: %s" % [handoff])
 
 
 ## The first bout ended by 封山剑法's 「逐」 (swordjab.c's attacks, a special's, not an ordinary
