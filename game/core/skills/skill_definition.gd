@@ -43,6 +43,9 @@ var practice_weapon_fail: String = ""
 var practice_force_fail: String = ""
 ## necromancy.c says its own line for mana and for sen (PracticePolicy.refusal() keys).
 var practice_refusal_lines: Dictionary[StringName, String] = {}
+## The 百科's 武学 entry (DECISIONS「百科重写」): what the art is, in a sentence or three (player
+## text; "" none).
+var summary: String = ""
 ## skill_improved(): the line it prints when its effect applies, in its colour.
 var improved_line: String = ""
 var improved_color: StringName = ColoredLine.PLAIN
@@ -254,6 +257,7 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 	for key: String in definition._valid_learn_lines:
 		if not VALID_LEARN_KEYS.has(key):
 			reader.fail("valid_learn", "unknown rule %s (expected %s)" % [key, ", ".join(VALID_LEARN_KEYS.keys())])
+	definition.summary = reader.text("summary")
 	definition.improved_line = reader.text("improved_line")
 	definition.improved_color = StringName(reader.text("improved_color"))
 	definition.improved_every = reader.integer("improved_every")

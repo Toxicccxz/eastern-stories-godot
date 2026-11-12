@@ -5798,9 +5798,7 @@ msgstr ""
 msgid "（在{place}，{who}看见了）"
 msgstr ""
 
-#. help.newbie paragraphs
-#. help.guild paragraphs
-#: core/quests/faction_definition.gd presentation/codex/codex_content.gd data/common/codex.json
+#: core/quests/faction_definition.gd presentation/codex/codex_content.gd
 msgid "门派"
 msgstr ""
 
@@ -5940,21 +5938,21 @@ msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
 #. courage name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: core/relationships/apprentice_conditions.gd data/common/stats_display.json data/common/codex.json
 msgid "胆识"
 msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
 #. composure name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: core/relationships/apprentice_conditions.gd data/common/stats_display.json data/common/codex.json
 msgid "定力"
 msgstr ""
 
 #. the attributes attempt_apprentice() checks, as the character sheet names them.
 #. spirituality name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: core/relationships/apprentice_conditions.gd data/common/stats_display.json data/common/codex.json
 msgid "灵性"
 msgstr ""
@@ -6240,13 +6238,11 @@ msgstr ""
 msgid "杖法"
 msgstr ""
 
-#. help.martial paragraphs
-#: core/skills/skill_use_ids.gd ui/world/player_inventory_panel.gd data/common/codex.json
+#: core/skills/skill_use_ids.gd ui/world/player_inventory_panel.gd
 msgid "暗器"
 msgstr ""
 
-#. help.martial paragraphs
-#: core/skills/skill_use_ids.gd data/common/codex.json
+#: core/skills/skill_use_ids.gd
 msgid "内功"
 msgstr ""
 
@@ -6254,8 +6250,7 @@ msgstr ""
 msgid "招架"
 msgstr ""
 
-#. help.martial paragraphs
-#: core/skills/skill_use_ids.gd data/common/codex.json
+#: core/skills/skill_use_ids.gd
 msgid "轻功"
 msgstr ""
 
@@ -7132,42 +7127,42 @@ msgstr ""
 
 #. gin (精) in a continuous run's summary.
 #. essence name
-#. help.health paragraphs
+#. guide.health paragraphs
 #: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd data/common/stats_display.json data/common/codex.json
 msgid "精"
 msgstr ""
 
 #. kee (气) in a continuous run's summary.
 #. vitality name
-#. help.health paragraphs
+#. guide.health paragraphs
 #: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd data/common/stats_display.json data/common/codex.json
 msgid "气"
 msgstr ""
 
 #. sen (神) in a continuous run's summary.
 #. spirit name
-#. help.health paragraphs
+#. guide.health paragraphs
 #: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd data/common/stats_display.json data/common/codex.json
 msgid "神"
 msgstr ""
 
 #. force (内力) in a continuous run's summary.
 #. force name
-#. help.stats paragraphs
+#. guide.force title
 #: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
 msgid "内力"
 msgstr ""
 
 #. mana (法力) in a continuous run's summary.
 #. mana name
-#. help.stats paragraphs
+#. guide.mana paragraphs
 #: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
 msgid "法力"
 msgstr ""
 
 #. atman (灵力) in a continuous run's summary.
 #. atman name
-#. help.stats paragraphs
+#. guide.mana paragraphs
 #: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
 msgid "灵力"
 msgstr ""
@@ -7178,7 +7173,8 @@ msgstr ""
 msgid "潜能"
 msgstr ""
 
-#: core/training/training_lines.gd ui/world/martial_arts_page.gd
+#. guide.force paragraphs
+#: core/training/training_lines.gd ui/world/martial_arts_page.gd data/common/codex.json
 msgid "打坐"
 msgstr ""
 
@@ -7350,7 +7346,8 @@ msgstr ""
 
 #. the battle panel's one button for every 运功 (exert) the player can do; it opens a list.
 #. an NPC's exert function announced on its card when it has no name of its own.
-#: presentation/battle/battle_action_panel.gd runtime/combat_encounter/combat_npc_chat.gd ui/world/martial_arts_page.gd
+#. guide.force paragraphs
+#: presentation/battle/battle_action_panel.gd runtime/combat_encounter/combat_npc_chat.gd ui/world/martial_arts_page.gd data/common/codex.json
 msgid "运功"
 msgstr ""
 
@@ -7369,7 +7366,8 @@ msgid "取消已排定的操作"
 msgstr ""
 
 #. enforce name
-#: presentation/battle/battle_action_panel.gd ui/world/martial_arts_page.gd data/common/stats_display.json
+#. guide.force paragraphs
+#: presentation/battle/battle_action_panel.gd ui/world/martial_arts_page.gd data/common/stats_display.json data/common/codex.json
 msgid "加力"
 msgstr ""
 
@@ -8752,8 +8750,7 @@ msgstr ""
 msgid "知识"
 msgstr ""
 
-#. help.martial title
-#: presentation/codex/codex_content.gd data/common/codex.json
+#: presentation/codex/codex_content.gd
 msgid "武功"
 msgstr ""
 
@@ -8827,6 +8824,11 @@ msgstr ""
 msgid "没有什么特别之处。"
 msgstr ""
 
+#. a family's head on its 百科 entry, once met: {head} their name, {seat} where they sit.
+#: presentation/codex/codex_content.gd
+msgid "为首的是{head}，在{seat}。"
+msgstr ""
+
 #: presentation/codex/codex_content.gd
 msgid "你是{family}的弟子。"
 msgstr ""
@@ -8897,6 +8899,7 @@ msgstr ""
 msgid "返回"
 msgstr ""
 
+#. guide.money paragraphs
 #. snow.mstreet4.coach name
 #. cloud.entrance.coach name
 #. waterfog.sroad3.coach name
@@ -8909,7 +8912,7 @@ msgstr ""
 #. city.nroad1.coach name
 #. guanbei.market.coach name
 #. fanfang.bazaar_west.coach name
-#: presentation/voxel/props/voxel_town.gd data/snow/world.json data/cloud/world.json data/waterfog/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/sanyen/world.json data/choyin/world.json data/village/world.json data/city/world.json data/guanbei/world.json data/fanfang/world.json
+#: presentation/voxel/props/voxel_town.gd data/common/codex.json data/snow/world.json data/cloud/world.json data/waterfog/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/sanyen/world.json data/choyin/world.json data/village/world.json data/city/world.json data/guanbei/world.json data/fanfang/world.json
 msgid "车马行"
 msgstr ""
 
@@ -10001,7 +10004,7 @@ msgstr ""
 msgid "你看到:"
 msgstr ""
 
-#. help.skill paragraphs
+#. guide.learn paragraphs
 #: runtime/world/services/teacher_service.gd data/common/codex.json
 msgid "请教"
 msgstr ""
@@ -10406,7 +10409,8 @@ msgstr ""
 msgid "拿多少钱塞给{npc}？"
 msgstr ""
 
-#: ui/world/character_sheet.gd
+#. guide.family paragraphs
+#: ui/world/character_sheet.gd data/common/codex.json
 msgid "身份"
 msgstr ""
 
@@ -10415,7 +10419,7 @@ msgstr ""
 msgid "历练"
 msgstr ""
 
-#. help.health title
+#. guide.health title
 #: ui/world/character_sheet.gd data/common/codex.json
 msgid "精气神"
 msgstr ""
@@ -10424,7 +10428,7 @@ msgstr ""
 msgid "修为"
 msgstr ""
 
-#. help.gift title
+#. guide.gift title
 #: ui/world/character_sheet.gd data/common/codex.json
 msgid "天赋"
 msgstr ""
@@ -10567,7 +10571,8 @@ msgstr ""
 msgid "地图"
 msgstr ""
 
-#: ui/world/game_menu.gd
+#. guide.standing paragraphs
+#: ui/world/game_menu.gd data/common/codex.json
 msgid "声望"
 msgstr ""
 
@@ -11001,9 +11006,7 @@ msgstr ""
 msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。"
 msgstr ""
 
-#. help.skill title
-#. help.taoist paragraphs
-#: ui/world/martial_arts_page.gd data/common/codex.json
+#: ui/world/martial_arts_page.gd
 msgid "技能"
 msgstr ""
 
@@ -11019,11 +11022,12 @@ msgstr ""
 msgid "神通"
 msgstr ""
 
-#: ui/world/martial_arts_page.gd
+#. guide.learn paragraphs
+#: ui/world/martial_arts_page.gd data/common/codex.json
 msgid "自学"
 msgstr ""
 
-#. help.skill paragraphs
+#. guide.learn paragraphs
 #: ui/world/martial_arts_page.gd data/common/codex.json
 msgid "研读"
 msgstr ""
@@ -11128,7 +11132,8 @@ msgstr ""
 msgid "激发%s"
 msgstr ""
 
-#: ui/world/martial_arts_page.gd
+#. guide.learn paragraphs
+#: ui/world/martial_arts_page.gd data/common/codex.json
 msgid "练习"
 msgstr ""
 
@@ -13130,14 +13135,34 @@ msgstr ""
 msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"
 msgstr ""
 
+#. unarmed summary
+#: data/common/skills.json
+msgid "拳脚功夫的根底，出拳踢腿、闪身贴近都从这里练起。柳家拳、天邪神掌这类拳掌指爪的专门功夫都要激发在它上面，根底越厚，激发出来越有分量。勤练拳脚，膂力也会慢慢长起来。"
+msgstr ""
+
 #. unarmed improved_line
 #: data/common/skills.json
 msgid "由於你勤练武艺，你的膂力提高了。"
 msgstr ""
 
+#. sword summary
+#: data/common/skills.json
+msgid "使剑的根底：握剑、出剑、收剑的规矩都在这里。封山剑法、六阴追魂剑这些剑法都激发在它上面；没学过专门剑法的人，手里有剑也只能凭它出招。"
+msgstr ""
+
 #. blade name
 #: data/common/skills.json
 msgid "基本刀法"
+msgstr ""
+
+#. blade summary
+#: data/common/skills.json
+msgid "使刀的根底：劈、砍、撩、斩的力道与分寸都从这里练起。春风快意刀、短歌刀法这些刀法都激发在它上面。"
+msgstr ""
+
+#. parry summary
+#: data/common/skills.json
+msgid "用手中兵刃或一双肉掌格开来招的功夫。不少剑法、刀法、杖法也能激发为招架，用本门的招式化解对方的攻势。"
 msgstr ""
 
 #. parry parry_messages.armed
@@ -13170,6 +13195,11 @@ msgstr ""
 msgid "结果被$p挡开了。"
 msgstr ""
 
+#. dodge summary
+#: data/common/skills.json
+msgid "闪身避让的功夫，对方的招式能不能落在身上，多半看它。倒乱七星步、火蝠身法、七宝天岚舞这类身法都激发在它上面。"
+msgstr ""
+
 #. dodge dodge_messages
 #: data/common/skills.json
 msgid "但是和$p$l偏了几寸。"
@@ -13195,9 +13225,19 @@ msgstr ""
 msgid "但是$n已有准备，不慌不忙的躲开。"
 msgstr ""
 
+#. force summary
+#: data/common/skills.json
+msgid "一切内功的根基。内力的上限看它，打坐积下的内力才有地方存，运功调息、回气提神也都靠它；封山派内功、天邪神功等各家心法都要激发在它上面。内功修炼有成，根骨也会随之改善。"
+msgstr ""
+
 #. force improved_line
 #: data/common/skills.json
 msgid "由於你的内功修炼有成，你的体质改善了。"
+msgstr ""
+
+#. liuh-ken summary
+#: data/common/skills.json
+msgid "乔阴柳家的柳东芦于七十年前所创：他是封山剑派第十二代掌门，以剑术成名，却把家传拳法融进封山剑意，创出这套适合膂力不强之人习练的拳法，补上了封山剑派近战的短处，后来更凭它力压群雄，夺得第九代武林盟主之位。柳家拳分内八套、外八套，流传在外的多是外八套，不须内功根基，容易上手；内八套是柳家秘传，外形一样，内力窍门却全然不同。练时须空手。"
 msgstr ""
 
 #. liuh-ken practice.fail
@@ -13248,6 +13288,11 @@ msgstr ""
 msgid "封山派内功"
 msgstr ""
 
+#. fonxanforce summary
+#: data/common/skills.json
+msgid "封山剑派的本门内功，只能向师长学，或在运功中慢慢精熟。封山剑法必须配合它才能练；运起功来，还能为自己疗伤。"
+msgstr ""
+
 #. fonxanforce practice.fail
 #: data/common/skills.json
 msgid "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
@@ -13256,6 +13301,11 @@ msgstr ""
 #. serpentforce name
 #: data/common/skills.json
 msgid "伏蛟功"
+msgstr ""
+
+#. serpentforce summary
+#: data/common/skills.json
+msgid "花紫会一脉的内功，龙头陆得财身怀此功。练功须在有水的地方，既耗气也耗内力。"
 msgstr ""
 
 #. serpentforce practice.water_fail
@@ -13276,6 +13326,11 @@ msgstr ""
 #. spring-blade name
 #: data/common/skills.json
 msgid "春风快意刀"
+msgstr ""
+
+#. spring-blade summary
+#: data/common/skills.json
+msgid "振远镖局的看家刀法，总镖头陈天星凭它和天邪神掌在江湖上博得「刀掌双绝」之名。招名如「春风拂人醉」「远山伴人痴」「柳叶随人笑」，刀势轻飘，撩斩之间不见锋芒。"
 msgstr ""
 
 #. spring-blade practice.weapon_fail
@@ -13330,6 +13385,11 @@ msgstr ""
 #. native.npc.fake_disciple_head inquiry topic
 #: data/common/skills.json data/common/families.json data/native/npcs.json
 msgid "封山剑法"
+msgstr ""
+
+#. fonxansword summary
+#: data/common/skills.json
+msgid "封山剑派是当今武林最大的一支剑派，这套剑法是当年创派的三位剑术名家在封山灵狐顶相互印证、合力创出的。招式并不难学，难在剑意：自「剑气」练起，次练「剑心」「剑芒」「剑神」，四者都练到登峰造极的人少之又少，所以同是封山剑法，造诣深浅不同的人使出来，威力差之千里。剑中有「封」「点」「逐」「缺」四字诀，须以封山派内功为根基。"
 msgstr ""
 
 #. fonxansword practice.done
@@ -13416,6 +13476,11 @@ msgstr ""
 msgid "倒乱七星步法"
 msgstr ""
 
+#. chaos-steps summary
+#: data/common/skills.json
+msgid "封山派开山祖师锺虔在羿水之滨的石廊峡练武时，每到夜里便与出来吸血的血蛾扑击为戏，仰望北斗七星的方位变幻，发现血蛾无论如何进攻都脱不出七星的规律，苦思几日夜创成这套步法，第一次试招便杀了六只血蛾。它专门对付身法敏捷的敌人，以自然的规律料敌机先，对方一动，便已踏到正确的闪避方位。"
+msgstr ""
+
 #. chaos-steps practice.fail
 #: data/common/skills.json
 msgid "你的气或内力不够，不能练倒乱七星步法。"
@@ -13466,6 +13531,11 @@ msgstr ""
 msgid "天邪神功"
 msgstr ""
 
+#. celestial summary
+#: data/common/skills.json
+msgid "相传是武术之神、太阳神君杞庸在西天大山中见到灵兽天邪虎后有所领悟而创的内功心法，与模拟天邪虎神态的天邪神掌相配。威力极强，消耗体力也极大：运起来能回气、提升战力、以内力强压杀气，最深的一手是「天邪虎啸」，一声长吼震伤身边所有的人。修习须有足够的杀气撑着，苦练下去，定力也会提高。"
+msgstr ""
+
 #. celestial practice.fail
 #: data/common/skills.json
 msgid "天邪神功只能用学的，或是从运用(exert)中增加熟练度。"
@@ -13484,6 +13554,11 @@ msgstr ""
 #. necromancy name
 #: data/common/skills.json
 msgid "茅山道术"
+msgstr ""
+
+#. necromancy summary
+#: data/common/skills.json
+msgid "茅山派的法术，以治鬼除魔为主，多是攻敌的法术，兼有符咒之法：紫幽、青冥、苍灵「幽冥三箭」各有所长，又能召唤金甲天兵下凡护法、开「阴阳眼」看见鬼魂，还能驱动尸体。须以天师正道为根基，修为不够便领悟不了更深的道术。"
 msgstr ""
 
 #. necromancy valid_learn.effective_skill
@@ -13521,6 +13596,11 @@ msgstr ""
 msgid "天师正道"
 msgstr ""
 
+#. taoism summary
+#: data/common/skills.json
+msgid "道家的主要学问，茅山派大多数武功、法术都要以它为基础。天师正道修行不够就强练道家武功法术，很容易走火入魔、坠入魔道；杀气太重的人，也修不了它。"
+msgstr ""
+
 #. taoism practice.fail
 #. magic-array practice.fail
 #: data/common/skills.json
@@ -13540,6 +13620,11 @@ msgstr ""
 msgid "谷衣心法"
 msgstr ""
 
+#. gouyee summary
+#: data/common/skills.json
+msgid "道家的一门内功。人食五谷，肉身都带五谷秽气，谷衣心法把秽气排出体外，修成一层护体之气，叫作「谷衣」——神仙所修称「丹衣」，妖魔所修称「血衣」「土衣」。心法共分十层，练到第五层「小成」左眼珠变成金色，第十层「大成」两眼皆金；运起来能疗伤，也能以「灵神诀」把内力化为法力。"
+msgstr ""
+
 #. gouyee practice.fail
 #: data/common/skills.json
 msgid "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"
@@ -13553,6 +13638,11 @@ msgstr ""
 #. scratching name
 #: data/common/skills.json
 msgid "天师剑法"
+msgstr ""
+
+#. scratching summary
+#: data/common/skills.json
+msgid "茅山派的剑法，招名「三清归真」「众士护佑」「群魔辟易」「西出紫关」，取道家护法驱魔之意。练这门剑须有相当的内力。"
 msgstr ""
 
 #. scratching practice.done
@@ -13606,6 +13696,11 @@ msgstr ""
 msgid "读书识字"
 msgstr ""
 
+#. literate summary
+#: data/common/skills.json
+msgid "认字读书的本事。不识字就读不了任何书谱；识字越深，研读书册时长进越快。勤学苦读，悟性也会慢慢提高，有些讲究文墨的心法也要它做底子。"
+msgstr ""
+
 #. literate improved_line
 #: data/common/skills.json
 msgid "由於你的勤学苦读，你的悟性提高了。"
@@ -13614,6 +13709,11 @@ msgstr ""
 #. music name
 #: data/common/skills.json
 msgid "音律"
+msgstr ""
+
+#. music summary
+#: data/common/skills.json
+msgid "宫商声律的学问。音律之学有成，灵性会随之提高；步玄派的步玄七诀以音律为根底，音律修为不够，便领悟不了更深的诀窍。"
 msgstr ""
 
 #. music improved_line
@@ -13626,9 +13726,19 @@ msgstr ""
 msgid "乐器"
 msgstr ""
 
+#. instruments summary
+#: data/common/skills.json
+msgid "吹拉弹拨的技艺，与音律之学互为表里。步玄派掌门骆云舟也传这一门。"
+msgstr ""
+
 #. move name
 #: data/common/skills.json
 msgid "基本行动"
+msgstr ""
+
+#. move summary
+#: data/common/skills.json
+msgid "赶路奔走的根底。脚下快的人追得上人，也甩得开追兵；倒乱七星步、步玄七诀、火蝠身法这类身法，都能激发为行动。"
 msgstr ""
 
 #. staff name
@@ -13636,9 +13746,19 @@ msgstr ""
 msgid "基本杖法"
 msgstr ""
 
+#. staff summary
+#: data/common/skills.json
+msgid "使杖、使棍的根底。山烟寺的流云杖法、绝尘派的金刚杖法都激发在它上面。"
+msgstr ""
+
 #. throwing name
 #: data/common/skills.json
 msgid "基本暗器"
+msgstr ""
+
+#. throwing summary
+#: data/common/skills.json
+msgid "暗器出手的功夫，准头与劲道都看它。晚月庄、花紫会的人多精于此道。"
 msgstr ""
 
 #. perception name
@@ -13646,10 +13766,25 @@ msgstr ""
 msgid "听风辨器之术"
 msgstr ""
 
+#. perception summary
+#: data/common/skills.json
+msgid "临敌时凭风声辨出兵刃来路的本事，专门用来对付看不见的敌人：鬼魂、隐形的妖物，或是在光线昏暗的地方交手。"
+msgstr ""
+
+#. stealing summary
+#: data/common/skills.json
+msgid "顺手牵羊的手上功夫，下手越熟越不易被人察觉，运气好坏也有几分关系。花紫会龙头陆得财懂这一手，街上的飞贼也靠它吃饭。"
+msgstr ""
+
 #. celestrike name
 #. city.npc.chen inquiry topic
 #: data/common/skills.json data/city/npcs.json
 msgid "天邪神掌"
+msgstr ""
+
+#. celestrike summary
+#: data/common/skills.json
+msgid "模拟灵兽天邪虎神态的掌法，与天邪神功相配而成，招式有「大天罗式」「小天罗式」「雪阳三连月」「灵动五方鼓」「风雷七星断」。须空手练，天邪神功火候不足、内力太弱都练不成。"
 msgstr ""
 
 #. celestrike practice.force_fail
@@ -13714,6 +13849,11 @@ msgstr ""
 msgid "六阴追魂剑法"
 msgstr ""
 
+#. six-chaos-sword summary
+#: data/common/skills.json
+msgid "本是道家魔道的武功。三百年前一位天邪派前辈在首穷山一处废墟中得到六阴剑谱，谱分天殇、追魂、绝识三部，他年轻时练武伤了经脉，只练成追魂一部，另外两部至今下落不明。天邪派所传的追魂剑经三百多年演变，戾气消去不少而劲道更增，虽已失传了不少阴毒招式，仍是武林中赫赫有名的剑法。"
+msgstr ""
+
 #. six-chaos-sword practice.done
 #: data/common/skills.json
 msgid "你按著所学练了一遍六阴追魂剑法。"
@@ -13769,6 +13909,11 @@ msgstr ""
 msgid "火蝠身法"
 msgstr ""
 
+#. pyrobat-steps summary
+#: data/common/skills.json
+msgid "仿蝙蝠夜飞的身法，招名「寒蝠掠江」「轻蝠点梢」「夜蝠旋身」「火蝠曳空」，侧身一让，便叫来招扑了个空。天邪派与振远镖局都有高手使这门身法。"
+msgstr ""
+
 #. pyrobat-steps practice.fail
 #: data/common/skills.json
 msgid "你的体力太差了，不能练火蝠身法。"
@@ -13802,6 +13947,11 @@ msgstr ""
 #. stormdance name
 #: data/common/skills.json
 msgid "七宝天岚舞"
+msgstr ""
+
+#. stormdance summary
+#: data/common/skills.json
+msgid "晚月庄的舞步身法，招名「蕙芳下凡」「双成献舞」「织女于归」「天女散花」「嫦娥奔月」，翩然起舞之间，已飘出数尺之外。只有女子才能练，又看灵性；勤练舞技，容貌也会更添光彩。"
 msgstr ""
 
 #. stormdance practice.fail
@@ -13854,9 +14004,19 @@ msgstr ""
 msgid "基本法术"
 msgstr ""
 
+#. magic summary
+#: data/common/skills.json
+msgid "神通一类法门的根底：灵力的上限看它，施展神通要用灵力。山烟寺的八识神通便激发在它上面。"
+msgstr ""
+
 #. spells name
 #: data/common/skills.json
 msgid "基本咒文"
+msgstr ""
+
+#. spells summary
+#: data/common/skills.json
+msgid "念咒施法的根底：法力的上限看它，冥思积下的法力才有地方存。茅山道术、奇门遁甲这些法术都激发在它上面。"
 msgstr ""
 
 #. tao-mystery name
@@ -13864,9 +14024,19 @@ msgstr ""
 msgid "小天魔道"
 msgstr ""
 
+#. tao-mystery summary
+#: data/common/skills.json
+msgid "道家旁门的一路学问，绝尘派的奇门遁甲以它为根基，小天魔道修为不够，便领悟不了更深的遁甲之术。它只能向师父学，或在实战中体会；每有长进，杀气也跟着重一分。"
+msgstr ""
+
 #. magic-array name
 #: data/common/skills.json
 msgid "奇门遁甲"
+msgstr ""
+
+#. magic-array summary
+#: data/common/skills.json
+msgid "绝尘派的法术。口中念咒，大喝一声「疾！」，或化作黑气、金光、火焰、长虹、大雾遁去无踪，或以黑气、金光、火焰、海水、大木把敌人困在当中；战到危急，还能召来天将相助。须以小天魔道为根基。"
 msgstr ""
 
 #. magic-array valid_learn.effective_skill
@@ -13879,6 +14049,11 @@ msgstr ""
 msgid "绝尘心法"
 msgstr ""
 
+#. juechen-force summary
+#: data/common/skills.json
+msgid "绝尘派的本门内功。绝尘子本是释家中人，后得奇人指点，悟得道家真谛，佛道双修，自号绝尘，创下此派；这门心法只能向师父学，或在运功中慢慢精熟。"
+msgstr ""
+
 #. juechen-force practice.fail
 #: data/common/skills.json
 msgid "绝尘心法只能用学的或是从运用(exert)中增加熟练度。"
@@ -13887,6 +14062,11 @@ msgstr ""
 #. jingang-staff name
 #: data/common/skills.json
 msgid "金刚杖法"
+msgstr ""
+
+#. jingang-staff summary
+#: data/common/skills.json
+msgid "绝尘派所传的杖法，招式与山烟寺的流云杖法相同，是「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」四式，起手一杖专扫下盘。练这门杖须有相当的膂力，膂力不足的人宜先把内力练足。"
 msgstr ""
 
 #. jingang-staff practice.weapon_fail
@@ -13943,9 +14123,19 @@ msgstr ""
 msgid "流云杖法"
 msgstr ""
 
+#. cloudstaff summary
+#: data/common/skills.json
+msgid "山烟寺的杖法，招名「天光乍现」「雨后初晴」「浮云写意」「游龙穿云」，可攻可守。番坊日陀罗寺的龙若法王也传这门杖法。练这门杖须有相当的膂力。"
+msgstr ""
+
 #. lotusforce name
 #: data/common/skills.json
 msgid "莲华心法"
+msgstr ""
+
+#. lotusforce summary
+#: data/common/skills.json
+msgid "五百多年前北冥大泽的黑妖蛇族入侵，一群佛门高僧集思广益，悟出这套心法为百姓疗伤，主要用来迅速医治战斗中所受的皮肉创伤。运起功来既能医治自己，也能替别人疗伤；须以大乘佛法为根基，佛法修为跟不上，便领会不了更深的境界。"
 msgstr ""
 
 #. lotusforce practice.fail
@@ -13963,6 +14153,11 @@ msgstr ""
 msgid "大乘佛法"
 msgstr ""
 
+#. buddhism summary
+#: data/common/skills.json
+msgid "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。"
+msgstr ""
+
 #. buddhism valid_learn.max_bellicosity
 #: data/common/skills.json
 msgid "你的杀气太重，无法修炼大乘佛法。"
@@ -13973,9 +14168,19 @@ msgstr ""
 msgid "诵经"
 msgstr ""
 
+#. chanting summary
+#: data/common/skills.json
+msgid "佛门弟子的日课，晨钟暮鼓之间念诵经文。山烟寺、日陀罗寺的僧人都会这一门。"
+msgstr ""
+
 #. essencemagic name
 #: data/common/skills.json
 msgid "八识神通"
+msgstr ""
+
+#. essencemagic summary
+#: data/common/skills.json
+msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力，如今传下来的有三识：心识救醒昏迷濒死之人，游识一念之间便到你见过的人身边，空识把灵力化为潜能。须与高深的佛法相辅，佛法修为不够便学不了。"
 msgstr ""
 
 #. essencemagic valid_learn.effective_skill
@@ -13988,9 +14193,19 @@ msgstr ""
 msgid "基本鞭法"
 msgstr ""
 
+#. whip summary
+#: data/common/skills.json
+msgid "使鞭的根底，软鞭出手要收得回来。晚月庄的寒雪鞭法激发在它上面。"
+msgstr ""
+
 #. hammer name
 #: data/common/skills.json
 msgid "基本锤法"
+msgstr ""
+
+#. hammer summary
+#: data/common/skills.json
+msgid "使锤一类重兵器的根底，凭的是一身力气。"
 msgstr ""
 
 #. axe name
@@ -13998,9 +14213,19 @@ msgstr ""
 msgid "基本斧法"
 msgstr ""
 
+#. axe summary
+#: data/common/skills.json
+msgid "使斧的根底，大开大合，一斧下去要劈得开。"
+msgstr ""
+
 #. dagger name
 #: data/common/skills.json
 msgid "基本匕法"
+msgstr ""
+
+#. dagger summary
+#: data/common/skills.json
+msgid "使匕首一类短刃的根底，贴身近打，出手要快。"
 msgstr ""
 
 #. fork name
@@ -14008,9 +14233,19 @@ msgstr ""
 msgid "基本叉法"
 msgstr ""
 
+#. fork summary
+#: data/common/skills.json
+msgid "使钢叉一类长兵的根底。阴间的鬼卒，手里多是钢叉。"
+msgstr ""
+
 #. tenderzhi name
 #: data/common/skills.json
 msgid "柔虹指"
+msgstr ""
+
+#. tenderzhi summary
+#: data/common/skills.json
+msgid "晚月庄的指法，只有女子才能练，须空手。招名「菊楼采月」「雪桥翦梅」「柳亭簪花」「桃坟扑蝶」，身影忽前忽后，一转身指尖已点到要害。"
 msgstr ""
 
 #. tenderzhi practice.force_fail
@@ -14057,6 +14292,11 @@ msgstr ""
 #. es2:d/latemoon/room/npc/obj/whip_book name
 #: data/common/skills.json data/latemoon/items.json
 msgid "寒雪鞭法"
+msgstr ""
+
+#. snowwhip summary
+#: data/common/skills.json
+msgid "晚月庄的鞭法，从「寒风起兮」「漫天飞雪」到「狂风骤雪」「风雪交加」，鞭影如满天飞雪，虚虚实实地袭人。须有足够的内力才能练。"
 msgstr ""
 
 #. snowwhip practice.done
@@ -14120,6 +14360,11 @@ msgstr ""
 msgid "意寒功"
 msgstr ""
 
+#. iceforce summary
+#: data/common/skills.json
+msgid "三十年前以一柄拂尘横扫武林的前辈异人残心师太所创的内功心法，纯走阴柔之路，发出的内劲寒冷无比；传说她曾在沙牢山一掌冻住七只雪狼，堪称当今寒冰掌一路中最凌厉的奇功。交手时阴寒之气常叫对方打个寒噤，运起「意寒睨」，更能以冰冷如刀的眼神伤敌。"
+msgstr ""
+
 #. iceforce force_hit_wound.message
 #: data/common/skills.json
 msgid "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
@@ -14135,6 +14380,11 @@ msgstr ""
 msgid "雪影心法"
 msgstr ""
 
+#. snowshade-force summary
+#: data/common/skills.json
+msgid "天山一脉的独门内功，只能向师父学，或在运功中慢慢精熟；雪影剑法必须以它为根基。"
+msgstr ""
+
 #. snowshade-force practice.fail
 #: data/common/skills.json
 msgid "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。"
@@ -14143,6 +14393,11 @@ msgstr ""
 #. snowshade-sword name
 #: data/common/skills.json
 msgid "雪影剑法"
+msgstr ""
+
+#. snowshade-sword summary
+#: data/common/skills.json
+msgid "天山雪影剑，招名「回光幻电」「风霜碎影」「残阳照雪」「冰谷初虹」「长空雷隐」「断石狼烟」，剑光疾如闪电，身形飘忽如雪影。必须配合天山魔教的独门雪影心法才能练，内力不足也练不成。"
 msgstr ""
 
 #. snowshade-sword practice.done
@@ -14200,6 +14455,11 @@ msgstr ""
 msgid "步玄七诀"
 msgstr ""
 
+#. mysterrier summary
+#: data/common/skills.json
+msgid "四百年前「秃笔狂生」骆步玄的成名武功。他原是一介书生，未曾拜师学艺，十九岁起赴京应试，屡试不中，某年考完步出试场，偶一抬头望见街边书肆的一幅对子，竟悟出一套神奇的武功，从此闯荡江湖未逢敌手，五十岁回京定居，创立了步玄派。步玄七诀号称天下轻功「轻捷第一」，姿态潇洒有如书法，第一式「玄羽乱舞」能在短时间里加快身法；须配合步玄心法，又以音律之学为根底。"
+msgstr ""
+
 #. mysterrier practice.fail
 #: data/common/skills.json
 msgid "你的气或神不够，不能练步玄七诀。"
@@ -14245,6 +14505,11 @@ msgstr ""
 msgid "步玄心法"
 msgstr ""
 
+#. mystforce summary
+#: data/common/skills.json
+msgid "步玄派的本门内功，只能向师父学，或在运功中慢慢精熟；步玄七诀、小步玄剑都要以它为根基。"
+msgstr ""
+
 #. mystforce practice.fail
 #: data/common/skills.json
 msgid "步玄心法只能学，或是从运用(exert)中增加熟练度。"
@@ -14253,6 +14518,11 @@ msgstr ""
 #. mystsword name
 #: data/common/skills.json
 msgid "小步玄剑"
+msgstr ""
+
+#. mystsword summary
+#: data/common/skills.json
+msgid "步玄派的剑法，招名「暮雪三叹」「处子弄笛」「阳谷白练」，出剑急如骤雨。须先有相当火候的步玄心法，内力不足也练不成。"
 msgstr ""
 
 #. mystsword practice.done
@@ -14298,6 +14568,11 @@ msgstr ""
 #. spicyclaw name
 #: data/common/skills.json
 msgid "油流麻香手"
+msgstr ""
+
+#. spicyclaw summary
+#: data/common/skills.json
+msgid "花紫会的手上功夫，忽掌忽爪，招名多带市井气——「撺锅手」「撮灰手」「梁上君子」「随棍上身」，劲力一吐，能听见对方骨节作响。须空手练，内力太弱的人练不成。"
 msgstr ""
 
 #. spicyclaw valid_learn.empty_hands
@@ -14365,6 +14640,11 @@ msgstr ""
 msgid "短歌刀法"
 msgstr ""
 
+#. shortsong-blade summary
+#: data/common/skills.json
+msgid "招名全出自《短歌行》——「对酒当歌」「人生几何」「譬如朝露」「去日苦多」……弯刀似月，刀势常由下而上撩斩。官府的带刀侍卫、高门大户的护院多使这一路刀法。"
+msgstr ""
+
 #. shortsong-blade actions.action
 #: data/common/skills.json
 msgid "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！"
@@ -14403,6 +14683,11 @@ msgstr ""
 #. fall-steps name
 #: data/common/skills.json
 msgid "秋风步"
+msgstr ""
+
+#. fall-steps summary
+#: data/common/skills.json
+msgid "招名取自《秋风辞》，从「秋风起兮白云飞」到「箫鼓鸣兮发棹歌」，身影一晃，便已避在数尺之外。练这门步法须有相当的内力；官府的侍卫、衙役常与短歌刀法一同修习。"
 msgstr ""
 
 #. fall-steps dodge_messages
@@ -14455,6 +14740,11 @@ msgstr ""
 msgid "密宗大手印"
 msgstr ""
 
+#. bloodystrike summary
+#: data/common/skills.json
+msgid "密宗一路的掌法，招名「苦海端无涯」「地狱似有门」「天堂却无路」「万念皆是空」，虚实相生；招架时能以双掌夹住来刃，或以「粘」字诀引偏兵器。须空手练。"
+msgstr ""
+
 #. bloodystrike valid_learn.empty_hands
 #: data/common/skills.json
 msgid "练密宗大手印必须空手。"
@@ -14495,9 +14785,19 @@ msgstr ""
 msgid "铁布衫"
 msgstr ""
 
+#. iron-cloth summary
+#: data/common/skills.json
+msgid "外门护体硬功：闭目凝神，气走全身，不躲不闪也能硬受来招。"
+msgstr ""
+
 #. wu-shun name
 #: data/common/skills.json
 msgid "小无相功"
+msgstr ""
+
+#. wu-shun summary
+#: data/common/skills.json
+msgid "逍遥派一路的内功，讲究文墨修养：读书识字的造诣跟不上，小无相功便无法再进。只能向人学，或在运功中慢慢精熟。"
 msgstr ""
 
 #. wu-shun practice.fail
@@ -14513,6 +14813,11 @@ msgstr ""
 #. palace-blade name
 #: data/common/skills.json
 msgid "禁中刀"
+msgstr ""
+
+#. palace-blade summary
+#: data/common/skills.json
+msgid "大内侍卫营的刀法，七式「值门」「出巡」「提灯」「锁宫」「拿下」「护驾」「天明」，一招一式都在宫门、长街、殿上。侍卫营总教头冯策的刀谱末页写着一句：「刀在鞘里的时候最多。」"
 msgstr ""
 
 #. palace-blade actions.action
@@ -14555,6 +14860,11 @@ msgstr ""
 msgid "关北马刀"
 msgstr ""
 
+#. guanbei-saber summary
+#: data/common/skills.json
+msgid "关北槐阳王府骑兵的马上刀法，七式从「扬鞭」「回马」「斩缰」到「破阵」「归鞘」，刀自下而上撩出。刀谱每一页的边上都写着同一句话：「撩，不是砍。」"
+msgstr ""
+
 #. guanbei-saber actions.action
 #: data/common/skills.json
 msgid "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！"
@@ -14593,6 +14903,11 @@ msgstr ""
 #. shield-sword name
 #: data/common/skills.json
 msgid "铁盾剑法"
+msgstr ""
+
+#. shield-sword summary
+#: data/common/skills.json
+msgid "番坊铁盾会的剑法，传自流落东方的大秦剑手：盾在前，剑在后，左臂圆盾挡住来招，右手短剑从盾下刺出，七式自「盾墙」至「盾下一剑」。臂上没有盾，铁盾会不教；入了鬼笠馆的人，铁盾会也不教。"
 msgstr ""
 
 #. shield-sword practice.done
@@ -14648,6 +14963,11 @@ msgstr ""
 #. ghost-hat-sword name
 #: data/common/skills.json
 msgid "鬼笠刀法"
+msgstr ""
+
+#. ghost-hat-sword summary
+#: data/common/skills.json
+msgid "番坊倭人浪人武馆鬼笠馆的刀法，刀窄而弯，拔刀、横扫、下劈、纳刀、退步五式之外，另有一式「一刀」。门规与中原相反：一击之内定生死。铁盾会的弟子，鬼笠馆不教。"
 msgstr ""
 
 #. ghost-hat-sword practice.done
@@ -14936,7 +15256,8 @@ msgid "施展神通要用。修行得来，上限看基本法术。"
 msgstr ""
 
 #. bellicosity name
-#: data/common/stats_display.json
+#. guide.standing paragraphs
+#: data/common/stats_display.json data/common/codex.json
 msgid "杀气"
 msgstr ""
 
@@ -14971,7 +15292,8 @@ msgid "打架、办事得来，请教和自学要花它；没用掉的有上限�
 msgstr ""
 
 #. score name
-#: data/common/stats_display.json
+#. guide.standing paragraphs
+#: data/common/stats_display.json data/common/codex.json
 msgid "综合评价"
 msgstr ""
 
@@ -15011,7 +15333,7 @@ msgid "你自己的分量，也决定肚子能装多少吃喝。"
 msgstr ""
 
 #. strength name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: data/common/stats_display.json data/common/codex.json
 msgid "膂力"
 msgstr ""
@@ -15027,7 +15349,7 @@ msgid "敢不敢抢攻：自动对打时，胆识高的人出手更勤；不少�
 msgstr ""
 
 #. intelligence name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: data/common/stats_display.json data/common/codex.json
 msgid "悟性"
 msgstr ""
@@ -15048,7 +15370,7 @@ msgid "临危不乱：对手抢攻前要过你这一关，定力越高他们越�
 msgstr ""
 
 #. personality name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: data/common/stats_display.json data/common/codex.json
 msgid "容貌"
 msgstr ""
@@ -15059,7 +15381,7 @@ msgid "长相：有人看脸说话，也有师父看长相收人；容貌高，�
 msgstr ""
 
 #. constitution name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: data/common/stats_display.json data/common/codex.json
 msgid "根骨"
 msgstr ""
@@ -15070,7 +15392,7 @@ msgid "体质：精气神恢复得更快，打坐涨内力更快，昏倒后醒�
 msgstr ""
 
 #. karma name
-#. help.gift paragraphs
+#. guide.gift paragraphs
 #: data/common/stats_display.json data/common/codex.json
 msgid "福缘"
 msgstr ""
@@ -15143,6 +15465,7 @@ msgstr ""
 
 #. name
 #. family.latemoon name
+#. family.latemoon seat
 #. common.npc.dancer.master family.name
 #. latemoon.funlin region
 #. latemoon.dances region
@@ -15335,6 +15658,16 @@ msgstr ""
 msgid "封山剑派"
 msgstr ""
 
+#. family.fonxan intro
+#: data/common/families.json
+msgid "封山剑派是当今武林中最大的一支剑派。相传三位剑术名家在封山灵狐顶相互印证所学，创出封山剑法；招式不难学，难在剑意，讲究不抢先，等对手露出空子。七十年前一代掌门把乔阴柳家的家传拳法融进剑意，创出柳家拳，补上了剑派近身的短处。雪亭镇的淳风武馆是这一派的门户，镇上的后生多在那里学拳。"
+msgstr ""
+
+#. family.fonxan seat
+#: data/common/families.json
+msgid "雪亭镇的淳风武馆"
+msgstr ""
+
 #. family.fonxan guides liuh-ken teach
 #: data/common/families.json
 msgid "柳家拳没什么花样：先打实一拳，人就贴上去了；贴上去，重拳才够得着，一拳比一拳沉。"
@@ -15525,6 +15858,11 @@ msgstr ""
 msgid "这位$RESPECT身上没什么新伤，用不着看。"
 msgstr ""
 
+#. family.fonxan_north intro
+#: data/common/families.json
+msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功都与本宗同出一源。绮云镇口的公告上，至今还写着「封山剑派北宗所在的雪亭镇」。"
+msgstr ""
+
 #. family.zhenyuan name
 #. zhenyuan name
 #. cloud.npc.b_header family.name
@@ -15535,12 +15873,27 @@ msgstr ""
 msgid "振远镖局"
 msgstr ""
 
+#. family.zhenyuan intro
+#: data/common/families.json
+msgid "振远镖局是京师第一大镖局，在京城一带几乎无人不知其名，绮云镇上也有振远的镖局。镖局里的人走镖凭的是一手春风快意刀。走镖危险，镖局收人先看胆识。"
+msgstr ""
+
+#. family.zhenyuan seat
+#: data/common/families.json
+msgid "京师的振远总局"
+msgstr ""
+
 #. family.dongfang name
 #. dongfang name
 #. cloud.npc.god family.name
 #. latemoon.npc.room.annihi family.name
 #: data/common/families.json data/story/factions.json data/cloud/npcs.json data/latemoon/npcs.json
 msgid "东方神教"
+msgstr ""
+
+#. family.dongfang intro
+#: data/common/families.json
+msgid "东方神教是一个行事隐秘的教门，不立山门，也不收寻常弟子。教中人散在各处，平日看不出身份，外人对它的宗旨所知甚少。只听说教中高手使一路雪影剑法，身法轻疾。"
 msgstr ""
 
 #. family.celestial name
@@ -15551,12 +15904,27 @@ msgstr ""
 msgid "天邪派"
 msgstr ""
 
+#. family.celestial intro
+#: data/common/families.json
+msgid "天邪派以水烟阁为大本营。水烟阁在雪亭镇西边青石官道尽头的山上，相传最早的主人是武术之神杞庸，后来成了历代武林盟主的行馆，每年正月十七在阁外虹台推选盟主。天邪神功与天邪神掌是这一派的根本，相传是杞庸见灵兽天邪虎而悟出；另有一路六阴追魂剑法，是三百年前一位前辈从废墟中得来的。门规甚严，拜师要么立誓恪守门规，要么接下三招。"
+msgstr ""
+
 #. family.juechen name
 #. common.npc.juechen.master family.name
 #. common.npc.juechen.master inquiry topic
 #. juechen name
 #: data/common/families.json data/common/npcs.json data/story/factions.json
 msgid "绝尘派"
+msgstr ""
+
+#. family.juechen intro
+#: data/common/families.json
+msgid "绝尘派是绝尘子一手所创的门派。绝尘子原是佛门中人，后得奇人指点，悟得道家真谛，佛道双修，访遍名山大川后自号绝尘。他的修行之所在青石村的石室里，门上写着「非我弟子，莫入此门」。入门看慧根，也要有相当的江湖历练。"
+msgstr ""
+
+#. family.juechen seat
+#: data/common/families.json
+msgid "青石村的石室"
 msgstr ""
 
 #. family.maoshan name
@@ -15572,16 +15940,51 @@ msgstr ""
 msgid "茅山派"
 msgstr ""
 
+#. family.maoshan intro
+#: data/common/families.json
+msgid "茅山派自张天师开山立派，世代以降妖伏魔为己任，门户在茅山上的灵心观。门下修谷衣心法，排去体内的五谷秽气，炼成护体之气；修到小成，左眼眼珠会变成金色。法术以治鬼除魔为主，根基是天师正道。灵心观是出家人的道观，只收男弟子。"
+msgstr ""
+
+#. family.maoshan seat
+#: data/common/families.json
+msgid "茅山的灵心观"
+msgstr ""
+
+#. family.latemoon intro
+#: data/common/families.json
+msgid "晚月庄是绮云镇以西林子深处的一座大宅院，朱漆大门，门口挂着灯笼，出现在乡野之间显得有些突兀。庄里多是女子，只收女弟子，庄主的琵琶闻名千里。武功以七宝天岚舞的身法、柔虹指和寒雪鞭法见长，内功意寒功纯走阴柔一路。"
+msgstr ""
+
+#. family.sanyen intro
+#: data/common/families.json
+msgid "山烟寺在绮云镇南、泓水对岸的日照山上，整座寺由上好的桧木建成，金碧辉煌。寺中老方丈医术通神，受过恩惠的富豪出资修整，名气比京城的白象禅院还大。要入寺先得剃度出家，只收男子；武功以流云杖法和疗伤的莲华心法为主，佛法精深的还修八识神通。"
+msgstr ""
+
+#. family.sanyen seat
+#: data/common/families.json
+msgid "日照山的山烟寺"
+msgstr ""
+
 #. family.xiaoyao name
 #. latemoon.npc.room.guest family.name
 #: data/common/families.json data/latemoon/npcs.json
 msgid "逍遥派"
 msgstr ""
 
+#. family.xiaoyao intro
+#: data/common/families.json
+msgid "逍遥派的门户不在这一带，中原少见其门人。听说这一派收徒讲究人品文采，掌门是个风流倜傥的人物。"
+msgstr ""
+
 #. family.tianshan name
 #. latemoon.npc.room.tguest family.name
 #: data/common/families.json data/latemoon/npcs.json
 msgid "天山派"
+msgstr ""
+
+#. family.tianshan intro
+#: data/common/families.json
+msgid "天山派的门户远在天山，中原少见其门人。晚月庄后门外的小径，据说就是通往天山的路。"
 msgstr ""
 
 #. family.buxuan name
@@ -15591,6 +15994,16 @@ msgstr ""
 msgid "步玄派"
 msgstr ""
 
+#. family.buxuan intro
+#: data/common/families.json
+msgid "步玄派是四百年前「秃笔狂生」骆步玄在京城创立的门派。骆步玄原是屡试不中的书生，一日在街边书肆望见一副对子，竟悟出一套武功，从此闯荡江湖。门下的步玄七诀号称天下轻功「轻捷第一」，使起来姿态有如书法；骆家至今是京城有名的武林世家。想入门的人，要先走一趟乔阴曼雩台东边的桃林。"
+msgstr ""
+
+#. family.buxuan seat
+#: data/common/families.json
+msgid "乔阴县城的曼雩台"
+msgstr ""
+
 #. family.huazi name
 #. common.npc.beggar.master family.name
 #. huazi name
@@ -15598,10 +16011,50 @@ msgstr ""
 msgid "花紫会"
 msgstr ""
 
+#. family.huazi intro
+#: data/common/families.json
+msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
+msgstr ""
+
+#. family.huazi seat
+#: data/common/families.json
+msgid "乔阴县城的福林大街"
+msgstr ""
+
+#. family.shield_guild intro
+#: data/common/families.json
+msgid "铁盾会是番坊里大秦人的剑会，门前立着两面比人还高的铁包边大盾，盾面上漆着展翅的鹰。大秦人的祖上从西边来，在这片海边落了脚。会里的剑手左手盾、右手短剑，两两对练；铁盾剑法盾在前、剑在后，没有盾的人不教。"
+msgstr ""
+
+#. family.shield_guild seat
+#: data/common/families.json
+msgid "番坊的铁盾会"
+msgstr ""
+
 #. family.ghost_hat_ronin name
 #. fanfang.npc.ronin_master family.name
 #: data/common/families.json data/fanfang/npcs.json
 msgid "鬼笠馆浪人"
+msgstr ""
+
+#. family.ghost_hat_ronin intro
+#: data/common/families.json
+msgid "鬼笠馆是番坊里倭人浪人开的武馆，门楣上挂着一顶破了边的斗笠，馆名就是这么来的。门规只有一句：「一击之内定生死」——刀出鞘，只出一次。鬼笠刀法的刀比中原的窄而弯，劈下去就收，不出第二刀。"
+msgstr ""
+
+#. family.ghost_hat_ronin seat
+#: data/common/families.json
+msgid "番坊的鬼笠馆"
+msgstr ""
+
+#. family.ritola_temple intro
+#: data/common/families.json
+msgid "日陀罗寺是番坊里一座不大的寺院，由两位天竺僧人所建，赭红的墙头长着草。院中一棵大榕树，是第一代师父从天竺带来的枝条插活的。入寺要先剃度出家，只收男子，所传的是莲华心法、流云杖法这些佛门功夫。"
+msgstr ""
+
+#. family.ritola_temple seat
+#: data/common/families.json
+msgid "番坊的日陀罗寺"
 msgstr ""
 
 #. common.npc.swordsman.master name
@@ -18692,49 +19145,540 @@ msgstr ""
 msgid "你第一次领到了雪亭驿的悬赏。告示上隔些时候就会贴出新的。"
 msgstr ""
 
-#. help.newbie title
+#. guide.start group
+#. guide.health group
+#. guide.rest group
+#. guide.food group
+#. guide.gift group
+#. guide.learn group
+#. guide.family group
+#. guide.force group
+#. guide.mana group
+#. guide.combat group
+#. guide.death group
+#. guide.gear group
+#. guide.standing group
+#. guide.money group
 #: data/common/codex.json
-msgid "新手指南"
+msgid "入门"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start title
 #: data/common/codex.json
-msgid "有关各种不同的战斗方法，请参考「战斗」一条。动手之前务必了解「攻击」跟「切磋」的不同处。请注意，使用攻击性法术跟「攻击」的效果一样。"
+msgid "初入江湖"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start paragraphs
 #: data/common/codex.json
-msgid "有关人物状态的详细说明可以参考「精气神」一条，但简单的说，就是精、气、神都有状态值以及上限值之分，状态值会随著时间而恢复，上限值则会依照年龄或所练的功夫而有所改变，另外，被武器所伤的部份也属於上限值。上限值的自然恢复非常缓慢，请多加小心以免死得不明不白。"
+msgid "走近一个人、一件东西，脚下会出现「E 交互」。按 E（手柄 A）或点它，能做的事都列在交互窗口里；只有一件事可做的，直接就做了。"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start paragraphs
 #: data/common/codex.json
-msgid "食物跟饮水很重要……饮水可以让你恢复精、气、神的状态值及灵力、内力、法力等，食物可以恢复精、气、神三项的状态值。食物那里有呢？当然是厨房……客栈也有卖。"
+msgid "不知道往哪里去，就找人「打听」。镇上的人知道这里的事和附近的传闻，有些话题问出来就是一条路。你见过、听过的事都记在菜单的「任务」页，状态卡上的「目标」一行写着眼下最要紧的那件。"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start paragraphs
+#: data/common/codex.json
+msgid "菜单有八页：角色、武学、背包、任务、地图、声望、百科、系统。地图页是一张沙盘，走过的地方都立着模型；说明卡上列着师父、商店、悬赏榜，点一行就给你指路。"
+msgstr ""
+
+#. guide.start paragraphs
+#: data/common/codex.json
+msgid "系统页里有三个存档位。换地图、打完一仗也会自动存一份，死了可以回到那里。"
+msgstr ""
+
+#. guide.start paragraphs
+#: data/common/codex.json
+msgid "先做什么"
+msgstr ""
+
+#. guide.start paragraphs
+#: data/common/codex.json
+msgid "先在镇上走一圈，和人说说话。饮风客栈的店小二卖吃喝；想学武，就去淳风武馆看看，那里的人肯指点新人。"
+msgstr ""
+
+#. guide.start paragraphs
+#: data/common/codex.json
+msgid "打不过的人别硬碰：交互窗口和动手前的确认页都会写出对方比你强还是弱。"
+msgstr ""
+
+#. guide.start paragraphs
 #: data/common/codex.json
 msgid "地理"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start paragraphs
 #: data/common/codex.json
-msgid "山烟寺在雪亭镇东方的山上，寺外山脚下就是以女人多著名的晚月庄。由雪亭镇往南走会碰到一片松树林，过往旅客在此都需格外小心，因为传说老松寨大本营就在附近。穿过林子就到达乔阴县城。"
+msgid "雪亭镇在群山之中。镇北的山坳往北是野羊山，往东通青石村。出镇往西，顺着青石官道上山，是天邪派的水烟阁。镇东的大路通到茅山，茅山派的灵心观就在山上；这条路上有岔路往南进老松岭的松林，传说老松寨就在附近，过往的旅客都要格外小心。"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start paragraphs
 #: data/common/codex.json
-msgid "雪亭镇往北是野羊寨的地盘，附近有个小村庄。镇口往西，沿著青石官道上山，是天邪派的大本营水烟阁，再翻过一座山就是茅山派林忌的地盘。"
+msgid "镇南的大街通到绮云镇；往西南走是天驼关。"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.start paragraphs
 #: data/common/codex.json
-msgid "以下是你在游戏中可以加入的门派，各派掌门人和他们的所在：天邪派，萧辟尘，水烟阁，刀法；茅山派，林忌，茅山道观，法术；封山剑派，柳淳风，淳风武馆，剑法；山烟寺，玄智和尚，山烟寺；晚月庄，蓝止萍，晚月庄。"
+msgid "绮云镇往西是晚月庄，庄里多是女子。往南过了渡口是日照山，山烟寺就在山上；过渡口往东走，就到乔阴县城。"
 msgstr ""
 
-#. help.newbie paragraphs
+#. guide.health paragraphs
 #: data/common/codex.json
-msgid "你可以自由地转换门派或师父，不过如果你转换到其他门派，你的新师父可能会不愿意教你较高深的武功。"
+msgid "人身上最要紧的是「精」「气」「神」三样。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "学东西的本钱。请教、自学、修行都耗精。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "身体的力气。挨打掉的是气，练功、打坐也耗气。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "心神。研读、冥思都耗神，迷药和蒙汗药伤的也是神。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "当前、有效、最大"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "角色页上每样有三个数。「当前」是眼下还剩多少，歇一歇就回来；「有效」是受伤压低的上限，当前最多只回到这里；「最大」是你的本钱。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "比如气写着当前 67、有效 82、最大 100：说明你受了些伤，歇着最多回到 82。那 18 点伤要等当前回满了才慢慢长回来，用药或疗伤更快。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "三样里哪一样的当前打光了，人就昏倒；伤到连有效也撑不住，就会送命。"
+msgstr ""
+
+#. guide.health paragraphs
+#: data/common/codex.json
+msgid "「最大」不是一成不变的：内力的上限越高，气的本钱越厚；法力、灵力的上限高了，神和精的本钱也跟着长。"
+msgstr ""
+
+#. guide.rest title
+#: data/common/codex.json
+msgid "受伤与歇息"
+msgstr ""
+
+#. guide.rest paragraphs
+#: data/common/codex.json
+msgid "不打架的时候，精气神会自己慢慢回来：先回当前，当前回满了，伤才慢慢好。战斗中不回。"
+msgstr ""
+
+#. guide.rest paragraphs
+#: data/common/codex.json
+msgid "想快一点：金疮药敷上能治伤；学了内功的人可以运功恢复精、气、神，有的内功还能运功疗伤，耗的都是内力。战斗中不能疗伤。"
+msgstr ""
+
+#. guide.rest paragraphs
+#: data/common/codex.json
+msgid "昏倒以后过一会儿自己会醒。昏着的时候任人宰割，所以别在仇人眼前耗到最后一口气。"
+msgstr ""
+
+#. guide.rest paragraphs
+#: data/common/codex.json
+msgid "中了毒、喝醉了，身上会一阵阵发作。蛇药解蛇毒，酒要等它自己醒。"
+msgstr ""
+
+#. guide.food title
+#: data/common/codex.json
+msgid "吃喝"
+msgstr ""
+
+#. guide.food paragraphs
+#: data/common/codex.json
+msgid "食物和饮水随时间慢慢消耗，角色页上看得到还剩多少。一开始都是满的。"
+msgstr ""
+
+#. guide.food paragraphs
+#: data/common/codex.json
+msgid "食物吃光了，内力、法力、灵力就不再恢复；水喝光了，什么都不再恢复。"
+msgstr ""
+
+#. guide.food paragraphs
+#: data/common/codex.json
+msgid "客栈、饭馆和集市都卖吃喝。牛皮酒袋能灌清水，路上渴了拿出来喝。酒也能解渴，只是喝多了会醉。"
+msgstr ""
+
+#. guide.food paragraphs
+#: data/common/codex.json
+msgid "肚子能装多少看你的体重。吃剩的肉骨头别扔，喂给狗，它会跟着你走。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "人生来有八项天赋，新入江湖时都是 30。天赋很少变动，勤练武艺偶尔会长一点。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "力气。打得更重，背得更多，拿得动沉重的兵器。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "敢不敢抢攻。自动对打时，胆识高的人出手更勤；不少师父收徒也看它。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "天资。学武功更快、耗精更少，打架时也更容易长进。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "精神方面的体质。冥思、修行长得快，不少法门也看它。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "临危不乱。对手想抢攻要先过你这一关；打空了也不容易露破绽，还压得住杀气。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "长相。有人看脸说话，也有师父看长相收人。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "体质。精气神恢复得快，打坐长内力快，昏倒后醒得早，酒量也大。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "运气。容易遇上一般人碰不到的机缘，好事坏事都有。"
+msgstr ""
+
+#. guide.gift paragraphs
+#: data/common/codex.json
+msgid "药物、装备带来的变化只算眼下；学东西看的是天赋本身。天赋不好也不必灰心：它只在武功还浅的时候看得出来，功夫练深了，差别就小了。"
+msgstr ""
+
+#. guide.learn title
+#: data/common/codex.json
+msgid "学武"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "武功分两层。基本拳脚、基本剑法、基本内功这些「基本功夫」是根基；柳家拳、封山剑法这些「特殊武功」要在武学页「激发」到对应的基本功夫上才用得出来。真打起来，看的是两者合起来的等级。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "向师父或肯教你的人请教，每次耗精和一点潜能，第一次学一门新功夫耗的精加倍。学到的不能超过教你的人，也受实战经验限制：等级越高，要的实战经验越多。请教页写着你能学到几级、卡在哪里。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "激发好的特殊武功可以在武学页练习，耗气。它最多练到和底下的基本功夫一样高，再往上，得先把基本功夫学上去。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "基本拳脚、基本剑法、基本刀法、基本杖法、基本招架、基本轻功、基本内功这七门，到了 40 级就能自己琢磨着往上练，耗精和潜能，不必找人。特殊武功不能自学。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "得了拳谱、刀谱、经书，会读书识字就能研读。研读耗神、不花潜能；读书识字越高，每次读懂的越多。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "实战经验与潜能"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "打架、办差事、走完一段经历，都能得到实战经验和潜能。实战经验决定武功能学多高；潜能是请教和自学的花销，没用掉的有上限，攒满了就该去学了。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "打中比自己强的对手时，偶尔也能长一点功夫。"
+msgstr ""
+
+#. guide.learn paragraphs
+#: data/common/codex.json
+msgid "请教、练习、打坐、冥思、修行都能「连续」做下去，遇到做不下去的一步会先停下，告诉你为什么。"
+msgstr ""
+
+#. guide.family title
+#: data/common/codex.json
+msgid "拜师与门派"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "门派是学武的正路。拜师大致有三种：有的师父看你的天赋和功夫够不够，有的要你立誓，有的要你先过一场考验。交互窗口里还够不上的「拜师」会灰掉，写着还差什么；拜师页列出条件和你自己的数。"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "一个人同时只能有一位师父。师父教本门功夫最用心；别的人肯教，多半要你先替他做点事，或者付些钱。"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "改投别派之前会先问你。背叛师门要扣综合评价，往后的师父也不那么信你，教到一定程度就不肯再教；杀了自己的师父，也算背叛。"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "门派、帮会与山寨"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "门派重师门伦理和辈分，以入门先后排序，大多不许弟子再投别家。帮会、教派不以传授武功为主，帮规偏重要你去做事，进出也比门派容易。山寨、镖局、庄院规模小，入伙不易，入了以后有活干、有报酬。"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "角色页名字前方括号里写的是你的身份。一开始都是普通百姓；入了门派、出了家，身份会跟着变，往后的作为也会改它。"
+msgstr ""
+
+#. guide.family paragraphs
+#: data/common/codex.json
+msgid "见过门人的门派收在百科「门派」里；各家怎么看你，写在声望页。"
+msgstr ""
+
+#. guide.force paragraphs
+#: data/common/codex.json
+msgid "内力是武者的第二条命，打人和挨打都看它。"
+msgstr ""
+
+#. guide.force paragraphs
+#: data/common/codex.json
+msgid "学了基本内功，再把一门特殊内功激发上去，就能在武学页打坐：耗气，把气炼成内力存起来。存过了上限再坐下去，上限就慢慢往上长；能长多高，看基本内功的等级。连续打坐可以定一个数，练到就停。"
+msgstr ""
+
+#. guide.force paragraphs
+#: data/common/codex.json
+msgid "每一击多灌进一些内力，打得更重，内力也耗得更快。战斗里取「攻」的姿态，会顺手把加力开到一半。"
+msgstr ""
+
+#. guide.force paragraphs
+#: data/common/codex.json
+msgid "各门内功的本事不一样：有的能恢复精、气、神，有的能疗伤，有的能压下杀气、提升战斗力。百科「武学」里每门内功都写着它能运哪些。运功耗内力，战斗里也能用。"
+msgstr ""
+
+#. guide.mana title
+#: data/common/codex.json
+msgid "法力与灵力"
+msgstr ""
+
+#. guide.mana paragraphs
+#: data/common/codex.json
+msgid "法门在江湖上分两路。一路念咒施法，茅山道术、奇门遁甲都属这一路，耗的是法力；一路是出自修行者自身的神通，佛门的八识神通属这一路，耗的是灵力。"
+msgstr ""
+
+#. guide.mana paragraphs
+#: data/common/codex.json
+msgid "学了基本咒文才用得上。在武学页冥思，耗神，把法力一点点聚起来；上限看基本咒文。"
+msgstr ""
+
+#. guide.mana paragraphs
+#: data/common/codex.json
+msgid "学了基本法术才用得上。在武学页修行，耗精，把精炼成灵力；上限看基本法术。"
+msgstr ""
+
+#. guide.mana paragraphs
+#: data/common/codex.json
+msgid "两样都和内力一样：存过了上限再练，上限就长。灵性高的人长得快。还没学这一路的时候，角色页和武学页都不显示它们。"
+msgstr ""
+
+#. guide.combat title
+#: data/common/codex.json
+msgid "战斗"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "动手有两种。「切磋」点到为止，谁先实实在在打中对方一下就算赢，事后谁也不记仇；只是拿着兵刃切磋，一样会见血。「攻击」是死斗，打到一方送命为止；乱杀无辜，往后的日子就不好过了。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "动手之前会先问你一句，写明对方比你强还是弱：稳赢、占优、五五开、吃亏、必败。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "出招"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "战斗时世界停住，回合等你出招。一回合你有两手，对手看身手有一到两手；你点一招就结算一手，接着轮到对手。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "招式分快、重、虚、守四种：快克重，重克守，守克虚，虚克快。重招占两手，打实了伤得重，还能打掉对手一手；落空了就露出空门。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "姿态有三种：攻，伤得重、自己也好打；守，招架高、伤得轻；游走，闪躲高、命中低。点「改为自动」就让它自己打下去。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "识招"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "一路招式看熟两回，就认得它是快是重、怕什么；自家门派的招一学就认得。见过的招都记在百科「武学」的见识录里。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "有些门派的功夫能多挣一手：封山剑法等对手打空，柳家拳贴身打实。"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "一伙人"
+msgstr ""
+
+#. guide.combat paragraphs
+#: data/common/codex.json
+msgid "见人就打的一伙，只要有一个够得着你，就会一起上。人多的时候，先想好再进门。"
+msgstr ""
+
+#. guide.death title
+#: data/common/codex.json
+msgid "认输、逃跑与生死"
+msgstr ""
+
+#. guide.death paragraphs
+#: data/common/codex.json
+msgid "逃跑不耗什么，脱离战斗，人还留在原地。"
+msgstr ""
+
+#. guide.death paragraphs
+#: data/common/codex.json
+msgid "认输：要你命的人还站着时，他不让你降；否则就此停手，扣一些综合评价。"
+msgstr ""
+
+#. guide.death paragraphs
+#: data/common/codex.json
+msgid "对手被你打倒时，会停下来问你「了结」还是「放过」，放过的人不记仇。设置里可以改成直接了结。有些人往后还用得着，只能打倒，杀不死。"
+msgstr ""
+
+#. guide.death paragraphs
+#: data/common/codex.json
+msgid "死了以后"
+msgstr ""
+
+#. guide.death paragraphs
+#: data/common/codex.json
+msgid "人死了变成鬼魂，从鬼门关走一趟阴间，回到阳世。死一回只扣一点实战经验，武功和潜能都不动，杀气清零。"
+msgstr ""
+
+#. guide.death paragraphs
+#: data/common/codex.json
+msgid "身上的东西都留在尸体上，尸体不会腐烂，等你回去取。不想走阴间，也可以回到上次的自动存档。"
+msgstr ""
+
+#. guide.gear title
+#: data/common/codex.json
+msgid "兵器与护具"
+msgstr ""
+
+#. guide.gear paragraphs
+#: data/common/codex.json
+msgid "伤人靠的首先是功夫，其次才是兵器。剑用剑法、刀用刀法，空手用拳脚；兵器的种类不同，伤法也不同，割伤、刺伤、砸伤各不一样。"
+msgstr ""
+
+#. guide.gear paragraphs
+#: data/common/codex.json
+msgid "越重的兵器伤得越重，但要称手：拿不拿得动看膂力。锤和杖砸下去，能把对手的兵器打飞，甚至砸断。另一只手也能拿兵器，它的分量一样算数。"
+msgstr ""
+
+#. guide.gear paragraphs
+#: data/common/codex.json
+msgid "护具有衣服、盔甲、帽子、项链、护腕、腰带、鞋、戒指，还有盾。一身衣服连裤子算一件。护得越好越重，重兵器和重盔甲都会拖慢你的轻功，物品说明上写着拖多少。"
+msgstr ""
+
+#. guide.gear paragraphs
+#: data/common/codex.json
+msgid "背包页选中一件，右边就是它的样子和说明。"
+msgstr ""
+
+#. guide.standing title
+#: data/common/codex.json
+msgid "杀气与名声"
+msgstr ""
+
+#. guide.standing paragraphs
+#: data/common/codex.json
+msgid "杀人会长杀气，胆气也跟着壮。杀气太重，学不了佛道两家的心法，还可能失手伤人。运功压制或到庙里捐香火，能把它压下去。"
+msgstr ""
+
+#. guide.standing paragraphs
+#: data/common/codex.json
+msgid "江湖上对你的总评。办成差事会涨，认输会掉，背叛师门扣得最狠。"
+msgstr ""
+
+#. guide.standing paragraphs
+#: data/common/codex.json
+msgid "打过交道的势力，在声望页各有一张卡，写着那一家对你的看法；哪一家都还不认得你时，那里是空的。"
+msgstr ""
+
+#. guide.standing paragraphs
+#: data/common/codex.json
+msgid "角色页还记着你亲手杀过多少人。"
+msgstr ""
+
+#. guide.money title
+#: data/common/codex.json
+msgid "银两与行路"
+msgstr ""
+
+#. guide.money paragraphs
+#: data/common/codex.json
+msgid "钱有黄金、白银、铜钱三种：一两银子是一百文，一两黄金是一百两银子。付钱先用大的；钱庄能兑换。"
+msgstr ""
+
+#. guide.money paragraphs
+#: data/common/codex.json
+msgid "当铺按八折收你的东西，不做典当和赎回。不值钱的东西丢下就没了，丢之前会先问你一句；办事要用的东西丢不掉。"
+msgstr ""
+
+#. guide.money paragraphs
+#: data/common/codex.json
+msgid "城里的悬赏榜上贴着差事，办成了有赏，也算一段历练。"
+msgstr ""
+
+#. guide.money paragraphs
+#: data/common/codex.json
+msgid "七座城镇和五个门派的山门都停着车。在车旁「坐车」，在沙盘上挑一站；只去你走到过、路也走通了的地方。车钱十几到五十几文，路上要花些时辰。"
+msgstr ""
+
+#. help.theme group
+#. help.history group
+#. help.myth group
+#. help.magic group
+#: data/common/codex.json
+msgid "传说"
 msgstr ""
 
 #. help.theme title
@@ -18744,12 +19688,12 @@ msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "「东方故事Ⅱ」的时代大约是在原来「东方故事」的一千年前，这个时代的西方还在蛮荒时代，但是东方世界已经有了相当高水准的文明，由於东方大陆实在太大，因此航海技术并不受重视，我们的故事将以一个山中小镇——雪亭镇为起点。"
+msgid "这个时代，东方世界已经有了相当高水准的文明。由于东方大陆实在太大，航海技术并不受重视。我们的故事，就从一个山中小镇——雪亭镇说起。"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚刚登基，雪亭镇上熙来攘往，一队身著白衣的朝廷武官和两名老者在镇前的广场中坐著，四面来来往往的人当中，有不少显然是武林中人，正探头探脑地向著广场张望。"
+msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚刚登基，雪亭镇上熙来攘往，一队身着白衣的朝廷武官和两名老者在镇前的广场中坐着，四面来来往往的人当中，有不少显然是武林中人，正探头探脑地向着广场张望。"
 msgstr ""
 
 #. help.theme paragraphs
@@ -18759,7 +19703,7 @@ msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「禀将军，时辰已到，白道长命下官回禀，方位是在……」，说著压低了声音。"
+msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「禀将军，时辰已到，白道长命下官回禀，方位是在……」，说着压低了声音。"
 msgstr ""
 
 #. help.theme paragraphs
@@ -18774,37 +19718,37 @@ msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "只见坐著的白衣武官相互交头接耳，四周围观的人纷纷向外走去，看似杂乱无章，其实倒有一大半正往西南走去，两名老者不动声色，只静静地瞧著众人的动向。"
+msgid "只见坐着的白衣武官相互交头接耳，四周围观的人纷纷向外走去，看似杂乱无章，其实倒有一大半正往西南走去，两名老者不动声色，只静静地瞧着众人的动向。"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "过了约一盏茶的时间，其中一名老者做了个手势，所有白衣武官倏地站起，然後跟著两名老者身後缓缓地往西南方向离去。"
+msgid "过了约一盏茶的时间，其中一名老者做了个手势，所有白衣武官倏地站起，然后跟着两名老者身后缓缓地往西南方向离去。"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里的小二道：「这些人神秘得紧，却不知到底在玩什麽把戏？」"
+msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里的小二道：「这些人神秘得紧，却不知到底在玩什么把戏？」"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主……」"
+msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什么『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主……」"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "少年奇道：「岚城？那是什麽地方？怎麽我从小到大不曾听过有这个地方？」"
+msgid "少年奇道：「岚城？那是什么地方？怎么我从小到大不曾听过有这个地方？」"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "小二「嘿」的一声，说道：「说起岚城这地方，那你可问对人啦，咱这儿的说书先生可是我的哥儿们，那岚城说穿了只不过是古书上的一处地方，据说这城是仙人住著，一般的凡夫俗眼可瞧不见这座城，只不过古时候一个樵夫不小心撞了进去，这才留下了记载，不过後来好像除了这位砍柴的老兄进去过之外，再也没有人到过这岚城，我说小哥哪，要找这个岚城是他们朝廷大官跟江湖好汉的事儿，您还是来小店听听说书先生的书儿比较轻松。」"
+msgid "小二「嘿」的一声，说道：「说起岚城这地方，那你可问对人啦，咱这儿的说书先生可是我的哥儿们，那岚城说穿了只不过是古书上的一处地方，据说这城是仙人住着，一般的凡夫俗眼可瞧不见这座城，只不过古时候一个樵夫不小心撞了进去，这才留下了记载，不过后来好像除了这位砍柴的老兄进去过之外，再也没有人到过这岚城，我说小哥哪，要找这个岚城是他们朝廷大官跟江湖好汉的事儿，您还是来小店听听说书先生的书儿比较轻松。」"
 msgstr ""
 
 #. help.theme paragraphs
 #: data/common/codex.json
-msgid "少年听著出了神，怔怔地望著外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
+msgid "少年听着出了神，怔怔地望着外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
 msgstr ""
 
 #. help.history title
@@ -18814,42 +19758,42 @@ msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "自古以来，人类由茹毛饮血逐渐进步，慢慢有了部落，大约在一千年前，强大的邬赤族领袖商句征服了烟车河流域的游牧民族，建立了一个以「金色乌鸦」为图腾的国家，这金色乌鸦代表的是太阳，商句将一面绣著金色乌鸦的大旗树立在图干山的山顶上，统治著山脚下绵延好几百里的土地。"
+msgid "自古以来，人类由茹毛饮血逐渐进步，慢慢有了部落，大约在一千年前，强大的邬赤族领袖商句征服了烟车河流域的游牧民族，建立了一个以「金色乌鸦」为图腾的国家，这金色乌鸦代表的是太阳，商句将一面绣着金色乌鸦的大旗树立在图干山的山顶上，统治着山脚下绵延好几百里的土地。"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "第三年冬天，大雪一连下了五个月，牛羊冻死的不计其数，商句召集了所有的父老，对他们说道：「守护我们的金色乌鸦已经离开了这片土地，这场大雪便是告诉我们离开故乡的时间到了，我决定带著子民向南越过大漠，一直到看得到太阳的地方，年老和有病的人可以留下来，我会将一半的牛羊留给他们。」"
+msgid "第三年冬天，大雪一连下了五个月，牛羊冻死的不计其数，商句召集了所有的父老，对他们说道：「守护我们的金色乌鸦已经离开了这片土地，这场大雪便是告诉我们离开故乡的时间到了，我决定带着子民向南越过大漠，一直到看得到太阳的地方，年老和有病的人可以留下来，我会将一半的牛羊留给他们。」"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "於是他们收拾了帐棚，留下了一半的牛羊给不愿离开家乡的老人，踏上了寻找金色乌鸦的旅程，大漠十分辽阔，即使是商句自己也没有把握能安全地穿越，他在出发後的第四个月甚至亲手写下了遗书，交给自己的儿子。他们在大漠里整整走了一年，然後来到了一座大山之前，商句病倒了，他对他的儿子於兰攸说道：「越过这座大山，北风就吹不到了，在那里一定可以看得到太阳，现在我把这面大旗交给你，希望你记著我们离开故乡的目的，好好带领大家。」说完，商句就闭上眼睛死了。"
+msgid "于是他们收拾了帐棚，留下了一半的牛羊给不愿离开家乡的老人，踏上了寻找金色乌鸦的旅程，大漠十分辽阔，即使是商句自己也没有把握能安全地穿越，他在出发后的第四个月甚至亲手写下了遗书，交给自己的儿子。他们在大漠里整整走了一年，然后来到了一座大山之前，商句病倒了，他对他的儿子於兰攸说道：「越过这座大山，北风就吹不到了，在那里一定可以看得到太阳，现在我把这面大旗交给你，希望你记着我们离开故乡的目的，好好带领大家。」说完，商句就闭上眼睛死了。"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "於兰攸含泪埋葬了父亲，并且在他的墓旁守候了一年，才开始带著大家翻越那座大山，大山地势非常险峻，他们一共越过了六座高耸的山峰，才来到一片平原，只见绿草如茵，中间散布著几株大树，没有半点冰雪的踪迹，最令人惊异的是，他们的面前耸立著一株高耸入云的大树，树上正栖息著一只巨大的金色乌鸦。"
+msgid "於兰攸含泪埋葬了父亲，并且在他的墓旁守候了一年，才开始带着大家翻越那座大山，大山地势非常险峻，他们一共越过了六座高耸的山峰，才来到一片平原，只见绿草如茵，中间散布着几株大树，没有半点冰雪的踪迹，最令人惊异的是，他们的面前耸立着一株高耸入云的大树，树上正栖息着一只巨大的金色乌鸦。"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "虽然金色乌鸦在大家的心目中一直是太阳的象徵，但那也只是祖先们流传下来的神话，想不到在经过长途的跋涉之後，竟然真的见到了，那只金色乌鸦见到了於兰攸，忽然变成一个穿著金色长袍的少女缓缓地从树上降了下来，对著於兰攸说道：「你们终於来了，这片土地是我的父亲允诺要赐给你们的，我们是勇士『寒於』的後裔，掌管光明的太阳神族，如果你们能答应永远守护这株圣木，太阳将会永远照耀这片土地。」"
+msgid "虽然金色乌鸦在大家的心目中一直是太阳的象徵，但那也只是祖先们流传下来的神话，想不到在经过长途的跋涉之后，竟然真的见到了，那只金色乌鸦见到了於兰攸，忽然变成一个穿着金色长袍的少女缓缓地从树上降了下来，对着於兰攸说道：「你们终于来了，这片土地是我的父亲允诺要赐给你们的，我们是勇士『寒於』的后裔，掌管光明的太阳神族，如果你们能答应永远守护这株圣木，太阳将会永远照耀这片土地。」"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "金色乌鸦变成的少女名字叫做「君违」，後来嫁给了於兰攸做妻子，君违教导众人耕种、纺纱，并且为她的丈夫制定各种典章制度，从此以後於兰攸和他的族人们一直遵守和金色乌鸦的约定，守护著圣木。因为金色乌鸦的守护，过了七百年风调雨顺的时光，人口增加得很快，在向外拓垦的同时，又陆续和西方擅长狩猎与铸造的歧族人、东方擅长音乐与占卜的敖族、南方擅长经商与建筑的娄族互相融合，终於成为这个世界上最大的国家，所有远方的小国都称呼我们为「天朝」，由於於兰氏的帝王具有太阳神族的血统，因此也有「天子」的称号。"
+msgid "金色乌鸦变成的少女名字叫做「君违」，后来嫁给了於兰攸做妻子，君违教导众人耕种、纺纱，并且为她的丈夫制定各种典章制度，从此以后於兰攸和他的族人们一直遵守和金色乌鸦的约定，守护着圣木。因为金色乌鸦的守护，过了七百年风调雨顺的时光，人口增加得很快，在向外拓垦的同时，又陆续和西方擅长狩猎与铸造的歧族人、东方擅长音乐与占卜的敖族、南方擅长经商与建筑的娄族互相融合，终于成为这个世界上最大的国家，所有远方的小国都称呼我们为「天朝」，由于於兰氏的帝王具有太阳神族的血统，因此也有「天子」的称号。"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "但是就在距今约三百年前，发生了一件可怕的事，当时的皇宫之中，一群武士意外地在一处地窖里发现了一张羊皮，这张羊皮就是当初率领大家穿越大漠的君主商句所写的遗书，这份遗书不但提到了金色乌鸦，而且还提到许多後来发生的大事，简直就是一张神奇预言，发现这张羊皮的武士首领恰好是当时皇帝的叔父於兰淳焉，於兰淳焉是一位伟大的武士，曾经数度打败企图夺取圣木的北方蛮族，他见到遗书上提到，金色乌鸦出现之後每七百年，就会有一个可怕的妖魔出现，大杀苍生，以应金色乌鸦神通所欠的劫数，这个妖魔只有上古的宝剑「穿灵」才能镇住，而这把宝剑所藏的位置正是圣木的核心。"
+msgid "但是就在距今约三百年前，发生了一件可怕的事，当时的皇宫之中，一群武士意外地在一处地窖里发现了一张羊皮，这张羊皮就是当初率领大家穿越大漠的君主商句所写的遗书，这份遗书不但提到了金色乌鸦，而且还提到许多后来发生的大事，简直就是一张神奇预言，发现这张羊皮的武士首领恰好是当时皇帝的叔父於兰淳焉，於兰淳焉是一位伟大的武士，曾经数度打败企图夺取圣木的北方蛮族，他见到遗书上提到，金色乌鸦出现之后每七百年，就会有一个可怕的妖魔出现，大杀苍生，以应金色乌鸦神通所欠的劫数，这个妖魔只有上古的宝剑「穿灵」才能镇住，而这把宝剑所藏的位置正是圣木的核心。"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "於兰淳焉和皇帝商量的结果，决定劈开圣木取出宝剑，以防备妖魔出现，那圣木足足有一百个人合抱那麽粗，一大群士兵用斧头砍了足足三天才将圣木砍倒，一阵天摇地动之後，穿灵宝剑终於出现在树洞中央，可是当於兰淳焉将宝剑拔起之後，一条黑影迅速地从地面窜了出来，原本明亮的天空一下子变暗了，百姓们都惊慌失措，只听到天空中传来阵阵低沈的吼声，过了足足一个时辰才又恢复光明。"
+msgid "於兰淳焉和皇帝商量的结果，决定劈开圣木取出宝剑，以防备妖魔出现，那圣木足足有一百个人合抱那么粗，一大群士兵用斧头砍了足足三天才将圣木砍倒，一阵天摇地动之后，穿灵宝剑终于出现在树洞中央，可是当於兰淳焉将宝剑拔起之后，一条黑影迅速地从地面窜了出来，原本明亮的天空一下子变暗了，百姓们都惊慌失措，只听到天空中传来阵阵低沉的吼声，过了足足一个时辰才又恢复光明。"
 msgstr ""
 
 #. help.history paragraphs
@@ -18859,12 +19803,12 @@ msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "金色乌鸦的名字叫做「杞庸」，他化身成一个金袍少年住在皇宫中教武士们各种剑术武功三十年，渐渐地这些武术慢慢流传到了民间，更有许多聪明才智之士加以变化出许多不同的武术，而演变出各种不同的门派，转眼间已过了将近三百年，这期间虽然偶尔有些旱灾水灾，但仍算风调雨顺，想是那侮天鬼只急著找回头颅，却并不多事杀戮，但是人们却渐渐将这件事忘了，不少人还将之斥为无稽之谈，荒谬之说，直到先帝即位，事情才又有了变化。"
+msgid "金色乌鸦的名字叫做「杞庸」，他化身成一个金袍少年住在皇宫中教武士们各种剑术武功三十年，渐渐地这些武术慢慢流传到了民间，更有许多聪明才智之士加以变化出许多不同的武术，而演变出各种不同的门派，转眼间已过了将近三百年，这期间虽然偶尔有些旱灾水灾，但仍算风调雨顺，想是那侮天鬼只急着找回头颅，却并不多事杀戮，但是人们却渐渐将这件事忘了，不少人还将之斥为无稽之谈，荒谬之说，直到先帝即位，事情才又有了变化。"
 msgstr ""
 
 #. help.history paragraphs
 #: data/common/codex.json
-msgid "先帝秉性聪慧，自幼即博览群书，尤其对先人留下的史籍更是详加考据，先帝曾仔细推敲商句遗书中最後两句话，推断那可能是指引旋芒宝剑所在的关键，虽然对祖先所留下来有关金色乌鸦的传说也是半信半疑，但是仍然陆续派出了许多武士探查，结果意外地发现了古书中「烟霞霓岚」四座仙城中的烟城，根据武士所带回来的消息，旋芒宝剑目前乃是属於岚城中一位仙人所有，只是这岚城「寻风而至，寻风而逝」，烟城百姓也是只闻其名，不知其所，先帝直到病危之中仍念念不忘寻找岚城之事。"
+msgid "先帝秉性聪慧，自幼即博览群书，尤其对先人留下的史籍更是详加考据，先帝曾仔细推敲商句遗书中最后两句话，推断那可能是指引旋芒宝剑所在的关键，虽然对祖先所留下来有关金色乌鸦的传说也是半信半疑，但是仍然陆续派出了许多武士探查，结果意外地发现了古书中「烟霞霓岚」四座仙城中的烟城，根据武士所带回来的消息，旋芒宝剑目前乃是属于岚城中一位仙人所有，只是这岚城「寻风而至，寻风而逝」，烟城百姓也是只闻其名，不知其所，先帝直到病危之中仍念念不忘寻找岚城之事。"
 msgstr ""
 
 #. help.myth title
@@ -18874,447 +19818,32 @@ msgstr ""
 
 #. help.myth paragraphs
 #: data/common/codex.json
-msgid "早在我们的先人来到这片土地之前，这里曾经是集天地万物浊气所形成的妖魔们盘踞的炼狱，到处都是终年燃烧著的土地与深不见底的沼泽，直到我们的始祖——也就是勇士「寒於氏」来到这里，他有一件水火不侵的宝衣，和两把神异的利剑「穿灵」与「旋芒」，寒於氏和妖魔大战了一十七日，妖魔的鲜血浇熄了燃烧的土地，尸体填平了无底的沼泽，当寒於氏斩下最後一只妖魔「侮天鬼」的头颅之後，他也力尽而死。"
+msgid "早在我们的先人来到这片土地之前，这里曾经是集天地万物浊气所形成的妖魔们盘踞的炼狱，到处都是终年燃烧着的土地与深不见底的沼泽，直到我们的始祖——也就是勇士「寒於氏」来到这里，他有一件水火不侵的宝衣，和两把神异的利剑「穿灵」与「旋芒」，寒於氏和妖魔大战了一十七日，妖魔的鲜血浇熄了燃烧的土地，尸体填平了无底的沼泽，当寒於氏斩下最后一只妖魔「侮天鬼」的头颅之后，他也力尽而死。"
 msgstr ""
 
 #. help.myth paragraphs
 #: data/common/codex.json
-msgid "寒於氏死後，元神却没有消失，他的魂魄化成了十三个精灵，每一个精灵各拥有寒於氏的一种神通，掌管著这个世界的万物，其中的第十三个精灵「区冥氏」就是我们人类最早的祖先。区冥氏不像她其他的十二个姊姊是不死的，但是她所拥有的神通是寒於氏最引以为傲的「再生」能力，区冥氏活到一百七十岁的时候，召集了她所有的姊妹，交代她们好好照顾自己的子女之後，便闭上眼睛死了。"
+msgid "寒於氏死后，元神却没有消失，他的魂魄化成了十三个精灵，每一个精灵各拥有寒於氏的一种神通，掌管着这个世界的万物，其中的第十三个精灵「区冥氏」就是我们人类最早的祖先。区冥氏不像她其他的十二个姊姊是不死的，但是她所拥有的神通是寒於氏最引以为傲的「再生」能力，区冥氏活到一百七十岁的时候，召集了她所有的姊妹，交代她们好好照顾自己的子女之后，便闭上眼睛死了。"
 msgstr ""
 
 #. help.myth paragraphs
 #: data/common/codex.json
-msgid "区冥氏一共有一百个子女，後来分别成为世界上各个种族的祖先。"
+msgid "区冥氏一共有一百个子女，后来分别成为世界上各个种族的祖先。"
 msgstr ""
 
 #. help.myth paragraphs
 #: data/common/codex.json
-msgid "勇士寒於的魂魄所化成的十三个精灵，分别是太阳神「金乌」、月神「银蟾」、风神「大鹏」、雨神「天龙」、雷神「泽兽」、火神「凤凰」、山鬼「赤魈」、林鬼「青蛛」、川鬼「浊鱼」、原鬼「旱魃」、天灵「穹氤」、地灵「域摩」、人灵「区冥」，共有「六神」、「四鬼」、「三灵」。其中特别值得一提的是最後的三灵，她们所拥有的神通汇集了寒於氏的精、气、神，若是善加利用，威力将远远凌驾其他十位精灵之上。"
+msgid "勇士寒於的魂魄所化成的十三个精灵，分别是太阳神「金乌」、月神「银蟾」、风神「大鹏」、雨神「天龙」、雷神「泽兽」、火神「凤凰」、山鬼「赤魈」、林鬼「青蛛」、川鬼「浊鱼」、原鬼「旱魃」、天灵「穹氤」、地灵「域摩」、人灵「区冥」，共有「六神」、「四鬼」、「三灵」。其中特别值得一提的是最后的三灵，她们所拥有的神通汇集了寒於氏的精、气、神，若是善加利用，威力将远远凌驾其他十位精灵之上。"
 msgstr ""
 
 #. help.myth paragraphs
 #: data/common/codex.json
-msgid "许多人都相信，区冥氏死了之後会不断地经由「转世」而继续复活，但是她的能力却全部分给了所有子女，因此人类能够凌驾於其他的虫鱼鸟兽之上，造就出伟大的成就，人类死亡之後，也会像区冥一样地转世再生，但是只有区冥能够保持每一生每一世的记忆，虽然再生的区冥氏所具有的能力和一般人类没有两样，但是她所累积的智慧是无人可及的。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "所有人都有「精」、「气」、「神」三个主要的数值代表其能量。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "精力，影响一个人恢复气力与心神的能力，是人类的能量中最根本的一种，若是精力不足，在受到各种伤害之後的恢复能力会降低，甚至停止。精力的另一个重要用途是学习，不论是学习任何新的技能、知识、武功都需要耗费精力。除此之外，长於修行的人能将精力转为「灵力」用来施展法术。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "气力，即一个人肉体活动的能力，人必须有气才能生存，气绝则身亡，人受到各种伤害时会失去气力，气的用途很广，修炼内功的人可以将气转为内力积存起来，用以在战斗中杀伤敌人。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "心神，即一个人精神活动的能力，人必须有神才能行动，神失则昏迷，某些种类的伤害如迷魂法或蒙汗药会使人失去心神，许多咒语或法术都需要耗费心神才能施展，某些武功可以凝神以聚气，或用影响敌人心神的方法使敌人丧失战力。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "精、气、神三者都会随时间慢慢恢复，其中精力的恢复速度受人物先天体质的影响，而精力的多寡则影响气与神的恢复速度，不过人物在战斗状态下精、气、神的恢复都会暂停。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "所有人一开始的精气神都相同，并且会随著年龄成长而变化：十四岁至二十岁，精、气渐增；二十岁至三十岁，精、气、神不变；三十岁以上，精渐减、神渐增。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "精气神的恢复"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "这三项数值在角色页的「精气神」一栏中都由三个数字表示其状态，由左而右分别是「当前」、「有效」与「最大」。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "(1) 当前：这是你的人物在这一项能量目前的量化值，在观念上跟我们日常生活中用的「气力」、「精力」等相似，是属於消耗性的能量，通常经由休息、饮食、睡眠等就可以迅速地补充这类的能量，而这类的能量消耗完了通常是导致人物的昏迷，醒来後也不会有什麽大碍。精气神的当前值都会随时间恢复，恢复的上限则是精气神的有效值。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "(2) 有效：这是你这个人物在这一项能量目前的状态，换句话说就是精气神受损的程度，在观念上和传统 RPG 中的 hit points、mana points 比较类似，只要你不受到外来的伤害，这项数值就不会降低（即不管你练内功练得再累，只要你没受伤，你看起来就一直是「毫发无伤」），通常所谓的「受伤」受损的就是有效值。当「当前值」都已经恢复到所能恢复的上限，也就是跟有效值相当的时候，表示人物已经处在充份休息的状态，就会因人体新陈代谢的作用而随著时间缓慢的恢复。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "精气神有效值降至 0 以下会导致人物立即死亡。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "(3) 最大：这个值就是这个人物在某项能量上所能达到的上限，如果不是一些永久性的伤害或成长，这个值将一直固定不变。"
-msgstr ""
-
-#. help.stats title
-#: data/common/codex.json
-msgid "内力、法力与灵力"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "首先，想必许多人都已经发现东方故事Ⅱ中并没有「等级」的存在，人物的能力完全取决於几个基本数值与「技能」的高低，角色页与武学页所列出的数值中，可分为以下几类："
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "精、气、神"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "这三个数值表示人物目前的身体基本状况，详细意义请参考「精气神」一条，这里不多做解释，这三个数值的上限「只会随人物的种族、年龄变化」，由於你只能扮演人类这个种族，因此精气神上限在同年龄时都是相同的。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "精、气、神这三个数值无论对战士或施法者都是十分重要的，在进行战斗之前将这三个数值恢复到上限值，你的人物才能发挥出百分之百的能力。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "内力可说是武者的第二生命，内力的多寡不但影响武者的攻击力，也影响防御力，内力是将人体的气用某种方式转换为能够储备的能量，不同的内功转换的效率各不相同，而且转换的效率随内功等级而异，等级越高，转换的效率也越高，转换效率随技能成长的曲线也不同，有些内功初时进境极快，但是很快就达到极限，有些内功却是循序渐进，几无止境。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "一旦你学得了内功的技巧，在武学页把它激发为内功之後，就可以用「打坐」开始修炼内力。每次练功之後，会将你一部份的气转换为内力，一个人体内所蓄积的内力可以分为两类，超过某一上限的部份称为「真气」，而该上限以下的内力则没有特别的名称，通常就用「内力」称呼它，这个上限值称为「内力强度」，武学页上「内力」一项的两个数字就分别为你目前的「内力」蓄存量与「内力强度」。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "当一个人体内的真气充沛到某一程度之後，就会造成这个人物体能上微妙的改变，也就是「内力强度」的提高，这些真气将人物的内力强度提高之後就永远停留在体内，而人物的内力蓄存量会自动调节到和内力强度相同的量，以维持身体中能量的平衡。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "法力其实是一种比较抽象的能量，一般人不需要学习任何技能就可以拥有法力，事实上，所有具有灵性的生物都或多或少具有一些法力，人类便是其中的一种，当人们静下来进行「冥思」（用现代的名词解释，和「做白日梦」、「发呆」有点类似）的时候，具有灵性的生物就会在体内凝聚一种精神能量，这种能量在平时是一产生马上就消耗掉的，唯有坐下来，忽略身体所有感官所传来的信号，这种能量才能聚集到足以停留在体内的量，当然，我们提到这种能量时不必罗哩罗唆地说这麽多，它就是我们在其他游戏常见到的「法力」。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "法力这种能量存在人物体内的方式和内力虽然相差很多，但是它们影响人物能力的模式却十分类似，人物所拥有的法力超过某一上限值的部份被称为「灵神」，而低於这个上限值的部份也没有特别的名称，就称作法力。这个上限值称为「法力强度」，或者简称为「魔力」，武学页上「法力」一项的两个数字就分别为人物的「法力」蓄积量与「魔力」。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "和真气蓄积的效果十分类似，当灵神充裕到某一程度以後，人物的精神能力也会发生些许改变，使得人物的「魔力」稍微提高，并且这些「灵神」会永远成为人物精神力的一部份，馀下的法力会马上调节到和魔力相同的程度，以维持魔力所造成的效用。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "灵力是一种十分奇妙的能量，所有具有灵魂的生物都有这种能量，事实上，所谓的「灵魂」就是由这种能量构成的。当灵魂和肉体处於结合状态，说得简单一点，也就是一个生物活著的时候，灵魂的「意志」（因为单纯的肉体是没有意志的，所以以下提到「意志」时就是指灵魂的意志）所能发挥的能力就称为「灵力」。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "上面对灵力的定义听起来很玄对不对？没关系，留给学者去伤脑筋。一般人的灵力除了形成灵魂与日常行动必须的部份之外，实在少得可怜，因此当你看到武学页上灵力一项为 0 时并不是说你没有灵力，而是没有「可自由运用」的灵力，可运用的灵力是从人的「精力」转化而来的，而且转化的方法十分复杂与困难，当一个人在将精力转化为灵力时，用老祖宗的名词，我们说他是在「修道」，或是「灵修」（武学页上的「修行」），所谓「炼精化气，炼气化神，炼神还虚」指的就是这种过程。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "一个人的灵力也有一个上限值，这个上限值通常被称为「道行」，许多神怪小说中用「年」来当作道行的单位，如牛魔王有三万年道行等等，在此我们为了方便起见，不采用那麽大的单位。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "灵力超过道行的部份充裕到某个程度之後，就会产生某种程度的「羽化」作用，使人物的体质、精神像神仙比像人类更多一点，套用现代人的名词，类似一种自体进化的效果，这也就是所谓「道行」的提高，而灵力会自动反馈成和道行一样的强度，以维持身心状态的平衡。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "有关练功"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "如果你看了上面的解释，已经跃跃欲试准备练一个又会武功、又会施法、兼且道行高深的「宇宙空前无敌大英雄」的话，让我在这里提醒你一点，东方故事Ⅱ中的人物是有「生老病死」的，想要样样通的人物到最後可能样样不通。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "一个人物之所以成为强者，并不是因为什麽都会，而是有超越别人很多的地方，东方故事Ⅱ的人物能力数值是「开放性」的，也就是没有所谓「练破表」的情况发生。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "PS. 以上理论纯为因应游戏需要而虚构，如有人因进行类似实验而导致任何身体或精神上的伤害，恕不负责 :P"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "天赋是指符合以下两种条件的属性：(1) 人物产生时选定；(2) 选定之後不再改变。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物肌肉力量的强度，膂力越强的人越适合挥舞沈重的武器，同时也能够对敌人造成较大的杀伤力，强大的膂力在战斗中可说是占尽了便宜，许多武者习武的第一步就是锻炼强健的力量。一个人物所能携带物品的最大重量也和膂力息息相关，但是膂力强的人也容易损坏武器，或是在战斗中误伤旁观的人。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物天生的攻击性、侵略性，胆识高的人比较有冒险犯难的倾向，因此在战斗中要比一般人更勇於主动出击，对於一个武者而言，膂力不足尚可用锋利的武器弥补，胆识不够却是强求不来的。胆识高的人攻击次数较多，找出敌人破绽而趁机攻击的机会也较高，但是因主动攻击失败而露出破绽的机会也相对比一般人高。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "悟性是一个人物天生的智能、或者说是「天才」，悟性高的人学习新事物的速度比较快，而且比较容易，悟性高的人观察力也特别敏锐，容易从战斗中迅速地获得实战经验，而提升自己的能力。悟性影响人物能力成长的速度，以及获得经验的效率，但是悟性高的人特别容易怀疑，因此大部分的医疗、辅助魔法对这些聪明人效果都不高。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物「精神」方面的体质，灵性高的人对於精神层面的活动较为热衷与活跃，而且常常能感受到一般人感受不到的讯息，使得这类型的人物常被人归类於「多愁善感」，虽然高灵性的人通常比一般人来得快乐。高度的灵性常常意味著高深的法力，可是这种人的反应通常是属於慢半拍型，面对面的肉搏战常常容易吃亏。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物天生的防卫性、镇静，套句现代的用语就是「酷」，和胆识恰为互补的天赋，一个胆识与定力都高的人可说是天生的战士，定力高的人能临危不乱，战斗时不易露出破绽，战斗施法时不易念错咒语或误伤自己人。定力高的人通常是一场大战之後最容易活下来的人，但是如果定力高到有点「麻木」的程度，往往身陷险地而不自知。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物与生俱来的体质，或者说是生命力，根骨佳的人身体状况的恢复速度比较快，而且生命力比较强韧，身体各部位在失去机能之前能够忍受更多的伤害。根骨对学内功的人而言意味著人体潜能的极限，虽然很少有人的内功能修练到达到这个境界。根骨佳的人对於药物的抗力比较强——包括毒药和补药。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物的宿命，前世的因果等等，有些人天生就比较幸运，有些人则是悲剧的种子，福缘好的人容易遇到「巧合」，也就是一般人难得遇到的特殊机缘，这些巧合是指一些发生机率很低的事件，有好事也有坏事，但是这些事件通常足以影响人物的一生。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "人物的容貌美丑，虽然所谓的美丑并没有一个绝对的标准，但这是一个以「一般人」观点为基准的比较值，容貌俊美的人会给陌生人比较好的第一印象，使他们更乐意帮助你，但是也可能因嫉妒而故意陷害你。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "如果你发现自己的天赋不佳，也不必太过伤心，因为天赋的影响只有在人物的技能十分低的时候才比较明显，你可以将它视为这个人物「性向测验」的结果，以作为发展方向的参考。"
-msgstr ""
-
-#. help.attribute title
-#: data/common/codex.json
-msgid "属性"
-msgstr ""
-
-#. help.attribute paragraphs
-#: data/common/codex.json
-msgid "基於人物的八种天赋，在实际的战斗或各种活动中影响一个人能力的数值我们称为「属性」，也许这样说吧，天赋是一个人能力特质中与生俱来的基本值，天赋很少变动，即使变动也是十分缓慢而长期的，属性则是该项特质目前的状态，可能会受到一个人物使用武功、装备、技能、法术、药物等等影响。"
-msgstr ""
-
-#. help.attribute paragraphs
-#: data/common/codex.json
-msgid "特别值得一提的是，一个人物的学习成长受到的是「天赋」的影响，而不是「属性」的影响，换句话说，你所使用的一些影响属性的装备、法术或药物不会影响你的学习，包括学习技能、修炼内功法术等学习成长的活动，都只跟天赋有关。"
-msgstr ""
-
-#. help.rank title
-#: data/common/codex.json
-msgid "阶级称号"
-msgstr ""
-
-#. help.rank paragraphs
-#: data/common/codex.json
-msgid "每个人或因为加入某些组织，或因为平日的所作所为，会被一般社会大众归类为某个阶级，所有的新人物一开始都是【平民】，若出家做和尚就变成【僧人】。"
-msgstr ""
-
-#. help.rank paragraphs
-#: data/common/codex.json
-msgid "阶级这个东西只是个综合的评价，包括所属的组织、声望与善恶等资讯，听起来也许很抽象，我用「美少女梦工厂」这个游戏的结局来比喻会比较容易了解，阶级就像是游戏最後给小女孩的职业，只不过随时会重新计算，随时更新。"
-msgstr ""
-
-#. help.rank paragraphs
-#: data/common/codex.json
-msgid "角色页上方括号中的名称就是你现在的阶级称号，这个称号会因为你的所作所为而改变。"
-msgstr ""
-
-#. help.rank paragraphs
-#: data/common/codex.json
-msgid "职业"
-msgstr ""
-
-#. help.rank paragraphs
-#: data/common/codex.json
-msgid "你可以藉著加入某些有固定活动地点的组织而成为某种职业，在你未加入任何职业之前，你的职业就是【平民】，其他一些可能的职业包括【武者】、【僧人】、【道士】、【书生】、【盗贼】……等等。"
-msgstr ""
-
-#. help.damage title
-#: data/common/codex.json
-msgid "伤势"
-msgstr ""
-
-#. help.damage paragraphs
-#: data/common/codex.json
-msgid "战斗中如果被对手击中，就会有受伤的机会。在东方故事Ⅱ中所谓的「受伤」有两种，一种是能量的损失，一种是实际的伤害。在角色页察看自己的精气神时，可以看到当前、有效、最大三个数字。"
-msgstr ""
-
-#. help.damage paragraphs
-#: data/common/codex.json
-msgid "像精这一项若是当前 93、有效 100、最大 100，是表示说精力的能量用掉（损耗）了 7 点，但是并没有受到任何实体的伤害；而气这一项若是当前 67、有效 82、最大 100，是表示你受到了一些气的实体伤害（外伤、内伤），因此气这种能量的恢复只到 82 为止，虽然这些实体的伤害也会慢慢恢复，但是只有在能量恢复到上限时才会极缓慢地恢复。"
-msgstr ""
-
-#. help.combat title
-#: data/common/codex.json
-msgid "战斗"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "战斗并不是经验值的主要来源，不断战斗只会使你战斗的技能提升，并不会增加你其他方面的能力。东方系统并不准备保留西洋式的经验值而代之以「评价」，杀死或打败敌人会获得评价，而认输、逃走或做一些不名誉的事则会降低评价。"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "东方式的战斗通常并不是以杀死对方为目的，事实上，在大多数的场合下「攻击」往往会惹来官府的围捕或敌人的群殴，而且你一旦任意杀死无辜的人，往後的日子就不好过了。"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "这里要介绍一个用来取代攻击的方式：「切磋」，以切磋开始战斗并不是以杀死敌人为目的，而且战斗只持续到一方昏迷、认输、逃走为止，昏迷是精、气或神降到零以下，认输是在战斗中「投降」，逃走是战斗中「逃跑」。切磋结束後的双方并不会互相记仇，而攻击则会一直战斗到一方死亡为止。"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "战斗的目的"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "当你和能力比你强、或相差不多的对手战斗时，有一定的机会从中得到一些「实战经验」，或是你所使用的战斗技能（武功）的学习点数，这些都是在战斗过程中就能得到的，不需要杀死敌人。"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "打败（或杀死）一个「有名的敌人」通常可以得到一些评价，所谓「有名」是指该人物是不是「值得打」而论，跟他的能力并没有直接关系，不过和这型的人物战斗通常付出的代价会比较大，至於是什麽代价就有待你自己去发现。"
-msgstr ""
-
-#. help.combat paragraphs
-#: data/common/codex.json
-msgid "杀死敌人，当然，最直接的好处是可以掠夺死者身上的所有财物，另外，还会得到一些「杀气」，这个数值高的时候，有好处也有坏处，不过如果你想扮演坏蛋的话，这个数值绝对是越高越好。东方故事Ⅱ中大部分地区是有「王法」的，也就是说，一旦你杀了不该杀的人，官府就会开始通缉你，如果你没有两把刷子，最好不要乱杀人。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "技能是一个人战力的主要指标，包括武功、法术、专业知识等都是技能，一项技能的强度由一个「等级」与一个「学习点数」组成，每当学习点数超过下一个等级的平方值，等级就会提升。任何技能刚学到都是从零级开始，你必须至少升到第一级才能使用与经由练习而进步。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "学习一项技能必须耗费相当的精力，视每个人的悟性与技能的难易而定，第一次学习一项新技能所需的精力是平常的两倍，常常将你的精力保持在最高状态会使你经由练习而进步的速度加快。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "技能的学习有两种主要途径，研读相关书籍、秘笈或是向其他人请教，每一种方式所需的精力都和人物的悟性有关。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "战斗用的技能有时候会因使用而进步，不过机率不高。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "当你找到一本书籍或秘笈，可以在武学页「研读」上面记载的武功或法术，当然，你必须先学会读书识字的技能才能研读，读书识字的能力越高，每次得到的学习点数越多。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "和向其他人物请教比较起来，研读所花的精力通常较低。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "你也可以从其他人物处学得技能，经由「拜师」，你可以向一位身怀绝技的前辈学习技能，一个人物同时只能有一位师父，如果你被师父逐出师门，或自行背叛师门，你的综合评价会扣到零，因此拜师前务必审慎考虑。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "至於其他人物，通常会要求你为他做一些事或是付一些费用，有待你自行去发掘。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "实战"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "每次命中敌人，若命中率在 50% 以下，且所剩精力在 70% 以上，则视人物的悟性高低有一定的机会得到一点实战经验，或是使用中战斗技能的进步点数，但是当进步点数达到升级标准时并不会提升等级，要经由研读、请教或练习才能提升技能等级。"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "武功主要分成拳脚、兵刃、暗器、轻功、内功等，当你学会武术技能之後（等级至少为一），就可以在武学页激发你要使用的每一类武功，武术技能的种类通常很容易可以从它的名称看出来，如某某拳、某某剑法等。"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "拳脚、兵刃"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "举凡拳法、掌法、指法、腿法等类武功均属「拳脚」类的功夫，大多数和一些内功配合使用，大体而言拳脚类的武功防御性质较高。兵刃上的功夫涵盖剑法、刀法、枪法、鞭法、杖法……等等，而以剑法与刀法为大宗，这类的武功攻守兼备，用来攻击或防御都不错。"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "暗器通常没有特殊的武功，而是以暗器的种类区分，如袖箭、飞刀、毒针等，在战斗中使用暗器常常可以攻敌不备，发挥意想不到的效果。"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "轻功除了在战斗中影响闪避的机会之外，在探险时也有许多额外的用途，轻功高强的人可以轻易地攀爬悬崖峭壁，飞檐走壁。"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "内功的修炼是所有类型的武功中最艰难的，除了学习内功的技能之外，你还必须常常打坐以增强内力，修炼内功的人可以将内力运用在杀伤敌人以及保护自己不受敌人的内力所伤，当内功配合拳脚使用时，可以发挥出较强的劲力，使用在兵刃上时只有三分之一的效果。"
-msgstr ""
-
-#. help.force title
-#: data/common/codex.json
-msgid "内功的功用"
-msgstr ""
-
-#. help.force paragraphs
-#: data/common/codex.json
-msgid "以下是一些内功常见的功用，不一定所有内功都有这些功能，你必须试试看才知道。在武学页或战斗中的「运功」里使用。"
-msgstr ""
-
-#. help.force paragraphs
-#: data/common/codex.json
-msgid "只需耗费内力"
-msgstr ""
-
-#. help.force paragraphs
-#: data/common/codex.json
-msgid "恢复精：恢复自己的精。恢复气：恢复自己的气。恢复神：恢复自己的神。"
-msgstr ""
-
-#. help.force paragraphs
-#: data/common/codex.json
-msgid "需要耗费真气"
-msgstr ""
-
-#. help.force paragraphs
-#: data/common/codex.json
-msgid "疗伤：用内力替自己疗伤。"
+msgid "许多人都相信，区冥氏死了之后会不断地经由「转世」而继续复活，但是她的能力却全部分给了所有子女，因此人类能够凌驾于其他的虫鱼鸟兽之上，造就出伟大的成就，人类死亡之后，也会像区冥一样地转世再生，但是只有区冥能够保持每一生每一世的记忆，虽然再生的区冥氏所具有的能力和一般人类没有两样，但是她所累积的智慧是无人可及的。"
 msgstr ""
 
 #. help.magic title
 #: data/common/codex.json
-msgid "魔法"
+msgid "法门源流"
 msgstr ""
 
 #. help.magic paragraphs
@@ -19324,22 +19853,22 @@ msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "所谓「法术」是指来自施法者自身的修为，以及自身所操控的能量所造成的魔法效果，这类魔法通常被视为高深的学问，并且是可以研究出「为什麽？」的，接近於现代的特异功能、超能力等系统，法术的效果通常显著、直接、而且难以抗拒，尤其是当施术者的能力十分强大的时候。法术最初的起源是来自对於「咒文」力量的怀疑，并且在企图找出其力量根源的过程中逐步经由实验所建立起来的理论系统，换句话说，是有「科学根据」的一门知识。相对於我们所熟知的「物质科学」，法师们所知的正是我们二十世纪人类尚未发掘的一个领域。"
+msgid "所谓「法术」是指来自施法者自身的修为，以及自身所操控的能量所造成的魔法效果，这类魔法通常被视为高深的学问，并且是可以研究出「为什么？」的，法术的效果通常显著、直接、而且难以抗拒，尤其是当施术者的能力十分强大的时候。法术最初的起源是来自对于「咒文」力量的怀疑，并且在企图找出其力量根源的过程中逐步经由实验所建立起来的理论系统。"
 msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "所谓「咒文」是指根据某种咒语、动作、仪式而与存在於宇宙中某种超然存在的生物或意志沟通，而藉其力量引发的魔法效果，这类魔法的历史比法术更早，而且这些「超然存在」的实体通常被人称为「神」、「魔鬼」、「精灵」等等，咒文宗教上的意义大於学术上的意义，但是又似乎并不完全是宗教上的力量（即：不管你信不信，或多或少都能产生实际的效果，而非单纯心理现象），一般使用咒文者很难探究「为什麽」这样的咒文会引发这样的效果，咒文的来源全部都是来自古老的记载或无意中的发现。"
+msgid "所谓「咒文」是指根据某种咒语、动作、仪式而与存在于宇宙中某种超然存在的生物或意志沟通，而藉其力量引发的魔法效果，这类魔法的历史比法术更早，而且这些「超然存在」的实体通常被人称为「神」、「魔鬼」、「精灵」等等，咒文宗教上的意义大于学术上的意义，但是又似乎并不完全是宗教上的力量（即：不管你信不信，或多或少都能产生实际的效果，而非单纯心理现象），一般使用咒文者很难探究「为什么」这样的咒文会引发这样的效果，咒文的来源全部都是来自古老的记载或无意中的发现。"
 msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "虽然有不少魔法到底是属於「法术」系或「咒文」系仍然存有争议，但是人们已经找到一种简单的方法来区分他们，那就是「法术」消耗的能量是「灵力」、「咒文」消耗能量是「法力」（由於咒文的历史远较法术来得更早，因此在当时普遍使用的「魔法」、「法力」等名词都是指咒文系魔法而言，沿用至今）。"
+msgid "虽然有不少魔法到底是属于「法术」系或「咒文」系仍然存有争议，但是人们已经找到一种简单的方法来区分他们，那就是「法术」消耗的能量是「灵力」、「咒文」消耗能量是「法力」（由于咒文的历史远较法术来得更早，因此在当时普遍使用的「魔法」、「法力」等名词都是指咒文系魔法而言，沿用至今）。"
 msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "「神通」，长期钻研佛法的高僧常常会因自己本身的修为，产生具有神奇力量的神通，如天眼通、大力神通等，愈是具有大智慧、大慈悲的高僧其神通愈强，这类的法术通常需要百分之百的精神集中，才能施展，但是所需耗费的灵力较少，而且大多是属於防御或辅助性质的功能。"
+msgid "「神通」，长期钻研佛法的高僧常常会因自己本身的修为，产生具有神奇力量的神通，如天眼通、大力神通等，愈是具有大智慧、大慈悲的高僧其神通愈强，这类的法术通常需要百分之百的精神集中，才能施展，但是所需耗费的灵力较少，而且大多是属于防御或辅助性质的功能。"
 msgstr ""
 
 #. help.magic paragraphs
@@ -19349,7 +19878,7 @@ msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "「仙术」，这是一门相当古老的修行法门，讲究炼气与长生不死之术，修炼仙术的人并不膜拜任何神祇，只集中於修炼自己的肉身，使之达到不朽的境地，进而羽化成仙，仙术除了在炼气方面相当杰出之外，还有许多炼丹的法门，但是一般人想要学习仙术并不容易，因为除了要有慧根之外，要找到愿意传授仙术的仙人也是一项非常艰困的修炼。"
+msgid "「仙术」，这是一门相当古老的修行法门，讲究炼气与长生不死之术，修炼仙术的人并不膜拜任何神祇，只集中于修炼自己的肉身，使之达到不朽的境地，进而羽化成仙，仙术除了在炼气方面相当杰出之外，还有许多炼丹的法门，但是一般人想要学习仙术并不容易，因为除了要有慧根之外，要找到愿意传授仙术的仙人也是一项非常艰困的修炼。"
 msgstr ""
 
 #. help.magic paragraphs
@@ -19359,212 +19888,27 @@ msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "「奇门」，又称茅山术，由於偏重治鬼与符箓咒术，往往被道家斥为旁门左道，但是奇门法术入门较易，且於临敌之际有其实用性在，加之不若正统道家那般虚无缥缈，因此一直拥有为数众多的人修习，虽然威力不如道法，但是近世经一位高人整理发扬，已经隐然有与正统道家分庭抗礼之势。"
+msgid "「奇门」，又称茅山术，由于偏重治鬼与符箓咒术，往往被道家斥为旁门左道，但是奇门法术入门较易，且于临敌之际有其实用性在，加之不若正统道家那般虚无缥缈，因此一直拥有为数众多的人修习，虽然威力不如道法，但是近世经一位高人整理发扬，已经隐然有与正统道家分庭抗礼之势。"
 msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "「魔道」，这类法术的修炼者以精怪居多，人类亦有少数，分为天魔、地魔、人魔三种，由於修炼法门往往必须杀伤生命，被多数人强烈憎恨，但是魔道威力集道法与仙术之所长，又为求利己不择手段，不但进境迅速兼且危险，以致於各家法术之中均有克制魔道的研究与法术，可说是树敌最多的一门。"
+msgid "「魔道」，这类法术的修炼者以精怪居多，人类亦有少数，分为天魔、地魔、人魔三种，由于修炼法门往往必须杀伤生命，被多数人强烈憎恨，但是魔道威力集道法与仙术之所长，又为求利己不择手段，不但进境迅速兼且危险，以致于各家法术之中均有克制魔道的研究与法术，可说是树敌最多的一门。"
 msgstr ""
 
-#. help.taoist title
+#. help.magic paragraphs
 #: data/common/codex.json
 msgid "道士"
 msgstr ""
 
-#. help.taoist paragraphs
+#. help.magic paragraphs
 #: data/common/codex.json
-msgid "道士是一群以修炼成仙，而达到「与天地同休，与日月同寿」之境界的修道人，和其他的宗教比较起来，道士对於「人」的地位看得相当崇高，认为天、地、人在宇宙中的地位是相等的，因此，道教的教主是一个「人」，而不是高高在上、和凡人之间有不可跨越之鸿沟的「神」。"
+msgid "道士是一群以修炼成仙，而达到「与天地同休，与日月同寿」之境界的修道人，和其他的宗教比较起来，道士对于「人」的地位看得相当崇高，认为天、地、人在宇宙中的地位是相等的，因此，道教的教主是一个「人」，而不是高高在上、和凡人之间有不可跨越之鸿沟的「神」。"
 msgstr ""
 
-#. help.taoist paragraphs
+#. help.magic paragraphs
 #: data/common/codex.json
-msgid "道士的能力偏重於炼气，武术方面以内功、剑术见长，正统道家除炼气之外并不修习任何法术，但是许多道士往往会涉猎一些除妖降魔用的法术，以作为入山修炼时防身之用，有些支派的道士更发展成专研法术而舍弃修炼成仙的目的。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "太极心法（内功）：道家入门的基本心法，能够调和体内的阴阳二气，达到强健体魄的功效，虽然是入门心法，但是只要持之以恒，并不输给任何其他内功。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "五行摄气诀（内功）：讲究五行生克的炼气方法，可以强化内脏机能，进而使修习者对各种病痛、毒素、甚至外伤的抗力增强。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "反五行摄气诀（内功）：一种和五行摄气诀反其道而行的炼气方法，据说是某位後来修成「人魔」的前辈所传，因此被视为魔道，功效不详。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "小无相功（内功）：适合武术高手修炼的内功心法，能够使人身体机能强化，减缓衰老的速度，甚至返老还童，但是难度很高。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "谷衣心法（内功）：传说中月神仙子所授的仙家密术，据说修炼到某一程度能够任意「聚而成形，散而为无」，达到形神俱妙的地步。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "天矶剑法（剑法）：原为「北斗七星剑」中的一部份，但是该剑法多半已经失传，留下这部份只是原剑法的总纲部份，长处在於多人齐使，可以组成各种阵法，威力强大。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "三才剑法（剑法）：一种流传甚广的剑法，分为天三章、地三章、人三章共九章，但是能够练到地之章的人数百年来寥寥可数，练成天之章的人只有两人，因此书中所载的「三才三绝阵」一直没有人见过。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "伏魔剑法（剑法）：沧山派祖师范青牙当年恃以纵横天下的成名绝技，范青牙出家之後成为道家剑士习剑的经典，但是难度颇高，自范青牙之後已经没有出色的传人。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "六阴追魂剑（剑法）：和「逆灵天书」、「反五行摄气诀」同属魔道，但这套剑法已经近百年不曾出现过，许多人都在怀疑到底这套剑法还有没有传人。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "道藏（知识）：道家的主要经典，是学习道家法术的基础，许多人穷一生研究道藏的秘奥，由此可见其广博。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "八卦咒（法术）：用来防身、疗伤用的咒法，也含有一些占卜用的法术。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "天罡伏魔咒（法术）：以伏魔降妖为主的咒法。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "法融经（法术）：一部集道法与佛法大成的经书。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "逆灵天书（法术）：修炼魔道者的重要经典，一向被正统道家视为禁书。"
-msgstr ""
-
-#. help.guild title
-#: data/common/codex.json
-msgid "门派与组织"
-msgstr ""
-
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "一个人可以参加一个以上的组织，只要彼此间不互相排斥，每个组织有不同的规定与限制，但是也提供许多帮助，基本上组织是可以退出的，但是退出一个门规森严的组织通常要付出惨痛的代价。"
-msgstr ""
-
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "门派是一个人学习技能的主要来源，大部分的门派极重视师门伦理，绝不允许门下弟子加入其他门派。门派中极重视辈分，一般是以入门先後排定，要加入门派必须有一位前辈收你为徒。"
-msgstr ""
-
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "帮会、教派"
-msgstr ""
-
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "这类组织并不是以传授技能为主要目的，但是多半也有严格的帮规、教规，若说门派的门规是消极性的行为约束，帮规与教规多半偏重积极性的行动目标。帮会与教派的加入与退出较门派为易。"
-msgstr ""
-
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "山寨、镖局、庄院"
-msgstr ""
-
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "这类组织规模较小，加入也不甚容易，但是加入後往往有一定的工作及报酬。"
-msgstr ""
-
-#. help.weapon title
-#: data/common/codex.json
-msgid "兵器"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "武器本身并没有伤害力或武器等级，只有种类、质料、重量、攻击范围等属性，影响攻击力最大的是使用者的技巧与该武器造成的伤害种类，例如匕首造成的割伤和铁斧造成的斫伤便有所不同，而剑术高手的剑伤和寻常盗匪的剑伤也不可同日而语，加上命中部位的不同所造成的影响，战斗将会十分多彩多姿。"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "武器种类"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "不同种类的武器具有不同的特殊作用，刀、剑、斧等具有锋利边缘的武器有可能砍断敌人的武器，枪、钢刺等尖锐的武器可以刺穿敌人盔甲，狼牙棒等重击型武器可以造成敌人内伤等。"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "武器质料"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "绝大多数的武器都是钢、铁、铜等金属铸造的，少部份的武器如桃木剑、竹棒等是其他质料，质料主要的影响是硬度，硬度高的武器较容易在武器的特殊作用上发挥作用。"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "武器重量"
-msgstr ""
-
-#. help.weapon paragraphs
-#: data/common/codex.json
-msgid "一般而言越重的武器伤害力越高，但是武器要「称手」最重要，不同的膂力适合不同重量的武器，膂力强的人适合使用较重的武器，膂力弱的人则适合较轻的武器，不过若是你的内力够强，也能使动极其沈重或轻飘飘直若无物的兵器。"
-msgstr ""
-
-#. help.armor title
-#: data/common/codex.json
-msgid "护具"
-msgstr ""
-
-#. help.armor paragraphs
-#: data/common/codex.json
-msgid "人们最常穿戴的护具就是日常的衣服，质料轻软而且舒适，但是没有什麽保护效果，通常保护效果越好的护具，重量越重，因此会对人物的动作有一些影响。"
-msgstr ""
-
-#. help.armor paragraphs
-#: data/common/codex.json
-msgid "以下是护具的种类："
-msgstr ""
-
-#. help.armor paragraphs
-#: data/common/codex.json
-msgid "衣物：也就是穿在盔甲里面的衣服，在我们这个世界为了方便起见，衣服跟下面将要提到的盔甲都是整套算的，包括上衣跟裤子，所以当你看见一个人穿著「一件布衣」时，不要怀疑，这里的布衣包括裤子。"
-msgstr ""
-
-#. help.armor paragraphs
-#: data/common/codex.json
-msgid "盔甲：这类的护具通常穿在衣物的外面，用来保护身体各部位的要害或者提供较佳的防护效果，但是沈重的盔甲在提供强力的防护之馀，同时也会大幅度降低行动的速度。"
-msgstr ""
-
-#. help.armor paragraphs
-#: data/common/codex.json
-msgid "头部护具：包括帽子、纶巾、头盔等等穿戴在头部的护具。颈部饰物：如项链、护身符等。手部护具：如手套、指节环。腰部护具：腰带。腕部护具：手镯、护腕都属此类。足部护具：鞋子。手指护具：戒指。"
-msgstr ""
-
-#. help.material title
-#: data/common/codex.json
-msgid "物品质料"
-msgstr ""
-
-#. help.material paragraphs
-#: data/common/codex.json
-msgid "草叶、布料、麻布、毛皮、木头、皮革；铁、钢、玄铁、丹金。"
+msgid "道士的能力偏重于炼气，武术方面以内功、剑术见长，正统道家除炼气之外并不修习任何法术，但是许多道士往往会涉猎一些除妖降魔用的法术，以作为入山修炼时防身之用，有些支派的道士更发展成专研法术而舍弃修炼成仙的目的。"
 msgstr ""
 
 #. main.prologue title
