@@ -4279,6 +4279,10 @@ msgid "存档无法恢复。"
 msgstr ""
 
 #: application/application_message_catalog.gd
+msgid "这份存档之后地图改过，存档时你站的地方现在站不了人，读不进来。"
+msgstr ""
+
+#: application/application_message_catalog.gd
 msgid "手动存档不受影响；新角色第一次自动存档时会覆盖现在的自动存档。"
 msgstr ""
 
@@ -4320,6 +4324,14 @@ msgstr ""
 
 #: application/application_message_catalog.gd
 msgid "旅程还没准备好，暂时不能存档。"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "这里不能存档，挪一步再试。"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "有人正在替你做的事还没完，等一会儿再存档。"
 msgstr ""
 
 #: application/application_message_catalog.gd
@@ -10715,6 +10727,11 @@ msgstr ""
 
 #: ui/world/hockshop_panel.gd
 msgid "一文不值，不能卖断。"
+msgstr ""
+
+#. the pawnshop will not buy a quest item the story still asks for (DECISIONS「任务物品不丢」).
+#: ui/world/hockshop_panel.gd
+msgid "掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。"
 msgstr ""
 
 #: ui/world/hockshop_panel.gd
@@ -20740,6 +20757,18 @@ msgstr ""
 msgid "严廷殷看了信：兵部的印是真的，令不是先帝的——这话他不敢说。他的印丢过一回，找回来了；那三天的事，军师比他清楚。"
 msgstr ""
 
+#. main.chapter6/general checklist.label
+#. main.chapter6/palace checklist.label
+#: data/story/chapter6.json
+msgid "程不平的信在你身上"
+msgstr ""
+
+#. main.chapter6/general checklist.missing
+#. main.chapter6/palace checklist.missing
+#: data/story/chapter6.json
+msgid "信丢了的话，回乔阴县衙问程不平「兵部文书」，他会再写一封"
+msgstr ""
+
 #. main.chapter6/adviser objective
 #: data/story/chapter6.json
 msgid "军师赫造基知道印的事。他卖秘密——八两银子。"
@@ -21294,6 +21323,131 @@ msgstr ""
 #. main.finale/gather text
 #: data/story/finale.json
 msgid "你在岸边等到了天黑。"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "穿灵在你手里"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "穿灵钉在封坛上"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "旋芒在你手里"
+msgstr ""
+
+#. main.finale/gather checklist.missing
+#: data/story/finale.json
+msgid "交给了庾子建"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "旋芒在皇叔手里，他在岸边"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "旋芒在萧辟尘手里，他在岸边"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "宝衣在你身上"
+msgstr ""
+
+#. main.finale/gather checklist.missing
+#: data/story/finale.json
+msgid "带上它，下湖前穿上"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "宝衣在瑷伦身上"
+msgstr ""
+
+#. main.finale/gather checklist.missing
+#: data/story/finale.json
+msgid "她在晚月庄东厢等你去叫（问她「湖底」）"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "宝衣在安妮儿身上，她在岸边"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "帮手"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "野羊寨（霍铮）守村口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "关北的骑兵（郭承）守湖畔"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "铁盾会的盾守稻田边"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "冰龙没有动过，在冰龙厅"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "大内侍卫营（冯策）随你下湖"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "东方神教（安妮儿）守潭口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "水烟阁（南危水）守潭口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "水烟阁（卫沧澜）守潭口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "封山（柳淳风）守渡口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "北宗（柳绘心）守渡口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "岸上：庾子建来要剑"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "三器都在，帮手也够：能灭它"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "这一回只能再封"
 msgstr ""
 
 #. main.finale/shore objective
@@ -33725,16 +33879,19 @@ msgid "纸能证纸，不能证人。这封信给家叔槐阳王，本县只能�
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
 #: data/choyin/npcs.json
 msgid "信呢？……丢了？"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.lines.emote
+#. choyin.npc.judgeman inquiry.供词.rules.lines.emote
 #: data/choyin/npcs.json
 msgid "叹了口气，另取一张纸，照着底稿又写了一封，封好，压上县印。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#. choyin.npc.judgeman inquiry.供词.rules.lines.say
 #: data/choyin/npcs.json
 msgid "县印还在本县手里，信就还写得出来。这回收好——拿着它去天驼关。"
 msgstr ""
@@ -35615,6 +35772,11 @@ msgstr ""
 #. canyon.npc.general inquiry.信.rules.lines.say
 #: data/canyon/npcs.json
 msgid "出关往北，谷地东壁有一道关门，我的兵守着。凭这封信，他们放你。关北是槐阳王的地界，到了那边，别提我。"
+msgstr ""
+
+#. canyon.npc.general inquiry.信.rules.say
+#: data/canyon/npcs.json
+msgid "程县令写了信？信呢？……没有信，关上的兵不认。丢了就回乔阴，找程县令再写一封。"
 msgstr ""
 
 #. canyon.npc.general inquiry.程不平.rules.say
@@ -42873,6 +43035,11 @@ msgid ""
 "一本黑皮的账册，封皮上没有字。翻开是一笔笔纳供的账：金帛、腌肉、麻绳……每一页的末尾另起一行，记的不是东西。\n"
 msgstr ""
 
+#. native:niling/tribute_ledger no_drop
+#: data/niling/items.json
+msgid "这本账册不能随便丢。"
+msgstr ""
+
 #. native:niling/tribute_ledger act.acts.steps.line
 #: data/niling/items.json
 msgid ""
@@ -42897,6 +43064,11 @@ msgstr ""
 #: data/niling/items.json
 msgid ""
 "一叠公文纸，每张末尾盖着一方朱红的大印，印文是「兵部之印」。纸是新的，印泥还没干透。\n"
+msgstr ""
+
+#. native:niling/war_ministry_papers no_drop
+#: data/niling/items.json
+msgid "这叠文书不能随便丢。"
 msgstr ""
 
 #. native:niling/war_ministry_papers act.acts.steps.line
@@ -42929,6 +43101,11 @@ msgid ""
 "一把乌黑的铁钥匙，齿很深，柄上系着一截黑布。地牢三扇铁栅门用的都是它。\n"
 msgstr ""
 
+#. native:niling/cell_key no_drop
+#: data/niling/items.json
+msgid "这把钥匙还用得着，不能随便丢。"
+msgstr ""
+
 #. native:niling/scroll_fragment name
 #: data/niling/items.json
 msgid "逆灵天书残卷"
@@ -42938,6 +43115,11 @@ msgstr ""
 #: data/niling/items.json
 msgid ""
 "半卷黑皮的经书，封皮上「逆灵天书」四个字只剩下三个。里面的字横着竖着走，看一眼就头晕。这是玄冥子的——他说过，要练六阴剑，拿着它来后山找他。\n"
+msgstr ""
+
+#. native:niling/scroll_fragment no_drop
+#: data/niling/items.json
+msgid "这卷残卷不能随便丢。"
 msgstr ""
 
 #. native:niling/body_huo name
@@ -47070,6 +47252,12 @@ msgstr ""
 #. guanbei.palace_front.knock act.acts.steps.line
 #: data/guanbei/world.json
 msgid ""
+"你叩了叩门。门军没有动：王爷只认乔阴程县令的信。信呢？丢了的话，回乔阴县衙找程县令再写一封。\n"
+msgstr ""
+
+#. guanbei.palace_front.knock act.acts.steps.line
+#: data/guanbei/world.json
+msgid ""
 "你叩了叩门。门军没有动：王爷不见生人。有凭据再来。\n"
 msgstr ""
 
@@ -49535,6 +49723,12 @@ msgid ""
 "一块铜腰牌，巴掌大，正面刻着「御前侍卫」四个字，背面一个编号，编号底下有人用刀尖划了一道——上一个带它的人留下的。\n"
 msgstr ""
 
+#. native:imperial/guard_token no_drop
+#. native:snow/fonxan_tally no_drop
+#: data/imperial/items.json data/native/items.json
+msgid "这块腰牌不能随便丢。"
+msgstr ""
+
 #. native:imperial/original_decree name
 #: data/imperial/items.json
 msgid "寻剑令原本"
@@ -49546,6 +49740,11 @@ msgid ""
 "一卷黄绫裹着的诏书，只有一行字，先帝的御笔：「寻剑，不得扰民一户。」后头钤着一方御宝，朱色正红。\n"
 msgstr ""
 
+#. native:imperial/original_decree no_drop
+#: data/imperial/items.json
+msgid "先帝的诏书不能随便丢。"
+msgstr ""
+
 #. native:imperial/war_ministry_copy name
 #: data/imperial/items.json
 msgid "兵部抄本"
@@ -49555,6 +49754,12 @@ msgstr ""
 #: data/imperial/items.json
 msgid ""
 "兵部存档的寻剑令复本，同一个日子，同一个开头。「寻剑」之后多出三行：「征民夫，设关卡，拿人。」后头盖着兵部的印，印色暗红发黑。\n"
+msgstr ""
+
+#. native:imperial/war_ministry_copy no_drop
+#. native:choyin/decree_copy no_drop
+#: data/imperial/items.json data/native/items.json
+msgid "这卷抄本不能随便丢。"
 msgstr ""
 
 #. native:imperial/woodcutter_record name
@@ -49573,6 +49778,11 @@ msgstr ""
 msgid "页"
 msgstr ""
 
+#. native:imperial/woodcutter_record no_drop
+#: data/imperial/items.json
+msgid "这页手札不能随便丢。"
+msgstr ""
+
 #. native:imperial/edict_for_uncle name
 #: data/imperial/items.json
 msgid "手诏"
@@ -49584,6 +49794,11 @@ msgid ""
 "一张黄笺，字写得很慢，一笔一划：「皇叔：前诏非朕本意。朝中无人，侄儿请叔父回来。——昭」底下一方小印，印泥还没干透。\n"
 msgstr ""
 
+#. native:imperial/edict_for_uncle no_drop
+#: data/imperial/items.json
+msgid "皇帝的手诏不能随便丢。"
+msgstr ""
+
 #. native:imperial/late_emperor_reading name
 #: data/imperial/items.json
 msgid "先帝的解读"
@@ -49593,6 +49808,11 @@ msgstr ""
 #: data/imperial/items.json
 msgid ""
 "一卷先帝的手稿，推敲商句遗书的最后两句，密密麻麻改了好几遍。最后一页只写着：「风自岚来。逆风而行，风止之处，城见。」页角有庾子建的批注：「试过三次，未果。」\n"
+msgstr ""
+
+#. native:imperial/late_emperor_reading no_drop
+#: data/imperial/items.json
+msgid "这卷手稿不能随便丢。"
 msgstr ""
 
 #. native:imperial/palace_blade_manual name
@@ -51484,6 +51704,11 @@ msgid ""
 "在寻风地带里，它会跟着风响。\n"
 msgstr ""
 
+#. native:lancheng/wind_bell no_drop
+#: data/lancheng/items.json
+msgid "这只风铃不能随便丢。"
+msgstr ""
+
 #. native:lancheng/diviner_slip name
 #: data/lancheng/items.json
 msgid "卜风签"
@@ -51503,6 +51728,11 @@ msgstr ""
 #: data/lancheng/items.json
 msgid ""
 "一把三尺长的剑，剑身是白的，白得发亮，转一转，就有一道光从剑身上绕下来，像风打着旋。剑柄上缠着褪成粉橘色的红绳。剑脊上刻着两个字：寒於。\n"
+msgstr ""
+
+#. native:lancheng/xuanmang no_drop
+#: data/lancheng/items.json
+msgid "旋芒不能丢。它在风里转了三百年。"
 msgstr ""
 
 #. native:lancheng/xuanmang act.acts.steps.line
@@ -55188,9 +55418,19 @@ msgid ""
 "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
 msgstr ""
 
+#. native:snow/letter_to_chen no_drop
+#: data/native/items.json
+msgid "这封信是要送到陈镖头手里的，不能随便丢。"
+msgstr ""
+
 #. native:oldpine/cloth_strip name
 #: data/native/items.json
 msgid "刻着记号的布条"
+msgstr ""
+
+#. native:oldpine/cloth_strip no_drop
+#: data/native/items.json
+msgid "这块布条不能随便丢。"
 msgstr ""
 
 #. native:oldpine/cloth_strip long
@@ -55210,12 +55450,25 @@ msgid ""
 "一面黄铜腰牌，正面铸着一只展翅的金乌，背面刻着「水烟阁」三字和一个「岭」字。铜面发黑，边角磨得发亮，不知在谁身上挂了多少年。\n"
 msgstr ""
 
+#. native:waterfog/guild_token no_drop
+#: data/native/items.json
+msgid "这面腰牌不能随便丢。"
+msgstr ""
+
 #. native:snow/old_letter long
 #: data/native/items.json
 msgid ""
 "一封折了又折的信，信封上写着「雪亭镇淳风武馆 柳馆主 亲启」，字歪歪扭扭，一看就是不常拿笔的手。\n"
 "信里写：「柳爷：当年您在山里迷了路，是小老儿领您下的山。如今小老儿要走了，这孩子没处去，求您收下。山里老岑。」\n"
 "末一行不是字，是几道弯弯的纹，像风。\n"
+msgstr ""
+
+#. native:snow/old_letter no_drop
+#. native:snow/letter_to_pan no_drop
+#. native:choyin/magistrate_letter no_drop
+#. native:city/courier_letter no_drop
+#: data/native/items.json
+msgid "这封信不能随便丢。"
 msgstr ""
 
 #. native:snow/letter_to_pan name
@@ -55240,6 +55493,11 @@ msgid ""
 "一张发黄的镖单，振远镖局的印鉴已经模糊。所押之物写着：水烟阁盟主印一方，密件一匣。起运地关北，收件人水烟阁盟主卫沧澜。末尾一行小字：乙丑年失镖于老松岭瀑布一带，镖师随从无一人生还。\n"
 msgstr ""
 
+#. native:cloud/escort_note no_drop
+#: data/native/items.json
+msgid "这张镖单不能随便丢。"
+msgstr ""
+
 #. native:oldpine/stone_box name
 #: data/native/items.json
 msgid "刻着风纹的石匣"
@@ -55249,6 +55507,11 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n"
+msgstr ""
+
+#. native:oldpine/stone_box no_drop
+#: data/native/items.json
+msgid "这只石匣不能随便丢。"
 msgstr ""
 
 #. native:oldpine/stone_box act.verb
@@ -55313,6 +55576,11 @@ msgid ""
 "一件月白的衣，料子像结了霜的水，摸上去不冷，站在它旁边却觉得凉。衣襟里缝着一行小字：寒於留衣，月神守之，火不能近。守衣人瑷伦说，它挡得住黑焰——几百年没人试过。\n"
 msgstr ""
 
+#. native:latemoon/cold_robe no_drop
+#: data/native/items.json
+msgid "这件衣不能随便丢。"
+msgstr ""
+
 #. native:latemoon/body_maid name
 #: data/native/items.json
 msgid "婢女的尸首"
@@ -55363,6 +55631,11 @@ msgid ""
 "一把三尺长的剑，剑身是透青的，像一条冻住的水。剑脊上刻着两个字：寒於。剑锋上没有血——三百年，它钉的是一颗头，不是人。握在手里，整条胳膊都是凉的。\n"
 msgstr ""
 
+#. native:village/soul_impaler no_drop
+#: data/native/items.json
+msgid "穿灵不能丢。它钉过三百年。"
+msgstr ""
+
 #. native:village/soul_impaler act.acts.steps.line
 #: data/native/items.json
 msgid ""
@@ -55378,6 +55651,11 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一片巴掌长的羽毛，浅金色，拿在手里不冷也不热。它不沾水，也不化；放在暗处，边上有一圈很淡的光。璃虹说，再封的时候把它放回坛上，她认得它。\n"
+msgstr ""
+
+#. native:village/lihong_feather no_drop
+#: data/native/items.json
+msgid "这是璃虹的羽，不能丢。"
 msgstr ""
 
 #. native:village/body_fisher name
@@ -55402,6 +55680,11 @@ msgid ""
 "一张大红的名帖，折成三折。正面一行字：「京师骆氏 骆建炎 拜上 韦相国」，字写得飞快，最后一笔甩出了格子——骆云舟的字。\n"
 msgstr ""
 
+#. native:choyin/luo_card no_drop
+#: data/native/items.json
+msgid "这张名帖不能随便丢。"
+msgstr ""
+
 #. native:city/courier_letter name
 #: data/native/items.json
 msgid "密信"
@@ -55422,6 +55705,11 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一张黄纸符，朱砂画的符纹弯弯绕绕，纸角写着一行小字：「茅山 障眼」。带在身上，夜里巡夜的人眼睛短一截。\n"
+msgstr ""
+
+#. native:city/blinding_charm no_drop
+#: data/native/items.json
+msgid "这张符不能随便丢。"
 msgstr ""
 
 #. native:snow/fonxan_tally name

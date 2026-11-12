@@ -120,6 +120,9 @@ static func valuation_text(result: HockshopValuationResult) -> String:
 		})
 	if result.outcome == HockshopValuationResult.Outcome.WORTHLESS:
 		return TranslationServer.translate("一文不值，不能卖断。")
+	if result.outcome == HockshopValuationResult.Outcome.QUEST_ITEM:
+		# TRANSLATORS: the pawnshop will not buy a quest item the story still asks for (DECISIONS「任务物品不丢」).
+		return TranslationServer.translate("掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。")
 	return TranslationServer.translate("物品已变化或现在不可交易，请重新选择。")
 
 

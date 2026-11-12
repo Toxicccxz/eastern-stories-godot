@@ -73,6 +73,72 @@ class MapsPaintTest(unittest.TestCase):
         self.assertIn('position = Vector2(48, 56)', text)
         self.assertIn('metadata/footprint = Vector2(32, 16)', text)
 
+    def test_maps_with_watchers_have_cover_and_light(self) -> None:
+        """WorldMapWatches reads a furnishing's look for `cover` (true: it blocks a watcher's sight)
+        and `light` (a radius in pixels: the player is seen farther in it). A misspelt or mistyped one
+        is silent, so: each is the right type wherever it stands, and every map a watcher walks has
+        at least one of each (全项目审查第四批)."""
+        watchers = set()
+        for path in (REPOSITORY / 'game/data').glob('*/npcs.json'):
+            for npc in json.loads(path.read_text(encoding='utf-8')).get('npcs', []):
+                if 'watch' in npc:
+                    watchers.add(npc['id'])
+        watched_maps = set()
+        for path in (REPOSITORY / 'game/data').glob('*/spawns.json'):
+            for spawn in json.loads(path.read_text(encoding='utf-8')).get('spawns', []):
+                if spawn.get('npc') in watchers:
+                    watched_maps.add(spawn['map'])
+        self.assertTrue(watched_maps, 'some map has watchers (皇城)')
+
+        def looks(node):
+            if isinstance(node, dict):
+                if isinstance(node.get('look'), dict):
+                    yield node['look']
+                for key, value in node.items():
+                    if key != 'look':
+                        yield from looks(value)
+            elif isinstance(node, list):
+                for value in node:
+                    yield from looks(value)
+
+        seen = set()
+        for region in paint.regions():
+            for entry in paint.layout(region)['maps'].values():
+                map_id = entry['scene']['map']
+                found = list(looks(entry['draw']))
+                for look in found:
+                    with self.subTest(map=map_id, kind=look.get('kind')):
+                        if 'cover' in look:
+                            self.assertIs(look['cover'], True, 'cover is true or absent')
+                        if 'light' in look:
+                            self.assertTrue(isinstance(look['light'], (int, float)) and look['light'] > 0, 'light is a radius')
+                if map_id in watched_maps:
+                    seen.add(map_id)
+                    with self.subTest(map=map_id):
+                        self.assertTrue(any(look.get('cover') is True for look in found), 'a watched map has cover')
+                        self.assertTrue(any(isinstance(look.get('light'), (int, float)) and look['light'] > 0 for look in found), 'and light')
+        self.assertEqual(seen, watched_maps, 'every watched map is a painted one')
+
+    def test_zones_of_a_map_never_overlap(self) -> None:
+        """Every committed map's zones lie apart (a body in two zones could never be saved), and the
+        painter refuses two that overlap whatever technique drew them (关北 steppe, 2026-11-12)."""
+        for folder, files in GENERATED.items():
+            for file in files:
+                with self.subTest(map=f'{folder}/{file}'):
+                    text = (paint.WORLD / folder / file).read_text(encoding='utf-8')
+                    self.assertTrue(paint._ZONE.search(text) is not None or 'parent="Zones"' not in text)
+                    paint.zones_apart(text, file)
+
+        def zone(name: str, at: tuple, shape: str) -> str:
+            return (f'[node name="{name}" type="Area2D" parent="Zones"]\nposition = Vector2({at[0]}, {at[1]})\n'
+                    f'collision_layer = 0\nscript = ExtResource("zone")\nzone_id = &"t.{name}"\n\n'
+                    f'[node name="CollisionShape2D" type="CollisionShape2D" parent="Zones/{name}"]\n'
+                    f'shape = SubResource("{shape}")\n\n')
+        shapes = ('[sub_resource type="RectangleShape2D" id="Rect_64_64"]\nsize = Vector2(64, 64)\n\n')
+        paint.zones_apart(shapes + zone('a', (32, 32), 'Rect_64_64') + zone('b', (96, 32), 'Rect_64_64'), 'edge to edge')
+        with self.assertRaises(AssertionError):
+            paint.zones_apart(shapes + zone('a', (32, 32), 'Rect_64_64') + zone('b', (80, 48), 'Rect_64_64'), 'overlap')
+
 
 if __name__ == '__main__':
     unittest.main()

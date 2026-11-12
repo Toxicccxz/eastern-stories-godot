@@ -80,10 +80,13 @@ static func runtime_result(
 			&"operation.busy",
 		)
 	if result.outcome == OldPineRuntimeSaveLoadResult.Outcome.RESTORE_FAILED:
+		# The protagonist's saved spot is no place to stand on the map as it is now (a redrawn
+		# map; DECISIONS「修订号指纹」): the save is still refused, and says why.
+		var moved: bool = result.restore != null and result.restore.outcome == OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION
 		return ApplicationOperationResult.new(
 			operation,
 			ApplicationOperationResult.Outcome.RESTORE_FAILURE,
-			&"continue.restore_failure",
+			&"continue.map_changed" if moved else &"continue.restore_failure",
 		)
 	if result.outcome == OldPineRuntimeSaveLoadResult.Outcome.SAVE_BLOCKED:
 		return _save_blocked(operation, result.eligibility)
@@ -171,4 +174,10 @@ static func _save_blocked(
 		OldPineSaveEligibilityResult.Outcome.SCENE_RUNNING:
 			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
 			message_key = &"save.blocked.scene"
+		OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
+			message_key = &"save.blocked.position"
+		OldPineSaveEligibilityResult.Outcome.NPC_WORKING:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
+			message_key = &"save.blocked.npc_working"
 	return ApplicationOperationResult.new(operation, outcome, message_key)

@@ -124,6 +124,26 @@ func valuation_tests() -> void:
 		Finance.add_money(f.context, denomination, 5, &"sale")
 		before = fingerprint(f)
 		check(f.quote().outcome == O.MONEY_REJECTED and f.sell().valuation.outcome == O.MONEY_REJECTED and fingerprint(f) == before, "money excluded, no convert " + str(denomination))
+	# DECISIONS「任务物品不丢」: no native no_drop item is bought, whatever it is worth (兵部文书, 10 文);
+	# ES2's own no_drop things sell as hockshop.c sells them (it asks only query("value")).
+	var native_refused: int = 0
+	var es2_sold: int = 0
+	for item: ItemContentDefinition in GameContent.catalog().items():
+		if not item.no_drop or item.is_stack or item.food_definition() != null or item.liquid_definition() != null:
+			continue
+		var f: Fixture = fixture(item.item_definition_id)
+		before = fingerprint(f)
+		var result: HockshopSellResult = f.sell()
+		if String(item.item_definition_id).begins_with("native:"):
+			native_refused += 1
+			check(f.quote().outcome == O.QUEST_ITEM and result.outcome != HockshopSellResult.Outcome.SOLD and fingerprint(f) == before, "%s: a quest item, not bought" % item.item_definition_id)
+			check(HockshopPanel.valuation_text(f.quote()).contains("小号不收"), "%s: the pawnshop's own line" % item.item_definition_id)
+		elif item.value > 0:
+			es2_sold += 1
+			check(result.outcome == HockshopSellResult.Outcome.SOLD, "%s: ES2's own no_drop thing sells, as hockshop.c" % item.item_definition_id)
+	check(native_refused >= 30 and es2_sold == 4, "native no_drop refused: %d; ES2 no_drop sold: %d" % [native_refused, es2_sold])
+	var papers: Fixture = fixture(&"native:niling/war_ministry_papers")
+	check(papers.quote().outcome == O.QUEST_ITEM and papers.sell().payout == null and papers.context.inventory.is_registered(&"sale"), "兵部文书 (10 文) stays: no payout, not destroyed")
 	var unknown: Fixture = fixture(&"test:unknown")
 	check(unknown.sell().valuation.outcome == O.UNSUPPORTED_ITEM and unknown.allocator.next_dynamic_sequence == 1, "unknown != worthless")
 	var missing: Fixture = Fixture.new()

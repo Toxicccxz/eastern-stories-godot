@@ -44,9 +44,32 @@ func _test_letter(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("再也找不回来") and not _carried(session, WORTHLESS).is_empty(), "丢下 a thing worth nothing asks first")
 	ui.confirm_prompt.cancel()
 	_check(not ui.is_asking() and _carried(session, WORTHLESS) == token, "取消: still carried")
+	# Dropped from the open 背包 with another beside it: 确定丢下 opens the 背包 again, on the same
+	# section, reading the row that took its place, so the next one is a click away.
+	var second: StringName = school.give_new_item_to_player(WORTHLESS) # TEST-ONLY
+	ui.items.open_inventory()
+	await tree.process_frame
+	var panel: PlayerInventoryPanel = ui.inventory_panel
+	panel.show_section(InventorySections.Section.ALL)
+	panel.select_item(token)
+	var listed: Array[PlayerInventoryRowProjection] = panel.listed_rows()
+	var at: int = listed.find_custom(func(row: PlayerInventoryRowProjection) -> bool: return row.item_instance_id == token)
+	var beside: StringName = listed[at + 1 if at + 1 < listed.size() else at - 1].item_instance_id if at >= 0 and listed.size() > 1 else &""
+	_check(panel.is_open() and panel.selected_item() == token and not beside.is_empty(), "the 背包 open on the thing worth nothing, another beside it")
 	ui.items.drop_item(token, 0)
+	_check(ui.is_asking(), "丢下 from the 背包 asks first")
 	ui.confirm_prompt.confirm_button.pressed.emit()
-	_check(_carried(session, WORTHLESS).is_empty() and ui.log_lines().any(func(line: String) -> bool: return line.contains("并不会注意到它的存在")), "确定丢下: gone, as drop.c has it")
+	await tree.process_frame
+	_check(_count_carried(session, WORTHLESS) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("并不会注意到它的存在")), "确定丢下: gone, as drop.c has it")
+	_check(ui.items.inventory_is_open() and panel.current_section() == InventorySections.Section.ALL and panel.selected_item() == beside, "确定丢下: the 背包 again, on the row beside it")
+	ui.menu.close()
+	await tree.process_frame
+	ui.items.drop_item(second, 0)
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await tree.process_frame
+	_check(_carried(session, WORTHLESS).is_empty() and ui.items.inventory_is_open(), "dropped with the 背包 shut: it opens after, all the same")
+	ui.menu.close()
+	await tree.process_frame
 	# Taken by a thief: 柳淳风 writes another; with it in hand, not a third.
 	_check(ItemHandlingService.hand_over(liu, letter, school.floor_items.item_authorities()) and _carried(session, LETTER).is_empty(), "the letter taken (TEST-ONLY: as 飞贼's hand_over)")
 	_check(_said(school.ask_selected("水烟阁"), "再写一封") and not _carried(session, LETTER).is_empty(), "柳淳风 writes it again")

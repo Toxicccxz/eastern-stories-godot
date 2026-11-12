@@ -269,6 +269,18 @@ func select_item(id: StringName) -> void:
 	button.button_pressed = true
 	if not button.has_focus() and button.is_visible_in_tree():
 		FocusNav.give(button)
+	if button != purse_button:
+		_scroll_into_view(button)
+
+
+## The row read stays in sight (the 背包 opened again after 确定丢下 reads a row far down): once
+## the list is laid out, the next frame.
+func _scroll_into_view(button: Button) -> void:
+	if not is_inside_tree():
+		return
+	await get_tree().process_frame
+	if is_instance_valid(button) and button.is_inside_tree() and row_scroll.is_ancestor_of(button):
+		row_scroll.ensure_control_visible(button)
 
 
 ## Reads `row` beside the list, carried or not (tests and the inspect helpers).
@@ -304,9 +316,11 @@ func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
 			_carried_containers.append([row.item_instance_id, row.display_name])
 
 
-## Lists the section and reads the item picked (the first listed when the one read is gone).
+## Lists the section and reads the item picked (when the one read is gone, the row that took
+## its place: dropping things one after another goes down the list).
 ## `focused`: the focus was in the page, so it goes back to the row read once rebuilt.
 func _refresh(focused: bool) -> void:
+	var was: int = _shown.find_custom(func(row: PlayerInventoryRowProjection) -> bool: return row.item_instance_id == _selected)
 	_shown = _ordered(_section)
 	_section_titles()
 	_clear_list()
@@ -324,7 +338,7 @@ func _refresh(focused: bool) -> void:
 	burden_label.text = "" if _burden < 0 else tr("负重 {percent}%").format({"percent": _burden})
 	burden_label.visible = _burden >= 0
 	if _selected != PURSE and not row_buttons.has(_selected):
-		_selected = &"" if _shown.is_empty() else _shown[0].item_instance_id
+		_selected = &"" if _shown.is_empty() else _shown[clampi(was, 0, _shown.size() - 1)].item_instance_id
 	# The 吃 / 喝 line is about one thing: it goes with it (the log keeps it).
 	if _selected != _feedback_for:
 		use_feedback.text = ""

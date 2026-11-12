@@ -141,6 +141,28 @@ class ContentTest(unittest.TestCase):
         name = next(entry for entry in catalog.entries() if entry.msgid == "魏无极")
         self.assertEqual(name.notes, ["snow.npc.teacher name"])
 
+    def test_no_drop_lines_and_checklist_missing(self) -> None:
+        # drop.c's refusal when no_drop is a sentence; `true` (ES2's own line, in code) is no text.
+        catalog = extract_pot.Catalog()
+        document = {
+            "items": [
+                {"id": "native:choyin/magistrate_letter", "name": "程不平的信", "no_drop": "这封信不能随便丢。"},
+                {"id": "native:imperial/palace_blade_manual", "name": "禁中刀谱", "no_drop": True},
+            ],
+            "quests": [{"id": "main.chapter6", "steps": [{"checklist": [
+                {"label": "程不平的信在你身上", "when": {"item": "native:choyin/magistrate_letter"}, "missing": "丢了就回乔阴县衙找程不平再写一封"},
+            ]}]}],
+        }
+        extract_pot.extract_content({"items": document["items"]}, "data/choyin/items.json", catalog)
+        extract_pot.extract_content({"quests": document["quests"]}, "data/story/chapter6.json", catalog)
+        ids = [msgid for _, msgid in _ids(catalog)]
+        self.assertIn("程不平的信在你身上", ids)
+        self.assertIn("这封信不能随便丢。", ids)
+        self.assertIn("丢了就回乔阴县衙找程不平再写一封", ids)
+        self.assertNotIn("True", ids)
+        line = next(entry for entry in catalog.entries() if entry.msgid == "这封信不能随便丢。")
+        self.assertEqual(line.notes, ["native:choyin/magistrate_letter no_drop"])
+
     def test_skill_practice_valid_learn_and_improved_lines(self) -> None:
         catalog = extract_pot.Catalog()
         document = {"skills": [{

@@ -402,6 +402,25 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12)
 	await tree.physics_frame
 	await tree.physics_frame
+	# Shouted at, then off to another map and straight back onto the ridge: a new visit, a new shout
+	# (全项目审查第四批: leaving the map clears it, as it clears his time).
+	body.global_position = robber_at + Vector2(0, 60)
+	await tree.physics_frame
+	await tree.physics_frame
+	map._process(0.05)
+	_check(map.hostilities.toll_shouted.has(robber.character_id), "unpaid again: he has shouted")
+	var square: ZoneDefinition = GameContent.catalog().zone(&"snow.square")
+	_check(session.handoff_to(&"snow.outdoor", &"snow.square", square.combat_location_id, &"snow.square.inn_entry").succeeded(), "off to another map")
+	_check(map.hostilities.toll_shouted.is_empty() and map.hostilities.toll_contact_seconds.is_empty(), "leaving the map forgets the shout")
+	_check(session.handoff_to(&"cloud.outdoor", &"cloud.dragonhill.nroad", &"cloud.dragonhill.nroad", &"cloud.dragonhill.nroad.snow_entry").succeeded(), "back to 卧龙岗")
+	body = map.runtime_player_body()
+	said = hud.log_lines().size()
+	body.global_position = robber_at + Vector2(0, 60) # TEST-ONLY: back in his reach on the ridge
+	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.hummock"))
+	await tree.physics_frame
+	await tree.physics_frame
+	map._process(0.05)
+	_check(hud.log_lines().slice(said).has(TOLL_SHOUT), "back on the ridge from another map: he shouts again")
 
 
 # --- Helpers ---------------------------------------------------------------------------

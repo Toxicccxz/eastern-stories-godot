@@ -15,9 +15,15 @@ extends RefCounted
 ##   names it may draw, whether it follows every way, may leave home (a saved one on another map), its chant's stages,
 ##   whether it is summoned / conjured / raised, and the kinds and counts of what it carries;
 ## - every zone's map and combat location, every map's region; every floor item spawn point's item
-##   and zone; every note maze's number of notes; every armour's type (a corpse's worn things).
+##   and zone; every note maze's number of notes; every armour's type (a corpse's worn things);
+## - every item fact NativeItemStateValidator checks a saved thing against: whether it stacks, a
+##   food's own weight, portions and first value, a drink's own weight and portions and whether it is
+##   a powder, a weapon's id, secondary hand and two hands (全项目审查第四批).
 ## Left out: an item definition taken away (any save holding one is refused; items are added far more
-## often than taken away) and the portals (only one who wandered to another map reads them).
+## often than taken away), the portals (only one who wandered to another map reads them), and the
+## maps' drawing: their collision and zone bounds. A redrawn map can leave a saved spot where nobody
+## may stand; an NPC, a corpse or a dropped thing is moved to the nearest spot, the player's save is
+## refused with 「这份存档之后地图改过……」 (DECISIONS「修订号指纹」).
 ##
 ## The fingerprint changed: add a WorldContentRevision value, make it CURRENT_PUBLIC, and add its row
 ## (never edit an older one):
@@ -93,10 +99,26 @@ static func content_lines() -> PackedStringArray:
 	for spawn: ItemSpawnDefinition in catalog.item_spawns():
 		for point_id: StringName in spawn.spawn_point_ids():
 			lines.append("floor|%s|%s|%s" % [point_id, spawn.item_definition_id, spawn.zone_id])
+	var projections: NativeItemDefinitionProjections = catalog.native_item_projections()
 	for item: ItemContentDefinition in catalog.items():
-		var armor: ArmorDefinition = catalog.native_item_projections().armor_definition(item.item_definition_id)
+		var id: StringName = item.item_definition_id
+		var armor: ArmorDefinition = projections.armor_definition(id)
 		if armor != null:
-			lines.append("armor|%s|%s" % [item.item_definition_id, armor.armor_type])
+			lines.append("armor|%s|%s" % [id, armor.armor_type])
+		# What NativeItemStateValidator checks a saved item against.
+		if projections.stack_definition(id) != null:
+			lines.append("stack|%s" % id)
+		var food: FoodDefinition = projections.food_definition(id)
+		if food != null:
+			lines.append("food|%s|weight:%d|portions:%d|value:%d" % [id, food.own_weight, food.initial_portions, food.initial_value])
+		var drink: LiquidDefinition = projections.liquid_definition(id)
+		if drink != null:
+			lines.append("drink|%s|weight:%d|portions:%d" % [id, drink.own_weight, drink.maximum_portions])
+		if projections.is_powder(id):
+			lines.append("powder|%s" % id)
+		var weapon: WeaponDefinition = projections.weapon_definition(id)
+		if weapon != null:
+			lines.append("weapon|%s|%s|secondary:%s|two_handed:%s" % [id, weapon.weapon_id, weapon.can_wield_as_secondary, weapon.is_two_handed])
 	lines.sort()
 	return lines
 
@@ -140,7 +162,7 @@ static func npc_line(npc: NpcDefinition, catalog: ContentCatalog) -> String:
 ## does not read (an NPC's long description) is not in it.
 func _test_what_it_holds() -> void:
 	var lines: PackedStringArray = content_lines()
-	for kind: String in ["spawn|", "npc|", "map|", "zone|", "floor|", "maze|", "armor|"]:
+	for kind: String in ["spawn|", "npc|", "map|", "zone|", "floor|", "maze|", "armor|", "stack|", "food|", "drink|", "powder|", "weapon|"]:
 		_check(Array(lines).any(func(line: String) -> bool: return line.begins_with(kind)), "the fingerprint holds %s lines" % kind.trim_suffix("|"))
 	var waiter: NpcDefinition = GameContent.catalog().npc(&"snow.npc.waiter")
 	var line: String = npc_line(waiter, GameContent.catalog())

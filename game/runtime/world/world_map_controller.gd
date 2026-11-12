@@ -505,6 +505,9 @@ func prepare_for_deactivation() -> void:
 	hostilities.room_present.clear()
 	hostilities.spent.clear()
 	hostilities.toll_contact_seconds.clear()
+	# ...and a toll-taker shouts again on their next visit, even back in the same place
+	# (its toll_shouted is once a visit; 全项目审查第四批).
+	hostilities.toll_shouted.clear()
 	hostilities.clear_alert()
 	if hud() != null:
 		hud().set_selected_target(null)
@@ -867,7 +870,11 @@ func thaw_world_gameplay(id: StringName) -> bool:
 
 
 ## The player went to another map (a handoff that completed): its NPCs' call_outs go.
-## Not on deactivation, which a failed handoff or session swap rolls back.
+## Not on deactivation, which a failed handoff or session swap rolls back. A helper of this map
+## that keeps state about the player's visit (who was met, who is on the way somewhere) clears it
+## in a leave function of its own that this calls (npc_life.player_left(): thefts, patrols, the idle
+## folk; prepare_for_deactivation() for what a rolled-back handoff may lose too) — new helper state
+## comes with one (全项目审查第四批).
 func player_departed() -> void:
 	npc_life.player_left()
 

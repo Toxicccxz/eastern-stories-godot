@@ -3195,7 +3195,7 @@
             576,
             96,
             960,
-            320,
+            256,
             "grass"
           ],
           "guanbei.rise": [
@@ -3663,7 +3663,7 @@
             "id": "guanbei.cairn.landmark.obo",
             "at": [
               768,
-              248
+              240
             ],
             "shape": "Rect_64_32"
           },

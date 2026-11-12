@@ -161,7 +161,11 @@ func advance(delta: float) -> void:
 ## idle folk are where the hour puts them, at once: indoors by night, on their spots by day. One
 ## indoors whom the rules in force no longer send home (night_home turned off, its `night` "home"
 ## taken out since the save) is out on its spot too, by night as well (DECISIONS「读档放行回屋的人」).
-func judge_night() -> void:
+## By day one of them still out but not where its day puts it (a dusk walk the hours or a map left
+## cut short: at a way out, off its room or far from its spot) is back on its spot (_put_back()),
+## unless `put_back` is false: Continue restores everyone exactly where the save has them.
+func judge_night(put_back: bool = true) -> void:
+	var was_leaving: Dictionary[StringName, bool] = _leaving.duplicate()
 	_leaving.clear()
 	if _map.session == null:
 		return
@@ -178,6 +182,35 @@ func judge_night() -> void:
 			# Out already (the hours went by, or nothing sends it in now), on its spot, unless the
 			# player stands on it: then the ticks bring it out once they move on.
 			_come_out(npc, _map.npc_life.npc_walker(), true)
+		elif put_back and not night and npc.exists_in_map:
+			_put_back(npc, spawn, was_leaving.has(npc.character_id), pacing.npc_idle)
+
+
+## By day, one of the street's idle folk (its entry's `night` "home") on its own room but off it,
+## or farther from its spot than its strolls go, is put back on its spot; one that was on its way
+## indoors (`leaving`, its walk cut short by the hours: wait_until_phase()) stops walking first.
+## Not one that something else has (_free()), nor while the player stands on the spot.
+func _put_back(npc: NpcRuntimeState, spawn: NpcSpawnDefinition, leaving: bool, tuning: NpcIdleTuning) -> void:
+	var entry: NpcLifeBook.Entry = _entry(npc.definition().definition_id)
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
+	var walker: WorldNpcWalker = _map.npc_life.npc_walker()
+	if entry == null or not entry.night_home or body == null or marker == null or not _free(npc):
+		return
+	if npc.world_location().zone_id != spawn.zone_id:
+		return
+	# A room move under way is its own; a walk indoors the hours overtook is not.
+	if walker.is_walking(npc.character_id) and not walker.is_strolling(npc.character_id) and not leaving:
+		return
+	var zone: WorldPhysicalZoneArea2D = _map.physical_zone(spawn.zone_id)
+	var reach: float = float(entry.reach(tuning.home_radius_px)) + SPOT_CLEAR_PX
+	if not leaving and zone != null and zone.contains_center(body.global_position) and body.global_position.distance_to(marker.global_position) <= reach:
+		return
+	if _map.player_body != null and _map.player_body.global_position.distance_to(marker.global_position) < SPOT_CLEAR_PX:
+		return
+	walker.cancel(npc.character_id)
+	_people.erase(npc.character_id)
+	body.global_position = marker.global_position
 
 
 ## Whether the day's phase now is one of the night's.
@@ -345,6 +378,17 @@ func _entry(definition_id: StringName) -> NpcLifeBook.Entry:
 	if not _entries.has(definition_id):
 		_entries[definition_id] = NpcLifeBook.entry(NpcDefinition.unnamed_id(definition_id))
 	return _entries[definition_id]
+
+
+## The player went to another map (WorldMapNpcLife.player_left()): one on its way indoors at dusk
+## is indoors now — the map's walks were finished at the way out as the player left, and nobody
+## would send it in from there (a day's return found it stranded at the door).
+func player_left() -> void:
+	for character_id: StringName in _leaving.keys():
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		if npc != null and npc.exists_in_map:
+			_go_in(npc)
+	_leaving.clear()
 
 
 ## Forgets everyone (the map is left, or reset): a post or one that stays put faces its own

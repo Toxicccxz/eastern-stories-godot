@@ -138,7 +138,8 @@ func refresh() -> void:
 				"money": tr(source.display_name), "amount": current.stacks.stack_state(id).amount, "unit": tr(source.base_unit),
 			}))
 		var appraisal: HockshopValuationResult = quote(id)
-		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS]:
+		# Worth nothing, or a quest item it will not take: listed, so its line says why.
+		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS, HockshopValuationResult.Outcome.QUEST_ITEM]:
 			ids.append(id)
 			labels.append(item_label(id))
 	panel.holdings.text = tr("直接携带的钱：%s") % (tr("无") if money.is_empty() else " / ".join(money))
