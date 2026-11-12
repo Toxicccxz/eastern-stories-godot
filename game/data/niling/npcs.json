@@ -1138,18 +1138,18 @@
 				"con": 28,
 				"kar": 6
 			},
-			"combat_exp": 40000,
+			"combat_exp": 8000,
 			"score": 1500,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"sword": 60,
-				"six-chaos-sword": 60,
-				"dodge": 55,
-				"parry": 55,
-				"force": 50
+				"sword": 30,
+				"six-chaos-sword": 30,
+				"dodge": 30,
+				"parry": 30,
+				"force": 30
 			},
 			"skill_map": {
 				"sword": "six-chaos-sword",

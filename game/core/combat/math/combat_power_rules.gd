@@ -45,6 +45,21 @@ var tag_counter_percent: int = 0
 ## blow (the weapon's share and the strength's, before the experience defense), in the place of
 ## its lean on the weapon's share; 0 (ES2): no such site. Two beats' worth of blow.
 var heavy_blow_percent: int = 0
+## 空手对兵器 (DECISIONS「空手对兵器」): combatd.c do_attack() (4) gives a bare-handed defender
+## no parry at all against a weapon (pp = 0), doubles an armed defender's parry against bare
+## hands (pp *= 2), and a bare-handed blow has no weapon share (apply/damage is a weapon's).
+## These knobs apply to the player's trained bare hands only (empty hand, a fist art enabled on
+## unarmed: CombatAttackerSnapshot / CombatDefenderSnapshot.trained_bare_hands); untrained hands,
+## NPCs, beasts and the like keep combatd.c's rule whatever the knobs say.
+## - bare_parry_percent: a bare-handed defender's parry against a weapon, this percent of what
+##   their unarmed skill gives (the parry they have against bare hands); 0 (ES2): none.
+## - armed_parry_percent: an armed defender's parry against bare hands, this percent of their
+##   parry power; 200 (ES2): doubled.
+## - bare_damage_percent: a bare-handed blow's weapon share, this percent of the attacker's
+##   effective unarmed level, added to their apply/damage before the draw; 0 (ES2): none.
+var bare_parry_percent: int = 0
+var armed_parry_percent: int = 200
+var bare_damage_percent: int = 0
 
 
 func _init(
@@ -77,7 +92,7 @@ func is_valid() -> bool:
 		power_base > 0 and power_doubling_levels > 0 and power_cap_levels > 0 and exp_power_divisor > 0
 		and defense_power_percent > 0 and exp_defense_max_percent >= 0 and exp_defense_max_percent < 100
 		and exp_defense_softness >= 0 and action_tag_bonus_percent >= 0 and tag_counter_percent >= 0
-		and heavy_blow_percent >= 0
+		and heavy_blow_percent >= 0 and bare_parry_percent >= 0 and armed_parry_percent >= 0 and bare_damage_percent >= 0
 	)
 
 
@@ -87,6 +102,7 @@ func is_classic() -> bool:
 		curve == PowerCurve.CLASSIC and exp_power_divisor == 1 and defense_power_percent == 100
 		and experience_defense == ExperienceDefense.CLASSIC
 		and action_tag_bonus_percent == 0 and tag_counter_percent == 0 and heavy_blow_percent == 0
+		and bare_parry_percent == 0 and armed_parry_percent == 200 and bare_damage_percent == 0
 	)
 
 
@@ -95,7 +111,39 @@ func duplicate_snapshot() -> CombatPowerRules:
 		curve, power_base, power_doubling_levels, exp_power_divisor, defense_power_percent,
 		experience_defense, exp_defense_max_percent, exp_defense_softness, power_cap_levels,
 		action_tag_bonus_percent, tag_counter_percent,
-	).with_heavy_blow(heavy_blow_percent)
+	).with_heavy_blow(heavy_blow_percent).with_bare_hands(bare_parry_percent, armed_parry_percent, bare_damage_percent)
+
+
+## This record with the 空手对兵器 knobs set.
+func with_bare_hands(p_bare_parry_percent: int, p_armed_parry_percent: int, p_bare_damage_percent: int) -> CombatPowerRules:
+	bare_parry_percent = p_bare_parry_percent
+	armed_parry_percent = p_armed_parry_percent
+	bare_damage_percent = p_bare_damage_percent
+	return self
+
+
+## The parry power a defender brings against this blow (combatd.c do_attack() (4) under the
+## 空手对兵器 knobs): `armed` the defender holds a weapon, `weapon` the attacker does; `parry` is
+## the power of their parry skill, `bare` of their unarmed skill; `trained` the bare-handed side
+## (the attacker against an armed defender, the defender against a weapon) is the player's
+## trained bare hands, the only ones the knobs touch.
+func parry_power(armed: bool, weapon: bool, parry: int, bare: int, trained: bool = true) -> int:
+	if armed:
+		if weapon:
+			return parry
+		@warning_ignore("integer_division")
+		return parry * (armed_parry_percent if trained else 200) / 100
+	if weapon:
+		@warning_ignore("integer_division")
+		return bare * bare_parry_percent / 100 if trained else 0
+	return bare
+
+
+## The weapon share a bare-handed blow adds to apply/damage at `unarmed_level` (0 with a weapon
+## or untrained hands).
+func bare_damage(weapon: bool, unarmed_level: int, trained: bool = true) -> int:
+	@warning_ignore("integer_division")
+	return 0 if weapon or not trained else maxi(0, unarmed_level) * bare_damage_percent / 100
 
 
 ## This record with the 重 blow's knob set (战斗拍数 E).
@@ -133,7 +181,9 @@ static func from_record(reader: ContentRecordReader) -> CombatPowerRules:
 		DEFENSES[defense_text], reader.integer("exp_defense_max_percent", 0), reader.integer("exp_defense_softness", 200),
 		reader.integer("power_cap_levels", 150),
 		reader.integer("action_tag_bonus_percent", 0), reader.integer("tag_counter_percent", 0),
-	).with_heavy_blow(reader.integer("heavy_blow_percent", 0))
+	).with_heavy_blow(reader.integer("heavy_blow_percent", 0)).with_bare_hands(
+		reader.integer("bare_parry_percent", 0), reader.integer("armed_parry_percent", 200), reader.integer("bare_damage_percent", 0),
+	)
 	if not rules.is_valid():
 		reader.fail("power_curve", "the combat power knobs must be positive (exp_defense_max_percent below 100)")
 	return rules
