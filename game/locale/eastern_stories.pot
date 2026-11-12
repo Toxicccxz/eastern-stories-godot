@@ -4804,6 +4804,91 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
+#. the button on the 请教 and 武学 pages that lets time pass until 精, 气 and 神 are full (DECISIONS「歇到回满」).
+#: core/characters/rest_lines.gd
+msgid "歇到回满"
+msgstr ""
+
+#. the hover of 歇到回满: what it does.
+#: core/characters/rest_lines.gd
+msgid "找个地方坐下歇着，让时间走起来：精、气、神慢慢回满就起身。世界照常运转，有人来袭会把你惊起。"
+msgstr ""
+
+#. said as the player sits down to rest.
+#: core/characters/rest_lines.gd
+msgid "你找个地方坐下，歇一歇。"
+msgstr ""
+
+#. the rest's band over the world while it goes on: {time} how long so far (一盏茶的工夫, 半个时辰 …).
+#: core/characters/rest_lines.gd
+msgid "歇息中……已歇{time}"
+msgstr ""
+
+#. the rest's button that stops it.
+#: core/characters/rest_lines.gd
+msgid "起身"
+msgstr ""
+
+#. no rest begins in a fight.
+#: core/characters/rest_lines.gd
+msgid "正在打斗，歇不下来。"
+msgstr ""
+
+#. no rest begins: 精, 气 and 神 are full.
+#: core/characters/rest_lines.gd
+msgid "你精神饱满，用不着歇。"
+msgstr ""
+
+#. no rest begins: with no water nothing comes back (damage.c heal_up()).
+#: core/characters/rest_lines.gd
+msgid "你口干舌燥，歇着也回不过精神来：先找水喝。"
+msgstr ""
+
+#. no rest begins now (a scene holds the player, a map is changing).
+#: core/characters/rest_lines.gd
+msgid "现在歇不下来。"
+msgstr ""
+
+#. the rest is over, 精, 气 and 神 full: {time} how long it took (一盏茶的工夫, 半个时辰, 两个时辰 …).
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，精、气、神都回满了。"
+msgstr ""
+
+#. the rest reached its longest: {time} how long it took.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，起身活动活动。精、气、神还没全回满：伤要慢慢养，金疮药和运功疗伤快得多。"
+msgstr ""
+
+#. the player stopped the rest: {time} how long it took.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，站了起来。"
+msgstr ""
+
+#. a fight began or a gang noticed the player while they rested: {time} how long they rested.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，忽然有人来袭，你一跃而起！"
+msgstr ""
+
+#. one of 精, 气, 神 went down while the player rested (a hazard, poison): {time} how long they rested.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，身上一阵难受，歇不下去了。"
+msgstr ""
+
+#. the player's water ran out while they rested: {time} how long they rested.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，口干舌燥，再歇也回不过来：先找水喝。"
+msgstr ""
+
+#. a scene began while the player rested: {time} how long they rested.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}，听见动静，站了起来。"
+msgstr ""
+
+#. the player was taken elsewhere while resting: {time} how long they rested.
+#: core/characters/rest_lines.gd
+msgid "你歇了{time}。"
+msgstr ""
+
 #: core/combat/action/combat_action_definition.gd presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd presentation/layout/shared_gameplay_layout.gd
 msgid "「"
 msgstr ""
@@ -5061,6 +5146,10 @@ msgstr ""
 #. weapond.c bash_weapon(): a weapon broken in two, set("name", "断掉的" + name).
 #: core/content/item_content_definition.gd
 msgid "断掉的{weapon}"
+msgstr ""
+
+#: core/content/pacing_definition.gd
+msgid "歇到回满's pace and longest rest must not be negative"
 msgstr ""
 
 #: core/death/player_killer_reward.gd
@@ -7188,7 +7277,7 @@ msgstr ""
 
 #. continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
 #: core/training/training_lines.gd
-msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）；再请教只会白白累垮，先休息吧。"
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
 msgstr ""
 
 #. continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
@@ -9982,10 +10071,11 @@ msgstr ""
 msgid "直接携带的钱：%s"
 msgstr ""
 
+#. the pawnshop's question before a sale: {item}, {price} in 文 (paid whole, or the sale is refused: DECISIONS「拿不动就不收钱」).
 #: runtime/world/services/hockshop_service.gd
 msgid ""
 "卖断 {item}\n"
-"报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。"
+"报价{price}文。物品将永久移除。"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
@@ -10075,6 +10165,11 @@ msgstr ""
 msgid "雪亭驿付给你{silver}两银子的赏银。"
 msgstr ""
 
+#. native (DECISIONS「拿不动就不收钱」): {silver} (e.g. 二) of the bounty's silver the player could not carry lies at their feet.
+#: runtime/world/world_bounties.gd
+msgid "其中{silver}两你拿不动，掉在你的脚边。"
+msgstr ""
+
 #: runtime/world/world_map_controller.gd
 msgid "你来到%s。"
 msgstr ""
@@ -10140,8 +10235,9 @@ msgstr ""
 msgid "兑换成功：扣除 {paid}，取得 {received}。"
 msgstr ""
 
+#. a 钱庄 exchange refused before anything moved (DECISIONS「拿不动就不收钱」).
 #: ui/bank/bank_exchange_panel.gd
-msgid "负重过高，兑换未交付：原币已扣除，未收到目标货币；未交付物品已清理，无退款。"
+msgid "换成这么多你拿不动：身上太重，这笔没有换。少换一些，或先放下些东西。"
 msgstr ""
 
 #: ui/bank/bank_exchange_panel.gd
@@ -10732,6 +10828,11 @@ msgstr ""
 
 #: ui/world/hockshop_panel.gd
 msgid "卖断完成，物品已移除；实际收到%d文。"
+msgstr ""
+
+#. a pawnshop sale refused before anything moved (DECISIONS「拿不动就不收钱」).
+#: ui/world/hockshop_panel.gd
+msgid "这笔钱你拿不动：身上太重，没有卖。先放下些东西再来。"
 msgstr ""
 
 #: ui/world/hockshop_panel.gd
@@ -12153,6 +12254,11 @@ msgstr ""
 msgid "已付款，%s已放入你的随身物品。"
 msgstr ""
 
+#. a purchase refused before payment (DECISIONS「拿不动就不收钱」): %s the goods.
+#: ui/world/vendor_panel.gd
+msgid "你身上太重，拿不动%s了，没有付钱。先放下些东西再来买。"
+msgstr ""
+
 #: ui/world/vendor_panel.gd
 msgid "已付款，但未收到%s。"
 msgstr ""
@@ -12193,8 +12299,9 @@ msgstr ""
 msgid "你的精神太差了，现在不能工作。"
 msgstr ""
 
+#. work refused before it began (DECISIONS「拿不动就不收钱」): the wage, a 两 of silver, would not fit.
 #: ui/world/work_panel.gd
-msgid "工作已完成，但你负重过高，未能取得工钱。"
+msgid "你身上太重，干完活也拿不动工钱。先放下些东西再来。"
 msgstr ""
 
 #: ui/world/work_panel.gd
@@ -19280,7 +19387,12 @@ msgstr ""
 
 #. guide.rest paragraphs
 #: data/common/codex.json
-msgid "不打架的时候，精气神会自己慢慢回来：先回当前，当前回满了，伤才慢慢好。战斗中不回。"
+msgid "不打架的时候，精气神会自己慢慢回来：先回当前，当前回满了，伤才慢慢好。战斗中不回。回复要时间走：菜单和交互窗口开着时时间停住，什么都不回。"
+msgstr ""
+
+#. guide.rest paragraphs
+#: data/common/codex.json
+msgid "想歇就歇：请教页和武学页上的「歇到回满」让你坐下来，时间照走（快得多），精气神回满就起身。世界不会等你：歇着时有人来找麻烦，你会被惊起，照常开打；口渴没水的时候歇着也回不来。"
 msgstr ""
 
 #. guide.rest paragraphs

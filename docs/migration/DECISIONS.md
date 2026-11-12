@@ -61,7 +61,7 @@
 - 搜刮尸体要站在尸体 96 px 内。「Corpse loot requires a near-corpse spatial range」
 - 给予一次可勾选多件；给出已装备的东西或一两黄金以上的钱先问（收赌注、布施的不问）。「说话和交互」「积压问题的处理」
 - 问候等玩家第一次走近（136 px）才开始；远处的闲聊不给玩家看；闲聊、问候、喝令显示在头顶气泡，打听、剧情演出和讲述在底部对话框里逐句读（世界停住，E／A 继续），都记入消息。「对话框」「说话和交互」「手感」
-- 请教、练习、打坐、冥思、修行可以「连续」：每步 150 ms，规则和抽数不变，遇到拒绝或白费的一步之前停下并说明。「连续修炼」
+- 请教、练习、打坐、冥思、修行可以「连续」：每步 150 ms，规则和抽数不变，遇到拒绝或白费的一步之前停下并说明。「连续修炼」精、气、神不满时请教页和武学页有「歇到回满」（为缺精停下时焦点落在它上面）。「歇到回满」
 - act 的每一步可以带 `when`（和分支同一个 `when`）：走到这一步时才判，不成就跳过、接着下一步；判的是那一刻的印记（前面一步刚记下的也算），heard／chat 不能用。一段演出里人来没来、各说一句，就用它。「步骤条件」
 - act 步骤 `questions`：NPC 当面一句句问，每句几个答案可选，答案的真假按玩家存档里的印记定（`mark`／`not_mark`／`marks`／`any`；不写条件的答案总是真话）；全真走 `true` 步、有假走 `false` 步，走开（取消）什么都不发生；它是分支的最后一步。答案面板是同一个确认组件（`ConfirmPrompt.ask_choices`），对话框开着时在框里问，否则在共享框里问；玩家的回答记入消息。「火前问话」
 - 区块机关 `hazards[]` 可以是原生的（`native`）：只在节奏的 `native_hazards` 开着时跑，穿着 `unless_wearing` 里的护具或带 `unless_marks` 里的印记的人那一回什么都不发生；它的 act 可以分支（`acts`，按玩家挑第一条合的：`at_least` 的内力、穿着），步骤 `drain_force` 扣玩家内力。玉螺湖底的寒气：进洞 3 秒后每 6 秒一回，内力够 12 就扣 12 内力顶住，不够扣 24 气；穿着寒於宝衣的免；封坛里不冷。「寒气」
@@ -135,7 +135,8 @@
 - 付钱按金、银、铜的顺序；钱庄兑换；当铺按价值八折收购（先银后铜，至少 1 文），不做典当和赎回。「Currency exchange / payment core (S3B only)」「Hockshop valuation / payout / sell lifecycle (H2)」
 - 飞刀、蛇药、桃符纸等是通用的组合物品；数量到 0 立即销毁。「Old Pine remainder B」
 - 丢下不值钱的东西（drop.c 当场销毁）先问一句；主线和势力线要带着才能推进的原生物品都不能丢、不能乱给、不能放进容器；信、镖单被偷或被化掉，写的人再写一封。当铺不收这些原生任务物品（ES2 自己的照 hockshop.c 照收）。问话「身上带着」按别名，加载时校验有物品应答；要带、要穿的物品 ID 和别名（含门的钥匙、条件里的 `wearing`）都在加载时校验。「任务物品不丢」
-- 一整堆拿不动时捡能拿的部分；赢的钱拿不动的落在脚边。「绮云镇 3D」
+- 一整堆拿不动时捡能拿的部分；赢的钱、悬赏的赏银、地标拿到的东西拿不动的落在脚边，并说一句。「绮云镇 3D」「拿不动就不收钱」
+- 钱动之前先查拿不拿得动：买东西（付钱后能放下才卖）、钱庄兑换（换完能拿动才换）、当铺卖断（东西出手、钱进来后能拿动才收）、打工（工钱拿不动就先说、不干活）拿不动的都先说明原因，一文不扣、什么都不动。「拿不动就不收钱」
 - 吃完的肉留骨头，骨头可以喂狗（狗随后跟着走）；有的食物同时是兵器。「积压问题的处理」「黑松山 A」
 - 牛皮酒袋可灌清水；喝酒会醉，蒙汗药能下在酒里。「Fresh water supply loop (S6B only)」「青石村 B」
 - 新角色的食物和饮水开局是满的（400 / 400）。「Fresh Food / Water Initialization」
@@ -143,6 +144,7 @@
 
 **世界时间与重置**
 - 菜单、交互窗口、战斗、换图时世界时间停住（巡夜人不走不看，风不起）；菜单里玩家自己的忙碌照样倒数。「菜单窗口」「说话和交互」「审查收尾」
+- 「歇到回满」（请教页、武学页）：窗口关上、玩家坐下，世界照常走、快 20 倍，精气神按心跳回复回满就起身；打起来、有一伙人发现你、剧情开场、身上掉血、断了水、换了图都把人惊起，最多歇 600 世界秒（五个时辰）；每种结局一句话写明歇了多久。不打架的地方都能歇；开着菜单时歇息也停住。不存档。「歇到回满」
 - 玩家离开的地图在回来、重置或有人进出前一次补算到现在，不抽会话随机流；离开超过 3600 秒的部分直接算满；游走补算最多 12 步，邻图的人会走过来。「别的地图时间补算」
 - 你不在时 NPC 最多回到 create() 造出时的数值。「别的地图时间补算」
 - 冲着玩家来的 call_out 在离开地图时丢弃，师父的拜师答复对空房间说；风泉剑灵的吟诵等玩家回来，并存档。「茅山 B」「乔阴 C」
@@ -235,6 +237,7 @@
 **节奏开关**：`common/pacing.json`，游戏只用这里写的值；不写就是 ES2 原值（下面括号里），只有钉移植公式的套件按它跑（`Es2Pacing`、`TestFeel`、`TestAway`、`TestAlert`）。「取消经典模式」
 - `player_exp_gain` 3、`player_recovery_gain` 3、`quest_time_percent` 150、`npc_thirst` 10（ES2 原值 1 / 1 / 100 / 1）。「Pacing knobs and 卧龙岗's second」
 - `player_wake_seconds` 3（ES2 原值 0）。「积压问题的处理」
+- `rest_world_scale` 20、`rest_limit_seconds` 600（ES2 没有休息，原值 0 = 不给「歇到回满」）。「歇到回满」
 - `reaction_beat_ms` 400、`trial_blow_ms` 700、`dim_fade_ms` 400；强盗的 `toll_attack_delay_ms` 2000。「响应性」「Pacing knobs and 卧龙岗's second」
 - `hostile_alert_ms` 500（ES2 原值 0）。「进门一起上」
 - `away_catch_up_limit_seconds` 3600、`away_wander_moves` 12、`away_neighbour_pulse_seconds` 30（ES2 原值 0）。「别的地图时间补算」
@@ -274,6 +277,33 @@
 - 岚城（原生）：寻风地带一张图——幻影道、风口、石林雾野、卜风坛、兵部旧营、三处石坳（A）；镜子里的上道在第九章做完后通幻影道；白石街（白石门、两折长街、铃匠铺、萧家旧院、街尾）与风铃阁（十铃架、静室）两张图，伏地进城、白石门出城回到风停的那处石坳（B）；风铃阁西墙的梯子上云台（台心旋风里转着旋芒、云边「乘风」回天驼关镜子前）（C）。「第十章 A」「第十章 B」「第十章 C」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 拿不动就不收钱 (全项目审查第五批 2026-11-12「界面层」：负重满时买卖照收钱不给货；owner 2026-11-12「按推荐做」：先检查再收钱，拿不动就不卖，并说明原因)
+
+- **ES2：** 钱先动，东西后给，给不了就没了。`feature/vendor.c` compelete_trade() 付钱后 `new(ob_file)->move(me)`，搬不动东西留在店里没人要；`std/room/bank.c` do_convert() 目标币没有就新造一堆再 `move()`，搬不动照扣原币（已有目标堆就直接加，超重也加）；`std/room/hockshop.c` pay_player() 银子和铜钱各 `new()->move()`，搬不动的那份没了，卖的东西照样 `destruct()`；`d/snow/workplace.c` 先扣 30 神 30 精，再 `silver->move(me)`，搬不动工钱没了。本项目早期照样记下（S4B A、S3B C/D、S2、H2 H/I），界面上写「已付款，但未收到」「无退款」。
+- **我们：** 钱动之前先问一句拿不拿得动（`CarryRoom`，和搬东西时 `InventoryTransferService` 比的是同一个和：身上的重量加新东西的重量对负重上限）：
+  - **商店**：付掉的钱先从身上减掉（`MoneyPaymentService.amounts_after()`，付钱的算术本身，不找零），再加上货（组合物品按 create() 的数量）；放不下就不卖（`TOO_HEAVY`），「你身上太重，拿不动X了，没有付钱。」
+  - **钱庄**：原币减掉、目标币加上，放不下就不换，原币目标币都不动；已经有目标堆的也查。
+  - **当铺卖断**：东西出手、银子和铜钱进来，放不下就不卖；放得下就整份付清（付钱那一刻东西还在身上，所以那一步按「上限 + 这件东西的重量」放行，随后东西就没了，最后一定不超）。确认框不再说「可能只收到部分钱款」。
+  - **打工**：一两银子放不下，先说「干完活也拿不动工钱」，不扣精神。
+  - 已经挣到、不能退的（照「绮云镇 3D」落在脚边并说一句）：**悬赏的赏银**（以前一两一两落地不说）现在说「其中X两你拿不动，掉在你的脚边」；**地标拿到、搜到的东西**也说一句。赌场、NPC 给的东西、做好的东西、剧情给的东西本来就落脚边并说。
+  - 没改的：车马行的车钱找零（为凑零钱换开一枚银子，不设上限，不丢只可能超重，「车马行」）；NPC 拿出自己的东西（`hands_over`）给不动时东西留在 NPC 身上，没丢，但 NPC 说的是「没有了」（另提）；偷、搜尸体、捡东西本来就是拿不动不拿。
+- **为什么：** 今天的玩家看到「已付款，但未收到」只会当成 bug；拿不动的人站在柜台前，正确的做法是告诉他，而不是收钱。
+- **测试：** `carry_room_test`（付钱算术和 `pay()` 的结果一致、买东西和换钱在上限处一文不扣、有空的照旧、东西和钱的账对得上：没有没主的东西、没有凭空消失的钱）；`bounty_runtime_test`（只拿得动两两，其余落脚边并说一句）；`snow_dumpling_test`、`snow_water_test`、`snow_bank_access_test`、`snow_finance_test`、`snow_work_income_test`、`hockshop_*`、`run_snow_finance_cold_process`、`run_snow_work_cold_process` 里钉旧损失的检查改成钉拒绝。
+- **取代：** 「Snow waiter / dumpling supply loop (S4B only)」的 A 款和 B 款最后一句、C 款，「Currency exchange / payment core (S3B only)」的 C、D 款，「Snow Workplace undeliverable reward cleanup (S2 only)」整条，「Hockshop valuation / payout / sell lifecycle (H2)」的 H、I 款；原文在 DECISIONS_HISTORY。
+
+## 歇到回满 (全项目审查第五批 2026-11-12「界面层」：连续修炼停在「先休息吧」却无处休息；owner 2026-11-12「按推荐做」：请教页和武学页加「歇到回满」，时间照走，有人来袭就打断，提示里写明怎么回精)
+
+- **ES2：** 没有睡觉、休息的命令（`cmds/std` 里没有 sleep；房间也没有床）。精、气、神只在心跳的 heal_up() 上回（`feature/damage.c`、`std/char.c` 的 tick = 5 + random(10)），玩家站着等。窗口开着时世界不走（「菜单窗口」「连续修炼」），所以连续请教约 9 步、一两秒就停在「先休息吧」，要关掉窗口干站约一分钟。
+- **我们：** 请教页和武学页在精、气、神任何一样不满时有「歇到回满」（`rest_world_scale` 0 时不出现）：窗口关上，玩家坐下，世界照常走、只是快 `rest_world_scale`（20）倍——同一套心跳：NPC 走动和发现、钟点和天色、自己的回复和饮食、状态发作、房间重置、任务时限都照走，没有另算的捷径。画面稍暗，底部一条「歇息中……已歇X」和「起身」（B / Esc）；开着菜单时歇息停住，关上接着歇。结束：
+  - 精、气、神的当前和有效都到最大（伤也养好）——「你歇了X，精、气、神都回满了。」，并回到原来那一页（请教页、武学页）。
+  - 打起来、有一伙人发现了你（进门一起上的那一拍）——「忽然有人来袭，你一跃而起！」，战斗照常开始；剧情开场——「听见动静，站了起来」；三样里有一样往下掉（机关、毒发）——「身上一阵难受，歇不下去了」；断了水（没水 heal_up() 什么都不回）——「口干舌燥……先找水喝」；换了图、倒下——不另说。
+  - 最多歇 `rest_limit_seconds`（600 世界秒，一天 24 真实分钟时是五个时辰，真实约 30 秒）——「起身活动活动。精、气、神还没全回满：伤要慢慢养……」。
+  - 时长按半个时辰说（不到半个时辰是「一盏茶的工夫」），和车马行同一种说法。
+  - 打架时、剧情里、精神饱满、没水时不给歇，按钮灰掉、悬停写原因。不打架的地方都能歇，代价是世界照走。歇息不存档：读档的人站着。
+- **提示：** 连续请教停在缺精时一句改成说清楚怎么回（窗口开着时间不走；「歇到回满」；有内力的在武学页运功恢复精）；百科「受伤与歇息」同。
+- **为什么：** 今天的 RPG 都有「休息到回满」，绝大部分修炼时间不该是关窗干站。窗口按住时间那条照旧，这里只是给一个让时间走起来的出口。
+- **测试：** `player_rest_test`（连续请教缺精停下时按钮出现并拿到焦点，按下窗口关、歇完回到请教页；按回复规则回满、时钟走了对应的时间、心跳上吃喝照减；京师城门的守兵发现玩家把人惊起、照常开战；歇完存档读回分毫不差；开着菜单时停住；没水、打架、已满不让歇；上限）；`training_run_test`、`training_continuous_test` 的停下句。
 
 ## 节拍填格 (owner 2026-11-12：「战斗界面的『拍』还是不太清楚，当玩家选择相关的招式的时候应该加一些比较直观的动画」；先做了格子飞向人物、印章、回合交替那一版，owner 看了说「很丑，撤回，改成点击招式按钮，这个按钮会生成一个动效去填满那个『拍』的进度条」)
 
@@ -4974,17 +5004,8 @@ recommendations, not its source archaeology. No Type C redesign is approved.
   Never gold or wallet. Each attempt allocates a new canonical full-quantity stack BEFORE move.
   Do not reuse Bank's amount1 admission or directly grow an existing target. Normal merge retains
   the incoming ID and destroys old same-denomination stacks.
-- **H — Type A ordered partial capacity result:** Sold item remains held/equipped during
-  admission. Ordinary capacity refusal continues after its required cleanup; retain earlier
-  delivered money and destroy the sold item after normal attempts complete, even if both fail.
-  No refund, rollback, ground drop, final-total/net-weight preflight or existing-stack bypass.
-- **I — NEW Hockshop-specific Type B cleanup:** Immediately after each ordinary capacity
-  refusal, destroy that parentless clone through authoritative ItemLifecycle, retaining consumed
-  allocator sequence/ID, BEFORE attempting the next denomination. No orphan persistence, ID reuse,
-  cleanup timer or compensation. This deliberately replaces later MudOS cleanup, NOT its exact
-  timing, and is separately approved, NOT inherited from Work/Bank/Vendor. Cleanup failure returns
-  AUTHORITY_FAILURE, retains reached effects and stops: no later denomination or sold-item
-  destruction. This supersedes H1's suggested all-attempts-before-cleanup order.
+- **H —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
+- **I —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
 - **J — Type A payout-before-destruction / Type B authority errors:** After normal attempts and
   cleanups, use existing lifecycle with LIVE Player Equipment/Armor/Inventory/Combined authorities.
   Clear the exact hand/worn slot without invented secondary promotion; remove Inventory/stack,
@@ -5152,23 +5173,15 @@ Archaeology: [S5A contract](PHASE_SNOW_TOWN_CORE_HUB_RECOVERY_METABOLISM_CONTRAC
 S1/S2/S3A/S3B/S3C and S4A analysis are OWNER APPROVED / CLOSED. The historical S4A
 recommendation table is not rewritten. This does not authorize a final Snow PR or later goods.
 
-- **A — Vendor-specific Type B:** Resolve/quote, affordability, successful ordered payment,
-  allocate/create goods, then attempt full-weight delivery. Ordinary capacity failure keeps all
-  payment/depletion and consumed IDs/sequences. Immediately remove the provably parentless
-  product through authoritative ItemLifecycle, remove associated food state only after removal,
-  then update the derived index. No refund, ground drop, orphan persistence, timer or retry.
-  Cleanup failure is an explicit authority failure; no fallback. This is separately approved
-  for Vendor, not inherited from Workplace S2 or Bank S3B and not a general failed-transfer policy.
+- **A —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
 - **B — static validation / ordered failure:** Validate the supported offer, source price,
   item/food/persistence definitions before affordability/payment. Missing/malformed content
   rejects without payment or allocation, never substitutes a product/price. After successful
   payment, allocation/creation/registration failures retain reached money/sequence mutations.
   A known safe parentless live partial product may be cleaned using A's ordered lifecycle.
   Unknown ownership is not destroyed; cleanup failure has no fallback or compensation.
-  Capacity admission still uses post-payment inventory, never an earlier final-weight preflight.
-- **C — Type B truthful presentation:** Report paid=true/delivered=false when paid goods
-  are not received. Suppress LPC Vendor's unconditional success text without changing money order.
-  Preserve underlying affordability, payment, allocation, transfer and cleanup evidence.
+  （最后一句已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
+- **C —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
 - **D — Type A stock:** Unlimited clone-on-demand offers; every purchase creates a fresh ID.
   No stock counts, restock, cooldown, merchant money/inventory, sold-out state or stock Save.
 - **E — Type B staged omission:** Waiter's missing /obj/example/cake remains deferred.
@@ -5224,16 +5237,8 @@ Vendor purchasing or a general economy framework.
 - **B — source order / typed errors:** Payment processes gold → silver → coin. Preserve mutations
   completed before a later error; return a typed failure at that stage. No rollback, refund,
   auto-change, new denomination minting or seller credit. Results expose completed mutations.
-- **C — Bank-only Type B:** New target allocation and authored amount1 creation precede its
-  one-unit-weight transfer attempt. On ordinary failed delivery, establish the converted target
-  amount, debit source in source order, then immediately destroy the parentless target through
-  ItemLifecycle. Forget index state only after authoritative removal. Keep consumed sequence;
-  no refund/source restoration/drop/persistent orphan/timer/retry. Cleanup failure is an authority
-  failure with no fallback. This is separately approved for Bank, not inherited from S2 or applicable
-  to Vendor. Exact MudOS cleanup timing is deliberately not preserved.
-- **D — Type A:** Existing target growth has no transfer/capacity admission. New targets move at
-  amount1 before full growth and before source debit. No final/net/gross weight preflight or
-  post-growth veto; over-cap results and strict-cap equality are retained.
+- **C —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
+- **D —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
 - **E — Type A:** Payment and Bank are ordered, non-atomic operations. No generic transaction,
   compensation engine or rollback snapshot. Transactional native Save reconstruction is unrelated.
 - **F — Type B:** Finance selects at most one stack per denomination from direct Player inventory
@@ -5258,23 +5263,6 @@ Sources: `reference/es2/mudlib/feature/finance.c`, `cmds/std/buy.c`, `feature/ve
 `std/room/bank.c`, `d/snow/bank.c`, `obj/money/{coin,silver,gold,thousand-cash}.c`,
 `std/money.c`, `std/item/combined.c`, `feature/move.c`, `feature/clean_up.c`.
 Reviewed archaeology: [S3A contract](PHASE_SNOW_TOWN_CORE_HUB_CURRENCY_EXCHANGE_PAYMENT_CONTRACT.md).
-
-## Snow Workplace undeliverable reward cleanup (S2 only)
-
-**Decision (owner-approved):** When the source work reward is created but cannot be moved to
-Player because of capacity, Native preserves the already-applied sen30 then gin30 costs and
-consumed SessionItemIdAllocator sequence, then immediately destroys the undelivered reward
-through the existing ItemLifecycle authority. Its derived index snapshot is removed only after
-authoritative destruction. Native does not refund the work cost, drop the reward, persist the
-orphan or introduce a cleanup timer.
-
-**Compatibility impact:** `d/snow/workplace.c` ignores `silver->move(me)` failure; source leaves
-a transient ownerless object for later MudOS/driver cleanup (`feature/move.c`, `feature/clean_up.c`).
-Immediate deterministic cleanup replaces only that infrastructure lifetime, not eligibility,
-resource order, reward amount, inventory outcome or allocator consumption. Exact cleanup-timing
-parity is not claimed. Cleanup failure is an authority error with no alternate destruction or
-persistent-orphan fallback. This decision applies only to the audited Snow Workplace path; it is
-not a general policy for future failed transfers.
 
 ### Native Character Entry
 

@@ -36,6 +36,8 @@ var quote_labels: Dictionary[StringName, Label] = {}
 var _quotes_dirty: bool = true
 ## The continuous 请教 under way, shown under its skill's row.
 var progress: TrainingProgress
+## 歇到回满 (DECISIONS「歇到回满」): while 精, 气 or 神 is below full; the page opens again after.
+var rest_button: Button
 ## The skill of the continuous 请教 last started (its button takes the focus back).
 var _run_skill: StringName = &""
 ## What 确定 does for the question showing.
@@ -121,6 +123,7 @@ func _ready() -> void:
 	progress = TrainingProgress.new()
 	_rows.add_child(progress)
 	progress.finished.connect(_run_finished)
+	rest_button = _button("Rest", "", rest)
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log, and
 	# TeacherService has logged these lines already.
 	feedback = _label("", "LastLines")
@@ -137,6 +140,7 @@ func _present() -> void:
 		learn_buttons[skill_id].text = tr("请教%s（一次）") % skill
 		# TRANSLATORS: the teacher panel's button that asks again and again until something stops it (DECISIONS「连续修炼」).
 		run_buttons[skill_id].text = tr("连续请教")
+	rest_button.text = tr(RestLines.BUTTON)
 
 
 func _label(text: String, node_name: String) -> Label:
@@ -245,6 +249,10 @@ func refresh() -> void:
 	for skill_id: StringName in learn_buttons:
 		learn_buttons[skill_id].disabled = running
 		run_buttons[skill_id].disabled = running
+	rest_button.visible = WorldSessionController.rest_offered() and not RestRules.rested(state) and not is_confirming()
+	var refused: String = _contact.map.session.rest_refusal()
+	rest_button.disabled = running or not refused.is_empty()
+	rest_button.tooltip_text = tr(RestLines.HINT) if refused.is_empty() else refused
 
 
 ## Shown as the interaction popup's page (its rows do 拜师 and what follows).
@@ -491,7 +499,9 @@ func _run_learn(skill_id: StringName) -> void:
 
 func _run_finished(_lines: Array[ColoredLine]) -> void:
 	_show_last()
-	var focus: Button = run_buttons.get(_run_skill)
+	# Stopped for want of 精: the rest is the next thing to do.
+	var tired: bool = progress.last_stop == TrainingRun.Stop.WASTE_ESSENCE
+	var focus: Button = rest_button if tired and rest_button.visible and not rest_button.disabled else run_buttons.get(_run_skill)
 	if focus != null and focus.is_visible_in_tree():
 		focus.grab_focus()
 
@@ -512,6 +522,14 @@ func _show_apprentice_last() -> void:
 func show_answer() -> void:
 	if is_instance_valid(panel) and panel.visible and apprentice_feedback != null:
 		_show_apprentice_last()
+
+
+## 歇到回满: the page closes, the player rests, and it opens again once 精, 气 and 神 are full.
+func rest() -> void:
+	if not panel.visible or progress.running():
+		return
+	close_panel()
+	_contact.map.session.shared_ui().rest(interact)
 
 
 func close_panel() -> void:

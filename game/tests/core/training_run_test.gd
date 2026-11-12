@@ -219,7 +219,7 @@ func _test_run_lines() -> void:
 	run.cost = 30
 	run.have = 13
 	run.end(TrainingRun.Stop.WASTE_ESSENCE)
-	_check(ColoredLine.texts(TrainingLines.run(run, sword, TEACHER_NAME)) == ["停下：精不够了。请教一次耗精 30，精须多于此数（你还有 13）；再请教只会白白累垮，先休息吧。"], "no step: only why")
+	_check(ColoredLine.texts(TrainingLines.run(run, sword, TEACHER_NAME)) == ["停下：精不够了。请教一次耗精 30，精须多于此数（你还有 13）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"], "no step: only why")
 	run = TrainingRun.new(TrainingRun.Kind.LEARN, &"sword", student)
 	run.required = 2979
 	run.have = 1000
