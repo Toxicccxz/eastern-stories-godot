@@ -28,12 +28,20 @@ const MARGIN_FOOT: int = 1
 const THICKNESS: float = 0.5
 ## How quickly a flap dies away (of 1 a second).
 const GUST_FADE: float = 1.3
+## The cloth's motion (banner_cloth.gdshader's uniforms, set from here): one source for the shader
+## and for cloth_point(), which the panel's rows follow.
+const AMP: float = 0.28
+const SPEED: float = 2.4
+const SWAY_PITCH: float = 0.1
+const SWAY_ROLL: float = 0.035
 
 var cloth_rows: int = 0
 var side: int = 0
 var current: bool = false
 var side_colour: Color = UiPalette.PATINA
 var gust_now: float = 0.0
+## The cloth's clock (seconds): the shader's `clock`, advanced while the banner is drawn.
+var clock: float = 0.0
 var _material: ShaderMaterial
 var _mesh: MultiMeshInstance3D
 var _camera: Camera3D
@@ -50,6 +58,10 @@ func _init() -> void:
 	size = Vector2i(64, 64)
 	_material = ShaderMaterial.new()
 	_material.shader = SHADER
+	_material.set_shader_parameter("amp", AMP)
+	_material.set_shader_parameter("speed", SPEED)
+	_material.set_shader_parameter("sway_pitch", SWAY_PITCH)
+	_material.set_shader_parameter("sway_roll", SWAY_ROLL)
 	_camera = Camera3D.new()
 	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	_camera.keep_aspect = Camera3D.KEEP_HEIGHT
@@ -186,12 +198,43 @@ func unfurled() -> float:
 func gust(amount: float) -> void:
 	gust_now = maxf(gust_now, clampf(amount, 0.0, 1.0))
 	_material.set_shader_parameter("gust", gust_now)
-	set_process(true)
 
 
+## The clock runs while the banner is drawn; a flap dies away.
 func _process(delta: float) -> void:
-	if gust_now <= 0.0:
-		set_process(false)
+	if render_target_update_mode == SubViewport.UPDATE_DISABLED:
 		return
-	gust_now = move_toward(gust_now, 0.0, delta * GUST_FADE)
-	_material.set_shader_parameter("gust", gust_now)
+	clock += delta
+	_material.set_shader_parameter("clock", clock)
+	if gust_now > 0.0:
+		gust_now = move_toward(gust_now, 0.0, delta * GUST_FADE)
+		_material.set_shader_parameter("gust", gust_now)
+
+
+## Where the cloth's point at `column` across and `row` down from the pole is now, in the banner's
+## own units — banner_cloth.gdshader's vertex() for a brick that moves freely (the ripple, the sway
+## on the pole, a strike's shake), the same sums at the same clock.
+func cloth_point(column: float, row: float) -> Vector3:
+	var origin := Vector3(column, -row, 0.0)
+	var rows: float = float(cloth_rows + TAIL_ROWS + CORD_ROWS)
+	var lean: float = -1.0 if side == 0 else 1.0
+	var t: float = clock
+	var hang: float = clampf(row / rows, 0.0, 1.0)
+	var a: float = (AMP + gust_now * 1.2) * (0.2 + hang)
+	var rate: float = SPEED * (1.0 + gust_now * 1.6)
+	var phase: float = origin.x * 0.3 * lean - t * rate + row * 0.2
+	var dz: float = a * sin(phase) + a * 0.35 * sin(origin.x * 0.85 + t * rate * 1.7 + row * 0.37)
+	var dx: float = a * 0.22 * sin(t * rate * 0.7 + row * 0.13) * lean
+	var swing: float = 1.0 + gust_now * 1.6
+	var pitch: float = (SWAY_PITCH * sin(t * 0.85 + 0.6) + SWAY_PITCH * 0.3 * sin(t * 1.9)) * swing + gust_now * 0.12 * sin(t * 27.0 + 0.4)
+	var roll: float = (SWAY_ROLL * sin(t * 1.15) + SWAY_ROLL * 0.35 * sin(t * 2.3 + 1.3)) * (1.0 + gust_now * 0.8) * lean + gust_now * 0.025 * sin(t * 31.0)
+	var pivot := Vector3(float(COLUMNS) / 2.0, 0.5, 0.0)
+	var from_pivot: Vector3 = origin - pivot
+	var turned := Vector3(from_pivot.x, from_pivot.y * cos(pitch) - from_pivot.z * sin(pitch), from_pivot.y * sin(pitch) + from_pivot.z * cos(pitch))
+	turned = Vector3(turned.x * cos(roll) - turned.y * sin(roll), turned.x * sin(roll) + turned.y * cos(roll), turned.z)
+	return origin + Vector3(dx, 0.0, dz) + (turned - from_pivot)
+
+
+## Where a point of the banner's world shows in the banner's picture (pixels of this viewport).
+func picture_point(point: Vector3) -> Vector2:
+	return _camera.unproject_position(point)

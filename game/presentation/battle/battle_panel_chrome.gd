@@ -13,6 +13,10 @@ var current: bool = false
 var side_colour: Color = UiPalette.PATINA
 var banner: BattleVoxelBanner
 var _drawn: Rect2 = Rect2()
+## owner 2026-11-11 (the words did not move with the cloth): the card turns and stretches about the
+## pole as the cloth's middle does (follow()); the picture is drawn through the inverse, so the
+## banner itself stays where it hangs.
+var _ride: Transform2D = Transform2D.IDENTITY
 
 
 func _ready() -> void:
@@ -59,7 +63,40 @@ func _fit() -> void:
 
 func _draw() -> void:
 	if banner != null and _drawn.has_area():
+		# The card shows its point p at ride·p; the picture drawn at the inverse stays put.
+		draw_set_transform_matrix(Transform2D(0.0, -position) * _ride.affine_inverse() * Transform2D(0.0, position))
 		draw_texture_rect(banner.get_texture(), _drawn, false)
+
+
+## How the cloth's middle has moved from where it hangs at rest, as a turn and a stretch about the
+## pole's middle, in the card's coordinates: [pivot, angle, stretch]. At rest (or not drawn yet):
+## no turn, no stretch.
+func cloth_motion() -> Array:
+	if banner == null or not _drawn.has_area() or banner.size.x <= 0 or banner.unfurled() < 1.0:
+		return [Vector2.ZERO, 0.0, 1.0]
+	var column: float = float(BattleVoxelBanner.COLUMNS) / 2.0
+	var row: float = float(banner.cloth_rows) * 0.5
+	var pole: Vector2 = _to_card(banner.picture_point(Vector3(column, 0.5, 0.0)))
+	var rest: Vector2 = _to_card(banner.picture_point(Vector3(column, -row, 0.0))) - pole
+	var now: Vector2 = _to_card(banner.picture_point(banner.cloth_point(column, row))) - pole
+	if rest.length() < 1.0:
+		return [pole, 0.0, 1.0]
+	return [pole, rest.angle_to(now), now.length() / rest.length()]
+
+
+## The card's own turn and stretch now, in the card's coordinates (the card applies it; the
+## picture undoes it).
+func ride(motion: Transform2D) -> void:
+	if motion.is_equal_approx(_ride):
+		return
+	_ride = motion
+	queue_redraw()
+
+
+## A pixel of the banner's picture in the card's coordinates.
+func _to_card(pixel: Vector2) -> Vector2:
+	var picture := Vector2(banner.size)
+	return position + _drawn.position + pixel / picture * _drawn.size
 
 
 ## Let down from the pole over `seconds`.
