@@ -14180,7 +14180,7 @@ msgstr ""
 
 #. essencemagic summary
 #: data/common/skills.json
-msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力：心识救醒昏迷濒死之人，神识恢复心神，光识放出驱逐黑暗的光芒、专克魔界与阴界之物，灵识看见隐形的灵界阴界生物，隐识暂时隐身，游识传到另一位修行者身边，空识把灵力化为潜能；唯有寂识用处不明，许多高僧却相信它是突破修行的最后关隘。须与高深的佛法相辅，佛法修为不够便学不了。"
+msgid "佛家一门十分神奇的神通法术，由六百年前的高僧空正大师传下。神通分为八识，各以人的一种隐藏潜力为动力，如今传下来的有三识：心识救醒昏迷濒死之人，游识一念之间便到你见过的人身边，空识把灵力化为潜能。须与高深的佛法相辅，佛法修为不够便学不了。"
 msgstr ""
 
 #. essencemagic valid_learn.effective_skill
@@ -15863,11 +15863,6 @@ msgstr ""
 msgid "封山剑派北宗是封山剑派里的一支，剑法、拳脚和内功都与本宗同出一源。绮云镇口的公告上，至今还写着「封山剑派北宗所在的雪亭镇」。"
 msgstr ""
 
-#. family.fonxan_north seat
-#: data/common/families.json
-msgid "绮云镇口"
-msgstr ""
-
 #. family.zhenyuan name
 #. zhenyuan name
 #. cloud.npc.b_header family.name
@@ -16018,7 +16013,7 @@ msgstr ""
 
 #. family.huazi intro
 #: data/common/families.json
-msgid "花紫会是乞丐们的帮会，只收身无分文的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
+msgid "花紫会是乞丐们的帮会，只收身上没几个钱的化子。龙头的信物是一只打着二十三个结的皮酒囊；龙头行踪诡秘，据说各处总有七八个替身。会中的武功有油流麻香手和伏蛟功。"
 msgstr ""
 
 #. family.huazi seat
@@ -19200,7 +19195,7 @@ msgstr ""
 
 #. guide.start paragraphs
 #: data/common/codex.json
-msgid "先在镇上走一圈，和人说说话。客栈和集市卖吃喝；想学武，就去淳风武馆看看，那里的人肯指点新人。"
+msgid "先在镇上走一圈，和人说说话。饮风客栈的店小二卖吃喝；想学武，就去淳风武馆看看，那里的人肯指点新人。"
 msgstr ""
 
 #. guide.start paragraphs
@@ -19215,17 +19210,17 @@ msgstr ""
 
 #. guide.start paragraphs
 #: data/common/codex.json
-msgid "雪亭镇在群山之中。镇北是野羊山；出镇往西，顺着青石官道上山，是天邪派的水烟阁；镇东有路通青石村和茅山，茅山派的灵心观就在山上。"
+msgid "雪亭镇在群山之中。镇北的山坳往北是野羊山，往东通青石村。出镇往西，顺着青石官道上山，是天邪派的水烟阁。镇东的大路通到茅山，茅山派的灵心观就在山上；这条路上有岔路往南进老松岭的松林，传说老松寨就在附近，过往的旅客都要格外小心。"
 msgstr ""
 
 #. guide.start paragraphs
 #: data/common/codex.json
-msgid "镇南有两条路：一条进老松岭的松林，传说老松寨就在附近，过往的旅客都要格外小心；一条通到绮云镇。往西南走是天驼关。"
+msgid "镇南的大街通到绮云镇；往西南走是天驼关。"
 msgstr ""
 
 #. guide.start paragraphs
 #: data/common/codex.json
-msgid "绮云镇往西是晚月庄，庄里多是女子；山烟寺在镇南的日照山上；从绮云镇往东，就到乔阴县城。"
+msgid "绮云镇往西是晚月庄，庄里多是女子。往南过了渡口是日照山，山烟寺就在山上；过渡口往东走，就到乔阴县城。"
 msgstr ""
 
 #. guide.health paragraphs
@@ -19235,7 +19230,7 @@ msgstr ""
 
 #. guide.health paragraphs
 #: data/common/codex.json
-msgid "学东西的本钱。请教、自学、修行都耗精。精不足时，受了伤也恢复得慢。"
+msgid "学东西的本钱。请教、自学、修行都耗精。"
 msgstr ""
 
 #. guide.health paragraphs
@@ -19270,12 +19265,7 @@ msgstr ""
 
 #. guide.health paragraphs
 #: data/common/codex.json
-msgid "年纪"
-msgstr ""
-
-#. guide.health paragraphs
-#: data/common/codex.json
-msgid "精气神的本钱随年纪变：十四岁到二十岁，精和气一年年长；二十到三十岁不变；三十岁以后精渐渐少了，神反而渐长。内功、法术练深了，本钱也会跟着长。"
+msgid "「最大」不是一成不变的：内力的上限越高，气的本钱越厚；法力、灵力的上限高了，神和精的本钱也跟着长。"
 msgstr ""
 
 #. guide.rest title
@@ -19340,7 +19330,7 @@ msgstr ""
 
 #. guide.gift paragraphs
 #: data/common/codex.json
-msgid "敢不敢抢攻。胆识高的人出手更勤，不少师父收徒也看它。"
+msgid "敢不敢抢攻。自动对打时，胆识高的人出手更勤；不少师父收徒也看它。"
 msgstr ""
 
 #. guide.gift paragraphs
@@ -19400,7 +19390,7 @@ msgstr ""
 
 #. guide.learn paragraphs
 #: data/common/codex.json
-msgid "一门功夫到了 40 级，就能自己琢磨着往上练，耗精和潜能，不必找人。"
+msgid "基本拳脚、基本剑法、基本刀法、基本杖法、基本招架、基本轻功、基本内功这七门，到了 40 级就能自己琢磨着往上练，耗精和潜能，不必找人。特殊武功不能自学。"
 msgstr ""
 
 #. guide.learn paragraphs
@@ -19460,7 +19450,7 @@ msgstr ""
 
 #. guide.family paragraphs
 #: data/common/codex.json
-msgid "角色页名字前方括号里写的是你的身份。一开始都是平民；入了门派、出了家，身份会跟着变，往后的作为也会改它。"
+msgid "角色页名字前方括号里写的是你的身份。一开始都是普通百姓；入了门派、出了家，身份会跟着变，往后的作为也会改它。"
 msgstr ""
 
 #. guide.family paragraphs
@@ -19480,7 +19470,7 @@ msgstr ""
 
 #. guide.force paragraphs
 #: data/common/codex.json
-msgid "每一击多灌进一些内力，打得更重，内力也耗得更快。战斗里取「攻」的姿态，会顺手把加力开到一半。内力配拳脚劲道最足，用在兵刃上要打折扣。"
+msgid "每一击多灌进一些内力，打得更重，内力也耗得更快。战斗里取「攻」的姿态，会顺手把加力开到一半。"
 msgstr ""
 
 #. guide.force paragraphs
@@ -19495,7 +19485,7 @@ msgstr ""
 
 #. guide.mana paragraphs
 #: data/common/codex.json
-msgid "法门有两路。咒文借天地间神鬼精灵的力量，耗的是法力；法术出自施法者自身的修为，神通、道法都属这一路，耗的是灵力。"
+msgid "法门在江湖上分两路。一路念咒施法，茅山道术、奇门遁甲都属这一路，耗的是法力；一路是出自修行者自身的神通，佛门的八识神通属这一路，耗的是灵力。"
 msgstr ""
 
 #. guide.mana paragraphs
@@ -19520,7 +19510,7 @@ msgstr ""
 
 #. guide.combat paragraphs
 #: data/common/codex.json
-msgid "动手有两种。「切磋」点到为止，一方昏倒、认输或逃走就停，事后谁也不记仇。「攻击」是死斗，打到一方送命为止；乱杀无辜，往后的日子就不好过了。"
+msgid "动手有两种。「切磋」点到为止，谁先实实在在打中对方一下就算赢，事后谁也不记仇；只是拿着兵刃切磋，一样会见血。「攻击」是死斗，打到一方送命为止；乱杀无辜，往后的日子就不好过了。"
 msgstr ""
 
 #. guide.combat paragraphs
