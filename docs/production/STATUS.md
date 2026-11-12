@@ -375,4 +375,4 @@ suites: `<godot> --headless --fixed-fps 60 --path game --script res://tests/run_
 `tools/maps/layouts/<region>.json`, then `python -m tools.maps.paint <region>` (the tools tests fail on a
 hand-edited scene). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite. Any fight at will
 (试战台: N 对 M、门派对门派、等级对等级，亲手打或批量跑胜率): `res://tests/dev/battle_lab.tscn` + F6, or
-`--script res://tests/dev/battle_lab/run_battle_lab.gd -- me=family.fonxan:30 foe=family.celestial:30x2 n=40`.
+`--script res://tests/dev/battle_lab/run_battle_lab.gd -- me=family.fonxan:30 foe=family.celestial:30,2 n=40`.
