@@ -1532,7 +1532,6 @@ func _npc_round_end(
 	return true
 
 
-## The move the beat's forward attack struck with, null when none was (busy, guarding).
 ## 战斗拍数 C: what the beat's blow met on the counter ring as the resolver read it —
 ## [the defender's move tag then, the ring's verdict]; [&"", 0] when no blow was resolved.
 func _ring_met(resolution: CombatSliceOpportunityResult) -> Array:
@@ -1544,6 +1543,7 @@ func _ring_met(resolution: CombatSliceOpportunityResult) -> Array:
 	return [_modifiers.read(base.defender_id).move_tag, base.calculation.ring]
 
 
+## The move the beat's forward attack struck with, null when none was (busy, guarding).
 static func _struck_move(resolution: CombatSliceOpportunityResult) -> CombatActionDefinition:
 	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
 	if forward == null or forward.action_selection_result == null:

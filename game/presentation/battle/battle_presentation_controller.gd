@@ -1716,7 +1716,9 @@ func _choose_move(action_id: StringName) -> void:
 ## Whether the fight waits on the player's 了结 / 放过 with no one else to strike (nobody the
 ## player could target).
 func _awaiting_choice() -> bool:
-	if not _projection.active:
+	# Nobody is targetable either while the fight takes no input (a session swap, a frozen world):
+	# that is no waiting on the choice.
+	if not _projection.active or _session == null or not _session.application_gameplay_allows_encounter_advance():
 		return false
 	var held: bool = false
 	for value: BattleParticipantProjection in _projection.participants():
@@ -1732,10 +1734,11 @@ func _awaiting_choice() -> bool:
 ## pulse, without waiting for a press; the focus goes to 「放过」 (keys and pad reach it).
 func _ask_choice_when_stuck() -> void:
 	var awaiting: bool = _awaiting_choice()
-	if awaiting and not _was_awaiting:
+	var newly: bool = awaiting and not _was_awaiting
+	if newly:
 		_tell_choice()
 	_was_awaiting = awaiting
-	_wire_choice(awaiting)
+	_wire_choice(awaiting, newly)
 
 
 ## The question in the strip (after the lines still to tell); the buttons pulse as it is told.
@@ -1746,8 +1749,9 @@ func _tell_choice() -> void:
 
 ## 了结 / 放过 on the right panel in the keys' and pad's way: left and right between them, down
 ## to the panel's first button, the moves' and orders' up to 「放过」; the focus given to
-## 「放过」 once as the choice comes while nobody is left to strike.
-func _wire_choice(awaiting: bool) -> void:
+## 「放过」 once as the choice comes while nobody is left to strike (`newly`: the fight just came
+## to wait so; a panel shown earlier while someone still stood gets it then too).
+func _wire_choice(awaiting: bool, newly: bool) -> void:
 	var panel: BattleParticipantCard = _panel_card(1)
 	var card: BattleParticipantCard = panel if panel != null and panel.choice_row.visible else null
 	action_panel.wire_above(card.spare_button if card != null else null)
@@ -1760,7 +1764,7 @@ func _wire_choice(awaiting: bool) -> void:
 		card.finish_button.focus_neighbor_left = card.finish_button.get_path_to(card.finish_button)
 		card.spare_button.focus_neighbor_left = card.spare_button.get_path_to(card.finish_button)
 		card.spare_button.focus_neighbor_right = card.spare_button.get_path_to(card.spare_button)
-	var fresh: bool = card != null and card != _wired_choice
+	var fresh: bool = card != null and (card != _wired_choice or newly)
 	_wired_choice = card
 	if fresh and awaiting and is_visible_in_tree() and not log_panel.visible and not action_panel.is_asking() and not get_tree().paused:
 		action_panel.focus_quietly(card.spare_button)

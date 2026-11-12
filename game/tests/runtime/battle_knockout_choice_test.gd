@@ -164,24 +164,26 @@ func _test_two(tree: SceneTree, session: WorldSessionController) -> void:
 	await _frames(tree, 3)
 	var card: BattleParticipantCard = ui._panel_card(1)
 	_check(card != null and card.participant_id() == man.character_id and card.choice_row.visible, "down again: his panel and its buttons")
-	await _key(tree, KEY_E)
-	await _frames(tree, 2)
-	_check(ui._panel_card(1).participant_id() == wife.character_id, "E: her again")
-	# Both down: the question; Q / E reach either.
+	# She falls too while his panel still shows, nothing pressed (the focus was on the move last
+	# clicked): the question, the focus on his 放过; Q / E reach either.
 	_sof._fell(coordinator, wife)
 	await _frames(tree, 3)
 	_check(coordinator.held_victims().size() == 2 and _strip_says(ui, BattlePresentationController.CHOOSE_FIRST), "both down: the question")
 	card = ui._panel_card(1)
-	_check(card != null and card.participant_id() == wife.character_id and card.choice_row.visible and tree.root.gui_get_focus_owner() == card.spare_button, "her panel asks; the focus on its 放过")
+	_check(card != null and card.participant_id() == man.character_id and card.choice_row.visible and tree.root.gui_get_focus_owner() == card.spare_button, "his panel asks (it showed before she fell); the focus on its 放过: %s" % tree.root.gui_get_focus_owner())
 	await _key(tree, KEY_E)
 	await _frames(tree, 2)
 	card = ui._panel_card(1)
-	_check(card != null and card.participant_id() == man.character_id and card.choice_row.visible, "E reaches him, held: his buttons")
-	_check(coordinator.active_encounter().current_target_for(player.character_id) == wife.character_id or coordinator.active_encounter().current_target_for(player.character_id).is_empty(), "the fight's target is not changed by showing him")
+	_check(card != null and card.participant_id() == wife.character_id and card.choice_row.visible, "E reaches her, held: her buttons")
 	await _key(tree, KEY_Q)
 	await _frames(tree, 2)
 	card = ui._panel_card(1)
-	_check(card != null and card.participant_id() == wife.character_id, "Q: her again")
+	_check(card != null and card.participant_id() == man.character_id and card.choice_row.visible, "Q: him again, his buttons")
+	_check(coordinator.active_encounter().current_target_for(player.character_id) == wife.character_id or coordinator.active_encounter().current_target_for(player.character_id).is_empty(), "the fight's target is not changed by showing them")
+	await _key(tree, KEY_E)
+	await _frames(tree, 2)
+	card = ui._panel_card(1)
+	_check(card != null and card.participant_id() == wife.character_id, "E: her again")
 	if card == null or card.participant_id() != wife.character_id:
 		return
 	# 了结 her (a click), then the blows (moves clicked) until she dies.
