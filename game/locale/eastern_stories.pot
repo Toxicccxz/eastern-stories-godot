@@ -8960,6 +8960,22 @@ msgstr ""
 msgid "门派：{family}"
 msgstr ""
 
+#: presentation/input/input_glyphs.gd
+msgid "叉"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "圈"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "方"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "三角"
+msgstr ""
+
 #: presentation/layout/application_shell_layout.gd runtime/application/application_shell_controller.gd
 msgid "窗口模式由这个平台管理。"
 msgstr ""
