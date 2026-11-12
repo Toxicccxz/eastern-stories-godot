@@ -103,13 +103,14 @@ var _result: String = ""
 var _seen_spent: int = 0
 var _seen_earned: int = 0
 var _seen_base: int = -1
-var _seen_opponent_tag: StringName = &""
 var _seen_encounter: StringName = &""
 ## 战斗拍数 E: the record of the round last looked at (a round run whole between looks is new).
 var _seen_round: CombatRoundBeats = null
 ## A focus the battle set itself (the first move when it waits) points at nothing: only the
 ## player's own walking or hovering does.
 var _quiet_focus: bool = false
+## 「放过」 on the right panel while it asks 了结 / 放过: the moves' up (wire_above()).
+var _above_rows: Button = null
 ## Whether the strip shows now (the switches stand at its end when closed up).
 var _strip_shown: bool = false
 
@@ -670,8 +671,8 @@ func _fill_finished() -> void:
 
 
 ## What the last beat came to, noticed when the player's spent beats grow within a round:
-## the move against the target's move as it stood before (the ring as CombatAttackResolver
-## reads it), and a beat won.
+## the move against what it met on the ring, as the round's record holds it (beat_line()), and
+## a beat won.
 func _note_result(projection: BattlePresentationProjection) -> void:
 	var beats: CombatRoundBeats = projection.player_beats
 	if beats == null or not projection.beats_shown():
@@ -679,7 +680,6 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 		_seen_spent = 0
 		_seen_earned = 0
 		_seen_base = -1
-		_seen_opponent_tag = projection.opponent_tag
 		return
 	if projection.encounter_id != _seen_encounter:
 		_seen_encounter = projection.encounter_id
@@ -687,7 +687,6 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 		_seen_spent = 0
 		_seen_earned = 0
 		_seen_base = beats.base
-		_seen_opponent_tag = projection.opponent_tag
 		_seen_round = projection.last_round_beats
 	# 战斗拍数 E: a round that ran whole between two looks (a 重 against one who lost its beat)
 	# is a round of its own too: its beats are another record.
@@ -697,23 +696,19 @@ func _note_result(projection: BattlePresentationProjection) -> void:
 		# The round ended since the last look: its last beat is the round that last ran's.
 		var last: CombatRoundBeats = projection.last_round_beats
 		if last != null and last.spent.size() > _seen_spent:
-			_result = result_line(last.spent[last.spent.size() - 1], _seen_opponent_tag)
+			_result = beat_line(last, last.spent.size() - 1)
 			if last.earned.size() > _seen_earned:
 				_result += " · " + _won_line(last.earned[last.earned.size() - 1])
 		_seen_spent = 0
 		_seen_earned = 0
 	if beats.spent.size() > _seen_spent:
-		# Only a single beat since the last look is measured against the move he showed then
-		# (自动 may have run several): else the tag alone.
-		var before: StringName = _seen_opponent_tag if beats.spent.size() - _seen_spent == 1 else &""
-		_result = result_line(beats.spent[beats.spent.size() - 1], before)
+		_result = beat_line(beats, beats.spent.size() - 1)
 	if beats.earned.size() > _seen_earned:
 		var won: String = _won_line(beats.earned[beats.earned.size() - 1])
 		_result = won if _result.is_empty() else _result + " · " + won
 	_seen_spent = beats.spent.size()
 	_seen_earned = beats.earned.size()
 	_seen_base = beats.base
-	_seen_opponent_tag = projection.opponent_tag
 	_seen_round = projection.last_round_beats
 
 
@@ -724,9 +719,19 @@ static func _won_line(source: StringName) -> String:
 	return TranslationServer.translate("多一手（{word}）").format({"word": word}) if not word.is_empty() else TranslationServer.translate("多一手")
 
 
+## The line for the beat `index` of `beats`: what it went on, and what its blow met on the ring
+## and the verdict as the resolver recorded them when it was struck (CombatRoundBeats.against /
+## rings) — the strip never works the ring out itself (自动 runs a round between two looks).
+static func beat_line(beats: CombatRoundBeats, index: int) -> String:
+	var against: StringName = beats.against[index] if index < beats.against.size() else &""
+	var ring: int = beats.rings[index] if index < beats.rings.size() else 0
+	return result_line(beats.spent[index], against, ring)
+
+
 ## 「你出虚，他起手守 · 克」: a beat the player spent on `key` against the target's move
-## `before` (&"" unknown: no verdict); a perform or an order by its name alone.
-static func result_line(key: StringName, before: StringName) -> String:
+## `before` (&"" unknown: no verdict), `ring` the resolver's verdict (1 克, -1 被克, 0 平); a
+## perform or an order by its name alone.
+static func result_line(key: StringName, before: StringName, ring: int = 0) -> String:
 	if key == CombatEncounterScheduler.SPENT_BUSY:
 		# TRANSLATORS: the battle strip after a beat the player lost to being busy.
 		return TranslationServer.translate("这一手你在忙")
@@ -742,10 +747,10 @@ static func result_line(key: StringName, before: StringName) -> String:
 		# TRANSLATORS: the battle strip after a beat: the player's move's tag, the target's unknown.
 		return TranslationServer.translate("你出{mine}").format({"mine": mine})
 	var verdict: String = TranslationServer.translate("平")
-	if CombatMoveTags.beats(key, before):
+	if ring > 0:
 		# TRANSLATORS: the battle strip's verdict after a beat: the player's move beat the target's on the ring.
 		verdict = TranslationServer.translate("克！")
-	elif CombatMoveTags.beats(before, key):
+	elif ring < 0:
 		# TRANSLATORS: the battle strip's verdict after a beat: the target's move beat the player's on the ring.
 		verdict = TranslationServer.translate("被克")
 	# TRANSLATORS: the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
@@ -945,7 +950,15 @@ static func move_tooltip(move: CombatActionDefinition) -> String:
 ## The keys and the pad walk the rows (DECISIONS「战斗界面」): left and right along the moves
 ## (column after column), down to the orders (the first, else 收势) and on down to 改为自动,
 ## up again to the chosen move; the stances stand in a column on the left of the first move,
-## up and down among themselves.
+## up and down among themselves. Up from the moves (the orders without them) to 「放过」 while
+## the right panel asks 了结 / 放过 (wire_above()).
+func wire_above(button: Button) -> void:
+	if button == _above_rows:
+		return
+	_above_rows = button
+	_wire_focus()
+
+
 func _wire_focus() -> void:
 	var row: Array[Button] = []
 	if _moves.get_parent().visible:
@@ -967,6 +980,7 @@ func _wire_focus() -> void:
 		orders = stances + orders
 		stances = []
 	var below: Button = orders[0] if not orders.is_empty() else (manual_button if manual_button.visible else null)
+	var choice: Button = _above_rows if is_instance_valid(_above_rows) and _above_rows.is_visible_in_tree() else null
 	var above: Button = first_move_button()
 	if above == null and not row.is_empty():
 		above = row[0]
@@ -975,12 +989,12 @@ func _wire_focus() -> void:
 		button.focus_neighbor_left = button.get_path_to(row[index - 1]) if index > 0 else (button.get_path_to(stances[0]) if not stances.is_empty() else NodePath())
 		button.focus_neighbor_right = button.get_path_to(row[index + 1]) if index + 1 < row.size() else NodePath()
 		button.focus_neighbor_bottom = button.get_path_to(below) if below != null else NodePath()
-		button.focus_neighbor_top = NodePath()
+		button.focus_neighbor_top = button.get_path_to(choice) if choice != null else NodePath()
 	for index: int in orders.size():
 		var button: Button = orders[index]
 		button.focus_neighbor_left = button.get_path_to(orders[index - 1]) if index > 0 else (button.get_path_to(stances[0]) if not stances.is_empty() else NodePath())
 		button.focus_neighbor_right = button.get_path_to(orders[index + 1]) if index + 1 < orders.size() else NodePath()
-		button.focus_neighbor_top = button.get_path_to(above) if above != null else NodePath()
+		button.focus_neighbor_top = button.get_path_to(above) if above != null else (button.get_path_to(choice) if choice != null else NodePath())
 		button.focus_neighbor_bottom = button.get_path_to(manual_button) if manual_button.visible else NodePath()
 	if manual_button.visible:
 		manual_button.focus_neighbor_top = manual_button.get_path_to(orders[0]) if not orders.is_empty() else (manual_button.get_path_to(above) if above != null else NodePath())
@@ -1281,7 +1295,8 @@ func _stance_pressed(value: int) -> void:
 
 
 func _manual_pressed() -> void:
-	manual_toggled.emit(manual_button.text == tr("改为手动"))
+	# The switch turns the way the fight stands now (not by its words, which a language changes).
+	manual_toggled.emit(_projection == null or not _projection.manual)
 
 
 func _queue_status(status: int) -> String:

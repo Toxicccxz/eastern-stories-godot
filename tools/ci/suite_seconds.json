@@ -130,6 +130,7 @@
     "res://tests/runtime/away_wander_test.gd": 43.7,
     "res://tests/runtime/battle_feel_test.gd": 18.1,
     "res://tests/runtime/battle_interface_test.gd": 11.7,
+    "res://tests/runtime/battle_knockout_choice_test.gd": 22.0,
     "res://tests/runtime/battle_lab_test.gd": 67.2,
     "res://tests/runtime/battle_narration_test.gd": 25.2,
     "res://tests/runtime/battle_opening_test.gd": 26.6,

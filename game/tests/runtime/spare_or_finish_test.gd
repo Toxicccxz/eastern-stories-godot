@@ -164,14 +164,27 @@ func _test_spare(tree: SceneTree, session: WorldSessionController) -> void:
 	if card == null:
 		return
 	# 战斗演出 E (owner 2026-11-09, the fight looked stuck): on the right side panel the choice is a row
-	# of its own over the fall's veil; a move pressed while it waits goes nowhere and says so.
+	# of its own over the fall's veil; the question is told as the fight comes to wait on it (no
+	# move pressed: review 2026-11-12). In 手动 every move dims; a click on one does nothing.
 	var ui: BattlePresentationController = _ui(session)
 	_check(ui._panel_card(1) == card and card.choice_row.get_parent() == card._content and card.choice_row.z_index > 0 and card.choice_row.visible, "the choice a row of its own on the right panel")
-	var moves: Array = ui.action_panel.move_buttons.keys()
-	if not moves.is_empty():
-		ui._choose_move(moves[0])
-		var shown: String = (ui._recent.get_child(0).get_child(0) as RichTextLabel).get_parsed_text()
-		_check(shown.contains("了结") and shown.contains("放过") and coordinator.held_victims() == [quarryman.character_id], "a move while it waits: the question said instead: " + shown)
+	var said: String = (ui._recent.get_child(mini(ui._told.size(), ui._recent.get_child_count()) - 1).get_child(0) as RichTextLabel).get_parsed_text()
+	_check(said == BattlePresentationController.CHOOSE_FIRST, "the question told at once, no move pressed: " + said)
+	coordinator.set_manual_turns(true)
+	ui.refresh_projection()
+	await tree.process_frame
+	var move: Button = ui.action_panel.first_move_button()
+	_check(move != null and move.disabled and not ui.current_projection().waiting, "手动: nobody to strike, the moves dim")
+	if move != null:
+		var click := InputEventMouseButton.new()
+		click.position = move.get_global_rect().get_center()
+		click.button_index = MOUSE_BUTTON_LEFT
+		for pressed: bool in [true, false]:
+			click.pressed = pressed
+			tree.root.push_input(click, true)
+		await tree.process_frame
+		_check(coordinator.player_choice().is_empty() and coordinator.held_victims() == [quarryman.character_id], "a click on a dimmed move: nothing; he still waits on the choice")
+	coordinator.set_manual_turns(false)
 	card.spare_button.pressed.emit()
 	_check(coordinator.held_victims().is_empty(), "放过")
 	coordinator.advance_scheduler(0.0)
