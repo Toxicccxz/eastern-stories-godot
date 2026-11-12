@@ -121,7 +121,9 @@ func physical_tests(tree: SceneTree) -> void:
 
 func panel_tests(tree: SceneTree) -> void:
 	# Fixtures below isolate the scoped UI/core boundary, not physical/live journey evidence.
-	for free_capacity: int in [114,50,90,20]:
+	# DECISIONS「拿不动就不收钱」: paid whole while the money fits once the sword has gone (3000 out,
+	# 114 in); -2887 would not, and the sale is refused with the reason.
+	for free_capacity: int in [114,50,20,-2887]:
 		var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 		var ui: HockshopService = await panel_fixture(tree, session)
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), H2.SHORT, &"h3.sword")
@@ -135,9 +137,14 @@ func panel_tests(tree: SceneTree) -> void:
 		ui.request_confirmation()
 		check(ui.last_sell == null and session.inventory_state().is_registered(&"h3.sword") and ui.panel.confirm_button.is_visible_in_tree(), "confirmation before payout")
 		ui.confirm_sale()
-		var expected: int = {114:240,50:40,90:200,20:0}[free_capacity]
-		check(ui.last_sell.outcome == HockshopSellResult.Outcome.SOLD and ui.last_sell.payout.delivered_value == expected, "H2 delivered literal " + str(expected))
-		check(ui.panel.feedback.text.contains("实际收到%d文" % expected) and not ui.visible_ids().has(&"h3.sword"), "truthful receipt and removed row")
+		if free_capacity < 0:
+			check(ui.last_sell.outcome == HockshopSellResult.Outcome.TOO_HEAVY and session.inventory_state().is_registered(&"h3.sword") and ui.visible_ids().has(&"h3.sword"), "too heavy: refused, the sword stays")
+			check(ui.panel.feedback.text.contains("拿不动") and session.item_id_allocator().next_dynamic_sequence == before, "too heavy: the reason told, nothing made")
+			session.free()
+			await tree.process_frame
+			continue
+		check(ui.last_sell.outcome == HockshopSellResult.Outcome.SOLD and ui.last_sell.payout.delivered_value == 240, "paid whole " + str(free_capacity))
+		check(ui.panel.feedback.text.contains("实际收到240文") and not ui.visible_ids().has(&"h3.sword"), "truthful receipt and removed row")
 		var after: int = session.item_id_allocator().next_dynamic_sequence
 		ui.confirm_sale()
 		check(session.item_id_allocator().next_dynamic_sequence == after, "confirmation consumed exactly once")

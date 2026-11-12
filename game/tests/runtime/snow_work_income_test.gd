@@ -94,15 +94,13 @@ func capacity_test(tree: SceneTree) -> void:
 	var rng: Array[int] = rng_state(session)
 	var before: int = session.item_id_allocator().next_dynamic_sequence
 	var result: SnowWorkResult = work(session)
-	_check(result.outcome == SnowWorkResult.Outcome.DELIVERY_FAILED_CAPACITY, "specific capacity failure")
-	_check(result.costs_applied and result.allocation.succeeded and result.cleanup.succeeded, "real paid work/new/lifecycle")
-	_check(session.player_runtime().state.essence.current == 70 and session.player_runtime().state.spirit.current == 70, "no refund")
+	# DECISIONS「拿不动就不收钱」: the wage would not fit: told before working, nothing spent.
+	_check(result.outcome == SnowWorkResult.Outcome.TOO_HEAVY, "too heavy: told before working")
+	_check(not result.costs_applied and result.allocation == null, "no work done, no silver made")
+	_check(session.player_runtime().state.essence.current == 100 and session.player_runtime().state.spirit.current == 100, "gin and sen untouched")
 	_check(inv.registered_item_ids() == ids and session.item_instance_index().snapshot_ids() == ids, "no registered/index orphan")
-	_check(not session.stack_collection().has_stack(result.reward_id) and inv.direct_parent(result.reward_id) == null, "no stack/containment/ground reward")
-	_check(session.item_id_allocator().next_dynamic_sequence == before+1 and rng_state(session) == rng, "failed delivery consumes ID, no RNG")
-	await round_trip(tree, session, capture(session), "capacity failure save")
-	var next: SessionItemIdAllocationResult = session.item_id_allocator().allocate(inv)
-	_check(next.succeeded and next.item_instance_id != result.reward_id and session.item_id_allocator().next_dynamic_sequence == before+2, "next allocation does not reuse failed reward")
+	_check(session.item_id_allocator().next_dynamic_sequence == before and rng_state(session) == rng, "no ID, no RNG")
+	await round_trip(tree, session, capture(session), "refused work save")
 	_check(not session.item_instance_index().forget_destroyed_snapshots([cloth], inv), "index cannot destroy live authority")
 	session.free()
 	await tree.process_frame

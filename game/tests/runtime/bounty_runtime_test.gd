@@ -136,6 +136,20 @@ func _test_spare(tree: SceneTree, session: WorldSessionController) -> void:
 	if not coordinator.has_active_encounter():
 		(session.active_map() as WorldMapController).select_npc(outlaw.character_id)
 		(session.active_map() as WorldMapController).attack_selected()
+	# DECISIONS「拿不动就不收钱」: room for two taels; the rest of the silver lies at the feet, said.
+	var inv: InventoryState = session.inventory_state()
+	var carried: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id)
+	var cloth: StringName = &""
+	for id: StringName in inv.direct_children(carried):
+		if not session.stack_collection().has_stack(id):
+			cloth = id # TEST-ONLY: a thing that is not a pile, made heavier
+			break
+	var cloth_weight: int = inv.own_weight(cloth)
+	var silver_weight: int = GameContent.catalog().currency_item(CurrencyDenomination.Value.SILVER).stack_base_weight
+	inv.update_own_weight(cloth, cloth_weight + session.player_runtime().maximum_encumbrance - inv.contents_weight(carried) - 2 * silver_weight) # TEST-ONLY: room for two taels
+	var silver_before: int = _silver(session)
+	var reward: int = posting.tier.silver
+	var said: int = session.shared_ui().log_lines().size()
 	var held: bool = false
 	_check(coordinator.has_active_encounter(), "the fight with it is on")
 	for round: int in 300:
@@ -150,6 +164,16 @@ func _test_spare(tree: SceneTree, session: WorldSessionController) -> void:
 	CombatEncounterCoordinator.take_aborted_total()
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	session.record_journal()
+	var paid_lines: Array[String] = session.shared_ui().log_lines().slice(said)
+	_check(_silver(session) == silver_before + 2, "two taels in hand: %d -> %d" % [silver_before, _silver(session)])
+	_check(paid_lines.has("其中%s两你拿不动，掉在你的脚边。" % ChineseNumber.of(reward - 2)), "the rest at the feet, said: %s" % [paid_lines])
+	var on_floor: int = 0
+	for id: StringName in inv.registered_item_ids():
+		var item: ItemInstance = session.item_instance_index().resolve(id)
+		if item != null and GameContent.catalog().denomination_of(item.item_definition_id) == CurrencyDenomination.Value.SILVER and inv.direct_parent(id) != null and inv.direct_parent(id).kind != ContainmentEndpoint.Kind.CHARACTER:
+			on_floor += session.stack_collection().stack_state(id).amount
+	_check(on_floor >= reward - 2, "and there on the ground: %d" % on_floor)
+	inv.update_own_weight(cloth, cloth_weight)
 	_check(state.attributes.bellicosity == belli and state.progression.kills == kills, "spared: no 杀气, no kill")
 	_check(session.shared_ui().log_lines().has("你把%s捆了个结实，托路过的官差押往雪亭驿。" % outlaw.definition().display_name), "taken to the 驿站")
 	_check(session.resident_npc(outlaw.character_id) == null, "and gone from the place")

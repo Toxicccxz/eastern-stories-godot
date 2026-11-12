@@ -44,8 +44,9 @@ func show_work(result: SnowWorkResult) -> void:
 			feedback.text = "你完成了一份工作，得到一两银子。"
 		SnowWorkResult.Outcome.TOO_TIRED:
 			feedback.text = "你的精神太差了，现在不能工作。"
-		SnowWorkResult.Outcome.DELIVERY_FAILED_CAPACITY:
-			feedback.text = "工作已完成，但你负重过高，未能取得工钱。"
+		SnowWorkResult.Outcome.TOO_HEAVY:
+			# TRANSLATORS: work refused before it began (DECISIONS「拿不动就不收钱」): the wage, a 两 of silver, would not fit.
+			feedback.text = "你身上太重，干完活也拿不动工钱。先放下些东西再来。"
 		_:
 			feedback.text = "工作状态异常，请停止操作。"
 			push_error("Work authority failure: %s" % result.outcome)
