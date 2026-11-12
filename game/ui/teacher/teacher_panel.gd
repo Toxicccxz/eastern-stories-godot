@@ -124,6 +124,7 @@ func _ready() -> void:
 	_rows.add_child(progress)
 	progress.finished.connect(_run_finished)
 	rest_button = _button("Rest", "", rest)
+	_place_rest(status)
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log, and
 	# TeacherService has logged these lines already.
 	feedback = _label("", "LastLines")
@@ -168,6 +169,7 @@ func interact() -> void:
 	_set_confirming(false)
 	_quotes_dirty = true
 	feedback.text = ""
+	_place_rest(status)
 	if apprentice_feedback != null:
 		apprentice_feedback.text = ""
 	_present()
@@ -501,6 +503,9 @@ func _run_finished(_lines: Array[ColoredLine]) -> void:
 	_show_last()
 	# Stopped for want of 精: the rest is the next thing to do.
 	var tired: bool = progress.last_stop == TrainingRun.Stop.WASTE_ESSENCE
+	if tired:
+		# Right under the run's stop line, where the eye is.
+		_place_rest(progress)
 	var focus: Button = rest_button if tired and rest_button.visible and not rest_button.disabled else run_buttons.get(_run_skill)
 	if focus != null and focus.is_visible_in_tree():
 		focus.grab_focus()
@@ -522,6 +527,14 @@ func _show_apprentice_last() -> void:
 func show_answer() -> void:
 	if is_instance_valid(panel) and panel.visible and apprentice_feedback != null:
 		_show_apprentice_last()
+
+
+## 歇到回满 goes right after `control`: under the 精 line on opening, under a run's lines when it
+## stopped for want of 精.
+func _place_rest(control: Control) -> void:
+	if rest_button.get_parent() != null:
+		rest_button.get_parent().remove_child(rest_button)
+	control.add_sibling(rest_button)
 
 
 ## 歇到回满: the page closes, the player rests, and it opens again once 精, 气 and 神 are full.

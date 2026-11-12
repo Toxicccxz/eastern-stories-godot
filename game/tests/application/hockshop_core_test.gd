@@ -186,8 +186,9 @@ func ownership_tests() -> void:
 func payout_tests() -> void:
 	# Source240 => silver2 weighs74, coin40 weighs40 (114), the sold sword weighs3000. DECISIONS
 	# 「拿不动就不收钱」: the sale goes through when the money fits once the sword has gone, paid in
-	# full (the payout's move counts the sword still held); else nothing moves at all.
-	for row: Array in [[114 - 3000, true], [113 - 3000, false], [0, true], [114, true]]:
+	# full (the payout's move counts the sword still held); a sale that leaves the player lighter
+	# goes through even over the limit; else nothing moves at all (the light sword below).
+	for row: Array in [[114 - 3000, true], [113 - 3000, true], [0, true], [114, true]]:
 		var trace: TraceInventory = TraceInventory.new()
 		var f: Fixture = fixture(SHORT, trace)
 		trace.trace.clear()
@@ -221,9 +222,20 @@ func payout_tests() -> void:
 		check(not f.context.inventory.is_registered(&"old-silver") and not f.context.inventory.is_registered(&"old-coin"), "old merge identities absorbed")
 		check(Finance.amount(f.context, Finance.SILVER) == 3 and Finance.amount(f.context, Finance.COIN) == 45, "net merged quantity exact")
 		check(f.context.stacks.stack_state(result.payout.attempts[1].item_id).amount == 45 and f.context.index.snapshot_ids() == f.context.inventory.registered_item_ids(), "incoming coin survives/index exact")
+	# TEST-ONLY: a sword of 10 that fetches 114 of money: heavier after, so the limit decides.
+	for limit: int in [113, 114]:
+		var light: Fixture = fixture()
+		light.context.inventory.update_own_weight(&"sale", 10)
+		var sold: HockshopSellResult = light.sell(limit)
+		if limit == 113:
+			check(sold.outcome == HockshopSellResult.Outcome.TOO_HEAVY and sold.payout == null, "money that would not fit refuses the sale")
+			check(light.context.inventory.is_registered(&"sale") and light.allocator.next_dynamic_sequence == 1 and Finance.amount(light.context, Finance.SILVER) == 0 and Finance.amount(light.context, Finance.COIN) == 0, "refused: sword kept, no ID spent, no money")
+		else:
+			check(sold.outcome == HockshopSellResult.Outcome.SOLD and sold.payout.delivered_value == 240, "exactly at the limit: sold, paid whole")
 	var heavy: Fixture = fixture()
+	heavy.context.inventory.update_own_weight(&"sale", 10)
 	Finance.add_money(heavy.context, Finance.SILVER, 1, &"old-silver")
-	check(heavy.sell(155 - 5).outcome == HockshopSellResult.Outcome.TOO_HEAVY and Finance.amount(heavy.context, Finance.SILVER) == 1 and heavy.context.inventory.is_registered(&"sale"), "existing silver counted: refused, nothing moves")
+	check(heavy.sell(150).outcome == HockshopSellResult.Outcome.TOO_HEAVY and Finance.amount(heavy.context, Finance.SILVER) == 1 and heavy.context.inventory.is_registered(&"sale"), "existing silver counted: refused, nothing moves")
 
 
 func lifecycle_tests() -> void:

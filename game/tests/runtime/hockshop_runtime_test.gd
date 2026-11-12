@@ -122,12 +122,18 @@ func physical_tests(tree: SceneTree) -> void:
 func panel_tests(tree: SceneTree) -> void:
 	# Fixtures below isolate the scoped UI/core boundary, not physical/live journey evidence.
 	# DECISIONS「拿不动就不收钱」: paid whole while the money fits once the sword has gone (3000 out,
-	# 114 in); -2887 would not, and the sale is refused with the reason.
-	for free_capacity: int in [114,50,20,-2887]:
+	# 114 in), or leaves the player lighter; -1 with a sword of 10 (TEST-ONLY) would not: refused.
+	for free_capacity: int in [114,50,20,-2887,-1]:
 		var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new([5]))
 		var ui: HockshopService = await panel_fixture(tree, session)
 		H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), H2.SHORT, &"h3.sword")
-		session.player_runtime()._body_facts = PlayerBodyFacts.new(80000, ui.context().checked_contents_weight() + free_capacity) # explicit test-only capacity fixture
+		if free_capacity == -1:
+			ui.context().inventory.update_own_weight(&"h3.sword", 10) # TEST-ONLY: light, and 114 of money after
+			free_capacity = 114 - 10 - 1
+			session.player_runtime()._body_facts = PlayerBodyFacts.new(80000, ui.context().checked_contents_weight() + free_capacity)
+			free_capacity = -1
+		else:
+			session.player_runtime()._body_facts = PlayerBodyFacts.new(80000, ui.context().checked_contents_weight() + free_capacity) # explicit test-only capacity fixture
 		ui.interact()
 		ui.select_item(&"h3.sword")
 		var before: int = session.item_id_allocator().next_dynamic_sequence
@@ -137,7 +143,7 @@ func panel_tests(tree: SceneTree) -> void:
 		ui.request_confirmation()
 		check(ui.last_sell == null and session.inventory_state().is_registered(&"h3.sword") and ui.panel.confirm_button.is_visible_in_tree(), "confirmation before payout")
 		ui.confirm_sale()
-		if free_capacity < 0:
+		if free_capacity == -1:
 			check(ui.last_sell.outcome == HockshopSellResult.Outcome.TOO_HEAVY and session.inventory_state().is_registered(&"h3.sword") and ui.visible_ids().has(&"h3.sword"), "too heavy: refused, the sword stays")
 			check(ui.panel.feedback.text.contains("拿不动") and session.item_id_allocator().next_dynamic_sequence == before, "too heavy: the reason told, nothing made")
 			session.free()

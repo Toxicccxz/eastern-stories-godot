@@ -128,9 +128,12 @@ func _test_menu_holds(tree: SceneTree) -> void:
 	for _i: int in 20:
 		_session._process(FRAME)
 	_check(_session.resting() and _session.day_clock().day_seconds() == day and _state.essence.current == gin, "held: the rest waits, nothing moves")
+	_state.essence.current -= 3 # TEST-ONLY: spent in the window (a 练习), not a hurt
+	_session._process(FRAME)
 	_session.release_world_time(&"menu")
 	_session._process(FRAME)
 	_check(_session.day_clock().day_seconds() != day, "released: time runs again")
+	_check(_session.resting(), "what was spent under the window does not end the rest as a hurt")
 	_session.stop_rest()
 	_check(_ended[-1] == RestRules.Outcome.CANCELLED and not _session.resting(), "起身: stopped")
 	await tree.process_frame

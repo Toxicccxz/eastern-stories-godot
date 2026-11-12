@@ -53,6 +53,13 @@ func judge(state: CharacterState, world_seconds: float) -> RestRules.Outcome:
 	return RestRules.Outcome.NONE
 
 
+## World time is held (a window open): what the player spends meanwhile (练习, 请教, 打工) is theirs,
+## not a hurt; the next frame of the rest compares with the values now.
+func rebase(state: CharacterState) -> void:
+	if _active:
+		_currents = RestRules.currents(state)
+
+
 func end() -> void:
 	_active = false
 	_scale = 1.0

@@ -258,6 +258,8 @@ func _process(delta: float) -> void:
 		return
 	if world_time_held():
 		_process_held(delta)
+		if _rest.active():
+			_rest.rebase(_player.state)
 		return
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	var world_delta: float = _world_delta(delta)

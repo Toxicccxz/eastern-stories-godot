@@ -290,17 +290,18 @@
   - 没改的：车马行的车钱找零（为凑零钱换开一枚银子，不设上限，不丢只可能超重，「车马行」）；NPC 拿出自己的东西（`hands_over`）给不动时东西留在 NPC 身上，没丢，但 NPC 说的是「没有了」（另提）；偷、搜尸体、捡东西本来就是拿不动不拿。
 - **为什么：** 今天的玩家看到「已付款，但未收到」只会当成 bug；拿不动的人站在柜台前，正确的做法是告诉他，而不是收钱。
 - **测试：** `carry_room_test`（付钱算术和 `pay()` 的结果一致、买东西和换钱在上限处一文不扣、有空的照旧、东西和钱的账对得上：没有没主的东西、没有凭空消失的钱）；`bounty_runtime_test`（只拿得动两两，其余落脚边并说一句）；`snow_dumpling_test`、`snow_water_test`、`snow_bank_access_test`、`snow_finance_test`、`snow_work_income_test`、`hockshop_*`、`run_snow_finance_cold_process`、`run_snow_work_cold_process` 里钉旧损失的检查改成钉拒绝。
-- **取代：** 「Snow waiter / dumpling supply loop (S4B only)」的 A 款和 B 款最后一句、C 款，「Currency exchange / payment core (S3B only)」的 C、D 款，「Snow Workplace undeliverable reward cleanup (S2 only)」整条，「Hockshop valuation / payout / sell lifecycle (H2)」的 H、I 款；原文在 DECISIONS_HISTORY。
+- **取代：** 「Snow waiter / dumpling supply loop (S4B only)」的 A 款和 B 款最后一句、C 款，「Currency exchange / payment core (S3B only)」的 C、D 款，「Snow Workplace undeliverable reward cleanup (S2 only)」整条，「Hockshop valuation / payout / sell lifecycle (H2)」的 H、I 款，「Fresh water supply loop (S6B only)」的 J 款（牛皮酒袋照店小二 A–D）；原文在 DECISIONS_HISTORY。
 
 ## 歇到回满 (全项目审查第五批 2026-11-12「界面层」：连续修炼停在「先休息吧」却无处休息；owner 2026-11-12「按推荐做」：请教页和武学页加「歇到回满」，时间照走，有人来袭就打断，提示里写明怎么回精)
 
 - **ES2：** 没有睡觉、休息的命令（`cmds/std` 里没有 sleep；房间也没有床）。精、气、神只在心跳的 heal_up() 上回（`feature/damage.c`、`std/char.c` 的 tick = 5 + random(10)），玩家站着等。窗口开着时世界不走（「菜单窗口」「连续修炼」），所以连续请教约 9 步、一两秒就停在「先休息吧」，要关掉窗口干站约一分钟。
 - **我们：** 请教页和武学页在精、气、神任何一样不满时有「歇到回满」（`rest_world_scale` 0 时不出现）：窗口关上，玩家坐下，世界照常走、只是快 `rest_world_scale`（20）倍——同一套心跳：NPC 走动和发现、钟点和天色、自己的回复和饮食、状态发作、房间重置、任务时限都照走，没有另算的捷径。画面稍暗，底部一条「歇息中……已歇X」和「起身」（B / Esc）；开着菜单时歇息停住，关上接着歇。结束：
+  - 一个人歇着时自己花掉精气神（开着窗口练习、请教、打工）不算「掉血」：窗口按住时间时重新记下起点。
   - 精、气、神的当前和有效都到最大（伤也养好）——「你歇了X，精、气、神都回满了。」，并回到原来那一页（请教页、武学页）。
-  - 打起来、有一伙人发现了你（进门一起上的那一拍）——「忽然有人来袭，你一跃而起！」，战斗照常开始；剧情开场——「听见动静，站了起来」；三样里有一样往下掉（机关、毒发）——「身上一阵难受，歇不下去了」；断了水（没水 heal_up() 什么都不回）——「口干舌燥……先找水喝」；换了图、倒下——不另说。
+  - 打起来、有一伙人发现了你（进门一起上的那一拍）——「忽然有人来袭，你一跃而起！」，战斗照常开始；剧情开场——「听见动静，站了起来」；三样里有一样往下掉（机关、毒发）——「身上一阵难受，歇不下去了」；断了水（没水 heal_up() 什么都不回）——「口干舌燥……先找水喝」；换了图——「你歇了X。」；倒下——不另说（倒下有自己的句子）。
   - 最多歇 `rest_limit_seconds`（600 世界秒，一天 24 真实分钟时是五个时辰，真实约 30 秒）——「起身活动活动。精、气、神还没全回满：伤要慢慢养……」。
   - 时长按半个时辰说（不到半个时辰是「一盏茶的工夫」），和车马行同一种说法。
-  - 打架时、剧情里、精神饱满、没水时不给歇，按钮灰掉、悬停写原因。不打架的地方都能歇，代价是世界照走。歇息不存档：读档的人站着。
+  - 精神饱满时按钮不出现；打架时、剧情里、没水时不给歇，按钮灰掉、悬停写原因。不打架的地方都能歇，代价是世界照走。歇息不存档：读档的人站着。
 - **提示：** 连续请教停在缺精时一句改成说清楚怎么回（窗口开着时间不走；「歇到回满」；有内力的在武学页运功恢复精）；百科「受伤与歇息」同。
 - **为什么：** 今天的 RPG 都有「休息到回满」，绝大部分修炼时间不该是关窗干站。窗口按住时间那条照旧，这里只是给一个让时间走起来的出口。
 - **测试：** `player_rest_test`（连续请教缺精停下时按钮出现并拿到焦点，按下窗口关、歇完回到请教页；按回复规则回满、时钟走了对应的时间、心跳上吃喝照减；京师城门的守兵发现玩家把人惊起、照常开战；歇完存档读回分毫不差；开着菜单时停住；没水、打架、已满不让歇；上限）；`training_run_test`、`training_continuous_test` 的停下句。
@@ -5072,14 +5073,7 @@ before implementation. They authorize no final Snow PR, alcohol runtime or next 
   mutation. Existing busy blocks but is not advanced/cleared. Successful noncombat use adds no
   busy; source fighting-success busy2 is deferred. Require published active Session, ACTIVE world
   Player and ordinary interaction availability; paused/staged/nonworld/dead/ghost use is excluded.
-- **J — wineskin-specific Vendor extension:** Explicitly extend S4B waiter A–D ONLY to this offer.
-  Resolve/validate item/liquid/persistence facts and canonical price before affordability/payment;
-  malformed static facts reject free. Preserve S3B0/1/2 and ordered payment. After payment allocate
-  → full-weight registration → index → fresh liquid state → post-payment capacity transfer.
-  No pre-payment final-weight preflight. Paid failure retains money and sequence/ID consumption;
-  destroy only safe parentless product through authoritative ItemLifecycle, then liquid association,
-  then derived index. No refund/drop/orphan Save/timer/fallback. Cleanup failure is authority failure.
-  Truthful paid=true/delivered=false. Dumpling remains unchanged; no generic Vendor/Bank policy.
+- **J —** （已被「拿不动就不收钱」取代，原文见 DECISIONS_HISTORY。）
 - **K — Type B typed composition:** Session owns one LiquidCollection keyed by ItemInstanceId;
   LiquidState holds typed RED_WINE/CLEAR_WATER plus remaining. Definitions own max/hydration/drunk
   metadata/display/weight/value. Inventory owns existence/parent/weight. No UI text/dictionary/

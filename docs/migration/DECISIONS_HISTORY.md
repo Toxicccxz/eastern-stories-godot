@@ -3,6 +3,19 @@
 这里是已被后来的决定取代、或只有历史意义的条目，原文照录，顺序同原文件；每条第一行说明为什么在这里。
 现行规则以 [DECISIONS](DECISIONS.md) 为准。引用写作 DECISIONS_HISTORY「条目名」。
 
+## Fresh water supply loop (S6B only) — J 款
+
+(已被「拿不动就不收钱」取代，2026-11-12：牛皮酒袋和别的货一样，付钱后拿不动就不卖、不收钱。条目其余各款仍在 DECISIONS。)
+
+- **J — wineskin-specific Vendor extension:** Explicitly extend S4B waiter A–D ONLY to this offer.
+  Resolve/validate item/liquid/persistence facts and canonical price before affordability/payment;
+  malformed static facts reject free. Preserve S3B0/1/2 and ordered payment. After payment allocate
+  → full-weight registration → index → fresh liquid state → post-payment capacity transfer.
+  No pre-payment final-weight preflight. Paid failure retains money and sequence/ID consumption;
+  destroy only safe parentless product through authoritative ItemLifecycle, then liquid association,
+  then derived index. No refund/drop/orphan Save/timer/fallback. Cleanup failure is authority failure.
+  Truthful paid=true/delivered=false. Dumpling remains unchanged; no generic Vendor/Bank policy.
+
 ## Snow waiter / dumpling supply loop (S4B only) — A、B 末句、C 款
 
 (已被「拿不动就不收钱」取代，2026-11-12：买不动的货不再收钱，先说明原因。条目其余各款仍在 DECISIONS。)
