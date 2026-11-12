@@ -27,9 +27,9 @@ var dodge_power_percent: int = 0
 var parry_power_percent: int = 0
 var move_tag: StringName = &""
 ## 空手对兵器 (DECISIONS「空手对兵器」): the defender is the player's trained bare hands — no weapon
-## in hand and a fist art enabled on unarmed — so CombatPowerRules' bare-hand knobs apply to their parry.
+## in hand and a fist art enabled on unarmed (the forecast reads it).
 var trained_bare_hands: bool = false
-## 空手对兵器: the defender is the player (an armed player parries bare hands as a weapon, not doubled).
+## 空手对兵器: the defender is the player (the bare-hand parry knobs apply to this blow).
 var player: bool = false
 
 var character_id: StringName:

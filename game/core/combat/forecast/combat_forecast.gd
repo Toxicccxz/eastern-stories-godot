@@ -148,9 +148,8 @@ static func _reason(
 	return Reason.NONE
 
 
-## Whether the verdict would be better with the player's bare hands met evenly (parrying a weapon
-## as a fist, parried by a weapon as a weapon; DECISIONS「空手对兵器」): their own rules if trained,
-## or what trained hands would get if not.
+## Whether the verdict would be better were the player's bare hands trained and met evenly (a fist
+## art's bare share, both parries as their own kind; DECISIONS「空手对兵器」).
 static func _bare_hands_weigh(
 	result: CombatForecast, outgoing: Array[CombatAttackInput], incoming: Array[CombatAttackInput],
 	enemy_kee: Array[int], player_kee: int, outgoing_chance: Array[float], incoming_chance: Array[float],
@@ -217,11 +216,11 @@ static func parry_gate(input: CombatAttackInput) -> float:
 	var ap: int = attack_power(input)
 	var pp: int
 	if defender.has_primary_weapon:
-		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, attacker.trained_bare_hands or defender.player)
-	elif attacker.has_weapon and (input.rules.bare_parry_percent == 0 or not defender.trained_bare_hands):
+		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, attacker.player or defender.player)
+	elif attacker.has_weapon and (input.rules.bare_parry_percent == 0 or not (attacker.player or defender.player)):
 		pp = 0
 	else:
-		pp = input.rules.parry_power(false, attacker.has_weapon, 0, _power(defender, defender.effective_unarmed_skill_level, input.rules), defender.trained_bare_hands)
+		pp = input.rules.parry_power(false, attacker.has_weapon, 0, _power(defender, defender.effective_unarmed_skill_level, input.rules), attacker.player or defender.player)
 	pp = maxi(1, pp)
 	return float(ap) / float(ap + pp)
 

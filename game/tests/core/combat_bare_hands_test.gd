@@ -22,8 +22,9 @@ func _rules(parry: int = 0, armed: int = 200, damage: int = 0) -> CombatPowerRul
 	return CombatPowerRules.classic().with_bare_hands(parry, armed, damage)
 
 
-## `trained`: the bare-handed side is the player's trained hands (the knobs apply to it).
-func _input(rules: CombatPowerRules, weapon: bool, defender_weapon: bool, attack_level: int = 20, dodge_level: int = 0, parry_level: int = 10, unarmed_level: int = 10, apply_damage: int = 20, exp: int = 0, trained: bool = true) -> CombatAttackInput:
+## The player is the bare-handed side (the attacker when both or neither are): `trained` their
+## hands have a fist art enabled; `player_fight` false: two NPCs.
+func _input(rules: CombatPowerRules, weapon: bool, defender_weapon: bool, attack_level: int = 20, dodge_level: int = 0, parry_level: int = 10, unarmed_level: int = 10, apply_damage: int = 20, exp: int = 0, trained: bool = true, player_fight: bool = true) -> CombatAttackInput:
 	var profile: WeaponCombatProfile = WeaponCombatProfile.new(&"sword-1", &"sword", CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT) if weapon else null
 	var attacker := CombatAttackerSnapshot.new(
 			&"attacker-1", true, exp, 0, 0, &"sword" if weapon else &"unarmed", attack_level, 0, apply_damage,
@@ -32,8 +33,11 @@ func _input(rules: CombatPowerRules, weapon: bool, defender_weapon: bool, attack
 			CombatHitPolicyStatus.Value.NOT_APPLICABLE if weapon else CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT, profile, &"force", 0,
 	)
 	var defender := CombatDefenderSnapshot.new(&"defender-1", true, false, exp, 0, 0, dodge_level, parry_level, unarmed_level, 0, 0, defender_weapon, [&"头"])
-	attacker.trained_bare_hands = trained and not weapon
-	defender.trained_bare_hands = trained and not defender_weapon
+	var player_defends: bool = weapon and not defender_weapon
+	attacker.player = player_fight and not player_defends
+	defender.player = player_fight and player_defends
+	attacker.trained_bare_hands = attacker.player and trained and not weapon
+	defender.trained_bare_hands = defender.player and trained and not defender_weapon
 	return CombatAttackInput.new(attacker, defender, CombatActionDefinition.new(&"ordinary-action", 0, 0, &"伤害"), null, rules)
 
 
@@ -87,15 +91,28 @@ func _test_resolver() -> void:
 	_assert_eq(_bounds(_input(modern, true, false)).slice(0, 4), [1, 2667, 2666 + 499, 20], "modern: bare hands parry a sword at 150 % of their unarmed (333 → 499); the sword's blow untouched")
 	_assert_eq(_bounds(_input(modern, true, true)), _bounds(_input(es2, true, true)), "sword on sword: nothing changes")
 	_assert_eq(_bounds(_input(modern, false, false)), _bounds(_input(_rules(150, 100, 0), false, false)).slice(0, 3) + [40] + _bounds(_input(modern, false, false)).slice(4), "bare on bare: the unarmed parry as ES2's; only the bare share added")
-	# The player armed against an NPC's bare hands: parried as a weapon, not doubled.
+	# The other way round in the player's fights: an NPC's bare hands on the player's sword, the
+	# player's sword on an NPC's bare hands.
 	var npc_fist: CombatAttackInput = _input(modern, false, true, 20, 0, 10, 10, 20, 0, false)
+	var attacker: CombatAttackerSnapshot = npc_fist.attacker
 	var defender: CombatDefenderSnapshot = npc_fist.defender
+	attacker.player = false
 	defender.player = true
-	_assert_eq(_bounds(CombatAttackInput.new(npc_fist.attacker, defender, npc_fist.selected_action, null, modern)).slice(0, 3), [1, 2667, 2666 + 333], "an NPC's bare hands on the player's sword: parried as a weapon (333), not doubled")
-	_assert_eq(_bounds(CombatAttackInput.new(npc_fist.attacker, defender, npc_fist.selected_action, null, es2)).slice(0, 3), [1, 2667, 2666 + 666], "ES2: doubled")
-	# Untrained hands (no fist art, or not the player's): combatd.c's rule whatever the knobs say.
-	_assert_eq(_bounds(_input(modern, false, true, 20, 0, 10, 10, 20, 0, false)).slice(0, 4), [1, 2667, 2666 + 666, 20], "untrained bare hands on a sword: doubled parry, no bare share, as ES2")
-	_assert_eq(_bounds(_input(modern, true, false, 20, 0, 10, 10, 20, 0, false)).slice(0, 3), [1, 2667, 2666 + 1], "a sword on untrained bare hands: no parry, as ES2")
+	_assert_eq(_bounds(CombatAttackInput.new(attacker, defender, npc_fist.selected_action, null, modern)).slice(0, 4), [1, 2667, 2666 + 333, 20], "an NPC's bare hands on the player's sword: parried as a weapon (333), not doubled; no bare share for an NPC")
+	_assert_eq(_bounds(CombatAttackInput.new(attacker, defender, npc_fist.selected_action, null, es2)).slice(0, 3), [1, 2667, 2666 + 666], "ES2: doubled")
+	var npc_bare: CombatAttackInput = _input(modern, true, false)
+	var sword: CombatAttackerSnapshot = npc_bare.attacker
+	var npc: CombatDefenderSnapshot = npc_bare.defender
+	sword.player = true
+	npc.player = false
+	npc.trained_bare_hands = false
+	_assert_eq(_bounds(CombatAttackInput.new(sword, npc, npc_bare.selected_action, null, modern)).slice(0, 3), [1, 2667, 2666 + 499], "the player's sword on an NPC's bare hands: parried at the bare percent too")
+	# The player's untrained hands: parried and parrying evenly, but no bare share.
+	_assert_eq(_bounds(_input(modern, false, true, 20, 0, 10, 10, 20, 0, false)).slice(0, 4), [1, 2667, 2666 + 333, 20], "untrained bare hands on a sword: parried as a weapon, no bare share")
+	_assert_eq(_bounds(_input(modern, true, false, 20, 0, 10, 10, 20, 0, false)).slice(0, 3), [1, 2667, 2666 + 499], "a sword on untrained bare hands: parried at the bare percent")
+	# Two NPCs: combatd.c's whatever the knobs say.
+	_assert_eq(_bounds(_input(modern, false, true, 20, 0, 10, 10, 20, 0, true, false)).slice(0, 4), [1, 2667, 2666 + 666, 20], "NPC bare hands on an NPC's sword: doubled, no bare share, as ES2")
+	_assert_eq(_bounds(_input(modern, true, false, 20, 0, 10, 10, 20, 0, true, false)).slice(0, 3), [1, 2667, 2666 + 1], "an NPC's sword on an NPC's bare hands: no parry, as ES2")
 
 
 func _test_forecast() -> void:
@@ -113,8 +130,9 @@ func _test_forecast() -> void:
 	_assert_true(lost.line().contains("空手难以近身"), "the line says so: %s" % lost.line())
 	var evened: CombatForecast = CombatForecast.estimate([_input(modern, false, true, 12, 12, 12, 12, 20)], [_input(modern, true, false, 13, 12, 12, 12, 25)], [150], 150)
 	_assert_true(evened.verdict < lost.verdict and evened.reason != CombatForecast.Reason.WEAPON_PARRY, "modern: better, and not for the bare hands: %s / %s" % [CombatForecast.Verdict.find_key(evened.verdict), CombatForecast.Reason.find_key(evened.reason)])
-	var untrained: CombatForecast = CombatForecast.estimate([_input(modern, false, true, 12, 12, 12, 12, 20, 0, false)], [_input(modern, true, false, 13, 12, 12, 12, 25, 0, false)], [150], 150)
-	_assert_true(untrained.verdict == lost.verdict and untrained.reason == CombatForecast.Reason.WEAPON_PARRY, "modern rules, untrained hands: as ES2, and the reason is the bare hands (a fist art would help): %s / %s" % [CombatForecast.Verdict.find_key(untrained.verdict), CombatForecast.Reason.find_key(untrained.reason)])
+	var heavy_fists: CombatPowerRules = _rules(100, 100, 400)
+	var untrained: CombatForecast = CombatForecast.estimate([_input(heavy_fists, false, true, 12, 12, 12, 12, 20, 0, false)], [_input(heavy_fists, true, false, 13, 12, 12, 12, 25, 0, false)], [150], 150)
+	_assert_true(untrained.verdict >= CombatForecast.Verdict.UNFAVOURED and untrained.reason == CombatForecast.Reason.WEAPON_PARRY, "modern rules, untrained hands (no bare share): the reason is the bare hands, a fist art would help: %s / %s" % [CombatForecast.Verdict.find_key(untrained.verdict), CombatForecast.Reason.find_key(untrained.reason)])
 
 
 func _assert_true(condition: bool, message: String) -> void:
