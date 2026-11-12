@@ -12,6 +12,8 @@ func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: 
 	panel.hide()
 	_present()
 	panel.conversion_requested.connect(request_conversion)
+	panel.source.item_selected.connect(func(_index: int) -> void: suggest_amount())
+	panel.target.item_selected.connect(func(_index: int) -> void: suggest_amount())
 	ui_layer().add_child(panel)
 
 
@@ -22,7 +24,17 @@ func verb() -> String:
 func interact() -> void:
 	if in_reach():
 		_present()
+		suggest_amount()
 		open_panel(context_title(), panel)
+
+
+## The amount starts at the most of the chosen currency that converts evenly (a pad steps it
+## a unit at a time; 审查修补 M), or 1 where none does.
+func suggest_amount() -> void:
+	var from := panel.source.get_selected_id() as CurrencyDenomination.Value
+	var selected: CurrencyStackSelection = money_context().select(from)
+	var held: int = selected.amount if selected.outcome == CurrencyStackSelection.Outcome.FOUND else 0
+	panel.quantity.text = str(maxi(1, BankConversionService.largest_even(held, from, panel.target.get_selected_id() as CurrencyDenomination.Value)))
 
 
 ## The title in the shown language, put together again on each opening.
@@ -75,4 +87,6 @@ func request_conversion(from: CurrencyDenomination.Value, to: CurrencyDenominati
 	last_result.outcome = SnowBankInteractionResult.Outcome.CONVERSION
 	last_result.conversion = BankConversionService.convert(money_context(), map.item_id_allocator(), map.player_runtime().maximum_encumbrance, from, to, amount)
 	panel.show_conversion(last_result.conversion)
+	if last_result.conversion.outcome == BankConversionResult.Outcome.SUCCESS:
+		suggest_amount()
 	return last_result
