@@ -14,7 +14,7 @@ extends RefCounted
 ## once in fifty). A miss by a few points can be chance: re-measure with more seeds before
 ## retuning (the failure message says how).
 ##
-## Split for the suites' shards: this one 第三章 to 第五章; boss_strength_guanbei_test 第六章 and
+## Split for the suites' shards: this one 第一章's cave and 第三章 to 第五章; boss_strength_guanbei_test 第六章 and
 ## 第九章's choice fight; boss_strength_finale_test the 终章's 湖畔 and 冰龙厅; boss_strength_demon_test
 ## 侮天鬼's four forms; each with a `_fist` twin for the fist build.
 
@@ -30,6 +30,8 @@ const CEILING: float = 0.98
 ## Label -> the target share won at the fight's main-story exp, or [low, high] for a fight that is
 ## not tuned to a target.
 const TARGETS: Dictionary[String, Variant] = {
+	# The first two hours' end (第一章's cave): tuned there, pinned here so it stays an easy one.
+	"第一章 山洞 黑衣道士": [0.90, 1.00],
 	"第三章 祭坛 鬼卒×2": ALONE,
 	"第三章 救人 带钥匙的狱卒×2": ALONE,
 	"第三章 追宫主 玄冥子": ALONE,

@@ -128,16 +128,13 @@ func capacity_test(tree: SceneTree, existing: bool) -> bool:
 	var before: int = session.item_id_allocator().next_dynamic_sequence
 	var rng: Array[int] = Work.rng_state(session)
 	var result: BankConversionResult = bank.request_conversion(SILVER, COIN, "1").conversion
-	if existing:
-		check(result.succeeded() and result.allocation == null and context.select(COIN).amount == 101, "existing credit before debit skips capacity admission")
-		check(context.inventory.contents_weight(context.endpoint()) == 150063, "existing overcap exact 150000+100-37")
-		check(session.item_id_allocator().next_dynamic_sequence == before, "existing no ID")
-	else:
-		check(result.outcome == BankConversionResult.Outcome.DELIVERY_FAILED and result.cleanup.succeeded(), "capacity failure lifecycle")
-		check(context.select(COIN).outcome == CurrencyStackSelection.Outcome.ABSENT and not context.inventory.is_registered(result.target_id), "no target/ground/orphan")
-		check(session.item_id_allocator().next_dynamic_sequence == before+1, "failed delivery ID spent")
-		check(bank.panel.feedback.text.contains("原币已扣除") and bank.panel.feedback.text.contains("无退款"), "honest failure message")
-	check(context.select(SILVER).outcome == CurrencyStackSelection.Outcome.ABSENT, "source debit and depletion retained")
+	# DECISIONS「拿不动就不收钱」: 1 silver (37) becomes 100 coins (100), which do not fit: refused,
+	# nothing moves, with or without coins held already.
+	check(result.outcome == BankConversionResult.Outcome.TOO_HEAVY and result.allocation == null, "too heavy refused before anything moves")
+	check(context.select(COIN).amount == (1 if existing else 0) and context.select(SILVER).amount == 1, "source and target untouched")
+	check(context.inventory.contents_weight(context.endpoint()) == 150000, "weight unchanged at the limit")
+	check(session.item_id_allocator().next_dynamic_sequence == before, "no ID spent")
+	check(bank.panel.feedback.text.contains("拿不动") and not bank.panel.feedback.text.contains("无退款"), "the reason told")
 	check(context.index.snapshot_ids() == context.inventory.registered_item_ids(), "derived index exact")
 	check(Work.rng_state(session) == rng, "zero RNG")
 	session.free()

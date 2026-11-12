@@ -1,7 +1,7 @@
 extends RefCounted
 
 ## 终章 C 归乡 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 C」「结局讲述」),
-## from 第十章's ledger with the battle done (TEST-ONLY marks):
+## from B's end (StoryFixtures.finale_ended / finale_fought; the earlier chapters' choices TEST-ONLY marks):
 ## - The data: the ending's fourteen cards, `final` the player in the ice, the three heralds by side.
 ## - 灭, the expose ledger: up on the lakeside the 雪亭 square has 冯策 with the edict: the 宣诏 read (妖氛已靖,
 ##   庾子建 问罪), 宣过诏, the ending told over the 沙盘 once the box is read — the cards that hold for this
@@ -14,7 +14,6 @@ extends RefCounted
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const TABLE: Array[String] = ["霍铮回了寨", "关北的骑兵欠你一阵", "大秦人留下了", "冰龙倒了", "冯策随你下湖", "宝衣给了安妮儿", "替南危水保密", "卫沧澜出了尚书府", "瑷伦守到决战", "带走了宝衣"]
-const DONE: Array[String] = ["点过将", "下了决战", "终章下了湖底", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"]
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -48,7 +47,7 @@ func _test_data() -> void:
 func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
-	_ledger(session, "self", "expose", false, ["霍铮回了寨", "关北的骑兵欠你一阵", "大秦人留下了", "冯策随你下湖", "宝衣给了安妮儿", "替南危水保密", "能灭它", "侮天鬼灭了", "终章上了岸"], ["main.finale/end/slay"])
+	_ledger(session, "self", "expose", false, ["霍铮回了寨", "关北的骑兵欠你一阵", "大秦人留下了", "冯策随你下湖", "宝衣给了安妮儿", "替南危水保密", "能灭它"], "slay")
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.finale")
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"home", "up on the lakeside: home next")
 	var square: WorldMapController = MapPlaces.enter(session, &"snow.square", &"snow.square.inn_entry") # TEST-ONLY
@@ -75,7 +74,7 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
-	_ledger(session, "uncle", "uncle", false, ["瑷伦守到决战", "叫来了瑷伦", "瑷伦留在了冰里", "再封了侮天鬼", "终章上了岸"], ["main.finale/end/seal_elon"])
+	_ledger(session, "uncle", "uncle", false, ["瑷伦守到决战", "叫来了瑷伦"], "seal_elon")
 	var test: Callable = session.quest_condition_test()
 	var shown: Array[Array] = GameContent.catalog().epilogue(&"ending").shown(test)
 	var text: String = "\n".join(shown.map(func(entry: Array) -> String: return "\n".join(entry[1])))
@@ -95,7 +94,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
-	_ledger(session, "self", "deal", true, ["冰龙倒了", "带走了宝衣", "璃虹说了或者是你"], [])
+	_ledger(session, "self", "deal", true, ["冰龙倒了", "带走了宝衣", "璃虹说了或者是你"], "")
 	var ended: Array[bool] = []
 	session.epilogue_ended.connect(func(final: bool) -> void: ended.append(final))
 	var altar: WorldMapController = MapPlaces.enter(session, &"village.seal_altar", &"village.seal_altar.pool_arrival") # TEST-ONLY
@@ -135,15 +134,18 @@ func _until_finished(tree: SceneTree, overlay: EpilogueOverlay) -> void:
 		await tree.process_frame
 
 
-func _ledger(session: WorldSessionController, who: String, side: String, pulled: bool, marks: Array, keys: Array) -> void:
-	StoryFixtures.chapter10_done(session, who, side, pulled)
+## B's end (StoryFixtures.finale_ended by `end`; with no `end`, finale_fought: 侮天鬼 down, the last stroke
+## still to make), the choices' marks.
+func _ledger(session: WorldSessionController, who: String, side: String, pulled: bool, marks: Array, end: String) -> void:
+	if end.is_empty():
+		StoryFixtures.finale_fought(session, who, side, pulled)
+	else:
+		StoryFixtures.finale_ended(session, end, who, side, pulled)
 	var state: CharacterState = session.player_runtime().state
 	for mark: String in TABLE:
 		state.marks.erase(mark) # TEST-ONLY
-	for mark: String in marks + DONE:
-		state.marks[mark] = 1 # TEST-ONLY
-	for key: String in ["main.finale#started", "main.finale/lake", "main.finale/gather", "main.finale/shore", "main.finale/hall", "main.finale/depths", "main.finale/demon"] + keys:
-		state.quests[key] = state.quests.size() + 1 # TEST-ONLY: as A and B write them
+	for mark: String in marks:
+		state.marks[mark] = 1 # TEST-ONLY: a ledger's choices
 	session.record_journal()
 
 

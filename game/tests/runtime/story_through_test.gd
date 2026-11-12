@@ -6,6 +6,18 @@ extends RefCounted
 ## one begins; inside a chapter its own suite's play runs as it does there (each chapter's suite
 ## is the one that tells what it does). A chapter that only works on its fixture's ledger, not on
 ## the played one, fails here. Later chapters join as they are chained (this first reach: 第三章).
+##
+## The world runs as the player's does in what this suite is about: the day turns, time nobody
+## watches moves people and rots corpses, death is the modern one (no autosave: no runtime host here), and the gangs
+## shout before they strike (TestDay, TestAway, TestDeath, TestAlert). A fight that falls on the
+## player on a walk between the chapters (the 疯狗 on 雪亭's south road) is fought out as it comes.
+## What it does not do is fight the story's fights: each chapter's play settles its fights TEST-ONLY as its own suite does (伪墓's 黑衣道士 on numbers
+## the suite sets, 逆灵宫's 鬼卒 by fleeing, its 狱卒 by 放过 at once). How winnable the main story's
+## fights are is pinned elsewhere: 第三章's 鬼卒 and 狱卒, 第五章, 第六章 and 第九章 in
+## boss_strength_test, the 终章 in boss_strength_finale_test and boss_strength_demon_test (the real
+## coordinator and scheduler, tests/sim/mainline_fight_sim.gd). 第一章's 黑衣道士 is in that sim's
+## table but no suite pins its rate (DECISIONS「主线必打的仗」 says the first two hours' suites do;
+## none fights him for real).
 const Decree := preload("res://tests/runtime/sword_decree_test.gd")
 const Chapter1 := preload("res://tests/runtime/story_chapter1_test.gd")
 const Chapter2 := preload("res://tests/runtime/story_chapter2_test.gd")
@@ -16,16 +28,26 @@ const Chapter3C := preload("res://tests/runtime/story_chapter3c_test.gd")
 
 var _count: int = 0
 var _failures: Array[String] = []
+## Fights that fell on the player on the walks between the chapters.
+var _met_on_the_way: int = 0
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# 放过 is a choice only under 询问 (伪墓's 黑衣道士; the suites run 直接了结).
 	var knockout_before: int = BattlePace.after_knockout
 	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	TestDay.use()
+	TestAway.use()
+	TestDeath.use()
+	TestAlert.use()
 	var session: WorldSessionController = await Decree.new()._session(tree)
 	await _through(tree, session)
 	session.free()
 	await tree.process_frame
+	TestAlert.restore()
+	TestDeath.restore()
+	TestAway.restore()
+	TestDay.restore()
 	BattlePace.after_knockout = knockout_before
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
@@ -70,6 +92,7 @@ func _through(tree: SceneTree, session: WorldSessionController) -> void:
 	# here would compare the TEST-ONLY maxima 伪墓 gives, which Continue derives again).
 	var walker: RefCounted = (load("res://tests/runtime/snow_work_income_test.gd") as GDScript).new()
 	_check(OldPineSaveEligibility.inspect(session).allowed() and walker.capture(session) != null, "the played-through world may be saved, and is")
+	print("story through: %d fight(s) met on the walks between the chapters, fought out" % _met_on_the_way)
 
 
 ## One chapter's play from its own suite on this session; its checks count here, named by the
@@ -77,7 +100,7 @@ func _through(tree: SceneTree, session: WorldSessionController) -> void:
 func _chapter(tree: SceneTree, title: String, suite: RefCounted, play: Callable) -> bool:
 	# TEST-ONLY: the message log as a chapter's own suite starts it (empty): it keeps the last
 	# sixty lines, and a suite reading what was said after a line counts from where it stood.
-	_session_ui(tree).message_log._log_lines.clear()
+	_session_ui(tree).message_log.clear()
 	var failed_before: int = suite._failures.size()
 	var counted_before: int = suite._count
 	await play.call(suite)
@@ -124,15 +147,35 @@ func _walk(tree: SceneTree, session: WorldSessionController, zone_id: StringName
 		map = session.active_map() as WorldMapController
 		await tree.physics_frame
 	var arrived: bool = await _drive_opening(tree, map, zone_id)
-	return _check(arrived and session.player_runtime().world_location().zone_id == zone_id, "%s: walked from %s to %s (at %s)" % [label, from, zone_id, session.player_runtime().world_location().zone_id])
+	return _check(arrived and session.player_runtime().world_location().zone_id == zone_id, "%s: walked from %s to %s (at %s; %s)" % [label, from, zone_id, session.player_runtime().world_location().zone_id, _held_by(session)])
+
+
+## What holds the player where they stopped (a fight, a hold on the world), for a failed walk.
+func _held_by(session: WorldSessionController) -> String:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var said: Array[String] = []
+	if coordinator.has_active_encounter():
+		said.append("a fight with %s" % [coordinator.held_victims()])
+	if session.world_time_held():
+		said.append("world time held")
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and map.player_body.walk_paused:
+		said.append("the walk paused")
+	said.append("day %s" % session.day_phase_id())
+	return ", ".join(said)
 
 
 ## Into `zone_id` on this map; where a shut door stands in the way, the player opens one off the
 ## room they stopped in (the 山门 from the yard) and walks on.
+## Something that falls on the player on the way (the 疯狗 on 雪亭's south road) is fought first.
 func _drive_opening(tree: SceneTree, map: WorldMapController, zone_id: StringName) -> bool:
 	for attempt: int in 4:
 		if await MapPlaces.drive_to_zone(tree, map, zone_id):
 			return true
+		if map.session.combat_encounter_coordinator().has_active_encounter():
+			if not await _fight_out(tree, map.session):
+				return false
+			continue
 		var here: StringName = map.player_runtime().world_location().zone_id
 		var opened: bool = false
 		for door: WorldDoor in map.doors():
@@ -145,6 +188,24 @@ func _drive_opening(tree: SceneTree, map: WorldMapController, zone_id: StringNam
 		if not opened:
 			return false
 	return false
+
+
+## A fight met on the way, fought out as the suites fight (the session stands still here: the
+## rounds are run a second at a time, 自动; one who falls is 了结 at the question). Whether the
+## player stands after it.
+func _fight_out(tree: SceneTree, session: WorldSessionController) -> bool:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var frames: int = 0
+	while coordinator.has_active_encounter() and frames < 600:
+		var held: Array[StringName] = coordinator.held_victims()
+		if not held.is_empty():
+			coordinator.finish_downed(held[0])
+		else:
+			coordinator.advance_scheduler(1.0)
+		frames += 1
+		await tree.process_frame
+	_met_on_the_way += 1
+	return _check(not coordinator.has_active_encounter() and session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "a fight met on the way is over, the player standing (%d frames)" % frames)
 
 
 ## A way used at a landmark rather than walked onto (a cliff climbed: 攀爬石壁, 往上爬): to it, and

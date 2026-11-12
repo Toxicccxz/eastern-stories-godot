@@ -4,8 +4,10 @@ extends RefCounted
 ## cmds/std/buy.c -> feature/vendor.c for any goods a vendor lists. The price
 ## is the goods' own value unless the vendor asks its own (VendorDefinition.price);
 ## money is taken first, then the product is created at full weight and moved to
-## the buyer. An undeliverable product is destroyed without refund. A combined item
-## (蛇药) comes with create()'s amount and merges into the buyer's stack (combined.c).
+## the buyer. A combined item (蛇药) comes with create()'s amount and merges into the
+## buyer's stack (combined.c). Deviation (DECISIONS「拿不动就不收钱」): ES2 destroys a product
+## the buyer cannot carry and keeps the money; a purchase that would not fit once paid
+## (CarryRoom) is refused before any money moves (TOO_HEAVY).
 static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCatalog,
 	context: MoneyInventoryContext, foods: FoodCollection, liquids: LiquidCollection,
 	allocator: SessionItemIdAllocator, maximum_encumbrance: int) -> VendorPurchaseResult:
@@ -27,6 +29,11 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 	if result.affordability.outcome != MoneyAffordabilityResult.Outcome.AFFORDABLE:
 		result.outcome = VendorPurchaseResult.Outcome.AFFORDABILITY_REJECTED
 		return result
+	if not CarryRoom.fits_after_paying(context, result.price, CarryRoom.fresh_weight(content), maximum_encumbrance):
+		result.outcome = VendorPurchaseResult.Outcome.TOO_HEAVY
+		return result
+	# Decided here: one over the limit already may buy what leaves them no heavier than before.
+	var admitted: int = maxi(maximum_encumbrance, CarryRoom.carried(context))
 	result.stage = VendorPurchaseResult.Stage.PAYMENT
 	result.payment = MoneyPaymentService.pay(context, result.price)
 	if not result.payment.succeeded():
@@ -53,8 +60,8 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 	if content.is_stack and not CombinedStackService.register_stack(context.stacks, context.inventory, item, content.stack_definition(), content.default_amount).accepted:
 		return _cleanup(context, foods, liquids, result)
 	result.stage = VendorPurchaseResult.Stage.DELIVERY
-	# No pre-payment admission. Source creates the full-weight product now.
-	var destination := InventoryTransferDestination.new(context.endpoint(), true, true, maximum_encumbrance)
+	# Checked before payment (CarryRoom); the move checks again.
+	var destination := InventoryTransferDestination.new(context.endpoint(), true, true, admitted)
 	if content.is_stack:
 		var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(
 			context.stacks, context.inventory, result.item_id, destination, null, null, context.owner,

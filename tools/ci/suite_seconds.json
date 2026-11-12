@@ -7,7 +7,7 @@
     "res://tests/application/application_shell_test.gd": 165.3,
     "res://tests/application/baseline_saves_test.gd": 255.1,
     "res://tests/application/display_settings_test.gd": 19.6,
-    "res://tests/application/factory_settings_test.gd": 55.8,
+    "res://tests/application/factory_settings_test.gd": 195.0,
     "res://tests/application/game_menu_test.gd": 35.8,
     "res://tests/application/hockshop_core_test.gd": 151.2,
     "res://tests/application/journal_codex_test.gd": 45.2,
@@ -80,7 +80,7 @@
     "res://tests/core/sky_state_test.gd": 9.2,
     "res://tests/core/standard_force_hit_policy_test.gd": 9.5,
     "res://tests/core/story_quest_test.gd": 9.5,
-    "res://tests/core/story_reach_test.gd": 6.2,
+    "res://tests/core/story_reach_test.gd": 7.0,
     "res://tests/core/story_scene_test.gd": 5.9,
     "res://tests/core/suite_result_test.gd": 5.9,
     "res://tests/core/training_run_test.gd": 10.2,
@@ -313,7 +313,7 @@
     "res://tests/runtime/story_fixes_a_test.gd": 15.8,
     "res://tests/runtime/story_fixes_b_test.gd": 40.9,
     "res://tests/runtime/story_softlocks_test.gd": 60.3,
-    "res://tests/runtime/story_through_test.gd": 66.9,
+    "res://tests/runtime/story_through_test.gd": 131.0,
     "res://tests/runtime/sword_decree_test.gd": 22.7,
     "res://tests/runtime/temple_family_test.gd": 27.8,
     "res://tests/runtime/temple_necromancy_test.gd": 24.3,
@@ -333,7 +333,7 @@
     "res://tests/runtime/world_counts_test.gd": 15.2,
     "res://tests/runtime/world_hot_paths_test.gd": 17.5,
     "res://tests/runtime/world_map_generic_test.gd": 31.2,
-    "res://tests/runtime/world_soak_test.gd": 547.3,
+    "res://tests/runtime/world_soak_test.gd": 300.0,
     "res://tests/sim/exp_pacing_sim_test.gd": 96.0
   }
 }

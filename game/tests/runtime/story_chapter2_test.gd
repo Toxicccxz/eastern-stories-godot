@@ -3,7 +3,8 @@ extends RefCounted
 ## 主线 B (owner, 2026-10-29; DECISIONS「第二章旧案」): 旧案 end to end from 伪墓's end with the
 ## bones buried (StoryFixtures) — 柳淳风's letter, 陈剑秋's 镖单, the two inscriptions, 南危水
 ## speaking first to the one who buried 阿岭, 潘军禅 with the letter, telling 颜违 (his seat,
-## 南危水's cold greeting), the quest's end and the save.
+## 南危水's cold greeting), the quest's end and the save; then, on a second session, the same way to
+## 潘军禅 and the other choice: 保密 asked of 南危水 (asked first), the quest's keep and its hand-over.
 
 const LETTER: StringName = &"native:snow/letter_to_pan"
 const NOTE: StringName = &"native:cloud/escort_note"
@@ -17,10 +18,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_chapter(tree, session)
 	session.free()
 	await tree.process_frame
+	var kept: WorldSessionController = await _session(tree)
+	await _test_chapter(tree, kept, false, true)
+	kept.free()
+	await tree.process_frame
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
-func _test_chapter(tree: SceneTree, session: WorldSessionController, played: bool = false) -> void:
+## 旧案 played to 潘军禅, then told to 颜违 — or, `keep`, kept for 南危水 (_keep()).
+func _test_chapter(tree: SceneTree, session: WorldSessionController, played: bool = false, keep: bool = false) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quests: Array[StoryQuestDefinition] = GameContent.catalog().story_quests()
@@ -91,6 +97,9 @@ func _test_chapter(tree: SceneTree, session: WorldSessionController, played: boo
 	said = pavilion.ask_selected("邪剑穿灵")
 	session.record_journal()
 	_check(said.any(func(line: String) -> bool: return line.contains("野羊山北麓")) and state.marks.get("潘军禅说了鱼饵", 0) == 1 and state.quests.has("main.chapter2/pan") and StoryQuestLog.objective(state, quests).begins_with("替南危水保密（他欠你一个人情"), "the bait, the taoist, the north slope: %s" % [said])
+	if keep:
+		await _keep(tree, session, played)
+		return
 	# The choice: tell 颜违. His seat; 南危水's cold greeting.
 	upstairs = MapPlaces.enter(session, &"waterfog.west_2f", &"waterfog.west_2f.stairs_arrival")
 	await _settle(tree)
@@ -130,6 +139,38 @@ func _test_chapter(tree: SceneTree, session: WorldSessionController, played: boo
 	if not played:
 		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter2_done.bind(false))
 		_check(handoff.is_empty(), "旧案 played (told) leaves what chapter2_done(told) writes: %s" % [handoff])
+
+
+## The choice the other way: back upstairs to 南危水 and 保密 (asked first: 颜违 will never hear it from
+## the player); the keep recorded, 旧案 done, 颜违 no longer to be told; the hand-over to chapter2_done(kept).
+func _keep(tree: SceneTree, session: WorldSessionController, played: bool) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter2")
+	var upstairs: WorldMapController = MapPlaces.enter(session, &"waterfog.west_2f", &"waterfog.west_2f.stairs_arrival")
+	await _settle(tree)
+	var nan: NpcRuntimeState = MapPlaces.npc_at(session, &"waterfog.forehall.elder5.1")
+	_check(nan != null and upstairs.place_player(&"waterfog.forehall", upstairs.runtime_body_for_character(nan.character_id).global_position + Vector2(0, 60)), "keep: beside 南危水")
+	await _settle(tree)
+	if nan == null:
+		return
+	_check(upstairs.select_npc(nan.character_id) and upstairs.ask_topics_selected().has("保密"), "keep: 保密 to ask him")
+	_check(nan.definition().talk().ask_confirm("保密").contains("永远不会从你这里知道"), "keep: 保密 asked first (颜违 will never hear it from you)")
+	var deeds_before: int = state.deeds.size()
+	var said: Array[String] = upstairs.ask_selected("保密")
+	_check(said.any(func(line: String) -> bool: return line.contains("老夫欠你一个人情")) and state.marks.get("替南危水保密", 0) == 1 and state.marks.get("告发了南危水", 0) == 0, "keep: he owes the player (替南危水保密): %s" % [said])
+	session.record_journal()
+	_check(state.quests.has("main.chapter2/choice/keep") and not state.quests.has("main.chapter2/choice/tell") and StoryQuestLog.is_done(state, quest), "keep: the choice recorded, 旧案 done: %s" % [state.quests])
+	_check(state.deeds.size() == deeds_before + 2 and state.deeds[-2].did == "替水烟阁五长老南危水保住了二十年的秘密" and state.deeds[-1].did == "查清了二十年前水烟阁五长老的旧案", "keep: its deeds")
+	var yan: NpcRuntimeState = MapPlaces.npc_at(session, &"waterfog.forehall.elder7.1")
+	_check(yan != null and upstairs.select_npc(yan.character_id), "keep: 颜违 in reach")
+	if yan != null:
+		upstairs.ask_selected("南危水的事")
+		_check(state.marks.get("告发了南危水", 0) == 0 and not yan.short_name().contains("水烟阁代盟主"), "keep: 颜违 is not told after 保密")
+	# 章与章之间的衔接: what this chapter played out (kept) holds what chapter2_done(kept) writes — the
+	# fixture every later chapter's suite starts from.
+	if not played:
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter2_done.bind(true))
+		_check(handoff.is_empty(), "旧案 played (kept) leaves what chapter2_done(kept) writes: %s" % [handoff])
 
 
 func _session(tree: SceneTree) -> WorldSessionController:

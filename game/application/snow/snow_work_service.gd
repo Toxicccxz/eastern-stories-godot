@@ -3,6 +3,9 @@ extends RefCounted
 
 ## One room-specific action, not a job/reward framework. Physical eligibility
 ## belongs to the caller. No RNG, time, recovery or copied character authority.
+## Deviation (DECISIONS「拿不动就不收钱」): workplace.c spends gin and sen and loses the silver
+## the worker cannot carry. One whose wage would not fit is told before working (TOO_HEAVY),
+## nothing spent.
 static func work(
 	character: CharacterState, character_id: StringName, maximum_encumbrance: int,
 	armor: ArmorState, inventory: InventoryState, stacks: CombinedStackCollection,
@@ -17,6 +20,10 @@ static func work(
 	# LPC has one combined failure response, not separate gin/sen outcomes.
 	if character.essence.current < 30 or character.spirit.current < 30:
 		result.outcome = SnowWorkResult.Outcome.TOO_TIRED
+		return result
+	var carried: int = inventory.contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id))
+	if carried + silver.stack_base_weight > maximum_encumbrance:
+		result.outcome = SnowWorkResult.Outcome.TOO_HEAVY
 		return result
 	# d/snow/workplace.c::do_work: sen first, gin second, then new silver.
 	character.spirit.apply_damage(30)
@@ -44,7 +51,7 @@ static func work(
 		result.outcome = SnowWorkResult.Outcome.SUCCESS
 		return result
 	if result.transfer.inventory_transfer != null and result.transfer.inventory_transfer.outcome == InventoryTransferResult.Outcome.CAPACITY_EXCEEDED:
-		# Owner-approved S2-only substitution: immediate cleanup, no refund/drop/timer.
+		# Defensive (checked before the work, DECISIONS「拿不动就不收钱」): never left without an owner.
 		result.cleanup = ItemLifecycleService.destroy_item(inventory, stacks, result.reward_id)
 		if not result.cleanup.succeeded or not index.forget_destroyed_snapshots(result.cleanup.removed_instance_ids, inventory):
 			push_error("Snow work reward lifecycle cleanup failed; no fallback is permitted.")

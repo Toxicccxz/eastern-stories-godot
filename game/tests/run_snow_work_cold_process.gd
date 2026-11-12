@@ -23,9 +23,9 @@ func _run() -> void:
 		var cloth: StringName = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, p.character_id))[0]
 		session.inventory_state().update_own_weight(cloth, p.maximum_encumbrance - 20)
 		var result: SnowWorkResult = Fixture.work(session)
-		check(result.outcome == SnowWorkResult.Outcome.DELIVERY_FAILED_CAPACITY, "capacity-specific delivery failure")
-		check(result.cleanup != null and result.cleanup.succeeded, "existing lifecycle cleanup")
-		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "save depleted state")
+		# DECISIONS「拿不动就不收钱」: the wage would not fit: told before working, nothing spent.
+		check(result.outcome == SnowWorkResult.Outcome.TOO_HEAVY and not result.costs_applied, "too heavy: refused before working")
+		check(OldPineSessionLoadCoordinator.new(repository).save_current(session).succeeded(), "save refused state")
 		session.free()
 	elif args[0] == "read":
 		var saved: GameSaveResult = repository.load()
@@ -44,13 +44,13 @@ func _run() -> void:
 		if session != null:
 			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, saved.snapshot.metadata.storage_profile, saved.snapshot.metadata.saved_at_utc)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(saved.snapshot).text, "whole persisted state exact including RNG, position, depleted resources, allocator")
-			check(session.player_runtime().state.essence.current == 70 and session.player_runtime().state.spirit.current == 70, "spent resources remain")
+			check(session.player_runtime().state.essence.current == 100 and session.player_runtime().state.spirit.current == 100, "nothing spent")
 			var carried: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))
 			check(carried.size() == 1 and session.item_instance_index().resolve(carried[0]).item_definition_id == TestContent.CLOTH_ITEM_ID, "player retains only original cloth")
 			check(session.item_instance_index().snapshot_ids() == session.inventory_state().registered_item_ids() and not session.stack_collection().has_stack(carried[0]), "derived index exact; no player reward stack; full snapshot equality checks all remaining NPC items/ground")
 			var before: int = session.item_id_allocator().next_dynamic_sequence
 			var next: SessionItemIdAllocationResult = session.item_id_allocator().allocate(session.inventory_state())
-			check(before == 2 and next.succeeded and session.item_id_allocator().next_dynamic_sequence == 3, "failed reward sequence consumed, never reused")
+			check(before == 1 and next.succeeded and session.item_id_allocator().next_dynamic_sequence == 2, "no reward ID spent")
 		host.free()
 	else:
 		_failed = true
