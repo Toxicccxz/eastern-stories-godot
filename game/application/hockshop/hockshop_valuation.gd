@@ -13,6 +13,13 @@ static func sell_payout(source_value: int) -> int:
 	return maxi(1, product / 100)
 
 
+## Native (DECISIONS「任务物品不丢」): a quest item of our own (no_drop) is not bought, whatever
+## it is worth: selling destroys it, and the story still asks for it (兵部文书 is worth 10 文).
+## hockshop.c asks only query("value"): ES2's own no_drop things (缚仙绳 and the like) still sell.
+static func refuses(content: ItemContentDefinition) -> bool:
+	return content.no_drop and String(content.item_definition_id).begins_with("native:")
+
+
 ## Read-only, exact current identity. A returned quote is NEVER execution authority.
 static func appraise(context: MoneyInventoryContext, foods: FoodCollection,
 	liquids: LiquidCollection, id: StringName) -> HockshopValuationResult:
@@ -41,6 +48,9 @@ static func appraise(context: MoneyInventoryContext, foods: FoodCollection,
 	# Only authored items have a value; rule-created ones (a corpse) do not.
 	var content: ItemContentDefinition = catalog.item(item.item_definition_id)
 	if content == null:
+		return result
+	if refuses(content):
+		result.outcome = HockshopValuationResult.Outcome.QUEST_ITEM
 		return result
 	result.outcome = HockshopValuationResult.Outcome.INVALID_ITEM_STATE
 	# A combined item (蛇药) is valued as hockshop.c asks it: query("value"), whatever

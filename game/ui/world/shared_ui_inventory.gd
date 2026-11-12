@@ -299,14 +299,34 @@ func drop_item(id: StringName, amount: int) -> void:
 		if row.item_instance_id == id:
 			var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
 			item_name = "" if content == null else tr(content.display_name)
-	# 取消 goes back to the 背包 the question came from.
-	_ui.questions.ask_danger(tr(DROP_WORTHLESS_WARNING).format({"item": item_name}), "确定丢下", _drop_now.bind(id, amount), func() -> bool: return _carries(id), open_inventory)
+	# 取消 goes back to the 背包 the question came from; so does 确定丢下, on the row below.
+	_ui.questions.ask_danger(tr(DROP_WORTHLESS_WARNING).format({"item": item_name}), "确定丢下", _drop_now.bind(id, amount, _neighbour(id)), func() -> bool: return _carries(id), _back_to.bind(id))
 
 
-## The 丢下 asked about, on whichever map the player stands on by then.
-func _drop_now(id: StringName, amount: int) -> void:
+## The 丢下 asked about, on whichever map the player stands on by then; the 背包 opens again
+## where it was (its section, the row that took the dropped one's place), to drop the next.
+func _drop_now(id: StringName, amount: int, next: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
-	if map != null: map.drop_item(id, amount)
+	if map == null:
+		return
+	map.drop_item(id, amount)
+	_back_to(id if _carries(id) else next)
+
+
+## The row beside `id` in the section shown (below it, else above): read once `id` is gone.
+func _neighbour(id: StringName) -> StringName:
+	var rows: Array[PlayerInventoryRowProjection] = [] if _ui.inventory_panel == null else _ui.inventory_panel.listed_rows()
+	var at: int = rows.find_custom(func(row: PlayerInventoryRowProjection) -> bool: return row.item_instance_id == id)
+	if at < 0 or rows.size() < 2:
+		return &""
+	return rows[at + 1 if at + 1 < rows.size() else at - 1].item_instance_id
+
+
+## The 背包 again, reading `id` (empty: the panel's own pick).
+func _back_to(id: StringName) -> void:
+	open_inventory()
+	if not id.is_empty() and inventory_is_open() and _carries(id):
+		_ui.inventory_panel.select_item(id)
 
 
 func put_item(id: StringName, amount: int) -> void:
