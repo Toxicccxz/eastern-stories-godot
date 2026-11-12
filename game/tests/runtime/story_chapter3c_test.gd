@@ -98,8 +98,16 @@ func _test_scene_and_ghosts(tree: SceneTree, session: WorldSessionController, ve
 		_check(_count_in(session, &"niling.altar", &"native.npc.shang_jue") == 0 and _count_in(session, &"niling.altar", &"native.npc.xuan_mingzi") == 0, "商玦 and 玄冥子 gone through the 黑门")
 	_check(_count_in(session, &"niling.altar", &"native.npc.hell_runner") == 2, "two 鬼卒 out of the altar's foot")
 	for second: int in 3:
+		if session.combat_encounter_coordinator().has_active_encounter():
+			break
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
+	# They shout first (the gangs' alert beat, DECISIONS「进门一起上」; 0 in this suite alone, on in
+	# story_through_test): the beat waited out on the map's frames, which run it, and a second more.
+	var beat_frames: int = 0
+	while not session.combat_encounter_coordinator().has_active_encounter() and beat_frames < ceili((GameContent.catalog().pacing().hostile_alert_seconds + 1.0) * 60.0):
+		await tree.process_frame
+		beat_frames += 1
 	_check(session.combat_encounter_coordinator().has_active_encounter(), "they fall on the player, crown or no crown")
 	session.record_journal()
 	_check(state.quests.has("main.chapter3/altar") and StoryQuestLog.objective(state, quests).begins_with("坛底爬出来的鬼卒"), "the altar step done, the ghouls next: %s" % [StoryQuestLog.objective(state, quests)])
