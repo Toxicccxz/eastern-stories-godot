@@ -877,7 +877,8 @@ func _accept_kill(target_id: StringName) -> Array[String]:
 ## A fight the player is in has just begun: `lines` (what was said) go to the log,
 ## then feature/attack.c kill_ob()'s warning, in HIR bright red, from every NPC
 ## that now fights the player to the death (kill.c's obj->kill_ob(me),
-## combatd.c start_aggressive(), annihir.c accept_fight()). The battle log opens
+## combatd.c start_aggressive(), annihir.c accept_fight()), one line for those of
+## one name (CombatKillWarning). The battle log opens
 ## with the same lines and keeps the warnings pinned while the panel covers the log.
 ## `first_id`: the NPC whose kill_ob() came first (kill.c's target), when one did.
 ## `colored` (optional): the same lines in their colours, for the log.
@@ -885,23 +886,25 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 	_note_toll_fights()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var encounter: CombatEncounter = coordinator.active_encounter()
-	var warnings: Array[String] = []
+	var names: Array[String] = []
 	if encounter != null:
 		for participant: CombatParticipant in encounter.participants():
 			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(participant.participant_id)
 			if npc != null and participant.binding.relationship.has_lethal_target(_player.character_id):
-				var warning: String = tr("看起来%s想杀死你！") % tr(npc.definition().display_name)
+				var shown: String = tr(npc.definition().display_name)
 				if participant.participant_id == first_id:
-					warnings.push_front(warning)
+					names.push_front(shown)
 				else:
-					warnings.append(warning)
+					names.append(shown)
+	# Those of one name share one line (CombatKillWarning).
+	var warnings: Array[String] = CombatKillWarning.lines(names)
 	if not colored.is_empty():
 		_map.hud().append_colored_lines(colored)
 	elif not lines.is_empty():
 		_map.hud().append_log_lines(lines)
 	if not warnings.is_empty():
 		_map.hud().append_log_lines(warnings, true)
-	coordinator.note_opening(lines, warnings)
+	coordinator.note_opening(lines, names)
 	if encounter != null:
 		_allies_join(encounter)
 

@@ -119,7 +119,7 @@ func admit(bindings: Array[CombatSliceCharacterBinding], tactical: CombatTactica
 		if _admit_join(bindings, join, player_id, enemy_side, map):
 			turned = true
 			if join.target_ids.has(player_id):
-				warnings.append(coordinator.kill_warning(join.joiner_id))
+				warnings.append(coordinator.kill_warning_name(join.joiner_id))
 	coordinator.note_warnings(warnings)
 	var allied: bool = false
 	for ally_id: StringName in tactical.allies:

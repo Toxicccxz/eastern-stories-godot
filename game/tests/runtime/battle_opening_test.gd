@@ -5,7 +5,8 @@ extends RefCounted
 ## 看起来X想杀死你！ from every NPC that fights the player to the death stays
 ## pinned under the title in HIR red. A spar has no warning; the player's attack
 ## gets the target's (kill.c obj->kill_ob(me)); the crazy dog's (combatd.c
-## start_aggressive()) is its only line; 安惜迩 turns a spar into his kill.
+## start_aggressive()) is its only line; 安惜迩 turns a spar into his kill. Those of one
+## name share one line (DECISIONS「同名杀意合一行」): the lake's five 黑冠巨蟒 warn once, ×5.
 ## TEST-ONLY fixtures, each marked where used: combat experience, healing.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
@@ -32,7 +33,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_spar(tree)
 	await _test_spar_over_before_shown(tree)
 	await _test_crazy_dog(tree)
+	_test_merged_warnings()
 	await _test_annihir(tree)
+	# Last: 老松林, away from 雪亭镇.
+	await _test_serpents(tree)
 	_session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -130,6 +134,50 @@ func _test_crazy_dog(tree: SceneTree) -> void:
 	_check(_coordinator.opening_lines(id).is_empty() and _coordinator.opening_warnings(id) == [warning], "the opening is the warning alone")
 	_ui.refresh_projection()
 	_check(_warning().is_visible_in_tree() and _warning().text == warning and _log().begins_with(warning), "pinned, and the battle log opens with it")
+	await _finish(tree)
+
+
+## CombatKillWarning: one line a name, in the order each first came, the count after it.
+func _test_merged_warnings() -> void:
+	var names: Array[String] = ["黑冠巨蟒", "毒蛇", "黑冠巨蟒", "黑冠巨蟒"]
+	_check(CombatKillWarning.lines(names) == ["看起来黑冠巨蟒（×3）想杀死你！", "看起来毒蛇想杀死你！"], "one line a name, its count: " + str(CombatKillWarning.lines(names)))
+	_check(CombatKillWarning.lines(["疯狗"]) == ["看起来疯狗想杀死你！"] and CombatKillWarning.lines([]).is_empty(), "one alone: ES2's line")
+
+
+## d/oldpine/lake.c: five 黑冠巨蟒 set on the player at once; kill_ob() warns once for them all,
+## in the log and pinned; one more of them turning on the player later (roar.c) counts in.
+func _test_serpents(tree: SceneTree) -> void:
+	_heal()
+	# TEST-ONLY: kee to outlast five serpents.
+	_player.state.vitality = CharacterResourceState.new(6000, 6000, 6000)
+	var before: int = _hud.log_lines().size()
+	_check(await _beside(tree, &"oldpine.gorge.lake", &"oldpine.gorge.lake.serpent.1") != null, "beside the lake's serpents")
+	for _frame: int in range(240):
+		await tree.physics_frame
+		if _coordinator.has_active_encounter():
+			break
+	_check(_coordinator.has_active_encounter(), "the serpents attack")
+	if not _coordinator.has_active_encounter():
+		return
+	var serpents: int = 0
+	for participant: CombatParticipant in _coordinator.active_encounter().participants():
+		if participant.participant_id != _player.character_id:
+			serpents += 1
+	var warning: String = "看起来黑冠巨蟒（×%d）想杀死你！" % serpents
+	var said: Array[String] = []
+	said.assign(_hud.log_lines().slice(before))
+	var warned: int = 0
+	for line: String in said:
+		if line.contains("想杀死你"):
+			warned += 1
+	_check(serpents == 5 and warned == 1 and said.has(warning), "five serpents, one warning in the log: " + str(said))
+	var id: StringName = _coordinator.active_encounter().encounter_id
+	_check(_coordinator.opening_warnings(id) == [warning], "one pinned: " + str(_coordinator.opening_warnings(id)))
+	_ui.refresh_projection()
+	_check(_warning().is_visible_in_tree() and _warning().text == warning, "pinned under the title, one line: " + _warning().text)
+	_check(_strip().count(warning) == 1, "the recent strip says it once: " + str(_strip()))
+	_coordinator.note_warnings(["黑冠巨蟒"])
+	_check(_coordinator.opening_warnings(id) == ["看起来黑冠巨蟒（×%d）想杀死你！" % (serpents + 1)], "one more of them turning later counts in")
 	await _finish(tree)
 
 

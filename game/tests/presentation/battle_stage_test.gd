@@ -29,6 +29,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_plan()
 	_formation()
 	_ranks()
+	_plates_apart()
 	_kinds()
 	_setting()
 	_weapon_sounds()
@@ -118,6 +119,49 @@ func _ranks() -> void:
 	_check(not opening.back_rank(&"p") and not opening.back_rank(&"h"), "the player and a lone helper: front")
 	_check(not opening.back_rank(&"c") and opening.back_rank(&"a") and opening.back_rank(&"b") and not opening.back_rank(&"d"), "three in a column: the nearest in front, the two behind it back; one alone in the next: front")
 	opening.free()
+
+
+## A crowd's plates (owner 2026-11-11: five 黑冠巨蟒, their plates on one another): one against
+## five, as formation() stands them and a camera from the south-front sees them (narrow, a
+## column's depth a little up the screen), every plate clear of every other; a lone plate, and
+## two far apart, stay where they are.
+func _plates_apart() -> void:
+	var opening := BattleStageOpening.new()
+	opening._player_id = &"p"
+	opening._mine = [&"p"]
+	opening._theirs = [&"a", &"b", &"c", &"d", &"e"]
+	opening._local = BattleArena.formation(opening._mine, opening._theirs, BattleArena.data().get("formation", {}))
+	for scale: float in [40.0, 26.0, 16.0]:
+		var boxes: Array[Rect2] = []
+		var backs: Array[bool] = []
+		for id: StringName in opening._local:
+			var at: Vector2 = opening._local[id] / VoxelMapGeometry.UNIT
+			var feet := Vector2(640.0 + at.x * scale, 360.0 + at.y * scale * 0.45)
+			var back: bool = opening.back_rank(id)
+			var plate_size: Vector2 = BattleNameplates.BACK_SIZE if back else BattleNameplates.FRONT_SIZE
+			if back:
+				boxes.append(Rect2(feet - Vector2(plate_size.x * 0.5, plate_size.y + 2.15 * scale), plate_size))
+			else:
+				boxes.append(Rect2(feet + Vector2(-plate_size.x * 0.5, BattleNameplates.UNDER_PX), plate_size))
+			backs.append(back)
+		var laid: Array[Rect2] = BattleNameplates.lay_out(boxes, backs)
+		var overlaps: Array[String] = []
+		for one: int in laid.size():
+			for other: int in range(one + 1, laid.size()):
+				if laid[one].intersects(laid[other]):
+					overlaps.append("%s/%s" % [laid[one], laid[other]])
+		_check(laid.size() == 6 and overlaps.is_empty(), "one against five at %d px a unit: no two plates overlap: %s" % [scale, overlaps])
+		var narrowest: float = INF
+		for box: Rect2 in laid:
+			narrowest = minf(narrowest, box.size.x)
+		_check(narrowest >= BattleNameplates.MIN_WIDTH - 0.5, "each still wide enough for its name: %.0f" % narrowest)
+	opening.free()
+	var lone: Array[Rect2] = [Rect2(100, 100, 124, 30)]
+	_check(BattleNameplates.lay_out(lone, [false]) == lone, "a lone plate stays")
+	var pair: Array[Rect2] = [Rect2(100, 100, 124, 30), Rect2(400, 100, 124, 30)]
+	_check(BattleNameplates.lay_out(pair, [false, false]) == pair, "two far apart stay")
+	var stacked: Array[Rect2] = BattleNameplates.lay_out([Rect2(100, 100, 124, 30), Rect2(100, 100, 124, 30), Rect2(100, 100, 124, 30)], [false, false, false])
+	_check(not stacked[0].intersects(stacked[1]) and not stacked[1].intersects(stacked[2]) and not stacked[0].intersects(stacked[2]), "three on one spot: apart " + str(stacked))
 
 
 func _kinds() -> void:

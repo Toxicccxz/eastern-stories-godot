@@ -17,7 +17,8 @@ var _last_abort_detail: String = ""
 ## What the world printed as the active (or last) fight began; see note_opening().
 var _opening_encounter_id: StringName = &""
 var _opening_lines: Array[String] = []
-var _opening_warnings: Array[String] = []
+## The names of those whose kill_ob() warned the player (CombatKillWarning merges them).
+var _opening_warning_names: Array[String] = []
 ## Where a spell took the player as they left the last fight (dun.c), until the session
 ## has moved them there (no new fight starts meanwhile); and which fight they left so.
 var _departure: StringName = &""
@@ -88,22 +89,23 @@ func last_abort_detail() -> String:
 
 
 ## The lines the world printed as the active fight began (fight.c's or kill.c's
-## words), then feature/attack.c kill_ob()'s 看起来X想杀死你！ warnings: the
-## battle log opens with them and the warnings stay pinned. Kept for the fight's
-## encounter ID until the next fight notes its own.
-func note_opening(lines: Array[String], warnings: Array[String]) -> void:
+## words), then the names of those whose feature/attack.c kill_ob() warns the player
+## (看起来X想杀死你！, one line per name: CombatKillWarning): the battle log opens with
+## them and the warnings stay pinned. Kept for the fight's encounter ID until the next
+## fight notes its own.
+func note_opening(lines: Array[String], warning_names: Array[String]) -> void:
 	if _active_encounter == null:
 		return
 	_opening_encounter_id = _active_encounter.encounter_id
 	_opening_lines = lines.duplicate()
-	_opening_warnings = warnings.duplicate()
+	_opening_warning_names = warning_names.duplicate()
 
 
-## kill_ob()'s warnings from those who turn on the player in the running fight
-## (roar.c): pinned with the opening ones.
-func note_warnings(warnings: Array[String]) -> void:
+## The names of those who turn on the player in the running fight (roar.c): their
+## kill_ob() warnings pinned with the opening ones (one of a name already there: its count).
+func note_warnings(warning_names: Array[String]) -> void:
 	if _active_encounter != null and _is_opening_of(_active_encounter.encounter_id):
-		_opening_warnings.append_array(warnings)
+		_opening_warning_names.append_array(warning_names)
 
 
 func opening_lines(encounter_id: StringName) -> Array[String]:
@@ -116,7 +118,7 @@ func opening_lines(encounter_id: StringName) -> Array[String]:
 func opening_warnings(encounter_id: StringName) -> Array[String]:
 	var warnings: Array[String] = []
 	if _is_opening_of(encounter_id):
-		warnings.assign(_opening_warnings)
+		warnings = CombatKillWarning.lines(_opening_warning_names)
 	return warnings
 
 
@@ -800,8 +802,13 @@ func _shown_name(character_id: StringName) -> String:
 
 ## feature/attack.c kill_ob()'s line to its victim, in the shown language.
 func kill_warning(character_id: StringName) -> String:
+	return CombatKillWarning.line(kill_warning_name(character_id))
+
+
+## The name kill_ob()'s warning gives `character_id`, in the shown language.
+func kill_warning_name(character_id: StringName) -> String:
 	var npc: NpcRuntimeState = _resident_npc(character_id)
-	return tr("看起来%s想杀死你！") % (String(character_id) if npc == null else tr(npc.definition().display_name))
+	return String(character_id) if npc == null else tr(npc.definition().display_name)
 
 
 ## kill.c's present(arg) for a player who stands in the running fight fighting nobody

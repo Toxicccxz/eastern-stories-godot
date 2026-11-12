@@ -9137,10 +9137,6 @@ msgstr ""
 msgid "冷却中（还要 {rounds} 回合）"
 msgstr ""
 
-#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
-msgid "看起来%s想杀死你！"
-msgstr ""
-
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
 msgid "这里不准战斗。"
 msgstr ""
@@ -9192,6 +9188,14 @@ msgstr ""
 #. a fighter won an extra beat this round: $N its name, {label} how (隙 / 压 / 连).
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
 msgid "$N抢得一手（{label}）！"
+msgstr ""
+
+#: runtime/combat_encounter/combat_kill_warning.gd
+msgid "看起来%s想杀死你！"
+msgstr ""
+
+#: runtime/combat_encounter/combat_kill_warning.gd
+msgid "看起来%s（×%d）想杀死你！"
 msgstr ""
 
 #. an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
