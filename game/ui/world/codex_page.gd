@@ -27,6 +27,8 @@ var article_scroll: ScrollContainer
 var article_title: Label
 var article_body: VBoxContainer
 var entry_buttons: Dictionary[String, Button] = {}
+## The group heading above each group's first entry, by that entry's key.
+var _group_headings: Dictionary[String, Label] = {}
 var _section: int = CodexContent.Section.LORE
 var _entries: Array[CodexContent.Entry] = []
 ## The entry read ("" none: the section is empty).
@@ -158,6 +160,9 @@ func open_entry(key: String) -> void:
 	button.button_pressed = true
 	if not button.has_focus() and button.is_visible_in_tree():
 		FocusNav.give(button)
+	if _group_headings.has(key):
+		# A group's first entry keeps its heading in view (follow_focus would scroll it off).
+		list_scroll.ensure_control_visible.call_deferred(_group_headings[key])
 
 
 ## Everything the page shows now (tests).
@@ -183,6 +188,7 @@ func _rebuild_list() -> void:
 		entry_list.remove_child(child)
 		child.queue_free()
 	entry_buttons.clear()
+	_group_headings.clear()
 	var group: String = ""
 	for entry: CodexContent.Entry in _entries:
 		if entry.group != group and not entry.group.is_empty():
@@ -193,6 +199,7 @@ func _rebuild_list() -> void:
 			heading.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 			heading.theme_type_variation = &"MutedLabel"
 			entry_list.add_child(heading)
+			_group_headings[entry.key] = heading
 		group = entry.group
 		var button := Button.new()
 		button.name = "Entry%d" % entry_buttons.size()
