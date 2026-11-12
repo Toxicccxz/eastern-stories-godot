@@ -28,6 +28,10 @@ const DIMMED: Color = Color(0.6, 0.6, 0.6, 0.75)
 
 ## Each plate: id -> Plate.
 var _plates: Dictionary[StringName, Plate] = {}
+## The last lay_out(): its boxes and ranks, and where it put them (each frame the same while
+## no one and no camera moved).
+var _laid_from: Array = []
+var _laid: Array[Rect2] = []
 var view: WorldVoxelView
 var opening: BattleStageOpening
 
@@ -122,7 +126,11 @@ func _place() -> void:
 		# The viewport's own coordinates, as BattleMoveTitles places the names over heads.
 		boxes.append(Rect2(at, plate_size))
 		backs.append(plate.back)
-	var laid: Array[Rect2] = lay_out(boxes, backs)
+	var key: Array = [boxes, backs]
+	if key != _laid_from:
+		_laid_from = key
+		_laid = lay_out(boxes, backs)
+	var laid: Array[Rect2] = _laid
 	for index: int in placed.size():
 		var plate: Plate = placed[index]
 		plate.position = laid[index].position
