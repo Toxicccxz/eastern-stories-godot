@@ -147,6 +147,28 @@ func _test_bamboo(tree: SceneTree, session: WorldSessionController) -> void:
 	map.npc_life._advance_ambience(10.0)
 	_check(hud.log_lines().size() == lines_before and _count_carried(session, DRAGONFLY) == 1 and not map.npc_life.makings.has(wei.character_id), "dead, she makes nothing more")
 	wei.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
+	# A save while she is at it would keep moon/竹子 and lose her making (a call_out): Save waits
+	# for her, and the 竹蜻蜓 in hand is saved with it (全项目审查第四批).
+	player.temp_marks.erase("moon/竹子") # TEST-ONLY
+	var working: int = OldPineSaveEligibilityResult.Outcome.NPC_WORKING
+	_check(OldPineSaveEligibility.inspect(session).outcome != working, "nobody at work: nothing to wait for")
+	_check(map.give_to_selected(_new_item(session, BAMBOO)).done(), "a 竹子, and a save at once")
+	_check(OldPineSaveEligibility.inspect(session).outcome == working, "Save waits while she makes it")
+	for stage: int in range(MAKING.size()):
+		map.npc_life._advance_ambience(2.0)
+	_check(_count_carried(session, DRAGONFLY) == 2 and not map.npc_life.makings.has(wei.character_id), "the 竹蜻蜓 made")
+	_check(OldPineSaveEligibility.inspect(session).outcome != working, "and now it saves")
+	map.npc_life.trials[wei.character_id] = {} # TEST-ONLY: a test told blow by blow (三鞭: its deed after the last)
+	_check(OldPineSaveEligibility.inspect(session).outcome == working, "a test still being told waits too")
+	map.npc_life.trials.erase(wei.character_id)
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	var restored: OldPineWorldRestoreResult = null if snapshot == null else OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text).snapshot, tree.root)
+	_check(restored != null and restored.succeeded() and restored.candidate.activate_restore_candidate(), "saved and Continued")
+	if restored != null and restored.succeeded():
+		_check(_count_carried(restored.candidate, DRAGONFLY) == 2 and restored.candidate.player_runtime().temp_marks.get("moon/竹子", 0) == 1, "the 竹蜻蜓 is there after Continue, with moon/竹子")
+		restored.candidate.free()
+		await tree.process_frame
+	_check(map.drop_item(_carried(session, DRAGONFLY)).done(), "TEST-ONLY: back to one 竹蜻蜓")
 	# The player leaves the map while she is at it: the rest at once (DECISIONS 晚月庄 C).
 	player.temp_marks.erase("moon/竹子") # TEST-ONLY
 	_check(map.give_to_selected(_carried(session, BAMBOO)).done(), "another 竹子")

@@ -128,6 +128,14 @@
       "hair_style": "short", "headwear": "headscarf", "headwear_color": "776557", "beard": "none",
       "waist": "sash", "prop": "none", "accent": "5c605c", "height": "standard",
       "build": "standard", "shoes": "dark"
+    },
+    "common.npc.mind_bug": {
+      "note": "观想虫：修道人的杂念绮思所化（obj/npc/mind_bug.c：头、身、前脚、後脚、尾巴，会咬会抓），茅山「观想」时叫出来的小兽；没有实形，灰紫半透的颜色，比人矮小",
+      "animal": true, "tail": true, "scale": 0.6, "fur": ["9a8fb4", "b4aacb", "7c7096"]
+    },
+    "common.npc.mind_beast": {
+      "note": "观想兽：杂念更重时化成的大兽（obj/npc/mind_beast.c），同观想虫一个样子而大得多，颜色更深更浊",
+      "animal": true, "tail": true, "scale": 1.15, "fur": ["5e4f7c", "766696", "463a60"]
     }
   }
 }
