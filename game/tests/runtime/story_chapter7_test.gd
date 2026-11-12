@@ -524,6 +524,7 @@ func _test_ronin_night(tree: SceneTree, session: WorldSessionController) -> void
 	await _settle(tree)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and result.blows == 1 and state.marks.get("过了一刀", 0) == 1 and DeedLog.done(state, "在鬼笠馆接下了早川直义的一刀"), "night: the one blow stood: the mark and the deed; outcome %s" % result.outcome)
 	_check(dojo.npc_life.story_trials_offered(master).is_empty(), "night: not offered twice")
+	_blow_under_100(dojo, master, trials[0], state)
 	session.record_journal()
 	var step: StoryQuestDefinition.Step = StoryQuestLog.current_step(state, quest)
 	_check(step != null and step.step_id == &"theft" and StoryQuestLog.objective(state, quests).contains("天黑") and StoryQuestLog.target(state, quests).zone_id == &"fanfang.fire_hall", "night: next, the fire by night: %s" % StoryQuestLog.objective(state, quests))
@@ -683,3 +684,27 @@ func _carried(session: WorldSessionController, definition_id: StringName) -> Str
 		if item != null and item.item_definition_id == definition_id:
 			return item_id
 	return &""
+
+
+## DECISIONS「姿态整记」: the trial's blow weighs its whole damage by its tag now; a landed blow still
+## takes less than 100 气 from the character the suite plays (twenty landed blows sampled, nobody's
+## kee, wound or force kept).
+func _blow_under_100(map: WorldMapController, npc: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
+	var kee: CharacterResourceState = state.vitality
+	var force: int = npc.character_state.recovery.inner_force.current
+	var hardest: int = 0
+	var landed: int = 0
+	for sample: int in 60:
+		if landed >= 20:
+			break
+		state.vitality = CharacterResourceState.new(100000, 100000, 100000)
+		npc.character_state.recovery.inner_force.current = force
+		if map.attack_player_outside_fight(npc, trial.blow_modifiers()) == null:
+			break
+		var lost: int = 100000 - mini(state.vitality.current, state.vitality.effective)
+		if lost > 0:
+			landed += 1
+			hardest = maxi(hardest, lost)
+	state.vitality = kee
+	npc.character_state.recovery.inner_force.current = force
+	_check(landed > 0 and hardest < 100, "%s's blow (%s): the hardest of %d landed took %d 气, under 100" % [npc.definition().display_name, trial.label, landed, hardest])

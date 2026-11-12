@@ -592,14 +592,14 @@
 				"con": 26,
 				"kar": 8
 			},
-			"combat_exp": 60000,
+			"combat_exp": 12000,
 			"score": 1200,
 			"attitude": "peaceful",
 			"skills": {
-				"blade": 70,
-				"parry": 65,
-				"dodge": 60,
-				"unarmed": 50
+				"blade": 40,
+				"parry": 35,
+				"dodge": 35,
+				"unarmed": 30
 			},
 			"carry": [
 				{
@@ -760,17 +760,17 @@
 				"con": 28,
 				"kar": 6
 			},
-			"combat_exp": 60000,
+			"combat_exp": 8000,
 			"score": 1000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"blade": 65,
-				"parry": 60,
-				"dodge": 55,
-				"unarmed": 45
+				"blade": 30,
+				"parry": 25,
+				"dodge": 25,
+				"unarmed": 20
 			},
 			"carry": [
 				{
@@ -1204,7 +1204,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 170000,
+			"combat_exp": 180000,
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
@@ -2412,7 +2412,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 170000,
+			"combat_exp": 180000,
 			"skills": {
 				"sword": 70,
 				"six-chaos-sword": 70,
@@ -2504,7 +2504,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 170000,
+			"combat_exp": 180000,
 			"skills": {
 				"sword": 70,
 				"six-chaos-sword": 70,
@@ -2573,7 +2573,7 @@
 				"con": 24,
 				"kar": 14
 			},
-			"combat_exp": 25000,
+			"combat_exp": 22000,
 			"skills": {
 				"sword": 80,
 				"parry": 75,
@@ -2689,14 +2689,15 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 295000,
-			"resources": {"max_kee": 2400, "max_gin": 1200, "max_sen": 1200, "max_force": 1600, "force": 1600},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 150,
+				"unarmed": 60,
 				"dodge": 130,
 				"parry": 140,
 				"force": 150
@@ -2742,17 +2743,18 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 200000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 170,
-				"dodge": 150,
+				"unarmed": 60,
+				"dodge": 130,
 				"parry": 160,
-				"force": 170
+				"force": 150
 			},
 			"summoned": {
 				"arrive": [
@@ -2795,17 +2797,18 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 200000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 170,
-				"dodge": 150,
+				"unarmed": 60,
+				"dodge": 130,
 				"parry": 160,
-				"force": 170
+				"force": 150
 			},
 			"summoned": {
 				"arrive": [
@@ -2848,17 +2851,18 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 75000,
-			"resources": {"max_kee": 3800, "max_gin": 1900, "max_sen": 1900, "max_force": 2600, "force": 2600},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 190,
-				"dodge": 170,
+				"unarmed": 60,
+				"dodge": 130,
 				"parry": 180,
-				"force": 190
+				"force": 150
 			},
 			"summoned": {
 				"arrive": [

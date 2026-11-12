@@ -8,9 +8,12 @@ extends RefCounted
 ## the helpers the story guarantees stand where the fight opens, and the fight runs through the real
 ## coordinator and scheduler — the player's 2 beats a round, each NPC's own (`beats`), NPC specials,
 ## the room joining, the allies' rule (fights_beside_player), 了结 / 放过, wounds and ripostes.
-## The player's orders are a fixed plain policy: every beat the first move that is not 守 and can be
-## paid for, at the first enemy still standing; the default stance (攻), no specials, no exert, no
-## items, no 收势; the fallen are let be (放过). Seeded (the combat random source); nothing here is read by the game.
+## The player's orders are a fixed plain policy (_order): every beat the affordable move that is not 守
+## with the best expected damage per beat by the tags' own leans at even odds (a 重 when two beats are
+## left, else the best one-beat move), at the first enemy still standing; the default stance (攻), no
+## specials, no exert, no items, no 收势; the fallen are let be (放过). Two builds (`build`): the sword
+## (封山剑法 with a sword in hand) and the fist (柳家拳, bare-handed, the first teacher's school: 淳风武馆).
+## Seeded (the combat random source); nothing here is read by the game.
 ##
 ## A loss is the moment the player would have fallen (kee or effective kee below 0): the player
 ## fights on a buffer of BUFFER kee so the fight can be run out without the death flow, and the
@@ -22,13 +25,15 @@ const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Grown := preload("res://tests/support/grown_character.gd")
 const Specials := preload("res://tests/runtime/combat_specials_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 
 const BUFFER: int = 1000000
 ## Scheduler steps (one second of the fight's clock each) before a duel is called a loss.
 const MAX_STEPS: int = 4000
 
-## The must-win fights (the list: DECISIONS「主线必打的仗」). `exps`: the story path's arrival exp,
-## the lower (main story only) first; `enemies` / `allies`: [spawn, point] as they stand; `followers`:
+## The must-win fights (the list: DECISIONS「主线必打的仗」). `chapter`: the main story's quest the
+## fight is in; the character arrives with tests/support/story_arrival.gd's exp for it, the main
+## story alone and exploring on the side (`exploring_only`: only the latter; `exps` instead: given); `enemies` / `allies`: [spawn, point] as they stand; `followers`:
 ## NPC definitions that follow the player there whatever was chosen (郭承), summoned beside them;
 ## `mood`: the scene's mood put on each foe that has it (吕隼's 拿下: `fighting`);
 ## `helped`: whether the story guarantees help there (the nine-in-ten band); `away`: spawns whose NPCs
@@ -37,21 +42,42 @@ const MAX_STEPS: int = 4000
 ## player strikes first, and a first strike brings the whole room in; the 甬道's keyless jailers, gone
 ## once 「见过唤首」, the mark the keyed pair stand on).
 const FIGHTS: Array[Dictionary] = [
-	{"label": "第一章 山洞 黑衣道士", "zone": &"oldpine.caves.mouth", "point": &"oldpine.caves.mouth.cave5.black_taoist.1", "enemies": [["native.caves.black_taoist", "oldpine.caves.mouth.cave5.black_taoist.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
-	{"label": "第三章 祭坛 鬼卒×2", "zone": &"niling.altar", "point": &"niling.altar.hell_runner.1", "enemies": [["niling.altar.hell_runners", "niling.altar.hell_runner.1"], ["niling.altar.hell_runners", "niling.altar.hell_runner.2"]], "exps": [4695, 8837], "weapon": &"es2:obj/longsword"},
-	{"label": "第三章 救人 带钥匙的狱卒×2", "zone": &"niling.corridor", "point": &"niling.corridor.jailer_keyed.1", "enemies": [["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.1"], ["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.2"]], "away": [&"niling.corridor.jailers"], "exps": [4695, 8837], "weapon": &"es2:obj/longsword"},
-	{"label": "第五章 树洞 鬼卒×2", "zone": &"choyin.tomb3", "point": &"choyin.tomb3.hell_runner.1", "enemies": [["native.tomb3.hell_runners", "choyin.tomb3.hell_runner.1"], ["native.tomb3.hell_runners", "choyin.tomb3.hell_runner.2"]], "exps": [8442, 13712], "weapon": &"es2:obj/longsword"},
-	{"label": "第六章 借兵 踏平工地", "zone": &"guanbei.fence_gate", "point": &"guanbei.fence_gate.pei_zhao.1", "enemies": [["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.1"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.2"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.3"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.4"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.5"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.6"], ["guanbei.fence_gate.pei_zhao", "guanbei.fence_gate.pei_zhao.1"], ["guanbei.fence_gate.lu_sun", "guanbei.fence_gate.lu_sun.1"]], "allies": [["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.1"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.2"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.3"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.4"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.5"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.6"]], "followers": [&"native.npc.guo_cheng"], "mood": "fighting", "helped": true, "exps": [11625, 17432], "weapon": &"es2:obj/longsword"},
-	{"label": "第六章 潜入 守夜武官×2", "zone": &"guanbei.sheds", "point": &"guanbei.sheds.night_watch_fighting.1", "enemies": [["guanbei.sheds.night_watch_fighting", "guanbei.sheds.night_watch_fighting.1"], ["guanbei.sheds.night_watch_fighting", "guanbei.sheds.night_watch_fighting.2"]], "followers": [&"native.npc.guo_cheng"], "helped": true, "exps": [11625, 17432], "weapon": &"es2:obj/longsword"},
-	{"label": "终章 湖畔 鬼卒×3（潜入的路）", "zone": &"village.lakeside", "point": &"village.lakeside.finale_runner.1", "enemies": [["native.lakeside.finale_runners", "village.lakeside.finale_runner.1"], ["native.lakeside.finale_runners", "village.lakeside.finale_runner.2"], ["native.lakeside.finale_runners", "village.lakeside.finale_runner.3"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 冰龙厅 商玦", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"]], "exps": [37275, 52294], "away": [&"village.icecave.lakebottom2.dragons"], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 冰龙厅 商玦+四道士（打过冰龙）", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.2"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.3"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.4"]], "exps": [37275, 52294], "away": [&"village.icecave.lakebottom2.dragons"], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 侮天鬼（穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 侮天鬼（没宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.2", "enemies": [["native.seal_altar.wutian_gui_blazing", "village.seal_altar.demon.2"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 侮天鬼（穿宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.3", "enemies": [["native.seal_altar.wutian_gui_grown", "village.seal_altar.demon.3"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 侮天鬼（没宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.4", "enemies": [["native.seal_altar.wutian_gui_grown_blazing", "village.seal_altar.demon.4"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "第九章 揭发 庾子建（冯策并肩，选择）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "allies": [["imperial.throne_hall.feng_ce_beside", "imperial.throne_hall.feng_ce_beside.1"]], "helped": true, "exps": [32234], "weapon": &"es2:obj/longsword"},
+	{"label": "第一章 山洞 黑衣道士", "zone": &"oldpine.caves.mouth", "point": &"oldpine.caves.mouth.cave5.black_taoist.1", "enemies": [["native.caves.black_taoist", "oldpine.caves.mouth.cave5.black_taoist.1"]], "chapter": &"main.chapter1", "weapon": &"es2:obj/longsword"},
+	{"label": "第三章 祭坛 鬼卒×2", "zone": &"niling.altar", "point": &"niling.altar.hell_runner.1", "enemies": [["niling.altar.hell_runners", "niling.altar.hell_runner.1"], ["niling.altar.hell_runners", "niling.altar.hell_runner.2"]], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword"},
+	{"label": "第三章 救人 带钥匙的狱卒×2", "zone": &"niling.corridor", "point": &"niling.corridor.jailer_keyed.1", "enemies": [["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.1"], ["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.2"]], "away": [&"niling.corridor.jailers"], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword"},
+	{"label": "第三章 追宫主 玄冥子", "zone": &"niling.cliff_path", "point": &"niling.cliff_path.xuan_mingzi.1", "enemies": [["niling.cliff_path.xuan_mingzi", "niling.cliff_path.xuan_mingzi.1"]], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword"},
+	{"label": "第五章 树洞 鬼卒×2", "zone": &"choyin.tomb3", "point": &"choyin.tomb3.hell_runner.1", "enemies": [["native.tomb3.hell_runners", "choyin.tomb3.hell_runner.1"], ["native.tomb3.hell_runners", "choyin.tomb3.hell_runner.2"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "第五章 护送 庾家管事+打手×3", "zone": &"choyin.s_street2", "point": &"choyin.s_street2.yu_steward.1", "enemies": [["native.s_street2.yu_steward", "choyin.s_street2.yu_steward.1"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.1"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.2"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.3"]], "mood": "fighting", "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "第六章 借兵 踏平工地", "zone": &"guanbei.fence_gate", "point": &"guanbei.fence_gate.pei_zhao.1", "enemies": [["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.1"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.2"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.3"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.4"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.5"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.6"], ["guanbei.fence_gate.pei_zhao", "guanbei.fence_gate.pei_zhao.1"], ["guanbei.fence_gate.lu_sun", "guanbei.fence_gate.lu_sun.1"]], "allies": [["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.1"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.2"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.3"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.4"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.5"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.6"]], "followers": [&"native.npc.guo_cheng"], "mood": "fighting", "helped": true, "chapter": &"main.chapter6", "weapon": &"es2:obj/longsword"},
+	{"label": "第六章 潜入 守夜武官×2", "zone": &"guanbei.sheds", "point": &"guanbei.sheds.night_watch_fighting.1", "enemies": [["guanbei.sheds.night_watch_fighting", "guanbei.sheds.night_watch_fighting.1"], ["guanbei.sheds.night_watch_fighting", "guanbei.sheds.night_watch_fighting.2"]], "followers": [&"native.npc.guo_cheng"], "helped": true, "chapter": &"main.chapter6", "weapon": &"es2:obj/longsword"},
+	{"label": "终章 湖畔 鬼卒×3（潜入的路）", "zone": &"village.lakeside", "point": &"village.lakeside.finale_runner.1", "enemies": [["native.lakeside.finale_runners", "village.lakeside.finale_runner.1"], ["native.lakeside.finale_runners", "village.lakeside.finale_runner.2"], ["native.lakeside.finale_runners", "village.lakeside.finale_runner.3"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 冰龙厅 商玦", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"]], "chapter": &"main.finale", "away": [&"village.icecave.lakebottom2.dragons"], "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 冰龙厅 商玦+四道士（打过冰龙）", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.2"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.3"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.4"]], "chapter": &"main.finale", "away": [&"village.icecave.lakebottom2.dragons"], "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 侮天鬼（穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 侮天鬼（没宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.2", "enemies": [["native.seal_altar.wutian_gui_blazing", "village.seal_altar.demon.2"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 侮天鬼（穿宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.3", "enemies": [["native.seal_altar.wutian_gui_grown", "village.seal_altar.demon.3"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 侮天鬼（没宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.4", "enemies": [["native.seal_altar.wutian_gui_grown_blazing", "village.seal_altar.demon.4"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
+	{"label": "第九章 揭发 庾子建（冯策并肩，选择）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "allies": [["imperial.throne_hall.feng_ce_beside", "imperial.throne_hall.feng_ce_beside.1"]], "helped": true, "chapter": &"main.chapter9", "exploring_only": true, "weapon": &"es2:obj/longsword"},
 ]
+
+## A few ordinary fights of the first two hours and of ES2's regions, not tuned here: for measuring
+## what a rule change does to the fights a player meets anyway (DECISIONS「空手对兵器」「姿态整记」).
+const ORDINARY: Array[Dictionary] = [
+	{"label": "雪亭镇 客栈二楼 老鼠", "zone": &"snow.inn_2f", "point": &"snow.inn_2f.rat.1", "enemies": [["snow.inn_upstairs.inn_2f.rats", "snow.inn_2f.rat.1"]], "exps": [50, 150], "weapon": &"es2:obj/longsword"},
+	{"label": "老松林 山坡 土匪", "zone": &"oldpine.outdoor.slope", "point": &"oldpine.outdoor.slope.spath1.bandit.1", "enemies": [["oldpine.outdoor.spath1.bandits", "oldpine.outdoor.slope.spath1.bandit.1"]], "exps": [150, 600], "weapon": &"es2:obj/longsword"},
+	{"label": "老松林 松林口 高个土匪", "zone": &"oldpine.outdoor.pine_entrance", "point": &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1", "enemies": [["oldpine.outdoor.pine1.tall_bandit", "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"]], "exps": [400, 1000], "weapon": &"es2:obj/longsword"},
+	{"label": "野羊山 山路 山贼", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.bandit.1", "enemies": [["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
+	{"label": "绮云镇 公园 小偷", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
+	{"label": "老松岭 寨门 守寨土匪", "zone": &"oldpine.outdoor.keep_gate", "point": &"oldpine.outdoor.keep_gate.keep1.bandit_guard.1", "enemies": [["oldpine.outdoor.keep1.bandit_guards", "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
+]
+
+
+## The fight with this label among FIGHTS and ORDINARY, or empty.
+static func any_fight(label: String) -> Dictionary:
+	for entry: Dictionary in FIGHTS + ORDINARY:
+		if entry["label"] == label:
+			return entry
+	return {}
 
 
 ## One fight at one exp: the duels won, the rounds each won duel took, the lineup that fought, the
@@ -63,6 +89,9 @@ class Result:
 	var duels: int = 0
 	var wins: int = 0
 	var won_rounds: Array[int] = []
+	## Each counted duel's share of the player's 气 lost by its end (1 for a loss): a continuous
+	## read of how close the fight was, steadier than the win rate over few duels.
+	var kee_lost: Array[float] = []
 	## Who was in the fight on each side (the first duel's), for checking the lineup is the story's.
 	var enemies_in: int = 0
 	var allies_in: int = 0
@@ -73,6 +102,8 @@ class Result:
 	## The forecast's verdict (CombatForecast.Verdict) and its rounds ratio; -1 when none.
 	var forecast: int = -1
 	var forecast_ratio: float = -1.0
+	## The forecast's reason (CombatForecast.Reason; -1 when none).
+	var forecast_reason: int = -1
 	var stuck: int = 0
 	## Duels left out: not every foe came into the fight, or it closed with a foe never down.
 	var short_lineup: int = 0
@@ -80,6 +111,25 @@ class Result:
 
 	func rate() -> float:
 		return 0.0 if duels == 0 else float(wins) / float(duels)
+
+	func mean_kee_lost() -> float:
+		var total: float = 0.0
+		for share: float in kee_lost:
+			total += share
+		return 0.0 if kee_lost.is_empty() else total / kee_lost.size()
+
+	## Another run's duels added to this one's (several seeds pooled).
+	func pool(other: Result) -> void:
+		duels += other.duels
+		wins += other.wins
+		won_rounds.append_array(other.won_rounds)
+		kee_lost.append_array(other.kee_lost)
+		stuck += other.stuck
+		short_lineup += other.short_lineup
+		others_in = maxi(others_in, other.others_in)
+		for note: String in other.notes:
+			if not notes.has(note):
+				notes.append(note)
 
 	func median_rounds() -> int:
 		if won_rounds.is_empty():
@@ -93,12 +143,20 @@ class Result:
 
 
 ## Tuning, this run only (run_mainline_fight_sim.gd's `tune=`): NPC definition ID -> {"exp": n,
-## "skills": {skill: raw level}, "kee": n, "force": n} put on each foe of that definition as a duel opens.
+## "skills": {skill: raw level}, "kee": n, "force": n, "applies": {key: n}} put on each foe of that
+## definition as a duel opens.
 var tune: Dictionary = {}
 ## Print each duel's end (run_mainline_fight_sim.gd's `verbose`).
 var verbose: bool = false
 ## The stance the player holds (CombatStance; the default 攻).
 var stance: int = CombatStance.Value.ATTACK
+## The player's build: SWORD (封山剑法, the fight's `weapon` in hand) or FIST (柳家拳, bare-handed;
+## a fight's weapon is not taken up: the fist has no sword skill).
+var build: StringName = SWORD
+## The sword build's weapon instead of the fight's own `weapon` (empty: the fight's).
+var weapon: StringName = &""
+const SWORD: StringName = &"sword"
+const FIST: StringName = &"fist"
 var tree: SceneTree
 var session: WorldSessionController
 var map: WorldMapController
@@ -114,6 +172,18 @@ func _init(p_tree: SceneTree) -> void:
 	tree = p_tree
 
 
+## The exps `entry` is fought at: the main story alone first, then exploring on the side.
+static func exps_of(entry: Dictionary) -> Array[int]:
+	var out: Array[int] = []
+	if entry.has("exps"):
+		out.assign(entry["exps"])
+	elif entry.has("chapter"):
+		if not entry.get("exploring_only", false):
+			out.append(Arrival.main_story(entry["chapter"]))
+		out.append(Arrival.exploring(entry["chapter"]))
+	return out
+
+
 ## The fight with this label, or empty.
 static func fight(label: String) -> Dictionary:
 	for entry: Dictionary in FIGHTS:
@@ -122,7 +192,21 @@ static func fight(label: String) -> Dictionary:
 	return {}
 
 
-## Each of `experiences` (the fight's own `exps` when empty): `duels` duels from `seed`.
+## Each of `experiences` (the fight's own exps when empty): `duels` duels from each of `seeds`,
+## pooled into one Result per exp.
+func run_seeds(entry: Dictionary, duels: int, seeds: Array[int], experiences: Array = []) -> Array[Result]:
+	var pooled: Array[Result] = []
+	for seed: int in seeds:
+		var results: Array[Result] = await run(entry, duels, seed, experiences)
+		for index: int in results.size():
+			if index >= pooled.size():
+				pooled.append(results[index])
+			else:
+				pooled[index].pool(results[index])
+	return pooled
+
+
+## Each of `experiences` (the fight's own exps when empty): `duels` duels from `seed`.
 func run(entry: Dictionary, duels: int, seed: int = 7, experiences: Array = []) -> Array[Result]:
 	var results: Array[Result] = []
 	var paces: Array = [BattlePace.manual_turns, BattlePace.stance, BattlePace.after_knockout, BattlePace.opening]
@@ -131,7 +215,7 @@ func run(entry: Dictionary, duels: int, seed: int = 7, experiences: Array = []) 
 	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
 	BattlePace.opening = BattlePace.Opening.OFF
 	if await _open(entry):
-		for experience: Variant in (entry["exps"] if experiences.is_empty() else experiences):
+		for experience: Variant in (exps_of(entry) if experiences.is_empty() else experiences):
 			results.append(await _run_at(int(experience), duels, seed))
 	else:
 		var failed := Result.new()
@@ -187,7 +271,8 @@ func _open(entry: Dictionary) -> bool:
 	await _settle()
 	if _enemies.size() != entry["enemies"].size():
 		return false
-	_wield(entry["weapon"])
+	if build == SWORD:
+		_wield(entry["weapon"] if weapon.is_empty() else weapon)
 	return true
 
 
@@ -205,12 +290,14 @@ func _run_at(experience: int, duels: int, seed: int) -> Result:
 			var forecast: CombatForecast = CombatForecastBuilder.for_attack(map, _enemies[0])
 			if forecast != null:
 				result.forecast = forecast.verdict
+				result.forecast_reason = forecast.reason
 				result.forecast_ratio = forecast.rounds_to_win / forecast.rounds_to_lose if forecast.rounds_to_lose != INF and forecast.rounds_to_lose > 0.0 else 0.0
 		var outcome: Array = await _duel(result, duel == 0)
 		if outcome.size() > 2 and not outcome[2]:
 			result.short_lineup += 1
 			continue
 		result.duels += 1
+		result.kee_lost.append(outcome[3] if outcome.size() > 3 else 1.0)
 		if outcome[0]:
 			result.wins += 1
 			result.won_rounds.append(outcome[1])
@@ -223,7 +310,7 @@ func _reset() -> void:
 	# Grown anew each duel: what a duel taught (exp, skills, potential) is not carried into the next.
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var state: CharacterState = player.state
-	Grown.grow(state, _experience, 50, true)
+	Grown.grow(state, _experience, 50, build == SWORD)
 	state.attributes.force_factor = 0
 	# The last duel's dead taken away (a corpse a duel would fill the room).
 	for corpse: CorpseState in map.corpses._corpse_states.duplicate():
@@ -281,6 +368,8 @@ func _tune(npc: NpcRuntimeState) -> void:
 		s.vitality = CharacterResourceState.new(int(facts["kee"]), int(facts["kee"]), int(facts["kee"]))
 	if facts.has("force"):
 		s.recovery.inner_force.maximum = int(facts["force"])
+	for key: String in facts.get("applies", {}):
+		s.applies[key] = int(facts["applies"][key])
 
 
 func _forget(relationship: CombatRelationshipState) -> void:
@@ -372,6 +461,7 @@ func _duel(result: Result, first: bool) -> Array:
 				break
 			coordinator.advance_scheduler(1.0)
 	session.shared_ui().dismiss_current_panel()
+	var lost_share: float = 1.0 if lost else clampf(float(real_kee + BUFFER - mini(s.vitality.current, s.vitality.effective)) / float(maxi(1, real_kee)), 0.0, 1.0)
 	s.vitality = CharacterResourceState.new(real_kee, real_kee, real_kee)
 	if player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		lost = true
@@ -395,7 +485,7 @@ func _duel(result: Result, first: bool) -> Array:
 	if verbose:
 		var foes: Array = _enemies.map(func(npc: NpcRuntimeState) -> String: return "%s %d/%d %s" % [npc.definition().display_name, npc.character_state.vitality.current, npc.character_state.vitality.maximum, CharacterRuntimeLifeStatus.Value.find_key(npc.life_status)])
 		print("  duel: %s rounds %d (lost at %d) steps %d ending %s foes %s" % ["won" if not lost else "lost", rounds, lost_rounds, steps, "?" if ending == null else CombatEncounterResultKind.Value.find_key(ending.kind), foes])
-	return [not lost, rounds if not lost else lost_rounds, full]
+	return [not lost, rounds if not lost else lost_rounds, full, 1.0 if lost else lost_share]
 
 
 ## How many in `encounter` are neither the player nor the story's lineup (a bystander the room brought in).
@@ -427,11 +517,30 @@ func _order(coordinator: CombatEncounterCoordinator) -> void:
 			break
 	var unaffordable: Dictionary[StringName, String] = coordinator.unaffordable_moves()
 	var locked: Dictionary[StringName, String] = coordinator.locked_moves()
+	var moves: Array[CombatActionDefinition] = []
 	for move: CombatActionDefinition in coordinator.player_moves():
 		if move.tag != CombatMoveTags.GUARD and not unaffordable.has(move.action_id) and not locked.has(move.action_id):
-			if coordinator.choose_attack(move.action_id):
-				return
+			moves.append(move)
+	var rules: CombatPowerRules = GameContent.catalog().pacing().combat_rules()
+	moves.sort_custom(func(a: CombatActionDefinition, b: CombatActionDefinition) -> bool: return _per_beat(a, coordinator, rules) > _per_beat(b, coordinator, rules))
+	for move: CombatActionDefinition in moves:
+		if coordinator.choose_attack(move.action_id):
+			return
 	coordinator.yield_round()
+
+
+## A move's expected damage per beat by its own leans at even odds (attack power equal to the
+## defense at both gates): the tag's attack and parry percents on the chance to land, the tag's
+## damage percent (a 重's whole-blow knob) and the action's own on the blow, over its beat cost.
+static func _per_beat(move: CombatActionDefinition, coordinator: CombatEncounterCoordinator, rules: CombatPowerRules) -> float:
+	var attack: float = 1.0 + CombatMoveTags.attack_percent(move.tag, CombatMoveTags.NONE, rules.action_tag_bonus_percent, 0) / 100.0
+	var parry: float = 1.0 + CombatMoveTags.parry_percent(move.tag, rules.action_tag_bonus_percent) / 100.0
+	var land: float = attack / (attack + 1.0) * attack / (attack + parry)
+	var blow: float = 1.0 + CombatMoveTags.damage_percent(move.tag, CombatMoveTags.NONE, rules.action_tag_bonus_percent, 0, rules.heavy_blow_percent > 0) / 100.0
+	if move.tag == CombatMoveTags.HEAVY:
+		blow += rules.heavy_blow_percent / 100.0
+	blow *= 1.0 + move.damage_percent / 200.0
+	return land * blow / float(maxi(1, coordinator.move_cost(move.action_id)))
 
 
 func _bring_all(pairs: Array) -> Array[NpcRuntimeState]:

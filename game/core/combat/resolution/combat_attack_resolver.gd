@@ -200,17 +200,15 @@ static func resolve(
 			mutation,
 		)
 
-	var parry_effective_level: int
+	# combatd.c (4): the parry skill when armed (doubled against bare hands), none bare-handed
+	# against a weapon, the unarmed skill bare-handed against bare hands; the 空手对兵器 knobs
+	# (CombatPowerRules.parry_power, DECISIONS「空手对兵器」) set the doubling and the none.
 	if defender.has_primary_weapon:
-		parry_effective_level = defender.effective_parry_skill_level
-		calculation._parry_power = _defense_skill_power(defender, parry_effective_level, rules)
-		if weapon == null:
-			calculation._parry_power *= 2
-	elif weapon != null:
+		calculation._parry_power = rules.parry_power(true, weapon != null, _defense_skill_power(defender, defender.effective_parry_skill_level, rules), 0, attacker.player or defender.player)
+	elif weapon != null and (rules.bare_parry_percent == 0 or not (attacker.player or defender.player)):
 		calculation._parry_power = 0
 	else:
-		parry_effective_level = defender.effective_unarmed_skill_level
-		calculation._parry_power = _defense_skill_power(defender, parry_effective_level, rules)
+		calculation._parry_power = rules.parry_power(false, weapon != null, 0, _defense_skill_power(defender, defender.effective_unarmed_skill_level, rules), attacker.player or defender.player)
 	var parry_percent: int = defender.parry_power_percent + CombatMoveTags.parry_percent(action.tag, rules.action_tag_bonus_percent)
 	if parry_percent != 0:
 		@warning_ignore("integer_division")
@@ -248,7 +246,8 @@ static func resolve(
 			mutation,
 		)
 
-	calculation._base_apply_damage = attacker.projected_apply_damage
+	# 空手对兵器: a bare-handed blow's weapon share (0 at ES2's knob).
+	calculation._base_apply_damage = attacker.projected_apply_damage + rules.bare_damage(weapon != null, attacker.effective_attack_skill_level, attacker.trained_bare_hands)
 	calculation._damage_value = calculation._base_apply_damage
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.APPLY_DAMAGE_PROJECTED
 	var damage_roll: int = _draw(random_source, calculation._damage_value, calculation)

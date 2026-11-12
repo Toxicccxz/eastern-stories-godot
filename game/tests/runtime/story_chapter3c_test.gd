@@ -258,7 +258,7 @@ func _test_chase(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(back != null and await MapPlaces.drive(tree, master, MapPlaces.service_spot(master, &"niling.master.back_door")) and back.in_reach() and back.verb() == "追出去", "小门 · 追出去 within reach")
 	back.interact()
 	await tree.physics_frame
-	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("只来得及一件"), "asked first: %s" % ui.confirm_prompt.message.text)
+	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("只来得及一件") and ui.confirm_prompt.message.text.contains("要和玄冥子打一场"), "asked first, the fight on the cliff named (DECISIONS「主线必打的仗」): %s" % ui.confirm_prompt.message.text)
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	var backhill: WorldMapController = session.active_map() as WorldMapController

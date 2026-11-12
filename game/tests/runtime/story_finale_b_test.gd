@@ -51,10 +51,12 @@ func _test_data() -> void:
 	var end: StoryQuestDefinition.Step = quest.step(&"end")
 	_check(end.options.size() == 6 and end.option(&"slay") != null and end.option(&"seal_self") != null and end.options.slice(1).all(func(option: StoryQuestDefinition.Option) -> bool: return option.reward.marks == ["再封了侮天鬼"]), "灭, or five ways to seal it again (each marks 再封了侮天鬼)")
 	var forms: Array = [&"native.npc.wutian_gui", &"native.npc.wutian_gui_blazing", &"native.npc.wutian_gui_grown", &"native.npc.wutian_gui_grown_blazing"]
-	# DECISIONS「主线必打的仗」: the forms differ by their kee (and a little by their levels); the
-	# fights themselves are boss_strength_test's (robe, unpulled the easiest; no robe, pulled the hardest).
+	# DECISIONS「主线必打的仗」second round: the four forms fight alike — the same kee, exp, unarmed,
+	# dodge, force and `apply` (both builds near the band's ends leave no room for a spread; their
+	# parry skill, unused bare-handed against bare hands and weapons alike, and gin / sen still differ);
+	# which one comes is still the robe's and the pull's. The fights are boss_strength_demon_test's.
 	var kee: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).resource_overrides().vitality().maximum())
-	_check(kee[0] < kee[1] and kee[0] < kee[2] and kee[1] <= kee[3] and kee[2] < kee[3], "侮天鬼: stronger without the robe, stronger grown (kee %s)" % [kee])
+	_check(kee.all(func(value: int) -> bool: return value == kee[0] and value > 0), "侮天鬼: the four forms alike in kee %s" % [kee])
 	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).talk().inquiry_topics().is_empty()), "妖魔不解释: no topics")
 	var sword: ItemContentDefinition = catalog.item(SWORD)
 	_check(sword.give_to.has(&"native.npc.elon_altar") and sword.give_to.has(&"native.npc.lihong"), "穿灵 can be given to a keeper")

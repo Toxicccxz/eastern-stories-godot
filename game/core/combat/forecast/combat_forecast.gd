@@ -46,7 +46,7 @@ var spar_verdict: Verdict = Verdict.EVEN
 static func estimate(
 	outgoing: Array[CombatAttackInput], incoming: Array[CombatAttackInput],
 	enemy_kee: Array[int], player_kee: int,
-	outgoing_chance: Array[float] = [], incoming_chance: Array[float] = [],
+	outgoing_chance: Array[float] = [], incoming_chance: Array[float] = [], read_reason: bool = true,
 ) -> CombatForecast:
 	var result := CombatForecast.new()
 	result.enemies = outgoing.size()
@@ -81,7 +81,8 @@ static func estimate(
 		INF if result.land_chance <= 0.0 else 1.0 / result.land_chance,
 		INF if result.enemy_land_chance <= 0.0 else 1.0 / result.enemy_land_chance,
 	)
-	result.reason = _reason(result, outgoing, incoming, enemy_kee, player_kee, outgoing_chance, incoming_chance)
+	if read_reason:
+		result.reason = _reason(result, outgoing, incoming, enemy_kee, player_kee, outgoing_chance, incoming_chance)
 	return result
 
 
@@ -128,6 +129,10 @@ static func _reason(
 	var attacker: CombatAttackerSnapshot = first.attacker
 	var defender: CombatDefenderSnapshot = first.defender
 	if result.verdict >= Verdict.UNFAVOURED or result.land_chance < 0.3:
+		# Bare hands against their weapons (DECISIONS「空手对兵器」): when the fight would read
+		# better with the bare-hand rules even (parry the same either way), that is what loses it.
+		if not attacker.has_weapon and defender.has_primary_weapon and _bare_hands_weigh(result, outgoing, incoming, enemy_kee, player_kee, outgoing_chance, incoming_chance):
+			return Reason.WEAPON_PARRY
 		# A wide experience gap lifts everything of theirs (power and defense): it comes first.
 		if experience_multiplier(first) < 0.7:
 			return Reason.EXPERIENCE
@@ -141,6 +146,37 @@ static func _reason(
 	if attacker.has_weapon and not defender.has_primary_weapon and result.verdict <= Verdict.FAVOURED:
 		return Reason.MY_WEAPON
 	return Reason.NONE
+
+
+## Whether the verdict would be better were the player's bare hands trained and met evenly (a fist
+## art's bare share, both parries as their own kind; DECISIONS「空手对兵器」).
+static func _bare_hands_weigh(
+	result: CombatForecast, outgoing: Array[CombatAttackInput], incoming: Array[CombatAttackInput],
+	enemy_kee: Array[int], player_kee: int, outgoing_chance: Array[float], incoming_chance: Array[float],
+) -> bool:
+	var rules: CombatPowerRules = outgoing[0].rules
+	var even: CombatPowerRules = rules.duplicate_snapshot().with_bare_hands(maxi(100, rules.bare_parry_percent), mini(100, rules.armed_parry_percent), rules.bare_damage_percent)
+	var even_out: Array[CombatAttackInput] = []
+	var even_in: Array[CombatAttackInput] = []
+	for index: int in outgoing.size():
+		even_out.append(_with_rules(outgoing[index], even, true))
+		even_in.append(_with_rules(incoming[index], even, false))
+	var evened: CombatForecast = estimate(even_out, even_in, enemy_kee, player_kee, outgoing_chance, incoming_chance, false)
+	return evened.verdict < result.verdict
+
+
+## `input` under `rules`, the player's bare hands (an outgoing attacker, an incoming defender) as
+## trained ones.
+static func _with_rules(input: CombatAttackInput, rules: CombatPowerRules, outgoing: bool) -> CombatAttackInput:
+	if input == null:
+		return null
+	var attacker: CombatAttackerSnapshot = input.attacker
+	var defender: CombatDefenderSnapshot = input.defender
+	if outgoing:
+		attacker.trained_bare_hands = not attacker.has_weapon
+	else:
+		defender.trained_bare_hands = not defender.has_primary_weapon
+	return CombatAttackInput.new(attacker, defender, input.selected_action, input.approved_actions(), rules)
 
 
 ## The expected 气 one round of `input`'s attacks takes: the chance to land times the
@@ -180,13 +216,11 @@ static func parry_gate(input: CombatAttackInput) -> float:
 	var ap: int = attack_power(input)
 	var pp: int
 	if defender.has_primary_weapon:
-		pp = _power(defender, defender.effective_parry_skill_level, input.rules)
-		if not attacker.has_weapon:
-			pp *= 2
-	elif attacker.has_weapon:
+		pp = input.rules.parry_power(true, attacker.has_weapon, _power(defender, defender.effective_parry_skill_level, input.rules), 0, attacker.player or defender.player)
+	elif attacker.has_weapon and (input.rules.bare_parry_percent == 0 or not (attacker.player or defender.player)):
 		pp = 0
 	else:
-		pp = _power(defender, defender.effective_unarmed_skill_level, input.rules)
+		pp = input.rules.parry_power(false, attacker.has_weapon, 0, _power(defender, defender.effective_unarmed_skill_level, input.rules), attacker.player or defender.player)
 	pp = maxi(1, pp)
 	return float(ap) / float(ap + pp)
 
@@ -211,12 +245,13 @@ static func expected_damage(input: CombatAttackInput) -> float:
 		actions.append(input.selected_action)
 	var total: float = 0.0
 	for action: CombatActionDefinition in actions:
-		total += _action_damage(attacker, action)
+		total += _action_damage(attacker, action, input.rules)
 	return maxf(0.0, total / float(actions.size()) * experience_multiplier(input))
 
 
-static func _action_damage(attacker: CombatAttackerSnapshot, action: CombatActionDefinition) -> float:
-	var damage: float = _half_with_draw(attacker.projected_apply_damage)
+static func _action_damage(attacker: CombatAttackerSnapshot, action: CombatActionDefinition, rules: CombatPowerRules = null) -> float:
+	var bare: int = 0 if rules == null else rules.bare_damage(attacker.has_weapon, attacker.effective_attack_skill_level, attacker.trained_bare_hands)
+	var damage: float = _half_with_draw(attacker.projected_apply_damage + bare)
 	if action != null and action.damage_percent != 0:
 		damage += float(action.damage_percent) * damage / 100.0
 	var strength: int = CombatMath.effective_strength(attacker.strength_projection)

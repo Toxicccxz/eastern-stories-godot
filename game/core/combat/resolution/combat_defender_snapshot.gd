@@ -26,6 +26,11 @@ var ghost_atman: int = -1
 var dodge_power_percent: int = 0
 var parry_power_percent: int = 0
 var move_tag: StringName = &""
+## 空手对兵器 (DECISIONS「空手对兵器」): the defender is the player's trained bare hands — no weapon
+## in hand and a fist art enabled on unarmed (the forecast reads it).
+var trained_bare_hands: bool = false
+## 空手对兵器: the defender is the player (the bare-hand parry knobs apply to this blow).
+var player: bool = false
 
 var character_id: StringName:
 	get:
@@ -134,6 +139,8 @@ func duplicate_snapshot() -> CombatDefenderSnapshot:
 	copy.dodge_power_percent = dodge_power_percent
 	copy.parry_power_percent = parry_power_percent
 	copy.move_tag = move_tag
+	copy.trained_bare_hands = trained_bare_hands
+	copy.player = player
 	return copy
 
 
