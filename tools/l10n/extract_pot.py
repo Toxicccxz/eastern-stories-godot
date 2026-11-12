@@ -50,6 +50,8 @@ TEXT_KEYS = frozenset({
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg", "locked",
     "style_word", "style_line", "summary", "intro", "seat",
+    # drop.c's refusal when no_drop is a sentence (`"no_drop": true` is ES2's default line, in code).
+    "no_drop",
 })
 TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs", "sky_levels"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
@@ -359,9 +361,9 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
 
 
 def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
-    """The quests (任务系统, StoryQuestDefinition): title, region, summary, each step's objective
-    and text, each option's text, and the deeds their rewards write; ids, lines and conditions
-    are never shown."""
+    """The quests (任务系统, StoryQuestDefinition): title, region, summary, each step's objective,
+    text and checklist rows, each option's text, and the deeds their rewards write; ids, lines and
+    conditions are never shown."""
     for quest in document.get("quests", []):
         if not isinstance(quest, dict):
             continue
@@ -389,6 +391,14 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
             if isinstance(step_reward, dict) and isinstance(step_reward.get("deed"), str):
                 catalog.add(step_reward["deed"], relative, note=f"{step_id} reward.deed")
             _add_rank(step_reward, relative, f"{step_id} reward.rank.title", catalog)
+            # The 任务 page's rows under the objective (StoryQuestDefinition.CheckRow): each row's
+            # label and the half sentence said while it does not hold.
+            for row in step.get("checklist", []):
+                if not isinstance(row, dict):
+                    continue
+                for key in ("label", "missing"):
+                    if isinstance(row.get(key), str) and row[key]:
+                        catalog.add(row[key], relative, note=f"{step_id} checklist.{key}")
             for option in step.get("options", []):
                 if not isinstance(option, dict):
                     continue
