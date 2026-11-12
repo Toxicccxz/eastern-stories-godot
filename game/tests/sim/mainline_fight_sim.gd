@@ -153,6 +153,8 @@ var stance: int = CombatStance.Value.ATTACK
 ## The player's build: SWORD (封山剑法, the fight's `weapon` in hand) or FIST (柳家拳, bare-handed;
 ## a fight's weapon is not taken up: the fist has no sword skill).
 var build: StringName = SWORD
+## The sword build's weapon instead of the fight's own `weapon` (empty: the fight's).
+var weapon: StringName = &""
 const SWORD: StringName = &"sword"
 const FIST: StringName = &"fist"
 var tree: SceneTree
@@ -270,7 +272,7 @@ func _open(entry: Dictionary) -> bool:
 	if _enemies.size() != entry["enemies"].size():
 		return false
 	if build == SWORD:
-		_wield(entry["weapon"])
+		_wield(entry["weapon"] if weapon.is_empty() else weapon)
 	return true
 
 

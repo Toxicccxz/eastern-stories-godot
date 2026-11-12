@@ -2,7 +2,8 @@ extends SceneTree
 
 ## Opt-in report of the must-win fights (MainlineFightSim), for tuning their foes. Never an autoload;
 ## tests/ is not in a release:
-## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- [only=<label part>[|<label part>...]] [n=<duels>] [exp=<a,b>] [tune=<json file>] [stance=attack|guard|evade] [build=sword|fist] [seed=<n>[,<n>...]] [rules=<knob:value,...>] [ordinary] [low]
+## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- [only=<label part>[|<label part>...]] [n=<duels>] [exp=<a,b>] [tune=<json file>] [stance=attack|guard|evade] [build=sword|fist] [seed=<n>[,<n>...]] [rules=<knob:value,...>] [weapon=<item id>] [ordinary] [low]
+## `weapon`: the sword build wields this instead of the fight's own weapon.
 ## `ordinary`: MainlineFightSim.ORDINARY (a few fights of the first two hours and ES2's regions) instead.
 ## `rules`: CombatPowerRules knobs for this run (e.g. rules=bare_parry_percent:50,bare_damage_percent:60).
 ## `low`: each fight's first exp only (the main story alone).
@@ -29,6 +30,7 @@ func _run() -> void:
 	var stance: int = CombatStance.Value.ATTACK
 	var build: StringName = MainlineFightSim.SWORD
 	var seeds: Array[int] = [7]
+	var weapon: StringName = &""
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("only="):
 			only = arg.substr(5)
@@ -42,6 +44,8 @@ func _run() -> void:
 			for pair: String in arg.substr(6).split(","):
 				rules.set(pair.get_slice(":", 0), int(pair.get_slice(":", 1)))
 			GameContent.catalog().set_pacing(pacing.copy().with_combat(rules, pacing.combat_forecast, pacing.es2_npc_values))
+		elif arg.begins_with("weapon="):
+			weapon = StringName(arg.substr(7))
 		elif arg.begins_with("seed="):
 			seeds.assign(Array(arg.substr(5).split(",")).map(func(text: String) -> int: return int(text)))
 		elif arg.begins_with("build="):
@@ -59,6 +63,7 @@ func _run() -> void:
 		sim.tune = tune
 		sim.stance = stance
 		sim.build = build
+		sim.weapon = weapon
 		sim.verbose = OS.get_cmdline_user_args().has("verbose")
 		var exps: Array = [MainlineFightSim.exps_of(entry)[0]] if OS.get_cmdline_user_args().has("low") and experiences.is_empty() else experiences
 		for result: MainlineFightSim.Result in await sim.run_seeds(entry, duels, seeds, exps):

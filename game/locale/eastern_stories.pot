@@ -44321,7 +44321,7 @@ msgstr ""
 
 #. niling.master.back_door act.acts.ask
 #: data/niling/world.json
-msgid "后门外是后山的崖径，商玦刚从这里出去。追出去，就赶不回地牢了——救人和追宫主，只来得及一件。"
+msgid "后门外是后山的崖径，商玦刚从这里出去，玄冥子跟在后头替他断后。追出去，要和玄冥子打一场，也赶不回地牢了——救人和追宫主，只来得及一件。"
 msgstr ""
 
 #. niling.master.back_door act.acts.steps.line
