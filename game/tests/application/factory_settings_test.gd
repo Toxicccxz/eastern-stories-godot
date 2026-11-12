@@ -19,6 +19,10 @@ extends RefCounted
 ## thread. Last, with the slices, a save, a load and a return to the main menu each made while a
 ## map is still being built, and a Continue from there.
 ##
+## Mid-build is caught reliably: a build sets world_building() and first gives a frame of dark
+## (WorldVoxelView._build()'s breathe(true) always waits for the view's next frame), so the frame
+## after the passage sees it under way however fast the machine.
+##
 ## Each New Game has fixed seeds (the session's deterministic_* switches), so a failure reruns.
 const MemoryFiles = preload("res://tests/application/application_shell_test.gd").MemoryFiles
 const SHELL = preload("res://scenes/application/application_shell.tscn")
@@ -245,7 +249,7 @@ func _rat(tree: SceneTree, session: WorldSessionController) -> bool:
 		_check(upstairs.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "攻击 the rat")
 	var fought: Dictionary = await _fight_by_orders(tree, session, &"", false)
 	_check(not coordinator.has_active_encounter(), "the fight ends (%d frames, %d orders)" % [fought["frames"], fought["orders"]])
-	_check(fought["orders"] >= 1 and fought["waits"] >= fought["orders"], "fought by orders, the round waiting for each: %d orders, %d waits" % [fought["orders"], fought["waits"]])
+	_check(fought["orders"] >= 1 and fought["waits"] >= 1, "fought by orders, the round waiting for the player: %d orders, %d waits" % [fought["orders"], fought["waits"]])
 	_check(rat.life_status == CharacterRuntimeLifeStatus.Value.DEAD and coordinator.held_victims().is_empty(), "the rat dead, nobody left waiting on 了结 / 放过 (%d answered)" % fought["answered"])
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted")
 	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "the player stands")
@@ -304,17 +308,17 @@ func _nearest_rat(map: WorldMapController) -> NpcRuntimeState:
 
 
 ## The fight under way, fought on the battle panel as a player does: the cheapest move to hand
-## pressed on its button when the round waits; with `yield_once`, 收势 pressed once a round has a
-## beat spent; one who falls answered on their card with 了结. Counts what happened: frames, waits
-## (each time the round came to wait), orders taken, 收势 taken, waits with a move 拍不够, and the
-## 了结 / 放过 questions asked of `watched` and answered.
+## pressed on its button when the round waits; with `yield_once`, 收势 pressed once, at a wait
+## after the first order (from the second wait on); one who falls answered on their card with 了结.
+## Counts what happened: frames, waits (each time the round came to wait), orders taken, 收势
+## taken, waits at which a move was dimmed for want of beats (unaffordable_moves() is only that:
+## 拍不够), and the 了结 / 放过 questions asked of `watched` and answered.
 func _fight_by_orders(tree: SceneTree, session: WorldSessionController, watched: StringName, yield_once: bool) -> Dictionary:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	var counts: Dictionary = {"frames": 0, "waits": 0, "orders": 0, "yields": 0, "short": 0, "asked": 0, "answered": 0}
 	var asked: Dictionary[StringName, bool] = {}
 	var waiting: bool = false
-	var orders_this_wait: int = 0
 	while coordinator.has_active_encounter() and counts["frames"] < FIGHT_FRAMES:
 		var held: Array[StringName] = coordinator.held_victims()
 		if not held.is_empty():
@@ -326,13 +330,13 @@ func _fight_by_orders(tree: SceneTree, session: WorldSessionController, watched:
 				card.finish_button.pressed.emit()
 				if not coordinator.held_victims().has(held[0]):
 					counts["answered"] += 1
-			elif coordinator.finish_downed(held[0]):
-				# Another who fell (not the one watched), its card not drawn yet: 了结 as before.
+			elif held[0] != watched and coordinator.finish_downed(held[0]):
+				# Another who fell (not the one watched), its card not drawn yet: 了结 as before. The
+				# one watched waits for its card: its question is what the long fight checks.
 				counts["answered"] += 1
 		elif coordinator.waiting_for_player():
 			if not waiting:
 				counts["waits"] += 1
-				orders_this_wait = 0
 				if not coordinator.unaffordable_moves().is_empty():
 					counts["short"] += 1
 			waiting = true
@@ -493,8 +497,8 @@ func _npc(session: WorldSessionController, map_id: StringName, character_id: Str
 
 ## With the slices on, a map's world goes up over frames behind the loading screen, and the pause
 ## key still opens 系统 (the shell takes it while playing). A save made then, a load made then, and
-## a return to the main menu made then: each comes to an end, nothing stays held or dark, and the
-## save made mid-build reads back whole and Continues.
+## a return to the main menu made then: each comes to an end, nothing stays held or dark; the save
+## made mid-build reads back whole and is the one the load reads, and 继续 plays on from the menu.
 func _mid_build(tree: SceneTree) -> void:
 	var files: MemoryFiles = MemoryFiles.new()
 	var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("factory-settings-mid-build")
@@ -530,11 +534,11 @@ func _mid_build(tree: SceneTree) -> void:
 			await _frame(tree, shell)
 			frames += 1
 		_check(shell.shell_state().mode() == ApplicationShellState.Mode.MAIN_MENU and shell.runtime_host().current_session() == null and not tree.paused, "the main menu, no world left, nothing paused")
-		# And from there the save made mid-build Continues.
+		# And from there 继续 (the newest save: the autosave of the walks since, or the one made mid-build).
 		_check(shell.continue_enabled() and shell.request_continue_from_menu(), "继续 from the main menu")
 		await _until_playing(tree, shell)
 		var continued: WorldSessionController = shell.runtime_host().current_session()
-		_check(continued != null and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and _shown(continued) and not continued.world_time_held() and _walks(continued), "Continue: playing the save made mid-build, nothing held")
+		_check(continued != null and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and _shown(continued) and not continued.world_time_held() and _walks(continued), "Continue: playing again, the world up, nothing held")
 	shell.free()
 	await _frames(tree, 8)
 

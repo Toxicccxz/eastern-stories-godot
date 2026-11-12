@@ -8,7 +8,7 @@ extends RefCounted
 ## the played one, fails here. Later chapters join as they are chained (this first reach: 第三章).
 ##
 ## The world runs as the player's does in what this suite is about: the day turns, time nobody
-## watches moves people and rots corpses, death is the modern one with the autosave, and the gangs
+## watches moves people and rots corpses, death is the modern one (no autosave: no runtime host here), and the gangs
 ## shout before they strike (TestDay, TestAway, TestDeath, TestAlert). A fight that falls on the
 ## player on a walk between the chapters (the 疯狗 on 雪亭's south road) is fought out as it comes.
 ## What it does not do is fight the story's fights: each chapter's play settles its fights TEST-ONLY as its own suite does (伪墓's 黑衣道士 on numbers
@@ -92,6 +92,7 @@ func _through(tree: SceneTree, session: WorldSessionController) -> void:
 	# here would compare the TEST-ONLY maxima 伪墓 gives, which Continue derives again).
 	var walker: RefCounted = (load("res://tests/runtime/snow_work_income_test.gd") as GDScript).new()
 	_check(OldPineSaveEligibility.inspect(session).allowed() and walker.capture(session) != null, "the played-through world may be saved, and is")
+	print("story through: %d fight(s) met on the walks between the chapters, fought out" % _met_on_the_way)
 
 
 ## One chapter's play from its own suite on this session; its checks count here, named by the
