@@ -36,6 +36,9 @@ OVERRIDES = Path(__file__).resolve().parent / 'overrides'
 REPLACEMENTS = Path(__file__).resolve().parent / 'text_replacements.json'
 LOST = '\u25a1'  # □
 REPORT = REPOSITORY / 'build/import/review.md'
+# The sections an override file may hold (Importer reads exactly these; a misspelt one is refused).
+OVERRIDE_KEYS = frozenset({'source_fixes', 'vendors', 'items', 'npcs', 'spawn_skip', 'vendor_skip',
+                           'vendor_goods', 'set', 'drop', 'review'})
 
 # include/ansi.h colour macros. Colour is presentation; the text is kept.
 ANSI_MACROS = {
@@ -538,6 +541,11 @@ class Importer:
                 raise ImportError_(f'text_replacements.json: {rule["find"]!r} must replace a lost character')
         self.overrides = {p.stem: json.loads(p.read_text(encoding='utf-8'))
                           for p in sorted(overrides.glob('*.json'))}
+        # A misspelt section would be read as absent and its hand-made facts silently lost.
+        for name, override in self.overrides.items():
+            unknown = sorted(set(override) - OVERRIDE_KEYS)
+            if unknown:
+                raise ImportError_(f'overrides/{name}.json: unknown section(s) {unknown}; known: {sorted(OVERRIDE_KEYS)}')
         for override in self.overrides.values():
             for path, fixes in override.get('source_fixes', {}).items():
                 corpus.fixes.setdefault(source_path(path), []).extend(fixes)

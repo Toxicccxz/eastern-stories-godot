@@ -4931,7 +4931,11 @@ msgstr ""
 msgid "虚"
 msgstr ""
 
-#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd presentation/battle/battle_participant_card.gd
+#. liuh-ken groups
+#. liuh-ken actions.group
+#. fonxansword groups
+#. fonxansword actions.group
+#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd presentation/battle/battle_participant_card.gd data/common/skills.json
 msgid "守"
 msgstr ""
 
@@ -4964,7 +4968,9 @@ msgstr ""
 msgid "隙"
 msgstr ""
 
-#: core/combat/decision/combat_school_skeleton.gd
+#. liuh-ken groups
+#. liuh-ken actions.group
+#: core/combat/decision/combat_school_skeleton.gd data/common/skills.json
 msgid "压"
 msgstr ""
 
@@ -9034,8 +9040,9 @@ msgstr ""
 msgid "指路"
 msgstr ""
 
+#. title
 #. ending cards.title
-#: runtime/application/application_shell_controller.gd data/story/epilogue.json
+#: runtime/application/application_shell_controller.gd data/common/opening.json data/story/epilogue.json
 msgid "东方故事"
 msgstr ""
 
@@ -10026,10 +10033,6 @@ msgstr ""
 msgid "你付了{fare}车钱。"
 msgstr ""
 
-#: runtime/world/services/coach_service.gd
-msgid "车马行: the fare (%d) was not taken on the ride to %s"
-msgstr ""
-
 #. a 车马行 ride ends: {time} the time on the road, {place} where it set the player down.
 #: runtime/world/services/coach_service.gd
 msgid "车马行的车走了{time}，把你送到了{place}。"
@@ -10194,10 +10197,6 @@ msgstr ""
 #. native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
 #: runtime/world/world_progression_rewards.gd
 msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
-msgstr ""
-
-#: runtime/world/world_session_controller.gd
-msgid "遁 could not reach %s from %s"
 msgstr ""
 
 #. the world's marker reached the place the player chose on the 地图 page.
@@ -13377,6 +13376,12 @@ msgstr ""
 msgid "练柳家拳法必须空手。"
 msgstr ""
 
+#. liuh-ken groups
+#. liuh-ken actions.group
+#: data/common/skills.json
+msgid "逼"
+msgstr ""
+
 #. liuh-ken skeleton.style_word
 #: data/common/skills.json
 msgid "抢压"
@@ -13543,6 +13548,18 @@ msgstr ""
 #. mystsword valid_learn.weapon
 #: data/common/skills.json
 msgid "你必须先找一把剑才能练剑法。"
+msgstr ""
+
+#. fonxansword groups
+#. fonxansword actions.group
+#: data/common/skills.json
+msgid "引"
+msgstr ""
+
+#. fonxansword groups
+#. fonxansword actions.group
+#: data/common/skills.json
+msgid "逐"
 msgstr ""
 
 #. fonxansword skeleton.style_word
@@ -14397,9 +14414,19 @@ msgstr ""
 msgid "$N左手一挥，一招「菊楼采月」右手点向$n$l"
 msgstr ""
 
+#. tenderzhi actions.weapon
+#: data/common/skills.json
+msgid "右手食指"
+msgstr ""
+
 #. tenderzhi actions.action
 #: data/common/skills.json
 msgid "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去"
+msgstr ""
+
+#. tenderzhi actions.weapon
+#: data/common/skills.json
+msgid "左手中指"
 msgstr ""
 
 #. tenderzhi actions.action
@@ -15049,6 +15076,16 @@ msgstr ""
 msgid "你得先拿一把剑——短剑最好。"
 msgstr ""
 
+#. shield-sword learn.armor_refusal
+#: data/common/skills.json
+msgid "盾呢？没盾的剑法不是我们的剑法。"
+msgstr ""
+
+#. shield-sword learn.forbidden_refusal
+#: data/common/skills.json
+msgid "你是鬼笠馆的人。铁盾会的剑法，不教鬼笠馆。"
+msgstr ""
+
 #. shield-sword actions.action
 #: data/common/skills.json
 msgid "$N左臂一抬，一招「盾墙」盾面迎上$n的$l，$w从盾沿底下刺出"
@@ -15107,6 +15144,11 @@ msgstr ""
 #. ghost-hat-sword valid_learn.weapon
 #: data/common/skills.json
 msgid "刀呢？没刀的刀法不是刀法。"
+msgstr ""
+
+#. ghost-hat-sword learn.forbidden_refusal
+#: data/common/skills.json
+msgid "你是铁盾会的人。盾在前的，用不着刀。"
 msgstr ""
 
 #. ghost-hat-sword actions.action
@@ -16286,17 +16328,6 @@ msgstr ""
 #. common.npc.swordsman.master inquiry.本宗.rules.say
 #: data/common/npcs.json
 msgid "你选了。武馆的门不拦你——只是剑，我不能再教了。"
-msgstr ""
-
-#. common.npc.swordsman.master inquiry.本宗.rules.marks_asker
-#: data/common/npcs.json
-msgid "跟了本宗"
-msgstr ""
-
-#. common.npc.swordsman.master inquiry.本宗.rules.marks_asker
-#. snow.npc.girl inquiry.北宗.rules.marks_asker
-#: data/common/npcs.json data/snow/npcs.json
-msgid "学了点字诀"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.本宗.rules.lines.emote
@@ -19826,7 +19857,8 @@ msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚�
 msgstr ""
 
 #. help.theme paragraphs
-#: data/common/codex.json
+#. paragraphs
+#: data/common/codex.json data/common/opening.json
 msgid "正纷扰间，一匹快马冲进了广场，两名老者立即站了起来。"
 msgstr ""
 
@@ -19836,12 +19868,14 @@ msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「�
 msgstr ""
 
 #. help.theme paragraphs
-#: data/common/codex.json
+#. paragraphs
+#: data/common/codex.json data/common/opening.json
 msgid "不料一名老者忽然说道：「大声点，让众位兄弟都听见了。」"
 msgstr ""
 
 #. help.theme paragraphs
-#: data/common/codex.json
+#. paragraphs
+#: data/common/codex.json data/common/opening.json
 msgid "那人一怔，随即大声说道：「方位是在西南二十四里，黄石隘口。」"
 msgstr ""
 
@@ -20038,6 +20072,42 @@ msgstr ""
 #. help.magic paragraphs
 #: data/common/codex.json
 msgid "道士的能力偏重于炼气，武术方面以内功、剑术见长，正统道家除炼气之外并不修习任何法术，但是许多道士往往会涉猎一些除妖降魔用的法术，以作为入山修炼时防身之用，有些支派的道士更发展成专研法术而舍弃修炼成仙的目的。"
+msgstr ""
+
+#. paragraphs
+#: data/common/opening.json
+msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚刚登基，雪亭镇上熙来攘往，一队身著白衣的朝廷武官和两名老者在镇前的广场中坐著，四面来来往往的人当中，有不少显然是武林中人，正探头探脑地向著广场张望。"
+msgstr ""
+
+#. paragraphs
+#: data/common/opening.json
+msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「禀将军，时辰已到，白道长命下官回禀，方位是在....」，说著压低了声音。"
+msgstr ""
+
+#. paragraphs
+#: data/common/opening.json
+msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里的小二道：「这些人神秘得紧，却不知到底在玩什麽把戏？」"
+msgstr ""
+
+#. paragraphs
+#: data/common/opening.json
+msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主....」"
+msgstr ""
+
+#. paragraphs
+#: data/common/opening.json
+msgid "少年奇道：「岚城？那是什麽地方？怎麽我从小到大不曾听过有这个地方？」"
+msgstr ""
+
+#. paragraphs
+#: data/common/opening.json
+msgid "少年听著出了神，怔怔地望著外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
+msgstr ""
+
+#. closing
+#. ending cards.lines.text
+#: data/common/opening.json data/story/epilogue.json
+msgid "那少年，便是你。"
 msgstr ""
 
 #. main.prologue title
@@ -21944,11 +22014,6 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "那少年，便是你。"
-msgstr ""
-
-#. ending cards.lines.text
-#: data/story/epilogue.json
 msgid "那少年，留在了冰里。"
 msgstr ""
 
@@ -22508,14 +22573,6 @@ msgstr ""
 #: data/oldpine/npcs.json
 msgid ""
 "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n"
-msgstr ""
-
-#. oldpine.npc.bandit classic.without
-#. oldpine.npc.tall_bandit classic.without
-#. oldpine.npc.fat_bandit classic.without
-#. snow.npc.rat classic.without
-#: data/oldpine/npcs.json data/snow/npcs.json
-msgid "resources"
 msgstr ""
 
 #. oldpine.npc.tall_bandit name
@@ -23222,9 +23279,10 @@ msgid ""
 "刘安禄望着北边，低声道：大哥……\n"
 msgstr ""
 
-#. snow.npc.guard moods.revealed.combat_chat_msg.action
+#. snow.npc.guard moods.spared.combat_chat_msg
 #: data/snow/npcs.json
-msgid "random_move"
+msgid ""
+"刘安禄叫道：老子已经认输了，你还要怎样！\n"
 msgstr ""
 
 #. snow.npc.trainee long
@@ -23973,11 +24031,6 @@ msgstr ""
 #. snow.npc.girl inquiry.北宗.rules.say
 #: data/snow/npcs.json
 msgid "你选了爹爹那一边。我不怪你。"
-msgstr ""
-
-#. snow.npc.girl inquiry.北宗.rules.marks_asker
-#: data/snow/npcs.json
-msgid "跟了北宗"
 msgstr ""
 
 #. snow.npc.girl inquiry.北宗.rules.lines.emote
@@ -29601,16 +29654,6 @@ msgstr ""
 msgid "工匠的小孩"
 msgstr ""
 
-#. green.npc.kid2 attitude.then
-#: data/green/npcs.json
-msgid "peaceful"
-msgstr ""
-
-#. green.npc.kid2 attitude.else
-#: data/green/npcs.json
-msgid "friendly"
-msgstr ""
-
 #. green.npc.kid4 chat_msg
 #: data/green/npcs.json
 msgid ""
@@ -31294,25 +31337,6 @@ msgstr ""
 msgid "这是你给守衣人的答复，说出去就改不了。"
 msgstr ""
 
-#. latemoon.npc.room.elon inquiry.为了斩鬼.rules.marks_asker
-#: data/latemoon/npcs.json
-msgid "答瑷伦：斩鬼"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.为了斩鬼.rules.marks_asker
-#. latemoon.npc.room.elon inquiry.交给安妮儿.rules.marks_asker
-#. latemoon.npc.room.elon inquiry.不知道.rules.marks_asker
-#: data/latemoon/npcs.json
-msgid "瑷伦说了冰匣"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.为了斩鬼.rules.marks_asker
-#. latemoon.npc.room.elon inquiry.交给安妮儿.rules.marks_asker
-#. latemoon.npc.room.elon inquiry.不知道.rules.marks_asker
-#: data/latemoon/npcs.json
-msgid "dance_yu_fong"
-msgstr ""
-
 #. latemoon.npc.room.elon inquiry.为了斩鬼.rules.lines.say
 #: data/latemoon/npcs.json
 msgid "寒於留它，本来就是为这个。衣在第二密室的冰匣里，匣只认「有凤来仪」——那支舞你跳得成，我教你记住它的名字。"
@@ -31352,11 +31376,6 @@ msgstr ""
 msgid "交给安妮儿"
 msgstr ""
 
-#. latemoon.npc.room.elon inquiry.交给安妮儿.rules.marks_asker
-#: data/latemoon/npcs.json
-msgid "答瑷伦：给安妮儿"
-msgstr ""
-
 #. latemoon.npc.room.elon inquiry.交给安妮儿.rules.lines.emote
 #: data/latemoon/npcs.json
 msgid "脸冷了下来。"
@@ -31385,11 +31404,6 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry topic
 #: data/latemoon/npcs.json
 msgid "不知道"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.不知道.rules.marks_asker
-#: data/latemoon/npcs.json
-msgid "答瑷伦：不知"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.不知道.rules.lines.say
@@ -31463,9 +31477,34 @@ msgstr ""
 msgid "接她三鞭"
 msgstr ""
 
+#. latemoon.npc.room.elon trials.confirm
+#: data/latemoon/npcs.json
+msgid ""
+"瑷伦的三鞭是真打：\n"
+"· 每一鞭都实打实地落在你身上。\n"
+"· 哪一鞭接不住，就算没接下：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n"
+"· 接不接得住看气长不长：气随内力上限涨，内力上限靠打坐——先向师父学一门内功、装上，再去打坐。\n"
+"确定接她三鞭吗？"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.relent_say
+#: data/latemoon/npcs.json
+msgid "瑷伦看了你很久：倒了两回，还站到我面前来。这份硬气，我认——这三鞭，我不用内力。"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.rest_say
+#: data/latemoon/npcs.json
+msgid "瑷伦摆摆手：你的气还没喘匀。歇好了再来。"
+msgstr ""
+
 #. latemoon.npc.room.elon trials.success
 #: data/latemoon/npcs.json
 msgid "瑷伦收起鞭子：站得住。那就再问你一句——你拿它去做什么？"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.deed
+#: data/latemoon/npcs.json
+msgid "接下了守衣人瑷伦的三鞭"
 msgstr ""
 
 #. latemoon.npc.room.elon accept_object.say
@@ -33241,6 +33280,11 @@ msgstr ""
 msgid "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎著哦!!"
 msgstr ""
 
+#. sanyen.kitchen.landmark.steampot messages.guarded
+#: data/sanyen/world.json
+msgid "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!"
+msgstr ""
+
 #. sanyen.kitchen.landmark.steampot long
 #: data/sanyen/world.json
 msgid ""
@@ -33292,6 +33336,12 @@ msgstr ""
 #. city.npc.caker rank_info.respect
 #: data/choyin/npcs.json data/city/npcs.json
 msgid "大叔"
+msgstr ""
+
+#. choyin.npc.cake_vendor rank_info.self
+#. city.npc.caker rank_info.self
+#: data/choyin/npcs.json data/city/npcs.json
+msgid "小的"
 msgstr ""
 
 #. choyin.npc.cake_vendor chat_msg
@@ -33500,12 +33550,6 @@ msgstr ""
 msgid "抄本你已经拿了。念给公堂听，还是烧了，都在你。"
 msgstr ""
 
-#. choyin.npc.sergeant inquiry.抄本.rules.marks_asker
-#. choyin.npc.sergeant inquiry.走吧.rules.marks_asker
-#: data/choyin/npcs.json
-msgid "看过寻剑令抄本"
-msgstr ""
-
 #. choyin.npc.sergeant inquiry.抄本.rules.lines.emote
 #: data/choyin/npcs.json
 msgid "把桃木箱翻过来，抠开底板，取出一卷发黄的纸。"
@@ -33589,11 +33633,6 @@ msgstr ""
 #. choyin.npc.sergeant inquiry.走吧.rules.say
 #: data/choyin/npcs.json
 msgid "箱子还没回到我手里——你先把箱子还我。抄本在箱底的夹层里，你要就先翻出来。"
-msgstr ""
-
-#. choyin.npc.sergeant inquiry.走吧.rules.marks_asker
-#: data/choyin/npcs.json
-msgid "放走了陈显祖"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry.走吧.rules.lines.emote
@@ -33924,28 +33963,10 @@ msgstr ""
 msgid "兵部文书"
 msgstr ""
 
-#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
-#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
-#: data/choyin/npcs.json
-msgid "陈显祖作了证"
-msgstr ""
-
-#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
-#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
-#: data/choyin/npcs.json
-msgid "程不平写了信"
-msgstr ""
-
 #. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
 #. choyin.npc.judgeman inquiry.供词.rules.lines.say
 #: data/choyin/npcs.json
 msgid "陈显祖的供词录下了，信也给了你。他留在内厅——庾家的人进不了这道门。"
-msgstr ""
-
-#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
-#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
-#: data/choyin/npcs.json
-msgid "程不平给了信"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.lines.emote
@@ -33964,12 +33985,6 @@ msgstr ""
 #. choyin.npc.judgeman inquiry.供词.rules.lines.say
 #: data/choyin/npcs.json
 msgid "陈显祖留在衙门里。庾家的人进不了这道门。"
-msgstr ""
-
-#. choyin.npc.judgeman inquiry.兵部文书.rules.marks_asker
-#. choyin.npc.judgeman inquiry.供词.rules.marks_asker
-#: data/choyin/npcs.json
-msgid "只留了文书"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
@@ -37688,6 +37703,51 @@ msgstr ""
 msgid "念。"
 msgstr ""
 
+#. village.seal_altar.recite act.acts.steps.questions.text
+#: data/village/world.json
+msgid "头在哪里？"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.answers.text
+#: data/village/world.json
+msgid "头在湖底冰下，以穿灵为钉。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.answers.text
+#: data/village/world.json
+msgid "头在逆灵宫的坛上，以黑焰养着。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.text
+#: data/village/world.json
+msgid "钉拔了，怎样？"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.answers.text
+#: data/village/world.json
+msgid "钉拔，鬼成形。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.answers.text
+#: data/village/world.json
+msgid "钉拔，鬼就散了。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.text
+#: data/village/world.json
+msgid "要再封，须有什么？"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.answers.text
+#: data/village/world.json
+msgid "要再封，须有人留下。"
+msgstr ""
+
+#. village.seal_altar.recite act.acts.steps.questions.answers.text
+#: data/village/world.json
+msgid "要再封，须有人祭。"
+msgstr ""
+
 #. village.seal_altar.recite act.acts.steps.true.line
 #: data/village/world.json
 msgid ""
@@ -41195,16 +41255,6 @@ msgstr ""
 msgid "顺一逆三，按下去。床底下的石板，往南走。符你带着——夜里宫里的禁军眼睛短一截。"
 msgstr ""
 
-#. city.npc.shangshu.qing_chen inquiry.密道.rules.marks_asker
-#: data/city/npcs.json
-msgid "清尘说了密道"
-msgstr ""
-
-#. city.npc.shangshu.qing_chen inquiry.密道.rules.marks_asker
-#: data/city/npcs.json
-msgid "看过床底的石板"
-msgstr ""
-
 #. city.npc.shangshu.qing_chen inquiry.密道.rules.lines.say
 #: data/city/npcs.json
 msgid "祭坛那块台子底下有个按钮，顺着转一圈，逆着转三圈，按下去。下面密室的床底下压着一块石板。"
@@ -43990,6 +44040,11 @@ msgid ""
 "一个黑衣黑冠的道人，背对着你站在黑石坛前，双手拢在袖里。他的衣冠和别的道士一样，只是黑得更深，像是吸光的。他念经的声音不高，一句接一句没有停顿，像水从石缝里渗出来。\n"
 msgstr ""
 
+#. native.npc.shang_jue fight_deferred
+#: data/niling/npcs.json
+msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他连头都没有回。"
+msgstr ""
+
 #. native.npc.shang_jue inquiry.逆灵宫
 #: data/niling/npcs.json
 msgid "商玦没有回头：逆灵者，逆天地之灵而用之。你既走上坛来，便是明白人。"
@@ -44094,6 +44149,11 @@ msgid ""
 "一个黑衣黑冠的道士，比别的道士高出半个头，站在坛边，腰上挂着一柄长剑和一串钥匙。他的脸上没有表情，眼睛却一直在动——看坛、看门、看你。\n"
 msgstr ""
 
+#. native.npc.xuan_mingzi fight_deferred
+#: data/niling/npcs.json
+msgid "玄冥子看也不看你，袖子一拂，你的剑便歪到了一边。"
+msgstr ""
+
 #. native.npc.xuan_mingzi inquiry.钥匙
 #: data/niling/npcs.json
 msgid "玄冥子按住腰上的钥匙串：子时。"
@@ -44177,6 +44237,11 @@ msgstr ""
 #: data/niling/npcs.json
 msgid ""
 "一个人形的黑影，没有头。它的脖颈处是一片比夜更黑的空，两只手朝前伸着，一下一下地摸索。它不出声——它没有嘴。\n"
+msgstr ""
+
+#. native.npc.headless_shade fight_deferred
+#: data/niling/npcs.json
+msgid "你的剑从黑影里穿了过去，什么也没碰到。"
 msgstr ""
 
 #. native.npc.hell_runner long
@@ -46822,6 +46887,11 @@ msgid ""
 "一个王府的骑兵，皮甲马刀，脸让风吹得黑红，刀还在马上的撩势里。\n"
 msgstr ""
 
+#. native.npc.huaiyang_rider fights_beside_leaves
+#: data/guanbei/npcs.json
+msgid "{npc}收了刀，拨转马头走了。"
+msgstr ""
+
 #. native.npc.huaiyang_rider chat_msg_combat
 #: data/guanbei/npcs.json
 msgid ""
@@ -49196,6 +49266,16 @@ msgstr ""
 msgid "过他一刀"
 msgstr ""
 
+#. fanfang.npc.ronin_master trials.confirm
+#: data/fanfang/npcs.json
+msgid ""
+"早川直义的一刀是真砍：\n"
+"· 只有一刀，实打实地落在你身上，挨中了会受伤。\n"
+"· 接不住，你随后会昏倒；他收着刀，不会要你的命。\n"
+"倒了可以歇好再来。\n"
+"确定过他一刀吗？"
+msgstr ""
+
 #. fanfang.npc.ronin_master trials.blows.say
 #: data/fanfang/npcs.json
 msgid "早川直义站了起来，刀还在鞘里。「一击之内定生死。」——刀出鞘了。"
@@ -49209,6 +49289,11 @@ msgstr ""
 #. fanfang.npc.ronin_master trials.success
 #: data/fanfang/npcs.json
 msgid "早川直义收刀入鞘：「过了。今夜，拜火祠——火坛前站着，别出声。」"
+msgstr ""
+
+#. fanfang.npc.ronin_master trials.deed
+#: data/fanfang/npcs.json
+msgid "在鬼笠馆接下了早川直义的一刀"
 msgstr ""
 
 #. fanfang.npc.ronin_master family.title
@@ -49618,6 +49703,56 @@ msgstr ""
 #. fanfang.fire_hall.questions act.acts.steps.say
 #: data/fanfang/world.json
 msgid "三句。我问，你答。火听着。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.text
+#: data/fanfang/world.json
+msgid "在水烟阁，南危水装死二十年的事——你替他守了口，还是告了？"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "守了口。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "告了。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.text
+#: data/fanfang/world.json
+msgid "在关北，兵部的工地——你借了王府的兵踏平了它，还是夜里潜进去救了一半？"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "踏平了。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "夜里救了一半。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.text
+#: data/fanfang/world.json
+msgid "晚月庄的宝衣——你带走了，留给守衣的人守着，还是给了别人？"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "带走了。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "留给瑷伦守着。"
+msgstr ""
+
+#. fanfang.fire_hall.questions act.acts.steps.questions.answers.text
+#: data/fanfang/world.json
+msgid "给了安妮儿。"
 msgstr ""
 
 #. fanfang.fire_hall.questions act.acts.steps.true.line
@@ -50432,6 +50567,11 @@ msgid ""
 "一个十六岁的少年，穿着明黄的龙袍，袍子做得大了一点，袖口挽过一道。他坐得很直，直得像有人在背后看着他。说话之前他总要先看一眼站在百官最前面的那个人。\n"
 msgstr ""
 
+#. native.npc.yulan_zhao fight_deferred
+#: data/imperial/npcs.json
+msgid "你的手刚抬起来，四面的禁军已经拔了刀。"
+msgstr ""
+
 #. native.npc.yulan_zhao calls.steps.line
 #: data/imperial/npcs.json
 msgid ""
@@ -50523,6 +50663,14 @@ msgstr ""
 msgid "朕没有皇叔。——布告上写着的那个人，朕不认识。"
 msgstr ""
 
+#. native.npc.yu_zijian_court fight_deferred
+#. native.npc.court_official fight_deferred
+#. native.npc.court_herald fight_deferred
+#. native.npc.yu_zijian_accused fight_deferred
+#: data/imperial/npcs.json
+msgid "殿上的禁军已经拔了刀，你的手停在半空。"
+msgstr ""
+
 #. native.npc.yu_zijian_court inquiry.寻剑令
 #: data/imperial/npcs.json
 msgid "先帝的旨意，兵部奉旨办差。你是什么人，问这个？"
@@ -50563,6 +50711,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个十五岁的小太监，脸白，眼睛机灵，走路没有声音。他总站在皇上身后半步，皇上一皱眉他就先低头。\n"
+msgstr ""
+
+#. native.npc.fu_an fight_deferred
+#: data/imperial/npcs.json
+msgid "福安一缩身子躲到柱子后头去了。"
 msgstr ""
 
 #. native.npc.fu_an inquiry.皇上
@@ -50718,6 +50871,27 @@ msgstr ""
 msgid "天亮时，侍卫营的人把你从午门推了出去。"
 msgstr ""
 
+#. native.npc.night_guard_lanes watch.caught.again_lines
+#. native.npc.night_guard_gate watch.caught.again_lines
+#. native.npc.night_guard_garden watch.caught.again_lines
+#: data/imperial/npcs.json
+msgid "禁军把你押回了侍卫营。冯策这回没有披衣服，像是一直没睡。"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.again_lines
+#. native.npc.night_guard_gate watch.caught.again_lines
+#. native.npc.night_guard_garden watch.caught.again_lines
+#: data/imperial/npcs.json
+msgid "冯策说道：又是你。这回还放你——下回我就不认得你了。"
+msgstr ""
+
+#. native.npc.night_guard_lanes watch.caught.again_lines
+#. native.npc.night_guard_gate watch.caught.again_lines
+#. native.npc.night_guard_garden watch.caught.again_lines
+#: data/imperial/npcs.json
+msgid "天亮时，侍卫营的人又把你从午门推了出去。"
+msgstr ""
+
 #. native.npc.palace_eunuch name
 #: data/imperial/npcs.json
 msgid "小太监"
@@ -50727,6 +50901,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个十几岁的小太监，抱着一摞文书，低着头小步快走，走过你身边的时候眼睛也不抬。\n"
+msgstr ""
+
+#. native.npc.palace_eunuch fight_deferred
+#: data/imperial/npcs.json
+msgid "小太监吓得把文书撒了一地，你的手停住了。"
 msgstr ""
 
 #. native.npc.palace_eunuch inquiry.养心殿
@@ -50743,6 +50922,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个穿青衣的宫女，提着一只竹篮，在柏树底下拣落下的枯枝。\n"
+msgstr ""
+
+#. native.npc.palace_maid fight_deferred
+#: data/imperial/npcs.json
+msgid "宫女叫了一声，躲到柏树后面去了。"
 msgstr ""
 
 #. native.npc.palace_maid inquiry.冷宫
@@ -50764,6 +50948,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个七十来岁的老妇人，头发全白了，梳得一丝不乱。她坐在灯下，手里拈着一根绣花针，眼睛却很亮——不像是个住冷宫的人。\n"
+msgstr ""
+
+#. native.npc.zhong_momo fight_deferred
+#: data/imperial/npcs.json
+msgid "钟嬷嬷看了你一眼，你的手就放下了。"
 msgstr ""
 
 #. native.npc.zhong_momo calls.steps.emote
@@ -50874,6 +51063,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个十六岁的少年，脱了龙袍，只穿一件月白的夹衣，坐在灯下翻他父亲的手札。他看人的时候先往后缩一下，又坐直了——像是想起来自己是皇帝。\n"
+msgstr ""
+
+#. native.npc.yulan_zhao_private fight_deferred
+#: data/imperial/npcs.json
+msgid "你的手刚抬起来，福安已经扑到他身前。"
 msgstr ""
 
 #. native.npc.yulan_zhao_private calls.steps.emote
@@ -51034,6 +51228,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个瘦得脱了形的老人，头发胡子全白了，坐在窗下翻一本诗集。他的手腕上有两道旧印，一圈一圈的，是镣铐磨的。墙上那把剑他没看一眼——像是看了二十年，看够了。\n"
+msgstr ""
+
+#. native.npc.wei_canglan fight_deferred
+#: data/imperial/npcs.json
+msgid "老人抬起眼睛看了你一眼。你忽然觉得，他要是想，你的手是抬不起来的。"
 msgstr ""
 
 #. native.npc.wei_canglan calls.steps.emote
@@ -51265,6 +51464,11 @@ msgstr ""
 msgid "冯策收了刀，退回殿下。"
 msgstr ""
 
+#. native.npc.feng_ce_beside fights_beside_leaves
+#: data/imperial/npcs.json
+msgid "冯策收了刀，抱拳：湖底的事，算老夫一个。"
+msgstr ""
+
 #. native.npc.song_pu_messenger name
 #. native.npc.song_pu_mirror name
 #. native.npc.song_pu name
@@ -51326,6 +51530,11 @@ msgstr ""
 #: data/imperial/npcs.json
 msgid ""
 "一个瘦削的老者，白袍，站在石林那面镜子旁边，手里捏着一串核桃，没有转。\n"
+msgstr ""
+
+#. native.npc.song_pu_mirror fight_deferred
+#: data/imperial/npcs.json
+msgid "宋朴退了半步：我是来传话的。"
 msgstr ""
 
 #. native.npc.song_pu_mirror calls.steps.emote
@@ -51939,6 +52148,12 @@ msgid ""
 "一个白发白须的老人，坐在十铃架下的蒲团上，衣裳是白的，袖口被门口的风吹得一直在动，他的人却一动不动。看不出他有多大年纪——脸上没有几道皱纹，眼睛却老得很。\n"
 msgstr ""
 
+#. native.npc.lan_weng fight_deferred
+#. native.npc.lan_weng_terrace fight_deferred
+#: data/lancheng/npcs.json
+msgid "你的手还没抬起来，一阵风已经把它按了回去。岚翁连眼睛都没睁。"
+msgstr ""
+
 #. native.npc.lan_weng calls.steps.line
 #: data/lancheng/npcs.json
 msgid ""
@@ -52094,6 +52309,11 @@ msgid ""
 "一个八九岁的小姑娘，白衣裳，头发被风吹得乱蓬蓬的，脖子上挂着一只小铜铃。她蹲在门洞边上，看你看得很认真。\n"
 msgstr ""
 
+#. native.npc.lan_child fight_deferred
+#: data/lancheng/npcs.json
+msgid "小姑娘咯咯一笑，往门洞里一闪，不见了，过一会儿又从另一边探出头来。"
+msgstr ""
+
 #. native.npc.lan_child calls.steps.say
 #: data/lancheng/npcs.json
 msgid "你是谁的铃带来的？"
@@ -52149,6 +52369,11 @@ msgstr ""
 #: data/lancheng/npcs.json
 msgid ""
 "一个瘦小的老人，系着一条皮围裙，手指上全是铜绿，正拿一把细锉一点一点修一只铃的口。他修一下，敲一下，侧着耳朵听一听。\n"
+msgstr ""
+
+#. native.npc.lan_bellsmith fight_deferred
+#: data/lancheng/npcs.json
+msgid "老蔺头也不抬：「我这里只有铃。打铃不响，打人更不响。」"
 msgstr ""
 
 #. native.npc.lan_bellsmith inquiry.铃.rules.lines.emote
@@ -52207,6 +52432,11 @@ msgid ""
 "一个白发的老婆婆，拿着一把竹扫帚，在街边扫——扫的不是落叶，是飘上来的雾，她一扫，雾就退下去一点。\n"
 msgstr ""
 
+#. native.npc.lan_sweeper fight_deferred
+#: data/lancheng/npcs.json
+msgid "老婆婆的扫帚一挥，一团雾扑在你脸上，等你揉开眼睛，她还在原处扫。"
+msgstr ""
+
 #. native.npc.lan_sweeper inquiry.城.rules.say
 #: data/lancheng/npcs.json
 msgid "今天城停在西边，底下是天驼关的石头，黄的。"
@@ -52251,6 +52481,11 @@ msgstr ""
 #: data/lancheng/npcs.json
 msgid ""
 "一个穿白衣的人，在街上慢慢地走，走几步停一下，侧着头听风铃。他看见你，点一点头，没有说话。\n"
+msgstr ""
+
+#. native.npc.lan_resident fight_deferred
+#: data/lancheng/npcs.json
+msgid "那人往后退了一步，衣袖一飘，你的手就落了空。他看着你，像看一阵不懂事的风。"
 msgstr ""
 
 #. native.npc.lan_resident inquiry.岚城
@@ -52335,6 +52570,16 @@ msgstr ""
 msgid "风里拔剑，先要风认你。我替风出三刃，你站得住，剑就落得下来。"
 msgstr ""
 
+#. native.npc.lan_weng_terrace trials.confirm
+#: data/lancheng/npcs.json
+msgid ""
+"岚翁替风出三刃，是真打：\n"
+"· 每一刃都实打实地削在你身上，挨中了会受伤。\n"
+"· 哪一刃接不住，就算没接下，你随后会昏倒；风只认人，不要人的命。\n"
+"倒了可以歇好再来。\n"
+"确定接风三刃吗？"
+msgstr ""
+
 #. native.npc.lan_weng_terrace trials.blows.say
 #: data/lancheng/npcs.json
 msgid "岚翁袖子一拂：第一刃，是从城外来的风。"
@@ -52365,10 +52610,22 @@ msgstr ""
 msgid "风停了一停。岚翁说道：站得住。风认你了——剑在台心，去拿吧。"
 msgstr ""
 
+#. native.npc.lan_weng_terrace trials.deed
+#: data/lancheng/npcs.json
+msgid "在岚城的云台上接下了岚翁的接风三刃"
+msgstr ""
+
 #. native.npc.yulan_tianwu_wind long
 #: data/lancheng/npcs.json
 msgid ""
 "一个须发灰白的老人，一身朝服被风吹得猎猎地响，腰间那把暗绿色的鬼头刀还在。他看着台心的风，像在看一件很久以前的事。\n"
+msgstr ""
+
+#. native.npc.yulan_tianwu_wind fight_deferred
+#. native.npc.yulan_tianwu_lake fight_deferred
+#. native.npc.yulan_tianwu_altar fight_deferred
+#: data/lancheng/npcs.json data/native/npcs.json
+msgid "於兰天武看了你一眼：老夫不是来跟你打的。"
 msgstr ""
 
 #. native.npc.yulan_tianwu_wind summoned.arrive
@@ -52385,6 +52642,11 @@ msgstr ""
 #: data/lancheng/npcs.json
 msgid ""
 "一个白衣的年轻人，长发和巾带被风吹得乱飞，站在台上四下看，看得很慢，像在一样一样认东西。\n"
+msgstr ""
+
+#. native.npc.xiao_pichen_home fight_deferred
+#: data/lancheng/npcs.json
+msgid "萧辟尘没有看你：这里不打架。"
 msgstr ""
 
 #. native.npc.xiao_pichen_home summoned.arrive
@@ -53550,6 +53812,11 @@ msgid ""
 "一个须眉皆白的老道士，道袍洗得发灰，一柄拂尘搭在臂弯上。他站在山壁下新挖开的土坑边，眼睛一直盯着坑里，官兵们挖一锹，他的眉头就皱一分。\n"
 msgstr ""
 
+#. native.npc.bai_daozhang fight_deferred
+#: data/native/npcs.json
+msgid "白道长只是看了你一眼，拂尘一摆，你的手脚便不听使唤了。"
+msgstr ""
+
 #. native.npc.bai_daozhang inquiry.石匣
 #: data/native/npcs.json
 msgid "那不是什么宝剑，是岚城的风铃。寻风的人才用得上，旁人开了，只会招祸。"
@@ -53669,6 +53936,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他怀里紧紧抱着一只石匣。\n"
+msgstr ""
+
+#. native.npc.black_taoist_pass fight_deferred
+#: data/native/npcs.json
+msgid "黑衣道士身形一晃，已经离你远了。"
 msgstr ""
 
 #. native.npc.black_taoist_pass inquiry.石匣
@@ -54000,6 +54272,11 @@ msgid ""
 "冰柱里站着一个女人，看着二十来岁，眼睛是睁着的。她一身浅金的衣，衣角在冰里像还在飘。她身上发着白光，光照在冰上，冰就不化。她的嘴唇没有动，声音却从冰里传出来。\n"
 msgstr ""
 
+#. native.npc.lihong fight_deferred
+#: data/native/npcs.json
+msgid "你的手还没碰到冰柱，就冷得缩了回来。柱里的人连眼睛都没有眨。"
+msgstr ""
+
 #. native.npc.lihong inquiry topic
 #. native.npc.lihong_weak inquiry topic
 #. native.npc.lihong_ashore inquiry topic
@@ -54085,12 +54362,6 @@ msgstr ""
 msgid "留下"
 msgstr ""
 
-#. native.npc.lihong inquiry.留下.rules.marks_asker
-#. native.npc.lihong_finale inquiry.留下.rules.marks_asker
-#: data/native/npcs.json
-msgid "璃虹说了或者是你"
-msgstr ""
-
 #. native.npc.lihong inquiry.留下.rules.lines.say
 #: data/native/npcs.json
 msgid "把我的羽还给我——光回来一点，够再守三百年。穿灵交给我，我钉回去。"
@@ -54136,12 +54407,6 @@ msgstr ""
 #. native.npc.lihong_finale inquiry.我留下.rules.say
 #: data/native/npcs.json
 msgid "三器齐了。灭了它。"
-msgstr ""
-
-#. native.npc.lihong inquiry.我留下.rules.marks_asker
-#. native.npc.lihong_finale inquiry.我留下.rules.marks_asker
-#: data/native/npcs.json
-msgid "你留在了冰里"
 msgstr ""
 
 #. native.npc.lihong inquiry.我留下.rules.lines.say
@@ -54244,6 +54509,12 @@ msgid ""
 "璃虹靠着封坛坐在冰上，身上的光只剩一点，像快灭的灯。她的衣角湿了——三百年来第一次湿。她在喘。\n"
 msgstr ""
 
+#. native.npc.lihong_weak fight_deferred
+#. native.npc.lihong_ashore fight_deferred
+#: data/native/npcs.json
+msgid "她连抬手的力气都没有。你下不去手。"
+msgstr ""
+
 #. native.npc.lihong_weak inquiry.封法.rules.say
 #: data/native/npcs.json
 msgid "钉没了，它在长。要灭它，三器齐——穿灵在你手里了，还差旋芒和宝衣。"
@@ -54268,6 +54539,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "商玦站在封坛对面，黑衣湿透了贴在身上，水顺着袖口往下滴。他没有看你，看着冰里那颗头，像看一件等了很久的东西。\n"
+msgstr ""
+
+#. native.npc.shang_jue_lake fight_deferred
+#: data/native/npcs.json
+msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
 msgstr ""
 
 #. native.npc.shang_jue_lake inquiry topic
@@ -54376,6 +54652,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "傅家坡的农妇，围裙没解，站在岸边的柳树底下，一手攥着衣角，眼睛一直盯着湖面。\n"
+msgstr ""
+
+#. native.npc.woman_lakeside fight_deferred
+#: data/native/npcs.json
+msgid "她往后退了一步：你要打，去打湖里那个。"
 msgstr ""
 
 #. native.npc.woman_lakeside inquiry.湖.rules.say
@@ -54522,6 +54803,11 @@ msgid ""
 "霍铮扛着一把开山刀站在岸边，肉养回来了一些，手腕上的铁链印子还在。身后野羊寨的弟兄蹲了一排。\n"
 msgstr ""
 
+#. native.npc.huo_zheng_lake fight_deferred
+#: data/native/npcs.json
+msgid "霍铮咧嘴一笑：要打，等今夜过了。"
+msgstr ""
+
 #. native.npc.huo_zheng_lake inquiry.湖底.rules.say
 #: data/native/npcs.json
 msgid "我在逆灵宫的地牢里见过那东西的影子。这一回，它别想上岸。"
@@ -54531,6 +54817,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "郭承牵着马站在柳树边，皮甲上落了一层土。六骑在他身后一字排开，马不叫。\n"
+msgstr ""
+
+#. native.npc.guo_cheng_lake fight_deferred
+#: data/native/npcs.json
+msgid "郭承按着刀：今夜的刀，留给湖里的。"
 msgstr ""
 
 #. native.npc.guo_cheng_lake inquiry.湖底.rules.say
@@ -54544,6 +54835,11 @@ msgid ""
 "一个高鼻深目的异族汉子，左臂的圆盾擦得锃亮，短剑横在盾沿上。他看着湖，嘴里念着一句谁也听不懂的话。\n"
 msgstr ""
 
+#. native.npc.shield_swordsman_lake fight_deferred
+#: data/native/npcs.json
+msgid "大秦剑手把盾一抬：不。今夜，那边。"
+msgstr ""
+
 #. native.npc.shield_swordsman_lake inquiry.湖底.rules.say
 #: data/native/npcs.json
 msgid "会首说，这是还人情。"
@@ -54553,6 +54849,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "冯策一身素白的武官袍，刀在腰上，站得笔直。三十个大内侍卫散在岸上，没有一个说话。\n"
+msgstr ""
+
+#. native.npc.feng_ce_lake fight_deferred
+#: data/native/npcs.json
+msgid "冯策摇了摇头：留着力气，湖底用。"
 msgstr ""
 
 #. native.npc.feng_ce_lake inquiry.湖底.rules.say
@@ -54566,6 +54867,12 @@ msgid ""
 "安妮儿披着寒於宝衣站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n"
 msgstr ""
 
+#. native.npc.annie_lake fight_deferred
+#. native.npc.annie_altar fight_deferred
+#: data/native/npcs.json
+msgid "安妮儿没有动：我不是来跟你打的。"
+msgstr ""
+
 #. native.npc.annie_lake inquiry.湖底.rules.say
 #: data/native/npcs.json
 msgid "金乌的人等了三百年，等一个配得上三器的人。"
@@ -54577,6 +54884,12 @@ msgid ""
 "南危水站在岸上，焦殇剑背在身后。他看着湖面，二十年前的事像是又回来了。\n"
 msgstr ""
 
+#. native.npc.nan_weishui_lake fight_deferred
+#. native.npc.nan_weishui_altar fight_deferred
+#: data/native/npcs.json
+msgid "南危水淡淡道：不是时候。"
+msgstr ""
+
 #. native.npc.nan_weishui_lake inquiry.湖底.rules.say
 #: data/native/npcs.json
 msgid "二十年。够了。"
@@ -54586,6 +54899,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "卫沧澜拄着一根竹杖站在岸边，背比在尚书府的时候直了一些。水烟阁的弟子围在他身边。\n"
+msgstr ""
+
+#. native.npc.wei_canglan_lake fight_deferred
+#: data/native/npcs.json
+msgid "卫沧澜摆了摆手：老夫这把骨头，留着下湖。"
 msgstr ""
 
 #. native.npc.wei_canglan_lake inquiry.湖底.rules.say
@@ -54610,6 +54928,12 @@ msgid ""
 "萧辟尘背着旋芒站在岸边，风从湖上过来，他的衣角往城的方向飘。\n"
 msgstr ""
 
+#. native.npc.xiao_pichen_lake fight_deferred
+#. native.npc.xiao_pichen_altar fight_deferred
+#: data/native/npcs.json
+msgid "萧辟尘摇头：今夜不打你。"
+msgstr ""
+
 #. native.npc.xiao_pichen_lake inquiry.湖底.rules.say
 #: data/native/npcs.json
 msgid "城里的人说，风会送我回去。先过了今夜。"
@@ -54619,6 +54943,12 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "瑷伦披着寒於宝衣站在岸边，衣角压着湖风，一动不动。鞭子还在腰上。\n"
+msgstr ""
+
+#. native.npc.elon_lake fight_deferred
+#. native.npc.elon_altar fight_deferred
+#: data/native/npcs.json
+msgid "瑷伦看了你一眼：留着力气。"
 msgstr ""
 
 #. native.npc.elon_lake inquiry.湖底.rules.say
@@ -54640,6 +54970,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "庾子建骑着马停在岸边的柳树下，一身便服，身后跟着几个兵部的白衣武官。他不看湖，只看你。\n"
+msgstr ""
+
+#. native.npc.yu_zijian_lake fight_deferred
+#: data/native/npcs.json
+msgid "庾子建笑了笑：本官是来要剑的，不是来打架的。"
 msgstr ""
 
 #. native.npc.yu_zijian_lake inquiry.剑.rules.say
@@ -54708,6 +55043,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "商玦站在冰龙厅的水潭边，黑衣上结了一层霜。他在等你。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting fight_deferred
+#: data/native/npcs.json
+msgid "商玦摆了摆手：急什么。"
 msgstr ""
 
 #. native.npc.shang_jue_waiting calls.steps.emote
@@ -54815,6 +55155,11 @@ msgstr ""
 #. native.npc.feng_ce_lakebottom summoned.leave
 #: data/native/npcs.json
 msgid "冯策收了刀，守在了水潭边。"
+msgstr ""
+
+#. native.npc.feng_ce_lakebottom fights_beside_leaves
+#: data/native/npcs.json
+msgid "冯策收了刀：「潭底下的事，老夫帮不上。老夫守着潭口。」"
 msgstr ""
 
 #. native.npc.wutian_gui long
@@ -55028,6 +55373,13 @@ msgid ""
 "冰柱里站着瑷伦，披着寒於宝衣，眼睛睁着。冰里的光是暖的。\n"
 msgstr ""
 
+#. native.npc.elon_ice fight_deferred
+#. native.npc.nan_weishui_ice fight_deferred
+#. native.npc.xiao_pichen_ice fight_deferred
+#: data/native/npcs.json
+msgid "你的手还没碰到冰柱，就冷得缩了回来。"
+msgstr ""
+
 #. native.npc.nan_weishui_ice long
 #: data/native/npcs.json
 msgid ""
@@ -55044,6 +55396,13 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "冯策站在广场中间，素白的武官袍，手里一卷黄绫。\n"
+msgstr ""
+
+#. native.npc.herald_feng_ce fight_deferred
+#. native.npc.herald_uncle fight_deferred
+#. native.npc.herald_ministry fight_deferred
+#: data/native/npcs.json
+msgid "宣诏的人退了半步：诏书念完再说。"
 msgstr ""
 
 #. native.npc.herald_feng_ce calls.steps.line
@@ -55329,6 +55688,11 @@ msgid ""
 "一个十二三岁的男孩，裤脚短了一截，手里的竹剑是自己削的，握柄上缠着一圈麻绳。\n"
 msgstr ""
 
+#. native.npc.north_pupil_boy fight_deferred
+#: data/native/npcs.json
+msgid "阿桂把竹剑藏到身后：绘心姐说，不许跟人动手。"
+msgstr ""
+
 #. native.npc.north_pupil_boy inquiry.剑
 #: data/native/npcs.json
 msgid "绘心姐说，剑尖别抬，等别人先刺空。我等了三天了，小满总也不刺。"
@@ -55425,6 +55789,11 @@ msgid ""
 "一个扎着两条小辫的女孩，竹剑比她的胳膊还长，站桩站得一丝不苟。\n"
 msgstr ""
 
+#. native.npc.north_pupil_girl fight_deferred
+#: data/native/npcs.json
+msgid "小满摇摇头，一步也不肯动：先刺的人吃亏。"
+msgstr ""
+
 #. native.npc.north_pupil_girl inquiry.剑
 #: data/native/npcs.json
 msgid "我不刺。绘心姐说了，先刺的人吃亏。"
@@ -55446,6 +55815,11 @@ msgid ""
 "一个十六七岁的异族少年，高鼻深目，头发卷得像羊毛。左臂上套着一面小圆盾，右手握着一柄竹剑——握法还是握短剑的握法。\n"
 msgstr ""
 
+#. native.npc.shield_youth fight_deferred
+#: data/native/npcs.json
+msgid "少年把圆盾一抬，摇了摇头：不打。来学的。"
+msgstr ""
+
 #. native.npc.shield_youth inquiry.安敦
 #: data/native/npcs.json
 msgid "会首说，欠了人情要还，学了本事也要还。我们的盾，换你们的剑。"
@@ -55460,6 +55834,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "柳绘心在镇口的公告旁支了一张小桌，身后立着一根新削的旗杆：「封山剑派北宗」。字是她自己写的。\n"
+msgstr ""
+
+#. native.npc.liu_huixin_north fight_deferred
+#: data/native/npcs.json
+msgid "柳绘心摇了摇头：北宗的剑是教人的，不是拿来比的。"
 msgstr ""
 
 #. native.npc.liu_huixin_north inquiry.北宗
@@ -55503,6 +55882,11 @@ msgid ""
 "柳淳风站在渡口的船头，玄苏剑还在鞘里。他身后，淳风武馆的弟子在岸边站成了一排，没有一个人说话。\n"
 msgstr ""
 
+#. native.npc.liu_chunfeng_lake fight_deferred
+#: data/native/npcs.json
+msgid "柳淳风摇了摇头：今夜的剑，留给湖里上来的东西。"
+msgstr ""
+
 #. native.npc.liu_chunfeng_lake inquiry.湖底.rules.say
 #: data/native/npcs.json
 msgid "封山的剑不外传。可也没有哪一条规矩说，外面的事封山不管。"
@@ -55512,6 +55896,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "柳绘心站在渡口的船边，细剑横在臂弯里。阿桂他们没有来——她身后是几个镇上的后生，握的是竹剑，手都在抖，脚却没有动。\n"
+msgstr ""
+
+#. native.npc.liu_huixin_lake fight_deferred
+#: data/native/npcs.json
+msgid "柳绘心：现在不行。等今夜过了，我陪你拆。"
 msgstr ""
 
 #. native.npc.liu_huixin_lake inquiry.湖底.rules.say
