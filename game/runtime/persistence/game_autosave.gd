@@ -5,8 +5,10 @@ extends RefCounted
 ## (autosave_moment: a map change landed, a fight over), at least pacing.json's
 ## autosave_min_seconds apart. A moment that cannot save is skipped, not queued: the same
 ## OldPineSaveEligibility as the player's Save, and no ghost (the slot is always someone alive,
-## or 回到上次自动存档 would bring back the ghost). Only the capture runs on the main thread,
-## where the view is dark; the checks, the encoding and the file work are the same as a Save's
+## or 回到上次自动存档 would bring back the ghost). Two refusals that pass by themselves in a few
+## steps or seconds are waited out instead (WAITED; 全项目审查第四批): the player in a doorway, an
+## NPC still making something for them; retry() tries the moment again every RETRY_MS, quietly.
+## Only the capture runs on the main thread, where the view is dark; the checks, the encoding and the file work are the same as a Save's
 ## and run on a worker while the world goes on. Reads the world, draws nothing from its streams.
 
 var _repository: GameSaveRepository
@@ -20,6 +22,17 @@ var _task: int = -1
 ## What the task under way ended in.
 var _saved: GameSaveResult
 var _last_ms: int = -1
+## A moment refused only for one of WAITED, still to be taken (retry()).
+var _waiting: bool = false
+var _last_try_ms: int = -1
+
+## The refusals a moment waits out rather than skips.
+const WAITED: Array[int] = [
+	OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION,
+	OldPineSaveEligibilityResult.Outcome.NPC_WORKING,
+]
+## How often a waiting moment is tried again (ms).
+const RETRY_MS: int = 1000
 
 
 func _init(repository: GameSaveRepository, slot_id: StringName = GameSaveSnapshot.AUTO_SLOT_ID, rolled: bool = true) -> void:
@@ -31,6 +44,7 @@ func _init(repository: GameSaveRepository, slot_id: StringName = GameSaveSnapsho
 ## The interval starts now (a save was just loaded: the slot has nothing to add yet).
 func restart_interval(now_ms: int = Time.get_ticks_msec()) -> void:
 	_last_ms = now_ms
+	_waiting = false
 
 
 ## Whether a moment at `now_ms` saves.
@@ -41,7 +55,25 @@ func due(session: WorldSessionController, now_ms: int = Time.get_ticks_msec()) -
 		var seconds: int = GameContent.catalog().pacing().autosave_min_seconds
 		if seconds <= 0 or (_last_ms >= 0 and now_ms - _last_ms < seconds * 1000):
 			return false
-	return not session.player_runtime().state.ghost and OldPineSaveEligibility.inspect(session).allowed()
+	if session.player_runtime().state.ghost:
+		_waiting = false
+		return false
+	var outcome: int = OldPineSaveEligibility.inspect(session).outcome
+	_waiting = outcome in WAITED
+	return outcome == OldPineSaveEligibilityResult.Outcome.ALLOWED
+
+
+## Whether a moment waits to be taken (refused for one of WAITED only).
+func waiting() -> bool:
+	return _waiting
+
+
+## A waiting moment, tried again at most every RETRY_MS: whether it set off now.
+func retry(session: WorldSessionController, now_ms: int = Time.get_ticks_msec()) -> bool:
+	if not _waiting or (_last_try_ms >= 0 and now_ms - _last_try_ms < RETRY_MS and now_ms >= _last_try_ms):
+		return false
+	_last_try_ms = now_ms
+	return begin(session, now_ms)
 
 
 ## Takes the world as it is and leaves the rest to a worker. Whether it set off.

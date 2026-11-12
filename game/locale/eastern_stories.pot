@@ -4279,6 +4279,10 @@ msgid "存档无法恢复。"
 msgstr ""
 
 #: application/application_message_catalog.gd
+msgid "这份存档之后地图改过，存档时你站的地方现在站不了人，读不进来。"
+msgstr ""
+
+#: application/application_message_catalog.gd
 msgid "手动存档不受影响；新角色第一次自动存档时会覆盖现在的自动存档。"
 msgstr ""
 
@@ -4320,6 +4324,14 @@ msgstr ""
 
 #: application/application_message_catalog.gd
 msgid "旅程还没准备好，暂时不能存档。"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "这里不能存档，挪一步再试。"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "有人正在替你做的事还没完，等一会儿再存档。"
 msgstr ""
 
 #: application/application_message_catalog.gd

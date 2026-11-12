@@ -1145,7 +1145,7 @@ func activate_restore_candidate() -> bool:
 	WorldStoryPresence.stage(self, map as WorldMapController)
 	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
 	if map is WorldMapController:
-		(map as WorldMapController).npc_idle.judge_night()
+		(map as WorldMapController).npc_idle.judge_night(false)
 	if not map.complete_activation() or not _reconcile_active_residents():
 		map.prepare_for_deactivation()
 		map.set_restore_staging(true)
@@ -1695,7 +1695,7 @@ func _activate_first_map(map_id: StringName) -> bool:
 	WorldStoryPresence.stage(self, first as WorldMapController)
 	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
 	if first is WorldMapController:
-		(first as WorldMapController).npc_idle.judge_night()
+		(first as WorldMapController).npc_idle.judge_night(false)
 	if not first.complete_activation():
 		return false
 	_initialized = true

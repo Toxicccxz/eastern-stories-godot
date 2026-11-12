@@ -14,6 +14,11 @@
 			"revision": "SOURCE_ENTRY_MAINLINE_FIGHTS_V1",
 			"spawn_points": 806,
 			"fingerprint": "cae40666993db9f6e60f77e9e0e03c732c6c58b1ef241babc8b159b35f182609"
+		},
+		{
+			"revision": "SOURCE_ENTRY_REVIEW_FIX_H_V1",
+			"spawn_points": 806,
+			"fingerprint": "898a2ca701ae05397fa0e3a3c8abace5e90d6d060d8c2d41b5adf15167285140"
 		}
 	]
 }

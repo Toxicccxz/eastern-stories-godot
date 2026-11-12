@@ -18,6 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_newest()
 	_summary_of_bad_text()
 	_slot_ids()
+	_refusals_say_why()
 	await _slots_stay_apart(tree)
 	await _load_in_play(tree)
 	await _saves_from_two_paces(tree)
@@ -233,6 +234,26 @@ func _failed_row_leaves_the_menu_as_it_was(tree: SceneTree) -> void:
 	await _frames(tree)
 
 
+## Save's refusals for where the player stands and for what an NPC is still making say so; a
+## Continue refused for the protagonist's saved spot says the map changed (全项目审查第四批).
+func _refusals_say_why() -> void:
+	var save: int = ApplicationOperationResult.Operation.SAVE
+	for case: Array in [
+		[OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION, &"save.blocked.position", "这里不能存档，挪一步再试。"],
+		[OldPineSaveEligibilityResult.Outcome.NPC_WORKING, &"save.blocked.npc_working", "有人正在替你做的事还没完，等一会儿再存档。"],
+	]:
+		var blocked := OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.SAVE_BLOCKED)
+		blocked.eligibility = OldPineSaveEligibilityResult.block(case[0])
+		var mapped: ApplicationOperationResult = ApplicationProductResultMapper.runtime_result(save, blocked)
+		_check(mapped.message_key() == case[1] and ApplicationMessageCatalog.text_for(mapped.message_key()) == case[2], "a refused Save says %s" % case[2])
+	var restore := OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.RESTORE_FAILED)
+	restore.restore = OldPineWorldRestoreResult.failure(OldPineWorldRestoreResult.Outcome.INVALID_PHYSICAL_POSITION, "candidate.initialize")
+	var load: int = ApplicationOperationResult.Operation.CONTINUE
+	_check(ApplicationProductResultMapper.runtime_result(load, restore).message_key() == &"continue.map_changed", "the protagonist's saved spot gone: the map changed since the save")
+	restore.restore = OldPineWorldRestoreResult.failure(OldPineWorldRestoreResult.Outcome.CHARACTER_RESTORE_FAILED, "x")
+	_check(ApplicationProductResultMapper.runtime_result(load, restore).message_key() == &"continue.restore_failure", "anything else: 存档无法恢复")
+
+
 ## A landed map change saves; the interval holds the next; a scene, a ghost or a fight skips it,
 ## and it is not made up later. Reads the world only.
 func _autosave_moments(tree: SceneTree) -> void:
@@ -278,8 +299,28 @@ func _autosave_moments(tree: SceneTree) -> void:
 	session.hold_scene(false)
 	session.player_runtime().state.ghost = true
 	_check(OldPineSaveEligibility.inspect(session).allowed() and not autosave.due(session, later), "a ghost may Save but never autosaves")
-	_check(not autosave.begin(session, later) and not autosave.running(), "the moment passes")
+	_check(not autosave.begin(session, later) and not autosave.running() and not autosave.waiting(), "the moment passes")
 	session.player_runtime().state.ghost = false
+	# 全项目审查第四批: where the player stands is no place a save can put them back (a doorway:
+	# door state is not saved): Save says so, the autosave waits for them to step on, quietly.
+	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
+	var stood: Vector2 = body.global_position
+	body.global_position = Vector2(-5000, -5000) # TEST-ONLY: a spot no zone of the map holds
+	var refused: OldPineSaveEligibilityResult = OldPineSaveEligibility.inspect(session)
+	_check(refused.outcome == OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION, "Save is refused for where the player stands: %d" % refused.outcome)
+	_check(not autosave.begin(session, later) and autosave.waiting() and not autosave.running(), "the autosave's moment waits")
+	_check(autosave.take_finished() == null, "and nothing is told: no 自动存档失败")
+	_check(not autosave.retry(session, later + 10) and autosave.waiting(), "tried again within the second: still there")
+	_check(not autosave.retry(session, later + 1200) and autosave.waiting(), "a second on, still standing there: still waiting")
+	body.global_position = stood
+	_check(autosave.retry(session, later + 1200) == false, "never twice within the second")
+	_check(autosave.retry(session, later + 2400) and autosave.running() and not autosave.waiting(), "a step away, it saves")
+	await _autosaved(tree, host)
+	await _frames(tree)
+	var said: Array[String] = session.shared_ui().toasts().shown_texts()
+	for queued: MessageToasts.Entry in session.shared_ui().toasts()._waiting:
+		said.append(queued.text)
+	_check(not said.has("自动存档失败"), "no failure was told: %s" % [said])
 	var moment: Signal = session.autosave_moment
 	var fired: Array[int] = [0]
 	moment.connect(func() -> void: fired[0] += 1)

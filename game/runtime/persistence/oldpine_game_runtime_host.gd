@@ -118,6 +118,10 @@ func _process(_delta: float) -> void:
 	_frame.emit()
 	_take_read_scenes()
 	_tell_kept()
+	# An autosave moment that waited for the player to step out of a doorway, or for an NPC to
+	# finish what it makes for them (GameAutosave.WAITED), is taken once it can be.
+	if _autosave != null and _current_session != null and is_instance_valid(_current_session) and not _request_pending and _autosave.waiting():
+		_autosave.retry(_current_session)
 	var saved: GameSaveResult = null if _autosave == null else _autosave.take_finished()
 	if saved == null or _current_session == null or not is_instance_valid(_current_session):
 		return

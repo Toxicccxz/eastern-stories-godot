@@ -232,6 +232,7 @@ func npc_ambience() -> NpcAmbience:
 ## room now (DECISIONS 茅山 B). A deactivation that is rolled back (a failed handoff or
 ## Continue) keeps them.
 func player_left() -> void:
+	_map.npc_idle.player_left()
 	_map.npc_idle.clear()
 	# A scene cannot follow the player off the map.
 	end_scene()
