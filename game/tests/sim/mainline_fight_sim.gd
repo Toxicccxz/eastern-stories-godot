@@ -31,17 +31,21 @@ const MAX_STEPS: int = 4000
 ## the lower (main story only) first; `enemies` / `allies`: [spawn, point] as they stand; `followers`:
 ## NPC definitions that follow the player there whatever was chosen (郭承), summoned beside them;
 ## `mood`: the scene's mood put on each foe that has it (吕隼's 拿下: `fighting`);
-## `helped`: whether the story guarantees help there (the nine-in-ten band).
+## `helped`: whether the story guarantees help there (the nine-in-ten band); `away`: spawns whose NPCs
+## stand in the room but are not in the story's fight, taken off the map (the 冰龙厅's six guardian
+## dragons, DECISIONS「冰龙守者」「终章 B」: they pounce on the four taoists, or lie beaten — the sim's
+## player strikes first, and a first strike brings the whole room in; the 甬道's keyless jailers, gone
+## once 「见过唤首」, the mark the keyed pair stand on).
 const FIGHTS: Array[Dictionary] = [
 	{"label": "第一章 山洞 黑衣道士", "zone": &"oldpine.caves.mouth", "point": &"oldpine.caves.mouth.cave5.black_taoist.1", "enemies": [["native.caves.black_taoist", "oldpine.caves.mouth.cave5.black_taoist.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
 	{"label": "第三章 祭坛 鬼卒×2", "zone": &"niling.altar", "point": &"niling.altar.hell_runner.1", "enemies": [["niling.altar.hell_runners", "niling.altar.hell_runner.1"], ["niling.altar.hell_runners", "niling.altar.hell_runner.2"]], "exps": [4695, 8837], "weapon": &"es2:obj/longsword"},
-	{"label": "第三章 救人 带钥匙的狱卒×2", "zone": &"niling.corridor", "point": &"niling.corridor.jailer_keyed.1", "enemies": [["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.1"], ["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.2"]], "exps": [4695, 8837], "weapon": &"es2:obj/longsword"},
+	{"label": "第三章 救人 带钥匙的狱卒×2", "zone": &"niling.corridor", "point": &"niling.corridor.jailer_keyed.1", "enemies": [["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.1"], ["niling.corridor.jailers_keyed", "niling.corridor.jailer_keyed.2"]], "away": [&"niling.corridor.jailers"], "exps": [4695, 8837], "weapon": &"es2:obj/longsword"},
 	{"label": "第五章 树洞 鬼卒×2", "zone": &"choyin.tomb3", "point": &"choyin.tomb3.hell_runner.1", "enemies": [["native.tomb3.hell_runners", "choyin.tomb3.hell_runner.1"], ["native.tomb3.hell_runners", "choyin.tomb3.hell_runner.2"]], "exps": [8442, 13712], "weapon": &"es2:obj/longsword"},
 	{"label": "第六章 借兵 踏平工地", "zone": &"guanbei.fence_gate", "point": &"guanbei.fence_gate.pei_zhao.1", "enemies": [["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.1"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.2"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.3"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.4"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.5"], ["guanbei.fence_gate.officers_fighting", "guanbei.fence_gate.officer_fighting.6"], ["guanbei.fence_gate.pei_zhao", "guanbei.fence_gate.pei_zhao.1"], ["guanbei.fence_gate.lu_sun", "guanbei.fence_gate.lu_sun.1"]], "allies": [["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.1"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.2"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.3"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.4"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.5"], ["guanbei.fence_gate.riders", "guanbei.fence_gate.rider.6"]], "followers": [&"native.npc.guo_cheng"], "mood": "fighting", "helped": true, "exps": [11625, 17432], "weapon": &"es2:obj/longsword"},
 	{"label": "第六章 潜入 守夜武官×2", "zone": &"guanbei.sheds", "point": &"guanbei.sheds.night_watch_fighting.1", "enemies": [["guanbei.sheds.night_watch_fighting", "guanbei.sheds.night_watch_fighting.1"], ["guanbei.sheds.night_watch_fighting", "guanbei.sheds.night_watch_fighting.2"]], "followers": [&"native.npc.guo_cheng"], "helped": true, "exps": [11625, 17432], "weapon": &"es2:obj/longsword"},
 	{"label": "终章 湖畔 鬼卒×3（潜入的路）", "zone": &"village.lakeside", "point": &"village.lakeside.finale_runner.1", "enemies": [["native.lakeside.finale_runners", "village.lakeside.finale_runner.1"], ["native.lakeside.finale_runners", "village.lakeside.finale_runner.2"], ["native.lakeside.finale_runners", "village.lakeside.finale_runner.3"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 冰龙厅 商玦", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
-	{"label": "终章 冰龙厅 商玦+四道士（打过冰龙）", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.2"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.3"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.4"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 冰龙厅 商玦", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"]], "exps": [37275, 52294], "away": [&"village.icecave.lakebottom2.dragons"], "weapon": &"native:lancheng/xuanmang"},
+	{"label": "终章 冰龙厅 商玦+四道士（打过冰龙）", "zone": &"village.lakebottom2", "point": &"village.lakebottom2.shang_jue_fighting.1", "enemies": [["native.lakebottom2.shang_jue_fighting", "village.lakebottom2.shang_jue_fighting.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.1"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.2"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.3"], ["native.lakebottom2.niling_finale", "village.lakebottom2.niling_finale.4"]], "exps": [37275, 52294], "away": [&"village.icecave.lakebottom2.dragons"], "weapon": &"native:lancheng/xuanmang"},
 	{"label": "终章 侮天鬼（穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
 	{"label": "终章 侮天鬼（没宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.2", "enemies": [["native.seal_altar.wutian_gui_blazing", "village.seal_altar.demon.2"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
 	{"label": "终章 侮天鬼（穿宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.3", "enemies": [["native.seal_altar.wutian_gui_grown", "village.seal_altar.demon.3"]], "exps": [37275, 52294], "weapon": &"native:lancheng/xuanmang"},
@@ -64,6 +68,8 @@ class Result:
 	var allies_in: int = 0
 	var expected_enemies: int = 0
 	var expected_allies: int = 0
+	## The most participants in any duel that were neither the player nor the story's lineup.
+	var others_in: int = 0
 	## The forecast's verdict (CombatForecast.Verdict) and its rounds ratio; -1 when none.
 	var forecast: int = -1
 	var forecast_ratio: float = -1.0
@@ -83,7 +89,7 @@ class Result:
 		return sorted[sorted.size() / 2]
 
 	func lineup_ok() -> bool:
-		return enemies_in == expected_enemies and allies_in == expected_allies
+		return enemies_in == expected_enemies and allies_in == expected_allies and others_in == 0
 
 
 ## Tuning, this run only (run_mainline_fight_sim.gd's `tune=`): NPC definition ID -> {"exp": n,
@@ -167,9 +173,11 @@ func _open(entry: Dictionary) -> bool:
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
 	map = MapPlaces.enter(session, entry["zone"], entry["point"])
-	await _settle()
 	if map == null:
 		return false
+	# Before a frame passes, so a bystander's aggression opens no fight.
+	_withdraw_away()
+	await _settle()
 	_enemies = _bring_all(entry.get("enemies", []))
 	_allies = _bring_all(entry.get("allies", []))
 	for definition_id: StringName in entry.get("followers", []):
@@ -254,6 +262,7 @@ func _reset() -> void:
 		npc.busy.restore(0, 0)
 	_forget(session.player_runtime().relationship)
 	session.player_runtime().busy.restore(0, 0)
+	_withdraw_away()
 	await _settle()
 
 
@@ -317,6 +326,7 @@ func _duel(result: Result, first: bool) -> Array:
 	if first or enemies_in > result.enemies_in:
 		result.enemies_in = enemies_in
 		result.allies_in = allies_in
+	result.others_in = maxi(result.others_in, _others_in(encounter, player.character_id))
 	var full: bool = enemies_in == _enemies.size()
 	var my_side: StringName = encounter.participant_for(player.character_id).side_id
 	# The buffer: the fight runs on, the loss is read off it.
@@ -346,6 +356,7 @@ func _duel(result: Result, first: bool) -> Array:
 				result.notes.append(note)
 		if coordinator.has_active_encounter() and coordinator.active_scheduler() != null:
 			rounds = coordinator.active_scheduler().rounds_completed()
+			result.others_in = maxi(result.others_in, _others_in(coordinator.active_encounter(), player.character_id))
 		if not lost and (s.vitality.current < BUFFER or s.vitality.effective < BUFFER):
 			lost = true
 			lost_rounds = rounds
@@ -385,6 +396,24 @@ func _duel(result: Result, first: bool) -> Array:
 		var foes: Array = _enemies.map(func(npc: NpcRuntimeState) -> String: return "%s %d/%d %s" % [npc.definition().display_name, npc.character_state.vitality.current, npc.character_state.vitality.maximum, CharacterRuntimeLifeStatus.Value.find_key(npc.life_status)])
 		print("  duel: %s rounds %d (lost at %d) steps %d ending %s foes %s" % ["won" if not lost else "lost", rounds, lost_rounds, steps, "?" if ending == null else CombatEncounterResultKind.Value.find_key(ending.kind), foes])
 	return [not lost, rounds if not lost else lost_rounds, full]
+
+
+## How many in `encounter` are neither the player nor the story's lineup (a bystander the room brought in).
+func _others_in(encounter: CombatEncounter, player_id: StringName) -> int:
+	var others: int = 0
+	for participant: CombatParticipant in encounter.participants():
+		var id: StringName = participant.participant_id
+		if id != player_id and not (_enemies + _allies).any(func(npc: NpcRuntimeState) -> bool: return npc.character_id == id):
+			others += 1
+	return others
+
+
+## The `away` spawns' NPCs off the map (withdrawn: alive, to no fight).
+func _withdraw_away() -> void:
+	for spawn_id: StringName in _fight.get("away", []):
+		var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
+		for point: StringName in ([] as Array[StringName]) if spawn == null else spawn.spawn_point_ids():
+			map.npcs.withdraw(map.npcs.npc_at_point(point))
 
 
 ## The plain policy's order for this beat.

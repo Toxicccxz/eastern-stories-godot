@@ -47,7 +47,7 @@ func _run() -> void:
 		sim.verbose = OS.get_cmdline_user_args().has("verbose")
 		var exps: Array = [entry["exps"][0]] if OS.get_cmdline_user_args().has("low") and experiences.is_empty() else experiences
 		for result: MainlineFightSim.Result in await sim.run(entry, duels, 7, exps):
-			var lineup: String = "%d/%d · %d/%d" % [result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies]
+			var lineup: String = "%d/%d · %d/%d" % [result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies] + ("" if result.others_in == 0 else " · 外人 %d" % result.others_in)
 			print("| %s | %s | %d | %d%% | %s | %s | %.2f | %s |" % [result.label, lineup, result.experience, roundi(result.rate() * 100.0), "—" if result.median_rounds() < 0 else str(result.median_rounds()), MainlineFightSim.verdict_word(result.forecast), result.forecast_ratio, ("卡住 %d " % result.stuck if result.stuck > 0 else "") + ("不算 %d " % result.short_lineup if result.short_lineup > 0 else "") + "；".join(result.notes)])
 	print("SIM DONE")
 	quit()
