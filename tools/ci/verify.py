@@ -34,6 +34,12 @@ from prepare_release_project import prepare_release_project, validate_release_pr
 TOOLING_TIMEOUT_SECONDS = 10 * 60
 IMPORT_TIMEOUT_SECONDS = 10 * 60
 SUITE_TIMEOUT_SECONDS = 10 * 60
+# Suites that are long by design get a limit of their own. The world soak walks every region
+# for hours of world time (28 stays: about 230 s alone on a desktop, more with many suites
+# beside it on a runner); it was cut from 36 stays once to fit the 600 s every suite had.
+SUITE_TIMEOUT_OVERRIDES: dict[str, float] = {
+    "res://tests/runtime/world_soak_test.gd": 25 * 60,
+}
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 SUITE_RUNNER = "res://tests/run_suite.gd"
 # Every frame steps the game by 1/60 s and the next starts at once. Without it a headless
@@ -196,6 +202,11 @@ def shard_suites(ordered: list[str], times: SuiteTimes, shard: tuple[int, int] |
     return shards[index - 1]
 
 
+def suite_timeout(suite: str, default: float = SUITE_TIMEOUT_SECONDS) -> float:
+    """The limit a suite runs under: its own (SUITE_TIMEOUT_OVERRIDES), else `default`."""
+    return SUITE_TIMEOUT_OVERRIDES.get(suite, default)
+
+
 def default_jobs() -> int:
     return os.cpu_count() or 1
 
@@ -346,7 +357,7 @@ def run_gameplay_suites(
             name = suite.removeprefix("res://tests/").removesuffix(".gd").replace("/", "__")
             env = _godot_environment(work_root / "env" / name)
             log = work_root / "logs" / f"{name}.log"
-            futures.append(pool.submit(_run_suite, godot, suite, env, log, timeout, processes))
+            futures.append(pool.submit(_run_suite, godot, suite, env, log, suite_timeout(suite, timeout), processes))
         for future in as_completed(futures):
             run = future.result()
             runs.append(run)
