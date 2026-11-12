@@ -51,7 +51,7 @@ func _run_bands(tree: SceneTree, bands: Dictionary[String, Array]) -> Dictionary
 		var band: Array = bands[label]
 		rates[label] = result.rate()
 		# The first duel of a session closes at once (MainlineFightSim leaves it out): one may be left out.
-		_check(result.lineup_ok() and result.short_lineup <= 1 and result.stuck == 0, "%s: the story's lineup fought (foes %d/%d, helpers %d/%d), every duel to its end: %s" % [label, result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies, result.notes])
+		_check(result.lineup_ok() and result.short_lineup <= 1 and result.stuck == 0, "%s: the story's lineup fought (foes %d/%d, helpers %d/%d, nobody else: %d), every duel to its end: %s" % [label, result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies, result.others_in, result.notes])
 		_check(result.duels >= DUELS - 1 and result.rate() >= float(band[0]) and result.rate() <= float(band[1]), "%s at %d exp: won %.0f%% of %d (%.0f–%.0f%%), median %d rounds" % [label, result.experience, result.rate() * 100.0, result.duels, float(band[0]) * 100.0, float(band[1]) * 100.0, result.median_rounds()])
 	return rates
 
