@@ -16,6 +16,15 @@
 				{
 					"id": "general",
 					"objective": "带着程不平的信去天驼关军营，给镇国大将军严廷殷看（军营要大队长的名册）。",
+					"checklist": [
+						{
+							"label": "程不平的信在你身上",
+							"when": {
+								"item": "native:choyin/magistrate_letter"
+							},
+							"missing": "信丢了的话，回乔阴县衙问程不平「兵部文书」，他会再写一封"
+						}
+					],
 					"done": {
 						"mark": "严廷殷看了信"
 					},
@@ -91,6 +100,15 @@
 				{
 					"id": "palace",
 					"objective": "王府在大街北头。门军认程不平的信；把信递给槐阳王程朔。",
+					"checklist": [
+						{
+							"label": "程不平的信在你身上",
+							"when": {
+								"item": "native:choyin/magistrate_letter"
+							},
+							"missing": "信丢了的话，回乔阴县衙问程不平「兵部文书」，他会再写一封"
+						}
+					],
 					"done": {
 						"mark": "信递到了"
 					},
