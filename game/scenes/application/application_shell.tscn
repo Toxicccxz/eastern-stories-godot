@@ -452,6 +452,14 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="UiScaleNote" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "这个窗口大小下，三档界面缩放画出来一样大。"
+vertical_alignment = 1
+
 [node name="LanguageRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2

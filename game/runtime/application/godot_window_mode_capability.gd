@@ -82,6 +82,13 @@ func offers_exclusive_fullscreen() -> bool:
 	return DisplayServer.get_name() != "Wayland"
 
 
+## ApplicationWindowSize.first_mode() for the monitor the window opens on.
+func first_start_window_mode() -> int:
+	if not can_edit_window_mode():
+		return ApplicationWindowMode.Value.WINDOWED
+	return ApplicationWindowSize.first_mode(DisplayServer.screen_get_size(DisplayServer.window_get_current_screen()), OS.get_environment("SteamDeck"))
+
+
 ## Phones and tablets always play full screen, in landscape (project.godot's orientation).
 func prepare_platform_window() -> void:
 	if (OS.has_feature("android") or OS.has_feature("ios")) and DisplayServer.get_name() != "headless":

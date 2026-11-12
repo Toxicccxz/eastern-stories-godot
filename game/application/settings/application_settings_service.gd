@@ -29,6 +29,10 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 		if repository_result.succeeded()
 		else ApplicationSettingsSnapshot.defaults()
 	)
+	# A first start opens as this machine's screen suits (DECISIONS「显示设置」); a kept
+	# setting, even a bad file read as defaults, is not second-guessed.
+	if repository_result.outcome() == ApplicationSettingsResult.Outcome.NO_SETTINGS:
+		requested = requested.with_window_mode(_window_capability.first_start_window_mode())
 	if _localization != null:
 		if not _localization.is_known(requested.language()):
 			requested = requested.with_language(LocalizationService.FOLLOW_SYSTEM)

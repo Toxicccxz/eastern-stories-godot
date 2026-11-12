@@ -47,6 +47,8 @@ signal interaction_changed
 ## 界面缩放 (ApplicationUiScale): on every platform.
 @onready var ui_scale_row: Control = %UiScaleRow
 @onready var ui_scale_option: OptionButton = %UiScaleOption
+## Shown where the window is too small for the three 界面缩放 to differ (ApplicationUiScale.levels_differ).
+@onready var ui_scale_note: Label = %UiScaleNote
 ## 画质 (GraphicsQuality; DECISIONS「画质」), beside the 界面缩放.
 @onready var graphics_quality_option: OptionButton = %GraphicsQualityOption
 @onready var language_row: Control = %LanguageRow
@@ -315,6 +317,17 @@ func _notification(what: int) -> void:
 func _process(_delta: float) -> void:
 	if settings_visible() and settings_editable() and _settings_service.current_screen() != _resolution_screen:
 		_configure_resolution_options(_selected_resolution())
+	if settings_visible():
+		_show_ui_scale_note()
+
+
+## The three 界面缩放 draw alike in a small window (a Steam Deck's screen, a window under
+## 1280×720 at 100 %): the page says so rather than offer three choices that change nothing.
+func _show_ui_scale_note() -> void:
+	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
+	var differ: bool = ApplicationUiScale.levels_differ(get_tree().root.size, base)
+	if ui_scale_note.visible == differ:
+		ui_scale_note.visible = not differ
 
 
 ## The window title follows the language; config/name stays as it is, it names the
