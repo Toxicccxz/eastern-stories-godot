@@ -207,6 +207,16 @@ position = Vector2(460, 300)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakebottom2.feng_ce_beside.1"
 
+[node name="Lakebottom2YulanTianwuBeside1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(470, 360)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.yulan_tianwu_beside.1"
+
+[node name="Lakebottom2XiaoPichenBeside1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(470, 240)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakebottom2.xiao_pichen_beside.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

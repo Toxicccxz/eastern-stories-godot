@@ -2139,20 +2139,9 @@
 				"cps": 30,
 				"con": 30
 			},
-			"combat_exp": 1000000,
-			"skills": {
-				"force": 100,
-				"unarmed": 100,
-				"sword": 80,
-				"blade": 80,
-				"parry": 100,
-				"dodge": 80,
-				"throwing": 50,
-				"celestial": 100,
-				"celestrike": 100,
-				"spring-blade": 80,
-				"pyrobat-steps": 90
-			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
 			"long": "於兰天武一身朝服，手里握着旋芒。剑身一转，一道白光从湖面上掠过去。\n",
 			"attitude": "friendly",
 			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
@@ -2164,7 +2153,10 @@
 						}
 					]
 				}
-			}
+			},
+			"skill_map": {"unarmed": "celestrike", "parry": "celestrike", "dodge": "pyrobat-steps", "force": "celestial"},
+			"fights_beside_player": true,
+			"fights_beside_here": true
 		},
 		{
 			"id": "native.npc.xiao_pichen_lake",
@@ -2183,23 +2175,9 @@
 				"int": 24,
 				"cps": 30
 			},
-			"combat_exp": 1000000,
-			"skills": {
-				"unarmed": 100,
-				"sword": 60,
-				"blade": 40,
-				"throwing": 40,
-				"force": 100,
-				"parry": 60,
-				"dodge": 60,
-				"literate": 60,
-				"perception": 80,
-				"six-chaos-sword": 80,
-				"celestial": 100,
-				"celestrike": 100,
-				"stormdance": 50,
-				"pyrobat-steps": 50
-			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
 			"long": "萧辟尘背着旋芒站在岸边，风从湖上过来，他的衣角往城的方向飘。\n",
 			"attitude": "friendly",
 			"fight_deferred": "萧辟尘摇头：今夜不打你。",
@@ -2211,7 +2189,10 @@
 						}
 					]
 				}
-			}
+			},
+			"skill_map": {"unarmed": "celestrike", "parry": "celestrike", "dodge": "pyrobat-steps", "force": "celestial"},
+			"fights_beside_player": true,
+			"fights_beside_here": true
 		},
 		{
 			"id": "native.npc.elon_lake",
@@ -2469,6 +2450,18 @@
 							"summon": "native.lakebottom2.feng_ce_beside"
 						},
 						{
+							"when": {
+								"mark": "旋芒在皇叔手里"
+							},
+							"summon": "native.lakebottom2.yulan_tianwu_beside"
+						},
+						{
+							"when": {
+								"mark": "旋芒在萧辟尘手里"
+							},
+							"summon": "native.lakebottom2.xiao_pichen_beside"
+						},
+						{
 							"say": "你们管这叫除魔。我管这叫还债。"
 						},
 						{
@@ -2665,6 +2658,90 @@
 			},
 			"fights_beside_player": true,
 			"fights_beside_leaves": "冯策收了刀：「潭底下的事，老夫帮不上。老夫守着潭口。」"
+		},
+		{
+			"id": "native.npc.yulan_tianwu_lakebottom",
+			"legacy_source": "native: 主线必打的仗第二轮 (全项目审查第四批; owner 2026-11-12「按推荐调」: 没拿旋芒的路，拔剑的那个人在湖畔和冰龙厅跟你并肩打，按「有帮手约九成」调; DECISIONS「主线必打的仗」) — 於兰天武 beside the player in the 冰龙厅 when 旋芒 is theirs",
+			"name": "於兰天武",
+			"aliases": [
+				"master champion",
+				"champion",
+				"master"
+			],
+			"title": "水烟阁传功使",
+			"gender": "男性",
+			"age": 54,
+			"attributes": {
+				"str": 30,
+				"int": 30,
+				"cor": 30,
+				"cps": 30,
+				"con": 30
+			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
+			"skill_map": {
+				"unarmed": "celestrike",
+				"parry": "celestrike",
+				"dodge": "pyrobat-steps",
+				"force": "celestial"
+			},
+			"long": "於兰天武站在你身边，旋芒横在身前，剑身上的风声压过了冰龙厅里的寒气。\n",
+			"attitude": "friendly",
+			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
+			"summoned": {
+				"arrive": [
+					"於兰天武从冰缝里走出来，旋芒在他手里一转：三百年前於兰家拔错了一把剑——这一回，老夫替你挡着。"
+				],
+				"color": "HIW",
+				"leave": [
+					"於兰天武收了剑，退到水潭边。"
+				]
+			},
+			"fights_beside_player": true,
+			"fights_beside_leaves": "於兰天武把旋芒插回鞘里：潭底下那一个，老夫跟你下去。"
+		},
+		{
+			"id": "native.npc.xiao_pichen_lakebottom",
+			"legacy_source": "native: 主线必打的仗第二轮 (全项目审查第四批; owner 2026-11-12「按推荐调」: 没拿旋芒的路，拔剑的那个人在湖畔和冰龙厅跟你并肩打，按「有帮手约九成」调; DECISIONS「主线必打的仗」) — 萧辟尘 beside the player in the 冰龙厅 when 旋芒 is theirs",
+			"name": "萧辟尘",
+			"aliases": [
+				"master fighter",
+				"master",
+				"fighter"
+			],
+			"gender": "男性",
+			"age": 24,
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 24,
+				"cps": 30
+			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
+			"skill_map": {
+				"unarmed": "celestrike",
+				"parry": "celestrike",
+				"dodge": "pyrobat-steps",
+				"force": "celestial"
+			},
+			"long": "萧辟尘站在你身边，旋芒背在身后，两只手空着，掌心朝外。\n",
+			"attitude": "friendly",
+			"fight_deferred": "萧辟尘摇头：今夜不打你。",
+			"summoned": {
+				"arrive": [
+					"萧辟尘背着旋芒从冰缝里走出来，站到你身边：风记得我。这一回，我先出手。"
+				],
+				"color": "HIW",
+				"leave": [
+					"萧辟尘收了手，退到水潭边。"
+				]
+			},
+			"fights_beside_player": true,
+			"fights_beside_leaves": "萧辟尘把旋芒背回身后：走，下面还有一个。"
 		},
 		{
 			"id": "native.npc.wutian_gui",

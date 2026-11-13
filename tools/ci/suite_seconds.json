@@ -138,6 +138,8 @@
     "res://tests/runtime/beast_death_body_test.gd": 9.5,
     "res://tests/runtime/beast_human_save_regression_test.gd": 18.2,
     "res://tests/runtime/beast_runtime_integration_test.gd": 20.2,
+    "res://tests/runtime/boss_strength_bearer_fist_test.gd": 83.0,
+    "res://tests/runtime/boss_strength_bearer_test.gd": 196.0,
     "res://tests/runtime/boss_strength_demon_fist_test.gd": 203.0,
     "res://tests/runtime/boss_strength_demon_test.gd": 199.0,
     "res://tests/runtime/boss_strength_finale_fist_test.gd": 181.0,
