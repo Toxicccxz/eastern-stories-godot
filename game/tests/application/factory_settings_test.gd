@@ -12,7 +12,8 @@ extends RefCounted
 ## by orders; then a fight that lasts (a rat made hardy, TEST-ONLY): three waits for an order at
 ## least, a 收势 or a 拍不够, and the 了结 / 放过 question asked on its card and answered there;
 ## then out onto the square, the evening waited for, a save by hand on the street at night with
-## people gone home, and that save read back: the night, the place, and on the player's map each
+## people gone home (a room reset as night falls, so a wanderer who goes home is there to),
+## and that save read back: the night, the place, and on the player's map each
 ## person in the room they were in, in or out as they were, nobody walking out after. Then the
 ## same way again with pacing.json's slices (TestFeel.use_shipped()): New Game started over frames,
 ## each map's world built over frames behind the loading screen, the load through the worker
@@ -398,8 +399,30 @@ func _night_save_and_load(tree: SceneTree, shell: ApplicationShellController, se
 	if not _check(square != null, "back on the square"):
 		return
 	_check(session.wait_until_phase([&"night"]) and NIGHT.has(session.day_phase_id()), "night falls (%s)" % session.day_phase_id())
-	# A few seconds of the night: those going home walk (a walk in hand once kept Save shut). A
-	# slow runner may not have anyone indoors yet: save again a little later, up to 20 s in all.
+	# The only people of this street who go home at night are wanderers (拾荒者, the 游方刀客), and
+	# where the afternoon's wandering left them depends on how many frames the way here took: on a
+	# slow runner none of them was on the street at nightfall, and nobody went indoors however
+	# long the suite waited. So a room's reset falls now (the game's own, std/room.c reset(): it
+	# comes round every half hour of the world and calls a room's people home), and there is
+	# someone to go indoors whatever the afternoon did. Not the room the player stands in: one
+	# called back beside them walks off as they watch, and a save made on that walk reads back
+	# with them indoors already (judge_night(): Continue puts the night's folk in at once).
+	var here: StringName = session.player_runtime().world_location().zone_id
+	var rooms: Array[String] = _night_rooms(square.map_id(), here)
+	_check(not rooms.is_empty(), "someone of %s away from %s goes home at night" % [square.map_id(), here])
+	for room: String in rooms:
+		session.reset_room(room)
+	# Those called home go in: at the first beat when out of sight, else once they have walked to a
+	# way out. Up to 30 s of the night.
+	var called: Array[String] = _night_folk_out(session, square.map_id(), rooms)
+	for wait: int in 60:
+		if called.is_empty():
+			break
+		await _frames(tree, 30)
+		called = _night_folk_out(session, square.map_id(), rooms)
+	_check(called.is_empty(), "those the reset called home are indoors: still out %s" % [called])
+	# A few seconds of the night (a walk in hand once kept Save shut). Saved again a little later
+	# if the save has nobody indoors.
 	var saved: bool = false
 	var written: GameSaveResult = null
 	var at_save: GameSaveSnapshot = null
@@ -427,7 +450,7 @@ func _night_save_and_load(tree: SceneTree, shell: ApplicationShellController, se
 		return
 	if not _check(written != null and written.succeeded(), "the night's save reads"):
 		return
-	_check(not indoors.is_empty(), "someone on %s had gone home when the night's save was made: %s" % [map_id, indoors])
+	_check(not indoors.is_empty(), "someone on %s had gone home when the night's save was made: %s; those who go home: %s" % [map_id, indoors, _night_folk(session, map_id)])
 	# The world goes on a little before the player thinks better of it.
 	await _frames(tree, 60 * 2)
 	_check(shell.request_pause() and shell.request_load_slots() and shell.choose_slot_row(0) and shell.confirm_current_result(), "系统 → 读档 → the first row, 读取")
@@ -483,6 +506,51 @@ func _gone_home(save: GameSaveSnapshot, map_id: StringName) -> Array[StringName]
 		if not record.exists_in_world and record.life_status != &"dead" and WorldMapNpcIdle.goes_home_at_night(spawn, pacing):
 			found.append(record.character_id)
 	return found
+
+
+## The ES2 rooms of `map_id` whose people go home at night (their spawns' rooms), but for the
+## room `except_zone` is.
+func _night_rooms(map_id: StringName, except_zone: StringName) -> Array[String]:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var rooms: Array[String] = []
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns():
+		if spawn.map_id != map_id or spawn.zone_id == except_zone or not WorldMapNpcIdle.goes_home_at_night(spawn, pacing):
+			continue
+		if not rooms.has(spawn.legacy_source_room_path):
+			rooms.append(spawn.legacy_source_room_path)
+	return rooms
+
+
+## Those of `rooms` on `map_id` who go home at night and are not indoors yet (alive, and out on
+## the map or not on it at all).
+func _night_folk_out(session: WorldSessionController, map_id: StringName, rooms: Array[String]) -> Array[String]:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var out: Array[String] = []
+	for map: WorldMapController in session.world_maps():
+		for npc: NpcRuntimeState in map.npcs.residents:
+			var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+			if spawn == null or spawn.map_id != map_id or not rooms.has(spawn.legacy_source_room_path) or not WorldMapNpcIdle.goes_home_at_night(spawn, pacing):
+				continue
+			if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and (npc.exists_in_map or map.map_id() != map_id):
+				out.append("%s on %s %s" % [npc.character_id, map.map_id(), npc.world_location().zone_id])
+	return out
+
+
+## Where each of `map_id`'s people who go home at night is now, for a failure's message: the map
+## and room they are on, indoors or out, up or not, walking or not.
+func _night_folk(session: WorldSessionController, map_id: StringName) -> Array[String]:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var folk: Array[String] = []
+	for map: WorldMapController in session.world_maps():
+		for npc: NpcRuntimeState in map.npcs.residents:
+			var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+			if spawn == null or spawn.map_id != map_id or not WorldMapNpcIdle.goes_home_at_night(spawn, pacing):
+				continue
+			folk.append("%s on %s %s, %s, life %d%s" % [
+				npc.character_id, map.map_id(), npc.world_location().zone_id, "out" if npc.exists_in_map else "indoors", npc.life_status,
+				", walking" if map.npc_life.npc_walker().is_walking(npc.character_id) else "",
+			])
+	return folk
 
 
 ## Each person the save has on `map_id` against the read-back world: present or not, their room,
