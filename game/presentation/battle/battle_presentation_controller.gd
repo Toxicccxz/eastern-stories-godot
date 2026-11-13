@@ -77,7 +77,7 @@ var _strip_left: float = 0.0
 ## The feel (DECISIONS「手感」): a round's lines are told one after another
 ## (battle_line_ms), the cards follow once they are, and a fight's end holds the panel
 ## on its last lines (battle_end_hold_ms) before the result and the world come back.
-const END_HOLD: StringName = &"battle_end"
+const END_HOLD: StringName = WorldSessionController.BATTLE_END_HOLD
 var _line_queue: Array[BattleNarrationLine] = []
 var _told: Array[BattleNarrationLine] = []
 var _line_wait: float = 0.0

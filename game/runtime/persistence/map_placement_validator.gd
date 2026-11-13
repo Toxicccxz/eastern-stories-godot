@@ -106,18 +106,18 @@ static func _is_valid_position(
 	# closed footprint save-invalid even while open; never relocate a restored
 	# Player to compensate.
 	var parts: WorldMapStaticNodes = world_map.static_nodes()
+	var footprint: Shape2D = _footprint_shape(footprint_size, round)
+	var footprint_transform: Transform2D = Transform2D(0.0, position)
 	for world_door: WorldDoor in parts.doors:
 		var door: CollisionShape2D = world_door.wall_shape()
 		if door != null:
-			if door.shape.collide(door.global_transform, _footprint_shape(footprint_size, round), Transform2D(0.0, position)):
+			if door.shape.collide(door.global_transform, footprint, footprint_transform):
 				return false
 	# Same half-open center ownership as runtime zone tracking.
 	for zone: WorldPhysicalZoneArea2D in world_map.physical_zones():
 		if zone.contains_center(position) != (zone.zone_id == zone_id):
 			return false
 
-	var footprint: Shape2D = _footprint_shape(footprint_size, round)
-	var footprint_transform: Transform2D = Transform2D(0.0, position)
 	for collision: CollisionShape2D in parts.static_shapes:
 		if collision.disabled or collision.shape == null:
 			continue
@@ -127,25 +127,43 @@ static func _is_valid_position(
 			footprint_transform,
 		):
 			return false
-	for layer: TileMapLayer in parts.layers:
-		if _overlaps_tile_collision(layer, Rect2(position - footprint_size / 2.0, footprint_size), round):
+	var rect := Rect2(position - footprint_size / 2.0, footprint_size)
+	for index: int in parts.layers.size():
+		var layer: TileMapLayer = parts.layers[index]
+		if not layer.collision_enabled or layer.tile_set == null or layer.tile_set.get_physics_layers_count() == 0:
+			continue
+		# Painted tiles never change at runtime: each footprint's answer is worked out once
+		# (a save checks every NPC, corpse and floor item, most where they stood last time).
+		if parts.tiles_block(index, rect, round, _overlaps_tile_collision):
 			return false
 	return true
 
 
+## The footprints' shapes, made once (only read by collide()): by size and roundness.
+static var _footprints: Dictionary[Vector3, Shape2D] = {}
+
+
 static func _footprint_shape(size: Vector2, round: bool) -> Shape2D:
+	var key := Vector3(size.x, size.y, 1.0 if round else 0.0)
+	var known: Shape2D = _footprints.get(key)
+	if known != null:
+		return known
+	var shape: Shape2D
 	if round:
 		var circle: CircleShape2D = CircleShape2D.new()
 		circle.radius = minf(size.x, size.y) / 2.0
-		return circle
-	var rectangle: RectangleShape2D = RectangleShape2D.new()
-	rectangle.size = size
-	return rectangle
+		shape = circle
+	else:
+		var rectangle: RectangleShape2D = RectangleShape2D.new()
+		rectangle.size = size
+		shape = rectangle
+	_footprints[key] = shape
+	return shape
 
 
 ## Terrain painted with a colliding tile blocks like a wall. Touching an edge is not overlap.
 static func _overlaps_tile_collision(layer: TileMapLayer, footprint: Rect2, round: bool = false) -> bool:
-	if not layer.collision_enabled or layer.tile_set == null or layer.tile_set.get_physics_layers_count() == 0:
+	if layer.tile_set == null or layer.tile_set.get_physics_layers_count() == 0:
 		return false
 	var local: Rect2 = layer.global_transform.affine_inverse() * footprint
 	var first: Vector2i = layer.local_to_map(local.position)

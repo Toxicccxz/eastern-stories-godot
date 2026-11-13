@@ -9063,7 +9063,11 @@ msgid "小"
 msgstr ""
 
 #: presentation/voxel/world_voxel_view.gd
-msgid "画面卡顿时，可以在「设置」里把「画质」调低"
+msgid "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
+msgstr ""
+
+#: presentation/voxel/world_voxel_view.gd
+msgid "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
 msgstr ""
 
 #. the marker's label in the voxel view: where the player chose on the 地图 page (指路), or where the tracked quest leads (目标).
@@ -9191,7 +9195,7 @@ msgid "全屏"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
-msgid "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变"
+msgid "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变。全屏时调低它，画面会更流畅"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd

@@ -214,6 +214,8 @@ func kept_save() -> GameAutosave:
 func _session_began(session: WorldSessionController, loaded: bool) -> void:
 	# The stance is no save's: every character, new or loaded, starts at 攻 (DECISIONS「姿态整记」).
 	BattlePace.stance = CombatStance.Value.ATTACK
+	# What the menu's check of a slot kept for 继续 is not needed once a session runs.
+	GameSaveRepository.forget_checked()
 	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
 	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
 	session.keep_save_requested.connect(_on_keep_save.bind(session))

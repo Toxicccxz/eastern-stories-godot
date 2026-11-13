@@ -8,7 +8,8 @@ extends RefCounted
 ## or 回到上次自动存档 would bring back the ghost). Two refusals that pass by themselves in a few
 ## steps or seconds are waited out instead (WAITED; 全项目审查第四批): the player in a doorway, an
 ## NPC still making something for them; retry() tries the moment again every RETRY_MS, quietly.
-## Only the capture runs on the main thread, where the view is dark; the checks, the encoding and the file work are the same as a Save's
+## Only the capture runs on the main thread, where the view is dark (a map change) or the battle
+## panel holds a finished fight's last lines (WorldSessionController._note_fight_over()); the checks, the encoding and the file work are the same as a Save's
 ## and run on a worker while the world goes on. Reads the world, draws nothing from its streams.
 
 var _repository: GameSaveRepository

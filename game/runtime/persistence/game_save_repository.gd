@@ -17,6 +17,7 @@ func save(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	if not _begin_operation():
 		_drop_kept(snapshot)
 		return GameSaveResult.failure(GameSaveResult.Outcome.OPERATION_IN_PROGRESS, "repository")
+	forget_checked()
 	var result: GameSaveResult = _save_impl(snapshot)
 	_operation_in_progress = false
 	return result
@@ -35,8 +36,15 @@ func inspect_slot() -> GameSaveSlotInspectionResult:
 		return GameSaveSlotInspectionResult.new(
 			GameSaveResult.Outcome.OPERATION_IN_PROGRESS,
 		)
-	var sources: Array[int] = _valid_recovery_sources()
-	var result: GameSaveResult = _load_impl(sources)
+	# The main file first: when it is good, the menu offers 继续 and no recovery file
+	# (ApplicationProductResultMapper), so the .bak and .tmp are read only when it is not.
+	var canonical: GameSaveResult = null
+	if _files.file_exists(_profile.canonical_path()):
+		canonical = _read_snapshot(_profile.canonical_path(), true)
+	var sources: Array[int] = []
+	if canonical == null or not canonical.succeeded():
+		sources = _valid_recovery_sources()
+	var result: GameSaveResult = _load_impl(sources, canonical)
 	_operation_in_progress = false
 	return GameSaveSlotInspectionResult.new(result.outcome, sources)
 
@@ -189,12 +197,13 @@ func _save_impl(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	return GameSaveResult.success(snapshot)
 
 
-func _load_impl(valid_recovery_sources: Array[int] = []) -> GameSaveResult:
+## `read`: the main file as inspect_slot() read it just now (null: read it here).
+func _load_impl(valid_recovery_sources: Array[int] = [], read: GameSaveResult = null) -> GameSaveResult:
 	if not _files.file_exists(_profile.canonical_path()):
 		if _has_valid_recovery_candidate(valid_recovery_sources):
 			return GameSaveResult.failure(GameSaveResult.Outcome.BACKUP_AVAILABLE, _profile.canonical_path(), "validated recovery file exists")
 		return GameSaveResult.failure(GameSaveResult.Outcome.NO_SAVE, _profile.canonical_path())
-	var canonical: GameSaveResult = _read_snapshot(_profile.canonical_path())
+	var canonical: GameSaveResult = _read_snapshot(_profile.canonical_path(), false, true) if read == null else read
 	if canonical.succeeded(): return canonical
 	# Preserve a precise contract refusal, even when an explicit recovery option exists.
 	if canonical.outcome in [GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION]:
@@ -225,15 +234,73 @@ func _valid_recovery_sources() -> Array[int]:
 	return sources
 
 
-func _read_snapshot(path: String) -> GameSaveResult:
+## The file at `path`, read, decoded and checked in full. `remember`: a good one is kept for
+## the next read of the same bytes (inspect_slot(), then 继续). `reuse`: one kept for these very
+## bytes is taken instead of decoding them again.
+func _read_snapshot(path: String, remember: bool = false, reuse: bool = false) -> GameSaveResult:
 	var read: SaveFileReadResult = _files.read_bytes(path, MAXIMUM_FILE_BYTES)
 	if read.error == SaveFileReadResult.ERROR_FILE_TOO_LARGE or read.file_size > MAXIMUM_FILE_BYTES:
 		return GameSaveResult.failure(GameSaveResult.Outcome.FILE_TOO_LARGE, path)
 	if read.error != OK:
 		return GameSaveResult.failure(GameSaveResult.Outcome.READ_FAILED, path, error_string(read.error))
+	if reuse:
+		var kept: GameSaveSnapshot = _take_checked(path, read.bytes)
+		if kept != null:
+			return GameSaveResult.success(kept)
 	if not _is_valid_utf8(read.bytes):
 		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_UTF8, path)
-	return GameSaveJsonCodec.decode(read.bytes.get_string_from_utf8(), _requires_current_public_contract())
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(read.bytes.get_string_from_utf8(), _requires_current_public_contract())
+	if decoded.succeeded():
+		decoded = _checked(decoded.snapshot)
+	if remember and decoded.succeeded():
+		_keep_checked(path, read.bytes, decoded.snapshot)
+	return decoded
+
+
+## What a decoded snapshot must pass besides the codec's rules before it is given out
+## (SourceEntrySaveRepository: the world's own check).
+func _checked(snapshot: GameSaveSnapshot) -> GameSaveResult:
+	return GameSaveResult.success(snapshot)
+
+
+## The one snapshot read and checked in full and not yet taken (the menu's inspection of the
+## slot 继续 then loads): [path, the repository's script, the contract asked, size, hash, bytes,
+## snapshot]. 继续 reads the file again and takes it only when every byte is the same; any
+## other read decodes in full. Taken once (validate()'s preparation kept on it goes with it);
+## dropped by a save, a new inspection, and forget_checked(). Read on worker threads: locked.
+static var _kept_check: Array = []
+static var _kept_check_lock: Mutex = Mutex.new()
+
+
+func _keep_checked(path: String, bytes: PackedByteArray, snapshot: GameSaveSnapshot) -> void:
+	_kept_check_lock.lock()
+	_kept_check = [path, get_script(), _requires_current_public_contract(), bytes.size(), hash(bytes), bytes, snapshot]
+	_kept_check_lock.unlock()
+
+
+func _take_checked(path: String, bytes: PackedByteArray) -> GameSaveSnapshot:
+	_kept_check_lock.lock()
+	var kept: Array = _kept_check
+	_kept_check = []
+	_kept_check_lock.unlock()
+	if (
+		kept.size() == 7
+		and String(kept[0]) == path
+		and kept[1] == get_script()
+		and bool(kept[2]) == _requires_current_public_contract()
+		and int(kept[3]) == bytes.size()
+		and int(kept[4]) == hash(bytes)
+		and kept[5] == bytes
+	):
+		return kept[6] as GameSaveSnapshot
+	return null
+
+
+## Lets go of the snapshot a menu's inspection kept (a session began from something else).
+static func forget_checked() -> void:
+	_kept_check_lock.lock()
+	_kept_check = []
+	_kept_check_lock.unlock()
 
 
 func _requires_current_public_contract() -> bool:

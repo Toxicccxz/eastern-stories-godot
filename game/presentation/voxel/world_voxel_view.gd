@@ -113,7 +113,13 @@ var _old_msaa: Viewport.MSAA = Viewport.MSAA_DISABLED
 var _quality_applied: int = -1
 ## The slow-frame hint's watch (GraphicsQualityHint) and the last frame's real time.
 var _slow_watch: GraphicsQualityHint
+## The level _slow_watch watches for (a change of 画质 starts it again).
+var _slow_level: int = -1
 var _frame_usec: int = 0
+## The slow-frame hint on 高, and on 低 (where only the 分辨率 is left: in fullscreen it draws
+## the map with fewer pixels, GodotWindowModeCapability._draw_picture()).
+const SLOW_HINT_HIGH: String = "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
+const SLOW_HINT_LOW: String = "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
 var _target: Vector3
 var _offset := Vector3(21.213203,26,21.213203)
 var _view_yaw: float = VIEW_SIDE_ANGLE
@@ -181,19 +187,22 @@ func _apply_quality() -> void:
 	if _active:
 		get_viewport().msaa_3d = GraphicsQuality.msaa()
 
-## DECISIONS「画质」: on 高, the hint never told before, a run of slow seconds (real time, not the
-## game's; GraphicsQualityHint) says once that 画质 can go lower. Never in a headless run.
+## DECISIONS「画质」: a run of slow seconds (real time, not the game's; GraphicsQualityHint) says
+## that 画质 can go lower and the 分辨率 too (on 高, once ever), or, already on 低, that the
+## 分辨率 is what is left (once a run). Never in a headless run.
 func _watch_frames() -> void:
 	var now: int = Time.get_ticks_usec()
 	var real: float = 0.0 if _frame_usec == 0 else float(now-_frame_usec)/1000000.0
 	_frame_usec = now
-	if GraphicsQuality.hint_told or GraphicsQuality.level != GraphicsQuality.Value.HIGH or map.session == null or DisplayServer.get_name() == "headless":
+	var due: int = GraphicsQuality.slow_hint_due()
+	if due < 0 or map.session == null or DisplayServer.get_name() == "headless":
 		return
-	if _slow_watch == null:
+	if _slow_watch == null or _slow_level != due:
 		_slow_watch = GraphicsQualityHint.new()
+		_slow_level = due
 	if _slow_watch.advance(real):
-		map.session.shared_ui().toasts().push(tr("画面卡顿时，可以在「设置」里把「画质」调低"))
-		GraphicsQuality.note_hint_told()
+		map.session.shared_ui().toasts().push(tr(SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
+		GraphicsQuality.note_slow_hint_told()
 
 ## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along
 ## it, hard in a gust, upright in the calm, wild when it veers; the dust that follows it drifts. The

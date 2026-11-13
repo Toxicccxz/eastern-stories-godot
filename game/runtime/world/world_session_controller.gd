@@ -124,6 +124,11 @@ signal keep_save_requested
 signal epilogue_ended(final: bool)
 const EPILOGUE_HOLD: StringName = &"epilogue"
 var _fight_shown: bool = false
+## The fight's end hold (the battle panel on its last lines, BATTLE_END_HOLD) already gave its
+## autosave moment.
+var _fight_end_told: bool = false
+## The battle panel's hold on a finished fight's last lines (BattlePresentationController.END_HOLD).
+const BATTLE_END_HOLD: StringName = &"battle_end"
 ## Real seconds this character has been played, menus included (not the pause).
 var _played_seconds: float = 0.0
 ## The time of day (DECISIONS「昼夜」), going on with the world clock; saved as day_seconds.
@@ -230,9 +235,21 @@ func _on_view_arrived(_map_id: StringName, arrived: bool, _door: bool) -> void:
 		autosave_moment.emit()
 
 
+## A fight's autosave moment comes as its end hold begins: nothing advances while the panel
+## holds the last lines (presentation_frozen()), so the world is the one the player gets back,
+## and the capture's frame falls there instead of on the first step after the fight
+## (review fix R; DECISIONS「自动存档」). When the panel closes the moment comes again: it saves
+## if the first one could not (an autosave just written stays within its interval).
 func _note_fight_over() -> void:
-	var shown: bool = battle_panel_shown() or (_combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter())
+	var fighting: bool = _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter()
+	var shown: bool = battle_panel_shown() or fighting
+	if fighting:
+		_fight_end_told = false
+	elif _fight_shown and shown and not _fight_end_told and presentation_held(BATTLE_END_HOLD):
+		_fight_end_told = true
+		autosave_moment.emit()
 	if _fight_shown and not shown:
+		_fight_end_told = false
 		autosave_moment.emit()
 	_fight_shown = shown
 

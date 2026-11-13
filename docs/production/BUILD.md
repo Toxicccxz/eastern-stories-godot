@@ -25,8 +25,10 @@ when the file is not as Godot writes it, and pins three settings:
 
 - **Vulkan on Windows.** Godot's D3D12 driver reserves at least 64 KB of GPU memory per buffer, and
   a voxel map holds thousands of small MultiMesh buffers (乔阴县城 1.2 GB under D3D12, 0.1 GB under
-  Vulkan); visited maps stay built, so a long session ran the GPU out of memory (black or grey
-  screens, torn floors, low frame rates; `build/leak/census.gd` measures it). Vulkan is Godot
+  Vulkan); visited maps used to stay built, so a long session ran the GPU out of memory (black or
+  grey screens, torn floors, low frame rates; `build/leak/census.gd` measures it). Now only the
+  last three maps visited keep their voxel world (`feel.voxel_worlds_kept`); the rest are built
+  again on return. Vulkan is Godot
   4.7.2's built-in default, so the file does not list it (new projects get `d3d12` from the
   project template). If an engine upgrade changes the default, the test fails: write
   `rendering_device/driver.windows="vulkan"` back under `[rendering]`.
@@ -164,6 +166,22 @@ dist/windows/Eastern-Stories-Godot.pck (when emitted separately)
 dist/windows/build-manifest.json
 dist/Eastern-Stories-Godot-windows-x86_64.zip
 ```
+
+Windows release checklist (rendering). The game writes the renderer it actually runs on as the
+first `Renderer:` line of its log (`%APPDATA%/Godot/app_userdata/<project>/logs/godot.log`); a
+driver given on the command line, by Steam or by Godot's own fallback may differ from Vulkan. Before
+a release, run the exported game windowed through 乔阴县城 and 雪亭镇 three times and compare the
+picture and the video memory (`Performance.RENDER_VIDEO_MEM_USED`; the kit of 2026-11-12 is
+`build/perf-r/probe_maps.gd`):
+
+1. As shipped (Vulkan, mobile renderer): 2026-11-12, RTX 4070 SUPER, 530 MB at the start,
+   594 MB after 乔阴, 606 MB after 雪亭镇.
+2. `--rendering-driver d3d12`: Godot switched to the forward_plus renderer; the picture matched,
+   but video memory went 624 → 1171 → 1468 MB (the 64 KB per buffer above), so a long session on
+   D3D12 still runs a smaller GPU out of memory.
+3. `--rendering-driver opengl3` (also what Godot falls back to when Vulkan cannot start): the
+   compatibility renderer; video memory low (342 → 408 → 420 MB) but the picture much darker:
+   roofs and trees near black, as at night. Not supported for players until this is looked at.
 
 Android:
 
