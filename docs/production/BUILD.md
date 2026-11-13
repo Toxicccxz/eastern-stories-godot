@@ -291,6 +291,42 @@ used in CI.
 Each target rebuild removes only its controlled staging/output directory. The tooling never runs
 `git clean` and never mutates `game/`. Generated output lives under ignored `build/` and `dist/`.
 
+## 试玩一轮
+
+The owner's playtest (ROADMAP「After the grey box」step 1; the checklist is
+[STATUS 待试玩](STATUS.md#待试玩)) is played on one pinned commit of `main`, never on the shared
+checkout: other sessions merge into `main` every day, and a merge that moves the world revision
+(`WorldContentRevision.CURRENT_PUBLIC`, `game/core/persistence/world_content_revision.gd`) makes every
+save of the round refuse to load (DECISIONS「修订号指纹」; it moved about twenty times between 2026-11-04 and 11-12). A
+round:
+
+1. **Cut.** `python tools/build/playtest_round.py cut` (`--name playtest-<date>` by default;
+   `--dry-run` prints what it would do). It fetches `origin/main`, makes the annotated tag
+   `playtest-<date>` on it (its message names the commit and the world revision), pushes the tag,
+   and runs `ci.yml` by hand on it (`workflow_dispatch`): the `Windows Release Build` job makes the
+   ZIP from exactly that commit (`build-manifest.json` records it, `tools/build/build.py`). Pushing a
+   tag is the owner's call: the agent cuts a round only when the owner says so.
+2. **Fetch.** When the run is green, `python tools/build/playtest_round.py fetch playtest-<date>`
+   downloads the artifact into `build/playtest/<tag>/` and unpacks `game/` there: that `.exe` is the
+   game of the round, from New Game or Continue, in the release save slot. Beside it,
+   `build/playtest/<tag>/source` is a detached worktree of the tag: open its `game/` in Godot 4.7.2
+   for the dev starts (`tests/dev/chapter_start.tscn` + F6, 「起点 N」 in the checklist) on the same
+   code; those saves go to the development slot, which every checkout of the project shares (manual
+   saves stay, but a chapter start's first autosave replaces that slot's autosave). Nothing is deleted; a finished round's folder and
+   worktree are removed by hand (`git worktree remove build/playtest/<tag>/source`).
+3. **During the round.** Packages keep merging into `main`; the round does not take them. A fix the
+   round needs is played in the next round's tag. `python tools/build/playtest_round.py status
+   playtest-<date>` lists what `main` merged since the tag and says whether `main`'s world revision
+   moved: if it did, a new round needs a New Game (or a 起点), and its PRs say so (「需要新游戏」).
+   A PR that changes the world revision during a round says in its description that the round's
+   saves will not load on it.
+4. **After.** What the round found goes into ROADMAP step 2's defect list; the 待试玩 lines it settled
+   leave STATUS.
+
+A round's build names itself: built on the tag, its version (above, under「One sanitized production
+project」) is the tag and the short commit (`playtest-<date> (1a2b3c4d)`), shown on the main menu and
+on 系统 and recorded in every save, so a defect report says which round it came from.
+
 ## GitHub Actions
 
 `.github/workflows/ci.yml` implements one integration gate: a ready pull request targeting `main`

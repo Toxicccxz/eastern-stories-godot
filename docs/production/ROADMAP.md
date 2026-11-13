@@ -96,12 +96,17 @@ owner's one full playtest. The owner has deferred that playtest since (each late
 approved ahead of it); it has not happened yet. What waits for it is listed in
 [STATUS](STATUS.md#待试玩).
 
-1. **Playtest preparation and the owner's first full playtest.** First the preparation package: the
-   checklist grouped by the main story's route (per chapter and system: what to do, what should
-   happen, what only the owner can judge — feel, pacing, wording — with fields for time taken,
-   confusion and defects), dev launchers that start at chapter N with the story state and experience
-   of that chapter, and a tagged build that stays fixed while the owner plays (a world revision bump
-   breaks saves). Then the owner works through it once.
+1. **Playtest preparation and the owner's first full playtest.** The preparation is done: the
+   checklist in [STATUS 待试玩](STATUS.md#待试玩), in the order a playtest goes (the main story chapter
+   by chapter with its regions, the places beside it, then the systems that can be checked anywhere),
+   each line where to go, what to do, what to look for and the fastest start, split into the owner's
+   list (feel, pacing, wording, decisions) and the agent's windowed walkthrough (walk, click, expect a
+   line); the dev start at any chapter with that chapter's story state, experience and things
+   (`tests/dev/chapter_start.tscn` + F6, or `run_chapter_start.gd`), with `run_with_experience.gd` and
+   `run_with_max_force.gd` for the rest; a round played on a tagged build that stays fixed
+   ([BUILD「试玩一轮」](BUILD.md#试玩一轮)). Next: the agent's walkthrough list, windowed, with what it
+   finds fixed; then a round is cut and the owner works through the checklist once, noting for each
+   line the time taken, the confusion and the defects.
 2. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the decisions left for the
    playtest ([STATUS](STATUS.md#待决定)). The growth curve comes with it: a plan with simulated numbers
    for the time 请教 and 打坐 take, a repeatable source of experience after about 22,000, each

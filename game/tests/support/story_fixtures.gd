@@ -167,7 +167,7 @@ static func chapter5_escorted(session: WorldSessionController, letter: bool = tr
 
 ## 人证 done after 宝衣 taken: the chest returned first and the 抄本 from 陈显祖's hand, then 走吧 — he is
 ## gone with his box; the trial without him (纸能证纸，不能证人), the letter all the same.
-static func chapter5_released(session: WorldSessionController) -> void:
+static func chapter5_released(session: WorldSessionController, letter: bool = true) -> void:
 	chapter4_taken(session)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in [
@@ -177,7 +177,7 @@ static func chapter5_released(session: WorldSessionController) -> void:
 		_write(state, key)
 	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "放走了陈显祖", "堂审过", "只留了文书", "程不平写了信", "人证一章"]:
 		state.marks[mark] = 1
-	_chapter5_things(session)
+	_chapter5_things(session, letter)
 
 
 ## What the fifth chapter leaves in the player's hands: the 兵部文书, the 抄本 and 程不平's letter (`letter`;
@@ -195,9 +195,14 @@ static func _chapter5_things(session: WorldSessionController, letter: bool = tru
 
 ## 关北 A and B done after 人证 (escorted): the letter shown at the camp, the mould bought and compared,
 ## the gate passed by the roll, the notice read, the door knocked open, the letter handed to 程朔 and
-## the road chosen — 借兵 (`raid`) with 郭承 following, or 潜入 (not raid).
-static func chapter6_planned(session: WorldSessionController, raid: bool = true) -> void:
-	chapter5_escorted(session, false)
+## the road chosen — 借兵 (`raid`) with 郭承 following, or 潜入 (not raid). With `chased` the ledger before it
+## is 逆灵宫's chase (chapter5_released: 宝衣 taken, 陈显祖 let go), else the rescue (chapter5_escorted); every
+## later fixture passes `chased` on, so a chapter can be set up on either line.
+static func chapter6_planned(session: WorldSessionController, raid: bool = true, chased: bool = false) -> void:
+	if chased:
+		chapter5_released(session, false)
+	else:
+		chapter5_escorted(session, false)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in [
 		"main.chapter6#started", "main.chapter6/general", "main.chapter6/adviser", "main.chapter6/seal", "main.chapter6/gate",
@@ -217,8 +222,8 @@ static func chapter6_planned(session: WorldSessionController, raid: bool = true)
 ## cart's taoists fled) or the night's sneak (four freed, the watch down, 救了一半); the way to the 古冢口
 ## open, the chapter's last step (卢卡's 会首) still to ask. 郭承 is not placed at the player's side:
 ## a test that wants him following brings him (his mood going).
-static func chapter6_site_done(session: WorldSessionController, raid: bool = true) -> void:
-	chapter6_planned(session, raid)
+static func chapter6_site_done(session: WorldSessionController, raid: bool = true, chased: bool = false) -> void:
+	chapter6_planned(session, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "main.chapter6/site")
 	_write(state, "main.chapter6/raid" if raid else "main.chapter6/sneak")
@@ -266,8 +271,8 @@ static func _write(state: CharacterState, key: String) -> void:
 
 ## 关北 done (关北 D): after the 工地 the last step — 卢卡 asked of the ghost and his 会首 — and the
 ## chapter's mark 关北一章; the seventh chapter opens. Its ledger keys and marks as the chapter writes them.
-static func chapter6_done(session: WorldSessionController, raid: bool = true) -> void:
-	chapter6_site_done(session, raid)
+static func chapter6_done(session: WorldSessionController, raid: bool = true, chased: bool = false) -> void:
+	chapter6_site_done(session, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter6/luca", "main.chapter6#done"]:
 		_write(state, key)
@@ -277,8 +282,8 @@ static func chapter6_done(session: WorldSessionController, raid: bool = true) ->
 
 ## 番坊 B: in 番坊 after 关北 (`raid`), 卢卡 met at the gate, 安敦 met in his hall and asked of the 铜牒;
 ## no side taken yet. Its ledger keys and marks as the chapter writes them; the player is not moved.
-static func chapter7_told(session: WorldSessionController, raid: bool = true) -> void:
-	chapter6_done(session, raid)
+static func chapter7_told(session: WorldSessionController, raid: bool = true, chased: bool = false) -> void:
+	chapter6_done(session, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter7#started", "main.chapter7/fanfang", "main.chapter7/hall", "main.chapter7/tablet_tale"]:
 		_write(state, key)
@@ -287,8 +292,8 @@ static func chapter7_told(session: WorldSessionController, raid: bool = true) ->
 
 
 ## chapter7_told() and a side taken — the 大秦人's (`rome`: 安敦's 站大秦人) or the 浪人's (早川's 站浪人).
-static func chapter7_sided(session: WorldSessionController, rome: bool = true, raid: bool = true) -> void:
-	chapter7_told(session, raid)
+static func chapter7_sided(session: WorldSessionController, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter7_told(session, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "main.chapter7/side/rome" if rome else "main.chapter7/side/ronin")
 	state.marks["站了大秦人" if rome else "站了浪人"] = 1
@@ -298,8 +303,8 @@ static func chapter7_sided(session: WorldSessionController, rome: bool = true, r
 ## at the gate) or the 浪人's (早川's 一刀, the tablet stolen by night, the 大秦人 cleared) — and the 铜牒
 ## read; the chapter's mark 番坊一章 and the eighth chapter's stub open. Its ledger keys and marks as the
 ## chapter writes them; the player is not moved and holds no tablet.
-static func chapter7_done(session: WorldSessionController, rome: bool = true, raid: bool = true) -> void:
-	chapter7_sided(session, rome, raid)
+static func chapter7_done(session: WorldSessionController, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter7_sided(session, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in (["main.chapter7/rome", "main.chapter7/gate"] if rome else ["main.chapter7/ronin", "main.chapter7/theft"]) + ["main.chapter7/read", "main.chapter7#done"]:
 		_write(state, key)
@@ -314,8 +319,8 @@ static func chapter7_done(session: WorldSessionController, rome: bool = true, ra
 ## 湖底一章 and the ninth chapter's stub open; on the pull ledger the night after too (第八章 B: the three
 ## bands of 鬼卒 beaten). Its ledger keys and marks as the chapter writes them; the player is not moved and
 ## holds neither sword nor feather.
-static func chapter8_done(session: WorldSessionController, pulled: bool = true, rome: bool = true, raid: bool = true) -> void:
-	chapter7_done(session, rome, raid)
+static func chapter8_done(session: WorldSessionController, pulled: bool = true, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter7_done(session, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter8/lake", "main.chapter8/cave", "main.chapter8/pool", "main.chapter8/seal", "main.chapter8/choice/pull" if pulled else "main.chapter8/choice/keep"] + (["main.chapter8/night"] if pulled else []) + ["main.chapter8#done"]:
 		_write(state, key)
@@ -326,8 +331,8 @@ static func chapter8_done(session: WorldSessionController, pulled: bool = true, 
 ## 第九章 A done (or B, by the well) after 第八章: the way in taken — `way` exam (the 校武场's three bouts, the
 ## 殿试, the 御前侍卫腰牌 in hand), memorial (骆云舟's 名帖, the 相国's 奏本, the 早朝) — and 福安's word: the
 ## 养心殿 next (C). Its ledger keys and marks as the chapter writes them.
-static func chapter9_entered(session: WorldSessionController, way: String = "exam", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter8_done(session, pulled, rome, raid)
+static func chapter9_entered(session: WorldSessionController, way: String = "exam", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter8_done(session, pulled, rome, raid, chased)
 	_chapter9_entered(session, way)
 
 
@@ -349,8 +354,8 @@ static func _chapter9_entered(session: WorldSessionController, way: String) -> v
 ## 第九章 C done after the 武举 (chapter9_entered): the 养心殿 (见了皇帝), the 樟木匣 and the two decrees compared
 ## (对出了原令: the 原令, the 兵部抄本 and the woodcutter's page in hand), 卫沧澜 met in the 尚书府 — and, with
 ## `witness`, his 白衣武官 heard (卫沧澜作证) and his 走 (卫沧澜出了尚书府). The choice (D) next.
-static func chapter9_compared(session: WorldSessionController, witness: bool = true, pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter9_entered(session, "exam", pulled, rome, raid)
+static func chapter9_compared(session: WorldSessionController, witness: bool = true, pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter9_entered(session, "exam", pulled, rome, raid, chased)
 	_chapter9_compared(session.player_runtime().state, witness)
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if map == null:
@@ -371,8 +376,8 @@ static func _chapter9_compared(state: CharacterState, witness: bool) -> void:
 ## (卫沧澜's witness, 庾子建下狱, 冯策随你下湖), deal (私了: 宋朴传了话, 私了了庾子建) or uncle (the 手诏 carried:
 ## 皇叔入朝); the chapter's mark 皇城一章 and the tenth chapter opens. Its ledger keys and marks as the chapter
 ## writes them; of the things only the 腰牌 (the decrees go one way or another with the choice).
-static func chapter9_done(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter9_entered(session, "exam", pulled, rome, raid)
+static func chapter9_done(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter9_entered(session, "exam", pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	_chapter9_compared(state, side == "expose")
 	var keys: Array[String] = ["main.chapter9/choice/%s" % side]
@@ -393,8 +398,8 @@ static func chapter9_done(session: WorldSessionController, side: String = "expos
 
 ## 第十章 A done after 第九章 (`side`): the wind read, 伏地 in the hollow it stops in — 到了岚城, up into the
 ## town at the 白石门; the 风铃阁 next (B). Which route the wind drew is the world's (a suite draws one).
-static func chapter10_arrived(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter9_done(session, side, pulled, rome, raid)
+static func chapter10_arrived(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter9_done(session, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter10#started", "main.chapter10/wind"]:
 		_write(state, key)
@@ -403,8 +408,8 @@ static func chapter10_arrived(session: WorldSessionController, side: String = "e
 
 ## 第十章 B done: up the 白石街 into the 风铃阁, 岚翁's greeting under the bells and 旋芒 asked of him; the
 ## 云台 next (C).
-static func chapter10_asked(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter10_arrived(session, side, pulled, rome, raid)
+static func chapter10_asked(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter10_arrived(session, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter10/city", "main.chapter10/elder"]:
 		_write(state, key)
@@ -414,8 +419,8 @@ static func chapter10_asked(session: WorldSessionController, side: String = "exp
 ## 第十章 done (第十章 A–C): the wind read, 岚翁 asked of 旋芒, and `who` drew it — self (旋芒在你手里: the
 ## sword not given, the suite gives it), uncle (旋芒在皇叔手里) or xiao (旋芒在萧辟尘手里); 岚城一章, and the
 ## finale (main.finale) begins on the next journal beat.
-static func chapter10_done(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter10_asked(session, side, pulled, rome, raid)
+static func chapter10_done(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter10_asked(session, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter10/choice/%s" % who, "main.chapter10#done"]:
 		_write(state, key)
@@ -427,8 +432,8 @@ static func chapter10_done(session: WorldSessionController, who: String = "self"
 ## 终章 A done after 第十章 (`who`, `side`): at the lakeside the 点将 seen, 等到天黑 taken (the 决战前 save
 ## asked for: 下了决战), out on the boat and the dive (终章下了湖底); the 冰龙厅 next (B). Whether 能灭它 was
 ## said is the ledger's (a suite's choices); the swords are not given (a suite gives them as its ledger has them).
-static func finale_dived(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	chapter10_done(session, who, side, pulled, rome, raid)
+static func finale_dived(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	chapter10_done(session, who, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.finale#started", "main.finale/lake", "main.finale/gather", "main.finale/shore"]:
 		_write(state, key)
@@ -438,8 +443,8 @@ static func finale_dived(session: WorldSessionController, who: String = "self", 
 
 ## 终章 B fought after the dive: 商玦 down in the 冰龙厅, the pool down to the 封坛 (回到了湖底), 侮天鬼 taken shape
 ## and down; the last stroke (the end step) next.
-static func finale_fought(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	finale_dived(session, who, side, pulled, rome, raid)
+static func finale_fought(session: WorldSessionController, who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	finale_dived(session, who, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.finale/hall", "main.finale/depths", "main.finale/demon"]:
 		_write(state, key)
@@ -449,8 +454,8 @@ static func finale_fought(session: WorldSessionController, who: String = "self",
 
 ## 终章 B done: the last stroke — `end` slay (侮天鬼灭了) or a seal (seal_elon: 瑷伦留在了冰里, 再封了侮天鬼) — and up
 ## the pool to the lakeside (终章上了岸); home (C) next.
-static func finale_ended(session: WorldSessionController, end: String = "slay", who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true) -> void:
-	finale_fought(session, who, side, pulled, rome, raid)
+static func finale_ended(session: WorldSessionController, end: String = "slay", who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	finale_fought(session, who, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "main.finale/end/%s" % end)
 	var stayed: Dictionary[String, String] = {"seal_elon": "瑷伦留在了冰里", "seal_lihong": "璃虹留在了冰里", "seal_nan": "南危水留在了冰里", "seal_xiao": "萧辟尘留在了冰里"}
