@@ -535,7 +535,7 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	if not coordinator.has_active_encounter():
 		map.select_npc(npc.character_id)
-		CombatEncounterCoordinator.take_aborted_total()
+		_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 		_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s" % name)
 	coordinator.advance_scheduler(30.0)
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "%s: thirty seconds of fighting without a stop" % name)

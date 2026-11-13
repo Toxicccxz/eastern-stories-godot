@@ -33,7 +33,8 @@ var _lesson_guide_id: StringName = &""
 const LESSON_ROUNDS: int = 3
 
 ## Fights aborted by a failure (see _abort_failed_resolution) since the last take.
-## SuiteResult turns any untaken abort into a test failure.
+## SuiteResult turns any untaken abort into a test failure; a fight a suite ends on purpose
+## goes through stop_where_it_stands() and is not counted.
 static var _aborted_total: int = 0
 
 
@@ -935,6 +936,22 @@ func _abort_failed_resolution() -> void:
 	_aborted_total += 1
 	if OS.is_debug_build():
 		push_error("Combat encounter %s aborted: %s" % [_active_encounter.encounter_id, _last_abort_detail])
+	_end_where_it_stands()
+
+
+## Ends the active fight where it stands, as a failed one ends (damage so far stays, the
+## fallen fall, both sides disengage, the world returns), but as nobody's failure: nothing is
+## logged or counted. For a caller that needs a fight out of the way: a suite done with the
+## fight it started. Whether there was a fight to end.
+func stop_where_it_stands() -> bool:
+	if _active_encounter == null or _active_encounter.phase != CombatEncounterLifecycle.Value.ACTIVE or _resolution == null:
+		return false
+	_last_abort_detail = "stopped where it stood"
+	_end_where_it_stands()
+	return true
+
+
+func _end_where_it_stands() -> void:
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
 	if map != null:

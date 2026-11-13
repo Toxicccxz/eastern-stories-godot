@@ -163,7 +163,6 @@ func _test_spare(tree: SceneTree, session: WorldSessionController) -> void:
 			break
 	_check(held, "it falls and the player spares it (%s)" % CharacterRuntimeLifeStatus.Value.find_key(outlaw.life_status))
 	_run(session)
-	CombatEncounterCoordinator.take_aborted_total()
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	session.record_journal()
 	var paid_lines: Array[String] = session.shared_ui().log_lines().slice(said)
@@ -196,7 +195,7 @@ func _test_give_up_and_save(tree: SceneTree, session: WorldSessionController) ->
 	_check(outlaw != null, "its outlaw comes out")
 	if outlaw == null:
 		return
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	if coordinator.has_active_encounter():
 		# The ambush: the player walks off (flee is a fight's own; here the fight is ended for the test).
@@ -259,7 +258,7 @@ func _run(session: WorldSessionController) -> void:
 	while coordinator.has_active_encounter() and rounds < 300:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight runs to its end without aborting")
 
 
 func _session(tree: SceneTree) -> WorldSessionController:

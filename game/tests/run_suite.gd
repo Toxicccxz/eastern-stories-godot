@@ -4,8 +4,10 @@ extends SceneTree
 ## Usage: godot --headless --path game --script res://tests/run_suite.gd -- <path>...
 ## Each path is a *_test.gd script or a directory searched recursively for *_test.gd.
 ## A suite fails on any script error it logs: such an error ends only the helper it is
-## in, and the suite would still report PASS. Its ERROR and SHADER ERROR lines (an engine
-## error, a push_error()) are counted and printed as "[gate] <suite>  <line>" (not yet failed).
+## in, and the suite would still report PASS. It fails too on any ERROR or SHADER ERROR (an
+## engine error, a push_error()) it does not declare in EXPECTED_ERRORS (SuiteErrors).
+## verify.py judges the error lines outside this runner's hearing: before "[gate] listening"
+## and after the summary.
 
 
 class ScriptErrors extends Logger:
@@ -86,6 +88,7 @@ func _run() -> void:
 	var failures: Array[String] = []
 	var script_errors := ScriptErrors.new()
 	OS.add_logger(script_errors)
+	print("[gate] listening")
 	for path: String in suite_paths:
 		# From before the load: an error loading the suite's own resources is the suite's.
 		var engine_errors_before: int = script_errors.error_count()
@@ -110,9 +113,7 @@ func _run() -> void:
 		var suite_failures: Array = result["failures"]
 		if script_errors.count() > errors_before:
 			suite_failures.append("%d script error(s) (see SCRIPT ERROR above)" % (script_errors.count() - errors_before))
-		# Measured, not yet enforced: one line per ERROR / SHADER ERROR the suite logged.
-		for logged: String in script_errors.errors_since(engine_errors_before):
-			print("[gate] %s  %s" % [path, logged])
+		suite_failures.append_array(SuiteErrors.judge(script_errors.errors_since(engine_errors_before), SuiteErrors.expected_of(script)))
 		assertions += int(result.get("assertions", 0))
 		for failure: Variant in suite_failures:
 			failures.append("%s: %s" % [path.get_file(), str(failure)])

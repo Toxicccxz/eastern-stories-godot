@@ -26,6 +26,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(sim.bounties_done >= 2 or sim.deaths > 0, "bounties paid on the route: %d
 %s" % [sim.bounties_done, report])
 	_check(sim.rewards.size() >= 8, "the route's 历练: %d" % sim.rewards.size())
+	_check(sim.aborted_fights == 0, "no fight of the route aborts: %d" % sim.aborted_fights)
 	_check(sim.first_special.has(&"liuh-ken") and sim.first_special[&"liuh-ken"] < 10.0 * 60.0, "柳家拳 within ten minutes of New Game")
 	await sim.finish()
 	var exercise := ExpPacingSim.new(tree)

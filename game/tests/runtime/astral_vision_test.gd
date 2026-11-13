@@ -119,7 +119,9 @@ func _test_ghost_hunt(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not arts.cast_self(ASTRAL) and hud.log_lines()[-1] == RUNNING, "again: " + RUNNING)
 	# The fight: the player strong enough, the ghost one blow from death.
 	_full(player)
-	_check(map.place_player(ghost.world_location().zone_id, MapPlaces.spot(map, ghost.world_location().zone_id, body.global_position, 40.0)), "TEST-ONLY: beside it")
+	# A free spot within the 孤魂野鬼's reach (MapPlaces.spot gives Vector2.INF when none is: a body put there turns NaN).
+	var beside: Vector2 = MapPlaces.spot(map, ghost.world_location().zone_id, body.global_position, 64.0)
+	_check(beside.is_finite() and map.place_player(ghost.world_location().zone_id, beside), "TEST-ONLY: beside it: %s" % beside)
 	await tree.physics_frame
 	map.select_npc(ghost.character_id)
 	var started: CombatSliceInitiationResult = map.attack_selected()

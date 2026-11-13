@@ -262,7 +262,9 @@ func seat(fighters: Dictionary[StringName, Vector2], foes: Array[StringName]) ->
 	_local = BattleArena.formation(_mine, _theirs, BattleArena.data().get("formation", {}))
 	arena.grow_to(_points(), _local[_player_id])
 	_place()
-	if backdrop != null and is_instance_valid(backdrop):
+	# A stage out of the tree (its map put away while the fight's panel still refreshes) has no
+	# place in the world to hold the backdrop to.
+	if backdrop != null and is_instance_valid(backdrop) and arena.is_inside_tree():
 		backdrop.hold(arena.global_transform, arena.footprint(BACKDROP_MARGIN))
 	_hold_clear()
 

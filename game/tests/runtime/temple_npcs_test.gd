@@ -73,7 +73,7 @@ func _fight_a_while(tree: SceneTree, session: WorldSessionController, map: World
 	player.state.spirit = CharacterResourceState.new(100000, 100000, 100000)
 	player.state.essence = CharacterResourceState.new(100000, 100000, 100000)
 	session.configure_combat_random_source(Specials.Seeded.new(11)) # TEST-ONLY
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	map.select_npc(npc.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s" % npc.definition().display_name)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -106,7 +106,7 @@ func _test_hell_guard(tree: SceneTree, session: WorldSessionController) -> void:
 	forced.queues[2000] = [1999]
 	forced.queues[3] = [1]
 	session.configure_combat_random_source(forced) # TEST-ONLY
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	map.select_npc(master.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks 林忌")
 	var before: Array[StringName] = []

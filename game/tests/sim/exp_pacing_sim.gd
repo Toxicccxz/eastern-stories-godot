@@ -33,6 +33,8 @@ var timeline: Array[Dictionary] = []
 var reached: Dictionary[int, float] = {}
 ## The log lines the 历练 rewards printed.
 var rewards: Array[String] = []
+## Fights of the route that aborted on a failure (none should).
+var aborted_fights: int = 0
 var deaths: int = 0
 ## When and by whom the player died.
 var death_notes: Array[String] = []
@@ -397,7 +399,7 @@ func _fight() -> void:
 		seconds += ROUND_SECONDS
 		if advanced.cycles_processed == 0 and coordinator.has_active_encounter():
 			break
-	CombatEncounterCoordinator.take_aborted_total()
+	aborted_fights += CombatEncounterCoordinator.take_aborted_total()
 	# The fight's result is shown; the lines that wait for it follow.
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	_look()

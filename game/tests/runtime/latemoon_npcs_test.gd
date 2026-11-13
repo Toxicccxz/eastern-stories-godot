@@ -68,7 +68,7 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 	await tree.physics_frame
 	map.select_npc(npc.character_id)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	var room: RoomDefinition = GameContent.catalog().room(GameContent.catalog().zone(npc.world_location().zone_id).room_ids()[0])
 	if room.no_fight:
 		_check(map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not coordinator.has_active_encounter(), "%s: the 更衣室 is no_fight" % name)
