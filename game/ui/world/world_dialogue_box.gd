@@ -178,7 +178,12 @@ func host(speaker_name: String, content: Control, who: NpcRuntimeState = null) -
 	_release_hosted()
 	_hosted = content
 	_hosted_parent = content.get_parent()
-	content.reparent(_mount, false)
+	# Content made for the conversation alone has no home yet: the box takes it in and lets it
+	# go again on close.
+	if _hosted_parent == null:
+		_mount.add_child(content)
+	else:
+		content.reparent(_mount, false)
 	content.show()
 	_name.text = speaker_name
 	_name.show()
@@ -384,6 +389,8 @@ func _release_hosted() -> void:
 		content.hide()
 		if is_instance_valid(parent):
 			content.reparent(parent, false)
+		elif content.get_parent() == _mount:
+			_mount.remove_child(content)
 
 
 func _on_panel_input(event: InputEvent) -> void:

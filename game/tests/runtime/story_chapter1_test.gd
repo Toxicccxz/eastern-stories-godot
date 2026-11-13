@@ -210,7 +210,7 @@ func _run(session: WorldSessionController) -> void:
 	while coordinator.has_active_encounter() and rounds < 300:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight runs to its end without aborting")
 
 
 func _carried(session: WorldSessionController, definition_id: StringName) -> StringName:

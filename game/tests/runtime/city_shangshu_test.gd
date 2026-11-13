@@ -416,7 +416,7 @@ func _fight(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeSta
 	_check(map.place_player(npc.world_location().zone_id, MapPlaces.spot(map, npc.world_location().zone_id, map.runtime_body_for_character(npc.character_id).global_position + Vector2(0, 40), 60.0)), "beside %s" % name)
 	await tree.physics_frame
 	await tree.physics_frame
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	map.select_npc(npc.character_id)
 	var started: CombatSliceInitiationResult = map.attack_selected()
 	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s: %s" % [name, CombatSliceInitiationResult.Outcome.find_key(started.outcome)])

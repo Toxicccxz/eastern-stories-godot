@@ -4,9 +4,9 @@ extends RefCounted
 ## The time of day (DECISIONS「昼夜」): where in natured.c's 1440-minute day the world is.
 ## It goes on with the world clock (WorldSessionController.npc_world_time_allowed(): not in a
 ## fight, the menu, a transition) at the pacing's day_length_minutes real minutes a day (ES2:
-## 24, one game minute a real second), and is saved as `day_seconds`. It decides nothing: no
-## NPC, door, spawn or fight reads it; the voxel view lights the map by it and the outdoor
-## room's text gets the phase's line.
+## 24, one game minute a real second), and is saved as `day_seconds`. The clock itself decides
+## nothing; spawns, acts, quests and `watch` read its phase (DECISIONS「关北 C」「夜里冷清」
+## 「禁军夜巡」), the voxel view lights the map by it and the outdoor room's text gets the phase's line.
 const DAY_MINUTES: int = 1440
 const DAY_SECONDS: int = DAY_MINUTES * 60
 ## A new game starts in the morning (微曦 + 日出 gone by).

@@ -164,7 +164,7 @@ func _test_heavy_blow() -> void:
 	var weak: CombatAttackInput = _input(CombatMoveTags.QUICK, rules, &"", 0, 0, 0, 0, 20, true)
 	var weak_vitality := CharacterResourceState.new(200, 200, 200)
 	CombatAttackResolver.resolve(weak, CharacterResourceState.new(100, 100, 100), weak_vitality, CharacterResourceState.new(100, 100, 100), ScriptedCombatRandomSource.new([0, 500, 500, 30, 10, 0, 0]))
-	_assert_eq([200 - vitality.current, 200 - weak_vitality.current], [125, 40], "the strength's share is weighed too (快 −20 % on the whole 50, DECISIONS「姿态整记」): 重 %d against 快 %d" % [200 - vitality.current, 200 - weak_vitality.current])
+	_assert_eq([200 - vitality.current, 200 - weak_vitality.current], [125, 40], "the strength's share is weighed too (快 −20 %% on the whole 50, DECISIONS「姿态整记」): 重 %d against 快 %d" % [200 - vitality.current, 200 - weak_vitality.current])
 
 
 func _test_records_and_presets() -> void:

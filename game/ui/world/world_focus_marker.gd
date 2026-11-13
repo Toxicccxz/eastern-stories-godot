@@ -1,7 +1,7 @@
 class_name WorldFocusMarker
 extends Control
 
-## The prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」,「交互箭头」): under the
+## The prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」,「交互闪光点」): under the
 ## target (SharedUiNearby.target_focus()) the key and what it does (交互, or a door's 打开 …) on a
 ## dark plate; 界面重做 3 moved it from over the thing, where it covered the name over its head
 ## and the bubble. No ring round the target (owner, 2026-11-11; DECISIONS「交互闪光点」). Drawn

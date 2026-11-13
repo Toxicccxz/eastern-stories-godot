@@ -269,8 +269,7 @@ func _test_toll_window(tree: SceneTree, session: WorldSessionController) -> void
 	_check(session.shared_ui().log_lines().slice(said).has("看起来卧龙岗强盗（×2）想杀死你！"), "kill_ob()'s warning: " + str(session.shared_ui().log_lines().slice(said)))
 	await tree.physics_frame
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER) and robbers[0].definition().toll_attack_delay_ms(robbers[0].flags(), player.state) == 0, "having fought, he attacks at once from then on")
-	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(session.combat_encounter_coordinator().stop_where_it_stands(), "TEST-ONLY: the fight ended where it stood")
 	robbers[0].set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, false) # TEST-ONLY
 	# Between the two (in both reaches), the first's time up and the second's not yet:
 	# both greetings come from the same arrival, so both attack (review on pacing knobs).
@@ -290,8 +289,7 @@ func _test_toll_window(tree: SceneTree, session: WorldSessionController) -> void
 	map.hostilities.toll_contact_seconds[robbers[1].character_id] = delay * 0.3 # TEST-ONLY
 	map._process(delay * 0.45)
 	_check(session.combat_encounter_coordinator().has_active_encounter() and robbers[0].relationship.has_lethal_target(player.character_id) and robbers[1].relationship.has_lethal_target(player.character_id), "in both reaches: the second robber joins the first's attack")
-	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(session.combat_encounter_coordinator().stop_where_it_stands(), "TEST-ONLY: the fight ended where it stood")
 	await tree.physics_frame
 	for robber: NpcRuntimeState in robbers:
 		robber.set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, false) # TEST-ONLY: the toll test starts with fresh robbers
@@ -341,15 +339,13 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(order.size() >= 3 and order[0].begins_with("强盗往地上吐了口唾沫") and order[-2] == "看起来卧龙岗强盗想杀死你！" and order[-1] == "卧龙岗强盗没有收下。",
 		"his line, kill_ob()'s warning, then the refusal: " + str(order))
 	_check(robbers[0].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER), "and from then on he attacks on sight, mark or not")
-	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(session.combat_encounter_coordinator().stop_where_it_stands(), "TEST-ONLY: the fight ended where it stood")
 	player.state.marks["强盗"] = 1
 	_check(map.aggression_adapter()._evaluate(robbers[0], player, true).outcome != NpcAggressionDecision.Outcome.NOT_AUTHORED, "the mark no longer helps with him")
 	# 切磋 with the other, mark paid: accept_fight() kill_passenger()s, so he too remembers.
 	map.select_npc(robbers[1].character_id)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED and robbers[1].has_flag(NpcDefinition.FLAG_FOUGHT_PLAYER), "a 切磋 turned kill marks him as having fought the player (review on 3A)")
-	session.combat_encounter_coordinator()._abort_failed_resolution() # TEST-ONLY
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(session.combat_encounter_coordinator().stop_where_it_stands(), "TEST-ONLY: the fight ended where it stood")
 	await tree.physics_frame
 
 
@@ -455,8 +451,7 @@ func _test_spring_blade(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(text.contains("一招「"), "a move of 春风快意刀: " + text.right(200))
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight never aborts")
 	if coordinator.has_active_encounter():
-		coordinator._abort_failed_resolution() # TEST-ONLY
-		CombatEncounterCoordinator.take_aborted_total()
+		coordinator.stop_where_it_stands() # TEST-ONLY
 	player.state.vitality = vitality
 	await tree.physics_frame
 

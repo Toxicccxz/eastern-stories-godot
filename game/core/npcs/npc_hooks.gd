@@ -44,7 +44,7 @@ extends RefCounted
 ##   breath from death, whose death her father avenges).
 ## - `follows_every_way` (owner, F2): following the player (team.c set_leader()) it goes along
 ##   every way they lead, climbs, falls and other maps too; go.c follow_me() only took exits.
-## - `fights_beside_player` (native, 关北 C; DECISIONS「替玩家打的 NPC」): the 天将's rule (heaven_soldier.c
+## - `fights_beside_player` (native, 关北 C; DECISIONS「关北 C」): the 天将's rule (heaven_soldier.c
 ##   invocation(): kill_ob() the caster's enemies) as a field. One `summon`ed by an act (the 王府's
 ##   six riders) comes in as the player's own summons: its kills are the player's, and it leaves
 ##   as the fight ends; one following the player (郭承) falls on whoever fights the player in the

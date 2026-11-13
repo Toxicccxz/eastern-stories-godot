@@ -1,6 +1,7 @@
 extends RefCounted
 
 ## Package 3B2: Old Pine and Snow run on one data-configured WorldMapController.
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 
 var _assertion_count: int = 0
@@ -65,10 +66,10 @@ func _free(session: WorldSessionController, tree: SceneTree) -> void:
 
 func _test_spawned_bodies(tree: SceneTree) -> void:
 	var session: WorldSessionController = await _session(tree)
-	_assert_eq(session.world_npcs().size(), 37, "every spawns.json point has one NPC")
+	_assert_eq(session.world_npcs().size(), WorldCounts.number("technical_npcs"), "every spawns.json point has one NPC")
 	# Each map spawns its own points: the forest the five bandits, the gorge the five serpents.
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
-	_assert_eq(outdoor.npc_runtimes().size(), 19, "the forest spawns its 19 (five summoned, absent; the keep's hall is its own map since the remap)")
+	_assert_eq(outdoor.npc_runtimes().size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "the forest spawns its own (five summoned, absent; the keep's hall is its own map since the remap)")
 	_assert_spawned_bodies(outdoor)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	_assert_eq(gorge.npc_runtimes().size(), 5, "the gorge spawns the five lake serpents")

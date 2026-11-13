@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
@@ -152,7 +153,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	if controller == null:
 		return
 	var initial_npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(initial_npcs.size(), 19, "scene ready constructs all 19 forest NPCs before Area signals (the keep's hall is its own map since the remap)")
+	_assert_eq(initial_npcs.size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "scene ready constructs all forest NPCs before Area signals (the keep's hall is its own map since the remap)")
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
@@ -360,9 +361,9 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 19, "forest runtime owns its 19 NPCs (the keep's hall is its own map since the remap)")
+	_assert_eq(npcs.size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "forest runtime owns its NPCs (the keep's hall is its own map since the remap)")
 	# 36 of ES2's, and the 黑衣道士 waiting off the stage in cave5 (主线 A).
-	_assert_eq(controller.session.world_npcs().size(), 37, "Old Pine runtime owns its 37 NPCs")
+	_assert_eq(controller.session.world_npcs().size(), WorldCounts.number("technical_npcs"), "Old Pine runtime owns its NPCs")
 	var tall: NpcRuntimeState = npcs[3]
 	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
 	_assert_eq(tall.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "tall runtime starts in Pine Entrance")

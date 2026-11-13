@@ -215,7 +215,7 @@ func _test_consider(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(me.content.is_verified_primary(me.state.equipment.primary_weapon()), "the binding the advance keeps for its next cycles knows the sword at once")
 	_check(chat.beat(me, [enemy], [enemy], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new()) == null, "both armed: nothing more")
 	# His blows are the sword's now: the fight goes on with it (no abort), its damage 25 counts.
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	var held: EquippedWeaponRef = master.character_state.equipment.primary_weapon()
 	var armed: CombatSliceCharacterBinding = _binding(session.encounter_combat_bindings(coordinator.active_encounter()), master.character_id)
 	_check(armed.content.is_verified_primary(held) and armed.content.projected_apply_damage(held) >= 25, "his binding verifies the long sword and counts its damage")
@@ -233,7 +233,7 @@ func _test_consider(tree: SceneTree, session: WorldSessionController) -> void:
 	# his draw must fight with the sword, not abort on a weapon his old content does not know.
 	player.state.equipment.wield(EquippedWeaponRef.new(sword, GameContent.catalog().item(LONGSWORD).weapon_definition()), false) # TEST-ONLY
 	session.configure_combat_random_source(Specials.Zero.new()) # TEST-ONLY: every beat chats, consider() first
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	var advanced: CombatSchedulerAdvanceResult = coordinator.advance_scheduler(8.0)
 	_check(advanced.cycles_processed > 1 and master.character_state.equipment.primary_weapon_skill_type() == &"sword", "several cycles in one advance; he drew his sword in it (%d cycles)" % advanced.cycles_processed)
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0 and coordinator.has_active_encounter(), "and fought on with it in the same advance")

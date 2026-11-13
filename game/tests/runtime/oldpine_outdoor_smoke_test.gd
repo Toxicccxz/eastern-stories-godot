@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
 
 const SCENE_PATH: String = "res://scenes/world/oldpine/oldpine_world_session.tscn"
@@ -92,9 +93,9 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		return
 	await tree.physics_frame
 	_assert_true(controller.player_runtime() != null, "world player runtime initializes")
-	_assert_eq(controller.npc_runtimes().size(), 19, "forest map initializes three scouts, Tall, Fat and the remainder's 14 (five summoned absent; the keep's hall and its four are their own map since the remap)")
+	_assert_eq(controller.npc_runtimes().size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "forest map initializes three scouts, Tall, Fat and the remainder's 14 (five summoned absent; the keep's hall and its four are their own map since the remap)")
 	_assert_eq(controller.session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "gorge map initializes the five lake serpents")
-	_assert_eq(controller.session.world_npcs().size(), 37, "19 in the forest, the keep hall's four, six butterflies, five serpents, 黑衣人, 金银花蛇 and the 黑衣道士 off the stage initialize across the Old Pine maps")
+	_assert_eq(controller.session.world_npcs().size(), WorldCounts.number("technical_npcs"), "the forest's, the keep hall's four, six butterflies, five serpents, 黑衣人, 金银花蛇 and the 黑衣道士 off the stage initialize across the Old Pine maps")
 	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 14, "forest map-local collection owns its 14 present NPCs (the keep's hall is its own map since the remap)")
 	_assert_true(not HistoricalCombat.cadence_running(controller), "passive authored bandits do not autostart cadence")
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Old Pine hierarchy excludes obsolete Reset control")
@@ -651,8 +652,8 @@ func _test_fresh_scene_reset_boundary(tree: SceneTree) -> void:
 				first_npc_item_ids.has(reset_item.item_instance_id),
 				"fresh scene owns fresh NPC ItemInstance IDs",
 			)
-	_assert_eq(reset.session.world_npcs().size(), 37, "fresh scene reconstructs all 37 Old Pine NPCs")
-	_assert_eq(reset.npc_runtimes().size(), 19, "fresh scene reconstructs the forest map's 19 (the keep's hall is its own map since the remap)")
+	_assert_eq(reset.session.world_npcs().size(), WorldCounts.number("technical_npcs"), "fresh scene reconstructs all Old Pine NPCs")
+	_assert_eq(reset.npc_runtimes().size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "fresh scene reconstructs the forest map's own (the keep's hall is its own map since the remap)")
 	_assert_eq(reset.corpse_states().size(), 0, "fresh scene contains no stale corpse authority")
 	_assert_false(reset.player_runtime().relationship.is_fighting(), "fresh scene contains no stale player relation")
 	for npc: NpcRuntimeState in reset.npc_runtimes():

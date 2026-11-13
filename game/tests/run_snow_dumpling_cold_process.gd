@@ -48,7 +48,7 @@ func _run() -> void:
 		var session: WorldSessionController = host.current_session()
 		check(session != null, "fresh Session")
 		if session != null:
-			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
+			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc, loaded.snapshot.metadata.build_commit)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ENTIRE decoded persisted snapshot equality")
 			var ids: Array[StringName] = Food.held_food_ids(session)
 			ids.sort_custom(_identity_less)

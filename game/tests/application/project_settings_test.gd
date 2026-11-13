@@ -29,6 +29,14 @@ func _settings() -> void:
 	# 像素界面: pixel text and frames are drawn nearest, so a font pixel stays a sharp square.
 	var filter: int = ProjectSettings.get_setting("rendering/textures/canvas_textures/default_texture_filter")
 	_check(filter == 0, "canvas textures drawn nearest: %d" % filter)
+	# The save folder is named after config/name (user:// is app_userdata/<name>, no custom
+	# user dir): renaming the project later would leave every player's saves behind in the
+	# old folder. Do not change it; the window title is the player-facing name (tr()).
+	var project_name: String = ProjectSettings.get_setting("application/config/name")
+	_check(project_name == "Eastern-Stories-Godot", "config/name stays Eastern-Stories-Godot (the save folder): %s" % project_name)
+	_check(not ProjectSettings.get_setting("application/config/use_custom_user_dir", false), "saves live under app_userdata/<config/name>")
+	# A development run has no version (BuildIdentity shows dev); build.py writes the build's.
+	_check(str(ProjectSettings.get_setting(BuildIdentity.VERSION_SETTING, "")).is_empty() and BuildIdentity.version() == BuildIdentity.DEVELOPMENT, "the development project has no version: %s" % BuildIdentity.version())
 
 
 func _written_by_godot() -> void:

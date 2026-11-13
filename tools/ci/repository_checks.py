@@ -24,6 +24,8 @@ REQUIRED_FILES = (
     "tools/build/ios_sdl_compat_shim.m",
     "tools/ci/bootstrap_godot.py",
     "tools/ci/verify.py",
+    "tools/ci/start_smoke.py",
+    "tools/ci/start_smoke.gd",
     "game/export_presets.cfg",
     ".github/workflows/ci.yml",
 )
@@ -146,6 +148,28 @@ def ci_trigger_policy_errors(workflow_text: str) -> list[str]:
     return errors
 
 
+# An export straight from the editor must not ship the suites or the Godot AI addon (the
+# release copy has neither; the editor exports the development project), and must not
+# overwrite build.py's output in dist/.
+EXPORT_EXCLUDED = ("tests/*", "addons/*")
+
+
+def export_preset_errors(text: str) -> list[str]:
+    errors: list[str] = []
+    for block in re.split(r"(?m)^\[preset\.\d+\]\s*$", text)[1:]:
+        name = re.search(r'(?m)^name="([^"]*)"', block)
+        label = name.group(1) if name else "?"
+        excluded = re.search(r'(?m)^exclude_filter="([^"]*)"', block)
+        patterns = {part.strip() for part in excluded.group(1).split(",")} if excluded else set()
+        for pattern in EXPORT_EXCLUDED:
+            if pattern not in patterns:
+                errors.append(f"export preset {label} does not exclude {pattern}")
+        path = re.search(r'(?m)^export_path="([^"]*)"', block)
+        if path and re.match(r"^(?:\.\./)?dist/", path.group(1)):
+            errors.append(f"export preset {label} exports into dist/, where build.py writes its build")
+    return errors
+
+
 def check_repository(repository: Path, *, require_git: bool = True) -> list[str]:
     repository = repository.resolve()
     errors: list[str] = []
@@ -163,6 +187,7 @@ def check_repository(repository: Path, *, require_git: bool = True) -> list[str]
             errors.append("provisional mobile package identifier is missing")
         if "application/export_project_only=true" not in text:
             errors.append("iOS preset must export the Xcode project without invoking a signed archive")
+        errors.extend(export_preset_errors(text))
 
     workflow = repository / ".github/workflows/ci.yml"
     if workflow.is_file():

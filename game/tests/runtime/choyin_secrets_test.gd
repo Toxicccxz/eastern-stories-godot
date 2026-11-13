@@ -509,7 +509,7 @@ func _test_guye(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var combat: CombatRandomSource = session.combat_random_source()
 	session.configure_combat_random_source(Lowest.new()) # TEST-ONLY: the crane strikes back
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	_check(crown.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks a 仙鹤")
 	var cast := BattlePresentationProjection.new(&"test", CombatEncounterMode.Value.LETHAL, player.character_id, crane.character_id, [
 		BattleParticipantProjection.new(player.character_id, "你"), BattleParticipantProjection.new(crane.character_id, "仙鹤"),

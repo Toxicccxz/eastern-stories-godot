@@ -160,7 +160,7 @@ func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
 	var called: CombatNpcChatResult = chat.beat(me, [enemy], [enemy], Specials.Pattern.new([0, 0]), SkillImprovementEffectRegistry.new())
 	_check(_templates(called) == ["老婆婆喊道: 老公我来帮你了!"] and called.joiners() == [wife.character_id], "random(100) 0, entry 0: she shouts and comes: %s" % [_templates(called)])
 	session.configure_combat_random_source(Specials.Zero.new()) # TEST-ONLY: every beat chats, ask_for_help() first
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	coordinator.advance_scheduler(2.0)
 	var encounter: CombatEncounter = coordinator.active_encounter()
 	_check(encounter != null and encounter.participant_for(wife.character_id) != null, "the old woman is in the fight")

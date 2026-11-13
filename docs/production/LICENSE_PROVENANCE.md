@@ -11,11 +11,28 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 
 ## Authoritative `reference/es2`
 
-- `reference/es2/README` says: “Created by Raymond Xie, published under MIT license.”
-- `reference/es2/LICENSE` is MIT text but names “Copyright (c) 2014-2016 The Wekan Team.”
-- Those holder/attribution statements do not reconcile on the available evidence.
-- The reference tree remains read-only and is outside the Godot export root.
-- Status: **UNRESOLVED**. No ownership reconciliation or commercial-clearance claim is made.
+The facts on file (no conclusion about what they permit is drawn here):
+
+- `reference/es2` is a 2016 packaging, **ES2 WebMUD** (a web front end around the mudlib).
+  `reference/es2/README` ends with “Created by Raymond Xie, published under MIT license.”, and
+  `reference/es2/LICENSE` is MIT text naming “Copyright (c) 2014-2016 The Wekan Team.” Both belong to
+  that packaging; neither names the mudlib's authors.
+- The mudlib's own notice, `reference/es2/mudlib/doc/help/about` (lines 9–12), says the game part —
+  all LPC code under the mudlib, the game's help files and the data they produce — belongs to its
+  authors (where the author cannot be told, jointly to the game's developers), and may not be
+  reproduced outside the game without the author's consent or, where the author is unknown, the
+  admin's. `reference/es2/mudlib/README` thanks the original author Annihilator (06/15/95) and points
+  to a FluffOS fork by floatinghotpot.
+- So the MIT statements and the mudlib's notice point in opposite directions: the packaging says MIT,
+  the content's own 1995-era notice restricts reproduction. Whether the original authors ever
+  released the mudlib under MIT, and what it would cover, is **not verified**.
+- What the game uses: room descriptions, NPC lines, martial-arts move text, item text and the
+  world itself are ported from the mudlib into `game/data/` and ship with the game; a review in
+  2026-11 measured about 40 % of the long text in `game/data/` as ES2's own words.
+- The reference tree is read-only and outside the Godot export root; the GitHub repository that
+  holds it is public.
+- Status: **UNRESOLVED**. This must be settled before any public distribution of the game (the owner's
+  call; see STATUS 待决定).
 
 ## Godot AI addon
 
@@ -50,10 +67,12 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 ## Other current assets
 
 Besides the fonts, portraits and baked pictures listed below, tracked image files under `game/`
-outside `addons/` are two, both project-made:
+outside `addons/` are two:
 
-- `game/icon.svg`, the Godot project icon;
-- `game/scenes/world/common/placeholder_terrain.png`, the flat-colour placeholder atlas of the 2D
+- `game/icon.svg`, the project icon: Godot's default new-project icon (the Godot logo), **not**
+  project-made — a placeholder to replace with the game's own icon before release (the Godot logo
+  is published by the Godot project under CC BY 4.0);
+- `game/scenes/world/common/placeholder_terrain.png` (project-made), the flat-colour placeholder atlas of the 2D
   terrain TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)).
 
 No model or external art/audio pack is tracked; the only audio is the project-made set below.

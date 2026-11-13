@@ -194,7 +194,7 @@ func _spar(session: WorldSessionController, spawn_id: StringName, turn: int) -> 
 	while coordinator.has_active_encounter() and rounds < 200:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight runs to its end without aborting")
 	# The fight's result is shown; the lines that wait for it follow.
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 

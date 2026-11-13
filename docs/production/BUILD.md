@@ -47,10 +47,10 @@ python tools/ci/bootstrap_godot.py --platform macos --output build/toolchain
 ```
 
 The script downloads from the official `godotengine/godot-builds` 4.7.2-stable release, verifies each
-archive against its entry in the release's official `SHA512-SUMS.txt`, and prints the resolved
-`godot` and `templates` paths. This detects corruption or a mismatch within that release boundary;
-because the archive and checksum are obtained from the same unsigned publication boundary, it is not
-an independent proof of publisher authenticity. The script does not commit downloaded files.
+archive against the SHA-512 pinned in `tools/ci/bootstrap_godot.py` (`PINNED_SHA512`, copied from the
+release's `SHA512-SUMS.txt` once), and prints the resolved `godot` and `templates` paths. It fetches no
+sums file: a sums file from the same page as the archives would prove nothing if that page changed.
+A new Godot version pins its own hashes. The script does not commit downloaded files.
 
 ## Verify the repository
 
@@ -65,7 +65,9 @@ The stable order is:
 3. development-project headless editor validation;
 4. every `game/tests/**/*_test.gd` suite, each in its own Godot process, several at once
    (`--jobs N`, default the CPU count; logs in `build/verify-suites/logs/`);
-5. real sanitizer plus sanitized-project headless validation.
+5. real sanitizer plus sanitized-project headless validation, then the start-up smoke on that
+   cleaned copy (`tools/ci/start_smoke.py start`: main menu, 新的旅程, a few hundred frames, one
+   save through 系统; any ERROR, SHADER ERROR or SCRIPT ERROR line fails it).
 
 Platform exports are intentionally separate from routine verification.
 
@@ -79,9 +81,22 @@ During development, run only the affected suites (a `*_test.gd` path or a direct
 instead of waiting for the wall clock (a suite that walks or fights runs several times faster).
 
 A new `*_test.gd` suite needs no registration: step 4 finds it. Each suite must pass on its own,
-not rely on what an earlier suite left behind. Steps 3–5 also fail when Godot prints a
-`SCRIPT ERROR` line, even if every suite passed; step 4 also fails a suite that times out, exits
+not rely on what an earlier suite left behind. Steps 3 and 5 fail when Godot prints a `SCRIPT ERROR`
+line (an import on a cold cache logs missing-import ERROR lines of its own, so those do not count
+there). Step 4 fails a suite on any `SCRIPT ERROR`, and on any `ERROR` or `SHADER ERROR` (an engine
+error or a `push_error()`) the suite did not declare: a suite that provokes one on purpose names it
+in `const EXPECTED_ERRORS := {"<part of the message>": <how many>}` and the count must match
+(`tests/support/suite_errors.gd`). A fight that aborts fails its suite too unless the suite takes the
+count; a suite that only needs a fight out of the way ends it with
+`CombatEncounterCoordinator.stop_where_it_stands()`. Step 4 also fails a suite that times out, exits
 nonzero or returns no result.
+
+The windowed walkthrough every package gets before its PR, one command (main menu, 新的旅程, a save,
+then each map in turn with a screenshot under `build/walkthrough/shots/`; fails on any error line):
+
+```text
+python tools/ci/start_smoke.py walk --godot <godot> [--maps snow.outdoor,snow.inn_upstairs,cloud.outdoor] [--screen 1]
+```
 
 The Phase 10B4 QA bridge (F6 saves, F7 corrupts the development save) is opt-in:
 
@@ -121,18 +136,29 @@ python tools/build/prepare_release_project.py --output build/release-project --v
 ```
 
 Never run a production export directly from the development `game/` checkout. The build entrypoint
-injects absolute custom-template paths only into the temporary staging preset.
+injects absolute custom-template paths only into the temporary staging preset. Should it happen
+anyway, the presets exclude `tests/*` and `addons/*` and export to `build/editor-export/`, not
+`dist/`, and an exported build never reads the development save slot (`OS.has_feature("template")`).
+
+The build writes its version into the staged `project.godot` (`application/config/version`): the
+short commit, with the tag when the commit has one (`v0.3 (1a2b3c4d)`), `-dirty` for a build from a
+changed worktree. A development run has none and shows `dev`. The version stands small on the main
+menu and on 系统, every save records it (`metadata.build_commit`), and the log's first line after
+Godot's own banner names it with the renderer (`Eastern Stories <version> · Godot … · <driver> driver, …`). CI's Windows job
+starts the exported game headless for a few hundred frames and fails on a nonzero exit or any error
+line (`tools/ci/start_smoke.py exe`).
+
+`application/config/name` stays `Eastern-Stories-Godot`: the save folder is named after it
+(`%APPDATA%/Godot/app_userdata/Eastern-Stories-Godot`), so renaming it would leave every player's
+saves behind (`tests/application/project_settings_test.gd` pins it).
 
 ## Runtime save storage
 
-The production Runtime Host uses one fixed release slot at
-`user://save-data/release/default-v1.json`. Development and isolated test profiles use separate child
-directories. A Save verifies a temporary file before replacement and retains the prior canonical file as
-`.bak`; Load reports a valid recovery candidate but does not automatically select it. The canonical
-ApplicationShell starts at Main Menu with no Session. Continue re-reads the canonical slot; Save is
-an explicit Pause-menu action. Recovery requires the player to select BACKUP or TEMP and does not
-promote files. See the [native Save/Load contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md) and
-[Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md).
+Release saves live under `user://save-data/release/` (three manual slots, the autosave and the
+「决战前」 keep save); development and isolated test profiles use separate child directories. The
+files, the write and recovery rules and Load in play are in the
+[native Save/Load contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#repository-and-transaction-guarantees);
+the menu side is the [Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md).
 
 Mobile background/focus loss causes **zero new Save requests**. An already-requested manual Save
 may finish through the normal transaction; lifecycle does not cancel, duplicate or retry it. Same-
@@ -168,7 +194,7 @@ dist/Eastern-Stories-Godot-windows-x86_64.zip
 ```
 
 Windows release checklist (rendering). The game writes the renderer it actually runs on as the
-first `Renderer:` line of its log (`%APPDATA%/Godot/app_userdata/<project>/logs/godot.log`); a
+first line of its log after Godot's banner (`Eastern Stories <version> · Godot … · <driver> driver, …`) (`%APPDATA%/Godot/app_userdata/<project>/logs/godot.log`); a
 driver given on the command line, by Steam or by Godot's own fallback may differ from Vulkan. Before
 a release, run the exported game windowed through 乔阴县城 and 雪亭镇 three times and compare the
 picture and the video memory (`Performance.RENDER_VIDEO_MEM_USED`; the kit of 2026-11-12 is
@@ -297,8 +323,9 @@ round:
 4. **After.** What the round found goes into ROADMAP step 2's defect list; the 待试玩 lines it settled
    leave STATUS.
 
-The build does not show its commit inside the game yet (that belongs to the test-gate and version
-package); until then the tag and `build-manifest.json` are what identify a round's build.
+A round's build names itself: built on the tag, its version (above, under「One sanitized production
+project」) is the tag and the short commit (`playtest-<date> (1a2b3c4d)`), shown on the main menu and
+on 系统 and recorded in every save, so a defect report says which round it came from.
 
 ## GitHub Actions
 

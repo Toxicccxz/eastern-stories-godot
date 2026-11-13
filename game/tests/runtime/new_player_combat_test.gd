@@ -6,6 +6,8 @@ extends RefCounted
 ## instead of freezing. Every fight here runs until the encounter is gone.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SESSION := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
+## The failed opportunity it provokes: the fight aborts once and says why.
+const EXPECTED_ERRORS: Dictionary = {"aborted: failure=OPPORTUNITY_FAILED": 1}
 const TRAINEE: StringName = &"snow.school2.trainee.1.character"
 const FIST_TRAINER: StringName = &"snow.school2.fist_trainer.1.character"
 const GUARD: StringName = &"snow.school1.guard.1.character"

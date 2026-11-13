@@ -470,7 +470,8 @@ func _test_battle(tree: SceneTree, session: WorldSessionController, map: WorldMa
 	await _joy(tree, JOY_BUTTON_B)
 	_check(not tree.paused and session.combat_encounter_coordinator().has_active_encounter(), "B with nothing to drop does nothing")
 	session.set_process(true)
-	session.combat_encounter_coordinator().take_aborted_total()
+	session.combat_encounter_coordinator().stop_where_it_stands() # TEST-ONLY: done with the fight
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted")
 
 
 # --- helpers -------------------------------------------------------------------------

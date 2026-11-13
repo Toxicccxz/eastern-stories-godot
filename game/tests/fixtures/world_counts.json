@@ -1042,6 +1042,7 @@
 	"npc_draws_after_oldpine": 2623,
 	"technical_maps": 9,
 	"technical_items": 58,
+	"technical_npcs": 37,
 	"snow_route": {
 		"inn_npcs": 5,
 		"outdoor_npcs": 25,

@@ -20,7 +20,8 @@ owner can walk to, see and use.
 * **Owner**: sets direction, decides changes to ES2 and new content, playtests player-visible
   changes, merges PRs.
 * **Agent**: plans, implements, tests, self-reviews, commits, pushes branches and opens PRs.
-  The agent never merges.
+  The agent merges only when the owner says so for that PR (then: retarget a stacked PR to `main`
+  first, and check its CI ran on the final state).
 
 ## Sources
 
@@ -95,6 +96,12 @@ zones, portals, interactables, transitions. Runtime components are **generic and
 do not add region-specific controllers/adapters (`oldpine_*`, `snow_*`) for mechanics that will
 recur in other regions. Timing such as combat cadence is explicit configuration, not an implicit
 node default.
+
+**Application** (`game/application`) holds the use cases a player starts from a menu or a panel
+that span core and runtime without being part of one map: new game, settings, slot inspection, the
+shell's state and result texts, buying, selling, exchange, eating and drinking, item handling. It
+calls core for every rule and returns typed results; it owns no world state and builds no UI. A
+rule that does not need a node goes to core, not here or into runtime.
 
 **Presentation/UI** (`game/presentation`, `game/ui`) reacts to results. It does not own world state
 or rules, and runtime does not construct UI directly.
@@ -247,6 +254,20 @@ the repository. Existing historical docs stay as they are; don't extend them.
 * Don't force-push published branches, rewrite history, delete remote branches, change repository
   settings/secrets, or publish releases.
 * If a manual CI run on `main` fails, fix it on a narrow `hotfix/<issue>` branch before other work.
+* After a batch of merges, start one CI run on `main` by hand (`workflow_dispatch`); a release
+  needs a green run on `main` itself.
+* **Parallel sessions.** The main checkout (`C:\Projects\Godot\eastern-stories-godot`) is shared:
+  nobody switches its branch. Each package or fix session works in its own worktree on its own
+  `phase/<slug>` branch. After the owner merges a PR, the session that opened it removes its
+  worktree and its local branch (`git branch -d`, which refuses an unmerged one); remote branches
+  stay for the owner. Never push to a branch whose PR has merged — check the PR's state before every
+  push; work that comes after goes on a new branch from `main`. At the end of a session run
+  `git cherry origin/main <branch>` and report any commit not in `main`. Reply to and resolve the
+  automatic review's threads once they are fixed.
+* **Plans.** Owner-approved plans and the ideas file live in `build/plans/` of the main checkout
+  (git-ignored by the owner's choice): never delete or move it; a worktree session reads and writes
+  that folder by its absolute path, not a copy of its own. It is backed up as its own private
+  repository (`build/plans/.git`, pushed to a private remote).
 
 ## Save Policy
 
@@ -263,6 +284,7 @@ Godot 4.7.2 lives at `build/toolchain/editor/` (git-ignored; do not delete `buil
 python tools/ci/verify.py --godot <godot>                                 # full gate (~10 min)
 <godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
 <godot> --headless --path game --editor --quit                            # parse/import check
+python tools/ci/start_smoke.py walk --godot <godot> [--maps a,b,c]        # windowed walkthrough, shots in build/walkthrough/
 ```
 
 To look at any voxel map from the editor: open `res://tests/dev/voxel_preview.tscn` and press F6.
@@ -275,9 +297,15 @@ Write logs and scratch output under `build/`, never the repository root or `game
 
 ```text
 reference/es2/   original LPC (read-only, outside res://)
-docs/            production/ (status, roadmap, build, policies) and migration/ (decisions, notes)
-tools/           ci/, build/, migration/, maps/ (Python, standard library; maps/layouts = map source)
+docs/            production/ (status, roadmap, build, policies, contracts/), migration/ (decisions,
+                 region notes; PHASE_* and MIGRATION_TOOLING_* are frozen history), design/
+                 (剧情总纲, 美术规划)
+tools/           ci/, build/, migration/ (ES2 importer + overrides/), maps/ (layouts = map source,
+                 paint, atlas bake), l10n/ (extract_pot.py), audio/, ui/, tests/ (Python, standard library)
 game/            Godot project: core/ runtime/ application/ data/ presentation/ ui/ scenes/ tests/
+                 assets/ (fonts, portraits, textures, audio) locale/ (eastern_stories.pot, languages)
+                 addons/ (Godot AI, dev only); data/story/ the main story and factions;
                  data/<region>/voxel/ map visual configs; scenes/world/<region>/ painted maps;
                  presentation/voxel/ the voxel view
+build/           git-ignored: toolchain/ (Godot), plans/ (the owner's plans), logs and scratch
 ```

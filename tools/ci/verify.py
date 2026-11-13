@@ -26,6 +26,9 @@ sys.path.insert(0, str(BUILD_SCRIPT_DIR))
 from build import BuildError, _godot_environment, resolve_godot, validate_godot_version  # noqa: E402
 from prepare_release_project import prepare_release_project, validate_release_project  # noqa: E402
 
+sys.path.insert(0, str(REPOSITORY / "tools/ci"))
+from start_smoke import ERROR_LINE, run_start  # noqa: E402
+
 
 # A step that outlives its budget has hung (e.g. a GDScript error that stops a SceneTree
 # script before it can quit); fail it instead of waiting forever. CI's job limits bound
@@ -42,6 +45,10 @@ SUITE_TIMEOUT_OVERRIDES: dict[str, float] = {
 }
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 SUITE_RUNNER = "res://tests/run_suite.gd"
+# run_suite.gd hears every error line between this line and its summary, and fails a suite on
+# any it did not declare (tests/support/suite_errors.gd). An ERROR or SHADER ERROR line before
+# it (start-up) or after the summary (exit) is verify's to catch.
+SUITE_GATE_OPEN = "[gate] listening"
 # Every frame steps the game by 1/60 s and the next starts at once. Without it a headless
 # Godot paces physics frames by the wall clock, so a suite awaiting physics frames waits
 # 1/60 s for each (60 of them: 1000 ms against 48 ms). The game's own delta is 1/60 s either
@@ -297,18 +304,25 @@ def _run_suite(
 
 def _check_suite_log(run: SuiteRun, returncode: int | None) -> None:
     """A suite fails on a FAIL summary, on any SCRIPT ERROR line (a runtime error inside a
-    helper ends only that helper, so the suite can still report PASS), on a nonzero exit,
-    and when it printed no summary or no assertions (it stopped before reporting)."""
+    helper ends only that helper, so the suite can still report PASS), on an ERROR or SHADER
+    ERROR line run_suite.gd could not hear (before its gate opened or after its summary; it
+    judges those in between itself), on a nonzero exit, and when it printed no summary or no
+    assertions (it stopped before reporting)."""
     suite_file = run.path.rsplit("/", 1)[-1]
     collector = _ScriptErrorCollector(run.script_errors)
     summary: re.Match[str] | None = None
-    for raw in run.log.read_bytes().splitlines():
-        line = _console_line(raw)
+    lines = [_console_line(raw) for raw in run.log.read_bytes().splitlines()]
+    heard = SUITE_GATE_OPEN not in lines
+    for line in lines:
+        if line == SUITE_GATE_OPEN:
+            heard = True
         # run_suite.gd prints each failed assertion as "<suite file>: <description>".
         if line.startswith((f"{suite_file}: ", f"{run.path}: ")):
             run.failures.append(line)
         else:
             collector.feed(line)
+            if (not heard or summary is not None) and ERROR_LINE.match(line) and SCRIPT_ERROR_MARKER not in line:
+                run.problems.append(f"error line {'after the summary' if summary is not None else 'before the suites ran'}: {line.strip()}")
         match = SUITE_SUMMARY.match(line)
         if match:
             summary = match
@@ -471,6 +485,13 @@ def main(argv: list[str] | None = None) -> int:
             timeout=IMPORT_TIMEOUT_SECONDS,
             fail_on_script_errors=True,
         )
+        # The cleaned copy started as a player starts it: main menu, 新的旅程, a few hundred
+        # frames, one save. Any error line fails it (the import above logs missing-import
+        # errors of its own on a cold cache, so only its SCRIPT ERROR lines count).
+        problems = run_start(godot, release_project, REPOSITORY / "build/verify-start-smoke")
+        if problems:
+            raise RuntimeError("release start-up smoke failed (log: build/verify-start-smoke/start.log):\n" + "\n".join(problems[:30]))
+        print("Release start-up smoke PASS", flush=True)
         print("Phase 10A verification PASS", flush=True)
         return 0
     except (BuildError, OSError, RuntimeError) as error:

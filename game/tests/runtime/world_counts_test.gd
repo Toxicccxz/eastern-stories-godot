@@ -4,7 +4,7 @@ extends RefCounted
 ## the catalog's maps, rooms, Snow's outdoor portals and spawn order; a source New Game's
 ## NPCs, items, resident maps and Snow outdoor passages; and how many NPC creation draws
 ## the source world makes after the technical (Old Pine only) world's; per map, its zones and
-## the NPCs a New Game puts on it; the technical world's maps and items; and the two-map Snow
+## the NPCs a New Game puts on it; the technical world's maps, items and NPCs; and the two-map Snow
 ## route fixture's NPCs, items and creation draws. With UPDATE_WORLD_COUNTS=1 it writes the
 ## fixture first.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
@@ -86,6 +86,7 @@ func _measure(tree: SceneTree) -> Dictionary:
 	counts["npc_draws_after_oldpine"] = count
 	counts["technical_maps"] = technical.resident_map_count()
 	counts["technical_items"] = technical.inventory_state().registered_item_ids().size()
+	counts["technical_npcs"] = technical.world_npcs().size()
 	technical.free()
 	await tree.process_frame
 	counts["snow_route"] = _snow_route(tree)
