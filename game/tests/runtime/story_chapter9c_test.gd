@@ -14,6 +14,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const ORIGINAL: StringName = &"native:imperial/original_decree"
 const COPY: StringName = &"native:imperial/war_ministry_copy"
 const RECORD: StringName = &"native:imperial/woodcutter_record"
@@ -107,7 +109,7 @@ func _test_mansion(tree: SceneTree, session: WorldSessionController) -> void:
 	var before: int = ui.log_lines().size()
 	_check(not await MapPlaces.drive_to_zone(tree, house, &"city.shangshu.neizhai") and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("小姐这几天不见人")), "he stops one at the 帘子")
 	if guard != null:
-		house.npcs.leave_for_good(guard) # TEST-ONLY: as one knocked down or gone
+		await _fight_guard(tree, session, house, guard)
 	_check(await MapPlaces.drive_to_zone(tree, house, &"city.shangshu.neizhai"), "past the 帘子")
 	for second: int in 30:
 		if state.marks.get("见过清尘", 0) == 1 and not house.scene_running():
@@ -193,6 +195,32 @@ func _floor_has(map: WorldMapController, definition_id: StringName) -> bool:
 		if item != null and item.item_definition_id == definition_id:
 			return true
 	return false
+
+
+## The 护院 fought for real (DECISIONS「主线人物的武功」: his 短歌刀法 enabled, his levels set for the
+## ninth chapter): a character grown to 40000 exp with a sword (TEST-ONLY) beats him and finishes
+## him; a dead guard no longer stands at the 帘子 (present() finds the living only).
+func _fight_guard(tree: SceneTree, session: WorldSessionController, house: WorldMapController, guard: NpcRuntimeState) -> void:
+	var state: CharacterState = session.player_runtime().state
+	Grown.grow(state, 40000, 50, true)
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var sword := ItemInstance.new(&"test:mansion_sword", &"es2:obj/longsword")
+	_check(context.inventory.register_item(sword, GameContent.catalog().item(sword.item_definition_id).own_weight) and context.index.register_snapshot(sword) and context.inventory._apply_reparent(sword.item_instance_id, context.endpoint()), "mansion: a sword in hand")
+	_check(session.wield_player_item(sword.item_instance_id).succeeded, "mansion: wielded")
+	_check(await MapPlaces.drive(tree, house, MapPlaces.spot(house, &"city.shangshu.huayuan", house.runtime_body_for_character(guard.character_id).global_position, 56.0)), "mansion: up to the 护院")
+	house.select_npc(guard.character_id)
+	_check(house.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "mansion: the player attacks the 护院")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	coordinator.set_manual_turns(false) # TEST-ONLY
+	BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 600:
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	session.shared_ui().dismiss_current_panel()
+	await _settle(tree)
+	_check(guard.life_status == CharacterRuntimeLifeStatus.Value.DEAD and session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "mansion: the 护院 beaten by a grown character (%d rounds; player kee %d/%d)" % [rounds, state.vitality.current, state.vitality.maximum])
 
 
 func _first(session: WorldSessionController, zone_id: StringName, definition_id: StringName) -> NpcRuntimeState:

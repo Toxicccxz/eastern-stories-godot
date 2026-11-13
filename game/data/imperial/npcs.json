@@ -1740,9 +1740,9 @@
 			"combat_exp": 120000,
 			"attitude": "peaceful",
 			"skills": {
-				"blade": 90,
-				"shortsong-blade": 90,
-				"parry": 80,
+				"blade": 50,
+				"shortsong-blade": 25,
+				"parry": 40,
 				"dodge": 70,
 				"force": 70
 			},

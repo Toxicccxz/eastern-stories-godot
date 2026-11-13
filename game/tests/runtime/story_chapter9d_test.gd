@@ -14,6 +14,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const ORIGINAL: StringName = &"native:imperial/original_decree"
 const LETTER: StringName = &"native:city/courier_letter"
 const READING: StringName = &"native:imperial/late_emperor_reading"
@@ -89,7 +91,7 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not ui.is_asking() and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("三样")), "expose: two proofs are not enough after the raid (三样)")
 	_check(not hall.give_new_item_to_player(LETTER).is_empty(), "expose: the 密信 (TEST-ONLY: given, as the 小屋 drops it)")
 	await _settle(tree)
-	_strong(state)
+	_strong(session)
 	expose.interact()
 	await _settle(tree)
 	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("庾子建不会束手"), "expose: asked first")
@@ -114,6 +116,8 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
 	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	# The fight's result is shown; the lines that wait for it (the 历练 a grown character earns) follow.
+	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	ui.dismiss_current_panel()
 	await _settle(tree)
 	session.record_journal()
@@ -127,7 +131,8 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	before = ui.log_lines().size()
 	uncle.interact()
 	await _settle(tree)
-	_check(not ui.is_asking() and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("已经定了")), "expose: the others shut (已经定了)")
+	# The log keeps its newest lines only (the 历练 and 潜能 lines a grown character earns filled it).
+	_check(not ui.is_asking() and ui.log_lines().slice(-3).any(func(line: String) -> bool: return line.contains("已经定了")), "expose: the others shut (已经定了)")
 	_handoff(session, "expose", true)
 
 
@@ -211,10 +216,13 @@ func hall_item(map: WorldMapController, definition_id: StringName) -> StringName
 	return &""
 
 
-func _strong(state: CharacterState) -> void:
-	state.progression.combat_experience = 3000000 # TEST-ONLY: the fight is won
-	for skill: StringName in [&"unarmed", &"dodge", &"parry", &"force"]:
-		state.skills.set_raw_level(skill, 260) # TEST-ONLY
+## TEST-ONLY: a character grown along the story to 45000 exp with a 长剑 (DECISIONS「主线人物的武功」:
+## with 冯策 beside, the drawn 庾子建 falls to it about nine times in ten).
+func _strong(session: WorldSessionController) -> void:
+	Grown.grow(session.player_runtime().state, 45000, 50, true)
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var sword := ItemInstance.new(&"test:expose_sword", &"es2:obj/longsword")
+	_check(context.inventory.register_item(sword, GameContent.catalog().item(sword.item_definition_id).own_weight) and context.index.register_snapshot(sword) and context.inventory._apply_reparent(sword.item_instance_id, context.endpoint()) and session.wield_player_item(sword.item_instance_id).succeeded, "expose: a 长剑 in hand")
 
 
 func _first(session: WorldSessionController, zone_id: StringName, definition_id: StringName) -> NpcRuntimeState:
