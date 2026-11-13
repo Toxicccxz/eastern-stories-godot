@@ -909,7 +909,7 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 		_allies_join(encounter)
 
 
-## Native (关北 C; DECISIONS「替玩家打的 NPC」): as a fight the player is in opens, every NPC that
+## Native (关北 C; DECISIONS「关北 C」): as a fight the player is in opens, every NPC that
 ## fights beside them (NpcHooks.fights_beside_player) and stands conscious in the player's place,
 ## not yet in it — one the player's side summoned (the 王府's riders, summoners) or one following
 ## them (郭承), or one standing its ground there (`fights_beside_here`: the 湖畔's sword-bearer) —
