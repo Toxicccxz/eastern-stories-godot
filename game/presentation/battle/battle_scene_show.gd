@@ -29,7 +29,19 @@ extends Node
 ## quicker and sharper. A 重 that lands throws the one hit off balance (失衡: they reel side to
 ## side in a dull red), one dodged or parried leaves its striker open (露空: a stumble forward
 ## in a cold flash).
+## 战斗肢体 (DECISIONS「战斗肢体」): the figures fight with their limbs. Everyone in the fight
+## stands on guard with its weapon in its hand (settle(): the weapon's skill from the projection;
+## VoxelPerson.take_guard()); a blow swings the arm by the weapon's motion (battle_stage.json
+## moves.weapons, the one the move's name over the head drops in by; a 重 with a sword, a sabre
+## or a staff is the two-handed blow from overhead): wound up as the line is told, through as
+## the step lands, held over the hit-stop, back on guard; the one struck at is thrown open by a
+## hit, leans out of a miss, or brings its weapon across for a parry. A beast (the view marks its
+## model `pounce`) leaps at its target instead of sliding. The figures stand down as the fight ends.
+## The rules fell a fighter as its round is worked out and the blow that did it is told later:
+## the figure stands until then (WorldVoxelView.hold_fall(); with the feel's fall_ms 0 nothing is
+## held) and falls as that blow lands (`fatal`), or once the lines are all told (lines_told()).
 
+const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 ## Steps, in voxel units (a figure is about 1.8 tall).
 const STEP_QUICK: float = 0.35
 const STEP_HEAVY: float = 0.6
@@ -79,6 +91,14 @@ const ARC: Color = Color(0.95, 0.9, 0.7, 0.8)
 const ZOOM_OPEN: float = 0.9
 const ZOOM_FINAL: float = 0.8
 const FINAL_PUSH: float = 0.05
+## 战斗肢体: how far a blow's swing goes by its template (a feint and a guarded blow stop short)
+## and how much farther than the plain one its pose reaches (a 重 more, a 快 less); where a feint
+## draws back to; a beast's leap as a share of the model's `pounce` height.
+const SWING_REACH: Dictionary[StringName, float] = {&"feint": 0.55, &"guard": 0.6}
+const SWING_POWER: Dictionary[StringName, float] = {&"heavy": 1.15, &"quick": 0.9}
+const FEINT_DRAW: float = -0.25
+const HEAVY_POUNCE: float = 1.5
+const POUNCE_PITCH: float = 0.28
 ## The templates, by tag (play_line() reports which played, for the suites).
 const TEMPLATE_QUICK: StringName = &"quick"
 const TEMPLATE_HEAVY: StringName = &"heavy"
@@ -97,6 +117,16 @@ var _tweens: Dictionary[StringName, Tween] = {}
 ## 战斗拍数 E: 失衡's reel and 露空's stumble, apart from the blow's own show (rotation:z, a lean).
 var _side_tweens: Dictionary[StringName, Tween] = {}
 var _wound_up: Dictionary[StringName, bool] = {}
+## 战斗肢体: who stands on guard and with what (the weapon's skill, "" bare-handed), and each
+## figure's limbs in a blow or an answer (apart from its step: easing home does not stop them).
+var _guards: Dictionary[StringName, String] = {}
+## Whose fall the show has let go already this fight (its felling blow was told), and the falls
+## still waiting on their blow to land.
+var _felled: Dictionary[StringName, bool] = {}
+var _fall_tweens: Array[Tween] = []
+## Whose felling blow is told and has yet to land: they stand until it does.
+var _falling: Dictionary[StringName, bool] = {}
+var _limb_tweens: Dictionary[StringName, Tween] = {}
 ## Figures to ease home once the show they are in ends (the round ended on their blow).
 var _go_home: Dictionary[StringName, bool] = {}
 var _effects: Array[Node3D] = []
@@ -139,6 +169,23 @@ func end() -> void:
 		if reeled != null:
 			reeled.rotation.z = 0.0
 	_side_tweens.clear()
+	for tween: Tween in _limb_tweens.values():
+		if tween.is_valid():
+			tween.kill()
+	_limb_tweens.clear()
+	for id: StringName in _guards.keys():
+		var person: Person = _model(id) as Person
+		if person != null:
+			person.stand_down(_seconds(_feel().scene_return_seconds))
+	_guards.clear()
+	for tween: Tween in _fall_tweens:
+		if tween.is_valid():
+			tween.kill()
+	_fall_tweens.clear()
+	_falling.clear()
+	_felled.clear()
+	if view != null and is_instance_valid(view):
+		view.release_falls()
 	for id: StringName in _rest.keys():
 		var model: Node3D = _model(id)
 		if model != null:
@@ -165,17 +212,29 @@ func end() -> void:
 	view = null
 
 
-## Where the fighters stand: `stances` is [id, target_id, close] each (the projection); a
-## figure close to its target stands CLOSE_STANCE nearer it. One not in a show eases there.
+## Where the fighters stand: `stances` is [id, target_id, close, weapon skill] each (the
+## projection; the weapon may be left out: bare-handed); a figure close to its target stands
+## CLOSE_STANCE nearer it. One not in a show eases there. 战斗肢体: each stands on guard with that
+## weapon in its hand; one no longer listed (it walked out of the fight) stands down.
 func settle(stances: Array) -> void:
 	if view == null:
 		return
 	var seconds: float = _seconds(_feel().scene_return_seconds)
+	var listed: Dictionary[StringName, bool] = {}
 	for stance: Array in stances:
 		var id: StringName = stance[0]
 		var model: Node3D = _model(id)
 		if model == null:
 			continue
+		listed[id] = true
+		if _feel().fall_seconds > 0.0 and not _felled.has(id):
+			view.hold_fall(id)
+		var person: Person = model as Person
+		if person != null:
+			var weapon: String = String(stance[3]) if stance.size() > 3 else ""
+			if _guards.get(id) != weapon or not person.fighting:
+				person.take_guard(weapon, seconds)
+			_guards[id] = weapon
 		var rest := Vector3.ZERO
 		if bool(stance[2]):
 			var target: Node3D = _model(stance[1])
@@ -187,6 +246,12 @@ func settle(stances: Array) -> void:
 				_go_home[id] = true
 			else:
 				_ease_home(id, model, seconds)
+	for id: StringName in _guards.keys():
+		if not listed.has(id):
+			_guards.erase(id)
+			var gone: Person = _model(id) as Person
+			if gone != null:
+				gone.stand_down(seconds)
 
 
 ## The round is over: everyone knocked back eases home (回合间归位).
@@ -216,6 +281,7 @@ func windup(actor_id: StringName) -> void:
 	_stop(actor_id)
 	_wound_up[actor_id] = true
 	_charge(model, seconds)
+	_raise(actor_id, model, TEMPLATE_HEAVY, seconds * 0.5)
 	var tween: Tween = _tween(actor_id)
 	tween.set_parallel(true)
 	tween.tween_property(model, "scale:y", CROUCH, seconds * 0.5).set_ease(Tween.EASE_OUT)
@@ -257,9 +323,21 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 	played.append([line.actor_id, template, line.outcome, stop > 0.0])
 	if played.size() > 64:
 		played.pop_front()
-	var impact: float = _attack(line.actor_id, me, direction, template, stop, line.in_special)
+	var impact: float = _attack(line.actor_id, me, direction, template, stop, line.in_special, motion_of(line.weapon_skill, template))
 	if you != null and not line.target_id.is_empty():
 		_defend(line.target_id, you, direction, line, impact, stop)
+	if fatal and not line.target_id.is_empty():
+		# The one felled falls as the blow lands (after its freeze), dust rising where it comes down.
+		var fall: Tween = create_tween()
+		_fall_tweens = _fall_tweens.filter(func(tween: Tween) -> bool: return tween.is_valid() and tween.is_running())
+		_fall_tweens.append(fall)
+		_falling[line.target_id] = true
+		fall.tween_interval(maxf(impact + stop, 0.001))
+		fall.tween_callback(_fell.bind(line.target_id))
+		var landing: float = _feel().fall_seconds * 0.8
+		if landing > 0.0 and _seconds(_feel().scene_dust_seconds) > 0.0:
+			fall.tween_interval(landing)
+			fall.tween_callback(_dust_of.bind(line.target_id, 2.0))
 	if fatal and not _final_zoomed:
 		_final_zoomed = true
 		_zoom(minf(ZOOM_FINAL, view.zoom() - FINAL_PUSH))
@@ -278,8 +356,19 @@ static func template_of(tag: StringName) -> StringName:
 	return TEMPLATE_PLAIN
 
 
-## The attacker's step by `template`; returns when its blow lands (seconds from now).
-func _attack(id: StringName, model: Node3D, direction: Vector3, template: StringName, stop: float, special: bool) -> float:
+## 战斗肢体: the motion a blow with `weapon_skill` swings by (VoxelPerson.STRIKES): the weapon's
+## own (battle_stage.json), or for a 重 with a weapon that cuts down, sideways or up, the
+## two-handed blow from overhead.
+static func motion_of(weapon_skill: StringName, template: StringName) -> String:
+	var motion: String = String(BattleSounds.weapon_look(weapon_skill).get("motion", "fist"))
+	if template == TEMPLATE_HEAVY and motion in ["slam", "slash", "rise"]:
+		return "heavy"
+	return motion
+
+
+## The attacker's step by `template`; returns when its blow lands (seconds from now). 战斗肢体:
+## its arm swings by `motion` with the step; a beast leaps.
+func _attack(id: StringName, model: Node3D, direction: Vector3, template: StringName, stop: float, special: bool, motion: String = "fist") -> float:
 	var feel: FeelDefinition = _feel()
 	var step: float = _seconds(feel.scene_step_seconds)
 	var windup_seconds: float = _seconds(feel.scene_windup_seconds)
@@ -295,22 +384,34 @@ func _attack(id: StringName, model: Node3D, direction: Vector3, template: String
 		return 0.0
 	var tween: Tween = _tween(id)
 	var impact: float = 0.0
+	var pounce: float = float(model.get_meta("pounce", 0.0))
+	var wound: bool = _wound_up.get(id, false)
+	var lead_in: float = 0.0
 	match template:
 		TEMPLATE_QUICK:
 			_ghost(model)
-			tween.tween_property(model, "position", home + direction * STEP_QUICK, step * QUICK_LUNGE).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-			impact = step * QUICK_LUNGE
+			if pounce > 0.0:
+				_leap(tween, model, home + direction * STEP_QUICK, step, pounce * 0.6)
+				impact = step
+			else:
+				tween.tween_property(model, "position", home + direction * STEP_QUICK, step * QUICK_LUNGE).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+				impact = step * QUICK_LUNGE
 		TEMPLATE_HEAVY:
-			if not _wound_up.get(id, false) and windup_seconds > 0.0:
+			if not wound and windup_seconds > 0.0:
+				lead_in = windup_seconds
 				_charge(model, windup_seconds)
 				_together(tween).tween_property(model, "scale:y", CROUCH, windup_seconds * 0.5).set_ease(Tween.EASE_OUT)
 				tween.tween_property(model, "rotation:x", LEAN * 0.5, windup_seconds * 0.5).set_ease(Tween.EASE_OUT)
 				tween.set_parallel(false)
 				tween.tween_interval(windup_seconds * 0.5)
 				impact += windup_seconds
-			_together(tween).tween_property(model, "position", home + direction * STEP_HEAVY, step * 1.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-			tween.tween_property(model, "scale:y", 1.0, step * 1.3)
-			tween.tween_property(model, "rotation:x", LEAN, step * 1.3)
+			if pounce > 0.0:
+				_together(tween).tween_property(model, "scale:y", 1.0, step * 1.3)
+				_leap(tween, model, home + direction * STEP_HEAVY, step * 1.3, pounce * HEAVY_POUNCE)
+			else:
+				_together(tween).tween_property(model, "position", home + direction * STEP_HEAVY, step * 1.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+				tween.tween_property(model, "scale:y", 1.0, step * 1.3)
+				tween.tween_property(model, "rotation:x", LEAN, step * 1.3)
 			tween.set_parallel(false)
 			impact += step * 1.3
 		TEMPLATE_FEINT:
@@ -326,9 +427,13 @@ func _attack(id: StringName, model: Node3D, direction: Vector3, template: String
 			impact = step
 		_:
 			var reach: float = STEP_SPECIAL if special else STEP_PLAIN
-			tween.tween_property(model, "position", home + direction * reach, step).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+			if pounce > 0.0:
+				_leap(tween, model, home + direction * reach, step, pounce)
+			else:
+				tween.tween_property(model, "position", home + direction * reach, step).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 			impact = step
 	_wound_up.erase(id)
+	_swing(id, model, motion, template, wound, lead_in, impact - lead_in, stop, back)
 	if stop > 0.0:
 		# The hit-stop: held at the lunge's end, a 2 px shake across it.
 		var struck: Vector3 = home + direction * (STEP_HEAVY if template == TEMPLATE_HEAVY else STEP_PLAIN)
@@ -359,6 +464,7 @@ func _defend(id: StringName, model: Node3D, direction: Vector3, line: BattleNarr
 	if step <= 0.0 and flash_seconds <= 0.0 and back <= 0.0:
 		model.position = _stand(id)
 		return
+	_answer(id, model, line.outcome, impact, stop, step, back)
 	var tween: Tween = _tween(id)
 	if impact > 0.0:
 		tween.tween_interval(impact)
@@ -407,6 +513,7 @@ func _special_opening(actor_id: StringName, target_id: StringName) -> void:
 		return
 	_stop(actor_id)
 	_flash(model, FLASH_SPECIAL, _seconds(_feel().scene_flash_seconds) * 2.0)
+	_raise(actor_id, model, TEMPLATE_PLAIN, windup_seconds * 0.5)
 	var direction: Vector3 = _direction(model, _model(target_id))
 	var tween: Tween = _tween(actor_id)
 	tween.set_parallel(true)
@@ -485,6 +592,131 @@ func side_running(id: StringName) -> bool:
 ## Whether the first beat won this fight had its whole ceremony already (the sounds follow).
 func earned_shown() -> bool:
 	return _earned_shown
+
+
+# --- 战斗肢体: the fall and the limbs -------------------------------------------------------------
+
+
+## The fight's lines are all told (`told`) or some still wait: told, whoever fell without a
+## felling blow of its own being told (a poison, a blow the strip folded away) falls now; one
+## whose felling blow is told and still on its way waits for it to land.
+func lines_told(told: bool) -> void:
+	if told and view != null and is_instance_valid(view):
+		for id: StringName in view.release_fallen(_falling):
+			_felled[id] = true
+
+
+## `id`'s felling blow has landed: its figure falls.
+func _fell(id: StringName) -> void:
+	_falling.erase(id)
+	_felled[id] = true
+	if view != null and is_instance_valid(view):
+		view.release_fall(id)
+
+
+func _dust_of(id: StringName, amount: float) -> void:
+	var model: Node3D = _model(id)
+	if model != null:
+		_dust(model, amount)
+
+
+## The arm goes up before the blow (a 重's half beat, a special's opening line): wound up within
+## `seconds`, by the motion of the weapon the figure stands on guard with.
+func _raise(id: StringName, model: Node3D, template: StringName, seconds: float) -> void:
+	var person: Person = model as Person
+	if person == null or seconds <= 0.0:
+		return
+	person.begin_strike(motion_of(StringName(_guards.get(id, "")), template), SWING_POWER.get(template, 1.0))
+	_limb(id).tween_property(person, "swing", -1.0, seconds).set_ease(Tween.EASE_OUT)
+
+
+## The blow's swing: wound up (over `lead_in`, or at once when the figure is `wound` up already or
+## the blow has no windup of its own: the travel is what is seen), through within `strike`, held
+## over the hit-stop and a moment more, back on guard within `back`.
+func _swing(id: StringName, model: Node3D, motion: String, template: StringName, wound: bool, lead_in: float, strike: float, stop: float, back: float) -> void:
+	var person: Person = model as Person
+	if person == null or strike <= 0.0:
+		return
+	# Wound up already (a 重's half beat, a special's opening): the hand that is up strikes.
+	person.begin_strike(motion, SWING_POWER.get(template, 1.0), wound and person.swing < 0.0)
+	var tween: Tween = _limb(id)
+	if lead_in > 0.0:
+		tween.tween_property(person, "swing", -1.0, lead_in * 0.5).set_ease(Tween.EASE_OUT)
+		tween.tween_interval(lead_in * 0.5)
+	elif not wound or person.swing > -1.0:
+		person.swing = -1.0
+	tween.tween_property(person, "swing", float(SWING_REACH.get(template, 1.0)), strike).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	tween.tween_interval(stop + _seconds(_feel().scene_step_seconds))
+	if template == TEMPLATE_FEINT:
+		tween.tween_property(person, "swing", FEINT_DRAW, back * 0.3).set_ease(Tween.EASE_OUT)
+	tween.tween_property(person, "swing", 0.0, back).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+
+
+## The one struck at answers with its limbs at `impact`: thrown open by a hit (held over the
+## hit-stop), leaning out of a miss, the weapon across for a parry (up a little before the blow).
+func _answer(id: StringName, model: Node3D, outcome: int, impact: float, stop: float, step: float, back: float) -> void:
+	var person: Person = model as Person
+	if person == null or back <= 0.0:
+		return
+	var tween: Tween = _limb(id)
+	person.swing = 0.0
+	match outcome:
+		CombatAttackResult.Outcome.HIT:
+			tween.tween_interval(impact)
+			tween.tween_callback(_react.bind(id, "hit", 1.0))
+			tween.tween_interval(stop + step)
+			tween.tween_property(person, "react_amount", 0.0, back).set_ease(Tween.EASE_OUT)
+		CombatAttackResult.Outcome.DODGE:
+			tween.tween_interval(impact)
+			tween.tween_callback(_react.bind(id, "dodge", 0.0))
+			tween.tween_property(person, "react_amount", 1.0, step * 0.5).set_ease(Tween.EASE_OUT)
+			tween.tween_property(person, "react_amount", 0.0, back * 0.5).set_ease(Tween.EASE_IN_OUT)
+		CombatAttackResult.Outcome.PARRY:
+			tween.tween_interval(impact * 0.5)
+			tween.tween_callback(_react.bind(id, "parry", 0.0))
+			tween.tween_property(person, "react_amount", 1.0, impact * 0.5).set_ease(Tween.EASE_OUT)
+			tween.tween_interval(stop + step * 0.5)
+			tween.tween_property(person, "react_amount", 0.0, back * 0.6).set_ease(Tween.EASE_IN_OUT)
+		_:
+			tween.tween_interval(impact)
+
+
+## `id`'s figure answers a blow now (the figure may be gone by then).
+func _react(id: StringName, kind: String, amount: float) -> void:
+	var person: Person = _model(id) as Person
+	if person != null:
+		person.swing = 0.0
+		person.react = kind
+		person.react_amount = amount
+
+
+## A new show for `id`'s limbs (the one before it stops where it is).
+func _limb(id: StringName) -> Tween:
+	var old: Tween = _limb_tweens.get(id)
+	if old != null and old.is_valid():
+		old.kill()
+	var tween: Tween = create_tween()
+	_limb_tweens[id] = tween
+	return tween
+
+
+## Whether `id`'s limbs are in a blow or an answer now (tests).
+func limbs_running(id: StringName) -> bool:
+	var tween: Tween = _limb_tweens.get(id)
+	return tween != null and tween.is_valid() and tween.is_running()
+
+
+## A beast's leap to `to` within `seconds`: an arc `height` high from where it is, nose up as it
+## leaves the ground and down as it lands.
+func _leap(tween: Tween, model: Node3D, to: Vector3, seconds: float, height: float) -> void:
+	var from: Array[Vector3] = []
+	tween.tween_method(func(t: float) -> void:
+		if not is_instance_valid(model):
+			return
+		if from.is_empty():
+			from.append(model.position)
+		model.position = from[0].lerp(to, t) + Vector3.UP * height * sin(t * PI)
+		model.rotation.x = lerpf(-POUNCE_PITCH, POUNCE_PITCH, t), 0.0, 1.0, seconds)
 
 
 # --- the figures ----------------------------------------------------------------------------
@@ -593,8 +825,8 @@ func _flash(model: Node3D, colour: Color, seconds: float) -> void:
 func _unflash(model: Node3D, overlay: Material = null) -> void:
 	if not is_instance_valid(model):
 		return
-	if overlay != null and model.get_meta("battle_flash", null) != overlay:
-		return # A newer flash took over.
+	if overlay != null and (not model.has_meta("battle_flash") or model.get_meta("battle_flash") != overlay):
+		return # A newer flash took over (or the show ended and took it off).
 	for part: GeometryInstance3D in _parts(model):
 		part.material_overlay = null
 	model.remove_meta("battle_flash")

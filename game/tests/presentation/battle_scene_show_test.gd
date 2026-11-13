@@ -9,6 +9,7 @@ extends RefCounted
 ## first time; the 总音量 setting. Rules, numbers and the fight's draws are untouched.
 const Outcome := CombatAttackResult.Outcome
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
+const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 const ME: StringName = &"me"
 const YOU: StringName = &"you"
 
@@ -28,6 +29,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _signatures(tree)
 	await _camera_and_stance(tree)
 	await _heavy_aftermath(tree)
+	await _limbs(tree)
+	_fall_curve()
 	_mode_title(tree)
 	_teardown(tree)
 	TestFeel.restore()
@@ -285,6 +288,135 @@ func _heavy_aftermath(tree: SceneTree) -> void:
 	TestFeel.restore()
 
 
+## 战斗肢体 (DECISIONS「战斗肢体」): real figures. Everyone listed stands on guard with the weapon
+## of its skill in its hand; a blow swings the arm by the weapon's motion (a 重 with a sword: the
+## two-handed blow), wound up, through and back; the one struck at is thrown open, leans away or
+## parries; one no longer listed and the fight's end put the weapon away; a beast leaps.
+func _limbs(tree: SceneTree) -> void:
+	check(BattleSceneShow.motion_of(&"sword", BattleSceneShow.TEMPLATE_QUICK) == "slam" and BattleSceneShow.motion_of(&"blade", BattleSceneShow.TEMPLATE_PLAIN) == "slash" and BattleSceneShow.motion_of(&"", BattleSceneShow.TEMPLATE_PLAIN) == "fist", "the motion is the weapon's (battle_stage.json)")
+	check(BattleSceneShow.motion_of(&"sword", BattleSceneShow.TEMPLATE_HEAVY) == "heavy" and BattleSceneShow.motion_of(&"", BattleSceneShow.TEMPLATE_HEAVY) == "fist" and BattleSceneShow.motion_of(&"whip", BattleSceneShow.TEMPLATE_HEAVY) == "whip", "a 重 with a sword is the two-handed blow; a fist and a whip keep theirs")
+	for skill: String in BattleArena.data()["moves"]["weapons"]:
+		check(Person.STRIKES.has(String(BattleArena.data()["moves"]["weapons"][skill]["motion"])), "the motion of %s has its strike" % skill)
+		check(skill.is_empty() or Person.ARMS.has(skill), "%s can be held in a hand" % skill)
+	for motion: String in Person.STRIKES:
+		check(Person.STRIKES[motion].size() == 2 and Person.STRIKES[motion][0].size() == Person.GUARD.size() and Person.STRIKES[motion][1].size() == Person.GUARD.size(), "%s: a windup and a blow of the guard's angles" % motion)
+	for answer: String in Person.REACTIONS:
+		check(Person.REACTIONS[answer].size() == Person.GUARD.size() + 2, "%s: the guard's angles and two more" % answer)
+	_teardown(tree)
+	_setup(tree, true)
+	var me: Person = _model(ME) as Person
+	var you: Person = _model(YOU) as Person
+	await tree.process_frame
+	await tree.process_frame
+	# The feel off: on guard at once, the weapon drawn; a blow swings nothing.
+	_show.begin(_view)
+	_show.settle([[ME, YOU, false, "sword"], [YOU, ME, false, ""]])
+	await tree.process_frame
+	await tree.process_frame
+	check(me.fighting and me.armed == "sword" and me.get_node_or_null("Frame") != null and me.arms[0].get_node_or_null("Weapon") != null and (me.arms[0].get_node("Weapon") as Node3D).visible, "on guard: the sword in the right hand")
+	check(you.fighting and you.armed.is_empty() and you.arms[0].get_node_or_null("Weapon") == null, "bare-handed: on guard with nothing")
+	check(is_equal_approx(me.arms[0].rotation.x, Person.GUARD[0]) and is_equal_approx(me.legs[1].rotation.x, Person.GUARD[7]) and me.torso.position.y < 0.0, "the guard: the arm up, a foot forward, the body a little lower (%.2f)" % me.arms[0].rotation.x)
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.HEAVY, 0).with_arms(&"sword", "刺伤"), true)
+	await tree.process_frame
+	check(is_zero_approx(me.swing) and is_zero_approx(you.react_amount) and not _show.limbs_running(ME), "the feel off: no swing, no answer")
+	check(_view.fall_holds.is_empty(), "and nobody's fall waits")
+	_show.end()
+	await tree.process_frame
+	await tree.process_frame
+	check(not me.fighting and not (me.arms[0].get_node("Weapon") as Node3D).visible and is_zero_approx(me.arms[0].rotation.z), "the end: at ease, the sword put away")
+	# The feel on, slowed four times.
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	_show.settle([[ME, YOU, false, "sword"], [YOU, ME, false, ""]])
+	check(_view.fall_holds.has(ME) and _view.fall_holds.has(YOU), "the fight on: both figures' falls wait on their blows")
+	await tree.create_timer(1.6).timeout
+	check((me.arms[0].get_node("Weapon") as Node3D).visible and is_equal_approx(me.arms[0].rotation.x, Person.GUARD[0]), "on guard within the return's time")
+	# A 快 with the sword: wound up at once, through as the step lands, then back.
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0).with_arms(&"sword", "刺伤"))
+	check(me.motion == "slam" and is_equal_approx(me.swing, -1.0) and _show.limbs_running(ME), "快: the sword's own motion, wound up as the line is told")
+	await tree.create_timer(0.3).timeout
+	check(me.swing > 0.9 and me.arms[0].rotation.x > -1.2 and you.react == "hit" and you.react_amount > 0.5, "through, the one hit thrown open (swing %.2f, answer %.2f)" % [me.swing, you.react_amount])
+	check(you.arms[0].rotation.z < -0.1 and you.arms[1].rotation.z > 0.1, "its arms flung outward")
+	await tree.create_timer(2.6).timeout
+	check(is_zero_approx(me.swing) and is_zero_approx(you.react_amount) and not _show.limbs_running(ME) and not _show.limbs_running(YOU), "then both back on guard")
+	# A 重 with the sword: the two-handed blow, raised with the crouch.
+	_show.windup(ME)
+	await tree.create_timer(0.8).timeout
+	check(me.motion == "heavy" and me.swing < -0.9 and me.arms[1].rotation.x < -2.0, "重: both arms up over the head as it gathers (%.2f)" % me.arms[1].rotation.x)
+	_show.play_line(_blow(Outcome.DODGE, CombatMoveTags.HEAVY, 0).with_arms(&"sword", "刺伤"))
+	await tree.create_timer(0.75).timeout
+	check(me.swing > 0.9 and you.react == "dodge" and you.react_amount > 0.2 and not is_zero_approx(you.torso.rotation.z), "it comes down; the other leans out of its way")
+	await tree.create_timer(3.0).timeout
+	# Bare hands strike in turn; a parry brings the sword across.
+	_show.play_line(_strike(YOU, ME, Outcome.PARRY, &""))
+	var first: int = you._striker
+	check(you.motion == "fist", "the bare hand: a fist")
+	await tree.create_timer(0.5).timeout
+	check(me.react == "parry" and me.react_amount > 0.9 and absf((me.arms[0].get_node("Weapon") as Node3D).rotation.y) > 0.9, "a parry: the sword turned across the body")
+	await tree.create_timer(2.6).timeout
+	_show.play_line(_strike(YOU, ME, Outcome.DODGE, &""))
+	check(you._striker != first, "the next blow: the other hand")
+	await tree.create_timer(2.6).timeout
+	# A bare-handed 重: the hand raised in its half beat is the hand that strikes.
+	_show.windup(YOU)
+	await tree.create_timer(0.8).timeout
+	var raised: int = you._striker
+	_show.play_line(_strike(YOU, ME, Outcome.DODGE, &"").with_ring(CombatMoveTags.HEAVY, 0))
+	check(you._striker == raised and you.swing < 0.0, "a bare-handed 重: the hand that was raised strikes")
+	await tree.create_timer(3.4).timeout
+	# A felling blow: the one felled is let go as it lands.
+	_show.play_line(_blow(Outcome.HIT, CombatMoveTags.QUICK, 0).with_arms(&"sword", "刺伤"), true)
+	check(_view.fall_holds.has(YOU), "the felling blow told: the one felled still stands")
+	await tree.create_timer(1.2).timeout
+	check(not _view.fall_holds.has(YOU) and _view.fall_holds.has(ME), "it lands: that one's fall waits no more, the striker's still does")
+	# All told while a felling blow is still on its way: the one it fells waits for it.
+	_show.play_line(_strike(YOU, ME, Outcome.HIT, &""), true)
+	_show.lines_told(true)
+	check(_view.fall_holds.has(ME), "the lines all told, the felling blow not landed: its victim still stands")
+	await tree.create_timer(1.2).timeout
+	check(not _view.fall_holds.has(ME), "landed: let go")
+	_show.settle([[ME, YOU, false, "sword"], [YOU, ME, false, ""]])
+	check(not _view.fall_holds.has(YOU), "and it is not held again this fight")
+	# One no longer listed stands down; the fight's end lets everyone go.
+	_show.settle([[ME, &"", false, "sword"]])
+	check(not you.fighting and me.fighting, "one who left the fight stands down")
+	_show.end()
+	check(not me.fighting and _view.fall_holds.is_empty(), "the end: at ease, nobody held")
+	# A beast (the view marks its model) leaps at its target.
+	var beast := Node3D.new()
+	beast.set_meta("pounce", 0.24)
+	var actor := Node3D.new()
+	_root.add_child(actor)
+	actor.add_child(beast)
+	_view.actors[&"dog"] = actor
+	_show.begin(_view)
+	_show.play_line(_strike(&"dog", YOU, Outcome.HIT, &""))
+	await tree.create_timer(0.25).timeout
+	check(beast.position.y > 0.05 and beast.position.z > 0.05, "a beast: off the ground on its way (%s)" % beast.position)
+	await tree.create_timer(3.0).timeout
+	check(beast.position.is_equal_approx(Vector3.ZERO) and is_zero_approx(beast.rotation.x), "and home again, level")
+	_show.end()
+	_show.pace = 1.0
+	TestFeel.restore()
+	# A figure's fall: slack limbs, the body turned onto its back and raised to lie on the ground.
+	me.limp = 1.0
+	await tree.process_frame
+	await tree.process_frame
+	check(is_equal_approx(me.frame.rotation.x, -PI / 2.0) and is_equal_approx(me.frame.position.y, Person.LIE_LIFT) and is_equal_approx(me.arms[0].rotation.z, -Person.LIMP[1]), "fallen: on its back, the arms slack")
+	me.limp = 0.0
+	await tree.process_frame
+	await tree.process_frame
+	check(is_zero_approx(me.frame.rotation.x) and is_zero_approx(me.arms[0].rotation.z), "up again: as it stood")
+
+
+## 战斗肢体: the fall's curve — nothing at first, flat at the end, a bounce on landing; rising eased.
+func _fall_curve() -> void:
+	check(is_zero_approx(WorldVoxelView.fall_turn(0.0, true)) and is_equal_approx(WorldVoxelView.fall_turn(1.0, true), 1.0) and is_equal_approx(WorldVoxelView.fall_turn(0.8, true), 1.0), "falling: from upright to flat, flat already as it lands")
+	check(WorldVoxelView.fall_turn(0.9, true) < 0.95 and WorldVoxelView.fall_turn(0.4, true) < 0.3, "slow at first, a bounce on landing")
+	check(is_zero_approx(WorldVoxelView.fall_turn(0.0, false)) and is_equal_approx(WorldVoxelView.fall_turn(1.0, false), 1.0) and is_equal_approx(WorldVoxelView.fall_turn(0.5, false), 0.5), "rising: eased both ways")
+
+
 ## The mode's word in blocks (owner 2026-11-09): each pixel of the pixel face one block, from
 ## the font's outlines (no rendering); a word the face cannot draw builds nothing.
 func _mode_title(tree: SceneTree) -> void:
@@ -304,9 +436,9 @@ func _mode_title(tree: SceneTree) -> void:
 # --- fixtures -------------------------------------------------------------------------------
 
 
-## Two figures a unit and a half apart along z, each a box under an actor node, in a view
-## that is only their holder (no map).
-func _setup(tree: SceneTree) -> void:
+## Two figures a unit and a half apart along z, each a box under an actor node (`people`: a
+## real person), in a view that is only their holder (no map).
+func _setup(tree: SceneTree, people: bool = false) -> void:
 	_root = Node3D.new()
 	_root.name = "SceneShowTest"
 	tree.root.add_child(_root)
@@ -316,6 +448,13 @@ func _setup(tree: SceneTree) -> void:
 		actor.name = String(pair[0])
 		actor.position = pair[1]
 		_root.add_child(actor)
+		_view.actors[pair[0]] = actor
+		if people:
+			var person := Person.new()
+			person.name = "Model"
+			person.configure({"coat": "397c87", "prop": "sword_waist"})
+			actor.add_child(person)
+			continue
 		var model := Node3D.new()
 		model.name = "Model"
 		actor.add_child(model)
@@ -323,7 +462,6 @@ func _setup(tree: SceneTree) -> void:
 		body.mesh = BoxMesh.new()
 		body.position = Vector3(0, 0.9, 0)
 		model.add_child(body)
-		_view.actors[pair[0]] = actor
 	_show = BattleSceneShow.new()
 	_root.add_child(_show)
 
@@ -369,6 +507,11 @@ static func _parts_overlaid(model: Node3D) -> int:
 
 static func _blow(outcome: int, tag: StringName, ring: int) -> BattleNarrationLine:
 	return BattleNarrationLine.new("x", 10 if outcome == Outcome.HIT else -1).with_blow(ME, YOU, "招", outcome, BattleVitalityBar.Band.LIGHT).with_ring(tag, ring).with_beat(1, ME)
+
+
+## A plain blow of `actor` at `target`, struck with the weapon of `skill`.
+static func _strike(actor: StringName, target: StringName, outcome: int, skill: StringName) -> BattleNarrationLine:
+	return BattleNarrationLine.new("x", 10 if outcome == Outcome.HIT else -1).with_blow(actor, target, "招", outcome, BattleVitalityBar.Band.LIGHT).with_ring(&"", 0).with_arms(skill, "瘀伤").with_beat(1, actor)
 
 
 func check(condition: bool, message: String) -> void:
