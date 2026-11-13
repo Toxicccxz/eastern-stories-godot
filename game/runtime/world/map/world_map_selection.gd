@@ -125,7 +125,13 @@ func inspect_selected() -> bool:
 
 func attack_selected() -> CombatSliceInitiationResult:
 	var target: NpcRuntimeState = selected_npc() if _map.gameplay_open() else null
-	if target == null or target.definition().dealings().is_fight_deferred():
+	if target == null:
+		return CombatSliceInitiationResult.new()
+	# DECISIONS「不能动手的人」: one the story will not let the player fight answers 攻击 with its
+	# own line (`fight_deferred`) and nothing starts: no fight, no hostility, no time.
+	var refusal: String = target.definition().dealings().fight_refusal()
+	if not refusal.is_empty():
+		_map.hud().append_log_lines([tr(refusal)])
 		return CombatSliceInitiationResult.new()
 	# kill.c checks the attacker's room, which in ES2 is also the target's.
 	var catalog: ContentCatalog = GameContent.catalog()

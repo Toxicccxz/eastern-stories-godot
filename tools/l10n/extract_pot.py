@@ -14,7 +14,12 @@ is the one extractor. It reads:
 * Scenes (.tscn): text, tooltip_text, placeholder_text, title and popup item texts, except
   on nodes whose auto_translate_mode is disabled.
 * The content files listed in game/data/content_manifest.json: the fields that are player
-  text (names, descriptions, lines, topics...), see `_walk_json`.
+  text (names, descriptions, lines, topics...), see `_walk_json`. A document's top level may
+  hold lists of records or one record (common/opening.json's `opening`).
+
+`tools/tests/test_extract_pot.py` checks that every string with Chinese text in game/data is
+either extracted or sits under a key listed there as never shown, so a new text key cannot be
+forgotten silently.
 
 `--check` fails when the committed template is out of date. `lint_concatenation()` reports
 Chinese text glued to other text with `+`, which a translator cannot reorder.
@@ -38,6 +43,8 @@ MANIFEST = "game/data/content_manifest.json"
 DEV_ONLY_SCENES = frozenset({"scenes/combat/combat_vertical_slice.tscn", "scenes/mcp_test.tscn"})
 SKIPPED_DIRECTORIES = ("tests/", "addons/")
 TRANSLATE_CALLS = frozenset({"tr", "atr", "translate"})
+# Developer output: errors, warnings and logs are never shown to the player.
+DEBUG_CALLS = frozenset({"push_error", "push_warning", "print", "printerr", "prints", "print_debug", "print_rich", "assert"})
 SCENE_TEXT_PROPERTIES = frozenset({"text", "tooltip_text", "placeholder_text", "title"})
 # Content fields whose string values are player text.
 TEXT_KEYS = frozenset({
@@ -49,11 +56,24 @@ TEXT_KEYS = frozenset({
     "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal", "closing",
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg", "locked",
-    "style_word", "style_line", "summary", "intro", "seat", "relent_say", "rest_say",
+    "style_word", "style_line", "summary", "intro", "seat",
+    # 攻击 on one the story will not let the player fight (DECISIONS「不能动手的人」).
+    "fight_deferred",
+    # A trial's question before it, the deed it writes, its master's words when relenting or
+    # when the player is out of breath (NpcTrial); a helper's line on leaving (fights_beside).
+    "confirm", "deed", "relent_say", "rest_say", "fights_beside_leaves",
+    # A skill's learn refusals (a family barred, no shield on the arm).
+    "forbidden_refusal", "armor_refusal",
+    # An NPC's own word for itself (rank_info/self, rankd.c query_self()): 小的.
+    "self",
+    # A move's intent group on the battle panel (战斗拍数 B).
+    "group",
     # drop.c's refusal when no_drop is a sentence (`"no_drop": true` is ES2's default line, in code).
     "no_drop",
 })
-TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs", "sky_levels"})
+TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs", "sky_levels",
+                            # The night watch's lines when it catches the player again (NpcWatch); a skill's group order.
+                            "again_lines", "groups"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
@@ -63,9 +83,14 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     # What a topic asks before it is put (NpcTalk's `confirm`), and a sentence of an ending's card
     # or of a 势力's card on the 声望 page (EpilogueDefinition, FactionDefinition: {text, when}).
     "confirm", "text",
+    # A landmark's line when its keeper sees it taken (`messages.guarded`).
+    "guarded",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
-ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks"})
+ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks", "marks_asker"})
+# Blocks of a record that are never shown: an attitude by condition (its words are ids), the
+# ES2 values kept for the suites that pin a ported formula (`classic`: numbers and field names).
+SKIPPED_BLOCKS = frozenset({"attitude", "classic"})
 HEADER = """\
 # Eastern Stories translation template.
 # Source language: Simplified Chinese (zh_CN); each message ID is the source text.
@@ -249,7 +274,10 @@ def extract_gdscript(source: str, relative: str, catalog: Catalog) -> None:
         skip, note = _directive(script, literal.line)
         if skip:
             continue
-        if _call_name(source, literal) in TRANSLATE_CALLS:
+        call = _call_name(source, literal)
+        if call in DEBUG_CALLS:
+            continue
+        if call in TRANSLATE_CALLS:
             # Godot's rule: a message whose context is not a literal is not extracted.
             literal_context, context = _second_argument(source, literal, script)
             if not literal_context:
@@ -445,12 +473,16 @@ def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:
 
 
 def _records(document: object) -> list[dict]:
+    """The records of a content document: the dictionaries in its top-level lists, and a
+    top-level dictionary as one record (common/opening.json's `opening`)."""
     if not isinstance(document, dict):
         return []
     records: list[dict] = []
     for value in document.values():
         if isinstance(value, list):
             records.extend(item for item in value if isinstance(item, dict))
+        elif isinstance(value, dict):
+            records.append(value)
     return records
 
 
@@ -464,15 +496,23 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
     for key, value in node.items():
         here = f"{path}.{key}" if path else key
         note = f"{record_id} {here}".strip()
-        # An NPC's story trials (NpcTrial): what it asks first and the deed it writes are shown too.
-        if key == "trials" and isinstance(value, list):
-            for trial in value:
-                if isinstance(trial, dict):
-                    for text_key in ("confirm", "deed"):
-                        if isinstance(trial.get(text_key), str):
-                            catalog.add(trial[text_key], relative, note=f"{note}.{text_key}")
+        if key in SKIPPED_BLOCKS and isinstance(value, dict):
+            continue
         if key in TEXT_KEYS and isinstance(value, str):
             catalog.add(value, relative, note=note)
+        elif key == "weapon" and isinstance(value, str) and path.endswith("actions"):
+            # A move's own $w when bare-handed (combatd.c: 右手食指); elsewhere `weapon` is a skill type.
+            catalog.add(value, relative, note=note)
+        elif key == "questions" and isinstance(value, list):
+            # An act's questions (ScriptedAct `questions`): each question's text and its answers'.
+            for question in value:
+                if not isinstance(question, dict):
+                    continue
+                if isinstance(question.get("text"), str):
+                    catalog.add(question["text"], relative, note=f"{note}.text")
+                for answer in question.get("answers", []):
+                    if isinstance(answer, dict) and isinstance(answer.get("text"), str):
+                        catalog.add(answer["text"], relative, note=f"{note}.answers.text")
         elif key in TEXT_LIST_KEYS and isinstance(value, list):
             for item in value:
                 if isinstance(item, str):
@@ -489,7 +529,7 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
                 if has_chinese(topic):
                     catalog.add(topic, relative, note=f"{record_id} inquiry topic")
                 _walk_text(answer, relative, f"{record_id} inquiry.{topic}", catalog)
-        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "pass_lines", "without", "shop_front", "summoned"):
+        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "pass_lines", "without", "shop_front", "summoned", "combat_chat_msg"):
             _walk_text(value, relative, note, catalog)
         elif key == "act" and isinstance(value, dict):
             # A room's own command (RoomActDefinition): its button's verb, then its acts.

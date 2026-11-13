@@ -236,6 +236,7 @@ func build() -> ContentCatalog:
 	_add_haunting_sheets()
 	_check_money()
 	_check_npc_loadouts()
+	_check_named_references()
 	_resolve_npc_dealings()
 	_check_spawns()
 	_check_vendors()
@@ -523,6 +524,17 @@ func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
 					_errors.append("%s.phase: no day phase '%s'" % [origin, phase_id])
 
 
+## The problems _check_condition() finds in a condition authored outside the catalog's own
+## documents (a map layout's or a voxel config's `present` / `until`, read at run time by
+## WorldStoryPresence), after build(): checked by content_loading_test.
+func condition_problems(origin: String, entry: JournalEntryDefinition) -> Array[String]:
+	var before: int = _errors.size()
+	_check_condition(origin, entry)
+	var found: Array[String] = _errors.slice(before)
+	_errors.resize(before)
+	return found
+
+
 ## A reward's rank (DECISIONS「晋阶」) is in a family the game has.
 func _check_reward(origin: String, reward: StoryQuestDefinition.Reward) -> void:
 	if reward != null and not reward.rank_title.is_empty() and not _families.has(reward.rank_family):
@@ -722,6 +734,43 @@ func _check_npc_loadouts() -> void:
 				and item.armor_definition() == null
 			):
 				_errors.append("%s.equip: '%s' is not armor" % [path, entry.item_definition_id])
+
+
+## The names a record gives that another table defines: whom a no_drop item may still be given
+## to (`give_to`) is an NPC; an NPC's own fighting style is in the style table; and, in a catalog
+## that defines skills (a game's), an NPC's skills and the skills it maps, and a weapon's skill,
+## are defined — save spider-array, a formation for eight that a game of one never uses
+## (DECISIONS「审查收尾」, 四门基本技能: kept on the NPCs that know it, never defined or taught).
+const UNDEFINED_NPC_SKILLS: Array[StringName] = [&"spider-array"]
+
+
+func _check_named_references() -> void:
+	for item: ItemContentDefinition in _items.values():
+		var origin: String = _origins.get(item.item_definition_id, String(item.item_definition_id))
+		for npc_id: StringName in item.give_to:
+			if not _npcs.has(npc_id):
+				_errors.append("%s.give_to: unknown NPC '%s'" % [origin, npc_id])
+		if not _skills.is_empty() and item.weapon_skill_type != &"" and not _skills.has(item.weapon_skill_type):
+			_errors.append("%s.weapon.skill: unknown skill '%s'" % [origin, item.weapon_skill_type])
+	# A drawn name's forms (_add_named_npcs) share their record: each problem is told once.
+	var told: Dictionary[String, bool] = {}
+	for npc: NpcDefinition in _npcs.values():
+		var origin: String = _origins.get(npc.definition_id, String(npc.definition_id))
+		var problems: Array[String] = []
+		if not npc.fight_style.is_empty() and not _combat_styles.has(npc.fight_style):
+			problems.append("%s.fight_style: unknown style '%s'" % [origin, npc.fight_style])
+		if not _skills.is_empty():
+			for level: NpcSkillLevelDefinition in npc.skill_levels():
+				if not _skills.has(level.skill_id) and not UNDEFINED_NPC_SKILLS.has(level.skill_id):
+					problems.append("%s.skills: unknown skill '%s'" % [origin, level.skill_id])
+			var mapped: Dictionary[StringName, StringName] = npc.skill_map()
+			for use_id: StringName in mapped:
+				if not _skills.has(mapped[use_id]):
+					problems.append("%s.skill_map.%s: unknown skill '%s'" % [origin, use_id, mapped[use_id]])
+		for problem: String in problems:
+			if not told.has(problem):
+				told[problem] = true
+				_errors.append(problem)
 
 
 ## A vendor NPC's goods exist; a family an NPC heads or rules test is defined.

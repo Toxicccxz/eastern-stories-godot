@@ -421,22 +421,22 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 	if here:
 		# TRANSLATORS: why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 		offered.append(InteractionOption.new("给予", _after(select, _give), "", false, "" if awake else tr("{npc}昏迷不醒，收不了东西。").format({"npc": name})))
-	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
-	var fightable: bool = not definition.dealings().is_fight_deferred()
+	# One the story will not let the player fight is never asked to 切磋; its 攻击 row stays and
+	# answers with its own line (fight_deferred; DECISIONS「不能动手的人」).
+	var spar_offered: bool = not definition.dealings().is_fight_deferred()
 	var catalog: ContentCatalog = GameContent.catalog()
-	if fightable and definition.can_speak():
+	if spar_offered and definition.can_speak():
 		var spar_refusal: String = ""
 		if catalog.zone_forbids_fighting(_player.world_location().zone_id):
 			spar_refusal = tr("这里禁止战斗。")
 		elif not awake:
 			spar_refusal = tr("%s已经无法战斗了。") % name
 		offered.append(InteractionOption.new("切磋", _after(select, actions.spar_context), "", false, spar_refusal))
-	if fightable:
-		var forbids: bool = catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(npc.world_location().zone_id)
-		var refusal: String = tr("这里不准战斗。") if forbids else ""
-		if definition.spar_only():
-			refusal = tr(WorldMapSelection.SPAR_ONLY)
-		offered.append(InteractionOption.new("攻击", _after(select, actions.attack_context), "", false, refusal))
+	var forbids: bool = catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(npc.world_location().zone_id)
+	var refusal: String = tr("这里不准战斗。") if forbids and spar_offered else ""
+	if definition.spar_only():
+		refusal = tr(WorldMapSelection.SPAR_ONLY)
+	offered.append(InteractionOption.new("攻击", _after(select, actions.attack_context), "", false, refusal))
 	if here and map.thefts.can_steal(npc):
 		offered.append(InteractionOption.new("偷窃", _after(select, actions.steal_context), SharedUiContextActions.STEAL_HINT))
 	if map.patrols.can_bribe(npc):
