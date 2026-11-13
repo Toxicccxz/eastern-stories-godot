@@ -700,6 +700,8 @@
     "native.npc.shang_jue_fighting": {"same_as": "native.npc.shang_jue"},
     "native.npc.niling_taoist_lake": {"same_as": "native.npc.niling_wind_diviner"},
     "native.npc.feng_ce_lakebottom": {"same_as": "native.npc.feng_ce"},
+    "native.npc.yulan_tianwu_lakebottom": {"same_as": "common.npc.fighter.champion"},
+    "native.npc.xiao_pichen_lakebottom": {"same_as": "common.npc.fighter.master"},
     "native.npc.elon_altar": {"same_as": "latemoon.npc.room.elon"},
     "native.npc.nan_weishui_altar": {"same_as": "native.npc.nan_weishui_guest"},
     "native.npc.xiao_pichen_altar": {"same_as": "common.npc.fighter.master"},

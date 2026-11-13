@@ -352,6 +352,8 @@ msgstr ""
 #. native.npc.shang_jue_fighting gender
 #. native.npc.niling_taoist_lake gender
 #. native.npc.feng_ce_lakebottom gender
+#. native.npc.yulan_tianwu_lakebottom gender
+#. native.npc.xiao_pichen_lakebottom gender
 #. native.npc.wutian_gui gender
 #. native.npc.wutian_gui_blazing gender
 #. native.npc.wutian_gui_grown gender
@@ -16838,6 +16840,7 @@ msgstr ""
 #. native.npc.deng_xiao inquiry topic
 #. native.npc.yulan_tianwu_wind name
 #. native.npc.yulan_tianwu_lake name
+#. native.npc.yulan_tianwu_lakebottom name
 #. native.npc.yulan_tianwu_altar name
 #. native.npc.herald_uncle name
 #: data/common/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
@@ -16851,6 +16854,7 @@ msgstr ""
 
 #. common.npc.fighter.champion title
 #. native.npc.yulan_tianwu_lake title
+#. native.npc.yulan_tianwu_lakebottom title
 #. native.npc.yulan_tianwu_altar title
 #. native.npc.herald_uncle title
 #: data/common/npcs.json data/native/npcs.json
@@ -17027,6 +17031,7 @@ msgstr ""
 #. native.npc.lan_weng inquiry topic
 #. native.npc.xiao_pichen_home name
 #. native.npc.xiao_pichen_lake name
+#. native.npc.xiao_pichen_lakebottom name
 #. native.npc.xiao_pichen_altar name
 #. native.npc.xiao_pichen_ice name
 #: data/common/npcs.json data/lancheng/npcs.json data/native/npcs.json
@@ -52623,6 +52628,7 @@ msgstr ""
 
 #. native.npc.yulan_tianwu_wind fight_deferred
 #. native.npc.yulan_tianwu_lake fight_deferred
+#. native.npc.yulan_tianwu_lakebottom fight_deferred
 #. native.npc.yulan_tianwu_altar fight_deferred
 #: data/lancheng/npcs.json data/native/npcs.json
 msgid "於兰天武看了你一眼：老夫不是来跟你打的。"
@@ -53295,7 +53301,7 @@ msgstr ""
 #: data/lancheng/world.json
 msgid ""
 "自己拔旋芒？十铃架上信你的铃够了。\n"
-"拔了，终章是你持剑；萧辟尘和皇叔不会替你。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
+"拔了，终章是你持剑；不拔，旋芒归皇叔或萧辟尘，湖畔和冰龙厅那两仗他会跟你并肩打。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.say
@@ -54929,6 +54935,7 @@ msgid ""
 msgstr ""
 
 #. native.npc.xiao_pichen_lake fight_deferred
+#. native.npc.xiao_pichen_lakebottom fight_deferred
 #. native.npc.xiao_pichen_altar fight_deferred
 #: data/native/npcs.json
 msgid "萧辟尘摇头：今夜不打你。"
@@ -55160,6 +55167,48 @@ msgstr ""
 #. native.npc.feng_ce_lakebottom fights_beside_leaves
 #: data/native/npcs.json
 msgid "冯策收了刀：「潭底下的事，老夫帮不上。老夫守着潭口。」"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom long
+#: data/native/npcs.json
+msgid ""
+"於兰天武站在你身边，旋芒横在身前，剑身上的风声压过了冰龙厅里的寒气。\n"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom summoned.arrive
+#: data/native/npcs.json
+msgid "於兰天武从冰缝里走出来，旋芒在他手里一转：三百年前於兰家拔错了一把剑——这一回，老夫替你挡着。"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom summoned.leave
+#: data/native/npcs.json
+msgid "於兰天武收了剑，退到水潭边。"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom fights_beside_leaves
+#: data/native/npcs.json
+msgid "於兰天武把旋芒插回鞘里：潭底下那一个，老夫跟你下去。"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom long
+#: data/native/npcs.json
+msgid ""
+"萧辟尘站在你身边，旋芒背在身后，两只手空着，掌心朝外。\n"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom summoned.arrive
+#: data/native/npcs.json
+msgid "萧辟尘背着旋芒从冰缝里走出来，站到你身边：风记得我。这一回，我先出手。"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom summoned.leave
+#: data/native/npcs.json
+msgid "萧辟尘收了手，退到水潭边。"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom fights_beside_leaves
+#: data/native/npcs.json
+msgid "萧辟尘把旋芒背回身后：走，下面还有一个。"
 msgstr ""
 
 #. native.npc.wutian_gui long

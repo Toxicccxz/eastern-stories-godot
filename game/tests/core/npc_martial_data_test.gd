@@ -7,11 +7,16 @@ extends RefCounted
 ##   basic level), or
 ## - has a weapon skill (sword, blade, …) and wields nothing, or wields a weapon whose skill it
 ##   does not have.
-## ES2's own NPCs are as their LPC wrote them and are not checked. One that stands bare-handed on
-## purpose goes in ALLOWED with the reason.
+## ES2's own NPCs are as their LPC wrote them and are not checked — unless they were given a
+## native skill (legacy_source native:…) or carry a native weapon (native:… item), whose data is
+## ours. One that stands bare-handed or keeps a skill unenabled on purpose goes in ALLOWED with
+## the reason.
 
 const ALLOWED: Dictionary[StringName, String] = {
 	&"native.npc.huo_zheng": "关在逆灵宫牢里的霍铮，手腕上只有铁链，没有刀",
+	# 番坊 D gave him 鬼笠刀法 100 without enabling it; enabling it changes the damage of「过他一刀」
+	# (its move adds 110 against a kee of 100): an owner decision (PR #335 待 owner 决定).
+	&"fanfang.npc.ronin_master": "早川直义的鬼笠刀法启用与否改变「过他一刀」的伤害，待 owner 定",
 }
 
 var _assertions: int = 0
@@ -29,7 +34,7 @@ func run_all() -> Dictionary[String, Variant]:
 	var mismatched: Array[String] = []
 	var checked: int = 0
 	for npc: NpcDefinition in catalog.npcs():
-		if not _native(npc) or ALLOWED.has(npc.definition_id):
+		if not _ours(npc, catalog) or ALLOWED.has(npc.definition_id):
 			continue
 		if npc.dealings() != null and npc.dealings().is_fight_deferred():
 			continue
@@ -62,8 +67,18 @@ func run_all() -> Dictionary[String, Variant]:
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
-static func _native(npc: NpcDefinition) -> bool:
-	return String(npc.definition_id).begins_with("native.") or npc.legacy_source_path.begins_with("native")
+## A native NPC, or an ES2 one given a native skill or a native weapon.
+static func _ours(npc: NpcDefinition, catalog: ContentCatalog) -> bool:
+	if String(npc.definition_id).begins_with("native.") or npc.legacy_source_path.begins_with("native"):
+		return true
+	for level: NpcSkillLevelDefinition in npc.skill_levels():
+		var skill: SkillDefinition = catalog.skill(level.skill_id)
+		if skill != null and skill.legacy_source_path.begins_with("native"):
+			return true
+	for entry: NpcLoadoutEntry in npc.loadout_entries():
+		if String(entry.item_definition_id).begins_with("native:"):
+			return true
+	return false
 
 
 func _check(ok: bool, label: String) -> void:
