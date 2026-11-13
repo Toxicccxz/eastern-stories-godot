@@ -319,6 +319,8 @@ func release_world() -> void:
 	glints = null
 	occlusion = VoxelOcclusion.new()
 	lighting.release()
+	# The next build makes a new sun (four splits by default): 画质 is applied to it again.
+	_quality_applied = -1
 	geometry = null
 	camera = null
 	if _zoom_tween != null and _zoom_tween.is_valid():

@@ -142,7 +142,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `summoned` | obj/npc/heaven_soldier.c invocation(), leave() | `{arrive, leave, color?}` (NpcSummoning): an NPC a spell calls to its caster's fight, gone when the fight ends. Never placed by a room |
 | `native` | — (new content) | `{role}`: `training_dummy` (the 武馆's 木人: it only spars) or `bounty_target` (a bounty board outlaw: not kept by a save) |
 | `flags` | object variables `create()` sets | e.g. `["has_alcohol"]` (drunk.c); rules test and set them; not saved |
-| `fight_deferred` | — | why the NPC cannot be fought yet (its mapped skills have no ported actions); no 攻击/切磋 |
+| `fight_deferred` | — | the story will not let the player fight this NPC: the line shown in the message log when the player chooses 攻击 (nothing starts); never offered 切磋 (DECISIONS「不能动手的人」) |
 | `family` | `create_family(name, generation, title)` | `{name, generation, title}`; the name must be in `families.json`; privileges -1; generation 0 is a founder's (瑷伦) |
 | `f_master` | `inherit F_MASTER` | `true`: std/char/master.c prevent_learn() limits what it teaches |
 | `recognize_apprentice` | the NPC's own `recognize_apprentice()` | ordered rules `{family?, giver_mark?, say?, emote?, fail?, accept}`; `fail` replaces learn.c's polite refusal. Hand-written in `set` |

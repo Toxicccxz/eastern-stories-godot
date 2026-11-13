@@ -30,6 +30,11 @@ after changing player text; `verify.py` step 1 fails while the committed templat
 date. Godot's own POT generation is not used: it misses `TranslationServer.translate()`,
 const tables and the JSON content, and cannot run from the command line.
 
+A new text key in the data must be taught to the extractor: `tools/tests/test_extract_pot.py`
+(`CompletenessTest`) fails on any string with Chinese text anywhere in `game/data` that is not
+in the template, unless its key is listed there in `NOT_SHOWN` (marks, temps, ids, comments,
+name parts). Developer output (`push_error`, `push_warning`, `print`…) is never extracted.
+
 ## The pseudo-locale check
 
 `snow_main_path_pseudo_test` plays Snow's main path, switches to a test language built from

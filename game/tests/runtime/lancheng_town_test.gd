@@ -171,7 +171,10 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(weng != null and _said(hall.ask_selected("萧辟尘"), "回得来"), "岚翁 on 萧辟尘, the bell carried: 他还回得来")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"elder") or StoryQuestLog.current_step(state, quest) == null or StoryQuestLog.current_step(state, quest).step_id != &"elder", "the elder step done")
-	_check(weng != null and weng.definition().dealings().is_fight_deferred() and weng.definition().dealings().fight_deferred.contains("按了回去"), "岚翁 cannot be fought: a wind holds the hand back")
+	# DECISIONS「不能动手的人」: 攻击 on him shows his line, and nothing starts.
+	var shown_before: int = ui.log_lines().size()
+	var attacked: CombatSliceInitiationResult = hall.attack_selected() if weng != null else null
+	_check(attacked != null and attacked.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not session.combat_encounter_coordinator().has_active_encounter() and _said(ui.log_lines().slice(shown_before), "按了回去"), "岚翁 cannot be fought: 攻击 shows a wind holding the hand back")
 	# 章与章之间的衔接: what this package played out holds what C's fixture writes.
 	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_asked.bind("deal", false, true, false))
 	_check(handoff.is_empty(), "第十章 B played leaves what chapter10_asked writes: %s" % [handoff])

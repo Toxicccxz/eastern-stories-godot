@@ -192,12 +192,15 @@ func refresh_live_state() -> void:
 	_ui.inspect_button.disabled = (
 		not target_available and not landmark_available and not corpse_available
 	)
-	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
-	var fightable: bool = target_available and not selected_target.definition().dealings().is_fight_deferred()
-	# A2's 木人 only spar.
-	_ui.attack_button.disabled = not fightable or not player_available or selected_target.definition().spar_only()
-	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
-	_ui.spar_button.disabled = not fightable or not player_available or not selected_target.definition().can_speak()
+	# A2's 木人 only spar. 攻击 on one the story will not let the player fight stays pressable:
+	# it answers with that one's own line (fight_deferred; DECISIONS「不能动手的人」).
+	_ui.attack_button.disabled = not target_available or not player_available or selected_target.definition().spar_only()
+	# fight.c: a speaking character is asked; beasts are not (see DECISIONS); never one the story
+	# will not let the player fight.
+	_ui.spar_button.disabled = (
+		not target_available or not player_available or not selected_target.definition().can_speak()
+		or selected_target.definition().dealings().is_fight_deferred()
+	)
 	# ask.c: the same speakers, who must be here (present()).
 	_ui.ask_button.disabled = not player_available or not selected_npc_askable()
 	_ui.open_loot_button.disabled = (
