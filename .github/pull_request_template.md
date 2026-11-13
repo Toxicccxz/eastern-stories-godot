@@ -1,15 +1,22 @@
-## Scope
+## 做了什么
 
-- Major phase:
-- Phase branch:
-- What changed within this integration milestone?
+<!-- The package and what changed, in the player's terms first. -->
 
-## Verification
+## 读过的 LPC
 
-- [ ] Local formal audit is complete.
-- [ ] Focused tests and the required complete local suite pass.
-- [ ] Godot headless validation passes.
-- [ ] Required live runtime validation used the actual game/input path, or was not applicable.
-- [ ] `reference/es2` is unchanged.
-- [ ] `DECISIONS.md` was updated only if a real gameplay compatibility decision required it.
-- [ ] This final PR commit is ready for all four cross-platform CI gates.
+<!-- reference/es2 files consulted (or "none: native content / no ES2 behaviour"). -->
+
+## 跑过的测试
+
+<!-- Suites run, verify.py result, what was checked live in a window and what was not. -->
+
+## 给 owner 试玩的 3–5 件事
+
+1.
+2.
+3.
+
+## 待决定 / 偏离
+
+<!-- Questions for the owner, each with the player-visible situation first and a recommendation;
+     ES2 changes recorded in DECISIONS.md (AGENTS.md「Changing ES2」). Write 「无」 if none. -->

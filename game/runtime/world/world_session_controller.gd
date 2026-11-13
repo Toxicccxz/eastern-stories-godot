@@ -769,7 +769,7 @@ func day_phase_id() -> StringName:
 	return &"" if phase == null else phase.phase_id
 
 
-## Native (关北 C; DECISIONS「等到天黑」): the player waits until the next of `phase_ids` begins
+## Native (关北 C; DECISIONS「关北 C」): the player waits until the next of `phase_ids` begins
 ## (an act's `until_phase`: the 篝火's 等到天黑). The world clock goes forward by that much as one
 ## stretch: the day (its phase begun told), the sky, the player's own recovery and timed applies,
 ## rooms' resets, hazards and hidden passages, the time every other map is owed (别的地图时间补算,

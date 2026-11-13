@@ -39,7 +39,7 @@ and a trailing string in a row, is a comment.
 **Look boxes.** A fill row may end with `{"look": {"kind": ..., ...}}`: furniture and anything
 else that blocks. Its box is painted with the row's kind (`blocked` in every layout) and the painter writes a `Furnishings/FurnishingNN`
 `Node2D` at the box's centre with `metadata/look` and `metadata/footprint`; the voxel view draws
-the thing from those nodes only ([CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md#regions-maps),
+the thing from those nodes only ([CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md),
 AGENTS.md「Maps and art」). An interior's `props` rows (sizes in bodies) become such fill rows;
 a look anywhere else is an error.
 

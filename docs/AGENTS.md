@@ -4,8 +4,8 @@ Supplements the root `AGENTS.md` for everything under `docs/`.
 
 * `docs/production/` holds current, long-lived documents: `STATUS.md` (one page, overwritten),
   `ROADMAP.md` (forward plan only), `BUILD.md`, `REPOSITORY_POLICY.md`, `GODOT_AI_DEVELOPMENT.md`,
-  `LICENSE_PROVENANCE.md`, `LOCALIZATION.md`, `WORLD_RELATIONS.md` (factions, people and story
-  chains in the game data) and `contracts/`. `PROJECT_SCOPE.md` is retired (a pointer to STATUS
+  `LICENSE_PROVENANCE.md`, `LOCALIZATION.md`, `WORLD_RELATIONS.md` (the ES2 layer's factions,
+  people and story chains, frozen 2026-10-25; the canon is `docs/design/剧情总纲.md`) and `contracts/`. `PROJECT_SCOPE.md` is retired (a pointer to STATUS
   and ROADMAP); do not revive it.
 * `docs/design/` holds the owner's design documents, e.g. `美术规划.md` (the voxel art standard
   per region, kept current with AGENTS.md「Maps and art」).

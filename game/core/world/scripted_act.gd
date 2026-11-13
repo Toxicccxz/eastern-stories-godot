@@ -76,7 +76,7 @@ extends RefCounted
 ## - `unfollow` (native, 主线 第四章): the act's NPC stops following the player (its
 ##   follows_player flag cleared: 芳绫 after her dance in the 密室) and stays where it stands,
 ##   to go home when its room resets, as any NPC away from home does;
-## - `until_phase` (a list of day phases; native, 关北 C, DECISIONS「关北 C」「等到天黑」): the world
+## - `until_phase` (a list of day phases; native, 关北 C, DECISIONS「关北 C」): the world
 ##   clock is put forward to the start of the next of those phases (the 篝火's 等到天黑), every map
 ##   owing that time as if the player had been away (别的地图时间补算), the player's own map and
 ##   their recovery caught up too; nothing when the day is in one of them already. Branches may

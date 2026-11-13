@@ -16,8 +16,8 @@ What is built now, what waits for the owner's playtest and what is next is in [S
 ## Region plan
 
 Every region below is playable: its rooms, NPCs, shops, family, martial arts and quest targets.
-The table is the coverage count and why the rest is not placed; its order is the order the voxel
-view goes through the regions.
+The table is the coverage count and why the rest is not placed; rows 0–13 are ES2's regions,
+14–18 the native ones (剧情总纲 §6).
 
 | # | Region (source) | Way in | Rooms | NPC types | Families | Martial arts | Quest targets | Not placed, and why |
 |---|---|---|---|---|---|---|---|---|
@@ -36,9 +36,12 @@ view goes through the regions.
 | 12 | 京师 (`d/city`, `u/cp`) | 玉螺湖村 south | 55/55 | 21/27 | 振远镖局's head office | 20/20 | 0/0 | The six NPC files placed by no room; the five outer gates stay shut (as ES2). |
 | 12b | 黑松山 (`d/chuenyu`), repaired | 黄土大道's spur west (玉螺湖村) | 32/37 | 14/23 | — | 7/7 | 0/0 | The copy of 刘家 (ES2 cut it off; it lives in 玉螺湖村); npc/xiaojuan.c is a copy placed by no room. |
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | block.c and jail.c (wizard rooms), spath1.c (no way in). |
-| 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 25 native | 36 | — | — | — | Done in four packages (`build/plans/关北_计划.md`, DECISIONS「关北 A」–「关北 D」). |
-| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 19 native | 19 | — | — | — | A–D done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」–「番坊 D」): the region is complete. |
-| | **Total** | | **536/551** | **239/286** | **9/9** | **33/36** special, **22/26** basic | **84/84** | |
+| 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 25 native | 32 | — | — | — | Done in four packages (`build/plans/关北_计划.md`, DECISIONS「关北 A」–「关北 D」). |
+| 15 | 番坊 (native, 剧情总纲 §6) | the south end of the path outside 忘情谷 (玉螺湖村) | 19 native | 23 | 3 铁盾会, 鬼笠馆, 日陀罗寺 | — | — | A–D done (`build/plans/番坊_计划.md`, DECISIONS「番坊 A」–「番坊 D」). |
+| 16 | 逆灵宫 (native, 剧情总纲 §6) | the crack above 野羊山's mountain-road turn | 17 native | 17 | — | — | — | A–D done (`build/plans/逆灵宫_计划.md`, DECISIONS「逆灵宫 A」–「逆灵宫 D」). |
+| 17 | 皇城 (native, 剧情总纲 §6) | the 铁门 north of 京师's 午门 | 21 native | 28 | — | — | — | 第九章 A–E done (`build/plans/第九章_计划.md`, DECISIONS「第九章 A」–「第九章 E」). |
+| 18 | 岚城 (native, 剧情总纲 §6) | the upper way in the mirror of 天驼关's stone forest | 18 native | 10 | — | — | — | 第十章 A–C done (`build/plans/第十章_计划.md`, DECISIONS「第十章 A」–「第十章 C」). |
+| | **Total** (ES2 rows) | | **536/551** | **239/286** | **9/9** | **33/36** special, **26/26** basic | **84/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
 
@@ -49,8 +52,9 @@ How the columns count (`reference/es2/mudlib`, 2026-10-04):
   regions shows in each row and once in the total. Basic skills (unarmed, sword, blade, parry,
   dodge, force, literate, magic, spells, staff, throwing, …) are counted apart. Totals recounted
   2026-10-17 from `common/skills.json` against the placed NPCs' `set_skill()`/`map_skill()`
-  (basic now 26 with 鬼门关's fork; axe, dagger, fork and hammer have no skill definition yet,
-  though NPCs carry their levels).
+  (basic 26 with 鬼门关's fork; axe, dagger, fork and hammer were defined in DECISIONS「审查收尾」).
+* **Native rows**: rooms are the region's zones in `game/data/<region>/world.json`, NPC types the
+  definitions in its `npcs.json`; map counts are in [STATUS](STATUS.md#已实现) only.
 * **Quest targets**: distinct names in `quest/qlist*.c` that live in the region (84 names, 220
   live entries over 15 combat_exp tiers; 33 more are commented out); one counts once an NPC of that name is placed and can be
   fought, so 朱鸿雪 can give it. `tests/fixtures/quest_targets.json` is the list (the total counts
@@ -58,8 +62,8 @@ How the columns count (`reference/es2/mudlib`, 2026-10-04):
   it with `UPDATE_QUEST_TARGETS=1`.
 
 Not planned (owner may revisit): `d/graveyard` (2 rooms, no way in); `d/wiz` (wizard
-rooms); the four class masters no room places (月牙神教, 日陀罗寺, 逍遥派, 鬼笠馆浪人) and the ten arts
-only they or nobody use; `d/npc` (wizard-saved characters).
+rooms); the two class masters no room places (月牙神教, 逍遥派; 日陀罗寺's and 鬼笠馆浪人's
+stand in 番坊, DECISIONS「番坊 D」) and the arts only they or nobody use; `d/npc` (wizard-saved characters).
 
 ## Alongside the regions
 
@@ -76,116 +80,45 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   door. New content is drawn the same way. Every map also gets its voxel view, dressed to the
   richness standard (AGENTS.md「Maps and art」); furniture is a blocked box with a `look` in the
   layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
-* **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
-* **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇, 水烟阁, 青石村,
-  茅山 灵心观, 晚月庄, 泓水南岸 + 山烟寺, 乔阴县城, 天驼关, 关北, 逆灵宫, 玉螺湖村, 京师, 黑松山, 阴间 and 番坊 A–B: every map (151); 雪亭镇's facades
-  are detailed too (`voxel_facade.gd`: age, windows, eaves, each shop's own mark). Desktop frame rate is the bar (DECISIONS「手机端暂停」).
+* **Presentation**: the voxel maps, characters and animation, audio, consistent Chinese UI.
+* **Voxel maps** (owner, 2026-10-22): every map of every region has its voxel view, and a new map gets
+  one in its own package (the counts are in STATUS's region table). Desktop frame rate is the bar
+  (DECISIONS「手机端暂停」).
 
 ## After the grey box
 
-Owner direction (2026-10-11). Every region in the table is playable, so the work turns from breadth
-to the player's experience, in this order; the voxel rollout above runs alongside. **Owner
-decision:** the owner has no time to playtest package by package, so the playtest acceptance that
-`AGENTS.md` requires for player-visible work is batched: packages ship with the agent's windowed
-walkthrough as their live check and are accepted together at step 1, the owner's one full playtest;
-what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS.md#待试玩).
+Owner direction (2026-10-11): every region in the table is playable, so the work turns from breadth
+to the player's experience; the steps below are the plan, not a fixed order — the owner approves each
+package as it comes. **Owner decision:** the owner has no time to playtest package by package, so the
+playtest acceptance that `AGENTS.md` requires for player-visible work is batched: packages ship with
+the agent's windowed walkthrough as their live check and are accepted together at step 1, the
+owner's one full playtest. The owner has deferred that playtest since (each later package was
+approved ahead of it); it has not happened yet. What waits for it is listed in
+[STATUS](STATUS.md#待试玩).
 
-1. **Playtest checklist and the owner's first full playtest.** Claude first walks every region
-   windowed and fixes what that finds, then writes the checklist: per region and system, what to
-   do, what should happen, and what only the owner can judge (feel, pacing, wording), with fields
-   for time taken, confusion and defects; dev launchers reach late content without grinding. The
-   owner works through it once.
-2. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the decision left for the
-   playtest: A2's quest deadlines ([STATUS](STATUS.md#待决定)).
-   **战斗决策层** comes before 现代基线三件 (owner 2026-10-31; the plan `build/plans/战斗决策层_计划.md`): 1A 数值 is done
-   (DECISIONS「战斗数值」: the Elo-shaped hit curve, the defender's discount, the bounded experience defense, the 战前预判, the first two
-   hours' enemies by tier); 1B 决策 is done (DECISIONS「战斗决策」: the round that waits for the player, the move chosen with 快 / 重 / 虚 /
-   守 and their counters, the enemy's next move shown, the three stances, specials telegraphed and cooled down); 包 2 界面 and 包 3 演出
-   are done (DECISIONS「战斗界面」「战斗演出」: the cards, the short lines, the move titles, floats, shakes, falls and the 胜 / 败 stamp);
-   包 4 内容 is done (DECISIONS「战斗内容」: every school's moves tagged, the NPCs' fight styles and the specials' rest, 识招 and the
-   见识录, the courage draw shown as 守势, the first two hours' fights measured again). The decision layer is complete; what is left is
-   the owner's playtest (STATUS 待试玩).
-   **战斗拍数** (owner 2026-11-05; the plan `build/plans/战斗拍数_计划.md`): 包 A the kernel and the NPC side is done (DECISIONS「战斗拍数」:
-   a round as a string of beats, the beats won by a school's skeleton, the NPC's beat plan, 封山剑法 and 柳家拳); 包 B the player's side
-   and the panel is done (DECISIONS「战斗拍数 B」: one beat chosen, one beat resolved; 收势; 拍不够; the beat chips; the plan's stamps and the
-   打法词; the grouped move row); 包 C the fight in the scene with sound is done (DECISIONS「战斗拍数 C」: the hit-stop, the step, the lean
-   and the flash on the voxel figures by the move's tag and the ring's verdict, the pauses between beats, seven project-made sounds rationed
-   by weight, the 总音量 setting; a perform's own busy counted into its beats, NPC chat() specials charged); 包 D 先见后知 and the guides is done
-   (DECISIONS「战斗拍数 D」: the town's hearsay on each school, the doctor reading a wound, the guides' 请教打法 and 拆招 — three harmless rounds with
-   a word as each begins and one verdict after — the 见识录 grown only from what was met, 拜师 greyed with what is short and the school's row on
-   the master's page once its lesson was taken). Next the gate (the plan's behaviour and pace standards, in the owner's playtest); the other
-   schools' guides follow one small package each, on the same data.
-   **现代基线三件** (owner 2026-10-28; `build/plans/现代基线_提示词.md`, order A → C → B): A is done (DECISIONS「存档位」「自动存档」
-   「减轻死亡」: three manual slots and a rolling autosave written on a worker, a Load in play, death at 3% experience with the corpse
-   waiting and a way back to the autosave); C is done (DECISIONS「数值用到才出现」: 法力, 灵力, 杀气 and 加力 appear when used, a line
-   for every number, the keys and the pad read every hover); B is done (DECISIONS「总图」: the 地图 page, voxel land with real miniatures and
-   roads worn into it, marks, 指路 along walked roads), and the coach stops after it (DECISIONS「车马行」: twelve carts, picked on the
-   沙盘, a small fare and the road's time).
-3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md).** The canon (three creative baselines, the
-   false tomb, timeline, politics, geography), the main story (prologue, ten chapters, finale), the
-   twelve faction lines, the five new regions and the style guide are that one document; its §9
-   holds the three questions the owner answers. [WORLD_RELATIONS](WORLD_RELATIONS.md) stays its
-   inventory.
-4. **Quest and reputation systems**, in the order 剧情总纲 §8 gives: quest data with steps,
-   conditions, branches, mutual exclusion and rewards; map markers (on the 总图); a deed record that
-   reputation, titles and the ending grow from; per-faction standing (the menu's 声望 tab is its
-   placeholder). Done so far (DECISIONS「任务系统」): the quest data and ledger, the 任务 page's four
-   columns, the marker on the current map (the 总图 reads the same route), the thinnest deed record,
-   and 寻剑令's first half as the sample; then (DECISIONS「剧情演出」) the prologue's second half (the pass scene: the player stands,
-   the camera follows the speakers) and chapter one 伪墓 on 老松岭, with the stage (NPCs and items by quest state), the keep's parley
-   and the burial as mechanisms every later chapter reuses; chapter two 旧案 (绮云镇 + 水烟阁: the letter, the 镖单, the two
-   inscriptions, 南危水, 潘军禅, the choice) on data alone; chapter three's entrance (主线 C: 刘安禄 spared or 黄霸 telling of the
-   tribute, the cart and its escort under the crack at 野羊山's turn, the quest stopping at 「逆灵宫就在裂口上头」); then the new
-   regions in chapter order (逆灵宫 first, from that crack; 皇城 and 岚城 last). 逆灵宫 (the plan `build/plans/逆灵宫_计划.md`, owner
-   2026-10-29): A done (DECISIONS「逆灵宫 A」: the crack's top and the gate, the three ways up — under the oil-cloth, the escort beaten,
-   黄霸's 黑冠 — the 道士 taking the crowned player for their own); B done (DECISIONS「逆灵宫 B」: the 前殿, 丹房 and 账房, the ledger and
-   the 兵部 papers read, the dungeon with 霍铮, 石头 and the 关北 men behind iron doors that want a key, the chapter waiting at the
-   后殿); C done (DECISIONS「逆灵宫 C」: the 唤首 scene with the headless shade, the 鬼卒, the keyed jailer, the one-or-the-other
-   choice — the rescue home to the 土地庙 and 黄霸's yield, or the chase to the cliff and 玄冥子's 残卷 — the chapter done either way);
-   D done (DECISIONS「逆灵宫 D」: the turn's bandits let the rescuer be under the parley, 刘安禄 back to the stockade, the 农妇 with
-   her son, 黄霸 grown after the chase, 玄冥子's 六阴剑 hook) — the region is complete. 剧情总纲 §8 第 5 步 (the chapters in existing
-   regions) has begun: chapter four 宝衣 on 晚月庄 is done (DECISIONS「第四章 宝衣」: 瑷伦's lashes for anyone, the 冰匣 danced open, the
-   three-way end and the night after; the plan `build/plans/第四五章_计划.md`); chapter five 人证 on 乔阴 is done (DECISIONS「第五章 人证」:
-   the drum opens the 衙门大门, 程不平 wants a witness, 陈显祖 the deserter escorted through 庾家's men or released, the trial either way
-   and his letter to 槐阳王). 第 4 步 goes on in 关北 (the plan `build/plans/关北_计划.md`, owner 2026-10-30): A done (DECISIONS「关北 A」: the
-   印鉴 chain read anew at 天驼关 — 严廷殷's letter, 赫造基's mould, the 后备兵 on the 印色, the mould compared with the 兵部 papers; the gate in
-   the valley's east wall with its four ways past the soldiers; the 关外山道, 槐阳城's gate, street and the 王府's front, the 马市 with 卢卡, the
-   塞外酒肆 with 老秦; the chapter waiting at the 王府's door); B done (DECISIONS「关北 B」: the 王府大门 knocked open with the letter, 程朔 and
-   his hall, 南危水 home beside his brother on the 保密 ledger with the reunion scene, the choice 借兵／潜入 with 郭承 following); C done (DECISIONS「关北 C」:
-   the camp, the steppe, the 工地 and the 古冢口; the raid with the 王府's riders fighting beside the player and every 枷 opened, or the night's sneak after
-   等到天黑 with four freed and the watch down; `phase`, `until_phase`, `fights_beside_player`); D done (DECISIONS「关北 D」: the two roads'
-   consequences at the gate, the hall, the camp and the steppe; 《马刀谱》 and 关北马刀; the seventh chapter's stub). 第 4 步's second region is
-   done. 第七章 番坊 (the plan `build/plans/番坊_计划.md`, owner 2026-11-04「按推荐，开工 A」: the sea south-west of 玉螺湖村,
-   the fire's three questions on the player's own deeds, siding with the 浪人 costs dear): A done (DECISIONS「番坊 A」: the path outside
-   忘情谷 on south down the 海崖道 with the sea far below, the port with its jetties and others' boats, the bazaar's four 胡商 stalls,
-   the 市舶司 and the 兵部's order to clear the 大秦人 — false to one who learned the 印色 — 卢卡 at 铁盾会's gate, the chapter at that
-   gate); B done (DECISIONS「番坊 B」「火前问话」: 铁盾会's sanded yard and 安敦's hut, the tablet's tale and the side taken, the 拜火祠's
-   fire of three hundred years and the 火前问话 — three questions on the player's own deeds, answered from the ledger, a lie costing the
-   day — the 铜牒 in hand, 日陀罗寺 with 龙若法王 under the banyan; the generic `questions` act step and `ConfirmPrompt.ask_choices`); C done
-   (DECISIONS「番坊 C」: 鬼笠馆 through the temple's south door, 早川 from ronin/master.c and his one blow as a story trial; the 争地 — 冯禄
-   and his four hired 浪人 inside 铁盾会's gate, the 印模 held to the paper or a fight with three swordsmen beside the player; the wait for
-   dark on the boards and the 黑影 at the altar with the tablet, the 大秦人 cleared to the quay on the 浪人's side; the tablet read, the
-   chapter's milestone, the eighth chapter's stub); D done (DECISIONS「番坊 D」: the three masters and their families — 安敦's shield and
-   铁盾剑法 that wants it on the arm, 早川's 倭刀 and 鬼笠刀法 with its 一刀, 龙若法王 after 剃度 — the two data learn rules
-   `requires_armor_type` / `forbids_marks` and `accept_marks`, 卢卡 as a companion on 跟我走, the fisherman's 水怪 growing worse).
-   The seventh chapter and the 番坊 region are complete. 第八章 湖底封物 (the plan `build/plans/第八章_计划.md`, owner
-   2026-11-06「按推荐，开工 A」: the burnt village shown on stage, the cave cold but passable without the robe, 卢卡 stays
-   ashore): A done (DECISIONS「第八章 A」「寒气」「冰龙守者」: the dive, the 玄冰岩洞's cold held off with 内力 or spared by
-   the 寒於宝衣, the 冰壁刻字, the six dragons as guardians, the pool down to the new 冰下封坛 with the black altar, the head,
-   the hilt and 璃虹 in her pillar, 商玦 come down to urge the sword, the 铜牒 recited to her for the 封法, the choice — pull
-   or keep — ending the chapter either way, the ninth chapter's stub); B done (DECISIONS「第八章 B」「舞台道具」: the night after
-   the sword — 璃虹 ashore to 田老财's 东房, the fishermen gone and one dead on the shore, 等到天黑 at the lakeside and three bands
-   of 鬼卒 up out of the lake as night falls, the dawn with half the village burnt by stage props — the charred roof, the burnt
-   boats and willows — the farm wife's 你拔的？, 卢卡 stopping at the shore and taking up his sword by night; the generic stage-prop
-   mechanism and the stage re-judged as the day's phase turns). The eighth chapter is complete. The ninth 原令 (皇城, a new region
-   `imperial`, 剧情总纲 §3 第九章, §6 皇城卡) by `build/plans/第九章_计划.md` (owner 2026-11-06「按你的推荐来」: the 三器 back to
-   穿灵、旋芒、宝衣; light stealth as a generic `watch`; a strict three-way choice), five packages: A done (DECISIONS「第九章 A」:
-   the 午门's 铁门, the 武举 at the 校武场 and the 殿试, 骆云舟's card, 相国府 and the 早朝; the 皇城's first three maps); B done (DECISIONS「第九章 B」「禁军夜巡」: the generic `watch` stealth, the
-   cellar's stone, the tunnel, the 冷宫 well and 钟嬷嬷, the 御花园, the 西长街, the 侍卫营); C done (DECISIONS「第九章 C」: the
-   养心殿 and the 御书房, the two decrees compared, the woodcutter's page; the 尚书府's three blanks, 庾清尘 and the 障眼符); D done (DECISIONS「第九章 D」: 揭发 with
-   enough proofs, the drawn blade and 冯策 beside, 私了 by the brazier, the 手诏 to 於兰天武); E done (DECISIONS「第九章 E」: who leaves the 尚书府 and where they go, 卫沧澜 back at the 水烟阁, 宋朴 at the 午门, 冯策's 《禁中刀谱》, the tenth chapter's stub). The ninth chapter is complete. The tenth 旋芒 (岚城, a new region `lancheng`, 剧情总纲 §3 第十章, §6 岚城卡) by `build/plans/第十章_计划.md` (owner 2026-11-07「继续做」: Q1 ten bells of trust, five to draw it oneself; Q2 one of three calms drawn each time one comes in; Q3 the bell is 萧辟尘's and the wind brings the drawer — all 默认), three packages: A done (DECISIONS「第十章 A」「风」: the mirror's upper way, the 幻影道, the 寻风地带 with the generic guiding wind `winds`, the 卜风坛 and the 兵部旧营, 伏地 where the wind stops, the 石匣's bell); B done (DECISIONS「第十章 B」: the 白石街 and the 风铃阁, 伏地 into the town and 出城 back to the calm, the town's people, the ten bells of trust lit by the first nine chapters' choices, 岚翁); C done (DECISIONS「第十章 C」「拿走」: the 云台, who draws 旋芒 — oneself with five bells and 岚翁's 接风三刃, the 皇叔 come back to court or 萧辟尘 with his bell, each brought by the wind — 乘风 back to the mirror, 宋朴 there on the deal's ledger, the finale's stub). The tenth chapter is complete. The finale 回到湖底 by `build/plans/终章_计划.md` (owner 2026-11-08「按推荐的做」: Q1 the three 器 and three bands of help to slay it; Q2 璃虹 stays only with her feather, oneself the hidden keeper; Q3 the world goes on after the credits, a 决战前 save kept), three packages: A done (DECISIONS「终章 A」「任务清单」「步骤条件」「决战前存档」: the 点将 at the lakeside), B done (DECISIONS「终章 B」: the 冰龙厅, the 封坛, 侮天鬼, 灭 or 再封), C done (DECISIONS「终章 C」「结局讲述」: the 宣诏 at the 雪亭 square, the ending told place by place over the 沙盘, 店小二's last line, the player who stayed back to the main menu). **The main story is complete from the prologue to the finale.** Next: the faction lines (剧情总纲 §8 第 6 步) and the owner's unified playtest.
-5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
-   then audio.
+1. **Playtest preparation and the owner's first full playtest.** First the preparation package: the
+   checklist grouped by the main story's route (per chapter and system: what to do, what should
+   happen, what only the owner can judge — feel, pacing, wording — with fields for time taken,
+   confusion and defects), dev launchers that start at chapter N with the story state and experience
+   of that chapter, and a tagged build that stays fixed while the owner plays (a world revision bump
+   breaks saves). Then the owner works through it once.
+2. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the decisions left for the
+   playtest ([STATUS](STATUS.md#待决定)). The growth curve comes with it: a plan with simulated numbers
+   for the time 请教 and 打坐 take, a repeatable source of experience after about 22,000, each
+   chapter's 历练 and the player's 气 that does not grow (whole-project review「数值曲线与成长节奏」).
+3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md)** (done): the canon, the main story (prologue,
+   ten chapters, finale), the twelve faction lines, the five new regions and the style guide.
+   [WORLD_RELATIONS](WORLD_RELATIONS.md) is the frozen inventory of the ES2 layer.
+4. **Quest and reputation systems, then the stories**, in the order 剧情总纲 §8 gives. The quest
+   system, the main story from the prologue to the finale and the five native regions are done
+   (STATUS). Next: the faction lines' first batch (`build/plans/势力线第一批_计划.md`, owner
+   2026-11-09): 封山 A and B are done; 天邪 A／B, 逆灵宫 A／B／C, 东方神教 A／B and 虹台大会 A／B
+   follow, then the later batches of 剧情总纲 §4.
+5. **Characters and animation.** Character looks and portraits are done for everyone with a face
+   (DECISIONS「人物外观」). Animation and effects come in seven packages (owner 2026-11-12), the first
+   (DECISIONS「战斗肢体」) done; the rest (blade light and impact, specials and school colours,
+   inner-power and spell states, …) wait for the owner's look at the first. Then audio (today only
+   13 project-made battle sounds, no music).
 
 Waiting for the owner, not scheduled: the rest of the 2026-10-19 presentation list (odds bands, a
 spar record, a 江湖履历, 正邪 jobs).

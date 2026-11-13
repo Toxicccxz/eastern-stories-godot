@@ -125,14 +125,11 @@ injects absolute custom-template paths only into the temporary staging preset.
 
 ## Runtime save storage
 
-The production Runtime Host uses one fixed release slot at
-`user://save-data/release/default-v1.json`. Development and isolated test profiles use separate child
-directories. A Save verifies a temporary file before replacement and retains the prior canonical file as
-`.bak`; Load reports a valid recovery candidate but does not automatically select it. The canonical
-ApplicationShell starts at Main Menu with no Session. Continue re-reads the canonical slot; Save is
-an explicit Pause-menu action. Recovery requires the player to select BACKUP or TEMP and does not
-promote files. See the [native Save/Load contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md) and
-[Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md).
+Release saves live under `user://save-data/release/` (three manual slots, the autosave and the
+「决战前」 keep save); development and isolated test profiles use separate child directories. The
+files, the write and recovery rules and Load in play are in the
+[native Save/Load contract](contracts/NATIVE_SAVE_LOAD_CONTRACT.md#repository-and-transaction-guarantees);
+the menu side is the [Application Shell contract](contracts/APPLICATION_SHELL_CONTRACT.md).
 
 Mobile background/focus loss causes **zero new Save requests**. An already-requested manual Save
 may finish through the normal transaction; lifecycle does not cancel, duplicate or retry it. Same-

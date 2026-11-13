@@ -55,7 +55,8 @@ leaves the Host empty, with no New Game fallback. Host operations are serialized
 Return to Main Menu always confirms possible loss of progress; there is no dirty-state detector.
 The paused Host detaches the exact Session, clears its pointer, and queues the graph for freeing.
 Only after typed completion and an empty Host invariant may the Shell unpause, re-inspect, and show
-Menu. There is no alternate Old Pine Reset/reload path or in-game Load UI.
+Menu. There is no alternate Old Pine Reset/reload path; a Load in play (the system page) goes through the
+save contract's A/B transaction, not through this path.
 
 ## Pause, Save, and recovery
 
@@ -74,13 +75,13 @@ recovered gameplay state canonical. Controls never receive file-operation author
 
 ## Independent application settings
 
-ApplicationSettingsSnapshot v9 owns the window mode (窗口 / 无边框窗口 / 全屏), the 分辨率 and the
-monitor (added in v9), the 界面缩放 (100/125/150%), the language and the battle settings (战斗速度,
-受击闪红, and 击倒后, added in v5), plus the later switches.
+ApplicationSettingsSnapshot owns every application setting (window mode, resolution and monitor, UI
+scale, language, the battle, display, sound, quality and pause switches); its schema version and the
+list of settings are the comments and fields of `application_settings_snapshot.gd`, not this page.
 ApplicationSettingsRepository validates ConfigFile data at `user://settings/application-v1.cfg`: the
-application section, integer schema_version, and exactly the keys of that version; versions 1–8 still
-read (a missing setting reads as its default, 击倒后 as 询问; a pre-v4 "fullscreen" was the borderless
-kind and reads as 无边框窗口). At 分辨率 自动 a desktop window opens at the largest of 1920x1080 / 1600x900 / 1280x720
+application section, integer schema_version, and exactly the keys of that version; older versions
+still read (a missing setting reads as its default; a pre-v4 "fullscreen" was the borderless kind and
+reads as 无边框窗口). At 分辨率 自动 a desktop window opens at the largest of 1920x1080 / 1600x900 / 1280x720
 within 85% of the screen. This is not GameSaveSnapshot, not a save-data profile, and not gameplay
 recovery. Settings and gameplay have independent schema, paths, failures, and authority.
 
@@ -120,4 +121,5 @@ without replacing Shell or Host authority. Physical-device qualification and sto
 packaging/signing are not implied. The language setting (跟随系统 or a language from
 `game/locale/languages.json`, matched by `LanguageResolver`) is described in
 [LOCALIZATION](../LOCALIZATION.md); only Simplified Chinese ships. Slots, the autosave and a Load in play are in the
-[save contract](NATIVE_SAVE_LOAD_CONTRACT.md#repository-and-transaction-guarantees). Dirty tracking, cloud saves, remapping, and audio/quality settings are not provided.
+[save contract](NATIVE_SAVE_LOAD_CONTRACT.md#repository-and-transaction-guarantees). Dirty tracking, cloud saves and key remapping are not provided (the keys are listed read-only in
+the settings, DECISIONS「按键」).
