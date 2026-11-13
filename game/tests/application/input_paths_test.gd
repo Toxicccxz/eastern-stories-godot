@@ -135,6 +135,20 @@ func _test_pause_in_dialogue(tree: SceneTree, shell: ApplicationShellController)
 	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and box.line() == "第二句话。", "and back")
 	box.close()
 	await _frames(tree, 2)
+	# A conversation the box hosts (打听's topics) is still left with Esc, not paused over.
+	var topics := VBoxContainer.new()
+	var topic := Button.new()
+	topic.text = "近况"
+	topics.add_child(topic)
+	box.host("说书人", topics)
+	await _frames(tree, 2)
+	topic.grab_focus()
+	_check(box.is_open() and box.hosting(), "the box hosts the topics")
+	await _key(tree, KEY_ESCAPE)
+	await _frames(tree, 2)
+	_check(not box.is_open() and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "Esc leaves the conversation (告辞), no pause")
+	topics.queue_free()
+	await _frames(tree, 2)
 
 
 ## Esc during a scripted scene: 系统 over it, saving still not offered; the scene stands still
@@ -280,6 +294,14 @@ func _test_key_page(tree: SceneTree, shell: ApplicationShellController) -> void:
 	_check(not page.visible and shell.shell_state().mode() == ApplicationShellState.Mode.SETTINGS and tree.root.gui_get_focus_owner() == shell.keys_button, "B: back to 设置, on 按键一览")
 	await _key(tree, KEY_ENTER)
 	_check(page.visible, "Enter opens it")
+	# Away to another window and back: the page keeps the focus (设置 under it is hidden).
+	shell.lifecycle_adapter().set_capability(DesktopWindow.new())
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	await _frames(tree, 2)
+	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	await _frames(tree, 4)
+	shell.lifecycle_adapter().set_capability(MobileLifecycleCapability.new())
+	_check(page.visible and tree.root.gui_get_focus_owner() == page.back_button, "back from another window: the focus still on the page: %s" % tree.root.gui_get_focus_owner())
 	await _key(tree, KEY_ESCAPE)
 	_check(not page.visible and shell.shell_state().mode() == ApplicationShellState.Mode.SETTINGS, "Esc closes the page only")
 	await _key(tree, KEY_ESCAPE)

@@ -1950,7 +1950,10 @@ func _focus_settings_control() -> void:
 		return
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
 		return
-	if window_mode_row.visible and not window_mode_option.disabled:
+	# 按键一览 open over 设置 (back from another window, say) keeps the focus on itself.
+	if key_page != null and key_page.visible:
+		key_page.back_button.grab_focus()
+	elif window_mode_row.visible and not window_mode_option.disabled:
 		window_mode_option.grab_focus()
 	elif not ui_scale_option.disabled:
 		ui_scale_option.grab_focus()

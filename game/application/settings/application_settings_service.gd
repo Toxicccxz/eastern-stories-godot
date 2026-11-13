@@ -250,7 +250,6 @@ func apply_and_persist_objective_hints(shown: bool) -> ApplicationSettingsServic
 	)
 
 
-## 自动存档提示 (AutosaveNotice; DECISIONS「自动存档」) at once, kept with the other settings.
 ## 切出窗口时暂停 (DECISIONS「切出窗口」): kept; the shell hands it to the lifecycle adapter.
 func apply_and_persist_pause_on_focus_loss(paused: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_pause_on_focus_loss(paused)
@@ -266,6 +265,7 @@ func apply_and_persist_pause_on_focus_loss(paused: bool) -> ApplicationSettingsS
 	)
 
 
+## 自动存档提示 (AutosaveNotice; DECISIONS「自动存档」) at once, kept with the other settings.
 func apply_and_persist_autosave_notice(shown: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_autosave_notice(shown)
 	_apply_battle(_committed)

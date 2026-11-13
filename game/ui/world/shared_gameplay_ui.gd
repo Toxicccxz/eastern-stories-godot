@@ -379,7 +379,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	var tab: int = GameMenu.tab_for_event(event)
 	# The menu key and the pause key (Esc, Back) are the shell's even in the dialogue box and a
 	# scene: 系统 opens over them, which stand still behind it (DECISIONS「剧情演出」).
-	var shell_key: bool = event.is_action_pressed(&"menu_open") or event.is_action_pressed(&"pause_game")
+	# A conversation the box hosts (打听's topics, a question's answers) is left with Esc / B as
+	# before (告辞, 走开; DECISIONS「对话框」): there Esc is its ui_cancel, not the pause.
+	var leaves_box: bool = dialogue_box.is_open() and dialogue_box.hosting() and event.is_action_pressed("ui_cancel")
+	var shell_key: bool = event.is_action_pressed(&"menu_open") or (event.is_action_pressed(&"pause_game") and not leaves_box)
 	# The dialogue box (DECISIONS「对话框」): E / A is 继续 or the focused choice; only the menu
 	# and the pause take another key.
 	if dialogue_box.is_open() and not shell_key:
