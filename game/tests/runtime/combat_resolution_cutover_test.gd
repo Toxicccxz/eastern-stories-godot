@@ -1,6 +1,8 @@
 extends "res://tests/runtime/battle_presentation_test.gd"
 
 const Multi := preload("res://tests/support/cxr7_session_fixture.gd")
+## The failed lifecycle it provokes: the fight aborts once and says why.
+const EXPECTED_ERRORS: Dictionary = {"aborted: failure=LIFECYCLE_FAILED": 1}
 
 class MaximumRandom extends CombatRandomSource:
 	var calls: int = 0

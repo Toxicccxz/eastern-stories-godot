@@ -122,6 +122,41 @@ class BuildToolTest(unittest.TestCase):
             Path(environment["APPDATA"]),
         )
 
+    def test_staged_project_gets_its_version(self) -> None:
+        project = self.root / "project.godot"
+        project.write_text('config_version=5\n\n[application]\n\nconfig/name="Eastern-Stories-Godot"\n\n[display]\n', encoding="utf-8")
+        build.set_project_version(project, "v0.3 (1a2b3c4d)")
+        build.set_project_version(project, "1a2b3c4d")
+        lines = project.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(['config/version="1a2b3c4d"'], [line for line in lines if line.startswith("config/version=")])
+        self.assertEqual(lines.index("[application]") + 2, lines.index('config/version="1a2b3c4d"'))
+        self.assertIn('config/name="Eastern-Stories-Godot"', lines)
+
+    def test_a_project_without_application_section_is_refused(self) -> None:
+        project = self.root / "project.godot"
+        project.write_text("config_version=5\n", encoding="utf-8")
+        with self.assertRaises(build.BuildError):
+            build.set_project_version(project, "1a2b3c4d")
+
+    def test_version_label_is_the_short_commit_with_the_tag_when_there_is_one(self) -> None:
+        answers = {("rev-parse", "--short=8", "HEAD"): "1a2b3c4d", ("describe", "--tags", "--exact-match", "HEAD"): None}
+        with mock.patch.object(build, "_git_output", side_effect=lambda _repository, *arguments: answers[arguments]), \
+                mock.patch.object(build, "_git_metadata", return_value=("1a2b3c4d" * 5, False)):
+            self.assertEqual("1a2b3c4d", build.version_label(self.root))
+            answers[("describe", "--tags", "--exact-match", "HEAD")] = "v0.3"
+            self.assertEqual("v0.3 (1a2b3c4d)", build.version_label(self.root))
+        with mock.patch.object(build, "_git_output", side_effect=lambda _repository, *arguments: answers[arguments]), \
+                mock.patch.object(build, "_git_metadata", return_value=("1a2b3c4d" * 5, True)):
+            self.assertEqual("v0.3 (1a2b3c4d-dirty)", build.version_label(self.root))
+
+    def test_a_pull_requests_build_names_the_branch_head(self) -> None:
+        # CI checks out the PR's merge commit; the workflow names the branch's head instead.
+        answers = {("rev-parse", "--short=8", "HEAD"): "merge000", ("describe", "--tags", "--exact-match", "HEAD"): None}
+        with mock.patch.dict(os.environ, {"ES_BUILD_COMMIT": "9246edb9c0ffee"}), \
+                mock.patch.object(build, "_git_output", side_effect=lambda _repository, *arguments: answers[arguments]), \
+                mock.patch.object(build, "_git_metadata", return_value=("merge000" * 5, False)):
+            self.assertEqual("9246edb9", build.version_label(self.root))
+
 
 if __name__ == "__main__":
     unittest.main()

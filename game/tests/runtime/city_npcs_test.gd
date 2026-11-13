@@ -286,7 +286,7 @@ func _fight(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeSta
 		return []
 	await tree.physics_frame
 	await tree.physics_frame
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	var said: Array[String] = []
 	if not coordinator.has_active_encounter():
 		var start: int = session.shared_ui().log_lines().size()

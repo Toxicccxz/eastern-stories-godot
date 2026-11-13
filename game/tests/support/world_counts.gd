@@ -3,7 +3,8 @@ extends RefCounted
 ## The world's numbers that older suites pin and that every region package moves:
 ## the maps, the rooms, Snow's outdoor portals and passages, the NPCs and items a
 ## New Game makes, the NPC creation draws after Old Pine's and the spawn order; per map
-## its zones and NPCs (`of("map_npcs", map)`); the technical world's maps and items; the
+## its zones and NPCs (`of("map_npcs", map)`); the technical world's maps, items and NPCs
+## (`technical_npcs`: the people the Old Pine world makes); the
 ## two-map Snow route fixture's numbers (`of("snow_route", "draws")`). One
 ## fixture holds them; tests/runtime/world_counts_test.gd checks it against the live
 ## world and rewrites it with UPDATE_WORLD_COUNTS=1:

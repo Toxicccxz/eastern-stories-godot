@@ -288,6 +288,8 @@ func _test_sheet(session: WorldSessionController) -> void:
 	_check(lines[0] == "内力练到 50" and lines[-1] == "生在雪亭镇" and lines.has("内力练到 10"), "the block: %s" % [lines])
 	var empty := CharacterState.new()
 	_check(sheet.milestone_text(empty).begins_with("还没有历练"), "nothing yet: says so")
+	# Never in the tree: freed here, or its controls and fonts leak at exit.
+	sheet.free()
 
 
 func _session(tree: SceneTree, opening: bool) -> WorldSessionController:

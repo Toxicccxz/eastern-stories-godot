@@ -22,12 +22,20 @@ VERSION = "4.7.2"
 STATUS = "stable"
 TAG = f"{VERSION}-{STATUS}"
 RELEASE_BASE = f"https://github.com/godotengine/godot-builds/releases/download/{TAG}"
-CHECKSUM_FILE = "SHA512-SUMS.txt"
 TEMPLATE_ARCHIVE = f"Godot_v{TAG}_export_templates.tpz"
 EDITOR_ARCHIVES = {
     "windows": f"Godot_v{TAG}_win64.exe.zip",
     "linux": f"Godot_v{TAG}_linux.x86_64.zip",
     "macos": f"Godot_v{TAG}_macos.universal.zip",
+}
+# SHA-512 of each archive, from the release's SHA512-SUMS.txt (2026-11-13), kept here: a sums
+# file fetched from the same page as the archives proves nothing if that page is altered.
+# A new Godot version pins its own.
+PINNED_SHA512 = {
+    TEMPLATE_ARCHIVE: "ca4d71c4d7b81dfc15d1a98baa07534aa95b03fdda78a0075b06672e1648d2e5f40980c9adc28d23e1b92e732ee7bf3461997aa804af74ec2fcd7a93ccb84079",
+    EDITOR_ARCHIVES["windows"]: "83decd58fdf67b9d657958a1ae6bf1929c20785315a81effe245874cdc57acb709bf868e00778a96984338c1b29dafdb453c6847747694621c6ecf5da2259993",
+    EDITOR_ARCHIVES["linux"]: "9aa00f7a605200940bce3027a567b782f49bd8e940dd06ae9e987bd65aee1b1467edd56ed84fcdcbdd44354bf613bdbb4e5d2913e925850368e150c59ed54c65",
+    EDITOR_ARCHIVES["macos"]: "38aa16e5bba2083941fc5b3e54be0089bd4cc35e32415f5b9fd9a8a6a7b9818255d44532ea8ef94b5aef56c4b407c2d634fa4f657e4ebe681ebbf59b7bac69ca",
 }
 
 
@@ -67,17 +75,6 @@ def _download(url: str, destination: Path, pause=time.sleep) -> None:
         return
 
 
-def _parse_sha512_sums(text: str) -> dict[str, str]:
-    values: dict[str, str] = {}
-    for line in text.splitlines():
-        parts = line.strip().split(maxsplit=1)
-        if len(parts) != 2:
-            continue
-        digest, name = parts
-        values[name.lstrip("*")] = digest.lower()
-    return values
-
-
 def _sha512(path: Path) -> str:
     digest = hashlib.sha512()
     with path.open("rb") as handle:
@@ -86,10 +83,10 @@ def _sha512(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _verified_download(filename: str, downloads: Path, checksums: dict[str, str]) -> Path:
+def _verified_download(filename: str, downloads: Path, checksums: dict[str, str] = PINNED_SHA512) -> Path:
     expected = checksums.get(filename)
     if expected is None:
-        raise BootstrapError(f"official checksum list has no entry for {filename}")
+        raise BootstrapError(f"no pinned checksum for {filename}")
     destination = downloads / filename
     if not destination.is_file() or _sha512(destination) != expected:
         if destination.exists():
@@ -180,15 +177,12 @@ def main(argv: list[str] | None = None) -> int:
     output = args.output.resolve()
     downloads = output / "downloads"
     try:
-        checksums_path = downloads / CHECKSUM_FILE
-        _download(f"{RELEASE_BASE}/{CHECKSUM_FILE}", checksums_path)
-        checksums = _parse_sha512_sums(checksums_path.read_text(encoding="utf-8"))
         result: dict[str, str] = {}
         if not args.skip_editor:
-            archive = _verified_download(EDITOR_ARCHIVES[args.platform], downloads, checksums)
+            archive = _verified_download(EDITOR_ARCHIVES[args.platform], downloads)
             result["godot"] = str(_extract_editor(archive, output / "editor", args.platform))
         if not args.skip_templates:
-            archive = _verified_download(TEMPLATE_ARCHIVE, downloads, checksums)
+            archive = _verified_download(TEMPLATE_ARCHIVE, downloads)
             result["templates"] = str(_extract_templates(archive, output / "templates"))
         env_file = os.environ.get("GITHUB_OUTPUT")
         if env_file:

@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
 
 const SessionScene := preload(
@@ -353,7 +354,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).get_instance_id(), old_outdoor_id, "fresh session owns a new Outdoor resident Node")
 	_assert_ne(fresh.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID).get_instance_id(), old_cave_id, "fresh session owns a new Cave resident Node")
 	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "fresh session restores no prior corpse")
-	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 19, "fresh session creates the authored 19 Outdoor NPCs (the keep's hall is its own map since the remap)")
+	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "fresh session creates the authored Outdoor NPCs (the keep's hall is its own map since the remap)")
 	_assert_eq(fresh.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "fresh session creates the authored five Gorge NPCs")
 	_assert_true(fresh.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null, "fresh session has no stale Vine selection")
 	_assert_false(fresh.passage_request_pending(), "fresh session has no stale SouthExit request")

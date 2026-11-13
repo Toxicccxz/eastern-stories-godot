@@ -210,9 +210,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(session.combat_encounter_coordinator().has_active_encounter() and not hud.interaction_open(), "攻击: the fight begins, the popup is gone")
 	await tree.process_frame
 	check(not session.world_time_held(), "and nothing holds world time")
+	session.combat_encounter_coordinator().stop_where_it_stands() # TEST-ONLY: done with the fight
+	check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted")
 	session.queue_free()
 	await tree.process_frame
-	CombatEncounterCoordinator.take_aborted_total()
 
 	# A door does its one thing at once: no popup.
 	await _test_door(tree)

@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const ScriptedRandom := preload("res://tests/support/scripted_npc_initialization_random_source.gd")
 
 var _assertions: int = 0
@@ -128,7 +129,7 @@ func _test_current_production_spawn_ledger() -> void:
 		_eq(TestContent.npc(spawn.npc_definition_id) != null, true, "authored production placement")
 		npc_count += spawn.quantity
 		item_count += TestContent.npc(spawn.npc_definition_id).loadout_entries().size() * spawn.quantity
-	_eq(npc_count, 37, "Old Pine's 37 NPCs")
+	_eq(npc_count, WorldCounts.number("technical_npcs"), "Old Pine's NPCs")
 	_eq(item_count, 56, "56 NPC item objects; player starting sword remains separate")
 	_eq(TestContent.spawns_match_world(), true, "production spawn validation unchanged")
 

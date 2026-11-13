@@ -200,6 +200,38 @@ class GameplaySuiteTests(unittest.TestCase):
         self.assertFalse(run.passed)
         self.assertEqual(["SCRIPT ERROR: Invalid call. at: helper (res://tests/x.gd:7)"], run.script_errors)
 
+    def test_error_lines_the_runner_heard_are_its_own_to_judge(self) -> None:
+        # Between the gate line and the summary run_suite.gd counts them (SuiteErrors).
+        run = self._judge(
+            "[gate] listening\nERROR: Combat encounter aborted: failure=X\n"
+            "PASS: 1 suite(s), 10 assertions, 0 failure(s)\n"
+        )
+        self.assertTrue(run.passed)
+
+    def test_an_error_line_before_the_gate_fails(self) -> None:
+        run = self._judge(
+            "ERROR: Failed loading resource: res://x.tres.\n[gate] listening\n"
+            "PASS: 1 suite(s), 10 assertions, 0 failure(s)\n"
+        )
+        self.assertEqual(["error line before the suites ran: ERROR: Failed loading resource: res://x.tres."], run.problems)
+
+    def test_an_error_line_after_the_summary_fails(self) -> None:
+        run = self._judge(
+            "[gate] listening\nPASS: 1 suite(s), 10 assertions, 0 failure(s)\n"
+            "SHADER ERROR: Unknown identifier in expression: 'albedo'.\n"
+        )
+        self.assertEqual(["error line after the summary: SHADER ERROR: Unknown identifier in expression: 'albedo'."], run.problems)
+
+    def test_an_undeclared_error_the_runner_reports_fails_the_suite(self) -> None:
+        run = self._judge(
+            "[gate] listening\nERROR: something broke\n"
+            "lake_test.gd: undeclared ERROR something broke @ res://runtime/x.gd:3\n"
+            "FAIL: 1 suite(s), 10 assertions, 1 failure(s)\n",
+            1,
+        )
+        self.assertFalse(run.passed)
+        self.assertEqual(["lake_test.gd: undeclared ERROR something broke @ res://runtime/x.gd:3"], run.failures)
+
     def test_suite_without_a_summary_returned_no_result(self) -> None:
         run = self._judge("Godot Engine v4.7.2\n", 1)
         self.assertFalse(run.passed)
@@ -233,6 +265,45 @@ class GameplaySuiteTests(unittest.TestCase):
         processes.stop_all()
         with (self.root / "late.log").open("wb") as log:
             self.assertIsNone(processes.start([sys.executable, "-c", "pass"], dict(os.environ), log))
+
+
+class ReleaseStepTests(unittest.TestCase):
+    """Step 5: the cleaned copy is imported, then started as a player starts it."""
+
+    def _main(self, smoke_problems: list[str]) -> tuple[int, list[str], str]:
+        steps: list[str] = []
+        from unittest import mock
+
+        def record_run(command: list[str], **_kwargs: object) -> None:
+            steps.append(" ".join(command))
+
+        def record_start(godot: Path, project: Path, work: Path) -> list[str]:
+            steps.append(f"start smoke on {project.name}")
+            return smoke_problems
+
+        errors = io.StringIO()
+        with mock.patch.object(verify, "_run", side_effect=record_run), \
+                mock.patch.object(verify, "resolve_godot", return_value=Path("godot")), \
+                mock.patch.object(verify, "validate_godot_version", return_value="4.7.2"), \
+                mock.patch.object(verify, "_godot_environment", return_value={}), \
+                mock.patch.object(verify, "prepare_release_project"), \
+                mock.patch.object(verify, "validate_release_project", return_value=[]), \
+                mock.patch.object(verify, "run_start", side_effect=record_start), \
+                contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errors):
+            code = verify.main(["--skip-gameplay-tests", "--no-git"])
+        return code, steps, errors.getvalue()
+
+    def test_the_cleaned_copy_is_started_after_its_import(self) -> None:
+        code, steps, _ = self._main([])
+        self.assertEqual(0, code)
+        self.assertEqual("start smoke on verify-release-project", steps[-1])
+        self.assertIn("verify-release-project --editor --quit", steps[-2])
+
+    def test_an_error_line_in_the_start_fails_the_gate(self) -> None:
+        code, _, errors = self._main(["error line: SHADER ERROR: Unknown identifier"])
+        self.assertEqual(1, code)
+        self.assertIn("release start-up smoke failed", errors)
+        self.assertIn("SHADER ERROR: Unknown identifier", errors)
 
 
 if __name__ == "__main__":

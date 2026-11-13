@@ -139,12 +139,30 @@ jobs:
         run: python tools/ci/bootstrap_godot.py --platform windows --output build/toolchain
 
       - name: Build Windows x86_64 Release
+        # The version the game shows and its saves record: the branch's head, not the PR's
+        # merge commit.
+        env:
+          ES_BUILD_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
         run: >-
           python tools/build/build.py
           --target windows
           --godot "${{ steps.godot.outputs.godot }}"
           --templates "${{ steps.godot.outputs.templates }}"
           --require-clean
+
+      # The built game itself, started headless: a few hundred frames of its main menu, then
+      # it quits by itself. Fails on a nonzero exit or any ERROR / SHADER ERROR / SCRIPT ERROR
+      # line. (No windowed run on CI: the runner has no GPU.)
+      - name: Start the exported game
+        run: python tools/ci/start_smoke.py exe --exe dist/windows/Eastern-Stories-Godot.exe
+
+      - name: Upload the exported game's start log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-start-log
+          path: build/start-smoke/exe
+          if-no-files-found: ignore
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4

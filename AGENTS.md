@@ -284,6 +284,7 @@ Godot 4.7.2 lives at `build/toolchain/editor/` (git-ignored; do not delete `buil
 python tools/ci/verify.py --godot <godot>                                 # full gate (~10 min)
 <godot> --headless --fixed-fps 60 --path game --script res://tests/run_suite.gd -- <res://tests/...test.gd> ...
 <godot> --headless --path game --editor --quit                            # parse/import check
+python tools/ci/start_smoke.py walk --godot <godot> [--maps a,b,c]        # windowed walkthrough, shots in build/walkthrough/
 ```
 
 To look at any voxel map from the editor: open `res://tests/dev/voxel_preview.tscn` and press F6.

@@ -562,7 +562,7 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 	_check(map.relocate_player(npc.world_location().zone_id, npc.spawn_point_id), "beside %s" % name)
 	await tree.physics_frame
 	await tree.physics_frame
-	CombatEncounterCoordinator.take_aborted_total()
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted before this one")
 	if not coordinator.has_active_encounter():
 		map.select_npc(npc.character_id)
 		var started: CombatSliceInitiationResult = map.attack_selected()

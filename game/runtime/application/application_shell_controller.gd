@@ -109,11 +109,12 @@ var _back_to_slots: bool = false
 var _result_detail: String = ""
 
 ## Development runs keep their saves in the development slot; the release sanitizer
-## drops this setting, so a release reads the release slot.
+## drops this setting, so a release reads the release slot. An exported build never reads
+## it, even one exported straight from the development project (feature `template`).
 const DEVELOPMENT_SAVE_SLOT_SETTING: String = "eastern_stories/save/development_slot"
 
 var _profile: GameSaveStorageProfile = (
-	GameSaveStorageProfile.development() if ProjectSettings.get_setting(DEVELOPMENT_SAVE_SLOT_SETTING, false)
+	GameSaveStorageProfile.development() if ProjectSettings.get_setting(DEVELOPMENT_SAVE_SLOT_SETTING, false) and not OS.has_feature("template")
 	else GameSaveStorageProfile.release()
 )
 var _files: SaveFileOperations
@@ -266,11 +267,14 @@ func configure_before_start(
 static var _renderer_logged: bool = false
 
 
+## One line at start, once per process: the version, the engine and the renderer in use
+## (a driver given on the command line, by Steam or by Godot's own fallback may differ
+## from the project's).
 static func _log_renderer() -> void:
-	if _renderer_logged or DisplayServer.get_name() == "headless":
+	if _renderer_logged:
 		return
 	_renderer_logged = true
-	print("Renderer: %s driver, %s method, %s (%s)" % [RenderingServer.get_current_rendering_driver_name(), RenderingServer.get_current_rendering_method(), RenderingServer.get_video_adapter_name(), RenderingServer.get_video_adapter_api_version()])
+	print(BuildIdentity.log_line())
 
 
 func _ready() -> void:
@@ -303,6 +307,7 @@ func _ready() -> void:
 	_log_renderer()
 	_apply_focus_pause(_settings_service.committed_snapshot().pause_on_focus_loss())
 	_show_window_title()
+	_add_version_marks()
 	_configure_window_mode_options()
 	_configure_resolution_options(_settings_service.committed_snapshot().resolution())
 	_configure_ui_scale_options()
@@ -355,6 +360,41 @@ func _exit_tree() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready() and is_inside_tree():
 		_show_window_title()
+		_show_version()
+
+
+## The build's version, small and faint: the main menu's lower right corner, and under
+## 系统's buttons (the pause panel's column, lent to the game menu's 系统 page).
+var version_marks: Array[Label] = []
+
+
+func _add_version_marks() -> void:
+	var corner := Label.new()
+	corner.name = "VersionMark"
+	corner.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+	corner.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	corner.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	corner.offset_right = -16.0
+	corner.offset_bottom = -10.0
+	main_menu_panel.add_child(corner)
+	var under := Label.new()
+	under.name = "VersionMark"
+	under.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pause_actions.add_child(under)
+	version_marks = [corner, under]
+	for mark: Label in version_marks:
+		mark.theme_type_variation = &"SmallLabel"
+		mark.modulate.a = 0.55
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		mark.focus_mode = Control.FOCUS_NONE
+		# Formatted here: an auto-translated text could not hold the version.
+		mark.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	_show_version()
+
+
+func _show_version() -> void:
+	for mark: Label in version_marks:
+		mark.text = BuildIdentity.shown()
 
 
 ## 分辨率's list follows the window to another monitor while 设置 is open.

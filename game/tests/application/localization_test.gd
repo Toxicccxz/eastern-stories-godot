@@ -6,6 +6,9 @@ extends RefCounted
 ## shell's own screens under it: menu, setup form, Settings and a confirmation.
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
 const SHELL := preload("res://scenes/application/application_shell.tscn")
+## The language files it breaks on purpose: a .po that is not there (Godot's two lines and the
+## catalog's), a languages list without its array or its default language.
+const EXPECTED_ERRORS: Dictionary = {"res://locale/missing.po": 3, "res://locale/no_such_languages.json": 2}
 
 var assertions: int = 0
 var failures: Array[String] = []

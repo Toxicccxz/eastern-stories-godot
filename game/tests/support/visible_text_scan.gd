@@ -17,8 +17,11 @@ static func shown(root: Node) -> Dictionary[String, String]:
 static func untranslated(root: Node, allowed: PackedStringArray = PackedStringArray()) -> Array[String]:
 	var findings: Array[String] = []
 	var texts: Dictionary[String, String] = shown(root)
+	# The build's version (版本 dev, 版本 1a2b3c4d) is a name, never translated.
+	var kept: PackedStringArray = allowed.duplicate()
+	kept.append(BuildIdentity.version())
 	for path: String in texts:
-		var rest: String = PseudoLocale.untranslated(texts[path], allowed)
+		var rest: String = PseudoLocale.untranslated(texts[path], kept)
 		if not rest.is_empty():
 			findings.append("%s: %s" % [path.get_file(), texts[path].c_escape()])
 	return findings

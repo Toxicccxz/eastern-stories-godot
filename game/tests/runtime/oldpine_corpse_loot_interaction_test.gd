@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
 
 const SceneType := preload(
@@ -674,7 +675,7 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_true(loot_panel.position.x >= 0.0 and loot_panel.position.y >= 0.0, "Loot panel begins inside the playable viewport")
 	_assert_true(loot_panel.position.x + loot_panel.size.x <= viewport_size.x, "Loot panel right edge remains inside the playable viewport")
 	_assert_true(loot_panel.position.y + loot_panel.size.y <= viewport_size.y, "Loot panel bottom edge remains inside the playable viewport")
-	_assert_eq(controller.item_instance_index().snapshot_count(), 58, "index registers player sword and all 57 NPC items")
+	_assert_eq(controller.item_instance_index().snapshot_count(), WorldCounts.number("technical_items"), "index registers player sword and all NPC items")
 	var player_primary: EquippedWeaponRef = controller.player_runtime().state.equipment.primary_weapon()
 	_assert_eq(controller.item_instance_index().resolve(player_primary.instance_id).item_definition_id, TestContent.LONG_SWORD_ITEM_ID, "player prototype long sword is indexed")
 	var expected_maximum: int = CharacterDerivedValues.maximum_encumbrance(controller.player_runtime().state.attributes.strength)
@@ -827,10 +828,10 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	_assert_true(fresh.selected_interaction_target() == null, "fresh scene clears ITEM target")
 	_assert_false(fresh.session.shared_ui().loot_is_open(), "fresh scene closes loot panel")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
-	_assert_eq(fresh.item_instance_index().snapshot_count(), 58, "fresh scene rebuilds only initial item index")
+	_assert_eq(fresh.item_instance_index().snapshot_count(), WorldCounts.number("technical_items"), "fresh scene rebuilds only initial item index")
 	_assert_false(fresh.item_instance_index().has_snapshot(old_corpse_id), "fresh scene has no stale corpse identity")
-	_assert_eq(fresh.session.world_npcs().size(), 37, "fresh scene restores all 37 production NPCs")
-	_assert_eq(fresh.npc_runtimes().size(), 19, "fresh forest map restores its 19 production NPCs (the keep's hall and its four are their own map since the remap)")
+	_assert_eq(fresh.session.world_npcs().size(), WorldCounts.number("technical_npcs"), "fresh scene restores all production NPCs")
+	_assert_eq(fresh.npc_runtimes().size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "fresh forest map restores its production NPCs (the keep's hall and its four are their own map since the remap)")
 	_assert_eq(fresh.npc_random_source().next_below(1000), npc_random_after_loot, "loot consumes zero NPC initialization RNG")
 	fresh.queue_free()
 	await tree.process_frame
