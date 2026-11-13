@@ -79,6 +79,20 @@ const LIMP: Array[float] = [0.0, 0.35, 0.0, 0.35, 0.0, 0.0, 0.7, -0.15, 0.15]
 const ARMS: Array[String] = ["sword", "blade", "dagger", "axe", "hammer", "staff", "fork", "whip", "throwing"]
 ## What a look carries in its hand that is a weapon already: nothing more is drawn there.
 const OWN_ARMS: Array[String] = ["staff", "spear", "glaive", "hammer", "axe", "cleaver", "whisk", "fan"]
+## 战斗特效 (DECISIONS「战斗特效」): the stretch of a weapon a blow's light follows (strike_edge()).
+## A drawn weapon's (ARMS), along it from the hand (the weapon lies along +z); nothing for what
+## is thrown (it flies) or a bare hand.
+const WEAPON_EDGE: Dictionary[String, Array] = {
+	"sword": [0.14, 0.99], "blade": [0.12, 0.89], "dagger": [0.08, 0.41], "axe": [0.34, 0.6], "hammer": [0.36, 0.68],
+	"staff": [0.3, 1.1], "fork": [0.5, 1.27], "whip": [0.25, 1.15],
+}
+## A look's own weapon (OWN_ARMS), from the grip in the arm's space: its near and far ends.
+const OWN_EDGE: Dictionary[String, Array] = {
+	"staff": [Vector3(0, 0.35, 0), Vector3(0, 1.2, 0)], "spear": [Vector3(0, 0.6, 0), Vector3(0, 1.38, 0)],
+	"glaive": [Vector3(0, 0.75, 0.06), Vector3(0, 1.44, 0.06)], "hammer": [Vector3(0, -0.1, 0.04), Vector3(0, -0.37, 0.04)],
+	"axe": [Vector3(0, -0.12, 0.08), Vector3(0, -0.4, 0.14)], "cleaver": [Vector3(0, -0.1, 0.09), Vector3(0, -0.32, 0.09)],
+	"whisk": [Vector3(0, -0.02, 0.1), Vector3(0, -0.27, 0.1)], "fan": [Vector3(0, -0.06, 0.1), Vector3(0, 0.13, 0.1)],
+}
 
 var walking: bool = false
 ## Whether the person is in a fight (take_guard(), stand_down()): it stands on guard, its weapon
@@ -738,6 +752,8 @@ func take_guard(weapon: String, seconds: float = 0.0) -> void:
 		return
 	armed = wanted
 	if _weapon != null:
+		# Out of the arm at once: the next one takes its name.
+		_weapon.get_parent().remove_child(_weapon)
 		_weapon.queue_free()
 		_weapon = null
 	if wanted.is_empty() or arms.size() < 2:
@@ -757,6 +773,27 @@ func stand_down(seconds: float = 0.0) -> void:
 	swing = 0.0
 	react = ""
 	react_amount = 0.0
+
+
+## 战斗特效: the stretch of its weapon a blow's light follows, as [node, near end, far end] in
+## that node's own space — the weapon drawn in its hand, or the look's own; [] when it strikes
+## with nothing (a bare hand, something thrown).
+func strike_edge() -> Array:
+	if _weapon != null and WEAPON_EDGE.has(armed):
+		var along: Array = WEAPON_EDGE[armed]
+		return [_weapon, Vector3(0, 0, float(along[0])), Vector3(0, 0, float(along[1]))]
+	var held: String = _word("prop", "none")
+	if armed.is_empty() and OWN_EDGE.has(held) and arms.size() == 2:
+		var grip := Vector3(0, -0.45*_torso_k, 0.04)
+		return [arms[_lead], grip + (OWN_EDGE[held][0] as Vector3), grip + (OWN_EDGE[held][1] as Vector3)]
+	return []
+
+
+## Where its striking hand is now (the world's space): what it throws leaves from here.
+func striking_hand() -> Vector3:
+	if arms.size() < 2:
+		return global_position + Vector3.UP
+	return arms[_striker].global_transform * Vector3(0, -0.45*_torso_k, 0.04)
 
 
 ## A blow begins: its motion (STRIKES) and reach. Bare hands strike in turn; `same_hand`: the

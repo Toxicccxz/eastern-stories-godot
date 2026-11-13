@@ -579,6 +579,7 @@ func refresh_projection() -> void:
 			_round_was_running = false
 			var stage_view: WorldVoxelView = _voxel_view()
 			scene_show.begin(stage_view, stage_view != null)
+			scene_show.blood_chips = BattleSceneShow.blood_for(_projection.mode)
 			# 战斗演出 B: the panel's parts wait hidden; the opening starts once they are laid out
 			# (the next frame). 关 lays the stage at once, now.
 			if BattleStageOpening.next_instant(_projection.turns_offered and not _projection.manual):

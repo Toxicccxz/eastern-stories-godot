@@ -31,6 +31,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _heavy_aftermath(tree)
 	await _limbs(tree)
 	_fall_curve()
+	await _blow_effects(tree)
+	await _stage_answers(tree)
 	_mode_title(tree)
 	_teardown(tree)
 	TestFeel.restore()
@@ -408,6 +410,173 @@ func _limbs(tree: SceneTree) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	check(is_zero_approx(me.frame.rotation.x) and is_zero_approx(me.arms[0].rotation.z), "up again: as it stood")
+
+
+## 战斗特效 (DECISIONS「战斗特效」): what a blow leaves in the scene. The light of a swung weapon
+## (its edge, its colour, its fade), what is thrown, the chips off the one hit and the dark ones
+## among them, a beast's leap all the way; nothing of it with the feel off.
+func _blow_effects(tree: SceneTree) -> void:
+	# The data: colours by the wound, dark chips by the fight's look, a beast's reach.
+	var stab: BattleNarrationLine = _strike(ME, YOU, Outcome.HIT, &"sword")
+	var stab_colour: Color = BattleSceneShow.trail_colour(stab.with_arms(&"sword", "刺伤"))
+	var whip_colour: Color = BattleSceneShow.trail_colour(_strike(ME, YOU, Outcome.HIT, &"whip").with_arms(&"whip", "鞭伤"))
+	var special_colour: Color = BattleSceneShow.trail_colour(_strike(ME, YOU, Outcome.HIT, &"sword").with_special_blow())
+	check(stab_colour.is_equal_approx(Color(Color("efc77b"), 0.6)) and not whip_colour.is_equal_approx(stab_colour) and special_colour.is_equal_approx(Color(Color("ffd98a"), 0.6)), "the light's colour: by the wound, a special's its own (%s %s %s)" % [stab_colour, whip_colour, special_colour])
+	check(BattleSceneShow.blood_for(CombatEncounterMode.Value.LETHAL) == 3 and BattleSceneShow.blood_for(CombatEncounterMode.Value.SPAR) == 0 and BattleSceneShow.blood_for(CombatEncounterMode.Value.LESSON) == 0, "dark chips: three in a 死斗, none in a 切磋 or a 拆招")
+	check(is_equal_approx(BattleSceneShow._beast_reach(0.42, 2.4), 1.55) and is_equal_approx(BattleSceneShow._beast_reach(0.42, 0.9), 0.42) and is_equal_approx(BattleSceneShow._beast_reach(0.42, 9.0), 2.4), "a beast's leap: to within the gap, never short of the step nor past its reach")
+	# The edge a blow's light follows.
+	_teardown(tree)
+	_setup(tree, true)
+	var me: Person = _model(ME) as Person
+	var you: Person = _model(YOU) as Person
+	await tree.process_frame
+	await tree.process_frame
+	check(me.strike_edge().is_empty(), "at ease: no edge")
+	me.take_guard("sword")
+	var edge: Array = me.strike_edge()
+	check(edge.size() == 3 and edge[0] == me.arms[0].get_node("Weapon") and (edge[2] as Vector3).z > (edge[1] as Vector3).z, "a sword in the hand: its edge along the blade")
+	me.take_guard("throwing")
+	check(me.strike_edge().is_empty(), "something thrown: no edge (it flies)")
+	you.take_guard("")
+	check(you.strike_edge().is_empty(), "a bare hand: none")
+	me.stand_down()
+	you.stand_down()
+	# The trail itself: facets while the edge moves, gone once it has faded.
+	var arm := Node3D.new()
+	_root.add_child(arm)
+	var trail := BattleSwingTrail.new()
+	trail.source = arm
+	trail.from = Vector3(0, 0, 0.5)
+	trail.to = Vector3(0, 0, 1.0)
+	trail.sampling = 0.1
+	trail.fade = 0.2
+	var done: Array[bool] = [false]
+	trail.finished.connect(func() -> void: done[0] = true)
+	_root.add_child(trail)
+	trail.set_process(false)
+	for step: int in 5:
+		arm.rotation.x += 0.3
+		trail.advance(0.02)
+	check(trail.facet_count() == 5 and trail.mesh.get_surface_count() == 1, "the edge swept: a facet a step (%d)" % trail.facet_count())
+	arm.rotation.x += 0.3
+	trail.advance(0.05)
+	check(trail.facet_count() == 5, "past the blow's travel: no more facets")
+	trail.advance(0.1)
+	check(trail.facet_count() < 5 and not done[0], "the oldest fade first (%d)" % trail.facet_count())
+	trail.advance(0.3)
+	check(done[0] and trail.mesh.get_surface_count() == 0, "all faded: finished, nothing drawn")
+	trail.queue_free()
+	arm.queue_free()
+	# The feel off: a blow leaves nothing.
+	_show.begin(_view)
+	_show.blood_chips = 3
+	_show.settle([[ME, YOU, false, "sword"], [YOU, ME, false, ""]])
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword"))
+	await tree.process_frame
+	check(_show.effect_count() == 0, "the feel off: no light, no chips")
+	_show.end()
+	# The feel on, slowed four times.
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	_show.blood_chips = 3
+	_show.settle([[ME, YOU, false, "sword"], [YOU, ME, false, ""]])
+	await tree.create_timer(1.6).timeout
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword"))
+	await tree.process_frame
+	await tree.process_frame
+	var light: BattleSwingTrail = _effect_named("SwingTrail") as BattleSwingTrail
+	check(light != null and light.source == me.arms[0].get_node("Weapon"), "a sword's blow: its light follows the blade")
+	await tree.create_timer(0.6).timeout
+	check(light != null and is_instance_valid(light) and light.facet_count() >= 2, "swept as the arm comes down (%d facets)" % (light.facet_count() if is_instance_valid(light) else -1))
+	var chips: Node3D = _effect_named("Chips")
+	var counts: Dictionary = BattleArena.data()["impact"]["chips"]
+	check(chips != null and chips.get_child_count() == int(counts["count"]) + 3, "landed: chips off the one hit, three dark ones among them (%d)" % (chips.get_child_count() if chips != null else -1))
+	await tree.create_timer(3.0).timeout
+	check(_effect_named("SwingTrail") == null and _effect_named("Chips") == null, "the light faded, the chips fallen")
+	# The bare hand: chips, no light. No dark chips where the fight has none.
+	_show.blood_chips = 0
+	_show.play_line(_strike(YOU, ME, Outcome.HIT, &""))
+	await tree.create_timer(0.7).timeout
+	chips = _effect_named("Chips")
+	check(_effect_named("SwingTrail") == null and chips != null and chips.get_child_count() == int(counts["count"]), "a fist: no light; chips, none dark")
+	await tree.create_timer(3.0).timeout
+	# A 重 throws more.
+	_show.windup(ME)
+	await tree.create_timer(0.8).timeout
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword").with_ring(CombatMoveTags.HEAVY, 0))
+	await tree.create_timer(0.9).timeout
+	chips = _effect_named("Chips")
+	check(chips != null and chips.get_child_count() == int(counts["heavy_count"]), "a 重: more chips (%d)" % (chips.get_child_count() if chips != null else -1))
+	await tree.create_timer(4.0).timeout
+	# Something thrown flies to the one struck at; on past one who dodged.
+	_show.play_line(_strike(ME, YOU, Outcome.DODGE, &"throwing"))
+	await tree.process_frame
+	await tree.process_frame
+	var dart: Node3D = _effect_named("Thrown")
+	check(me.motion == "thrown" and dart != null and _effect_named("SwingTrail") == null, "thrown: it leaves the hand, and no light")
+	var start: float = dart.global_position.z if dart != null else 0.0
+	await tree.create_timer(0.3).timeout
+	check(dart != null and is_instance_valid(dart) and dart.global_position.z > start + 0.2, "on its way to the one struck at (%.2f from %.2f)" % [dart.global_position.z if is_instance_valid(dart) else -1.0, start])
+	await tree.create_timer(0.4).timeout
+	check(dart != null and is_instance_valid(dart) and dart.global_position.z > 1.5, "dodged: it flies on past (%.2f)" % (dart.global_position.z if is_instance_valid(dart) else -1.0))
+	await tree.create_timer(3.0).timeout
+	check(_effect_named("Thrown") == null, "and is gone")
+	# A beast leaps all the way to the one it strikes at.
+	var beast := Node3D.new()
+	beast.set_meta("pounce", 0.24)
+	var actor := Node3D.new()
+	actor.position = Vector3(0, 0, -1.0)
+	_root.add_child(actor)
+	actor.add_child(beast)
+	_view.actors[&"wolf"] = actor
+	_show.play_line(_strike(&"wolf", YOU, Outcome.DODGE, &""))
+	await tree.create_timer(0.52).timeout
+	check(beast.position.z > 1.3, "a beast: its leap comes down beside the one it strikes at (%.2f of 2.5)" % beast.position.z)
+	await tree.create_timer(3.0).timeout
+	check(beast.position.is_equal_approx(Vector3.ZERO), "and home again")
+	_show.end()
+	check(_show.effect_count() == 0, "the end: nothing left in the scene")
+	_show.pace = 1.0
+	TestFeel.restore()
+
+
+## 战斗特效: the base answers — its bricks hop under a blow with weight, its braziers and flags
+## flare; not while it is being laid or taken down.
+func _stage_answers(tree: SceneTree) -> void:
+	TestFeel.use()
+	for mode: int in [CombatEncounterMode.Value.LETHAL, CombatEncounterMode.Value.SPAR]:
+		var arena := BattleArena.new()
+		_root.add_child(arena)
+		var spots: Array[Vector2] = [Vector2(-24, 0), Vector2(24, 0)]
+		arena.lay(spots, spots[0], mode)
+		arena.jolt(Vector3.ZERO, 1.5, 0.1, 0.2)
+		check(arena.laying() and not arena.jolting(), "while it is laid: no hop")
+		arena.skip()
+		arena._process(0.0)
+		await tree.process_frame
+		check(not arena.laying() and not arena.jolting() and not arena.flaring(), "mode %d: laid, at rest" % mode)
+		arena.jolt(Vector3.ZERO, 1.5, 0.1, 0.2)
+		arena._process(0.1)
+		check(arena.jolting() and arena.lift_at(Vector3.ZERO) > 0.09 and arena.lift_at(Vector3(1.0, 0, 0)) < arena.lift_at(Vector3.ZERO) and is_zero_approx(arena.lift_at(Vector3(3.0, 0, 0))), "a hop: highest at its middle, none past its reach (%.3f, %.3f)" % [arena.lift_at(Vector3.ZERO), arena.lift_at(Vector3(1.0, 0, 0))])
+		arena._process(0.4)
+		check(not arena.jolting() and is_zero_approx(arena.lift_at(Vector3.ZERO)), "then every brick lies where it lay")
+		arena.flare(1.3, 0.4)
+		check(arena.flaring(), "a flare: the braziers or the flags answer")
+		arena._process(0.2)
+		var flags: Array = arena.find_children("Flag", "Node3D", false, false)
+		var braziers: Array = arena.find_children("Brazier", "Node3D", false, false)
+		check(not flags.is_empty() or not braziers.is_empty(), "the base has corners to answer with (%d flags, %d braziers)" % [flags.size(), braziers.size()])
+		if not flags.is_empty():
+			check(flags.any(func(flag: Node3D) -> bool: return not is_zero_approx(flag.rotation.z)), "a flag snaps")
+		arena._process(0.3)
+		check(not arena.flaring() and (flags.is_empty() or flags.all(func(flag: Node3D) -> bool: return is_zero_approx(flag.rotation.z))), "and is over: the flags hang still")
+		arena.take_down(0.3)
+		arena.jolt(Vector3.ZERO, 1.5, 0.1, 0.2)
+		check(not arena.jolting(), "coming down: no hop")
+		arena.queue_free()
+		await tree.process_frame
+	TestFeel.restore()
 
 
 ## 战斗肢体: the fall's curve — nothing at first, flat at the end, a bounce on landing; rising eased.
