@@ -77,6 +77,9 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	for carry: ContentRecordReader in reader.children("carry"):
 		loadout.append(_carry_entry(carry))
 	var capabilities: Array[StringName] = _string_names(reader.text_list("capabilities"))
+	for capability: StringName in capabilities:
+		if not NpcDefinition.CAPABILITIES.has(capability):
+			reader.fail("capabilities", "unknown capability '%s' (known: %s)" % [capability, NpcDefinition.CAPABILITIES])
 	var attributes: NpcBaseAttributeOverrides = _attribute_overrides(reader)
 	var resources: NpcResourceOverrides = _resource_overrides(reader)
 	var internal_power: Dictionary[StringName, int] = {}

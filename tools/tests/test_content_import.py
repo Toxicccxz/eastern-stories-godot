@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -164,6 +165,16 @@ class GeneratedDataTest(unittest.TestCase):
         self.assertEqual(items['es2:daemon/class/swordsman/silk_cloth']['armor'], {'type': 'cloth', 'props': {'dodge': 6, 'armor': 1}})
         snow_items = {r['id']: r for r in json.loads(self.files['snow/items.json'])['items']}
         self.assertEqual(snow_items['es2:d/snow/obj/denotation']['max_encumbrance'], 10000)
+
+    def test_an_unknown_override_section_is_refused(self) -> None:
+        # A misspelt section (`sets` for `set`) would be read as absent and its facts lost.
+        with tempfile.TemporaryDirectory() as folder:
+            Path(folder, 'snow.json').write_text(json.dumps({'set': {}, 'sets': {'snow.npc.guard': {'age': 40}}}), encoding='utf-8')
+            with self.assertRaises(ci.ImportError_) as raised:
+                ci.Importer(ci.Corpus(), ci.DATA, overrides=Path(folder))
+            self.assertIn("['sets']", str(raised.exception))
+            Path(folder, 'snow.json').write_text(json.dumps({key: {} for key in ci.OVERRIDE_KEYS}), encoding='utf-8')
+            ci.Importer(ci.Corpus(), ci.DATA, overrides=Path(folder))
 
     def test_hand_read_vendor_goods_are_checked(self) -> None:
         importer = ci.Importer(ci.Corpus(), ci.DATA)

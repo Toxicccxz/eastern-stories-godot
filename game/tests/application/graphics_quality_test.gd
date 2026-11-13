@@ -152,6 +152,16 @@ func _view_follows(tree: SceneTree) -> void:
 	await _frames(tree, 3)
 	_check(view.get_viewport().msaa_3d == Viewport.MSAA_DISABLED and view.lighting.sun.directional_shadow_mode == DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS and view.lighting.lamp_shadow_count() == 4, "低 at once: no MSAA, two splits, four lamps")
 	_check(view.lighting.casting.size() <= 4, "and no more than four cast: %d" % view.lighting.casting.size())
+	# The world let go (only the last few maps keep theirs) and built again: still 低.
+	view.release_world()
+	for frame: int in 600:
+		await _frames(tree, 1)
+		if view._built and view.lighting.sun != null:
+			break
+	view.set_frame("night", true)
+	await _frames(tree, 6)
+	_check(view._built and view.lighting.sun != null and view.lighting.sun.directional_shadow_mode == DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS, "低 after the world is built again: two splits")
+	_check(view._built and view.get_viewport().msaa_3d == Viewport.MSAA_DISABLED and view.lighting.lamp_shadow_count() == 4 and view.lighting.casting.size() <= 4, "低 after the world is built again: no MSAA, four lamps (%d cast)" % view.lighting.casting.size())
 	GraphicsQuality.apply(GraphicsQuality.Value.HIGH)
 	await _frames(tree, 3)
 	_check(view.get_viewport().msaa_3d == Viewport.MSAA_4X and view.lighting.sun.directional_shadow_mode == DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS and view.lighting.lamp_shadow_count() == VoxelLighting.LAMP_SHADOWS, "and back to 高")

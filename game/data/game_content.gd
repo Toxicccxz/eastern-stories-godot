@@ -37,6 +37,15 @@ static func load_catalog(
 	data_root: String,
 	errors: Array[String],
 ) -> ContentCatalog:
+	var builder: ContentCatalogBuilder = read_documents(manifest_path, data_root)
+	var result: ContentCatalog = builder.build()
+	errors.append_array(builder.errors())
+	return result
+
+
+## A builder holding the manifest's documents, not yet built (a test checks a condition authored
+## outside the manifest against the tables, ContentCatalogBuilder.condition_problems()).
+static func read_documents(manifest_path: String = MANIFEST_PATH, data_root: String = DATA_ROOT) -> ContentCatalogBuilder:
 	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
 	var manifest: Array = _read_json(manifest_path, builder)
 	var files: Variant = null
@@ -52,9 +61,7 @@ static func load_catalog(
 		var document: Array = _read_json(data_root.path_join(file), builder)
 		if not document.is_empty():
 			builder.add_document(document[0], file)
-	var result: ContentCatalog = builder.build()
-	errors.append_array(builder.errors())
-	return result
+	return builder
 
 
 ## One-element array holding the parsed document, or empty after reporting why

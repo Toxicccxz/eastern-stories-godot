@@ -15,6 +15,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_summoned_and_seal_checks()
 	_test_quest_item_words()
 	_test_missing_files_fail_closed()
+	_test_stage_conditions()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
@@ -234,6 +235,35 @@ func _test_cross_reference_checks() -> void:
 		"t.spawns[1].map: unknown map 'm'",
 		"pacing: no document defines it",
 	], "cross references are checked")
+	# Names another table defines (全项目审查第六批): give_to, fight_style, skills, a weapon's skill;
+	# spider-array alone may stay undefined (DECISIONS「审查收尾」).
+	var named: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	named.add_document({
+		"skills": [{"id": "sword", "name": "基本剑术", "summary": "剑。", "kind": "basic", "type": "martial", "legacy_source": "daemon/skill/sword.c"}],
+		"items": [
+			{"id": "t:letter", "legacy_sources": ["t/letter.c"], "name": "信", "aliases": ["letter"], "weight": 1, "no_drop": true, "give_to": ["t.nobody"]},
+			{"id": "t:axe", "legacy_sources": ["t/axe.c"], "name": "斧", "aliases": ["axe"], "weight": 1, "weapon": {"skill": "chop", "damage": 1}},
+			{"id": "t:blade", "legacy_sources": ["t/blade.c"], "name": "剑", "aliases": ["blade"], "weight": 1, "weapon": {"skill": "sword", "damage": 1}},
+		],
+		"npcs": [
+			{"id": "t.styled", "legacy_source": "t/styled.c", "name": "甲", "aliases": ["a"], "fight_style": "thunder", "skills": {"sword": 10, "flying-kick": 5, "spider-array": 20}},
+		],
+	}, "t")
+	_eq(named.build(), null, "a catalog naming what is not there is not built")
+	for expected: String in [
+		"t.items[0].give_to: unknown NPC 't.nobody'",
+		"t.items[1].weapon.skill: unknown skill 'chop'",
+		"t.npcs[0].fight_style: unknown style 'thunder'",
+		"t.npcs[0].skills: unknown skill 'flying-kick'",
+	]:
+		_eq(named.errors().has(expected), true, "reported: %s (%s)" % [expected, named.errors()])
+	for unexpected: String in ["t.items[2].weapon.skill: unknown skill 'sword'", "t.npcs[0].skills: unknown skill 'spider-array'", "t.npcs[0].skills: unknown skill 'sword'"]:
+		_eq(named.errors().has(unexpected), false, "not reported: %s" % unexpected)
+	var capable: Array[String] = []
+	NpcContentRecords.npc_from_record(ContentRecordReader.new({
+		"id": "t.capable", "legacy_source": "t/capable.c", "name": "乙", "aliases": ["b"], "capabilities": ["aggressive_on_player_presence", "flies"],
+	}, "t.npcs[1]", capable))
+	_eq(capable.size() == 1 and capable[0].begins_with("t.npcs[1].capabilities: unknown capability 'flies'"), true, "an unknown capability is reported: %s" % [capable])
 	var not_object: ContentCatalogBuilder = ContentCatalogBuilder.new()
 	not_object.add_document([], "list.json")
 	not_object.add_document(null, "null.json")
@@ -322,3 +352,56 @@ class ScriptedNpcDraws extends NpcInitializationRandomSource:
 
 	func next_below(_exclusive_upper_bound: int) -> int:
 		return _values.pop_front() if not _values.is_empty() else -1
+
+
+## Every `present` / `until` on a thing of a map's picture (a layout's furnishing look in
+## tools/maps/layouts, a voxel config's prop) names items, NPCs, zones, phases... the game has:
+## WorldStoryPresence reads them only at run time, where a wrong id is only logged.
+func _test_stage_conditions() -> void:
+	var builder: ContentCatalogBuilder = GameContent.read_documents()
+	_eq(builder.build() != null, true, "the shipped content builds for the check")
+	var files: Array[String] = []
+	var layouts: String = ProjectSettings.globalize_path("res://").path_join("../tools/maps/layouts")
+	for name: String in DirAccess.get_files_at(layouts):
+		if name.ends_with(".json"):
+			files.append(layouts.path_join(name))
+	for region: String in DirAccess.get_directories_at("res://data"):
+		var voxel: String = "res://data".path_join(region).path_join("voxel")
+		if DirAccess.dir_exists_absolute(voxel):
+			for name: String in DirAccess.get_files_at(voxel):
+				if name.ends_with(".json"):
+					files.append(voxel.path_join(name))
+	_eq(files.size() > 20, true, "layouts and voxel configs found: %d" % files.size())
+	var looked: int = 0
+	var problems: Array[String] = []
+	for path: String in files:
+		var staged: Array[Dictionary] = []
+		_staged_looks(JSON.parse_string(FileAccess.get_file_as_string(path)), staged)
+		for look: Dictionary in staged:
+			for key: String in ["present", "until"]:
+				if look.has(key):
+					looked += 1
+					problems.append_array(_stage_problems(builder, "%s %s" % [path.get_file(), key], {key: look[key]}, key))
+	_eq(looked >= 30, true, "the staged looks are read: %d conditions" % looked)
+	_eq(problems, [], "every staged look names what the game has")
+	_eq(_stage_problems(builder, "t", {"present": {"any": [{"item": "t:nothing"}, {"zone": "t.nowhere"}]}}, "present"), ["t.item: no item 't:nothing'", "t.zone: no zone 't.nowhere'"], "a wrong id in a staged look is caught")
+
+
+func _staged_looks(node: Variant, found: Array[Dictionary]) -> void:
+	if node is Dictionary:
+		if (node as Dictionary).has("present") or (node as Dictionary).has("until"):
+			found.append(node)
+		for value: Variant in (node as Dictionary).values():
+			_staged_looks(value, found)
+	elif node is Array:
+		for value: Variant in node:
+			_staged_looks(value, found)
+
+
+func _stage_problems(builder: ContentCatalogBuilder, origin: String, record: Dictionary, key: String) -> Array[String]:
+	var errors: Array[String] = []
+	var definition := JournalEntryDefinition.new()
+	JournalEntryDefinition.read_when(ContentRecordReader.new(record, origin, errors), definition, key)
+	JournalEntryDefinition.link_named(GameContent.catalog().conditions(), errors)
+	errors.append_array(builder.condition_problems(origin, definition))
+	return errors

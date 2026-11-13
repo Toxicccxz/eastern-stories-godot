@@ -12,6 +12,8 @@ const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_fa
 ## The NPC starts a fight when the player comes into contact (LPC attitude
 ## "aggressive" acted on in init()).
 const CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = &"aggressive_on_player_presence"
+## Every name a record's `capabilities` may give (the loader refuses others).
+const CAPABILITIES: Array[StringName] = [CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE]
 
 ## LPC set("attitude"). Friendly and heroism only change how an NPC answers
 ## fight (npc.c accept_fight, NpcSparConsent) and ask (ask.c, NpcInquiry); killer

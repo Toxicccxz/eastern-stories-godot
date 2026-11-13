@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -11,6 +12,40 @@ REPOSITORY = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPOSITORY / "tools/l10n"))
 
 import extract_pot  # noqa: E402
+
+
+# Keys in game/data whose strings are never shown to the player as they stand, with why. Every
+# other string with Chinese text in game/data must reach the template (CompletenessTest): a new
+# text key fails there until the extractor learns it or it is listed here.
+NOT_SHOWN = {
+    # Notes for the developers: comments, provenance, the LPC a record came from.
+    "note": "a comment", "_comment": "a comment", "note_bands": "a comment", "origin": "provenance",
+    "source": "provenance", "sources": "provenance", "legacy_source": "provenance",
+    "legacy_sources": "provenance", "legacy_room": "provenance",
+    # Marks and temps (CharacterState.marks / temps) are ids the rules test, never printed.
+    "mark": "a mark", "marks": "marks", "not_mark": "a mark", "unmark": "a mark",
+    "asker_marks": "marks", "asker_lacks": "marks", "mark_asker": "a mark", "marks_asker": "marks",
+    "listed_marks": "marks", "confirm_marks": "marks", "confirm_lacks": "marks",
+    "giver_mark": "a mark", "mark_giver": "a mark", "unless_giver_mark": "a mark",
+    "scene_mark": "a mark", "cleared_mark": "a mark", "set_mark": "a mark", "found_by": "a mark",
+    "teaches": "a mark", "spar_won_mark": "a mark", "again_mark": "a mark",
+    "die_marks_killer": "a mark", "forbids_marks": "marks", "accept_marks": "marks",
+    "attack_unless_mark": "a mark", "attack_unless_marks": "marks",
+    "unless_mark": "a mark", "unless_marks": "marks",
+    "temp": "a temp", "set_temp": "a temp", "set_temps": "temps", "unset_temps": "temps",
+    "clear_temp": "a temp", "giver_temp": "a temp", "unless_temp": "a temp", "not_temp": "a temp",
+    # Words matched, not printed: an item's aliases (give/ask by name), an item carried, a chat
+    # line's source text a journal entry waits for.
+    "aliases": "matched against", "carries": "an item matched", "asker_carries": "an item matched",
+    "contains": "matched against the source line",
+    # Read but not shown: an item's material (no screen reads it).
+    "material": "not drawn",
+    # Pieces of a name, shown only joined: a drawn name's parts (each whole name is extracted),
+    # a 法名's first character before the player's own, the new player's suggested names (the
+    # player's own name is kept as typed, not translated).
+    "name_parts": "joined names are extracted", "prefixes": "joined to the player's name",
+    "surnames": "the player's own name", "male": "the player's own name", "female": "the player's own name",
+}
 
 
 def _ids(catalog: extract_pot.Catalog) -> list[tuple[str, str]]:
@@ -63,6 +98,16 @@ class GdscriptTest(unittest.TestCase):
         entries = catalog.entries()
         self.assertEqual([entry.msgid for entry in entries], ["{npc}点了点头。"])
         self.assertEqual(entries[0].notes, ["{npc} is an NPC name."])
+
+    def test_developer_output_is_not_player_text(self) -> None:
+        catalog = self._extract(
+            'func f() -> void:\n'
+            '\tpush_error("车马行: the fare (%d) was not taken" % fare)\n'
+            '\tpush_warning("遁 could not reach %s" % place)\n'
+            '\tprint("调试")\n'
+            '\tshow("你付了车钱。")\n'
+        )
+        self.assertEqual(_ids(catalog), [("", "你付了车钱。")])
 
     def test_context_must_be_literal(self) -> None:
         catalog = self._extract(
@@ -163,6 +208,51 @@ class ContentTest(unittest.TestCase):
         line = next(entry for entry in catalog.entries() if entry.msgid == "这封信不能随便丢。")
         self.assertEqual(line.notes, ["native:choyin/magistrate_letter no_drop"])
 
+    def test_story_lines_written_for_a_moment(self) -> None:
+        # 攻击 on one the story will not let the player fight, a watch's lines when it catches the
+        # player again, a trial's question and deed and its master's words, a helper leaving, an
+        # act's questions and answers, a landmark's guarded line; none of their marks or ids.
+        catalog = extract_pot.Catalog()
+        document = {
+            "npcs": [{
+                "id": "native.npc.guard",
+                "fight_deferred": "你的手刚抬起来，四面的禁军已经拔了刀。",
+                "fights_beside_leaves": "{npc}收了刀，走了。",
+                "watch": {"caught": {"again_mark": "被禁军拿过两回", "again_lines": ["禁军把你押回了侍卫营。"]}},
+                "trials": [{"confirm": "三鞭是真打。", "deed": "接下了三鞭", "relent_say": "我不用内力。",
+                            "rest_say": "歇好了再来。", "unless_mark": "接过三鞭"}],
+                "rank_info": {"self": "小的"},
+                "attitude": {"when": {"mark": "x"}, "then": "peaceful", "else": "friendly"},
+                "classic": {"combat_exp": 600, "without": ["resources"]},
+                "moods": [{"combat_chat_msg": ["他叫道：认输了！", {"action": "random_move"}]}],
+            }],
+            "acts": [{"steps": [{"questions": [{"text": "头在哪里？", "answers": [{"text": "在湖底。", "mark": "说了湖底"}]}]}]}],
+            "landmarks": [{"messages": {"guarded": "僧人说：偷东西不好。"}}],
+        }
+        extract_pot.extract_content(document, "data/native/npcs.json", catalog)
+        self.assertEqual(
+            sorted(msgid for _, msgid in _ids(catalog)),
+            sorted(["你的手刚抬起来，四面的禁军已经拔了刀。", "{npc}收了刀，走了。", "禁军把你押回了侍卫营。", "三鞭是真打。",
+                    "接下了三鞭", "我不用内力。", "歇好了再来。", "小的", "他叫道：认输了！", "头在哪里？", "在湖底。",
+                    "僧人说：偷东西不好。"]),
+        )
+
+    def test_a_document_holding_one_record(self) -> None:
+        # common/opening.json: {"opening": {...}}, not a list of records.
+        catalog = extract_pot.Catalog()
+        document = {"opening": {"source": "native: 开场", "title": "开场", "paragraphs": ["第一段。", "第二段。"]}}
+        extract_pot.extract_content(document, "data/common/opening.json", catalog)
+        self.assertEqual([msgid for _, msgid in _ids(catalog)], ["开场", "第一段。", "第二段。"])
+
+    def test_a_moves_bare_hand_word_but_not_a_skill_type(self) -> None:
+        catalog = extract_pot.Catalog()
+        document = {
+            "skills": [{"id": "x", "groups": ["逼", "守"], "actions": [{"action": "$N一指点出。", "weapon": "右手食指", "group": "逼"}]}],
+            "npcs": [{"id": "y", "weapon": "sword"}],
+        }
+        extract_pot.extract_content(document, "data/common/skills.json", catalog)
+        self.assertEqual([msgid for _, msgid in _ids(catalog)], ["逼", "守", "$N一指点出。", "右手食指"])
+
     def test_skill_practice_valid_learn_and_improved_lines(self) -> None:
         catalog = extract_pot.Catalog()
         document = {"skills": [{
@@ -200,6 +290,41 @@ class RenderTest(unittest.TestCase):
 
     def test_no_chinese_concatenation(self) -> None:
         self.assertEqual(extract_pot.lint_repository(REPOSITORY), [])
+
+
+class CompletenessTest(unittest.TestCase):
+    """Every string with Chinese text in game/data (the manifest's files, common/opening.json, the
+    appearances, names and voxel configs read for display) reaches the template, unless it sits
+    under a key in NOT_SHOWN."""
+
+    def _missing(self, document: object, catalog_ids: set[str], path: tuple[str, ...] = ()) -> list[tuple[str, str]]:
+        if isinstance(document, dict):
+            found: list[tuple[str, str]] = []
+            for key, value in document.items():
+                if key not in NOT_SHOWN:
+                    found.extend(self._missing(value, catalog_ids, path + (key,)))
+            return found
+        if isinstance(document, list):
+            return [item for value in document for item in self._missing(value, catalog_ids, path)]
+        if isinstance(document, str) and extract_pot.has_chinese(document) and document not in catalog_ids:
+            return [(".".join(path), document)]
+        return []
+
+    def test_every_shown_string_reaches_the_template(self) -> None:
+        catalog_ids = {entry.msgid for entry in extract_pot.build_catalog(REPOSITORY).entries()}
+        data = REPOSITORY / extract_pot.GAME / "data"
+        files = sorted(data.rglob("*.json"))
+        self.assertTrue(any(path.name == "opening.json" for path in files))
+        missing: list[str] = []
+        for path in files:
+            document = json.loads(path.read_text(encoding="utf-8"))
+            for where, text in self._missing(document, catalog_ids):
+                missing.append(f"{path.relative_to(data).as_posix()} {where}: {text[:40]!r}")
+        self.assertEqual(missing[:20], [], f"{len(missing)} strings with Chinese text are neither extracted nor listed in NOT_SHOWN")
+
+    def test_the_check_notices_a_new_text_key(self) -> None:
+        document = {"npcs": [{"id": "x", "farewell_say": "后会有期。", "mark": "见过了"}]}
+        self.assertEqual(self._missing(document, set()), [("npcs.farewell_say", "后会有期。")])
 
 
 if __name__ == "__main__":

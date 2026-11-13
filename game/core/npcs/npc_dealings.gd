@@ -4,8 +4,9 @@ extends RefCounted
 ## How the player deals with an NPC besides talk and fights: the goods it sells
 ## from its body (feature/vendor.c; `vendor` names the vendors[] record), what it
 ## takes when given something (accept_object() as NpcObjectRule), the object
-## variables its create() sets (drunk.c has_alcohol, `flags`), whether it
-## cannot be fought yet (`fight_deferred`, the reason; DECISIONS 4E), the toll it
+## variables its create() sets (drunk.c has_alcohol, `flags`), whether the story will
+## not let the player fight it (`fight_deferred`: the line 攻击 shows instead, and it is
+## never asked to 切磋; DECISIONS「不能动手的人」), the toll it
 ## takes (`attack_unless_mark`, u/cloud gangster.c: greeting() kills a passer-by
 ## without marks/<mark>; once it has fought the player it attacks on sight until it
 ## is created anew, kill_passenger()'s attitude or attack.c's hatred; its greeting
@@ -60,8 +61,16 @@ var sentence: NpcSentence
 var settle: NpcSettle
 
 
+## The story will not let the player fight it (DECISIONS「不能动手的人」): no 切磋, and 攻击
+## answers with fight_refusal(); no NPC rule starts a fight with it either.
 func is_fight_deferred() -> bool:
 	return not fight_deferred.is_empty()
+
+
+## What the player is shown when they choose 攻击 on it, untranslated: its own line, or
+## "" when it can be fought.
+func fight_refusal() -> String:
+	return fight_deferred
 
 
 ## Whether it takes a toll at all.
