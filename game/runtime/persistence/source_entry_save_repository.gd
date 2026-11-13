@@ -7,11 +7,8 @@ func _requires_current_public_contract() -> bool:
 	return true
 
 
-func _read_snapshot(path: String) -> GameSaveResult:
-	var result: GameSaveResult = super._read_snapshot(path)
-	if not result.succeeded():
-		return result
-	return _validated_current(result.snapshot)
+func _checked(snapshot: GameSaveSnapshot) -> GameSaveResult:
+	return _validated_current(snapshot)
 
 
 func _save_impl(snapshot: GameSaveSnapshot) -> GameSaveResult:

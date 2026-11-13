@@ -261,6 +261,18 @@ func configure_before_start(
 	return true
 
 
+## The renderer said once in the game's log (godot.log), as it runs: a driver given on the command
+## line or by the system may differ from the project's (BUILD.md, the release checklist).
+static var _renderer_logged: bool = false
+
+
+static func _log_renderer() -> void:
+	if _renderer_logged or DisplayServer.get_name() == "headless":
+		return
+	_renderer_logged = true
+	print("Renderer: %s driver, %s method, %s (%s)" % [RenderingServer.get_current_rendering_driver_name(), RenderingServer.get_current_rendering_method(), RenderingServer.get_video_adapter_name(), RenderingServer.get_video_adapter_api_version()])
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group(GameMenu.HOST_GROUP)
@@ -288,6 +300,7 @@ func _ready() -> void:
 	_settings_repository = ApplicationSettingsRepository.new(_settings_files)
 	_settings_service = ApplicationSettingsService.new(_settings_repository, _window_capability, _localization)
 	_settings_bootstrap_result = _settings_service.load_and_apply()
+	_log_renderer()
 	_apply_focus_pause(_settings_service.committed_snapshot().pause_on_focus_loss())
 	_show_window_title()
 	_configure_window_mode_options()
@@ -1633,7 +1646,7 @@ func _configure_window_mode_options() -> void:
 	window_mode_option.add_item("无边框窗口", ApplicationWindowMode.Value.BORDERLESS)
 	if _settings_service == null or _settings_service.offers_exclusive_fullscreen():
 		window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
-	resolution_option.tooltip_text = "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变"
+	resolution_option.tooltip_text = "窗口下是窗口的大小；全屏和无边框窗口铺满显示器，这里定地图画得多清楚，界面不变。全屏时调低它，画面会更流畅"
 	_select_committed_window_mode()
 
 

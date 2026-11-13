@@ -25,8 +25,10 @@ when the file is not as Godot writes it, and pins three settings:
 
 - **Vulkan on Windows.** Godot's D3D12 driver reserves at least 64 KB of GPU memory per buffer, and
   a voxel map holds thousands of small MultiMesh buffers (乔阴县城 1.2 GB under D3D12, 0.1 GB under
-  Vulkan); visited maps stay built, so a long session ran the GPU out of memory (black or grey
-  screens, torn floors, low frame rates; `build/leak/census.gd` measures it). Vulkan is Godot
+  Vulkan); visited maps used to stay built, so a long session ran the GPU out of memory (black or
+  grey screens, torn floors, low frame rates; `build/leak/census.gd` measures it). Now only the
+  last three maps visited keep their voxel world (`feel.voxel_worlds_kept`); the rest are built
+  again on return. Vulkan is Godot
   4.7.2's built-in default, so the file does not list it (new projects get `d3d12` from the
   project template). If an engine upgrade changes the default, the test fails: write
   `rendering_device/driver.windows="vulkan"` back under `[rendering]`.

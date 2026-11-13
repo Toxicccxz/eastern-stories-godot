@@ -12,6 +12,10 @@ var doors: Array[WorldDoor] = []
 var passages: Array[WorldPassageArea2D] = []
 ## Painted tiles never change at runtime: walkability by point, worked out once.
 var _walkable: Dictionary[Vector2i, bool] = {}
+## Whether a footprint overlaps a layer's colliding tiles (MapPlacementValidator), by layer and
+## roundness, then by the footprint's rect; kept to a bound.
+var _tile_blocks: Dictionary[int, Dictionary] = {}
+const TILE_BLOCKS_KEPT: int = 8192
 
 
 func _init(map: Node) -> void:
@@ -32,3 +36,17 @@ func walkable_tile(point: Vector2) -> bool:
 	if not _walkable.has(key):
 		_walkable[key] = WorldNpcWalker.Grid._walkable_tile(layers, point)
 	return _walkable[key]
+
+
+## Whether `footprint` overlaps layer `index`'s colliding tiles: `test` (layer, footprint, round)
+## asked once for each, then remembered.
+func tiles_block(index: int, footprint: Rect2, round: bool, test: Callable) -> bool:
+	var by_rect: Dictionary = _tile_blocks.get(index * 2 + (1 if round else 0), {})
+	if by_rect.has(footprint):
+		return by_rect[footprint]
+	if by_rect.size() >= TILE_BLOCKS_KEPT:
+		by_rect.clear()
+	var blocks: bool = test.call(layers[index], footprint, round)
+	by_rect[footprint] = blocks
+	_tile_blocks[index * 2 + (1 if round else 0)] = by_rect
+	return blocks

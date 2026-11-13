@@ -50,6 +50,15 @@ class MemoryFiles extends SaveFileOperations:
 		return OK
 
 
+## Counts the full checks of a decoded file (each read that is not reused).
+class CountingRepository extends GameSaveRepository:
+	var checks: int = 0
+
+	func _checked(snapshot: GameSaveSnapshot) -> GameSaveResult:
+		checks += 1
+		return super._checked(snapshot)
+
+
 var _assertion_count: int = 0
 var _failures: Array[String] = []
 
@@ -60,6 +69,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_temp_write_and_rotation_failures()
 	_test_replace_and_rollback_failures()
 	_test_bounded_utf8_and_recovery_results()
+	_test_inspection_checks_once()
 	_test_actual_godot_rename_contract()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
@@ -214,6 +224,77 @@ func _test_bounded_utf8_and_recovery_results() -> void:
 	files.files[profile.temp_path()] = "{".to_utf8_buffer()
 	_assert_eq(repository.load().outcome, GameSaveResult.Outcome.MALFORMED_JSON, "invalid canonical plus invalid recovery reports canonical failure")
 	_assert_gate_released(repository, "invalid canonical and recovery release operation gate")
+
+
+## The menu's check reads the main file first and keeps what it checked; 继续 re-reads the
+## bytes and takes it when they are the same, else reads in full (review fix R).
+func _test_inspection_checks_once() -> void:
+	GameSaveRepository.forget_checked()
+	var profile := GameSaveStorageProfile.isolated_test("review-fix-r-inspect")
+	var files := MemoryFiles.new()
+	var repository := CountingRepository.new(profile, files)
+	var first: PackedByteArray = GameSaveJsonCodec.encode(Fixture.substantial(&"test", 1)).text.to_utf8_buffer()
+	var second: PackedByteArray = GameSaveJsonCodec.encode(Fixture.substantial(&"test", 2)).text.to_utf8_buffer()
+	files.files[profile.canonical_path()] = first.duplicate()
+	files.files[profile.backup_path()] = second.duplicate()
+	files.files[profile.temp_path()] = second.duplicate()
+	var inspected: GameSaveSlotInspectionResult = repository.inspect_slot()
+	_assert_eq(inspected.canonical_outcome, GameSaveResult.Outcome.SUCCESS, "a good main file inspects as SUCCESS beside good recovery files")
+	_assert_eq(repository.checks, 1, "a good main file: the .bak and .tmp are not read")
+	_assert_gate_released(repository, "inspection releases operation gate")
+	var loaded: GameSaveResult = repository.load()
+	_assert_true(loaded.succeeded() and loaded.snapshot.player.character.kee.current == 82, "继续 after the check loads the main file")
+	_assert_eq(repository.checks, 1, "继续 takes the snapshot the check kept: the same bytes are not decoded again")
+	_assert_true(repository.load().succeeded(), "a second load reads again")
+	_assert_eq(repository.checks, 2, "what was kept is taken once")
+	# Changed between the check and 继续, to the same size: read in full.
+	repository.inspect_slot()
+	_assert_eq(first.size(), second.size(), "the two fixtures are the same size")
+	files.files[profile.canonical_path()] = second.duplicate()
+	loaded = repository.load()
+	_assert_true(loaded.succeeded() and loaded.snapshot.player.character.kee.current == 83, "a file changed after the check loads what it holds now")
+	_assert_eq(repository.checks, 4, "a file changed after the check is decoded and checked in full")
+	# One byte changed after the check (still valid JSON? not needed: any change reads in full).
+	repository.inspect_slot()
+	var broken: PackedByteArray = second.duplicate()
+	broken[broken.size() - 1] = "]".unicode_at(0)
+	files.files[profile.canonical_path()] = broken
+	_assert_ne(repository.load().outcome, GameSaveResult.Outcome.SUCCESS, "a file broken after the check is refused, not taken from the check")
+	# Saved, or let go of, after the check: nothing kept.
+	files.files[profile.canonical_path()] = first.duplicate()
+	repository.inspect_slot()
+	GameSaveRepository.forget_checked()
+	var before: int = repository.checks
+	_assert_true(repository.load().succeeded(), "after forget_checked() the main file loads")
+	_assert_eq(repository.checks, before + 1, "after forget_checked() the main file is read in full")
+	repository.inspect_slot()
+	_assert_true(repository.save(Fixture.substantial(&"test", 2)).succeeded(), "a save after the check")
+	before = repository.checks
+	loaded = repository.load()
+	_assert_true(loaded.succeeded() and loaded.snapshot.player.character.kee.current == 83, "a save after the check: 继续 loads the new file")
+	_assert_eq(repository.checks, before + 1, "a save drops what the check kept")
+	# Another slot's repository, the same bytes at another path: not taken.
+	files.files[profile.canonical_path()] = first.duplicate()
+	repository.inspect_slot()
+	var other_profile := profile.for_slot(&"slot-2")
+	var other := CountingRepository.new(other_profile, files)
+	files.files[other_profile.canonical_path()] = first.duplicate()
+	_assert_true(other.load().succeeded(), "another slot loads")
+	_assert_eq(other.checks, 1, "another slot's file is read in full, not taken from this slot's check")
+	# A bad main file still offers the good backup, and says which.
+	files.files.erase(other_profile.canonical_path())
+	files.files[profile.canonical_path()] = "{".to_utf8_buffer()
+	files.files.erase(profile.temp_path())
+	repository.checks = 0
+	var recovery: GameSaveSlotInspectionResult = repository.inspect_slot()
+	_assert_eq(recovery.canonical_outcome, GameSaveResult.Outcome.BACKUP_AVAILABLE, "a bad main file with a good .bak inspects as BACKUP_AVAILABLE")
+	_assert_eq(recovery.recovery_sources(), [GameSaveRecoverySource.Value.BACKUP], "a bad main file still offers the good backup")
+	_assert_eq(repository.checks, 1, "the backup is checked when the main file is bad")
+	files.files.erase(profile.canonical_path())
+	var only_backup: GameSaveSlotInspectionResult = repository.inspect_slot()
+	_assert_eq(only_backup.canonical_outcome, GameSaveResult.Outcome.BACKUP_AVAILABLE, "no main file with a good .bak inspects as BACKUP_AVAILABLE")
+	_assert_eq(only_backup.recovery_sources(), [GameSaveRecoverySource.Value.BACKUP], "no main file still offers the good backup")
+	GameSaveRepository.forget_checked()
 
 
 func _test_actual_godot_rename_contract() -> void:

@@ -96,6 +96,31 @@ func _slow_hint() -> void:
 		said = said or smooth.advance(1.0 / 40.0)
 	_check(not said, "at 40 frames a second never")
 	_check(GraphicsQuality.slow_hint().get("below_fps") == 30 and GraphicsQuality.slow_hint().get("seconds") == 5, "the data's 30 fps, five seconds")
+	# Which hint is still to be told (review fix R): 高's once ever, then on 低 once a run, which
+	# says the 分辨率 is what is left; both name it.
+	var level: int = GraphicsQuality.level
+	var told_before: bool = GraphicsQuality.hint_told
+	var low_before: bool = GraphicsQuality.low_hint_told
+	var keep: Callable = GraphicsQuality.keep_hint_told
+	GraphicsQuality.keep_hint_told = Callable()
+	GraphicsQuality.level = GraphicsQuality.Value.HIGH
+	GraphicsQuality.hint_told = false
+	GraphicsQuality.low_hint_told = false
+	_check(GraphicsQuality.slow_hint_due() == GraphicsQuality.Value.HIGH, "on 高 never told: 高's hint is due")
+	GraphicsQuality.note_slow_hint_told()
+	_check(GraphicsQuality.hint_told and not GraphicsQuality.low_hint_told and GraphicsQuality.slow_hint_due() == -1, "told on 高: never again there")
+	GraphicsQuality.level = GraphicsQuality.Value.LOW
+	_check(GraphicsQuality.slow_hint_due() == GraphicsQuality.Value.LOW, "on 低 and still slow: one more hint is due")
+	GraphicsQuality.note_slow_hint_told()
+	_check(GraphicsQuality.low_hint_told and GraphicsQuality.slow_hint_due() == -1, "told on 低: not again in this run")
+	GraphicsQuality.low_hint_told = false
+	GraphicsQuality.hint_told = false
+	_check(GraphicsQuality.slow_hint_due() == GraphicsQuality.Value.LOW, "a Steam Deck starting on 低 is told the 分辨率 too")
+	_check(WorldVoxelView.SLOW_HINT_HIGH.contains("「画质」") and WorldVoxelView.SLOW_HINT_HIGH.contains("「分辨率」") and WorldVoxelView.SLOW_HINT_LOW.contains("「分辨率」") and WorldVoxelView.SLOW_HINT_LOW.contains("全屏"), "the hints say what can still be done: %s / %s" % [WorldVoxelView.SLOW_HINT_HIGH, WorldVoxelView.SLOW_HINT_LOW])
+	GraphicsQuality.level = level
+	GraphicsQuality.hint_told = told_before
+	GraphicsQuality.low_hint_told = low_before
+	GraphicsQuality.keep_hint_told = keep
 
 
 ## 设置: 画质 beside the 界面缩放, kept by 应用, applied at once; the hint told is kept by the

@@ -25,8 +25,11 @@ const MSAA: Dictionary[int, Viewport.MSAA] = {0: Viewport.MSAA_DISABLED, 2: View
 static var level: int = Value.HIGH
 ## Moves each time a level is applied: a view compares it with the one it last applied.
 static var revision: int = 0
-## The slow-frame hint has been told (kept with the settings; told once ever).
+## The slow-frame hint has been told on 高 (kept with the settings; told once ever).
 static var hint_told: bool = false
+## The slow-frame hint has been told on 低 in this run (review fix R: there is no third level, the
+## hint says the 分辨率 is what is left; not kept with the settings, so once each time the game runs).
+static var low_hint_told: bool = false
 ## Keeps hint_told with the settings (the settings service sets it).
 static var keep_hint_told: Callable = Callable()
 static var _data: Dictionary = {}
@@ -121,6 +124,22 @@ static func apply(value: int) -> void:
 ## The slow-frame hint (data `slow_hint`): below_fps, seconds, settle_seconds.
 static func slow_hint() -> Dictionary:
 	return data().get("slow_hint", {})
+
+
+## The level whose slow-frame hint is still to be told at the level now chosen, or -1: on 高
+## once ever, on 低 once a run (DECISIONS「画质」).
+static func slow_hint_due() -> int:
+	if level == Value.HIGH:
+		return -1 if hint_told else Value.HIGH
+	return -1 if low_hint_told else Value.LOW
+
+
+## The hint of the level now chosen has been told.
+static func note_slow_hint_told() -> void:
+	if level == Value.HIGH:
+		note_hint_told()
+	else:
+		low_hint_told = true
 
 
 ## The hint has been told: kept so it is never told again.
