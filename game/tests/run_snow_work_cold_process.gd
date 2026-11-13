@@ -42,7 +42,7 @@ func _run() -> void:
 		var session: WorldSessionController = host.current_session()
 		check(session != null, "cold Continue succeeds")
 		if session != null:
-			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, saved.snapshot.metadata.storage_profile, saved.snapshot.metadata.saved_at_utc)
+			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, saved.snapshot.metadata.storage_profile, saved.snapshot.metadata.saved_at_utc, saved.snapshot.metadata.build_commit)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(saved.snapshot).text, "whole persisted state exact including RNG, position, depleted resources, allocator")
 			check(session.player_runtime().state.essence.current == 100 and session.player_runtime().state.spirit.current == 100, "nothing spent")
 			var carried: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, session.player_runtime().character_id))

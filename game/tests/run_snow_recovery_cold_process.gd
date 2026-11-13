@@ -47,7 +47,7 @@ func _run() -> void:
 		var session: WorldSessionController = host.current_session()
 		check(session != null, "fresh published Session")
 		if session != null:
-			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
+			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc, loaded.snapshot.metadata.build_commit)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL persisted gameplay facts equal (Player/items/food/money/allocator/position/RNG)")
 			var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
 			check(cadence != null and cadence.accumulated_seconds == 0.0 and cadence.source_tick >= 5 and cadence.source_tick <= 14, "fresh transient cadence0/new5..14")

@@ -46,7 +46,7 @@ func _run() -> void:
 		var session: WorldSessionController = host.current_session()
 		check(session != null, "fresh Session published")
 		if session != null:
-			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
+			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc, loaded.snapshot.metadata.build_commit)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL saved facts exact including location/items/allocator/RNG")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no save rewrite")
 			check(loaded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and loaded.snapshot.items.schema_version == 3, "root2/item3")

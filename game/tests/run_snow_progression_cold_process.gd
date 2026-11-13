@@ -50,7 +50,7 @@ func _run() -> void:
 		var session := host.current_session()
 		check(session != null,"published session")
 		if session != null:
-			var after := OldPineWorldSaveCapture.new().capture(session,loaded.snapshot.metadata.storage_profile,loaded.snapshot.metadata.saved_at_utc)
+			var after := OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc, loaded.snapshot.metadata.build_commit)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text,"whole snapshot exact")
 			var map := session.active_map() as WorldMapController
 			var school := map.service(&"snow.school_compound.schoolhall.master") as TeacherService

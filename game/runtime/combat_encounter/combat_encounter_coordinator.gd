@@ -942,16 +942,16 @@ func _abort_failed_resolution() -> void:
 ## Ends the active fight where it stands, as a failed one ends (damage so far stays, the
 ## fallen fall, both sides disengage, the world returns), but as nobody's failure: nothing is
 ## logged or counted. For a caller that needs a fight out of the way: a suite done with the
-## fight it started. Whether there was a fight to end.
+## fight it started. Whether a fight ended and the world came back.
 func stop_where_it_stands() -> bool:
 	if _active_encounter == null or _active_encounter.phase != CombatEncounterLifecycle.Value.ACTIVE or _resolution == null:
 		return false
 	_last_abort_detail = "stopped where it stood"
-	_end_where_it_stands()
-	return true
+	var ended: CombatEncounterCompletionResult = _end_where_it_stands()
+	return ended != null and ended.succeeded()
 
 
-func _end_where_it_stands() -> void:
+func _end_where_it_stands() -> CombatEncounterCompletionResult:
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var bindings: Array[CombatSliceCharacterBinding] = _session.encounter_combat_bindings(_active_encounter)
 	if map != null:
@@ -961,7 +961,7 @@ func _end_where_it_stands() -> void:
 			if required != null and victim.exists_in_encounter:
 				map.execute_encounter_lifecycle(victim, required, bindings, victim.relationship.last_damage_from_id)
 	_resolution.disengage_all()
-	_return_world(CombatEncounterResult.new(_active_encounter.encounter_id, _active_encounter.mode,
+	return _return_world(CombatEncounterResult.new(_active_encounter.encounter_id, _active_encounter.mode,
 		CombatEncounterResultKind.Value.ABORTED, [], [], []))
 
 

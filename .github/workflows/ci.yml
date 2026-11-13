@@ -139,6 +139,10 @@ jobs:
         run: python tools/ci/bootstrap_godot.py --platform windows --output build/toolchain
 
       - name: Build Windows x86_64 Release
+        # The version the game shows and its saves record: the branch's head, not the PR's
+        # merge commit.
+        env:
+          ES_BUILD_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
         run: >-
           python tools/build/build.py
           --target windows

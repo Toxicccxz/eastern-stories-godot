@@ -122,6 +122,12 @@ func _run() -> void:
 			Time.get_ticks_msec() - started_msec,
 		])
 
+	# An error a worker thread logs after the last suite was judged (a save still writing)
+	# is nobody's to declare: it fails the run.
+	var judged: int = script_errors.error_count()
+	await process_frame
+	for late: String in script_errors.errors_since(judged):
+		failures.append("after the last suite: %s" % late)
 	OS.remove_logger(script_errors)
 	for failure: String in failures:
 		printerr(failure)

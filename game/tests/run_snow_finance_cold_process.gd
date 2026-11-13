@@ -75,7 +75,7 @@ func _run() -> void:
 		var session: WorldSessionController = host.current_session()
 		check(session != null, "restored Session")
 		if session != null:
-			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
+			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc, loaded.snapshot.metadata.build_commit)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text,
 				"entire snapshot exact: IDs, parents, amounts, weights, Player, location, RNG, allocator")
 			var before: int = session.item_id_allocator().next_dynamic_sequence

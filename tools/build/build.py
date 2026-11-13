@@ -255,7 +255,10 @@ def version_label(repository: Path) -> str:
     """What a build calls itself: the tag on the commit when there is one, with the short
     commit (`v0.3 (1a2b3c4d)`), else the short commit alone; `-dirty` when the worktree had
     changes. A development run, which has no config/version, shows "dev" (BuildIdentity)."""
-    commit = _git_output(repository, "rev-parse", "--short=8", "HEAD")
+    # A pull request's CI checks out a merge commit no branch has: the workflow names the
+    # branch's own head in ES_BUILD_COMMIT.
+    named = os.environ.get("ES_BUILD_COMMIT", "").strip()
+    commit = named[:8] if named else _git_output(repository, "rev-parse", "--short=8", "HEAD")
     if commit is None:
         commit = os.environ.get("GITHUB_SHA", "unknown")[:8]
     _, dirty = _git_metadata(repository)

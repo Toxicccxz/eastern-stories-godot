@@ -143,8 +143,8 @@ anyway, the presets exclude `tests/*` and `addons/*` and export to `build/editor
 The build writes its version into the staged `project.godot` (`application/config/version`): the
 short commit, with the tag when the commit has one (`v0.3 (1a2b3c4d)`), `-dirty` for a build from a
 changed worktree. A development run has none and shows `dev`. The version stands small on the main
-menu and on 系统, every save records it (`metadata.build_commit`), and the log's first line names it
-with the renderer (`Eastern Stories <version> · Godot … · <driver> driver, …`). CI's Windows job
+menu and on 系统, every save records it (`metadata.build_commit`), and the log's first line after
+Godot's own banner names it with the renderer (`Eastern Stories <version> · Godot … · <driver> driver, …`). CI's Windows job
 starts the exported game headless for a few hundred frames and fails on a nonzero exit or any error
 line (`tools/ci/start_smoke.py exe`).
 
@@ -197,7 +197,7 @@ dist/Eastern-Stories-Godot-windows-x86_64.zip
 ```
 
 Windows release checklist (rendering). The game writes the renderer it actually runs on as the
-first line of its log (`Eastern Stories <version> · Godot … · <driver> driver, …`) (`%APPDATA%/Godot/app_userdata/<project>/logs/godot.log`); a
+first line of its log after Godot's banner (`Eastern Stories <version> · Godot … · <driver> driver, …`) (`%APPDATA%/Godot/app_userdata/<project>/logs/godot.log`); a
 driver given on the command line, by Steam or by Godot's own fallback may differ from Vulkan. Before
 a release, run the exported game windowed through 乔阴县城 and 雪亭镇 three times and compare the
 picture and the video memory (`Performance.RENDER_VIDEO_MEM_USED`; the kit of 2026-11-12 is

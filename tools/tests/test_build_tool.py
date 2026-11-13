@@ -149,6 +149,14 @@ class BuildToolTest(unittest.TestCase):
                 mock.patch.object(build, "_git_metadata", return_value=("1a2b3c4d" * 5, True)):
             self.assertEqual("v0.3 (1a2b3c4d-dirty)", build.version_label(self.root))
 
+    def test_a_pull_requests_build_names_the_branch_head(self) -> None:
+        # CI checks out the PR's merge commit; the workflow names the branch's head instead.
+        answers = {("rev-parse", "--short=8", "HEAD"): "merge000", ("describe", "--tags", "--exact-match", "HEAD"): None}
+        with mock.patch.dict(os.environ, {"ES_BUILD_COMMIT": "9246edb9c0ffee"}), \
+                mock.patch.object(build, "_git_output", side_effect=lambda _repository, *arguments: answers[arguments]), \
+                mock.patch.object(build, "_git_metadata", return_value=("merge000" * 5, False)):
+            self.assertEqual("9246edb9", build.version_label(self.root))
+
 
 if __name__ == "__main__":
     unittest.main()
