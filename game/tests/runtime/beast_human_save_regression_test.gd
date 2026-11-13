@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Values := preload("res://core/persistence/game_save_value_types.gd")
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 const BeastFixture := preload("res://tests/support/beast_persistence_fixture.gd")
@@ -26,8 +27,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var snapshot: GameSaveSnapshot = capture.snapshot
 	var prepared: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
 	_eq(prepared.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "real production human ledger restores")
-	_eq(snapshot.npc_spawn_states.size(), 37, "37 production NPCs (36 of ES2's and the 黑衣道士 off the stage in cave5, 主线 A)")
-	_eq(snapshot.items.item_records.size(), 58, "58 bootstrap items")
+	_eq(snapshot.npc_spawn_states.size(), WorldCounts.number("technical_npcs"), "production NPCs (36 of ES2's and the 黑衣道士 off the stage in cave5, 主线 A)")
+	_eq(snapshot.items.item_records.size(), WorldCounts.number("technical_items"), "the bootstrap items")
 	for saved: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
 		_eq(TestContent.npc(saved.npc_definition_id) != null, true, "every production definition is authored")
 		var body: NpcBodyFacts = NpcBodyFacts.derive(TestContent.npc(saved.npc_definition_id), saved.character.attributes.strength)

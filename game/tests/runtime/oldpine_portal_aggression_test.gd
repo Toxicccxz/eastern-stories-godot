@@ -1,5 +1,6 @@
 extends RefCounted
 
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
 
 const SCENE_PATH: String = "res://scenes/world/oldpine/oldpine_world_session.tscn"
@@ -899,7 +900,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	_assert_true(fresh.npc_random_source() != old_npc_random, "fresh scene owns new NPC RNG authority")
 	_assert_true(fresh.combat_random_source() != old_combat_random, "fresh scene owns new combat RNG authority")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
-	_assert_eq(fresh.npc_runtimes().size(), 19, "fresh scene restores all 19 of the forest (the keep's hall is its own map since the remap)")
+	_assert_eq(fresh.npc_runtimes().size(), WorldCounts.of("map_npcs", "oldpine.outdoor"), "fresh scene restores all of the forest's (the keep's hall is its own map since the remap)")
 	_assert_eq(
 		OldPineTestMap.body(fresh, "Bandit01").get_node("AggressionPresence").get_signal_connection_list("body_entered").size(),
 		1,
