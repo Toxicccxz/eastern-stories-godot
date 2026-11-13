@@ -13,6 +13,10 @@ var _confirmed_action: Callable = Callable()
 var _cancelled_action: Callable = Callable()
 ## ask_choices(): called with the index picked.
 var _chosen_action: Callable = Callable()
+## ask_choices() waiting for the dialogue box to be read out: its call on read_out, dropped
+## if the box is shut unread (a fight, a fall), so an old question never comes up after a
+## later dialogue (审查修补 M).
+var _waiting: Callable = Callable()
 
 # The HUD's authorities, read as SharedGameplayUI reads them.
 var _presentation_layout: SharedGameplayLayout:
@@ -56,10 +60,31 @@ func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String],
 	_chosen_action = on_chosen
 	_cancelled_action = on_cancel
 	var boxed: bool = speaker != null and GameContent.catalog().pacing().feel.shows_dialogue_box()
+	_stop_waiting() # An older question still waiting gives way to this one.
 	if boxed and _ui.dialogue_box.is_open() and not _ui.dialogue_box.hosting():
-		_ui.dialogue_box.read_out.connect(func(_teller: StringName) -> void: _host_choices(speaker, text, choices, boxed), CONNECT_ONE_SHOT)
+		_waiting = func(_teller: StringName) -> void:
+			_stop_waiting()
+			_host_choices(speaker, text, choices, boxed)
+		_ui.dialogue_box.read_out.connect(_waiting)
+		_ui.dialogue_box.closed_unread.connect(_drop_waiting)
 		return
 	_host_choices(speaker, text, choices, boxed)
+
+
+## The box was shut unread: the question waiting for it goes with it.
+func _drop_waiting() -> void:
+	if _waiting.is_valid():
+		_chosen_action = Callable()
+		_cancelled_action = Callable()
+	_stop_waiting()
+
+
+func _stop_waiting() -> void:
+	if _waiting.is_valid() and _ui.dialogue_box.read_out.is_connected(_waiting):
+		_ui.dialogue_box.read_out.disconnect(_waiting)
+	if _ui.dialogue_box.closed_unread.is_connected(_drop_waiting):
+		_ui.dialogue_box.closed_unread.disconnect(_drop_waiting)
+	_waiting = Callable()
 
 
 func _host_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], boxed: bool) -> void:

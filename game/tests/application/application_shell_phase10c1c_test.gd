@@ -51,6 +51,9 @@ class FakeWindowCapability extends ApplicationWindowModeCapability:
 	var apply_calls: Array[int] = []
 	var ui_scale: int = ApplicationUiScale.DEFAULT
 	var exclusive: bool = true
+	## The monitor and Steam's SteamDeck variable a first start reads.
+	var screen: Vector2i = Vector2i(1920, 1080)
+	var deck: String = ""
 
 	func can_edit_window_mode() -> bool:
 		return editable
@@ -70,6 +73,9 @@ class FakeWindowCapability extends ApplicationWindowModeCapability:
 
 	func offers_exclusive_fullscreen() -> bool:
 		return exclusive
+
+	func first_start_window_mode() -> int:
+		return ApplicationWindowSize.first_mode(screen, deck)
 
 
 var _assertions: int = 0
@@ -96,7 +102,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_snapshot_and_repository() -> void:
 	var defaults: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
 	_assert_true(defaults.is_valid(), "default settings snapshot is valid")
-	_assert_eq(defaults.version(), 12, "settings schema is v12 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜, 自动存档提示, 分辨率, 总音量, 战斗开场, 画质)")
+	_assert_eq(defaults.version(), 13, "settings schema is v13 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜, 自动存档提示, 分辨率, 总音量, 战斗开场, 画质, 切出窗口时暂停)")
 	_assert_eq(defaults.window_mode(), ApplicationWindowMode.Value.WINDOWED, "desktop-safe default is Windowed")
 	_assert_false(ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION + 1).is_valid(), "unsupported snapshot version rejects")
 	_assert_eq(defaults.ui_scale(), 100, "the UI scale starts at 100%")
@@ -252,6 +258,36 @@ func _test_service_policy() -> void:
 		[Vector2i(1366, 768), Vector2i(1160, 652)],
 	]:
 		_assert_eq(ApplicationWindowSize.initial(case[0]), case[1], "the window opens at the largest size within 85%% of a %s screen" % case[0])
+	_test_first_start_mode()
+
+
+## A first start (no settings file) covers a screen where 1280×720 does not fit within 85 %
+## (a Steam Deck's 1280×800, a 1366×768 laptop) or Steam says it is a Deck; a kept setting stays.
+func _test_first_start_mode() -> void:
+	for case: Array in [
+		[Vector2i(1920, 1080), "", ApplicationWindowMode.Value.WINDOWED],
+		[Vector2i(1600, 900), "", ApplicationWindowMode.Value.WINDOWED],
+		[Vector2i(1536, 864), "", ApplicationWindowMode.Value.WINDOWED],
+		[Vector2i(1366, 768), "", ApplicationWindowMode.Value.BORDERLESS],
+		[Vector2i(1280, 800), "", ApplicationWindowMode.Value.BORDERLESS],
+		[Vector2i(2560, 1440), "1", ApplicationWindowMode.Value.BORDERLESS],
+	]:
+		_assert_eq(ApplicationWindowSize.first_mode(case[0], case[1]), case[2], "a first start on a %s screen (SteamDeck=%s)" % [case[0], case[1]])
+	var deck := FakeWindowCapability.new()
+	deck.screen = Vector2i(1280, 800)
+	var deck_files := MemoryFiles.new()
+	var deck_service := ApplicationSettingsService.new(ApplicationSettingsRepository.new(deck_files), deck)
+	var first: ApplicationSettingsServiceResult = deck_service.load_and_apply()
+	_assert_eq(deck.mode, ApplicationWindowMode.Value.BORDERLESS, "no settings file on a 1280×800 screen: the window covers it")
+	_assert_eq(first.snapshot().window_mode(), ApplicationWindowMode.Value.BORDERLESS, "and 设置 shows 无边框窗口")
+	_assert_false(deck_files.files.has(ApplicationSettingsRepository.SETTINGS_PATH), "nothing is written until the player applies a setting")
+	var kept_files := MemoryFiles.new()
+	ApplicationSettingsRepository.new(kept_files).write(ApplicationSettingsSnapshot.defaults().with_window_mode(ApplicationWindowMode.Value.WINDOWED))
+	var kept := FakeWindowCapability.new()
+	kept.screen = Vector2i(1280, 800)
+	kept.mode = ApplicationWindowMode.Value.BORDERLESS
+	ApplicationSettingsService.new(ApplicationSettingsRepository.new(kept_files), kept).load_and_apply()
+	_assert_eq(kept.mode, ApplicationWindowMode.Value.WINDOWED, "a kept 窗口 stays a window on the same screen")
 
 
 func _test_state_model() -> void:
@@ -753,6 +789,7 @@ func _test_native_held_key_repeat(tree: SceneTree) -> void:
 func _send_key(key: Key, pressed: bool, echo: bool = false) -> void:
 	var event := InputEventKey.new()
 	event.keycode = key
+	event.physical_keycode = key # As the OS sends it: the letter keys are bound by position.
 	event.pressed = pressed
 	event.echo = echo
 	Input.parse_input_event(event)

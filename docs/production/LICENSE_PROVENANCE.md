@@ -80,11 +80,6 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   bytes, SHA-256 `9282063131640c9558a102560cf6d6f8ecc4bb441e74f2bcff032ce4786238d0`). SIL Open
   Font License 1.1, `game/assets/fonts/OFL-LXGWWenKaiLite.txt` (reserved names 霞鹜 / LXGW; the
   font is used unmodified).
-- `game/assets/fonts/ark-pixel-16px-proportional-zh_cn.otf` — 方舟像素 16 px proportional,
-  Simplified Chinese, from [TakWolf/ark-pixel-font](https://github.com/TakWolf/ark-pixel-font)
-  release 2026.09.01, `ark-pixel-font-16px-proportional-otf-v2026.09.01.zip` (font 347,964
-  bytes, SHA-256 `2527059d7cbe7b53d7de271fc90a1aa6987f262c969713956e88c5a3ab5988c6`). SIL Open
-  Font License 1.1, `game/assets/fonts/OFL-ArkPixel.txt`; used unmodified.
 - `game/assets/fonts/fusion-pixel-12px-proportional-zh_hans.otf.woff2` — 缝合像素 12 px
   proportional, Simplified Chinese, from [TakWolf/fusion-pixel-font](https://github.com/TakWolf/fusion-pixel-font)
   release 2026.10.25, `fusion-pixel-font-12px-proportional-otf.woff2-v2026.10.25.zip` (font

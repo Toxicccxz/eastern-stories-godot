@@ -84,17 +84,18 @@ static func lamp_shadows(value: int = level) -> int:
 ## The level a first start (or a settings file from before 画质) takes on this machine: the
 ## data's default, or its Steam Deck level on a Steam Deck.
 static func device_default() -> int:
-	return default_for(OS.get_name(), RenderingServer.get_video_adapter_name(), OS.get_environment(String(data().get("steam_deck", {}).get("environment", "SteamDeck"))))
+	return default_for(RenderingServer.get_video_adapter_name(), OS.get_environment(String(data().get("steam_deck", {}).get("environment", "SteamDeck"))))
 
 
-## device_default() for a given system name, video adapter and the Steam Deck's environment
-## variable (Steam sets it to "1" there).
-static func default_for(os_name: String, adapter: String, deck_variable: String) -> int:
+## device_default() for a given video adapter and the Steam Deck's environment variable (Steam
+## sets it to "1" there). The system's name plays no part: only a Windows build ships, so a
+## Deck runs it through Proton and the game sees "Windows" (DECISIONS「画质」).
+static func default_for(adapter: String, deck_variable: String) -> int:
 	var fallback: int = from_storage(String(data().get("default", "high")))
 	if fallback < 0:
 		fallback = Value.HIGH
 	var deck: Dictionary = data().get("steam_deck", {})
-	if os_name != "Linux" or deck.is_empty():
+	if deck.is_empty():
 		return fallback
 	var on_deck: bool = deck_variable == "1"
 	for name: Variant in deck.get("adapters", []):

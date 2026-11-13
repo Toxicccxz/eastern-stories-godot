@@ -363,17 +363,34 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 ## menu_open (M, Start) the menu on its last tab, look_around (L, X) is 观察. The open menu
 ## and the popup take their own keys.
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible or _presentation_layout.frame.visible or menu.is_presented() or event.is_echo() or not event.is_pressed():
+	if not visible or menu.is_presented() or event.is_echo():
+		return
+	# E on a card's 继续 or a row of the interaction popup presses it, as in the dialogue box
+	# (Enter / Space / A already do; 审查修补 M).
+	if _interact_presses_focus(event):
+		return
+	if _presentation_layout.frame.visible or not event.is_pressed():
+		return
+	# A card covers the world (the opening card, 拜师): the confirm is its 继续's, never the
+	# place's under it.
+	if is_instance_valid(life_overlay) and (life_overlay.card_shown() or life_overlay.is_blocking()) and (event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept")):
+		get_viewport().set_input_as_handled()
 		return
 	var tab: int = GameMenu.tab_for_event(event)
+	# The menu key and the pause key (Esc, Back) are the shell's even in the dialogue box and a
+	# scene: 系统 opens over them, which stand still behind it (DECISIONS「剧情演出」).
+	# A conversation the box hosts (打听's topics, a question's answers) is left with Esc / B as
+	# before (告辞, 走开; DECISIONS「对话框」): there Esc is its ui_cancel, not the pause.
+	var leaves_box: bool = dialogue_box.is_open() and dialogue_box.hosting() and event.is_action_pressed("ui_cancel")
+	var shell_key: bool = event.is_action_pressed(&"menu_open") or (event.is_action_pressed(&"pause_game") and not leaves_box)
 	# The dialogue box (DECISIONS「对话框」): E / A is 继续 or the focused choice; only the menu
-	# takes another key.
-	if dialogue_box.is_open() and not event.is_action_pressed(&"menu_open"):
+	# and the pause take another key.
+	if dialogue_box.is_open() and not shell_key:
 		get_viewport().set_input_as_handled()
 		_dialogue_key(event)
 		return
-	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu takes another key.
-	if _session != null and _session.scene_held() and not event.is_action_pressed(&"menu_open"):
+	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu and the pause take another key.
+	if _session != null and _session.scene_held() and not shell_key:
 		get_viewport().set_input_as_handled()
 		if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
 			waits.hurry()
@@ -563,6 +580,26 @@ func _hold_for_interaction() -> void:
 	else:
 		_interacting = null
 		_session.release_world_time(INTERACTION_TIME_HOLD)
+
+
+## The keyboard's interact key (E) on a focused button of a card or the interaction popup:
+## passed on as ui_accept, so the button presses on its release as with Enter. A pad's A is
+## ui_accept already; a LineEdit takes E as a letter before this.
+func _interact_presses_focus(event: InputEvent) -> bool:
+	if not event is InputEventKey or not event.is_action(&"interact") or event.is_action("ui_accept"):
+		return false
+	var card_up: bool = is_instance_valid(life_overlay) and life_overlay.card_shown()
+	if not card_up and not interaction_open():
+		return false
+	var focused := get_viewport().gui_get_focus_owner() as BaseButton
+	if focused == null or not focused.is_visible_in_tree() or focused.disabled:
+		return false
+	get_viewport().set_input_as_handled()
+	var accept := InputEventAction.new()
+	accept.action = &"ui_accept"
+	accept.pressed = event.is_pressed()
+	get_viewport().push_input(accept)
+	return true
 
 
 ## Where the focus was on the frame's panel or the menu's page: [that root, the path

@@ -6,6 +6,20 @@ extends RefCounted
 ## player can carry what they become (a new target pile that does not fit is lost; a pile held
 ## already grows past the limit). An exchange whose result would not fit, once the source coins
 ## are gone, is refused before anything moves (TOO_HEAVY).
+## The most of `held` that converts with nothing left over (bank.c rounds the source down to
+## a whole unit of the target): what the 钱庄's amount starts at (DECISIONS「手柄」), 0 where
+## not one unit converts.
+@warning_ignore("integer_division")
+static func largest_even(held: int, from: CurrencyDenomination.Value, to: CurrencyDenomination.Value) -> int:
+	var source_content: ItemContentDefinition = GameContent.catalog().currency_item(from)
+	var target_content: ItemContentDefinition = GameContent.catalog().currency_item(to)
+	if source_content == null or target_content == null or held < 1:
+		return 0
+	var bv1: int = source_content.currency_base_value
+	var bv2: int = target_content.currency_base_value
+	return held - held % (bv2 / bv1) if bv1 < bv2 and bv1 > 0 else held
+
+
 @warning_ignore("integer_division")
 static func convert(context: MoneyInventoryContext, allocator: SessionItemIdAllocator,
 	maximum_encumbrance: int, from: CurrencyDenomination.Value,

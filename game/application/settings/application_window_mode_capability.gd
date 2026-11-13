@@ -42,6 +42,11 @@ func offers_exclusive_fullscreen() -> bool:
 	return true
 
 
+## The window mode a first start (no settings file) opens in on this machine.
+func first_start_window_mode() -> int:
+	return ApplicationWindowMode.Value.WINDOWED
+
+
 ## What the platform itself asks of the window before any setting applies.
 func prepare_platform_window() -> void:
 	pass

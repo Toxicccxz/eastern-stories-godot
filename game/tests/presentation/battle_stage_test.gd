@@ -197,7 +197,7 @@ func _setting() -> void:
 	var older: String = text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=10")
 	var lines := PackedStringArray()
 	for line: String in older.split("\n"):
-		if not line.begins_with("battle_opening=") and not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told="):
+		if not line.begins_with("battle_opening=") and not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told=") and not line.begins_with("pause_on_focus_loss="):
 			lines.append(line)
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()

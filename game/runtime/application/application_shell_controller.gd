@@ -47,6 +47,8 @@ signal interaction_changed
 ## 界面缩放 (ApplicationUiScale): on every platform.
 @onready var ui_scale_row: Control = %UiScaleRow
 @onready var ui_scale_option: OptionButton = %UiScaleOption
+## Shown where the window is too small for the three 界面缩放 to differ (ApplicationUiScale.levels_differ).
+@onready var ui_scale_note: Label = %UiScaleNote
 ## 画质 (GraphicsQuality; DECISIONS「画质」), beside the 界面缩放.
 @onready var graphics_quality_option: OptionButton = %GraphicsQualityOption
 @onready var language_row: Control = %LanguageRow
@@ -58,6 +60,10 @@ signal interaction_changed
 @onready var knockout_option: OptionButton = %KnockoutOption
 @onready var battle_opening_option: OptionButton = %BattleOpeningOption
 @onready var objective_hints_check: CheckButton = %ObjectiveHintsCheck
+## 切出窗口时暂停 (DECISIONS「切出窗口」): desktop only, beside 语言.
+@onready var focus_pause_check: CheckButton = %FocusPauseCheck
+## 按键一览 (DECISIONS「按键」): opens key_page over 设置.
+@onready var keys_button: Button = %KeysButton
 @onready var autosave_notice_check: CheckButton = %AutosaveNoticeCheck
 @onready var day_night_option: OptionButton = %DayNightOption
 ## 总音量 (DECISIONS「战斗拍数 C」): the Master bus, 0–100.
@@ -133,12 +139,32 @@ var _quit_requested: bool = false
 var _draft_gender: StringName = &""
 var _name_rng := RandomNumberGenerator.new()
 var _activity: ApplicationActivity = ApplicationActivity.new()
+## 按键一览 over 设置 (KeyBindingsPage).
+var key_page: KeyBindingsPage
 ## The zone the session being started opens at ("" for a new journey): the title dives there.
 var _starting_zone: StringName = &""
 
 
 func activity() -> ApplicationActivity:
 	return _activity
+
+
+## The lifecycle adapter (the scene's MobileLifecycle node): phones' background and focus,
+## the desktop window's focus.
+func lifecycle_adapter() -> MobileLifecycleAdapter:
+	return get_node_or_null("MobileLifecycle") as MobileLifecycleAdapter
+
+
+func lifecycle_capability() -> MobileLifecycleCapability:
+	var adapter: MobileLifecycleAdapter = lifecycle_adapter()
+	return adapter.capability() if adapter != null else MobileLifecycleCapability.new()
+
+
+## 切出窗口时暂停 to the adapter that listens for the window's focus.
+func _apply_focus_pause(on: bool) -> void:
+	var adapter: MobileLifecycleAdapter = lifecycle_adapter()
+	if adapter != null:
+		adapter.pause_on_focus_loss = on
 
 
 func interaction_allowed() -> bool:
@@ -262,6 +288,7 @@ func _ready() -> void:
 	_settings_repository = ApplicationSettingsRepository.new(_settings_files)
 	_settings_service = ApplicationSettingsService.new(_settings_repository, _window_capability, _localization)
 	_settings_bootstrap_result = _settings_service.load_and_apply()
+	_apply_focus_pause(_settings_service.committed_snapshot().pause_on_focus_loss())
 	_show_window_title()
 	_configure_window_mode_options()
 	_configure_resolution_options(_settings_service.committed_snapshot().resolution())
@@ -278,6 +305,12 @@ func _ready() -> void:
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
 	graphics_quality_option.get_popup().window_input.connect(_popup_system_input.bind(graphics_quality_option))
 	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
+	key_page = KeyBindingsPage.new()
+	shell_canvas.add_child(key_page)
+	keys_button.pressed.connect(func() -> void: key_page.open(keys_button))
+	if not lifecycle_capability().enabled():
+		# TRANSLATORS: on 系统 after the desktop window lost its focus (切出窗口时暂停).
+		lifecycle_info.text = "切到别的窗口时，游戏暂停了。"
 	# Pad support (owner, DECISIONS「手柄」): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
@@ -315,6 +348,17 @@ func _notification(what: int) -> void:
 func _process(_delta: float) -> void:
 	if settings_visible() and settings_editable() and _settings_service.current_screen() != _resolution_screen:
 		_configure_resolution_options(_selected_resolution())
+	if settings_visible():
+		_show_ui_scale_note()
+
+
+## The three 界面缩放 draw alike in a small window (a Steam Deck's screen, a window under
+## 1280×720 at 100 %): the page says so rather than offer three choices that change nothing.
+func _show_ui_scale_note() -> void:
+	var base := Vector2i(int(ProjectSettings.get_setting("display/window/size/viewport_width", 1280)), int(ProjectSettings.get_setting("display/window/size/viewport_height", 720)))
+	var differ: bool = ApplicationUiScale.levels_differ(get_tree().root.size, base)
+	if ui_scale_note.visible == differ:
+		ui_scale_note.visible = not differ
 
 
 ## The window title follows the language; config/name stays as it is, it names the
@@ -737,6 +781,12 @@ func apply_settings() -> bool:
 		var hints: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_objective_hints(objective_hints_check.button_pressed)
 		if hints.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "目标提示已生效，但未能保存。"
+			return false
+	if focus_pause_check.visible and focus_pause_check.button_pressed != committed.pause_on_focus_loss():
+		var focus_pause: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_pause_on_focus_loss(focus_pause_check.button_pressed)
+		_apply_focus_pause(focus_pause.snapshot().pause_on_focus_loss())
+		if focus_pause.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "切出窗口时暂停已生效，但未能保存。"
 			return false
 	if autosave_notice_check.button_pressed != committed.autosave_notice():
 		var notice: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_autosave_notice(autosave_notice_check.button_pressed)
@@ -1412,6 +1462,8 @@ func _render_state(defer_focus: bool = true) -> void:
 	main_menu_panel.visible = mode == ApplicationShellState.Mode.MAIN_MENU
 	_render_pause_surface(mode)
 	settings_panel.visible = mode == ApplicationShellState.Mode.SETTINGS
+	if key_page != null and mode != ApplicationShellState.Mode.SETTINGS:
+		key_page.close()
 	recovery_panel.visible = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
 	slot_panel.visible = mode == ApplicationShellState.Mode.SLOT_LIST
 	new_game_setup_panel.visible = mode == ApplicationShellState.Mode.NEW_GAME_SETUP
@@ -1470,6 +1522,9 @@ func _render_state(defer_focus: bool = true) -> void:
 	knockout_option.disabled = not settings_interactive
 	battle_opening_option.disabled = not settings_interactive
 	objective_hints_check.disabled = not settings_interactive
+	focus_pause_check.visible = window_mode_row.visible
+	focus_pause_check.disabled = not settings_interactive
+	keys_button.disabled = not settings_interactive
 	autosave_notice_check.disabled = not settings_interactive
 	day_night_option.disabled = not settings_interactive
 	master_volume_slider.editable = settings_interactive
@@ -1674,6 +1729,7 @@ func _configure_battle_options() -> void:
 	battle_opening_option.tooltip_text = "进战斗时搭擂台、镜头拉近的那一段：全程（每次开游戏的头几场完整、之后简短）、一直简短，或者不放"
 	# 目标提示 (DECISIONS「新手链与当前目标」): off hides the status card's 目标 row and the toasts' 下一步.
 	objective_hints_check.tooltip_text = "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+	focus_pause_check.tooltip_text = "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
 	# 自动存档提示 (DECISIONS「自动存档」): only the line; the autosave goes on.
 	autosave_notice_check.tooltip_text = "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
 	# 昼夜 (DECISIONS「昼夜」): the map's light follows the game's day, or holds day or night.
@@ -1709,6 +1765,7 @@ func _select_committed_battle() -> void:
 	if knockout >= 0:
 		knockout_option.select(knockout)
 	objective_hints_check.set_pressed_no_signal(committed.objective_hints())
+	focus_pause_check.set_pressed_no_signal(committed.pause_on_focus_loss())
 	autosave_notice_check.set_pressed_no_signal(committed.autosave_notice())
 	var day_night: int = day_night_option.get_item_index(committed.day_night())
 	if day_night >= 0:
@@ -1775,6 +1832,8 @@ func _all_shell_focus_controls() -> Array[Control]:
 		knockout_option,
 		battle_opening_option,
 		objective_hints_check,
+		focus_pause_check,
+		keys_button,
 		autosave_notice_check,
 		day_night_option,
 		master_volume_slider,
@@ -1830,10 +1889,12 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append_array([ui_scale_option, graphics_quality_option])
 			if language_row.visible:
 				controls.append(language_option)
+			if focus_pause_check.visible:
+				controls.append(focus_pause_check)
 			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, battle_opening_option, objective_hints_check, autosave_notice_check, day_night_option, master_volume_slider])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
-			controls.append(settings_cancel_button)
+			controls.append_array([settings_cancel_button, keys_button])
 		ApplicationShellState.Mode.RECOVERY_CHOICE:
 			if backup_recovery_button.visible:
 				controls.append(backup_recovery_button)
@@ -1889,7 +1950,10 @@ func _focus_settings_control() -> void:
 		return
 	if _state.mode() != ApplicationShellState.Mode.SETTINGS:
 		return
-	if window_mode_row.visible and not window_mode_option.disabled:
+	# 按键一览 open over 设置 (back from another window, say) keeps the focus on itself.
+	if key_page != null and key_page.visible:
+		key_page.back_button.grab_focus()
+	elif window_mode_row.visible and not window_mode_option.disabled:
 		window_mode_option.grab_focus()
 	elif not ui_scale_option.disabled:
 		ui_scale_option.grab_focus()

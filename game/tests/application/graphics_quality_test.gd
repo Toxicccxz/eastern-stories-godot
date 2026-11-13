@@ -39,12 +39,15 @@ func _levels() -> void:
 
 
 func _device_default() -> void:
-	_check(GraphicsQuality.default_for("Windows", "NVIDIA GeForce RTX 4070 SUPER", "") == GraphicsQuality.Value.HIGH, "a Windows desktop starts on 高")
-	_check(GraphicsQuality.default_for("Windows", "AMD Custom GPU 0405", "") == GraphicsQuality.Value.HIGH, "the Deck's GPU name alone under Windows: 高 (it is the player's own install)")
-	_check(GraphicsQuality.default_for("Linux", "AMD Radeon RX 7800 XT (RADV NAVI32)", "") == GraphicsQuality.Value.HIGH, "a Linux desktop: 高")
-	_check(GraphicsQuality.default_for("Linux", "AMD Custom GPU 0405 (RADV VANGOGH)", "") == GraphicsQuality.Value.LOW, "a Steam Deck by its GPU: 低")
-	_check(GraphicsQuality.default_for("Linux", "AMD Custom GPU 0932 (RADV SEPHIROTH)", "") == GraphicsQuality.Value.LOW, "a Steam Deck OLED: 低")
-	_check(GraphicsQuality.default_for("Linux", "llvmpipe", "1") == GraphicsQuality.Value.LOW, "Steam's SteamDeck=1: 低")
+	_check(GraphicsQuality.default_for("NVIDIA GeForce RTX 4070 SUPER", "") == GraphicsQuality.Value.HIGH, "a desktop starts on 高")
+	_check(GraphicsQuality.default_for("AMD Radeon RX 7800 XT (RADV NAVI32)", "") == GraphicsQuality.Value.HIGH, "another AMD card: 高")
+	_check(GraphicsQuality.default_for("AMD Custom GPU 0405", "") == GraphicsQuality.Value.LOW, "the Deck's GPU name (a Deck running Windows too): 低")
+	_check(GraphicsQuality.default_for("AMD Custom GPU 0405 (RADV VANGOGH)", "") == GraphicsQuality.Value.LOW, "a Steam Deck by its GPU: 低")
+	_check(GraphicsQuality.default_for("AMD Custom GPU 0932 (RADV SEPHIROTH)", "") == GraphicsQuality.Value.LOW, "a Steam Deck OLED: 低")
+	_check(GraphicsQuality.default_for("llvmpipe", "1") == GraphicsQuality.Value.LOW, "Steam's SteamDeck=1: 低")
+	# Only a Windows build ships: on a Deck it runs through Proton, whatever adapter name the
+	# translation layer reports.
+	_check(GraphicsQuality.default_for("NVIDIA GeForce RTX 4070 SUPER", "1") == GraphicsQuality.Value.LOW, "the Windows build under Proton with SteamDeck=1, any adapter: 低")
 
 
 func _storage() -> void:
@@ -54,10 +57,10 @@ func _storage() -> void:
 	var text: String = files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8()
 	_check(written.succeeded() and text.contains("graphics_quality=\"low\"") and text.contains("quality_hint_told=true"), "低 and the hint told are kept: %s" % text)
 	var back: ApplicationSettingsResult = repository.load()
-	_check(back.succeeded() and back.snapshot().graphics_quality() == GraphicsQuality.Value.LOW and back.snapshot().quality_hint_told() and back.snapshot().version() == 12, "and read back")
+	_check(back.succeeded() and back.snapshot().graphics_quality() == GraphicsQuality.Value.LOW and back.snapshot().quality_hint_told() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION, "and read back")
 	var lines := PackedStringArray()
-	for line: String in text.replace("schema_version=12", "schema_version=11").split("\n"):
-		if not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told="):
+	for line: String in text.replace("schema_version=%d" % ApplicationSettingsSnapshot.SCHEMA_VERSION, "schema_version=11").split("\n"):
+		if not line.begins_with("graphics_quality=") and not line.begins_with("quality_hint_told=") and not line.begins_with("pause_on_focus_loss="):
 			lines.append(line)
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "\n".join(lines).to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()
@@ -65,7 +68,7 @@ func _storage() -> void:
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = text.replace("graphics_quality=\"low\"", "graphics_quality=\"ultra\"").to_utf8_buffer()
 	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "an unknown level is refused")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = text.replace("quality_hint_told=true\n", "").to_utf8_buffer()
-	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a version 12 file without the hint's key is refused")
+	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a current file without the hint's key is refused")
 	_check(not ApplicationSettingsSnapshot.defaults().with_graphics_quality(5).is_valid(), "a snapshot with no such level is invalid")
 	_check(ApplicationSettingsSnapshot.defaults().graphics_quality() == GraphicsQuality.device_default(), "the default is this machine's first level")
 

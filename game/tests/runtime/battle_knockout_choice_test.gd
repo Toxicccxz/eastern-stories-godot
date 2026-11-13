@@ -357,6 +357,7 @@ func _key(tree: SceneTree, keycode: Key) -> void:
 	for pressed: bool in [true, false]:
 		var key := InputEventKey.new()
 		key.keycode = keycode
+		key.physical_keycode = keycode # As the OS sends it: the letter keys are bound by position.
 		key.pressed = pressed
 		Input.parse_input_event(key)
 		await tree.process_frame

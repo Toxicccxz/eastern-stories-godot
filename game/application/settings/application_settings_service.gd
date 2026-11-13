@@ -29,6 +29,10 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 		if repository_result.succeeded()
 		else ApplicationSettingsSnapshot.defaults()
 	)
+	# A first start opens as this machine's screen suits (DECISIONS「显示设置」); a kept
+	# setting, even a bad file read as defaults, is not second-guessed.
+	if repository_result.outcome() == ApplicationSettingsResult.Outcome.NO_SETTINGS:
+		requested = requested.with_window_mode(_window_capability.first_start_window_mode())
 	if _localization != null:
 		if not _localization.is_known(requested.language()):
 			requested = requested.with_language(LocalizationService.FOLLOW_SYSTEM)
@@ -234,6 +238,21 @@ static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 func apply_and_persist_objective_hints(shown: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_objective_hints(shown)
 	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## 切出窗口时暂停 (DECISIONS「切出窗口」): kept; the shell hands it to the lifecycle adapter.
+func apply_and_persist_pause_on_focus_loss(paused: bool) -> ApplicationSettingsServiceResult:
+	_committed = _committed.with_pause_on_focus_loss(paused)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(
 		(

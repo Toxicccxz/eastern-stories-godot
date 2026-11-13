@@ -35,6 +35,9 @@ var _dark_for: float = 0.0
 ## The cards waiting (show_card()), the one shown first.
 var _cards: Array[String] = []
 var _card_held: bool = false
+## The card's panel showed last frame: hidden under the shell's pause and shown again, 继续
+## takes the focus back (the pause's own focus went with it).
+var _panel_was_shown: bool = false
 
 
 func configure(session: WorldSessionController) -> void:
@@ -164,9 +167,15 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 		_to_autosave.visible = false
 	# The shell's question over the card stands alone.
 	_panel.visible = _world_has_focus()
+	var reappeared: bool = _panel.visible and not _panel_was_shown
+	_panel_was_shown = _panel.visible
 	# Keys and pad answer 继续 with Enter / A (owner, gamepad support): the controls under
-	# the dim are out of reach. The shell's question over the card keeps the keys.
-	if can_continue and blocking and is_inside_tree() and _world_has_focus() and get_viewport().gui_get_focus_owner() not in [_continue, _to_autosave]:
+	# the dim are out of reach. The shell's question over the card keeps the keys. A card
+	# takes the focus as it comes up, back from the pause, or when nothing has it; not every
+	# frame (the menu opened over it keeps its own).
+	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	var wanted: bool = blocking or (_card_held and (reappeared or focused == null) and not _menu_open())
+	if can_continue and wanted and is_inside_tree() and _world_has_focus() and focused not in [_continue, _to_autosave]:
 		_continue.grab_focus()
 	_dim.color.a = 0.72 if blocking else 0.0
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
@@ -252,6 +261,12 @@ func _revived_notice(flow: PlayerLifeFlow) -> String:
 func _shell() -> Node:
 	var host: Node = get_tree().get_first_node_in_group(GameMenu.HOST_GROUP) if is_inside_tree() else null
 	return host if host != null and host.has_method(&"request_return_to_autosave") else null
+
+
+## The game menu is up over the card (opened from it with M / Start).
+func _menu_open() -> bool:
+	var ui: SharedGameplayUI = _session.shared_ui() if _session != null else null
+	return ui != null and ui.menu != null and ui.menu.is_presented()
 
 
 func _world_has_focus() -> bool:
