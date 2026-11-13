@@ -1099,18 +1099,23 @@ func return_home(npc: NpcRuntimeState) -> bool:
 		or zone == null or catalog.room(zone.room_ids()[0]).exits().is_empty()
 	):
 		return false
-	var seen: bool = _map.npc_life.player_hears(npc)
+	# One not on the map (indoors for the night, DECISIONS「夜里冷清」) is called home where it is:
+	# put on its spot at once, off the map still. Nobody walks a street they are not on, nothing is
+	# said of one nobody saw leave, and it greets nobody where it would stand.
+	var out: bool = npc.exists_in_map
+	var seen: bool = out and _map.npc_life.player_hears(npc)
 	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
 	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
 	if body == null or marker == null:
 		return false
 	_map.npc_life.npc_walker().cancel(npc.character_id)
 	_map.npc_life.departures.erase(npc.character_id)
-	var watched: bool = session != null and session.active_map() == _map
+	var watched: bool = out and session != null and session.active_map() == _map
 	if not watched or not _map.npc_life.npc_walker().walk_to(npc.character_id, body, _map.physical_zone(from_zone_id), _map.physical_zone(spawn.zone_id), marker.global_position):
 		body.global_position = marker.global_position
 	npc.set_world_location(_map.location_for_zone(spawn.zone_id))
 	if seen:
 		_map.hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
-	_map.npc_life.npc_arrived(npc)
+	if out:
+		_map.npc_life.npc_arrived(npc)
 	return true
