@@ -52,6 +52,20 @@ var _last_row_sound: float = -1.0
 var _row_sound_flip: bool = false
 var _dressing: Array[Node3D] = []
 var _flames: Array[MeshInstance3D] = []
+## 战斗特效 (DECISIONS「战斗特效」): the base answers a blow. Each hop of its bricks: [the clock
+## when it began, its middle (the base's x and z), how far it reaches, how high at the middle,
+## how long a brick is in the air]; the braziers' lights and the flags, and the flare they are
+## in: [the clock when it began, how long, how strong].
+var _jolts: Array[Array] = []
+## How many bricks the last frame of a hop set above where they lie (tests).
+var _lifted: int = 0
+var _flame_lights: Array[OmniLight3D] = []
+var _flags: Array[Node3D] = []
+var _flare: Array[float] = []
+## A hop spreads outward this many seconds a unit.
+const RIPPLE: float = 0.05
+const FLAME_LIGHT: float = 0.9
+const FLAG_SNAP: float = 0.32
 var _restyle: Dictionary = {}
 var _taking_down: float = -1.0
 var _take_down_seconds: float = 0.3
@@ -247,9 +261,15 @@ func grow_to(spots: Array[Vector2], player: Vector2) -> void:
 			node.queue_free()
 	_dressing.clear()
 	_flames.clear()
+	# What answered a blow goes with the dressing (the base's clock starts over when it is built
+	# again): no hop or flare carries over.
+	_flags.clear()
+	_flame_lights.clear()
+	_flare = []
 	for mesh: MultiMeshInstance3D in _meshes:
 		mesh.queue_free()
 	_meshes.clear()
+	_jolts.clear()
 	_plan_steps(spots, player)
 	# Laid wider at once, quietly (the fight goes on on it).
 	_quiet = true
@@ -538,12 +558,95 @@ func _process(delta: float) -> void:
 		_advance_restyle(delta)
 	if _taking_down >= 0.0:
 		_advance_take_down(delta)
+	if not _jolts.is_empty():
+		_advance_jolts()
+	var boost: float = _advance_flare()
 	for flame: MeshInstance3D in _flames:
 		if is_instance_valid(flame):
 			var flicker: float = 1.0 + 0.18 * sin(_clock * 17.0 + flame.position.x * 3.0) + 0.08 * sin(_clock * 31.0)
-			flame.scale = Vector3(1.0, flicker, 1.0)
-	if not _laying and _restyle.is_empty() and _taking_down < 0.0 and _flames.is_empty():
+			flame.scale = Vector3(1.0 + 0.3 * boost, flicker * (1.0 + boost), 1.0 + 0.3 * boost)
+	if not _laying and _restyle.is_empty() and _taking_down < 0.0 and _flames.is_empty() and _jolts.is_empty() and _flare.is_empty():
 		set_process(false)
+
+
+## 战斗特效: the bricks round `at` (the base's own space) hop — highest at the middle, none
+## past `radius`, the hop spreading outward, each brick `seconds` in the air. Not while the base
+## is being laid, restained or taken down.
+func jolt(at: Vector3, radius: float, height: float, seconds: float) -> void:
+	if _laying or _taking_down >= 0.0 or not _restyle.is_empty() or _bricks.is_empty() or seconds <= 0.0 or radius <= 0.0 or height <= 0.0:
+		return
+	_jolts.append([_clock, Vector2(at.x, at.z), radius, height, seconds])
+	set_process(true)
+
+
+## Whether a hop of the bricks is under way (tests).
+func jolting() -> bool:
+	return not _jolts.is_empty()
+
+
+## How many bricks are in the air now (tests: the renderer's own copy cannot be read headless).
+func lifted_bricks() -> int:
+	return _lifted if not _jolts.is_empty() else 0
+
+
+## How high the brick whose place is `rest` stands over it now (tests).
+func lift_at(rest: Vector3) -> float:
+	var lift: float = 0.0
+	for hop: Array in _jolts:
+		var distance: float = Vector2(rest.x, rest.z).distance_to(hop[1])
+		if distance > float(hop[2]):
+			continue
+		var p: float = (_clock - float(hop[0]) - distance * RIPPLE) / float(hop[4])
+		if p > 0.0 and p < 1.0:
+			lift += float(hop[3]) * (1.0 - distance / float(hop[2])) * sin(p * PI)
+	return lift
+
+
+func _advance_jolts() -> void:
+	# A hop cut short (the base restained or coming down): every brick back where it lies.
+	var cut: bool = _laying or _taking_down >= 0.0
+	_lifted = 0
+	for brick: Array in _bricks:
+		var rest: Vector3 = brick[2]
+		var near: bool = false
+		for hop: Array in _jolts:
+			near = near or Vector2(rest.x, rest.z).distance_to(hop[1]) <= float(hop[2])
+		if near and not cut:
+			var lift: float = lift_at(rest)
+			_lifted += 1 if lift > 0.0 else 0
+			_meshes[brick[7]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), rest + Vector3.UP * lift))
+	_jolts = _jolts.filter(func(hop: Array) -> bool: return not cut and _clock - float(hop[0]) < float(hop[4]) + float(hop[2]) * RIPPLE)
+
+
+## 战斗特效: the braziers leap and the flags snap — `strength` at once, dying away over `seconds`.
+func flare(strength: float, seconds: float) -> void:
+	if seconds <= 0.0 or strength <= 0.0 or (_flames.is_empty() and _flags.is_empty()):
+		return
+	_flare = [_clock, seconds, strength]
+	set_process(true)
+
+
+## Whether the braziers and flags are in a flare (tests).
+func flaring() -> bool:
+	return not _flare.is_empty()
+
+
+## The flare a frame on: how much stronger the flames burn now (0 none); the lights with them,
+## the flags snapping; everything as it was once it is over.
+func _advance_flare() -> float:
+	if _flare.is_empty():
+		return 0.0
+	var left: float = clampf(1.0 - (_clock - _flare[0]) / _flare[1], -1.0, 1.0)
+	var boost: float = maxf(0.0, left) * _flare[2]
+	for light: OmniLight3D in _flame_lights:
+		if is_instance_valid(light):
+			light.light_energy = FLAME_LIGHT * (1.0 + boost)
+	for flag: Node3D in _flags:
+		if is_instance_valid(flag):
+			flag.rotation.z = FLAG_SNAP * maxf(0.0, left) * sin((_clock - _flare[0]) * 38.0)
+	if left <= 0.0:
+		_flare = []
+	return boost
 
 
 func _advance_laying() -> void:
@@ -664,6 +767,7 @@ func _corner_node(cell: Vector2i, name_text: String, height: float) -> Node3D:
 
 func _flag(cell: Vector2i, look: Dictionary, height: float) -> void:
 	var node: Node3D = _corner_node(cell, "Flag", height)
+	_flags.append(node)
 	_box(node, Vector3(0.07, 1.25, 0.07), Vector3(0, 0.625, 0), Color(String(look.get("pole", "5a3820"))))
 	_box(node, Vector3(0.42, 0.28, 0.04), Vector3(0.24, 1.08, 0), Color(String(look.get("flag", "4f8f78"))))
 	_box(node, Vector3(0.44, 0.04, 0.05), Vector3(0.24, 0.93, 0), Color(String(look.get("flag_edge", "e9b84c"))))
@@ -680,9 +784,10 @@ func _brazier(cell: Vector2i, look: Dictionary, height: float) -> void:
 	var light := OmniLight3D.new()
 	light.light_color = Color(String(look.get("flame", "ff8a2a")))
 	light.omni_range = 2.6
-	light.light_energy = 0.9
+	light.light_energy = FLAME_LIGHT
 	light.position = Vector3(0, 0.7, 0)
 	node.add_child(light)
+	_flame_lights.append(light)
 
 
 func _rubble(count: int, colours: Array) -> void:
@@ -726,6 +831,11 @@ func restyle(mode: int, seconds: float) -> void:
 			node.queue_free()
 	_dressing.clear()
 	_flames.clear()
+	# What answered a blow goes with the dressing (the base's clock starts over when it is built
+	# again): no hop or flare carries over.
+	_flags.clear()
+	_flame_lights.clear()
+	_flare = []
 	var centre := Vector2.ZERO
 	for brick: Array in _bricks:
 		centre += Vector2(brick[1])

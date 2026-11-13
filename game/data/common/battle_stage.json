@@ -109,6 +109,15 @@
 		"shown": 3,
 		"rise": 2.3
 	},
+	"impact": {
+		"_comment": "战斗特效 (DECISIONS「战斗特效」): what a blow leaves in the scene. trail: the light a swung weapon leaves — its colour by the wound (moves.colours), `plain` for any other, `special` for a special's blow, `alpha` at its brightest, `inner` how far along the weapon's edge the band of light begins (0 its near end, 1 its tip). chips: what flies off the one hit — count (heavy_count for a 重), a chip's size, how fast it flies on (speed), up (rise) and aside (spread), the pull down (gravity), `plain` its colour off a beast (a person's are their coat's). blood: dark chips among them by the fight's look (spar, lesson, lethal; 0 none) and their colours. thrown: something thrown flies to the one struck at — its length, how far past it flies on a miss. stage: the base answers a 重, a special's blow and a felling blow — the bricks round the one hit hop (jolt_radius, jolt_height; heavy_jolt times higher for a 重), and a special's opening or a felling blow makes the braziers leap and the flags snap (flare times). beast: a beast leaps to within `gap` of the one it strikes at, at most `reach` from where it stands. Durations are pacing.json's feel (afterimage_ms the trail's fade, scene_dust_ms the chips and the hop, scene_windup_ms the flare).",
+		"trail": {"alpha": 0.6, "inner": 0.5, "plain": "f4f1e6", "special": "ffd98a"},
+		"chips": {"count": 5, "heavy_count": 9, "size": 0.1, "speed": 2.4, "rise": 2.0, "spread": 0.9, "gravity": 14.0, "plain": "b8a080"},
+		"blood": {"spar": 0, "lesson": 0, "lethal": 3, "colours": ["b3261e", "8f1a14"]},
+		"thrown": {"length": 0.24, "past": 1.6},
+		"stage": {"jolt_radius": 1.5, "jolt_height": 0.12, "heavy_jolt": 1.7, "flare": 1.3},
+		"beast": {"gap": 0.85, "reach": 2.4}
+	},
 	"camera": {
 		"_comment": "The opening move: the view's height over the fighters (the pitch: 41° is the map's own, atan(height / 30)); small rooms (fewer free cells than small_cells) pitch less; zoom: the push-in at most, for a duel (1 the map's; smaller is nearer), crowd_zoom the farthest it stays back to frame a crowd; band: the share of the screen's height the fighters stand in, under the cards and over the panel (the controller passes the real band when it has laid out).",
 		"pitch_degrees": 26.0,
