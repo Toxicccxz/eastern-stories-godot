@@ -60,15 +60,7 @@ static func spot(map: WorldMapController, zone_id: StringName, near: Vector2, ra
 			var point: Vector2 = grid.center_of(cell)
 			if point.distance_to(near) <= radius and zone.contains_center(point):
 				candidates.append(point)
-	# Cells as near as each other (a zone's middle on a cell corner) go in a fixed order, north then
-	# west first: the sort is not stable, and two processes building the list differently (another
-	# blocked box in the street) must still pick the same spot.
-	candidates.sort_custom(func(a: Vector2, b: Vector2) -> bool:
-		var da: float = a.distance_squared_to(near)
-		var db: float = b.distance_squared_to(near)
-		if not is_equal_approx(da, db):
-			return da < db
-		return a.y < b.y if not is_equal_approx(a.y, b.y) else a.x < b.x)
+	candidates.sort_custom(func(a: Vector2, b: Vector2) -> bool: return a.distance_squared_to(near) < b.distance_squared_to(near))
 	for point: Vector2 in candidates:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, point):
 			return point
