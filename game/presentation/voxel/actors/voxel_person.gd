@@ -47,7 +47,69 @@ const BREATH_STEP: float = 0.004
 ## strapped to the left forearm; lantern (灯笼, 巡夜禁军): hung from the left hand.
 const EXTRAS: Array[String] = ["towel_neck", "bracers", "leg_wraps", "armor", "shield", "lantern"]
 
+## 战斗肢体 (DECISIONS「战斗肢体」): how a fighter stands and strikes. A pose is nine angles
+## (radians): the striking arm forward (negative: forward and up) and outward, the other arm
+## forward and outward, the body's lean forward and its turn toward the striking side, the
+## weapon's tip over the level (0 straight ahead, PI/2 straight up), the front leg and the rear.
+const GUARD: Array[float] = [-0.85, -0.15, -0.55, -0.25, 0.0, 0.2, 0.7, -0.24, 0.22]
+## A strike by its motion (battle_stage.json moves.weapons: the weapon's skill → its motion):
+## where the body winds up to and where the blow ends. `swing` goes from the guard (0) back to the
+## windup (-1) and through the guard to the blow's end (1).
+const STRIKES: Dictionary[String, Array] = {
+	"slam": [[-2.5, 0.1, -0.3, -0.1, -0.06, 0.4, 2.4, -0.2, 0.25], [-0.95, -0.25, 0.3, 0.3, 0.14, -0.15, -0.15, -0.5, 0.42]],
+	"slash": [[-2.1, 0.7, -0.35, -0.1, -0.04, 0.45, 2.0, -0.2, 0.25], [-0.8, -0.9, 0.2, 0.4, 0.1, -0.25, 0.0, -0.5, 0.42]],
+	"heavy": [[-2.9, 0.0, -2.7, 0.0, -0.1, 0.2, 2.6, -0.15, 0.2], [-0.6, -0.1, -0.5, -0.1, 0.2, -0.05, -0.3, -0.6, 0.5]],
+	"rise": [[0.0, 0.2, -0.3, -0.1, 0.1, 0.4, -0.5, -0.2, 0.25], [-1.9, -0.1, -0.2, 0.2, -0.08, -0.1, 1.2, -0.45, 0.4]],
+	"quick": [[0.35, 0.15, -0.9, -0.2, 0.0, 0.4, 0.1, -0.2, 0.25], [-1.5, -0.15, 0.2, 0.3, 0.1, -0.2, 0.0, -0.55, 0.45]],
+	"whip": [[-1.6, 1.1, -0.4, -0.1, 0.0, 0.45, 1.2, -0.2, 0.25], [-1.2, -0.7, 0.1, 0.4, 0.08, -0.25, 0.0, -0.45, 0.4]],
+	"thrown": [[-2.5, 0.2, -0.8, -0.2, -0.06, 0.4, 1.5, -0.2, 0.25], [-1.25, -0.2, 0.2, 0.3, 0.1, -0.15, 0.0, -0.45, 0.4]],
+	"fist": [[0.3, 0.2, -1.0, -0.25, 0.0, 0.4, 0.7, -0.2, 0.25], [-1.5, -0.1, 0.1, 0.1, 0.08, -0.2, 0.7, -0.5, 0.42]],
+}
+## How the one struck at answers (`react`, by `react_amount` 0..1): thrown open by a hit, leaning
+## out of a blow's way, the weapon (or both forearms) across the chest. The same nine angles,
+## then the body's lean to the side and the weapon's turn across the body.
+const REACTIONS: Dictionary[String, Array] = {
+	"hit": [-0.3, 0.5, -0.2, 0.5, -0.15, 0.4, 1.1, -0.2, 0.4, 0.0, 0.0],
+	"dodge": [-0.4, 0.3, -0.9, 0.8, 0.1, 0.1, 0.9, -0.6, 0.5, 0.18, 0.0],
+	"parry": [-1.35, -0.35, -1.2, -0.3, -0.04, 0.15, 0.9, -0.36, 0.34, 0.0, 1.1],
+}
+## One lying senseless: the arms fallen outward, the legs a little apart.
+const LIMP: Array[float] = [0.0, 0.35, 0.0, 0.35, 0.0, 0.0, 0.7, -0.15, 0.15]
+## What a fighter's hand may hold, by the weapon's skill ("" bare-handed: nothing).
+const ARMS: Array[String] = ["sword", "blade", "dagger", "axe", "hammer", "staff", "fork", "whip", "throwing"]
+## What a look carries in its hand that is a weapon already: nothing more is drawn there.
+const OWN_ARMS: Array[String] = ["staff", "spear", "glaive", "hammer", "axe", "cleaver", "whisk", "fan"]
+
 var walking: bool = false
+## Whether the person is in a fight (take_guard(), stand_down()): it stands on guard, its weapon
+## in its hand.
+var fighting: bool = false
+## Where its blow is: -1 wound up, 0 on guard, 1 struck through (BattleSceneShow moves it).
+var swing: float = 0.0
+## The blow's motion (STRIKES) and how far it reaches past the plain one (a 重: more).
+var motion: String = "fist"
+var power: float = 1.0
+## How it answers a blow struck at it (REACTIONS, "" none) and how far (0..1).
+var react: String = ""
+var react_amount: float = 0.0
+## How far over it lies, fallen senseless (0 upright .. 1 flat on its back; the view moves it):
+## the whole body turns back about its heels and its limbs go slack.
+var limp: float = 0.0
+## One lying on its back is raised this far (half its depth would be under the ground).
+const LIE_LIFT: float = 0.2
+## The body (torso, legs, a seat) under the figure's own node, which the view and the fight's
+## show turn and move: lying down turns this.
+var frame: Node3D
+## The weapon drawn in its hand ("" none) and the node that holds it.
+var armed: String = ""
+var _weapon: Node3D
+## How far into the guard it is (0 at ease .. 1 on guard) and how long the change takes.
+var _guard: float = 0.0
+var _guard_seconds: float = 0.0
+## The arm that holds the weapon (0 the figure's right) and the one striking now (bare hands
+## strike in turn).
+var _lead: int = 0
+var _striker: int = 0
 ## What the hands do while the person stands at work ("" none; NpcLifeBook.GESTURES) and how it
 ## stays put ("stand", "sit", "sit_ground"); set before it is added (activity()).
 var gesture: String = ""
@@ -119,8 +181,11 @@ func _ready() -> void:
 	var skin: String = _hex("skin", "d7a36c")
 	var pants: String = _hex("pants", "344047")
 	var waist: String = _word("waist", "belt")
+	frame = Node3D.new()
+	frame.name = "Frame"
+	add_child(frame)
 	torso = Node3D.new()
-	add_child(torso)
+	frame.add_child(torso)
 	_box(torso, Vector3(0, 0.91, 0), Vector3(0.55, 0.58, 0.34), coat)
 	_box(torso, Vector3(0, 0.6, 0), Vector3(0.62, 0.22, 0.41), coat)
 	if waist == "belt":
@@ -184,7 +249,7 @@ func _ready() -> void:
 		var leg := Node3D.new()
 		var hip: float = 0.57*_legs_k
 		leg.position = Vector3(side*0.17*maxf(_wide, 0.9), hip, 0)
-		add_child(leg)
+		frame.add_child(leg)
 		legs.append(leg)
 		# The shoe stays on the ground; the leg reaches from its top to the hip.
 		_s.box(leg, Vector3(0, (0.17 - hip)/2.0, 0), Vector3(0.2, hip - 0.17, 0.23), _tone(pants))
@@ -447,7 +512,7 @@ func _pose() -> void:
 	drawn.append("pose:" + pose)
 	if pose == "sit":
 		_seat = Node3D.new()
-		add_child(_seat)
+		frame.add_child(_seat)
 		var height: float = hip - _sink
 		_s.box(_seat, Vector3(0, height/2.0 - 0.02, -0.06), Vector3(0.42, height - 0.04, 0.36), _hex("seat_color", "7a5a3a"))
 
@@ -547,6 +612,19 @@ func _process(delta: float) -> void:
 	var sink: float = _sink if posed else 0.0
 	if _seat != null:
 		_seat.visible = posed
+	# 战斗肢体: on guard (or fallen) the fight's pose is the whole body's.
+	_guard = move_toward(_guard, 1.0 if fighting else 0.0, delta/_guard_seconds if _guard_seconds > 0.0 else 1.0)
+	if _weapon != null and _weapon.visible != (_guard > 0.5 and limp < 0.5):
+		_weapon.visible = not _weapon.visible
+	var stance: float = 0.0 if walking or posed else _guard
+	var lying := Vector3(-PI/2.0*limp, 0.0, 0.0)
+	if not frame.rotation.is_equal_approx(lying):
+		frame.rotation = lying
+		frame.position.y = LIE_LIFT*limp
+	if stance > 0.0 or limp > 0.0:
+		_fight_pose(stance)
+		_blink()
+		return
 	var leg_y: float = 0.57*_legs_k - sink
 	_place(legs[0], Vector3(POSE_LEGS[pose] if posed else stride, 0.0, 0.0), leg_y)
 	_place(legs[1], Vector3(POSE_LEGS[pose] if posed else -stride, 0.0, 0.0), leg_y)
@@ -565,11 +643,15 @@ func _process(delta: float) -> void:
 	var rise: float = absf(sin(pace))*0.045 if walking else snappedf(sin(clock*2.1)*0.012, BREATH_STEP)
 	if not is_equal_approx(torso.position.y, rise - sink):
 		torso.position.y = rise - sink
+	_blink()
+	if gesturing:
+		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
+
+
+func _blink() -> void:
 	var lids: float = 0.12 if fmod(clock,4.3)<0.13 else 1.0
 	if not is_equal_approx(eyes.scale.y, lids):
 		eyes.scale.y = lids
-	if gesturing:
-		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
 
 
 ## A part turned to `angles`, written only when it is not there already.
@@ -636,3 +718,159 @@ func _gesture(t: float) -> void:
 			# Both hands before the chest, the fingers at the beads.
 			arms[0].rotation.x = -0.9 + sin(t*TAU)*0.06
 			arms[1].rotation.x = -0.9 - sin(t*TAU)*0.06
+
+
+# --- 战斗肢体 -----------------------------------------------------------------------------------
+
+
+## The fight begins for this one: on guard within `seconds` (0: at once), the weapon of `weapon`'s
+## skill (ARMS; "" bare-handed) in its hand. A look that carries a weapon in its hand already
+## (OWN_ARMS) fights with that; a hand full of something else leaves the weapon to the other.
+func take_guard(weapon: String, seconds: float = 0.0) -> void:
+	fighting = true
+	_guard_seconds = seconds
+	var held: String = _word("prop", "none")
+	var own: bool = OWN_ARMS.has(held)
+	_lead = 1 if not own and (IN_HAND.has(held) or not _tool.is_empty()) else 0
+	_striker = _lead
+	var wanted: String = "" if own or not ARMS.has(weapon) else weapon
+	if wanted == armed and (_weapon != null or wanted.is_empty()):
+		return
+	armed = wanted
+	if _weapon != null:
+		_weapon.queue_free()
+		_weapon = null
+	if wanted.is_empty() or arms.size() < 2:
+		return
+	_weapon = Node3D.new()
+	_weapon.name = "Weapon"
+	_weapon.position = Vector3(0, -0.45*_torso_k, 0.04)
+	_weapon.visible = false
+	arms[_lead].add_child(_weapon)
+	_draw_weapon(wanted)
+
+
+## The fight is over for this one: at ease within `seconds`, the weapon put away.
+func stand_down(seconds: float = 0.0) -> void:
+	fighting = false
+	_guard_seconds = seconds
+	swing = 0.0
+	react = ""
+	react_amount = 0.0
+
+
+## A blow begins: its motion (STRIKES) and reach. Bare hands strike in turn; `same_hand`: the
+## blow the hand is raised for already (its windup came first).
+func begin_strike(p_motion: String, p_power: float = 1.0, same_hand: bool = false) -> void:
+	motion = p_motion if STRIKES.has(p_motion) else "fist"
+	power = p_power
+	react = ""
+	react_amount = 0.0
+	if same_hand:
+		return
+	if motion == "fist" and armed.is_empty() and not OWN_ARMS.has(_word("prop", "none")):
+		_striker = 1 - _striker
+	else:
+		_striker = _lead
+
+
+## The fight's pose now, `stance` far into the guard (0 at ease .. 1): the guard, the blow by
+## `swing`, the answer by `react_amount`, and all of it gone slack by `limp`. Written only where
+## it differs from what is shown.
+func _fight_pose(stance: float) -> void:
+	var p: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	for i: int in 9:
+		p[i] = GUARD[i]
+	if not is_zero_approx(swing):
+		var strike: Array = STRIKES.get(motion, STRIKES["fist"])
+		var to: Array = strike[0] if swing < 0.0 else strike[1]
+		var amount: float = absf(swing)*(power if swing > 0.0 else 1.0)
+		var swapped: bool = _striker != _lead
+		for i: int in 9:
+			var change: float = (float(to[i]) - GUARD[i])*amount
+			# The other hand's blow: the arms change parts, the body turns the other way (about
+			# straight ahead, not about the guard).
+			var at: int = i
+			if swapped and i < 4:
+				at = (i + 2) % 4
+			elif swapped and i == 5:
+				change = (-float(to[i]) - GUARD[i])*amount
+			p[at] += change
+	if react_amount > 0.0 and REACTIONS.has(react):
+		var answer: Array = REACTIONS[react]
+		for i: int in 11:
+			p[i] = lerpf(p[i], float(answer[i]), react_amount)
+	var slack: float = clampf(limp, 0.0, 1.0)
+	for i: int in 11:
+		p[i] = lerpf(p[i]*stance, LIMP[i] if i < 9 else 0.0, slack)
+	# The lead arm's outward is the figure's right (arms[0], at -x) or its left.
+	var out: float = -1.0 if _lead == 0 else 1.0
+	_turn(arms[_lead], Vector3(p[0], 0.0, out*p[1]))
+	_turn(arms[1 - _lead], Vector3(p[2], 0.0, -out*p[3]))
+	_turn(torso, Vector3(p[4], out*p[5], out*p[9]))
+	if _weapon != null:
+		_turn(_weapon, Vector3(-p[0] - p[6], -out*p[10], 0.0))
+	var hip: float = 0.57*_legs_k
+	var sink: float = 0.0
+	if not has_meta("mounted"):
+		sink = hip*(1.0 - cos(maxf(absf(p[7]), absf(p[8]))))
+		_place(legs[1 - _lead], Vector3(p[7], 0.0, 0.0), hip - sink)
+		_place(legs[_lead], Vector3(p[8], 0.0, 0.0), hip - sink)
+	var rise: float = snappedf(sin(clock*2.1)*0.012, BREATH_STEP)*(1.0 - slack) - sink
+	if not is_equal_approx(torso.position.y, rise):
+		torso.position.y = rise
+
+
+## The weapon in the hand, in its own node at the grip: it lies along +z from the hand (the
+## pose turns it), `kind` one of ARMS.
+func _draw_weapon(kind: String) -> void:
+	var s := Shapes.new()
+	var steel: String = _hex("blade_color", "c9ced2")
+	var edge: String = Color(steel).darkened(0.25).to_html(false)
+	var metal: String = _hex("metal", "b9a26a")
+	var wood: String = _hex("wood", "6b4a30")
+	var tassel: String = _hex("tassel_color", _hex("accent", "a8322a"))
+	match kind:
+		"sword":
+			s.box(_weapon, Vector3(0, 0, -0.03), Vector3(0.05, 0.05, 0.2), wood)
+			s.box(_weapon, Vector3(0, 0, 0.08), Vector3(0.17, 0.05, 0.04), metal)
+			s.box(_weapon, Vector3(0, 0, 0.52), Vector3(0.05, 0.025, 0.84), steel)
+			s.box(_weapon, Vector3(0, 0, 0.96), Vector3(0.03, 0.02, 0.06), steel)
+			s.box(_weapon, Vector3(0, -0.08, -0.14), Vector3(0.04, 0.14, 0.04), tassel)
+		"blade":
+			s.box(_weapon, Vector3(0, 0, -0.03), Vector3(0.05, 0.05, 0.2), wood)
+			s.box(_weapon, Vector3(0, 0, 0.08), Vector3(0.1, 0.12, 0.04), metal)
+			s.box(_weapon, Vector3(0, -0.02, 0.46), Vector3(0.03, 0.12, 0.72), steel)
+			s.box(_weapon, Vector3(0, 0.045, 0.46), Vector3(0.035, 0.03, 0.72), edge)
+			s.box(_weapon, Vector3(0, -0.045, 0.85), Vector3(0.03, 0.07, 0.08), steel)
+		"dagger":
+			s.box(_weapon, Vector3(0, 0, -0.02), Vector3(0.05, 0.05, 0.14), wood)
+			s.box(_weapon, Vector3(0, 0, 0.06), Vector3(0.11, 0.04, 0.03), metal)
+			s.box(_weapon, Vector3(0, 0, 0.24), Vector3(0.04, 0.02, 0.34), steel)
+		"axe":
+			s.box(_weapon, Vector3(0, 0, 0.22), Vector3(0.05, 0.05, 0.7), wood)
+			s.box(_weapon, Vector3(0, -0.08, 0.5), Vector3(0.04, 0.24, 0.17), steel)
+			s.box(_weapon, Vector3(0, -0.2, 0.5), Vector3(0.03, 0.03, 0.2), edge)
+		"hammer":
+			s.box(_weapon, Vector3(0, 0, 0.22), Vector3(0.05, 0.05, 0.7), wood)
+			s.box(_weapon, Vector3(0, 0, 0.56), Vector3(0.17, 0.26, 0.17), _hex("prop_color", "4a4a50"))
+		"staff":
+			s.box(_weapon, Vector3(0, 0, 0.25), Vector3(0.05, 0.05, 1.7), wood)
+			for end: float in [-0.56, 1.06]:
+				s.box(_weapon, Vector3(0, 0, end), Vector3(0.065, 0.065, 0.08), metal)
+		"fork":
+			s.box(_weapon, Vector3(0, 0, 0.2), Vector3(0.05, 0.05, 1.6), wood)
+			s.box(_weapon, Vector3(0, 0, 1.02), Vector3(0.24, 0.035, 0.04), steel)
+			for prong: float in [-0.1, 0.0, 0.1]:
+				s.box(_weapon, Vector3(prong, 0, 1.15), Vector3(0.03, 0.03, 0.24 if is_zero_approx(prong) else 0.2), steel)
+			s.box(_weapon, Vector3(0, 0, 0.96), Vector3(0.08, 0.08, 0.05), tassel)
+		"whip":
+			# A handle and the lash trailing from it, each length thinner and hanging lower.
+			s.box(_weapon, Vector3(0, 0, 0.0), Vector3(0.05, 0.05, 0.2), wood)
+			var lash: String = _hex("prop_color", "3a2a22")
+			for link: int in 5:
+				s.tilted_box(_weapon, Vector3(0, -0.02*link*link, 0.2 + 0.2*link), Vector3(0.04 - 0.005*link, 0.04 - 0.005*link, 0.22), lash, Vector3(0.1*link, 0, 0))
+		"throwing":
+			s.box(_weapon, Vector3(0, 0, 0.07), Vector3(0.025, 0.025, 0.16), steel)
+			s.box(_weapon, Vector3(0, 0, -0.03), Vector3(0.05, 0.05, 0.04), tassel)
+	s.flush()
