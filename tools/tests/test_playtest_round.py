@@ -58,9 +58,41 @@ class PlaytestRoundTest(unittest.TestCase):
         self.assertEqual(pushed, [True, True], "the push and the dispatch are what a dry run leaves out")
         self.assertIn("gh workflow run ci.yml --ref playtest-2026-11-13", commands)
 
-    def test_cut_refuses_a_tag_that_exists(self) -> None:
+    def test_cut_refuses_a_tag_already_on_origin(self) -> None:
         def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
-            return "playtest-2026-11-13\n" if "--list" in command else ""
+            return "abc refs/tags/playtest-2026-11-13\n" if "ls-remote" in command else ""
+
+        with mock.patch.object(playtest_round, "run", side_effect=fake) as run, redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=False), 2)
+        self.assertFalse(any(call.args[0][:2] in (["git", "push"], ["git", "tag"]) for call in run.call_args_list))
+
+    def test_cut_pushes_a_local_tag_a_failed_cut_left(self) -> None:
+        calls: list[list[str]] = []
+
+        def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
+            calls.append(command)
+            if "--list" in command:
+                return "playtest-2026-11-13\n"
+            if command[:2] == ["git", "rev-parse"]:
+                return "0123456789abcdef\n"
+            if command[:2] == ["git", "show"]:
+                return "const CURRENT_PUBLIC: Value = Value.SOURCE_ENTRY_TEST_V1\n"
+            return ""
+
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=True), 0)
+        self.assertFalse(any(command[:3] == ["git", "tag", "-a"] for command in calls), "the tag is not made again")
+        self.assertIn(["git", "push", "origin", "refs/tags/playtest-2026-11-13"], calls)
+
+    def test_cut_refuses_a_local_tag_on_another_commit(self) -> None:
+        def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
+            if "--list" in command:
+                return "playtest-2026-11-13\n"
+            if command[:2] == ["git", "rev-parse"]:
+                return "fedcba9876543210\n" if command[2].endswith("^{commit}") else "0123456789abcdef\n"
+            if command[:2] == ["git", "show"]:
+                return "const CURRENT_PUBLIC: Value = Value.SOURCE_ENTRY_TEST_V1\n"
+            return ""
 
         with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=False), 2)

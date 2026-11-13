@@ -69,13 +69,21 @@ def cut(name: str, dry_run: bool) -> int:
         print(f"a round's tag is playtest-<something>: {name}", file=sys.stderr)
         return 2
     run(["git", "fetch", "origin", "main", "--tags"])
-    if run(["git", "tag", "--list", name]).strip():
-        print(f"the tag {name} exists already", file=sys.stderr)
+    if run(["git", "ls-remote", "--tags", "origin", f"refs/tags/{name}"]).strip():
+        print(f"the tag {name} is on origin already: fetch it, or cut another name", file=sys.stderr)
         return 2
     commit = run(["git", "rev-parse", "origin/main"]).strip()
     revision = revision_at(commit)
-    message = f"试玩一轮 {name}: main {commit[:10]}, world revision {revision}"
-    run(["git", "tag", "-a", name, commit, "-m", message], dry_run)
+    if run(["git", "tag", "--list", name]).strip():
+        # Made here by a cut whose push or dispatch failed: go on with it if it is still main's commit.
+        tagged = run(["git", "rev-parse", f"{name}^{{commit}}"]).strip()
+        if tagged != commit:
+            print(f"the local tag {name} is on {tagged[:10]}, not origin/main's {commit[:10]}: delete it by hand or cut another name", file=sys.stderr)
+            return 2
+        print(f"the local tag {name} was never pushed: pushing it now")
+    else:
+        message = f"试玩一轮 {name}: main {commit[:10]}, world revision {revision}"
+        run(["git", "tag", "-a", name, commit, "-m", message], dry_run)
     run(["git", "push", "origin", f"refs/tags/{name}"], dry_run)
     run(["gh", "workflow", "run", WORKFLOW, "--ref", name], dry_run)
     print(f"{name} = {commit} ({revision}). When the run is done: python tools/build/playtest_round.py fetch {name}")
@@ -98,12 +106,19 @@ def fetch(tag: str, source: bool) -> int:
         return 1
     folder = REPOSITORY / "build" / "playtest" / tag
     folder.mkdir(parents=True, exist_ok=True)
-    run(["gh", "run", "download", str(row["databaseId"]), "--name", ARTIFACT, "--dir", str(folder)])
     archive = folder / ZIP_NAME
+    if not archive.exists():
+        run(["gh", "run", "download", str(row["databaseId"]), "--name", ARTIFACT, "--dir", str(folder)])
     game = folder / "game"
     if not game.exists():
+        # Unpacked aside and renamed when whole, so a broken unpack is never taken for the game.
+        partial = folder / "game.partial"
+        if partial.exists():
+            print(f"{partial} is left from an unpack that stopped: remove it and fetch again", file=sys.stderr)
+            return 1
         with zipfile.ZipFile(archive) as packed:
-            packed.extractall(game)
+            packed.extractall(partial)
+        partial.rename(game)
     if source and not (folder / "source").exists():
         run(["git", "worktree", "add", "--detach", str(folder / "source"), tag], capture=False)
     print(f"play: {game}  (the commit: {row['headSha']})")

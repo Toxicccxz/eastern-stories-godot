@@ -31,7 +31,10 @@ func _process(_delta: float) -> void:
 				_phase = Phase.SETUP
 		Phase.SETUP:
 			if mode == ApplicationShellState.Mode.RESULT:
-				shell.confirm_current_result() # 新游戏 over saves: the shell's own question, answered yes.
+				# 新游戏 over saves: the shell's own question, answered yes. Manual saves stay; the new
+				# journey's first autosave replaces the development slot's autosave.
+				push_warning("chapter start: 新游戏 confirmed over the development slot's saves (its autosave will be replaced)")
+				shell.confirm_current_result()
 			elif mode == ApplicationShellState.Mode.NEW_GAME_SETUP:
 				# 序章 is the New Game itself, its opening card too; a later chapter opens on its own step.
 				shell.runtime_host().opening_card = spec.quest == &"main.prologue"
@@ -40,6 +43,12 @@ func _process(_delta: float) -> void:
 				if shell.submit_new_game_setup():
 					_phase = Phase.PLAYING
 		Phase.PLAYING:
+			if mode in [ApplicationShellState.Mode.RESULT, ApplicationShellState.Mode.MAIN_MENU]:
+				# The New Game failed: give up, so a New Game started by hand later stays an ordinary one.
+				push_error("chapter start: the New Game did not start")
+				shell.runtime_host().opening_card = true
+				queue_free()
+				return
 			var session: WorldSessionController = shell.runtime_host().current_session()
 			if mode != ApplicationShellState.Mode.PLAYING or session == null or not session.is_initialized():
 				return
@@ -51,6 +60,7 @@ func _process(_delta: float) -> void:
 				push_error("chapter start: " + problem)
 			print(line)
 			session.shared_ui().append_log_lines([line])
+			shell.runtime_host().opening_card = true # a later 新游戏 in this run is an ordinary one
 			queue_free()
 
 

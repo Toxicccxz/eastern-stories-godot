@@ -285,7 +285,8 @@ round:
    game of the round, from New Game or Continue, in the release save slot. Beside it,
    `build/playtest/<tag>/source` is a detached worktree of the tag: open its `game/` in Godot 4.7.2
    for the dev starts (`tests/dev/chapter_start.tscn` + F6, 「起点 N」 in the checklist) on the same
-   code; those saves go to the development slot. Nothing is deleted; a finished round's folder and
+   code; those saves go to the development slot, which every checkout of the project shares (manual
+   saves stay, but a chapter start's first autosave replaces that slot's autosave). Nothing is deleted; a finished round's folder and
    worktree are removed by hand (`git worktree remove build/playtest/<tag>/source`).
 3. **During the round.** Packages keep merging into `main`; the round does not take them. A fix the
    round needs is played in the next round's tag. `python tools/build/playtest_round.py status

@@ -73,19 +73,26 @@ func test_start(tree: SceneTree, spec: ChapterStart.Spec) -> void:
 	else:
 		_check_start(session, spec, label)
 	var before: Dictionary = _facts(session)
-	_check(host.request_save(), "%s: Save" % label)
-	var saved: OldPineRuntimeSaveLoadResult = await host.save_completed
-	_check(saved.succeeded(), "%s: saved" % label)
-	_check(host.request_end_session(), "%s: back to the menu" % label)
-	await host.end_session_completed
-	_check(host.request_continue(), "%s: Continue" % label)
-	var loaded: OldPineRuntimeSaveLoadResult = await host.continue_completed
-	_check(loaded.succeeded() and host.current_session() != null, "%s: continued" % label)
-	if loaded.succeeded():
-		await _frames(tree, 4)
-		var after: Dictionary = _facts(host.current_session())
-		for key: String in before:
-			_check(after.get(key) == before[key], "%s: after Continue, the same %s (%s / %s)" % [label, key, before[key], after.get(key)])
+	# A refused request is a failure, not a wait: its signal never comes.
+	var saved: bool = host.request_save()
+	_check(saved, "%s: Save" % label)
+	if saved:
+		saved = (await host.save_completed).succeeded()
+		_check(saved, "%s: saved" % label)
+	var ended: bool = saved and host.request_end_session()
+	_check(ended, "%s: back to the menu" % label)
+	if ended:
+		await host.end_session_completed
+	var continued: bool = ended and host.request_continue()
+	_check(continued, "%s: Continue" % label)
+	if continued:
+		var loaded: OldPineRuntimeSaveLoadResult = await host.continue_completed
+		_check(loaded.succeeded() and host.current_session() != null, "%s: continued" % label)
+		if loaded.succeeded():
+			await _frames(tree, 4)
+			var after: Dictionary = _facts(host.current_session())
+			for key: String in before:
+				_check(after.get(key) == before[key], "%s: after Continue, the same %s (%s / %s)" % [label, key, before[key], after.get(key)])
 	host.get_parent().remove_child(host)
 	host.free()
 	await tree.process_frame

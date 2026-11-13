@@ -175,7 +175,7 @@ static func apply(session: WorldSessionController, spec: Spec) -> String:
 
 ## The 历练 the arrival exp already holds, written down as paid (as WorldProgressionRewards writes a
 ## milestone), so the journal's next beat pays none of it again: the regions the chapters before
-## `quest_id` lead into (StoryArrival.ROUTE), the quests done, the journal chains the story so far sees
+## `quest_id` lead into and the 名胜 it counts there (StoryArrival.ROUTE), the quests done, the journal chains the story so far sees
 ## through (its 见闻 recorded here first, untold) and the 打坐 steps the grown max_force has passed (the
 ## first two hours' part of the arrival). What the chapter's own road pays — its new region, the 名胜
 ## it starts at — still pays on arrival.
@@ -190,6 +190,13 @@ static func _paid(session: WorldSessionController, quest_id: StringName) -> void
 		for reward: Array in chapter[1]:
 			if reward[0] == &"region":
 				keys.append(MilestoneRewards.key_of(ProgressionRules.Kind.REGION, reward[1]))
+			elif reward[0] == &"place":
+				# ROUTE names a 名胜 by its region: every 名胜 there counts as seen (the story's road
+				# passes them; one off it pays nothing on a later visit).
+				for zone_id: StringName in catalog.progression().places:
+					var region: RegionDefinition = WorldProgressionRewards.region_of_zone(zone_id)
+					if region != null and region.region_id == reward[1]:
+						keys.append(MilestoneRewards.key_of(ProgressionRules.Kind.PLACE, zone_id))
 	for quest: StoryQuestDefinition in catalog.story_quests():
 		if StoryQuestLog.is_done(state, quest):
 			keys.append(MilestoneRewards.key_of(ProgressionRules.Kind.QUEST, quest.quest_id))

@@ -63,7 +63,7 @@ func _ready() -> void:
 	start.pressed.connect(begin)
 	box.add_child(start)
 	var note := Label.new()
-	note.text = "开始后照常走主菜单的「新游戏」，进世界后写好前几章的事、长到这一章的经验、给齐该带的东西，站到这一章第一步的地方。\n之后就是普通的游戏：存档存在开发存档位。序章就是新游戏本身。"
+	note.text = "开始后照常走主菜单的「新游戏」，进世界后写好前几章的事、长到这一章的经验、给齐该带的东西，站到这一章第一步的地方。\n之后就是普通的游戏：存档存在开发存档位（手动存档不动，开发存档位的自动存档会被这一局盖掉）。序章就是新游戏本身。"
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.custom_minimum_size.x = 520.0
 	note.modulate = Color(1, 1, 1, 0.7)
