@@ -23,7 +23,6 @@
     {"kind": "cloud_sea", "at": [20, 230], "size": [120, 60], "elevation": 0.3, "count": 4, "billow": 0.5, "drift": 1.5, "colors": ["e6ecef", "f2f5f6"], "thickness": [0.2, 0.4], "note": "guyehill.c: 流云出岫"},
     {"kind": "drip", "at": [200, 60]},
     {"kind": "drip", "at": [280, 180]},
-    {"kind": "stalagmites", "at": [260, 60], "size": [48, 40]},
     {"kind": "rubble", "at": [120, 100], "size": [48, 32]},
     {"kind": "stains", "at": [160, 128], "size": [200, 120], "count": 5, "colors": ["6a7074", "727a7e"], "note": "halfhole.c: 极为荒凉 — nothing but dust"},
     {"kind": "tracks", "at": [100, 160], "size": [120, 80]}

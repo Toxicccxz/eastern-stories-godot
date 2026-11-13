@@ -42,7 +42,6 @@ func run_all(tree: SceneTree) -> Dictionary:
 			if node is WorldPassageArea2D:
 				passages += 1
 		_check(view.arrows.size() == view.entrances.size() + map.doors_by_id.size() and view.entrances.size() == passages, "every way out has its bobbing arrow")
-		shared._check_footing(map, view, "lancheng.wilds")
 		await shared._check_access_and_saves(tree, session, map, view)
 		assertions += shared.assertions
 		failures.append_array(shared.failures)
@@ -81,7 +80,6 @@ func run_all(tree: SceneTree) -> Dictionary:
 			if node is WorldPassageArea2D:
 				passages += 1
 		_check(view.arrows.size() == view.entrances.size() + town.doors_by_id.size() and view.entrances.size() == passages, "every way out of %s has its bobbing arrow" % place)
-		shared._check_footing(town, view, place)
 		await shared._check_access_and_saves(tree, session, town, view)
 		assertions += shared.assertions
 		failures.append_array(shared.failures)

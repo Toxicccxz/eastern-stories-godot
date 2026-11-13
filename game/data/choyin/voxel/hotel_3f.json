@@ -20,7 +20,7 @@
     {"kind": "closed_door", "at": [-280, 114], "size": [48, 16], "rotation": 180},
     {"kind": "closed_door", "at": [-30, 114], "size": [48, 16], "rotation": 180},
     {"kind": "closed_door", "at": [118, 184], "size": [48, 16], "rotation": -90},
-    {"kind": "runner", "at": [-136, 16], "size": [480, 64], "elevation": 0.05, "cloth": "5a3a2a", "border": "8a6a3a"},
+    {"kind": "runner", "at": [-136, 16], "size": [480, 64], "elevation": 0.05, "cloth": "5a3a2a"},
     {"kind": "hanging_lantern", "at": [-280, 16], "flicker": 0.06},
     {"kind": "hanging_lantern", "at": [-30, 16], "flicker": 0.06},
     {"kind": "hanging_lantern", "at": [200, 0], "flicker": 0.06},

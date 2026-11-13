@@ -1440,7 +1440,7 @@ metadata/footprint = Vector2(160, 48)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
 position = Vector2(496, 80)
-metadata/look = {"kind": "bedding", "worn": true}
+metadata/look = {"kind": "bedding"}
 metadata/footprint = Vector2(96, 32)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]
@@ -2070,7 +2070,7 @@ metadata/footprint = Vector2(224, 48)
 
 [node name="Furnishing128" type="Node2D" parent="Furnishings"]
 position = Vector2(2048, 3344)
-metadata/look = {"kind": "clothes_rack", "clothes": ["e8a0b4", "a0c0d8", "f2e6c8", "c8382a"]}
+metadata/look = {"kind": "clothes_rack"}
 metadata/footprint = Vector2(128, 32)
 
 [node name="Furnishing129" type="Node2D" parent="Furnishings"]

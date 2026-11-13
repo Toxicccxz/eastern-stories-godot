@@ -38,8 +38,8 @@
     {"kind": "glow", "at": [336, -64], "color": "ffc078", "day": 0.4, "night": 1.0, "range": 7.0, "height": 1.4, "note": "the butter lamps on the Buddha's face"},
     {"kind": "stains", "at": [336, -200], "size": [400, 20], "count": 6, "colors": ["5a4a3a", "6a5a4a"], "note": "lamp soot over the altar"},
     {"kind": "stains", "at": [336, 60], "size": [160, 80], "count": 4, "colors": ["92705a", "9a785e"], "note": "the boards worn pale before the table"},
-    {"kind": "banner_cloth", "at": [160, -200], "size": [48, 12], "height": 2.2, "wall_mounted": true, "cloth": "a85a30", "note": "a strip of ochre cloth with a 梵 letter"},
-    {"kind": "banner_cloth", "at": [512, -200], "size": [48, 12], "height": 2.2, "wall_mounted": true, "cloth": "a85a30"},
+    {"kind": "banner_cloth", "at": [160, -200], "size": [48, 12], "wall_mounted": true, "cloth": "a85a30", "note": "a strip of ochre cloth with a 梵 letter"},
+    {"kind": "banner_cloth", "at": [512, -200], "size": [48, 12], "wall_mounted": true, "cloth": "a85a30"},
     {"kind": "window", "at": [600, 20], "size": [56, 16], "rotation": 90, "note": "a window in the shrine's east wall"},
     {"kind": "slippers", "at": [120, 120], "rotation": -10, "cloth": "8a5a3a", "note": "a monk's sandals inside the door"},
     {"kind": "far_ground", "at": [-280, -600], "size": [1400, 400], "colors": ["b09a6a", "bca676", "a48e60"], "elevation": 0.0, "trees": 0, "note": "the lane's beaten earth beyond the gate"}

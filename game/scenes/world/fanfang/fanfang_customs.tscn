@@ -221,7 +221,7 @@ metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing04" type="Node2D" parent="Furnishings"]
 position = Vector2(-136, -272)
-metadata/look = {"kind": "side_table", "wood": "5a4434"}
+metadata/look = {"kind": "side_table"}
 metadata/footprint = Vector2(48, 32)
 
 [node name="Furnishing05" type="Node2D" parent="Furnishings"]

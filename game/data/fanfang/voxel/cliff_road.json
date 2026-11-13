@@ -79,7 +79,7 @@
     {"kind": "snail_shells", "at": [552, 368], "size": [36, 18], "note": "shells and a coin set before the niche"},
     {"kind": "paper_slip", "at": [580, 372], "size": [12, 14], "rotation": 20, "note": "half a dry cake left as an offering"},
     {"kind": "glow", "at": [552, 336], "color": "ffc078", "day": 0.0, "night": 0.5, "range": 4.0, "height": 1.0, "note": "a lamp left burning in the niche by night"},
-    {"kind": "candles", "at": [552, 344], "size": [12, 12], "height": 0.7},
+    {"kind": "candles", "at": [552, 344], "size": [12, 12]},
     {"kind": "boulder", "at": [880, 448], "size": [40, 34], "tall": 0.8, "colors": ["6e6a62", "7a766c", "64605a"], "lichen_color": "a8a890"},
     {"kind": "rock_pile", "at": [500, 220], "size": [34, 26], "count": 5, "colors": ["6e6a62", "7a766c", "86827a"]},
     {"kind": "standing_rock", "at": [920, 240], "size": [36, 30], "height": 1.8, "colors": ["5a544e", "66605a", "4e4842"], "cap": "7a8460"},
@@ -93,7 +93,7 @@
     {"kind": "far_peak", "at": [-1100, 1320], "size": [420, 260], "height": 4.6, "elevation": -5.6, "colors": ["8696a0", "92a2aa", "7a8a94"], "note": "a far headland down the coast"},
     {"kind": "far_ground", "at": [760, -360], "size": [1100, 480], "colors": ["4a6a44", "547448", "5e7e4e"], "elevation": 0.0, "trees": 60, "crowns": ["2e4e34", "3a5a3c", "345440", "426446"], "note": "忘情谷's woods behind the headland"},
     {"kind": "far_ground", "at": [1560, 820], "size": [600, 2000], "colors": ["5e6c4e", "687656", "74805c"], "elevation": 0.0, "trees": 40, "crowns": ["3a5a3c", "426446", "4a6a44"], "note": "the wooded hills inland, east over the cliff"},
-    {"kind": "far_ground", "atlas": false, "at": [1120, 2120], "size": [900, 520], "colors": ["7a7a6a", "86867a"], "elevation": -2.0, "clearing": [0, 0, 22, 11], "clearing_color": "8a8270", "roofs": 34, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 6, "note": "番坊's roofs far down to the south-east, below the cliff's foot"}
+    {"kind": "far_ground", "at": [1120, 2120], "size": [900, 520], "colors": ["7a7a6a", "86867a"], "elevation": -2.0, "clearing": [0, 0, 22, 11], "clearing_color": "8a8270", "roofs": 34, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 6, "note": "番坊's roofs far down to the south-east, below the cliff's foot"}
   ],
   "actors": {
     "default": {"coat": "7a7a6a"}

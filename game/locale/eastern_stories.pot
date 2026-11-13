@@ -1072,7 +1072,7 @@ msgid "大井 · 喝水"
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
+#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json
 msgid "书"
 msgstr ""
 
@@ -1839,7 +1839,7 @@ msgstr ""
 msgid "布庄"
 msgstr ""
 
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/voxel/outdoor.json
+#: scenes/world/cloud/cloud_outdoor.tscn
 msgid "斋"
 msgstr ""
 

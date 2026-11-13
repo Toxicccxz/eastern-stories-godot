@@ -18,7 +18,7 @@
     {"kind": "hanging_lantern", "at": [-240, 100], "flicker": 0.06, "paper": "d8452f:glow"},
     {"kind": "hanging_lantern", "at": [-40, 100], "flicker": 0.06, "paper": "d8452f:glow"},
     {"kind": "hanging_lantern", "at": [160, 100], "flicker": 0.06, "paper": "d8452f:glow"},
-    {"kind": "runner", "at": [-200, 0], "size": [360, 48], "elevation": 0.05, "cloth": "6a2a24", "border": "c9a24e", "note": "in from the street door"},
+    {"kind": "runner", "at": [-200, 0], "size": [360, 48], "elevation": 0.05, "cloth": "6a2a24", "note": "in from the street door"},
     {"kind": "window", "at": [-430, -150], "size": [72, 16], "rotation": 90},
     {"kind": "window", "at": [-430, 150], "size": [72, 16], "rotation": 90},
     {"kind": "window", "at": [-200, 286], "size": [72, 16], "rotation": 180},

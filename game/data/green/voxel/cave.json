@@ -15,8 +15,6 @@
     {"kind": "overhang", "at": [236, -200], "size": [40, 140], "height": 2.1, "count": 6},
     {"kind": "overhang", "at": [-236, 120], "size": [40, 160], "height": 2.2, "count": 6},
     {"kind": "overhang", "at": [150, 380], "size": [120, 40], "height": 2.3, "count": 5},
-    {"kind": "stalagmites", "at": [-220, -260], "size": [48, 48], "count": 4, "height": 0.9},
-    {"kind": "stalagmites", "at": [226, 260], "size": [40, 40], "count": 3, "height": 0.8},
     {"kind": "bones", "at": [90, 210], "size": [64, 40], "count": 5, "ribs": false, "note": "些莫名其妙的东西"},
     {"kind": "bones", "at": [-120, -120], "size": [48, 32], "count": 3, "ribs": true},
     {"kind": "rubble", "at": [40, -250], "size": [64, 48], "count": 8, "colors": ["4e504a", "5a5c55", "44463f"]},

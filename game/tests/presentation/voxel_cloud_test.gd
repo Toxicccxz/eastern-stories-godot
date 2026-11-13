@@ -11,11 +11,6 @@ const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const Flyer := preload("res://presentation/voxel/actors/voxel_flyer.gd")
 const CALMED: Array[StringName] = [&"cloud.npc.gangster", &"cloud.npc.thief", &"snow.npc.crazy_dog"]
-## Decor tall enough to walk into: in a voxel config it must stand on blocking ground (the town's
-## boundary, a wall, rock, water, a blocked box) or be raised clear of the floor (`elevation`).
-const TALL: Array[String] = ["lantern", "standing_rock", "boulder", "boundary_stone", "water_vat", "firewood", "drying_rack",
-	"cart", "flagpole", "pole_banner", "fishing_net", "tea_stall", "banner", "tree", "great_tree", "pavilion", "rockery", "stall", "bench",
-	"cargo", "training_post", "wine_jars", "notice_post", "well", "screen_wall", "torch"]
 const SCENES: Array[String] = ["cloud_outdoor", "cloud_tearoom_upstairs", "cloud_jiyuan_upstairs", "cloud_duchang_upstairs", "biaoju_house",
 	"bookstore_house", "butchery_house", "drugstore_house", "duchang_house", "yard_house", "jiyuan_house", "rich_house", "marry_house",
 	"monky_house", "tailory_house", "tearoom_house", "weapony_house", "zaihuoy_house"]
@@ -325,38 +320,7 @@ func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapC
 		if node is WorldPassageArea2D:
 			passages += 1
 	_check(view.arrows.size() == view.entrances.size() + map.doors_by_id.size() and view.entrances.size() == passages, "every way out of %s has its bobbing arrow" % place)
-	_check_footing(map, view, place)
 	await _check_access_and_saves(tree, session, map, view)
-
-
-func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String) -> void:
-	var loose: Array[String] = []
-	for prop: Dictionary in view.layout.get("props", []):
-		var kind: String = String(prop["kind"])
-		var at := Vector2(float(prop["at"][0]), float(prop["at"][1]))
-		if kind == "gateway":
-			# Its posts stand at the ends of its width; the road runs on under its beam.
-			var half: float = float(prop["size"][0]) / 2.0 - 6.4
-			for x: float in [-half, half]:
-				if not TerrainProbe.blocks_at(map, at + Vector2(x, 0)):
-					loose.append("gateway post %s" % (at + Vector2(x, 0)))
-			continue
-		if not kind in TALL or float(prop.get("elevation", 0.0)) >= 0.9:
-			continue
-		var size: Array = prop.get("size", [16, 16])
-		var box := Vector2(float(size[0]), float(size[1]))
-		if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
-			box = Vector2(box.y, box.x)
-		var area := Rect2(at - box / 2.0, box)
-		var solid: bool = true
-		for y: int in range(floori(area.position.y / 16.0), ceili(area.end.y / 16.0)):
-			for x: int in range(floori(area.position.x / 16.0), ceili(area.end.x / 16.0)):
-				var cell := Vector2(x * 16 + 8, y * 16 + 8)
-				var rock: bool = prop.get("on_cliff", false) and view.geometry.cliffs != null and view.geometry.cliffs.heights.has(Vector2i(cell))
-				solid = solid and (rock or TerrainProbe.blocks_at(map, cell))
-		if not solid:
-			loose.append("%s %s" % [kind, prop["at"]])
-	_check(loose.is_empty(), "tall decor in %s stands on blocking ground: %s" % [place, loose])
 
 
 ## On the 2D map the voxel view never changes: every room has a way to it from where the

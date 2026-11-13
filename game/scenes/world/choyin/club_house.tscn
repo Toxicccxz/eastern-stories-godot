@@ -212,7 +212,7 @@ layout_path = "res://data/choyin/voxel/club_house.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(304, -96)
-metadata/look = {"kind": "tea_table", "wood": "b8a060", "books": true, "brush": true}
+metadata/look = {"kind": "tea_table", "books": true}
 metadata/footprint = Vector2(64, 32)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
@@ -222,22 +222,22 @@ metadata/footprint = Vector2(112, 48)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]
 position = Vector2(224, 16)
-metadata/look = {"kind": "chair", "wood": "b8a060", "legs": "a8904e", "top": "c8b070", "trim": "d8c080"}
+metadata/look = {"kind": "chair", "wood": "b8a060"}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing04" type="Node2D" parent="Furnishings"]
 position = Vector2(400, 16)
-metadata/look = {"kind": "chair", "wood": "b8a060", "legs": "a8904e", "top": "c8b070", "trim": "d8c080"}
+metadata/look = {"kind": "chair", "wood": "b8a060"}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing05" type="Node2D" parent="Furnishings"]
 position = Vector2(224, 112)
-metadata/look = {"kind": "chair", "wood": "b8a060", "legs": "a8904e", "top": "c8b070", "trim": "d8c080"}
+metadata/look = {"kind": "chair", "wood": "b8a060"}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing06" type="Node2D" parent="Furnishings"]
 position = Vector2(400, 112)
-metadata/look = {"kind": "chair", "wood": "b8a060", "legs": "a8904e", "top": "c8b070", "trim": "d8c080"}
+metadata/look = {"kind": "chair", "wood": "b8a060"}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing07" type="Node2D" parent="Furnishings"]

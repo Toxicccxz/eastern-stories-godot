@@ -56,14 +56,13 @@
   },
   "reshape": [],
   "props": [
-    {"kind": "iron_chain", "at": [352, 192], "size": [16, 16], "drop": 9.0, "face": 0.0, "links": 30, "rope": true, "color": "7a6a4a", "note": "the cut rope from the stake down into the mist (native:niling/cliff: 绳子在三尺外被割断了)"},
+    {"kind": "iron_chain", "at": [352, 192], "size": [16, 16], "drop": 9.0, "face": 0.0, "links": 30, "note": "the cut rope from the stake down into the mist (native:niling/cliff: 绳子在三尺外被割断了)"},
     {"kind": "glow", "at": [352, 200], "color": "9aa8d0", "day": 0.0, "night": 0.6, "range": 7.0, "height": 2.0, "note": "moonlight on the cliff's end"},
     {"kind": "stains", "at": [352, 600], "size": [100, 400], "count": 10, "colors": ["3e3a36", "46423e", "36322e"], "note": "the path, wet and trodden"},
     {"kind": "bush", "at": [300, 300], "size": [26, 22], "colors": ["4a4a30", "5a5a38", "6a6a40"]},
     {"kind": "bush", "at": [410, 700], "size": [24, 20], "colors": ["4a4a30", "5a5a38", "6a6a40"]},
     {"kind": "dead_log", "at": [410, 420], "size": [40, 16], "rotation": 70},
     {"kind": "rock_pile", "at": [300, 820], "size": [26, 22], "count": 5, "colors": ["4e4a44", "5a564e", "3e3a36"]},
-    {"kind": "banner", "at": [262, 880], "height": 3.6, "cloth": "100e0e", "trim": "6a1414", "note": "one 黑幡 by the small door, torn"},
     {"kind": "far_peak", "at": [820, 300], "size": [320, 240], "height": 11.0, "elevation": -9.0, "haze": true, "colors": ["4e4a44", "5a564e", "666258", "423e38"], "note": "野羊山's ridges across the drop"},
     {"kind": "far_peak", "at": [760, 900], "size": [280, 220], "height": 10.0, "elevation": -9.0, "haze": true, "colors": ["4e4a44", "5a564e", "666258", "423e38"]}
   ],

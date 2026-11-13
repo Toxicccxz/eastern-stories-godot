@@ -11,13 +11,12 @@
     {"kind": "sign", "at": [-400, -16], "size": [112, 16], "height": 2.75, "tall": 0.42, "text": "非我弟子  莫入此门", "board": "6c6f63", "letters": "2c2a24", "wall_mounted": true, "note": "outdoor.c: 墙上写了两行字…非我弟子，莫入此门"},
     {"kind": "wall_sword", "at": [-60, -16], "size": [64, 16], "height": 1.7, "wall_mounted": true, "note": "outdoor.c: 东首墙上挂这一把木剑"},
     {"kind": "glow", "at": [-300, 300], "color": "b8d0ff", "range": 5.0, "day": 0.35, "night": 0.6, "height": 1.6, "note": "一种说不清的神秘力量"},
-    {"kind": "incense_burner", "at": [-344, -400], "size": [32, 32], "note": "before the Buddha, its ash swept"},
     {"kind": "straw_patch", "at": [-344, -300], "size": [96, 64], "note": "an old reed mat before the Buddha, swept"},
     {"kind": "candles", "at": [-300, -420], "count": 2},
     {"kind": "prayer_cushion", "at": [230, -110], "size": [32, 32], "note": "stoneroom.c: 南边有两个蒲团，似是用来打坐的"},
     {"kind": "prayer_cushion", "at": [300, -110], "size": [32, 32]},
     {"kind": "glow", "at": [110, -304], "color": "dfe8ff", "range": 4.5, "day": 0.5, "night": 0.7, "height": 1.4, "note": "大厅中有光线透出来"},
-    {"kind": "stone_door", "at": [-352, 560], "size": [64, 16], "rotation": 0, "note": "the great stone door seen from within"}
+    {"kind": "stone_door", "at": [-352, 560], "wall_mounted": true, "size": [64, 16], "rotation": 0, "note": "the great stone door seen from within"}
   ],
   "ambience": {"dust": [{"rect": [-720, 0, 32, 544], "count": 26, "color": "c8d8f0", "wind": [0.2, -0.3], "note": "motes that hang in the air: something unseen in the room"}]},
   "actors": {"default": {"coat": "b3a98c"}}

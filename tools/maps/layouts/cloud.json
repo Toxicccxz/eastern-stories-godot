@@ -485,7 +485,8 @@
           ["blocked", "cloud.tearoom2", ["rel", 0.03, 0.4], 1.8823, 3.2941, "a writing desk for the verses (作赋)", {"look": {"kind": "writing_desk", "rotation": 90}}],
           ["blocked", "cloud.tearoom2", ["rel", 0.7, 0.04], 1.4117, 1.4117, "water on the boil for the upper floor", {"look": {"kind": "tea_stove"}}],
           ["blocked", "cloud.tearoom2", ["rel", 0.97, 0.6], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],
-          ["blocked", "cloud.tearoom2", ["rel", 0.95, 0.95], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}]
+          ["blocked", "cloud.tearoom2", ["rel", 0.95, 0.95], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}],
+          ["blocked", "cloud.tearoom2", ["rel", 0.9043, 0.05], 0.9411, 0.9411, "blocks: nobody walks through it", {"look": {"kind": "incense_burner", "size": [24, 24]}}]
         ],
         "placed": {
           "cloud.tearoom2.chess_player.1": [
@@ -563,7 +564,8 @@
           ["blocked", "cloud.jiyuan2", ["rel", 0.92, 0.9], 0.4705, 2.3529, "a painted screen before the south-east corner", {"look": {"kind": "folding_screen", "rotation": 90, "cloth": "a8443a", "occludes": true}}],
           ["blocked", "cloud.jiyuan2", ["rel", 0.35, 0.02], 2.3529, 0.4705, "a painted screen along the north wall", {"look": {"kind": "folding_screen", "cloth": "a8443a"}}],
           ["blocked", "cloud.jiyuan2", ["rel", 0.97, 0.3], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8a0b0"}}],
-          ["blocked", "cloud.jiyuan2", ["rel", 0.05, 0.92], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}]
+          ["blocked", "cloud.jiyuan2", ["rel", 0.05, 0.92], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}],
+          ["blocked", "cloud.jiyuan2", ["rel", 0.6064, 0.05], 0.9411, 0.9411, "blocks: nobody walks through it", {"look": {"kind": "incense_burner", "size": [24, 24]}}]
         ],
         "placed": {
           "cloud.jiyuan2.girl.1": [

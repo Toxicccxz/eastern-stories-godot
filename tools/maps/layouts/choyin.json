@@ -181,7 +181,9 @@
           ["blocked", 2640, 2432, 2656, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
           ["blocked", 2640, 2672, 2656, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
           ["blocked", 2688, 2432, 2704, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
-          ["blocked", 2688, 2672, 2704, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}]
+          ["blocked", 2688, 2672, 2704, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 1824, 1984, 1856, 2016, "crates unloaded at 福林楼's wall (a tall piece: blocks, review fix P)", {"look": {"kind": "cargo", "size": [32, 32]}}],
+          ["blocked", 1488, 1440, 1520, 1472, "blocks: nobody walks through it", {"look": {"kind": "cargo", "size": [32, 32]}}]
         ],
         "reach_from": "NGateRoadArrival",
         "markers_in_middle": ["choyin.nw_street", "choyin.tree_tomb", "choyin.entrance", "choyin.taolin"],
@@ -1092,7 +1094,8 @@
         "props": [
           ["blocked", 304, 32, 352, 80, "lionroom.c: 在一个角落里有两点红光闪烁 — the beast's corner", {"look": {"kind": "standing_rock", "height": 1.6, "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
           ["blocked", 32, 32, 80, 64, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
-          ["blocked", 336, 272, 368, 304, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}]
+          ["blocked", 336, 272, 368, 304, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 32, 96, 80, 144, "blocks: nobody walks through it", {"look": {"kind": "stalagmites", "size": [48, 48]}}]
         ],
         "reach_from": "LionroomFallArrival",
         "markers_in_middle": [],
@@ -1269,7 +1272,7 @@
             "fills": [
               ["wall_wood", 128, 1728, 384, 1920, "会所 (its own map since the remap): the thatched hall"],
               ["wall", 64, 1920, 384, 2240, "its yard behind, walled"],
-              ["blocked", 864, 2112, 928, 2176, "tongbhill.c: 一株老松仍枝繁叶茂, 立于巨石(stone)之上 — the great rock (the pine stands on it)", {"look": {"kind": "boulder", "height": 1.5, "colors": ["5a5450", "66605a", "4e4844"]}}],
+              ["blocked", 864, 2112, 928, 2176, "tongbhill.c: 一株老松仍枝繁叶茂, 立于巨石(stone)之上 — the great rock (the pine stands on it)", {"look": {"kind": "boulder", "colors": ["5a5450", "66605a", "4e4844"]}}],
               ["cliff", 960, 2048, 1024, 2304, "the east cliff: the immortal's furnace burns inside"],
               ["blocked", 432, 1696, 464, 1728, "fence.c: 诺大的一片竹林, 密密匝匝", {"look": {"variant": 0, "kind": "tree", "species": "bamboo"}}],
               ["blocked", 560, 1696, 592, 1728, {"look": {"variant": 1, "kind": "tree", "species": "bamboo"}}],
@@ -1764,7 +1767,8 @@
         "roads": [],
         "props": [
           ["blocked", 32, 32, 80, 64, "halfhole.c: 四壁空无一物, 极为荒凉", {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
-          ["blocked", 256, 192, 304, 240, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}]
+          ["blocked", 256, 192, 304, 240, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 240, 32, 288, 80, "blocks: nobody walks through it", {"look": {"kind": "stalagmites", "size": [48, 40]}}]
         ],
         "reach_from": "HalfholeVineArrival",
         "markers_in_middle": [],
@@ -2364,9 +2368,7 @@
             {
               "look": {
                 "kind": "tea_table",
-                "wood": "b8a060",
-                "books": true,
-                "brush": true
+                "books": true
               }
             }
           ],
@@ -2397,10 +2399,7 @@
             {
               "look": {
                 "kind": "chair",
-                "wood": "b8a060",
-                "legs": "a8904e",
-                "top": "c8b070",
-                "trim": "d8c080"
+                "wood": "b8a060"
               }
             }
           ],
@@ -2413,10 +2412,7 @@
             {
               "look": {
                 "kind": "chair",
-                "wood": "b8a060",
-                "legs": "a8904e",
-                "top": "c8b070",
-                "trim": "d8c080"
+                "wood": "b8a060"
               }
             }
           ],
@@ -2429,10 +2425,7 @@
             {
               "look": {
                 "kind": "chair",
-                "wood": "b8a060",
-                "legs": "a8904e",
-                "top": "c8b070",
-                "trim": "d8c080"
+                "wood": "b8a060"
               }
             }
           ],
@@ -2445,10 +2438,7 @@
             {
               "look": {
                 "kind": "chair",
-                "wood": "b8a060",
-                "legs": "a8904e",
-                "top": "c8b070",
-                "trim": "d8c080"
+                "wood": "b8a060"
               }
             }
           ]

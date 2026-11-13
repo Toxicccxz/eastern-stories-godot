@@ -56,8 +56,8 @@
     "meadows": [{"rect": [320, 64, 640, 384], "on": ["grass"], "scale": [1.0, 1.5], "density": 0.4}]
   },
   "buildings": [
-    {"rect": [336, 96, 400, 176], "note": "spath.c: 路旁隐约可见房舍, 皆已破败", "construction": "earth", "wall": "a89a7a", "bands": ["a68a5f", "9a7f57", "b0946a"], "timber": "6a5a42", "height": 2.4, "ruined": true, "porch": "none", "goods": "none", "lanterns": false, "bay": 3, "foundation": 0.3},
-    {"rect": [560, 208, 624, 288], "note": "and another", "construction": "earth", "wall": "a89a7a", "bands": ["a68a5f", "9a7f57", "b0946a"], "timber": "6a5a42", "height": 2.2, "ruined": true, "porch": "none", "goods": "none", "lanterns": false, "bay": 3, "foundation": 0.3}
+    {"rect": [336, 96, 400, 176], "note": "spath.c: 路旁隐约可见房舍, 皆已破败", "construction": "earth", "wall": "a89a7a", "bands": ["a68a5f", "9a7f57", "b0946a"], "timber": "6a5a42", "height": 2.4, "ruined": true, "porch": "none", "goods": "none", "bay": 3, "foundation": 0.3},
+    {"rect": [560, 208, 624, 288], "note": "and another", "construction": "earth", "wall": "a89a7a", "bands": ["a68a5f", "9a7f57", "b0946a"], "timber": "6a5a42", "height": 2.2, "ruined": true, "porch": "none", "goods": "none", "bay": 3, "foundation": 0.3}
   ],
   "props": [
     {"kind": "cart_wheel", "at": [410, 200], "note": "left when the farms were abandoned"},

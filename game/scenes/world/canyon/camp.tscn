@@ -419,12 +419,12 @@ metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing11" type="Node2D" parent="Furnishings"]
 position = Vector2(-416, -640)
-metadata/look = {"kind": "chair", "cane": true}
+metadata/look = {"kind": "chair"}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing12" type="Node2D" parent="Furnishings"]
 position = Vector2(-176, -640)
-metadata/look = {"kind": "chair", "cane": true}
+metadata/look = {"kind": "chair"}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing13" type="Node2D" parent="Furnishings"]
@@ -434,12 +434,12 @@ metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing14" type="Node2D" parent="Furnishings"]
 position = Vector2(-416, 656)
-metadata/look = {"kind": "chair", "cane": true, "rotation": 180}
+metadata/look = {"kind": "chair", "rotation": 180}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing15" type="Node2D" parent="Furnishings"]
 position = Vector2(-176, 656)
-metadata/look = {"kind": "chair", "cane": true, "rotation": 180}
+metadata/look = {"kind": "chair", "rotation": 180}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing16" type="Node2D" parent="Furnishings"]

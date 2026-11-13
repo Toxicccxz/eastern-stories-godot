@@ -15,8 +15,7 @@
   },
   "props": [
     {"kind": "straw_patch", "at": [80, 72], "size": [96, 80]},
-    {"kind": "stairs", "at": [-104, 104], "size": [48, 48], "rotation": 180},
-    {"kind": "lantern", "at": [-136, -104]}
+    {"kind": "stairs", "at": [-104, 104], "size": [48, 48], "rotation": 180}
   ],
   "actors": {
     "default": {

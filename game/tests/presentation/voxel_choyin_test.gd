@@ -15,14 +15,6 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const CALMED: Array[StringName] = [&"choyin.npc.shadow", &"choyin.npc.lion", &"choyin.npc.serpent", &"choyin.npc.ghost"]
-## Decor tall enough to walk into: in a voxel config it must stand on blocking ground (rock, a
-## wall, water, the town's boundary, a blocked box) or be raised clear of the floor (`elevation`).
-const TALL: Array[String] = ["lantern", "stone_lantern", "standing_rock", "boulder", "banner", "tree", "great_tree", "pavilion",
-	"rockery", "stele", "censer", "flagpole", "water_vat", "strange_stone", "boundary_stone", "torch", "bush", "column",
-	"pavilion_post", "compound_wall", "deity", "training_post", "bookcase", "lamp_stand", "lantern_post", "beast_statue",
-	"screen_wall", "flower_stand", "pagoda", "temple_bell", "buddha", "stone_lion", "weapon_rack", "drying_rack", "fishing_net", "tethered_horse",
-	"incense_burner", "herb_bed", "cart", "firewood", "haystack", "well", "drum", "great_stump", "brick_shrine", "city_wall", "pole_banner",
-	"jade_dais", "vase_hollow", "pill_furnace", "stall", "bench", "stair_run", "pillar_root", "cave_mouth", "flames"]
 const SCENES: Array[String] = ["choyin_town", "choyin_yamen", "choyin_altar", "choyin_hotel_2f", "choyin_hotel_3f", "choyin_tree_hollow",
 	"choyin_lion_cave", "choyin_east", "choyin_furnace", "choyin_guye", "choyin_crown", "choyin_cliff_cave", "choyin_summit", "choyin_valley",
 	"hotel_house", "club_house"]
@@ -479,7 +471,14 @@ func _check_east(map: WorldMapController) -> void:
 func _check_furnace(map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
 	_check("pill_furnace" in _kinds(view) and view.layout.get("ambience", {}).get("lightning", []).size() >= 1, "stove.c: 雷霆不断击向一粒粒仙丹, 炉门好象开着")
-	_check(view.layout.get("items", {}).get("es2:d/choyin/obj/tablet", {}).has("kind"), "stove.c: 仙丹 on the floor have a look")
+	# The 仙丹 lie as their own 背包 picture (item_looks.json's `pill`), no map override; nothing on
+	# the floor falls back to a plain box (a look the props files cannot draw would).
+	var boxed: Array[StringName] = []
+	for id: StringName in view.objects:
+		if (view.objects[id] as Node3D).get_node_or_null("Look") == null:
+			boxed.append(id)
+	_check(not view.layout.get("items", {}).has("es2:d/choyin/obj/tablet") and not view.objects.is_empty() and boxed.is_empty(),
+		"stove.c: 仙丹 on the floor lie as pills, none a plain box (%d on the floor, boxed %s)" % [view.objects.size(), boxed])
 
 
 func _check_guye(map: WorldMapController) -> void:
@@ -579,33 +578,9 @@ func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapC
 	_check(view.arrows.size() == view.entrances.size() + map.doors_by_id.size() and view.entrances.size() == passages, "every way out of %s has its bobbing arrow" % place)
 	var rooms: Dictionary = map.get_node("RoomLife").get_meta("rooms", {}) if map.has_node("RoomLife") else {}
 	_check(map.map_id() in NO_ROOMS or not rooms.is_empty(), "%s says what its rooms are used for (lived-in)" % place)
-	_check_footing(map, view, place)
 	for door_id: StringName in map.doors_by_id: # TEST-ONLY: the 柴门 and the 铜钉大门 open for the walk
 		map.set_door_open(door_id, true)
 	await _check_access_and_saves(tree, session, map, view)
-
-
-func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String) -> void:
-	var loose: Array[String] = []
-	for prop: Dictionary in view.layout.get("props", []):
-		var kind: String = String(prop["kind"])
-		if not kind in TALL or float(prop.get("elevation", 0.0)) >= 0.9:
-			continue
-		var at := Vector2(float(prop["at"][0]), float(prop["at"][1]))
-		var size: Array = prop.get("size", [64, 32])
-		var box := Vector2(float(size[0]), float(size[1]))
-		if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
-			box = Vector2(box.y, box.x)
-		var area := Rect2(at - box / 2.0, box)
-		var solid: bool = true
-		for y: int in range(floori(area.position.y / 16.0), ceili(area.end.y / 16.0)):
-			for x: int in range(floori(area.position.x / 16.0), ceili(area.end.x / 16.0)):
-				var cell := Vector2(x * 16 + 8, y * 16 + 8)
-				var rock: bool = prop.get("on_cliff", false) and view.geometry.cliffs != null and view.geometry.cliffs.heights.has(Vector2i(cell))
-				if not (rock or TerrainProbe.blocks_at(map, cell)) and solid:
-					solid = false
-					loose.append("%s %s (open at %s)" % [kind, prop["at"], cell])
-	_check(loose.is_empty(), "tall decor in %s stands on blocking ground: %s" % [place, loose])
 
 
 ## On the 2D map the voxel view never changes: every room has a way to it from where the

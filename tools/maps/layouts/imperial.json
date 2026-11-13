@@ -2012,7 +2012,7 @@
             {
               "look": {
                 "kind": "grand_chair",
-                "cloth": "d8a830",
+                "cushion": "d8a830",
                 "wood": "8a2a22"
               }
             }
@@ -2104,7 +2104,8 @@
                 "kind": "chest_stack"
               }
             }
-          ]
+          ],
+          ["blocked", "imperial.west_room", ["rel", 0.5, 0.4545], 0.4705, 0.4705, "the boy's lamp in the 西暖阁 (a tall piece: blocks, review fix P)", {"look": {"kind": "candlestick", "size": [12, 12]}}]
         ],
         "placed": {
           "imperial.front_hall.emperor.1": [

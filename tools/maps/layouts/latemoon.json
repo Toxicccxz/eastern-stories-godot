@@ -56,7 +56,7 @@
         ],
         "props": [
           ["blocked", 3520, 480, 3680, 528, "a cart on the verge of the way to 晚月庄's gate (native, 车马行)", {"look": {"kind": "coach", "rotation": 90, "hood": "9a4a5a", "curtain": "e0b0b8"}}],
-          ["blocked", 448, 64, 544, 96, "latemoon6.c: 四面都是单调的墙壁 — a worn mat to kneel on", {"look": {"kind": "bedding", "worn": true}}],
+          ["blocked", 448, 64, 544, 96, "latemoon6.c: 四面都是单调的墙壁 — a worn mat to kneel on", {"look": {"kind": "bedding"}}],
           ["blocked", 944, 64, 976, 96, "a water jug and a bowl on the floor", {"look": {"kind": "crocks"}}],
           ["blocked", 1136, 64, 1168, 96, "latemoon5.c: 你走在一条长廊上 — the gallery's painted columns (roofs: voxel config)", {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
           ["blocked", 1488, 64, 1520, 96, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
@@ -182,7 +182,7 @@
           ["blocked", 2304, 2960, 2352, 3008, "eastroom.c: 两边设一对梅花式红漆小几, 几上茗琬瓶花俱备", {"look": {"kind": "side_table", "plum": true, "colors": ["7a2a22", "8a3226", "6a241e"], "vase": "e8e4dc", "flowers": ["f2c0cc", "e8a0b4"]}}],
           ["blocked", 2528, 2960, 2560, 3008, {"look": {"kind": "side_table", "plum": true, "colors": ["7a2a22", "8a3226", "6a241e"], "vase": "e8e4dc", "flowers": ["f2c0cc", "e8a0b4"]}}],
           ["blocked", 1680, 3328, 1904, 3376, "bathroom1.c: 许多柜子, 衣架上挂了许多的衣服饰品", {"look": {"kind": "wardrobe", "count": 3, "wood": "8a5a3c", "panel": "9a6644", "trim": "7a5034"}}],
-          ["blocked", 1984, 3328, 2112, 3360, {"look": {"kind": "clothes_rack", "clothes": ["e8a0b4", "a0c0d8", "f2e6c8", "c8382a"]}}],
+          ["blocked", 1984, 3328, 2112, 3360, {"look": {"kind": "clothes_rack"}}],
           ["blocked", 1680, 3584, 1776, 3616, "a dressing table, its mirror", {"look": {"kind": "dressing_table"}}],
           ["blocked", 2144, 3584, 2240, 3616, "baskets of fresh linen by the curtain", {"look": {"kind": "baskets"}}],
           ["blocked", 2352, 3344, 2400, 3392, "bathroom.c: 池周围有许多奇花异草", {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
@@ -1015,7 +1015,7 @@
           ["blocked", 288, 720, 336, 768, "uproom.c: 火神「凤凰」", {"look": {"kind": "beast_statue", "beast": "phoenix", "colors": ["c8382a", "e86a3a", "c9a24a"]}}],
           ["blocked", 32, 960, 64, 1072, "uproom.c: 两翼有琉璃鹤照壁, 姿态生动", {"look": {"kind": "screen_wall", "rotation": 90, "height": 2.6, "wall": "3a7a7a", "panel": "e8f0ec", "roof": "5a3a7a", "cranes": true}}],
           ["blocked", 320, 960, 352, 1072, {"look": {"kind": "screen_wall", "rotation": -90, "height": 2.6, "wall": "3a7a7a", "panel": "e8f0ec", "roof": "5a3a7a", "cranes": true}}],
-          ["blocked", 816, 192, 880, 224, {"look": {"kind": "writing_desk", "colors": ["5a2e24", "6a3828", "4e2820"]}}],
+          ["blocked", 816, 192, 880, 224, {"look": {"kind": "writing_desk"}}],
           ["blocked", 880, 1680, 944, 1728, "uproom3.c: 简单的布置加上一座檀香炉", {"look": {"kind": "incense_burner", "lit": true, "tall": true}}],
           ["blocked", 1504, 704, 1536, 1072, "uplook.c: the railing over the forecourt", {"look": {"kind": "balustrade", "rotation": 90, "jade": true, "colors": ["e8e6dc", "f0eee6", "dcdad0"]}}]
         ],

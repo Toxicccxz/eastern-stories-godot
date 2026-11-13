@@ -47,7 +47,7 @@
   },
   "reshape": [],
   "buildings": [
-    {"rect": [816, 256, 896, 448], "portals": [], "note": "the stone door and the passage's end: fitted grey stone, the bird cut over the leaves (the carved_wall on its west face)", "construction": "rubble", "stones": ["8a8278", "9a9288", "7a7268", "a8a098"], "wall": "8a8278", "timber": "5a4a3a", "height": 3.6, "roof_form": "none", "foundation": 0.0, "bay": 3, "porch": "none", "lanterns": false, "goods": "none", "mossy": 0.3, "damp": {"height": 0.3, "share": 0.6}, "cracks": 0.1, "foot_weeds": 0.3}
+    {"rect": [816, 256, 896, 448], "portals": [], "note": "the stone door and the passage's end: fitted grey stone, the bird cut over the leaves (the carved_wall on its west face)", "construction": "rubble", "stones": ["8a8278", "9a9288", "7a7268", "a8a098"], "wall": "8a8278", "timber": "5a4a3a", "height": 3.6, "roof_form": "none", "foundation": 0.0, "bay": 3, "porch": "none", "goods": "none", "mossy": 0.3, "damp": {"height": 0.3, "share": 0.6}, "cracks": 0.1, "foot_weeds": 0.3}
   ],
   "props": [
     {"kind": "trail", "points": [[144, 416], [300, 420], [480, 400], [640, 360], [800, 352]], "color": "a08a58", "note": "the ruts to the pit"},
@@ -55,7 +55,7 @@
     {"kind": "stains", "at": [320, 416], "size": [360, 420], "count": 14, "colors": ["b8a070", "c8b080", "a89060", "8a8278"], "note": "yellow spoil over grey old earth"},
     {"kind": "stains", "at": [480, 744], "size": [200, 100], "count": 6, "colors": ["8a7a4e", "9a8858"], "note": "the mule's ground"},
     {"kind": "stains", "at": [780, 352], "size": [60, 60], "count": 2, "colors": ["7a6a50", "8a7a5a"], "note": "the two hollows knelt into the ground before the door"},
-    {"kind": "carved_wall", "at": [814, 352], "size": [12, 160], "height": 3.2, "text": "", "colors": ["8a8278", "9a9288", "7a7268"], "note": "the stone door: two leaves shut, the three-legged bird cut over them (the look's 长 says it)", "rotation": 90, "wall_mounted": true},
+    {"kind": "carved_wall", "at": [814, 352], "size": [12, 160], "text": "", "note": "the stone door: two leaves shut, the three-legged bird cut over them (the look's 长 says it)", "rotation": 90, "wall_mounted": true},
     {"kind": "gate_pier", "at": [806, 264], "size": [32, 32], "height": 3.2, "colors": ["8a8278", "9a9288"], "note": "the piers either side", "wall_mounted": true},
     {"kind": "gate_pier", "at": [806, 440], "size": [32, 32], "height": 3.2, "colors": ["8a8278", "9a9288"], "wall_mounted": true},
     {"kind": "rock_pile", "at": [288, 496], "size": [40, 30], "count": 6, "colors": ["8a8278", "9a9288", "7a7268", "a8a098"], "note": "cut stones from the passage's lining"},

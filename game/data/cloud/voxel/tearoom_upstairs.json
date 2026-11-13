@@ -27,7 +27,6 @@
     {"kind": "clutter", "at": [320, 160], "size": [32, 16], "items": ["cups"], "rotation": 0},
     {"kind": "clutter", "at": [-300, -200], "size": [48, 24], "items": ["books", "cups"], "rotation": 0, "note": "a scholar's books by the desk"},
     {"kind": "clutter", "at": [60, 200], "size": [48, 24], "items": ["cups", "jar"], "rotation": 0},
-    {"kind": "incense_burner", "at": [220, -200], "size": [24, 24]},
     {"kind": "slippers", "at": [-160, 190], "rotation": 30, "cloth": "4e6967"}
   ],
   "ambience": {

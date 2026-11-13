@@ -104,7 +104,9 @@
             "op": "fill",
             "fills": [
               ["blocked", 1856, 1344, 1904, 1392, "road2: a boulder by the rough path", {"look": {"kind": "boulder", "colors": ["8a8068", "948a70", "7e7460"]}}],
-              ["blocked", 1312, 1584, 1360, 1616, {"look": {"kind": "boulder", "colors": ["8a8068", "948a70", "7e7460"]}}]
+              ["blocked", 1312, 1584, 1360, 1616, {"look": {"kind": "boulder", "colors": ["8a8068", "948a70", "7e7460"]}}],
+              ["blocked", 1696, 896, 1712, 912, "blocks: nobody walks through it", {"look": {"kind": "mooring_post"}}],
+              ["blocked", 1792, 896, 1808, 912, "blocks: nobody walks through it", {"look": {"kind": "mooring_post"}}]
             ]
           },
           {

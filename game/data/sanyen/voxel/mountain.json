@@ -66,9 +66,9 @@
     "meadows": [{"rect": [1600, 1088, 1920, 1856], "on": ["grass"], "scale": [1.1, 1.6], "density": 0.5, "note": "rough grass by the yellow-earth path"}, {"rect": [1280, 1344, 1600, 1856], "on": ["grass"], "scale": [1.1, 1.6], "density": 0.5}]
   },
   "buildings": [
-    {"rect": [576, 960, 1040, 1136], "note": "southriver.c: 从这儿已能望到山烟寺的一角 — the great hall's golden roof over the wall (road1.c: 上覆金瓦…四个角落雕就著四只金龙, 屋檐下还各挂著一串金风铃)", "construction": "timber", "wall": "c49866", "timber": "8a5a34", "posts": "a8382a", "roof": "a8802a:gloss", "height": 4.2, "roof_form": "hip", "ridge": "x", "rise": 2.0, "eave_lift": 0.6, "overhang": 1.1, "foundation": 0.7, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "lattice": true, "porch": "none", "doorway": "shut", "goods": "none", "lanterns": false, "bay": 5, "bells": true, "bell": "c9a24a", "corner_beasts": "d8b04a:gloss", "ridge_ends": "c9a24a", "skirt": 2.4, "skirt_depth": 0.9},
-    {"rect": [704, 1184, 896, 1264], "note": "door.c: the gate hall, its gilt tiles, behind the 山门", "construction": "timber", "wall": "c49866", "timber": "8a5a34", "posts": "a8382a", "roof": "a8802a:gloss", "height": 3.2, "roof_form": "hip", "ridge": "x", "rise": 1.2, "eave_lift": 0.5, "overhang": 0.8, "foundation": 0.4, "porch": "none", "doorway": "shut", "goods": "none", "lanterns": false, "bay": 3, "ridge_ends": "c9a24a"},
-    {"rect": [432, 928, 544, 1040], "note": "the kitchen's roof in the corner", "construction": "timber", "wall": "c49866", "timber": "7a5034", "roof": "6a6a62", "height": 2.8, "roof_form": "gable", "rise": 1.0, "overhang": 0.6, "porch": "none", "doorway": "shut", "goods": "none", "lanterns": false, "bay": 2}
+    {"rect": [576, 960, 1040, 1136], "note": "southriver.c: 从这儿已能望到山烟寺的一角 — the great hall's golden roof over the wall (road1.c: 上覆金瓦…四个角落雕就著四只金龙, 屋檐下还各挂著一串金风铃)", "construction": "timber", "wall": "c49866", "timber": "8a5a34", "posts": "a8382a", "roof": "a8802a:gloss", "height": 4.2, "roof_form": "hip", "ridge": "x", "rise": 2.0, "eave_lift": 0.6, "overhang": 1.1, "foundation": 0.7, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "lattice": true, "porch": "none", "doorway": "shut", "goods": "none", "bay": 5, "bells": true, "bell": "c9a24a", "corner_beasts": "d8b04a:gloss", "ridge_ends": "c9a24a", "skirt": 2.4, "skirt_depth": 0.9},
+    {"rect": [704, 1184, 896, 1264], "note": "door.c: the gate hall, its gilt tiles, behind the 山门", "construction": "timber", "wall": "c49866", "timber": "8a5a34", "posts": "a8382a", "roof": "a8802a:gloss", "height": 3.2, "roof_form": "hip", "ridge": "x", "rise": 1.2, "eave_lift": 0.5, "overhang": 0.8, "foundation": 0.4, "porch": "none", "doorway": "shut", "goods": "none", "bay": 3, "ridge_ends": "c9a24a"},
+    {"rect": [432, 928, 544, 1040], "note": "the kitchen's roof in the corner", "construction": "timber", "wall": "c49866", "timber": "7a5034", "roof": "6a6a62", "height": 2.8, "roof_form": "gable", "rise": 1.0, "overhang": 0.6, "porch": "none", "doorway": "shut", "goods": "none", "bay": 2}
   ],
   "props": [
     {"kind": "compound_wall", "at": [568, 1336], "size": [336, 16], "height": 3.0, "occludes": true, "windows": 1, "wall": "e0d2b0", "note": "山烟寺's wall, old ochre plaster over stone, tiled on top"},
@@ -86,7 +86,7 @@
     {"kind": "stains", "at": [800, 1420], "size": [140, 80], "count": 6, "colors": ["9a9a8c", "a2a294"], "note": "the flagstones worn pale before the gate"},
     {"kind": "cave_mouth", "at": [624, 1488], "size": [48, 160], "rotation": 90, "height": 2.8, "note": "sroad2.c: 往东穿过一个山壁上凿出来的隧道 — the tunnel's mouth, cut square"},
     {"kind": "stains", "at": [664, 1488], "size": [64, 120], "count": 5, "colors": ["c8b44a", "b8a440", "d8c45a"], "note": "tunnel.c: 硫磺的味道 — yellow crust at the mouth"},
-    {"kind": "carved_wall", "at": [1120, 1636], "size": [224, 16], "text": "山烟寺", "from": 0.9, "color": "8a5446", "shade": "4a4238", "note": "sroad1.c: 东面的山壁上刻著「山烟寺」几个大字, 看起来岁月已经颇久了"},
+    {"kind": "carved_wall", "at": [1136, 1620], "size": [224, 16], "text": "山烟寺", "from": 0.9, "color": "8a5446", "shade": "4a4238", "note": "sroad1.c: 东面的山壁上刻著「山烟寺」几个大字, 看起来岁月已经颇久了"},
     {"kind": "mossy_rock", "at": [1000, 1820], "size": [40, 28]},
     {"kind": "mossy_rock", "at": [1232, 1832], "size": [32, 24]},
     {"kind": "ferns", "at": [1040, 1648], "size": [32, 24], "count": 3},
@@ -97,8 +97,6 @@
     {"kind": "tracks", "at": [1760, 1360], "size": [64, 160], "note": "feet and hooves in the yellow earth"},
     {"kind": "jetty", "at": [1760, 864], "size": [128, 96], "deck": 0.06, "end": 1.0, "note": "dukou.c: the jetty where the boat from 绮云镇 puts in"},
     {"kind": "skiff", "at": [1880, 780], "size": [56, 140], "rotation": 10, "lamp": true, "note": "the boatman's boat (northriver.c: 小船驶向江南) tied up by the ford"},
-    {"kind": "mooring_post", "at": [1712, 900]},
-    {"kind": "mooring_post", "at": [1808, 900]},
     {"kind": "bank_stones", "at": [1520, 866], "points": [[1376, 866], [1648, 866]], "height": 0.5},
     {"kind": "bank_stones", "at": [1944, 866], "points": [[1888, 866], [1984, 866]], "height": 0.5},
     {"kind": "reeds", "at": [700, 862], "size": [1300, 40], "count": 30, "height": 1.1, "colors": ["6f8a44", "7f9a50", "8faa5a", "a3b46a"], "elevation": -0.1},

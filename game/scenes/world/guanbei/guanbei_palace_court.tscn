@@ -230,7 +230,7 @@ layout_path = "res://data/guanbei/voxel/palace_court.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(-352, -112)
-metadata/look = {"kind": "screen_wall", "colors": ["d8d0c0", "c8c0b0", "a89a84"], "height": 2.6}
+metadata/look = {"kind": "screen_wall", "height": 2.6}
 metadata/footprint = Vector2(128, 32)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]

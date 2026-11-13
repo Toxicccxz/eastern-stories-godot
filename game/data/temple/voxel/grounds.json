@@ -98,8 +98,6 @@
     {"kind": "sacks", "size": [32, 24], "at": [520, 1030], "cloth": "8a7a5c", "note": "a sandbag by the door"},
     {"kind": "clutter", "at": [344, 1030], "size": [24, 24], "items": ["bucket"]},
     {"kind": "stains", "at": [448, 1100], "size": [100, 120], "count": 5, "colors": ["9a9a90", "a2a298"], "note": "trodden by the pupils' feet"},
-    {"kind": "flower_stand", "at": [680, 1026], "size": [32, 32], "flower": "c8382a", "note": "corridor5.c: 南边就是天井, 你也许可以走过去赏赏花 — flower stands along the rear hall's wall"},
-    {"kind": "flower_stand", "at": [920, 1026], "size": [32, 32], "flower": "f2efe6"},
     {"kind": "clutter", "at": [690, 1236], "size": [32, 24], "items": ["broom", "basket"], "note": "the sweeping boy's broom and basket, left by the posts (inneryard.c: 扫地道童)"},
     {"kind": "seal_strip", "at": [324, 1488], "size": [48, 16], "rotation": 90, "wall_mounted": true, "note": "corridor6.c: 西边是一间上了锁的房间 — paper seals crossed over the door, a big padlock"},
     {"kind": "cobweb", "at": [326, 1452], "size": [40, 40], "rotation": 90, "height": 2.4},

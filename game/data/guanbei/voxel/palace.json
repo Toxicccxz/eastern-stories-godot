@@ -27,10 +27,9 @@
     {"kind": "glow", "at": [0, -200], "color": "ffb070", "day": 0.2, "night": 0.9, "range": 7.0, "height": 1.2, "note": "the brazier's glow before the dais"},
     {"kind": "stains", "at": [0, 0], "size": [200, 440], "count": 8, "colors": ["a0906e", "a89876"], "note": "the brick worn pale from the door to the dais"},
     {"kind": "trail", "points": [[0, 230], [0, 100], [0, -60], [0, -180]], "color": "a89876"},
-    {"kind": "animal_hide", "at": [0, -236], "size": [64, 24], "height": 1.0, "wall_mounted": true, "note": "the worn tiger skin over the chair's back"},
-    {"kind": "wall_scroll", "at": [560, -140], "size": [72, 16], "height": 1.9, "wall_mounted": true, "note": "the sheepskin map on the side hall's wall (native:guanbei/side_hall)"},
+    {"kind": "animal_hide", "at": [0, -236], "size": [64, 24], "wall_mounted": true, "note": "the worn tiger skin over the chair's back"},
+    {"kind": "wall_scroll", "at": [560, -140], "size": [72, 16], "wall_mounted": true, "note": "the sheepskin map on the side hall's wall (native:guanbei/side_hall)"},
     {"kind": "hanging_lantern", "at": [560, 40], "paper": "d8b070", "height": 2.6, "note": "the side hall's lantern over the desk"},
-    {"kind": "candlestick", "at": [560, -40], "size": [12, 12], "lit": true},
     {"kind": "paper_slip", "at": [500, 60], "size": [14, 18], "rotation": 25, "note": "a sheet of the 王府's accounts"}
   ],
   "actors": {
