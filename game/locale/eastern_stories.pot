@@ -10388,6 +10388,14 @@ msgstr ""
 msgid "手柄"
 msgstr ""
 
+#: ui/common/key_bindings_page.gd
+msgid "方向键"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "十字键"
+msgstr ""
+
 #: ui/common/training_progress.gd
 msgid "停止"
 msgstr ""

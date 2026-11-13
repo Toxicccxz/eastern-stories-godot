@@ -286,7 +286,7 @@ func _test_key_page(tree: SceneTree, shell: ApplicationShellController) -> void:
 	var page: KeyBindingsPage = shell.key_page
 	_check(page.visible and tree.root.gui_get_focus_owner() == page.back_button, "A on 按键一览: the page, 返回 focused")
 	var walk: Array[String] = page.row_text("走路")
-	_check(walk.size() == 2 and walk[0].contains("W") and walk[0].contains("Up") and walk[1].contains("LS"), "走路: keys and pad: %s" % [walk])
+	_check(walk.size() == 2 and walk[0] == "W / A / S / D / 方向键" and walk[1] == "LS / 十字键", "走路: keys and pad: %s" % [walk])
 	_check(page.row_text("暂停（系统）") == ["Esc", "Back"], "暂停: %s" % [page.row_text("暂停（系统）")])
 	await _joy(tree, JOY_BUTTON_DPAD_UP)
 	_check(tree.root.gui_get_focus_owner() == page.back_button, "the focus stays on the page")

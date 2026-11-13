@@ -133,9 +133,24 @@ func _fill() -> void:
 			for pad: String in InputGlyphs.pad_names(action, style):
 				if not pads.has(pad):
 					pads.append(pad)
+		keys = _collapse(keys, ["Up", "Left", "Down", "Right"], tr("方向键"))
+		pads = _collapse(pads, ["D-Pad Up", "D-Pad Left", "D-Pad Down", "D-Pad Right"], tr("十字键"))
 		_cell(row[0], &"")
 		_cell(" / ".join(keys) if not keys.is_empty() else "—", &"", false)
 		_cell(" / ".join(pads) if not pads.is_empty() else "—", &"", false)
+
+
+## The four arrows (or the D-pad's four) written once, as one name at the end, where all four are there.
+static func _collapse(names: PackedStringArray, four: Array[String], one: String) -> PackedStringArray:
+	for name: String in four:
+		if not names.has(name):
+			return names
+	var shown := PackedStringArray()
+	for name: String in names:
+		if not four.has(name):
+			shown.append(name)
+	shown.append(one)
+	return shown
 
 
 func _cell(text: String, variation: StringName, translated: bool = true) -> void:
