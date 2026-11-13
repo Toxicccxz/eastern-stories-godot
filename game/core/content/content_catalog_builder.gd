@@ -480,15 +480,21 @@ func _check_journal() -> void:
 		topics[topic.topic_id] = true
 
 
-## A condition (a journal entry's `when`, a quest's `starts` or a step's `done`) names an
-## item, NPC, topic, milestone kind, skill, family or zone the game has.
+## A condition (a journal entry's `when`, a quest's `starts` or a step's `done`, an act's `when`,
+## an NPC's `ignores_when`, a spawn's `present`...) names an item (carried or worn), NPC, topic,
+## milestone kind, skill, family or zone the game has.
 func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
+	if entry == null:
+		return
 	for part: JournalEntryDefinition in entry.parts:
 		_check_condition(origin, part)
 	match entry.when:
 		JournalEntryDefinition.When.ITEM:
 			if not _items.has(StringName(entry.key)):
 				_errors.append("%s.item: no item '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.WEARING:
+			if not _items.has(StringName(entry.key)):
+				_errors.append("%s.wearing: no item '%s'" % [origin, entry.key])
 		JournalEntryDefinition.When.SEEN:
 			if not _npcs.has(StringName(entry.key)):
 				_errors.append("%s.seen: no NPC '%s'" % [origin, entry.key])
@@ -587,6 +593,8 @@ func _check_story_quests() -> void:
 				_check_reward("%s.%s.reward" % [at, option.option_id], option.reward)
 			_check_reward(at + ".reward", step.reward)
 			for row: StoryQuestDefinition.CheckRow in step.checklist:
+				_check_condition(at + ".checklist.when", row.condition)
+				_check_condition(at + ".checklist.if", row.shown_if)
 				# A count row may name its at_least (`cond`): it is one only now, linked.
 				if row.counts and row.condition != null and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
 					_errors.append("%s.checklist: a count row's when is an at_least" % at)
@@ -770,6 +778,15 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
 				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
+			if not rule.item.is_empty() and not _items.has(rule.item):
+				_errors.append("%s.accept_object.item: unknown item '%s'" % [origin, rule.item])
+			if not rule.giver_carries.is_empty() and not _items.has(rule.giver_carries):
+				_errors.append("%s.accept_object.giver_carries: unknown item '%s'" % [origin, rule.giver_carries])
+		_check_condition(origin + ".ignores_when", definition.dealings().ignores_when)
+		var watch: NpcWatch = definition.dealings().watch
+		if watch != null:
+			for condition: JournalEntryDefinition in [watch.when, watch.unless, watch.dim_when]:
+				_check_condition(origin + ".watch", condition)
 		var patrol: NpcPatrol = definition.dealings().patrol
 		if patrol != null:
 			_check_patrol(origin, patrol)
@@ -847,6 +864,8 @@ func _check_spawns() -> void:
 			_errors.append("%s.draw: '%s' has nothing to draw from" % [_origins[group_first[group].spawn_id], group])
 	for definition: NpcSpawnDefinition in _spawns.values():
 		var origin: String = _origins[definition.spawn_id]
+		_check_condition(origin + ".present", definition.present)
+		_check_condition(origin + ".until", definition.until)
 		if not definition.same_person.is_empty():
 			# The same person elsewhere: one definition, one map, and no more of them than of the first.
 			var first: NpcSpawnDefinition = _spawns.get(definition.same_person)
@@ -869,6 +888,8 @@ func _check_spawns() -> void:
 			point_owners[point_id] = definition.spawn_id
 	for definition: ItemSpawnDefinition in _item_spawns.values():
 		var origin: String = _origins[definition.spawn_id]
+		_check_condition(origin + ".present", definition.present)
+		_check_condition(origin + ".until", definition.until)
 		var item: ItemContentDefinition = _items.get(definition.item_definition_id)
 		if item == null:
 			_errors.append("%s.item: unknown item '%s'" % [origin, definition.item_definition_id])
@@ -1096,6 +1117,9 @@ func _check_hazards() -> void:
 		elif zones_taken.has(hazard.zone_id):
 			_errors.append("%s.zone: %s has a hazard already" % [origin, hazard.zone_id])
 		zones_taken[hazard.zone_id] = true
+		for item_id: StringName in hazard.unless_wearing():
+			if not _items.has(item_id):
+				_errors.append("%s.unless_wearing: unknown item '%s'" % [origin, item_id])
 		for act: ScriptedAct in hazard.acts():
 			if act.moves_player():
 				_errors.append("%s.act: a hazard does not move the player" % origin)
@@ -1222,6 +1246,10 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		_errors.append("%s.kar_above: only a room's command or a greeting rolls" % origin)
 	if not act.carries.is_empty() and not _answers_to(act.carries):
 		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
+	# Worn things are read by their aliases as carried ones are (WorldMapActs.known()).
+	if not act.wears.is_empty() and not _answers_to(act.wears):
+		_errors.append("%s.wears: no item answers to '%s'" % [origin, act.wears])
+	_check_condition(origin + ".when", act.when)
 	if not act.exists.is_empty() and not _items.has(act.exists):
 		_errors.append("%s.exists: unknown item '%s'" % [origin, act.exists])
 	if not act.present.is_empty() and not _npcs.has(act.present):
@@ -1244,6 +1272,7 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		if step.only_when != null and step.only_when.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
 			# Heard and chat are recorded as they happen: a step can never ask them (DECISIONS「步骤条件」).
 			_errors.append("%s: step %d's when asks what is only recorded as it happens (heard, chat)" % [origin, index])
+		_check_condition("%s.steps[%d].when" % [origin, index], step.only_when)
 		if step.kind == ScriptedAct.Kind.BY:
 			acting = true
 		if step.kind == ScriptedAct.Kind.COMES:

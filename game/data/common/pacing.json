@@ -45,6 +45,9 @@
 		"action_tag_bonus_percent": 15,
 		"tag_counter_percent": 15,
 		"heavy_blow_percent": 150,
+		"bare_parry_percent": 100,
+		"armed_parry_percent": 100,
+		"bare_damage_percent": 120,
 		"player_turns": true,
 		"npc_telegraph": true,
 		"stance_percent": 20,
@@ -84,6 +87,8 @@
 		"coach_fare_base": 10,
 		"coach_fare_per_leg": 5,
 		"coach_minutes_per_leg": 30,
+		"rest_world_scale": 20,
+		"rest_limit_seconds": 600,
 		"npc_idle": {
 			"enabled": true,
 			"pause_min_ms": 2500,

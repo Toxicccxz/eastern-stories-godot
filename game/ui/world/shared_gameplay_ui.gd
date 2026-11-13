@@ -99,6 +99,8 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 }
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay
+## 歇到回满's band over the world (DECISIONS「歇到回满」).
+var rest_overlay: RestOverlay
 ## The fade and the place's banner around a map change (DECISIONS「手感」).
 var view_overlay: WorldViewOverlay
 ## The ring and prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」).
@@ -241,6 +243,10 @@ func _ready() -> void:
 		life_overlay.name = "PlayerLifeOverlay"
 		life_overlay.configure(_session)
 		_session.add_child.call_deferred(life_overlay)
+		rest_overlay = RestOverlay.new()
+		rest_overlay.name = "RestOverlay"
+		rest_overlay.configure(_session)
+		_session.add_child.call_deferred(rest_overlay)
 		view_overlay = WorldViewOverlay.new()
 		view_overlay.name = "WorldViewOverlay"
 		view_overlay.configure(_session)
@@ -286,6 +292,24 @@ func show_card(text: String) -> void:
 		life_overlay.show_card(text)
 
 
+## 歇到回满 (DECISIONS「歇到回满」): the window it was pressed in closes and the player rests,
+## world time passing; `after` runs once all three are full (the page opens again). "" when the
+## rest begins, else why not (also into 消息).
+func rest(after: Callable = Callable()) -> String:
+	if not is_instance_valid(rest_overlay) or _session == null:
+		return ""
+	var refused: String = _session.rest_refusal()
+	if refused.is_empty():
+		close_menu()
+		if interaction_open():
+			_presentation_layout.close_frame()
+		refused = rest_overlay.begin(after)
+	if not refused.is_empty():
+		var lines: Array[ColoredLine] = [ColoredLine.new(refused)]
+		append_colored_lines(lines)
+	return refused
+
+
 ## Where the status card is on the screen (what overlays keep clear of).
 func card_rect() -> Rect2:
 	return _presentation_layout.bar.get_global_rect()
@@ -308,6 +332,8 @@ func _notification(what: int) -> void:
 			life_overlay.free()
 		if is_instance_valid(view_overlay) and view_overlay.get_parent() == null:
 			view_overlay.free()
+		if is_instance_valid(rest_overlay) and rest_overlay.get_parent() == null:
+			rest_overlay.free()
 	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.

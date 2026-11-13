@@ -1,8 +1,8 @@
 extends RefCounted
 
 ## 第十章 C 云台与旋芒 (owner's plan build/plans/第十章_计划.md, 2026-11-08「继续做」: Q1–Q3 默认;
-## DECISIONS「第十章 C」), from the eighth chapter's ledger with the ninth's marks (TEST-ONLY), 岚翁 asked of 旋芒
-## in the 风铃阁 (the elder step) and up its west stair to the 云台:
+## DECISIONS「第十章 C」), from B's end (StoryFixtures.chapter10_asked: 岚翁 asked of 旋芒 in the 风铃阁, the elder
+## step) and up its west stair to the 云台:
 ## - 你拔 (a ledger of every trust: ten bells): asked first, 接风三刃 offered, stood, the sword drawn; the
 ##   other two say the sword has its hand; the whirl is gone; the chapter done, its mark, the finale's stub
 ##   next; 乘风 (asked first) to 天驼关's mirror, the wind's route cleared; 萧辟尘 says 是你。好.
@@ -21,7 +21,6 @@ const LAN_WENG_TERRACE: StringName = &"native.npc.lan_weng_terrace"
 const KIND: Array[String] = ["放过了刘安禄", "安葬无名人", "替南危水保密", "霍铮回了寨", "宝衣给了安妮儿", "陈显祖作了证", "王府干净", "火前说了真话", "查清了封物", "冯策随你下湖"]
 const HARD: Array[String] = ["关北的骑兵欠你一阵", "村口的鬼卒退了", "告发了南危水", "带走了宝衣", "放走了陈显祖"]
 const TABLE: Array[String] = ["放过了刘安禄", "安葬无名人", "替南危水保密", "卫沧澜出了尚书府", "霍铮回了寨", "宝衣给了安妮儿", "瑷伦守到决战", "陈显祖作了证", "关北的骑兵欠你一阵", "王府干净", "火前说了真话", "大秦人留下了", "查清了封物", "村口的鬼卒退了", "冯策随你下湖", "皇叔入朝"]
-const NINTH: Array[String] = ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城", "见了福安", "见了皇帝", "翻过樟木匣", "对出了原令", "见过卫沧澜"]
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -50,7 +49,7 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(weng != null and terrace.npc_life.story_trials_offered(weng).is_empty(), "岚翁 on the 云台; no trial before one chooses to draw")
 	_check(_whirl_shown(terrace), "the whirlwind turns, 旋芒 in it")
 	await _act(tree, terrace, &"lancheng.whirl.self")
-	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("接风三刃"), "自己拔 asked first: the trial named")
+	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("接风三刃") and ui.confirm_prompt.message.text.contains("跟你并肩打"), "自己拔 asked first: the trial named, and what the other way brings (DECISIONS「主线必打的仗」: the bearer fights beside you)")
 	ui.confirm_prompt.confirm_button.pressed.emit()
 	await _settle(tree)
 	_check(state.marks.get("要自己拔旋芒", 0) == 1 and state.marks.get("旋芒在你手里", 0) == 0, "chosen; not drawn yet")
@@ -63,6 +62,7 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	await _told(tree, session, terrace, weng)
 	_check(result.outcome == NpcApprenticeTrial.Outcome.PASSED and result.blows == 3 and state.marks.get("接下了接风三刃", 0) == 1 and DeedLog.done(state, "在岚城的云台上接下了岚翁的接风三刃"), "three blows stood: the mark and the deed")
 	_check(terrace.npc_life.story_trials_offered(weng).is_empty(), "not offered twice")
+	_blow_under_100(terrace, weng, trials[0], state)
 	await _act(tree, terrace, &"lancheng.whirl.self")
 	session.record_journal()
 	_check(state.marks.get("旋芒在你手里", 0) == 1 and session.player_held_item_ids().has(SWORD), "the sword drawn: in one's hand")
@@ -179,37 +179,22 @@ func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(handoff.is_empty(), "旋芒 played (皇叔) leaves what chapter10_done(uncle) writes: %s" % [handoff])
 
 
-## The ninth chapter's marks on a ledger (`side`: expose, deal or uncle), the bells' marks given, the
-## wind read (到了岚城), 岚翁 met and asked of 旋芒 in the 风铃阁, then up its west stair.
+## B's end on the ninth chapter's ledger (`side`: expose, deal or uncle; StoryFixtures.chapter10_asked: the
+## wind read, 岚翁 met and asked of 旋芒), the bells' marks given; in the 风铃阁, then up its west stair.
 func _to_terrace(tree: SceneTree, session: WorldSessionController, marks: Array, side: String) -> void:
-	StoryFixtures.chapter8_done(session, false, true, false)
+	StoryFixtures.chapter10_asked(session, side, false, true, false)
 	var state: CharacterState = session.player_runtime().state
-	for mark: String in NINTH:
-		state.marks[mark] = 1 # TEST-ONLY: as 第九章 A–D write them
-	match side:
-		"expose": state.marks["庾子建下狱"] = 1
-		"deal":
-			state.marks["宋朴传了话"] = 1
-			state.marks["私了了庾子建"] = 1
-		"uncle":
-			state.marks["皇叔的通缉解了"] = 1
 	for mark: String in TABLE:
 		state.marks.erase(mark) # TEST-ONLY: the earlier chapters' fixture marks cleared
 	for mark: String in marks:
 		state.marks[mark] = 1 # TEST-ONLY: a ledger's choices
-	state.marks["到了岚城"] = 1 # TEST-ONLY: as 伏地 writes it
 	session.record_journal()
 	var hall: WorldMapController = MapPlaces.enter(session, &"lancheng.bell_hall", &"lancheng.bell_hall.street_arrival") # TEST-ONLY
 	await _settle(tree)
 	session.record_journal()
-	for second: int in 3:
-		session.advance_npc_heartbeat(1.0)
-		await _settle(tree)
 	var weng: NpcRuntimeState = _first(session, &"lancheng.bell_hall", LAN_WENG)
 	_check(weng != null and hall.select_npc(weng.character_id) and _said(hall.ask_selected("谁拔"), "西墙那道梯子"), "岚翁 on 谁拔: the stair by the west wall")
-	hall.ask_selected("旋芒")
-	session.record_journal()
-	_check(state.marks.get("见过岚翁", 0) == 1 and await MapPlaces.take_passage(tree, hall, &"lancheng.bell_hall.up") and session.active_map().map_id() == &"lancheng.terrace", "up the stair to the 云台")
+	_check(await MapPlaces.take_passage(tree, hall, &"lancheng.bell_hall.up") and session.active_map().map_id() == &"lancheng.terrace", "up the stair to the 云台")
 	await _settle(tree)
 
 
@@ -299,3 +284,27 @@ func _check(condition: bool, message: String) -> void:
 	_count += 1
 	if not condition:
 		_failures.append(message)
+
+
+## DECISIONS「姿态整记」: the trial's blow weighs its whole damage by its tag now; a landed blow still
+## takes less than 100 气 from the character the suite plays (twenty landed blows sampled, nobody's
+## kee, wound or force kept).
+func _blow_under_100(map: WorldMapController, npc: NpcRuntimeState, trial: NpcTrial, state: CharacterState) -> void:
+	var kee: CharacterResourceState = state.vitality
+	var force: int = npc.character_state.recovery.inner_force.current
+	var hardest: int = 0
+	var landed: int = 0
+	for sample: int in 60:
+		if landed >= 20:
+			break
+		state.vitality = CharacterResourceState.new(100000, 100000, 100000)
+		npc.character_state.recovery.inner_force.current = force
+		if map.attack_player_outside_fight(npc, trial.blow_modifiers()) == null:
+			break
+		var lost: int = 100000 - mini(state.vitality.current, state.vitality.effective)
+		if lost > 0:
+			landed += 1
+			hardest = maxi(hardest, lost)
+	state.vitality = kee
+	npc.character_state.recovery.inner_force.current = force
+	_check(landed > 0 and hardest < 100, "%s's blow (%s): the hardest of %d landed took %d 气, under 100" % [npc.definition().display_name, trial.label, landed, hardest])

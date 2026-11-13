@@ -21,6 +21,14 @@ enum Outcome {
 	## A scene holds the player (DECISIONS「剧情演出」): its progress is not saved, so it is
 	## seen through first.
 	SCENE_RUNNING,
+	## The player stands where a save cannot put them back (a doorway: door state is not saved;
+	## MapPlacementValidator): one step away and it saves. The autosave waits for it
+	## (GameAutosave), the player's Save says so (全项目审查第四批).
+	PLAYER_POSITION,
+	## An NPC is still making something for the player or telling a test blow by blow
+	## (WorldMapNpcLife makings, trials: call_outs, not saved): seen through first, or a save
+	## would keep the temp mark and lose the thing (全项目审查第四批). The autosave waits for it.
+	NPC_WORKING,
 }
 
 var outcome: int

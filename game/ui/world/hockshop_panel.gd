@@ -120,6 +120,9 @@ static func valuation_text(result: HockshopValuationResult) -> String:
 		})
 	if result.outcome == HockshopValuationResult.Outcome.WORTHLESS:
 		return TranslationServer.translate("一文不值，不能卖断。")
+	if result.outcome == HockshopValuationResult.Outcome.QUEST_ITEM:
+		# TRANSLATORS: the pawnshop will not buy a quest item the story still asks for (DECISIONS「任务物品不丢」).
+		return TranslationServer.translate("掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。")
 	return TranslationServer.translate("物品已变化或现在不可交易，请重新选择。")
 
 
@@ -129,6 +132,9 @@ static func sell_text(result: HockshopSellResult) -> String:
 		if delivered < result.valuation.actual_payout:
 			return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。") % delivered
 		return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。") % delivered
+	if result.outcome == HockshopSellResult.Outcome.TOO_HEAVY:
+		# TRANSLATORS: a pawnshop sale refused before anything moved (DECISIONS「拿不动就不收钱」).
+		return TranslationServer.translate("这笔钱你拿不动：身上太重，没有卖。先放下些东西再来。")
 	if result.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE:
 		return TranslationServer.translate("交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。").format({
 			"stage": result.stage, "delivered": delivered,

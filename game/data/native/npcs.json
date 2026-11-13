@@ -592,14 +592,14 @@
 				"con": 26,
 				"kar": 8
 			},
-			"combat_exp": 60000,
+			"combat_exp": 12000,
 			"score": 1200,
 			"attitude": "peaceful",
 			"skills": {
-				"blade": 70,
-				"parry": 65,
-				"dodge": 60,
-				"unarmed": 50
+				"blade": 40,
+				"parry": 35,
+				"dodge": 35,
+				"unarmed": 30
 			},
 			"carry": [
 				{
@@ -760,17 +760,17 @@
 				"con": 28,
 				"kar": 6
 			},
-			"combat_exp": 60000,
+			"combat_exp": 8000,
 			"score": 1000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"blade": 65,
-				"parry": 60,
-				"dodge": 55,
-				"unarmed": 45
+				"blade": 30,
+				"parry": 25,
+				"dodge": 25,
+				"unarmed": 20
 			},
 			"carry": [
 				{
@@ -1204,7 +1204,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 170000,
+			"combat_exp": 180000,
 			"score": 5000,
 			"attitude": "friendly",
 			"skills": {
@@ -2139,20 +2139,9 @@
 				"cps": 30,
 				"con": 30
 			},
-			"combat_exp": 1000000,
-			"skills": {
-				"force": 100,
-				"unarmed": 100,
-				"sword": 80,
-				"blade": 80,
-				"parry": 100,
-				"dodge": 80,
-				"throwing": 50,
-				"celestial": 100,
-				"celestrike": 100,
-				"spring-blade": 80,
-				"pyrobat-steps": 90
-			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
 			"long": "於兰天武一身朝服，手里握着旋芒。剑身一转，一道白光从湖面上掠过去。\n",
 			"attitude": "friendly",
 			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
@@ -2164,7 +2153,10 @@
 						}
 					]
 				}
-			}
+			},
+			"skill_map": {"unarmed": "celestrike", "parry": "celestrike", "dodge": "pyrobat-steps", "force": "celestial"},
+			"fights_beside_player": true,
+			"fights_beside_here": true
 		},
 		{
 			"id": "native.npc.xiao_pichen_lake",
@@ -2183,23 +2175,9 @@
 				"int": 24,
 				"cps": 30
 			},
-			"combat_exp": 1000000,
-			"skills": {
-				"unarmed": 100,
-				"sword": 60,
-				"blade": 40,
-				"throwing": 40,
-				"force": 100,
-				"parry": 60,
-				"dodge": 60,
-				"literate": 60,
-				"perception": 80,
-				"six-chaos-sword": 80,
-				"celestial": 100,
-				"celestrike": 100,
-				"stormdance": 50,
-				"pyrobat-steps": 50
-			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
 			"long": "萧辟尘背着旋芒站在岸边，风从湖上过来，他的衣角往城的方向飘。\n",
 			"attitude": "friendly",
 			"fight_deferred": "萧辟尘摇头：今夜不打你。",
@@ -2211,7 +2189,10 @@
 						}
 					]
 				}
-			}
+			},
+			"skill_map": {"unarmed": "celestrike", "parry": "celestrike", "dodge": "pyrobat-steps", "force": "celestial"},
+			"fights_beside_player": true,
+			"fights_beside_here": true
 		},
 		{
 			"id": "native.npc.elon_lake",
@@ -2412,7 +2393,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 170000,
+			"combat_exp": 180000,
 			"skills": {
 				"sword": 70,
 				"six-chaos-sword": 70,
@@ -2469,6 +2450,18 @@
 							"summon": "native.lakebottom2.feng_ce_beside"
 						},
 						{
+							"when": {
+								"mark": "旋芒在皇叔手里"
+							},
+							"summon": "native.lakebottom2.yulan_tianwu_beside"
+						},
+						{
+							"when": {
+								"mark": "旋芒在萧辟尘手里"
+							},
+							"summon": "native.lakebottom2.xiao_pichen_beside"
+						},
+						{
 							"say": "你们管这叫除魔。我管这叫还债。"
 						},
 						{
@@ -2504,7 +2497,7 @@
 				"con": 26,
 				"kar": 4
 			},
-			"combat_exp": 170000,
+			"combat_exp": 180000,
 			"skills": {
 				"sword": 70,
 				"six-chaos-sword": 70,
@@ -2573,7 +2566,7 @@
 				"con": 24,
 				"kar": 14
 			},
-			"combat_exp": 25000,
+			"combat_exp": 22000,
 			"skills": {
 				"sword": 80,
 				"parry": 75,
@@ -2667,6 +2660,90 @@
 			"fights_beside_leaves": "冯策收了刀：「潭底下的事，老夫帮不上。老夫守着潭口。」"
 		},
 		{
+			"id": "native.npc.yulan_tianwu_lakebottom",
+			"legacy_source": "native: 主线必打的仗第二轮 (全项目审查第四批; owner 2026-11-12「按推荐调」: 没拿旋芒的路，拔剑的那个人在湖畔和冰龙厅跟你并肩打，按「有帮手约九成」调; DECISIONS「主线必打的仗」) — 於兰天武 beside the player in the 冰龙厅 when 旋芒 is theirs",
+			"name": "於兰天武",
+			"aliases": [
+				"master champion",
+				"champion",
+				"master"
+			],
+			"title": "水烟阁传功使",
+			"gender": "男性",
+			"age": 54,
+			"attributes": {
+				"str": 30,
+				"int": 30,
+				"cor": 30,
+				"cps": 30,
+				"con": 30
+			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
+			"skill_map": {
+				"unarmed": "celestrike",
+				"parry": "celestrike",
+				"dodge": "pyrobat-steps",
+				"force": "celestial"
+			},
+			"long": "於兰天武站在你身边，旋芒横在身前，剑身上的风声压过了冰龙厅里的寒气。\n",
+			"attitude": "friendly",
+			"fight_deferred": "於兰天武看了你一眼：老夫不是来跟你打的。",
+			"summoned": {
+				"arrive": [
+					"於兰天武从冰缝里走出来，旋芒在他手里一转：三百年前於兰家拔错了一把剑——这一回，老夫替你挡着。"
+				],
+				"color": "HIW",
+				"leave": [
+					"於兰天武收了剑，退到水潭边。"
+				]
+			},
+			"fights_beside_player": true,
+			"fights_beside_leaves": "於兰天武把旋芒插回鞘里：潭底下那一个，老夫跟你下去。"
+		},
+		{
+			"id": "native.npc.xiao_pichen_lakebottom",
+			"legacy_source": "native: 主线必打的仗第二轮 (全项目审查第四批; owner 2026-11-12「按推荐调」: 没拿旋芒的路，拔剑的那个人在湖畔和冰龙厅跟你并肩打，按「有帮手约九成」调; DECISIONS「主线必打的仗」) — 萧辟尘 beside the player in the 冰龙厅 when 旋芒 is theirs",
+			"name": "萧辟尘",
+			"aliases": [
+				"master fighter",
+				"master",
+				"fighter"
+			],
+			"gender": "男性",
+			"age": 24,
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 24,
+				"cps": 30
+			},
+			"apply": {"attack": 40, "damage": 250},
+			"combat_exp": 250000,
+			"skills": {"unarmed": 135, "celestrike": 135, "parry": 135, "dodge": 125, "pyrobat-steps": 125, "force": 125, "celestial": 125},
+			"skill_map": {
+				"unarmed": "celestrike",
+				"parry": "celestrike",
+				"dodge": "pyrobat-steps",
+				"force": "celestial"
+			},
+			"long": "萧辟尘站在你身边，旋芒背在身后，两只手空着，掌心朝外。\n",
+			"attitude": "friendly",
+			"fight_deferred": "萧辟尘摇头：今夜不打你。",
+			"summoned": {
+				"arrive": [
+					"萧辟尘背着旋芒从冰缝里走出来，站到你身边：风记得我。这一回，我先出手。"
+				],
+				"color": "HIW",
+				"leave": [
+					"萧辟尘收了手，退到水潭边。"
+				]
+			},
+			"fights_beside_player": true,
+			"fights_beside_leaves": "萧辟尘把旋芒背回身后：走，下面还有一个。"
+		},
+		{
 			"id": "native.npc.wutian_gui",
 			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 侮天鬼 (doc/help/history:51–60: 寒於用宝剑镇压了五千年的「侮天鬼」, 正在四处寻找他的头颅; myth:1–24), headless with its head hung over its shoulder; 妖魔不解释 (剧情总纲 §10): no topics; 宝衣挡着它的黑焰",
 			"name": "侮天鬼",
@@ -2689,14 +2766,15 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 295000,
-			"resources": {"max_kee": 2400, "max_gin": 1200, "max_sen": 1200, "max_force": 1600, "force": 1600},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 150,
+				"unarmed": 60,
 				"dodge": 130,
 				"parry": 140,
 				"force": 150
@@ -2742,17 +2820,18 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 200000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 170,
-				"dodge": 150,
+				"unarmed": 60,
+				"dodge": 130,
 				"parry": 160,
-				"force": 170
+				"force": 150
 			},
 			"summoned": {
 				"arrive": [
@@ -2795,17 +2874,18 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 200000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 2000, "force": 2000},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 170,
-				"dodge": 150,
+				"unarmed": 60,
+				"dodge": 130,
 				"parry": 160,
-				"force": 170
+				"force": 150
 			},
 			"summoned": {
 				"arrive": [
@@ -2848,17 +2928,18 @@
 				"con": 36,
 				"kar": 2
 			},
-			"combat_exp": 75000,
-			"resources": {"max_kee": 3800, "max_gin": 1900, "max_sen": 1900, "max_force": 2600, "force": 2600},
+			"combat_exp": 60000,
+			"resources": {"max_kee": 3000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"apply": { "attack": 80, "damage": 40 },
 			"skills": {
-				"unarmed": 190,
-				"dodge": 170,
+				"unarmed": 60,
+				"dodge": 130,
 				"parry": 180,
-				"force": 190
+				"force": 150
 			},
 			"summoned": {
 				"arrive": [

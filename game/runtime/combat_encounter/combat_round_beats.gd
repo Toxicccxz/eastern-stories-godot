@@ -11,6 +11,11 @@ var base: int
 var remaining: int
 ## What each beat went on, in order: a move's tag (平 under &""), perform/<id>, busy...
 var spent: Array[StringName] = []
+## Beside `spent`: what each beat's blow met on the counter ring as it was resolved — the
+## defender's move tag (&"": none, or no blow) and the ring's verdict
+## (CombatAttackCalculation.ring: 1 克, -1 被克, 0 平). The panel's strip reads them.
+var against: Array[StringName] = []
+var rings: Array[int] = []
 ## The beats won this round, by their source (CombatSchoolSkeleton.earn).
 var earned: Array[StringName] = []
 ## 战斗拍数 B: the beats given up by 收势 this round (yield_rest()).
@@ -34,10 +39,13 @@ func can_afford(cost: int) -> bool:
 	return cost <= remaining
 
 
-## A beat went on `key` at `cost`; a cost above what is left takes the rest of the round.
-func spend(key: StringName, cost: int) -> void:
+## A beat went on `key` at `cost`; a cost above what is left takes the rest of the round. Its
+## blow met `p_against` on the ring with the verdict `ring`.
+func spend(key: StringName, cost: int, p_against: StringName = &"", ring: int = 0) -> void:
 	remaining = maxi(0, remaining - maxi(1, cost))
 	spent.append(key)
+	against.append(p_against)
+	rings.append(ring)
 
 
 ## The fighter won a beat from `source`, within `cap` a round. Returns whether it counted.

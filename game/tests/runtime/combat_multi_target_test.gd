@@ -265,7 +265,7 @@ func _target_ui(tree: SceneTree) -> void:
 	await _settle(tree)
 	_check(safe.metrics.content_rect().encloses(ui._content.get_global_rect()), "the battle inside a 16:9 screen at 150%")
 	# 战斗演出 E: the two side panels (the player; the current target A), B's card not shown.
-	_check(not ui._sides.visible and not ui._participants.visible, "no row of cards")
+	_check(not ui._participants.visible, "no row of cards")
 	_check(_panel(ui, 0) == ui._cards[0] and _panel(ui, 1) == ui._cards[1] and not ui._cards[2].visible, "the player left, A right, B no card: visible %s" % [ui._cards.map(func(c: BattleParticipantCard) -> bool: return c.visible)])
 	for card: BattleParticipantCard in [ui._cards[0], ui._cards[1]]:
 		_check(safe.metrics.content_rect().encloses(card.laid_global_rect()), "%s wholly inside the screen: %s" % [card.name, card.laid_global_rect()])

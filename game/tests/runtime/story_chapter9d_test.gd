@@ -1,7 +1,8 @@
 extends RefCounted
 
-## 第九章 D 三选一 (owner's plan, 2026-11-06「按你的推荐来」Q3; DECISIONS「第九章 D」), from the eighth chapter's
-## ledger with the ninth's way, audience and decree done (TEST-ONLY: written as A–C write them):
+## 第九章 D 三选一 (owner's plan, 2026-11-06「按你的推荐来」Q3; DECISIONS「第九章 D」), from C's end
+## (StoryFixtures.chapter9_compared: the way, audience and decree done, the decrees in hand), each choice
+## ending on the hand-over to chapter9_done (the fixture 第九章 E and 第十章 start from):
 ## - expose (raid): the 揭发 refused on two proofs after the 关北 raid ("三样"), taken on three (the 密信 added):
 ##   asked first, dawn, into the 太和殿; the accusation scene with 槐阳王反了 and 拿下; 庾子建 draws, 冯策
 ##   beside the player; down, he goes to prison (庾子建下狱, 冯策随你下湖); the quest's expose, the chapter done
@@ -13,6 +14,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const ORIGINAL: StringName = &"native:imperial/original_decree"
 const LETTER: StringName = &"native:city/courier_letter"
 const READING: StringName = &"native:imperial/late_emperor_reading"
@@ -58,23 +61,25 @@ func _test_data() -> void:
 	_check(errors.is_empty() and not JournalLog.holds(negated, state, {}, held) and JournalLog.holds(negated, CharacterState.new(), {}, held), "not: the mark held, then not")
 
 
-func _ready_for_choice(session: WorldSessionController, raid: bool) -> void:
-	StoryFixtures.chapter8_done(session, false, true, raid)
-	var state: CharacterState = session.player_runtime().state
-	for mark: String in ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城", "见了福安", "见了皇帝", "翻过樟木匣", "对出了原令"]:
-		state.marks[mark] = 1 # TEST-ONLY: as A–C write them
+## C done (StoryFixtures.chapter9_compared): with `witness` 卫沧澜 heard and gone from the 尚书府.
+func _ready_for_choice(session: WorldSessionController, raid: bool, witness: bool = false) -> void:
+	StoryFixtures.chapter9_compared(session, witness, false, true, raid)
 	session.record_journal()
+
+
+## 章与章之间的衔接: what this package played out holds what the next suites' fixture (chapter9_done) writes.
+func _handoff(session: WorldSessionController, side: String, raid: bool) -> void:
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind(side, false, true, raid))
+	_check(handoff.is_empty(), "第九章 D played (%s) leaves what chapter9_done(%s) writes: %s" % [side, side, handoff])
 
 
 func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter9")
-	_ready_for_choice(session, true)
+	_ready_for_choice(session, true, true)
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"choice", "expose: the choice is next")
-	state.marks.erase("陈显祖作了证") # TEST-ONLY: two proofs only
-	state.marks["陈显祖作了证"] = 1
-	state.marks["卫沧澜作证"] = 1
+	_check(state.marks.get("陈显祖作了证", 0) == 1 and state.marks.get("卫沧澜作证", 0) == 1, "expose: two witnesses on the ledger (陈显祖, 卫沧澜)")
 	var hall: WorldMapController = MapPlaces.enter(session, &"imperial.front_hall", &"imperial.front_hall.emperor.1") # TEST-ONLY
 	await _settle(tree)
 	var expose: ActService = hall.service(&"imperial.front_hall.expose") as ActService
@@ -86,7 +91,7 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not ui.is_asking() and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("三样")), "expose: two proofs are not enough after the raid (三样)")
 	_check(not hall.give_new_item_to_player(LETTER).is_empty(), "expose: the 密信 (TEST-ONLY: given, as the 小屋 drops it)")
 	await _settle(tree)
-	_strong(state)
+	_strong(session)
 	expose.interact()
 	await _settle(tree)
 	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("庾子建不会束手"), "expose: asked first")
@@ -111,6 +116,8 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
 	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	# The fight's result is shown; the lines that wait for it (the 历练 a grown character earns) follow.
+	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	ui.dismiss_current_panel()
 	await _settle(tree)
 	session.record_journal()
@@ -124,7 +131,9 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	before = ui.log_lines().size()
 	uncle.interact()
 	await _settle(tree)
-	_check(not ui.is_asking() and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("已经定了")), "expose: the others shut (已经定了)")
+	# The log keeps its newest lines only (the 历练 and 潜能 lines a grown character earns filled it).
+	_check(not ui.is_asking() and ui.log_lines().slice(-3).any(func(line: String) -> bool: return line.contains("已经定了")), "expose: the others shut (已经定了)")
+	_handoff(session, "expose", true)
 
 
 func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
@@ -141,9 +150,7 @@ func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
 	var house: WorldMapController = MapPlaces.enter(session, &"city.shangshu.keting", &"city.shangshu.keting.shangshu.1") # TEST-ONLY: in the 客厅
 	await _settle(tree)
 	var original: StringName = hall_item(house, ORIGINAL)
-	if original.is_empty():
-		_check(not house.give_new_item_to_player(ORIGINAL).is_empty(), "deal: the 原令 (TEST-ONLY: given, as the chest gives it)")
-		original = hall_item(house, ORIGINAL)
+	_check(not original.is_empty(), "deal: the 原令 in hand (out of the chest in C)")
 	var yu: NpcRuntimeState = _first(session, &"city.shangshu.keting", &"city.npc.shangshu.shangshu")
 	_check(yu != null and house.select_npc(yu.character_id), "deal: 庾子建 in his 客厅")
 	if yu == null:
@@ -159,6 +166,7 @@ func _test_deal(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(state.marks.get("私了了庾子建", 0) == 1 and session.player_held_item_ids().get(READING, false) and not session.player_held_item_ids().get(ORIGINAL, false), "deal: the 原令 into the brazier, the reading in hand")
 	_check(StoryQuestLog.took(state, quest, &"deal") and StoryQuestLog.is_done(state, quest), "deal: the quest's deal, the chapter done")
+	_handoff(session, "deal", false)
 
 
 func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
@@ -190,6 +198,7 @@ func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
 	var back: WorldMapController = MapPlaces.enter(session, &"imperial.front_hall", &"imperial.front_hall.emperor.1") # TEST-ONLY
 	await _settle(tree)
 	_check(_first(session, &"imperial.front_hall", CHAMPION) != null, "uncle: at the boy's side in the 养心殿")
+	_handoff(session, "uncle", false)
 
 
 func _drop_ledger(session: WorldSessionController, map: WorldMapController) -> void:
@@ -207,10 +216,13 @@ func hall_item(map: WorldMapController, definition_id: StringName) -> StringName
 	return &""
 
 
-func _strong(state: CharacterState) -> void:
-	state.progression.combat_experience = 3000000 # TEST-ONLY: the fight is won
-	for skill: StringName in [&"unarmed", &"dodge", &"parry", &"force"]:
-		state.skills.set_raw_level(skill, 260) # TEST-ONLY
+## TEST-ONLY: a character grown along the story to 45000 exp with a 长剑 (DECISIONS「主线人物的武功」:
+## with 冯策 beside, the drawn 庾子建 falls to it about nine times in ten).
+func _strong(session: WorldSessionController) -> void:
+	Grown.grow(session.player_runtime().state, 45000, 50, true)
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var sword := ItemInstance.new(&"test:expose_sword", &"es2:obj/longsword")
+	_check(context.inventory.register_item(sword, GameContent.catalog().item(sword.item_definition_id).own_weight) and context.index.register_snapshot(sword) and context.inventory._apply_reparent(sword.item_instance_id, context.endpoint()) and session.wield_player_item(sword.item_instance_id).succeeded, "expose: a 长剑 in hand")
 
 
 func _first(session: WorldSessionController, zone_id: StringName, definition_id: StringName) -> NpcRuntimeState:

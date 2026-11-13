@@ -4,6 +4,10 @@ extends RefCounted
 
 ## H2 application boundary only; H3 must supply physical permission separately.
 ## Never awaits, emits callbacks, retries or interleaves Save with mutations.
+## Deviation (DECISIONS「拿不动就不收钱」): hockshop.c pays first and loses what the seller cannot
+## carry, the item gone all the same. A sale whose money would not fit once the item has left
+## the player is refused before anything moves (TOO_HEAVY); one that fits is paid in full (the
+## payout's move may count the item still held, which leaves right after).
 static func sell(context: MoneyInventoryContext, foods: FoodCollection,
 	liquids: LiquidCollection, allocator: SessionItemIdAllocator,
 	maximum_encumbrance: int, id: StringName) -> HockshopSellResult:
@@ -13,9 +17,17 @@ static func sell(context: MoneyInventoryContext, foods: FoodCollection,
 		if result.valuation.outcome == HockshopValuationResult.Outcome.AUTHORITY_FAILURE:
 			result.outcome = HockshopSellResult.Outcome.AUTHORITY_FAILURE
 		return result
+	var leaving: int = context.inventory.subtree_weight(id)
+	var coming: int = HockshopPayoutService.payout_weight(result.valuation.actual_payout)
+	if leaving < 0 or coming < 0:
+		result.outcome = HockshopSellResult.Outcome.AUTHORITY_FAILURE
+		return result
+	if not CarryRoom.fits_change(context, coming - leaving, maximum_encumbrance):
+		result.outcome = HockshopSellResult.Outcome.TOO_HEAVY
+		return result
 	result.outcome = HockshopSellResult.Outcome.AUTHORITY_FAILURE
 	result.stage = HockshopSellResult.Stage.PAYOUT
-	result.payout = HockshopPayoutService.pay(context, allocator, maximum_encumbrance, result.valuation.actual_payout)
+	result.payout = HockshopPayoutService.pay(context, allocator, maxi(maximum_encumbrance, CarryRoom.carried(context)) + leaving + coming, result.valuation.actual_payout)
 	if result.payout.outcome != HockshopPayoutResult.Outcome.COMPLETE:
 		return result
 	result.stage = HockshopSellResult.Stage.ITEM_REMOVAL

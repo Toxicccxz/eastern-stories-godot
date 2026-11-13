@@ -1,7 +1,8 @@
 extends RefCounted
 
-## 终章 B 湖底 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 B」), from 第十章's
-## ledger with the night of A done (下了决战, the dive: 终章下了湖底) — TEST-ONLY marks; a character grown to
+## 终章 B 湖底 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 B」), from A's end
+## (StoryFixtures.finale_dived: the night, 下了决战, the dive, 终章下了湖底), each end ending on the hand-over to C's
+## fixture (finale_ended); the earlier chapters' choices TEST-ONLY marks; a character grown to
 ## 15 万 exp fights each fight out on 自动, empty-handed (how hard it is for the main story's own, sword in
 ## hand and every beat ordered: boss_strength_finale_test / boss_strength_demon_test):
 ## - The data: main.finale's eight steps, 侮天鬼's four forms (stronger without the robe, stronger grown),
@@ -25,7 +26,6 @@ const FEATHER: StringName = &"native:village/lihong_feather"
 const HALL: StringName = &"village.lakebottom2"
 const ALTAR: StringName = &"village.seal_altar"
 const TABLE: Array[String] = ["霍铮回了寨", "关北的骑兵欠你一阵", "大秦人留下了", "冰龙倒了", "冯策随你下湖", "宝衣给了安妮儿", "替南危水保密", "卫沧澜出了尚书府", "瑷伦守到决战", "带走了宝衣"]
-const NIGHT: Array[String] = ["点过将", "下了决战", "终章下了湖底"]
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -51,10 +51,12 @@ func _test_data() -> void:
 	var end: StoryQuestDefinition.Step = quest.step(&"end")
 	_check(end.options.size() == 6 and end.option(&"slay") != null and end.option(&"seal_self") != null and end.options.slice(1).all(func(option: StoryQuestDefinition.Option) -> bool: return option.reward.marks == ["再封了侮天鬼"]), "灭, or five ways to seal it again (each marks 再封了侮天鬼)")
 	var forms: Array = [&"native.npc.wutian_gui", &"native.npc.wutian_gui_blazing", &"native.npc.wutian_gui_grown", &"native.npc.wutian_gui_grown_blazing"]
-	# DECISIONS「主线必打的仗」: the forms differ by their kee (and a little by their levels); the
-	# fights themselves are boss_strength_test's (robe, unpulled the easiest; no robe, pulled the hardest).
+	# DECISIONS「主线必打的仗」second round: the four forms fight alike — the same kee, exp, unarmed,
+	# dodge, force and `apply` (both builds near the band's ends leave no room for a spread; their
+	# parry skill, unused bare-handed against bare hands and weapons alike, and gin / sen still differ);
+	# which one comes is still the robe's and the pull's. The fights are boss_strength_demon_test's.
 	var kee: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).resource_overrides().vitality().maximum())
-	_check(kee[0] < kee[1] and kee[0] < kee[2] and kee[1] <= kee[3] and kee[2] < kee[3], "侮天鬼: stronger without the robe, stronger grown (kee %s)" % [kee])
+	_check(kee.all(func(value: int) -> bool: return value == kee[0] and value > 0), "侮天鬼: the four forms alike in kee %s" % [kee])
 	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).talk().inquiry_topics().is_empty()), "妖魔不解释: no topics")
 	var sword: ItemContentDefinition = catalog.item(SWORD)
 	_check(sword.give_to.has(&"native.npc.elon_altar") and sword.give_to.has(&"native.npc.lihong"), "穿灵 can be given to a keeper")
@@ -72,7 +74,7 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	await _until_fight(tree, session, hall)
 	_check(_said(ui.log_lines(), "五千年的头") and _said(ui.log_lines(), "白鳞冰龙") and _said(ui.log_lines(), "还债"), "商玦's two lines; the dragons fall on his four")
-	_check(_first(session, HALL, &"native.npc.niling_taoist_lake") == null and _first(session, HALL, &"native.npc.feng_ce_lakebottom") != null, "no 道士 left standing; 冯策 beside")
+	_check(_first(session, HALL, &"native.npc.niling_taoist_lake") == null and _first(session, HALL, &"native.npc.feng_ce_lakebottom") != null and _first(session, HALL, &"native.npc.yulan_tianwu_lakebottom") == null and _first(session, HALL, &"native.npc.xiao_pichen_lakebottom") == null, "no 道士 left standing; 冯策 beside; 旋芒 in hand, nobody else called (DECISIONS「主线必打的仗」)")
 	await _fight_out(tree, session, hall)
 	session.record_journal()
 	_check(state.marks.get("商玦倒了", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"depths", "商玦 down: down the pool next")
@@ -103,6 +105,10 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	session.record_journal()
 	_check(session.active_map().map_id() == &"village.main" and session.day_phase_id() == &"dawn" and state.marks.get("终章上了岸", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"home", "up at dawn to the lakeside; home next")
+	# 章与章之间的衔接: what this package played out holds what C's fixture writes (but for the earlier
+	# chapters' choices, which _ledger() sets, TEST-ONLY).
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("slay", "self", "expose", false), TABLE)
+	_check(handoff.is_empty(), "终章 B played (灭) leaves what finale_ended(slay) writes: %s" % [handoff])
 
 
 func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
@@ -113,7 +119,7 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, &"village.lakebottom2.pool_return") # TEST-ONLY
 	await _settle(tree)
 	await _until_fight(tree, session, hall)
-	_check(_said(ui.log_lines(), "四个黑冠道士") and _first(session, HALL, &"native.npc.feng_ce_lakebottom") == null, "the dragons beaten: his four come; no 冯策 on this ledger")
+	_check(_said(ui.log_lines(), "四个黑冠道士") and _first(session, HALL, &"native.npc.feng_ce_lakebottom") == null and _first(session, HALL, &"native.npc.xiao_pichen_lakebottom") != null, "the dragons beaten: his four come; no 冯策 on this ledger; 萧辟尘, who pulled 旋芒, beside the player (DECISIONS「主线必打的仗」)")
 	await _fight_out(tree, session, hall)
 	session.record_journal()
 	_check(state.marks.get("商玦倒了", 0) == 1, "商玦 and his four down")
@@ -154,11 +160,13 @@ func _test_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(_first(session, ALTAR, &"native.npc.elon_ice") != null and _first(session, ALTAR, &"native.npc.elon_altar") == null, "瑷伦 in the ice now")
 	_check(_first(session, ALTAR, &"native.npc.nan_weishui_altar") == null and _first(session, ALTAR, &"native.npc.xiao_pichen_altar") == null and _first(session, ALTAR, &"native.npc.nan_weishui_ice") == null, "the others gone home; only who stayed is in the ice")
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_ended.bind("seal_elon", "xiao", "deal", true), TABLE)
+	_check(handoff.is_empty(), "终章 B played (瑷伦 stays) leaves what finale_ended(seal_elon) writes: %s" % [handoff])
 
 
 func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
-	_ledger(session, "self", "deal", true, ["冰龙倒了", "带走了宝衣", "瑷伦守到决战", "叫来了瑷伦", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"])
+	_ledger(session, "self", "deal", true, ["冰龙倒了", "带走了宝衣", "瑷伦守到决战", "叫来了瑷伦"], true)
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.finale")
 	var altar: WorldMapController = MapPlaces.enter(session, ALTAR, &"village.seal_altar.pool_arrival") # TEST-ONLY
 	await _settle(tree)
@@ -179,16 +187,18 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 		_check(state.marks.get("瑷伦留在了冰里", 0) == 0 and session.player_held_item_ids().has(SWORD), "once the player stayed, no one else stays: 穿灵 refused")
 
 
-## 第十章's ledger, the choices' marks, A's night done; the swords and the feather in hand as the ledger has them.
-func _ledger(session: WorldSessionController, who: String, side: String, pulled: bool, marks: Array) -> void:
-	StoryFixtures.chapter10_done(session, who, side, pulled)
+## A's end (StoryFixtures.finale_dived: the night and the dive done), or with `fought` 侮天鬼 already down
+## (finale_fought), the choices' marks; the swords and the feather in hand as the ledger has them.
+func _ledger(session: WorldSessionController, who: String, side: String, pulled: bool, marks: Array, fought: bool = false) -> void:
+	if fought:
+		StoryFixtures.finale_fought(session, who, side, pulled)
+	else:
+		StoryFixtures.finale_dived(session, who, side, pulled)
 	var state: CharacterState = session.player_runtime().state
 	for mark: String in TABLE:
 		state.marks.erase(mark) # TEST-ONLY
-	for mark: String in marks + NIGHT:
+	for mark: String in marks:
 		state.marks[mark] = 1 # TEST-ONLY
-	for key: String in ["main.finale#started", "main.finale/lake", "main.finale/gather", "main.finale/shore"]:
-		state.quests[key] = state.quests.size() + 1 # TEST-ONLY: as A writes them
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if who == "self":
 		map.give_new_item_to_player(XUANMANG) # TEST-ONLY

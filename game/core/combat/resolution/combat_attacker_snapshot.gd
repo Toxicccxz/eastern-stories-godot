@@ -36,6 +36,11 @@ var damage_percent_bonus: int = 0
 ## 战斗拍数 E: the blow is the beat's own (the move the fighter paid its beats for), so a 重 weighs
 ## two beats (CombatPowerRules.heavy_blow_percent); a riposte's or a special's blow does not.
 var beat_blow: bool = false
+## 空手对兵器 (DECISIONS「空手对兵器」): the blow is the player's trained bare hands — no weapon in
+## hand and a fist art enabled on unarmed — so it carries CombatPowerRules.bare_damage().
+var trained_bare_hands: bool = false
+## 空手对兵器: the attacker is the player (the bare-hand parry knobs apply to this blow).
+var player: bool = false
 
 var character_id: StringName:
 	get:
@@ -207,6 +212,8 @@ func _copy() -> CombatAttackerSnapshot:
 	copied.harmless = harmless
 	copied.inner_force_percent = inner_force_percent
 	copied.spare_life = spare_life
+	copied.trained_bare_hands = trained_bare_hands
+	copied.player = player
 	return copied
 
 

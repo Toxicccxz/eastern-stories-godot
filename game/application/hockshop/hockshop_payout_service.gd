@@ -3,7 +3,8 @@ extends RefCounted
 
 
 ## std/room/hockshop.c::pay_player, after validated sell arithmetic.
-## Synchronous/non-atomic. No Bank conversion, preflight capacity or rollback.
+## Synchronous/non-atomic. No Bank conversion, preflight capacity or rollback here: the callers
+## check first that it all fits (DECISIONS「拿不动就不收钱」: the sale, the casino's winnings).
 @warning_ignore("integer_division")
 static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocator,
 	maximum_encumbrance: int, amount: int) -> HockshopPayoutResult:
@@ -54,7 +55,8 @@ static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocato
 			attempt.capacity_rejected = attempt.transfer.inventory_transfer != null and attempt.transfer.inventory_transfer.outcome == InventoryTransferResult.Outcome.CAPACITY_EXCEEDED
 			if not attempt.capacity_rejected:
 				return result
-			# H2 I ONLY: immediate cleanup before next denomination, no refund/reuse.
+			# Defensive (callers check first, DECISIONS「拿不动就不收钱」): a clone that did not fit is
+			# cleaned up at once before the next denomination, never left without an owner.
 			attempt.stage = HockshopPayoutAttempt.Stage.CLEANUP
 			attempt.cleanup = context.destroy_undelivered(attempt.item_id)
 			if not attempt.cleanup.succeeded():
@@ -62,6 +64,17 @@ static func pay(context: MoneyInventoryContext, allocator: SessionItemIdAllocato
 		attempt.stage = HockshopPayoutAttempt.Stage.COMPLETE
 	result.outcome = HockshopPayoutResult.Outcome.COMPLETE
 	return result
+
+
+## What pay(`amount`) brings: its silver and coins by their base weight (-1 on overflow).
+@warning_ignore("integer_division")
+static func payout_weight(amount: int) -> int:
+	var silver: ItemContentDefinition = GameContent.catalog().currency_item(CurrencyDenomination.Value.SILVER)
+	var coin: ItemContentDefinition = GameContent.catalog().currency_item(CurrencyDenomination.Value.COIN)
+	if silver == null or coin == null or amount < 0:
+		return -1
+	var weight: int = CurrencyArithmetic.add(CurrencyArithmetic.multiply(amount / 100, silver.stack_base_weight), CurrencyArithmetic.multiply(amount % 100, coin.stack_base_weight))
+	return weight if weight >= 0 else -1
 
 
 static func _safe_admission(context: MoneyInventoryContext, content: ItemContentDefinition, quantity: int, weight: int) -> bool:

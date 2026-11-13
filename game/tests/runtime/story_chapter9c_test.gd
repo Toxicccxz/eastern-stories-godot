@@ -1,19 +1,21 @@
 extends RefCounted
 
-## 第九章 C 养心殿与御书房, 尚书府 (owner's plan, 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」), from the
-## eighth chapter's ledger and the A/B package's way in (TEST-ONLY: written as the 殿试 / the well writes it):
-## - day (exam × raid): the 养心门 shut to one not sent for, open to 见了福安; the hall's scene (见了皇帝) and
+## 第九章 C 养心殿与御书房, 尚书府 (owner's plan, 2026-11-06「按你的推荐来」; DECISIONS「第九章 C」), from A's
+## way in (StoryFixtures.chapter9_entered) or B's well (TEST-ONLY: its marks written as the well writes them):
+## - day (exam × raid): the 养心门 open to 见了福安; the hall's scene (见了皇帝) and
 ##   槐阳王反了 (the raid); the 御书房 locked till then; the 樟木匣 gives the two decrees; the 御案 compares
 ##   them — 学过印色 (the 第六章 lesson): 对出了原令 and the woodcutter's page; the quest's audience and
 ##   decree done, the choice next. 钟嬷嬷 reads the copy (钟嬷嬷认过字). The 尚书府: the 花匠's new word; the
 ##   护院 outside the 帘子 stops one, down he lets them by; 庾清尘's scene (见过清尘), 密道 (the stone known,
 ##   the 障眼符); 卫沧澜's three lines, 白衣武官 (卫沧澜作证), 走 (gone: 卫沧澜出了尚书府); the 小屋's
-##   courier falls on the player and goes to smoke, the 密信 on the floor.
-## - night (sneak, kept): the 西暖阁's window shut to one 钟嬷嬷 has not told, open to one she has; the
-##   sneak's scene (杀朕的人不翻窗).
+##   courier falls on the player and goes to smoke, the 密信 on the floor; the hand-over to D's fixture.
+## - night (sneak, kept): the 养心门 shut to one not sent for; the 西暖阁's window shut to one 钟嬷嬷 has not
+##   told, open to one she has; the sneak's scene (杀朕的人不翻窗).
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const Grown := preload("res://tests/support/grown_character.gd")
+const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const ORIGINAL: StringName = &"native:imperial/original_decree"
 const COPY: StringName = &"native:imperial/war_ministry_copy"
 const RECORD: StringName = &"native:imperial/woodcutter_record"
@@ -53,18 +55,11 @@ func _test_day(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(&"main.chapter9")
-	StoryFixtures.chapter8_done(session, false, true, true)
-	session.record_journal()
-	_check(StoryQuestLog.current_step(state, quest).step_id == &"way", "the way still to take")
-	for mark: String in ["中了武状元", "宫门放行", "候了殿试", "殿试过", "进了皇城"]:
-		state.marks[mark] = 1 # TEST-ONLY: as the 武举 and the 殿试 write them (story_chapter9_test)
-	var lanes: WorldMapController = MapPlaces.enter(session, &"imperial.yangxin_gate", &"imperial.yangxin_gate.yard_return") # TEST-ONLY: before the 养心门
-	await _settle(tree)
-	var before: int = ui.log_lines().size()
-	_check(not await MapPlaces.take_passage(tree, lanes, &"imperial.yangxin_gate.east", 200) and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("门闩在里头")), "the 养心门 shut to one not sent for")
-	state.marks["见了福安"] = 1 # TEST-ONLY: 福安's 今夜养心殿
+	StoryFixtures.chapter9_entered(session, "exam", false, true, true)
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"exam") and StoryQuestLog.current_step(state, quest).step_id == &"audience", "the way taken (the 殿试), the audience next")
+	var lanes: WorldMapController = MapPlaces.enter(session, &"imperial.yangxin_gate", &"imperial.yangxin_gate.yard_return") # TEST-ONLY: before the 养心门
+	await _settle(tree)
 	_check(await MapPlaces.take_passage(tree, lanes, &"imperial.yangxin_gate.east") and session.active_map().map_id() == &"imperial.yangxin_hall", "the 养心门 opens to one sent for")
 	await _settle(tree)
 	var hall: WorldMapController = await MapPlaces.go_to(tree, session, &"imperial.front_hall")
@@ -88,7 +83,7 @@ func _test_day(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.player_held_item_ids().get(ORIGINAL, false) and session.player_held_item_ids().get(COPY, false) and state.marks.get("翻过樟木匣", 0) == 1, "the 原令 and the 兵部抄本 out of the chest")
 	var desk: ActService = hall.service(&"imperial.study.desk") as ActService
 	_check(desk != null and await MapPlaces.drive(tree, hall, MapPlaces.service_spot(hall, &"imperial.study.desk")) and desk.in_reach(), "at the 御案")
-	state.marks["学过印色"] = 1 # TEST-ONLY: the 第六章 lesson (the ledger's)
+	_check(state.marks.get("学过印色", 0) == 1, "the 第六章 lesson on the ledger (学过印色)")
 	desk.interact()
 	await _settle(tree)
 	_check(state.marks.get("对出了原令", 0) == 1 and session.player_held_item_ids().get(RECORD, false) and ui.log_lines().any(func(line: String) -> bool: return line.contains("拓了模子")), "the seals compared: 对出了原令, the woodcutter's page")
@@ -114,7 +109,7 @@ func _test_mansion(tree: SceneTree, session: WorldSessionController) -> void:
 	var before: int = ui.log_lines().size()
 	_check(not await MapPlaces.drive_to_zone(tree, house, &"city.shangshu.neizhai") and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("小姐这几天不见人")), "he stops one at the 帘子")
 	if guard != null:
-		house.npcs.leave_for_good(guard) # TEST-ONLY: as one knocked down or gone
+		await _fight_guard(tree, session, house, guard)
 	_check(await MapPlaces.drive_to_zone(tree, house, &"city.shangshu.neizhai"), "past the 帘子")
 	for second: int in 30:
 		if state.marks.get("见过清尘", 0) == 1 and not house.scene_running():
@@ -162,6 +157,9 @@ func _test_mansion(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_first(session, &"city.shangshu.xiaowu", &"native.npc.niling_courier") == null and state.marks.get("小屋的信使倒了", 0) == 1, "he goes to smoke (小屋的信使倒了)")
 	_check(_floor_has(house, LETTER), "the 密信 on the floor")
 	state.progression.combat_experience = state_exp
+	# 章与章之间的衔接: what this package played out holds what D's fixture writes (卫沧澜 a witness, gone).
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_compared.bind(true, false, true, true))
+	_check(handoff.is_empty(), "第九章 C played leaves what chapter9_compared(witness) writes: %s" % [handoff])
 
 
 func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
@@ -174,6 +172,8 @@ func _test_night(tree: SceneTree, session: WorldSessionController) -> void:
 	var lanes: WorldMapController = MapPlaces.enter(session, &"imperial.yangxin_gate", &"imperial.yangxin_gate.yard_return") # TEST-ONLY
 	await _settle(tree)
 	var before: int = ui.log_lines().size()
+	_check(not await MapPlaces.take_passage(tree, lanes, &"imperial.yangxin_gate.east", 200) and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("门闩在里头")), "the 养心门 shut to one not sent for (no 见了福安 on the well's way)")
+	before = ui.log_lines().size()
 	_check(not await MapPlaces.take_passage(tree, lanes, &"imperial.yangxin_gate.window", 200) and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("不知道哪一扇是坏的")), "the windows shut to one not told")
 	state.marks["钟嬷嬷说了窗闩"] = 1 # TEST-ONLY: her 养心殿 answer
 	_check(await MapPlaces.take_passage(tree, lanes, &"imperial.yangxin_gate.window") and session.player_runtime().world_location().zone_id == &"imperial.west_room", "in through the 西暖阁's window")
@@ -195,6 +195,32 @@ func _floor_has(map: WorldMapController, definition_id: StringName) -> bool:
 		if item != null and item.item_definition_id == definition_id:
 			return true
 	return false
+
+
+## The 护院 fought for real (DECISIONS「主线人物的武功」: his 短歌刀法 enabled, his levels set for the
+## ninth chapter): a character grown to 40000 exp with a sword (TEST-ONLY) beats him and finishes
+## him; a dead guard no longer stands at the 帘子 (present() finds the living only).
+func _fight_guard(tree: SceneTree, session: WorldSessionController, house: WorldMapController, guard: NpcRuntimeState) -> void:
+	var state: CharacterState = session.player_runtime().state
+	Grown.grow(state, 40000, 50, true)
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var sword := ItemInstance.new(&"test:mansion_sword", &"es2:obj/longsword")
+	_check(context.inventory.register_item(sword, GameContent.catalog().item(sword.item_definition_id).own_weight) and context.index.register_snapshot(sword) and context.inventory._apply_reparent(sword.item_instance_id, context.endpoint()), "mansion: a sword in hand")
+	_check(session.wield_player_item(sword.item_instance_id).succeeded, "mansion: wielded")
+	_check(await MapPlaces.drive(tree, house, MapPlaces.spot(house, &"city.shangshu.huayuan", house.runtime_body_for_character(guard.character_id).global_position, 56.0)), "mansion: up to the 护院")
+	house.select_npc(guard.character_id)
+	_check(house.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "mansion: the player attacks the 护院")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	coordinator.set_manual_turns(false) # TEST-ONLY
+	BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 600:
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	session.shared_ui().dismiss_current_panel()
+	await _settle(tree)
+	_check(guard.life_status == CharacterRuntimeLifeStatus.Value.DEAD and session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "mansion: the 护院 beaten by a grown character (%d rounds; player kee %d/%d)" % [rounds, state.vitality.current, state.vitality.maximum])
 
 
 func _first(session: WorldSessionController, zone_id: StringName, definition_id: StringName) -> NpcRuntimeState:

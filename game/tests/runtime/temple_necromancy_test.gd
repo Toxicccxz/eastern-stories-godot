@@ -298,7 +298,7 @@ func _test_spar_question(tree: SceneTree, session: WorldSessionController) -> vo
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "僵尸护法 spars with a member")
 	_refresh(session)
 	var question: PackedStringArray = _ui(session)._question_for(CombatCastTacticalPolicy.action_id_for(&"invocation"))
-	_check(question.size() == 2 and question[0] == BattlePresentationController.INVOCATION_QUESTION and question[1] == "召护法", "in a spar 召护法 is asked first: %s" % [question])
+	_check(question.size() == 2 and question[0] == BattlePresentationController.spar_summon_question(&"invocation") and question[0].contains("100 点法力和 60 点神") and question[1] == "召护法", "in a spar 召护法 is asked first: %s" % [question])
 	player.state.recovery.mana.current = 99
 	_check(_ui(session)._question_for(CombatCastTacticalPolicy.action_id_for(&"invocation")).is_empty(), "not when it would refuse (mana 99)")
 	await _flee(tree, session)

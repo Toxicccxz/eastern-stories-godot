@@ -38,6 +38,12 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	map.count_landmark_use(landmark.landmark_id)
 	result.taken_item_id = map.give_new_item_to_player(landmark.item("reward"))
 	hud.append_log_lines([TranslationServer.translate(landmark.message("take"))])
+	# Too heavy for the player, it lies at their feet (DECISIONS「拿不动就不收钱」): said.
+	var content: ItemContentDefinition = GameContent.catalog().item(landmark.item("reward"))
+	if not result.taken_item_id.is_empty() and content != null:
+		var at_feet: String = map.floor_items.at_feet_line(result.taken_item_id, content)
+		if not at_feet.is_empty():
+			hud.append_log_lines([at_feet])
 	if hud.inventory_is_open():
 		hud.show_inventory(session.player_inventory_rows())
 	return result

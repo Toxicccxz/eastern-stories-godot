@@ -4,14 +4,14 @@ extends Control
 ## Session-owned projection/intent adapter. Never executes or advances combat.
 signal intent_submitting
 
-# TRANSLATORS: asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
-const ROAR_QUESTION: String = "天邪虎啸要耗 150 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
+# TRANSLATORS: asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death; {force} the 内力 it costs.
+const ROAR_QUESTION: String = "天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n确定要发出虎啸吗？"
 # TRANSLATORS: asked before 压制杀气 (powerfade.c) in a fight; {odds} is how likely the player is to fall unconscious (约有 6 成会昏倒).
 const POWERFADE_QUESTION: String = "在战斗中运功压制杀气，可能当场昏倒：以你现在的定力和内功，{odds}。昏倒以后，要杀你的人不会停手。\n确定要压制杀气吗？"
-# TRANSLATORS: asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()).
-const SAVEME_QUESTION: String = "召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
-# TRANSLATORS: asked before 召护法 (invocation.c) in a spar: the 天将 or 阴鬼卒 kills the sparring partner, who kills it back; its kills count as the player's.
-const INVOCATION_QUESTION: String = "召护法要耗 100 点法力和 60 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
+# TRANSLATORS: asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()); {mana} 法力 and {sen} 神 it costs.
+const SAVEME_QUESTION: String = "召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n确定要召唤天将吗？"
+# TRANSLATORS: asked before 召护法 (invocation.c) in a spar: the 天将 or 阴鬼卒 kills the sparring partner, who kills it back; its kills count as the player's; {mana} 法力 and {sen} 神 it costs.
+const INVOCATION_QUESTION: String = "召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n确定要召护法吗？"
 # TRANSLATORS: asked before 召天将/召护法 while fighting the 观想虫 the player's own practice conjured (mind_bug.c die()): {npc} is its name; killed by anyone but the player, the player faints and learns nothing.
 const CONJURED_SUMMON_QUESTION: String = "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n确定要召唤吗？"
 signal intent_received(result: CombatTacticalResult)
@@ -31,19 +31,24 @@ var _reported_completion_id: StringName = &""
 var _strengths: Dictionary[StringName, BattleStrength] = {}
 var _safe: SafeAreaPresenter
 var _content: VBoxContainer
-## 战斗演出 A: the cards' area — one row (_participants), or the two sides (_sides; each
-## side's [big row, chip row] in _side_rows) — and what the layout was last made for.
+## The cards' area, and the hidden row that holds the cards no side panel shows (战斗演出 E);
+## what the layout was last made for is _card_layout_key.
 var _card_area: VBoxContainer
 var _participants: HBoxContainer
-var _sides: HBoxContainer
-var _side_rows: Array = []
 ## 战斗演出 E (DECISIONS「战斗演出 E」): the two side panels' slots (left: the player's; right: the
 ## other side's in focus) with the stage between them, and the name plates on the stage.
 var _flanks: HBoxContainer
 var _flank_slots: Array[Control] = []
 var nameplates: BattleNameplates
-## Those waiting on 了结 / 放过 whose panel the player passed over by picking another target.
+## Those waiting on 了结 / 放过 whose panel the player passed over by picking another target
+## (presentation only: the core's target is not changed by showing one of them again).
 var _passed_held: Dictionary[StringName, bool] = {}
+## Whether the fight waited on 了结 / 放过 with nobody to strike on the last refresh (the
+## question is told once as it comes), and the line that told it (its pulse when told).
+var _was_awaiting: bool = false
+var _choice_line: BattleNarrationLine = null
+## The right panel's card whose 了结 / 放过 the last refresh wired (the focus given once).
+var _wired_choice: BattleParticipantCard = null
 var _relay_queued: bool = false
 ## Who each side panel showed last this fight (a new one there lets its banner down).
 var _panel_shown: Array[StringName] = [&"", &""]
@@ -117,7 +122,6 @@ var _pause_scale: float = 1.0
 var _recent: VBoxContainer
 var _receipt: Label
 var _yielded_hud: CanvasLayer
-var _hud_was_visible: bool = false
 var _saved_focus: WeakRef
 var action_panel: BattleActionPanel
 var log_panel: BattleLogPanel
@@ -298,6 +302,12 @@ func _final_fallen(id: StringName) -> String:
 ## scene (BattleSceneShow) and the sounds (BattleSounds), the same frame; a blow that fells
 ## its target is told as fatal (the hit-stop, the drum, the camera's last move).
 func _show_line(line: BattleNarrationLine) -> void:
+	if line == _choice_line:
+		_choice_line = null
+		var held: BattleParticipantCard = _panel_card(1)
+		if held != null:
+			held.pulse_choice()
+		return
 	if line.cue == BattleNarrationLine.CUE_EARNED:
 		scene_show.play_line(line)
 		sounds.play_all(BattleSounds.for_line(line, false, not _earned_told))
@@ -556,6 +566,9 @@ func refresh_projection() -> void:
 			_shown_mode = -1
 			_card_layout_key = ""
 			_passed_held.clear()
+			_was_awaiting = false
+			_choice_line = null
+			_wired_choice = null
 			_panel_shown = [&"", &""]
 			_strip_open = false
 			_strip_left = 0.0
@@ -621,8 +634,8 @@ func refresh_projection() -> void:
 	elif changed:
 		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
 	_present_participants()
-	var others: Array[StringName] = _target_ids()
-	others.erase(_projection.current_target_id)
+	var others: Array[StringName] = _choice_ids()
+	others.erase(_shown_choice_id(others))
 	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
 	action_panel.present(_projection)
 	# DECISIONS「战斗演出」: back to waiting for the player: the chosen move bounces.
@@ -630,6 +643,7 @@ func refresh_projection() -> void:
 	if waiting and not _was_waiting and not changed:
 		action_panel.bounce_chosen(GameContent.catalog().pacing().feel.turn_cue_seconds)
 	_was_waiting = waiting
+	_ask_choice_when_stuck()
 	if changed:
 		_focus_battle.call_deferred()
 	elif not log_panel.visible:
@@ -725,7 +739,7 @@ func _build() -> void:
 	# clicked to pick a target).
 	nameplates = BattleNameplates.new()
 	nameplates.name = "Nameplates"
-	nameplates.target_requested.connect(_change_target)
+	nameplates.target_requested.connect(_pick)
 	add_child(nameplates)
 	move_titles = BattleMoveTitles.new()
 	move_titles.name = "MoveTitles"
@@ -809,28 +823,6 @@ func _build() -> void:
 	_participants.alignment = BoxContainer.ALIGNMENT_CENTER
 	_participants.add_theme_constant_override("separation", CARD_GAP)
 	_card_area.add_child(_participants)
-	_sides = HBoxContainer.new()
-	_sides.name = "CardSides"
-	_sides.add_theme_constant_override("separation", SIDE_GAP)
-	_sides.visible = false
-	_card_area.add_child(_sides)
-	for side: int in 2:
-		var column := VBoxContainer.new()
-		column.name = "Ours" if side == 0 else "Theirs"
-		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		column.add_theme_constant_override("separation", SIDE_CARD_GAP)
-		_sides.add_child(column)
-		var big := HBoxContainer.new()
-		big.name = "Big"
-		big.alignment = BoxContainer.ALIGNMENT_BEGIN if side == 0 else BoxContainer.ALIGNMENT_END
-		big.add_theme_constant_override("separation", SIDE_CARD_GAP)
-		column.add_child(big)
-		var chips := HBoxContainer.new()
-		chips.name = "Chips"
-		chips.alignment = big.alignment
-		chips.add_theme_constant_override("separation", SIDE_CARD_GAP)
-		column.add_child(chips)
-		_side_rows.append([big, chips])
 	_flanks = HBoxContainer.new()
 	_flanks.name = "Flanks"
 	_flanks.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -980,21 +972,8 @@ func _refit_content() -> void:
 		_content.size = metrics.content_rect().size
 
 
-## 战斗演出 A (DECISIONS「战斗演出 A」): every card is one size — CARD_HEIGHT high (lower on a
-## short screen), as wide as the row shares out between CARD_MIN and CARD_MAX. While they fit
-## (ROW_CARDS at most) they stand in one row in the middle; past that the player's side stands
-## on the left and the enemies on the right, SIDE_BIG big cards a side at most (the current
-## target and one held for 了结 / 放过 first) and the rest as chips (name and 气) under them, as
-## many as fit; the others have no card (换目标 still reaches them).
-const CARD_MIN: float = 300.0
-const CARD_MAX: float = 440.0
+## The gap in the hidden row of cards (its cards are never shown there since 战斗演出 E).
 const CARD_GAP: int = 16
-const CARD_HEIGHT: float = 150.0
-const SHORT_CARD_HEIGHT: float = 136.0
-const ROW_CARDS: int = 4
-const SIDE_BIG: int = 2
-const SIDE_GAP: int = 16
-const SIDE_CARD_GAP: int = 8
 ## The head: the mode's word (brush), the rule under it.
 const TITLE_SIZE: int = 56
 const SHORT_TITLE_SIZE: int = 40
@@ -1012,7 +991,6 @@ func _fit_cards() -> void:
 	# one in focus (one waiting on 了结 / 放过 first, else the current target) on the right; every
 	# other card unshown (their name plates on the stage stand for them; 换目标 still reaches them).
 	_participants.visible = false
-	_sides.visible = false
 	var panels: Dictionary = BattleArena.data().get("panels", {})
 	var style: String = PANEL_STYLE
 	var width: float = float(panels.get("compact_width" if _compact else "width", 164.0 if _compact else 196.0))
@@ -1026,11 +1004,11 @@ func _fit_cards() -> void:
 	var placement: Array = []
 	for card: BattleParticipantCard in _cards:
 		if card == mine:
-			placement.append([card, _flank_slots[0], false])
+			placement.append([card, _flank_slots[0]])
 		elif card == theirs:
-			placement.append([card, _flank_slots[1], false])
+			placement.append([card, _flank_slots[1]])
 		else:
-			placement.append([card, null, false])
+			placement.append([card, null])
 	_place_cards(placement)
 	var sides: Dictionary = BattleArena.data().get("sides", {})
 	for side: int in 2:
@@ -1177,31 +1155,14 @@ func _side_cards(side: int) -> Array[BattleParticipantCard]:
 	return members
 
 
-## `members` with the ones a big card goes to first: the current target, one held for 了结 /
-## 放过, the player; then the rest in order.
-func _big_first(members: Array[BattleParticipantCard]) -> Array[BattleParticipantCard]:
-	var first: Array[BattleParticipantCard] = []
-	var rest: Array[BattleParticipantCard] = []
-	for card: BattleParticipantCard in members:
-		var id: StringName = card.participant_id()
-		var value: BattleParticipantProjection = _projection.participant(id)
-		if id == _projection.current_target_id or id == _projection.player_id or (value != null and value.knockout != null):
-			first.append(card)
-		else:
-			rest.append(card)
-	first.append_array(rest)
-	return first
-
-
-## Each card into its row (null: no card shown) in `placement`'s order, as a chip or big; a
-## card that moves keeps the focus it had.
+## Each card into its slot (null: no card shown) in `placement`'s order; a card that moves
+## keeps the focus it had.
 func _place_cards(placement: Array) -> void:
 	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
 	var counts: Dictionary = {}
 	for entry: Array in placement:
 		var card: BattleParticipantCard = entry[0]
 		var row: Control = entry[1]
-		card.set_chip(entry[2])
 		if row == null:
 			card.visible = false
 			continue
@@ -1246,7 +1207,7 @@ func _present_participants() -> void:
 		for id: StringName in ids:
 			var card := BattleParticipantCard.new()
 			card.name = "Participant%d" % _cards.size()
-			card.target_requested.connect(_change_target)
+			card.target_requested.connect(_pick)
 			card.minimum_size_changed.connect(_relay_panels)
 			card.finish_requested.connect(_finish_downed)
 			card.spare_requested.connect(_spare_downed)
@@ -1257,7 +1218,8 @@ func _present_participants() -> void:
 	for index: int in values.size():
 		var queued: CombatQueuedAction = _projection.queued_action()
 		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id, not told)
-	# Where each card stands (a new target or one held for the choice takes a big card).
+	_forget_passed(values)
+	# Where each card stands (the current target or one held for the choice takes the right panel).
 	var key: String = "%s|%s|%s|%s" % [ids, _projection.current_target_id, _held_ids(values), _passed_held.keys()]
 	if key != _card_layout_key:
 		_card_layout_key = key
@@ -1266,7 +1228,8 @@ func _present_participants() -> void:
 	var plates: Array = []
 	for index: int in values.size():
 		var value: BattleParticipantProjection = values[index]
-		plates.append([value.participant_id, tr(value.display_name), value.hostile_to_player, value.participant_id == _projection.current_target_id, value.targetable, _cards[index].fallen_text(), _cards[index]])
+		# One waiting on 了结 / 放过 can be picked too: their panel comes back (DECISIONS「战斗演出 E」).
+		plates.append([value.participant_id, tr(value.display_name), value.hostile_to_player, value.participant_id == _projection.current_target_id, value.targetable or value.knockout != null, _cards[index].fallen_text(), _cards[index]])
 	nameplates.present(plates, _voxel_view(), opening)
 	# 战斗拍数 C: where the figures stand (close or apart), and home again between rounds.
 	var stances: Array = []
@@ -1540,40 +1503,86 @@ func _unhandled_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 
-## The ones the player can target, in the cards' order.
-func _target_ids() -> Array[StringName]:
+## Those Q / E and the plates step through, in the cards' order: the ones the player can
+## target and those waiting on 了结 / 放过 (picking one of them brings their panel back).
+func _choice_ids() -> Array[StringName]:
 	var ids: Array[StringName] = []
 	for id: StringName in _shown_participants:
 		var value: BattleParticipantProjection = _projection.participant(id)
-		if value != null and value.targetable and id != _projection.player_id:
+		if value != null and id != _projection.player_id and (value.targetable or value.knockout != null):
 			ids.append(id)
 	return ids
 
 
-## The next (1) or previous (-1) target after the current one.
+## Who the right panel stands for among `ids`: the one held it shows, else the current target.
+func _shown_choice_id(ids: Array[StringName]) -> StringName:
+	var panel: BattleParticipantCard = _panel_card(1)
+	var shown: BattleParticipantProjection = null if panel == null else _projection.participant(panel.participant_id())
+	if shown != null and shown.knockout != null and ids.has(shown.participant_id):
+		return shown.participant_id
+	return _projection.current_target_id
+
+
+## The next (1) or previous (-1) one after the one shown now.
 func step_target(direction: int) -> void:
-	var ids: Array[StringName] = _target_ids()
+	var ids: Array[StringName] = _choice_ids()
 	if ids.is_empty():
 		return
-	var index: int = ids.find(_projection.current_target_id)
+	var at: StringName = _shown_choice_id(ids)
+	var index: int = ids.find(at)
 	var next: StringName = ids[0] if index < 0 else ids[posmod(index + direction, ids.size())]
-	if next != _projection.current_target_id:
-		_change_target(next)
+	if next != at:
+		_pick(next)
+
+
+## A plate, a card or Q / E picked `id`: one waiting on 了结 / 放过 gets the right panel back
+## (the presentation's alone: the fight's target stays), anyone else becomes the target.
+func _pick(id: StringName) -> void:
+	var value: BattleParticipantProjection = _projection.participant(id)
+	if value == null or value.knockout == null:
+		_change_target(id)
+		return
+	_pass_others(id)
+	_present_participants()
+
+
+## 战斗演出 E: the right panel goes to `id`; the others waiting on 了结 / 放过 give it up (their
+## plates still show them fallen; picking them back brings their choice back).
+func _pass_others(id: StringName) -> void:
+	for value: BattleParticipantProjection in _projection.participants():
+		if value.knockout != null and value.participant_id != id:
+			_passed_held[value.participant_id] = true
+	_passed_held.erase(id)
+
+
+## The marks of those no longer waiting (they came to, were finished or spared) go; with nobody
+## left to strike, one still waiting takes the right panel back.
+func _forget_passed(values: Array[BattleParticipantProjection]) -> void:
+	var held: Array[StringName] = _held_ids(values)
+	for id: StringName in _passed_held.keys():
+		if not held.has(id):
+			_passed_held.erase(id)
+	if not held.is_empty() and _passed_held.size() == held.size() and _awaiting_choice():
+		_passed_held.erase(held[0])
 
 
 func _change_target(id: StringName) -> void:
 	if _intent == null:
 		return
-	# 战斗演出 E: one waiting on 了结 / 放过 gives the right panel to the target picked now (their
-	# plate still shows them fallen; picking them back brings their choice back).
-	for value: BattleParticipantProjection in _projection.participants():
-		if value.knockout != null and value.participant_id != id:
-			_passed_held[value.participant_id] = true
-	_passed_held.erase(id)
 	target_submitting.emit()
 	var result: CombatTargetResult = _intent.change_target(_projection.encounter_id, id)
 	_receipt.text = tr("换目标：%s") % BattleFeedbackReader.target_reason(result.code)
+	if result.code == CombatTargetResult.Code.CHANGED or result.code == CombatTargetResult.Code.UNCHANGED:
+		_pass_others(id)
+	else:
+		# Why it was not taken, where the player looks (the title's hover holds it too).
+		_tell_refusal(_receipt.text)
 	target_received.emit(result)
+
+
+## A refusal no battle line tells (the order never reached the fight): in the strip now.
+func _tell_refusal(text: String) -> void:
+	_queue_lines([BattleNarrationLine.new(text)])
 
 
 ## The 观想虫 the player's practice conjured, standing in this fight; null otherwise.
@@ -1602,7 +1611,7 @@ func _question_for(id: StringName) -> PackedStringArray:
 	):
 		var choice: String = "召唤天将" if spell == &"saveme" else "召护法"
 		if _projection.mode == CombatEncounterMode.Value.SPAR:
-			return PackedStringArray([tr(SAVEME_QUESTION if spell == &"saveme" else INVOCATION_QUESTION), choice])
+			return PackedStringArray([spar_summon_question(spell), choice])
 		var conjured: NpcRuntimeState = _conjured_enemy()
 		if conjured != null:
 			return PackedStringArray([tr(CONJURED_SUMMON_QUESTION).format({"npc": tr(conjured.definition().display_name)}), choice])
@@ -1623,12 +1632,20 @@ func _question_for(id: StringName) -> PackedStringArray:
 	match CombatExertTacticalPolicy.function_for(id):
 		&"roar":
 			if RoarExertFunction.would_run(state, true):
-				return PackedStringArray([tr(ROAR_QUESTION), "发出虎啸"])
+				return PackedStringArray([tr(ROAR_QUESTION).format({"force": RoarExertFunction.COST}), "发出虎啸"])
 		&"powerfade":
 			var chance: float = PowerfadeExertFunction.faint_chance(_session.martial_arts().force_level(), state.attributes.composure)
 			if PowerfadeExertFunction.would_run(state) and chance > 0.0:
 				return PackedStringArray([tr(POWERFADE_QUESTION).format({"odds": _faint_odds(chance)}), "压制杀气"])
 	return PackedStringArray()
+
+
+## The question before 召天将 / 召护法 (`spell`: saveme / invocation) in a spar, with what it
+## costs (saveme.c's, invocation.c's numbers).
+static func spar_summon_question(spell: StringName) -> String:
+	if spell == &"saveme":
+		return TranslationServer.translate(SAVEME_QUESTION).format({"mana": SavemeSpell.MANA_COST, "sen": SavemeSpell.SEN_COST})
+	return TranslationServer.translate(INVOCATION_QUESTION).format({"mana": InvocationSpell.MANA_COST, "sen": InvocationSpell.SEN_COST})
 
 
 ## powerfade.c's random(skill) < cps * 3, in words: 一定, 约 N 成, or 很小.
@@ -1652,7 +1669,14 @@ func _submit_action(id: StringName) -> void:
 	intent_submitting.emit()
 	var result: CombatTacticalResult = _intent.submit(id, target)
 	_receipt.text = tr("下令：%s") % BattleFeedbackReader.reason(result.code)
+	_tell_tactical_refusal(result)
 	intent_received.emit(result)
+
+
+## An order refused before the fight took it (no sequence: no 「你无法……」 line will tell it).
+func _tell_tactical_refusal(result: CombatTacticalResult) -> void:
+	if not result.accepted() and result.code != CombatTacticalResult.Code.CANCELLED and result.sequence == 0:
+		_tell_refusal(_receipt.text)
 
 
 ## Whether `id` fought against the player in the fight the panel last showed (one it never
@@ -1679,12 +1703,10 @@ func _choose_move(action_id: StringName) -> void:
 	if not _projection.active or _session == null or not _session.is_initialized():
 		return
 	# 战斗演出 E: the fight waits on 了结 / 放过 and nobody else is there to strike: a move would go
-	# nowhere — the question said plainly instead, its buttons calling for the eye.
+	# nowhere — the question said again, its buttons calling for the eye. With someone still
+	# standing the move goes on: the fight turns it on them.
 	if _awaiting_choice():
-		_present_recent([BattleNarrationLine.new(tr(CHOOSE_FIRST))])
-		var panel: BattleParticipantCard = _panel_card(1)
-		if panel != null:
-			panel.pulse_choice()
+		_tell_choice()
 		return
 	if _session.combat_encounter_coordinator().choose_attack(action_id):
 		sounds.play(BattleSounds.CLAPPER)
@@ -1693,14 +1715,61 @@ func _choose_move(action_id: StringName) -> void:
 		refresh_projection()
 
 
-## Whether the fight waits on the player's 了结 / 放过 with no one else to strike (no target).
+## Whether the fight waits on the player's 了结 / 放过 with no one else to strike (nobody the
+## player could target).
 func _awaiting_choice() -> bool:
-	if not _projection.current_target_id.is_empty():
+	# Nobody is targetable either while the fight takes no input (a session swap, a frozen world):
+	# that is no waiting on the choice.
+	if not _projection.active or _session == null or not _session.application_gameplay_allows_encounter_advance():
 		return false
+	var held: bool = false
 	for value: BattleParticipantProjection in _projection.participants():
 		if value.knockout != null:
-			return true
-	return false
+			held = true
+		elif value.targetable and value.participant_id != _projection.player_id:
+			return false
+	return held
+
+
+## owner 2026-11-09「战斗结束不知为何卡住了」: as the fight comes to wait on 了结 / 放过 with
+## nobody to strike (every move dimmed), the question is told in the strip and its buttons
+## pulse, without waiting for a press; the focus goes to 「放过」 (keys and pad reach it).
+func _ask_choice_when_stuck() -> void:
+	var awaiting: bool = _awaiting_choice()
+	var newly: bool = awaiting and not _was_awaiting
+	if newly:
+		_tell_choice()
+	_was_awaiting = awaiting
+	_wire_choice(awaiting, newly)
+
+
+## The question in the strip (after the lines still to tell); the buttons pulse as it is told.
+func _tell_choice() -> void:
+	_choice_line = BattleNarrationLine.new(tr(CHOOSE_FIRST))
+	_queue_lines([_choice_line])
+
+
+## 了结 / 放过 on the right panel in the keys' and pad's way: left and right between them, down
+## to the panel's first button, the moves' and orders' up to 「放过」; the focus given to
+## 「放过」 once as the choice comes while nobody is left to strike (`newly`: the fight just came
+## to wait so; a panel shown earlier while someone still stood gets it then too).
+func _wire_choice(awaiting: bool, newly: bool) -> void:
+	var panel: BattleParticipantCard = _panel_card(1)
+	var card: BattleParticipantCard = panel if panel != null and panel.choice_row.visible else null
+	action_panel.wire_above(card.spare_button if card != null else null)
+	if card != null:
+		var below: Button = _first_battle_button()
+		for button: Button in [card.finish_button, card.spare_button]:
+			button.focus_neighbor_bottom = button.get_path_to(below) if below != null else NodePath()
+			button.focus_neighbor_top = button.get_path_to(button)
+		card.finish_button.focus_neighbor_right = card.finish_button.get_path_to(card.spare_button)
+		card.finish_button.focus_neighbor_left = card.finish_button.get_path_to(card.finish_button)
+		card.spare_button.focus_neighbor_left = card.spare_button.get_path_to(card.finish_button)
+		card.spare_button.focus_neighbor_right = card.spare_button.get_path_to(card.spare_button)
+	var fresh: bool = card != null and (card != _wired_choice or newly)
+	_wired_choice = card
+	if fresh and awaiting and is_visible_in_tree() and not log_panel.visible and not action_panel.is_asking() and not get_tree().paused:
+		action_panel.focus_quietly(card.spare_button)
 
 
 # TRANSLATORS: the battle's line strip, when the player picks a move while one who fell waits on their choice (the buttons are on the right side's banner).
@@ -1756,6 +1825,7 @@ func _cancel_action(expected_request_id: StringName) -> void:
 	intent_submitting.emit()
 	var result: CombatTacticalResult = _intent.cancel(expected_request_id)
 	_receipt.text = tr("取消：%s") % BattleFeedbackReader.reason(result.code)
+	_tell_tactical_refusal(result)
 	intent_received.emit(result)
 
 
@@ -1781,10 +1851,19 @@ func _focus_battle() -> void:
 	if action_panel.is_asking():
 		action_panel.prompt.focus_default()
 		return
-	# 等你出招: the first move (DECISIONS「战斗界面」), else the first quick action.
+	# Waiting on 了结 / 放过 with nobody to strike: 「放过」.
+	var held: BattleParticipantCard = _panel_card(1)
+	if _awaiting_choice() and held != null and held.choice_row.visible:
+		action_panel.focus_quietly(held.spare_button)
+		return
+	action_panel.focus_quietly(_first_battle_button())
+
+
+## 等你出招: the first move (DECISIONS「战斗界面」), else the first quick action, else the log.
+func _first_battle_button() -> Button:
 	var move: Button = action_panel.first_move_button() if _projection.waiting and _projection.manual else null
 	var first: Button = move if move != null else action_panel.first_action_button()
-	action_panel.focus_quietly(first if first != null else log_button)
+	return first if first != null else log_button
 
 
 func _yield_world_hud() -> void:
@@ -1794,7 +1873,6 @@ func _yield_world_hud() -> void:
 		focus.release_focus()
 	_yielded_hud = _session.shared_ui()
 	if _yielded_hud != null:
-		_hud_was_visible = _yielded_hud.visible
 		_yielded_hud.hide()
 
 

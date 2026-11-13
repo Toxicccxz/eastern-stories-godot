@@ -63,8 +63,11 @@ func _check_cards() -> void:
 				elif key == "extras":
 					for extra: Variant in card[key]:
 						_check(Person.EXTRAS.has(String(extra)), "%s's extra: %s" % [id, extra])
-				elif key in ["pouch", "collar", "hat"]:
+				elif key in ["pouch", "collar", "hat", "animal", "tail"]:
 					_check(card[key] is bool, "%s's %s is a switch: %s" % [id, key, card[key]])
+				elif key == "fur":
+					# An animal's coat (WorldVoxelView): body, head, legs.
+					_check(card[key] is Array and (card[key] as Array).size() == 3 and (card[key] as Array).all(func(c: Variant) -> bool: return String(c).is_valid_html_color() and String(c).length() == 6), "%s's fur is three colours: %s" % [id, card[key]])
 				elif key == PersonLooks.SAME_AS:
 					var target: String = String(card[key])
 					var theirs: Dictionary = PersonLooks.region_cards(target.get_slice(".", 0)).get(target, {})
@@ -157,7 +160,8 @@ func _check_resolve() -> void:
 
 ## Everyone a spawn puts on a map looks like someone there: a card of their own (or one per drawn
 ## gender), or an entry in that map's voxel `actors`; never the map's default figure alone. A beast
-## (race beast) resolves to an animal (`animal`) or a body (crawler, flyer, snake …), never a person.
+## (race beast) resolves to an animal (`animal`) or a body (crawler, flyer, snake …), never a person;
+## one no spawn puts anywhere (summoned or conjured where the player is: 观想虫, 观想兽) by its card.
 func _check_spawned_looks() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var configs: Dictionary = {}
@@ -181,7 +185,20 @@ func _check_spawned_looks() -> void:
 			if not look.get("animal", false) and not look.has("body"):
 				people_beasts.append("%s on %s" % [id, map.map_id])
 	_check(missing.is_empty(), "every spawned NPC has a card or an entry on its map: missing %s" % [missing])
-	_check(people_beasts.is_empty(), "every spawned beast is an animal or a body, not a person: %s" % [people_beasts])
+	var spawned: Dictionary[String, bool] = {}
+	for spawn: NpcSpawnDefinition in catalog.spawns():
+		spawned[String(NpcDefinition.unnamed_id(spawn.npc_definition_id))] = true
+	var beasts: int = 0
+	for npc: NpcDefinition in catalog.npcs():
+		var id: String = String(NpcDefinition.unnamed_id(npc.definition_id))
+		if npc.race_id != &"beast" or spawned.has(id):
+			continue
+		beasts += 1
+		var look: Dictionary = PersonLooks.card(id)
+		if not look.get("animal", false) and not look.has("body"):
+			people_beasts.append("%s (no spawn: its card)" % id)
+	_check(beasts >= 2, "the beasts no spawn puts anywhere are checked too (观想虫, 观想兽): %d" % beasts)
+	_check(people_beasts.is_empty(), "every beast is an animal or a body, not a person: %s" % [people_beasts])
 
 
 ## The `actors` of the voxel config a painted map's scene names (its WorldVoxelView's layout_path).

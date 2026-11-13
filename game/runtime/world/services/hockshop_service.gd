@@ -138,7 +138,8 @@ func refresh() -> void:
 				"money": tr(source.display_name), "amount": current.stacks.stack_state(id).amount, "unit": tr(source.base_unit),
 			}))
 		var appraisal: HockshopValuationResult = quote(id)
-		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS]:
+		# Worth nothing, or a quest item it will not take: listed, so its line says why.
+		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS, HockshopValuationResult.Outcome.QUEST_ITEM]:
 			ids.append(id)
 			labels.append(item_label(id))
 	panel.holdings.text = tr("直接携带的钱：%s") % (tr("无") if money.is_empty() else " / ".join(money))
@@ -180,7 +181,8 @@ func request_confirmation() -> void:
 	_pending_state = _item_state(_selected_id)
 	_pending_equipment = equipment_label(_selected_id)
 	# The question names the item: the selection line waits.
-	panel.ask_sale(tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
+	# TRANSLATORS: the pawnshop's question before a sale: {item}, {price} in 文 (paid whole, or the sale is refused: DECISIONS「拿不动就不收钱」).
+	panel.ask_sale(tr("卖断 {item}\n报价{price}文。物品将永久移除。").format({
 		"item": item_label(_selected_id), "price": appraisal.actual_payout,
 	}))
 	refresh()

@@ -250,16 +250,21 @@ func _process(delta: float) -> void:
 		if engine_call:
 			return
 	_played_seconds += delta
+	if _rest.active():
+		_judge_rest(_rest_interruption(), 0.0)
 	if presentation_frozen():
 		_sync_ghost_sight()
 		advance_journal(delta)
 		return
 	if world_time_held():
 		_process_held(delta)
+		if _rest.active():
+			_rest.rebase(_player.state)
 		return
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	var world_delta: float = _world_delta(delta)
-	advance_player_recovery(delta)
+	# 歇到回满: the player's own time runs with the world's while they rest.
+	advance_player_recovery(world_delta if _rest.active() else delta)
 	advance_player_timed_applies(world_delta)
 	# A fight's own clock (BattlePace, owner B Q2): its rounds cost the task their
 	# combat_round_ms whatever the 战斗速度.
@@ -280,6 +285,8 @@ func _process(delta: float) -> void:
 	_advance_reincarnation()
 	_sync_ghost_sight()
 	advance_journal(delta)
+	if _rest.active():
+		_judge_rest(_rest_interruption(), world_delta)
 
 
 ## The menu is open (owner, 2026-10-15, DECISIONS「菜单窗口」): world time stands still —
@@ -411,7 +418,104 @@ func scene_held() -> bool:
 func _sync_walk_pause() -> void:
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.player_body != null:
-		map.player_body.walk_paused = not _presentation_holds.is_empty() or _scene_held
+		map.player_body.walk_paused = not _presentation_holds.is_empty() or _scene_held or _rest.active()
+
+
+## 歇到回满 (native; DECISIONS「歇到回满」): the player rests and world time passes, the world
+## running pacing.json rest_world_scale times as fast by the same beats as ordinary play (NPC
+## heart beats, the day, recovery, hunger and thirst, conditions, resets, a gang noticing the
+## player), until 精, 气 and 神 are full, something comes at the player, or rest_limit_seconds of
+## world time went by. Anywhere outside a fight. A window opened meanwhile (the menu) holds it
+## as it holds the world. Not saved. `outcome` is RestRules.Outcome; `line` what was said.
+signal rest_ended(outcome: int, line: String)
+var _rest: PlayerRest = PlayerRest.new()
+var _rest_map: StringName = &""
+
+
+func resting() -> bool:
+	return _rest.active()
+
+
+## Game minutes the rest under way has lasted.
+func rest_minutes() -> int:
+	return RestRules.game_minutes(_rest.world_seconds(), GameContent.catalog().pacing().day_length_minutes)
+
+
+## Whether 歇到回满 is offered at all (pacing.json rest_world_scale above 0).
+static func rest_offered() -> bool:
+	return GameContent.catalog().pacing().rest_world_scale > 0
+
+
+## Why no rest begins now ("" when one may): off, in a fight, full, without water, held by a scene.
+func rest_refusal() -> String:
+	if not rest_offered():
+		return RestLines.refusal(RestRules.Outcome.OFF)
+	if not _initialized or _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _transitioning or _scene_held or _life_flow.is_active():
+		return RestLines.refusal(RestRules.Outcome.SCENE)
+	var fighting: bool = _combat_encounter_coordinator == null or _combat_encounter_coordinator.has_active_encounter()
+	return RestLines.refusal(RestRules.refusal(_player.state, fighting))
+
+
+## The player sits down to rest (the 请教 and 武学 pages' 歇到回满): "" when they do, else why not.
+func begin_rest() -> String:
+	if _rest.active():
+		return ""
+	var refused: String = rest_refusal()
+	if not refused.is_empty():
+		return refused
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	_rest.begin(_player.state, pacing.rest_world_scale, pacing.rest_limit_seconds)
+	var map: WorldMapController = active_map() as WorldMapController
+	_rest_map = &"" if map == null else map.map_id()
+	_sync_walk_pause()
+	_rest_line(TranslationServer.translate(RestLines.BEGIN))
+	return ""
+
+
+## The player gets up (the rest's 起身).
+func stop_rest() -> void:
+	if _rest.active():
+		_end_rest(RestRules.Outcome.CANCELLED)
+
+
+## What came at the resting player this frame, or NONE: a fall, a fight or a gang's alert, a
+## scene, another map.
+func _rest_interruption() -> RestRules.Outcome:
+	if _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _life_flow.is_active():
+		return RestRules.Outcome.FELL
+	if _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter():
+		return RestRules.Outcome.ATTACKED
+	var map: WorldMapController = active_map() as WorldMapController
+	if _transitioning or map == null or map.map_id() != _rest_map:
+		return RestRules.Outcome.MOVED
+	if map.hostilities.alert_seconds_left() > 0.0:
+		return RestRules.Outcome.ATTACKED
+	if _scene_held:
+		return RestRules.Outcome.SCENE
+	return RestRules.Outcome.NONE
+
+
+## `interruption` (NONE if nothing came), else the rest's own judgement after `world_seconds`.
+func _judge_rest(interruption: RestRules.Outcome, world_seconds: float) -> void:
+	var outcome: RestRules.Outcome = interruption
+	if outcome == RestRules.Outcome.NONE and world_seconds > 0.0:
+		outcome = _rest.judge(_player.state, world_seconds)
+	if outcome != RestRules.Outcome.NONE:
+		_end_rest(outcome)
+
+
+func _end_rest(outcome: RestRules.Outcome) -> void:
+	var line: String = RestLines.ended(outcome, rest_minutes())
+	_rest.end()
+	_sync_walk_pause()
+	_rest_line(line)
+	rest_ended.emit(outcome, line)
+
+
+func _rest_line(line: String) -> void:
+	if not line.is_empty() and shared_ui() != null:
+		var lines: Array[ColoredLine] = [ColoredLine.new(line)]
+		shared_ui().append_colored_lines(lines)
 
 
 ## Only while the player can act: one who falls, dies or is drawn into a fight under the
@@ -429,6 +533,9 @@ func world_time_held() -> bool:
 ## waking, room resets, call_outs, 朱鸿雪's task time) lives damage.c's whole revive delay
 ## in pacing.json's player_wake_seconds; never past the moment the player comes to.
 func _world_delta(delta: float) -> float:
+	var fighting: bool = _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter()
+	if _rest.active() and not fighting and is_finite(delta) and delta > 0.0:
+		return delta * _rest.world_scale()
 	var scale: float = _life_flow.world_time_scale()
 	if scale <= 1.0 or not is_finite(delta) or delta <= 0.0:
 		return delta
@@ -1145,7 +1252,7 @@ func activate_restore_candidate() -> bool:
 	WorldStoryPresence.stage(self, map as WorldMapController)
 	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
 	if map is WorldMapController:
-		(map as WorldMapController).npc_idle.judge_night()
+		(map as WorldMapController).npc_idle.judge_night(false)
 	if not map.complete_activation() or not _reconcile_active_residents():
 		map.prepare_for_deactivation()
 		map.set_restore_staging(true)
@@ -1695,7 +1802,7 @@ func _activate_first_map(map_id: StringName) -> bool:
 	WorldStoryPresence.stage(self, first as WorldMapController)
 	# NPC 活起来 D (DECISIONS「夜里冷清」): the street's idle folk where the hour puts them.
 	if first is WorldMapController:
-		(first as WorldMapController).npc_idle.judge_night()
+		(first as WorldMapController).npc_idle.judge_night(false)
 	if not first.complete_activation():
 		return false
 	_initialized = true

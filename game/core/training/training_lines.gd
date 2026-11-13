@@ -385,7 +385,7 @@ const RUN_ACTIONS: Dictionary[TrainingRun.Kind, String] = {
 	TrainingRun.Kind.EXERCISE: "打坐", TrainingRun.Kind.MEDITATE: "冥思", TrainingRun.Kind.RESPIRATE: "修行",
 }
 # TRANSLATORS: continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
-const RUN_WASTE_ESSENCE: String = "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）；再请教只会白白累垮，先休息吧。"
+const RUN_WASTE_ESSENCE: String = "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
 # TRANSLATORS: continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
 const RUN_WASTE_EXPERIENCE: String = "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
 # TRANSLATORS: continuous 练习 stopped: with the basic skill not above the special one practice only adds progress, and this level's is full; {basic} must reach {level}.

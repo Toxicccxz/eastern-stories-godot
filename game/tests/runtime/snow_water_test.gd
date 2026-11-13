@@ -90,19 +90,14 @@ func purchase_tests() -> void:
 		fixture = funded()
 		var liquids: LiquidCollection = LiquidCollection.new()
 		result = buy_wineskin(fixture.context, liquids, fixture.allocator, capacity)
-		# Source37 silver + coins(100-20) + wine700 =817; before pay would be837.
-		check(result.paid and fixture.context.select(Food.COIN).amount == 80 and fixture.allocator.next_dynamic_sequence == 2, "capacity after20 payment + one allocation")
+		# Source37 silver + coins(100-20) + wine700 =817; before pay would be837. DECISIONS
+		# 「拿不动就不收钱」: the weight after payment is checked before any money moves.
 		check(result.delivered == (capacity == 817), "exact817 postpayment capacity")
-		if capacity == 816:
-			check(result.outcome == VendorPurchaseResult.Outcome.DELIVERY_FAILED and result.cleanup.succeeded(), "delivery failure destroys only undelivered product")
-			check(not fixture.context.inventory.is_registered(result.item_id) and not fixture.context.index.has_snapshot(result.item_id) and liquids.state(result.item_id) == null, "no orphan/state/index")
-	var failing: Finance.FailingRemoval = Finance.FailingRemoval.new()
-	failing.block_parentless = true
-	fixture = funded(failing)
-	var liquids: LiquidCollection = LiquidCollection.new()
-	result = buy_wineskin(fixture.context, liquids, fixture.allocator, 816)
-	check(result.paid and result.outcome == VendorPurchaseResult.Outcome.AUTHORITY_FAILURE and not result.cleanup.succeeded(), "cleanup failure explicit, no refund")
-	check(fixture.context.inventory.is_registered(result.item_id) and liquids.state(result.item_id) != null and fixture.context.index.has_snapshot(result.item_id), "failed removal does not discard associations")
+		if capacity == 817:
+			check(result.paid and fixture.context.select(Food.COIN).amount == 80 and fixture.allocator.next_dynamic_sequence == 2, "20 paid + one allocation")
+		else:
+			check(not result.paid and result.outcome == VendorPurchaseResult.Outcome.TOO_HEAVY and fixture.context.select(Food.COIN).amount == 100, "too heavy: refused, no coin taken")
+			check(fixture.allocator.next_dynamic_sequence == 1 and liquids.instance_ids().is_empty(), "too heavy: nothing made")
 	fixture = funded()
 	result = buy_wineskin(fixture.context, RefusingLiquid.new(), fixture.allocator, 1000)
 	check(result.paid and result.outcome == VendorPurchaseResult.Outcome.CREATION_FAILED and result.cleanup.succeeded(), "partial registration cleans parentless object")

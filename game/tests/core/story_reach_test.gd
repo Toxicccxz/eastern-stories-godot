@@ -11,7 +11,9 @@ extends RefCounted
 ##    hang on one person who can be killed and is never made anew: for each mark (or `heard`, or an
 ##    item carried or worn) that does the step, some writer (some giver) does not need such a
 ##    person standing, nor a mark or an item only such a person gives (the writer rule's own
-##    asker_marks, asker_carries, carries) — or the step (or a later one of its quest on its way:
+##    asker_marks, asker_carries, carries, the `when` of its branch or step, the `present` of its
+##    spawn or of the writer's: each tree judged whole; for `heard`, what every rule of the topic
+##    asks) — or the step (or a later one of its quest on its way:
 ##    not waiting for another option, `only_after`) `keeps` them (knocked down, never killed, until
 ##    it is done). One who never dies here: fight_deferred or spar_only; one made anew: a spawn a
 ##    room reset remakes (not staged, or an ES2 resident on the stage: NpcSpawnDefinition.resident).
@@ -77,6 +79,9 @@ class Source:
 	var zone: StringName = &""
 	var needs_marks: Array[String] = []
 	var needs_items: Array[String] = []
+	## The conditions the rule asks besides (a branch's or a step's `when`, a spawn's `present`), each
+	## kept as the tree it is: an `any` is one need, not one need per part.
+	var needs_when: Array[JournalEntryDefinition] = []
 	## An item's giver that is a corpse: the NPC who carries it ("" for none).
 	var carrier: StringName = &""
 
@@ -88,6 +93,7 @@ class Source:
 		source.zone = zone
 		source.needs_marks = needs_marks.duplicate()
 		source.needs_items = needs_items.duplicate()
+		source.needs_when = needs_when.duplicate()
 		source.carrier = carrier
 		return source
 
@@ -105,6 +111,11 @@ class Source:
 		for item: Variant in items:
 			if item is String and not source.needs_items.has(item):
 				source.needs_items.append(item)
+		return source
+
+	func with_when(conditions: Array[JournalEntryDefinition]) -> Source:
+		var source: Source = _copy()
+		source.needs_when.append_array(conditions)
 		return source
 
 	func with_npc(npc_id: StringName, p_origin: String) -> Source:
@@ -133,16 +144,24 @@ var _unjudged: Array[String] = []
 var _judging: Dictionary[String, bool] = {}
 ## The marks the earlier steps on the way of the step judged now were done by (held_for()).
 var _held: Dictionary[String, bool] = {}
+## The spawns a writer's presence is judged by (null: the catalog's; the self-check's made-up ones).
+var _spawns: Variant = null
+## _spawns by NPC id, as asked.
+var _spawns_of: Dictionary[StringName, Array] = {}
 
 
 func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
+	# The catalog first: building it forgets the `cond`s read before (JournalEntryDefinition._unlinked).
+	var catalog: ContentCatalog = GameContent.catalog()
 	scan(DATA_ROOT)
+	link_conditions(catalog)
 	_check(_writers.size() > 250 and _readers.size() > 250,"the data read: %d marks written, %d read" % [_writers.size(), _readers.size()])
 	for problem: String in unwritten():
 		_check(false, problem)
-	for problem: String in hanging_steps(GameContent.catalog()):
+	for problem: String in hanging_steps(catalog):
 		_check(false, problem)
-	_test_what_it_sees(GameContent.catalog())
+	_test_what_it_sees(catalog)
+	_test_conditions_read(catalog)
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -226,6 +245,139 @@ func _test_what_it_sees(catalog: ContentCatalog) -> void:
 	_check(after.size() == 1 and after[0].needs_marks.has("t:gate"), "an act's branch needs the mark it is gated by")
 
 
+## The conditions a writer waits on are read whole (each on made-up tables, in fresh copies of the
+## check): a branch's and a step's `when` (all / any / at_least kept as trees, never one need per
+## part), a spawn's `present` (an NPC's, a floor item's), a `cond`; and a heard topic hangs on what
+## every one of its rules asks.
+func _test_conditions_read(catalog: ContentCatalog) -> void:
+	const MORTAL: StringName = &"native.npc.andun"  # staged, killable, not remade (as data stands)
+	const MARK: int = JournalEntryDefinition.When.MARK
+	var none: Dictionary[StringName, bool] = {}
+	var mortal := Source.new()
+	mortal.origin = "t"
+	mortal.npc = MORTAL
+	var anyone := Source.new()
+	anyone.origin = "t"
+	# A branch's when, a step's when, a spawn's present, a floor item's present: [what the record
+	# writes or gives, the condition its writer waits on, whether it hangs on the mortal].
+	var check: Object = (get_script() as Script).new()
+	check._writers["t:mortal"] = [mortal]
+	check._writers["t:open"] = [anyone]
+	var named: Array = catalog.conditions().keys()
+	var three: Array = [{"mark": "t:mortal"}, {"mark": "t:open"}, {"quest": "t#done"}]
+	var from := Source.new()
+	from.origin = "t/world.json"
+	check._walk({
+		"acts": [
+			{"when": {"all": [{"mark": "t:mortal"}, {"zone": "t.zone"}]}, "steps": [{"mark": "t:w.all"}]},
+			{"when": {"any": [{"mark": "t:mortal"}, {"phase": ["night"]}]}, "steps": [{"mark": "t:w.any"}]},
+			{"when": {"at_least": {"n": 2, "of": three}}, "steps": [{"mark": "t:w.two"}]},
+			{"when": {"at_least": {"n": 3, "of": three}}, "steps": [{"mark": "t:w.three"}]},
+			{"steps": [{"say": "x"}, {"mark": "t:w.step", "when": {"mark": "t:mortal"}}, {"mark": "t:w.after"}]},
+			{"when": {"cond": named[0] if not named.is_empty() else "t"}, "steps": [{"mark": "t:w.cond"}]},
+		],
+		"spawns": [{"id": "t.spawn", "npc": "t.npc", "present": {"mark": "t:mortal"}, "cleared_mark": "t:w.present"}],
+		"item_spawns": [
+			{"item": "t:floor.gated", "present": {"mark": "t:mortal"}},
+			{"item": "t:floor.any", "present": {"any": [{"mark": "t:mortal"}, {"not": {"mark": "t:open"}}]}},
+		],
+	}, [] as Array[String], from)
+	check.link_conditions(catalog)
+	_check(check._failures.is_empty(), "the made-up conditions read: %s" % [check._failures])
+	var rows: Array = [
+		["t:w.all", "all(mark t:mortal, zone t.zone)", true],
+		["t:w.any", "any(mark t:mortal, phase)", false],
+		["t:w.two", "at_least 2(mark t:mortal, mark t:open, quest t#done)", false],
+		["t:w.three", "at_least 3(mark t:mortal, mark t:open, quest t#done)", true],
+		["t:w.step", "mark t:mortal", true],
+		["t:w.after", "", false],
+		["t:w.present", "mark t:mortal", true],
+		["t:floor.gated", "mark t:mortal", true],
+		["t:floor.any", "any(mark t:mortal, not(mark t:open))", false],
+	]
+	for row: Array in rows:
+		var item: bool = String(row[0]).begins_with("t:floor")
+		var sources: Array = (check._givers if item else check._writers).get(row[0], [])
+		var shapes := PackedStringArray()
+		if sources.size() == 1:
+			for condition: JournalEntryDefinition in sources[0].needs_when:
+				shapes.append(_shape(condition))
+		_check(sources.size() == 1 and ", ".join(shapes) == row[1], "%s: its writer waits on %s: %s" % [row[0], row[1], shapes])
+		var why: String = check._hangs(_when(JournalEntryDefinition.When.ITEM if item else MARK, row[0]), catalog, none)
+		_check(why.contains(String(MORTAL)) == row[2], "%s %s on the mortal: %s" % [row[0], "hangs" if row[2] else "does not hang", why])
+	var linked: Array = check._writers.get("t:w.cond", [])
+	_check(not named.is_empty() and linked.size() == 1 and linked[0].needs_when[0].when != JournalEntryDefinition.When.COND, "a writer's cond is linked to the condition it names")
+	# A condition it does not judge in a writer's when is reported (by the writer's file), not passed.
+	var temp: Array[JournalEntryDefinition] = [_when(JournalEntryDefinition.When.TEMP, "t:temp")]
+	check._writers["t:w.temp"] = [anyone.with_when(temp)]
+	_check(not check._hangs(_when(MARK, "t:w.temp"), catalog, none).is_empty() and check._unjudged.any(func(each: String) -> bool: return each.begins_with("t: ") and each.contains("TEMP")), "an unknown condition in a writer's when is reported: %s" % [check._unjudged])
+	# Presence: [the spawns of t.npc.x ([zone, present]), the zone asked, the condition, hangs].
+	var presence: Array = [
+		[[["t.a", {"mark": "t:mortal"}]], "", "mark t:mortal", true],
+		[[["t.a", {"mark": "t:mortal"}], ["t.b", {}]], "", "", false],
+		[[["t.a", {"mark": "t:mortal"}], ["t.b", {"mark": "t:open"}]], "", "any(mark t:mortal, mark t:open)", false],
+		[[["t.a", {"mark": "t:mortal"}], ["t.b", {}]], "t.a", "mark t:mortal", true],
+	]
+	for row: Array in presence:
+		var spawns: Array[NpcSpawnDefinition] = []
+		for made: Array in row[0]:
+			var spawn := NpcSpawnDefinition.new(&"t.spawn", &"t.npc.x", &"t.map", StringName(made[0]), [] as Array[StringName], 0, "native", 0, NpcSpawnDefinition.InitialSpawnPolicy.INITIAL_ONLY)
+			spawns.append(spawn.with_presence(check._read_condition({"present": made[1]}, "present", "t") if not made[1].is_empty() else null, null))
+		check._spawns = spawns
+		check._spawns_of.clear()
+		var shape: String = _shape(spawn_presence(&"t.npc.x", StringName(row[1]), spawns))
+		var why: String = check._presence_hangs(&"t.npc.x", StringName(row[1]), catalog, none, "t")
+		_check(shape == row[2] and why.contains(String(MORTAL)) == row[3], "t.npc.x in %s is there when %s (%s): %s / %s" % [row[1], row[2], "hangs" if row[3] else "open", shape, why])
+	check._spawns = [check._spawns[0]]
+	check._spawns_of.clear()
+	var writer: Source = anyone.with_gate(&"t.npc.x")
+	_check(check._fragile_need(writer, catalog, none).contains("t.npc.x is there only when"), "a writer gated by one there only when a mortal's mark holds hangs")
+	writer = anyone.with_npc(&"t.npc.x", "t")
+	_check(check._fragile_need(writer, catalog, none).contains("t.npc.x is there only when"), "a writer NPC there only when a mortal's mark holds hangs")
+	# Heard: [topic, what hearing it asks, hangs on the mortal].
+	var rule := func(marks: Array, carries: String) -> NpcInquiryRule:
+		var made := NpcInquiryRule.new()
+		made.asker_marks.assign(marks)
+		made.asker_carries = carries
+		return made
+	var rules: Dictionary[String, Array] = {
+		"gated": [rule.call(["t:mortal"], ""), rule.call([], "t:mortal_item")],
+		"open": [rule.call(["t:mortal"], ""), rule.call([], "")],
+		"either": [rule.call(["t:mortal"], ""), rule.call(["t:open"], "")],
+		"both": [rule.call(["t:mortal", "t:open"], "")],
+	}
+	var lines: Dictionary[String, PackedStringArray] = {"plain": PackedStringArray(["x"]), "listed": PackedStringArray(["x"])}
+	var no_marks: Dictionary[String, Array] = {}
+	var listed: Dictionary[String, Array] = {"listed": ["t:mortal"]}
+	var talk: NpcTalk = NpcTalk.new(lines).with_actions(no_marks, rules, no_marks).with_listed_marks(listed)
+	check._givers["t:mortal_item"] = [mortal]
+	var heard: Array = [
+		["plain", "", false],
+		["gated", "any(mark t:mortal, item t:mortal_item)", true],
+		["open", "", false],
+		["either", "any(mark t:mortal, mark t:open)", false],
+		["both", "all(mark t:mortal, mark t:open)", true],
+		["listed", "mark t:mortal", true],
+	]
+	for row: Array in heard:
+		var shape: String = _shape(heard_condition(talk, row[0]))
+		var why: String = check._talk_hangs(talk, row[0], "t.npc", catalog, none, "t")
+		_check(shape == row[1] and why.contains(String(MORTAL)) == row[2], "heard 「%s」 asks %s (%s): %s / %s" % [row[0], row[1], "hangs" if row[2] else "open", shape, why])
+
+
+## A condition tree written out: "all(mark m, any(zone z, phase))", "at_least 2(…)".
+static func _shape(condition: JournalEntryDefinition) -> String:
+	if condition == null:
+		return ""
+	var name: String = String(JournalEntryDefinition.When.keys()[condition.when]).to_lower()
+	if condition.parts.is_empty():
+		return name if condition.key.is_empty() else "%s %s" % [name, condition.key]
+	var parts := PackedStringArray()
+	for part: JournalEntryDefinition in condition.parts:
+		parts.append(_shape(part))
+	var amount: String = " %d" % condition.amount if condition.when == JournalEntryDefinition.When.AT_LEAST else ""
+	return "%s%s(%s)" % [name, amount, ", ".join(parts)]
+
 
 static func _when(kind: int, key: String) -> JournalEntryDefinition:
 	var condition := JournalEntryDefinition.new()
@@ -248,6 +400,30 @@ func scan(root: String) -> void:
 		var source := Source.new()
 		source.origin = path.trim_prefix(root + "/")
 		_walk(data, [], source)
+
+
+## Makes each `cond` a writer's condition names the condition it names (data/story/conditions.json),
+## as the catalog builder does; a name it cannot link is a failure.
+func link_conditions(catalog: ContentCatalog) -> void:
+	var errors: Array[String] = []
+	JournalEntryDefinition.link_named(catalog.conditions(), errors)
+	for error: String in errors:
+		_failures.append("story reach: " + error)
+
+
+## `record[field]` (a branch's or a step's `when`, a spawn's `present`) read as the game reads it
+## (JournalEntryDefinition.read_when: the whole tree, its all / any / at_least / not kept), or null
+## when it is no object; one that does not read is a failure.
+func _read_condition(record: Dictionary, field: String, origin: String) -> JournalEntryDefinition:
+	if not record.get(field) is Dictionary:
+		return null
+	var errors: Array[String] = []
+	var condition := JournalEntryDefinition.new()
+	JournalEntryDefinition.read_when(ContentRecordReader.new(record, origin, errors), condition, field)
+	if not errors.is_empty():
+		_failures.append("story reach: %s.%s does not read as a condition: %s" % [origin, field, errors])
+		return null
+	return condition
 
 
 ## "<mark> is read (<where>) and nothing writes it" for each such mark, sorted.
@@ -366,7 +542,16 @@ func _hangs(condition: JournalEntryDefinition, catalog: ContentCatalog, kept: Di
 			return "" if doable >= wanted else " / ".join(whys)
 		JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.SEEN, JournalEntryDefinition.When.CHAT:
 			var npc_id := StringName(condition.key)
-			return "" if _sturdy(npc_id, &"", catalog, kept) else "heard %s" % npc_id
+			if not _sturdy(npc_id, &"", catalog, kept):
+				return "heard %s" % npc_id
+			var absent: String = _presence_hangs(npc_id, &"", catalog, kept, where)
+			if not absent.is_empty():
+				return absent
+			if condition.when != JournalEntryDefinition.When.HEARD:
+				return ""
+			# Heard only once answered: a topic every rule of which asks a mark (an item) hangs on it.
+			var npc: NpcDefinition = catalog.npc(npc_id)
+			return "" if npc == null else _talk_hangs(npc.talk(), condition.topic, String(npc_id), catalog, kept, where)
 		JournalEntryDefinition.When.MARK:
 			return _mark_hangs(condition.key, catalog, kept)
 		JournalEntryDefinition.When.ITEM, JournalEntryDefinition.When.WEARING:
@@ -436,11 +621,27 @@ func _fragile_need(source: Source, catalog: ContentCatalog, kept: Dictionary[Str
 		var carrier: NpcDefinition = catalog.npc(source.carrier)
 		if carrier == null or kept.has(source.carrier) or carrier.dealings().is_fight_deferred() or carrier.spar_only():
 			return "carried by %s, who is not killed" % source.carrier
-	if not source.npc.is_empty() and not _sturdy(source.npc, &"", catalog, kept):
-		return String(source.npc)
+		var away: String = _presence_hangs(source.carrier, &"", catalog, kept, source.origin)
+		if not away.is_empty():
+			return away
+	if not source.npc.is_empty():
+		var absent: String = _presence_hangs(source.npc, &"", catalog, kept, source.origin)
+		if not absent.is_empty():
+			return absent
+		if not _sturdy(source.npc, &"", catalog, kept):
+			return String(source.npc)
 	for npc_id: StringName in source.gates:
-		if npc_id != source.npc and not _sturdy(npc_id, source.zone, catalog, kept):
+		if npc_id == source.npc:
+			continue
+		var absent: String = _presence_hangs(npc_id, source.zone, catalog, kept, source.origin)
+		if not absent.is_empty():
+			return absent
+		if not _sturdy(npc_id, source.zone, catalog, kept):
 			return String(npc_id)
+	for condition: JournalEntryDefinition in source.needs_when:
+		var why: String = _hangs(condition, catalog, kept, source.origin)
+		if not why.is_empty():
+			return "it waits on: " + why
 	for mark: String in source.needs_marks:
 		var why: String = _mark_hangs(mark, catalog, kept)
 		if not why.is_empty():
@@ -466,6 +667,87 @@ static func _sturdy(npc_id: StringName, zone_id: StringName, catalog: ContentCat
 		if spawn.remade_by_reset():
 			return true
 	return false
+
+
+## When the NPC `npc_id` (the one of them in `zone_id`, unless "") is on its map at all: null when
+## one of its spawns among `spawns` has no `present` (or it has no spawn: made by a scene); else the
+## one spawn's `present`, or an `any` of them (NpcSpawnDefinition.present: off the stage, not there).
+static func spawn_presence(npc_id: StringName, zone_id: StringName, spawns: Array) -> JournalEntryDefinition:
+	var presents: Array[JournalEntryDefinition] = []
+	for spawn: NpcSpawnDefinition in spawns:
+		if spawn.npc_definition_id != npc_id or (not zone_id.is_empty() and spawn.zone_id != zone_id):
+			continue
+		if spawn.present == null:
+			return null
+		presents.append(spawn.present)
+	if presents.size() <= 1:
+		return null if presents.is_empty() else presents[0]
+	var any: JournalEntryDefinition = _when(JournalEntryDefinition.When.ANY, "")
+	any.parts.assign(presents)
+	return any
+
+
+## Why the NPC `npc_id` (in `zone_id`, unless "") is never there once someone is killed: its spawns'
+## `present` hangs ("" when it does not, or nothing asks it).
+func _presence_hangs(npc_id: StringName, zone_id: StringName, catalog: ContentCatalog, kept: Dictionary[StringName, bool], where: String) -> String:
+	if not _spawns is Array:
+		_spawns = catalog.spawns()
+	if not _spawns_of.has(npc_id):
+		_spawns_of[npc_id] = (_spawns as Array).filter(func(spawn: NpcSpawnDefinition) -> bool: return spawn.npc_definition_id == npc_id)
+	var present: JournalEntryDefinition = spawn_presence(npc_id, zone_id, _spawns_of[npc_id])
+	if present == null:
+		return ""
+	var judging: String = "present:" + String(npc_id)
+	if _judging.has(judging):
+		return "%s again (a ring)" % judging
+	_judging[judging] = true
+	var why: String = _hangs(present, catalog, kept, where)
+	_judging.erase(judging)
+	return "" if why.is_empty() else "%s is there only when: %s" % [npc_id, why]
+
+
+## What one asking `talk` about `topic` must hold to be answered (heard): null for a topic answered
+## to all (its lines; one of its rules asks nothing); else, kept as a tree, every mark its
+## `listed_marks` names and an `any` over its rules, each the `all` of its asker_marks and
+## asker_carries (NpcInquiry.answer: a rules topic is answered only when a rule matches).
+static func heard_condition(talk: NpcTalk, topic: String) -> JournalEntryDefinition:
+	var needs: Array[JournalEntryDefinition] = []
+	# TEST reads the topic's list condition (NpcTalk.listed_for() asks it of the marks held).
+	for mark: Variant in talk._listed_marks.get(topic, []):
+		needs.append(_when(JournalEntryDefinition.When.MARK, mark))
+	if not talk.has_answer(topic):
+		var ways: Array[JournalEntryDefinition] = []
+		for rule: NpcInquiryRule in talk.inquiry_rules(topic):
+			var asks: Array[JournalEntryDefinition] = []
+			for mark: String in rule.asker_marks:
+				asks.append(_when(JournalEntryDefinition.When.MARK, mark))
+			if not rule.asker_carries.is_empty():
+				asks.append(_when(JournalEntryDefinition.When.ITEM, rule.asker_carries))
+			if asks.is_empty():
+				ways.clear()
+				break
+			ways.append(_joined(JournalEntryDefinition.When.ALL, asks))
+		if not ways.is_empty():
+			needs.append(_joined(JournalEntryDefinition.When.ANY, ways))
+	return null if needs.is_empty() else _joined(JournalEntryDefinition.When.ALL, needs)
+
+
+## Why `topic` of `talk` (the NPC `npc_id`) is never answered once someone is killed, or "".
+func _talk_hangs(talk: NpcTalk, topic: String, npc_id: String, catalog: ContentCatalog, kept: Dictionary[StringName, bool], where: String) -> String:
+	var asks: JournalEntryDefinition = heard_condition(talk, topic)
+	if asks == null:
+		return ""
+	var why: String = _hangs(asks, catalog, kept, where)
+	return "" if why.is_empty() else "%s answers 「%s」 only to one who holds: %s" % [npc_id, topic, why]
+
+
+## The one part itself, or `kind` (ALL / ANY) joining `parts`.
+static func _joined(kind: int, parts: Array[JournalEntryDefinition]) -> JournalEntryDefinition:
+	if parts.size() == 1:
+		return parts[0]
+	var joined: JournalEntryDefinition = _when(kind, "")
+	joined.parts.assign(parts)
+	return joined
 
 
 func _walk(value: Variant, path: Array[String], source: Source) -> void:
@@ -509,8 +791,18 @@ func _walk(value: Variant, path: Array[String], source: Source) -> void:
 		need_marks.append_array(_strings(record.get("marks")))
 	if not need_marks.is_empty() or not need_items.is_empty():
 		here = here.with_needs(need_marks, need_items)
+	# What the rule (the branch, the step, a watch …) waits on (`when`), and when the spawn (a floor
+	# item's, an NPC's) is on the stage (`present`): each a tree, judged whole (_hangs).
+	var conditions: Array[JournalEntryDefinition] = []
+	for field: String in ["when", "present"]:
+		var condition: JournalEntryDefinition = _read_condition(record, field, here.origin)
+		if condition != null:
+			conditions.append(condition)
+	if not conditions.is_empty():
+		here = here.with_when(conditions)
 	var anyone := Source.new()
 	anyone.origin = here.origin
+	anyone.needs_when = conditions
 	if STURDY_GIVE_PARENTS.has(last) and record.get("item") is String:
 		# What an NPC carries comes off their corpse: given only by one who can be killed.
 		var giver: Source = anyone
@@ -518,6 +810,7 @@ func _walk(value: Variant, path: Array[String], source: Source) -> void:
 			giver = Source.new()
 			giver.origin = here.origin
 			giver.carrier = here.npc
+			giver.needs_when = conditions
 		_note(_givers, record["item"], giver)
 	for key: Variant in record:
 		var child: Variant = record[key]
