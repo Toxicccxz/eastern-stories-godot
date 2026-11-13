@@ -66,8 +66,12 @@ const EARNED_AGAIN_DB: float = -8.0
 ## The kit's and the suites' record of what played, newest last, this many at most.
 const PLAYED_KEPT: int = 64
 
-## The sounds of the fight shown now (the battle panel's); cue() goes through it.
+## The sounds of the fight shown now (the battle panel's); cue() goes through it: the one that
+## entered the tree last and is still in it. Continue and Load build the session aside and move
+## it into its place (reparent: no second _ready), so it is claimed on entering the tree, and a
+## session that leaves gives it back to the one before (a load that failed keeps the old one's).
 static var current: BattleSounds
+static var _in_tree: Array[BattleSounds] = []
 
 ## What played, as [kind, pitch, db] (tests, kits).
 var played: Array[Array] = []
@@ -89,13 +93,23 @@ func _ready() -> void:
 		_players.append(player)
 		_voice_priority.append(PRIORITY_IDLE)
 		_voice_started.append(0)
-	if current == null or not is_instance_valid(current):
-		current = self
+
+
+func _enter_tree() -> void:
+	_in_tree.erase(self)
+	_in_tree.append(self)
+	current = self
 
 
 func _exit_tree() -> void:
-	if current == self:
-		current = null
+	_in_tree.erase(self)
+	if current != self:
+		return
+	current = null
+	for index: int in range(_in_tree.size() - 1, -1, -1):
+		if is_instance_valid(_in_tree[index]):
+			current = _in_tree[index]
+			return
 
 
 ## One sound at `pitch` (1: as recorded) and `db` (0: as recorded), the jitter over it. 战斗演出 C:

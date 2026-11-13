@@ -353,6 +353,8 @@ msgstr ""
 #. native.npc.shang_jue_fighting gender
 #. native.npc.niling_taoist_lake gender
 #. native.npc.feng_ce_lakebottom gender
+#. native.npc.yulan_tianwu_lakebottom gender
+#. native.npc.xiao_pichen_lakebottom gender
 #. native.npc.wutian_gui gender
 #. native.npc.wutian_gui_blazing gender
 #. native.npc.wutian_gui_grown gender
@@ -8373,10 +8375,10 @@ msgstr ""
 msgid "精 %d　神 %d"
 msgstr ""
 
-#. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
+#. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death; {force} the 内力 it costs.
 #: presentation/battle/battle_presentation_controller.gd
 msgid ""
-"天邪虎啸要耗 150 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n"
+"天邪虎啸要耗 {force} 点内力。啸声会震伤这里每一个人的神；没能抵住的人，不管是谁，都会对你下杀手，切磋也会变成生死相搏。\n"
 "确定要发出虎啸吗？"
 msgstr ""
 
@@ -8387,17 +8389,17 @@ msgid ""
 "确定要压制杀气吗？"
 msgstr ""
 
-#. asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()).
+#. asked before 召天将 (saveme.c) in a spar: the soldier kills the sparring partner, who kills it back; its kills count as the player's (combatd.c killer_reward()); {mana} 法力 and {sen} 神 it costs.
 #: presentation/battle/battle_presentation_controller.gd
 msgid ""
-"召天将要耗 100 点法力和 60 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n"
+"召天将要耗 {mana} 点法力和 {sen} 点神。天将一来就会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。天将杀的人都算在你头上，杀了师父便是弑师。\n"
 "确定要召唤天将吗？"
 msgstr ""
 
-#. asked before 召护法 (invocation.c) in a spar: the 天将 or 阴鬼卒 kills the sparring partner, who kills it back; its kills count as the player's.
+#. asked before 召护法 (invocation.c) in a spar: the 天将 or 阴鬼卒 kills the sparring partner, who kills it back; its kills count as the player's; {mana} 法力 and {sen} 神 it costs.
 #: presentation/battle/battle_presentation_controller.gd
 msgid ""
-"召护法要耗 100 点法力和 60 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n"
+"召护法要耗 {mana} 点法力和 {sen} 点神。来的天将或阴鬼卒会对你的对手下杀手，对手也会杀它，切磋就变成生死相搏，你的对手可能会死。它杀的人都算在你头上，杀了师父便是弑师。\n"
 "确定要召护法吗？"
 msgstr ""
 
@@ -16913,6 +16915,7 @@ msgstr ""
 #. native.npc.deng_xiao inquiry topic
 #. native.npc.yulan_tianwu_wind name
 #. native.npc.yulan_tianwu_lake name
+#. native.npc.yulan_tianwu_lakebottom name
 #. native.npc.yulan_tianwu_altar name
 #. native.npc.herald_uncle name
 #: data/common/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
@@ -16926,6 +16929,7 @@ msgstr ""
 
 #. common.npc.fighter.champion title
 #. native.npc.yulan_tianwu_lake title
+#. native.npc.yulan_tianwu_lakebottom title
 #. native.npc.yulan_tianwu_altar title
 #. native.npc.herald_uncle title
 #: data/common/npcs.json data/native/npcs.json
@@ -17102,6 +17106,7 @@ msgstr ""
 #. native.npc.lan_weng inquiry topic
 #. native.npc.xiao_pichen_home name
 #. native.npc.xiao_pichen_lake name
+#. native.npc.xiao_pichen_lakebottom name
 #. native.npc.xiao_pichen_altar name
 #. native.npc.xiao_pichen_ice name
 #: data/common/npcs.json data/lancheng/npcs.json data/native/npcs.json
@@ -31564,9 +31569,34 @@ msgstr ""
 msgid "晚月庄第一代弟子"
 msgstr ""
 
+#. latemoon.npc.room.elon trials.confirm
+#: data/latemoon/npcs.json
+msgid ""
+"瑷伦的三鞭是真打：\n"
+"· 每一鞭都实打实地落在你身上。\n"
+"· 哪一鞭接不住，就算没接下：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n"
+"· 接不接得住看气长不长：气随内力上限涨，内力上限靠打坐——先向师父学一门内功、装上，再去打坐。\n"
+"确定接她三鞭吗？"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.deed
+#: data/latemoon/npcs.json
+msgid "接下了守衣人瑷伦的三鞭"
+msgstr ""
+
 #. latemoon.npc.room.elon trials.label
 #: data/latemoon/npcs.json
 msgid "接她三鞭"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.relent_say
+#: data/latemoon/npcs.json
+msgid "瑷伦看了你很久：倒了两回，还站到我面前来。这份硬气，我认——这三鞭，我不用内力。"
+msgstr ""
+
+#. latemoon.npc.room.elon trials.rest_say
+#: data/latemoon/npcs.json
+msgid "瑷伦摆摆手：你的气还没喘匀。歇好了再来。"
 msgstr ""
 
 #. latemoon.npc.room.elon trials.success
@@ -49297,6 +49327,21 @@ msgstr ""
 msgid "从板屋尽头抬起头。"
 msgstr ""
 
+#. fanfang.npc.ronin_master trials.confirm
+#: data/fanfang/npcs.json
+msgid ""
+"早川直义的一刀是真砍：\n"
+"· 只有一刀，实打实地落在你身上，挨中了会受伤。\n"
+"· 接不住，你随后会昏倒；他收着刀，不会要你的命。\n"
+"倒了可以歇好再来。\n"
+"确定过他一刀吗？"
+msgstr ""
+
+#. fanfang.npc.ronin_master trials.deed
+#: data/fanfang/npcs.json
+msgid "在鬼笠馆接下了早川直义的一刀"
+msgstr ""
+
 #. fanfang.npc.ronin_master trials.label
 #: data/fanfang/npcs.json
 msgid "过他一刀"
@@ -52441,6 +52486,21 @@ msgstr ""
 msgid "风里拔剑，先要风认你。我替风出三刃，你站得住，剑就落得下来。"
 msgstr ""
 
+#. native.npc.lan_weng_terrace trials.confirm
+#: data/lancheng/npcs.json
+msgid ""
+"岚翁替风出三刃，是真打：\n"
+"· 每一刃都实打实地削在你身上，挨中了会受伤。\n"
+"· 哪一刃接不住，就算没接下，你随后会昏倒；风只认人，不要人的命。\n"
+"倒了可以歇好再来。\n"
+"确定接风三刃吗？"
+msgstr ""
+
+#. native.npc.lan_weng_terrace trials.deed
+#: data/lancheng/npcs.json
+msgid "在岚城的云台上接下了岚翁的接风三刃"
+msgstr ""
+
 #. native.npc.lan_weng_terrace trials.blows.say
 #: data/lancheng/npcs.json
 msgid "岚翁袖子一拂：第一刃，是从城外来的风。"
@@ -53139,7 +53199,7 @@ msgstr ""
 #: data/lancheng/world.json
 msgid ""
 "自己拔旋芒？十铃架上信你的铃够了。\n"
-"拔了，终章是你持剑；萧辟尘和皇叔不会替你。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
+"拔了，终章是你持剑；不拔，旋芒归皇叔或萧辟尘，湖畔和冰龙厅那两仗他会跟你并肩打。先要接岚翁的「接风三刃」——三下风刃是真的，接不住会受伤、会昏倒，歇好了可以再来。"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.say
@@ -54921,6 +54981,38 @@ msgstr ""
 #. native.npc.feng_ce_lakebottom summoned.leave
 #: data/native/npcs.json
 msgid "冯策收了刀，守在了水潭边。"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom long
+#: data/native/npcs.json
+msgid ""
+"於兰天武站在你身边，旋芒横在身前，剑身上的风声压过了冰龙厅里的寒气。\n"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom summoned.arrive
+#: data/native/npcs.json
+msgid "於兰天武从冰缝里走出来，旋芒在他手里一转：三百年前於兰家拔错了一把剑——这一回，老夫替你挡着。"
+msgstr ""
+
+#. native.npc.yulan_tianwu_lakebottom summoned.leave
+#: data/native/npcs.json
+msgid "於兰天武收了剑，退到水潭边。"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom long
+#: data/native/npcs.json
+msgid ""
+"萧辟尘站在你身边，旋芒背在身后，两只手空着，掌心朝外。\n"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom summoned.arrive
+#: data/native/npcs.json
+msgid "萧辟尘背着旋芒从冰缝里走出来，站到你身边：风记得我。这一回，我先出手。"
+msgstr ""
+
+#. native.npc.xiao_pichen_lakebottom summoned.leave
+#: data/native/npcs.json
+msgid "萧辟尘收了手，退到水潭边。"
 msgstr ""
 
 #. native.npc.wutian_gui long
