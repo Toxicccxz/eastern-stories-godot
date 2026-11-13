@@ -225,8 +225,37 @@ func _test_scene_input(tree: SceneTree) -> void:
 		_coordinator.advance_scheduler(1.0)
 	_ui.refresh_projection()
 	_check(not _coordinator.has_active_encounter() and _ui._holding() and _ui.scene_show.view != null, "over: the panel holds, the show still on the scene")
+	# 战斗肢体: killed by a blow the strip has yet to tell, the trainee's figure stands where it
+	# stood and nothing lies there; once the hold is over it has fallen and what lies there is
+	# the trainee as it was dressed, on its back.
+	var killed: StringName = trainee.character_id
+	var lying_before: int = _lying(view)
+	await tree.process_frame
+	await tree.process_frame
+	var figure_killed: Node3D = view.actors[killed]
+	_check(trainee.life_status == CharacterRuntimeLifeStatus.Value.DEAD and figure_killed.visible and view._lingering.has(killed) and is_zero_approx(float(figure_killed.get_child(0).get("limp"))) and _lying(view) == lying_before, "killed, its blow not told: the figure still stands, nothing lies there (life %d, shown %s, lingering %s, limp %s, lying %d/%d)" % [trainee.life_status, figure_killed.visible, view._lingering.has(killed), figure_killed.get_child(0).get("limp"), _lying(view), lying_before])
 	await tree.create_timer(2.5).timeout
 	_ui.refresh_projection()
+	await tree.process_frame
+	_check(not figure_killed.visible and view._lingering.is_empty() and view.fall_holds.is_empty() and _lying(view) == lying_before + 1, "the blow told, the hold over: the figure fell and is gone, the trainee lies there dressed (shown %s, lingering %d, held %d, lying %d/%d)" % [figure_killed.visible, view._lingering.size(), view.fall_holds.size(), _lying(view), lying_before])
+	# One knocked senseless outside a fight topples over the fall's time, and rises as slowly.
+	var other: NpcRuntimeState = null
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and view.actors.has(npc.character_id) and view.actors[npc.character_id].get_child(0).get("limp") != null:
+			other = npc
+			break
+	if _check(other != null, "someone else stands in the hall"):
+		var figure: Node3D = view.actors[other.character_id].get_child(0)
+		other.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
+		await tree.process_frame
+		await tree.process_frame
+		await tree.process_frame
+		_check(float(figure.get("limp")) > 0.0 and float(figure.get("limp")) < 1.0, "knocked senseless: on its way down, not down at once (%.2f)" % float(figure.get("limp")))
+		await tree.create_timer(0.6).timeout
+		_check(is_equal_approx(float(figure.get("limp")), 1.0), "down (%.2f)" % float(figure.get("limp")))
+		other.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+		await tree.create_timer(0.6).timeout
+		_check(is_zero_approx(float(figure.get("limp"))), "awake: up again (%.2f)" % float(figure.get("limp")))
 	_check(not _ui._holding() and _ui.scene_show.view == null and is_equal_approx(view.zoom(), 1.0), "the hold over: the show is over, the camera back (holding %s, zoom %.2f)" % [_ui._holding(), view.zoom()])
 	_check(not _ui.action_panel.beat_fill.playing() and _ui.action_panel.chips.pending_count() == 0, "no fill left playing, nothing held")
 	_player.state.progression.combat_experience = 100
@@ -295,6 +324,15 @@ func _test_card(tree: SceneTree) -> void:
 	_check(card.vitality_shown() == 10.0, "someone else on the card: at once")
 	card.free()
 	TestFeel.restore()
+
+
+## How many of the view's things on the ground are a figure lying dressed (a fresh corpse).
+static func _lying(view: WorldVoxelView) -> int:
+	var count: int = 0
+	for node: Node3D in view.objects.values():
+		if is_instance_valid(node) and node.has_node("Body"):
+			count += 1
+	return count
 
 
 func _to_snow(tree: SceneTree) -> void:

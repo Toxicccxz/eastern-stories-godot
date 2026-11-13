@@ -265,6 +265,7 @@ func _tell_lines(delta: float) -> void:
 
 func _settle_final_cards() -> void:
 	_final_cards = false
+	scene_show.lines_told(true)
 	for index: int in mini(_cards.size(), _shown_participants.size()):
 		var vitality: CharacterResourceState = _session.encounter_vitality(_shown_participants[index])
 		if vitality != null:
@@ -1270,8 +1271,9 @@ func _present_participants() -> void:
 	# 战斗拍数 C: where the figures stand (close or apart), and home again between rounds.
 	var stances: Array = []
 	for value: BattleParticipantProjection in values:
-		stances.append([value.participant_id, value.current_target_id, value.close])
+		stances.append([value.participant_id, value.current_target_id, value.close, String(value.weapon_skill)])
 	scene_show.settle(stances)
+	scene_show.lines_told(told)
 	if _projection.round_running:
 		_round_was_running = true
 	elif _round_was_running and told:

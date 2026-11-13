@@ -221,13 +221,13 @@ func _check_figures(tree: SceneTree) -> void:
 	var bare: Node3D = Person.new()
 	bare.configure({"collar": false, "pouch": false, "collar_color": "e0d0b0"})
 	stage.add_child(bare)
-	_check(bare.torso != null and bare.get_child_count() > 2, "the collar and pouch switches and the collar's colour build")
+	_check(bare.torso != null and bare.frame.get_child_count() > 2, "the collar and pouch switches and the collar's colour build")
 	for key: String in WORDS:
 		for word: Variant in WORDS[key]:
 			var figure: Node3D = Person.new()
 			figure.configure({key: word})
 			stage.add_child(figure)
-			_check(figure.torso != null and figure.get_child_count() > 0, "%s %s builds" % [key, word])
+			_check(figure.torso != null and figure.frame.get_child_count() > 0, "%s %s builds" % [key, word])
 	for extra: String in Person.EXTRAS:
 		var figure: Node3D = Person.new()
 		figure.configure({"extras": [extra]})

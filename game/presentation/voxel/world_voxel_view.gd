@@ -65,6 +65,24 @@ var placed_blend: float = 0.0
 ## The red marks over the heads of NPCs whose 2D body shows its AlertMark (进门一起上).
 var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
+## 战斗肢体 (DECISIONS「战斗肢体」): how far each figure has fallen senseless (0 up .. 1 down; it
+## topples over the feel's fall_ms and rises as slowly), and each person's look as it was drawn,
+## kept after it is gone: the one killed lies there in its own clothes.
+var _falls: Dictionary[StringName, float] = {}
+var _looks: Dictionary[StringName, Dictionary] = {}
+## Whose fall waits (hold_fall()): the rules fell a fighter the moment its round is worked out, the
+## fight's show tells the blow that did it a little later, and the figure stands until then. One
+## killed meanwhile has its body hidden (or gone): its figure stays where it stood (`_lingering`),
+## falls once it is let go, and only then makes way for what lies there.
+var fall_holds: Dictionary[StringName, bool] = {}
+## Each lingering figure and how long it still lies there once it is down (its landing's dust is
+## its own), before what lies there takes its place.
+var _lingering: Dictionary[StringName, float] = {}
+const LINGER_AFTER: float = 0.5
+## The way each figure that fell so was turned: what lies there lies the same way.
+var _fell_facing: Dictionary[StringName, float] = {}
+## A beast's leap at its target, in its own heights (BattleSceneShow reads the model's `pounce`).
+const POUNCE: float = 0.24
 var entrances: Dictionary[StringName, Dictionary] = {}
 var shutters: Dictionary[StringName, Node3D] = {}
 ## A door look's `open` look, shown instead of the shut one while its door is open (the
@@ -280,6 +298,11 @@ func release_world() -> void:
 		map.session.set_world_building(false)
 	_deactivate()
 	actors.clear()
+	_falls.clear()
+	fall_holds.clear()
+	_lingering.clear()
+	_fell_facing.clear()
+	_looks.clear()
 	labels.clear()
 	alert_marks.clear()
 	objects.clear()
@@ -564,6 +587,55 @@ func place_actor(id: StringName, at: Vector3, yaw: float) -> void:
 func unplace(id: StringName) -> void:
 	_placed.erase(id)
 
+## 战斗肢体: `id`'s figure stands whatever befalls it, until release_fall() (the fight's show).
+func hold_fall(id: StringName) -> void:
+	fall_holds[id] = true
+
+
+## `id` falls now if it has fallen (the blow that felled it is told).
+func release_fall(id: StringName) -> void:
+	fall_holds.erase(id)
+
+
+## Everyone held who has fallen or is gone falls now (the fight's lines are all told), but for
+## `waiting` (their felling blow is told and has yet to land); those still standing stay held.
+## Returns who was let go.
+func release_fallen(waiting: Dictionary[StringName, bool] = {}) -> Array[StringName]:
+	var let_go: Array[StringName] = []
+	for id: StringName in fall_holds.keys():
+		if not waiting.has(id) and not _stands(id):
+			fall_holds.erase(id)
+			let_go.append(id)
+	return let_go
+
+
+## Nobody's fall waits any more (the fight is over): a figure still lingering is down at once and
+## makes way the next frame.
+func release_falls() -> void:
+	fall_holds.clear()
+	for id: StringName in _lingering.keys():
+		_lingering[id] = 0.0
+		_falls[id] = 1.0
+
+
+## Whether `id` was killed here: what is left of it lies on the map.
+func _killed(id: StringName) -> bool:
+	for corpse: CorpseState in map.corpses.corpse_states():
+		if corpse.victim_character_id == id and map.corpses.corpse_is_live_in_world(corpse):
+			return true
+	return false
+
+
+## Whether `id` is on the map and on its feet.
+func _stands(id: StringName) -> bool:
+	if map == null:
+		return false
+	if map.player_body != null and id == map.player_body.character_id:
+		return map.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	var npc: NpcRuntimeState = map.find_resident_npc(id)
+	return npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and map.runtime_body_for_character(id) != null
+
+
 ## Every figure back on its body.
 func release_placed() -> void:
 	_placed.clear()
@@ -603,12 +675,16 @@ func _sync_actors(delta: float) -> void:
 		if body != null:
 			bodies.append(body)
 	var seen: Dictionary[StringName,bool] = {}
+	var fall_seconds: float = GameContent.catalog().pacing().feel.fall_seconds
 	for body: WorldCharacterBody2D in bodies:
 		var id: StringName = body.character_id
 		seen[id] = true
-		if not actors.has(id):
+		var fresh: bool = not actors.has(id)
+		if fresh:
 			_make_actor(body)
 		var actor: Node3D = actors[id]
+		# Whether the figure was hidden until now (one dead and gone that is back: it stands at once).
+		var hidden_before: bool = not actor.visible and not fresh
 		actor.visible = body.visible and body.is_visible_in_tree()
 		var at: Vector2 = body.global_position
 		var next: Vector3 = VoxelMapGeometry.point(at,0.02)
@@ -638,8 +714,37 @@ func _sync_actors(delta: float) -> void:
 			model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
 			var npc: NpcRuntimeState = residents.get(id)
 			var life: CharacterRuntimeLifeStatus.Value = map.player_runtime().life_status if body == map.player_body else (npc.life_status if npc != null else CharacterRuntimeLifeStatus.Value.ACTIVE)
-			var unconscious: bool = life == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
-			model.rotation.z = PI/2 if unconscious else 0.0
+			var dead: bool = life == CharacterRuntimeLifeStatus.Value.DEAD
+			var felled: bool = dead or life == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
+			# 战斗肢体: it topples and rises over the feel's fall_ms (0: at once); one first seen
+			# lying (its figure made this frame, or hidden until now) is down or up already. A
+			# person falls on its back, its limbs slack (VoxelPerson.limp); a beast rolls onto
+			# its side.
+			var down: float = 1.0 if felled and (_falls.has(id) or not fall_holds.has(id)) else 0.0
+			if hidden_before and not felled:
+				_falls.erase(id)
+			var fall: float = move_toward(float(_falls.get(id,down if fresh else 0.0)),down,delta/fall_seconds if fall_seconds > 0.0 else 1.0)
+			if is_zero_approx(fall):
+				_falls.erase(id)
+			else:
+				_falls[id] = fall
+			if model is Person:
+				(model as Person).limp = fall_turn(fall,felled)
+				model.rotation.z = 0.0
+			else:
+				model.rotation.z = PI/2*fall_turn(fall,felled)
+			# One killed (its body is hidden) keeps its figure while its fall waits, while it
+			# falls and a moment after; then what lies there takes its place, lying the same way.
+			if dead and fall_seconds > 0.0 and not fresh:
+				if fall_holds.has(id) or fall < 1.0:
+					_lingering[id] = LINGER_AFTER
+				elif _lingering.has(id):
+					_lingering[id] -= delta
+					if _lingering[id] <= 0.0:
+						_lingering.erase(id)
+						_fell_facing[id] = model.rotation.y
+				if _lingering.has(id):
+					actor.visible = true
 		var name_label := body.get_node_or_null("NameLabel") as Label
 		if name_label != null:
 			var label: Label3D = labels[id]
@@ -663,10 +768,49 @@ func _sync_actors(delta: float) -> void:
 		_sync_watch_cone(actor, body)
 	for id: StringName in actors.keys():
 		if not seen.has(id):
+			# 战斗肢体: one killed whose felling blow is not told yet stands where it stood; let
+			# go, it falls, lies there a moment, and then it is gone. One that left the map alive
+			# (a summoned helper going home) has nothing to wait for.
+			var model: Node3D = actors[id].get_child(0) as Node3D if actors[id].get_child_count() > 0 else null
+			if fall_holds.has(id):
+				if _lingering.has(id) or _killed(id):
+					if not _lingering.has(id):
+						_lingering[id] = LINGER_AFTER
+					continue
+				fall_holds.erase(id)
+			# (One whose body is only hidden lingers in the loop above.)
+			if _lingering.has(id) and fall_seconds > 0.0:
+				var fall: float = float(_falls.get(id,0.0))
+				if fall < 1.0:
+					fall = move_toward(fall,1.0,delta/fall_seconds)
+					_falls[id] = fall
+					if model is Person:
+						(model as Person).limp = fall_turn(fall,true)
+					elif model != null:
+						model.rotation.z = PI/2*fall_turn(fall,true)
+					continue
+				_lingering[id] -= delta
+				if _lingering[id] > 0.0:
+					continue
+			# What lies there lies the way this figure lay.
+			if model != null and _falls.has(id):
+				_fell_facing[id] = model.rotation.y
+			_lingering.erase(id)
 			actors[id].queue_free()
 			actors.erase(id)
 			labels.erase(id)
 			alert_marks.erase(id)
+			_falls.erase(id)
+
+
+## 战斗肢体: how far over a figure is (0 upright .. 1 flat) when it is `fall` of the way down:
+## falling, slowly at first, then fast, with a small bounce as it lands; rising, eased.
+static func fall_turn(fall: float, falling: bool) -> float:
+	if not falling:
+		return smoothstep(0.0,1.0,fall)
+	if fall < 0.8:
+		return pow(fall/0.8,2.0)
+	return 1.0 - 0.07*sin((fall - 0.8)/0.2*PI)
 
 ## 第九章 B (DECISIONS「禁军夜巡」): a watcher's cone of sight on the ground (meta `watch_cone` the
 ## runtime sets: radius px, degrees, alarmed), faint, turned with the body; only at night, when
@@ -831,6 +975,10 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 				leg.rotation.x = 0.0
 			model.set_meta("mounted",true)
 	var low: bool = crawler or look.get("animal",false)
+	if low:
+		model.set_meta("pounce",POUNCE*size)
+	elif model is Person and body_kind != "statue":
+		_looks[body.character_id] = look
 	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2+float(look.get("plinth",0.5) if body_kind=="statue" else 0.0)
 	if body_kind=="flyer":
 		label_height = float(look.get("hover",1.1))*size+0.5
@@ -852,8 +1000,17 @@ func _sync_objects() -> void:
 			seen[id] = true
 	for corpse: CorpseState in map.corpses.corpse_states():
 		var view: CombatSliceCorpseView = map.corpses.corpse_view_for(corpse.corpse_item_instance_id)
-		if view != null and map.corpses.corpse_is_live_in_world(corpse):
-			_object(corpse.corpse_item_instance_id,view.global_position,map.corpses.corpse_name(corpse),true)
+		# What lies there shows once the figure that stood there has fallen.
+		if view != null and map.corpses.corpse_is_live_in_world(corpse) and not _lingering.has(corpse.victim_character_id):
+			# 战斗肢体: a person just killed lies there as it was dressed, until the corpse rots.
+			var lying: Dictionary = _looks.get(corpse.victim_character_id,{}) if corpse.decay_stage == CorpseState.Stage.FRESH else {}
+			var shown: Node3D = objects.get(corpse.corpse_item_instance_id)
+			if shown != null and shown.has_node("Body") and lying.is_empty():
+				shown.queue_free()
+				objects.erase(corpse.corpse_item_instance_id)
+			var facing: float = float(_fell_facing.get(corpse.victim_character_id,NAN))
+			_fell_facing.erase(corpse.victim_character_id)
+			_object(corpse.corpse_item_instance_id,view.global_position,map.corpses.corpse_name(corpse),true,lying,facing)
 			seen[corpse.corpse_item_instance_id] = true
 			# 战斗演出 D: one felled on a raised stage lies there until the stage comes down.
 			var place: Array = _placed.get(corpse.victim_character_id,[]) if placed_blend > 0.0 else []
@@ -869,27 +1026,25 @@ func _sync_objects() -> void:
 		if opened.has(id):
 			opened[id].visible = not shutters[id].visible
 
-func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
+func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Dictionary = {}, facing: float = NAN) -> void:
 	if not objects.has(id):
 		var node := Node3D.new()
 		world.add_child(node)
-		var s := Shapes.new()
-		# A floor item may have a look of its own on this map (layout `items`: item definition
-		# -> look), drawn by the props files; it goes when the item goes (a buried skeleton).
-		# Any other thing that can be carried lies as its 背包 picture shows it, laid down
-		# and sized for the world, each turned its own way (VoxelItemLook.lay()).
-		var content: ItemContentDefinition = null if corpse else map.floor_items.floor_item_content(map.floor_items.floor_item_view(id))
-		var look: Dictionary = {} if content == null else layout.get("items",{}).get(String(content.item_definition_id),{})
-		var carried: Dictionary = {} if content == null or not look.is_empty() else VoxelItemLook.look(content.item_definition_id)
-		if not carried.is_empty():
-			var model := Node3D.new()
-			model.name = "Look"
-			node.add_child(model)
-			VoxelItemLook.build(model,carried)
-			VoxelItemLook.lay(model,carried,float(absi(String(id).hash())%360)*TAU/360.0)
-		elif look.is_empty() or not geometry.draw_look(s,node,look):
-			s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
-		s.flush()
+		if corpse and not lying.is_empty():
+			# The figure as it stood, laid on its back, slack and still, its eyes shut: the way it
+			# fell (`facing`) when it was seen to fall, else each turned its own way.
+			var body := Person.new()
+			body.name = "Body"
+			body.coat = lying.get("coat","817755")
+			body.configure(lying)
+			body.limp = 1.0
+			node.add_child(body)
+			body.rotation.y = facing if not is_nan(facing) else float(absi(String(id).hash())%360)*TAU/360.0
+			body._process(0.0)
+			body.eyes.scale.y = 0.12
+			body.set_process(false)
+		else:
+			_draw_object(node,id,corpse)
 		_label(node,title,0.7).name = "Title"
 		objects[id] = node
 	objects[id].position = VoxelMapGeometry.point(at)
@@ -899,6 +1054,27 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 		label.text = title
 	if label != null:
 		label.visible = not placing()
+
+## A thing lying on the ground, drawn into `node`: a floor item by its look, a corpse past its
+## first hours (or of one whose look is not known) as a covered shape.
+func _draw_object(node: Node3D, id: StringName, corpse: bool) -> void:
+	var s := Shapes.new()
+	# A floor item may have a look of its own on this map (layout `items`: item definition
+	# -> look), drawn by the props files; it goes when the item goes (a buried skeleton).
+	# Any other thing that can be carried lies as its 背包 picture shows it, laid down
+	# and sized for the world, each turned its own way (VoxelItemLook.lay()).
+	var content: ItemContentDefinition = null if corpse else map.floor_items.floor_item_content(map.floor_items.floor_item_view(id))
+	var look: Dictionary = {} if content == null else layout.get("items",{}).get(String(content.item_definition_id),{})
+	var carried: Dictionary = {} if content == null or not look.is_empty() else VoxelItemLook.look(content.item_definition_id)
+	if not carried.is_empty():
+		var model := Node3D.new()
+		model.name = "Look"
+		node.add_child(model)
+		VoxelItemLook.build(model,carried)
+		VoxelItemLook.lay(model,carried,float(absi(String(id).hash())%360)*TAU/360.0)
+	elif look.is_empty() or not geometry.draw_look(s,node,look):
+		s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
+	s.flush()
 
 func _make_entrances() -> void:
 	for node: Node in geometry.areas:

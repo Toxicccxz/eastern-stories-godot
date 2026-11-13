@@ -60,6 +60,7 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 			shown.beats = read.beats_now(binding.character_id)
 			shown.round_running = running
 			shown.close = coordinator.skeleton_close(binding.character_id)
+			shown.weapon_skill = state.equipment.primary_weapon_skill_type()
 			if binding.character_id != player_id and shown.hostile_to_player:
 				var skeleton: CombatSchoolSkeleton = read.skeleton(binding.character_id)
 				var school: SkillDefinition = null if skeleton == null else catalog.skill(skeleton.skill_id)
