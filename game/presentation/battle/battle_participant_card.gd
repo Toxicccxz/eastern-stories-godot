@@ -64,13 +64,9 @@ var _primary: Label
 var _secondary: Label
 var _powers: Label
 var _forecast: Label
-## A chip (many fighters): the name and the 气 bar only, CHIP_SIZE.
-const CHIP_SIZE: Vector2 = Vector2(160, 44)
-var _chip: bool = false
 var _hostile: bool = false
 var _is_current: bool = false
 var _content: VBoxContainer
-var _chip_borders: Array[StyleBoxFlat] = []
 var _big_borders: Array[StyleBoxFlat] = []
 ## 了结 / 放过 lie over the card's lower rows (the card keeps its height); those rows dim.
 var _choice_band: Control
@@ -125,14 +121,6 @@ func _ready() -> void:
 	_special_border.set_border_width_all(3)
 	_special_border.border_width_bottom = 6
 	_big_borders = [_ordinary_border, _current_border, _special_border]
-	for big: StyleBoxFlat in _big_borders:
-		var chip := big.duplicate() as StyleBoxFlat
-		chip.content_margin_left = 8
-		chip.content_margin_right = 8
-		chip.content_margin_top = 3
-		chip.content_margin_bottom = 3
-		chip.border_width_bottom = 3
-		_chip_borders.append(chip)
 	var content := VBoxContainer.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	content.add_theme_constant_override("separation", 2)
@@ -431,39 +419,19 @@ func _present_choice(value: BattleParticipantProjection, knockout: BattleKnockou
 	spare_button.tooltip_text = tr("放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。").format({"name": name})
 
 
-## 战斗演出 A: the rows the card shows — all six on a big card (the player's side: 精 · 神 and
-## 内力; an enemy: 预判 and 起手), the name and the bar on a chip; under 了结 / 放过 the rows
-## the buttons lie over dim.
+## 战斗演出 A: the rows the card shows — all six (the player's side: 精 · 神 and 内力; an enemy:
+## 预判 and 起手); under 了结 / 放过 the rows the buttons lie over dim.
 func _show_rows() -> void:
-	var big: bool = not _chip
-	_primary.visible = big
-	_secondary.visible = big and not _hostile
-	_powers.visible = big and not _hostile
-	_forecast.visible = big and _hostile
-	_intent.visible = big and _hostile
-	_status.visible = big
-	stamps.visible = big
+	_primary.visible = true
+	_secondary.visible = not _hostile
+	_powers.visible = not _hostile
+	_forecast.visible = _hostile
+	_intent.visible = _hostile
+	_status.visible = true
+	stamps.visible = true
 	var under: float = CHOICE_DIM if choice_row.visible and _panel_style.is_empty() else 1.0
 	for row: Control in [_powers, _intent, _status]:
 		row.modulate.a = under
-
-
-## Big or a chip (CHIP_SIZE: the name and the 气 bar).
-func set_chip(chip: bool) -> void:
-	if chip == _chip:
-		return
-	_chip = chip
-	_title.add_theme_font_size_override("font_size", GameTheme.text_size(14 if chip else 20))
-	_content.add_theme_constant_override("separation", 1 if chip else 2)
-	# The target button covers the card (its 64×64 would hold a chip open).
-	target_button.custom_minimum_size = Vector2.ZERO if chip else Vector2(64, 64)
-	if _border_flash == null or not _border_flash.is_valid():
-		add_theme_stylebox_override("panel", _border(1 if _is_current else 0))
-	_show_rows()
-
-
-func is_chip() -> bool:
-	return _chip
 
 
 ## Who the card shows.
@@ -471,12 +439,12 @@ func participant_id() -> StringName:
 	return _participant_id
 
 
-## The border: 0 ordinary, 1 the current target, 2 a special's flash; a chip's thinner; a side
-## panel has none (its chrome dresses it).
+## The border: 0 ordinary, 1 the current target, 2 a special's flash; a side panel has none
+## (its chrome dresses it).
 func _border(kind: int) -> StyleBox:
 	if not _panel_style.is_empty():
 		return _panel_box
-	return (_chip_borders if _chip else _big_borders)[kind]
+	return _big_borders[kind]
 
 
 ## 战斗演出 E: the card as a side panel in `style` ("banner"; "" back to an ordinary card) on
@@ -527,8 +495,7 @@ func set_panel(style: String, side: int, picture: Texture2D = null, picture_size
 		_show_resources(_shown_id, _shown_resources)
 	for row: Label in [_primary, _secondary, _powers, _intent, _status]:
 		row.add_theme_font_size_override("font_size", GameTheme.text_size(14 if panel else 16))
-	if not _chip:
-		_title.add_theme_font_size_override("font_size", GameTheme.text_size(18 if panel else 20))
+	_title.add_theme_font_size_override("font_size", GameTheme.text_size(18 if panel else 20))
 	if _border_flash == null or not _border_flash.is_valid():
 		add_theme_stylebox_override("panel", _border(1 if _is_current else 0))
 

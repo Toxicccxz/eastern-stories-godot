@@ -1439,7 +1439,8 @@ func _take_beat(
 			if not _beat_rules.busy_in_beats:
 				beats.forfeit()
 		elif struck != null:
-			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag))
+			var met: Array = _ring_met(resolution)
+			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag), met[0], met[1])
 			if npc_beat:
 				_note_habit_of(actor_id, beat_number, struck.tag)
 				if _heavy_spent_at >= 0:
@@ -1529,6 +1530,17 @@ func _npc_round_end(
 	if boundary != null and not _inspect(boundary, bindings, chat):
 		return false
 	return true
+
+
+## 战斗拍数 C: what the beat's blow met on the counter ring as the resolver read it —
+## [the defender's move tag then, the ring's verdict]; [&"", 0] when no blow was resolved.
+func _ring_met(resolution: CombatSliceOpportunityResult) -> Array:
+	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
+	var ordinary: CombatOrdinaryAttackResult = null if forward == null else forward.ordinary_attack_result
+	if ordinary == null or not ordinary.has_base_result or ordinary.base_result.calculation == null:
+		return [&"", 0]
+	var base: CombatAttackResult = ordinary.base_result
+	return [_modifiers.read(base.defender_id).move_tag, base.calculation.ring]
 
 
 ## The move the beat's forward attack struck with, null when none was (busy, guarding).

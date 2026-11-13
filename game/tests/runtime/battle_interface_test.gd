@@ -336,7 +336,7 @@ func _beats_panel(tree: SceneTree) -> void:
 	# Mid-round: a 虚 spent against his 守 (被克 on the ring), one beat left, the 重 moves 手不够
 	# and a 荒山-style lock 够不着: dimmed in place, the row's order the same.
 	projection.round_running = true
-	projection.player_beats.spend(CombatMoveTags.FEINT, 1)
+	projection.player_beats.spend(CombatMoveTags.FEINT, 1, CombatMoveTags.GUARD, -1) # The resolver's record: his 守 countered it.
 	projection.opponent_tag = CombatMoveTags.FEINT
 	projection.unaffordable_moves = {&"es2:test/1": "手不够", &"es2:test/3": "手不够"}
 	projection.locked_moves = {&"es2:test/2": "够不着"}
@@ -346,7 +346,7 @@ func _beats_panel(tree: SceneTree) -> void:
 	var locked: Button = panel.move_buttons[&"es2:test/2"]
 	check(heavy.disabled and panel.move_sub(&"es2:test/1") == "手不够" and heavy.tooltip_text == "手不够" and locked.disabled and panel.move_sub(&"es2:test/2") == "够不着" and not panel.move_buttons[&"es2:test/0"].disabled, "the 重 dimmed 手不够, the locked one 够不着, the 快 bright")
 	check(panel.chips.slots() == ([CombatMoveTags.FEINT, &""] as Array[StringName]) and panel._left_word.text == "还剩 1 手", "the first slot took the 虚's colour, one left")
-	check(panel.strip_text.text == "你出虚，他起手守 · 被克　他起手：虚", "the beat's result against the move he showed before it, then his next: " + panel.strip_text.text)
+	check(panel.strip_text.text == "你出虚，他起手守 · 被克　他起手：虚", "the beat's result as the resolver recorded it, then his next: " + panel.strip_text.text)
 	# 战斗拍数 E: his beats spent and one left to the player — the sentence says so.
 	foe.beats.spend(CombatMoveTags.QUICK, 1)
 	foe.beats.spend(CombatMoveTags.QUICK, 1)
@@ -359,7 +359,7 @@ func _beats_panel(tree: SceneTree) -> void:
 	panel._unpoint(&"es2:test/1")
 	check(panel.first_move_button() == panel.move_buttons[&"es2:test/0"], "the focus lands on the first move the player may press")
 	# A 守 against his 虚 and a beat won: a third slot, gold-edged, from 隙; no dashed slot then.
-	projection.player_beats.spend(CombatMoveTags.GUARD, 1)
+	projection.player_beats.spend(CombatMoveTags.GUARD, 1, CombatMoveTags.FEINT, 1)
 	projection.player_beats.earn(CombatSchoolSkeleton.EARN_OPPONENT_MISSED, 1)
 	projection.opponent_tag = CombatMoveTags.QUICK
 	panel.present(projection)
@@ -468,8 +468,8 @@ func _stamps_and_style_word(tree: SceneTree) -> void:
 ## One participant with 气 current/effective/maximum, 精 and 神 50, 内力 40/60, mana `mana`,
 ## busy `busy` beats, CombatSliceLifeStatus `life`, enforce's `factor`, held for `knockout`.
 ## 战斗演出 A (DECISIONS「战斗演出 A」): the mode's word, line and shade; every card one
-## height — the player's 精 · 神 and 内力 rows are an enemy's 预判 and 起手 — a chip shows the
-## name and the bar only, and 了结 / 放过 lie over the lower rows without growing the card.
+## height — the player's 精 · 神 and 内力 rows are an enemy's 预判 and 起手, and
+## 了结 / 放过 lie over the lower rows without growing the card.
 func _mode_looks_and_one_size(tree: SceneTree) -> void:
 	var spar: BattleModeLook = BattleModeLook.of(CombatEncounterMode.Value.SPAR)
 	var lethal: BattleModeLook = BattleModeLook.of(CombatEncounterMode.Value.LETHAL)
@@ -503,16 +503,6 @@ func _mode_looks_and_one_size(tree: SceneTree) -> void:
 	row.add_child(helper)
 	helper.present(_one(&"h", "天将", false, true, false, 90, 90, 100), &"p", &"n")
 	check(helper._secondary.visible and helper._powers.visible and helper._title.text == "天将 · 参战", "a helper's card as the player's: 精 · 神 and 内力")
-	dog.set_chip(true)
-	dog.custom_minimum_size = BattleParticipantCard.CHIP_SIZE
-	await tree.process_frame
-	await tree.process_frame
-	check(dog.is_chip() and dog._title.visible and dog._vitality.visible and not dog._primary.visible and not dog._forecast.visible and not dog._intent.visible and not dog._status.visible and not dog.stamps.visible, "a chip: the name and the bar only")
-	check(dog.size.y <= BattleParticipantCard.CHIP_SIZE.y + 0.5, "a chip keeps its size: %s" % dog.size)
-	dog.present(enemy, &"p", &"n")
-	check(not dog._intent.visible, "a chip stays a chip when presented again")
-	dog.set_chip(false)
-	check(dog._intent.visible and dog._forecast.visible, "big again: the rows back")
 	row.free()
 
 

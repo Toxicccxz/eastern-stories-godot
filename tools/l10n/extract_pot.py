@@ -49,7 +49,7 @@ TEXT_KEYS = frozenset({
     "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal", "closing",
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg", "locked",
-    "style_word", "style_line", "summary", "intro", "seat",
+    "style_word", "style_line", "summary", "intro", "seat", "relent_say", "rest_say",
     # drop.c's refusal when no_drop is a sentence (`"no_drop": true` is ES2's default line, in code).
     "no_drop",
 })
@@ -464,6 +464,13 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
     for key, value in node.items():
         here = f"{path}.{key}" if path else key
         note = f"{record_id} {here}".strip()
+        # An NPC's story trials (NpcTrial): what it asks first and the deed it writes are shown too.
+        if key == "trials" and isinstance(value, list):
+            for trial in value:
+                if isinstance(trial, dict):
+                    for text_key in ("confirm", "deed"):
+                        if isinstance(trial.get(text_key), str):
+                            catalog.add(trial[text_key], relative, note=f"{note}.{text_key}")
         if key in TEXT_KEYS and isinstance(value, str):
             catalog.add(value, relative, note=note)
         elif key in TEXT_LIST_KEYS and isinstance(value, list):
