@@ -68,7 +68,7 @@ func save_current(session: WorldSessionController) -> OldPineRuntimeSaveLoadResu
 				session,
 				_repository.storage_profile_id(),
 				timestamp,
-				null,
+				BuildIdentity.save_tag(),
 				_repository.slot_id(),
 			)
 			if not captured.succeeded():
@@ -107,7 +107,7 @@ func save_current_aside(session: WorldSessionController, slice_usec: int, frame:
 				session,
 				_repository.storage_profile_id(),
 				timestamp,
-				null,
+				BuildIdentity.save_tag(),
 				_repository.slot_id(),
 				false,
 			)

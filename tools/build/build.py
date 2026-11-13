@@ -237,6 +237,49 @@ def _git_metadata(repository: Path) -> tuple[str, bool]:
         return os.environ.get("GITHUB_SHA", "unknown"), False
 
 
+def _git_output(repository: Path, *arguments: str) -> str | None:
+    try:
+        return subprocess.run(
+            ["git", *arguments],
+            cwd=repository,
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        ).stdout.strip() or None
+    except (OSError, subprocess.CalledProcessError):
+        return None
+
+
+def version_label(repository: Path) -> str:
+    """What a build calls itself: the tag on the commit when there is one, with the short
+    commit (`v0.3 (1a2b3c4d)`), else the short commit alone; `-dirty` when the worktree had
+    changes. A development run, which has no config/version, shows "dev" (BuildIdentity)."""
+    commit = _git_output(repository, "rev-parse", "--short=8", "HEAD")
+    if commit is None:
+        commit = os.environ.get("GITHUB_SHA", "unknown")[:8]
+    _, dirty = _git_metadata(repository)
+    label = commit + ("-dirty" if dirty else "")
+    tag = _git_output(repository, "describe", "--tags", "--exact-match", "HEAD")
+    return f"{tag} ({label})" if tag else label
+
+
+def set_project_version(project_file: Path, version: str) -> None:
+    """Writes application/config/version into a staged project.godot (the development
+    project has none). Replaces one that is there."""
+    lines = project_file.read_text(encoding="utf-8").splitlines()
+    entry = f"config/version={_gd_string(version)}"
+    lines = [line for line in lines if not line.startswith("config/version=")]
+    try:
+        index = lines.index("[application]")
+    except ValueError:
+        raise BuildError(f"{project_file} has no [application] section") from None
+    while index + 1 < len(lines) and lines[index + 1] == "":
+        index += 1
+    lines.insert(index + 1, entry)
+    project_file.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+
+
 def _manifest(
     target: str,
     godot_version: str,
@@ -247,6 +290,7 @@ def _manifest(
     commit, dirty = _git_metadata(repository)
     return {
         "project": PROJECT_NAME,
+        "version": version_label(repository),
         "target": target,
         "godot_version": godot_version,
         "git_commit": commit,
@@ -671,6 +715,9 @@ def main(argv: list[str] | None = None) -> int:
         errors = validate_release_project(staging)
         if errors:
             raise BuildError("\n".join(errors))
+        version = version_label(repository)
+        set_project_version(staging / "project.godot", version)
+        print(f"Build version: {version}")
         set_preset_option(
             staging / "export_presets.cfg",
             PRESET_NAMES[args.target],

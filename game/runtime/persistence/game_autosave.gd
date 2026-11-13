@@ -82,7 +82,7 @@ func begin(session: WorldSessionController, now_ms: int = Time.get_ticks_msec())
 	if not due(session, now_ms):
 		return false
 	var timestamp: String = Time.get_datetime_string_from_system(true, false) + "Z"
-	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, _repository.storage_profile_id(), timestamp, null, _slot_id, false)
+	var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, _repository.storage_profile_id(), timestamp, BuildIdentity.save_tag(), _slot_id, false)
 	# The moment is spent either way: a capture that fails now would fail again at the next door.
 	_last_ms = now_ms
 	if not captured.succeeded():
