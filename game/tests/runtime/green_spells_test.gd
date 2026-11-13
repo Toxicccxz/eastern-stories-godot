@@ -251,7 +251,7 @@ func _test_summon_in_spar(tree: SceneTree, session: WorldSessionController) -> v
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player spars 工匠 again")
 	_refresh(session)
 	var question: PackedStringArray = _ui(session)._question_for(SUMMON)
-	_check(question.size() == 2 and question[0] == BattlePresentationController.SAVEME_QUESTION and question[1] == "召唤天将", "in a spar 召天将 is asked first")
+	_check(question.size() == 2 and question[0] == BattlePresentationController.spar_summon_question(&"saveme") and question[0].contains("100 点法力和 60 点神") and question[1] == "召唤天将", "in a spar 召天将 is asked first")
 	_check(_ui(session)._question_for(TRAP).is_empty() and _ui(session)._question_for(VANISH).is_empty(), "遁 and 困 are not")
 	var kills: int = player.state.progression.kills
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
