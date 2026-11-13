@@ -179,6 +179,8 @@ func _test_scene_input(tree: SceneTree) -> void:
 	_ui.refresh_projection()
 	var view: WorldVoxelView = map.get_node_or_null("MapView") as WorldVoxelView
 	_check(_ui.scene_show.view == view and view != null, "the show plays in the map's voxel view")
+	# 战斗特效: the show has the fight's base to answer the blows, and a 死斗's dark chips.
+	_check(_ui.scene_show.stage != null and _ui.scene_show.stage == _ui.opening.arena and _ui.scene_show.blood_chips == BattleSceneShow.blood_for(CombatEncounterMode.Value.LETHAL) and _ui.scene_show.blood_chips > 0, "the show holds the fight's base and a 死斗's dark chips (%s, %d)" % [_ui.scene_show.stage, _ui.scene_show.blood_chips])
 	# 战斗演出 B: the opening stages the camera (here at once: 关); the show leaves it there.
 	_check(view.staged and is_equal_approx(view.zoom(), float(_ui.opening.frame()[2])) and view.zoom() < 1.0, "the fight began: the opening drew the camera in (%.2f)" % view.zoom())
 	var body_before: Vector2 = map.runtime_body_for_character(trainee.character_id).global_position

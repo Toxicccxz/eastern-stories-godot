@@ -579,7 +579,6 @@ func refresh_projection() -> void:
 			_round_was_running = false
 			var stage_view: WorldVoxelView = _voxel_view()
 			scene_show.begin(stage_view, stage_view != null)
-			scene_show.blood_chips = BattleSceneShow.blood_for(_projection.mode)
 			# 战斗演出 B: the panel's parts wait hidden; the opening starts once they are laid out
 			# (the next frame). 关 lays the stage at once, now.
 			if BattleStageOpening.next_instant(_projection.turns_offered and not _projection.manual):
@@ -1238,6 +1237,10 @@ func _present_participants() -> void:
 		stances.append([value.participant_id, value.current_target_id, value.close, String(value.weapon_skill)])
 	scene_show.settle(stances)
 	scene_show.lines_told(told)
+	# 战斗特效: the base that answers the blows, and the dark chips of the fight's look as it
+	# stands now (a 切磋 turned 死斗 has them from then on).
+	scene_show.stage = opening.arena
+	scene_show.blood_chips = BattleSceneShow.blood_for(_projection.mode)
 	if _projection.round_running:
 		_round_was_running = true
 	elif _round_was_running and told:

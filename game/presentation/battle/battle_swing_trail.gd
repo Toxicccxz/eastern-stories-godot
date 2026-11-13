@@ -41,7 +41,8 @@ func _ready() -> void:
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.render_priority = VoxelBackdrop.OVER_BACKDROP
 	material_override = material
-	_sample()
+	# No sample yet: the figure takes the blow's first pose in its own frame, and the edge it
+	# held on guard is no part of the sweep.
 
 
 func _process(delta: float) -> void:

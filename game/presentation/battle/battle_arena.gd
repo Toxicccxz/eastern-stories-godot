@@ -57,6 +57,8 @@ var _flames: Array[MeshInstance3D] = []
 ## how long a brick is in the air]; the braziers' lights and the flags, and the flare they are
 ## in: [the clock when it began, how long, how strong].
 var _jolts: Array[Array] = []
+## How many bricks the last frame of a hop set above where they lie (tests).
+var _lifted: int = 0
 var _flame_lights: Array[OmniLight3D] = []
 var _flags: Array[Node3D] = []
 var _flare: Array[float] = []
@@ -259,9 +261,15 @@ func grow_to(spots: Array[Vector2], player: Vector2) -> void:
 			node.queue_free()
 	_dressing.clear()
 	_flames.clear()
+	# What answered a blow goes with the dressing (the base's clock starts over when it is built
+	# again): no hop or flare carries over.
+	_flags.clear()
+	_flame_lights.clear()
+	_flare = []
 	for mesh: MultiMeshInstance3D in _meshes:
 		mesh.queue_free()
 	_meshes.clear()
+	_jolts.clear()
 	_plan_steps(spots, player)
 	# Laid wider at once, quietly (the fight goes on on it).
 	_quiet = true
@@ -576,6 +584,11 @@ func jolting() -> bool:
 	return not _jolts.is_empty()
 
 
+## How many bricks are in the air now (tests: the renderer's own copy cannot be read headless).
+func lifted_bricks() -> int:
+	return _lifted if not _jolts.is_empty() else 0
+
+
 ## How high the brick whose place is `rest` stands over it now (tests).
 func lift_at(rest: Vector3) -> float:
 	var lift: float = 0.0
@@ -592,13 +605,16 @@ func lift_at(rest: Vector3) -> float:
 func _advance_jolts() -> void:
 	# A hop cut short (the base restained or coming down): every brick back where it lies.
 	var cut: bool = _laying or _taking_down >= 0.0
+	_lifted = 0
 	for brick: Array in _bricks:
 		var rest: Vector3 = brick[2]
 		var near: bool = false
 		for hop: Array in _jolts:
 			near = near or Vector2(rest.x, rest.z).distance_to(hop[1]) <= float(hop[2])
 		if near and not cut:
-			_meshes[brick[7]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), rest + Vector3.UP * lift_at(rest)))
+			var lift: float = lift_at(rest)
+			_lifted += 1 if lift > 0.0 else 0
+			_meshes[brick[7]].multimesh.set_instance_transform(brick[5], Transform3D(Basis(), rest + Vector3.UP * lift))
 	_jolts = _jolts.filter(func(hop: Array) -> bool: return not cut and _clock - float(hop[0]) < float(hop[4]) + float(hop[2]) * RIPPLE)
 
 
@@ -620,7 +636,7 @@ func flaring() -> bool:
 func _advance_flare() -> float:
 	if _flare.is_empty():
 		return 0.0
-	var left: float = 1.0 - (_clock - _flare[0]) / _flare[1]
+	var left: float = clampf(1.0 - (_clock - _flare[0]) / _flare[1], -1.0, 1.0)
 	var boost: float = maxf(0.0, left) * _flare[2]
 	for light: OmniLight3D in _flame_lights:
 		if is_instance_valid(light):
@@ -815,6 +831,11 @@ func restyle(mode: int, seconds: float) -> void:
 			node.queue_free()
 	_dressing.clear()
 	_flames.clear()
+	# What answered a blow goes with the dressing (the base's clock starts over when it is built
+	# again): no hop or flare carries over.
+	_flags.clear()
+	_flame_lights.clear()
+	_flare = []
 	var centre := Vector2.ZERO
 	for brick: Array in _bricks:
 		centre += Vector2(brick[1])

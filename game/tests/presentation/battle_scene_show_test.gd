@@ -457,12 +457,12 @@ func _blow_effects(tree: SceneTree) -> void:
 	for step: int in 5:
 		arm.rotation.x += 0.3
 		trail.advance(0.02)
-	check(trail.facet_count() == 5 and trail.mesh.get_surface_count() == 1, "the edge swept: a facet a step (%d)" % trail.facet_count())
+	check(trail.facet_count() == 4 and trail.mesh.get_surface_count() == 1, "the edge swept: a facet between one step and the next (%d)" % trail.facet_count())
 	arm.rotation.x += 0.3
 	trail.advance(0.05)
-	check(trail.facet_count() == 5, "past the blow's travel: no more facets")
+	check(trail.facet_count() == 4, "past the blow's travel: no more facets (%d)" % trail.facet_count())
 	trail.advance(0.1)
-	check(trail.facet_count() < 5 and not done[0], "the oldest fade first (%d)" % trail.facet_count())
+	check(trail.facet_count() < 4 and not done[0], "the oldest fade first (%d)" % trail.facet_count())
 	trail.advance(0.3)
 	check(done[0] and trail.mesh.get_surface_count() == 0, "all faded: finished, nothing drawn")
 	trail.queue_free()
@@ -487,6 +487,7 @@ func _blow_effects(tree: SceneTree) -> void:
 	await tree.process_frame
 	var light: BattleSwingTrail = _effect_named("SwingTrail") as BattleSwingTrail
 	check(light != null and light.source == me.arms[0].get_node("Weapon"), "a sword's blow: its light follows the blade")
+	check(light != null and light.colour.is_equal_approx(BattleSceneShow.trail_colour(_strike(ME, YOU, Outcome.HIT, &"sword"))) and light.from.z > 0.14 and light.to.z > light.from.z, "in the blow's colour, along the outer part of the edge")
 	await tree.create_timer(0.6).timeout
 	check(light != null and is_instance_valid(light) and light.facet_count() >= 2, "swept as the arm comes down (%d facets)" % (light.facet_count() if is_instance_valid(light) else -1))
 	var chips: Node3D = _effect_named("Chips")
@@ -522,6 +523,43 @@ func _blow_effects(tree: SceneTree) -> void:
 	check(dart != null and is_instance_valid(dart) and dart.global_position.z > 1.5, "dodged: it flies on past (%.2f)" % (dart.global_position.z if is_instance_valid(dart) else -1.0))
 	await tree.create_timer(3.0).timeout
 	check(_effect_named("Thrown") == null, "and is gone")
+	# Parried: it spins up and away.
+	_show.play_line(_strike(ME, YOU, Outcome.PARRY, &"throwing"))
+	await tree.create_timer(0.75).timeout
+	dart = _effect_named("Thrown")
+	check(dart != null and dart.global_position.y > 1.3, "parried: it flies up off the guard (%.2f)" % (dart.global_position.y if dart != null else -1.0))
+	await tree.create_timer(3.0).timeout
+	# The base answers through the show: a 重 that lands makes its bricks hop under the one hit, a
+	# special's opening and a felling blow make it flare.
+	var arena := BattleArena.new()
+	_root.add_child(arena)
+	var spots: Array[Vector2] = [Vector2(0, 0), Vector2(0, 48)]
+	arena.lay(spots, spots[0], CombatEncounterMode.Value.LETHAL)
+	arena.skip()
+	arena._process(0.0)
+	_show.stage = arena
+	_show.windup(ME)
+	await tree.create_timer(0.8).timeout
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword").with_ring(CombatMoveTags.HEAVY, 0), true)
+	await tree.create_timer(1.0).timeout
+	check(arena.jolting() and arena.lifted_bricks() > 0 and arena.lifted_bricks() < arena.brick_count() and arena.lift_at(Vector3(0, 0, 1.5)) > 0.0, "a 重 that lands: the bricks under the one hit are in the air, the far ones lie still (%d of %d)" % [arena.lifted_bricks(), arena.brick_count()])
+	check(arena.flaring(), "a felling blow: the braziers flare")
+	await tree.create_timer(4.0).timeout
+	check(not arena.jolting() and not arena.flaring(), "and the base is at rest again")
+	_show.play_line(BattleNarrationLine.new("x").with_special(ME, "「封」"))
+	check(arena.flaring(), "a special's opening: they flare")
+	# One who joins while it flares: the base built again starts at rest.
+	arena.jolt(Vector3.ZERO, 1.5, 0.1, 0.2)
+	var wide: Array[Vector2] = [Vector2(0, 0), Vector2(0, 48), Vector2(0, 400)]
+	arena.grow_to(wide, wide[0])
+	arena._process(0.016)
+	var flames_wild: bool = false
+	for flame: MeshInstance3D in arena._flames:
+		flames_wild = flames_wild or flame.scale.y > 3.0
+	check(not arena.flaring() and not arena.jolting() and not flames_wild, "built again mid-flare: at rest, no flame out of size")
+	await tree.create_timer(3.0).timeout
+	_show.stage = null
+	arena.queue_free()
 	# A beast leaps all the way to the one it strikes at.
 	var beast := Node3D.new()
 	beast.set_meta("pounce", 0.24)
@@ -533,6 +571,10 @@ func _blow_effects(tree: SceneTree) -> void:
 	_show.play_line(_strike(&"wolf", YOU, Outcome.DODGE, &""))
 	await tree.create_timer(0.52).timeout
 	check(beast.position.z > 1.3, "a beast: its leap comes down beside the one it strikes at (%.2f of 2.5)" % beast.position.z)
+	# Its next blow, told while it is still out there: from its place all the same, not backward.
+	_show.play_line(_strike(&"wolf", YOU, Outcome.DODGE, &""))
+	await tree.create_timer(0.52).timeout
+	check(beast.position.z > 1.3, "and again straight after: the same leap, not a hop backward (%.2f)" % beast.position.z)
 	await tree.create_timer(3.0).timeout
 	check(beast.position.is_equal_approx(Vector3.ZERO), "and home again")
 	_show.end()

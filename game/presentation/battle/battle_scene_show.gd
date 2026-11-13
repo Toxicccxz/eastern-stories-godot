@@ -131,9 +131,11 @@ var _guards: Dictionary[StringName, String] = {}
 ## 战斗特效: a chip is in the air this many times the dust's time.
 const CHIP_FLIGHT: float = 1.4
 ## 战斗特效: how many dark chips fly with the others off one hit (the controller sets it by the
-## fight's look and the setting; 0 none), and the blow being shown now: the colour of its
-## light, whom it is struck at and how it ended (_swing() reads them).
+## fight's look; 0 none), the fight's base (the controller hands it over; null: none laid), and
+## the blow being shown now: the colour of its light, whom it is struck at and how it ended
+## (_swing() binds them into the blow's own show as it is laid out).
 var blood_chips: int = 0
+var stage: BattleArena
 var _blow_colour: Color = Color.WHITE
 var _blow_target: StringName = &""
 var _blow_outcome: int = -1
@@ -201,6 +203,7 @@ func end() -> void:
 	_fall_tweens.clear()
 	_falling.clear()
 	_felled.clear()
+	stage = null
 	if view != null and is_instance_valid(view):
 		view.release_falls()
 	for id: StringName in _rest.keys():
@@ -343,7 +346,10 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 	_blow_colour = trail_colour(line)
 	_blow_target = line.target_id
 	_blow_outcome = line.outcome
-	var apart: float = 0.0 if you == null else Vector2(you.global_position.x - me.global_position.x, you.global_position.z - me.global_position.z).length()
+	# How far the one struck at is from where the striker stands (not from where a blow just
+	# before left it: a beast still coming back leaps from its place all the same).
+	var stand: Vector3 = me.global_position - me.position + _stand(line.actor_id)
+	var apart: float = 0.0 if you == null else Vector2(you.global_position.x - stand.x, you.global_position.z - stand.z).length()
 	var impact: float = _attack(line.actor_id, me, direction, template, stop, line.in_special, motion_of(line.weapon_skill, template), apart)
 	if you != null and not line.target_id.is_empty():
 		_defend(line.target_id, you, direction, line, impact, stop)
@@ -746,14 +752,18 @@ func limbs_running(id: StringName) -> bool:
 ## A beast's leap to `to` within `seconds`: an arc `height` high from where it is, nose up as it
 ## leaves the ground and down as it lands.
 func _leap(tween: Tween, model: Node3D, to: Vector3, seconds: float, height: float) -> void:
-	var from: Array[Vector3] = []
-	tween.tween_method(func(t: float) -> void:
-		if not is_instance_valid(model):
-			return
-		if from.is_empty():
-			from.append(model.position)
-		model.position = from[0].lerp(to, t) + Vector3.UP * height * sin(t * PI)
-		model.rotation.x = lerpf(-POUNCE_PITCH, POUNCE_PITCH, t), 0.0, 1.0, seconds)
+	tween.tween_method(_leap_step.bind(model, [], to, height), 0.0, 1.0, seconds)
+
+
+## One moment `t` (0..1) of a leap (`model` may be gone by then; `from` holds where it began).
+func _leap_step(t: float, model: Variant, from: Array, to: Vector3, height: float) -> void:
+	if not is_instance_valid(model):
+		return
+	var beast: Node3D = model
+	if from.is_empty():
+		from.append(beast.position)
+	beast.position = (from[0] as Vector3).lerp(to, t) + Vector3.UP * height * sin(t * PI)
+	beast.rotation.x = lerpf(-POUNCE_PITCH, POUNCE_PITCH, t)
 
 
 # --- the figures ----------------------------------------------------------------------------
@@ -1024,7 +1034,7 @@ static func trail_colour(line: BattleNarrationLine) -> Color:
 		hex = String(trail.get("special", hex))
 	else:
 		hex = String(BattleArena.data().get("moves", {}).get("colours", {}).get(line.damage_type, hex))
-	return Color(Color(hex), float(trail.get("alpha", 0.7)))
+	return Color(Color(hex), float(trail.get("alpha", 0.6)))
 
 
 ## How many dark chips fly off one hit in a fight of `mode` (battle_stage.json impact.blood by
@@ -1121,7 +1131,7 @@ func _chips(id: StringName, direction: Vector3, heavy: bool) -> void:
 	var model: Node3D = _model(id)
 	var data: Dictionary = _impact("chips")
 	var seconds: float = _seconds(_feel().scene_dust_seconds) * CHIP_FLIGHT
-	var count: int = int(data.get("heavy_count" if heavy else "count", 4))
+	var count: int = int(data.get("heavy_count" if heavy else "count", 5))
 	if model == null or model.get_parent() == null or seconds <= 0.0 or count + blood_chips <= 0:
 		return
 	var burst := Node3D.new()
@@ -1135,16 +1145,18 @@ func _chips(id: StringName, direction: Vector3, heavy: bool) -> void:
 		cloth = Color((model as Person).coat)
 	for index: int in count:
 		shades.append(cloth.lightened(0.3) if index % 2 == 1 else cloth)
-	var blood: Array = _impact("blood").get("colours", ["7a1410"])
+	var blood: Array = _impact("blood").get("colours", ["b3261e"])
 	for index: int in blood_chips:
 		shades.append(Color(String(blood[index % blood.size()])))
 	var mesh := BoxMesh.new()
-	mesh.size = Vector3.ONE * float(data.get("size", 0.075))
+	mesh.size = Vector3.ONE * float(data.get("size", 0.1))
 	var side := Vector3(-direction.z, 0.0, direction.x)
-	var gravity: float = float(data.get("gravity", 11.0))
+	var gravity: float = float(data.get("gravity", 14.0))
 	var floor_y: float = 0.04 - burst.position.y
 	var tween: Tween = create_tween().set_parallel(true)
 	_effect_tweens[burst] = tween
+	# Each chip's flight: [the chip, the way it flies, how it spins].
+	var flights: Array[Array] = []
 	for shade: Color in shades:
 		var chip := MeshInstance3D.new()
 		chip.mesh = mesh
@@ -1157,45 +1169,49 @@ func _chips(id: StringName, direction: Vector3, heavy: bool) -> void:
 		var velocity: Vector3 = (
 			direction * float(data.get("speed", 2.4)) * _dust_rng.randf_range(0.35, 1.0)
 			+ side * float(data.get("spread", 0.9)) * _dust_rng.randf_range(-1.0, 1.0)
-			+ Vector3.UP * float(data.get("rise", 2.3)) * _dust_rng.randf_range(0.45, 1.0)
+			+ Vector3.UP * float(data.get("rise", 2.0)) * _dust_rng.randf_range(0.45, 1.0)
 		)
-		var spin: Vector3 = Vector3(_dust_rng.randf_range(-9.0, 9.0), _dust_rng.randf_range(-9.0, 9.0), 0.0)
-		# The flight's own clock runs at the game's pace whatever the show's (the fall is the fall).
-		tween.tween_method(func(t: float) -> void:
-			if not is_instance_valid(chip):
-				return
-			var at: Vector3 = velocity * t + Vector3.DOWN * 0.5 * gravity * t * t
-			at.y = maxf(at.y, floor_y)
-			chip.position = at
-			chip.rotation = spin * t, 0.0, seconds, seconds)
+		flights.append([chip, velocity, Vector3(_dust_rng.randf_range(-9.0, 9.0), _dust_rng.randf_range(-9.0, 9.0), 0.0)])
 		tween.tween_property(chip, "scale", Vector3.ONE * 0.25, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	tween.tween_method(_fly_chips.bind(burst, flights, gravity, floor_y), 0.0, seconds, seconds)
 	tween.chain().tween_callback(_drop_effect.bind(burst))
 
 
-## The fight's base, when one is laid in the view's world (BattleStageOpening names it).
+## The chips of `burst` `t` seconds into their flight (the burst may be gone with the one it
+## flew off): each on its way, pulled down, never under the ground, turning as it goes.
+func _fly_chips(t: float, burst: Variant, flights: Array, gravity: float, floor_y: float) -> void:
+	if not is_instance_valid(burst):
+		return
+	for flight: Array in flights:
+		var chip: Node3D = flight[0]
+		var at: Vector3 = (flight[1] as Vector3) * t + Vector3.DOWN * 0.5 * gravity * t * t
+		at.y = maxf(at.y, floor_y)
+		chip.position = at
+		chip.rotation = (flight[2] as Vector3) * t
+
+
+## The fight's base, when one is laid (`stage`: the controller hands over the opening's).
 func _stage() -> BattleArena:
-	if view == null or not is_instance_valid(view) or view.world == null or not is_instance_valid(view.world):
-		return null
-	return view.world.get_node_or_null("BattleArena") as BattleArena
+	return stage if stage != null and is_instance_valid(stage) and stage.is_inside_tree() else null
 
 
 ## The base's bricks hop round `id` as a blow with weight lands on it (a 重: higher).
 func _jolt_stage(id: StringName, heavy: bool) -> void:
-	var stage: BattleArena = _stage()
+	var base: BattleArena = _stage()
 	var model: Node3D = _model(id)
 	var seconds: float = _seconds(_feel().scene_dust_seconds)
-	if stage == null or model == null or seconds <= 0.0:
+	if base == null or model == null or seconds <= 0.0:
 		return
 	var data: Dictionary = _impact("stage")
-	stage.jolt(stage.to_local(model.global_position), float(data.get("jolt_radius", 1.5)), float(data.get("jolt_height", 0.08)) * (float(data.get("heavy_jolt", 1.7)) if heavy else 1.0), seconds)
+	base.jolt(base.to_local(model.global_position), float(data.get("jolt_radius", 1.5)), float(data.get("jolt_height", 0.12)) * (float(data.get("heavy_jolt", 1.7)) if heavy else 1.0), seconds)
 
 
 ## The base's braziers leap and its flags snap (a special's opening, a felling blow).
 func _flare_stage() -> void:
-	var stage: BattleArena = _stage()
+	var base: BattleArena = _stage()
 	var seconds: float = _seconds(_feel().scene_windup_seconds) * 2.0
-	if stage != null and seconds > 0.0:
-		stage.flare(float(_impact("stage").get("flare", 1.3)), seconds)
+	if base != null and seconds > 0.0:
+		base.flare(float(_impact("stage").get("flare", 1.3)), seconds)
 
 
 ## An effect's time is up (its tween's last step; the effect may be gone with end() already).
