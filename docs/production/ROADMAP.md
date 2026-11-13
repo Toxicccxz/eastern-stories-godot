@@ -84,17 +84,22 @@ only they or nobody use; `d/npc` (wizard-saved characters).
 ## After the grey box
 
 Owner direction (2026-10-11). Every region in the table is playable, so the work turns from breadth
-to the player's experience, in this order; the voxel rollout above runs alongside. **Owner
+to the player's experience; the voxel rollout above runs alongside. **Owner
 decision:** the owner has no time to playtest package by package, so the playtest acceptance that
 `AGENTS.md` requires for player-visible work is batched: packages ship with the agent's windowed
 walkthrough as their live check and are accepted together at step 1, the owner's one full playtest;
 what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS.md#待试玩).
 
-1. **Playtest checklist and the owner's first full playtest.** Claude first walks every region
-   windowed and fixes what that finds, then writes the checklist: per region and system, what to
-   do, what should happen, and what only the owner can judge (feel, pacing, wording), with fields
-   for time taken, confusion and defects; dev launchers reach late content without grinding. The
-   owner works through it once.
+1. **Playtest checklist and the owner's first full playtest.** Done: the checklist in
+   [STATUS 待试玩](STATUS.md#待试玩), in the order a playtest goes (the main story chapter by chapter
+   with its regions, the places beside it, then the systems that can be checked anywhere), each line
+   where to go, what to do, what to look for and the fastest start; split into the owner's list (feel,
+   pacing, wording, decisions) and the agent's windowed walkthrough (walk, click, expect a line); the dev
+   start at any chapter (`tests/dev/chapter_start.tscn` + F6, or `run_chapter_start.gd`), with
+   `run_with_experience.gd` and `run_with_max_force.gd` for the rest; a round played on a pinned build
+   ([BUILD「试玩一轮」](BUILD.md#试玩一轮)). Next: the agent's walkthrough list, windowed, with what it
+   finds fixed; then a round is cut and the owner works through the checklist once, noting for each line
+   the time taken, the confusion and the defects.
 2. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the decision left for the
    playtest: A2's quest deadlines ([STATUS](STATUS.md#待决定)).
    **战斗决策层** comes before 现代基线三件 (owner 2026-10-31; the plan `build/plans/战斗决策层_计划.md`): 1A 数值 is done
