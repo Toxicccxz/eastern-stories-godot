@@ -4,22 +4,56 @@ extends SceneTree
 ## Usage: godot --headless --path game --script res://tests/run_suite.gd -- <path>...
 ## Each path is a *_test.gd script or a directory searched recursively for *_test.gd.
 ## A suite fails on any script error it logs: such an error ends only the helper it is
-## in, and the suite would still report PASS.
+## in, and the suite would still report PASS. Its ERROR and SHADER ERROR lines (an engine
+## error, a push_error()) are counted and printed as "[gate] <suite>  <line>" (not yet failed).
 
 
 class ScriptErrors extends Logger:
+	## Every SCRIPT ERROR, and every other error the engine or a push_error() logs: ERROR
+	## and SHADER ERROR lines. Warnings are not counted.
 	var _mutex: Mutex = Mutex.new()
 	var _count: int = 0
+	var _errors: Array[String] = []
 
-	func _log_error(_function: String, _file: String, _line: int, _code: String, _rationale: String, _editor_notify: bool, error_type: int, _script_backtraces: Array) -> void:
+	func _log_error(function: String, file: String, line: int, code: String, rationale: String, _editor_notify: bool, error_type: int, script_backtraces: Array) -> void:
+		if error_type == ERROR_TYPE_WARNING:
+			return
+		_mutex.lock()
 		if error_type == ERROR_TYPE_SCRIPT:
-			_mutex.lock()
 			_count += 1
-			_mutex.unlock()
+		else:
+			_errors.append("%s %s @ %s" % [
+				"SHADER ERROR" if error_type == ERROR_TYPE_SHADER else "ERROR",
+				(rationale if not rationale.is_empty() else code).strip_edges().replace("
+", " "),
+				ScriptErrors._where(function, file, line, script_backtraces),
+			])
+		_mutex.unlock()
+
+	## The first script frame when there is one (a push_error() names its caller), else the
+	## engine source line.
+	static func _where(function: String, file: String, line: int, script_backtraces: Array) -> String:
+		for backtrace: Variant in script_backtraces:
+			var frames: ScriptBacktrace = backtrace as ScriptBacktrace
+			if frames != null and frames.get_frame_count() > 0:
+				return "%s:%d" % [frames.get_frame_file(0), frames.get_frame_line(0)]
+		return "%s:%d (%s)" % [file, line, function]
 
 	func count() -> int:
 		_mutex.lock()
 		var value: int = _count
+		_mutex.unlock()
+		return value
+
+	func error_count() -> int:
+		_mutex.lock()
+		var value: int = _errors.size()
+		_mutex.unlock()
+		return value
+
+	func errors_since(start: int) -> Array[String]:
+		_mutex.lock()
+		var value: Array[String] = _errors.slice(start)
 		_mutex.unlock()
 		return value
 
@@ -53,6 +87,8 @@ func _run() -> void:
 	var script_errors := ScriptErrors.new()
 	OS.add_logger(script_errors)
 	for path: String in suite_paths:
+		# From before the load: an error loading the suite's own resources is the suite's.
+		var engine_errors_before: int = script_errors.error_count()
 		var script: Script = load(path) as Script
 		if script == null or not script.can_instantiate():
 			failures.append("%s: cannot load or instantiate" % path)
@@ -74,6 +110,9 @@ func _run() -> void:
 		var suite_failures: Array = result["failures"]
 		if script_errors.count() > errors_before:
 			suite_failures.append("%d script error(s) (see SCRIPT ERROR above)" % (script_errors.count() - errors_before))
+		# Measured, not yet enforced: one line per ERROR / SHADER ERROR the suite logged.
+		for logged: String in script_errors.errors_since(engine_errors_before):
+			print("[gate] %s  %s" % [path, logged])
 		assertions += int(result.get("assertions", 0))
 		for failure: Variant in suite_failures:
 			failures.append("%s: %s" % [path.get_file(), str(failure)])
