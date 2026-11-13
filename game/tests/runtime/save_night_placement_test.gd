@@ -71,6 +71,7 @@ func _test_night_home(tree: SceneTree, session: WorldSessionController) -> void:
 	for id: StringName in travellers:
 		indoors = indoors and not map.find_resident_npc(id).exists_in_map
 	_check(indoors, "the travellers are indoors for the night")
+	_test_called_home_indoors(session, map)
 	var eligible: OldPineSaveEligibilityResult = OldPineSaveEligibility.inspect(session)
 	_check(eligible.allowed(), "Save is allowed with the street's idle folk indoors: %s %s" % [eligible.outcome, eligible.subject_id])
 	var candidate: WorldSessionController = await _continue(tree, session, "at night on the square")
@@ -134,6 +135,30 @@ func _test_night_home(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## Every NPC spot of the world: a corpse falling there lies where Continue accepts it (the review
 ## found 13 of 806 that did not, 严廷殷 in the 将军帐 among them).
+## DECISIONS「夜里冷清」: a room's reset at night calls home one who went indoors away from their
+## room (a wanderer; here the 拾荒者, recorded TEST-ONLY as gone in on the square where the player
+## stands). They are put on their spot at once, indoors still: no walk on a street they are not
+## on, no word of their leaving, no greeting.
+func _test_called_home_indoors(session: WorldSessionController, map: WorldMapController) -> void:
+	var scavenger: NpcRuntimeState = null
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.spawn_id == &"snow.outdoor.mstreet2.scavenger":
+			scavenger = npc
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(&"snow.outdoor.mstreet2.scavenger")
+	if not _check(scavenger != null and spawn != null and not scavenger.exists_in_map and scavenger.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "the 拾荒者 is indoors for the night too"):
+		return
+	var here: StringName = session.player_runtime().world_location().zone_id
+	var body: WorldCharacterBody2D = map.runtime_body_for_character(scavenger.character_id)
+	scavenger.set_world_location(map.location_for_zone(here)) # TEST-ONLY: it went in while it wandered here
+	body.global_position = map.runtime_player_body().global_position + Vector2(64, 0)
+	var lines_before: int = session.shared_ui().log_lines().size()
+	session.reset_room(spawn.legacy_source_room_path)
+	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(scavenger.spawn_point_id)
+	_check(scavenger.world_location().zone_id == spawn.zone_id and not scavenger.exists_in_map, "called home by its room's reset: in its room, indoors still (%s, out %s)" % [scavenger.world_location().zone_id, scavenger.exists_in_map])
+	_check(not map.npc_life.npc_walker().is_walking(scavenger.character_id) and body.global_position.is_equal_approx(marker.global_position), "on its spot at once: nobody walks a street they are not on (walking %s, %s against %s)" % [map.npc_life.npc_walker().is_walking(scavenger.character_id), body.global_position, marker.global_position])
+	_check(session.shared_ui().log_lines().size() == lines_before, "and nothing is said of one nobody saw leave: %s" % [session.shared_ui().log_lines().slice(lines_before)])
+
+
 func _test_every_corpse_spot(_tree: SceneTree, session: WorldSessionController) -> void:
 	var bad: Array[String] = []
 	var spots: int = 0
