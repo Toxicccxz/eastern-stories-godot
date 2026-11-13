@@ -116,6 +116,11 @@ func _shell(tree: SceneTree, files: MemoryFiles, profile: GameSaveStorageProfile
 	shell.configure_before_start(profile, files, null, MemoryFiles.new())
 	tree.root.add_child(shell)
 	await _frames(tree, 8)
+	# The shell boots (reads the slots) over frames: on a slow runner 8 were not always enough.
+	for frame: int in 600:
+		if shell.shell_state().mode() == ApplicationShellState.Mode.MAIN_MENU:
+			break
+		await tree.process_frame
 	shell.runtime_host().session_slot.child_entered_tree.connect(_seed)
 	return shell
 
