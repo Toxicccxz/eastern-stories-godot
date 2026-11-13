@@ -396,6 +396,7 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
   caught up when the player comes back.
 * Conditions do not tick in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms (10 of them) shows only its first room's text.
+* ES2 原文没显示的：雪亭镇 8 间、绮云镇 2 间房里可细看的招牌和告示文字，87 件物品拔出、穿上时的 151 句描写；只记在导入器的 review 清单里（`tools/migration/overrides/<区域>.json` 的「not data yet」），做不做等 owner 定（见待决定「文本」）。
 * 绮云镇: 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
 * 乔阴: only one 风泉剑灵 stands at a time (骆云舟 killed again while it stands keeps his sword); the
   采药老者's growth lasts only as long as he does (his save file is not ported).
