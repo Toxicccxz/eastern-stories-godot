@@ -68,5 +68,28 @@ class CiTriggerPolicyTests(unittest.TestCase):
         self.assertIn("CI stable job name is missing: Windows Release Build", errors)
 
 
+NL = chr(10)
+
+
+class ExportPresetTests(unittest.TestCase):
+    def test_current_presets_exclude_tests_and_addons(self) -> None:
+        text = (REPOSITORY / "game/export_presets.cfg").read_text(encoding="utf-8")
+        self.assertEqual([], repository_checks.export_preset_errors(text))
+
+    def test_a_preset_that_ships_the_suites_is_rejected(self) -> None:
+        text = '[preset.0]' + NL + 'name="Windows Desktop"' + NL + 'exclude_filter="addons/*"' + NL + 'export_path="../build/x.exe"' + NL
+        self.assertEqual(
+            ["export preset Windows Desktop does not exclude tests/*"],
+            repository_checks.export_preset_errors(text),
+        )
+
+    def test_a_preset_that_exports_into_dist_is_rejected(self) -> None:
+        text = '[preset.0]' + NL + 'name="Windows Desktop"' + NL + 'exclude_filter="tests/*, addons/*"' + NL + 'export_path="../dist/windows/a.exe"' + NL
+        self.assertEqual(
+            ["export preset Windows Desktop exports into dist/, where build.py writes its build"],
+            repository_checks.export_preset_errors(text),
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

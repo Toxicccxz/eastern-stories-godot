@@ -146,6 +146,20 @@ jobs:
           --templates "${{ steps.godot.outputs.templates }}"
           --require-clean
 
+      # The built game itself, started headless: a few hundred frames of its main menu, then
+      # it quits by itself. Fails on a nonzero exit or any ERROR / SHADER ERROR / SCRIPT ERROR
+      # line. (No windowed run on CI: the runner has no GPU.)
+      - name: Start the exported game
+        run: python tools/ci/start_smoke.py exe --exe dist/windows/Eastern-Stories-Godot.exe
+
+      - name: Upload the exported game's start log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-start-log
+          path: build/start-smoke/exe
+          if-no-files-found: ignore
+
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
