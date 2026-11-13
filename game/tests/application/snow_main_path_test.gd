@@ -190,7 +190,8 @@ func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 	if not check(_zone() == &"snow.bank" and bank.in_reach(), "walked into the bank: %s at %s" % [_zone(), map.runtime_player_body().global_position]):
 		return false
 	hud.open_current_context()
-	check(bank.panel.visible and bank.panel.quantity.text == "1", "the exchange panel, one silver into coins by default")
+	check(bank.panel.visible and bank.panel.quantity.text == "2", "the exchange panel, silver into coins, all that converts evenly by default: %s" % bank.panel.quantity.text)
+	bank.panel.quantity.text = "1"
 	(bank.panel.get_node("Rows/Convert") as Button).pressed.emit()
 	check(bank.last_result.conversion != null and Finance.amount(Finance.session_context(_session), CurrencyDenomination.Value.SILVER) == 1 and Finance.amount(Finance.session_context(_session), CurrencyDenomination.Value.COIN) > 0, "bank.c convert: coins for the silver: %s" % bank.panel.feedback.text)
 	hud.dismiss_current_panel()

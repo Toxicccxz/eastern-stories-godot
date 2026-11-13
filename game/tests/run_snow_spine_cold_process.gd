@@ -50,7 +50,9 @@ func _run() -> void:
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL saved facts exact including location/items/allocator/RNG")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no save rewrite")
 			check(loaded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and loaded.snapshot.items.schema_version == 3, "root2/item3")
-			var position: Vector2 = MapPlaces.zone_spot(session.active_map() as WorldMapController, zone)
+			# Where the write process put the player, as saved (not the zone's spot worked out again:
+			# cells as near as each other may sort differently in another process).
+			var position: Vector2 = Vector2(loaded.snapshot.player.map_position.x, loaded.snapshot.player.map_position.y)
 			check(session.player_runtime().world_location().zone_id == zone and session.active_map().runtime_player_body().position == position, "exact new zone and position")
 			paused = false
 			session.set_process(false)

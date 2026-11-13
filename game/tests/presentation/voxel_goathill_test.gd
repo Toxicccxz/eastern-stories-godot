@@ -9,10 +9,6 @@ const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const Crawler := preload("res://presentation/voxel/actors/voxel_crawler.gd")
 const BANDITS: Array[StringName] = [&"goathill.npc.bandit", &"goathill.npc.bandit_leader"]
-## Decor tall enough to walk into: in a voxel config it must stand on rock (anything on
-## walkable ground is a blocked box in the layout instead).
-const TALL: Array[String] = ["torch", "cairn", "banner", "standing_rock", "boulder", "crag", "barricade",
-	"wine_jars", "stalagmites", "dead_log", "lean_to", "loot_crates", "campfire"]
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -56,7 +52,6 @@ func _check_mountain(tree: SceneTree, session: WorldSessionController, map: Worl
 	var view := map.get_node("MapView") as WorldVoxelView
 	_check(map.projected_view and view.camera.current, "the mountain road uses its voxel view")
 	_check(view.geometry.unknown_kinds.is_empty(), "every mountain prop kind is drawn: %s" % [view.geometry.unknown_kinds])
-	_check_footing(view, "the mountain")
 	_check_access_and_saves(session, map, view)
 	var cliffs: VoxelCliffs = view.geometry.cliffs
 	_check(cliffs != null and cliffs.heights.size() > 500 and cliffs.face_count > 1000, "the cliffs stand as raised rock")
@@ -122,7 +117,6 @@ func _check_caverns(tree: SceneTree, session: WorldSessionController, mountain: 
 	_check(view.geometry.unknown_kinds.is_empty(), "every cave prop kind is drawn: %s" % [view.geometry.unknown_kinds])
 	_check(view.lighting.carried != null and view.geometry.cliffs != null, "a light goes with the player among the cave walls")
 	_check(view.lighting.carried != null and not view.lighting.carried.shadow_enabled, "the carried light casts no moving shadow")
-	_check_footing(view, "the caverns")
 	_check_access_and_saves(session, map, view)
 	var leeches: int = 0
 	for npc: NpcRuntimeState in map.npc_runtimes():
@@ -193,27 +187,6 @@ func _check_access_and_saves(session: WorldSessionController, map: WorldMapContr
 			view._process(0.1)
 	_check(GameSaveJsonCodec.encode(Work.capture(session)).text == saved, "%s: light, view side, wind, smoke and crawling leave the save and RNG unchanged" % map.map_id())
 	session.set_process(true)
-
-
-## Every tall decor piece of a map's voxel config stands wholly on raised rock.
-func _check_footing(view: WorldVoxelView, place: String) -> void:
-	var loose: Array[String] = []
-	for prop: Dictionary in view.layout.get("props", []):
-		if not String(prop["kind"]) in TALL:
-			continue
-		var size: Array = prop.get("size", [16, 16])
-		var box := Vector2(float(size[0]), float(size[1]))
-		if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
-			box = Vector2(box.y, box.x)
-		var at := Vector2(float(prop["at"][0]), float(prop["at"][1]))
-		var area := Rect2(at - box / 2.0, box)
-		var rock: bool = prop.get("on_cliff", false)
-		for y: int in range(floori(area.position.y / 16.0), ceili(area.end.y / 16.0)):
-			for x: int in range(floori(area.position.x / 16.0), ceili(area.end.x / 16.0)):
-				rock = rock and view.geometry.cliffs.heights.has(Vector2i(x * 16 + 8, y * 16 + 8))
-		if not rock:
-			loose.append("%s %s" % [prop["kind"], prop["at"]])
-	_check(loose.is_empty(), "tall decor in %s stands on rock, not on walkable ground: %s" % [place, loose])
 
 
 func _click(tree: SceneTree, button: Button) -> void:

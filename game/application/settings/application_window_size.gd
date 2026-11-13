@@ -22,6 +22,18 @@ static func initial(screen: Vector2i) -> Vector2i:
 	return Vector2i(maxi(width, 1), maxi(floori(width * 9.0 / 16.0), 1))
 
 
+## The window mode a first start takes (no settings file; DECISIONS「显示设置」): a window where
+## 1280×720 fits within 85% of the screen, else 无边框窗口, which covers it (a smaller window
+## would draw the interface at its smallest step, 12-pixel text, and the three 界面缩放 alike).
+## A Steam Deck (Steam's `SteamDeck=1`) always covers its screen.
+static func first_mode(screen: Vector2i, deck_variable: String) -> int:
+	var room: Vector2 = Vector2(screen) * SCREEN_SHARE
+	var smallest: Vector2i = SIZES[SIZES.size() - 1]
+	if deck_variable == "1" or screen.x <= 0 or screen.y <= 0 or smallest.x > room.x or smallest.y > room.y:
+		return ApplicationWindowMode.Value.BORDERLESS
+	return ApplicationWindowMode.Value.WINDOWED
+
+
 static func is_valid(resolution: Vector2i) -> bool:
 	return resolution == AUTO or RESOLUTIONS.has(resolution)
 

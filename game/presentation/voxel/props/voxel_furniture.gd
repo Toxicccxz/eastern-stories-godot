@@ -15,12 +15,15 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 	var tone: String = String(data.get("cloth","738a79"))
 	match String(data["kind"]):
 		"table":
-			s.box(root,Vector3(0,0.86,0),Vector3(w,0.18,d),"76523a")
+			# `wood`: the table's own wood (逆灵宫's black lacquer), its frame and legs darker.
+			var wood: String = String(data.get("wood",""))
+			s.box(root,Vector3(0,0.86,0),Vector3(w,0.18,d),_shade(wood,0.3,"76523a"))
+			var boards: Array = ["ae8155","a97c51","b2865a"] if wood.is_empty() else [wood,_shade(wood,0.03,""),_shade(wood,-0.03,"")]
 			for board: int in 3:
-				s.box(root,Vector3(0,0.96,(board-1)*d/3),Vector3(w-0.05,0.07,d/3-0.012),["ae8155","a97c51","b2865a"][board])
+				s.box(root,Vector3(0,0.96,(board-1)*d/3),Vector3(w-0.05,0.07,d/3-0.012),boards[board])
 			for x: float in [-w*0.4,w*0.4]:
 				for z: float in [-d*0.35,d*0.35]:
-					s.box(root,Vector3(x,0.43,z),Vector3(0.15,0.86,0.15),"765138")
+					s.box(root,Vector3(x,0.43,z),Vector3(0.15,0.86,0.15),_shade(wood,0.3,"765138"))
 			# Tucked seats remain inside the authored table collision footprint; `askew` (a seed)
 			# leaves them pushed back and turned, as the last sitters left them.
 			for z: float in [-d*0.34,d*0.34]:
@@ -33,9 +36,9 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				root.add_child(seat)
 				if s.merged.has(root):
 					s.merge(seat,s.merged[root])
-				s.box(seat,Vector3(0,0.42,0),Vector3(w*0.69,0.12,d*0.27),"987149")
+				s.box(seat,Vector3(0,0.42,0),Vector3(w*0.69,0.12,d*0.27),_shade(wood,0.12,"987149"))
 				for x: float in [-w*0.26,w*0.26]:
-					s.box(seat,Vector3(x,0.19,0),Vector3(0.13,0.38,0.17),"654933")
+					s.box(seat,Vector3(x,0.19,0),Vector3(0.13,0.38,0.17),_shade(wood,0.4,"654933"))
 			# `set`: what is on it instead (VoxelLife draws it); a plain setting otherwise.
 			if data.has("set"):
 				return true
@@ -62,11 +65,13 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for bead: int in 7:
 					s.box(root,Vector3(-w*0.23-0.30+bead*0.1,1.47,(row-0.5)*0.12),Vector3(0.06,0.06,0.07),"b29462")
 		"shelf":
-			s.box(root,Vector3(0,1.4,-d*0.45),Vector3(w,2.8,0.06),"674a36")
+			# `wood`: the shelves' own wood, the back board darker.
+			var wood: String = String(data.get("wood",""))
+			s.box(root,Vector3(0,1.4,-d*0.45),Vector3(w,2.8,0.06),_shade(wood,0.12,"674a36"))
 			for x: float in [-w*0.5,-w*0.25,0,w*0.25,w*0.5]:
-				s.box(root,Vector3(x,1.45,0),Vector3(0.12,2.9,d),"775138")
+				s.box(root,Vector3(x,1.45,0),Vector3(0.12,2.9,d),_shade(wood,0.0,"775138"))
 			for y: float in [0.30,1.12,1.94,2.76]:
-				s.box(root,Vector3(0,y,0),Vector3(w,0.1,d),"755137")
+				s.box(root,Vector3(0,y,0),Vector3(w,0.1,d),_shade(wood,0.02,"755137"))
 				if y>2.5:
 					continue
 				if data.get("boots",false):
@@ -118,11 +123,13 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for x: float in [-w*0.35,w*0.35]:
 					s.box(root,Vector3(x,1.8,d/2-0.06),Vector3(w*0.22,1.3,0.03),gauze)
 		"writing_desk":
-			_table(w,d,1.12)
+			# `wood`: the desk's and its stool's own wood.
+			var wood: String = String(data.get("wood",""))
+			_table(w,d,1.12,wood)
 			if data.has("cloth"):
 				s.box(root,Vector3(0,1.251,-d*0.15),Vector3(w*0.96,0.025,d*0.65),tone)
 			# A tucked stool, open paper, stitched books, inkstone and two brushes.
-			_stool(Vector3(0,0,d*0.34),0.64,"896b49")
+			_stool(Vector3(0,0,d*0.34),0.64,_shade(wood,0.1,"896b49"),_shade(wood,0.3,"71513a"))
 			s.box(root,Vector3(-w*0.15,1.25,-d*0.16),Vector3(w*0.4,0.035,d*0.40),"e4d8af")
 			for x: float in [-w*0.34,w*0.04]:
 				s.box(root,Vector3(x,1.28,-d*0.16),Vector3(0.06,0.06,d*0.46),"95714b")
@@ -363,19 +370,28 @@ func _wood(look: Dictionary, key: String, fallback: String) -> String:
 func _pick(colors: Array) -> String:
 	return String(colors[rng.randi_range(0,colors.size()-1)])
 
-func _table(w: float, d: float, h: float) -> void:
-	s.box(root,Vector3(0,h,-d*0.15),Vector3(w,0.16,d*0.65),"8d6744")
+## `wood`: one colour for the whole piece (its planks that, the rest shaded from it); plain wood otherwise.
+func _table(w: float, d: float, h: float, wood: String = "") -> void:
+	s.box(root,Vector3(0,h,-d*0.15),Vector3(w,0.16,d*0.65),_shade(wood,0.15,"8d6744"))
+	var planks: Array = ["a88255","b08a5d","a17b51"] if wood.is_empty() else [wood,_shade(wood,-0.04,""),_shade(wood,0.03,"")]
 	for plank: int in 3:
-		s.box(root,Vector3(0,h+0.10,-d*0.37+plank*d*0.22),Vector3(w-0.04,0.05,d*0.21),["a88255","b08a5d","a17b51"][plank])
+		s.box(root,Vector3(0,h+0.10,-d*0.37+plank*d*0.22),Vector3(w-0.04,0.05,d*0.21),planks[plank])
 	for x: float in [-w*0.4,w*0.4]:
 		for z: float in [-d*0.38,d*0.08]:
-			s.box(root,Vector3(x,h/2,z),Vector3(0.12,h,0.12),"71513a")
+			s.box(root,Vector3(x,h/2,z),Vector3(0.12,h,0.12),_shade(wood,0.3,"71513a"))
 
-func _stool(at: Vector3, w: float, tone: String) -> void:
+func _stool(at: Vector3, w: float, tone: String, legs: String = "71513a") -> void:
 	s.box(root,at+Vector3(0,0.48,0),Vector3(w,0.13,w),tone)
 	for x: float in [-w*0.34,w*0.34]:
 		for z: float in [-w*0.34,w*0.34]:
-			s.box(root,at+Vector3(x,0.22,z),Vector3(0.10,0.44,0.10),"71513a")
+			s.box(root,at+Vector3(x,0.22,z),Vector3(0.10,0.44,0.10),legs)
+
+## A piece's `wood` darkened by `by` (lightened where negative), or `plain` where it has none.
+static func _shade(wood: String, by: float, plain: String) -> String:
+	if wood.is_empty():
+		return plain
+	var tone := Color(wood)
+	return (tone.darkened(by) if by >= 0.0 else tone.lightened(-by)).to_html(false)
 
 func _book(at: Vector3, tone: String) -> void:
 	s.box(root,at,Vector3(0.52,0.10,0.37),tone)

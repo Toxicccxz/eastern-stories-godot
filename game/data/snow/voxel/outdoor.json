@@ -75,12 +75,6 @@
     {"rect": [1408, -1184, 1648, -928], "portals": [], "roof": "7c6c55", "wall": "b59e7b", "height": 3.05, "construction": "brick", "roof_form": "gable", "ridge": "x", "rise": 1.3, "worn": 0.3, "chimney": true, "smoke": true, "chimney_at": [-0.25, 0.2], "soot": {"eaves": 0.3}, "patches": 0.1, "foot_weeds": 0.5, "roof_weeds": 0.08, "eave_tiles": true, "ridge_tips": true, "wall_hangings": [{"kind": "string_hang", "goods": "corn", "wall": "south", "at": 0.3, "seed": 17}, {"kind": "string_hang", "goods": "corn", "wall": "south", "at": 0.5, "seed": 18}, {"kind": "kindling", "wall": "south", "at": 0.8}]}
   ],
   "props": [
-    {"kind": "lantern", "at": [-416, 240]},
-    {"kind": "lantern", "at": [416, 240]},
-    {"kind": "lantern", "at": [-128, -400]},
-    {"kind": "lantern", "at": [128, -880]},
-    {"kind": "lantern", "at": [-128, -1350]},
-    {"kind": "lantern", "at": [128, -1900]},
     {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"},
     {"kind": "gateway", "at": [0, -2232], "size": [320, 32], "worn": true, "lanterns": false, "posts": "7a5a48", "timber": "6a5a48", "roof": "5e6866", "note": "mstreet1.c: 往北可望见一座牌坊, 年代久远, 上面的字迹早已看不出是什么字 — its lacquer gone grey, the board blank; the layout's two wall posts are its feet"},
     {"kind": "ferns", "at": [250, -2520], "size": [32, 24], "count": 2, "note": "toward 青石村: ferns by the path east (after the rest: the town's dressing stays as it was)"}

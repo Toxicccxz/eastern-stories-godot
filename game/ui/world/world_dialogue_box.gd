@@ -14,6 +14,8 @@ extends Control
 
 ## The box closed: what `teller` was telling goes on (the HUD hurries its next line).
 signal read_out(teller: StringName)
+## The box was shut before it was read out (a fight, a fall, 走开): no read_out follows.
+signal closed_unread
 
 const HOLD: StringName = &"dialogue"
 const WIDTH_SHARE: float = 0.62
@@ -265,7 +267,7 @@ func advance() -> bool:
 	_pages.pop_front()
 	if _pages.is_empty():
 		var teller: StringName = _teller
-		close()
+		_shut()
 		read_out.emit(teller)
 	else:
 		_show_page()
@@ -274,6 +276,11 @@ func advance() -> bool:
 
 ## Closes it at once: what was unread stays in 消息.
 func close() -> void:
+	_shut()
+	closed_unread.emit()
+
+
+func _shut() -> void:
 	_pages.clear()
 	_teller = &""
 	_who = null

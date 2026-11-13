@@ -238,6 +238,7 @@ func _test_under_the_cover(tree: SceneTree, session: WorldSessionController) -> 
 	_check(overlay.loading(), "the cover is up")
 	var key := InputEventKey.new()
 	key.keycode = KEY_E
+	key.physical_keycode = KEY_E
 	overlay._input(key)
 	_check(not overlay.get_viewport().is_input_handled(), "a release gets through, or a held key would stick")
 	key.pressed = true

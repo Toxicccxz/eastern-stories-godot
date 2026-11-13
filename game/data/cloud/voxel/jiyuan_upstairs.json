@@ -23,7 +23,6 @@
     {"kind": "window", "at": [382, -40], "size": [80, 16], "rotation": -90, "note": "the east window 李师师 plays by"},
     {"kind": "window", "at": [-200, 238], "size": [80, 16], "rotation": 180},
     {"kind": "window", "at": [100, 238], "size": [80, 16], "rotation": 180},
-    {"kind": "incense_burner", "at": [120, -200], "size": [24, 24]},
     {"kind": "pot", "at": [-330, -200]},
     {"kind": "pot", "at": [340, 200]},
     {"kind": "slippers", "at": [-120, 60], "rotation": 12, "cloth": "b0567a"},

@@ -80,6 +80,8 @@ func _test_board(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(board.take(0), "揭榜")
 	_check(state.marks.has(WorldBounties.MARK_TAKEN) and board.panel.rows.find_children("GiveUp", "Button", true, false).size() == 1, "taken: the mark, a 放弃 button")
 	_check(board.panel.rows.find_children("Take", "Button", true, false).all(func(b: Button) -> bool: return b.disabled), "the others are greyed: one at a time")
+	var one := board.panel.rows.find_child("OneAtATime", true, false) as Label
+	_check(board.panel.rows.find_children("Take", "Button", true, false).is_empty() or (one != null and one.visible and one.text == "一次只能揭一张榜。"), "why, written out (a greyed button takes no pad focus)")
 	session.record_journal()
 	_check(state.journal.has("native.bounty/taken"), "the 任务 page: 官府悬赏")
 

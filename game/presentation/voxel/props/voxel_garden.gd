@@ -372,6 +372,15 @@ func _post(height: float, column: String, outdoor: bool) -> void:
 		s.box(root,Vector3(cos(head)*0.38,top+0.06,sin(head)*0.38),Vector3(0.1,0.1,0.1),String(scales[1 % scales.size()]))
 		s.box(root,Vector3(0,0.37+height+0.06,0),Vector3(0.52,0.12,0.52),String(scales[0]))
 		s.box(root,Vector3(0,0.37+height+0.2,0),Vector3(0.36,0.16,0.36),String(data.get("band","c9a24a")))
+	if data.get("painted",false):
+		# 彩绘 (wroad1.c: 刻画许多彩绘的图形): a band of painted figures round the shaft under its
+		# bracket — panels of blue, green, gold and red (`painted`: true, or their colours).
+		var paints: Array = data["painted"] if data["painted"] is Array else ["2f6a70","3f7a4a","c9a24a","b8322a"]
+		for ring: int in 2:
+			for face: int in 4:
+				var a: float = face*PI/2
+				var y: float = 0.37+height*(0.62+ring*0.1)
+				s.tilted_box(root,Vector3(cos(a)*0.155,y,sin(a)*0.155),Vector3(0.22,height*0.085,0.012),String(paints[(face+ring*2)%paints.size()]),Vector3(0,-a+PI/2,0))
 	if data.get("posted",false):
 		# entrance.c: 常有许多落拓的士人将他们的作品贴在这里 — verses pasted on the column, old
 		# ones under new, their corners curling.

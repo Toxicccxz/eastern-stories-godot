@@ -421,6 +421,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		_assert_true(stale_locations.is_empty(), "no stale notification transiently overwrites committed landing")
 		var event: InputEventKey = InputEventKey.new()
 		event.keycode = KEY_D
+		event.physical_keycode = KEY_D
 		event.pressed = true
 		Input.parse_input_event(event)
 		Input.flush_buffered_events()

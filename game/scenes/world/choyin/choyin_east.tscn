@@ -367,7 +367,7 @@ layout_path = "res://data/choyin/voxel/east.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(896, 2144)
-metadata/look = {"kind": "boulder", "height": 1.5, "colors": ["5a5450", "66605a", "4e4844"]}
+metadata/look = {"kind": "boulder", "colors": ["5a5450", "66605a", "4e4844"]}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]

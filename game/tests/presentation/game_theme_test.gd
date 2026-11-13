@@ -135,6 +135,12 @@ func _test_pixel_scale() -> void:
 	_check(is_equal_approx(ApplicationUiScale.pixel_factor(100, Vector2i(2560, 1440), base), 1.0), "2560×1440 at 100 percent stays (3 screen pixels a font pixel)")
 	_check(is_equal_approx(ApplicationUiScale.pixel_factor(100, Vector2i(1920, 1080), base) * 1.5, 4.0 / 3.0), "1920×1080 at 100 percent draws at 4/3 (2 screen pixels)")
 	_check(is_equal_approx(ApplicationUiScale.pixel_factor(100, Vector2i(1280, 800), base), 4.0 / 3.0), "a Steam Deck's 1280×800 at 4/3")
+	# The window a 1280×800 screen opened as before a first start covered it (1088×612): the
+	# smallest step, a font pixel one screen pixel (12-pixel text), the three settings alike.
+	for percent: int in ApplicationUiScale.PERCENTS:
+		_check(is_equal_approx(ApplicationUiScale.pixel_factor(percent, Vector2i(1088, 612), base) * 0.85, 2.0 / 3.0), "1088×612 at %d percent: the smallest step" % percent)
+	_check(not ApplicationUiScale.levels_differ(Vector2i(1088, 612), base) and not ApplicationUiScale.levels_differ(Vector2i(1280, 800), base) and not ApplicationUiScale.levels_differ(Vector2i(1280, 720), base), "the three settings draw alike at 1088×612, 1280×800 and 1280×720: 设置 says so")
+	_check(ApplicationUiScale.levels_differ(Vector2i(1920, 1080), base) and ApplicationUiScale.levels_differ(Vector2i(2560, 1440), base), "and differ at 1920×1080 and 2560×1440")
 	for window: Vector2i in [Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1200), Vector2i(3840, 2160), Vector2i(800, 600)]:
 		for percent: int in ApplicationUiScale.PERCENTS:
 			var stretch: float = minf(window.x / 1280.0, window.y / 720.0)

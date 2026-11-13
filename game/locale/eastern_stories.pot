@@ -16,8 +16,9 @@ msgstr ""
 msgid "新游戏"
 msgstr ""
 
+#. native (终章 C): under a card of the ending told over the 沙盘: go on.
 #. at the foot of the dialogue box: goes to the next line.
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
 msgid "继续"
 msgstr ""
 
@@ -519,7 +520,15 @@ msgid "画质"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "这个窗口大小下，三档界面缩放画出来一样大。"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "语言"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "切出窗口时暂停"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -562,6 +571,10 @@ msgstr ""
 msgid "应用"
 msgstr ""
 
+#: scenes/application/application_shell.tscn ui/common/key_bindings_page.gd
+msgid "按键一览"
+msgstr ""
+
 #: scenes/application/application_shell.tscn
 msgid "请选择一份检查过的存档来恢复。游戏不会替你选择。"
 msgstr ""
@@ -590,7 +603,7 @@ msgstr ""
 msgid "关闭"
 msgstr ""
 
-#: scenes/ui/player_inventory_panel.tscn ui/world/game_menu.gd
+#: scenes/ui/player_inventory_panel.tscn ui/common/key_bindings_page.gd ui/world/game_menu.gd
 msgid "背包"
 msgstr ""
 
@@ -1059,7 +1072,7 @@ msgid "大井 · 喝水"
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json data/cloud/voxel/outdoor.json
+#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn data/city/world.json data/city/voxel/main.json data/cloud/voxel/bookstore_house.json
 msgid "书"
 msgstr ""
 
@@ -1826,7 +1839,7 @@ msgstr ""
 msgid "布庄"
 msgstr ""
 
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/voxel/outdoor.json
+#: scenes/world/cloud/cloud_outdoor.tscn
 msgid "斋"
 msgstr ""
 
@@ -8440,7 +8453,7 @@ msgstr ""
 msgid "战斗描写会显示在这里。"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd
+#: presentation/battle/battle_presentation_controller.gd ui/common/key_bindings_page.gd
 msgid "换目标"
 msgstr ""
 
@@ -8835,7 +8848,7 @@ msgid "江湖常识"
 msgstr ""
 
 #. common.npc.fighter.champion inquiry topic
-#: presentation/codex/codex_content.gd ui/world/game_menu.gd data/common/npcs.json
+#: presentation/codex/codex_content.gd ui/common/key_bindings_page.gd ui/world/game_menu.gd data/common/npcs.json
 msgid "武学"
 msgstr ""
 
@@ -8955,11 +8968,27 @@ msgstr ""
 msgid "门派：{family}"
 msgstr ""
 
+#: presentation/input/input_glyphs.gd
+msgid "叉"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "圈"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "方"
+msgstr ""
+
+#: presentation/input/input_glyphs.gd
+msgid "三角"
+msgstr ""
+
 #: presentation/layout/application_shell_layout.gd runtime/application/application_shell_controller.gd
 msgid "窗口模式由这个平台管理。"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/common/key_bindings_page.gd
 msgid "菜单"
 msgstr ""
 
@@ -9004,7 +9033,7 @@ msgstr ""
 msgid "行贿"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/common/slot_list_panel.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/common/key_bindings_page.gd ui/common/slot_list_panel.gd
 msgid "返回"
 msgstr ""
 
@@ -9042,6 +9071,11 @@ msgstr ""
 msgid "指路"
 msgstr ""
 
+#. on 系统 after the desktop window lost its focus (切出窗口时暂停).
+#: runtime/application/application_shell_controller.gd
+msgid "切到别的窗口时，游戏暂停了。"
+msgstr ""
+
 #. title
 #. ending cards.title
 #: runtime/application/application_shell_controller.gd data/common/opening.json data/story/epilogue.json
@@ -9066,6 +9100,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "目标提示已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "切出窗口时暂停已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -9202,6 +9240,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "切到别的窗口时游戏暂停，回来后按「继续」接着玩；关掉后照样走，但窗口在后台时手柄不起作用"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -10099,7 +10141,7 @@ msgstr ""
 msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
 msgstr ""
 
-#: runtime/world/services/quest_service.gd ui/world/game_menu.gd ui/world/inventory_sections.gd
+#: runtime/world/services/quest_service.gd ui/common/key_bindings_page.gd ui/world/game_menu.gd ui/world/inventory_sections.gd
 msgid "任务"
 msgstr ""
 
@@ -10275,6 +10317,84 @@ msgstr ""
 
 #: ui/common/confirm_prompt.gd
 msgid "确定"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "走路"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "交互 · 继续"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "确认"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "返回 · 取消"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "观察"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "菜单翻页"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd ui/world/game_menu.gd
+msgid "角色"
+msgstr ""
+
+#. guanbei.side_hall.landmark.map name
+#: ui/common/key_bindings_page.gd ui/world/game_menu.gd data/guanbei/world.json
+msgid "地图"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "暂停（系统）"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "滚动长文"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "战斗：换目标"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "战斗：记录"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "战斗：收回指令"
+msgstr ""
+
+#. under 按键一览's title (DECISIONS「按键」).
+#: ui/common/key_bindings_page.gd
+msgid "字母键按键盘上的位置算，这里写的是你的键盘在那个位置印的字。暂时不能改键；手柄可以在 Steam 的控制器设置里改。"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "动作"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "键盘"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "手柄"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "方向键"
+msgstr ""
+
+#: ui/common/key_bindings_page.gd
+msgid "十字键"
 msgstr ""
 
 #: ui/common/training_progress.gd
@@ -10664,20 +10784,6 @@ msgstr ""
 #. drift_sense.c: an empty answer to its question stops the conjuring (中止施法。).
 #: ui/world/drift_sense_panel.gd
 msgid "中止施法"
-msgstr ""
-
-#. native (终章 C): under a card of the ending told over the 沙盘: go on.
-#: ui/world/epilogue_overlay.gd
-msgid "E 继续"
-msgstr ""
-
-#: ui/world/game_menu.gd
-msgid "角色"
-msgstr ""
-
-#. guanbei.side_hall.landmark.map name
-#: ui/world/game_menu.gd data/guanbei/world.json
-msgid "地图"
 msgstr ""
 
 #. guide.standing paragraphs
@@ -19330,7 +19436,7 @@ msgstr ""
 
 #. guide.start paragraphs
 #: data/common/codex.json
-msgid "走近一个人、一件东西，脚下会出现「E 交互」。按 E（手柄 A）或点它，能做的事都列在交互窗口里；只有一件事可做的，直接就做了。"
+msgid "走近一个人、一件东西，脚下会出现「交互」和该按的键（键盘、手柄各画各的）。按那个键或点它，能做的事都列在交互窗口里；只有一件事可做的，直接就做了。"
 msgstr ""
 
 #. guide.start paragraphs

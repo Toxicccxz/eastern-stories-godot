@@ -41,9 +41,9 @@
     "wind": 0.05
   },
   "props": [
-    {"kind": "ferns", "at": [60, 300], "size": [32, 24], "count": 3, "colors": ["3e6a5a", "4a7a66"]},
-    {"kind": "ferns", "at": [700, 460], "size": [32, 24], "count": 3, "colors": ["3e6a5a", "4a7a66"]},
-    {"kind": "ferns", "at": [540, 60], "size": [32, 24], "count": 2, "colors": ["3e6a5a", "4a7a66"]},
+    {"kind": "ferns", "at": [60, 300], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [700, 460], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [540, 60], "size": [32, 24], "count": 2},
     {"kind": "mossy_rock", "at": [300, 480], "size": [32, 24]},
     {"kind": "stains", "at": [400, 380], "size": [300, 160], "count": 6, "colors": ["44605a", "4a6660"], "note": "damp"},
     {"kind": "drip", "at": [720, 60]},

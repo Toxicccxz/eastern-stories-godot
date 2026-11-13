@@ -1549,12 +1549,7 @@
             "the hearth sunk in the floor, the black pot over it",
             {
               "look": {
-                "kind": "cauldron",
-                "colors": [
-                  "2a2622",
-                  "3a3430"
-                ],
-                "fire": true
+                "kind": "cauldron"
               }
             }
           ],
@@ -1572,8 +1567,7 @@
             {
               "look": {
                 "kind": "counter",
-                "rotation": 90,
-                "wood": "6a5240"
+                "rotation": 90
               }
             }
           ],
@@ -1908,11 +1902,6 @@
             {
               "look": {
                 "kind": "screen_wall",
-                "colors": [
-                  "d8d0c0",
-                  "c8c0b0",
-                  "a89a84"
-                ],
                 "height": 2.6
               }
             }
@@ -2269,7 +2258,7 @@
             {
               "look": {
                 "kind": "grand_chair",
-                "cloth": "a8702a",
+                "cushion": "a8702a",
                 "wood": "5a4634"
               }
             }
@@ -2434,7 +2423,8 @@
                 "kind": "brazier"
               }
             }
-          ]
+          ],
+          ["blocked", "guanbei.side_hall", ["rel", 0.8333, 0.4091], 0.4705, 0.4705, "blocks: nobody walks through it", {"look": {"kind": "candlestick", "size": [12, 12]}}]
         ],
         "placed": {
           "guanbei.palace_hall.cheng_shuo.1": [
@@ -4790,8 +4780,7 @@
                 "timber for the frame",
                 {
                   "look": {
-                    "kind": "lumber",
-                    "lean": false
+                    "kind": "lumber"
                   }
                 }
               ],

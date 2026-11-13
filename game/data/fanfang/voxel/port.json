@@ -78,7 +78,6 @@
     {"kind": "mooring_post", "at": [568, 1032], "size": [12, 12], "note": "piles the boats are tied to, in the water off the jetties' heads"},
     {"kind": "mooring_post", "at": [664, 1032], "size": [12, 12]},
     {"kind": "mooring_post", "at": [1000, 1000], "size": [12, 12]},
-    {"kind": "fishing_net", "at": [224, 600], "size": [60, 40], "note": "a net torn and patched, spread on the ground"},
     {"kind": "rope_coil", "at": [400, 720], "size": [22, 22]},
     {"kind": "rope_coil", "at": [880, 728], "size": [20, 20]},
     {"kind": "stains", "at": [320, 640], "size": [160, 120], "count": 8, "colors": ["4e4a40", "5a5448", "3e3a34"], "note": "tar and fish scales under the shed"},
@@ -93,7 +92,7 @@
     {"kind": "glow", "at": [300, 600], "color": "ffa860", "day": 0.0, "night": 0.6, "range": 5.0, "height": 1.0, "note": "the fire under the soup pot"},
     {"kind": "far_peak", "at": [-500, 1800], "size": [400, 240], "height": 4.0, "elevation": -0.3, "colors": ["7a8a90", "86969a", "6e7e86"], "note": "a headland across the bay, in the haze"},
     {"kind": "far_peak", "at": [2200, 2100], "size": [480, 260], "height": 3.4, "elevation": -0.3, "colors": ["8696a0", "92a2aa", "7a8a94"]},
-    {"kind": "far_ground", "atlas": false, "at": [1900, 520], "size": [600, 800], "colors": ["7a7a6a", "86867a"], "elevation": 0.0, "clearing": [0, 0, 14, 20], "clearing_color": "8a8270", "roofs": 26, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 4, "note": "the bazaar's roofs east along the road"}
+    {"kind": "far_ground", "at": [1900, 520], "size": [600, 800], "colors": ["7a7a6a", "86867a"], "elevation": 0.0, "clearing": [0, 0, 14, 20], "clearing_color": "8a8270", "roofs": 26, "walls": ["c8c0ac", "b8a890", "d0c4a8"], "roof_colors": ["6a4a3a", "5a4a3e", "7a5a40", "4e4440"], "trees": 4, "note": "the bazaar's roofs east along the road"}
   ],
   "actors": {
     "default": {"coat": "6a6a5a"}

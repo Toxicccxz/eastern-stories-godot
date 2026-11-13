@@ -20,6 +20,7 @@ const MASTER_VOLUME_KEY: String = "master_volume"
 const BATTLE_OPENING_KEY: String = "battle_opening"
 const GRAPHICS_QUALITY_KEY: String = "graphics_quality"
 const QUALITY_HINT_KEY: String = "quality_hint_told"
+const FOCUS_PAUSE_KEY: String = "pause_on_focus_loss"
 ## Version 1 had no language; it is read as following the system language.
 const VERSION_WITHOUT_LANGUAGE: int = 1
 ## Version 2 had no battle settings; it is read as 标准 with the flash on.
@@ -43,6 +44,8 @@ const VERSION_WITHOUT_VOLUME: int = 9
 const VERSION_WITHOUT_OPENING: int = 10
 ## Version 11 had no 画质; it reads as this machine's first level, the hint not told.
 const VERSION_WITHOUT_QUALITY: int = 11
+## Version 12 had no 切出窗口时暂停; it reads as on.
+const VERSION_WITHOUT_FOCUS_PAUSE: int = 12
 
 var _files: SaveFileOperations
 
@@ -71,7 +74,7 @@ func load() -> ApplicationSettingsResult:
 	if typeof(version_value) != TYPE_INT:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	var version: int = int(version_value)
-	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE, VERSION_WITHOUT_DISPLAY, VERSION_WITHOUT_VOLUME, VERSION_WITHOUT_OPENING, VERSION_WITHOUT_QUALITY]:
+	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE, VERSION_WITHOUT_DISPLAY, VERSION_WITHOUT_VOLUME, VERSION_WITHOUT_OPENING, VERSION_WITHOUT_QUALITY, VERSION_WITHOUT_FOCUS_PAUSE]:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION)
 	if not _has_exact_structure(config, version):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -136,9 +139,12 @@ func load() -> ApplicationSettingsResult:
 	var told_value: Variant = config.get_value(SECTION, QUALITY_HINT_KEY, false)
 	if typeof(told_value) != TYPE_BOOL:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var focus_pause_value: Variant = config.get_value(SECTION, FOCUS_PAUSE_KEY, true)
+	if typeof(focus_pause_value) != TYPE_BOOL:
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	return ApplicationSettingsResult.success(
 		ApplicationSettingsSnapshot.new(
-			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value), resolution, int(screen_value), int(volume_value), opening, quality, bool(told_value)
+			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value), resolution, int(screen_value), int(volume_value), opening, quality, bool(told_value), bool(focus_pause_value)
 		)
 	)
 
@@ -169,6 +175,7 @@ func write(snapshot: ApplicationSettingsSnapshot) -> ApplicationSettingsResult:
 	config.set_value(SECTION, BATTLE_OPENING_KEY, BattlePace.opening_storage_value(snapshot.battle_opening()))
 	config.set_value(SECTION, GRAPHICS_QUALITY_KEY, GraphicsQuality.storage_value(snapshot.graphics_quality()))
 	config.set_value(SECTION, QUALITY_HINT_KEY, snapshot.quality_hint_told())
+	config.set_value(SECTION, FOCUS_PAUSE_KEY, snapshot.pause_on_focus_loss())
 	var error: int = _files.write_bytes(SETTINGS_PATH, config.encode_to_text().to_utf8_buffer())
 	if error != OK:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.WRITE_FAILURE)
@@ -201,8 +208,10 @@ func _has_exact_structure(config: ConfigFile, version: int) -> bool:
 		expected.append(MASTER_VOLUME_KEY)
 	if version >= VERSION_WITHOUT_QUALITY:
 		expected.append(BATTLE_OPENING_KEY)
-	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+	if version >= VERSION_WITHOUT_FOCUS_PAUSE:
 		expected.append_array([GRAPHICS_QUALITY_KEY, QUALITY_HINT_KEY])
+	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		expected.append(FOCUS_PAUSE_KEY)
 	if keys.size() != expected.size():
 		return false
 	for key: String in expected:

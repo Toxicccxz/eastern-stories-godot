@@ -35,11 +35,14 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				leaf.rotation.y = -float(data.get("ajar_angle",0.6))
 				root.add_child(leaf)
 				leaf.translate_object_local(Vector3(w/2,0,0))
-			s.box(leaf,Vector3(0,1.35,0),Vector3(w,2.7,0.12),"6b4d38")
+			# `color`: the leaf's (逆灵宫's black doors), its boards a shade lighter; `trim`: the rails.
+			var leaf_tone: String = String(data.get("color","6b4d38"))
+			var board_tone: String = Color(leaf_tone).lightened(0.15).to_html(false) if data.has("color") else "906d49"
+			s.box(leaf,Vector3(0,1.35,0),Vector3(w,2.7,0.12),leaf_tone)
 			for i: int in 6:
-				s.box(leaf,Vector3(-w*0.42+i*w*0.168,1.35,0.08),Vector3(w*0.15,2.56,0.08),"906d49")
+				s.box(leaf,Vector3(-w*0.42+i*w*0.168,1.35,0.08),Vector3(w*0.15,2.56,0.08),board_tone)
 			for y: float in [0.4,2.2]:
-				s.box(leaf,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
+				s.box(leaf,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),String(data.get("trim","634b35")))
 			for x: float in [-0.12,0.12]:
 				s.box(leaf,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
 		"great_shield":
@@ -218,10 +221,14 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.lantern(root,Vector3(0,1.5*vary.randf_range(0.9,1.1),0),true,Shapes.tinted(String(data.get("paper","ffb858")),vary,0.05),vary.randf_range(0.94,1.06))
 			_set_lamp(root,0.5,1.1,4.0,float(data.get("flicker",0.0)))
 		"hanging_lantern":
+			# `height`: how high it hangs (units; a low beam's lanterns under a 2.9 wall), on a
+			# shorter cord than the one high under a hall's roof.
 			var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
 			var size: float = vary.randf_range(0.9,1.1)
-			s.box(root,Vector3(0,3.85,0),Vector3(0.045,1.0,0.045),"594732")
-			s.lantern(root,Vector3(0,3.15,0),false,Shapes.tinted(String(data.get("paper","ffb858")),vary,0.05),size)
+			var hang: float = float(data.get("height",3.15))
+			var cord: float = 0.5 if data.has("height") else 1.0
+			s.box(root,Vector3(0,hang+0.2+cord/2,0),Vector3(0.045,cord,0.045),"594732")
+			s.lantern(root,Vector3(0,hang,0),false,Shapes.tinted(String(data.get("paper","ffb858")),vary,0.05),size)
 			_set_lamp(root,0.65,1.7,8.0,float(data.get("flicker",0.0)))
 		"pot": s.pot(root,Vector3.ZERO)
 		"lamp_stand": _lamp_stand(data)

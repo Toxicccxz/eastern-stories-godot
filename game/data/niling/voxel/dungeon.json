@@ -41,7 +41,7 @@
     {"kind": "bones", "at": [160, 270], "size": [30, 24], "skull": false, "count": 2, "note": "the jailers' meal, thrown down"},
     {"kind": "straw_patch", "at": [-392, 190], "size": [80, 48], "note": "霍铮's straw"},
     {"kind": "crocks", "at": [-470, 230], "size": [12, 12], "note": "his broken bowl"},
-    {"kind": "iron_chain", "at": [-540, 60], "size": [8, 8], "drop": 1.2, "face": 0.0, "links": 10, "color": "3a3733", "note": "the chain from the wall ring to his wrists"},
+    {"kind": "iron_chain", "at": [-540, 60], "size": [8, 8], "drop": 1.2, "face": 0.0, "links": 10, "note": "the chain from the wall ring to his wrists"},
     {"kind": "stains", "at": [-392, 136], "size": [260, 200], "count": 8, "colors": ["1e1c1a", "2a1010", "262422"], "note": "his cell's floor"},
     {"kind": "straw_patch", "at": [-8, -240], "size": [72, 40], "note": "the boy's mat"},
     {"kind": "crocks", "at": [40, -230], "size": [10, 10], "note": "the half cake on it (native:niling/cell_shitou)"},

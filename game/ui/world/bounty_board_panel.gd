@@ -78,6 +78,15 @@ func show_postings(postings: Array[WorldBounties.Posting]) -> void:
 			button.pressed.connect(func() -> void: take_requested.emit(slot))
 		row.add_child(button)
 		rows.add_child(row)
+	# Why 揭榜 is greyed, written out: a greyed button takes no pad focus and shows no hover
+	# on a pad (审查修补 M).
+	if any_taken and postings.size() > 1:
+		var one := Label.new()
+		one.name = "OneAtATime"
+		one.theme_type_variation = &"MutedLabel"
+		one.text = "一次只能揭一张榜。"
+		one.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		rows.add_child(one)
 
 
 ## The line under the postings after 揭榜 or 放弃 (`taken`: which).

@@ -254,7 +254,9 @@
           ["blocked", 928, 2240, 960, 2272, {"look": {"kind": "stone_lantern", "colors": ["e2dfd6", "d6d3c9", "ece9e1"]}}],
           ["blocked", 496, 2528, 528, 2560, "old pines in the square's corners", {"look": {"kind": "tree", "species": "mountain_pine", "scale": 1.1, "variant": 2}}],
           ["blocked", 1072, 2528, 1104, 2560, {"look": {"kind": "tree", "species": "mountain_pine", "scale": 1.0, "variant": 5}}],
-          ["blocked", 1072, 2144, 1104, 2176, {"look": {"kind": "tree", "species": "pine", "scale": 0.95, "variant": 1}}]
+          ["blocked", 1072, 2144, 1104, 2176, {"look": {"kind": "tree", "species": "pine", "scale": 0.95, "variant": 1}}],
+          ["blocked", 672, 1008, 704, 1040, "corridor5.c: 南边就是天井, 你也许可以走过去赏赏花 — flower stands along the rear hall's wall (a tall piece: blocks, review fix P)", {"look": {"kind": "flower_stand", "size": [32, 32], "flower": "c8382a"}}],
+          ["blocked", 896, 1008, 928, 1040, "blocks: nobody walks through it", {"look": {"kind": "flower_stand", "size": [32, 32], "flower": "f2efe6"}}]
         ],
         "reach_from": ["GateArrival", "Corridor1Temple1Return", "Corridor2Temple1Return", "Corridor3Restroom2Return", "Corridor4TrainroomReturn", "Corridor5Temple2Return", "Corridor7Restroom1Return", "Road2BookRoom1Return", "SquareTemple1Return"],
         "markers_in_middle": ["temple.inneryard", "temple.square", "temple.road2"],
@@ -723,7 +725,7 @@
           }
         },
         "props": [
-          ["blocked", "temple.restroom1", ["ne", 0, 0], 3, 2, "restroom1.c: 屋子里只是简单地摆放著几件家俱 — the old taoist's bed", {"look": {"kind": "bed", "cloth": "5f6e7a"}}],
+          ["blocked", "temple.restroom1", ["ne", 0, 0], 3, 2, "restroom1.c: 屋子里只是简单地摆放著几件家俱 — the old taoist's bed", {"look": {"kind": "bed", "quilt": "5f6e7a"}}],
           ["blocked", "temple.restroom1", ["nw", 1, 0], 1, 1, {"look": {"kind": "washstand"}}],
           ["blocked", "temple.restroom1", ["s", 1, 0], 2, 1.4, {"look": {"kind": "table", "askew": 3}}],
           ["blocked", "temple.restroom1", ["se", 0, 0], 1.2, 1, {"look": {"kind": "clothes_rack"}}]
@@ -781,7 +783,7 @@
           }
         },
         "props": [
-          ["blocked", "temple.restroom2", ["nw", 2, 0], 2, 3, "restroom2.c: 简单地摆放著几件家俱 — a bed made up for the next guest", {"look": {"kind": "bed", "cloth": "8a6a4a", "rotation": 90}}],
+          ["blocked", "temple.restroom2", ["nw", 2, 0], 2, 3, "restroom2.c: 简单地摆放著几件家俱 — a bed made up for the next guest", {"look": {"kind": "bed", "quilt": "8a6a4a", "rotation": 90}}],
           ["blocked", "temple.restroom2", ["ne", 0, 0], 2, 1, {"look": {"kind": "linen_cabinet"}}],
           ["blocked", "temple.restroom2", ["se", 1, 0], 1.5, 1.5, {"look": {"kind": "tea_table"}}]
         ],

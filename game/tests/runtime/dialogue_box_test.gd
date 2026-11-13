@@ -143,6 +143,22 @@ func _check_ask(tree: SceneTree) -> void:
 	if box.is_open():
 		box.close()
 		await _frames(tree, 2)
+	# A question waiting for the box to be read out goes when the box is shut unread (a fight,
+	# a fall): a later dialogue read out does not bring it up (审查修补 M).
+	var first: Array[String] = ["先说一句。"]
+	box.say(npc.definition().display_name, first)
+	hud.ask_choices(npc, "旧问题", answers, func(_picked: int) -> void: pass)
+	_check(box.is_open() and not box.hosting(), "the question waits for the box")
+	box.close()
+	var later: Array[String] = ["后来的话。"]
+	box.say(npc.definition().display_name, later)
+	box.finish_typing()
+	box.advance()
+	await _frames(tree, 2)
+	_check(not box.hosting() and not hud.confirm_prompt.is_asking(), "shut unread, the old question never comes up after a later dialogue")
+	if box.is_open():
+		box.close()
+		await _frames(tree, 2)
 	# Chat stays over the head; what is told is read; a fight shuts the box.
 	var said: Array[ColoredLine] = [ColoredLine.new("%s说道：今天天气不错。" % npc.definition().display_name)]
 	hud.npc_says(npc, said, ["%s说道：今天天气不错。" % npc.definition().display_name])

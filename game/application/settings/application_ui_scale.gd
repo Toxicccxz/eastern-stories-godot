@@ -35,3 +35,9 @@ static func pixel_factor(percent: int, window: Vector2i, base: Vector2i) -> floa
 	var most: int = maxi(1, floori(stretch * factor(PERCENTS[PERCENTS.size() - 1]) / PIXEL_SCALE_STEP + 0.001))
 	var steps: int = clampi(roundi(stretch * factor(percent) / PIXEL_SCALE_STEP), 1, most)
 	return float(steps) * PIXEL_SCALE_STEP / stretch
+
+
+## Whether the three settings draw differently in `window`: on a small one they all come out
+## at the same whole step, and the 设置 page says so.
+static func levels_differ(window: Vector2i, base: Vector2i) -> bool:
+	return not is_equal_approx(pixel_factor(PERCENTS[0], window, base), pixel_factor(PERCENTS[PERCENTS.size() - 1], window, base))

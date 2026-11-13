@@ -169,7 +169,9 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 					shapes.box(body,Vector3(at.x,rail,at.z),Vector3(0.52,0.08,0.14) if along_x else Vector3(0.14,0.08,0.52),String(data.get("rail","46423e")))
 				continue
 			var panel := Vector3(0.50,height,0.24) if along_x else Vector3(0.24,height,0.50)
-			var tone: String = plaster.darkened(0.035*roundf((weather+0.5)*3)).to_html(false)
+			# A brick wall's `mortar` shows in the joints between its bricks (the panel behind them).
+			var face: Color = Color(String(data["mortar"])) if construction=="brick" and data.has("mortar") else plaster
+			var tone: String = face.darkened(0.035*roundf((weather+0.5)*3)).to_html(false)
 			shapes.box(body,at,panel,tone)
 			# Stone plinth courses have their own lengths, joints and water staining.
 			for course: int in maxi(1,ceili(foundation/0.22)):
@@ -177,8 +179,10 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				var plinth: Array = data.get("plinth",["848572","92907b","777d6c"])
 				shapes.shard(body,base_at,Vector3(0.53,0.21,0.37) if along_x else Vector3(0.37,0.21,0.53),String(plinth[(i+course)%plinth.size()]),i+course,0.02*sin(i))
 			if construction=="timber":
+				# `boards`: the weatherboards' colours.
+				var boards: Array = data.get("boards",["96744e","896747","a17c53"])
 				for board: int in ceili(height/0.21):
-					shapes.box(body,Vector3(at.x,board*0.21+0.1,at.z)+out*0.14,Vector3(0.495,0.19,0.035) if along_x else Vector3(0.035,0.19,0.495),["96744e","896747","a17c53"][(board+i/3)%3])
+					shapes.box(body,Vector3(at.x,board*0.21+0.1,at.z)+out*0.14,Vector3(0.495,0.19,0.035) if along_x else Vector3(0.035,0.19,0.495),String(boards[(board+i/3)%boards.size()]))
 			elif construction=="rubble":
 				# Dry-laid field stone: courses of irregular blocks proud of the face.
 				for course: int in ceili(height/0.3):
@@ -193,9 +197,11 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				if i%5==2:
 					shapes.box(body,Vector3(at.x,height*0.55,at.z)+out*0.15,Vector3(0.04,height*0.4,0.02) if along_x else Vector3(0.02,height*0.4,0.04),"5e4a35")
 			elif construction=="brick":
+				# `brick`: the bricks' colours (逆灵宫's black brick); `mortar` between them.
+				var bricks: Array = data.get("brick",["737c73","858b7a","69766e"])
 				for course: int in ceili(height/0.28):
 					var brick_at := Vector3(at.x,course*0.28+0.13,at.z)+out*0.15
-					shapes.box(body,brick_at,Vector3(0.465,0.25,0.05) if along_x else Vector3(0.05,0.25,0.465),["737c73","858b7a","69766e"][(i+course*2)%3])
+					shapes.box(body,brick_at,Vector3(0.465,0.25,0.05) if along_x else Vector3(0.05,0.25,0.465),String(bricks[(i+course*2)%bricks.size()]))
 			elif weather>0.05 and i%3==1:
 				# Small patches of lost plaster expose the underlying masonry near the base.
 				for chip: int in 3:

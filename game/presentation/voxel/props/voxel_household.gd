@@ -12,10 +12,6 @@ var rng := RandomNumberGenerator.new()
 ## Lamp flames that flicker (null where nothing moves).
 var ambience: VoxelAmbience
 
-const WALL_KINDS: Array[String] = ["tool_hooks","string_hang","ledger_hook","new_year_print","couplet","clothes_peg",
-	"straw_cape","calendar","wall_lamp","wall_shelf","weapon_pegs","menu_boards","notices","banner_cloth","plaques","mural",
-	"meat_hooks","double_happiness","animal_hide"]
-
 func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) -> bool:
 	s = shapes
 	root = parent
@@ -128,10 +124,13 @@ func _crocks(w: float, d: float) -> void:
 	s.box(root,Vector3(w*0.28,0.18,d*0.18),Vector3(0.3,0.34,0.3),_pick(clay))
 	s.box(root,Vector3(w*0.28,0.37,d*0.18),Vector3(0.18,0.05,0.18),"4a3a2c")
 
-## 铺盖: bedding rolled and tied, a spare quilt folded on top.
+## 铺盖: bedding rolled and tied, a spare quilt folded on top (`cloth`: their colour, one
+## for both; picked otherwise).
 func _bedding(w: float, d: float) -> void:
 	for i: int in 2:
-		s.box(root,Vector3(0,0.16+i*0.3,_jitter(0.05)),Vector3(w*0.88,0.3,d*0.6),_pick(["6f8f86","8a6a5a","b8a374","5a6e86"]))
+		var shift: float = _jitter(0.05)
+		var picked: String = _pick(["6f8f86","8a6a5a","b8a374","5a6e86"])
+		s.box(root,Vector3(0,0.16+i*0.3,shift),Vector3(w*0.88,0.3,d*0.6),String(data.get("cloth",picked)))
 		for x: float in [-w*0.25,w*0.25]:
 			s.box(root,Vector3(x,0.16+i*0.3,0),Vector3(0.05,0.32,d*0.62),"6a5a40")
 

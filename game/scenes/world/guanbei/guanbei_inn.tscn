@@ -188,12 +188,12 @@ layout_path = "res://data/guanbei/voxel/inn.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(-8, 152)
-metadata/look = {"kind": "cauldron", "colors": ["2a2622", "3a3430"], "fire": true}
+metadata/look = {"kind": "cauldron"}
 metadata/footprint = Vector2(80, 80)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
 position = Vector2(280, 128)
-metadata/look = {"kind": "counter", "rotation": 90, "wood": "6a5240"}
+metadata/look = {"kind": "counter", "rotation": 90}
 metadata/footprint = Vector2(48, 128)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]

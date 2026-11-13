@@ -452,6 +452,14 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="UiScaleNote" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "这个窗口大小下，三档界面缩放画出来一样大。"
+vertical_alignment = 1
+
 [node name="LanguageRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -477,6 +485,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="FocusPauseCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/LanguageRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 48)
+layout_mode = 2
+text = "切出窗口时暂停"
+metadata/keeps_width = true
 
 [node name="BattleSpeedRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -661,6 +676,12 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 48)
 layout_mode = 2
 text = "取消"
+
+[node name="KeysButton" type="Button" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+text = "按键一览"
 
 [node name="RecoveryPanel" type="ColorRect" parent="ShellCanvas"]
 unique_name_in_owner = true
