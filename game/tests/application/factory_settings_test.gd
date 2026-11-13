@@ -398,22 +398,35 @@ func _night_save_and_load(tree: SceneTree, shell: ApplicationShellController, se
 	if not _check(square != null, "back on the square"):
 		return
 	_check(session.wait_until_phase([&"night"]) and NIGHT.has(session.day_phase_id()), "night falls (%s)" % session.day_phase_id())
-	# A few seconds of the night: those going home walk (a walk in hand once kept Save shut).
-	await _frames(tree, 60 * 4)
+	# A few seconds of the night: those going home walk (a walk in hand once kept Save shut). A
+	# slow runner may not have anyone indoors yet: save again a little later, up to 20 s in all.
 	var saved: bool = false
-	for attempt: int in 10:
-		if OldPineSaveEligibility.inspect(session).allowed():
-			saved = await _save_by_hand(tree, shell, 0)
+	var written: GameSaveResult = null
+	var at_save: GameSaveSnapshot = null
+	var map_id: StringName = &""
+	var indoors: Array[StringName] = []
+	for round: int in 5:
+		await _frames(tree, 60 * 4)
+		saved = false
+		for attempt: int in 10:
+			if OldPineSaveEligibility.inspect(session).allowed():
+				saved = await _save_by_hand(tree, shell, 0)
+				break
+			await _frames(tree, 60)
+		if not saved:
 			break
-		await _frames(tree, 60)
+		written = SourceEntrySaveRepository.new(profile.for_slot(SLOT_1), files).load()
+		if not written.succeeded():
+			break
+		at_save = written.snapshot
+		map_id = at_save.player.world_location.map_id
+		indoors = _gone_home(at_save, map_id)
+		if not indoors.is_empty():
+			break
 	if not _check(saved and files.files.has(profile.for_slot(SLOT_1).canonical_path()), "Save at night on the street (allowed: %s, %s)" % [OldPineSaveEligibility.inspect(session).outcome, _saved_as]):
 		return
-	var written: GameSaveResult = SourceEntrySaveRepository.new(profile.for_slot(SLOT_1), files).load()
-	if not _check(written.succeeded(), "the night's save reads"):
+	if not _check(written != null and written.succeeded(), "the night's save reads"):
 		return
-	var at_save: GameSaveSnapshot = written.snapshot
-	var map_id: StringName = at_save.player.world_location.map_id
-	var indoors: Array[StringName] = _gone_home(at_save, map_id)
 	_check(not indoors.is_empty(), "someone on %s had gone home when the night's save was made: %s" % [map_id, indoors])
 	# The world goes on a little before the player thinks better of it.
 	await _frames(tree, 60 * 2)
@@ -441,6 +454,9 @@ func _night_save_and_load(tree: SceneTree, shell: ApplicationShellController, se
 ## 系统 → 存档 → row `row`: whether the save was written. Back to playing either way.
 func _save_by_hand(tree: SceneTree, shell: ApplicationShellController, row: int) -> bool:
 	_check(shell.request_pause() and shell.request_save_slots() and shell.choose_slot_row(row), "系统 → 存档 → row %d" % row)
+	# A row already written asks before it is overwritten (the night's save, taken again).
+	if shell.shell_state().mode() == ApplicationShellState.Mode.RESULT:
+		shell.confirm_current_result()
 	var frames: int = 0
 	while shell.shell_state().mode() == ApplicationShellState.Mode.SAVING and frames < SETTLE_FRAMES:
 		await _frame(tree, shell)
