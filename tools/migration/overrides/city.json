@@ -252,6 +252,8 @@
 		"city.npc.chen": {
 			"family": { "name": "振远镖局", "generation": 0, "title": "弟子", "privileges": 0 },
 			"apprentice": { "kind": "silent", "class": "guardman", "title": "振远镖局第一代弟子" },
+			"calls": [{"after": 1, "reaction": true, "mark": "镖单给了陈天星", "not_mark": "镖路查清了", "steps": [{"emote": "从案上拿起一本发黄的底账，翻到夹着纸条的那一页。"}, {"say": "镖单的事，我查了。"}, {"say": "二十年前那趟镖，起运关北，本该走官道。底账上写着：改走老松岭——是兵部来人点名要的，说官道上有劫匪。"}, {"say": "关北来的盟主印，兵部点名改的路，老松岭瀑布前的埋伏。振远替人背了二十年的锅。"}, {"when": {"not": {"any": [{"mark": "庾子建下狱"}, {"mark": "私了了庾子建"}, {"mark": "皇叔的通缉解了"}]}}, "say": "这件事，我陈天星可以当着满朝文武说。用得着的时候，来找我。"}, {"when": {"mark": "庾子建下狱"}, "say": "庾子建已经下了狱。这一笔，我写进状子里，叫他多背一条。"}, {"when": {"any": [{"mark": "私了了庾子建"}, {"mark": "皇叔的通缉解了"}]}, "say": "朝上的事，你们已经定了，我不添乱。可振远的账，我要记清楚。"}, {"mark": "镖路查清了"}]}],
+			"inquiry": {"name": ["呵呵…你连我都不知道嘛？去打听打听吧。\n"], "振远镖局": ["这可是我一手创建的啊！可惜我也老了。\n"], "陈剑秋": ["他是我侄子，有什么事找他？\n"], "天邪神掌": ["那是我和於兰天武交换武功学的\n"], "拜师": ["是剑秋推荐的嘛？可有他的信物？\n"], "镖单": {"rules": [{"asker_marks": ["镖路查清了"], "say": "那趟镖是兵部点名改走老松岭的。底账我收着，用得着的时候来找我。"}, {"asker_marks": ["镖单给了陈天星"], "say": "底账还在翻。过些日子你再来。"}, {"asker_carries": "escort note", "say": "这张镖单……乙丑年老松岭那一趟？拿来我看。"}, {"say": "镖单？振远走过的镖，镖单都在剑秋那里。"}]}},
 			"accept_object": [
 				{
 					"item": "es2:u/cloud/npc/obj/letter", "item_master": true,
@@ -259,6 +261,10 @@
 					"say": "果然是剑秋侄儿推荐来的。我收你啦。", "accept": true, "recruit": true
 				},
 				{ "item": "es2:u/cloud/npc/obj/letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
+				{"item": "native:cloud/escort_note", "giver_mark": "镖单锁进了刑堂", "accept": false, "say": "潘执法使那里锁着一张？……那这一张存根，你留着吧。"},
+				{"item": "native:cloud/escort_note", "giver_mark": "镖单给了陈天星", "accept": false, "say": "我手里有一张了。"},
+				{"item": "native:cloud/escort_note", "giver_mark": "潘军禅说了镖单", "unless_giver_mark": "天邪的线断了", "ask": "把镖单交给陈天星。\n他要查到底：查出来的，未必只是振远的丑事。镖单不会再回水烟阁。\n镖单只有一张。交给他吗？", "accept": true, "mark_giver": "镖单给了陈天星", "lines": [{"emote": "接过镖单，就着窗口看了很久，手有点抖。"}, {"say": "乙丑年，老松岭……这一趟是剑秋他爹押的。人没回来，振远的招牌在京师低了二十年。"}, {"say": "当年是谁点的这条路，底账里该有。我翻。"}, {"say": "过些日子你再来。"}]},
+				{"item": "native:cloud/escort_note", "accept": false, "say": "这是剑秋那里的旧账。你从哪儿得来的？……收好吧。"},
 				{ "line": "不要戏弄我！\n", "accept": false }
 			]
 		},

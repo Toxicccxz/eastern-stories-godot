@@ -33,6 +33,7 @@
 		"story/conditions.json",
 		"story/factions.json",
 		"story/faction_fonxan.json",
+		"story/faction_celestial.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",

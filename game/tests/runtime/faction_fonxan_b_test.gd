@@ -174,7 +174,8 @@ func _test_lapse() -> void:
 	_check(StoryQuestLog.is_lapsed(state, quest) and not StoryQuestLog.is_active(state, quest) and not StoryQuestLog.is_done(state, quest) and state.marks.get("封山的线断了", 0) == 1, "over, not done, and marked")
 	_check(StoryQuestLog.told_lines(told[0], true, state)[0].text.contains("【任务中止】封山剑派"), "told once")
 	_check(StoryQuestLog.record(state, no_temps, nothing, &"", quests).filter(func(fresh: StoryQuestLog.Fresh) -> bool: return fresh.quest == quest).is_empty(), "and only once")
-	var shown: Array[StoryQuestLog.Shown] = StoryQuestLog.shown(state, quests, StoryQuestDefinition.LINE_FACTION)
+	# 天邪 A: 天邪派's own line has begun beside it; this one is 封山's.
+	var shown: Array = StoryQuestLog.shown(state, quests, StoryQuestDefinition.LINE_FACTION).filter(func(each: StoryQuestLog.Shown) -> bool: return each.quest == quest)
 	_check(shown.size() == 1 and shown[0].lapsed and shown[0].objective.is_empty() and shown[0].entries[-1].contains("到此为止"), "the 任务 page keeps it, with its last word and nothing to do")
 	_check(StoryQuestLog.tracked(state, quests) != quest, "it is not followed any more")
 

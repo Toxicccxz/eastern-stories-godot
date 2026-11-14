@@ -114,6 +114,27 @@
     "native.npc.liu_huixin_north": {"same_as": "snow.npc.girl"},
     "native.npc.liu_huixin_lake": {"same_as": "snow.npc.girl"},
     "native.npc.liu_chunfeng_lake": {"same_as": "common.npc.swordsman.master"},
+    "native.npc.waterfog_spy": {
+      "note": "皮货商：关北来的汉子，半旧的羊皮袄，背一卷毡子——水烟阁前的探子（势力线 天邪 A）",
+      "coat": "8a6a44", "pants": "3e3428", "skin": "c8946a", "hair": "1c1916",
+      "hair_style": "topknot", "headwear": "none", "beard": "moustache", "waist": "sash",
+      "prop": "none", "accent": "d8c8a0", "height": "standard", "build": "standard",
+      "shoes": "dark"
+    },
+    "native.npc.waterfog_hopeful": {
+      "note": "投师的少年：草鞋上全是泥，背上斜插一柄木刀（势力线 天邪 A）",
+      "coat": "6a7a54", "pants": "4a4636", "skin": "e2b48a", "hair": "201a16",
+      "hair_style": "short", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "a89a72", "height": "short", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.waterfog_courier": {
+      "note": "驿卒：精瘦，背油布包袱，腰挂雪亭驿的火印腰牌（势力线 天邪 A）",
+      "coat": "4a5a6e", "pants": "2e3440", "skin": "d6a47a", "hair": "1a1714",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "b8432e", "height": "standard", "build": "slim",
+      "shoes": "dark"
+    },
     "native.npc.fake_disciple_head": {
       "note": "罗七：自称封山弟子的骗子，不合身的青布长衫，腰里一柄竹剑，胸前挂着逄义的黄杨木腰牌（势力线 封山 A）",
       "coat": "4f6a78", "pants": "3a3f48", "skin": "d9a67c", "hair": "1f1c1a",

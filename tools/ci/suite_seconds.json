@@ -190,6 +190,7 @@
     "res://tests/runtime/death_realm_test.gd": 29.5,
     "res://tests/runtime/dialogue_box_test.gd": 33.6,
     "res://tests/runtime/equipment_weight_dodge_test.gd": 22.9,
+    "res://tests/runtime/faction_celestial_a_test.gd": 40.0,
     "res://tests/runtime/faction_fonxan_a_test.gd": 40.4,
     "res://tests/runtime/faction_fonxan_b_test.gd": 60.4,
     "res://tests/runtime/fanfang_masters_test.gd": 27.7,
