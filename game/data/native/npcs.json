@@ -5004,6 +5004,7 @@
 			},
 			"combat_exp": 60,
 			"score": 0,
+			"fight_deferred": "这是上山来的客人。在水烟阁门前动手，潘军禅那里交代不过去——要拿人，先问清楚（「拿下」）。",
 			"attitude": "peaceful",
 			"skills": {
 				"unarmed": 8,
@@ -5123,6 +5124,7 @@
 			},
 			"combat_exp": 300,
 			"score": 0,
+			"fight_deferred": "这是上山来的客人。在水烟阁门前动手，潘军禅那里交代不过去——要拿人，先问清楚（「拿下」）。",
 			"attitude": "peaceful",
 			"skills": {
 				"unarmed": 15,

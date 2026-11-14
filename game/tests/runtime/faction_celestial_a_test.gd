@@ -57,6 +57,7 @@ func _test_data() -> void:
 		_check(spawn != null and spawn.zone_id == YARD and spawn.map_id == &"waterfog.mountain", "%s stands before 水烟阁" % spawn_id)
 	var spy: NpcDefinition = catalog.npc(SPY)
 	_check(spy.hooks().spared_mark == "拿下了探子" and spy.hooks().spared_drop == LETTER and spy.hooks().spared_leave and spy.hooks().die_item_id == LETTER, "the spy taken: led off, his letter on the ground")
+	_check(not catalog.npc(HOPEFUL).dealings().fight_refusal().is_empty() and not catalog.npc(COURIER).dealings().fight_refusal().is_empty() and not spy.dealings().is_fight_deferred(), "the two who are what they say cannot be fought (seizing goes by 拿下); the spy can")
 	_check(spy.talk().ask_confirm("拿下").contains("赔不是") and spy.talk().ask_confirm("拿下").contains("趁乱走掉"), "拿下 says what a wrong man costs")
 	var expose: String = FileAccess.get_file_as_string("res://data/imperial/world.json")
 	_check(expose.count("\"mark\": \"镖路查清了\"") == 4, "the 揭发 counts 镖路查清了 in both its lists, and says so: %d" % expose.count("\"mark\": \"镖路查清了\""))
@@ -168,7 +169,7 @@ func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(asked.size() == 1 and (asked[0] as NpcObjectRule).ask.contains("查到底") and (asked[0] as NpcObjectRule).ask.contains("只有一张"), "giving it to him is asked first, and says it does not come back")
 	_check(capital.select_npc(tianxing.character_id), "陈天星 selected")
 	var given: ItemHandlingResult = capital.give_to_selected(_carried(session, NOTE))
-	_check(given != null and _said(given.lines, "过些日子") and state.marks.get("镖单给了陈天星", 0) == 1 and _carried(session, NOTE).is_empty(), "the 镖单 with 陈天星")
+	_check(given != null and _said(given.lines, "转一圈") and state.marks.get("镖单给了陈天星", 0) == 1 and _carried(session, NOTE).is_empty(), "the 镖单 with 陈天星")
 	session.record_journal()
 	_check(state.quests.has("faction.celestial/escort/chen") and DeedLog.done(state, "把二十年前的镖单带去京师交给了陈天星"), "the choice and its deed are recorded")
 	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"trace", "next: what he finds")
@@ -308,6 +309,13 @@ func _test_lapse(tree: SceneTree, session: WorldSessionController) -> void:
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT)
 	await _settle(tree)
 	_check(_said(_ask(hall, _first(session, HALL, PAN), "山门"), "不劳外人") and not state.marks.has("潘军禅说了山门"), "潘军禅 sends nobody")
+	state.marks["拿下了探子"] = 1 # TEST-ONLY: taken before leaving
+	hall.give_new_item_to_player(LETTER)
+	var pan: NpcRuntimeState = _first(session, HALL, PAN)
+	_check(hall.select_npc(pan.character_id), "潘军禅 selected")
+	var taken: ItemHandlingResult = hall.give_to_selected(_carried(session, LETTER))
+	_check(taken != null and _carried(session, LETTER).is_empty() and not _said(taken.lines, "大弟子") and not state.marks.has("值守回了话"), "a letter from one who left: taken, no rank named (%s)" % [[] if taken == null else taken.lines])
+	_check(not _said(_ask(hall, pan, "山门"), "大弟子"), "nor in his words")
 
 
 func _ask(map: WorldMapController, npc: NpcRuntimeState, topic: String) -> Array[String]:

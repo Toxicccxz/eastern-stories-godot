@@ -17585,6 +17585,11 @@ msgstr ""
 msgid "信我收下了。"
 msgstr ""
 
+#. common.npc.fighter.executioner accept_object.say
+#: data/common/npcs.json
+msgid "信我收下了。山门的事，不劳你了。"
+msgstr ""
+
 #. common.npc.fighter.executioner accept_object.lines.emote
 #: data/common/npcs.json
 msgid "展开信看了一遍，半晌没有说话。"
@@ -17592,7 +17597,7 @@ msgstr ""
 
 #. common.npc.fighter.executioner accept_object.lines.say
 #: data/common/npcs.json
-msgid "字是七长老身边账房的笔迹。……颜长老在数人头：哪几派来，椅子空不空，我站在哪一边。"
+msgid "字是七长老身边账房的笔迹。……颜长老在数人头：哪几派来，椅子空不空，阁里谁跟谁走得近——数到我头上来了。"
 msgstr ""
 
 #. common.npc.fighter.executioner accept_object.lines.say
@@ -22913,7 +22918,7 @@ msgstr ""
 
 #. faction.celestial/trace objective
 #: data/story/faction_celestial.json
-msgid "陈天星在翻振远总局二十年前的底账。过些时候再去京师振远总局，听他查到了什么。"
+msgid "陈天星在翻振远总局二十年前的底账。出了振远总局再进去，听他查到了什么。"
 msgstr ""
 
 #. faction.celestial/trace text
@@ -38901,12 +38906,17 @@ msgstr ""
 
 #. city.npc.chen inquiry.镖单.rules.say
 #: data/city/npcs.json
-msgid "底账还在翻。过些日子你再来。"
+msgid "底账还在翻。你出去转一圈再来。"
 msgstr ""
 
 #. city.npc.chen inquiry.镖单.rules.say
 #: data/city/npcs.json
 msgid "这张镖单……乙丑年老松岭那一趟？拿来我看。"
+msgstr ""
+
+#. city.npc.chen inquiry.镖单.rules.say
+#: data/city/npcs.json
+msgid "这张镖单……乙丑年老松岭那一趟。剑秋那里的旧账，你收好。"
 msgstr ""
 
 #. city.npc.chen inquiry.镖单.rules.say
@@ -39008,7 +39018,7 @@ msgstr ""
 
 #. city.npc.chen accept_object.lines.say
 #: data/city/npcs.json
-msgid "过些日子你再来。"
+msgid "你出去转一圈再来，我把底账翻一翻。"
 msgstr ""
 
 #. city.npc.chen accept_object.say
@@ -56760,6 +56770,12 @@ msgid ""
 "一个十五六岁的少年，草鞋上全是泥，背上斜插着一柄木刀，一双眼睛直往阁门里瞟。\n"
 msgstr ""
 
+#. native.npc.waterfog_hopeful fight_deferred
+#. native.npc.waterfog_courier fight_deferred
+#: data/native/npcs.json
+msgid "这是上山来的客人。在水烟阁门前动手，潘军禅那里交代不过去——要拿人，先问清楚（「拿下」）。"
+msgstr ""
+
 #. native.npc.waterfog_hopeful chat_msg
 #: data/native/npcs.json
 msgid ""
@@ -57204,7 +57220,7 @@ msgstr ""
 #. native:waterfog/spy_letter long
 #: data/native/items.json
 msgid ""
-"一张折得很小的薄纸，没有抬头，也没有落款，只有几行蝇头小字：「阁中椅子空否。卫某生死、所在。七长老左右几人。正月十七，几派到。」\n"
+"一张折得很小的薄纸，没有抬头，也没有落款，只有几行蝇头小字：「阁中椅子空否。卫某生死、所在。阁里谁与谁近。正月十七，几派到。」\n"
 msgstr ""
 
 #. native:waterfog/pan_warrant name

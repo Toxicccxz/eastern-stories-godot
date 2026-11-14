@@ -178,8 +178,9 @@
 				"镖单": {
 					"rules": [
 						{ "asker_marks": ["镖路查清了"], "say": "那趟镖是兵部点名改走老松岭的。底账我收着，用得着的时候来找我。" },
-						{ "asker_marks": ["镖单给了陈天星"], "say": "底账还在翻。过些日子你再来。" },
-						{ "asker_carries": "escort note", "say": "这张镖单……乙丑年老松岭那一趟？拿来我看。" },
+						{ "asker_marks": ["镖单给了陈天星"], "say": "底账还在翻。你出去转一圈再来。" },
+						{ "asker_marks": ["潘军禅说了镖单"], "asker_lacks": ["镖单锁进了刑堂", "天邪的线断了"], "asker_carries": "escort note", "say": "这张镖单……乙丑年老松岭那一趟？拿来我看。" },
+						{ "asker_carries": "escort note", "say": "这张镖单……乙丑年老松岭那一趟。剑秋那里的旧账，你收好。" },
 						{ "say": "镖单？振远走过的镖，镖单都在剑秋那里。" }
 					]
 				}
@@ -193,7 +194,7 @@
 				{ "item": "es2:u/cloud/npc/obj/letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
 				{ "item": "native:cloud/escort_note", "giver_mark": "镖单锁进了刑堂", "accept": false, "say": "潘执法使那里锁着一张？……那这一张存根，你留着吧。" },
 				{ "item": "native:cloud/escort_note", "giver_mark": "镖单给了陈天星", "accept": false, "say": "我手里有一张了。" },
-				{ "item": "native:cloud/escort_note", "giver_mark": "潘军禅说了镖单", "unless_giver_mark": "天邪的线断了", "ask": "把镖单交给陈天星。\n他要查到底：查出来的，未必只是振远的丑事。镖单不会再回水烟阁。\n镖单只有一张。交给他吗？", "accept": true, "mark_giver": "镖单给了陈天星", "lines": [{ "emote": "接过镖单，就着窗口看了很久，手有点抖。" }, { "say": "乙丑年，老松岭……这一趟是剑秋他爹押的。人没回来，振远的招牌在京师低了二十年。" }, { "say": "当年是谁点的这条路，底账里该有。我翻。" }, { "say": "过些日子你再来。" }] },
+				{ "item": "native:cloud/escort_note", "giver_mark": "潘军禅说了镖单", "unless_giver_mark": "天邪的线断了", "ask": "把镖单交给陈天星。\n他要查到底：查出来的，未必只是振远的丑事。镖单不会再回水烟阁。\n镖单只有一张。交给他吗？", "accept": true, "mark_giver": "镖单给了陈天星", "lines": [{ "emote": "接过镖单，就着窗口看了很久，手有点抖。" }, { "say": "乙丑年，老松岭……这一趟是剑秋他爹押的。人没回来，振远的招牌在京师低了二十年。" }, { "say": "当年是谁点的这条路，底账里该有。我翻。" }, { "say": "你出去转一圈再来，我把底账翻一翻。" }] },
 				{ "item": "native:cloud/escort_note", "accept": false, "say": "这是剑秋那里的旧账。你从哪儿得来的？……收好吧。" },
 				{ "line": "不要戏弄我！\n", "accept": false }
 			]
