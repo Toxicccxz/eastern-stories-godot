@@ -4762,6 +4762,488 @@
 			"vanishes": {
 				"line": "鬼卒一声不响地散成一股黑烟，钢叉当啷掉在地上。"
 			}
+		},
+		{
+			"id": "native.npc.waterfog_spy",
+			"legacy_source": "native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」) — 守山: the one of the three who came to learn whether the 盟主 lives (续写; ES2 has no spy at the gate). 兵部's man while 庾子建 sits at court, one counting heads for 颜违 after he fell (下狱, 私了): his 路引's 印色 tells which, to one who learnt it (第六章 学过印色)",
+			"name": "皮货商",
+			"aliases": [
+				"fur trader",
+				"trader",
+				"皮货商"
+			],
+			"gender": "男性",
+			"age": 41,
+			"long": "一个四十上下的关北汉子，裹着一件半旧的羊皮袄，背上一卷毡子。他在阁前来回踱着，看人的时候先看人家腰里，笑起来眼睛不笑。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 22,
+				"int": 24,
+				"spi": 16,
+				"cps": 20,
+				"per": 14,
+				"con": 22,
+				"kar": 14
+			},
+			"combat_exp": 700,
+			"score": 200,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"not": {
+					"mark": "认出了探子"
+				}
+			},
+			"skills": {
+				"unarmed": 18,
+				"parry": 12,
+				"dodge": 15,
+				"force": 10
+			},
+			"resources": {
+				"kee": 160,
+				"max_kee": 160,
+				"force": 40,
+				"max_force": 40
+			},
+			"force_factor": 2,
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:obj/money/silver",
+					"source": "obj/money/silver.c",
+					"amount": 6
+				}
+			],
+			"chat_chance": 5,
+			"chat_msg": [
+				"皮货商踮起脚往阁门里望了一眼，又若无其事地转开了。\n",
+				"皮货商搓着手道：好大的气派。正月十七，九派的人都要来吧？\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"皮货商咬牙道：水烟阁的待客之道！\n",
+				"皮货商一边招架，一边拿眼角找下山的路。\n"
+			],
+			"inquiry": {
+				"来意": [
+					"关北来的，贩些皮子。听说七长老要办正月十七的大会，想来见识见识水烟阁的正厅——这么大的场面，一辈子见一回。"
+				],
+				"盟主": {
+					"rules": [
+						{
+							"asker_marks": [
+								"卫沧澜出了尚书府"
+							],
+							"lines": [
+								{
+									"say": "盟主？您说的是哪一位？"
+								},
+								{
+									"say": "……听说二十年前那位回来了？人在阁里？身子骨还坐得住那把椅子么？"
+								},
+								{
+									"emote": "说完又笑了笑，像是随口一问。"
+								}
+							]
+						},
+						{
+							"lines": [
+								{
+									"say": "盟主？您说的是哪一位？"
+								},
+								{
+									"say": "二十年前那位卫盟主——如今还在不在？在，又在哪儿？"
+								},
+								{
+									"emote": "说完又笑了笑，像是随口一问。"
+								}
+							]
+						}
+					]
+				},
+				"路引": {
+					"rules": [
+						{
+							"asker_marks": [
+								"学过印色",
+								"庾子建下狱"
+							],
+							"lines": [
+								{
+									"emote": "把路引递了过来：关北槐阳县开的路引，盖着一方县印。"
+								},
+								{
+									"line": "你凑近看了看那方县印：印色鲜亮，是水烟阁自己用的印泥——关北的县衙不用它。这张路引，是山上的人开的。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"学过印色",
+								"私了了庾子建"
+							],
+							"lines": [
+								{
+									"emote": "把路引递了过来：关北槐阳县开的路引，盖着一方县印。"
+								},
+								{
+									"line": "你凑近看了看那方县印：印色鲜亮，是水烟阁自己用的印泥——关北的县衙不用它。这张路引，是山上的人开的。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"学过印色"
+							],
+							"lines": [
+								{
+									"emote": "把路引递了过来：关北槐阳县开的路引，盖着一方县印。"
+								},
+								{
+									"line": "你凑近看了看那方县印：印色发乌——是兵部文书上那种印泥，不是关北县衙用的正红。"
+								}
+							]
+						},
+						{
+							"lines": [
+								{
+									"emote": "把路引递了过来：关北槐阳县开的路引，盖着一方县印。"
+								},
+								{
+									"line": "路引上的字、印都齐全。你看不出什么不对。"
+								}
+							]
+						}
+					]
+				},
+				"拿下": {
+					"listed_marks": [
+						"潘军禅说了山门"
+					],
+					"confirm": "拿下这个人？\n拿对了，他会动手；拿错了，水烟阁要向人家赔不是，真的探子会趁乱走掉。\n要拿下吗？",
+					"confirm_marks": [
+						"潘军禅说了山门"
+					],
+					"confirm_lacks": [
+						"认出了探子",
+						"探子跑了",
+						"拿下了探子"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"认出了探子"
+							],
+							"say": "要拿，就来拿！"
+						},
+						{
+							"asker_marks": [
+								"潘军禅说了山门"
+							],
+							"asker_lacks": [
+								"天邪的线断了"
+							],
+							"mark_asker": "认出了探子",
+							"lines": [
+								{
+									"emote": "的笑僵在了脸上。"
+								},
+								{
+									"say": "……好眼力。"
+								},
+								{
+									"emote": "把背上的毡子往地上一扔，摆了个架势。"
+								}
+							]
+						},
+						{
+							"say": "拿我？你是水烟阁的什么人？"
+						}
+					]
+				}
+			},
+			"spared": {
+				"mark": "拿下了探子",
+				"leave": true,
+				"drop": "native:waterfog/spy_letter",
+				"line": "水烟阁武士从门里出来，把皮货商反剪了双手，押进阁里去了。他怀里掉出一封折得很小的信。"
+			},
+			"die_carries": {
+				"item": "native:waterfog/spy_letter"
+			},
+			"die_marks_killer": "拿下了探子"
+		},
+		{
+			"id": "native.npc.waterfog_hopeful",
+			"legacy_source": "native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」) — 守山: a boy come up to 拜师 (续写); he knows one 盟主",
+			"name": "投师的少年",
+			"aliases": [
+				"youth",
+				"boy",
+				"少年"
+			],
+			"gender": "男性",
+			"age": 16,
+			"long": "一个十五六岁的少年，草鞋上全是泥，背上斜插着一柄木刀，一双眼睛直往阁门里瞟。\n",
+			"attributes": {
+				"str": 18,
+				"cor": 22,
+				"int": 16,
+				"spi": 18,
+				"cps": 14,
+				"per": 20,
+				"con": 18,
+				"kar": 22
+			},
+			"combat_exp": 60,
+			"score": 0,
+			"fight_deferred": "这是上山来的客人。在水烟阁门前动手，潘军禅那里交代不过去——要拿人，先问清楚（「拿下」）。",
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 8,
+				"dodge": 8
+			},
+			"resources": {
+				"kee": 80,
+				"max_kee": 80
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"投师的少年攥着拳头，小声把一套拳路比划了一遍。\n"
+			],
+			"inquiry": {
+				"来意": [
+					"我来拜师！听说天邪派拜师要接三招……我练了一个冬天了。"
+				],
+				"盟主": [
+					"卫盟主！我爹说，那年正月十七，他一个人在虹台上打下了九派。……可我爹也说，他二十年没下过山了。"
+				],
+				"路引": [
+					"路引？我从雪亭镇一路走上来的，要什么路引。"
+				],
+				"拿下": {
+					"listed_marks": [
+						"潘军禅说了山门"
+					],
+					"confirm": "拿下这个人？\n拿对了，他会动手；拿错了，水烟阁要向人家赔不是，真的探子会趁乱走掉。\n要拿下吗？",
+					"confirm_marks": [
+						"潘军禅说了山门"
+					],
+					"confirm_lacks": [
+						"认出了探子",
+						"探子跑了",
+						"拿下了探子"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"探子跑了"
+							],
+							"say": "我……我什么也没干。我就是来拜师的。"
+						},
+						{
+							"asker_marks": [
+								"认出了探子"
+							],
+							"say": "那个卖皮子的……原来是他！"
+						},
+						{
+							"asker_marks": [
+								"拿下了探子"
+							],
+							"say": "那个卖皮子的……原来是他！"
+						},
+						{
+							"asker_marks": [
+								"潘军禅说了山门"
+							],
+							"asker_lacks": [
+								"天邪的线断了"
+							],
+							"mark_asker": "探子跑了",
+							"also_leaves": "native.npc.waterfog_spy",
+							"lines": [
+								{
+									"emote": "被你一把扣住了手腕，吓得脸都白了。"
+								},
+								{
+									"say": "冤枉！我……我什么也没干！"
+								},
+								{
+									"line": "门里的水烟阁武士闻声出来，把他按在地上搜了一遍：除了随身的几样东西，什么也没有。"
+								},
+								{
+									"line": "潘军禅从阁里出来，向他拱手赔了礼。"
+								},
+								{
+									"line": "你回过头去——那个关北来的皮货商，已经不见了。"
+								}
+							]
+						},
+						{
+							"say": "你、你要干什么？"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.waterfog_courier",
+			"legacy_source": "native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」) — 守山: 雪亭驿's courier with the 正月 letters (续写; 雪亭驿 is d/snow's post); he knows one 盟主",
+			"name": "驿卒",
+			"aliases": [
+				"courier",
+				"驿卒"
+			],
+			"gender": "男性",
+			"age": 31,
+			"long": "一个精瘦的驿卒，背着一只油布包袱，腰里挂着雪亭驿的火印腰牌，额上一层汗。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 16,
+				"int": 18,
+				"spi": 14,
+				"cps": 18,
+				"per": 16,
+				"con": 20,
+				"kar": 16
+			},
+			"combat_exp": 300,
+			"score": 0,
+			"fight_deferred": "这是上山来的客人。在水烟阁门前动手，潘军禅那里交代不过去——要拿人，先问清楚（「拿下」）。",
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 15,
+				"dodge": 20
+			},
+			"resources": {
+				"kee": 120,
+				"max_kee": 120
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"驿卒把油布包袱换了个肩，嘟囔着：一封信要送到山顶上，腿都跑细了。\n"
+			],
+			"inquiry": {
+				"来意": [
+					"雪亭驿的。正月的信函，一封封都要当面交到阁里。"
+				],
+				"盟主": [
+					"卫盟主嘛。信封上还写着「呈盟主座前」，二十年都这么写，也没人叫改。"
+				],
+				"路引": {
+					"rules": [
+						{
+							"asker_marks": [
+								"学过印色"
+							],
+							"lines": [
+								{
+									"emote": "亮了亮腰牌。"
+								},
+								{
+									"line": "雪亭驿的火印，印色是驿站用的朱砂。没什么不对。"
+								}
+							]
+						},
+						{
+							"lines": [
+								{
+									"emote": "亮了亮腰牌。"
+								},
+								{
+									"say": "雪亭驿的火印，假不了。"
+								}
+							]
+						}
+					]
+				},
+				"拿下": {
+					"listed_marks": [
+						"潘军禅说了山门"
+					],
+					"confirm": "拿下这个人？\n拿对了，他会动手；拿错了，水烟阁要向人家赔不是，真的探子会趁乱走掉。\n要拿下吗？",
+					"confirm_marks": [
+						"潘军禅说了山门"
+					],
+					"confirm_lacks": [
+						"认出了探子",
+						"探子跑了",
+						"拿下了探子"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"探子跑了"
+							],
+							"say": "信函还没送到呢，平白挨了一顿……"
+						},
+						{
+							"asker_marks": [
+								"认出了探子"
+							],
+							"say": "那个卖皮子的……原来是他！"
+						},
+						{
+							"asker_marks": [
+								"拿下了探子"
+							],
+							"say": "那个卖皮子的……原来是他！"
+						},
+						{
+							"asker_marks": [
+								"潘军禅说了山门"
+							],
+							"asker_lacks": [
+								"天邪的线断了"
+							],
+							"mark_asker": "探子跑了",
+							"also_leaves": "native.npc.waterfog_spy",
+							"lines": [
+								{
+									"emote": "被你一把扣住了手腕，包袱掉在了地上。"
+								},
+								{
+									"say": "冤枉！我……我什么也没干！"
+								},
+								{
+									"line": "门里的水烟阁武士闻声出来，把他按在地上搜了一遍：除了随身的几样东西，什么也没有。"
+								},
+								{
+									"line": "潘军禅从阁里出来，向他拱手赔了礼。"
+								},
+								{
+									"line": "你回过头去——那个关北来的皮货商，已经不见了。"
+								}
+							]
+						},
+						{
+							"say": "你、你要干什么？"
+						}
+					]
+				}
+			}
 		}
 	]
 }

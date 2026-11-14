@@ -24,6 +24,11 @@
 			"revision": "SOURCE_ENTRY_FINALE_BEARER_V1",
 			"spawn_points": 808,
 			"fingerprint": "be57b571b33d851330d6b80c45ecd3f248ea9cfc7f8ab18c8ef55e1ae3e36514"
+		},
+		{
+			"revision": "SOURCE_ENTRY_CELESTIAL_A_V1",
+			"spawn_points": 811,
+			"fingerprint": "b5892a9393809ab776fc95c4ea8fa017e3fa03e973b9c8c93e096f508e31f37c"
 		}
 	]
 }

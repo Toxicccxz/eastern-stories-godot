@@ -82,6 +82,8 @@ class Answer:
 	var attacks: bool = false
 	## Whether it leaves for good once it has answered (NpcInquiryRule.leaves; the caller does it).
 	var leaves: bool = false
+	## Another NPC definition, the first of which in the room leaves for good (NpcInquiryRule.also_leaves).
+	var also_leaves: StringName = &""
 	## The ending told once it has answered (NpcInquiryRule.epilogue; the caller tells it); "" none.
 	var epilogue: StringName = &""
 	## 战斗拍数 D: the CombatInsights key the asker gets for this answer (hearsay, a guide's 打法); "" none.
@@ -212,6 +214,7 @@ static func answer(
 		result.mood = rule.mood
 		result.attacks = rule.attacks
 		result.leaves = rule.leaves
+		result.also_leaves = rule.also_leaves
 		result.epilogue = rule.epilogue
 		result.vendor_list = rule.vendor_list
 		result.forgets = rule.forgets

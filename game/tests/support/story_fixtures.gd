@@ -509,3 +509,29 @@ static func fonxan_book_given(session: WorldSessionController, to_daughter: bool
 		_write(state, key)
 	for mark: String in ["柳淳风说过门房", "柳淳风说了推法", "竹书给了柳绘心" if to_daughter else "竹书给了柳淳风"]:
 		state.marks[mark] = 1
+
+
+## 天邪 A (势力线第一批; DECISIONS「天邪 A」): sworn to 萧辟尘 — 天邪派's seventeenth generation, no class
+## (the fighter masters give none).
+static func celestial_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.celestial", 17)
+	state.apprenticeship.master_teacher_id = &"common.npc.fighter.master"
+	state.apprenticeship.legacy_master_name = "萧辟尘"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
+## 天邪 A's 守山 done (`caught`: the spy taken, else gone while the wrong man was held), and told to
+## 潘军禅 (大弟子): the 镖单 is next.
+static func celestial_watched(session: WorldSessionController, caught: bool = true) -> void:
+	celestial_joined(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.celestial#started", "faction.celestial/hear", "faction.celestial/watch", "faction.celestial/report"]:
+		_write(state, key)
+	for mark: String in ["潘军禅说了山门", "值守回了话"] + (["认出了探子", "拿下了探子"] if caught else ["探子跑了"]):
+		state.marks[mark] = 1
+	state.affiliation.family_title = "大弟子"

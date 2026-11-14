@@ -695,11 +695,14 @@
 		"native.innerhall.shield_youth",
 		"native.entrance.liu_huixin",
 		"native.lakeside.liu_chunfeng",
-		"native.lakeside.liu_huixin"
+		"native.lakeside.liu_huixin",
+		"native.frontyard.spy",
+		"native.frontyard.hopeful",
+		"native.frontyard.courier"
 	],
-	"world_npcs": 808,
+	"world_npcs": 811,
 	"resident_maps": 167,
-	"new_game_items": 1231,
+	"new_game_items": 1235,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -914,7 +917,7 @@
 		"cloud.tearoom_house": 1,
 		"cloud.weapony_house": 1,
 		"cloud.zaihuoy_house": 1,
-		"waterfog.mountain": 4,
+		"waterfog.mountain": 7,
 		"waterfog.pavilion": 8,
 		"waterfog.upstairs": 7,
 		"green.village": 10,

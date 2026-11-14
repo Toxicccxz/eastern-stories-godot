@@ -81,6 +81,8 @@
 		"native:snow/letter_to_chen": { "kind": "letter", "paper": "e9dcb8", "seal": "a3301f:gloss" },
 		"native:oldpine/cloth_strip": { "kind": "cloth_strip", "cloth": "a8926a", "mark": "3a2a1e" },
 		"native:snow/fonxan_tally": { "kind": "token", "color": "b89a5a", "border": "7a5a30", "emblem": "5a4028", "cord": "3a4a6a", "tassel": "c9b27a" },
+		"native:waterfog/spy_letter": {"kind": "letter", "paper": "e2d8c0", "fold": "c2b698", "seal": "e2d8c0", "ink": "2a201a"},
+		"native:waterfog/pan_warrant": {"kind": "letter", "paper": "e8dcc0", "fold": "c8b894", "seal": "b0281c:gloss", "ink": "1e1814"},
 		"native:waterfog/guild_token": { "kind": "token", "color": "6a5530:gloss", "border": "d8b04a:gloss", "emblem": "e8b84a:gloss", "cord": "8a2a20", "tassel": "8a2a20" },
 		"native:snow/old_letter": { "kind": "letter", "paper": "d8c79a", "fold": "b09a6c", "seal": "7a5a3a", "ink": "3a2c20" },
 		"native:snow/letter_to_pan": { "kind": "letter", "paper": "e6d6ae", "fold": "c4b088", "seal": "9a2a1a:gloss", "ink": "2e2119" },

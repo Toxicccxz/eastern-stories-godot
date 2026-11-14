@@ -481,6 +481,11 @@ func ask_selected(topic: String) -> Array[String]:
 	# 主线 第五章: an answer that is a leave-taking (陈显祖's 走吧): gone for good, as an act's `leave`.
 	if answer.leaves:
 		_map.npcs.leave_for_good(target)
+	# 天邪 A: another in the room goes with the answer (the spy slipping away while the wrong man is held).
+	if not answer.also_leaves.is_empty():
+		var going: NpcRuntimeState = _map.npcs.first_npc_in_zone(answer.also_leaves, target.world_location().zone_id, true)
+		if going != null:
+			_map.npcs.leave_for_good(going)
 	# 终章 C: an answer that ends the story (DECISIONS「结局讲述」).
 	if not answer.epilogue.is_empty():
 		session.play_epilogue(answer.epilogue)

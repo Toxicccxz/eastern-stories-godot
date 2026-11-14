@@ -270,6 +270,21 @@
             "id": "waterfog.sroad3.guard.2"
           },
           {
+            "name": "FrontyardVisitor1",
+            "at": [1124, 784],
+            "id": "waterfog.frontyard.visitor.1"
+          },
+          {
+            "name": "FrontyardVisitor2",
+            "at": [1124, 840],
+            "id": "waterfog.frontyard.visitor.2"
+          },
+          {
+            "name": "FrontyardVisitor3",
+            "at": [1124, 896],
+            "id": "waterfog.frontyard.visitor.3"
+          },
+          {
             "name": "ClifftopWatcher1",
             "at": [1360, 1064],
             "id": "waterfog.clifftop.watcher.1"

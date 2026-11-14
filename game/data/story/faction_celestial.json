@@ -1,0 +1,138 @@
+{
+	"quests": [
+		{
+			"id": "faction.celestial",
+			"title": "天邪派",
+			"line": "faction",
+			"region": "水烟阁",
+			"sources": [
+				"native: 势力线第一批 天邪 A (剧情总纲 §4 势力线原则 and 第 2 条「天邪派／水烟阁」: 门派就是势力线, 拜师即入门, 辈分即晋阶, 每条线 1 个大分裂 + 最多 2 个小选择; 计划 build/plans/势力线第一批_计划.md §4 天邪 A and §8「镖单一份」, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」). daemon/class/fighter/executioner.c (潘军禅, 水烟阁执法使, 柳淳风的结拜义弟, 为人十分风趣, 又好交朋友); d/waterfog/entrance.c (the gate's guards: 进水烟阁, 先放下你的兵刃), frontyard.c (水烟阁前, 学武之人的朝圣地), guildhall.c (每年的正月十七都要在水烟阁外的「虹台」推选武林盟主); d/city/npc/chen.c (陈天星, who built 振远镖局). The 守山 watch, the spy and the 镖单's two ways are the plan's (续写); the line stops at a stub step `next` that 天邪 B fills (盟主的下落, the chair)."
+			],
+			"summary": "拜了天邪派，水烟阁的门就由你守一回。",
+			"starts": {
+				"family": "family.celestial"
+			},
+			"lapses": {
+				"when": {"not": {"family": "family.celestial"}},
+				"text": "你已经不是天邪派的人了。水烟阁的事，到此为止。",
+				"mark": "天邪的线断了"
+			},
+			"steps": [
+				{
+					"id": "hear",
+					"objective": "去水烟阁正厅，问执法使潘军禅「山门」。",
+					"done": {
+						"mark": "潘军禅说了山门"
+					},
+					"text": "潘军禅说，正月十七快到了，上山的人多；这一个月，有人在打听盟主的事。他要一个新面孔去山门值一班。",
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall",
+						"npcs": ["common.npc.fighter.executioner"]
+					}
+				},
+				{
+					"id": "watch",
+					"objective": "到水烟阁前值守：三个上山的人在门外候着。问清他们的「来意」，听他们怎么说「盟主」，看看「路引」——认出那个来打听盟主的探子，把他「拿下」。拿错了人，真的探子会趁乱走掉。",
+					"done": {
+						"any": [
+							{
+								"mark": "拿下了探子"
+							},
+							{
+								"mark": "探子跑了"
+							}
+						]
+					},
+					"keeps": ["native.npc.waterfog_spy", "native.npc.waterfog_hopeful", "native.npc.waterfog_courier"],
+					"text": "山门的一班值完了。",
+					"target": {
+						"map": "waterfog.mountain",
+						"zone": "waterfog.frontyard",
+						"npcs": ["native.npc.waterfog_spy", "native.npc.waterfog_hopeful", "native.npc.waterfog_courier"]
+					}
+				},
+				{
+					"id": "report",
+					"objective": "回正厅向潘军禅回话（问他「山门」；搜到了信，把信交给他）。",
+					"done": {
+						"mark": "值守回了话"
+					},
+					"keeps": ["native.npc.waterfog_spy", "native.npc.waterfog_hopeful", "native.npc.waterfog_courier"],
+					"text": "潘军禅听完了山门的事。「水烟阁的门，你守过一回了。」",
+					"reward": {
+						"deed": "替水烟阁在山门值过一班",
+						"rank": {
+							"family": "family.celestial",
+							"title": "大弟子"
+						}
+					},
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall",
+						"npcs": ["common.npc.fighter.executioner"]
+					}
+				},
+				{
+					"id": "escort",
+					"weight": "small",
+					"objective": "问潘军禅「镖单」。二十年前那张镖单只有一张：交给潘军禅，锁进刑堂，振远的脸面水烟阁替他们留着，这件事到此为止；带去京师振远总局交给陈天星，他要查到底——查出来的，未必只是振远的丑事。镖单不在身上的，去绮云镇振远镖局问陈剑秋。",
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall",
+						"npcs": ["common.npc.fighter.executioner"]
+					},
+					"options": [
+						{
+							"id": "pan",
+							"done": {
+								"mark": "镖单锁进了刑堂"
+							},
+							"text": "你把镖单交给了潘军禅。他锁进了刑堂：振远的脸面，水烟阁替他们留着。",
+							"reward": {
+								"deed": "把二十年前的镖单交给潘军禅锁进了刑堂"
+							}
+						},
+						{
+							"id": "chen",
+							"done": {
+								"mark": "镖单给了陈天星"
+							},
+							"text": "你把镖单带去京师，交给了陈天星。他要查到底。",
+							"reward": {
+								"deed": "把二十年前的镖单带去京师交给了陈天星"
+							}
+						}
+					]
+				},
+				{
+					"id": "trace",
+					"only_after": "chen",
+					"objective": "陈天星在翻振远总局二十年前的底账。出了振远总局再进去，听他查到了什么。",
+					"done": {
+						"mark": "镖路查清了"
+					},
+					"text": "陈天星查清了：二十年前那趟镖本该走官道，是兵部来人点名改走老松岭的。",
+					"target": {
+						"map": "city.biaoju_house",
+						"zone": "city.biaoju",
+						"npcs": ["city.npc.chen"]
+					}
+				},
+				{
+					"id": "next",
+					"objective": "潘军禅说，盟主的事，等过些日子再同你说。",
+					"done": {
+						"mark": "潘军禅说了盟主的下落"
+					},
+					"text": "潘军禅说起了盟主的下落。",
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall",
+						"npcs": ["common.npc.fighter.executioner"]
+					}
+				}
+			]
+		}
+	]
+}

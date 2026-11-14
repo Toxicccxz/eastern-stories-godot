@@ -457,6 +457,21 @@ position = Vector2(1192, 1944)
 script = ExtResource("marker")
 spawn_point_id = &"waterfog.sroad3.guard.2"
 
+[node name="FrontyardVisitor1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1124, 784)
+script = ExtResource("marker")
+spawn_point_id = &"waterfog.frontyard.visitor.1"
+
+[node name="FrontyardVisitor2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1124, 840)
+script = ExtResource("marker")
+spawn_point_id = &"waterfog.frontyard.visitor.2"
+
+[node name="FrontyardVisitor3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1124, 896)
+script = ExtResource("marker")
+spawn_point_id = &"waterfog.frontyard.visitor.3"
+
 [node name="ClifftopWatcher1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1360, 1064)
 script = ExtResource("marker")

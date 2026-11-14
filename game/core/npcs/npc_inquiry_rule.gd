@@ -31,6 +31,10 @@ var attacks: bool = false
 ## Native (主线 第五章; DECISIONS「第五章 人证」): once it has answered, the NPC leaves for good
 ## (an act's `leave`: 陈显祖 told 走吧 takes his box and is not seen again).
 var leaves: bool = false
+## Native (势力线第一批 天邪 A; DECISIONS「拿错了人」): an NPC definition the first of which, standing in
+## the asked one's room, leaves for good with this answer (an act's `leave` naming an NPC: the spy
+## who slips away while the wrong man is held); "" none.
+var also_leaves: StringName = &""
 ## Native (终章 C; DECISIONS「结局讲述」): once it has answered, this ending is told (the player who
 ## stays in the ice: 璃虹's 我留下); "" for none.
 var epilogue: StringName = &""
@@ -118,6 +122,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.mood = reader.text("mood")
 	rule.attacks = reader.boolean("attacks", false)
 	rule.leaves = reader.boolean("leaves", false)
+	rule.also_leaves = StringName(reader.text("also_leaves"))
 	rule.epilogue = StringName(reader.text("epilogue"))
 	if rule.leaves and rule.attacks:
 		reader.fail("leaves", "one that leaves does not attack")

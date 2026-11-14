@@ -861,6 +861,8 @@ func _resolve_npc_dealings() -> void:
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
 				if not inquiry_rule.asker_family.is_empty() and not _families.has(inquiry_rule.asker_family):
 					_errors.append("%s.inquiry.%s.asker_family: unknown family '%s'" % [origin, topic, inquiry_rule.asker_family])
+				if not inquiry_rule.also_leaves.is_empty() and not _npcs.has(inquiry_rule.also_leaves):
+					_errors.append("%s.inquiry.%s.also_leaves: unknown NPC '%s'" % [origin, topic, inquiry_rule.also_leaves])
 				if not inquiry_rule.epilogue.is_empty() and not _epilogues.has(inquiry_rule.epilogue):
 					_errors.append("%s.inquiry.%s.epilogue: unknown ending '%s'" % [origin, topic, inquiry_rule.epilogue])
 				# What a rule asks the asker to carry (or not) is an alias, as an act's `carries`.

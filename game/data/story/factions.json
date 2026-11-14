@@ -96,7 +96,8 @@
 			"layer": "sect",
 			"place": "绮云镇",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/b_header.c, d/city/npc/chen.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/b_header.c, d/city/npc/chen.c",
+				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)"
 			],
 			"lines": [
 				{
@@ -110,6 +111,24 @@
 					"when": {
 						"mark": "看过镖单"
 					}
+				},
+				{
+					"text": "那张镖单，是你替陈天星带到京师的。他要查到底。",
+					"when": {
+						"mark": "镖单给了陈天星"
+					}
+				},
+				{
+					"text": "陈天星查清了二十年前那趟镖：是兵部点名改走的老松岭。",
+					"when": {
+						"mark": "镖路查清了"
+					}
+				},
+				{
+					"text": "潘军禅把镖单锁进了刑堂，振远的脸面保住了。陈剑秋松了一口气。",
+					"when": {
+						"mark": "镖单锁进了刑堂"
+					}
 				}
 			]
 		},
@@ -119,7 +138,8 @@
 			"layer": "sect",
 			"place": "水烟阁",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/fighter/master.c, champion.c, executioner.c; d/waterfog/npc/elder5.c, elder7.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/fighter/master.c, champion.c, executioner.c; d/waterfog/npc/elder5.c, elder7.c",
+				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)"
 			],
 			"lines": [
 				{
@@ -156,6 +176,24 @@
 					"text": "於兰天武的通缉是你解的。他回了京。",
 					"when": {
 						"mark": "皇叔入朝"
+					}
+				},
+				{
+					"text": "你在水烟阁的山门值过一班，拿下了一个打听盟主的探子。",
+					"when": {
+						"mark": "拿下了探子"
+					}
+				},
+				{
+					"text": "你在水烟阁的山门拿错了人，真的探子趁乱下了山。",
+					"when": {
+						"mark": "探子跑了"
+					}
+				},
+				{
+					"text": "二十年前那张镖单锁在水烟阁的刑堂里。是你交给潘军禅的。",
+					"when": {
+						"mark": "镖单锁进了刑堂"
 					}
 				}
 			]
