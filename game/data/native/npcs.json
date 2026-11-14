@@ -4785,7 +4785,7 @@
 				"con": 22,
 				"kar": 14
 			},
-			"combat_exp": 2400,
+			"combat_exp": 700,
 			"score": 200,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -4797,18 +4797,18 @@
 				}
 			},
 			"skills": {
-				"unarmed": 30,
-				"parry": 25,
-				"dodge": 30,
-				"force": 20
+				"unarmed": 18,
+				"parry": 12,
+				"dodge": 15,
+				"force": 10
 			},
 			"resources": {
-				"kee": 280,
-				"max_kee": 280,
-				"force": 150,
-				"max_force": 150
+				"kee": 160,
+				"max_kee": 160,
+				"force": 40,
+				"max_force": 40
 			},
-			"force_factor": 4,
+			"force_factor": 2,
 			"carry": [
 				{
 					"item": "es2:obj/cloth",
