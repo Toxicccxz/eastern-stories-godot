@@ -591,6 +591,7 @@ func _check_story_quests() -> void:
 		if quest.lapses != null:
 			_check_condition(origin + ".lapses", quest.lapses)
 		_check_reward(origin + ".reward", quest.reward)
+		_check_checklist(origin, quest.checklist)
 		for other: StringName in quest.requires + quest.excludes:
 			if other == quest.quest_id:
 				_errors.append("%s: names itself" % origin)
@@ -604,12 +605,7 @@ func _check_story_quests() -> void:
 				_check_condition("%s.%s.done" % [at, option.option_id], option.condition)
 				_check_reward("%s.%s.reward" % [at, option.option_id], option.reward)
 			_check_reward(at + ".reward", step.reward)
-			for row: StoryQuestDefinition.CheckRow in step.checklist:
-				_check_condition(at + ".checklist.when", row.condition)
-				_check_condition(at + ".checklist.if", row.shown_if)
-				# A count row may name its at_least (`cond`): it is one only now, linked.
-				if row.counts and row.condition != null and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
-					_errors.append("%s.checklist: a count row's when is an at_least" % at)
+			_check_checklist(at, step.checklist)
 			for npc: StringName in step.keeps:
 				if not _npcs.has(npc):
 					_errors.append("%s.keeps: no npc '%s'" % [at, npc])
@@ -624,6 +620,16 @@ func _check_story_quests() -> void:
 				for npc: StringName in step.target.npc_ids:
 					if not _npcs.has(npc):
 						_errors.append("%s.target: no npc '%s'" % [at, npc])
+
+
+## A step's or a quest's checklist rows (DECISIONS「任务清单」「任务级清单」) ask conditions the game has.
+func _check_checklist(at: String, rows: Array[StoryQuestDefinition.CheckRow]) -> void:
+	for row: StoryQuestDefinition.CheckRow in rows:
+		_check_condition(at + ".checklist.when", row.condition)
+		_check_condition(at + ".checklist.if", row.shown_if)
+		# A count row may name its at_least (`cond`): it is one only now, linked.
+		if row.counts and row.condition != null and row.condition.when != JournalEntryDefinition.When.AT_LEAST:
+			_errors.append("%s.checklist: a count row's when is an at_least" % at)
 
 
 ## The progression table names NPCs, zones and chains the game has.

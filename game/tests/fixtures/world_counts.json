@@ -699,11 +699,12 @@
 		"native.frontyard.spy",
 		"native.frontyard.hopeful",
 		"native.frontyard.courier",
-		"native.lakeside.pan_junchan"
+		"native.lakeside.pan_junchan",
+		"native.front.patrol"
 	],
-	"world_npcs": 812,
+	"world_npcs": 813,
 	"resident_maps": 167,
-	"new_game_items": 1235,
+	"new_game_items": 1238,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -1006,7 +1007,7 @@
 		"death.inn2_house": 0,
 		"niling.slope": 1,
 		"niling.gate": 4,
-		"niling.hall": 6,
+		"niling.hall": 7,
 		"niling.dungeon": 8,
 		"niling.rear": 5,
 		"niling.master_house": 0,

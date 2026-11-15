@@ -110,6 +110,31 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "niling.suspicion",
+			"sources": [
+				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §2 第 6 条「疑点不加新状态」, §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — the 疑点 on one who wears the 黑冠 for 茅山: each a mark of its own (the scroll that never came back, the night people were lost, caught by the 巡殿 at 子时 once and again), three of them and the cover is blown (逆灵宫 C)."
+			],
+			"when": {
+				"at_least": {
+					"n": 3,
+					"of": [
+						{
+							"mark": "残卷没回宫"
+						},
+						{
+							"mark": "那一夜丢了人"
+						},
+						{
+							"mark": "子时在后殿外被撞见"
+						},
+						{
+							"mark": "子时在后殿外又被撞见"
+						}
+					]
+				}
+			}
 		}
 	]
 }

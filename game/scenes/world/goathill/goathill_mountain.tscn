@@ -358,6 +358,11 @@ position = Vector2(684, 1200)
 script = ExtResource("marker")
 spawn_point_id = &"goathill.mroad4.tribute_cart.1"
 
+[node name="OverturnedCart" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(676, 1212)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.overturned_cart.1"
+
 [node name="TributeTaoist01" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(612, 1236)
 script = ExtResource("marker")

@@ -58,8 +58,11 @@ class Shown:
 	var entries: Array[String] = []
 	## What to do now ("" once done).
 	var objective: String = ""
-	## The current step's checklist rows as they stand now (only when shown() is given a test).
+	## The quest's own checklist rows, then the current step's, as they stand now (only when shown()
+	## is given a test).
 	var checklist: Array[Checked] = []
+	## Pinned and under way: first in its column (StoryQuestDefinition.pinned).
+	var pinned: bool = false
 	## The order of its newest record (quests with the newest news come first).
 	var latest: int = 0
 
@@ -78,10 +81,15 @@ class Checked:
 ## The rows of `step`'s checklist shown now, by `test` (a condition -> whether it holds for the
 ## player now: what JournalLog.holds says with their things, place and time).
 static func checked(step: StoryQuestDefinition.Step, test: Callable) -> Array[Checked]:
+	return checked_rows([] as Array[StoryQuestDefinition.CheckRow] if step == null else step.checklist, test)
+
+
+## `rows` as they stand now, by `test` (checked(): a step's; the quest's own, DECISIONS「任务级清单」).
+static func checked_rows(rows_of: Array[StoryQuestDefinition.CheckRow], test: Callable) -> Array[Checked]:
 	var rows: Array[Checked] = []
-	if step == null or not test.is_valid():
+	if not test.is_valid():
 		return rows
-	for row: StoryQuestDefinition.CheckRow in step.checklist:
+	for row: StoryQuestDefinition.CheckRow in rows_of:
 		if row.shown_if != null and not bool(test.call(row.shown_if)):
 			continue
 		var view := Checked.new()
@@ -345,9 +353,11 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 		elif not view.done:
 			var step: StoryQuestDefinition.Step = current_step(state, quest)
 			view.objective = "" if step == null else step.objective
-			view.checklist = checked(step, test)
+			view.checklist = checked_rows(quest.checklist, test) + checked(step, test)
+			view.pinned = quest.pinned
 		result.append(view)
-	result.sort_custom(func(a: Shown, b: Shown) -> bool: return a.latest > b.latest)
+	# A pinned quest under way first (DECISIONS「任务级清单」), then the newest news.
+	result.sort_custom(func(a: Shown, b: Shown) -> bool: return a.pinned and not b.pinned or a.pinned == b.pinned and a.latest > b.latest)
 	return result
 
 
