@@ -195,7 +195,14 @@
 				"mark": "见过唤首"
 			},
 			"until": {
-				"quest": "main.chapter3/choice/rescue"
+				"any": [
+					{
+						"quest": "main.chapter3/choice/rescue"
+					},
+					{
+						"mark": "被识破"
+					}
+				]
 			},
 			"cleared_mark": "玄冥子倒了"
 		},
@@ -215,6 +222,74 @@
 			},
 			"until": {
 				"mark": "林忌说了地牢"
+			}
+		},
+		{
+			"id": "niling.yard.unmasking_xuan",
+			"npc": "native.npc.xuan_mingzi_unmasking",
+			"map": "niling.gate",
+			"zone": "niling.yard",
+			"points": [
+				"niling.yard.unmasker.1"
+			],
+			"legacy_room": "native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) (被识破: 玄冥子, where he lives, waits in the 前院 once three 疑点 are on one who wears the 黑冠 for 茅山; off the stage once they are found out)",
+			"legacy_quantity": 1,
+			"present": {
+				"all": [
+					{
+						"cond": "niling.unmasking"
+					},
+					{
+						"all": [
+							{
+								"mark": "放过了玄冥子"
+							},
+							{
+								"not": {
+									"mark": "了结了玄冥子"
+								}
+							}
+						]
+					}
+				]
+			},
+			"until": {
+				"mark": "被识破"
+			}
+		},
+		{
+			"id": "niling.yard.unmasking_chanter",
+			"npc": "native.npc.niling_lead_chanter_unmasking",
+			"map": "niling.gate",
+			"zone": "niling.yard",
+			"points": [
+				"niling.yard.unmasker_chanter.1"
+			],
+			"legacy_room": "native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) (被识破 where no 玄冥子 lives: the 领诵 waits in the 前院 in his place)",
+			"legacy_quantity": 1,
+			"present": {
+				"all": [
+					{
+						"cond": "niling.unmasking"
+					},
+					{
+						"not": {
+							"all": [
+								{
+									"mark": "放过了玄冥子"
+								},
+								{
+									"not": {
+										"mark": "了结了玄冥子"
+									}
+								}
+							]
+						}
+					}
+				]
+			},
+			"until": {
+				"mark": "被识破"
 			}
 		}
 	]

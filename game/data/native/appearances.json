@@ -597,6 +597,9 @@
       "shoes": "straw"
     },
     "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"},
+    "native.npc.xuan_mingzi_unmasking": {"same_as": "native.npc.xuan_mingzi"},
+    "native.npc.niling_lead_chanter_unmasking": {"same_as": "native.npc.niling_lead_chanter"},
+    "native.npc.niling_pursuer": {"same_as": "native.npc.tribute_taoist"},
     "native.npc.cult_killer": {"same_as": "latemoon.npc.room.killer"},
     "native.npc.ge_sheng": {
       "note": "名册记book；袍上墨点、秃笔无词；立绘 Muse 2026-11-07",
@@ -741,6 +744,7 @@
     "native.npc.nan_weishui_lake": {"same_as": "native.npc.nan_weishui_guest"},
     "native.npc.wei_canglan_lake": {"same_as": "native.npc.wei_canglan"},
     "native.npc.pan_junchan_lake": {"same_as": "common.npc.fighter.executioner"},
+    "native.npc.lin_ji_lake": {"same_as": "common.npc.taoist.taolord"},
     "native.npc.yulan_tianwu_lake": {"same_as": "common.npc.fighter.champion"},
     "native.npc.xiao_pichen_lake": {"same_as": "common.npc.fighter.master"},
     "native.npc.elon_lake": {"same_as": "latemoon.npc.room.elon"},

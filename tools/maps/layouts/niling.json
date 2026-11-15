@@ -92,6 +92,8 @@
           "niling.gatehouse.gatekeeper.1": ["niling.gatehouse", ["rel", 0.78, 0.22]],
           "niling.yard.gate_guard.1": ["niling.yard", ["rel", 0.32, 0.86]],
           "niling.yard.gate_guard.2": ["niling.yard", ["rel", 0.68, 0.86]],
+          "niling.yard.unmasker.1": ["niling.yard", ["rel", 0.5, 0.26]],
+          "niling.yard.unmasker_chanter.1": ["niling.yard", ["rel", 0.5, 0.26]],
           "niling.store.store_taoist.1": ["niling.store", ["rel", 0.5, 0.55]]
         },
         "doors": {"niling.gatehouse.south": "south", "niling.store.south": "south", "niling.yard.north": "north"},

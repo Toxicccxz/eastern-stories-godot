@@ -233,6 +233,9 @@ msgstr ""
 #. native.npc.niling_jailer_dozing gender
 #. native.npc.niling_captive_peddler gender
 #. native.npc.niling_captive_herbalist gender
+#. native.npc.xuan_mingzi_unmasking gender
+#. native.npc.niling_lead_chanter_unmasking gender
+#. native.npc.niling_pursuer gender
 #. native.npc.pass_gate_soldier gender
 #. native.npc.huaiyang_gate_guard gender
 #. native.npc.camel_driver gender
@@ -350,6 +353,7 @@ msgstr ""
 #. native.npc.shield_swordsman_lake gender
 #. native.npc.feng_ce_lake gender
 #. native.npc.nan_weishui_lake gender
+#. native.npc.lin_ji_lake gender
 #. native.npc.pan_junchan_lake gender
 #. native.npc.wei_canglan_lake gender
 #. native.npc.yulan_tianwu_lake gender
@@ -17350,6 +17354,7 @@ msgstr ""
 #. native.npc.feng_ce_lake inquiry topic
 #. native.npc.annie_lake inquiry topic
 #. native.npc.nan_weishui_lake inquiry topic
+#. native.npc.lin_ji_lake inquiry topic
 #. native.npc.pan_junchan_lake inquiry topic
 #. native.npc.wei_canglan_lake inquiry topic
 #. native.npc.yulan_tianwu_lake inquiry topic
@@ -18166,12 +18171,14 @@ msgstr ""
 
 #. common.npc.taoist.taolord name
 #. city.npc.shangshu.gardener inquiry topic
-#: data/common/npcs.json data/city/npcs.json
+#. native.npc.lin_ji_lake name
+#: data/common/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "林忌"
 msgstr ""
 
 #. common.npc.taoist.taolord nickname
-#: data/common/npcs.json
+#. native.npc.lin_ji_lake nickname
+#: data/common/npcs.json data/native/npcs.json
 msgid "六指真人"
 msgstr ""
 
@@ -18226,6 +18233,7 @@ msgstr ""
 #. native.npc.niling_captive_wife inquiry topic
 #. native.npc.niling_captive_peddler inquiry topic
 #. native.npc.niling_captive_herbalist inquiry topic
+#. native.npc.niling_pursuer title
 #. native.npc.lao_qin inquiry topic
 #. native.npc.lu_sun inquiry topic
 #. native.npc.barrow_taoist inquiry topic
@@ -18235,9 +18243,110 @@ msgstr ""
 #. native.npc.tribute_taoist inquiry topic
 #. native.npc.liu_anlu_home inquiry topic
 #. native.npc.shang_jue_lake inquiry topic
+#. native.npc.lin_ji_lake inquiry topic
 #. native.npc.niling_taoist_lake title
 #: data/common/npcs.json data/story/chapter3.json data/story/factions.json data/story/faction_niling.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "逆灵宫"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
+#: data/common/npcs.json
+msgid "看了你很久，叹了一口气。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "他们认出你了。冠摘了吧——戴着它，北麓上谁都认得你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "你递出来的东西，茅山都用上了。这就够了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "你露的破绽太多了。宫里迟早认出你——别再回那座道观。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "时辰和路，茅山记下了。那一夜，北麓下湖的路上有茅山的人。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "那就去吧。冠戴好——那一剑，只有你递得出去。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "宫里剩下的人，交官府去剿，还是交茅山看着——等虹台的事近了，我再问你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "倒戈，还是潜伏，你定。定了，来告诉我。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
+#: data/common/npcs.json
+msgid "把拂尘搭在臂弯里，金色的那只眼睛望着北边。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "湖底的事了了，商玦没有回来。可北麓那座道观里还有人——坛上的火没有灭，他们管这叫续灯。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "茅山要一个了断。交给官府去剿，还是劝他们下山，交茅山看着。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "这件事不急。正月十七，虹台上九派都在，那时候再说。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "湖上的事要紧。先去湖上。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
+#: data/common/npcs.json
+msgid "放下手里的拂尘，金色的那只眼睛看着你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "钉子拔了，头在冰下醒了。他们等的那一夜，就是唤首：宫里倾巢下湖，商玦走在最前头。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "你告诉我哪一夜、走哪条路，茅山的人就截在北麓下湖的路上——到了冰龙厅，他身边剩不下几个人。可那顶冠，从此就没用了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "或者你什么都不说。戴着冠跟他们下湖，站在他身后——第一剑，只有你递得出去。宫里要是已经起了疑心，这条路就走不得。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "倒戈，还是潜伏，你定。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "宫里的事快到头了。他们在等一夜——钉子拔了，湖上的事近了，那一夜才会来。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "到时候我要知道：哪一夜，走哪条路。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
@@ -18304,11 +18413,6 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
 #: data/common/npcs.json
 msgid "进去，先干活。管事派什么，你干什么；他们说什么，你听什么。"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
-#: data/common/npcs.json
-msgid "放下手里的拂尘，金色的那只眼睛看着你。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
@@ -18432,6 +18536,101 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.黑冠.rules.say
 #: data/common/npcs.json
 msgid "逆灵宫的道士戴的东西。问它做什么。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry topic
+#: data/common/npcs.json
+msgid "倒戈"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.confirm
+#: data/common/npcs.json
+msgid ""
+"前夜倒戈：把逆灵宫下湖的时辰和路交给茅山。\n"
+"终章冰龙厅里，商玦身边只剩两个道士；点将时多一拨茅山的人，林忌在湖畔。\n"
+"可黑冠从此没用，逆灵宫的门不再为你开。\n"
+"就这样吗？"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.say
+#: data/common/npcs.json
+msgid "时辰和路，茅山记下了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.say
+#: data/common/npcs.json
+msgid "你已经定了潜伏。冠戴好。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.say
+#: data/common/npcs.json
+msgid "他们迟早认出你。时辰和路，茅山自己去找。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.lines.emote
+#: data/common/npcs.json
+msgid "听你一字一句说完，把那条路在香案上用指头画了一遍。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.lines.say
+#: data/common/npcs.json
+msgid "好。那一夜，北麓下湖的路上有茅山的人。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.lines.say
+#: data/common/npcs.json
+msgid "冠可以摘了。他们很快就会知道，是谁说出去的。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.say
+#: data/common/npcs.json
+msgid "什么时辰？宫里还没到那一步。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry topic
+#: data/common/npcs.json
+msgid "潜伏"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.confirm
+#: data/common/npcs.json
+msgid ""
+"潜伏到底：什么也不交出去，戴着黑冠跟商玦的队伍下湖。\n"
+"冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。\n"
+"宫里已经满了三条疑点的，走不了这条路。\n"
+"就这样吗？"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.rules.say
+#: data/common/npcs.json
+msgid "你已经定了。冠戴好——那一剑，只有你递得出去。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.rules.say
+#: data/common/npcs.json
+msgid "时辰和路已经交出去了。那顶冠，没用了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.rules.say
+#: data/common/npcs.json
+msgid "宫里已经起了疑心。这条路，走不得了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.rules.lines.say
+#. native.npc.lihong inquiry.我留下.rules.lines.say
+#. native.npc.lihong_finale inquiry.我留下.rules.lines.say
+#: data/common/npcs.json data/native/npcs.json
+msgid "……好。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.rules.lines.say
+#: data/common/npcs.json
+msgid "冠戴好，什么也别说。他回头的时候，站在他身后的是你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.潜伏.rules.say
+#: data/common/npcs.json
+msgid "潜伏到哪一天？宫里还没到那一步。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry topic
@@ -22646,6 +22845,11 @@ msgstr ""
 
 #. main.finale/gather checklist.label
 #: data/story/finale.json
+msgid "茅山（林忌）截住了北麓下湖的路"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
 msgid "岸上：庾子建来要剑"
 msgstr ""
 
@@ -22896,7 +23100,28 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "有人说在北边的雪里见过一个黑衣人，说话像念经。"
+msgid "有人说在北边的雪里见过商玦：一身黑衣结着霜，说话还像念经。"
+msgstr ""
+
+#. ending cards.title
+#. oldpine.npc.spy name
+#: data/story/epilogue.json data/oldpine/npcs.json
+msgid "黑衣人"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "那一夜，茅山的人截在北麓下湖的路上。黑砖道观里再没人提起那个新来的道士——只有门房记得，他戴冠的样子不太像。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "冰龙厅里那第一剑，是从商玦背后来的。活着回到北麓的道士说，刺他的人戴着宫里的冠。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "北麓的道士还在找一个戴过黑冠的人。他们说他是茅山的眼线；茅山说，没这回事。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -23409,6 +23634,26 @@ msgstr ""
 msgid "玄冥子托你从宫主的书案底下取出天书的下半部；他教你的，是六阴剑。"
 msgstr ""
 
+#. niling lines.text
+#: data/story/factions.json
+msgid "你把唤首前夜下湖的时辰和路交给了茅山。宫里迟早会知道是谁。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "唤首那一夜你戴着冠下湖——冰龙厅里那第一剑，是你从背后刺的。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "黑冠还戴在你头上：唤首那一夜，你跟他们下湖。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "你被识破了。黑冠不再管用，北麓有人在找你。"
+msgstr ""
+
 #. faction.fonxan summary
 #: data/story/faction_fonxan.json
 msgid "拜了柳淳风，淳风武馆的事就是你的事。"
@@ -23728,6 +23973,11 @@ msgstr ""
 msgid "戴着黑冠回逆灵宫，替茅山的林忌做眼线。"
 msgstr ""
 
+#. faction.niling lapses.text
+#: data/story/faction_niling.json
+msgid "疑点满了三条。宫里认出你，只是早晚的事——下回进前院，就是那一天。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
+msgstr ""
+
 #. faction.niling checklist.label
 #: data/story/faction_niling.json
 msgid "疑点"
@@ -23845,7 +24095,7 @@ msgstr ""
 
 #. faction.niling/listen text
 #: data/story/faction_niling.json
-msgid "你在北门外听见了：唤首的时辰，和「名单在账房」。"
+msgid "你在北门外听见了他们等的那一夜，和「名单在账房」。"
 msgstr ""
 
 #. faction.niling/copy objective
@@ -23945,7 +24195,7 @@ msgstr ""
 
 #. faction.niling/scripture/book text
 #: data/story/faction_niling.json
-msgid "你从宫主居所的暗格里取出《逆灵天书》的下半部，交给了玄冥子。他给了你一册六阴剑谱，说唤首那一夜，站在商玦身后的会是他。"
+msgid "你从宫主居所的暗格里取出《逆灵天书》的下半部，交给了玄冥子。他给了你一册六阴剑谱，说了他等的是哪一夜。"
 msgstr ""
 
 #. faction.niling/scripture/book reward.deed
@@ -23958,14 +24208,74 @@ msgstr ""
 msgid "后山崖径上没有玄冥子——《逆灵天书》的下半部，没有人托你去取。"
 msgstr ""
 
-#. faction.niling/next objective
+#. faction.niling/hour objective
 #: data/story/faction_niling.json
-msgid "宫里的事快到头了。过些时候再问林忌「逆灵宫」——他要知道他们哪一夜动、走哪条路。"
+msgid "宫里等的那一夜，林忌要知道：他们哪一夜动、走哪条路。钉子拔了、湖上的事近了（第十章之后），回灵心观问林忌「逆灵宫」。湖底的事已经了了的，宫里剩下的人还在——也问他「逆灵宫」。"
 msgstr ""
 
-#. faction.niling/next text
+#. faction.niling/hour/net text
 #: data/story/faction_niling.json
-msgid "林忌问你宫里哪一夜动。"
+msgid "林忌问你宫里哪一夜动、走哪条路：唤首那一夜，逆灵宫倾巢下湖。"
+msgstr ""
+
+#. faction.niling/hour/remnant text
+#: data/story/faction_niling.json
+msgid "湖底的事了了，商玦没有回来。宫里剩下的人还在续灯——林忌要一个了断。"
+msgstr ""
+
+#. faction.niling/split objective
+#: data/story/faction_niling.json
+msgid "收网，看你。前夜倒戈（问林忌「倒戈」）：把下湖的时辰和路交给茅山——终章冰龙厅里商玦身边只剩两个道士，点将时多一拨茅山的人；可黑冠从此没用，逆灵宫的门不再为你开。潜伏到底（问林忌「潜伏」，疑点不到三条才行）：你戴着冠跟商玦的队伍下湖，冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。"
+msgstr ""
+
+#. faction.niling/split/turn text
+#: data/story/faction_niling.json
+msgid "前夜，你把下湖的时辰和路交给了林忌。黑冠从此没用了。"
+msgstr ""
+
+#. faction.niling/split/turn reward.deed
+#: data/story/faction_niling.json
+msgid "唤首前夜，把逆灵宫下湖的时辰和路交给了茅山"
+msgstr ""
+
+#. faction.niling/split/deep text
+#: data/story/faction_niling.json
+msgid "你没有把时辰交出去。黑冠还戴在你头上：唤首那一夜，你跟着他们下湖。"
+msgstr ""
+
+#. faction.niling/split/deep reward.deed
+#: data/story/faction_niling.json
+msgid "戴着黑冠潜伏到底，跟逆灵宫下了湖"
+msgstr ""
+
+#. faction.niling/hall_turn objective
+#: data/story/faction_niling.json
+msgid "终章：茅山的人截在北麓下湖的路上，林忌在湖畔。冰龙厅里，商玦身边只剩两个道士。"
+msgstr ""
+
+#. faction.niling/hall_turn text
+#: data/story/faction_niling.json
+msgid "冰龙厅里，商玦身边只剩两个道士——另外两个，茅山在北麓截下了。"
+msgstr ""
+
+#. faction.niling/hall_deep objective
+#: data/story/faction_niling.json
+msgid "终章：戴着黑冠下湖。冰龙厅里你站在商玦身后——第一剑是你的。他的四个道士会先扑你。"
+msgstr ""
+
+#. faction.niling/hall_deep text
+#: data/story/faction_niling.json
+msgid "冰龙厅里，第一剑是你从背后刺的。商玦带着那一剑的伤，同你打完了这一场。"
+msgstr ""
+
+#. faction.niling/aftermath objective
+#: data/story/faction_niling.json
+msgid "宫里剩下的人，林忌要一个了断：交给官府去剿，还是劝他们下山、交茅山看管。正月十七的虹台大会之前，他会再问你。"
+msgstr ""
+
+#. faction.niling/aftermath text
+#: data/story/faction_niling.json
+msgid "逆灵宫的余孽有了去处。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -24351,11 +24661,6 @@ msgstr ""
 #. oldpine.npc.bandit_commander inquiry.老松寨
 #: data/oldpine/npcs.json
 msgid "老松寨是老子的寨子。进寨的规矩只有一条：什么钱都收。"
-msgstr ""
-
-#. oldpine.npc.spy name
-#: data/oldpine/npcs.json
-msgid "黑衣人"
 msgstr ""
 
 #. oldpine.npc.spy long
@@ -45544,6 +45849,7 @@ msgid ""
 msgstr ""
 
 #. native.npc.niling_lead_chanter name
+#. native.npc.niling_lead_chanter_unmasking name
 #: data/niling/npcs.json
 msgid "领诵道士"
 msgstr ""
@@ -45614,6 +45920,7 @@ msgid ""
 msgstr ""
 
 #. native.npc.niling_lead_chanter chat_msg_combat
+#. native.npc.niling_lead_chanter_unmasking chat_msg_combat
 #: data/niling/npcs.json
 msgid ""
 "领诵道士喝道：殿前动手，坛上加供！\n"
@@ -46217,6 +46524,7 @@ msgstr ""
 
 #. native.npc.xuan_mingzi name
 #. native.npc.xuan_mingzi_cliff name
+#. native.npc.xuan_mingzi_unmasking name
 #: data/niling/npcs.json
 msgid "玄冥子"
 msgstr ""
@@ -46224,6 +46532,7 @@ msgstr ""
 #. native.npc.xuan_mingzi title
 #. native.npc.xuan_mingzi_cliff title
 #. native.npc.xuan_mingzi_cliff moods.owed.title
+#. native.npc.xuan_mingzi_unmasking title
 #: data/niling/npcs.json
 msgid "逆灵宫大弟子"
 msgstr ""
@@ -46844,6 +47153,121 @@ msgstr ""
 #. native.npc.niling_captive_herbalist calls.steps.say
 #: data/niling/npcs.json
 msgid "货栈那边的侧门我来时看见了。你别送，送了你也走不脱。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking long
+#: data/niling/npcs.json
+msgid ""
+"玄冥子站在前院当中的铁香炉边，长剑已经出鞘。他像是等了很久。\n"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.emote
+#: data/niling/npcs.json
+msgid "看着你从门口走进来，没有动。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "你戴着我们的冠，却不是我们的人。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "第一眼我就说过。我留着你，是想看你替谁做事。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "那卷残卷没有回宫。宫里等了它很久。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "那一夜地牢空了。闯进来的人，就是你。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "子时贴在北门外听的，也是你。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "铁匣里那本名册，是你拿走的。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.say
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "拿下。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking calls.steps.line
+#. native.npc.niling_lead_chanter_unmasking calls.steps.line
+#: data/niling/npcs.json
+msgid ""
+"前院里的道士都转过身来。你头上那顶冠，不灵了。\n"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking spared.line
+#: data/niling/npcs.json
+msgid "玄冥子撑着剑退进了前殿：「北麓的路，你走不远。」"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"玄冥子冷冷道：茅山派你来的？\n"
+msgstr ""
+
+#. native.npc.xuan_mingzi_unmasking chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"玄冥子的剑上带着一股阴风，香炉里的灰都飞了起来。\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter_unmasking long
+#: data/niling/npcs.json
+msgid ""
+"领诵道士站在前院当中的铁香炉边，手里没有木鱼，换了一柄剑。他抬着头——你头一回看见他的脸。\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter_unmasking calls.steps.emote
+#: data/niling/npcs.json
+msgid "抬起头来看你。这是他头一回抬头。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter_unmasking calls.steps.say
+#: data/niling/npcs.json
+msgid "大弟子那一夜在后殿就说过。我一直记着。"
+msgstr ""
+
+#. native.npc.niling_pursuer name
+#: data/niling/npcs.json
+msgid "追杀的道士"
+msgstr ""
+
+#. native.npc.niling_pursuer long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，剑提在手里，站在山路转角的风口上，眼睛盯着上山下山的每一个人。\n"
+msgstr ""
+
+#. native.npc.niling_pursuer chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"追杀的道士喝道：戴着宫里的冠替茅山做事，你当北麓没有人了？\n"
+msgstr ""
+
+#. native.npc.niling_pursuer chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"追杀的道士朝山上喊了一声，风把声音吹散了。\n"
 msgstr ""
 
 #. native:niling/winch long
@@ -57597,12 +58021,6 @@ msgstr ""
 msgid "三器齐了。灭了它。"
 msgstr ""
 
-#. native.npc.lihong inquiry.我留下.rules.lines.say
-#. native.npc.lihong_finale inquiry.我留下.rules.lines.say
-#: data/native/npcs.json
-msgid "……好。"
-msgstr ""
-
 #. native.npc.lihong inquiry.我留下.rules.lines.line
 #. native.npc.lihong_finale inquiry.我留下.rules.lines.line
 #: data/native/npcs.json
@@ -58088,6 +58506,34 @@ msgstr ""
 msgid "二十年。够了。"
 msgstr ""
 
+#. native.npc.lin_ji_lake title
+#: data/native/npcs.json
+msgid "茅山派第五代天师"
+msgstr ""
+
+#. native.npc.lin_ji_lake long
+#: data/native/npcs.json
+msgid ""
+"林忌站在湖岸的一块青石上，拂尘搭在臂弯里，一黑一金两只眼睛望着北边的山。他的弟子们在下湖的路上。\n"
+msgstr ""
+
+#. native.npc.lin_ji_lake fight_deferred
+#: data/native/npcs.json
+msgid "林忌摇了摇头：今夜不是自家人比划的时候。"
+msgstr ""
+
+#. native.npc.lin_ji_lake inquiry.湖底
+#: data/native/npcs.json
+msgid ""
+"林忌道：北麓下来的路，茅山的人守着。商玦身边，今夜只剩两个。\n"
+msgstr ""
+
+#. native.npc.lin_ji_lake inquiry.逆灵宫
+#: data/native/npcs.json
+msgid ""
+"林忌道：时辰和路，是你交出来的。剩下的，看你在湖底了。\n"
+msgstr ""
+
 #. native.npc.pan_junchan_lake long
 #: data/native/npcs.json
 msgid ""
@@ -58270,9 +58716,32 @@ msgstr ""
 msgid "站在水潭边，黑衣上结了一层霜。他看着你，像看一个来晚了的人。"
 msgstr ""
 
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"你戴着黑冠，跟在四个黑冠道士后头走进冰龙厅。商玦站在水潭边，背对着你们，黑衣上结了一层霜。\n"
+msgstr ""
+
 #. native.npc.shang_jue_waiting calls.steps.say
 #: data/native/npcs.json
 msgid "它找了五千年的头。你要在它找到的那一刻毁了它。"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"他说的「你」，不是你。他没有回头——他以为身后站着的，都是跟他下湖的人。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"你的剑先到了。一剑从背后透进他的黑衣，他晃了一晃，没有倒。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.say
+#: data/native/npcs.json
+msgid "……茅山的冠，是我们的冠。我早该想到。"
 msgstr ""
 
 #. native.npc.shang_jue_waiting calls.steps.line
@@ -58284,7 +58753,31 @@ msgstr ""
 #. native.npc.shang_jue_waiting calls.steps.line
 #: data/native/npcs.json
 msgid ""
+"六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面那两个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。另外两个，茅山的人在北麓截下了。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"六条白鳞冰龙抬起头，看了看那几顶黑冠，又盘了回去——你和他们站在一起。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
 "四个黑冠道士从冰柱后面走出来，围住了你。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"冰柱后面只走出来两个黑冠道士，围住了你。另外两个，茅山的人在北麓截下了。\n"
+msgstr ""
+
+#. native.npc.shang_jue_waiting calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"你身边的四个黑冠道士一齐拔剑，先扑向了你。\n"
 msgstr ""
 
 #. native.npc.shang_jue_waiting calls.steps.say

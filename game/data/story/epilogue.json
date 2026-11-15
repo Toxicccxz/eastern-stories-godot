@@ -299,9 +299,41 @@
 							}
 						},
 						{
-							"text": "有人说在北边的雪里见过一个黑衣人，说话像念经。",
+							"text": "有人说在北边的雪里见过商玦：一身黑衣结着霜，说话还像念经。",
 							"when": {
 								"mark": "放过了商玦"
+							}
+						}
+					]
+				},
+				{
+					"id": "black_robe",
+					"place": "niling.gate",
+					"title": "黑衣人",
+					"lines": [
+						{
+							"text": "那一夜，茅山的人截在北麓下湖的路上。黑砖道观里再没人提起那个新来的道士——只有门房记得，他戴冠的样子不太像。",
+							"when": {
+								"mark": "前夜倒戈"
+							}
+						},
+						{
+							"text": "冰龙厅里那第一剑，是从商玦背后来的。活着回到北麓的道士说，刺他的人戴着宫里的冠。",
+							"when": {
+								"all": [
+									{
+										"cond": "niling.deep"
+									},
+									{
+										"mark": "商玦倒了"
+									}
+								]
+							}
+						},
+						{
+							"text": "北麓的道士还在找一个戴过黑冠的人。他们说他是茅山的眼线；茅山说，没这回事。",
+							"when": {
+								"mark": "被识破"
 							}
 						}
 					]
@@ -634,7 +666,8 @@
 			],
 			"sources": [
 				"native: 终章 C (剧情总纲 §3 终章「回雪亭：广场上还是那队白衣武官，这回是来宣诏的；结局逐区讲述，从事迹记录里长出来；最后一句留给店小二」; 计划 build/plans/终章_计划.md C 包与 §3b, owner 2026-11-08「按推荐的做」: Q3 片尾后接着玩; DECISIONS「终章 C」「结局讲述」)",
-				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — the 雪亭 card's two lines for the split."
+				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — the 雪亭 card's two lines for the split.",
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 9 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the new 黑衣人 card (前夜倒戈, 潜伏到底, 被识破, a line each), and the 野羊山 card's 黑衣人 in the north snow named: 商玦."
 			]
 		}
 	]
