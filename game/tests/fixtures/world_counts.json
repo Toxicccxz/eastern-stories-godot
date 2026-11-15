@@ -700,11 +700,16 @@
 		"native.frontyard.hopeful",
 		"native.frontyard.courier",
 		"native.lakeside.pan_junchan",
-		"native.front.patrol"
+		"native.front.patrol",
+		"native.corridor.ward",
+		"native.corridor.dozer",
+		"native.cell_huo.captive",
+		"native.cell_shitou.captive",
+		"native.cell_others.captive"
 	],
-	"world_npcs": 813,
+	"world_npcs": 818,
 	"resident_maps": 167,
-	"new_game_items": 1238,
+	"new_game_items": 1245,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -1008,7 +1013,7 @@
 		"niling.slope": 1,
 		"niling.gate": 4,
 		"niling.hall": 7,
-		"niling.dungeon": 8,
+		"niling.dungeon": 13,
 		"niling.rear": 5,
 		"niling.master_house": 0,
 		"niling.backhill": 1,

@@ -22,7 +22,8 @@ extends RefCounted
 ##
 ## Native (势力线第一批; DECISIONS「势力线的选择」): a branch step of a 势力 quest says how much it
 ## weighs: `weight` "big" (the line's one split) or "small" (owner 2026-11-09: 每条线 1 个大分裂 +
-## 最多 2 个小选择, the rest is play). The main story's branches say nothing.
+## 最多 2 个小选择, the rest is play). A branch the player does not choose — the main story picks the way
+## (卧底 B: 玄冥子 alive on the cliff, or not) — is "route", no choice at all. The main story's branches say nothing.
 
 const LINE_MAIN: String = "main"
 const LINE_FACTION: String = "faction"
@@ -33,7 +34,9 @@ const LINES: Array[String] = [LINE_MAIN, LINE_FACTION, LINE_REGION, LINE_ERRAND]
 const LINE_TITLES: Dictionary[String, String] = {LINE_MAIN: "主线", LINE_FACTION: "势力", LINE_REGION: "地区", LINE_ERRAND: "差事"}
 const WEIGHT_BIG: String = "big"
 const WEIGHT_SMALL: String = "small"
-const WEIGHTS: Array[String] = [WEIGHT_BIG, WEIGHT_SMALL]
+## Native (势力线第一批 卧底 B; DECISIONS「势力线的选择」): a branch the main story routes, not a choice.
+const WEIGHT_ROUTE: String = "route"
+const WEIGHTS: Array[String] = [WEIGHT_BIG, WEIGHT_SMALL, WEIGHT_ROUTE]
 
 
 ## Where a step leads: a map and a zone of it.
@@ -184,7 +187,7 @@ class Step:
 	var only_after: StringName = &""
 	## What a plain step gives when done (a branch's options carry their own).
 	var reward: Reward = Reward.new()
-	## A branch's weight in its line: WEIGHT_BIG, WEIGHT_SMALL, or "" (unsaid: the main story's).
+	## A branch's weight in its line: WEIGHT_BIG, WEIGHT_SMALL, WEIGHT_ROUTE, or "" (unsaid: the main story's).
 	var weight: String = ""
 	## Native (主线卡死点; DECISIONS「主线卡死点」): the people (NPC definition ids) the step hangs on.
 	## Until it is done (unless the quest ended, or an earlier option it waits for was not taken)

@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
 [ext_resource type="Script" path="res://runtime/world/world_door.gd" id="door"]
+[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
 [sub_resource type="RectangleShape2D" id="StairsShape"]
@@ -131,6 +132,40 @@ door_id = &"niling.cell_others.door"
 wall = NodePath("../Terrain/DoorWalls/OthersCellDoorWall")
 shutter = NodePath("../Terrain/OthersCellDoorShutter")
 
+[node name="NailService" type="Marker2D" parent="."]
+position = Vector2(-138, 168)
+script = ExtResource("service")
+service_id = &"niling.corridor.nail"
+
+[node name="Visual" type="Polygon2D" parent="NailService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="NailService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "铁钉 · 摘钥匙"
+horizontal_alignment = 1
+
+[node name="JarsService" type="Marker2D" parent="."]
+position = Vector2(138, 179)
+script = ExtResource("service")
+service_id = &"niling.corridor.jars"
+
+[node name="Visual" type="Polygon2D" parent="JarsService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="JarsService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "酒坛 · 下药"
+horizontal_alignment = 1
+
 [node name="CorridorStairsUp" type="Area2D" parent="."]
 position = Vector2(-8, 248)
 collision_layer = 0
@@ -252,6 +287,31 @@ spawn_point_id = &"niling.cell_huo.body.1"
 position = Vector2(-8, -147)
 script = ExtResource("marker")
 spawn_point_id = &"niling.cell_shitou.body.1"
+
+[node name="CorridorWard1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 114)
+script = ExtResource("marker")
+spawn_point_id = &"niling.corridor.ward.1"
+
+[node name="CorridorDozer1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-88, 228)
+script = ExtResource("marker")
+spawn_point_id = &"niling.corridor.dozer.1"
+
+[node name="CellHuoCaptive1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-446, 136)
+script = ExtResource("marker")
+spawn_point_id = &"niling.cell_huo.captive.1"
+
+[node name="CellShitouCaptive1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(51, -157)
+script = ExtResource("marker")
+spawn_point_id = &"niling.cell_shitou.captive.1"
+
+[node name="CellOthersCaptive1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(392, 125)
+script = ExtResource("marker")
+spawn_point_id = &"niling.cell_others.captive.1"
 
 [node name="Characters" type="Node2D" parent="."]
 

@@ -6,7 +6,8 @@
 			"line": "faction",
 			"region": "逆灵宫",
 			"sources": [
-				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」: 黑线, 晋阶黑冠; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, §2 第 5、6 条 (任务级清单, 疑点不加新状态), §8「祭品是谁」「残卷去哪」, §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」「任务级清单」). daemon/class/taoist/taolord.c (林忌, 茅山派第五代天师: 我茅山派……世世代代皆以降妖伏魔为己任); doc/help/plan:26–31 (逆灵宫 on 野羊山's north slope, 黑衣黑冠, 纳供); doc/help/taoist:58 (逆灵天书, the forbidden book). Nobody kneels to 逆灵宫: the line begins when one who finished 第三章 tells 林忌 (or 霍铮) yes, asked first; the 进门 (where the 残卷 goes), the 杂活, the 偷听 at 子时 past the 巡殿 and the 名单 are the plan's (续写); it stops at a stub step `next` that 逆灵宫 B fills (the 地牢, the 名册)."
+				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」: 黑线, 晋阶黑冠; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, §2 第 5、6 条 (任务级清单, 疑点不加新状态), §8「祭品是谁」「残卷去哪」, §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」「任务级清单」). daemon/class/taoist/taolord.c (林忌, 茅山派第五代天师: 我茅山派……世世代代皆以降妖伏魔为己任); doc/help/plan:26–31 (逆灵宫 on 野羊山's north slope, 黑衣黑冠, 纳供); doc/help/taoist:58 (逆灵天书, the forbidden book). Nobody kneels to 逆灵宫: the line begins when one who finished 第三章 tells 林忌 (or 霍铮) yes, asked first; the 进门 (where the 残卷 goes), the 杂活, the 偷听 at 子时 past the 巡殿 and the 名单 are the plan's (续写); it stopped at a stub step that 逆灵宫 B fills.",
+				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B, §8「一枚令牌三家要」(the 六阴剑 of 晚月庄's 蒙面杀手: 是这里教的), §9 第 12 条, §11 Q6, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」). d/latemoon/room/npc/killer.c (the 蒙面杀手's six-chaos-sword); daemon/skill/six-chaos-sword.c (valid_learn: max_force 100, a sword); doc/skill/six-chaos-sword (剑谱共分三部：天殇、追魂、绝识); obj/slumber_drug.c (蒙汗药, 倒在酒水之中). 林忌's word of the three new captives; the jailer's key three ways (wine or 蒙汗药, the nail at 子时, 第三章's key); the 名册 in the 账房's iron box taken or left (the line's second small choice; taken, a 疑点); the 逆灵天书's lower half fetched at 子时 for 玄冥子 where he lives, for the 六阴剑谱 read to 40 and the hour he means to take 商玦's place (逆灵宫 C's 收网); it stops at a stub step `next` that 逆灵宫 C fills."
 			],
 			"summary": "戴着黑冠回逆灵宫，替茅山的林忌做眼线。",
 			"requires": ["main.chapter3"],
@@ -44,6 +45,12 @@
 					"label": "子时在后殿外又被撞见了一回",
 					"if": {
 						"mark": "子时在后殿外又被撞见"
+					}
+				},
+				{
+					"label": "名册不见了：账房的铁匣里少了一本名册，管事迟早会发现",
+					"if": {
+						"mark": "名册不见了"
 					}
 				}
 			],
@@ -181,16 +188,147 @@
 					}
 				},
 				{
-					"id": "next",
-					"objective": "名单上的人，茅山会去找。宫里的事还没完——过些时候再问林忌「逆灵宫」。",
+					"id": "word",
+					"objective": "名单上的人，茅山会去找。宫里的事还没完——回灵心观问林忌「逆灵宫」。",
 					"done": {
 						"mark": "林忌说了地牢"
 					},
-					"text": "林忌说了地牢里新关的人。",
+					"text": "林忌说了地牢里新关的三个人，和账房铁匣里那本名册的原本。",
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
-						"npcs": ["common.npc.taoist.taolord"]
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "cells",
+					"keeps": [
+						"native.npc.niling_captive_wife",
+						"native.npc.niling_captive_peddler",
+						"native.npc.niling_captive_herbalist"
+					],
+					"objective": "地牢里新关了三个人。牢门的钥匙在狱卒腰上：给他一袋酒（或者往石阶边他那只酒坛里下蒙汗药），他醉倒了，钥匙就是你的；子时他歪在长凳上打盹，钥匙挂在头顶的铁钉上；第三章那把钥匙还在身上的，也开得了。狱卒醒着的时候，谁也近不了牢门。开了门，他们自己从货栈的侧门走。",
+					"checklist": [
+						{
+							"label": "西牢房：槐阳来的妇人",
+							"when": {
+								"mark": "放了槐阳的妇人"
+							}
+						},
+						{
+							"label": "北牢房：货郎",
+							"when": {
+								"mark": "放了货郎"
+							}
+						},
+						{
+							"label": "东牢房：采药人",
+							"when": {
+								"mark": "放了采药人"
+							}
+						}
+					],
+					"done": {
+						"cond": "niling.cells_emptied"
+					},
+					"text": "地牢里新关的三个人，从货栈的侧门走了。",
+					"reward": {
+						"deed": "放走了逆灵宫地牢里新关的三个人"
+					},
+					"target": {
+						"map": "niling.dungeon",
+						"zone": "niling.corridor"
+					}
+				},
+				{
+					"id": "ledger",
+					"weight": "small",
+					"objective": "账房的铁匣里锁着祭品名册的原本，锁和牢门是一套。夜里管事伏在案头睡着的时候，用地牢的钥匙打开它。带走（先确认）：它是物证——朝上揭发兵部时算一样，京师的事已经定了的，乔阴的程不平对得出上面的押印；可宫里少了一本名册，那是一条疑点。不带：回灵心观问林忌「名册」，告诉他你没动它。",
+					"options": [
+						{
+							"id": "take",
+							"done": {
+								"mark": "带走了名册"
+							},
+							"text": "你带走了祭品名册的原本。宫里少了一本名册。",
+							"reward": {
+								"deed": "从逆灵宫的账房带走了祭品名册的原本"
+							}
+						},
+						{
+							"id": "leave",
+							"done": {
+								"mark": "名册留在了匣里"
+							},
+							"text": "名册留在了铁匣里。宫里什么也没少。",
+							"reward": {
+								"deed": "把祭品名册的原本留在了逆灵宫的铁匣里"
+							}
+						}
+					],
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.counting"
+					}
+				},
+				{
+					"id": "scripture",
+					"weight": "route",
+					"objective": "后山崖径上的玄冥子有一件事要托你——问他「天书」。（子时，前殿的北门从里面闩着；他知道怎么拨开。巡殿的道士看前不看后。）",
+					"keeps": [
+						"native.npc.xuan_mingzi_cliff"
+					],
+					"options": [
+						{
+							"id": "book",
+							"done": {
+								"mark": "天书给了玄冥子"
+							},
+							"text": "你从宫主居所的暗格里取出《逆灵天书》的下半部，交给了玄冥子。他给了你一册六阴剑谱，说唤首那一夜，站在商玦身后的会是他。",
+							"reward": {
+								"deed": "替玄冥子取来了《逆灵天书》的下半部"
+							}
+						},
+						{
+							"id": "none",
+							"done": {
+								"any": [
+									{
+										"not": {
+											"mark": "放过了玄冥子"
+										}
+									},
+									{
+										"mark": "了结了玄冥子"
+									}
+								]
+							},
+							"text": "后山崖径上没有玄冥子——《逆灵天书》的下半部，没有人托你去取。"
+						}
+					],
+					"target": {
+						"map": "niling.backhill",
+						"zone": "niling.cliff_path",
+						"npcs": [
+							"native.npc.xuan_mingzi_cliff"
+						]
+					}
+				},
+				{
+					"id": "next",
+					"objective": "宫里的事快到头了。过些时候再问林忌「逆灵宫」——他要知道他们哪一夜动、走哪条路。",
+					"done": {
+						"mark": "林忌说了收网"
+					},
+					"text": "林忌问你宫里哪一夜动。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
 					}
 				}
 			]

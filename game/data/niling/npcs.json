@@ -1381,6 +1381,13 @@
 						{
 							"npc_flag": "mood/owed",
 							"asker_marks": [
+								"天书给了玄冥子"
+							],
+							"say": "剑谱给了你。读到哪里是哪里——追魂一部，够你用了。"
+						},
+						{
+							"npc_flag": "mood/owed",
+							"asker_marks": [
 								"残卷给了玄冥子"
 							],
 							"say": "剑的事以后再说。先替我看着宫里——你是我的人，管事不会多问。"
@@ -1401,6 +1408,68 @@
 						{
 							"npc_flag": "mood/owed",
 							"say": "残卷不在你身上，谈什么六阴剑。"
+						},
+						{
+							"say": "玄冥子冷笑：你也配问？"
+						}
+					]
+				},
+				"天书": {
+					"listed_marks": [
+						"林忌说了地牢"
+					],
+					"rules": [
+						{
+							"npc_flag": "mood/owed",
+							"asker_marks": [
+								"天书给了玄冥子",
+								"侮天鬼倒了"
+							],
+							"say": "宫主不在了。坛上的火要有人添——续灯那一夜，站在坛前的是我。你记着。"
+						},
+						{
+							"npc_flag": "mood/owed",
+							"asker_marks": [
+								"天书给了玄冥子"
+							],
+							"say": "唤首那一夜，他走在最前头，站在他身后的是我。你记着这个时辰。"
+						},
+						{
+							"npc_flag": "mood/owed",
+							"asker_marks": [
+								"玄冥子托你取天书"
+							],
+							"say": "子时，北门的闩：门缝里一挑就落。师父屋里，书案底下的暗格。巡殿的看前不看后。"
+						},
+						{
+							"npc_flag": "mood/owed",
+							"asker_marks": [
+								"林忌说了地牢"
+							],
+							"marks_asker": [
+								"玄冥子托你取天书"
+							],
+							"lines": [
+								{
+									"emote": "看了看你头上的冠，又看了看断崖。"
+								},
+								{
+									"say": "宫里的事，我自己来——可那扇门，我是进不去了。宫里的人认得我的脸：师父不要我，他们也就不要我。"
+								},
+								{
+									"say": "师父下崖时带走了天书的上半部。下半部留在宫里：白天摊在前殿的长案上，五个人对着它诵；子时，领诵把它锁回师父屋里，书案底下的暗格。"
+								},
+								{
+									"say": "替我做一件事，我教你一样东西。子时去，把下半部拿来。"
+								},
+								{
+									"say": "子时北门从里面闩着。门缝里插一根薄刃往上一挑，闩就落了——那扇门我守了十年。巡殿的看前不看后。"
+								}
+							]
+						},
+						{
+							"npc_flag": "mood/owed",
+							"say": "天书？你问得太早了。"
 						},
 						{
 							"say": "玄冥子冷笑：你也配问？"
@@ -1445,7 +1514,75 @@
 			"die_carries": {
 				"item": "native:niling/scroll_fragment"
 			},
+			"die_marks_killer": "了结了玄冥子",
 			"accept_object": [
+				{
+					"item": "native:niling/scripture_lower",
+					"giver_mark": "侮天鬼倒了",
+					"accept": true,
+					"destroys": true,
+					"gives": "native:niling/six_chaos_manual",
+					"marks_giver": [
+						"天书给了玄冥子",
+						"玄冥子要取代商玦"
+					],
+					"lines": [
+						{
+							"emote": "接过天书，翻开第一页，看了很久。"
+						},
+						{
+							"say": "……是它。"
+						},
+						{
+							"say": "宫主不在了，宫里那几个还在等他回来。坛上的火要有人添——续灯那一夜，站在坛前的是我。"
+						},
+						{
+							"emote": "从怀里摸出一册黑布面的手抄本，递给你。"
+						},
+						{
+							"say": "我抄的追魂剑谱。宫里的六阴剑，都从这一部学起——晚月庄那个蒙着面的女杀手，使的也是它。是这里教的。"
+						},
+						{
+							"say": "天殇……我也没见过。"
+						}
+					]
+				},
+				{
+					"item": "native:niling/scripture_lower",
+					"giver_mark": "玄冥子托你取天书",
+					"accept": true,
+					"destroys": true,
+					"gives": "native:niling/six_chaos_manual",
+					"marks_giver": [
+						"天书给了玄冥子",
+						"玄冥子要取代商玦"
+					],
+					"lines": [
+						{
+							"emote": "接过天书，翻开第一页，看了很久。"
+						},
+						{
+							"say": "……是它。"
+						},
+						{
+							"say": "师父以为宫里离不了他。唤首那一夜，宫里倾巢下湖，他走在最前头——他回头的时候，站在他身后的是我。过了那一夜，逆灵宫换主人。"
+						},
+						{
+							"emote": "从怀里摸出一册黑布面的手抄本，递给你。"
+						},
+						{
+							"say": "我抄的追魂剑谱。宫里的六阴剑，都从这一部学起——晚月庄那个蒙着面的女杀手，使的也是它。是这里教的。"
+						},
+						{
+							"say": "天殇……我也没见过。"
+						}
+					]
+				},
+				{
+					"item": "native:niling/scripture_lower",
+					"accept": false,
+					"say": "这东西你从哪里拿来的？……放回去，别让我看见。"
+				},
 				{
 					"item": "native:niling/scroll_fragment",
 					"giver_mark": "残卷没回宫",
@@ -1753,6 +1890,365 @@
 			"chat_chance_combat": 25,
 			"chat_msg_combat": [
 				"巡殿道士厉声道：后殿重地，拿下！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_jailer_ward",
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the one jailer of the three new captives by day (the two of 第三章 are gone from the passage once 林忌 tells of the dungeon): the 地牢钥匙 on his belt, nobody let near the cells while he stands there (exit rules niling.corridor.ward_*); the jailers' wine by the stair is his weakness — a skin of wine, or 蒙汗药 in his jar, and he sleeps it off where he sits (续写)",
+			"name": "狱卒道士",
+			"aliases": [
+				"jailer",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 41,
+			"long": "一个黑衣黑冠的道士，比别的狱卒老些，脸上一层酒色，腰上挂着一把乌黑的钥匙。他背靠着铁栅门站着，眼睛一直往石阶边那两只酒坛上瞟。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 16,
+				"spi": 18,
+				"cps": 20,
+				"per": 12,
+				"con": 26,
+				"kar": 8
+			},
+			"combat_exp": 8500,
+			"score": 220,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 26,
+				"sword": 34,
+				"dodge": 30,
+				"parry": 32
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/cell_key",
+					"source": "native: 逆灵宫 B"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"狱卒道士咂了咂嘴，又往酒坛那边瞟了一眼。\n",
+				"狱卒道士用钥匙敲了敲铁栅门：老实点。\n"
+			],
+			"inquiry": {
+				"钥匙": [
+					"狱卒道士按住腰上的钥匙：新关的三个，管事吩咐过，谁也不许近。"
+				],
+				"酒": [
+					"狱卒道士瞪了你一眼，又咽了口唾沫：当值不许喝。……坛子里就剩小半坛了，宫里的酒淡得像水。"
+				],
+				"牢里": [
+					"狱卒道士朝铁栅门里一偏头：前些天一车上来的。子时之前，管事不许人近。"
+				],
+				"逆灵宫": [
+					"狱卒道士道：底下不许多话。"
+				]
+			},
+			"moods": {
+				"醉倒": {
+					"title": "醉倒在地",
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": [
+						"狱卒道士靠着铁栅门打着呼噜，嘴角挂着酒涎。\n",
+						"狱卒道士含含糊糊地嘟囔了一句什么，翻了个身。\n"
+					]
+				}
+			},
+			"accept_object": [
+				{
+					"liquid": "alcohol",
+					"npc_flag": "mood/醉倒",
+					"accept": false,
+					"emote": "打了个酒嗝，手一推，什么也没接住。"
+				},
+				{
+					"liquid": "alcohol",
+					"liquid_remaining_at_most": 0,
+					"accept": false,
+					"say": "空的？拿老子寻开心。"
+				},
+				{
+					"liquid": "alcohol",
+					"giver_mark": "林忌说了地牢",
+					"giver_carries": "native:niling/cell_key",
+					"accept": true,
+					"mood": "醉倒",
+					"mark_giver": "灌醉了狱卒",
+					"lines": [
+						{ "emote": "四下看了看，一把接过去，仰脖就灌。" },
+						{ "say": "好酒……比宫里的烈……" },
+						{ "emote": "灌到第三口，眼睛就直了，顺着铁栅门滑坐下去，打起了呼噜。" }
+					]
+				},
+				{
+					"liquid": "alcohol",
+					"giver_mark": "林忌说了地牢",
+					"accept": true,
+					"mood": "醉倒",
+					"gives": "native:niling/cell_key",
+					"mark_giver": "灌醉了狱卒",
+					"lines": [
+						{ "emote": "四下看了看，一把接过去，仰脖就灌。" },
+						{ "say": "好酒……比宫里的烈……" },
+						{ "emote": "灌到第三口，眼睛就直了，顺着铁栅门滑坐下去，打起了呼噜。" },
+						{ "line": "你从他腰上解下了那把乌黑的钥匙。他咂了咂嘴，没醒。\n" }
+					]
+				},
+				{
+					"liquid": "alcohol",
+					"accept": false,
+					"say": "当值不喝。"
+				}
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"狱卒道士抽出鞭子，吼道：地牢有生人！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_jailer_dozing",
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条「趁他睡着偷」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the same jailer at 子时, asleep on the bench by the stair, the key hung on the nail over his head (the service niling.corridor.nail); dozing, he minds nobody (as 关北 C's 守夜武官) (续写)",
+			"name": "狱卒道士",
+			"aliases": [
+				"jailer",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 41,
+			"long": "一个黑衣黑冠的道士，歪在石阶边的长凳上打盹，脑袋一点一点的。腰上空着——钥匙挂在他头顶石壁上的一枚铁钉上。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 16,
+				"spi": 18,
+				"cps": 20,
+				"per": 12,
+				"con": 26,
+				"kar": 8
+			},
+			"combat_exp": 8500,
+			"score": 220,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 26,
+				"sword": 34,
+				"dodge": 30,
+				"parry": 32
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"狱卒道士的头一点，又一点，鼾声在甬道里来回地撞。\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_captive_wife",
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条「牢里新关了三个人」, §8「祭品是谁」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — a 关北 river worker's wife from outside 槐阳, taken for her man (卧底 A's 名单: 按册补其家口); what she says follows 第六章 (救了一半: 王石头's mother; 踏平: one of the eight households); the door opened, she goes by the 货栈's side door (续写)",
+			"name": "妇人",
+			"aliases": [
+				"woman",
+				"captive",
+				"妇人"
+			],
+			"gender": "女性",
+			"age": 46,
+			"long": "一个四十来岁的妇人，粗布的褂子扯破了一只袖子，头巾不知丢在了哪里。她坐在草席上，两只手攥着膝头的布，攥得指节发白。听口音是槐阳那边的人。\n",
+			"attributes": {
+				"str": 16,
+				"cor": 14,
+				"int": 16,
+				"spi": 16,
+				"cps": 18,
+				"per": 16,
+				"con": 18,
+				"kar": 14
+			},
+			"combat_exp": 100,
+			"score": 10,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 5,
+				"dodge": 5
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"妇人低声念叨着一个名字，念一遍，停一停。\n"
+			],
+			"inquiry": {
+				"关北": [
+					"妇人道：我男人在关北挖河……他们拿着册子挨家来抓，说他欠了役，拿我来抵。"
+				],
+				"逆灵宫": [
+					"妇人摇摇头，说不出话来。"
+				]
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"steps": [
+						{ "emote": "看见铁栅门开着，愣了一下，一把抓住你的袖子。" },
+						{ "when": { "mark": "救了一半" }, "say": "我家石头……王石头，在关北挖河。他们说他夜里跑了，拿着册子来，拿我抵他。……他跑出来了？" },
+						{ "when": { "mark": "踏平了工地" }, "say": "工地出了事，人都散了。他们拿着册子挨家来抓，城外八户——我是头一户。" },
+						{ "when": { "not": { "any": [{ "mark": "救了一半" }, { "mark": "踏平了工地" }] } }, "say": "我男人在关北挖河。他们说他欠了役，拿着册子来，拿我抵。" },
+						{ "say": "我走。货栈那边有个侧门，门槛低，他们夜里不看。" },
+						{ "mark": "放了槐阳的妇人" },
+						{ "leave": true }
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.niling_captive_peddler",
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条「牢里新关了三个人」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — a 货郎 taken on the 野羊山 road by the tribute's escort; the door opened, he goes by the 货栈's side door (续写)",
+			"name": "货郎",
+			"aliases": [
+				"peddler",
+				"captive",
+				"货郎"
+			],
+			"gender": "男性",
+			"age": 29,
+			"long": "一个精瘦的货郎，鞋跑丢了一只，额角一块青紫。他的货担不见了，只剩腰上一只拨浪鼓，他一直用手捂着，不让它出声。\n",
+			"attributes": {
+				"str": 18,
+				"cor": 14,
+				"int": 18,
+				"spi": 14,
+				"cps": 16,
+				"per": 16,
+				"con": 20,
+				"kar": 16
+			},
+			"combat_exp": 150,
+			"score": 10,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 8,
+				"dodge": 10
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"货郎捂着腰上的拨浪鼓，竖着耳朵听甬道里的动静。\n"
+			],
+			"inquiry": {
+				"野羊山": [
+					"货郎道：我挑着担子过野羊山，转角那儿碰上一辆纳供车。车上的道士问我一个人走？我说一个人。……就到这儿了。"
+				],
+				"逆灵宫": [
+					"货郎道：他们问我几岁，属什么，问完了在册子上写。写什么，我不认得字。"
+				]
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"steps": [
+						{ "emote": "从草席上跳起来，又赶紧压低了身子。" },
+						{ "say": "门……是你开的？你放我？" },
+						{ "say": "我不问。我从货栈的侧门走，再也不过野羊山了。" },
+						{ "mark": "放了货郎" },
+						{ "leave": true }
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.niling_captive_herbalist",
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条「牢里新关了三个人」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — a 采药人 from 雪亭 who climbed too far up the north slope and saw the winch; the door opened, he goes by the 货栈's side door (续写)",
+			"name": "采药人",
+			"aliases": [
+				"herbalist",
+				"captive",
+				"采药人"
+			],
+			"gender": "男性",
+			"age": 52,
+			"long": "一个上了年纪的采药人，背上的竹篓被收走了，腰里还别着一把小药锄的空套子。他的手上全是草汁染的绿，指甲缝里塞着泥。\n",
+			"attributes": {
+				"str": 18,
+				"cor": 16,
+				"int": 20,
+				"spi": 18,
+				"cps": 22,
+				"per": 14,
+				"con": 18,
+				"kar": 18
+			},
+			"combat_exp": 200,
+			"score": 10,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 8,
+				"dodge": 12
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"采药人数着墙上的刻痕，嘴里念念有词。\n"
+			],
+			"inquiry": {
+				"北麓": [
+					"采药人道：北麓背阴，有一种黑根的草，雪亭的药铺收得贵。我往上多走了半里，看见崖顶上一个绞盘，在往上吊箱子。……我不该看的。"
+				],
+				"逆灵宫": [
+					"采药人道：丹房里那炉子，烧的不是药。我闻得出来。"
+				]
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"steps": [
+						{ "emote": "扶着石壁站起来，腿一软，又撑住了。" },
+						{ "say": "老汉在山里走了四十年，没想到栽在一座道观里。" },
+						{ "say": "货栈那边的侧门我来时看见了。你别送，送了你也走不脱。" },
+						{ "mark": "放了采药人" },
+						{ "leave": true }
+					]
+				}
 			]
 		}
 	]

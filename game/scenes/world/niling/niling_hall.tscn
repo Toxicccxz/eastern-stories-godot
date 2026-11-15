@@ -153,6 +153,40 @@ mouse_filter = 2
 text = "大案 · 抄名单"
 horizontal_alignment = 1
 
+[node name="BoxService" type="Marker2D" parent="."]
+position = Vector2(-293, -301)
+script = ExtResource("service")
+service_id = &"niling.counting.box"
+
+[node name="Visual" type="Polygon2D" parent="BoxService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="BoxService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "铁匣 · 开匣"
+horizontal_alignment = 1
+
+[node name="BarService" type="Marker2D" parent="."]
+position = Vector2(301, -8)
+script = ExtResource("service")
+service_id = &"niling.front.bar"
+
+[node name="Visual" type="Polygon2D" parent="BarService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="BarService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "门缝 · 拨闩"
+horizontal_alignment = 1
+
 [node name="DoorWalls" type="StaticBody2D" parent="Terrain"]
 
 [node name="FrontDoor0DoorWall" type="CollisionShape2D" parent="Terrain/DoorWalls"]

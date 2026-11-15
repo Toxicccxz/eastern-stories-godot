@@ -1332,6 +1332,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		_check_condition("%s.steps[%d].when" % [origin, index], step.only_when)
 		if step.kind == ScriptedAct.Kind.BY:
 			acting = true
+			# The one standing by is the act's NPC from here on: a mood it puts on is one of his
+			# (卧底 B: the jailer who drinks from the drugged jar).
+			npc = _npcs.get(step.npc_id, npc)
 		if step.kind == ScriptedAct.Kind.COMES:
 			acting = true
 			_called_over[step.npc_id] = true

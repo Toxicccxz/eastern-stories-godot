@@ -187,7 +187,9 @@
           {"node": "service", "name": "ListenService", "id": "niling.front.listen", "text": "北门 · 听", "room": "niling.front", "anchor": ["n", -0.25, 1.6]},
           {"node": "service", "name": "ChantService", "id": "niling.front.chant", "text": "木鱼 · 跟诵", "room": "niling.front", "anchor": ["c", 4.9, -1.4]},
           {"node": "service", "name": "CoalService", "id": "niling.alchemy.coal", "text": "炭筐 · 添炭", "room": "niling.alchemy", "anchor": ["c", 2.0, 2.4]},
-          {"node": "service", "name": "DeskService", "id": "niling.counting.desk", "text": "大案 · 抄名单", "room": "niling.counting", "anchor": ["c", 0, 1.3]}
+          {"node": "service", "name": "DeskService", "id": "niling.counting.desk", "text": "大案 · 抄名单", "room": "niling.counting", "anchor": ["c", 0, 1.3]},
+          {"node": "service", "name": "BoxService", "id": "niling.counting.box", "text": "铁匣 · 开匣", "room": "niling.counting", "anchor": ["rel", 0.82, 0.42], "note": "卧底 B: the iron box at the desk's east end (the 名册's original)"},
+          {"node": "service", "name": "BarService", "id": "niling.front.bar", "text": "门缝 · 拨闩", "room": "niling.front", "anchor": ["n", 1.1, 1.6], "note": "卧底 B: the 北门's gap, its bar lifted at 子时"}
         ],
         "zones": [
           {"generated": "zones"}
@@ -232,7 +234,12 @@
           "niling.corridor.jailer_keyed.1": ["niling.corridor", ["rel", 0.26, 0.52]],
           "niling.corridor.jailer_keyed.2": ["niling.corridor", ["rel", 0.74, 0.52]],
           "niling.cell_huo.body.1": ["niling.cell_huo", ["rel", 0.5, 0.42]],
-          "niling.cell_shitou.body.1": ["niling.cell_shitou", ["rel", 0.5, 0.6]]
+          "niling.cell_shitou.body.1": ["niling.cell_shitou", ["rel", 0.5, 0.6]],
+          "niling.corridor.ward.1": ["niling.corridor", ["rel", 0.5, 0.42]],
+          "niling.corridor.dozer.1": ["niling.corridor", ["rel", 0.27, 0.84]],
+          "niling.cell_huo.captive.1": ["niling.cell_huo", ["rel", 0.3, 0.5]],
+          "niling.cell_shitou.captive.1": ["niling.cell_shitou", ["rel", 0.72, 0.55]],
+          "niling.cell_others.captive.1": ["niling.cell_others", ["rel", 0.5, 0.45]]
         },
         "doors": {},
         "reach_from": "CorridorStairsArrival"
@@ -267,7 +274,9 @@
           {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
           {"generated": "door_walls"},
           {"generated": "shutters"},
-          {"generated": "doors"}
+          {"generated": "doors"},
+          {"node": "service", "name": "NailService", "id": "niling.corridor.nail", "text": "铁钉 · 摘钥匙", "room": "niling.corridor", "anchor": ["rel", 0.14, 0.62], "note": "卧底 B: the nail over the jailers' bench, the key on it at 子时"},
+          {"node": "service", "name": "JarsService", "id": "niling.corridor.jars", "text": "酒坛 · 下药", "room": "niling.corridor", "anchor": ["rel", 0.86, 0.66], "note": "卧底 B: the jailers' wine (蒙汗药)"}
         ],
         "zones": [
           {"generated": "zones"}
@@ -354,7 +363,8 @@
         "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
         "nodes": [
           {"generated": "captions"},
-          {"node": "service", "name": "BackDoorService", "id": "niling.master.back_door", "text": "小门 · 追出去", "room": "niling.master", "anchor": ["n", 1.6, 0.5]}
+          {"node": "service", "name": "BackDoorService", "id": "niling.master.back_door", "text": "小门 · 追出去", "room": "niling.master", "anchor": ["n", 1.6, 0.5]},
+          {"node": "service", "name": "DeskService", "id": "niling.master.desk", "text": "书案 · 开暗格", "room": "niling.master", "anchor": ["rel", 0.3, 0.62], "note": "卧底 B: the hidden drawer under 商玦's desk (the 逆灵天书's lower half at 子时)"}
         ],
         "zones": [
           {"generated": "zones"}

@@ -75,6 +75,23 @@ mouse_filter = 2
 text = "小门 · 追出去"
 horizontal_alignment = 1
 
+[node name="DeskService" type="Marker2D" parent="."]
+position = Vector2(-96, 42)
+script = ExtResource("service")
+service_id = &"niling.master.desk"
+
+[node name="Visual" type="Polygon2D" parent="DeskService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="DeskService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "书案 · 开暗格"
+horizontal_alignment = 1
+
 [node name="DoorWalls" type="StaticBody2D" parent="Terrain"]
 
 [node name="MasterDoor0DoorWall" type="CollisionShape2D" parent="Terrain/DoorWalls"]

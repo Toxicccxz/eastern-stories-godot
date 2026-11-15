@@ -39,6 +39,11 @@
 			"revision": "SOURCE_ENTRY_NILING_SPY_A_V1",
 			"spawn_points": 813,
 			"fingerprint": "aaa7e40aad858cc36ab0ecc143d4729a4511a61822ad113274bf4523d549691e"
+		},
+		{
+			"revision": "SOURCE_ENTRY_NILING_SPY_B_V1",
+			"spawn_points": 818,
+			"fingerprint": "f016c6bf276bf8dc9e6a234244653cff462b33ee101b3268c5490db7e3bcf2ae"
 		}
 	]
 }

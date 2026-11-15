@@ -208,10 +208,13 @@
 				"niling.corridor.jailer_keyed.1",
 				"niling.corridor.jailer_keyed.2"
 			],
-			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the jailers with the key, after the scene)",
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the jailers with the key, after the scene); 势力线第一批 卧底 B (DECISIONS「卧底 B」): gone from the passage once 林忌 tells of the new captives — one jailer keeps them (native.corridor.ward)",
 			"legacy_quantity": 2,
 			"present": {
 				"mark": "见过唤首"
+			},
+			"until": {
+				"mark": "林忌说了地牢"
 			}
 		}
 	]
