@@ -614,3 +614,15 @@ static func niling_ledger(session: WorldSessionController, door: String, take: b
 	state.marks["看过名册的原本"] = 1
 	for mark: String in (["带走了名册", "名册不见了"] if take else ["名册留在了匣里"]):
 		state.marks[mark] = 1
+
+
+## 卧底 B done (势力线第一批; DECISIONS「卧底 B」「卧底 C」): the 名册 settled (niling_ledger()), then the 天书 — where 玄冥子
+## lives on the cliff (the chase: door xuan or lin) fetched for him, his 剑谱 the caller's to give; the rescue routed past.
+## 后山的事了了 either way: 收网 is next (逆灵宫 C), once 第十章 is over.
+static func niling_scripture(session: WorldSessionController, door: String, take: bool, caught: int = 0) -> void:
+	niling_ledger(session, door, take, caught)
+	var state: CharacterState = session.player_runtime().state
+	var lives: bool = door != "night"
+	_write(state, "faction.niling/scripture/%s" % ("book" if lives else "none"))
+	for mark: String in (["玄冥子托你取天书", "天书给了玄冥子", "玄冥子要取代商玦", "后山的事了了"] if lives else ["后山的事了了"]):
+		state.marks[mark] = 1

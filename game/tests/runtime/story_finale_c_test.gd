@@ -2,7 +2,7 @@ extends RefCounted
 
 ## 终章 C 归乡 (owner's plan build/plans/终章_计划.md, 2026-11-08「按推荐的做」; DECISIONS「终章 C」「结局讲述」),
 ## from B's end (StoryFixtures.finale_ended / finale_fought; the earlier chapters' choices TEST-ONLY marks):
-## - The data: the ending's fourteen cards, `final` the player in the ice, the three heralds by side.
+## - The data: the ending's fifteen cards, `final` the player in the ice, the three heralds by side.
 ## - 灭, the expose ledger: up on the lakeside the 雪亭 square has 冯策 with the edict: the 宣诏 read (妖氛已靖,
 ##   庾子建 问罪), 宣过诏, the ending told over the 沙盘 once the box is read — the cards that hold for this
 ##   ledger, in order, 店小二 on the clear lake, 那少年，便是你 — the world held while it is told and let go
@@ -35,7 +35,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var ending: EpilogueDefinition = catalog.epilogue(&"ending")
-	_check(ending != null and ending.cards.size() == 14 and ending.final != null and ending.final.key == "你留在了冰里", "the ending: fourteen cards, final for the player in the ice")
+	_check(ending != null and ending.cards.size() == 15 and ending.final != null and ending.final.key == "你留在了冰里", "the ending: fifteen cards (卧底 C: 黑衣人), final for the player in the ice")
 	_check(ending.cards.slice(0, 10).all(func(card: EpilogueDefinition.Card) -> bool: return catalog.map(card.place) != null), "ten places, each a map of the world")
 	for herald: StringName in [&"native.square.herald_feng_ce", &"native.square.herald_uncle", &"native.square.herald_ministry"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(herald)

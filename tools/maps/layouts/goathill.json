@@ -281,6 +281,21 @@
             "id": "goathill.mroad4.tribute_taoist.2"
           },
           {
+            "name": "NilingPursuer01",
+            "at": [620, 1288],
+            "id": "goathill.mroad4.pursuer.1"
+          },
+          {
+            "name": "NilingPursuer02",
+            "at": [660, 1300],
+            "id": "goathill.mroad4.pursuer.2"
+          },
+          {
+            "name": "NilingPursuer03",
+            "at": [636, 1328],
+            "id": "goathill.mroad4.pursuer.3"
+          },
+          {
             "name": "Mroad4RopeReturn",
             "at": [640, 1200],
             "id": "goathill.mroad4.rope_return"

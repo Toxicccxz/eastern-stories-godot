@@ -67,14 +67,14 @@ func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var quest: StoryQuestDefinition = catalog.story_quest(QUEST)
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"gate", &"hire", &"chores", &"listen", &"copy", &"deliver", &"word", &"cells", &"ledger", &"scripture", &"next"], "its steps, B's after A's: %s" % [ids])
+	_check(ids == [&"gate", &"hire", &"chores", &"listen", &"copy", &"deliver", &"word", &"cells", &"ledger", &"scripture", &"hour", &"split", &"hall_turn", &"hall_deep", &"aftermath"], "its steps, B's after A's (逆灵宫 C's after): %s" % [ids])
 	var ledger: StoryQuestDefinition.Step = quest.step(&"ledger")
 	_check(ledger.is_branch() and ledger.weight == StoryQuestDefinition.WEIGHT_SMALL and ledger.options.map(func(option: StoryQuestDefinition.Option) -> StringName: return option.option_id) == [&"take", &"leave"], "the 名册 is the line's second small choice: take or leave")
 	_check(ledger.objective.contains("那是一条疑点") and ledger.objective.contains("程不平"), "what taking it costs and is worth is said before the choice")
 	var scripture: StoryQuestDefinition.Step = quest.step(&"scripture")
 	_check(scripture.is_branch() and scripture.weight == StoryQuestDefinition.WEIGHT_ROUTE and scripture.keeps.is_empty(), "the 天书 is no choice: routed by whether 玄冥子 lives; he is not kept (a keep would reach back into 第三章's duel)")
 	_check(not StoryKeeps.holds(CharacterState.new(), XUAN, catalog.story_quests()), "a new game: nothing keeps 玄冥子 — 第三章's duel may still end in 了结")
-	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2 and quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 0, "two small choices so far (the door, the 名册); the split is 逆灵宫 C's")
+	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "two small choices (the door, the 名册); the split is 逆灵宫 C's")
 	_check(quest.step(&"cells").checklist.size() == 3 and quest.step(&"cells").keeps.size() == 3, "three captives ticked off, none killed for good while they wait")
 	_check(quest.checklist.size() == 6 and quest.checklist[0].condition.parts.size() == 5, "the 疑点 of five now, 名册不见了 among them")
 	for id: StringName in [&"niling.counting.box", &"niling.corridor.nail", &"niling.corridor.jars", &"niling.front.bar", &"niling.master.desk"]:
@@ -298,7 +298,7 @@ func _test_scripture(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(given != null and _said(given.lines, "站在他身后的是我") and _said(given.lines, "是这里教的") and not _carried(session, MANUAL).is_empty(), "the 天书 for the 剑谱; the hour he means to strike; 晚月庄's killer was taught here (%s)" % [given.lines if given != null else []])
 	_check(state.marks.get("天书给了玄冥子", 0) == 1 and state.marks.get("玄冥子要取代商玦", 0) == 1, "what 逆灵宫 C reads")
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"book") and DeedLog.done(state, "替玄冥子取来了《逆灵天书》的下半部") and StoryQuestLog.current_step(state, quest).step_id == &"next", "the 天书 done; the line waits on 逆灵宫 C")
+	_check(StoryQuestLog.took(state, quest, &"book") and DeedLog.done(state, "替玄冥子取来了《逆灵天书》的下半部") and StoryQuestLog.current_step(state, quest).step_id == &"hour", "the 天书 done; 收网 next (逆灵宫 C)")
 	# The manual: six-chaos-sword.c's valid_learn, read to 40.
 	var manual_id: StringName = _carried(session, MANUAL)
 	state.skills.set_raw_level(SkillIds.LITERATE, 10) # TEST-ONLY
@@ -322,7 +322,7 @@ func _test_no_xuan(tree: SceneTree, session: WorldSessionController) -> void:
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
 	StoryFixtures.niling_ledger(session, "night", true)
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"none") and StoryQuestLog.current_step(state, quest).step_id == &"next", "the rescue: no 玄冥子, the line on to 逆灵宫 C")
+	_check(StoryQuestLog.took(state, quest, &"none") and StoryQuestLog.current_step(state, quest).step_id == &"hour", "the rescue: no 玄冥子, the line on to 逆灵宫 C")
 	_check(_shown(session).contains("疑点：2／3"), "那一夜丢了人 and 名册不见了: %s" % _shown(session))
 
 
@@ -333,7 +333,7 @@ func _test_killed_xuan(_tree: SceneTree, session: WorldSessionController) -> voi
 	StoryFixtures.niling_ledger(session, "lin", false)
 	state.marks["了结了玄冥子"] = 1 # TEST-ONLY: as his die_marks_killer writes
 	session.record_journal()
-	_check(StoryQuestLog.took(state, quest, &"none") and StoryQuestLog.current_step(state, quest).step_id == &"next", "玄冥子 killed: routed past too")
+	_check(StoryQuestLog.took(state, quest, &"none") and StoryQuestLog.current_step(state, quest).step_id == &"hour", "玄冥子 killed: routed past too")
 	_check(GameContent.catalog().npc(XUAN).hooks().die_marks_killer == "了结了玄冥子", "his killer is marked")
 
 

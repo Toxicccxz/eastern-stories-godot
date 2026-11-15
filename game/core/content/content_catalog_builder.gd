@@ -1323,7 +1323,7 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		var step: ScriptedAct.Step = act.steps[index]
 		# A room's act may send off one of a definition standing in it (`leave` naming it: the
 		# 枷锁 opened, the 民夫 go), with no NPC of its own.
-		var needs_npc: bool = step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_MOOD, ScriptedAct.Kind.NPC_WIELD] or (step.kind == ScriptedAct.Kind.LEAVE and step.npc_id.is_empty())
+		var needs_npc: bool = step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_WOUND, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_MOOD, ScriptedAct.Kind.NPC_WIELD] or (step.kind == ScriptedAct.Kind.LEAVE and step.npc_id.is_empty())
 		if not acting and needs_npc:
 			_errors.append("%s: step %d needs the NPC of a greeting or one that came" % [origin, index])
 		if step.only_when != null and step.only_when.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:

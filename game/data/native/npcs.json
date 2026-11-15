@@ -2118,6 +2118,49 @@
 			}
 		},
 		{
+			"id": "native.npc.lin_ji_lake",
+			"legacy_source": "native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 7 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 终章's 茅山 band for one who turned the night before (前夜倒戈): 林忌 (daemon/class/taoist/taolord.c, 茅山派第五代天师) on the bank, his disciples on the 北麓's way down, where the 道观's people come to the lake (计划 §6 逆灵宫 C 第 7 条)",
+			"name": "林忌",
+			"aliases": [
+				"master taolord",
+				"master",
+				"taolord"
+			],
+			"nickname": "六指真人",
+			"title": "茅山派第五代天师",
+			"gender": "男性",
+			"age": 47,
+			"long": "林忌站在湖岸的一块青石上，拂尘搭在臂弯里，一黑一金两只眼睛望着北边的山。他的弟子们在下湖的路上。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 20,
+				"int": 30,
+				"spi": 30,
+				"cps": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"force": 30,
+				"unarmed": 30,
+				"sword": 40,
+				"parry": 40,
+				"dodge": 40
+			},
+			"attitude": "friendly",
+			"fight_deferred": "林忌摇了摇头：今夜不是自家人比划的时候。",
+			"inquiry": {
+				"湖底": [
+					"林忌道：北麓下来的路，茅山的人守着。商玦身边，今夜只剩两个。\n"
+				],
+				"逆灵宫": [
+					"林忌道：时辰和路，是你交出来的。剩下的，看你在湖底了。\n"
+				]
+			}
+		},
+		{
 			"id": "native.npc.pan_junchan_lake",
 			"legacy_source": "native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 终章's 水烟阁守潭口 for one who made the 天邪 split but neither kept 南危水's secret nor brought 卫沧澜 out: 潘军禅 (daemon/class/fighter/executioner.c) and the 红衣武士 (d/waterfog/npc/elite_guard.c) on the bank (计划 §4 天邪 B 第 5 条; 终章 A's others: 南危水, 卫沧澜)",
 			"name": "潘军禅",
@@ -2463,7 +2506,7 @@
 		},
 		{
 			"id": "native.npc.shang_jue_waiting",
-			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 商玦 at the 冰龙厅's pool the night of the battle (§0「冰龙厅」), his two lines; he draws (shang_jue_fighting)",
+			"legacy_source": "native: 终章 B (剧情总纲 §3 终章: 三器齐——旋芒斩、宝衣挡黑焰、穿灵最后钉头——灭；缺一再封，有人留在冰里; §9 Q1; 计划 build/plans/终章_计划.md B 包与 §0「冰龙厅」「封坛」, owner 2026-11-08「按推荐的做」: Q2 璃虹要羽才能留、你自己是隐藏的一项; DECISIONS「终章 B」) — 商玦 at the 冰龙厅's pool the night of the battle (§0「冰龙厅」), his two lines; he draws (shang_jue_fighting). native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 7 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」): 前夜倒戈, two of his four (the other two cut off by 茅山); 潜伏到底, the first blow from behind (drawn with half his kee gone) and his four on the player first, the dragons holding off the black crowns",
 			"name": "商玦",
 			"aliases": [
 				"shang jue",
@@ -2507,30 +2550,180 @@
 					"not_mark": "商玦说过",
 					"steps": [
 						{
+							"when": {
+								"not": {
+									"cond": "niling.deep_crowned"
+								}
+							},
 							"emote": "站在水潭边，黑衣上结了一层霜。他看着你，像看一个来晚了的人。"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"line": "你戴着黑冠，跟在四个黑冠道士后头走进冰龙厅。商玦站在水潭边，背对着你们，黑衣上结了一层霜。\n"
 						},
 						{
 							"say": "它找了五千年的头。你要在它找到的那一刻毁了它。"
 						},
 						{
 							"when": {
-								"not": {
-									"mark": "冰龙倒了"
-								}
+								"cond": "niling.deep_crowned"
+							},
+							"line": "他没有回头。他以为身后站着的，都是跟他下湖的人。\n"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"line": "你的剑先到了。一剑从背后透进他的黑衣，他晃了一晃，没有倒。\n",
+							"color": "HIR"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"mark": "潜伏那一剑"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"say": "……戴着我们的冠。我早该想到。"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"not": {
+											"mark": "冰龙倒了"
+										}
+									},
+									{
+										"not": {
+											"mark": "前夜倒戈"
+										}
+									},
+									{
+										"not": {
+											"cond": "niling.deep_crowned"
+										}
+									}
+								]
 							},
 							"line": "六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面四个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。\n",
 							"color": "HIW"
 						},
 						{
 							"when": {
-								"mark": "冰龙倒了"
+								"all": [
+									{
+										"not": {
+											"mark": "冰龙倒了"
+										}
+									},
+									{
+										"mark": "前夜倒戈"
+									}
+								]
+							},
+							"line": "六条白鳞冰龙同时抬起头。这一回它们没有盘回去——龙影扑下来，冰柱后面那两个黑冠道士连黑烟都没来得及散，就被卷进了冰缝里。另外两个，茅山的人在北麓截下了。\n",
+							"color": "HIW"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"not": {
+											"mark": "冰龙倒了"
+										}
+									},
+									{
+										"cond": "niling.deep_crowned"
+									}
+								]
+							},
+							"line": "六条白鳞冰龙抬起头，看了看那几顶黑冠，又盘了回去——你和他们站在一起。\n",
+							"color": "HIW"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "冰龙倒了"
+									},
+									{
+										"not": {
+											"mark": "前夜倒戈"
+										}
+									},
+									{
+										"not": {
+											"cond": "niling.deep_crowned"
+										}
+									}
+								]
 							},
 							"line": "四个黑冠道士从冰柱后面走出来，围住了你。\n",
 							"color": "HIR"
 						},
 						{
 							"when": {
-								"mark": "冰龙倒了"
+								"all": [
+									{
+										"mark": "冰龙倒了"
+									},
+									{
+										"not": {
+											"mark": "前夜倒戈"
+										}
+									},
+									{
+										"not": {
+											"cond": "niling.deep_crowned"
+										}
+									}
+								]
+							},
+							"summon": "native.lakebottom2.niling_finale"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "冰龙倒了"
+									},
+									{
+										"mark": "前夜倒戈"
+									}
+								]
+							},
+							"line": "冰柱后面只走出来两个黑冠道士，围住了你。另外两个，茅山的人在北麓截下了。\n",
+							"color": "HIR"
+						},
+						{
+							"when": {
+								"all": [
+									{
+										"mark": "冰龙倒了"
+									},
+									{
+										"mark": "前夜倒戈"
+									}
+								]
+							},
+							"summon": "native.lakebottom2.niling_finale_two"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"line": "你身边的四个黑冠道士一齐拔剑，先扑向了你。\n",
+							"color": "HIR"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
 							},
 							"summon": "native.lakebottom2.niling_finale"
 						},
@@ -2560,6 +2753,20 @@
 						},
 						{
 							"summon": "native.lakebottom2.shang_jue_fighting"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"by": "native.npc.shang_jue_fighting"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
+							},
+							"npc_wound": {
+								"kee": 50
+							}
 						}
 					]
 				}

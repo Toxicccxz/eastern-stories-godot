@@ -17,7 +17,7 @@ const CROWN: StringName = &"native:niling/black_crown"
 const PEOPLE: Dictionary = {
 	&"niling.winch": {&"native.npc.niling_winch_taoist": 1},
 	&"niling.gatehouse": {&"native.npc.niling_gatekeeper": 1},
-	&"niling.yard": {&"native.npc.niling_gate_guard": 2},
+	&"niling.yard": {&"native.npc.niling_gate_guard": 2, &"native.npc.xuan_mingzi_unmasking": 1, &"native.npc.niling_lead_chanter_unmasking": 1}, # 卧底 C: who waits for one found out (one of the two, by the story)
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},
 	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1, &"native.npc.niling_patrol": 1},
 	&"niling.counting": {&"native.npc.niling_steward": 1},
@@ -68,7 +68,7 @@ func _test_data() -> void:
 	_check(catalog.spawn(&"niling.corridor.jailers").until != null and catalog.spawn(&"niling.corridor.jailers").until.key == "见过唤首" and catalog.spawn(&"niling.corridor.jailers_keyed").present.key == "见过唤首", "the keyless jailers stand until the 唤首 scene, the keyed ones from it")
 	_check(catalog.door(&"niling.master.door").found_by == "见过唤首" and not catalog.door(&"niling.master.door").operable and catalog.npc(&"native.npc.shang_jue").hooks().scene_mark == "见过唤首", "the 黑门 is found by 商玦's scene")
 	_check(catalog.spawn(&"niling.altar.hell_runners").summoned and catalog.spawn(&"niling.altar.hell_runners").cleared_mark == "祭坛的鬼卒倒了" and catalog.spawn(&"niling.altar.shade").summoned, "the ghouls and the shade are summoned by the scene")
-	_check(catalog.spawn(&"niling.cliff_path.xuan_mingzi").until.key == "main.chapter3/choice/rescue" and catalog.spawn(&"niling.cell_huo.huo_zheng").until.key == "main.chapter3/choice/chase" and catalog.item_spawn(&"niling.cell_huo.body").present.key == "main.chapter3/choice/chase", "the two endings exclude each other on the stage")
+	_check(catalog.spawn(&"niling.cliff_path.xuan_mingzi").until.when == JournalEntryDefinition.When.ANY and catalog.spawn(&"niling.cliff_path.xuan_mingzi").until.parts[0].key == "main.chapter3/choice/rescue" and catalog.spawn(&"niling.cliff_path.xuan_mingzi").until.parts[1].key == "被识破" and catalog.spawn(&"niling.cell_huo.huo_zheng").until.key == "main.chapter3/choice/chase" and catalog.item_spawn(&"niling.cell_huo.body").present.key == "main.chapter3/choice/chase", "the two endings exclude each other on the stage (卧底 C: the cliff's 玄冥子 gone too once one is found out)")
 	_check(catalog.npc(&"native.npc.xuan_mingzi_cliff").hooks().spared_drop == &"native:niling/scroll_fragment" and catalog.npc(&"native.npc.hell_runner").hooks().vanishes and catalog.npc(&"native.npc.huo_zheng").hooks().follows_every_way, "玄冥子 drops the 残卷 when spared; a 鬼卒 leaves no corpse; 霍铮 follows every way")
 	_check(WorldRoute.moves_to(catalog, catalog.service(&"niling.master.back_door")) == &"niling.backhill" and catalog.portal(&"niling.cliff_path.south").destination_zone_id == &"niling.master", "the small door out onto the cliff path, and back")
 	_check(catalog.portal(&"niling.goods_path.north").destination_zone_id == &"niling.gatehouse" and catalog.portal(&"niling.gatehouse.south").destination_zone_id == &"niling.goods_path", "the goods road north into the gate, and back")
@@ -80,7 +80,7 @@ func _test_data() -> void:
 	_check(crown != null and crown.armor_definition() != null and crown.armor_definition().armor_type == &"head", "the 黑冠 is worn on the head")
 	for definition_id: StringName in [&"native.npc.niling_gatekeeper", &"native.npc.niling_gate_guard", &"native.npc.niling_store_taoist", &"native.npc.niling_chanter", &"native.npc.niling_lead_chanter", &"native.npc.niling_steward", &"native.npc.niling_jailer"]:
 		var npc: NpcDefinition = catalog.npc(definition_id)
-		_check(npc.dealings().ignores_when != null and npc.dealings().ignores_when.when == JournalEntryDefinition.When.WEARING and npc.dealings().ignores_when.key == String(CROWN), "%s takes one in the 黑冠 for its own" % definition_id)
+		_check(npc.dealings().ignores_when != null and npc.dealings().ignores_when.when == JournalEntryDefinition.When.ALL and npc.dealings().ignores_when.parts[0].when == JournalEntryDefinition.When.WEARING and npc.dealings().ignores_when.parts[0].key == String(CROWN), "%s takes one in the 黑冠 for its own (卧底 C: niling.crown_holds, till found out or turned)" % definition_id)
 		_check(npc.attacks_on_sight({}, CharacterState.new(), true) and not npc.attacks_on_sight({}, CharacterState.new(), true, true), "%s attacks a stranger on sight, not one it ignores" % definition_id)
 	_check(not catalog.npc(&"native.npc.niling_winch_taoist").attacks_on_sight({}, CharacterState.new(), true), "the 绞盘道士 attacks nobody")
 

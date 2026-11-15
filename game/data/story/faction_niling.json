@@ -7,10 +7,13 @@
 			"region": "逆灵宫",
 			"sources": [
 				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」: 黑线, 晋阶黑冠; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, §2 第 5、6 条 (任务级清单, 疑点不加新状态), §8「祭品是谁」「残卷去哪」, §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」「任务级清单」). daemon/class/taoist/taolord.c (林忌, 茅山派第五代天师: 我茅山派……世世代代皆以降妖伏魔为己任); doc/help/plan:26–31 (逆灵宫 on 野羊山's north slope, 黑衣黑冠, 纳供); doc/help/taoist:58 (逆灵天书, the forbidden book). Nobody kneels to 逆灵宫: the line begins when one who finished 第三章 tells 林忌 (or 霍铮) yes, asked first; the 进门 (where the 残卷 goes), the 杂活, the 偷听 at 子时 past the 巡殿 and the 名单 are the plan's (续写); it stopped at a stub step that 逆灵宫 B fills.",
-				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B, §8「一枚令牌三家要」(the 六阴剑 of 晚月庄's 蒙面杀手: 是这里教的), §9 第 12 条, §11 Q6, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」). d/latemoon/room/npc/killer.c (the 蒙面杀手's six-chaos-sword); daemon/skill/six-chaos-sword.c (valid_learn: max_force 100, a sword); doc/skill/six-chaos-sword (剑谱共分三部：天殇、追魂、绝识); obj/slumber_drug.c (蒙汗药, 倒在酒水之中). 林忌's word of the three new captives; the jailer's key three ways (wine or 蒙汗药, the nail at 子时, 第三章's key); the 名册 in the 账房's iron box taken or left (the line's second small choice; taken, a 疑点); the 逆灵天书's lower half fetched at 子时 for 玄冥子 where he lives, for the 六阴剑谱 read to 40 and the hour he means to take 商玦's place (逆灵宫 C's 收网); it stops at a stub step `next` that 逆灵宫 C fills."
+				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B, §8「一枚令牌三家要」(the 六阴剑 of 晚月庄's 蒙面杀手: 是这里教的), §9 第 12 条, §11 Q6, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」). d/latemoon/room/npc/killer.c (the 蒙面杀手's six-chaos-sword); daemon/skill/six-chaos-sword.c (valid_learn: max_force 100, a sword); doc/skill/six-chaos-sword (剑谱共分三部：天殇、追魂、绝识); obj/slumber_drug.c (蒙汗药, 倒在酒水之中). 林忌's word of the three new captives; the jailer's key three ways (wine or 蒙汗药, the nail at 子时, 第三章's key); the 名册 in the 账房's iron box taken or left (the line's second small choice; taken, a 疑点); the 逆灵天书's lower half fetched at 子时 for 玄冥子 where he lives, for the 六阴剑谱 read to 40 and the hour he means to take 商玦's place (逆灵宫 C's 收网); it stops at a stub step `next` that 逆灵宫 C fills.",
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 7–9 条 and「主线打完才进来的人」, §8, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」). The stub grown into 收网: once 第十章 is over (the 唤首 night is the lake's: 钉子一拔，就是唤首的时辰), 林忌 asks which night and which way; the line's split (前夜倒戈: the hour and the way to 茅山, two of 商玦's four cut off and 茅山 a band at the 点将, the 黑冠 spent; 潜伏到底, with fewer than three 疑点: down the lake in the crown, the first blow from behind 商玦, his four on the player first, no band more). Three 疑点 any time and the line lapses (疑点满了): the next time in the 前院 玄冥子 (or the 领诵 where he does not live) waits, his 第三章 words, the crown no more, the 道观 on them, three 道士 at the 野羊山 turn after; what was handed out still counts, the 剑谱 stays. One who comes after the 终章 is asked of the 余孽 instead (剿 or 招安, the 虹台大会's: a stub step 大会 A fills)."
 			],
 			"summary": "戴着黑冠回逆灵宫，替茅山的林忌做眼线。",
-			"requires": ["main.chapter3"],
+			"requires": [
+				"main.chapter3"
+			],
 			"starts": {
 				"mark": "答应了做眼线"
 			},
@@ -62,7 +65,9 @@
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
-						"npcs": ["common.npc.taoist.taolord"]
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
 					},
 					"options": [
 						{
@@ -107,7 +112,9 @@
 					"target": {
 						"map": "niling.hall",
 						"zone": "niling.counting",
-						"npcs": ["native.npc.niling_steward"]
+						"npcs": [
+							"native.npc.niling_steward"
+						]
 					}
 				},
 				{
@@ -144,7 +151,9 @@
 					"target": {
 						"map": "niling.hall",
 						"zone": "niling.counting",
-						"npcs": ["native.npc.niling_steward"]
+						"npcs": [
+							"native.npc.niling_steward"
+						]
 					}
 				},
 				{
@@ -153,7 +162,7 @@
 					"done": {
 						"mark": "后殿外听到了"
 					},
-					"text": "你在北门外听见了：唤首的时辰，和「名单在账房」。",
+					"text": "你在北门外听见了他们等的那一夜，和「名单在账房」。",
 					"target": {
 						"map": "niling.hall",
 						"zone": "niling.front"
@@ -184,7 +193,9 @@
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
-						"npcs": ["common.npc.taoist.taolord"]
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
 					}
 				},
 				{
@@ -283,9 +294,12 @@
 							"done": {
 								"mark": "天书给了玄冥子"
 							},
-							"text": "你从宫主居所的暗格里取出《逆灵天书》的下半部，交给了玄冥子。他给了你一册六阴剑谱，说唤首那一夜，站在商玦身后的会是他。",
+							"text": "你从宫主居所的暗格里取出《逆灵天书》的下半部，交给了玄冥子。他给了你一册六阴剑谱，说了他等的是哪一夜。",
 							"reward": {
-								"deed": "替玄冥子取来了《逆灵天书》的下半部"
+								"deed": "替玄冥子取来了《逆灵天书》的下半部",
+								"marks": [
+									"后山的事了了"
+								]
 							}
 						},
 						{
@@ -302,7 +316,12 @@
 									}
 								]
 							},
-							"text": "后山崖径上没有玄冥子——《逆灵天书》的下半部，没有人托你去取。"
+							"text": "后山崖径上没有玄冥子——《逆灵天书》的下半部，没有人托你去取。",
+							"reward": {
+								"marks": [
+									"后山的事了了"
+								]
+							}
 						}
 					],
 					"target": {
@@ -314,12 +333,131 @@
 					}
 				},
 				{
-					"id": "next",
-					"objective": "宫里的事快到头了。过些时候再问林忌「逆灵宫」——他要知道他们哪一夜动、走哪条路。",
+					"id": "hour",
+					"weight": "route",
+					"objective": "宫里等的那一夜，林忌要知道：他们哪一夜动、走哪条路。钉子拔了、湖上的事近了（第十章之后），回灵心观问林忌「逆灵宫」。湖底的事已经了了的，宫里剩下的人还在——也问他「逆灵宫」。",
+					"options": [
+						{
+							"id": "net",
+							"done": {
+								"mark": "林忌说了收网"
+							},
+							"text": "林忌问你宫里哪一夜动、走哪条路：唤首那一夜，逆灵宫倾巢下湖。"
+						},
+						{
+							"id": "remnant",
+							"done": {
+								"mark": "林忌说了余孽"
+							},
+							"text": "湖底的事了了，商玦没有回来。宫里剩下的人还在续灯——林忌要一个了断。"
+						}
+					],
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"only_after": "net",
+					"weight": "big",
+					"objective": "收网，看你。前夜倒戈（问林忌「倒戈」）：把下湖的时辰和路交给茅山——终章冰龙厅里商玦身边只剩两个道士，点将时多一拨茅山的人；可黑冠从此没用，逆灵宫的门不再为你开。潜伏到底（问林忌「潜伏」，疑点不到三条才行）：你戴着冠跟商玦的队伍下湖，冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。终章在湖畔等到天黑之前要定下来。",
+					"options": [
+						{
+							"id": "turn",
+							"done": {
+								"mark": "前夜倒戈"
+							},
+							"text": "前夜，你把下湖的时辰和路交给了林忌。黑冠从此没用了。",
+							"reward": {
+								"deed": "唤首前夜，把逆灵宫下湖的时辰和路交给了茅山"
+							}
+						},
+						{
+							"id": "deep",
+							"done": {
+								"mark": "潜伏到底"
+							},
+							"text": "你没有把时辰交出去。黑冠还戴在你头上：唤首那一夜，你跟着他们下湖。",
+							"reward": {
+								"deed": "戴着黑冠潜伏到底，跟逆灵宫下了湖"
+							}
+						},
+						{
+							"id": "missed",
+							"done": {
+								"all": [
+									{
+										"mark": "下了决战"
+									},
+									{
+										"not": {
+											"mark": "前夜倒戈"
+										}
+									},
+									{
+										"not": {
+											"mark": "潜伏到底"
+										}
+									}
+								]
+							},
+							"text": "唤首那一夜过去了。你什么也没有交出去，也没有跟他们下湖。"
+						}
+					],
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "hall_turn",
+					"only_after": "turn",
+					"objective": "终章：茅山的人截在北麓下湖的路上，林忌在湖畔。冰龙厅里，商玦身边只剩两个道士。",
 					"done": {
-						"mark": "林忌说了收网"
+						"mark": "商玦倒了"
 					},
-					"text": "林忌问你宫里哪一夜动。",
+					"text": "冰龙厅里，商玦身边只剩两个道士——另外两个，茅山在北麓截下了。",
+					"target": {
+						"map": "village.icecave",
+						"zone": "village.lakebottom2",
+						"npcs": [
+							"native.npc.shang_jue_fighting",
+							"native.npc.shang_jue_waiting"
+						]
+					}
+				},
+				{
+					"id": "hall_deep",
+					"only_after": "deep",
+					"objective": "终章：戴着黑冠下湖。冰龙厅里你站在商玦身后——第一剑是你的。他的四个道士会先扑你。",
+					"done": {
+						"mark": "商玦倒了"
+					},
+					"text": "冰龙厅里，第一剑是你从背后刺的。商玦带着那一剑的伤，同你打完了这一场。",
+					"target": {
+						"map": "village.icecave",
+						"zone": "village.lakebottom2",
+						"npcs": [
+							"native.npc.shang_jue_waiting",
+							"native.npc.shang_jue_fighting"
+						]
+					}
+				},
+				{
+					"id": "aftermath",
+					"only_after": "remnant",
+					"objective": "宫里剩下的人，林忌要一个了断：交给官府去剿，还是劝他们下山、交茅山看管。正月十七的虹台大会之前，他会再问你。",
+					"done": {
+						"mark": "余孽有了去处"
+					},
+					"text": "逆灵宫的余孽有了去处。",
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
@@ -328,7 +466,23 @@
 						]
 					}
 				}
-			]
+			],
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"cond": "niling.suspicion"
+						},
+						{
+							"not": {
+								"mark": "前夜倒戈"
+							}
+						}
+					]
+				},
+				"text": "疑点满了三条。宫里认出你，只是早晚的事——下回进前院，就是那一天。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。",
+				"mark": "疑点满了"
+			}
 		}
 	]
 }

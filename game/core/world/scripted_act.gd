@@ -37,6 +37,9 @@ extends RefCounted
 ## - `condition` with `duration`: apply_condition() (it replaces the one there);
 ## - `calm` n: a bellicosity above 0 goes down random(kar) + n (uproom3.c);
 ## - `npc_force` n: the NPC's own force grows by n (this_object()->add("force", n));
+## - `npc_wound` {gin?, kee?, sen?: percent} (native, 势力线第一批 卧底 C; DECISIONS「卧底 C」): the act's NPC
+##   takes a wound of that percent of its max (eff_ and current both lowered, as `hurt` does the player's):
+##   商玦 drawn after the first blow came from behind him;
 ## - `close_door`: the NPC's command("close door"), on the door the player came by;
 ## - `move` (a zone, on any map) to `point`: ob->move(), the player taken there;
 ## - `kill`: kill_ob(player) and the player's fight_ob(): a fight to the death;
@@ -85,7 +88,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE, NPC_WOUND }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -267,7 +270,7 @@ class Step:
 	extends RefCounted
 	var kind: Kind
 	var line: NpcLine
-	## damage: by resource name; hurt: the base by resource name, with `randoms`.
+	## damage: by resource name; hurt: the base by resource name, with `randoms`; npc_wound: the percent.
 	var amounts: Dictionary[String, int] = {}
 	var randoms: Dictionary[String, int] = {}
 	## heal: the resource; base + random(random_of).
@@ -492,7 +495,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "npc_wound", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -553,6 +556,21 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"calm":
 			step.kind = Kind.CALM
 			step.value = reader.required_integer("calm")
+		"npc_wound":
+			step.kind = Kind.NPC_WOUND
+			var wounds: ContentRecordReader = reader.child("npc_wound")
+			if wounds == null:
+				reader.fail("npc_wound", "expected {gin?, kee?, sen?: percent}")
+				return null
+			for key: String in wounds.keys():
+				if not RESOURCES.has(key):
+					wounds.fail(key, "expected one of %s" % [RESOURCES])
+				step.amounts[key] = wounds.required_integer(key)
+				if step.amounts[key] < 1 or step.amounts[key] > 99:
+					wounds.fail(key, "a percent of the max, 1 to 99")
+			if step.amounts.is_empty():
+				reader.fail("npc_wound", "names at least one of %s" % [RESOURCES])
+			wounds.finish()
 		"npc_force":
 			step.kind = Kind.NPC_FORCE
 			step.value = reader.required_integer("npc_force")

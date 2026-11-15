@@ -373,6 +373,21 @@ position = Vector2(720, 1172)
 script = ExtResource("marker")
 spawn_point_id = &"goathill.mroad4.tribute_taoist.2"
 
+[node name="NilingPursuer01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(620, 1288)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.pursuer.1"
+
+[node name="NilingPursuer02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(660, 1300)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.pursuer.2"
+
+[node name="NilingPursuer03" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(636, 1328)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.pursuer.3"
+
 [node name="Mroad4RopeReturn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(640, 1200)
 script = ExtResource("marker")

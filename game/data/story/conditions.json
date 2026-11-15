@@ -5,7 +5,8 @@
 			"sources": [
 				"native: 终章 A (计划 build/plans/终章_计划.md §4 表二; DECISIONS「终章 A」): 帮手三拨以上才「能灭它」——七拨里来了几拨. 势力线第一批 (计划 build/plans/势力线第一批_计划.md §2 第 1 条; DECISIONS「具名条件」) gives the list this one home: the 点将 checklist, the 等到天黑 act and the 封坛's 钉下去 all name it.",
 				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 封山守渡口, the eighth: 柳淳风 and his disciples (本宗) or 柳绘心 and those she taught (北宗); three are still enough.",
-				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 水烟阁守潭口 holds for one who made the 天邪 split as well: 潘军禅 and the 红衣武士 where neither 南危水 nor 卫沧澜 comes; still one band."
+				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 水烟阁守潭口 holds for one who made the 天邪 split as well: 潘军禅 and the 红衣武士 where neither 南危水 nor 卫沧澜 comes; still one band.",
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 茅山 (林忌), the ninth: one who turned the night before gave 林忌 the hour and the way down to the lake; his people hold it. Three are still enough."
 			],
 			"when": {
 				"at_least": {
@@ -53,6 +54,9 @@
 									"mark": "跟了北宗"
 								}
 							]
+						},
+						{
+							"mark": "前夜倒戈"
 						}
 					]
 				}
@@ -154,6 +158,92 @@
 					},
 					{
 						"mark": "放了采药人"
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.crown_holds",
+			"sources": [
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the 黑冠 passes in the 道观 while it is worn, until the one wearing it is found out (被识破: the 前院 scene) or turned the night before (前夜倒戈: the hour and the way handed to 茅山); every 道士 of the 道观 ignores the player on it."
+			],
+			"when": {
+				"all": [
+					{
+						"wearing": "native:niling/black_crown"
+					},
+					{
+						"not": {
+							"mark": "被识破"
+						}
+					},
+					{
+						"not": {
+							"mark": "前夜倒戈"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.unmasking",
+			"sources": [
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the 前院 scene's hour: one who wears the 黑冠 for 茅山 (on their head as they come in) with three 疑点, not yet found out, not turned; whoever waits in the 前院 (玄冥子 where he lives, the 领诵 where he does not) is on the stage when they next come in."
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "答应了做眼线"
+					},
+					{
+						"wearing": "native:niling/black_crown"
+					},
+					{
+						"cond": "niling.suspicion"
+					},
+					{
+						"not": {
+							"mark": "被识破"
+						}
+					},
+					{
+						"not": {
+							"mark": "前夜倒戈"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.deep",
+			"sources": [
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 潜伏到底 still holds at the 冰龙厅: chosen with fewer than three 疑点 and none come since (the line lapsed then: 疑点满了); the first blow is the player's, 商玦 drawn wounded and his four on them."
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "潜伏到底"
+					},
+					{
+						"not": {
+							"mark": "疑点满了"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.deep_crowned",
+			"sources": [
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 7 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the 冰龙厅's 潜伏 version: niling.deep, and the 黑冠 on the player's head as they come in (one who took it off gets the hall as it is for anyone)."
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "niling.deep"
+					},
+					{
+						"wearing": "native:niling/black_crown"
 					}
 				]
 			}

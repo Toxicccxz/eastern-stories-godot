@@ -138,6 +138,14 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.NPC_FORCE:
 				if npc != null:
 					npc.character_state.recovery.inner_force.current += step.value
+			ScriptedAct.Kind.NPC_WOUND:
+				if npc != null:
+					for key: String in ScriptedAct.RESOURCES:
+						if step.amounts.has(key):
+							var track: CharacterResourceState = ScriptedAct.resource_of(npc.character_state, key)
+							var wound: int = track.maximum * step.amounts[key] / 100
+							track.apply_damage(wound)
+							track.apply_wound(wound)
 			ScriptedAct.Kind.CLOSE_DOOR:
 				_show(said, hears, npc, spoken)
 				if npc != null:

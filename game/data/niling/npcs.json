@@ -102,7 +102,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 25,
@@ -195,7 +195,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 25,
@@ -268,7 +268,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 22,
@@ -347,7 +347,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 22,
@@ -431,7 +431,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 28,
@@ -516,7 +516,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 24,
@@ -690,7 +690,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 26,
@@ -1728,7 +1728,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 26,
@@ -1811,7 +1811,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 24,
@@ -1921,7 +1921,7 @@
 				"aggressive_on_player_presence"
 			],
 			"ignores_when": {
-				"wearing": "native:niling/black_crown"
+				"cond": "niling.crown_holds"
 			},
 			"skills": {
 				"unarmed": 26,
@@ -2249,6 +2249,293 @@
 						{ "leave": true }
 					]
 				}
+			]
+		},
+		{
+			"id": "native.npc.xuan_mingzi_unmasking",
+			"legacy_source": "native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 8 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 被识破: 玄冥子 (spared on the cliff, alive) waiting in the 前院 for one who wears the 黑冠 for 茅山 once three 疑点 are on them; his 第三章 words (你戴着我们的冠，却不是我们的人), what gave them away, and the whole 道观 on them. The cliff's 玄冥子 (native.npc.xuan_mingzi_cliff) is off his stage from then on; the numbers are the 后殿's (native.npc.xuan_mingzi)",
+			"name": "玄冥子",
+			"aliases": [
+				"xuan mingzi",
+				"xuan",
+				"disciple"
+			],
+			"title": "逆灵宫大弟子",
+			"gender": "男性",
+			"age": 38,
+			"long": "玄冥子站在前院当中的铁香炉边，长剑已经出鞘。他像是等了很久。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 30,
+				"int": 28,
+				"spi": 28,
+				"cps": 28,
+				"per": 24,
+				"con": 28,
+				"kar": 6
+			},
+			"combat_exp": 40000,
+			"score": 1500,
+			"attitude": "friendly",
+			"skills": {
+				"sword": 60,
+				"six-chaos-sword": 60,
+				"dodge": 55,
+				"parry": 55,
+				"force": 50
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/long_sword",
+					"source": "d/oldpine/obj/long_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "被识破",
+					"steps": [
+						{
+							"emote": "看着你从门口走进来，没有动。"
+						},
+						{
+							"say": "你戴着我们的冠，却不是我们的人。"
+						},
+						{
+							"say": "第一眼我就说过。我留着你，是想看你替谁做事。"
+						},
+						{
+							"when": {
+								"mark": "残卷没回宫"
+							},
+							"say": "那卷残卷没有回宫。宫里等了它很久。"
+						},
+						{
+							"when": {
+								"mark": "那一夜丢了人"
+							},
+							"say": "那一夜地牢空了。闯进来的人，就是你。"
+						},
+						{
+							"when": {
+								"mark": "子时在后殿外被撞见"
+							},
+							"say": "子时贴在北门外听的，也是你。"
+						},
+						{
+							"when": {
+								"mark": "名册不见了"
+							},
+							"say": "铁匣里那本名册，是你拿走的。"
+						},
+						{
+							"say": "拿下。"
+						},
+						{
+							"line": "前院里的道士都转过身来。你头上那顶冠，不灵了。\n",
+							"color": "HIR"
+						},
+						{
+							"mark": "被识破"
+						},
+						{
+							"kill": true
+						}
+					]
+				}
+			],
+			"spared": {
+				"leave": true,
+				"line": "玄冥子撑着剑退进了前殿：「北麓的路，你走不远。」"
+			},
+			"die_marks_killer": "了结了玄冥子",
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"玄冥子冷冷道：茅山派你来的？\n",
+				"玄冥子的剑上带着一股阴风，香炉里的灰都飞了起来。\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_lead_chanter_unmasking",
+			"legacy_source": "native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 8 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 被识破 where no 玄冥子 lives (the rescue; or 了结 on the cliff): the 领诵, who leads the 道观 in his place (计划 §6 逆灵宫 A「接他位置的是领诵道士」), waits in the 前院 and says 玄冥子's 第三章 words; the numbers are his (native.npc.niling_lead_chanter)",
+			"name": "领诵道士",
+			"aliases": [
+				"lead chanter",
+				"chanter",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 50,
+			"long": "领诵道士站在前院当中的铁香炉边，手里没有木鱼，换了一柄剑。他抬着头——你头一回看见他的脸。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 26,
+				"int": 26,
+				"spi": 28,
+				"cps": 26,
+				"per": 14,
+				"con": 24,
+				"kar": 6
+			},
+			"combat_exp": 7000,
+			"score": 300,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 28,
+				"sword": 40,
+				"dodge": 36,
+				"parry": 38
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "被识破",
+					"steps": [
+						{
+							"emote": "抬起头来看你。这是他头一回抬头。"
+						},
+						{
+							"say": "你戴着我们的冠，却不是我们的人。"
+						},
+						{
+							"say": "大弟子那一夜在后殿就说过。我一直记着。"
+						},
+						{
+							"when": {
+								"mark": "残卷没回宫"
+							},
+							"say": "那卷残卷没有回宫。宫里等了它很久。"
+						},
+						{
+							"when": {
+								"mark": "那一夜丢了人"
+							},
+							"say": "那一夜地牢空了。闯进来的人，就是你。"
+						},
+						{
+							"when": {
+								"mark": "子时在后殿外被撞见"
+							},
+							"say": "子时贴在北门外听的，也是你。"
+						},
+						{
+							"when": {
+								"mark": "名册不见了"
+							},
+							"say": "铁匣里那本名册，是你拿走的。"
+						},
+						{
+							"say": "拿下。"
+						},
+						{
+							"line": "前院里的道士都转过身来。你头上那顶冠，不灵了。\n",
+							"color": "HIR"
+						},
+						{
+							"mark": "被识破"
+						},
+						{
+							"kill": true
+						}
+					]
+				}
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"领诵道士喝道：殿前动手，坛上加供！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_pursuer",
+			"legacy_source": "native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 8 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the three 道士 sent down after one found out (逃出去之后野羊山转角有三个追杀的道士): at the turn where the tribute's escort stood, till they are down",
+			"name": "追杀的道士",
+			"aliases": [
+				"taoist",
+				"black taoist",
+				"道士"
+			],
+			"title": "逆灵宫",
+			"gender": "男性",
+			"age": 32,
+			"long": "一个黑衣黑冠的道士，剑提在手里，站在山路转角的风口上，眼睛盯着上山下山的每一个人。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 26,
+				"int": 22,
+				"spi": 22,
+				"cps": 24,
+				"per": 14,
+				"con": 24,
+				"kar": 8
+			},
+			"combat_exp": 6000,
+			"score": 200,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"unarmed": 28,
+				"sword": 40,
+				"dodge": 36,
+				"parry": 36
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"追杀的道士喝道：戴着宫里的冠替茅山做事，你当北麓没有人了？\n",
+				"追杀的道士朝山上喊了一声，风把声音吹散了。\n"
 			]
 		}
 	]
