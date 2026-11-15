@@ -139,7 +139,8 @@
 			"place": "水烟阁",
 			"sources": [
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/fighter/master.c, champion.c, executioner.c; d/waterfog/npc/elder5.c, elder7.c",
-				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)"
+				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)",
+				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」)"
 			],
 			"lines": [
 				{
@@ -194,6 +195,24 @@
 					"text": "二十年前那张镖单锁在水烟阁的刑堂里。是你交给潘军禅的。",
 					"when": {
 						"mark": "镖单锁进了刑堂"
+					}
+				},
+				{
+					"text": "潘军禅告诉你：二十年前带走盟主的，是一队挂兵部刀的白衣武官。",
+					"when": {
+						"mark": "潘军禅说了盟主的下落"
+					}
+				},
+				{
+					"text": "正月十七，你站在颜违一边：天邪派那一票投他。你是水烟阁的执事；潘军禅从此只同你谈公事。",
+					"when": {
+						"mark": "站了颜违"
+					}
+				},
+				{
+					"text": "正月十七，你站在潘军禅一边：等盟主回来。你是水烟阁的执事；颜违记下了你。",
+					"when": {
+						"mark": "站了潘军禅"
 					}
 				}
 			]

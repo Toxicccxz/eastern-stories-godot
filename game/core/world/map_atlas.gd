@@ -110,7 +110,7 @@ static func marks(catalog: ContentCatalog, state: CharacterState, cell: StringNa
 			var npc: NpcDefinition = null if spawn.starts_absent else catalog.npc(spawn.npc_definition_id)
 			if npc == null:
 				continue
-			if takes_students(npc):
+			if takes_students(npc, state):
 				_mark(found, MASTER, npc.display_name, map_id, spawn.zone_id)
 			if not npc.dealings().vendor_id.is_empty():
 				_mark(found, SHOP, npc.display_name, map_id, spawn.zone_id)
@@ -142,10 +142,11 @@ static func _mark(found: Dictionary[String, Mark], kind: StringName, who: String
 	found[key] = mark
 
 
-## An NPC one can ask to be taught by, whatever comes of asking.
-static func takes_students(npc: NpcDefinition) -> bool:
+## An NPC one can ask to be taught by, whatever comes of asking (`state`'s: one who teaches only
+## when a condition holds, DECISIONS「代收」, is no master to them before it does).
+static func takes_students(npc: NpcDefinition, state: CharacterState = null) -> bool:
 	var teaching: NpcTeaching = npc.teaching()
-	if teaching == null:
+	if teaching == null or (teaching.when != null and not teaching.teaches_for(state)):
 		return false
 	if not teaching.recognize_rules.is_empty():
 		return true

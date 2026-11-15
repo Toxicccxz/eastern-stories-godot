@@ -345,6 +345,7 @@ msgstr ""
 #. native.npc.shield_swordsman_lake gender
 #. native.npc.feng_ce_lake gender
 #. native.npc.nan_weishui_lake gender
+#. native.npc.pan_junchan_lake gender
 #. native.npc.wei_canglan_lake gender
 #. native.npc.yulan_tianwu_lake gender
 #. native.npc.xiao_pichen_lake gender
@@ -16187,6 +16188,7 @@ msgstr ""
 #. family.celestial name
 #. common.npc.fighter.champion family.name
 #. common.npc.fighter.master family.name
+#. common.npc.fighter.executioner family.name
 #. celestial name
 #. faction.celestial title
 #: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_celestial.json
@@ -17202,6 +17204,7 @@ msgid "多说无益，若不发誓恪守门规，便是跪著求我也没用。"
 msgstr ""
 
 #. common.npc.fighter.master apprentice.oath
+#. common.npc.fighter.executioner apprentice.oath
 #: data/common/npcs.json
 msgid "守门规"
 msgstr ""
@@ -17291,6 +17294,7 @@ msgstr ""
 #. native.npc.feng_ce_lake inquiry topic
 #. native.npc.annie_lake inquiry topic
 #. native.npc.nan_weishui_lake inquiry topic
+#. native.npc.pan_junchan_lake inquiry topic
 #. native.npc.wei_canglan_lake inquiry topic
 #. native.npc.yulan_tianwu_lake inquiry topic
 #. native.npc.xiao_pichen_lake inquiry topic
@@ -17312,17 +17316,20 @@ msgid "湖底？玉螺湖底下的事，小天邪不问。"
 msgstr ""
 
 #. common.npc.fighter.executioner name
-#: data/common/npcs.json
+#. native.npc.pan_junchan_lake name
+#: data/common/npcs.json data/native/npcs.json
 msgid "潘军禅"
 msgstr ""
 
 #. common.npc.fighter.executioner nickname
-#: data/common/npcs.json
+#. native.npc.pan_junchan_lake nickname
+#: data/common/npcs.json data/native/npcs.json
 msgid "书 剑 侠"
 msgstr ""
 
 #. common.npc.fighter.executioner title
-#: data/common/npcs.json
+#. native.npc.pan_junchan_lake title
+#: data/common/npcs.json data/native/npcs.json
 msgid "水烟阁执法使"
 msgstr ""
 
@@ -17580,6 +17587,168 @@ msgstr ""
 msgid "什么镖单？"
 msgstr ""
 
+#. common.npc.fighter.executioner inquiry topic
+#. native.npc.waterfog_spy inquiry topic
+#. native.npc.waterfog_hopeful inquiry topic
+#. native.npc.waterfog_courier inquiry topic
+#: data/common/npcs.json data/native/npcs.json
+msgid "盟主"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "盟主的事，七长老做主了。执事有执事的公事。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "等。他回来，或者不回来，椅子都是他的。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "盟主在厅里坐着。是你带回来的。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "京师的事了结了，盟主还是没有回来。七长老常下楼来看那把椅子——你出去走一走，他再下来的时候，你在厅里。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "二十年前带走盟主的是兵部的白衣武官。线索在京师尚书府——我出不了水烟阁，你替我记着。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.emote
+#: data/common/npcs.json
+msgid "看了一眼厅侧坐着的那个白发老人，压低了声音。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "盟主回来了——是你从尚书府带出来的。他说，领头的白衣武官是庾子建的亲兵。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "陈天星查清了：那趟镖是兵部点名改走老松岭的。兵部知道盟主哪一天过岭。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "人回来了，椅子还空着。七长老这几天常下楼来，站在那把椅子跟前。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "你出去走一走；他再下来的时候，你在厅里。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "那张镖单我锁起来了，可上面那条路我看过：本该走官道，却改走了老松岭——改路的人，知道盟主哪一天过岭。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.emote
+#: data/common/npcs.json
+msgid "合上卷宗，看了一眼大厅中央那张黝黑的太师椅。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "山门和镖单的事你都办过了。盟主的事，也该同你说了。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "二十年前，先帝召盟主进京。盟主带着阁里藏的一份旧记载上路，五长老押着盟主印随行，振远的镖走在前头。过了老松岭，一个人也没回来。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "老松岭下的樵夫说，那天岭上来过一队穿白衣的武官。白衣，腰里挂的是兵部的刀。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "京师的事有了结果，庾子建那边也有了说法——可盟主没有回来。椅子还空着。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "七长老这几天常下楼来，站在那把椅子跟前。你出去走一走；他再下来的时候，你在厅里。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "二十年来，兵部尚书一直是庾子建。盟主要是还活着，线索在京师——尚书府。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.lines.say
+#: data/common/npcs.json
+msgid "这件事我出不了水烟阁：执法使一动，七长老就要问为什么。你替我记着。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "盟主的事……等山门和镖单的事办完了，我再同你说。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.盟主.rules.say
+#: data/common/npcs.json
+msgid "盟主二十年没回来了。这件事，水烟阁不同外人说。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry topic
+#. waterfog.npc.elder7 inquiry topic
+#: data/common/npcs.json data/waterfog/npcs.json
+msgid "椅子"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.confirm
+#: data/common/npcs.json
+msgid ""
+"站潘军禅：等盟主回来。\n"
+"正月十七，天邪派在虹台上的那一票投旧盟主——卫沧澜回来了是他本人，没回来就是那把空椅子。潘军禅以执法使的名义升你执事；颜违会记下你，正月十七那天，他的人会多出一件事来。\n"
+"这是天邪这条线的大分裂，选了不能改。要站潘军禅吗？"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.say
+#: data/common/npcs.json
+msgid "椅子是盟主的。正月十七，天邪派那一票，你我一起投。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.say
+#: data/common/npcs.json
+msgid "你站到七长老那边去了。执事的公事，照办就是。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.lines.emote
+#: data/common/npcs.json
+msgid "看了你很久，才笑了一下——这一回的笑，和平时不一样。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.lines.say
+#: data/common/npcs.json
+msgid "好。门规里没有哪一条，写着盟主没死、椅子能换人。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.lines.say
+#: data/common/npcs.json
+msgid "从今日起，你是水烟阁的执事。正月十七，天邪派那一票，等盟主。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.lines.say
+#: data/common/npcs.json
+msgid "七长老那里，往后说话小心些——他记性好。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.椅子.rules.say
+#: data/common/npcs.json
+msgid "盟主的椅子，空了二十年了。"
+msgstr ""
+
 #. common.npc.fighter.executioner accept_object.say
 #: data/common/npcs.json
 msgid "信我收下了。"
@@ -17656,6 +17825,143 @@ msgstr ""
 #. common.npc.fighter.executioner accept_object.say
 #: data/common/npcs.json
 msgid "振远的东西，你自己收好。"
+msgstr ""
+
+#. common.npc.fighter.executioner family.title
+#: data/common/npcs.json
+msgid "执法使"
+msgstr ""
+
+#. common.npc.fighter.executioner apprentice.ask_say
+#: data/common/npcs.json
+msgid "於兰前辈入了朝，萧师兄……没有回来。水烟阁不能没有收徒的人，我以执法使的名义代收。天邪派门规甚严，$RESPECT如果真的有心，且发个誓来。"
+msgstr ""
+
+#. common.npc.fighter.executioner apprentice.again_say
+#: data/common/npcs.json
+msgid "执法使代收，也是照门规收。不发誓，不收。"
+msgstr ""
+
+#. common.npc.fighter.executioner apprentice.accept_say
+#: data/common/npcs.json
+msgid "好。师父不在，执法使替他们看着你。"
+msgstr ""
+
+#. common.npc.fighter.executioner greeting.rules.steps.emote
+#: data/common/npcs.json
+msgid "冲你点了点头，没有笑。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.emote
+#: data/common/npcs.json
+msgid "从楼上下来，走到大厅中央那张黝黑的太师椅跟前，伸手在扶手上按了一按。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "这个「代」字，本座顶了这些日子，也该去掉了。正月十七九派上虹台，水烟阁要有一个真正坐这把椅子的人。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "二十年了，这把椅子一直空着。正月十七九派上虹台，水烟阁总得拿出个说法——椅子空着，武林就没有一个能说话的人。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.emote
+#: data/common/npcs.json
+msgid "坐在厅侧的一张矮凳上，手里还拿着那本诗集，没有抬头。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "盟主回来了，本座比谁都高兴。可一个二十年没管过事的人，正月十七上了虹台，九派问他这二十年武林是什么样子——他答得上来么？"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "椅子空着，是因为盟主还没回来。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "二十年了，执法使。人要是回得来，早就回来了。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "九派里几派会来，阁里谁跟谁走得近——本座心里有数。山门上跑掉的那一个，没有白跑。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "上个月山门上那个探子，听说是从执法使眼皮底下走的？椅子空着，外人就敢上山来问盟主的死活。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "上个月扮成皮货商上山来数人头的，是七长老账房里的人。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "数人头不犯门规。正月十七几派来、椅子空不空，总得有人去数。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "上个月山门上拿下的那个，是兵部的人。京师有人替盟主的生死记着账。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "所以更要早定。椅子空一天，朝廷就多一天的念想。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "陈天星查清了：二十年前那趟镖，是兵部点名改走老松岭的。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "查清了又如何？水烟阁不能为一趟镖跟朝廷耗二十年。正月十七之后，旧案到此为止。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "镖单锁进了刑堂——执法使自己也知道，有些旧案，到此为止最好。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "锁起来，是替振远留脸面，不是替谁结案。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "盟主回来了。他坐不坐这把椅子，正月十七由他自己说，轮不到别人替他定。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "盟主一天没有消息，这把椅子就一天是盟主的。等他回来。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.emote
+#. goathill.npc.bandit_hwang calls.steps.emote
+#. native.npc.north_pupil_boy calls.steps.emote
+#: data/common/npcs.json data/goathill/npcs.json data/native/npcs.json
+msgid "转过身来，看着你。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "你是天邪这一辈的大弟子。正月十七，天邪派那一票该投给谁，你说一句。跟着本座，水烟阁的执事有你一个。"
+msgstr ""
+
+#. common.npc.fighter.executioner calls.steps.say
+#: data/common/npcs.json
+msgid "七长老许得出口的，我许不出口。我只问你一句：门规里哪一条，写着盟主没死，椅子就能换人？"
 msgstr ""
 
 #. common.npc.juechen.master name
@@ -21975,6 +22281,11 @@ msgstr ""
 
 #. main.finale/gather checklist.label
 #: data/story/finale.json
+msgid "水烟阁（潘军禅）守潭口"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
 msgid "封山（柳淳风）守渡口"
 msgstr ""
 
@@ -22543,6 +22854,21 @@ msgstr ""
 msgid "二十年前那张镖单锁在水烟阁的刑堂里。是你交给潘军禅的。"
 msgstr ""
 
+#. celestial lines.text
+#: data/story/factions.json
+msgid "潘军禅告诉你：二十年前带走盟主的，是一队挂兵部刀的白衣武官。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "正月十七，你站在颜违一边：天邪派那一票投他。你是水烟阁的执事；潘军禅从此只同你谈公事。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "正月十七，你站在潘军禅一边：等盟主回来。你是水烟阁的执事；颜违记下了你。"
+msgstr ""
+
 #. juechen lines.text
 #: data/story/factions.json
 msgid "你是绝尘派的弟子。"
@@ -22926,14 +23252,65 @@ msgstr ""
 msgid "陈天星查清了：二十年前那趟镖本该走官道，是兵部来人点名改走老松岭的。"
 msgstr ""
 
-#. faction.celestial/next objective
+#. faction.celestial/leader objective
 #: data/story/faction_celestial.json
-msgid "潘军禅说，盟主的事，等过些日子再同你说。"
+msgid "回正厅问潘军禅「盟主」。"
 msgstr ""
 
-#. faction.celestial/next text
+#. faction.celestial/leader text
 #: data/story/faction_celestial.json
-msgid "潘军禅说起了盟主的下落。"
+msgid "潘军禅说，二十年前带走盟主的是一队白衣武官——腰里挂的是兵部的刀。"
+msgstr ""
+
+#. faction.celestial/rescue objective
+#: data/story/faction_celestial.json
+msgid "二十年前带走盟主的是白衣武官。线索在京师尚书府。"
+msgstr ""
+
+#. faction.celestial/rescue text
+#: data/story/faction_celestial.json
+msgid "京师那边的事有了结果。"
+msgstr ""
+
+#. faction.celestial/chair objective
+#: data/story/faction_celestial.json
+msgid "七长老颜违这些日子常下楼来，站在水烟阁正厅那把黝黑的太师椅跟前。去正厅；已经在厅里的，出去走一走再进来。"
+msgstr ""
+
+#. faction.celestial/chair text
+#: data/story/faction_celestial.json
+msgid "正厅里，颜违要在正月十七之前把那把椅子定下来；潘军禅说，等盟主。"
+msgstr ""
+
+#. faction.celestial/split objective
+#: data/story/faction_celestial.json
+msgid "天邪派在虹台上的那一票，看你。站颜违（问他「椅子」）：正月十七由他坐那把椅子，他许你水烟阁执事，二十年的旧案到此为止，潘军禅从此只同你谈公事。站潘军禅（问他「椅子」）：等盟主回来，他以执法使的名义升你执事，颜违会记下你。"
+msgstr ""
+
+#. faction.celestial/split/side_yan text
+#: data/story/faction_celestial.json
+msgid "你站到了颜违一边：正月十七，天邪派那一票投他。他许你做了水烟阁的执事。"
+msgstr ""
+
+#. faction.celestial/split/side_yan reward.deed
+#: data/story/faction_celestial.json
+msgid "在水烟阁正厅站到了颜违一边"
+msgstr ""
+
+#. faction.celestial/split/side_yan reward.rank.title
+#. faction.celestial/split/side_pan reward.rank.title
+#: data/story/faction_celestial.json
+msgid "执事"
+msgstr ""
+
+#. faction.celestial/split/side_pan text
+#: data/story/faction_celestial.json
+msgid "你站到了潘军禅一边：等盟主回来。他以执法使的名义升你做了执事。颜违记下了你。"
+msgstr ""
+
+#. faction.celestial/split/side_pan reward.deed
+#: data/story/faction_celestial.json
+msgid "在水烟阁正厅站到了潘军禅一边：等盟主回来"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -26000,12 +26377,6 @@ msgstr ""
 #. goathill.npc.bandit_hwang calls.steps.line
 #: data/goathill/npcs.json
 msgid "两个寨兵领着石头出了庙门。石头回头看了你一眼，没有说话。"
-msgstr ""
-
-#. goathill.npc.bandit_hwang calls.steps.emote
-#. native.npc.north_pupil_boy calls.steps.emote
-#: data/goathill/npcs.json data/native/npcs.json
-msgid "转过身来，看着你。"
 msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.say
@@ -29459,6 +29830,18 @@ msgstr ""
 msgid "老夫的哥哥是槐阳王。他若知道朝廷伏击了自己的弟弟，关北立刻就反。老夫装死二十年，是为了这个。"
 msgstr ""
 
+#. waterfog.npc.elder5 calls.steps.emote
+#. native.npc.nan_weishui_guest calls.steps.emote
+#: data/waterfog/npcs.json data/guanbei/npcs.json
+msgid "看着你，半晌才开口。"
+msgstr ""
+
+#. waterfog.npc.elder5 calls.steps.say
+#. native.npc.nan_weishui_guest calls.steps.say
+#: data/waterfog/npcs.json data/guanbei/npcs.json
+msgid "你站到颜违那边去了。……老夫替盟主守了二十年的口，守的就是那把椅子。"
+msgstr ""
+
 #. waterfog.npc.elder5 inquiry topic
 #. waterfog.npc.elder7 inquiry topic
 #. native.npc.nan_weishui_guest inquiry topic
@@ -29616,6 +29999,11 @@ msgid ""
 "他出外办理武林大会事宜。\n"
 msgstr ""
 
+#. waterfog.npc.elder7 greeting.rules.steps.emote
+#: data/waterfog/npcs.json
+msgid "看了你一眼，把目光移开了。"
+msgstr ""
+
 #. waterfog.npc.elder7 moods.acting.title
 #: data/waterfog/npcs.json
 msgid "水烟阁代盟主"
@@ -29624,6 +30012,44 @@ msgstr ""
 #. waterfog.npc.elder7 inquiry.五长老
 #: data/waterfog/npcs.json
 msgid "五长老？他就在这边，有什么话你自己问他。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.confirm
+#: data/waterfog/npcs.json
+msgid ""
+"站颜违：正月十七，天邪派在虹台上的那一票投颜违，由他坐那把椅子。\n"
+"他许你水烟阁执事；潘军禅从此只同你谈公事。二十年的旧案，到此为止。\n"
+"这是天邪这条线的大分裂，选了不能改。要站颜违吗？"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.rules.say
+#: data/waterfog/npcs.json
+msgid "执事，正月十七之前，本座还要你跑几趟。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.rules.say
+#: data/waterfog/npcs.json
+msgid "你选了执法使。好——水烟阁的事，本座记性好。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.rules.lines.emote
+#: data/waterfog/npcs.json
+msgid "点了点头，像是早算到了这一步。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "识时务。二十年的空椅子，总要有人去坐。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "从今日起，你是水烟阁的执事。正月十七，天邪派那一票，本座记在你头上。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.椅子.rules.say
+#: data/waterfog/npcs.json
+msgid "椅子？正月十七，自有分晓。"
 msgstr ""
 
 #. waterfog.npc.elder7 inquiry topic
@@ -55555,6 +55981,27 @@ msgstr ""
 msgid "二十年。够了。"
 msgstr ""
 
+#. native.npc.pan_junchan_lake long
+#: data/native/npcs.json
+msgid ""
+"潘军禅站在潭口的石头上，袖子挽到了肘上，脸上难得没有笑。他身后，水烟阁的红衣武士沿着湖岸站成了一排。\n"
+msgstr ""
+
+#. native.npc.pan_junchan_lake fight_deferred
+#: data/native/npcs.json
+msgid "潘军禅笑了一下：今夜不同自己人比划。"
+msgstr ""
+
+#. native.npc.pan_junchan_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "七长老没来。执法使的公事，是守住这道潭口。"
+msgstr ""
+
+#. native.npc.pan_junchan_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "盟主不在，阁里总要有人来。水烟阁的红衣武士，今夜都在这里。"
+msgstr ""
+
 #. native.npc.wei_canglan_lake long
 #: data/native/npcs.json
 msgid ""
@@ -56656,13 +57103,6 @@ msgstr ""
 #. native.npc.waterfog_spy inquiry.来意
 #: data/native/npcs.json
 msgid "关北来的，贩些皮子。听说七长老要办正月十七的大会，想来见识见识水烟阁的正厅——这么大的场面，一辈子见一回。"
-msgstr ""
-
-#. native.npc.waterfog_spy inquiry topic
-#. native.npc.waterfog_hopeful inquiry topic
-#. native.npc.waterfog_courier inquiry topic
-#: data/native/npcs.json
-msgid "盟主"
 msgstr ""
 
 #. native.npc.waterfog_spy inquiry.盟主.rules.lines.say

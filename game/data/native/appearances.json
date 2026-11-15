@@ -710,6 +710,7 @@
     "native.npc.annie_lake": {"same_as": "latemoon.npc.room.annihi"},
     "native.npc.nan_weishui_lake": {"same_as": "native.npc.nan_weishui_guest"},
     "native.npc.wei_canglan_lake": {"same_as": "native.npc.wei_canglan"},
+    "native.npc.pan_junchan_lake": {"same_as": "common.npc.fighter.executioner"},
     "native.npc.yulan_tianwu_lake": {"same_as": "common.npc.fighter.champion"},
     "native.npc.xiao_pichen_lake": {"same_as": "common.npc.fighter.master"},
     "native.npc.elon_lake": {"same_as": "latemoon.npc.room.elon"},

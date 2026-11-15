@@ -303,7 +303,7 @@ func _test_chapter2_data() -> void:
 	var by_nothing: NpcInquiryRule = NpcInquiryRule.decide(nan.talk().inquiry_rules("山洞的骸骨"), {"看过石台碑": 1}, null, &"", &"", 0, {}, ["escort note"])
 	_check(by_token != null and by_token.mark_asker == "南危水承认了" and by_note != null and by_note.mark_asker == "南危水承认了" and by_nothing.mark_asker.is_empty(), "南危水 admits to the 腰牌, or to the 镖单 with both inscriptions seen; not to less")
 	var hooks: NpcHooks = nan.hooks()
-	_check(hooks != null and hooks.calls.size() == 1 and hooks.calls[0].act.mark == "安葬无名人" and hooks.calls[0].act.not_mark == "南危水承认了" and not hooks.calls[0].scene, "to one who buried 阿岭 he speaks first (a call, no scene)")
+	_check(hooks != null and hooks.calls.size() == 2 and hooks.calls[0].act.mark == "安葬无名人" and hooks.calls[0].act.not_mark == "南危水承认了" and not hooks.calls[0].scene, "to one who buried 阿岭 he speaks first (a call, no scene)")
 	_check(nan.talk().has_greeting() and nan.talk().choose_greeting(&"男性", &"", Callable(), _facts({"替南危水保密": 1})) != null and nan.talk().choose_greeting(&"男性", &"", Callable(), _facts({})) == null, "his greeting: only for one who chose")
 	var keep: NpcInquiryRule = NpcInquiryRule.decide(nan.talk().inquiry_rules("保密"), {"南危水承认了": 1})
 	_check(keep != null and keep.mark_asker == "替南危水保密" and NpcInquiryRule.decide(nan.talk().inquiry_rules("保密"), {"南危水承认了": 1, "告发了南危水": 1}).mark_asker.is_empty(), "保密 only before telling")
