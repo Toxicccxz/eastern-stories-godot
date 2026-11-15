@@ -18308,6 +18308,16 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
 #: data/common/npcs.json
+msgid "你身上那卷东西，是逆灵天书的残卷。拿着它的人死在后山了。它不能跟着你进去，也不能就这么留在外头。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "交给我，我当面烧了它。宫里会少一卷书，迟早有人问起——这就是你要担的。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
 msgid "你身上那卷东西，是逆灵天书的残卷。它不能跟着你进去，也不能就这么留在外头。"
 msgstr ""
 
@@ -23575,6 +23585,31 @@ msgstr ""
 #. faction.niling summary
 #: data/story/faction_niling.json
 msgid "戴着黑冠回逆灵宫，替茅山的林忌做眼线。"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "疑点"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "残卷没回宫：宫里少了一卷书，迟早有人问起"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "那一夜丢了人：地牢空了，他们记得那天闯进来的人"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "子时在后殿外被撞见过"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "子时在后殿外又被撞见了一回"
 msgstr ""
 
 #. faction.niling/gate objective

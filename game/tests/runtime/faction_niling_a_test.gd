@@ -45,7 +45,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for test: Callable in [_test_stranger, _test_night_door, _test_back_to_xuan, _test_burnt, _test_chased_without_scroll, _test_list_names]:
+	for test: Callable in [_test_stranger, _test_night_door, _test_back_to_xuan, _test_burnt, _test_killed_xuan, _test_chased_without_scroll, _test_list_names]:
 		var session: WorldSessionController = await _session(tree)
 		await test.call(tree, session)
 		session.free()
@@ -295,6 +295,19 @@ func _test_burnt(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"lin") and _shown(session).contains("疑点：1／3") and _shown(session).contains("残卷没回宫"), "the door 林忌: 疑点 1／3")
 	_pinned_first(session)
+
+
+## 玄冥子 killed on the cliff, his 残卷 carried: 林忌 does not send one back to a dead man.
+func _test_killed_xuan(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	await _chased(tree, session, true)
+	state.marks.erase("放过了玄冥子") # TEST-ONLY: 了结, not 放过
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	_ask(temple, lin, "逆灵宫")
+	var said: Array[String] = _ask(temple, lin, "眼线")
+	_check(_said(said, "死在后山了") and not _said(said, "大弟子") and state.marks.get("答应了做眼线", 0) == 1, "玄冥子 dead: only 林忌's fire (%s)" % [said])
 
 
 ## A chaser without the 残卷 (killed 玄冥子, or never picked it up): it never came back — 残卷没回宫.

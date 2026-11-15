@@ -130,7 +130,7 @@
           "niling.counting": {"floor": "town_ground", "wall": "wall", "size": "small", "life": {"use": "study", "wealth": "plain", "seed": 23}}
         },
         "props": [
-          ["blocked", "niling.front", ["rel", 0.66, 0.1], 4.2, 1.1, "the long black table with the scripture open on it (no idol behind it); 卧底 A: cover from the 巡殿 at 子时", {"look": {"kind": "scripture_table", "cover": true, "wood": "1a1614", "cloth": "3a1414", "covers": ["141212", "2a1a1a", "161414", "3a1a1a"]}}],
+          ["blocked", "niling.front", ["rel", 0.66, 0.1], 4.2, 1.1, "the long black table with the scripture open on it (no idol behind it); 卧底 A: cover from the 巡殿 at 子时, its candles the hall's light", {"look": {"kind": "scripture_table", "cover": true, "light": 96, "wood": "1a1614", "cloth": "3a1414", "covers": ["141212", "2a1a1a", "161414", "3a1a1a"]}}],
           ["blocked", "niling.front", ["rel", 0.66, 0.24], 1.2, 1.2, "the iron burner before the table (cover, as the table)", {"look": {"kind": "incense_burner", "cover": true}}],
           ["blocked", "niling.front", ["rel", 0.08, 0.3], 0.9, 2.4, "scripture racks along the west wall", {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
           ["blocked", "niling.front", ["rel", 0.92, 0.3], 0.9, 2.4, {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
