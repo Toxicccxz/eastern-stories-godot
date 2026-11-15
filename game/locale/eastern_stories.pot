@@ -58752,7 +58752,7 @@ msgstr ""
 #. native.npc.shang_jue_waiting calls.steps.line
 #: data/native/npcs.json
 msgid ""
-"他说的「你」，不是你。他没有回头——他以为身后站着的，都是跟他下湖的人。\n"
+"他没有回头。他以为身后站着的，都是跟他下湖的人。\n"
 msgstr ""
 
 #. native.npc.shang_jue_waiting calls.steps.line
@@ -58763,7 +58763,7 @@ msgstr ""
 
 #. native.npc.shang_jue_waiting calls.steps.say
 #: data/native/npcs.json
-msgid "……茅山的冠，是我们的冠。我早该想到。"
+msgid "……戴着我们的冠。我早该想到。"
 msgstr ""
 
 #. native.npc.shang_jue_waiting calls.steps.line
