@@ -19,7 +19,7 @@ const PEOPLE: Dictionary = {
 	&"niling.gatehouse": {&"native.npc.niling_gatekeeper": 1},
 	&"niling.yard": {&"native.npc.niling_gate_guard": 2},
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},
-	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1},
+	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1, &"native.npc.niling_patrol": 1},
 	&"niling.counting": {&"native.npc.niling_steward": 1},
 	&"niling.corridor": {&"native.npc.niling_jailer": 2, &"native.npc.niling_jailer_keyed": 2},
 	&"niling.altar": {&"native.npc.shang_jue": 1, &"native.npc.xuan_mingzi": 1, &"native.npc.headless_shade": 1, &"native.npc.hell_runner": 2},

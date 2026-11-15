@@ -267,6 +267,13 @@ var excludes: Array[StringName] = []
 var lapses: JournalEntryDefinition
 var lapsed_text: String = ""
 var lapsed_mark: String = ""
+## Native (势力线第一批 卧底 A; DECISIONS「任务级清单」): rows (CheckRow) the 任务 page shows under the
+## objective whichever step is the one to do, above the step's own (「疑点：1／3」 and which they are,
+## kept in sight the whole way); shown while the quest is under way, never once it is over.
+var checklist: Array[CheckRow] = []
+## Native (势力线第一批 卧底 A; DECISIONS「任务级清单」): the quest stands first in its column of the
+## 任务 page while it is under way (a cover kept, whose 疑点 must stay in sight).
+var pinned: bool = false
 var steps: Array[Step] = []
 var reward: Reward = Reward.new()
 
@@ -317,6 +324,9 @@ static func from_record(reader: ContentRecordReader) -> StoryQuestDefinition:
 		if definition.lapses.when in [JournalEntryDefinition.When.HEARD, JournalEntryDefinition.When.CHAT]:
 			lapses.fail("when", "heard and chat are recorded as they happen: a quest lapses on what holds")
 		lapses.finish()
+	for record: ContentRecordReader in reader.children("checklist"):
+		definition.checklist.append(CheckRow.from_record(record))
+	definition.pinned = reader.boolean("pinned", false)
 	var seen: Dictionary[StringName, bool] = {}
 	var options: Dictionary[StringName, bool] = {}
 	for record: ContentRecordReader in reader.children("steps"):

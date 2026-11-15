@@ -134,7 +134,7 @@
 			"material": "paper",
 			"weight": 300,
 			"value": 0,
-			"no_drop": "这卷残卷不能随便丢。"
+			"no_drop": "这卷残卷不能随便丢。", "give_to": ["common.npc.taoist.taolord", "native.npc.xuan_mingzi_cliff"]
 		},
 		{
 			"id": "native:niling/body_huo",
@@ -192,6 +192,132 @@
 				"skill": "sword",
 				"damage": 45,
 				"weight_dodge": "equip"
+			}
+		},
+		{
+			"id": "native:niling/offering_list",
+			"legacy_sources": [
+				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — the list of the 祭 copied from the 账房's desk at night (计划 §8「祭品是谁」: the names follow the main story — 关北's men set free and their families taken instead, 石头 struck out with a 补, 玉螺湖's 渔夫老三); handed to 林忌 or 霍铮 (续写)"
+			],
+			"name": "祭品名单",
+			"quest": true,
+			"aliases": [
+				"list",
+				"offering list",
+				"名单"
+			],
+			"long": "你从逆灵宫账房的大案上抄下来的一张名单，一行一口人。字是你的，墨还没干透。\n",
+			"unit": "张",
+			"material": "paper",
+			"weight": 50,
+			"value": 0,
+			"no_drop": "这张名单要递出去，不能随便丢。",
+			"give_to": [
+				"common.npc.taoist.taolord",
+				"native.npc.huo_zheng"
+			],
+			"act": {
+				"verb": "翻看",
+				"command": "read",
+				"acts": [
+					{
+						"steps": [
+							{
+								"line": "一张黄纸，字比账册上的小，一行一口人，末尾压着一方黑印：\n"
+							},
+							{
+								"line": "「关北民夫八名，工地出事，人走散了。按册补其家口：槐阳城外八户，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "踏平了工地"
+								}
+							},
+							{
+								"line": "「关北民夫四名，夜里走脱：王石头、刘拐子、巴图、胡阿大。按册补其家口：王石头之母、刘拐子之妻、巴图之子、胡阿大之女，四口，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "救了一半"
+								}
+							},
+							{
+								"line": "「关北河工逃役若干名，兵部解送，下月到。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"any": [
+											{
+												"mark": "踏平了工地"
+											},
+											{
+												"mark": "救了一半"
+											}
+										]
+									}
+								}
+							},
+							{
+								"line": "「傅家坡，孩童一名，七岁。」——这一行被一笔划掉了，旁边批了一个小字：「补」。\n",
+								"color": "HIW",
+								"when": {
+									"mark": "救出了霍铮"
+								}
+							},
+							{
+								"line": "「傅家坡，孩童一名，七岁，已用。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"mark": "救出了霍铮"
+									}
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三。」——旁边批着：「湖里的东西先下了手。另补。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "拔了穿灵"
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三，已取。」——渔夫家的老三。船漂回来了，人没回来。\n",
+								"color": "HIW",
+								"when": {
+									"mark": "查清了封物"
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"any": [
+											{
+												"mark": "拔了穿灵"
+											},
+											{
+												"mark": "查清了封物"
+											}
+										]
+									}
+								}
+							},
+							{
+								"line": "最末一行：「以上凡三十六口，唤首之夜，一并上坛。」\n",
+								"when": {
+									"not": {
+										"quest": "main.finale#done"
+									}
+								}
+							},
+							{
+								"line": "最末一行：「以上凡三十六口，续灯之夜，一并上坛。」\n",
+								"when": {
+									"quest": "main.finale#done"
+								}
+							}
+						]
+					}
+				]
 			}
 		}
 	]

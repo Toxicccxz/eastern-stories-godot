@@ -127,6 +127,731 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "niling.alchemy.coal",
+			"kind": "act",
+			"zone": "niling.alchemy",
+			"name": "炭筐",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 杂活 一: the 丹炉's coal (续写)",
+			"act": {
+				"verb": "添炭",
+				"acts": [
+					{
+						"mark": "添过炭",
+						"steps": [
+							{
+								"line": "炉膛里的炭够烧到明天了。\n"
+							}
+						]
+					},
+					{
+						"mark": "管事派了活",
+						"steps": [
+							{
+								"line": "你从墙角的炭筐里铲了三铲黑炭，添进丹炉。青火舔上来，炭不红，一块一块地白下去，变成了灰。炉身还是冰凉的。\n"
+							},
+							{
+								"line": "炉边托盘里的丹丸少了几颗。你没问。\n"
+							},
+							{
+								"mark": "添过炭"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "墙角一筐黑炭。没人让你碰那团青火。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.store.crates",
+			"kind": "act",
+			"zone": "niling.store",
+			"name": "箱子",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 杂活 二: counting the stowed tribute, the seals say where it came from (续写)",
+			"act": {
+				"verb": "点箱",
+				"acts": [
+					{
+						"mark": "点过箱",
+						"steps": [
+							{
+								"line": "箱子点过了：野羊寨的二十三只，关北的九只，画符的四只。\n"
+							}
+						]
+					},
+					{
+						"mark": "管事派了活",
+						"steps": [
+							{
+								"line": "你一只一只点过去。烙着「羊」字的二十三只，是野羊寨的供：绸缎、腌肉、麻绳。\n"
+							},
+							{
+								"line": "关北来的九只，封条上盖着「槐阳河工所」的戳，戳底下压着半方朱印——是「兵部之印」的「部」字。\n",
+								"color": "HIW"
+							},
+							{
+								"line": "还有四只画着符，封条是黑的，没有字。货栈道士瞪了你一眼：「那是祭，不许碰。」\n"
+							},
+							{
+								"mark": "点过箱"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "货栈里的箱子堆了半屋。货栈道士在数，没你的事。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.front.chant",
+			"kind": "act",
+			"zone": "niling.front",
+			"name": "木鱼",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 杂活 三: 跟诵, the 领诵 gives the first line of the 逆灵天书's first three verses and the newcomer the next (the 火前问话's questions, 番坊 B); the lines are the chanters' own (续写)",
+			"act": {
+				"verb": "跟诵",
+				"acts": [
+					{
+						"mark": "跟诵过",
+						"present": "native.npc.niling_lead_chanter",
+						"steps": [
+							{
+								"by": "native.npc.niling_lead_chanter"
+							},
+							{
+								"say": "你已经会了。回蒲团上去。"
+							}
+						]
+					},
+					{
+						"mark": "管事派了活",
+						"present": "native.npc.niling_lead_chanter",
+						"steps": [
+							{
+								"by": "native.npc.niling_lead_chanter"
+							},
+							{
+								"say": "管事送来的？我念上句，你接下句。"
+							},
+							{
+								"questions": [
+									{
+										"text": "领诵道士敲了一下木鱼：「逆灵者——」",
+										"answers": [
+											{
+												"text": "顺天地之灵而养之。",
+												"mark": "接错了经",
+												"note": "有意不写：接错的下句，这枚印记没有写入方、永不成立（story_reach_test 的 NEVER_WRITTEN）"
+											},
+											{
+												"text": "逆天地之灵而用之。"
+											},
+											{
+												"text": "借天地之灵而还之。",
+												"mark": "接错了经",
+												"note": "有意不写：接错的下句，这枚印记没有写入方、永不成立（story_reach_test 的 NEVER_WRITTEN）"
+											}
+										]
+									},
+									{
+										"text": "又一下：「以身为供——」",
+										"answers": [
+											{
+												"text": "以德为师。",
+												"mark": "接错了经",
+												"note": "有意不写：接错的下句，这枚印记没有写入方、永不成立（story_reach_test 的 NEVER_WRITTEN）"
+											},
+											{
+												"text": "以心为灯。",
+												"mark": "接错了经",
+												"note": "有意不写：接错的下句，这枚印记没有写入方、永不成立（story_reach_test 的 NEVER_WRITTEN）"
+											},
+											{
+												"text": "以劫为师。"
+											}
+										]
+									},
+									{
+										"text": "再一下：「劫无首——」",
+										"answers": [
+											{
+												"text": "以我为首。"
+											},
+											{
+												"text": "天自收之。",
+												"mark": "接错了经",
+												"note": "有意不写：接错的下句，这枚印记没有写入方、永不成立（story_reach_test 的 NEVER_WRITTEN）"
+											},
+											{
+												"text": "人自避之。",
+												"mark": "接错了经",
+												"note": "有意不写：接错的下句，这枚印记没有写入方、永不成立（story_reach_test 的 NEVER_WRITTEN）"
+											}
+										]
+									}
+								],
+								"true": [
+									{
+										"say": "……一字不差。"
+									},
+									{
+										"line": "领诵道士的木鱼又敲了起来，比刚才快了一些。\n"
+									},
+									{
+										"mark": "跟诵过"
+									}
+								],
+								"false": [
+									{
+										"say": "错了。回蒲团上去，听他们诵熟了再来。"
+									}
+								]
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_lead_chanter",
+						"steps": [
+							{
+								"by": "native.npc.niling_lead_chanter"
+							},
+							{
+								"emote": "的木鱼一下也没停。"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "前殿的蒲团空着，木鱼搁在案角。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.store.bunk",
+			"kind": "act",
+			"zone": "niling.store",
+			"name": "通铺",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — the 通铺 the 管事 lets one sleep on once the chores are done: to 子时 (the 篝火's 等到天黑, 关北 C) (续写)",
+			"act": {
+				"verb": "睡到子时",
+				"acts": [
+					{
+						"mark": "管事许你留宿",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "已经是子时了。货栈里鼾声一片。\n"
+							}
+						]
+					},
+					{
+						"mark": "管事许你留宿",
+						"ask": "在货栈的通铺上睡到子时？\n（世界的时间会过去，别的地方照旧过它们的日子。）",
+						"choice": "睡到子时",
+						"steps": [
+							{
+								"line": "你在通铺最靠门的一头躺下，黑冠压在枕边。\n"
+							},
+							{
+								"until_phase": [
+									"midnight"
+								]
+							},
+							{
+								"line": "你醒的时候，货栈里只有鼾声。前殿那边，有一盏灯在一步一步地走。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "通铺上睡着几个道士，没有你的铺位。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.front.listen",
+			"kind": "act",
+			"zone": "niling.front",
+			"name": "北门",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 偷听 at the 北门 at 子时 (the 后殿 barred from inside while the 巡殿 walks: exit rule niling.front.north_barred): two voices nobody in the hall owns: the hour of the 唤首 and 「名单在账房」; after the 终章 the 余孽 speak of 续灯 (计划 §6「主线打完才进来的人」) (续写)",
+			"act": {
+				"verb": "听",
+				"acts": [
+					{
+						"mark": "后殿外听到了",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "门里没有声音了。\n"
+							}
+						]
+					},
+					{
+						"mark": "管事许你留宿",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "你贴着北门，屏住气。门缝里漏出一线青光，有两个人在说话。\n"
+							},
+							{
+								"line": "一个嗓子沙哑：「……湖底的钉子，还没有人动。」\n",
+								"color": "HIW",
+								"when": {
+									"all": [
+										{
+											"not": {
+												"quest": "main.finale#done"
+											}
+										},
+										{
+											"not": {
+												"any": [
+													{
+														"mark": "拔了穿灵"
+													},
+													{
+														"mark": "查清了封物"
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								"line": "另一个声音不高，一字一顿，像在念经：「会有人去拔的。钉子一拔，就是唤首的时辰。」\n",
+								"color": "HIW",
+								"when": {
+									"all": [
+										{
+											"not": {
+												"quest": "main.finale#done"
+											}
+										},
+										{
+											"not": {
+												"any": [
+													{
+														"mark": "拔了穿灵"
+													},
+													{
+														"mark": "查清了封物"
+													}
+												]
+											}
+										}
+									]
+								}
+							},
+							{
+								"line": "一个嗓子沙哑：「看过钉子的那个人走了。钉子还在。」\n",
+								"color": "HIW",
+								"when": {
+									"all": [
+										{
+											"not": {
+												"quest": "main.finale#done"
+											}
+										},
+										{
+											"mark": "查清了封物"
+										}
+									]
+								}
+							},
+							{
+								"line": "另一个声音不高，一字一顿，像在念经：「他会回来拔的。他拔的那一夜，就是唤首的时辰。」\n",
+								"color": "HIW",
+								"when": {
+									"all": [
+										{
+											"not": {
+												"quest": "main.finale#done"
+											}
+										},
+										{
+											"mark": "查清了封物"
+										}
+									]
+								}
+							},
+							{
+								"line": "一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\n",
+								"color": "HIW",
+								"when": {
+									"all": [
+										{
+											"not": {
+												"quest": "main.finale#done"
+											}
+										},
+										{
+											"mark": "拔了穿灵"
+										}
+									]
+								}
+							},
+							{
+								"line": "另一个声音不高，一字一顿，像在念经：「头在冰下醒了。等它自己找回来——那一夜，就是唤首。」\n",
+								"color": "HIW",
+								"when": {
+									"all": [
+										{
+											"not": {
+												"quest": "main.finale#done"
+											}
+										},
+										{
+											"mark": "拔了穿灵"
+										}
+									]
+								}
+							},
+							{
+								"line": "沙哑的那个：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"quest": "main.finale#done"
+									}
+								}
+							},
+							{
+								"line": "一个嗓子沙哑：「宫主不在了。坛上的火，不能灭。」\n",
+								"color": "HIW",
+								"when": {
+									"quest": "main.finale#done"
+								}
+							},
+							{
+								"line": "另一个声音年轻些：「续灯要人。名单在账房，管事那里。三十六口，一口也不能少。」\n",
+								"color": "HIW",
+								"when": {
+									"quest": "main.finale#done"
+								}
+							},
+							{
+								"line": "门里的光灭了。你退开一步，心跳得厉害。\n"
+							},
+							{
+								"mark": "后殿外听到了"
+							}
+						]
+					},
+					{
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "北门从里面闩着。门缝里有光。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "北门关着。这个时辰，门里静悄悄的。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.counting.desk",
+			"kind": "act",
+			"zone": "niling.counting",
+			"name": "大案",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 名单: copied at night from the 管事's desk while he sleeps over it (续写)",
+			"act": {
+				"verb": "抄名单",
+				"acts": [
+					{
+						"mark": "抄了名单",
+						"steps": [
+							{
+								"line": "名单你已经抄过了。\n"
+							}
+						]
+					},
+					{
+						"mark": "后殿外听到了",
+						"phase": [
+							"night",
+							"midnight"
+						],
+						"present": "native.npc.niling_steward",
+						"steps": [
+							{
+								"line": "管事道士伏在案头睡着了，一只手还压着账册。你屏住气，从账册的夹页里抽出一张黄纸，借着残灯一笔一笔抄了下来。\n"
+							},
+							{
+								"line": "一张黄纸，字比账册上的小，一行一口人，末尾压着一方黑印：\n"
+							},
+							{
+								"line": "「关北民夫八名，工地出事，人走散了。按册补其家口：槐阳城外八户，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "踏平了工地"
+								}
+							},
+							{
+								"line": "「关北民夫四名，夜里走脱：王石头、刘拐子、巴图、胡阿大。按册补其家口：王石头之母、刘拐子之妻、巴图之子、胡阿大之女，四口，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "救了一半"
+								}
+							},
+							{
+								"line": "「关北河工逃役若干名，兵部解送，下月到。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"any": [
+											{
+												"mark": "踏平了工地"
+											},
+											{
+												"mark": "救了一半"
+											}
+										]
+									}
+								}
+							},
+							{
+								"line": "「傅家坡，孩童一名，七岁。」——这一行被一笔划掉了，旁边批了一个小字：「补」。\n",
+								"color": "HIW",
+								"when": {
+									"mark": "救出了霍铮"
+								}
+							},
+							{
+								"line": "「傅家坡，孩童一名，七岁，已用。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"mark": "救出了霍铮"
+									}
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三。」——旁边批着：「湖里的东西先下了手。另补。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "拔了穿灵"
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三，已取。」——渔夫家的老三。船漂回来了，人没回来。\n",
+								"color": "HIW",
+								"when": {
+									"mark": "查清了封物"
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"any": [
+											{
+												"mark": "拔了穿灵"
+											},
+											{
+												"mark": "查清了封物"
+											}
+										]
+									}
+								}
+							},
+							{
+								"line": "最末一行：「以上凡三十六口，唤首之夜，一并上坛。」\n",
+								"when": {
+									"not": {
+										"quest": "main.finale#done"
+									}
+								}
+							},
+							{
+								"line": "最末一行：「以上凡三十六口，续灯之夜，一并上坛。」\n",
+								"when": {
+									"quest": "main.finale#done"
+								}
+							},
+							{
+								"line": "你把黄纸照原样夹回去。管事翻了个身，没有醒。\n"
+							},
+							{
+								"give": "native:niling/offering_list"
+							},
+							{
+								"mark": "抄了名单"
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_steward",
+						"steps": [
+							{
+								"by": "native.npc.niling_steward"
+							},
+							{
+								"emote": "把手按在账册上，抬眼看你。"
+							},
+							{
+								"say": "账是宫主要看的，不是给你看的。"
+							}
+						]
+					},
+					{
+						"mark": "后殿外听到了",
+						"steps": [
+							{
+								"line": "账房里没有人。你从账册的夹页里抽出一张黄纸，借着残灯一笔一笔抄了下来。\n"
+							},
+							{
+								"line": "一张黄纸，字比账册上的小，一行一口人，末尾压着一方黑印：\n"
+							},
+							{
+								"line": "「关北民夫八名，工地出事，人走散了。按册补其家口：槐阳城外八户，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "踏平了工地"
+								}
+							},
+							{
+								"line": "「关北民夫四名，夜里走脱：王石头、刘拐子、巴图、胡阿大。按册补其家口：王石头之母、刘拐子之妻、巴图之子、胡阿大之女，四口，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "救了一半"
+								}
+							},
+							{
+								"line": "「关北河工逃役若干名，兵部解送，下月到。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"any": [
+											{
+												"mark": "踏平了工地"
+											},
+											{
+												"mark": "救了一半"
+											}
+										]
+									}
+								}
+							},
+							{
+								"line": "「傅家坡，孩童一名，七岁。」——这一行被一笔划掉了，旁边批了一个小字：「补」。\n",
+								"color": "HIW",
+								"when": {
+									"mark": "救出了霍铮"
+								}
+							},
+							{
+								"line": "「傅家坡，孩童一名，七岁，已用。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"mark": "救出了霍铮"
+									}
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三。」——旁边批着：「湖里的东西先下了手。另补。」\n",
+								"color": "HIW",
+								"when": {
+									"mark": "拔了穿灵"
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三，已取。」——渔夫家的老三。船漂回来了，人没回来。\n",
+								"color": "HIW",
+								"when": {
+									"mark": "查清了封物"
+								}
+							},
+							{
+								"line": "「玉螺湖，渔户一名，行三，待取。」\n",
+								"color": "HIW",
+								"when": {
+									"not": {
+										"any": [
+											{
+												"mark": "拔了穿灵"
+											},
+											{
+												"mark": "查清了封物"
+											}
+										]
+									}
+								}
+							},
+							{
+								"line": "最末一行：「以上凡三十六口，唤首之夜，一并上坛。」\n",
+								"when": {
+									"not": {
+										"quest": "main.finale#done"
+									}
+								}
+							},
+							{
+								"line": "最末一行：「以上凡三十六口，续灯之夜，一并上坛。」\n",
+								"when": {
+									"quest": "main.finale#done"
+								}
+							},
+							{
+								"give": "native:niling/offering_list"
+							},
+							{
+								"mark": "抄了名单"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "案上摊着账册和文书。没人让你动它们。\n"
+							}
+						]
+					}
+				]
+			}
 		}
 	],
 	"landmarks": [
@@ -217,6 +942,21 @@
 			"policy": "look",
 			"long": "绳索被割断了，一头垂在雾里。断口整齐，是一剑。商玦就是从这里下去的，你没法跟。\n",
 			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the way 商玦 went: a dead end for the player, 剧情总纲 §3 第三章 ⑦)"
+		}
+	],
+	"exit_rules": [
+		{
+			"id": "niling.front.north_barred",
+			"room": "native:niling/front",
+			"from_zone": "niling.front",
+			"to_zone": "niling.altar",
+			"when": "no_mark",
+			"mark": "后殿的门闩开了",
+			"present": "native.npc.niling_patrol",
+			"lines": [
+				"门后还落着一道门闩，从里面闩上了。门缝里漏出一线青光，有人在说话。"
+			],
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — while the 巡殿道士 walks the 前殿 (子时), the 后殿's 北门 is barred from inside: one listens at it, nobody goes in (the mark is written by nothing: story_reach_test's NEVER_WRITTEN)"
 		}
 	]
 }

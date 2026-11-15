@@ -320,7 +320,7 @@
 		},
 		{
 			"id": "native.npc.niling_chanter",
-			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the four 黑冠道士 chanting the 逆灵天书 in the 前殿, 剧情总纲 §3 第三章 ③)",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the four 黑冠道士 chanting the 逆灵天书 in the 前殿, 剧情总纲 §3 第三章 ③) native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」): the three lines the 跟诵 asks, in their chant",
 			"name": "诵经道士",
 			"aliases": [
 				"chanter",
@@ -376,7 +376,10 @@
 			"chat_msg": [
 				"诵经道士低声念道：……灵不灵，逆之则生……\n",
 				"诵经道士的声音忽然高了一下，又压了下去。\n",
-				"诵经道士跪得久了，膝盖动了动，领诵的木鱼声一停，他立刻又跪直了。\n"
+				"诵经道士跪得久了，膝盖动了动，领诵的木鱼声一停，他立刻又跪直了。\n",
+				"诵经道士低声念：……逆灵者，逆天地之灵而用之……\n",
+				"诵经道士低声念：……以身为供，以劫为师……\n",
+				"诵经道士低声念：……劫无首，以我为首……\n"
 			],
 			"inquiry": {
 				"逆灵宫": [
@@ -400,7 +403,7 @@
 		},
 		{
 			"id": "native.npc.niling_lead_chanter",
-			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the one who leads the chant and beats the 木鱼 without looking up)",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the one who leads the chant and beats the 木鱼 without looking up) native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」): 跟诵 (he gives the first line, the newcomer the next)",
 			"name": "领诵道士",
 			"aliases": [
 				"lead chanter",
@@ -473,6 +476,9 @@
 				],
 				"宫主": [
 					"领诵道士道：宫主姓商。别的，不是你该问的。"
+				],
+				"跟诵": [
+					"领诵道士的木鱼没停：前三卷的头三句，他们一天念几百遍。我念上句，你接下句——接不上，回蒲团上听熟了再来。"
 				]
 			},
 			"chat_chance_combat": 25,
@@ -483,7 +489,7 @@
 		},
 		{
 			"id": "native.npc.niling_steward",
-			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the 管事 who keeps the tribute's ledger and the stamped papers in the 账房, 剧情总纲 §3 第三章 ④)",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the 管事 who keeps the tribute's ledger and the stamped papers in the 账房, 剧情总纲 §3 第三章 ④) native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」): 干活 (the three chores for one in the 黑冠, the 通铺 once they are done)",
 			"name": "管事道士",
 			"aliases": [
 				"steward",
@@ -558,7 +564,97 @@
 				],
 				"逆灵宫": [
 					"管事道士道：少废话。干活。"
-				]
+				],
+				"干活": {
+					"rules": [
+						{
+							"asker_marks": [
+								"管事许你留宿"
+							],
+							"say": "活干完了就歇着。通铺在货栈里头。夜里别乱走——子时前殿有人巡，后殿不许近。"
+						},
+						{
+							"asker_marks": [
+								"管事派了活",
+								"添过炭",
+								"点过箱",
+								"跟诵过"
+							],
+							"mark_asker": "管事许你留宿",
+							"lines": [
+								{
+									"emote": "把账册翻过一页，在上头添了一笔。"
+								},
+								{
+									"say": "手脚还算干净。"
+								},
+								{
+									"say": "今晚起，你在货栈的通铺上睡。夜里别乱走——子时前殿有人巡，后殿不许近。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"管事派了活"
+							],
+							"say": "炭、箱子、经。三样干完了再来。"
+						},
+						{
+							"asker_marks": [
+								"残卷给了玄冥子"
+							],
+							"mark_asker": "管事派了活",
+							"lines": [
+								{
+									"emote": "抬眼看了看你的冠，又看了看你的脸。"
+								},
+								{
+									"say": "大弟子打过招呼，说你是他的人。……宫里不养闲人，他的人也一样。"
+								},
+								{
+									"say": "三样活：丹房的炉子添炭，货栈的箱子点数，前殿跟着领诵念经。干完了再来找我。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"林忌烧了残卷"
+							],
+							"mark_asker": "管事派了活",
+							"lines": [
+								{
+									"emote": "抬眼看了看你的冠，又看了看你的脸。"
+								},
+								{
+									"say": "新来的？那一夜宫里丢了一卷书，后山的路上都找遍了。……你没见过吧。"
+								},
+								{
+									"say": "三样活：丹房的炉子添炭，货栈的箱子点数，前殿跟着领诵念经。干完了再来找我。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"林忌请你再进去"
+							],
+							"mark_asker": "管事派了活",
+							"lines": [
+								{
+									"emote": "抬眼看了看你的冠，又看了看你的脸。"
+								},
+								{
+									"say": "新来的？那一夜地牢里少了人，宫里正缺人手。"
+								},
+								{
+									"say": "三样活：丹房的炉子添炭，货栈的箱子点数，前殿跟着领诵念经。干完了再来找我。"
+								}
+							]
+						},
+						{
+							"say": "干活？货栈搬箱子去。"
+						}
+					]
+				}
 			},
 			"chat_chance_combat": 25,
 			"chat_msg_combat": [
@@ -648,7 +744,7 @@
 		},
 		{
 			"id": "native.npc.huo_zheng",
-			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 野羊山寨's 大寨主, half a year 下落不明 (doc/help/plan:30), 刘安禄's 拜过把子的大哥 (DECISIONS「刘安禄放过后开口」); the name is 剧情总纲's",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 野羊山寨's 大寨主, half a year 下落不明 (doc/help/plan:30), 刘安禄's 拜过把子的大哥 (DECISIONS「刘安禄放过后开口」); the name is 剧情总纲's native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」): at the 土地庙, 林忌's word (茅山), the job (眼线, asked first) and the 名单 taken",
 			"name": "霍铮",
 			"aliases": [
 				"huo zheng",
@@ -705,7 +801,78 @@
 				],
 				"二寨主": [
 					"霍铮低声道：老二就是老刘。那天他不肯跟来，骂老子是去送死。……他骂得对。"
-				]
+				],
+				"茅山": {
+					"rules": [
+						{
+							"asker_marks": [
+								"霍铮回了寨"
+							],
+							"mark_asker": "霍铮说了茅山",
+							"lines": [
+								{
+									"say": "前些日子茅山灵心观来了个小道士，替他们的林忌真人带话：北麓那座道观还在，地牢里还在进人。"
+								},
+								{
+									"say": "林真人要一个进得去的人。老子进不去——那张脸，他们都认得。"
+								},
+								{
+									"say": "你要是肯，跟老子说一声「眼线」；或者自己去灵心观见他。"
+								}
+							]
+						},
+						{
+							"say": "茅山？牛鼻子道士，跟野羊寨没来往。"
+						}
+					]
+				},
+				"眼线": {
+					"confirm": "答应下来，戴着黑冠回逆灵宫，做茅山的眼线。\n一个人只藏得住一重身份：接了这件事，东方神教那边的门，从此不再为你开。\n答应吗？",
+					"confirm_marks": [
+						"霍铮说了茅山"
+					],
+					"confirm_lacks": [
+						"答应了做眼线"
+					],
+					"listed_marks": [
+						"霍铮说了茅山"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"名单递出去了"
+							],
+							"say": "名单老子送到灵心观了。下一车纳供，野羊寨的弟兄在转角等着。"
+						},
+						{
+							"asker_marks": [
+								"答应了做眼线"
+							],
+							"say": "你答应过了。名单抄出来，交给老子也行，交给林真人也行。"
+						},
+						{
+							"asker_marks": [
+								"霍铮说了茅山"
+							],
+							"marks_asker": [
+								"答应了做眼线",
+								"林忌请你再进去",
+								"那一夜丢了人"
+							],
+							"lines": [
+								{
+									"say": "好兄弟。"
+								},
+								{
+									"say": "那一夜地牢空了，他们记着呢——不知道是你，只知道有人。你进去，脸上别带出来。"
+								},
+								{
+									"say": "冠要是丢了，去灵心观问林真人要。"
+								}
+							]
+						}
+					]
+				}
 			},
 			"chat_chance_combat": 20,
 			"chat_msg_combat": [
@@ -729,6 +896,26 @@
 						},
 						{
 							"mark": "救出了霍铮"
+						}
+					]
+				}
+			],
+			"accept_object": [
+				{
+					"item": "native:niling/offering_list",
+					"giver_mark": "抄了名单",
+					"accept": true,
+					"destroys": true,
+					"mark_giver": "名单递出去了",
+					"lines": [
+						{
+							"emote": "接过名单，看到「傅家坡」那一行，手抖了一下。"
+						},
+						{
+							"say": "补……他们还要补一个。"
+						},
+						{
+							"say": "老子派人给林真人送去。下一车纳供，野羊寨的弟兄在转角等着。你回去，别让他们看出来。"
 						}
 					]
 				}
@@ -1117,7 +1304,7 @@
 		},
 		{
 			"id": "native.npc.xuan_mingzi_cliff",
-			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 玄冥子 on the 后山崖径, covering 商玦's way down: the chapter's one real fight (剧情总纲 §3 第三章 ⑦); he fights with ES2's six-chaos-sword moves for now, the 天殇 of doc/skill/six-chaos-sword by name only (owner Q3) 关北 D: his word on 关北 by the two endings.",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 玄冥子 on the 后山崖径, covering 商玦's way down: the chapter's one real fight (剧情总纲 §3 第三章 ⑦); he fights with ES2's six-chaos-sword moves for now, the 天殇 of doc/skill/six-chaos-sword by name only (owner Q3) 关北 D: his word on 关北 by the two endings. native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」): the 残卷 given back to him by one who wears the 黑冠 for 茅山 (他当你是他的人)",
 			"name": "玄冥子",
 			"aliases": [
 				"xuan mingzi",
@@ -1193,6 +1380,21 @@
 					"rules": [
 						{
 							"npc_flag": "mood/owed",
+							"asker_marks": [
+								"残卷给了玄冥子"
+							],
+							"say": "剑的事以后再说。先替我看着宫里——你是我的人，管事不会多问。"
+						},
+						{
+							"npc_flag": "mood/owed",
+							"asker_marks": [
+								"答应了做眼线"
+							],
+							"asker_carries": "残卷",
+							"say": "残卷带来了？给我。"
+						},
+						{
+							"npc_flag": "mood/owed",
 							"asker_carries": "残卷",
 							"say": "要练六阴剑，带着残卷来后山找我——不是现在。宫里的事还没完。你记住这条路。"
 						},
@@ -1242,7 +1444,42 @@
 			},
 			"die_carries": {
 				"item": "native:niling/scroll_fragment"
-			}
+			},
+			"accept_object": [
+				{
+					"item": "native:niling/scroll_fragment",
+					"giver_mark": "残卷没回宫",
+					"accept": false,
+					"say": "晚了。宫里已经当它丢了——你拿回来，倒要有人问它这些日子在谁手里。"
+				},
+				{
+					"item": "native:niling/scroll_fragment",
+					"giver_mark": "答应了做眼线",
+					"ask": "把逆灵天书的残卷还给玄冥子。\n他会当你是他的人，宫里没人会问起那一夜——可禁书就回了逆灵宫，林忌不会高兴。\n还给他吗？",
+					"accept": true,
+					"destroys": true,
+					"mark_giver": "残卷给了玄冥子",
+					"lines": [
+						{
+							"emote": "接过残卷，在手里掂了掂，收进怀里。"
+						},
+						{
+							"say": "……你送回来了。"
+						},
+						{
+							"say": "宫主不要我了，我也不要他了。宫里的事，我自己来。"
+						},
+						{
+							"say": "戴好冠，从正门进去。管事那里我打过招呼：你是我的人。没人会问起那一夜。"
+						}
+					]
+				},
+				{
+					"item": "native:niling/scroll_fragment",
+					"accept": false,
+					"say": "带着它来后山找我——不是现在。"
+				}
+			]
 		},
 		{
 			"id": "native.npc.headless_shade",
@@ -1407,6 +1644,116 @@
 				"drop": "native:niling/cell_key",
 				"mark": "狱卒交了钥匙"
 			}
+		},
+		{
+			"id": "native.npc.niling_patrol",
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — the 巡殿道士 who walks the 前殿 at 子时 (the 后殿 behind its 北门 is not to be come near): an NpcWatch, as 第九章 B's 禁军 (DECISIONS「禁军夜巡」); caught, one is led to the 前院 to stand till dawn — a 疑点 (续写)",
+			"name": "巡殿道士",
+			"aliases": [
+				"patrol taoist",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 34,
+			"long": "一个黑衣黑冠的道士，提着一盏罩着黑纱的灯，在前殿里一步一步地走。走到北门前，他总要停一停，侧耳听一会儿门里的动静，再转身往回走。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 24,
+				"int": 22,
+				"spi": 22,
+				"cps": 24,
+				"per": 12,
+				"con": 24,
+				"kar": 8
+			},
+			"combat_exp": 5000,
+			"score": 220,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 24,
+				"sword": 34,
+				"dodge": 32,
+				"parry": 32
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"watch": {
+				"route": [
+					"niling.front.patrol.1",
+					"niling.front.patrol.2",
+					"niling.front.patrol.3"
+				],
+				"pause_ms": 2500,
+				"sight": {
+					"radius": 130,
+					"cone_degrees": 90,
+					"lit_radius": 200,
+					"lantern": 64
+				},
+				"notice_ms": 1200,
+				"when": {
+					"phase": [
+						"midnight"
+					]
+				},
+				"caught": {
+					"say": "子时了，谁在这里！",
+					"mark": "子时在后殿外被撞见",
+					"again_mark": "子时在后殿外又被撞见",
+					"lines": [
+						"巡殿道士举灯照了照你的脸，一把扭住你的胳膊，把你推出了殿门。",
+						"你在前院的香炉边站到了天亮。管事道士出来看了你一眼，什么也没说，在簿子上记了一笔。"
+					],
+					"again_lines": [
+						"巡殿道士举灯照了照你的脸：「又是你。」",
+						"你又在前院的香炉边站到了天亮。管事道士这回没看你，只在簿子上又记了一笔。"
+					],
+					"release_zone": "niling.yard",
+					"release_point": "niling.yard.hall_return",
+					"until_phase": [
+						"dawn"
+					]
+				}
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"巡殿道士的灯在北门前停了一停。\n",
+				"巡殿道士的脚步声在殿里一下一下地响。\n"
+			],
+			"inquiry": {
+				"后殿": [
+					"巡殿道士道：子时，谁也不许近北门。回你的铺上去。"
+				],
+				"逆灵宫": [
+					"巡殿道士道：回你的铺上去。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"巡殿道士厉声道：后殿重地，拿下！\n"
+			]
 		}
 	]
 }

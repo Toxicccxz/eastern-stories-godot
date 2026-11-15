@@ -388,6 +388,17 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
         _walk_json(record, relative, str(record.get("id", "")), catalog)
 
 
+def _add_checklist(record: dict, relative: str, owner: str, catalog: Catalog) -> None:
+    """The 任务 page's rows under the objective (StoryQuestDefinition.CheckRow) of a step or of the
+    whole quest: each row's label and the half sentence said while it does not hold."""
+    for row in record.get("checklist", []):
+        if not isinstance(row, dict):
+            continue
+        for key in ("label", "missing"):
+            if isinstance(row.get(key), str) and row[key]:
+                catalog.add(row[key], relative, note=f"{owner} checklist.{key}")
+
+
 def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
     """The quests (任务系统, StoryQuestDefinition): title, region, summary, each step's objective,
     text and checklist rows, each option's text, and the deeds their rewards write; ids, lines and
@@ -407,6 +418,8 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
         if isinstance(reward, dict) and isinstance(reward.get("deed"), str):
             catalog.add(reward["deed"], relative, note=f"{quest_id} reward.deed")
         _add_rank(reward, relative, f"{quest_id} reward.rank.title", catalog)
+        # The quest's own rows, shown whichever step is the one to do (任务级清单: 「疑点」).
+        _add_checklist(quest, relative, quest_id, catalog)
         for step in quest.get("steps", []):
             if not isinstance(step, dict):
                 continue
@@ -419,14 +432,7 @@ def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
             if isinstance(step_reward, dict) and isinstance(step_reward.get("deed"), str):
                 catalog.add(step_reward["deed"], relative, note=f"{step_id} reward.deed")
             _add_rank(step_reward, relative, f"{step_id} reward.rank.title", catalog)
-            # The 任务 page's rows under the objective (StoryQuestDefinition.CheckRow): each row's
-            # label and the half sentence said while it does not hold.
-            for row in step.get("checklist", []):
-                if not isinstance(row, dict):
-                    continue
-                for key in ("label", "missing"):
-                    if isinstance(row.get(key), str) and row[key]:
-                        catalog.add(row[key], relative, note=f"{step_id} checklist.{key}")
+            _add_checklist(step, relative, step_id, catalog)
             for option in step.get("options", []):
                 if not isinstance(option, dict):
                     continue

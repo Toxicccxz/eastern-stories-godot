@@ -538,6 +538,13 @@
       "waist": "sash", "prop": "book", "prop_color": "a2817f", "accent": "312825",
       "height": "standard", "build": "heavy", "shoes": "dark"
     },
+    "native.npc.niling_patrol": {
+      "note": "巡殿道士：黑衣黑冠，三十来岁，瘦长，子时在前殿来回走，腰上一柄短剑（卧底 A；没有立绘）",
+      "coat": "1e1c20", "pants": "0a0b0f", "skin": "e3bca0", "hair": "0b0c10",
+      "hair_style": "topknot", "headwear": "crown", "headwear_color": "0d0f14", "beard": "none",
+      "waist": "sash", "prop": "sword_waist", "prop_color": "8a7a74", "accent": "2c2428",
+      "height": "tall", "build": "slim", "shoes": "dark"
+    },
     "native.npc.niling_jailer": {
       "note": "狱卒道士：黑衣黑冠，靠着甬道的石壁站，腰上一柄短剑和一根卷起来的鞭子；挂钥匙的那个用同一套；立绘 Muse 2026-11-07",
       "coat": "24282e", "pants": "0c0e12", "skin": "e7bda3", "hair": "0e0f13",

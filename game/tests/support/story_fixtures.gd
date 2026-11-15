@@ -558,3 +558,37 @@ static func celestial_split(session: WorldSessionController, yan: bool, caught: 
 	for mark: String in ["潘军禅说了盟主的下落", "正厅撞见了", "正厅的话说完了", "站了颜违" if yan else "站了潘军禅"]:
 		state.marks[mark] = 1
 	state.affiliation.family_title = "执事"
+
+
+## 卧底 A (势力线第一批; DECISIONS「卧底 A」): 第三章 done and the yes to 林忌 (or 霍铮) given, through the door
+## `door`: "xuan" (the chase, the 残卷 back to 玄冥子), "lin" (the chase, the 残卷 burnt by 林忌: 残卷没回宫) or
+## "night" (the rescue: 那一夜丢了人, said by 霍铮). The 管事 is next. Crown and 残卷 are the caller's.
+static func niling_entered(session: WorldSessionController, door: String) -> void:
+	if door == "night":
+		chapter3_rescued(session)
+	else:
+		chapter3_chased(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.niling#started", "faction.niling/gate/%s" % door]:
+		_write(state, key)
+	var marks: Dictionary = {
+		"xuan": ["林忌说了逆灵宫", "答应了做眼线", "残卷给了玄冥子"],
+		"lin": ["林忌说了逆灵宫", "答应了做眼线", "林忌烧了残卷", "残卷没回宫"],
+		"night": ["答应了做眼线", "林忌请你再进去", "那一夜丢了人"],
+	}
+	for mark: String in marks[door]:
+		state.marks[mark] = 1
+
+
+## 卧底 A done (through `door`, niling_entered()): the three chores and the 通铺, `caught` times taken by the 巡殿
+## (0–2, each a 疑点), listened at the 北门, the 名单 copied and handed out; the line at its stub `next`
+## (逆灵宫 B: the 地牢).
+static func niling_delivered(session: WorldSessionController, door: String, caught: int = 0) -> void:
+	niling_entered(session, door)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.niling/hire", "faction.niling/chores", "faction.niling/listen", "faction.niling/copy", "faction.niling/deliver"]:
+		_write(state, key)
+	for mark: String in ["管事派了活", "添过炭", "点过箱", "跟诵过", "管事许你留宿", "后殿外听到了", "抄了名单", "名单递出去了"]:
+		state.marks[mark] = 1
+	for mark: String in ["子时在后殿外被撞见", "子时在后殿外又被撞见"].slice(0, clampi(caught, 0, 2)):
+		state.marks[mark] = 1

@@ -1,0 +1,199 @@
+{
+	"quests": [
+		{
+			"id": "faction.niling",
+			"title": "黑冠",
+			"line": "faction",
+			"region": "逆灵宫",
+			"sources": [
+				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」: 黑线, 晋阶黑冠; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, §2 第 5、6 条 (任务级清单, 疑点不加新状态), §8「祭品是谁」「残卷去哪」, §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」「任务级清单」). daemon/class/taoist/taolord.c (林忌, 茅山派第五代天师: 我茅山派……世世代代皆以降妖伏魔为己任); doc/help/plan:26–31 (逆灵宫 on 野羊山's north slope, 黑衣黑冠, 纳供); doc/help/taoist:58 (逆灵天书, the forbidden book). Nobody kneels to 逆灵宫: the line begins when one who finished 第三章 tells 林忌 (or 霍铮) yes, asked first; the 进门 (where the 残卷 goes), the 杂活, the 偷听 at 子时 past the 巡殿 and the 名单 are the plan's (续写); it stops at a stub step `next` that 逆灵宫 B fills (the 地牢, the 名册)."
+			],
+			"summary": "戴着黑冠回逆灵宫，替茅山的林忌做眼线。",
+			"requires": ["main.chapter3"],
+			"starts": {
+				"mark": "答应了做眼线"
+			},
+			"pinned": true,
+			"checklist": [
+				{
+					"label": "疑点",
+					"count": true,
+					"when": {
+						"cond": "niling.suspicion"
+					}
+				},
+				{
+					"label": "残卷没回宫：宫里少了一卷书，迟早有人问起",
+					"if": {
+						"mark": "残卷没回宫"
+					}
+				},
+				{
+					"label": "那一夜丢了人：地牢空了，他们记得那天闯进来的人",
+					"if": {
+						"mark": "那一夜丢了人"
+					}
+				},
+				{
+					"label": "子时在后殿外被撞见过",
+					"if": {
+						"mark": "子时在后殿外被撞见"
+					}
+				},
+				{
+					"label": "子时在后殿外又被撞见了一回",
+					"if": {
+						"mark": "子时在后殿外又被撞见"
+					}
+				}
+			],
+			"steps": [
+				{
+					"id": "gate",
+					"weight": "small",
+					"objective": "进门之前，先把第三章留下的事了结。身上带着逆灵天书残卷的：还给后山崖径上的玄冥子（他要是还活着），他当你是他的人，宫里没人会问起那卷书；交给林忌，他当面烧了，可宫里少了一卷书——那是一条疑点。救过人的，听林忌（或霍铮）把话说完。黑冠丢了的，问林忌「黑冠」。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": ["common.npc.taoist.taolord"]
+					},
+					"options": [
+						{
+							"id": "xuan",
+							"done": {
+								"mark": "残卷给了玄冥子"
+							},
+							"text": "你把残卷还给了玄冥子。他说：「你是我的人。」宫里不会有人问起那一夜。",
+							"reward": {
+								"deed": "把逆灵天书的残卷还给了玄冥子"
+							}
+						},
+						{
+							"id": "lin",
+							"done": {
+								"mark": "林忌烧了残卷"
+							},
+							"text": "你把残卷交给了林忌。他当面烧了：「这东西不该回那里去。」宫里少了一卷书。",
+							"reward": {
+								"deed": "把逆灵天书的残卷交给林忌烧了"
+							}
+						},
+						{
+							"id": "night",
+							"done": {
+								"mark": "林忌请你再进去"
+							},
+							"text": "茅山要一个进得去的人。你答应戴着黑冠，再进一回逆灵宫。",
+							"reward": {
+								"deed": "替茅山戴着黑冠回了逆灵宫"
+							}
+						}
+					]
+				},
+				{
+					"id": "hire",
+					"objective": "戴着黑冠回逆灵宫。白天到账房（前殿往西，丹房再往北）问管事道士「干活」。",
+					"done": {
+						"mark": "管事派了活"
+					},
+					"text": "管事道士派了三样活：丹房添炭、货栈点箱、前殿跟诵。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.counting",
+						"npcs": ["native.npc.niling_steward"]
+					}
+				},
+				{
+					"id": "chores",
+					"objective": "干完管事派的三样活，回账房问他「干活」。跟诵是领诵念上句、你接下句：前殿的道士诵的就是这几句，听熟了再去。",
+					"checklist": [
+						{
+							"label": "丹房添炭",
+							"when": {
+								"mark": "添过炭"
+							}
+						},
+						{
+							"label": "货栈点箱",
+							"when": {
+								"mark": "点过箱"
+							}
+						},
+						{
+							"label": "前殿跟诵",
+							"when": {
+								"mark": "跟诵过"
+							},
+							"missing": "领诵念上句，你接下句"
+						}
+					],
+					"done": {
+						"mark": "管事许你留宿"
+					},
+					"text": "三样活干完了。管事许你在货栈的通铺上留宿。",
+					"reward": {
+						"deed": "在逆灵宫干了三样杂活，管事许你留宿"
+					},
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.counting",
+						"npcs": ["native.npc.niling_steward"]
+					}
+				},
+				{
+					"id": "listen",
+					"objective": "子时，前殿北门后的后殿有人说话。货栈的通铺可以睡到子时。前殿有巡殿的道士来回走——躲开他的眼睛（他看前面，不看身后；香炉和经案挡得住他），摸到北门边「听」。被他撞见了，会被押回前院站到天亮，那是一条疑点。",
+					"done": {
+						"mark": "后殿外听到了"
+					},
+					"text": "你在北门外听见了：唤首的时辰，和「名单在账房」。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.front"
+					}
+				},
+				{
+					"id": "copy",
+					"objective": "名单在账房。夜里管事伏在案头睡觉，到账房的大案上「抄名单」，别吵醒他。",
+					"done": {
+						"mark": "抄了名单"
+					},
+					"text": "你在账房的大案上抄下了那张名单。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.counting"
+					}
+				},
+				{
+					"id": "deliver",
+					"objective": "把抄来的名单递出去：交给灵心观的林忌（救过霍铮的，也可以交给土地庙的霍铮）。",
+					"done": {
+						"mark": "名单递出去了"
+					},
+					"text": "名单递出去了。下回路过野羊山的山路转角，路边会多一辆翻倒的纳供车。",
+					"reward": {
+						"deed": "把逆灵宫的祭品名单递给了茅山"
+					},
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": ["common.npc.taoist.taolord"]
+					}
+				},
+				{
+					"id": "next",
+					"objective": "名单上的人，茅山会去找。宫里的事还没完——过些时候再问林忌「逆灵宫」。",
+					"done": {
+						"mark": "林忌说了地牢"
+					},
+					"text": "林忌说了地牢里新关的人。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": ["common.npc.taoist.taolord"]
+					}
+				}
+			]
+		}
+	]
+}

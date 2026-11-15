@@ -265,6 +265,12 @@
             "id": "goathill.mroad4.tribute_cart.1"
           },
           {
+            "name": "OverturnedCart",
+            "at": [676, 1212],
+            "id": "goathill.mroad4.overturned_cart.1",
+            "note": "卧底 A: the next tribute cart, stopped where the last stood (never both on the stage)"
+          },
+          {
             "name": "TributeTaoist01",
             "at": [612, 1236],
             "id": "goathill.mroad4.tribute_taoist.1"

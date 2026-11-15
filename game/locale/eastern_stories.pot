@@ -228,6 +228,7 @@ msgstr ""
 #. native.npc.headless_shade gender
 #. native.npc.hell_runner gender
 #. native.npc.niling_jailer_keyed gender
+#. native.npc.niling_patrol gender
 #. native.npc.pass_gate_soldier gender
 #. native.npc.huaiyang_gate_guard gender
 #. native.npc.camel_driver gender
@@ -3276,6 +3277,14 @@ msgstr ""
 msgid "货栈"
 msgstr ""
 
+#: scenes/world/niling/niling_gate.tscn
+msgid "箱子 · 点箱"
+msgstr ""
+
+#: scenes/world/niling/niling_gate.tscn
+msgid "通铺 · 睡到子时"
+msgstr ""
+
 #. native:niling/front short
 #: scenes/world/niling/niling_hall.tscn data/niling/rooms.json
 msgid "前殿"
@@ -3289,6 +3298,22 @@ msgstr ""
 #. native:niling/counting short
 #: scenes/world/niling/niling_hall.tscn data/niling/rooms.json
 msgid "账房"
+msgstr ""
+
+#: scenes/world/niling/niling_hall.tscn
+msgid "北门 · 听"
+msgstr ""
+
+#: scenes/world/niling/niling_hall.tscn
+msgid "木鱼 · 跟诵"
+msgstr ""
+
+#: scenes/world/niling/niling_hall.tscn
+msgid "炭筐 · 添炭"
+msgstr ""
+
+#: scenes/world/niling/niling_hall.tscn
+msgid "大案 · 抄名单"
 msgstr ""
 
 #: scenes/world/niling/niling_hall.tscn
@@ -3309,6 +3334,7 @@ msgstr ""
 #. native.npc.niling_gatekeeper inquiry topic
 #. native.npc.niling_chanter inquiry topic
 #. native.npc.niling_lead_chanter inquiry topic
+#. native.npc.niling_patrol inquiry topic
 #. native:niling/altar short
 #: scenes/world/niling/niling_rear.tscn scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json data/niling/npcs.json data/niling/rooms.json data/sanyen/voxel/grounds.json
 msgid "后殿"
@@ -13315,6 +13341,7 @@ msgid "叠"
 msgstr ""
 
 #. es2:obj/paper_seal combined.base_unit
+#. native:niling/offering_list unit
 #. native:fanfang/carpet unit
 #. native:fanfang/hu_bread unit
 #. native:imperial/edict_for_uncle unit
@@ -13322,7 +13349,7 @@ msgstr ""
 #. native:choyin/luo_card unit
 #. native:city/blinding_charm unit
 #. native:waterfog/pan_warrant unit
-#: data/common/items.json data/fanfang/items.json data/imperial/items.json data/native/items.json
+#: data/common/items.json data/niling/items.json data/fanfang/items.json data/imperial/items.json data/native/items.json
 msgid "张"
 msgstr ""
 
@@ -15716,9 +15743,11 @@ msgid "野羊山"
 msgstr ""
 
 #. name
+#. goathill.npc.bandit_hwang inquiry topic
 #. temple name
 #. city.npc.shangshu.qing_chen inquiry topic
-#: data/common/atlas.json data/temple/world.json data/city/npcs.json
+#. native.npc.huo_zheng inquiry topic
+#: data/common/atlas.json data/goathill/npcs.json data/temple/world.json data/city/npcs.json data/niling/npcs.json
 msgid "茅山"
 msgstr ""
 
@@ -18145,6 +18174,241 @@ msgstr ""
 #: data/common/npcs.json data/temple/npcs.json
 msgid ""
 "我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry topic
+#. main.chapter3 title
+#. niling name
+#. faction.niling region
+#. goathill.npc.bandit_hwang inquiry topic
+#. native.npc.niling_winch_taoist inquiry topic
+#. native.npc.niling_gatekeeper inquiry topic
+#. native.npc.niling_gate_guard inquiry topic
+#. native.npc.niling_store_taoist inquiry topic
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
+#. native.npc.niling_steward inquiry topic
+#. native.npc.niling_jailer inquiry topic
+#. native.npc.huo_zheng inquiry topic
+#. native.npc.shitou inquiry topic
+#. native.npc.guanbei_corvee inquiry topic
+#. native.npc.shang_jue inquiry topic
+#. native.npc.niling_jailer_keyed inquiry topic
+#. native.npc.niling_patrol inquiry topic
+#. native.npc.lao_qin inquiry topic
+#. native.npc.lu_sun inquiry topic
+#. native.npc.barrow_taoist inquiry topic
+#. native.npc.niling_courier title
+#. native.npc.niling_wind_diviner title
+#. native.npc.niling_wind_diviner_head title
+#. native.npc.tribute_taoist inquiry topic
+#. native.npc.liu_anlu_home inquiry topic
+#. native.npc.shang_jue_lake inquiry topic
+#. native.npc.niling_taoist_lake title
+#: data/common/npcs.json data/story/chapter3.json data/story/factions.json data/story/faction_niling.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
+msgid "逆灵宫"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "名单上的人，茅山会一个一个去找。宫里的事还没完——你戴着那顶冠，就还是他们的人。等我的话。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "名单抄到了？给我。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
+#. waterfog.npc.elder5 greeting.rules.steps.emote
+#: data/common/npcs.json data/waterfog/npcs.json
+msgid "看了你一眼，没有说话。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "禁书回了宫里，是你送回去的。……也罢。他当你是自己人，门你进得去。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "进去，干活，听。他们在等什么，要多少人，人从哪里来。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "进去，先干活。管事派什么，你干什么；他们说什么，你听什么。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
+#: data/common/npcs.json
+msgid "放下手里的拂尘，金色的那只眼睛看着你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。他们拜的不是神，是劫；收的不是香火，是人。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "你进去过，还出来了。茅山的道士进不去——一身符水的味道，隔着三里地，他们就闻得出来。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "我要一个进得去的人：戴着他们的冠，替我看，替我听。他们在等什么，要多少人，人从哪里来。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "这件事做了，就脱不了身。想好了，再问我「眼线」。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
+msgid "北麓那座道观？与你无关。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry topic
+#. native.npc.huo_zheng inquiry topic
+#: data/common/npcs.json data/niling/npcs.json
+msgid "眼线"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.confirm
+#. native.npc.huo_zheng inquiry.眼线.confirm
+#: data/common/npcs.json data/niling/npcs.json
+msgid ""
+"答应下来，戴着黑冠回逆灵宫，做茅山的眼线。\n"
+"一个人只藏得住一重身份：接了这件事，东方神教那边的门，从此不再为你开。\n"
+"答应吗？"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.say
+#: data/common/npcs.json
+msgid "你已经答应过了。冠戴好。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#. village.seal_altar.keep act.acts.steps.say
+#: data/common/npcs.json data/village/world.json
+msgid "好。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "那一夜地牢里的人是你放走的。宫里记得那一夜——他们不知道是你，只知道有人。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "戴着冠回去，管事会派你活。冠丢了，问我「黑冠」。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "你身上那卷东西，是逆灵天书的残卷。拿着它的人死在后山了。它不能跟着你进去，也不能就这么留在外头。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "交给我，我当面烧了它。宫里会少一卷书，迟早有人问起——这就是你要担的。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "你身上那卷东西，是逆灵天书的残卷。它不能跟着你进去，也不能就这么留在外头。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "交给我，我当面烧了它——可宫里会少一卷书，迟早有人问起。还给后山那个大弟子，他会当你是他的人——禁书也就回了宫里。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "你定。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "那卷残卷不在你身上？……那就当它没回宫。宫里少了一卷书，迟早有人问起。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.say
+#: data/common/npcs.json
+msgid "……先听我把话说完。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry topic
+#. faction.niling title
+#. native:niling/black_crown name
+#: data/common/npcs.json data/story/faction_niling.json data/niling/items.json
+msgid "黑冠"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.黑冠.rules.lines.emote
+#: data/common/npcs.json
+msgid "从香案底下取出一顶黑冠，递给你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.黑冠.rules.lines.say
+#: data/common/npcs.json
+msgid "上个月茅山弟子在北麓截下来的。冠是真的，戴它的人回不来了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.黑冠.rules.say
+#: data/common/npcs.json
+msgid "冠在你身上。戴好，别摘——摘了，他们下一眼就认得你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.黑冠.rules.say
+#: data/common/npcs.json
+msgid "逆灵宫的道士戴的东西。问它做什么。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.ask
+#: data/common/npcs.json
+msgid ""
+"把逆灵天书的残卷交给林忌。\n"
+"他会当面烧了它，禁书不会再回逆灵宫——可宫里少了一卷书，那是一条疑点。玄冥子那边，这卷书就还不回去了。\n"
+"交给他吗？"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.emote
+#: data/common/npcs.json
+msgid "接过残卷，翻也没翻，凑到香案的烛火上。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.emote
+#: data/common/npcs.json
+msgid "黑皮的书页卷起来，火苗是青的。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.say
+#: data/common/npcs.json
+msgid "这东西不该回那里去。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.say
+#: data/common/npcs.json
+msgid "这东西在你手里，在我手里，都干净不了。先想好你要做什么。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.emote
+#: data/common/npcs.json
+msgid "接过名单，一行一行看下去，半晌没有说话。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.say
+#: data/common/npcs.json
+msgid "三十六口。……茅山会去截下一车。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.say
+#: data/common/npcs.json
+msgid "你回去。他们看不出来，你就还是他们的人。"
 msgstr ""
 
 #. common.npc.taoist.taolord apprentice.requires.refuse_say
@@ -21104,36 +21368,6 @@ msgstr ""
 msgid "把五长老南危水装死二十年的事告诉了七长老颜违"
 msgstr ""
 
-#. main.chapter3 title
-#. niling name
-#. goathill.npc.bandit_hwang inquiry topic
-#. native.npc.niling_winch_taoist inquiry topic
-#. native.npc.niling_gatekeeper inquiry topic
-#. native.npc.niling_gate_guard inquiry topic
-#. native.npc.niling_store_taoist inquiry topic
-#. native.npc.niling_chanter inquiry topic
-#. native.npc.niling_lead_chanter inquiry topic
-#. native.npc.niling_steward inquiry topic
-#. native.npc.niling_jailer inquiry topic
-#. native.npc.huo_zheng inquiry topic
-#. native.npc.shitou inquiry topic
-#. native.npc.guanbei_corvee inquiry topic
-#. native.npc.shang_jue inquiry topic
-#. native.npc.niling_jailer_keyed inquiry topic
-#. native.npc.lao_qin inquiry topic
-#. native.npc.lu_sun inquiry topic
-#. native.npc.barrow_taoist inquiry topic
-#. native.npc.niling_courier title
-#. native.npc.niling_wind_diviner title
-#. native.npc.niling_wind_diviner_head title
-#. native.npc.tribute_taoist inquiry topic
-#. native.npc.liu_anlu_home inquiry topic
-#. native.npc.shang_jue_lake inquiry topic
-#. native.npc.niling_taoist_lake title
-#: data/story/chapter3.json data/story/factions.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/guanbei/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
-msgid "逆灵宫"
-msgstr ""
-
 #. main.chapter3 summary
 #: data/story/chapter3.json
 msgid "进野羊山北麓的黑道观，找到失踪的大寨主。"
@@ -22879,6 +23113,26 @@ msgstr ""
 msgid "你是茅山派的弟子。"
 msgstr ""
 
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "林忌托你戴着黑冠回了逆灵宫，替茅山看，替茅山听。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "那卷残卷，林忌当着你的面烧了。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "残卷你还给了玄冥子。林忌没再提它，看你的眼神冷了一分。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "逆灵宫的祭品名单，是你抄出来递给茅山的。"
+msgstr ""
+
 #. latemoon lines.text
 #: data/story/factions.json
 msgid "你是晚月庄的弟子。"
@@ -22997,6 +23251,21 @@ msgstr ""
 #. niling lines.text
 #: data/story/factions.json
 msgid "玄冥子欠你一条命。他说过：带着残卷来后山找他。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "玄冥子说你是他的人。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "管事道士许你在货栈的通铺上睡——他们当你是新来的道士。"
+msgstr ""
+
+#. niling lines.text
+#: data/story/factions.json
+msgid "子时在后殿外，巡殿的道士撞见过你。"
 msgstr ""
 
 #. faction.fonxan summary
@@ -23311,6 +23580,161 @@ msgstr ""
 #. faction.celestial/split/side_pan reward.deed
 #: data/story/faction_celestial.json
 msgid "在水烟阁正厅站到了潘军禅一边：等盟主回来"
+msgstr ""
+
+#. faction.niling summary
+#: data/story/faction_niling.json
+msgid "戴着黑冠回逆灵宫，替茅山的林忌做眼线。"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "疑点"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "残卷没回宫：宫里少了一卷书，迟早有人问起"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "那一夜丢了人：地牢空了，他们记得那天闯进来的人"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "子时在后殿外被撞见过"
+msgstr ""
+
+#. faction.niling checklist.label
+#: data/story/faction_niling.json
+msgid "子时在后殿外又被撞见了一回"
+msgstr ""
+
+#. faction.niling/gate objective
+#: data/story/faction_niling.json
+msgid "进门之前，先把第三章留下的事了结。身上带着逆灵天书残卷的：还给后山崖径上的玄冥子（他要是还活着），他当你是他的人，宫里没人会问起那卷书；交给林忌，他当面烧了，可宫里少了一卷书——那是一条疑点。救过人的，听林忌（或霍铮）把话说完。黑冠丢了的，问林忌「黑冠」。"
+msgstr ""
+
+#. faction.niling/gate/xuan text
+#: data/story/faction_niling.json
+msgid "你把残卷还给了玄冥子。他说：「你是我的人。」宫里不会有人问起那一夜。"
+msgstr ""
+
+#. faction.niling/gate/xuan reward.deed
+#: data/story/faction_niling.json
+msgid "把逆灵天书的残卷还给了玄冥子"
+msgstr ""
+
+#. faction.niling/gate/lin text
+#: data/story/faction_niling.json
+msgid "你把残卷交给了林忌。他当面烧了：「这东西不该回那里去。」宫里少了一卷书。"
+msgstr ""
+
+#. faction.niling/gate/lin reward.deed
+#: data/story/faction_niling.json
+msgid "把逆灵天书的残卷交给林忌烧了"
+msgstr ""
+
+#. faction.niling/gate/night text
+#: data/story/faction_niling.json
+msgid "茅山要一个进得去的人。你答应戴着黑冠，再进一回逆灵宫。"
+msgstr ""
+
+#. faction.niling/gate/night reward.deed
+#: data/story/faction_niling.json
+msgid "替茅山戴着黑冠回了逆灵宫"
+msgstr ""
+
+#. faction.niling/hire objective
+#: data/story/faction_niling.json
+msgid "戴着黑冠回逆灵宫。白天到账房（前殿往西，丹房再往北）问管事道士「干活」。"
+msgstr ""
+
+#. faction.niling/hire text
+#: data/story/faction_niling.json
+msgid "管事道士派了三样活：丹房添炭、货栈点箱、前殿跟诵。"
+msgstr ""
+
+#. faction.niling/chores objective
+#: data/story/faction_niling.json
+msgid "干完管事派的三样活，回账房问他「干活」。跟诵是领诵念上句、你接下句：前殿的道士诵的就是这几句，听熟了再去。"
+msgstr ""
+
+#. faction.niling/chores text
+#: data/story/faction_niling.json
+msgid "三样活干完了。管事许你在货栈的通铺上留宿。"
+msgstr ""
+
+#. faction.niling/chores reward.deed
+#: data/story/faction_niling.json
+msgid "在逆灵宫干了三样杂活，管事许你留宿"
+msgstr ""
+
+#. faction.niling/chores checklist.label
+#: data/story/faction_niling.json
+msgid "丹房添炭"
+msgstr ""
+
+#. faction.niling/chores checklist.label
+#: data/story/faction_niling.json
+msgid "货栈点箱"
+msgstr ""
+
+#. faction.niling/chores checklist.label
+#: data/story/faction_niling.json
+msgid "前殿跟诵"
+msgstr ""
+
+#. faction.niling/chores checklist.missing
+#: data/story/faction_niling.json
+msgid "领诵念上句，你接下句"
+msgstr ""
+
+#. faction.niling/listen objective
+#: data/story/faction_niling.json
+msgid "子时，前殿北门后的后殿有人说话。货栈的通铺可以睡到子时。前殿有巡殿的道士来回走——躲开他的眼睛（他看前面，不看身后；香炉和经案挡得住他），摸到北门边「听」。被他撞见了，会被押回前院站到天亮，那是一条疑点。"
+msgstr ""
+
+#. faction.niling/listen text
+#: data/story/faction_niling.json
+msgid "你在北门外听见了：唤首的时辰，和「名单在账房」。"
+msgstr ""
+
+#. faction.niling/copy objective
+#: data/story/faction_niling.json
+msgid "名单在账房。夜里管事伏在案头睡觉，到账房的大案上「抄名单」，别吵醒他。"
+msgstr ""
+
+#. faction.niling/copy text
+#: data/story/faction_niling.json
+msgid "你在账房的大案上抄下了那张名单。"
+msgstr ""
+
+#. faction.niling/deliver objective
+#: data/story/faction_niling.json
+msgid "把抄来的名单递出去：交给灵心观的林忌（救过霍铮的，也可以交给土地庙的霍铮）。"
+msgstr ""
+
+#. faction.niling/deliver text
+#: data/story/faction_niling.json
+msgid "名单递出去了。下回路过野羊山的山路转角，路边会多一辆翻倒的纳供车。"
+msgstr ""
+
+#. faction.niling/deliver reward.deed
+#: data/story/faction_niling.json
+msgid "把逆灵宫的祭品名单递给了茅山"
+msgstr ""
+
+#. faction.niling/next objective
+#: data/story/faction_niling.json
+msgid "名单上的人，茅山会去找。宫里的事还没完——过些时候再问林忌「逆灵宫」。"
+msgstr ""
+
+#. faction.niling/next text
+#: data/story/faction_niling.json
+msgid "林忌说了地牢里新关的人。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -26218,6 +26642,21 @@ msgstr ""
 msgid "寨里的事，外人少打听。"
 msgstr ""
 
+#. goathill.npc.bandit_hwang inquiry.茅山.rules.lines.say
+#: data/goathill/npcs.json
+msgid "前些日子茅山灵心观来了个小道士，说是替他们的林忌真人打听北麓那座道观——问寨里有没有人进去过，还出得来。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.茅山.rules.lines.say
+#: data/goathill/npcs.json
+msgid "老子说有一个。……你要是不想再跟那群牛鼻子打交道，就当老子没说。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.茅山.rules.say
+#: data/goathill/npcs.json
+msgid "茅山？牛鼻子道士，老子不认得。"
+msgstr ""
+
 #. goathill.npc.bandit_hwang inquiry.逆灵宫
 #: data/goathill/npcs.json
 msgid "黄霸脸色一沉：北麓那座黑砖道观？少打听。要问，问纳供。"
@@ -27396,6 +27835,7 @@ msgstr ""
 #. es2:d/choyin/obj/chest act.verb
 #. native:niling/tribute_ledger act.verb
 #. native:niling/war_ministry_papers act.verb
+#. native:niling/offering_list act.verb
 #. imperial.study.chest act.verb
 #: data/choyin/items.json data/niling/items.json data/imperial/world.json
 msgid "翻看"
@@ -29796,11 +30236,6 @@ msgstr ""
 #. waterfog.npc.elder5 greeting.rules.steps.say
 #: data/waterfog/npcs.json
 msgid "你来了。老夫欠你一个人情，到了关北，老夫替你引见槐阳王。"
-msgstr ""
-
-#. waterfog.npc.elder5 greeting.rules.steps.emote
-#: data/waterfog/npcs.json
-msgid "看了你一眼，没有说话。"
 msgstr ""
 
 #. waterfog.npc.elder5 calls.steps.emote
@@ -34441,6 +34876,7 @@ msgstr ""
 
 #. choyin.npc.sergeant inquiry topic
 #. native.npc.niling_store_taoist inquiry topic
+#. niling.store.crates name
 #. niling.winch.landmark.crates name
 #. native.npc.chen_witness inquiry topic
 #: data/choyin/npcs.json data/niling/npcs.json data/niling/world.json data/native/npcs.json
@@ -38930,11 +39366,6 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "你围着封坛走了一圈，把每一样都看清了：坛心的冰、冰里的头、钉着它的剑、剑柄上的霜、坛边柱里的人。你没有碰那把剑。\n"
-msgstr ""
-
-#. village.seal_altar.keep act.acts.steps.say
-#: data/village/world.json
-msgid "好。"
 msgstr ""
 
 #. village.seal_altar.keep act.acts.steps.line
@@ -44253,11 +44684,6 @@ msgid ""
 "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
 msgstr ""
 
-#. native:niling/black_crown name
-#: data/niling/items.json
-msgid "黑冠"
-msgstr ""
-
 #. native:niling/black_crown long
 #: data/niling/items.json
 msgid ""
@@ -44394,6 +44820,99 @@ msgstr ""
 #: data/niling/items.json
 msgid ""
 "一把通体乌黑的长剑，剑身上没有一点光，像是把照上去的光都吃了进去。握在手里冰凉，剑脊上刻着一行细字，看不懂。\n"
+msgstr ""
+
+#. native:niling/offering_list name
+#: data/niling/items.json
+msgid "祭品名单"
+msgstr ""
+
+#. native:niling/offering_list long
+#: data/niling/items.json
+msgid ""
+"你从逆灵宫账房的大案上抄下来的一张名单，一行一口人。字是你的，墨还没干透。\n"
+msgstr ""
+
+#. native:niling/offering_list no_drop
+#: data/niling/items.json
+msgid "这张名单要递出去，不能随便丢。"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"一张黄纸，字比账册上的小，一行一口人，末尾压着一方黑印：\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「关北民夫八名，工地出事，人走散了。按册补其家口：槐阳城外八户，待取。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「关北民夫四名，夜里走脱：王石头、刘拐子、巴图、胡阿大。按册补其家口：王石头之母、刘拐子之妻、巴图之子、胡阿大之女，四口，待取。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「关北河工逃役若干名，兵部解送，下月到。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「傅家坡，孩童一名，七岁。」——这一行被一笔划掉了，旁边批了一个小字：「补」。\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「傅家坡，孩童一名，七岁，已用。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「玉螺湖，渔户一名，行三。」——旁边批着：「湖里的东西先下了手。另补。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「玉螺湖，渔户一名，行三，已取。」——渔夫家的老三。船漂回来了，人没回来。\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"「玉螺湖，渔户一名，行三，待取。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"最末一行：「以上凡三十六口，唤首之夜，一并上坛。」\n"
+msgstr ""
+
+#. native:niling/offering_list act.acts.steps.line
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/items.json data/niling/world.json
+msgid ""
+"最末一行：「以上凡三十六口，续灯之夜，一并上坛。」\n"
 msgstr ""
 
 #. native.npc.niling_winch_taoist name
@@ -44633,6 +45152,24 @@ msgid ""
 "诵经道士跪得久了，膝盖动了动，领诵的木鱼声一停，他立刻又跪直了。\n"
 msgstr ""
 
+#. native.npc.niling_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"诵经道士低声念：……逆灵者，逆天地之灵而用之……\n"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"诵经道士低声念：……以身为供，以劫为师……\n"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"诵经道士低声念：……劫无首，以我为首……\n"
+msgstr ""
+
 #. native.npc.niling_chanter inquiry.逆灵宫
 #: data/niling/npcs.json
 msgid "诵经道士闭着眼睛：诵经的时候不说话。"
@@ -44725,6 +45262,17 @@ msgstr ""
 msgid "领诵道士道：宫主姓商。别的，不是你该问的。"
 msgstr ""
 
+#. native.npc.niling_lead_chanter inquiry topic
+#. niling.front.chant act.verb
+#: data/niling/npcs.json data/niling/world.json
+msgid "跟诵"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.跟诵
+#: data/niling/npcs.json
+msgid "领诵道士的木鱼没停：前三卷的头三句，他们一天念几百遍。我念上句，你接下句——接不上，回蒲团上听熟了再来。"
+msgstr ""
+
 #. native.npc.niling_lead_chanter chat_msg_combat
 #: data/niling/npcs.json
 msgid ""
@@ -44807,6 +45355,66 @@ msgstr ""
 #. native.npc.niling_steward inquiry.逆灵宫
 #: data/niling/npcs.json
 msgid "管事道士道：少废话。干活。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry topic
+#: data/niling/npcs.json
+msgid "干活"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.say
+#: data/niling/npcs.json
+msgid "活干完了就歇着。通铺在货栈里头。夜里别乱走——子时前殿有人巡，后殿不许近。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.emote
+#: data/niling/npcs.json
+msgid "把账册翻过一页，在上头添了一笔。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.say
+#: data/niling/npcs.json
+msgid "手脚还算干净。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.say
+#: data/niling/npcs.json
+msgid "今晚起，你在货栈的通铺上睡。夜里别乱走——子时前殿有人巡，后殿不许近。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.say
+#: data/niling/npcs.json
+msgid "炭、箱子、经。三样干完了再来。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.emote
+#: data/niling/npcs.json
+msgid "抬眼看了看你的冠，又看了看你的脸。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.say
+#: data/niling/npcs.json
+msgid "大弟子打过招呼，说你是他的人。……宫里不养闲人，他的人也一样。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.say
+#: data/niling/npcs.json
+msgid "三样活：丹房的炉子添炭，货栈的箱子点数，前殿跟着领诵念经。干完了再来找我。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.say
+#: data/niling/npcs.json
+msgid "新来的？那一夜宫里丢了一卷书，后山的路上都找遍了。……你没见过吧。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.lines.say
+#: data/niling/npcs.json
+msgid "新来的？那一夜地牢里少了人，宫里正缺人手。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.干活.rules.say
+#: data/niling/npcs.json
+msgid "干活？货栈搬箱子去。"
 msgstr ""
 
 #. native.npc.niling_steward chat_msg_combat
@@ -44973,6 +45581,51 @@ msgstr ""
 msgid "霍铮低声道：老二就是老刘。那天他不肯跟来，骂老子是去送死。……他骂得对。"
 msgstr ""
 
+#. native.npc.huo_zheng inquiry.茅山.rules.lines.say
+#: data/niling/npcs.json
+msgid "前些日子茅山灵心观来了个小道士，替他们的林忌真人带话：北麓那座道观还在，地牢里还在进人。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.茅山.rules.lines.say
+#: data/niling/npcs.json
+msgid "林真人要一个进得去的人。老子进不去——那张脸，他们都认得。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.茅山.rules.lines.say
+#: data/niling/npcs.json
+msgid "你要是肯，跟老子说一声「眼线」；或者自己去灵心观见他。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.茅山.rules.say
+#: data/niling/npcs.json
+msgid "茅山？牛鼻子道士，跟野羊寨没来往。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.say
+#: data/niling/npcs.json
+msgid "名单老子送到灵心观了。下一车纳供，野羊寨的弟兄在转角等着。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.say
+#: data/niling/npcs.json
+msgid "你答应过了。名单抄出来，交给老子也行，交给林真人也行。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.lines.say
+#: data/niling/npcs.json
+msgid "好兄弟。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.lines.say
+#: data/niling/npcs.json
+msgid "那一夜地牢空了，他们记着呢——不知道是你，只知道有人。你进去，脸上别带出来。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.lines.say
+#: data/niling/npcs.json
+msgid "冠要是丢了，去灵心观问林真人要。"
+msgstr ""
+
 #. native.npc.huo_zheng chat_msg_combat
 #: data/niling/npcs.json
 msgid ""
@@ -44987,6 +45640,21 @@ msgstr ""
 #. native.npc.huo_zheng calls.steps.say
 #: data/niling/npcs.json
 msgid "好兄弟。老子跟你走。北边那间还有个娃娃，一起带上。"
+msgstr ""
+
+#. native.npc.huo_zheng accept_object.lines.emote
+#: data/niling/npcs.json
+msgid "接过名单，看到「傅家坡」那一行，手抖了一下。"
+msgstr ""
+
+#. native.npc.huo_zheng accept_object.lines.say
+#: data/niling/npcs.json
+msgid "补……他们还要补一个。"
+msgstr ""
+
+#. native.npc.huo_zheng accept_object.lines.say
+#: data/niling/npcs.json
+msgid "老子派人给林真人送去。下一车纳供，野羊寨的弟兄在转角等着。你回去，别让他们看出来。"
 msgstr ""
 
 #. native.npc.shitou long
@@ -45273,6 +45941,16 @@ msgstr ""
 
 #. native.npc.xuan_mingzi_cliff inquiry.六阴剑.rules.say
 #: data/niling/npcs.json
+msgid "剑的事以后再说。先替我看着宫里——你是我的人，管事不会多问。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.六阴剑.rules.say
+#: data/niling/npcs.json
+msgid "残卷带来了？给我。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.六阴剑.rules.say
+#: data/niling/npcs.json
 msgid "要练六阴剑，带着残卷来后山找我——不是现在。宫里的事还没完。你记住这条路。"
 msgstr ""
 
@@ -45305,6 +45983,44 @@ msgstr ""
 #: data/niling/npcs.json
 msgid ""
 "玄冥子靠着后墙坐着，看着断崖，没有说话。\n"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.say
+#: data/niling/npcs.json
+msgid "晚了。宫里已经当它丢了——你拿回来，倒要有人问它这些日子在谁手里。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.ask
+#: data/niling/npcs.json
+msgid ""
+"把逆灵天书的残卷还给玄冥子。\n"
+"他会当你是他的人，宫里没人会问起那一夜——可禁书就回了逆灵宫，林忌不会高兴。\n"
+"还给他吗？"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.lines.emote
+#: data/niling/npcs.json
+msgid "接过残卷，在手里掂了掂，收进怀里。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.lines.say
+#: data/niling/npcs.json
+msgid "……你送回来了。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.lines.say
+#: data/niling/npcs.json
+msgid "宫主不要我了，我也不要他了。宫里的事，我自己来。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.lines.say
+#: data/niling/npcs.json
+msgid "戴好冠，从正门进去。管事那里我打过招呼：你是我的人。没人会问起那一夜。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff accept_object.say
+#: data/niling/npcs.json
+msgid "带着它来后山找我——不是现在。"
 msgstr ""
 
 #. native.npc.headless_shade name
@@ -45380,6 +46096,70 @@ msgstr ""
 #. native.npc.niling_jailer_keyed inquiry.霍铮
 #: data/niling/npcs.json
 msgid "狱卒道士朝西边一偏头：西边那间。子时第一个就是他。"
+msgstr ""
+
+#. native.npc.niling_patrol name
+#: data/niling/npcs.json
+msgid "巡殿道士"
+msgstr ""
+
+#. native.npc.niling_patrol long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，提着一盏罩着黑纱的灯，在前殿里一步一步地走。走到北门前，他总要停一停，侧耳听一会儿门里的动静，再转身往回走。\n"
+msgstr ""
+
+#. native.npc.niling_patrol watch.caught.say
+#: data/niling/npcs.json
+msgid "子时了，谁在这里！"
+msgstr ""
+
+#. native.npc.niling_patrol watch.caught.lines
+#: data/niling/npcs.json
+msgid "巡殿道士举灯照了照你的脸，一把扭住你的胳膊，把你推出了殿门。"
+msgstr ""
+
+#. native.npc.niling_patrol watch.caught.lines
+#: data/niling/npcs.json
+msgid "你在前院的香炉边站到了天亮。管事道士出来看了你一眼，什么也没说，在簿子上记了一笔。"
+msgstr ""
+
+#. native.npc.niling_patrol watch.caught.again_lines
+#: data/niling/npcs.json
+msgid "巡殿道士举灯照了照你的脸：「又是你。」"
+msgstr ""
+
+#. native.npc.niling_patrol watch.caught.again_lines
+#: data/niling/npcs.json
+msgid "你又在前院的香炉边站到了天亮。管事道士这回没看你，只在簿子上又记了一笔。"
+msgstr ""
+
+#. native.npc.niling_patrol chat_msg
+#: data/niling/npcs.json
+msgid ""
+"巡殿道士的灯在北门前停了一停。\n"
+msgstr ""
+
+#. native.npc.niling_patrol chat_msg
+#: data/niling/npcs.json
+msgid ""
+"巡殿道士的脚步声在殿里一下一下地响。\n"
+msgstr ""
+
+#. native.npc.niling_patrol inquiry.后殿
+#: data/niling/npcs.json
+msgid "巡殿道士道：子时，谁也不许近北门。回你的铺上去。"
+msgstr ""
+
+#. native.npc.niling_patrol inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "巡殿道士道：回你的铺上去。"
+msgstr ""
+
+#. native.npc.niling_patrol chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"巡殿道士厉声道：后殿重地，拿下！\n"
 msgstr ""
 
 #. native:niling/winch long
@@ -45532,6 +46312,7 @@ msgid "铁栅门锁着。里面的人抬起头看了看你，又低下去。"
 msgstr ""
 
 #. niling.altar.door name
+#. niling.front.listen name
 #: data/niling/world.json data/choyin/voxel/town.json
 msgid "北门"
 msgstr ""
@@ -45584,6 +46365,358 @@ msgstr ""
 #: data/niling/world.json
 msgid ""
 "你推开小门，风裹着雾扑进来。崖径上有脚步声，往北去了。\n"
+msgstr ""
+
+#. niling.alchemy.coal name
+#: data/niling/world.json
+msgid "炭筐"
+msgstr ""
+
+#. niling.alchemy.coal act.verb
+#: data/niling/world.json
+msgid "添炭"
+msgstr ""
+
+#. niling.alchemy.coal act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"炉膛里的炭够烧到明天了。\n"
+msgstr ""
+
+#. niling.alchemy.coal act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你从墙角的炭筐里铲了三铲黑炭，添进丹炉。青火舔上来，炭不红，一块一块地白下去，变成了灰。炉身还是冰凉的。\n"
+msgstr ""
+
+#. niling.alchemy.coal act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"炉边托盘里的丹丸少了几颗。你没问。\n"
+msgstr ""
+
+#. niling.alchemy.coal act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"墙角一筐黑炭。没人让你碰那团青火。\n"
+msgstr ""
+
+#. niling.store.crates act.verb
+#: data/niling/world.json
+msgid "点箱"
+msgstr ""
+
+#. niling.store.crates act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"箱子点过了：野羊寨的二十三只，关北的九只，画符的四只。\n"
+msgstr ""
+
+#. niling.store.crates act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你一只一只点过去。烙着「羊」字的二十三只，是野羊寨的供：绸缎、腌肉、麻绳。\n"
+msgstr ""
+
+#. niling.store.crates act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"关北来的九只，封条上盖着「槐阳河工所」的戳，戳底下压着半方朱印——是「兵部之印」的「部」字。\n"
+msgstr ""
+
+#. niling.store.crates act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"还有四只画着符，封条是黑的，没有字。货栈道士瞪了你一眼：「那是祭，不许碰。」\n"
+msgstr ""
+
+#. niling.store.crates act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"货栈里的箱子堆了半屋。货栈道士在数，没你的事。\n"
+msgstr ""
+
+#. niling.front.chant name
+#: data/niling/world.json
+msgid "木鱼"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.say
+#: data/niling/world.json
+msgid "你已经会了。回蒲团上去。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.say
+#: data/niling/world.json
+msgid "管事送来的？我念上句，你接下句。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.text
+#: data/niling/world.json
+msgid "领诵道士敲了一下木鱼：「逆灵者——」"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "顺天地之灵而养之。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "逆天地之灵而用之。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "借天地之灵而还之。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.text
+#: data/niling/world.json
+msgid "又一下：「以身为供——」"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "以德为师。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "以心为灯。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "以劫为师。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.text
+#: data/niling/world.json
+msgid "再一下：「劫无首——」"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "以我为首。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "天自收之。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.questions.answers.text
+#: data/niling/world.json
+msgid "人自避之。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.true.say
+#: data/niling/world.json
+msgid "……一字不差。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.true.line
+#: data/niling/world.json
+msgid ""
+"领诵道士的木鱼又敲了起来，比刚才快了一些。\n"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.false.say
+#: data/niling/world.json
+msgid "错了。回蒲团上去，听他们诵熟了再来。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.emote
+#: data/niling/world.json
+msgid "的木鱼一下也没停。"
+msgstr ""
+
+#. niling.front.chant act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"前殿的蒲团空着，木鱼搁在案角。\n"
+msgstr ""
+
+#. niling.store.bunk name
+#: data/niling/world.json
+msgid "通铺"
+msgstr ""
+
+#. niling.store.bunk act.verb
+#. niling.store.bunk act.acts.choice
+#: data/niling/world.json
+msgid "睡到子时"
+msgstr ""
+
+#. niling.store.bunk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"已经是子时了。货栈里鼾声一片。\n"
+msgstr ""
+
+#. niling.store.bunk act.acts.ask
+#: data/niling/world.json
+msgid ""
+"在货栈的通铺上睡到子时？\n"
+"（世界的时间会过去，别的地方照旧过它们的日子。）"
+msgstr ""
+
+#. niling.store.bunk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你在通铺最靠门的一头躺下，黑冠压在枕边。\n"
+msgstr ""
+
+#. niling.store.bunk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你醒的时候，货栈里只有鼾声。前殿那边，有一盏灯在一步一步地走。\n"
+msgstr ""
+
+#. niling.store.bunk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"通铺上睡着几个道士，没有你的铺位。\n"
+msgstr ""
+
+#. niling.front.listen act.verb
+#: data/niling/world.json
+msgid "听"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"门里没有声音了。\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你贴着北门，屏住气。门缝里漏出一线青光，有两个人在说话。\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"一个嗓子沙哑：「……湖底的钉子，还没有人动。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"另一个声音不高，一字一顿，像在念经：「会有人去拔的。钉子一拔，就是唤首的时辰。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"一个嗓子沙哑：「看过钉子的那个人走了。钉子还在。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"另一个声音不高，一字一顿，像在念经：「他会回来拔的。他拔的那一夜，就是唤首的时辰。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"另一个声音不高，一字一顿，像在念经：「头在冰下醒了。等它自己找回来——那一夜，就是唤首。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"沙哑的那个：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"一个嗓子沙哑：「宫主不在了。坛上的火，不能灭。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"另一个声音年轻些：「续灯要人。名单在账房，管事那里。三十六口，一口也不能少。」\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"门里的光灭了。你退开一步，心跳得厉害。\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"北门从里面闩着。门缝里有光。\n"
+msgstr ""
+
+#. niling.front.listen act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"北门关着。这个时辰，门里静悄悄的。\n"
+msgstr ""
+
+#. niling.counting.desk name
+#: data/niling/world.json
+msgid "大案"
+msgstr ""
+
+#. niling.counting.desk act.verb
+#: data/niling/world.json
+msgid "抄名单"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"名单你已经抄过了。\n"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"管事道士伏在案头睡着了，一只手还压着账册。你屏住气，从账册的夹页里抽出一张黄纸，借着残灯一笔一笔抄了下来。\n"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你把黄纸照原样夹回去。管事翻了个身，没有醒。\n"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.emote
+#: data/niling/world.json
+msgid "把手按在账册上，抬眼看你。"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.say
+#: data/niling/world.json
+msgid "账是宫主要看的，不是给你看的。"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"账房里没有人。你从账册的夹页里抽出一张黄纸，借着残灯一笔一笔抄了下来。\n"
+msgstr ""
+
+#. niling.counting.desk act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"案上摊着账册和文书。没人让你动它们。\n"
 msgstr ""
 
 #. niling.winch.landmark.crates long
@@ -45686,6 +46819,11 @@ msgstr ""
 #: data/niling/world.json
 msgid ""
 "绳索被割断了，一头垂在雾里。断口整齐，是一剑。商玦就是从这里下去的，你没法跟。\n"
+msgstr ""
+
+#. niling.front.north_barred lines
+#: data/niling/world.json
+msgid "门后还落着一道门闩，从里面闩上了。门缝里漏出一线青光，有人在说话。"
 msgstr ""
 
 #. native:canyon/seal_mould name
@@ -57495,6 +58633,7 @@ msgid ""
 msgstr ""
 
 #. native:goathill/tribute_cart unit
+#. native:goathill/overturned_cart unit
 #: data/native/items.json
 msgid "辆"
 msgstr ""
@@ -57682,6 +58821,17 @@ msgstr ""
 #. native:waterfog/pan_warrant no_drop
 #: data/native/items.json
 msgid "这张手令不能随便丢。"
+msgstr ""
+
+#. native:goathill/overturned_cart name
+#: data/native/items.json
+msgid "翻倒的纳供车"
+msgstr ""
+
+#. native:goathill/overturned_cart long
+#: data/native/items.json
+msgid ""
+"一辆翻倒在路边的双轮板车，车辕断了，油布扯成了一条一条。箱子全被撬开了，里面是空的。车板上烙着一个「羊」字，车辕上钉着一道黄符——茅山的符。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

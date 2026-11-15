@@ -157,7 +157,8 @@
     {"kind": "bones", "at": [1340, 462], "size": [40, 30]}
   ],
   "items": {
-    "native:goathill/tribute_cart": {"kind": "cart", "size": [40, 64], "cargo": "crates", "covered": true, "tarp": "4a4640", "rotation": 90, "note": "主线 C: 黄霸's tribute cart under the crack, the boxes going up on a rope"}
+    "native:goathill/tribute_cart": {"kind": "cart", "size": [40, 64], "cargo": "crates", "covered": true, "tarp": "4a4640", "rotation": 90, "note": "主线 C: 黄霸's tribute cart under the crack, the boxes going up on a rope"},
+    "native:goathill/overturned_cart": {"kind": "cart", "size": [40, 64], "cargo": "crates", "covered": false, "rotation": 62, "note": "卧底 A: the next tribute cart, stopped and emptied at the turn once the 名单 was out (askew on the verge, its boxes broken open)"}
   },
   "actors": {
     "default": {"coat": "7d6a4e"}

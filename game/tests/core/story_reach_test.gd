@@ -28,8 +28,10 @@ const CODE_MARKS: Array[String] = ["a2_bounty_taken", "a2_bounty_done"]
 ## Mark families the code writes (CombatInsights.WOUNDED_BY: the last school that wounded the player).
 const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## Marks read and on purpose written by nothing: the wrong answer of a question (village/world.json's
-## 璃虹: 商玦's telling of the 铜牒; the answers' `note` says so) never holds.
-const NEVER_WRITTEN: Array[String] = ["信了商玦"]
+## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
+## says so) never holds; nor does the bar of the 后殿's 北门 while the 巡殿 walks (exit rule
+## niling.front.north_barred). 「林忌说了地牢」 is the stub step 卧底 A ends on (逆灵宫 B writes it).
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "后殿的门闩开了", "林忌说了地牢"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]
