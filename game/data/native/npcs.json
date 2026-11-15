@@ -1560,6 +1560,46 @@
 						},
 						{
 							"when": {
+								"all": [
+									{
+										"cond": "celestial.split"
+									},
+									{
+										"not": {
+											"mark": "替南危水保密"
+										}
+									},
+									{
+										"not": {
+											"mark": "卫沧澜出了尚书府"
+										}
+									}
+								]
+							},
+							"by": "native.npc.pan_junchan_lake"
+						},
+						{
+							"say": "水烟阁来了。盟主不在，执法使替他来——这道潭口，红衣武士守。",
+							"when": {
+								"all": [
+									{
+										"cond": "celestial.split"
+									},
+									{
+										"not": {
+											"mark": "替南危水保密"
+										}
+									},
+									{
+										"not": {
+											"mark": "卫沧澜出了尚书府"
+										}
+									}
+								]
+							}
+						},
+						{
+							"when": {
 								"mark": "旋芒在皇叔手里"
 							},
 							"by": "native.npc.yulan_tianwu_lake"

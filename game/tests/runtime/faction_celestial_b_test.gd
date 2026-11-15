@@ -29,7 +29,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for test: Callable in [_test_waits, _test_back_with_yan, _test_empty_with_pan, _test_four_scenes, _test_lapsed, _test_take_in]:
+	for test: Callable in [_test_waits, _test_back_with_yan, _test_empty_with_pan, _test_four_scenes, _test_letter_read, _test_lapsed, _test_take_in]:
 		var session: WorldSessionController = await _session(tree)
 		await test.call(tree, session)
 		session.free()
@@ -52,6 +52,8 @@ func _test_data() -> void:
 	_check(catalog.npc(PAN).talk().ask_confirm("椅子").contains("大分裂") and catalog.npc(YAN).talk().ask_confirm("椅子").contains("选了不能改"), "and say it is the split, for good")
 	var teaching: NpcTeaching = catalog.npc(PAN).teaching()
 	_check(teaching != null and teaching.family_id == &"family.celestial" and teaching.apprentice != null and teaching.apprentice.kind == NpcTeaching.Kind.OATH and teaching.when != null, "潘军禅 can take the oath, under a condition (DECISIONS「代收」)")
+	var letters: Array = catalog.npc(PAN).dealings().object_rules.filter(func(rule: NpcObjectRule) -> bool: return rule.item == &"native:waterfog/spy_letter" and rule.mark_giver == "值守回了话")
+	_check(letters.size() == 3 and letters.all(func(rule: NpcObjectRule) -> bool: return rule.marks_giver.size() == 1), "the letter read writes how it was read (颜违's 账房 or 兵部)")
 	var spawn: NpcSpawnDefinition = catalog.spawn(&"native.lakeside.pan_junchan")
 	_check(spawn != null and spawn.npc_definition_id == PAN_LAKE and spawn.zone_id == LAKE, "潘军禅 has a place by the lake")
 	for id: String in ["celestial.leader_settled", "celestial.chair", "celestial.split"]:
@@ -231,6 +233,16 @@ func _test_four_scenes(tree: SceneTree, session: WorldSessionController) -> void
 			_check(_said(lines, "「代」字") == told and _said(lines, "这把椅子一直空着") == not told, "%s: 颜违's opening" % key)
 			_check(_said(lines, "二十年没管过事") == back and _said(lines, "人要是回得来") == not back, "%s: the chair: %s" % [key, lines.slice(0, 4)])
 			_check(_said(lines, "椅子就能换人") and state.marks.get("正厅的话说完了", 0) == 1, "%s: told to the end" % key)
+
+
+## The spy's letter read as 兵部's before 庾子建 fell: the scene says what 潘军禅 said then, not what is true now.
+func _test_letter_read(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.celestial_escorted(session)
+	for mark: String in ["潘军禅说了盟主的下落", "皇城一章", "信是兵部的", "庾子建下狱"]:
+		state.marks[mark] = 1 # TEST-ONLY
+	var read: Array[String] = await _scene(tree, session)
+	_check(_said(read, "是兵部的人") and not _said(read, "七长老账房里的人"), "the letter as 潘军禅 read it: 兵部's: %s" % [read])
 
 
 ## One who left 天邪派 sees no scene.

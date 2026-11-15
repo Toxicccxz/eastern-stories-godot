@@ -55831,6 +55831,11 @@ msgstr ""
 msgid "水烟阁来了。关了二十年的人，今天也出门了。"
 msgstr ""
 
+#. native.npc.woman_lakeside calls.steps.say
+#: data/native/npcs.json
+msgid "水烟阁来了。盟主不在，执法使替他来——这道潭口，红衣武士守。"
+msgstr ""
+
 #. native.npc.woman_lakeside calls.steps.emote
 #: data/native/npcs.json
 msgid "手里的旋芒转了一转，一道白光。"

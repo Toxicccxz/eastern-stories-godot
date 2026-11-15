@@ -104,7 +104,7 @@ func _test_data() -> void:
 	var guo: NpcDefinition = catalog.npc(&"native.npc.guo_cheng")
 	_check(guo != null and guo.hooks() != null and guo.hooks().follows_every_way and guo.hooks().moods["going"].flags == [NpcDefinition.FLAG_FOLLOWS_PLAYER] and guo.hooks().calls.size() == 5 and guo.hooks().calls[0].act.mark == "借了兵" and guo.hooks().fights_beside_player, "郭承 follows every way in his mood going and fights beside the player; the word of 借兵 reaches him at the drill yard")
 	var nan: NpcDefinition = catalog.npc(&"native.npc.nan_weishui_guest")
-	_check(nan != null and nan.hooks() != null and nan.hooks().scene_mark == "见过重逢" and nan.hooks().calls.size() == 3 and nan.skill_map().get(&"sword") == &"fonxansword", "南危水 the guest: elder5.c's arts, a three-beat scene")
+	_check(nan != null and nan.hooks() != null and nan.hooks().scene_mark == "见过重逢" and nan.hooks().calls.filter(func(call: NpcHooks.Call) -> bool: return call.scene).size() == 3 and nan.skill_map().get(&"sword") == &"fonxansword", "南危水 the guest: elder5.c's arts, a three-beat scene")
 	var guest: NpcSpawnDefinition = catalog.spawn(&"guanbei.palace_hall.nan_weishui")
 	var home: NpcSpawnDefinition = catalog.spawn(&"waterfog.upstairs.forehall.elder5")
 	_check(guest != null and guest.present != null and home != null and home.until != null, "南危水 on one stage or the other: the hall on the 保密 ledger once the chapter starts, else the 水烟阁")

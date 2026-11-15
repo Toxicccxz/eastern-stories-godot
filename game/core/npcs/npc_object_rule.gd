@@ -78,6 +78,9 @@ var giver_max_force_below: int = NO_BOUND
 var lines: Array[NpcLine] = []
 var accept: bool = false
 var mark_giver: String = ""
+## Native (势力线第一批 天邪 B; DECISIONS「天邪 B」): more marks set on the giver with the gift taken (what
+## 潘军禅 read the spy's letter as, beside the report it closes), as an inquiry rule's `marks_asker`.
+var marks_giver: Array[String] = []
 var unmark_giver: Array[String] = []
 ## The item definition new()'d and moved to the giver; empty for most rules.
 var gives: StringName = &""
@@ -218,6 +221,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 			rule.lines.append(said)
 	rule.accept = reader.boolean("accept", false)
 	rule.mark_giver = reader.text("mark_giver")
+	rule.marks_giver = reader.text_list("marks_giver")
 	rule.unmark_giver = reader.text_list("unmark_giver")
 	rule.gives = StringName(reader.text("gives"))
 	rule.set_temps = reader.text_list("set_temps")
@@ -257,7 +261,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("effect", "unsupported effect '%s'" % rule.effect)
 	if not rule.liquid_type.is_empty() and not LiquidState.LEGACY_TYPES.has(rule.liquid_type):
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
-	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or rule.make != null or not rule.forgets.is_empty()):
+	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.marks_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or rule.make != null or not rule.forgets.is_empty()):
 		reader.fail("accept", "a refusal changes nothing but the giver's flags and where they stand")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")
