@@ -48,7 +48,7 @@
 	"doors": [
 		{"id": "niling.front.door", "name": "殿门", "zones": ["niling.yard", "niling.front"], "reach": 90, "legacy_room": "native:niling/front"},
 		{"id": "niling.cell_huo.door", "name": "西牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_huo"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着，锁是新的，摇一摇纹丝不动。钥匙不在这里。", "legacy_room": "native:niling/cell_huo"},
-		{"id": "niling.cell_shitou.door", "name": "北牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_shitou"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。栅栏里的孩子往后缩了缩。", "legacy_room": "native:niling/cell_shitou"},
+		{"id": "niling.cell_shitou.door", "name": "北牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_shitou"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。栅栏里有人往后缩了缩。", "legacy_room": "native:niling/cell_shitou"},
 		{"id": "niling.cell_others.door", "name": "东牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_others"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。里面的人抬起头看了看你，又低下去。", "legacy_room": "native:niling/cell_others"},
 		{"id": "niling.altar.door", "name": "北门", "zones": ["niling.front", "niling.altar"], "reach": 90, "legacy_room": "native:niling/altar"},
 		{"id": "niling.master.door", "name": "黑门", "zones": ["niling.altar", "niling.master"], "reach": 90, "operable": false, "found_by": "见过唤首", "legacy_room": "native:niling/master"}
@@ -852,6 +852,400 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "niling.counting.box",
+			"kind": "act",
+			"zone": "niling.counting",
+			"name": "铁匣",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the iron box on the 管事's desk, its lock of a kind with the dungeon's doors: the 祭品名册's original, opened at night while he sleeps; taken (asked first) it is a 疑点, left it is none — the line's second small choice (续写)",
+			"act": {
+				"verb": "开匣",
+				"acts": [
+					{
+						"mark": "带走了名册",
+						"steps": [
+							{
+								"line": "铁匣空着。\n"
+							}
+						]
+					},
+					{
+						"mark": "名册留在了匣里",
+						"steps": [
+							{
+								"line": "名册还在匣里。你对林忌说过，不动它。\n"
+							}
+						]
+					},
+					{
+						"mark": "看过名册的原本",
+						"carries": "cell key",
+						"phase": [
+							"night",
+							"midnight"
+						],
+						"ask": "带走祭品名册的原本？\n它是物证：朝上揭发兵部时算一样；京师的事已经定了的，乔阴的程不平对得出上面的押印。\n可宫里会少一本名册，管事迟早会发现——那是一条疑点。\n带走吗？",
+						"choice": "带走名册",
+						"steps": [
+							{
+								"line": "你把名册揣进怀里，合上铁匣，铜锁照原样挂好。\n"
+							},
+							{
+								"give": "native:niling/offering_register"
+							},
+							{
+								"mark": "带走了名册"
+							},
+							{
+								"mark": "名册不见了"
+							}
+						]
+					},
+					{
+						"mark": "林忌说了地牢",
+						"carries": "cell key",
+						"phase": [
+							"night",
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "你用地牢的钥匙试了试铁匣上的铜锁——咔的一声，开了。\n"
+							},
+							{
+								"line": "匣里是一本黑皮的册子：祭品名册的原本。一页一口人，每个名字底下压着一方押印。\n"
+							},
+							{
+								"line": "大半页压的是「槐阳河工所」的长戳，戳底下垫着半方朱印——「兵部之印」的「部」字。几页压着野羊寨的「羊」字。末尾十几页的押印是空的，只写着一个「待」字。\n",
+								"color": "HIW"
+							},
+							{
+								"line": "带走它，是一样物证；可宫里少了一本名册，管事迟早会发现。不带，就当没打开过——回去告诉林忌一声。\n"
+							},
+							{
+								"mark": "看过名册的原本"
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_steward",
+						"steps": [
+							{
+								"by": "native.npc.niling_steward"
+							},
+							{
+								"emote": "把手按在铁匣上，抬眼看你。"
+							},
+							{
+								"say": "这是宫主的东西。"
+							}
+						]
+					},
+					{
+						"mark": "林忌说了地牢",
+						"steps": [
+							{
+								"line": "案角一只铁匣，挂着一把铜锁。锁眼的样式，和地牢的铁栅门是一样的。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "案角一只铁匣，上着锁。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.corridor.nail",
+			"kind": "act",
+			"zone": "niling.corridor",
+			"name": "铁钉",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条「趁他睡着偷」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the nail over the jailers' bench where the jailer hangs the 地牢钥匙 when he sleeps at 子时 (续写)",
+			"act": {
+				"verb": "摘钥匙",
+				"acts": [
+					{
+						"carries": "cell key",
+						"steps": [
+							{
+								"line": "钥匙已经在你身上了。\n"
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_jailer_dozing",
+						"mark": "林忌说了地牢",
+						"steps": [
+							{
+								"line": "狱卒道士歪在长凳上睡得正沉，钥匙就挂在他头顶的铁钉上。\n"
+							},
+							{
+								"line": "你踮起脚，两根手指捏住钥匙，一点一点从钉子上褪下来。钥匙碰了一下石壁——他咂了咂嘴，没醒。\n"
+							},
+							{
+								"give": "native:niling/cell_key"
+							},
+							{
+								"mark": "摘了钉上的钥匙"
+							}
+						]
+					},
+					{
+						"mark": "林忌说了地牢",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "长凳上头的铁钉上挂着钥匙。你踮起脚把它摘了下来。\n"
+							},
+							{
+								"give": "native:niling/cell_key"
+							},
+							{
+								"mark": "摘了钉上的钥匙"
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_jailer_ward",
+						"steps": [
+							{
+								"by": "native.npc.niling_jailer_ward"
+							},
+							{
+								"emote": "拍了拍腰上的钥匙。"
+							},
+							{
+								"say": "钥匙在我这儿。你管好你自己。"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "长凳上头的石壁里钉着一枚铁钉，空着。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.corridor.jars",
+			"kind": "act",
+			"zone": "niling.corridor",
+			"name": "酒坛",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条「灌醉狱卒（蒙汗药下酒）」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the jailers' wine by the stair: obj/slumber_drug.c's 蒙汗药 poured in (倒在酒水之中), the jailer drinks and sleeps where he stands (续写)",
+			"act": {
+				"verb": "下药",
+				"acts": [
+					{
+						"mark": "灌醉了狱卒",
+						"steps": [
+							{
+								"line": "坛子里剩的酒，够他睡到明天的。\n"
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_jailer_ward",
+						"mark": "林忌说了地牢",
+						"carries": "slumber drug",
+						"steps": [
+							{
+								"take": "es2:obj/slumber_drug"
+							},
+							{
+								"line": "你背过身去，把一包蒙汗药抖进那只还剩小半坛的酒坛里，晃了晃，塞好布塞。\n"
+							},
+							{
+								"by": "native.npc.niling_jailer_ward"
+							},
+							{
+								"emote": "瞟了酒坛好几眼，到底没忍住，抱起来灌了一大口。"
+							},
+							{
+								"say": "……今天这酒，倒有点劲。"
+							},
+							{
+								"emote": "又灌了两口，眼睛就直了，顺着铁栅门滑坐下去，打起了呼噜。"
+							},
+							{
+								"npc_mood": "drunk"
+							},
+							{
+								"when": {
+									"not": {
+										"item": "native:niling/cell_key"
+									}
+								},
+								"line": "你从他腰上解下了那把乌黑的钥匙。\n"
+							},
+							{
+								"when": {
+									"not": {
+										"item": "native:niling/cell_key"
+									}
+								},
+								"give": "native:niling/cell_key"
+							},
+							{
+								"mark": "灌醉了狱卒"
+							}
+						]
+					},
+					{
+						"present": "native.npc.niling_jailer_ward",
+						"steps": [
+							{
+								"by": "native.npc.niling_jailer_ward"
+							},
+							{
+								"emote": "伸手按住酒坛：「那是老子的。」"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "两只酒坛，一只倒在地上空了，一只还剩小半坛，坛口拿布塞着。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.front.bar",
+			"kind": "act",
+			"zone": "niling.front",
+			"name": "门缝",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 6 条「夜里去取（巡殿）」, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the gap of the 北门, barred from inside at 子时 (exit rule niling.front.north_barred): 玄冥子, who kept that door ten years, tells how the bar is lifted with a thin blade; lifted, one goes through once (续写)",
+			"act": {
+				"verb": "拨闩",
+				"acts": [
+					{
+						"mark": "后殿的门闩开了",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "闩已经拨开了，推门就进得去。\n"
+							}
+						]
+					},
+					{
+						"mark": "玄冥子托你取天书",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "你把薄刃从门缝里插进去，贴着门板往上一挑。门后的闩轻轻一响，落了下去。\n"
+							},
+							{
+								"mark": "后殿的门闩开了"
+							}
+						]
+					},
+					{
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "门缝里漏出一线青光。门后落着一道闩。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "北门关着。这个时辰，门后没有闩。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.master.desk",
+			"kind": "act",
+			"zone": "niling.master",
+			"name": "书案",
+			"reach": 96,
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the hidden drawer under 商玦's ebony desk, where the 领诵 locks the lower half of the 逆灵天书 at 子时 (by day it lies open on the 前殿's table) (续写)",
+			"act": {
+				"verb": "开暗格",
+				"acts": [
+					{
+						"mark": "天书给了玄冥子",
+						"steps": [
+							{
+								"line": "暗格空着。\n"
+							}
+						]
+					},
+					{
+						"carries": "lower scripture",
+						"steps": [
+							{
+								"line": "天书在你身上。\n"
+							}
+						]
+					},
+					{
+						"mark": "玄冥子托你取天书",
+						"phase": [
+							"midnight"
+						],
+						"steps": [
+							{
+								"line": "书案底下有一道细缝。你摸到一个铜扣，一按，暗格弹了出来。\n"
+							},
+							{
+								"line": "里面一卷黑皮的经书，封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。\n",
+								"color": "HIW"
+							},
+							{
+								"line": "你把它揣进怀里，把暗格推了回去。\n"
+							},
+							{
+								"give": "native:niling/scripture_lower"
+							},
+							{
+								"mark": "取了天书"
+							}
+						]
+					},
+					{
+						"mark": "玄冥子托你取天书",
+						"steps": [
+							{
+								"line": "暗格空着。白天下半部摊在前殿的长案上——玄冥子说过，子时它才回到这里。\n"
+							}
+						]
+					},
+					{
+						"steps": [
+							{
+								"line": "乌木书案，笔墨整齐。案下有一道细缝，像是个暗格。\n"
+							}
+						]
+					}
+				]
+			}
 		}
 	],
 	"landmarks": [
@@ -952,11 +1346,51 @@
 			"to_zone": "niling.altar",
 			"when": "no_mark",
 			"mark": "后殿的门闩开了",
+			"spends": true,
 			"present": "native.npc.niling_patrol",
 			"lines": [
 				"门后还落着一道门闩，从里面闩上了。门缝里漏出一线青光，有人在说话。"
 			],
-			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — while the 巡殿道士 walks the 前殿 (子时), the 后殿's 北门 is barred from inside: one listens at it, nobody goes in (the mark is written by nothing: story_reach_test's NEVER_WRITTEN)"
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — while the 巡殿道士 walks the 前殿 (子时), the 后殿's 北门 is barred from inside: one listens at it, nobody goes in. 卧底 B (DECISIONS「卧底 B」): 玄冥子's way of lifting the bar through the gap (the service niling.front.bar) lets one through, once (`spends`: the bar falls again behind)"
+		},
+		{
+			"id": "niling.corridor.ward_huo",
+			"room": "native:niling/corridor",
+			"from_zone": "niling.corridor",
+			"to_zone": "niling.cell_huo",
+			"when": "no_mark",
+			"mark": "灌醉了狱卒",
+			"present": "native.npc.niling_jailer_ward",
+			"lines": [
+				"狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
+			],
+			"legacy_source": "native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the jailer of the three new captives lets nobody into a cell while he stands awake and sober in the passage (at 子时 he sleeps on the bench: another NPC, not this one)"
+		},
+		{
+			"id": "niling.corridor.ward_shitou",
+			"room": "native:niling/corridor",
+			"from_zone": "niling.corridor",
+			"to_zone": "niling.cell_shitou",
+			"when": "no_mark",
+			"mark": "灌醉了狱卒",
+			"present": "native.npc.niling_jailer_ward",
+			"lines": [
+				"狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
+			],
+			"legacy_source": "native: 势力线第一批 卧底 B (DECISIONS「卧底 B」) — as niling.corridor.ward_huo, the north cell"
+		},
+		{
+			"id": "niling.corridor.ward_others",
+			"room": "native:niling/corridor",
+			"from_zone": "niling.corridor",
+			"to_zone": "niling.cell_others",
+			"when": "no_mark",
+			"mark": "灌醉了狱卒",
+			"present": "native.npc.niling_jailer_ward",
+			"lines": [
+				"狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
+			],
+			"legacy_source": "native: 势力线第一批 卧底 B (DECISIONS「卧底 B」) — as niling.corridor.ward_huo, the east cell"
 		}
 	]
 }

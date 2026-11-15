@@ -686,6 +686,9 @@
 														"item": "native:niling/tribute_ledger"
 													},
 													{
+														"item": "native:niling/offering_register"
+													},
+													{
 														"mark": "镖路查清了"
 													}
 												]
@@ -715,6 +718,9 @@
 													},
 													{
 														"item": "native:niling/tribute_ledger"
+													},
+													{
+														"item": "native:niling/offering_register"
 													},
 													{
 														"mark": "镖路查清了"
@@ -770,6 +776,12 @@
 							},
 							{
 								"when": {
+									"item": "native:niling/offering_register"
+								},
+								"line": "（逆灵宫那本祭品名册的原本——河工所的戳底下垫着兵部的印——也算一样。）\n"
+							},
+							{
+								"when": {
 									"mark": "放走了陈显祖"
 								},
 								"line": "（陈显祖带着箱子走了——他的证词，这回算不上。）\n"
@@ -789,6 +801,12 @@
 									"mark": "镖路查清了"
 								},
 								"line": "（陈天星查清的那趟镖路——兵部点名改走老松岭——也算一样。）\n"
+							},
+							{
+								"when": {
+									"item": "native:niling/offering_register"
+								},
+								"line": "（逆灵宫那本祭品名册的原本——河工所的戳底下垫着兵部的印——也算一样。）\n"
 							},
 							{
 								"when": {

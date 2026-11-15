@@ -573,6 +573,29 @@
       "height": "tall", "build": "standard", "shoes": "dark"
     },
     "native.npc.niling_jailer_keyed": {"same_as": "native.npc.niling_jailer"},
+    "native.npc.niling_jailer_ward": {"same_as": "native.npc.niling_jailer"},
+    "native.npc.niling_jailer_dozing": {"same_as": "native.npc.niling_jailer"},
+    "native.npc.niling_captive_wife": {
+      "note": "妇人：槐阳城外的农妇，四十来岁，粗布褂子扯破了一只袖子，头巾丢了，头发挽着散了一半（卧底 B；没有立绘）",
+      "coat": "7a6250", "pants": "4e4236", "skin": "d4a27c", "hair": "1c1814",
+      "hair_style": "long", "headwear": "none", "beard": "none", "waist": "sash",
+      "prop": "none", "accent": "8a4a3a", "height": "standard", "build": "slim",
+      "shoes": "straw"
+    },
+    "native.npc.niling_captive_peddler": {
+      "note": "货郎：精瘦，鞋跑丢了一只，额角一块青紫，货担被收走了，腰上一只拨浪鼓（卧底 B；没有立绘）",
+      "coat": "6a7a8a", "pants": "3e3a34", "skin": "e0ae86", "hair": "1a1714",
+      "hair_style": "short", "headwear": "cloth_cap", "headwear_color": "4a4038", "beard": "none",
+      "waist": "belt", "prop": "none", "accent": "b8862e", "height": "standard", "build": "slim",
+      "shoes": "straw"
+    },
+    "native.npc.niling_captive_herbalist": {
+      "note": "采药人：上了年纪，竹篓被收走了，手上全是草汁染的绿（卧底 B；没有立绘）",
+      "coat": "5e6a4a", "pants": "3e4234", "skin": "c89a72", "hair": "8a8680",
+      "hair_style": "topknot", "headwear": "headscarf", "headwear_color": "6a5e48", "beard": "chin_three",
+      "waist": "sash", "prop": "none", "accent": "4a6a3a", "height": "standard", "build": "slim",
+      "shoes": "straw"
+    },
     "native.npc.xuan_mingzi_cliff": {"same_as": "native.npc.xuan_mingzi"},
     "native.npc.cult_killer": {"same_as": "latemoon.npc.room.killer"},
     "native.npc.ge_sheng": {

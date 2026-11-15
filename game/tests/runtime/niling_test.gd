@@ -21,12 +21,12 @@ const PEOPLE: Dictionary = {
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},
 	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1, &"native.npc.niling_patrol": 1},
 	&"niling.counting": {&"native.npc.niling_steward": 1},
-	&"niling.corridor": {&"native.npc.niling_jailer": 2, &"native.npc.niling_jailer_keyed": 2},
+	&"niling.corridor": {&"native.npc.niling_jailer": 2, &"native.npc.niling_jailer_keyed": 2, &"native.npc.niling_jailer_ward": 1, &"native.npc.niling_jailer_dozing": 1},
 	&"niling.altar": {&"native.npc.shang_jue": 1, &"native.npc.xuan_mingzi": 1, &"native.npc.headless_shade": 1, &"native.npc.hell_runner": 2},
 	&"niling.cliff_path": {&"native.npc.xuan_mingzi_cliff": 1},
-	&"niling.cell_huo": {&"native.npc.huo_zheng": 1},
-	&"niling.cell_shitou": {&"native.npc.shitou": 1},
-	&"niling.cell_others": {&"native.npc.guanbei_corvee": 2},
+	&"niling.cell_huo": {&"native.npc.huo_zheng": 1, &"native.npc.niling_captive_wife": 1},
+	&"niling.cell_shitou": {&"native.npc.shitou": 1, &"native.npc.niling_captive_peddler": 1},
+	&"niling.cell_others": {&"native.npc.guanbei_corvee": 2, &"native.npc.niling_captive_herbalist": 1},
 }
 
 var _count: int = 0

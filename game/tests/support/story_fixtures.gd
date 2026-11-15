@@ -592,3 +592,25 @@ static func niling_delivered(session: WorldSessionController, door: String, caug
 		state.marks[mark] = 1
 	for mark: String in ["子时在后殿外被撞见", "子时在后殿外又被撞见"].slice(0, clampi(caught, 0, 2)):
 		state.marks[mark] = 1
+
+
+## 卧底 B (势力线第一批; DECISIONS「卧底 B」): 卧底 A delivered (niling_delivered()), 林忌's word on the dungeon, and the
+## three new captives let out (the key however it came; none is left carried). The 名册 is next.
+static func niling_cells_emptied(session: WorldSessionController, door: String, caught: int = 0) -> void:
+	niling_delivered(session, door, caught)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.niling/word", "faction.niling/cells"]:
+		_write(state, key)
+	for mark: String in ["林忌说了地牢", "放了槐阳的妇人", "放了货郎", "放了采药人"]:
+		state.marks[mark] = 1
+
+
+## 卧底 B's 名册 settled: `take`n from the 账房's iron box (名册不见了, a 疑点; the book itself is the caller's) or left
+## there and told to 林忌. The 天书 (玄冥子's, where he lives) is next.
+static func niling_ledger(session: WorldSessionController, door: String, take: bool, caught: int = 0) -> void:
+	niling_cells_emptied(session, door, caught)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.niling/ledger/%s" % ("take" if take else "leave"))
+	state.marks["看过名册的原本"] = 1
+	for mark: String in (["带走了名册", "名册不见了"] if take else ["名册留在了匣里"]):
+		state.marks[mark] = 1

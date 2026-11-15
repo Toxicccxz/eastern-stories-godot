@@ -319,6 +319,104 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "native:niling/offering_register",
+			"legacy_sources": [
+				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 5 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the 祭品名册's original from the iron box in the 账房, every name stamped by whoever sent the man up the mountain: taken, it is a 疑点 (名册不见了) and, before 第九章 is settled, one more proof for the 揭发; after, 程不平 in 乔阴 takes it (续写)"
+			],
+			"name": "祭品名册",
+			"quest": true,
+			"aliases": [
+				"register",
+				"offering register",
+				"名册"
+			],
+			"long": "一本黑皮的册子，比账房的账册薄，线装，封皮上没有字。里面一页一口人，每个名字底下压着一方押印——人是谁送上山来的，就押谁的印。\n",
+			"unit": "本",
+			"material": "paper",
+			"weight": 300,
+			"value": 0,
+			"no_drop": "这本名册不能随便丢。",
+			"give_to": [
+				"choyin.npc.judgeman"
+			],
+			"act": {
+				"verb": "翻看",
+				"command": "read",
+				"acts": [
+					{
+						"steps": [
+							{
+								"line": "黑皮的册子，一页一口人。每个名字底下压着一方押印。\n"
+							},
+							{
+								"line": "大半页压的是「槐阳河工所」的长戳，戳底下垫着半方朱印——「兵部之印」的「部」字。关北的河工，是兵部送上山的。\n",
+								"color": "HIW"
+							},
+							{
+								"line": "几页压着一个烙出来似的「羊」字：野羊寨纳的，不只是金帛。\n",
+								"color": "HIW"
+							},
+							{
+								"line": "末尾十几页的押印是空的，名字底下只写着一个「待」字。\n",
+								"color": "HIW"
+							},
+							{
+								"line": "这本册子在谁手里，谁就知道这些年是谁把人送上了北麓。\n"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "native:niling/scripture_lower",
+			"legacy_sources": [
+				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — the lower half of the 逆灵天书 (doc/help/taoist:58, the forbidden book): chanted from on the 前殿's table by day, locked under the master's desk at 子时; 玄冥子 asks for it (商玦 took the upper half down the cliff, 逆灵宫 C) (续写)"
+			],
+			"name": "逆灵天书下半部",
+			"quest": true,
+			"aliases": [
+				"scripture",
+				"lower scripture",
+				"天书"
+			],
+			"long": "一卷黑皮的经书，比残卷厚得多。封皮上「逆灵天书」四个字一个不少，底下一个小字：「下」。里面的字是暗红的，横着走竖着走——前殿的长案上白天摊着的就是它。\n",
+			"unit": "卷",
+			"material": "paper",
+			"weight": 500,
+			"value": 0,
+			"no_drop": "这卷天书不能随便丢。",
+			"give_to": [
+				"native.npc.xuan_mingzi_cliff"
+			]
+		},
+		{
+			"id": "native:niling/six_chaos_manual",
+			"legacy_sources": [
+				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B 第 6 条, §9 第 12 条, §11 Q6, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」) — 玄冥子's own copy of the 追魂 part of the 六阴剑谱 (doc/skill/six-chaos-sword: 剑谱共分三部：天殇、追魂、绝识), read to 40 as the 关北 《马刀谱》 and the 《禁中刀谱》 (DECISIONS「关北 D」「第九章 E」); six-chaos-sword.c's valid_learn stands (max_force 100, a sword in hand) (续写)"
+			],
+			"name": "六阴剑谱",
+			"aliases": [
+				"six chaos manual",
+				"manual",
+				"剑谱",
+				"六阴剑谱"
+			],
+			"long": "一册黑布面的手抄本，封面上写着「六阴 · 追魂」。里面是玄冥子的字，六页图，每一页都是一个人影朝另一个人影刺出一剑，剑尖上画着一缕烟。最后一页的边上批着一行小字：「天殇不传。」\n",
+			"unit": "册",
+			"material": "paper",
+			"weight": 300,
+			"value": 0,
+			"no_drop": true,
+			"study": {
+				"skill": "six-chaos-sword",
+				"exp_required": 30000,
+				"sen_cost": 30,
+				"difficulty": 20,
+				"max_skill": 40
+			}
 		}
 	]
 }

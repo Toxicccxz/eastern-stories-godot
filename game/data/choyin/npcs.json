@@ -347,6 +347,10 @@
 				"sorry_line": "真是对不起, 下人办事不周, 让您受委屈了.",
 				"out": { "zone": "choyin.court1", "point": "choyin.court1.yamen_return" }
 			},
+			"accept_object": [
+				{ "item": "native:niling/offering_register", "giver_mark": "皇城一章", "accept": true, "destroys": true, "mark_giver": "名册交给了程不平", "lines": [{ "emote": "接过名册，一页一页翻下去，翻到「槐阳河工所」的戳，停了很久。" }, { "say": "兵部的印，河工所的戳，一口一口人，都有来处。" }, { "say": "京师的事是定了。可这些人有家有姓——本县一个一个对出来，给他们的家里一个说法。" }] },
+				{ "item": "native:niling/offering_register", "accept": false, "say": "兵部的印在上面。京师的事没定之前，这本册子在你手里，比在本县手里有用——带它上京。" }
+			],
 			"inquiry": {
 				"兵部文书": {
 					"rules": [
