@@ -41,7 +41,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for test: Callable in [_test_turn, _test_deep_chosen, _test_unmasked_xuan, _test_unmasked_chanter, _test_after_unmasked, _test_after_finale, _test_hall_turn, _test_hall_deep, _test_hall_deep_dragons]:
+	for test: Callable in [_test_turn, _test_deep_chosen, _test_unmasked_xuan, _test_unmasked_chanter, _test_after_unmasked, _test_missed, _test_after_finale, _test_hall_turn, _test_hall_deep, _test_hall_deep_dragons, _test_hall_deep_bare]:
 		var session: WorldSessionController = await _session(tree)
 		await test.call(tree, session)
 		session.free()
@@ -56,7 +56,7 @@ func _test_data() -> void:
 	_check(ids.slice(-5) == [&"hour", &"split", &"hall_turn", &"hall_deep", &"aftermath"], "C's steps after B's: %s" % [ids])
 	_check(quest.step(&"hour").weight == StoryQuestDefinition.WEIGHT_ROUTE, "收网 or the 余孽: routed by the main story, no choice")
 	var split: StoryQuestDefinition.Step = quest.step(&"split")
-	_check(split.weight == StoryQuestDefinition.WEIGHT_BIG and split.only_after == &"net" and split.options.map(func(option: StoryQuestDefinition.Option) -> StringName: return option.option_id) == [&"turn", &"deep"], "the line's one split: 倒戈 or 潜伏")
+	_check(split.weight == StoryQuestDefinition.WEIGHT_BIG and split.only_after == &"net" and split.options.map(func(option: StoryQuestDefinition.Option) -> StringName: return option.option_id) == [&"turn", &"deep", &"missed"], "the line's one split: 倒戈 or 潜伏 (or the night let pass)")
 	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "1 big, 2 small (owner 2026-11-09)")
 	_check(split.objective.contains("疑点不到三条") and split.objective.contains("四个道士会先扑你") and split.objective.contains("黑冠从此没用"), "both sides' costs said before the choice")
 	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after == &"remnant", "each way its own last step")
@@ -82,7 +82,7 @@ func _test_data() -> void:
 		var shown: Array[String] = (cards[&"black_robe"] as EpilogueDefinition.Card).shown(func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, state, {}, {}))
 		_check(shown.size() == 1 and shown[0].contains(end[1]), "%s: one line (%s)" % [end[0], shown])
 	var deep := CharacterState.new()
-	for mark: String in ["潜伏到底", "商玦倒了"]:
+	for mark: String in ["潜伏到底", "潜伏那一剑", "商玦倒了"]:
 		deep.marks[mark] = 1
 	var deep_shown: Array[String] = (cards[&"black_robe"] as EpilogueDefinition.Card).shown(func(condition: JournalEntryDefinition) -> bool: return JournalLog.holds(condition, deep, {}, {}))
 	_check(deep_shown.size() == 1 and deep_shown[0].contains("从商玦背后来的"), "潜伏到底: the first blow (%s)" % [deep_shown])
@@ -174,6 +174,8 @@ func _test_unmasked_xuan(tree: SceneTree, session: WorldSessionController) -> vo
 	_check(not talk.confirm_applies("潜伏", state.marks) and _said(_ask(temple, lin, "潜伏"), "走不得") and not state.marks.has("潜伏到底"), "three 疑点: 潜伏 cannot be chosen")
 	_check(_said(_ask(temple, lin, "逆灵宫"), "破绽太多"), "林忌: do not go back")
 	state.marks.erase("林忌说了收网") # TEST-ONLY
+	var unmasking: JournalEntryDefinition = GameContent.catalog().conditions()["niling.unmasking"]
+	_check(not JournalLog.holds(unmasking, state, {}, {}) and JournalLog.holds(unmasking, state, {}, {}, &"", {CROWN: true}), "the 前院's scene waits for one who comes in wearing the crown")
 	session.wear_player_item(temple.give_new_item_to_player(CROWN))
 	var gate: WorldMapController = MapPlaces.enter(session, YARD, YARD_POINT)
 	await _settle(tree)
@@ -218,6 +220,25 @@ func _test_after_unmasked(tree: SceneTree, session: WorldSessionController) -> v
 	_check(_count_in(session, TURN, PURSUER) == 3, "three 道士 at the turn")
 
 
+## Told of 收网, the lake's night comes and nothing chosen: the split is done unchosen (no line stuck), the topics closed.
+func _test_missed(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
+	StoryFixtures.niling_scripture(session, "night", false)
+	state.marks["岚城一章"] = 1 # TEST-ONLY
+	session.record_journal()
+	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
+	await _settle(tree)
+	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
+	_ask(temple, lin, "逆灵宫")
+	state.marks["下了决战"] = 1 # TEST-ONLY: the night of the battle
+	var talk: NpcTalk = lin.definition().talk()
+	_check(not talk.confirm_applies("倒戈", state.marks) and _said(_ask(temple, lin, "倒戈"), "来不及了") and not state.marks.has("前夜倒戈"), "the night come: too late to turn")
+	_check(_said(_ask(temple, lin, "逆灵宫"), "茅山没等到你的话"), "林忌: the night passed")
+	session.record_journal()
+	_check(StoryQuestLog.took(state, quest, &"missed") and StoryQuestLog.is_done(state, quest), "the split let pass: the line over, nothing left hanging")
+
+
 ## After the 终章: 林忌 asks of the 余孽 (续灯), no 收网; the line waits on the 虹台大会.
 func _test_after_finale(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
@@ -260,12 +281,16 @@ func _test_hall_deep(tree: SceneTree, session: WorldSessionController) -> void:
 	state.marks["潜伏到底"] = 1 # TEST-ONLY
 	state.marks["冰龙倒了"] = 1 # TEST-ONLY
 	session.record_journal()
+	MapPlaces.enter(session, &"village.lakeside", &"village.lakeside.fisher.1")
+	await _settle(tree)
+	_check(_first(session, &"village.lakeside", &"native.npc.lin_ji_lake") == null, "no 茅山 on this ledger")
+	_wear_crown(session)
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT) # TEST-ONLY
 	await _settle(tree)
 	await _until_fight(tree, session, hall)
 	var said: Array[String] = session.shared_ui().log_lines()
 	_check(_said(said, "你的剑先到了") and _said(said, "先扑向了你") and _count_in(session, HALL, TAOIST_LAKE) == 4, "the first blow; his four on the player")
-	_check(_first(session, &"village.lakeside", &"native.npc.lin_ji_lake") == null, "no 茅山 on this ledger")
+	_check(state.marks.get("潜伏那一剑", 0) == 1, "the blow is written down (the ending, the 声望 page)")
 	var shang: NpcRuntimeState = _first(session, HALL, SHANG_FIGHTING)
 	var kee: CharacterResourceState = null if shang == null else shang.character_state.vitality
 	_check(kee != null and kee.effective * 2 <= kee.maximum + 1 and kee.current <= kee.effective and kee.effective > 0, "商玦 wounded: %s" % [[] if kee == null else [kee.current, kee.effective, kee.maximum]])
@@ -278,11 +303,31 @@ func _test_hall_deep_dragons(tree: SceneTree, session: WorldSessionController) -
 	state.marks["潜伏到底"] = 1 # TEST-ONLY
 	state.marks.erase("冰龙倒了") # TEST-ONLY
 	session.record_journal()
+	_wear_crown(session)
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT) # TEST-ONLY
 	await _settle(tree)
 	await _until_fight(tree, session, hall)
 	var said: Array[String] = session.shared_ui().log_lines()
 	_check(_said(said, "又盘了回去") and not _said(said, "被卷进了冰缝里") and _count_in(session, HALL, TAOIST_LAKE) == 4, "the dragons hold off; the four come")
+
+
+## 潜伏到底 but the crown taken off: the 冰龙厅 as it is for anyone (the dragons on his four), no blow.
+func _test_hall_deep_bare(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.finale_dived(session)
+	state.marks["潜伏到底"] = 1 # TEST-ONLY
+	state.marks.erase("冰龙倒了") # TEST-ONLY
+	session.record_journal()
+	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT) # TEST-ONLY
+	await _settle(tree)
+	await _until_fight(tree, session, hall)
+	var said: Array[String] = session.shared_ui().log_lines()
+	_check(_said(said, "被卷进了冰缝里") and not _said(said, "你的剑先到了") and not state.marks.has("潜伏那一剑") and _count_in(session, HALL, TAOIST_LAKE) == 0, "no crown on: the hall as for anyone")
+
+
+func _wear_crown(session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	session.wear_player_item(map.give_new_item_to_player(CROWN)) # TEST-ONLY
 
 
 func _until_fight(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:

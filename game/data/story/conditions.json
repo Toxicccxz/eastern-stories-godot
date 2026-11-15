@@ -188,12 +188,15 @@
 		{
 			"id": "niling.unmasking",
 			"sources": [
-				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the 前院 scene's hour: one who wears the 黑冠 for 茅山 with three 疑点, not yet found out, not turned; whoever waits in the 前院 (玄冥子 where he lives, the 领诵 where he does not) is on the stage when they next come in."
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the 前院 scene's hour: one who wears the 黑冠 for 茅山 (on their head as they come in) with three 疑点, not yet found out, not turned; whoever waits in the 前院 (玄冥子 where he lives, the 领诵 where he does not) is on the stage when they next come in."
 			],
 			"when": {
 				"all": [
 					{
 						"mark": "答应了做眼线"
+					},
+					{
+						"wearing": "native:niling/black_crown"
 					},
 					{
 						"cond": "niling.suspicion"
@@ -225,6 +228,22 @@
 						"not": {
 							"mark": "疑点满了"
 						}
+					}
+				]
+			}
+		},
+		{
+			"id": "niling.deep_crowned",
+			"sources": [
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 7 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the 冰龙厅's 潜伏 version: niling.deep, and the 黑冠 on the player's head as they come in (one who took it off gets the hall as it is for anyone)."
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "niling.deep"
+					},
+					{
+						"wearing": "native:niling/black_crown"
 					}
 				]
 			}

@@ -2552,14 +2552,14 @@
 						{
 							"when": {
 								"not": {
-									"cond": "niling.deep"
+									"cond": "niling.deep_crowned"
 								}
 							},
 							"emote": "站在水潭边，黑衣上结了一层霜。他看着你，像看一个来晚了的人。"
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"line": "你戴着黑冠，跟在四个黑冠道士后头走进冰龙厅。商玦站在水潭边，背对着你们，黑衣上结了一层霜。\n"
 						},
@@ -2568,20 +2568,26 @@
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"line": "他说的「你」，不是你。他没有回头——他以为身后站着的，都是跟他下湖的人。\n"
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"line": "你的剑先到了。一剑从背后透进他的黑衣，他晃了一晃，没有倒。\n",
 							"color": "HIR"
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
+							},
+							"mark": "潜伏那一剑"
+						},
+						{
+							"when": {
+								"cond": "niling.deep_crowned"
 							},
 							"say": "……茅山的冠，是我们的冠。我早该想到。"
 						},
@@ -2600,7 +2606,7 @@
 									},
 									{
 										"not": {
-											"cond": "niling.deep"
+											"cond": "niling.deep_crowned"
 										}
 									}
 								]
@@ -2633,7 +2639,7 @@
 										}
 									},
 									{
-										"cond": "niling.deep"
+										"cond": "niling.deep_crowned"
 									}
 								]
 							},
@@ -2653,7 +2659,7 @@
 									},
 									{
 										"not": {
-											"cond": "niling.deep"
+											"cond": "niling.deep_crowned"
 										}
 									}
 								]
@@ -2674,7 +2680,7 @@
 									},
 									{
 										"not": {
-											"cond": "niling.deep"
+											"cond": "niling.deep_crowned"
 										}
 									}
 								]
@@ -2710,14 +2716,14 @@
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"line": "你身边的四个黑冠道士一齐拔剑，先扑向了你。\n",
 							"color": "HIR"
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"summon": "native.lakebottom2.niling_finale"
 						},
@@ -2750,13 +2756,13 @@
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"by": "native.npc.shang_jue_fighting"
 						},
 						{
 							"when": {
-								"cond": "niling.deep"
+								"cond": "niling.deep_crowned"
 							},
 							"npc_wound": {
 								"kee": 50

@@ -18286,6 +18286,11 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
 #: data/common/npcs.json
+msgid "唤首那一夜过去了。茅山没等到你的话。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.say
+#: data/common/npcs.json
 msgid "倒戈，还是潜伏，你定。定了，来告诉我。"
 msgstr ""
 
@@ -18565,6 +18570,12 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.倒戈.rules.say
 #: data/common/npcs.json
 msgid "他们迟早认出你。时辰和路，茅山自己去找。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.倒戈.rules.say
+#. common.npc.taoist.taolord inquiry.潜伏.rules.say
+#: data/common/npcs.json
+msgid "湖上的事已经开始了，来不及了。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.倒戈.rules.lines.emote
@@ -24225,7 +24236,7 @@ msgstr ""
 
 #. faction.niling/split objective
 #: data/story/faction_niling.json
-msgid "收网，看你。前夜倒戈（问林忌「倒戈」）：把下湖的时辰和路交给茅山——终章冰龙厅里商玦身边只剩两个道士，点将时多一拨茅山的人；可黑冠从此没用，逆灵宫的门不再为你开。潜伏到底（问林忌「潜伏」，疑点不到三条才行）：你戴着冠跟商玦的队伍下湖，冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。"
+msgid "收网，看你。前夜倒戈（问林忌「倒戈」）：把下湖的时辰和路交给茅山——终章冰龙厅里商玦身边只剩两个道士，点将时多一拨茅山的人；可黑冠从此没用，逆灵宫的门不再为你开。潜伏到底（问林忌「潜伏」，疑点不到三条才行）：你戴着冠跟商玦的队伍下湖，冰龙厅里第一剑是你的，商玦带着重伤开打——可他的四个道士会先扑你，也没有人会多来帮你（没人知道你的消息）。终章在湖畔等到天黑之前要定下来。"
 msgstr ""
 
 #. faction.niling/split/turn text
@@ -24246,6 +24257,11 @@ msgstr ""
 #. faction.niling/split/deep reward.deed
 #: data/story/faction_niling.json
 msgid "戴着黑冠潜伏到底，跟逆灵宫下了湖"
+msgstr ""
+
+#. faction.niling/split/missed text
+#: data/story/faction_niling.json
+msgid "唤首那一夜过去了。你什么也没有交出去，也没有跟他们下湖。"
 msgstr ""
 
 #. faction.niling/hall_turn objective
@@ -39356,6 +39372,12 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "渡口——柳绘心把细剑一横。她身后那几个人握的是竹剑，没有一个往后退。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"北麓——下湖的山路上亮起一串符火。林忌的弟子截住了逆灵宫的人，没让一个走到湖边。\n"
 msgstr ""
 
 #. village.lakeside.wait act.acts.steps.line
