@@ -698,9 +698,10 @@
 		"native.lakeside.liu_huixin",
 		"native.frontyard.spy",
 		"native.frontyard.hopeful",
-		"native.frontyard.courier"
+		"native.frontyard.courier",
+		"native.lakeside.pan_junchan"
 	],
-	"world_npcs": 811,
+	"world_npcs": 812,
 	"resident_maps": 167,
 	"new_game_items": 1235,
 	"snow_outdoor_passages": 18,
@@ -975,7 +976,7 @@
 		"canyon.bamboo": 0,
 		"canyon.stoneroom": 0,
 		"canyon.camp": 14,
-		"village.main": 45,
+		"village.main": 46,
 		"village.midlake": 0,
 		"village.icecave": 15,
 		"village.seal_chamber": 16,

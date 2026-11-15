@@ -432,6 +432,8 @@ static func _destroy(authorities: Authorities, id: StringName) -> bool:
 static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeState, npc: NpcRuntimeState, value: int, random: WorldInteractionRandomSource) -> void:
 	if not rule.mark_giver.is_empty():
 		player.state.marks[rule.mark_giver] = 1
+	for mark: String in rule.marks_giver:
+		player.state.marks[mark] = 1
 	if not rule.tally.is_empty():
 		var key: String = NpcObjectRule.tally_key(rule.tally)
 		if rule.mark_giver.is_empty():

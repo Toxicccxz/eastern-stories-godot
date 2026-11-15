@@ -48,7 +48,7 @@ func _test_data() -> void:
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.finale")
 	_check(quest != null and quest.requires == [&"main.chapter10"] and quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id).slice(0, 4) == [&"lake", &"gather", &"shore", &"hall"], "main.finale: lake, gather, shore, then the 冰龙厅 (终章 B) after 第十章")
 	var gather: StoryQuestDefinition.Step = quest.step(&"gather")
-	_check(gather.checklist.size() == 22 and gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts).size() == 1, "the 点将 checklist: twenty-two rows (封山 B: 封山守渡口, either 宗), one count")
+	_check(gather.checklist.size() == 23 and gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts).size() == 1, "the 点将 checklist: twenty-three rows (封山 B: 封山守渡口, either 宗; 天邪 B: 潘军禅), one count")
 	var count: StoryQuestDefinition.CheckRow = gather.checklist.filter(func(row: StoryQuestDefinition.CheckRow) -> bool: return row.counts)[0]
 	_check(count.condition.when == JournalEntryDefinition.When.AT_LEAST and count.condition.amount == 3 and count.condition.parts.size() == 8, "帮手: three of eight (封山 B added 封山守渡口)")
 	var wait: ServiceDefinition = catalog.service(&"village.lakeside.wait")

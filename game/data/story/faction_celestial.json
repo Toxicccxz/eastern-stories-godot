@@ -6,7 +6,8 @@
 			"line": "faction",
 			"region": "水烟阁",
 			"sources": [
-				"native: 势力线第一批 天邪 A (剧情总纲 §4 势力线原则 and 第 2 条「天邪派／水烟阁」: 门派就是势力线, 拜师即入门, 辈分即晋阶, 每条线 1 个大分裂 + 最多 2 个小选择; 计划 build/plans/势力线第一批_计划.md §4 天邪 A and §8「镖单一份」, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」). daemon/class/fighter/executioner.c (潘军禅, 水烟阁执法使, 柳淳风的结拜义弟, 为人十分风趣, 又好交朋友); d/waterfog/entrance.c (the gate's guards: 进水烟阁, 先放下你的兵刃), frontyard.c (水烟阁前, 学武之人的朝圣地), guildhall.c (每年的正月十七都要在水烟阁外的「虹台」推选武林盟主); d/city/npc/chen.c (陈天星, who built 振远镖局). The 守山 watch, the spy and the 镖单's two ways are the plan's (续写); the line stops at a stub step `next` that 天邪 B fills (盟主的下落, the chair)."
+				"native: 势力线第一批 天邪 A (剧情总纲 §4 势力线原则 and 第 2 条「天邪派／水烟阁」: 门派就是势力线, 拜师即入门, 辈分即晋阶, 每条线 1 个大分裂 + 最多 2 个小选择; 计划 build/plans/势力线第一批_计划.md §4 天邪 A and §8「镖单一份」, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」). daemon/class/fighter/executioner.c (潘军禅, 水烟阁执法使, 柳淳风的结拜义弟, 为人十分风趣, 又好交朋友); d/waterfog/entrance.c (the gate's guards: 进水烟阁, 先放下你的兵刃), frontyard.c (水烟阁前, 学武之人的朝圣地), guildhall.c (每年的正月十七都要在水烟阁外的「虹台」推选武林盟主); d/city/npc/chen.c (陈天星, who built 振远镖局). The 守山 watch, the spy and the 镖单's two ways are the plan's (续写); the line stops at a stub step `next` that 天邪 B fills (盟主的下落, the chair).",
+				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」): the stub grown into 盟主的下落 (what 潘军禅 pieced together: 白衣武官, 兵部's blade, the clue in the 尚书府; done with the main story, 卫沧澜 out of the 尚书府 or the 京师 chapter over), the 正厅 scene before the 太师椅 (d/waterfog/guildhall.c: 一张黝黑的太师椅端坐在大厅中央) and the split (颜违 or 潘军禅: 天邪派's vote at the 虹台, 执事 either way)."
 			],
 			"summary": "拜了天邪派，水烟阁的门就由你守一回。",
 			"starts": {
@@ -120,17 +121,103 @@
 					}
 				},
 				{
-					"id": "next",
-					"objective": "潘军禅说，盟主的事，等过些日子再同你说。",
+					"id": "leader",
+					"objective": "回正厅问潘军禅「盟主」。",
 					"done": {
 						"mark": "潘军禅说了盟主的下落"
 					},
-					"text": "潘军禅说起了盟主的下落。",
+					"text": "潘军禅说，二十年前带走盟主的是一队白衣武官——腰里挂的是兵部的刀。",
 					"target": {
 						"map": "waterfog.pavilion",
 						"zone": "waterfog.guildhall",
-						"npcs": ["common.npc.fighter.executioner"]
+						"npcs": [
+							"common.npc.fighter.executioner"
+						]
 					}
+				},
+				{
+					"id": "rescue",
+					"objective": "二十年前带走盟主的是白衣武官。线索在京师尚书府。",
+					"done": {
+						"cond": "celestial.leader_settled"
+					},
+					"text": "京师那边的事有了结果。",
+					"target": {
+						"map": "city.shangshu",
+						"zone": "city.shangshu.kefang",
+						"npcs": [
+							"native.npc.wei_canglan"
+						]
+					}
+				},
+				{
+					"id": "chair",
+					"objective": "七长老颜违这些日子常下楼来，站在水烟阁正厅那把黝黑的太师椅跟前。去正厅；已经在厅里的，出去走一走再进来。",
+					"done": {
+						"any": [
+							{
+								"mark": "正厅的话说完了"
+							},
+							{
+								"mark": "站了颜违"
+							},
+							{
+								"mark": "站了潘军禅"
+							}
+						]
+					},
+					"text": "正厅里，颜违要在正月十七之前把那把椅子定下来；潘军禅说，等盟主。",
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall",
+						"npcs": [
+							"waterfog.npc.elder7",
+							"common.npc.fighter.executioner"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "天邪派在虹台上的那一票，看你。站颜违（问他「椅子」）：正月十七由他坐那把椅子，他许你水烟阁执事，二十年的旧案到此为止，潘军禅从此只同你谈公事。站潘军禅（问他「椅子」）：等盟主回来，他以执法使的名义升你执事，颜违会记下你。",
+					"target": {
+						"map": "waterfog.pavilion",
+						"zone": "waterfog.guildhall",
+						"npcs": [
+							"waterfog.npc.elder7",
+							"common.npc.fighter.executioner"
+						]
+					},
+					"options": [
+						{
+							"id": "side_yan",
+							"done": {
+								"mark": "站了颜违"
+							},
+							"text": "你站到了颜违一边：正月十七，天邪派那一票投他。他许你做了水烟阁的执事。",
+							"reward": {
+								"deed": "在水烟阁正厅站到了颜违一边",
+								"rank": {
+									"family": "family.celestial",
+									"title": "执事"
+								}
+							}
+						},
+						{
+							"id": "side_pan",
+							"done": {
+								"mark": "站了潘军禅"
+							},
+							"text": "你站到了潘军禅一边：等盟主回来。他以执法使的名义升你做了执事。颜违记下了你。",
+							"reward": {
+								"deed": "在水烟阁正厅站到了潘军禅一边：等盟主回来",
+								"rank": {
+									"family": "family.celestial",
+									"title": "执事"
+								}
+							}
+						}
+					]
 				}
 			]
 		}

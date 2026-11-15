@@ -1560,6 +1560,46 @@
 						},
 						{
 							"when": {
+								"all": [
+									{
+										"cond": "celestial.split"
+									},
+									{
+										"not": {
+											"mark": "替南危水保密"
+										}
+									},
+									{
+										"not": {
+											"mark": "卫沧澜出了尚书府"
+										}
+									}
+								]
+							},
+							"by": "native.npc.pan_junchan_lake"
+						},
+						{
+							"say": "水烟阁来了。盟主不在，执法使替他来——这道潭口，红衣武士守。",
+							"when": {
+								"all": [
+									{
+										"cond": "celestial.split"
+									},
+									{
+										"not": {
+											"mark": "替南危水保密"
+										}
+									},
+									{
+										"not": {
+											"mark": "卫沧澜出了尚书府"
+										}
+									}
+								]
+							}
+						},
+						{
+							"when": {
 								"mark": "旋芒在皇叔手里"
 							},
 							"by": "native.npc.yulan_tianwu_lake"
@@ -2072,6 +2112,57 @@
 					"rules": [
 						{
 							"say": "二十年。够了。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.pan_junchan_lake",
+			"legacy_source": "native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 终章's 水烟阁守潭口 for one who made the 天邪 split but neither kept 南危水's secret nor brought 卫沧澜 out: 潘军禅 (daemon/class/fighter/executioner.c) and the 红衣武士 (d/waterfog/npc/elite_guard.c) on the bank (计划 §4 天邪 B 第 5 条; 终章 A's others: 南危水, 卫沧澜)",
+			"name": "潘军禅",
+			"aliases": [
+				"master executioner",
+				"executioner",
+				"pan",
+				"执法使"
+			],
+			"nickname": "书 剑 侠",
+			"title": "水烟阁执法使",
+			"gender": "男性",
+			"age": 28,
+			"long": "潘军禅站在潭口的石头上，袖子挽到了肘上，脸上难得没有笑。他身后，水烟阁的红衣武士沿着湖岸站成了一排。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 30,
+				"spi": 26,
+				"cps": 30,
+				"per": 24,
+				"con": 30,
+				"kar": 22
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"sword": 100,
+				"parry": 100,
+				"dodge": 100
+			},
+			"attitude": "friendly",
+			"fight_deferred": "潘军禅笑了一下：今夜不同自己人比划。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"asker_marks": [
+								"站了颜违"
+							],
+							"say": "七长老没来。执法使的公事，是守住这道潭口。"
+						},
+						{
+							"say": "盟主不在，阁里总要有人来。水烟阁的红衣武士，今夜都在这里。"
 						}
 					]
 				}

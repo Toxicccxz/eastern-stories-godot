@@ -18,6 +18,10 @@ var family_id: StringName = &""
 var f_master: bool = false
 var recognize_rules: Array[RecognizeRule] = []
 var apprentice: ApprenticeRule
+## Native (势力线第一批 天邪 B; DECISIONS「代收」): the condition under which the NPC teaches and takes
+## apprentices at all (`teaches_when`); null always. While it does not hold, nobody is offered its
+## teaching or a 拜师 (潘军禅 takes the 天邪派's students only when both its masters are gone).
+var when: JournalEntryDefinition = null
 
 
 ## One branch of recognize_apprentice(ob): a student of `family`, or one the NPC
@@ -161,6 +165,11 @@ func can_teach() -> bool:
 	return has_family() or not recognize_rules.is_empty()
 
 
+## Whether it teaches `student` now (`teaches_when`, judged on their saved marks and quests).
+func teaches_for(student: CharacterState) -> bool:
+	return when == null or (student != null and JournalLog.holds(when, student, {}, {}))
+
+
 ## The first matching rule, or null: recognize_apprentice() returned 0.
 func recognize(student_family_id: StringName, student_marks: Dictionary[String, int]) -> RecognizeRule:
 	for rule: RecognizeRule in recognize_rules:
@@ -173,8 +182,13 @@ func recognize(student_family_id: StringName, student_marks: Dictionary[String, 
 ## record; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 	if not (reader.has("family") or reader.has("f_master") or reader.has("recognize_apprentice") or reader.has("apprentice")):
+		if reader.has("teaches_when"):
+			reader.fail("teaches_when", "only an NPC that teaches says when it does")
 		return null
 	var teaching := NpcTeaching.new()
+	if reader.has("teaches_when"):
+		teaching.when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, teaching.when, "teaches_when")
 	var family: ContentRecordReader = reader.child("family")
 	if family != null:
 		teaching.family_name = family.required_text("name")

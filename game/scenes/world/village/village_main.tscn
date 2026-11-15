@@ -993,6 +993,11 @@ position = Vector2(656, 1320)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakeside.finale.fonxan_north"
 
+[node name="LakesideFinalePan" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(500, 1400)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.pan"
+
 [node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(688, 1304)
 script = ExtResource("marker")

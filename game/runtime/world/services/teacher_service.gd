@@ -37,6 +37,12 @@ func can_teach() -> bool:
 	return in_reach()
 
 
+## Beside the body, and it teaches the player now (its `teaches_when`: 潘军禅 only once both of
+## the 天邪派's masters are gone). While it does not, it offers nothing: no 请教, no 拜师.
+func in_reach() -> bool:
+	return super.in_reach() and teaching() != null and teaching().teaches_for(map.player_runtime().state)
+
+
 func teaching() -> NpcTeaching:
 	return npc.definition().teaching()
 
@@ -46,7 +52,7 @@ func teachable_skills() -> Array[StringName]:
 
 
 func takes_apprentices() -> bool:
-	return teaching() != null and teaching().apprentice != null
+	return teaching() != null and teaching().apprentice != null and teaching().teaches_for(map.player_runtime().state)
 
 
 ## apprentice <npc>; living(ob) first ("你必须先把…弄醒。"). A master that answers later

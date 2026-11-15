@@ -535,3 +535,26 @@ static func celestial_watched(session: WorldSessionController, caught: bool = tr
 	for mark: String in ["潘军禅说了山门", "值守回了话"] + (["认出了探子", "拿下了探子"] if caught else ["探子跑了"]):
 		state.marks[mark] = 1
 	state.affiliation.family_title = "大弟子"
+
+
+## 天邪 A's 镖单 settled (`to_chen`: taken to 陈天星, who found the route; else locked in 潘军禅's 刑堂):
+## 天邪 B's 盟主的下落 is next.
+static func celestial_escorted(session: WorldSessionController, caught: bool = true, to_chen: bool = false) -> void:
+	celestial_watched(session, caught)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.celestial/escort/chen", "faction.celestial/trace"] if to_chen else ["faction.celestial/escort/pan"]:
+		_write(state, key)
+	for mark: String in ["潘军禅说了镖单", "看过镖单"] + (["镖单给了陈天星", "镖路查清了"] if to_chen else ["镖单锁进了刑堂"]):
+		state.marks[mark] = 1
+
+
+## 天邪 B (势力线第一批; DECISIONS「天邪 B」): the 正厅's split made (`yan`: for 颜违, else for 潘军禅), 执事
+## either way. What the main story did (卫沧澜 out of the 尚书府, or the 京师 chapter over) is the caller's.
+static func celestial_split(session: WorldSessionController, yan: bool, caught: bool = true, to_chen: bool = false) -> void:
+	celestial_escorted(session, caught, to_chen)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.celestial/leader", "faction.celestial/rescue", "faction.celestial/chair", "faction.celestial/split/%s" % ("side_yan" if yan else "side_pan"), "faction.celestial#done"]:
+		_write(state, key)
+	for mark: String in ["潘军禅说了盟主的下落", "正厅撞见了", "正厅的话说完了", "站了颜违" if yan else "站了潘军禅"]:
+		state.marks[mark] = 1
+	state.affiliation.family_title = "执事"
