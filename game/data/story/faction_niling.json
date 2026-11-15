@@ -51,7 +51,7 @@
 				{
 					"id": "gate",
 					"weight": "small",
-					"objective": "进门之前，先把第三章留下的事了结。身上带着逆灵天书残卷的：还给后山崖径上的玄冥子，他当你是他的人，宫里没人会问起那卷书；交给林忌，他当面烧了，可宫里少了一卷书——那是一条疑点。救过人的，听林忌（或霍铮）把话说完。黑冠丢了的，问林忌「黑冠」。",
+					"objective": "进门之前，先把第三章留下的事了结。身上带着逆灵天书残卷的：还给后山崖径上的玄冥子（他要是还活着），他当你是他的人，宫里没人会问起那卷书；交给林忌，他当面烧了，可宫里少了一卷书——那是一条疑点。救过人的，听林忌（或霍铮）把话说完。黑冠丢了的，问林忌「黑冠」。",
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
@@ -154,7 +154,7 @@
 				},
 				{
 					"id": "copy",
-					"objective": "名单在账房。夜里管事不在，到账房的大案上「抄名单」。",
+					"objective": "名单在账房。夜里管事伏在案头睡觉，到账房的大案上「抄名单」，别吵醒他。",
 					"done": {
 						"mark": "抄了名单"
 					},
@@ -177,7 +177,7 @@
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
-						"npcs": ["common.npc.taoist.taolord", "native.npc.huo_zheng"]
+						"npcs": ["common.npc.taoist.taolord"]
 					}
 				},
 				{

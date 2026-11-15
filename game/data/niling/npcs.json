@@ -1448,6 +1448,12 @@
 			"accept_object": [
 				{
 					"item": "native:niling/scroll_fragment",
+					"giver_mark": "残卷没回宫",
+					"accept": false,
+					"say": "晚了。宫里已经当它丢了——你拿回来，倒要有人问它这些日子在谁手里。"
+				},
+				{
+					"item": "native:niling/scroll_fragment",
 					"giver_mark": "答应了做眼线",
 					"ask": "把逆灵天书的残卷还给玄冥子。\n他会当你是他的人，宫里没人会问起那一夜——可禁书就回了逆灵宫，林忌不会高兴。\n还给他吗？",
 					"accept": true,

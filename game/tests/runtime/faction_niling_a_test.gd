@@ -90,6 +90,15 @@ func _test_stranger(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(_ask(temple, lin, "逆灵宫"), "与你无关") and not state.marks.has("林忌说了逆灵宫"), "林忌 before 第三章 is done: 与你无关")
 	_check(temple.select_npc(lin.character_id) and not temple.ask_topics_selected().has("眼线"), "眼线 is not on his list")
 	_check(not state.quests.has("faction.niling#started"), "no line")
+	# 第三章's 子时 in the 前殿: no 巡殿, the 北门 not barred (the watch is the line's).
+	_check(session.wait_until_phase([&"midnight"]), "子时")
+	var crown: StringName = temple.give_new_item_to_player(CROWN)
+	session.wear_player_item(crown)
+	var hall: WorldMapController = MapPlaces.enter(session, FRONT, FRONT_POINT)
+	await _settle(tree)
+	_check(_first(session, FRONT, PATROL) == null and GameContent.catalog().exit_rules_between(FRONT, &"niling.altar").size() == 1 and hall.door(&"niling.altar.door") != null, "第三章 at 子时: no 巡殿 in the 前殿")
+	_check(await MapPlaces.drive(tree, hall, MapPlaces.door_spot(hall, &"niling.altar.door", FRONT)) and hall.open_door(&"niling.altar.door") and await MapPlaces.take_passage(tree, hall, &"niling.front.north"), "and the 北门 lets one through to the altar")
+	_check(not state.marks.has("子时在后殿外被撞见"), "nobody caught")
 
 
 ## The night door (霍铮 freed): his word and his 眼线, 那一夜丢了人; the crown from 林忌; the chores; the 通铺; the

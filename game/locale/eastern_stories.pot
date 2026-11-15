@@ -23614,7 +23614,7 @@ msgstr ""
 
 #. faction.niling/gate objective
 #: data/story/faction_niling.json
-msgid "进门之前，先把第三章留下的事了结。身上带着逆灵天书残卷的：还给后山崖径上的玄冥子，他当你是他的人，宫里没人会问起那卷书；交给林忌，他当面烧了，可宫里少了一卷书——那是一条疑点。救过人的，听林忌（或霍铮）把话说完。黑冠丢了的，问林忌「黑冠」。"
+msgid "进门之前，先把第三章留下的事了结。身上带着逆灵天书残卷的：还给后山崖径上的玄冥子（他要是还活着），他当你是他的人，宫里没人会问起那卷书；交给林忌，他当面烧了，可宫里少了一卷书——那是一条疑点。救过人的，听林忌（或霍铮）把话说完。黑冠丢了的，问林忌「黑冠」。"
 msgstr ""
 
 #. faction.niling/gate/xuan text
@@ -23704,7 +23704,7 @@ msgstr ""
 
 #. faction.niling/copy objective
 #: data/story/faction_niling.json
-msgid "名单在账房。夜里管事不在，到账房的大案上「抄名单」。"
+msgid "名单在账房。夜里管事伏在案头睡觉，到账房的大案上「抄名单」，别吵醒他。"
 msgstr ""
 
 #. faction.niling/copy text
@@ -45985,6 +45985,11 @@ msgid ""
 "玄冥子靠着后墙坐着，看着断崖，没有说话。\n"
 msgstr ""
 
+#. native.npc.xuan_mingzi_cliff accept_object.say
+#: data/niling/npcs.json
+msgid "晚了。宫里已经当它丢了——你拿回来，倒要有人问它这些日子在谁手里。"
+msgstr ""
+
 #. native.npc.xuan_mingzi_cliff accept_object.ask
 #: data/niling/npcs.json
 msgid ""
@@ -46595,7 +46600,7 @@ msgstr ""
 #. niling.front.listen act.acts.steps.line
 #: data/niling/world.json
 msgid ""
-"一个是领诵道士的嗓子：「……湖底的钉子，还没有人动。」\n"
+"一个嗓子沙哑：「……湖底的钉子，还没有人动。」\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line
@@ -46607,7 +46612,7 @@ msgstr ""
 #. niling.front.listen act.acts.steps.line
 #: data/niling/world.json
 msgid ""
-"一个是领诵道士的嗓子：「看过钉子的那个人走了。钉子还在。」\n"
+"一个嗓子沙哑：「看过钉子的那个人走了。钉子还在。」\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line
@@ -46619,7 +46624,7 @@ msgstr ""
 #. niling.front.listen act.acts.steps.line
 #: data/niling/world.json
 msgid ""
-"一个是领诵道士的嗓子：「钉子拔了。湖边的村子烧了一半。」\n"
+"一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line
@@ -46631,19 +46636,19 @@ msgstr ""
 #. niling.front.listen act.acts.steps.line
 #: data/niling/world.json
 msgid ""
-"领诵道士：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n"
+"沙哑的那个：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line
 #: data/niling/world.json
 msgid ""
-"一个是领诵道士的嗓子：「宫主不在了。坛上的火，不能灭。」\n"
+"一个嗓子沙哑：「宫主不在了。坛上的火，不能灭。」\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line
 #: data/niling/world.json
 msgid ""
-"另一个是管事道士：「续灯要人。名单在账房，三十六口，一口也不能少。」\n"
+"另一个声音年轻些：「续灯要人。名单在账房，管事那里。三十六口，一口也不能少。」\n"
 msgstr ""
 
 #. niling.front.listen act.acts.steps.line

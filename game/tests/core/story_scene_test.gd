@@ -364,7 +364,7 @@ func _test_chapter3_data() -> void:
 	_check(tribute != null and tribute.mark_asker == "黄霸说了纳供" and tribute.lines.size() == 5 and NpcInquiryRule.decide(hwang.talk().inquiry_rules("纳供"), {"黄霸说了纳供": 1}).mark_asker.is_empty(), "黄霸 tells of the tribute once")
 	_check(NpcInquiryRule.decide(hwang.talk().inquiry_rules("纳供"), {}).mark_asker.is_empty(), "and not to one who never heard of the north slope")
 	var escort: NpcSpawnDefinition = catalog.spawn(&"native.mroad4.tribute_taoists")
-	_check(escort != null and escort.present.key == "main.chapter3#started" and escort.until == null and escort.spawn_point_ids().size() == 2 and not catalog.npc(&"native.npc.tribute_taoist").has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE), "two escort taoists at the turn from the chapter's start, not on the attack")
+	_check(escort != null and escort.present.key == "main.chapter3#started" and escort.until != null and escort.until.key == "名单递出去了" and escort.spawn_point_ids().size() == 2 and not catalog.npc(&"native.npc.tribute_taoist").has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE), "two escort taoists at the turn from the chapter's start (gone once 卧底 A's 名单 is out), not on the attack")
 	var cart: ItemSpawnDefinition = catalog.item_spawn(&"native.mroad4.tribute_cart")
 	_check(cart != null and cart.present.key == "main.chapter3#started" and catalog.item(&"native:goathill/tribute_cart") != null and catalog.item(&"native:goathill/tribute_cart").no_get, "the cart with them, and it cannot be taken")
 	_check(catalog.landmark(&"goathill.mroad4.landmark.crack") != null and catalog.landmark(&"goathill.mroad4.landmark.crack").teaches == ["看过裂口"], "the crack can be looked at")

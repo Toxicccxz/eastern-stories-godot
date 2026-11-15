@@ -400,7 +400,7 @@
 			"zone": "niling.front",
 			"name": "北门",
 			"reach": 96,
-			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 偷听 at the 北门 at 子时 (the 后殿 barred from inside while the 巡殿 walks: exit rule niling.front.north_barred): the hour of the 唤首 and 「名单在账房」; after the 终章 the 余孽 speak of 续灯 (计划 §6「主线打完才进来的人」) (续写)",
+			"legacy_source": "native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」) — 偷听 at the 北门 at 子时 (the 后殿 barred from inside while the 巡殿 walks: exit rule niling.front.north_barred): two voices nobody in the hall owns: the hour of the 唤首 and 「名单在账房」; after the 终章 the 余孽 speak of 续灯 (计划 §6「主线打完才进来的人」) (续写)",
 			"act": {
 				"verb": "听",
 				"acts": [
@@ -425,7 +425,7 @@
 								"line": "你贴着北门，屏住气。门缝里漏出一线青光，有两个人在说话。\n"
 							},
 							{
-								"line": "一个是领诵道士的嗓子：「……湖底的钉子，还没有人动。」\n",
+								"line": "一个嗓子沙哑：「……湖底的钉子，还没有人动。」\n",
 								"color": "HIW",
 								"when": {
 									"all": [
@@ -475,7 +475,7 @@
 								}
 							},
 							{
-								"line": "一个是领诵道士的嗓子：「看过钉子的那个人走了。钉子还在。」\n",
+								"line": "一个嗓子沙哑：「看过钉子的那个人走了。钉子还在。」\n",
 								"color": "HIW",
 								"when": {
 									"all": [
@@ -507,7 +507,7 @@
 								}
 							},
 							{
-								"line": "一个是领诵道士的嗓子：「钉子拔了。湖边的村子烧了一半。」\n",
+								"line": "一个嗓子沙哑：「钉子拔了。湖边的村子烧了一半。」\n",
 								"color": "HIW",
 								"when": {
 									"all": [
@@ -539,7 +539,7 @@
 								}
 							},
 							{
-								"line": "领诵道士：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n",
+								"line": "沙哑的那个：「人呢？」那声音道：「名单在账房，管事那里。三十六口，一口也不能少。」\n",
 								"color": "HIW",
 								"when": {
 									"not": {
@@ -548,14 +548,14 @@
 								}
 							},
 							{
-								"line": "一个是领诵道士的嗓子：「宫主不在了。坛上的火，不能灭。」\n",
+								"line": "一个嗓子沙哑：「宫主不在了。坛上的火，不能灭。」\n",
 								"color": "HIW",
 								"when": {
 									"quest": "main.finale#done"
 								}
 							},
 							{
-								"line": "另一个是管事道士：「续灯要人。名单在账房，三十六口，一口也不能少。」\n",
+								"line": "另一个声音年轻些：「续灯要人。名单在账房，管事那里。三十六口，一口也不能少。」\n",
 								"color": "HIW",
 								"when": {
 									"quest": "main.finale#done"
