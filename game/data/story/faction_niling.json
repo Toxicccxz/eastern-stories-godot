@@ -277,9 +277,6 @@
 					"id": "scripture",
 					"weight": "route",
 					"objective": "后山崖径上的玄冥子有一件事要托你——问他「天书」。（子时，前殿的北门从里面闩着；他知道怎么拨开。巡殿的道士看前不看后。）",
-					"keeps": [
-						"native.npc.xuan_mingzi_cliff"
-					],
 					"options": [
 						{
 							"id": "book",

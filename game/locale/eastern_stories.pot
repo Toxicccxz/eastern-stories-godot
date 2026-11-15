@@ -45832,7 +45832,6 @@ msgstr ""
 
 #. native.npc.niling_jailer chat_msg_combat
 #. native.npc.niling_jailer_keyed chat_msg_combat
-#. native.npc.niling_jailer_ward chat_msg_combat
 #: data/niling/npcs.json
 msgid ""
 "狱卒道士抽出鞭子，吼道：地牢有生人！\n"
@@ -46640,18 +46639,18 @@ msgstr ""
 msgid "狱卒道士朝铁栅门里一偏头：前些天一车上来的。子时之前，管事不许人近。"
 msgstr ""
 
-#. native.npc.niling_jailer_ward moods.醉倒.title
+#. native.npc.niling_jailer_ward moods.drunk.title
 #: data/niling/npcs.json
 msgid "醉倒在地"
 msgstr ""
 
-#. native.npc.niling_jailer_ward moods.醉倒.chat_msg
+#. native.npc.niling_jailer_ward moods.drunk.chat_msg
 #: data/niling/npcs.json
 msgid ""
 "狱卒道士靠着铁栅门打着呼噜，嘴角挂着酒涎。\n"
 msgstr ""
 
-#. native.npc.niling_jailer_ward moods.醉倒.chat_msg
+#. native.npc.niling_jailer_ward moods.drunk.chat_msg
 #: data/niling/npcs.json
 msgid ""
 "狱卒道士含含糊糊地嘟囔了一句什么，翻了个身。\n"
@@ -46691,6 +46690,12 @@ msgstr ""
 #. native.npc.niling_jailer_ward accept_object.say
 #: data/niling/npcs.json
 msgid "当值不喝。"
+msgstr ""
+
+#. native.npc.niling_jailer_ward chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"狱卒道士拔出短剑，吼道：地牢有生人！\n"
 msgstr ""
 
 #. native.npc.niling_jailer_dozing long
@@ -46977,7 +46982,7 @@ msgstr ""
 
 #. niling.cell_shitou.door locked
 #: data/niling/world.json
-msgid "铁栅门锁着。栅栏里的孩子往后缩了缩。"
+msgid "铁栅门锁着。栅栏里有人往后缩了缩。"
 msgstr ""
 
 #. niling.cell_others.door name
@@ -47514,6 +47519,12 @@ msgid ""
 "你踮起脚，两根手指捏住钥匙，一点一点从钉子上褪下来。钥匙碰了一下石壁——他咂了咂嘴，没醒。\n"
 msgstr ""
 
+#. niling.corridor.nail act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"长凳上头的铁钉上挂着钥匙。你踮起脚把它摘了下来。\n"
+msgstr ""
+
 #. niling.corridor.nail act.acts.steps.emote
 #: data/niling/world.json
 msgid "拍了拍腰上的钥匙。"
@@ -47781,7 +47792,7 @@ msgstr ""
 #. niling.corridor.ward_shitou lines
 #. niling.corridor.ward_others lines
 #: data/niling/world.json
-msgid "狱卒道士横过鞭子，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
+msgid "狱卒道士一步跨过来，拦在铁栅门前：「新关的，管事吩咐过，谁也不许近。」"
 msgstr ""
 
 #. native:canyon/seal_mould name

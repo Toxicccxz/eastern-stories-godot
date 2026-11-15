@@ -1970,7 +1970,7 @@
 				]
 			},
 			"moods": {
-				"醉倒": {
+				"drunk": {
 					"title": "醉倒在地",
 					"lasting": true,
 					"chat_chance": 10,
@@ -1983,7 +1983,7 @@
 			"accept_object": [
 				{
 					"liquid": "alcohol",
-					"npc_flag": "mood/醉倒",
+					"npc_flag": "mood/drunk",
 					"accept": false,
 					"emote": "打了个酒嗝，手一推，什么也没接住。"
 				},
@@ -1998,7 +1998,7 @@
 					"giver_mark": "林忌说了地牢",
 					"giver_carries": "native:niling/cell_key",
 					"accept": true,
-					"mood": "醉倒",
+					"mood": "drunk",
 					"mark_giver": "灌醉了狱卒",
 					"lines": [
 						{ "emote": "四下看了看，一把接过去，仰脖就灌。" },
@@ -2010,7 +2010,7 @@
 					"liquid": "alcohol",
 					"giver_mark": "林忌说了地牢",
 					"accept": true,
-					"mood": "醉倒",
+					"mood": "drunk",
 					"gives": "native:niling/cell_key",
 					"mark_giver": "灌醉了狱卒",
 					"lines": [
@@ -2028,7 +2028,7 @@
 			],
 			"chat_chance_combat": 25,
 			"chat_msg_combat": [
-				"狱卒道士抽出鞭子，吼道：地牢有生人！\n"
+				"狱卒道士拔出短剑，吼道：地牢有生人！\n"
 			]
 		},
 		{
