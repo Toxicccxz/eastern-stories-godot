@@ -2367,89 +2367,89 @@
   "waterfog.mountain": {
    "anchor": [
     121.9,
-    142.3
+    144.3
    ],
    "pins": {
     "door:snow.outdoor": [
      116.3,
-     242.2
+     244.2
     ],
     "door:waterfog.pavilion": [
      168.6,
-     120.8
+     122.8
     ],
     "door:waterfog.terrace": [
      133.2,
-     51.4
+     53.4
     ],
     "zone:waterfog.clifftop": [
      162.2,
-     160.2
+     162.2
     ],
     "zone:waterfog.frontyard": [
      158.0,
-     127.8
+     129.8
     ],
     "zone:waterfog.sroad1": [
      103.5,
-     233.8
+     235.8
     ],
     "zone:waterfog.sroad2": [
      85.2,
-     212.5
+     214.5
     ],
     "zone:waterfog.sroad3": [
      54.7,
-     197.3
+     199.3
     ],
     "zone:waterfog.stair1": [
      76.7,
-     186.6
+     188.6
     ],
     "zone:waterfog.stair2": [
      99.3,
-     173.6
+     175.6
     ],
     "zone:waterfog.stair3": [
      121.9,
-     186.6
+     188.6
     ],
     "zone:waterfog.stair4": [
      141.7,
-     173.6
+     175.6
     ],
     "zone:waterfog.stair5": [
      138.9,
-     144.9
+     146.9
     ],
     "zone:waterfog.swordtomb": [
      142.4,
-     45.4
+     47.4
     ],
     "zone:waterfog.wpath1": [
      126.9,
-     114.8
+     116.8
     ],
     "zone:waterfog.wpath2": [
      103.5,
-     98.6
+     100.6
     ],
     "zone:waterfog.wpath3": [
      125.5,
-     87.0
+     89.0
     ],
     "zone:waterfog.wpath4": [
      145.3,
-     74.1
+     76.1
     ],
     "zone:waterfog.wpath5": [
      164.4,
-     59.7
+     61.7
     ]
    },
    "size": [
     233,
-    278
+    280
    ]
   },
   "waterfog.terrace": {
@@ -2482,7 +2482,7 @@
   }
  },
  "common": "c1ba39048a5df73c8e527e33ff40e8c023a35bc40163ac0a5dcc277e4190b5d1",
- "fingerprint": "386334d03e4b6a218d9edaf94c78af1ec2cc42f006debcd08d47717ebe4807af",
+ "fingerprint": "d4b1858cdf7fab0af0e19436c68f50498ae001dd45a4e5de1286c1186282b9a1",
  "frame": [
   -769.1,
   14.6,
@@ -2504,7 +2504,7 @@
   "green": "13523515650bfc608c32d0807add83a9999025bf7c7bdf18c043fb397f2f1580",
   "guanbei": "1962bdc7a39dd701dc5cbe5e09ef51200c997f0ce5d31dc8d3761831adcd26a3",
   "imperial": "43d7706ca03e158c934b1ecbc105e265934cb253c34e9329218ad783005b83c1",
-  "lancheng": "de877d0b1e0edbadd382547f9b1c4b001fa0e31b7787b43a4b4d77cd19b7aa01",
+  "lancheng": "aeb63927a68d4ad7133b78ca848c91c42fc3d52b4d2cbf0d4e3e96e666497f45",
   "latemoon": "9ad083952ee712bec7d8d4e8de0fec4a132690b86a4f49eacf62d8b9bb785b26",
   "niling": "0521d15ec9bcb76adf549141ae17f4d8184a46fa911770998b6e375ff5f029cb",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",
@@ -2512,7 +2512,7 @@
   "snow": "3cebb61fca09ed133e2fbee4c828cd7b2cc6f56d314ef22e17298ebc0daac305",
   "temple": "6c741320432e5d024570a88b0809068a70ecbd42b8dbcce365f047e1cb5eab13",
   "village": "9375c2b1ed7f9abd4c8d18db1462b5af798c9a306763b5d20b66e54c2b091608",
-  "waterfog": "643fb7fe899f8aff4be1e611703b24e4aff3a7dbb2f049294339002c01381ad5"
+  "waterfog": "b849955c9dfd5a2d1811d73f79e70883676286bc5a61f3b84a80324bf5fbc01e"
  },
  "roads": [
   {

@@ -199,10 +199,16 @@ func take_name(display_name: String) -> void:
 
 ## The title as the player reads it. A family member's is assign_apprentice()'s put
 ## together again in the shown language; the one kept (and saved) stays as ES2 wrote it.
+## A title the story gave (an act's `title`, 大会 B: 武林盟主; DECISIONS「台上的选择」) is set("title") over
+## the family's, as in ES2 one field holds both: it stands until the family's rank is raised again.
 func shown_title() -> String:
 	if _state.family.has_family() and _state.affiliation.has_family_rank:
 		var family: FamilyDefinition = GameContent.catalog().family(_state.family.family_id)
 		if family != null:
+			var kept: String = NpcApprenticeship.member_title(family.display_name, _state.family.generation, _state.affiliation.family_title, _master())
+			# The commoner's title a new character starts with is no title given (a family set by a dev start).
+			if not _facts.title.is_empty() and _facts.title != kept and _facts.title != PlayerKillerReward.REBEL_TITLE:
+				return TranslationServer.translate(_facts.title)
 			return NpcApprenticeship.shown_member_title(family.display_name, _state.family.generation, _state.affiliation.family_title, _master())
 	return TranslationServer.translate(_facts.title)
 

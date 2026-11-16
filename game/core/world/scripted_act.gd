@@ -73,6 +73,18 @@ extends RefCounted
 ##   沙盘, the world held until it is done (EpilogueDefinition);
 ## - `keep_save` true (native, 终章 A; DECISIONS「决战前存档」): the 决战前 save is written now, as
 ##   the world stands at this step (an act's first step before a point of no return: the dive);
+## - `choose` {text, options: [{text, when?, locked?: [{when, text}], confirm?, choice?, steps?}]} (native,
+##   势力线第一批 大会 B; DECISIONS「台上的选择」): the player picks one of the options whose `when` holds (none
+##   holds: the step is passed over); one whose `locked` entry holds is shown greyed with that entry's text
+##   (我也算一个: 还差两派); a `confirm` is asked first through the one confirm prompt (`choice` its button,
+##   取消 back to the options); then the option's steps run, and after them the act's steps after this one
+##   (the day goes on). Walking away (走开) ends the act there: a branch replayed later passes over what an
+##   earlier step marked as done (their `when`);
+## - `restage` true (native, 大会 B): the map's stage is judged again now, in front of the player
+##   (WorldStoryPresence.stage(): the nine 派 come up onto the 虹台 as the line says they do; who is off the
+##   stage now leaves), its staged props too; `by` finds those just come;
+## - `title` (native, 大会 B; DECISIONS「台上的选择」): set("title", …) on the player: their title from now on
+##   (武林盟主), over a family's until a family's rank is raised again;
 ## - `summon` (a spawn id; native, 逆灵宫 C): every absent NPC of that summoned spawn of this map
 ##   comes in on its marker (keep2.c's guards new()'d by a room rule, hell_guard.c's 鬼卒 risen
 ##   by an invocation), as a trap's `summon` does; an aggressive one falls on the player at once;
@@ -88,7 +100,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE, NPC_WOUND }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE, NPC_WOUND, CHOOSE, RESTAGE, TITLE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -136,6 +148,9 @@ var npc_in: StringName = &""
 var ghost_state: int = -1
 var ask: String = ""
 var choice: String = ""
+## Native (大会 B; DECISIONS「台上的选择」): the `ask` is put only while the player lacks every one of these
+## marks (入席 asked once: a day walked away from and come back to goes on without asking again).
+var ask_lacks: Array[String] = []
 var steps: Array[Step] = []
 
 
@@ -266,6 +281,47 @@ class Question:
 		return question
 
 
+## One option of a `choose` step (native, 大会 B; DECISIONS「台上的选择」).
+class Option:
+	extends RefCounted
+	var text: String = ""
+	## Listed only while this holds; null: always.
+	var when: JournalEntryDefinition = null
+	## Greyed while one of these holds, its text saying why: [[condition, text], ...] in order.
+	var locked: Array[Array] = []
+	## Asked first (the one confirm prompt) when not empty, `choice` its button.
+	var confirm: String = ""
+	var choice: String = ""
+	var steps: Array[Step] = []
+
+	## Why the option is greyed now ("" it is not), by `holds` (a condition -> whether it holds).
+	func locked_reason(holds: Callable) -> String:
+		for entry: Array in locked:
+			if holds.is_valid() and bool(holds.call(entry[0])):
+				return String(entry[1])
+		return ""
+
+	## {text, when?, locked?: [{when, text}], confirm?, choice?, steps?}.
+	static func from_record(reader: ContentRecordReader) -> Option:
+		var option := Option.new()
+		option.text = reader.required_text("text")
+		if reader.has("when"):
+			option.when = JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(reader, option.when, "when")
+		for record: ContentRecordReader in reader.children("locked"):
+			var condition := JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(record, condition, "when")
+			option.locked.append([condition, record.required_text("text")])
+			record.finish()
+		option.confirm = reader.text("confirm")
+		option.choice = reader.text("choice")
+		if option.confirm.is_empty() != option.choice.is_empty():
+			reader.fail("choice", "confirm and choice come together")
+		option.steps = ScriptedAct._steps(reader, "steps")
+		reader.finish()
+		return option
+
+
 class Step:
 	extends RefCounted
 	var kind: Kind
@@ -304,6 +360,8 @@ class Step:
 	var questions: Array[Question] = []
 	var when_true: Array[Step] = []
 	var when_false: Array[Step] = []
+	## choose: what is asked (`text`) and the options (`flag` holds the question).
+	var options: Array[Option] = []
 	## Native (终章 A; DECISIONS「步骤条件」): the step runs only when this holds for the player at
 	## that moment (the facts' `holds`, as a branch's `when`); else it is passed over and the next one
 	## runs. null: always. A scene with many people in it says each one's line only if they came.
@@ -341,6 +399,11 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (kar_draw_at_least <= 0 or known.kar_draw(kar_draw_plus, kar_draw_at_least))
 		and (per_below <= 0 or known.per_roll(per_below))
 	)
+
+
+## Whether the branch's `ask` is put to a player with these saved marks (its `ask_lacks`).
+func asks(known: Dictionary) -> bool:
+	return not ask.is_empty() and ask_lacks.all(func(each: String) -> bool: return known.get(each, 0) == 0)
 
 
 ## The first branch of `acts` that is for the player; null when none is.
@@ -459,6 +522,9 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
 		reader.fail("choice", "ask and choice come together")
+	act.ask_lacks = reader.text_list("ask_lacks")
+	if not act.ask_lacks.is_empty() and act.ask.is_empty():
+		reader.fail("ask_lacks", "says when the ask is put: the branch asks")
 	act.steps = _steps(reader, "steps")
 	reader.finish()
 	if act.steps.is_empty():
@@ -495,7 +561,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "npc_wound", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "npc_wound", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue", "choose", "restage", "title"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -673,6 +739,25 @@ static func _step(reader: ContentRecordReader) -> Step:
 			step.kind = Kind.KEEP_SAVE
 			if not reader.boolean("keep_save", false):
 				reader.fail("keep_save", "is true")
+		"choose":
+			step.kind = Kind.CHOOSE
+			var chosen: ContentRecordReader = reader.child("choose")
+			if chosen == null:
+				reader.fail("choose", "expected {text, options}")
+				return null
+			step.flag = chosen.required_text("text")
+			for record: ContentRecordReader in chosen.children("options"):
+				step.options.append(Option.from_record(record))
+			if step.options.is_empty():
+				chosen.fail("options", "offers at least one option")
+			chosen.finish()
+		"restage":
+			step.kind = Kind.RESTAGE
+			if not reader.boolean("restage", false):
+				reader.fail("restage", "is true when present")
+		"title":
+			step.kind = Kind.TITLE
+			step.flag = reader.required_text("title")
 		"take":
 			step.kind = Kind.TAKE
 			step.item_id = StringName(reader.required_text("take"))

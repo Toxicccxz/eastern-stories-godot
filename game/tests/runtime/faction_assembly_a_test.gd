@@ -48,7 +48,7 @@ func _test_data() -> void:
 	_check(quest != null and quest.line == StoryQuestDefinition.LINE_FACTION and quest.pinned and quest.pin_rank == 2, "a 势力 quest, pinned above the other pinned")
 	_check(catalog.story_quest(&"faction.niling").pin_rank == 1, "the 卧底's 疑点 pinned below it")
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"wait", &"invite", &"canvass"], "its steps: %s" % [ids])
+	_check(ids == [&"wait", &"invite", &"canvass", &"day"], "its steps: %s" % [ids])
 	_check(quest.step(&"canvass").target.map_id == &"waterfog.terrace" and quest.step(&"canvass").objective.contains("骆云舟"), "the last step leads to the 虹台 and says where the nine are")
 	_check(quest.checklist.size() == 3 + 9 + 20 and quest.checklist[0].counts and quest.checklist[0].condition.amount == 9, "已表态 x／9, 颜违's and yours, then a row for each 派's vote")
 	var conditions: Dictionary[String, JournalEntryDefinition] = catalog.conditions()

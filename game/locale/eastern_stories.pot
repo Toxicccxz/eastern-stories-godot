@@ -390,6 +390,17 @@ msgstr ""
 #. native.npc.lake_taoist gender
 #. native.npc.war_painter gender
 #. native.npc.ice_cutter gender
+#. native.npc.assembly_yan_wei gender
+#. native.npc.assembly_wei_canglan gender
+#. native.npc.assembly_liu_chunfeng gender
+#. native.npc.assembly_pan_junchan gender
+#. native.npc.assembly_chen_jianqiu gender
+#. native.npc.assembly_lin_ji gender
+#. native.npc.assembly_xuanzhi gender
+#. native.npc.assembly_luo_yunzhou gender
+#. native.npc.assembly_lu_decai gender
+#. native.npc.assembly_juechenzi gender
+#. native.npc.yan_wei_chair gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -485,6 +496,8 @@ msgstr ""
 #. native.npc.liu_huixin_north gender
 #. native.npc.liu_huixin_lake gender
 #. native.npc.annie_yard gender
+#. native.npc.assembly_liu_huixin gender
+#. native.npc.assembly_lan_zhiping gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -1839,16 +1852,18 @@ msgstr ""
 #. snow.npc.girl family.name
 #. native.npc.liu_huixin_north family.name
 #. native.npc.liu_huixin_lake title
+#. native.npc.assembly_liu_huixin title
 #: scenes/world/cloud/cloud_outdoor.tscn data/common/families.json data/snow/npcs.json data/native/npcs.json
 msgid "封山剑派北宗"
 msgstr ""
 
 #. oldpine.outdoor.landmark.clearing_sign name
+#. waterfog.frontyard.notice name
 #. city.northdoor.landmark.sign name
 #. city.southdoor.landmark.notice name
 #. native.npc.huaiyang_gate_guard inquiry topic
 #. guanbei.gate.notice name
-#: scenes/world/cloud/cloud_outdoor.tscn data/oldpine/world.json data/city/world.json data/guanbei/npcs.json data/guanbei/world.json
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/oldpine/world.json data/waterfog/world.json data/city/world.json data/guanbei/npcs.json data/guanbei/world.json
 msgid "告示"
 msgstr ""
 
@@ -3925,7 +3940,8 @@ msgstr ""
 msgid "架子"
 msgstr ""
 
-#: scenes/world/snow/snow_school_compound.tscn
+#. waterfog.guildhall.chair name
+#: scenes/world/snow/snow_school_compound.tscn data/waterfog/world.json
 msgid "太师椅"
 msgstr ""
 
@@ -4205,6 +4221,10 @@ msgstr ""
 msgid "那颗头 · 钉下去"
 msgstr ""
 
+#: scenes/world/waterfog/waterfog_mountain.tscn
+msgid "告示 · 看告示"
+msgstr ""
+
 #. es2:d/waterfog/swordtomb short
 #: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
 msgid "葬剑亭"
@@ -4248,6 +4268,7 @@ msgstr ""
 #. common.npc.fighter.champion inquiry topic
 #. main.chapter2 region
 #. ending cards.title
+#. assembly cards.title
 #. celestial place
 #. faction.celestial region
 #. faction.assembly region
@@ -4263,6 +4284,10 @@ msgstr ""
 
 #: scenes/world/waterfog/waterfog_mountain.tscn
 msgid "南 · 虹台"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_pavilion.tscn
+msgid "太师椅 · 坐一坐"
 msgstr ""
 
 #. es2:d/waterfog/storage short
@@ -4320,6 +4345,10 @@ msgstr ""
 msgid "阶梯 · 上楼"
 msgstr ""
 
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "虹台大会 · 入席"
+msgstr ""
+
 #. name
 #. common.npc.swordsman.master inquiry topic
 #. common.npc.fighter.executioner inquiry topic
@@ -4329,10 +4358,24 @@ msgstr ""
 #. common.npc.bonze.master inquiry topic
 #. common.npc.beggar.master inquiry topic
 #. common.npc.scholar.master inquiry topic
+#. assembly cards.title
 #. snow.npc.girl inquiry topic
 #. cloud.npc.b_header inquiry topic
+#. native.npc.assembly_yan_wei inquiry topic
+#. native.npc.assembly_wei_canglan inquiry topic
+#. native.npc.assembly_liu_chunfeng inquiry topic
+#. native.npc.assembly_liu_huixin inquiry topic
+#. native.npc.assembly_pan_junchan inquiry topic
+#. native.npc.assembly_chen_jianqiu inquiry topic
+#. native.npc.assembly_lin_ji inquiry topic
+#. native.npc.assembly_lan_zhiping inquiry topic
+#. native.npc.assembly_xuanzhi inquiry topic
+#. native.npc.assembly_luo_yunzhou inquiry topic
+#. native.npc.assembly_lu_decai inquiry topic
+#. native.npc.assembly_juechenzi inquiry topic
+#. native.npc.yan_wei_chair inquiry topic
 #. native:waterfog/terrace short
-#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/native/rooms.json
+#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/native/npcs.json data/native/rooms.json
 msgid "虹台"
 msgstr ""
 
@@ -4343,6 +4386,47 @@ msgstr ""
 
 #: scenes/world/waterfog/waterfog_terrace.tscn
 msgid "北 · 葬剑亭"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn data/cloud/voxel/outdoor.json
+msgid "振远"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "步玄"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "晚月"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "山烟"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "天邪"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "封山"
+msgstr ""
+
+#. name
+#. goathill.npc.bandit_hwang inquiry topic
+#. temple name
+#. city.npc.shangshu.qing_chen inquiry topic
+#. native.npc.huo_zheng inquiry topic
+#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/goathill/npcs.json data/temple/world.json data/city/npcs.json data/niling/npcs.json
+msgid "茅山"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "绝尘"
+msgstr ""
+
+#: scenes/world/waterfog/waterfog_terrace.tscn
+msgid "花紫"
 msgstr ""
 
 #. es2:d/waterfog/forehall short
@@ -9602,6 +9686,16 @@ msgstr ""
 msgid "你答道：{answer}"
 msgstr ""
 
+#. an option that cannot be taken yet ({option}: 我也算一个) and why ({why}: 还差两派).
+#: runtime/world/map/world_map_acts.gd
+msgid "{option}（{why}）"
+msgstr ""
+
+#. what the player chose ({option}), in 消息.
+#: runtime/world/map/world_map_acts.gd
+msgid "你选了：{option}"
+msgstr ""
+
 #. close.c: an NPC ({npc}) shuts a door ({door}) in the player's room.
 #: runtime/world/map/world_map_acts.gd
 msgid "{npc}将{door}关上。"
@@ -13784,7 +13878,8 @@ msgstr ""
 
 #. fonxansword groups
 #. fonxansword actions.group
-#: data/common/skills.json
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/common/skills.json data/waterfog/world.json
 msgid "逐"
 msgstr ""
 
@@ -15803,6 +15898,7 @@ msgstr ""
 #. native.bounty region
 #. main.prologue region
 #. ending cards.title
+#. assembly cards.title
 #. fonxan place
 #. faction.fonxan region
 #. snow name
@@ -15817,15 +15913,6 @@ msgstr ""
 #. native.npc.niling_captive_peddler inquiry topic
 #: data/common/atlas.json data/story/chapter3.json data/story/epilogue.json data/goathill/world.json data/niling/npcs.json
 msgid "野羊山"
-msgstr ""
-
-#. name
-#. goathill.npc.bandit_hwang inquiry topic
-#. temple name
-#. city.npc.shangshu.qing_chen inquiry topic
-#. native.npc.huo_zheng inquiry topic
-#: data/common/atlas.json data/goathill/npcs.json data/temple/world.json data/city/npcs.json data/niling/npcs.json
-msgid "茅山"
 msgstr ""
 
 #. name
@@ -16460,12 +16547,14 @@ msgstr ""
 #. snow.npc.mercenary inquiry topic
 #. native.npc.liu_huixin_north inquiry topic
 #. native.npc.liu_chunfeng_lake name
+#. native.npc.assembly_liu_chunfeng name
 #: data/common/npcs.json data/snow/npcs.json data/native/npcs.json
 msgid "柳淳风"
 msgstr ""
 
 #. common.npc.swordsman.master nickname
 #. native.npc.liu_chunfeng_lake nickname
+#. native.npc.assembly_liu_chunfeng nickname
 #: data/common/npcs.json data/native/npcs.json
 msgid "风雨双侠"
 msgstr ""
@@ -16550,6 +16639,14 @@ msgid ""
 "跟柳淳风守本宗：封山的剑不外传。\n"
 "他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来。\n"
 "这是封山这条线的大分裂，选了不能改。要跟师父吗？"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.本宗.rules.say
+#. common.npc.fighter.executioner inquiry.椅子.rules.say
+#. snow.npc.girl inquiry.北宗.rules.say
+#. waterfog.npc.elder7 inquiry.椅子.rules.say
+#: data/common/npcs.json data/snow/npcs.json data/waterfog/npcs.json
+msgid "虹台上的事还没完。等散了会再说。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.本宗.rules.say
@@ -16922,6 +17019,11 @@ msgstr ""
 
 #. common.npc.swordsman.master inquiry.虹台.rules.say
 #: data/common/npcs.json
+msgid "虹台上的事定了。封山守封山的规矩。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.虹台.rules.say
+#: data/common/npcs.json
 msgid "封山这一票，正月十七照你说的投。"
 msgstr ""
 
@@ -16984,6 +17086,20 @@ msgstr ""
 msgid ""
 "请柳淳风把封山这一票交给你：正月十七虹台上，封山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
 "要这么说吗？"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.这一票.rules.say
+#. common.npc.fighter.executioner inquiry.这一票.rules.say
+#. common.npc.juechen.master inquiry.下山.rules.say
+#. common.npc.taoist.taolord inquiry.这一票.rules.say
+#. common.npc.dancer.master inquiry.改投.rules.say
+#. common.npc.dancer.master inquiry.这一票.rules.say
+#. common.npc.bonze.master inquiry.改投.rules.say
+#. common.npc.scholar.master inquiry.这一票.rules.say
+#. snow.npc.girl inquiry.这一票.rules.say
+#. cloud.npc.b_header inquiry.改投.rules.say
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json
+msgid "虹台上已经入了席。票就是票了。"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.这一票.rules.say
@@ -17530,18 +17646,21 @@ msgstr ""
 
 #. common.npc.fighter.executioner name
 #. native.npc.pan_junchan_lake name
+#. native.npc.assembly_pan_junchan name
 #: data/common/npcs.json data/native/npcs.json
 msgid "潘军禅"
 msgstr ""
 
 #. common.npc.fighter.executioner nickname
 #. native.npc.pan_junchan_lake nickname
+#. native.npc.assembly_pan_junchan nickname
 #: data/common/npcs.json data/native/npcs.json
 msgid "书 剑 侠"
 msgstr ""
 
 #. common.npc.fighter.executioner title
 #. native.npc.pan_junchan_lake title
+#. native.npc.assembly_pan_junchan title
 #: data/common/npcs.json data/native/npcs.json
 msgid "水烟阁执法使"
 msgstr ""
@@ -17804,6 +17923,7 @@ msgstr ""
 #. native.npc.waterfog_spy inquiry topic
 #. native.npc.waterfog_hopeful inquiry topic
 #. native.npc.waterfog_courier inquiry topic
+#. native.npc.yan_wei_chair inquiry topic
 #: data/common/npcs.json data/native/npcs.json
 msgid "盟主"
 msgstr ""
@@ -17960,6 +18080,11 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry.椅子.rules.say
 #: data/common/npcs.json
 msgid "盟主的椅子，空了二十年了。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "票是我唱的。唱完了，就是定了。"
 msgstr ""
 
 #. common.npc.fighter.executioner inquiry.虹台.rules.say
@@ -18260,7 +18385,8 @@ msgid "七长老许得出口的，我许不出口。我只问你一句：门规�
 msgstr ""
 
 #. common.npc.juechen.master name
-#: data/common/npcs.json
+#. native.npc.assembly_juechenzi name
+#: data/common/npcs.json data/native/npcs.json
 msgid "绝尘子"
 msgstr ""
 
@@ -18301,6 +18427,11 @@ msgstr ""
 #. common.npc.juechen.master inquiry.name
 #: data/common/npcs.json
 msgid "我便是绝尘子。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "正月十七的事，过去了。"
 msgstr ""
 
 #. common.npc.juechen.master inquiry.虹台.rules.say
@@ -18466,12 +18597,14 @@ msgstr ""
 #. common.npc.taoist.taolord name
 #. city.npc.shangshu.gardener inquiry topic
 #. native.npc.lin_ji_lake name
+#. native.npc.assembly_lin_ji name
 #: data/common/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "林忌"
 msgstr ""
 
 #. common.npc.taoist.taolord nickname
 #. native.npc.lin_ji_lake nickname
+#. native.npc.assembly_lin_ji nickname
 #: data/common/npcs.json data/native/npcs.json
 msgid "六指真人"
 msgstr ""
@@ -19030,6 +19163,11 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.虹台.rules.say
 #: data/common/npcs.json
+msgid "虹台上的事定了。茅山照旧降妖伏魔。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.虹台.rules.say
+#: data/common/npcs.json
 msgid "茅山这一票，你说了算。"
 msgstr ""
 
@@ -19081,7 +19219,8 @@ msgid "好。茅山听你的。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry topic
-#: data/common/npcs.json
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/common/npcs.json data/waterfog/world.json
 msgid "剿"
 msgstr ""
 
@@ -19453,17 +19592,20 @@ msgstr ""
 
 #. common.npc.dancer.master name
 #. cloud.npc.lm_guard inquiry topic
-#: data/common/npcs.json data/cloud/npcs.json
+#. native.npc.assembly_lan_zhiping name
+#: data/common/npcs.json data/cloud/npcs.json data/native/npcs.json
 msgid "蓝止萍"
 msgstr ""
 
 #. common.npc.dancer.master nickname
-#: data/common/npcs.json
+#. native.npc.assembly_lan_zhiping nickname
+#: data/common/npcs.json data/native/npcs.json
 msgid "回音仙子"
 msgstr ""
 
 #. common.npc.dancer.master title
-#: data/common/npcs.json
+#. native.npc.assembly_lan_zhiping title
+#: data/common/npcs.json data/native/npcs.json
 msgid "晚月庄主"
 msgstr ""
 
@@ -19525,11 +19667,17 @@ msgstr ""
 
 #. common.npc.dancer.master inquiry.虹台.rules.say
 #: data/common/npcs.json
-msgid "晚月庄这一票投颜违。说定了。"
+msgid "虹台上的事，晚月庄记着。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.虹台.rules.say
 #: data/common/npcs.json
+msgid "晚月庄这一票投颜违。说定了。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.虹台.rules.say
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/common/npcs.json data/waterfog/world.json
 msgid "晚月庄这一票，你说了算。"
 msgstr ""
 
@@ -19630,7 +19778,8 @@ msgid "好。晚月庄听你的。"
 msgstr ""
 
 #. common.npc.bonze.master name
-#: data/common/npcs.json
+#. native.npc.assembly_xuanzhi name
+#: data/common/npcs.json data/native/npcs.json
 msgid "玄智和尚"
 msgstr ""
 
@@ -19681,6 +19830,11 @@ msgstr ""
 #. fanfang.npc.lama_master inquiry topic
 #: data/common/npcs.json data/fanfang/npcs.json
 msgid "出家"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。正月十七，过去了。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.虹台.rules.say
@@ -19777,12 +19931,14 @@ msgid "阿弥陀佛，善哉！善哉！"
 msgstr ""
 
 #. common.npc.beggar.master name
-#: data/common/npcs.json
+#. native.npc.assembly_lu_decai name
+#: data/common/npcs.json data/native/npcs.json
 msgid "陆得财"
 msgstr ""
 
 #. common.npc.beggar.master nickname
-#: data/common/npcs.json
+#. native.npc.assembly_lu_decai nickname
+#: data/common/npcs.json data/native/npcs.json
 msgid "黑水伏蛟"
 msgstr ""
 
@@ -19807,6 +19963,11 @@ msgid ""
 "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n"
 msgstr ""
 
+#. common.npc.beggar.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "嘿，正月十七？叫花子早忘了。"
+msgstr ""
+
 #. common.npc.beggar.master inquiry.虹台.rules.lines.emote
 #: data/common/npcs.json
 msgid "嘿嘿一笑，抠了抠脚。"
@@ -19829,7 +19990,8 @@ msgstr ""
 
 #. common.npc.scholar.master name
 #. native.npc.wei_zhizhong inquiry topic
-#: data/common/npcs.json data/imperial/npcs.json
+#. native.npc.assembly_luo_yunzhou name
+#: data/common/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "骆云舟"
 msgstr ""
 
@@ -19887,6 +20049,11 @@ msgstr ""
 #. common.npc.scholar.master inquiry.京城.rules.say
 #: data/common/npcs.json
 msgid "京城？我家在京城，我不爱回去。那里的人说话，十句有九句是给别人听的。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "虹台上的事，骆家记下了。"
 msgstr ""
 
 #. common.npc.scholar.master inquiry.虹台.rules.say
@@ -20385,6 +20552,7 @@ msgstr ""
 #. native.npc.north_pupil_girl inquiry topic
 #. native.npc.liu_huixin_north name
 #. native.npc.liu_huixin_lake name
+#. native.npc.assembly_liu_huixin name
 #: data/common/quests.json data/snow/npcs.json data/native/npcs.json
 msgid "柳绘心"
 msgstr ""
@@ -23760,22 +23928,22 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "这一年正月十七，虹台上没有推选。五长老的椅子空着，说是等一个回不来的人。"
+msgid "五长老的椅子空着，说是等一个回不来的人。正月十七还没到，阁里没人提虹台。"
 msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "这一年正月十七，虹台上推选盟主。卫沧澜回来了，没有人再提「代盟主」三个字。"
+msgid "卫沧澜回来了，坐在正厅侧的矮凳上，不肯坐那把太师椅。没有人再提「代盟主」三个字；正月十七的虹台，九派要上去推选。"
 msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "这一年正月十七，南危水上了虹台，只说了一句：老松岭的那个人，替我死了。"
+msgid "南危水说，正月十七他要上虹台，只说一句：老松岭的那个人，替我死了。"
 msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "这一年正月十七，七长老颜违做了盟主。他说二十年的旧案，到此为止。"
+msgid "七长老颜违以代盟主自居。他说正月十七一过，「代」字就该去掉了，二十年的旧案，到此为止。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -24029,14 +24197,205 @@ msgstr ""
 msgid "也谢谢你，走到了这里。"
 msgstr ""
 
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正月十七，九派过半，推你做了武林盟主。那天虹台上，你答了三件事。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正月十七，九派过半，颜违做了武林盟主。他说二十年的旧案，到此为止。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正月十七，颜违没能过半。卫沧澜走到石椅前，坐了回去。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正月十七，颜违没能过半，那把石椅还空着。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "那天一早，你在山道上截住了神教的杀手，山烟寺的轿子上了山。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "那天一早，你回葬剑亭扑灭了逆灵宫余孽放的火。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "那天一早，你下山解了封山的围。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "那天一早，你从山下的茶棚里请回了骆云舟。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "山烟寺的轿子在山道上让神教截了，玄智和尚没能上山。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "葬剑亭的火烧了半个时辰，林忌提着剑一路追下了北麓。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "封山的人在官道上让人堵到了天黑。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "骆云舟在山下的茶棚里，陪兵部的人喝了一整天的茶。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "旋芒供在了葬剑亭，用黄绫裹着，九派来往的人都看得见。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "你把旋芒还给了风。岚城云台的旋风里，它又转了起来。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "饮风客栈的店小二逢人便说：新盟主在小店住过，就住楼上那间。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "柳淳风说，盟主回来了，封山总算等到了这一天。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "北宗在虹台上有了一个座。柳淳风关了武馆的门，一天没有出来。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "封山的人那天没能上山。柳淳风回来，只说了一句：明年再去。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "饮风客栈照旧开门。店小二说，正月十七那天，镇上的人都在等山上的消息。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正厅的太师椅上，坐着颜违。山门的告示上写着：老松岭旧案，到此为止。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正厅的太师椅上，坐着卫沧澜。二十年的空椅子，有了人。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正厅的太师椅空着。阁里的人说，那是盟主的椅子——盟主就是你，可你很少回来坐。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正厅的太师椅空着。颜违照旧代理，「代」字没能去掉。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "正厅的太师椅空着，等一个回不来的人。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "老松岭的旧案重新翻了出来，水烟阁的人往京城去了几回。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "水烟阁同朝廷走近了。兵部来了人，在山门外喝了一回茶。"
+msgstr ""
+
+#. assembly cards.title
+#: data/story/epilogue.json
+msgid "绮云镇 · 场院"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "九派逐了东方神教。棺材铺后面的场院关了门，朱鸿雪不知去向。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "神教照旧在棺材铺后面的场院里派差事。九派说，只要不犯到他们头上。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上没有人提神教的事。朱鸿雪照旧派她的差事。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "安妮儿闭了西厢的门。神教的事，她不再同人说起。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "朱鸿雪记住了，那天山道上截住她的人的，是你。"
+msgstr ""
+
+#. assembly cards.title
+#. niling place
+#: data/story/epilogue.json data/story/factions.json
+msgid "野羊山北麓"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "北麓的道观空了，官兵封了山门。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "下了山的道士在茅山的田里种地，坛上的火灭了。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "九派的人上了北麓。道观里剩下的人，一个也没走脱。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "茅山的人上了北麓，把肯下山的领了回去。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "北麓的道观里，续灯的火一直没灭。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "林忌那天一路追到北麓，追回了两个放火的孩子。"
+msgstr ""
+
 #. court place
 #: data/story/factions.json
 msgid "乔阴 · 天驼关 · 京师"
-msgstr ""
-
-#. niling place
-#: data/story/factions.json
-msgid "野羊山北麓"
 msgstr ""
 
 #. fonxan lines.text
@@ -25356,7 +25715,7 @@ msgstr ""
 
 #. faction.assembly summary
 #: data/story/faction_assembly.json
-msgid "正月十七，九派在水烟阁外的虹台推选武林盟主。九派各一票，过半才换人。"
+msgid "正月十七，九派在水烟阁外的虹台推选武林盟主。九派各一票，过半才换人；那天山下会出事，你只管得了一件。"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -25365,7 +25724,8 @@ msgid "已表态"
 msgstr ""
 
 #. faction.assembly checklist.label
-#: data/story/faction_assembly.json
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/story/faction_assembly.json data/waterfog/world.json
 msgid "投颜违"
 msgstr ""
 
@@ -25551,12 +25911,22 @@ msgstr ""
 
 #. faction.assembly/canvass objective
 #: data/story/faction_assembly.json
-msgid "上虹台之前，九派可以各走一趟：问各派掌门「虹台」，听他们这一票投谁、为什么；话里留了余地的，还可以请他改一改（先确认）。封山剑派——雪亭镇淳风武馆的柳淳风（跟了北宗的，问内院的柳绘心）；天邪派——水烟阁正厅的潘军禅；振远镖局——绮云镇的陈剑秋；茅山派——灵心观的林忌；晚月庄——庄主蓝止萍；山烟寺——住持玄智和尚；步玄派——乔阴县城的骆云舟；花紫会——乔阴的陆得财；绝尘派——青石村的绝尘子。虹台在水烟阁葬剑亭往南的石阶上。"
+msgid "上虹台之前，九派可以各走一趟：问各派掌门「虹台」，听他们这一票投谁、为什么；话里留了余地的，还可以请他改一改（先确认）。封山剑派——雪亭镇淳风武馆的柳淳风（跟了北宗的，问内院的柳绘心）；天邪派——水烟阁正厅的潘军禅；振远镖局——绮云镇的陈剑秋；茅山派——灵心观的林忌；晚月庄——庄主蓝止萍；山烟寺——住持玄智和尚；步玄派——乔阴县城的骆云舟；花紫会——乔阴的陆得财；绝尘派——青石村的绝尘子。虹台在水烟阁葬剑亭往南的石阶上；人到了，在擎天柱前「入席」（先确认：入了席就不能再游说、改票）。"
 msgstr ""
 
 #. faction.assembly/canvass text
 #: data/story/faction_assembly.json
 msgid "正月十七，你上了虹台。"
+msgstr ""
+
+#. faction.assembly/day objective
+#: data/story/faction_assembly.json
+msgid "正月十七，虹台上：山下出了事，你只来得及管一件——没管的那一派上不了虹台。九派到齐了唱票，过半（五票）才换盟主。灭了侮天鬼、又有五派听你的，你也可以站出来。人走开了，回擎天柱前「入席」接着开。"
+msgstr ""
+
+#. faction.assembly/day text
+#: data/story/faction_assembly.json
+msgid "虹台上散了会。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -27223,6 +27593,11 @@ msgstr ""
 #. snow.npc.girl inquiry.点字诀.rules.say
 #: data/snow/npcs.json
 msgid "爹爹练剑的时候，我在窗后头看过。"
+msgstr ""
+
+#. snow.npc.girl inquiry.虹台.rules.say
+#: data/snow/npcs.json
+msgid "正月十七的事过去了。北宗的剑，照旧教人。"
 msgstr ""
 
 #. snow.npc.girl inquiry.虹台.rules.say
@@ -31739,13 +32114,15 @@ msgstr ""
 
 #. cloud.npc.b_header name
 #. city.npc.chen inquiry topic
-#: data/cloud/npcs.json data/city/npcs.json
+#. native.npc.assembly_chen_jianqiu name
+#: data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "陈剑秋"
 msgstr ""
 
 #. cloud.npc.b_header nickname
 #. cloud.npc.b_header inquiry topic
-#: data/cloud/npcs.json
+#. native.npc.assembly_chen_jianqiu nickname
+#: data/cloud/npcs.json data/native/npcs.json
 msgid "霹雳刀"
 msgstr ""
 
@@ -31892,6 +32269,11 @@ msgstr ""
 #. cloud.npc.b_header inquiry.失镖.rules.say
 #: data/cloud/npcs.json
 msgid "振远镖局没有失过镖。谁跟你说的？"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.say
+#: data/cloud/npcs.json
+msgid "正月十七过去了。振远照旧走镖。"
 msgstr ""
 
 #. cloud.npc.b_header inquiry.虹台.rules.say
@@ -32962,12 +33344,16 @@ msgid ""
 msgstr ""
 
 #. waterfog.npc.elder7 name
-#: data/waterfog/npcs.json
+#. native.npc.assembly_yan_wei name
+#. native.npc.yan_wei_chair name
+#: data/waterfog/npcs.json data/native/npcs.json
 msgid "颜违"
 msgstr ""
 
 #. waterfog.npc.elder7 title
-#: data/waterfog/npcs.json
+#. waterfog.npc.elder7 moods.elder.title
+#. native.npc.assembly_yan_wei title
+#: data/waterfog/npcs.json data/native/npcs.json
 msgid "水烟阁七长老"
 msgstr ""
 
@@ -32977,6 +33363,21 @@ msgid ""
 "颜违是水烟阁七位长老中最年轻的，虽然他的武功跟其他六位长老\n"
 "相比仍略逊一筹，但是他办事十分精明干练，因此七长老每年都派\n"
 "他出外办理武林大会事宜。\n"
+msgstr ""
+
+#. waterfog.npc.elder7 greeting.rules.steps.emote
+#: data/waterfog/npcs.json
+msgid "正把案上的文书一件件收进匣子里，见你进来，点了点头。"
+msgstr ""
+
+#. waterfog.npc.elder7 greeting.rules.steps.say
+#: data/waterfog/npcs.json
+msgid "正厅那把椅子，本座这就下去坐。"
+msgstr ""
+
+#. waterfog.npc.elder7 greeting.rules.steps.emote
+#: data/waterfog/npcs.json
+msgid "向你拱了拱手：盟主。"
 msgstr ""
 
 #. waterfog.npc.elder7 greeting.rules.steps.emote
@@ -33283,6 +33684,1098 @@ msgstr ""
 msgid ""
 "这里是水烟阁东侧厅的二楼，由于侧厅是挑高建筑，因此这里只有\n"
 "一条约七、八尺宽的走道连接楼梯与往西的门。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly name
+#: data/waterfog/world.json
+msgid "虹台大会"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.verb
+#. waterfog.terrace_top.assembly act.acts.choice
+#: data/waterfog/world.json
+msgid "入席"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask
+#: data/waterfog/world.json
+msgid ""
+"入席？\n"
+"入了席，就不能再去各派游说、改票：九派的票，就照现在这样。\n"
+"那天山下会出事，你只来得及管一件——没管的那一派上不了虹台，它那一票不算。\n"
+"要入席吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"正月十七。天还没亮，你踏着白石阶上了虹台。九个旗座都还空着，擎天柱下的香炉冷着。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"天刚亮，山下接连跑上来几个报信的。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.text
+#: data/waterfog/world.json
+msgid "山下出了事，你只来得及管一件："
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "山道上：神教的杀手截住了山烟寺的轿子"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"去山道上截住神教的杀手，山烟寺的轿子才上得了虹台。\n"
+"别的事就顾不上了：没人管的那一件，那一派今天上不了虹台，它那一票不算。\n"
+"要去吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "去山道"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你下了石阶，在山道转角截住了几个黑衣人。他们认出是你，扔下刀走了。山烟寺的轿子晃晃悠悠地抬了上来。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "葬剑亭：逆灵宫的余孽在放火"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"回葬剑亭救火，茅山的林忌就不必离席去追。\n"
+"别的事就顾不上了：没人管的那一件，那一派今天上不了虹台，它那一票不算。\n"
+"要去吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "去葬剑亭"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你赶回葬剑亭。几个戴黑冠的道士正往亭柱上泼油，见了你，火把一扔就往崖下跑。火扑灭了，亭子只熏黑了一角。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "官道上：颜违的人堵了封山剑派的路"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"下山解封山的围，封山剑派才上得了虹台。\n"
+"别的事就顾不上了：没人管的那一件，那一派今天上不了虹台，它那一票不算。\n"
+"要去吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "去官道"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你下到官道上。十几个红衣武士横在路口，领头的见是你，犹豫了一下，让开了。封山的人上了山。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "山下茶棚：兵部的人「请」骆云舟喝茶"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"去山下茶棚请回骆云舟，步玄派才上得了虹台。\n"
+"别的事就顾不上了：没人管的那一件，那一派今天上不了虹台，它那一票不算。\n"
+"要去吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "去茶棚"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你在山下的茶棚里找到了骆云舟。两个穿便服的兵部武官一左一右陪着他，见你进来，起身结了账走了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"日头升到擎天柱顶。九派的人陆续上了台，一面一面的旗插上了旗座。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"封山剑派的旗座空着：上山的官道让人堵了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"茅山的旗座空着：林忌一早上了台，葬剑亭那边一起烟，他提剑追下去了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"山烟寺的旗座空着：轿子在山道上让人截了，没能上来。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"步玄派的旗座空着：骆云舟让兵部的人「请」去山下喝茶了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"绝尘派的旗座空着：绝尘子不问世事。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.emote
+#: data/waterfog/world.json
+msgid "站在石椅旁，向四面拱了拱手。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "诸位远道而来。正月十七，虹台推选——九派各一票，过半者为盟主；不过半，椅子照旧。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "本座代理了这些年，今天把话说清楚：本座也算一个。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "本座也算一个。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "二十年没上过这座台了。……诸位定吧，老夫听着。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山剑派，等盟主回来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山这一票，今天照约好的投。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "北宗这个座，是颜长老给的。北宗记着。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "北宗这一票，在你手里。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远来了。二十年前那趟镖，到此为止吧。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远来了。二十年前那趟镖，今天要一个说法。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山主剿。谁说剿，茅山就投谁。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山欠你一回，今天还。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "晚月庄的封地，谁也别想过问。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "神教的人，不该再在江湖上走。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "阿弥陀佛。神教之事，今日总要有个了断。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "阿弥陀佛。容得下，才是佛门。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "骆家在京城住了五代。京城的意思，步玄不敢违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "骆家欠你一份情，今天还。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "嘿嘿，叫花子最怕官。有个旧盟主坐着，官就不敢上门。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "老道下山，就这一回。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "长老们说投七长老，天邪就投七长老。今天的票，由执法使来唱。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪等盟主回来。今天的票，由执法使来唱。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪这一票，执事说了算。今天的票，由执法使来唱。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "唱票之前，还有一句：九派之外，还有谁要站出来？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.text
+#: data/waterfog/world.json
+msgid "九派之外，还有谁要站出来？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "我也算一个"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "要灭了侮天鬼，九派才认你"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "听你的一派也没来，还差五派"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "听你的只有一派，还差四派"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "听你的只有两派，还差三派"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "听你的只有三派，还差两派"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "听你的只有四派，还差一派"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"站出来参选：今天上了台、听你的那几派都投你，五派过了半数，你就是武林盟主；台上三件事——朝廷、逆灵宫、东方神教——由你来答。\n"
+"站出来就不能再坐回去。要参选吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "参选"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。九派之外，多一个。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "听我的那几派，投旧盟主"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"不参选：今天上了台、听你的那几派都投旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子）。\n"
+"说了就是定了。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "投旧盟主"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "听我的那几派，投颜违"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"不参选：今天上了台、听你的那几派都投颜违。\n"
+"说了就是定了。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "坐着听唱票"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"不参选，也没有哪一派听你的：坐着听唱票。\n"
+"要这样吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "坐着听"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "唱票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山剑派——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山剑派——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山剑派——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山剑派——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "封山剑派——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪派——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪派——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪派——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪派——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "天邪派——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远镖局——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远镖局——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远镖局——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远镖局——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山派——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山派——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山派——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山派——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山派——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "晚月庄——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "晚月庄——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "晚月庄——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "晚月庄——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "晚月庄——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "山烟寺——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "山烟寺——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "山烟寺——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "山烟寺——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "步玄派——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "步玄派——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "步玄派——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "步玄派——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "步玄派——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "花紫会——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "花紫会——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "花紫会——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "绝尘派——卫盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "绝尘派——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "绝尘派——没有来，不算。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，零票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，一票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，两票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，三票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，四票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，五票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，六票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，七票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，零票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，零票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，一票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，一票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，两票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，两票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，三票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，三票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，四票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，四票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，五票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，五票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，六票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，六票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，七票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，七票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，八票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，八票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主，九票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主，九票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，零票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，一票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，两票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，三票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，四票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，五票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "过了半数。从今天起，武林盟主是你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.emote
+#: data/waterfog/world.json
+msgid "转过身，向你抱了抱拳。九派的人一个一个站了起来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.title
+#. native.npc.wei_canglan title
+#. native.npc.wei_canglan_lake title
+#. native.npc.assembly_wei_canglan title
+#. native.npc.yan_wei_chair title
+#: data/waterfog/world.json data/imperial/npcs.json data/native/npcs.json
+msgid "武林盟主"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "七长老过了半数。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.emote
+#: data/waterfog/world.json
+msgid "整了整衣襟，走到石椅前，坐了下去。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "承蒙诸位。二十年的旧案，到此为止；水烟阁同朝廷，往后好好说话。北麓那座道观里剩下的，剿；东方神教，逐。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "没有人过半。换盟主要过半——椅子不换人。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "卫盟主过了半数。换盟主要过半，旧盟主过半——椅子不换人。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.emote
+#: data/waterfog/world.json
+msgid "慢慢站起来，走到石椅前，坐了下去。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "老夫回来了，就坐回来。老松岭的旧案，查到底；北麓的孩子，交茅山看着；神教不犯九派，就容它。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "没有人过半。换盟主要过半——椅子不换人，还空着，等盟主回来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "旧盟主过了半数——椅子不换人，还空着，等盟主回来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "七长老照旧代理。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "盟主，台上有三件事，九派等你一句话。头一件：朝廷。二十年前老松岭那桩旧案——"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.text
+#: data/waterfog/world.json
+msgid "老松岭的旧案："
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "查到底：封地照旧，不许官府过问"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"查到底：二十年前老松岭的旧案一查到底，水烟阁的封地照旧，不许官府过问。\n"
+"这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "查到底"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。旧案，查到底。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "到此为止：水烟阁同朝廷走近"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"到此为止：老松岭的旧案不再提，水烟阁同朝廷走近。\n"
+"这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "到此为止"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。旧案，到此为止。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "第二件：北麓那座道观里剩下的人。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.text
+#: data/waterfog/world.json
+msgid "逆灵宫剩下的人："
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "剿：一个不留"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"剿：北麓那座道观里剩下的人，九派一个不留。\n"
+"这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。剿。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "交茅山看管：肯下山的，给一条路"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"交茅山看管：北麓那座道观里剩下的人，肯下山的给一条路，交茅山看着。\n"
+"这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "交茅山"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。交茅山。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "第三件：东方神教。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.text
+#: data/waterfog/world.json
+msgid "东方神教："
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "逐：神教的人不许再在江湖上走"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"逐：东方神教的人，从今往后不许在九派的地方走。\n"
+"这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。逐。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "容：不犯九派，就容它"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"容：东方神教不犯九派，九派就容它。\n"
+"这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "容"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
+#: data/waterfog/world.json
+msgid "好。容。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "还有一件。你身上那把旋芒，斩过湖底那颗头——它往后在哪里？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.text
+#: data/waterfog/world.json
+msgid "旋芒："
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "交给水烟阁，供在葬剑亭"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"把旋芒交给水烟阁，供在葬剑亭，让九派都看得见：它就不在你手里了。\n"
+"要交吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "供在葬剑亭"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你把旋芒交了出去。潘军禅双手接过，用一块黄绫裹了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "还给岚城"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"把旋芒还给岚城：举起剑，让风把它带回去，岚城云台的旋风里会再转着它。它就不在你手里了。\n"
+"要还吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你把旋芒举过头顶。山风从虹谷里卷上来，剑在你手里一轻，转着往西去了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "散会。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"九派的人陆续下了虹台。旗一面一面拔了下来。\n"
+msgstr ""
+
+#. waterfog.frontyard.notice act.verb
+#: data/waterfog/world.json
+msgid "看告示"
+msgstr ""
+
+#. waterfog.frontyard.notice act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"告示上写着：正月十七，九派会于虹台，推举武林盟主。下面一行朱笔：「九派过半，新盟主在此。九派诸事，听盟主吩咐。」\n"
+"那新盟主，就是你。\n"
+msgstr ""
+
+#. waterfog.frontyard.notice act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"告示上写着：正月十七，九派会于虹台，推举武林盟主。下面一行朱笔：「九派过半，水烟阁七长老颜违为武林盟主。老松岭旧案，到此为止。」\n"
+msgstr ""
+
+#. waterfog.frontyard.notice act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"告示上写着：正月十七，九派会于虹台，推举武林盟主。下面一行朱笔：「无人过半，盟主之位照旧。卫沧澜盟主复位。」\n"
+msgstr ""
+
+#. waterfog.frontyard.notice act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"告示上写着：正月十七，九派会于虹台，推举武林盟主。下面一行朱笔：「无人过半，盟主之位照旧，虚位以待。」\n"
+msgstr ""
+
+#. waterfog.guildhall.chair act.verb
+#: data/waterfog/world.json
+msgid "坐一坐"
+msgstr ""
+
+#. waterfog.guildhall.chair act.acts.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你在太师椅上坐了一会儿。椅子又硬又凉，扶手让二十年前的手掌磨得发亮。\n"
 msgstr ""
 
 #. waterfog.guildhall.landmark.sign name
@@ -57173,14 +58666,9 @@ msgstr ""
 
 #. native.npc.wei_canglan name
 #. native.npc.wei_canglan_lake name
+#. native.npc.assembly_wei_canglan name
 #: data/imperial/npcs.json data/native/npcs.json
 msgid "卫沧澜"
-msgstr ""
-
-#. native.npc.wei_canglan title
-#. native.npc.wei_canglan_lake title
-#: data/imperial/npcs.json data/native/npcs.json
-msgid "武林盟主"
 msgstr ""
 
 #. native.npc.wei_canglan long
@@ -59212,6 +60700,14 @@ msgstr ""
 #. lancheng.whirl.self act.acts.choice
 #: data/lancheng/world.json
 msgid "自己拔"
+msgstr ""
+
+#. lancheng.whirl.self act.acts.steps.line
+#. lancheng.whirl.uncle act.acts.steps.line
+#. lancheng.whirl.xiao act.acts.steps.line
+#: data/lancheng/world.json
+msgid ""
+"旋风里又转着旋芒。它回了家，风不再让人走近。\n"
 msgstr ""
 
 #. lancheng.whirl.self act.acts.steps.line
@@ -61994,6 +63490,7 @@ msgid "牌子是我自己写的。字不好，爹爹看见要笑的。"
 msgstr ""
 
 #. native.npc.liu_chunfeng_lake title
+#. native.npc.assembly_liu_chunfeng title
 #: data/native/npcs.json
 msgid "封山剑派掌门人"
 msgstr ""
@@ -62715,6 +64212,205 @@ msgstr ""
 msgid "老冰匠连连摆手：我一个凿冰的老头子，哪里经得起你一下。"
 msgstr ""
 
+#. native.npc.assembly_yan_wei long
+#: data/native/npcs.json
+msgid ""
+"颜违站在石椅旁，衣襟理得一丝不乱，手里没拿兵刃。今日的事是他一手张罗的。\n"
+msgstr ""
+
+#. native.npc.assembly_yan_wei fight_deferred
+#: data/native/npcs.json
+msgid "颜违摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_yan_wei inquiry.虹台
+#. native.npc.assembly_wei_canglan inquiry.虹台
+#. native.npc.assembly_liu_chunfeng inquiry.虹台
+#. native.npc.assembly_liu_huixin inquiry.虹台
+#. native.npc.assembly_pan_junchan inquiry.虹台
+#. native.npc.assembly_chen_jianqiu inquiry.虹台
+#. native.npc.assembly_lin_ji inquiry.虹台
+#. native.npc.assembly_lan_zhiping inquiry.虹台
+#. native.npc.assembly_xuanzhi inquiry.虹台
+#. native.npc.assembly_luo_yunzhou inquiry.虹台
+#. native.npc.assembly_lu_decai inquiry.虹台
+#. native.npc.assembly_juechenzi inquiry.虹台
+#: data/native/npcs.json
+msgid "正月十七，九派都在这里。有话，台上说。"
+msgstr ""
+
+#. native.npc.assembly_wei_canglan long
+#: data/native/npcs.json
+msgid ""
+"卫沧澜坐在石椅边的一块石头上，膝上搁着那本诗集。二十年没上过这座台了。\n"
+msgstr ""
+
+#. native.npc.assembly_wei_canglan fight_deferred
+#: data/native/npcs.json
+msgid "卫沧澜摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_liu_chunfeng long
+#: data/native/npcs.json
+msgid ""
+"柳淳风抱着剑坐在封山的旗下，背挺得笔直。\n"
+msgstr ""
+
+#. native.npc.assembly_liu_chunfeng fight_deferred
+#: data/native/npcs.json
+msgid "柳淳风摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_liu_huixin long
+#: data/native/npcs.json
+msgid ""
+"柳绘心坐在封山的旗下。旗是新做的，上头那个「北」字是她自己添的。\n"
+msgstr ""
+
+#. native.npc.assembly_liu_huixin fight_deferred
+#: data/native/npcs.json
+msgid "柳绘心摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_pan_junchan long
+#: data/native/npcs.json
+msgid ""
+"潘军禅站在主位的旗下，手里拿着一张名单，脸上照旧带着笑。今日的票由他来唱。\n"
+msgstr ""
+
+#. native.npc.assembly_pan_junchan fight_deferred
+#: data/native/npcs.json
+msgid "潘军禅摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_chen_jianqiu title
+#: data/native/npcs.json
+msgid "振远镖局镖头"
+msgstr ""
+
+#. native.npc.assembly_chen_jianqiu long
+#: data/native/npcs.json
+msgid ""
+"陈剑秋坐在振远的旗下，刀横在膝上。\n"
+msgstr ""
+
+#. native.npc.assembly_chen_jianqiu fight_deferred
+#: data/native/npcs.json
+msgid "陈剑秋摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_lin_ji title
+#: data/native/npcs.json
+msgid "茅山派天师"
+msgstr ""
+
+#. native.npc.assembly_lin_ji long
+#: data/native/npcs.json
+msgid ""
+"林忌坐在茅山的黄旗下，六根指头的那只手搭在剑柄上。\n"
+msgstr ""
+
+#. native.npc.assembly_lin_ji fight_deferred
+#: data/native/npcs.json
+msgid "林忌摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_lan_zhiping long
+#: data/native/npcs.json
+msgid ""
+"蓝止萍坐在晚月庄的旗下，裙角压得平平整整。\n"
+msgstr ""
+
+#. native.npc.assembly_lan_zhiping fight_deferred
+#: data/native/npcs.json
+msgid "蓝止萍摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_xuanzhi title
+#: data/native/npcs.json
+msgid "山烟寺住持"
+msgstr ""
+
+#. native.npc.assembly_xuanzhi long
+#: data/native/npcs.json
+msgid ""
+"玄智和尚坐在山烟寺的旗下，手里捻着一串念珠。\n"
+msgstr ""
+
+#. native.npc.assembly_xuanzhi fight_deferred
+#: data/native/npcs.json
+msgid "玄智和尚摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_luo_yunzhou title
+#: data/native/npcs.json
+msgid "步玄派掌门人"
+msgstr ""
+
+#. native.npc.assembly_luo_yunzhou long
+#: data/native/npcs.json
+msgid ""
+"骆云舟坐在步玄派的旗下，一把折扇收在手里。\n"
+msgstr ""
+
+#. native.npc.assembly_luo_yunzhou fight_deferred
+#: data/native/npcs.json
+msgid "骆云舟摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_lu_decai title
+#: data/native/npcs.json
+msgid "花紫会龙头"
+msgstr ""
+
+#. native.npc.assembly_lu_decai long
+#: data/native/npcs.json
+msgid ""
+"陆得财盘腿坐在花紫会的旗下，正抠着脚。\n"
+msgstr ""
+
+#. native.npc.assembly_lu_decai fight_deferred
+#: data/native/npcs.json
+msgid "陆得财摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.assembly_juechenzi title
+#: data/native/npcs.json
+msgid "绝尘派祖师"
+msgstr ""
+
+#. native.npc.assembly_juechenzi long
+#: data/native/npcs.json
+msgid ""
+"绝尘子坐在绝尘派的旗下，眼睛半闭着。\n"
+msgstr ""
+
+#. native.npc.assembly_juechenzi fight_deferred
+#: data/native/npcs.json
+msgid "绝尘子摆了摆手：今天是推选的日子，不动手。"
+msgstr ""
+
+#. native.npc.yan_wei_chair long
+#: data/native/npcs.json
+msgid ""
+"颜违坐在正厅中央那张黝黑的太师椅上。椅子是他的了，他坐得很稳。\n"
+msgstr ""
+
+#. native.npc.yan_wei_chair fight_deferred
+#: data/native/npcs.json
+msgid "颜违抬了抬眼：盟主不同人动手。"
+msgstr ""
+
+#. native.npc.yan_wei_chair inquiry.盟主
+#: data/native/npcs.json
+msgid "九派过半，本座坐这把椅子。二十年的旧案，到此为止。"
+msgstr ""
+
+#. native.npc.yan_wei_chair inquiry.虹台
+#: data/native/npcs.json
+msgid "正月十七的事，定了。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -63328,10 +65024,6 @@ msgstr ""
 
 #: data/cloud/voxel/outdoor.json
 msgid "绮云"
-msgstr ""
-
-#: data/cloud/voxel/outdoor.json
-msgid "振远"
 msgstr ""
 
 #: data/cloud/voxel/outdoor.json

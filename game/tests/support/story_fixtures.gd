@@ -698,3 +698,18 @@ static func dongfang_split(session: WorldSessionController, annie: bool, truth: 
 	if map != null:
 		map.acts.take_from_player(&"native:cloud/copper_token")
 		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/gold_token")
+
+
+## 大会 B (DECISIONS「大会 B」): the main story over after 终章 B's `end` (StoryFixtures.finale_ended, then home:
+## 宣过诏, 终章), the 虹台 invitation in hand (拿了虹台请柬) and the 大会 quest on to its canvass; `marks` the
+## lines' and the canvass' marks as a suite wants them. 入席 next.
+static func assembly_invited(session: WorldSessionController, end: String = "slay", marks: Array = [], who: String = "self") -> void:
+	finale_ended(session, end, who)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.finale/home", "main.finale#done", "faction.assembly#started", "faction.assembly/wait", "faction.assembly/invite"]:
+		_write(state, key)
+	for mark: String in ["宣过诏", "终章", "拿了虹台请柬"] + marks:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		map.give_new_item_to_player(&"native:waterfog/assembly_invitation")

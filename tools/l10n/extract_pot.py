@@ -87,7 +87,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "guarded",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
-ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks", "marks_asker", "marks_giver"})
+ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks", "ask_lacks", "marks_asker", "marks_giver"})
 # Blocks of a record that are never shown: an attitude by condition (its words are ids), the
 # ES2 values kept for the suites that pin a ported formula (`classic`: numbers and field names).
 SKIPPED_BLOCKS = frozenset({"attitude", "classic"})
@@ -523,6 +523,20 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
             for item in value:
                 if isinstance(item, str):
                     catalog.add(item, relative, note=note)
+        elif key == "choose" and isinstance(value, dict):
+            # An act's choice (ScriptedAct `choose`, 大会 B): what is asked, each option and why one is greyed,
+            # then the options' own questions and steps.
+            if isinstance(value.get("text"), str):
+                catalog.add(value["text"], relative, note=f"{note}.text")
+            for option in value.get("options", []):
+                if not isinstance(option, dict):
+                    continue
+                if isinstance(option.get("text"), str):
+                    catalog.add(option["text"], relative, note=f"{note}.options.text")
+                for locked in option.get("locked", []):
+                    if isinstance(locked, dict) and isinstance(locked.get("text"), str):
+                        catalog.add(locked["text"], relative, note=f"{note}.options.locked.text")
+                _walk_json({k: v for k, v in option.items() if k not in ("text", "locked")}, relative, record_id, catalog, f"{here}.options")
         elif key == "name_parts" and isinstance(value, list):
             # A name drawn part by part (huyuan.c): every name it can make is shown whole.
             names = [""]

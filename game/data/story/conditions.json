@@ -860,6 +860,1058 @@
 					]
 				}
 			}
+		},
+		{
+			"id": "assembly.day.ambush",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 神教的杀手截山烟寺的轿子: 站了朱鸿雪, or the 东方神教 line never split (only 站了安妮儿 keeps them home)"
+			],
+			"when": {
+				"not": {
+					"mark": "站了安妮儿"
+				}
+			}
+		},
+		{
+			"id": "assembly.day.fire",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 逆灵宫的余孽 set 葬剑亭 alight: neither 剿 nor 招安 (no 余孽有了去处)"
+			],
+			"when": {
+				"not": {
+					"mark": "余孽有了去处"
+				}
+			}
+		},
+		{
+			"id": "assembly.day.blockade",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 颜违's men bar 封山's road: 站了潘军禅, and 封山 does not vote for him"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "站了潘军禅"
+					},
+					{
+						"not": {
+							"cond": "assembly.fonxan.yan"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.tea",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 兵部「请」骆云舟喝茶: 庾子建 still in office (not 下狱), unless 颜违's men are out that day (one of the two, the player's own line first)"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "庾子建下狱"
+						}
+					},
+					{
+						"not": {
+							"cond": "assembly.day.blockade"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.fonxan.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 封山剑派 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "入了虹台的席"
+					},
+					{
+						"not": {
+							"mark": "封山没上虹台"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.fonxan.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 封山剑派 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.fonxan.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.fonxan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 封山剑派 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.fonxan.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.fonxan.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.fonxan.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.fonxan.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 封山剑派 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.fonxan.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.fonxan.old"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.fonxan.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.fonxan.backs",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 封山剑派 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.fonxan.here"
+					},
+					{
+						"cond": "assembly.fonxan.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.fonxan.self",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 封山剑派 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.fonxan.backs"
+					},
+					{
+						"mark": "站出来参选"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.celestial.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 天邪派 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"mark": "入了虹台的席"
+			}
+		},
+		{
+			"id": "assembly.day.celestial.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 天邪派 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.celestial.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.celestial.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 天邪派 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.celestial.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.celestial.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.celestial.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.celestial.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 天邪派 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.celestial.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.celestial.old"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.celestial.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.celestial.backs",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 天邪派 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.celestial.here"
+					},
+					{
+						"cond": "assembly.celestial.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.celestial.self",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 天邪派 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.celestial.backs"
+					},
+					{
+						"mark": "站出来参选"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.zhenyuan.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 振远镖局 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"mark": "入了虹台的席"
+			}
+		},
+		{
+			"id": "assembly.day.zhenyuan.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 振远镖局 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.zhenyuan.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.zhenyuan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 振远镖局 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.zhenyuan.here"
+					},
+					{
+						"cond": "assembly.zhenyuan.yan"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.zhenyuan.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 振远镖局 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.zhenyuan.here"
+					},
+					{
+						"cond": "assembly.zhenyuan.old"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.maoshan.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "入了虹台的席"
+					},
+					{
+						"not": {
+							"mark": "茅山没上虹台"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.maoshan.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.maoshan.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.maoshan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.maoshan.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.maoshan.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.maoshan.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.maoshan.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.maoshan.here"
+					},
+					{
+						"all": [
+							{
+								"cond": "assembly.maoshan.self"
+							},
+							{
+								"mark": "听你的投旧盟主"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.maoshan.backs",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.maoshan.here"
+					},
+					{
+						"cond": "assembly.maoshan.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.maoshan.self",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.maoshan.backs"
+					},
+					{
+						"mark": "站出来参选"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.latemoon.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 晚月庄 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"mark": "入了虹台的席"
+			}
+		},
+		{
+			"id": "assembly.day.latemoon.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 晚月庄 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.latemoon.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.latemoon.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 晚月庄 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.latemoon.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.latemoon.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.latemoon.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.latemoon.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 晚月庄 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.latemoon.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.latemoon.old"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.latemoon.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.latemoon.backs",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 晚月庄 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.latemoon.here"
+					},
+					{
+						"cond": "assembly.latemoon.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.latemoon.self",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 晚月庄 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.latemoon.backs"
+					},
+					{
+						"mark": "站出来参选"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.sanyen.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "入了虹台的席"
+					},
+					{
+						"not": {
+							"mark": "山烟寺没上虹台"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.sanyen.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.sanyen.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.sanyen.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.sanyen.here"
+					},
+					{
+						"cond": "assembly.sanyen.yan"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.sanyen.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.sanyen.here"
+					},
+					{
+						"cond": "assembly.sanyen.old"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.buxuan.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "入了虹台的席"
+					},
+					{
+						"not": {
+							"mark": "步玄没上虹台"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.buxuan.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.buxuan.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.buxuan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.buxuan.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.buxuan.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.buxuan.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.buxuan.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.buxuan.here"
+					},
+					{
+						"all": [
+							{
+								"cond": "assembly.buxuan.self"
+							},
+							{
+								"mark": "听你的投旧盟主"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.buxuan.backs",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.buxuan.here"
+					},
+					{
+						"cond": "assembly.buxuan.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.buxuan.self",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.buxuan.backs"
+					},
+					{
+						"mark": "站出来参选"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.huazi.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 花紫会 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"mark": "入了虹台的席"
+			}
+		},
+		{
+			"id": "assembly.day.huazi.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 花紫会 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.huazi.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.huazi.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 花紫会 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.huazi.here"
+					},
+					{
+						"cond": "assembly.huazi.old"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.juechen.here",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 came up onto the 虹台 that day (an 派 that did not casts no vote)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "入了虹台的席"
+					},
+					{
+						"cond": "assembly.juechen.old"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.juechen.seated",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 in its seat: from the 九派 coming up to the 散会 (its flag, its head on the stage)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "九派到了"
+					},
+					{
+						"not": {
+							"mark": "大会散了"
+						}
+					},
+					{
+						"cond": "assembly.day.juechen.here"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.juechen.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘派 votes the old 盟主 on the day"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.juechen.here"
+					},
+					{
+						"cond": "assembly.juechen.old"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.self_wins",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 换盟主要过半 (§11 Q3): five of the nine that came for you"
+			],
+			"when": {
+				"at_least": {
+					"n": 5,
+					"of": [
+						{
+							"cond": "assembly.day.fonxan.self"
+						},
+						{
+							"cond": "assembly.day.celestial.self"
+						},
+						{
+							"cond": "assembly.day.maoshan.self"
+						},
+						{
+							"cond": "assembly.day.latemoon.self"
+						},
+						{
+							"cond": "assembly.day.buxuan.self"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "assembly.day.yan_wins",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — five of the nine that came for 颜违"
+			],
+			"when": {
+				"at_least": {
+					"n": 5,
+					"of": [
+						{
+							"cond": "assembly.day.fonxan.yan"
+						},
+						{
+							"cond": "assembly.day.celestial.yan"
+						},
+						{
+							"cond": "assembly.day.zhenyuan.yan"
+						},
+						{
+							"cond": "assembly.day.maoshan.yan"
+						},
+						{
+							"cond": "assembly.day.latemoon.yan"
+						},
+						{
+							"cond": "assembly.day.sanyen.yan"
+						},
+						{
+							"cond": "assembly.day.buxuan.yan"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "assembly.day.can_stand",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 我也算一个: 侮天鬼灭了, and five 派 that came 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "侮天鬼灭了"
+					},
+					{
+						"at_least": {
+							"n": 5,
+							"of": [
+								{
+									"cond": "assembly.day.fonxan.backs"
+								},
+								{
+									"cond": "assembly.day.celestial.backs"
+								},
+								{
+									"cond": "assembly.day.maoshan.backs"
+								},
+								{
+									"cond": "assembly.day.latemoon.backs"
+								},
+								{
+									"cond": "assembly.day.buxuan.backs"
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.old_wins",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — five of the nine that came for the old 盟主: the chair stays, as it would with nobody past half; told so"
+			],
+			"when": {
+				"at_least": {
+					"n": 5,
+					"of": [
+						{
+							"cond": "assembly.day.fonxan.old"
+						},
+						{
+							"cond": "assembly.day.celestial.old"
+						},
+						{
+							"cond": "assembly.day.zhenyuan.old"
+						},
+						{
+							"cond": "assembly.day.maoshan.old"
+						},
+						{
+							"cond": "assembly.day.latemoon.old"
+						},
+						{
+							"cond": "assembly.day.sanyen.old"
+						},
+						{
+							"cond": "assembly.day.buxuan.old"
+						},
+						{
+							"cond": "assembly.day.huazi.old"
+						},
+						{
+							"cond": "assembly.day.juechen.old"
+						}
+					]
+				}
+			}
 		}
 	]
 }

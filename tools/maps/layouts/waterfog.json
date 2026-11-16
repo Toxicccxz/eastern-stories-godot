@@ -104,6 +104,7 @@
               ["blocked", 992, 832, 1056, 880, "a great bronze censer before the gate (学武之人的朝圣地)", {"look": {"kind": "censer"}}],
               ["blocked", 912, 736, 928, 752, "stone lanterns either side of the gate", {"look": {"kind": "stone_lantern"}}],
               ["blocked", 1120, 736, 1136, 752, {"look": {"kind": "stone_lantern"}}],
+              ["blocked", 896, 896, 928, 912, "大会 B: the 山门's notice after the 虹台 (the count, as it came out)", {"look": {"kind": "notice_post", "text": "告示", "present": {"mark": "大会散了"}}}],
               ["blocked", 1152, 720, 1168, 976, "the platform's railing over the chasm east", {"look": {"kind": "balustrade"}}],
               ["blocked", 880, 720, 896, 816, "and west, where the path does not leave", {"look": {"kind": "balustrade"}}],
               ["blocked", 976, 976, 992, 1200, "stair5's railings", {"look": {"kind": "balustrade"}}],
@@ -132,6 +133,7 @@
               ["forest", 624, 784, 848, 800, "wpath1: a row of maples along the path's north side"],
               ["blocked", 528, 816, 560, 832, "wpath2: the stone tablet of 虹谷 beside the path", {"look": {"kind": "stele", "height": 2.4, "colors": ["8d8f86", "9c9d93", "7e8078"]}}],
               ["floor_yard", 176, 176, 272, 272, "葬剑亭: open to the north, east and south"],
+              ["blocked", 176, 192, 208, 240, "大会 B: 旋芒 laid on a sword table along the pavilion's closed west side, once the 虹台 gave it to 水烟阁", {"look": {"kind": "sword_stand", "rotation": 90, "cloth": "d8b03a", "present": {"mark": "旋芒供在葬剑亭"}}}],
               ["blocked", 176, 176, 192, 192, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
               ["blocked", 256, 176, 272, 192, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
               ["blocked", 176, 256, 192, 272, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
@@ -202,6 +204,13 @@
           "Rect_64_48": [64, 48]
         },
         "nodes": [
+          {
+            "node": "service",
+            "name": "FrontyardNotice",
+            "id": "waterfog.frontyard.notice",
+            "at": [912, 940],
+            "text": "告示 · 看告示"
+          },
           {
             "node": "service",
             "name": "Sroad3Coach",
@@ -471,7 +480,7 @@
         "placed": {
           "waterfog.entrance.guard.1": [856, 1168],
           "waterfog.entrance.guard.2": [1064, 1168],
-          "waterfog.guildhall.champion.1": [1072, 792], "waterfog.guildhall.wei_canglan.1": [880, 960],
+          "waterfog.guildhall.champion.1": [1072, 792], "waterfog.guildhall.wei_canglan.1": [880, 960], "waterfog.guildhall.chair.1": [968, 892], "waterfog.guildhall.chair.2": [968, 892],
           "waterfog.guildhall.master.1": [864, 792],
           "waterfog.guildhall.executioner.1": [1152, 960],
           "waterfog.storage.servant.1": [176, 288],
@@ -521,6 +530,13 @@
           }
         ],
         "nodes": [
+          {
+            "node": "service",
+            "name": "GuildhallChair",
+            "id": "waterfog.guildhall.chair",
+            "at": [968, 916],
+            "text": "太师椅 · 坐一坐"
+          },
           {
             "generated": "captions"
           },
@@ -747,15 +763,24 @@
             "fills": [
               ["blocked", 576, 800, 640, 864, "wpath4.c: 竖立在虹台中央的「擎天柱」", {"look": {"kind": "sky_pillar", "height": 9.0, "colors": ["d8d4c6", "cfcabb", "e2ded1"], "bands": "a9a597"}}],
               ["blocked", 592, 704, 624, 736, "an old bronze censer before the pillar, its ash cold", {"look": {"kind": "incense_burner", "tall": true, "bronze": "5e4c34"}}],
-              ["blocked", 688, 544, 720, 576, "nine stone flag seats round the rim, one for each 派 (the poles bare but on the day)", {"look": {"kind": "flag_seat", "rotation": -160}}],
-              ["blocked", 848, 672, 880, 704, {"look": {"kind": "flag_seat", "rotation": -120, "rag": "8a5a4a"}}],
-              ["blocked", 880, 864, 912, 896, {"look": {"kind": "flag_seat", "rotation": -80}}],
-              ["blocked", 784, 1040, 816, 1072, {"look": {"kind": "flag_seat", "rotation": -40}}],
-              ["blocked", 592, 1104, 624, 1136, "the hosts' seat, behind the chair", {"look": {"kind": "flag_seat", "rotation": 0, "rag": "4a6a8a"}}],
-              ["blocked", 400, 1040, 432, 1072, {"look": {"kind": "flag_seat", "rotation": 40}}],
-              ["blocked", 304, 864, 336, 896, {"look": {"kind": "flag_seat", "rotation": 80, "rag": "6a7a4a"}}],
-              ["blocked", 336, 672, 368, 704, {"look": {"kind": "flag_seat", "rotation": 120}}],
-              ["blocked", 496, 544, 528, 576, {"look": {"kind": "flag_seat", "rotation": 160}}],
+              ["blocked", 688, 544, 720, 576, "nine stone flag seats round the rim, one for each 派 (the poles bare but on the day)", {"look": {"kind": "flag_seat", "rotation": -160, "until": {"cond": "assembly.day.zhenyuan.seated"}}}],
+              ["blocked", 688, 544, 720, 576, "大会 B: 振远镖局's flag on the day", {"look": {"kind": "flag_seat", "rotation": -160, "cloth": "8a3a2a", "trim": "2f2a24", "text": "振远", "present": {"cond": "assembly.day.zhenyuan.seated"}}}],
+              ["blocked", 848, 672, 880, 704, {"look": {"kind": "flag_seat", "rotation": -120, "rag": "8a5a4a", "until": {"cond": "assembly.day.buxuan.seated"}}}],
+              ["blocked", 848, 672, 880, 704, "大会 B: 步玄派's flag on the day", {"look": {"kind": "flag_seat", "rotation": -120, "cloth": "3a4256", "trim": "2f2a24", "text": "步玄", "present": {"cond": "assembly.day.buxuan.seated"}}}],
+              ["blocked", 880, 864, 912, 896, {"look": {"kind": "flag_seat", "rotation": -80, "until": {"cond": "assembly.day.latemoon.seated"}}}],
+              ["blocked", 880, 864, 912, 896, "大会 B: 晚月庄's flag on the day", {"look": {"kind": "flag_seat", "rotation": -80, "cloth": "a83a4e", "trim": "2f2a24", "text": "晚月", "present": {"cond": "assembly.day.latemoon.seated"}}}],
+              ["blocked", 784, 1040, 816, 1072, {"look": {"kind": "flag_seat", "rotation": -40, "until": {"cond": "assembly.day.sanyen.seated"}}}],
+              ["blocked", 784, 1040, 816, 1072, "大会 B: 山烟寺's flag on the day", {"look": {"kind": "flag_seat", "rotation": -40, "cloth": "b0742a", "trim": "2f2a24", "text": "山烟", "present": {"cond": "assembly.day.sanyen.seated"}}}],
+              ["blocked", 592, 1104, 624, 1136, "the hosts' seat, behind the chair", {"look": {"kind": "flag_seat", "rotation": 0, "rag": "4a6a8a", "until": {"cond": "assembly.day.celestial.seated"}}}],
+              ["blocked", 592, 1104, 624, 1136, "大会 B: 天邪派's flag on the day", {"look": {"kind": "flag_seat", "rotation": 0, "cloth": "2c6668", "trim": "2f2a24", "text": "天邪", "present": {"cond": "assembly.day.celestial.seated"}}}],
+              ["blocked", 400, 1040, 432, 1072, {"look": {"kind": "flag_seat", "rotation": 40, "until": {"cond": "assembly.day.fonxan.seated"}}}],
+              ["blocked", 400, 1040, 432, 1072, "大会 B: 封山剑派's flag on the day", {"look": {"kind": "flag_seat", "rotation": 40, "cloth": "2f4a6a", "trim": "2f2a24", "text": "封山", "present": {"cond": "assembly.day.fonxan.seated"}}}],
+              ["blocked", 304, 864, 336, 896, {"look": {"kind": "flag_seat", "rotation": 80, "rag": "6a7a4a", "until": {"cond": "assembly.day.maoshan.seated"}}}],
+              ["blocked", 304, 864, 336, 896, "大会 B: 茅山派's flag on the day", {"look": {"kind": "flag_seat", "rotation": 80, "cloth": "a88a2c", "trim": "2f2a24", "text": "茅山", "present": {"cond": "assembly.day.maoshan.seated"}}}],
+              ["blocked", 336, 672, 368, 704, {"look": {"kind": "flag_seat", "rotation": 120, "until": {"cond": "assembly.day.juechen.seated"}}}],
+              ["blocked", 336, 672, 368, 704, "大会 B: 绝尘派's flag on the day", {"look": {"kind": "flag_seat", "rotation": 120, "cloth": "6a6a66", "trim": "2f2a24", "text": "绝尘", "present": {"cond": "assembly.day.juechen.seated"}}}],
+              ["blocked", 496, 544, 528, 576, {"look": {"kind": "flag_seat", "rotation": 160, "until": {"cond": "assembly.day.huazi.seated"}}}],
+              ["blocked", 496, 544, 528, 576, "大会 B: 花紫会's flag on the day", {"look": {"kind": "flag_seat", "rotation": 160, "cloth": "7a4a86", "trim": "2f2a24", "text": "花紫", "present": {"cond": "assembly.day.huazi.seated"}}}],
               ["blocked", 576, 992, 640, 1040, "the 盟主's stone chair, its back to the south rim", {"look": {"kind": "grand_chair", "rotation": 180, "wood": "7c7a6e", "trim": "a8a496", "cushion": "8e8b7e", "dais_color": "a29e90"}}],
               ["blocked", 512, 400, 544, 432, "two stone lanterns at the stair's head", {"look": {"kind": "stone_lantern", "colors": ["9a9a8e", "8a8a7e", "aaa99c"]}}],
               ["blocked", 672, 400, 704, 432, {"look": {"kind": "stone_lantern", "colors": ["9a9a8e", "8a8a7e", "aaa99c"]}}],
@@ -804,6 +829,13 @@
         },
         "nodes": [
           {
+            "node": "service",
+            "name": "TerraceAssembly",
+            "id": "waterfog.terrace_top.assembly",
+            "at": [608, 656],
+            "text": "虹台大会 · 入席"
+          },
+          {
             "generated": "captions"
           },
           {
@@ -831,6 +863,66 @@
             "name": "TombArrival",
             "at": [608, 128],
             "id": "waterfog.terrace_stair.tomb_arrival"
+          },
+          {
+            "name": "AssemblyYanWei",
+            "at": [536, 1008],
+            "id": "waterfog.terrace_top.yan_wei.1"
+          },
+          {
+            "name": "AssemblyWeiCanglan",
+            "at": [680, 1008],
+            "id": "waterfog.terrace_top.wei_canglan.1"
+          },
+          {
+            "name": "AssemblyLiuChunfeng",
+            "at": [456, 1000],
+            "id": "waterfog.terrace_top.liu_chunfeng.1"
+          },
+          {
+            "name": "AssemblyLiuHuixin",
+            "at": [456, 1000],
+            "id": "waterfog.terrace_top.liu_huixin.1"
+          },
+          {
+            "name": "AssemblyPanJunchan",
+            "at": [672, 1088],
+            "id": "waterfog.terrace_top.pan_junchan.1"
+          },
+          {
+            "name": "AssemblyChenJianqiu",
+            "at": [680, 624],
+            "id": "waterfog.terrace_top.chen_jianqiu.1"
+          },
+          {
+            "name": "AssemblyLinJi",
+            "at": [384, 864],
+            "id": "waterfog.terrace_top.lin_ji.1"
+          },
+          {
+            "name": "AssemblyLanZhiping",
+            "at": [832, 864],
+            "id": "waterfog.terrace_top.lan_zhiping.1"
+          },
+          {
+            "name": "AssemblyXuanzhi",
+            "at": [760, 1000],
+            "id": "waterfog.terrace_top.xuanzhi.1"
+          },
+          {
+            "name": "AssemblyLuoYunzhou",
+            "at": [808, 720],
+            "id": "waterfog.terrace_top.luo_yunzhou.1"
+          },
+          {
+            "name": "AssemblyLuDecai",
+            "at": [536, 624],
+            "id": "waterfog.terrace_top.lu_decai.1"
+          },
+          {
+            "name": "AssemblyJuechenzi",
+            "at": [408, 720],
+            "id": "waterfog.terrace_top.juechenzi.1"
           }
         ],
         "interactions": [

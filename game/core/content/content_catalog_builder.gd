@@ -1203,7 +1203,7 @@ func _check_hazards() -> void:
 			# they wear: DECISIONS「寒气」); an ES2 hazard's one act falls on whoever stands there.
 			if (not hazard.native and not act.applies_to(&"", &"")) or act.draws() or not act.ask.is_empty():
 				_errors.append("%s.act: a hazard acts on whoever stands there (no %srolls or question)" % [origin, "" if hazard.native else "conditions, "])
-			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES or step.kind == ScriptedAct.Kind.QUESTIONS):
+			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind in [ScriptedAct.Kind.COMES, ScriptedAct.Kind.QUESTIONS, ScriptedAct.Kind.CHOOSE]):
 				_errors.append("%s.act: a hazard brings no NPC and asks nothing" % origin)
 			_check_act(act, "%s.act" % origin)
 
@@ -1242,7 +1242,7 @@ func _check_winds() -> void:
 		for act: ScriptedAct in wind.gale:
 			if act.moves_player() or act.draws() or not act.ask.is_empty():
 				_errors.append("%s.gale: a gale acts on whoever stands there (no move, rolls or question)" % origin)
-			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES or step.kind == ScriptedAct.Kind.QUESTIONS):
+			if act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind in [ScriptedAct.Kind.COMES, ScriptedAct.Kind.QUESTIONS, ScriptedAct.Kind.CHOOSE]):
 				_errors.append("%s.gale: a gale brings no NPC and asks nothing" % origin)
 			_check_act(act, "%s.gale" % origin)
 
@@ -1394,6 +1394,18 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			ScriptedAct.Kind.CONDITION:
 				if not ConditionIds.ALL.has(step.condition_id):
 					_errors.append("%s.condition: unknown condition '%s'" % [origin, step.condition_id])
+			ScriptedAct.Kind.CHOOSE:
+				# 大会 B (DECISIONS「台上的选择」): each option's conditions and steps are checked as the
+				# act's own, with the NPC acting at that point.
+				for choice: int in step.options.size():
+					var option: ScriptedAct.Option = step.options[choice]
+					var at: String = "%s.steps[%d].options[%d]" % [origin, index, choice]
+					_check_condition(at + ".when", option.when)
+					for locked: Array in option.locked:
+						_check_condition(at + ".locked", locked[0])
+					var picked := ScriptedAct.new()
+					picked.steps = option.steps
+					_check_act(picked, at, acting, drawn, npc)
 
 
 ## A note_maze's enter portal leads into its zone, and each note names a way out of it: a

@@ -269,8 +269,18 @@
 				{ "action": "exert", "function": "powerup" },
 				{ "action": "exert", "function": "recover" }
 			],
-			"greeting": { "rules": [{ "mark": "站了潘军禅", "steps": [{ "emote": "看了你一眼，把目光移开了。" }] }] },
-			"moods": { "acting": { "title": "水烟阁代盟主", "lasting": true } },
+			"greeting": {
+				"rules": [
+					{ "mark": "颜违做了盟主", "steps": [{ "emote": "正把案上的文书一件件收进匣子里，见你进来，点了点头。" }, { "say": "正厅那把椅子，本座这就下去坐。" }, { "leave": true }] },
+					{ "mark": "当了武林盟主", "steps": [{ "npc_mood": "elder" }, { "emote": "向你拱了拱手：盟主。" }] },
+					{ "mark": "卫沧澜坐回了椅子", "steps": [{ "npc_mood": "elder" }] },
+					{ "mark": "站了潘军禅", "steps": [{ "emote": "看了你一眼，把目光移开了。" }] }
+				]
+			},
+			"moods": {
+				"acting": { "title": "水烟阁代盟主", "lasting": true },
+				"elder": { "title": "水烟阁七长老", "lasting": true }
+			},
 			"inquiry": {
 				"五长老": ["五长老？他就在这边，有什么话你自己问他。"],
 				"椅子": {
@@ -279,6 +289,7 @@
 					"confirm_marks": ["正厅撞见了"],
 					"confirm_lacks": ["站了颜违", "站了潘军禅", "天邪的线断了"],
 					"rules": [
+						{ "asker_marks": ["入了虹台的席"], "asker_lacks": ["大会散了"], "say": "虹台上的事还没完。等散了会再说。" },
 						{ "asker_marks": ["站了颜违"], "say": "执事，正月十七之前，本座还要你跑几趟。" },
 						{ "asker_marks": ["站了潘军禅"], "say": "你选了执法使。好——水烟阁的事，本座记性好。" },
 						{ "asker_family": "family.celestial", "asker_marks": ["正厅撞见了"], "asker_lacks": ["天邪的线断了"], "mark_asker": "站了颜违", "lines": [{ "emote": "点了点头，像是早算到了这一步。" }, { "say": "识时务。二十年的空椅子，总要有人去坐。" }, { "say": "从今日起，你是水烟阁的执事。正月十七，天邪派那一票，本座记在你头上。" }] },
