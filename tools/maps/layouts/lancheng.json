@@ -2086,7 +2086,7 @@
                       "mark": "宝衣给了安妮儿"
                     },
                     {
-                      "mark": "瑷伦守到决战"
+                      "cond": "latemoon.robe_home"
                     }
                   ]
                 }
@@ -2118,7 +2118,7 @@
                       "mark": "宝衣给了安妮儿"
                     },
                     {
-                      "mark": "瑷伦守到决战"
+                      "cond": "latemoon.robe_home"
                     }
                   ]
                 }

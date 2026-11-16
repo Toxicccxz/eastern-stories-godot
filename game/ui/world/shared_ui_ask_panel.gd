@@ -153,7 +153,7 @@ func _ask_topic(topic: String) -> void:
 	var npc: NpcRuntimeState = map.selected_npc()
 	var confirm: String = "" if npc == null else npc.definition().talk().ask_confirm(topic)
 	# 番坊 D: a question with conditions (confirm_marks / confirm_lacks) is asked only of one it is for.
-	if not confirm.is_empty() and map.player_runtime() != null and not npc.definition().talk().confirm_applies(topic, map.player_runtime().state.marks):
+	if not confirm.is_empty() and map.player_runtime() != null and not npc.definition().talk().confirm_applies(topic, map.player_runtime().state.marks, map.player_runtime().state.family.family_id):
 		confirm = ""
 	if not confirm.is_empty():
 		# TRANSLATORS: the confirm's choice for asking an NPC a topic it may turn on the player for.

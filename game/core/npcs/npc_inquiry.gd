@@ -88,6 +88,8 @@ class Answer:
 	var also_leaves: StringName = &""
 	## The ending told once it has answered (NpcInquiryRule.epilogue; the caller tells it); "" none.
 	var epilogue: StringName = &""
+	## The title the answer gives the asker ("" none; DECISIONS「问话给头衔」).
+	var title: String = ""
 	## 战斗拍数 D: the CombatInsights key the asker gets for this answer (hearsay, a guide's 打法); "" none.
 	var hearsay: String = ""
 
@@ -219,6 +221,7 @@ static func answer(
 		result.leaves = rule.leaves
 		result.also_leaves = rule.also_leaves
 		result.epilogue = rule.epilogue
+		result.title = rule.title
 		result.vendor_list = rule.vendor_list
 		result.forgets = rule.forgets
 		result.make = rule.make

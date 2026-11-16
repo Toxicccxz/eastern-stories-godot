@@ -1162,6 +1162,26 @@
           },
           {
             "node": "service",
+            "name": "ShrineDance",
+            "id": "latemoon.upstar.uproom.dance",
+            "at": [
+              160,
+              912
+            ],
+            "text": "神位前 · 跳舞"
+          },
+          {
+            "node": "service",
+            "name": "ShrineProxyDance",
+            "id": "latemoon.upstar.uproom.proxy_dance",
+            "at": [
+              256,
+              912
+            ],
+            "text": "神位前 · 请人替跳"
+          },
+          {
+            "node": "service",
             "name": "Ponder",
             "id": "latemoon.upstar.uproom3.ponder",
             "at": [912, 1632],

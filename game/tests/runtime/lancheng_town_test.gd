@@ -21,7 +21,7 @@ const KIND: Array[String] = ["放过了刘安禄", "安葬无名人", "替南危
 ## A hard ledger: 关北 and 玉螺湖村 trust anyone who went through them.
 const HARD: Array[String] = ["关北的骑兵欠你一阵", "村口的鬼卒退了", "告发了南危水", "带走了宝衣", "放走了陈显祖", "私了了庾子建"]
 ## Every mark of the trust table (计划 §4).
-const TABLE: Array[String] = ["放过了刘安禄", "安葬无名人", "替南危水保密", "卫沧澜出了尚书府", "霍铮回了寨", "宝衣给了安妮儿", "瑷伦守到决战", "陈显祖作了证", "关北的骑兵欠你一阵", "王府干净", "火前说了真话", "大秦人留下了", "查清了封物", "村口的鬼卒退了", "冯策随你下湖", "皇叔入朝"]
+const TABLE: Array[String] = ["放过了刘安禄", "安葬无名人", "替南危水保密", "卫沧澜出了尚书府", "霍铮回了寨", "宝衣给了安妮儿", "瑷伦守到决战", "宝衣回了庄", "陈显祖作了证", "关北的骑兵欠你一阵", "王府干净", "火前说了真话", "大秦人留下了", "查清了封物", "村口的鬼卒退了", "冯策随你下湖", "皇叔入朝"]
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -90,6 +90,12 @@ func _sorted(marks: Array) -> Array:
 func _marks_of(condition: Dictionary) -> Array:
 	var marks: Array = []
 	for part: Dictionary in condition.get("any", [condition]):
+		if part.has("cond"):
+			# 晚月 A: a named condition of marks (latemoon.robe_home: 瑷伦守到决战 or 宝衣回了庄) is those marks.
+			var named: JournalEntryDefinition = GameContent.catalog().conditions().get(String(part["cond"]))
+			for each: JournalEntryDefinition in ([] if named == null else named.parts):
+				marks.append(each.key)
+			continue
 		marks.append(String(part.get("mark", "")))
 	return marks
 

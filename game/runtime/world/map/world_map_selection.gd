@@ -436,6 +436,9 @@ func ask_selected(topic: String) -> Array[String]:
 		target.forget_topic(forgotten)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
+	# DECISIONS「问话给头衔」: set("title") by a word (晚月 A: 蓝止萍 makes one 晚月庄护法).
+	if not answer.title.is_empty():
+		_player.take_title(answer.title)
 	# 战斗拍数 D: the town's hearsay and a guide's 打法 heard go on the 见识录.
 	if answer.answered and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 		CombatInsights.heard(_player.state, answer.hearsay)

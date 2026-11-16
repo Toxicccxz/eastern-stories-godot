@@ -320,12 +320,12 @@ metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing09" type="Node2D" parent="Furnishings"]
 position = Vector2(-320, -160)
-metadata/look = {"kind": "temple_bell", "frame": "5a4a3a", "colors": ["4a4a3a", "3e3e32", "55553e"], "until": {"any": [{"mark": "宝衣给了安妮儿"}, {"mark": "瑷伦守到决战"}]}}
+metadata/look = {"kind": "temple_bell", "frame": "5a4a3a", "colors": ["4a4a3a", "3e3e32", "55553e"], "until": {"any": [{"mark": "宝衣给了安妮儿"}, {"cond": "latemoon.robe_home"}]}}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing10" type="Node2D" parent="Furnishings"]
 position = Vector2(-320, -160)
-metadata/look = {"kind": "temple_bell", "frame": "8a3226", "colors": ["d8b860", "e8c870", "c8a850"], "present": {"any": [{"mark": "宝衣给了安妮儿"}, {"mark": "瑷伦守到决战"}]}}
+metadata/look = {"kind": "temple_bell", "frame": "8a3226", "colors": ["d8b860", "e8c870", "c8a850"], "present": {"any": [{"mark": "宝衣给了安妮儿"}, {"cond": "latemoon.robe_home"}]}}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing11" type="Node2D" parent="Furnishings"]

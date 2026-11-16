@@ -64,7 +64,7 @@ func _test_data() -> void:
 	_check(catalog.portal(&"latemoon.room.flower1.south") != null and catalog.portal(&"latemoon.miroom2.north") == null, "into the secret rooms one way (miroom2.c has no north exit)")
 	_check(catalog.portal(&"latemoon.bamboo1.west").destination_zone_id == &"latemoon.bamboo1", "bamboo1's west leads back into itself")
 	var picture: WorldLandmarkDefinition = catalog.landmark(&"latemoon.latebook.landmark.picture")
-	_check(picture.policy == &"look" and picture.teaches == ["dance_out", "dance_yu_fong"], "the 湘绣舞曲图 names both dances")
+	_check(picture.policy == &"look" and picture.teaches == ["dance_out", "dance_yu_fong", "看过沧海龙吟图"], "the 湘绣舞曲图 names both dances (and, 晚月 A, shows 沧海龙吟's steps)")
 	var floor_8: DanceDefinition = catalog.service(&"latemoon.latemoon8.dance").dance
 	_check(floor_8.steps.size() == 2 and floor_8.cost_for("男性").at_least == 100 and floor_8.cost_for("女性").sen == 30 and floor_8.steps[0].sen == 50, "latemoon8.c: 男 100/50, 女 50/30; 有凤来仪 50 more")
 	var floor_mi: DanceDefinition = catalog.service(&"latemoon.miroom.dance").dance

@@ -5927,7 +5927,7 @@
 													"mark": "宝衣烧了"
 												},
 												{
-													"mark": "瑷伦守到决战"
+													"cond": "latemoon.robe_home"
 												}
 											]
 										}
@@ -5982,7 +5982,7 @@
 													"mark": "宝衣烧了"
 												},
 												{
-													"mark": "瑷伦守到决战"
+													"cond": "latemoon.robe_home"
 												}
 											]
 										}
@@ -6052,7 +6052,7 @@
 																"mark": "宝衣烧了"
 															},
 															{
-																"mark": "瑷伦守到决战"
+																"cond": "latemoon.robe_home"
 															}
 														]
 													}
@@ -6128,7 +6128,7 @@
 																"mark": "宝衣烧了"
 															},
 															{
-																"mark": "瑷伦守到决战"
+																"cond": "latemoon.robe_home"
 															}
 														]
 													}
