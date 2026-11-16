@@ -105,7 +105,7 @@
 				{
 					"id": "robe_way",
 					"weight": "route",
-					"objective": "寒於宝衣还在第二密室的冰匣里。等主线第四章「宝衣」有了着落，再回东厢见瑷伦。",
+					"objective": "宝衣的事，要等主线第四章「宝衣」有了着落。到那时，再回东厢见瑷伦。",
 					"target": {
 						"map": "latemoon.manor",
 						"zone": "latemoon.room.eastroom",
@@ -195,6 +195,13 @@
 							"reward": {
 								"deed": "对守衣人说，寒於宝衣留在自己身上"
 							}
+						},
+						{
+							"id": "burnt",
+							"done": {
+								"mark": "宝衣烧了"
+							},
+							"text": "宝衣在湖底烧成了灰。还不还，都不必再说了。"
 						}
 					]
 				},

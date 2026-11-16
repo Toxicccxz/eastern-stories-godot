@@ -37,7 +37,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for test: Array in [[_test_guardian_home, CharacterState.GENDER_MALE], [_test_disciple, CharacterState.GENDER_FEMALE], [_test_kept_on, CharacterState.GENDER_MALE], [_test_given_to_annie, CharacterState.GENDER_FEMALE]]:
+	for test: Array in [[_test_guardian_home, CharacterState.GENDER_MALE], [_test_disciple, CharacterState.GENDER_FEMALE], [_test_kept_on, CharacterState.GENDER_MALE], [_test_given_to_annie, CharacterState.GENDER_FEMALE], [_test_burnt, CharacterState.GENDER_MALE]]:
 		var session: WorldSessionController = await _session(tree, test[1])
 		await (test[0] as Callable).call(tree, session)
 		session.free()
@@ -58,7 +58,7 @@ func _test_data() -> void:
 	var way: StoryQuestDefinition.Step = quest.step(&"robe_way")
 	_check(way.weight == StoryQuestDefinition.WEIGHT_ROUTE and way.options.size() == 4 and way.objective.contains("第四章"), "where the 宝衣 is: a route the main story picks, waiting on 第四章")
 	var robe: StoryQuestDefinition.Step = quest.step(&"robe")
-	_check(robe.weight == StoryQuestDefinition.WEIGHT_SMALL and robe.only_after == &"carried" and robe.options.size() == 2 and robe.options.all(func(option: StoryQuestDefinition.Option) -> bool: return not option.reward.deed.is_empty()), "the robe home or kept: a small choice of two, each a deed, only for one who carries it")
+	_check(robe.weight == StoryQuestDefinition.WEIGHT_SMALL and robe.only_after == &"carried" and robe.options.size() == 3 and robe.options.slice(0, 2).all(func(option: StoryQuestDefinition.Option) -> bool: return not option.reward.deed.is_empty()) and robe.option(&"burnt") != null, "the robe home or kept: a small choice of two, each a deed, only for one who carries it; burnt in the 终章 before it was answered, it passes")
 	_check(robe.objective.contains("寒气") and robe.objective.contains("凤凰"), "what either way costs is said before the choice")
 	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 0, "晚月 A: one small choice; the split is 晚月 B's")
 	_check(catalog.conditions().has("latemoon.robe_home"), "the named condition latemoon.robe_home")
@@ -314,9 +314,31 @@ func _test_given_to_annie(tree: SceneTree, session: WorldSessionController) -> v
 	await _beats(tree, session, 2)
 	said = _ask(hall, _first(session, &"latemoon.room.westroom", ANNIE), "宝衣")
 	_check(_said(said, "蓝止萍让你来要") and state.marks.get("安妮儿不还宝衣", 0) == 1, "安妮儿 does not give it: %s" % [said])
-	StoryFixtures.fonxan_joined(session)
+	StoryFixtures.zhenyuan_joined(session) # TEST-ONLY: 改投振远
 	session.record_journal()
-	_check(not state.quests.has("faction.latemoon#lapsed"), "a 护法 of another family: the line stands")
+	_check(not state.quests.has("faction.latemoon#lapsed"), "a 护法 who changes family: the line stands")
+
+
+## The robe carried, never answered for, burnt in the 终章 (the nail): the step passes; 还衣 / 留着 are not asked.
+func _test_burnt(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var catalog: ContentCatalog = GameContent.catalog()
+	StoryFixtures.chapter4_taken(session)
+	StoryFixtures.latemoon_guardian(session)
+	var hall: WorldMapController = _quiet(session, MapPlaces.enter(session, HALL, HALL_POINT))
+	await _settle(tree)
+	StoryFixtures.latemoon_danced(session)
+	session.record_journal()
+	_check(state.quests.has("faction.latemoon/robe_way/carried"), "the robe on him")
+	hall.acts.take_from_player(ROBE) # TEST-ONLY: the 终章's nail burns it
+	state.marks["宝衣烧了"] = 1
+	session.record_journal()
+	_check(state.quests.has("faction.latemoon/robe/burnt") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"heart", "burnt: the step passes, the 老妇 next")
+	var elon: NpcDefinition = catalog.npc(ELON)
+	_check(not elon.talk().confirm_applies("还衣", state.marks) and not elon.talk().confirm_applies("留着", state.marks), "还衣 and 留着 not asked")
+	_check(hall.place_player(&"latemoon.room.eastroom", MapPlaces.zone_spot(hall, &"latemoon.room.eastroom")), "TEST-ONLY: in the 东厢")
+	await _beats(tree, session, 2)
+	_check(_said(_ask(hall, _first(session, &"latemoon.room.eastroom", ELON), "留着"), "湖底烧了") and not state.marks.has("宝衣留在了身上"), "留着: it burnt")
 
 
 ## TEST-ONLY: from the upper floor's stairs into the 佛堂 (through its door, as the player walks), a beat for 区冥's look.

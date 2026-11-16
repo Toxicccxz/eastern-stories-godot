@@ -19749,6 +19749,11 @@ msgstr ""
 msgid "晚月庄不收男徒，这规矩不改。护法不是弟子：没有辈分，本庄的舞和指法也不传你。庄里的事，算你一份。"
 msgstr ""
 
+#. common.npc.dancer.master inquiry.护法.rules.say
+#: data/common/npcs.json
+msgid "你离了晚月庄的门。护法，也就不必了。"
+msgstr ""
+
 #. common.npc.dancer.master inquiry.护法.rules.lines.emote
 #. cloud.npc.god inquiry.替她瞒.rules.lines.emote
 #. latemoon.npc.room.elon inquiry.宝衣.rules.lines.emote
@@ -19783,12 +19788,17 @@ msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
 #: data/common/npcs.json
-msgid "宝衣回来了，池边的凤凰又亮了。晚月庄记你这一回。"
+msgid "沧海龙吟跳回来了。宝衣……挡在了该挡的地方。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
 #: data/common/npcs.json
 msgid "内书房那位老人家，有一桩心事压了很多年——你去看看她。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
+#: data/common/npcs.json
+msgid "宝衣回来了，池边的凤凰又亮了。晚月庄记你这一回。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
@@ -19810,11 +19820,6 @@ msgstr ""
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
 #: data/common/npcs.json
 msgid "你去跟她要——她不会给。可晚月庄要让她知道，这件衣是谁的。"
-msgstr ""
-
-#. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
-#: data/common/npcs.json
-msgid "沧海龙吟跳回来了。宝衣……挡在了该挡的地方。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
@@ -26184,7 +26189,7 @@ msgstr ""
 
 #. faction.latemoon/robe_way objective
 #: data/story/faction_latemoon.json
-msgid "寒於宝衣还在第二密室的冰匣里。等主线第四章「宝衣」有了着落，再回东厢见瑷伦。"
+msgid "宝衣的事，要等主线第四章「宝衣」有了着落。到那时，再回东厢见瑷伦。"
 msgstr ""
 
 #. faction.latemoon/robe_way/gone text
@@ -26230,6 +26235,11 @@ msgstr ""
 #. faction.latemoon/robe/keep reward.deed
 #: data/story/faction_latemoon.json
 msgid "对守衣人说，寒於宝衣留在自己身上"
+msgstr ""
+
+#. faction.latemoon/robe/burnt text
+#: data/story/faction_latemoon.json
+msgid "宝衣在湖底烧成了灰。还不还，都不必再说了。"
 msgstr ""
 
 #. faction.latemoon/heart objective
@@ -37166,11 +37176,6 @@ msgstr ""
 msgid "替跳"
 msgstr ""
 
-#. latemoon.npc.funlin inquiry.替跳.rules.say
-#: data/latemoon/npcs.json
-msgid "走呀走呀！密室在哪边？"
-msgstr ""
-
 #. latemoon.npc.funlin inquiry.替跳.rules.lines.emote
 #: data/latemoon/npcs.json
 msgid "从地上一跃而起。"
@@ -37184,6 +37189,11 @@ msgstr ""
 #. latemoon.npc.funlin inquiry.替跳.rules.lines.say
 #: data/latemoon/npcs.json
 msgid "带我去佛堂——这支舞我做梦都想跳。蓝姐姐问起来，你替我扛着。"
+msgstr ""
+
+#. latemoon.npc.funlin inquiry.替跳.rules.say
+#: data/latemoon/npcs.json
+msgid "走呀走呀！密室在哪边？"
 msgstr ""
 
 #. latemoon.npc.funlin inquiry.替跳.rules.say
@@ -37792,6 +37802,12 @@ msgid ""
 "把寒於宝衣还给瑷伦：她又是守衣人，池边的凤凰回来；决战那日问她「湖底」，她穿着它跟你下湖。\n"
 "宝衣从此不在你身上，下湖时没有它挡寒气。\n"
 "要还吗？"
+msgstr ""
+
+#. latemoon.npc.room.elon inquiry.还衣.rules.say
+#. latemoon.npc.room.elon inquiry.留着.rules.say
+#: data/latemoon/npcs.json
+msgid "衣在湖底烧了。它挡在了该挡的地方，不必再说还不还。"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.还衣.rules.say

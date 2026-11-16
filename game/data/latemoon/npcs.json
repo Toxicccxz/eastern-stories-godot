@@ -99,8 +99,8 @@
 			"inquiry": {
 				"替跳": {
 					"rules": [
-						{ "npc_flag": "mood/going", "say": "走呀走呀！密室在哪边？" },
 						{ "asker_marks": ["沧海龙吟的步子"], "asker_lacks": ["跳成了沧海龙吟"], "mood": "going", "mark_asker": "芳绫跟你去了", "lines": [{ "emote": "从地上一跃而起。" }, { "say": "沧海龙吟？！图跟谱都凑齐了？" }, { "say": "带我去佛堂——这支舞我做梦都想跳。蓝姐姐问起来，你替我扛着。" }] },
+						{ "npc_flag": "mood/going", "say": "走呀走呀！密室在哪边？" },
 						{ "asker_marks": ["芳绫替你跳了"], "say": "我都替你跳过了！还要？" },
 						{ "asker_marks": ["接下了瑷伦三鞭"], "mood": "going", "mark_asker": "芳绫跟你去了", "lines": [{ "emote": "从地上跳起来。" }, { "say": "关着也闷死了！第二密室？带我去——蓝姐姐问起来，你替我扛着。" }] },
 						{ "say": "替什么跳？我在受罚呢。你先去问守衣人吧。" }
@@ -523,9 +523,10 @@
 				"还衣": {
 					"confirm": "把寒於宝衣还给瑷伦：她又是守衣人，池边的凤凰回来；决战那日问她「湖底」，她穿着它跟你下湖。\n宝衣从此不在你身上，下湖时没有它挡寒气。\n要还吗？",
 					"confirm_marks": ["该问瑷伦还衣"],
-					"confirm_lacks": ["宝衣回了庄", "宝衣留在了身上"],
+					"confirm_lacks": ["宝衣回了庄", "宝衣留在了身上", "宝衣烧了"],
 					"listed_marks": ["该问瑷伦还衣"],
 					"rules": [
+						{ "asker_marks": ["宝衣烧了"], "say": "衣在湖底烧了。它挡在了该挡的地方，不必再说还不还。" },
 						{ "asker_marks": ["宝衣回了庄"], "say": "衣在我身上了。" },
 						{ "asker_marks": ["宝衣留在了身上"], "say": "你说过留着。" },
 						{ "asker_marks": ["该问瑷伦还衣"], "asker_carries": "宝衣", "takes": ["native:latemoon/cold_robe"], "mark_asker": "宝衣回了庄", "mood": "keeping", "lines": [{ "emote": "看着你手里的衣，很久没有伸手。" }, { "say": "出了庄门的衣，我说过不收。" }, { "emote": "接过宝衣，抖开，披在肩上。衣角落下去的时候，屋里凉了一截。" }, { "say": "……可它回来了。我守到决战那日——到时候你来叫我，我跟你下湖底。" }] },
@@ -536,9 +537,10 @@
 				"留着": {
 					"confirm": "宝衣留在你身上：瑷伦不再问，庄里照旧没有护佑。\n要这么说吗？",
 					"confirm_marks": ["该问瑷伦还衣"],
-					"confirm_lacks": ["宝衣回了庄", "宝衣留在了身上"],
+					"confirm_lacks": ["宝衣回了庄", "宝衣留在了身上", "宝衣烧了"],
 					"listed_marks": ["该问瑷伦还衣"],
 					"rules": [
+						{ "asker_marks": ["宝衣烧了"], "say": "衣在湖底烧了。它挡在了该挡的地方，不必再说还不还。" },
 						{ "asker_marks": ["宝衣回了庄"], "say": "衣已经回来了。" },
 						{ "asker_marks": ["宝衣留在了身上"], "say": "说过了。" },
 						{ "asker_marks": ["该问瑷伦还衣", "答瑷伦：斩鬼"], "mark_asker": "宝衣留在了身上", "lines": [{ "emote": "点了点头。" }, { "say": "你说过，为了斩鬼。那就带着它去斩。" }] },
@@ -569,7 +571,7 @@
 				{ "label": "接她三鞭", "asker_marks": ["瑷伦说了三鞭"], "unless_mark": "接下了瑷伦三鞭", "confirm": "瑷伦的三鞭是真打：\n· 每一鞭都实打实地落在你身上。\n· 哪一鞭接不住，就算没接下：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n· 接不接得住看气长不长：气随内力上限涨，内力上限靠打坐——先向师父学一门内功、装上，再去打坐。\n确定接她三鞭吗？", "inner_force_percent": 23, "lethal": false, "relents_after_falls": 2, "relent_say": "瑷伦看了你很久：倒了两回，还站到我面前来。这份硬气，我认——这三鞭，我不用内力。", "rest_say": "瑷伦摆摆手：你的气还没喘匀。歇好了再来。", "blows": [{ "say": "瑷伦说道：小心了，这是第一鞭..." }, { "say": "瑷伦面露微笑：好！第二鞭来了...", "fail": "瑷伦叹了口气道：看来还是不行啊..." }, { "say": "瑷伦鼓励道：很不错，看这最后一鞭...", "fail": "瑷伦叹了口气道：太可惜了！" }], "success": "瑷伦收起鞭子：站得住。那就再问你一句——你拿它去做什么？", "mark": "接下了瑷伦三鞭", "deed": "接下了守衣人瑷伦的三鞭" }
 			],
 			"accept_object": [
-				{ "item": "native:latemoon/cold_robe", "giver_mark": "该问瑷伦还衣", "accept": false, "say": "衣要还，你开口说一声。" },
+				{ "item": "native:latemoon/cold_robe", "giver_mark": "该问瑷伦还衣", "unless_giver_mark": "宝衣留在了身上", "accept": false, "say": "衣要还，你开口说一声。" },
 				{ "item": "native:latemoon/cold_robe", "giver_mark": "带走了宝衣", "accept": false, "say": "出了庄门的衣，不是晚月庄的了。拿走吧。" },
 				{ "item": "native:latemoon/cold_robe", "accept": true, "mark_giver": "瑷伦守到决战", "mood": "keeping", "lines": [{ "emote": "接过宝衣，抖开，披在肩上。衣角落下去的时候，屋里凉了一截。" }, { "say": "我守到决战那日。到时候你来叫我，我跟你下湖底。" }] }
 			],
@@ -673,7 +675,7 @@
 				"remembers": { "lasting": true, "chat_chance": 8, "chat_msg": ["安妮儿看了你一眼，像在数你的名字有几个字。\n"] }
 			},
 			"calls": [
-				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "安妮儿记下了", "steps": [{ "say": "宝衣出了庄，没进我的门。你的名字，我记下了。" }, { "npc_mood": "remembers" }, { "mark": "安妮儿记下了" }] }
+				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "安妮儿记下了", "when": { "not": { "mark": "宝衣回了庄" } }, "steps": [{ "say": "宝衣出了庄，没进我的门。你的名字，我记下了。" }, { "npc_mood": "remembers" }, { "mark": "安妮儿记下了" }] }
 			],
 			"recognize_apprentice": [
 				{ "giver_mark": "站了安妮儿", "accept": true, "skills": ["snowshade-sword", "snowshade-force"] }
