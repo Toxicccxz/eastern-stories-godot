@@ -199,9 +199,9 @@ func _test_marks() -> void:
 	var refusing: int = 0
 	for npc: NpcDefinition in catalog.npcs():
 		var teaching: NpcTeaching = npc.teaching()
-		if teaching != null and teaching.apprentice != null and teaching.apprentice.kind == NpcTeaching.Kind.REFUSES and teaching.recognize_rules.is_empty():
+		if teaching != null and teaching.apprentice != null and teaching.apprentice.kind == NpcTeaching.Kind.REFUSES and teaching.recognize_rules.all(func(rule: NpcTeaching.RecognizeRule) -> bool: return not rule.skills.is_empty()):
 			refusing += 1
-			_check(not MapAtlas.takes_students(npc), "%s takes no one: no 师 mark" % npc.display_name)
+			_check(not MapAtlas.takes_students(npc), "%s takes no one (a rule for some skills recognises nobody yet): no 师 mark" % npc.display_name)
 	_check(refusing > 0, "a master who refuses was looked at")
 
 

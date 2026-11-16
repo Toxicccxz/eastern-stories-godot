@@ -148,8 +148,10 @@ static func takes_students(npc: NpcDefinition, state: CharacterState = null) -> 
 	var teaching: NpcTeaching = npc.teaching()
 	if teaching == null or (teaching.when != null and not teaching.teaches_for(state)):
 		return false
-	if not teaching.recognize_rules.is_empty():
-		return true
+	# A rule for some skills only (DECISIONS「只教这几门」) makes a master only of one it recognises.
+	for rule: NpcTeaching.RecognizeRule in teaching.recognize_rules:
+		if rule.skills.is_empty() or (state != null and rule.accept and rule.matches(state.family.family_id, state.marks)):
+			return true
 	return teaching.apprentice != null and teaching.apprentice.kind not in [NpcTeaching.Kind.REFUSES, NpcTeaching.Kind.SILENT]
 
 

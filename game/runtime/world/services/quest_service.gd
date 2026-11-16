@@ -25,7 +25,9 @@ func request_quest() -> QuestGiver.Outcome:
 	var state: CharacterState = map.player_runtime().state
 	var session: WorldSessionController = map.session
 	# DECISIONS「主线卡死点」: the targets that can be killed now (WorldQuestTargets), not only placed.
-	var available: Callable = func(target: String) -> bool: return WorldQuestTargets.at_hand(session, target)
+	# DECISIONS「朱鸿雪的差事分两档」: one who stood with 安妮儿 is sent after the deserving only.
+	var mercy: QuestMercy = catalog.quest_mercy()
+	var available: Callable = func(target: String) -> bool: return WorldQuestTargets.at_hand(session, target) and (mercy == null or not mercy.spares(target, state))
 	var result: QuestGiver.Result = QuestGiver.give(
 		state, catalog.quest_tiers(), available,
 		map.world_interaction_random_source().legacy_random, catalog.pacing().quest_time_percent,

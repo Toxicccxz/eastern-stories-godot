@@ -387,6 +387,9 @@ msgstr ""
 #. native.npc.waterfog_spy gender
 #. native.npc.waterfog_hopeful gender
 #. native.npc.waterfog_courier gender
+#. native.npc.lake_taoist gender
+#. native.npc.war_painter gender
+#. native.npc.ice_cutter gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -481,6 +484,7 @@ msgstr ""
 #. native.npc.north_pupil_girl gender
 #. native.npc.liu_huixin_north gender
 #. native.npc.liu_huixin_lake gender
+#. native.npc.annie_yard gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -6095,7 +6099,8 @@ msgstr ""
 msgid "地区"
 msgstr ""
 
-#: core/quests/story_quest_definition.gd
+#. cloud.npc.god inquiry topic
+#: core/quests/story_quest_definition.gd data/cloud/npcs.json
 msgid "差事"
 msgstr ""
 
@@ -12795,6 +12800,7 @@ msgstr ""
 #. es2:d/latemoon/park/npc/obj/ring unit
 #. es2:d/latemoon/park/npc/obj/amulet unit
 #. es2:d/latemoon/obj/dragonfly unit
+#. es2:d/latemoon/room/npc/obj/gold_token unit
 #. es2:d/sanyen/obj/maintal unit
 #. es2:d/choyin/obj/amulet unit
 #. es2:d/choyin/obj/denotation unit
@@ -12995,6 +13001,7 @@ msgstr ""
 #. native:fanfang/katana unit
 #. native:lancheng/xuanmang unit
 #. native:village/soul_impaler unit
+#. native:village/ice_chisel unit
 #: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json data/niling/items.json data/guanbei/items.json data/fanfang/items.json data/lancheng/items.json data/native/items.json
 msgid "把"
 msgstr ""
@@ -13384,6 +13391,7 @@ msgstr ""
 #. native:choyin/luo_card unit
 #. native:city/blinding_charm unit
 #. native:waterfog/pan_warrant unit
+#. native:canyon/dig_sketch unit
 #: data/common/items.json data/niling/items.json data/fanfang/items.json data/imperial/items.json data/native/items.json
 msgid "张"
 msgstr ""
@@ -16813,7 +16821,8 @@ msgstr ""
 #. cloud.npc.god inquiry.照实说.rules.lines.emote
 #. cloud.npc.god inquiry.替她瞒.rules.lines.emote
 #. native.npc.shang_jue calls.steps.emote
-#: data/common/npcs.json data/cloud/npcs.json data/niling/npcs.json
+#. native.npc.annie_yard inquiry.教主.rules.lines.emote
+#: data/common/npcs.json data/cloud/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "看了你一眼。"
 msgstr ""
 
@@ -18409,7 +18418,8 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.emote
 #. waterfog.npc.elder5 greeting.rules.steps.emote
-#: data/common/npcs.json data/waterfog/npcs.json
+#. native.npc.annie_yard calls.steps.emote
+#: data/common/npcs.json data/waterfog/npcs.json data/native/npcs.json
 msgid "看了你一眼，没有说话。"
 msgstr ""
 
@@ -18495,8 +18505,10 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
 #. cloud.npc.god inquiry.接令.rules.lines.say
+#. cloud.npc.god inquiry.教主.rules.lines.say
 #. village.seal_altar.keep act.acts.steps.say
-#: data/common/npcs.json data/cloud/npcs.json data/village/world.json
+#. native.npc.annie_yard inquiry.教主.rules.lines.say
+#: data/common/npcs.json data/cloud/npcs.json data/village/world.json data/native/npcs.json
 msgid "好。"
 msgstr ""
 
@@ -18657,9 +18669,10 @@ msgid "宫里已经起了疑心。这条路，走不得了。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.潜伏.rules.lines.say
+#. cloud.npc.god inquiry.交差.rules.lines.say
 #. native.npc.lihong inquiry.我留下.rules.lines.say
 #. native.npc.lihong_finale inquiry.我留下.rules.lines.say
-#: data/common/npcs.json data/native/npcs.json
+#: data/common/npcs.json data/cloud/npcs.json data/native/npcs.json
 msgid "……好。"
 msgstr ""
 
@@ -23120,7 +23133,22 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
+msgid "安妮儿把宝衣带回了晚月庄的西厢。西厢的门一直关着——神教的事，她不再过问。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
 msgid "安妮儿回了东方神教，带回去的是一捧灰。神教的香案上，多了一只小瓷坛、一盏长明灯。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "安妮儿带回西厢的是一捧灰。西厢的门一直关着，窗下多了一只小瓷坛。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "安妮儿收回了教主令。西厢的灯从此夜夜亮着，神教的人进进出出；朱鸿雪派出去的差事，只剩该死的人。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -23653,6 +23681,41 @@ msgstr ""
 #. faction.dongfang lapses.text
 #: data/story/factions.json data/story/faction_dongfang.json
 msgid "你手上沾了神教教主的血。朱鸿雪的令，到此为止。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "朱鸿雪给过你三个名字，都是靠近湖底封物的人。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你替朱鸿雪杀了玉螺湖凿冰的老冰匠。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你劝玉螺湖的老冰匠搬走了，拿他的冰凿去向朱鸿雪交了差。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你拿老冰匠的冰凿骗过朱鸿雪，她当面揭穿了你。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "朱鸿雪换给你一块赤铜令。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你站到了安妮儿一边。一代教主收回了教主令，给了你一块黄金令牌。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你站到了朱鸿雪一边。她给了你一块黄金令牌；西厢的门，从此对你关着。"
 msgstr ""
 
 #. niling lines.text
@@ -24406,12 +24469,127 @@ msgstr ""
 
 #. faction.dongfang/names objective
 #: data/story/faction_dongfang.json
-msgid "黑木令在你身上了。朱鸿雪还会把差事交给持令的人——下一回，是三个名字。"
+msgid "黑木令在你身上了。朱鸿雪还有差事交给持令的人：回绮云镇的场院，问朱鸿雪「差事」。"
 msgstr ""
 
 #. faction.dongfang/names text
 #: data/story/faction_dongfang.json
-msgid "朱鸿雪说了三个名字。"
+msgid "朱鸿雪说了三个名字：湖边量水的黑冠道士、黄石隘口画图的兵部画吏、玉螺湖村凿冰的老冰匠——都是靠近湖底封物的人。"
+msgstr ""
+
+#. faction.dongfang/three objective
+#: data/story/faction_dongfang.json
+msgid "朱鸿雪的三个名字，都是靠近湖底封物的人。玉螺湖村稻田西头的湖岸上，白天有个黑冠道士在量水——逆灵宫的人，打倒他。天驼关黄石隘口的山壁下，兵部的画吏在画当年石匣出土的地方——打倒了，放他走就算。第三个是玉螺湖村年年凿冰的老冰匠，在柳树下的湖岸边：怎么办，看你。"
+msgstr ""
+
+#. faction.dongfang/three text
+#: data/story/faction_dongfang.json
+msgid "湖边量水的道士、隘口画图的画吏，都了了。"
+msgstr ""
+
+#. faction.dongfang/three checklist.label
+#: data/story/faction_dongfang.json
+msgid "湖边量水的黑冠道士"
+msgstr ""
+
+#. faction.dongfang/three checklist.missing
+#: data/story/faction_dongfang.json
+msgid "白天在玉螺湖村稻田西头的湖岸上"
+msgstr ""
+
+#. faction.dongfang/three checklist.label
+#: data/story/faction_dongfang.json
+msgid "黄石隘口的兵部画吏"
+msgstr ""
+
+#. faction.dongfang/three checklist.missing
+#: data/story/faction_dongfang.json
+msgid "在天驼关黄石隘口的山壁下"
+msgstr ""
+
+#. faction.dongfang/three checklist.label
+#: data/story/faction_dongfang.json
+msgid "凿冰的老冰匠"
+msgstr ""
+
+#. faction.dongfang/three checklist.missing
+#: data/story/faction_dongfang.json
+msgid "在玉螺湖村柳树下的湖岸边"
+msgstr ""
+
+#. faction.dongfang/icer objective
+#: data/story/faction_dongfang.json
+msgid "第三个名字是玉螺湖村凿冰的老冰匠。他只是看见过冰下的光，讲给村里的孩子听。做（问他「动手」）：朱鸿雪升你赤铜令——村里少一个人，安妮儿会知道。不做（问他「搬走」）：劝他离开玉螺湖，带他的冰凿回去交差——朱鸿雪信不信，看你西厢那一桩有没有瞒过她。"
+msgstr ""
+
+#. faction.dongfang/icer/do text
+#: data/story/faction_dongfang.json
+msgid "老冰匠倒在了湖岸上。玉螺湖村少了一个人。"
+msgstr ""
+
+#. faction.dongfang/icer/do reward.deed
+#: data/story/faction_dongfang.json
+msgid "替朱鸿雪杀了玉螺湖凿冰的老冰匠"
+msgstr ""
+
+#. faction.dongfang/icer/spare text
+#: data/story/faction_dongfang.json
+msgid "老冰匠背起包袱离开了玉螺湖。他的冰凿在你手里。"
+msgstr ""
+
+#. faction.dongfang/icer/spare reward.deed
+#: data/story/faction_dongfang.json
+msgid "劝玉螺湖的老冰匠搬走，拿他的冰凿去交差"
+msgstr ""
+
+#. faction.dongfang/copper objective
+#: data/story/faction_dongfang.json
+msgid "三个名字都了了。回绮云镇的场院，问朱鸿雪「交差」。"
+msgstr ""
+
+#. faction.dongfang/copper text
+#: data/story/faction_dongfang.json
+msgid "朱鸿雪收回了黑木令，换给你一块赤铜令。"
+msgstr ""
+
+#. faction.dongfang/copper reward.deed
+#: data/story/faction_dongfang.json
+msgid "从朱鸿雪手里换来了一块赤铜令"
+msgstr ""
+
+#. faction.dongfang/list objective
+#: data/story/faction_dongfang.json
+msgid "朱鸿雪说，名单上还有最后一个名字。出了场院走一走，再回场院去。"
+msgstr ""
+
+#. faction.dongfang/list text
+#: data/story/faction_dongfang.json
+msgid "场院里，朱鸿雪念出了名单上最后一个名字。安妮儿就站在厅里。"
+msgstr ""
+
+#. faction.dongfang/split objective
+#: data/story/faction_dongfang.json
+msgid "神教只能有一个教主。站安妮儿（问她「教主」）：她收回教主令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走，往后只派该死的人的差事；终章她来湖畔守潭口，正月十七神教不去虹台搅局。站朱鸿雪（问她「教主」）：她给你黄金令牌，教同一套武功；安妮儿回西厢闭门，不再同你说神教的事；正月十七那天，神教的杀手会在山道上截一派的轿子。"
+msgstr ""
+
+#. faction.dongfang/split/side_annie text
+#: data/story/faction_dongfang.json
+msgid "你站到了安妮儿一边。她收回了教主令，把一块黄金令牌放进你手里：天山的剑，到西厢去学。"
+msgstr ""
+
+#. faction.dongfang/split/side_annie reward.deed
+#: data/story/faction_dongfang.json
+msgid "在绮云镇的场院里站到了安妮儿一边"
+msgstr ""
+
+#. faction.dongfang/split/side_zhu text
+#: data/story/faction_dongfang.json
+msgid "你站到了朱鸿雪一边。她把一块黄金令牌放进你手里：神教只有一个教主。"
+msgstr ""
+
+#. faction.dongfang/split/side_zhu reward.deed
+#: data/story/faction_dongfang.json
+msgid "在绮云镇的场院里站到了朱鸿雪一边"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -28075,6 +28253,7 @@ msgstr ""
 #. native:canyon/seal_mould unit
 #. native:imperial/guard_token unit
 #. native:snow/fonxan_tally unit
+#. native:cloud/copper_token unit
 #: data/latemoon/items.json data/city/items.json data/guanbei/items.json data/imperial/items.json data/native/items.json
 msgid "块"
 msgstr ""
@@ -28253,6 +28432,17 @@ msgstr ""
 msgid ""
 "这似乎是一本寒雪鞭法的前几页，虽然并没有关於招式的详细解说，可是\n"
 "前面有关鞭法的总纲与精义倒是不少。\n"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/gold_token name
+#: data/latemoon/items.json
+msgid "黄金令牌"
+msgstr ""
+
+#. es2:d/latemoon/room/npc/obj/gold_token long
+#: data/latemoon/items.json
+msgid ""
+"一个闪闪发亮的黄金令牌，上有一些图腾标志。\n"
 msgstr ""
 
 #. es2:d/sanyen/obj/blade name
@@ -29597,8 +29787,11 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.god family.title
+#. cloud.npc.god inquiry topic
 #. latemoon.npc.room.annihi family.title
-#: data/cloud/npcs.json data/latemoon/npcs.json
+#. latemoon.npc.room.annihi inquiry topic
+#. native.npc.annie_yard inquiry topic
+#: data/cloud/npcs.json data/latemoon/npcs.json data/native/npcs.json
 msgid "教主"
 msgstr ""
 
@@ -29614,6 +29807,9 @@ msgid "令牌"
 msgstr ""
 
 #. cloud.npc.god inquiry.令牌.rules.lines.emote
+#. cloud.npc.god inquiry.差事.rules.lines.emote
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#. cloud.npc.god inquiry.教主.rules.lines.emote
 #: data/cloud/npcs.json
 msgid "看着你，脸上的笑一点也没有了。"
 msgstr ""
@@ -29628,6 +29824,21 @@ msgstr ""
 #. cloud.npc.god inquiry.接令.rules.say
 #: data/cloud/npcs.json
 msgid "你手上有神教的血。令，不会给你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.say
+#: data/cloud/npcs.json
+msgid "黄金令牌，是她给你的。神教认它。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.say
+#: data/cloud/npcs.json
+msgid "黄金令牌在你身上。神教上下，见令如见我。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.say
+#: data/cloud/npcs.json
+msgid "赤铜令在你身上。神教的人认它，不认脸。"
 msgstr ""
 
 #. cloud.npc.god inquiry.令牌.rules.lines.say
@@ -29880,6 +30091,248 @@ msgstr ""
 #. cloud.npc.god inquiry.替她瞒.rules.say
 #: data/cloud/npcs.json
 msgid "替谁瞒？"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。差事，不会再给你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#. cloud.npc.god inquiry.教主.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.emote
+#. cloud.npc.god inquiry.教主.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "端起茶盏，又放下了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "差事照旧派——只派该死的人。她说的。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "要差事，问我「任务」。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.say
+#: data/cloud/npcs.json
+msgid "神教的差事，照旧。要差事，问我「任务」。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.say
+#: data/cloud/npcs.json
+msgid "名单念完了。你站哪一边，问「教主」。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.say
+#: data/cloud/npcs.json
+msgid "名单上还有最后一个名字。出去走一走，再回来。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "三个名字，都是靠近湖底那件东西的人。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "玉螺湖村稻田西头的湖岸上，有个戴黑冠的道士，白天在那里量水——逆灵宫的人。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "天驼关黄石隘口，兵部派了个画吏，在山壁下画当年石匣出土的地方。打倒他，让他把图丢下就够了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "第三个，是玉螺湖村凿冰的老头。他年年在湖上凿冰，看见过冰下的光，讲给村里的孩子听。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "办完了，回来问我「交差」。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "从袖子里抽出一张纸，压在茶盏底下。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#: data/cloud/npcs.json
+msgid "神教的差事，有时候是杀人，有时候是不让一样东西被人看见。"
+msgstr ""
+
+#. cloud.npc.god inquiry.差事.rules.say
+#: data/cloud/npcs.json
+msgid "差事？先把令接回来。"
+msgstr ""
+
+#. cloud.npc.god inquiry topic
+#: data/cloud/npcs.json
+msgid "交差"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。差事，与你无关了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "差事早交过了。黄金令在你身上，令是她给的。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "差事早交过了。黄金令在你身上。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "差事交过了。赤铜令在你身上。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "黑木令呢？"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "丢了的令，自己找回来，再来交差。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.takes
+#: data/cloud/npcs.json
+msgid "es2:d/latemoon/room/npc/obj/token"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "听你说完，点了点头。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "湖上凿冰的人没了。冰下的光，就没人再讲给孩子听。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "黑木令给我。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "收回黑木令，从匣里取出一块赤铜令。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "赤铜令，认的是替神教办成过事的人。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "名单上还有最后一个名字——出去走一走，再回来。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.takes
+#: data/cloud/npcs.json
+msgid "native:village/ice_chisel"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "接过冰凿掂了掂，凿尖上的冰碴还没化。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "好。你在西厢没替人瞒过话——这一回，我也信你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "接过冰凿，看了很久，没有说话。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "人呢？冰凿呢？凭一张嘴，交不了差。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "三个名字，还没办完。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "交什么差？"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.confirm
+#: data/cloud/npcs.json
+msgid ""
+"站朱鸿雪：神教只有一个教主，是她。\n"
+"她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子。\n"
+"这是东方神教这条线的大分裂，选了不能改。要站朱鸿雪吗？"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.say
+#: data/cloud/npcs.json
+msgid "神教只有一个教主。你知道是谁。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.lines.say
+#: data/cloud/npcs.json
+msgid "我认输。教主令在她手里，我还坐在这里——神教总得有人倒茶。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.takes
+#. native.npc.annie_yard inquiry.教主.rules.takes
+#: data/cloud/npcs.json data/native/npcs.json
+msgid "native:cloud/copper_token"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "看了你一会儿，笑了，眉眼还是那样慈善。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "收回你的赤铜令，把一块闪闪发亮的黄金令牌放进你手里。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.lines.say
+#: data/cloud/npcs.json
+msgid "黄金令，神教见了，就是见了我。天山雪影剑、雪影心法，往后来这里学。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.lines.say
+#: data/cloud/npcs.json
+msgid "名单上的那个名字，等湖底的事了了，再说。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.lines.line
+#: data/cloud/npcs.json
+msgid "安妮儿没有再看朱鸿雪一眼，转身出了场院。"
+msgstr ""
+
+#. cloud.npc.god inquiry.教主.rules.say
+#: data/cloud/npcs.json
+msgid "神教的教主，坐在你面前。"
 msgstr ""
 
 #. cloud.npc.god calls.steps.emote
@@ -33951,6 +34404,7 @@ msgstr ""
 #. latemoon.npc.room.annihi name
 #. native.npc.annie_lake name
 #. native.npc.annie_altar name
+#. native.npc.annie_yard name
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid "安妮儿"
 msgstr ""
@@ -33978,6 +34432,37 @@ msgstr ""
 #. latemoon.npc.room.annihi inquiry topic
 #: data/latemoon/npcs.json
 msgid "等谁"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#. latemoon.npc.room.annihi inquiry.教主.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "没有抬头。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "门关着。神教的事，去问你的教主。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.say
+#: data/latemoon/npcs.json
+msgid "不等了。教主令收回来了，你身上有黄金令——想学天山的剑，就在这里学（「请教」）。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "把膝上的衣叠好，站起身来。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "朱鸿雪的名单上，还差最后一个名字。我知道是谁。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "到场院去。我会在那里。"
 msgstr ""
 
 #. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
@@ -34075,13 +34560,36 @@ msgstr ""
 msgid "等到了，我把衣交给那个人——交给那个人，不是交给神教。"
 msgstr ""
 
-#. latemoon.npc.room.annihi accept_object.say
+#. latemoon.npc.room.annihi inquiry.教主.rules.lines.say
 #: data/latemoon/npcs.json
+msgid "教主令在我这里。神教往后只派该死的人的差事——鸿雪答应了。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.教主.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "天山雪影剑、雪影心法，你来学（「请教」）。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.教主.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "门关着。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.教主.rules.say
+#. native.npc.annie_yard inquiry.教主.rules.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "教主？"
+msgstr ""
+
+#. latemoon.npc.room.annihi accept_object.say
+#. native.npc.annie_yard accept_object.say
+#: data/latemoon/npcs.json data/native/npcs.json
 msgid "出了庄的衣，不必再拿来给我看。"
 msgstr ""
 
 #. latemoon.npc.room.annihi accept_object.lines.emote
-#: data/latemoon/npcs.json
+#. native.npc.annie_yard accept_object.lines.emote
+#: data/latemoon/npcs.json data/native/npcs.json
 msgid "接过宝衣，手指在衣料上停了一停。"
 msgstr ""
 
@@ -34091,7 +34599,8 @@ msgid "月神族守了几百年，守给我的。"
 msgstr ""
 
 #. latemoon.npc.room.annihi accept_object.lines.say
-#: data/latemoon/npcs.json
+#. native.npc.annie_yard accept_object.lines.say
+#: data/latemoon/npcs.json data/native/npcs.json
 msgid "你配得上。东方神教记得你——这句话，以后有用。"
 msgstr ""
 
@@ -39087,6 +39596,27 @@ msgstr ""
 #. village.npc.woman1 inquiry.鬼卒.rules.say
 #: data/village/npcs.json
 msgid "什么鬼卒？"
+msgstr ""
+
+#. village.npc.woman1 inquiry topic
+#. native.npc.ice_cutter name
+#: data/village/npcs.json data/native/npcs.json
+msgid "老冰匠"
+msgstr ""
+
+#. village.npc.woman1 inquiry.老冰匠.rules.say
+#: data/village/npcs.json
+msgid "老冰匠死在湖边了，身上看不出什么伤。孩子们天天去柳树底下等他讲冰底下的光……谁会跟一个凿冰的老头过不去？"
+msgstr ""
+
+#. village.npc.woman1 inquiry.老冰匠.rules.say
+#: data/village/npcs.json
+msgid "老冰匠走了，说是投亲去。走得急，连冰凿都没带——不对，冰凿也不见了。"
+msgstr ""
+
+#. village.npc.woman1 inquiry.老冰匠.rules.say
+#: data/village/npcs.json
+msgid "老冰匠？在湖边凿了四十年冰。孩子们爱缠着他，听他讲冰底下的光。"
 msgstr ""
 
 #. village.npc.woman1 moods.reunited.chat_msg
@@ -54112,7 +54642,8 @@ msgid "你拿不出能和那方印对一对的东西。冯禄身后站着四个�
 msgstr ""
 
 #. fanfang.shield_yard.papers act.acts.choice
-#: data/fanfang/world.json
+#. native.npc.ice_cutter inquiry topic
+#: data/fanfang/world.json data/native/npcs.json
 msgid "动手"
 msgstr ""
 
@@ -58955,6 +59486,16 @@ msgstr ""
 
 #. native.npc.woman_lakeside calls.steps.say
 #: data/native/npcs.json
+msgid "宝衣在我身上。我不是替神教来的——衣守的是湖底，不是谁家的香火。"
+msgstr ""
+
+#. native.npc.woman_lakeside calls.steps.say
+#: data/native/npcs.json
+msgid "宝衣不在我身上。可神教的教主令在——湖底的事，神教守潭口。"
+msgstr ""
+
+#. native.npc.woman_lakeside calls.steps.say
+#: data/native/npcs.json
 msgid "二十年前，老松岭有人替我挡了一刀。今天我来还。"
 msgstr ""
 
@@ -59087,11 +59628,12 @@ msgstr ""
 #. native.npc.annie_lake long
 #: data/native/npcs.json
 msgid ""
-"安妮儿披着寒於宝衣站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n"
+"安妮儿站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n"
 msgstr ""
 
 #. native.npc.annie_lake fight_deferred
 #. native.npc.annie_altar fight_deferred
+#. native.npc.annie_yard fight_deferred
 #: data/native/npcs.json
 msgid "安妮儿没有动：我不是来跟你打的。"
 msgstr ""
@@ -59436,6 +59978,7 @@ msgid ""
 msgstr ""
 
 #. native.npc.niling_taoist_lake name
+#. native.npc.lake_taoist name
 #: data/native/npcs.json
 msgid "黑冠道士"
 msgstr ""
@@ -60547,6 +61090,414 @@ msgstr ""
 msgid "被你一把扣住了手腕，包袱掉在了地上。"
 msgstr ""
 
+#. native.npc.annie_yard long
+#: data/native/npcs.json
+msgid ""
+"安妮儿站在八仙桌旁，没有坐。她还是西厢里那身素衣，门外吹进来的风，吹不动她的衣角。\n"
+msgstr ""
+
+#. native.npc.annie_yard accept_object.lines.say
+#: data/native/npcs.json
+msgid "在这里给我？……也好，让她看着。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.confirm
+#: data/native/npcs.json
+msgid ""
+"站安妮儿：一代教主收回教主令。\n"
+"她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n"
+"这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.say
+#: data/native/npcs.json
+msgid "去西厢找我。天山的剑，在那里教。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.lines.say
+#: data/native/npcs.json
+msgid "你选了。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.lines.emote
+#: data/native/npcs.json
+msgid "向朱鸿雪伸出手来。朱鸿雪看了她很久，从怀里摸出一块乌沉沉的令牌，放在她掌心——那是神教的教主令。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.lines.say
+#: data/native/npcs.json
+msgid "神教不是一个人的。往后神教的差事，只派该死的人——鸿雪，你听见了。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.lines.emote
+#: data/native/npcs.json
+msgid "收回你的赤铜令，换给你一块闪闪发亮的黄金令牌。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.lines.say
+#: data/native/npcs.json
+msgid "黄金令，神教见了，就是见了我。天山的剑，到西厢来学。"
+msgstr ""
+
+#. native.npc.annie_yard inquiry.教主.rules.lines.emote
+#: data/native/npcs.json
+msgid "揣好教主令，出了场院。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.emote
+#: data/native/npcs.json
+msgid "从袖子里抽出一张折好的纸，压在茶盏底下，抬眼看了看厅角。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "名单上最后一个名字，向来是我亲手写的。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.emote
+#: data/native/npcs.json
+msgid "把那张纸翻过来，推到桌子另一头。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "宝衣烧了，封物没了。封法就只剩在人的脑子里——这样的东西，只该活在一个人的脑子里。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "名单上最后一个名字：安妮儿。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.emote
+#: data/native/npcs.json
+msgid "一直站在八仙桌旁，这时才开口。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "封法在我脑子里，是因为湖底那东西还没有死透。要我的命，自己来拿。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "宝衣在西厢。衣在谁手里，封法就在谁手里。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "衣在我这里，是因为它该在这里。你要的不是封法，是神教的香火。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.emote
+#: data/native/npcs.json
+msgid "把那张纸翻过来，转过脸看着你。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "宝衣在你身上。封法跟着衣走——走到一个神教管不着的人手里。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "交出来，或者你的名字也在上面。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "名单上写过的名字，没有一个是该死的。这一个也不是。衣在谁身上，是衣自己选的。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "宝衣还在晚月庄，在守衣人身上。几百年了，那件衣从没出过那座庄子。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "名单上最后一个名字：瑷伦。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "瑷伦守了一辈子的衣，没碰过神教一根指头。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "还有你。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "西厢的话，你替她瞒过一回。湖边那个凿冰的老头，你也没动他——冰凿交到了我手里，人可没死。我的人在官道上看见过他。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "我信过你一回。只信一回。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "湖边凿冰的那个老人，是你动的手。他只是看见过冰下的光，讲给孩子们听。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "神教不能有两个教主。"
+msgstr ""
+
+#. native.npc.annie_yard calls.steps.say
+#: data/native/npcs.json
+msgid "你站哪一边——问我，或者问她：「教主」。"
+msgstr ""
+
+#. native.npc.lake_taoist long
+#: data/native/npcs.json
+msgid ""
+"一个戴黑冠的道士，道袍的下摆掖在腰里，赤脚站在湖岸的浅水中。他手里一根刻着细格的竹竿，插下去，拔出来，看一眼，在一块木板上划一道。\n"
+msgstr ""
+
+#. native.npc.lake_taoist chat_msg
+#: data/native/npcs.json
+msgid ""
+"黑冠道士把竹竿插进湖里，拔出来看了看，在木板上又划了一道。\n"
+msgstr ""
+
+#. native.npc.lake_taoist chat_msg
+#: data/native/npcs.json
+msgid ""
+"黑冠道士望着湖心，嘴里念念有词，像在数什么。\n"
+msgstr ""
+
+#. native.npc.lake_taoist chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"黑冠道士冷笑道：神教的狗，鼻子倒灵！\n"
+msgstr ""
+
+#. native.npc.lake_taoist chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"黑冠道士一边招架，一边往湖岸北边瞟。\n"
+msgstr ""
+
+#. native.npc.lake_taoist inquiry topic
+#: data/native/npcs.json
+msgid "量水"
+msgstr ""
+
+#. native.npc.lake_taoist inquiry.量水.rules.lines.say
+#: data/native/npcs.json
+msgid "量水？量的是湖底那东西离湖面还有多深。"
+msgstr ""
+
+#. native.npc.lake_taoist inquiry.量水.rules.lines.emote
+#: data/native/npcs.json
+msgid "看见你腰间的令牌，脸色一沉，把竹竿往岸上一扔，拔出了剑。"
+msgstr ""
+
+#. native.npc.lake_taoist inquiry.量水.rules.lines.say
+#: data/native/npcs.json
+msgid "神教的人也来管宫里的事？"
+msgstr ""
+
+#. native.npc.lake_taoist inquiry.量水.rules.say
+#: data/native/npcs.json
+msgid "湖水一年比一年浅。宫里要一个数，贫道来量。"
+msgstr ""
+
+#. native.npc.lake_taoist spared.line
+#: data/native/npcs.json
+msgid "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸往北边跑了。"
+msgstr ""
+
+#. native.npc.war_painter name
+#: data/native/npcs.json
+msgid "兵部画吏"
+msgstr ""
+
+#. native.npc.war_painter long
+#: data/native/npcs.json
+msgid ""
+"一个穿青色公服的瘦长汉子，背着一只画筒，蹲在山壁下的土坑边，一手按着纸，一手拿炭条描坑沿的形状。腰里却挂着一口刀。\n"
+msgstr ""
+
+#. native.npc.war_painter chat_msg
+#: data/native/npcs.json
+msgid ""
+"兵部画吏拿炭条在纸上比了比，又趴下去量坑沿。\n"
+msgstr ""
+
+#. native.npc.war_painter chat_msg
+#: data/native/npcs.json
+msgid ""
+"兵部画吏抬头看了看山壁，嘴里嘀咕：一丈二……一丈三。\n"
+msgstr ""
+
+#. native.npc.war_painter chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"兵部画吏喝道：打兵部的人，你担得起么！\n"
+msgstr ""
+
+#. native.npc.war_painter chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"兵部画吏一边招架，一边护着背上的画筒。\n"
+msgstr ""
+
+#. native.npc.war_painter inquiry topic
+#: data/native/npcs.json
+msgid "画图"
+msgstr ""
+
+#. native.npc.war_painter inquiry.画图.rules.lines.say
+#: data/native/npcs.json
+msgid "部里的差事。石匣就是从这个坑里起出来的——兵部要一张图，看看这山底下还有没有第二只。"
+msgstr ""
+
+#. native.npc.war_painter inquiry.画图.rules.lines.emote
+#: data/native/npcs.json
+msgid "抬头打量了你一眼，手按上了刀柄。"
+msgstr ""
+
+#. native.npc.war_painter inquiry.画图.rules.lines.say
+#: data/native/npcs.json
+msgid "你不是隘口的兵。你是谁的人？"
+msgstr ""
+
+#. native.npc.war_painter inquiry.画图.rules.say
+#: data/native/npcs.json
+msgid "部里的差事。闲人走开，别踩了坑沿。"
+msgstr ""
+
+#. native.npc.war_painter spared.line
+#: data/native/npcs.json
+msgid "兵部画吏连滚带爬地退开几步，画筒也不要了，一张图掉在土坑边。他攀着铁索爬上去，跑了。"
+msgstr ""
+
+#. native.npc.ice_cutter long
+#: data/native/npcs.json
+msgid ""
+"一个瘦小的老头，裹着一件油亮的老羊皮袄，拄着一把冰凿。眉毛上结着霜，看湖的时候眼睛眯成一条缝。\n"
+msgstr ""
+
+#. native.npc.ice_cutter chat_msg
+#: data/native/npcs.json
+msgid ""
+"老冰匠拿冰凿敲了敲岸边的冰，侧着耳朵听。\n"
+msgstr ""
+
+#. native.npc.ice_cutter chat_msg
+#: data/native/npcs.json
+msgid ""
+"老冰匠对着湖面哈了一口白气：今年的冰，底下还亮。\n"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry topic
+#: data/native/npcs.json
+msgid "凿冰"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.凿冰
+#: data/native/npcs.json
+msgid "腊月里凿，开春前收。四十年了，湖上哪一块冰厚、哪一块冰薄，我闭着眼都知道。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry topic
+#: data/native/npcs.json
+msgid "光"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.光
+#: data/native/npcs.json
+msgid "冰底下有光。青白青白的，一闪一闪，像有人提着灯在底下走。我只讲给孩子们听——大人不信。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.动手.confirm
+#: data/native/npcs.json
+msgid ""
+"老冰匠只是个凿冰的老人，打不过你，也跑不动。\n"
+"这一下去，玉螺湖村就少一个人——朱鸿雪要的就是这个，她会升你赤铜令；安妮儿会知道。\n"
+"要动手吗？"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.动手.rules.lines.line
+#: data/native/npcs.json
+msgid "老冰匠又弯下腰去，侧着耳朵听冰底下的声音，没有回头。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.动手.rules.lines.line
+#: data/native/npcs.json
+msgid "你出手很快。他没有出声，倒在冰窟窿边上，冰凿滑进了水里。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.动手.rules.lines.line
+#: data/native/npcs.json
+msgid "柳树底下静了一会儿，远处有孩子在喊他。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.动手.rules.say
+#: data/native/npcs.json
+msgid "动手？动什么手？"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry topic
+#: data/native/npcs.json
+msgid "搬走"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.confirm
+#: data/native/npcs.json
+msgid ""
+"劝老冰匠离开玉螺湖，再也别回来；拿他的冰凿回去，向朱鸿雪交差。\n"
+"他活下来，可你是拿一把冰凿去骗朱鸿雪：她信不信，看你西厢那一桩有没有瞒过她——瞒过的，到了分裂那天，她会当面揭穿。\n"
+"要劝他走吗？"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.lines.emote
+#: data/native/npcs.json
+msgid "听你说完，半天没吭声。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.lines.say
+#: data/native/npcs.json
+msgid "有人要我的命？……我一个凿冰的。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.lines.say
+#: data/native/npcs.json
+msgid "冰底下的光，我就不该讲。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.lines.emote
+#: data/native/npcs.json
+msgid "把手里的冰凿递给你。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.lines.say
+#: data/native/npcs.json
+msgid "拿去吧，往后用不着了。有人问，就说我掉进冰窟窿里了。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.lines.emote
+#: data/native/npcs.json
+msgid "背起包袱，顺着青石小路往村口去了，一回也没有回头。"
+msgstr ""
+
+#. native.npc.ice_cutter inquiry.搬走.rules.say
+#: data/native/npcs.json
+msgid "搬走？我在这湖边住了一辈子。"
+msgstr ""
+
+#. native.npc.ice_cutter fight_deferred
+#: data/native/npcs.json
+msgid "老冰匠连连摆手：我一个凿冰的老头子，哪里经得起你一下。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -60912,6 +61863,39 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一个穿黑衣的人脸朝下伏在芦苇丛里，泥水没过了半边脸。背上三个孔，是钢叉。右手攥成拳，压在身子底下。\n"
+msgstr ""
+
+#. native:cloud/copper_token name
+#: data/native/items.json
+msgid "赤铜令"
+msgstr ""
+
+#. native:cloud/copper_token long
+#: data/native/items.json
+msgid ""
+"一块赤铜铸的令牌，比黑木令沉得多。正面刻着火焰的图腾，背面一个「东」字。神教里，只有替神教办成过事的人才拿得到它。\n"
+msgstr ""
+
+#. native:village/ice_chisel name
+#: data/native/items.json
+msgid "冰凿"
+msgstr ""
+
+#. native:village/ice_chisel long
+#: data/native/items.json
+msgid ""
+"一把铁打的冰凿，木柄磨得油亮，凿尖上还结着冰碴。柄上缠着几圈旧布，布上有补丁。\n"
+msgstr ""
+
+#. native:canyon/dig_sketch name
+#: data/native/items.json
+msgid "石匣出土图"
+msgstr ""
+
+#. native:canyon/dig_sketch long
+#: data/native/items.json
+msgid ""
+"一张炭条画的图：黄石隘口的山壁，山壁下一个土坑，坑沿量了尺寸。旁边一行小字：「起匣处。山底下或另有一只，待查。」落款兵部职方司。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

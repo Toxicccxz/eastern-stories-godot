@@ -204,6 +204,11 @@ position = Vector2(-888, -216)
 script = ExtResource("marker")
 spawn_point_id = &"cloud.god2.god.1"
 
+[node name="God2AnnieYard1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-604, -96)
+script = ExtResource("marker")
+spawn_point_id = &"cloud.god2.annie_yard.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

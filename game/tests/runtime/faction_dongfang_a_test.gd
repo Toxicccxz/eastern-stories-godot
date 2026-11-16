@@ -52,7 +52,7 @@ func _test_data() -> void:
 	_check(quest != null and quest.line == StoryQuestDefinition.LINE_FACTION and quest.starts.when == JournalEntryDefinition.When.MARK and quest.starts.key == "接了朱鸿雪的令", "faction.dongfang: a 势力 quest that begins with 接令")
 	_check(quest.excludes == [NILING] and catalog.story_quest(NILING).excludes == [QUEST], "the two secret lines exclude each other, both ways")
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"west", &"report", &"token", &"names"], "its steps: %s" % [ids])
+	_check(ids.slice(0, 4) == [&"west", &"report", &"token", &"names"], "its steps begin west, report, token, names (东方神教 B goes on): %s" % [ids])
 	var report: StoryQuestDefinition.Step = quest.step(&"report")
 	_check(report.is_branch() and report.weight == StoryQuestDefinition.WEIGHT_SMALL and report.options.size() == 2 and not report.options[0].reward.deed.is_empty() and not report.options[1].reward.deed.is_empty(), "the report is a small choice of two, each a deed")
 	_check(report.objective.contains("朱鸿雪会记住这句话") and report.objective.contains("安妮儿欠你一回"), "the cost of either way is said before the choice")
@@ -73,7 +73,7 @@ func _test_data() -> void:
 	_check(corpse != null and corpse.zone_id == SHORE and corpse.staged, "the dead man lies on the shore, on the stage")
 	_check(catalog.item(CORPSE) != null and catalog.item(CORPSE).no_get, "and cannot be picked up")
 	var when: JournalEntryDefinition = catalog.npc(KILLER).dealings().ignores_when
-	_check(when != null and when.when == JournalEntryDefinition.When.ALL and when.parts.any(func(part: JournalEntryDefinition) -> bool: return part.when == JournalEntryDefinition.When.MARK and part.key == "持黑木令") and when.parts.any(func(part: JournalEntryDefinition) -> bool: return part.when == JournalEntryDefinition.When.ITEM and part.key == String(TOKEN)), "the cult's killer minds the 黑木令 (dongfang.token_holds: 持黑木令 and the token carried)")
+	_check(when != null and _holds_part(when, JournalEntryDefinition.When.MARK, "持黑木令") and _holds_part(when, JournalEntryDefinition.When.ITEM, String(TOKEN)), "the cult's killer minds the 黑木令 (dongfang.token_holds: 持黑木令 and the token carried)")
 
 
 ## A 杀手令牌 carried: 朱鸿雪「令牌」, then「接令」asked first; the line begins, 逆灵宫 shut (林忌 and 霍铮 say why).
@@ -283,6 +283,13 @@ func _test_lapse(tree: SceneTree, session: WorldSessionController) -> void:
 	state.marks["取了黑木令"] = 1 # TEST-ONLY
 	_check(_said(_ask(yard, god, "令牌"), "神教的血") and not state.marks.has("持黑木令"), "朱鸿雪: no order for one with a 教主's blood")
 	_check(not session.quest_condition_test().call(GameContent.catalog().conditions()["dongfang.token_holds"]), "and the killers do not know them")
+
+
+## Whether `condition` asks `kind` of `key` somewhere in it (dongfang.token_holds: the 黑木令 one of its tokens, 东方神教 B).
+func _holds_part(condition: JournalEntryDefinition, kind: JournalEntryDefinition.When, key: String) -> bool:
+	if condition.when == kind and condition.key == key:
+		return true
+	return condition.parts.any(func(part: JournalEntryDefinition) -> bool: return _holds_part(part, kind, key))
 
 
 func _use(tree: SceneTree, map: WorldMapController, service_id: StringName) -> bool:

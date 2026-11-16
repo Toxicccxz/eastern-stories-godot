@@ -741,6 +741,22 @@
     "native.npc.shield_swordsman_lake": {"same_as": "native.npc.shield_swordsman"},
     "native.npc.feng_ce_lake": {"same_as": "native.npc.feng_ce"},
     "native.npc.annie_lake": {"same_as": "latemoon.npc.room.annihi"},
+    "native.npc.annie_yard": {"same_as": "latemoon.npc.room.annihi"},
+    "native.npc.lake_taoist": {"same_as": "native.npc.black_taoist"},
+    "native.npc.war_painter": {
+      "note": "兵部画吏：瘦长汉子，青色公服，背一只画筒，腰挂一口刀（势力线 东方神教 B）",
+      "coat": "3e5a6a", "pants": "2e3a40", "skin": "d8a47a", "hair": "1c1916",
+      "hair_style": "topknot", "headwear": "none", "beard": "none", "waist": "belt",
+      "prop": "blade_waist", "accent": "c8b890", "height": "tall", "build": "slim",
+      "shoes": "dark"
+    },
+    "native.npc.ice_cutter": {
+      "note": "老冰匠：瘦小的老头，油亮的老羊皮袄，眉毛结霜，拄一把冰凿（势力线 东方神教 B）",
+      "coat": "7a5a3a", "pants": "4a3e30", "skin": "c89068", "hair": "c8c4bc",
+      "hair_style": "short", "headwear": "none", "beard": "full", "waist": "sash",
+      "prop": "staff", "prop_color": "8a8f92", "accent": "d8c8a0", "height": "short", "build": "slim",
+      "shoes": "dark"
+    },
     "native.npc.nan_weishui_lake": {"same_as": "native.npc.nan_weishui_guest"},
     "native.npc.wei_canglan_lake": {"same_as": "native.npc.wei_canglan"},
     "native.npc.pan_junchan_lake": {"same_as": "common.npc.fighter.executioner"},

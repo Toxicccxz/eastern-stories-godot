@@ -459,6 +459,11 @@ position = Vector2(968, 2152)
 script = ExtResource("marker")
 spawn_point_id = &"canyon.canyon7.gate_soldier.2"
 
+[node name="Canyon1WarPainter1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1100, 600)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.war_painter.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

@@ -60,6 +60,8 @@ class Answer:
 	var marks: Array[String] = []
 	var temps: Array[String] = []
 	var gives: StringName = &""
+	## The asker's items the answer takes (NpcInquiryRule.takes).
+	var takes: Array[StringName] = []
 	var mark_on_give: String = ""
 	## Something the NPC carries that it hands over (NpcInquiryRule.hands_over), how
 	## many, and what it says once it did (`after`) or when it had none (`after_empty`).
@@ -211,6 +213,7 @@ static func answer(
 		for line: NpcLine in rule.after_empty:
 			result.after_empty.append(line.colored(name, asker_respect))
 		result.gives = rule.gives
+		result.takes = rule.takes.duplicate()
 		result.mood = rule.mood
 		result.attacks = rule.attacks
 		result.leaves = rule.leaves

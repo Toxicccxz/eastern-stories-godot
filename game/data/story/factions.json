@@ -442,7 +442,8 @@
 			"place": "绮云镇",
 			"sources": [
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/god.c, d/latemoon/room/npc/annihi.c",
-				"native: 势力线第一批 东方神教 A (计划 build/plans/势力线第一批_计划.md §5 东方神教 A, §0「朱鸿雪给过你一块黑木令」; DECISIONS「东方神教 A」) — the order taken, what was told of the 西厢, the 黑木令, the line ended in a 教主's blood"
+				"native: 势力线第一批 东方神教 A (计划 build/plans/势力线第一批_计划.md §5 东方神教 A, §0「朱鸿雪给过你一块黑木令」; DECISIONS「东方神教 A」) — the order taken, what was told of the 西厢, the 黑木令, the line ended in a 教主's blood",
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — the three names, the old ice cutter, the 赤铜令, which 教主 one stood with"
 			],
 			"lines": [
 				{
@@ -496,7 +497,91 @@
 				{
 					"text": "你手上沾了神教教主的血。朱鸿雪的令，到此为止。",
 					"when": {
-						"mark": "神教的线断了"
+						"any": [
+							{
+								"mark": "神教的线断了"
+							},
+							{
+								"all": [
+									{
+										"mark": "杀了神教的教主"
+									},
+									{
+										"quest": "faction.dongfang#done"
+									}
+								]
+							}
+						]
+					}
+				},
+				{
+					"text": "朱鸿雪给过你三个名字，都是靠近湖底封物的人。",
+					"when": {
+						"mark": "朱鸿雪说了三个名字"
+					}
+				},
+				{
+					"text": "你替朱鸿雪杀了玉螺湖凿冰的老冰匠。",
+					"when": {
+						"mark": "杀了老冰匠"
+					}
+				},
+				{
+					"text": "你劝玉螺湖的老冰匠搬走了，拿他的冰凿去向朱鸿雪交了差。",
+					"when": {
+						"all": [
+							{
+								"mark": "劝老冰匠搬走了"
+							},
+							{
+								"mark": "持赤铜令"
+							},
+							{
+								"not": {
+									"mark": "朱鸿雪揭穿了冰凿"
+								}
+							}
+						]
+					}
+				},
+				{
+					"text": "你拿老冰匠的冰凿骗过朱鸿雪，她当面揭穿了你。",
+					"when": {
+						"mark": "朱鸿雪揭穿了冰凿"
+					}
+				},
+				{
+					"text": "朱鸿雪换给你一块赤铜令。",
+					"when": {
+						"all": [
+							{
+								"mark": "持赤铜令"
+							},
+							{
+								"not": {
+									"any": [
+										{
+											"mark": "站了安妮儿"
+										},
+										{
+											"mark": "站了朱鸿雪"
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"text": "你站到了安妮儿一边。一代教主收回了教主令，给了你一块黄金令牌。",
+					"when": {
+						"mark": "站了安妮儿"
+					}
+				},
+				{
+					"text": "你站到了朱鸿雪一边。她给了你一块黄金令牌；西厢的门，从此对你关着。",
+					"when": {
+						"mark": "站了朱鸿雪"
 					}
 				}
 			]
