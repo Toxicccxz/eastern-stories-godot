@@ -72,11 +72,13 @@ func _test_votes() -> void:
 	_check(_heard(state, &"common.npc.swordsman.master", "虹台", "你开口") and _confirms(state, &"common.npc.swordsman.master", "这一票"), "本宗: 柳淳风 leaves the door open, asked first")
 	_heard(state, &"common.npc.swordsman.master", "这一票", "封山听你的")
 	_check(_holds(state, "assembly.fonxan.self") and not _holds(state, "assembly.fonxan.old"), "本宗: 封山听你的")
+	state = _fresh(["终章", "跟了本宗", "封山肯听你的"])
+	_check(not _confirms(state, &"snow.npc.girl", "这一票") and _heard(state, &"snow.npc.girl", "这一票", "爹爹手里") and not state.marks.has("封山听你的"), "本宗: not 柳绘心's to give")
 	state = _fresh(["终章", "跟了北宗"])
 	_check(_holds(state, "assembly.fonxan.yan"), "北宗: 颜违's seat, his vote")
 	_check(_heard(state, &"common.npc.swordsman.master", "虹台", "问绘心") or _heard(state, &"common.npc.swordsman.master", "虹台", "同绘心说"), "北宗: 柳淳风 sends one to 柳绘心")
 	_check(_heard(state, &"snow.npc.girl", "虹台", "这一票我给你"), "北宗: 柳绘心 would give it")
-	_check(_heard(state, &"common.npc.swordsman.master", "这一票", "不在我手里") and not state.marks.has("封山听你的"), "北宗: not 柳淳风's to give")
+	_check(not _confirms(state, &"common.npc.swordsman.master", "这一票") and _heard(state, &"common.npc.swordsman.master", "这一票", "不在我手里") and not state.marks.has("封山听你的"), "北宗: not 柳淳风's to give, nothing asked first")
 	_heard(state, &"snow.npc.girl", "这一票", "听你的")
 	_check(_holds(state, "assembly.fonxan.self") and not _holds(state, "assembly.fonxan.yan"), "北宗: 封山听你的")
 	# 天邪
@@ -176,6 +178,8 @@ func _test_appears(tree: SceneTree, session: WorldSessionController) -> void:
 	var shown: Array[StoryQuestLog.Shown] = StoryQuestLog.shown(state, catalog.story_quests(), StoryQuestDefinition.LINE_FACTION, session.quest_condition_test())
 	_check(shown.size() >= 3 and shown[0].quest.quest_id == QUEST and shown[1].quest.quest_id == &"faction.niling", "pinned first, above the 卧底's, above the newest: %s" % [shown.map(func(view: StoryQuestLog.Shown) -> StringName: return view.quest.quest_id)])
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"wait", "it waits on the 终章")
+	var niling: StoryQuestDefinition = catalog.story_quest(&"faction.niling")
+	_check(StoryQuestLog.tracked(state, [quest, niling] as Array[StoryQuestDefinition]) == niling, "the HUD keeps the line's step, not the 大会 that waits")
 
 
 ## With no line begun, the 终章 brings it, at the invitation.
@@ -271,7 +275,8 @@ func _test_remnant_crushed(tree: SceneTree, session: WorldSessionController) -> 
 	_check(temple.select_npc(lin.character_id) and temple.ask_topics_selected().has("剿") and temple.ask_topics_selected().has("招安"), "剿 and 招安 to choose")
 	_check(lin.definition().talk().confirm_applies("剿", state.marks), "剿 asked first")
 	_check(_said(_ask(temple, lin, "剿"), "程不平") and state.marks.has("余孽交了官府") and state.marks.has("余孽有了去处"), "剿: the letter to 程不平")
-	_check(not lin.definition().talk().confirm_applies("招安", state.marks) and _said(_ask(temple, lin, "招安"), "来不及了"), "no 招安 after")
+	_check(not lin.definition().talk().confirm_applies("招安", state.marks) and _said(_ask(temple, lin, "招安"), "来不及了") and not state.marks.has("林忌要招安"), "no 招安 after")
+	_check(not _confirms(state, &"native.npc.niling_lead_chanter", "下山") and _heard(state, &"native.npc.niling_lead_chanter", "下山", "送死") and not state.marks.has("招安了余孽"), "no 下山 after the 官兵")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, niling, &"crush") and StoryQuestLog.is_done(state, niling), "the 卧底 line ends: 剿")
 
@@ -286,7 +291,7 @@ func _test_remnant_pardoned(tree: SceneTree, session: WorldSessionController) ->
 	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
 	_ask(temple, lin, "逆灵宫")
 	_check(_said(_ask(temple, lin, "招安"), "下山") and state.marks.has("林忌要招安") and not state.marks.has("余孽有了去处"), "招安: go and say 下山")
-	_check(not lin.definition().talk().confirm_applies("剿", state.marks), "no 剿 once 招安 is under way")
+	_check(not lin.definition().talk().confirm_applies("剿", state.marks) and _said(_ask(temple, lin, "剿"), "回北麓去") and not state.marks.has("余孽交了官府"), "no 剿 once 招安 is under way")
 	var map: WorldMapController = MapPlaces.enter(session, FRONT, FRONT_POINT)
 	session.wear_player_item(map.give_new_item_to_player(CROWN)) # TEST-ONLY: still in the crown
 	await _settle(tree)
