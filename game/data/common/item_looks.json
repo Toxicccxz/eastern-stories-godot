@@ -331,6 +331,8 @@
 		"native:fanfang/round_shield": { "kind": "shield", "face": "6a3a30", "rim": "3e3a36", "boss": "8a8a8a:gloss", "studs": "8a7a50" },
 		"native:niling/offering_register": { "kind": "book", "cover": "161414", "label": "161414", "pages": "d8ccb0", "thread": "5a1a1a", "thick": 0.1 },
 		"native:niling/scripture_lower": { "kind": "book", "cover": "1a1618", "label": "3a1414", "pages": "c8bca0", "thread": "3a1414", "thick": 0.16 },
-		"native:niling/six_chaos_manual": { "kind": "book", "cover": "1e1c22", "label": "8a2a2a", "pages": "e0d6bc", "thread": "2a2426", "thick": 0.06 }
+		"native:niling/six_chaos_manual": { "kind": "book", "cover": "1e1c22", "label": "8a2a2a", "pages": "e0d6bc", "thread": "2a2426", "thick": 0.06 },
+		"native:city/zhenyuan_card": { "kind": "letter", "paper": "c8402a", "fold": "a8301e", "seal": "2a2420:gloss", "ink": "f0d890" },
+		"native:city/he_letter": { "kind": "paper", "paper": "cdbf98", "ink": "3a3026" }
 	}
 }

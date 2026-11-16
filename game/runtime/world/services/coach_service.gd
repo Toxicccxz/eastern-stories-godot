@@ -54,6 +54,9 @@ func choose(ride: CoachLines.Ride) -> String:
 	if fresh == null or not in_reach():
 		# TRANSLATORS: the 车马行 cannot take the player there now.
 		return tr("车夫摇摇头：「这会儿去不了。」")
+	var refusal: String = _refusal()
+	if not refusal.is_empty():
+		return refusal
 	if not map.player_can_afford(fresh.fare):
 		# TRANSLATORS: the player has less money than a 车马行 fare.
 		return tr("你的钱不够付车钱。")
@@ -69,7 +72,19 @@ func choose(ride: CoachLines.Ride) -> String:
 
 func _can_go(to: ServiceDefinition) -> bool:
 	var ride: CoachLines.Ride = ride_to(to)
-	return ride != null and in_reach() and map.player_can_afford(ride.fare)
+	return ride != null and in_reach() and map.player_can_afford(ride.fare) and _refusal().is_empty()
+
+
+## Native (势力线第二批 振远 A; DECISIONS「车马行不拉」): one that follows the player every way, stands
+## in their room and will not ride (NpcHooks refuses_coach) keeps the cart from setting off: its line,
+## the first such one's; "" when nobody holds it back.
+func _refusal() -> String:
+	var zone_id: StringName = map.player_runtime().world_location().zone_id
+	for npc: NpcRuntimeState in map.npcs.residents:
+		var hooks: NpcHooks = npc.definition().hooks()
+		if hooks != null and not hooks.refuses_coach.is_empty() and map.npc_life.follows_every_way(npc) and npc.world_location().zone_id == zone_id:
+			return tr(hooks.refuses_coach).format({"npc": tr(npc.definition().display_name)})
+	return ""
 
 
 ## The player said yes: the cart rolls on the 沙盘, then the ride.

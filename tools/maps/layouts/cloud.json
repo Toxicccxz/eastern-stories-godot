@@ -717,7 +717,7 @@
           ["blocked", "cloud.biaoju", ["rel", 0.76629, 0.86719], 0.9411, 0.9411, "posts for the escorts to keep their hands in", {"look": {"kind": "training_post"}}],
           ["blocked", "cloud.biaoju", ["rel", 0.24501, 0.91719], 2.3529, 1.4117, {"look": {"kind": "cargo"}}]
         ],
-        "placed": {},
+        "placed": {"cloud.biaoju.escort_runner.1": ["cloud.biaoju", ["rel", 0.22, 0.46]]},
         "doors": {
           "cloud.biaoju.north": "north"
         },
