@@ -60,6 +60,10 @@ var mark_asker: String = ""
 var marks_asker: Array[String] = []
 var temp_asker: String = ""
 var gives: StringName = &""
+## Native (势力线第一批 东方神教 B; DECISIONS「收走」): items (by definition) the asker carries that the
+## answer takes, one of each (an act's `take` on the asking side: the 黑木令 handed back for the 赤铜令,
+## the 冰凿 shown as the proof of a deed); one not carried is passed over.
+var takes: Array[StringName] = []
 var taken_lines: Array[NpcLine] = []
 var chance_below: int = 0
 var chance_of: int = 0
@@ -167,6 +171,8 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.marks_asker = reader.text_list("marks_asker")
 	rule.temp_asker = reader.text("temp_asker")
 	rule.gives = StringName(reader.text("gives"))
+	for item_id: String in reader.text_list("takes"):
+		rule.takes.append(StringName(item_id))
 	rule.forgets = reader.text_list("forgets")
 	var make: ContentRecordReader = reader.child("make")
 	if make != null:

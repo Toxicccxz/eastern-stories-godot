@@ -18,6 +18,19 @@ static func teachable_skills(definition: NpcDefinition, catalog: ContentCatalog)
 	return result
 
 
+## What `definition` offers `student` (the 请教 list): every skill it teaches, or, to one outside its
+## family it recognises by a rule for some skills only (DECISIONS「只教这几门」), those.
+static func taught_to(definition: NpcDefinition, catalog: ContentCatalog, student: CharacterState) -> Array[StringName]:
+	var skills: Array[StringName] = teachable_skills(definition, catalog)
+	var teaching: NpcTeaching = null if definition == null else definition.teaching()
+	if teaching == null or student == null or (not teaching.family_id.is_empty() and student.family.family_id == teaching.family_id):
+		return skills
+	var rule: NpcTeaching.RecognizeRule = teaching.recognize(student.family.family_id, student.marks)
+	if rule == null or rule.skills.is_empty() or not rule.accept:
+		return skills
+	return skills.filter(func(skill_id: StringName) -> bool: return rule.skills.has(skill_id))
+
+
 ## learn.c's facts about the teacher for one request: present and a character
 ## (`here`), living(), query("int"), query("sen"), its raw skill level and family
 ## (with its privs: only -1 teaches every member).

@@ -6,7 +6,8 @@
 				"native: 终章 A (计划 build/plans/终章_计划.md §4 表二; DECISIONS「终章 A」): 帮手三拨以上才「能灭它」——七拨里来了几拨. 势力线第一批 (计划 build/plans/势力线第一批_计划.md §2 第 1 条; DECISIONS「具名条件」) gives the list this one home: the 点将 checklist, the 等到天黑 act and the 封坛's 钉下去 all name it.",
 				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 封山守渡口, the eighth: 柳淳风 and his disciples (本宗) or 柳绘心 and those she taught (北宗); three are still enough.",
 				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 水烟阁守潭口 holds for one who made the 天邪 split as well: 潘军禅 and the 红衣武士 where neither 南危水 nor 卫沧澜 comes; still one band.",
-				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 茅山 (林忌), the ninth: one who turned the night before gave 林忌 the hour and the way down to the lake; his people hold it. Three are still enough."
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 茅山 (林忌), the ninth: one who turned the night before gave 林忌 the hour and the way down to the lake; his people hold it. Three are still enough.",
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 东方神教守潭口 holds for one who stood with 安妮儿 as well, the 宝衣 hers or not; still one band."
 			],
 			"when": {
 				"at_least": {
@@ -30,7 +31,7 @@
 							"mark": "冯策随你下湖"
 						},
 						{
-							"mark": "宝衣给了安妮儿"
+							"cond": "dongfang.annie_helps"
 						},
 						{
 							"any": [
@@ -251,20 +252,109 @@
 		{
 			"id": "dongfang.token_holds",
 			"sources": [
-				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A 第 2 条, §2 第 7 条, §9 第 11 条, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」) — the 黑木令 (ES2's 杀手令牌, d/latemoon/room/npc/obj/token.c) carried by one 朱鸿雪 gave it to (持黑木令) and whose line did not end in a 教主's blood: the cult's killers take them for one of their own."
+				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A 第 2 条, §2 第 7 条, §9 第 11 条, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」) — the 黑木令 (ES2's 杀手令牌, d/latemoon/room/npc/obj/token.c) carried by one 朱鸿雪 gave it to (持黑木令) and whose line did not end in a 教主's blood: the cult's killers take them for one of their own.",
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — a rank is the token one carries (计划 §2 第 7 条): the 赤铜令 once 朱鸿雪 gave it (持赤铜令), the 黄金令牌 (ES2's gold_token.c, a neck piece: carried or worn) once one stood with either 教主."
 			],
 			"when": {
 				"all": [
 					{
-						"mark": "持黑木令"
-					},
-					{
-						"item": "es2:d/latemoon/room/npc/obj/token"
+						"any": [
+							{
+								"all": [
+									{
+										"mark": "持黑木令"
+									},
+									{
+										"item": "es2:d/latemoon/room/npc/obj/token"
+									}
+								]
+							},
+							{
+								"all": [
+									{
+										"mark": "持赤铜令"
+									},
+									{
+										"item": "native:cloud/copper_token"
+									}
+								]
+							},
+							{
+								"all": [
+									{
+										"any": [
+											{
+												"mark": "站了安妮儿"
+											},
+											{
+												"mark": "站了朱鸿雪"
+											}
+										]
+									},
+									{
+										"any": [
+											{
+												"item": "es2:d/latemoon/room/npc/obj/gold_token"
+											},
+											{
+												"wearing": "es2:d/latemoon/room/npc/obj/gold_token"
+											}
+										]
+									}
+								]
+							}
+						]
 					},
 					{
 						"not": {
 							"mark": "神教的线断了"
 						}
+					}
+				]
+			}
+		},
+		{
+			"id": "dongfang.annie_in_yard",
+			"sources": [
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 安妮儿 in 朱鸿雪's 场院 for the last name on the list: from the 赤铜令 until one side is taken (off her 西厢 meanwhile), while the line stands."
+			],
+			"when": {
+				"all": [
+					{
+						"quest": "faction.dongfang/copper"
+					},
+					{
+						"not": {
+							"any": [
+								{
+									"mark": "站了安妮儿"
+								},
+								{
+									"mark": "站了朱鸿雪"
+								}
+							]
+						}
+					},
+					{
+						"not": {
+							"mark": "神教的线断了"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "dongfang.annie_helps",
+			"sources": [
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 安妮儿 comes to the lake (终章 A 东方神教守潭口): the 宝衣 given her (第四章), or one stood with her at the split (§5 第 4 条: 不管宝衣给没给她). One who stood with 朱鸿雪 still has her come with the 宝衣 if it is hers (§11 Q8: she keeps the 封法, not 朱鸿雪)."
+			],
+			"when": {
+				"any": [
+					{
+						"mark": "宝衣给了安妮儿"
+					},
+					{
+						"mark": "站了安妮儿"
 					}
 				]
 			}

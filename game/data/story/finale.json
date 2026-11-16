@@ -161,7 +161,7 @@
 						{
 							"label": "东方神教（安妮儿）守潭口",
 							"if": {
-								"mark": "宝衣给了安妮儿"
+								"cond": "dongfang.annie_helps"
 							}
 						},
 						{

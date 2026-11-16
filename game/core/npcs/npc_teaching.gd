@@ -34,11 +34,17 @@ class RecognizeRule:
 	var lines: Array[NpcLine] = []
 	var fail: String = ""
 	var accept: bool = false
+	## Native (势力线第一批 东方神教 B; DECISIONS「只教这几门」): the skills this rule speaks for ([] every
+	## one the NPC has): asked for another, the rule is passed over (安妮儿 teaches the one holding the
+	## 黄金令牌 天山雪影剑 and 雪影心法, nothing else of hers).
+	var skills: Array[StringName] = []
 
-	func matches(student_family_id: StringName, student_marks: Dictionary[String, int]) -> bool:
+	## `skill_id` "" asks for none in particular (the 沙盘's 师 mark, the 请教 list).
+	func matches(student_family_id: StringName, student_marks: Dictionary[String, int], skill_id: StringName = &"") -> bool:
 		return (
 			(family_id.is_empty() or family_id == student_family_id)
 			and (giver_mark.is_empty() or student_marks.get(giver_mark, 0) != 0)
+			and (skill_id.is_empty() or skills.is_empty() or skills.has(skill_id))
 		)
 
 
@@ -171,9 +177,9 @@ func teaches_for(student: CharacterState) -> bool:
 
 
 ## The first matching rule, or null: recognize_apprentice() returned 0.
-func recognize(student_family_id: StringName, student_marks: Dictionary[String, int]) -> RecognizeRule:
+func recognize(student_family_id: StringName, student_marks: Dictionary[String, int], skill_id: StringName = &"") -> RecognizeRule:
 	for rule: RecognizeRule in recognize_rules:
-		if rule.matches(student_family_id, student_marks):
+		if rule.matches(student_family_id, student_marks, skill_id):
 			return rule
 	return null
 
@@ -207,6 +213,8 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 		rule.lines = NpcLine.optional_lines(record)
 		rule.fail = record.text("fail")
 		rule.accept = record.boolean("accept", false)
+		for skill_id: String in record.text_list("skills"):
+			rule.skills.append(StringName(skill_id))
 		if not record.has("accept"):
 			record.fail("accept", "is required")
 		record.finish()

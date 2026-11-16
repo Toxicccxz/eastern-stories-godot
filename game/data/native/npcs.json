@@ -1509,14 +1509,51 @@
 						},
 						{
 							"when": {
-								"mark": "宝衣给了安妮儿"
+								"cond": "dongfang.annie_helps"
 							},
 							"by": "native.npc.annie_lake"
 						},
 						{
 							"say": "宝衣在我身上。东方神教守了三百年——三器齐了，我们就不必再守。",
 							"when": {
-								"mark": "宝衣给了安妮儿"
+								"all": [
+									{
+										"mark": "宝衣给了安妮儿"
+									},
+									{
+										"not": {
+											"mark": "站了朱鸿雪"
+										}
+									}
+								]
+							}
+						},
+						{
+							"say": "宝衣在我身上。我不是替神教来的——衣守的是湖底，不是谁家的香火。",
+							"when": {
+								"all": [
+									{
+										"mark": "宝衣给了安妮儿"
+									},
+									{
+										"mark": "站了朱鸿雪"
+									}
+								]
+							}
+						},
+						{
+							"say": "宝衣不在我身上。可神教的教主令在——湖底的事，神教守潭口。",
+							"when": {
+								"all": [
+									{
+										"mark": "站了安妮儿"
+									},
+									{
+										"not": {
+											"mark": "宝衣给了安妮儿"
+										}
+									}
+								]
 							}
 						},
 						{
@@ -2060,7 +2097,7 @@
 				"snowshade-sword": 100,
 				"sword": 100
 			},
-			"long": "安妮儿披着寒於宝衣站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n",
+			"long": "安妮儿站在水边，衣角沾不上水。她看湖的样子，像看一个等了很久的人。\n",
 			"attitude": "friendly",
 			"fight_deferred": "安妮儿没有动：我不是来跟你打的。",
 			"inquiry": {
@@ -5545,6 +5582,1043 @@
 					]
 				}
 			}
+		},
+		{
+			"id": "native.npc.annie_yard",
+			"legacy_source": "native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 安妮儿 (d/latemoon/room/npc/annihi.c: 东方神教 第一代教主, her skills and things) come to 朱鸿雪's 场院 for the last name on the list (计划 §5 第 4 条, 续写). Off her 西厢 while she stands here; the attributes annihi.c leaves to the roll are fixed, as every staged other-self.",
+			"name": "安妮儿",
+			"aliases": [
+				"annihier"
+			],
+			"gender": "女性",
+			"age": 37,
+			"long": "安妮儿站在八仙桌旁，没有坐。她还是西厢里那身素衣，门外吹进来的风，吹不动她的衣角。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 26,
+				"int": 28,
+				"spi": 26,
+				"cps": 28,
+				"per": 26,
+				"con": 22,
+				"kar": 20
+			},
+			"resources": {
+				"force": 5000,
+				"max_force": 5000
+			},
+			"combat_exp": 5000000,
+			"score": 7000,
+			"force_factor": 10,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 100,
+				"dodge": 100,
+				"force": 100,
+				"parry": 100,
+				"pyrobat-steps": 100,
+				"snowshade-force": 100,
+				"snowshade-sword": 100,
+				"sword": 100
+			},
+			"skill_map": {
+				"sword": "snowshade-sword",
+				"parry": "snowshade-sword",
+				"force": "snowshade-force",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{
+					"item": "es2:d/latemoon/obj/deer_boot",
+					"source": "d/latemoon/obj/deer_boot.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/latemoon/obj/redbelt",
+					"source": "d/latemoon/obj/redbelt.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/latemoon/obj/sword",
+					"source": "d/latemoon/obj/sword.c",
+					"equip": "wield"
+				}
+			],
+			"fight_deferred": "安妮儿没有动：我不是来跟你打的。",
+			"die_marks_killer": "杀了神教的教主",
+			"accept_object": [
+				{
+					"item": "native:latemoon/cold_robe",
+					"giver_mark": "带走了宝衣",
+					"accept": false,
+					"say": "出了庄的衣，不必再拿来给我看。"
+				},
+				{
+					"item": "native:latemoon/cold_robe",
+					"accept": true,
+					"mark_giver": "宝衣给了安妮儿",
+					"lines": [
+						{
+							"emote": "接过宝衣，手指在衣料上停了一停。"
+						},
+						{
+							"say": "在这里给我？……也好，让她看着。"
+						},
+						{
+							"say": "你配得上。东方神教记得你——这句话，以后有用。"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"教主": {
+					"confirm_marks": [
+						"场院的话说完了"
+					],
+					"confirm_lacks": [
+						"站了安妮儿",
+						"站了朱鸿雪",
+						"神教的线断了"
+					],
+					"listed_marks": [
+						"场院的话说完了"
+					],
+					"confirm": "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？",
+					"rules": [
+						{
+							"asker_marks": [
+								"站了安妮儿"
+							],
+							"say": "去西厢找我。天山的剑，在那里教。"
+						},
+						{
+							"asker_marks": [
+								"站了朱鸿雪"
+							],
+							"lines": [
+								{
+									"emote": "看了你一眼。"
+								},
+								{
+									"say": "你选了。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"场院的话说完了"
+							],
+							"asker_lacks": [
+								"神教的线断了"
+							],
+							"takes": [
+								"native:cloud/copper_token"
+							],
+							"gives": "es2:d/latemoon/room/npc/obj/gold_token",
+							"mark_asker": "站了安妮儿",
+							"leaves": true,
+							"lines": [
+								{
+									"say": "好。"
+								},
+								{
+									"emote": "向朱鸿雪伸出手来。朱鸿雪看了她很久，从怀里摸出一块乌沉沉的令牌，放在她掌心——那是神教的教主令。"
+								},
+								{
+									"say": "神教不是一个人的。往后神教的差事，只派该死的人——鸿雪，你听见了。"
+								},
+								{
+									"emote": "收回你的赤铜令，换给你一块闪闪发亮的黄金令牌。"
+								},
+								{
+									"say": "黄金令，神教见了，就是见了我。天山的剑，到西厢来学。"
+								},
+								{
+									"emote": "揣好教主令，出了场院。"
+								}
+							]
+						},
+						{
+							"say": "教主？"
+						}
+					]
+				}
+			},
+			"scene_mark": "场院里两位教主",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"emote": "从袖子里抽出一张折好的纸，压在茶盏底下，抬眼看了看厅角。"
+						},
+						{
+							"say": "名单上最后一个名字，向来是我亲手写的。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"mark": "宝衣烧了"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"emote": "把那张纸翻过来，推到桌子另一头。"
+						},
+						{
+							"say": "宝衣烧了，封物没了。封法就只剩在人的脑子里——这样的东西，只该活在一个人的脑子里。"
+						},
+						{
+							"say": "名单上最后一个名字：安妮儿。"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"mark": "宝衣烧了"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"emote": "一直站在八仙桌旁，这时才开口。"
+						},
+						{
+							"say": "封法在我脑子里，是因为湖底那东西还没有死透。要我的命，自己来拿。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"mark": "宝衣给了安妮儿"
+									},
+									{
+										"not": {
+											"mark": "宝衣烧了"
+										}
+									}
+								]
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"emote": "把那张纸翻过来，推到桌子另一头。"
+						},
+						{
+							"say": "宝衣在西厢。衣在谁手里，封法就在谁手里。"
+						},
+						{
+							"say": "名单上最后一个名字：安妮儿。"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"mark": "宝衣给了安妮儿"
+									},
+									{
+										"not": {
+											"mark": "宝衣烧了"
+										}
+									}
+								]
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"emote": "一直站在八仙桌旁，这时才开口。"
+						},
+						{
+							"say": "衣在我这里，是因为它该在这里。你要的不是封法，是神教的香火。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"any": [
+											{
+												"mark": "带走了宝衣"
+											},
+											{
+												"mark": "冰匣开了"
+											}
+										]
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "宝衣给了安妮儿"
+												},
+												{
+													"mark": "宝衣烧了"
+												},
+												{
+													"mark": "瑷伦守到决战"
+												}
+											]
+										}
+									}
+								]
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"emote": "把那张纸翻过来，转过脸看着你。"
+						},
+						{
+							"say": "宝衣在你身上。封法跟着衣走——走到一个神教管不着的人手里。"
+						},
+						{
+							"say": "交出来，或者你的名字也在上面。"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"any": [
+											{
+												"mark": "带走了宝衣"
+											},
+											{
+												"mark": "冰匣开了"
+											}
+										]
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "宝衣给了安妮儿"
+												},
+												{
+													"mark": "宝衣烧了"
+												},
+												{
+													"mark": "瑷伦守到决战"
+												}
+											]
+										}
+									}
+								]
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"emote": "一直站在八仙桌旁，这时才开口。"
+						},
+						{
+							"say": "名单上写过的名字，没有一个是该死的。这一个也不是。衣在谁身上，是衣自己选的。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"not": {
+									"any": [
+										{
+											"mark": "宝衣烧了"
+										},
+										{
+											"all": [
+												{
+													"mark": "宝衣给了安妮儿"
+												},
+												{
+													"not": {
+														"mark": "宝衣烧了"
+													}
+												}
+											]
+										},
+										{
+											"all": [
+												{
+													"any": [
+														{
+															"mark": "带走了宝衣"
+														},
+														{
+															"mark": "冰匣开了"
+														}
+													]
+												},
+												{
+													"not": {
+														"any": [
+															{
+																"mark": "宝衣给了安妮儿"
+															},
+															{
+																"mark": "宝衣烧了"
+															},
+															{
+																"mark": "瑷伦守到决战"
+															}
+														]
+													}
+												}
+											]
+										}
+									]
+								}
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"emote": "把那张纸翻过来，推到桌子另一头。"
+						},
+						{
+							"say": "宝衣还在晚月庄，在守衣人身上。几百年了，那件衣从没出过那座庄子。"
+						},
+						{
+							"say": "名单上最后一个名字：瑷伦。"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"not": {
+									"any": [
+										{
+											"mark": "宝衣烧了"
+										},
+										{
+											"all": [
+												{
+													"mark": "宝衣给了安妮儿"
+												},
+												{
+													"not": {
+														"mark": "宝衣烧了"
+													}
+												}
+											]
+										},
+										{
+											"all": [
+												{
+													"any": [
+														{
+															"mark": "带走了宝衣"
+														},
+														{
+															"mark": "冰匣开了"
+														}
+													]
+												},
+												{
+													"not": {
+														"any": [
+															{
+																"mark": "宝衣给了安妮儿"
+															},
+															{
+																"mark": "宝衣烧了"
+															},
+															{
+																"mark": "瑷伦守到决战"
+															}
+														]
+													}
+												}
+											]
+										}
+									]
+								}
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"emote": "一直站在八仙桌旁，这时才开口。"
+						},
+						{
+							"say": "瑷伦守了一辈子的衣，没碰过神教一根指头。"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"mark": "替安妮儿瞒了"
+									},
+									{
+										"mark": "劝老冰匠搬走了"
+									}
+								]
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"say": "还有你。"
+						},
+						{
+							"say": "西厢的话，你替她瞒过一回。湖边那个凿冰的老头，你也没动他——冰凿交到了我手里，人可没死。我的人在官道上看见过他。"
+						},
+						{
+							"say": "我信过你一回。只信一回。"
+						},
+						{
+							"mark": "朱鸿雪揭穿了冰凿"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"mark": "杀了老冰匠"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"say": "湖边凿冰的那个老人，是你动的手。他只是看见过冰下的光，讲给孩子们听。"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"mark": "劝老冰匠搬走了"
+									},
+									{
+										"not": {
+											"mark": "替安妮儿瞒了"
+										}
+									}
+								]
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"emote": "看了你一眼，没有说话。"
+						}
+					]
+				},
+				{
+					"after": 14,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "native.npc.annie_yard"
+						},
+						{
+							"say": "神教不能有两个教主。"
+						},
+						{
+							"say": "你站哪一边——问我，或者问她：「教主」。"
+						},
+						{
+							"mark": "场院的话说完了"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.lake_taoist",
+			"legacy_source": "native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — the first of 朱鸿雪's three names: a 逆灵宫 man in the black crown measuring the 玉螺湖 by day, from the shore by the 稻田 (续写; his look after the 黑衣道士, native.npc.black_taoist). Fought, beaten either way (spared: he runs).",
+			"name": "黑冠道士",
+			"aliases": [
+				"black-crowned taoist",
+				"taoist",
+				"道士"
+			],
+			"gender": "男性",
+			"age": 41,
+			"long": "一个戴黑冠的道士，道袍的下摆掖在腰里，赤脚站在湖岸的浅水中。他手里一根刻着细格的竹竿，插下去，拔出来，看一眼，在一块木板上划一道。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 24,
+				"int": 22,
+				"spi": 22,
+				"cps": 22,
+				"per": 14,
+				"con": 24,
+				"kar": 8
+			},
+			"resources": {
+				"kee": 420,
+				"max_kee": 420,
+				"force": 120,
+				"max_force": 120
+			},
+			"combat_exp": 6000,
+			"score": 300,
+			"force_factor": 3,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 45,
+				"parry": 40,
+				"dodge": 40,
+				"unarmed": 30,
+				"force": 30
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"黑冠道士把竹竿插进湖里，拔出来看了看，在木板上又划了一道。\n",
+				"黑冠道士望着湖心，嘴里念念有词，像在数什么。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"黑冠道士冷笑道：神教的狗，鼻子倒灵！\n",
+				"黑冠道士一边招架，一边往湖岸北边瞟。\n"
+			],
+			"inquiry": {
+				"量水": {
+					"rules": [
+						{
+							"asker_marks": [
+								"朱鸿雪说了三个名字"
+							],
+							"asker_lacks": [
+								"神教的线断了"
+							],
+							"attacks": true,
+							"lines": [
+								{
+									"say": "量水？量的是湖底那东西离湖面还有多深。"
+								},
+								{
+									"emote": "看见你腰间的令牌，脸色一沉，把竹竿往岸上一扔，拔出了剑。"
+								},
+								{
+									"say": "神教的人也来管宫里的事？"
+								}
+							]
+						},
+						{
+							"say": "湖水一年比一年浅。宫里要一个数，贫道来量。"
+						}
+					]
+				}
+			},
+			"spared": {
+				"mark": "量水的道士倒了",
+				"leave": true,
+				"line": "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸往北边跑了。"
+			},
+			"die_marks_killer": "量水的道士倒了"
+		},
+		{
+			"id": "native.npc.war_painter",
+			"legacy_source": "native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — the second of 朱鸿雪's three names: a 兵部 draughtsman under the 黄石隘口's rock wall, drawing where the 石匣 was dug out in the prologue (续写). Beaten and spared he runs and leaves his drawing; killed, it is on him.",
+			"name": "兵部画吏",
+			"aliases": [
+				"war ministry draughtsman",
+				"draughtsman",
+				"画吏"
+			],
+			"gender": "男性",
+			"age": 33,
+			"long": "一个穿青色公服的瘦长汉子，背着一只画筒，蹲在山壁下的土坑边，一手按着纸，一手拿炭条描坑沿的形状。腰里却挂着一口刀。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 18,
+				"int": 26,
+				"spi": 18,
+				"cps": 22,
+				"per": 16,
+				"con": 20,
+				"kar": 14
+			},
+			"resources": {
+				"kee": 300,
+				"max_kee": 300,
+				"force": 60,
+				"max_force": 60
+			},
+			"combat_exp": 3000,
+			"score": 200,
+			"force_factor": 2,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 35,
+				"parry": 30,
+				"dodge": 30,
+				"unarmed": 20
+			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 4,
+			"chat_msg": [
+				"兵部画吏拿炭条在纸上比了比，又趴下去量坑沿。\n",
+				"兵部画吏抬头看了看山壁，嘴里嘀咕：一丈二……一丈三。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"兵部画吏喝道：打兵部的人，你担得起么！\n",
+				"兵部画吏一边招架，一边护着背上的画筒。\n"
+			],
+			"inquiry": {
+				"画图": {
+					"rules": [
+						{
+							"asker_marks": [
+								"朱鸿雪说了三个名字"
+							],
+							"asker_lacks": [
+								"神教的线断了"
+							],
+							"attacks": true,
+							"lines": [
+								{
+									"say": "部里的差事。石匣就是从这个坑里起出来的——兵部要一张图，看看这山底下还有没有第二只。"
+								},
+								{
+									"emote": "抬头打量了你一眼，手按上了刀柄。"
+								},
+								{
+									"say": "你不是隘口的兵。你是谁的人？"
+								}
+							]
+						},
+						{
+							"say": "部里的差事。闲人走开，别踩了坑沿。"
+						}
+					]
+				}
+			},
+			"spared": {
+				"mark": "兵部画吏倒了",
+				"leave": true,
+				"drop": "native:canyon/dig_sketch",
+				"line": "兵部画吏连滚带爬地退开几步，画筒也不要了，一张图掉在土坑边。他攀着铁索爬上去，跑了。"
+			},
+			"die_carries": {
+				"item": "native:canyon/dig_sketch"
+			},
+			"die_marks_killer": "兵部画吏倒了"
+		},
+		{
+			"id": "native.npc.ice_cutter",
+			"legacy_source": "native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — the third of 朱鸿雪's three names: 玉螺湖村's old ice cutter, who has only seen a light under the ice and tells the children of it (续写, the small choice: done (动手, asked first: no fight, he is gone), or talked into leaving with his chisel shown 朱鸿雪 as the proof). A village man from New Game on; gone for good once dead or left.",
+			"name": "老冰匠",
+			"aliases": [
+				"old ice cutter",
+				"ice cutter",
+				"冰匠"
+			],
+			"gender": "男性",
+			"age": 68,
+			"long": "一个瘦小的老头，裹着一件油亮的老羊皮袄，拄着一把冰凿。眉毛上结着霜，看湖的时候眼睛眯成一条缝。\n",
+			"attributes": {
+				"str": 14,
+				"cor": 12,
+				"int": 18,
+				"spi": 16,
+				"cps": 20,
+				"per": 14,
+				"con": 16,
+				"kar": 18
+			},
+			"resources": {
+				"kee": 90,
+				"max_kee": 90
+			},
+			"combat_exp": 150,
+			"score": 20,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 10,
+				"dodge": 10
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 3,
+			"chat_msg": [
+				"老冰匠拿冰凿敲了敲岸边的冰，侧着耳朵听。\n",
+				"老冰匠对着湖面哈了一口白气：今年的冰，底下还亮。\n"
+			],
+			"inquiry": {
+				"凿冰": [
+					"腊月里凿，开春前收。四十年了，湖上哪一块冰厚、哪一块冰薄，我闭着眼都知道。"
+				],
+				"光": [
+					"冰底下有光。青白青白的，一闪一闪，像有人提着灯在底下走。我只讲给孩子们听——大人不信。"
+				],
+				"动手": {
+					"listed_marks": [
+						"朱鸿雪说了三个名字"
+					],
+					"confirm": "老冰匠只是个凿冰的老人，打不过你，也跑不动。\n这一下去，玉螺湖村就少一个人——朱鸿雪要的就是这个，她会升你赤铜令；安妮儿会知道。\n要动手吗？",
+					"confirm_marks": [
+						"朱鸿雪说了三个名字"
+					],
+					"confirm_lacks": [
+						"劝老冰匠搬走了",
+						"杀了老冰匠",
+						"神教的线断了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"朱鸿雪说了三个名字"
+							],
+							"asker_lacks": [
+								"神教的线断了",
+								"劝老冰匠搬走了",
+								"杀了老冰匠"
+							],
+							"mark_asker": "杀了老冰匠",
+							"leaves": true,
+							"lines": [
+								{
+									"line": "老冰匠又弯下腰去，侧着耳朵听冰底下的声音，没有回头。"
+								},
+								{
+									"line": "你出手很快。他没有出声，倒在冰窟窿边上，冰凿滑进了水里。"
+								},
+								{
+									"line": "柳树底下静了一会儿，远处有孩子在喊他。"
+								}
+							]
+						},
+						{
+							"say": "动手？动什么手？"
+						}
+					]
+				},
+				"搬走": {
+					"listed_marks": [
+						"朱鸿雪说了三个名字"
+					],
+					"confirm": "劝老冰匠离开玉螺湖，再也别回来；拿他的冰凿回去，向朱鸿雪交差。\n他活下来，可你是拿一把冰凿去骗朱鸿雪：她信不信，看你西厢那一桩有没有瞒过她——瞒过的，到了分裂那天，她会当面揭穿。\n要劝他走吗？",
+					"confirm_marks": [
+						"朱鸿雪说了三个名字"
+					],
+					"confirm_lacks": [
+						"劝老冰匠搬走了",
+						"杀了老冰匠",
+						"神教的线断了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"朱鸿雪说了三个名字"
+							],
+							"asker_lacks": [
+								"神教的线断了",
+								"劝老冰匠搬走了"
+							],
+							"mark_asker": "劝老冰匠搬走了",
+							"gives": "native:village/ice_chisel",
+							"leaves": true,
+							"lines": [
+								{
+									"emote": "听你说完，半天没吭声。"
+								},
+								{
+									"say": "有人要我的命？……我一个凿冰的。"
+								},
+								{
+									"say": "冰底下的光，我就不该讲。"
+								},
+								{
+									"emote": "把手里的冰凿递给你。"
+								},
+								{
+									"say": "拿去吧，往后用不着了。有人问，就说我掉进冰窟窿里了。"
+								},
+								{
+									"emote": "背起包袱，顺着青石小路往村口去了，一回也没有回头。"
+								}
+							]
+						},
+						{
+							"say": "搬走？我在这湖边住了一辈子。"
+						}
+					]
+				}
+			},
+			"fight_deferred": "老冰匠连连摆手：我一个凿冰的老头子，哪里经得起你一下。"
 		}
 	]
 }

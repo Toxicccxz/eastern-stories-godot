@@ -471,6 +471,19 @@
 			"study": { "skill": "snowwhip", "exp_required": 1000, "sen_cost": 30, "difficulty": 20, "max_skill": 20 },
 			"weight": 600,
 			"value": 260
+		},
+		{
+			"id": "es2:d/latemoon/room/npc/obj/gold_token",
+			"legacy_sources": ["d/latemoon/room/npc/obj/gold_token.c"],
+			"name": "黄金令牌",
+			"aliases": ["gold ream", "ream"],
+			"long": "一个闪闪发亮的黄金令牌，上有一些图腾标志。\n",
+			"unit": "个",
+			"material": "gold",
+			"no_drop": true,
+			"weight": 300,
+			"value": 3000,
+			"armor": { "type": "neck", "props": { "unarmed": 1, "dodge": 1 }, "weight_dodge": "armor" }
 		}
 	]
 }

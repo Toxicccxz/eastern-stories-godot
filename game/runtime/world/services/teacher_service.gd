@@ -48,7 +48,7 @@ func teaching() -> NpcTeaching:
 
 
 func teachable_skills() -> Array[StringName]:
-	return NpcTeacher.teachable_skills(npc.definition(), GameContent.catalog())
+	return NpcTeacher.taught_to(npc.definition(), GameContent.catalog(), map.player_runtime().state)
 
 
 func takes_apprentices() -> bool:

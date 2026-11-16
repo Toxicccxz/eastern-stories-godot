@@ -658,3 +658,43 @@ static func dongfang_held(session: WorldSessionController, truth: bool = true) -
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/room/npc/obj/token", false) == false:
 		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/token")
+
+
+## 东方神教 B: 朱鸿雪 asked「差事」: the three names (朱鸿雪说了三个名字).
+static func dongfang_named(session: WorldSessionController, truth: bool = true) -> void:
+	dongfang_held(session, truth)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.dongfang/names")
+	state.marks["朱鸿雪说了三个名字"] = 1
+
+
+## 东方神教 B: the three names done (the 道士 and the 画吏 beaten; the old ice cutter `killed`, or talked into
+## leaving) and 交差: the 黑木令 taken back for the 赤铜令 (持赤铜令). The 场院's last name next.
+static func dongfang_coppered(session: WorldSessionController, truth: bool = true, killed: bool = true) -> void:
+	dongfang_named(session, truth)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.dongfang/three", "faction.dongfang/icer/%s" % ("do" if killed else "spare"), "faction.dongfang/copper"]:
+		_write(state, key)
+	for mark: String in ["量水的道士倒了", "兵部画吏倒了", "杀了老冰匠" if killed else "劝老冰匠搬走了", "持赤铜令"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		map.acts.take_from_player(&"es2:d/latemoon/room/npc/obj/token")
+		map.give_new_item_to_player(&"native:cloud/copper_token")
+
+
+## 东方神教 B done: the 场院's scene seen and one side taken (`annie`: 站了安妮儿, else 站了朱鸿雪); the 黄金令牌
+## for the 赤铜令.
+static func dongfang_split(session: WorldSessionController, annie: bool, truth: bool = true, killed: bool = true) -> void:
+	dongfang_coppered(session, truth, killed)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.dongfang/list", "faction.dongfang/split/%s" % ("side_annie" if annie else "side_zhu"), "faction.dongfang#done"]:
+		_write(state, key)
+	for mark: String in ["场院里两位教主", "场院的话说完了", "站了安妮儿" if annie else "站了朱鸿雪"]:
+		state.marks[mark] = 1
+	if not truth and not killed:
+		state.marks["朱鸿雪揭穿了冰凿"] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		map.acts.take_from_player(&"native:cloud/copper_token")
+		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/gold_token")

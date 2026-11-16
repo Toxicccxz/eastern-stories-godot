@@ -23,7 +23,7 @@ func _init(p_teaching: NpcTeaching = null, p_random: WorldInteractionRandomSourc
 	_random = p_random
 
 
-func evaluate(student: CharacterStateType, _context: TeachingContextType) -> PolicyResultType:
+func evaluate(student: CharacterStateType, context: TeachingContextType) -> PolicyResultType:
 	matched_rule = null
 	reject_index = -1
 	if _random == null or student == null:
@@ -31,7 +31,7 @@ func evaluate(student: CharacterStateType, _context: TeachingContextType) -> Pol
 	reject_index = _random.legacy_random(REJECT_LINES.size())
 	if _teaching == null or _teaching.recognize_rules.is_empty():
 		return PolicyResultType.new(PolicyResultType.Status.NO_ADDITIONAL_POLICY)
-	matched_rule = _teaching.recognize(student.family.family_id, student.marks)
+	matched_rule = _teaching.recognize(student.family.family_id, student.marks, &"" if context == null or context.offer == null else context.offer.skill_id)
 	if matched_rule != null and matched_rule.accept:
 		return PolicyResultType.new(PolicyResultType.Status.ALLOWED)
 	return PolicyResultType.new(PolicyResultType.Status.REJECTED)

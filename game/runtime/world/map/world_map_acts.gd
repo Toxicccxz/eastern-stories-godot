@@ -387,6 +387,11 @@ func _close_door(npc: NpcRuntimeState, hears: bool) -> void:
 		})])
 
 
+## An inquiry answer's `takes` (东方神教 B, DECISIONS「收走」): as an act's `take`.
+func take_from_player(definition_id: StringName) -> void:
+	_take_from_player(definition_id)
+
+
 ## `take` (第十章 C, DECISIONS「拿走」): destruct(present(id, me)), one the player carries
 ## directly of that definition; none carried, nothing (the act's branch asked for it).
 func _take_from_player(definition_id: StringName) -> void:

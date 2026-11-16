@@ -74,6 +74,7 @@
 		"native.npc.shield_swordsman_lake": "still",
 		"native.npc.feng_ce_lake": "still",
 		"native.npc.annie_lake": "still",
+		"native.npc.annie_yard": "still",
 		"native.npc.nan_weishui_lake": "still",
 		"native.npc.wei_canglan_lake": "still",
 		"native.npc.pan_junchan_lake": "still",
@@ -185,6 +186,9 @@
 		"native.npc.yu_zijian_drawn": {"mode": "wander", "radius": 80},
 		"native.npc.yulan_zhao": "still",
 		"native.npc.yulan_zhao_private": {"mode": "still", "pose": "sit"},
+		"native.npc.ice_cutter": "still",
+		"native.npc.lake_taoist": "still",
+		"native.npc.war_painter": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.zhong_momo": {"mode": "still", "pose": "sit"}
 	}
 }

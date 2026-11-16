@@ -1057,7 +1057,7 @@
           ["blocked", "cloud.god2", ["rel", 0.04289, 0.93385], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "wood": "1e1b1a", "flower": "d65a6a"}}],
           ["blocked", "cloud.god2", ["rel", 0.10672, 0.06719], 3.7647, 1.8823, {"look": {"kind": "couch", "wood": "1e1b1a", "cloth": "3a2a2a", "cushion": "8a2f2a", "panel": "2a2420"}}]
         ],
-        "placed": {},
+        "placed": {"cloud.god2.annie_yard.1": ["cloud.god2", ["rel", 0.72, 0.78]]},
         "doors": {
           "cloud.woodboxy.east": "east"
         },

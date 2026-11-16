@@ -30,6 +30,7 @@ var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _progression: ProgressionRules
 var _bounties: BountyRules
+var _quest_mercy: QuestMercy
 var _opening: OpeningDefinition
 var _loading_screen: LoadingScreenDefinition
 var _title_screen: TitleScreenDefinition
@@ -187,6 +188,15 @@ func set_quest_tiers(tiers: Array[QuestTier]) -> void:
 		var npc: NpcDefinition = _npcs.get(spawn.npc_definition_id)
 		if npc != null and not npc.dealings().is_fight_deferred():
 			_quest_targets[npc.display_name] = true
+
+
+func set_quest_mercy(value: QuestMercy) -> void:
+	_quest_mercy = value
+
+
+## 朱鸿雪's two kinds of target (quests.json `quest_mercy`; DECISIONS「朱鸿雪的差事分两档」); null for none.
+func quest_mercy() -> QuestMercy:
+	return _quest_mercy
 
 
 ## god.c's levels with their qlist quests (quests.json), min_exp rising.

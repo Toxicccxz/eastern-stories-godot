@@ -54,6 +54,11 @@
 			"revision": "SOURCE_ENTRY_DONGFANG_A_V1",
 			"spawn_points": 828,
 			"fingerprint": "a9e567db2df293caf965ae7f5ee952d73c7dfc43b8874a3314fd1ecdf726aa3c"
+		},
+		{
+			"revision": "SOURCE_ENTRY_DONGFANG_B_V1",
+			"spawn_points": 832,
+			"fingerprint": "47025fd65c1d6711d43066eb68a5315f1d1fa8591f3fb5d69b2e578bbc4168ef"
 		}
 	]
 }

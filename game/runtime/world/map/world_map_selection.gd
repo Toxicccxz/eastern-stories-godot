@@ -449,6 +449,9 @@ func ask_selected(topic: String) -> Array[String]:
 		_player.temp_marks[temp] = 1
 	if not answer.hands_over.is_empty():
 		_hand_over(target, answer)
+	# DECISIONS「收走」: what the answer takes from the asker, before what it gives.
+	for taken_id: StringName in answer.takes:
+		_map.acts.take_from_player(taken_id)
 	# captain.c tell_story(): call_out("make_stage", 2, who, 0).
 	if answer.make != null:
 		_map.npc_life.start_making(target, answer.make)

@@ -48,6 +48,7 @@ var _sky_levels: Array[String] = []
 var _pacing: PacingDefinition
 var _progression: ProgressionRules
 var _bounties: BountyRules
+var _quest_mercy: QuestMercy
 var _opening: OpeningDefinition
 var _loading_screen: LoadingScreenDefinition
 var _title_screen: TitleScreenDefinition
@@ -204,6 +205,11 @@ func add_document(document: Variant, origin: String) -> void:
 		if _bounties != null:
 			bounties.fail("", "bounty_board is already defined")
 		_bounties = BountyRules.from_record(bounties)
+	var mercy: ContentRecordReader = reader.child("quest_mercy")
+	if mercy != null:
+		if _quest_mercy != null:
+			mercy.fail("", "quest_mercy is already defined")
+		_quest_mercy = QuestMercy.from_record(mercy)
 	var opening: ContentRecordReader = reader.child("opening")
 	if opening != null:
 		if _opening != null:
@@ -280,6 +286,7 @@ func build() -> ContentCatalog:
 	catalog.set_stats_display(_stats_display)
 	catalog.set_atlas(_atlas)
 	catalog.set_quest_tiers(_quest_tiers)
+	catalog.set_quest_mercy(_quest_mercy)
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_story_quests(_story_quests)
 	catalog.set_epilogues(_epilogues)
@@ -457,6 +464,15 @@ func _check_quest_tiers() -> void:
 	for index: int in range(1, _quest_tiers.size()):
 		if _quest_tiers[index].min_exp <= _quest_tiers[index - 1].min_exp:
 			_errors.append("quest_tiers: min_exp %d does not rise above %d" % [_quest_tiers[index].min_exp, _quest_tiers[index - 1].min_exp])
+	# 朱鸿雪's deserving targets are some of her qlist targets (DECISIONS「朱鸿雪的差事分两档」).
+	if _quest_mercy != null:
+		var targets: Dictionary[String, bool] = {}
+		for tier: QuestTier in _quest_tiers:
+			for quest: QuestDefinition in tier.quests:
+				targets[quest.target] = true
+		for target: String in _quest_mercy.deserving:
+			if not targets.has(target):
+				_errors.append("quest_mercy.deserving: '%s' is no quest target" % target)
 
 
 ## The 任务 page's chains name items, NPCs and topics the game has; the 百科's topics and
@@ -877,6 +893,9 @@ func _resolve_npc_dealings() -> void:
 						_errors.append("%s.inquiry.%s: no item answers to '%s'" % [origin, topic, alias])
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
+				for taken_id: StringName in inquiry_rule.takes:
+					if not _items.has(taken_id):
+						_errors.append("%s.inquiry.%s.takes: unknown item '%s'" % [origin, topic, taken_id])
 				for forgotten: String in inquiry_rule.forgets:
 					if not talk.inquiry_topics().has(forgotten):
 						_errors.append("%s.inquiry.%s.forgets: no inquiry '%s'" % [origin, topic, forgotten])

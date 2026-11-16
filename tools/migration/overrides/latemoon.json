@@ -5,6 +5,7 @@
 		]
 	},
 	"items": [
+		"d/latemoon/room/npc/obj/gold_token.c",
 		"d/latemoon/obj/needle.c",
 		"d/latemoon/room/npc/obj/needle.c",
 		"d/latemoon/park/npc/obj/guihua.c",
@@ -683,6 +684,46 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"站了朱鸿雪"
+							],
+							"lines": [
+								{
+									"emote": "没有抬头。"
+								},
+								{
+									"say": "门关着。神教的事，去问你的教主。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"站了安妮儿"
+							],
+							"say": "不等了。教主令收回来了，你身上有黄金令——想学天山的剑，就在这里学（「请教」）。"
+						},
+						{
+							"asker_marks": [
+								"持赤铜令"
+							],
+							"asker_lacks": [
+								"站了安妮儿",
+								"站了朱鸿雪",
+								"神教的线断了"
+							],
+							"lines": [
+								{
+									"emote": "把膝上的衣叠好，站起身来。"
+								},
+								{
+									"say": "朱鸿雪的名单上，还差最后一个名字。我知道是谁。"
+								},
+								{
+									"say": "到场院去。我会在那里。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
 								"宝衣烧了"
 							],
 							"mark_asker": "安妮儿说了等谁",
@@ -817,6 +858,42 @@
 							]
 						}
 					]
+				},
+				"教主": {
+					"listed_marks": [
+						"场院的话说完了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"站了安妮儿"
+							],
+							"lines": [
+								{
+									"say": "教主令在我这里。神教往后只派该死的人的差事——鸿雪答应了。"
+								},
+								{
+									"say": "天山雪影剑、雪影心法，你来学（「请教」）。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"站了朱鸿雪"
+							],
+							"lines": [
+								{
+									"emote": "没有抬头。"
+								},
+								{
+									"say": "门关着。"
+								}
+							]
+						},
+						{
+							"say": "教主？"
+						}
+					]
 				}
 			},
 			"accept_object": [
@@ -876,6 +953,16 @@
 						{
 							"mark": "安妮儿记下了"
 						}
+					]
+				}
+			],
+			"recognize_apprentice": [
+				{
+					"giver_mark": "站了安妮儿",
+					"accept": true,
+					"skills": [
+						"snowshade-sword",
+						"snowshade-force"
 					]
 				}
 			]
@@ -1382,6 +1469,9 @@
 		},
 		"d/latemoon/room/npc/annihi.c": {
 			"function attempt_apprentice": "apprentice rule in set (kind refuses): 拜师! 不敢当… to everyone; 东方神教 has no master who takes apprentices"
+		},
+		"d/latemoon/room/npc/obj/gold_token.c": {
+			"set wear_msg": "wear messages are not shown yet"
 		},
 		"d/latemoon/room/npc/yushou.c": {
 			"function init": "greeting (set latemoon.npc.room.yushou): one second after the player arrives",

@@ -6,7 +6,8 @@
 			"line": "faction",
 			"region": "绮云镇",
 			"sources": [
-				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」: 暗线, 不拜师, 令牌; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A, §2 第 7 条 (令牌等级不加新状态: 黑木是 ES2 的杀手令牌), §8「宝衣三归」(西厢的话读它), §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」). u/cloud/npc/god.c (朱鸿雪, 东方神教 第二代教主, 慈眉善目……竟是杀手组织中人; combat_exp <= 1000: 就凭你这种小角色也想? 还不快滚!); d/latemoon/room/npc/annihi.c (安妮儿, 东方神教 第一代教主, in the 西厢); d/latemoon/room/npc/obj/token.c (杀手令牌: 一个黑木作的杀手令牌，上面刻著火焰的图腾标志). Nobody kneels to 东方神教: the line begins when one who carries a 杀手令牌 asks 朱鸿雪「令牌」, or, after 第四章, one 安妮儿 remembered (or who gave her the 宝衣) is spoken to first, and says yes to「接令」, asked first. 西厢的客人 (the first small choice: what 安妮儿 waits for, told 朱鸿雪 as it is or kept for her) and 接令 (the dead man's 黑木令 from the reeds of the 玉螺湖畔 by night, two 鬼卒 beside him) are the plan's (续写); the line stops at a stub step `names` that 东方神教 B fills."
+				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」: 暗线, 不拜师, 令牌; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A, §2 第 7 条 (令牌等级不加新状态: 黑木是 ES2 的杀手令牌), §8「宝衣三归」(西厢的话读它), §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」). u/cloud/npc/god.c (朱鸿雪, 东方神教 第二代教主, 慈眉善目……竟是杀手组织中人; combat_exp <= 1000: 就凭你这种小角色也想? 还不快滚!); d/latemoon/room/npc/annihi.c (安妮儿, 东方神教 第一代教主, in the 西厢); d/latemoon/room/npc/obj/token.c (杀手令牌: 一个黑木作的杀手令牌，上面刻著火焰的图腾标志). Nobody kneels to 东方神教: the line begins when one who carries a 杀手令牌 asks 朱鸿雪「令牌」, or, after 第四章, one 安妮儿 remembered (or who gave her the 宝衣) is spoken to first, and says yes to「接令」, asked first. 西厢的客人 (the first small choice: what 安妮儿 waits for, told 朱鸿雪 as it is or kept for her) and 接令 (the dead man's 黑木令 from the reeds of the 玉螺湖畔 by night, two 鬼卒 beside him) are the plan's (续写); the line stops at a stub step `names` that 东方神教 B fills.",
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」). 三个名字 (the second small choice: the old ice cutter killed, or talked into leaving and his chisel shown 朱鸿雪 — believed by one who told the 西厢 as it is, shown up at the split by one who kept it), the 赤铜令 for the 黑木令, the last name on the list by where the 宝衣 is (瑷伦 / you / 安妮儿 / burnt), 安妮儿 in the 场院 and the big split (§11 Q7 朱鸿雪's 220 tasks in two kinds, Q8 安妮儿 behind her door). d/latemoon/room/npc/obj/gold_token.c (黄金令牌, written in ES2 and never used) is what either 教主 gives; both teach 天山雪影剑 and 雪影心法 (u/cloud/npc/god.c, d/latemoon/room/npc/annihi.c have them)."
 			],
 			"summary": "接了朱鸿雪的令，替东方神教办事。",
 			"starts": {
@@ -89,11 +90,11 @@
 				},
 				{
 					"id": "names",
-					"objective": "黑木令在你身上了。朱鸿雪还会把差事交给持令的人——下一回，是三个名字。",
+					"objective": "黑木令在你身上了。朱鸿雪还有差事交给持令的人：回绮云镇的场院，问朱鸿雪「差事」。",
 					"done": {
 						"mark": "朱鸿雪说了三个名字"
 					},
-					"text": "朱鸿雪说了三个名字。",
+					"text": "朱鸿雪说了三个名字：湖边量水的黑冠道士、黄石隘口画图的兵部画吏、玉螺湖村凿冰的老冰匠——都是靠近湖底封物的人。",
 					"target": {
 						"map": "cloud.yard_house",
 						"zone": "cloud.god2",
@@ -101,6 +102,171 @@
 							"cloud.npc.god"
 						]
 					}
+				},
+				{
+					"id": "three",
+					"objective": "朱鸿雪的三个名字，都是靠近湖底封物的人。玉螺湖村稻田西头的湖岸上，白天有个黑冠道士在量水——逆灵宫的人，打倒他。天驼关黄石隘口的山壁下，兵部的画吏在画当年石匣出土的地方——打倒了，放他走就算。第三个是玉螺湖村年年凿冰的老冰匠，在柳树下的湖岸边：怎么办，看你。",
+					"checklist": [
+						{
+							"label": "湖边量水的黑冠道士",
+							"when": {
+								"mark": "量水的道士倒了"
+							},
+							"missing": "白天在玉螺湖村稻田西头的湖岸上"
+						},
+						{
+							"label": "黄石隘口的兵部画吏",
+							"when": {
+								"mark": "兵部画吏倒了"
+							},
+							"missing": "在天驼关黄石隘口的山壁下"
+						},
+						{
+							"label": "凿冰的老冰匠",
+							"when": {
+								"any": [
+									{
+										"mark": "杀了老冰匠"
+									},
+									{
+										"mark": "劝老冰匠搬走了"
+									}
+								]
+							},
+							"missing": "在玉螺湖村柳树下的湖岸边"
+						}
+					],
+					"done": {
+						"all": [
+							{
+								"mark": "量水的道士倒了"
+							},
+							{
+								"mark": "兵部画吏倒了"
+							}
+						]
+					},
+					"text": "湖边量水的道士、隘口画图的画吏，都了了。",
+					"target": {
+						"map": "village.main",
+						"zone": "village.field",
+						"npcs": [
+							"native.npc.lake_taoist"
+						]
+					}
+				},
+				{
+					"id": "icer",
+					"weight": "small",
+					"objective": "第三个名字是玉螺湖村凿冰的老冰匠。他只是看见过冰下的光，讲给村里的孩子听。做（问他「动手」）：朱鸿雪升你赤铜令——村里少一个人，安妮儿会知道。不做（问他「搬走」）：劝他离开玉螺湖，带他的冰凿回去交差——朱鸿雪信不信，看你西厢那一桩有没有瞒过她。",
+					"target": {
+						"map": "village.main",
+						"zone": "village.road7",
+						"npcs": [
+							"native.npc.ice_cutter"
+						]
+					},
+					"options": [
+						{
+							"id": "do",
+							"done": {
+								"mark": "杀了老冰匠"
+							},
+							"text": "老冰匠倒在了湖岸上。玉螺湖村少了一个人。",
+							"reward": {
+								"deed": "替朱鸿雪杀了玉螺湖凿冰的老冰匠"
+							}
+						},
+						{
+							"id": "spare",
+							"done": {
+								"mark": "劝老冰匠搬走了"
+							},
+							"text": "老冰匠背起包袱离开了玉螺湖。他的冰凿在你手里。",
+							"reward": {
+								"deed": "劝玉螺湖的老冰匠搬走，拿他的冰凿去交差"
+							}
+						}
+					]
+				},
+				{
+					"id": "copper",
+					"objective": "三个名字都了了。回绮云镇的场院，问朱鸿雪「交差」。",
+					"done": {
+						"mark": "持赤铜令"
+					},
+					"text": "朱鸿雪收回了黑木令，换给你一块赤铜令。",
+					"reward": {
+						"deed": "从朱鸿雪手里换来了一块赤铜令"
+					},
+					"target": {
+						"map": "cloud.yard_house",
+						"zone": "cloud.god2",
+						"npcs": [
+							"cloud.npc.god"
+						]
+					}
+				},
+				{
+					"id": "list",
+					"objective": "朱鸿雪说，名单上还有最后一个名字，过两天再来。再去绮云镇的场院——已经在场院的，出去走一走再进来。",
+					"done": {
+						"any": [
+							{
+								"mark": "场院的话说完了"
+							},
+							{
+								"mark": "站了安妮儿"
+							},
+							{
+								"mark": "站了朱鸿雪"
+							}
+						]
+					},
+					"text": "场院里，朱鸿雪念出了名单上最后一个名字。安妮儿就站在厅里。",
+					"target": {
+						"map": "cloud.yard_house",
+						"zone": "cloud.god2",
+						"npcs": [
+							"cloud.npc.god",
+							"native.npc.annie_yard"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "神教只能有一个教主。站安妮儿（问她「教主」）：她收回教主令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走，往后只派该死的人的差事；终章她来湖畔守潭口，正月十七神教不去虹台搅局。站朱鸿雪（问她「教主」）：她给你黄金令牌，教同一套武功；安妮儿回西厢闭门，不再同你说神教的事；正月十七那天，神教的杀手会在山道上截一派的轿子。",
+					"target": {
+						"map": "cloud.yard_house",
+						"zone": "cloud.god2",
+						"npcs": [
+							"cloud.npc.god",
+							"native.npc.annie_yard"
+						]
+					},
+					"options": [
+						{
+							"id": "side_annie",
+							"done": {
+								"mark": "站了安妮儿"
+							},
+							"text": "你站到了安妮儿一边。她收回了教主令，把一块黄金令牌放进你手里：天山的剑，到西厢去学。",
+							"reward": {
+								"deed": "在绮云镇的场院里站到了安妮儿一边"
+							}
+						},
+						{
+							"id": "side_zhu",
+							"done": {
+								"mark": "站了朱鸿雪"
+							},
+							"text": "你站到了朱鸿雪一边。她把一块黄金令牌放进你手里：神教只有一个教主。",
+							"reward": {
+								"deed": "在绮云镇的场院里站到了朱鸿雪一边"
+							}
+						}
+					]
 				}
 			]
 		}

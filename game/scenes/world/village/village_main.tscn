@@ -1030,6 +1030,16 @@ position = Vector2(600, 1396)
 script = ExtResource("marker")
 spawn_point_id = &"village.lakeside.reed_runner.2"
 
+[node name="FieldLakeTaoist1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(464, 1800)
+script = ExtResource("marker")
+spawn_point_id = &"village.field.lake_taoist.1"
+
+[node name="Road7IceCutter1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(808, 1296)
+script = ExtResource("marker")
+spawn_point_id = &"village.road7.ice_cutter.1"
+
 [node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(688, 1304)
 script = ExtResource("marker")
