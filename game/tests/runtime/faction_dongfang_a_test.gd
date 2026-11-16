@@ -73,7 +73,7 @@ func _test_data() -> void:
 	_check(corpse != null and corpse.zone_id == SHORE and corpse.staged, "the dead man lies on the shore, on the stage")
 	_check(catalog.item(CORPSE) != null and catalog.item(CORPSE).no_get, "and cannot be picked up")
 	var when: JournalEntryDefinition = catalog.npc(KILLER).dealings().ignores_when
-	_check(when != null and when.when == JournalEntryDefinition.When.ALL and when.parts.size() == 3, "the cult's killer minds the 黑木令 (dongfang.token_holds)")
+	_check(when != null and when.when == JournalEntryDefinition.When.ALL and when.parts.any(func(part: JournalEntryDefinition) -> bool: return part.when == JournalEntryDefinition.When.MARK and part.key == "持黑木令") and when.parts.any(func(part: JournalEntryDefinition) -> bool: return part.when == JournalEntryDefinition.When.ITEM and part.key == String(TOKEN)), "the cult's killer minds the 黑木令 (dongfang.token_holds: 持黑木令 and the token carried)")
 
 
 ## A 杀手令牌 carried: 朱鸿雪「令牌」, then「接令」asked first; the line begins, 逆灵宫 shut (林忌 and 霍铮 say why).
@@ -214,7 +214,7 @@ func _test_cover(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	var annie: NpcRuntimeState = _first(session, WEST, ANNIE)
 	_check(_said(_ask(manor, annie, "等谁"), "不是交给神教"), "before 第四章: she will hand the 衣 to someone, not the cult")
-	for case: Array in [["宝衣给了安妮儿", "衣在我这里"], ["瑷伦守到决战", "衣回了瑷伦身上"], ["宝衣烧了", "衣烧了"]]:
+	for case: Array in [["冰匣开了", "衣出了冰匣"], ["宝衣给了安妮儿", "衣在我这里"], ["瑷伦守到决战", "衣回了瑷伦身上"], ["宝衣烧了", "衣烧了"]]:
 		state.marks[case[0]] = 1 # TEST-ONLY: where the 宝衣 went
 		_check(_said(_ask(manor, annie, "等谁"), case[1]), "%s: %s" % case)
 		state.marks.erase(case[0])
@@ -245,6 +245,19 @@ func _test_refused(tree: SceneTree, session: WorldSessionController) -> void:
 	var god: NpcRuntimeState = _first(session, YARD, GOD)
 	_check(_said(_ask(yard, god, "令牌"), "还不快滚") and not state.marks.has("朱鸿雪说了令牌"), "with the token, 500 combat_exp: 还不快滚 (god.c)")
 	state.progression.combat_experience = 2000 # TEST-ONLY
+	MapPlaces.enter(session, SHORE, SHORE_POINT) # TEST-ONLY: off the map and back in
+	await _settle(tree)
+	yard = MapPlaces.enter(session, YARD, YARD_POINT)
+	await _settle(tree)
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(state.marks.get("朱鸿雪说了令牌", 0) == 1, "2000 combat_exp, the 宝衣 given 安妮儿: she speaks first")
+	god = _first(session, YARD, GOD)
+	state.marks.erase("朱鸿雪说了令牌") # TEST-ONLY: as before her word
+	state.marks["杀了神教的教主"] = 1 # TEST-ONLY
+	_check(_said(_ask(yard, god, "令牌"), "神教的血") and not state.marks.has("朱鸿雪说了令牌"), "a 教主's killer: no invitation")
+	state.marks.erase("杀了神教的教主")
 	StoryFixtures.niling_entered(session, "night")
 	session.record_journal()
 	_check(StoryQuestLog.is_active(state, catalog.story_quest(NILING)), "the 逆灵宫 line begun")

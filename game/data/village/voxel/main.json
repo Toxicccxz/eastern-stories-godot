@@ -139,7 +139,7 @@
     {"kind": "reeds", "at": [280, 1200], "size": [64, 64], "height": 1.6, "count": 9, "colors": ["7a9a4a", "8aaa52", "6a8a42", "a0b45e"]},
     {"kind": "reeds", "at": [520, 1196], "size": [56, 56], "height": 1.5, "count": 8, "colors": ["7a9a4a", "8aaa52", "6a8a42", "a0b45e"]},
     {"kind": "reeds", "at": [740, 1196], "size": [48, 48], "height": 1.5, "count": 7, "colors": ["7a9a4a", "8aaa52", "6a8a42", "a0b45e"]},
-    {"kind": "reeds", "at": [496, 1436], "size": [64, 40], "height": 2.2, "count": 16, "colors": ["a8a45a", "b8b46a", "98964e", "c4bc76"], "note": "东方神教 A: the reeds at the shore's south end, where 朱鸿雪's man lies"},
+    {"kind": "reeds", "at": [474, 1416], "size": [20, 56], "height": 1.9, "count": 10, "colors": ["a8a45a", "b8b46a", "98964e", "c4bc76"], "note": "东方神教 A: the reeds at the shore's south end, where 朱鸿雪's man lies"},
     {"kind": "reeds", "at": [536, 1408], "size": [24, 24], "height": 1.9, "count": 9, "colors": ["a8a45a", "b8b46a", "98964e", "c4bc76"]},
     {"kind": "reeds", "at": [740, 1490], "size": [48, 48], "height": 1.5, "count": 7, "colors": ["7a9a4a", "8aaa52", "6a8a42", "a0b45e"]},
     {"kind": "reeds", "at": [748, 1600], "size": [40, 40], "height": 1.4, "count": 6, "colors": ["7a9a4a", "8aaa52", "6a8a42", "a0b45e"]},
