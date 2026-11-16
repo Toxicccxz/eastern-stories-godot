@@ -100,7 +100,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 	# A mark written here may change what the picture shows (DECISIONS「舞台道具」: the black flame over
 	# the 封坛 as 侮天鬼 takes shape): the map's staged props are judged again at the end; people wait.
 	var marked: bool = false
-	for step: ScriptedAct.Step in act.steps:
+	for index: int in act.steps.size():
+		var step: ScriptedAct.Step = act.steps[index]
 		if moved_away:
 			break
 		if step.only_when != null:
@@ -283,6 +284,23 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				_show(said, hears, npc, spoken)
 				_ask_questions(step, 0, true, npc, draw, room)
 				return
+			ScriptedAct.Kind.CHOOSE:
+				# The options wait on the player; the steps after this one follow the one picked
+				# (DECISIONS「台上的选择」). None offered now: passed over.
+				_show(said, hears, npc, spoken)
+				if _choose(step, act.steps.slice(index + 1), npc, draw, room):
+					if marked and _map.session != null:
+						WorldStoryPresence.stage_props(_map.session, _map)
+					return
+			ScriptedAct.Kind.RESTAGE:
+				# The stage judged in front of the player (大会 B: the nine 派 come up); the lines so
+				# far are said first.
+				_show(said, hears, npc, spoken)
+				if _map.session != null:
+					WorldStoryPresence.stage(_map.session, _map)
+				marked = false
+			ScriptedAct.Kind.TITLE:
+				_player.take_title(step.flag)
 			ScriptedAct.Kind.SET_ROOM:
 				if _map.session != null:
 					_map.session.room_states().set_flag(room, step.flag)
@@ -327,6 +345,56 @@ func _ask_questions(step: ScriptedAct.Step, index: int, truthful: bool, npc: Npc
 		# TRANSLATORS: what the player answered ({answer}), in 消息.
 		hud.append_log_lines([TranslationServer.translate("你答道：{answer}").format({"answer": TranslationServer.translate(answer.text)})])
 		_ask_questions(step, index + 1, truthful and answer.is_true(_player.state.marks), npc, draw, room))
+
+
+## A `choose` step (大会 B; DECISIONS「台上的选择」): the options whose `when` holds, greyed where a `locked`
+## entry holds (its text after the option's); the one picked is asked first when it says so (取消 asks
+## the options again), then its steps and `rest` run as an act of their own. Walking away (走开) ends it
+## with nothing done. Whether anything was offered (none: the act goes on past the step).
+func _choose(step: ScriptedAct.Step, rest: Array[ScriptedAct.Step], npc: NpcRuntimeState, draw: Callable, room: StringName) -> bool:
+	var hud: SharedGameplayUI = _map.hud()
+	if hud == null or _player == null:
+		return false
+	var holds: Callable = facts(room).holds
+	var offered: Array[ScriptedAct.Option] = []
+	var texts: Array[String] = []
+	var greyed: Array[int] = []
+	for option: ScriptedAct.Option in step.options:
+		if option.when != null and not (holds.is_valid() and bool(holds.call(option.when))):
+			continue
+		var why: String = option.locked_reason(holds)
+		if why.is_empty():
+			texts.append(TranslationServer.translate(option.text))
+		else:
+			greyed.append(offered.size())
+			# TRANSLATORS: an option that cannot be taken yet ({option}: 我也算一个) and why ({why}: 还差两派).
+			texts.append(TranslationServer.translate("{option}（{why}）").format({"option": TranslationServer.translate(option.text), "why": TranslationServer.translate(why)}))
+		offered.append(option)
+	if offered.is_empty():
+		return false
+	var again: Callable = func() -> void: _choose(step, rest, npc, draw, room)
+	hud.ask_choices(npc, step.flag, texts, func(chosen: int) -> void:
+		var index: int = clampi(chosen, 0, offered.size() - 1)
+		if greyed.has(index):
+			again.call()
+			return
+		var option: ScriptedAct.Option = offered[index]
+		var go: Callable = func() -> void:
+			if _player == null:
+				return
+			# TRANSLATORS: what the player chose ({option}), in 消息.
+			hud.append_log_lines([TranslationServer.translate("你选了：{option}").format({"option": TranslationServer.translate(option.text)})])
+			var next := ScriptedAct.new()
+			next.steps.append_array(option.steps)
+			next.steps.append_array(rest)
+			if not next.steps.is_empty():
+				run(next, npc, draw, room)
+		if option.confirm.is_empty():
+			go.call()
+		else:
+			hud.ask_first(TranslationServer.translate(option.confirm), TranslationServer.translate(option.choice), go, Callable(), again),
+		Callable(), greyed)
+	return true
 
 
 ## ob->move(room): within this map the player is put at `point_id`; another map's room is

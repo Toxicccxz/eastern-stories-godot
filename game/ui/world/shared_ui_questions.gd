@@ -56,7 +56,8 @@ func ask_danger(text: String, choice: String, action: Callable, still_valid: Cal
 ## 火前问话): `on_chosen` is called with the index picked; 取消 (走开) runs `on_cancel`. With the
 ## dialogue box on (DECISIONS「对话框」) the answers show in the box under the question, as 打听's
 ## topics do, once the lines before it are read out; otherwise the prompt opens in the shared frame.
-func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], on_chosen: Callable, on_cancel: Callable = Callable()) -> void:
+## `greyed`: the answers shown but not to be picked (大会 B's 我也算一个 while short of five).
+func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], on_chosen: Callable, on_cancel: Callable = Callable(), greyed: Array[int] = []) -> void:
 	_chosen_action = on_chosen
 	_cancelled_action = on_cancel
 	var boxed: bool = speaker != null and GameContent.catalog().pacing().feel.shows_dialogue_box()
@@ -64,11 +65,11 @@ func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String],
 	if boxed and _ui.dialogue_box.is_open() and not _ui.dialogue_box.hosting():
 		_waiting = func(_teller: StringName) -> void:
 			_stop_waiting()
-			_host_choices(speaker, text, choices, boxed)
+			_host_choices(speaker, text, choices, boxed, greyed)
 		_ui.dialogue_box.read_out.connect(_waiting)
 		_ui.dialogue_box.closed_unread.connect(_drop_waiting)
 		return
-	_host_choices(speaker, text, choices, boxed)
+	_host_choices(speaker, text, choices, boxed, greyed)
 
 
 ## The box was shut unread: the question waiting for it goes with it.
@@ -87,11 +88,11 @@ func _stop_waiting() -> void:
 	_waiting = Callable()
 
 
-func _host_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], boxed: bool) -> void:
+func _host_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], boxed: bool, greyed: Array[int] = []) -> void:
 	if not _chosen_action.is_valid():
 		return
 	# TRANSLATORS: the button that leaves a question unanswered (the 拜火祠's 火前问话).
-	_ui.confirm_prompt.ask_choices(TranslationServer.translate(text), choices, "走开")
+	_ui.confirm_prompt.ask_choices(TranslationServer.translate(text), choices, "走开", "", greyed)
 	if boxed:
 		_ui.dialogue_box.host(tr(speaker.definition().display_name), _ui.confirm_prompt, speaker)
 		FocusNav.give(FocusNav.first_focusable(_ui.confirm_prompt, true))

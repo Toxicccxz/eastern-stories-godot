@@ -272,12 +272,12 @@ layout_path = "res://data/lancheng/voxel/terrace.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(512, 336)
-metadata/look = {"kind": "whirl", "until": {"any": [{"mark": "旋芒在你手里"}, {"mark": "旋芒在皇叔手里"}, {"mark": "旋芒在萧辟尘手里"}]}, "colors": ["d0dde6", "c0d0dc", "e4edf3"], "rings": 13}
+metadata/look = {"kind": "whirl", "until": {"all": [{"any": [{"mark": "旋芒在你手里"}, {"mark": "旋芒在皇叔手里"}, {"mark": "旋芒在萧辟尘手里"}]}, {"not": {"mark": "旋芒还给了岚城"}}]}, "colors": ["d0dde6", "c0d0dc", "e4edf3"], "rings": 13}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
 position = Vector2(512, 336)
-metadata/look = {"kind": "whirl", "calm": true, "present": {"any": [{"mark": "旋芒在你手里"}, {"mark": "旋芒在皇叔手里"}, {"mark": "旋芒在萧辟尘手里"}]}}
+metadata/look = {"kind": "whirl", "calm": true, "present": {"all": [{"any": [{"mark": "旋芒在你手里"}, {"mark": "旋芒在皇叔手里"}, {"mark": "旋芒在萧辟尘手里"}]}, {"not": {"mark": "旋芒还给了岚城"}}]}}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing03" type="Node2D" parent="Furnishings"]

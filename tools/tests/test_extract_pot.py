@@ -25,7 +25,7 @@ NOT_SHOWN = {
     # Marks and temps (CharacterState.marks / temps) are ids the rules test, never printed.
     "mark": "a mark", "marks": "marks", "not_mark": "a mark", "unmark": "a mark",
     "asker_marks": "marks", "asker_lacks": "marks", "mark_asker": "a mark", "marks_asker": "marks",
-    "listed_marks": "marks", "confirm_marks": "marks", "confirm_lacks": "marks",
+    "listed_marks": "marks", "confirm_marks": "marks", "confirm_lacks": "marks", "ask_lacks": "marks",
     "giver_mark": "a mark", "mark_giver": "a mark", "marks_giver": "marks", "unless_giver_mark": "a mark",
     "scene_mark": "a mark", "cleared_mark": "a mark", "set_mark": "a mark", "found_by": "a mark",
     "teaches": "a mark", "spar_won_mark": "a mark", "again_mark": "a mark",
@@ -236,6 +236,17 @@ class ContentTest(unittest.TestCase):
                     "接下了三鞭", "我不用内力。", "歇好了再来。", "小的", "他叫道：认输了！", "头在哪里？", "在湖底。",
                     "僧人说：偷东西不好。"]),
         )
+
+    def test_an_acts_choice(self) -> None:
+        # 大会 B's `choose`: what is asked, each option, why one is greyed, its question and its steps' lines;
+        # none of their marks.
+        catalog = extract_pot.Catalog()
+        document = {"acts": [{"steps": [{"choose": {"text": "谁站出来？", "options": [
+            {"text": "我也算一个", "locked": [{"when": {"mark": "x"}, "text": "还差一派"}], "confirm": "要参选吗？", "choice": "参选",
+             "steps": [{"mark": "站出来参选"}, {"say": "好。"}]},
+        ]}}]}]}
+        extract_pot.extract_content(document, "data/waterfog/world.json", catalog)
+        self.assertEqual(sorted(msgid for _, msgid in _ids(catalog)), sorted(["谁站出来？", "我也算一个", "还差一派", "要参选吗？", "参选", "好。"]))
 
     def test_a_document_holding_one_record(self) -> None:
         # common/opening.json: {"opening": {...}}, not a list of records.

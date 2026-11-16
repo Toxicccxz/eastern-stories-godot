@@ -189,6 +189,19 @@
 		"native.npc.ice_cutter": "still",
 		"native.npc.lake_taoist": "still",
 		"native.npc.war_painter": {"mode": "still", "pose": "sit_ground"},
-		"native.npc.zhong_momo": {"mode": "still", "pose": "sit"}
+		"native.npc.zhong_momo": {"mode": "still", "pose": "sit"},
+		"native.npc.assembly_yan_wei": "still",
+		"native.npc.assembly_wei_canglan": "still",
+		"native.npc.assembly_liu_chunfeng": "still",
+		"native.npc.assembly_liu_huixin": "still",
+		"native.npc.assembly_pan_junchan": "still",
+		"native.npc.assembly_chen_jianqiu": "still",
+		"native.npc.assembly_lin_ji": "still",
+		"native.npc.assembly_lan_zhiping": "still",
+		"native.npc.assembly_xuanzhi": "still",
+		"native.npc.assembly_luo_yunzhou": "still",
+		"native.npc.assembly_lu_decai": "still",
+		"native.npc.assembly_juechenzi": "still",
+		"native.npc.yan_wei_chair": {"mode": "still", "pose": "sit"}
 	}
 }

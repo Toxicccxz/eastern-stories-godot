@@ -118,7 +118,8 @@ func tell(text: String, acknowledge: String = "确定") -> void:
 ## A question with several answers (an act's `questions`, 番坊 B: the 拜火祠's 火前问话): one
 ## button an answer (`chosen` with its index), then `cancel` (取消 / 走开, which answers
 ## `cancelled` as ever). The answers are plain wood: none is the safe or the dear one.
-func ask_choices(text: String, choices: Array[String], cancel: String = "取消", about: String = "") -> void:
+## `greyed`: the indices shown greyed, not to be picked (an option not open yet, saying why).
+func ask_choices(text: String, choices: Array[String], cancel: String = "取消", about: String = "", greyed: Array[int] = []) -> void:
 	detail.text = about
 	detail.visible = not about.is_empty()
 	_show(text)
@@ -130,6 +131,7 @@ func ask_choices(text: String, choices: Array[String], cancel: String = "取消"
 	for index: int in choice_buttons.size():
 		var button: Button = choice_buttons[index]
 		button.visible = index < choices.size()
+		button.disabled = greyed.has(index)
 		if index < choices.size():
 			button.text = tr(choices[index])
 	_actions.move_child(cancel_button, -1)

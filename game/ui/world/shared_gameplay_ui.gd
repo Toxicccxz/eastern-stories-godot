@@ -1205,5 +1205,5 @@ func is_asking() -> bool:
 
 ## A question with several answers from `speaker` (an act's `questions`): `on_chosen` gets the
 ## index picked, 走开 runs `on_cancel` (SharedUiQuestions.ask_choices()).
-func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], on_chosen: Callable, on_cancel: Callable = Callable()) -> void:
-	questions.ask_choices(speaker, text, choices, on_chosen, on_cancel)
+func ask_choices(speaker: NpcRuntimeState, text: String, choices: Array[String], on_chosen: Callable, on_cancel: Callable = Callable(), greyed: Array[int] = []) -> void:
+	questions.ask_choices(speaker, text, choices, on_chosen, on_cancel, greyed)

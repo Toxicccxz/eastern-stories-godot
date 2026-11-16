@@ -64,6 +64,11 @@
 			"revision": "SOURCE_ENTRY_ASSEMBLY_A_V1",
 			"spawn_points": 832,
 			"fingerprint": "e59ae6474d25eb7426f97a476176414df5f4154850b579f2e6b485ddd2d60c0e"
+		},
+		{
+			"revision": "SOURCE_ENTRY_ASSEMBLY_B_V1",
+			"spawn_points": 846,
+			"fingerprint": "0e1ef7d21f00e1dd25a9e60aa9635645c21f45600d9b1af73079567448975d5b"
 		}
 	]
 }

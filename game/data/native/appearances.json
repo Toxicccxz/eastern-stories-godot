@@ -831,6 +831,19 @@
       "coat": "f6f2ea", "pants": "c6b3a6", "skin": "f2c7a5", "hair": "221917",
       "hair_style": "short", "headwear": "none", "beard": "none", "waist": "sash", "prop": "none",
       "accent": "e4ad94", "height": "standard", "build": "standard", "shoes": "white"
-    }
+    },
+    "native.npc.assembly_yan_wei": {"same_as": "waterfog.npc.elder7"},
+    "native.npc.assembly_wei_canglan": {"same_as": "native.npc.wei_canglan"},
+    "native.npc.assembly_liu_chunfeng": {"same_as": "common.npc.swordsman.master"},
+    "native.npc.assembly_liu_huixin": {"same_as": "snow.npc.girl"},
+    "native.npc.assembly_pan_junchan": {"same_as": "common.npc.fighter.executioner"},
+    "native.npc.assembly_chen_jianqiu": {"same_as": "cloud.npc.b_header"},
+    "native.npc.assembly_lin_ji": {"same_as": "common.npc.taoist.taolord"},
+    "native.npc.assembly_lan_zhiping": {"same_as": "common.npc.dancer.master"},
+    "native.npc.assembly_xuanzhi": {"same_as": "common.npc.bonze.master"},
+    "native.npc.assembly_luo_yunzhou": {"same_as": "common.npc.scholar.master"},
+    "native.npc.assembly_lu_decai": {"same_as": "common.npc.beggar.master"},
+    "native.npc.assembly_juechenzi": {"same_as": "common.npc.juechen.master"},
+    "native.npc.yan_wei_chair": {"same_as": "waterfog.npc.elder7"}
   }
 }
