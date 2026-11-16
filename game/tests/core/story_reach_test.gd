@@ -29,9 +29,8 @@ const CODE_MARKS: Array[String] = ["a2_bounty_taken", "a2_bounty_done"]
 const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## Marks read and on purpose written by nothing: the wrong answer of a question (village/world.json's
 ## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
-## says so) never holds. 「余孽有了去处」 is the stub step 卧底 C ends on for one who comes after the 终章 (剿 or 招安:
-## 大会 A writes it).
-const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "余孽有了去处"]
+## says so) never holds. 「入了虹台的席」 is the stub step 大会 A ends on (入席: 大会 B writes it).
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "入了虹台的席"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]

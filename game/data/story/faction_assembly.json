@@ -1,0 +1,557 @@
+{
+	"quests": [
+		{
+			"id": "faction.assembly",
+			"title": "正月十七 · 虹台大会",
+			"line": "faction",
+			"region": "水烟阁",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」). d/waterfog/guildhall.c (每年的正月十七都要在水烟阁外的「虹台」推选武林盟主，然後在这里举行登位大典); swordtomb.c (往南便是直通虹台的石阶); wpath1.c, wpath2.c, wpath4.c, wpath5.c (the 虹台 on the peak, the 擎天柱, 三面深谷). ES2 names the 虹台 and never holds the choosing: nine 派 one vote each, three to choose from (颜违; the old 盟主 — 卫沧澜 back, or the empty chair; the player), five to change the 盟主; 封山 and 天邪 vote as their lines split, the other seven as the player's deeds in the main story say, each with one way to turn it (the head's 「虹台」 and a confirmed word). It shows from any 势力 line begun, or the main story over; the invitation from 饮风客栈's 店小二 once; the 虹台 map up the stair south of 葬剑亭. 入席, the three things of the day, the count and the second epilogue are 大会 B's: this quest stops at a stub step (印记「入了虹台的席」)."
+			],
+			"summary": "正月十七，九派在水烟阁外的虹台推选武林盟主。九派各一票，过半才换人。",
+			"starts": {
+				"any": [
+					{
+						"quest": "faction.fonxan#started"
+					},
+					{
+						"quest": "faction.celestial#started"
+					},
+					{
+						"quest": "faction.dongfang#started"
+					},
+					{
+						"quest": "faction.niling#started"
+					},
+					{
+						"mark": "终章"
+					}
+				]
+			},
+			"pinned": true,
+			"pin_rank": 2,
+			"checklist": [
+				{
+					"label": "已表态",
+					"count": true,
+					"when": {
+						"cond": "assembly.stated"
+					}
+				},
+				{
+					"label": "投颜违",
+					"count": true,
+					"when": {
+						"at_least": {
+							"n": 5,
+							"of": [
+								{
+									"all": [
+										{
+											"cond": "assembly.fonxan.stated"
+										},
+										{
+											"cond": "assembly.fonxan.yan"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.celestial.stated"
+										},
+										{
+											"cond": "assembly.celestial.yan"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.zhenyuan.stated"
+										},
+										{
+											"cond": "assembly.zhenyuan.yan"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.maoshan.stated"
+										},
+										{
+											"cond": "assembly.maoshan.yan"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.latemoon.stated"
+										},
+										{
+											"cond": "assembly.latemoon.yan"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.sanyen.stated"
+										},
+										{
+											"cond": "assembly.sanyen.yan"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.buxuan.stated"
+										},
+										{
+											"cond": "assembly.buxuan.yan"
+										}
+									]
+								}
+							]
+						}
+					},
+					"missing": "过半（五派）才换盟主"
+				},
+				{
+					"label": "听你的",
+					"count": true,
+					"when": {
+						"at_least": {
+							"n": 5,
+							"of": [
+								{
+									"all": [
+										{
+											"cond": "assembly.fonxan.stated"
+										},
+										{
+											"cond": "assembly.fonxan.self"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.celestial.stated"
+										},
+										{
+											"cond": "assembly.celestial.self"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.maoshan.stated"
+										},
+										{
+											"cond": "assembly.maoshan.self"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.latemoon.stated"
+										},
+										{
+											"cond": "assembly.latemoon.self"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.buxuan.stated"
+										},
+										{
+											"cond": "assembly.buxuan.self"
+										}
+									]
+								}
+							]
+						}
+					},
+					"missing": "五派听你的，你才站得出来"
+				},
+				{
+					"label": "封山剑派：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.fonxan.stated"
+						}
+					}
+				},
+				{
+					"label": "封山剑派：等盟主回来",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.fonxan.stated"
+							},
+							{
+								"cond": "assembly.fonxan.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "封山剑派：投颜违——颜违许了北宗一个座",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.fonxan.stated"
+							},
+							{
+								"cond": "assembly.fonxan.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "封山剑派：听你的",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.fonxan.stated"
+							},
+							{
+								"cond": "assembly.fonxan.self"
+							}
+						]
+					}
+				},
+				{
+					"label": "天邪派：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.celestial.stated"
+						}
+					}
+				},
+				{
+					"label": "天邪派：投颜违",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.celestial.stated"
+							},
+							{
+								"cond": "assembly.celestial.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "天邪派：等盟主回来",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.celestial.stated"
+							},
+							{
+								"cond": "assembly.celestial.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "天邪派：听你的",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.celestial.stated"
+							},
+							{
+								"cond": "assembly.celestial.self"
+							}
+						]
+					}
+				},
+				{
+					"label": "振远镖局：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.zhenyuan.stated"
+						}
+					}
+				},
+				{
+					"label": "振远镖局：投颜违——旧案到此为止",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.zhenyuan.stated"
+							},
+							{
+								"cond": "assembly.zhenyuan.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "振远镖局：投旧盟主——旧案查到底",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.zhenyuan.stated"
+							},
+							{
+								"cond": "assembly.zhenyuan.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "茅山派：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.maoshan.stated"
+						}
+					}
+				},
+				{
+					"label": "茅山派：投颜违——主剿",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.maoshan.stated"
+							},
+							{
+								"cond": "assembly.maoshan.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "茅山派：听你的",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.maoshan.stated"
+							},
+							{
+								"cond": "assembly.maoshan.self"
+							}
+						]
+					}
+				},
+				{
+					"label": "晚月庄：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.latemoon.stated"
+						}
+					}
+				},
+				{
+					"label": "晚月庄：投旧盟主——封地照旧",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.latemoon.stated"
+							},
+							{
+								"cond": "assembly.latemoon.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "晚月庄：投颜违——逐神教",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.latemoon.stated"
+							},
+							{
+								"cond": "assembly.latemoon.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "晚月庄：听你的",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.latemoon.stated"
+							},
+							{
+								"cond": "assembly.latemoon.self"
+							}
+						]
+					}
+				},
+				{
+					"label": "山烟寺：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.sanyen.stated"
+						}
+					}
+				},
+				{
+					"label": "山烟寺：投颜违——逐神教",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.sanyen.stated"
+							},
+							{
+								"cond": "assembly.sanyen.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "山烟寺：投旧盟主——容神教",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.sanyen.stated"
+							},
+							{
+								"cond": "assembly.sanyen.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "步玄派：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.buxuan.stated"
+						}
+					}
+				},
+				{
+					"label": "步玄派：投颜违——京城随朝廷",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.buxuan.stated"
+							},
+							{
+								"cond": "assembly.buxuan.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "步玄派：听你的",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.buxuan.stated"
+							},
+							{
+								"cond": "assembly.buxuan.self"
+							}
+						]
+					}
+				},
+				{
+					"label": "花紫会：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.huazi.stated"
+						}
+					}
+				},
+				{
+					"label": "花紫会：投旧盟主——怕官",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.huazi.stated"
+							},
+							{
+								"cond": "assembly.huazi.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "绝尘派：还没表态",
+					"if": {
+						"not": {
+							"cond": "assembly.juechen.stated"
+						}
+					}
+				},
+				{
+					"label": "绝尘派：不问世事，不来",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.juechen.stated"
+							},
+							{
+								"cond": "assembly.juechen.absent"
+							}
+						]
+					}
+				},
+				{
+					"label": "绝尘派：下山来，投旧盟主",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.juechen.stated"
+							},
+							{
+								"cond": "assembly.juechen.old"
+							}
+						]
+					}
+				}
+			],
+			"steps": [
+				{
+					"id": "wait",
+					"objective": "正月十七，九派在水烟阁外的虹台推选武林盟主：颜违、旧盟主（卫沧澜回来了就是他，没回来就是那把空椅子），或者你。湖底的事了了，才会开会。各派的票跟着你做过的事走——封山、天邪看那两条线走到哪一边。",
+					"done": {
+						"mark": "终章"
+					},
+					"text": "湖底的事了了。正月十七的虹台大会，照旧要开。"
+				},
+				{
+					"id": "invite",
+					"objective": "回雪亭镇的饮风客栈。店小二那里有一封给你的帖子。",
+					"done": {
+						"mark": "拿了虹台请柬"
+					},
+					"text": "饮风客栈的店小二递来一张请柬：正月十七，水烟阁外虹台。",
+					"target": {
+						"map": "snow.inn",
+						"zone": "snow.inn.main_floor",
+						"npcs": [
+							"snow.npc.waiter"
+						]
+					}
+				},
+				{
+					"id": "canvass",
+					"objective": "上虹台之前，九派可以各走一趟：问各派掌门「虹台」，听他们这一票投谁、为什么；话里留了余地的，还可以请他改一改（先确认）。封山剑派——雪亭镇淳风武馆的柳淳风（跟了北宗的，问内院的柳绘心）；天邪派——水烟阁正厅的潘军禅；振远镖局——绮云镇的陈剑秋；茅山派——灵心观的林忌；晚月庄——庄主蓝止萍；山烟寺——住持玄智和尚；步玄派——乔阴县城的骆云舟；花紫会——乔阴的陆得财；绝尘派——青石村的绝尘子。虹台在水烟阁葬剑亭往南的石阶上。",
+					"done": {
+						"mark": "入了虹台的席"
+					},
+					"text": "正月十七，你上了虹台。",
+					"target": {
+						"map": "waterfog.terrace",
+						"zone": "waterfog.terrace_top"
+					}
+				}
+			]
+		}
+	]
+}

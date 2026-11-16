@@ -84,6 +84,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"ice_stair": _ice_stair(w,d)
 		"ice_dome": _ice_dome(w,d)
 		"glow_algae": _glow_algae(w,d)
+		"sky_pillar": _sky_pillar(w,d)
+		"flag_seat": _flag_seat(w,d)
 		_:
 			return false
 	return true
@@ -1538,3 +1540,79 @@ func _tiger_head(_w: float, _d: float) -> void:
 	for bar: int in 3:
 		s.box(root,Vector3(0,y+0.26-bar*0.06,0.29),Vector3(0.18 if bar!=1 else 0.12,0.025,0.03),"1e1812")
 	s.box(root,Vector3(0,y+0.2,0.29),Vector3(0.025,0.16,0.03),"1e1812")
+
+## 擎天柱 (大会 A; wpath4.c: 竖立在虹台中央的「擎天柱」): a square column of white stone two 丈 high
+## (`height`) on a plinth of three worn steps, scored all the way up with bands (`bands`), its
+## corners worn round by the wind (a paler strip down each), lichen low on the lee face, a capstone
+## on top. `colors` [shaft, plinth, cap and worn corners].
+func _sky_pillar(w: float, d: float) -> void:
+	var tones: Array = _colors("colors",["d8d4c6","cfcabb","e2ded1"])
+	var bands: String = String(data.get("bands","a9a597"))
+	var height: float = float(data.get("height",7.0))
+	var side: float = minf(w,d)
+	for step: int in 3:
+		var shrink: float = 1.0-step*0.17
+		s.shard(root,Vector3(0,0.12+step*0.24,0),Vector3(side*shrink,0.24,side*shrink),String(tones[1]),rng.randi())
+	var shaft: float = side*0.42
+	var foot: float = 0.72
+	s.box(root,Vector3(0,foot+height/2,0),Vector3(shaft,height,shaft),String(tones[0]))
+	for x: float in [-1.0,1.0]:
+		for z: float in [-1.0,1.0]:
+			s.box(root,Vector3(x*shaft*0.5,foot+height/2,z*shaft*0.5),Vector3(0.06,height-0.2,0.06),String(tones[2]))
+	var count: int = maxi(3,floori(height/1.4))
+	for i: int in count:
+		s.box(root,Vector3(0,foot+0.6+i*(height-1.0)/count,0),Vector3(shaft+0.06,0.1,shaft+0.06),bands)
+	for i: int in 7:
+		s.box(root,Vector3(rng.randf_range(-0.42,0.42)*shaft,foot+rng.randf_range(0.1,1.6),-shaft*0.5-0.012),Vector3(rng.randf_range(0.1,0.24),rng.randf_range(0.08,0.16),0.02),_pick(["7f9466","8d9e6c","6f8458"]))
+	s.box(root,Vector3(0,foot+height+0.12,0),Vector3(shaft*1.35,0.24,shaft*1.35),String(tones[2]))
+	s.box(root,Vector3(0,foot+height+0.34,0),Vector3(shaft*0.8,0.2,shaft*0.8),String(tones[1]))
+
+## 旗座 (大会 A; the 虹台's nine, one for each 派): a squat drum of stone on a square foot, a carved band
+## round it, a socket in its top and a bare pole in it under an iron cap. `rag` (a colour) is a faded,
+## torn strip of an old flag still tied to the pole; `cloth` hangs a whole flag from an arm at the
+## top instead (`trim`, `text`: the day itself), stirring in the wind; `pole` false leaves the socket
+## empty. The arm and the cloth reach along +x (turn the seat with `rotation`). `colors` [drum, foot, top].
+func _flag_seat(w: float, d: float) -> void:
+	var stone: Array = _colors("colors",["b4b0a2","a4a092","c2beb0"])
+	var side: float = minf(w,d)
+	s.shard(root,Vector3(0,0.1,0),Vector3(side*0.95,0.2,side*0.95),String(stone[1]),rng.randi())
+	s.box(root,Vector3(0,0.42,0),Vector3(side*0.68,0.44,side*0.68),String(stone[0]))
+	s.box(root,Vector3(0,0.34,0),Vector3(side*0.71,0.05,side*0.71),String(stone[1]))
+	s.box(root,Vector3(0,0.66,0),Vector3(side*0.76,0.06,side*0.76),String(stone[2]))
+	s.box(root,Vector3(side*0.3,0.24,side*0.36),Vector3(0.1,0.08,0.03),String(stone[1]))
+	if not data.get("pole",true):
+		s.box(root,Vector3(0,0.7,0),Vector3(0.12,0.03,0.12),"3a3630")
+		return
+	var top: float = 0.69+5.0
+	s.box(root,Vector3(0,(0.69+top)/2,0),Vector3(0.12,top-0.69,0.12),"6a5440")
+	s.box(root,Vector3(0,top+0.08,0),Vector3(0.18,0.16,0.18),"55534e")
+	if data.has("cloth"):
+		s.box(root,Vector3(0.5,top-0.14,0),Vector3(0.96,0.06,0.06),"6a5440")
+		var flag := Node3D.new()
+		flag.position = Vector3(0.06,top-0.18,0)
+		root.add_child(flag)
+		s.box(flag,Vector3(0.48,-0.95,0),Vector3(0.88,1.9,0.04),String(data["cloth"]))
+		s.box(flag,Vector3(0.48,-0.04,0),Vector3(0.94,0.08,0.06),String(data.get("trim","2f2a24")))
+		if data.has("text"):
+			for face: float in [-1.0,1.0]:
+				var title := Label3D.new()
+				title.text = tr(String(data["text"]))
+				title.position = Vector3(0.48,-0.95,face*0.03)
+				title.rotation.y = 0.0 if face > 0.0 else PI
+				title.pixel_size = 0.011
+				title.font_size = 56
+				title.width = 60.0
+				title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+				title.outline_size = 0
+				title.modulate = Color("f1e3bd")
+				flag.add_child(title)
+		if ambience != null:
+			ambience.flutter(flag,root.position.x*0.7+root.position.z*0.3)
+	elif data.has("rag"):
+		var rag := Node3D.new()
+		rag.position = Vector3(0.06,top-0.5,0)
+		root.add_child(rag)
+		s.tilted_box(rag,Vector3(0.2,-0.22,0),Vector3(0.36,0.44,0.03),String(data["rag"]),Vector3(0,0,0.22))
+		s.box(rag,Vector3(0.3,-0.52,0),Vector3(0.1,0.2,0.03),String(data["rag"]))
+		if ambience != null:
+			ambience.flutter(rag,root.position.x*0.7+root.position.z*0.3)

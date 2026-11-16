@@ -277,6 +277,9 @@ var checklist: Array[CheckRow] = []
 ## Native (势力线第一批 卧底 A; DECISIONS「任务级清单」): the quest stands first in its column of the
 ## 任务 page while it is under way (a cover kept, whose 疑点 must stay in sight).
 var pinned: bool = false
+## Native (势力线第一批 大会 A; DECISIONS「任务级清单」): among pinned quests, the higher `pin_rank` stands
+## above (the 虹台大会, where every line comes to, over the 卧底's 疑点); 1 unless said.
+var pin_rank: int = 0
 var steps: Array[Step] = []
 var reward: Reward = Reward.new()
 
@@ -330,6 +333,9 @@ static func from_record(reader: ContentRecordReader) -> StoryQuestDefinition:
 	for record: ContentRecordReader in reader.children("checklist"):
 		definition.checklist.append(CheckRow.from_record(record))
 	definition.pinned = reader.boolean("pinned", false)
+	definition.pin_rank = reader.integer("pin_rank", 1 if definition.pinned else 0)
+	if reader.has("pin_rank") and not definition.pinned:
+		reader.fail("pin_rank", "only a pinned quest has a rank among the pinned")
 	var seen: Dictionary[StringName, bool] = {}
 	var options: Dictionary[StringName, bool] = {}
 	for record: ContentRecordReader in reader.children("steps"):

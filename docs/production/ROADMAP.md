@@ -117,8 +117,8 @@ approved ahead of it); it has not happened yet. What waits for it is listed in
 4. **Quest and reputation systems, then the stories**, in the order 剧情总纲 §8 gives. The quest
    system, the main story from the prologue to the finale and the five native regions are done
    (STATUS). Next: the faction lines' first batch (`build/plans/势力线第一批_计划.md`, owner
-   2026-11-09): 封山 A and B are done; 天邪 A／B, 逆灵宫 A／B／C, 东方神教 A／B and 虹台大会 A／B
-   follow, then the later batches of 剧情总纲 §4.
+   2026-11-09): every line and 虹台大会 A are done; 虹台大会 B (the day itself, the count, the
+   second epilogue) follows, then the later batches of 剧情总纲 §4.
 5. **Characters and animation.** Character looks and portraits are done for everyone with a face
    (DECISIONS「人物外观」). Animation and effects come in seven packages (owner 2026-11-12), the first
    (DECISIONS「战斗肢体」) done; the rest (blade light and impact, specials and school colours,

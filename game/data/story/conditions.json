@@ -375,6 +375,491 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "assembly.fonxan.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 封山: the 南北宗 split says it (封山 B), or 柳淳风／柳绘心's 「虹台」"
+			],
+			"when": {
+				"any": [
+					{
+						"mark": "跟了本宗"
+					},
+					{
+						"mark": "跟了北宗"
+					},
+					{
+						"mark": "封山表了态"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.celestial.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 天邪: the chair split says it (天邪 B), or 潘军禅's 「虹台」"
+			],
+			"when": {
+				"any": [
+					{
+						"mark": "站了颜违"
+					},
+					{
+						"mark": "站了潘军禅"
+					},
+					{
+						"mark": "天邪表了态"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.zhenyuan.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "振远表了态"
+			}
+		},
+		{
+			"id": "assembly.maoshan.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "茅山表了态"
+			}
+		},
+		{
+			"id": "assembly.latemoon.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "晚月庄表了态"
+			}
+		},
+		{
+			"id": "assembly.sanyen.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "山烟寺表了态"
+			}
+		},
+		{
+			"id": "assembly.buxuan.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "步玄表了态"
+			}
+		},
+		{
+			"id": "assembly.huazi.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "花紫会表了态"
+			}
+		},
+		{
+			"id": "assembly.juechen.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+			],
+			"when": {
+				"mark": "绝尘表了态"
+			}
+		},
+		{
+			"id": "assembly.fonxan.self",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 封山: the line walked to its split, the head asked for it (柳淳风 本宗／柳绘心 北宗)"
+			],
+			"when": {
+				"mark": "封山听你的"
+			}
+		},
+		{
+			"id": "assembly.fonxan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 北宗: 颜违 gave 北宗 a seat (封山 B)"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "跟了北宗"
+					},
+					{
+						"not": {
+							"mark": "封山听你的"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.fonxan.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 本宗, or no line: 等盟主回来"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "跟了北宗"
+						}
+					},
+					{
+						"not": {
+							"mark": "封山听你的"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.celestial.self",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 天邪: the line walked to its split, 潘军禅 asked for it"
+			],
+			"when": {
+				"mark": "天邪听你的"
+			}
+		},
+		{
+			"id": "assembly.celestial.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 站了颜违; with no split, 颜违's hall where 卫沧澜 is not back"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "天邪听你的"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "站了颜违"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "站了潘军禅"
+										}
+									},
+									{
+										"not": {
+											"mark": "卫沧澜出了尚书府"
+										}
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.celestial.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 站了潘军禅; with no split, 卫沧澜 back in the hall"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "天邪听你的"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "站了潘军禅"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "站了颜违"
+										}
+									},
+									{
+										"mark": "卫沧澜出了尚书府"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.zhenyuan.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 镖路查清了, and 陈剑秋 asked: 旧案查到底"
+			],
+			"when": {
+				"mark": "振远改投旧盟主"
+			}
+		},
+		{
+			"id": "assembly.zhenyuan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 旧案到此为止, 正合陈剑秋的意"
+			],
+			"when": {
+				"not": {
+					"mark": "振远改投旧盟主"
+				}
+			}
+		},
+		{
+			"id": "assembly.maoshan.self",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 残卷给了林忌 or 名单递出去了, and 林忌 asked"
+			],
+			"when": {
+				"mark": "茅山听你的"
+			}
+		},
+		{
+			"id": "assembly.maoshan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 茅山主剿"
+			],
+			"when": {
+				"not": {
+					"mark": "茅山听你的"
+				}
+			}
+		},
+		{
+			"id": "assembly.latemoon.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣烧了 or 给了安妮儿, and 蓝止萍 asked: 逐神教"
+			],
+			"when": {
+				"mark": "晚月庄改投颜违"
+			}
+		},
+		{
+			"id": "assembly.latemoon.self",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣 left with 瑷伦 and she is still there, and 蓝止萍 asked"
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "晚月庄听你的"
+					},
+					{
+						"not": {
+							"mark": "晚月庄改投颜违"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.latemoon.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 晚月庄: 封地照旧"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "晚月庄改投颜违"
+						}
+					},
+					{
+						"not": {
+							"mark": "晚月庄听你的"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.sanyen.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 站了安妮儿 (神教不来搅), and 玄智 asked: 容神教"
+			],
+			"when": {
+				"mark": "山烟寺改投旧盟主"
+			}
+		},
+		{
+			"id": "assembly.sanyen.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 山烟寺: 逐神教"
+			],
+			"when": {
+				"not": {
+					"mark": "山烟寺改投旧盟主"
+				}
+			}
+		},
+		{
+			"id": "assembly.buxuan.self",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 庾子建下狱 and 骆家的名帖 used at the 相国府, and 骆云舟 asked"
+			],
+			"when": {
+				"mark": "步玄听你的"
+			}
+		},
+		{
+			"id": "assembly.buxuan.yan",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 步玄: 京城世家，亲朝廷"
+			],
+			"when": {
+				"not": {
+					"mark": "步玄听你的"
+				}
+			}
+		},
+		{
+			"id": "assembly.huazi.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 花紫会: 怕官 (no way to change it in the first batch: 第二批's 花紫会 line)"
+			],
+			"when": {
+				"mark": "终章"
+			}
+		},
+		{
+			"id": "assembly.juechen.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — one who walked 绝尘子's 八卦阵 asked him down"
+			],
+			"when": {
+				"mark": "绝尘派肯来"
+			}
+		},
+		{
+			"id": "assembly.juechen.absent",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 绝尘派: 不问世事，不来 (an absent 派 casts no vote)"
+			],
+			"when": {
+				"not": {
+					"mark": "绝尘派肯来"
+				}
+			}
+		},
+		{
+			"id": "assembly.stated",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 已表态: x／9 (the quest's row)"
+			],
+			"when": {
+				"at_least": {
+					"n": 9,
+					"of": [
+						{
+							"cond": "assembly.fonxan.stated"
+						},
+						{
+							"cond": "assembly.celestial.stated"
+						},
+						{
+							"cond": "assembly.zhenyuan.stated"
+						},
+						{
+							"cond": "assembly.maoshan.stated"
+						},
+						{
+							"cond": "assembly.latemoon.stated"
+						},
+						{
+							"cond": "assembly.sanyen.stated"
+						},
+						{
+							"cond": "assembly.buxuan.stated"
+						},
+						{
+							"cond": "assembly.huazi.stated"
+						},
+						{
+							"cond": "assembly.juechen.stated"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "assembly.yan_wins",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 换盟主要过半 (§11 Q3): five of the nine for 颜违"
+			],
+			"when": {
+				"at_least": {
+					"n": 5,
+					"of": [
+						{
+							"cond": "assembly.fonxan.yan"
+						},
+						{
+							"cond": "assembly.celestial.yan"
+						},
+						{
+							"cond": "assembly.zhenyuan.yan"
+						},
+						{
+							"cond": "assembly.maoshan.yan"
+						},
+						{
+							"cond": "assembly.latemoon.yan"
+						},
+						{
+							"cond": "assembly.sanyen.yan"
+						},
+						{
+							"cond": "assembly.buxuan.yan"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "assembly.self_backed",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — five 派 「听你的」 (§11 Q3; 大会 B's 参选 also wants 侮天鬼灭了)"
+			],
+			"when": {
+				"at_least": {
+					"n": 5,
+					"of": [
+						{
+							"cond": "assembly.fonxan.self"
+						},
+						{
+							"cond": "assembly.celestial.self"
+						},
+						{
+							"cond": "assembly.maoshan.self"
+						},
+						{
+							"cond": "assembly.latemoon.self"
+						},
+						{
+							"cond": "assembly.buxuan.self"
+						}
+					]
+				}
+			}
 		}
 	]
 }

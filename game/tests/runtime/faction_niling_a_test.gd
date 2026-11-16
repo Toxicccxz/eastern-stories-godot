@@ -379,7 +379,8 @@ func _chased(tree: SceneTree, session: WorldSessionController, scroll: bool) -> 
 func _pinned_first(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var shown: Array[StoryQuestLog.Shown] = StoryQuestLog.shown(state, GameContent.catalog().story_quests(), StoryQuestDefinition.LINE_FACTION, session.quest_condition_test())
-	_check(not shown.is_empty() and shown[0].quest.quest_id == QUEST and shown[0].pinned, "pinned: first in the 势力 column")
+	var first: int = 1 if not shown.is_empty() and shown[0].quest.quest_id == &"faction.assembly" else 0
+	_check(shown.size() > first and shown[first].quest.quest_id == QUEST and shown[first].pinned, "pinned: first in the 势力 column (below the 虹台大会, pinned above every line: DECISIONS「任务级清单」)")
 
 
 func _shown(session: WorldSessionController) -> String:

@@ -1,6 +1,35 @@
 {
 	"rooms": [
 		{
+			"id": "native:waterfog/terrace_stair",
+			"short": "白石阶梯",
+			"long": "出了葬剑亭往南，一道白石阶梯顺着一条窄窄的山脊爬上去，两边都是深谷。谷底的水雾一阵一阵涌上来，把石阶打得湿漉漉的，石缝里长满了青苔。\n抬头望去，山巅上竖着一根石柱，那便是虹台中央的「擎天柱」。\n",
+			"outdoors": true,
+			"exits": {
+				"north": "es2:d/waterfog/swordtomb",
+				"south": "native:waterfog/terrace"
+			}
+		},
+		{
+			"id": "native:waterfog/terrace",
+			"short": "虹台",
+			"long": "这里便是水烟阁外的「虹台」，山巅上一座白石砌成的圆台，石面被风雨磨得发白，裂缝里嵌着泥和草籽。正中竖着一根两丈多高的石柱，便是「擎天柱」，柱前一只铜香炉，炉里的灰早就冷了。\n台边一圈九个石旗座，旗杆光秃秃的——每年的正月十七，九派的旗插在上面，在这里推选武林盟主。旗座圈里，南边一把石椅背对着深谷，椅面上积着落叶。\n三面都是深不见底的深谷，往西便是虹谷断崖。虹台地势虽不甚高，但是在三面深谷的环绕下，却自有一股群山朝拜的威严气象。\n",
+			"outdoors": true,
+			"exits": {
+				"north": "native:waterfog/terrace_stair",
+				"west": "native:waterfog/terrace_edge"
+			}
+		},
+		{
+			"id": "native:waterfog/terrace_edge",
+			"short": "虹谷断崖",
+			"long": "虹台的白石到这里就断了，脚下是一片突出去的乱石，再往外便是「水烟十景」之中最有名的虹谷断崖。\n谷底终年有水雾升上来，风从谷里往上吹，吹得人衣角乱飞。太阳照着的时候，雾里常挂着一道虹。\n",
+			"outdoors": true,
+			"exits": {
+				"east": "native:waterfog/terrace"
+			}
+		},
+		{
 			"id": "native:oldpine/pine_top",
 			"short": "栈道顶",
 			"long": "破旧的栈道到这里到了头。崖上的松树比下面密得多，树冠遮去了大半天光，\n地上一条踩出来的小径往东去，南边树隙间透着山涧的水声，北边的林子更深。\n小径旁好几株松树的树干上有刀划的记号。\n",

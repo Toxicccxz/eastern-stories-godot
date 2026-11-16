@@ -57,7 +57,7 @@ func _test_data() -> void:
 	_check(quest.step(&"hour").weight == StoryQuestDefinition.WEIGHT_ROUTE, "收网 or the 余孽: routed by the main story, no choice")
 	var split: StoryQuestDefinition.Step = quest.step(&"split")
 	_check(split.weight == StoryQuestDefinition.WEIGHT_BIG and split.only_after == &"net" and split.options.map(func(option: StoryQuestDefinition.Option) -> StringName: return option.option_id) == [&"turn", &"deep", &"missed"], "the line's one split: 倒戈 or 潜伏 (or the night let pass)")
-	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "1 big, 2 small (owner 2026-11-09)")
+	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 2 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "1 big on each way the main story routes (收网; after the 终章 大会 A's 余孽), 2 small (owner 2026-11-09)")
 	_check(split.objective.contains("疑点不到三条") and split.objective.contains("四个道士会先扑你") and split.objective.contains("黑冠从此没用"), "both sides' costs said before the choice")
 	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after == &"remnant", "each way its own last step")
 	_check(quest.lapses != null and quest.lapsed_mark == "疑点满了" and quest.lapsed_text.contains("下回进前院") and quest.lapsed_text.contains("剑谱也还在你手里"), "three 疑点: the line lapses, what was done still counts")

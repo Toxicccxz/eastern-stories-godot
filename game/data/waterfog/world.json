@@ -5,7 +5,8 @@
 	"maps": [
 		{ "id": "waterfog.mountain", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_mountain.tscn", "entry": "waterfog.sroad1.snow_entry" },
 		{ "id": "waterfog.pavilion", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_pavilion.tscn", "entry": "waterfog.entrance.yard_arrival", "interior": true },
-		{ "id": "waterfog.upstairs", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_upstairs.tscn", "entry": "waterfog.west_2f.stairs_arrival", "interior": true }
+		{ "id": "waterfog.upstairs", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_upstairs.tscn", "entry": "waterfog.west_2f.stairs_arrival", "interior": true },
+		{ "id": "waterfog.terrace", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_terrace.tscn", "entry": "waterfog.terrace_stair.tomb_arrival" }
 	],
 	"zones": [
 		{ "id": "waterfog.sroad1", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/sroad1"] },
@@ -35,7 +36,10 @@
 		{ "id": "waterfog.kitchen", "map": "waterfog.pavilion", "indoors": true, "rooms": ["es2:d/waterfog/kitchen"] },
 		{ "id": "waterfog.west_2f", "map": "waterfog.upstairs", "indoors": true, "rooms": ["es2:d/waterfog/west_2f"] },
 		{ "id": "waterfog.forehall", "map": "waterfog.upstairs", "indoors": true, "rooms": ["es2:d/waterfog/forehall"] },
-		{ "id": "waterfog.east_2f", "map": "waterfog.upstairs", "indoors": true, "rooms": ["es2:d/waterfog/east_2f"] }
+		{ "id": "waterfog.east_2f", "map": "waterfog.upstairs", "indoors": true, "rooms": ["es2:d/waterfog/east_2f"] },
+		{ "id": "waterfog.terrace_stair", "map": "waterfog.terrace", "rooms": ["native:waterfog/terrace_stair"] },
+		{ "id": "waterfog.terrace_top", "map": "waterfog.terrace", "rooms": ["native:waterfog/terrace"] },
+		{ "id": "waterfog.terrace_edge", "map": "waterfog.terrace", "rooms": ["native:waterfog/terrace_edge"] }
 	],
 	"portals": [
 		{ "id": "waterfog.sroad1.east", "from_zone": "waterfog.sroad1", "to_zone": "snow.sroad5", "to_spawn": "snow.sroad5.waterfog_return", "legacy_room": "es2:d/waterfog/sroad1", "legacy_command": "east" },
@@ -44,7 +48,9 @@
 		{ "id": "waterfog.weststair.up", "from_zone": "waterfog.weststair", "to_zone": "waterfog.west_2f", "to_spawn": "waterfog.west_2f.stairs_arrival", "legacy_room": "es2:d/waterfog/weststair", "legacy_command": "up" },
 		{ "id": "waterfog.west_2f.down", "from_zone": "waterfog.west_2f", "to_zone": "waterfog.weststair", "to_spawn": "waterfog.weststair.stairs_return", "legacy_room": "es2:d/waterfog/west_2f", "legacy_command": "down" },
 		{ "id": "waterfog.eaststair.up", "from_zone": "waterfog.eaststair", "to_zone": "waterfog.east_2f", "to_spawn": "waterfog.east_2f.stairs_arrival", "legacy_room": "es2:d/waterfog/eaststair", "legacy_command": "up" },
-		{ "id": "waterfog.east_2f.down", "from_zone": "waterfog.east_2f", "to_zone": "waterfog.eaststair", "to_spawn": "waterfog.eaststair.stairs_return", "legacy_room": "es2:d/waterfog/east_2f", "legacy_command": "down" }
+		{ "id": "waterfog.east_2f.down", "from_zone": "waterfog.east_2f", "to_zone": "waterfog.eaststair", "to_spawn": "waterfog.eaststair.stairs_return", "legacy_room": "es2:d/waterfog/east_2f", "legacy_command": "down" },
+		{ "id": "waterfog.swordtomb.south", "from_zone": "waterfog.swordtomb", "to_zone": "waterfog.terrace_stair", "to_spawn": "waterfog.terrace_stair.tomb_arrival", "legacy_room": "es2:d/waterfog/swordtomb", "legacy_command": "south" },
+		{ "id": "waterfog.terrace_stair.north", "from_zone": "waterfog.terrace_stair", "to_zone": "waterfog.swordtomb", "to_spawn": "waterfog.swordtomb.terrace_return", "legacy_room": "native:waterfog/terrace_stair", "legacy_command": "north" }
 	],
 	"services": [
 		{ "id": "waterfog.sroad3.coach", "kind": "coach", "zone": "waterfog.sroad3", "name": "车马行", "reach": 96, "arrival": "waterfog.sroad3.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" }
@@ -53,7 +59,10 @@
 	"landmarks": [
 		{"id": "waterfog.guildhall.landmark.sign", "zone": "waterfog.guildhall", "name": "樟木匾", "policy": "join_class", "action": "加入武者同盟", "class": "fighter", "messages": {"joined": "恭喜，从今天起您已经成为一名武者！", "refused": "你已经参加了其他公会。"}, "long": "要成为一名武者并不难，水烟阁随时欢迎任何身家清白之人成为我们的\n一份子，只要你加入武者同盟，就可以向同盟中的各大门派拜师\n学艺。\n", "legacy_source": "d/waterfog/guildhall.c"},
 		{"id": "waterfog.wpath2.landmark.stone", "zone": "waterfog.wpath2", "name": "石碑", "policy": "look", "teaches": ["看过石台碑"], "long": "石碑上面几个苍劲古朴的字写道：虹谷石台，乙丑年水烟阁第六代\n阁主关雨楼立。\n你仔细一看，这几个字迹丝毫没有斧凿痕迹，竟像是题字的人直接\n用手指在岩石上写出来一般。\n", "legacy_source": "d/waterfog/wpath2.c"},
-		{"id": "waterfog.swordtomb.landmark.monolith", "zone": "waterfog.swordtomb", "name": "石碑", "policy": "look", "teaches": ["看过葬剑亭碑"], "long": "石碑上龙飞凤武地刻著几个大字：\n\n    风波剑神黎红药前辈葬剑于此，水烟阁第四代七长老比武\n    不胜，以奸计害人而自取其辱，武者皆不齿其小人行径，\n    合力击杀于此，甲辰年立此亭书铭其事以为后人殷鉴。\n\n                        第三代水烟阁主 于兰玫音\n                        第四代水烟阁主 聂    言   合立\n                        第五代水烟阁主 段 柏 山\n", "legacy_source": "d/waterfog/swordtomb.c"}
+		{"id": "waterfog.swordtomb.landmark.monolith", "zone": "waterfog.swordtomb", "name": "石碑", "policy": "look", "teaches": ["看过葬剑亭碑"], "long": "石碑上龙飞凤武地刻著几个大字：\n\n    风波剑神黎红药前辈葬剑于此，水烟阁第四代七长老比武\n    不胜，以奸计害人而自取其辱，武者皆不齿其小人行径，\n    合力击杀于此，甲辰年立此亭书铭其事以为后人殷鉴。\n\n                        第三代水烟阁主 于兰玫音\n                        第四代水烟阁主 聂    言   合立\n                        第五代水烟阁主 段 柏 山\n", "legacy_source": "d/waterfog/swordtomb.c"},
+		{"id": "waterfog.terrace_top.landmark.pillar", "zone": "waterfog.terrace_top", "name": "擎天柱", "policy": "look", "long": "一根两丈多高的白石柱子，四四方方，上头一道一道刻着箍纹，柱身让几百年的风雨磨圆了角。\n柱脚的石座上刻着历代盟主的名字，一行一行，最早的几行已经看不清了；最后一行是「卫沧澜」三个字，后面空着。\n", "legacy_source": "native: 势力线第一批 大会 A (计划 build/plans/势力线第一批_计划.md §7 大会 A, §9 第 9 条; DECISIONS「大会 A」) — wpath4.c: 竖立在虹台中央的「擎天柱」"},
+		{"id": "waterfog.terrace_top.landmark.chair", "zone": "waterfog.terrace_top", "name": "石椅", "policy": "look", "long": "一把整块青白石凿成的椅子，椅背对着南边的深谷，两边扶手上磨出了浅浅的手印。\n椅面上积着几片落叶，石缝里钻出一蓬草——很多年没有人坐过了。\n", "legacy_source": "native: 势力线第一批 大会 A (计划 build/plans/势力线第一批_计划.md §7 大会 A, §9 第 9 条; DECISIONS「大会 A」)"},
+		{"id": "waterfog.terrace_edge.landmark.mist", "zone": "waterfog.terrace_edge", "name": "虹谷", "policy": "look", "long": "谷底的水雾一阵一阵往上涌，白茫茫的看不见底。\n太阳照过来的时候，雾里挂着一道淡淡的虹，一头搭在虹台的石沿上，一头没进对面的山里——虹谷的名字就是这样来的。\n", "legacy_source": "native: 势力线第一批 大会 A (计划 build/plans/势力线第一批_计划.md §7 大会 A, §9 第 9 条; DECISIONS「大会 A」) — wpath2.c: 「水烟十景」之中最有名的虹谷断崖"}
 	],
 	"exit_rules": [
 		{"id": "waterfog.entrance.weapons", "room": "es2:d/waterfog/entrance", "from_zone": "waterfog.entrance", "to_zone": "waterfog.guildhall", "when": "weapon_in_hand", "present": "waterfog.npc.guard", "lines": ["水烟阁武士喝道：慢著，进水烟阁，先放下你的兵刃！", "水烟阁武士挡住了你的去路。"], "legacy_source": "d/waterfog/entrance.c"}

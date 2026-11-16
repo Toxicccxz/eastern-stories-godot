@@ -61,8 +61,10 @@ class Shown:
 	## The quest's own checklist rows, then the current step's, as they stand now (only when shown()
 	## is given a test).
 	var checklist: Array[Checked] = []
-	## Pinned and under way: first in its column (StoryQuestDefinition.pinned).
+	## Pinned and under way: first in its column (StoryQuestDefinition.pinned), the higher
+	## `pin_rank` above.
 	var pinned: bool = false
+	var pin_rank: int = 0
 	## The order of its newest record (quests with the newest news come first).
 	var latest: int = 0
 
@@ -297,14 +299,21 @@ static func tracked(state: CharacterState, quests: Array[StoryQuestDefinition]) 
 		return null
 	var best: StoryQuestDefinition = null
 	var best_order: int = -1
+	var best_leads: bool = false
 	for quest: StoryQuestDefinition in quests:
 		if not is_active(state, quest):
 			continue
 		var main: bool = quest.line == StoryQuestDefinition.LINE_MAIN
 		var order: int = int(state.quests[key_started(quest)])
-		if best == null or (main and best.line != StoryQuestDefinition.LINE_MAIN) or (main == (best.line == StoryQuestDefinition.LINE_MAIN) and order > best_order):
+		# Native (势力线第一批 大会 A): of the other lines, one whose step leads somewhere comes before one
+		# that only waits (the 虹台大会 begins with every 势力 line, waiting on the 终章).
+		var step: StoryQuestDefinition.Step = current_step(state, quest)
+		var leads: bool = main or (step != null and step.target != null)
+		var best_main: bool = best != null and best.line == StoryQuestDefinition.LINE_MAIN
+		if best == null or (main and not best_main) or (main == best_main and (leads and not best_leads or leads == best_leads and order > best_order)):
 			best = quest
 			best_order = order
+			best_leads = leads
 	return best
 
 
@@ -355,9 +364,13 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 			view.objective = "" if step == null else step.objective
 			view.checklist = checked_rows(quest.checklist, test) + checked(step, test)
 			view.pinned = quest.pinned
+			view.pin_rank = quest.pin_rank
 		result.append(view)
-	# A pinned quest under way first (DECISIONS「任务级清单」), then the newest news.
-	result.sort_custom(func(a: Shown, b: Shown) -> bool: return a.pinned and not b.pinned or a.pinned == b.pinned and a.latest > b.latest)
+	# A pinned quest under way first, the higher rank above (DECISIONS「任务级清单」), then the newest news.
+	result.sort_custom(func(a: Shown, b: Shown) -> bool:
+		var rank_a: int = a.pin_rank if a.pinned else 0
+		var rank_b: int = b.pin_rank if b.pinned else 0
+		return rank_a > rank_b or rank_a == rank_b and a.latest > b.latest)
 	return result
 
 

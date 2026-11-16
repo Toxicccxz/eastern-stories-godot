@@ -1,0 +1,73 @@
+{
+  "indoor": false,
+  "camera_size": 22,
+  "note": "虹台 (native:waterfog/terrace_stair, terrace, terrace_edge; 大会 A): the white stair up a narrow ridge from 葬剑亭, gorges either side and the mist coming up them; the round top of the peak paved with old white slabs, cracked and sunk, grass in the joints, worn smooth where feet go; the 擎天柱 in the middle with a cold censer before it, nine stone flag seats round the rim with bare poles and a rag or two of last year's flags, the 盟主's stone chair with leaves on its seat; west the rough lip over 虹谷, a cairn and a dead pine log, the mist rising and by day a faint rainbow in it. 水烟阁 across the gorge to the north-east. Deep valleys on three sides. Empty but on the day; no one lives here: old, weathered, not tidy.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 3.6, "top": "8a8a7c", "bottom": "6a6a60", "strata": ["a7a397", "b4b0a3", "9a968a"]},
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.5, "attenuation": 1.2, "day": 0.0, "night": 1.0, "note": "the slabs show round the player at night"},
+    "fog": {"color": {"dawn": "e8eef0", "day": "dbe3e6", "dusk": "d8dce0", "night": "141c2a", "midnight": "101828"}, "depth": [40, 80], "depth_density": {"dawn": 0.6, "day": 0.0, "dusk": 0.0, "night": 0.0, "midnight": 0.0}, "height": -2.5, "height_density": 0.12, "note": "as the mountain's: a white depth mist at dawn past the player, gone by day; the haze in the chasms stays; the platform stays clear"}
+  },
+  "cliffs": {
+    "kinds": ["cliff", "chasm"], "low": 0.8, "high": 4.2, "rise": 200, "step": 0.5, "rough": 0.5, "keep": 160, "trim": ["cliff", "chasm"], "grooves": 0.06, "south_rise": 1.6,
+    "strata": ["c6c2b5", "d0ccbf", "bab6a9", "cbc7ba", "c2beb1", "aca89b"], "tops": ["8f9a6e", "9aa476", "899565", "a2a874"],
+    "sink": {"kinds": ["chasm"], "depth": 12.0, "rough": 1.0, "floor": ["3a4446", "424c4e"], "strata": ["8e8b80", "98958a", "a29f93", "878478", "939085"], "gloom": 0.7},
+    "areas": [], "lifts": []
+  },
+  "exit_trails": {"waterfog.terrace_stair.north": {"cells": 6, "kind": "floor_yard", "width": 8}, "note": "the stair runs on north down to 葬剑亭"},
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.18, "broken": 0.08, "sunk": 0.06, "tufts": 0.12, "stones": ["dedbd1", "e6e3da", "d4d1c6", "ece9e1", "cfcabd"], "worn": ["eeebe2", "e2dfd6"], "bed": "aaa69a", "joint": 0.06, "mud": "9e9886", "crack": "a29d8e", "note": "the 虹台's white slabs (frontyard.c: 白玉般的白石砖; the stair1.c 「拟玉」 of 水烟阁's stairs), laid long ago in rows and left to the weather: cracked, chipped, sunk, grass and moss in the joints, worn pale where feet go"},
+    "path": {"colors": ["a8916a", "b39c73", "bca57a"], "note": "the trodden way out onto the lip, 黄土"},
+    "rock": {"style": "scree", "colors": ["a29e91", "aca89b", "b6b2a5"], "gravel": 0.55, "stones": 0.07}
+  },
+  "ground_tints": {"bank": "6f7d4f", "mud": "9a8a68", "chips": ["b0ab9d", "bbb6a8", "c6c1b3"], "dust": "c4b894", "grit": "d0c8b0"},
+  "flora": {
+    "grass_density": 0.55, "density": {"rock": 0.14, "path": 0.05, "floor_yard": 0.025}, "flower_threshold": 0.2, "blossom_trees": 0.0,
+    "tree_types": ["mountain_pine", "mountain_pine", "shrub"], "petals": ["e8e4d6", "c9c6b4", "8e9a72"], "tree_kinds": [], "tree_chance": 0.0, "tree_spacing": 80,
+    "cliff_tufts": 0.24, "cliff_flowers": 0.06, "cliff_trees": 0.018, "cliff_tree_types": ["mountain_pine", "mountain_pine", "shrub"], "outcrop_colors": ["aaa699", "b6b2a5", "9e9a8d"],
+    "wind": 0.3, "butterflies": 2
+  },
+  "ambience": {
+    "birds": [
+      {"at": [-120, 820], "radius": 260, "count": 2, "height": 9, "color": "3a3029", "note": "hawks over 虹谷"},
+      {"at": [980, 300], "radius": 200, "count": 3, "height": 7, "color": "2a2a30", "note": "swallows over the gorge toward 水烟阁"}
+    ],
+    "dust": [
+      {"rect": [-240, 560, 140, 1120], "count": 30, "color": "f2f4f4", "size": [1.6, 0.2, 0.8], "alpha": 0.16, "height": [-1.5, 3.0], "wind": [0.06, -0.1], "day": true, "note": "the mist coming up out of 虹谷"},
+      {"rect": [120, 1200, 1100, 1300], "count": 20, "color": "eef2f2", "size": [1.8, 0.2, 0.8], "alpha": 0.14, "height": [-1.5, 2.0], "wind": [0.05, -0.08], "day": true, "note": "and up the south side"},
+      {"rect": [40, 40, 400, 520], "count": 12, "color": "eef2f2", "size": [1.4, 0.2, 0.7], "alpha": 0.12, "height": [-2.0, 1.0], "wind": [0.04, -0.05], "day": true, "note": "in the gorges beside the stair"},
+      {"rect": [816, 40, 1180, 440], "count": 12, "color": "eef2f2", "size": [1.4, 0.2, 0.7], "alpha": 0.12, "height": [-2.0, 1.0], "wind": [-0.04, -0.05], "day": true}
+    ],
+    "rainbow": [
+      {"at": [-170, 840], "span": 700, "height": 6.5, "base": -3.0, "alpha": 0.1, "note": "虹谷: 太阳照着的时候，雾里常挂着一道虹，一头搭在虹台的石沿上"}
+    ],
+    "fall": [
+      {"rect": [440, 560, 780, 760], "count": 10, "height": 3.6, "colors": ["8a9a5a", "b8a050", "a07a3a", "c4a868"], "wind": [0.3, 0.3], "note": "dry leaves blown up onto the platform from the pines below"},
+      {"rect": [500, 940, 720, 1100], "count": 8, "height": 3.0, "colors": ["8a9a5a", "b8a050", "a07a3a"], "wind": [-0.2, 0.3]}
+    ]
+  },
+  "buildings": [],
+  "props": [
+    {"kind": "stair_flight", "at": [608, 184], "size": [128, 224], "rotation": 180, "note": "swordtomb.c: 往南便是直通虹台的石阶 — the white stair up the ridge"},
+    {"kind": "stair_flight", "at": [608, 372], "size": [128, 104], "rotation": 180},
+    {"kind": "rubble", "at": [300, 610], "size": [48, 32], "count": 5, "colors": ["c8c4b6", "b8b4a6", "d4d0c2"], "note": "slabs gone at the rim"},
+    {"kind": "rubble", "at": [930, 1010], "size": [48, 32], "count": 4, "colors": ["c8c4b6", "b8b4a6", "d4d0c2"]},
+    {"kind": "rubble", "at": [860, 520], "size": [40, 24], "count": 3, "colors": ["c8c4b6", "b8b4a6"]},
+    {"kind": "ferns", "at": [150, 640], "size": [40, 32], "count": 4, "note": "on the lip"},
+    {"kind": "cairn", "at": [130, 1000], "size": [32, 32], "stones": 6, "note": "a little cairn on the lip, stones travellers left"},
+    {"kind": "dead_log", "at": [72, 960], "size": [64, 24], "colors": ["7a6a52", "6a5c46", "8a7a60"], "note": "a pine that grew out over 虹谷 and fell"},
+    {"kind": "tree", "at": [432, 160], "size": [16, 16], "species": "mountain_pine", "scale": 0.8, "variant": 2, "note": "pines clinging to the ridge's sides"},
+    {"kind": "tree", "at": [784, 320], "size": [16, 16], "species": "mountain_pine", "scale": 0.7, "variant": 5},
+    {"kind": "tree", "at": [440, 296], "size": [16, 16], "species": "mountain_pine", "scale": 0.65, "variant": 1},
+    {"kind": "cloud_sea", "at": [608, 1340], "size": [1500, 180], "billow": 1.2, "note": "wpath5.c: 三面深谷 — the mist below the south rim"},
+    {"kind": "cloud_sea", "at": [1290, 760], "size": [300, 1300], "billow": 1.1, "note": "and east"},
+    {"kind": "cloud_sea", "at": [-200, 820], "size": [420, 1100], "billow": 1.4, "thickness": [0.4, 1.2], "note": "虹谷 west: the thickest, coming up"},
+    {"kind": "cloud_sea", "at": [200, 260], "size": [380, 460], "elevation": -6.0, "note": "low in the gorges beside the stair"},
+    {"kind": "cloud_sea", "at": [1010, 230], "size": [360, 420], "elevation": -6.0},
+    {"kind": "far_peak", "at": [1560, -260], "size": [380, 380], "height": 11.0, "tower": 2, "eaves": "3a8486", "note": "水烟阁 on its own peak across the gorge (eaststair.c: 孤立于独峰之上; the glazed roof)"},
+    {"kind": "far_peak", "at": [-560, 1240], "size": [420, 420], "height": 10.0, "note": "虹谷's far side"},
+    {"kind": "far_peak", "at": [760, 1820], "size": [520, 420], "height": 8.5},
+    {"kind": "far_peak", "at": [1760, 1260], "size": [420, 420], "height": 9.5},
+    {"kind": "far_peak", "at": [-300, -420], "size": [460, 400], "height": 12.0, "note": "wpath5.c: 野羊山连著隐樵山、图云岭……都是数百丈的高山"}
+  ],
+  "actors": {"default": {"coat": "6c7a86"}}
+}

@@ -9,6 +9,7 @@
 		{"map": "green.mountain", "name": "青石山路", "x": 706, "y": 347},
 		{"map": "green.maze", "name": "迷阵", "x": 818, "y": 246},
 		{"map": "waterfog.mountain", "name": "水烟阁", "x": 314, "y": 308},
+		{"map": "waterfog.terrace", "name": "虹台", "x": 262, "y": 336},
 		{"map": "oldpine.outdoor", "name": "老松岭", "x": 319, "y": 454},
 		{"map": "cloud.outdoor", "name": "绮云镇", "x": 459, "y": 577},
 		{"map": "canyon.clifftop", "name": "铁链崖", "x": 213, "y": 437},
