@@ -248,9 +248,14 @@ func _test_empty_and_walk_away(tree: SceneTree, session: WorldSessionController)
 	await _settle(tree)
 	_check(not ui.is_asking() and state.marks.has("入了虹台的席") and not state.marks.has("三件事了了"), "walked away: seated, nothing chosen")
 	_check(not GameContent.catalog().npc(&"cloud.npc.b_header").talk().confirm_applies("改投", state.marks), "no more 游说 once seated")
+	for mark: String in ["站了安妮儿", "余孽交了官府", "余孽有了去处"]:
+		state.marks[mark] = 1 # TEST-ONLY: the 神教 and the 余孽 settled while the day waits
+	_check(_heard(state, &"waterfog.npc.elder7", "椅子", "还没完") and not state.marks.has("站了颜违"), "天邪's split waits for the day to end")
+	for mark: String in ["站了安妮儿", "余孽交了官府", "余孽有了去处"]:
+		state.marks.erase(mark) # TEST-ONLY: back as they were, for the 卧底's 余孽 after the day
 	act.interact()
 	await _settle(tree)
-	_check(ui.is_asking() and _choice(ui, "山道上") != null, "back to the 擎天柱: the morning again, 入席 not asked twice")
+	_check(ui.is_asking() and _choice(ui, "山道上") != null and _choice(ui, "葬剑亭") != null, "back to the 擎天柱: the same morning (as it stood at 入席), 入席 not asked twice")
 	ui.confirm_prompt.choice_buttons[_index(ui, "山下茶棚")].pressed.emit()
 	await _settle(tree)
 	_check(ui.is_asking() and ui.confirm_prompt.confirm_button.visible and ui.confirm_prompt.message.text.contains("骆云舟"), "the tea asked first")

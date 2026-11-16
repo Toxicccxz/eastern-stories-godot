@@ -1872,6 +1872,46 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "assembly.day.old_wins",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — five of the nine that came for the old 盟主: the chair stays, as it would with nobody past half; told so"
+			],
+			"when": {
+				"at_least": {
+					"n": 5,
+					"of": [
+						{
+							"cond": "assembly.day.fonxan.old"
+						},
+						{
+							"cond": "assembly.day.celestial.old"
+						},
+						{
+							"cond": "assembly.day.zhenyuan.old"
+						},
+						{
+							"cond": "assembly.day.maoshan.old"
+						},
+						{
+							"cond": "assembly.day.latemoon.old"
+						},
+						{
+							"cond": "assembly.day.sanyen.old"
+						},
+						{
+							"cond": "assembly.day.buxuan.old"
+						},
+						{
+							"cond": "assembly.day.huazi.old"
+						},
+						{
+							"cond": "assembly.day.juechen.old"
+						}
+					]
+				}
+			}
 		}
 	]
 }

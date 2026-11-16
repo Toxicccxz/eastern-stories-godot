@@ -353,8 +353,9 @@ func _ask_questions(step: ScriptedAct.Step, index: int, truthful: bool, npc: Npc
 ## with nothing done. Whether anything was offered (none: the act goes on past the step).
 func _choose(step: ScriptedAct.Step, rest: Array[ScriptedAct.Step], npc: NpcRuntimeState, draw: Callable, room: StringName) -> bool:
 	var hud: SharedGameplayUI = _map.hud()
+	# Nobody to ask: the act stops here, as a `questions` step does (nothing is chosen for the player).
 	if hud == null or _player == null:
-		return false
+		return true
 	var holds: Callable = facts(room).holds
 	var offered: Array[ScriptedAct.Option] = []
 	var texts: Array[String] = []
