@@ -168,6 +168,7 @@
           "village.lakeside.fisher.3": [652, 1432],
           "village.lakeside.finale.woman": [740, 1300], "village.lakeside.straggler.1": [568, 1304], "village.lakeside.straggler.2": [608, 1304],
           "village.lakeside.finale.annie": [504, 1292],
+          "village.lakeside.reed_corpse.1": [492, 1434], "village.lakeside.reed_runner.1": [560, 1404], "village.lakeside.reed_runner.2": [600, 1396],
           "village.lakeside.finale.waterfog": [500, 1400],
           "village.lakeside.finale.wei": [500, 1400],
           "village.lakeside.finale.pan": [500, 1400],
@@ -452,6 +453,13 @@
             "id": "village.lakeside.wait",
             "at": [600, 1384],
             "text": "湖畔 · 等到天黑"
+          },
+          {
+            "node": "service",
+            "name": "LakesideReeds",
+            "id": "village.lakeside.reeds",
+            "at": [500, 1436],
+            "text": "芦苇丛 · 拨开芦苇"
           },
           {
             "node": "service",

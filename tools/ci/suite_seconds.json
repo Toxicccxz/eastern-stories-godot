@@ -191,6 +191,7 @@
     "res://tests/runtime/dialogue_box_test.gd": 33.6,
     "res://tests/runtime/equipment_weight_dodge_test.gd": 22.9,
     "res://tests/runtime/faction_celestial_a_test.gd": 40.0,
+    "res://tests/runtime/faction_dongfang_a_test.gd": 50.0,
     "res://tests/runtime/faction_celestial_b_test.gd": 52.0,
     "res://tests/runtime/faction_niling_a_test.gd": 55.0,
     "res://tests/runtime/faction_niling_b_test.gd": 60.0,

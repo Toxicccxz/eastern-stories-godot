@@ -518,6 +518,9 @@
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
+			"ignores_when": {
+				"cond": "dongfang.token_holds"
+			},
 			"skills": {
 				"unarmed": 80,
 				"sword": 80,

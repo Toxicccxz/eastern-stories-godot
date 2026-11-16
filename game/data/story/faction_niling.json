@@ -17,6 +17,9 @@
 			"starts": {
 				"mark": "答应了做眼线"
 			},
+			"excludes": [
+				"faction.dongfang"
+			],
 			"pinned": true,
 			"checklist": [
 				{

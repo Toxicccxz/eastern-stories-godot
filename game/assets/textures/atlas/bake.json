@@ -2255,113 +2255,113 @@
   "village.main": {
    "anchor": [
     203.4,
-    163.0
+    164.0
    ],
    "pins": {
     "door:canyon.pass": [
      388.5,
-     173.3
+     174.3
     ],
     "door:chuenyu.main": [
      336.6,
-     156.9
+     157.9
     ],
     "door:city.main": [
      307.2,
-     226.6
+     227.6
     ],
     "door:fanfang.cliff_road": [
      66.8,
-     124.7
+     125.7
     ],
     "door:village.farmhouse_house": [
      256.3,
-     165.5
+     166.5
     ],
     "door:village.icecave": [
      95.1,
-     113.6
+     114.6
     ],
     "door:village.liu_house": [
      247.8,
-     126.6
+     127.6
     ],
     "door:village.lord_house": [
      153.1,
-     209.0
+     210.0
     ],
     "door:village.melonguard_house": [
      187.0,
-     186.8
+     187.8
     ],
     "door:village.midlake": [
      149.5,
-     140.0
+     141.0
     ],
     "zone:village.field": [
      100.0,
-     183.5
+     184.5
     ],
     "zone:village.lakeside": [
      159.4,
-     146.5
+     147.5
     ],
     "zone:village.littlegarden": [
      239.3,
-     132.1
+     133.1
     ],
     "zone:village.melonfarm": [
      227.3,
-     186.3
+     187.3
     ],
     "zone:village.road1": [
      356.7,
-     182.1
+     183.1
     ],
     "zone:village.road2": [
      322.1,
-     217.8
+     218.8
     ],
     "zone:village.road3": [
      284.6,
-     193.3
+     194.3
     ],
     "zone:village.road4": [
      250.6,
-     171.0
+     172.0
     ],
     "zone:village.road5": [
      216.7,
-     148.8
+     149.8
     ],
     "zone:village.road6": [
      184.2,
-     127.5
+     128.5
     ],
     "zone:village.road7": [
      186.3,
-     168.7
+     169.7
     ],
     "zone:village.road8": [
      159.4,
-     186.3
+     187.3
     ],
     "zone:village.road9": [
      138.9,
-     199.7
+     200.7
     ],
     "zone:village.valley1": [
      84.5,
-     106.7
+     107.7
     ],
     "zone:village.valley2": [
      140.3,
-     94.2
+     95.2
     ]
    },
    "size": [
     442,
-    305
+    306
    ]
   },
   "waterfog.mountain": {
@@ -2450,7 +2450,7 @@
   }
  },
  "common": "c1ba39048a5df73c8e527e33ff40e8c023a35bc40163ac0a5dcc277e4190b5d1",
- "fingerprint": "82d2a3e14d9ac5b687a8febc98e0592e475439ce785cefc18d8cf1b3cee94fca",
+ "fingerprint": "0b64fe72af17dc8d3ef1e9681b78181d39e9431b0e28ade7f2d7aef5c99773ba",
  "frame": [
   -769.1,
   14.6,
@@ -2479,7 +2479,7 @@
   "sanyen": "a098704f66bddc3a06b9658a2eda0ef72a29d27dfb41bfb96a2b469ab901c626",
   "snow": "3cebb61fca09ed133e2fbee4c828cd7b2cc6f56d314ef22e17298ebc0daac305",
   "temple": "6c741320432e5d024570a88b0809068a70ecbd42b8dbcce365f047e1cb5eab13",
-  "village": "bb9a9c2beff74556d20bcd61312abfe14a7b5babb05185686939aa3490bb4bd2",
+  "village": "abefcc80b017a948f44aba3b1c1cba4766690cb0849eecbbeb8478d6d1459480",
   "waterfog": "41cc0f95bec69a3cef0ac5fce3c3ef3e4a044bf5a66117e79159a326a1062b7e"
  },
  "roads": [
