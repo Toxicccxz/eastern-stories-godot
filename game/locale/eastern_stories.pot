@@ -32695,6 +32695,12 @@ msgstr ""
 
 #. cloud.npc.b_header inquiry.虹台.rules.say
 #: data/cloud/npcs.json
+msgid "正月十七过去了。分局还是不接镖。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.say
+#. city.npc.chen inquiry.虹台.rules.say
+#: data/cloud/npcs.json data/city/npcs.json
 msgid "正月十七过去了。振远照旧走镖。"
 msgstr ""
 
@@ -34966,6 +34972,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "你，五票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，六票。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -44773,6 +44784,11 @@ msgstr ""
 #: data/city/npcs.json
 msgid ""
 "是剑秋推荐的嘛？可有他的信物？\n"
+msgstr ""
+
+#. city.npc.chen inquiry.镖单.rules.say
+#: data/city/npcs.json
+msgid "那趟镖是兵部点名改走老松岭的。底账、总账都押去乔阴县衙了，程知县那里有案可查。"
 msgstr ""
 
 #. city.npc.chen inquiry.镖单.rules.say

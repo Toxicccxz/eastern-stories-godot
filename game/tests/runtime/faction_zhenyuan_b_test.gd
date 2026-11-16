@@ -79,7 +79,10 @@ func _test_votes() -> void:
 	_check(_holds(state, "assembly.day.can_stand") and _holds(state, "assembly.day.self_wins") and _holds(state, "assembly.self_backed"), "振远 is one of the five that may 听你的 (§11 Q9)")
 	state = _fresh(["振远旧账到此为止"])
 	_check(not _holds(state, "assembly.self_backed"), "到此为止 alone gives no vote")
+	_check(_heard(_fresh(["终章", "大会散了"]), TIANXING, "虹台", "照旧走镖") and _heard(_fresh(["终章", "大会散了", "振远旧账查到底"]), TIANXING, "虹台", "县衙"), "after the 虹台: the 县衙 only for the one who dug")
+	_check(_heard(_fresh(["振远旧账查到底"]), TIANXING, "镖单", "押去乔阴县衙"), "查到底: 陈天星 no longer holds the books")
 	var act: String = FileAccess.get_file_as_string("res://data/waterfog/world.json")
+	_check(act.contains("你，六票。"), "six that 听你的 are counted as six")
 	_check(act.contains("振远镖局——投你。") and act.contains("振远这一票，在你手里。") and act.contains("那本账烧了") and act.contains("天星把账送进了县衙"), "the 虹台's day speaks to the split and counts 振远 for you")
 
 
