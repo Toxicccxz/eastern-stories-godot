@@ -24559,7 +24559,7 @@ msgstr ""
 
 #. faction.dongfang/list objective
 #: data/story/faction_dongfang.json
-msgid "朱鸿雪说，名单上还有最后一个名字，过两天再来。再去绮云镇的场院——已经在场院的，出去走一走再进来。"
+msgid "朱鸿雪说，名单上还有最后一个名字。出了场院走一走，再回场院去。"
 msgstr ""
 
 #. faction.dongfang/list text
@@ -29807,6 +29807,9 @@ msgid "令牌"
 msgstr ""
 
 #. cloud.npc.god inquiry.令牌.rules.lines.emote
+#. cloud.npc.god inquiry.差事.rules.lines.emote
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#. cloud.npc.god inquiry.教主.rules.lines.emote
 #: data/cloud/npcs.json
 msgid "看着你，脸上的笑一点也没有了。"
 msgstr ""
@@ -30095,6 +30098,13 @@ msgstr ""
 msgid "你手上有神教的血。差事，不会再给你。"
 msgstr ""
 
+#. cloud.npc.god inquiry.差事.rules.lines.say
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#. cloud.npc.god inquiry.教主.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。"
+msgstr ""
+
 #. cloud.npc.god inquiry.差事.rules.lines.emote
 #. cloud.npc.god inquiry.教主.rules.lines.emote
 #: data/cloud/npcs.json
@@ -30123,7 +30133,7 @@ msgstr ""
 
 #. cloud.npc.god inquiry.差事.rules.say
 #: data/cloud/npcs.json
-msgid "名单上还有最后一个名字。过两天再来。"
+msgid "名单上还有最后一个名字。出去走一走，再回来。"
 msgstr ""
 
 #. cloud.npc.god inquiry.差事.rules.lines.say
@@ -30178,7 +30188,27 @@ msgstr ""
 
 #. cloud.npc.god inquiry.交差.rules.say
 #: data/cloud/npcs.json
+msgid "差事早交过了。黄金令在你身上，令是她给的。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
+msgid "差事早交过了。黄金令在你身上。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.say
+#: data/cloud/npcs.json
 msgid "差事交过了。赤铜令在你身上。"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "黑木令呢？"
+msgstr ""
+
+#. cloud.npc.god inquiry.交差.rules.lines.say
+#: data/cloud/npcs.json
+msgid "丢了的令，自己找回来，再来交差。"
 msgstr ""
 
 #. cloud.npc.god inquiry.交差.rules.takes
@@ -30213,7 +30243,7 @@ msgstr ""
 
 #. cloud.npc.god inquiry.交差.rules.lines.say
 #: data/cloud/npcs.json
-msgid "名单上还有最后一个名字——过两天再来。"
+msgid "名单上还有最后一个名字——出去走一走，再回来。"
 msgstr ""
 
 #. cloud.npc.god inquiry.交差.rules.takes

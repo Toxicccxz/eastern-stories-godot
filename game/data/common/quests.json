@@ -300,9 +300,7 @@
 		"sources": [
 			"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — §11 Q7: god.c gives every qlist target alike (the 乞丐, the 裁缝, 杜宽 and 李师师 as the 疯狗); one who stood with 安妮儿 is sent only after these: beasts and bandits. One who stood with 朱鸿雪, or made no split, still gets them all."
 		],
-		"when": {
-			"mark": "站了安妮儿"
-		},
+		"when": {"all": [{"mark": "站了安妮儿"}, {"not": {"mark": "杀了神教的教主"}}]},
 		"deserving": [
 			"疯狗",
 			"野狗",

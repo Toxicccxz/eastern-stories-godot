@@ -253,7 +253,8 @@
 			"id": "dongfang.token_holds",
 			"sources": [
 				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A 第 2 条, §2 第 7 条, §9 第 11 条, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」) — the 黑木令 (ES2's 杀手令牌, d/latemoon/room/npc/obj/token.c) carried by one 朱鸿雪 gave it to (持黑木令) and whose line did not end in a 教主's blood: the cult's killers take them for one of their own.",
-				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — a rank is the token one carries (计划 §2 第 7 条): the 赤铜令 once 朱鸿雪 gave it (持赤铜令), the 黄金令牌 (ES2's gold_token.c, a neck piece: carried or worn) once one stood with either 教主."
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — a rank is the token one carries (计划 §2 第 7 条): the 赤铜令 once 朱鸿雪 gave it (持赤铜令), the 黄金令牌 (ES2's gold_token.c, a neck piece: carried or worn) once one stood with either 教主.",
+				"东方神教 B review: the line is done once a side is taken (no more `lapses`), so a 教主 killed after it is read here as well (杀了神教的教主)."
 			],
 			"when": {
 				"all": [
@@ -307,7 +308,14 @@
 					},
 					{
 						"not": {
-							"mark": "神教的线断了"
+							"any": [
+								{
+									"mark": "神教的线断了"
+								},
+								{
+									"mark": "杀了神教的教主"
+								}
+							]
 						}
 					}
 				]
@@ -354,7 +362,16 @@
 						"mark": "宝衣给了安妮儿"
 					},
 					{
-						"mark": "站了安妮儿"
+						"all": [
+							{
+								"mark": "站了安妮儿"
+							},
+							{
+								"not": {
+									"mark": "杀了神教的教主"
+								}
+							}
+						]
 					}
 				]
 			}

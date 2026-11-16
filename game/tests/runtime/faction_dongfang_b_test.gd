@@ -195,6 +195,7 @@ func _test_truth_spared_annie(tree: SceneTree, session: WorldSessionController) 
 	_check(_said(_ask(yard, annie, "教主"), "教主令") and state.marks.get("站了安妮儿", 0) == 1 and not _carried(session, GOLD).is_empty() and _carried(session, COPPER).is_empty(), "站安妮儿: the 赤铜令 for the 黄金令牌")
 	_check(_first(session, YARD, ANNIE_YARD) == null and not god.definition().talk().confirm_applies("教主", state.marks), "she leaves for the 西厢; the other side is gone")
 	_check(_said(_ask(yard, god, "教主"), "我认输"), "朱鸿雪 gives in, and stays")
+	_check(_said(_ask(yard, god, "交差"), "令是她给的"), "交差 after the split: the 黄金令")
 	session.record_journal()
 	_check(StoryQuestLog.took(state, quest, &"side_annie") and StoryQuestLog.is_done(state, quest), "side_annie taken: the line done")
 	test = session.quest_condition_test()
@@ -324,6 +325,12 @@ func _test_mercy(_tree: SceneTree, session: WorldSessionController) -> void:
 		state.quest.clear_task()
 		var result: QuestGiver.Result = QuestGiver.give(state, catalog.quest_tiers(), available, func(n: int) -> int: return draw % maxi(n, 1))
 		_check(result.outcome == QuestGiver.Outcome.GIVEN and mercy.deserving.has(result.quest.target), "draw %d: %s, one that deserves it" % [draw, "" if result.quest == null else result.quest.target])
+	# A 教主's blood after the line is done (no more lapses): the mercy, the token and the lake all end.
+	state.marks["杀了神教的教主"] = 1 # TEST-ONLY
+	_check(not mercy.spares("乞丐", state) and not JournalLog.holds(catalog.conditions()["dongfang.annie_helps"], state, {}, {}), "her blood: no mercy, no 安妮儿 at the lake")
+	var map: WorldMapController = session.active_map() as WorldMapController
+	map.give_new_item_to_player(GOLD) # TEST-ONLY
+	_check(not session.quest_condition_test().call(catalog.conditions()["dongfang.token_holds"]), "her blood: the cult's killers no longer know the 黄金令牌's bearer")
 
 
 ## After each way (`annie` side, `truth`, `killed`), at the 终章: 安妮儿 at the lake for her side or the 宝衣; the 点将;

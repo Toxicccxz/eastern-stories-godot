@@ -141,7 +141,8 @@ func valuation_tests() -> void:
 		elif item.value > 0:
 			es2_sold += 1
 			check(result.outcome == HockshopSellResult.Outcome.SOLD, "%s: ES2's own no_drop thing sells, as hockshop.c" % item.item_definition_id)
-	check(native_refused >= 30 and es2_sold == 4, "native no_drop refused: %d; ES2 no_drop sold: %d" % [native_refused, es2_sold])
+	# Five: 东方神教 B brought in gold_token.c (黄金令牌, no_drop, 3000), ES2's own as the other four.
+	check(native_refused >= 30 and es2_sold == 5, "native no_drop refused: %d; ES2 no_drop sold: %d" % [native_refused, es2_sold])
 	var papers: Fixture = fixture(&"native:niling/war_ministry_papers")
 	check(papers.quote().outcome == O.QUEST_ITEM and papers.sell().payout == null and papers.context.inventory.is_registered(&"sale"), "兵部文书 (10 文) stays: no payout, not destroyed")
 	var unknown: Fixture = fixture(&"test:unknown")
