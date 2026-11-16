@@ -19104,6 +19104,11 @@ msgstr ""
 msgid "人已经下山了，茅山看着。"
 msgstr ""
 
+#. common.npc.taoist.taolord inquiry.剿.rules.say
+#: data/common/npcs.json
+msgid "你已经答应去劝他们下山了。回北麓去，同宫里当家的说「下山」。"
+msgstr ""
+
 #. common.npc.taoist.taolord inquiry.剿.rules.lines.emote
 #: data/common/npcs.json
 msgid "提笔写了一封信，把北麓那座道观的门户、上山的绳路一一画在信后。"
@@ -27250,6 +27255,11 @@ msgstr ""
 msgid ""
 "请柳绘心把北宗这一票交给你：正月十七虹台上，封山的座听你的——颜违许的那个座还是北宗的，这一票不再投他。\n"
 "要这么说吗？"
+msgstr ""
+
+#. snow.npc.girl inquiry.这一票.rules.say
+#: data/snow/npcs.json
+msgid "封山那一票在爹爹手里。你去问他。"
 msgstr ""
 
 #. snow.npc.girl inquiry.这一票.rules.say
@@ -48189,6 +48199,12 @@ msgstr ""
 #. native.npc.niling_lead_chanter inquiry.下山.rules.say
 #: data/niling/npcs.json
 msgid "人都下山了。……这木鱼，我还留着。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.下山.rules.say
+#. native.npc.xuan_mingzi_cliff inquiry.下山.rules.say
+#: data/niling/npcs.json
+msgid "官兵已经在山下了。……你要我们下山，下去送死么？"
 msgstr ""
 
 #. native.npc.niling_lead_chanter inquiry.下山.rules.say
