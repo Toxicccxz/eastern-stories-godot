@@ -23,7 +23,7 @@
         ],
         "reach_from": "RoadSnowArrival",
         "markers_in_middle": [],
-        "placed": {}
+        "placed": {"canyon.road.he_ping.1": [336, 96], "canyon.road.robber.1": [368, 152], "canyon.road.robber.2": [304, 48]}
       },
       "scene": {
         "style": "map",

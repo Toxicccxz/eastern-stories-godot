@@ -1,0 +1,176 @@
+{
+	"quests": [
+		{
+			"id": "faction.zhenyuan",
+			"title": "振远镖局",
+			"line": "faction",
+			"region": "绮云镇",
+			"sources": [
+				"native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」: 交情线, 谁都能走; 计划 势力线第二批_计划.md §4 振远 A, §2, §9 第 6、9 条, §11 Q1 (谁都能走, 本局弟子另拿辈分) Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「势力线第二批」「振远 A」「车马行不拉」). u/cloud/npc/b_header.c (陈剑秋, 振远镖局第一代镖头: 十几年前创立了振远镖局), bfighter.c (趟子手, 第二代: 负责镖局的护镖任务), d/city/npc/chen.c (陈天星, 总镖头), d/city/biaoju.c (振远总局), d/canyon/road.c (碎石小路: 人烟稀少), doc/help/guild:19–21 (山寨、镖局、庄院: 加入後往往有一定的工作及报酬 — ES2 has no 押镖 at all). The line shows for one who saw the 镖单 (第二章) and for 振远's own; the 镖 to 京师 behind a 趟子手's barrow (no 车马行 takes it), the robbery on the 碎石小路 by the son of the 趟子手 who died under the 老松岭 falls twenty years ago (handed to the 官府 or let go with his father's last letter, which tells 陈天星 the route 兵部 named), 镖头 for 振远's own and 振远's card for everyone, good at the 相国府's gate while 第九章 runs, are the plan's (续写); the line stops at a stub step `ledger` that 振远 B fills."
+			],
+			"summary": "替振远镖局押一趟镖到京师。",
+			"starts": {
+				"any": [
+					{
+						"mark": "看过镖单"
+					},
+					{
+						"family": "family.zhenyuan"
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"mark": "以本局弟子走镖"
+						},
+						{
+							"not": {
+								"family": "family.zhenyuan"
+							}
+						}
+					]
+				},
+				"text": "你离了振远镖局。镖局的事，到此为止。",
+				"mark": "振远的线断了"
+			},
+			"steps": [
+				{
+					"id": "take",
+					"objective": "绮云镇的振远镖局有一趟镖要走京师总局，人手不够。去镖局见陈剑秋，问他「走镖」。",
+					"done": {
+						"mark": "接了振远的镖"
+					},
+					"text": "陈剑秋把一趟红货交给了你：两箱，京师振远总局收，交给总镖头陈天星。趟子手老周推车。",
+					"target": {
+						"map": "cloud.biaoju_house",
+						"zone": "cloud.biaoju",
+						"npcs": [
+							"cloud.npc.b_header"
+						]
+					}
+				},
+				{
+					"id": "road",
+					"objective": "老周推着镖车跟你走（在镖局里问他「上路」）。出绮云镇往北到雪亭镇，沿青石官道往西南，过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师。车马行不拉镖车。镖车落在后头的，回去叫老周「上路」。",
+					"done": {
+						"mark": "劫镖的后生倒了"
+					},
+					"keeps": [
+						"native.npc.escort_runner",
+						"native.npc.he_ping"
+					],
+					"text": "碎石小路上有人劫镖。领头的蒙面后生倒在路边，刀扔在一旁。",
+					"target": {
+						"map": "canyon.clifftop",
+						"zone": "canyon.road",
+						"npcs": [
+							"native.npc.he_ping"
+						]
+					}
+				},
+				{
+					"id": "robber",
+					"weight": "small",
+					"objective": "劫镖的后生坐在路边，不看你（问他「爹」）。交官府（「交官府」）：劫镖是大罪，过了铁索就是天驼关，守关的官兵押他去京师，官府的赏金振远转给你；放他走（「走吧」）：他留下他爹最后的一封家信，劫镖的人从此不见官。",
+					"keeps": [
+						"native.npc.escort_runner",
+						"native.npc.he_ping"
+					],
+					"target": {
+						"map": "canyon.clifftop",
+						"zone": "canyon.road",
+						"npcs": [
+							"native.npc.he_ping"
+						]
+					},
+					"options": [
+						{
+							"id": "hand",
+							"done": {
+								"mark": "劫镖的交了官"
+							},
+							"text": "你把劫镖的后生交给了天驼关的官兵。",
+							"reward": {
+								"deed": "把碎石小路上劫镖的后生交了官"
+							}
+						},
+						{
+							"id": "free",
+							"done": {
+								"mark": "放走了劫镖的"
+							},
+							"text": "你放劫镖的后生走了。他留下了他爹贺长庚最后的一封家信。",
+							"reward": {
+								"deed": "放走了碎石小路上劫镖的后生"
+							}
+						}
+					]
+				},
+				{
+					"id": "deliver",
+					"objective": "镖车还要到京师：东街北头的振远总局，老周推车进门，镖就交到了总镖头陈天星手里。",
+					"done": {
+						"mark": "镖交到了总局"
+					},
+					"keeps": [
+						"native.npc.escort_runner"
+					],
+					"text": "镖交到了京师振远总局。陈天星写了一张振远的名帖给你：京师有些门，要帖子才敲得开。",
+					"reward": {
+						"deed": "替振远押了一趟镖到京师总局",
+						"rank": {
+							"family": "family.zhenyuan",
+							"title": "镖头"
+						}
+					},
+					"target": {
+						"map": "city.biaoju_house",
+						"zone": "city.biaoju",
+						"npcs": [
+							"city.npc.chen"
+						]
+					}
+				},
+				{
+					"id": "letter",
+					"only_after": "free",
+					"keeps": [
+						"native.npc.he_ping"
+					],
+					"objective": "贺长庚的家信在你身上。交给京师振远总局的陈天星。",
+					"done": {
+						"mark": "家信给了陈天星"
+					},
+					"text": "陈天星看了家信：兵部的人在岭上等着，镖头说照走。",
+					"reward": {
+						"deed": "把贺长庚的家信交给了陈天星"
+					},
+					"target": {
+						"map": "city.biaoju_house",
+						"zone": "city.biaoju",
+						"npcs": [
+							"city.npc.chen"
+						]
+					}
+				},
+				{
+					"id": "ledger",
+					"objective": "二十年前那趟镖，振远的总账里还有一笔没对上。陈天星还在翻。",
+					"done": {
+						"mark": "陈天星说了旧账"
+					},
+					"text": "陈天星翻完了振远二十年的总账。",
+					"target": {
+						"map": "city.biaoju_house",
+						"zone": "city.biaoju",
+						"npcs": [
+							"city.npc.chen"
+						]
+					}
+				}
+			]
+		}
+	]
+}

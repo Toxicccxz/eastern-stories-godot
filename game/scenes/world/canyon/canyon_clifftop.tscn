@@ -122,6 +122,21 @@ position = Vector2(256, 144)
 script = ExtResource("marker")
 spawn_point_id = &"canyon.road.chain_return"
 
+[node name="RoadHePing1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(336, 96)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.road.he_ping.1"
+
+[node name="RoadRobber1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(368, 152)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.road.robber.1"
+
+[node name="RoadRobber2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(304, 48)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.road.robber.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

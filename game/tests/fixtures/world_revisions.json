@@ -69,6 +69,11 @@
 			"revision": "SOURCE_ENTRY_ASSEMBLY_B_V1",
 			"spawn_points": 846,
 			"fingerprint": "0e1ef7d21f00e1dd25a9e60aa9635645c21f45600d9b1af73079567448975d5b"
+		},
+		{
+			"revision": "SOURCE_ENTRY_ZHENYUAN_A_V1",
+			"spawn_points": 850,
+			"fingerprint": "6a2a7843bd7f504ff3b4e8adeaed7ab533f880f62cee063baca3294af55695ea"
 		}
 	]
 }

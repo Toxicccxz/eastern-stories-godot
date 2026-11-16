@@ -343,7 +343,7 @@ static func _chapter9_entered(session: WorldSessionController, way: String) -> v
 	var marks: Array[String] = []
 	match way:
 		"exam": marks.assign(["报了武举", "胜了第一场", "胜了第二场", "中了武状元", "葛升说了殿试", "宫门放行", "候了殿试", "进了皇城", "殿试过", "见了福安"])
-		"memorial": marks.assign(["骆云舟给了名帖", "相国府开了门", "相国见了名帖", "相国写了奏本", "随相国上朝", "宫门放行", "进了皇城", "早朝过", "见了福安"])
+		"memorial": marks.assign(["骆云舟给了名帖", "相国府开了门", "骆家的名帖敲开了相国府", "相国见了名帖", "相国写了奏本", "随相国上朝", "宫门放行", "进了皇城", "早朝过", "见了福安"])
 	for mark: String in marks:
 		state.marks[mark] = 1
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -713,3 +713,56 @@ static func assembly_invited(session: WorldSessionController, end: String = "sla
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if map != null:
 		map.give_new_item_to_player(&"native:waterfog/assembly_invitation")
+
+
+## 振远 A (势力线第二批; DECISIONS「振远 A」): 拜了陈天星 (陈剑秋's letter given): 振远镖局第一代弟子.
+static func zhenyuan_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.zhenyuan", 1)
+	state.apprenticeship.master_teacher_id = &"city.npc.chen"
+	state.apprenticeship.legacy_master_name = "陈天星"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.class_id = &"guardman"
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
+static func _zhenyuan(state: CharacterState) -> bool:
+	return state.family != null and state.family.family_id == &"family.zhenyuan"
+
+
+## 振远 A: the line begun (the 镖单 seen, or 振远's own) and 陈剑秋's 镖 taken;
+## 老周 and his barrow wait in the 绮云 镖局 for「上路」.
+static func zhenyuan_taken(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if not _zhenyuan(state):
+		state.marks["看过镖单"] = 1
+	for key: String in ["faction.zhenyuan#started", "faction.zhenyuan/take"]:
+		_write(state, key)
+	for mark: String in ["陈剑秋说了走镖", "接了振远的镖"]:
+		state.marks[mark] = 1
+	if _zhenyuan(state):
+		state.marks["以本局弟子走镖"] = 1
+
+
+## 振远 A: the 镖 in 京师 — the robber on the 碎石小路 beaten and handed to the 官府 (`free` false) or let go with
+## his father's letter (`free`); 振远's card in hand, 镖头 for 振远's own. The letter (free) is still the player's.
+static func zhenyuan_delivered(session: WorldSessionController, free: bool = false) -> void:
+	zhenyuan_taken(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.zhenyuan/road", "faction.zhenyuan/robber/%s" % ("free" if free else "hand"), "faction.zhenyuan/deliver"]:
+		_write(state, key)
+	for mark: String in ["镖车上了路", "见过劫镖", "劫镖的后生倒了", "放走了劫镖的" if free else "劫镖的交了官", "有振远的名帖", "镖交到了总局"]:
+		state.marks[mark] = 1
+	if _zhenyuan(state):
+		state.affiliation.family_title = "镖头"
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map == null:
+		return
+	var held: Dictionary = session.player_held_item_ids()
+	if held.get(&"native:city/zhenyuan_card", false) == false:
+		map.give_new_item_to_player(&"native:city/zhenyuan_card")
+	if free and held.get(&"native:city/he_letter", false) == false:
+		map.give_new_item_to_player(&"native:city/he_letter")

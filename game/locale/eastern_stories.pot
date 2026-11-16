@@ -401,6 +401,9 @@ msgstr ""
 #. native.npc.assembly_lu_decai gender
 #. native.npc.assembly_juechenzi gender
 #. native.npc.yan_wei_chair gender
+#. native.npc.escort_runner gender
+#. native.npc.he_ping gender
+#. native.npc.road_robber gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -1371,7 +1374,8 @@ msgstr ""
 msgid "振远总局"
 msgstr ""
 
-#: scenes/world/city/biaoju_house.tscn scenes/world/cloud/biaoju_house.tscn data/city/voxel/main.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
+#. native.npc.escort_runner inquiry topic
+#: scenes/world/city/biaoju_house.tscn scenes/world/cloud/biaoju_house.tscn data/native/npcs.json data/city/voxel/main.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
 msgid "镖"
 msgstr ""
 
@@ -1775,9 +1779,10 @@ msgstr ""
 #. zhenyuan place
 #. dongfang place
 #. faction.dongfang region
+#. faction.zhenyuan region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/factions.json data/story/faction_dongfang.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/factions.json data/story/faction_dongfang.json data/story/faction_zhenyuan.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -4388,7 +4393,9 @@ msgstr ""
 msgid "北 · 葬剑亭"
 msgstr ""
 
-#: scenes/world/waterfog/waterfog_terrace.tscn data/cloud/voxel/outdoor.json
+#. native.npc.wei_zhizhong inquiry topic
+#. native.npc.he_ping inquiry topic
+#: scenes/world/waterfog/waterfog_terrace.tscn data/imperial/npcs.json data/native/npcs.json data/cloud/voxel/outdoor.json
 msgid "振远"
 msgstr ""
 
@@ -13519,6 +13526,8 @@ msgstr ""
 #. native:city/blinding_charm unit
 #. native:waterfog/pan_warrant unit
 #. native:canyon/dig_sketch unit
+#. native:city/zhenyuan_card unit
+#. native:city/he_letter unit
 #: data/common/items.json data/niling/items.json data/fanfang/items.json data/imperial/items.json data/native/items.json
 msgid "张"
 msgstr ""
@@ -15936,7 +15945,8 @@ msgstr ""
 #. ending cards.title
 #. oldpine name
 #. native.npc.wei_canglan inquiry topic
-#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/story/epilogue.json data/oldpine/world.json data/imperial/npcs.json
+#. native.npc.escort_runner inquiry topic
+#: data/common/atlas.json data/common/journal.json data/story/chapter1.json data/story/epilogue.json data/oldpine/world.json data/imperial/npcs.json data/native/npcs.json
 msgid "老松岭"
 msgstr ""
 
@@ -16347,11 +16357,12 @@ msgstr ""
 
 #. family.zhenyuan name
 #. zhenyuan name
+#. faction.zhenyuan title
 #. cloud.npc.b_header family.name
 #. cloud.npc.bfighter family.name
 #. city.npc.chen family.name
 #. city.npc.chen inquiry topic
-#: data/common/families.json data/story/factions.json data/cloud/npcs.json data/city/npcs.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
+#: data/common/families.json data/story/factions.json data/story/faction_zhenyuan.json data/cloud/npcs.json data/city/npcs.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
 msgid "振远镖局"
 msgstr ""
 
@@ -17133,7 +17144,10 @@ msgstr ""
 #. snow.npc.girl inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.改投.rules.say
 #. native.npc.yulan_zhao inquiry.庾尚书
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/imperial/npcs.json
+#. native.npc.he_ping inquiry.爹.rules.say
+#. native.npc.he_ping inquiry.交官府.rules.say
+#. native.npc.he_ping inquiry.走吧.rules.say
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
 
@@ -24490,6 +24504,26 @@ msgstr ""
 
 #. zhenyuan lines.text
 #: data/story/factions.json
+msgid "你替振远押过一趟镖，从绮云镇一路押到京师总局。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "碎石小路上劫镖的后生，你交给了官府。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "碎石小路上劫镖的后生，你放他走了。他爹是二十年前死在老松岭的趟子手。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "陈天星给了你一张振远的名帖：持帖者，振远的朋友。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
 msgid "潘军禅把镖单锁进了刑堂，振远的脸面保住了。陈剑秋松了一口气。"
 msgstr ""
 
@@ -25706,6 +25740,107 @@ msgstr ""
 #. faction.dongfang/split/side_zhu reward.deed
 #: data/story/faction_dongfang.json
 msgid "在绮云镇的场院里站到了朱鸿雪一边"
+msgstr ""
+
+#. faction.zhenyuan summary
+#: data/story/faction_zhenyuan.json
+msgid "替振远镖局押一趟镖到京师。"
+msgstr ""
+
+#. faction.zhenyuan lapses.text
+#: data/story/faction_zhenyuan.json
+msgid "你离了振远镖局。镖局的事，到此为止。"
+msgstr ""
+
+#. faction.zhenyuan/take objective
+#: data/story/faction_zhenyuan.json
+msgid "绮云镇的振远镖局有一趟镖要走京师总局，人手不够。去镖局见陈剑秋，问他「走镖」。"
+msgstr ""
+
+#. faction.zhenyuan/take text
+#: data/story/faction_zhenyuan.json
+msgid "陈剑秋把一趟红货交给了你：两箱，京师振远总局收，交给总镖头陈天星。趟子手老周推车。"
+msgstr ""
+
+#. faction.zhenyuan/road objective
+#: data/story/faction_zhenyuan.json
+msgid "老周推着镖车跟你走（在镖局里问他「上路」）。出绮云镇往北到雪亭镇，沿青石官道往西南，过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师。车马行不拉镖车。镖车落在后头的，回去叫老周「上路」。"
+msgstr ""
+
+#. faction.zhenyuan/road text
+#: data/story/faction_zhenyuan.json
+msgid "碎石小路上有人劫镖。领头的蒙面后生倒在路边，刀扔在一旁。"
+msgstr ""
+
+#. faction.zhenyuan/robber objective
+#: data/story/faction_zhenyuan.json
+msgid "劫镖的后生坐在路边，不看你（问他「爹」）。交官府（「交官府」）：劫镖是大罪，过了铁索就是天驼关，守关的官兵押他去京师，官府的赏金振远转给你；放他走（「走吧」）：他留下他爹最后的一封家信，劫镖的人从此不见官。"
+msgstr ""
+
+#. faction.zhenyuan/robber/hand text
+#: data/story/faction_zhenyuan.json
+msgid "你把劫镖的后生交给了天驼关的官兵。"
+msgstr ""
+
+#. faction.zhenyuan/robber/hand reward.deed
+#: data/story/faction_zhenyuan.json
+msgid "把碎石小路上劫镖的后生交了官"
+msgstr ""
+
+#. faction.zhenyuan/robber/free text
+#: data/story/faction_zhenyuan.json
+msgid "你放劫镖的后生走了。他留下了他爹贺长庚最后的一封家信。"
+msgstr ""
+
+#. faction.zhenyuan/robber/free reward.deed
+#: data/story/faction_zhenyuan.json
+msgid "放走了碎石小路上劫镖的后生"
+msgstr ""
+
+#. faction.zhenyuan/deliver objective
+#: data/story/faction_zhenyuan.json
+msgid "镖车还要到京师：东街北头的振远总局，老周推车进门，镖就交到了总镖头陈天星手里。"
+msgstr ""
+
+#. faction.zhenyuan/deliver text
+#: data/story/faction_zhenyuan.json
+msgid "镖交到了京师振远总局。陈天星写了一张振远的名帖给你：京师有些门，要帖子才敲得开。"
+msgstr ""
+
+#. faction.zhenyuan/deliver reward.deed
+#: data/story/faction_zhenyuan.json
+msgid "替振远押了一趟镖到京师总局"
+msgstr ""
+
+#. faction.zhenyuan/deliver reward.rank.title
+#. cloud.npc.b_header family.title
+#: data/story/faction_zhenyuan.json data/cloud/npcs.json
+msgid "镖头"
+msgstr ""
+
+#. faction.zhenyuan/letter objective
+#: data/story/faction_zhenyuan.json
+msgid "贺长庚的家信在你身上。交给京师振远总局的陈天星。"
+msgstr ""
+
+#. faction.zhenyuan/letter text
+#: data/story/faction_zhenyuan.json
+msgid "陈天星看了家信：兵部的人在岭上等着，镖头说照走。"
+msgstr ""
+
+#. faction.zhenyuan/letter reward.deed
+#: data/story/faction_zhenyuan.json
+msgid "把贺长庚的家信交给了陈天星"
+msgstr ""
+
+#. faction.zhenyuan/ledger objective
+#: data/story/faction_zhenyuan.json
+msgid "二十年前那趟镖，振远的总账里还有一笔没对上。陈天星还在翻。"
+msgstr ""
+
+#. faction.zhenyuan/ledger text
+#: data/story/faction_zhenyuan.json
+msgid "陈天星翻完了振远二十年的总账。"
 msgstr ""
 
 #. faction.assembly title
@@ -26954,10 +27089,11 @@ msgid "瞒什么？"
 msgstr ""
 
 #. snow.npc.fist_trainer accept_fight.emote
+#. cloud.npc.b_header inquiry.走镖.rules.lines.emote
 #. temple.npc.trainer accept_fight.emote
 #. temple.npc.tfighter accept_fight.emote
 #. latemoon.npc.room.elon inquiry.为了斩鬼.rules.lines.emote
-#: data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json
+#: data/snow/npcs.json data/cloud/npcs.json data/temple/npcs.json data/latemoon/npcs.json
 msgid "点了点头。"
 msgstr ""
 
@@ -32138,9 +32274,53 @@ msgstr ""
 msgid "陈镖头"
 msgstr ""
 
-#. cloud.npc.b_header family.title
+#. cloud.npc.b_header inquiry topic
 #: data/cloud/npcs.json
-msgid "镖头"
+msgid "走镖"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.confirm
+#: data/cloud/npcs.json
+msgid ""
+"替振远押一趟镖去京师总局。\n"
+"趟子手老周推车，你一路跟着：出绮云镇往北到雪亭镇，沿青石官道往西南过碎石小路，从铁索下到天驼关，再沿黄土大道往南到京师东街的振远总局。车马行不拉镖车。\n"
+"路上要是有人劫镖，镖车只靠你。\n"
+"要接这趟镖吗？"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.say
+#: data/cloud/npcs.json
+msgid "你已经不是振远的人了。镖局的事，不劳你。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.say
+#: data/cloud/npcs.json
+msgid "镖交到了，叔父来信夸你。振远欠你一个人情。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.say
+#: data/cloud/npcs.json
+msgid "镖交给叔父，京师东街北头的振远总局。老周推车——跟他说一声「上路」。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.lines.say
+#: data/cloud/npcs.json
+msgid "本局的人，我就不多说了。镖交到叔父手里，回来你就是镖头。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.lines.say
+#: data/cloud/npcs.json
+msgid "老周推车，你跟着——跟他说一声「上路」。碎石小路那一段荒，当心。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.lines.say
+#: data/cloud/npcs.json
+msgid "好。两箱红货，京师振远总局收，交给我叔父陈天星。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.say
+#: data/cloud/npcs.json
+msgid "走镖？振远的镖，不交给不认识的人。"
 msgstr ""
 
 #. cloud.npc.b_header inquiry.name
@@ -32331,6 +32511,21 @@ msgstr ""
 #. cloud.npc.b_header inquiry.改投.rules.lines.say
 #: data/cloud/npcs.json
 msgid "好。查到底。"
+msgstr ""
+
+#. cloud.npc.b_header calls.steps.emote
+#: data/cloud/npcs.json
+msgid "从柜台后面抬起头，上下打量了你一眼。"
+msgstr ""
+
+#. cloud.npc.b_header calls.steps.say
+#: data/cloud/npcs.json
+msgid "来得正好。有一趟红货要走京师总局，镖局里的人手都派出去了。"
+msgstr ""
+
+#. cloud.npc.b_header calls.steps.say
+#: data/cloud/npcs.json
+msgid "你肯跟车走一趟吗？问我「走镖」。"
 msgstr ""
 
 #. cloud.npc.b_header apprentice.refuse_say
@@ -39242,7 +39437,8 @@ msgid "作什么证？在下只是个丢了箱子的过路人。"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry topic
-#: data/choyin/npcs.json
+#. native.npc.he_ping inquiry topic
+#: data/choyin/npcs.json data/native/npcs.json
 msgid "走吧"
 msgstr ""
 
@@ -44053,6 +44249,21 @@ msgstr ""
 msgid "陈总镖头"
 msgstr ""
 
+#. city.npc.chen inquiry topic
+#: data/city/npcs.json
+msgid "镖车"
+msgstr ""
+
+#. city.npc.chen inquiry.镖车.rules.say
+#: data/city/npcs.json
+msgid "剑秋那趟镖到了。好。"
+msgstr ""
+
+#. city.npc.chen inquiry.镖车.rules.say
+#: data/city/npcs.json
+msgid "剑秋的镖？车呢？镖车没进这个门，镖就没到。"
+msgstr ""
+
 #. city.npc.chen inquiry.name
 #: data/city/npcs.json
 msgid ""
@@ -44148,6 +44359,51 @@ msgstr ""
 msgid "朝上的事，你们已经定了，我不添乱。可振远的账，我要记清楚。"
 msgstr ""
 
+#. city.npc.chen calls.steps.emote
+#: data/city/npcs.json
+msgid "看见镖车进了门，放下手里的账本站了起来。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "总镖头，绮云的镖，两箱红货，一路没丢。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "碎石小路上有人劫镖？……天驼关来人说了，人交了官。官府的赏金送到了振远，这一份归你。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "碎石小路上有人劫镖，你放他走了？……镖到了就好。人，你看着办的。"
+msgstr ""
+
+#. city.npc.chen calls.steps.emote
+#: data/city/npcs.json
+msgid "推着镖车进了后院。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "你是振远的人。从今天起，你是振远的镖头了。"
+msgstr ""
+
+#. city.npc.chen calls.steps.emote
+#: data/city/npcs.json
+msgid "铺开一张大红帖子，提笔写了几行，吹了吹墨，递给你。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "振远的名帖。京师有些门，要帖子才敲得开——相国府的俸银，年年是振远押的，韦相国认得这个字。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "振远的名帖。京师的门，你都敲开过了。帖子留着——振远的朋友，到哪儿都是朋友。"
+msgstr ""
+
 #. city.npc.chen accept_object.ask
 #: data/city/npcs.json
 msgid ""
@@ -44165,6 +44421,41 @@ msgstr ""
 msgid ""
 "陈天星狐疑地望着你，说\n"
 "这是你的嘛？\n"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.emote
+#: data/city/npcs.json
+msgid "接过信，看了很久。"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.say
+#: data/city/npcs.json
+msgid "兵部的人在岭上等着，镖头说照走……底账上那一笔，信里也有。"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.say
+#: data/city/npcs.json
+msgid "贺长庚的儿子。他该恨振远。"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.emote
+#: data/city/npcs.json
+msgid "接过信，就着窗口看了很久，手有点抖。"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.say
+#: data/city/npcs.json
+msgid "乙丑年，贺长庚……老松岭那一趟的趟子手。兵部的人在岭上等着，镖头说照走。"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.say
+#: data/city/npcs.json
+msgid "那趟镖本该走官道。改走老松岭，是兵部来人点名要的——兵部的人就等在岭上。振远替人背了二十年的锅。"
+msgstr ""
+
+#. city.npc.chen accept_object.lines.say
+#: data/city/npcs.json
+msgid "这封信，我收着。用得着的时候，来找我。"
 msgstr ""
 
 #. city.npc.chen accept_object.say
@@ -47995,6 +48286,18 @@ msgstr ""
 #: data/city/world.json
 msgid ""
 "门开了。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你叩了叩门。一个老仆开了半扇门，接过名帖看了看帖子上那个斗大的「镖」字，又看了看你。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"老仆说道：振远的朋友。相国在正厅，请。\n"
 msgstr ""
 
 #. city.xiangguo_gate.knock act.acts.steps.line
@@ -52788,7 +53091,8 @@ msgid "好。我在这儿等。"
 msgstr ""
 
 #. native.npc.luca inquiry.等我.rules.say
-#: data/guanbei/npcs.json
+#. native.npc.escort_runner inquiry.等着.rules.say
+#: data/guanbei/npcs.json data/native/npcs.json
 msgid "等什么？"
 msgstr ""
 
@@ -53082,7 +53386,8 @@ msgid ""
 msgstr ""
 
 #. native.npc.qin_xiaoliu inquiry topic
-#: data/guanbei/npcs.json
+#. native.npc.he_ping inquiry topic
+#: data/guanbei/npcs.json data/native/npcs.json
 msgid "爹"
 msgstr ""
 
@@ -57854,6 +58159,7 @@ msgid "骆易的儿子荐来的。他父亲当年在老夫门下读过三年书�
 msgstr ""
 
 #. native.npc.wei_zhizhong accept_object.lines.say
+#. native.npc.wei_zhizhong inquiry.振远.rules.lines.say
 #: data/imperial/npcs.json
 msgid "坐。说吧，什么事要找到相国府来。"
 msgstr ""
@@ -57971,6 +58277,31 @@ msgstr ""
 #. native.npc.wei_zhizhong inquiry.骆云舟
 #: data/imperial/npcs.json
 msgid "骆家的二小子？他父亲骆易在老夫门下读过书。后来父子俩都去练剑了，可惜了那一手字。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.振远.rules.say
+#: data/imperial/npcs.json
+msgid "陈天星的人？振远押老夫的俸银押了二十年，一两没少过。朝上的事过去了——坐，喝杯茶。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.振远.rules.say
+#: data/imperial/npcs.json
+msgid "振远的帖子老夫看过了。说正事。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.振远.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "接过名帖看了看，又递回给你。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.振远.rules.lines.say
+#: data/imperial/npcs.json
+msgid "振远的帖子。陈天星押老夫的俸银押了二十年，一两没少过——他荐的人，老夫见。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.振远.rules.say
+#: data/imperial/npcs.json
+msgid "陈天星的人？老夫这里没有镖要押。……朝里有了事，再来。"
 msgstr ""
 
 #. native.npc.wei_zhizhong inquiry.庾子建
@@ -64411,6 +64742,310 @@ msgstr ""
 msgid "正月十七的事，定了。"
 msgstr ""
 
+#. native.npc.escort_runner name
+#: data/native/npcs.json
+msgid "老周"
+msgstr ""
+
+#. native.npc.escort_runner title
+#: data/native/npcs.json
+msgid "振远趟子手"
+msgstr ""
+
+#. native.npc.escort_runner long
+#: data/native/npcs.json
+msgid ""
+"一个黑红脸膛的趟子手，推着一辆独轮镖车。车上用麻绳捆着两只描金的红木箱，车头插一面三角小旗，红底黄边，绣一个「镖」字。他走一步，车轱辘吱呀一声。\n"
+msgstr ""
+
+#. native.npc.escort_runner chat_msg
+#: data/native/npcs.json
+msgid ""
+"老周蹲在镖车边上，拿袖子擦箱子上的描金。\n"
+msgstr ""
+
+#. native.npc.escort_runner chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"老周喊道：教你尝尝我的厉害！\n"
+msgstr ""
+
+#. native.npc.escort_runner chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"老周叫道：我们镖局可不是好惹的！\n"
+msgstr ""
+
+#. native.npc.escort_runner refuses_coach
+#: data/native/npcs.json
+msgid "车夫看了一眼{npc}推的镖车，直摆手：「振远的镖？小号的车拉不起，您另请高明。」"
+msgstr ""
+
+#. native.npc.escort_runner moods.going.chat_msg
+#: data/native/npcs.json
+msgid ""
+"老周推着镖车跟在你后头，车轱辘吱呀吱呀地响。\n"
+msgstr ""
+
+#. native.npc.escort_runner moods.going.chat_msg
+#: data/native/npcs.json
+msgid ""
+"老周扯开嗓子喊道：振远镖局——盛名远扬——\n"
+msgstr ""
+
+#. native.npc.escort_runner moods.waiting.chat_msg
+#: data/native/npcs.json
+msgid ""
+"老周坐在车把上，一只手按着刀，眼睛盯着路。\n"
+msgstr ""
+
+#. native.npc.escort_runner inquiry topic
+#: data/native/npcs.json
+msgid "上路"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.上路.rules.say
+#: data/native/npcs.json
+msgid "镖局的事，不劳外人。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.上路.rules.say
+#: data/native/npcs.json
+msgid "镖交了。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.上路.rules.lines.emote
+#: data/native/npcs.json
+msgid "往手心里啐了一口，握住车把。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.上路.rules.lines.say
+#: data/native/npcs.json
+msgid "走！车马行不拉镖车，咱们一步一步走到京师。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.上路.rules.say
+#: data/native/npcs.json
+msgid "镖局的车，镖头不发话不动。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry topic
+#: data/native/npcs.json
+msgid "等着"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.等着.rules.say
+#: data/native/npcs.json
+msgid "镖交了，还等什么？"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.等着.rules.lines.say
+#: data/native/npcs.json
+msgid "成，我在这儿看着车。办完了事回来，叫我一声「上路」。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.镖
+#: data/native/npcs.json
+msgid "两箱红货，京师振远总局收。箱子里是什么，我们不问——走镖的规矩。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.老松岭
+#: data/native/npcs.json
+msgid "二十年前那一趟？那会儿我还没进镖局。听老人说，死了十一个，镖头、镖师、趟子手，一个都没回来。打那以后，振远的车不走老松岭。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry topic
+#: data/native/npcs.json
+msgid "劫镖"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.劫镖.rules.say
+#: data/native/npcs.json
+msgid "交了官，天驼关的人押走了。……那后生使的是振远的刀，你看出来没有？"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.劫镖.rules.say
+#: data/native/npcs.json
+msgid "放了？……也好。那后生使的是振远的刀，春风快意刀。谁教的，我不问。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.劫镖.rules.say
+#: data/native/npcs.json
+msgid "碎石小路那一段荒，过了铁索才是天驼关的地界。要出事，就出在那一段。"
+msgstr ""
+
+#. native.npc.he_ping name
+#: data/native/npcs.json
+msgid "蒙面后生"
+msgstr ""
+
+#. native.npc.he_ping title
+#: data/native/npcs.json
+msgid "劫镖的"
+msgstr ""
+
+#. native.npc.he_ping long
+#: data/native/npcs.json
+msgid ""
+"一个二十出头的后生，半截黑布蒙着脸，露出来的一双眼睛熬得通红。手里一把旧腰刀，刀鞘上的漆掉了大半，护手上刻着一个「振」字。\n"
+msgstr ""
+
+#. native.npc.he_ping chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"蒙面后生咬着牙喝道：车留下！\n"
+msgstr ""
+
+#. native.npc.he_ping chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"蒙面后生的刀一撩一抹——是振远的春风快意刀。\n"
+msgstr ""
+
+#. native.npc.he_ping calls.steps.emote
+#: data/native/npcs.json
+msgid "从路边的乱石后面站起来，半截黑布蒙着脸，横刀拦在路当中。"
+msgstr ""
+
+#. native.npc.he_ping calls.steps.say
+#: data/native/npcs.json
+msgid "振远的镖？车留下，人走。"
+msgstr ""
+
+#. native.npc.he_ping calls.steps.emote
+#: data/native/npcs.json
+msgid "把镖车往路边一推，拔出了刀。"
+msgstr ""
+
+#. native.npc.he_ping calls.steps.say
+#: data/native/npcs.json
+msgid "哪条道上的朋友？振远的镖也敢劫？"
+msgstr ""
+
+#. native.npc.he_ping calls.steps.say
+#: data/native/npcs.json
+msgid "二十年前，振远的镖车停在老松岭底下，我爹没回来。今天我拿振远一车货，不算多。"
+msgstr ""
+
+#. native.npc.he_ping calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"乱石后面又跳出两个汉子，抄着刀扑了上来——冲的是你。\n"
+msgstr ""
+
+#. native.npc.he_ping moods.fighting.chat_msg
+#: data/native/npcs.json
+msgid ""
+"蒙面后生横刀挡在路当中，刀鞘上的漆掉了大半。\n"
+msgstr ""
+
+#. native.npc.he_ping moods.beaten.chat_msg
+#: data/native/npcs.json
+msgid ""
+"蒙面后生坐在路边的石头上，捂着肩膀，不看你。\n"
+msgstr ""
+
+#. native.npc.he_ping inquiry.爹.rules.lines.emote
+#: data/native/npcs.json
+msgid "把脸上的黑布扯了下来。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.爹.rules.lines.say
+#: data/native/npcs.json
+msgid "我叫贺平。我爹贺长庚，振远的趟子手。二十年前那趟镖走老松岭，他死在瀑布底下——振远说是劫匪干的。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.爹.rules.lines.say
+#: data/native/npcs.json
+msgid "他走之前托人捎回来一封信。信上写：兵部的人在岭上等着，镖头说照走。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.爹.rules.lines.say
+#: data/native/npcs.json
+msgid "照走。振远拿我爹的命换了兵部的一句话。我拿振远一车货，不算多。"
+msgstr ""
+
+#. native.npc.he_ping inquiry topic
+#: data/native/npcs.json
+msgid "交官府"
+msgstr ""
+
+#. native.npc.he_ping inquiry.交官府.confirm
+#: data/native/npcs.json
+msgid ""
+"把劫镖的后生交给官府。\n"
+"过了铁索就是天驼关，守关的官兵会押他去京师——劫镖是大罪。官府的赏金，振远会转给你。\n"
+"他爹那封信，你就看不到了。\n"
+"要这么做吗？"
+msgstr ""
+
+#. native.npc.he_ping inquiry.交官府.rules.lines.emote
+#: data/native/npcs.json
+msgid "没有挣。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.交官府.rules.lines.say
+#: data/native/npcs.json
+msgid "交吧。振远的人，官府的人，本来就是一伙的。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.交官府.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"老周拿麻绳把他捆了，押着下了铁索。天驼关的官兵接了人，记下了振远的名字。\n"
+msgstr ""
+
+#. native.npc.he_ping inquiry.走吧.confirm
+#: data/native/npcs.json
+msgid ""
+"放劫镖的后生走。\n"
+"他会留下他爹最后的一封家信——二十年前那趟镖，信里有一句话。\n"
+"劫镖的人从此不见官。要这么做吗？"
+msgstr ""
+
+#. native.npc.he_ping inquiry.走吧.rules.lines.emote
+#: data/native/npcs.json
+msgid "愣了半天，从怀里掏出一张折得发软的纸，塞到你手里。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.走吧.rules.lines.say
+#: data/native/npcs.json
+msgid "我爹的信。你替振远押镖——振远要是还有一个讲理的，拿给陈天星看。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.走吧.rules.lines.emote
+#: data/native/npcs.json
+msgid "捡起刀，头也不回地走了。"
+msgstr ""
+
+#. native.npc.he_ping inquiry.振远
+#: data/native/npcs.json
+msgid "振远？京师第一大镖局。二十年前死了十一个人，没一个人去问为什么。"
+msgstr ""
+
+#. native.npc.road_robber name
+#: data/native/npcs.json
+msgid "劫道的汉子"
+msgstr ""
+
+#. native.npc.road_robber long
+#: data/native/npcs.json
+msgid ""
+"一个敞着怀的汉子，腰里扎着草绳，刀已经出了鞘。看样子不是吃这碗饭的，是被人花钱叫来的。\n"
+msgstr ""
+
+#. native.npc.road_robber chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"劫道的汉子喝道：贺兄弟，车我们推走！\n"
+msgstr ""
+
+#. native.npc.road_robber chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"劫道的汉子的刀横着扫过来。\n"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -64705,6 +65340,7 @@ msgid ""
 msgstr ""
 
 #. native:choyin/luo_card no_drop
+#. native:city/zhenyuan_card no_drop
 #: data/native/items.json
 msgid "这张名帖不能随便丢。"
 msgstr ""
@@ -64827,6 +65463,33 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一张炭条画的图：黄石隘口的山壁，山壁下一个土坑，坑沿量了尺寸。旁边一行小字：「起匣处。山底下或另有一只，待查。」落款兵部职方司。\n"
+msgstr ""
+
+#. native:city/zhenyuan_card name
+#: data/native/items.json
+msgid "振远的名帖"
+msgstr ""
+
+#. native:city/zhenyuan_card long
+#: data/native/items.json
+msgid ""
+"一张大红的名帖，折成两折，正面一个斗大的「镖」字，底下一行：「振远镖局 陈天星 拜上」。背面是陈天星亲笔的一句：「持帖者，振远的朋友。」\n"
+msgstr ""
+
+#. native:city/he_letter name
+#: data/native/items.json
+msgid "贺长庚的家信"
+msgstr ""
+
+#. native:city/he_letter long
+#: data/native/items.json
+msgid ""
+"一张折得发软的信纸，字是托人写的，歪歪扭扭：「……镖走到老松岭口，兵部的人在岭上等着，镖头说照走。爹这趟回来，给平儿买一把好刀。」落款：乙丑年 贺长庚。\n"
+msgstr ""
+
+#. native:city/he_letter no_drop
+#: data/native/items.json
+msgid "这封家信不能随便丢。"
 msgstr ""
 
 #. native:waterfog/terrace_stair long

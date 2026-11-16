@@ -62,6 +62,8 @@ TEXT_KEYS = frozenset({
     # A trial's question before it, the deed it writes, its master's words when relenting or
     # when the player is out of breath (NpcTrial); a helper's line on leaving (fights_beside).
     "confirm", "deed", "relent_say", "rest_say", "fights_beside_leaves",
+    # The 车马行 driver's word when one following the player will not ride (振远's 镖车, DECISIONS「车马行不拉」).
+    "refuses_coach",
     # A skill's learn refusals (a family barred, no shield on the arm).
     "forbidden_refusal", "armor_refusal",
     # An NPC's own word for itself (rank_info/self, rankd.c query_self()): 小的.

@@ -109,6 +109,10 @@ var follows_every_way: bool = false
 var fights_beside_player: bool = false
 var fights_beside_leaves: String = ""
 var fights_beside_here: bool = false
+## Native (势力线第二批 振远 A; DECISIONS「车马行不拉」): `refuses_coach`, the line told (its {npc} the
+## NPC's name) when the player would take a 车马行 ride while it follows them every way and stands in
+## their room: the cart does not set off (振远's 镖车 goes by the road, its 趟子手 with it).
+var refuses_coach: String = ""
 
 
 ## One of init()'s call_outs (`calls`): when, and what it does.
@@ -329,6 +333,11 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.fights_beside_here = reader.boolean("fights_beside_here", false)
 	elif reader.has("fights_beside_leaves") or reader.has("fights_beside_here"):
 		reader.fail("fights_beside_leaves" if reader.has("fights_beside_leaves") else "fights_beside_here", "only one that fights beside the player says how it leaves or where it stands")
+	if reader.has("refuses_coach"):
+		found = true
+		hooks.refuses_coach = reader.required_text("refuses_coach")
+		if not hooks.follows_every_way:
+			reader.fail("refuses_coach", "only one that follows the player every way could ride along")
 	var spared: ContentRecordReader = reader.child("spared")
 	if spared != null:
 		found = true

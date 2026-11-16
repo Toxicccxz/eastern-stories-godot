@@ -131,7 +131,9 @@ func _test_votes() -> void:
 	# 步玄
 	state = _fresh(["终章", "庾子建下狱"])
 	_check(_heard(state, &"common.npc.scholar.master", "虹台", "京城的意思") and _holds(state, "assembly.buxuan.yan"), "步玄 without the 名帖 used: 颜违")
-	state = _fresh(["终章", "庾子建下狱", "相国府开了门"])
+	state = _fresh(["终章", "庾子建下狱", "相国府开了门", "振远的名帖敲开了相国府"])
+	_check(not _heard(state, &"common.npc.scholar.master", "虹台", "骆家欠你一份情"), "the 相国府 opened by 振远's card: 骆家 owes nothing")
+	state = _fresh(["终章", "庾子建下狱", "相国府开了门", "骆家的名帖敲开了相国府"])
 	_check(_heard(state, &"common.npc.scholar.master", "虹台", "骆家欠你一份情"), "庾子建下狱 and the 名帖 used: 骆云舟 owes one")
 	_heard(state, &"common.npc.scholar.master", "这一票", "步玄听你的")
 	_check(_holds(state, "assembly.buxuan.self"), "步玄听你的")

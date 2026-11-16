@@ -24,7 +24,7 @@ const HAIR_STYLES: Array[String] = ["topknot", "ponytail", "double_bun", "long",
 const HEADWEAR: Array[String] = ["none", "straw_hat", "cloth_cap", "headscarf", "crown", "official_cap", "helmet"]
 const BEARDS: Array[String] = ["none", "moustache", "chin_three", "full", "long"]
 const WAISTS: Array[String] = ["belt", "sash", "apron", "none"]
-const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back", "haw_pole", "hoe", "pick", "broom", "rod"]
+const PROPS: Array[String] = ["none", "sword_waist", "sword_back", "blade_back", "staff", "spear", "fan", "teapot", "basket_back", "umbrella", "gourd", "book", "lute", "hammer", "axe", "glaive", "whisk", "cleaver", "blade_waist", "blade_sword_waist", "bundle_back", "haw_pole", "hoe", "pick", "broom", "rod", "barrow"]
 ## The tool a gesture (NpcLifeBook.GESTURES, DECISIONS「街上的人会动」) puts in a hand that holds
 ## nothing by its look.
 const GESTURE_TOOLS: Dictionary[String, String] = {
@@ -32,7 +32,7 @@ const GESTURE_TOOLS: Dictionary[String, String] = {
 }
 ## What the look carries in its hand (the rest hang at the waist or ride on the back, leaving the
 ## hand free for a gesture's tool).
-const IN_HAND: Array[String] = ["staff", "spear", "fan", "teapot", "umbrella", "book", "hammer", "glaive", "whisk", "axe", "cleaver", "haw_pole", "hoe", "pick", "broom", "rod"]
+const IN_HAND: Array[String] = ["staff", "spear", "fan", "teapot", "umbrella", "book", "hammer", "glaive", "whisk", "axe", "cleaver", "haw_pole", "hoe", "pick", "broom", "rod", "barrow"]
 ## Seconds one round of a gesture takes.
 const GESTURE_SECONDS: Dictionary[String, float] = {
 	"hoe": 1.9, "pick": 1.7, "chop": 1.4, "hammer": 1.0, "sweep": 1.6, "fish": 5.0, "drill": 1.3,
@@ -514,6 +514,25 @@ func _draw_prop(prop: String) -> void:
 			# A butcher's broad knife (郑屠夫's 解牛刀) hanging from the hand, the wide blade forward.
 			_held(hand, grip + Vector3(0, -0.06, 0.04), Vector3(0.05, 0.14, 0.05), wood)
 			_held(hand, grip + Vector3(0, -0.22, 0.09), Vector3(0.03, 0.2, 0.18), _hex("prop_color", "c2c6c8"))
+		"barrow":
+			# A one-wheeled escort barrow (独轮镖车, 势力线第二批 振远 A) pushed before the body: the two
+			# shafts from the hands, the bed with two lacquered chests roped on, the wheel at the front
+			# and the company's pennant (镖旗) on a short pole over it.
+			var chest: String = _hex("prop_color", "8a2a1e")
+			var cloth: String = _hex("tassel_color", "c8382a")
+			for x: float in [-0.2, 0.2]:
+				_box(torso, Vector3(x, 0.56, 0.62), Vector3(0.05, 0.05, 0.66), wood)
+				_box(torso, Vector3(x, 0.24, 0.84), Vector3(0.05, 0.4, 0.05), Color(wood).darkened(0.2).to_html(false))
+			_box(torso, Vector3(0, 0.5, 1.06), Vector3(0.5, 0.06, 0.56), wood)
+			_box(torso, Vector3(0, 0.68, 0.94), Vector3(0.42, 0.3, 0.28), chest)
+			_box(torso, Vector3(0, 0.66, 1.22), Vector3(0.38, 0.26, 0.24), Color(chest).darkened(0.12).to_html(false))
+			_box(torso, Vector3(0, 0.84, 0.94), Vector3(0.44, 0.03, 0.3), _hex("metal", "c8a44a"))
+			_box(torso, Vector3(0, 0.8, 1.08), Vector3(0.03, 0.04, 0.56), "6a5a3a")
+			_box(torso, Vector3(0, 0.2, 1.36), Vector3(0.07, 0.4, 0.4), Color(wood).darkened(0.35).to_html(false))
+			_box(torso, Vector3(0, 0.2, 1.36), Vector3(0.1, 0.1, 0.1), _hex("metal", "8a7a5a"))
+			_box(torso, Vector3(0.18, 0.98, 1.3), Vector3(0.03, 0.9, 0.03), wood)
+			_box(torso, Vector3(0.18, 1.3, 1.46), Vector3(0.02, 0.24, 0.3), cloth)
+			_box(torso, Vector3(0.18, 1.18, 1.46), Vector3(0.025, 0.03, 0.31), _hex("accent", "e2c25c"))
 
 
 ## A pose (POSE_LEGS): the legs reach forward from the hips and the body sinks until the feet
