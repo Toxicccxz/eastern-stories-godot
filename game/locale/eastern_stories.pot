@@ -1776,13 +1776,14 @@ msgstr ""
 #. cloud.li_shishi region
 #. cloud.chess region
 #. cloud.wangyou_grass region
+#. ending cards.title
 #. zhenyuan place
 #. dongfang place
 #. faction.dongfang region
 #. faction.zhenyuan region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/factions.json data/story/faction_dongfang.json data/story/faction_zhenyuan.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/epilogue.json data/story/factions.json data/story/faction_dongfang.json data/story/faction_zhenyuan.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -4366,6 +4367,7 @@ msgstr ""
 #. assembly cards.title
 #. snow.npc.girl inquiry topic
 #. cloud.npc.b_header inquiry topic
+#. city.npc.chen inquiry topic
 #. native.npc.assembly_yan_wei inquiry topic
 #. native.npc.assembly_wei_canglan inquiry topic
 #. native.npc.assembly_liu_chunfeng inquiry topic
@@ -4380,7 +4382,7 @@ msgstr ""
 #. native.npc.assembly_juechenzi inquiry topic
 #. native.npc.yan_wei_chair inquiry topic
 #. native:waterfog/terrace short
-#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/native/npcs.json data/native/rooms.json
+#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json data/native/rooms.json
 msgid "虹台"
 msgstr ""
 
@@ -17088,7 +17090,9 @@ msgstr ""
 #. common.npc.dancer.master inquiry topic
 #. common.npc.scholar.master inquiry topic
 #. snow.npc.girl inquiry topic
-#: data/common/npcs.json data/snow/npcs.json
+#. cloud.npc.b_header inquiry topic
+#. city.npc.chen inquiry topic
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json
 msgid "这一票"
 msgstr ""
 
@@ -17108,8 +17112,10 @@ msgstr ""
 #. common.npc.bonze.master inquiry.改投.rules.say
 #. common.npc.scholar.master inquiry.这一票.rules.say
 #. snow.npc.girl inquiry.这一票.rules.say
+#. cloud.npc.b_header inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.改投.rules.say
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json
+#. city.npc.chen inquiry.这一票.rules.say
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json
 msgid "虹台上已经入了席。票就是票了。"
 msgstr ""
 
@@ -17142,12 +17148,15 @@ msgstr ""
 #. common.npc.bonze.master inquiry.改投.rules.say
 #. common.npc.scholar.master inquiry.这一票.rules.say
 #. snow.npc.girl inquiry.这一票.rules.say
+#. cloud.npc.b_header inquiry.到此为止.rules.say
+#. cloud.npc.b_header inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.改投.rules.say
+#. city.npc.chen inquiry.这一票.rules.say
 #. native.npc.yulan_zhao inquiry.庾尚书
 #. native.npc.he_ping inquiry.爹.rules.say
 #. native.npc.he_ping inquiry.交官府.rules.say
 #. native.npc.he_ping inquiry.走吧.rules.say
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/imperial/npcs.json data/native/npcs.json
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
 
@@ -23927,6 +23936,16 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
+msgid "振远的绮云分局照旧走镖。陈天星那本总账烧了，二十年前那笔抚恤银，振远没有人再提。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "振远的绮云分局关了门。陈剑秋天天坐在柜台后面，不接镖，也不走。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
 msgid "瀑布后的山洞里，那座无名的坟前多了一块碑，碑上没有字。"
 msgstr ""
 
@@ -24283,6 +24302,16 @@ msgstr ""
 
 #. assembly cards.lines.text
 #: data/story/epilogue.json
+msgid "虹台上，陈剑秋坐在振远的旗下，一句也没提那本烧掉的账。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，陈剑秋坐在振远的旗下，没有说话。他身后的绮云分局，门还关着。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
 msgid "饮风客栈的店小二逢人便说：新盟主在小店住过，就住楼上那间。"
 msgstr ""
 
@@ -24532,6 +24561,26 @@ msgstr ""
 msgid "陈剑秋说：查到底。正月十七，振远那一票投旧盟主。"
 msgstr ""
 
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "陈天星翻了振远二十年的总账：绮云分局开张的本钱，是兵部给的抚恤银。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "你劝住了陈天星：那本总账烧了，抚恤银的事，振远不再提。陈剑秋许你学春风快意刀。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "你跟陈天星查到底：振远的总账押去了乔阴县衙。绮云分局关了门，陈剑秋还坐在柜台后面。"
+msgstr ""
+
+#. zhenyuan lines.text
+#: data/story/factions.json
+msgid "正月十七，振远那一票听你的。"
+msgstr ""
+
 #. celestial lines.text
 #: data/story/factions.json
 msgid "你是天邪派的弟子。"
@@ -24760,6 +24809,11 @@ msgstr ""
 #. court lines.text
 #: data/story/factions.json
 msgid "逆灵宫的余孽，是你交给官府的。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "振远的总账是陈天星押进乔阴县衙的。程不平收下了，兵部的抚恤银记在了案上。"
 msgstr ""
 
 #. dongfang lines.text
@@ -25744,7 +25798,7 @@ msgstr ""
 
 #. faction.zhenyuan summary
 #: data/story/faction_zhenyuan.json
-msgid "替振远镖局押一趟镖到京师。"
+msgid "替振远镖局押一趟镖到京师；二十年前那趟镖的旧账，查到底还是到此为止。"
 msgstr ""
 
 #. faction.zhenyuan lapses.text
@@ -25835,12 +25889,47 @@ msgstr ""
 
 #. faction.zhenyuan/ledger objective
 #: data/story/faction_zhenyuan.json
-msgid "二十年前那趟镖，振远的总账里还有一笔没对上。陈天星还在翻。"
+msgid "二十年前那趟镖，振远的总账里还有一笔没对上。去京师东街北头的振远总局，问陈天星「旧账」。"
 msgstr ""
 
 #. faction.zhenyuan/ledger text
 #: data/story/faction_zhenyuan.json
-msgid "陈天星翻完了振远二十年的总账。"
+msgid "陈天星翻完了振远二十年的总账：绮云分局开张的本钱，是那趟镖之后兵部送来的「抚恤银」。"
+msgstr ""
+
+#. faction.zhenyuan/uncle objective
+#: data/story/faction_zhenyuan.json
+msgid "绮云分局开张的本钱是兵部的抚恤银，陈剑秋知道。回绮云镇的振远镖局，问陈剑秋「旧账」。"
+msgstr ""
+
+#. faction.zhenyuan/uncle text
+#: data/story/faction_zhenyuan.json
+msgid "陈剑秋认了：那年振远死了十一个人，兵部给钱，他拿了。"
+msgstr ""
+
+#. faction.zhenyuan/books objective
+#: data/story/faction_zhenyuan.json
+msgid "账本在陈天星手里，他要告；陈剑秋要瞒。到此为止（在绮云镇问陈剑秋「到此为止」）：账本烧了，抚恤银的事振远不再提，正月十七振远那一票投颜违；陈剑秋教你春风快意刀，陈天星往后见你只谈生意。查到底（在京师问陈天星「查到底」）：账本押去乔阴县衙，告兵部也告振远自己，陈剑秋关了绮云分局的门；振远那一票投旧盟主，京师的事还没定的，这本账算揭发的一样人证物证。"
+msgstr ""
+
+#. faction.zhenyuan/books/stop text
+#: data/story/faction_zhenyuan.json
+msgid "你站到了陈剑秋一边：那本总账烧了，二十年前的抚恤银，振远不再提。陈剑秋许你学春风快意刀。"
+msgstr ""
+
+#. faction.zhenyuan/books/stop reward.deed
+#: data/story/faction_zhenyuan.json
+msgid "劝陈剑秋把振远的旧账烧了：到此为止"
+msgstr ""
+
+#. faction.zhenyuan/books/dig text
+#: data/story/faction_zhenyuan.json
+msgid "你站到了陈天星一边：振远的总账押去了乔阴县衙。绮云分局关了门。"
+msgstr ""
+
+#. faction.zhenyuan/books/dig reward.deed
+#: data/story/faction_zhenyuan.json
+msgid "跟陈天星把振远的旧账送进了乔阴县衙：查到底"
 msgstr ""
 
 #. faction.assembly title
@@ -25932,6 +26021,11 @@ msgstr ""
 #. faction.assembly checklist.label
 #: data/story/faction_assembly.json
 msgid "振远镖局：投旧盟主——旧案查到底"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "振远镖局：听你的"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -27093,7 +27187,8 @@ msgstr ""
 #. temple.npc.trainer accept_fight.emote
 #. temple.npc.tfighter accept_fight.emote
 #. latemoon.npc.room.elon inquiry.为了斩鬼.rules.lines.emote
-#: data/snow/npcs.json data/cloud/npcs.json data/temple/npcs.json data/latemoon/npcs.json
+#. city.npc.chen inquiry.这一票.rules.lines.emote
+#: data/snow/npcs.json data/cloud/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json
 msgid "点了点头。"
 msgstr ""
 
@@ -32275,6 +32370,148 @@ msgid "陈镖头"
 msgstr ""
 
 #. cloud.npc.b_header inquiry topic
+#. city.npc.chen inquiry topic
+#: data/cloud/npcs.json data/city/npcs.json
+msgid "旧账"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.say
+#. cloud.npc.b_header inquiry.到此为止.rules.say
+#: data/cloud/npcs.json
+msgid "你已经不是振远的人了。振远的账，不劳外人。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.say
+#: data/cloud/npcs.json
+msgid "账烧了。振远照旧走镖。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.emote
+#. cloud.npc.b_header greeting.rules.steps.emote
+#: data/cloud/npcs.json
+msgid "坐在柜台后面，没有抬头。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "账在县衙了。该怎么样，就怎么样。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "天星要告，就让他去告。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你呢？到此为止，还是跟他查到底——你说一句。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.emote
+#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.emote
+#: data/cloud/npcs.json data/imperial/npcs.json
+msgid "听你说完，半晌没有出声。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "天星翻到了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "那年振远死了十一个人，我爹是头一个。兵部给钱，我拿了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "没有那笔钱，就没有今天的绮云分局，也没有你押的这一趟。十一家的孤儿寡母，是那笔钱养大的——贺长庚家那一份，我按月送到他娘手里，送了十年。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "天星要告。告兵部，就得先说振远拿过兵部的钱。振远的招牌，在江湖上就倒了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你说一句「到此为止」，我写信叫他把账烧了。你要是站他那边，去京师跟他说「查到底」。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.旧账.rules.say
+#. city.npc.chen inquiry.旧账.rules.say
+#: data/cloud/npcs.json data/city/npcs.json
+msgid "旧账？振远的账，清清楚楚。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry topic
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/cloud/npcs.json data/waterfog/world.json
+msgid "到此为止"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.confirm
+#: data/cloud/npcs.json
+msgid ""
+"到此为止：陈剑秋写信叫陈天星把那本总账烧了，抚恤银的事振远不再提。\n"
+"正月十七，振远那一票投颜违——旧案到此为止。陈剑秋教你春风快意刀；陈天星往后见你，只谈生意。\n"
+"说了就不能再站到陈天星那边。要这么说吗？"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.rules.say
+#: data/cloud/npcs.json
+msgid "说定了。账，天星烧了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.rules.say
+#: data/cloud/npcs.json
+msgid "你站了天星。……还来说这个做什么。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "长长地吐了一口气。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.rules.lines.say
+#: data/cloud/npcs.json
+msgid "多谢。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.rules.lines.say
+#: data/cloud/npcs.json
+msgid "我这就给天星写信。他脾气倔，可这一回，他会听我的。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.到此为止.rules.lines.say
+#: data/cloud/npcs.json
+msgid "振远欠你的，拿刀还。春风快意刀，你想学，随时来。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.这一票.confirm
+#: data/cloud/npcs.json
+msgid ""
+"请陈剑秋把振远这一票交给你：正月十七虹台上，振远听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.这一票.rules.say
+#. city.npc.chen inquiry.这一票.rules.say
+#: data/cloud/npcs.json data/city/npcs.json
+msgid "说过了。振远听你的。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.这一票.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "拍了拍柜台。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.这一票.rules.lines.say
+#: data/cloud/npcs.json
+msgid "好。振远这一票，你说了算。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry topic
 #: data/cloud/npcs.json
 msgid "走镖"
 msgstr ""
@@ -32291,6 +32528,11 @@ msgstr ""
 #. cloud.npc.b_header inquiry.走镖.rules.say
 #: data/cloud/npcs.json
 msgid "你已经不是振远的人了。镖局的事，不劳你。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.走镖.rules.say
+#: data/cloud/npcs.json
+msgid "分局不接镖了。"
 msgstr ""
 
 #. cloud.npc.b_header inquiry.走镖.rules.say
@@ -32458,6 +32700,38 @@ msgstr ""
 
 #. cloud.npc.b_header inquiry.虹台.rules.say
 #: data/cloud/npcs.json
+msgid "振远这一票，正月十七照你说的。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.lines.emote
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#. latemoon.npc.room.annihi inquiry.教主.rules.lines.emote
+#: data/cloud/npcs.json data/latemoon/npcs.json
+msgid "没有抬头。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.lines.say
+#: data/cloud/npcs.json
+msgid "振远这一票，天星做主——投旧盟主。旧案查到底，是他要的。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你要这一票，去京师问他。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.lines.say
+#: data/cloud/npcs.json
+msgid "账烧了。振远这一票投颜违——旧案到此为止。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.lines.say
+#: data/cloud/npcs.json
+msgid "这件事是你替振远压下的。你要这一票，开口就是。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.虹台.rules.say
+#: data/cloud/npcs.json
 msgid "振远这一票，投旧盟主。说定了——查到底。"
 msgstr ""
 
@@ -32500,6 +32774,16 @@ msgstr ""
 
 #. cloud.npc.b_header inquiry.改投.rules.say
 #: data/cloud/npcs.json
+msgid "账都烧了。说过到此为止，振远不改。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.改投.rules.say
+#: data/cloud/npcs.json
+msgid "账在县衙了。振远投旧盟主，不用再改。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.改投.rules.say
+#: data/cloud/npcs.json
 msgid "说过了。振远投旧盟主。"
 msgstr ""
 
@@ -32509,7 +32793,8 @@ msgid "从抽屉里摸出那张镖单的存根，往柜台上一拍。"
 msgstr ""
 
 #. cloud.npc.b_header inquiry.改投.rules.lines.say
-#: data/cloud/npcs.json
+#. city.npc.chen inquiry.查到底.rules.lines.say
+#: data/cloud/npcs.json data/city/npcs.json
 msgid "好。查到底。"
 msgstr ""
 
@@ -32526,6 +32811,21 @@ msgstr ""
 #. cloud.npc.b_header calls.steps.say
 #: data/cloud/npcs.json
 msgid "你肯跟车走一趟吗？问我「走镖」。"
+msgstr ""
+
+#. cloud.npc.b_header calls.steps.emote
+#: data/cloud/npcs.json
+msgid "坐在柜台后面，门板上了一半。"
+msgstr ""
+
+#. cloud.npc.b_header calls.steps.say
+#: data/cloud/npcs.json
+msgid "天星的人来过了，账押去了乔阴。"
+msgstr ""
+
+#. cloud.npc.b_header calls.steps.say
+#: data/cloud/npcs.json
+msgid "分局不接镖了。我在这儿坐着——振远的事，总得有个人在。"
 msgstr ""
 
 #. cloud.npc.b_header apprentice.refuse_say
@@ -34102,7 +34402,22 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "振远来了。那本账烧了——二十年前那趟镖，到此为止。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "振远来了。二十年前那趟镖，今天要一个说法。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远来了。天星把账送进了县衙——二十年前那趟镖，今天要一个说法。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远这一票，在你手里。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -34346,6 +34661,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "振远镖局——旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "振远镖局——投你。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -34740,7 +35060,8 @@ msgid ""
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
-#: data/waterfog/world.json
+#. city.npc.chen inquiry topic
+#: data/waterfog/world.json data/city/npcs.json
 msgid "查到底"
 msgstr ""
 
@@ -34759,11 +35080,6 @@ msgstr ""
 msgid ""
 "到此为止：老松岭的旧案不再提，水烟阁同朝廷走近。\n"
 "这一句是盟主在虹台上说的，写进武林的规矩，不能收回。要这么说吗？"
-msgstr ""
-
-#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
-#: data/waterfog/world.json
-msgid "到此为止"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.say
@@ -37268,12 +37584,6 @@ msgstr ""
 #. latemoon.npc.room.annihi inquiry topic
 #: data/latemoon/npcs.json
 msgid "等谁"
-msgstr ""
-
-#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
-#. latemoon.npc.room.annihi inquiry.教主.rules.lines.emote
-#: data/latemoon/npcs.json
-msgid "没有抬头。"
 msgstr ""
 
 #. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
@@ -44249,6 +44559,172 @@ msgstr ""
 msgid "陈总镖头"
 msgstr ""
 
+#. city.npc.chen inquiry.旧账.rules.say
+#. city.npc.chen inquiry.查到底.rules.say
+#: data/city/npcs.json
+msgid "你不是振远的人了。振远的账，不劳外人。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.say
+#: data/city/npcs.json
+msgid "旧账？剑秋说没有旧账，就没有旧账。生意上的事，好说。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.say
+#: data/city/npcs.json
+msgid "账押去乔阴县衙了，程知县收的。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.say
+#: data/city/npcs.json
+msgid "绮云分局开张的本钱，是兵部的抚恤银。剑秋知道。你去问他。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.say
+#: data/city/npcs.json
+msgid "贺长庚那封家信，你先给我看。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.emote
+#: data/city/npcs.json
+msgid "从案底抽出一本厚厚的总账，翻到折了角的那一页。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "老松岭那一笔查清了，我没歇手，又往前翻——翻的是总账，二十年的。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "乙丑年冬，那趟镖之后两个月，振远进了一笔银子：兵部送来的，账上写「抚恤」。一千二百两。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "第二年开春，绮云分局开张。本钱就是这一笔。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "兵部点名改的路，兵部给的抚恤。剑秋知道。你去问他。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "碎石小路上那个后生，天驼关的供词抄到了总局：他说振远把他爹卖给了兵部。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "我不信。翻了二十年的总账，想找一笔替振远说话的。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "乙丑年冬，那趟镖之后两个月，振远进了一笔银子：兵部送来的，账上写「抚恤」。一千二百两。第二年开春，绮云分局开张。本钱就是这一笔。"
+msgstr ""
+
+#. city.npc.chen inquiry.旧账.rules.lines.say
+#: data/city/npcs.json
+msgid "兵部替一家镖局的死人发抚恤？剑秋知道。你去问他。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.confirm
+#: data/city/npcs.json
+msgid ""
+"查到底：陈天星把振远的总账押去乔阴县衙，交程知县——告兵部，也告振远自己拿过兵部的钱。\n"
+"陈剑秋会关了绮云分局的门。正月十七，振远那一票投旧盟主；京师的事还没定的，这本账也算揭发的一样人证物证。\n"
+"说了就不能再站到陈剑秋那边。要这么说吗？"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.say
+#: data/city/npcs.json
+msgid "账已经上路了。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.say
+#: data/city/npcs.json
+msgid "剑秋说了到此为止。……生意上的事，好说。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.lines.emote
+#: data/city/npcs.json
+msgid "把总账合上，用一块蓝布包了。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.lines.say
+#: data/city/npcs.json
+msgid "底账我也一并翻了：那趟镖改走老松岭，是兵部来人点名要的。改路的是兵部，给钱的也是兵部——这是封口钱。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.lines.say
+#: data/city/npcs.json
+msgid "账本我叫人押去乔阴县衙，交程知县。振远告兵部，也告振远自己。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.lines.say
+#: data/city/npcs.json
+msgid "剑秋那里……他会恨我。由他。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.lines.say
+#: data/city/npcs.json
+msgid "改路的是兵部，给钱的也是兵部——这是封口钱。底账、总账，一起押去乔阴县衙，交程知县。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.lines.say
+#: data/city/npcs.json
+msgid "振远告兵部，也告振远自己。剑秋那里……他会恨我。由他。"
+msgstr ""
+
+#. city.npc.chen inquiry.查到底.rules.say
+#: data/city/npcs.json
+msgid "查什么？"
+msgstr ""
+
+#. city.npc.chen inquiry.虹台.rules.say
+#: data/city/npcs.json
+msgid "正月十七过去了。账还在县衙里。"
+msgstr ""
+
+#. city.npc.chen inquiry.虹台.rules.say
+#: data/city/npcs.json
+msgid "振远这一票，照你说的。"
+msgstr ""
+
+#. city.npc.chen inquiry.虹台.rules.lines.say
+#: data/city/npcs.json
+msgid "台上振远那一席，还是剑秋去坐。可振远这一票，我说了算：投旧盟主，旧案查到底。"
+msgstr ""
+
+#. city.npc.chen inquiry.虹台.rules.lines.say
+#: data/city/npcs.json
+msgid "账是你陪我送去的。你要这一票，开口。"
+msgstr ""
+
+#. city.npc.chen inquiry.虹台.rules.say
+#: data/city/npcs.json
+msgid "虹台的事，问剑秋。生意上的事，再来找我。"
+msgstr ""
+
+#. city.npc.chen inquiry.虹台.rules.say
+#: data/city/npcs.json
+msgid "虹台？振远在台上那一席，剑秋去坐。"
+msgstr ""
+
+#. city.npc.chen inquiry.这一票.confirm
+#: data/city/npcs.json
+msgid ""
+"请陈天星把振远这一票交给你：正月十七虹台上，振远听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. city.npc.chen inquiry.这一票.rules.lines.say
+#: data/city/npcs.json
+msgid "好。振远这一票，你说了算。剑秋那里，我去说。"
+msgstr ""
+
 #. city.npc.chen inquiry topic
 #: data/city/npcs.json
 msgid "镖车"
@@ -44407,6 +44883,26 @@ msgstr ""
 #. city.npc.chen calls.steps.say
 #: data/city/npcs.json
 msgid "振远的名帖。京师的门，你都敲开过了。帖子留着——振远的朋友，到哪儿都是朋友。"
+msgstr ""
+
+#. city.npc.chen calls.steps.emote
+#: data/city/npcs.json
+msgid "看见你进门，把手边那本总账往怀里一收，又放下了。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "剑秋的信到了。"
+msgstr ""
+
+#. city.npc.chen calls.steps.emote
+#: data/city/npcs.json
+msgid "把总账丢进了脚边的火盆。"
+msgstr ""
+
+#. city.npc.chen calls.steps.say
+#: data/city/npcs.json
+msgid "到此为止。……往后你来，只谈生意。"
 msgstr ""
 
 #. city.npc.chen accept_object.ask
@@ -58207,11 +58703,6 @@ msgstr ""
 #. native.npc.wei_zhizhong inquiry.奏本.rules.say
 #: data/imperial/npcs.json
 msgid "本子写好了。明日卯时，午门外候着，跟着老夫上朝。别说话。"
-msgstr ""
-
-#. native.npc.wei_zhizhong inquiry.奏本.rules.lines.emote
-#: data/imperial/npcs.json
-msgid "听你说完，半晌没有出声。"
 msgstr ""
 
 #. native.npc.wei_zhizhong inquiry.奏本.rules.lines.say

@@ -748,8 +748,9 @@ static func zhenyuan_taken(session: WorldSessionController) -> void:
 
 
 ## 振远 A: the 镖 in 京师 — the robber on the 碎石小路 beaten and handed to the 官府 (`free` false) or let go with
-## his father's letter (`free`); 振远's card in hand, 镖头 for 振远's own. The letter (free) is still the player's.
-static func zhenyuan_delivered(session: WorldSessionController, free: bool = false) -> void:
+## his father's letter (`free`); 振远's card in hand, 镖头 for 振远's own. The letter (free) is still the player's
+## unless `letter` is false (振远 B: it went to 陈天星).
+static func zhenyuan_delivered(session: WorldSessionController, free: bool = false, letter: bool = true) -> void:
 	zhenyuan_taken(session)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["faction.zhenyuan/road", "faction.zhenyuan/robber/%s" % ("free" if free else "hand"), "faction.zhenyuan/deliver"]:
@@ -764,5 +765,25 @@ static func zhenyuan_delivered(session: WorldSessionController, free: bool = fal
 	var held: Dictionary = session.player_held_item_ids()
 	if held.get(&"native:city/zhenyuan_card", false) == false:
 		map.give_new_item_to_player(&"native:city/zhenyuan_card")
-	if free and held.get(&"native:city/he_letter", false) == false:
+	if free and letter and held.get(&"native:city/he_letter", false) == false:
 		map.give_new_item_to_player(&"native:city/he_letter")
+
+
+## 振远 B (势力线第二批; DECISIONS「振远 B」): the 镖 delivered (`free`: the letter given to 陈天星, 镖路查清了),
+## 陈天星's 旧账 and 陈剑秋's answer heard, the split made — 到此为止 (`stop`) or 查到底 (the 镖路 known by it); the line done.
+static func zhenyuan_settled(session: WorldSessionController, stop: bool = true, free: bool = false) -> void:
+	zhenyuan_delivered(session, free, false)
+	var state: CharacterState = session.player_runtime().state
+	var keys: Array[String] = []
+	var marks: Array[String] = []
+	if free:
+		keys.append("faction.zhenyuan/letter")
+		marks.append_array(["家信给了陈天星", "镖路查清了"])
+	keys.append_array(["faction.zhenyuan/ledger", "faction.zhenyuan/uncle", "faction.zhenyuan/books/%s" % ("stop" if stop else "dig"), "faction.zhenyuan#done"])
+	marks.append_array(["陈天星说了旧账", "陈剑秋说了抚恤银", "振远旧账到此为止" if stop else "振远旧账查到底"])
+	if not stop:
+		marks.append("镖路查清了")
+	for key: String in keys:
+		_write(state, key)
+	for mark: String in marks:
+		state.marks[mark] = 1

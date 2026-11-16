@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "绮云镇",
 			"sources": [
-				"native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」: 交情线, 谁都能走; 计划 势力线第二批_计划.md §4 振远 A, §2, §9 第 6、9 条, §11 Q1 (谁都能走, 本局弟子另拿辈分) Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「势力线第二批」「振远 A」「车马行不拉」). u/cloud/npc/b_header.c (陈剑秋, 振远镖局第一代镖头: 十几年前创立了振远镖局), bfighter.c (趟子手, 第二代: 负责镖局的护镖任务), d/city/npc/chen.c (陈天星, 总镖头), d/city/biaoju.c (振远总局), d/canyon/road.c (碎石小路: 人烟稀少), doc/help/guild:19–21 (山寨、镖局、庄院: 加入後往往有一定的工作及报酬 — ES2 has no 押镖 at all). The line shows for one who saw the 镖单 (第二章) and for 振远's own; the 镖 to 京师 behind a 趟子手's barrow (no 车马行 takes it), the robbery on the 碎石小路 by the son of the 趟子手 who died under the 老松岭 falls twenty years ago (handed to the 官府 or let go with his father's last letter, which tells 陈天星 the route 兵部 named), 镖头 for 振远's own and 振远's card for everyone, good at the 相国府's gate while 第九章 runs, are the plan's (续写); the line stops at a stub step `ledger` that 振远 B fills."
+				"native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」: 交情线, 谁都能走; 计划 势力线第二批_计划.md §4 振远 A, §2, §9 第 6、9 条, §11 Q1 (谁都能走, 本局弟子另拿辈分) Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「势力线第二批」「振远 A」「车马行不拉」). u/cloud/npc/b_header.c (陈剑秋, 振远镖局第一代镖头: 十几年前创立了振远镖局), bfighter.c (趟子手, 第二代: 负责镖局的护镖任务), d/city/npc/chen.c (陈天星, 总镖头), d/city/biaoju.c (振远总局), d/canyon/road.c (碎石小路: 人烟稀少), doc/help/guild:19–21 (山寨、镖局、庄院: 加入後往往有一定的工作及报酬 — ES2 has no 押镖 at all). The line shows for one who saw the 镖单 (第二章) and for 振远's own; the 镖 to 京师 behind a 趟子手's barrow (no 车马行 takes it), the robbery on the 碎石小路 by the son of the 趟子手 who died under the 老松岭 falls twenty years ago (handed to the 官府 or let go with his father's last letter, which tells 陈天星 the route 兵部 named), 镖头 for 振远's own and 振远's card for everyone, good at the 相国府's gate while 第九章 runs, are the plan's (续写); the line stops at a stub step `ledger` that 振远 B fills.",
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行, §9 第 6 条, §11 Q6 Q8 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」). d/city/npc/chen.c (这可是我一手创建的啊), u/cloud/npc/b_header.c (陈剑秋在十几年前创立了振远镖局) — both say they built 振远: the 绮云 分局 was opened on the 兵部's 抚恤银 after the 老松岭 escort (续写). The stub `ledger` grown into 陈天星's 总账, 陈剑秋's answer and the split: 到此为止 (the book burnt, 振远 votes 颜违, 陈剑秋 teaches 春风快意刀) or 查到底 (the book to the 乔阴 县衙, the 分局 shut, 振远 votes the old 盟主, the book one of the 揭发's proofs)."
 			],
-			"summary": "替振远镖局押一趟镖到京师。",
+			"summary": "替振远镖局押一趟镖到京师；二十年前那趟镖的旧账，查到底还是到此为止。",
 			"starts": {
 				"any": [
 					{
@@ -158,11 +159,11 @@
 				},
 				{
 					"id": "ledger",
-					"objective": "二十年前那趟镖，振远的总账里还有一笔没对上。陈天星还在翻。",
+					"objective": "二十年前那趟镖，振远的总账里还有一笔没对上。去京师东街北头的振远总局，问陈天星「旧账」。",
 					"done": {
 						"mark": "陈天星说了旧账"
 					},
-					"text": "陈天星翻完了振远二十年的总账。",
+					"text": "陈天星翻完了振远二十年的总账：绮云分局开张的本钱，是那趟镖之后兵部送来的「抚恤银」。",
 					"target": {
 						"map": "city.biaoju_house",
 						"zone": "city.biaoju",
@@ -170,6 +171,55 @@
 							"city.npc.chen"
 						]
 					}
+				},
+				{
+					"id": "uncle",
+					"objective": "绮云分局开张的本钱是兵部的抚恤银，陈剑秋知道。回绮云镇的振远镖局，问陈剑秋「旧账」。",
+					"done": {
+						"mark": "陈剑秋说了抚恤银"
+					},
+					"text": "陈剑秋认了：那年振远死了十一个人，兵部给钱，他拿了。",
+					"target": {
+						"map": "cloud.biaoju_house",
+						"zone": "cloud.biaoju",
+						"npcs": [
+							"cloud.npc.b_header"
+						]
+					}
+				},
+				{
+					"id": "books",
+					"weight": "big",
+					"objective": "账本在陈天星手里，他要告；陈剑秋要瞒。到此为止（在绮云镇问陈剑秋「到此为止」）：账本烧了，抚恤银的事振远不再提，正月十七振远那一票投颜违；陈剑秋教你春风快意刀，陈天星往后见你只谈生意。查到底（在京师问陈天星「查到底」）：账本押去乔阴县衙，告兵部也告振远自己，陈剑秋关了绮云分局的门；振远那一票投旧盟主，京师的事还没定的，这本账算揭发的一样人证物证。",
+					"target": {
+						"map": "cloud.biaoju_house",
+						"zone": "cloud.biaoju",
+						"npcs": [
+							"cloud.npc.b_header"
+						]
+					},
+					"options": [
+						{
+							"id": "stop",
+							"done": {
+								"mark": "振远旧账到此为止"
+							},
+							"text": "你站到了陈剑秋一边：那本总账烧了，二十年前的抚恤银，振远不再提。陈剑秋许你学春风快意刀。",
+							"reward": {
+								"deed": "劝陈剑秋把振远的旧账烧了：到此为止"
+							}
+						},
+						{
+							"id": "dig",
+							"done": {
+								"mark": "振远旧账查到底"
+							},
+							"text": "你站到了陈天星一边：振远的总账押去了乔阴县衙。绮云分局关了门。",
+							"reward": {
+								"deed": "跟陈天星把振远的旧账送进了乔阴县衙：查到底"
+							}
+						}
+					]
 				}
 			]
 		}
