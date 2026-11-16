@@ -441,7 +441,8 @@
 			"layer": "secret",
 			"place": "绮云镇",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/god.c, d/latemoon/room/npc/annihi.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/god.c, d/latemoon/room/npc/annihi.c",
+				"native: 势力线第一批 东方神教 A (计划 build/plans/势力线第一批_计划.md §5 东方神教 A, §0「朱鸿雪给过你一块黑木令」; DECISIONS「东方神教 A」) — the order taken, what was told of the 西厢, the 黑木令, the line ended in a 教主's blood"
 			],
 			"lines": [
 				{
@@ -466,6 +467,36 @@
 					"text": "你放过了神教的那个杀手。",
 					"when": {
 						"mark": "放过了神教杀手"
+					}
+				},
+				{
+					"text": "你接了朱鸿雪的令。",
+					"when": {
+						"mark": "接了朱鸿雪的令"
+					}
+				},
+				{
+					"text": "你把西厢的话照实告诉了朱鸿雪：安妮儿等的人，不是神教的人。",
+					"when": {
+						"mark": "如实回报了"
+					}
+				},
+				{
+					"text": "你替安妮儿瞒下了西厢的话。她欠你一回。",
+					"when": {
+						"mark": "替安妮儿瞒了"
+					}
+				},
+				{
+					"text": "朱鸿雪给过你一块黑木令。神教的杀手认得它。",
+					"when": {
+						"mark": "持黑木令"
+					}
+				},
+				{
+					"text": "你手上沾了神教教主的血。朱鸿雪的令，到此为止。",
+					"when": {
+						"mark": "神教的线断了"
 					}
 				}
 			]

@@ -1757,9 +1757,10 @@ msgstr ""
 #. cloud.wangyou_grass region
 #. zhenyuan place
 #. dongfang place
+#. faction.dongfang region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/factions.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/atlas.json data/common/journal.json data/story/factions.json data/story/faction_dongfang.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -4138,6 +4139,10 @@ msgstr ""
 
 #: scenes/world/village/village_main.tscn
 msgid "湖畔 · 等到天黑"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "芦苇丛 · 拨开芦苇"
 msgstr ""
 
 #: scenes/world/village/village_main.tscn
@@ -16234,9 +16239,10 @@ msgstr ""
 
 #. family.dongfang name
 #. dongfang name
+#. faction.dongfang title
 #. cloud.npc.god family.name
 #. latemoon.npc.room.annihi family.name
-#: data/common/families.json data/story/factions.json data/cloud/npcs.json data/latemoon/npcs.json
+#: data/common/families.json data/story/factions.json data/story/faction_dongfang.json data/cloud/npcs.json data/latemoon/npcs.json
 msgid "东方神教"
 msgstr ""
 
@@ -16804,8 +16810,10 @@ msgid "什么信？"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.水烟阁.rules.lines.emote
+#. cloud.npc.god inquiry.照实说.rules.lines.emote
+#. cloud.npc.god inquiry.替她瞒.rules.lines.emote
 #. native.npc.shang_jue calls.steps.emote
-#: data/common/npcs.json data/niling/npcs.json
+#: data/common/npcs.json data/cloud/npcs.json data/niling/npcs.json
 msgid "看了你一眼。"
 msgstr ""
 
@@ -18422,6 +18430,16 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
 #: data/common/npcs.json
+msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。我要一个进得去的人，戴着他们的冠替我看、替我听。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
+msgid "可你身上有东方神教的令。一个人只藏得住一重身份——这件事，我不能托你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.逆灵宫.rules.lines.say
+#: data/common/npcs.json
 msgid "野羊山北麓那座黑砖道观，茅山盯了它两年。他们拜的不是神，是劫；收的不是香火，是人。"
 msgstr ""
 
@@ -18465,9 +18483,20 @@ msgstr ""
 msgid "你已经答应过了。冠戴好。"
 msgstr ""
 
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.emote
+#: data/common/npcs.json
+msgid "金色的那只眼睛看了你很久。"
+msgstr ""
+
 #. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#: data/common/npcs.json
+msgid "你身上有东方神教的令。茅山不用替两家办事的眼线——不是信不过你，是信不过那块令。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.眼线.rules.lines.say
+#. cloud.npc.god inquiry.接令.rules.lines.say
 #. village.seal_altar.keep act.acts.steps.say
-#: data/common/npcs.json data/village/world.json
+#: data/common/npcs.json data/cloud/npcs.json data/village/world.json
 msgid "好。"
 msgstr ""
 
@@ -23600,6 +23629,32 @@ msgstr ""
 msgid "你放过了神教的那个杀手。"
 msgstr ""
 
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你接了朱鸿雪的令。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你把西厢的话照实告诉了朱鸿雪：安妮儿等的人，不是神教的人。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "你替安妮儿瞒下了西厢的话。她欠你一回。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "朱鸿雪给过你一块黑木令。神教的杀手认得它。"
+msgstr ""
+
+#. dongfang lines.text
+#. faction.dongfang lapses.text
+#: data/story/factions.json data/story/faction_dongfang.json
+msgid "你手上沾了神教教主的血。朱鸿雪的令，到此为止。"
+msgstr ""
+
 #. niling lines.text
 #: data/story/factions.json
 msgid "你进过那座黑砖道观。"
@@ -24294,6 +24349,71 @@ msgstr ""
 msgid "逆灵宫的余孽有了去处。"
 msgstr ""
 
+#. faction.dongfang summary
+#: data/story/faction_dongfang.json
+msgid "接了朱鸿雪的令，替东方神教办事。"
+msgstr ""
+
+#. faction.dongfang/west objective
+#: data/story/faction_dongfang.json
+msgid "晚月庄的西厢住着一个人，住了三年——东方神教的一代教主安妮儿。朱鸿雪要知道她在等谁：去晚月庄西厢问安妮儿「等谁」。"
+msgstr ""
+
+#. faction.dongfang/west text
+#: data/story/faction_dongfang.json
+msgid "安妮儿说了她在等什么。末了一句：「你可以照实说。」"
+msgstr ""
+
+#. faction.dongfang/report objective
+#: data/story/faction_dongfang.json
+msgid "回绮云镇棺材铺后的场院，把西厢的话告诉朱鸿雪。照实说（「照实说」）：安妮儿等的人不是神教的人，那件衣她不打算交给神教——朱鸿雪会记住这句话。或者替她瞒（「替她瞒」）：只说她在等一个故人——安妮儿欠你一回，朱鸿雪信你这一回。"
+msgstr ""
+
+#. faction.dongfang/report/truth text
+#: data/story/faction_dongfang.json
+msgid "你把安妮儿的话照实告诉了朱鸿雪：她等的人不是神教的人。"
+msgstr ""
+
+#. faction.dongfang/report/truth reward.deed
+#: data/story/faction_dongfang.json
+msgid "把西厢的话照实告诉了朱鸿雪"
+msgstr ""
+
+#. faction.dongfang/report/cover text
+#: data/story/faction_dongfang.json
+msgid "你替安妮儿瞒了下来，只说她在等一个故人。朱鸿雪信了你这一回。"
+msgstr ""
+
+#. faction.dongfang/report/cover reward.deed
+#: data/story/faction_dongfang.json
+msgid "替安妮儿瞒下了西厢的话"
+msgstr ""
+
+#. faction.dongfang/token objective
+#: data/story/faction_dongfang.json
+msgid "神教的令不发新的，只从上一个持令人手里接。朱鸿雪派去玉螺湖的人上个月没回来，令在他身上：入夜之后去玉螺湖畔的芦苇丛找他（湖边夜里有鬼卒），拿回那块黑木令，再问朱鸿雪「令牌」。"
+msgstr ""
+
+#. faction.dongfang/token text
+#: data/story/faction_dongfang.json
+msgid "朱鸿雪把黑木令放回你手里：「现在它是你的。」带着它，神教的杀手认你是自己人。"
+msgstr ""
+
+#. faction.dongfang/token reward.deed
+#: data/story/faction_dongfang.json
+msgid "从玉螺湖畔的芦苇丛里接回了一块黑木令"
+msgstr ""
+
+#. faction.dongfang/names objective
+#: data/story/faction_dongfang.json
+msgid "黑木令在你身上了。朱鸿雪还会把差事交给持令的人——下一回，是三个名字。"
+msgstr ""
+
+#. faction.dongfang/names text
+#: data/story/faction_dongfang.json
+msgid "朱鸿雪说了三个名字。"
+msgstr ""
+
 #. es2:d/oldpine/obj/long_sword long
 #: data/oldpine/items.json
 msgid ""
@@ -24338,6 +24458,7 @@ msgstr ""
 #. native:latemoon/body_maid unit
 #. native:latemoon/body_zhaorong unit
 #. native:village/body_fisher unit
+#. native:village/reed_corpse unit
 #: data/oldpine/items.json data/niling/items.json data/native/items.json
 msgid "具"
 msgstr ""
@@ -29486,6 +29607,295 @@ msgstr ""
 msgid "生命可贵！不要自寻死路！"
 msgstr ""
 
+#. cloud.npc.god inquiry topic
+#. latemoon.npc.room.old inquiry topic
+#: data/cloud/npcs.json data/latemoon/npcs.json
+msgid "令牌"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "看着你，脸上的笑一点也没有了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#. cloud.npc.god inquiry.接令.rules.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。令，不会再给你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "令在你身上，就是你的。神教的人认它，不认脸。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "有差事，我会叫你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "接过黑木令，拿拇指抹掉火焰图腾上的泥，看了很久。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "他没回来，令回来了。神教的规矩就是这样。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "把令牌放回你手里。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "现在它是你的。带着它，神教的人见了你，就当见了自己人。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "令呢？"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "湖边捡回来的东西，丢在半路上，等于没捡。拿回来再说。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.say
+#: data/cloud/npcs.json
+msgid "令只从上一个持令人手里接。你要的那一块，还在别人身上。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "看见你腰间那块黑木令，脸上的笑一点没变。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "火焰的图腾。这块令，是神教的。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "神教的令不发新的，一块令只从上一个持令人手里接过来——你这块是从谁手里来的，我不问。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "想替神教办事，问我「接令」。想好了再问：神教的事，接了就放不下。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "看了看你腰间的令牌，又看了看你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你身上有逆灵宫那座道观的香灰味。神教的令，不交给替两家办事的人。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.say
+#: data/cloud/npcs.json
+msgid "令牌？你身上没有我要看的东西。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "奇怪的眼神盯着你，说："
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#: data/cloud/npcs.json
+msgid "就凭你这种小角色也想? 还不快滚!"
+msgstr ""
+
+#. cloud.npc.god inquiry topic
+#: data/cloud/npcs.json
+msgid "接令"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.confirm
+#: data/cloud/npcs.json
+msgid ""
+"接下朱鸿雪的令，替东方神教办事。\n"
+"一个人只藏得住一重身份：接了这块令，逆灵宫那边的门就不再为你开。\n"
+"接吗？"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "慢慢摇了摇头。"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你已经戴过逆灵宫的冠了。神教的令，不交给替两家办事的人。"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。令，不会给你。"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.say
+#: data/cloud/npcs.json
+msgid "令你已经接了。我交代的事，去办。"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "第一桩不杀人。晚月庄的西厢住着一个人，住了三年——神教的一代教主。"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "去看看她在等谁。回来告诉我。"
+msgstr ""
+
+#. cloud.npc.god inquiry.接令.rules.say
+#: data/cloud/npcs.json
+msgid "接什么令？"
+msgstr ""
+
+#. cloud.npc.god inquiry topic
+#: data/cloud/npcs.json
+msgid "照实说"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.confirm
+#: data/cloud/npcs.json
+msgid ""
+"照实告诉朱鸿雪：安妮儿等的人不是神教的人，那件衣她不打算交给神教。\n"
+"朱鸿雪会记住这句话。\n"
+"照实说吗？"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.say
+#. cloud.npc.god inquiry.替她瞒.rules.say
+#: data/cloud/npcs.json
+msgid "西厢的事，已经与你无关了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.say
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#. cloud.npc.god inquiry.替她瞒.rules.say
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "西厢的话，你说过了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "上个月我派了一个人去玉螺湖，他没回来。令在他身上。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "入了夜，去湖畔的芦苇丛找他。湖边夜里不太平——把令带回来，再问我「令牌」。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#: data/cloud/npcs.json
+msgid "西厢的话，你上回已经说过了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "听你说完，把手里的茶盏放下了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#: data/cloud/npcs.json
+msgid "不交给神教。……她总是这样。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你没替她遮掩。神教的人，要的就是这个。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.lines.say
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "神教的令不发新的。一块令，只从上一个持令人手里接过来。"
+msgstr ""
+
+#. cloud.npc.god inquiry.照实说.rules.say
+#: data/cloud/npcs.json
+msgid "照实说什么？"
+msgstr ""
+
+#. cloud.npc.god inquiry topic
+#: data/cloud/npcs.json
+msgid "替她瞒"
+msgstr ""
+
+#. cloud.npc.god inquiry.替她瞒.confirm
+#: data/cloud/npcs.json
+msgid ""
+"替安妮儿瞒下来，只说她在西厢等一个故人。\n"
+"安妮儿欠你一回；朱鸿雪信你这一回。\n"
+"瞒下来吗？"
+msgstr ""
+
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "西厢的话，你上回已经照实说过了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.替她瞒.rules.lines.emote
+#. latemoon.npc.room.elon inquiry.宝衣.rules.lines.emote
+#: data/cloud/npcs.json data/latemoon/npcs.json
+msgid "看了你一会儿。"
+msgstr ""
+
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "等一个故人。……好。"
+msgstr ""
+
+#. cloud.npc.god inquiry.替她瞒.rules.lines.say
+#: data/cloud/npcs.json
+msgid "我信你这一回。"
+msgstr ""
+
+#. cloud.npc.god inquiry.替她瞒.rules.say
+#: data/cloud/npcs.json
+msgid "替谁瞒？"
+msgstr ""
+
+#. cloud.npc.god calls.steps.emote
+#: data/cloud/npcs.json
+msgid "看见你进来，放下茶盏，笑眯眯地招了招手。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.say
+#: data/cloud/npcs.json
+msgid "那件衣，你给了西厢。她说你配得上——她很少这么说。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.say
+#: data/cloud/npcs.json
+msgid "神教缺人。你要是有意，问我「接令」。神教的事，接了就放不下，想好了再问。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.say
+#: data/cloud/npcs.json
+msgid "西厢那位，记下了一个名字。她记下的人，我也要看一看。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.say
+#: data/cloud/npcs.json
+msgid "宝衣从她门前过去了，你没给她。她不恨你——她只是记下了。"
+msgstr ""
+
 #. cloud.npc.tailor long
 #: data/cloud/npcs.json
 msgid ""
@@ -33102,11 +33512,6 @@ msgid ""
 "只是要以令牌为证，唉 ..."
 msgstr ""
 
-#. latemoon.npc.room.old inquiry topic
-#: data/latemoon/npcs.json
-msgid "令牌"
-msgstr ""
-
 #. latemoon.npc.room.old inquiry.令牌
 #: data/latemoon/npcs.json
 msgid "就在我儿身上 ...你拿到了就给我。"
@@ -33264,11 +33669,6 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.宝衣.rules.say
 #: data/latemoon/npcs.json
 msgid "你接住了。再问你一句：你拿它去做什么？——斩鬼，交给别人，还是你自己也不知道。想好了告诉我。"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.宝衣.rules.lines.emote
-#: data/latemoon/npcs.json
-msgid "看了你一会儿。"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.宝衣.rules.lines.say
@@ -33562,6 +33962,91 @@ msgstr ""
 #. latemoon.npc.room.annihi inquiry.宝衣.rules.say
 #: data/latemoon/npcs.json
 msgid "我在西厢住了三年，等一件东西，也等一个配得上它的人。你是哪一个？"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry topic
+#: data/latemoon/npcs.json
+msgid "等谁"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "膝上空着。她看了你一会儿。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "朱鸿雪派你来的。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "衣烧了，在湖底。我等的东西，用过了；我等的人，也等到了——是你把它带下去的。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "我不用再等了。神教还想要什么，让她自己来西厢问我。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "回去告诉朱鸿雪吧。你可以照实说。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "手搭在膝上那件月白的衣上，没有抬头。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "衣在我这里。可它不是神教的——它守的是湖底的东西，不是谁家的香火。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "我等的是那一天：湖底那东西醒的那一天，衣该在一个配得上它的人身上。也许是你，也许是别人。不会是朱鸿雪。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "看了你一眼，像在数你的名字有几个字。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "衣出了庄，跟着你走了。我等的东西从我门前过去了，没进我的门。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "我还在等——等你哪一天明白那件衣是做什么用的。到那时，它不该在神教手里。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "抬眼看了你一会儿。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "衣回了瑷伦身上。守衣人守着它，我也就不急了。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "我在等湖上出事的那一天。那一天，衣该在一个配得上它的人身上——瑷伦，你，都行。只是不该在神教手里。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "我在等一件衣，也在等一个人。衣在这庄子的冰匣里；人……我还没见到。"
+msgstr ""
+
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "等到了，我把衣交给那个人——交给那个人，不是交给神教。"
 msgstr ""
 
 #. latemoon.npc.room.annihi accept_object.say
@@ -39471,6 +39956,70 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "湖畔、村口、稻田边，三处都有。守住村子。\n"
+msgstr ""
+
+#. village.lakeside.reeds name
+#: data/village/world.json
+msgid "芦苇丛"
+msgstr ""
+
+#. village.lakeside.reeds act.verb
+#: data/village/world.json
+msgid "拨开芦苇"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你拨开半人高的芦苇。一个穿黑衣的人脸朝下伏在泥里，背上三个孔，是钢叉。他早就没了气。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"他的右手压在身子底下，攥得很紧。你把他翻过来，一根一根掰开他的手指——\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"一块黑木作的令牌，上面刻著火焰的图腾。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"那个人还伏在芦苇丛里。令已经在你身上了，他攥紧的手松开了。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"白天的芦苇丛，风一过，整片伏下去又立起来，泥上一道拖过的印子，通到水边就没了。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"朱鸿雪说的是夜里。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"芦苇长得比人还高，风一过，沙沙地响。渔夫们说这一片入了夜就别来，问他们为什么，谁也说不上来。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"芦苇折了一大片，泥里有钢叉拖过的印子，一直通到水里。东边村子烧掉的那一半，烟味还没有散尽。\n"
+msgstr ""
+
+#. village.lakeside.reeds act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"湖面静了。芦苇丛里的印子早被新苗盖住，渔夫又敢在这一片下网了。\n"
 msgstr ""
 
 #. village.lake.paddle name
@@ -46271,6 +46820,16 @@ msgstr ""
 #. native.npc.huo_zheng inquiry.眼线.rules.say
 #: data/niling/npcs.json
 msgid "名单老子送到灵心观了。下一车纳供，野羊寨的弟兄在转角等着。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.lines.say
+#: data/niling/npcs.json
+msgid "你接了东方神教的令？"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.眼线.rules.lines.say
+#: data/niling/npcs.json
+msgid "那这件事老子不能托你。林真人说了，进那座道观的人，身上只能有一家的东西。"
 msgstr ""
 
 #. native.npc.huo_zheng inquiry.眼线.rules.say
@@ -60311,6 +60870,17 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一辆翻倒在路边的双轮板车，车辕断了，油布扯成了一条一条。箱子全被撬开了，里面是空的。车板上烙着一个「羊」字，车辕上钉着一道黄符——茅山的符。\n"
+msgstr ""
+
+#. native:village/reed_corpse name
+#: data/native/items.json
+msgid "芦苇丛里的尸首"
+msgstr ""
+
+#. native:village/reed_corpse long
+#: data/native/items.json
+msgid ""
+"一个穿黑衣的人脸朝下伏在芦苇丛里，泥水没过了半边脸。背上三个孔，是钢叉。右手攥成拳，压在身子底下。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

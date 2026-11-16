@@ -626,3 +626,35 @@ static func niling_scripture(session: WorldSessionController, door: String, take
 	_write(state, "faction.niling/scripture/%s" % ("book" if lives else "none"))
 	for mark: String in (["玄冥子托你取天书", "天书给了玄冥子", "玄冥子要取代商玦", "后山的事了了"] if lives else ["后山的事了了"]):
 		state.marks[mark] = 1
+
+
+## 东方神教 A (势力线第一批; DECISIONS「东方神教 A」): 朱鸿雪's order taken (令牌 asked, 接令 said yes to); the 西厢
+## is next. Whatever came before (a 杀手令牌 carried, 第四章) is the caller's.
+static func dongfang_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.dongfang#started")
+	for mark: String in ["朱鸿雪说了令牌", "接了朱鸿雪的令"]:
+		state.marks[mark] = 1
+
+
+## 东方神教 A: 安妮儿 asked what she waits for, and told to 朱鸿雪 as it is (`truth`) or kept for her; the 黑木令 next.
+static func dongfang_reported(session: WorldSessionController, truth: bool = true) -> void:
+	dongfang_joined(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.dongfang/west", "faction.dongfang/report/%s" % ("truth" if truth else "cover")]:
+		_write(state, key)
+	for mark: String in ["安妮儿说了等谁", "如实回报了" if truth else "替安妮儿瞒了"]:
+		state.marks[mark] = 1
+
+
+## 东方神教 A done: the dead man's 黑木令 from the reeds, shown 朱鸿雪 and carried (持黑木令); the line at its stub
+## `names` (东方神教 B: 三个名字).
+static func dongfang_held(session: WorldSessionController, truth: bool = true) -> void:
+	dongfang_reported(session, truth)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.dongfang/token")
+	for mark: String in ["芦苇丛的鬼卒退了", "取了黑木令", "持黑木令"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/room/npc/obj/token", false) == false:
+		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/token")

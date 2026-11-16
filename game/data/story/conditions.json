@@ -247,6 +247,27 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "dongfang.token_holds",
+			"sources": [
+				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A 第 2 条, §2 第 7 条, §9 第 11 条, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」) — the 黑木令 (ES2's 杀手令牌, d/latemoon/room/npc/obj/token.c) carried by one 朱鸿雪 gave it to (持黑木令) and whose line did not end in a 教主's blood: the cult's killers take them for one of their own."
+			],
+			"when": {
+				"all": [
+					{
+						"mark": "持黑木令"
+					},
+					{
+						"item": "es2:d/latemoon/room/npc/obj/token"
+					},
+					{
+						"not": {
+							"mark": "神教的线断了"
+						}
+					}
+				]
+			}
 		}
 	]
 }

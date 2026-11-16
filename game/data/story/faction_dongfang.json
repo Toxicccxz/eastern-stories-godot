@@ -1,0 +1,108 @@
+{
+	"quests": [
+		{
+			"id": "faction.dongfang",
+			"title": "东方神教",
+			"line": "faction",
+			"region": "绮云镇",
+			"sources": [
+				"native: 势力线第一批 东方神教 A (剧情总纲 §4「东方神教」: 暗线, 不拜师, 令牌; 计划 build/plans/势力线第一批_计划.md §5 东方神教 A, §2 第 7 条 (令牌等级不加新状态: 黑木是 ES2 的杀手令牌), §8「宝衣三归」(西厢的话读它), §11 Q1 (东方神教和逆灵宫卧底互斥, 入口先问), owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 A」). u/cloud/npc/god.c (朱鸿雪, 东方神教 第二代教主, 慈眉善目……竟是杀手组织中人; combat_exp <= 1000: 就凭你这种小角色也想? 还不快滚!); d/latemoon/room/npc/annihi.c (安妮儿, 东方神教 第一代教主, in the 西厢); d/latemoon/room/npc/obj/token.c (杀手令牌: 一个黑木作的杀手令牌，上面刻著火焰的图腾标志). Nobody kneels to 东方神教: the line begins when one who carries a 杀手令牌 asks 朱鸿雪「令牌」, or, after 第四章, one 安妮儿 remembered (or who gave her the 宝衣) is spoken to first, and says yes to「接令」, asked first. 西厢的客人 (the first small choice: what 安妮儿 waits for, told 朱鸿雪 as it is or kept for her) and 接令 (the dead man's 黑木令 from the reeds of the 玉螺湖畔 by night, two 鬼卒 beside him) are the plan's (续写); the line stops at a stub step `names` that 东方神教 B fills."
+			],
+			"summary": "接了朱鸿雪的令，替东方神教办事。",
+			"starts": {
+				"mark": "接了朱鸿雪的令"
+			},
+			"excludes": [
+				"faction.niling"
+			],
+			"lapses": {
+				"when": {
+					"mark": "杀了神教的教主"
+				},
+				"text": "你手上沾了神教教主的血。朱鸿雪的令，到此为止。",
+				"mark": "神教的线断了"
+			},
+			"steps": [
+				{
+					"id": "west",
+					"objective": "晚月庄的西厢住着一个人，住了三年——东方神教的一代教主安妮儿。朱鸿雪要知道她在等谁：去晚月庄西厢问安妮儿「等谁」。",
+					"done": {
+						"mark": "安妮儿说了等谁"
+					},
+					"text": "安妮儿说了她在等什么。末了一句：「你可以照实说。」",
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.westroom",
+						"npcs": [
+							"latemoon.npc.room.annihi"
+						]
+					}
+				},
+				{
+					"id": "report",
+					"weight": "small",
+					"objective": "回绮云镇棺材铺后的场院，把西厢的话告诉朱鸿雪。照实说（「照实说」）：安妮儿等的人不是神教的人，那件衣她不打算交给神教——朱鸿雪会记住这句话。或者替她瞒（「替她瞒」）：只说她在等一个故人——安妮儿欠你一回，朱鸿雪信你这一回。",
+					"target": {
+						"map": "cloud.yard_house",
+						"zone": "cloud.god2",
+						"npcs": [
+							"cloud.npc.god"
+						]
+					},
+					"options": [
+						{
+							"id": "truth",
+							"done": {
+								"mark": "如实回报了"
+							},
+							"text": "你把安妮儿的话照实告诉了朱鸿雪：她等的人不是神教的人。",
+							"reward": {
+								"deed": "把西厢的话照实告诉了朱鸿雪"
+							}
+						},
+						{
+							"id": "cover",
+							"done": {
+								"mark": "替安妮儿瞒了"
+							},
+							"text": "你替安妮儿瞒了下来，只说她在等一个故人。朱鸿雪信了你这一回。",
+							"reward": {
+								"deed": "替安妮儿瞒下了西厢的话"
+							}
+						}
+					]
+				},
+				{
+					"id": "token",
+					"objective": "神教的令不发新的，只从上一个持令人手里接。朱鸿雪派去玉螺湖的人上个月没回来，令在他身上：入夜之后去玉螺湖畔的芦苇丛找他（湖边夜里有鬼卒），拿回那块黑木令，再问朱鸿雪「令牌」。",
+					"done": {
+						"mark": "持黑木令"
+					},
+					"text": "朱鸿雪把黑木令放回你手里：「现在它是你的。」带着它，神教的杀手认你是自己人。",
+					"reward": {
+						"deed": "从玉螺湖畔的芦苇丛里接回了一块黑木令"
+					},
+					"target": {
+						"map": "village.main",
+						"zone": "village.lakeside"
+					}
+				},
+				{
+					"id": "names",
+					"objective": "黑木令在你身上了。朱鸿雪还会把差事交给持令的人——下一回，是三个名字。",
+					"done": {
+						"mark": "朱鸿雪说了三个名字"
+					},
+					"text": "朱鸿雪说了三个名字。",
+					"target": {
+						"map": "cloud.yard_house",
+						"zone": "cloud.god2",
+						"npcs": [
+							"cloud.npc.god"
+						]
+					}
+				}
+			]
+		}
+	]
+}

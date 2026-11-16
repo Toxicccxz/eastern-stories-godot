@@ -39,6 +39,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"loot_crates": _loot_crates(w,d)
 		"bedroll": _bedroll(w,d)
 		"lost_pack": _lost_pack()
+		"fallen_body": _fallen_body()
 		"cloud_sea": _cloud_sea(w,d)
 		"far_peak": _far_peak(w,d)
 		"whirl": _whirl(w,d)
@@ -551,6 +552,24 @@ func _lost_pack() -> void:
 	s.tilted_box(root,Vector3(0.5,0.03,0.2),Vector3(0.07,0.03,0.85),"7a5a46",Vector3(0,0.5,0))
 	s.tilted_box(root,Vector3(0.35,0.04,-0.12),Vector3(0.14,0.05,0.1),"4a3b2e",Vector3(0,0.5,0))
 	s.box(root,Vector3(-0.35,0.05,0.3),Vector3(0.18,0.1,0.14),"9f6f3c")
+
+## Someone lying face down where they fell (东方神教 A: the man in the 玉螺湖畔 reeds): legs, boots, the back,
+## the head turned into the mud, one arm flung forward and one under him; cloth, skin, hair, boots and the
+## wet ground under him from the data.
+func _fallen_body() -> void:
+	var cloth: String = String(data.get("cloth","3a3a40"))
+	var boots: String = String(data.get("boots","2a2420"))
+	s.box(root,Vector3(0,0.01,-0.05),Vector3(0.95,0.02,1.9),String(data.get("mud","5a5040")))
+	for side: float in [-0.1,0.11]:
+		s.tilted_box(root,Vector3(side,0.08,0.42),Vector3(0.15,0.13,0.72),cloth,Vector3(0,side*0.6,0))
+		s.box(root,Vector3(side*1.3,0.08,0.84),Vector3(0.15,0.14,0.18),boots)
+	s.box(root,Vector3(0,0.11,-0.15),Vector3(0.42,0.2,0.62),cloth)
+	s.box(root,Vector3(0,0.12,-0.12),Vector3(0.44,0.04,0.08),boots)
+	s.box(root,Vector3(0.03,0.1,-0.6),Vector3(0.22,0.18,0.24),String(data.get("hair","1e1a18")))
+	s.box(root,Vector3(0.1,0.05,-0.62),Vector3(0.06,0.06,0.16),String(data.get("skin","a88a6a")))
+	s.tilted_box(root,Vector3(-0.32,0.06,-0.52),Vector3(0.12,0.1,0.52),cloth,Vector3(0,-0.35,0))
+	s.box(root,Vector3(-0.42,0.05,-0.82),Vector3(0.1,0.07,0.12),String(data.get("skin","a88a6a")))
+	s.box(root,Vector3(0.25,0.05,-0.08),Vector3(0.1,0.08,0.3),cloth)
 
 ## Dripstone rising from a cave floor, wet and pale at the tips.
 func _stalagmites(w: float, d: float) -> void:

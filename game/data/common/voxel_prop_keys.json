@@ -107,6 +107,7 @@
     "drying_rack": {"keys": ["colors", "tiers", "wood"], "tall": true},
     "earth_god": {"keys": ["broken", "robe"]},
     "empty_shelf": {"keys": ["books", "stone", "wood"]},
+    "fallen_body": {"keys": ["boots", "cloth", "hair", "mud", "skin"]},
     "far_ground": {"keys": ["clearing", "clearing_color", "colors", "crowns", "roof_colors", "roofs", "trees", "walls"]},
     "far_peak": {"keys": ["colors", "eaves", "haze", "height", "pillar", "platform", "tower"]},
     "far_shore": {"keys": ["bank", "colors", "haze", "peaks", "rock", "smoke", "smoke_color", "temple", "trees"]},

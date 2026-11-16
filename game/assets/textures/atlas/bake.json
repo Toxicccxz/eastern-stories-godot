@@ -2450,7 +2450,7 @@
   }
  },
  "common": "c1ba39048a5df73c8e527e33ff40e8c023a35bc40163ac0a5dcc277e4190b5d1",
- "fingerprint": "82d2a3e14d9ac5b687a8febc98e0592e475439ce785cefc18d8cf1b3cee94fca",
+ "fingerprint": "ffe9f674affbd01443ff2f59f6ca86242573485a3267b242c57962ea74efc0e9",
  "frame": [
   -769.1,
   14.6,
@@ -2479,7 +2479,7 @@
   "sanyen": "a098704f66bddc3a06b9658a2eda0ef72a29d27dfb41bfb96a2b469ab901c626",
   "snow": "3cebb61fca09ed133e2fbee4c828cd7b2cc6f56d314ef22e17298ebc0daac305",
   "temple": "6c741320432e5d024570a88b0809068a70ecbd42b8dbcce365f047e1cb5eab13",
-  "village": "bb9a9c2beff74556d20bcd61312abfe14a7b5babb05185686939aa3490bb4bd2",
+  "village": "d32af0e3d8742366f4d6de2594b91a1145f94db7b3d1f720eb6c055a752f39e9",
   "waterfog": "41cc0f95bec69a3cef0ac5fce3c3ef3e4a044bf5a66117e79159a326a1062b7e"
  },
  "roads": [

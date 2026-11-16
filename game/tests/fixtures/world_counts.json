@@ -710,11 +710,12 @@
 		"native.cell_others.captive",
 		"native.lakebottom2.niling_finale_two",
 		"native.lakeside.lin_ji",
-		"native.mroad4.niling_pursuers"
+		"native.mroad4.niling_pursuers",
+		"native.lakeside.reed_runners"
 	],
-	"world_npcs": 826,
+	"world_npcs": 828,
 	"resident_maps": 167,
-	"new_game_items": 1266,
+	"new_game_items": 1268,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -987,7 +988,7 @@
 		"canyon.bamboo": 0,
 		"canyon.stoneroom": 0,
 		"canyon.camp": 14,
-		"village.main": 47,
+		"village.main": 49,
 		"village.midlake": 0,
 		"village.icecave": 17,
 		"village.seal_chamber": 16,
