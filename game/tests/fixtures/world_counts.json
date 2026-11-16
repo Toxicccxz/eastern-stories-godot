@@ -46,6 +46,7 @@
 		"waterfog.mountain",
 		"waterfog.pavilion",
 		"waterfog.upstairs",
+		"waterfog.terrace",
 		"green.village",
 		"green.mountain",
 		"green.maze",
@@ -168,7 +169,7 @@
 		"lancheng.pavilion",
 		"lancheng.terrace"
 	],
-	"rooms": 642,
+	"rooms": 645,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -718,7 +719,7 @@
 		"native.road7.ice_cutter"
 	],
 	"world_npcs": 832,
-	"resident_maps": 167,
+	"resident_maps": 168,
 	"new_game_items": 1276,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
@@ -768,6 +769,7 @@
 		"waterfog.mountain": 16,
 		"waterfog.pavilion": 9,
 		"waterfog.upstairs": 3,
+		"waterfog.terrace": 3,
 		"green.village": 12,
 		"green.mountain": 6,
 		"green.maze": 9,
@@ -937,6 +939,7 @@
 		"waterfog.mountain": 7,
 		"waterfog.pavilion": 8,
 		"waterfog.upstairs": 7,
+		"waterfog.terrace": 0,
 		"green.village": 10,
 		"green.mountain": 2,
 		"green.maze": 0,

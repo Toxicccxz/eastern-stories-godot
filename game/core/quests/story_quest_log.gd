@@ -61,8 +61,10 @@ class Shown:
 	## The quest's own checklist rows, then the current step's, as they stand now (only when shown()
 	## is given a test).
 	var checklist: Array[Checked] = []
-	## Pinned and under way: first in its column (StoryQuestDefinition.pinned).
+	## Pinned and under way: first in its column (StoryQuestDefinition.pinned), the higher
+	## `pin_rank` above.
 	var pinned: bool = false
+	var pin_rank: int = 0
 	## The order of its newest record (quests with the newest news come first).
 	var latest: int = 0
 
@@ -355,9 +357,13 @@ static func shown(state: CharacterState, quests: Array[StoryQuestDefinition], li
 			view.objective = "" if step == null else step.objective
 			view.checklist = checked_rows(quest.checklist, test) + checked(step, test)
 			view.pinned = quest.pinned
+			view.pin_rank = quest.pin_rank
 		result.append(view)
-	# A pinned quest under way first (DECISIONS「任务级清单」), then the newest news.
-	result.sort_custom(func(a: Shown, b: Shown) -> bool: return a.pinned and not b.pinned or a.pinned == b.pinned and a.latest > b.latest)
+	# A pinned quest under way first, the higher rank above (DECISIONS「任务级清单」), then the newest news.
+	result.sort_custom(func(a: Shown, b: Shown) -> bool:
+		var rank_a: int = a.pin_rank if a.pinned else 0
+		var rank_b: int = b.pin_rank if b.pinned else 0
+		return rank_a > rank_b or rank_a == rank_b and a.latest > b.latest)
 	return result
 
 

@@ -226,7 +226,7 @@ func _test_loaded_data() -> void:
 		lines += 1
 		var unweighed: int = quest.branches_of("")
 		_check(unweighed == 0, "%s: every branch of a 势力 line says its weight" % quest.quest_id)
-		_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) <= 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) <= 2, "%s: 1 个大分裂 + 最多 2 个小选择 (big %d, small %d)" % [quest.quest_id, quest.branches_of(StoryQuestDefinition.WEIGHT_BIG), quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL)])
+		_check(_bigs_on_a_way(quest) <= 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) <= 2, "%s: 1 个大分裂 + 最多 2 个小选择 (big %d on a way, small %d)" % [quest.quest_id, _bigs_on_a_way(quest), quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL)])
 	_check(lines >= 1, "there is a 势力 line")
 	var factions: Array[FactionDefinition] = catalog.factions()
 	var sects: Array[FactionDefinition] = factions.filter(func(faction: FactionDefinition) -> bool: return faction.layer == FactionDefinition.LAYER_SECT)
@@ -245,3 +245,28 @@ func _check(condition: bool, message: String) -> void:
 	_count += 1
 	if not condition:
 		_failures.append(message)
+
+
+## The most big splits one player meets in a line (DECISIONS「虹台的票」): a big split hung on one way of a
+## branch the main story routes (卧底's 收网 after 第十章, the 余孽 after the 终章) is the other way's
+## alternative, not a second split; one hung on nothing, or on a chosen option, is met on every way.
+func _bigs_on_a_way(quest: StoryQuestDefinition) -> int:
+	var always: int = 0
+	var by_way: Dictionary[StringName, int] = {}
+	var routed: Dictionary[StringName, StringName] = {}
+	for step: StoryQuestDefinition.Step in quest.steps:
+		if step.is_branch() and step.weight == StoryQuestDefinition.WEIGHT_ROUTE:
+			for option: StoryQuestDefinition.Option in step.options:
+				routed[option.option_id] = step.step_id
+	for step: StoryQuestDefinition.Step in quest.steps:
+		if not step.is_branch() or step.weight != StoryQuestDefinition.WEIGHT_BIG:
+			continue
+		if routed.has(step.only_after):
+			by_way[step.only_after] = by_way.get(step.only_after, 0)+1
+		else:
+			always += 1
+	var most: int = 0
+	for count: int in by_way.values():
+		most = maxi(most, count)
+	return always+most
+

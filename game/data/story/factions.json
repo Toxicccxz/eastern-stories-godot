@@ -7,7 +7,8 @@
 			"place": "雪亭镇",
 			"sources": [
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/swordsman/master.c",
-				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」)"
+				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」)",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -87,6 +88,12 @@
 					"when": {
 						"mark": "跟了北宗"
 					}
+				},
+				{
+					"text": "正月十七，封山那一票听你的。",
+					"when": {
+						"mark": "封山听你的"
+					}
 				}
 			]
 		},
@@ -97,7 +104,8 @@
 			"place": "绮云镇",
 			"sources": [
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — u/cloud/npc/b_header.c, d/city/npc/chen.c",
-				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)"
+				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -129,6 +137,12 @@
 					"when": {
 						"mark": "镖单锁进了刑堂"
 					}
+				},
+				{
+					"text": "陈剑秋说：查到底。正月十七，振远那一票投旧盟主。",
+					"when": {
+						"mark": "振远改投旧盟主"
+					}
 				}
 			]
 		},
@@ -140,7 +154,8 @@
 			"sources": [
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/fighter/master.c, champion.c, executioner.c; d/waterfog/npc/elder5.c, elder7.c",
 				"native: 势力线第一批 天邪 A (剧情总纲 §4 第 2 条; 计划 build/plans/势力线第一批_计划.md §4 天邪 A, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 A」)",
-				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」)"
+				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」)",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -214,6 +229,12 @@
 					"when": {
 						"mark": "站了潘军禅"
 					}
+				},
+				{
+					"text": "正月十七，天邪派那一票听你的。",
+					"when": {
+						"mark": "天邪听你的"
+					}
 				}
 			]
 		},
@@ -223,13 +244,20 @@
 			"layer": "sect",
 			"place": "青石村",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/juechen/master.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/juechen/master.c",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
 					"text": "你是绝尘派的弟子。",
 					"when": {
 						"family": "family.juechen"
+					}
+				},
+				{
+					"text": "绝尘子答应了：正月十七下山走一趟。",
+					"when": {
+						"mark": "绝尘派肯来"
 					}
 				}
 			]
@@ -243,7 +271,8 @@
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/taoist/taolord.c",
 				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」)",
 				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」)",
-				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」)"
+				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」)",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -287,6 +316,24 @@
 					"when": {
 						"mark": "带走了名册"
 					}
+				},
+				{
+					"text": "正月十七，茅山那一票听你的。",
+					"when": {
+						"mark": "茅山听你的"
+					}
+				},
+				{
+					"text": "北麓那座道观，你交给了官府去剿。",
+					"when": {
+						"mark": "余孽交了官府"
+					}
+				},
+				{
+					"text": "逆灵宫剩下的人下了山，茅山看着。是你去劝的。",
+					"when": {
+						"mark": "招安了余孽"
+					}
 				}
 			]
 		},
@@ -296,7 +343,8 @@
 			"layer": "sect",
 			"place": "晚月庄",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/dancer/master.c, d/latemoon/room/npc/elon.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/dancer/master.c, d/latemoon/room/npc/elon.c",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -322,6 +370,18 @@
 					"when": {
 						"mark": "宝衣给了安妮儿"
 					}
+				},
+				{
+					"text": "正月十七，晚月庄那一票改投颜违：逐神教。",
+					"when": {
+						"mark": "晚月庄改投颜违"
+					}
+				},
+				{
+					"text": "正月十七，晚月庄那一票听你的。",
+					"when": {
+						"mark": "晚月庄听你的"
+					}
 				}
 			]
 		},
@@ -331,13 +391,20 @@
 			"layer": "sect",
 			"place": "山烟寺",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/bonze/master.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/bonze/master.c",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
 					"text": "你是山烟寺的弟子。",
 					"when": {
 						"family": "family.sanyen"
+					}
+				},
+				{
+					"text": "玄智和尚信了你的担保。正月十七，山烟寺那一票投旧盟主。",
+					"when": {
+						"mark": "山烟寺改投旧盟主"
 					}
 				}
 			]
@@ -348,7 +415,8 @@
 			"layer": "sect",
 			"place": "乔阴县城",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/scholar/master.c"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — daemon/class/scholar/master.c",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -361,6 +429,12 @@
 					"text": "骆云舟把骆家的名帖给了你。",
 					"when": {
 						"mark": "骆云舟给了名帖"
+					}
+				},
+				{
+					"text": "正月十七，步玄派那一票听你的。",
+					"when": {
+						"mark": "步玄听你的"
 					}
 				}
 			]
@@ -388,7 +462,8 @@
 			"layer": "tie",
 			"place": "乔阴 · 天驼关 · 京师",
 			"sources": [
-				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — d/choyin/npc/judgeman.c, d/canyon/npc/general.c; the 朝廷 is the main story's"
+				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — d/choyin/npc/judgeman.c, d/canyon/npc/general.c; the 朝廷 is the main story's",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -431,6 +506,12 @@
 					"text": "大内侍卫营的冯策说过：算老夫一个。",
 					"when": {
 						"mark": "冯策随你下湖"
+					}
+				},
+				{
+					"text": "逆灵宫的余孽，是你交给官府的。",
+					"when": {
+						"mark": "余孽交了官府"
 					}
 				}
 			]
@@ -594,7 +675,8 @@
 			"sources": [
 				"native: 势力线第一批 封山 A (剧情总纲 §4 势力线清单 12 条, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §2 第 2 条, owner 2026-11-09「按推荐开工」; DECISIONS「势力名册」) — doc/help/plan:26–31",
 				"native: 势力线第一批 卧底 A (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 A, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 A」)",
-				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」)"
+				"native: 势力线第一批 卧底 B (剧情总纲 §4 第 12 条「逆灵宫」, 势力线原则「声望页写句子，不写数字」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 B, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 B」)",
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」)"
 			],
 			"lines": [
 				{
@@ -680,6 +762,18 @@
 					"text": "你被识破了。黑冠不再管用，北麓有人在找你。",
 					"when": {
 						"mark": "被识破"
+					}
+				},
+				{
+					"text": "北麓那座道观，官兵上去了。宫里剩下的人一个也没走脱。",
+					"when": {
+						"mark": "余孽交了官府"
+					}
+				},
+				{
+					"text": "宫里剩下的人跟你下了山。坛上的火灭了。",
+					"when": {
+						"mark": "招安了余孽"
 					}
 				}
 			]

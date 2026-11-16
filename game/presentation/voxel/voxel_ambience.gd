@@ -145,6 +145,8 @@ func add(data: Dictionary) -> void:
 		if cloud.get("beam",false):
 			_beam(cloud,shapes)
 		index += 1
+	for bow: Dictionary in data.get("rainbow",[]):
+		_rainbow(bow)
 	for drift: Dictionary in data.get("fall",[]):
 		var r: Array = drift["rect"]
 		var colors: Array = drift.get("colors",["8a5a36","a8794a","6e8a47"])
@@ -233,6 +235,44 @@ func _beam(cloud: Dictionary, shapes: Shapes) -> void:
 	shaft.transform = Transform3D(Basis.looking_at(along.normalized(),Vector3.UP if absf(along.normalized().y)<0.99 else Vector3.RIGHT),(from+to)/2.0)
 	add_child(shaft)
 	_sunbeams.append({"node":shaft,"material":haze,"alpha":0.06})
+
+## A rainbow (大会 A; the 虹台's 虹谷: 太阳照着的时候，雾里常挂着一道虹): a faint arch of six seen-through
+## bands standing in the mist at `at` (px), its feet `span` px apart (east–west, facing the view),
+## `height` units at its crown above `base`; by day only, fading with the night as the sunbeams do.
+func _rainbow(bow: Dictionary) -> void:
+	var at: Array = bow["at"]
+	var radius: float = float(bow.get("span",640))/64.0
+	var rise: float = float(bow.get("height",6.0))
+	var centre := Vector3(float(at[0])/32.0,float(bow.get("base",-2.0)),float(at[1])/32.0)
+	var alpha: float = float(bow.get("alpha",0.12))
+	var bands: Array = ["e86a5a","f0a050","f2e070","8cd07a","70a8e0","a084d8"]
+	var cube := BoxMesh.new()
+	cube.size = Vector3(1,1,1)
+	for band: int in bands.size():
+		var haze := StandardMaterial3D.new()
+		haze.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		haze.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		haze.albedo_color = Color(String(bands[band]),alpha)
+		haze.cull_mode = BaseMaterial3D.CULL_DISABLED
+		var multi := MultiMesh.new()
+		multi.transform_format = MultiMesh.TRANSFORM_3D
+		multi.mesh = cube
+		var steps: int = 40
+		multi.instance_count = steps
+		var r: float = radius-band*0.22
+		for i: int in steps:
+			var a: float = PI*(float(i)+0.5)/steps
+			var tall: float = rise*(r/radius)
+			var spot := Vector3(-cos(a)*r,sin(a)*tall,0)
+			var basis := Basis(Vector3(0,0,1),atan2(tall*cos(a),r*sin(a)))*Basis.from_scale(Vector3(PI*maxf(r,tall)/steps*1.2,0.22,0.06))
+			multi.set_instance_transform(i,Transform3D(basis,spot))
+		var arch := MultiMeshInstance3D.new()
+		arch.multimesh = multi
+		arch.material_override = haze
+		arch.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		arch.position = centre
+		add_child(arch)
+		_sunbeams.append({"node":arch,"material":haze,"alpha":alpha})
 
 ## A bolt (zigzag of white-hot boxes, lit by itself) and the light it throws, both hidden but
 ## for a flash or two every `every` seconds; the light's energy is its own (VoxelLighting skips
@@ -608,7 +648,7 @@ func advance(delta: float) -> void:
 			continue
 		(mote["multi"] as MultiMesh).set_instance_transform(int(mote["index"]),Transform3D(Basis.IDENTITY,_mote_place(mote)))
 	for beam: Dictionary in _sunbeams:
-		var node: MeshInstance3D = beam["node"]
+		var node: GeometryInstance3D = beam["node"]
 		node.visible = daylight
 		(beam["material"] as StandardMaterial3D).albedo_color.a = float(beam["alpha"])*clampf(1.0-night*2.0,0.0,1.0)
 	for puff: Dictionary in _near["_puffs"]:

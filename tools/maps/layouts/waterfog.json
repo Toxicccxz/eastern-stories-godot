@@ -36,6 +36,9 @@
           "west_stairs": [
             [[488, 800, 88, 88, 88, 0, "wpath3-4: white stairs against the cliff wall, the gorge east"], [488, 216, 88, 88, 88, 0, "wpath5"], [376, 216, 88, 88, 88, 0, "west into 葬剑亭"]]
           ],
+          "terrace_stairs": [
+            [[224, 264, 40, 56, 56, 0, "swordtomb.c: 出了亭子，往南便是直通虹台的石阶 (native: 大会 A; the exit ES2 never wrote, the stair is its own map)"], [224, 336, 40, 56, 56, 0]]
+          ],
           "paths": [
             [[880, 896, 40, 80, 80, 6, "west from the platform"], [720, 900, 40, 80, 80, 8, "wpath1: the maples to the north"], [568, 900, 40, 80, 80, 8, "wpath2: the stone tablet beside the path"], [488, 884, 40, 80, 80, 4]]
           ]
@@ -86,6 +89,11 @@
           },
           {
             "op": "lines",
+            "group": "terrace_stairs",
+            "kind": "floor_yard"
+          },
+          {
+            "op": "lines",
             "group": "paths"
           },
           {
@@ -129,7 +137,9 @@
               ["blocked", 176, 256, 192, 272, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
               ["blocked", 256, 256, 272, 272, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
               ["blocked", 176, 192, 192, 256, {"look": {"kind": "balustrade", "seat": true, "colors": ["b9b7ab", "a9a79b", "c8c6ba"]}}],
-              ["blocked", 192, 96, 256, 128, "the monolith before the pavilion, 两丈多高 (look: monolith)", {"look": {"kind": "stele", "height": 6.4, "turtle": true, "colors": ["6f726c", "7c7f78", "62655f"]}}]
+              ["blocked", 192, 96, 256, 128, "the monolith before the pavilion, 两丈多高 (look: monolith)", {"look": {"kind": "stele", "height": 6.4, "turtle": true, "colors": ["6f726c", "7c7f78", "62655f"]}}],
+              ["blocked", 144, 288, 160, 304, "a stone lantern either side of the head of the stair to 虹台 (native: 大会 A)", {"look": {"kind": "stone_lantern", "colors": ["9a9a8e", "8a8a7e", "aaa99c"]}}],
+              ["blocked", 288, 288, 304, 304, {"look": {"kind": "stone_lantern", "colors": ["9a9a8e", "8a8a7e", "aaa99c"]}}]
             ]
           },
           {
@@ -236,6 +246,20 @@
             "id": "waterfog.frontyard.north",
             "at": [1024, 720],
             "shape": "Rect_96_32"
+          },
+          {
+            "node": "caption",
+            "name": "TerraceLabel",
+            "at": [312, 318],
+            "text": "南 · 虹台",
+            "size": 14
+          },
+          {
+            "node": "passage",
+            "name": "TerracePassage",
+            "id": "waterfog.swordtomb.south",
+            "at": [224, 320],
+            "shape": "Rect_96_32"
           }
         ],
         "zones": [
@@ -258,6 +282,11 @@
             "name": "GateReturn",
             "at": [1024, 784],
             "id": "waterfog.frontyard.gate_return"
+          },
+          {
+            "name": "TerraceReturn",
+            "at": [224, 280],
+            "id": "waterfog.swordtomb.terrace_return"
           },
           {
             "name": "Sroad3Guard1",
@@ -653,6 +682,175 @@
           },
           {
             "generated": "markers"
+          }
+        ]
+      }
+    },
+    "terrace": {
+      "note": "虹台 (native: 大会 A; guildhall.c: 每年的正月十七都要在水烟阁外的「虹台」推选武林盟主; wpath1.c 位于山巅的「虹台」, wpath4.c 竖立在虹台中央的「擎天柱」, wpath5.c 通过西边不远处的葬剑亭，就是虹台的入口……虹台地势虽不甚高，但是在三面深谷的环绕下，却自有一股群山朝拜的威严气象, swordtomb.c 往南便是直通虹台的石阶, wpath2.c 虹谷断崖): from 葬剑亭 a white stair climbs south along a narrow ridge, gorges both sides, onto the round white stone top of the peak: the 擎天柱 in its middle with an old bronze censer before it, nine stone flag seats in a ring round the rim (open north where the stair comes up; the hosts' seat south), the 盟主's stone chair inside the ring, its back to the south rim; west, a rough lip of rock over 虹谷, where the mist comes up out of the valley. Deep valleys on three sides. Empty but on the day: ways sized for the voxel view (DECISIONS「地图尺寸以体素视角为准」): the stair 128 px with its verges 192, the platform some 700 px across.",
+      "file": "waterfog_terrace.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [0, 0, 1216, 1280],
+        "zones": {
+          "waterfog.terrace_stair": [416, 32, 800, 448, "rock"],
+          "waterfog.terrace_top": [192, 448, 1024, 1216, "rock"],
+          "waterfog.terrace_edge": [32, 576, 192, 1056, "rock"]
+        },
+        "lines": {
+          "stair": [
+            [[608, 40, 64, 96, 96, 0, "the white stair up from 葬剑亭"], [608, 240, 64, 96, 96, 4, "along the ridge, gorges either side"], [608, 470, 72, 104, 104, 0, "onto the platform"]]
+          ],
+          "lip": [
+            [[300, 832, 40, 72, 72, 6, "west off the platform"], [180, 824, 40, 80, 80, 8], [88, 832, 40, 80, 80, 6, "the lip over 虹谷"]]
+          ]
+        },
+        "steps": [
+          {
+            "op": "freeze"
+          },
+          {
+            "op": "blobs",
+            "note": "the ridge the stair climbs, the round top of the peak, the rough lip west over 虹谷",
+            "kind": "rock",
+            "amp": 0.16,
+            "seed": [0.011, 0.009],
+            "blobs": [
+              [608, 240, 150, 230, "the ridge"],
+              [608, 832, 400, 390, "the peak"],
+              [112, 816, 96, 230, "the lip"]
+            ]
+          },
+          {
+            "op": "blobs",
+            "note": "虹台: the round white stone platform, worn and old (wpath5.c 虹台)",
+            "kind": "floor_yard",
+            "amp": 0.12,
+            "seed": [0.007, 0.013],
+            "blobs": [
+              [608, 832, 380, 372, "the platform"]
+            ]
+          },
+          {
+            "op": "lines",
+            "group": "stair",
+            "kind": "floor_yard"
+          },
+          {
+            "op": "lines",
+            "group": "lip"
+          },
+          {
+            "op": "fill",
+            "note": "what blocks: the 擎天柱 and the censer before it, nine flag seats round the rim (a ring at 288 px every 40°, open north for the stair), the stone chair, two stone lanterns at the stair's head, a boulder on the lip",
+            "fills": [
+              ["blocked", 576, 800, 640, 864, "wpath4.c: 竖立在虹台中央的「擎天柱」", {"look": {"kind": "sky_pillar", "height": 9.0, "colors": ["d8d4c6", "cfcabb", "e2ded1"], "bands": "a9a597"}}],
+              ["blocked", 592, 704, 624, 736, "an old bronze censer before the pillar, its ash cold", {"look": {"kind": "incense_burner", "tall": true, "bronze": "5e4c34"}}],
+              ["blocked", 688, 544, 720, 576, "nine stone flag seats round the rim, one for each 派 (the poles bare but on the day)", {"look": {"kind": "flag_seat", "rotation": -160}}],
+              ["blocked", 848, 672, 880, 704, {"look": {"kind": "flag_seat", "rotation": -120, "rag": "8a5a4a"}}],
+              ["blocked", 880, 864, 912, 896, {"look": {"kind": "flag_seat", "rotation": -80}}],
+              ["blocked", 784, 1040, 816, 1072, {"look": {"kind": "flag_seat", "rotation": -40}}],
+              ["blocked", 592, 1104, 624, 1136, "the hosts' seat, behind the chair", {"look": {"kind": "flag_seat", "rotation": 0, "rag": "4a6a8a"}}],
+              ["blocked", 400, 1040, 432, 1072, {"look": {"kind": "flag_seat", "rotation": 40}}],
+              ["blocked", 304, 864, 336, 896, {"look": {"kind": "flag_seat", "rotation": 80, "rag": "6a7a4a"}}],
+              ["blocked", 336, 672, 368, 704, {"look": {"kind": "flag_seat", "rotation": 120}}],
+              ["blocked", 496, 544, 528, 576, {"look": {"kind": "flag_seat", "rotation": 160}}],
+              ["blocked", 576, 992, 640, 1040, "the 盟主's stone chair, its back to the south rim", {"look": {"kind": "grand_chair", "rotation": 180, "wood": "7c7a6e", "trim": "a8a496", "cushion": "8e8b7e", "dais_color": "a29e90"}}],
+              ["blocked", 512, 400, 544, 432, "two stone lanterns at the stair's head", {"look": {"kind": "stone_lantern", "colors": ["9a9a8e", "8a8a7e", "aaa99c"]}}],
+              ["blocked", 672, 400, 704, 432, {"look": {"kind": "stone_lantern", "colors": ["9a9a8e", "8a8a7e", "aaa99c"]}}],
+              ["blocked", 64, 704, 112, 752, "a boulder on the lip over 虹谷", {"look": {"kind": "boulder", "colors": ["8e8a7c", "9a9688", "84806f"], "lichen": true}}]
+            ]
+          },
+          {
+            "op": "clip"
+          },
+          {
+            "op": "separate"
+          },
+          {
+            "op": "drop_pockets",
+            "from": "TombArrival"
+          },
+          {
+            "op": "fill",
+            "fills": [
+              ["chasm", 0, 0, 400, 560, "the gorges either side of the ridge"],
+              ["chasm", 816, 0, 1216, 448],
+              ["chasm", 1040, 448, 1216, 1280, "wpath5.c: 三面深谷: east"],
+              ["chasm", 0, 1232, 1216, 1280, "south"],
+              ["chasm", 0, 1072, 176, 1232, "and 虹谷 west (wpath2.c: 虹谷断崖)"],
+              ["chasm", 0, 560, 16, 1072]
+            ]
+          }
+        ],
+        "reach_from": "TombArrival",
+        "caption_near": {
+          "waterfog.terrace_stair": [470, 200],
+          "waterfog.terrace_top": [380, 1120],
+          "waterfog.terrace_edge": [80, 640]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "WaterfogTerrace",
+        "map": "waterfog.terrace",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/waterfog/voxel/terrace.json"},
+        "shapes": {
+          "Rect_128_32": [128, 32],
+          "Rect_64_32": [64, 32],
+          "Rect_48_48": [48, 48]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "TombLabel",
+            "at": [710, 56],
+            "text": "北 · 葬剑亭",
+            "size": 14
+          },
+          {
+            "node": "passage",
+            "name": "TombPassage",
+            "id": "waterfog.terrace_stair.north",
+            "at": [608, 48],
+            "shape": "Rect_128_32"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "name": "TombArrival",
+            "at": [608, 128],
+            "id": "waterfog.terrace_stair.tomb_arrival"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "PillarInteraction",
+            "id": "waterfog.terrace_top.landmark.pillar",
+            "at": [608, 888],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "ChairInteraction",
+            "id": "waterfog.terrace_top.landmark.chair",
+            "at": [608, 1064],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "MistInteraction",
+            "id": "waterfog.terrace_edge.landmark.mist",
+            "at": [88, 880],
+            "shape": "Rect_48_48"
           }
         ]
       }
