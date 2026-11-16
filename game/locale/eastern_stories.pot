@@ -44261,6 +44261,11 @@ msgstr ""
 
 #. city.npc.chen inquiry.镖车.rules.say
 #: data/city/npcs.json
+msgid "碎石小路上劫镖的那个后生，你还没给个了结。交官府还是放走，你回去定了，镖再进这个门。"
+msgstr ""
+
+#. city.npc.chen inquiry.镖车.rules.say
+#: data/city/npcs.json
 msgid "剑秋的镖？车呢？镖车没进这个门，镖就没到。"
 msgstr ""
 
@@ -64867,6 +64872,11 @@ msgstr ""
 #. native.npc.escort_runner inquiry.劫镖.rules.say
 #: data/native/npcs.json
 msgid "放了？……也好。那后生使的是振远的刀，春风快意刀。谁教的，我不问。"
+msgstr ""
+
+#. native.npc.escort_runner inquiry.劫镖.rules.say
+#: data/native/npcs.json
+msgid "那后生怎么办，你给个话：交官府，还是放他走。没个了结，这镖进不了总局的门。"
 msgstr ""
 
 #. native.npc.escort_runner inquiry.劫镖.rules.say

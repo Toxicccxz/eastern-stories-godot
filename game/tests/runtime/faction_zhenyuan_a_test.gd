@@ -224,6 +224,17 @@ func _test_freed_disciple(tree: SceneTree, session: WorldSessionController) -> v
 	var road: WorldMapController = session.active_map() as WorldMapController
 	var son: NpcRuntimeState = _first(session, ROAD, SON)
 	session.npc_spared(son) # TEST-ONLY
+	# On to 京师 before he is handed over or let go: 陈天星 does not take the 镖 yet.
+	_check(_lead(session, HQ, HQ_POINT), "in the 振远总局 too soon")
+	await _beats(tree, session, 3)
+	var early: WorldMapController = session.active_map() as WorldMapController
+	_check(not state.marks.has("镖交到了总局") and _count_in(session, HQ, CARTER) == 1, "the robber not settled: no delivery, 老周 waits with the cart")
+	_check(_said(_ask(early, _first(session, HQ, TIANXING), "镖车"), "还没给个了结"), "陈天星: settle the robber first")
+	_check(_lead(session, ROAD, ROAD_POINT), "back on the 碎石小路, 老周 behind")
+	await _beats(tree, session, 2)
+	road = session.active_map() as WorldMapController
+	son = _first(session, ROAD, SON)
+	_check(son != null and not session.combat_encounter_coordinator().has_active_encounter(), "贺平 sits there; no scene again, no fight")
 	_check(son.definition().talk().confirm_applies("走吧", state.marks), "走吧 is asked first")
 	_check(_said(_ask(road, son, "走吧"), "拿给陈天星看") and state.marks.get("放走了劫镖的", 0) == 1 and session.player_held_item_ids().get(LETTER, false) == true, "let go: his father's letter")
 	_check(not son.definition().talk().confirm_applies("交官府", state.marks), "the other way is closed")

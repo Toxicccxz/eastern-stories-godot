@@ -115,7 +115,8 @@
 						"mark": "镖交到了总局"
 					},
 					"keeps": [
-						"native.npc.escort_runner"
+						"native.npc.escort_runner",
+						"native.npc.he_ping"
 					],
 					"text": "镖交到了京师振远总局。陈天星写了一张振远的名帖给你：京师有些门，要帖子才敲得开。",
 					"reward": {

@@ -202,6 +202,9 @@
 		"native.npc.assembly_luo_yunzhou": "still",
 		"native.npc.assembly_lu_decai": "still",
 		"native.npc.assembly_juechenzi": "still",
-		"native.npc.yan_wei_chair": {"mode": "still", "pose": "sit"}
+		"native.npc.yan_wei_chair": {"mode": "still", "pose": "sit"},
+		"native.npc.escort_runner": "still",
+		"native.npc.he_ping": "post",
+		"native.npc.road_robber": "post"
 	}
 }
