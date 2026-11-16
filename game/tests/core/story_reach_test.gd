@@ -29,8 +29,8 @@ const CODE_MARKS: Array[String] = ["a2_bounty_taken", "a2_bounty_done"]
 const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## Marks read and on purpose written by nothing: the wrong answer of a question (village/world.json's
 ## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
-## says so) never holds. 「陈天星说了旧账」 is the stub step 振远 A ends on (振远 B writes it).
-const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "陈天星说了旧账"]
+## says so) never holds.
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]

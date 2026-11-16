@@ -140,7 +140,7 @@ func _test_learn() -> void:
 	var outsider := _fresh()
 	draws = ScriptedWorldInteractionRandomSource.new([1])
 	var refused: Array = _learn(outsider, HEADER, &"blade", draws)
-	_check(refused[0].failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT and refused[1] == ["陈剑秋像是受宠若惊一样，说道：请教？这怎麽敢当？"] and draws.requested_bounds() == [3], "an outsider: reject_msg[random(3)]")
+	_check(refused[0].failure_reason in [LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, LearnResult.FailureReason.RECOGNITION_REJECTED] and refused[1] == ["陈剑秋像是受宠若惊一样，说道：请教？这怎麽敢当？"] and draws.requested_bounds() == [3], "an outsider: reject_msg[random(3)] (振远 B: his one recognize rule speaks only for 春风快意刀)")
 	Master.recruit(outsider, 1)
 	_check(_learn(outsider, HEADER, &"blade", ScriptedWorldInteractionRandomSource.new([0]))[1] == ["陈剑秋说道：您太客气了，这怎麽敢当？"], "封山剑派's disciple is an outsider here")
 
