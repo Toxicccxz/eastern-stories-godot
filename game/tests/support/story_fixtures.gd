@@ -997,3 +997,30 @@ static func court_reported(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.court/passes")
 	state.marks["程不平看了路引"] = 1
+
+
+## 官府 B (势力线第二批; DECISIONS「官府 B」): 严廷殷 owned the seal on the 路引, 李信 told his ledger of the three days
+## and 赫造基 owned the stamping (court_reported first; 第六章's way into the camp, the letter and the 拓模 written too).
+## The split next.
+static func court_admitted(session: WorldSessionController) -> void:
+	court_reported(session)
+	var state: CharacterState = session.player_runtime().state
+	for mark: String in ["军营", "严廷殷看了信", "赫造基说了拓模"]:
+		state.marks[mark] = 1
+	for key: String in ["faction.court/seal", "faction.court/ledger", "faction.court/adviser"]:
+		_write(state, key)
+	for mark: String in ["严廷殷认了路引", "李信说了那三天的账", "赫造基认了盖印"]:
+		state.marks[mark] = 1
+
+
+## 官府 B: the split at 天驼关 (court_admitted first): 整肃 with 严廷殷 (`purge`: the 军师 taken in the camp too, the
+## 铁卫营 a band at the lake) or 揭发 with 李信. The 卫沧澜 route next.
+static func court_split(session: WorldSessionController, purge: bool = true) -> void:
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.court/split/%s" % ("purge" if purge else "expose"))
+	if purge:
+		_write(state, "faction.court/arrest")
+		for mark: String in ["跟严廷殷整肃", "赫造基被拿下了"]:
+			state.marks[mark] = 1
+	else:
+		state.marks["跟李信揭发"] = 1

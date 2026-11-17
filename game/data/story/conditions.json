@@ -8,7 +8,8 @@
 				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 水烟阁守潭口 holds for one who made the 天邪 split as well: 潘军禅 and the 红衣武士 where neither 南危水 nor 卫沧澜 comes; still one band.",
 				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 茅山 (林忌), the ninth: one who turned the night before gave 林忌 the hour and the way down to the lake; his people hold it. Three are still enough.",
 				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 东方神教守潭口 holds for one who stood with 安妮儿 as well, the 宝衣 hers or not; still one band.",
-				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 晚月庄守岸, the tenth: 蓝止萍 and her disciples (庄规) or the 老妇 and her daughter (带她回来); three are still enough."
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 晚月庄守岸, the tenth: 蓝止萍 and her disciples (庄规) or the 老妇 and her daughter (带她回来); three are still enough.",
+				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — 铁卫营守官道, the eleventh: 严廷殷's men, once you took the 军师 for him (整肃); three are still enough."
 			],
 			"when": {
 				"at_least": {
@@ -69,6 +70,9 @@
 									"mark": "她回了晚月庄"
 								}
 							]
+						},
+						{
+							"mark": "赫造基被拿下了"
 						}
 					]
 				}

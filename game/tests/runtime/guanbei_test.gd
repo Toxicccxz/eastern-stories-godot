@@ -87,7 +87,7 @@ func _test_data() -> void:
 	_check(seal != null and seal.name_color == ColoredLine.HIY and fake != null and fake.name_color.is_empty(), "general.c: the real 印鉴's name is HIY, the fake's plain (name_color)")
 	_check(PlayerInventoryPanel.name_color_of(&"es2:d/canyon/npc/obj/seal") == SharedGameplayUI.ES2_COLORS[ColoredLine.HIY] and PlayerInventoryPanel.name_color_of(&"es2:d/canyon/npc/obj/fake_seal") == Color.TRANSPARENT, "the 背包 writes the real seal's name in yellow")
 	var soldier: NpcDefinition = catalog.npc(&"native.npc.pass_gate_soldier")
-	_check(soldier != null and soldier.hooks() != null and soldier.hooks().calls.size() == 1 and soldier.hooks().calls[0].act.mark == "军营" and soldier.dealings().object_rules.size() == 4 and soldier.dealings().object_rules[1].value_at_least == 500, "the 关门兵: lets the listed through, takes five taels")
+	_check(soldier != null and soldier.hooks() != null and soldier.hooks().calls.size() == 2 and soldier.hooks().calls[0].act.mark == "军营" and soldier.hooks().calls[1].act.mark == "跟李信揭发" and soldier.dealings().object_rules.size() == 5 and soldier.dealings().object_rules[2].value_at_least == 500, "the 关门兵: lets the listed through (and everyone once 李信 holds the pass, 官府 B), takes five taels")
 	var soldiers: NpcSpawnDefinition = catalog.spawn(&"native.canyon7.gate_soldiers")
 	_check(soldiers != null and soldiers.quantity == 2 and soldiers.zone_id == &"canyon.canyon7" and soldiers.cleared_mark == "过了关门", "two of them at the gate; beaten, the way is open")
 	var lao_qin: NpcSpawnDefinition = catalog.spawn(&"guanbei.inn_hall.lao_qin")
