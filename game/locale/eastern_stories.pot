@@ -24850,7 +24850,7 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "天驼关的关门抬着，过关不要钱。严廷殷回了京城，再没回来；帅帐里坐着李信，案上压着一本账的抄本。"
+msgid "天驼关的关门抬着，过关不要钱。严廷殷回了京城，再没回来；将军营帐里坐着李信，案上压着一本账的抄本。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -25722,17 +25722,17 @@ msgstr ""
 
 #. court lines.text
 #: data/story/factions.json
-msgid "严廷殷认了路引上的印。印丢的那三天，副将李信记了一本账；盖印的是军师赫造基。"
+msgid "严廷殷认了路引上的印。印丢的那三天，副将李信记了一本账：盖印的是军师赫造基，兵部还拓了个模子去盖民夫令。"
 msgstr ""
 
 #. court lines.text
 #: data/story/factions.json
-msgid "你跟严廷殷整肃了天驼关：军师是你在帅帐里拿下的，那本账没有上京。铁卫营欠你一回。"
+msgid "你跟严廷殷整肃了天驼关：军师是你在将军营帐里拿下的，那本账没有上京。铁卫营欠你一回。"
 msgstr ""
 
 #. court lines.text
 #: data/story/factions.json
-msgid "你跟严廷殷整肃了天驼关：军师还在帅帐里，等你去拿。"
+msgid "你跟严廷殷整肃了天驼关：军师还在将军营帐里，等你去拿。"
 msgstr ""
 
 #. court lines.text
@@ -27312,7 +27312,7 @@ msgstr ""
 
 #. faction.court/ledger text
 #: data/story/faction_court.json
-msgid "李信拿出一本薄册子：印丢的那三天，盖出去的是兵部征关北民夫的令四十七道、私授的官职十二个、空白的路引四百张。盖印的是军师赫造基。"
+msgid "李信拿出一本薄册子：印丢的那三天，盖出去的是私授的官职十二个、空白的路引四百张，还让兵部拓了个模子去——关北征民夫的令，盖的是照模子浇的印。盖印的是军师赫造基。"
 msgstr ""
 
 #. faction.court/adviser objective
@@ -27322,12 +27322,12 @@ msgstr ""
 
 #. faction.court/adviser text
 #: data/story/faction_court.json
-msgid "赫造基认了：印丢的那三天在后备兵手里，他借来替兵部盖了一夜。要告他，就连将军一起告——印是将军丢的。"
+msgid "赫造基认了：印丢的那三天在后备兵手里，他借来替兵部盖了一夜官职的札子和路引。要告他，就连将军一起告——印是将军丢的。"
 msgstr ""
 
 #. faction.court/split objective
 #: data/story/faction_court.json
-msgid "跟严廷殷整肃（问他「整肃」）：军师由你在营里拿下，路引停了，天驼关照旧是他的，关北的事不往朝上报——铁卫营欠你一回，终章替你守官道。跟李信揭发（问他「揭发」）：账本上京，严廷殷被召回，李信守关，天驼关从此不收过路费；第九章还没定的，这本账算揭发的一样物证。"
+msgid "跟李信揭发（在副将营帐问他「揭发」）：账本上京，严廷殷被召回，李信守关，天驼关从此不收过路费；第九章还没定的，这本账算揭发的一样物证。跟严廷殷整肃（在将军营帐问他「整肃」）：军师由你在营里拿下，路引停了，天驼关照旧是他的，关北的事不往朝上报——铁卫营欠你一回，终章替你守官道。"
 msgstr ""
 
 #. faction.court/split/purge text
@@ -44418,7 +44418,7 @@ msgstr ""
 
 #. canyon.npc.vice_general inquiry.印鉴.rules.say
 #: data/canyon/npcs.json
-msgid "印丢的那三天，盖出去的是兵部征关北民夫的令、私授的官职、过路费的路引。盖印的是军师。"
+msgid "印丢的那三天，盖出去的是私授的官职、过路费的路引，还让兵部拓了个模子去——征关北民夫的令，盖的是照模子浇的印。盖印的是军师。"
 msgstr ""
 
 #. canyon.npc.vice_general inquiry.印鉴.rules.lines.emote
@@ -44433,7 +44433,7 @@ msgstr ""
 
 #. canyon.npc.vice_general inquiry.印鉴.rules.lines.say
 #: data/canyon/npcs.json
-msgid "兵部征关北民夫的令，四十七道；私授的官职，十二个——收过路费的那几个，号衣就是这么来的；空白的路引，四百张。"
+msgid "私授的官职，十二个——收过路费的那几个，号衣就是这么来的；空白的路引，四百张。还有一样：兵部来的人拿一块泥在印上按了个模子——往后关北那些征民夫的令，盖的都是照模子浇的印。"
 msgstr ""
 
 #. canyon.npc.vice_general inquiry.印鉴.rules.lines.say
@@ -44443,7 +44443,7 @@ msgstr ""
 
 #. canyon.npc.vice_general inquiry.印鉴.rules.lines.say
 #: data/canyon/npcs.json
-msgid "我原是禁卫军的队长，先帝调我来，是要我看着这道关。……你带着路引，去帅帐问军师「路引」。"
+msgid "我原是禁卫军的队长，先帝调我来，是要我看着这道关。……你带着路引，去将军营帐问军师「路引」。"
 msgstr ""
 
 #. canyon.npc.vice_general inquiry.印鉴.rules.say
@@ -44874,7 +44874,7 @@ msgstr ""
 
 #. canyon.npc.adviser inquiry.路引.rules.lines.say
 #: data/canyon/npcs.json
-msgid "模子你买过了，我也不瞒你：将军的印丢的那三天，在后备兵手里，我借来用了。兵部来的人拿着令稿等在帐外——民夫的令、官职的札子、这一叠路引，一夜盖完。"
+msgid "模子你买过了，我也不瞒你：将军的印丢的那三天，在后备兵手里，我借来用了。兵部来的人拿着札子等在帐外——官职的札子、这一叠路引，一夜盖完。民夫的令他们不急，模子拿回去，要多少盖多少。"
 msgstr ""
 
 #. canyon.npc.adviser inquiry.路引.rules.lines.say
@@ -55957,7 +55957,7 @@ msgstr ""
 
 #. native.npc.pass_gate_soldier inquiry.关北.rules.say
 #: data/guanbei/npcs.json
-msgid "出了这道门就是槐阳王的地界。李副将的账上了京，兵部征民夫的令也在里头——关北的事，朝廷知道了。"
+msgid "出了这道门就是槐阳王的地界。李副将的账上了京，兵部拓了大将军的印去盖民夫令，账上也记着——关北的事，朝廷知道了。"
 msgstr ""
 
 #. native.npc.pass_gate_soldier inquiry.关北.rules.say

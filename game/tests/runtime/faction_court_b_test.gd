@@ -31,7 +31,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	for test: Callable in [_test_seal_and_ledger, _test_reopened, _test_purge, _test_expose, _test_uncle]:
+	for test: Callable in [_test_seal_and_ledger, _test_reopened, _test_purge, _test_expose, _test_expose_cut_short, _test_uncle]:
 		var session: WorldSessionController = await _session(tree)
 		await test.call(tree, session)
 		session.free()
@@ -46,7 +46,14 @@ func _test_data() -> void:
 	_check(ids == [&"badge", &"toll_snow", &"toll_cloud", &"passes", &"seal", &"ledger", &"adviser", &"split", &"arrest", &"uncle"], "its steps: %s" % [ids])
 	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 0, "one big choice: the split")
 	_check(quest.step(&"uncle").weight == StoryQuestDefinition.WEIGHT_ROUTE and quest.step(&"uncle").options.size() == 3, "卫沧澜: a route, not a choice")
-	_check(quest.step(&"arrest").only_after == &"purge" and quest.step(&"arrest").keeps.has(ADVISER), "the 军师 is taken on 整肃 only, and only knocked down")
+	_check(quest.step(&"arrest").only_after == &"purge" and quest.step(&"arrest").keeps.is_empty() and catalog.npc(ADVISER).hooks().kept_when != null, "the 军师 is taken on 整肃 only; no step keeps him (an ES2 resident), his kept_when does")
+	var quests: Array[StoryQuestDefinition] = catalog.story_quests()
+	var fresh := CharacterState.new()
+	_check(not StoryKeeps.keeps(fresh, catalog.npc(ADVISER), quests), "from New Game the 军师 is as ES2: he can be killed")
+	fresh.marks["跟严廷殷整肃"] = 1
+	_check(StoryKeeps.keeps(fresh, catalog.npc(ADVISER), quests), "整肃 chosen: only knocked down")
+	fresh.marks["赫造基被拿下了"] = 1
+	_check(not StoryKeeps.keeps(fresh, catalog.npc(ADVISER), quests), "taken: no longer kept")
 	_check(not quest.step(&"split").option(&"purge").reward.deed.is_empty() and not quest.step(&"split").option(&"expose").reward.deed.is_empty(), "a deed either way")
 	var general: NpcDefinition = catalog.npc(GENERAL)
 	var vice: NpcDefinition = catalog.npc(VICE)
@@ -67,8 +74,12 @@ func _test_data() -> void:
 	state.marks["赫造基被拿下了"] = 1
 	_check(JournalLog.holds(helpers, state, {}, {}), "铁卫营守官道 is the third band")
 	var expose: ServiceDefinition = catalog.service(&"imperial.front_hall.expose")
-	var text: String = JSON.stringify(FileAccess.get_file_as_string("res://data/imperial/world.json"))
-	_check(expose != null and text.count("跟李信揭发") >= 4, "李信's ledger counts in 第九章's 揭发, and is told there")
+	var told: int = 0
+	for act: ScriptedAct in expose.act.acts:
+		for step: ScriptedAct.Step in act.steps:
+			if step.only_when != null and step.only_when.when == JournalEntryDefinition.When.MARK and step.only_when.key == "跟李信揭发":
+				told += 1
+	_check(told == 2, "李信's ledger is told in both short-of-evidence branches (%d)" % told)
 	var ending: EpilogueDefinition = catalog.epilogue(&"ending")
 	var canyon: Array = ending.cards.filter(func(card: EpilogueDefinition.Card) -> bool: return card.card_id == &"canyon")
 	_check(canyon.size() == 1 and canyon[0].lines.size() == 2, "the ending has a 天驼关 card: 整肃 or 揭发")
@@ -95,7 +106,7 @@ func _test_seal_and_ledger(tree: SceneTree, session: WorldSessionController) -> 
 	var vice: NpcRuntimeState = await _beside(tree, session, camp, &"canyon.camp7.vice_general.1")
 	_check(vice != null and camp.select_npc(vice.character_id) and camp.ask_topics_selected().has("印鉴") and not camp.ask_topics_selected().has("揭发"), "李信: 印鉴 listed; 揭发 not yet")
 	var said: Array[String] = _ask(camp, vice, "印鉴")
-	_check(_said(said, "四十七道") and _said(said, "赫造基") and not _said(said, "再开一回堂") and state.marks.get("李信说了那三天的账", 0) == 1 and not state.marks.has("庾子建的案子又开了"), "the ledger: %s" % [said])
+	_check(_said(said, "四百张") and _said(said, "照模子浇的印") and _said(said, "赫造基") and not _said(said, "再开一回堂") and state.marks.get("李信说了那三天的账", 0) == 1 and not state.marks.has("庾子建的案子又开了"), "the ledger: %s" % [said])
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"adviser", "the 军师 next")
 	camp = MapPlaces.enter(session, CAMP8, &"canyon.camp8.adviser.1")
@@ -122,8 +133,8 @@ func _test_reopened(tree: SceneTree, session: WorldSessionController) -> void:
 	var camp: WorldMapController = MapPlaces.enter(session, CAMP7, &"canyon.camp7.vice_general.1")
 	var vice: NpcRuntimeState = await _beside(tree, session, camp, &"canyon.camp7.vice_general.1")
 	var said: Array[String] = _ask(camp, vice, "印鉴")
-	_check(_said(said, "四十七道") and _said(said, "再开一回堂") and state.marks.get("庾子建的案子又开了", 0) == 1, "settled, the letter with 程不平: the case opened again: %s" % [said])
-	_check(_said(_ask(camp, vice, "印鉴"), "四十七道") or _said(_ask(camp, vice, "印鉴"), "盖印的是军师"), "asked again: the ledger")
+	_check(_said(said, "四百张") and _said(said, "再开一回堂") and state.marks.get("庾子建的案子又开了", 0) == 1, "settled, the letter with 程不平: the case opened again: %s" % [said])
+	_check(_said(_ask(camp, vice, "印鉴"), "四百张") or _said(_ask(camp, vice, "印鉴"), "盖印的是军师"), "asked again: the ledger")
 	state.marks.erase("庾子建的案子又开了") # TEST-ONLY: heard the ledger before settling
 	_check(_said(_ask(camp, vice, "印鉴"), "再开一回堂") and state.marks.get("庾子建的案子又开了", 0) == 1, "heard the ledger first, settled after: the case still opens")
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT)
@@ -213,7 +224,8 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	await _beats(tree, session, 2)
 	_check(_count_in(session, CAMP8, GENERAL) == 0 and _count_in(session, CAMP8, ADVISER) == 0, "gone for good")
 	# The 印鉴 chain goes on through 李信.
-	_check(JSON.stringify(FileAccess.get_file_as_string("res://data/canyon/npcs.json")).contains("说谁找回了印"), "李信 takes the 印鉴 once 严廷殷 is gone")
+	var takes: Array = vice.definition().dealings().object_rules.filter(func(rule: NpcObjectRule) -> bool: return rule.giver_mark == "跟李信揭发")
+	_check(takes.size() == 2 and takes[0].item == &"es2:d/canyon/npc/obj/seal" and takes[0].gives == &"es2:d/canyon/npc/obj/old_sword" and takes[0].accept and takes[1].item == &"es2:d/canyon/npc/obj/fake_seal" and takes[1].set_temps.has("将军/kick") and not takes[1].accept, "李信 takes the 印鉴 (the 古剑) and throws out the fake (将军/kick) once 严廷殷 is gone")
 	# 第九章's 揭发 counts the ledger.
 	var expose: ServiceDefinition = catalog.service(&"imperial.front_hall.expose")
 	var counted: bool = false
@@ -223,13 +235,32 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 		var probe := CharacterState.new()
 		for mark: String in ["对出了原令", "跟李信揭发", "陈显祖作了证"]:
 			probe.marks[mark] = 1
-		counted = JournalLog.holds(act.when, probe, {}, {})
-	_check(counted, "原令, 陈显祖 and 李信's ledger: two pieces, enough for 揭发")
+		var one := CharacterState.new()
+		for mark: String in ["对出了原令", "陈显祖作了证"]:
+			one.marks[mark] = 1
+		counted = JournalLog.holds(act.when, probe, {}, {}) and not JournalLog.holds(act.when, one, {}, {})
+		break
+	_check(counted, "原令, 陈显祖 and 李信's ledger: two pieces, enough for 揭发 (陈显祖 alone is not)")
 	var ending: EpilogueDefinition = catalog.epilogue(&"ending")
 	var told: String = str(ending.shown(session.quest_condition_test()))
-	_check(told.contains("帅帐里坐着李信") and not told.contains("出关留五两"), "the 天驼关 card: 揭发")
+	_check(told.contains("将军营帐里坐着李信") and not told.contains("出关留五两"), "the 天驼关 card: 揭发")
 	session.shared_ui().standing_page.fill(session.quest_condition_test())
 	_check(session.shared_ui().standing_page.shown_text().contains("你跟李信揭发了天驼关"), "the 声望 page")
+
+
+## 揭发, the farewell begun and cut short (its scene_mark written, the rest never played): next time in, 严廷殷 and
+## the 军师 go without a word.
+func _test_expose_cut_short(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.court_admitted(session)
+	StoryFixtures.court_split(session, false)
+	state.marks["严廷殷交了关"] = 1 # TEST-ONLY: the scene begun, cut short
+	session.record_journal()
+	MapPlaces.enter(session, GATE, GATE_POINT)
+	await _settle(tree)
+	MapPlaces.enter(session, CAMP8, &"canyon.camp8.general.1")
+	await _beats(tree, session, 4)
+	_check(_count_in(session, CAMP8, GENERAL) == 0 and _count_in(session, CAMP8, ADVISER) == 0, "cut short: they still go: %s %s" % [_where(session, GENERAL), _where(session, ADVISER)])
 
 
 ## 卫沧澜: the 皇叔 come to court fetches him (the step's route `uncle`); out by another way, `out`; 第九章 settled
@@ -249,7 +280,7 @@ func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
 	var uncle: NpcRuntimeState = _first(session, FRONT, UNCLE)
 	_check(uncle != null and hall.select_npc(uncle.character_id) and hall.ask_topics_selected().has("卫沧澜"), "於兰天武 in the 养心殿: 卫沧澜 listed")
 	var said: Array[String] = _ask(hall, uncle, "卫沧澜")
-	_check(_said(said, "手诏") and _said(said, "庾子建亲自开的门") and state.marks.get("皇叔要回了卫沧澜", 0) == 1 and state.marks.get("卫沧澜出了尚书府", 0) == 1, "the 皇叔 fetches him: %s" % [said])
+	_check(_said(said, "手诏") and _said(said, "庾子建亲自开的门") and state.marks.get("皇叔要回了卫沧澜", 0) == 1 and state.marks.get("卫沧澜出了尚书府", 0) == 1 and state.marks.get("见过卫沧澜", 0) == 1, "the 皇叔 fetches him (met: no stranger's greeting in the 水烟阁): %s" % [said])
 	session.record_journal()
 	_check(state.quests.has("faction.court/uncle/uncle") and state.quests.has("faction.court#done") and DeedLog.done(state, "请皇叔拿手诏从尚书府要回了卫沧澜"), "the route `uncle`; the line done")
 	_check(_said(_ask(hall, uncle, "卫沧澜"), "送回水烟阁"), "asked again")
