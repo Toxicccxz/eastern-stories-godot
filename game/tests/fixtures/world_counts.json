@@ -745,11 +745,13 @@
 		"native.hotel2.levy_steward",
 		"native.square.lu_decai",
 		"native.dukou.lu_decai",
-		"native.street3.lu_decai"
+		"native.street3.lu_decai",
+		"native.sroad4.toll_man",
+		"native.entrance.toll_man"
 	],
-	"world_npcs": 862,
+	"world_npcs": 864,
 	"resident_maps": 168,
-	"new_game_items": 1296,
+	"new_game_items": 1300,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -923,7 +925,7 @@
 	},
 	"map_npcs": {
 		"snow.inn": 5,
-		"snow.outdoor": 26,
+		"snow.outdoor": 27,
 		"snow.inn_upstairs": 6,
 		"snow.cellar": 0,
 		"snow.bank_house": 1,
@@ -947,7 +949,7 @@
 		"goathill.mountain": 9,
 		"goathill.caverns": 13,
 		"goathill.temple_house": 3,
-		"cloud.outdoor": 14,
+		"cloud.outdoor": 15,
 		"cloud.tearoom_upstairs": 1,
 		"cloud.jiyuan_upstairs": 1,
 		"cloud.duchang_upstairs": 0,
@@ -1097,8 +1099,8 @@
 	"technical_npcs": 37,
 	"snow_route": {
 		"inn_npcs": 5,
-		"outdoor_npcs": 26,
-		"items": 42,
+		"outdoor_npcs": 27,
+		"items": 44,
 		"draws": 108
 	}
 }

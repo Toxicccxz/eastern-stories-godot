@@ -7523,7 +7523,7 @@
 					"listed_marks": [
 						"见了真龙头"
 					],
-					"confirm": "把密信交给花紫会：真龙头拿它压着庾家，乔阴的巷子不清。\n乔阴的程不平也要这封信，拿去当物证——交给花紫会，程不平就拿不到了，这封信再也要不回来。\n京师的事还没定的，这封信也不能拿去朝上揭发了，人证物证要另凑。\n要交吗？",
+					"confirm": "把密信交给花紫会：真龙头拿它压着庾家，乔阴的巷子不清。\n乔阴的程不平也要这封信，拿去当物证——交给花紫会，官府那条线就断了，程不平往后不跟你说案子，这封信再也要不回来。\n京师的事还没定的，这封信也不能拿去朝上揭发了，人证物证要另凑。\n要交吗？",
 					"confirm_marks": [
 						"见了真龙头"
 					],
@@ -7628,6 +7628,190 @@
 			"chat_msg": [
 				"墙那边传来护院换班的梆子声，陆得财数着，嘴唇一动一动。\n"
 			]
+		},
+		{
+			"id": "native.npc.toll_man_snow",
+			"legacy_source": "native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」) — one of two men collecting a toll under an 官府告示 on the 青石官道's 路口 west of 雪亭镇 (d/snow/sroad4.c: 衔接雪亭镇街道的路口; the 巡捕 patrol it, yamen_po.c); 天驼关's toll come down the road (d/canyon/README: 收取过路费; leader2.c: 来这里不给我们大队长过路费，你找死啊); only knocked down: beaten, he drops the 路引 and runs (the 兵部画吏's way, DECISIONS「东方神教 B」); the attributes fixed here",
+			"name": "钱贵",
+			"aliases": [
+				"toll man",
+				"钱贵",
+				"收钱的"
+			],
+			"title": "收过路费的",
+			"gender": "男性",
+			"age": 34,
+			"long": "一个三十来岁的汉子，穿一件洗白了的旧号衣，前胸的字给拆掉了，只剩一圈线头。他倚着路口一块告示站着，腰里挂一口刀，脚边一只钱匣子，见人过来就把手一伸。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 22,
+				"int": 14,
+				"spi": 14,
+				"cps": 18,
+				"per": 12,
+				"con": 24,
+				"kar": 10
+			},
+			"resources": {
+				"kee": 300,
+				"max_kee": 300
+			},
+			"combat_exp": 3000,
+			"score": 200,
+			"attitude": "peaceful",
+			"always_kept": true,
+			"skills": {
+				"blade": 35,
+				"parry": 30,
+				"dodge": 30,
+				"unarmed": 20
+			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"钱贵冲过路的人把手一伸：过路的，黄金一两！官府的告示，看清楚了！\n",
+				"钱贵拍了拍身边的告示：交了钱给路引，前头的关卡不再收。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"钱贵喝道：敢打官差！\n",
+				"钱贵一边招架，一边拿脚护着地上的钱匣子。\n"
+			],
+			"inquiry": {
+				"过路费": [
+					"官府的告示，没看见？过路的，黄金一两。交了钱给你一张路引，前头的关卡不再收。"
+				],
+				"路引": [
+					"交了钱才有。盖着大印的，假不了。"
+				],
+				"告示": {
+					"rules": [
+						{
+							"asker_carries": "捕快腰牌",
+							"lines": [
+								{
+									"emote": "瞟了一眼你腰里的牌子，嘿嘿一笑。"
+								},
+								{
+									"say": "乔阴的捕快？乔阴县的官，管不到官道上。这是关上的告示。"
+								}
+							]
+						},
+						{
+							"say": "官府贴的。识字的自己看，不识字的交钱。"
+						}
+					]
+				}
+			},
+			"spared": {
+				"mark": "雪亭路口收钱的倒了",
+				"leave": true,
+				"drop": "native:canyon/road_passes",
+				"line": "钱贵捂着肚子爬起来，连钱匣子也不要了：「别打了！告示是关上的兄弟给的，路引一张一两——我只管收钱！」\n他从怀里掏出一叠路引扔在地上，顺着官道往西南跑了。\n"
+			}
+		},
+		{
+			"id": "native.npc.toll_man_cloud",
+			"legacy_source": "native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」) — the other, under the old 官府公告 at 绮云镇's gate (u/cloud/entrance.c: 入口处有个官府的公告(sign) — [启事] 由此入镇收取黄金一两), who takes the gold the sign asks for; only knocked down: beaten, he drops the 路引 and runs (the 兵部画吏's way, DECISIONS「东方神教 B」); the attributes fixed here",
+			"name": "牛四",
+			"aliases": [
+				"toll man",
+				"牛四",
+				"收钱的"
+			],
+			"title": "收过路费的",
+			"gender": "男性",
+			"age": 34,
+			"long": "一个粗壮的汉子，敞着一件旧号衣，号衣上的字拆掉了。他抱着胳膊站在镇口那块官府公告底下，腰里挂一口刀，面前摆着一只钱匣子，进镇的人都得从他跟前过。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 22,
+				"int": 14,
+				"spi": 14,
+				"cps": 18,
+				"per": 12,
+				"con": 24,
+				"kar": 10
+			},
+			"resources": {
+				"kee": 300,
+				"max_kee": 300
+			},
+			"combat_exp": 3000,
+			"score": 200,
+			"attitude": "peaceful",
+			"always_kept": true,
+			"skills": {
+				"blade": 35,
+				"parry": 30,
+				"dodge": 30,
+				"unarmed": 20
+			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/blade",
+					"source": "obj/weapon/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"牛四拿刀鞘敲了敲头顶的公告：由此入镇，黄金一两！\n",
+				"牛四掂着钱匣子，冲进镇的客商嚷道：交钱，拿路引！\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"牛四喝道：敢在官府的告示底下动手！\n",
+				"牛四的刀抡得呼呼响，一招也不成章法。\n"
+			],
+			"inquiry": {
+				"过路费": [
+					"官府的告示，没看见？过路的，黄金一两。交了钱给你一张路引，前头的关卡不再收。"
+				],
+				"路引": [
+					"交了钱才有。盖着大印的，假不了。"
+				],
+				"告示": {
+					"rules": [
+						{
+							"asker_carries": "捕快腰牌",
+							"lines": [
+								{
+									"emote": "瞟了一眼你腰里的牌子，嘿嘿一笑。"
+								},
+								{
+									"say": "乔阴的捕快？这块告示在镇口挂了多少年了，你们县太爷说过一个不字没有？"
+								}
+							]
+						},
+						{
+							"say": "官府贴的。识字的自己看，不识字的交钱。"
+						}
+					]
+				}
+			},
+			"spared": {
+				"mark": "绮云镇口收钱的倒了",
+				"leave": true,
+				"drop": "native:canyon/road_passes",
+				"line": "牛四爬起来，一叠路引从怀里滑了出来：「我、我也是替人收的！关上的人每个月来拿一回钱！」\n他顾不上捡，往卧龙岗的方向跑了。\n"
+			}
 		}
 	]
 }

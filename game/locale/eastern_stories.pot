@@ -409,6 +409,8 @@ msgstr ""
 #. native.npc.lu_decai_snow gender
 #. native.npc.lu_decai_cloud gender
 #. native.npc.lu_decai_true gender
+#. native.npc.toll_man_snow gender
+#. native.npc.toll_man_cloud gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -1883,7 +1885,9 @@ msgstr ""
 #. city.southdoor.landmark.notice name
 #. native.npc.huaiyang_gate_guard inquiry topic
 #. guanbei.gate.notice name
-#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/oldpine/world.json data/waterfog/world.json data/city/world.json data/guanbei/npcs.json data/guanbei/world.json
+#. native.npc.toll_man_snow inquiry topic
+#. native.npc.toll_man_cloud inquiry topic
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/waterfog/waterfog_mountain.tscn data/oldpine/world.json data/waterfog/world.json data/city/world.json data/guanbei/npcs.json data/guanbei/world.json data/native/npcs.json
 msgid "告示"
 msgstr ""
 
@@ -3929,6 +3933,10 @@ msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
 msgid "淳风武馆收徒"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "[启事] 由此过路收取黄金一两"
 msgstr ""
 
 #. es2:d/snow/school2 short
@@ -13539,6 +13547,7 @@ msgstr ""
 #. es2:obj/paper_seal unit
 #. native:niling/war_ministry_papers unit
 #. native:choyin/indentures unit
+#. native:canyon/road_passes unit
 #: data/common/items.json data/niling/items.json data/native/items.json
 msgid "叠"
 msgstr ""
@@ -16038,8 +16047,9 @@ msgstr ""
 #. buxuan place
 #. huazi place
 #. faction.huazi region
+#. faction.court region
 #. choyin name
-#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/story/epilogue.json data/story/factions.json data/story/faction_huazi.json data/choyin/world.json data/sanyen/voxel/mountain.json
+#: data/common/atlas.json data/common/journal.json data/story/chapter5.json data/story/epilogue.json data/story/factions.json data/story/faction_huazi.json data/story/faction_court.json data/choyin/world.json data/sanyen/voxel/mountain.json
 msgid "乔阴县城"
 msgstr ""
 
@@ -25392,7 +25402,8 @@ msgid "密信你交给了官府。叫花子不再跟你说正事。"
 msgstr ""
 
 #. court name
-#: data/story/factions.json
+#. faction.court title
+#: data/story/factions.json data/story/faction_court.json
 msgid "官府"
 msgstr ""
 
@@ -25444,6 +25455,31 @@ msgstr ""
 #. court lines.text
 #: data/story/factions.json
 msgid "尚书府小屋那封密信，是你交到程不平手上的。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "你是乔阴县的捕快，腰里挂着程不平给的黑漆腰牌。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "雪亭路口、绮云镇口那两个打着官府告示收过路费的，是你拿下的。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "他们身上的路引盖着天驼关铁卫营的大印。程不平说：印在严将军手里。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "武举的第一场，程不平的荐书替你免了。"
+msgstr ""
+
+#. court lines.text
+#: data/story/factions.json
+msgid "尚书府小屋那封密信，你给了花紫会。程不平不再跟你说案子。"
 msgstr ""
 
 #. dongfang lines.text
@@ -26847,7 +26883,7 @@ msgstr ""
 
 #. faction.huazi/letter objective
 #: data/story/faction_huazi.json
-msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，程不平就拿不到了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
+msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
 msgstr ""
 
 #. faction.huazi/letter/huazi text
@@ -26878,6 +26914,86 @@ msgstr ""
 #. faction.huazi/rescue text
 #: data/story/faction_huazi.json
 msgid "真龙头说了尚书府客房里的那个人。"
+msgstr ""
+
+#. faction.court summary
+#: data/story/faction_court.json
+msgid "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，路引上是天驼关的印。"
+msgstr ""
+
+#. faction.court lapses.text
+#: data/story/faction_court.json
+msgid "程不平不再跟你说案子。官府的事，到此为止。"
+msgstr ""
+
+#. faction.court checklist.label
+#: data/story/faction_court.json
+msgid "武举的荐书：带着捕快腰牌去京师校武场，问葛升「武举」，第一场免考"
+msgstr ""
+
+#. faction.court checklist.label
+#: data/story/faction_court.json
+msgid "小屋的密信"
+msgstr ""
+
+#. faction.court checklist.missing
+#: data/story/faction_court.json
+msgid "在尚书府后院小屋里逆灵宫的信使身上；交给程不平（问他「密信」），给了花紫会，官府这条线就断了"
+msgstr ""
+
+#. faction.court/badge objective
+#: data/story/faction_court.json
+msgid "乔阴知县程不平还缺一个捕快。去县衙大堂问他「捕快」。花紫会的人、惯窃，他不收。"
+msgstr ""
+
+#. faction.court/badge text
+#: data/story/faction_court.json
+msgid "程不平给了你一块乔阴捕快腰牌：不给俸禄，不教功夫，只给案子。"
+msgstr ""
+
+#. faction.court/toll_snow objective
+#: data/story/faction_court.json
+msgid "头一件案子：雪亭镇往西，青石官道的路口，有个汉子倚着一块「官府告示」收过路费，黄金一两。乔阴县衙没贴过那样的告示——拿下他（选中他「攻击」），他身上有东西。"
+msgstr ""
+
+#. faction.court/toll_snow text
+#: data/story/faction_court.json
+msgid "雪亭路口收钱的钱贵挨了打，扔下一叠路引跑了。"
+msgstr ""
+
+#. faction.court/toll_cloud objective
+#: data/story/faction_court.json
+msgid "还有一个：绮云镇口那块官府公告底下，有人照着公告收「入镇黄金一两」。拿下他（选中他「攻击」）。"
+msgstr ""
+
+#. faction.court/toll_cloud text
+#: data/story/faction_court.json
+msgid "绮云镇口收钱的牛四也挨了打，路引掉了一地。"
+msgstr ""
+
+#. faction.court/passes objective
+#: data/story/faction_court.json
+msgid "两个收过路费的身上都搜出了路引。带着路引回乔阴县衙，问程不平「路引」。"
+msgstr ""
+
+#. faction.court/passes text
+#: data/story/faction_court.json
+msgid "程不平认出路引上的印：天驼关铁卫营的大印，严将军的印。"
+msgstr ""
+
+#. faction.court/passes reward.deed
+#: data/story/faction_court.json
+msgid "拿下了官道上挂着官府告示收过路费的人，搜出了盖着天驼关大印的路引"
+msgstr ""
+
+#. faction.court/seal objective
+#: data/story/faction_court.json
+msgid "路引上是天驼关铁卫营的大印。带着路引去天驼关，问镇国大将军严廷殷「路引」。"
+msgstr ""
+
+#. faction.court/seal text
+#: data/story/faction_court.json
+msgid "严廷殷认了路引上的印。"
 msgstr ""
 
 #. faction.assembly title
@@ -30869,6 +30985,7 @@ msgstr ""
 #. native:imperial/guard_token unit
 #. native:snow/fonxan_tally unit
 #. native:cloud/copper_token unit
+#. native:choyin/constable_badge unit
 #: data/latemoon/items.json data/city/items.json data/guanbei/items.json data/imperial/items.json data/native/items.json
 msgid "块"
 msgstr ""
@@ -41691,6 +41808,161 @@ msgstr ""
 #. choyin.npc.judgeman accept_object.say
 #: data/choyin/npcs.json
 msgid "兵部的印在上面。京师的事没定之前，这本册子在你手里，比在本县手里有用——带它上京。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry topic
+#: data/choyin/npcs.json
+msgid "捕快"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.confirm
+#: data/choyin/npcs.json
+msgid ""
+"做乔阴县的捕快：程不平给你一块腰牌，头一件案子是官道上挂着官府告示收过路费的人。\n"
+"尚书府小屋里那封密信，官府和花紫会都要——信给了花紫会，官府这条线就断了。\n"
+"花紫会的人、惯窃，程不平不收。\n"
+"要做吗？"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "上下打量了你一眼。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "花紫会的人？本县的捕快，不从叫花子堆里挑。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.say
+#: data/choyin/npcs.json
+msgid "那封信，你给了叫花子。本县的案子，不跟你说了。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "腰牌呢？……丢了？"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "从案下又摸出一块，在背面烙了县印。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "捕快丢了腰牌，传出去是笑话。这回收好。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.say
+#: data/choyin/npcs.json
+msgid "路引上是天驼关的印。印在严将军手里——带着路引去天驼关，问他。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.say
+#: data/choyin/npcs.json
+msgid "雪亭南路的官道路口、绮云镇口，两个挂着官府告示收过路费的。乔阴县衙没贴过那样的告示——拿下，搜身。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "翻开巡捕的簿子，找到一个名字，又抬头看了你一眼。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "偷东西被人当场拿住，簿子上记了不止十回。惯窃当捕快？"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "等街上把你忘了，再来。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "从案下取出一块黑漆木牌，在背面烙了县印，推到你面前。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "陈显祖那件案子，你办得比本县的捕快干净。乔阴县缺一个不归庾家管、也不归叫花子管的人。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "这块腰牌带在身上，乔阴的巡捕认你。本县不给你俸禄，也不教你功夫——只给你案子。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "京师今年要开武举。到时候带着腰牌去校武场报名——本县往兵部武选司递一封荐书，乔阴县保举的人，第一场免考。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "头一件：雪亭南路的官道路口、绮云镇口，有人挂着官府的告示收过路费，黄金一两。乔阴县衙没贴过那样的告示——拿下，搜身，看看他们是哪个衙门的。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.say
+#: data/choyin/npcs.json
+msgid "本县的捕快够用。你是什么人？"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry topic
+#. native.npc.waterfog_spy inquiry topic
+#. native.npc.waterfog_hopeful inquiry topic
+#. native.npc.waterfog_courier inquiry topic
+#. native.npc.toll_man_snow inquiry topic
+#. native.npc.toll_man_cloud inquiry topic
+#. native:canyon/road_passes name
+#: data/choyin/npcs.json data/native/npcs.json data/native/items.json
+msgid "路引"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.say
+#: data/choyin/npcs.json
+msgid "路引上是天驼关铁卫营的印。印在严将军手里——带着它去天驼关，问严廷殷。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "把路引摊在案上，一张一张翻过去，翻到一半停住了。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.lines.say
+#: data/choyin/npcs.json
+msgid "空白的路引，填上名字就能过关。印是天驼关铁卫营的——严将军的大印。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.lines.say
+#: data/choyin/npcs.json
+msgid "天驼关收过路钱，不是新闻，家叔骂了他十年。可收到雪亭、绮云来，还打着官府的告示，一张路引卖一两黄金……"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.lines.say
+#: data/choyin/npcs.json
+msgid "这一方印是真是假，本县看不出来。印在严将军手里——带着路引去天驼关，问他。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.say
+#: data/choyin/npcs.json
+msgid "路引呢？搜出来的东西，要拿来本县看。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.say
+#: data/choyin/npcs.json
+msgid "雪亭那个拿下了。绮云镇口还有一个——两个都拿下了再来。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.say
+#: data/choyin/npcs.json
+msgid "绮云那个拿下了。雪亭南路口还有一个——两个都拿下了再来。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.路引.rules.say
+#: data/choyin/npcs.json
+msgid "路引？先把收过路费的两个人拿下。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry topic
@@ -59903,6 +60175,7 @@ msgstr ""
 
 #. native:imperial/guard_token no_drop
 #. native:snow/fonxan_tally no_drop
+#. native:choyin/constable_badge no_drop
 #: data/imperial/items.json data/native/items.json
 msgid "这块腰牌不能随便丢。"
 msgstr ""
@@ -60048,6 +60321,26 @@ msgstr ""
 #. native.npc.ge_sheng inquiry.武举.rules.say
 #: data/imperial/npcs.json
 msgid "名字已经写上了。先是两位校尉，最后是邓将军。打到见血就算，不许下死手。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "抬眼把你从头看到脚，目光落在你腰里那块黑漆木牌上。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.say
+#: data/imperial/npcs.json
+msgid "乔阴县的捕快？……程知县的荐书到过武选司，乔阴县保举一名。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "在名册上写了一行，又在名字旁边点了一个小圈。"
+msgstr ""
+
+#. native.npc.ge_sheng inquiry.武举.rules.lines.say
+#: data/imperial/npcs.json
+msgid "第一场免了。直接找孙校尉，最后是邓将军。打到见血就算，不许下死手。三场都过了，明日殿试。"
 msgstr ""
 
 #. native.npc.ge_sheng inquiry.武举.rules.lines.emote
@@ -66108,13 +66401,6 @@ msgstr ""
 msgid "二十年前那位卫盟主——如今还在不在？在，又在哪儿？"
 msgstr ""
 
-#. native.npc.waterfog_spy inquiry topic
-#. native.npc.waterfog_hopeful inquiry topic
-#. native.npc.waterfog_courier inquiry topic
-#: data/native/npcs.json
-msgid "路引"
-msgstr ""
-
 #. native.npc.waterfog_spy inquiry.路引.rules.lines.emote
 #: data/native/npcs.json
 msgid "把路引递了过来：关北槐阳县开的路引，盖着一方县印。"
@@ -67585,7 +67871,7 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "把密信交给花紫会：真龙头拿它压着庾家，乔阴的巷子不清。\n"
-"乔阴的程不平也要这封信，拿去当物证——交给花紫会，程不平就拿不到了，这封信再也要不回来。\n"
+"乔阴的程不平也要这封信，拿去当物证——交给花紫会，官府那条线就断了，程不平往后不跟你说案子，这封信再也要不回来。\n"
 "京师的事还没定的，这封信也不能拿去朝上揭发了，人证物证要另凑。\n"
 "要交吗？"
 msgstr ""
@@ -67654,6 +67940,136 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "墙那边传来护院换班的梆子声，陆得财数着，嘴唇一动一动。\n"
+msgstr ""
+
+#. native.npc.toll_man_snow name
+#: data/native/npcs.json
+msgid "钱贵"
+msgstr ""
+
+#. native.npc.toll_man_snow title
+#. native.npc.toll_man_cloud title
+#: data/native/npcs.json
+msgid "收过路费的"
+msgstr ""
+
+#. native.npc.toll_man_snow long
+#: data/native/npcs.json
+msgid ""
+"一个三十来岁的汉子，穿一件洗白了的旧号衣，前胸的字给拆掉了，只剩一圈线头。他倚着路口一块告示站着，腰里挂一口刀，脚边一只钱匣子，见人过来就把手一伸。\n"
+msgstr ""
+
+#. native.npc.toll_man_snow chat_msg
+#: data/native/npcs.json
+msgid ""
+"钱贵冲过路的人把手一伸：过路的，黄金一两！官府的告示，看清楚了！\n"
+msgstr ""
+
+#. native.npc.toll_man_snow chat_msg
+#: data/native/npcs.json
+msgid ""
+"钱贵拍了拍身边的告示：交了钱给路引，前头的关卡不再收。\n"
+msgstr ""
+
+#. native.npc.toll_man_snow chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"钱贵喝道：敢打官差！\n"
+msgstr ""
+
+#. native.npc.toll_man_snow chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"钱贵一边招架，一边拿脚护着地上的钱匣子。\n"
+msgstr ""
+
+#. native.npc.toll_man_snow inquiry topic
+#. native.npc.toll_man_cloud inquiry topic
+#: data/native/npcs.json
+msgid "过路费"
+msgstr ""
+
+#. native.npc.toll_man_snow inquiry.过路费
+#. native.npc.toll_man_cloud inquiry.过路费
+#: data/native/npcs.json
+msgid "官府的告示，没看见？过路的，黄金一两。交了钱给你一张路引，前头的关卡不再收。"
+msgstr ""
+
+#. native.npc.toll_man_snow inquiry.路引
+#. native.npc.toll_man_cloud inquiry.路引
+#: data/native/npcs.json
+msgid "交了钱才有。盖着大印的，假不了。"
+msgstr ""
+
+#. native.npc.toll_man_snow inquiry.告示.rules.lines.emote
+#. native.npc.toll_man_cloud inquiry.告示.rules.lines.emote
+#: data/native/npcs.json
+msgid "瞟了一眼你腰里的牌子，嘿嘿一笑。"
+msgstr ""
+
+#. native.npc.toll_man_snow inquiry.告示.rules.lines.say
+#: data/native/npcs.json
+msgid "乔阴的捕快？乔阴县的官，管不到官道上。这是关上的告示。"
+msgstr ""
+
+#. native.npc.toll_man_snow inquiry.告示.rules.say
+#. native.npc.toll_man_cloud inquiry.告示.rules.say
+#: data/native/npcs.json
+msgid "官府贴的。识字的自己看，不识字的交钱。"
+msgstr ""
+
+#. native.npc.toll_man_snow spared.line
+#: data/native/npcs.json
+msgid ""
+"钱贵捂着肚子爬起来，连钱匣子也不要了：「别打了！告示是关上的兄弟给的，路引一张一两——我只管收钱！」\n"
+"他从怀里掏出一叠路引扔在地上，顺着官道往西南跑了。\n"
+msgstr ""
+
+#. native.npc.toll_man_cloud name
+#: data/native/npcs.json
+msgid "牛四"
+msgstr ""
+
+#. native.npc.toll_man_cloud long
+#: data/native/npcs.json
+msgid ""
+"一个粗壮的汉子，敞着一件旧号衣，号衣上的字拆掉了。他抱着胳膊站在镇口那块官府公告底下，腰里挂一口刀，面前摆着一只钱匣子，进镇的人都得从他跟前过。\n"
+msgstr ""
+
+#. native.npc.toll_man_cloud chat_msg
+#: data/native/npcs.json
+msgid ""
+"牛四拿刀鞘敲了敲头顶的公告：由此入镇，黄金一两！\n"
+msgstr ""
+
+#. native.npc.toll_man_cloud chat_msg
+#: data/native/npcs.json
+msgid ""
+"牛四掂着钱匣子，冲进镇的客商嚷道：交钱，拿路引！\n"
+msgstr ""
+
+#. native.npc.toll_man_cloud chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"牛四喝道：敢在官府的告示底下动手！\n"
+msgstr ""
+
+#. native.npc.toll_man_cloud chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"牛四的刀抡得呼呼响，一招也不成章法。\n"
+msgstr ""
+
+#. native.npc.toll_man_cloud inquiry.告示.rules.lines.say
+#: data/native/npcs.json
+msgid "乔阴的捕快？这块告示在镇口挂了多少年了，你们县太爷说过一个不字没有？"
+msgstr ""
+
+#. native.npc.toll_man_cloud spared.line
+#: data/native/npcs.json
+msgid ""
+"牛四爬起来，一叠路引从怀里滑了出来：「我、我也是替人收的！关上的人每个月来拿一回钱！」\n"
+"他顾不上捡，往卧龙岗的方向跑了。\n"
 msgstr ""
 
 #. native:snow/letter_to_chen name
@@ -68106,6 +68522,28 @@ msgstr ""
 #. native:choyin/indentures no_drop
 #: data/native/items.json
 msgid "这叠卖身契不能随便丢。"
+msgstr ""
+
+#. native:choyin/constable_badge name
+#: data/native/items.json
+msgid "乔阴捕快腰牌"
+msgstr ""
+
+#. native:choyin/constable_badge long
+#: data/native/items.json
+msgid ""
+"一块黑漆木腰牌，巴掌大，正面阴刻「乔阴县捕」四个字，背面烙着县印，穿着一根褪了色的红绳。\n"
+msgstr ""
+
+#. native:canyon/road_passes long
+#: data/native/items.json
+msgid ""
+"一叠空白的路引，纸是关上的公文纸，每一张左下角都盖着同一方朱红大印：「天驼关铁卫营」。只等填上名字。印泥一样的旧，像是同一天盖下去的。\n"
+msgstr ""
+
+#. native:canyon/road_passes no_drop
+#: data/native/items.json
+msgid "这叠路引不能随便丢。"
 msgstr ""
 
 #. native:waterfog/terrace_stair long

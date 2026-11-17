@@ -54,7 +54,7 @@ func _test_data() -> void:
 	_check(ids == [&"errand", &"steal", &"deeds", &"snow", &"cloud", &"head", &"letter", &"rescue"], "its steps: %s" % [ids])
 	var letter: StoryQuestDefinition.Step = quest.step(&"letter")
 	_check(letter.is_branch() and letter.weight == StoryQuestDefinition.WEIGHT_SMALL and letter.options.size() == 2 and letter.options.all(func(option: StoryQuestDefinition.Option) -> bool: return not option.reward.deed.is_empty()), "the 密信 is a small choice of two, each a deed")
-	_check(letter.objective.contains("程不平就拿不到了") and letter.objective.contains("花紫会这条线就断了") and letter.objective.contains("不能拿去朝上揭发"), "what either way costs is said before the choice")
+	_check(letter.objective.contains("官府那条线就断了") and letter.objective.contains("花紫会这条线就断了") and letter.objective.contains("不能拿去朝上揭发"), "what either way costs is said before the choice")
 	_check(quest.step(&"deeds").reward.rank_title == "五结弟子" and quest.step(&"deeds").reward.rank_family == &"family.huazi" and not quest.step(&"deeds").reward.deed.is_empty(), "the 契 handed over: 五结弟子 for 花紫会's own, a deed")
 	_check(quest.step(&"steal").objective.contains("随手摸一样") and quest.step(&"steal").objective.contains("巡捕"), "the steal says how, and what failing costs")
 	for id: StringName in [DEEDS, LETTER]:
@@ -68,7 +68,7 @@ func _test_data() -> void:
 	for spawn_id: StringName in [&"native.hotel2.levy_steward", &"native.square.lu_decai", &"native.dukou.lu_decai", &"native.street3.lu_decai"]:
 		_check(catalog.spawn(spawn_id) != null, "%s exists" % spawn_id)
 	var head: NpcDefinition = catalog.npc(HEAD)
-	_check(head.talk().ask_confirm("密信").contains("这封信再也要不回来") and catalog.npc(JUDGE).talk().ask_confirm("密信").contains("花紫会那条线就断了"), "both ways are asked first, and say which line ends")
+	_check(head.talk().ask_confirm("密信").contains("这封信再也要不回来") and head.talk().ask_confirm("密信").contains("官府那条线就断了") and catalog.npc(JUDGE).talk().ask_confirm("密信").contains("花紫会那条线就断了"), "both ways are asked first, and say which line ends")
 	var marks: Dictionary = {"见了真龙头": 1}
 	_check(head.talk().confirm_applies("密信", marks, &"", ["密信"]) and not head.talk().confirm_applies("密信", marks, &"", []), "asked first only of one who carries the letter (confirm_carries)")
 	var expose: ServiceDefinition = catalog.service(&"imperial.front_hall.expose")

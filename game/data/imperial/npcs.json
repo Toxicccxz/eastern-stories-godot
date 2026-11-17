@@ -2,7 +2,7 @@
 	"npcs": [
 		{
 			"id": "native.npc.ge_sheng",
-			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章 入口「武举」, §4 第 10 条官府「晋阶：武举」; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 兵部武选司's clerk who keeps the 武考 at the 校武场 (d/city/jiaowu.c: 每年武考也是在此举行的), 续写",
+			"legacy_source": "native: 第九章 A (剧情总纲 §3 第九章 入口「武举」, §4 第 10 条官府「晋阶：武举」; 计划 build/plans/第九章_计划.md A 包, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 A」) — the 兵部武选司's clerk who keeps the 武考 at the 校武场 (d/city/jiaowu.c: 每年武考也是在此举行的), 续写; native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」) — the 荐书: one carrying 乔阴's 捕快腰牌 is entered with the first bout waived",
 			"name": "葛升",
 			"aliases": [
 				"ge sheng",
@@ -49,6 +49,36 @@
 								"报了武举"
 							],
 							"say": "名字已经写上了。先是两位校尉，最后是邓将军。打到见血就算，不许下死手。"
+						},
+						{
+							"asker_marks": [
+								"做了乔阴捕快"
+							],
+							"asker_carries": "捕快腰牌",
+							"asker_lacks": [
+								"早朝过",
+								"从冷宫井上来",
+								"官府的线断了"
+							],
+							"marks_asker": [
+								"报了武举",
+								"胜了第一场",
+								"程不平荐了你"
+							],
+							"lines": [
+								{
+									"emote": "抬眼把你从头看到脚，目光落在你腰里那块黑漆木牌上。"
+								},
+								{
+									"say": "乔阴县的捕快？……程知县的荐书到过武选司，乔阴县保举一名。"
+								},
+								{
+									"emote": "在名册上写了一行，又在名字旁边点了一个小圈。"
+								},
+								{
+									"say": "第一场免了。直接找孙校尉，最后是邓将军。打到见血就算，不许下死手。三场都过了，明日殿试。"
+								}
+							]
 						},
 						{
 							"mark_asker": "报了武举",

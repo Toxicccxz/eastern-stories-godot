@@ -932,3 +932,38 @@ static func huazi_letter(session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if map != null:
 		map.acts.take_from_player(&"native:city/courier_letter")
+
+
+## 官府 A (势力线第二批; DECISIONS「官府 A」): 程不平 wrote his letter (第五章) and made the player his 捕快 — asked
+## 「捕快」, the 腰牌 in hand. The two men collecting the toll next.
+static func court_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.marks["程不平写了信"] = 1
+	for key: String in ["faction.court#started", "faction.court/badge"]:
+		_write(state, key)
+	state.marks["做了乔阴捕快"] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and not session.player_held_item_ids().get(&"native:choyin/constable_badge", false):
+		map.give_new_item_to_player(&"native:choyin/constable_badge")
+
+
+## 官府 A: both men beaten (court_joined first), each dropping a 叠 of 路引 — picked up, one carried here. 程不平's
+## 「路引」 next.
+static func court_tolls(session: WorldSessionController) -> void:
+	court_joined(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.court/toll_snow", "faction.court/toll_cloud"]:
+		_write(state, key)
+	for mark: String in ["雪亭路口收钱的倒了", "绮云镇口收钱的倒了"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and not session.player_held_item_ids().get(&"native:canyon/road_passes", false):
+		map.give_new_item_to_player(&"native:canyon/road_passes")
+
+
+## 官府 A: 程不平 read the 路引 (court_tolls first): 天驼关's seal. The stub `seal` next (官府 B).
+static func court_reported(session: WorldSessionController) -> void:
+	court_tolls(session)
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.court/passes")
+	state.marks["程不平看了路引"] = 1
