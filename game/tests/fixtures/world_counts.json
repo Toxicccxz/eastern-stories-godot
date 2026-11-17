@@ -741,11 +741,15 @@
 		"native.lakeside.old_woman",
 		"native.lakeside.latemoon_daughter",
 		"native.terrace.old_woman",
-		"native.terrace.latemoon_daughter"
+		"native.terrace.latemoon_daughter",
+		"native.hotel2.levy_steward",
+		"native.square.lu_decai",
+		"native.dukou.lu_decai",
+		"native.street3.lu_decai"
 	],
-	"world_npcs": 858,
+	"world_npcs": 862,
 	"resident_maps": 168,
-	"new_game_items": 1295,
+	"new_game_items": 1296,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -919,7 +923,7 @@
 	},
 	"map_npcs": {
 		"snow.inn": 5,
-		"snow.outdoor": 25,
+		"snow.outdoor": 26,
 		"snow.inn_upstairs": 6,
 		"snow.cellar": 0,
 		"snow.bank_house": 1,
@@ -943,7 +947,7 @@
 		"goathill.mountain": 9,
 		"goathill.caverns": 13,
 		"goathill.temple_house": 3,
-		"cloud.outdoor": 13,
+		"cloud.outdoor": 14,
 		"cloud.tearoom_upstairs": 1,
 		"cloud.jiyuan_upstairs": 1,
 		"cloud.duchang_upstairs": 0,
@@ -1001,7 +1005,7 @@
 		"choyin.town": 49,
 		"choyin.yamen_compound": 8,
 		"choyin.temple_altar": 1,
-		"choyin.hotel_2f": 4,
+		"choyin.hotel_2f": 5,
 		"choyin.hotel_3f": 3,
 		"choyin.tree_hollow": 5,
 		"choyin.lion_cave": 1,
@@ -1028,7 +1032,7 @@
 		"village.liu_house": 7,
 		"village.lord_house": 1,
 		"village.melonguard_house": 3,
-		"city.main": 39,
+		"city.main": 40,
 		"city.upstairs": 0,
 		"city.wall_top": 0,
 		"city.cellar": 0,
@@ -1093,7 +1097,7 @@
 	"technical_npcs": 37,
 	"snow_route": {
 		"inn_npcs": 5,
-		"outdoor_npcs": 25,
+		"outdoor_npcs": 26,
 		"items": 42,
 		"draws": 108
 	}

@@ -211,6 +211,10 @@
 		"native.npc.assembly_juechenzi": "still",
 		"native.npc.yan_wei_chair": {"mode": "still", "pose": "sit"},
 		"native.npc.escort_runner": "still",
+		"native.npc.levy_steward": {"mode": "still", "pose": "sit"},
+		"native.npc.lu_decai_snow": {"mode": "still", "pose": "sit_ground"},
+		"native.npc.lu_decai_cloud": {"mode": "still", "pose": "sit"},
+		"native.npc.lu_decai_true": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.he_ping": "post",
 		"native.npc.road_robber": "post"
 	}

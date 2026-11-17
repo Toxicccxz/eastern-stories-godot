@@ -42,6 +42,10 @@ var _confirm_lacks: Dictionary[String, Array] = {}
 ## whose own are not asked (蓝止萍's 护法: her own disciples are told so, not asked).
 var _confirm_any: Dictionary[String, Array] = {}
 var _confirm_unless_family: Dictionary[String, StringName] = {}
+## Native (势力线第二批 花紫会 A; DECISIONS「带着才问」): `confirm_carries` a thing (an id or an alias,
+## as a rule's asker_carries) the asker must carry to be asked first (the 密信: asked only of one who
+## has it to hand over).
+var _confirm_carries: Dictionary[String, String] = {}
 ## Native (势力线 封山 A; DECISIONS「话题按印记列出」): `listed_marks` — a topic of rules is on the list
 ## of what can be asked only for one who holds all these marks (李火狮's two answers on the 门房
 ## once he has put the question: listed to everyone they would give 刘安禄 away).
@@ -139,9 +143,13 @@ func ask_confirm(topic: String) -> String:
 
 
 ## Whether the question is one to ask of a player with these saved marks (confirm_marks all held,
-## confirm_lacks none, one of confirm_any if any) and of this family (not confirm_unless_family); a
-## topic with no such conditions always asks.
-func confirm_applies(topic: String, marks: Dictionary, family_id: StringName = &"") -> bool:
+## confirm_lacks none, one of confirm_any if any), of this family (not confirm_unless_family) and
+## carrying these things (`carried`, the aliases as NpcInquiry.Asker holds them: confirm_carries
+## among them); a topic with no such conditions always asks.
+func confirm_applies(topic: String, marks: Dictionary, family_id: StringName = &"", carried: Array[String] = []) -> bool:
+	var carries: String = _confirm_carries.get(topic, "")
+	if not carries.is_empty() and not carried.has(carries):
+		return false
 	for mark: String in _confirm_marks.get(topic, []):
 		if marks.get(mark, 0) == 0:
 			return false
@@ -171,12 +179,13 @@ func with_listed_marks(listed_marks: Dictionary[String, Array]) -> NpcTalk:
 
 
 ## Called once by the loader.
-func with_confirms(confirms: Dictionary[String, String], confirm_marks: Dictionary[String, Array] = {}, confirm_lacks: Dictionary[String, Array] = {}, confirm_any: Dictionary[String, Array] = {}, confirm_unless_family: Dictionary[String, StringName] = {}) -> NpcTalk:
+func with_confirms(confirms: Dictionary[String, String], confirm_marks: Dictionary[String, Array] = {}, confirm_lacks: Dictionary[String, Array] = {}, confirm_any: Dictionary[String, Array] = {}, confirm_unless_family: Dictionary[String, StringName] = {}, confirm_carries: Dictionary[String, String] = {}) -> NpcTalk:
 	_confirms = confirms.duplicate()
 	_confirm_marks = confirm_marks.duplicate()
 	_confirm_lacks = confirm_lacks.duplicate()
 	_confirm_any = confirm_any.duplicate()
 	_confirm_unless_family = confirm_unless_family.duplicate()
+	_confirm_carries = confirm_carries.duplicate()
 	return self
 
 

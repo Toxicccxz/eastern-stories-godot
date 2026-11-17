@@ -1028,6 +1028,11 @@ position = Vector2(944, 1088)
 script = ExtResource("marker")
 spawn_point_id = &"cloud.entrance.liu_huixin.1"
 
+[node name="DukouLuDecai1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1760, 2976)
+script = ExtResource("marker")
+spawn_point_id = &"cloud.dukou.lu_decai.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

@@ -240,11 +240,7 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 			recorded.append(Fresh.new(Kind.STARTED, quest))
 		if not is_active(state, quest):
 			continue
-		if quest.lapses != null and test.call(quest.lapses):
-			_write(state, key_lapsed(quest))
-			if not quest.lapsed_mark.is_empty():
-				state.marks[quest.lapsed_mark] = 1
-			recorded.append(Fresh.new(Kind.LAPSED, quest))
+		if _lapse(state, quest, test, recorded):
 			continue
 		while true:
 			var step: StoryQuestDefinition.Step = current_step(state, quest)
@@ -268,7 +264,22 @@ static func _look(state: CharacterState, quests: Array[StoryQuestDefinition], te
 			if fresh == null:
 				break
 			recorded.append(fresh)
+		# A choice that ends the line (花紫会 A's 密信 given to 程不平; DECISIONS「选了就断」): the option and its
+		# deed are written first, then the line is cut short when its lapses read that option's key.
+		if is_active(state, quest):
+			_lapse(state, quest, test, recorded)
 	return recorded
+
+
+## Cut short when its `lapses` holds: "#lapsed", its mark, a LAPSED fresh. False when it does not hold.
+static func _lapse(state: CharacterState, quest: StoryQuestDefinition, test: Callable, recorded: Array[Fresh]) -> bool:
+	if quest.lapses == null or not test.call(quest.lapses):
+		return false
+	_write(state, key_lapsed(quest))
+	if not quest.lapsed_mark.is_empty():
+		state.marks[quest.lapsed_mark] = 1
+	recorded.append(Fresh.new(Kind.LAPSED, quest))
+	return true
 
 
 static func _write(state: CharacterState, key: String) -> void:

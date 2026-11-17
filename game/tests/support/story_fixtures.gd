@@ -878,3 +878,57 @@ static func latemoon_settled(session: WorldSessionController, rule: bool = true)
 		state.marks[mark] = 1
 	if state.family != null and state.family.family_id == &"family.latemoon":
 		state.affiliation.family_title = "执事"
+
+
+## 花紫会 A (势力线第二批; DECISIONS「花紫会 A」): 拜了陆得财: 花紫会第五代弟子.
+static func huazi_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.huazi", 5)
+	state.apprenticeship.master_teacher_id = &"common.npc.beggar.master"
+	state.apprenticeship.legacy_master_name = "陆得财"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.class_id = &"beggar"
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
+static func _huazi(state: CharacterState) -> bool:
+	return state.family != null and state.family.family_id == &"family.huazi"
+
+
+## 花紫会 A: the line begun (the 县衙's drum beaten, or 花紫会's own), 陆得财's 差事 asked, the 卖身契 stolen and handed
+## to him (五结弟子 for 花紫会's own); he said he is a stand-in. The 雪亭 one next.
+static func huazi_returned(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if not _huazi(state):
+		state.marks["击了鼓"] = 1
+	for key: String in ["faction.huazi#started", "faction.huazi/errand", "faction.huazi/steal", "faction.huazi/deeds"]:
+		_write(state, key)
+	for mark: String in ["陆得财说了差事", "卖身契还了", "陆得财说了替身"]:
+		state.marks[mark] = 1
+	if _huazi(state):
+		state.affiliation.family_title = "五结弟子"
+
+
+## 花紫会 A: the knots counted (huazi_returned first): 雪亭's, 绮云's and the 真龙头 below the 尚书府's back wall,
+## who asked for the 密信. The letter next.
+static func huazi_found(session: WorldSessionController) -> void:
+	huazi_returned(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.huazi/snow", "faction.huazi/cloud", "faction.huazi/head"]:
+		_write(state, key)
+	for mark: String in ["雪亭的替身指了路", "绮云的替身指了路", "见了真龙头", "真龙头要密信"]:
+		state.marks[mark] = 1
+
+
+## 花紫会 A: the 小屋's 密信 given to the 真龙头 (huazi_found first; the letter is no longer the player's). The stub
+## `rescue` next (花紫会 B).
+static func huazi_letter(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.huazi/letter/huazi")
+	state.marks["密信给了花紫会"] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		map.acts.take_from_player(&"native:city/courier_letter")

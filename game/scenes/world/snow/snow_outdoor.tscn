@@ -1093,6 +1093,11 @@ position = Vector2(-96, -2488)
 script = ExtResource("marker")
 spawn_point_id = &"snow.crossroad.liu_anlu.1"
 
+[node name="SquareLuDecai1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-432, -288)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.lu_decai.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

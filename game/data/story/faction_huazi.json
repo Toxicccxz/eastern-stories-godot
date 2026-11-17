@@ -1,0 +1,209 @@
+{
+	"quests": [
+		{
+			"id": "faction.huazi",
+			"title": "花紫会",
+			"line": "faction",
+			"region": "乔阴县城",
+			"sources": [
+				"native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」). daemon/class/beggar/master.c (陆得财: 武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会」龙头的信物 …… 据说各处随时都有七、八的他的替身在四处活动，所以你也很难确定眼前这个陆得财到底是不是真的; 我们花紫会只收化子), cmds/std/steal.c (the 偷窃 the game already has), d/choyin/hotel2.c (福林酒楼 二楼雅座), d/city/street3.c + d/city/shangshu/xiaowu.c (the 尚书府's back wall and its 小屋). The line shows for one who beat the 县衙's drum (第五章) and for 花紫会's own; the 兵部 clerk and his 卖身契 (五结弟子 for 花紫会's own), the stand-ins with their knots one more each (雪亭 20, 绮云 21; 乔阴's 22) and the 真龙头 with 23 below the 尚书府's back wall, and the 小屋's 密信 to 花紫会 or to 程不平 (the line's small choice: given one way, the other line ends) are the plan's (续写); the line stops at a stub step `rescue` that 花紫会 B fills."
+			],
+			"summary": "替花紫会摸回槐阳八户的卖身契；数着皮酒囊上的结，找到真龙头；尚书府小屋那封密信，给花紫会还是给官府。",
+			"starts": {
+				"any": [
+					{
+						"mark": "击了鼓"
+					},
+					{
+						"family": "family.huazi"
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"any": [
+						{
+							"quest": "faction.huazi/letter/court"
+						},
+						{
+							"all": [
+								{
+									"mark": "密信给了官府"
+								},
+								{
+									"not": {
+										"quest": "faction.huazi/head"
+									}
+								}
+							]
+						},
+						{
+							"all": [
+								{
+									"not": {
+										"mark": "击了鼓"
+									}
+								},
+								{
+									"not": {
+										"family": "family.huazi"
+									}
+								}
+							]
+						}
+					]
+				},
+				"text": "叫花子不再跟你说正事。花紫会的事，到此为止。",
+				"mark": "花紫会的线断了"
+			},
+			"steps": [
+				{
+					"id": "errand",
+					"objective": "乔阴福林大街上的陆得财有一件差事。去问他「差事」。",
+					"done": {
+						"mark": "陆得财说了差事"
+					},
+					"text": "陆得财托你一件差事：福林酒楼二楼那个兵部的胡管事，怀里揣着槐阳城外八户人家的卖身契。摸回来。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.n_street1",
+						"npcs": [
+							"common.npc.beggar.master"
+						]
+					}
+				},
+				{
+					"id": "steal",
+					"objective": "兵部收民夫的胡管事在福林酒楼二楼雅座喝酒，那叠卖身契揣在他怀里。选中他「偷窃」，挑「随手摸一样」——他身上只有那叠契。失了手，他喊着扑上来，乔阴的巡捕从此记你一笔（罪名、行贿照旧）；打倒了他，他扔下契跑了。不会偷的，先跟陆得财学两手「偷窃」。",
+					"done": {
+						"item": "native:choyin/indentures"
+					},
+					"text": "那叠卖身契到了你手里。",
+					"target": {
+						"map": "choyin.hotel_2f",
+						"zone": "choyin.hotel2",
+						"npcs": [
+							"native.npc.levy_steward"
+						]
+					}
+				},
+				{
+					"id": "deeds",
+					"objective": "卖身契在你身上。回福林大街，递给陆得财。",
+					"done": {
+						"mark": "卖身契还了"
+					},
+					"text": "陆得财数完了八张契：明天她们就回家。他把皮酒囊递给你数——二十二个结。他是龙头的一个替身。",
+					"reward": {
+						"deed": "从兵部的管事身上摸回了槐阳八户的卖身契",
+						"rank": {
+							"family": "family.huazi",
+							"title": "五结弟子"
+						}
+					},
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.n_street1",
+						"npcs": [
+							"common.npc.beggar.master"
+						]
+					}
+				},
+				{
+					"id": "snow",
+					"objective": "真龙头的皮酒囊上二十三个结，替身的都少几个；替身一个只认得下一个。雪亭镇广场墙根下那个老乞丐也叫陆得财，结最少——问他「龙头」。",
+					"done": {
+						"mark": "雪亭的替身指了路"
+					},
+					"text": "雪亭的陆得财，二十个结。他指了下一个：绮云镇的渡口。",
+					"target": {
+						"map": "snow.outdoor",
+						"zone": "snow.square",
+						"npcs": [
+							"native.npc.lu_decai_snow"
+						]
+					}
+				},
+				{
+					"id": "cloud",
+					"objective": "下一个在绮云镇的渡口，坐在船帮上钓鱼，比雪亭那个多一个结。问他「龙头」。",
+					"done": {
+						"mark": "绮云的替身指了路"
+					},
+					"text": "绮云的陆得财，二十一个结。他说下一个就是龙头：京师东街，尚书府的后墙根底下。",
+					"target": {
+						"map": "cloud.outdoor",
+						"zone": "cloud.dukou",
+						"npcs": [
+							"native.npc.lu_decai_cloud"
+						]
+					}
+				},
+				{
+					"id": "head",
+					"objective": "京师东街，尚书府的后墙根底下，坐着一个打二十三个结的叫花子。问他「龙头」。",
+					"done": {
+						"mark": "见了真龙头"
+					},
+					"text": "墙根下的陆得财，二十三个结。他是真龙头，在这堵墙底下看了庾家二十年；乔阴那个替他管着花紫会。",
+					"target": {
+						"map": "city.main",
+						"zone": "city.street3",
+						"npcs": [
+							"native.npc.lu_decai_true"
+						]
+					}
+				},
+				{
+					"id": "letter",
+					"weight": "small",
+					"objective": "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。",
+					"target": {
+						"map": "city.main",
+						"zone": "city.street3",
+						"npcs": [
+							"native.npc.lu_decai_true"
+						]
+					},
+					"options": [
+						{
+							"id": "huazi",
+							"done": {
+								"mark": "密信给了花紫会"
+							},
+							"text": "你把密信交给了真龙头。他把它塞进了皮酒囊的网绳里：这封信在一天，庾家就不敢清乔阴的巷子。",
+							"reward": {
+								"deed": "把尚书府小屋里的密信交给了花紫会的真龙头"
+							}
+						},
+						{
+							"id": "court",
+							"done": {
+								"mark": "密信给了官府"
+							},
+							"text": "你把密信交给了乔阴知县程不平。叫花子从此不跟你说正事。",
+							"reward": {
+								"deed": "把尚书府小屋里的密信交给了乔阴知县程不平"
+							}
+						}
+					]
+				},
+				{
+					"id": "rescue",
+					"objective": "真龙头还有一件事要托你。到京师尚书府的后墙根，问他「盟主」。",
+					"done": {
+						"mark": "真龙头说了盟主"
+					},
+					"text": "真龙头说了尚书府客房里的那个人。",
+					"target": {
+						"map": "city.main",
+						"zone": "city.street3",
+						"npcs": [
+							"native.npc.lu_decai_true"
+						]
+					}
+				}
+			]
+		}
+	]
+}
