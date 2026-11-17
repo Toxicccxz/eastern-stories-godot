@@ -27297,7 +27297,7 @@ msgstr ""
 
 #. faction.court/seal objective
 #: data/story/faction_court.json
-msgid "路引上是天驼关铁卫营的大印。带着路引去天驼关军营的帅帐（进营要大队长的名册），问镇国大将军严廷殷「路引」。程不平的信还没给他看的，先给他看信。"
+msgid "路引上是天驼关铁卫营的大印。带着路引去天驼关军营最里头的将军营帐（进营要大队长的名册），问镇国大将军严廷殷「路引」。程不平的信还没给他看的，先给他看信。"
 msgstr ""
 
 #. faction.court/seal text
@@ -27307,7 +27307,7 @@ msgstr ""
 
 #. faction.court/ledger objective
 #: data/story/faction_court.json
-msgid "副将李信在兵器帐（帅帐外头那一间）。问他「印鉴」：印丢的那三天，他记着。"
+msgid "副将李信在副将营帐（将军营帐外头那一间）。问他「印鉴」：印丢的那三天，他记着。"
 msgstr ""
 
 #. faction.court/ledger text
@@ -27317,7 +27317,7 @@ msgstr ""
 
 #. faction.court/adviser objective
 #: data/story/faction_court.json
-msgid "带着路引去帅帐，问军师赫造基「路引」，当面对一对李信的账。第六章他那桩八两银子的秘密（拓模）还没买的，先买下——他认的是买过模子的人。"
+msgid "带着路引回将军营帐，问军师赫造基「路引」，当面对一对李信的账。第六章他那桩八两银子的秘密（拓模）还没买的，先买下——他认的是买过模子的人。"
 msgstr ""
 
 #. faction.court/adviser text
@@ -27352,12 +27352,12 @@ msgstr ""
 
 #. faction.court/arrest objective
 #: data/story/faction_court.json
-msgid "军师赫造基就在帅帐里。问他「路引」，他知道瞒不住了，会动手——拿下他（他只会被击倒）。"
+msgid "军师赫造基就在将军营帐里。问他「路引」，他知道瞒不住了；再选中他「攻击」，拿下他（他只会被击倒）。"
 msgstr ""
 
 #. faction.court/arrest text
 #: data/story/faction_court.json
-msgid "赫造基倒在帅帐里，两个铁卫营的兵把他捆了，押进兵器库。官道上的路引从此停了。严廷殷说：铁卫营欠你一回。"
+msgid "赫造基倒在将军营帐里，两个铁卫营的兵把他捆了，关进后营。官道上的路引从此停了。严廷殷说：铁卫营欠你一回。"
 msgstr ""
 
 #. faction.court/uncle objective
@@ -44676,7 +44676,7 @@ msgstr ""
 
 #. canyon.npc.general inquiry.路引.rules.lines.say
 #: data/canyon/npcs.json
-msgid "可乔阴县的捕快拿着它找上门来了。李信记着那三天的账，在兵器帐。他问什么，你照实说。"
+msgid "可乔阴县的捕快拿着它找上门来了。李信记着那三天的账，在副将营帐。他问什么，你照实说。"
 msgstr ""
 
 #. canyon.npc.general inquiry.路引.rules.say
@@ -44709,7 +44709,7 @@ msgstr ""
 
 #. canyon.npc.general inquiry.整肃.rules.lines.say
 #: data/canyon/npcs.json
-msgid "军师关在兵器库里，路引停了。关北的事，我不往朝上报——天驼关的事，天驼关了。"
+msgid "军师关在后营里，路引停了。关北的事，我不往朝上报——天驼关的事，天驼关了。"
 msgstr ""
 
 #. canyon.npc.general inquiry.整肃.rules.lines.say
@@ -44791,7 +44791,7 @@ msgstr ""
 
 #. canyon.npc.general calls.steps.emote
 #: data/canyon/npcs.json
-msgid "披上大氅，出了帅帐，再没回头。"
+msgid "披上大氅，出了帐门，再没回头。"
 msgstr ""
 
 #. canyon.npc.adviser title
@@ -44849,12 +44849,12 @@ msgstr ""
 
 #. canyon.npc.adviser inquiry.路引.rules.lines.emote
 #: data/canyon/npcs.json
-msgid "把羽扇一合，扇骨里抽出一截细剑。"
+msgid "把羽扇一合，扇骨里抽出一截细剑，退到帐柱边。"
 msgstr ""
 
 #. canyon.npc.adviser inquiry.路引.rules.lines.say
 #: data/canyon/npcs.json
-msgid "将军要拿我？……好。茅山的术，没教过我束手就擒。"
+msgid "将军要拿我？……好。茅山的术，没教过我束手就擒——你来拿。"
 msgstr ""
 
 #. canyon.npc.adviser inquiry.路引.rules.say
@@ -44957,7 +44957,7 @@ msgstr ""
 
 #. canyon.npc.adviser spared.line
 #: data/canyon/npcs.json
-msgid "赫造基的扇子掉在地上。两个铁卫营的兵进帐把他捆了，押往兵器库。"
+msgid "赫造基的扇子掉在地上。两个铁卫营的兵进帐把他捆了，关进后营。"
 msgstr ""
 
 #. canyon.npc.seller long
