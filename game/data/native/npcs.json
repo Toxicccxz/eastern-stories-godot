@@ -6724,6 +6724,7 @@
 		{"id": "native.npc.assembly_lan_zhiping", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 蓝止萍 (daemon/class/dancer/master.c) on the 虹台 that day, one more of him as 霍铮 and 卫沧澜 by the lake: the attributes the original leaves to the roll are fixed here", "name": "蓝止萍", "aliases": ["master dancer", "master", "dancer"], "nickname": "回音仙子", "title": "晚月庄主", "gender": "女性", "age": 22, "long": "蓝止萍坐在晚月庄的旗下，裙角压得平平整整。\n", "attributes": {"str": 21, "cor": 20, "int": 28, "spi": 26, "cps": 30, "per": 30, "con": 20, "kar": 20}, "combat_exp": 1000000, "skills": {"unarmed": 40, "sword": 70, "throwing": 100, "force": 30, "parry": 70, "dodge": 100, "literate": 100, "perception": 100, "whip": 100, "stormdance": 100, "tenderzhi": 100, "iceforce": 100, "snowwhip": 90}, "attitude": "friendly", "fight_deferred": "蓝止萍摆了摆手：今天是推选的日子，不动手。", "inquiry": {"虹台": ["正月十七，九派都在这里。有话，台上说。"]}},
 		{"id": "native.npc.assembly_xuanzhi", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 玄智和尚 (daemon/class/bonze/master.c) on the 虹台 that day, one more of him as 霍铮 and 卫沧澜 by the lake: the attributes the original leaves to the roll are fixed here", "name": "玄智和尚", "aliases": ["master bonze", "master", "bonze"], "title": "山烟寺住持", "gender": "男性", "age": 74, "long": "玄智和尚坐在山烟寺的旗下，手里捻着一串念珠。\n", "attributes": {"str": 17, "cor": 20, "int": 30, "spi": 30, "cps": 30, "per": 20, "con": 30, "kar": 20}, "combat_exp": 1000000, "skills": {"staff": 100, "unarmed": 80, "force": 100, "dodge": 30, "literate": 60, "chanting": 100, "parry": 50, "magic": 100, "cloudstaff": 100, "lotusforce": 100, "buddhism": 100, "essencemagic": 100}, "attitude": "friendly", "fight_deferred": "玄智和尚摆了摆手：今天是推选的日子，不动手。", "inquiry": {"虹台": ["正月十七，九派都在这里。有话，台上说。"]}},
 		{"id": "native.npc.assembly_luo_yunzhou", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 骆云舟 (daemon/class/scholar/master.c) on the 虹台 that day, one more of him as 霍铮 and 卫沧澜 by the lake: the attributes the original leaves to the roll are fixed here", "name": "骆云舟", "aliases": ["master scholar", "master"], "title": "步玄派掌门人", "gender": "男性", "age": 35, "long": "骆云舟坐在步玄派的旗下，一把折扇收在手里。\n", "attributes": {"str": 26, "cor": 30, "int": 28, "spi": 20, "cps": 30, "per": 20, "con": 20, "kar": 20}, "combat_exp": 1000000, "skills": {"dodge": 100, "force": 80, "instruments": 70, "literate": 150, "move": 100, "music": 100, "parry": 90, "perception": 80, "sword": 100, "unarmed": 60, "mysterrier": 120, "mystforce": 100, "mystsword": 100}, "attitude": "friendly", "fight_deferred": "骆云舟摆了摆手：今天是推选的日子，不动手。", "inquiry": {"虹台": ["正月十七，九派都在这里。有话，台上说。"]}},
+		{"id": "native.npc.assembly_lu_decai_true", "legacy_source": "native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 真龙头 on the 虹台 that day once 认了二十三个结 (花紫会's seat follows the split), the numbers his", "name": "陆得财", "aliases": ["beggarhead", "beggar"], "nickname": "黑水伏蛟", "title": "花紫会龙头", "gender": "男性", "age": 52, "long": "陆得财盘腿坐在花紫会的旗下，腰里的皮酒囊二十三个结。他一直看着台下官道那边。\n", "attributes": {"str": 30, "cor": 30, "int": 24, "spi": 20, "cps": 30, "per": 20, "con": 20, "kar": 20}, "combat_exp": 1000000, "skills": {"unarmed": 80, "staff": 90, "blade": 70, "throwing": 60, "force": 100, "parry": 60, "dodge": 100, "perception": 80, "stealing": 40, "spicyclaw": 100, "serpentforce": 100}, "attitude": "friendly", "fight_deferred": "陆得财摆了摆手：今天是推选的日子，不动手。", "inquiry": {"虹台": ["正月十七，九派都在这里。有话，台上说。"]}},
 		{"id": "native.npc.assembly_lu_decai", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 陆得财 (daemon/class/beggar/master.c) on the 虹台 that day, one more of him as 霍铮 and 卫沧澜 by the lake: the attributes the original leaves to the roll are fixed here", "name": "陆得财", "aliases": ["beggarhead", "beggar"], "nickname": "黑水伏蛟", "title": "花紫会龙头", "gender": "男性", "age": 52, "long": "陆得财盘腿坐在花紫会的旗下，正抠着脚。\n", "attributes": {"str": 30, "cor": 30, "int": 24, "spi": 20, "cps": 30, "per": 20, "con": 20, "kar": 20}, "combat_exp": 1000000, "skills": {"unarmed": 80, "staff": 90, "blade": 70, "throwing": 60, "force": 100, "parry": 60, "dodge": 100, "perception": 80, "stealing": 40, "spicyclaw": 100, "serpentforce": 100}, "attitude": "friendly", "fight_deferred": "陆得财摆了摆手：今天是推选的日子，不动手。", "inquiry": {"虹台": ["正月十七，九派都在这里。有话，台上说。"]}},
 		{"id": "native.npc.assembly_juechenzi", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 绝尘子 (daemon/class/juechen/master.c) on the 虹台 that day, one more of him as 霍铮 and 卫沧澜 by the lake: the attributes the original leaves to the roll are fixed here", "name": "绝尘子", "aliases": ["master outer", "master", "outer"], "title": "绝尘派祖师", "gender": "男性", "age": 48, "long": "绝尘子坐在绝尘派的旗下，眼睛半闭着。\n", "attributes": {"str": 21, "cor": 24, "int": 30, "spi": 30, "cps": 27, "per": 28, "con": 30, "kar": 30}, "combat_exp": 2000000, "skills": {"force": 120, "dodge": 100, "parry": 120, "unarmed": 80, "sword": 100, "staff": 100, "literate": 120, "tao-mystery": 120, "perception": 100, "magic": 150, "spells": 150, "juechen-force": 120, "magic-array": 120, "jingang-staff": 100}, "attitude": "friendly", "fight_deferred": "绝尘子摆了摆手：今天是推选的日子，不动手。", "inquiry": {"虹台": ["正月十七，九派都在这里。有话，台上说。"]}},
 		{"id": "native.npc.yan_wei_chair", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 颜违 (d/waterfog/npc/elder7.c) in the 正厅's 太师椅 once the 虹台 made him 盟主 (the 前厅's 颜违 off the stage from then on)", "name": "颜违", "aliases": ["yen wei", "yen", "wei"], "title": "武林盟主", "gender": "男性", "age": 53, "long": "颜违坐在正厅中央那张黝黑的太师椅上。椅子是他的了，他坐得很稳。\n", "attributes": {"str": 25, "cor": 23, "int": 20, "spi": 20, "cps": 23, "per": 20, "con": 27, "kar": 20}, "combat_exp": 270000, "skills": {"force": 100, "unarmed": 80, "parry": 80, "dodge": 75, "celestial": 90, "celestrike": 80}, "attitude": "friendly", "fight_deferred": "颜违抬了抬眼：盟主不同人动手。", "inquiry": {"盟主": ["九派过半，本座坐这把椅子。二十年的旧案，到此为止。"], "虹台": ["正月十七的事，定了。"]}},
@@ -7484,6 +7485,12 @@
 						},
 						{
 							"asker_marks": [
+								"认了管事的陆得财"
+							],
+							"say": "酒囊系在得财腰上了。乔阴的花紫会是他的。我在这儿，接着看着庾家。"
+						},
+						{
+							"asker_marks": [
 								"见了真龙头"
 							],
 							"say": "二十三个结，你数过了。乔阴那个替我管了二十年的花紫会，管得比我好。"
@@ -7620,6 +7627,91 @@
 						},
 						{
 							"say": "什么信？叫花子不识字。"
+						}
+					]
+				},
+				"盟主": {
+					"listed_marks": [
+						"密信给了花紫会"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"花紫会的线断了",
+								"密信给了官府"
+							],
+							"say": "叫花子跟官府的人，没有正事说。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了"
+							],
+							"say": "你不是花紫会这边的人了。叫花子的事，不劳你。"
+						},
+						{
+							"asker_marks": [
+								"花紫会偷出了卫沧澜"
+							],
+							"say": "人出来了。我也该回乔阴了——福林大街见。"
+						},
+						{
+							"asker_marks": [
+								"真龙头说了盟主"
+							],
+							"say": "盟主出来了。我回乔阴，福林大街见。"
+						},
+						{
+							"asker_marks": [
+								"卫沧澜出了尚书府",
+								"密信给了花紫会"
+							],
+							"mark_asker": "真龙头说了盟主",
+							"lines": [
+								{
+									"emote": "朝身后的墙努了努嘴。"
+								},
+								{
+									"say": "客房里那位已经出来了——不是叫花子背出来的，也好。"
+								},
+								{
+									"say": "我在这堵墙底下坐了二十年，看的就是他。人出来了，我也该回乔阴了。"
+								},
+								{
+									"say": "乔阴那个替我管了二十年的花紫会。我回去，有话跟他说。你来福林大街。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"真龙头说了狗洞"
+							],
+							"say": "夜里来。墙根东头那捆柴草底下就是狗洞。护院绕圈的时候，客房门口空着——撞见了别动手，退出来，下回再来。"
+						},
+						{
+							"asker_marks": [
+								"密信给了花紫会"
+							],
+							"mark_asker": "真龙头说了狗洞",
+							"lines": [
+								{
+									"emote": "往墙那边看了一眼，压低了声音。"
+								},
+								{
+									"say": "墙那边的客房里关着一个白头发的老人。庾家关了他二十年——就是你们说的盟主。"
+								},
+								{
+									"say": "护院换班的时辰，叫花子都知道：一入夜，客房门口那几个护院就挑着灯在院子里绕圈，门口一阵一阵地空着。"
+								},
+								{
+									"say": "墙根东头那捆柴草底下有个狗洞，通后院的废屋。夜里钻进去，别跟护院动手——撞见了就退出来，下回再来。"
+								},
+								{
+									"say": "那老人认得叫花子。你进了客房，跟他说「走」。"
+								}
+							]
+						},
+						{
+							"say": "盟主？叫花子不认识什么盟主。"
 						}
 					]
 				}
@@ -7812,6 +7904,509 @@
 				"drop": "native:canyon/road_passes",
 				"line": "牛四爬起来，一叠路引从怀里滑了出来：「我、我也是替人收的！关上的人每个月来拿一回钱！」\n他顾不上捡，往卧龙岗的方向跑了。\n"
 			}
+		},
+		{
+			"id": "native.npc.lu_decai_home",
+			"legacy_source": "native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 真龙头 (daemon/class/beggar/master.c's 二十三个结的皮酒囊) come home to 乔阴 once 卫沧澜 is out of the 尚书府: he sits on 福林大街 (d/choyin/n_street1.c) and meets 陆得财 there (续写); 认了二十三个结, he heads 花紫会 in 乔阴 and takes its apprentices as 陆得财 did (`teaches_when`); the attributes and numbers are 陆得财's, fixed here",
+			"name": "陆得财",
+			"aliases": [
+				"beggarhead",
+				"beggar",
+				"陆得财"
+			],
+			"nickname": "黑水伏蛟",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个老叫花子盘腿坐在福林大街当中，腰里挂着一只大皮酒囊，网绳上密密地打着结——二十三个。街上的叫花子从他跟前过，都放轻了脚步。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 24,
+				"spi": 20,
+				"cps": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 80,
+				"staff": 90,
+				"blade": 70,
+				"throwing": 60,
+				"force": 100,
+				"parry": 60,
+				"dodge": 100,
+				"perception": 80,
+				"stealing": 40,
+				"spicyclaw": 100,
+				"serpentforce": 100
+			},
+			"skill_map": {
+				"unarmed": "spicyclaw",
+				"force": "serpentforce"
+			},
+			"attitude": "peaceful",
+			"fight_deferred": "老叫花子眼皮都没抬：回了乔阴，更不跟人动手。",
+			"inquiry": {
+				"龙头": {
+					"confirm": "认二十三个结：花紫会跟真龙头吃官饭——给官府做眼线，换叫花子不再被巡捕抓；你的偷窃案底一笔勾销。\n陆得财把乔阴交出来，走了就不回来。正月十七，花紫会这一票投颜违。\n要认他吗？",
+					"confirm_marks": [
+						"福林大街碰了面"
+					],
+					"confirm_lacks": [
+						"认了二十三个结",
+						"认了管事的陆得财",
+						"花紫会的线断了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"花紫会的线断了",
+								"密信给了官府"
+							],
+							"say": "叫花子跟官府的人，没有正事说。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了"
+							],
+							"say": "你不是花紫会这边的人了。叫花子的事，不劳你。"
+						},
+						{
+							"asker_marks": [
+								"认了二十三个结"
+							],
+							"say": "叫花子吃上官饭了。巡捕见了花紫会的人，点个头就过去。"
+						},
+						{
+							"asker_marks": [
+								"福林大街碰了面"
+							],
+							"asker_lacks": [
+								"入了虹台的席"
+							],
+							"marks_asker": [
+								"认了二十三个结",
+								"花紫会的票随了真龙头"
+							],
+							"also_leaves": "common.npc.beggar.master",
+							"pardons_thief": true,
+							"lines": [
+								{
+									"emote": "点了点头。"
+								},
+								{
+									"line": "乔阴那个陆得财把怀里的东西一样一样掏出来，放在真龙头脚边：一本油乎乎的账，几串铜钱，一串巷子里的钥匙。只留下腰里那只二十二个结的皮酒囊。\n"
+								},
+								{
+									"line": "他朝你点了点头，什么也没说，顺着福林大街出了北门。\n"
+								},
+								{
+									"say": "程不平那里，我去说。花紫会的人，往后巡捕不抓；你身上那几笔偷窃的案底，一笔勾销。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"福林大街碰了面"
+							],
+							"marks_asker": [
+								"认了二十三个结"
+							],
+							"also_leaves": "common.npc.beggar.master",
+							"pardons_thief": true,
+							"lines": [
+								{
+									"emote": "点了点头。"
+								},
+								{
+									"line": "乔阴那个陆得财把怀里的东西一样一样掏出来，放在真龙头脚边：一本油乎乎的账，几串铜钱，一串巷子里的钥匙。只留下腰里那只二十二个结的皮酒囊。\n"
+								},
+								{
+									"line": "他朝你点了点头，什么也没说，顺着福林大街出了北门。\n"
+								},
+								{
+									"say": "程不平那里，我去说。花紫会的人，往后巡捕不抓；你身上那几笔偷窃的案底，一笔勾销。"
+								}
+							]
+						},
+						{
+							"say": "二十三个结，你数过了。"
+						}
+					]
+				},
+				"盟主": {
+					"rules": [
+						{
+							"say": "盟主出来了。叫花子的事，往后在乔阴说。"
+						}
+					]
+				},
+				"虹台": {
+					"listed_marks": [
+						"终章"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"大会散了"
+							],
+							"say": "正月十七过去了。叫花子的饭碗，照旧。"
+						},
+						{
+							"asker_marks": [
+								"花紫会听你的"
+							],
+							"say": "花紫会这一票，正月十七照你说的。"
+						},
+						{
+							"asker_marks": [
+								"终章",
+								"花紫会的票随了真龙头"
+							],
+							"marks_asker": [
+								"花紫会表了态",
+								"花紫会肯听你的"
+							],
+							"lines": [
+								{
+									"say": "花紫会这一票投颜违。颜违跟朝廷走得近——吃官饭的人，跟着他。"
+								},
+								{
+									"say": "这碗官饭，是你替叫花子认下的。你要这一票，开口就是。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"终章"
+							],
+							"mark_asker": "花紫会表了态",
+							"say": "入席之前说定的票，叫花子不改——花紫会投旧盟主。"
+						},
+						{
+							"say": "虹台？叫花子到时候也去看看。"
+						}
+					]
+				},
+				"这一票": {
+					"confirm": "请真龙头把花紫会这一票交给你：正月十七虹台上，花紫会听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？",
+					"confirm_marks": [
+						"花紫会肯听你的"
+					],
+					"confirm_lacks": [
+						"入了虹台的席",
+						"花紫会听你的"
+					],
+					"listed_marks": [
+						"花紫会肯听你的"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"入了虹台的席"
+							],
+							"say": "虹台上已经入了席。票就是票了。"
+						},
+						{
+							"asker_marks": [
+								"花紫会听你的"
+							],
+							"say": "说过了。花紫会听你的。"
+						},
+						{
+							"asker_marks": [
+								"花紫会肯听你的"
+							],
+							"mark_asker": "花紫会听你的",
+							"lines": [
+								{
+									"emote": "拍了拍腰里的皮酒囊。"
+								},
+								{
+									"say": "好。花紫会这一票，你说了算。"
+								}
+							]
+						},
+						{
+							"say": "……"
+						}
+					]
+				}
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"陆得财数着皮酒囊上的结，嘴唇一动一动。\n",
+				"一个小叫花子跑过来，凑在陆得财耳边说了两句，又跑了。\n"
+			],
+			"family": {
+				"name": "花紫会",
+				"generation": 4,
+				"title": "龙头"
+			},
+			"f_master": true,
+			"teaches_when": {
+				"mark": "认了二十三个结"
+			},
+			"apprentice": {
+				"requires": [
+					{
+						"cannot_afford": 100,
+						"refuse_say": "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n"
+					}
+				],
+				"looks": true,
+				"class": "beggar"
+			},
+			"recognize_apprentice": [
+				{
+					"giver_mark": "陆得财说了差事",
+					"accept": true,
+					"skills": [
+						"stealing"
+					]
+				}
+			],
+			"scene_mark": "福林大街碰了面",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "福林大街碰了面",
+					"when": {
+						"all": [
+							{
+								"any": [
+									{
+										"mark": "花紫会偷出了卫沧澜"
+									},
+									{
+										"mark": "真龙头说了盟主"
+									}
+								]
+							},
+							{
+								"not": {
+									"mark": "认了二十三个结"
+								}
+							},
+							{
+								"not": {
+									"mark": "认了管事的陆得财"
+								}
+							},
+							{
+								"not": {
+									"mark": "花紫会的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.beggar.master",
+					"steps": [
+						{
+							"emote": "盘腿坐在福林大街当中，四下看了看。"
+						},
+						{
+							"say": "二十年没回来了。巷子还是这几条。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"not_mark": "福林大街碰了面",
+					"when": {
+						"all": [
+							{
+								"any": [
+									{
+										"mark": "花紫会偷出了卫沧澜"
+									},
+									{
+										"mark": "真龙头说了盟主"
+									}
+								]
+							},
+							{
+								"not": {
+									"mark": "认了二十三个结"
+								}
+							},
+							{
+								"not": {
+									"mark": "认了管事的陆得财"
+								}
+							},
+							{
+								"not": {
+									"mark": "花紫会的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.beggar.master",
+					"steps": [
+						{
+							"by": "common.npc.beggar.master"
+						},
+						{
+							"npc_mood": "waiting"
+						},
+						{
+							"emote": "看见了他，站住了。半天，把腰里那只皮酒囊解下来，捧在手上。"
+						},
+						{
+							"say": "……龙头。"
+						}
+					]
+				},
+				{
+					"after": 7,
+					"scene": true,
+					"not_mark": "福林大街碰了面",
+					"when": {
+						"all": [
+							{
+								"any": [
+									{
+										"mark": "花紫会偷出了卫沧澜"
+									},
+									{
+										"mark": "真龙头说了盟主"
+									}
+								]
+							},
+							{
+								"not": {
+									"mark": "认了二十三个结"
+								}
+							},
+							{
+								"not": {
+									"mark": "认了管事的陆得财"
+								}
+							},
+							{
+								"not": {
+									"mark": "花紫会的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.beggar.master",
+					"steps": [
+						{
+							"by": "native.npc.lu_decai_home"
+						},
+						{
+							"say": "得财，这二十年辛苦你。我回来，是要带花紫会吃官饭——给官府做眼线，换叫花子不再见了巡捕就跑。"
+						},
+						{
+							"say": "庾家的密信在我手里，程不平那里也说得上话。往后叫花子手脚不干净，巡捕也睁一只眼闭一只眼。"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"not_mark": "福林大街碰了面",
+					"when": {
+						"all": [
+							{
+								"any": [
+									{
+										"mark": "花紫会偷出了卫沧澜"
+									},
+									{
+										"mark": "真龙头说了盟主"
+									}
+								]
+							},
+							{
+								"not": {
+									"mark": "认了二十三个结"
+								}
+							},
+							{
+								"not": {
+									"mark": "认了管事的陆得财"
+								}
+							},
+							{
+								"not": {
+									"mark": "花紫会的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.beggar.master",
+					"steps": [
+						{
+							"by": "common.npc.beggar.master"
+						},
+						{
+							"say": "二十年，我没让一个官差进过乔阴的巷子。"
+						},
+						{
+							"say": "叫花子靠官？官今天给你一碗饭，明天就拿你的人去关北挖河。槐阳那八户，你忘了？"
+						}
+					]
+				},
+				{
+					"after": 15,
+					"scene": true,
+					"not_mark": "福林大街碰了面",
+					"when": {
+						"all": [
+							{
+								"any": [
+									{
+										"mark": "花紫会偷出了卫沧澜"
+									},
+									{
+										"mark": "真龙头说了盟主"
+									}
+								]
+							},
+							{
+								"not": {
+									"mark": "认了二十三个结"
+								}
+							},
+							{
+								"not": {
+									"mark": "认了管事的陆得财"
+								}
+							},
+							{
+								"not": {
+									"mark": "花紫会的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.beggar.master",
+					"steps": [
+						{
+							"by": "native.npc.lu_decai_home"
+						},
+						{
+							"emote": "看了看你。"
+						},
+						{
+							"say": "酒囊上的结是我的，花紫会这二十年是他管的。叫花子听谁的——你替他们说一句。"
+						},
+						{
+							"line": "（认二十三个结，问真龙头「龙头」；认这些年管事的人，问陆得财「龙头」。）\n"
+						},
+						{
+							"mark": "两个陆得财说完了话"
+						}
+					]
+				}
+			]
 		}
 	]
 }

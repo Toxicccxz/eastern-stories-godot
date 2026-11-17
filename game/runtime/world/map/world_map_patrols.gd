@@ -70,8 +70,16 @@ func meet(npc: NpcRuntimeState) -> void:
 		or _player.relationship.is_fighting() or _player.in_custody() or CrimeRecord.thief(_player.state) <= 0
 	):
 		return
+	# DECISIONS「巡捕放过」: one the constable no longer takes (花紫会 B: 认了二十三个结, 花紫会's own).
+	if patrol.arrest.spares != null and _spared(patrol.arrest.spares):
+		return
 	if patrol.arrest.catches(session.npc_ambience_random_source().legacy_random):
 		_catch(npc, patrol.arrest)
+
+
+func _spared(condition: JournalEntryDefinition) -> bool:
+	var location: WorldLocationState = _player.world_location()
+	return JournalLog.holds(condition, _player.state, _player.temp_marks, session.player_held_item_ids(), &"" if location == null else location.zone_id, session.player_worn_item_ids(), session.day_phase_id())
 
 
 ## The thief branch of init() and catchyou(): its say (say() left the thief out of it; owner Q1:

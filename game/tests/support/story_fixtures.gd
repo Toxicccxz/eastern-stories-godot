@@ -934,6 +934,36 @@ static func huazi_letter(session: WorldSessionController) -> void:
 		map.acts.take_from_player(&"native:city/courier_letter")
 
 
+## 花紫会 B (势力线第二批; DECISIONS「花紫会 B」): 卫沧澜 out of the 尚书府 (huazi_letter first): stolen through the 狗洞 by
+## night (`stolen`), or already out by another way and the 真龙头 told (a word). The split on 福林大街 next.
+static func huazi_rescued(session: WorldSessionController, stolen: bool = true) -> void:
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.huazi/rescue/%s" % ("stolen" if stolen else "out"))
+	var marks: Array[String] = ["卫沧澜出了尚书府"]
+	if stolen:
+		marks.append_array(["真龙头说了狗洞", "钻了尚书府的狗洞", "见过卫沧澜", "花紫会偷出了卫沧澜"])
+	else:
+		marks.append("真龙头说了盟主")
+	for mark: String in marks:
+		state.marks[mark] = 1
+
+
+## 花紫会 B: the split on 福林大街 (huazi_rescued first; taken before the 虹台): 认了二十三个结 (`knots`: the caught
+## steals wiped) or 认了管事的陆得财; 九结弟子 for 花紫会's own; the line done.
+static func huazi_settled(session: WorldSessionController, knots: bool = true) -> void:
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.huazi/split/%s" % ("knots" if knots else "manager"), "faction.huazi#done"]:
+		_write(state, key)
+	var marks: Array[String] = ["福林大街碰了面", "两个陆得财说完了话"]
+	marks.append_array(["认了二十三个结", "花紫会的票随了真龙头"] if knots else ["认了管事的陆得财", "花紫会的票随了陆得财"])
+	for mark: String in marks:
+		state.marks[mark] = 1
+	if knots:
+		CrimeRecord.add_thief(state, -CrimeRecord.thief(state))
+	if _huazi(state):
+		state.affiliation.family_title = "九结弟子"
+
+
 ## 官府 A (势力线第二批; DECISIONS「官府 A」): 程不平 wrote his letter (第五章) and made the player his 捕快 — asked
 ## 「捕快」, the 腰牌 in hand. The two men collecting the toll next.
 static func court_joined(session: WorldSessionController) -> void:

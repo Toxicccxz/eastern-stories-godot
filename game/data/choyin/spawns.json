@@ -34,7 +34,8 @@
 			"zone": "choyin.n_street1",
 			"points": ["choyin.n_street1.master.1"],
 			"legacy_room": "d/choyin/n_street1.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "mark": "认了二十三个结" }
 		},
 		{
 			"id": "choyin.town.n_street3.dumpling_seller",

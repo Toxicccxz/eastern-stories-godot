@@ -440,6 +440,9 @@ func ask_selected(topic: String) -> Array[String]:
 	# DECISIONS「问话给头衔」: set("title") by a word (晚月 A: 蓝止萍 makes one 晚月庄护法).
 	if not answer.title.is_empty():
 		_player.take_title(answer.title)
+	# DECISIONS「问话清偷窃记录」: the record of caught steals wiped by a word (花紫会 B: 认了二十三个结).
+	if answer.pardons_thief:
+		CrimeRecord.add_thief(_player.state, -CrimeRecord.thief(_player.state))
 	# 战斗拍数 D: the town's hearsay and a guide's 打法 heard go on the 见识录.
 	if answer.answered and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 		CombatInsights.heard(_player.state, answer.hearsay)

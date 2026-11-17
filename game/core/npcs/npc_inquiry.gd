@@ -94,6 +94,8 @@ class Answer:
 	var epilogue: StringName = &""
 	## The title the answer gives the asker ("" none; DECISIONS「问话给头衔」).
 	var title: String = ""
+	## Whether the answer clears the asker's caught steals (NpcInquiryRule.pardons_thief; the caller does it).
+	var pardons_thief: bool = false
 	## 战斗拍数 D: the CombatInsights key the asker gets for this answer (hearsay, a guide's 打法); "" none.
 	var hearsay: String = ""
 
@@ -227,6 +229,7 @@ static func answer(
 		result.restage = rule.restage
 		result.epilogue = rule.epilogue
 		result.title = rule.title
+		result.pardons_thief = rule.pardons_thief
 		result.vendor_list = rule.vendor_list
 		result.forgets = rule.forgets
 		result.make = rule.make

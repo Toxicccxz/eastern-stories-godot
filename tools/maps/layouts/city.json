@@ -118,6 +118,7 @@
         "markers_in_middle": ["city.jitan", "city.jiaowu", "city.bridge"],
         "placed": {
           "city.street3.lu_decai.1": [1728, 3048],
+          "city.street3.lu_decai.2": [1728, 3048],
           "city.northdoor.guard.1": [1128, 1200],
           "city.northdoor.guard.2": [1496, 1200],
           "city.northdoor.guard.3": [1448, 1200],
@@ -318,6 +319,13 @@
           "color": "Color(0.42, 0.3, 0.18, 1)"
         },
         "nodes": [
+          {
+            "node": "service",
+            "name": "Street3DogHole",
+            "id": "city.street3.dog_hole",
+            "at": [1824, 3072],
+            "text": "柴草 · 拨开"
+          },
           {
             "node": "service",
             "name": "Nroad1Coach",
@@ -1541,6 +1549,9 @@
             "city.shangshu.huayuan",
             ["rel", 0.85, 0.5]
           ],
+          "city.shangshu.road1.watch.1": ["city.shangshu.road1", ["rel", 0.3, 0.3]],
+          "city.shangshu.yuan.watch.1": ["city.shangshu.yuan", ["rel", 0.5, 0.5]],
+          "city.shangshu.road3.watch.1": ["city.shangshu.road3", ["rel", 0.5, 0.5]],
           "city.shangshu.kefang.wei_canglan.1": [
             "city.shangshu.kefang",
             ["rel", 0.4, 0.5]

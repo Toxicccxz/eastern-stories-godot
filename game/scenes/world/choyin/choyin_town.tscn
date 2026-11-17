@@ -1245,6 +1245,11 @@ position = Vector2(1760, 1848)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.s_street2.yu_henchman.3"
 
+[node name="NStreet1LuDecaiHome1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1760, 584)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.n_street1.lu_decai_home.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

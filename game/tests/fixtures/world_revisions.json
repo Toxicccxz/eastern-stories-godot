@@ -94,6 +94,11 @@
 			"revision": "SOURCE_ENTRY_COURT_A_V1",
 			"spawn_points": 864,
 			"fingerprint": "8fbb093f6cfa0c3dc1b8ad84bad1676f6dcbdf50449063b4f71e94c7842faa17"
+		},
+		{
+			"revision": "SOURCE_ENTRY_HUAZI_B_V1",
+			"spawn_points": 867,
+			"fingerprint": "cf4454c77da3a222a11fcaa9b779e7c00e005b781160cea2b967c005f87cef78"
 		}
 	]
 }

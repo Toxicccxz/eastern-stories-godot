@@ -496,10 +496,21 @@
 		{
 			"id": "assembly.huazi.stated",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — or the split on 福林大街 (taken before one sat on the 虹台)"
 			],
 			"when": {
-				"mark": "花紫会表了态"
+				"any": [
+					{
+						"mark": "花紫会表了态"
+					},
+					{
+						"mark": "花紫会的票随了真龙头"
+					},
+					{
+						"mark": "花紫会的票随了陆得财"
+					}
+				]
 			}
 		},
 		{
@@ -873,12 +884,65 @@
 			}
 		},
 		{
-			"id": "assembly.huazi.old",
+			"id": "assembly.huazi.yan",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 花紫会: 怕官 (no way to change it in the first batch: 第二批's 花紫会 line)"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 认二十三个结 (the 真龙头: 吃官饭的人跟着颜违); not when 花紫会 听你的"
 			],
 			"when": {
-				"mark": "终章"
+				"all": [
+					{
+						"not": {
+							"mark": "花紫会听你的"
+						}
+					},
+					{
+						"mark": "花紫会的票随了真龙头"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.huazi.self",
+			"sources": [
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会: the line walked to its split, the one sitting in 乔阴 asked for it (§11 Q9)"
+			],
+			"when": {
+				"mark": "花紫会听你的"
+			}
+		},
+		{
+			"id": "assembly.huazi.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 花紫会: 怕官 (no way to change it in the first batch: 第二批's 花紫会 line)",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 认这些年管事的人 (陆得财: 叫花子最怕官); with no split, the old way; not when 花紫会 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "花紫会听你的"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "花紫会的票随了陆得财"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "花紫会的票随了真龙头"
+										}
+									},
+									{
+										"mark": "终章"
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		},
 		{
@@ -944,7 +1008,8 @@
 		{
 			"id": "assembly.yan_wins",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 换盟主要过半 (§11 Q3): five of the nine for 颜违"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 换盟主要过半 (§11 Q3): five of the nine for 颜违",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)"
 			],
 			"when": {
 				"at_least": {
@@ -958,6 +1023,9 @@
 						},
 						{
 							"cond": "assembly.zhenyuan.yan"
+						},
+						{
+							"cond": "assembly.huazi.yan"
 						},
 						{
 							"cond": "assembly.maoshan.yan"
@@ -979,7 +1047,8 @@
 			"id": "assembly.self_backed",
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — five 派 「听你的」 (§11 Q3; 大会 B's 参选 also wants 侮天鬼灭了)",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too (§11 Q9: seven 派 that may 听你的)"
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too (§11 Q9: seven 派 that may 听你的)",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)"
 			],
 			"when": {
 				"at_least": {
@@ -993,6 +1062,9 @@
 						},
 						{
 							"cond": "assembly.zhenyuan.self"
+						},
+						{
+							"cond": "assembly.huazi.self"
 						},
 						{
 							"cond": "assembly.maoshan.self"
@@ -1916,9 +1988,9 @@
 			}
 		},
 		{
-			"id": "assembly.day.huazi.old",
+			"id": "assembly.day.huazi.yan",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 花紫会 votes the old 盟主 on the day"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 came and votes 颜违 (认二十三个结, or 听你的 and you sent it there)"
 			],
 			"when": {
 				"all": [
@@ -1926,7 +1998,84 @@
 						"cond": "assembly.day.huazi.here"
 					},
 					{
-						"cond": "assembly.huazi.old"
+						"any": [
+							{
+								"cond": "assembly.huazi.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.huazi.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.huazi.old",
+			"sources": [
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 花紫会 votes the old 盟主 on the day",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 听你的 and you sent it there"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.huazi.here"
+					},
+					{
+						"any": [
+							{
+								"cond": "assembly.huazi.old"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.huazi.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.huazi.backs",
+			"sources": [
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.huazi.here"
+					},
+					{
+						"cond": "assembly.huazi.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.huazi.self",
+			"sources": [
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.huazi.backs"
+					},
+					{
+						"mark": "站出来参选"
 					}
 				]
 			}
@@ -1988,7 +2137,8 @@
 			"id": "assembly.day.self_wins",
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 换盟主要过半 (§11 Q3): five of the nine that came for you",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too"
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too"
 			],
 			"when": {
 				"at_least": {
@@ -2002,6 +2152,9 @@
 						},
 						{
 							"cond": "assembly.day.zhenyuan.self"
+						},
+						{
+							"cond": "assembly.day.huazi.self"
 						},
 						{
 							"cond": "assembly.day.maoshan.self"
@@ -2019,7 +2172,8 @@
 		{
 			"id": "assembly.day.yan_wins",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — five of the nine that came for 颜违"
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — five of the nine that came for 颜违",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too"
 			],
 			"when": {
 				"at_least": {
@@ -2033,6 +2187,9 @@
 						},
 						{
 							"cond": "assembly.day.zhenyuan.yan"
+						},
+						{
+							"cond": "assembly.day.huazi.yan"
 						},
 						{
 							"cond": "assembly.day.maoshan.yan"
@@ -2054,7 +2211,8 @@
 			"id": "assembly.day.can_stand",
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 我也算一个: 侮天鬼灭了, and five 派 that came 听你的",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too"
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too"
 			],
 			"when": {
 				"all": [
@@ -2073,6 +2231,9 @@
 								},
 								{
 									"cond": "assembly.day.zhenyuan.backs"
+								},
+								{
+									"cond": "assembly.day.huazi.backs"
 								},
 								{
 									"cond": "assembly.day.maoshan.backs"
