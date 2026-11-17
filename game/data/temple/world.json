@@ -82,10 +82,11 @@
 		{ "id": "temple.grounds.road2.taoist_guard3", "npc": "temple.npc.taoist_guard3", "map": "temple.grounds", "zone": "temple.road2", "points": ["temple.road2.taoist_guard3.1"], "legacy_room": "d/temple/road2.c", "legacy_quantity": 1, "draw": "temple.road2.taoist_guard" }
 	],
 	"landmarks": [
+		{ "id": "temple.book_room2.landmark.scriptures", "zone": "temple.book_room2", "name": "镇教秘籍", "policy": "look", "long": "红布桌上的镇教秘籍一函一函码得整整齐齐。你数过去，是六函；第七函的位置空着，红布上压着一张发黄的字条：\n\n    书我带走。师兄守山，我守人。\n\n", "legacy_source": "d/temple/book_room2.c (桌上整齐地放著茅山的镇教秘籍); native: 势力线第三批 茅山 A (剧情总纲 §4 第 5 条「茅山派」: 花匠是林忌的师弟【明文 gardener.c:38】，在尚书府替人做事; 计划 势力线第三批_计划.md §4 茅山 A, §2, §12 Q1 Q3, owner 2026-11-17「都照推荐」; DECISIONS「势力线第三批」「茅山 A」)", "teaches": ["看过师弟的字条"] },
 		{ "id": "temple.road2.landmark.slab", "zone": "temple.road2", "name": "石碑", "policy": "look", "long": "石碑上写著 : \n\n    非\n    茅  不\n    山  得\n    弟  进\n    子  入\n\n", "legacy_source": "d/temple/road2.c" }
 	],
 	"exit_rules": [
-		{ "id": "temple.road2.wall", "room": "es2:d/temple/road2", "from_zone": "temple.road2", "to_zone": "temple.book_room1", "when": "not_family", "family": "family.maoshan", "lines": ["一道无形的墙挡住了门口, 差点把你的鼻子给撞扁了。"], "pass_lines": ["你推开门走了进去, 顺手把门关了起来。"], "legacy_source": "d/temple/road2.c" },
+		{ "id": "temple.road2.wall", "room": "es2:d/temple/road2", "from_zone": "temple.road2", "to_zone": "temple.book_room1", "when": "not_family", "family": "family.maoshan", "unless_mark": "林忌许你上藏经楼", "lines": ["一道无形的墙挡住了门口, 差点把你的鼻子给撞扁了。"], "pass_lines": ["你推开门走了进去, 顺手把门关了起来。"], "legacy_source": "d/temple/road2.c" },
 		{ "id": "temple.book_room1.out_door", "room": "es2:d/temple/book_room1", "from_zone": "temple.book_room1", "to_zone": "temple.road2", "when": "never", "pass_lines": ["你拉开门大步走了出去, 随手把门带上。"], "legacy_source": "d/temple/book_room1.c" },
 		{ "id": "temple.road1.moss.south", "room": "es2:d/temple/road1", "from_zone": "temple.road1", "to_zone": "temple.corridor3", "when": "kar_slip", "value": 3, "lines": ["你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"], "legacy_source": "d/temple/road1.c" },
 		{ "id": "temple.road1.moss.northwest", "room": "es2:d/temple/road1", "from_zone": "temple.road1", "to_zone": "temple.road2", "when": "kar_slip", "value": 3, "lines": ["你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"], "legacy_source": "d/temple/road1.c" }

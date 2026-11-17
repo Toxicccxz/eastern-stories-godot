@@ -790,6 +790,20 @@ static func zhenyuan_settled(session: WorldSessionController, stop: bool = true,
 
 
 ## 晚月 A (势力线第二批; DECISIONS「晚月 A」): 拜了蓝止萍: 晚月庄第二代弟子.
+## 茅山 A (TEST-ONLY): 拜了林忌 (茅山第六代弟子).
+static func maoshan_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.maoshan", 6)
+	state.apprenticeship.master_teacher_id = &"common.npc.taoist.taolord"
+	state.apprenticeship.legacy_master_name = "林忌"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.class_id = &"taoist"
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
 static func latemoon_joined(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	state.family = FamilyState.new(&"family.latemoon", 2)

@@ -1,0 +1,126 @@
+{
+	"quests": [
+		{
+			"id": "faction.maoshan",
+			"title": "茅山派",
+			"line": "faction",
+			"region": "茅山",
+			"sources": [
+				"native: 势力线第三批 茅山 A (剧情总纲 §4 第 5 条「茅山派」: 花匠是林忌的师弟【明文 gardener.c:38】，在尚书府替人做事; 计划 势力线第三批_计划.md §4 茅山 A, §2, §12 Q1 Q3, owner 2026-11-17「都照推荐」; DECISIONS「势力线第三批」「茅山 A」). d/temple/book_room2.c (藏经楼二楼: 桌上整齐地放著茅山的镇教秘籍 — one 函 of them gone with the 花匠), d/city/shangshu/npc/gardener.c:38–42 (茅山派: 那是我的师门; 林忌: 你问我师兄，好久没见着他了; 庾清尘: 清尘出事了？), daemon/class/taoist/taolord.c (林忌, 茅山第五代天师; 不便收女徒). The line shows for 林忌's own and for a friend of 茅山 (one who met the 花匠, or wore the 黑冠 for 林忌): the 函 missing from the 镇教秘籍, 林忌's 师弟 who went down to 镇宅 for 庾子建 twenty years ago, the 花匠 in the 尚书府's garden who taught 庾清尘 and copied the 逆灵宫 couriers' burnt pages into the 《上清符箓》 (续写); the line stops at a stub step `home` that 茅山 B fills."
+			],
+			"summary": "藏经楼少了一函镇教秘籍；林忌的师弟，二十年前下了山。",
+			"starts": {
+				"any": [
+					{
+						"family": "family.maoshan"
+					},
+					{
+						"mark": "茅山的朋友"
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"not": {
+								"family": "family.maoshan"
+							}
+						},
+						{
+							"not": {
+								"mark": "茅山的朋友"
+							}
+						}
+					]
+				},
+				"text": "你离了茅山。灵心观的事，到此为止。",
+				"mark": "茅山的线断了"
+			},
+			"steps": [
+				{
+					"id": "library",
+					"objective": "灵心观藏经楼的二楼，红布桌上放着茅山的镇教秘籍。林忌在灵心观的大殿——问他「师弟」，再上二楼看看那张桌子。",
+					"done": {
+						"mark": "看过师弟的字条"
+					},
+					"text": "镇教秘籍少了一函。红布上压着一张发黄的字条：书我带走。师兄守山，我守人。",
+					"target": {
+						"map": "temple.library",
+						"zone": "temple.book_room2"
+					}
+				},
+				{
+					"id": "brother",
+					"objective": "回灵心观的大殿，再问林忌「师弟」。",
+					"done": {
+						"mark": "林忌说了师弟"
+					},
+					"text": "林忌说：少的那一函叫《上清符箓》。二十年前兵部的庾大人求茅山镇宅，他不肯，他的师弟揣着书下了山，进了京城的兵部尚书府，再没回来。",
+					"reward": {
+						"deed": "数出藏经楼的镇教秘籍少了一函",
+						"rank": {
+							"family": "family.maoshan",
+							"title": "侍者"
+						}
+					},
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "gardener",
+					"objective": "林忌的师弟二十年前进了京师的兵部尚书府。尚书府的花园里有个花匠（进府要先打点大门的门房）——问他「师兄」。",
+					"done": {
+						"mark": "花匠说了来历"
+					},
+					"text": "尚书府的花匠就是林忌的师弟。他镇了二十年宅，教过庾清尘；这两年小屋里来了逆灵宫的人，他们烧掉的东西，他一页页抄在了《上清符箓》的空白处。",
+					"target": {
+						"map": "city.shangshu",
+						"zone": "city.shangshu.huayuan",
+						"npcs": [
+							"city.npc.shangshu.gardener"
+						]
+					}
+				},
+				{
+					"id": "book",
+					"objective": "问尚书府的花匠「符箓」。",
+					"done": {
+						"mark": "花匠交了符箓"
+					},
+					"text": "花匠把《上清符箓》交给了你：前半是茅山的符，后半是逆灵宫的字。",
+					"reward": {
+						"deed": "从尚书府的花匠手里接过了《上清符箓》"
+					},
+					"target": {
+						"map": "city.shangshu",
+						"zone": "city.shangshu.huayuan",
+						"npcs": [
+							"city.npc.shangshu.gardener"
+						]
+					}
+				},
+				{
+					"id": "home",
+					"objective": "把《上清符箓》带回灵心观，交给林忌。",
+					"done": {
+						"mark": "林忌看了符箓"
+					},
+					"text": "林忌看过了那函书。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				}
+			]
+		}
+	]
+}
