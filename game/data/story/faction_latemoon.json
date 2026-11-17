@@ -1,0 +1,226 @@
+{
+	"quests": [
+		{
+			"id": "faction.latemoon",
+			"title": "晚月庄",
+			"line": "faction",
+			"region": "晚月庄",
+			"sources": [
+				"native: 势力线第二批 晚月 A (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 A, §2 第 1 条, §7 第 3 行, §9 第 1、2、5 条, §11 Q3, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 A」). d/latemoon/npc/yumay.c (我们晚月庄是『以舞会友，以神换技』; 沧海龙吟: 是一种失传以久的「寒谷龙舞」), latebook.c (一幅「沧海龙吟」的舞曲图画挂在墙上，似乎有一些秘密在里头), npc/girl.c (昭仪 at the 图), upstar/npc/shinfun.c + latemoon8.c (the 舞曲谱 behind the 石床), upstar/uproom.c + upstar/npc/statue.c (区冥's 佛堂: 晚月庄的祖先神位), daemon/class/dancer/master.c (只收女徒: 男人都不是好东西，滚开！). The line shows for 晚月庄's own and for a 晚月庄护法 (蓝止萍's word to one who stood 瑷伦's three lashes and saw the 宝衣 through: a man, or a woman of another family); the 沧海龙吟 put together from the 图 and the 谱 and danced before 区冥 (大弟子 for 晚月庄's own), and the 宝衣 carried out of the gate brought home to 瑷伦 or kept, are the plan's (续写); the line stops at a stub step `heart` that 晚月 B fills."
+			],
+			"summary": "晚月庄失传的舞，和带出庄的宝衣。",
+			"starts": {
+				"any": [
+					{
+						"family": "family.latemoon"
+					},
+					{
+						"mark": "晚月庄护法"
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"not": {
+								"family": "family.latemoon"
+							}
+						},
+						{
+							"not": {
+								"mark": "晚月庄护法"
+							}
+						}
+					]
+				},
+				"text": "你离了晚月庄。庄里的事，到此为止。",
+				"mark": "晚月庄的线断了"
+			},
+			"steps": [
+				{
+					"id": "lost",
+					"objective": "庄主蓝止萍在晚月庄的前厅。问她「庄里的事」。",
+					"done": {
+						"mark": "蓝止萍说了沧海龙吟"
+					},
+					"text": "蓝止萍说：晚月庄失传过一支舞，叫沧海龙吟。步子绣在后院书房的湘绣舞曲图上，曲子在舞曲谱里；两样凑齐，到二楼佛堂，在区冥的神位前跳一回。",
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.latemoon1",
+						"npcs": [
+							"common.npc.dancer.master"
+						]
+					}
+				},
+				{
+					"id": "score",
+					"objective": "沧海龙吟的步子在后院书房墙上的湘绣舞曲图里（昭仪天天对着它看），曲子在舞曲谱里（翠湘阁的莫欣芳知道谱放在哪）。看过那幅图，把舞曲谱拿到手。",
+					"done": {
+						"all": [
+							{
+								"mark": "看过沧海龙吟图"
+							},
+							{
+								"item": "es2:d/latemoon/obj/book"
+							}
+						]
+					},
+					"text": "图上的姿势，谱上的曲子，你都记下了：沧海龙吟。",
+					"reward": {
+						"marks": [
+							"沧海龙吟的步子"
+						]
+					},
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.latebook",
+						"npcs": [
+							"latemoon.npc.girl"
+						]
+					}
+				},
+				{
+					"id": "shrine",
+					"objective": "到二楼的佛堂，在区冥的神位前跳沧海龙吟。女子自己跳；男子请人替跳：禁闭房的芳绫（问她「替跳」，她跟你走），或翠湘阁的莫欣芳（在神位前「请人替跳」，她从回廊那头过来）。",
+					"done": {
+						"mark": "跳成了沧海龙吟"
+					},
+					"text": "沧海龙吟在区冥的神位前跳成了。神像的眉间亮了一下。",
+					"reward": {
+						"deed": "在区冥的神位前跳回了失传的沧海龙吟",
+						"rank": {
+							"family": "family.latemoon",
+							"title": "大弟子"
+						}
+					},
+					"target": {
+						"map": "latemoon.upper",
+						"zone": "latemoon.upstar.uproom",
+						"npcs": [
+							"latemoon.npc.upstar.statue"
+						]
+					}
+				},
+				{
+					"id": "robe_way",
+					"weight": "route",
+					"objective": "宝衣的事，要等主线第四章「宝衣」有了着落。到那时，再回东厢见瑷伦。",
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.eastroom",
+						"npcs": [
+							"latemoon.npc.room.elon"
+						]
+					},
+					"options": [
+						{
+							"id": "gone",
+							"done": {
+								"mark": "宝衣烧了"
+							},
+							"text": "宝衣挡完了湖底那一口黑焰，烧成了灰。"
+						},
+						{
+							"id": "kept",
+							"done": {
+								"mark": "瑷伦守到决战"
+							},
+							"text": "宝衣在瑷伦身上。庄里一切如旧。"
+						},
+						{
+							"id": "annie",
+							"done": {
+								"mark": "宝衣给了安妮儿"
+							},
+							"text": "宝衣在西厢的安妮儿手里。"
+						},
+						{
+							"id": "carried",
+							"done": {
+								"all": [
+									{
+										"mark": "带走了宝衣"
+									},
+									{
+										"any": [
+											{
+												"item": "native:latemoon/cold_robe"
+											},
+											{
+												"wearing": "native:latemoon/cold_robe"
+											}
+										]
+									}
+								]
+							},
+							"text": "宝衣还在你身上。东厢的瑷伦失了衣。",
+							"reward": {
+								"marks": [
+									"该问瑷伦还衣"
+								]
+							}
+						}
+					]
+				},
+				{
+					"id": "robe",
+					"weight": "small",
+					"only_after": "carried",
+					"objective": "宝衣还在你身上。东厢的瑷伦失了衣，她问你一句：还回来吗？还回来（问她「还衣」）：她又是守衣人，凤凰回到小花池，决战那日她穿着它跟你下湖——宝衣就不在你身上了，下湖没有它挡寒气。留在身上（问她「留着」）：宝衣照旧跟着你，庄里照旧没有护佑。",
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.eastroom",
+						"npcs": [
+							"latemoon.npc.room.elon"
+						]
+					},
+					"options": [
+						{
+							"id": "home",
+							"done": {
+								"mark": "宝衣回了庄"
+							},
+							"text": "你把寒於宝衣还给了瑷伦。她又是守衣人。",
+							"reward": {
+								"deed": "把带出庄的寒於宝衣送回了晚月庄"
+							}
+						},
+						{
+							"id": "keep",
+							"done": {
+								"mark": "宝衣留在了身上"
+							},
+							"text": "宝衣留在了你身上。瑷伦不再问。",
+							"reward": {
+								"deed": "对守衣人说，寒於宝衣留在自己身上"
+							}
+						},
+						{
+							"id": "burnt",
+							"done": {
+								"mark": "宝衣烧了"
+							},
+							"text": "宝衣在湖底烧成了灰。还不还，都不必再说了。"
+						}
+					]
+				},
+				{
+					"id": "heart",
+					"objective": "内书房的无名老妇有一桩心事。去问她「心事」。",
+					"done": {
+						"mark": "老妇说了女儿"
+					},
+					"text": "无名老妇说了她的女儿。",
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.lstudio",
+						"npcs": [
+							"latemoon.npc.room.old"
+						]
+					}
+				}
+			]
+		}
+	]
+}

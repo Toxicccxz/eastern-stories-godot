@@ -221,7 +221,12 @@
 			"points": ["latemoon.room.bathroom.fireangel.1"],
 			"legacy_room": "d/latemoon/room/bathroom.c",
 			"legacy_quantity": 1,
-			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
+			"until": {
+				"all": [
+					{ "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] },
+					{ "not": { "cond": "latemoon.robe_home" } }
+				]
+			}
 		},
 		{
 			"id": "latemoon.manor.bathroom.eton",

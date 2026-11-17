@@ -38,6 +38,9 @@ var also_leaves: StringName = &""
 ## Native (终章 C; DECISIONS「结局讲述」): once it has answered, this ending is told (the player who
 ## stays in the ice: 璃虹's 我留下); "" for none.
 var epilogue: StringName = &""
+## Native (势力线第二批 晚月 A; DECISIONS「问话给头衔」): the title the answer gives the asker (an act's
+## `title`, ES2's set("title")): 蓝止萍's word makes one 晚月庄护法; "" for none.
+var title: String = ""
 var asker_marks: Array[String] = []
 ## Native (主线 A; DECISIONS「剧情演出」): an alias something the asker carries answers to
 ## (present(id, me), as ScriptedAct's `carries`): a letter of introduction shown, a token in hand.
@@ -128,6 +131,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.leaves = reader.boolean("leaves", false)
 	rule.also_leaves = StringName(reader.text("also_leaves"))
 	rule.epilogue = StringName(reader.text("epilogue"))
+	rule.title = reader.text("title")
 	if rule.leaves and rule.attacks:
 		reader.fail("leaves", "one that leaves does not attack")
 	rule.asker_class = StringName(reader.text("asker_class"))

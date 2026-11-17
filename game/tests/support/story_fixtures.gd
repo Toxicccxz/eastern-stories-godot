@@ -787,3 +787,56 @@ static func zhenyuan_settled(session: WorldSessionController, stop: bool = true,
 		_write(state, key)
 	for mark: String in marks:
 		state.marks[mark] = 1
+
+
+## 晚月 A (势力线第二批; DECISIONS「晚月 A」): 拜了蓝止萍: 晚月庄第二代弟子.
+static func latemoon_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.latemoon", 2)
+	state.apprenticeship.master_teacher_id = &"common.npc.dancer.master"
+	state.apprenticeship.legacy_master_name = "蓝止萍"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.class_id = &"dancer"
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
+## 晚月 A: one not of 晚月庄 who stood 瑷伦's three lashes and saw the 宝衣 through (第四章, done by the caller)
+## asked 蓝止萍「护法」: 晚月庄护法.
+static func latemoon_guardian(session: WorldSessionController) -> void:
+	session.player_runtime().state.marks["晚月庄护法"] = 1
+	(session.player_runtime() as WorldPlayerRuntimeState).take_title("晚月庄护法")
+
+
+## 晚月 A: the line begun (晚月庄's own, or a 护法), 蓝止萍's 庄里的事 heard, the 图 seen and the 谱 in hand, 沧海龙吟
+## danced before 区冥 (大弟子 for 晚月庄's own); the 宝衣 next.
+static func latemoon_danced(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.latemoon#started", "faction.latemoon/lost", "faction.latemoon/score", "faction.latemoon/shrine"]:
+		_write(state, key)
+	for mark: String in ["蓝止萍说了沧海龙吟", "看过沧海龙吟图", "沧海龙吟的步子", "跳成了沧海龙吟"]:
+		state.marks[mark] = 1
+	if state.family != null and state.family.family_id == &"family.latemoon":
+		state.affiliation.family_title = "大弟子"
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/obj/book", false) == false:
+		map.give_new_item_to_player(&"es2:d/latemoon/obj/book")
+
+
+## 晚月 A: after the dance, the 宝衣 settled as 第四章 left it (chapter4_kept / chapter4_taken, called first): left
+## with 瑷伦 (kept), or carried out and brought home (`home`) or kept on the player; the line at its stub `heart`.
+static func latemoon_robe_settled(session: WorldSessionController, home: bool = true) -> void:
+	latemoon_danced(session)
+	var state: CharacterState = session.player_runtime().state
+	if state.marks.has("瑷伦守到决战"):
+		_write(state, "faction.latemoon/robe_way/kept")
+		return
+	_write(state, "faction.latemoon/robe_way/carried")
+	_write(state, "faction.latemoon/robe/%s" % ("home" if home else "keep"))
+	for mark: String in ["该问瑷伦还衣", "宝衣回了庄" if home else "宝衣留在了身上"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if home and map != null:
+		map.acts.take_from_player(&"native:latemoon/cold_robe")

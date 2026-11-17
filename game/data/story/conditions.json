@@ -2054,6 +2054,22 @@
 					]
 				}
 			}
+		},
+		{
+			"id": "latemoon.robe_home",
+			"sources": [
+				"native: 势力线第二批 晚月 A (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 A, §2 第 1 条, §7 第 3 行, §9 第 1、2、5 条, §11 Q3, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 A」) — 寒於宝衣 in 瑷伦's keeping to the last day: left with her (第四章) or brought home on the 晚月庄 line (宝衣回了庄); one fact for the 终章, the 尾声, 岚城 and the 神教's yard"
+			],
+			"when": {
+				"any": [
+					{
+						"mark": "瑷伦守到决战"
+					},
+					{
+						"mark": "宝衣回了庄"
+					}
+				]
+			}
 		}
 	]
 }
