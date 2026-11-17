@@ -38278,6 +38278,12 @@ msgstr ""
 msgid "拿去。给她，还是还给神教，你定。我累了。"
 msgstr ""
 
+#. latemoon.npc.room.killer moods.waiting.chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"杀手站在书架边，剑在鞘里，手离剑柄远远的。\n"
+msgstr ""
+
 #. latemoon.npc.room.spring1 long
 #: data/latemoon/npcs.json
 msgid ""

@@ -1543,7 +1543,8 @@
 								{
 									"say": "拿好。神教给我的令，不止一块。"
 								}
-							]
+							],
+							"mood": "waiting"
 						},
 						{
 							"asker_marks": [
@@ -1585,14 +1586,36 @@
 								{
 									"say": "拿去。给她，还是还给神教，你定。我累了。"
 								}
-							]
+							],
+							"mood": "waiting"
 						},
 						{
 							"say": "……"
 						}
 					]
 				}
-			}
+			},
+			"moods": {
+				"waiting": {
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": [
+						"杀手站在书架边，剑在鞘里，手离剑柄远远的。\n"
+					]
+				}
+			},
+			"calls": [
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "她说了来历",
+					"steps": [
+						{
+							"npc_mood": "waiting"
+						}
+					]
+				}
+			]
 		},
 		"latemoon.npc.room.old": {
 			"inquiry": {
