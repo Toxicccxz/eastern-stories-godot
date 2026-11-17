@@ -55,6 +55,9 @@ func _test_data() -> void:
 	_check(split.is_branch() and split.weight == StoryQuestDefinition.WEIGHT_BIG and split.options.size() == 2 and split.options.all(func(option: StoryQuestDefinition.Option) -> bool: return option.reward.rank_title == "九结弟子" and option.reward.rank_family == &"family.huazi" and not option.reward.deed.is_empty()), "the split: the line's one big choice, 九结弟子 and a deed either way")
 	_check(split.objective.contains("颜违") and split.objective.contains("旧盟主") and split.objective.contains("案底") and split.objective.contains("巡捕"), "what either side costs is said before the choice")
 	_check(catalog.npc(HOME).talk().ask_confirm("龙头").contains("颜违") and catalog.npc(MASTER).talk().ask_confirm("龙头").contains("旧盟主"), "both are asked first, the vote said")
+	_check(catalog.npc(HOME).talk().ask_confirm("龙头").contains("入席时") and catalog.npc(MASTER).talk().ask_confirm("龙头").contains("入席时") and split.objective.contains("入席时"), "a split taken once seated: the vote as it was cast, said first")
+	var first_beat: Array = catalog.npc(HOME).hooks().calls[0].act.steps.map(func(step: ScriptedAct.Step) -> String: return step.flag if step.kind == ScriptedAct.Kind.NPC_MOOD else "")
+	_check(first_beat.has("waiting"), "陆得财 is held for the scene from its first beat (he wanders otherwise)")
 	_check(catalog.service(HOLE) != null, "the 狗洞 below the wall")
 	for id: StringName in [TRAINER, TRAINER1]:
 		var watch: NpcWatch = catalog.npc(id).dealings().watch
@@ -98,6 +101,9 @@ func _test_votes() -> void:
 	state = _fresh(["终章", "认了二十三个结"])
 	_check(_holds(state, "assembly.huazi.old"), "认二十三个结 once seated: the vote as it was cast")
 	state = _fresh(["终章", "认了二十三个结", "花紫会的票随了真龙头"])
+	var before: CharacterState = _fresh(["终章"])
+	var said: NpcInquiryRule = NpcInquiryRule.decide(GameContent.catalog().npc(HOME).talk().inquiry_rules("虹台"), before.marks)
+	_check(said != null and said.mark_asker.is_empty() and said.marks_asker.is_empty(), "the 真龙头 before the split: first say it on 福林大街, no vote stated")
 	_check(_heard(state, HOME, "虹台", "开口就是") and state.marks.has("花紫会肯听你的") and _listed(state, HOME, "这一票"), "认二十三个结: the 真龙头 offers the vote")
 	_check(_heard(state, HOME, "这一票", "你说了算") and _holds(state, "assembly.huazi.self") and not _holds(state, "assembly.huazi.yan") and not _holds(state, "assembly.huazi.old"), "这一票: 花紫会听你的")
 	state = _fresh(["终章", "认了管事的陆得财", "花紫会的票随了陆得财"])
@@ -265,6 +271,7 @@ func _test_manager(tree: SceneTree, session: WorldSessionController) -> void:
 	var city: WorldMapController = MapPlaces.enter(session, WALL, WALL_POINT)
 	await _settle(tree)
 	_check(_said(_ask(city, _first(session, WALL, HEAD), "龙头"), "系在得财腰上"), "back below the wall")
+	_check(_said(_ask(city, _first(session, WALL, HEAD), "盟主"), "接着看着庾家"), "盟主 back at the wall: no going home again")
 
 
 ## TEST-ONLY: 乔阴's 北门 then up 福林大街.

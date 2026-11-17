@@ -20471,7 +20471,7 @@ msgstr ""
 #. common.npc.beggar.master moods.waiting.chat_msg
 #: data/common/npcs.json
 msgid ""
-"陆得财捧着皮酒囊站在街当中，一动不动。\n"
+"陆得财守在福林大街上，手里摩挲着腰间的皮酒囊。\n"
 msgstr ""
 
 #. common.npc.beggar.master inquiry.差事.rules.say
@@ -20547,7 +20547,7 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "认这些年管事的人：真龙头把皮酒囊系到陆得财腰上，回京师的墙根接着看庾家。\n"
-"乔阴照旧——巷子里没有官差，巡捕照旧抓贼。正月十七，花紫会这一票投旧盟主。\n"
+"乔阴照旧——巷子里没有官差，巡捕照旧抓贼。正月十七，花紫会这一票投旧盟主（已经入了虹台的席的，票照入席时的算。）。\n"
 "要认他吗？"
 msgstr ""
 
@@ -27063,7 +27063,7 @@ msgstr ""
 
 #. faction.huazi/rescue/stolen text
 #: data/story/faction_huazi.json
-msgid "你从狗洞把卫沧澜领出了尚书府，一个护院也没惊动。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
+msgid "卫沧澜照叫花子指的路，从后院的狗洞出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
 msgstr ""
 
 #. faction.huazi/rescue/stolen reward.deed
@@ -27078,7 +27078,7 @@ msgstr ""
 
 #. faction.huazi/split objective
 #: data/story/faction_huazi.json
-msgid "真龙头回了乔阴，坐在福林大街当中。去福林大街——陆得财在街上的时候，两个人要碰面。真龙头要带花紫会吃官饭：给官府做眼线，换叫花子不再被巡捕抓；陆得财二十年没让一个官差进过乔阴的巷子。认二十三个结，问真龙头「龙头」：花紫会投颜违，巡捕不再抓花紫会的人，你的偷窃案底勾销，陆得财走了就不回来。认这些年管事的人，问陆得财「龙头」：真龙头回京师的墙根，乔阴照旧，花紫会投旧盟主。"
+msgid "真龙头回了乔阴，坐在福林大街当中。去福林大街——陆得财在街上的时候，两个人要碰面。真龙头要带花紫会吃官饭：给官府做眼线，换叫花子不再被巡捕抓；陆得财二十年没让一个官差进过乔阴的巷子。认二十三个结，问真龙头「龙头」：花紫会投颜违，巡捕不再抓花紫会的人，你的偷窃案底勾销，陆得财走了就不回来。认这些年管事的人，问陆得财「龙头」：真龙头回京师的墙根，乔阴照旧，花紫会投旧盟主。已经入了虹台的席的，票照入席时的算。"
 msgstr ""
 
 #. faction.huazi/split/knots text
@@ -68282,6 +68282,11 @@ msgstr ""
 
 #. native.npc.lu_decai_true inquiry.盟主.rules.say
 #: data/native/npcs.json
+msgid "盟主出来了，花紫会是得财的。我在这堵墙底下，接着看着庾家。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#: data/native/npcs.json
 msgid "人出来了。我也该回乔阴了——福林大街见。"
 msgstr ""
 
@@ -68491,7 +68496,7 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "认二十三个结：花紫会跟真龙头吃官饭——给官府做眼线，换叫花子不再被巡捕抓；你的偷窃案底一笔勾销。\n"
-"陆得财把乔阴交出来，走了就不回来。正月十七，花紫会这一票投颜违。\n"
+"陆得财把乔阴交出来，走了就不回来。正月十七，花紫会这一票投颜违（已经入了虹台的席的，票照入席时的算。）。\n"
 "要认他吗？"
 msgstr ""
 
@@ -68545,6 +68550,11 @@ msgstr ""
 #. native.npc.lu_decai_home inquiry.虹台.rules.say
 #: data/native/npcs.json
 msgid "入席之前说定的票，叫花子不改——花紫会投旧盟主。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "虹台的事，先在福林大街把话说清。"
 msgstr ""
 
 #. native.npc.lu_decai_home inquiry.虹台.rules.say
