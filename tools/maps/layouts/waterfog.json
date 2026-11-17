@@ -930,6 +930,11 @@
             "id": "waterfog.terrace_top.lu_decai.1"
           },
           {
+            "name": "AssemblyLuDecaiTrue",
+            "at": [536, 624],
+            "id": "waterfog.terrace_top.lu_decai_true.1"
+          },
+          {
             "name": "AssemblyJuechenzi",
             "at": [408, 720],
             "id": "waterfog.terrace_top.juechenzi.1"

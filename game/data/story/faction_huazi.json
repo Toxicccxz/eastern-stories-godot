@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "乔阴县城",
 			"sources": [
-				"native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」). daemon/class/beggar/master.c (陆得财: 武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会」龙头的信物 …… 据说各处随时都有七、八的他的替身在四处活动，所以你也很难确定眼前这个陆得财到底是不是真的; 我们花紫会只收化子), cmds/std/steal.c (the 偷窃 the game already has), d/choyin/hotel2.c (福林酒楼 二楼雅座), d/city/street3.c + d/city/shangshu/xiaowu.c (the 尚书府's back wall and its 小屋). The line shows for one who beat the 县衙's drum (第五章) and for 花紫会's own; the 兵部 clerk and his 卖身契 (五结弟子 for 花紫会's own), the stand-ins with their knots one more each (雪亭 20, 绮云 21; 乔阴's 22) and the 真龙头 with 23 below the 尚书府's back wall, and the 小屋's 密信 to 花紫会 or to 程不平 (the line's small choice: given one way, the other line ends) are the plan's (续写); the line stops at a stub step `rescue` that 花紫会 B fills."
+				"native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」). daemon/class/beggar/master.c (陆得财: 武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会」龙头的信物 …… 据说各处随时都有七、八的他的替身在四处活动，所以你也很难确定眼前这个陆得财到底是不是真的; 我们花紫会只收化子), cmds/std/steal.c (the 偷窃 the game already has), d/choyin/hotel2.c (福林酒楼 二楼雅座), d/city/street3.c + d/city/shangshu/xiaowu.c (the 尚书府's back wall and its 小屋). The line shows for one who beat the 县衙's drum (第五章) and for 花紫会's own; the 兵部 clerk and his 卖身契 (五结弟子 for 花紫会's own), the stand-ins with their knots one more each (雪亭 20, 绮云 21; 乔阴's 22) and the 真龙头 with 23 below the 尚书府's back wall, and the 小屋's 密信 to 花紫会 or to 程不平 (the line's small choice: given one way, the other line ends) are the plan's (续写); the line stops at a stub step `rescue` that 花紫会 B fills.",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」). The stub `rescue` grown into the 狗洞 by night (route: 卫沧澜 still in the 客房, the 护院 on their round, caught put out on the street; already out, a word with the 真龙头) and the split on 福林大街 (认二十三个结: 花紫会 eats the 官饭, the 巡捕 let its own be, the player's caught steals wiped, 陆得财 leaves; 认这些年管事的人: the 真龙头 ties his 皮酒囊 on 陆得财 and goes back to the wall). 花紫会's own are 九结弟子 either way; the one sitting in 乔阴 gives 这一票."
 			],
-			"summary": "替花紫会摸回槐阳八户的卖身契；数着皮酒囊上的结，找到真龙头；尚书府小屋那封密信，给花紫会还是给官府。",
+			"summary": "替花紫会摸回槐阳八户的卖身契；数着皮酒囊上的结，找到真龙头；尚书府小屋那封密信，给花紫会还是给官府；夜里从狗洞偷出卫沧澜；认二十三个结，还是认这些年管事的人。",
 			"starts": {
 				"any": [
 					{
@@ -190,18 +191,77 @@
 				},
 				{
 					"id": "rescue",
-					"objective": "真龙头还有一件事要托你。到京师尚书府的后墙根，问他「盟主」。",
-					"done": {
-						"mark": "真龙头说了盟主"
-					},
-					"text": "真龙头说了尚书府客房里的那个人。",
+					"weight": "route",
+					"objective": "真龙头还有一件事要托你：尚书府客房里关着的那个老人。到京师东街尚书府的后墙根，问他「盟主」。他说了狗洞的：夜里（入夜到子时）拨开墙根东头那捆柴草，从狗洞钻进后院；护院挑着灯在院子里绕圈，别跟他们照面——撞见了就被推出大门，下回再来。进了客房，跟那老人说「走」。卫沧澜已经出了尚书府的，问真龙头一句「盟主」就是。",
 					"target": {
 						"map": "city.main",
 						"zone": "city.street3",
 						"npcs": [
 							"native.npc.lu_decai_true"
 						]
-					}
+					},
+					"options": [
+						{
+							"id": "stolen",
+							"done": {
+								"mark": "花紫会偷出了卫沧澜"
+							},
+							"text": "卫沧澜照叫花子指的路，从后院的狗洞出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。",
+							"reward": {
+								"deed": "夜里从尚书府的狗洞偷出了卫沧澜"
+							}
+						},
+						{
+							"id": "out",
+							"done": {
+								"mark": "真龙头说了盟主"
+							},
+							"text": "卫沧澜已经出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
+						}
+					]
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "真龙头回了乔阴，坐在福林大街当中。去福林大街——陆得财在街上的时候，两个人要碰面。真龙头要带花紫会吃官饭：给官府做眼线，换叫花子不再被巡捕抓；陆得财二十年没让一个官差进过乔阴的巷子。认二十三个结，问真龙头「龙头」：花紫会投颜违，巡捕不再抓花紫会的人，你的偷窃案底勾销，陆得财走了就不回来。认这些年管事的人，问陆得财「龙头」：真龙头回京师的墙根，乔阴照旧，花紫会投旧盟主。已经入了虹台的席的，票照入席时的算。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.n_street1",
+						"npcs": [
+							"native.npc.lu_decai_home",
+							"common.npc.beggar.master"
+						]
+					},
+					"options": [
+						{
+							"id": "knots",
+							"done": {
+								"mark": "认了二十三个结"
+							},
+							"text": "你认了二十三个结。陆得财把怀里的东西都放在真龙头脚边，出了北门。花紫会吃上了官饭。",
+							"reward": {
+								"deed": "在福林大街认了二十三个结：花紫会跟真龙头吃官饭",
+								"rank": {
+									"family": "family.huazi",
+									"title": "九结弟子"
+								}
+							}
+						},
+						{
+							"id": "manager",
+							"done": {
+								"mark": "认了管事的陆得财"
+							},
+							"text": "你认了这些年管事的陆得财。真龙头把皮酒囊系到他腰上，回了京师的墙根。乔阴的巷子里，照旧没有官差。",
+							"reward": {
+								"deed": "在福林大街认了这些年管事的陆得财",
+								"rank": {
+									"family": "family.huazi",
+									"title": "九结弟子"
+								}
+							}
+						}
+					]
 				}
 			]
 		}

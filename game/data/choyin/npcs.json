@@ -775,7 +775,8 @@
 					"refused_line": "你这是什么意思?......谁稀罕你的钱?!",
 					"bribe_crime": 1,
 					"pardon": 3,
-					"killed_crime": 5
+					"killed_crime": 5,
+					"spares": { "all": [{ "mark": "认了二十三个结" }, { "family": "family.huazi" }] }
 				}
 			}
 		}

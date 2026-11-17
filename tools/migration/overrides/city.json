@@ -328,6 +328,7 @@
 			]
 		},
 		"city.npc.shangshu.huyuan": {
+			"watch": {"route": ["city.shangshu.road1.huyuan.1", "city.shangshu.road1.watch.1"], "pause_ms": 3000, "sight": {"radius": 120, "cone_degrees": 90, "lit_radius": 200, "lantern": 56}, "notice_ms": 1500, "when": {"all": [{"phase": ["night", "midnight"]}, {"mark": "真龙头说了狗洞"}, {"not": {"mark": "卫沧澜出了尚书府"}}]}, "caught": {"say": "什么人！", "mark": "尚书府夜里被撞见", "again_mark": "尚书府夜里又被撞见", "lines": ["两个护院一左一右扭住你的胳膊，提着灯笼把你从大门推了出去。", "墙根底下，真龙头连眼皮都没抬：「说了别跟护院照面。脚底下轻些，下回再来。」"], "again_lines": ["护院又把你从大门推了出去，骂骂咧咧地闩上了门。", "真龙头往墙根里缩了缩：「护院绕一圈要多久，你数过没有？」"], "release_zone": "city.street3", "release_point": "city.street3.wall_return"}},
 			"name": "赵顺",
 			"name_parts": [
 				["赵", "钱", "孙", "李", "周", "吴", "郑", "王", "张", "陈", "刘", "林"],
@@ -356,6 +357,7 @@
 			]
 		},
 		"city.npc.shangshu.huyuan1": {
+			"watch": {"route": ["city.shangshu.road2.huyuan1.1", "city.shangshu.yuan.watch.1", "city.shangshu.road3.watch.1"], "pause_ms": 3000, "sight": {"radius": 120, "cone_degrees": 90, "lit_radius": 200, "lantern": 56}, "notice_ms": 1500, "when": {"all": [{"phase": ["night", "midnight"]}, {"mark": "真龙头说了狗洞"}, {"not": {"mark": "卫沧澜出了尚书府"}}]}, "caught": {"say": "什么人！", "mark": "尚书府夜里被撞见", "again_mark": "尚书府夜里又被撞见", "lines": ["两个护院一左一右扭住你的胳膊，提着灯笼把你从大门推了出去。", "墙根底下，真龙头连眼皮都没抬：「说了别跟护院照面。脚底下轻些，下回再来。」"], "again_lines": ["护院又把你从大门推了出去，骂骂咧咧地闩上了门。", "真龙头往墙根里缩了缩：「护院绕一圈要多久，你数过没有？」"], "release_zone": "city.street3", "release_point": "city.street3.wall_return"}},
 			"name": "赵顺",
 			"name_parts": [
 				["赵", "钱", "孙", "李", "周", "吴", "郑", "王", "张", "陈", "刘", "林"],

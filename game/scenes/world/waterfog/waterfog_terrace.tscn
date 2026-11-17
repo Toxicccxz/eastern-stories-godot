@@ -210,6 +210,11 @@ position = Vector2(536, 624)
 script = ExtResource("marker")
 spawn_point_id = &"waterfog.terrace_top.lu_decai.1"
 
+[node name="AssemblyLuDecaiTrue" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(536, 624)
+script = ExtResource("marker")
+spawn_point_id = &"waterfog.terrace_top.lu_decai_true.1"
+
 [node name="AssemblyJuechenzi" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(408, 720)
 script = ExtResource("marker")

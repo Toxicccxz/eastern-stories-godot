@@ -477,6 +477,18 @@
 									]
 								}
 							}
+						},
+						{
+							"text": "福林大街的巷子口站着一个官差，叫花子从他跟前过，点个头。真龙头坐在街当中，数着酒囊上的结。",
+							"when": {
+								"mark": "认了二十三个结"
+							}
+						},
+						{
+							"text": "乔阴的巷子里还是没有官差。陆得财腰里那只皮酒囊，二十三个结。",
+							"when": {
+								"mark": "认了管事的陆得财"
+							}
 						}
 					]
 				},
@@ -771,7 +783,8 @@
 				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — the 雪亭 card's two lines for the split.",
 				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the 晚月庄 card's two lines and the 虹台 card's two for the split.",
 				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 9 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the new 黑衣人 card (前夜倒戈, 潜伏到底, 被识破, a line each), and the 野羊山 card's 黑衣人 in the north snow named: 商玦.",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the new 绮云镇 card: the 分局 open (到此为止) or shut (查到底)."
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the new 绮云镇 card: the 分局 open (到此为止) or shut (查到底).",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 乔阴县城 card's two lines for the split on 福林大街 (官差 in the lanes, or none)."
 			]
 		},
 		{
@@ -888,6 +901,18 @@
 							"text": "虹台上，晚月庄的旗后面站着一个老妇人和她的女儿。九派里有人认得那把细剑，没有人说破。",
 							"when": {
 								"mark": "晚月庄的票随了她"
+							}
+						},
+						{
+							"text": "虹台上，花紫会的旗下坐着一个打二十三个结的老叫花子，一直看着台下官道上的官差。",
+							"when": {
+								"mark": "认了二十三个结"
+							}
+						},
+						{
+							"text": "虹台上，陆得财坐在花紫会的旗下抠着脚。腰里那只皮酒囊，多了一个结。",
+							"when": {
+								"mark": "认了管事的陆得财"
 							}
 						}
 					]
@@ -1226,7 +1251,8 @@
 			],
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — the second epilogue, told over the 沙盘 once the 虹台 has broken up: the 虹台, 雪亭, 水烟阁, 绮云镇's 场院, 野羊山北麓; the world goes on after it.",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the 虹台 card's two lines for the 旧账 split."
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the 虹台 card's two lines for the 旧账 split.",
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 虹台 card's two lines for 花紫会's split."
 			]
 		}
 	]

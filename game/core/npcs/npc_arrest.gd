@@ -27,6 +27,9 @@ var refused_line: String = ""
 var bribe_crime: int = 0
 var pardon: int = 0
 var killed_crime: int = 0
+## Native (势力线第二批 花紫会 B; DECISIONS「巡捕放过」): whom the constable no longer takes, a condition on the
+## player (认了二十三个结: 花紫会 eats the 官饭, its own are let be); null for none.
+var spares: JournalEntryDefinition = null
 
 
 ## init()'s random(10) < 7, drawn with `random` (a legacy_random()).
@@ -49,7 +52,7 @@ func is_valid() -> bool:
 
 
 ## {catch_below, out_of?, catch_say, crime, escape_line, deliver_say, court: {zone, point},
-## bribe_at, taken_lines, refused_line, bribe_crime, pardon, killed_crime}.
+## bribe_at, taken_lines, refused_line, bribe_crime, pardon, killed_crime, spares?}.
 static func from_record(reader: ContentRecordReader) -> NpcArrest:
 	var arrest := NpcArrest.new()
 	arrest.catch_below = reader.required_integer("catch_below")
@@ -69,6 +72,9 @@ static func from_record(reader: ContentRecordReader) -> NpcArrest:
 	arrest.bribe_crime = reader.integer("bribe_crime", 0)
 	arrest.pardon = reader.integer("pardon", 0)
 	arrest.killed_crime = reader.integer("killed_crime", 0)
+	if reader.has("spares"):
+		arrest.spares = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, arrest.spares, "spares")
 	reader.finish()
 	if not arrest.is_valid():
 		reader.fail("", "needs its catch, lines, court, bribe and crimes")

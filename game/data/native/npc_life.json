@@ -208,6 +208,7 @@
 		"native.npc.assembly_xuanzhi": "still",
 		"native.npc.assembly_luo_yunzhou": "still",
 		"native.npc.assembly_lu_decai": "still",
+		"native.npc.assembly_lu_decai_true": "still",
 		"native.npc.assembly_juechenzi": "still",
 		"native.npc.yan_wei_chair": {"mode": "still", "pose": "sit"},
 		"native.npc.escort_runner": "still",
@@ -217,6 +218,7 @@
 		"native.npc.lu_decai_true": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.toll_man_snow": "post",
 		"native.npc.toll_man_cloud": "post",
+		"native.npc.lu_decai_home": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.he_ping": "post",
 		"native.npc.road_robber": "post"
 	}

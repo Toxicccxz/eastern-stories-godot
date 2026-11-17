@@ -399,6 +399,7 @@ msgstr ""
 #. native.npc.assembly_lin_ji gender
 #. native.npc.assembly_xuanzhi gender
 #. native.npc.assembly_luo_yunzhou gender
+#. native.npc.assembly_lu_decai_true gender
 #. native.npc.assembly_lu_decai gender
 #. native.npc.assembly_juechenzi gender
 #. native.npc.yan_wei_chair gender
@@ -411,6 +412,7 @@ msgstr ""
 #. native.npc.lu_decai_true gender
 #. native.npc.toll_man_snow gender
 #. native.npc.toll_man_cloud gender
+#. native.npc.lu_decai_home gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -1416,6 +1418,10 @@ msgstr ""
 
 #: scenes/world/city/city_cellar.tscn
 msgid "石板 · 下去"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "柴草 · 拨开"
 msgstr ""
 
 #. es2:d/city/nroad2 short
@@ -4408,11 +4414,13 @@ msgstr ""
 #. native.npc.assembly_lan_zhiping inquiry topic
 #. native.npc.assembly_xuanzhi inquiry topic
 #. native.npc.assembly_luo_yunzhou inquiry topic
+#. native.npc.assembly_lu_decai_true inquiry topic
 #. native.npc.assembly_lu_decai inquiry topic
 #. native.npc.assembly_juechenzi inquiry topic
 #. native.npc.yan_wei_chair inquiry topic
 #. native.npc.assembly_old_woman inquiry topic
 #. native.npc.assembly_daughter inquiry topic
+#. native.npc.lu_decai_home inquiry topic
 #. native:waterfog/terrace short
 #: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json data/native/rooms.json
 msgid "虹台"
@@ -16545,7 +16553,8 @@ msgstr ""
 #. common.npc.beggar.master family.name
 #. huazi name
 #. faction.huazi title
-#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_huazi.json
+#. native.npc.lu_decai_home family.name
+#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_huazi.json data/native/npcs.json
 msgid "花紫会"
 msgstr ""
 
@@ -17129,11 +17138,13 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry topic
 #. common.npc.taoist.taolord inquiry topic
 #. common.npc.dancer.master inquiry topic
+#. common.npc.beggar.master inquiry topic
 #. common.npc.scholar.master inquiry topic
 #. snow.npc.girl inquiry topic
 #. cloud.npc.b_header inquiry topic
 #. city.npc.chen inquiry topic
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json
+#. native.npc.lu_decai_home inquiry topic
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "这一票"
 msgstr ""
 
@@ -17151,12 +17162,14 @@ msgstr ""
 #. common.npc.dancer.master inquiry.改投.rules.say
 #. common.npc.dancer.master inquiry.这一票.rules.say
 #. common.npc.bonze.master inquiry.改投.rules.say
+#. common.npc.beggar.master inquiry.这一票.rules.say
 #. common.npc.scholar.master inquiry.这一票.rules.say
 #. snow.npc.girl inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.改投.rules.say
 #. city.npc.chen inquiry.这一票.rules.say
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json
+#. native.npc.lu_decai_home inquiry.这一票.rules.say
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "虹台上已经入了席。票就是票了。"
 msgstr ""
 
@@ -17187,6 +17200,7 @@ msgstr ""
 #. common.npc.dancer.master inquiry.改投.rules.say
 #. common.npc.dancer.master inquiry.这一票.rules.say
 #. common.npc.bonze.master inquiry.改投.rules.say
+#. common.npc.beggar.master inquiry.这一票.rules.say
 #. common.npc.scholar.master inquiry.这一票.rules.say
 #. snow.npc.girl inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.到此为止.rules.say
@@ -17200,6 +17214,7 @@ msgstr ""
 #. native.npc.he_ping inquiry.交官府.rules.say
 #. native.npc.he_ping inquiry.走吧.rules.say
 #. native.npc.latemoon_daughter inquiry.娘.rules.say
+#. native.npc.lu_decai_home inquiry.这一票.rules.say
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
@@ -17994,6 +18009,8 @@ msgstr ""
 #. native.npc.waterfog_hopeful inquiry topic
 #. native.npc.waterfog_courier inquiry topic
 #. native.npc.yan_wei_chair inquiry topic
+#. native.npc.lu_decai_true inquiry topic
+#. native.npc.lu_decai_home inquiry topic
 #: data/common/npcs.json data/native/npcs.json
 msgid "盟主"
 msgstr ""
@@ -20362,19 +20379,23 @@ msgid "阿弥陀佛，善哉！善哉！"
 msgstr ""
 
 #. common.npc.beggar.master name
+#. native.npc.assembly_lu_decai_true name
 #. native.npc.assembly_lu_decai name
 #. native.npc.lu_decai_snow name
 #. native.npc.lu_decai_cloud name
 #. native.npc.lu_decai_true name
+#. native.npc.lu_decai_home name
 #: data/common/npcs.json data/native/npcs.json
 msgid "陆得财"
 msgstr ""
 
 #. common.npc.beggar.master nickname
+#. native.npc.assembly_lu_decai_true nickname
 #. native.npc.assembly_lu_decai nickname
 #. native.npc.lu_decai_snow nickname
 #. native.npc.lu_decai_cloud nickname
 #. native.npc.lu_decai_true nickname
+#. native.npc.lu_decai_home nickname
 #: data/common/npcs.json data/native/npcs.json
 msgid "黑水伏蛟"
 msgstr ""
@@ -20394,12 +20415,15 @@ msgstr ""
 #. native.npc.lu_decai_snow inquiry topic
 #. native.npc.lu_decai_cloud inquiry topic
 #. native.npc.lu_decai_true inquiry topic
+#. native.npc.lu_decai_home inquiry topic
+#. native.npc.lu_decai_home family.title
 #: data/common/npcs.json data/native/npcs.json
 msgid "龙头"
 msgstr ""
 
 #. common.npc.beggar.master apprentice.requires.refuse_say
-#: data/common/npcs.json
+#. native.npc.lu_decai_home apprentice.requires.refuse_say
+#: data/common/npcs.json data/native/npcs.json
 msgid ""
 "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n"
 msgstr ""
@@ -20444,12 +20468,20 @@ msgstr ""
 msgid "真龙头的酒囊二十三个结，替身的都少几个。龙头在哪，替身一个传一个，一个只认得下一个：雪亭镇广场上那个结最少，从他问起，问「龙头」。"
 msgstr ""
 
+#. common.npc.beggar.master moods.waiting.chat_msg
+#: data/common/npcs.json
+msgid ""
+"陆得财守在福林大街上，手里摩挲着腰间的皮酒囊。\n"
+msgstr ""
+
 #. common.npc.beggar.master inquiry.差事.rules.say
 #. common.npc.beggar.master inquiry.龙头.rules.say
 #. native.npc.lu_decai_snow inquiry.龙头.rules.say
 #. native.npc.lu_decai_cloud inquiry.龙头.rules.say
 #. native.npc.lu_decai_true inquiry.龙头.rules.say
 #. native.npc.lu_decai_true inquiry.密信.rules.say
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#. native.npc.lu_decai_home inquiry.龙头.rules.say
 #: data/common/npcs.json data/native/npcs.json
 msgid "叫花子跟官府的人，没有正事说。"
 msgstr ""
@@ -20460,6 +20492,8 @@ msgstr ""
 #. native.npc.lu_decai_cloud inquiry.龙头.rules.say
 #. native.npc.lu_decai_true inquiry.龙头.rules.say
 #. native.npc.lu_decai_true inquiry.密信.rules.say
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#. native.npc.lu_decai_home inquiry.龙头.rules.say
 #: data/common/npcs.json data/native/npcs.json
 msgid "你不是花紫会这边的人了。叫花子的事，不劳你。"
 msgstr ""
@@ -20509,6 +20543,41 @@ msgstr ""
 msgid "差事？……县衙门口那面鼓都没敲过的人，接不了叫花子的差事。"
 msgstr ""
 
+#. common.npc.beggar.master inquiry.龙头.confirm
+#: data/common/npcs.json
+msgid ""
+"认这些年管事的人：真龙头把皮酒囊系到陆得财腰上，回京师的墙根接着看庾家。\n"
+"乔阴照旧——巷子里没有官差，巡捕照旧抓贼。正月十七，花紫会这一票投旧盟主（已经入了虹台的席的，票照入席时的算。）。\n"
+"要认他吗？"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.龙头.rules.say
+#: data/common/npcs.json
+msgid "二十三个结了。……叫花子的巷子，还是叫花子的。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.龙头.rules.lines.emote
+#: data/common/npcs.json
+msgid "把皮酒囊捧在手上，没有动。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.龙头.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"真龙头看了他半天，把自己腰里那只二十三个结的皮酒囊解下来，系到了陆得财腰上。\n"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.龙头.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"「京师的墙根，还得有人看着庾家。」他说完，头也不回地往南门去了。\n"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.龙头.rules.lines.say
+#: data/common/npcs.json
+msgid "……二十年，我没让一个官差进过乔阴的巷子。往后也不让。"
+msgstr ""
+
 #. common.npc.beggar.master inquiry.龙头.rules.say
 #: data/common/npcs.json
 msgid "我是龙头的一个替身。雪亭镇广场上那个结最少，从他问起。"
@@ -20524,7 +20593,29 @@ msgstr ""
 msgid "嘿，正月十七？叫花子早忘了。"
 msgstr ""
 
+#. common.npc.beggar.master inquiry.虹台.rules.say
+#. native.npc.lu_decai_home inquiry.虹台.rules.say
+#: data/common/npcs.json data/native/npcs.json
+msgid "花紫会这一票，正月十七照你说的。"
+msgstr ""
+
 #. common.npc.beggar.master inquiry.虹台.rules.lines.emote
+#: data/common/npcs.json
+msgid "拍了拍腰里那只二十三个结的皮酒囊。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "花紫会这一票？投旧盟主。叫花子最怕官——颜违当了盟主，官差就要进乔阴的巷子了。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "这只酒囊是你替我认下的。你要这一票，开口就是。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.虹台.rules.lines.emote
+#. common.npc.beggar.master inquiry.这一票.rules.lines.emote
 #: data/common/npcs.json
 msgid "嘿嘿一笑，抠了抠脚。"
 msgstr ""
@@ -20542,6 +20633,25 @@ msgstr ""
 #. common.npc.beggar.master inquiry.虹台.rules.say
 #: data/common/npcs.json
 msgid "虹台？叫花子不管那么远的事。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.这一票.confirm
+#: data/common/npcs.json
+msgid ""
+"请陆得财把花紫会这一票交给你：正月十七虹台上，花紫会听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.这一票.rules.say
+#. native.npc.lu_decai_home inquiry.这一票.rules.say
+#: data/common/npcs.json data/native/npcs.json
+msgid "说过了。花紫会听你的。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.这一票.rules.lines.say
+#. native.npc.lu_decai_home inquiry.这一票.rules.lines.say
+#: data/common/npcs.json data/native/npcs.json
+msgid "好。花紫会这一票，你说了算。"
 msgstr ""
 
 #. common.npc.scholar.master name
@@ -24652,6 +24762,16 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
+msgid "福林大街的巷子口站着一个官差，叫花子从他跟前过，点个头。真龙头坐在街当中，数着酒囊上的结。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "乔阴的巷子里还是没有官差。陆得财腰里那只皮酒囊，二十三个结。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
 msgid "京城的诏书到了槐阳：槐阳王不反。城门上那张「槐阳反」的告示，郭承亲手撕了。"
 msgstr ""
 
@@ -24883,6 +25003,16 @@ msgstr ""
 #. assembly cards.lines.text
 #: data/story/epilogue.json
 msgid "虹台上，晚月庄的旗后面站着一个老妇人和她的女儿。九派里有人认得那把细剑，没有人说破。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，花紫会的旗下坐着一个打二十三个结的老叫花子，一直看着台下官道上的官差。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，陆得财坐在花紫会的旗下抠着脚。腰里那只皮酒囊，多了一个结。"
 msgstr ""
 
 #. assembly cards.lines.text
@@ -25399,6 +25529,26 @@ msgstr ""
 #. huazi lines.text
 #: data/story/factions.json
 msgid "密信你交给了官府。叫花子不再跟你说正事。"
+msgstr ""
+
+#. huazi lines.text
+#: data/story/factions.json
+msgid "你照真龙头的话，夜里从尚书府的狗洞把卫沧澜领了出来。"
+msgstr ""
+
+#. huazi lines.text
+#: data/story/factions.json
+msgid "你在福林大街认了二十三个结：真龙头坐回了乔阴，花紫会吃上了官饭，巡捕不再抓花紫会的人。陆得财出了北门。"
+msgstr ""
+
+#. huazi lines.text
+#: data/story/factions.json
+msgid "你在福林大街认了这些年管事的陆得财：真龙头把皮酒囊系到他腰上，回了京师的墙根。乔阴的巷子里照旧没有官差。"
+msgstr ""
+
+#. huazi lines.text
+#: data/story/factions.json
+msgid "正月十七，花紫会那一票听你的。"
 msgstr ""
 
 #. court name
@@ -26803,7 +26953,7 @@ msgstr ""
 
 #. faction.huazi summary
 #: data/story/faction_huazi.json
-msgid "替花紫会摸回槐阳八户的卖身契；数着皮酒囊上的结，找到真龙头；尚书府小屋那封密信，给花紫会还是给官府。"
+msgid "替花紫会摸回槐阳八户的卖身契；数着皮酒囊上的结，找到真龙头；尚书府小屋那封密信，给花紫会还是给官府；夜里从狗洞偷出卫沧澜；认二十三个结，还是认这些年管事的人。"
 msgstr ""
 
 #. faction.huazi lapses.text
@@ -26908,12 +27058,53 @@ msgstr ""
 
 #. faction.huazi/rescue objective
 #: data/story/faction_huazi.json
-msgid "真龙头还有一件事要托你。到京师尚书府的后墙根，问他「盟主」。"
+msgid "真龙头还有一件事要托你：尚书府客房里关着的那个老人。到京师东街尚书府的后墙根，问他「盟主」。他说了狗洞的：夜里（入夜到子时）拨开墙根东头那捆柴草，从狗洞钻进后院；护院挑着灯在院子里绕圈，别跟他们照面——撞见了就被推出大门，下回再来。进了客房，跟那老人说「走」。卫沧澜已经出了尚书府的，问真龙头一句「盟主」就是。"
 msgstr ""
 
-#. faction.huazi/rescue text
+#. faction.huazi/rescue/stolen text
 #: data/story/faction_huazi.json
-msgid "真龙头说了尚书府客房里的那个人。"
+msgid "卫沧澜照叫花子指的路，从后院的狗洞出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
+msgstr ""
+
+#. faction.huazi/rescue/stolen reward.deed
+#: data/story/faction_huazi.json
+msgid "夜里从尚书府的狗洞偷出了卫沧澜"
+msgstr ""
+
+#. faction.huazi/rescue/out text
+#: data/story/faction_huazi.json
+msgid "卫沧澜已经出了尚书府。真龙头说：人出来了，他也该回乔阴了——福林大街见。"
+msgstr ""
+
+#. faction.huazi/split objective
+#: data/story/faction_huazi.json
+msgid "真龙头回了乔阴，坐在福林大街当中。去福林大街——陆得财在街上的时候，两个人要碰面。真龙头要带花紫会吃官饭：给官府做眼线，换叫花子不再被巡捕抓；陆得财二十年没让一个官差进过乔阴的巷子。认二十三个结，问真龙头「龙头」：花紫会投颜违，巡捕不再抓花紫会的人，你的偷窃案底勾销，陆得财走了就不回来。认这些年管事的人，问陆得财「龙头」：真龙头回京师的墙根，乔阴照旧，花紫会投旧盟主。已经入了虹台的席的，票照入席时的算。"
+msgstr ""
+
+#. faction.huazi/split/knots text
+#: data/story/faction_huazi.json
+msgid "你认了二十三个结。陆得财把怀里的东西都放在真龙头脚边，出了北门。花紫会吃上了官饭。"
+msgstr ""
+
+#. faction.huazi/split/knots reward.deed
+#: data/story/faction_huazi.json
+msgid "在福林大街认了二十三个结：花紫会跟真龙头吃官饭"
+msgstr ""
+
+#. faction.huazi/split/knots reward.rank.title
+#. faction.huazi/split/manager reward.rank.title
+#: data/story/faction_huazi.json
+msgid "九结弟子"
+msgstr ""
+
+#. faction.huazi/split/manager text
+#: data/story/faction_huazi.json
+msgid "你认了这些年管事的陆得财。真龙头把皮酒囊系到他腰上，回了京师的墙根。乔阴的巷子里，照旧没有官差。"
+msgstr ""
+
+#. faction.huazi/split/manager reward.deed
+#: data/story/faction_huazi.json
+msgid "在福林大街认了这些年管事的陆得财"
 msgstr ""
 
 #. faction.court summary
@@ -27164,7 +27355,17 @@ msgstr ""
 
 #. faction.assembly checklist.label
 #: data/story/faction_assembly.json
+msgid "花紫会：投颜违——吃官饭"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
 msgid "花紫会：投旧盟主——怕官"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "花紫会：听你的"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -28253,7 +28454,8 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.为了斩鬼.rules.lines.emote
 #. latemoon.npc.room.elon inquiry.留着.rules.lines.emote
 #. city.npc.chen inquiry.这一票.rules.lines.emote
-#: data/snow/npcs.json data/cloud/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json
+#. native.npc.lu_decai_home inquiry.龙头.rules.lines.emote
+#: data/snow/npcs.json data/cloud/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "点了点头。"
 msgstr ""
 
@@ -35627,6 +35829,26 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "嘿嘿。龙头把酒囊系在我腰上了——叫花子最怕官，花紫会投旧盟主。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "入席之前说定的，花紫会投旧盟主。叫花子说话算话。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "花紫会吃上官饭了。颜违跟朝廷走得近，叫花子跟着他。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "花紫会这一票，在你手里。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "老道下山，就这一回。"
 msgstr ""
 
@@ -35940,6 +36162,16 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "花紫会——颜违。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "花紫会——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "花紫会——没有来，不算。"
 msgstr ""
 
@@ -36185,6 +36417,16 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "老夫回来了，就坐回来。老松岭的旧案，查到底；北麓的孩子，交茅山看着；神教不犯九派，就容它。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "还有一句：老夫是叫花子从狗洞里领出来的。乔阴的巷子，往后不许官差进。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "还有一句：老夫是叫花子从狗洞里领出来的。花紫会要吃官饭，老夫不拦——只是官府的眼线，不许盯九派。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -45279,7 +45521,8 @@ msgid ""
 msgstr ""
 
 #. village.road6.landmark.grass action
-#: data/village/world.json
+#. city.street3.dog_hole act.verb
+#: data/village/world.json data/city/world.json
 msgid "拨开"
 msgstr ""
 
@@ -47307,6 +47550,39 @@ msgstr ""
 #. native.npc.neizhai_guard title
 #: data/city/npcs.json data/imperial/npcs.json
 msgid "尚书府护院"
+msgstr ""
+
+#. city.npc.shangshu.huyuan watch.caught.say
+#. city.npc.shangshu.huyuan1 watch.caught.say
+#. native.npc.night_guard_lanes watch.caught.say
+#. native.npc.night_guard_gate watch.caught.say
+#. native.npc.night_guard_garden watch.caught.say
+#: data/city/npcs.json data/imperial/npcs.json
+msgid "什么人！"
+msgstr ""
+
+#. city.npc.shangshu.huyuan watch.caught.lines
+#. city.npc.shangshu.huyuan1 watch.caught.lines
+#: data/city/npcs.json
+msgid "两个护院一左一右扭住你的胳膊，提着灯笼把你从大门推了出去。"
+msgstr ""
+
+#. city.npc.shangshu.huyuan watch.caught.lines
+#. city.npc.shangshu.huyuan1 watch.caught.lines
+#: data/city/npcs.json
+msgid "墙根底下，真龙头连眼皮都没抬：「说了别跟护院照面。脚底下轻些，下回再来。」"
+msgstr ""
+
+#. city.npc.shangshu.huyuan watch.caught.again_lines
+#. city.npc.shangshu.huyuan1 watch.caught.again_lines
+#: data/city/npcs.json
+msgid "护院又把你从大门推了出去，骂骂咧咧地闩上了门。"
+msgstr ""
+
+#. city.npc.shangshu.huyuan watch.caught.again_lines
+#. city.npc.shangshu.huyuan1 watch.caught.again_lines
+#: data/city/npcs.json
+msgid "真龙头往墙根里缩了缩：「护院绕一圈要多久，你数过没有？」"
 msgstr ""
 
 #. city.npc.shangshu.huyuan name
@@ -50613,6 +50889,35 @@ msgstr ""
 #: data/city/world.json
 msgid ""
 "白忙了半天，一无所获。\n"
+msgstr ""
+
+#. city.street3.dog_hole name
+#: data/city/world.json
+msgid "柴草"
+msgstr ""
+
+#. city.street3.dog_hole act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你拨开墙根下那捆柴草，底下果然有个狗洞，刚容得下一个人。\n"
+msgstr ""
+
+#. city.street3.dog_hole act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"真龙头在你背后低声说：「护院在院子里绕圈呢。别跟他们照面——撞见了就退出来，下回再来。」\n"
+msgstr ""
+
+#. city.street3.dog_hole act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"天还亮着，东街上人来人往，钻不得。真龙头说过：夜里再来。\n"
+msgstr ""
+
+#. city.street3.dog_hole act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"墙根下堆着一捆柴草，压得严严实实。\n"
 msgstr ""
 
 #. city.wall.jump_in act.verb
@@ -61087,13 +61392,6 @@ msgstr ""
 msgid "宫里不许比划。"
 msgstr ""
 
-#. native.npc.night_guard_lanes watch.caught.say
-#. native.npc.night_guard_gate watch.caught.say
-#. native.npc.night_guard_garden watch.caught.say
-#: data/imperial/npcs.json
-msgid "什么人！"
-msgstr ""
-
 #. native.npc.night_guard_lanes watch.caught.lines
 #. native.npc.night_guard_gate watch.caught.lines
 #. native.npc.night_guard_garden watch.caught.lines
@@ -61544,6 +61842,26 @@ msgstr ""
 #. native.npc.wei_canglan inquiry topic
 #: data/imperial/npcs.json
 msgid "走"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "听你说完，把诗集合上，往窗外看了一眼。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.say
+#: data/imperial/npcs.json
+msgid "墙根底下那个打结的叫花子？二十年，老夫夜夜听着他数护院的梆子。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "从墙上摘下那把剑，站起来，腿晃了一下，又站稳了。"
+msgstr ""
+
+#. native.npc.wei_canglan inquiry.走.rules.lines.say
+#: data/imperial/npcs.json
+msgid "狗洞在后院？老夫自己钻得过去。先回水烟阁——替老夫谢那个叫花子。"
 msgstr ""
 
 #. native.npc.wei_canglan inquiry.走.rules.lines.emote
@@ -67044,6 +67362,7 @@ msgstr ""
 #. native.npc.assembly_lan_zhiping inquiry.虹台
 #. native.npc.assembly_xuanzhi inquiry.虹台
 #. native.npc.assembly_luo_yunzhou inquiry.虹台
+#. native.npc.assembly_lu_decai_true inquiry.虹台
 #. native.npc.assembly_lu_decai inquiry.虹台
 #. native.npc.assembly_juechenzi inquiry.虹台
 #: data/native/npcs.json
@@ -67169,20 +67488,28 @@ msgstr ""
 msgid "骆云舟摆了摆手：今天是推选的日子，不动手。"
 msgstr ""
 
+#. native.npc.assembly_lu_decai_true title
 #. native.npc.assembly_lu_decai title
 #: data/native/npcs.json
 msgid "花紫会龙头"
+msgstr ""
+
+#. native.npc.assembly_lu_decai_true long
+#: data/native/npcs.json
+msgid ""
+"陆得财盘腿坐在花紫会的旗下，腰里的皮酒囊二十三个结。他一直看着台下官道那边。\n"
+msgstr ""
+
+#. native.npc.assembly_lu_decai_true fight_deferred
+#. native.npc.assembly_lu_decai fight_deferred
+#: data/native/npcs.json
+msgid "陆得财摆了摆手：今天是推选的日子，不动手。"
 msgstr ""
 
 #. native.npc.assembly_lu_decai long
 #: data/native/npcs.json
 msgid ""
 "陆得财盘腿坐在花紫会的旗下，正抠着脚。\n"
-msgstr ""
-
-#. native.npc.assembly_lu_decai fight_deferred
-#: data/native/npcs.json
-msgid "陆得财摆了摆手：今天是推选的日子，不动手。"
 msgstr ""
 
 #. native.npc.assembly_juechenzi title
@@ -67840,6 +68167,11 @@ msgstr ""
 
 #. native.npc.lu_decai_true inquiry.龙头.rules.say
 #: data/native/npcs.json
+msgid "酒囊系在得财腰上了。乔阴的花紫会是他的。我在这儿，接着看着庾家。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.龙头.rules.say
+#: data/native/npcs.json
 msgid "二十三个结，你数过了。乔阴那个替我管了二十年的花紫会，管得比我好。"
 msgstr ""
 
@@ -67908,6 +68240,7 @@ msgid "这封信在一天，庾家就不敢清乔阴的巷子。叫花子要的�
 msgstr ""
 
 #. native.npc.lu_decai_true inquiry.密信.rules.lines.emote
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.emote
 #: data/native/npcs.json
 msgid "朝身后的墙努了努嘴。"
 msgstr ""
@@ -67945,6 +68278,71 @@ msgstr ""
 #. native.npc.lu_decai_true inquiry.密信.rules.say
 #: data/native/npcs.json
 msgid "什么信？叫花子不识字。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#: data/native/npcs.json
+msgid "盟主出来了，花紫会是得财的。我在这堵墙底下，接着看着庾家。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#: data/native/npcs.json
+msgid "人出来了。我也该回乔阴了——福林大街见。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#: data/native/npcs.json
+msgid "盟主出来了。我回乔阴，福林大街见。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "客房里那位已经出来了——不是叫花子背出来的，也好。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "我在这堵墙底下坐了二十年，看的就是他。人出来了，我也该回乔阴了。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "乔阴那个替我管了二十年的花紫会。我回去，有话跟他说。你来福林大街。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#: data/native/npcs.json
+msgid "夜里来。墙根东头那捆柴草底下就是狗洞。护院绕圈的时候，客房门口空着——撞见了别动手，退出来，下回再来。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.emote
+#: data/native/npcs.json
+msgid "往墙那边看了一眼，压低了声音。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "墙那边的客房里关着一个白头发的老人。庾家关了他二十年——就是你们说的盟主。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "护院换班的时辰，叫花子都知道：一入夜，客房门口那几个护院就挑着灯在院子里绕圈，门口一阵一阵地空着。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "墙根东头那捆柴草底下有个狗洞，通后院的废屋。夜里钻进去，别跟护院动手——撞见了就退出来，下回再来。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.lines.say
+#: data/native/npcs.json
+msgid "那老人认得叫花子。你进了客房，跟他说「走」。"
+msgstr ""
+
+#. native.npc.lu_decai_true inquiry.盟主.rules.say
+#: data/native/npcs.json
+msgid "盟主？叫花子不认识什么盟主。"
 msgstr ""
 
 #. native.npc.lu_decai_true chat_msg
@@ -68081,6 +68479,167 @@ msgstr ""
 msgid ""
 "牛四爬起来，一叠路引从怀里滑了出来：「我、我也是替人收的！关上的人每个月来拿一回钱！」\n"
 "他顾不上捡，往卧龙岗的方向跑了。\n"
+msgstr ""
+
+#. native.npc.lu_decai_home long
+#: data/native/npcs.json
+msgid ""
+"一个老叫花子盘腿坐在福林大街当中，腰里挂着一只大皮酒囊，网绳上密密地打着结——二十三个。街上的叫花子从他跟前过，都放轻了脚步。\n"
+msgstr ""
+
+#. native.npc.lu_decai_home fight_deferred
+#: data/native/npcs.json
+msgid "老叫花子眼皮都没抬：回了乔阴，更不跟人动手。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.龙头.confirm
+#: data/native/npcs.json
+msgid ""
+"认二十三个结：花紫会跟真龙头吃官饭——给官府做眼线，换叫花子不再被巡捕抓；你的偷窃案底一笔勾销。\n"
+"陆得财把乔阴交出来，走了就不回来。正月十七，花紫会这一票投颜违（已经入了虹台的席的，票照入席时的算。）。\n"
+"要认他吗？"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.龙头.rules.say
+#: data/native/npcs.json
+msgid "叫花子吃上官饭了。巡捕见了花紫会的人，点个头就过去。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.龙头.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"乔阴那个陆得财把怀里的东西一样一样掏出来，放在真龙头脚边：一本油乎乎的账，几串铜钱，一串巷子里的钥匙。只留下腰里那只二十二个结的皮酒囊。\n"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.龙头.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"他朝你点了点头，什么也没说，顺着福林大街出了北门。\n"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.龙头.rules.lines.say
+#: data/native/npcs.json
+msgid "程不平那里，我去说。花紫会的人，往后巡捕不抓；你身上那几笔偷窃的案底，一笔勾销。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.龙头.rules.say
+#: data/native/npcs.json
+msgid "二十三个结，你数过了。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.盟主.rules.say
+#: data/native/npcs.json
+msgid "盟主出来了。叫花子的事，往后在乔阴说。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "正月十七过去了。叫花子的饭碗，照旧。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "花紫会这一票投颜违。颜违跟朝廷走得近——吃官饭的人，跟着他。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "这碗官饭，是你替叫花子认下的。你要这一票，开口就是。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "入席之前说定的票，叫花子不改——花紫会投旧盟主。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "虹台的事，先在福林大街把话说清。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "虹台？叫花子到时候也去看看。"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.这一票.confirm
+#: data/native/npcs.json
+msgid ""
+"请真龙头把花紫会这一票交给你：正月十七虹台上，花紫会听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. native.npc.lu_decai_home inquiry.这一票.rules.lines.emote
+#: data/native/npcs.json
+msgid "拍了拍腰里的皮酒囊。"
+msgstr ""
+
+#. native.npc.lu_decai_home chat_msg
+#: data/native/npcs.json
+msgid ""
+"陆得财数着皮酒囊上的结，嘴唇一动一动。\n"
+msgstr ""
+
+#. native.npc.lu_decai_home chat_msg
+#: data/native/npcs.json
+msgid ""
+"一个小叫花子跑过来，凑在陆得财耳边说了两句，又跑了。\n"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.emote
+#: data/native/npcs.json
+msgid "盘腿坐在福林大街当中，四下看了看。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "二十年没回来了。巷子还是这几条。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.emote
+#: data/native/npcs.json
+msgid "看见了他，站住了。半天，把腰里那只皮酒囊解下来，捧在手上。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "……龙头。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "得财，这二十年辛苦你。我回来，是要带花紫会吃官饭——给官府做眼线，换叫花子不再见了巡捕就跑。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "庾家的密信在我手里，程不平那里也说得上话。往后叫花子手脚不干净，巡捕也睁一只眼闭一只眼。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "二十年，我没让一个官差进过乔阴的巷子。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "叫花子靠官？官今天给你一碗饭，明天就拿你的人去关北挖河。槐阳那八户，你忘了？"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.emote
+#: data/native/npcs.json
+msgid "看了看你。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.say
+#: data/native/npcs.json
+msgid "酒囊上的结是我的，花紫会这二十年是他管的。叫花子听谁的——你替他们说一句。"
+msgstr ""
+
+#. native.npc.lu_decai_home calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"（认二十三个结，问真龙头「龙头」；认这些年管事的人，问陆得财「龙头」。）\n"
 msgstr ""
 
 #. native:snow/letter_to_chen name
