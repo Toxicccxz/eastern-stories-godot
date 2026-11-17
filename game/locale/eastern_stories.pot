@@ -18862,7 +18862,7 @@ msgstr ""
 
 #. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
 #: data/common/npcs.json
-msgid "藏经楼你上去一回。二楼红布桌上的镇教秘籍，你数一数。"
+msgid "藏经楼你上去看看。二楼红布桌上的镇教秘籍，你数一数。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
@@ -50799,6 +50799,12 @@ msgid ""
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.师兄.rules.say
+#. city.npc.shangshu.gardener inquiry.符箓.rules.say
+#: data/city/npcs.json
+msgid "师兄的事……你不是茅山的人了，就别管了。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.师兄.rules.say
 #: data/city/npcs.json
 msgid "师兄还好？……他那只金眼睛，二十年前就是那样看人的。"
 msgstr ""
@@ -50825,7 +50831,7 @@ msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.师兄.rules.lines.say
 #: data/city/npcs.json
-msgid "这两年，后头的小屋里来了北边道观的人。他们走之前烧东西——我从灰里、从门缝里，一页一页抄了下来，抄在那函书的空白处。"
+msgid "这两年，后头的小屋里来了北边道观的人。他们来了就烧东西——我从灰里、从门缝里，一页一页抄了下来，抄在那函书的空白处。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.师兄.rules.lines.say
@@ -50836,6 +50842,21 @@ msgstr ""
 #. city.npc.shangshu.gardener inquiry topic
 #: data/city/npcs.json
 msgid "符箓"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.符箓.rules.say
+#: data/city/npcs.json
+msgid "书回了山。烧也好，留也好，是师兄的事了。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.符箓.rules.lines.emote
+#: data/city/npcs.json
+msgid "愣了一下，叹了口气，从花房里又捧出一函蓝布面的书。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.符箓.rules.lines.say
+#: data/city/npcs.json
+msgid "丢了？……抄的时候我留了一份底稿。拿去，这回别再丢了。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.符箓.rules.say
@@ -50855,7 +50876,7 @@ msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.符箓.rules.lines.say
 #: data/city/npcs.json
-msgid "小屋里那封没烧的信，他们带走了。烧掉的，都在这里。"
+msgid "他们烧掉的，都在这里。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.符箓.rules.lines.say

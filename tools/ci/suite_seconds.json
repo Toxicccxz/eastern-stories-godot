@@ -200,6 +200,7 @@
     "res://tests/runtime/faction_court_a_test.gd": 30.0,
     "res://tests/runtime/faction_dongfang_b_test.gd": 75.0,
     "res://tests/runtime/faction_celestial_b_test.gd": 52.0,
+    "res://tests/runtime/faction_maoshan_a_test.gd": 15.0,
     "res://tests/runtime/faction_niling_a_test.gd": 55.0,
     "res://tests/runtime/faction_niling_b_test.gd": 60.0,
     "res://tests/runtime/faction_niling_c_test.gd": 30.0,

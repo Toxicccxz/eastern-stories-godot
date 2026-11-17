@@ -165,6 +165,7 @@ func _test_rewritten(catalog: ContentCatalog) -> void:
 		Rewritten.new(&"native:choyin/magistrate_letter", &"choyin.npc.judgeman", "供词", ["堂审过", "陈显祖进了大堂", "程不平给了信", "陈显祖作了证", "程不平写了信"], "信递到了"),
 		Rewritten.new(&"native:choyin/magistrate_letter", &"choyin.npc.judgeman", "供词", ["堂审过", "放走了陈显祖", "程不平给了信", "只留了文书", "程不平写了信"], "信递到了"),
 		Rewritten.new(&"native:snow/letter_to_chen", &"snow.npc.post_officer", "送信", ["雪亭驿的信"], "信送到了"),
+		Rewritten.new(&"native:temple/talisman_book", &"city.npc.shangshu.gardener", "符箓", ["林忌说了师弟", "花匠说了来历", "花匠交了符箓"], "林忌看了符箓"),
 	]
 	for entry: Rewritten in table:
 		var npc: NpcDefinition = catalog.npc(entry.npc)

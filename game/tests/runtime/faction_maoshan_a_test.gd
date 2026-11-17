@@ -50,10 +50,15 @@ func _test_data() -> void:
 	_check(quest.step(&"gardener").objective.contains("门房"), "the 尚书府's gate is said")
 	_check(quest.step(&"home").target.map_id == &"temple.temple1_house" and quest.step(&"home").objective.contains("林忌"), "the stub points back at 林忌")
 	var book: ItemContentDefinition = catalog.item(BOOK)
-	_check(book != null and book.quest_item, "the 《上清符箓》 is a quest item")
+	_check(book != null and book.quest_item and book.no_drop, "the 《上清符箓》 is a quest item, not to be dropped")
 	var gardener: NpcDefinition = catalog.npc(GARDENER)
 	_check(gardener.talk().listed_for("师兄", {}) == false and gardener.talk().listed_for("师兄", {"林忌说了师弟": 1}), "师兄 listed once 林忌 told of him")
 	_check(gardener.talk().listed_for("符箓", {"花匠说了来历": 1}) and not gardener.talk().listed_for("符箓", {"林忌说了师弟": 1}), "符箓 listed once he told his years")
+	var none: Array[String] = []
+	var lapsed: Dictionary[String, int] = {"林忌说了师弟": 1, "花匠说了来历": 1, "茅山的线断了": 1}
+	for topic: String in ["师兄", "符箓"]:
+		var rule: NpcInquiryRule = NpcInquiryRule.decide(gardener.talk().inquiry_rules(topic), lapsed, null, &"", &"", 0, {}, none)
+		_check(rule != null and rule.gives.is_empty() and rule.mark_asker.is_empty(), "the line ended: the 花匠's %s gives nothing" % topic)
 
 
 ## 门规例外: 茅山's own pass the invisible wall; another only with 林忌's leave.
@@ -74,7 +79,8 @@ func _test_wall() -> void:
 	_check(not rule.refuses(friend, false), "a friend with 林忌's leave goes in")
 
 
-## A woman of no family who never met the 花匠: no line; 林忌 keeps 茅山's business; the 花匠 says ES2's words.
+## A woman of no family who never met the 花匠: no line, 林忌 keeps 茅山's business. Once she wore the 黑冠 for him (the
+## other door): a friend of 茅山, the line begins.
 func _test_stranger(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	session.record_journal()
@@ -85,6 +91,10 @@ func _test_stranger(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(_ask(hall, lin, "师弟"), "茅山的家事。") and not state.marks.has("茅山的朋友"), "林忌: 茅山's business")
 	session.record_journal()
 	_check(not state.quests.has("faction.maoshan#started"), "still no line")
+	state.marks["答应了做眼线"] = 1 # TEST-ONLY: 卧底 A's door
+	_check(_said(_ask(hall, lin, "师弟"), "你替茅山戴过那顶冠") and state.marks.get("茅山的朋友", 0) == 1 and state.marks.get("林忌许你上藏经楼", 0) == 1, "the 眼线: a friend of 茅山")
+	session.record_journal()
+	_check(state.quests.has("faction.maoshan#started"), "her line begins")
 
 
 ## A man of no family: the 花匠's 林忌 (ES2's line) makes him one who met him; 林忌's 师弟 makes him a friend of 茅山 and
@@ -121,8 +131,7 @@ func _test_friend(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(said, "老松岭") and _said(said, "清尘") and _said(said, "小屋") and state.marks.get("花匠说了来历", 0) == 1, "the 花匠's twenty years: %s" % [said])
 	said = _ask(garden, gardener, "符箓")
 	_check(_said(said, "上清符箓") and session.player_held_item_ids().get(BOOK, false) == true and state.marks.get("花匠交了符箓", 0) == 1, "the book in hand")
-	var again: bool = session.player_held_item_ids().get(BOOK, false)
-	_check(_said(_ask(garden, gardener, "符箓"), "书在你那里") and again, "asked again: no second book")
+	_check(_said(_ask(garden, gardener, "符箓"), "书在你那里") and _books(session) == 1, "asked again: no second book (%d)" % _books(session))
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"home" and DeedLog.done(state, "从尚书府的花匠手里接过了《上清符箓》"), "the stub: back to 林忌")
 	session.shared_ui().standing_page.fill(session.quest_condition_test())
@@ -159,6 +168,15 @@ func _garden(tree: SceneTree, session: WorldSessionController) -> WorldMapContro
 	_check(map != null and map.place_player(GARDEN, MapPlaces.zone_spot(map, GARDEN)), "TEST-ONLY: in the 花园")
 	await _settle(tree)
 	return map
+
+
+## How many 《上清符箓》 the player carries.
+func _books(session: WorldSessionController) -> int:
+	var count: int = 0
+	for row: PlayerInventoryRowProjection in session.player_inventory_rows():
+		if row.item_definition_id == BOOK:
+			count += maxi(row.amount, 1)
+	return count
 
 
 func _ask(map: WorldMapController, npc: NpcRuntimeState, topic: String) -> Array[String]:
