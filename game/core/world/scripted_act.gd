@@ -100,7 +100,7 @@ extends RefCounted
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE, NPC_WOUND, CHOOSE, RESTAGE, TITLE }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW, UNTIL_PHASE, QUESTIONS, DRAIN_FORCE, TAKE, KEEP_SAVE, EPILOGUE, NPC_WOUND, CHOOSE, RESTAGE, TITLE, HOME }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -561,7 +561,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "npc_wound", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue", "choose", "restage", "title"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "npc_wound", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow", "until_phase", "questions", "drain_force", "take", "keep_save", "epilogue", "choose", "restage", "title", "home"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -751,6 +751,11 @@ static func _step(reader: ContentRecordReader) -> Step:
 			if step.options.is_empty():
 				chosen.fail("options", "offers at least one option")
 			chosen.finish()
+		"home":
+			# Native (势力线第二批 晚月 B; DECISIONS「演完回屋」): npc.c return_home() of the first of a
+			# definition standing in the act's room (one called over for a scene walks back to its spot).
+			step.kind = Kind.HOME
+			step.npc_id = StringName(reader.required_text("home"))
 		"restage":
 			step.kind = Kind.RESTAGE
 			if not reader.boolean("restage", false):

@@ -235,6 +235,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					leaving = _map.npcs.first_npc_in_zone(step.npc_id, room if npc == null else npc.world_location().zone_id, true)
 				if leaving != null:
 					_map.npcs.leave_for_good(leaving)
+			ScriptedAct.Kind.HOME:
+				# DECISIONS「演完回屋」: one called over walks back to its own spot (npc.c return_home()).
+				var going_home: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, room if npc == null else npc.world_location().zone_id, true)
+				if going_home != null:
+					_map.npcs.return_home(going_home, true)
 			ScriptedAct.Kind.UNTIL_PHASE:
 				_show(said, hears, npc, spoken)
 				if _map.session != null and not _map.session.wait_until_phase(step.phases):

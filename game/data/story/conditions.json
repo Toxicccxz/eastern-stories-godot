@@ -7,7 +7,8 @@
 				"native: 势力线第一批 封山 B (剧情总纲 §4 第 1 条; 计划 build/plans/势力线第一批_计划.md §3 封山 B, owner 2026-11-09「按推荐开工」, 2026-11-10「合并后做封山 B」; DECISIONS「封山 B」) — 封山守渡口, the eighth: 柳淳风 and his disciples (本宗) or 柳绘心 and those she taught (北宗); three are still enough.",
 				"native: 势力线第一批 天邪 B (剧情总纲 §4 第 2 条「天邪派／水烟阁」; 计划 build/plans/势力线第一批_计划.md §4 天邪 B, owner 2026-11-09「按推荐开工」; DECISIONS「天邪 B」) — 水烟阁守潭口 holds for one who made the 天邪 split as well: 潘军禅 and the 红衣武士 where neither 南危水 nor 卫沧澜 comes; still one band.",
 				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C, §2 第 6 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — 茅山 (林忌), the ninth: one who turned the night before gave 林忌 the hour and the way down to the lake; his people hold it. Three are still enough.",
-				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 东方神教守潭口 holds for one who stood with 安妮儿 as well, the 宝衣 hers or not; still one band."
+				"native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 东方神教守潭口 holds for one who stood with 安妮儿 as well, the 宝衣 hers or not; still one band.",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 晚月庄守岸, the tenth: 蓝止萍 and her disciples (庄规) or the 老妇 and her daughter (带她回来); three are still enough."
 			],
 			"when": {
 				"at_least": {
@@ -58,6 +59,16 @@
 						},
 						{
 							"mark": "前夜倒戈"
+						},
+						{
+							"any": [
+								{
+									"mark": "晚月庄依了庄规"
+								},
+								{
+									"mark": "她回了晚月庄"
+								}
+							]
 						}
 					]
 				}
@@ -446,10 +457,22 @@
 		{
 			"id": "assembly.latemoon.stated",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the split states the vote by itself",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — a split taken once the player sat on the 虹台 (入了虹台的席) leaves the vote as it was cast: the split marks 晚月庄的票随了庄规 / 晚月庄的票随了她 only before."
 			],
 			"when": {
-				"mark": "晚月庄表了态"
+				"any": [
+					{
+						"mark": "晚月庄表了态"
+					},
+					{
+						"mark": "晚月庄的票随了庄规"
+					},
+					{
+						"mark": "晚月庄的票随了她"
+					}
+				]
 			}
 		},
 		{
@@ -714,16 +737,43 @@
 		{
 			"id": "assembly.latemoon.yan",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣烧了 or 给了安妮儿, and 蓝止萍 asked: 逐神教"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣烧了 or 给了安妮儿, and 蓝止萍 asked: 逐神教",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 依了庄规: 神教的人进过庄，往后庄门要关紧 (颜违 逐神教)"
 			],
 			"when": {
-				"mark": "晚月庄改投颜违"
+				"all": [
+					{
+						"not": {
+							"mark": "晚月庄听你的"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "晚月庄的票随了庄规"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "晚月庄的票随了她"
+										}
+									},
+									{
+										"mark": "晚月庄改投颜违"
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		},
 		{
 			"id": "assembly.latemoon.self",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣 left with 瑷伦 and she is still there, and 蓝止萍 asked"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣 left with 瑷伦 and she is still there, and 蓝止萍 asked",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the line walked to its split, 蓝止萍 asked「这一票」"
 			],
 			"when": {
 				"all": [
@@ -731,9 +781,16 @@
 						"mark": "晚月庄听你的"
 					},
 					{
-						"not": {
-							"mark": "晚月庄改投颜违"
-						}
+						"any": [
+							{
+								"cond": "latemoon.split"
+							},
+							{
+								"not": {
+									"mark": "晚月庄改投颜违"
+								}
+							}
+						]
 					}
 				]
 			}
@@ -741,19 +798,36 @@
 		{
 			"id": "assembly.latemoon.old",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 晚月庄: 封地照旧"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 晚月庄: 封地照旧",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 她回了晚月庄: no 官府, no 颜违 in the manor"
 			],
 			"when": {
 				"all": [
 					{
 						"not": {
-							"mark": "晚月庄改投颜违"
+							"mark": "晚月庄听你的"
 						}
 					},
 					{
-						"not": {
-							"mark": "晚月庄听你的"
-						}
+						"any": [
+							{
+								"mark": "晚月庄的票随了她"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "晚月庄的票随了庄规"
+										}
+									},
+									{
+										"not": {
+											"mark": "晚月庄改投颜违"
+										}
+									}
+								]
+							}
+						]
 					}
 				]
 			}
@@ -2067,6 +2141,68 @@
 					},
 					{
 						"mark": "宝衣回了庄"
+					}
+				]
+			}
+		},
+		{
+			"id": "latemoon.night",
+			"sources": [
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 第四章's night in 晚月庄: the 宝衣 carried out or given to 安妮儿 (main.chapter4/choice), the night the 东方神教杀手 struck the 前厅 — where her daughter is after it (the bamboo grove), the 庄规 said over two maids and 昭蓉. 瑷伦守到决战 is the other way: no night."
+			],
+			"when": {
+				"any": [
+					{
+						"quest": "main.chapter4/choice/take"
+					},
+					{
+						"quest": "main.chapter4/choice/to_annie"
+					}
+				]
+			}
+		},
+		{
+			"id": "latemoon.split",
+			"sources": [
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the line's split taken either way: 庄规 (蓝止萍 takes her) or her mother's daughter (she stays in the 内书房)."
+			],
+			"when": {
+				"any": [
+					{
+						"mark": "晚月庄依了庄规"
+					},
+					{
+						"mark": "她回了晚月庄"
+					}
+				]
+			}
+		},
+		{
+			"id": "latemoon.rule_day",
+			"sources": [
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 蓝止萍's scene in the 大厅: the 令牌 given to one side or the other, the split not yet taken, the line not lapsed."
+			],
+			"when": {
+				"all": [
+					{
+						"any": [
+							{
+								"mark": "令牌给了老妇"
+							},
+							{
+								"mark": "令牌还了神教"
+							}
+						]
+					},
+					{
+						"not": {
+							"cond": "latemoon.split"
+						}
+					},
+					{
+						"not": {
+							"mark": "晚月庄的线断了"
+						}
 					}
 				]
 			}

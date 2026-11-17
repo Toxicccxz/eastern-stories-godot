@@ -467,14 +467,12 @@
 				{
 					"id": "trouble",
 					"when": { "heard": { "npc": "latemoon.npc.room.old", "topic": "心事" } },
-					"text": "你向内书房的无名老妇问起她的心事。",
-					"quote": { "npc": "latemoon.npc.room.old", "topic": "心事" }
+					"text": "你向内书房的无名老妇问起她的心事：那个蒙面的杀手，是她的私生女。"
 				},
 				{
 					"id": "about_token",
 					"when": { "heard": { "npc": "latemoon.npc.room.old", "topic": "令牌" } },
-					"text": "你向无名老妇问起令牌。",
-					"quote": { "npc": "latemoon.npc.room.old", "topic": "令牌" }
+					"text": "你向无名老妇问起令牌：令牌在她女儿身上。"
 				},
 				{
 					"id": "token",

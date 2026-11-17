@@ -504,6 +504,13 @@ msgstr ""
 #. native.npc.annie_yard gender
 #. native.npc.assembly_liu_huixin gender
 #. native.npc.assembly_lan_zhiping gender
+#. native.npc.latemoon_daughter gender
+#. native.npc.latemoon_daughter_home gender
+#. native.npc.lan_zhiping_lake gender
+#. native.npc.old_woman_lake gender
+#. native.npc.daughter_lake gender
+#. native.npc.assembly_old_woman gender
+#. native.npc.assembly_daughter gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -4392,6 +4399,8 @@ msgstr ""
 #. native.npc.assembly_lu_decai inquiry topic
 #. native.npc.assembly_juechenzi inquiry topic
 #. native.npc.yan_wei_chair inquiry topic
+#. native.npc.assembly_old_woman inquiry topic
+#. native.npc.assembly_daughter inquiry topic
 #. native:waterfog/terrace short
 #: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json data/native/rooms.json
 msgid "虹台"
@@ -17165,12 +17174,15 @@ msgstr ""
 #. cloud.npc.b_header inquiry.到此为止.rules.say
 #. cloud.npc.b_header inquiry.这一票.rules.say
 #. cloud.npc.b_header inquiry.改投.rules.say
+#. latemoon.npc.room.old inquiry.女儿.rules.say
+#. latemoon.npc.room.killer inquiry.娘.rules.say
 #. city.npc.chen inquiry.这一票.rules.say
 #. native.npc.yulan_zhao inquiry.庾尚书
 #. native.npc.he_ping inquiry.爹.rules.say
 #. native.npc.he_ping inquiry.交官府.rules.say
 #. native.npc.he_ping inquiry.走吧.rules.say
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
+#. native.npc.latemoon_daughter inquiry.娘.rules.say
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
 
@@ -17667,6 +17679,9 @@ msgstr ""
 #. native.npc.elon_lake inquiry topic
 #. native.npc.liu_chunfeng_lake inquiry topic
 #. native.npc.liu_huixin_lake inquiry topic
+#. native.npc.lan_zhiping_lake inquiry topic
+#. native.npc.old_woman_lake inquiry topic
+#. native.npc.daughter_lake inquiry topic
 #: data/common/npcs.json data/latemoon/npcs.json data/native/npcs.json
 msgid "湖底"
 msgstr ""
@@ -18658,6 +18673,32 @@ msgstr ""
 msgid "天师"
 msgstr ""
 
+#. common.npc.taoist.taolord inquiry topic
+#. native.npc.xuan_mingzi_cliff inquiry topic
+#: data/common/npcs.json data/niling/npcs.json
+msgid "道童"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.道童.rules.lines.emote
+#: data/common/npcs.json
+msgid "的眉头动了一下。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.道童.rules.lines.say
+#: data/common/npcs.json
+msgid "北麓的道观收孩子，说是收道童。茅山查了二十年，查到的孩子都没有回来过。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.道童.rules.lines.say
+#: data/common/npcs.json
+msgid "晚月庄那个女人是逃出来的？……那她是第一个。六阴剑是逆灵宫的剑，教给孩子，是为了让他们替宫里杀人。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.道童.rules.say
+#: data/common/npcs.json
+msgid "道童？"
+msgstr ""
+
 #. common.npc.taoist.taolord inquiry.谷衣心法
 #. temple.npc.trainer inquiry.谷衣心法
 #. temple.npc.tfighter inquiry.谷衣心法
@@ -19630,18 +19671,21 @@ msgstr ""
 #. common.npc.dancer.master name
 #. cloud.npc.lm_guard inquiry topic
 #. native.npc.assembly_lan_zhiping name
+#. native.npc.lan_zhiping_lake name
 #: data/common/npcs.json data/cloud/npcs.json data/native/npcs.json
 msgid "蓝止萍"
 msgstr ""
 
 #. common.npc.dancer.master nickname
 #. native.npc.assembly_lan_zhiping nickname
+#. native.npc.lan_zhiping_lake nickname
 #: data/common/npcs.json data/native/npcs.json
 msgid "回音仙子"
 msgstr ""
 
 #. common.npc.dancer.master title
 #. native.npc.assembly_lan_zhiping title
+#. native.npc.lan_zhiping_lake title
 #: data/common/npcs.json data/native/npcs.json
 msgid "晚月庄主"
 msgstr ""
@@ -19702,6 +19746,111 @@ msgstr ""
 msgid "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ...."
 msgstr ""
 
+#. common.npc.dancer.master greeting.rules.steps.emote
+#: data/common/npcs.json
+msgid "看了你一眼，没有笑。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.emote
+#: data/common/npcs.json
+msgid "从内书房那边走过来，走得很慢。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.emote
+#: data/common/npcs.json
+msgid "跟在她娘后面，面巾还蒙着，剑在鞘里，手离剑柄远远的。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.say
+#: data/common/npcs.json
+msgid "那一夜，前厅死了两个丫头，内厅死了昭蓉。晚月庄有晚月庄的规矩：血债，要有人抵。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.say
+#: data/common/npcs.json
+msgid "神教的杀手，在我庄里住了三年。内书房、宝衣，她都看过了。晚月庄的规矩：神教的人进了这道门，不能就这么出去。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.say
+#: data/common/npcs.json
+msgid "令牌你还给了神教——她是神教的人，你也认了。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.emote
+#: data/common/npcs.json
+msgid "把手里那块黑木令牌攥得更紧了。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.say
+#: data/common/npcs.json
+msgid "人交给我。晚月庄不杀不还手的人——可她不能再待在庄里。怎么处置，是庄里的事。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.say
+#: data/common/npcs.json
+msgid "她是我女儿。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.say
+#. common.npc.dancer.master inquiry.庄里的事.rules.say
+#: data/common/npcs.json
+msgid "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。"
+msgstr ""
+
+#. common.npc.dancer.master calls.steps.emote
+#: data/common/npcs.json
+msgid "转身往内书房走，她女儿跟在后面。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry topic
+#: data/common/npcs.json
+msgid "庄规"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.confirm
+#: data/common/npcs.json
+msgid ""
+"依庄规：人交给蓝止萍处置——台上不杀，可她不能再待在庄里。\n"
+"晚月庄这一票投颜违（逐神教）；老妇从此不再开口。本庄弟子晋阶执事。\n"
+"要这么说吗？"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.say
+#: data/common/npcs.json
+msgid "你不是晚月庄的人了。这是晚月庄的事。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.say
+#. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
+#: data/common/npcs.json
+msgid "庄规是庄规。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.say
+#: data/common/npcs.json
+msgid "你替她选了。晚月庄记着。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.lines.emote
+#: data/common/npcs.json
+msgid "抬了抬手，叫两个弟子去内书房。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.lines.say
+#: data/common/npcs.json
+msgid "带走。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.lines.say
+#: data/common/npcs.json
+msgid "庄规是我立的，也是为这样的夜立的。往后庄门关得早一些——神教的人，不会再进来第二回。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄规.rules.say
+#: data/common/npcs.json
+msgid "庄规？问这个做什么。"
+msgstr ""
+
 #. common.npc.dancer.master inquiry topic
 #: data/common/npcs.json
 msgid "护法"
@@ -19755,7 +19904,9 @@ msgid "你离了晚月庄的门。护法，也就不必了。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.护法.rules.lines.emote
+#. common.npc.dancer.master inquiry.虹台.rules.lines.emote
 #. cloud.npc.god inquiry.替她瞒.rules.lines.emote
+#. cloud.npc.god inquiry.还令.rules.lines.emote
 #. latemoon.npc.room.elon inquiry.宝衣.rules.lines.emote
 #: data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json
 msgid "看了你一会儿。"
@@ -19784,6 +19935,31 @@ msgstr ""
 #. common.npc.dancer.master inquiry.庄里的事.rules.say
 #: data/common/npcs.json
 msgid "你已经不是晚月庄的人了。庄里的事，不劳你。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
+#: data/common/npcs.json
+msgid "内书房那位老人家……让她静一静。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.say
+#: data/common/npcs.json
+msgid "她在内书房。庄规你替她破了一回——晚月庄记着。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.say
+#: data/common/npcs.json
+msgid "那个蒙面的女人，你见过了，令牌也有了着落。下回进大厅，我有话说。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.say
+#: data/common/npcs.json
+msgid "她的令牌在你手上？给谁，你自己定。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.庄里的事.rules.say
+#: data/common/npcs.json
+msgid "老人家的心事……去问问那个蒙面的女人。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.庄里的事.rules.lines.say
@@ -19877,6 +20053,26 @@ msgstr ""
 msgid "虹台上的事，晚月庄记着。"
 msgstr ""
 
+#. common.npc.dancer.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "晚月庄这一票投颜违。神教的人进过庄门，往后庄门要关紧——颜违说了，他当了盟主就逐神教。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "这条庄规，是你陪我守下来的。这一票你要，就给你。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "晚月庄这一票投旧盟主。庄里收着一个神教的人——官府管不到这里，颜违也别想管到这里来。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "庄规你替她破了一回。……这一票你要，我也给。"
+msgstr ""
+
 #. common.npc.dancer.master inquiry.虹台.rules.say
 #: data/common/npcs.json
 msgid "晚月庄这一票投颜违。说定了。"
@@ -19950,6 +20146,16 @@ msgstr ""
 msgid ""
 "请蓝止萍改投颜违：他当了盟主就逐神教，晚月庄这一票不投旧盟主了。\n"
 "要这么说吗？"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.改投.rules.say
+#: data/common/npcs.json
+msgid "晚月庄这一票跟着庄规走，不改。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.改投.rules.say
+#: data/common/npcs.json
+msgid "晚月庄这一票，那天她留下来就定了，不改。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.改投.rules.say
@@ -21327,18 +21533,20 @@ msgstr ""
 
 #. latemoon.old_woman title
 #. latemoon.npc.room.old name
-#: data/common/journal.json data/latemoon/npcs.json
+#. native.npc.old_woman_lake name
+#. native.npc.assembly_old_woman name
+#: data/common/journal.json data/latemoon/npcs.json data/native/npcs.json
 msgid "无名老妇"
 msgstr ""
 
 #. latemoon.old_woman/trouble text
 #: data/common/journal.json
-msgid "你向内书房的无名老妇问起她的心事。"
+msgid "你向内书房的无名老妇问起她的心事：那个蒙面的杀手，是她的私生女。"
 msgstr ""
 
 #. latemoon.old_woman/about_token text
 #: data/common/journal.json
-msgid "你向无名老妇问起令牌。"
+msgid "你向无名老妇问起令牌：令牌在她女儿身上。"
 msgstr ""
 
 #. latemoon.old_woman/token text
@@ -23945,6 +24153,16 @@ msgstr ""
 
 #. main.finale/gather checklist.label
 #: data/story/finale.json
+msgid "晚月庄（蓝止萍）守岸"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
+msgid "晚月庄（老妇母女）守岸"
+msgstr ""
+
+#. main.finale/gather checklist.label
+#: data/story/finale.json
 msgid "茅山（林忌）截住了北麓下湖的路"
 msgstr ""
 
@@ -24221,6 +24439,16 @@ msgstr ""
 #. ending cards.lines.text
 #: data/story/epilogue.json
 msgid "后院书房那幅湘绣图前，又有人在学沧海龙吟了。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "内书房的老妇再没有开过口。蓝止萍说，庄规是庄规；那一年起，晚月庄的门关得比从前早。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "内书房里多了一个人，不再蒙面。庄里的人说，每天傍晚，老妇擦她的鞭子，她女儿擦她的剑。"
 msgstr ""
 
 #. ending cards.lines.text
@@ -24502,6 +24730,16 @@ msgstr ""
 #. assembly cards.lines.text
 #: data/story/epilogue.json
 msgid "虹台上，陈剑秋坐在振远的旗下，没有说话。他身后的绮云分局，门还关着。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，蓝止萍坐在晚月庄的旗下。神教的人在台下转了一圈，没有一个走近晚月庄那一席。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，晚月庄的旗后面站着一个老妇人和她的女儿。九派里有人认得那把细剑，没有人说破。"
 msgstr ""
 
 #. assembly cards.lines.text
@@ -24945,6 +25183,26 @@ msgstr ""
 msgid "正月十七，晚月庄那一票听你的。"
 msgstr ""
 
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "无名老妇说：令牌在我这里。她还活着。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "蓝止萍说：庄规是你陪我守下来的。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "无名老妇说：你把我女儿带回来了。"
+msgstr ""
+
+#. latemoon lines.text
+#: data/story/factions.json
+msgid "蓝止萍说：庄规，你替她破了一回。"
+msgstr ""
+
 #. sanyen lines.text
 #: data/story/factions.json
 msgid "你是山烟寺的弟子。"
@@ -25033,6 +25291,11 @@ msgstr ""
 #. dongfang lines.text
 #: data/story/factions.json
 msgid "安妮儿说你配得上。东方神教记得你。"
+msgstr ""
+
+#. dongfang lines.text
+#: data/story/factions.json
+msgid "晚月庄那块杀手令牌，是你还给神教的。朱鸿雪说：令回来了就好。"
 msgstr ""
 
 #. dongfang lines.text
@@ -25482,7 +25745,9 @@ msgstr ""
 
 #. faction.celestial/split/side_yan reward.rank.title
 #. faction.celestial/split/side_pan reward.rank.title
-#: data/story/faction_celestial.json
+#. faction.latemoon/split/by_rule reward.rank.title
+#. faction.latemoon/split/brought_home reward.rank.title
+#: data/story/faction_celestial.json data/story/faction_latemoon.json
 msgid "执事"
 msgstr ""
 
@@ -26144,7 +26409,7 @@ msgstr ""
 
 #. faction.latemoon summary
 #: data/story/faction_latemoon.json
-msgid "晚月庄失传的舞，和带出庄的宝衣。"
+msgid "晚月庄失传的舞、带出庄的宝衣，和内书房那位老妇的女儿。"
 msgstr ""
 
 #. faction.latemoon lapses.text
@@ -26249,7 +26514,92 @@ msgstr ""
 
 #. faction.latemoon/heart text
 #: data/story/faction_latemoon.json
-msgid "无名老妇说了她的女儿。"
+msgid "无名老妇说了她的女儿：那个蒙面的杀手。她要你去问问她，为什么走到了这一步。"
+msgstr ""
+
+#. faction.latemoon/where objective
+#: data/story/faction_latemoon.json
+msgid "老妇的女儿在哪，要看第四章有没有那一夜。"
+msgstr ""
+
+#. faction.latemoon/where/study text
+#: data/story/faction_latemoon.json
+msgid "宝衣没有出庄，那一夜没有来。她还在内书房里，蒙着面。"
+msgstr ""
+
+#. faction.latemoon/where/grove text
+#: data/story/faction_latemoon.json
+msgid "那一夜之后，她再没有进过庄门。"
+msgstr ""
+
+#. faction.latemoon/find_study objective
+#: data/story/faction_latemoon.json
+msgid "老妇的女儿就是内书房里那个蒙面的杀手。问她「娘」。动手也行——这一步她只会倒下，不会死。"
+msgstr ""
+
+#. faction.latemoon/find_study text
+#: data/story/faction_latemoon.json
+msgid "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。"
+msgstr ""
+
+#. faction.latemoon/find_grove objective
+#: data/story/faction_latemoon.json
+msgid "那一夜之后，她藏在庄后山路尽头的竹林里，入夜才在（白天去，竹林里没有人）。走进竹林找到她，问她「娘」。动手也行——这一步她只会倒下，不会死。"
+msgstr ""
+
+#. faction.latemoon/find_grove text
+#: data/story/faction_latemoon.json
+msgid "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。她回了内书房，在她娘身边。"
+msgstr ""
+
+#. faction.latemoon/token objective
+#: data/story/faction_latemoon.json
+msgid "她的杀手令牌在你手上。两个人要它：内书房的老妇要它为证——递给她，她知道女儿还活着，给你一份谢礼（只给一次）；绮云镇的朱鸿雪要它回神教——问她「还令」，神教的令只从上一个持令人手里接。给了一边，另一边就没有了。"
+msgstr ""
+
+#. faction.latemoon/token/mother text
+#: data/story/faction_latemoon.json
+msgid "你把令牌递给了老妇。她攥着它，知道女儿还活着。"
+msgstr ""
+
+#. faction.latemoon/token/mother reward.deed
+#: data/story/faction_latemoon.json
+msgid "把蒙面杀手的令牌交给了她娘"
+msgstr ""
+
+#. faction.latemoon/token/cult text
+#: data/story/faction_latemoon.json
+msgid "你把令牌还给了朱鸿雪。神教的令，回了神教。"
+msgstr ""
+
+#. faction.latemoon/token/cult reward.deed
+#: data/story/faction_latemoon.json
+msgid "把晚月庄那块杀手令牌还给了东方神教"
+msgstr ""
+
+#. faction.latemoon/split objective
+#: data/story/faction_latemoon.json
+msgid "下回进晚月庄的大厅，蓝止萍有话要说——老妇和她女儿会从内书房出来。两条路：依庄规（问蓝止萍「庄规」）——人交给蓝止萍处置，晚月庄这一票投颜违，老妇从此不再开口；带她回来（问老妇「女儿」）——她留在内书房陪她娘，晚月庄这一票投旧盟主，蓝止萍从此对你冷一分。两边都先问你一声；选了不能改。"
+msgstr ""
+
+#. faction.latemoon/split/by_rule text
+#: data/story/faction_latemoon.json
+msgid "你依了庄规。她跟着蓝止萍的人走了，没有回头。"
+msgstr ""
+
+#. faction.latemoon/split/by_rule reward.deed
+#: data/story/faction_latemoon.json
+msgid "依晚月庄的庄规，把老妇的女儿交给了蓝止萍"
+msgstr ""
+
+#. faction.latemoon/split/brought_home text
+#: data/story/faction_latemoon.json
+msgid "你把她带了回来。内书房里多了一个人，不再蒙面。老妇替你向庄主讨了一个执事。"
+msgstr ""
+
+#. faction.latemoon/split/brought_home reward.deed
+#: data/story/faction_latemoon.json
+msgid "把老妇的女儿带回了晚月庄"
 msgstr ""
 
 #. faction.assembly title
@@ -31797,6 +32147,7 @@ msgstr ""
 #. cloud.npc.god inquiry.差事.rules.lines.emote
 #. cloud.npc.god inquiry.交差.rules.lines.emote
 #. cloud.npc.god inquiry.教主.rules.lines.emote
+#. cloud.npc.god inquiry.还令.rules.lines.emote
 #: data/cloud/npcs.json
 msgid "看着你，脸上的笑一点也没有了。"
 msgstr ""
@@ -32193,6 +32544,7 @@ msgid "丢了的令，自己找回来，再来交差。"
 msgstr ""
 
 #. cloud.npc.god inquiry.交差.rules.takes
+#. cloud.npc.god inquiry.还令.rules.takes
 #: data/cloud/npcs.json
 msgid "es2:d/latemoon/room/npc/obj/token"
 msgstr ""
@@ -32316,6 +32668,73 @@ msgstr ""
 msgid "神教的教主，坐在你面前。"
 msgstr ""
 
+#. cloud.npc.god inquiry topic
+#: data/cloud/npcs.json
+msgid "还令"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.confirm
+#: data/cloud/npcs.json
+msgid ""
+"把那块杀手令牌还给朱鸿雪：神教的令回了神教，内书房的老妇就没有它了（她的谢礼也没有了）。\n"
+"要还吗？"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.say
+#: data/cloud/npcs.json
+msgid "令回来了。她的事，神教不再提。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "那块令，你给了书房里那个老人家？……也好。人还活着，令在谁手里都一样。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你手上有神教的血。令，我不收。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "接过令牌，拿拇指抹过火焰的图腾。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "她还活着？……"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "笑了一下，又不笑了。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "令回来了就好。神教的令，只从上一个持令人手里接；她不拿，就该回到我这里。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你不是神教的人，却把神教的令送了回来。想替神教办事，问我「接令」——想好了再问。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你接过神教的令，又替神教收回了一块。我记你这一回。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.say
+#: data/cloud/npcs.json
+msgid "令呢？在你身上，我才收。"
+msgstr ""
+
+#. cloud.npc.god inquiry.还令.rules.say
+#: data/cloud/npcs.json
+msgid "还什么令？"
+msgstr ""
+
 #. cloud.npc.god calls.steps.emote
 #: data/cloud/npcs.json
 msgid "看见你进来，放下茶盏，笑眯眯地招了招手。"
@@ -32339,6 +32758,21 @@ msgstr ""
 #. cloud.npc.god calls.steps.say
 #: data/cloud/npcs.json
 msgid "宝衣从她门前过去了，你没给她。她不恨你——她只是记下了。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.emote
+#: data/cloud/npcs.json
+msgid "放下茶盏，看了你一眼。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.say
+#: data/cloud/npcs.json
+msgid "晚月庄那个使六阴剑的，回了她娘身边。神教少了一个人。"
+msgstr ""
+
+#. cloud.npc.god calls.steps.say
+#: data/cloud/npcs.json
+msgid "人是你带回去的。……我不追。可神教的账上，记着这一笔。"
 msgstr ""
 
 #. cloud.npc.tailor long
@@ -34758,7 +35192,17 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "晚月庄的封地，谁也别想过问。庄里收着谁，也是晚月庄自己的事。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "神教的人，不该再在江湖上走。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "神教的人进过晚月庄的门。往后庄门关紧，江湖上也不该再有他们走的路。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -37445,7 +37889,9 @@ msgid ""
 msgstr ""
 
 #. latemoon.npc.room.old title
-#: data/latemoon/npcs.json
+#. native.npc.old_woman_lake title
+#. native.npc.assembly_old_woman title
+#: data/latemoon/npcs.json data/native/npcs.json
 msgid "看管人"
 msgstr ""
 
@@ -37472,7 +37918,41 @@ msgstr ""
 msgid "心事"
 msgstr ""
 
-#. latemoon.npc.room.old inquiry.心事
+#. latemoon.npc.room.old inquiry.心事.rules.lines.emote
+#. latemoon.npc.room.old inquiry.令牌.rules.lines.emote
+#. latemoon.npc.room.old inquiry.宝衣.rules.lines.emote
+#. latemoon.npc.room.old inquiry.女儿.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "坐在窗下，没有抬头，也没有开口。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.say
+#: data/latemoon/npcs.json
+msgid "她在这屋里。我压了这些年的心事，你替我了了。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "低下头。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "她都跟你说了？……道观、神教——当年是我把她送出庄门的。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.say
+#: data/latemoon/npcs.json
+msgid "去问问她。她不对我说的话，也许会对你说。她就在这屋里。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.say
+#: data/latemoon/npcs.json
+msgid "去问问她。她不对我说的话，也许会对你说。夜里，后山的竹林。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.lines.say
+#. latemoon.npc.room.old inquiry.心事.rules.say
 #: data/latemoon/npcs.json
 msgid ""
 "实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n"
@@ -37480,14 +37960,107 @@ msgid ""
 "只是要以令牌为证，唉 ..."
 msgstr ""
 
-#. latemoon.npc.room.old inquiry.令牌
+#. latemoon.npc.room.old inquiry.心事.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "沉默了很久。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "……这些年我想的，其实不是这个。我想知道她为什么走到这一步，可她从来不对我说。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "她就在这屋里，蒙着面，在书架那边走来走去——你看她的眉眼。替我问她一声「娘」。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.心事.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "那一夜之后，她再没进过庄门。可我知道她没走远：夜里，庄后山路尽头的竹林里有人在哭。替我去问她一声「娘」。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.令牌.rules.say
+#: data/latemoon/npcs.json
+msgid "令牌在我这里。她还活着——这就够了。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.令牌.rules.say
+#: data/latemoon/npcs.json
+msgid "你还给了神教？……也好。那块东西，本来就不该在晚月庄。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.令牌.rules.say
+#: data/latemoon/npcs.json
+msgid "令牌在你手上？给我。我不要它为证她死了——我要它为证她还活着。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.令牌.rules.say
 #: data/latemoon/npcs.json
 msgid "就在我儿身上 ...你拿到了就给我。"
 msgstr ""
 
-#. latemoon.npc.room.old inquiry.宝衣
+#. latemoon.npc.room.old inquiry.宝衣.rules.say
 #: data/latemoon/npcs.json
 msgid "衣在庄里几百年了。它在，庄就在；它走了，庄里的人就得自己守了。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry topic
+#: data/latemoon/npcs.json
+msgid "女儿"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.女儿.confirm
+#: data/latemoon/npcs.json
+msgid ""
+"带她回来：她留在晚月庄，跟着她娘守内书房，不再蒙面。\n"
+"晚月庄这一票投旧盟主（不要官府、也不要颜违管到庄里来）；蓝止萍从此对你冷一分。本庄弟子的执事，由老妇向庄主讨。\n"
+"要这么说吗？"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.女儿.rules.say
+#: data/latemoon/npcs.json
+msgid "她在这里。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.女儿.rules.say
+#: data/latemoon/npcs.json
+msgid "你已经不是晚月庄的人了。这是晚月庄的事。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.女儿.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "走过去，伸手把女儿脸上的面巾摘了下来。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.女儿.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "她是我女儿。我把她送出去过一回，不送第二回。"
+msgstr ""
+
+#. latemoon.npc.room.old inquiry.女儿.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "庄主那里，我去说。"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.say
+#: data/latemoon/npcs.json
+msgid "她的令牌已经在我这里了。"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.say
+#: data/latemoon/npcs.json
+msgid "你把她那块令还给了神教。别的令牌，我不要。"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.lines.emote
+#: data/latemoon/npcs.json
+msgid "接过令牌，攥在手心里，手在抖。"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.lines.say
+#: data/latemoon/npcs.json
+msgid "她还活着……我拿着它，就知道她还活着。"
 msgstr ""
 
 #. latemoon.npc.room.old accept_object.lines.say
@@ -37507,9 +38080,33 @@ msgid ""
 "你感觉到一股热气传了过来。\n"
 msgstr ""
 
+#. latemoon.npc.room.old accept_object.ask
+#: data/latemoon/npcs.json
+msgid ""
+"把令牌交给无名老妇：她知道女儿还活着，给你一份谢礼（谢礼只给一回）。\n"
+"令牌给了她，就不能再还给朱鸿雪了。\n"
+"要给吗？"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.lines.say
 #. latemoon.npc.room.old accept_object.say
 #: data/latemoon/npcs.json
 msgid "作为感谢，我给你一本寒雪鞭法密笈。"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.lines.say
+#: data/latemoon/npcs.json
+msgid "谢礼，我早先给过你一回了。这一回，是我欠你的。"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.say
+#: data/latemoon/npcs.json
+msgid "我要的不是令牌。你见过她了么？"
+msgstr ""
+
+#. latemoon.npc.room.old accept_object.say
+#: data/latemoon/npcs.json
+msgid "令牌我收过一回了。谢礼，也只给一回。"
 msgstr ""
 
 #. latemoon.npc.room.old moods.broken.chat_msg
@@ -37522,6 +38119,18 @@ msgstr ""
 #: data/latemoon/npcs.json
 msgid ""
 "无名老妇坐在书房里，把那根鞭子横在膝上，一下一下地擦。\n"
+msgstr ""
+
+#. latemoon.npc.room.old moods.silent.chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"无名老妇坐在书房的窗下，一句话也不说。\n"
+msgstr ""
+
+#. latemoon.npc.room.old moods.together.chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"无名老妇和她女儿对坐在窗下，一个擦鞭子，一个擦剑。\n"
 msgstr ""
 
 #. latemoon.npc.room.old calls.steps.say
@@ -37539,6 +38148,21 @@ msgstr ""
 msgid "衣回来了？……好。庄里还守得住。"
 msgstr ""
 
+#. latemoon.npc.room.old calls.steps.emote
+#: data/latemoon/npcs.json
+msgid "坐在窗下，手里攥着那块黑木令牌，没有抬头。"
+msgstr ""
+
+#. latemoon.npc.room.old calls.steps.emote
+#: data/latemoon/npcs.json
+msgid "坐在窗下，两只手空空地搁在膝上，没有抬头。"
+msgstr ""
+
+#. latemoon.npc.room.old calls.steps.say
+#: data/latemoon/npcs.json
+msgid "回来了就好。……庄主那里，执事的事我替你讨了。"
+msgstr ""
+
 #. latemoon.npc.room.killer name
 #: data/latemoon/npcs.json
 msgid "杀手"
@@ -37546,6 +38170,7 @@ msgstr ""
 
 #. latemoon.npc.room.killer title
 #. native.npc.cult_killer name
+#. native.npc.latemoon_daughter name
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid "蒙面杀手"
 msgstr ""
@@ -37558,6 +38183,7 @@ msgstr ""
 
 #. latemoon.npc.room.killer chat_msg_combat
 #. native.npc.cult_killer chat_msg_combat
+#. native.npc.latemoon_daughter chat_msg_combat
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid ""
 "蒙面杀手喝道：为什么杀我？\n"
@@ -37565,9 +38191,97 @@ msgstr ""
 
 #. latemoon.npc.room.killer chat_msg_combat
 #. native.npc.cult_killer chat_msg_combat
+#. native.npc.latemoon_daughter chat_msg_combat
 #: data/latemoon/npcs.json data/native/npcs.json
 msgid ""
 "蒙面杀手叹道：你知道我心里有多痛苦吗？！\n"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry topic
+#. native.npc.shitou inquiry topic
+#. native.npc.latemoon_daughter inquiry topic
+#. native.npc.latemoon_daughter_home inquiry topic
+#: data/latemoon/npcs.json data/niling/npcs.json data/native/npcs.json
+msgid "娘"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "令牌丢了？……"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.emote
+#: data/latemoon/npcs.json
+msgid "又从怀里摸出一块黑木令牌，丢给你。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "拿好。神教给我的令，不止一块。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.say
+#. native.npc.latemoon_daughter inquiry.娘.rules.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "我说完了。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.emote
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.emote
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "的手停在剑柄上，很久没有动。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "她让你来问的？……她从来不问。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "我七岁那年，她把我送出了庄门——晚月庄容不下一个来历不明的孩子。北麓有个道观收孩子，说是收道童。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "那里的人不念经，只教剑。六阴追魂剑，从追魂那一部学起；学不会的孩子，后来就不见了。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "我是自己逃出来的。东方神教收留了我，给了我这块令。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "朱鸿雪派我回晚月庄：我是她的女儿，内书房的门对我开着，宝衣藏在哪里，我看得见。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "我在这屋里住了三年。宝衣一直在瑷伦身上，我一回也没有动手。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.emote
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.emote
+#: data/latemoon/npcs.json data/native/npcs.json
+msgid "从腰间解下一块黑木令牌，丢给你。"
+msgstr ""
+
+#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
+#: data/latemoon/npcs.json
+msgid "拿去。给她，还是还给神教，你定。我累了。"
+msgstr ""
+
+#. latemoon.npc.room.killer moods.waiting.chat_msg
+#: data/latemoon/npcs.json
+msgid ""
+"杀手站在书架边，剑在鞘里，手离剑柄远远的。\n"
 msgstr ""
 
 #. latemoon.npc.room.spring1 long
@@ -44151,6 +44865,18 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "渡口——柳绘心把细剑一横。她身后那几个人握的是竹剑，没有一个往后退。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"湖岸——蓝止萍的鞭子一甩，晚月庄的弟子在柳树下排成一线，鞭梢上结了一层白霜。\n"
+msgstr ""
+
+#. village.lakeside.wait act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"湖岸——那个使六阴剑的女人站在最前，没有蒙面；她娘拄着鞭子站在她身后。冰缝里爬上来的第一个鬼卒，倒在她的剑下。\n"
 msgstr ""
 
 #. village.lakeside.wait act.acts.steps.line
@@ -51547,11 +52273,6 @@ msgid ""
 "石头小声说：娘……\n"
 msgstr ""
 
-#. native.npc.shitou inquiry topic
-#: data/niling/npcs.json
-msgid "娘"
-msgstr ""
-
 #. native.npc.shitou inquiry.娘
 #: data/niling/npcs.json
 msgid "石头抬起头：娘在傅家坡。娘说别跟人走。……我没跟人走，是他们把我装进箱子里的。"
@@ -51798,6 +52519,26 @@ msgid ""
 "玄冥子的剑上带着一股阴风，剑过处连雾都裂开了。\n"
 msgstr ""
 
+#. native.npc.xuan_mingzi_cliff inquiry.道童.rules.lines.emote
+#: data/niling/npcs.json
+msgid "看着断崖，过了很久才开口。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.道童.rules.lines.say
+#: data/niling/npcs.json
+msgid "晚月庄那个女道童？我记得她。追魂那一部，她三个月就学会了。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.道童.rules.lines.say
+#: data/niling/npcs.json
+msgid "宫里的孩子，学得快的都活不长——她逃得出去，算她命大。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.道童.rules.say
+#: data/niling/npcs.json
+msgid "道童？宫里的道童多了。"
+msgstr ""
+
 #. native.npc.xuan_mingzi_cliff inquiry.商玦.rules.say
 #: data/niling/npcs.json
 msgid "宫主下了崖。他不要我了，我也不要他了。"
@@ -51809,7 +52550,8 @@ msgid "玄冥子冷冷道：宫主已经走了。你追不上。"
 msgstr ""
 
 #. native.npc.xuan_mingzi_cliff inquiry topic
-#: data/niling/npcs.json
+#. native.npc.latemoon_daughter_home inquiry topic
+#: data/niling/npcs.json data/native/npcs.json
 msgid "六阴剑"
 msgstr ""
 
@@ -62970,6 +63712,7 @@ msgid "刘安禄压低声音：老三纳供的事，大哥没追究。老子也�
 msgstr ""
 
 #. native.npc.cult_killer title
+#. native.npc.latemoon_daughter title
 #: data/native/npcs.json
 msgid "东方神教杀手"
 msgstr ""
@@ -62986,10 +63729,10 @@ msgid ""
 "蒙面杀手说：衣不在了，这庄还守什么？\n"
 msgstr ""
 
-#. native.npc.cult_killer moods.seen.chat_msg
+#. native.npc.cult_killer spared.line
 #: data/native/npcs.json
 msgid ""
-"蒙面杀手看着你，没再出手。面巾下的眼睛和书房里那个老妇人一样。\n"
+"蒙面杀手捂着伤口站起来，看了一眼内书房的方向，从窗口翻了出去。\n"
 msgstr ""
 
 #. native.npc.yu_steward name
@@ -66147,6 +66890,158 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "劫道的汉子的刀横着扫过来。\n"
+msgstr ""
+
+#. native.npc.latemoon_daughter long
+#: data/native/npcs.json
+msgid ""
+"蒙着面，坐在竹林里一块青石上，细剑横在膝上。面巾下的眉眼，是书房里那个老妇人的眉眼。她听见你的脚步，没有起身。\n"
+msgstr ""
+
+#. native.npc.latemoon_daughter chat_msg
+#: data/native/npcs.json
+msgid ""
+"竹林深处，有人压着声音在哭。\n"
+msgstr ""
+
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/native/npcs.json
+msgid "那一夜，前厅的两个丫头，内厅的昭蓉，是我杀的。宝衣出了庄门，朱鸿雪要的东西没了——神教我回不去，这里我也回不来。"
+msgstr ""
+
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/native/npcs.json
+msgid "拿去。给她，还是还给神教，你定。"
+msgstr ""
+
+#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
+#: data/native/npcs.json
+msgid "……我回内书房去。她要怎样，随她。"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home name
+#. native.npc.daughter_lake name
+#. native.npc.assembly_daughter name
+#: data/native/npcs.json
+msgid "无名女子"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home title
+#. native.npc.daughter_lake title
+#. native.npc.assembly_daughter title
+#: data/native/npcs.json
+msgid "无名老妇的女儿"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home long
+#: data/native/npcs.json
+msgid ""
+"二十来岁的女子，没有蒙面——眉眼和窗下那个老妇人一模一样。她坐在书架边，细剑横在膝上，一下一下地擦。\n"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home fight_deferred
+#: data/native/npcs.json
+msgid "她摇了摇头：我答应过娘，这把剑往后只守这间书房。"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home inquiry.娘
+#: data/native/npcs.json
+msgid "她在这里。我也在。"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home inquiry.六阴剑
+#: data/native/npcs.json
+msgid "剑我不扔。可往后，它只守这间书房。"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home inquiry topic
+#: data/native/npcs.json
+msgid "神教"
+msgstr ""
+
+#. native.npc.latemoon_daughter_home inquiry.神教
+#: data/native/npcs.json
+msgid "朱鸿雪不会来要人。神教的令，只从上一个持令人手里接——我手里已经没有令了。"
+msgstr ""
+
+#. native.npc.lan_zhiping_lake long
+#: data/native/npcs.json
+msgid ""
+"蓝止萍站在湖岸的柳树下，晚月庄的弟子在她身后排开，手里的鞭子都垂着，没有一个人说话。\n"
+msgstr ""
+
+#. native.npc.lan_zhiping_lake fight_deferred
+#: data/native/npcs.json
+msgid "蓝止萍摆了摆手：今夜的鞭子，留给湖里上来的东西。"
+msgstr ""
+
+#. native.npc.lan_zhiping_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "庄规守得住庄门，守不住这片湖。今夜，晚月庄的人在岸上。"
+msgstr ""
+
+#. native.npc.old_woman_lake long
+#: data/native/npcs.json
+msgid ""
+"无名老妇拄着那根鞭子站在湖岸上，没有看湖，看的是站在最前面的女儿。\n"
+msgstr ""
+
+#. native.npc.old_woman_lake fight_deferred
+#: data/native/npcs.json
+msgid "无名老妇摇了摇头：今夜不是跟你动手的时候。"
+msgstr ""
+
+#. native.npc.old_woman_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "她要来，我拦不住。这一回，我跟着她。"
+msgstr ""
+
+#. native.npc.daughter_lake long
+#: data/native/npcs.json
+msgid ""
+"她站在最前面，没有蒙面，细剑出了鞘。六阴剑的寒气贴着湖面走——这一回，它守的是岸。\n"
+msgstr ""
+
+#. native.npc.daughter_lake fight_deferred
+#: data/native/npcs.json
+msgid "她把剑尖垂了下去：今夜的剑，留给湖里上来的东西。"
+msgstr ""
+
+#. native.npc.daughter_lake inquiry.湖底.rules.say
+#: data/native/npcs.json
+msgid "冰下面那东西，宫里的人叫它侮天鬼。我在北麓的时候，听他们念过它的名字。"
+msgstr ""
+
+#. native.npc.assembly_old_woman long
+#: data/native/npcs.json
+msgid ""
+"无名老妇站在晚月庄的旗后面，一句话也没有说。\n"
+msgstr ""
+
+#. native.npc.assembly_old_woman fight_deferred
+#: data/native/npcs.json
+msgid "无名老妇摆了摆手：今天是推选的日子。"
+msgstr ""
+
+#. native.npc.assembly_old_woman inquiry.虹台
+#: data/native/npcs.json
+msgid "晚月庄的事，庄主说了算。我只是来看着她。"
+msgstr ""
+
+#. native.npc.assembly_daughter long
+#: data/native/npcs.json
+msgid ""
+"她站在她娘身边，没有蒙面。九派的人有几个认出了她手里那把细剑，又把目光移开了。\n"
+msgstr ""
+
+#. native.npc.assembly_daughter fight_deferred
+#: data/native/npcs.json
+msgid "她摇了摇头：今天是推选的日子。"
+msgstr ""
+
+#. native.npc.assembly_daughter inquiry.虹台
+#: data/native/npcs.json
+msgid "神教的人也在看这座台子。我站在这里，他们看得见。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

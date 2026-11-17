@@ -65,7 +65,7 @@ func _test_data() -> void:
 	var floor_mi: ServiceDefinition = catalog.service(&"latemoon.miroom.dance")
 	_check(floor_mi != null and floor_mi.dance.steps.size() == 2 and floor_mi.dance.steps[0].gender == "女性" and floor_mi.dance.steps[0].act != null and floor_mi.dance.steps[0].unless_mark == "冰匣开了" and floor_mi.dance.steps[1].always, "the second 密室's 八卦图: 有凤来仪 (women, the 冰匣's act) and 西出阳关 for anyone")
 	var killer: NpcDefinition = catalog.npc(&"native.npc.cult_killer")
-	_check(killer != null and killer.hooks() != null and killer.hooks().spared_drop == TOKEN and killer.hooks().die_item_id == TOKEN, "the killer unmasked: her 令牌 falls spared or dead")
+	_check(killer != null and killer.hooks() != null and killer.hooks().spared_drop == TOKEN and killer.hooks().always_kept and killer.hooks().spared_leave, "the killer unmasked: only knocked down; spared, her 令牌 falls and she flees (晚月 B)")
 
 
 ## A woman from the rescue: the lead, the trial, 斩鬼, her own dance, the robe kept by 瑷伦.
@@ -279,10 +279,10 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 		await _settle(tree)
 	_check(session.combat_encounter_coordinator().has_active_encounter(), "she falls on the player")
 	var killer: NpcRuntimeState = MapPlaces.npc_at(session, &"latemoon.latemoon1.cult_killer.1")
-	# TEST-ONLY: 放过 as she lay — her mood, the mark, the 令牌 dropped for the 老妇's chain.
+	# TEST-ONLY: 放过 as she lay — the mark, the 令牌 dropped for the 老妇's chain, and she flees (晚月 B).
 	session.npc_spared(killer)
 	await _flee(tree, session)
-	_check(killer.has_flag(StringName(NpcMood.FLAG_PREFIX + "seen")) and state.marks.get("放过了神教杀手", 0) == 1 and not manor.floor_item_of(TOKEN, &"latemoon.latemoon1").is_empty(), "spared: 认出, the mark, her 令牌 on the floor")
+	_check(state.marks.get("放过了神教杀手", 0) == 1 and not manor.floor_item_of(TOKEN, &"latemoon.latemoon1").is_empty() and _count_in(session, &"latemoon.latemoon1", &"native.npc.cult_killer") == 0, "spared: the mark, her 令牌 on the floor, she is gone")
 	# The three who speak of it.
 	elon = await _beside(tree, session, manor, &"latemoon.room.eastroom.elon.1")
 	_check(elon.has_flag(StringName(NpcMood.FLAG_PREFIX + "bereft")) and state.marks.get("瑷伦叹过", 0) == 1 and _recent(ui).any(func(line: String) -> bool: return line.contains("那是衣走了的价钱")), "瑷伦: 衣出了庄 (her mood 失衣)")

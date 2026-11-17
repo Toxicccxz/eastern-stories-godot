@@ -9,6 +9,15 @@ extends RefCounted
 ## taken over — they are as anyone else. ES2 has no such people: anyone could be killed.
 
 
+## Whether `npc` is kept now for the player of `state`: always (its `always_kept`, DECISIONS「总是只能击倒」)
+## or by a pending step (holds()).
+static func keeps(state: CharacterState, npc: NpcDefinition, quests: Array[StoryQuestDefinition]) -> bool:
+	if npc == null:
+		return false
+	var hooks: NpcHooks = npc.hooks()
+	return (hooks != null and hooks.always_kept) or holds(state, npc.definition_id, quests)
+
+
 ## Whether the NPC definition `npc_id` is kept now for the player of `state`.
 static func holds(state: CharacterState, npc_id: StringName, quests: Array[StoryQuestDefinition]) -> bool:
 	if state == null or npc_id.is_empty():

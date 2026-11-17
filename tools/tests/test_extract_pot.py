@@ -27,6 +27,7 @@ NOT_SHOWN = {
     "asker_marks": "marks", "asker_lacks": "marks", "mark_asker": "a mark", "marks_asker": "marks",
     "listed_marks": "marks", "confirm_marks": "marks", "confirm_lacks": "marks", "ask_lacks": "marks",
     "giver_mark": "a mark", "mark_giver": "a mark", "marks_giver": "marks", "unless_giver_mark": "a mark",
+    "giver_marks": "marks", "giver_lacks": "marks",
     "scene_mark": "a mark", "cleared_mark": "a mark", "set_mark": "a mark", "found_by": "a mark",
     "teaches": "a mark", "spar_won_mark": "a mark", "again_mark": "a mark",
     "die_marks_killer": "a mark", "forbids_marks": "marks", "accept_marks": "marks",

@@ -601,6 +601,13 @@
     "native.npc.niling_lead_chanter_unmasking": {"same_as": "native.npc.niling_lead_chanter"},
     "native.npc.niling_pursuer": {"same_as": "native.npc.tribute_taoist"},
     "native.npc.cult_killer": {"same_as": "latemoon.npc.room.killer"},
+    "native.npc.latemoon_daughter": {"same_as": "latemoon.npc.room.killer"},
+    "native.npc.latemoon_daughter_home": {"note": "无名女子：无名老妇的女儿，不再蒙面——眉眼和母亲一模一样；换上母亲那样的宝蓝缎衫，细剑插在腰里（晚月 B 带她回来，续写；立绘未画）", "coat": "2f62a6", "pants": "2b2a2f", "skin": "c6886a", "hair": "05050a", "hair_style": "topknot", "beard": "none", "waist": "sash", "prop": "sword_waist", "prop_color": "613542", "accent": "1c5dad", "height": "standard", "build": "slim", "shoes": "dark"},
+    "native.npc.lan_zhiping_lake": {"same_as": "common.npc.dancer.master"},
+    "native.npc.old_woman_lake": {"same_as": "latemoon.npc.room.old"},
+    "native.npc.daughter_lake": {"same_as": "native.npc.latemoon_daughter_home"},
+    "native.npc.assembly_old_woman": {"same_as": "latemoon.npc.room.old"},
+    "native.npc.assembly_daughter": {"same_as": "native.npc.latemoon_daughter_home"},
     "native.npc.ge_sheng": {
       "note": "名册记book；袍上墨点、秃笔无词；立绘 Muse 2026-11-07",
       "coat": "0e334b", "pants": "041d2b", "skin": "dfbc99", "hair": "151416",

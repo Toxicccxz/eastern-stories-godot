@@ -303,6 +303,10 @@ func _test_token(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not refused.done() and refused.lines == ["无名老妇没有收下。"], "anything but the token: accept_object() returns 0")
 	var book: ItemHandlingResult = map.give_to_selected(_new_item(session, TOKEN))
 	_check(book.done() and book.lines == ["无名老妇说道：作为感谢，我给你一本寒雪鞭法密笈。", "你给无名老妇一个杀手令牌。"] and not _carried(session, WHIP_BOOK).is_empty(), "not of 晚月庄: the 寒雪鞭法: %s" % [book.lines])
+	_check(state.marks.get("老妇谢过令牌", 0) == 1, "thanked (晚月 B: the thanks once)")
+	var again: ItemHandlingResult = map.give_to_selected(_new_item(session, TOKEN))
+	_check(not again.done() and again.lines[0].contains("只给一回"), "a second token: refused, given back (DECISIONS「晚月 B」; ES2 thanked every time): %s" % [again.lines])
+	state.marks.erase("老妇谢过令牌") # TEST-ONLY: ES2's other branches, as if thanked for none yet
 	state.family.family_id = &"family.latemoon" # TEST-ONLY: D makes the player one
 	state.recovery.inner_force.maximum = 100
 	state.recovery.inner_force.current = 80
@@ -315,6 +319,7 @@ func _test_token(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.recovery.inner_force.maximum == 116 and state.recovery.inner_force.current == 0, "max_force 100 + 20 * 25 / 30 = 116, force 0: %d" % state.recovery.inner_force.maximum)
 	_check(state.vitality.maximum == CharacterDerivedValues.human_maximum_vitality(player.facts.age, 116), "max kee follows at once (A7)")
 	state.recovery.inner_force.maximum = 160
+	state.marks.erase("老妇谢过令牌") # TEST-ONLY
 	var at_160: ItemHandlingResult = map.give_to_selected(_new_item(session, TOKEN))
 	_check(at_160.done() and at_160.lines[0] == "无名老妇说道：作为感谢，我给你一本寒雪鞭法密笈。" and state.recovery.inner_force.maximum == 160, "at 160: the book")
 	state.family.family_id = &""

@@ -113,6 +113,10 @@ var fights_beside_here: bool = false
 ## NPC's name) when the player would take a 车马行 ride while it follows them every way and stands in
 ## their room: the cart does not set off (振远's 镖车 goes by the road, its 趟子手 with it).
 var refuses_coach: String = ""
+## Native (势力线第二批 晚月 B; DECISIONS「总是只能击倒」): `always_kept`, knocked down and never killed
+## whatever the quests (StoryKeeps' rule without a step to hang on): 第四章's night killer in 晚月庄's 前厅,
+## who must live for 晚月 B (owner, 2026-11-16, 势力线第二批 Q4).
+var always_kept: bool = false
 
 
 ## One of init()'s call_outs (`calls`): when, and what it does.
@@ -338,6 +342,11 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.refuses_coach = reader.required_text("refuses_coach")
 		if not hooks.follows_every_way:
 			reader.fail("refuses_coach", "only one that follows the player every way could ride along")
+	if reader.has("always_kept"):
+		found = true
+		hooks.always_kept = reader.boolean("always_kept", false)
+		if not hooks.always_kept:
+			reader.fail("always_kept", "only one that is always kept says so")
 	var spared: ContentRecordReader = reader.child("spared")
 	if spared != null:
 		found = true

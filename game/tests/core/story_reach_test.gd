@@ -30,7 +30,7 @@ const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## Marks read and on purpose written by nothing: the wrong answer of a question (village/world.json's
 ## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
 ## says so) never holds. 「老妇说了女儿」 is 晚月 A's stub step `heart` (DECISIONS「晚月 A」): 晚月 B writes it.
-const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "老妇说了女儿"]
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]
@@ -56,7 +56,7 @@ const WRITE_KEYS: Array[String] = [
 ]
 ## Keys whose value names marks a condition reads.
 const READ_KEYS: Array[String] = [
-	"asker_marks", "asker_lacks", "giver_mark", "unless_giver_mark", "not_mark", "confirm_marks",
+	"asker_marks", "asker_lacks", "giver_mark", "unless_giver_mark", "giver_marks", "giver_lacks", "not_mark", "confirm_marks",
 	"confirm_lacks", "listed_marks", "forbids_marks", "unless_marks", "unless_mark",
 	"attack_unless_marks", "attack_unless_mark",
 ]
@@ -786,6 +786,7 @@ func _walk(value: Variant, path: Array[String], source: Source) -> void:
 		need_items.append_array(_strings(record.get("item")))
 		need_items.append_array(_strings(record.get("giver_carries")))
 		need_marks.append_array(_strings(record.get("giver_mark")))
+		need_marks.append_array(_strings(record.get("giver_marks")))
 	# An act's branch gated by marks the player holds (`mark`, `marks` beside its `steps`).
 	if record.has("steps"):
 		need_marks.append_array(_strings(record.get("mark")))

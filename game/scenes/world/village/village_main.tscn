@@ -1040,6 +1040,21 @@ position = Vector2(808, 1296)
 script = ExtResource("marker")
 spawn_point_id = &"village.road7.ice_cutter.1"
 
+[node name="LakesideFinaleLatemoon" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(632, 1316)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.latemoon"
+
+[node name="LakesideFinaleLatemoonOld" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(584, 1300)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.latemoon_old"
+
+[node name="LakesideFinaleLatemoonDaughter" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(632, 1316)
+script = ExtResource("marker")
+spawn_point_id = &"village.lakeside.finale.latemoon_daughter"
+
 [node name="LakesideBodyFisher1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(688, 1304)
 script = ExtResource("marker")

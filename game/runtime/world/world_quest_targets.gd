@@ -32,7 +32,7 @@ static func at_hand(session: WorldSessionController, target: String) -> bool:
 		var npc: NpcDefinition = catalog.npc(spawn.npc_definition_id)
 		if npc == null or npc.display_name != target or npc.dealings().is_fight_deferred():
 			continue
-		if StoryKeeps.holds(player.state, npc.definition_id, quests):
+		if StoryKeeps.keeps(player.state, npc, quests):
 			continue
 		var round_the_day: bool = WorldStoryPresence._comes_round(spawn.present) or WorldStoryPresence._comes_round(spawn.until)
 		if spawn.staged and not round_the_day and not WorldStoryPresence.on_stage(spawn.present, spawn.until, player, held, worn, phase_id):

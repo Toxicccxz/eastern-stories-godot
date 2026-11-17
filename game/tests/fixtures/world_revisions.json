@@ -79,6 +79,11 @@
 			"revision": "SOURCE_ENTRY_LATEMOON_A_V1",
 			"spawn_points": 850,
 			"fingerprint": "c4dc4bc4f14c6e7102d3e9413d2232ed16044b2bb7672c0b3e136acb3dabffc4"
+		},
+		{
+			"revision": "SOURCE_ENTRY_LATEMOON_B_V1",
+			"spawn_points": 858,
+			"fingerprint": "1c47343e5e4a99fe9dd83cf3edf546682aab4ebfc2c6ff4aa48eb4eeeb7aaf81"
 		}
 	]
 }

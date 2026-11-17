@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "晚月庄",
 			"sources": [
-				"native: 势力线第二批 晚月 A (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 A, §2 第 1 条, §7 第 3 行, §9 第 1、2、5 条, §11 Q3, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 A」). d/latemoon/npc/yumay.c (我们晚月庄是『以舞会友，以神换技』; 沧海龙吟: 是一种失传以久的「寒谷龙舞」), latebook.c (一幅「沧海龙吟」的舞曲图画挂在墙上，似乎有一些秘密在里头), npc/girl.c (昭仪 at the 图), upstar/npc/shinfun.c + latemoon8.c (the 舞曲谱 behind the 石床), upstar/uproom.c + upstar/npc/statue.c (区冥's 佛堂: 晚月庄的祖先神位), daemon/class/dancer/master.c (只收女徒: 男人都不是好东西，滚开！). The line shows for 晚月庄's own and for a 晚月庄护法 (蓝止萍's word to one who stood 瑷伦's three lashes and saw the 宝衣 through: a man, or a woman of another family); the 沧海龙吟 put together from the 图 and the 谱 and danced before 区冥 (大弟子 for 晚月庄's own), and the 宝衣 carried out of the gate brought home to 瑷伦 or kept, are the plan's (续写); the line stops at a stub step `heart` that 晚月 B fills."
+				"native: 势力线第二批 晚月 A (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 A, §2 第 1 条, §7 第 3 行, §9 第 1、2、5 条, §11 Q3, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 A」). d/latemoon/npc/yumay.c (我们晚月庄是『以舞会友，以神换技』; 沧海龙吟: 是一种失传以久的「寒谷龙舞」), latebook.c (一幅「沧海龙吟」的舞曲图画挂在墙上，似乎有一些秘密在里头), npc/girl.c (昭仪 at the 图), upstar/npc/shinfun.c + latemoon8.c (the 舞曲谱 behind the 石床), upstar/uproom.c + upstar/npc/statue.c (区冥's 佛堂: 晚月庄的祖先神位), daemon/class/dancer/master.c (只收女徒: 男人都不是好东西，滚开！). The line shows for 晚月庄's own and for a 晚月庄护法 (蓝止萍's word to one who stood 瑷伦's three lashes and saw the 宝衣 through: a man, or a woman of another family); the 沧海龙吟 put together from the 图 and the 谱 and danced before 区冥 (大弟子 for 晚月庄's own), and the 宝衣 carried out of the gate brought home to 瑷伦 or kept, are the plan's (续写); the line stops at a stub step `heart` that 晚月 B fills.",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」). d/latemoon/room/npc/old.c (心事: 实不相瞒，这杀手是我的私生女，但已误入歧途 ...只是要以令牌为证; 令牌: 就在我儿身上; accept_object: the 令牌 thanked for, every time), d/latemoon/room/npc/killer.c (蒙面杀手, 眉眼看起来有些面熟; six-chaos-sword 27; 为什么杀我？／你知道我心里有多痛苦吗？！), d/latemoon/room/npc/obj/token.c (杀手令牌). Where she is (the 内书房 with no night, the bamboo grove by night after it), her story (a 道童 of the 北麓 道观 where 六阴剑 is taught, taken in by 东方神教, sent home by 朱鸿雪 as her mother's daughter), the 令牌 for her mother or back to 朱鸿雪 (the line's second small choice), and 庄规 or her mother's daughter (its split: the 执事 and 晚月庄's vote) are the plan's (续写)."
 			],
-			"summary": "晚月庄失传的舞，和带出庄的宝衣。",
+			"summary": "晚月庄失传的舞、带出庄的宝衣，和内书房那位老妇的女儿。",
 			"starts": {
 				"any": [
 					{
@@ -119,21 +120,36 @@
 							"done": {
 								"mark": "宝衣烧了"
 							},
-							"text": "宝衣挡完了湖底那一口黑焰，烧成了灰。"
+							"text": "宝衣挡完了湖底那一口黑焰，烧成了灰。",
+							"reward": {
+								"marks": [
+									"该问老妇心事"
+								]
+							}
 						},
 						{
 							"id": "kept",
 							"done": {
 								"mark": "瑷伦守到决战"
 							},
-							"text": "宝衣在瑷伦身上。庄里一切如旧。"
+							"text": "宝衣在瑷伦身上。庄里一切如旧。",
+							"reward": {
+								"marks": [
+									"该问老妇心事"
+								]
+							}
 						},
 						{
 							"id": "annie",
 							"done": {
 								"mark": "宝衣给了安妮儿"
 							},
-							"text": "宝衣在西厢的安妮儿手里。"
+							"text": "宝衣在西厢的安妮儿手里。",
+							"reward": {
+								"marks": [
+									"该问老妇心事"
+								]
+							}
 						},
 						{
 							"id": "carried",
@@ -183,7 +199,10 @@
 							},
 							"text": "你把寒於宝衣还给了瑷伦。她又是守衣人。",
 							"reward": {
-								"deed": "把带出庄的寒於宝衣送回了晚月庄"
+								"deed": "把带出庄的寒於宝衣送回了晚月庄",
+								"marks": [
+									"该问老妇心事"
+								]
 							}
 						},
 						{
@@ -193,7 +212,10 @@
 							},
 							"text": "宝衣留在了你身上。瑷伦不再问。",
 							"reward": {
-								"deed": "对守衣人说，寒於宝衣留在自己身上"
+								"deed": "对守衣人说，寒於宝衣留在自己身上",
+								"marks": [
+									"该问老妇心事"
+								]
 							}
 						},
 						{
@@ -201,7 +223,12 @@
 							"done": {
 								"mark": "宝衣烧了"
 							},
-							"text": "宝衣在湖底烧成了灰。还不还，都不必再说了。"
+							"text": "宝衣在湖底烧成了灰。还不还，都不必再说了。",
+							"reward": {
+								"marks": [
+									"该问老妇心事"
+								]
+							}
 						}
 					]
 				},
@@ -211,7 +238,7 @@
 					"done": {
 						"mark": "老妇说了女儿"
 					},
-					"text": "无名老妇说了她的女儿。",
+					"text": "无名老妇说了她的女儿：那个蒙面的杀手。她要你去问问她，为什么走到了这一步。",
 					"target": {
 						"map": "latemoon.manor",
 						"zone": "latemoon.room.lstudio",
@@ -219,6 +246,154 @@
 							"latemoon.npc.room.old"
 						]
 					}
+				},
+				{
+					"id": "where",
+					"weight": "route",
+					"objective": "老妇的女儿在哪，要看第四章有没有那一夜。",
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.lstudio",
+						"npcs": [
+							"latemoon.npc.room.old"
+						]
+					},
+					"options": [
+						{
+							"id": "study",
+							"done": {
+								"mark": "瑷伦守到决战"
+							},
+							"text": "宝衣没有出庄，那一夜没有来。她还在内书房里，蒙着面。"
+						},
+						{
+							"id": "grove",
+							"done": {
+								"cond": "latemoon.night"
+							},
+							"text": "那一夜之后，她再没有进过庄门。"
+						}
+					]
+				},
+				{
+					"id": "find_study",
+					"only_after": "study",
+					"objective": "老妇的女儿就是内书房里那个蒙面的杀手。问她「娘」。动手也行——这一步她只会倒下，不会死。",
+					"done": {
+						"mark": "她说了来历"
+					},
+					"text": "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。",
+					"keeps": [
+						"latemoon.npc.room.killer"
+					],
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.lstudio",
+						"npcs": [
+							"latemoon.npc.room.killer"
+						]
+					}
+				},
+				{
+					"id": "find_grove",
+					"only_after": "grove",
+					"objective": "那一夜之后，她藏在庄后山路尽头的竹林里，入夜才在（白天去，竹林里没有人）。走进竹林找到她，问她「娘」。动手也行——这一步她只会倒下，不会死。",
+					"done": {
+						"mark": "她说了来历"
+					},
+					"text": "她说了来历：北麓的道观、六阴剑、东方神教，和朱鸿雪派她回晚月庄的缘故。她回了内书房，在她娘身边。",
+					"keeps": [
+						"native.npc.latemoon_daughter"
+					],
+					"target": {
+						"map": "latemoon.hills",
+						"zone": "latemoon.bamboo",
+						"npcs": [
+							"native.npc.latemoon_daughter"
+						]
+					}
+				},
+				{
+					"id": "token",
+					"weight": "small",
+					"objective": "她的杀手令牌在你手上。两个人要它：内书房的老妇要它为证——递给她，她知道女儿还活着，给你一份谢礼（只给一次）；绮云镇的朱鸿雪要它回神教——问她「还令」，神教的令只从上一个持令人手里接。给了一边，另一边就没有了。",
+					"keeps": [
+						"latemoon.npc.room.killer"
+					],
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.room.lstudio",
+						"npcs": [
+							"latemoon.npc.room.old"
+						]
+					},
+					"options": [
+						{
+							"id": "mother",
+							"done": {
+								"mark": "令牌给了老妇"
+							},
+							"text": "你把令牌递给了老妇。她攥着它，知道女儿还活着。",
+							"reward": {
+								"deed": "把蒙面杀手的令牌交给了她娘"
+							}
+						},
+						{
+							"id": "cult",
+							"done": {
+								"mark": "令牌还了神教"
+							},
+							"text": "你把令牌还给了朱鸿雪。神教的令，回了神教。",
+							"reward": {
+								"deed": "把晚月庄那块杀手令牌还给了东方神教"
+							}
+						}
+					]
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "下回进晚月庄的大厅，蓝止萍有话要说——老妇和她女儿会从内书房出来。两条路：依庄规（问蓝止萍「庄规」）——人交给蓝止萍处置，晚月庄这一票投颜违，老妇从此不再开口；带她回来（问老妇「女儿」）——她留在内书房陪她娘，晚月庄这一票投旧盟主，蓝止萍从此对你冷一分。两边都先问你一声；选了不能改。",
+					"keeps": [
+						"latemoon.npc.room.killer"
+					],
+					"target": {
+						"map": "latemoon.manor",
+						"zone": "latemoon.latemoon1",
+						"npcs": [
+							"common.npc.dancer.master"
+						]
+					},
+					"options": [
+						{
+							"id": "by_rule",
+							"done": {
+								"mark": "晚月庄依了庄规"
+							},
+							"text": "你依了庄规。她跟着蓝止萍的人走了，没有回头。",
+							"reward": {
+								"deed": "依晚月庄的庄规，把老妇的女儿交给了蓝止萍",
+								"rank": {
+									"family": "family.latemoon",
+									"title": "执事"
+								}
+							}
+						},
+						{
+							"id": "brought_home",
+							"done": {
+								"mark": "她回了晚月庄"
+							},
+							"text": "你把她带了回来。内书房里多了一个人，不再蒙面。老妇替你向庄主讨了一个执事。",
+							"reward": {
+								"deed": "把老妇的女儿带回了晚月庄",
+								"rank": {
+									"family": "family.latemoon",
+									"title": "执事"
+								}
+							}
+						}
+					]
 				}
 			]
 		}

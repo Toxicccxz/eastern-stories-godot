@@ -322,22 +322,72 @@
 			],
 			"inquiry": {
 				"here": ["这里是书房，有些鞭法教材存放在这儿。"],
-				"心事": ["实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..."],
-				"令牌": ["就在我儿身上 ...你拿到了就给我。"],
-				"宝衣": ["衣在庄里几百年了。它在，庄就在；它走了，庄里的人就得自己守了。"]
+				"心事": {
+					"rules": [
+						{ "asker_marks": ["晚月庄依了庄规"], "lines": [{ "emote": "坐在窗下，没有抬头，也没有开口。" }] },
+						{ "asker_marks": ["她回了晚月庄"], "say": "她在这屋里。我压了这些年的心事，你替我了了。" },
+						{ "asker_marks": ["她说了来历"], "lines": [{ "emote": "低下头。" }, { "say": "她都跟你说了？……道观、神教——当年是我把她送出庄门的。" }] },
+						{ "asker_marks": ["老妇说了女儿", "瑷伦守到决战"], "say": "去问问她。她不对我说的话，也许会对你说。她就在这屋里。" },
+						{ "asker_marks": ["老妇说了女儿"], "say": "去问问她。她不对我说的话，也许会对你说。夜里，后山的竹林。" },
+						{ "asker_marks": ["该问老妇心事", "瑷伦守到决战"], "asker_lacks": ["晚月庄的线断了"], "mark_asker": "老妇说了女儿", "lines": [{ "say": "实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..." }, { "emote": "沉默了很久。" }, { "say": "……这些年我想的，其实不是这个。我想知道她为什么走到这一步，可她从来不对我说。" }, { "say": "她就在这屋里，蒙着面，在书架那边走来走去——你看她的眉眼。替我问她一声「娘」。" }] },
+						{ "asker_marks": ["该问老妇心事"], "asker_lacks": ["晚月庄的线断了"], "mark_asker": "老妇说了女儿", "lines": [{ "say": "实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..." }, { "emote": "沉默了很久。" }, { "say": "……这些年我想的，其实不是这个。我想知道她为什么走到这一步，可她从来不对我说。" }, { "say": "那一夜之后，她再没进过庄门。可我知道她没走远：夜里，庄后山路尽头的竹林里有人在哭。替我去问她一声「娘」。" }] },
+						{ "say": "实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..." }
+					]
+				},
+				"令牌": {
+					"rules": [
+						{ "asker_marks": ["晚月庄依了庄规"], "lines": [{ "emote": "坐在窗下，没有抬头，也没有开口。" }] },
+						{ "asker_marks": ["令牌给了老妇"], "say": "令牌在我这里。她还活着——这就够了。" },
+						{ "asker_marks": ["令牌还了神教"], "say": "你还给了神教？……也好。那块东西，本来就不该在晚月庄。" },
+						{ "asker_marks": ["她说了来历"], "say": "令牌在你手上？给我。我不要它为证她死了——我要它为证她还活着。" },
+						{ "say": "就在我儿身上 ...你拿到了就给我。" }
+					]
+				},
+				"宝衣": {
+					"rules": [
+						{ "asker_marks": ["晚月庄依了庄规"], "lines": [{ "emote": "坐在窗下，没有抬头，也没有开口。" }] },
+						{ "say": "衣在庄里几百年了。它在，庄就在；它走了，庄里的人就得自己守了。" }
+					]
+				},
+				"女儿": {
+					"confirm": "带她回来：她留在晚月庄，跟着她娘守内书房，不再蒙面。\n晚月庄这一票投旧盟主（不要官府、也不要颜违管到庄里来）；蓝止萍从此对你冷一分。本庄弟子的执事，由老妇向庄主讨。\n要这么说吗？",
+					"confirm_marks": ["大厅说起了庄规"],
+					"confirm_lacks": ["晚月庄依了庄规", "她回了晚月庄", "晚月庄的线断了"],
+					"listed_marks": ["大厅说起了庄规"],
+					"rules": [
+						{ "asker_marks": ["晚月庄依了庄规"], "lines": [{ "emote": "坐在窗下，没有抬头，也没有开口。" }] },
+						{ "asker_marks": ["她回了晚月庄"], "say": "她在这里。" },
+						{ "asker_marks": ["晚月庄的线断了"], "say": "你已经不是晚月庄的人了。这是晚月庄的事。" },
+						{ "asker_marks": ["大厅说起了庄规"], "lines": [{ "emote": "走过去，伸手把女儿脸上的面巾摘了下来。" }, { "say": "她是我女儿。我把她送出去过一回，不送第二回。" }, { "say": "庄主那里，我去说。" }], "restage": true, "asker_lacks": ["入了虹台的席"], "marks_asker": ["她回了晚月庄", "晚月庄的票随了她"] },
+						{ "asker_marks": ["大厅说起了庄规"], "mark_asker": "她回了晚月庄", "lines": [{ "emote": "走过去，伸手把女儿脸上的面巾摘了下来。" }, { "say": "她是我女儿。我把她送出去过一回，不送第二回。" }, { "say": "庄主那里，我去说。" }], "restage": true },
+						{ "say": "……" }
+					]
+				}
 			},
 			"accept_object": [
-				{ "item_alias": "###token###", "giver_family": "family.latemoon", "giver_max_force_below": 160, "effect": "pass_force", "accept": true, "lines": [{ "say": "作为感谢，我传你一些内力。" }, { "line": "无名老妇手抵在你的后心，头上冒出丝丝白气。\n" }, { "line": "你感觉到一股热气传了过来。\n" }] },
-				{ "item_alias": "###token###", "say": "作为感谢，我给你一本寒雪鞭法密笈。", "gives": "es2:d/latemoon/room/npc/obj/whip_book", "accept": true }
+				{ "item_alias": "###token###", "giver_marks": ["令牌给了老妇"], "accept": false, "say": "她的令牌已经在我这里了。" },
+				{ "item_alias": "###token###", "giver_marks": ["令牌还了神教"], "accept": false, "say": "你把她那块令还给了神教。别的令牌，我不要。" },
+				{ "item_alias": "###token###", "giver_family": "family.latemoon", "giver_max_force_below": 160, "effect": "pass_force", "accept": true, "lines": [{ "emote": "接过令牌，攥在手心里，手在抖。" }, { "say": "她还活着……我拿着它，就知道她还活着。" }, { "say": "作为感谢，我传你一些内力。" }, { "line": "无名老妇手抵在你的后心，头上冒出丝丝白气。\n" }, { "line": "你感觉到一股热气传了过来。\n" }], "giver_marks": ["她说了来历"], "giver_lacks": ["老妇谢过令牌"], "ask": "把令牌交给无名老妇：她知道女儿还活着，给你一份谢礼（谢礼只给一回）。\n令牌给了她，就不能再还给朱鸿雪了。\n要给吗？", "marks_giver": ["令牌给了老妇", "老妇谢过令牌"] },
+				{ "item_alias": "###token###", "giver_marks": ["她说了来历"], "giver_lacks": ["老妇谢过令牌"], "gives": "es2:d/latemoon/room/npc/obj/whip_book", "accept": true, "ask": "把令牌交给无名老妇：她知道女儿还活着，给你一份谢礼（谢礼只给一回）。\n令牌给了她，就不能再还给朱鸿雪了。\n要给吗？", "marks_giver": ["令牌给了老妇", "老妇谢过令牌"], "lines": [{ "emote": "接过令牌，攥在手心里，手在抖。" }, { "say": "她还活着……我拿着它，就知道她还活着。" }, { "say": "作为感谢，我给你一本寒雪鞭法密笈。" }] },
+				{ "item_alias": "###token###", "giver_marks": ["她说了来历"], "accept": true, "ask": "把令牌交给无名老妇：她知道女儿还活着，给你一份谢礼（谢礼只给一回）。\n令牌给了她，就不能再还给朱鸿雪了。\n要给吗？", "mark_giver": "令牌给了老妇", "lines": [{ "emote": "接过令牌，攥在手心里，手在抖。" }, { "say": "她还活着……我拿着它，就知道她还活着。" }, { "say": "谢礼，我早先给过你一回了。这一回，是我欠你的。" }] },
+				{ "item_alias": "###token###", "giver_marks": ["老妇说了女儿"], "accept": false, "say": "我要的不是令牌。你见过她了么？" },
+				{ "item_alias": "###token###", "giver_family": "family.latemoon", "giver_max_force_below": 160, "effect": "pass_force", "accept": true, "lines": [{ "say": "作为感谢，我传你一些内力。" }, { "line": "无名老妇手抵在你的后心，头上冒出丝丝白气。\n" }, { "line": "你感觉到一股热气传了过来。\n" }], "giver_lacks": ["老妇谢过令牌"], "mark_giver": "老妇谢过令牌" },
+				{ "item_alias": "###token###", "say": "作为感谢，我给你一本寒雪鞭法密笈。", "gives": "es2:d/latemoon/room/npc/obj/whip_book", "accept": true, "giver_lacks": ["老妇谢过令牌"], "mark_giver": "老妇谢过令牌" },
+				{ "item_alias": "###token###", "accept": false, "say": "令牌我收过一回了。谢礼，也只给一回。" }
 			],
 			"moods": {
 				"broken": { "lasting": true, "chat_chance": 8, "chat_msg": ["无名老妇坐在书房里，手里的鞭子一直没举起来。\n"] },
-				"eased": { "lasting": true, "chat_chance": 8, "chat_msg": ["无名老妇坐在书房里，把那根鞭子横在膝上，一下一下地擦。\n"] }
+				"eased": { "lasting": true, "chat_chance": 8, "chat_msg": ["无名老妇坐在书房里，把那根鞭子横在膝上，一下一下地擦。\n"] },
+				"silent": { "lasting": true, "chat_chance": 8, "chat_msg": ["无名老妇坐在书房的窗下，一句话也不说。\n"] },
+				"together": { "lasting": true, "chat_chance": 8, "chat_msg": ["无名老妇和她女儿对坐在窗下，一个擦鞭子，一个擦剑。\n"] }
 			},
 			"calls": [
 				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "老妇说了拦", "steps": [{ "say": "是她。我听见前厅的声音就知道是她。我没拦住——我一直没拦住。" }, { "npc_mood": "broken" }, { "mark": "老妇说了拦" }] },
 				{ "after": 0, "reaction": true, "mark": "宝衣给了安妮儿", "not_mark": "老妇说了拦", "steps": [{ "say": "是她。我听见前厅的声音就知道是她。我没拦住——我一直没拦住。" }, { "npc_mood": "broken" }, { "mark": "老妇说了拦" }] },
-				{ "after": 1, "reaction": true, "mark": "宝衣回了庄", "not_mark": "老妇说了衣回", "steps": [{ "emote": "抬起头，看着东厢的方向。" }, { "say": "衣回来了？……好。庄里还守得住。" }, { "npc_mood": "eased" }, { "mark": "老妇说了衣回" }] }
+				{ "after": 1, "reaction": true, "mark": "宝衣回了庄", "not_mark": "老妇说了衣回", "steps": [{ "emote": "抬起头，看着东厢的方向。" }, { "say": "衣回来了？……好。庄里还守得住。" }, { "npc_mood": "eased" }, { "mark": "老妇说了衣回" }] },
+				{ "after": 1, "reaction": true, "mark": "晚月庄依了庄规", "not_mark": "老妇不说话了", "when": { "mark": "令牌给了老妇" }, "steps": [{ "emote": "坐在窗下，手里攥着那块黑木令牌，没有抬头。" }, { "npc_mood": "silent" }, { "mark": "老妇不说话了" }] },
+				{ "after": 1, "reaction": true, "mark": "晚月庄依了庄规", "not_mark": "老妇不说话了", "when": { "not": { "mark": "令牌给了老妇" } }, "steps": [{ "emote": "坐在窗下，两只手空空地搁在膝上，没有抬头。" }, { "npc_mood": "silent" }, { "mark": "老妇不说话了" }] },
+				{ "after": 1, "reaction": true, "mark": "她回了晚月庄", "not_mark": "老妇说了回来", "steps": [{ "say": "回来了就好。……庄主那里，执事的事我替你讨了。" }, { "npc_mood": "together" }, { "mark": "老妇说了回来" }] }
 			]
 		},
 		{
@@ -372,7 +422,22 @@
 				{ "action": "random_move" }
 			],
 			"chat_chance_combat": 10,
-			"chat_msg_combat": ["蒙面杀手喝道：为什么杀我？\n", "蒙面杀手叹道：你知道我心里有多痛苦吗？！\n"]
+			"chat_msg_combat": ["蒙面杀手喝道：为什么杀我？\n", "蒙面杀手叹道：你知道我心里有多痛苦吗？！\n"],
+			"inquiry": {
+				"娘": {
+					"listed_marks": ["老妇说了女儿"],
+					"rules": [
+						{ "asker_marks": ["她说了来历"], "asker_not_carries": "###token###", "asker_lacks": ["令牌给了老妇", "令牌还了神教"], "gives": "es2:d/latemoon/room/npc/obj/token", "lines": [{ "say": "令牌丢了？……" }, { "emote": "又从怀里摸出一块黑木令牌，丢给你。" }, { "say": "拿好。神教给我的令，不止一块。" }], "mood": "waiting" },
+						{ "asker_marks": ["她说了来历"], "say": "我说完了。" },
+						{ "asker_marks": ["老妇说了女儿"], "mark_asker": "她说了来历", "gives": "es2:d/latemoon/room/npc/obj/token", "lines": [{ "emote": "的手停在剑柄上，很久没有动。" }, { "say": "她让你来问的？……她从来不问。" }, { "say": "我七岁那年，她把我送出了庄门——晚月庄容不下一个来历不明的孩子。北麓有个道观收孩子，说是收道童。" }, { "say": "那里的人不念经，只教剑。六阴追魂剑，从追魂那一部学起；学不会的孩子，后来就不见了。" }, { "say": "我是自己逃出来的。东方神教收留了我，给了我这块令。" }, { "say": "朱鸿雪派我回晚月庄：我是她的女儿，内书房的门对我开着，宝衣藏在哪里，我看得见。" }, { "say": "我在这屋里住了三年。宝衣一直在瑷伦身上，我一回也没有动手。" }, { "emote": "从腰间解下一块黑木令牌，丢给你。" }, { "say": "拿去。给她，还是还给神教，你定。我累了。" }], "mood": "waiting" },
+						{ "say": "……" }
+					]
+				}
+			},
+			"moods": { "waiting": { "lasting": true, "chat_chance": 8, "chat_msg": ["杀手站在书架边，剑在鞘里，手离剑柄远远的。\n"] } },
+			"calls": [
+				{ "after": 0, "reaction": true, "mark": "她说了来历", "steps": [{ "npc_mood": "waiting" }] }
+			]
 		},
 		{
 			"id": "latemoon.npc.servant2",

@@ -1391,6 +1391,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			ScriptedAct.Kind.LEAVE:
 				if not step.npc_id.is_empty() and not _npcs.has(step.npc_id):
 					_errors.append("%s.leave: unknown NPC '%s'" % [origin, step.npc_id])
+			ScriptedAct.Kind.HOME:
+				if not _npcs.has(step.npc_id):
+					_errors.append("%s.home: unknown NPC '%s'" % [origin, step.npc_id])
 			ScriptedAct.Kind.CONDITION:
 				if not ConditionIds.ALL.has(step.condition_id):
 					_errors.append("%s.condition: unknown condition '%s'" % [origin, step.condition_id])
