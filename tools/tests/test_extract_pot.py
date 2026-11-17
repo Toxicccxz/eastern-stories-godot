@@ -38,6 +38,7 @@ NOT_SHOWN = {
     # Words matched, not printed: an item's aliases (give/ask by name), an item carried, a chat
     # line's source text a journal entry waits for.
     "aliases": "matched against", "carries": "an item matched", "asker_carries": "an item matched",
+    "confirm_carries": "an item matched",
     "contains": "matched against the source line",
     # Read but not shown: an item's material (no screen reads it).
     "material": "not drawn",

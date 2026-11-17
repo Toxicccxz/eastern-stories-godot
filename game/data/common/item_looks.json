@@ -333,6 +333,7 @@
 		"native:niling/scripture_lower": { "kind": "book", "cover": "1a1618", "label": "3a1414", "pages": "c8bca0", "thread": "3a1414", "thick": 0.16 },
 		"native:niling/six_chaos_manual": { "kind": "book", "cover": "1e1c22", "label": "8a2a2a", "pages": "e0d6bc", "thread": "2a2426", "thick": 0.06 },
 		"native:city/zhenyuan_card": { "kind": "letter", "paper": "c8402a", "fold": "a8301e", "seal": "2a2420:gloss", "ink": "f0d890" },
-		"native:city/he_letter": { "kind": "paper", "paper": "cdbf98", "ink": "3a3026" }
+		"native:city/he_letter": { "kind": "paper", "paper": "cdbf98", "ink": "3a3026" },
+		"native:choyin/indentures": { "kind": "paper", "paper": "e2d6b4", "ink": "8a1e1a" }
 	}
 }

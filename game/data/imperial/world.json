@@ -680,7 +680,14 @@
 														"mark": "卫沧澜作证"
 													},
 													{
-														"item": "native:city/courier_letter"
+														"any": [
+															{
+																"item": "native:city/courier_letter"
+															},
+															{
+																"mark": "密信给了官府"
+															}
+														]
 													},
 													{
 														"item": "native:niling/tribute_ledger"
@@ -714,7 +721,14 @@
 														"mark": "卫沧澜作证"
 													},
 													{
-														"item": "native:city/courier_letter"
+														"any": [
+															{
+																"item": "native:city/courier_letter"
+															},
+															{
+																"mark": "密信给了官府"
+															}
+														]
 													},
 													{
 														"item": "native:niling/tribute_ledger"
@@ -770,6 +784,18 @@
 							},
 							{
 								"when": {
+									"mark": "密信给了官府"
+								},
+								"line": "（小屋那封密信在程不平手里——他随你上京作证，算一样。）\n"
+							},
+							{
+								"when": {
+									"mark": "密信给了花紫会"
+								},
+								"line": "（小屋那封密信给了花紫会——这回算不上。）\n"
+							},
+							{
+								"when": {
 									"mark": "镖路查清了"
 								},
 								"line": "（陈天星查清的那趟镖路——兵部点名改走老松岭——也算一样。）\n"
@@ -795,6 +821,18 @@
 							},
 							{
 								"line": "（揭发要原令加两样人证物证——乔阴陈显祖的证词、卫沧澜、小屋里那人身上的密信、逆灵宫的账册。）\n"
+							},
+							{
+								"when": {
+									"mark": "密信给了官府"
+								},
+								"line": "（小屋那封密信在程不平手里——他随你上京作证，算一样。）\n"
+							},
+							{
+								"when": {
+									"mark": "密信给了花紫会"
+								},
+								"line": "（小屋那封密信给了花紫会——这回算不上。）\n"
 							},
 							{
 								"when": {

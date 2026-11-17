@@ -7168,6 +7168,466 @@
 					"神教的人也在看这座台子。我站在这里，他们看得见。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.levy_steward",
+			"legacy_source": "native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」) — a 兵部 clerk come to 乔阴 to levy 民夫 (剧情总纲 §3 第五章: 兵部的私令征民夫; 关北's 河工), drinking in the 福林酒楼's 二楼雅座 (d/choyin/hotel2.c: 若不是富豪巨绅，便是秀才举人) with eight households' 卖身契 on him (续写); stolen from with cmds/std/steal.c (DECISIONS「花紫会 A」); only knocked down, then he throws the 契 down and runs; the attributes the original leaves to the roll fixed here",
+			"name": "胡管事",
+			"aliases": [
+				"steward",
+				"clerk",
+				"管事"
+			],
+			"title": "兵部的管事",
+			"gender": "男性",
+			"age": 46,
+			"long": "一个穿青绸袍子的中年人，独占着靠窗的一张桌子，一壶酒已经见了底，眼神有点发直。袍子的前襟鼓鼓囊囊，揣着一叠纸，他的手隔一会儿就按一按胸口。\n",
+			"attributes": {
+				"str": 15,
+				"cor": 14,
+				"int": 20,
+				"spi": 12,
+				"cps": 12,
+				"per": 14,
+				"con": 15,
+				"kar": 16
+			},
+			"resources": {
+				"max_sen": 40,
+				"eff_sen": 40,
+				"sen": 40
+			},
+			"combat_exp": 3000,
+			"skills": {
+				"unarmed": 20,
+				"dodge": 20,
+				"parry": 15
+			},
+			"attitude": "peaceful",
+			"always_kept": true,
+			"carry": [
+				{
+					"item": "native:choyin/indentures",
+					"source": "native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」)"
+				}
+			],
+			"spared": {
+				"mark": "管事挨了打",
+				"drop": "native:choyin/indentures",
+				"leave": true,
+				"line": "胡管事从怀里掏出那叠纸往地上一扔，连滚带爬地下了楼：「有贼——有贼啊！」\n"
+			},
+			"chat_chance": 8,
+			"chat_msg": [
+				"胡管事摸了摸胸口，又灌了一口酒。\n",
+				"胡管事嘟囔道：八户……槐阳城外还差两户。\n"
+			],
+			"inquiry": {
+				"民夫": [
+					"关北的河要人挖。兵部的令——你有意见，去兵部说。"
+				],
+				"卖身契": [
+					"什么契？没有的事。……你是哪家的？"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lu_decai_snow",
+			"legacy_source": "native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」) — one of 陆得财's 七、八的替身 (daemon/class/beggar/master.c: 据说各处随时都有七、八的他的替身在四处活动), on 雪亭镇's square: the one with the fewest knots, who knows only the next; the attributes and numbers are 陆得财's, fixed here",
+			"name": "陆得财",
+			"aliases": [
+				"beggarhead",
+				"beggar",
+				"陆得财"
+			],
+			"nickname": "黑水伏蛟",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个满脸风霜的老乞丐，缩在广场边的墙根下晒太阳。他腰里挂着一只大皮酒囊，网绳上打着结——你数了数，二十个。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 24,
+				"spi": 20,
+				"cps": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 80,
+				"staff": 90,
+				"blade": 70,
+				"throwing": 60,
+				"force": 100,
+				"parry": 60,
+				"dodge": 100,
+				"perception": 80,
+				"stealing": 40,
+				"spicyclaw": 100,
+				"serpentforce": 100
+			},
+			"skill_map": {
+				"unarmed": "spicyclaw",
+				"force": "serpentforce"
+			},
+			"attitude": "peaceful",
+			"fight_deferred": "老乞丐往墙根里一缩：叫花子的命不值钱，也不卖。",
+			"inquiry": {
+				"龙头": {
+					"rules": [
+						{
+							"asker_marks": [
+								"花紫会的线断了",
+								"密信给了官府"
+							],
+							"say": "叫花子跟官府的人，没有正事说。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了"
+							],
+							"say": "你不是花紫会这边的人了。叫花子的事，不劳你。"
+						},
+						{
+							"asker_marks": [
+								"雪亭的替身指了路"
+							],
+							"say": "下一个在绮云镇的渡口。叫花子只知道下一个。"
+						},
+						{
+							"asker_marks": [
+								"陆得财说了替身"
+							],
+							"mark_asker": "雪亭的替身指了路",
+							"lines": [
+								{
+									"emote": "把皮酒囊往你面前一摊。"
+								},
+								{
+									"say": "数。"
+								},
+								{
+									"say": "二十个。替身里我的结最少——乔阴那个叫你从我问起，是规矩：一个只认得下一个。"
+								},
+								{
+									"say": "下一个在绮云镇的渡口，天天坐在船帮上钓鱼。他比我多一个结。"
+								}
+							]
+						},
+						{
+							"say": "龙头？叫花子哪来的龙头。……好心的大爷，赏几文钱吧。"
+						}
+					]
+				}
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"陆得财懒洋洋地打了个哈欠，把酒囊往怀里拢了拢。\n"
+			]
+		},
+		{
+			"id": "native.npc.lu_decai_cloud",
+			"legacy_source": "native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」) — another of 陆得财's 替身, fishing at 绮云镇's 渡口: one knot more than 雪亭's; the attributes and numbers are 陆得财's, fixed here",
+			"name": "陆得财",
+			"aliases": [
+				"beggarhead",
+				"beggar",
+				"陆得财"
+			],
+			"nickname": "黑水伏蛟",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个老叫花子坐在渡口的船帮上钓鱼，钓竿是一根竹枝。他腰里挂着一只大皮酒囊，网绳上打着结——你数了数，二十一个。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 24,
+				"spi": 20,
+				"cps": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 80,
+				"staff": 90,
+				"blade": 70,
+				"throwing": 60,
+				"force": 100,
+				"parry": 60,
+				"dodge": 100,
+				"perception": 80,
+				"stealing": 40,
+				"spicyclaw": 100,
+				"serpentforce": 100
+			},
+			"skill_map": {
+				"unarmed": "spicyclaw",
+				"force": "serpentforce"
+			},
+			"attitude": "peaceful",
+			"fight_deferred": "老叫花子头也不回：鱼要咬钩了，别闹。",
+			"inquiry": {
+				"龙头": {
+					"rules": [
+						{
+							"asker_marks": [
+								"花紫会的线断了",
+								"密信给了官府"
+							],
+							"say": "叫花子跟官府的人，没有正事说。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了"
+							],
+							"say": "你不是花紫会这边的人了。叫花子的事，不劳你。"
+						},
+						{
+							"asker_marks": [
+								"绮云的替身指了路"
+							],
+							"say": "京师东街，尚书府的后墙根底下。"
+						},
+						{
+							"asker_marks": [
+								"雪亭的替身指了路"
+							],
+							"mark_asker": "绮云的替身指了路",
+							"lines": [
+								{
+									"emote": "把竹枝往船帮上一搁，解下皮酒囊。"
+								},
+								{
+									"say": "二十一个。"
+								},
+								{
+									"say": "我也只知道下一个。下一个就是龙头：京师东街，尚书府的后墙根底下。"
+								},
+								{
+									"say": "他在那里坐了二十年。叫花子都知道，没几个见过。"
+								}
+							]
+						},
+						{
+							"say": "龙头？……鱼都让你吓跑了。"
+						}
+					]
+				}
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"渡口的水拍着船帮，陆得财的钓竿一动不动。\n"
+			]
+		},
+		{
+			"id": "native.npc.lu_decai_true",
+			"legacy_source": "native: 势力线第二批 花紫会 A (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 A, §2 第 2、3 条, §7 第 5 行, §9 第 7 条, §10 第 5 行, §11 Q1 Q2 Q7 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 A」) — the 陆得财 with the 二十三个结的皮酒囊 (daemon/class/beggar/master.c: 武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会」龙头的信物), who has sat twenty years below the 尚书府's back wall (d/city/street3.c) watching 庾家; 乔阴's 陆得财 is the stand-in who ran 花紫会 for him; the attributes and numbers are 陆得财's, fixed here",
+			"name": "陆得财",
+			"aliases": [
+				"beggarhead",
+				"beggar",
+				"陆得财"
+			],
+			"nickname": "黑水伏蛟",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个老叫花子背靠着尚书府的后墙坐着，眼睛半睁半闭，像是睡着了。他腰里挂着一只大皮酒囊，网绳上密密地打着结——你数了数，二十三个。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 24,
+				"spi": 20,
+				"cps": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 80,
+				"staff": 90,
+				"blade": 70,
+				"throwing": 60,
+				"force": 100,
+				"parry": 60,
+				"dodge": 100,
+				"perception": 80,
+				"stealing": 40,
+				"spicyclaw": 100,
+				"serpentforce": 100
+			},
+			"skill_map": {
+				"unarmed": "spicyclaw",
+				"force": "serpentforce"
+			},
+			"attitude": "peaceful",
+			"fight_deferred": "老叫花子眼皮都没抬：二十年没跟人动过手，不差今天。",
+			"inquiry": {
+				"龙头": {
+					"rules": [
+						{
+							"asker_marks": [
+								"花紫会的线断了",
+								"密信给了官府"
+							],
+							"say": "叫花子跟官府的人，没有正事说。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了"
+							],
+							"say": "你不是花紫会这边的人了。叫花子的事，不劳你。"
+						},
+						{
+							"asker_marks": [
+								"见了真龙头"
+							],
+							"say": "二十三个结，你数过了。乔阴那个替我管了二十年的花紫会，管得比我好。"
+						},
+						{
+							"asker_marks": [
+								"绮云的替身指了路"
+							],
+							"mark_asker": "见了真龙头",
+							"lines": [
+								{
+									"emote": "抬眼看了看你，慢慢解下腰间的皮酒囊，放在膝上。"
+								},
+								{
+									"say": "数吧。"
+								},
+								{
+									"say": "……二十三个。"
+								},
+								{
+									"say": "我在这堵墙底下坐了二十年。墙那边是庾家。二十年前，庾子建要清乔阴的巷子，叫花子一个一个进了大牢——我就搬到这里来，看着他。"
+								},
+								{
+									"say": "乔阴那个，是我的替身里管事的那一个。花紫会这二十年，是他管的。"
+								},
+								{
+									"say": "墙那边有一样东西，叫花子拿不到。你问我「密信」。"
+								}
+							]
+						},
+						{
+							"say": "龙头？叫花子一个，墙根底下晒太阳的。"
+						}
+					]
+				},
+				"密信": {
+					"listed_marks": [
+						"见了真龙头"
+					],
+					"confirm": "把密信交给花紫会：真龙头拿它压着庾家，乔阴的巷子不清。\n乔阴的程不平也要这封信，拿去当物证——交给花紫会，程不平就拿不到了，这封信再也要不回来。\n京师的事还没定的，这封信也不能拿去朝上揭发了，人证物证要另凑。\n要交吗？",
+					"confirm_marks": [
+						"见了真龙头"
+					],
+					"confirm_lacks": [
+						"密信给了花紫会",
+						"密信给了官府",
+						"花紫会的线断了"
+					],
+					"confirm_carries": "密信",
+					"rules": [
+						{
+							"asker_marks": [
+								"密信给了花紫会"
+							],
+							"say": "信在我这里。庾家的人，这些年进不了乔阴的巷子——往后也进不了。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了",
+								"密信给了官府"
+							],
+							"say": "叫花子跟官府的人，没有正事说。"
+						},
+						{
+							"asker_marks": [
+								"花紫会的线断了"
+							],
+							"say": "你不是花紫会这边的人了。叫花子的事，不劳你。"
+						},
+						{
+							"asker_marks": [
+								"见了真龙头"
+							],
+							"asker_carries": "密信",
+							"takes": [
+								"native:city/courier_letter"
+							],
+							"marks_asker": [
+								"真龙头要密信",
+								"密信给了花紫会"
+							],
+							"lines": [
+								{
+									"emote": "接过信，就着墙缝里漏下来的光看了一遍，折好，塞进了皮酒囊的网绳里。"
+								},
+								{
+									"say": "庾子建的字，兵部尚书的私印。"
+								},
+								{
+									"say": "这封信在一天，庾家就不敢清乔阴的巷子。叫花子要的，就是这个。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"见了真龙头",
+								"湖底一章"
+							],
+							"mark_asker": "真龙头要密信",
+							"lines": [
+								{
+									"emote": "朝身后的墙努了努嘴。"
+								},
+								{
+									"say": "墙那边的后院有间小屋。逆灵宫的人坐在里面，等庾子建的回话——他身上有一封庾子建亲笔的信。"
+								},
+								{
+									"say": "那人见人就动手。拿到信，带来给我。"
+								},
+								{
+									"say": "乔阴的程不平也会要它，拿去当物证。给谁，你自己定。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"见了真龙头"
+							],
+							"mark_asker": "真龙头要密信",
+							"lines": [
+								{
+									"emote": "朝身后的墙努了努嘴。"
+								},
+								{
+									"say": "墙那边的后院有间小屋，这些天还空着。"
+								},
+								{
+									"say": "等玉螺湖底那件事闹出来，逆灵宫会派人来坐在里面，等庾子建的回话——那人身上会有一封庾子建亲笔的信。"
+								},
+								{
+									"say": "到时候去拿。乔阴的程不平也会要它，给谁，你自己定。"
+								}
+							]
+						},
+						{
+							"say": "什么信？叫花子不识字。"
+						}
+					]
+				}
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"墙那边传来护院换班的梆子声，陆得财数着，嘴唇一动一动。\n"
+			]
 		}
 	]
 }

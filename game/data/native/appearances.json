@@ -853,6 +853,10 @@
     "native.npc.assembly_juechenzi": {"same_as": "common.npc.juechen.master"},
     "native.npc.yan_wei_chair": {"same_as": "waterfog.npc.elder7"},
     "native.npc.escort_runner": {"note": "老周：振远的趟子手，黑红脸膛，短褐扎带，推一辆独轮镖车（两只描金红木箱、三角镖旗）（势力线 振远 A）", "coat": "5a4632", "pants": "2e2a26", "skin": "c88a5e", "hair": "1a1714", "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "3a3430", "beard": "moustache", "waist": "belt", "prop": "barrow", "prop_color": "8a2a1e", "tassel_color": "c8382a", "metal": "c8a44a", "wood": "6b4a30", "accent": "e2c25c", "height": "standard", "build": "heavy", "shoes": "dark"},
+    "native.npc.levy_steward": {"note": "胡管事：兵部收民夫的管事，青绸袍子，前襟鼓鼓囊囊揣着一叠卖身契，一手按着胸口；不是武官（势力线 花紫会 A，续写；立绘未画）", "coat": "3e6a6a", "pants": "26383a", "skin": "d2a07c", "hair": "18161a", "hair_style": "topknot", "beard": "moustache", "waist": "belt", "prop": "book", "prop_color": "e2d6b4", "accent": "1c2a2c", "height": "standard", "build": "heavy", "shoes": "dark"},
+    "native.npc.lu_decai_snow": {"same_as": "common.npc.beggar.master"},
+    "native.npc.lu_decai_cloud": {"same_as": "common.npc.beggar.master"},
+    "native.npc.lu_decai_true": {"same_as": "common.npc.beggar.master"},
     "native.npc.he_ping": {"note": "贺平：二十出头的后生，半截黑布蒙脸，旧短衣，腰挎一把漆掉了大半的旧腰刀（势力线 振远 A）", "coat": "34363c", "pants": "22232a", "skin": "d6a47a", "hair": "151315", "hair_style": "short", "headwear": "headscarf", "headwear_color": "1c1c20", "beard": "none", "waist": "sash", "prop": "blade_waist", "prop_color": "5a4a3a", "accent": "6a3a2a", "height": "standard", "build": "slim", "shoes": "dark"},
     "native.npc.road_robber": {"note": "劫道的汉子：敞着怀，腰扎草绳，刀出了鞘；花钱叫来的（势力线 振远 A）", "coat": "6a5a44", "pants": "3a3428", "skin": "c8946a", "hair": "1c1916", "hair_style": "topknot", "headwear": "none", "beard": "full", "waist": "sash", "prop": "blade_waist", "prop_color": "7a6a4a", "accent": "b8a682", "height": "standard", "build": "heavy", "shoes": "dark"}
   }

@@ -147,6 +147,11 @@ position = Vector2(-136, -216)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.hotel2.servant.3"
 
+[node name="Hotel2Steward1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-96, -216)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.hotel2.steward.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
