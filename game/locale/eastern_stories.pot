@@ -20394,6 +20394,16 @@ msgid ""
 "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n"
 msgstr ""
 
+#. common.npc.beggar.master accept_object.say
+#: data/common/npcs.json
+msgid "契我收过了。这一叠，烧了干净。"
+msgstr ""
+
+#. common.npc.beggar.master accept_object.say
+#: data/common/npcs.json
+msgid "契我收下。八户人家的事，叫花子记着；别的，不劳你。"
+msgstr ""
+
 #. common.npc.beggar.master accept_object.lines.emote
 #: data/common/npcs.json
 msgid "接过那叠契，一张一张数过去，数到第八张，揣进了怀里。"
@@ -20435,6 +20445,16 @@ msgid "叫花子跟官府的人，没有正事说。"
 msgstr ""
 
 #. common.npc.beggar.master inquiry.差事.rules.say
+#. common.npc.beggar.master inquiry.龙头.rules.say
+#. native.npc.lu_decai_snow inquiry.龙头.rules.say
+#. native.npc.lu_decai_cloud inquiry.龙头.rules.say
+#. native.npc.lu_decai_true inquiry.龙头.rules.say
+#. native.npc.lu_decai_true inquiry.密信.rules.say
+#: data/common/npcs.json data/native/npcs.json
+msgid "你不是花紫会这边的人了。叫花子的事，不劳你。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.差事.rules.say
 #: data/common/npcs.json
 msgid "槐阳那八户的契，烧了。龙头那边，你从雪亭镇广场那个问起。"
 msgstr ""
@@ -20471,7 +20491,7 @@ msgstr ""
 
 #. common.npc.beggar.master inquiry.差事.rules.lines.say
 #: data/common/npcs.json
-msgid "失了手，他喊人，巡捕记你一笔；动起手来，他扔下契就跑，兵部也记着你。"
+msgid "失了手，他喊着扑上来，巡捕也记你一笔——乔阴的巡捕认得贼。"
 msgstr ""
 
 #. common.npc.beggar.master inquiry.差事.rules.say
@@ -26767,7 +26787,7 @@ msgstr ""
 
 #. faction.huazi/steal objective
 #: data/story/faction_huazi.json
-msgid "兵部收民夫的胡管事在福林酒楼二楼雅座喝酒，那叠卖身契揣在他怀里。选中他「偷窃」，挑「随手摸一样」——他身上只有那叠契。失了手，他喊着扑上来，乔阴的巡捕从此记你一笔（罪名、行贿照旧）；打倒了他，他扔下契跑了。不会偷的，先跟陆得财学两手「偷窃」。"
+msgid "兵部收民夫的胡管事在福林酒楼二楼雅座喝酒，那叠卖身契揣在他怀里。选中他「偷窃」，挑「随手摸一样」——他身上只有那叠契。失了手，他喊着扑上来，乔阴的巡捕从此记你一笔（街上撞见就抓，罪名、行贿照旧）。不会偷的，先跟陆得财学两手「偷窃」。"
 msgstr ""
 
 #. faction.huazi/steal text
@@ -26827,7 +26847,7 @@ msgstr ""
 
 #. faction.huazi/letter objective
 #: data/story/faction_huazi.json
-msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
+msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，程不平就拿不到了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
 msgstr ""
 
 #. faction.huazi/letter/huazi text
@@ -67379,7 +67399,7 @@ msgstr ""
 #. native.npc.levy_steward long
 #: data/native/npcs.json
 msgid ""
-"一个穿青绸袍子的中年人，独占着靠窗的一张桌子，酒喝了一半。袍子的前襟鼓鼓囊囊，揣着一叠纸，他的手隔一会儿就按一按胸口。\n"
+"一个穿青绸袍子的中年人，独占着靠窗的一张桌子，一壶酒已经见了底，眼神有点发直。袍子的前襟鼓鼓囊囊，揣着一叠纸，他的手隔一会儿就按一按胸口。\n"
 msgstr ""
 
 #. native.npc.levy_steward spared.line
@@ -67565,7 +67585,7 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "把密信交给花紫会：真龙头拿它压着庾家，乔阴的巷子不清。\n"
-"乔阴的程不平也要这封信，拿去当物证——交给花紫会，官府那条线就断了，程不平往后不跟你说正事。\n"
+"乔阴的程不平也要这封信，拿去当物证——交给花紫会，程不平就拿不到了，这封信再也要不回来。\n"
 "京师的事还没定的，这封信也不能拿去朝上揭发了，人证物证要另凑。\n"
 "要交吗？"
 msgstr ""

@@ -117,6 +117,7 @@
         "reach_from": "Nroad2VillageArrival",
         "markers_in_middle": ["city.jitan", "city.jiaowu", "city.bridge"],
         "placed": {
+          "city.street3.lu_decai.1": [1728, 3048],
           "city.northdoor.guard.1": [1128, 1200],
           "city.northdoor.guard.2": [1496, 1200],
           "city.northdoor.guard.3": [1448, 1200],

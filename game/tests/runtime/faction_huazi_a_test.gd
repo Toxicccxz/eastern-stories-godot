@@ -54,12 +54,13 @@ func _test_data() -> void:
 	_check(ids == [&"errand", &"steal", &"deeds", &"snow", &"cloud", &"head", &"letter", &"rescue"], "its steps: %s" % [ids])
 	var letter: StoryQuestDefinition.Step = quest.step(&"letter")
 	_check(letter.is_branch() and letter.weight == StoryQuestDefinition.WEIGHT_SMALL and letter.options.size() == 2 and letter.options.all(func(option: StoryQuestDefinition.Option) -> bool: return not option.reward.deed.is_empty()), "the 密信 is a small choice of two, each a deed")
-	_check(letter.objective.contains("官府那条线就断了") and letter.objective.contains("花紫会这条线就断了") and letter.objective.contains("不能拿去朝上揭发"), "what either way costs is said before the choice")
+	_check(letter.objective.contains("程不平就拿不到了") and letter.objective.contains("花紫会这条线就断了") and letter.objective.contains("不能拿去朝上揭发"), "what either way costs is said before the choice")
 	_check(quest.step(&"deeds").reward.rank_title == "五结弟子" and quest.step(&"deeds").reward.rank_family == &"family.huazi" and not quest.step(&"deeds").reward.deed.is_empty(), "the 契 handed over: 五结弟子 for 花紫会's own, a deed")
 	_check(quest.step(&"steal").objective.contains("随手摸一样") and quest.step(&"steal").objective.contains("巡捕"), "the steal says how, and what failing costs")
 	for id: StringName in [DEEDS, LETTER]:
 		_check(catalog.item(id) != null and catalog.item(id).quest_item, "%s is a quest item" % id)
 	var steward: NpcDefinition = catalog.npc(STEWARD)
+	_check(steward.resource_overrides().spirit().maximum() == 40, "the clerk is half drunk: his 神 is low, a raw hand has a chance")
 	_check(steward.hooks().always_kept and steward.hooks().spared_drop == DEEDS and steward.hooks().spared_leave and steward.hooks().spared_mark == "管事挨了打", "the clerk: only knocked down; then he throws the 契 down and runs")
 	for pair: Array in [[SNOW, "二十个"], [CLOUD, "二十一个"], [HEAD, "二十三个"]]:
 		var npc: NpcDefinition = catalog.npc(pair[0])
@@ -67,7 +68,7 @@ func _test_data() -> void:
 	for spawn_id: StringName in [&"native.hotel2.levy_steward", &"native.square.lu_decai", &"native.dukou.lu_decai", &"native.street3.lu_decai"]:
 		_check(catalog.spawn(spawn_id) != null, "%s exists" % spawn_id)
 	var head: NpcDefinition = catalog.npc(HEAD)
-	_check(head.talk().ask_confirm("密信").contains("官府那条线就断了") and catalog.npc(JUDGE).talk().ask_confirm("密信").contains("花紫会那条线就断了"), "both ways are asked first, and say which line ends")
+	_check(head.talk().ask_confirm("密信").contains("这封信再也要不回来") and catalog.npc(JUDGE).talk().ask_confirm("密信").contains("花紫会那条线就断了"), "both ways are asked first, and say which line ends")
 	var marks: Dictionary = {"见了真龙头": 1}
 	_check(head.talk().confirm_applies("密信", marks, &"", ["密信"]) and not head.talk().confirm_applies("密信", marks, &"", []), "asked first only of one who carries the letter (confirm_carries)")
 	var expose: ServiceDefinition = catalog.service(&"imperial.front_hall.expose")
@@ -150,6 +151,9 @@ func _test_to_huazi(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(given != null and _said(given.lines, "二十二个") and state.marks.get("卖身契还了", 0) == 1 and state.marks.get("陆得财说了替身", 0) == 1 and session.player_held_item_ids().get(DEEDS, false) == false, "the 契 taken: he is a stand-in, twenty-two knots")
 	session.record_journal()
 	_check(state.quests.has("faction.huazi/deeds") and DeedLog.done(state, "从兵部的管事身上摸回了槐阳八户的卖身契") and state.affiliation.family_title != "五结弟子", "deeds done, a deed; no 五结弟子 for one not of 花紫会")
+	street.give_new_item_to_player(DEEDS) # TEST-ONLY: a second 叠 (stolen, then he was beaten too)
+	var again: ItemHandlingResult = street.give_to_selected(_carried(session, DEEDS))
+	_check(again != null and _said(again.lines, "收过了") and not _said(again.lines, "二十二个"), "a second 叠: taken and burnt, the stand-in's story not told again")
 	var missing: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.huazi_returned)
 	_check(missing.is_empty(), "played leaves what huazi_returned writes: %s" % [missing])
 	# The knots: 京师 first is nothing; then 雪亭, 绮云, 京师.
@@ -189,7 +193,8 @@ func _test_to_huazi(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(_ask(hall, _first(session, HALL, JUDGE), "密信"), "给了叫花子") and not state.marks.has("密信给了官府"), "程不平: the letter went to the 叫花子")
 
 
-## Caught at it: thief + 1 and the fight; beaten and spared he throws the 契 down and runs.
+## Caught at it: thief + 1 and the fight; beaten, he lies there and a hand on him cannot fail (ES2). Attacked and
+## spared (he is only knocked down) he throws the 契 down and runs.
 func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	state.marks["击了鼓"] = 1 # TEST-ONLY
@@ -213,7 +218,13 @@ func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(StoryKeeps.keeps(state, GameContent.catalog().npc(STEWARD), GameContent.catalog().story_quests()), "the clerk can only be knocked down")
 	coordinator.stop_where_it_stands() # TEST-ONLY: the fight over
 	steward.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: beaten
-	session.npc_spared(steward) # TEST-ONLY: as 放过 does
+	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([0])) # TEST-ONLY: the pick; no roll on one out cold
+	_check(hotel.thefts.begin(steward, &""), "a hand on him as he lies there")
+	hotel.npc_life._advance_ambience(3.1)
+	session.configure_world_interaction_random_source(original)
+	_check(session.player_held_item_ids().get(DEEDS, false) == true, "out cold: the 契 taken")
+	hotel.acts.take_from_player(DEEDS) # TEST-ONLY: as if never taken, for the other way
+	session.npc_spared(steward) # TEST-ONLY: attacked and spared (kept: 放过 is all there is)
 	hotel.npcs.leave_for_good(steward)
 	_check(state.marks.get("管事挨了打", 0) == 1 and not hotel.floor_item_of(DEEDS, HOTEL).is_empty(), "spared: he ran, the 契 on the floor")
 	await _to_lu(tree, session)

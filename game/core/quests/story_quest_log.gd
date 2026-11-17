@@ -397,7 +397,8 @@ static func told_lines(fresh: Fresh, with_next: bool, state: CharacterState) -> 
 			# TRANSLATORS: native (任务系统): a quest step was done: {text} what the 任务 page records.
 			lines.append(ColoredLine.new(_t("【见闻】{text}").format({"text": _t(fresh.text())}), ColoredLine.HIG))
 			var step: StoryQuestDefinition.Step = current_step(state, fresh.quest)
-			if with_next and step != null:
+			# A line the same choice cut short (DECISIONS「选了就断」) has no next step to tell.
+			if with_next and step != null and not is_lapsed(state, fresh.quest):
 				# TRANSLATORS: native (任务系统): under a quest's 【见闻】 line, {next} what to do next.
 				lines.append(ColoredLine.new(_t("下一步：{next}").format({"next": _t(step.objective)}), ColoredLine.HIG))
 		Kind.DONE:
