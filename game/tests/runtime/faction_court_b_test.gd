@@ -204,7 +204,8 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	state.marks["军营"] = 1 # TEST-ONLY
 	# The 帅帐: 严廷殷 and the 军师 go.
 	camp = MapPlaces.enter(session, CAMP8, &"canyon.camp8.general.1")
-	await _beats(tree, session, 4)
+	await _beats(tree, session, 14)
+	_check(state.marks.get("严廷殷交了关", 0) == 1, "his farewell is a scene")
 	_check(_count_in(session, CAMP8, GENERAL) == 0 and _count_in(session, CAMP8, ADVISER) == 0, "the 帅帐 is empty: %s %s" % [_where(session, GENERAL), _where(session, ADVISER)])
 	gate = MapPlaces.enter(session, GATE, GATE_POINT)
 	await _settle(tree)
