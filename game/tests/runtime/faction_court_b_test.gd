@@ -135,7 +135,7 @@ func _test_reopened(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(told.contains("又摊开了庾子建的卷宗"), "the 乔阴 card says so")
 
 
-## 整肃: asked first; the 军师 fights when asked (his mood), is only knocked down and is taken away; the 铁卫营 a band;
+## 整肃: asked first; the 军师 is cornered when asked (his mood), attacked he is only knocked down and taken away; the 铁卫营 a band;
 ## the gate takes its five taels as ever; the 天驼关 card.
 func _test_purge(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
@@ -158,8 +158,8 @@ func _test_purge(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not state.marks.has("赫造基被拿下了"), "spared out of his mood: nothing")
 	_check(_said(_ask(camp, adviser, "路引"), "束手就擒") and adviser.has_flag(StringName(NpcMood.FLAG_PREFIX + "cornered")), "asked: he is cornered")
 	await _settle(tree)
-	_check(session.combat_encounter_coordinator().has_active_encounter(), "and he fights")
-	session.npc_spared(adviser) # TEST-ONLY: knocked down (kept: 放过 is all there is)
+	_check(not session.combat_encounter_coordinator().has_active_encounter(), "he waits for the player to attack (a kill: kept, then spared)")
+	session.npc_spared(adviser) # TEST-ONLY: attacked and knocked down (kept: 放过 is all there is)
 	_check(state.marks.get("赫造基被拿下了", 0) == 1 and adviser.has_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE), "knocked down: taken away")
 	session.record_journal()
 	_check(state.quests.has("faction.court/arrest") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"uncle", "the 卫沧澜 route next")
