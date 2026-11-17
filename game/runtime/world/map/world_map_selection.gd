@@ -423,6 +423,7 @@ func ask_selected(topic: String) -> Array[String]:
 	var zone: ZoneDefinition = GameContent.catalog().zone(target.world_location().zone_id)
 	var asker := NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks, _player.state.progression.combat_experience, _map.acts.facts().carried)
 	asker.family_id = _player.state.family.family_id
+	asker.thief = CrimeRecord.thief(_player.state)
 	var answer: NpcInquiry.Answer = NpcInquiry.answer(
 		target.definition(), target.character_state.gender, target.age,
 		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,

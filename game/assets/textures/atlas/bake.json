@@ -1910,136 +1910,136 @@
   },
   "snow.outdoor": {
    "anchor": [
-    295.9,
+    294.9,
     188.2
    ],
    "pins": {
     "door:canyon.clifftop": [
-     40.7,
+     39.7,
      159.6
     ],
     "door:cloud.outdoor": [
-     204.7,
+     203.7,
      259.6
     ],
     "door:goathill.mountain": [
-     522.9,
+     521.9,
      51.2
     ],
     "door:green.village": [
-     537.0,
+     536.0,
      82.7
     ],
     "door:oldpine.outdoor": [
-     312.2,
+     311.2,
      361.5
     ],
     "door:snow.academy": [
-     166.5,
+     165.5,
      230.9
     ],
     "door:snow.bank_house": [
-     327.7,
+     326.7,
      164.2
     ],
     "door:snow.herbshop_house": [
-     412.6,
+     411.6,
      108.7
     ],
     "door:snow.hockshop_house": [
-     435.2,
+     434.2,
      123.5
     ],
     "door:snow.inn": [
-     251.4,
+     250.4,
      179.0
     ],
     "door:snow.postoffice_house": [
-     455.0,
+     454.0,
      80.9
     ],
     "door:snow.school_compound": [
-     375.8,
+     374.8,
      195.7
     ],
     "door:snow.smithy_house": [
-     370.2,
+     369.2,
      136.4
     ],
     "door:snow.temple_house": [
-     316.4,
+     315.4,
      236.5
     ],
     "door:snow.workplace_house": [
-     392.8,
+     391.8,
      151.3
     ],
     "door:temple.mountain": [
-     402.7,
+     401.7,
      302.2
     ],
     "door:waterfog.mountain": [
-     97.2,
+     96.2,
      126.3
     ],
     "zone:snow.crossroad": [
-     505.9,
+     504.9,
      62.3
     ],
     "zone:snow.eroad1": [
-     271.9,
+     270.9,
      270.3
     ],
     "zone:snow.eroad2": [
-     324.9,
+     323.9,
      301.3
     ],
     "zone:snow.eroad3": [
-     357.4,
+     356.4,
      331.9
     ],
     "zone:snow.mstreet1": [
-     339.1,
+     338.1,
      171.6
     ],
     "zone:snow.mstreet2": [
-     381.5,
+     380.5,
      143.9
     ],
     "zone:snow.mstreet3": [
-     423.9,
+     422.9,
      116.1
     ],
     "zone:snow.mstreet4": [
-     466.3,
+     465.3,
      88.3
     ],
     "zone:snow.school1": [
-     365.9,
+     364.9,
      189.2
     ],
     "zone:snow.square": [
-     289.6,
+     288.6,
      204.1
     ],
     "zone:snow.sroad1": [
-     232.3,
+     231.3,
      241.6
     ],
     "zone:snow.sroad2": [
-     177.1,
+     176.1,
      223.0
     ],
     "zone:snow.sroad3": [
-     122.7,
+     121.7,
      187.4
     ],
     "zone:snow.sroad4": [
-     73.2,
+     72.2,
      158.7
     ],
     "zone:snow.sroad5": [
-     107.1,
+     106.1,
      132.7
     ]
    },
@@ -2482,7 +2482,7 @@
   }
  },
  "common": "c1ba39048a5df73c8e527e33ff40e8c023a35bc40163ac0a5dcc277e4190b5d1",
- "fingerprint": "0ff79b9dafe02036085e4289e098ca32c62a10db44b2ea4afcb83559b9942053",
+ "fingerprint": "cd77d4c45c8e2e7ddba33f044f9eb0a86f8e4aa959452f3a9f1a6b1129137c82",
  "frame": [
   -769.1,
   14.6,
@@ -2497,7 +2497,7 @@
   "choyin": "a474d96d9294bf973d09127f89c4a796cdbc730b66cad78bf2bd514d52f036e6",
   "chuenyu": "d14cbcc9c833da1fac75af5a688f3216007432183442956d60ed379b2cf64b7b",
   "city": "8be8ddc52983b7082fbdb0f968739cb361eddc9da4b0b21ed9dcbb31ca263a19",
-  "cloud": "498df8ef427adcbca8f85e3de89313a9fbd13c48f2a56b7e78b607b600635dbd",
+  "cloud": "ea945ec8941e01c217f01e128ea62afcc745d5d310ed7571939b43bce95bea29",
   "death": "245709d3574c8fa0492d45d663c074bed4e64477dc1540a324c0c30bf9a94cd2",
   "fanfang": "6ba2954612dbede8adb4f08d9401f55bb456cb2e3007d6318deb985fb07ae2e0",
   "goathill": "bf664bf4dbaa50989d85e0e6036ca54e259cd86f432efe58473f56fc1018c2f1",
@@ -2509,7 +2509,7 @@
   "niling": "0521d15ec9bcb76adf549141ae17f4d8184a46fa911770998b6e375ff5f029cb",
   "oldpine": "bf7e81bda02f49dcb1d5562b4c2a56327885413245b8b8f3e9ffa516e70395d5",
   "sanyen": "a098704f66bddc3a06b9658a2eda0ef72a29d27dfb41bfb96a2b469ab901c626",
-  "snow": "3cebb61fca09ed133e2fbee4c828cd7b2cc6f56d314ef22e17298ebc0daac305",
+  "snow": "636aa175fa47269d2585daa5f7fda17f0723b303e8d92572ebd1c707e8f92868",
   "temple": "6c741320432e5d024570a88b0809068a70ecbd42b8dbcce365f047e1cb5eab13",
   "village": "f0e37de1f60ed1cb8fa4dd7ca036f90c9c716a82904442800d8a8114e0973600",
   "waterfog": "02e50bd9a6df9c29cc2462251773f69cb270b4baf57d0ec6af8094e70241c47e"

@@ -1,0 +1,166 @@
+{
+	"quests": [
+		{
+			"id": "faction.court",
+			"title": "官府",
+			"line": "faction",
+			"region": "乔阴县城",
+			"sources": [
+				"native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」). d/choyin/npc/judgeman.c (程不平; ES2 has no 捕快 to be made: the 巡捕 are d/choyin/npc/yamen_po.c's), d/canyon/README (黄石隘口守军……私授官职，收取过路费), u/cloud/entrance.c (the 官府的公告: [启事] 由此入镇收取黄金一两), d/snow/sroad4.c (the 青石官道's 路口), d/canyon/npc/general.c (严廷殷's 印鉴, lost and found). The line shows once 程不平 wrote his letter (第五章) to one not of 花紫会; 程不平's 腰牌 (asked first; 惯窃 he refuses), the two men collecting a toll under an 官府告示 and the 天驼关 路引 on them, the 荐书 that waives the 武举's first bout, and the 小屋's 密信 (given to 花紫会, this line ends) are the plan's (续写); the line stops at a stub step `seal` that 官府 B fills."
+			],
+			"summary": "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，查一查他们的告示是哪个衙门的。",
+			"starts": {
+				"all": [
+					{
+						"mark": "程不平写了信"
+					},
+					{
+						"not": {
+							"family": "family.huazi"
+						}
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"any": [
+						{
+							"mark": "密信给了花紫会"
+						},
+						{
+							"family": "family.huazi"
+						}
+					]
+				},
+				"text": "程不平不再跟你说案子。官府的事，到此为止。",
+				"mark": "官府的线断了"
+			},
+			"checklist": [
+				{
+					"label": "武举的荐书：带着捕快腰牌去京师校武场，问葛升「武举」，第一场免考",
+					"if": {
+						"all": [
+							{
+								"mark": "做了乔阴捕快"
+							},
+							{
+								"quest": "main.chapter9#started"
+							},
+							{
+								"not": {
+									"any": [
+										{
+											"mark": "殿试过"
+										},
+										{
+											"mark": "早朝过"
+										},
+										{
+											"mark": "从冷宫井上来"
+										},
+										{
+											"mark": "皇城一章"
+										},
+										{
+											"mark": "报了武举"
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
+					"label": "小屋的密信",
+					"when": {
+						"mark": "密信给了官府"
+					},
+					"if": {
+						"mark": "湖底一章"
+					},
+					"missing": "在尚书府后院小屋里逆灵宫的信使身上；交给程不平（问他「密信」），给了花紫会，官府这条线就断了"
+				}
+			],
+			"steps": [
+				{
+					"id": "badge",
+					"objective": "乔阴知县程不平还缺一个捕快。去县衙大堂问他「捕快」。花紫会的人、惯窃，他不收。",
+					"done": {
+						"mark": "做了乔阴捕快"
+					},
+					"text": "程不平给了你一块乔阴捕快腰牌：不给俸禄，不教功夫，只给案子。",
+					"target": {
+						"map": "choyin.yamen_compound",
+						"zone": "choyin.yamen",
+						"npcs": [
+							"choyin.npc.judgeman"
+						]
+					}
+				},
+				{
+					"id": "toll_snow",
+					"objective": "头一件案子：雪亭镇往西，青石官道的路口，有个汉子倚着一块「官府告示」收过路费，黄金一两。乔阴县衙没贴过那样的告示——拿下他（选中他「攻击」），他身上有东西。",
+					"done": {
+						"mark": "雪亭路口收钱的倒了"
+					},
+					"text": "雪亭路口收钱的钱贵挨了打，扔下一叠路引跑了。",
+					"target": {
+						"map": "snow.outdoor",
+						"zone": "snow.sroad4",
+						"npcs": [
+							"native.npc.toll_man_snow"
+						]
+					}
+				},
+				{
+					"id": "toll_cloud",
+					"objective": "还有一个：绮云镇口那块官府公告底下，有人照着公告收「入镇黄金一两」。拿下他（选中他「攻击」）。",
+					"done": {
+						"mark": "绮云镇口收钱的倒了"
+					},
+					"text": "绮云镇口收钱的牛四也挨了打，路引掉了一地。",
+					"target": {
+						"map": "cloud.outdoor",
+						"zone": "cloud.entrance",
+						"npcs": [
+							"native.npc.toll_man_cloud"
+						]
+					}
+				},
+				{
+					"id": "passes",
+					"objective": "两个收过路费的身上都搜出了路引。带着路引回乔阴县衙，问程不平「路引」。",
+					"done": {
+						"mark": "程不平看了路引"
+					},
+					"text": "程不平认出路引上的印：天驼关铁卫营的大印，严将军的印。",
+					"reward": {
+						"deed": "拿下了官道上挂着官府告示收过路费的人，搜出了盖着天驼关大印的路引"
+					},
+					"target": {
+						"map": "choyin.yamen_compound",
+						"zone": "choyin.yamen",
+						"npcs": [
+							"choyin.npc.judgeman"
+						]
+					}
+				},
+				{
+					"id": "seal",
+					"objective": "路引上是天驼关铁卫营的大印。带着路引去天驼关，问镇国大将军严廷殷「路引」。",
+					"done": {
+						"mark": "严廷殷认了路引"
+					},
+					"text": "严廷殷认了路引上的印。",
+					"target": {
+						"map": "canyon.camp",
+						"zone": "canyon.camp8",
+						"npcs": [
+							"canyon.npc.general"
+						]
+					}
+				}
+			]
+		}
+	]
+}

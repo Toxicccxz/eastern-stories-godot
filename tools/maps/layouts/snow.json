@@ -256,6 +256,7 @@
           ["forest", 1168, 720, 1248, 800],
           ["forest", -1664, 976, -1632, 1008, "flowering trees along the highway"],
           ["forest", -1568, 976, -1536, 1008],
+          ["blocked", -1536, 672, -1488, 688, "the 官府告示 the toll man leans on at the 路口 (native, 势力线 官府 A; u/cloud/entrance.c's sign) — a stage prop (DECISIONS「舞台道具」)", {"look": {"kind": "notice_post", "text": "[启事] 由此过路收取黄金一两", "paper": "e6dcbf", "present": {"all": [{"mark": "做了乔阴捕快"}, {"not": {"mark": "雪亭路口收钱的倒了"}}, {"not": {"mark": "官府的线断了"}}]}}}],
           ["forest", -1808, 240, -1776, 272],
           ["forest", -1808, 432, -1776, 464],
           ["forest", -1552, 272, -1520, 304],
@@ -290,7 +291,7 @@
           "snow.school1.guard.1": [320, -464],
           "snow.sroad2.farmer.1": [-656, 688],
           "snow.sroad2.farmer.2": [-304, 920],
-          "snow.sroad4.crazy_dog.1": [-1600, 1016], "snow.sroad3.fake_head.1": [-1080, 912], "snow.sroad3.fake_disciple.1": [-1168, 936], "snow.sroad3.fake_disciple.2": [-1000, 944], "snow.crossroad.liu_anlu.1": [-96, -2488]
+          "snow.sroad4.crazy_dog.1": [-1600, 1016], "snow.sroad4.toll_man.1": [-1512, 712], "snow.sroad3.fake_head.1": [-1080, 912], "snow.sroad3.fake_disciple.1": [-1168, 936], "snow.sroad3.fake_disciple.2": [-1000, 944], "snow.crossroad.liu_anlu.1": [-96, -2488]
         }
       },
       "scene": {

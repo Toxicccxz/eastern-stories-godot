@@ -59,6 +59,10 @@ var asker_gender: StringName = &""
 ## Native (势力线第一批; DECISIONS「问话看门派」): the family the asker must be of (FamilyState.family_id;
 ## NpcObjectRule's `giver_family` on the asking side): what a master says to its own only.
 var asker_family: StringName = &""
+## Native (势力线第二批 官府 A; DECISIONS「问话看偷窃记录」): the asker's caught steals (CrimeRecord.thief, ES2's
+## query("thief")) must be more than this for the rule to match (程不平 will not make a 惯窃 his 捕快:
+## rankd.c's 惯窃 is above 10); -1 for none.
+var asker_thief_above: int = -1
 var lines: Array[NpcLine] = []
 var mark_asker: String = ""
 ## Native (主线 第四章): more marks set on the asker at once (an answer that is both a choice
@@ -88,7 +92,7 @@ var forgets: Array[String] = []
 var make: NpcMaking
 
 
-func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = [], family_id: StringName = &"") -> bool:
+func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = [], family_id: StringName = &"", thief: int = 0) -> bool:
 	if (not asker_class.is_empty() and class_id != asker_class) or (not asker_gender.is_empty() and gender != asker_gender):
 		return false
 	if not asker_family.is_empty() and family_id != asker_family:
@@ -102,6 +106,8 @@ func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender:
 			return false
 	if combat_exp < asker_exp_at_least:
 		return false
+	if asker_thief_above >= 0 and thief <= asker_thief_above:
+		return false
 	if (not npc_flag.is_empty() and not npc_flags.get(npc_flag, false)) or (not unless_npc_flag.is_empty() and npc_flags.get(unless_npc_flag, false)):
 		return false
 	for mark: String in asker_marks:
@@ -110,9 +116,9 @@ func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender:
 	return true
 
 
-static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = [], family_id: StringName = &"") -> NpcInquiryRule:
+static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}, carried: Array[String] = [], family_id: StringName = &"", thief: int = 0) -> NpcInquiryRule:
 	for rule: NpcInquiryRule in rules:
-		if not rule.matches(marks, class_id, gender, combat_exp, npc_flags, carried, family_id):
+		if not rule.matches(marks, class_id, gender, combat_exp, npc_flags, carried, family_id, thief):
 			continue
 		if rule.chance_of > 0 and (random == null or random.legacy_random(rule.chance_of) >= rule.chance_below):
 			continue
@@ -127,6 +133,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.asker_not_carries = reader.text("asker_not_carries")
 	rule.asker_lacks = reader.text_list("asker_lacks")
 	rule.asker_exp_at_least = reader.integer("asker_exp_at_least", 0)
+	rule.asker_thief_above = reader.integer("asker_thief_above", -1)
 	rule.npc_flag = StringName(reader.text("npc_flag"))
 	rule.unless_npc_flag = StringName(reader.text("unless_npc_flag"))
 	rule.mood = reader.text("mood")

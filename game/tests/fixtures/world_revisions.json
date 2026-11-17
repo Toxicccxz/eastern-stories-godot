@@ -89,6 +89,11 @@
 			"revision": "SOURCE_ENTRY_HUAZI_A_V1",
 			"spawn_points": 862,
 			"fingerprint": "54d12250e031cd7e3a4c08033a8078c9ca262872ba28053860942350deb9d4b0"
+		},
+		{
+			"revision": "SOURCE_ENTRY_COURT_A_V1",
+			"spawn_points": 864,
+			"fingerprint": "8fbb093f6cfa0c3dc1b8ad84bad1676f6dcbdf50449063b4f71e94c7842faa17"
 		}
 	]
 }

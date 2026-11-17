@@ -15,7 +15,7 @@ extends RefCounted
 ##    spawn or of the writer's: each tree judged whole; for `heard`, what every rule of the topic
 ##    asks) — or the step (or a later one of its quest on its way:
 ##    not waiting for another option, `only_after`) `keeps` them (knocked down, never killed, until
-##    it is done). One who never dies here: fight_deferred or spar_only; one made anew: a spawn a
+##    it is done). One who never dies here: fight_deferred, spar_only or always_kept; one made anew: a spawn a
 ##    room reset remakes (not staged, or an ES2 resident on the stage: NpcSpawnDefinition.resident).
 ##    An act's branch that asks `present` / `by` of someone hangs on the one of them in that act's
 ##    room. A condition the check does not know how to judge is a failure, not a pass.
@@ -30,8 +30,8 @@ const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## Marks read and on purpose written by nothing: the wrong answer of a question (village/world.json's
 ## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
 ## says so) never holds. 「真龙头说了盟主」 is 花紫会 A's stub step `rescue` (DECISIONS「花紫会 A」): 花紫会 B
-## writes it (and takes it off this list).
-const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "真龙头说了盟主"]
+## writes it (and takes it off this list); 「严廷殷认了路引」 is 官府 A's stub step `seal` (DECISIONS「官府 A」): 官府 B.
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "真龙头说了盟主", "严廷殷认了路引"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]
@@ -661,7 +661,8 @@ static func _sturdy(npc_id: StringName, zone_id: StringName, catalog: ContentCat
 	var npc: NpcDefinition = catalog.npc(npc_id)
 	if npc == null:
 		return false
-	if kept.has(npc_id) or npc.dealings().is_fight_deferred() or npc.spar_only():
+	# always_kept (DECISIONS「总是只能击倒」): knocked down, never killed, whatever step is waiting (StoryKeeps.keeps).
+	if kept.has(npc_id) or npc.dealings().is_fight_deferred() or npc.spar_only() or (npc.hooks() != null and npc.hooks().always_kept):
 		return true
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		if spawn.npc_definition_id != npc_id or (not zone_id.is_empty() and spawn.zone_id != zone_id):
