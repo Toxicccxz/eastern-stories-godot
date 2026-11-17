@@ -489,6 +489,31 @@
 							"when": {
 								"mark": "认了管事的陆得财"
 							}
+						},
+						{
+							"text": "乔阴县衙的公案上，又摊开了庾子建的卷宗：小屋那封信，天驼关那本账。京城没有回话，程不平也没有收卷。",
+							"when": {
+								"mark": "庾子建的案子又开了"
+							}
+						}
+					]
+				},
+				{
+					"id": "canyon",
+					"place": "canyon.pass",
+					"title": "天驼关",
+					"lines": [
+						{
+							"text": "天驼关的关门照旧，出关留五两。官道上再没有人卖路引；严廷殷换了一个不会茅山术的军师。",
+							"when": {
+								"mark": "赫造基被拿下了"
+							}
+						},
+						{
+							"text": "天驼关的关门抬着，过关不要钱。严廷殷回了京城，再没回来；将军营帐里坐着李信，案上压着一本账的抄本。",
+							"when": {
+								"mark": "跟李信揭发"
+							}
 						}
 					]
 				},
@@ -784,7 +809,8 @@
 				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the 晚月庄 card's two lines and the 虹台 card's two for the split.",
 				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 9 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the new 黑衣人 card (前夜倒戈, 潜伏到底, 被识破, a line each), and the 野羊山 card's 黑衣人 in the north snow named: 商玦.",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the new 绮云镇 card: the 分局 open (到此为止) or shut (查到底).",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 乔阴县城 card's two lines for the split on 福林大街 (官差 in the lanes, or none)."
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 乔阴县城 card's two lines for the split on 福林大街 (官差 in the lanes, or none).",
+				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 天驼关 card (整肃 or 揭发) and the 乔阴县城 card's line for the case opened again."
 			]
 		},
 		{
@@ -1189,12 +1215,39 @@
 									{
 										"any": [
 											{
-												"mark": "卫沧澜坐回了椅子"
+												"all": [
+													{
+														"mark": "卫沧澜坐回了椅子"
+													},
+													{
+														"not": {
+															"mark": "皇叔要回了卫沧澜"
+														}
+													}
+												]
 											},
 											{
 												"mark": "盟主答：逆灵宫交茅山"
 											}
 										]
+									},
+									{
+										"not": {
+											"mark": "余孽有了去处"
+										}
+									}
+								]
+							}
+						},
+						{
+							"text": "官兵上了北麓，把道观里剩下的人领下了山。卫沧澜说，这一回欠朝廷的。",
+							"when": {
+								"all": [
+									{
+										"mark": "卫沧澜坐回了椅子"
+									},
+									{
+										"mark": "皇叔要回了卫沧澜"
 									},
 									{
 										"not": {
@@ -1252,7 +1305,8 @@
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — the second epilogue, told over the 沙盘 once the 虹台 has broken up: the 虹台, 雪亭, 水烟阁, 绮云镇's 场院, 野羊山北麓; the world goes on after it.",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the 虹台 card's two lines for the 旧账 split.",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 虹台 card's two lines for 花紫会's split."
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 虹台 card's two lines for 花紫会's split.",
+				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 北麓 card: 卫沧澜 fetched by the 皇叔 sends the 官府 up, not 茅山."
 			]
 		}
 	]

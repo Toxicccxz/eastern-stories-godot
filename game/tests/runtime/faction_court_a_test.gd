@@ -4,7 +4,7 @@ extends RefCounted
 ## 程不平 wrote his letter, to one not of 花紫会; 程不平's 捕快 (asked first; a 惯窃 or one of 花紫会 refused) gives
 ## the 腰牌; the two men collecting a toll under an 官府告示 (雪亭's 路口, 绮云镇口) are only there for the case and
 ## only knocked down — beaten, each drops a 叠 of 路引 and runs; 程不平 reads the 天驼关 seal on them; the stub
-## `seal` points at 天驼关. The 荐书 waives the 武举's first bout before 第九章's way is taken; the 小屋's 密信 given
+## `seal` points at 天驼关 (官府 B fills it). The 荐书 waives the 武举's first bout before 第九章's way is taken; the 小屋's 密信 given
 ## to 花紫会 ends the line.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
@@ -48,8 +48,8 @@ func _test_data() -> void:
 	if quest == null:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"badge", &"toll_snow", &"toll_cloud", &"passes", &"seal"], "its steps: %s" % [ids])
-	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 0 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 0, "no choice yet: the split is 官府 B's")
+	_check(ids.slice(0, 5) == [&"badge", &"toll_snow", &"toll_cloud", &"passes", &"seal"], "its steps begin with 官府 A's (the rest are 官府 B's): %s" % [ids])
+	_check(quest.steps.slice(0, 5).all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 官府 A's steps: the split is 官府 B's")
 	_check(not quest.step(&"passes").reward.deed.is_empty() and quest.step(&"passes").reward.rank_title.is_empty(), "the 路引 read: a deed, no rank (the 官府 gives none)")
 	_check(quest.step(&"badge").objective.contains("惯窃") and quest.step(&"badge").objective.contains("花紫会"), "who is refused is said")
 	_check(quest.step(&"seal").target.map_id == &"canyon.camp" and quest.step(&"seal").objective.contains("天驼关"), "the stub points at 天驼关")

@@ -117,6 +117,10 @@ var refuses_coach: String = ""
 ## whatever the quests (StoryKeeps' rule without a step to hang on): 第四章's night killer in 晚月庄's 前厅,
 ## who must live for 晚月 B (owner, 2026-11-16, 势力线第二批 Q4).
 var always_kept: bool = false
+## Native (势力线第二批 官府 B; DECISIONS「条件成立才只能击倒」): `kept_when`, a condition on the player (judged on their
+## saved marks and quests): while it holds, knocked down and never killed, as `always_kept`; any other time as anyone
+## (天驼关's 军师 once 整肃 was chosen and until he is taken: a step's `keeps` would keep an ES2 resident from New Game).
+var kept_when: JournalEntryDefinition = null
 
 
 ## One of init()'s call_outs (`calls`): when, and what it does.
@@ -347,6 +351,12 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.always_kept = reader.boolean("always_kept", false)
 		if not hooks.always_kept:
 			reader.fail("always_kept", "only one that is always kept says so")
+	if reader.has("kept_when"):
+		found = true
+		hooks.kept_when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, hooks.kept_when, "kept_when")
+		if hooks.always_kept:
+			reader.fail("kept_when", "one always kept is kept whatever holds")
 	var spared: ContentRecordReader = reader.child("spared")
 	if spared != null:
 		found = true

@@ -2,7 +2,7 @@
 	"npcs": [
 		{
 			"id": "native.npc.pass_gate_soldier",
-			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ②; 计划 build/plans/关北_计划.md §1a; DECISIONS「关北 A」) — 严廷殷's soldiers at the valley's east gate (d/canyon/README: 收取过路费; the look of d/canyon/npc/door_guard.c's 小兵). Four ways past them, one mark: 程不平's letter, the 大队长's roll (军营), five taels, or a fight. 续写",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ②; 计划 build/plans/关北_计划.md §1a; DECISIONS「关北 A」) — 严廷殷's soldiers at the valley's east gate (d/canyon/README: 收取过路费; the look of d/canyon/npc/door_guard.c's 小兵). Four ways past them, one mark: 程不平's letter, the 大队长's roll (军营), five taels, or a fight. 续写; native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — 揭发: 李信 holds the pass and takes no toll (the gate lets one through, money refused), his word of 关北 changed",
 			"name": "关门兵",
 			"aliases": [
 				"gate soldier",
@@ -71,6 +71,25 @@
 							"mark": "过了关门"
 						}
 					]
+				},
+				{
+					"after": 0,
+					"reaction": true,
+					"mark": "跟李信揭发",
+					"not_mark": "过了关门",
+					"when": {
+						"not": {
+							"mark": "军营"
+						}
+					},
+					"steps": [
+						{
+							"say": "李副将的令：往后过关不收钱。过。"
+						},
+						{
+							"mark": "过了关门"
+						}
+					]
 				}
 			],
 			"inquiry": {
@@ -103,6 +122,12 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"跟李信揭发"
+							],
+							"say": "不收了。李副将的令——先帝调他来是守关，不是收钱的。"
+						},
+						{
+							"asker_marks": [
 								"过了关门"
 							],
 							"say": "你的钱留过了。"
@@ -112,17 +137,49 @@
 						}
 					]
 				},
-				"关北": [
-					"出了这道门就是槐阳王的地界。那边是王法，不是朝法。那边的事，我们不管，也管不了。"
-				],
-				"严廷殷": [
-					"大将军的兵。门是大将军的，钱也是。你要是大将军的朋友——他可没朋友。"
-				],
+				"关北": {
+					"rules": [
+						{
+							"asker_marks": [
+								"跟李信揭发"
+							],
+							"say": "出了这道门就是槐阳王的地界。李副将的账上了京，兵部拓了大将军的印去盖民夫令，账上也记着——关北的事，朝廷知道了。"
+						},
+						{
+							"say": "出了这道门就是槐阳王的地界。那边是王法，不是朝法。那边的事，我们不管，也管不了。"
+						}
+					]
+				},
+				"严廷殷": {
+					"rules": [
+						{
+							"asker_marks": [
+								"跟李信揭发"
+							],
+							"say": "大将军回京了，没再回来。门是李副将守，钱不收了。"
+						},
+						{
+							"asker_marks": [
+								"赫造基被拿下了"
+							],
+							"say": "大将军的兵。门是大将军的，钱也是。军师的事？……不该问的别问。"
+						},
+						{
+							"say": "大将军的兵。门是大将军的，钱也是。你要是大将军的朋友——他可没朋友。"
+						}
+					]
+				},
 				"关门": [
 					"谷地东壁这道门是先帝年间开的，通关北的军道。以前一年走不了几个人，这一年多了——兵部的车，一辆一辆往北去。"
 				]
 			},
 			"accept_object": [
+				{
+					"giver_mark": "跟李信揭发",
+					"value_at_least": 1,
+					"say": "李副将的令，不收钱。拿回去。",
+					"accept": false
+				},
 				{
 					"giver_mark": "过了关门",
 					"value_at_least": 1,

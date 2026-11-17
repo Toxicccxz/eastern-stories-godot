@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "乔阴县城",
 			"sources": [
-				"native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」). d/choyin/npc/judgeman.c (程不平; ES2 has no 捕快 to be made: the 巡捕 are d/choyin/npc/yamen_po.c's), d/canyon/README (黄石隘口守军……私授官职，收取过路费), u/cloud/entrance.c (the 官府的公告: [启事] 由此入镇收取黄金一两), d/snow/sroad4.c (the 青石官道's 路口), d/canyon/npc/general.c (严廷殷's 印鉴, lost and found). The line shows once 程不平 wrote his letter (第五章) to one not of 花紫会; 程不平's 腰牌 (asked first; 惯窃 he refuses), the two men collecting a toll under an 官府告示 and the 天驼关 路引 on them, the 荐书 that waives the 武举's first bout, and the 小屋's 密信 (given to 花紫会, this line ends) are the plan's (续写); the line stops at a stub step `seal` that 官府 B fills."
+				"native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」). d/choyin/npc/judgeman.c (程不平; ES2 has no 捕快 to be made: the 巡捕 are d/choyin/npc/yamen_po.c's), d/canyon/README (黄石隘口守军……私授官职，收取过路费), u/cloud/entrance.c (the 官府的公告: [启事] 由此入镇收取黄金一两), d/snow/sroad4.c (the 青石官道's 路口), d/canyon/npc/general.c (严廷殷's 印鉴, lost and found). The line shows once 程不平 wrote his letter (第五章) to one not of 花紫会; 程不平's 腰牌 (asked first; 惯窃 he refuses), the two men collecting a toll under an 官府告示 and the 天驼关 路引 on them, the 荐书 that waives the 武举's first bout, and the 小屋's 密信 (given to 花紫会, this line ends) are the plan's (续写); the line stops at a stub step `seal` that 官府 B fills.",
+				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」). d/canyon/npc/general.c (严廷殷's 印鉴, lost and found), vice_general.c (李信: 原是禁卫军的队长……被先帝调离京师; ES2 gives him no talk), adviser.c (赫造基), d/canyon/README (私授官职，收取过路费), daemon/class/fighter/champion.c (於兰天武). The stub `seal` filled (严廷殷 owns the seal on the 路引), then 李信's ledger of the three days, 赫造基 owning the stamping, the split (整肃 with 严廷殷: the 军师 taken in the camp, the 铁卫营 a band at the lake; 揭发 with 李信: the ledger to the capital, 严廷殷 recalled, 李信 holds the pass, no toll, one more piece for 第九章's 揭发), and the 卫沧澜 route (於兰天武 come to court fetches him with the 手诏; out by another way, the step passes). 续写."
 			],
-			"summary": "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，查一查他们的告示是哪个衙门的。",
+			"summary": "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，路引上是天驼关的印；严廷殷的印丢过三天，李信记着那三天的账——跟严廷殷整肃，还是跟李信揭发。",
 			"starts": {
 				"all": [
 					{
@@ -147,11 +148,11 @@
 				},
 				{
 					"id": "seal",
-					"objective": "路引上是天驼关铁卫营的大印。带着路引去天驼关，问镇国大将军严廷殷「路引」。",
+					"objective": "路引上是天驼关铁卫营的大印。带着路引去天驼关军营最里头的将军营帐（进营要大队长的名册），问镇国大将军严廷殷「路引」。程不平的信还没给他看的，先给他看信。",
 					"done": {
 						"mark": "严廷殷认了路引"
 					},
-					"text": "严廷殷认了路引上的印。",
+					"text": "严廷殷认了路引上的印：是他的印，丢过三天的那一方。那三天的事，他叫你去问副将李信。",
 					"target": {
 						"map": "canyon.camp",
 						"zone": "canyon.camp8",
@@ -159,6 +160,140 @@
 							"canyon.npc.general"
 						]
 					}
+				},
+				{
+					"id": "ledger",
+					"objective": "副将李信在副将营帐（将军营帐外头那一间）。问他「印鉴」：印丢的那三天，他记着。",
+					"done": {
+						"mark": "李信说了那三天的账"
+					},
+					"text": "李信拿出一本薄册子：印丢的那三天，盖出去的是私授的官职十二个、空白的路引四百张，还让兵部拓了个模子去——关北征民夫的令，盖的是照模子浇的印。盖印的是军师赫造基。",
+					"target": {
+						"map": "canyon.camp",
+						"zone": "canyon.camp7",
+						"npcs": [
+							"canyon.npc.vice_general"
+						]
+					}
+				},
+				{
+					"id": "adviser",
+					"objective": "带着路引回将军营帐，问军师赫造基「路引」，当面对一对李信的账。第六章他那桩八两银子的秘密（拓模）还没买的，先买下——他认的是买过模子的人。",
+					"done": {
+						"mark": "赫造基认了盖印"
+					},
+					"text": "赫造基认了：印丢的那三天在后备兵手里，他借来替兵部盖了一夜官职的札子和路引。要告他，就连将军一起告——印是将军丢的。",
+					"target": {
+						"map": "canyon.camp",
+						"zone": "canyon.camp8",
+						"npcs": [
+							"canyon.npc.adviser"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "跟李信揭发（在副将营帐问他「揭发」）：账本上京，严廷殷被召回，李信守关，天驼关从此不收过路费；第九章还没定的，这本账算揭发的一样物证。跟严廷殷整肃（在将军营帐问他「整肃」）：军师由你在营里拿下，路引停了，天驼关照旧是他的，关北的事不往朝上报——铁卫营欠你一回，终章替你守官道。",
+					"target": {
+						"map": "canyon.camp",
+						"zone": "canyon.camp7",
+						"npcs": [
+							"canyon.npc.vice_general"
+						]
+					},
+					"options": [
+						{
+							"id": "purge",
+							"done": {
+								"mark": "跟严廷殷整肃"
+							},
+							"text": "你跟严廷殷整肃：军师交给你在营里拿下，天驼关的事天驼关了。",
+							"reward": {
+								"deed": "在天驼关跟严廷殷整肃，那三天的账不上京"
+							}
+						},
+						{
+							"id": "expose",
+							"done": {
+								"mark": "跟李信揭发"
+							},
+							"text": "你跟李信揭发：李信的账抄一份上了京，严廷殷被召回京城，李信守关。天驼关从此不收过路费。",
+							"reward": {
+								"deed": "在天驼关跟李信揭发，那三天的账上了京"
+							}
+						}
+					]
+				},
+				{
+					"id": "arrest",
+					"only_after": "purge",
+					"objective": "军师赫造基就在将军营帐里。问他「路引」，他知道瞒不住了；再选中他「攻击」，拿下他（他只会被击倒）。",
+					"done": {
+						"mark": "赫造基被拿下了"
+					},
+					"text": "赫造基倒在将军营帐里，两个铁卫营的兵把他捆了，关进后营。官道上的路引从此停了。严廷殷说：铁卫营欠你一回。",
+					"target": {
+						"map": "canyon.camp",
+						"zone": "canyon.camp8",
+						"npcs": [
+							"canyon.npc.adviser"
+						]
+					}
+				},
+				{
+					"id": "uncle",
+					"weight": "route",
+					"objective": "尚书府的客房里还关着卫沧澜。皇叔入了朝的，去皇城养心殿问於兰天武「卫沧澜」：他拿着手诏去尚书府要人。卫沧澜已经出了尚书府的，这一步就过了；第九章没有请皇叔回朝的，官府插不上手。",
+					"target": {
+						"map": "imperial.yangxin_hall",
+						"zone": "imperial.front_hall",
+						"npcs": [
+							"common.npc.fighter.champion"
+						]
+					},
+					"options": [
+						{
+							"id": "uncle",
+							"done": {
+								"mark": "皇叔要回了卫沧澜"
+							},
+							"text": "於兰天武拿着手诏去了尚书府，庾子建亲自开的门。卫沧澜回了水烟阁——他说，这条命欠朝廷一份。",
+							"reward": {
+								"deed": "请皇叔拿手诏从尚书府要回了卫沧澜"
+							}
+						},
+						{
+							"id": "out",
+							"done": {
+								"mark": "卫沧澜出了尚书府"
+							},
+							"text": "卫沧澜已经出了尚书府。"
+						},
+						{
+							"id": "none",
+							"done": {
+								"all": [
+									{
+										"any": [
+											{
+												"mark": "庾子建下狱"
+											},
+											{
+												"mark": "私了了庾子建"
+											}
+										]
+									},
+									{
+										"not": {
+											"mark": "皇叔入朝"
+										}
+									}
+								]
+							},
+							"text": "皇叔没有回朝。卫沧澜的事，官府插不上手。"
+						}
+					]
 				}
 			]
 		}

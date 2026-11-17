@@ -854,6 +854,8 @@ func _resolve_npc_dealings() -> void:
 			if not rule.giver_carries.is_empty() and not _items.has(rule.giver_carries):
 				_errors.append("%s.accept_object.giver_carries: unknown item '%s'" % [origin, rule.giver_carries])
 		_check_condition(origin + ".ignores_when", definition.dealings().ignores_when)
+		if definition.hooks() != null:
+			_check_condition(origin + ".kept_when", definition.hooks().kept_when)
 		var watch: NpcWatch = definition.dealings().watch
 		if watch != null:
 			for condition: JournalEntryDefinition in [watch.when, watch.unless, watch.dim_when]:
