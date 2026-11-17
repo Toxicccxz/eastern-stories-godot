@@ -538,42 +538,42 @@ metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing10" type="Node2D" parent="Furnishings"]
 position = Vector2(440, -392)
-metadata/look = {"kind": "water_vat"}
+metadata/look = {"kind": "water_vat", "cover": true}
 metadata/footprint = Vector2(48, 48)
 
 [node name="Furnishing11" type="Node2D" parent="Furnishings"]
 position = Vector2(-264, -392)
-metadata/look = {"kind": "water_vat"}
+metadata/look = {"kind": "water_vat", "cover": true}
 metadata/footprint = Vector2(48, 48)
 
 [node name="Furnishing12" type="Node2D" parent="Furnishings"]
 position = Vector2(-48, -400)
-metadata/look = {"kind": "stone_lantern"}
+metadata/look = {"kind": "stone_lantern", "light": 100}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing13" type="Node2D" parent="Furnishings"]
 position = Vector2(224, -400)
-metadata/look = {"kind": "stone_lantern"}
+metadata/look = {"kind": "stone_lantern", "light": 100}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing14" type="Node2D" parent="Furnishings"]
 position = Vector2(-48, 112)
-metadata/look = {"kind": "stone_lantern"}
+metadata/look = {"kind": "stone_lantern", "light": 100}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing15" type="Node2D" parent="Furnishings"]
 position = Vector2(224, 112)
-metadata/look = {"kind": "stone_lantern"}
+metadata/look = {"kind": "stone_lantern", "light": 100}
 metadata/footprint = Vector2(32, 32)
 
 [node name="Furnishing16" type="Node2D" parent="Furnishings"]
 position = Vector2(-256, 96)
-metadata/look = {"kind": "tree", "species": "locust"}
+metadata/look = {"kind": "tree", "species": "locust", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing17" type="Node2D" parent="Furnishings"]
 position = Vector2(432, 96)
-metadata/look = {"kind": "tree", "species": "pine"}
+metadata/look = {"kind": "tree", "species": "pine", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing18" type="Node2D" parent="Furnishings"]
@@ -658,7 +658,7 @@ metadata/footprint = Vector2(96, 48)
 
 [node name="Furnishing34" type="Node2D" parent="Furnishings"]
 position = Vector2(552, 216)
-metadata/look = {"kind": "water_vat"}
+metadata/look = {"kind": "water_vat", "cover": true}
 metadata/footprint = Vector2(48, 48)
 
 [node name="Furnishing35" type="Node2D" parent="Furnishings"]
@@ -693,12 +693,12 @@ metadata/footprint = Vector2(96, 32)
 
 [node name="Furnishing41" type="Node2D" parent="Furnishings"]
 position = Vector2(224, -1144)
-metadata/look = {"kind": "tree", "species": "locust"}
+metadata/look = {"kind": "tree", "species": "locust", "cover": true}
 metadata/footprint = Vector2(64, 48)
 
 [node name="Furnishing42" type="Node2D" parent="Furnishings"]
 position = Vector2(-256, -800)
-metadata/look = {"kind": "tree", "species": "broadleaf"}
+metadata/look = {"kind": "tree", "species": "broadleaf", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing43" type="Node2D" parent="Furnishings"]
@@ -713,7 +713,7 @@ metadata/footprint = Vector2(64, 48)
 
 [node name="Furnishing45" type="Node2D" parent="Furnishings"]
 position = Vector2(-256, 368)
-metadata/look = {"kind": "tree", "species": "osmanthus"}
+metadata/look = {"kind": "tree", "species": "osmanthus", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing46" type="Node2D" parent="Furnishings"]
@@ -748,7 +748,7 @@ metadata/footprint = Vector2(96, 96)
 
 [node name="Furnishing52" type="Node2D" parent="Furnishings"]
 position = Vector2(-248, 640)
-metadata/look = {"kind": "rockery"}
+metadata/look = {"kind": "rockery", "cover": true}
 metadata/footprint = Vector2(80, 64)
 
 [node name="Furnishing53" type="Node2D" parent="Furnishings"]
@@ -768,7 +768,7 @@ metadata/footprint = Vector2(96, 32)
 
 [node name="Furnishing56" type="Node2D" parent="Furnishings"]
 position = Vector2(-256, 1040)
-metadata/look = {"kind": "tree", "species": "osmanthus"}
+metadata/look = {"kind": "tree", "species": "osmanthus", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing57" type="Node2D" parent="Furnishings"]
@@ -868,7 +868,7 @@ metadata/footprint = Vector2(64, 32)
 
 [node name="Furnishing76" type="Node2D" parent="Furnishings"]
 position = Vector2(416, 1120)
-metadata/look = {"kind": "rockery"}
+metadata/look = {"kind": "rockery", "cover": true}
 metadata/footprint = Vector2(96, 64)
 
 [node name="Furnishing77" type="Node2D" parent="Furnishings"]
@@ -933,12 +933,12 @@ metadata/footprint = Vector2(48, 32)
 
 [node name="Furnishing89" type="Node2D" parent="Furnishings"]
 position = Vector2(-192, 96)
-metadata/look = {"kind": "tree", "species": "locust"}
+metadata/look = {"kind": "tree", "species": "locust", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing90" type="Node2D" parent="Furnishings"]
 position = Vector2(352, 96)
-metadata/look = {"kind": "tree", "species": "pine"}
+metadata/look = {"kind": "tree", "species": "pine", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing91" type="Node2D" parent="Furnishings"]
@@ -953,7 +953,7 @@ metadata/footprint = Vector2(48, 32)
 
 [node name="Furnishing93" type="Node2D" parent="Furnishings"]
 position = Vector2(272, 768)
-metadata/look = {"kind": "tree", "species": "osmanthus"}
+metadata/look = {"kind": "tree", "species": "osmanthus", "cover": true}
 metadata/footprint = Vector2(64, 64)
 
 [node name="Furnishing94" type="Node2D" parent="Furnishings"]
