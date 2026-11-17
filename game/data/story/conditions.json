@@ -458,7 +458,8 @@
 			"id": "assembly.latemoon.stated",
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
-				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the split states the vote by itself"
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the split states the vote by itself",
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — a split taken once the player sat on the 虹台 (入了虹台的席) leaves the vote as it was cast: the split marks 晚月庄的票随了庄规 / 晚月庄的票随了她 only before."
 			],
 			"when": {
 				"any": [
@@ -466,10 +467,10 @@
 						"mark": "晚月庄表了态"
 					},
 					{
-						"mark": "晚月庄依了庄规"
+						"mark": "晚月庄的票随了庄规"
 					},
 					{
-						"mark": "她回了晚月庄"
+						"mark": "晚月庄的票随了她"
 					}
 				]
 			}
@@ -749,13 +750,13 @@
 					{
 						"any": [
 							{
-								"mark": "晚月庄依了庄规"
+								"mark": "晚月庄的票随了庄规"
 							},
 							{
 								"all": [
 									{
 										"not": {
-											"mark": "她回了晚月庄"
+											"mark": "晚月庄的票随了她"
 										}
 									},
 									{
@@ -810,13 +811,13 @@
 					{
 						"any": [
 							{
-								"mark": "她回了晚月庄"
+								"mark": "晚月庄的票随了她"
 							},
 							{
 								"all": [
 									{
 										"not": {
-											"mark": "晚月庄依了庄规"
+											"mark": "晚月庄的票随了庄规"
 										}
 									},
 									{

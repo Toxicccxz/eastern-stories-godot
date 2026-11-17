@@ -38217,7 +38217,7 @@ msgstr ""
 
 #. latemoon.npc.room.killer inquiry.娘.rules.lines.say
 #: data/latemoon/npcs.json
-msgid "神教的令，我身上不止一块。这是最后一块了。"
+msgid "拿好。神教给我的令，不止一块。"
 msgstr ""
 
 #. latemoon.npc.room.killer inquiry.娘.rules.say
@@ -38265,11 +38265,6 @@ msgstr ""
 #. latemoon.npc.room.killer inquiry.娘.rules.lines.say
 #: data/latemoon/npcs.json
 msgid "我在这屋里住了三年。宝衣一直在瑷伦身上，我一回也没有动手。"
-msgstr ""
-
-#. latemoon.npc.room.killer inquiry.娘.rules.lines.say
-#: data/latemoon/npcs.json
-msgid "令牌你身上已经有一块了，用不着我这块。给她，还是还给神教，你定。我累了。"
 msgstr ""
 
 #. latemoon.npc.room.killer inquiry.娘.rules.lines.emote
@@ -66910,17 +66905,12 @@ msgstr ""
 
 #. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
 #: data/native/npcs.json
-msgid "令牌你身上已经有一块了，用不着我这块。给她，还是还给神教，你定。"
+msgid "拿去。给她，还是还给神教，你定。"
 msgstr ""
 
 #. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
 #: data/native/npcs.json
 msgid "……我回内书房去。她要怎样，随她。"
-msgstr ""
-
-#. native.npc.latemoon_daughter inquiry.娘.rules.lines.say
-#: data/native/npcs.json
-msgid "拿去。给她，还是还给神教，你定。"
 msgstr ""
 
 #. native.npc.latemoon_daughter_home name

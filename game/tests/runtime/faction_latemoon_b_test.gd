@@ -72,6 +72,13 @@ func _test_data() -> void:
 		_check(not talk.listed_for("道童", {}) and talk.listed_for("道童", {"她说了来历": 1}), "%s: 道童 for one who heard her story" % npc_id)
 	for key: String in ["latemoon.night", "latemoon.split", "latemoon.rule_day"]:
 		_check(catalog.conditions().has(key), "the named condition %s" % key)
+	# A split taken after 入席 leaves the vote as it was cast (TEST-ONLY states).
+	var cast := CharacterState.new()
+	for mark: String in ["晚月庄改投颜违", "她回了晚月庄", "入了虹台的席"]:
+		cast.marks[mark] = 1
+	_check(_holds("assembly.latemoon.yan", cast, {}) and not _holds("assembly.latemoon.old", cast, {}), "brought home after 入席: 晚月庄 still votes as cast")
+	cast.marks["晚月庄的票随了她"] = 1
+	_check(_holds("assembly.latemoon.old", cast, {}) and not _holds("assembly.latemoon.yan", cast, {}), "brought home before 入席: the old 盟主")
 	var epilogue: String = FileAccess.get_file_as_string("res://data/story/epilogue.json")
 	_check(epilogue.contains("内书房的老妇再没有开过口") and epilogue.contains("不再蒙面"), "the 尾声's 晚月庄 card: both sides")
 	var finale: String = FileAccess.get_file_as_string("res://data/story/finale.json")

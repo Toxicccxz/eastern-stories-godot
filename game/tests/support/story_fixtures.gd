@@ -874,7 +874,7 @@ static func latemoon_settled(session: WorldSessionController, rule: bool = true)
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["faction.latemoon/split/%s" % ("by_rule" if rule else "brought_home"), "faction.latemoon#done"]:
 		_write(state, key)
-	for mark: String in ["大厅说起了庄规", "晚月庄依了庄规" if rule else "她回了晚月庄"]:
+	for mark: String in ["大厅说起了庄规"] + (["晚月庄依了庄规", "晚月庄的票随了庄规"] if rule else ["她回了晚月庄", "晚月庄的票随了她"]):
 		state.marks[mark] = 1
 	if state.family != null and state.family.family_id == &"family.latemoon":
 		state.affiliation.family_title = "执事"
