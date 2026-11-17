@@ -50,7 +50,7 @@ func _test_data() -> void:
 	var quest: StoryQuestDefinition = catalog.story_quest(QUEST)
 	_check(quest != null and quest.line == StoryQuestDefinition.LINE_FACTION and quest.starts.when == JournalEntryDefinition.When.ANY, "faction.latemoon: a 势力 line that begins with 拜师 or the 护法")
 	var ids: Array = [] if quest == null else quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"lost", &"score", &"shrine", &"robe_way", &"robe", &"heart"], "its steps: %s" % [ids])
+	_check(ids.slice(0, 6) == [&"lost", &"score", &"shrine", &"robe_way", &"robe", &"heart"], "its steps (晚月 A's, then 晚月 B's): %s" % [ids])
 	if quest == null:
 		return
 	_check(quest.step(&"shrine").reward.rank_title == "大弟子" and quest.step(&"shrine").reward.rank_family == &"family.latemoon" and not quest.step(&"shrine").reward.deed.is_empty(), "沧海龙吟 danced: 大弟子 for 晚月庄's own, a deed")
@@ -60,7 +60,7 @@ func _test_data() -> void:
 	var robe: StoryQuestDefinition.Step = quest.step(&"robe")
 	_check(robe.weight == StoryQuestDefinition.WEIGHT_SMALL and robe.only_after == &"carried" and robe.options.size() == 3 and robe.options.slice(0, 2).all(func(option: StoryQuestDefinition.Option) -> bool: return not option.reward.deed.is_empty()) and robe.option(&"burnt") != null, "the robe home or kept: a small choice of two, each a deed, only for one who carries it; burnt in the 终章 before it was answered, it passes")
 	_check(robe.objective.contains("寒气") and robe.objective.contains("凤凰"), "what either way costs is said before the choice")
-	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 1 and quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 0, "晚月 A: one small choice; the split is 晚月 B's")
+	_check(quest.steps.slice(0, 6).filter(func(step: StoryQuestDefinition.Step) -> bool: return step.weight == StoryQuestDefinition.WEIGHT_SMALL).size() == 1 and quest.steps.slice(0, 6).all(func(step: StoryQuestDefinition.Step) -> bool: return step.weight != StoryQuestDefinition.WEIGHT_BIG), "晚月 A: one small choice; the split is 晚月 B's")
 	_check(catalog.conditions().has("latemoon.robe_home"), "the named condition latemoon.robe_home")
 	var master: NpcDefinition = catalog.npc(MASTER)
 	_check(master.talk().ask_confirm("护法").contains("不授辈分") and master.talk().confirm_applies("护法", {"宝衣一章": 1, "接下了瑷伦三鞭": 1}) and not master.talk().confirm_applies("护法", {"宝衣一章": 1, "接下了瑷伦三鞭": 1}, &"family.latemoon"), "护法 is asked first, but not of 晚月庄's own")
@@ -169,7 +169,7 @@ func _test_guardian_home(tree: SceneTree, session: WorldSessionController) -> vo
 	_check(elon.has_flag(StringName(NpcMood.FLAG_PREFIX + "keeping")), "瑷伦 守衣人 again")
 	_check(_said(_ask(hall, elon, "宝衣"), "又回来了") and _said(_ask(hall, elon, "留着"), "回来了"), "宝衣 and 留着 after")
 	session.record_journal()
-	_check(state.quests.has("faction.latemoon/robe/home") and DeedLog.done(state, "把带出庄的寒於宝衣送回了晚月庄") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"heart", "the robe home; the 老妇's 心事 next (晚月 B)")
+	_check(state.quests.has("faction.latemoon/robe/home") and DeedLog.done(state, "把带出庄的寒於宝衣送回了晚月庄") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"heart" and state.marks.get("该问老妇心事", 0) == 1, "the robe home; the 老妇's 心事 next (晚月 B)")
 	_check(JournalLog.holds(catalog.conditions()["latemoon.robe_home"], state, {}, session.player_held_item_ids()), "latemoon.robe_home holds")
 	state.marks["岚城一章"] = 1 # TEST-ONLY: 第十章
 	_check(elon.definition().talk().confirm_applies("湖底", state.marks) and _said(_ask(hall, elon, "湖底"), "湖边等你") and state.marks.get("叫来了瑷伦", 0) == 1, "湖底: she comes down to the lake as one who kept it")
@@ -349,7 +349,7 @@ func _into_shrine(tree: SceneTree, session: WorldSessionController, upper: World
 	return upper
 
 
-## TEST-ONLY: the 东方神教杀手 the night left in the 前厅 sent off (晚月 B's matter), so nobody fights in the hall.
+## TEST-ONLY: the 东方神教杀手 the night left in the 前厅 sent off (she stays until the 老妇's 心事; 晚月 B), so nobody fights in the hall.
 func _quiet(session: WorldSessionController, map: WorldMapController) -> WorldMapController:
 	for killer: NpcRuntimeState in _all(session, HALL, &"native.npc.cult_killer"):
 		map.npcs.leave_for_good(killer)

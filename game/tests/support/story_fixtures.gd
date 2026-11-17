@@ -826,10 +826,11 @@ static func latemoon_danced(session: WorldSessionController) -> void:
 
 
 ## 晚月 A: after the dance, the 宝衣 settled as 第四章 left it (chapter4_kept / chapter4_taken, called first): left
-## with 瑷伦 (kept), or carried out and brought home (`home`) or kept on the player; the line at its stub `heart`.
+## with 瑷伦 (kept), or carried out and brought home (`home`) or kept on the player; the 老妇's 心事 next (晚月 B).
 static func latemoon_robe_settled(session: WorldSessionController, home: bool = true) -> void:
 	latemoon_danced(session)
 	var state: CharacterState = session.player_runtime().state
+	state.marks["该问老妇心事"] = 1
 	if state.marks.has("瑷伦守到决战"):
 		_write(state, "faction.latemoon/robe_way/kept")
 		return
@@ -840,3 +841,40 @@ static func latemoon_robe_settled(session: WorldSessionController, home: bool = 
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if home and map != null:
 		map.acts.take_from_player(&"native:latemoon/cold_robe")
+
+
+## 晚月 B: after the 宝衣 (latemoon_robe_settled, called first), the 老妇's 心事 heard and her daughter found — in the
+## 内书房 with no night, in the bamboo grove after it — and her story told; her 令牌 in hand.
+static func latemoon_told(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var night: bool = not state.marks.has("瑷伦守到决战")
+	for key: String in ["faction.latemoon/heart", "faction.latemoon/where/%s" % ("grove" if night else "study"), "faction.latemoon/find_%s" % ("grove" if night else "study")]:
+		_write(state, key)
+	for mark: String in ["老妇说了女儿", "她说了来历"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/room/npc/obj/token", false) == false:
+		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/token")
+
+
+## 晚月 B: her 令牌 given to her mother (`mother`: the thanks too, once) or returned to 朱鸿雪 (latemoon_told first).
+static func latemoon_token(session: WorldSessionController, mother: bool = true) -> void:
+	var state: CharacterState = session.player_runtime().state
+	_write(state, "faction.latemoon/token/%s" % ("mother" if mother else "cult"))
+	for mark: String in (["令牌给了老妇", "老妇谢过令牌"] if mother else ["令牌还了神教"]):
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		map.acts.take_from_player(&"es2:d/latemoon/room/npc/obj/token")
+
+
+## 晚月 B: the split in the 大厅 (latemoon_token first): 庄规 (`rule`) or her mother's daughter; 执事 for 晚月庄's own;
+## the line done.
+static func latemoon_settled(session: WorldSessionController, rule: bool = true) -> void:
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.latemoon/split/%s" % ("by_rule" if rule else "brought_home"), "faction.latemoon#done"]:
+		_write(state, key)
+	for mark: String in ["大厅说起了庄规", "晚月庄依了庄规" if rule else "她回了晚月庄"]:
+		state.marks[mark] = 1
+	if state.family != null and state.family.family_id == &"family.latemoon":
+		state.affiliation.family_title = "执事"

@@ -129,7 +129,13 @@
 			"points": ["latemoon.room.lstudio.killer.1"],
 			"legacy_room": "d/latemoon/room/lstudio.c",
 			"legacy_quantity": 1,
-			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
+			"until": {
+				"any": [
+					{ "quest": "main.chapter4/choice/take" },
+					{ "quest": "main.chapter4/choice/to_annie" },
+					{ "cond": "latemoon.split" }
+				]
+			}
 		},
 		{
 			"id": "latemoon.manor.room4.servant2",

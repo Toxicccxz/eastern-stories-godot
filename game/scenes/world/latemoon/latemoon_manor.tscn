@@ -1338,6 +1338,16 @@ position = Vector2(1912, 392)
 script = ExtResource("marker")
 spawn_point_id = &"latemoon.latemoon1.cult_killer.1"
 
+[node name="RoomLstudioDaughterBack1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1392, 2584)
+script = ExtResource("marker")
+spawn_point_id = &"latemoon.room.lstudio.daughter_back.1"
+
+[node name="RoomLstudioDaughterHome1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1096, 2624)
+script = ExtResource("marker")
+spawn_point_id = &"latemoon.room.lstudio.daughter_home.1"
+
 [node name="Latemoon1BodyMaid1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(2064, 392)
 script = ExtResource("marker")

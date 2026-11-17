@@ -86,6 +86,8 @@ class Answer:
 	var leaves: bool = false
 	## Another NPC definition, the first of which in the room leaves for good (NpcInquiryRule.also_leaves).
 	var also_leaves: StringName = &""
+	## The stage judged again once it has answered (NpcInquiryRule.restage; the caller does it).
+	var restage: bool = false
 	## The ending told once it has answered (NpcInquiryRule.epilogue; the caller tells it); "" none.
 	var epilogue: StringName = &""
 	## The title the answer gives the asker ("" none; DECISIONS「问话给头衔」).
@@ -220,6 +222,7 @@ static func answer(
 		result.attacks = rule.attacks
 		result.leaves = rule.leaves
 		result.also_leaves = rule.also_leaves
+		result.restage = rule.restage
 		result.epilogue = rule.epilogue
 		result.title = rule.title
 		result.vendor_list = rule.vendor_list

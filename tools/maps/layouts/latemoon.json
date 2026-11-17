@@ -1530,6 +1530,11 @@
             "id": "latemoon.bamboo.north_arrival"
           },
           {
+            "name": "BambooDaughter1",
+            "at": [256, 1488],
+            "id": "latemoon.bamboo.daughter.1"
+          },
+          {
             "name": "BambooDanceArrival",
             "at": [224, 1440],
             "id": "latemoon.bamboo.dance_arrival"

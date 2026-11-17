@@ -735,6 +735,13 @@
 				{ "action": "cast", "function": "invocation" }
 			],
 			"inquiry": {
+				"道童": {
+					"listed_marks": ["她说了来历"],
+					"rules": [
+						{ "asker_marks": ["她说了来历"], "lines": [{ "emote": "的眉头动了一下。" }, { "say": "北麓的道观收孩子，说是收道童。茅山查了二十年，查到的孩子都没有回来过。" }, { "say": "晚月庄那个女人是逃出来的？……那她是第一个。六阴剑是逆灵宫的剑，教给孩子，是为了让他们替宫里杀人。" }] },
+						{ "say": "道童？" }
+					]
+				},
 				"谷衣心法": ["谷衣心法是我茅山派为对抗邪魔外道所创的内功心法。\n"],
 				"茅山派": ["我茅山派自张天师开山立派至今，世世代代皆以降妖伏魔为己任。\n"],
 				"逆灵宫": {
@@ -1065,7 +1072,34 @@
 				"busy_say": "慢著，一个一个来。",
 				"class": "dancer"
 			},
+			"greeting": { "rules": [{ "mark": "她回了晚月庄", "steps": [{ "emote": "看了你一眼，没有笑。" }] }] },
+			"scene_mark": "大厅说起了庄规",
+			"calls": [
+				{ "after": 1, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "comes": "latemoon.npc.room.old", "from": "latemoon.room.lstudio" }, { "by": "latemoon.npc.room.old" }, { "emote": "从内书房那边走过来，走得很慢。" }] },
+				{ "after": 3, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "comes": "latemoon.npc.room.killer", "from": "latemoon.room.lstudio" }, { "by": "latemoon.npc.room.killer" }, { "emote": "跟在她娘后面，面巾还蒙着，剑在鞘里，手离剑柄远远的。" }] },
+				{ "after": 6, "scene": true, "when": { "all": [{ "cond": "latemoon.rule_day" }, { "cond": "latemoon.night" }] }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "那一夜，前厅死了两个丫头，内厅死了昭蓉。晚月庄有晚月庄的规矩：血债，要有人抵。" }] },
+				{ "after": 6, "scene": true, "when": { "all": [{ "cond": "latemoon.rule_day" }, { "not": { "cond": "latemoon.night" } }] }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "神教的杀手，在我庄里住了三年。内书房、宝衣，她都看过了。晚月庄的规矩：神教的人进了这道门，不能就这么出去。" }] },
+				{ "after": 9, "scene": true, "when": { "all": [{ "cond": "latemoon.rule_day" }, { "mark": "令牌还了神教" }] }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "令牌你还给了神教——她是神教的人，你也认了。" }] },
+				{ "after": 9, "scene": true, "when": { "all": [{ "cond": "latemoon.rule_day" }, { "mark": "令牌给了老妇" }] }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "latemoon.npc.room.old" }, { "emote": "把手里那块黑木令牌攥得更紧了。" }] },
+				{ "after": 12, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "人交给我。晚月庄不杀不还手的人——可她不能再待在庄里。怎么处置，是庄里的事。" }] },
+				{ "after": 15, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "latemoon.npc.room.old" }, { "say": "她是我女儿。" }] },
+				{ "after": 18, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "common.npc.dancer.master" }, { "say": "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。" }] },
+				{ "after": 21, "scene": true, "when": { "cond": "latemoon.rule_day" }, "not_mark": "大厅说起了庄规", "steps": [{ "by": "latemoon.npc.room.old" }, { "emote": "转身往内书房走，她女儿跟在后面。" }, { "home": "latemoon.npc.room.killer" }, { "home": "latemoon.npc.room.old" }] }
+			],
 			"inquiry": {
+				"庄规": {
+					"confirm": "依庄规：人交给蓝止萍处置——台上不杀，可她不能再待在庄里。\n晚月庄这一票投颜违（逐神教）；老妇从此不再开口。本庄弟子晋阶执事。\n要这么说吗？",
+					"confirm_marks": ["大厅说起了庄规"],
+					"confirm_lacks": ["晚月庄依了庄规", "她回了晚月庄", "晚月庄的线断了"],
+					"listed_marks": ["大厅说起了庄规"],
+					"rules": [
+						{ "asker_marks": ["晚月庄的线断了"], "say": "你不是晚月庄的人了。这是晚月庄的事。" },
+						{ "asker_marks": ["晚月庄依了庄规"], "say": "庄规是庄规。" },
+						{ "asker_marks": ["她回了晚月庄"], "say": "你替她选了。晚月庄记着。" },
+						{ "asker_marks": ["大厅说起了庄规"], "mark_asker": "晚月庄依了庄规", "restage": true, "lines": [{ "emote": "抬了抬手，叫两个弟子去内书房。" }, { "say": "带走。" }, { "say": "庄规是我立的，也是为这样的夜立的。往后庄门关得早一些——神教的人，不会再进来第二回。" }] },
+						{ "say": "庄规？问这个做什么。" }
+					]
+				},
 				"护法": {
 					"confirm": "做晚月庄的护法：不是弟子，不授辈分，本门的舞和指法不传；头衔换成「晚月庄护法」（本门再晋阶时换回本门的）。晚月庄的事，从此算你一份。\n要这么说吗？",
 					"confirm_marks": ["宝衣一章", "接下了瑷伦三鞭"],
@@ -1084,6 +1118,13 @@
 				"庄里的事": {
 					"rules": [
 						{ "asker_marks": ["晚月庄的线断了"], "say": "你已经不是晚月庄的人了。庄里的事，不劳你。" },
+						{ "asker_marks": ["晚月庄依了庄规"], "lines": [{ "say": "庄规是庄规。" }, { "say": "内书房那位老人家……让她静一静。" }] },
+						{ "asker_marks": ["她回了晚月庄"], "say": "她在内书房。庄规你替她破了一回——晚月庄记着。" },
+						{ "asker_marks": ["大厅说起了庄规"], "say": "依庄规，问我「庄规」；要带她回来，去内书房问老人家「女儿」。" },
+						{ "asker_marks": ["令牌给了老妇"], "say": "那个蒙面的女人，你见过了，令牌也有了着落。下回进大厅，我有话说。" },
+						{ "asker_marks": ["令牌还了神教"], "say": "那个蒙面的女人，你见过了，令牌也有了着落。下回进大厅，我有话说。" },
+						{ "asker_marks": ["她说了来历"], "say": "她的令牌在你手上？给谁，你自己定。" },
+						{ "asker_marks": ["老妇说了女儿"], "say": "老人家的心事……去问问那个蒙面的女人。" },
 						{ "asker_marks": ["跳成了沧海龙吟", "宝衣烧了"], "lines": [{ "say": "沧海龙吟跳回来了。宝衣……挡在了该挡的地方。" }, { "say": "内书房那位老人家，有一桩心事压了很多年——你去看看她。" }] },
 						{ "asker_marks": ["宝衣回了庄"], "lines": [{ "say": "宝衣回来了，池边的凤凰又亮了。晚月庄记你这一回。" }, { "say": "内书房那位老人家，有一桩心事压了很多年——你去看看她。" }] },
 						{ "asker_marks": ["宝衣留在了身上"], "lines": [{ "say": "宝衣你带着。晚月庄自己守。" }, { "say": "内书房那位老人家，有一桩心事压了很多年——你去看看她。" }] },
@@ -1102,6 +1143,8 @@
 					"listed_marks": ["终章"],
 					"rules": [
 						{ "asker_marks": ["大会散了"], "say": "虹台上的事，晚月庄记着。" },
+						{ "asker_marks": ["终章", "晚月庄依了庄规"], "asker_lacks": ["晚月庄听你的"], "marks_asker": ["晚月庄表了态", "晚月庄肯听你的"], "lines": [{ "say": "晚月庄这一票投颜违。神教的人进过庄门，往后庄门要关紧——颜违说了，他当了盟主就逐神教。" }, { "say": "这条庄规，是你陪我守下来的。这一票你要，就给你。" }] },
+						{ "asker_marks": ["终章", "她回了晚月庄"], "asker_lacks": ["晚月庄听你的"], "marks_asker": ["晚月庄表了态", "晚月庄肯听你的"], "lines": [{ "emote": "看了你一会儿。" }, { "say": "晚月庄这一票投旧盟主。庄里收着一个神教的人——官府管不到这里，颜违也别想管到这里来。" }, { "say": "庄规你替她破了一回。……这一票你要，我也给。" }] },
 						{ "asker_marks": ["晚月庄改投颜违"], "say": "晚月庄这一票投颜违。说定了。" },
 						{ "asker_marks": ["晚月庄听你的"], "say": "晚月庄这一票，你说了算。" },
 						{ "asker_marks": ["终章", "宝衣烧了"], "marks_asker": ["晚月庄表了态", "晚月庄肯改投"], "lines": [{ "say": "寒於宝衣烧了。晚月庄守了几百年的东西，挡完那一口就没了。" }, { "say": "晚月庄这一票原该投旧盟主：封地照旧，官府管不到这里。可神教的人还在庄外转——颜违说了，他当了盟主就逐神教。" }, { "say": "你一句话，晚月庄这一票就投他。" }] },
@@ -1115,10 +1158,12 @@
 				"改投": {
 					"confirm": "请蓝止萍改投颜违：他当了盟主就逐神教，晚月庄这一票不投旧盟主了。\n要这么说吗？",
 					"confirm_marks": ["晚月庄肯改投"],
-					"confirm_lacks": ["入了虹台的席", "晚月庄改投颜违"],
+					"confirm_lacks": ["入了虹台的席", "晚月庄改投颜违", "晚月庄依了庄规", "她回了晚月庄"],
 					"listed_marks": ["晚月庄肯改投"],
 					"rules": [
 						{ "asker_marks": ["入了虹台的席"], "say": "虹台上已经入了席。票就是票了。" },
+						{ "asker_marks": ["晚月庄依了庄规"], "say": "晚月庄这一票跟着庄规走，不改。" },
+						{ "asker_marks": ["她回了晚月庄"], "say": "晚月庄这一票，那天她留下来就定了，不改。" },
 						{ "asker_marks": ["晚月庄改投颜违"], "say": "说过了。晚月庄投颜违。" },
 						{ "asker_marks": ["晚月庄肯改投"], "mark_asker": "晚月庄改投颜违", "lines": [{ "say": "好。晚月庄投颜违。" }] },
 						{ "say": "……" }

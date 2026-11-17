@@ -905,6 +905,16 @@
             "id": "waterfog.terrace_top.lan_zhiping.1"
           },
           {
+            "name": "AssemblyOldWoman",
+            "at": [832, 896],
+            "id": "waterfog.terrace_top.old_woman.1"
+          },
+          {
+            "name": "AssemblyDaughter",
+            "at": [808, 864],
+            "id": "waterfog.terrace_top.daughter.1"
+          },
+          {
             "name": "AssemblyXuanzhi",
             "at": [760, 1000],
             "id": "waterfog.terrace_top.xuanzhi.1"

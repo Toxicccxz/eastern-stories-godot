@@ -280,7 +280,7 @@ func kept(character_id: StringName) -> bool:
 	if _player == null or _player.state == null:
 		return false
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	return npc != null and StoryKeeps.holds(_player.state, npc.definition().definition_id, GameContent.catalog().story_quests())
+	return npc != null and StoryKeeps.keeps(_player.state, npc.definition(), GameContent.catalog().story_quests())
 
 
 ## DECISIONS「主线卡死点」: before a fighter's fall or death is looked at (inspect_lifecycle()), one

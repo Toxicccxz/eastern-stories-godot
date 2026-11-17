@@ -35,6 +35,9 @@ var leaves: bool = false
 ## the asked one's room, leaves for good with this answer (an act's `leave` naming an NPC: the spy
 ## who slips away while the wrong man is held); "" none.
 var also_leaves: StringName = &""
+## Native (势力线第二批 晚月 B; DECISIONS「演完回屋」): once it has answered, the stage of the asked one's map is
+## judged again in front of the player (as an act's `restage`): one the answer takes off goes, one it brings on comes.
+var restage: bool = false
 ## Native (终章 C; DECISIONS「结局讲述」): once it has answered, this ending is told (the player who
 ## stays in the ice: 璃虹's 我留下); "" for none.
 var epilogue: StringName = &""
@@ -130,6 +133,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.attacks = reader.boolean("attacks", false)
 	rule.leaves = reader.boolean("leaves", false)
 	rule.also_leaves = StringName(reader.text("also_leaves"))
+	rule.restage = reader.boolean("restage", false)
 	rule.epilogue = StringName(reader.text("epilogue"))
 	rule.title = reader.text("title")
 	if rule.leaves and rule.attacks:

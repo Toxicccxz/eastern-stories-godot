@@ -98,7 +98,7 @@ func _test_people() -> void:
 	var total: int = 0
 	for id: StringName in counts:
 		total += counts[id]
-	_check(counts.size() == 38 and total == 48, "38 kinds, 48 NPCs placed (第四章's 东方神教杀手 staged in the 前厅): %d, %d" % [counts.size(), total])
+	_check(counts.size() == 40 and total == 51, "40 kinds, 51 NPCs placed (第四章's 东方神教杀手 staged in the 前厅; 晚月 B's daughter in the grove, back in the 内书房, unmasked): %d, %d" % [counts.size(), total])
 	_check(counts.get(&"cloud.npc.lm_guard", 0) == 2 and counts.get(&"latemoon.npc.park.flwgirl", 0) == 4 and counts.get(MASTER, 0) == 1, "two 彩衣少女 at the arch, four 采花少女, 蓝止萍 in the hall")
 	for unplaced: StringName in [&"latemoon.npc.sell", &"latemoon.npc.shaode", &"latemoon.npc.room.fong", &"latemoon.npc.room.jane", &"latemoon.npc.room.tenlon", &"latemoon.npc.room.aaa", &"latemoon.npc.cockroach"]:
 		_check(not counts.has(unplaced), "%s: placed by nothing (as LPC)" % unplaced)

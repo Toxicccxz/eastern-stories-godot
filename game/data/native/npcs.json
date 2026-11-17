@@ -495,7 +495,7 @@
 		},
 		{
 			"id": "native.npc.cult_killer",
-			"legacy_source": "native: 主线 第四章 宝衣 (剧情总纲 §3 第四章; 计划 build/plans/第四五章_计划.md A 包; DECISIONS「第四章 宝衣」) — d/latemoon/room/npc/killer.c's 蒙面杀手 (pink_cloth, thin_sword, the 令牌, 六阴剑 and 火蝠步, 为什么杀我) the night she struck; old.c: 这杀手是我的私生女, 已误入歧途; 剧情总纲 §4 第 11 条: an 东方神教 killer",
+			"legacy_source": "native: 主线 第四章 宝衣 (剧情总纲 §3 第四章; 计划 build/plans/第四五章_计划.md A 包; DECISIONS「第四章 宝衣」) — d/latemoon/room/npc/killer.c's 蒙面杀手 (pink_cloth, thin_sword, the 令牌, 六阴剑 and 火蝠步, 为什么杀我) the night she struck; old.c: 这杀手是我的私生女, 已误入歧途; 剧情总纲 §4 第 11 条: an 东方神教 killer; 势力线第二批 晚月 B (DECISIONS「晚月 B」「总是只能击倒」, owner 2026-11-16 Q4): only knocked down — fallen, she is spared, drops the 令牌 and flees (晚月 B finds her in the bamboo grove by night)",
 			"name": "蒙面杀手",
 			"aliases": [
 				"killer",
@@ -555,23 +555,13 @@
 				"蒙面杀手叹道：你知道我心里有多痛苦吗？！\n",
 				"蒙面杀手说：衣不在了，这庄还守什么？\n"
 			],
-			"die_carries": {
-				"item": "es2:d/latemoon/room/npc/obj/token"
-			},
 			"spared": {
-				"mood": "seen",
 				"mark": "放过了神教杀手",
-				"drop": "es2:d/latemoon/room/npc/obj/token"
+				"drop": "es2:d/latemoon/room/npc/obj/token",
+				"leave": true,
+				"line": "蒙面杀手捂着伤口站起来，看了一眼内书房的方向，从窗口翻了出去。\n"
 			},
-			"moods": {
-				"seen": {
-					"lasting": true,
-					"chat_chance": 10,
-					"chat_msg": [
-						"蒙面杀手看着你，没再出手。面巾下的眼睛和书房里那个老妇人一样。\n"
-					]
-				}
-			}
+			"always_kept": true
 		},
 		{
 			"id": "native.npc.yu_steward",
@@ -5585,7 +5575,7 @@
 		},
 		{
 			"id": "native.npc.annie_yard",
-			"legacy_source": "native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 安妮儿 (d/latemoon/room/npc/annihi.c: 东方神教 第一代教主, her skills and things) come to 朱鸿雪's 场院 for the last name on the list (计划 §5 第 4 条, 续写). Off her 西厢 while she stands here; the attributes annihi.c leaves to the roll are fixed, as every staged other-self.",
+			"legacy_source": "native: 势力线第一批 东方神教 B (剧情总纲 §4「东方神教」; 计划 build/plans/势力线第一批_计划.md §5 东方神教 B, owner 2026-11-09「按推荐开工」; DECISIONS「东方神教 B」) — 安妮儿 (d/latemoon/room/npc/annihi.c: 东方神教 第一代教主, her skills and things) come to 朱鸿雪's 场院 for the last name on the list (计划 §5 第 4 条, 续写). Off her 西厢 while she stands here; the attributes annihi.c leaves to the roll are fixed, as every staged other-self.; 势力线第二批 晚月 B (DECISIONS「晚月 B」): one who returned 晚月庄's 杀手令牌 to 朱鸿雪 hears one hard word less (交出来…… / 只信一回)",
 			"name": "安妮儿",
 			"aliases": [
 				"annihier"
@@ -5933,6 +5923,11 @@
 										}
 									}
 								]
+							},
+							{
+								"not": {
+									"mark": "令牌还了神教"
+								}
 							}
 						]
 					},
@@ -5949,6 +5944,61 @@
 						},
 						{
 							"say": "交出来，或者你的名字也在上面。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"any": [
+											{
+												"mark": "带走了宝衣"
+											},
+											{
+												"mark": "冰匣开了"
+											}
+										]
+									},
+									{
+										"not": {
+											"any": [
+												{
+													"mark": "宝衣给了安妮儿"
+												},
+												{
+													"mark": "宝衣烧了"
+												},
+												{
+													"cond": "latemoon.robe_home"
+												}
+											]
+										}
+									}
+								]
+							},
+							{
+								"mark": "令牌还了神教"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"emote": "把那张纸翻过来，转过脸看着你。"
+						},
+						{
+							"say": "宝衣在你身上。封法跟着衣走——走到一个神教管不着的人手里。"
 						}
 					]
 				},
@@ -6170,6 +6220,11 @@
 										"mark": "劝老冰匠搬走了"
 									}
 								]
+							},
+							{
+								"not": {
+									"mark": "令牌还了神教"
+								}
 							}
 						]
 					},
@@ -6186,6 +6241,45 @@
 						},
 						{
 							"say": "我信过你一回。只信一回。"
+						},
+						{
+							"mark": "朱鸿雪揭穿了冰凿"
+						}
+					]
+				},
+				{
+					"after": 11,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"cond": "dongfang.annie_in_yard"
+							},
+							{
+								"all": [
+									{
+										"mark": "替安妮儿瞒了"
+									},
+									{
+										"mark": "劝老冰匠搬走了"
+									}
+								]
+							},
+							{
+								"mark": "令牌还了神教"
+							}
+						]
+					},
+					"not_mark": "场院里两位教主",
+					"steps": [
+						{
+							"by": "cloud.npc.god"
+						},
+						{
+							"say": "还有你。"
+						},
+						{
+							"say": "西厢的话，你替她瞒过一回。湖边那个凿冰的老头，你也没动他——冰凿交到了我手里，人可没死。我的人在官道上看见过他。"
 						},
 						{
 							"mark": "朱鸿雪揭穿了冰凿"
@@ -6635,6 +6729,482 @@
 		{"id": "native.npc.yan_wei_chair", "legacy_source": "native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 颜违 (d/waterfog/npc/elder7.c) in the 正厅's 太师椅 once the 虹台 made him 盟主 (the 前厅's 颜违 off the stage from then on)", "name": "颜违", "aliases": ["yen wei", "yen", "wei"], "title": "武林盟主", "gender": "男性", "age": 53, "long": "颜违坐在正厅中央那张黝黑的太师椅上。椅子是他的了，他坐得很稳。\n", "attributes": {"str": 25, "cor": 23, "int": 20, "spi": 20, "cps": 23, "per": 20, "con": 27, "kar": 20}, "combat_exp": 270000, "skills": {"force": 100, "unarmed": 80, "parry": 80, "dodge": 75, "celestial": 90, "celestrike": 80}, "attitude": "friendly", "fight_deferred": "颜违抬了抬眼：盟主不同人动手。", "inquiry": {"盟主": ["九派过半，本座坐这把椅子。二十年的旧案，到此为止。"], "虹台": ["正月十七的事，定了。"]}},
 		{"id": "native.npc.escort_runner", "legacy_source": "native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 A, §9 第 6 条, §11 Q1 Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 A」) — a 趟子手 of 振远 (u/cloud/npc/bfighter.c: 振远镖局第二代趟子手, 负责镖局的护镖任务; his shouts as written) pushing the one-wheeled 镖车 to the 京师 总局 behind the player; he follows every way, no 车马行 takes his cart (`refuses_coach`), and he cannot be killed while the 镖 is on the road (the quest's `keeps`). 续写", "name": "老周", "aliases": ["lao zhou", "escort", "趟子手", "老周"], "title": "振远趟子手", "gender": "男性", "age": 41, "long": "一个黑红脸膛的趟子手，推着一辆独轮镖车。车上用麻绳捆着两只描金的红木箱，车头插一面三角小旗，红底黄边，绣一个「镖」字。他走一步，车轱辘吱呀一声。\n", "attributes": {"str": 28, "cor": 27, "int": 16, "spi": 18, "cps": 25, "per": 15, "con": 27, "kar": 14}, "combat_exp": 10000, "score": 200, "attitude": "friendly", "skills": {"unarmed": 40, "parry": 50, "dodge": 30, "blade": 50, "spring-blade": 40}, "skill_map": {"blade": "spring-blade"}, "carry": [{"item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield"}, {"item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear"}], "chat_chance": 4, "chat_msg": ["老周蹲在镖车边上，拿袖子擦箱子上的描金。\n"], "chat_chance_combat": 30, "chat_msg_combat": ["老周喊道：教你尝尝我的厉害！\n", "老周叫道：我们镖局可不是好惹的！\n"], "follows_every_way": true, "refuses_coach": "车夫看了一眼{npc}推的镖车，直摆手：「振远的镖？小号的车拉不起，您另请高明。」", "moods": {"going": {"flags": ["follows_player"], "lasting": true, "chat_chance": 6, "chat_msg": ["老周推着镖车跟在你后头，车轱辘吱呀吱呀地响。\n", "老周扯开嗓子喊道：振远镖局——盛名远扬——\n"]}, "waiting": {"lasting": true, "chat_chance": 6, "chat_msg": ["老周坐在车把上，一只手按着刀，眼睛盯着路。\n"]}}, "inquiry": {"上路": {"listed_marks": ["接了振远的镖"], "rules": [{"asker_marks": ["振远的线断了"], "say": "镖局的事，不劳外人。"}, {"asker_marks": ["镖交到了总局"], "say": "镖交了。"}, {"asker_marks": ["接了振远的镖"], "mood": "going", "mark_asker": "镖车上了路", "lines": [{"emote": "往手心里啐了一口，握住车把。"}, {"say": "走！车马行不拉镖车，咱们一步一步走到京师。"}]}, {"say": "镖局的车，镖头不发话不动。"}]}, "等着": {"listed_marks": ["接了振远的镖"], "rules": [{"asker_marks": ["镖交到了总局"], "say": "镖交了，还等什么？"}, {"asker_marks": ["接了振远的镖"], "mood": "waiting", "lines": [{"say": "成，我在这儿看着车。办完了事回来，叫我一声「上路」。"}]}, {"say": "等什么？"}]}, "镖": ["两箱红货，京师振远总局收。箱子里是什么，我们不问——走镖的规矩。"], "老松岭": ["二十年前那一趟？那会儿我还没进镖局。听老人说，死了十一个，镖头、镖师、趟子手，一个都没回来。打那以后，振远的车不走老松岭。"], "劫镖": {"rules": [{"asker_marks": ["劫镖的交了官"], "say": "交了官，天驼关的人押走了。……那后生使的是振远的刀，你看出来没有？"}, {"asker_marks": ["放走了劫镖的"], "say": "放了？……也好。那后生使的是振远的刀，春风快意刀。谁教的，我不问。"}, {"asker_marks": ["劫镖的后生倒了"], "say": "那后生怎么办，你给个话：交官府，还是放他走。没个了结，这镖进不了总局的门。"}, {"say": "碎石小路那一段荒，过了铁索才是天驼关的地界。要出事，就出在那一段。"}]}}},
 		{"id": "native.npc.he_ping", "legacy_source": "native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 A, §9 第 6 条, §11 Q1 Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 A」) — the son of the 趟子手 who died with 振远's 镖 under the 老松岭 falls twenty years ago (剧情总纲 §3 第二章; u/cloud/npc/b_header.c's 振远; 镖师随从无一人生还), waiting with two men on the 碎石小路 (d/canyon/road.c: 人烟稀少，很少人会走到这里来) for 振远's next cart to 京师; he uses his father's 春风快意刀 (bfighter.c: spring-blade). Two lines and a word, then the fight (the 福林大街's way, DECISIONS「第五章 人证」); spared, he talks: 交官府 or 走吧, each asked first. 续写", "name": "蒙面后生", "aliases": ["young robber", "robber", "后生", "贺平"], "title": "劫镖的", "gender": "男性", "age": 21, "long": "一个二十出头的后生，半截黑布蒙着脸，露出来的一双眼睛熬得通红。手里一把旧腰刀，刀鞘上的漆掉了大半，护手上刻着一个「振」字。\n", "attributes": {"str": 26, "cor": 28, "int": 18, "spi": 18, "cps": 20, "per": 16, "con": 25, "kar": 12}, "combat_exp": 2500, "score": 300, "attitude": "peaceful", "skills": {"unarmed": 25, "parry": 30, "dodge": 30, "blade": 35, "spring-blade": 30}, "skill_map": {"blade": "spring-blade"}, "carry": [{"item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield"}, {"item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear"}], "chat_chance_combat": 15, "chat_msg_combat": ["蒙面后生咬着牙喝道：车留下！\n", "蒙面后生的刀一撩一抹——是振远的春风快意刀。\n"], "scene_mark": "见过劫镖", "calls": [{"after": 1, "scene": true, "not_mark": "见过劫镖", "when": {"not": {"mark": "劫镖的后生倒了"}}, "present": "native.npc.escort_runner", "steps": [{"emote": "从路边的乱石后面站起来，半截黑布蒙着脸，横刀拦在路当中。"}, {"say": "振远的镖？车留下，人走。"}]}, {"after": 4, "scene": true, "not_mark": "见过劫镖", "when": {"not": {"mark": "劫镖的后生倒了"}}, "present": "native.npc.escort_runner", "steps": [{"by": "native.npc.escort_runner"}, {"emote": "把镖车往路边一推，拔出了刀。"}, {"say": "哪条道上的朋友？振远的镖也敢劫？"}]}, {"after": 7, "scene": true, "not_mark": "见过劫镖", "when": {"not": {"mark": "劫镖的后生倒了"}}, "present": "native.npc.escort_runner", "steps": [{"by": "native.npc.he_ping"}, {"say": "二十年前，振远的镖车停在老松岭底下，我爹没回来。今天我拿振远一车货，不算多。"}, {"line": "乱石后面又跳出两个汉子，抄着刀扑了上来——冲的是你。\n", "color": "HIR"}, {"summon": "native.road.robbers"}, {"npc_mood": "fighting"}]}], "spared": {"mood": "beaten", "mark": "劫镖的后生倒了"}, "moods": {"fighting": {"flags": ["aggressive"], "lasting": true, "chat_chance": 10, "chat_msg": ["蒙面后生横刀挡在路当中，刀鞘上的漆掉了大半。\n"]}, "beaten": {"lasting": true, "chat_chance": 8, "chat_msg": ["蒙面后生坐在路边的石头上，捂着肩膀，不看你。\n"]}}, "inquiry": {"爹": {"listed_marks": ["劫镖的后生倒了"], "rules": [{"asker_marks": ["劫镖的后生倒了"], "mark_asker": "贺平说了他爹", "lines": [{"emote": "把脸上的黑布扯了下来。"}, {"say": "我叫贺平。我爹贺长庚，振远的趟子手。二十年前那趟镖走老松岭，他死在瀑布底下——振远说是劫匪干的。"}, {"say": "他走之前托人捎回来一封信。信上写：兵部的人在岭上等着，镖头说照走。"}, {"say": "照走。振远拿我爹的命换了兵部的一句话。我拿振远一车货，不算多。"}]}, {"say": "……"}]}, "交官府": {"confirm": "把劫镖的后生交给官府。\n过了铁索就是天驼关，守关的官兵会押他去京师——劫镖是大罪。官府的赏金，振远会转给你。\n他爹那封信，你就看不到了。\n要这么做吗？", "confirm_marks": ["劫镖的后生倒了"], "confirm_lacks": ["劫镖的交了官", "放走了劫镖的"], "listed_marks": ["劫镖的后生倒了"], "rules": [{"asker_marks": ["劫镖的后生倒了"], "asker_lacks": ["劫镖的交了官", "放走了劫镖的"], "mark_asker": "劫镖的交了官", "leaves": true, "lines": [{"emote": "没有挣。"}, {"say": "交吧。振远的人，官府的人，本来就是一伙的。"}, {"line": "老周拿麻绳把他捆了，押着下了铁索。天驼关的官兵接了人，记下了振远的名字。\n"}]}, {"say": "……"}]}, "走吧": {"confirm": "放劫镖的后生走。\n他会留下他爹最后的一封家信——二十年前那趟镖，信里有一句话。\n劫镖的人从此不见官。要这么做吗？", "confirm_marks": ["劫镖的后生倒了"], "confirm_lacks": ["劫镖的交了官", "放走了劫镖的"], "listed_marks": ["劫镖的后生倒了"], "rules": [{"asker_marks": ["劫镖的后生倒了"], "asker_lacks": ["劫镖的交了官", "放走了劫镖的"], "gives": "native:city/he_letter", "mark_asker": "放走了劫镖的", "leaves": true, "lines": [{"emote": "愣了半天，从怀里掏出一张折得发软的纸，塞到你手里。"}, {"say": "我爹的信。你替振远押镖——振远要是还有一个讲理的，拿给陈天星看。"}, {"emote": "捡起刀，头也不回地走了。"}]}, {"say": "……"}]}, "振远": ["振远？京师第一大镖局。二十年前死了十一个人，没一个人去问为什么。"]}},
-		{"id": "native.npc.road_robber", "legacy_source": "native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 A, §9 第 6 条, §11 Q1 Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 A」) — the two men 贺平 brought to the 碎石小路 (d/canyon/road.c: 人烟稀少), summoned by his word; they fight the player (an NPC does not fight a follower, DECISIONS「第五章 人证」: the 趟子手 is not struck). 续写", "name": "劫道的汉子", "aliases": ["robber", "bandit", "汉子"], "gender": "男性", "age": 32, "long": "一个敞着怀的汉子，腰里扎着草绳，刀已经出了鞘。看样子不是吃这碗饭的，是被人花钱叫来的。\n", "attributes": {"str": 26, "cor": 24, "int": 14, "spi": 14, "cps": 20, "per": 12, "con": 26, "kar": 8}, "combat_exp": 1000, "score": 100, "attitude": "aggressive", "capabilities": ["aggressive_on_player_presence"], "skills": {"blade": 20, "parry": 15, "dodge": 15, "unarmed": 15}, "carry": [{"item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield"}, {"item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear"}], "chat_chance_combat": 15, "chat_msg_combat": ["劫道的汉子喝道：贺兄弟，车我们推走！\n", "劫道的汉子的刀横着扫过来。\n"]}
+		{"id": "native.npc.road_robber", "legacy_source": "native: 势力线第二批 振远 A (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 A, §9 第 6 条, §11 Q1 Q6, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 A」) — the two men 贺平 brought to the 碎石小路 (d/canyon/road.c: 人烟稀少), summoned by his word; they fight the player (an NPC does not fight a follower, DECISIONS「第五章 人证」: the 趟子手 is not struck). 续写", "name": "劫道的汉子", "aliases": ["robber", "bandit", "汉子"], "gender": "男性", "age": 32, "long": "一个敞着怀的汉子，腰里扎着草绳，刀已经出了鞘。看样子不是吃这碗饭的，是被人花钱叫来的。\n", "attributes": {"str": 26, "cor": 24, "int": 14, "spi": 14, "cps": 20, "per": 12, "con": 26, "kar": 8}, "combat_exp": 1000, "score": 100, "attitude": "aggressive", "capabilities": ["aggressive_on_player_presence"], "skills": {"blade": 20, "parry": 15, "dodge": 15, "unarmed": 15}, "carry": [{"item": "es2:obj/weapon/blade", "source": "obj/weapon/blade.c", "equip": "wield"}, {"item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear"}], "chat_chance_combat": 15, "chat_msg_combat": ["劫道的汉子喝道：贺兄弟，车我们推走！\n", "劫道的汉子的刀横着扫过来。\n"]},
+		{
+			"id": "native.npc.latemoon_daughter",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — d/latemoon/room/npc/killer.c's 蒙面杀手 (眉眼看起来有些面熟; six-chaos-sword; 为什么杀我？) after 第四章's night: spared in the 前厅, she hides by night in the bamboo grove behind the manor (latemoon8.c's 西出阳关 sets one down there), until she tells her story; the numbers are the night killer's (native.npc.cult_killer), the attributes the original leaves to the roll fixed here",
+			"name": "蒙面杀手",
+			"aliases": [
+				"killer",
+				"masked killer",
+				"杀手"
+			],
+			"title": "东方神教杀手",
+			"gender": "女性",
+			"age": 23,
+			"long": "蒙着面，坐在竹林里一块青石上，细剑横在膝上。面巾下的眉眼，是书房里那个老妇人的眉眼。她听见你的脚步，没有起身。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 26,
+				"int": 22,
+				"spi": 20,
+				"cps": 15,
+				"per": 28,
+				"con": 24,
+				"kar": 12
+			},
+			"combat_exp": 80000,
+			"skills": {
+				"unarmed": 80,
+				"sword": 80,
+				"parry": 80,
+				"dodge": 70,
+				"move": 60,
+				"six-chaos-sword": 70,
+				"pyrobat-steps": 60
+			},
+			"skill_map": {
+				"dodge": "pyrobat-steps",
+				"sword": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/pink_cloth",
+					"source": "d/snow/npc/obj/pink_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				}
+			],
+			"apply": {
+				"attack": 40
+			},
+			"chat_chance": 6,
+			"chat_msg": [
+				"竹林深处，有人压着声音在哭。\n"
+			],
+			"chat_chance_combat": 10,
+			"chat_msg_combat": [
+				"蒙面杀手喝道：为什么杀我？\n",
+				"蒙面杀手叹道：你知道我心里有多痛苦吗？！\n"
+			],
+			"inquiry": {
+				"娘": {
+					"listed_marks": [
+						"老妇说了女儿"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"她说了来历"
+							],
+							"say": "我说完了。"
+						},
+						{
+							"asker_marks": [
+								"老妇说了女儿"
+							],
+							"asker_carries": "###token###",
+							"mark_asker": "她说了来历",
+							"leaves": true,
+							"lines": [
+								{
+									"emote": "的手停在剑柄上，很久没有动。"
+								},
+								{
+									"say": "她让你来问的？……她从来不问。"
+								},
+								{
+									"say": "我七岁那年，她把我送出了庄门——晚月庄容不下一个来历不明的孩子。北麓有个道观收孩子，说是收道童。"
+								},
+								{
+									"say": "那里的人不念经，只教剑。六阴追魂剑，从追魂那一部学起；学不会的孩子，后来就不见了。"
+								},
+								{
+									"say": "我是自己逃出来的。东方神教收留了我，给了我这块令。"
+								},
+								{
+									"say": "朱鸿雪派我回晚月庄：我是她的女儿，内书房的门对我开着，宝衣藏在哪里，我看得见。"
+								},
+								{
+									"say": "那一夜，前厅的两个丫头，内厅的昭蓉，是我杀的。宝衣出了庄门，朱鸿雪要的东西没了——神教我回不去，这里我也回不来。"
+								},
+								{
+									"say": "令牌你身上已经有一块了，用不着我这块。给她，还是还给神教，你定。"
+								},
+								{
+									"say": "……我回内书房去。她要怎样，随她。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"老妇说了女儿"
+							],
+							"mark_asker": "她说了来历",
+							"gives": "es2:d/latemoon/room/npc/obj/token",
+							"leaves": true,
+							"lines": [
+								{
+									"emote": "的手停在剑柄上，很久没有动。"
+								},
+								{
+									"say": "她让你来问的？……她从来不问。"
+								},
+								{
+									"say": "我七岁那年，她把我送出了庄门——晚月庄容不下一个来历不明的孩子。北麓有个道观收孩子，说是收道童。"
+								},
+								{
+									"say": "那里的人不念经，只教剑。六阴追魂剑，从追魂那一部学起；学不会的孩子，后来就不见了。"
+								},
+								{
+									"say": "我是自己逃出来的。东方神教收留了我，给了我这块令。"
+								},
+								{
+									"say": "朱鸿雪派我回晚月庄：我是她的女儿，内书房的门对我开着，宝衣藏在哪里，我看得见。"
+								},
+								{
+									"say": "那一夜，前厅的两个丫头，内厅的昭蓉，是我杀的。宝衣出了庄门，朱鸿雪要的东西没了——神教我回不去，这里我也回不来。"
+								},
+								{
+									"emote": "从腰间解下一块黑木令牌，丢给你。"
+								},
+								{
+									"say": "拿去。给她，还是还给神教，你定。"
+								},
+								{
+									"say": "……我回内书房去。她要怎样，随她。"
+								}
+							]
+						},
+						{
+							"say": "……"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.latemoon_daughter_home",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — killer.c's 蒙面杀手 brought home (带她回来): she stays in the 内书房 beside her mother (old.c), the mask off; the numbers and attributes are 晚月 B's grove one's (native.npc.latemoon_daughter)",
+			"name": "无名女子",
+			"aliases": [
+				"woman",
+				"daughter",
+				"女子"
+			],
+			"title": "无名老妇的女儿",
+			"gender": "女性",
+			"age": 23,
+			"long": "二十来岁的女子，没有蒙面——眉眼和窗下那个老妇人一模一样。她坐在书架边，细剑横在膝上，一下一下地擦。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 26,
+				"int": 22,
+				"spi": 20,
+				"cps": 15,
+				"per": 28,
+				"con": 24,
+				"kar": 12
+			},
+			"combat_exp": 80000,
+			"skills": {
+				"unarmed": 80,
+				"sword": 80,
+				"parry": 80,
+				"dodge": 70,
+				"move": 60,
+				"six-chaos-sword": 70,
+				"pyrobat-steps": 60
+			},
+			"skill_map": {
+				"dodge": "pyrobat-steps",
+				"sword": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/latemoon/obj/blue_dress",
+					"source": "d/latemoon/obj/blue_dress.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				}
+			],
+			"attitude": "friendly",
+			"fight_deferred": "她摇了摇头：我答应过娘，这把剑往后只守这间书房。",
+			"inquiry": {
+				"娘": [
+					"她在这里。我也在。"
+				],
+				"六阴剑": [
+					"剑我不扔。可往后，它只守这间书房。"
+				],
+				"神教": [
+					"朱鸿雪不会来要人。神教的令，只从上一个持令人手里接——我手里已经没有令了。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.lan_zhiping_lake",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 终章's tenth band, 晚月庄守岸: 蓝止萍 (daemon/class/dancer/master.c) and her disciples on the shore, for the player who kept 庄规 (终章 A's others: 霍铮, 郭承, 柳淳风); the attributes as on the 虹台 (native.npc.assembly_lan_zhiping)",
+			"name": "蓝止萍",
+			"aliases": [
+				"master dancer",
+				"master",
+				"dancer"
+			],
+			"nickname": "回音仙子",
+			"title": "晚月庄主",
+			"gender": "女性",
+			"age": 22,
+			"long": "蓝止萍站在湖岸的柳树下，晚月庄的弟子在她身后排开，手里的鞭子都垂着，没有一个人说话。\n",
+			"attributes": {
+				"str": 21,
+				"cor": 20,
+				"int": 28,
+				"spi": 26,
+				"cps": 30,
+				"per": 30,
+				"con": 20,
+				"kar": 20
+			},
+			"combat_exp": 1000000,
+			"skills": {
+				"unarmed": 40,
+				"sword": 70,
+				"throwing": 100,
+				"force": 30,
+				"parry": 70,
+				"dodge": 100,
+				"literate": 100,
+				"perception": 100,
+				"whip": 100,
+				"stormdance": 100,
+				"tenderzhi": 100,
+				"iceforce": 100,
+				"snowwhip": 90
+			},
+			"attitude": "friendly",
+			"fight_deferred": "蓝止萍摆了摆手：今夜的鞭子，留给湖里上来的东西。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "庄规守得住庄门，守不住这片湖。今夜，晚月庄的人在岸上。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.old_woman_lake",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 终章's tenth band, 晚月庄守岸: the 无名老妇 (d/latemoon/room/npc/old.c) and her daughter on the shore, for the player who brought her daughter home; the attributes the original leaves to the roll fixed here",
+			"name": "无名老妇",
+			"aliases": [
+				"old"
+			],
+			"title": "看管人",
+			"gender": "女性",
+			"age": 62,
+			"long": "无名老妇拄着那根鞭子站在湖岸上，没有看湖，看的是站在最前面的女儿。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 26,
+				"int": 26,
+				"spi": 24,
+				"cps": 26,
+				"per": 29,
+				"con": 22,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"dodge": 70,
+				"stormdance": 70,
+				"tenderzhi": 70,
+				"snowwhip": 60
+			},
+			"skill_map": {
+				"dodge": "stormdance",
+				"whip": "snowwhip",
+				"unarmed": "tenderzhi"
+			},
+			"attitude": "friendly",
+			"fight_deferred": "无名老妇摇了摇头：今夜不是跟你动手的时候。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "她要来，我拦不住。这一回，我跟着她。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.daughter_lake",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — 终章's tenth band, 晚月庄守岸: the 无名老妇's daughter, who uses 六阴剑, in front (带她回来); the numbers and attributes are her 内书房 one's (native.npc.latemoon_daughter_home)",
+			"name": "无名女子",
+			"aliases": [
+				"woman",
+				"daughter",
+				"女子"
+			],
+			"title": "无名老妇的女儿",
+			"gender": "女性",
+			"age": 23,
+			"long": "她站在最前面，没有蒙面，细剑出了鞘。六阴剑的寒气贴着湖面走——这一回，它守的是岸。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 26,
+				"int": 22,
+				"spi": 20,
+				"cps": 15,
+				"per": 28,
+				"con": 24,
+				"kar": 12
+			},
+			"combat_exp": 80000,
+			"skills": {
+				"unarmed": 80,
+				"sword": 80,
+				"parry": 80,
+				"dodge": 70,
+				"move": 60,
+				"six-chaos-sword": 70,
+				"pyrobat-steps": 60
+			},
+			"skill_map": {
+				"dodge": "pyrobat-steps",
+				"sword": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/latemoon/obj/blue_dress",
+					"source": "d/latemoon/obj/blue_dress.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				}
+			],
+			"attitude": "friendly",
+			"fight_deferred": "她把剑尖垂了下去：今夜的剑，留给湖里上来的东西。",
+			"inquiry": {
+				"湖底": {
+					"rules": [
+						{
+							"say": "冰下面那东西，宫里的人叫它侮天鬼。我在北麓的时候，听他们念过它的名字。"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.assembly_old_woman",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the 无名老妇 behind 晚月庄's seat on the 虹台 that day, her daughter beside her (带她回来): only to be seen; the attributes as by the lake (native.npc.old_woman_lake)",
+			"name": "无名老妇",
+			"aliases": [
+				"old"
+			],
+			"title": "看管人",
+			"gender": "女性",
+			"age": 62,
+			"long": "无名老妇站在晚月庄的旗后面，一句话也没有说。\n",
+			"attributes": {
+				"str": 20,
+				"cor": 26,
+				"int": 26,
+				"spi": 24,
+				"cps": 26,
+				"per": 29,
+				"con": 22,
+				"kar": 20
+			},
+			"combat_exp": 500000,
+			"skills": {
+				"dodge": 70,
+				"stormdance": 70,
+				"tenderzhi": 70,
+				"snowwhip": 60
+			},
+			"skill_map": {
+				"dodge": "stormdance",
+				"whip": "snowwhip",
+				"unarmed": "tenderzhi"
+			},
+			"attitude": "friendly",
+			"fight_deferred": "无名老妇摆了摆手：今天是推选的日子。",
+			"inquiry": {
+				"虹台": [
+					"晚月庄的事，庄主说了算。我只是来看着她。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.assembly_daughter",
+			"legacy_source": "native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the 无名老妇's daughter behind 晚月庄's seat on the 虹台 that day (带她回来): only to be seen; the numbers and attributes as in the 内书房 (native.npc.latemoon_daughter_home)",
+			"name": "无名女子",
+			"aliases": [
+				"woman",
+				"daughter",
+				"女子"
+			],
+			"title": "无名老妇的女儿",
+			"gender": "女性",
+			"age": 23,
+			"long": "她站在她娘身边，没有蒙面。九派的人有几个认出了她手里那把细剑，又把目光移开了。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 26,
+				"int": 22,
+				"spi": 20,
+				"cps": 15,
+				"per": 28,
+				"con": 24,
+				"kar": 12
+			},
+			"combat_exp": 80000,
+			"skills": {
+				"unarmed": 80,
+				"sword": 80,
+				"parry": 80,
+				"dodge": 70,
+				"move": 60,
+				"six-chaos-sword": 70,
+				"pyrobat-steps": 60
+			},
+			"skill_map": {
+				"dodge": "pyrobat-steps",
+				"sword": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/latemoon/obj/blue_dress",
+					"source": "d/latemoon/obj/blue_dress.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				}
+			],
+			"attitude": "friendly",
+			"fight_deferred": "她摇了摇头：今天是推选的日子。",
+			"inquiry": {
+				"虹台": [
+					"神教的人也在看这座台子。我站在这里，他们看得见。"
+				]
+			}
+		}
 	]
 }

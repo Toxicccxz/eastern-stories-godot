@@ -1086,8 +1086,9 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 
 ## npc.c return_home(): a conscious NPC that is not fighting leaves for home
 ## (急急忙忙地离开了。 where it was); move() says nothing where it arrives. The body
-## walks home on the map the player is on and is simply there elsewhere.
-func return_home(npc: NpcRuntimeState) -> bool:
+## walks home on the map the player is on and is simply there elsewhere. `quiet`: a scene's own line
+## told its going (DECISIONS「演完回屋」), the 急急忙忙 is not said.
+func return_home(npc: NpcRuntimeState, quiet: bool = false) -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var spawn: NpcSpawnDefinition = catalog.spawn(npc.spawn_id)
 	var from_zone_id: StringName = npc.world_location().zone_id
@@ -1103,7 +1104,7 @@ func return_home(npc: NpcRuntimeState) -> bool:
 	# put on its spot at once, off the map still. Nobody walks a street they are not on, nothing is
 	# said of one nobody saw leave, and it greets nobody where it would stand.
 	var out: bool = npc.exists_in_map
-	var seen: bool = out and _map.npc_life.player_hears(npc)
+	var seen: bool = out and not quiet and _map.npc_life.player_hears(npc)
 	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
 	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(npc.spawn_point_id)
 	if body == null or marker == null:

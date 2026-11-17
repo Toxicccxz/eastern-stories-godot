@@ -497,6 +497,11 @@ position = Vector2(224, 1360)
 script = ExtResource("marker")
 spawn_point_id = &"latemoon.bamboo.north_arrival"
 
+[node name="BambooDaughter1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(256, 1488)
+script = ExtResource("marker")
+spawn_point_id = &"latemoon.bamboo.daughter.1"
+
 [node name="BambooDanceArrival" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(224, 1440)
 script = ExtResource("marker")

@@ -492,6 +492,9 @@ func ask_selected(topic: String) -> Array[String]:
 		var going: NpcRuntimeState = _map.npcs.first_npc_in_zone(answer.also_leaves, target.world_location().zone_id, true)
 		if going != null:
 			_map.npcs.leave_for_good(going)
+	# 晚月 B (DECISIONS「演完回屋」): the answer changes who is on the stage, judged in front of the player.
+	if answer.restage and session != null:
+		WorldStoryPresence.stage(session, _map)
 	# 终章 C: an answer that ends the story (DECISIONS「结局讲述」).
 	if not answer.epilogue.is_empty():
 		session.play_epilogue(answer.epilogue)
