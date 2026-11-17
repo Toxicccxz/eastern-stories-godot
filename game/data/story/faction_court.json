@@ -8,7 +8,7 @@
 			"sources": [
 				"native: 势力线第二批 官府 A (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 A, §2 第 3 条, §7 第 5 行, §9 第 8、9 条, §10 第 6 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」; DECISIONS「官府 A」). d/choyin/npc/judgeman.c (程不平; ES2 has no 捕快 to be made: the 巡捕 are d/choyin/npc/yamen_po.c's), d/canyon/README (黄石隘口守军……私授官职，收取过路费), u/cloud/entrance.c (the 官府的公告: [启事] 由此入镇收取黄金一两), d/snow/sroad4.c (the 青石官道's 路口), d/canyon/npc/general.c (严廷殷's 印鉴, lost and found). The line shows once 程不平 wrote his letter (第五章) to one not of 花紫会; 程不平's 腰牌 (asked first; 惯窃 he refuses), the two men collecting a toll under an 官府告示 and the 天驼关 路引 on them, the 荐书 that waives the 武举's first bout, and the 小屋's 密信 (given to 花紫会, this line ends) are the plan's (续写); the line stops at a stub step `seal` that 官府 B fills."
 			],
-			"summary": "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，路引上是天驼关的印。",
+			"summary": "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，查一查他们的告示是哪个衙门的。",
 			"starts": {
 				"all": [
 					{

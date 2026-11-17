@@ -26918,7 +26918,7 @@ msgstr ""
 
 #. faction.court summary
 #: data/story/faction_court.json
-msgid "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，路引上是天驼关的印。"
+msgid "做乔阴县的捕快：拿下官道上挂着官府告示收过路费的人，查一查他们的告示是哪个衙门的。"
 msgstr ""
 
 #. faction.court lapses.text
@@ -41839,6 +41839,12 @@ msgstr ""
 msgid "那封信，你给了叫花子。本县的案子，不跟你说了。"
 msgstr ""
 
+#. choyin.npc.judgeman inquiry.捕快.rules.say
+#. choyin.npc.judgeman inquiry.路引.rules.say
+#: data/choyin/npcs.json
+msgid "官府的案子，本县不跟你说了。"
+msgstr ""
+
 #. choyin.npc.judgeman inquiry.捕快.rules.lines.say
 #: data/choyin/npcs.json
 msgid "腰牌呢？……丢了？"
@@ -41861,7 +41867,12 @@ msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.say
 #: data/choyin/npcs.json
-msgid "雪亭南路的官道路口、绮云镇口，两个挂着官府告示收过路费的。乔阴县衙没贴过那样的告示——拿下，搜身。"
+msgid "两个都拿下了？路引带来本县看——问「路引」。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.say
+#: data/choyin/npcs.json
+msgid "雪亭镇西边青石官道的路口、绮云镇口，两个挂着官府告示收过路费的。乔阴县衙没贴过那样的告示——拿下，搜身。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
@@ -41901,7 +41912,7 @@ msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.lines.say
 #: data/choyin/npcs.json
-msgid "头一件：雪亭南路的官道路口、绮云镇口，有人挂着官府的告示收过路费，黄金一两。乔阴县衙没贴过那样的告示——拿下，搜身，看看他们是哪个衙门的。"
+msgid "头一件：雪亭镇西边青石官道的路口、绮云镇口，有人挂着官府的告示收过路费，黄金一两。乔阴县衙没贴过那样的告示——拿下，搜身，看看他们是哪个衙门的。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.say
@@ -41957,7 +41968,7 @@ msgstr ""
 
 #. choyin.npc.judgeman inquiry.路引.rules.say
 #: data/choyin/npcs.json
-msgid "绮云那个拿下了。雪亭南路口还有一个——两个都拿下了再来。"
+msgid "绮云那个拿下了。雪亭镇西边的路口还有一个——两个都拿下了再来。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.路引.rules.say
@@ -60340,7 +60351,7 @@ msgstr ""
 
 #. native.npc.ge_sheng inquiry.武举.rules.lines.say
 #: data/imperial/npcs.json
-msgid "第一场免了。直接找孙校尉，最后是邓将军。打到见血就算，不许下死手。三场都过了，明日殿试。"
+msgid "第一场免了。直接找孙校尉，最后是邓将军。打到见血就算，不许下死手。这两场都过了，明日殿试。"
 msgstr ""
 
 #. native.npc.ge_sheng inquiry.武举.rules.lines.emote

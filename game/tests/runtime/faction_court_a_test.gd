@@ -161,6 +161,11 @@ func _test_case(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.get("绮云镇口收钱的倒了", 0) == 1 and not gate.floor_items.floor_item_of(PASSES, GATE).is_empty(), "牛四 ran too, his 路引 on the ground")
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"passes", "both down: to 程不平")
+	hall = MapPlaces.enter(session, HALL, HALL_POINT)
+	await _settle(tree)
+	_check(_said(_ask(hall, _first(session, HALL, JUDGE), "捕快"), "路引带来本县看"), "捕快 with both down: bring the 路引")
+	MapPlaces.enter(session, GATE, GATE_POINT)
+	await _settle(tree)
 	missing = StoryFixtures.missing_after_play(session, StoryFixtures.court_tolls)
 	_check(missing.is_empty(), "played leaves what court_tolls writes: %s" % [missing])
 	hall = MapPlaces.enter(session, HALL, HALL_POINT)
@@ -178,8 +183,8 @@ func _test_case(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(standing.contains("乔阴县的捕快") and standing.contains("是你拿下的") and standing.contains("铁卫营"), "the 声望 page: %s" % standing)
 	# The 腰牌 lost: another.
 	hall.acts.take_from_player(BADGE)
-	if session.player_held_item_ids().get(BADGE, false) == false:
-		_check(_said(_ask(hall, judge, "捕快"), "丢了") and session.player_held_item_ids().get(BADGE, false) == true, "the 腰牌 lost: another")
+	_check(session.player_held_item_ids().get(BADGE, false) == false, "TEST-ONLY: the 腰牌 taken away")
+	_check(_said(_ask(hall, judge, "捕快"), "丢了") and session.player_held_item_ids().get(BADGE, false) == true, "the 腰牌 lost: another")
 
 
 ## The 荐书: a 捕快 entering the 武举 has the first bout waived; one made 捕快 after 第九章's way was taken hears
@@ -202,15 +207,18 @@ func _test_exam(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(_ask(school, ge, "武举"), "名字已经写上了"), "asked again: entered already")
 	rows = StoryQuestLog.checked_rows(catalog.story_quest(QUEST).checklist, session.quest_condition_test())
 	_check(not rows.any(func(row: StoryQuestLog.Checked) -> bool: return row.row.label.contains("武举的荐书")), "the 荐书 row gone once entered")
-	# Made 捕快 after 第九章's way was taken: no 荐书 in 程不平's words.
-	var later: CharacterState = state
-	later.marks.erase("做了乔阴捕快")
-	later.marks["早朝过"] = 1 # TEST-ONLY
+	# Made 捕快 after 第九章's way was taken (the 早朝), never entered: no 荐书 in 程不平's words, none at the 校武场.
+	for mark: String in ["做了乔阴捕快", "报了武举", "胜了第一场", "程不平荐了你"]:
+		state.marks.erase(mark) # TEST-ONLY: as if never
+	state.marks["早朝过"] = 1 # TEST-ONLY
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT)
 	await _settle(tree)
-	hall.acts.take_from_player(BADGE)
 	var said: Array[String] = _ask(hall, _first(session, HALL, JUDGE), "捕快")
-	_check(_said(said, "腰牌带在身上") and not _said(said, "第一场免考"), "after the 早朝: the 腰牌, no 荐书: %s" % [said])
+	_check(_said(said, "腰牌带在身上") and not _said(said, "第一场免考") and state.marks.get("做了乔阴捕快", 0) == 1, "after the 早朝: the 腰牌, no 荐书: %s" % [said])
+	school = MapPlaces.enter(session, SCHOOL, SCHOOL_POINT)
+	await _settle(tree)
+	said = _ask(school, _first(session, SCHOOL, GE), "武举")
+	_check(not _said(said, "第一场免了") and state.marks.get("报了武举", 0) == 1 and not state.marks.has("胜了第一场"), "after the 早朝 the 校武场 enters a 捕快 like anyone: %s" % [said])
 
 
 ## The 小屋's 密信 to the 真龙头: the 官府 line ends; 程不平 has no case for the player; the men are not there.
@@ -230,6 +238,10 @@ func _test_letter_to_huazi(tree: SceneTree, session: WorldSessionController) -> 
 	var judge: NpcRuntimeState = _first(session, HALL, JUDGE)
 	_check(_said(_ask(hall, judge, "捕快"), "给了叫花子"), "程不平: no case for one who gave the letter to the 叫花子")
 	_check(not judge.definition().talk().confirm_applies("捕快", state.marks, state.family.family_id), "nothing asked first")
+	state.marks.erase("密信给了花紫会") # TEST-ONLY: the line ended some other way (拜了花紫会, then left)
+	var badges: bool = session.player_held_item_ids().get(BADGE, false)
+	_check(_said(_ask(hall, judge, "捕快"), "本县不跟你说了") and _said(_ask(hall, judge, "路引"), "本县不跟你说了") and session.player_held_item_ids().get(BADGE, false) == badges, "the line ended: no 腰牌 again, no case")
+	state.marks["密信给了花紫会"] = 1 # TEST-ONLY
 	MapPlaces.enter(session, ROAD, ROAD_POINT)
 	await _settle(tree)
 	_check(_count_in(session, ROAD, TOLL_SNOW) == 0, "no man on the 路口 once the line ended")

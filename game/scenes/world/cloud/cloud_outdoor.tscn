@@ -1034,7 +1034,7 @@ script = ExtResource("marker")
 spawn_point_id = &"cloud.dukou.lu_decai.1"
 
 [node name="EntranceTollMan1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(888, 1192)
+position = Vector2(880, 1128)
 script = ExtResource("marker")
 spawn_point_id = &"cloud.entrance.toll_man.1"
 
