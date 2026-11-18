@@ -5,7 +5,8 @@ extends RefCounted
 ## d/waterfog/entrance.c (north with a weapon in hand while a 水烟阁武士 is there),
 ## d/green/entrance.c (east into the 迷阵 below 100000 combat_exp),
 ## d/green/outdoor.c (enter only for 绝尘子's apprentices: family/master_id),
-## d/temple/road2.c (enter only for 茅山派: family/family_name) and d/temple/road1.c
+## d/temple/road2.c (enter only for 茅山派: family/family_name; `unless_mark` lets through one
+## who holds that saved mark too — 林忌's leave for a friend of 茅山, 势力线第三批 茅山 A) and d/temple/road1.c
 ## (random(kar) < 3 slips on the moss: unconcious() and no way through).
 ## The player stays where they are and reads `lines`: the room's message() and then
 ## notify_fail(). `present` is the NPC that must be in the room (present() finds one
@@ -70,6 +71,8 @@ var value: int = 0
 var npc_id: StringName
 ## not_family: the family (a families.json ID) whose members may pass.
 var family_id: StringName
+## not_family: one who holds this saved mark passes too (empty: only the family).
+var unless_mark: String = ""
 var lines: Array[String] = []
 var pass_lines: Array[String] = []
 var legacy_source_path: String
@@ -151,7 +154,7 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 		Condition.NOT_APPRENTICE_OF:
 			return leaver.master_id != npc_id
 		Condition.NOT_FAMILY:
-			return leaver.family_id != family_id
+			return leaver.family_id != family_id and (unless_mark.is_empty() or int(leaver.marks.get(unless_mark, 0)) == 0)
 		Condition.KAR_SLIP:
 			# random(n) with n <= 0 is 0 without a draw (DECISIONS' global rule).
 			var drawn: int = 0 if leaver.kar <= 0 or not leaver.draw.is_valid() else int(leaver.draw.call(leaver.kar))
@@ -172,7 +175,7 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
-## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark, present?}, always, held {present, temp}, tries {temp, value, point}, never (pass_lines only),
+## not_apprentice_of {npc}, not_family {family, unless_mark?}, kar_slip {value}, no_mark {mark, present?}, always, held {present, temp}, tries {temp, value, point}, never (pass_lines only),
 ## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp | items, taken:
 ## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
@@ -205,6 +208,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.npc_id = StringName(reader.required_text("npc"))
 		Condition.NOT_FAMILY:
 			rule.family_id = StringName(reader.required_text("family"))
+			rule.unless_mark = reader.text("unless_mark")
 		Condition.NO_MARK:
 			rule.mark = reader.required_text("mark")
 			if reader.is_text("present"):

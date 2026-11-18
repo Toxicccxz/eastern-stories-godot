@@ -98,6 +98,7 @@
 		"native:latemoon/cold_robe": { "kind": "garment", "style": "robe", "cloth": "e6eef3", "trim": "a9c3d4", "pattern": "cloud", "accent": "c6dae6", "sash": "8fb0c6" },
 		"native:choyin/decree_copy": { "kind": "scroll", "open": true, "paper": "d9c58e", "rod": "6b4a2e", "ink": "2e2119" },
 		"native:choyin/magistrate_letter": { "kind": "letter", "paper": "ddd0a8", "fold": "bfa982", "seal": "b0302a:gloss", "ink": "1d1612" },
+		"native:temple/talisman_book": { "kind": "book", "cover": "2e3a5a", "label": "d8ccb0", "pages": "d9c9a0", "thread": "1d1612", "thick": 0.16 },
 		"native:choyin/luo_card": { "kind": "letter", "paper": "c83a2a", "fold": "a82a20", "seal": "e8b84a:gloss", "ink": "1d1612" },
 		"native:imperial/original_decree": { "kind": "scroll", "paper": "e8d8a0", "rod": "c8a040:gloss", "ribbon": "d8b84a" },
 		"native:imperial/war_ministry_copy": { "kind": "scroll", "paper": "d8ccb0", "rod": "5a4634", "ribbon": "6a2a20" },

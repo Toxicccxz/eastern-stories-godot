@@ -486,7 +486,8 @@
         "map": "temple.library",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
-          "StairsShape": [48, 48]
+          "StairsShape": [48, 48],
+          "Rect_32_32": [32, 32]
         },
         "stairs": [
           {
@@ -510,6 +511,14 @@
           },
           {
             "generated": "stairs"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "ScripturesInteraction",
+            "id": "temple.book_room2.landmark.scriptures",
+            "at": [224, 152],
+            "shape": "Rect_32_32"
           }
         ],
         "zones": [

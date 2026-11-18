@@ -13,6 +13,9 @@
 [sub_resource type="RectangleShape2D" id="StairsShape"]
 size = Vector2(48, 48)
 
+[sub_resource type="RectangleShape2D" id="Rect_32_32"]
+size = Vector2(32, 32)
+
 [sub_resource type="RectangleShape2D" id="Rect_384_288"]
 size = Vector2(384, 288)
 
@@ -131,6 +134,15 @@ position_smoothing_speed = 6.0
 [node name="CorpseLayer" type="Node2D" parent="."]
 
 [node name="Interactions" type="Node2D" parent="."]
+
+[node name="ScripturesInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(224, 152)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"temple.book_room2.landmark.scriptures"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/ScripturesInteraction"]
+shape = SubResource("Rect_32_32")
 
 
 [node name="MapView" type="Node" parent="."]
