@@ -62,6 +62,16 @@ func start(effect_id: StringName, applies: Dictionary[StringName, int], duration
 	return true
 
 
+## The entry named `effect_id` ends now, its applies gone, with no remove_effect() (native, 步玄 A:
+## a fight chant begun anew drops what the last fight's lines added). False when none runs.
+func stop(effect_id: StringName) -> bool:
+	for index: int in _entries.size():
+		if _entries[index].effect_id == effect_id:
+			_entries.remove_at(index)
+			return true
+	return false
+
+
 ## `elapsed_ms` pass: the entries whose time is up end (remove_effect()); their
 ## IDs, in the order they were started.
 func advance(elapsed_ms: int) -> Array[StringName]:

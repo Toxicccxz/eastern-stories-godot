@@ -339,7 +339,7 @@ static func objective(state: CharacterState, quests: Array[StoryQuestDefinition]
 static func target(state: CharacterState, quests: Array[StoryQuestDefinition]) -> StoryQuestDefinition.Target:
 	var quest: StoryQuestDefinition = tracked(state, quests)
 	var step: StoryQuestDefinition.Step = null if quest == null else current_step(state, quest)
-	return null if step == null else step.target
+	return null if step == null else step.target_for(state.marks)
 
 
 ## The quests begun, of `line` ("" for every line), the one with the newest record first.

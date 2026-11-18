@@ -864,6 +864,8 @@
     "native.npc.lu_decai_home": {"same_as": "common.npc.beggar.master"},
     "native.npc.assembly_lu_decai_true": {"same_as": "common.npc.beggar.master"},
     "native.npc.he_ping": {"note": "贺平：二十出头的后生，半截黑布蒙脸，旧短衣，腰挎一把漆掉了大半的旧腰刀（势力线 振远 A）", "coat": "34363c", "pants": "22232a", "skin": "d6a47a", "hair": "151315", "hair_style": "short", "headwear": "headscarf", "headwear_color": "1c1c20", "beard": "none", "waist": "sash", "prop": "blade_waist", "prop_color": "5a4a3a", "accent": "6a3a2a", "height": "standard", "build": "slim", "shoes": "dark"},
+    "native.npc.sword_soul_spar": {"same_as": "common.npc.scholar.sword_soul"},
+    "native.npc.luo_jianzhang": {"note": "骆建章：清瘦的中年书生，半旧青布长衫，袖口沾墨，中指的笔茧；眉眼像骆云舟，不笑（势力线 步玄 A）", "coat": "3c5a62", "pants": "2c3436", "skin": "e3ba8d", "hair": "1c2625", "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "1d1f22", "beard": "moustache", "waist": "sash", "prop": "book", "prop_color": "d8ccb0", "accent": "8a7a6c", "height": "standard", "build": "slim", "shoes": "dark"},
     "native.npc.road_robber": {"note": "劫道的汉子：敞着怀，腰扎草绳，刀出了鞘；花钱叫来的（势力线 振远 A）", "coat": "6a5a44", "pants": "3a3428", "skin": "c8946a", "hair": "1c1916", "hair_style": "topknot", "headwear": "none", "beard": "full", "waist": "sash", "prop": "blade_waist", "prop_color": "7a6a4a", "accent": "b8a682", "height": "standard", "build": "heavy", "shoes": "dark"}
   }
 }

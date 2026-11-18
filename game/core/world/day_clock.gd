@@ -64,6 +64,14 @@ func phase() -> DayPhaseDefinition:
 	return null if index < 0 else _phases[index]
 
 
+## The phase named `phase_id`, or null.
+func phase_by_id(phase_id: StringName) -> DayPhaseDefinition:
+	for candidate: DayPhaseDefinition in _phases:
+		if candidate.phase_id == phase_id:
+			return candidate
+	return null
+
+
 ## Game seconds from now until the next start of a phase whose id is one of `phase_ids` (going
 ## round the day); 0 while the day is in one of them, -1 when none of them is a phase.
 func seconds_until_phase(phase_ids: Array[StringName]) -> int:

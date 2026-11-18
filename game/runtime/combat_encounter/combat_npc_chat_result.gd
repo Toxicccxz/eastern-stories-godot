@@ -17,6 +17,10 @@ var _telegraph_label: String = ""
 var _ran_special: NpcSpecialAction
 ## 战斗决策层 4: the name the special ran under, as announced (「封」字诀), for the card's title.
 var _special_label: String = ""
+## Native (步玄 A; DECISIONS「打着念」): a fight chant's line — the mark it sets on the player ("" none),
+## and whether the NPC won the spar with it.
+var _chant_mark: String = ""
+var _ends_spar: bool = false
 
 
 func _init(p_lines: Array[VisionLine] = [], p_damaged: Array[StringName] = []) -> void:
@@ -74,6 +78,22 @@ func with_special_label(label: String) -> CombatNpcChatResult:
 ## The announced name of the special that ran this beat, "" when it had none.
 func special_label() -> String:
 	return _special_label
+
+
+## A fight chant's line (NpcHooks.fight_chant): `mark` set on the player, `ends_spar` the NPC wins the spar.
+func with_chant(mark: String, ends_spar: bool) -> CombatNpcChatResult:
+	_chant_mark = mark
+	_ends_spar = ends_spar
+	return self
+
+
+func chant_mark() -> String:
+	return _chant_mark
+
+
+## The NPC won the spar with this line (its fight chant's last): both stop, as combatd.c's friendly stop.
+func ends_spar() -> bool:
+	return _ends_spar
 
 
 ## random_move() in a fight: the NPC walked out to this zone (go.c's remove_all_enemy()).

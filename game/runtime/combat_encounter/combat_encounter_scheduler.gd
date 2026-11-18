@@ -1527,9 +1527,23 @@ func _npc_round_end(
 	# go.c: the NPC walked out of the room and out of the fight.
 	if boundary != null and said != null and not said.departure_zone_id().is_empty():
 		boundary.depart(bindings, chat.actor_id, said.departure_zone_id())
+	# 步玄 A (DECISIONS「打着念」): its chant's last line wins the spar — both stop, as combatd.c's friendly stop.
+	if said != null and said.ends_spar() and _encounter.mode == CombatEncounterMode.Value.SPAR:
+		_stop_spar_with(actor, bindings)
 	if boundary != null and not _inspect(boundary, bindings, chat):
 		return false
 	return true
+
+
+## combatd.c's friendly stop without a blow: `actor` and each one it fights or that fights it remove each other.
+func _stop_spar_with(actor: CombatSliceCharacterBinding, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	for other: CombatSliceCharacterBinding in bindings:
+		if other == actor:
+			continue
+		if actor.relationship.has_opponent(other.character_id):
+			actor.relationship.remove_opponent(other.character_id)
+		if other.relationship.has_opponent(actor.character_id):
+			other.relationship.remove_opponent(actor.character_id)
 
 
 ## 战斗拍数 C: what the beat's blow met on the counter ring as the resolver read it —

@@ -19,6 +19,13 @@ extends RefCounted
 ## - `chant` (sword_soul.c chant()): from the moment it is made, `stages` follow one another,
 ##   each `after` seconds of world time: its say (and a line, $N itself) and combat_exp it
 ##   gains; after the last the first comes again `repeat_after` seconds later.
+## - `fight_chant` (native, 势力线第三批 步玄 A; DECISIONS「打着念」): the chant said in a fight, on the
+##   NPC's own beats (CombatNpcChat): every `every` of them the next of its `stages` — its say (and a line,
+##   $N itself), `applies` it gains for the rest of the fight (CharacterTimedApplies: attack, defense,
+##   damage, armor), a `mark` set on the player (one that lapses at the start of the day phase
+##   `mark_lapses_at`, if any: CharacterState.lapse_marks()), and with `ends_spar` true it wins the spar
+##   there (combatd.c's friendly stop, the NPC the winner). Each fight begins it anew; what an earlier
+##   fight's lines added is gone as the first beat comes (the 问剑's 风泉剑灵: 剑气指天 … 剑神如意).
 ## - `ghost` (d/choyin/npc/ghost.c, shadow.c is_ghost()): char.c visible() hides it from one
 ##   who is no ghost: it is not drawn nor picked, and who fights it may miss their turn
 ##   (combatd.c fight(): random(100 + perception) < 100); chard.c make_corpse() leaves no
@@ -69,6 +76,8 @@ var defeated_say: String = ""
 var defeated_color: StringName = ColoredLine.PLAIN
 var chant_stages: Array[Stage] = []
 var chant_repeat_after: int = 0
+var fight_chant_stages: Array[FightStage] = []
+var fight_chant_every: int = 0
 var ghost: bool = false
 var die_item_id: StringName = &""
 var die_item_master: bool = false
@@ -147,6 +156,18 @@ class Stage:
 	var combat_exp: int = 0
 
 
+## One line of `fight_chant`.
+class FightStage:
+	extends RefCounted
+	var say: String = ""
+	var line: String = ""
+	var applies: Dictionary[StringName, int] = {}
+	var mark: String = ""
+	## A day phase id: the mark lapses as that phase begins ("" never).
+	var mark_lapses_at: StringName = &""
+	var ends_spar: bool = false
+
+
 func has_receive_damage() -> bool:
 	return hurt_divisor > 0 or pills > 0
 
@@ -161,6 +182,10 @@ func has_revive() -> bool:
 
 func has_chant() -> bool:
 	return not chant_stages.is_empty()
+
+
+func has_fight_chant() -> bool:
+	return not fight_chant_stages.is_empty()
 
 
 ## receive_damage: a blow of `damage` kee says the hurt line.
@@ -203,10 +228,14 @@ static func _color(reader: ContentRecordReader, key: String) -> StringName:
 	return color
 
 
+## What a `fight_chant` stage's `applies` may raise: query_temp("apply/<key>") as combat reads it.
+const FIGHT_CHANT_APPLIES: Array[String] = ["attack", "defense", "damage", "armor"]
+
+
 ## The NPC record's `receive_damage` {hurt?: {divisor, line, color?}, pills?: {count, below,
 ## line, color?}}, `kill_ob` {lines}, `revive` {exp_divisor, exp_plus, apply_divisor},
 ## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
-## repeat_after}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `spar_won_mark` a mark, `calls`
+## repeat_after}, `fight_chant` {every, stages: [{say, line?, applies?, mark?, mark_lapses_at?, ends_spar?}]}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `spar_won_mark` a mark, `calls`
 ## [{after, ...ScriptedAct}], `calls_hold` true, `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
 ## `follows_every_way` true, `trials` [NpcTrial]; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
@@ -278,6 +307,30 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		chant.finish()
 		if hooks.chant_stages.is_empty() or hooks.chant_repeat_after <= 0:
 			reader.fail("chant", "needs stages and a positive repeat_after")
+	var fight_chant: ContentRecordReader = reader.child("fight_chant")
+	if fight_chant != null:
+		found = true
+		hooks.fight_chant_every = fight_chant.required_integer("every")
+		for record: ContentRecordReader in fight_chant.children("stages"):
+			var stage := FightStage.new()
+			stage.say = record.required_text("say")
+			stage.line = record.text("line")
+			stage.mark = record.text("mark")
+			stage.mark_lapses_at = StringName(record.text("mark_lapses_at"))
+			stage.ends_spar = record.boolean("ends_spar", false)
+			var applies: ContentRecordReader = record.child("applies")
+			if applies != null:
+				for key: String in FIGHT_CHANT_APPLIES:
+					if applies.has(key):
+						stage.applies[StringName(key)] = applies.required_integer(key)
+				applies.finish()
+			record.finish()
+			if not stage.mark_lapses_at.is_empty() and stage.mark.is_empty():
+				fight_chant.fail("stages", "mark_lapses_at needs a mark")
+			hooks.fight_chant_stages.append(stage)
+		fight_chant.finish()
+		if hooks.fight_chant_stages.is_empty() or hooks.fight_chant_every <= 0:
+			reader.fail("fight_chant", "needs stages and a positive every")
 	if reader.has("ghost"):
 		found = true
 		hooks.ghost = reader.boolean("ghost", false)

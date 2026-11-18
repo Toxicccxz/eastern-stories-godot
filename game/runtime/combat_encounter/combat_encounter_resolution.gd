@@ -537,13 +537,28 @@ func _mark_spar_won(loser: NpcRuntimeState) -> void:
 ## A special's attacks (the player's 逐 / 点, 缺's due blow, an NPC chat special) end a spar
 ## the same way an ordinary opportunity does: each forward blow and riposte, in order.
 func _note_spar_winner(event: CombatSchedulerEvent, special: SpecialReport) -> void:
+	_note_chant(event)
 	if _encounter.mode != CombatEncounterMode.Value.SPAR:
+		return
+	# 步玄 A (DECISIONS「打着念」): a fight chant's last line won it for the NPC.
+	if event != null and event.chat != null and event.chat.ends_spar():
+		_spar_winner = event.actor_id
+		_spar_loser = &""
 		return
 	if event != null and event.resolution != null:
 		_note_spar_blows(event.resolution.forward_result, event.resolution.chain_result)
 	if special != null:
 		for attack: SpecialAttack in special.attacks():
 			_note_spar_blows(attack.forward, attack.chain)
+
+
+## NpcHooks.fight_chant (步玄 A; DECISIONS「打着念」): a line's mark is set on the player as it is said.
+func _note_chant(event: CombatSchedulerEvent) -> void:
+	if event == null or event.chat == null or event.chat.chant_mark().is_empty():
+		return
+	var player := _session.player_runtime()
+	if player != null and player.state != null:
+		player.state.marks[event.chat.chant_mark()] = 1
 
 
 func _note_spar_blows(forward: CombatSingleAttackExecutionResult, chain: CombatAttackChainResult) -> void:

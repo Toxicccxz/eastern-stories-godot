@@ -8862,6 +8862,22 @@
 							"say": "……"
 						}
 					]
+				},
+				"骆建章": {
+					"listed_marks": [
+						"骆云舟托了家书"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"庾子建下狱"
+							],
+							"say": "骆先生？老爷下了狱，他跟着去了相国府。那个人，在这府里十年，没说过一句多余的话。"
+						},
+						{
+							"say": "骆先生？客厅里写字的那位。他的字比我的符好看——老爷的信，十封有九封是他的笔。"
+						}
+					]
 				}
 			},
 			"recognize_apprentice": [
@@ -9256,6 +9272,266 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "native.npc.sword_soul_spar",
+			"legacy_source": "native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」) — 风泉剑灵 (daemon/class/scholar/sword_soul.c: 剑气指天 … 剑神如意！, its long) called out of the 风泉之剑 by 骆云舟 at night on the 曼雩台 to try one of 步玄's own or a 桃林的客 (步玄's old rule, 续写: 见过剑灵的人，才算步玄的人): only a spar; it says sword_soul.c's four lines as it fights, each one stronger (DECISIONS「打着念」), and its fourth wins the bout — struck before it, it owns you. The numbers are the plan's (a 切磋 for the mid game: its blade seldom lands, apply/attack −150, and it dodges well; a line each of its beats, so the four take about two rounds — measured in build, about 4 in 10 pass at a story-grown level 20, 8 in 10 at 30, all at 60), not sword_soul.c's 300000 (that one comes only when the sword's master dies). The attributes the original leaves to the roll are fixed here",
+			"name": "风泉剑灵",
+			"aliases": [
+				"sword soul",
+				"soul",
+				"剑灵"
+			],
+			"gender": "女性",
+			"age": 19,
+			"long": "一个高大的人形，只有轮廓发出暗蓝色的光芒，其他部份都是透明的！手里握着一道剑形的蓝光。\n",
+			"attributes": {
+				"str": 22,
+				"con": 22,
+				"cor": 24,
+				"spi": 24,
+				"int": 20,
+				"cps": 26,
+				"kar": 20,
+				"per": 24
+			},
+			"resources": {
+				"max_gin": 600,
+				"max_kee": 600,
+				"max_sen": 600
+			},
+			"combat_exp": 5000,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 10,
+				"parry": 10,
+				"dodge": 80
+			},
+			"carry": [
+				{
+					"item": "es2:obj/weapon/thin_sword",
+					"source": "obj/weapon/thin_sword.c",
+					"equip": "wield"
+				}
+			],
+			"apply": {
+				"attack": -150
+			},
+			"always_kept": true,
+			"accept_fight": [
+				{
+					"marks": [
+						"问剑过了"
+					],
+					"emote": "收剑而立，朝你微微点了点头。",
+					"accept": false
+				},
+				{
+					"marks": [
+						"剑灵回了剑"
+					],
+					"emote": "轮廓淡淡的，剑尖垂着——今夜的四句已经念完了。",
+					"accept": false
+				},
+				{
+					"emote": "举剑指天，轮廓亮了一亮。",
+					"accept": true
+				}
+			],
+			"fight_chant": {
+				"every": 1,
+				"stages": [
+					{
+						"say": "剑气指天 ...",
+						"applies": {
+							"attack": 10,
+							"defense": 10
+						}
+					},
+					{
+						"say": "剑心内敛 ...",
+						"applies": {
+							"attack": 10,
+							"defense": 15
+						}
+					},
+					{
+						"say": "剑芒游光 ...",
+						"applies": {
+							"attack": 15,
+							"defense": 20
+						}
+					},
+					{
+						"say": "剑神如意！",
+						"line": "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！$N收剑而立。",
+						"applies": {
+							"attack": 60,
+							"defense": 60
+						},
+						"mark": "剑灵回了剑",
+						"mark_lapses_at": "dawn",
+						"ends_spar": true
+					}
+				]
+			},
+			"spar_won_mark": "问剑过了"
+		},
+		{
+			"id": "native.npc.luo_jianzhang",
+			"legacy_source": "native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」) — 骆云舟's elder brother (imperial 韦执中: 骆家的二小子？他父亲骆易在老夫门下读过书。后来父子俩都去练剑了，可惜了那一手字; daemon/class/scholar/master.c: 骆云舟 本名骆建炎, 其父骆易), who never took up the sword and has written 庾子建's letters for ten years in the 尚书府's 客厅; at the 相国府 once 庾子建 is in prison (韦执中 keeps him there for the 刑部), as 庾清尘. 续写. The attributes are fixed here",
+			"name": "骆建章",
+			"aliases": [
+				"luo jianzhang",
+				"骆建章",
+				"书启",
+				"骆先生"
+			],
+			"title": "尚书府书启",
+			"gender": "男性",
+			"age": 42,
+			"long": "一个清瘦的中年书生，穿一件半旧的青布长衫，右手中指上有一道磨出来的老茧，袖口沾着墨。眉眼和曼雩台上那位掌门有几分像，只是不笑。\n",
+			"attributes": {
+				"str": 16,
+				"con": 18,
+				"cor": 20,
+				"spi": 26,
+				"int": 30,
+				"cps": 28,
+				"kar": 20,
+				"per": 22
+			},
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 150,
+				"dodge": 20,
+				"unarmed": 15
+			},
+			"always_kept": true,
+			"chat_chance": 4,
+			"chat_msg": [
+				"骆建章提着笔，在一张笺上写了几行，又揉成一团。\n",
+				"骆建章对着砚台磨墨，磨了很久，一个字也没写。\n"
+			],
+			"accept_fight": [
+				{
+					"say": "我拿笔的手，不拿剑。",
+					"accept": false
+				}
+			],
+			"accept_object": [
+				{
+					"item": "native:choyin/luo_letter",
+					"giver_lacks": [
+						"步玄的线断了"
+					],
+					"accept": true,
+					"destroys": true,
+					"mark_giver": "骆建章读了家书",
+					"lines": [
+						{
+							"emote": "看见信背面那四个字，停了一下，才拆开。"
+						},
+						{
+							"emote": "一行一行看下去，看到末尾，嘴角动了动。"
+						},
+						{
+							"say": "他还是那么写字，最后一笔甩出格子。"
+						},
+						{
+							"emote": "把信折好，收进袖子里。"
+						},
+						{
+							"say": "……替我谢谢他。别的，没什么好说的。"
+						}
+					]
+				},
+				{
+					"item": "native:choyin/luo_letter",
+					"accept": true,
+					"destroys": true,
+					"say": "建炎的信？……放这儿吧。"
+				},
+				{
+					"say": "我不收东西。",
+					"accept": false
+				}
+			],
+			"inquiry": {
+				"骆云舟": {
+					"rules": [
+						{
+							"asker_marks": [
+								"骆建章读了家书"
+							],
+							"say": "建炎……他还在乔阴耍剑？十年了，那一笔还是甩出格子。"
+						},
+						{
+							"say": "建炎？我弟弟。十年没见了。"
+						}
+					]
+				},
+				"庾子建": {
+					"rules": [
+						{
+							"asker_marks": [
+								"庾子建下狱"
+							],
+							"say": "大人……庾子建下了狱，刑部要问我的话。我在他身边写了十年字。"
+						},
+						{
+							"say": "大人口述，我落笔。十年了，他的话我写得比他说得快。"
+						}
+					]
+				},
+				"抄本": {
+					"listed_marks": [
+						"骆建章读了家书"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"步玄的线断了"
+							],
+							"say": "抄本？我抄过的东西多了。"
+						},
+						{
+							"asker_marks": [
+								"骆建章说了抄本"
+							],
+							"say": "我说过了。那三句，是我写的。"
+						},
+						{
+							"asker_carries": "兵部抄本",
+							"mark_asker": "骆建章说了抄本",
+							"lines": [
+								{
+									"emote": "看了一眼那卷抄本，手里的笔落在了纸上。"
+								},
+								{
+									"say": "……是我的字。"
+								},
+								{
+									"say": "大人口述，我落的笔。二十年前先帝的原令，我也誊过一份底子——一句话：寻剑，不得扰民一户。"
+								},
+								{
+									"say": "多出来的三句：征民夫，设关卡，拿人。是哪三句，我写的时候就知道。"
+								},
+								{
+									"emote": "把抄本推回给你，很久没有抬头。"
+								},
+								{
+									"say": "别跟建炎说。……你会跟他说的。"
+								}
+							]
+						},
+						{
+							"say": "抄本？我抄过的东西多了。拿来我看看。"
+						}
+					]
+				}
+			}
 		}
 	]
 }
