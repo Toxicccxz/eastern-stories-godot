@@ -2,9 +2,12 @@ class_name TitleLogo
 extends Control
 
 ## The title's logo (DECISIONS「标题画面」): the brush characters (东方故事, or Eastern Stories —
-## one language at a time) built from voxels in a 3D view of their own, each stroke thicker in
-## its middle, ink with a few flecks of gold, a vermilion seal (侠; a cut knot where the
-## language has no seal) and behind it all a broad vermilion brush stroke. TitleScreen tweens:
+## one language at a time) built in a 3D view of their own from blocks of every size and
+## material — stone, wood, iron, bronze, jade glass, gold and lamp-stones that blink — each
+## showing what time did to it: rust and verdigris, moss on its top, cracks, a few loose and
+## rocking, a few hanging off a stroke's lower edge and swinging. Strokes stand out in relief
+## toward their middle; a vermilion seal (侠; a cut knot where the language has no seal) and
+## behind it all a broad vermilion brush stroke. TitleScreen tweens:
 ##   write  0 → 1   the stroke is laid and the characters written, left to right
 ##   glint          a band of gold light passing over the strokes
 ##   charge         the light gathering in them before they burn
@@ -17,6 +20,47 @@ const LOGO: Shader = preload("res://presentation/title/shaders/title_logo.gdshad
 const EMBERS: Shader = preload("res://presentation/title/shaders/title_embers.gdshader")
 const CAMERA_DISTANCE: float = 400.0
 const FOV: float = 26.0
+## How many voxels the brush's ink is made bolder by, all round.
+const THICKEN: int = 1
+## A character block's side in voxels, and how often each is tried (bigger ones only where
+## the stroke has room).
+const BLOCK_SIZES: Array[int] = [1, 2, 3, 4, 5]
+const BLOCK_WEIGHTS: PackedFloat32Array = [0.04, 0.24, 0.36, 0.26, 0.1]
+## Materials come in patches this many voxels across (a run of stone, a band of iron, a stretch
+## of wood), PATCH_KEEP of the blocks in one being its material; the rest are strays.
+const PATCH: int = 11
+const PATCH_KEEP: float = 0.72
+## The dark bed under the blocks is laid in runs this long.
+const CORE_RUN: int = 4
+## Materials (the low three bits of a block's code; the shader draws each its own way). PLAIN is
+## the vermilion stroke and the seal.
+const PLAIN: int = 0
+const STONE: int = 1
+const WOOD: int = 2
+const IRON: int = 3
+const BRONZE: int = 4
+const GLASS: int = 5
+const GOLD: int = 6
+const LAMP: int = 7
+## What time did to a block (the code's upper bits).
+const LOOSE: int = 1
+const RUSTED: int = 2
+const MOSSY: int = 4
+const CRACKED: int = 8
+const HANGING: int = 16
+## Per material: how often it is picked, whether it makes up patches or only strays (gold and
+## the lamp-stones are accents), its colours, how likely each state is. The palette
+## stays dark so the characters read against the sky and the stroke; gold, glass and the
+## lamp-stones are the light in it.
+const MATERIALS: Dictionary = {
+	STONE: {"weight": 40, "patch": true, "colours": ["2e3036", "3c3e44", "46444a", "353a40", "48403a"], MOSSY: 0.15, CRACKED: 0.35, LOOSE: 0.06},
+	WOOD: {"weight": 18, "patch": true, "colours": ["452a16", "52341f", "38231a", "5e4128"], MOSSY: 0.12, CRACKED: 0.2, LOOSE: 0.07},
+	IRON: {"weight": 16, "patch": true, "colours": ["2c3036", "383b40", "24272b"], RUSTED: 0.45, LOOSE: 0.05},
+	BRONZE: {"weight": 10, "patch": true, "colours": ["6a4822", "74522a", "553a1a"], RUSTED: 0.45, LOOSE: 0.05},
+	GLASS: {"weight": 9, "patch": false, "colours": ["2f7a5e", "1f5c6c", "4a7c9a", "8a5a1c"], CRACKED: 0.2, LOOSE: 0.04},
+	GOLD: {"weight": 6, "patch": false, "colours": ["c9973a", "b8862e"], LOOSE: 0.05},
+	LAMP: {"weight": 9, "patch": false, "colours": ["ffc85a", "7fe6ff", "ff8a3a", "c8ff8a"], LOOSE: 0.03},
+}
 ## The blocks of one logo, built once per mask and seal in a run.
 static var _built: Dictionary = {}
 
@@ -79,7 +123,8 @@ func build(mask_path: String, seal_path: String) -> void:
 
 
 ## The logo's parts for a mask and seal, built once in a run: "ink" and "embers" (MultiMeshes),
-## "span" (its width in voxels), "cubes" ([position, colour, in the stroke] per block).
+## "span" (its width in voxels), "cubes" ([centre, colour, in the stroke] per block, then
+## [size, code, tilt] for the characters' blocks and their bed).
 static func parts_for(mask_path: String, seal_path: String) -> Dictionary:
 	var key: String = mask_path + "|" + seal_path
 	if not _built.has(key):
@@ -133,6 +178,8 @@ func _world() -> void:
 		sun.light_color = light[1]
 		sun.light_energy = light[2]
 		sun.shadow_enabled = light[3]
+		# Soft enough that the characters' shadow on the stroke does not fill their gaps.
+		sun.shadow_opacity = 0.55
 		world.add_child(sun)
 	_camera = Camera3D.new()
 	_camera.fov = FOV
@@ -196,19 +243,8 @@ static func _blocks(ink: Array[PackedByteArray], seal: Array[PackedByteArray]) -
 	var sparks: Array[Vector3] = []
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 11
-	var depth: PackedFloat32Array = _distance(ink, w, h)
-	for y: int in h:
-		for x: int in w:
-			if ink[y][x] == 0:
-				continue
-			var tall: int = clampi(int(1.0 + depth[y * w + x] * 0.9), 1, 5)
-			var spot := Vector3(x - w / 2.0, h / 2.0 - y, 0.0)
-			for z: int in tall:
-				var c: Color = Color("15151a").lerp(Color("3a3c4a"), float(z) / 4.0).lerp(Color("0e0e12"), rng.randf() * 0.3)
-				if z == tall - 1 and rng.randf() < 0.022:
-					c = Color("e8b54a")
-				cubes.append([spot + Vector3(0, 0, z), c, false])
-			sparks.append(spot + Vector3(0, 0, tall))
+	var thick: Array[PackedByteArray] = _thicken(ink, w, h)
+	_pack(cubes, sparks, thick, w, h, rng)
 	_brush(cubes, sparks, w, h, rng)
 	var side: int = _seal(cubes, seal, w, h, rng)
 	var span: float = float(w + side + 6)
@@ -222,13 +258,22 @@ static func _blocks(ink: Array[PackedByteArray], seal: Array[PackedByteArray]) -
 	ink_mesh.mesh = cube
 	ink_mesh.instance_count = cubes.size()
 	for index: int in cubes.size():
-		var p: Vector3 = cubes[index][0] + shift
-		ink_mesh.set_instance_transform(index, Transform3D(Basis.IDENTITY, p))
-		ink_mesh.set_instance_color(index, cubes[index][1])
+		var entry: Array = cubes[index]
+		var p: Vector3 = entry[0] + shift
+		var basis := Basis.IDENTITY
+		var code: int = 0
+		if entry.size() > 3:
+			basis = Basis.from_euler(entry[5]) * Basis.from_scale(entry[3])
+			code = entry[4]
+		ink_mesh.set_instance_transform(index, Transform3D(basis, p))
+		# The colour's alpha carries the block's material and what has become of it (code / 255).
+		var colour: Color = entry[1]
+		colour.a = code / 255.0
+		ink_mesh.set_instance_color(index, colour)
 		# z: when it is written (the stroke first, then the characters, left to right); w: when
 		# the burning front reaches it.
 		var xn: float = clampf((p.x + span / 2.0) / span, 0.0, 1.0)
-		var written: float = xn * 0.32 + rng.randf() * 0.03 if cubes[index][2] else 0.3 + xn * 0.58 + rng.randf() * 0.1
+		var written: float = xn * 0.32 + rng.randf() * 0.03 if entry[2] else 0.3 + xn * 0.58 + rng.randf() * 0.1
 		ink_mesh.set_instance_custom_data(index, Color(rng.randf(), rng.randf(), written, _burn_order(p, span, rng)))
 	var ember_mesh := MultiMesh.new()
 	ember_mesh.transform_format = MultiMesh.TRANSFORM_3D
@@ -242,6 +287,170 @@ static func _blocks(ink: Array[PackedByteArray], seal: Array[PackedByteArray]) -
 		ember_mesh.set_instance_transform(index, Transform3D(Basis.IDENTITY, q))
 		ember_mesh.set_instance_custom_data(index, Color(rng.randf(), rng.randf(), _burn_order(q, span, rng) + rng.randf() * 0.03, rng.randf()))
 	return {"ink": ink_mesh, "embers": ember_mesh, "span": span, "cubes": cubes}
+
+
+## The ink one voxel bolder all round, so the brush's hairlines carry blocks.
+static func _thicken(ink: Array[PackedByteArray], w: int, h: int) -> Array[PackedByteArray]:
+	var rows: Array[PackedByteArray] = []
+	for y: int in h:
+		var row := PackedByteArray()
+		row.resize(w)
+		for x: int in w:
+			var on: int = 0
+			for dy: int in range(-THICKEN, THICKEN + 1):
+				for dx: int in range(-THICKEN, THICKEN + 1):
+					var qx: int = x + dx
+					var qy: int = y + dy
+					if absi(dx) + absi(dy) <= THICKEN + 1 and qx >= 0 and qy >= 0 and qx < w and qy < h and ink[qy][qx] == 1:
+						on = 1
+			row[x] = on
+		rows.append(row)
+	return rows
+
+
+## The characters laid in blocks of every size (BLOCK_SIZES; bigger mid-stroke), each one of
+## MATERIALS with what time has done to it (rust, moss, cracks, loose, hanging off an edge),
+## raised in relief toward the middle of the stroke. Leftover voxels become small chips.
+## Character blocks are [centre, colour, false, size, code, tilt]; code = material | state << 3.
+static func _pack(cubes: Array, sparks: Array[Vector3], ink: Array[PackedByteArray], w: int, h: int, rng: RandomNumberGenerator) -> void:
+	var depth: PackedFloat32Array = _distance(ink, w, h)
+	var taken := PackedByteArray()
+	taken.resize(w * h)
+	var front := PackedFloat32Array()
+	front.resize(w * h)
+	var cells: Array[Vector2i] = []
+	for y: int in h:
+		for x: int in w:
+			if ink[y][x] == 1:
+				cells.append(Vector2i(x, y))
+	for i: int in range(cells.size() - 1, 0, -1):
+		var j: int = rng.randi_range(0, i)
+		var swap: Vector2i = cells[i]
+		cells[i] = cells[j]
+		cells[j] = swap
+	var weights: PackedFloat32Array = BLOCK_WEIGHTS
+	var patches: Dictionary = {}
+	for cell: Vector2i in cells:
+		if taken[cell.y * w + cell.x] == 1:
+			continue
+		var room: int = clampi(int(depth[cell.y * w + cell.x] * 2.0 + 1.0), 1, BLOCK_SIZES[-1])
+		var want: int = BLOCK_SIZES[rng.rand_weighted(weights)]
+		want = mini(want, room)
+		var anchor := Vector2i(-1, -1)
+		var size: int = want
+		while size >= 2:
+			anchor = _fit(ink, taken, w, h, cell, size, rng)
+			if anchor.x >= 0:
+				break
+			size -= 1
+		if anchor.x < 0:
+			anchor = cell
+			size = 1
+		var mid: float = 0.0
+		for y: int in range(anchor.y, anchor.y + size):
+			for x: int in range(anchor.x, anchor.x + size):
+				taken[y * w + x] = 1
+				mid = maxf(mid, depth[y * w + x])
+		var hangs_free: bool = anchor.y + size < h
+		if hangs_free:
+			for x: int in range(anchor.x, anchor.x + size):
+				if ink[anchor.y + size][x] == 1:
+					hangs_free = false
+		# The patch a block is in, its borders ragged.
+		var where := Vector2i(floori((anchor.x + rng.randi_range(-3, 3)) / float(PATCH)), floori((anchor.y + rng.randi_range(-3, 3)) / float(PATCH)))
+		if not patches.has(where):
+			patches[where] = _pick(rng, true)
+		var kind: int = patches[where] if rng.randf() < PATCH_KEEP else _pick(rng, false)
+		var block: Array = _block(anchor, size, mid, hangs_free, kind if size > 1 else STONE, w, h, rng)
+		cubes.append(block)
+		var face: float = (block[0] as Vector3).z + (block[3] as Vector3).z / 2.0
+		for y: int in range(anchor.y, anchor.y + size):
+			for x: int in range(anchor.x, anchor.x + size):
+				front[y * w + x] = face
+	for cell: Vector2i in cells:
+		sparks.append(Vector3(cell.x - w / 2.0, h / 2.0 - cell.y, front[cell.y * w + cell.x]))
+	_core(cubes, ink, w, h)
+
+
+## Under the blocks a dark bed the exact shape of the characters, so what shows between them
+## is the character, not the stroke behind it: short runs one voxel deep.
+static func _core(cubes: Array, ink: Array[PackedByteArray], w: int, h: int) -> void:
+	for y: int in h:
+		var x: int = 0
+		while x < w:
+			if ink[y][x] == 0:
+				x += 1
+				continue
+			var run: int = 0
+			while x + run < w and ink[y][x + run] == 1 and run < CORE_RUN:
+				run += 1
+			cubes.append([Vector3(x + run / 2.0 - w / 2.0, h / 2.0 - y - 0.5, 0.5), Color("121216"), false, Vector3(run, 1.0, 1.0), PLAIN, Vector3.ZERO])
+			x += run
+
+
+## Where an s-block holding `cell` fits: all of it free ink. (-1, -1) if
+## nowhere.
+static func _fit(ink: Array[PackedByteArray], taken: PackedByteArray, w: int, h: int, cell: Vector2i, s: int, rng: RandomNumberGenerator) -> Vector2i:
+	var need: int = s * s
+	var start: int = rng.randi_range(0, s * s - 1)
+	for k: int in s * s:
+		var o: int = (start + k) % (s * s)
+		var anchor := Vector2i(cell.x - o % s, cell.y - o / s)
+		if anchor.x < 0 or anchor.y < 0 or anchor.x + s > w or anchor.y + s > h:
+			continue
+		var inked: int = 0
+		var free: bool = true
+		for y: int in range(anchor.y, anchor.y + s):
+			for x: int in range(anchor.x, anchor.x + s):
+				if taken[y * w + x] == 1:
+					free = false
+					break
+				inked += ink[y][x]
+			if not free:
+				break
+		if free and inked >= need:
+			return anchor
+	return Vector2i(-1, -1)
+
+
+## One block: its material, colour, relief, small skew and what time did to it.
+static func _block(anchor: Vector2i, s: int, mid: float, hangs_free: bool, kind: int, w: int, h: int, rng: RandomNumberGenerator) -> Array:
+	var look: Dictionary = MATERIALS[kind]
+	var colours: Array = look["colours"]
+	var colour := Color(colours[rng.randi() % colours.size()]).lerp(Color.BLACK, rng.randf() * 0.12)
+	var state: int = 0
+	for flag: int in [RUSTED, MOSSY, CRACKED, LOOSE]:
+		if rng.randf() < float(look.get(flag, 0.0)):
+			state |= flag
+	var gap: float = rng.randf_range(0.05, 0.12)
+	var face: float = 1.2 + s * 0.3 + mid * 0.22 + rng.randf() * 0.4
+	if s == 1:
+		face = rng.randf_range(0.6, 1.4)
+	face = clampf(face, 0.6, 5.5)
+	var size := Vector3(s - gap, s - gap, face)
+	var centre := Vector3(anchor.x + s / 2.0 - w / 2.0, h / 2.0 - anchor.y - s / 2.0, 1.0 + face / 2.0)
+	var tilt := Vector3(rng.randf_range(-0.015, 0.015), rng.randf_range(-0.015, 0.015), rng.randf_range(-0.025, 0.025))
+	if state & LOOSE:
+		# Loose: it leans out of the stroke and stands proud of it.
+		tilt.x += rng.randf_range(0.08, 0.18)
+		centre.z += rng.randf_range(0.4, 1.2)
+		if hangs_free and s <= 3 and rng.randf() < 0.55:
+			# Hanging off the stroke's lower edge by a corner, swinging.
+			state = (state & ~LOOSE) | HANGING
+			tilt.z = rng.randf_range(0.25, 0.5) * (1.0 if rng.randf() < 0.5 else -1.0)
+			centre.y -= s * 0.4
+	return [centre, colour, false, size, kind | (state << 3), tilt]
+
+
+## A material by weight: of those that make up patches, or of all of them.
+static func _pick(rng: RandomNumberGenerator, patch: bool) -> int:
+	var kinds: Array[int] = []
+	var weights := PackedFloat32Array()
+	for kind: int in MATERIALS:
+		if MATERIALS[kind]["patch"] or not patch:
+			kinds.append(kind)
+			weights.append(float(MATERIALS[kind]["weight"]))
+	return kinds[rng.rand_weighted(weights)]
 
 
 ## A broad vermilion stroke behind the letters: a heavy round head on the left, hair streaks

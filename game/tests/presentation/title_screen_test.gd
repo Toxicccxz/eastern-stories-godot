@@ -47,7 +47,8 @@ func _test_data() -> void:
 	_check(errors.size() == 3, "an unknown weather, a zoom out of range and a tiny logo are refused: %s" % [errors])
 
 
-## The blocks: ink thicker mid-stroke, the stroke behind it, embers one per stroke column.
+## The blocks: characters raised toward mid-stroke in blocks of many sizes and materials on a
+## dark bed, the stroke behind them, embers one per inked voxel.
 func _test_logo_blocks() -> void:
 	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
 	var logo := TitleLogo.new()
@@ -68,6 +69,27 @@ func _test_logo_blocks() -> void:
 	_check(cubes.size() == ink.multimesh.instance_count, "one block per instance")
 	_check(deepest >= 2.0, "strokes rise toward their middle: %s" % deepest)
 	_check(stroke > 2000 and stroke < cubes.size(), "a vermilion stroke behind the letters")
+	# The characters: blocks of several sizes and materials, some showing their age, on a bed.
+	var sides: Dictionary = {}
+	var kinds: Dictionary = {}
+	var states: int = 0
+	var bed: int = 0
+	for cube: Array in cubes:
+		if cube.size() <= 3:
+			continue
+		var code: int = cube[4]
+		if code == TitleLogo.PLAIN:
+			bed += 1
+			continue
+		sides[roundi((cube[3] as Vector3).x)] = true
+		kinds[code & 7] = kinds.get(code & 7, 0) + 1
+		states |= code >> 3
+	_check(sides.size() >= 4, "blocks of several sizes: %s" % [sides.keys()])
+	_check(kinds.size() == TitleLogo.MATERIALS.size(), "every material is in it: %s" % [kinds])
+	_check(kinds.get(TitleLogo.STONE, 0) > kinds.get(TitleLogo.LAMP, 0) * 3 and kinds.get(TitleLogo.LAMP, 0) >= 10, "mostly stone, a scatter of lamp-stones: %s" % [kinds])
+	for flag: int in [TitleLogo.LOOSE, TitleLogo.RUSTED, TitleLogo.MOSSY, TitleLogo.CRACKED, TitleLogo.HANGING]:
+		_check(states & flag, "some blocks show state %d" % flag)
+	_check(bed > 500, "a dark bed under the blocks: %d runs" % bed)
 	var again := TitleLogo.new()
 	again.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
 	_check((again.get_node("LogoView/World/Board/Ink") as MultiMeshInstance3D).multimesh == ink.multimesh, "built once per mask in a run")

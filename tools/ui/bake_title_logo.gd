@@ -9,9 +9,9 @@ extends SceneTree
 
 const OUT: String = "res://assets/textures/title/"
 ## Glyph sizes in voxels (one font pixel = one voxel).
-const ZH_SIZE: int = 60
-const EN_SIZE: int = 44
-const SEAL_SIZE: int = 20
+const ZH_SIZE: int = 90
+const EN_SIZE: int = 84
+const SEAL_SIZE: int = 30
 const SEAL_FONT: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
 
 
