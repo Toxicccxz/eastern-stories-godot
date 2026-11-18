@@ -100,10 +100,11 @@ func _test_shell(tree: SceneTree) -> void:
 	_check(shell.new_game_button.get_node_or_null("Letters") != null and shell.new_game_button.get_node_or_null("Swash") != null, "with voxel letters and a stroke")
 	var quit_button: Button = shell.get_node("%QuitButton") as Button
 	_check(quit_button != null, "退出游戏 is on the menu")
-	# The first choice's place name waits for the clouds to part (it once rose over them alone).
+	# The first choice's place name waits for the clouds to part (it once rose over them alone),
+	# and the menu for the seal to be stamped.
 	await tree.create_timer(1.6).timeout
 	_check(title.menu_fx.menu_alpha < 0.01 and title.caption.modulate.a < 0.01, "the place's name waits while the clouds part: name %.2f, menu %.2f" % [title.caption.modulate.a, title.menu_fx.menu_alpha])
-	await tree.create_timer(1.6).timeout
+	await tree.create_timer(TitleScreen.MENU_UP_SECONDS - 1.6 + 0.9).timeout
 	_check(title.caption.modulate.a > 0.9 and not title.caption.text.is_empty(), "and rises with the menu: %.2f" % title.caption.modulate.a)
 	# A quick pass over one choice onto the next leaves one stroke (two once stayed out).
 	shell.menu_settings_button.grab_focus()

@@ -15,13 +15,17 @@ signal entered
 ## Below the shell's dialogs; above them while a journey starts (it covers the busy note).
 const LAYER: int = 99
 const ENTERING_LAYER: int = 101
-## When the menu's letters come up in the first opening (seconds, at its pace): the clouds have
-## mostly parted. The place's name waits for it.
-const MENU_UP_SECONDS: float = 2.2
+## When the title starts being gilded in the first opening (seconds, at its pace), and when the
+## menu's letters come up: a beat after the seal is stamped. The place's name waits for it.
+const LOGO_FROM_SECONDS: float = 1.1
+const MENU_UP_SECONDS: float = LOGO_FROM_SECONDS + TitleLogo.STAMP_FROM + TitleLogo.STAMP_SECONDS + 0.1
 ## How long the white holds before the voxel animation comes onto it.
-const LOADER_AFTER_SECONDS: float = 0.2
+const LOADER_AFTER_SECONDS: float = 0.0
 ## `write` once the title is gilded, its line up and its seal stamped.
 const LOGO_STANDS: float = 1.0
+## Starting a journey: when the gold goes to dust, and when the clouds and the white close in.
+const DUST_FROM: float = 0.8
+const WHITE_FROM: float = DUST_FROM + 0.5
 
 var definition: TitleScreenDefinition
 var sand: TitleSand
@@ -127,6 +131,7 @@ func _notification(what: int) -> void:
 
 func _process(delta: float) -> void:
 	_menu_up_in = maxf(0.0, _menu_up_in - delta)
+	logo.clear = 1.0 - sky.cover
 	if caption.modulate.a > 0.0:
 		var spot: Vector2 = sand.centre_on_screen()
 		caption.position = (spot + Vector2(-caption.size.x / 2.0, -caption.size.y - 26.0 + sin(sand.clock * 1.6) * 3.0)).round()
@@ -173,7 +178,7 @@ func _show() -> void:
 	t.tween_property(sky, "rays", 1.8, 1.0 * pace).set_delay(1.1 * pace).set_trans(Tween.TRANS_SINE)
 	t.tween_property(sky, "rays", 0.85, 2.0 * pace).set_delay(2.3 * pace)
 	t.tween_property(sand, "zoom", 0.66, 3.4 * pace).set_delay(0.4 * pace).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	t.tween_property(logo, "write", LOGO_STANDS, TitleLogo.ARRIVAL_SECONDS * LOGO_STANDS * pace).set_delay(1.1 * pace)
+	t.tween_property(logo, "write", LOGO_STANDS, TitleLogo.ARRIVAL_SECONDS * LOGO_STANDS * pace).set_delay(LOGO_FROM_SECONDS * pace)
 	# The menu is usable at once; its letters come up as the clouds part.
 	menu_fx.menu_alpha = 0.0
 	_menu_up_in = MENU_UP_SECONDS * pace
@@ -247,7 +252,8 @@ func _on_chosen(button: Button) -> void:
 	create_tween().tween_property(logo, "glint", logo.glint_at(1.1), 1.1).set_trans(Tween.TRANS_SINE)
 
 
-## A journey starts: a glint, the gold brightens and blows away as dust, the camera dives at
+## A journey starts: a glint, the gold brightens (DUST_FROM) and blows away as dust, and only once
+## the dust is seen (WHITE_FROM) the clouds close and the light floods in; the camera dives at
 ## `place`, the clouds close and the light floods the screen; held white until the world is
 ## there, then faded.
 func _enter(place: StringName) -> void:
@@ -270,21 +276,21 @@ func _enter(place: StringName) -> void:
 	t.tween_property(logo, "glint", logo.glint_at(1.1), 0.45).set_trans(Tween.TRANS_SINE)
 	t.tween_property(sky, "rays", 1.1, 0.5)
 	t.tween_property(sky, "glow", 0.85, 0.5)
-	t.tween_property(logo, "charge", 1.0, 0.42).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	t.tween_property(logo, "charge", 1.0, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	t.tween_property(menu_fx, "modulate:a", 0.0, 0.4)
 	t.tween_property(caption, "modulate:a", 0.0, 0.3)
 	t.tween_property(sand.marker, "modulate:a", 0.0, 0.3)
-	t.tween_property(logo, "burn", 1.15, 1.15 * TitleLogo.LEAVING_SECONDS).set_delay(0.45)
-	t.tween_property(logo, "charge", 0.0, 0.5).set_delay(0.65)
+	t.tween_property(logo, "burn", 1.15, 1.15 * TitleLogo.LEAVING_SECONDS).set_delay(DUST_FROM)
+	t.tween_property(logo, "charge", 0.0, 0.5).set_delay(DUST_FROM + 0.1)
 	t.tween_property(sand, "centre", sand.place_of(place), 0.6).set_delay(0.45)
-	t.tween_property(sand, "zoom", 2.6, 2.4).set_delay(0.65).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	t.tween_property(sand, "zoom", 2.6, 1.4).set_delay(DUST_FROM).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	t.tween_callback(func() -> void:
 		sand.drift_on = 0.0
 		sky.wisp_close = 1.0).set_delay(0.45)
-	t.tween_property(sky, "cover", 1.0, 1.2).set_delay(1.95).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	t.tween_property(sky, "push", -0.5, 1.2).set_delay(1.95).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	t.tween_property(sky, "flare", 2.6, 0.8).set_delay(2.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	t.tween_property(whiteout, "color:a", 1.0, 0.5).set_delay(2.8)
+	t.tween_property(sky, "cover", 1.0, 0.9).set_delay(WHITE_FROM).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	t.tween_property(sky, "push", -0.5, 0.9).set_delay(WHITE_FROM).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	t.tween_property(sky, "flare", 2.6, 0.6).set_delay(WHITE_FROM + 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	t.tween_property(whiteout, "color:a", 1.0, 0.3).set_delay(WHITE_FROM + 0.6)
 	t.chain().tween_callback(_entered)
 
 

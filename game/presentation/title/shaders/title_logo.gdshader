@@ -3,7 +3,8 @@ shader_type canvas_item;
 // its edge antialiased) gilded — a low relief lit from the upper left, leaves of gold with faint
 // seams, worn through here and there to the dark lacquer under them, the brush's streaks, a slow
 // shimmer — over a soft dark shadow. TitleLogo tweens:
-//   write  0 → 1   the gold laid from left to right behind a ragged, glowing front
+//   write  0 → 1   the gold laid from left to right behind a ragged, glowing front (TitleLogo
+//                  sends how far the gilding has got, not its own `write`)
 //   glint          a band of light passing over it (0 = its left, 1 = its right)
 //   charge         the gold brightening before it goes
 //   burn   0 → 1   the gold blown away as dust from left to right, its edge burning bright
@@ -47,7 +48,7 @@ void fragment() {
 	vec2 px = texel * 2.5;
 	float hx = soft(UV + vec2(px.x, 0.0), px) - soft(UV - vec2(px.x, 0.0), px);
 	float hy = soft(UV + vec2(0.0, px.y), px) - soft(UV - vec2(0.0, px.y), px);
-	vec3 normal = normalize(vec3(-hx * 2.4, -hy * 2.4, 1.0));
+	vec3 normal = normalize(vec3(-hx * 1.44, -hy * 1.44, 1.0));
 	vec3 light = normalize(vec3(-0.45, -0.65, 0.62));
 	float diffuse = clamp(dot(normal, light), 0.0, 1.0);
 	float specular = pow(clamp(dot(reflect(-light, normal), vec3(0.0, 0.0, 1.0)), 0.0, 1.0), 16.0);
@@ -62,25 +63,31 @@ void fragment() {
 	// Near the outline the blurred mask drops below one.
 	float rim = 1.0 - smoothstep(0.82, 0.97, soft(UV, texel * 4.0));
 	float worn = smoothstep(0.58, 0.72, wear) * rim * 0.6;
-	vec3 low = vec3(0.34, 0.20, 0.07);
-	vec3 mid = vec3(0.88, 0.64, 0.26);
-	vec3 high = vec3(1.0, 0.9, 0.62);
-	vec3 gold = mix(low, mid, 0.35 + 0.65 * diffuse) * (0.94 + 0.12 * shade);
+	// Matt mottling over the whole of the gold, big enough to see from afar.
+	float mottle = fbm(pixel / 34.0 + 3.7, 3);
+	float matt = smoothstep(0.42, 0.7, mottle);
+	// Champagne gold, matt.
+	vec3 low = vec3(0.4, 0.31, 0.17);
+	vec3 mid = vec3(0.85, 0.7, 0.42);
+	vec3 high = vec3(1.0, 0.95, 0.8);
+	vec3 gold = mix(low, mid, 0.45 + 0.55 * diffuse) * (0.95 + 0.08 * shade);
 	gold *= 1.0 - seam * 0.07;
 	// The brush's streaks along the strokes.
 	gold *= 0.92 + 0.12 * gnoise(vec2(UV.x * 3.0, pixel.y / 3.5));
-	gold += high * specular * 0.85;
-	gold = mix(gold, vec3(0.14, 0.07, 0.04) + vec3(0.1, 0.05, 0.02) * diffuse, worn * 0.85);
+	gold += high * specular * 0.45;
+	gold *= 1.0 - matt * 0.22;
+	gold = mix(gold, vec3(0.14, 0.09, 0.05) + vec3(0.1, 0.06, 0.03) * diffuse, worn * 0.85);
 	// A slow shimmer, the glint passing, the light gathering before it goes.
 	float band = UV.x + (1.0 - UV.y) * 0.22;
-	float sweep = exp(-pow((band - glint) / 0.05, 2.0));
-	float shimmer = pow(0.5 + 0.5 * sin(TIME * 0.7 - band * 6.0), 10.0);
-	gold += high * (sweep * 1.3 + shimmer * 0.18) * (0.35 + diffuse) * (1.0 - worn * 0.7);
-	gold += high * charge * 0.5;
+	float sweep = exp(-pow((band - glint) / 0.08, 2.0));
+	float shimmer = 0.5 + 0.5 * sin(TIME * 0.6 - band * 2.0);
+	gold += high * sweep * 2.2 * (0.35 + diffuse) * (1.0 - worn * 0.7);
+	gold *= 0.96 + 0.08 * shimmer;
+	gold += high * charge * 0.55;
 	// The fronts glow where gold is being laid or blown away.
-	float laying = (1.0 - smoothstep(0.0, 0.05, abs(lay - laid_at))) * step(write, 1.0);
+	float laying = (1.0 - smoothstep(0.0, 0.07, abs(lay - laid_at))) * step(write, 1.0);
 	float blowing = (1.0 - smoothstep(0.0, 0.06, abs(blow - gone_at))) * step(0.0, burn);
-	gold += vec3(1.0, 0.8, 0.45) * laying * 1.6;
+	gold += vec3(1.0, 0.86, 0.6) * laying * 2.24;
 	gold += vec3(1.0, 0.7, 0.3) * blowing * 2.2;
 	float letter = a * vis + a * blowing * 0.8 * (1.0 - vis);
 	// The shadow under it, and a dark rim hugging the letters so they read on bright ground.

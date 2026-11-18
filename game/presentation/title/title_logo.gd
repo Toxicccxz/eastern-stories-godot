@@ -3,12 +3,14 @@ extends Control
 
 ## The title's logo (DECISIONS「标题画面」): the title in gold leaf — 东方故事 in a brush hand (or
 ## EASTERN STORIES in capitals, one language at a time) gilded by title_logo.gdshader, a line of
-## the other language spaced out under it, a vermilion seal (侠) stamped at its foot, and a soft
-## dark oval behind it so the gold stands off the 沙盘. It is drawn into a see-through view of its
+## the other language spaced out under it, a vermilion seal (侠) stamped at its foot, and a dusk
+## over the 沙盘 — darker all over and darker still in a wide oval behind the title — that comes
+## in as the clouds clear (`clear`) so the gold glows on a dim ground. It is drawn into a see-through view of its
 ## own, whose picture TitleSky reads to cut the sun's shafts between the strokes. TitleScreen
 ## tweens:
-##   write  0 → 1   the gold laid from left to right behind a glowing front, then the line under
-##                  it and the seal stamped (ARRIVAL_SECONDS for 0 → 1)
+##   write  0 → 1   the gold laid from left to right behind a glowing front (GILD_SECONDS), the
+##                  line under it coming up, then a beat later the seal stamped down with a small
+##                  rebound (ARRIVAL_SECONDS for 0 → 1)
 ##   glint          a band of light passing over the gold (glint_at: 0 its left, 1 its right)
 ##   charge         the gold brightening before it goes
 ##   burn  -0.2 → 1.15  the gold blown away as glittering dust (LEAVING_SECONDS for 0 → 1)
@@ -17,27 +19,39 @@ const GOLD: Shader = preload("res://presentation/title/shaders/title_logo.gdshad
 const SEAL: Shader = preload("res://presentation/title/shaders/title_seal.gdshader")
 const DIM: Shader = preload("res://presentation/title/shaders/title_dim.gdshader")
 const LINE_FONT: FontFile = preload("res://assets/fonts/LXGWWenKaiLite-Medium.ttf")
-const ARRIVAL_SECONDS: float = 2.4
-const LEAVING_SECONDS: float = 1.5
-## Of the 0 → 1 arrival, when the line under the title comes up and when the seal is stamped.
-const LINE_AT: Vector2 = Vector2(0.62, 0.92)
-const STAMP_AT: Vector2 = Vector2(0.86, 0.98)
+## The arrival's beats, in seconds: the gilding, the line under the title coming up, the seal's
+## stamp a beat after the gilding (down from 1.6 times its size to 0.96, then settling to 1).
+const GILD_SECONDS: float = 1.5
+const LINE_SECONDS: Vector2 = Vector2(1.2, 1.6)
+const STAMP_FROM: float = 1.72
+const STAMP_SECONDS: float = 0.18
+const SETTLE_SECONDS: float = 0.08
+const ARRIVAL_SECONDS: float = 2.0
+const LEAVING_SECONDS: float = 1.0
 ## The line under the title: its size (UI pixels at 1280 wide) and the room between its letters
 ## (parts of its size).
 const LINE_SIZE: float = 21.0
 const LINE_SPACING: float = 0.55
-## The seal's side against the title's height, and how dark the oval behind it gets.
-const SEAL_SHARE: float = 0.3
-const DIM_STRENGTH: float = 0.7
+## The seal's side against the letters' height, the room between it and the last letter (UI
+## pixels at 1280 wide), and where its middle stands down the letters (0 top, 1 foot).
+const SEAL_SHARE: float = 0.34
+const SEAL_GAP: float = 10.0
+const SEAL_DOWN: float = 0.72
+## The seal's mask is padded; its square fills this much of it (title_seal.gdshader's inset).
+const SEAL_FILL: float = 0.76
+## The lettering masks' clear border (tools/ui/bake_title_logo.gd PAD), in mask pixels.
+const MASK_PAD: float = 40.0
 
 var write: float = 0.0
 var burn: float = -0.2
 var charge: float = 0.0
 var glint: float = -9.0
+## How clear of clouds the sky is (1 - TitleSky.cover): the dusk under the title waits for it.
+var clear: float = 1.0
 ## Where the title's middle stands (parts of the screen) and how wide it is (UI pixels at 1280
 ## wide).
 var at: Vector2 = Vector2(0.3, 0.22)
-var width_px: float = 660.0
+var width_px: float = 740.0
 
 var _view: SubViewport
 var _dim: ColorRect
@@ -60,6 +74,7 @@ func _init() -> void:
 	_dim.name = "Dim"
 	_dim.material = _dim_mat
 	_dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(_dim)
 	_view = SubViewport.new()
 	_view.name = "LogoView"
@@ -89,6 +104,9 @@ func _init() -> void:
 	_line.add_theme_constant_override("shadow_offset_x", 0)
 	_line.add_theme_constant_override("shadow_offset_y", 2)
 	_line.add_theme_constant_override("shadow_outline_size", 6)
+	# A thin dark edge as well: the line can sit in the sun's glare.
+	_line.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.01, 0.35))
+	_line.add_theme_constant_override("outline_size", 2)
 	_view.add_child(_line)
 	_dust = _gold_dust()
 	_view.add_child(_dust)
@@ -120,18 +138,20 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	_gold.set_shader_parameter("write", write)
+	var t: float = write * ARRIVAL_SECONDS
+	_gold.set_shader_parameter("write", clampf(t / GILD_SECONDS, 0.0, 1.0) if write < 1.0 else write)
 	_gold.set_shader_parameter("burn", burn)
 	_gold.set_shader_parameter("glint", glint)
 	_gold.set_shader_parameter("charge", charge)
 	var leaving: float = clampf(burn, 0.0, 1.0)
-	var line_up: float = smoothstep(LINE_AT.x, LINE_AT.y, write)
+	var line_up: float = smoothstep(LINE_SECONDS.x, LINE_SECONDS.y, t)
 	_line.modulate.a = line_up * (1.0 - smoothstep(0.0, 0.5, leaving))
-	var stamp: float = clampf((write - STAMP_AT.x) / (STAMP_AT.y - STAMP_AT.x), 0.0, 1.0)
-	var settle: float = 1.0 - pow(1.0 - stamp, 3.0)
-	_seal.scale = Vector2.ONE * lerpf(1.6, 1.0, settle)
-	_seal_mat.set_shader_parameter("fade", stamp * (1.0 - smoothstep(0.3, 0.8, leaving)))
-	_dim_mat.set_shader_parameter("strength", DIM_STRENGTH * smoothstep(0.0, 0.5, write) * (1.0 - leaving))
+	var down: float = clampf((t - STAMP_FROM) / STAMP_SECONDS, 0.0, 1.0)
+	var settle: float = clampf((t - STAMP_FROM - STAMP_SECONDS) / SETTLE_SECONDS, 0.0, 1.0)
+	var scale_now: float = lerpf(1.6, 0.96, down * down) if down < 1.0 else lerpf(0.96, 1.0, smoothstep(0.0, 1.0, settle))
+	_seal.scale = Vector2.ONE * scale_now
+	_seal_mat.set_shader_parameter("fade", smoothstep(0.0, 0.35, down) * (1.0 - smoothstep(0.3, 0.8, leaving)))
+	_dim_mat.set_shader_parameter("strength", clampf(clear, 0.0, 1.0) * (1.0 - leaving))
 	var burning: bool = burn > 0.0 and burn < 1.0
 	if burning and not _was_burning:
 		_dust.restart()
@@ -140,7 +160,7 @@ func _process(_delta: float) -> void:
 
 
 ## The view follows the window: the title stands at `at`, `width_px` wide, the line under it, the
-## seal at its lower right; the dark oval behind all of it.
+## seal by its last letter's foot; the dusk's oval round all of it.
 func _place() -> void:
 	if not is_inside_tree():
 		return
@@ -163,18 +183,22 @@ func _place() -> void:
 	_line.add_theme_font_size_override("font_size", font_size)
 	_line.size = Vector2(size_px.x, font_size * 1.6)
 	_line.position = Vector2(_letters.position.x, _letters.position.y + size_px.y * 0.86)
-	var side: float = size_px.y * SEAL_SHARE
+	# The ink's own box inside the padded mask.
+	var pad: Vector2 = Vector2(MASK_PAD, MASK_PAD) * size_px.x / letters.get_width()
+	var ink_top: float = _letters.position.y + pad.y
+	var ink_tall: float = size_px.y - pad.y * 2.0
+	var ink_right: float = _letters.position.x + size_px.x - pad.x
+	var square: float = ink_tall * SEAL_SHARE
+	var side: float = square / SEAL_FILL
 	_seal.size = Vector2(side, side)
 	_seal.pivot_offset = _seal.size / 2.0
-	_seal.position = _letters.position + Vector2(size_px.x * 0.94 - side * 0.3, size_px.y * 0.72 - side * 0.5)
+	_seal.position = Vector2(ink_right + SEAL_GAP * unit + square / 2.0, ink_top + ink_tall * SEAL_DOWN) - _seal.size / 2.0
 	_dust.position = middle
 	_dust.emission_rect_extents = size_px * 0.42
-	_dust.scale_amount_min = 1.5 * unit
-	_dust.scale_amount_max = 4.0 * unit
-	var to_ui: Vector2 = size / screen
-	var reach := Vector2(size_px.x * 1.35, size_px.y * 2.4)
-	_dim.position = (middle - reach / 2.0) * to_ui
-	_dim.size = reach * to_ui
+	_dust.scale_amount_min = 1.4 * unit
+	_dust.scale_amount_max = 2.4 * unit
+	_dim_mat.set_shader_parameter("middle", at)
+	_dim_mat.set_shader_parameter("reach", Vector2(size_px.x * 1.1, size_px.y * 2.6) / screen)
 
 
 func _rect(node_name: String, mat: ShaderMaterial) -> TextureRect:
@@ -194,7 +218,7 @@ static func _gold_dust() -> CPUParticles2D:
 	var dust := CPUParticles2D.new()
 	dust.name = "Dust"
 	dust.emitting = false
-	dust.amount = 220
+	dust.amount = 290
 	dust.lifetime = 1.8
 	dust.explosiveness = 0.0
 	dust.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
