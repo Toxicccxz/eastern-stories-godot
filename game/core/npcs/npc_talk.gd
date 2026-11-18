@@ -50,6 +50,9 @@ var _confirm_carries: Dictionary[String, String] = {}
 ## of what can be asked only for one who holds all these marks (李火狮's two answers on the 门房
 ## once he has put the question: listed to everyone they would give 刘安禄 away).
 var _listed_marks: Dictionary[String, Array] = {}
+## Native (势力线第三批 茅山 B; DECISIONS「话题按印记列出」): `listed_any` — and one of these marks
+## too (林忌's 剿: for one who heard of the 余孽 on the 卧底 line, or one who burnt the 符箓).
+var _listed_any: Dictionary[String, Array] = {}
 ## relay_say(): what the NPC answers when the player says a line beside it.
 var _relay_say: Dictionary[String, Array] = {}
 var _relay_ask: Array[NpcLine] = []
@@ -163,18 +166,20 @@ func confirm_applies(topic: String, marks: Dictionary, family_id: StringName = &
 	return family.is_empty() or family != family_id
 
 
-## Whether `topic` is on the list for a player with these saved marks (its listed_marks all held);
-## a topic with none is listed to everyone.
+## Whether `topic` is on the list for a player with these saved marks (its listed_marks all held,
+## one of its listed_any if any); a topic with none is listed to everyone.
 func listed_for(topic: String, marks: Dictionary) -> bool:
 	for mark: String in _listed_marks.get(topic, []):
 		if marks.get(mark, 0) == 0:
 			return false
-	return true
+	var any: Array = _listed_any.get(topic, [])
+	return any.is_empty() or any.any(func(mark: String) -> bool: return marks.get(mark, 0) != 0)
 
 
 ## Called once by the loader.
-func with_listed_marks(listed_marks: Dictionary[String, Array]) -> NpcTalk:
+func with_listed_marks(listed_marks: Dictionary[String, Array], listed_any: Dictionary[String, Array] = {}) -> NpcTalk:
 	_listed_marks = listed_marks.duplicate()
+	_listed_any = listed_any.duplicate()
 	return self
 
 

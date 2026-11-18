@@ -413,6 +413,8 @@ msgstr ""
 #. native.npc.toll_man_snow gender
 #. native.npc.toll_man_cloud gender
 #. native.npc.lu_decai_home gender
+#. native.npc.maoshan_gardener gender
+#. native.npc.maoshan_gardener_north gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -4421,6 +4423,7 @@ msgstr ""
 #. native.npc.assembly_old_woman inquiry topic
 #. native.npc.assembly_daughter inquiry topic
 #. native.npc.lu_decai_home inquiry topic
+#. native.npc.maoshan_gardener inquiry topic
 #. native:waterfog/terrace short
 #: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/common/npcs.json data/story/epilogue.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json data/native/rooms.json
 msgid "虹台"
@@ -4462,12 +4465,13 @@ msgid "封山"
 msgstr ""
 
 #. name
+#. ending cards.title
 #. faction.maoshan region
 #. goathill.npc.bandit_hwang inquiry topic
 #. temple name
 #. city.npc.shangshu.qing_chen inquiry topic
 #. native.npc.huo_zheng inquiry topic
-#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/story/faction_maoshan.json data/goathill/npcs.json data/temple/world.json data/city/npcs.json data/niling/npcs.json
+#: scenes/world/waterfog/waterfog_terrace.tscn data/common/atlas.json data/story/epilogue.json data/story/faction_maoshan.json data/goathill/npcs.json data/temple/world.json data/city/npcs.json data/niling/npcs.json
 msgid "茅山"
 msgstr ""
 
@@ -6413,7 +6417,8 @@ msgid "打法"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry topic
-#: core/relationships/family_relation.gd data/city/npcs.json
+#. native.npc.maoshan_gardener inquiry topic
+#: core/relationships/family_relation.gd data/city/npcs.json data/native/npcs.json
 msgid "师兄"
 msgstr ""
 
@@ -16486,7 +16491,8 @@ msgstr ""
 #. temple.npc.tfighter family.name
 #. temple.npc.tfighter inquiry topic
 #. city.npc.shangshu.gardener inquiry topic
-#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_maoshan.json data/temple/npcs.json data/city/npcs.json
+#. native.npc.maoshan_gardener inquiry topic
+#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_maoshan.json data/temple/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "茅山派"
 msgstr ""
 
@@ -17149,6 +17155,7 @@ msgstr ""
 #. cloud.npc.b_header inquiry topic
 #. city.npc.chen inquiry topic
 #. native.npc.lu_decai_home inquiry topic
+#. native.npc.maoshan_gardener inquiry topic
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "这一票"
 msgstr ""
@@ -17174,6 +17181,7 @@ msgstr ""
 #. cloud.npc.b_header inquiry.改投.rules.say
 #. city.npc.chen inquiry.这一票.rules.say
 #. native.npc.lu_decai_home inquiry.这一票.rules.say
+#. native.npc.maoshan_gardener inquiry.这一票.rules.say
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "虹台上已经入了席。票就是票了。"
 msgstr ""
@@ -17220,6 +17228,7 @@ msgstr ""
 #. native.npc.he_ping inquiry.走吧.rules.say
 #. native.npc.latemoon_daughter inquiry.娘.rules.say
 #. native.npc.lu_decai_home inquiry.这一票.rules.say
+#. native.npc.maoshan_gardener inquiry.这一票.rules.say
 #: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
@@ -18751,6 +18760,7 @@ msgstr ""
 #. city.npc.shangshu.gardener inquiry topic
 #. native.npc.lin_ji_lake name
 #. native.npc.assembly_lin_ji name
+#. native.npc.maoshan_gardener inquiry topic
 #: data/common/npcs.json data/city/npcs.json data/native/npcs.json
 msgid "林忌"
 msgstr ""
@@ -18801,8 +18811,52 @@ msgid "道童？"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.师弟.rules.say
+#. common.npc.taoist.taolord inquiry.烧.rules.say
 #: data/common/npcs.json
 msgid "茅山的家事，不劳你了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.emote
+#. cloud.npc.b_header inquiry.虹台.rules.lines.emote
+#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
+#. latemoon.npc.room.annihi inquiry.教主.rules.lines.emote
+#: data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json
+msgid "没有抬头。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
+#: data/common/npcs.json
+msgid "书在藏经楼，他守着。他二十年不进这道门——进来一回，就不走了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
+#: data/common/npcs.json
+msgid "你们说留，就留吧。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.say
+#: data/common/npcs.json
+msgid "书烧了。他回京城去了——那里还有他守着的人。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
+#: data/common/npcs.json
+msgid "书在这里，人也在这里。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
+#: data/common/npcs.json
+msgid "烧，问我「烧」；留，去问他「留」。你带它回来的——你说。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
+#: data/common/npcs.json
+msgid "他会来的。书在我这里，他总要来看一眼。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.师弟.rules.lines.say
+#: data/common/npcs.json
+msgid "下回你进大殿，他就在门口了。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.师弟.rules.say
@@ -18878,6 +18932,64 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.师弟.rules.say
 #: data/common/npcs.json
 msgid "茅山的家事。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry topic
+#: data/common/npcs.json
+msgid "烧"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.confirm
+#: data/common/npcs.json
+msgid ""
+"跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n"
+"林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根。\n"
+"终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n"
+"要这么办吗？"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.say
+#: data/common/npcs.json
+msgid "书锁回去了。……师弟守着。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.say
+#. city.npc.shangshu.gardener inquiry.符箓.rules.say
+#. native.npc.maoshan_gardener inquiry.符箓.rules.say
+#: data/common/npcs.json data/city/npcs.json data/native/npcs.json
+msgid "烧了。灰是青的。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.lines.emote
+#: data/common/npcs.json
+msgid "把《上清符箓》捧到殿前的香炉边，一页一页撕下来，投进去。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"前半本的朱砂符烧起来是红的，后半本的黑字烧起来是青的。花匠站在殿门口，一直看到最后一页。\n"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.lines.say
+#: data/common/npcs.json
+msgid "茅山宁可没有这本书。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.lines.say
+#: data/common/npcs.json
+msgid "师弟，回京城去吧。那孩子还要人看着。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"花匠朝林忌拜了一拜，什么也没说，转身下山去了。\n"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.烧.rules.say
+#: data/common/npcs.json
+msgid "烧什么？"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.谷衣心法
@@ -19426,8 +19538,19 @@ msgid "虹台上的事定了。茅山照旧降妖伏魔。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.虹台.rules.say
-#: data/common/npcs.json
+#. native.npc.maoshan_gardener inquiry.虹台.rules.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "茅山这一票，你说了算。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "茅山这一票投旧盟主。北麓剩下的人交茅山看着——是师弟的主意。茅山认得他们的字了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "这一票的事，去藏经楼问他。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.虹台.rules.lines.say
@@ -19438,6 +19561,11 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.虹台.rules.lines.emote
 #: data/common/npcs.json
 msgid "金色的那只眼睛看着你。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "可那函书是你带回山的，也是你看着烧的。茅山欠你一回：这一票，你要，就是你的。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.虹台.rules.lines.say
@@ -19468,8 +19596,14 @@ msgid ""
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.这一票.rules.say
-#: data/common/npcs.json
+#. native.npc.maoshan_gardener inquiry.这一票.rules.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "说过了。茅山听你的。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.这一票.rules.say
+#: data/common/npcs.json
+msgid "这一票，去藏经楼问我师弟。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.这一票.rules.lines.say
@@ -19503,6 +19637,12 @@ msgid "人已经下山了，茅山看着。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.say
+#. common.npc.taoist.taolord inquiry.招安.rules.say
+#: data/common/npcs.json
+msgid "师弟已经上了北麓。他去劝，就让他劝完。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.剿.rules.say
 #: data/common/npcs.json
 msgid "你已经答应去劝他们下山了。回北麓去，同宫里当家的说「下山」。"
 msgstr ""
@@ -19520,6 +19660,16 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.剿.rules.lines.say
 #: data/common/npcs.json
 msgid "官兵上了北麓，宫里剩下的人一个也走不了。正月十七虹台上，这件事就算了了。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.剿.rules.lines.say
+#: data/common/npcs.json
+msgid "书烧了，他们的字茅山不认得了——那就不必认得。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.剿.rules.lines.say
+#: data/common/npcs.json
+msgid "这封信今晚就到乔阴，程不平会转给兵部。官兵上了北麓，宫里剩下的人一个也走不了。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.say
@@ -19568,6 +19718,36 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.招安.rules.say
 #: data/common/npcs.json
 msgid "招安什么？"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.emote
+#: data/common/npcs.json
+msgid "接过那函书，在香案前坐下，一页一页翻过去。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.emote
+#: data/common/npcs.json
+msgid "翻到后半本，手停住了。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.say
+#: data/common/npcs.json
+msgid "……这是逆灵宫的字。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.say
+#: data/common/npcs.json
+msgid "他抄了两年。烧掉的东西，他一页一页抄回来。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.emote
+#: data/common/npcs.json
+msgid "合上书，望着殿门外，很久没有说话。"
+msgstr ""
+
+#. common.npc.taoist.taolord accept_object.lines.say
+#: data/common/npcs.json
+msgid "书留在我这里。他会来的。"
 msgstr ""
 
 #. common.npc.taoist.taolord accept_object.ask
@@ -20033,7 +20213,9 @@ msgid "庄规？问这个做什么。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry topic
-#: data/common/npcs.json
+#. faction.maoshan/split/burn reward.rank.title
+#. faction.maoshan/split/keep reward.rank.title
+#: data/common/npcs.json data/story/faction_maoshan.json
 msgid "护法"
 msgstr ""
 
@@ -24871,6 +25053,26 @@ msgstr ""
 msgid "有人说在北边的雪里见过商玦：一身黑衣结着霜，说话还像念经。"
 msgstr ""
 
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "灵心观藏经楼的二楼，镇教秘籍还是六函，第七函的位置空着。林忌说，茅山宁可没有那一函。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "京师尚书府的花园里，那个老花匠又在浇他的花。庾清尘去哪里，他就跟到哪里。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "藏经楼二楼的第七函回来了。花匠在书架边搭了一张竹床，夜里点着灯，教山上的小道士认北麓的字。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "北麓下来的孩子在灵心观后山开了一片地。花匠一页一页念给他们听：烧了一辈子的香，坛上写的原来是这些。"
+msgstr ""
+
 #. ending cards.title
 #. oldpine.npc.spy name
 #: data/story/epilogue.json data/oldpine/npcs.json
@@ -25551,6 +25753,26 @@ msgstr ""
 #. maoshan lines.text
 #: data/story/factions.json
 msgid "《上清符箓》在你手里：前半是茅山的符，后半是逆灵宫的字。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "花匠上了灵心观，在殿门里叫了林忌一声师兄。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "《上清符箓》投进了灵心观的香炉。茅山宁可没有那一函。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "《上清符箓》锁回了藏经楼二楼，花匠守着它；他教茅山道术，谁都教。林忌对你冷了一分。"
+msgstr ""
+
+#. maoshan lines.text
+#: data/story/factions.json
+msgid "北麓剩下的人，花匠拿着符箓念下了山。"
 msgstr ""
 
 #. maoshan lines.text
@@ -27486,7 +27708,7 @@ msgstr ""
 
 #. faction.maoshan summary
 #: data/story/faction_maoshan.json
-msgid "藏经楼少了一函镇教秘籍；林忌的师弟，二十年前下了山。"
+msgid "藏经楼少了一函镇教秘籍；林忌的师弟，二十年前带着它下了山。书回了山，后半本是逆灵宫的字——烧，还是收回藏经楼。"
 msgstr ""
 
 #. faction.maoshan lapses.text
@@ -27551,12 +27773,63 @@ msgstr ""
 
 #. faction.maoshan/home objective
 #: data/story/faction_maoshan.json
-msgid "把《上清符箓》带回灵心观，交给林忌。"
+msgid "把《上清符箓》带回灵心观的大殿，交给林忌（「给」他）。"
 msgstr ""
 
 #. faction.maoshan/home text
 #: data/story/faction_maoshan.json
-msgid "林忌看过了那函书。"
+msgid "林忌一页一页翻过去，翻到后半本停住了：是逆灵宫的字。他说，师弟会来的。"
+msgstr ""
+
+#. faction.maoshan/meet objective
+#: data/story/faction_maoshan.json
+msgid "林忌说师弟会来。花匠随后自己上了山——二十年没进过的大殿，下回你进殿，他就站在殿门里。"
+msgstr ""
+
+#. faction.maoshan/meet text
+#: data/story/faction_maoshan.json
+msgid "花匠站在殿门里，叫了林忌一声师兄。林忌说烧：连书带字投进香炉，茅山宁可没有它。花匠说留：锁回藏经楼，茅山才认得逆灵宫的字。"
+msgstr ""
+
+#. faction.maoshan/split objective
+#: data/story/faction_maoshan.json
+msgid "烧（问林忌「烧」）：书投进香炉，花匠回京城守着庾清尘；林忌教你谷衣心法，虹台上茅山投颜违（主剿）。留（问花匠「留」）：书锁回藏经楼二楼，花匠留在山上守书，教茅山道术，谁都教；林忌从此对你冷一分，虹台上茅山投旧盟主（北麓的人交茅山看着）。两边茅山的弟子都晋护法。"
+msgstr ""
+
+#. faction.maoshan/split/burn text
+#: data/story/faction_maoshan.json
+msgid "《上清符箓》投进了殿前的香炉。茅山宁可没有这本书；花匠下山回京城去了。"
+msgstr ""
+
+#. faction.maoshan/split/burn reward.deed
+#: data/story/faction_maoshan.json
+msgid "看着林忌把《上清符箓》投进了香炉"
+msgstr ""
+
+#. faction.maoshan/split/keep text
+#: data/story/faction_maoshan.json
+msgid "《上清符箓》锁回了藏经楼二楼，花匠留在山上守书。护法的名分，是花匠替你向林忌讨的。"
+msgstr ""
+
+#. faction.maoshan/split/keep reward.deed
+#: data/story/faction_maoshan.json
+msgid "把《上清符箓》收回了藏经楼"
+msgstr ""
+
+#. faction.maoshan/crush objective
+#: data/story/faction_maoshan.json
+msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问林忌「剿」：官兵上山，一个也走不了。北麓的人已经有了去处的，这一步就过了。"
+msgstr ""
+
+#. faction.maoshan/crush text
+#. faction.maoshan/pardon text
+#: data/story/faction_maoshan.json
+msgid "北麓那座道观里剩下的人，有了去处。"
+msgstr ""
+
+#. faction.maoshan/pardon objective
+#: data/story/faction_maoshan.json
+msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问藏经楼二楼的花匠「北麓」：他拿着书上北麓去念他们自己的经——你上北麓，在绞盘边看他念完。北麓的人已经有了去处的，这一步就过了。"
 msgstr ""
 
 #. faction.assembly title
@@ -27663,6 +27936,11 @@ msgstr ""
 #. faction.assembly checklist.label
 #: data/story/faction_assembly.json
 msgid "茅山派：投颜违——主剿"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "茅山派：投旧盟主——北麓的人交茅山看着"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -34427,13 +34705,6 @@ msgstr ""
 msgid "振远这一票，正月十七照你说的。"
 msgstr ""
 
-#. cloud.npc.b_header inquiry.虹台.rules.lines.emote
-#. latemoon.npc.room.annihi inquiry.等谁.rules.lines.emote
-#. latemoon.npc.room.annihi inquiry.教主.rules.lines.emote
-#: data/cloud/npcs.json data/latemoon/npcs.json
-msgid "没有抬头。"
-msgstr ""
-
 #. cloud.npc.b_header inquiry.虹台.rules.lines.say
 #: data/cloud/npcs.json
 msgid "振远这一票，天星做主——投旧盟主。旧案查到底，是他要的。"
@@ -36147,6 +36418,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "茅山主剿。谁说剿，茅山就投谁。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "茅山投旧盟主。北麓剩下的人，交茅山看着——茅山认得他们的字了。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -39345,16 +39621,6 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.湖底.confirm
 #: data/latemoon/npcs.json
 msgid "叫瑷伦随你下湖？她穿着宝衣跟你去玉螺湖，等事情了结。"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_any
-#: data/latemoon/npcs.json
-msgid "瑷伦守到决战"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_any
-#: data/latemoon/npcs.json
-msgid "宝衣回了庄"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.湖底.rules.say
@@ -50774,7 +51040,9 @@ msgstr ""
 
 #. city.npc.shangshu.gardener name
 #. city.npc.shangshu.qing_chen inquiry topic
-#: data/city/npcs.json
+#. native.npc.maoshan_gardener name
+#. native.npc.maoshan_gardener_north name
+#: data/city/npcs.json data/native/npcs.json
 msgid "花匠"
 msgstr ""
 
@@ -50787,7 +51055,8 @@ msgid ""
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.茅山派.rules.say
-#: data/city/npcs.json
+#. native.npc.maoshan_gardener inquiry.茅山派
+#: data/city/npcs.json data/native/npcs.json
 msgid ""
 "那是我的师门。\n"
 msgstr ""
@@ -50800,8 +51069,18 @@ msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.师兄.rules.say
 #. city.npc.shangshu.gardener inquiry.符箓.rules.say
-#: data/city/npcs.json
+#. native.npc.maoshan_gardener inquiry.林忌.rules.say
+#. native.npc.maoshan_gardener inquiry.师兄.rules.say
+#. native.npc.maoshan_gardener inquiry.留.rules.say
+#: data/city/npcs.json data/native/npcs.json
 msgid "师兄的事……你不是茅山的人了，就别管了。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.师兄.rules.say
+#. native.npc.maoshan_gardener inquiry.林忌.rules.say
+#. native.npc.maoshan_gardener inquiry.师兄.rules.say
+#: data/city/npcs.json data/native/npcs.json
+msgid "师兄说得对，茅山宁可没有那本书。……也许吧。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.师兄.rules.say
@@ -50840,7 +51119,8 @@ msgid "书该还给师兄了。你问我「符箓」。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry topic
-#: data/city/npcs.json
+#. native.npc.maoshan_gardener inquiry topic
+#: data/city/npcs.json data/native/npcs.json
 msgid "符箓"
 msgstr ""
 
@@ -50887,7 +51167,8 @@ msgstr ""
 #. city.npc.shangshu.gardener inquiry topic
 #. city.npc.shangshu.qing_chen name
 #. native.npc.neizhai_guard inquiry topic
-#: data/city/npcs.json data/imperial/npcs.json
+#. native.npc.maoshan_gardener inquiry topic
+#: data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "庾清尘"
 msgstr ""
 
@@ -54920,7 +55201,9 @@ msgid ""
 msgstr ""
 
 #. native.npc.niling_captive_herbalist inquiry topic
-#: data/niling/npcs.json
+#. native.npc.maoshan_gardener inquiry topic
+#. native.npc.maoshan_gardener_north inquiry topic
+#: data/niling/npcs.json data/native/npcs.json
 msgid "北麓"
 msgstr ""
 
@@ -69541,6 +69824,332 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "（认二十三个结，问真龙头「龙头」；认这些年管事的人，问陆得财「龙头」。）\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener long
+#: data/native/npcs.json
+msgid ""
+"一个老老实实的老花匠，多年的风霜刻满了他的额头。衣襟上沾着泥，指甲缝里是洗不掉的朱砂。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.林忌.rules.lines.say
+#. native.npc.maoshan_gardener inquiry.师兄.rules.lines.say
+#: data/native/npcs.json
+msgid "师兄在大殿里。他不来藏经楼，我也不去大殿。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.林忌.rules.lines.say
+#. native.npc.maoshan_gardener inquiry.师兄.rules.lines.say
+#: data/native/npcs.json
+msgid "二十年都这样过来了。……他早上会在楼下站一会儿。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.林忌.rules.say
+#. native.npc.maoshan_gardener inquiry.师兄.rules.say
+#: data/native/npcs.json
+msgid "师兄就在里头。二十年了，他那只金眼睛还是那样看人。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.符箓.rules.lines.say
+#: data/native/npcs.json
+msgid "锁在二楼的书架上，第七函的位置。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.符箓.rules.lines.say
+#: data/native/npcs.json
+msgid "前半本是茅山的符；后半本，我在教山上的孩子认。认得他们的字，才破得了他们的法。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.符箓.rules.say
+#: data/native/npcs.json
+msgid "书在师兄手里。烧也好，留也好，是茅山的事。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.庾清尘.rules.say
+#: data/native/npcs.json
+msgid "老爷下了狱，小姐去了相国府。我回来，就是陪她的——这一畦花浇完，我就过去。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.庾清尘.rules.say
+#: data/native/npcs.json
+msgid "清尘那孩子还在这府里。我回来了，就还看着她。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.庾清尘.rules.say
+#: data/native/npcs.json
+msgid "清尘那孩子……她护得住自己了。我教她的符，够用。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.庾清尘.rules.say
+#: data/native/npcs.json
+msgid "清尘？她在京城。……那孩子不怕她爹，这府里只有她。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry topic
+#: data/native/npcs.json
+msgid "留"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.confirm
+#: data/native/npcs.json
+msgid ""
+"跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着。\n"
+"林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n"
+"要这么办吗？"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.say
+#: data/native/npcs.json
+msgid "书烧了。……也好。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.say
+#: data/native/npcs.json
+msgid "书在二楼。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.lines.emote
+#: data/native/npcs.json
+msgid "看了林忌一眼，又看了看你。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.lines.say
+#: data/native/npcs.json
+msgid "师兄不会点头的。……可书是你带回来的，你说留，就留。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.lines.say
+#: data/native/npcs.json
+msgid "二楼第七函的位置，我替茅山守着。北麓那些人念的是什么，我教山上的孩子认。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"林忌坐回香案后头，没有说话。花匠抱着那函书出了大殿，往藏经楼去了。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.留.rules.say
+#: data/native/npcs.json
+msgid "留什么？"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry topic
+#: data/native/npcs.json
+msgid "道术"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.道术.rules.lines.say
+#: data/native/npcs.json
+msgid "茅山道术，我教。男的女的都教——师兄守他的规矩，我守我的。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.道术.rules.lines.say
+#: data/native/npcs.json
+msgid "根基是天师正道，先学那个；天师正道不到一半，道术就领悟不下去。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.confirm
+#: data/native/npcs.json
+msgid ""
+"请花匠拿着《上清符箓》上北麓：他同道观里剩下的人念一遍他们自己的经，把肯下山的领下来，交茅山看着。\n"
+"他在北麓的绞盘边等你——你上了北麓，就看得到。\n"
+"正月十七虹台上，这件事就算了了，不能再改。\n"
+"就这样吗？"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "人都下了山。他们烧了一辈子香，坛上写的是什么，现在知道了。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "官兵已经上了北麓。……晚了。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "我在北麓的绞盘边等你。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "师兄让你去劝他们了？那就去吧——同宫里当家的说「下山」。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.lines.emote
+#: data/native/npcs.json
+msgid "把那函书从书架上取下来，用油布包好，背在背上。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.lines.say
+#: data/native/npcs.json
+msgid "北麓那座道观里剩下的，大半是被拐上山的孩子。烧了一辈子香，不知道自己烧的是什么。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.lines.say
+#: data/native/npcs.json
+msgid "我念给他们听。你上北麓来——绞盘边上等你。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "北麓？"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "虹台上的事定了。我守我的书。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "茅山投旧盟主——北麓的人交茅山看着，我教他们认字。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.虹台.rules.lines.say
+#: data/native/npcs.json
+msgid "师兄没点头，可他也没拦。书是你带回来的：这一票，你要，就是你的。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "票是入席之前定的。茅山投颜违，是师兄的意思。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.虹台.rules.say
+#: data/native/npcs.json
+msgid "正月十七？我一个种花的，不上虹台。"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.这一票.confirm
+#: data/native/npcs.json
+msgid ""
+"请花匠把茅山这一票交给你：正月十七虹台上，茅山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. native.npc.maoshan_gardener inquiry.这一票.rules.lines.say
+#: data/native/npcs.json
+msgid "好。茅山听你的——师兄那里，我去说。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.emote
+#: data/native/npcs.json
+msgid "站在殿门里，背贴着门框。二十年没跨过的门槛，就在他脚后跟。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "师兄。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.emote
+#: data/native/npcs.json
+msgid "从香案后头站起来，金色的那只眼睛看了他很久。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "你进来了。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "书我看了。后半本，是逆灵宫的字。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "这种东西，茅山宁可没有。连那一函镇教秘籍一起，投进香炉。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "烧了，茅山就永远不认得他们的字。北麓那座道观还在念，念的是什么，天下只有这函书知道。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "留着它。锁回藏经楼，我来守。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "你守了庾家二十年，又要守这函书。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.emote
+#: data/native/npcs.json
+msgid "转过头来看着你。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.say
+#: data/native/npcs.json
+msgid "书是你带回山的。烧，还是留——你说。"
+msgstr ""
+
+#. native.npc.maoshan_gardener calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"（烧，问林忌「烧」；留，问花匠「留」。）\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north long
+#: data/native/npcs.json
+msgid ""
+"一个老花匠站在绞盘边上，背上背着一只油布包。他望着山门，嘴唇一直在动。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "人都下了山。回去吧，书还要放回二楼。"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north inquiry.北麓.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"货道那头，穿黑衣的人一个、两个走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north inquiry.北麓.rules.lines.say
+#. native.npc.maoshan_gardener_north calls.steps.say
+#: data/native/npcs.json
+msgid "下山吧。茅山不打你们，也不关你们——教你们认字。"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north inquiry.北麓.rules.say
+#: data/native/npcs.json
+msgid "听着就是。"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north calls.steps.emote
+#: data/native/npcs.json
+msgid "解下背上的油布包，把那函书翻到后半本。"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north calls.steps.say
+#: data/native/npcs.json
+msgid "他们的话，我抄了两年。今天念给他们听。"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"花匠对着货道那头的黑砖山门念了起来。声音不大，念的是逆灵宫坛上的经，一字不差；每念完一段，他就用山下的话把那一段的意思说一遍。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"山门后头的木鱼声停了。门开了一条缝。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"一个、两个……穿黑衣的人顺着货道走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
 msgstr ""
 
 #. native:snow/letter_to_chen name

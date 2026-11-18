@@ -171,6 +171,11 @@ position = Vector2(-344, -296)
 script = ExtResource("marker")
 spawn_point_id = &"temple.temple1.tfighter.1"
 
+[node name="Temple1Gardener1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(71, 204)
+script = ExtResource("marker")
+spawn_point_id = &"temple.temple1.gardener.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

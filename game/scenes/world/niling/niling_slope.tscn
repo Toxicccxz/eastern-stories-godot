@@ -181,6 +181,11 @@ position = Vector2(608, 992)
 script = ExtResource("marker")
 spawn_point_id = &"niling.winch.winch_taoist.1"
 
+[node name="WinchGardener" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(544, 1024)
+script = ExtResource("marker")
+spawn_point_id = &"niling.winch.gardener.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

@@ -452,10 +452,21 @@
 		{
 			"id": "assembly.maoshan.stated",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — or the split in the 大殿 (taken before one sat on the 虹台)"
 			],
 			"when": {
-				"mark": "茅山表了态"
+				"any": [
+					{
+						"mark": "茅山表了态"
+					},
+					{
+						"mark": "茅山的票随了林忌"
+					},
+					{
+						"mark": "茅山的票随了花匠"
+					}
+				]
 			}
 		},
 		{
@@ -741,12 +752,40 @@
 		{
 			"id": "assembly.maoshan.yan",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 茅山主剿"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 茅山主剿",
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — not when the 花匠's 留 took 茅山 to the old 盟主"
 			],
 			"when": {
-				"not": {
-					"mark": "茅山听你的"
-				}
+				"all": [
+					{
+						"not": {
+							"mark": "茅山听你的"
+						}
+					},
+					{
+						"not": {
+							"mark": "茅山的票随了花匠"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.maoshan.old",
+			"sources": [
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — 留: the 北麓's people go to 茅山 (茅山认得逆灵宫的字了), the old 盟主's way; not when 茅山 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "茅山听你的"
+						}
+					},
+					{
+						"mark": "茅山的票随了花匠"
+					}
+				]
 			}
 		},
 		{
@@ -1592,7 +1631,8 @@
 		{
 			"id": "assembly.day.maoshan.old",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 votes the old 盟主 on the day"
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 茅山派 votes the old 盟主 on the day",
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — or 留 (the split before one sat on the 虹台)"
 			],
 			"when": {
 				"all": [
@@ -1600,12 +1640,19 @@
 						"cond": "assembly.day.maoshan.here"
 					},
 					{
-						"all": [
+						"any": [
 							{
-								"cond": "assembly.maoshan.self"
+								"cond": "assembly.maoshan.old"
 							},
 							{
-								"mark": "听你的投旧盟主"
+								"all": [
+									{
+										"cond": "assembly.maoshan.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
 							}
 						]
 					}

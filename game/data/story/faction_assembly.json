@@ -9,7 +9,8 @@
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」). d/waterfog/guildhall.c (每年的正月十七都要在水烟阁外的「虹台」推选武林盟主，然後在这里举行登位大典); swordtomb.c (往南便是直通虹台的石阶); wpath1.c, wpath2.c, wpath4.c, wpath5.c (the 虹台 on the peak, the 擎天柱, 三面深谷). ES2 names the 虹台 and never holds the choosing: nine 派 one vote each, three to choose from (颜违; the old 盟主 — 卫沧澜 back, or the empty chair; the player), five to change the 盟主; 封山 and 天邪 vote as their lines split, the other seven as the player's deeds in the main story say, each with one way to turn it (the head's 「虹台」 and a confirmed word). It shows from any 势力 line begun, or the main story over; the invitation from 饮风客栈's 店小二 once; the 虹台 map up the stair south of 葬剑亭. 入席, the three things of the day, the count and the second epilogue are 大会 B's: this quest stops at a stub step (印记「入了虹台的席」).",
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」). The day: 入席 (asked once), the three things of the morning (only those that happen; the one handled lets its 派 come, the others' cannot), the nine coming up (an absent 派's seat empty, its vote not counted), 参选 (侮天鬼灭了 and five 派 that came 听你的; else greyed, saying how many short), the count (five to change the 盟主; else the chair stays: 卫沧澜 back in it, or empty), the 盟主's three answers, 旋芒 to 葬剑亭 or back to 岚城, the second epilogue `assembly`.",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」): 振远's row follows the 旧账 split, and 振远 may 听你的.",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」): 花紫会's row follows the split on 福林大街, and 花紫会 may 听你的."
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」): 花紫会's row follows the split on 福林大街, and 花紫会 may 听你的.",
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」): 茅山's row follows the split in the 大殿 (烧 颜违, 留 the old 盟主)."
 			],
 			"summary": "正月十七，九派在水烟阁外的虹台推选武林盟主。九派各一票，过半才换人；那天山下会出事，你只管得了一件。",
 			"starts": {
@@ -373,6 +374,19 @@
 							},
 							{
 								"cond": "assembly.maoshan.yan"
+							}
+						]
+					}
+				},
+				{
+					"label": "茅山派：投旧盟主——北麓的人交茅山看着",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.maoshan.stated"
+							},
+							{
+								"cond": "assembly.maoshan.old"
 							}
 						]
 					}

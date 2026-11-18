@@ -99,6 +99,11 @@
 			"revision": "SOURCE_ENTRY_HUAZI_B_V1",
 			"spawn_points": 867,
 			"fingerprint": "cf4454c77da3a222a11fcaa9b779e7c00e005b781160cea2b967c005f87cef78"
+		},
+		{
+			"revision": "SOURCE_ENTRY_MAOSHAN_B_V1",
+			"spawn_points": 872,
+			"fingerprint": "03ea401660fe06952b77bf51623d13f7324b1637a3ac54835c90f5be727b1d5c"
 		}
 	]
 }
