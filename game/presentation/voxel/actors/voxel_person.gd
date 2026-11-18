@@ -40,6 +40,9 @@ const GESTURE_SECONDS: Dictionary[String, float] = {
 }
 ## A pose's leg angle (forward, radians): on a low stool, cross-legged on the ground.
 const POSE_LEGS: Dictionary[String, float] = {"sit": -1.2, "sit_ground": -1.5}
+## Native (势力线第三批 山烟寺 A): one that lies still on its back, awake (the sick on a pallet): the whole
+## figure laid down as one fallen senseless is, its limbs at rest, its eyes open.
+const LIE: String = "lie"
 ## The step of the breath's rise (the torso goes up and down 0.012 at rest).
 const BREATH_STEP: float = 0.004
 ## towel_neck: the waiter's cloth round the neck; bracers (护腕) round the wrists; leg_wraps (绑腿)
@@ -125,7 +128,7 @@ var _guard_seconds: float = 0.0
 var _lead: int = 0
 var _striker: int = 0
 ## What the hands do while the person stands at work ("" none; NpcLifeBook.GESTURES) and how it
-## stays put ("stand", "sit", "sit_ground"); set before it is added (activity()).
+## stays put ("stand", "sit", "sit_ground", "lie"); set before it is added (activity()).
 var gesture: String = ""
 var pose: String = "stand"
 ## Whether the gesture plays now: the view clears it while the person attends to the player.
@@ -177,7 +180,7 @@ func configure(data: Dictionary) -> void:
 ## a hand the look leaves empty.
 func activity(work: String, how: String) -> void:
 	gesture = work
-	pose = how if POSE_LEGS.has(how) else "stand"
+	pose = how if POSE_LEGS.has(how) or how == LIE else "stand"
 	if GESTURE_TOOLS.has(work) and not IN_HAND.has(_word("prop", "none")):
 		_tool = GESTURE_TOOLS[work]
 
@@ -650,10 +653,12 @@ func _process(delta: float) -> void:
 	if _weapon != null and _weapon.visible != (_guard > 0.5 and limp < 0.5):
 		_weapon.visible = not _weapon.visible
 	var stance: float = 0.0 if walking or posed else _guard
-	var lying := Vector3(-PI/2.0*limp, 0.0, 0.0)
+	# One that lies at rest (LIE) is laid down as one fallen is, while it is up and about.
+	var flat: float = maxf(limp, 1.0 if pose == LIE and not walking and at_ease else 0.0)
+	var lying := Vector3(-PI/2.0*flat, 0.0, 0.0)
 	if not frame.rotation.is_equal_approx(lying):
 		frame.rotation = lying
-		frame.position.y = LIE_LIFT*limp
+		frame.position.y = LIE_LIFT*flat
 	if stance > 0.0 or limp > 0.0:
 		_fight_pose(stance)
 		_blink()
@@ -668,7 +673,7 @@ func _process(delta: float) -> void:
 		arms[1].rotation = Vector3(stride*0.75, 0.0, 0.0)
 		torso.rotation = Vector3.ZERO
 	else:
-		var lift: float = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8 if not walking and fmod(clock,7.2)>5.8 else stride*0.75
+		var lift: float = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8 if not walking and pose != LIE and fmod(clock,7.2)>5.8 else stride*0.75
 		_turn(arms[0], Vector3(-stride*0.75, 0.0, 0.0))
 		_turn(arms[1], Vector3(lift, 0.0, 0.0))
 		_turn(torso, Vector3.ZERO)

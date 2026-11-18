@@ -436,6 +436,13 @@
         "nodes": [
           {
             "node": "service",
+            "name": "DrugFieldHerbs",
+            "id": "sanyen.drug_field.herbs",
+            "at": [1464, 1088],
+            "text": "药圃 · 采"
+          },
+          {
+            "node": "service",
             "name": "FrontYardCoach",
             "id": "sanyen.front_yard.coach",
             "at": [860, 2140],
@@ -963,7 +970,9 @@
             }
           ]
         ],
-        "placed": {},
+        "placed": {
+          "sanyen.heal_room.woodcutter.1": ["sanyen.heal_room", ["rel", 0.62, 0.62]]
+        },
         "doors": {
           "sanyen.heal_room.south": "south"
         },

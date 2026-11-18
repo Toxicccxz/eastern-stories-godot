@@ -466,6 +466,13 @@
           },
           {
             "node": "service",
+            "name": "TreeTombGuijiu",
+            "id": "choyin.tree_tomb.guijiu",
+            "at": [1584, 1296],
+            "text": "石缝 · 采"
+          },
+          {
+            "node": "service",
             "name": "WellDrink",
             "id": "choyin.s_street1.drink",
             "at": [1536, 2240],

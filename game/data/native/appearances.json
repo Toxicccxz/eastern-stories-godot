@@ -867,6 +867,8 @@
     "native.npc.sword_soul_spar": {"same_as": "common.npc.scholar.sword_soul"},
     "native.npc.luo_yunzhou_capital": {"same_as": "common.npc.scholar.master"},
     "native.npc.luo_jianzhang": {"note": "骆建章：清瘦的中年书生，半旧青布长衫，袖口沾墨，中指的笔茧；眉眼像骆云舟，不笑（势力线 步玄 A）", "coat": "3c5a62", "pants": "2c3436", "skin": "e3ba8d", "hair": "1c2625", "hair_style": "topknot", "headwear": "cloth_cap", "headwear_color": "1d1f22", "beard": "moustache", "waist": "sash", "prop": "book", "prop_color": "d8ccb0", "accent": "8a7a6c", "height": "standard", "build": "slim", "shoes": "dark"},
+    "native.npc.sick_woodcutter": {"note": "老葛：乔阴的樵夫，黑瘦，短褂草鞋，腰里别柴刀；小臂上三道鬼卒的爪痕（势力线 山烟寺 A）", "coat": "6a5a3e", "pants": "3a3428", "skin": "c8945e", "hair": "1c1a18", "hair_style": "short", "headwear": "headscarf", "headwear_color": "5a4a34", "beard": "none", "waist": "belt", "prop": "bundle_back", "bundle_color": "8a6a3e", "accent": "4a3a28", "height": "standard", "build": "slim", "shoes": "straw"},
+    "native.npc.woodcutter_home": {"same_as": "native.npc.sick_woodcutter"},
     "native.npc.road_robber": {"note": "劫道的汉子：敞着怀，腰扎草绳，刀出了鞘；花钱叫来的（势力线 振远 A）", "coat": "6a5a44", "pants": "3a3428", "skin": "c8946a", "hair": "1c1916", "hair_style": "topknot", "headwear": "none", "beard": "full", "waist": "sash", "prop": "blade_waist", "prop_color": "7a6a4a", "accent": "b8a682", "height": "standard", "build": "heavy", "shoes": "dark"}
   }
 }

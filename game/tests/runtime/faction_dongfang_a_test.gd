@@ -50,7 +50,7 @@ func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var quest: StoryQuestDefinition = catalog.story_quest(QUEST)
 	_check(quest != null and quest.line == StoryQuestDefinition.LINE_FACTION and quest.starts.when == JournalEntryDefinition.When.MARK and quest.starts.key == "接了朱鸿雪的令", "faction.dongfang: a 势力 quest that begins with 接令")
-	_check(quest.excludes == [NILING] and catalog.story_quest(NILING).excludes == [QUEST], "the two secret lines exclude each other, both ways")
+	_check(quest.excludes == [NILING, &"faction.sanyen"] and catalog.story_quest(NILING).excludes == [QUEST], "the two secret lines exclude each other, both ways; 山烟寺 too (DECISIONS「山烟寺 A」)")
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
 	_check(ids.slice(0, 4) == [&"west", &"report", &"token", &"names"], "its steps begin west, report, token, names (东方神教 B goes on): %s" % [ids])
 	var report: StoryQuestDefinition.Step = quest.step(&"report")
