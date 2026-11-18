@@ -78,6 +78,7 @@ func _test_data() -> void:
 	}
 	for id: StringName in ON_DUTY + ON_DUTY_TOO:
 		expected[id] = 1
+	expected[&"native.npc.maoshan_gardener"] = 3 # 茅山 B: the 花匠 at the door of the 大殿, upstairs before and after the 北麓
 	_check(spawns == expected, "fifteen kinds, the six guards each a spawn of their own: %s" % spawns)
 	for id: StringName in ON_DUTY:
 		var spawn: NpcSpawnDefinition = catalog.spawn(StringName("temple.grounds.road2." + String(id).get_slice(".", 2)))

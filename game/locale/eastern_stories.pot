@@ -19625,16 +19625,6 @@ msgid ""
 "就这样吗？"
 msgstr ""
 
-#. common.npc.taoist.taolord inquiry.剿.confirm_any
-#: data/common/npcs.json
-msgid "林忌说了余孽"
-msgstr ""
-
-#. common.npc.taoist.taolord inquiry.剿.confirm_any
-#: data/common/npcs.json
-msgid "茅山烧了符箓"
-msgstr ""
-
 #. common.npc.taoist.taolord inquiry.剿.rules.say
 #: data/common/npcs.json
 msgid "官兵已经上了北麓。宫里剩下的人，一个也走不了。"
@@ -19644,6 +19634,12 @@ msgstr ""
 #. common.npc.taoist.taolord inquiry.招安.rules.say
 #: data/common/npcs.json
 msgid "人已经下山了，茅山看着。"
+msgstr ""
+
+#. common.npc.taoist.taolord inquiry.剿.rules.say
+#. common.npc.taoist.taolord inquiry.招安.rules.say
+#: data/common/npcs.json
+msgid "师弟已经上了北麓。他去劝，就让他劝完。"
 msgstr ""
 
 #. common.npc.taoist.taolord inquiry.剿.rules.say
@@ -39625,16 +39621,6 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.湖底.confirm
 #: data/latemoon/npcs.json
 msgid "叫瑷伦随你下湖？她穿着宝衣跟你去玉螺湖，等事情了结。"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_any
-#: data/latemoon/npcs.json
-msgid "瑷伦守到决战"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry.湖底.confirm_any
-#: data/latemoon/npcs.json
-msgid "宝衣回了庄"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.湖底.rules.say
@@ -70121,6 +70107,18 @@ msgstr ""
 msgid "人都下了山。回去吧，书还要放回二楼。"
 msgstr ""
 
+#. native.npc.maoshan_gardener_north inquiry.北麓.rules.lines.line
+#: data/native/npcs.json
+msgid ""
+"货道那头，穿黑衣的人一个、两个走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
+msgstr ""
+
+#. native.npc.maoshan_gardener_north inquiry.北麓.rules.lines.say
+#. native.npc.maoshan_gardener_north calls.steps.say
+#: data/native/npcs.json
+msgid "下山吧。茅山不打你们，也不关你们——教你们认字。"
+msgstr ""
+
 #. native.npc.maoshan_gardener_north inquiry.北麓.rules.say
 #: data/native/npcs.json
 msgid "听着就是。"
@@ -70152,11 +70150,6 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "一个、两个……穿黑衣的人顺着货道走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
-msgstr ""
-
-#. native.npc.maoshan_gardener_north calls.steps.say
-#: data/native/npcs.json
-msgid "下山吧。茅山不打你们，也不关你们——教你们认字。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

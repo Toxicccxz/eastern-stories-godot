@@ -8435,6 +8435,7 @@
 				"gardener",
 				"花匠"
 			],
+			"class": "taoist",
 			"long": "一个老老实实的老花匠，多年的风霜刻满了他的额头。衣襟上沾着泥，指甲缝里是洗不掉的朱砂。\n",
 			"gender": "男性",
 			"age": 55,
@@ -8478,6 +8479,13 @@
 				"parry": "scratching",
 				"force": "gouyee"
 			},
+			"carry": [
+				{
+					"item": "es2:d/city/shangshu/npc/obj/sword",
+					"source": "d/city/shangshu/npc/obj/sword.c",
+					"equip": "wield"
+				}
+			],
 			"attitude": "peaceful",
 			"always_kept": true,
 			"inquiry": {
@@ -8656,7 +8664,8 @@
 								{
 									"line": "林忌坐回香案后头，没有说话。花匠抱着那函书出了大殿，往藏经楼去了。\n"
 								}
-							]
+							],
+							"restage": true
 						},
 						{
 							"asker_marks": [
@@ -8676,7 +8685,8 @@
 								{
 									"line": "林忌坐回香案后头，没有说话。花匠抱着那函书出了大殿，往藏经楼去了。\n"
 								}
-							]
+							],
+							"restage": true
 						},
 						{
 							"say": "留什么？"
@@ -8756,7 +8766,8 @@
 								{
 									"say": "我念给他们听。你上北麓来——绞盘边上等你。"
 								}
-							]
+							],
+							"restage": true
 						},
 						{
 							"say": "北麓？"
@@ -9073,6 +9084,7 @@
 				"gardener",
 				"花匠"
 			],
+			"class": "taoist",
 			"long": "一个老花匠站在绞盘边上，背上背着一只油布包。他望着山门，嘴唇一直在动。\n",
 			"gender": "男性",
 			"age": 55,
@@ -9116,6 +9128,13 @@
 				"parry": "scratching",
 				"force": "gouyee"
 			},
+			"carry": [
+				{
+					"item": "es2:d/city/shangshu/npc/obj/sword",
+					"source": "d/city/shangshu/npc/obj/sword.c",
+					"equip": "wield"
+				}
+			],
 			"attitude": "peaceful",
 			"always_kept": true,
 			"inquiry": {
@@ -9126,6 +9145,26 @@
 								"招安了余孽"
 							],
 							"say": "人都下了山。回去吧，书还要放回二楼。"
+						},
+						{
+							"asker_marks": [
+								"花匠在北麓念了经"
+							],
+							"asker_lacks": [
+								"余孽有了去处"
+							],
+							"marks_asker": [
+								"招安了余孽",
+								"余孽有了去处"
+							],
+							"lines": [
+								{
+									"line": "货道那头，穿黑衣的人一个、两个走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
+								},
+								{
+									"say": "下山吧。茅山不打你们，也不关你们——教你们认字。"
+								}
+							]
 						},
 						{
 							"say": "听着就是。"

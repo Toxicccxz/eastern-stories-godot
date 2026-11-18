@@ -15,7 +15,7 @@ const MAPS: Dictionary = {&"niling.slope": 3, &"niling.gate": 3, &"niling.hall":
 const CROWN: StringName = &"native:niling/black_crown"
 ## Where each kind stands.
 const PEOPLE: Dictionary = {
-	&"niling.winch": {&"native.npc.niling_winch_taoist": 1},
+	&"niling.winch": {&"native.npc.niling_winch_taoist": 1, &"native.npc.maoshan_gardener_north": 1}, # 茅山 B: the 花匠 by the winch (on the stage once he went up)
 	&"niling.gatehouse": {&"native.npc.niling_gatekeeper": 1},
 	&"niling.yard": {&"native.npc.niling_gate_guard": 2, &"native.npc.xuan_mingzi_unmasking": 1, &"native.npc.niling_lead_chanter_unmasking": 1}, # 卧底 C: who waits for one found out (one of the two, by the story)
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},

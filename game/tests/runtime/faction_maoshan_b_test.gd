@@ -106,6 +106,21 @@ func _test_remnant_rules() -> void:
 	_check(not GameContent.catalog().npc(GARDENER).talk().confirm_applies("北麓", state.marks) and _heard(state, GARDENER, "北麓", "官兵已经上了北麓") and not state.marks.has("花匠上了北麓"), "留, 剿 done: the 花匠 stays")
 	state = _fresh(["终章", "茅山收了符箓", "林忌要招安"])
 	_check(not GameContent.catalog().npc(GARDENER).talk().confirm_applies("北麓", state.marks) and _heard(state, GARDENER, "北麓", "师兄让你去劝") and not state.marks.has("花匠上了北麓"), "留, the 卧底's 招安 under way: the 花匠 leaves it to them")
+	# The other way round: the 花匠 gone up, the 卧底 who heard of the 余孽 cannot send the 官兵 or go and say 下山 meanwhile.
+	state = _fresh(["终章", "茅山收了符箓", "林忌说了余孽", "花匠上了北麓"])
+	var lin: NpcTalk = GameContent.catalog().npc(LIN_JI).talk()
+	_check(not lin.confirm_applies("剿", state.marks) and not lin.confirm_applies("招安", state.marks) and _heard(state, LIN_JI, "剿", "师弟已经上了北麓") and not state.marks.has("余孽交了官府"), "the 花匠 on the 北麓: 林忌 lets him finish")
+	# The scene by the 绞盘 cut short (its scene_mark written, nothing else): asking him 「北麓」 finishes it.
+	state = _fresh(["终章", "茅山收了符箓", "花匠上了北麓", "花匠在北麓念了经"])
+	_check(_heard(state, GARDENER_NORTH, "北麓", "教你们认字") and state.marks.has("招安了余孽") and state.marks.has("余孽有了去处"), "the 北麓 scene cut short: finished by asking")
+	# A split taken after sitting on the 虹台 writes no vote mark (票就是票了).
+	state = _fresh(["师兄弟见了面", "入了虹台的席"])
+	_check(_heard(state, GARDENER, "留", "第七函") and state.marks.has("茅山收了符箓") and not state.marks.has("茅山的票随了花匠"), "留 after sitting: no vote mark")
+	state = _fresh(["师兄弟见了面", "入了虹台的席"])
+	_check(_heard(state, LIN_JI, "烧", "宁可没有") and state.marks.has("茅山烧了符箓") and not state.marks.has("茅山的票随了林忌"), "烧 after sitting: no vote mark")
+	state = _fresh(["花匠交了符箓", "茅山的线断了"])
+	var rules: Array = GameContent.catalog().npc(LIN_JI).dealings().object_rules.filter(func(rule: NpcObjectRule) -> bool: return rule.item == BOOK and rule.accept)
+	_check(rules.size() == 1 and (rules[0] as NpcObjectRule).giver_lacks.has("茅山的线断了"), "the line ended: 林忌 takes no book")
 
 
 ## A friend of 茅山 (a man of no family): the book to 林忌; the garden empty; the 花匠 at the door the next time; the scene;
@@ -247,6 +262,9 @@ func _test_placed(tree: SceneTree, session: WorldSessionController) -> void:
 	var gardener: NpcRuntimeState = _first(session, UPSTAIRS, GARDENER)
 	_check(gardener != null and library.select_npc(gardener.character_id) and library.ask_topics_selected().has("北麓") and not gardener.definition().talk().confirm_applies("北麓", state.marks), "北麓 asks nothing")
 	_check(_said(_ask(library, gardener, "北麓"), "都下了山") and not state.marks.has("花匠上了北麓"), "he says they are down already")
+	session.shared_ui().standing_page.fill(session.quest_condition_test())
+	var page: String = session.shared_ui().standing_page.shown_text()
+	_check(page.contains("锁回了藏经楼") and not page.contains("念下了山"), "the 声望 page does not say he read them down")
 
 
 ## Out of the hall and back (stage people come on as one enters a map): the 花匠 at the door, his scene to its end.

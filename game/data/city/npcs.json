@@ -776,7 +776,7 @@
 				}
 			},
 			"calls": [
-				{ "after": 0, "reaction": true, "when": { "all": [{ "mark": "林忌看了符箓" }, { "not": { "mark": "茅山烧了符箓" } }] }, "steps": [{ "mark": "花匠离了花园" }, { "leave": true }] }
+				{ "after": 0, "reaction": true, "when": { "all": [{ "mark": "林忌看了符箓" }, { "not": { "mark": "茅山烧了符箓" } }, { "not": { "mark": "茅山的线断了" } }] }, "steps": [{ "mark": "花匠离了花园" }, { "leave": true }] }
 			]
 		},
 		{
