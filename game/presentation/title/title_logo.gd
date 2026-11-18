@@ -27,8 +27,8 @@ const FOV: float = 26.0
 const ARRIVAL_SECONDS: float = 3.6
 const LEAVING_SECONDS: float = 1.5
 ## The stones' turn toward the viewer (degrees): seen from above like the 沙盘, a little from
-## their left.
-const LOOK := Vector3(17.0, -8.0, 0.0)
+## their left; FOV only sets how big the view is (it is square on).
+const LOOK := Vector3(16.0, -5.0, 0.0)
 ## Dust puffs per stone.
 const PUFFS: int = 18
 ## The meshes of one monument, built once in a run.
@@ -158,7 +158,7 @@ static func meshes_for(built: TitleMonument) -> Dictionary:
 		for k: int in PUFFS:
 			var at := Vector3(stone.pivot.x + rng.randf_range(-stone.half_width, stone.half_width), rng.randf_range(0.5, 3.0), rng.randf_range(-TitleMonument.DEPTH, TitleMonument.DEPTH))
 			dust.set_instance_transform(index * PUFFS + k, Transform3D(Basis.IDENTITY, at))
-			dust.set_instance_custom_data(index * PUFFS + k, Color(rng.randf(), index, rng.randf() * TAU, rng.randf_range(5.0, 11.0)))
+			dust.set_instance_custom_data(index * PUFFS + k, Color(rng.randf(), index, rng.randf() * TAU, rng.randf_range(8.0, 16.0)))
 	var result: Dictionary = {"stones": stones, "rubble": rubble, "dust": dust}
 	_meshes[built] = result
 	return result
@@ -238,11 +238,14 @@ func _world() -> void:
 	var fill := DirectionalLight3D.new()
 	fill.name = "Fill"
 	fill.light_color = Color("c4d0e6")
-	fill.light_energy = 1.1
+	fill.light_energy = 1.6
 	world.add_child(fill)
 	fill.basis = Basis.looking_at(Vector3(-0.35, -0.4, -0.85).normalized(), Vector3.UP)
+	# Square on, like the 沙盘's own pictures: a stone at the screen's edge is seen as one in the
+	# middle.
 	_camera = Camera3D.new()
-	_camera.fov = FOV
+	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	_camera.size = 2.0 * CAMERA_DISTANCE * tan(deg_to_rad(FOV) / 2.0)
 	_camera.far = CAMERA_DISTANCE * 4.0
 	_camera.position = Vector3(0, 0, CAMERA_DISTANCE)
 	world.add_child(_camera)

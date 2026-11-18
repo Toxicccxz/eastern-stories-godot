@@ -47,7 +47,8 @@ func _test_data() -> void:
 	_check(errors.size() == 3, "an unknown weather, a zoom out of range and a tiny logo are refused: %s" % [errors])
 
 
-## The stones: every character a slab of rock cut to its shape, broken into a few fragments,
+## The stones: every character a slab of rock cut to its shape and laid in blocks of many sizes,
+## broken into a few fragments,
 ## stuck in the ground; the seal after them; they land one by one, left to right, and break
 ## away on leaving; rubble at their feet; built once per mask, one language at a time.
 func _test_logo_blocks() -> void:
@@ -84,6 +85,16 @@ func _test_logo_blocks() -> void:
 	_check(lowest < -0.5, "the characters are stuck in the ground: lowest %.2f" % lowest)
 	_check(seal > 50, "the seal with 侠 inlaid: %d boxes" % seal)
 	_check(monument.rubble.size() >= monument.stones.size() * 10, "rubble round their feet: %d" % monument.rubble.size())
+	var sides: Dictionary = {}
+	var tallest: Dictionary = {}
+	for block: TitleMonument.Block in monument.blocks:
+		if block.material == TitleMonument.ROCK:
+			sides[roundi(block.size.x)] = true
+			tallest[block.stone] = maxf(tallest.get(block.stone, 0.0), block.centre.y)
+	_check(sides.size() >= 4, "blocks of many sizes: %s" % [sides.keys()])
+	var heights: Array = tallest.values()
+	heights.sort()
+	_check(heights.size() == 4 and heights[-1] - heights[0] > 10.0, "every character its own size: %s" % [heights])
 	for fragment: TitleMonument.Fragment in monument.fragments:
 		if fragment.leave < 0.0 or fragment.leave >= 1.0:
 			_check(false, "every fragment breaks away within the leaving: %.2f" % fragment.leave)

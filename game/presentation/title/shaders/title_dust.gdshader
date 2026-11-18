@@ -21,7 +21,7 @@ void vertex() {
 	float t = t2 > 0.0 ? t2 : t1;
 	life = t / 2.4;
 	vec3 roll = right * cos(c.z) + toward * sin(c.z) * 0.7;
-	float out_by = (1.0 - exp(-max(t, 0.0) * 2.2)) * (10.0 + c.x * 14.0);
+	float out_by = (1.0 - exp(-max(t, 0.0) * 2.2)) * (14.0 + c.x * 20.0);
 	vec3 centre = start + (roll * out_by + up * max(t, 0.0) * (1.5 + c.x * 2.0)) * u;
 	float grow = c.w * (0.5 + 1.6 * (1.0 - exp(-max(t, 0.0) * 1.8)));
 	float shown = step(0.0, t) * step(life, 1.0);

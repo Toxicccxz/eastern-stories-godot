@@ -2,8 +2,9 @@ class_name TitleMonument
 extends RefCounted
 
 ## The title's stones (DECISIONS「标题画面」): every character of the title (东方故事, or the
-## letters of EASTERN STORIES) a giant slab of rock cut to its shape, fallen onto the 沙盘 and
-## stuck in it at a slant, cracked into a few great fragments whose seams glow; its faces rough,
+## words of Eastern Stories), in a free running hand and each its own size, a giant slab of rock
+## cut to its shape and laid in blocks of many sizes, fallen onto the 沙盘 and stuck in it at a
+## slant, cracked into a few great fragments whose seams glow; its faces rough,
 ## its rims worn and chipped, moss on its tops, a few crystals in it that blink; the seal (侠;
 ## a cut knot where the language has none) a vermilion block fallen last; rubble round their
 ## feet. Built once per mask (CELL mask pixels a voxel), in voxels: x to the right, y up (the
@@ -11,19 +12,24 @@ extends RefCounted
 
 ## Mask pixels per voxel, and how many of a voxel's CELL² pixels must be ink.
 const CELL: int = 2
-const INK_SHARE: int = 3
+const INK_SHARE: int = 2
 ## Empty columns that part two characters (fewer are a gap inside one).
 const CHARACTER_GAP: int = 2
 ## A character's thickness, in voxels.
-const DEPTH: float = 9.0
+const DEPTH: float = 14.0
+## A block's side in voxels and how often each is tried (bigger ones only where the stroke has
+## room); blocks stand this far apart.
+const BLOCK_SIZES: Array[int] = [1, 2, 3, 4, 5, 6]
+const BLOCK_WEIGHTS: PackedFloat32Array = [0.06, 0.2, 0.26, 0.22, 0.16, 0.1]
+const BLOCK_GAP: float = 0.07
 ## How many fragments a character breaks into: one per this many voxels of face, within bounds.
-const FRAGMENT_AREA: float = 260.0
+const FRAGMENT_AREA: float = 650.0
 const FRAGMENTS_MIN: int = 2
 const FRAGMENTS_MAX: int = 5
 ## Of the voxels on the face, how many hold a crystal.
-const CRYSTAL_SHARE: float = 0.006
+const CRYSTAL_SHARE: float = 0.004
 ## The seal's side in voxels.
-const SEAL_SIDE: float = 15.0
+const SEAL_SIDE: float = 24.0
 ## The most stones (characters and the seal) the shader can tell apart, and fragments.
 const MOST_STONES: int = 16
 const MOST_FRAGMENTS: int = 64
@@ -200,7 +206,7 @@ func _character(grid: Array[PackedByteArray], w: int, h: int, run: Vector2i, ind
 	stone.land = 0.08 + 0.72 * index / maxf(1.0, count - 1.0)
 	var stone_index: int = stones.size()
 	stones.append(stone)
-	var lean := Basis.from_euler(Vector3(rng.randf_range(-0.06, 0.04), rng.randf_range(-0.1, 0.1), rng.randf_range(-0.07, 0.07)))
+	var lean := Basis.from_euler(Vector3(rng.randf_range(-0.05, 0.03), rng.randf_range(-0.08, 0.08), rng.randf_range(-0.05, 0.05)))
 	# Fragments: the face parted round a few seeds, the borders wavering.
 	var pieces: int = clampi(int(cells.size() / FRAGMENT_AREA) + FRAGMENTS_MIN, FRAGMENTS_MIN, FRAGMENTS_MAX)
 	var seeds: Array[Vector2] = []
@@ -212,8 +218,8 @@ func _character(grid: Array[PackedByteArray], w: int, h: int, run: Vector2i, ind
 	var turns: Array[Basis] = []
 	var rocks: Array[Color] = []
 	for i: int in pieces:
-		shifts.append(Vector3(rng.randf_range(-0.35, 0.35), rng.randf_range(-0.25, 0.25), rng.randf_range(-0.7, 0.7)))
-		turns.append(Basis.from_euler(Vector3(rng.randf_range(-0.03, 0.03), rng.randf_range(-0.03, 0.03), rng.randf_range(-0.025, 0.025))))
+		shifts.append(Vector3(rng.randf_range(-0.15, 0.15), rng.randf_range(-0.12, 0.12), rng.randf_range(-0.6, 0.6)))
+		turns.append(Basis.from_euler(Vector3(rng.randf_range(-0.02, 0.02), rng.randf_range(-0.02, 0.02), rng.randf_range(-0.012, 0.012))))
 		rocks.append(Color(ROCKS[rng.randi() % ROCKS.size()]))
 		fragments.append(Fragment.new())
 	var centres: Array[Vector3] = []
@@ -226,6 +232,13 @@ func _character(grid: Array[PackedByteArray], w: int, h: int, run: Vector2i, ind
 	var cracked: Array[bool] = []
 	for i: int in pieces:
 		cracked.append(rng.randf() < 0.4)
+	# Which fragment every voxel belongs to (-1: the crack between two, or a chip off a corner),
+	# and whether light leaks beside it.
+	var owner := PackedInt32Array()
+	owner.resize(w * h)
+	owner.fill(-1)
+	var seam := PackedByteArray()
+	seam.resize(w * h)
 	for cell: Vector2i in cells:
 		var near: int = 0
 		var best: float = INF
@@ -241,35 +254,65 @@ func _character(grid: Array[PackedByteArray], w: int, h: int, run: Vector2i, ind
 				second = d
 		if second - best < 0.7:
 			continue
-		var rim: bool = _rim(grid, w, h, cell)
-		var corner: bool = rim and _open_sides(grid, w, h, cell) >= 2
-		if corner and rng.randf() < 0.08:
+		if _open_sides(grid, w, h, cell) >= 2 and rng.randf() < 0.08:
 			continue
+		owner[cell.y * w + cell.x] = near
+		seam[cell.y * w + cell.x] = 1 if second - best < 2.2 else 0
+	# The fragments laid in blocks of many sizes, each block within one fragment.
+	var taken := PackedByteArray()
+	taken.resize(w * h)
+	var order: Array[Vector2i] = cells.duplicate()
+	for i: int in range(order.size() - 1, 0, -1):
+		var j: int = rng.randi_range(0, i)
+		var swap: Vector2i = order[i]
+		order[i] = order[j]
+		order[j] = swap
+	for cell: Vector2i in order:
+		var near: int = owner[cell.y * w + cell.x]
+		if near < 0 or taken[cell.y * w + cell.x] == 1:
+			continue
+		var side: int = BLOCK_SIZES[rng.rand_weighted(BLOCK_WEIGHTS)]
+		var anchor := cell
+		while side > 1:
+			anchor = _fit(owner, taken, w, h, cell, side, near, rng)
+			if anchor.x >= 0:
+				break
+			side -= 1
+		if side == 1:
+			anchor = cell
+		var rim: bool = false
+		var leaks: bool = false
+		var top: bool = false
+		for y: int in range(anchor.y, anchor.y + side):
+			for x: int in range(anchor.x, anchor.x + side):
+				taken[y * w + x] = 1
+				rim = rim or _rim(grid, w, h, Vector2i(x, y))
+				leaks = leaks or seam[y * w + x] == 1
+				top = top or y == 0 or grid[y - 1][x] == 0
 		var block := Block.new()
 		block.stone = stone_index
 		block.fragment = first_fragment + near
-		block.colour = rocks[near].lerp(Color.BLACK, rng.randf() * 0.1).lerp(Color.WHITE, rng.randf() * 0.05)
-		if second - best < 2.2:
+		block.colour = rocks[near].lerp(Color.BLACK, rng.randf() * 0.14).lerp(Color.WHITE, rng.randf() * 0.07)
+		if leaks:
 			block.marks |= SEAM
 		if rim:
 			block.marks |= RIM
 		if cracked[near]:
 			block.marks |= CRACKED
-		if cell.y == 0 or grid[cell.y - 1][cell.x] == 0:
-			if rng.randf() < 0.55:
-				block.marks |= MOSSY
-		var front: float = DEPTH / 2.0 + rng.randf_range(-0.12, 0.12) - (rng.randf_range(0.15, 0.7) if rim else 0.0)
+		if top and rng.randf() < 0.55:
+			block.marks |= MOSSY
+		var front: float = DEPTH / 2.0 + rng.randf_range(-0.15, 0.15) + (side - 1) * rng.randf_range(-0.1, 0.18) - (rng.randf_range(0.1, 0.4) if rim else 0.0)
 		var back: float = -DEPTH / 2.0 + (rng.randf_range(0.0, 1.0) if rim else 0.0)
-		if not rim and rng.randf() < CRYSTAL_SHARE:
+		if not rim and side <= 2 and rng.randf() < CRYSTAL_SHARE * 2.0:
 			block.material = CRYSTAL
 			block.colour = Color(CRYSTALS[rng.randi() % CRYSTALS.size()])
 			front += 0.5
-		var local := Vector3(cell.x + 0.5, float(low_row - cell.y) + 0.5 - sink, (front + back) / 2.0)
+		var local := Vector3(anchor.x + side / 2.0, float(low_row - anchor.y) + 1.0 - side / 2.0 - sink, (front + back) / 2.0)
 		var from_pivot: Vector3 = local - stone.pivot
 		var piece_turn: Basis = turns[near]
 		block.centre = stone.pivot + lean * (piece_turn * from_pivot + shifts[near])
 		block.basis = lean * piece_turn
-		block.size = Vector3(1.0, 1.0, front - back)
+		block.size = Vector3(side - BLOCK_GAP, side - BLOCK_GAP, front - back)
 		blocks.append(block)
 		centres[near] += block.centre
 		counts[near] += 1
@@ -278,6 +321,28 @@ func _character(grid: Array[PackedByteArray], w: int, h: int, run: Vector2i, ind
 		fragment.centre = centres[i] / maxf(1.0, counts[i])
 		var xn: float = clampf(fragment.centre.x / maxf(1.0, w + SEAL_SIDE), 0.0, 1.0)
 		fragment.leave = 0.05 + 0.5 * xn + rng.randf() * 0.12
+
+
+## Where a `side` block holding `cell` fits: every voxel of it free and of fragment `piece`.
+## (-1, -1) if nowhere.
+static func _fit(owner: PackedInt32Array, taken: PackedByteArray, w: int, h: int, cell: Vector2i, side: int, piece: int, rng: RandomNumberGenerator) -> Vector2i:
+	var start: int = rng.randi_range(0, side * side - 1)
+	for k: int in side * side:
+		var o: int = (start + k) % (side * side)
+		var anchor := Vector2i(cell.x - o % side, cell.y - o / side)
+		if anchor.x < 0 or anchor.y < 0 or anchor.x + side > w or anchor.y + side > h:
+			continue
+		var fits: bool = true
+		for y: int in range(anchor.y, anchor.y + side):
+			for x: int in range(anchor.x, anchor.x + side):
+				if taken[y * w + x] == 1 or owner[y * w + x] != piece:
+					fits = false
+					break
+			if not fits:
+				break
+		if fits:
+			return anchor
+	return Vector2i(-1, -1)
 
 
 ## A voxel on the outline (a side open to the air).
@@ -354,9 +419,9 @@ func _rubble(rng: RandomNumberGenerator) -> void:
 		var stone: Stone = stones[index]
 		var colour := Color(ROCKS[rng.randi() % ROCKS.size()])
 		for i: int in 14:
-			var side: float = rng.randf_range(0.5, 1.8)
+			var side: float = rng.randf_range(0.8, 3.0)
 			var size := Vector3(side, side * rng.randf_range(0.5, 0.9), side * rng.randf_range(0.7, 1.1))
-			var x: float = stone.pivot.x + rng.randf_range(-stone.half_width - 4.0, stone.half_width + 4.0)
-			var z: float = (1.0 if rng.randf() < 0.65 else -1.0) * rng.randf_range(DEPTH / 2.0 + 1.0, DEPTH / 2.0 + 9.0)
+			var x: float = stone.pivot.x + rng.randf_range(-stone.half_width - 6.0, stone.half_width + 6.0)
+			var z: float = (1.0 if rng.randf() < 0.65 else -1.0) * rng.randf_range(DEPTH / 2.0 + 1.5, DEPTH / 2.0 + 14.0)
 			var basis := Basis.from_euler(Vector3(rng.randf_range(-0.4, 0.4), rng.randf() * TAU, rng.randf_range(-0.4, 0.4)))
 			rubble.append([Vector3(x, size.y * 0.3, z), size, basis, colour.lerp(Color.BLACK, rng.randf() * 0.2), index])

@@ -20,13 +20,13 @@ void fragment() {
 		vec2 d = ground - stone_info[i].xz;
 		float half_width = stone_more[i].x;
 		// The dent: an oval round the foot.
-		float r = length(d / vec2(half_width + 3.0, 8.5));
+		float r = length(d / vec2(half_width + 4.0, 12.0));
 		mark = max(mark, smoothstep(1.0, 0.45, r) * 0.42 * clamp(t * 8.0, 0.0, 1.0));
 		// Cracks running out from it, reaching their length in a moment.
-		float reach = (half_width + 16.0) * (1.0 - exp(-t * 5.0));
+		float reach = (half_width + 24.0) * (1.0 - exp(-t * 5.0));
 		float rr = length(d / vec2(1.0, 0.75));
 		float ang = atan(d.y, d.x) / 6.2831853;
-		float wander = n3(vec3(rr * 0.09, float(i) * 3.1, 0.0)) * 0.9 + n3(vec3(rr * 0.35, float(i), 1.0)) * 0.15;
+		float wander = n3(vec3(rr * 0.06, float(i) * 3.1, 0.0)) * 0.9 + n3(vec3(rr * 0.25, float(i), 1.0)) * 0.15;
 		float line = abs(fract(ang * 9.0 + wander) - 0.5);
 		float width = 0.05 * (1.0 - smoothstep(0.0, reach + 0.01, rr));
 		float branch = step(0.35, n3(vec3(floor(ang * 9.0 + wander) * 1.7, float(i), 2.0)));
