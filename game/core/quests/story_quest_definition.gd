@@ -183,6 +183,10 @@ class Step:
 	## What the 任务 page records when the step is done ("" for a branch: the option's text).
 	var text: String = ""
 	var target: Target
+	## Native (步玄 A; DECISIONS「目标跟着人走」): `target_after` {mark, map, zone, npcs?}: once the player has the
+	## mark the step leads there instead (骆建章 at the 相国府 once 庾子建 is in prison); null for none.
+	var target_after: Target
+	var target_after_mark: String = ""
 	## The option (of an earlier step) this step waits for; "" for every way.
 	var only_after: StringName = &""
 	## What a plain step gives when done (a branch's options carry their own).
@@ -196,6 +200,12 @@ class Step:
 
 	func is_branch() -> bool:
 		return not options.is_empty()
+
+	## Where the step leads a player with `marks`: `target_after` once its mark is held, else `target`.
+	func target_for(marks: Dictionary) -> Target:
+		if target_after != null and int(marks.get(target_after_mark, 0)) != 0:
+			return target_after
+		return target
 
 	func option(option_id: StringName) -> Option:
 		for candidate: Option in options:
@@ -213,6 +223,12 @@ class Step:
 			step.keeps.append(StringName(npc))
 		if reader.has("target"):
 			step.target = Target.from_record(reader.child("target"))
+		if reader.has("target_after"):
+			var moved: ContentRecordReader = reader.child("target_after")
+			step.target_after_mark = moved.required_text("mark")
+			step.target_after = Target.from_record(moved)
+			if step.target == null:
+				reader.fail("target_after", "a step leads elsewhere only from its own target")
 		for record: ContentRecordReader in reader.children("checklist"):
 			step.checklist.append(CheckRow.from_record(record))
 		var seen: Dictionary[StringName, bool] = {}

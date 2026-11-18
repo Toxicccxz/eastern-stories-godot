@@ -428,6 +428,11 @@ position = Vector2(-144, 632)
 script = ExtResource("marker")
 spawn_point_id = &"city.shangshu.huayuan.gardener_back.1"
 
+[node name="ShangshuKetingLuoJianzhang1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(704, -360)
+script = ExtResource("marker")
+spawn_point_id = &"city.shangshu.keting.luo_jianzhang.1"
+
 [node name="ShangshuRoad1Watch1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(-62, -1086)
 script = ExtResource("marker")

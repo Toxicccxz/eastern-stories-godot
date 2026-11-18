@@ -415,6 +415,7 @@ msgstr ""
 #. native.npc.lu_decai_home gender
 #. native.npc.maoshan_gardener gender
 #. native.npc.maoshan_gardener_north gender
+#. native.npc.luo_jianzhang gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -521,6 +522,7 @@ msgstr ""
 #. native.npc.daughter_lake gender
 #. native.npc.assembly_old_woman gender
 #. native.npc.assembly_daughter gender
+#. native.npc.sword_soul_spar gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -16546,7 +16548,8 @@ msgstr ""
 #. family.buxuan name
 #. common.npc.scholar.master family.name
 #. buxuan name
-#: data/common/families.json data/common/npcs.json data/story/factions.json
+#. faction.buxuan title
+#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_buxuan.json
 msgid "步玄派"
 msgstr ""
 
@@ -20985,6 +20988,7 @@ msgstr ""
 #. common.npc.scholar.master name
 #. native.npc.wei_zhizhong inquiry topic
 #. native.npc.assembly_luo_yunzhou name
+#. native.npc.luo_jianzhang inquiry topic
 #: data/common/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "骆云舟"
 msgstr ""
@@ -21008,6 +21012,192 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "很好，$RESPECT多加努力，他日必定有成。\n"
+msgstr ""
+
+#. common.npc.scholar.master inquiry topic
+#: data/common/npcs.json
+msgid "风泉"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.say
+#. common.npc.scholar.master inquiry.问剑.rules.say
+#: data/common/npcs.json
+msgid "步玄的事，不劳你了。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.say
+#: data/common/npcs.json
+msgid "剑灵认过你了。步玄的人，见过它就算。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.say
+#: data/common/npcs.json
+msgid "夜里来曼雩台，问我「问剑」。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.lines.emote
+#: data/common/npcs.json
+msgid "把腰上那柄湛蓝的剑解下来，横在膝上。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.lines.say
+#: data/common/npcs.json
+msgid "风泉之剑。步玄历代掌门传下来的，剑里住着一个剑灵。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.lines.say
+#: data/common/npcs.json
+msgid "照规矩，它只在拿剑的人死了才出来——可步玄还有一条老规矩：见过剑灵的人，才算步玄的人。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.lines.say
+#: data/common/npcs.json
+msgid "夜里来曼雩台，问我「问剑」。我把剑插在石台上，它就出来了。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.lines.emote
+#: data/common/npcs.json
+msgid "上下打量了你一眼，笑了。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.lines.say
+#: data/common/npcs.json
+msgid "桃林里那几张字条，你一张一张走出来了？——走得出桃林的，就是桃林的客。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.say
+#: data/common/npcs.json
+msgid "名帖的事办得怎样了？……有空的话，桃林走一趟，咱们说话。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.风泉.rules.say
+#: data/common/npcs.json
+msgid "风泉之剑，步玄历代掌门的信物。剑里的事——先走一趟东边的桃林再说。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry topic
+#: data/common/npcs.json
+msgid "问剑"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.say
+#: data/common/npcs.json
+msgid "剑灵在「剑神如意」之前收了剑——它认你了。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.say
+#: data/common/npcs.json
+msgid "步玄认你。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.emote
+#: data/common/npcs.json
+msgid "伸手把石缝里的剑拔了出来，又插了回去。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.say
+#: data/common/npcs.json
+msgid "四句念完了，剑灵回了剑。今夜到此——明晚天黑了再来。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.say
+#: data/common/npcs.json
+msgid "剑在石台上。天黑以后它就出来——跟它切磋，赶在「剑神如意」之前。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.emote
+#: data/common/npcs.json
+msgid "走到台边那块青石前，把风泉之剑往石缝里一插，剑身「嗡」地响了一声。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.say
+#: data/common/npcs.json
+msgid "天黑了，剑灵就站在这块石头前。跟它切磋——它念一句，强一分。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.lines.say
+#: data/common/npcs.json
+msgid "念到第四句「剑神如意」之前打中它，就算过了。念完了，今夜就到此，明晚再来。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.问剑.rules.say
+#: data/common/npcs.json
+msgid "问剑？"
+msgstr ""
+
+#. common.npc.scholar.master inquiry topic
+#: data/common/npcs.json
+msgid "骆家"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.say
+#: data/common/npcs.json
+msgid "骆家的事，不劳你了。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.say
+#: data/common/npcs.json
+msgid "大哥跟你说了什么？……你回来了，就说吧。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.say
+#: data/common/npcs.json
+msgid "他读了？……他没回信。他从来不回。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.emote
+#: data/common/npcs.json
+msgid "愣了一下，摇摇头，又写了一封。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.say
+#: data/common/npcs.json
+msgid "丢了就丢了。这一封，别再丢了。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.say
+#: data/common/npcs.json
+msgid "信在你那里。他在庾子建府上的客厅——庾子建倒了，就去相国府找他。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.emote
+#: data/common/npcs.json
+msgid "沉默了一会儿，用扇子敲了敲手心。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.say
+#: data/common/npcs.json
+msgid "韦相国叫我「骆家的二小子」，没叫错。我上头还有一个大哥，骆建章。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.say
+#: data/common/npcs.json
+msgid "父亲带我们练剑，他不肯，说剑是莽夫的东西。他写得一手好字——比父亲的好，比我的好得多。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.say
+#: data/common/npcs.json
+msgid "十年前他进了兵部尚书庾子建的府，做书启。我们兄弟俩，十年没说过一句话。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.emote
+#: data/common/npcs.json
+msgid "从袖子里抽出一张笺，提笔写了很久，写完折成一个小方块，最后一笔照旧甩出了格子。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.lines.say
+#: data/common/npcs.json
+msgid "你进京的时候，替我把这封信交给他。他在庾子建的客厅里写字——庾子建要是倒了，他多半在韦相国那里。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.say
+#: data/common/npcs.json
+msgid "骆家的事？……等你进了京，咱们再说。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.骆家.rules.say
+#: data/common/npcs.json
+msgid "骆家在京城住了五代。我是二小子。"
 msgstr ""
 
 #. common.npc.scholar.master inquiry topic
@@ -21038,6 +21228,16 @@ msgstr ""
 #. common.npc.scholar.master inquiry.京城.rules.lines.say
 #: data/common/npcs.json
 msgid "拿着，去西街的相国府，叩门递帖。韦相国是我父亲的老师。他那府里寒酸得很——别笑。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.lines.emote
+#: data/common/npcs.json
+msgid "又看了你一眼。"
+msgstr ""
+
+#. common.npc.scholar.master inquiry.京城.rules.lines.say
+#: data/common/npcs.json
+msgid "等这件事办完了，桃林走一趟，咱们说话。"
 msgstr ""
 
 #. common.npc.scholar.master inquiry.京城.rules.say
@@ -21103,7 +21303,8 @@ msgid "好。步玄听你的。"
 msgstr ""
 
 #. common.npc.scholar.sword_soul name
-#: data/common/npcs.json
+#. native.npc.sword_soul_spar name
+#: data/common/npcs.json data/native/npcs.json
 msgid "风泉剑灵"
 msgstr ""
 
@@ -21114,22 +21315,26 @@ msgid ""
 msgstr ""
 
 #. common.npc.scholar.sword_soul chant.stages.say
-#: data/common/npcs.json
+#. native.npc.sword_soul_spar fight_chant.stages.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "剑气指天 ..."
 msgstr ""
 
 #. common.npc.scholar.sword_soul chant.stages.say
-#: data/common/npcs.json
+#. native.npc.sword_soul_spar fight_chant.stages.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "剑心内敛 ..."
 msgstr ""
 
 #. common.npc.scholar.sword_soul chant.stages.say
-#: data/common/npcs.json
+#. native.npc.sword_soul_spar fight_chant.stages.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "剑芒游光 ..."
 msgstr ""
 
 #. common.npc.scholar.sword_soul chant.stages.say
-#: data/common/npcs.json
+#. native.npc.sword_soul_spar fight_chant.stages.say
+#: data/common/npcs.json data/native/npcs.json
 msgid "剑神如意！"
 msgstr ""
 
@@ -25902,6 +26107,31 @@ msgstr ""
 
 #. buxuan lines.text
 #: data/story/factions.json
+msgid "你走出了桃林，骆云舟认你做桃林的客。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
+msgid "你在曼雩台上问过了剑：风泉剑灵在「剑神如意」之前收了剑。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
+msgid "骆云舟托你给他十年没说过话的大哥骆建章送一封家书。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
+msgid "骆建章读了弟弟的信，说他还是那么写字，最后一笔甩出格子。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
+msgid "兵部抄本上多出来的三句是骆建章落的笔；他认了。"
+msgstr ""
+
+#. buxuan lines.text
+#: data/story/factions.json
 msgid "骆云舟把骆家的名帖给了你。"
 msgstr ""
 
@@ -26290,9 +26520,10 @@ msgstr ""
 #. faction.fonxan/report reward.rank.title
 #. faction.celestial/report reward.rank.title
 #. faction.latemoon/shrine reward.rank.title
+#. faction.buxuan/sword reward.rank.title
 #. latemoon.npc.yumay family.title
 #. latemoon.npc.shaowei family.title
-#: data/story/faction_fonxan.json data/story/faction_celestial.json data/story/faction_latemoon.json data/latemoon/npcs.json
+#: data/story/faction_fonxan.json data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json data/latemoon/npcs.json
 msgid "大弟子"
 msgstr ""
 
@@ -27830,6 +28061,101 @@ msgstr ""
 #. faction.maoshan/pardon objective
 #: data/story/faction_maoshan.json
 msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后），问藏经楼二楼的花匠「北麓」：他拿着书上北麓去念他们自己的经——你上北麓，在绞盘边看他念完。北麓的人已经有了去处的，这一步就过了。"
+msgstr ""
+
+#. faction.buxuan region
+#: data/story/faction_buxuan.json
+msgid "乔阴"
+msgstr ""
+
+#. faction.buxuan summary
+#: data/story/faction_buxuan.json
+msgid "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟还有一个十年没说过话的大哥，在兵部尚书府里写字。"
+msgstr ""
+
+#. faction.buxuan lapses.text
+#: data/story/faction_buxuan.json
+msgid "你离了步玄派。曼雩台上的事，到此为止。"
+msgstr ""
+
+#. faction.buxuan/sword objective
+#: data/story/faction_buxuan.json
+msgid "问乔阴曼雩台的骆云舟「风泉」，再问他「问剑」：他把风泉之剑插在台边的青石上。天黑以后（夜晚、午夜）剑灵站在石前——跟它切磋，在它念到第四句「剑神如意」之前打中它。"
+msgstr ""
+
+#. faction.buxuan/sword text
+#: data/story/faction_buxuan.json
+msgid "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你。"
+msgstr ""
+
+#. faction.buxuan/sword reward.deed
+#: data/story/faction_buxuan.json
+msgid "在曼雩台上问过了剑，见过了风泉剑灵"
+msgstr ""
+
+#. faction.buxuan/sword checklist.label
+#: data/story/faction_buxuan.json
+msgid "今夜的四句念完了，剑灵回了剑——明晚天黑再来"
+msgstr ""
+
+#. faction.buxuan/letter objective
+#: data/story/faction_buxuan.json
+msgid "问骆云舟「骆家」。他的家事在京城，要等主线第九章（进京）开了。"
+msgstr ""
+
+#. faction.buxuan/letter text
+#: data/story/faction_buxuan.json
+msgid "骆云舟是骆家的二小子。大哥骆建章没去练剑，写得一手好字，在兵部尚书庾子建的府上做了十年书启；兄弟俩十年没说过话。他写了一封家书，托你送进京。"
+msgstr ""
+
+#. faction.buxuan/letter checklist.label
+#: data/story/faction_buxuan.json
+msgid "等主线第九章：湖底的事了了，才进得了京"
+msgstr ""
+
+#. faction.buxuan/brother objective
+#: data/story/faction_buxuan.json
+msgid "把家书送进京（「给」骆建章）：他在兵部尚书府的客厅里写字——进府先打点大门的门房；见过韦相国的，问相国「骆建章」，他写个条子给门房。庾子建下了狱，骆建章就在西街的相国府。"
+msgstr ""
+
+#. faction.buxuan/brother text
+#: data/story/faction_buxuan.json
+msgid "骆建章读完了信：「他还是那么写字，最后一笔甩出格子。」抄本的事，他一句没提。"
+msgstr ""
+
+#. faction.buxuan/copy objective
+#: data/story/faction_buxuan.json
+msgid "第九章御书房樟木匣里的兵部抄本，比先帝的原令多出三句。带着它问骆建章「抄本」，或者问韦相国「抄本的字」。"
+msgstr ""
+
+#. faction.buxuan/copy text
+#: data/story/faction_buxuan.json
+msgid "骆建章认了：二十年前他在兵部做抄手，原令存档的底子是他抄的；兵部抄本是庾子建口述、他落的笔——多出来的是哪三句，他写的时候就知道。"
+msgstr ""
+
+#. faction.buxuan/copy reward.deed
+#: data/story/faction_buxuan.json
+msgid "认出了兵部抄本上骆家的字"
+msgstr ""
+
+#. faction.buxuan/copy checklist.label
+#: data/story/faction_buxuan.json
+msgid "带着兵部抄本"
+msgstr ""
+
+#. faction.buxuan/copy checklist.label
+#: data/story/faction_buxuan.json
+msgid "抄本在皇城御书房的樟木匣里：先走主线第九章"
+msgstr ""
+
+#. faction.buxuan/home objective
+#: data/story/faction_buxuan.json
+msgid "回乔阴的曼雩台，把大哥的话告诉骆云舟（问他「骆家」）。"
+msgstr ""
+
+#. faction.buxuan/home text
+#: data/story/faction_buxuan.json
+msgid "骆云舟听完了大哥的话。"
 msgstr ""
 
 #. faction.assembly title
@@ -31602,6 +31928,7 @@ msgstr ""
 #. native:snow/old_letter unit
 #. native:snow/letter_to_pan unit
 #. native:choyin/magistrate_letter unit
+#. native:choyin/luo_letter unit
 #. native:city/courier_letter unit
 #. native:waterfog/spy_letter unit
 #: data/latemoon/items.json data/cloud/items.json data/native/items.json
@@ -42273,7 +42600,8 @@ msgid "兵部？在下一个外地人，不懂这些。"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry topic
-#: data/choyin/npcs.json
+#. native.npc.luo_jianzhang inquiry topic
+#: data/choyin/npcs.json data/native/npcs.json
 msgid "抄本"
 msgstr ""
 
@@ -48508,6 +48836,7 @@ msgstr ""
 #. native.npc.yu_zijian_accused name
 #. native.npc.yu_zijian_drawn name
 #. native.npc.yu_zijian_lake name
+#. native.npc.luo_jianzhang inquiry topic
 #: data/city/npcs.json data/guanbei/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "庾子建"
 msgstr ""
@@ -51115,6 +51444,11 @@ msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.师兄.rules.lines.say
 #: data/city/npcs.json
+msgid "府里还有一个不姓庾的，客厅里写字的那位。他的字比我的符好看。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.师兄.rules.lines.say
+#: data/city/npcs.json
 msgid "书该还给师兄了。你问我「符箓」。"
 msgstr ""
 
@@ -51162,6 +51496,26 @@ msgstr ""
 #. city.npc.shangshu.gardener inquiry.符箓.rules.lines.say
 #: data/city/npcs.json
 msgid "替我交给师兄。烧也好，留也好，是茅山的事。我这儿还有花要浇。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry topic
+#. native.npc.wei_zhizhong inquiry topic
+#. native.npc.maoshan_gardener inquiry topic
+#. native.npc.luo_jianzhang name
+#: data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
+msgid "骆建章"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.骆建章.rules.say
+#. native.npc.maoshan_gardener inquiry.骆建章.rules.say
+#: data/city/npcs.json data/native/npcs.json
+msgid "骆先生？老爷下了狱，相国把他叫去了。那个人，在这府里十年，没说过一句多余的话。"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.骆建章.rules.say
+#. native.npc.maoshan_gardener inquiry.骆建章.rules.say
+#: data/city/npcs.json data/native/npcs.json
+msgid "骆先生？客厅里写字的那位。老爷的信，十封有九封是他的笔。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry topic
@@ -62242,6 +62596,88 @@ msgstr ""
 msgid "骆家的二小子？他父亲骆易在老夫门下读过书。后来父子俩都去练剑了，可惜了那一手字。"
 msgstr ""
 
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.say
+#: data/imperial/npcs.json
+msgid "建章在老夫这里。刑部要问他的话——他在庾子建身边写了十年字。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "想了一会儿。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.lines.say
+#: data/imperial/npcs.json
+msgid "骆易的大儿子。老夫三年没见他了——他在庾子建的客厅里写字。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "撕下一角纸，写了两行，按上一方小印，递给你。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.lines.say
+#: data/imperial/npcs.json
+msgid "拿去给尚书府的门房。相国府的条子，他不敢拦。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.say
+#: data/imperial/npcs.json
+msgid "信送到了？……他回信没有？骆家的人，一个比一个嘴硬。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.say
+#: data/imperial/npcs.json
+msgid "骆易的大儿子？在庾子建府上写字。老夫不常见他。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry topic
+#: data/imperial/npcs.json
+msgid "抄本的字"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.say
+#: data/imperial/npcs.json
+msgid "建章认了。多出来的三句，是他落的笔。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.emote
+#: data/imperial/npcs.json
+msgid "接过那卷抄本，凑到灯下，看了很久。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.say
+#: data/imperial/npcs.json
+msgid "原令一句，抄本四句。多出来的三句——是骆家的字。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.say
+#: data/imperial/npcs.json
+msgid "骆易的字，他大儿子学了十成。「拿人」那个「拿」字的提手，是骆家的写法，老夫教过的。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.line
+#: data/imperial/npcs.json
+msgid ""
+"韦执中朝后头喊了一声。骆建章从厢房里出来，看了一眼那卷抄本，脸色白了。\n"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.line
+#: data/imperial/npcs.json
+msgid ""
+"骆建章说道：……是我的字。那年我在兵部做抄手，原令存档的底子也是我抄的——一句话。大人口述，多出来的三句，我落的笔；是哪三句，我写的时候就知道。\n"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.say
+#: data/imperial/npcs.json
+msgid "去问建章「抄本」。他认得自己的字。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.抄本的字.rules.say
+#: data/imperial/npcs.json
+msgid "抄本？拿来给老夫看。"
+msgstr ""
+
 #. native.npc.wei_zhizhong inquiry.振远.rules.say
 #: data/imperial/npcs.json
 msgid "陈天星的人？振远押老夫的俸银押了二十年，一两没少过。朝上的事过去了——坐，喝杯茶。"
@@ -70152,6 +70588,165 @@ msgid ""
 "一个、两个……穿黑衣的人顺着货道走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
 msgstr ""
 
+#. native.npc.sword_soul_spar long
+#: data/native/npcs.json
+msgid ""
+"一个高大的人形，只有轮廓发出暗蓝色的光芒，其他部份都是透明的！手里握着一道剑形的蓝光。\n"
+msgstr ""
+
+#. native.npc.sword_soul_spar accept_fight.emote
+#: data/native/npcs.json
+msgid "收剑而立，朝你微微点了点头。"
+msgstr ""
+
+#. native.npc.sword_soul_spar accept_fight.emote
+#: data/native/npcs.json
+msgid "轮廓淡淡的，剑尖垂着——今夜的四句已经念完了。"
+msgstr ""
+
+#. native.npc.sword_soul_spar accept_fight.emote
+#: data/native/npcs.json
+msgid "举剑指天，轮廓亮了一亮。"
+msgstr ""
+
+#. native.npc.sword_soul_spar fight_chant.stages.line
+#: data/native/npcs.json
+msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！$N收剑而立。"
+msgstr ""
+
+#. native.npc.luo_jianzhang title
+#: data/native/npcs.json
+msgid "尚书府书启"
+msgstr ""
+
+#. native.npc.luo_jianzhang long
+#: data/native/npcs.json
+msgid ""
+"一个清瘦的中年书生，穿一件半旧的青布长衫，右手中指上有一道磨出来的老茧，袖口沾着墨。眉眼和曼雩台上那位掌门有几分像，只是不笑。\n"
+msgstr ""
+
+#. native.npc.luo_jianzhang chat_msg
+#: data/native/npcs.json
+msgid ""
+"骆建章提着笔，在一张笺上写了几行，又揉成一团。\n"
+msgstr ""
+
+#. native.npc.luo_jianzhang chat_msg
+#: data/native/npcs.json
+msgid ""
+"骆建章对着砚台磨墨，磨了很久，一个字也没写。\n"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_fight.say
+#: data/native/npcs.json
+msgid "我拿笔的手，不拿剑。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.lines.emote
+#: data/native/npcs.json
+msgid "看见信背面那四个字，停了一下，才拆开。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.lines.emote
+#: data/native/npcs.json
+msgid "一行一行看下去，看到末尾，嘴角动了动。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.lines.say
+#: data/native/npcs.json
+msgid "他还是那么写字，最后一笔甩出格子。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.lines.emote
+#: data/native/npcs.json
+msgid "把信折好，收进袖子里。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.lines.say
+#: data/native/npcs.json
+msgid "……替我谢谢他。别的，没什么好说的。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.say
+#: data/native/npcs.json
+msgid "建炎的信？……放这儿吧。"
+msgstr ""
+
+#. native.npc.luo_jianzhang accept_object.say
+#: data/native/npcs.json
+msgid "我不收东西。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.骆云舟.rules.say
+#: data/native/npcs.json
+msgid "建炎……他还在乔阴耍剑？十年了，那一笔还是甩出格子。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.骆云舟.rules.say
+#: data/native/npcs.json
+msgid "建炎？我弟弟。十年没见了。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.庾子建.rules.say
+#: data/native/npcs.json
+msgid "大人……庾子建下了狱，刑部要问我的话。我在他身边写了十年字。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.庾子建.rules.say
+#: data/native/npcs.json
+msgid "大人口述，我落笔。十年了，他的话我写得比他说得快。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.say
+#: data/native/npcs.json
+msgid "抄本？我抄过的东西多了。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.say
+#: data/native/npcs.json
+msgid "我说过了。那三句，是我写的。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.emote
+#: data/native/npcs.json
+msgid "看了一眼那卷抄本，手里的笔落在了纸上。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
+#: data/native/npcs.json
+msgid "……是我的字。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
+#: data/native/npcs.json
+msgid "二十年前我在兵部做抄手。先帝的原令发到兵部，存档的底子是我抄的——一句话：寻剑，不得扰民一户。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
+#: data/native/npcs.json
+msgid "庾大人口述，我落的笔。多出来的三句：征民夫，设关卡，拿人。是哪三句，我写的时候就知道。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
+#: data/native/npcs.json
+msgid "后来他把我要进了府里，做书启。十年了。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.emote
+#: data/native/npcs.json
+msgid "把抄本推回给你，很久没有抬头。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
+#: data/native/npcs.json
+msgid "别跟建炎说。……你会跟他说的。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.say
+#: data/native/npcs.json
+msgid "抄本？我抄过的东西多了。拿来我看看。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -70453,6 +71048,22 @@ msgstr ""
 #. native:temple/talisman_book no_drop
 #: data/native/items.json
 msgid "这函书不能随便丢。"
+msgstr ""
+
+#. native:choyin/luo_letter name
+#: data/native/items.json
+msgid "骆家家书"
+msgstr ""
+
+#. native:choyin/luo_letter long
+#: data/native/items.json
+msgid ""
+"一张素笺折成的小方块，封口没有封，背面写着「大哥亲启」四个字，字写得飞快，最后一笔甩出了格子。\n"
+msgstr ""
+
+#. native:choyin/luo_letter no_drop
+#: data/native/items.json
+msgid "这封家书不能随便丢。"
 msgstr ""
 
 #. native:choyin/luo_card name

@@ -625,17 +625,20 @@ func _check_story_quests() -> void:
 			for npc: StringName in step.keeps:
 				if not _npcs.has(npc):
 					_errors.append("%s.keeps: no npc '%s'" % [at, npc])
-			if step.target != null:
-				var zone: ZoneDefinition = _zones.get(step.target.zone_id)
-				if not _maps.has(step.target.map_id):
-					_errors.append("%s.target: no map '%s'" % [at, step.target.map_id])
+			for pair: Array in [["target", step.target], ["target_after", step.target_after]]:
+				var target: StoryQuestDefinition.Target = pair[1]
+				if target == null:
+					continue
+				var zone: ZoneDefinition = _zones.get(target.zone_id)
+				if not _maps.has(target.map_id):
+					_errors.append("%s.%s: no map '%s'" % [at, pair[0], target.map_id])
 				if zone == null:
-					_errors.append("%s.target: no zone '%s'" % [at, step.target.zone_id])
-				elif zone.map_id != step.target.map_id:
-					_errors.append("%s.target: zone '%s' is not on map '%s'" % [at, step.target.zone_id, step.target.map_id])
-				for npc: StringName in step.target.npc_ids:
+					_errors.append("%s.%s: no zone '%s'" % [at, pair[0], target.zone_id])
+				elif zone.map_id != target.map_id:
+					_errors.append("%s.%s: zone '%s' is not on map '%s'" % [at, pair[0], target.zone_id, target.map_id])
+				for npc: StringName in target.npc_ids:
 					if not _npcs.has(npc):
-						_errors.append("%s.target: no npc '%s'" % [at, npc])
+						_errors.append("%s.%s: no npc '%s'" % [at, pair[0], npc])
 
 
 ## A step's or a quest's checklist rows (DECISIONS「任务清单」「任务级清单」) ask conditions the game has.

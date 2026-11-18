@@ -11,6 +11,8 @@ const MONEY_DENOMINATIONS: Dictionary[StringName, CurrencyDenomination.Value] = 
 
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
 var _npcs: Dictionary[StringName, NpcDefinition] = {}
+## marks_lapsing(), worked out once ("" alone: none).
+var _marks_lapsing: Dictionary[String, StringName] = {}
 var _spawns: Dictionary[StringName, NpcSpawnDefinition] = {}
 var _item_spawns: Dictionary[StringName, ItemSpawnDefinition] = {}
 var _vendors: Dictionary[StringName, VendorDefinition] = {}
@@ -528,6 +530,24 @@ func npc_under(pacing: PacingDefinition, npc_definition_id: StringName) -> NpcDe
 func npcs() -> Array[NpcDefinition]:
 	var result: Array[NpcDefinition] = []
 	result.assign(_npcs.values())
+	return result
+
+
+## Native (步玄 A; DECISIONS「打着念」): the marks that lapse as a day phase begins — {mark: phase id}, from
+## every NPC's fight chant lines that say so (the 问剑's 剑灵回了剑: tonight's try is spent, the next night is new).
+func marks_lapsing() -> Dictionary[String, StringName]:
+	if _marks_lapsing.is_empty():
+		for definition: NpcDefinition in _npcs.values():
+			var hooks: NpcHooks = definition.hooks()
+			if hooks == null:
+				continue
+			for stage: NpcHooks.FightStage in hooks.fight_chant_stages:
+				if not stage.mark_lapses_at.is_empty():
+					_marks_lapsing[stage.mark] = stage.mark_lapses_at
+		if _marks_lapsing.is_empty():
+			_marks_lapsing[""] = &""
+	var result: Dictionary[String, StringName] = _marks_lapsing.duplicate()
+	result.erase("")
 	return result
 
 

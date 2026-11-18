@@ -17,6 +17,14 @@ var _leave_for: Callable
 ## 战斗决策层 1B (pacing npc_telegraph): a special chat() draws is announced and run on the
 ## next beat (run_special()); off, it runs on the beat as npc.c does.
 var telegraph: bool = false
+## Native (步玄 A; DECISIONS「打着念」): each chanter's fight chant in this fight (one CombatNpcChat a fight):
+## the beats since its last line, and how many of its lines it said.
+var _chant_beats: Dictionary[StringName, int] = {}
+var _chant_said: Dictionary[StringName, int] = {}
+## How long a fight chant's applies run: the rest of any fight (they end with it: CombatEncounterCoordinator).
+const FIGHT_CHANT_MS: int = 3_600_000
+## The timed applies a fight chant's lines run under begin so (fight_chant_effect()).
+const FIGHT_CHANT_PREFIX: String = "fight_chant_"
 
 
 ## `npc_for`: (character_id: StringName) -> NpcRuntimeState, null for the player.
@@ -70,6 +78,9 @@ func beat(
 	var npc: NpcRuntimeState = _npc(actor.character_id)
 	if npc == null or npc.definition() == null:
 		return null
+	var chanted: CombatNpcChatResult = _fight_chant(actor, npc)
+	if chanted != null:
+		return chanted
 	var talk: NpcTalk = npc.combat_talk()
 	if talk == null or not talk.has_combat_chat():
 		return null
@@ -112,6 +123,43 @@ func beat(
 		return CombatNpcChatResult.new([VisionLine.new(line, actor.character_id, &"", ColoredLine.HIY)]).with_telegraph(action, label)
 	var ran: CombatNpcChatResult = run_special(actor, action, enemies, others, random_source, effects)
 	return null if ran == null else ran.with_ran_special(action)
+
+
+## NpcHooks.fight_chant (native, 步玄 A; DECISIONS「打着念」): on every `every`th of its chat()s (one a round, as
+## its round ends) the NPC says its next line instead of a chat (its say, then the line as message_vision() has it),
+## gains that line's applies for the rest of the fight, and the line's mark and ends_spar go with the result (the
+## resolution writes the mark, the scheduler stops the spar). Its first chat() of a fight also drops what an
+## earlier fight's lines added, should any be left. Null: no line this time.
+func _fight_chant(actor: CombatSliceCharacterBinding, npc: NpcRuntimeState) -> CombatNpcChatResult:
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks == null or not hooks.has_fight_chant():
+		return null
+	var id: StringName = actor.character_id
+	if not _chant_beats.has(id):
+		for index: int in hooks.fight_chant_stages.size():
+			actor.state.timed_applies.stop(fight_chant_effect(index))
+	var said: int = _chant_said.get(id, 0)
+	if said >= hooks.fight_chant_stages.size():
+		return null
+	var beats: int = _chant_beats.get(id, 0) + 1
+	if beats < hooks.fight_chant_every:
+		_chant_beats[id] = beats
+		return null
+	_chant_beats[id] = 0
+	_chant_said[id] = said + 1
+	var stage: NpcHooks.FightStage = hooks.fight_chant_stages[said]
+	if not stage.applies.is_empty():
+		actor.state.timed_applies.start(fight_chant_effect(said), stage.applies, FIGHT_CHANT_MS)
+	var lines: Array[VisionLine] = [VisionLine.new(_says(npc, stage.say), actor.character_id)]
+	if not stage.line.is_empty():
+		# message_vision(): the narrator words it, $N the chanter.
+		lines.append(VisionLine.new(stage.line, actor.character_id))
+	return CombatNpcChatResult.new(lines).with_chant(stage.mark, stage.ends_spar)
+
+
+## The timed apply a fight chant's `index`th line runs under.
+static func fight_chant_effect(index: int) -> StringName:
+	return StringName(FIGHT_CHANT_PREFIX + str(index))
 
 
 ## The special `action` run against the fight as it is now (npc.c's perform_action() /

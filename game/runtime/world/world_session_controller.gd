@@ -572,6 +572,7 @@ func configure_recovery_random_source(value: RecoveryCadenceRandomSource) -> boo
 ## The day's phase turned on the player's own map (DECISIONS「舞台道具」): the spawns and things of the
 ## picture whose conditions read the phase are judged again where the player stands.
 func _phase_turned() -> void:
+	_lapse_marks_at(_day.phase())
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.is_map_initialized() and not _transitioning:
 		WorldStoryPresence.stage(self, map, true)
@@ -786,6 +787,27 @@ func wait_until_phase(phase_ids: Array[StringName]) -> bool:
 	return true
 
 
+## Native (步玄 A; DECISIONS「打着念」): as `phase` begins, the player's marks that lapse then are gone
+## (ContentCatalog.marks_lapsing(): the 问剑's 剑灵回了剑 at 微曦).
+func _lapse_marks_at(phase: DayPhaseDefinition) -> void:
+	if phase == null or _player == null or _player.state == null:
+		return
+	var lapsing: Dictionary[String, StringName] = GameContent.catalog().marks_lapsing()
+	for mark: String in lapsing:
+		if lapsing[mark] == phase.phase_id:
+			_player.state.marks.erase(mark)
+
+
+## The phases (by id) whose start falls within the next `game_seconds` of the day clock.
+func _phases_begun_within(game_seconds: int) -> Array[StringName]:
+	var begun: Array[StringName] = []
+	for phase: DayPhaseDefinition in _day.phases():
+		var until: int = _day.seconds_until_phase([phase.phase_id])
+		if game_seconds >= DayClock.DAY_SECONDS or (until > 0 and until <= game_seconds):
+			begun.append(phase.phase_id)
+	return begun
+
+
 ## `game_seconds` of world time go by as one stretch, as wait_until_phase() lets them (the day,
 ## the sky, the player's own recovery and timed applies, quests and bounties, rooms, hazards and
 ## hidden passages, every other map's time owed, the player's own map caught up as one they come
@@ -801,6 +823,9 @@ func pass_game_time(game_seconds: int) -> bool:
 	# A real second is DAY_MINUTES / day_length_minutes game minutes (DayClock.advance()).
 	var real_seconds: float = float(game_seconds) * float(pacing.day_length_minutes) / float(DayClock.DAY_MINUTES)
 	var before: int = _day.phase_index()
+	# A stretch that passes the start of a phase lapses the marks of that phase (DECISIONS「打着念」).
+	for phase_id: StringName in _phases_begun_within(game_seconds):
+		_lapse_marks_at(_day.phase_by_id(phase_id))
 	_day.set_day_seconds(_day.day_seconds() + game_seconds)
 	if _day.phase_index() != before and _day.phase() != null:
 		day_phase_began.emit(_day.phase())

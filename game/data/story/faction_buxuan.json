@@ -1,0 +1,180 @@
+{
+	"quests": [
+		{
+			"id": "faction.buxuan",
+			"title": "步玄派",
+			"line": "faction",
+			"region": "乔阴",
+			"sources": [
+				"native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」). daemon/class/scholar/master.c (骆云舟: 生於京城有名的武林世家，本名骆建炎，其父骆易; 你还是先走一趟东边的桃林吧), daemon/class/scholar/windspring.c and sword_soul.c (风泉之剑, 风泉剑灵: 剑气指天 … 剑神如意！), d/choyin/taolin.c (the 桃林's notes), imperial 韦执中 (骆家的二小子……可惜了那一手字). The line shows for 骆云舟's own and for a 桃林的客 (one who walked out of the 桃林 and asked 骆云舟 「风泉」); the 问剑 on the 曼雩台 at night (步玄's old rule: 见过剑灵的人，才算步玄的人; 大弟子 for 步玄's own), the 家书 to the elder brother 骆建章 in the 尚书府 (at the 相国府 once 庾子建 is in prison) after 第九章 began, and the three lines of the 兵部抄本 in 骆家's hand are the plan's (续写); the line stops at a stub step `home` that 步玄 B fills."
+			],
+			"summary": "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟还有一个十年没说过话的大哥，在兵部尚书府里写字。",
+			"starts": {
+				"any": [
+					{
+						"family": "family.buxuan"
+					},
+					{
+						"mark": "桃林的客"
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"not": {
+								"family": "family.buxuan"
+							}
+						},
+						{
+							"not": {
+								"mark": "桃林的客"
+							}
+						}
+					]
+				},
+				"text": "你离了步玄派。曼雩台上的事，到此为止。",
+				"mark": "步玄的线断了"
+			},
+			"steps": [
+				{
+					"id": "sword",
+					"objective": "问乔阴曼雩台的骆云舟「风泉」，再问他「问剑」：他把风泉之剑插在台边的青石上。天黑以后（夜晚、午夜）剑灵站在石前——跟它切磋，在它念到第四句「剑神如意」之前打中它。",
+					"checklist": [
+						{
+							"label": "今夜的四句念完了，剑灵回了剑——明晚天黑再来",
+							"if": {
+								"mark": "剑灵回了剑"
+							}
+						}
+					],
+					"done": {
+						"mark": "问剑过了"
+					},
+					"text": "剑灵在「剑神如意」之前收了剑。骆云舟说：步玄认你。",
+					"reward": {
+						"deed": "在曼雩台上问过了剑，见过了风泉剑灵",
+						"rank": {
+							"family": "family.buxuan",
+							"title": "大弟子"
+						}
+					},
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.entrance",
+						"npcs": [
+							"native.npc.sword_soul_spar",
+							"common.npc.scholar.master"
+						]
+					}
+				},
+				{
+					"id": "letter",
+					"objective": "问骆云舟「骆家」。他的家事在京城，要等主线第九章（进京）开了。",
+					"checklist": [
+						{
+							"label": "等主线第九章：湖底的事了了，才进得了京",
+							"if": {
+								"not": {
+									"mark": "湖底一章"
+								}
+							}
+						}
+					],
+					"done": {
+						"mark": "骆云舟托了家书"
+					},
+					"text": "骆云舟是骆家的二小子。大哥骆建章没去练剑，写得一手好字，在兵部尚书庾子建的府上做了十年书启；兄弟俩十年没说过话。他写了一封家书，托你送进京。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.entrance",
+						"npcs": [
+							"common.npc.scholar.master"
+						]
+					}
+				},
+				{
+					"id": "brother",
+					"objective": "把家书送进京（「给」骆建章）：他在兵部尚书府的客厅里写字——进府先打点大门的门房；见过韦相国的，问相国「骆建章」，他写个条子给门房。庾子建下了狱，骆建章就在西街的相国府。",
+					"done": {
+						"mark": "骆建章读了家书"
+					},
+					"text": "骆建章读完了信：「他还是那么写字，最后一笔甩出格子。」抄本的事，他一句没提。",
+					"target": {
+						"map": "city.shangshu",
+						"zone": "city.shangshu.keting",
+						"npcs": [
+							"native.npc.luo_jianzhang"
+						]
+					},
+					"target_after": {
+						"mark": "庾子建下狱",
+						"map": "city.xiangguo",
+						"zone": "city.xiangguo_hall",
+						"npcs": [
+							"native.npc.luo_jianzhang"
+						]
+					}
+				},
+				{
+					"id": "copy",
+					"objective": "第九章御书房樟木匣里的兵部抄本，比先帝的原令多出三句。带着它问骆建章「抄本」，或者问韦相国「抄本的字」。",
+					"checklist": [
+						{
+							"label": "带着兵部抄本",
+							"when": {
+								"item": "native:imperial/war_ministry_copy"
+							}
+						},
+						{
+							"label": "抄本在皇城御书房的樟木匣里：先走主线第九章",
+							"if": {
+								"not": {
+									"mark": "翻过樟木匣"
+								}
+							}
+						}
+					],
+					"done": {
+						"mark": "骆建章说了抄本"
+					},
+					"text": "骆建章认了：二十年前他在兵部做抄手，原令存档的底子是他抄的；兵部抄本是庾子建口述、他落的笔——多出来的是哪三句，他写的时候就知道。",
+					"reward": {
+						"deed": "认出了兵部抄本上骆家的字"
+					},
+					"target": {
+						"map": "city.shangshu",
+						"zone": "city.shangshu.keting",
+						"npcs": [
+							"native.npc.luo_jianzhang"
+						]
+					},
+					"target_after": {
+						"mark": "庾子建下狱",
+						"map": "city.xiangguo",
+						"zone": "city.xiangguo_hall",
+						"npcs": [
+							"native.npc.luo_jianzhang"
+						]
+					}
+				},
+				{
+					"id": "home",
+					"objective": "回乔阴的曼雩台，把大哥的话告诉骆云舟（问他「骆家」）。",
+					"done": {
+						"mark": "骆云舟听了抄本的事"
+					},
+					"text": "骆云舟听完了大哥的话。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.entrance",
+						"npcs": [
+							"common.npc.scholar.master"
+						]
+					}
+				}
+			]
+		}
+	]
+}
