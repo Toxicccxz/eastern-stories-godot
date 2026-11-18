@@ -842,6 +842,50 @@ static func maoshan_split(session: WorldSessionController, burn: bool = true, di
 		state.affiliation.family_title = "护法"
 
 
+## 步玄 (势力线第三批): 骆云舟's own — knelt to him (弟子; 大弟子 after the 问剑).
+static func buxuan_joined(session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.family = FamilyState.new(&"family.buxuan", 8)
+	state.apprenticeship.master_teacher_id = &"common.npc.scholar.master"
+	state.apprenticeship.legacy_master_name = "骆云舟"
+	var affiliation := CharacterAffiliationState.new()
+	affiliation.class_id = &"scholar"
+	affiliation.has_family_rank = true
+	affiliation.family_title = "弟子"
+	affiliation.entry_time_status = CharacterAffiliationState.EntryTime.RECORDED
+	state.affiliation = affiliation
+
+
+## 步玄 A (DECISIONS「步玄 A」): the line walked to 骆建章's word on the 兵部抄本 — 骆云舟's own (大弟子, buxuan_joined first)
+## or a 桃林的客; 第九章 begun (湖底一章), its outcome left to the caller. 步玄 B's `home` next: tell 骆云舟.
+static func buxuan_copied(session: WorldSessionController, disciple: bool = false) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if disciple:
+		buxuan_joined(session)
+		state.affiliation.family_title = "大弟子"
+	else:
+		for mark: String in ["桃林", "桃林的客"]:
+			state.marks[mark] = 1
+	for mark: String in ["湖底一章", "骆云舟说了风泉", "骆云舟插了剑", "问剑过了", "骆云舟托了家书", "骆建章读了家书", "骆建章说了抄本"]:
+		state.marks[mark] = 1
+	for key: String in ["faction.buxuan#started", "faction.buxuan/sword", "faction.buxuan/letter", "faction.buxuan/brother", "faction.buxuan/copy"]:
+		_write(state, key)
+
+
+## 步玄 B (DECISIONS「步玄 B」): buxuan_copied, 骆云舟 told, the brothers met in the 相国府, and the split taken before one
+## sat on the 虹台 — 作证 (`testify`: the 供状; what else it wrote by 第九章's end is the caller's) or 回家 (骆家 kept).
+static func buxuan_split(session: WorldSessionController, testify: bool = true, disciple: bool = false) -> void:
+	buxuan_copied(session, disciple)
+	var state: CharacterState = session.player_runtime().state
+	for mark: String in ["骆云舟听了抄本的事", "骆家兄弟见了面", "骆家兄弟说完了话"]:
+		state.marks[mark] = 1
+	for mark: String in (["骆建章作了证", "步玄的票随了作证"] if testify else ["保住了骆家", "步玄的票随了骆家"]):
+		state.marks[mark] = 1
+	for key: String in ["faction.buxuan/home", "faction.buxuan/meet", "faction.buxuan/split/%s" % ("testify" if testify else "home")]:
+		_write(state, key)
+	if disciple:
+		state.affiliation.family_title = "执事"
+
 static func latemoon_joined(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	state.family = FamilyState.new(&"family.latemoon", 2)

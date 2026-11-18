@@ -531,7 +531,39 @@
 						{
 							"text": "乔阴县衙的公案上，又摊开了庾子建的卷宗：小屋那封信，天驼关那本账。京城没有回话，程不平也没有收卷。",
 							"when": {
-								"mark": "庾子建的案子又开了"
+								"all": [
+									{
+										"mark": "庾子建的案子又开了"
+									},
+									{
+										"mark": "李信说了那三天的账"
+									}
+								]
+							}
+						},
+						{
+							"text": "乔阴县衙的卷宗里，压着骆建章的一张供状：兵部抄本上多出来的三句，是谁口述的。",
+							"when": {
+								"all": [
+									{
+										"mark": "庾子建的案子又开了"
+									},
+									{
+										"mark": "骆建章作了证"
+									}
+								]
+							}
+						},
+						{
+							"text": "曼雩台上多了一张书案。骆建章给弟弟抄谱，骆云舟在台边练剑；兄弟俩还是不怎么说话。",
+							"when": {
+								"mark": "保住了骆家"
+							}
+						},
+						{
+							"text": "曼雩台上还是骆云舟一个人。他说，大哥的字比他的剑直。",
+							"when": {
+								"mark": "骆建章作了证"
 							}
 						}
 					]
@@ -709,6 +741,52 @@
 									}
 								]
 							}
+						},
+						{
+							"text": "骆建章流放关北。出城那天，他替押解的差人写了一封家书，最后一笔没有甩出格子。",
+							"when": {
+								"all": [
+									{
+										"mark": "骆建章作了证"
+									},
+									{
+										"mark": "骆建章判了流放"
+									}
+								]
+							}
+						},
+						{
+							"text": "朝上那天，骆建章的供状和原令摆在一处。西街骆家五代的门匾，后来是骆云舟自己摘的。",
+							"when": {
+								"all": [
+									{
+										"mark": "骆建章作了证"
+									},
+									{
+										"mark": "庾子建下狱"
+									},
+									{
+										"not": {
+											"mark": "骆建章判了流放"
+										}
+									}
+								]
+							}
+						},
+						{
+							"text": "骆建章的供状进了刑部的案底，庾子建还在兵部。西街骆家的大门，从此没有官家的人来敲。",
+							"when": {
+								"all": [
+									{
+										"mark": "骆建章作了证"
+									},
+									{
+										"not": {
+											"mark": "庾子建下狱"
+										}
+									}
+								]
+							}
 						}
 					]
 				},
@@ -849,7 +927,8 @@
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the new 绮云镇 card: the 分局 open (到此为止) or shut (查到底).",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 乔阴县城 card's two lines for the split on 福林大街 (官差 in the lanes, or none).",
 				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 天驼关 card (整肃 or 揭发) and the 乔阴县城 card's line for the case opened again.",
-				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 茅山 card (烧: the seventh 函 gone for good, the 花匠 back with 庾清尘; 留: the 花匠 upstairs teaching the 北麓's words, the children who came down)"
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 茅山 card (烧: the seventh 函 gone for good, the 花匠 back with 庾清尘; 留: the 花匠 upstairs teaching the 北麓's words, the children who came down)",
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — the 乔阴 card: the 曼雩台 with two (回家) or one (作证), the case reopened by 骆建章's 供状; the 京师 card: 作证 by 第九章's three ends (exiled; at the court that day; the 供状 in the 刑部 and 庾子建 still at the 兵部)"
 			]
 		},
 		{

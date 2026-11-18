@@ -502,10 +502,21 @@
 		{
 			"id": "assembly.buxuan.stated",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — or the split in the 相国府 (taken before one sat on the 虹台)"
 			],
 			"when": {
-				"mark": "步玄表了态"
+				"any": [
+					{
+						"mark": "步玄表了态"
+					},
+					{
+						"mark": "步玄的票随了作证"
+					},
+					{
+						"mark": "步玄的票随了骆家"
+					}
+				]
 			}
 		},
 		{
@@ -918,12 +929,40 @@
 		{
 			"id": "assembly.buxuan.yan",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 步玄: 京城世家，亲朝廷"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 步玄: 京城世家，亲朝廷",
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — not when 作证 took 步玄 to the old 盟主"
 			],
 			"when": {
-				"not": {
-					"mark": "步玄听你的"
-				}
+				"all": [
+					{
+						"not": {
+							"mark": "步玄听你的"
+						}
+					},
+					{
+						"not": {
+							"mark": "步玄的票随了作证"
+						}
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.buxuan.old",
+			"sources": [
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — 作证: 骆家 broke with the court, the old case to the bottom (the old 盟主's way); not when 步玄 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "步玄听你的"
+						}
+					},
+					{
+						"mark": "步玄的票随了作证"
+					}
+				]
 			}
 		},
 		{
@@ -1956,7 +1995,8 @@
 		{
 			"id": "assembly.day.buxuan.old",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 votes the old 盟主 on the day"
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 步玄派 votes the old 盟主 on the day",
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — or 作证 (the split before one sat on the 虹台)"
 			],
 			"when": {
 				"all": [
@@ -1964,12 +2004,19 @@
 						"cond": "assembly.day.buxuan.here"
 					},
 					{
-						"all": [
+						"any": [
 							{
-								"cond": "assembly.buxuan.self"
+								"cond": "assembly.buxuan.old"
 							},
 							{
-								"mark": "听你的投旧盟主"
+								"all": [
+									{
+										"cond": "assembly.buxuan.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
 							}
 						]
 					}
