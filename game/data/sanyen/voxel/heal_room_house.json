@@ -15,7 +15,7 @@
     {"kind": "crocks", "at": [-300, 120], "size": [32, 32]},
     {"kind": "baskets", "at": [260, -150], "size": [32, 32]},
     {"kind": "stains", "at": [-60, 60], "size": [180, 80], "count": 5, "colors": ["6a5a40", "74644a"], "note": "the boards darkened where the sick wait"},
-    {"kind": "rug", "at": [66, 26], "size": [48, 80], "elevation": 0.05, "cloth": "b89a62", "border": "8a6a3e", "note": "native (势力线第三批 山烟寺 A): the straw pallet 老葛 lies on, before the cot"},
+    {"kind": "rug", "at": [29, 43], "size": [48, 80], "elevation": 0.05, "cloth": "b89a62", "border": "8a6a3e", "note": "native (势力线第三批 山烟寺 A): the straw pallet 老葛 lies on, before the cot"},
     {"kind": "hanging_lantern", "at": [-120, -40]},
     {"kind": "hanging_lantern", "at": [140, 80]}
   ],

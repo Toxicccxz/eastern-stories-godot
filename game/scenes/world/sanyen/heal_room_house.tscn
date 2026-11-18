@@ -98,7 +98,7 @@ script = ExtResource("marker")
 spawn_point_id = &"sanyen.heal_room.drug_bonze.1"
 
 [node name="HealRoomWoodcutter1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(66, 49)
+position = Vector2(29, 66)
 script = ExtResource("marker")
 spawn_point_id = &"sanyen.heal_room.woodcutter.1"
 
