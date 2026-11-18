@@ -25,7 +25,7 @@ const LOADER_AFTER_SECONDS: float = 0.0
 const LOGO_STANDS: float = 1.0
 ## Starting a journey: when the gold goes to dust, and when the clouds and the white close in.
 const DUST_FROM: float = 0.8
-const WHITE_FROM: float = DUST_FROM + 0.5
+const WHITE_FROM: float = DUST_FROM + 0.95
 
 var definition: TitleScreenDefinition
 var sand: TitleSand
@@ -42,6 +42,8 @@ var _fly: Tween
 var _intro_tween: Tween
 ## The place name's fade in: one at a time, so an earlier choice's never shows a later name early.
 var _caption_fade: Tween
+## The chosen option's weather, held until the menu is up.
+var _weather_wait: Tween
 var _entering: bool = false
 var _shown_once: bool = false
 ## Seconds until the opening brings the menu up (0 once it has).
@@ -191,6 +193,8 @@ func _show() -> void:
 func _hide() -> void:
 	visible = false
 	layer = LAYER
+	if _weather_wait != null:
+		_weather_wait.kill()
 	menu_fx.weather(&"")
 
 
@@ -247,13 +251,19 @@ func _on_chosen(button: Button) -> void:
 	fade.tween_interval(maxf(1.0, _menu_up_in))
 	fade.tween_property(caption, "modulate:a", 1.0, 0.5)
 	fade.parallel().tween_property(sand.marker, "modulate:a", 0.9, 0.5)
-	menu_fx.weather(choice.weather, button)
+	# The choice's weather waits for the menu: snow falling past the gilding reads as sparkles.
+	if _weather_wait != null:
+		_weather_wait.kill()
+	_weather_wait = create_tween()
+	_weather_wait.tween_interval(_menu_up_in)
+	_weather_wait.tween_callback(menu_fx.weather.bind(choice.weather, button))
 	logo.glint = logo.glint_at(-0.1)
 	create_tween().tween_property(logo, "glint", logo.glint_at(1.1), 1.1).set_trans(Tween.TRANS_SINE)
 
 
-## A journey starts: a glint, the gold brightens (DUST_FROM) and blows away as dust, and only once
-## the dust is seen (WHITE_FROM) the clouds close and the light floods in; the camera dives at
+## A journey starts: a glint, the gold warms (DUST_FROM) and blows away as dust under a held-down
+## sun, and only once the dust has mostly played (WHITE_FROM) the clouds close and the light
+## floods in; the camera dives at
 ## `place`, the clouds close and the light floods the screen; held white until the world is
 ## there, then faded.
 func _enter(place: StringName) -> void:
@@ -261,6 +271,8 @@ func _enter(place: StringName) -> void:
 	if place == &"":
 		place = definition.new_game_place
 	layer = ENTERING_LAYER
+	if _weather_wait != null:
+		_weather_wait.kill()
 	menu_fx.weather(&"")
 	if _fly != null:
 		_fly.kill()
@@ -274,8 +286,9 @@ func _enter(place: StringName) -> void:
 	logo.glint = logo.glint_at(-0.1)
 	var t := create_tween().set_parallel()
 	t.tween_property(logo, "glint", logo.glint_at(1.1), 0.45).set_trans(Tween.TRANS_SINE)
-	t.tween_property(sky, "rays", 1.1, 0.5)
-	t.tween_property(sky, "glow", 0.85, 0.5)
+	# The sun held down while the dust plays (its glow would white the dust out).
+	t.tween_property(sky, "rays", 0.6, 0.5)
+	t.tween_property(sky, "glow", 0.56, 0.5)
 	t.tween_property(logo, "charge", 1.0, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	t.tween_property(menu_fx, "modulate:a", 0.0, 0.4)
 	t.tween_property(caption, "modulate:a", 0.0, 0.3)
@@ -290,7 +303,7 @@ func _enter(place: StringName) -> void:
 	t.tween_property(sky, "cover", 1.0, 0.9).set_delay(WHITE_FROM).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	t.tween_property(sky, "push", -0.5, 0.9).set_delay(WHITE_FROM).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	t.tween_property(sky, "flare", 2.6, 0.6).set_delay(WHITE_FROM + 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	t.tween_property(whiteout, "color:a", 1.0, 0.3).set_delay(WHITE_FROM + 0.6)
+	t.tween_property(whiteout, "color:a", 1.0, 0.3).set_delay(DUST_FROM + 1.15 * TitleLogo.LEAVING_SECONDS + 0.3)
 	t.chain().tween_callback(_entered)
 
 

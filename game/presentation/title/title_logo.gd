@@ -8,7 +8,8 @@ extends Control
 ## in as the clouds clear (`clear`) so the gold glows on a dim ground. It is drawn into a see-through view of its
 ## own, whose picture TitleSky reads to cut the sun's shafts between the strokes. TitleScreen
 ## tweens:
-##   write  0 → 1   the gold laid from left to right behind a glowing front (GILD_SECONDS), the
+##   write  0 → 1   the bare letters coming up in dark lacquer (LACQUER_SECONDS), then the gold
+##                  laid on them from left to right behind a glowing front (GILD_SECONDS), the
 ##                  line under it coming up, then a beat later the seal stamped down with a small
 ##                  rebound (ARRIVAL_SECONDS for 0 → 1)
 ##   glint          a band of light passing over the gold (glint_at: 0 its left, 1 its right)
@@ -21,12 +22,13 @@ const DIM: Shader = preload("res://presentation/title/shaders/title_dim.gdshader
 const LINE_FONT: FontFile = preload("res://assets/fonts/LXGWWenKaiLite-Medium.ttf")
 ## The arrival's beats, in seconds: the gilding, the line under the title coming up, the seal's
 ## stamp a beat after the gilding (down from 1.6 times its size to 0.96, then settling to 1).
+const LACQUER_SECONDS: float = 0.3
 const GILD_SECONDS: float = 1.5
-const LINE_SECONDS: Vector2 = Vector2(1.2, 1.6)
-const STAMP_FROM: float = 1.72
+const LINE_SECONDS: Vector2 = Vector2(1.5, 1.9)
+const STAMP_FROM: float = 2.02
 const STAMP_SECONDS: float = 0.18
 const SETTLE_SECONDS: float = 0.08
-const ARRIVAL_SECONDS: float = 2.0
+const ARRIVAL_SECONDS: float = 2.3
 const LEAVING_SECONDS: float = 1.0
 ## The line under the title: its size (UI pixels at 1280 wide) and the room between its letters
 ## (parts of its size).
@@ -59,6 +61,8 @@ var _letters: TextureRect
 var _line: Label
 var _seal: TextureRect
 var _dust: CPUParticles2D
+## A few bigger flakes falling slowly among the dust, so the eye has something to follow.
+var _flakes: CPUParticles2D
 var _gold: ShaderMaterial
 var _seal_mat: ShaderMaterial
 var _dim_mat: ShaderMaterial
@@ -110,6 +114,14 @@ func _init() -> void:
 	_view.add_child(_line)
 	_dust = _gold_dust()
 	_view.add_child(_dust)
+	_flakes = _gold_dust()
+	_flakes.name = "Flakes"
+	_flakes.amount = 60
+	_flakes.lifetime = 1.4
+	_flakes.gravity = Vector2(10.0, 30.0)
+	_flakes.initial_velocity_min = 10.0
+	_flakes.initial_velocity_max = 40.0
+	_view.add_child(_flakes)
 
 
 ## Gilds `mask_path` (white = ink), stamps the seal of `seal_path` ("" for none) and spaces
@@ -139,7 +151,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var t: float = write * ARRIVAL_SECONDS
-	_gold.set_shader_parameter("write", clampf(t / GILD_SECONDS, 0.0, 1.0) if write < 1.0 else write)
+	_gold.set_shader_parameter("lacquer", clampf(t / LACQUER_SECONDS, 0.0, 1.0))
+	_gold.set_shader_parameter("write", clampf((t - LACQUER_SECONDS) / GILD_SECONDS, 0.0, 1.0) if write < 1.0 else write)
 	_gold.set_shader_parameter("burn", burn)
 	_gold.set_shader_parameter("glint", glint)
 	_gold.set_shader_parameter("charge", charge)
@@ -151,11 +164,14 @@ func _process(_delta: float) -> void:
 	var scale_now: float = lerpf(1.6, 0.96, down * down) if down < 1.0 else lerpf(0.96, 1.0, smoothstep(0.0, 1.0, settle))
 	_seal.scale = Vector2.ONE * scale_now
 	_seal_mat.set_shader_parameter("fade", smoothstep(0.0, 0.35, down) * (1.0 - smoothstep(0.3, 0.8, leaving)))
-	_dim_mat.set_shader_parameter("strength", clampf(clear, 0.0, 1.0) * (1.0 - leaving))
+	# Held through the dust (the dust needs the dark ground); the clouds closing take it away.
+	_dim_mat.set_shader_parameter("strength", clampf(clear, 0.0, 1.0) * (1.0 - smoothstep(0.85, 1.15, burn)))
 	var burning: bool = burn > 0.0 and burn < 1.0
 	if burning and not _was_burning:
 		_dust.restart()
+		_flakes.restart()
 	_dust.emitting = burning
+	_flakes.emitting = burning
 	_was_burning = burning
 
 
@@ -195,8 +211,12 @@ func _place() -> void:
 	_seal.position = Vector2(ink_right + SEAL_GAP * unit + square / 2.0, ink_top + ink_tall * SEAL_DOWN) - _seal.size / 2.0
 	_dust.position = middle
 	_dust.emission_rect_extents = size_px * 0.42
-	_dust.scale_amount_min = 1.4 * unit
-	_dust.scale_amount_max = 2.4 * unit
+	_dust.scale_amount_min = 1.35 * unit
+	_dust.scale_amount_max = 2.35 * unit
+	_flakes.position = middle
+	_flakes.emission_rect_extents = size_px * 0.42
+	_flakes.scale_amount_min = 2.7 * unit
+	_flakes.scale_amount_max = 4.0 * unit
 	_dim_mat.set_shader_parameter("middle", at)
 	_dim_mat.set_shader_parameter("reach", Vector2(size_px.x * 1.1, size_px.y * 2.6) / screen)
 
@@ -219,7 +239,7 @@ static func _gold_dust() -> CPUParticles2D:
 	dust.name = "Dust"
 	dust.emitting = false
 	dust.amount = 290
-	dust.lifetime = 1.8
+	dust.lifetime = 0.9
 	dust.explosiveness = 0.0
 	dust.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
 	dust.direction = Vector2(0.6, -1.0)
@@ -230,8 +250,8 @@ static func _gold_dust() -> CPUParticles2D:
 	dust.angular_velocity_min = -180.0
 	dust.angular_velocity_max = 180.0
 	var ramp := Gradient.new()
-	ramp.set_color(0, Color(1.0, 0.9, 0.55, 1.0))
-	ramp.set_color(1, Color(0.9, 0.55, 0.2, 0.0))
+	ramp.set_color(0, Color("f3d27a"))
+	ramp.set_color(1, Color(0.85, 0.52, 0.18, 0.0))
 	dust.color_ramp = ramp
 	return dust
 

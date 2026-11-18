@@ -3,16 +3,19 @@ shader_type canvas_item;
 // its edge antialiased) gilded — a low relief lit from the upper left, leaves of gold with faint
 // seams, worn through here and there to the dark lacquer under them, the brush's streaks, a slow
 // shimmer — over a soft dark shadow. TitleLogo tweens:
-//   write  0 → 1   the gold laid from left to right behind a ragged, glowing front (TitleLogo
+//   lacquer 0 → 1  the letters come up bare, a dark bronze lacquer, before the gold
+//   write  0 → 1   the gold laid on them from left to right behind a ragged, glowing front (TitleLogo
 //                  sends how far the gilding has got, not its own `write`)
 //   glint          a band of light passing over it (0 = its left, 1 = its right)
-//   charge         the gold brightening before it goes
+//   charge         the gold warming (+25% at most, its colour kept) before it goes
 //   burn   0 → 1   the gold blown away as dust from left to right, its edge burning bright
 #include "res://presentation/title/shaders/title_noise.gdshaderinc"
 uniform float write = 1.0;
 uniform float burn = -1.0;
 uniform float glint = -9.0;
 uniform float charge = 0.0;
+// The bare lacquer letters before any gold is laid on them (0 unseen, 1 there).
+uniform float lacquer = 1.0;
 // Where the shadow falls, in parts of the mask.
 uniform vec2 shadow_offset = vec2(0.004, 0.022);
 // The mask again (TitleLogo sets it with the rect's texture): helpers cannot read TEXTURE.
@@ -81,18 +84,24 @@ void fragment() {
 	float band = UV.x + (1.0 - UV.y) * 0.22;
 	float sweep = exp(-pow((band - glint) / 0.08, 2.0));
 	float shimmer = 0.5 + 0.5 * sin(TIME * 0.6 - band * 2.0);
-	gold += high * sweep * 2.2 * (0.35 + diffuse) * (1.0 - worn * 0.7);
+	gold += vec3(1.0, 0.88, 0.6) * sweep * 2.0 * (0.35 + diffuse) * (1.0 - worn * 0.7);
 	gold *= 0.96 + 0.08 * shimmer;
-	gold += high * charge * 0.55;
+	gold *= 1.0 + 0.25 * charge;
 	// The fronts glow where gold is being laid or blown away.
-	float laying = (1.0 - smoothstep(0.0, 0.07, abs(lay - laid_at))) * step(write, 1.0);
+	// The fronts glow a saturated gold (never white) where gold is laid or blown away.
+	float laying = (1.0 - smoothstep(0.0, 0.05, abs(lay - laid_at))) * step(write, 1.0);
 	float blowing = (1.0 - smoothstep(0.0, 0.06, abs(blow - gone_at))) * step(0.0, burn);
-	gold += vec3(1.0, 0.86, 0.6) * laying * 2.24;
-	gold += vec3(1.0, 0.7, 0.3) * blowing * 2.2;
-	float letter = a * vis + a * blowing * 0.8 * (1.0 - vis);
+	gold = mix(gold, vec3(1.0, 0.85, 0.54) * 1.3, laying * 0.75);
+	gold = mix(gold, vec3(1.0, 0.76, 0.36) * 1.25, blowing * 0.75);
+	// Not yet gilded: the bare lacquer, dark bronze in the same relief.
+	vec3 bare = vec3(0.227, 0.172, 0.11) * (0.7 + 0.6 * diffuse) + vec3(0.25, 0.2, 0.12) * specular * 0.3;
+	float bare_vis = lacquer * (1.0 - shown) * (1.0 - gone);
+	gold = mix(bare, gold, shown);
+	float body = vis + bare_vis;
+	float letter = a * body + a * blowing * 0.8 * (1.0 - body);
 	// The shadow under it, and a dark rim hugging the letters so they read on bright ground.
-	float shadow = soft(UV - shadow_offset, texel * 7.0) * 0.7 * vis;
-	shadow = max(shadow, soft(UV, texel * 3.0) * 0.75 * vis);
+	float shadow = soft(UV - shadow_offset, texel * 7.0) * 0.7 * body;
+	shadow = max(shadow, soft(UV, texel * 3.0) * 0.75 * body);
 	float alpha = letter + shadow * (1.0 - letter);
 	vec3 colour = (gold * letter + vec3(0.03, 0.02, 0.01) * shadow * (1.0 - letter)) / max(alpha, 0.0001);
 	COLOR = vec4(colour, alpha);
