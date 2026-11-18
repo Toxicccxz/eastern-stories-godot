@@ -23,7 +23,7 @@ NOT_SHOWN = {
     "source": "provenance", "sources": "provenance", "legacy_source": "provenance",
     "legacy_sources": "provenance", "legacy_room": "provenance",
     # Marks and temps (CharacterState.marks / temps) are ids the rules test, never printed.
-    "mark": "a mark", "marks": "marks", "not_mark": "a mark", "unmark": "a mark",
+    "mark": "a mark", "marks": "marks", "not_mark": "a mark", "unmark": "a mark", "unmarks": "marks",
     "asker_marks": "marks", "asker_lacks": "marks", "mark_asker": "a mark", "marks_asker": "marks",
     "listed_marks": "marks", "listed_any": "marks", "confirm_any": "marks", "confirm_marks": "marks", "confirm_lacks": "marks", "ask_lacks": "marks",
     "giver_mark": "a mark", "mark_giver": "a mark", "marks_giver": "marks", "unless_giver_mark": "a mark",
