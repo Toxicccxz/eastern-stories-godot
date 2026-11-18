@@ -8872,10 +8872,10 @@
 							"asker_marks": [
 								"庾子建下狱"
 							],
-							"say": "骆先生？老爷下了狱，他跟着去了相国府。那个人，在这府里十年，没说过一句多余的话。"
+							"say": "骆先生？老爷下了狱，相国把他叫去了。那个人，在这府里十年，没说过一句多余的话。"
 						},
 						{
-							"say": "骆先生？客厅里写字的那位。他的字比我的符好看——老爷的信，十封有九封是他的笔。"
+							"say": "骆先生？客厅里写字的那位。老爷的信，十封有九封是他的笔。"
 						}
 					]
 				}
@@ -9275,7 +9275,7 @@
 		},
 		{
 			"id": "native.npc.sword_soul_spar",
-			"legacy_source": "native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」) — 风泉剑灵 (daemon/class/scholar/sword_soul.c: 剑气指天 … 剑神如意！, its long) called out of the 风泉之剑 by 骆云舟 at night on the 曼雩台 to try one of 步玄's own or a 桃林的客 (步玄's old rule, 续写: 见过剑灵的人，才算步玄的人): only a spar; it says sword_soul.c's four lines as it fights, each one stronger (DECISIONS「打着念」), and its fourth wins the bout — struck before it, it owns you. The numbers are the plan's (a 切磋 for the mid game: its blade seldom lands, apply/attack −150, and it dodges well; a line each of its beats, so the four take about two rounds — measured in build, about 4 in 10 pass at a story-grown level 20, 8 in 10 at 30, all at 60), not sword_soul.c's 300000 (that one comes only when the sword's master dies). The attributes the original leaves to the roll are fixed here",
+			"legacy_source": "native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」) — 风泉剑灵 (daemon/class/scholar/sword_soul.c: 剑气指天 … 剑神如意！, its long) called out of the 风泉之剑 by 骆云舟 at night on the 曼雩台 to try one of 步玄's own or a 桃林的客 (步玄's old rule, 续写: 见过剑灵的人，才算步玄的人): only a spar; it says sword_soul.c's four lines as it fights, each one stronger (DECISIONS「打着念」), and its fourth wins the bout — struck before it, it owns you. The numbers are the plan's (a 切磋 for the mid game: its blade seldom lands, apply/attack −150, and it dodges well; a line each round, so the four take four rounds — measured in build, about 4 in 10 pass at a story-grown level 20, 7 to 8 in 10 at 30–40, all at 60), not sword_soul.c's 300000 (that one comes only when the sword's master dies). The attributes the original leaves to the roll are fixed here",
 			"name": "风泉剑灵",
 			"aliases": [
 				"sword soul",
@@ -9513,10 +9513,13 @@
 									"say": "……是我的字。"
 								},
 								{
-									"say": "大人口述，我落的笔。二十年前先帝的原令，我也誊过一份底子——一句话：寻剑，不得扰民一户。"
+									"say": "二十年前我在兵部做抄手。先帝的原令发到兵部，存档的底子是我抄的——一句话：寻剑，不得扰民一户。"
 								},
 								{
-									"say": "多出来的三句：征民夫，设关卡，拿人。是哪三句，我写的时候就知道。"
+									"say": "庾大人口述，我落的笔。多出来的三句：征民夫，设关卡，拿人。是哪三句，我写的时候就知道。"
+								},
+								{
+									"say": "后来他把我要进了府里，做书启。十年了。"
 								},
 								{
 									"emote": "把抄本推回给你，很久没有抬头。"

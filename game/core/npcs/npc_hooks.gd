@@ -19,13 +19,14 @@ extends RefCounted
 ## - `chant` (sword_soul.c chant()): from the moment it is made, `stages` follow one another,
 ##   each `after` seconds of world time: its say (and a line, $N itself) and combat_exp it
 ##   gains; after the last the first comes again `repeat_after` seconds later.
-## - `fight_chant` (native, 势力线第三批 步玄 A; DECISIONS「打着念」): the chant said in a fight, on the
-##   NPC's own beats (CombatNpcChat): every `every` of them the next of its `stages` — its say (and a line,
-##   $N itself), `applies` it gains for the rest of the fight (CharacterTimedApplies: attack, defense,
-##   damage, armor), a `mark` set on the player (one that lapses at the start of the day phase
-##   `mark_lapses_at`, if any: CharacterState.lapse_marks()), and with `ends_spar` true it wins the spar
-##   there (combatd.c's friendly stop, the NPC the winner). Each fight begins it anew; what an earlier
-##   fight's lines added is gone as the first beat comes (the 问剑's 风泉剑灵: 剑气指天 … 剑神如意).
+## - `fight_chant` (native, 势力线第三批 步玄 A; DECISIONS「打着念」): the chant said in a fight, in the
+##   NPC's chat() (CombatNpcChat: one a round, as its round ends): every `every` of them the next of its
+##   `stages` — its say (and a line, $N itself), `applies` it gains for the rest of the fight
+##   (CharacterTimedApplies: attack, defense, damage, armor; they end with the fight), a `mark` set on the
+##   player (one that lapses at the start of the day phase `mark_lapses_at`, if any:
+##   ContentCatalog.marks_lapsing(), WorldSessionController), and with `ends_spar` true it wins the spar
+##   there (combatd.c's friendly stop, the NPC the winner). Each fight begins it anew (the 问剑's 风泉剑灵:
+##   剑气指天 … 剑神如意).
 ## - `ghost` (d/choyin/npc/ghost.c, shadow.c is_ghost()): char.c visible() hides it from one
 ##   who is no ghost: it is not drawn nor picked, and who fights it may miss their turn
 ##   (combatd.c fight(): random(100 + perception) < 100); chard.c make_corpse() leaves no

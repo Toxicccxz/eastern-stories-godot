@@ -21,8 +21,10 @@ var telegraph: bool = false
 ## the beats since its last line, and how many of its lines it said.
 var _chant_beats: Dictionary[StringName, int] = {}
 var _chant_said: Dictionary[StringName, int] = {}
-## How long a fight chant's applies run: the rest of any fight (the next fight drops them as it begins).
+## How long a fight chant's applies run: the rest of any fight (they end with it: CombatEncounterCoordinator).
 const FIGHT_CHANT_MS: int = 3_600_000
+## The timed applies a fight chant's lines run under begin so (fight_chant_effect()).
+const FIGHT_CHANT_PREFIX: String = "fight_chant_"
 
 
 ## `npc_for`: (character_id: StringName) -> NpcRuntimeState, null for the player.
@@ -123,10 +125,11 @@ func beat(
 	return null if ran == null else ran.with_ran_special(action)
 
 
-## NpcHooks.fight_chant (native, 步玄 A; DECISIONS「打着念」): on every `every`th of its beats the NPC says its
-## next line instead of a chat (its say, then the line as message_vision() has it), gains that line's applies for the rest of the
-## fight, and the line's mark and ends_spar go with the result (the resolution writes the mark, the scheduler
-## stops the spar). Its first beat of a fight drops what an earlier fight's lines added. Null: no line this beat.
+## NpcHooks.fight_chant (native, 步玄 A; DECISIONS「打着念」): on every `every`th of its chat()s (one a round, as
+## its round ends) the NPC says its next line instead of a chat (its say, then the line as message_vision() has it),
+## gains that line's applies for the rest of the fight, and the line's mark and ends_spar go with the result (the
+## resolution writes the mark, the scheduler stops the spar). Its first chat() of a fight also drops what an
+## earlier fight's lines added, should any be left. Null: no line this time.
 func _fight_chant(actor: CombatSliceCharacterBinding, npc: NpcRuntimeState) -> CombatNpcChatResult:
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks == null or not hooks.has_fight_chant():
@@ -156,7 +159,7 @@ func _fight_chant(actor: CombatSliceCharacterBinding, npc: NpcRuntimeState) -> C
 
 ## The timed apply a fight chant's `index`th line runs under.
 static func fight_chant_effect(index: int) -> StringName:
-	return StringName("fight_chant_%d" % index)
+	return StringName(FIGHT_CHANT_PREFIX + str(index))
 
 
 ## The special `action` run against the fight as it is now (npc.c's perform_action() /

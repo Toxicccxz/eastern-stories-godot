@@ -72,6 +72,18 @@ func stop(effect_id: StringName) -> bool:
 	return false
 
 
+## Every entry whose effect ID begins with `prefix` ends now, as stop() (步玄 A: a fight chant's lines end with
+## the fight they were said in). How many ended.
+func stop_prefixed(prefix: String) -> int:
+	var kept: Array[Entry] = []
+	for entry: Entry in _entries:
+		if not String(entry.effect_id).begins_with(prefix):
+			kept.append(entry)
+	var ended: int = _entries.size() - kept.size()
+	_entries = kept
+	return ended
+
+
 ## `elapsed_ms` pass: the entries whose time is up end (remove_effect()); their
 ## IDs, in the order they were started.
 func advance(elapsed_ms: int) -> Array[StringName]:

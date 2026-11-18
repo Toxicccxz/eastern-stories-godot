@@ -1258,6 +1258,8 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 	# outlives the fight only takes its applies back.
 	for participant: CombatParticipant in _active_encounter.participants():
 		participant.binding.state.timed_applies.forget_targets()
+		# 步玄 A (DECISIONS「打着念」): what a fight chant's lines added ends with the fight.
+		participant.binding.state.timed_applies.stop_prefixed(CombatNpcChat.FIGHT_CHANT_PREFIX)
 	# 战斗拍数 E: a 失衡 still owed ends with the fight.
 	if _active_scheduler != null:
 		_active_scheduler.release_stagger(_active_encounter.participants())

@@ -73,6 +73,7 @@ func _test_data() -> void:
 		_check(hooks.fight_chant_stages.slice(0, 3).all(func(stage: NpcHooks.FightStage) -> bool: return not stage.ends_spar and stage.applies.get(&"defense", 0) > 0), "each of the first three makes it stronger")
 	_check(catalog.marks_lapsing().get("剑灵回了剑") == &"dawn", "the catalog knows which marks lapse")
 	var luo: NpcDefinition = catalog.npc(LUO)
+	_check(luo.teaching().apprentice.unmarks.has("桃林的客"), "one who kneels to him is a guest no more (leaving 步玄 ends the line)")
 	_check(luo.talk().listed_for("风泉", {}) and not luo.talk().listed_for("问剑", {}) and luo.talk().listed_for("问剑", {"骆云舟说了风泉": 1}), "风泉 always listed; 问剑 once he told of it")
 	var gardener: NpcDefinition = catalog.npc(GARDENER)
 	_check(gardener.talk().listed_for("骆建章", {"骆云舟托了家书": 1}) and not gardener.talk().listed_for("骆建章", {}), "the 花匠's 骆建章 once the 家书 is in hand")
@@ -109,7 +110,8 @@ func _test_chant_unit() -> void:
 	_check(defense == 10 + 15 + 20 + 60, "its defense grew line by line: %d" % defense)
 	var again := CombatNpcChat.new(func(id: StringName) -> NpcRuntimeState: return npc if id == &"soul" else null)
 	again.beat(binding, [], [], random, null)
-	_check(npc.character_state.timed_applies.value(&"defense") == 0, "the next fight begins it anew")
+	_check(npc.character_state.timed_applies.value(&"defense") == 10, "a fight's first line drops what is left of an earlier one's")
+	_check(npc.character_state.timed_applies.stop_prefixed(CombatNpcChat.FIGHT_CHANT_PREFIX) == 1 and npc.character_state.timed_applies.value(&"defense") == 0, "a fight chant's applies end together")
 
 
 ## A man of no family: 风泉 says go to the 桃林; with 骆家's card he hears 桃林走一趟; no line.
@@ -155,6 +157,7 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not coordinator.has_active_encounter() and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.SPAR_CONCLUDED, "the spar ends with its fourth line")
 	_check(_said(fight, "剑气指天") and _said(fight, "剑芒游光") and _said(fight, "剑神如意") and _said(fight, "收剑而立"), "its four lines in the fight: %s" % [fight])
 	_check(state.marks.get("剑灵回了剑", 0) == 1 and not state.marks.has("问剑过了"), "spent, not passed")
+	_check(soul.character_state.timed_applies.value(&"defense") == 0 and soul.character_state.timed_applies.value(&"attack") == 0, "its lines' strength ended with the fight")
 	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "only a spar: she stands")
 	_check(not map.spar_consent(soul).accepted, "tonight it fights no more")
 	_check(_said(_ask(map, luo, "问剑"), "明晚天黑了再来") and _first(session, ENTRANCE, SOUL) == null, "骆云舟: tomorrow night; the 剑灵 back in the sword")
@@ -167,6 +170,12 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 				rows.append(checked.row.label)
 	_check(rows.any(func(label: String) -> bool: return label.contains("明晚天黑再来")), "the 任务 page says tomorrow night: %s" % [rows])
 	_check(session.wait_until_phase([&"dawn"]) and not state.marks.has("剑灵回了剑"), "at 微曦 the try is new")
+	state.marks["剑灵回了剑"] = 1 # TEST-ONLY: spent again; the clock walks into 微曦 (a phase turn, not a skip)
+	session.day_clock().set_day_seconds(DayClock.DAY_SECONDS - 1)
+	TestDay.use()
+	session.advance_npc_heartbeat(0.2)
+	TestDay.restore()
+	_check(session.day_phase_id() == &"dawn" and not state.marks.has("剑灵回了剑"), "walked into 微曦: it lapses too")
 	session.day_clock().set_day_seconds(NIGHT_SECONDS)
 	_ask(map, luo, "问剑")
 	soul = _first(session, ENTRANCE, SOUL)
@@ -250,7 +259,18 @@ func _test_prison(tree: SceneTree, session: WorldSessionController) -> void:
 	for mark: String in ["桃林", "桃林的客", "骆云舟说了风泉", "骆云舟插了剑", "问剑过了", "湖底一章", "骆云舟托了家书", "相国见了名帖", "相国府开了门"]:
 		state.marks[mark] = 1 # TEST-ONLY: 问剑 passed, the 家书 in hand, the 相国 met
 	var wei_rule: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(WEI).talk().inquiry_rules("骆建章"), state.marks)
-	_check(wei_rule != null and wei_rule.mark_asker == "尚书", "庾子建 in office: 韦执中 writes a note for the 门房")
+	_check(wei_rule != null and wei_rule.marks_asker.has("尚书") and wei_rule.marks_asker.has("相国写了条子"), "庾子建 in office: 韦执中 writes a note for the 门房")
+	var read: Dictionary[String, int] = state.marks.duplicate()
+	read["骆建章读了家书"] = 1
+	wei_rule = NpcInquiryRule.decide(catalog.npc(WEI).talk().inquiry_rules("骆建章"), read)
+	_check(wei_rule != null and wei_rule.marks_asker.has("尚书"), "the 家书 read, the 抄本 still to come: another note")
+	var paid: JournalEntryDefinition = null
+	for chain: JournalChainDefinition in catalog.journal_chains():
+		if chain.chain_id == &"city.shangshu":
+			for entry: JournalEntryDefinition in chain.entries:
+				if entry.entry_id == &"porter":
+					paid = entry
+	_check(paid != null and JournalLog.holds(paid, _fresh({"尚书": 1}), {}, {}) and not JournalLog.holds(paid, _fresh({"尚书": 1, "相国写了条子": 1}), {}, {}), "the 门房's gold is not written for one who came with the note")
 	state.marks["庾子建下狱"] = 1 # TEST-ONLY: 揭发
 	var xiangguo: WorldMapController = MapPlaces.enter(session, &"city.xiangguo_yard", XIANGGUO_POINT)
 	await _settle(tree)
@@ -272,6 +292,13 @@ func _test_prison(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(said, "是骆家的字") and _said(said, "我落的笔") and state.marks.get("韦执中认了骆家的字", 0) == 1 and state.marks.get("骆建章说了抄本", 0) == 1, "韦执中 knows the hand and calls him out (%s)" % [said])
 	session.record_journal()
 	_check(_step(session) == &"home", "the stub next")
+
+
+func _fresh(marks: Dictionary) -> CharacterState:
+	var state := CharacterState.new()
+	for mark: String in marks:
+		state.marks[mark] = marks[mark]
+	return state
 
 
 func _join(session: WorldSessionController) -> void:

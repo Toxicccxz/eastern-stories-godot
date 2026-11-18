@@ -86,7 +86,7 @@ func _test_data() -> void:
 	var teaching: NpcTeaching = master.teaching()
 	var rule: NpcTeaching.ApprenticeRule = teaching.apprentice
 	_check(rule != null and rule.kind == NpcTeaching.Kind.REQUIREMENTS and rule.class_id == &"scholar" and rule.answer_after == 0.0, "骆云舟: a requirements master who answers at once, class scholar")
-	_check(rule.checks.size() == 1 and rule.checks[0].mark == "桃林" and rule.checks[0].refuse_marks == ["书生"] and rule.checks[0].requires.is_empty() and rule.unmarks == ["书生", "桃林"], "marks/桃林 needed; the refusal marks 书生; whom he takes loses both")
+	_check(rule.checks.size() == 1 and rule.checks[0].mark == "桃林" and rule.checks[0].refuse_marks == ["书生"] and rule.checks[0].requires.is_empty() and rule.unmarks == ["书生", "桃林", "桃林的客"], "marks/桃林 needed; the refusal marks 书生; whom he takes loses both (and 步玄 A's 桃林的客: he is no guest now)")
 	_check(teaching.family_id == FAMILY and teaching.family_generation == 7 and teaching.family_title == "掌门人" and teaching.f_master, "步玄派's seventh 掌门人, an F_MASTER")
 	var taught: Array[StringName] = NpcTeacher.teachable_skills(master, _catalog)
 	_check(taught.size() == 13 and taught.has(&"mysterrier") and taught.has(&"mystforce") and taught.has(&"mystsword") and taught.has(&"music") and taught.has(&"instruments") and taught.has(&"move") and taught.has(&"perception") and taught.has(&"literate"), "he teaches all thirteen of his skills: %s" % [taught])

@@ -28130,7 +28130,7 @@ msgstr ""
 
 #. faction.buxuan/copy text
 #: data/story/faction_buxuan.json
-msgid "骆建章认了：兵部抄本是庾子建口述、他落的笔。二十年前先帝的原令他也誊过一份底子——多出来的是哪三句，他写的时候就知道。"
+msgid "骆建章认了：二十年前他在兵部做抄手，原令存档的底子是他抄的；兵部抄本是庾子建口述、他落的笔——多出来的是哪三句，他写的时候就知道。"
 msgstr ""
 
 #. faction.buxuan/copy reward.deed
@@ -51509,13 +51509,13 @@ msgstr ""
 #. city.npc.shangshu.gardener inquiry.骆建章.rules.say
 #. native.npc.maoshan_gardener inquiry.骆建章.rules.say
 #: data/city/npcs.json data/native/npcs.json
-msgid "骆先生？老爷下了狱，他跟着去了相国府。那个人，在这府里十年，没说过一句多余的话。"
+msgid "骆先生？老爷下了狱，相国把他叫去了。那个人，在这府里十年，没说过一句多余的话。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry.骆建章.rules.say
 #. native.npc.maoshan_gardener inquiry.骆建章.rules.say
 #: data/city/npcs.json data/native/npcs.json
-msgid "骆先生？客厅里写字的那位。他的字比我的符好看——老爷的信，十封有九封是他的笔。"
+msgid "骆先生？客厅里写字的那位。老爷的信，十封有九封是他的笔。"
 msgstr ""
 
 #. city.npc.shangshu.gardener inquiry topic
@@ -62601,11 +62601,6 @@ msgstr ""
 msgid "建章在老夫这里。刑部要问他的话——他在庾子建身边写了十年字。"
 msgstr ""
 
-#. native.npc.wei_zhizhong inquiry.骆建章.rules.say
-#: data/imperial/npcs.json
-msgid "信送到了？……他回信没有？骆家的人，一个比一个嘴硬。"
-msgstr ""
-
 #. native.npc.wei_zhizhong inquiry.骆建章.rules.lines.emote
 #: data/imperial/npcs.json
 msgid "想了一会儿。"
@@ -62624,6 +62619,11 @@ msgstr ""
 #. native.npc.wei_zhizhong inquiry.骆建章.rules.lines.say
 #: data/imperial/npcs.json
 msgid "拿去给尚书府的门房。相国府的条子，他不敢拦。"
+msgstr ""
+
+#. native.npc.wei_zhizhong inquiry.骆建章.rules.say
+#: data/imperial/npcs.json
+msgid "信送到了？……他回信没有？骆家的人，一个比一个嘴硬。"
 msgstr ""
 
 #. native.npc.wei_zhizhong inquiry.骆建章.rules.say
@@ -62665,7 +62665,7 @@ msgstr ""
 #. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.line
 #: data/imperial/npcs.json
 msgid ""
-"骆建章说道：……大人口述，我落的笔。二十年前先帝的原令，我也誊过——多出来的是哪三句，我写的时候就知道。\n"
+"骆建章说道：……是我的字。那年我在兵部做抄手，原令存档的底子也是我抄的——一句话。大人口述，多出来的三句，我落的笔；是哪三句，我写的时候就知道。\n"
 msgstr ""
 
 #. native.npc.wei_zhizhong inquiry.抄本的字.rules.lines.say
@@ -70719,12 +70719,17 @@ msgstr ""
 
 #. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
 #: data/native/npcs.json
-msgid "大人口述，我落的笔。二十年前先帝的原令，我也誊过一份底子——一句话：寻剑，不得扰民一户。"
+msgid "二十年前我在兵部做抄手。先帝的原令发到兵部，存档的底子是我抄的——一句话：寻剑，不得扰民一户。"
 msgstr ""
 
 #. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
 #: data/native/npcs.json
-msgid "多出来的三句：征民夫，设关卡，拿人。是哪三句，我写的时候就知道。"
+msgid "庾大人口述，我落的笔。多出来的三句：征民夫，设关卡，拿人。是哪三句，我写的时候就知道。"
+msgstr ""
+
+#. native.npc.luo_jianzhang inquiry.抄本.rules.lines.say
+#: data/native/npcs.json
+msgid "后来他把我要进了府里，做书启。十年了。"
 msgstr ""
 
 #. native.npc.luo_jianzhang inquiry.抄本.rules.lines.emote
