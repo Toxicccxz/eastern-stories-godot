@@ -3,7 +3,7 @@ extends RefCounted
 ## The title (DECISIONS「标题画面」): title_screen.json in the catalog, the logo's blocks from its
 ## baked masks (one language at a time), the title shown while no journey runs and only then,
 ## the menu's buttons dressed but still the shell's own, the camera flying to a choice's
-## place, and a start going ahead at once while the statue breaks over it.
+## place, and a start going ahead at once while the stones break over it.
 const ShellTests = preload("res://tests/application/application_shell_test.gd")
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
 
@@ -47,53 +47,62 @@ func _test_data() -> void:
 	_check(errors.size() == 3, "an unknown weather, a zoom out of range and a tiny logo are refused: %s" % [errors])
 
 
-## The statue: big blocks of many sizes and materials standing on the plinth, a rise under it,
-## the seal at its end; every block lands in the arrival and breaks away on leaving (the rise
-## stays); built once per mask, one language at a time.
+## The stones: every character a slab of rock cut to its shape, broken into a few fragments,
+## stuck in the ground; the seal after them; they land one by one, left to right, and break
+## away on leaving; rubble at their feet; built once per mask, one language at a time.
 func _test_logo_blocks() -> void:
 	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
 	var monument: TitleMonument = TitleMonument.of(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	var sides: Dictionary = {}
-	var kinds: Dictionary = {}
-	var states: int = 0
-	var parts: Dictionary = {}
-	var foot: float = INF
-	var timed: bool = true
+	_check(monument.stones.size() == 5, "four characters and the seal: %d stones" % monument.stones.size())
+	var lands: Array[float] = []
+	for stone: TitleMonument.Stone in monument.stones:
+		lands.append(stone.land)
+	var sorted: Array[float] = lands.duplicate()
+	sorted.sort()
+	_check(lands == sorted and lands[0] >= 0.0 and lands[-1] < 1.0, "they land one by one, left to right, the seal last: %s" % [lands])
+	var pieces: Dictionary = {}
+	var marks: int = 0
+	var crystals: int = 0
+	var lowest: float = INF
+	var seal: int = 0
 	for block: TitleMonument.Block in monument.blocks:
-		parts[block.part] = parts.get(block.part, 0) + 1
-		if block.part == TitleMonument.Part.GROUND or block.part == TitleMonument.Part.DETAIL:
-			timed = timed and block.land < 0.0 and block.fall > 1.15
+		if block.material == TitleMonument.LACQUER or block.material == TitleMonument.INLAY:
+			seal += 1
 			continue
-		timed = timed and block.land >= 0.0 and block.land < 1.0 and block.fall >= 0.0 and block.fall < 1.0
-		if block.part != TitleMonument.Part.LETTER:
-			continue
-		sides[roundi(block.size.x)] = true
-		kinds[block.material] = kinds.get(block.material, 0) + 1
-		states |= block.state
-		if not block.state & (TitleMonument.HANGING | TitleMonument.FLOATING):
-			foot = minf(foot, block.centre.y - block.size.y / 2.0)
-	_check(sides.size() >= 5 and sides.has(5), "blocks of every size, up to five cells: %s" % [sides.keys()])
-	_check(kinds.size() == TitleMonument.MATERIALS.size(), "every material is in the characters: %s" % [kinds])
-	_check(kinds.get(TitleMonument.STONE, 0) > kinds.get(TitleMonument.LAMP, 0) * 3 and kinds.get(TitleMonument.LAMP, 0) >= 5, "mostly stone, a scatter of lamp-stones: %s" % [kinds])
-	for flag: int in [TitleMonument.LOOSE, TitleMonument.RUSTED, TitleMonument.MOSSY, TitleMonument.CRACKED, TitleMonument.HANGING]:
-		_check(states & flag, "some blocks show state %d" % flag)
-	_check(absf(foot) < 0.05, "the characters stand on the plinth: lowest foot at %.2f" % foot)
-	for part: int in [TitleMonument.Part.LETTER, TitleMonument.Part.SEAL, TitleMonument.Part.PLINTH, TitleMonument.Part.GROUND, TitleMonument.Part.DETAIL]:
-		_check(parts.get(part, 0) > 0, "the statue has part %d" % part)
-	_check(timed, "every block lands and breaks away in turn; the rise is there from the start and stays")
+		var of_stone: Dictionary = pieces.get(block.stone, {})
+		of_stone[block.fragment] = true
+		pieces[block.stone] = of_stone
+		marks |= block.marks
+		crystals += 1 if block.material == TitleMonument.CRYSTAL else 0
+		lowest = minf(lowest, block.centre.y - block.size.y / 2.0)
+	for stone: int in pieces:
+		var count: int = (pieces[stone] as Dictionary).size()
+		_check(count >= TitleMonument.FRAGMENTS_MIN and count <= TitleMonument.FRAGMENTS_MAX, "character %d breaks into a few fragments: %d" % [stone, count])
+	for mark: int in [TitleMonument.MOSSY, TitleMonument.CRACKED, TitleMonument.SEAM, TitleMonument.RIM]:
+		_check(marks & mark, "some voxels show mark %d" % mark)
+	_check(crystals > 0 and crystals < monument.blocks.size() / 50, "a few crystals: %d" % crystals)
+	_check(lowest < -0.5, "the characters are stuck in the ground: lowest %.2f" % lowest)
+	_check(seal > 50, "the seal with 侠 inlaid: %d boxes" % seal)
+	_check(monument.rubble.size() >= monument.stones.size() * 10, "rubble round their feet: %d" % monument.rubble.size())
+	for fragment: TitleMonument.Fragment in monument.fragments:
+		if fragment.leave < 0.0 or fragment.leave >= 1.0:
+			_check(false, "every fragment breaks away within the leaving: %.2f" % fragment.leave)
+			break
 	var logo := TitleLogo.new()
 	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	var board: Node3D = logo.get_node("LogoView/World/Board") as Node3D
-	var blocks: MultiMeshInstance3D = board.get_node_or_null("Blocks") as MultiMeshInstance3D
-	var chips: MultiMeshInstance3D = board.get_node_or_null("Chips") as MultiMeshInstance3D
-	if _check(blocks != null and chips != null, "the statue has its blocks and its chips"):
-		_check(blocks.multimesh.instance_count == monument.blocks.size() and chips.multimesh.instance_count > 300, "one box per block: %d, %d chips" % [blocks.multimesh.instance_count, chips.multimesh.instance_count])
+	var space: Node3D = logo.get_node("LogoView/World/Board/Space") as Node3D
+	var stones: MultiMeshInstance3D = space.get_node_or_null("Stones") as MultiMeshInstance3D
+	if _check(stones != null and space.get_node_or_null("Rubble") != null and space.get_node_or_null("Dust") != null and space.get_node_or_null("Ground") != null, "the stones, their rubble and dust, and the ground that takes their shadows"):
+		_check(stones.multimesh.instance_count == monument.blocks.size(), "one box per voxel column: %d" % stones.multimesh.instance_count)
+	_check((logo.get_node("LogoView") as SubViewport).use_hdr_2d, "the view keeps a full alpha for the shadows and dust")
 	var again := TitleLogo.new()
 	again.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	_check(again.monument == monument and (again.get_node("LogoView/World/Board/Blocks") as MultiMeshInstance3D).multimesh == blocks.multimesh, "built once per mask in a run")
+	_check(again.monument == monument and (again.get_node("LogoView/World/Board/Space/Stones") as MultiMeshInstance3D).multimesh == stones.multimesh, "built once per mask in a run")
 	var english := TitleLogo.new()
 	english.build(definition.logo_for("en"), definition.seal_for("en"))
-	_check(english.monument != monument, "English is its own statue, not both at once")
+	_check(english.monument != monument, "English is its own stones, not both at once")
+	for built: TitleMonument in [monument, english.monument]:
+		_check(built.stones.size() <= TitleMonument.MOST_STONES and built.fragments.size() <= TitleMonument.MOST_FRAGMENTS, "the shader can tell every stone and fragment apart: %d, %d" % [built.stones.size(), built.fragments.size()])
 	for node: TitleLogo in [logo, again, english]:
 		node.free()
 
@@ -139,7 +148,7 @@ func _test_shell(tree: SceneTree) -> void:
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
 	_check(shell.submit_new_game_setup(), "a journey starts at once")
 	await tree.process_frame
-	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the statue breaks over the busy note")
+	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the stones break over the busy note")
 	var started: bool = false
 	for i: int in 2000:
 		await tree.process_frame

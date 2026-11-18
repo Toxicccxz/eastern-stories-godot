@@ -1,7 +1,7 @@
 {
 	"title_screen": {
-		"sun_percent": [28, 20],
-		"logo_percent": [30, 26],
+		"sun_percent": [31, 7],
+		"logo_percent": [30, 24],
 		"logo_width_px": 760,
 		"new_game_place": "snow.outdoor",
 		"logos": {

@@ -1,23 +1,22 @@
 extends SceneTree
-## Bakes the title logo's ink masks (界面重做, DECISIONS「标题画面」): the four brush characters
-## 东方故事 in 马善政楷书 and the English title in capitals in 霞鹜文楷 (both made bolder), and the
-## seal's 侠 in 霞鹜文楷, rasterised at the
-## voxel size TitleLogo builds them at and cropped to the ink. The game reads only these
-## masks, so the brush font itself is not needed to run it.
+## Bakes the title logo's ink masks (DECISIONS「标题画面」): 东方故事, the English title in capitals
+## (EASTERN STORIES) and the seal's 侠, all in 霞鹜文楷 (the project's own font) and the title made
+## bolder, rasterised and cropped to the ink. TitleMonument cuts them into voxels (CELL pixels
+## each); the game reads only these masks.
 ## Windowed (it renders text):
-##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd -- <MaShanZheng-Regular.ttf>
+##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd
 ## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, seal_zh_CN.png.
 
 const OUT: String = "res://assets/textures/title/"
-## Glyph sizes in voxels (one font pixel = one voxel).
-const ZH_SIZE: int = 90
+const FONT: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
+## Glyph sizes in pixels.
+const ZH_SIZE: int = 96
 const EN_SIZE: int = 72
 const SEAL_SIZE: int = 30
-## How many pixels the strokes are made bolder by all round (an outline in the ink's colour), so
-## they carry the statue's big blocks.
-const ZH_BOLD: int = 6
-const EN_BOLD: int = 6
-const SEAL_FONT: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
+## How many pixels the strokes are made bolder by all round (an outline in the ink's colour): the
+## characters are cut from rock, thick enough to read from afar.
+const ZH_BOLD: int = 2
+const EN_BOLD: int = 3
 
 
 func _init() -> void:
@@ -25,20 +24,10 @@ func _init() -> void:
 
 
 func _run() -> void:
-	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args.is_empty():
-		printerr("usage: -- <MaShanZheng-Regular.ttf>")
-		quit(1)
-		return
-	var brush := FontFile.new()
-	if brush.load_dynamic_font(args[0]) != OK:
-		printerr("cannot load ", args[0])
-		quit(1)
-		return
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
-	var seal: FontFile = load(SEAL_FONT) as FontFile
-	for job: Array in [["logo_zh_CN", "东方故事", brush, ZH_SIZE, ZH_BOLD], ["logo_en", "EASTERN STORIES", seal, EN_SIZE, EN_BOLD], ["seal_zh_CN", "侠", seal, SEAL_SIZE, 0]]:
-		var mask: Image = await _mask(job[1], job[2], job[3], job[4])
+	var font: FontFile = load(FONT) as FontFile
+	for job: Array in [["logo_zh_CN", "东方故事", ZH_SIZE, ZH_BOLD], ["logo_en", "EASTERN STORIES", EN_SIZE, EN_BOLD], ["seal_zh_CN", "侠", SEAL_SIZE, 0]]:
+		var mask: Image = await _mask(job[1], font, job[2], job[3])
 		var path: String = ProjectSettings.globalize_path(OUT + String(job[0]) + ".png")
 		mask.save_png(path)
 		print("BAKED %s %dx%d" % [path, mask.get_width(), mask.get_height()])

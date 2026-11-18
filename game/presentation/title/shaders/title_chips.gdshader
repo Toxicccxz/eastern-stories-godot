@@ -1,40 +1,39 @@
 shader_type spatial;
 render_mode world_vertex_coords;
-// Chips off the title's statue (TitleLogo): small stones that burst out where a block lands in
-// the arrival and where it breaks away on leaving, fly and drop. Custom data: the block's seed
-// (its landing matches the block's), the chip's own seed, when the block lands, when it falls.
-uniform float write = 1.0;
-uniform float write_secs = 3.6;
-uniform float burn = -1.0;
-uniform float burn_secs = 1.5;
-uniform float unit = 1.0;
-uniform vec3 up_dir = vec3(0.0, 1.0, 0.0);
-uniform vec3 right_dir = vec3(1.0, 0.0, 0.0);
-uniform vec3 toward_dir = vec3(0.0, 0.0, 1.0);
-
-vec3 turn(vec3 v, vec3 axis, float a) {
-	return v * cos(a) + cross(axis, v) * sin(a) + axis * dot(axis, v) * (1.0 - cos(a));
-}
+// Rubble round the title's stones (TitleLogo): chunks thrown out of the ground when a stone
+// strikes it, flying to where they lie; on leaving they sink with the stones. Custom data: a
+// seed, its stone.
+#include "res://presentation/title/shaders/title_stones.gdshaderinc"
+varying float height;
+varying vec3 grain_at;
 
 void vertex() {
 	vec4 c = INSTANCE_CUSTOM;
-	vec3 centre = MODEL_MATRIX[3].xyz;
-	vec3 local = VERTEX - centre;
-	float landed = (write - c.z) * write_secs - (0.55 + c.x * 0.3);
-	float broke = (burn - c.w) * burn_secs;
-	float t = (c.z >= 0.0 && landed >= 0.0 && landed < 0.7) ? landed : ((broke >= 0.0 && broke < 1.2) ? broke : -1.0);
-	float shown = step(0.0, t) * (1.0 - smoothstep(0.45, 0.7, t));
-	float a = c.y * 6.2831;
-	vec3 out_dir = right_dir * cos(a) + toward_dir * sin(a) * 0.8;
-	float tt = max(t, 0.0);
-	vec3 path = out_dir * (5.0 + c.y * 9.0) * tt + up_dir * ((6.0 + fract(c.y * 7.3) * 8.0) * tt - 0.5 * 70.0 * tt * tt);
-	local = turn(local, normalize(vec3(c.y - 0.5, 0.6, fract(c.y * 3.7) - 0.5)), tt * 9.0) * shown;
-	VERTEX = centre + local + path * unit;
-	COLOR.rgb = mix(pow((COLOR.rgb + vec3(0.055)) / 1.055, vec3(2.4)), COLOR.rgb / 12.92, lessThan(COLOR.rgb, vec3(0.04045)));
+	int stone = int(c.y + 0.5);
+	vec3 rest = MODEL_MATRIX[3].xyz;
+	vec3 local = VERTEX - rest;
+	vec3 up = normalize(space[1].xyz);
+	float u = length(space[0].xyz);
+	grain_at = (inverse(space) * vec4(VERTEX, 1.0)).xyz;
+	vec3 pivot = (space * vec4(stone_info[stone].xyz, 1.0)).xyz;
+	float t = since_landing(stone);
+	float p = clamp(t / 0.65, 0.0, 1.0);
+	vec3 axis = normalize(vec3(c.x - 0.5, 0.7, fract(c.x * 7.3) - 0.5));
+	local = turn(local, axis, (1.0 - p) * 9.0) * step(0.0, t);
+	vec3 start = pivot + up * 3.0 * u;
+	vec3 at = mix(start, rest, p) + up * (8.0 + c.x * 10.0) * 4.0 * p * (1.0 - p) * u;
+	float s = (burn - 0.45 - c.x * 0.3) * burn_secs;
+	at -= up * max(s, 0.0) * max(s, 0.0) * 30.0 * u;
+	VERTEX = at + local;
+	height = over_ground(VERTEX);
+	COLOR.rgb = to_linear(COLOR.rgb);
 }
 
 void fragment() {
-	ALBEDO = COLOR.rgb;
-	ROUGHNESS = 0.9;
+	if (height < -0.2) {
+		discard;
+	}
+	ALBEDO = COLOR.rgb * (0.78 + 0.45 * fbm3(grain_at * 0.8));
+	ROUGHNESS = 0.95;
 	SPECULAR = 0.3;
 }
