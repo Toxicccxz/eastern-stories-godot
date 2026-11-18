@@ -1255,6 +1255,11 @@ position = Vector2(2544, 2472)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.entrance.sword_soul_spar.1"
 
+[node name="EntranceLuoJianzhang1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2584, 2472)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.entrance.luo_jianzhang.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

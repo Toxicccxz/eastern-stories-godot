@@ -629,7 +629,7 @@
 			"zone": "imperial.front_hall",
 			"name": "朝上揭发",
 			"reach": 120,
-			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — the first of the three: before the court, with the 原令 and the witnesses (Q3: 原令 and two of four, three after the 关北 raid); native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」): 李信's ledger of the three days (跟李信揭发) is one more piece",
+			"legacy_source": "native: 第九章 D (剧情总纲 §3 第九章 选择, §1 底线一「终章之后庾子建的下场由第九章的选择决定」; 计划 build/plans/第九章_计划.md D 包与 §7 Q3, owner 2026-11-06「按你的推荐来」; DECISIONS「第九章 D」) — the first of the three: before the court, with the 原令 and the witnesses (Q3: 原令 and two of four, three after the 关北 raid); native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」): 李信's ledger of the three days (跟李信揭发) is one more piece; native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」): 骆建章's 供状 (骆建章作了证) is one more",
 			"act": {
 				"verb": "揭发",
 				"acts": [
@@ -700,6 +700,9 @@
 													},
 													{
 														"mark": "跟李信揭发"
+													},
+													{
+														"mark": "骆建章作了证"
 													}
 												]
 											}
@@ -744,6 +747,9 @@
 													},
 													{
 														"mark": "跟李信揭发"
+													},
+													{
+														"mark": "骆建章作了证"
 													}
 												]
 											}
@@ -814,6 +820,12 @@
 							},
 							{
 								"when": {
+									"mark": "骆建章作了证"
+								},
+								"line": "（骆建章的供状——兵部抄本上多出来的三句，是庾子建口述、他落的笔——也算一样。）\n"
+							},
+							{
+								"when": {
 									"item": "native:niling/offering_register"
 								},
 								"line": "（逆灵宫那本祭品名册的原本——河工所的戳底下垫着兵部的印——也算一样。）\n"
@@ -857,6 +869,12 @@
 									"mark": "跟李信揭发"
 								},
 								"line": "（李信那本天驼关的账——印丢的三天，兵部征民夫的令——也算一样。）\n"
+							},
+							{
+								"when": {
+									"mark": "骆建章作了证"
+								},
+								"line": "（骆建章的供状——兵部抄本上多出来的三句，是庾子建口述、他落的笔——也算一样。）\n"
 							},
 							{
 								"when": {

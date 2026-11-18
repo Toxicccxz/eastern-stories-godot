@@ -50,7 +50,7 @@ func _test_data() -> void:
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
 	_check(ids == [&"wait", &"invite", &"canvass", &"day"], "its steps: %s" % [ids])
 	_check(quest.step(&"canvass").target.map_id == &"waterfog.terrace" and quest.step(&"canvass").objective.contains("骆云舟"), "the last step leads to the 虹台 and says where the nine are")
-	_check(quest.checklist.size() == 3 + 9 + 24 and quest.checklist[0].counts and quest.checklist[0].condition.amount == 9, "已表态 x／9, 颜违's and yours, then a row for each 派's vote (振远 B: 振远 听你的 too; 花紫会 B: 花紫会 颜违 and 听你的; 茅山 B: 茅山 旧盟主)")
+	_check(quest.checklist.size() == 3 + 9 + 25 and quest.checklist[0].counts and quest.checklist[0].condition.amount == 9, "已表态 x／9, 颜违's and yours, then a row for each 派's vote (振远 B: 振远 听你的 too; 花紫会 B: 花紫会 颜违 and 听你的; 茅山 B: 茅山 旧盟主; 步玄 B: 步玄 旧盟主)")
 	var conditions: Dictionary[String, JournalEntryDefinition] = catalog.conditions()
 	for sect: StringName in SECTS:
 		_check(conditions.has("assembly.%s.stated" % sect), "%s: 表态 named" % sect)

@@ -6,7 +6,7 @@ extends RefCounted
 ## each stronger, and its fourth (剑神如意) wins the bout; struck before it, it owns you (大弟子 for 步玄's own); its four
 ## lines said, it is spent until 微曦 and back the next night. Then, once 第九章 began, the 家书 to the elder brother
 ## 骆建章 in the 尚书府's 客厅 (at the 相国府 once 庾子建 is in prison), and the three lines of the 兵部抄本 in 骆家's hand
-## (asked of 骆建章 or of 韦执中, the copy in hand); the stub `home` points back at 骆云舟 (步玄 B fills it).
+## (asked of 骆建章 or of 韦执中, the copy in hand); then `home` points back at 骆云舟 (步玄 B's first step).
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -50,8 +50,8 @@ func _test_data() -> void:
 	if quest == null:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"sword", &"letter", &"brother", &"copy", &"home"], "步玄 A's steps, the stub last: %s" % [ids])
-	_check(quest.steps.all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 步玄 A: the split is 步玄 B's")
+	_check(ids.slice(0, 5) == [&"sword", &"letter", &"brother", &"copy", &"home"], "步玄 A's steps, then 步玄 B's: %s" % [ids])
+	_check(quest.steps.slice(0, 5).all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 步玄 A: the split is 步玄 B's")
 	var sword: StoryQuestDefinition.Step = quest.step(&"sword")
 	_check(sword.reward.rank_title == "大弟子" and sword.reward.rank_family == &"family.buxuan" and not sword.reward.deed.is_empty(), "the 问剑: 大弟子 for 步玄's own, a deed")
 	for step_id: StringName in [&"brother", &"copy"]:

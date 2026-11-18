@@ -151,6 +151,11 @@ position = Vector2(8, -360)
 script = ExtResource("marker")
 spawn_point_id = &"city.xiangguo_hall.luo_jianzhang.1"
 
+[node name="XiangguoHallLuoYunzhou1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(136, -360)
+script = ExtResource("marker")
+spawn_point_id = &"city.xiangguo_hall.luo_yunzhou.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "乔阴",
 			"sources": [
-				"native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」). daemon/class/scholar/master.c (骆云舟: 生於京城有名的武林世家，本名骆建炎，其父骆易; 你还是先走一趟东边的桃林吧), daemon/class/scholar/windspring.c and sword_soul.c (风泉之剑, 风泉剑灵: 剑气指天 … 剑神如意！), d/choyin/taolin.c (the 桃林's notes), imperial 韦执中 (骆家的二小子……可惜了那一手字). The line shows for 骆云舟's own and for a 桃林的客 (one who walked out of the 桃林 and asked 骆云舟 「风泉」); the 问剑 on the 曼雩台 at night (步玄's old rule: 见过剑灵的人，才算步玄的人; 大弟子 for 步玄's own), the 家书 to the elder brother 骆建章 in the 尚书府 (at the 相国府 once 庾子建 is in prison) after 第九章 began, and the three lines of the 兵部抄本 in 骆家's hand are the plan's (续写); the line stops at a stub step `home` that 步玄 B fills."
+				"native: 势力线第三批 步玄 A (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 A, §2 第 3 条, §8 第 4 行, §10 第 6 条, §12 Q1 Q4, owner 2026-11-17「都照推荐」; DECISIONS「步玄 A」). daemon/class/scholar/master.c (骆云舟: 生於京城有名的武林世家，本名骆建炎，其父骆易; 你还是先走一趟东边的桃林吧), daemon/class/scholar/windspring.c and sword_soul.c (风泉之剑, 风泉剑灵: 剑气指天 … 剑神如意！), d/choyin/taolin.c (the 桃林's notes), imperial 韦执中 (骆家的二小子……可惜了那一手字). The line shows for 骆云舟's own and for a 桃林的客 (one who walked out of the 桃林 and asked 骆云舟 「风泉」); the 问剑 on the 曼雩台 at night (步玄's old rule: 见过剑灵的人，才算步玄的人; 大弟子 for 步玄's own), the 家书 to the elder brother 骆建章 in the 尚书府 (at the 相国府 once 庾子建 is in prison) after 第九章 began, and the three lines of the 兵部抄本 in 骆家's hand are the plan's (续写); the line stops at a stub step `home` that 步玄 B fills.",
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」). daemon/class/scholar/master.c (骆云舟, 生於京城有名的武林世家), imperial 韦执中 (骆家的二小子……可惜了那一手字). The stub `home` filled (骆云舟 hears of the 兵部抄本 and goes to the capital), the brothers' scene in the 相国府's hall (韦执中 sits by, silent), the split: 作证 with 骆云舟 (骆建章's 供状: one more witness to 揭发 while 第九章 is open; exiled to 关北 once 庾子建 is in prison; the case reopened at 乔阴 after 私了 or the 皇叔's pardon; 步玄 votes the old 盟主) or 回家 with 骆建章 (home to the 曼雩台, the 抄本 never spoken of; 步玄 votes 颜违); 执事 for 步玄's own either way. 续写."
 			],
-			"summary": "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟还有一个十年没说过话的大哥，在兵部尚书府里写字。",
+			"summary": "风泉之剑里住着剑灵；见过它的人，才算步玄的人。骆云舟的大哥在兵部尚书府写了十年字，兵部抄本上多出来的三句是他落的笔——让他上堂作证，还是保住骆家。",
 			"starts": {
 				"any": [
 					{
@@ -165,7 +166,7 @@
 					"done": {
 						"mark": "骆云舟听了抄本的事"
 					},
-					"text": "骆云舟听完了大哥的话。",
+					"text": "骆云舟听完，扇子停在半空。十年没回京城，他说，进京一趟。",
 					"target": {
 						"map": "choyin.town",
 						"zone": "choyin.entrance",
@@ -173,6 +174,75 @@
 							"common.npc.scholar.master"
 						]
 					}
+				},
+				{
+					"id": "meet",
+					"objective": "骆云舟进京了。去西街的相国府：兄弟俩在正厅上见面，韦相国坐在上首。（话听了一半就走开的：作证问骆云舟「作证」，保住骆家问骆建章「回家」。）",
+					"done": {
+						"any": [
+							{
+								"mark": "骆家兄弟说完了话"
+							},
+							{
+								"mark": "骆建章作了证"
+							},
+							{
+								"mark": "保住了骆家"
+							}
+						]
+					},
+					"text": "骆云舟要大哥上堂，把抄本上那三句是谁口述的说出来；大哥要跟他回乔阴，抄本的事不提。韦执中坐在上首，一句话也没说。",
+					"target": {
+						"map": "city.xiangguo",
+						"zone": "city.xiangguo_hall",
+						"npcs": [
+							"native.npc.luo_yunzhou_capital",
+							"native.npc.luo_jianzhang"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "作证（问骆云舟「作证」）：大哥写供状，说出抄本那三句是庾子建口述——第九章还没定的，朝上揭发多一样人证；庾子建已经下狱的，大哥照实供，判流放；私了过或先解了皇叔通缉的，乔阴的案子重开。骆家和朝廷翻脸，虹台上步玄投旧盟主。保住骆家（问骆建章「回家」）：骆云舟带大哥回乔阴，抄本的事不提，大哥在曼雩台抄谱；骆家照旧是京城的世家，虹台上步玄投颜违。两边步玄的弟子都晋执事。",
+					"target": {
+						"map": "city.xiangguo",
+						"zone": "city.xiangguo_hall",
+						"npcs": [
+							"native.npc.luo_yunzhou_capital",
+							"native.npc.luo_jianzhang"
+						]
+					},
+					"options": [
+						{
+							"id": "testify",
+							"done": {
+								"mark": "骆建章作了证"
+							},
+							"text": "骆建章写了供状，按了手印：兵部抄本上多出来的三句，是庾子建口述、他落的笔。骆家和朝廷翻了脸。",
+							"reward": {
+								"deed": "陪骆建章写下了兵部抄本的供状",
+								"rank": {
+									"family": "family.buxuan",
+									"title": "执事"
+								}
+							}
+						},
+						{
+							"id": "home",
+							"done": {
+								"mark": "保住了骆家"
+							},
+							"text": "骆云舟带大哥回了乔阴。抄本的事，骆家不再提；曼雩台上多了一张书案。",
+							"reward": {
+								"deed": "让骆云舟带大哥回了乔阴",
+								"rank": {
+									"family": "family.buxuan",
+									"title": "执事"
+								}
+							}
+						}
+					]
 				}
 			]
 		}

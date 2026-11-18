@@ -224,6 +224,7 @@
 		"native.npc.he_ping": "post",
 		"native.npc.road_robber": "post",
 		"native.npc.sword_soul_spar": "still",
-		"native.npc.luo_jianzhang": "still"
+		"native.npc.luo_jianzhang": "still",
+		"native.npc.luo_yunzhou_capital": "still"
 	}
 }

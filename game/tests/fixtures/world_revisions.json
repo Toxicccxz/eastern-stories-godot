@@ -109,6 +109,11 @@
 			"revision": "SOURCE_ENTRY_BUXUAN_A_V1",
 			"spawn_points": 875,
 			"fingerprint": "e117e4f85fd53044fe5fa656ec288dbdf3d7d4c0c7ec7cc36a747ce9c03d2f5d"
+		},
+		{
+			"revision": "SOURCE_ENTRY_BUXUAN_B_V1",
+			"spawn_points": 877,
+			"fingerprint": "a9791c3058242d92c6433eb32126820acf7cf990428ac8a905d154699740aa4f"
 		}
 	]
 }
