@@ -179,6 +179,7 @@
 					"listed_marks": ["宝衣一章"],
 					"rules": [
 						{ "asker_marks": ["接了朱鸿雪的令"], "emote": "看了你一眼，低下头接着整理药材，一句话也不说。" },
+						{ "asker_marks": ["山烟寺的线断了"], "say": "流云轩的事，不劳施主了。" },
 						{ "asker_marks": ["守了寺规"], "say": "老葛回乔阴了。方丈守了他三天三夜……那只右手是保不住了。" },
 						{ "asker_marks": ["头陀进了流云轩"], "say": "老葛好了，回乔阴去了。……那头陀的手，热得跟炭一样。" },
 						{ "asker_marks": ["喂了樵夫药"], "say": "药喂下去了，寒气还是退不下去。" },
@@ -191,7 +192,9 @@
 				"煎药": {
 					"listed_marks": ["玄智开了方子"],
 					"rules": [
+						{ "asker_marks": ["山烟寺的线断了"], "say": "流云轩的事，不劳施主了。" },
 						{ "asker_marks": ["喂了樵夫药"], "say": "药喂过了。" },
+						{ "asker_marks": ["药僧煎好了药"], "asker_not_carries": "汤药", "gives": "native:sanyen/decoction", "lines": [{ "emote": "叹了口气，把药渣倒回罐里，又煎了一碗。" }, { "say": "这一碗，别再洒了。" }] },
 						{ "asker_marks": ["药僧煎好了药"], "say": "药在你手里，去喂他（「给」老葛）。我得看着火。" },
 						{ "asker_marks": ["采了附子", "杨掌柜给了麝香", "采了鬼臼"], "takes": ["native:sanyen/fuzi", "native:snow/musk", "native:choyin/guijiu"], "gives": "native:sanyen/decoction", "mark_asker": "药僧煎好了药", "lines": [{ "emote": "把三味药摊在案上，一样一样地看过。" }, { "say": "附子、麝香、鬼臼——齐了。" }, { "line": "药僧生起小炉子，药罐里咕嘟咕嘟地翻着黑汤，满屋子的药味更冲了。\n" }, { "say": "煎好了。你扶他起来喂（「给」老葛）——我得看着火。" }] },
 						{ "asker_marks": ["玄智开了方子"], "say": "三味还没齐：附子在药圃，麝香找雪亭的杨掌柜，鬼臼在乔阴树王坟边。" },

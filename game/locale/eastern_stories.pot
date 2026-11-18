@@ -28672,12 +28672,17 @@ msgstr ""
 
 #. faction.sanyen/west objective
 #: data/story/faction_sanyen.json
-msgid "头陀那门火性的内功，那部经，是从番坊来的。去番坊日陀罗寺问龙若法王「头陀」。"
+msgid "独眼头陀那门火性的内功，他练的那部经，不是山烟寺的东西。它从番坊来：去番坊日陀罗寺问龙若法王「头陀」。"
 msgstr ""
 
 #. faction.sanyen/west text
 #: data/story/faction_sanyen.json
 msgid "龙若法王说起了三十年前的事。"
+msgstr ""
+
+#. faction.sanyen/west checklist.label
+#: data/story/faction_sanyen.json
+msgid "照了寺规的：先回流云轩，药僧有话要说"
 msgstr ""
 
 #. faction.assembly title
@@ -42739,6 +42744,12 @@ msgid "看了你一眼，低下头接着整理药材，一句话也不说。"
 msgstr ""
 
 #. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.say
+#: data/sanyen/npcs.json
+msgid "流云轩的事，不劳施主了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
 #: data/sanyen/npcs.json
 msgid "老葛回乔阴了。方丈守了他三天三夜……那只右手是保不住了。"
 msgstr ""
@@ -42796,6 +42807,16 @@ msgstr ""
 #. sanyen.npc.drug_bonze inquiry.煎药.rules.say
 #: data/sanyen/npcs.json
 msgid "药喂过了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "叹了口气，把药渣倒回罐里，又煎了一碗。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "这一碗，别再洒了。"
 msgstr ""
 
 #. sanyen.npc.drug_bonze inquiry.煎药.rules.say

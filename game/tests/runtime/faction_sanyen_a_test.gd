@@ -261,6 +261,15 @@ func _test_disciple(tree: SceneTree, session: WorldSessionController) -> void:
 	session.record_journal()
 	_check(state.quests.has("faction.sanyen#lapsed") and state.marks.get("山烟寺的线断了", 0) == 1, "left 山烟寺: the line lapsed")
 	_check(not StoryKeeps.keeps(state, catalog.npc(MONK), catalog.story_quests()), "and the 头陀 is as ES2 again")
+	heal = await _enter(tree, session, HEAL, HEAL_POINT)
+	_check(_said(_ask(heal, _first(session, HEAL, DRUG), "病人"), "不劳施主") and not state.marks.has("流云轩的帮手"), "one who left: no 帮手 behind the 药僧's back")
+	# 东方神教 can never start for one whose 山烟寺 line ran (excludes): 朱鸿雪 says so, nobody takes her order for nothing.
+	state.progression.combat_experience = 5000 # TEST-ONLY
+	state.marks["朱鸿雪说了令牌"] = 1 # TEST-ONLY
+	var yard: WorldMapController = await _enter(tree, session, YARD, YARD_POINT)
+	var god: NpcRuntimeState = _first(session, YARD, GOD)
+	_check(_said(_ask(yard, god, "令牌"), "流云轩的药味") and _said(_ask(yard, god, "接令"), "流云轩的药味") and not state.marks.has("接了朱鸿雪的令"), "one who left 山烟寺: no 令 either")
+	_check(not god.definition().talk().confirm_applies("接令", state.marks), "接令 not asked first of them")
 
 
 func _join(session: WorldSessionController) -> void:

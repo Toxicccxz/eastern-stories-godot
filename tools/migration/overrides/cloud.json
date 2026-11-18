@@ -326,6 +326,20 @@
 						},
 						{
 							"asker_exp_at_least": 1001,
+							"asker_marks": [
+								"山烟寺的线断了"
+							],
+							"lines": [
+								{
+									"emote": "笑眯眯地看着你，鼻子却皱了一下。"
+								},
+								{
+									"say": "你身上一股流云轩的药味。山烟寺的人，神教不用。"
+								}
+							]
+						},
+						{
+							"asker_exp_at_least": 1001,
 							"asker_carries": "###token###",
 							"asker_lacks": [
 								"答应了做眼线",
@@ -384,7 +398,8 @@
 						"接了朱鸿雪的令",
 						"答应了做眼线",
 						"杀了神教的教主",
-						"流云轩的帮手"
+						"流云轩的帮手",
+						"山烟寺的线断了"
 					],
 					"listed_marks": [
 						"朱鸿雪说了令牌"
@@ -416,6 +431,12 @@
 							"say": "你手上有神教的血。令，不会给你。"
 						},
 						{
+							"asker_marks": [
+								"接了朱鸿雪的令"
+							],
+							"say": "令你已经接了。我交代的事，去办。"
+						},
+						{
 							"asker_family": "family.sanyen",
 							"lines": [
 								{
@@ -441,9 +462,16 @@
 						},
 						{
 							"asker_marks": [
-								"接了朱鸿雪的令"
+								"山烟寺的线断了"
 							],
-							"say": "令你已经接了。我交代的事，去办。"
+							"lines": [
+								{
+									"emote": "笑眯眯地看着你，鼻子却皱了一下。"
+								},
+								{
+									"say": "你身上一股流云轩的药味。山烟寺的人，神教不用。"
+								}
+							]
 						},
 						{
 							"asker_marks": [
@@ -1082,6 +1110,90 @@
 							],
 							"asker_carries": "###token###",
 							"asker_lacks": [
+								"接了朱鸿雪的令"
+							],
+							"takes": [
+								"es2:d/latemoon/room/npc/obj/token"
+							],
+							"mark_asker": "令牌还了神教",
+							"lines": [
+								{
+									"emote": "接过令牌，拿拇指抹过火焰的图腾。"
+								},
+								{
+									"say": "她还活着？……"
+								},
+								{
+									"emote": "笑了一下，又不笑了。"
+								},
+								{
+									"say": "令回来了就好。神教的令，只从上一个持令人手里接；她不拿，就该回到我这里。"
+								}
+							],
+							"asker_family": "family.sanyen"
+						},
+						{
+							"asker_marks": [
+								"她说了来历",
+								"流云轩的帮手"
+							],
+							"asker_carries": "###token###",
+							"asker_lacks": [
+								"接了朱鸿雪的令"
+							],
+							"takes": [
+								"es2:d/latemoon/room/npc/obj/token"
+							],
+							"mark_asker": "令牌还了神教",
+							"lines": [
+								{
+									"emote": "接过令牌，拿拇指抹过火焰的图腾。"
+								},
+								{
+									"say": "她还活着？……"
+								},
+								{
+									"emote": "笑了一下，又不笑了。"
+								},
+								{
+									"say": "令回来了就好。神教的令，只从上一个持令人手里接；她不拿，就该回到我这里。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"她说了来历",
+								"山烟寺的线断了"
+							],
+							"asker_carries": "###token###",
+							"asker_lacks": [
+								"接了朱鸿雪的令"
+							],
+							"takes": [
+								"es2:d/latemoon/room/npc/obj/token"
+							],
+							"mark_asker": "令牌还了神教",
+							"lines": [
+								{
+									"emote": "接过令牌，拿拇指抹过火焰的图腾。"
+								},
+								{
+									"say": "她还活着？……"
+								},
+								{
+									"emote": "笑了一下，又不笑了。"
+								},
+								{
+									"say": "令回来了就好。神教的令，只从上一个持令人手里接；她不拿，就该回到我这里。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"她说了来历"
+							],
+							"asker_carries": "###token###",
+							"asker_lacks": [
 								"接了朱鸿雪的令",
 								"答应了做眼线"
 							],
@@ -1210,6 +1322,11 @@
 								"not": {
 									"family": "family.sanyen"
 								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
 							}
 						]
 					},
@@ -1259,6 +1376,11 @@
 							{
 								"not": {
 									"family": "family.sanyen"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
 								}
 							}
 						]

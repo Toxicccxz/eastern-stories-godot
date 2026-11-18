@@ -722,6 +722,12 @@ func _sync_actors(delta: float) -> void:
 		# A statue (神像) never turns or falls: its plinth and wings stay with it.
 		if not (model is Person and not (model as Person).stone.is_empty()):
 			var direction: float = atan2(body.facing.x,body.facing.y) if place.is_empty() else float(place[1])
+			# One lying at rest (VoxelPerson.LIE) keeps the way it was first laid: turning to the player
+			# it attends to would swing the whole body about its heels across the floor.
+			if model is Person and (model as Person).pose == Person.LIE and (model as Person).at_ease:
+				if not model.has_meta(&"lie_turn"):
+					model.set_meta(&"lie_turn", direction)
+				direction = float(model.get_meta(&"lie_turn"))
 			model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
 			var npc: NpcRuntimeState = residents.get(id)
 			var life: CharacterRuntimeLifeStatus.Value = map.player_runtime().life_status if body == map.player_body else (npc.life_status if npc != null else CharacterRuntimeLifeStatus.Value.ACTIVE)
