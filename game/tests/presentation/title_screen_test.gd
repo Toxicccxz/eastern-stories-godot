@@ -3,7 +3,7 @@ extends RefCounted
 ## The title (DECISIONS「标题画面」): title_screen.json in the catalog, the logo's blocks from its
 ## baked masks (one language at a time), the title shown while no journey runs and only then,
 ## the menu's buttons dressed but still the shell's own, the camera flying to a choice's
-## place, and a start going ahead at once while the title burns over it.
+## place, and a start going ahead at once while the statue breaks over it.
 const ShellTests = preload("res://tests/application/application_shell_test.gd")
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
 
@@ -47,55 +47,53 @@ func _test_data() -> void:
 	_check(errors.size() == 3, "an unknown weather, a zoom out of range and a tiny logo are refused: %s" % [errors])
 
 
-## The blocks: characters raised toward mid-stroke in blocks of many sizes and materials on a
-## dark bed, the stroke behind them, embers one per inked voxel.
+## The statue: big blocks of many sizes and materials standing on the plinth, a rise under it,
+## the seal at its end; every block lands in the arrival and breaks away on leaving (the rise
+## stays); built once per mask, one language at a time.
 func _test_logo_blocks() -> void:
 	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
-	var logo := TitleLogo.new()
-	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	var board: Node3D = logo.get_node("LogoView/World/Board") as Node3D
-	var ink: MultiMeshInstance3D = board.get_node_or_null("Ink") as MultiMeshInstance3D
-	var embers: MultiMeshInstance3D = board.get_node_or_null("Embers") as MultiMeshInstance3D
-	if _check(ink != null and embers != null, "the logo has its ink and its embers"):
-		_check(ink.multimesh.instance_count > 5000 and embers.multimesh.instance_count > 1000, "built from the mask: %d blocks, %d embers" % [ink.multimesh.instance_count, embers.multimesh.instance_count])
-	# The block list (a headless run keeps no instance data in the MultiMesh itself).
-	var cubes: Array = TitleLogo.parts_for(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))["cubes"]
-	var deepest: float = 0.0
-	var stroke: int = 0
-	for cube: Array in cubes:
-		deepest = maxf(deepest, (cube[0] as Vector3).z)
-		if cube[2]:
-			stroke += 1
-	_check(cubes.size() == ink.multimesh.instance_count, "one block per instance")
-	_check(deepest >= 2.0, "strokes rise toward their middle: %s" % deepest)
-	_check(stroke > 2000 and stroke < cubes.size(), "a vermilion stroke behind the letters")
-	# The characters: blocks of several sizes and materials, some showing their age, on a bed.
+	var monument: TitleMonument = TitleMonument.of(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
 	var sides: Dictionary = {}
 	var kinds: Dictionary = {}
 	var states: int = 0
-	var bed: int = 0
-	for cube: Array in cubes:
-		if cube.size() <= 3:
+	var parts: Dictionary = {}
+	var foot: float = INF
+	var timed: bool = true
+	for block: TitleMonument.Block in monument.blocks:
+		parts[block.part] = parts.get(block.part, 0) + 1
+		if block.part == TitleMonument.Part.GROUND or block.part == TitleMonument.Part.DETAIL:
+			timed = timed and block.land < 0.0 and block.fall > 1.15
 			continue
-		var code: int = cube[4]
-		if code == TitleLogo.PLAIN:
-			bed += 1
+		timed = timed and block.land >= 0.0 and block.land < 1.0 and block.fall >= 0.0 and block.fall < 1.0
+		if block.part != TitleMonument.Part.LETTER:
 			continue
-		sides[roundi((cube[3] as Vector3).x)] = true
-		kinds[code & 7] = kinds.get(code & 7, 0) + 1
-		states |= code >> 3
-	_check(sides.size() >= 4, "blocks of several sizes: %s" % [sides.keys()])
-	_check(kinds.size() == TitleLogo.MATERIALS.size(), "every material is in it: %s" % [kinds])
-	_check(kinds.get(TitleLogo.STONE, 0) > kinds.get(TitleLogo.LAMP, 0) * 3 and kinds.get(TitleLogo.LAMP, 0) >= 10, "mostly stone, a scatter of lamp-stones: %s" % [kinds])
-	for flag: int in [TitleLogo.LOOSE, TitleLogo.RUSTED, TitleLogo.MOSSY, TitleLogo.CRACKED, TitleLogo.HANGING]:
+		sides[roundi(block.size.x)] = true
+		kinds[block.material] = kinds.get(block.material, 0) + 1
+		states |= block.state
+		if not block.state & (TitleMonument.HANGING | TitleMonument.FLOATING):
+			foot = minf(foot, block.centre.y - block.size.y / 2.0)
+	_check(sides.size() >= 5 and sides.has(5), "blocks of every size, up to five cells: %s" % [sides.keys()])
+	_check(kinds.size() == TitleMonument.MATERIALS.size(), "every material is in the characters: %s" % [kinds])
+	_check(kinds.get(TitleMonument.STONE, 0) > kinds.get(TitleMonument.LAMP, 0) * 3 and kinds.get(TitleMonument.LAMP, 0) >= 5, "mostly stone, a scatter of lamp-stones: %s" % [kinds])
+	for flag: int in [TitleMonument.LOOSE, TitleMonument.RUSTED, TitleMonument.MOSSY, TitleMonument.CRACKED, TitleMonument.HANGING]:
 		_check(states & flag, "some blocks show state %d" % flag)
-	_check(bed > 500, "a dark bed under the blocks: %d runs" % bed)
+	_check(absf(foot) < 0.05, "the characters stand on the plinth: lowest foot at %.2f" % foot)
+	for part: int in [TitleMonument.Part.LETTER, TitleMonument.Part.SEAL, TitleMonument.Part.PLINTH, TitleMonument.Part.GROUND, TitleMonument.Part.DETAIL]:
+		_check(parts.get(part, 0) > 0, "the statue has part %d" % part)
+	_check(timed, "every block lands and breaks away in turn; the rise is there from the start and stays")
+	var logo := TitleLogo.new()
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
+	var board: Node3D = logo.get_node("LogoView/World/Board") as Node3D
+	var blocks: MultiMeshInstance3D = board.get_node_or_null("Blocks") as MultiMeshInstance3D
+	var chips: MultiMeshInstance3D = board.get_node_or_null("Chips") as MultiMeshInstance3D
+	if _check(blocks != null and chips != null, "the statue has its blocks and its chips"):
+		_check(blocks.multimesh.instance_count == monument.blocks.size() and chips.multimesh.instance_count > 300, "one box per block: %d, %d chips" % [blocks.multimesh.instance_count, chips.multimesh.instance_count])
 	var again := TitleLogo.new()
 	again.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	_check((again.get_node("LogoView/World/Board/Ink") as MultiMeshInstance3D).multimesh == ink.multimesh, "built once per mask in a run")
+	_check(again.monument == monument and (again.get_node("LogoView/World/Board/Blocks") as MultiMeshInstance3D).multimesh == blocks.multimesh, "built once per mask in a run")
 	var english := TitleLogo.new()
 	english.build(definition.logo_for("en"), definition.seal_for("en"))
-	_check((english.get_node("LogoView/World/Board/Ink") as MultiMeshInstance3D).multimesh != ink.multimesh, "English is its own logo, not both at once")
+	_check(english.monument != monument, "English is its own statue, not both at once")
 	for node: TitleLogo in [logo, again, english]:
 		node.free()
 
@@ -141,7 +139,7 @@ func _test_shell(tree: SceneTree) -> void:
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
 	_check(shell.submit_new_game_setup(), "a journey starts at once")
 	await tree.process_frame
-	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the logo burns over the busy note")
+	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the statue breaks over the busy note")
 	var started: bool = false
 	for i: int in 2000:
 		await tree.process_frame

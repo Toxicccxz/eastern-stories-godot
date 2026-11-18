@@ -3,9 +3,9 @@ extends CanvasLayer
 
 ## The title (界面重做, DECISIONS「标题画面」), behind the main menu and the dialogs opened from
 ## it while no journey runs: the living 沙盘 (TitleSand), the sky that parts from the sun
-## (TitleSky, 拨云见日), the brush-stroke voxel logo (TitleLogo) and what the menu's choices
-## do (TitleMenuFx). Choosing an option flies the camera to its place (title_screen.json) and
-## names it; starting a journey burns the logo into embers while the camera dives at where
+## (TitleSky, 拨云见日), the title's statue (TitleLogo) and what the menu's choices do
+## (TitleMenuFx). Choosing an option flies the camera to its place (title_screen.json) and
+## names it; starting a journey breaks the statue into the cloud while the camera dives at where
 ## it begins, the clouds close and the light floods the screen — then the world shows.
 ## It only shows things: the shell's state decides, and a start goes ahead at once whatever
 ## the title is still playing (it plays over the world as it is built, then fades).
@@ -20,6 +20,8 @@ const ENTERING_LAYER: int = 101
 const MENU_UP_SECONDS: float = 2.2
 ## How long the white holds before the voxel animation comes onto it.
 const LOADER_AFTER_SECONDS: float = 0.2
+## `write` once every block of the statue has landed and settled.
+const LOGO_STANDS: float = 1.3
 
 var definition: TitleScreenDefinition
 var sand: TitleSand
@@ -125,6 +127,8 @@ func _notification(what: int) -> void:
 
 func _process(delta: float) -> void:
 	_menu_up_in = maxf(0.0, _menu_up_in - delta)
+	# The statue's foot sits in a bank of the sky's cloud.
+	sky.set_bank(1.0, logo.foot_on_screen())
 	if caption.modulate.a > 0.0:
 		var spot: Vector2 = sand.centre_on_screen()
 		caption.position = (spot + Vector2(-caption.size.x / 2.0, -caption.size.y - 26.0 + sin(sand.clock * 1.6) * 3.0)).round()
@@ -148,8 +152,8 @@ func _on_state(state: ApplicationShellState) -> void:
 		_hide()
 
 
-## 拨云见日: cloud; light grows behind it; the clouds part from the sun; the stroke is laid and
-## the characters written; the menu comes up (it is usable at once).
+## 拨云见日: cloud; light grows behind it; the clouds part from the sun; the statue's blocks fall
+## from the sky into place; the menu comes up (it is usable at once).
 func _show() -> void:
 	visible = true
 	layer = LAYER
@@ -171,7 +175,7 @@ func _show() -> void:
 	t.tween_property(sky, "rays", 1.8, 1.0 * pace).set_delay(1.1 * pace).set_trans(Tween.TRANS_SINE)
 	t.tween_property(sky, "rays", 0.85, 2.0 * pace).set_delay(2.3 * pace)
 	t.tween_property(sand, "zoom", 0.66, 3.4 * pace).set_delay(0.4 * pace).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	t.tween_property(logo, "write", 1.05, 2.0 * pace).set_delay(1.2 * pace)
+	t.tween_property(logo, "write", LOGO_STANDS, TitleLogo.ARRIVAL_SECONDS * LOGO_STANDS * pace).set_delay(0.9 * pace)
 	# The menu is usable at once; its letters come up as the clouds part.
 	menu_fx.menu_alpha = 0.0
 	_menu_up_in = MENU_UP_SECONDS * pace
@@ -245,7 +249,8 @@ func _on_chosen(button: Button) -> void:
 	create_tween().tween_property(logo, "glint", logo.glint_at(1.1), 1.1).set_trans(Tween.TRANS_SINE)
 
 
-## A journey starts: a glint, the logo burns left to right into embers, the camera dives at
+## A journey starts: a glint, the statue trembles and breaks, its blocks tumbling into the
+## cloud, the camera dives at
 ## `place`, the clouds close and the light floods the screen; held white until the world is
 ## there, then faded.
 func _enter(place: StringName) -> void:
@@ -261,7 +266,8 @@ func _enter(place: StringName) -> void:
 	if _caption_fade != null:
 		_caption_fade.kill()
 	sky.cover = minf(sky.cover, 0.0)
-	logo.write = 1.05
+	logo.write = LOGO_STANDS
+	logo.burn = 0.0
 	logo.glint = logo.glint_at(-0.1)
 	var t := create_tween().set_parallel()
 	t.tween_property(logo, "glint", logo.glint_at(1.1), 0.45).set_trans(Tween.TRANS_SINE)
@@ -271,7 +277,7 @@ func _enter(place: StringName) -> void:
 	t.tween_property(menu_fx, "modulate:a", 0.0, 0.4)
 	t.tween_property(caption, "modulate:a", 0.0, 0.3)
 	t.tween_property(sand.marker, "modulate:a", 0.0, 0.3)
-	t.tween_property(logo, "burn", 1.15, 1.7).set_delay(0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	t.tween_property(logo, "burn", 1.15, 1.15 * TitleLogo.LEAVING_SECONDS).set_delay(0.45)
 	t.tween_property(logo, "charge", 0.0, 0.5).set_delay(0.65)
 	t.tween_property(sand, "centre", sand.place_of(place), 0.6).set_delay(0.45)
 	t.tween_property(sand, "zoom", 2.6, 2.4).set_delay(0.65).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
