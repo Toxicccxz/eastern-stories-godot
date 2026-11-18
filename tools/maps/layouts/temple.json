@@ -559,7 +559,7 @@
           ["blocked", "temple.temple1", ["rel", 0.8, 0.78], 0.9, 0.9, {"look": {"kind": "column", "height": 2.9, "column": "a8382a"}}],
           ["blocked", "temple.temple1", ["n", -5, 3.4], 1.2, 1.2, "a tall censer burning beside the altar table", {"look": {"kind": "incense_burner", "tall": true, "lit": true}}]
         ],
-        "placed": {},
+        "placed": {"temple.temple1.gardener.1": ["temple.temple1", ["rel", 0.58, 0.84]]},
         "doors": {
           "temple.temple1.west": "west",
           "temple.temple1.east": "east",

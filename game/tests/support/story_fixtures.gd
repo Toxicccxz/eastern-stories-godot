@@ -804,6 +804,44 @@ static func maoshan_joined(session: WorldSessionController) -> void:
 	state.affiliation = affiliation
 
 
+## 茅山 A (势力线第三批; DECISIONS「茅山 A」): the line walked to the 《上清符箓》 in hand — 林忌's own (侍者, maoshan_joined
+## first) or a friend of 茅山 (the 花匠's 林忌 heard). 茅山 B's `home` next: the book given to 林忌.
+static func maoshan_booked(session: WorldSessionController, disciple: bool = false) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if disciple:
+		maoshan_joined(session)
+		state.affiliation.family_title = "侍者"
+	var marks: Array[String] = ["看过师弟的字条", "林忌说了师弟", "花匠说了来历", "花匠交了符箓"]
+	if not disciple:
+		marks.append_array(["花匠说了师兄", "茅山的朋友", "林忌许你上藏经楼"])
+	for mark: String in marks:
+		state.marks[mark] = 1
+	for key: String in ["faction.maoshan#started", "faction.maoshan/library", "faction.maoshan/brother", "faction.maoshan/gardener", "faction.maoshan/book"]:
+		_write(state, key)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and not session.player_held_item_ids().get(&"native:temple/talisman_book", false):
+		map.give_new_item_to_player(&"native:temple/talisman_book")
+
+
+## 茅山 B (势力线第三批; DECISIONS「茅山 B」): the book given to 林忌, the 花匠 come up and the scene in the 大殿 seen, the
+## split taken before one sat on the 虹台 (`burn` with 林忌, else 留 with the 花匠); the 北麓's 余孽 next, after the 终章.
+static func maoshan_split(session: WorldSessionController, burn: bool = true, disciple: bool = false) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if disciple:
+		maoshan_joined(session)
+	for mark: String in ["看过师弟的字条", "林忌说了师弟", "花匠说了来历", "花匠交了符箓", "林忌看了符箓", "师兄弟见了面", "师兄弟说完了话"]:
+		state.marks[mark] = 1
+	if not disciple:
+		for mark: String in ["花匠说了师兄", "茅山的朋友", "林忌许你上藏经楼"]:
+			state.marks[mark] = 1
+	for mark: String in (["茅山烧了符箓", "茅山的票随了林忌"] if burn else ["茅山收了符箓", "茅山的票随了花匠"]):
+		state.marks[mark] = 1
+	for key: String in ["faction.maoshan#started", "faction.maoshan/library", "faction.maoshan/brother", "faction.maoshan/gardener", "faction.maoshan/book", "faction.maoshan/home", "faction.maoshan/meet", "faction.maoshan/split/%s" % ("burn" if burn else "keep")]:
+		_write(state, key)
+	if disciple:
+		state.affiliation.family_title = "护法"
+
+
 static func latemoon_joined(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	state.family = FamilyState.new(&"family.latemoon", 2)

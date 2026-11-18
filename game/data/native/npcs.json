@@ -8426,6 +8426,797 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "native.npc.maoshan_gardener",
+			"legacy_source": "native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 尚书府's 花匠 (d/city/shangshu/npc/gardener.c; 林忌's 师弟, 茅山 A) come up to 灵心观 the day after the 《上清符箓》 went home: at the door of the 大殿 he has not stepped into for twenty years (the scene with 林忌, `scene_mark` 师兄弟见了面); 留, he keeps the book upstairs in the 藏经楼 and teaches 茅山道术 with its root 天师正道 to anyone (he never kept 不收女徒) and asks the 余孽 down from the 北麓 after the 终章; 烧, he goes back to the 尚书府's garden for 庾清尘; gardener.c's own leaves the garden once the book is on the mountain (unless burnt). The attributes the original leaves to the roll are fixed here, the rest are gardener.c's",
+			"name": "花匠",
+			"aliases": [
+				"gardener",
+				"花匠"
+			],
+			"long": "一个老老实实的老花匠，多年的风霜刻满了他的额头。衣襟上沾着泥，指甲缝里是洗不掉的朱砂。\n",
+			"gender": "男性",
+			"age": 55,
+			"attributes": {
+				"str": 25,
+				"int": 27,
+				"cor": 23,
+				"cps": 28,
+				"spi": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"resources": {
+				"force": 1800,
+				"max_force": 900,
+				"atman": 1200,
+				"max_atman": 1200,
+				"mana": 3500,
+				"max_mana": 1800
+			},
+			"combat_exp": 500000,
+			"force_factor": 25,
+			"skills": {
+				"literate": 100,
+				"magic": 40,
+				"force": 30,
+				"spells": 90,
+				"scratching": 90,
+				"unarmed": 30,
+				"sword": 40,
+				"parry": 40,
+				"dodge": 40,
+				"gouyee": 60,
+				"taoism": 90,
+				"necromancy": 90
+			},
+			"skill_map": {
+				"spells": "necromancy",
+				"sword": "scratching",
+				"parry": "scratching",
+				"force": "gouyee"
+			},
+			"attitude": "peaceful",
+			"always_kept": true,
+			"inquiry": {
+				"茅山派": [
+					"那是我的师门。\n"
+				],
+				"林忌": {
+					"rules": [
+						{
+							"asker_marks": [
+								"茅山的线断了"
+							],
+							"say": "师兄的事……你不是茅山的人了，就别管了。"
+						},
+						{
+							"asker_marks": [
+								"茅山收了符箓"
+							],
+							"lines": [
+								{
+									"say": "师兄在大殿里。他不来藏经楼，我也不去大殿。"
+								},
+								{
+									"say": "二十年都这样过来了。……他早上会在楼下站一会儿。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"茅山烧了符箓"
+							],
+							"say": "师兄说得对，茅山宁可没有那本书。……也许吧。"
+						},
+						{
+							"say": "师兄就在里头。二十年了，他那只金眼睛还是那样看人。"
+						}
+					]
+				},
+				"师兄": {
+					"rules": [
+						{
+							"asker_marks": [
+								"茅山的线断了"
+							],
+							"say": "师兄的事……你不是茅山的人了，就别管了。"
+						},
+						{
+							"asker_marks": [
+								"茅山收了符箓"
+							],
+							"lines": [
+								{
+									"say": "师兄在大殿里。他不来藏经楼，我也不去大殿。"
+								},
+								{
+									"say": "二十年都这样过来了。……他早上会在楼下站一会儿。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"茅山烧了符箓"
+							],
+							"say": "师兄说得对，茅山宁可没有那本书。……也许吧。"
+						},
+						{
+							"say": "师兄就在里头。二十年了，他那只金眼睛还是那样看人。"
+						}
+					]
+				},
+				"符箓": {
+					"rules": [
+						{
+							"asker_marks": [
+								"茅山收了符箓"
+							],
+							"lines": [
+								{
+									"say": "锁在二楼的书架上，第七函的位置。"
+								},
+								{
+									"say": "前半本是茅山的符；后半本，我在教山上的孩子认。认得他们的字，才破得了他们的法。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"茅山烧了符箓"
+							],
+							"say": "烧了。灰是青的。"
+						},
+						{
+							"say": "书在师兄手里。烧也好，留也好，是茅山的事。"
+						}
+					]
+				},
+				"庾清尘": {
+					"rules": [
+						{
+							"asker_marks": [
+								"茅山烧了符箓",
+								"庾子建下狱"
+							],
+							"say": "老爷下了狱，小姐去了相国府。我回来，就是陪她的——这一畦花浇完，我就过去。"
+						},
+						{
+							"asker_marks": [
+								"茅山烧了符箓"
+							],
+							"say": "清尘那孩子还在这府里。我回来了，就还看着她。"
+						},
+						{
+							"asker_marks": [
+								"茅山收了符箓"
+							],
+							"say": "清尘那孩子……她护得住自己了。我教她的符，够用。"
+						},
+						{
+							"say": "清尘？她在京城。……那孩子不怕她爹，这府里只有她。"
+						}
+					]
+				},
+				"留": {
+					"listed_marks": [
+						"师兄弟见了面"
+					],
+					"confirm": "跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着。\n林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n要这么办吗？",
+					"confirm_marks": [
+						"师兄弟见了面"
+					],
+					"confirm_lacks": [
+						"茅山烧了符箓",
+						"茅山收了符箓",
+						"茅山的线断了"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"茅山的线断了"
+							],
+							"say": "师兄的事……你不是茅山的人了，就别管了。"
+						},
+						{
+							"asker_marks": [
+								"茅山烧了符箓"
+							],
+							"say": "书烧了。……也好。"
+						},
+						{
+							"asker_marks": [
+								"茅山收了符箓"
+							],
+							"say": "书在二楼。"
+						},
+						{
+							"asker_marks": [
+								"师兄弟见了面"
+							],
+							"asker_lacks": [
+								"入了虹台的席"
+							],
+							"marks_asker": [
+								"茅山收了符箓",
+								"茅山的票随了花匠"
+							],
+							"lines": [
+								{
+									"emote": "看了林忌一眼，又看了看你。"
+								},
+								{
+									"say": "师兄不会点头的。……可书是你带回来的，你说留，就留。"
+								},
+								{
+									"say": "二楼第七函的位置，我替茅山守着。北麓那些人念的是什么，我教山上的孩子认。"
+								},
+								{
+									"line": "林忌坐回香案后头，没有说话。花匠抱着那函书出了大殿，往藏经楼去了。\n"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"师兄弟见了面"
+							],
+							"mark_asker": "茅山收了符箓",
+							"lines": [
+								{
+									"emote": "看了林忌一眼，又看了看你。"
+								},
+								{
+									"say": "师兄不会点头的。……可书是你带回来的，你说留，就留。"
+								},
+								{
+									"say": "二楼第七函的位置，我替茅山守着。北麓那些人念的是什么，我教山上的孩子认。"
+								},
+								{
+									"line": "林忌坐回香案后头，没有说话。花匠抱着那函书出了大殿，往藏经楼去了。\n"
+								}
+							]
+						},
+						{
+							"say": "留什么？"
+						}
+					]
+				},
+				"道术": {
+					"listed_marks": [
+						"茅山收了符箓"
+					],
+					"rules": [
+						{
+							"lines": [
+								{
+									"say": "茅山道术，我教。男的女的都教——师兄守他的规矩，我守我的。"
+								},
+								{
+									"say": "根基是天师正道，先学那个；天师正道不到一半，道术就领悟不下去。"
+								}
+							]
+						}
+					]
+				},
+				"北麓": {
+					"listed_marks": [
+						"茅山收了符箓",
+						"终章"
+					],
+					"confirm": "请花匠拿着《上清符箓》上北麓：他同道观里剩下的人念一遍他们自己的经，把肯下山的领下来，交茅山看着。\n他在北麓的绞盘边等你——你上了北麓，就看得到。\n正月十七虹台上，这件事就算了了，不能再改。\n就这样吗？",
+					"confirm_marks": [
+						"茅山收了符箓",
+						"终章"
+					],
+					"confirm_lacks": [
+						"余孽有了去处",
+						"花匠上了北麓",
+						"林忌要招安"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"招安了余孽"
+							],
+							"say": "人都下了山。他们烧了一辈子香，坛上写的是什么，现在知道了。"
+						},
+						{
+							"asker_marks": [
+								"余孽交了官府"
+							],
+							"say": "官兵已经上了北麓。……晚了。"
+						},
+						{
+							"asker_marks": [
+								"花匠上了北麓"
+							],
+							"say": "我在北麓的绞盘边等你。"
+						},
+						{
+							"asker_marks": [
+								"林忌要招安"
+							],
+							"say": "师兄让你去劝他们了？那就去吧——同宫里当家的说「下山」。"
+						},
+						{
+							"asker_marks": [
+								"茅山收了符箓",
+								"终章"
+							],
+							"mark_asker": "花匠上了北麓",
+							"lines": [
+								{
+									"emote": "把那函书从书架上取下来，用油布包好，背在背上。"
+								},
+								{
+									"say": "北麓那座道观里剩下的，大半是被拐上山的孩子。烧了一辈子香，不知道自己烧的是什么。"
+								},
+								{
+									"say": "我念给他们听。你上北麓来——绞盘边上等你。"
+								}
+							]
+						},
+						{
+							"say": "北麓？"
+						}
+					]
+				},
+				"虹台": {
+					"listed_marks": [
+						"终章"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"大会散了"
+							],
+							"say": "虹台上的事定了。我守我的书。"
+						},
+						{
+							"asker_marks": [
+								"茅山听你的"
+							],
+							"say": "茅山这一票，你说了算。"
+						},
+						{
+							"asker_marks": [
+								"茅山的票随了花匠"
+							],
+							"marks_asker": [
+								"茅山表了态",
+								"茅山肯听你的"
+							],
+							"lines": [
+								{
+									"say": "茅山投旧盟主——北麓的人交茅山看着，我教他们认字。"
+								},
+								{
+									"say": "师兄没点头，可他也没拦。书是你带回来的：这一票，你要，就是你的。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"茅山收了符箓"
+							],
+							"say": "票是入席之前定的。茅山投颜违，是师兄的意思。"
+						},
+						{
+							"say": "正月十七？我一个种花的，不上虹台。"
+						}
+					]
+				},
+				"这一票": {
+					"confirm": "请花匠把茅山这一票交给你：正月十七虹台上，茅山听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n要这么说吗？",
+					"confirm_marks": [
+						"茅山肯听你的",
+						"茅山的票随了花匠"
+					],
+					"confirm_lacks": [
+						"入了虹台的席",
+						"茅山听你的"
+					],
+					"listed_marks": [
+						"茅山肯听你的",
+						"茅山的票随了花匠"
+					],
+					"rules": [
+						{
+							"asker_marks": [
+								"入了虹台的席"
+							],
+							"say": "虹台上已经入了席。票就是票了。"
+						},
+						{
+							"asker_marks": [
+								"茅山听你的"
+							],
+							"say": "说过了。茅山听你的。"
+						},
+						{
+							"asker_marks": [
+								"茅山肯听你的",
+								"茅山的票随了花匠"
+							],
+							"mark_asker": "茅山听你的",
+							"lines": [
+								{
+									"say": "好。茅山听你的——师兄那里，我去说。"
+								}
+							]
+						},
+						{
+							"say": "……"
+						}
+					]
+				}
+			},
+			"recognize_apprentice": [
+				{
+					"giver_mark": "茅山收了符箓",
+					"accept": true,
+					"skills": [
+						"taoism",
+						"necromancy"
+					]
+				}
+			],
+			"scene_mark": "师兄弟见了面",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "师兄弟见了面",
+					"when": {
+						"all": [
+							{
+								"mark": "林忌看了符箓"
+							},
+							{
+								"not": {
+									"mark": "茅山烧了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山收了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.taoist.taolord",
+					"steps": [
+						{
+							"emote": "站在殿门里，背贴着门框。二十年没跨过的门槛，就在他脚后跟。"
+						},
+						{
+							"say": "师兄。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"not_mark": "师兄弟见了面",
+					"when": {
+						"all": [
+							{
+								"mark": "林忌看了符箓"
+							},
+							{
+								"not": {
+									"mark": "茅山烧了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山收了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.taoist.taolord",
+					"steps": [
+						{
+							"by": "common.npc.taoist.taolord"
+						},
+						{
+							"emote": "从香案后头站起来，金色的那只眼睛看了他很久。"
+						},
+						{
+							"say": "你进来了。"
+						}
+					]
+				},
+				{
+					"after": 7,
+					"scene": true,
+					"not_mark": "师兄弟见了面",
+					"when": {
+						"all": [
+							{
+								"mark": "林忌看了符箓"
+							},
+							{
+								"not": {
+									"mark": "茅山烧了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山收了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.taoist.taolord",
+					"steps": [
+						{
+							"by": "common.npc.taoist.taolord"
+						},
+						{
+							"say": "书我看了。后半本，是逆灵宫的字。"
+						},
+						{
+							"say": "这种东西，茅山宁可没有。连那一函镇教秘籍一起，投进香炉。"
+						}
+					]
+				},
+				{
+					"after": 10,
+					"scene": true,
+					"not_mark": "师兄弟见了面",
+					"when": {
+						"all": [
+							{
+								"mark": "林忌看了符箓"
+							},
+							{
+								"not": {
+									"mark": "茅山烧了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山收了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.taoist.taolord",
+					"steps": [
+						{
+							"say": "烧了，茅山就永远不认得他们的字。北麓那座道观还在念，念的是什么，天下只有这函书知道。"
+						},
+						{
+							"say": "留着它。锁回藏经楼，我来守。"
+						}
+					]
+				},
+				{
+					"after": 13,
+					"scene": true,
+					"not_mark": "师兄弟见了面",
+					"when": {
+						"all": [
+							{
+								"mark": "林忌看了符箓"
+							},
+							{
+								"not": {
+									"mark": "茅山烧了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山收了符箓"
+								}
+							},
+							{
+								"not": {
+									"mark": "茅山的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.taoist.taolord",
+					"steps": [
+						{
+							"by": "common.npc.taoist.taolord"
+						},
+						{
+							"say": "你守了庾家二十年，又要守这函书。"
+						},
+						{
+							"emote": "转过头来看着你。"
+						},
+						{
+							"say": "书是你带回山的。烧，还是留——你说。"
+						},
+						{
+							"line": "（烧，问林忌「烧」；留，问花匠「留」。）\n"
+						},
+						{
+							"mark": "师兄弟说完了话"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.maoshan_gardener_north",
+			"legacy_source": "native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 花匠 (茅山 B, 留) on the 北麓 after the 终章, by the 绞盘 under the 逆灵宫's gate: he reads the 道观's own 经 out of the 《上清符箓》 and those left inside come down to 茅山 (the scene, 招安了余孽 / 余孽有了去处, 续写); the same man as native.npc.maoshan_gardener",
+			"name": "花匠",
+			"aliases": [
+				"gardener",
+				"花匠"
+			],
+			"long": "一个老花匠站在绞盘边上，背上背着一只油布包。他望着山门，嘴唇一直在动。\n",
+			"gender": "男性",
+			"age": 55,
+			"attributes": {
+				"str": 25,
+				"int": 27,
+				"cor": 23,
+				"cps": 28,
+				"spi": 30,
+				"per": 20,
+				"con": 20,
+				"kar": 20
+			},
+			"resources": {
+				"force": 1800,
+				"max_force": 900,
+				"atman": 1200,
+				"max_atman": 1200,
+				"mana": 3500,
+				"max_mana": 1800
+			},
+			"combat_exp": 500000,
+			"force_factor": 25,
+			"skills": {
+				"literate": 100,
+				"magic": 40,
+				"force": 30,
+				"spells": 90,
+				"scratching": 90,
+				"unarmed": 30,
+				"sword": 40,
+				"parry": 40,
+				"dodge": 40,
+				"gouyee": 60,
+				"taoism": 90,
+				"necromancy": 90
+			},
+			"skill_map": {
+				"spells": "necromancy",
+				"sword": "scratching",
+				"parry": "scratching",
+				"force": "gouyee"
+			},
+			"attitude": "peaceful",
+			"always_kept": true,
+			"inquiry": {
+				"北麓": {
+					"rules": [
+						{
+							"asker_marks": [
+								"招安了余孽"
+							],
+							"say": "人都下了山。回去吧，书还要放回二楼。"
+						},
+						{
+							"say": "听着就是。"
+						}
+					]
+				}
+			},
+			"scene_mark": "花匠在北麓念了经",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "花匠在北麓念了经",
+					"when": {
+						"all": [
+							{
+								"mark": "花匠上了北麓"
+							},
+							{
+								"not": {
+									"mark": "余孽有了去处"
+								}
+							}
+						]
+					},
+					"steps": [
+						{
+							"emote": "解下背上的油布包，把那函书翻到后半本。"
+						},
+						{
+							"say": "他们的话，我抄了两年。今天念给他们听。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"not_mark": "花匠在北麓念了经",
+					"when": {
+						"all": [
+							{
+								"mark": "花匠上了北麓"
+							},
+							{
+								"not": {
+									"mark": "余孽有了去处"
+								}
+							}
+						]
+					},
+					"steps": [
+						{
+							"line": "花匠对着货道那头的黑砖山门念了起来。声音不大，念的是逆灵宫坛上的经，一字不差；每念完一段，他就用山下的话把那一段的意思说一遍。\n"
+						},
+						{
+							"line": "山门后头的木鱼声停了。门开了一条缝。\n"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"not_mark": "花匠在北麓念了经",
+					"when": {
+						"all": [
+							{
+								"mark": "花匠上了北麓"
+							},
+							{
+								"not": {
+									"mark": "余孽有了去处"
+								}
+							}
+						]
+					},
+					"steps": [
+						{
+							"line": "一个、两个……穿黑衣的人顺着货道走下来，多半还是孩子。领诵的道士走在最后，手里还攥着木鱼槌。\n"
+						},
+						{
+							"say": "下山吧。茅山不打你们，也不关你们——教你们认字。"
+						},
+						{
+							"mark": "招安了余孽"
+						},
+						{
+							"mark": "余孽有了去处"
+						}
+					]
+				}
+			]
 		}
 	]
 }

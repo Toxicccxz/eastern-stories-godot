@@ -89,7 +89,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "guarded",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
-ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "confirm_marks", "confirm_lacks", "ask_lacks", "marks_asker", "marks_giver"})
+ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver", "phase", "listed_marks", "listed_any", "confirm_marks", "confirm_lacks", "ask_lacks", "marks_asker", "marks_giver"})
 # Blocks of a record that are never shown: an attitude by condition (its words are ids), the
 # ES2 values kept for the suites that pin a ported formula (`classic`: numbers and field names).
 SKIPPED_BLOCKS = frozenset({"attitude", "classic"})

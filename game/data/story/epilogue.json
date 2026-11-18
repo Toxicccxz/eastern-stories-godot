@@ -418,6 +418,44 @@
 					]
 				},
 				{
+					"id": "temple",
+					"place": "temple.grounds",
+					"title": "茅山",
+					"lines": [
+						{
+							"text": "灵心观藏经楼的二楼，镇教秘籍还是六函，第七函的位置空着。林忌说，茅山宁可没有那一函。",
+							"when": {
+								"mark": "茅山烧了符箓"
+							}
+						},
+						{
+							"text": "京师尚书府的花园里，那个老花匠又在浇他的花。庾清尘去哪里，他就跟到哪里。",
+							"when": {
+								"mark": "茅山烧了符箓"
+							}
+						},
+						{
+							"text": "藏经楼二楼的第七函回来了。花匠在书架边搭了一张竹床，夜里点着灯，教山上的小道士认北麓的字。",
+							"when": {
+								"mark": "茅山收了符箓"
+							}
+						},
+						{
+							"text": "北麓下来的孩子在灵心观后山开了一片地。花匠一页一页念给他们听：烧了一辈子的香，坛上写的原来是这些。",
+							"when": {
+								"all": [
+									{
+										"mark": "茅山收了符箓"
+									},
+									{
+										"mark": "招安了余孽"
+									}
+								]
+							}
+						}
+					]
+				},
+				{
 					"id": "black_robe",
 					"place": "niling.gate",
 					"title": "黑衣人",
@@ -810,7 +848,8 @@
 				"native: 势力线第一批 卧底 C (剧情总纲 §4 第 12 条「逆灵宫」; 计划 build/plans/势力线第一批_计划.md §6 逆灵宫 C 第 9 条, owner 2026-11-09「按推荐开工」; DECISIONS「卧底 C」) — the new 黑衣人 card (前夜倒戈, 潜伏到底, 被识破, a line each), and the 野羊山 card's 黑衣人 in the north snow named: 商玦.",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — the new 绮云镇 card: the 分局 open (到此为止) or shut (查到底).",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 乔阴县城 card's two lines for the split on 福林大街 (官差 in the lanes, or none).",
-				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 天驼关 card (整肃 or 揭发) and the 乔阴县城 card's line for the case opened again."
+				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 天驼关 card (整肃 or 揭发) and the 乔阴县城 card's line for the case opened again.",
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 茅山 card (烧: the seventh 函 gone for good, the 花匠 back with 庾清尘; 留: the 花匠 upstairs teaching the 北麓's words, the children who came down)"
 			]
 		},
 		{

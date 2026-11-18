@@ -29,8 +29,8 @@ const CODE_MARKS: Array[String] = ["a2_bounty_taken", "a2_bounty_done"]
 const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## Marks read and on purpose written by nothing: the wrong answer of a question (village/world.json's
 ## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
-## says so) never holds; 林忌看了符箓 is 茅山 A's stub step, written by 茅山 B.
-const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "林忌看了符箓"]
+## says so) never holds.
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]
@@ -57,7 +57,7 @@ const WRITE_KEYS: Array[String] = [
 ## Keys whose value names marks a condition reads.
 const READ_KEYS: Array[String] = [
 	"asker_marks", "asker_lacks", "giver_mark", "unless_giver_mark", "giver_marks", "giver_lacks", "not_mark", "confirm_marks",
-	"confirm_lacks", "listed_marks", "forbids_marks", "unless_marks", "unless_mark",
+	"confirm_lacks", "listed_marks", "listed_any", "forbids_marks", "unless_marks", "unless_mark",
 	"attack_unless_marks", "attack_unless_mark",
 ]
 ## Under these keys a `mark` / `marks` is a condition (a journal `when`, an act's branch, a rule).
@@ -717,6 +717,11 @@ static func heard_condition(talk: NpcTalk, topic: String) -> JournalEntryDefinit
 	# TEST reads the topic's list condition (NpcTalk.listed_for() asks it of the marks held).
 	for mark: Variant in talk._listed_marks.get(topic, []):
 		needs.append(_when(JournalEntryDefinition.When.MARK, mark))
+	var listed_any: Array[JournalEntryDefinition] = []
+	for mark: Variant in talk._listed_any.get(topic, []):
+		listed_any.append(_when(JournalEntryDefinition.When.MARK, mark))
+	if not listed_any.is_empty():
+		needs.append(_joined(JournalEntryDefinition.When.ANY, listed_any))
 	if not talk.has_answer(topic):
 		var ways: Array[JournalEntryDefinition] = []
 		for rule: NpcInquiryRule in talk.inquiry_rules(topic):

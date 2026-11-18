@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "茅山",
 			"sources": [
-				"native: 势力线第三批 茅山 A (剧情总纲 §4 第 5 条「茅山派」: 花匠是林忌的师弟【明文 gardener.c:38】，在尚书府替人做事; 计划 势力线第三批_计划.md §4 茅山 A, §2, §12 Q1 Q3, owner 2026-11-17「都照推荐」; DECISIONS「势力线第三批」「茅山 A」). d/temple/book_room2.c (藏经楼二楼: 桌上整齐地放著茅山的镇教秘籍 — one 函 of them gone with the 花匠), d/city/shangshu/npc/gardener.c:38–42 (茅山派: 那是我的师门; 林忌: 你问我师兄，好久没见着他了; 庾清尘: 清尘出事了？), daemon/class/taoist/taolord.c (林忌, 茅山第五代天师; 不便收女徒). The line shows for 林忌's own and for a friend of 茅山 (one who met the 花匠, or wore the 黑冠 for 林忌): the 函 missing from the 镇教秘籍, 林忌's 师弟 who went down to 镇宅 for 庾子建 twenty years ago, the 花匠 in the 尚书府's garden who taught 庾清尘 and copied the 逆灵宫 couriers' burnt pages into the 《上清符箓》 (续写); the line stops at a stub step `home` that 茅山 B fills."
+				"native: 势力线第三批 茅山 A (剧情总纲 §4 第 5 条「茅山派」: 花匠是林忌的师弟【明文 gardener.c:38】，在尚书府替人做事; 计划 势力线第三批_计划.md §4 茅山 A, §2, §12 Q1 Q3, owner 2026-11-17「都照推荐」; DECISIONS「势力线第三批」「茅山 A」). d/temple/book_room2.c (藏经楼二楼: 桌上整齐地放著茅山的镇教秘籍 — one 函 of them gone with the 花匠), d/city/shangshu/npc/gardener.c:38–42 (茅山派: 那是我的师门; 林忌: 你问我师兄，好久没见着他了; 庾清尘: 清尘出事了？), daemon/class/taoist/taolord.c (林忌, 茅山第五代天师; 不便收女徒). The line shows for 林忌's own and for a friend of 茅山 (one who met the 花匠, or wore the 黑冠 for 林忌): the 函 missing from the 镇教秘籍, 林忌's 师弟 who went down to 镇宅 for 庾子建 twenty years ago, the 花匠 in the 尚书府's garden who taught 庾清尘 and copied the 逆灵宫 couriers' burnt pages into the 《上清符箓》 (续写); the line stops at a stub step `home` that 茅山 B fills.",
+				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」). d/temple/temple1.c (the 大殿), d/temple/book_room2.c (the 镇教秘籍), d/city/shangshu/npc/gardener.c, daemon/class/taoist/taolord.c. The stub `home` filled (the book given to 林忌), the 花匠 comes up the next day (the scene at the door of the 大殿), the split (烧 with 林忌: the book into the censer, the 花匠 back to 京师, 谷衣心法 for the friend, 茅山 votes 颜违; 留 with the 花匠: the book upstairs and the 花匠 to keep it, 茅山道术 to anyone, 茅山 votes the old 盟主), then the 北麓's 余孽 after the 终章 for one who never walked the 卧底 line (烧: 林忌's 剿; 留: the 花匠 reads them down); one whose 余孽 already have somewhere to go passes it. 续写."
 			],
-			"summary": "藏经楼少了一函镇教秘籍；林忌的师弟，二十年前下了山。",
+			"summary": "藏经楼少了一函镇教秘籍；林忌的师弟，二十年前带着它下了山。书回了山，后半本是逆灵宫的字——烧，还是收回藏经楼。",
 			"starts": {
 				"any": [
 					{
@@ -107,16 +108,115 @@
 				},
 				{
 					"id": "home",
-					"objective": "把《上清符箓》带回灵心观，交给林忌。",
+					"objective": "把《上清符箓》带回灵心观的大殿，交给林忌（「给」他）。",
 					"done": {
 						"mark": "林忌看了符箓"
 					},
-					"text": "林忌看过了那函书。",
+					"text": "林忌一页一页翻过去，翻到后半本停住了：是逆灵宫的字。他说，师弟会来的。",
 					"target": {
 						"map": "temple.temple1_house",
 						"zone": "temple.temple1",
 						"npcs": [
 							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "meet",
+					"objective": "林忌说师弟会来。花匠随后自己上了山——二十年没进过的大殿，下回你进殿，他就站在殿门里。",
+					"done": {
+						"any": [
+							{
+								"mark": "师兄弟说完了话"
+							},
+							{
+								"mark": "茅山烧了符箓"
+							},
+							{
+								"mark": "茅山收了符箓"
+							}
+						]
+					},
+					"text": "花匠站在殿门里，叫了林忌一声师兄。林忌说烧：连书带字投进香炉，茅山宁可没有它。花匠说留：锁回藏经楼，茅山才认得逆灵宫的字。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "烧（问林忌「烧」）：书投进香炉，花匠回京城守着庾清尘；林忌教你谷衣心法，虹台上茅山投颜违（主剿）。留（问花匠「留」）：书锁回藏经楼二楼，花匠留在山上守书，教茅山道术，谁都教；林忌从此对你冷一分，虹台上茅山投旧盟主（北麓的人交茅山看着）。两边茅山的弟子都晋护法。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					},
+					"options": [
+						{
+							"id": "burn",
+							"done": {
+								"mark": "茅山烧了符箓"
+							},
+							"text": "《上清符箓》投进了殿前的香炉。茅山宁可没有这本书；花匠下山回京城去了。",
+							"reward": {
+								"deed": "看着林忌把《上清符箓》投进了香炉",
+								"rank": {
+									"family": "family.maoshan",
+									"title": "护法"
+								}
+							}
+						},
+						{
+							"id": "keep",
+							"done": {
+								"mark": "茅山收了符箓"
+							},
+							"text": "《上清符箓》锁回了藏经楼二楼，花匠留在山上守书。护法的名分，是花匠替你向林忌讨的。",
+							"reward": {
+								"deed": "把《上清符箓》收回了藏经楼",
+								"rank": {
+									"family": "family.maoshan",
+									"title": "护法"
+								}
+							}
+						}
+					]
+				},
+				{
+					"id": "crush",
+					"only_after": "burn",
+					"objective": "北麓那座道观里还剩着人。湖上的事了了（终章之后），问林忌「剿」：官兵上山，一个也走不了。北麓的人已经有了去处的，这一步就过了。",
+					"done": {
+						"mark": "余孽有了去处"
+					},
+					"text": "北麓那座道观里剩下的人，有了去处。",
+					"target": {
+						"map": "temple.temple1_house",
+						"zone": "temple.temple1",
+						"npcs": [
+							"common.npc.taoist.taolord"
+						]
+					}
+				},
+				{
+					"id": "pardon",
+					"only_after": "keep",
+					"objective": "北麓那座道观里还剩着人。湖上的事了了（终章之后），问藏经楼二楼的花匠「北麓」：他拿着书上北麓去念他们自己的经——你上北麓，在绞盘边看他念完。北麓的人已经有了去处的，这一步就过了。",
+					"done": {
+						"mark": "余孽有了去处"
+					},
+					"text": "北麓那座道观里剩下的人，有了去处。",
+					"target": {
+						"map": "temple.library",
+						"zone": "temple.book_room2",
+						"npcs": [
+							"native.npc.maoshan_gardener"
 						]
 					}
 				}

@@ -52,7 +52,8 @@
           {"name": "WinchCrateArrival", "at": [440, 968], "id": "niling.winch.crate_arrival"},
           {"name": "GoodsPathGateReturn", "at": [512, 416], "id": "niling.goods_path.gate_return"},
           {"name": "SideDoorStoreReturn", "at": [832, 416], "id": "niling.side_door.store_return"},
-          {"name": "WinchTaoist01", "at": [608, 992], "id": "niling.winch.winch_taoist.1"}
+          {"name": "WinchTaoist01", "at": [608, 992], "id": "niling.winch.winch_taoist.1"},
+          {"name": "WinchGardener", "at": [544, 1024], "id": "niling.winch.gardener.1"}
         ],
         "interactions": [
           {"name": "CratesInteraction", "id": "niling.winch.landmark.crates", "at": [424, 1000], "shape": "Rect_64_32"}

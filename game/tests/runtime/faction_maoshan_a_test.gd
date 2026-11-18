@@ -44,11 +44,11 @@ func _test_data() -> void:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
 	_check(ids.slice(0, 5) == [&"library", &"brother", &"gardener", &"book", &"home"], "its steps begin with 茅山 A's (the rest are 茅山 B's): %s" % [ids])
-	_check(quest.steps.all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 茅山 A: the split is 茅山 B's")
+	_check(quest.steps.slice(0, 5).all(func(step: StoryQuestDefinition.Step) -> bool: return not step.is_branch()), "no choice in 茅山 A: the split is 茅山 B's")
 	var brother: StoryQuestDefinition.Step = quest.step(&"brother")
 	_check(brother.reward.rank_title == "侍者" and brother.reward.rank_family == &"family.maoshan" and not brother.reward.deed.is_empty(), "林忌 tells of his 师弟: 侍者 for 茅山's own, a deed")
 	_check(quest.step(&"gardener").objective.contains("门房"), "the 尚书府's gate is said")
-	_check(quest.step(&"home").target.map_id == &"temple.temple1_house" and quest.step(&"home").objective.contains("林忌"), "the stub points back at 林忌")
+	_check(quest.step(&"home").target.map_id == &"temple.temple1_house" and quest.step(&"home").objective.contains("林忌"), "then back to 林忌 (茅山 B's first step)")
 	var book: ItemContentDefinition = catalog.item(BOOK)
 	_check(book != null and book.quest_item and book.no_drop, "the 《上清符箓》 is a quest item, not to be dropped")
 	var gardener: NpcDefinition = catalog.npc(GARDENER)
