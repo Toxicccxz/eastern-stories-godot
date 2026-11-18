@@ -119,11 +119,20 @@ func _test_chapter_ends() -> void:
 	for chapter: String in ["私了了庾子建", "皇叔的通缉解了"]:
 		state = _fresh(["骆家兄弟见了面", chapter])
 		_check(_heard(state, LUO_CITY, "作证", "重开") and state.marks.has("庾子建的案子又开了") and not state.marks.has("骆建章判了流放"), "%s: the case reopened" % chapter)
-		_check(_heard(state, CHENG, "捕快", "骆建章的供状") and not _heard(_fresh(["程不平写了信", "庾子建的案子又开了", "李信说了那三天的账"]), CHENG, "捕快", "骆建章"), "%s: 程不平 has the 供状 (官府 B's ledger told as before)" % chapter)
+		_check(state.marks.has("供状送了乔阴") and not state.marks.has("李信的账送了乔阴"), "%s: the 供状 sent to 乔阴" % chapter)
 		state.marks["程不平写了信"] = 1
-		_check(_heard(state, CHENG, "捕快", "骆建章的供状"), "%s: 程不平 on the 供状" % chapter)
+		_check(_heard(state, CHENG, "捕快", "骆建章的供状") and not _heard(state, CHENG, "捕快", "天驼关的账"), "%s: 程不平 on the 供状 alone" % chapter)
 		_check(_card_says(state, &"choyin", "骆建章的一张供状") and not _card_says(state, &"choyin", "天驼关那本账") and _card_says(state, &"choyin", "还是骆云舟一个人"), "%s: the 乔阴 card" % chapter)
-		_check(_card_says(state, &"city", "庾子建还在兵部") and not _card_says(state, &"city", "流放"), "%s: the 京师 card" % chapter)
+		_check(_card_says(state, &"city", "乔阴县衙也有一份") and not _card_says(state, &"city", "收在袖子里") and not _card_says(state, &"city", "流放"), "%s: the 京师 card" % chapter)
+	# 官府 B's 李信 heard, then the 皇叔's way (his ledger never sent): only the 供状 goes to 乔阴.
+	state = _fresh(["骆家兄弟见了面", "皇叔的通缉解了", "李信说了那三天的账", "程不平写了信"])
+	_check(_heard(state, LUO_CITY, "作证", "重开") and _heard(state, CHENG, "捕快", "骆建章的供状") and not _heard(state, CHENG, "捕快", "天驼关的账") and not _card_says(state, &"choyin", "天驼关那本账"), "李信's ledger heard but not sent: 程不平 and the card speak of the 供状 only")
+	# Both sent (官府 B's ledger, then the 供状): 程不平 has both, the card says both.
+	state = _fresh(["程不平写了信", "庾子建的案子又开了", "李信的账送了乔阴", "供状送了乔阴", "骆建章作了证"])
+	_check(_heard(state, CHENG, "捕快", "骆建章的供状") and _heard(state, CHENG, "捕快", "天驼关的账") and _card_says(state, &"choyin", "天驼关那本账") and _card_says(state, &"choyin", "骆建章的一张供状"), "the ledger and the 供状 both at 乔阴")
+	# 作证 while 第九章 was open, settled privately after: the 供状 stays with 韦执中.
+	state = _fresh(["骆建章作了证", "私了了庾子建"])
+	_check(_card_says(state, &"city", "收在袖子里") and not _card_says(state, &"city", "乔阴县衙也有一份") and not _card_says(state, &"choyin", "供状"), "作证 first, 私了 after: the 供状 in 韦执中's sleeve")
 	state = _fresh(["骆家兄弟见了面", "庾子建下狱"])
 	var rule: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(LUO_CITY).talk().inquiry_rules("作证"), state.marks)
 	_check(rule != null and rule.also_leaves == BROTHER, "揭发 done: 骆建章 taken to the 刑部 at once")
@@ -133,8 +142,13 @@ func _test_chapter_ends() -> void:
 	_check(_card_says(state, &"city", "朝上那天") and not _card_says(state, &"city", "流放"), "作证 while open, then 揭发: at the court that day")
 	state = _fresh(["保住了骆家", "庾子建下狱"])
 	_check(_card_says(state, &"choyin", "多了一张书案") and not _card_says(state, &"city", "骆建章"), "回家: two on the 曼雩台, nothing in the capital")
-	state = _fresh(["庾子建的案子又开了", "李信说了那三天的账"])
+	state = _fresh(["庾子建的案子又开了", "李信说了那三天的账", "李信的账送了乔阴"])
 	_check(_card_says(state, &"choyin", "天驼关那本账") and not _card_says(state, &"choyin", "供状"), "官府 B's reopened case as before")
+	_check(_heard(_fresh(["程不平写了信", "李信的账送了乔阴"]), CHENG, "捕快", "天驼关的账"), "程不平 on 官府 B's ledger as before")
+	# The 相国府's gate opens for one 骆云舟 sent, with no card.
+	var knock: ServiceDefinition = catalog.service(&"city.xiangguo_gate.knock")
+	var sent: Array = knock.act.acts.filter(func(act: ScriptedAct) -> bool: return act.mark == "骆云舟听了抄本的事")
+	_check(sent.size() == 1 and (sent[0] as ScriptedAct).steps.size() == 4, "the 相国府's gate: 骆二爷吩咐过")
 
 
 ## A 桃林的客, 第九章 still open: 骆云舟 told; to the capital; the scene in the hall; 作证; the 供状 counts for 揭发; 骆建章

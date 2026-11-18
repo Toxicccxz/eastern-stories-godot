@@ -25509,7 +25509,12 @@ msgstr ""
 
 #. ending cards.lines.text
 #: data/story/epilogue.json
-msgid "骆建章的供状进了刑部的案底，庾子建还在兵部。西街骆家的大门，从此没有官家的人来敲。"
+msgid "骆建章的供状进了刑部的案底，乔阴县衙也有一份；庾子建还在兵部。西街骆家的大门，从此没有官家的人来敲。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "骆建章那张供状，韦相国一直收在袖子里；庾子建还在兵部。西街骆家的大门，从此没有官家的人来敲。"
 msgstr ""
 
 #. ending cards.title
@@ -28280,7 +28285,7 @@ msgstr ""
 
 #. faction.buxuan/meet objective
 #: data/story/faction_buxuan.json
-msgid "骆云舟进京了。去西街的相国府：兄弟俩在正厅上见面，韦相国坐在上首。"
+msgid "骆云舟进京了。去西街的相国府：兄弟俩在正厅上见面，韦相国坐在上首。（话听了一半就走开的：作证问骆云舟「作证」，保住骆家问骆建章「回家」。）"
 msgstr ""
 
 #. faction.buxuan/meet text
@@ -43255,17 +43260,27 @@ msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
 #: data/choyin/npcs.json
+msgid "把一本抄来的账、小屋那封信和一张供状并排摊在案上。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "天驼关的账，小屋的信，骆建章的供状——兵部抄本上那三句是谁口述的，也有了。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
+#: data/choyin/npcs.json
+msgid "原令烧了，案子没烧——本县又开了一回堂。京城不回话，本县就一直不收卷。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
+#: data/choyin/npcs.json
 msgid "把一张抄来的供状摊在案上，用镇纸压住。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.lines.say
 #: data/choyin/npcs.json
 msgid "骆建章的供状，韦相国抄了一份送来：兵部抄本上那三句，是庾子建口述的。"
-msgstr ""
-
-#. choyin.npc.judgeman inquiry.捕快.rules.lines.say
-#: data/choyin/npcs.json
-msgid "原令烧了，案子没烧——本县又开了一回堂。京城不回话，本县就一直不收卷。"
 msgstr ""
 
 #. choyin.npc.judgeman inquiry.捕快.rules.lines.emote
@@ -52732,6 +52747,18 @@ msgstr ""
 #: data/city/world.json
 msgid ""
 "老仆说道：振远的朋友。相国在正厅，请。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你叩了叩门。一个老仆开了半扇门，看了你一眼。\n"
+msgstr ""
+
+#. city.xiangguo_gate.knock act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"老仆说道：骆二爷吩咐过，有人从乔阴来，就请进。相国在正厅。\n"
 msgstr ""
 
 #. city.xiangguo_gate.knock act.acts.steps.line
@@ -62785,7 +62812,7 @@ msgstr ""
 
 #. native.npc.wei_zhizhong inquiry.骆建章.rules.say
 #: data/imperial/npcs.json
-msgid "那三句骆家的字，是老夫先认出来的。供状是老夫亲手递的——老夫不后悔。"
+msgid "那三句骆家的字，是老夫先认出来的。建章那张供状——老夫不后悔。"
 msgstr ""
 
 #. native.npc.wei_zhizhong inquiry.骆建章.rules.say

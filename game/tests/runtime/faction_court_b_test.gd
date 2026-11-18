@@ -136,6 +136,7 @@ func _test_reopened(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(said, "四百张") and _said(said, "再开一回堂") and state.marks.get("庾子建的案子又开了", 0) == 1, "settled, the letter with 程不平: the case opened again: %s" % [said])
 	_check(_said(_ask(camp, vice, "印鉴"), "四百张") or _said(_ask(camp, vice, "印鉴"), "盖印的是军师"), "asked again: the ledger")
 	state.marks.erase("庾子建的案子又开了") # TEST-ONLY: heard the ledger before settling
+	state.marks.erase("李信的账送了乔阴") # TEST-ONLY
 	_check(_said(_ask(camp, vice, "印鉴"), "再开一回堂") and state.marks.get("庾子建的案子又开了", 0) == 1, "heard the ledger first, settled after: the case still opens")
 	var hall: WorldMapController = MapPlaces.enter(session, HALL, HALL_POINT)
 	await _settle(tree)
