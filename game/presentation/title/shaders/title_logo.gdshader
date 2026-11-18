@@ -43,7 +43,8 @@ void fragment() {
 	float lay = write * 1.12 - 0.04;
 	float shown = smoothstep(laid_at - 0.015, laid_at + 0.015, lay);
 	// Blown away: the same, a little later at the top.
-	float gone_at = UV.x * 0.7 + n * 0.3 + (1.0 - UV.y) * 0.05;
+	// Even across the whole title: the ragged edge is small against the sweep.
+	float gone_at = UV.x * 0.85 + n * 0.15 + (1.0 - UV.y) * 0.04;
 	float blow = burn * 1.15 - 0.05;
 	float gone = smoothstep(gone_at - 0.015, gone_at + 0.015, blow);
 	float vis = shown * (1.0 - gone);
@@ -95,6 +96,7 @@ void fragment() {
 	gold = mix(gold, vec3(1.0, 0.76, 0.36) * 1.25, blowing * 0.75);
 	// Not yet gilded: the bare lacquer, dark bronze in the same relief.
 	vec3 bare = vec3(0.227, 0.172, 0.11) * (0.7 + 0.6 * diffuse) + vec3(0.25, 0.2, 0.12) * specular * 0.3;
+	bare *= vec3(1.06, 0.98, 0.88);
 	float bare_vis = lacquer * (1.0 - shown) * (1.0 - gone);
 	gold = mix(bare, gold, shown);
 	float body = vis + bare_vis;
