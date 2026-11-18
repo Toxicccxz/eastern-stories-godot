@@ -18,9 +18,12 @@ class Choice:
 
 ## By the menu button's name (NewGameButton, ContinueButton, …).
 var choices: Dictionary[StringName, Choice] = {}
-## Ink masks (white = ink) by language code; "default" for any other language.
+## Lettering masks (white = ink) by language code; "default" for any other language.
 var logos: Dictionary[String, String] = {}
 var seals: Dictionary[String, String] = {}
+## The line spaced out under the title by language code ("default" for any other): the title
+## in the other language.
+var lines: Dictionary[String, String] = {}
 ## Where the sun stands and where the logo's middle stands, in percent of the screen.
 var sun_percent: Array[int] = [28, 20]
 var logo_percent: Array[int] = [28, 21]
@@ -43,6 +46,10 @@ func seal_for(language: String) -> String:
 	return seals.get(language, seals.get("default", ""))
 
 
+func line_for(language: String) -> String:
+	return lines.get(language, lines.get("default", ""))
+
+
 static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 	var definition := TitleScreenDefinition.new()
 	for key: String in ["sun_percent", "logo_percent"]:
@@ -56,6 +63,7 @@ static func from_record(reader: ContentRecordReader) -> TitleScreenDefinition:
 	definition.new_game_place = StringName(reader.text("new_game_place", definition.new_game_place))
 	definition.logos = reader.text_map("logos")
 	definition.seals = reader.text_map("seals")
+	definition.lines = reader.text_map("lines")
 	var choices: ContentRecordReader = reader.child("choices")
 	if choices != null:
 		for name: String in choices.keys():

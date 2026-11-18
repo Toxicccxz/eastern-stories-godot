@@ -1,24 +1,21 @@
 extends SceneTree
-## Bakes the title logo's ink masks (DECISIONS「标题画面」): 东方故事 and Eastern Stories in
-## 志莽行书 (a free running hand), every character (or word) at its own size, made bolder and
-## set side by side on one foot line; and the seal's 侠 in 霞鹜文楷. TitleMonument cuts them into
-## voxels (CELL pixels each); the game reads only these masks.
+## Bakes the title's lettering masks (DECISIONS「标题画面」): 东方故事 in 马善政 (a brush hand),
+## EASTERN STORIES in capitals in 霞鹜文楷, and the seal's 侠 in 霞鹜文楷 — rendered large,
+## antialiased (the mask keeps its grey edge) and padded for the shadow, so TitleLogo can gild
+## them smoothly at any size. The game reads only these masks, so the brush font is not shipped.
 ## Windowed (it renders text):
-##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd
+##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd -- <MaShanZheng-Regular.ttf>
 ## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, seal_zh_CN.png.
 
 const OUT: String = "res://assets/textures/title/"
-const BRUSH: String = "res://assets/fonts/ZhiMangXing-Regular.ttf"
-const SEAL_FONT: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
-## Each title as [text, size in pixels] pieces, set left to right: no two the same size.
-const ZH: Array = [["东", 196], ["方", 150], ["故", 172], ["事", 216]]
-const EN: Array = [["Eastern", 132], ["Stories", 156]]
-const SEAL_SIZE: int = 30
-## How many pixels the strokes are made bolder by all round (an outline in the ink's colour), so
-## the brush's thin strokes still carry blocks.
-const BOLD: int = 6
-## Pixels between two pieces (more than TitleMonument's gap between characters).
-const GAP: int = 24
+const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
+## Glyph sizes in pixels, and the spacing added between letters (pixels).
+const ZH_SIZE: int = 240
+const EN_SIZE: int = 150
+const EN_SPACING: int = 18
+const SEAL_SIZE: int = 120
+## Clear pixels round the ink, for the shadow and the glow.
+const PAD: int = 40
 
 
 func _init() -> void:
@@ -26,14 +23,20 @@ func _init() -> void:
 
 
 func _run() -> void:
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	if args.is_empty():
+		printerr("usage: -- <MaShanZheng-Regular.ttf>")
+		quit(1)
+		return
+	var brush := FontFile.new()
+	if brush.load_dynamic_font(args[0]) != OK:
+		printerr("cannot load ", args[0])
+		quit(1)
+		return
+	var plain: FontFile = load(PLAIN) as FontFile
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
-	var brush: FontFile = load(BRUSH) as FontFile
-	var plain: FontFile = load(SEAL_FONT) as FontFile
-	for job: Array in [["logo_zh_CN", ZH], ["logo_en", EN]]:
-		var pieces: Array[Image] = []
-		for piece: Array in job[1]:
-			pieces.append(await _mask(piece[0], brush, piece[1], BOLD))
-		_save(_side_by_side(pieces), job[0])
+	_save(await _mask("东方故事", brush, ZH_SIZE, 0), "logo_zh_CN")
+	_save(await _mask("EASTERN STORIES", plain, EN_SIZE, EN_SPACING), "logo_en")
 	_save(await _mask("侠", plain, SEAL_SIZE, 0), "seal_zh_CN")
 	quit(0)
 
@@ -44,37 +47,22 @@ func _save(mask: Image, file: String) -> void:
 	print("BAKED %s %dx%d" % [path, mask.get_width(), mask.get_height()])
 
 
-## The pieces left to right, GAP apart, their feet on one line.
-static func _side_by_side(pieces: Array[Image]) -> Image:
-	var width: int = GAP * (pieces.size() - 1)
-	var height: int = 0
-	for piece: Image in pieces:
-		width += piece.get_width()
-		height = maxi(height, piece.get_height())
-	var out := Image.create_empty(width, height, false, Image.FORMAT_L8)
-	out.fill(Color.BLACK)
-	var x: int = 0
-	for piece: Image in pieces:
-		out.blit_rect(piece, Rect2i(Vector2i.ZERO, piece.get_size()), Vector2i(x, height - piece.get_height()))
-		x += piece.get_width() + GAP
-	return out
-
-
-## The text in white on clear, cropped to its ink, as an 8-bit grey mask (ink = 255).
-func _mask(text: String, font: Font, size: int, bold: int) -> Image:
+## The text in white on clear, cropped to its ink and padded, as an 8-bit grey mask: 255 is ink,
+## the antialiased edge kept.
+func _mask(text: String, font: Font, size: int, spacing: int) -> Image:
 	var paper := SubViewport.new()
 	paper.transparent_bg = true
-	paper.size = Vector2i(size * text.length() + size, int(size * 2.2))
+	paper.size = Vector2i((size + spacing) * text.length() + size, int(size * 2.2))
 	paper.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(paper)
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_override("font", font)
+	var face := FontVariation.new()
+	face.base_font = font
+	face.spacing_glyph = spacing
+	label.add_theme_font_override("font", face)
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", Color.WHITE)
-	if bold > 0:
-		label.add_theme_color_override("font_outline_color", Color.WHITE)
-		label.add_theme_constant_override("outline_size", bold * 2)
 	label.position = Vector2(size * 0.3, size * 0.4)
 	paper.add_child(label)
 	for i: int in 4:
@@ -82,8 +70,10 @@ func _mask(text: String, font: Font, size: int, bold: int) -> Image:
 	var image: Image = paper.get_texture().get_image()
 	paper.queue_free()
 	image = image.get_region(image.get_used_rect())
-	var grey := Image.create_empty(image.get_width(), image.get_height(), false, Image.FORMAT_L8)
+	var grey := Image.create_empty(image.get_width() + PAD * 2, image.get_height() + PAD * 2, false, Image.FORMAT_L8)
+	grey.fill(Color.BLACK)
 	for y: int in image.get_height():
 		for x: int in image.get_width():
-			grey.set_pixel(x, y, Color.WHITE if image.get_pixel(x, y).a > 0.5 else Color.BLACK)
+			var a: float = image.get_pixel(x, y).a
+			grey.set_pixel(x + PAD, y + PAD, Color(a, a, a))
 	return grey

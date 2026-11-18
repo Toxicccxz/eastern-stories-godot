@@ -3,9 +3,9 @@ extends CanvasLayer
 
 ## The title (界面重做, DECISIONS「标题画面」), behind the main menu and the dialogs opened from
 ## it while no journey runs: the living 沙盘 (TitleSand), the sky that parts from the sun
-## (TitleSky, 拨云见日), the title's stones (TitleLogo) and what the menu's choices do
+## (TitleSky, 拨云见日), the gold-leaf title (TitleLogo) and what the menu's choices do
 ## (TitleMenuFx). Choosing an option flies the camera to its place (title_screen.json) and
-## names it; starting a journey breaks the stones into the ground while the camera dives at where
+## names it; starting a journey blows the gold away as dust while the camera dives at where
 ## it begins, the clouds close and the light floods the screen — then the world shows.
 ## It only shows things: the shell's state decides, and a start goes ahead at once whatever
 ## the title is still playing (it plays over the world as it is built, then fades).
@@ -20,8 +20,8 @@ const ENTERING_LAYER: int = 101
 const MENU_UP_SECONDS: float = 2.2
 ## How long the white holds before the voxel animation comes onto it.
 const LOADER_AFTER_SECONDS: float = 0.2
-## `write` once every one of the title's stones has landed and settled.
-const LOGO_STANDS: float = 1.3
+## `write` once the title is gilded, its line up and its seal stamped.
+const LOGO_STANDS: float = 1.0
 
 var definition: TitleScreenDefinition
 var sand: TitleSand
@@ -117,7 +117,7 @@ func entering() -> bool:
 
 func _build_logo() -> void:
 	var language: String = TranslationServer.get_locale()
-	logo.build(definition.logo_for(language), definition.seal_for(language))
+	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language))
 
 
 func _notification(what: int) -> void:
@@ -150,8 +150,8 @@ func _on_state(state: ApplicationShellState) -> void:
 		_hide()
 
 
-## 拨云见日: cloud; light grows behind it; the clouds part from the sun; the title's stones fall
-## out of the sky onto the land; the menu comes up (it is usable at once).
+## 拨云见日: cloud; light grows behind it; the clouds part from the sun; the title is gilded from
+## left to right and its seal stamped; the menu comes up (it is usable at once).
 func _show() -> void:
 	visible = true
 	layer = LAYER
@@ -173,7 +173,7 @@ func _show() -> void:
 	t.tween_property(sky, "rays", 1.8, 1.0 * pace).set_delay(1.1 * pace).set_trans(Tween.TRANS_SINE)
 	t.tween_property(sky, "rays", 0.85, 2.0 * pace).set_delay(2.3 * pace)
 	t.tween_property(sand, "zoom", 0.66, 3.4 * pace).set_delay(0.4 * pace).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	t.tween_property(logo, "write", LOGO_STANDS, TitleLogo.ARRIVAL_SECONDS * LOGO_STANDS * pace).set_delay(1.5 * pace)
+	t.tween_property(logo, "write", LOGO_STANDS, TitleLogo.ARRIVAL_SECONDS * LOGO_STANDS * pace).set_delay(1.1 * pace)
 	# The menu is usable at once; its letters come up as the clouds part.
 	menu_fx.menu_alpha = 0.0
 	_menu_up_in = MENU_UP_SECONDS * pace
@@ -247,8 +247,7 @@ func _on_chosen(button: Button) -> void:
 	create_tween().tween_property(logo, "glint", logo.glint_at(1.1), 1.1).set_trans(Tween.TRANS_SINE)
 
 
-## A journey starts: a glint, the stones tremble and break, their pieces sinking into the
-## ground, the camera dives at
+## A journey starts: a glint, the gold brightens and blows away as dust, the camera dives at
 ## `place`, the clouds close and the light floods the screen; held white until the world is
 ## there, then faded.
 func _enter(place: StringName) -> void:

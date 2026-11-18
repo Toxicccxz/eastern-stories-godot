@@ -1,9 +1,9 @@
 extends RefCounted
 
-## The title (DECISIONS「标题画面」): title_screen.json in the catalog, the logo's blocks from its
-## baked masks (one language at a time), the title shown while no journey runs and only then,
+## The title (DECISIONS「标题画面」): title_screen.json in the catalog, the gold-leaf lettering from
+## its baked masks (one language at a time), the title shown while no journey runs and only then,
 ## the menu's buttons dressed but still the shell's own, the camera flying to a choice's
-## place, and a start going ahead at once while the stones break over it.
+## place, and a start going ahead at once while the gold blows away over it.
 const ShellTests = preload("res://tests/application/application_shell_test.gd")
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
 
@@ -47,74 +47,40 @@ func _test_data() -> void:
 	_check(errors.size() == 3, "an unknown weather, a zoom out of range and a tiny logo are refused: %s" % [errors])
 
 
-## The stones: every character a slab of rock cut to its shape and laid in blocks of many sizes,
-## broken into a few fragments,
-## stuck in the ground; the seal after them; they land one by one, left to right, and break
-## away on leaving; rubble at their feet; built once per mask, one language at a time.
+## The lettering: a smooth antialiased mask gilded by its shader, the other language spaced out
+## under it, the seal stamped only after the gold is laid, all gone once it is blown away.
 func _test_logo_blocks() -> void:
 	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
-	var monument: TitleMonument = TitleMonument.of(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	_check(monument.stones.size() == 5, "four characters and the seal: %d stones" % monument.stones.size())
-	var lands: Array[float] = []
-	for stone: TitleMonument.Stone in monument.stones:
-		lands.append(stone.land)
-	var sorted: Array[float] = lands.duplicate()
-	sorted.sort()
-	_check(lands == sorted and lands[0] >= 0.0 and lands[-1] < 1.0, "they land one by one, left to right, the seal last: %s" % [lands])
-	var pieces: Dictionary = {}
-	var marks: int = 0
-	var crystals: int = 0
-	var lowest: float = INF
-	var seal: int = 0
-	for block: TitleMonument.Block in monument.blocks:
-		if block.material == TitleMonument.LACQUER or block.material == TitleMonument.INLAY:
-			seal += 1
-			continue
-		var of_stone: Dictionary = pieces.get(block.stone, {})
-		of_stone[block.fragment] = true
-		pieces[block.stone] = of_stone
-		marks |= block.marks
-		crystals += 1 if block.material == TitleMonument.CRYSTAL else 0
-		lowest = minf(lowest, block.centre.y - block.size.y / 2.0)
-	for stone: int in pieces:
-		var count: int = (pieces[stone] as Dictionary).size()
-		_check(count >= TitleMonument.FRAGMENTS_MIN and count <= TitleMonument.FRAGMENTS_MAX, "character %d breaks into a few fragments: %d" % [stone, count])
-	for mark: int in [TitleMonument.MOSSY, TitleMonument.CRACKED, TitleMonument.SEAM, TitleMonument.RIM]:
-		_check(marks & mark, "some voxels show mark %d" % mark)
-	_check(crystals > 0 and crystals < monument.blocks.size() / 50, "a few crystals: %d" % crystals)
-	_check(lowest < -0.5, "the characters are stuck in the ground: lowest %.2f" % lowest)
-	_check(seal > 50, "the seal with 侠 inlaid: %d boxes" % seal)
-	_check(monument.rubble.size() >= monument.stones.size() * 10, "rubble round their feet: %d" % monument.rubble.size())
-	var sides: Dictionary = {}
-	var tallest: Dictionary = {}
-	for block: TitleMonument.Block in monument.blocks:
-		if block.material == TitleMonument.ROCK:
-			sides[roundi(block.size.x)] = true
-			tallest[block.stone] = maxf(tallest.get(block.stone, 0.0), block.centre.y)
-	_check(sides.size() >= 4, "blocks of many sizes: %s" % [sides.keys()])
-	var heights: Array = tallest.values()
-	heights.sort()
-	_check(heights.size() == 4 and heights[-1] - heights[0] > 10.0, "every character its own size: %s" % [heights])
-	for fragment: TitleMonument.Fragment in monument.fragments:
-		if fragment.leave < 0.0 or fragment.leave >= 1.0:
-			_check(false, "every fragment breaks away within the leaving: %.2f" % fragment.leave)
-			break
+	var mask: Texture2D = load(definition.logo_for("zh_CN")) as Texture2D
+	var image: Image = mask.get_image()
+	var greys: Dictionary = {}
+	for x: int in range(0, image.get_width(), 3):
+		greys[roundi(image.get_pixel(x, image.get_height() / 2).r * 255.0)] = true
+	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
+	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language spaced out under the title")
 	var logo := TitleLogo.new()
-	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	var space: Node3D = logo.get_node("LogoView/World/Board/Space") as Node3D
-	var stones: MultiMeshInstance3D = space.get_node_or_null("Stones") as MultiMeshInstance3D
-	if _check(stones != null and space.get_node_or_null("Rubble") != null and space.get_node_or_null("Dust") != null and space.get_node_or_null("Ground") != null, "the stones, their rubble and dust, and the ground that takes their shadows"):
-		_check(stones.multimesh.instance_count == monument.blocks.size(), "one box per voxel column: %d" % stones.multimesh.instance_count)
-	_check((logo.get_node("LogoView") as SubViewport).use_hdr_2d, "the view keeps a full alpha for the shadows and dust")
-	var again := TitleLogo.new()
-	again.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	_check(again.monument == monument and (again.get_node("LogoView/World/Board/Space/Stones") as MultiMeshInstance3D).multimesh == stones.multimesh, "built once per mask in a run")
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"))
+	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
+	var seal: TextureRect = logo.get_node("LogoView/Seal") as TextureRect
+	var line: Label = logo.get_node("LogoView/Line") as Label
+	if _check(letters != null and seal != null and line != null, "the gilded letters, their seal and the line under them"):
+		var gold: ShaderMaterial = letters.material as ShaderMaterial
+		_check(gold != null and gold.shader == TitleLogo.GOLD and gold.get_shader_parameter("mask") == letters.texture, "gilded by its shader from the mask")
+		_check(seal.visible and line.text == "EASTERN STORIES", "侠 on the Chinese title, EASTERN STORIES under it")
+		logo.write = 0.5
+		logo._process(0.0)
+		var seal_mat: ShaderMaterial = seal.material as ShaderMaterial
+		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01, "half laid: neither the line nor the seal yet")
+		logo.write = 1.0
+		logo._process(0.0)
+		_check(float(seal_mat.get_shader_parameter("fade")) > 0.99 and line.modulate.a > 0.99 and seal.scale.is_equal_approx(Vector2.ONE), "laid: the line up and the seal stamped")
+		logo.burn = 1.0
+		logo._process(0.0)
+		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01, "blown away: nothing left")
 	var english := TitleLogo.new()
-	english.build(definition.logo_for("en"), definition.seal_for("en"))
-	_check(english.monument != monument, "English is its own stones, not both at once")
-	for built: TitleMonument in [monument, english.monument]:
-		_check(built.stones.size() <= TitleMonument.MOST_STONES and built.fragments.size() <= TitleMonument.MOST_FRAGMENTS, "the shader can tell every stone and fragment apart: %d, %d" % [built.stones.size(), built.fragments.size()])
-	for node: TitleLogo in [logo, again, english]:
+	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"))
+	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture, "English is its own lettering, with no Chinese seal")
+	for node: TitleLogo in [logo, english]:
 		node.free()
 
 
@@ -159,7 +125,7 @@ func _test_shell(tree: SceneTree) -> void:
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
 	_check(shell.submit_new_game_setup(), "a journey starts at once")
 	await tree.process_frame
-	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the stones break over the busy note")
+	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the gold blows away over the busy note")
 	var started: bool = false
 	for i: int in 2000:
 		await tree.process_frame

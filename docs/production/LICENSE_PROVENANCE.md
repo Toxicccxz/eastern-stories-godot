@@ -108,8 +108,10 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
   `game/assets/fonts/OFL-ZhiMangXing.txt`; used unmodified for a place's name on the title.
-- `game/assets/textures/title/logo_*.png`, `seal_zh_CN.png` — the title logo's ink masks, text
-  rendered by `tools/ui/bake_title_logo.gd` from 志莽行书 and 霞鹜文楷 (project-made images of
+- `game/assets/textures/title/logo_*.png`, `seal_zh_CN.png` — the title's lettering masks, text
+  rendered by `tools/ui/bake_title_logo.gd` from 马善政 (Ma Shan Zheng, from the
+  [google/fonts](https://github.com/google/fonts/tree/main/ofl/mashanzheng) repository, SIL Open
+  Font License 1.1; the font itself is not shipped) and 霞鹜文楷 (project-made images of
   OFL-licensed glyphs).
 
 ## Character portraits (AI-generated)
