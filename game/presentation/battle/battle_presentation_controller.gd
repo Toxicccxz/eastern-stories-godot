@@ -253,6 +253,9 @@ func _tell_lines(delta: float) -> void:
 			if moment > 0.0:
 				_open_special(next, moment)
 				_line_wait += moment
+				# The moment is the pause before its first blow as well (no second wait, no
+				# second gathering, when the special's first line is the blow itself).
+				_paused_for = next
 				if _line_wait > 0.0:
 					break
 		if spacing > 0.0 and _paused_for != next and _starts_beat(next):
@@ -640,6 +643,9 @@ func refresh_projection() -> void:
 			_line_queue.clear()
 			_told.clear()
 			_line_wait = 0.0
+			special_banner.clear()
+			_special_for = null
+			_special_bannered = null
 			_shown_mode = -1
 			_card_layout_key = ""
 			_passed_held.clear()
@@ -675,6 +681,9 @@ func refresh_projection() -> void:
 			hide()
 			_restore_world_hud()
 			move_titles.clear()
+			special_banner.clear()
+			_special_for = null
+			_special_bannered = null
 			nameplates.clear()
 			scene_show.end()
 			opening.close()

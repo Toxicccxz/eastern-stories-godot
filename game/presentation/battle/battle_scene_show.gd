@@ -1092,11 +1092,19 @@ func special_gather(actor_id: StringName, seconds: float) -> void:
 	_effects.append(light)
 	var tween: Tween = create_tween()
 	_effect_tweens[light] = tween
-	tween.tween_property(light, "light_energy", float(data.get("energy", 2.4)), seconds * 0.3).set_ease(Tween.EASE_OUT)
-	tween.tween_interval(seconds * 0.7)
-	tween.tween_property(light, "light_energy", 0.0, maxf(0.05, seconds * 0.4))
+	tween.tween_method(_light_step.bind(light, float(data.get("energy", 2.4))), 0.0, 1.0, seconds * 1.4)
 	tween.tween_callback(_drop_effect.bind(light))
-	_push(seconds)
+	# A short moment (seen before, or under 自动) has no push: in and out so fast reads as a jerk.
+	if seconds >= _seconds(_feel().special_title_seconds) * float(_special("push_from", 0.5)):
+		_push(seconds)
+
+
+## One moment `t` (0..1) of a special's light (`light` may be gone with its figure): up in
+## the first fifth, held, down over the last quarter.
+func _light_step(t: float, light: Variant, energy: float) -> void:
+	if not is_instance_valid(light):
+		return
+	(light as OmniLight3D).light_energy = energy * minf(clampf(t / 0.2, 0.0, 1.0), clampf((1.0 - t) / 0.25, 0.0, 1.0))
 
 
 ## The camera a little nearer for `seconds`, then back where it stood (not once the fight's

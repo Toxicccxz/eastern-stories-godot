@@ -642,11 +642,17 @@ func _specials(tree: SceneTree) -> void:
 	for kind: String in BattleSchoolMotifs.KINDS:
 		var holder := Node3D.new()
 		_root.add_child(holder)
+		# Far from the world's middle, as a fighter on a map is.
+		holder.position = Vector3(40, 0, 30)
 		var play: Tween = holder.create_tween().set_parallel(true)
 		var rng := RandomNumberGenerator.new()
 		rng.seed = 3
 		var motif: Node3D = BattleSchoolMotifs.play(holder, play, kind, Color("9fd0ff"), Vector3.ZERO, Vector3.BACK, 0.1, rng)
 		check(motif != null and motif.get_parent() == holder and motif.find_children("*", "MeshInstance3D", true, false).size() >= 5, "%s: its blocks stand (%d)" % [kind, motif.find_children("*", "MeshInstance3D", true, false).size()])
+		var astray: int = 0
+		for block: Node in motif.find_children("*", "MeshInstance3D", true, false):
+			astray += 1 if (block as Node3D).global_position.distance_to(holder.global_position) > 4.5 else 0
+		check(astray == 0, "%s: every block begins by the one struck, wherever on the map that is (%d astray)" % [kind, astray])
 		await tree.create_timer(0.2).timeout
 		check(not play.is_running(), "%s: played out" % kind)
 		holder.queue_free()
@@ -692,15 +698,17 @@ func _specials(tree: SceneTree) -> void:
 	await tree.create_timer(1.6).timeout
 	# The opening: the 气 and a light of the school's colour, the camera pushed in, then back.
 	var before: float = _view.zoom()
-	_show.special_gather(ME, 0.6)
+	_show.special_gather(ME, 2.4)
 	var light: OmniLight3D = _effect_named("SpecialLight") as OmniLight3D
 	check(light != null and light.light_color.is_equal_approx(blue) and _effect_named("Charge") != null, "a special opens: the figure gathers in a light of its school's colour")
 	check(_show.pushed() and _view.zoom() < before, "the camera pushes in (%.3f from %.3f)" % [_view.zoom(), before])
-	_show.special_gather(YOU, 0.6)
+	var moments: Dictionary = BattleArena.data()["special"]
+	check(float(moments["short_hold"]) < float(moments["push_from"]) and float(moments["hold"]) >= float(moments["push_from"]), "the data: a full moment has the push, a short one is under its least")
+	_show.special_gather(YOU, 2.4)
 	check(is_equal_approx(_show._pushed_from, before), "another opening meanwhile: no second push")
-	await tree.create_timer(0.3).timeout
+	await tree.create_timer(1.0).timeout
 	check(light != null and is_instance_valid(light) and light.light_energy > 0.5, "the light comes up (%.2f)" % (light.light_energy if is_instance_valid(light) else -1.0))
-	await tree.create_timer(2.2).timeout
+	await tree.create_timer(4.0).timeout
 	check(not _show.pushed() and is_equal_approx(_view.zoom(), before) and _effect_named("SpecialLight") == null, "the moment over: the camera back, the light out")
 	# A 重 gathers the school's 气.
 	_show.windup(ME)
@@ -729,6 +737,10 @@ func _specials(tree: SceneTree) -> void:
 	await tree.create_timer(0.9).timeout
 	check(_effect_named("Motif") == null, "a special's blow dodged: none")
 	await tree.create_timer(3.0).timeout
+	# A short moment: the light and the 气, no push.
+	_show.special_gather(ME, 0.6)
+	check(_effect_named("SpecialLight") != null and not _show.pushed(), "a short moment: the light, no push of the camera")
+	await tree.create_timer(1.2).timeout
 	_show.end()
 	check(_show.effect_count() == 0 and not _show.pushed(), "the end: nothing left, the camera its own")
 	_show.pace = 1.0

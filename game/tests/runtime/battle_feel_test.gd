@@ -286,6 +286,15 @@ func _test_special_moment(tree: SceneTree, trainee: NpcRuntimeState) -> void:
 	_check(is_zero_approx(_ui._special_hold(inner)), "inner work (no blow follows): no moment")
 	_ui._tell_lines(0.01)
 	_check(_ui._line_queue.is_empty() and not _ui.special_banner.showing(), "it is told at once, nothing written over the fight")
+	# The feel off (no time between lines): a special is told at once, nothing written.
+	var spacing: float = _ui._line_spacing
+	_ui._line_spacing = 0.0
+	var quiet := BattleNarrationLine.new("你剑势一凝！").with_special(me, "缺字诀").with_beat(1, me)
+	_ui._line_queue.append(quiet)
+	_ui._line_queue.append(BattleNarrationLine.new("x", -1).with_blow(me, trainee.character_id, "封", CombatAttackResult.Outcome.DODGE, -1).with_ring(&"", 0).with_arms(&"sword", "刺伤").with_special_blow().with_beat(1, me))
+	_ui._tell_lines(0.0)
+	_check(_ui._line_queue.is_empty() and not _ui.special_banner.showing() and BattlePresentationController.specials_seen.is_empty(), "the feel off: told at once, no moment, nothing written")
+	_ui._line_spacing = spacing
 	_ui._line_queue.append(opener)
 	_ui._line_queue.append(strike)
 	var full: float = _ui._special_hold(opener)

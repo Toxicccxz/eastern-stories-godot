@@ -142,12 +142,13 @@
 		"ghost-hat-sword": {"colour": "8e98a8", "motif": "shards"}
 	},
 	"special": {
-		"_comment": "战斗绝招: a special that strikes opens with a held moment before its first line is told. hold / short_hold: the moment as a share of the feel's special_title_ms — in full the first `full_times` times a special of that name is seen this run of the game, short after and always under 自动. While it lasts: the map under the stage darker by `dim`, the camera pushed in to `push` of where it was, a light of the school's colour on the one who opens it (light: energy, range), and its name written over the fight (banner: the stroke's size in logical px, the name's font size, the stroke's and the name's colours, how high over the head, how long it stays after the moment as a share of special_title_ms). motif: how long the school's figure plays, in the dust's times.",
+		"_comment": "战斗绝招: a special that strikes opens with a held moment before its first line is told. hold / short_hold: the moment as a share of the feel's special_title_ms — in full the first `full_times` times a special of that name is seen this run of the game, short after and always under 自动. While it lasts: the map under the stage darker by `dim`, the camera pushed in to `push` of where it was (only when the moment is at least `push_from` of special_title_ms: a short one has no push), a light of the school's colour on the one who opens it (light: energy, range), and its name written over the fight (banner: the stroke's size in logical px, the name's font size, the stroke's and the name's colours, how high over the head, how long it stays after the moment as a share of special_title_ms). motif: how long the school's figure plays, in the dust's times.",
 		"hold": 0.75,
 		"short_hold": 0.3,
 		"full_times": 2,
 		"dim": 0.3,
 		"push": 0.94,
+		"push_from": 0.5,
 		"light": {"energy": 2.4, "range": 4.5},
 		"banner": {"width": 340, "height": 66, "font_size": 44, "stroke": "b3261e", "ink": "f6ead2", "rise": 3.05, "linger": 0.45},
 		"motif": 2.4

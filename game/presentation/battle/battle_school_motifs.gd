@@ -51,7 +51,8 @@ static func play(parent: Node3D, tween: Tween, kind: String, colour: Color, at: 
 				var angle: float = TAU * float(index) / 8.0 + rng.randf_range(-0.25, 0.25)
 				var out := (side * cos(angle) + Vector3.UP * sin(angle)).normalized()
 				var shard: MeshInstance3D = _block(root, glow, Vector3(0.05, 0.05, 0.42), Vector3.UP * 1.0 + out * 0.2)
-				shard.look_at_from_position(shard.position, shard.position + out + toward * 0.25, Vector3.UP if absf(out.y) < 0.95 else Vector3.RIGHT)
+				# Turned in the figure's own space (it stands wherever the one struck stands).
+				shard.basis = Basis.looking_at((out + toward * 0.25).normalized(), Vector3.UP if absf(out.y) < 0.95 else Vector3.RIGHT)
 				tween.tween_property(shard, "position", Vector3.UP * 1.0 + out * rng.randf_range(0.9, 1.3) + toward * 0.3, seconds * 0.6).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 				tween.tween_property(shard, "scale", Vector3(0.3, 0.3, 0.1), seconds * 0.5).set_delay(seconds * 0.5)
 		"wave":
