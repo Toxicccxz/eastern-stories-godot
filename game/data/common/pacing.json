@@ -89,6 +89,7 @@
 		"coach_minutes_per_leg": 30,
 		"rest_world_scale": 20,
 		"rest_limit_seconds": 600,
+		"exp_gates": { "juechen": 20000 },
 		"npc_idle": {
 			"enabled": true,
 			"pause_min_ms": 2500,

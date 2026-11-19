@@ -119,6 +119,11 @@
 			"revision": "SOURCE_ENTRY_SANYEN_A_V1",
 			"spawn_points": 880,
 			"fingerprint": "7caef9919fad06eb5c81bec9a8e3ddc935e7bf14d164c0cf8167415e24f1ab53"
+		},
+		{
+			"revision": "SOURCE_ENTRY_JUECHEN_A_V1",
+			"spawn_points": 885,
+			"fingerprint": "5ffae384d4f19e052ea2180ed8b840598ad9acebb7b793ff824a2671965b796a"
 		}
 	]
 }

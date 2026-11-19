@@ -130,6 +130,10 @@ class RequirementCheck:
 	var cannot_afford: int = 0
 	var refuse_say: String = ""
 	var refuse_marks: Array[String] = []
+	## Native (势力线第三批 绝尘 A; DECISIONS「绝尘的经验门槛」): the named experience gate (PacingDefinition
+	## `exp_gates`) its combat_exp minimum follows, and that minimum as ES2 has it (the record's); &"" none.
+	var exp_gate: StringName = &""
+	var es2_combat_exp: int = 0
 
 
 ## One blow of a trial: said before it, and said when the student did not stand it ("":
@@ -328,9 +332,35 @@ static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) 
 				if check.cannot_afford < 1:
 					record.fail("cannot_afford", "a price of at least 1")
 				continue
+			if key == "exp_gate":
+				check.exp_gate = StringName(record.required_text("exp_gate"))
+				continue
 			if not REQUIREMENTS.has(StringName(key)):
 				record.fail(key, "unsupported requirement")
 			check.requires[StringName(key)] = record.required_integer(key)
 		check.refuse_say = record.required_text("refuse_say")
+		if not check.exp_gate.is_empty():
+			if not check.requires.has(&"combat_exp"):
+				record.fail("exp_gate", "a gate names the combat_exp minimum it moves")
+			check.es2_combat_exp = check.requires.get(&"combat_exp", 0)
 		record.finish()
 		rule.checks.append(check)
+
+
+## The apprentice checks whose combat_exp minimum follows a named experience gate ask `pacing`'s
+## threshold for it (ES2's own when the pacing has none; DECISIONS「绝尘的经验门槛」). Called by
+## ContentCatalog.set_pacing(); whether any check here has a gate.
+func apply_exp_gates(pacing: PacingDefinition) -> bool:
+	if apprentice == null or pacing == null:
+		return false
+	var gated: bool = false
+	for check: RequirementCheck in apprentice.checks:
+		if check.exp_gate.is_empty():
+			continue
+		gated = true
+		check.requires[&"combat_exp"] = pacing.exp_gate(check.exp_gate, check.es2_combat_exp)
+	if gated:
+		apprentice.requires.clear()
+		for check: RequirementCheck in apprentice.checks:
+			apprentice.requires.merge(check.requires, true)
+	return gated

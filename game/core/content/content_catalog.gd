@@ -352,9 +352,17 @@ func sky_levels() -> Array[String]:
 	return _sky_levels
 
 
-## Called once by ContentCatalogBuilder.
+## Called once by ContentCatalogBuilder (after the NPCs and exit rules), and by suites that pace the
+## game otherwise (Es2Pacing). The checks that name an experience gate (an exit rule's combat_exp_below,
+## a master's apprentice check) take its threshold from `value` (DECISIONS「绝尘的经验门槛」).
 func set_pacing(value: PacingDefinition) -> void:
 	_pacing = value
+	for rule: ZoneExitRuleDefinition in _exit_rules.values():
+		rule.apply_exp_gate(value)
+	for npc: NpcDefinition in _npcs.values():
+		for definition: NpcDefinition in [npc, npc.es2_variant()]:
+			if definition != null and definition.teaching() != null:
+				definition.teaching().apply_exp_gates(value)
 
 
 ## Game-wide timing (combat rounds); an empty catalog has none (0 s).

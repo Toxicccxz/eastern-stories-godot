@@ -91,6 +91,11 @@ extends RefCounted
 ##   offer a rest that lets world time pass, the world running this many times as fast, for
 ##   at most rest_limit_seconds of world time (real seconds at ES2's pace). 0 (ES2 has no rest
 ##   command): no such rest.
+## - exp_gates (势力线第三批 绝尘 A; DECISIONS「绝尘的经验门槛」): {gate: combat_exp}, a named experience gate's
+##   threshold. A check of ported content that names its gate (`exp_gate`: an exit rule's
+##   combat_exp_below, a master's apprentice check of combat_exp) asks this many instead of its ES2
+##   value, which stays in its data (entrance.c's and juechen/master.c's 100000). Left out (ES2):
+##   each asks its own. The catalog applies them as the pacing is set (ContentCatalog.set_pacing()).
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -166,6 +171,7 @@ var _coach_fare_per_leg: int = 0
 var _coach_minutes_per_leg: int = 0
 var _rest_world_scale: int = 0
 var _rest_limit_seconds: int = 0
+var _exp_gates: Dictionary[StringName, int] = {}
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -341,6 +347,10 @@ var rest_world_scale: int:
 var rest_limit_seconds: int:
 	get:
 		return _rest_limit_seconds
+## The named experience gates (`exp_gates`; empty when left out: ES2's own thresholds).
+var exp_gates: Dictionary[StringName, int]:
+	get:
+		return _exp_gates.duplicate()
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 ## How people move about inside their room (the record's `npc_idle`; NpcIdleTuning, DECISIONS
@@ -388,6 +398,7 @@ func copy() -> PacingDefinition:
 	record.with_map_page(_map_page)
 	record.with_coach(_coach_travel, _coach_fare_base, _coach_fare_per_leg, _coach_minutes_per_leg)
 	record.with_rest(_rest_world_scale, _rest_limit_seconds)
+	record.with_exp_gates(_exp_gates)
 	record.feel = feel
 	record.npc_idle = npc_idle
 	return record
@@ -433,6 +444,18 @@ func with_coach(on: bool, fare_base: int, fare_per_leg: int, minutes_per_leg: in
 func with_rest(world_scale: int, limit_seconds: int) -> PacingDefinition:
 	_rest_world_scale = world_scale
 	_rest_limit_seconds = limit_seconds
+	return self
+
+
+## The threshold of the experience gate `gate`: the knob's, or `es2_value` (the ported data's) when
+## this pacing has none of that name.
+func exp_gate(gate: StringName, es2_value: int) -> int:
+	return _exp_gates.get(gate, es2_value)
+
+
+## This record with the named experience gates set (tests, and from_record()); {} is ES2's.
+func with_exp_gates(gates: Dictionary[StringName, int]) -> PacingDefinition:
+	_exp_gates = gates.duplicate()
 	return self
 
 
@@ -604,6 +627,14 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("coach_fare_per_leg", 0), reader.integer("coach_minutes_per_leg", 0),
 	)
 	definition.with_rest(reader.integer("rest_world_scale", 0), reader.integer("rest_limit_seconds", 0))
+	var gates: Dictionary[StringName, int] = {}
+	if reader.has("exp_gates"):
+		var named: Dictionary[String, int] = reader.integer_map("exp_gates")
+		for gate: String in named:
+			if named[gate] < 0:
+				reader.fail("exp_gates." + gate, "must not be negative")
+			gates[StringName(gate)] = named[gate]
+	definition.with_exp_gates(gates)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

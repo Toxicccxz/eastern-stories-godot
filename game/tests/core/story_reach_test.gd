@@ -31,7 +31,7 @@ const CODE_PREFIXES: Array[String] = ["wounded_by/"]
 ## 璃虹: 商玦's telling of the 铜牒; niling/world.json's 跟诵: the wrong next line; the answers' `note`
 ## says so) never holds; and a line's stub step, whose mark the next package writes (山烟寺 A's `west`:
 ## 山烟寺 B writes 龙若说了三十年前).
-const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "龙若说了三十年前"]
+const NEVER_WRITTEN: Array[String] = ["信了商玦", "接错了经", "龙若说了三十年前", "了尘说了玄尘"]
 ## Keys whose value names items a writer gives (an act's give / drop, a rule's gives, a landmark's
 ## reward and what comes with it).
 const GIVE_KEYS: Array[String] = ["gives", "give", "drop", "reward", "with"]
@@ -52,7 +52,7 @@ const ALWAYS_DOABLE: Array[int] = [
 ]
 ## Keys whose value names marks a writer sets.
 const WRITE_KEYS: Array[String] = [
-	"teaches", "mark_asker", "marks_asker", "mark_giver", "marks_giver", "cleared_mark", "scene_mark", "set_mark",
+	"teaches", "mark_asker", "marks_asker", "mark_giver", "marks_giver", "cleared_mark", "scene_mark", "set_mark", "also_mark", "once_mark",
 	"die_marks_killer", "spar_won_mark", "again_mark", "accept_marks", "refuse_marks", "mark_on_give",
 ]
 ## Keys whose value names marks a condition reads.

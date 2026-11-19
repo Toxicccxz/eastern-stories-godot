@@ -92,7 +92,7 @@
 		{ "id": "green.eight6.north", "from_zone": "green.eight6", "to_zone": "green.eight7", "to_spawn": "green.eight7.south_arrival", "legacy_room": "es2:d/green/eight6", "legacy_command": "north" },
 		{ "id": "green.eight6.west", "from_zone": "green.eight6", "to_zone": "green.closed", "to_spawn": "green.closed.arrival", "legacy_room": "es2:d/green/eight6", "legacy_command": "west" },
 		{ "id": "green.eight6.east", "from_zone": "green.eight6", "to_zone": "green.eight6", "to_spawn": "green.eight6.west_arrival", "legacy_room": "es2:d/green/eight6", "legacy_command": "east" },
-		{ "id": "green.eight7.south", "from_zone": "green.eight7", "to_zone": "green.stoneroom", "to_spawn": "green.stoneroom.maze_arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "south", "set_mark": "八卦阵" },
+		{ "id": "green.eight7.south", "from_zone": "green.eight7", "to_zone": "green.stoneroom", "to_spawn": "green.stoneroom.maze_arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "south", "set_mark": "八卦阵", "also_mark": "走出了八卦阵" },
 		{ "id": "green.eight7.north", "from_zone": "green.eight7", "to_zone": "green.eight7", "to_spawn": "green.eight7.south_arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "north" },
 		{ "id": "green.eight7.west", "from_zone": "green.eight7", "to_zone": "green.eight6", "to_spawn": "green.eight6.east_arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "west" },
 		{ "id": "green.eight7.east", "from_zone": "green.eight7", "to_zone": "green.closed", "to_spawn": "green.closed.arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "east" },
@@ -145,11 +145,11 @@
 		{ "id": "green.eight7.landmark.sign", "zone": "green.eight7", "name": "路牌", "policy": "look", "long": "路牌上写着：  乾--乾为天，遇青龙而死，遇玄武而困，遇白虎而涉，遇朱雀而生。\n", "legacy_source": "d/green/eight7.c" },
 		{ "id": "green.closed.landmark.stone", "zone": "green.closed", "name": "大石", "action": "推", "policy": "push_stone", "portals": ["green.closed.push"], "long": "远方有一块大石动了一下,走近一看,似乎可以推一下。\n", "force": 560, "max_force": 560, "force_factor": 40, "gin": 20, "kee": 60, "sen": 20, "random": 3, "messages": {"weak": "你出力不太够喔！", "push": "你用力推活动的大岩石,大岩石动了一下", "rolled": "大岩石滚开了,你从大岩石后面的小洞钻了出去"}, "legacy_source": "d/green/closed.c" },
 		{ "id": "green.closed.landmark.fog", "zone": "green.closed", "name": "绝地", "action": "放弃", "portals": ["green.closed.give_up"], "long": "四周没有任何出口。推不动那块大石的话，就只能在这里等下去了。\n", "messages": {"use": "你在绝地里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"}, "legacy_source": "d/green/closed.c" },
-		{ "id": "green.water.landmark.water", "zone": "green.water", "name": "水", "action": "下水寻找", "policy": "search", "long": "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n", "mark": "八卦阵", "random": 2, "items": {"reward": "es2:d/green/obj/windsword"}, "messages": {"search": "你跳入溪水之中，开始仔细寻找....", "found": "你竟从水中找出一把追风剑!", "nothing": "你在水中忙了半天，结果一无所获。"}, "legacy_source": "d/green/water.c" },
+		{ "id": "green.water.landmark.water", "zone": "green.water", "name": "水", "action": "下水寻找", "policy": "search", "long": "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n", "mark": "八卦阵", "once_mark": "搜到了追风剑", "random": 2, "items": {"reward": "es2:d/green/obj/windsword"}, "messages": {"search": "你跳入溪水之中，开始仔细寻找....", "found": "你竟从水中找出一把追风剑!", "nothing": "你在水中忙了半天，结果一无所获。"}, "legacy_source": "d/green/water.c" },
 		{ "id": "green.house3.landmark.web", "zone": "green.house3", "name": "蜘蛛网", "policy": "look_spawn", "long": "一个很大的蜘蛛网.\n", "spawn": "green.village.house3.spiders", "limit": 3, "messages": {"spawn": "突然你觉得头上有个阴影, 不自觉的抬起头来一看 ............好大的 ..... 蜘蛛..... \n"}, "legacy_source": "d/green/house3.c" }
 	],
 	"exit_rules": [
-		{ "id": "green.entrance.wind", "room": "es2:d/green/entrance", "from_zone": "green.entrance", "to_zone": "green.eight0", "when": "combat_exp_below", "value": 100000, "lines": ["你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"], "legacy_source": "d/green/entrance.c" },
+		{ "id": "green.entrance.wind", "room": "es2:d/green/entrance", "from_zone": "green.entrance", "to_zone": "green.eight0", "when": "combat_exp_below", "value": 100000, "exp_gate": "juechen", "lines": ["你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"], "legacy_source": "d/green/entrance.c" },
 		{ "id": "green.outdoor.seal", "room": "es2:d/green/outdoor", "from_zone": "green.outdoor", "to_zone": "green.cavehall", "when": "not_apprentice_of", "npc": "common.npc.juechen.master", "lines": ["入口被魔法封住了！"], "legacy_source": "d/green/outdoor.c" }
 	]
 }

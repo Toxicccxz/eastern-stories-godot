@@ -40,9 +40,11 @@ var _kee: int = 0
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	# npc.c chat()'s draws are forced by bound here: the decision layer's early move draw
-	# (战斗决策层 1B) would take them, so it stays off, as under ES2's pacing.
+	# (战斗决策层 1B) would take them, so it stays off, as under ES2's pacing. juechen/master.c's
+	# 100000 combat_exp is pinned: the 绝尘 gate at ES2's (DECISIONS「绝尘的经验门槛」, the game's 20000 in
+	# faction_juechen_a_test).
 	var production_pacing: PacingDefinition = GameContent.catalog().pacing()
-	GameContent.catalog().set_pacing(production_pacing.copy().with_decisions(CombatDecisionRules.classic()).with_beats(CombatBeatRules.classic()))
+	GameContent.catalog().set_pacing(production_pacing.copy().with_decisions(CombatDecisionRules.classic()).with_beats(CombatBeatRules.classic()).with_exp_gates({}))
 	_catalog = GameContent.catalog()
 	_test_data()
 	_test_dun()

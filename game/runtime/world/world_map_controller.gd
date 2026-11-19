@@ -640,6 +640,8 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 		session.player_leaving_zone(portal.source_zone_id, portal.destination_zone_id)
 	if not portal.set_mark.is_empty():
 		_player.state.marks[portal.set_mark] = 1
+	if not portal.also_mark.is_empty():
+		_player.state.marks[portal.also_mark] = 1
 	mazes.entering(portal, _player.state)
 	WorldMapWinds.entering(portal, _player.state, world_interaction_random_source().legacy_random)
 	return true

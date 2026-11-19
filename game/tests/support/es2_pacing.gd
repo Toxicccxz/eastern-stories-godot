@@ -50,5 +50,15 @@ static func use_combat() -> PacingDefinition:
 	return production
 
 
+## The game's pacing with the named experience gates at ES2's (DECISIONS「绝尘的经验门槛」): every
+## gated check asks its own record's threshold again (entrance.c's wind and juechen/master.c's
+## apprentice check: combat_exp 100000), for suites that pin those. The rest stays the game's.
+static func use_es2_exp_gates() -> PacingDefinition:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var production: PacingDefinition = catalog.pacing()
+	catalog.set_pacing(production.copy().with_exp_gates({}))
+	return production
+
+
 static func restore(previous: PacingDefinition) -> void:
 	GameContent.catalog().set_pacing(previous)

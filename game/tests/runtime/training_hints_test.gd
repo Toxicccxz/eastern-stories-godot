@@ -54,7 +54,7 @@ func _test_every_master() -> void:
 	var expected: Dictionary[StringName, Array] = {
 		&"common.npc.swordsman.master": [["胆识 ≥ 20（你 22）", true], ["定力 ≥ 20（你 18）", false]],
 		&"cloud.npc.b_header": [["胆识 ≥ 25（你 22）", false]],
-		&"common.npc.juechen.master": [["灵性 ≥ 24（你 30）", true], ["实战经验 ≥ 100000（你 5000）", false], ["只收没有门派的人", true]],
+		&"common.npc.juechen.master": [["灵性 ≥ 24（你 30）", true], ["实战经验 ≥ 20000（你 5000）", false], ["只收没有门派的人", true]],
 		&"common.npc.taoist.taolord": [["只收男弟子", true]],
 		&"common.npc.dancer.master": [["只收女弟子", false]],
 		&"common.npc.bonze.master": [["只收男弟子", true], ["须先剃度出家", false]],

@@ -419,6 +419,8 @@ msgstr ""
 #. native.npc.luo_yunzhou_capital gender
 #. native.npc.sick_woodcutter gender
 #. native.npc.woodcutter_home gender
+#. native.npc.green_cave_kid gender
+#. native.npc.juechen_liaochen gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -526,6 +528,7 @@ msgstr ""
 #. native.npc.assembly_old_woman gender
 #. native.npc.assembly_daughter gender
 #. native.npc.sword_soul_spar gender
+#. native.npc.green_mother gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
@@ -854,8 +857,11 @@ msgstr ""
 #. es2:d/oldpine/cave3 short
 #. es2:d/oldpine/cave4 short
 #. es2:d/oldpine/cave5 short
+#. green.npc.oldman2 inquiry topic
 #. es2:d/choyin/halfhole short
-#: scenes/world/choyin/choyin_cliff_cave.tscn scenes/world/oldpine/oldpine_caves.tscn data/oldpine/rooms.json data/choyin/rooms.json
+#. native.npc.green_mother inquiry topic
+#. native.npc.juechen_liaochen inquiry topic
+#: scenes/world/choyin/choyin_cliff_cave.tscn scenes/world/oldpine/oldpine_caves.tscn data/oldpine/rooms.json data/green/npcs.json data/choyin/rooms.json data/native/npcs.json
 msgid "山洞"
 msgstr ""
 
@@ -15998,11 +16004,13 @@ msgid "野羊山"
 msgstr ""
 
 #. name
+#. common.npc.juechen.master inquiry topic
 #. green.jade region
 #. green.maze region
 #. juechen place
+#. faction.juechen region
 #. green name
-#: data/common/atlas.json data/common/journal.json data/story/factions.json data/green/world.json
+#: data/common/atlas.json data/common/npcs.json data/common/journal.json data/story/factions.json data/story/faction_juechen.json data/green/world.json
 msgid "青石村"
 msgstr ""
 
@@ -16489,7 +16497,10 @@ msgstr ""
 #. common.npc.juechen.master family.name
 #. common.npc.juechen.master inquiry topic
 #. juechen name
-#: data/common/families.json data/common/npcs.json data/story/factions.json
+#. faction.juechen title
+#. native.npc.juechen_liaochen family.name
+#. native.npc.juechen_liaochen inquiry topic
+#: data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_juechen.json data/native/npcs.json
 msgid "绝尘派"
 msgstr ""
 
@@ -18616,6 +18627,65 @@ msgstr ""
 msgid "我便是绝尘子。"
 msgstr ""
 
+#. common.npc.juechen.master inquiry.青石村.rules.say
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#. common.npc.juechen.master inquiry.虹台.rules.lines.say
+#. common.npc.juechen.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "绝尘派不问世事。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#: data/common/npcs.json
+msgid "洞里的事，你都知道了。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.emote
+#: data/common/npcs.json
+msgid "闭着眼睛听你说完，过了很久才睁开。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#: data/common/npcs.json
+msgid "洞里有东西，老道知道。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#: data/common/npcs.json
+msgid "那道门拴着，阵守得住石室——老道就不管。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.emote
+#: data/common/npcs.json
+msgid "又闭上了眼睛。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.say
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#: data/common/npcs.json
+msgid "青石村？绝尘派不问世事。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.say
+#: data/common/npcs.json
+msgid "绝尘派不问世事。村里人的事，你要管，自己去管。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.emote
+#: data/common/npcs.json
+msgid "睁开眼睛，打量了你一番。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#: data/common/npcs.json
+msgid "你走得出老道的阵。"
+msgstr ""
+
+#. common.npc.juechen.master inquiry.青石村.rules.lines.say
+#: data/common/npcs.json
+msgid "……村里人的事，你要管，自己去管。"
+msgstr ""
+
 #. common.npc.juechen.master inquiry.虹台.rules.say
 #: data/common/npcs.json
 msgid "正月十七的事，过去了。"
@@ -18639,12 +18709,6 @@ msgstr ""
 #. common.npc.juechen.master inquiry.虹台.rules.lines.say
 #: data/common/npcs.json
 msgid "……你走得过老道的八卦阵。好，你要老道下山，老道就下山——投旧盟主，椅子照旧。"
-msgstr ""
-
-#. common.npc.juechen.master inquiry.虹台.rules.lines.say
-#. common.npc.juechen.master inquiry.虹台.rules.say
-#: data/common/npcs.json
-msgid "绝尘派不问世事。"
 msgstr ""
 
 #. common.npc.juechen.master inquiry.虹台.rules.lines.say
@@ -26261,6 +26325,26 @@ msgstr ""
 
 #. juechen lines.text
 #: data/story/factions.json
+msgid "你是过阵的客：走得出绝尘子的八卦阵。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "你把阿牛和小翠从青石村北边闹鬼的山洞里领了出来。村长终于把那句话说完了：国之将亡，必有妖孽。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "绝尘子知道洞里有东西。阵守得住石室，他就不管——绝尘派不问世事。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
+msgid "首徒了尘不这么想。他说话的时候，一直看着佛像下的师父。"
+msgstr ""
+
+#. juechen lines.text
+#: data/story/factions.json
 msgid "绝尘子答应了：正月十七下山走一趟。"
 msgstr ""
 
@@ -26885,9 +26969,10 @@ msgstr ""
 #. faction.celestial/report reward.rank.title
 #. faction.latemoon/shrine reward.rank.title
 #. faction.buxuan/sword reward.rank.title
+#. faction.juechen/report reward.rank.title
 #. latemoon.npc.yumay family.title
 #. latemoon.npc.shaowei family.title
-#: data/story/faction_fonxan.json data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json data/latemoon/npcs.json
+#: data/story/faction_fonxan.json data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json data/story/faction_juechen.json data/latemoon/npcs.json
 msgid "大弟子"
 msgstr ""
 
@@ -28683,6 +28768,101 @@ msgstr ""
 #. faction.sanyen/west checklist.label
 #: data/story/faction_sanyen.json
 msgid "照了寺规的：先回流云轩，药僧有话要说"
+msgstr ""
+
+#. faction.juechen summary
+#: data/story/faction_juechen.json
+msgid "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了，村里的孩子又钻了进去。山洞后面就是八卦阵，阵后面是不问世事的绝尘子。"
+msgstr ""
+
+#. faction.juechen lapses.text
+#: data/story/faction_juechen.json
+msgid "你离了绝尘派。青石村的事，到此为止。"
+msgstr ""
+
+#. faction.juechen/elder objective
+#: data/story/faction_juechen.json
+msgid "青石村北边那个山洞，门上拴着手臂粗的铁链，村里人说闹鬼。拴门的是村长：去他家（广场南边那间石屋）问他「山洞」。"
+msgstr ""
+
+#. faction.juechen/elder text
+#: data/story/faction_juechen.json
+msgid "村长说：那道门是他拴的。妇人家的阿牛背着妹妹，又钻进去了。"
+msgstr ""
+
+#. faction.juechen/elder checklist.label
+#: data/story/faction_juechen.json
+msgid "等主线第五章：寒於宝衣的事了了，鬼卒才出来"
+msgstr ""
+
+#. faction.juechen/cave objective
+#: data/story/faction_juechen.json
+msgid "开了洞口那道拴着铁链的木门进洞，打发洞里的鬼卒，找到阿牛，问他「回家」，领他回村北路口找他娘。"
+msgstr ""
+
+#. faction.juechen/cave text
+#: data/story/faction_juechen.json
+msgid "你把阿牛和小翠领出了山洞，交给了他们的娘。"
+msgstr ""
+
+#. faction.juechen/cave checklist.label
+#: data/story/faction_juechen.json
+msgid "洞口那个鬼卒"
+msgstr ""
+
+#. faction.juechen/cave checklist.label
+#: data/story/faction_juechen.json
+msgid "洞底那个鬼卒"
+msgstr ""
+
+#. faction.juechen/saying objective
+#: data/story/faction_juechen.json
+msgid "孩子回家了。去告诉村长，再问他「山洞」。"
+msgstr ""
+
+#. faction.juechen/saying text
+#: data/story/faction_juechen.json
+msgid "村长这回把那句话说完了：「国之将亡，必有妖孽。」"
+msgstr ""
+
+#. faction.juechen/report objective
+#: data/story/faction_juechen.json
+msgid "洞的北口就是去八卦阵的荒山路。回石室大厅，问绝尘子「青石村」。"
+msgstr ""
+
+#. faction.juechen/report text
+#: data/story/faction_juechen.json
+msgid "绝尘子说，洞里有东西，他知道。阵守得住石室，他就不管——绝尘派不问世事。"
+msgstr ""
+
+#. faction.juechen/report reward.deed
+#: data/story/faction_juechen.json
+msgid "把青石村的孩子从闹鬼的山洞里领了出来"
+msgstr ""
+
+#. faction.juechen/report checklist.label
+#: data/story/faction_juechen.json
+msgid "不是绝尘派的弟子：进大厅要再走一回八卦阵（从东边的石室进去）"
+msgstr ""
+
+#. faction.juechen/liaochen objective
+#: data/story/faction_juechen.json
+msgid "大厅里还有一个人：绝尘子的首徒了尘。他一直在看你。问他「山洞」。"
+msgstr ""
+
+#. faction.juechen/liaochen text
+#: data/story/faction_juechen.json
+msgid "了尘说：师父知道洞里有东西。阵守得住石室，他就不管。"
+msgstr ""
+
+#. faction.juechen/xuanchen objective
+#: data/story/faction_juechen.json
+msgid "了尘说起师父的时候，一直看着佛像下的绝尘子，话没有说完。问他「师父」。"
+msgstr ""
+
+#. faction.juechen/xuanchen text
+#: data/story/faction_juechen.json
+msgid "了尘说起了三十年前的事。"
 msgstr ""
 
 #. faction.assembly title
@@ -38480,7 +38660,8 @@ msgstr ""
 #. green.npc.woman2 name
 #. choyin.npc.lady name
 #. native.npc.niling_captive_wife name
-#: data/green/npcs.json data/choyin/npcs.json data/niling/npcs.json
+#. native.npc.green_mother name
+#: data/green/npcs.json data/choyin/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "妇人"
 msgstr ""
 
@@ -38596,6 +38777,106 @@ msgstr ""
 #: data/green/npcs.json
 msgid ""
 "造孽啊........\n"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "国之将亡，必有妖孽。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "望着北边的山，摇了摇头。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "……这回，是真的出来了。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "听你说孩子回来了，长长地出了一口气。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "回来了就好，回来了就好……"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "拄着拐杖站起来，望着北边的山。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "那洞里的冷，不是人间的冷。我拴那道门的时候就知道。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "国之将亡……"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "顿了很久。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "……必有妖孽。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "我活了九十五年，这句话从来不敢说完。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "看见你身后的阿牛，拐杖在地上顿了一下。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "快，快带他去北边路口，他娘在那儿喊了一天了。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.say
+#: data/green/npcs.json
+msgid "阿牛和小翠还在洞里。开了那道木门往里走——洞里有东西，小心。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "叹了一口气。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "北边那个山洞？那道门是我拴的，拴了好些年了。洞里冷，冷到骨头缝里——绝对不可以打开。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "可妇人家的阿牛，背着他妹妹，又钻进去了。门上那条铁链……早就锈断了。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "这阵子夜里，洞口那边有声音。不是风。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "你要是去，就开了那道木门往里走。把孩子带出来。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.say
+#: data/green/npcs.json
+msgid "北边那个山洞？那道门是我拴的。洞里冷，绝对不可以打开。"
 msgstr ""
 
 #. green.npc.oldman2 chat_msg
@@ -55423,7 +55704,8 @@ msgstr ""
 
 #. native.npc.niling_jailer inquiry topic
 #. native.npc.spice_merchant inquiry topic
-#: data/niling/npcs.json data/fanfang/npcs.json
+#. native.npc.green_mother inquiry topic
+#: data/niling/npcs.json data/fanfang/npcs.json data/native/npcs.json
 msgid "孩子"
 msgstr ""
 
@@ -71658,6 +71940,7 @@ msgid "我不收东西。"
 msgstr ""
 
 #. native.npc.luo_jianzhang inquiry topic
+#. native.npc.green_cave_kid inquiry topic
 #: data/native/npcs.json
 msgid "回家"
 msgstr ""
@@ -72262,6 +72545,301 @@ msgstr ""
 #. native.npc.woodcutter_home inquiry.树王坟
 #: data/native/npcs.json
 msgid "树王坟？再也不去了。柴不好砍，命要紧。"
+msgstr ""
+
+#. native.npc.green_cave_kid name
+#: data/native/npcs.json
+msgid "阿牛"
+msgstr ""
+
+#. native.npc.green_cave_kid long
+#: data/native/npcs.json
+msgid ""
+"一个八九岁的男孩，脸冻得发青，嘴唇发紫，背上趴着他的妹妹小翠，两只小手死死搂着他的脖子。\n"
+msgstr ""
+
+#. native.npc.green_cave_kid chat_msg
+#: data/native/npcs.json
+msgid ""
+"阿牛缩在石头后面，牙齿咯咯地响。\n"
+msgstr ""
+
+#. native.npc.green_cave_kid chat_msg
+#: data/native/npcs.json
+msgid ""
+"小翠趴在阿牛背上，抽抽搭搭地哭，哭不出声。\n"
+msgstr ""
+
+#. native.npc.green_cave_kid chat_msg
+#: data/native/npcs.json
+msgid ""
+"阿牛小声说：别出声……它们会听见的……\n"
+msgstr ""
+
+#. native.npc.green_cave_kid accept_fight.say
+#: data/native/npcs.json
+msgid "别……别打我……"
+msgstr ""
+
+#. native.npc.green_cave_kid moods.going.chat_msg
+#: data/native/npcs.json
+msgid ""
+"阿牛背着小翠跟在你后头，一手攥着你的衣角。\n"
+msgstr ""
+
+#. native.npc.green_cave_kid moods.going.chat_msg
+#: data/native/npcs.json
+msgid ""
+"阿牛小声问：娘会不会打我？\n"
+msgstr ""
+
+#. native.npc.green_cave_kid moods.home.chat_msg
+#: data/native/npcs.json
+msgid ""
+"阿牛把脸埋在他娘的围裙里。\n"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.say
+#: data/native/npcs.json
+msgid "到家了。"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.say
+#: data/native/npcs.json
+msgid "嗯！"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.lines.emote
+#: data/native/npcs.json
+msgid "从石头后面探出头来，看看地上的鬼卒，又看看你。"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.lines.say
+#: data/native/npcs.json
+msgid "它们……不动了？"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.lines.emote
+#: data/native/npcs.json
+msgid "把背上的小翠往上托了托，一只手攥住了你的衣角。"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.lines.say
+#: data/native/npcs.json
+msgid "我要回家。娘会打我的……我不怕。"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.lines.emote
+#: data/native/npcs.json
+msgid "缩在石头后面，背上的小翠已经哭不出声了。"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.回家.rules.lines.say
+#: data/native/npcs.json
+msgid "有……有鬼……青脸的……别出声，它们会听见的……"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry topic
+#: data/native/npcs.json
+msgid "小翠"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.小翠.rules.lines.say
+#: data/native/npcs.json
+msgid "小翠说门缝里有光，一闪一闪的……我们就钻进来了。"
+msgstr ""
+
+#. native.npc.green_cave_kid inquiry.小翠.rules.lines.say
+#: data/native/npcs.json
+msgid "门上那条铁链早锈断了，一推就开。娘不知道我们来过好几回了。"
+msgstr ""
+
+#. native.npc.green_mother long
+#: data/native/npcs.json
+msgid ""
+"一个四十来岁的主妇，系着围裙，手里还攥着一把长勺，站在路口朝北边的山上张望，嗓子都喊哑了。\n"
+msgstr ""
+
+#. native.npc.green_mother chat_msg
+#: data/native/npcs.json
+msgid ""
+"妇人朝着北边的山上喊：阿牛——！小翠——！\n"
+msgstr ""
+
+#. native.npc.green_mother chat_msg
+#: data/native/npcs.json
+msgid ""
+"妇人说道：明知山洞那边闹鬼……这两个小鬼，回来看我不打断你们的腿！\n"
+msgstr ""
+
+#. native.npc.green_mother chat_msg
+#: data/native/npcs.json
+msgid ""
+"妇人抹了一把眼睛，又朝山上张望。\n"
+msgstr ""
+
+#. native.npc.green_mother accept_fight.say
+#: data/native/npcs.json
+msgid "你、你要干什么？我家孩子还在山上！"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.emote
+#: data/native/npcs.json
+msgid "看见你身后的阿牛，手里的长勺「当」地掉在地上。"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "娘……"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.emote
+#: data/native/npcs.json
+msgid "扑过去把两个孩子搂在怀里，又哭又骂，巴掌举起来，落下去的时候只是摸了摸他们冰凉的脸。"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "叫你们别去！叫你们别去！……"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "恩人……这、这让我怎么谢你。"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "村长那边，你替我说一声吧。这洞……往后谁也别想再去。"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"妇人一手拉着一个孩子，往村里去了。\n"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.emote
+#: data/native/npcs.json
+msgid "一把拉住你的袖子。"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "你是往山上去的？我家阿牛，背着他妹妹，又钻到北边那个山洞里去了！"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "那洞闹鬼，村长拿铁链拴了门的……天都快黑了，还没出来。"
+msgstr ""
+
+#. native.npc.green_mother calls.steps.say
+#: data/native/npcs.json
+msgid "求你……去问问村长，那门里头到底有什么……"
+msgstr ""
+
+#. native.npc.green_mother inquiry.孩子.rules.say
+#: data/native/npcs.json
+msgid "阿牛！小翠！"
+msgstr ""
+
+#. native.npc.green_mother inquiry.孩子.rules.lines.say
+#: data/native/npcs.json
+msgid "阿牛和小翠，钻到北边山洞里去了。那洞闹鬼……"
+msgstr ""
+
+#. native.npc.green_mother inquiry.孩子.rules.lines.say
+#: data/native/npcs.json
+msgid "村长家在广场南边那间石屋。你去问问他「山洞」。"
+msgstr ""
+
+#. native.npc.green_mother inquiry.山洞
+#: data/native/npcs.json
+msgid "那洞闹鬼。村长拴了门的。"
+msgstr ""
+
+#. native.npc.juechen_liaochen name
+#: data/native/npcs.json
+msgid "了尘"
+msgstr ""
+
+#. native.npc.juechen_liaochen long
+#: data/native/npcs.json
+msgid ""
+"一个四十来岁的道人，头上的发茬是剃过之后又蓄起来的，挽成一个小小的髻；道袍洗得发白，手腕上却缠着一串磨得发亮的佛珠。他说话的时候，总要先看一眼佛像下的师父。\n"
+msgstr ""
+
+#. native.npc.juechen_liaochen family.title
+#: data/native/npcs.json
+msgid "首徒"
+msgstr ""
+
+#. native.npc.juechen_liaochen chat_msg
+#: data/native/npcs.json
+msgid ""
+"了尘拿着扫帚，把佛像前的香灰扫成一小堆。\n"
+msgstr ""
+
+#. native.npc.juechen_liaochen chat_msg
+#: data/native/npcs.json
+msgid ""
+"了尘捻着腕上的佛珠，嘴唇动了动，没有出声。\n"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
+#: data/native/npcs.json
+msgid "师父知道洞里有东西。阵守得住石室，他就不管。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.emote
+#: data/native/npcs.json
+msgid "低头捻着佛珠。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
+#: data/native/npcs.json
+msgid "……我不是师父。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.emote
+#: data/native/npcs.json
+msgid "等师父闭上了眼睛，才把你拉到大厅一角。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
+#: data/native/npcs.json
+msgid "你进了那个洞？里头……有几个？"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.emote
+#: data/native/npcs.json
+msgid "听你说完，攥紧了手里的金刚杖，指节都白了。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.say
+#: data/native/npcs.json
+msgid "两个。一个孩子背着他妹妹，在洞底躲了一天一夜。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.lines.emote
+#: data/native/npcs.json
+msgid "回头看了一眼佛像下的师父，没有再说下去。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.山洞.rules.say
+#: data/native/npcs.json
+msgid "青石村北边那个山洞？那道门是村长拴的。洞的北口，就是来这里的荒山路。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.绝尘派
+#: data/native/npcs.json
+msgid "我是师父头一个徒弟。跟着师父，快三十年了。"
+msgstr ""
+
+#. native.npc.juechen_liaochen inquiry.name
+#: data/native/npcs.json
+msgid "贫道了尘。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

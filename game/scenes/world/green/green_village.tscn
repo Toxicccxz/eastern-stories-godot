@@ -623,6 +623,11 @@ position = Vector2(800, 752)
 script = ExtResource("marker")
 spawn_point_id = &"green.path2.kid2.2"
 
+[node name="Path0Mother1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(704, 112)
+script = ExtResource("marker")
+spawn_point_id = &"green.path0.mother.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

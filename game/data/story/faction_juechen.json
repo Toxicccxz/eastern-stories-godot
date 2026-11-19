@@ -1,0 +1,187 @@
+{
+	"quests": [
+		{
+			"id": "faction.juechen",
+			"title": "绝尘派",
+			"line": "faction",
+			"region": "青石村",
+			"sources": [
+				"native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」). daemon/class/juechen/master.c (绝尘子: spi 24 and combat_exp to be taken, the gate a knob: DECISIONS「绝尘的经验门槛」), d/green/entrance.c (the wind at the 迷阵's mouth, the same gate), d/green/eight7.c (八卦阵, and 走出了八卦阵 that the stream's search does not take: DECISIONS「八卦阵与追风剑」), d/green/cave0.c (洞口: 一道厚厚的木门, 上面用一条手臂粗的铁链拴著; 一股寒气), cave1.c, cave2.c (洞内奇寒澈骨), d/green/npc/kid4.c (村长说这道门绝对不可以打开喔), woman2.c (明知山洞那边闹鬼, 没事带著我们家那两个跑过去), oldman2.c (村长: 国之将亡....., never finished), d/green/README (北边有一个废弃的山洞, 相传闹鬼). The line shows for 绝尘子's own (taken as ES2 takes them, at the knob's experience) and for a 过阵的客 (one who walked out of the 八卦阵 and asked 绝尘子「青石村」). From 第五章 on (the 鬼卒 are up): the 妇人 calling at the north road, 村长's 山洞, two 鬼卒 in the cave while the boy is in it, 阿牛 led out to his mother, 村长 finishing 国之将亡, 必有妖孽, 绝尘子 told (大弟子 for his own: 绝尘派不问世事) and 了尘 (new: the master knows what is in the cave) are the plan's (续写); the line stops at a stub step `xuanchen` that 绝尘 B fills."
+			],
+			"summary": "青石村北边那个拴着铁链的山洞，村长说「绝对不可以打开」。现在洞里真的有东西了，村里的孩子又钻了进去。山洞后面就是八卦阵，阵后面是不问世事的绝尘子。",
+			"starts": {
+				"any": [
+					{
+						"family": "family.juechen"
+					},
+					{
+						"mark": "过阵的客"
+					}
+				]
+			},
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"not": {
+								"family": "family.juechen"
+							}
+						},
+						{
+							"not": {
+								"mark": "过阵的客"
+							}
+						}
+					]
+				},
+				"text": "你离了绝尘派。青石村的事，到此为止。",
+				"mark": "绝尘的线断了"
+			},
+			"steps": [
+				{
+					"id": "elder",
+					"objective": "青石村北边那个山洞，门上拴着手臂粗的铁链，村里人说闹鬼。拴门的是村长：去他家（广场南边那间石屋）问他「山洞」。",
+					"checklist": [
+						{
+							"label": "等主线第五章：寒於宝衣的事了了，鬼卒才出来",
+							"if": {
+								"not": {
+									"mark": "宝衣一章"
+								}
+							}
+						}
+					],
+					"done": {
+						"mark": "村长说了山洞"
+					},
+					"text": "村长说：那道门是他拴的。妇人家的阿牛背着妹妹，又钻进去了。",
+					"target": {
+						"map": "green.house4_house",
+						"zone": "green.house4",
+						"npcs": [
+							"green.npc.oldman2"
+						]
+					}
+				},
+				{
+					"id": "cave",
+					"objective": "开了洞口那道拴着铁链的木门进洞，打发洞里的鬼卒，找到阿牛，问他「回家」，领他回村北路口找他娘。",
+					"checklist": [
+						{
+							"label": "洞口那个鬼卒",
+							"if": {
+								"not": {
+									"mark": "洞口的鬼卒倒了"
+								}
+							}
+						},
+						{
+							"label": "洞底那个鬼卒",
+							"if": {
+								"not": {
+									"mark": "洞底的鬼卒倒了"
+								}
+							}
+						}
+					],
+					"done": {
+						"mark": "孩子回了家"
+					},
+					"text": "你把阿牛和小翠领出了山洞，交给了他们的娘。",
+					"target": {
+						"map": "green.cave",
+						"zone": "green.cave2",
+						"npcs": [
+							"native.npc.green_cave_kid"
+						]
+					},
+					"target_after": {
+						"mark": "阿牛跟着你",
+						"map": "green.village",
+						"zone": "green.path0",
+						"npcs": [
+							"native.npc.green_mother"
+						]
+					}
+				},
+				{
+					"id": "saying",
+					"objective": "孩子回家了。去告诉村长，再问他「山洞」。",
+					"done": {
+						"mark": "村长说完了那句话"
+					},
+					"text": "村长这回把那句话说完了：「国之将亡，必有妖孽。」",
+					"target": {
+						"map": "green.house4_house",
+						"zone": "green.house4",
+						"npcs": [
+							"green.npc.oldman2"
+						]
+					}
+				},
+				{
+					"id": "report",
+					"objective": "洞的北口就是去八卦阵的荒山路。回石室大厅，问绝尘子「青石村」。",
+					"checklist": [
+						{
+							"label": "不是绝尘派的弟子：进大厅要再走一回八卦阵（从东边的石室进去）",
+							"if": {
+								"not": {
+									"family": "family.juechen"
+								}
+							}
+						}
+					],
+					"done": {
+						"mark": "绝尘子听了山洞"
+					},
+					"text": "绝尘子说，洞里有东西，他知道。阵守得住石室，他就不管——绝尘派不问世事。",
+					"reward": {
+						"deed": "把青石村的孩子从闹鬼的山洞里领了出来",
+						"rank": {
+							"family": "family.juechen",
+							"title": "大弟子"
+						}
+					},
+					"target": {
+						"map": "green.stone_house",
+						"zone": "green.cavehall",
+						"npcs": [
+							"common.npc.juechen.master"
+						]
+					}
+				},
+				{
+					"id": "liaochen",
+					"objective": "大厅里还有一个人：绝尘子的首徒了尘。他一直在看你。问他「山洞」。",
+					"done": {
+						"mark": "了尘说了洞里的事"
+					},
+					"text": "了尘说：师父知道洞里有东西。阵守得住石室，他就不管。",
+					"target": {
+						"map": "green.stone_house",
+						"zone": "green.cavehall",
+						"npcs": [
+							"native.npc.juechen_liaochen"
+						]
+					}
+				},
+				{
+					"id": "xuanchen",
+					"objective": "了尘说起师父的时候，一直看着佛像下的绝尘子，话没有说完。问他「师父」。",
+					"done": {
+						"mark": "了尘说了玄尘"
+					},
+					"text": "了尘说起了三十年前的事。",
+					"target": {
+						"map": "green.stone_house",
+						"zone": "green.cavehall",
+						"npcs": [
+							"native.npc.juechen_liaochen"
+						]
+					}
+				}
+			]
+		}
+	]
+}
