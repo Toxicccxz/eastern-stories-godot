@@ -286,6 +286,18 @@ func _test_special_moment(tree: SceneTree, trainee: NpcRuntimeState) -> void:
 	_check(is_zero_approx(_ui._special_hold(inner)), "inner work (no blow follows): no moment")
 	_ui._tell_lines(0.01)
 	_check(_ui._line_queue.is_empty() and not _ui.special_banner.showing(), "it is told at once, nothing written over the fight")
+	# 战斗运功: told with its art, it shows in the scene — as a special's opening or as a plain line.
+	var arts: Callable = func() -> int: return _ui.scene_show._effects.filter(func(effect: Node3D) -> bool: return is_instance_valid(effect) and effect.name == "Art").size()
+	_check(arts.call() == 0, "an exert told without an art: none in the scene")
+	_ui._line_queue.append(BattleNarrationLine.new("你深深吸了几口气。").with_special(me, "运功恢复气").with_art(me, &"exert/recover").with_beat(1, me))
+	_ui._tell_lines(0.01)
+	_check(_ui._line_queue.is_empty() and arts.call() == 1 and not _ui.special_banner.showing(), "an exert with its art: told at once, its figure in the scene, no banner (%d)" % arts.call())
+	_ui._line_queue.append(BattleNarrationLine.new("x").with_art(trainee.character_id, &"exert/powerup").with_beat(1, trainee.character_id))
+	for step: int in 20:
+		if _ui._line_queue.is_empty():
+			break
+		_ui._tell_lines(0.2)
+	_check(_ui._line_queue.is_empty() and arts.call() == 2, "an NPC's, told as a plain line: in the scene too (%d)" % arts.call())
 	# The feel off (no time between lines): a special is told at once, nothing written.
 	var spacing: float = _ui._line_spacing
 	_ui._line_spacing = 0.0

@@ -91,6 +91,19 @@ var damage_type: String:
 	get: return _damage_type
 
 
+## 战斗运功: the art of the exert or spell this line tells (&"" none), whom it is aimed at, and
+## whether it took.
+var _art: StringName = &""
+var art: StringName:
+	get: return _art
+var _art_target: StringName = &""
+var art_target: StringName:
+	get: return _art_target
+var _art_landed: bool = true
+var art_landed: bool:
+	get: return _art_landed
+
+
 func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = ColoredLine.PLAIN, p_summary: String = "") -> void:
 	_text = p_text
 	_damage = p_damage
@@ -138,6 +151,19 @@ func with_cue(p_cue: StringName) -> BattleNarrationLine:
 func with_special(p_actor_id: StringName, title: String) -> BattleNarrationLine:
 	_actor_id = p_actor_id
 	_special_title = title
+	return self
+
+
+## 战斗运功 (DECISIONS「战斗运功」): what the exert or spell told on this line shows in the scene
+## (the narrator, once): `p_art` names it ("exert/recover", "cast/netherbolt": battle_stage.json
+## `arts`), done by `p_actor_id`, aimed at `p_target_id` (&"": at nobody but itself), and whether
+## it took (a bolt that went home).
+func with_art(p_actor_id: StringName, p_art: StringName, p_target_id: StringName = &"", landed: bool = true) -> BattleNarrationLine:
+	if _actor_id.is_empty():
+		_actor_id = p_actor_id
+	_art = p_art
+	_art_target = p_target_id
+	_art_landed = landed
 	return self
 
 

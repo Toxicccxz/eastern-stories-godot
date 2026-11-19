@@ -71,6 +71,23 @@ func _blow_behind_a_line() -> void:
 	var unnamed: Array[BattleNarrationLine] = BattleNarrator.new(Narration._seeded(2)).special(SpecialReport.new(&"actor", [VisionLine.new("$N运起内力。", &"actor")]), cast)
 	check(unnamed[0].special_title == "绝招", "no name anywhere: 绝招")
 	check(BattleNarrator.special_title("", "「封」字诀 and 「网」") == "「封」" and BattleNarrator.special_title("", "「」") == "绝招", "the first 「」, never an empty one")
+	# 战斗运功 (DECISIONS「战斗运功」): an NPC's spell told through opportunity() — its first line
+	# carries the art, aimed at the one its lines name, home when the chat hurt them.
+	var spell_lines: Array[VisionLine] = [VisionLine.new("$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！", &"actor", &"target"), VisionLine.new("结果「嗤」地一声，青光从$p身上透体而过！", &"actor", &"target")]
+	var hurt: Array[StringName] = [&"target"]
+	var nobody: Array[StringName] = []
+	var nether := NpcSpecialAction.new(NpcSpecialAction.Kind.CAST, &"", &"netherbolt")
+	var home := CombatSchedulerEvent.new(1, 1, 0.0, CombatSchedulerEvent.Kind.NPC_CHAT, CombatSchedulerEvent.SkipReason.NONE, &"actor", &"", null, 0, CombatNpcChatResult.new(spell_lines, hurt).with_special_action(nether))
+	var bolt: Array[BattleNarrationLine] = BattleNarrator.new(Narration._seeded(3)).opportunity(home, cast)
+	check(bolt.size() == 2 and bolt[0].art == &"cast/netherbolt" and bolt[0].actor_id == &"actor" and bolt[0].art_target == &"target" and bolt[0].art_landed and bolt[1].art.is_empty(), "an NPC's bolt that went home: its first line carries the art, aimed, landed")
+	check(not bolt[0].is_special, "run without a name announced: no title, the art all the same")
+	var wide := CombatSchedulerEvent.new(2, 1, 0.0, CombatSchedulerEvent.Kind.NPC_CHAT, CombatSchedulerEvent.SkipReason.NONE, &"actor", &"", null, 0, CombatNpcChatResult.new(spell_lines, nobody).with_special_action(nether).with_special_label("青光"))
+	var missed: Array[BattleNarrationLine] = BattleNarrator.new(Narration._seeded(3)).opportunity(wide, cast)
+	check(missed[0].art == &"cast/netherbolt" and not missed[0].art_landed and missed[0].is_special and missed[0].special_title == "青光", "one that missed, announced: named, not landed")
+	var plain := CombatSchedulerEvent.new(3, 1, 0.0, CombatSchedulerEvent.Kind.NPC_CHAT, CombatSchedulerEvent.SkipReason.NONE, &"actor", &"", null, 0, CombatNpcChatResult.new(spell_lines, nobody))
+	check(BattleNarrator.new(Narration._seeded(3)).opportunity(plain, cast)[0].art.is_empty(), "a chat that ran no special: no art")
+	var counter := CombatSchedulerEvent.new(4, 1, 0.0, CombatSchedulerEvent.Kind.NPC_CHAT, CombatSchedulerEvent.SkipReason.NONE, &"actor", &"", null, 0, CombatNpcChatResult.new(spell_lines, nobody).with_special_action(NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, &"sword", &"counterattack")))
+	check(BattleNarrator.new(Narration._seeded(3)).opportunity(counter, cast)[0].art.is_empty(), "a perform: no art (its blows show it)")
 
 
 ## A line told plays on the cards: the attacker's title, the one hit's float, bar step, flash

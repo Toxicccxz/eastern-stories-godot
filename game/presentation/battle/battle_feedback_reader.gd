@@ -276,13 +276,27 @@ static func _target(event: CombatEncounterEvent, projection: BattlePresentationP
 func _tactical(event: CombatTacticalEvent, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	var label: String = catalog.label_for(event.action.request.action_id)
+	# 战斗运功: an exert or a spell that took shows in the scene.
+	var art: StringName = &""
+	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.outcome == CombatTacticalExecutionResult.Outcome.APPLIED:
+		art = BattleNarrator.action_art(event.action.request.action_id)
+	var me: StringName = event.action.request.actor_id
+	var aim: StringName = event.action.request.target_id if event.action.request.target_id != me else &""
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.special != null and not event.execution.special.is_empty():
-		return _narrator.special(event.execution.special, projection, label)
+		var report: SpecialReport = event.execution.special
+		lines = _narrator.special(report, projection, label)
+		if not lines.is_empty() and not art.is_empty():
+			if aim.is_empty():
+				aim = BattleNarrator.aimed(report.lines(), me)
+			lines[0].with_art(me, art, aim, report.damaged().has(aim))
+		return lines
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and not event.execution.lines().is_empty():
 		for line: ColoredLine in event.execution.lines():
 			lines.append(BattleNarrationLine.new(line.text, -1, line.color))
 		# DECISIONS「战斗演出」: the player's own special opens on their card.
-		lines[0].with_special(event.action.request.actor_id, label)
+		lines[0].with_special(me, label)
+		if not art.is_empty():
+			lines[0].with_art(me, art, aim)
 		return lines
 	var text: String = ""
 	match event.kind:

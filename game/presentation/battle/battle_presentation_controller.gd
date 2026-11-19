@@ -341,6 +341,9 @@ func _show_line(line: BattleNarrationLine) -> void:
 		_show_heavy_aftermath(line)
 		return
 	if not line.has_blow and not line.is_special:
+		# 战斗运功: an exert or a spell told as a plain line still shows in the scene.
+		if not line.art.is_empty():
+			scene_show.play_line(line)
 		return
 	var fatal: bool = _fatal(line)
 	if line.has_blow and _starts_beat(line) and not (line.actor_id == _projection.player_id and _projection.manual):

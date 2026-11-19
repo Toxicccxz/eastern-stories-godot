@@ -195,7 +195,7 @@ func run_special(
 	var joins: Array[CombatJoin] = _summon(actor, context)
 	if context.lines.is_empty() and context.damaged.is_empty() and context.attacks.is_empty():
 		return null
-	var said := CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins)
+	var said := CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins).with_special_action(action)
 	return said.with_special(context.report()) if not context.attacks.is_empty() else said
 
 

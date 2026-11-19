@@ -7,6 +7,7 @@ const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
 const Crawler = preload("res://presentation/voxel/actors/voxel_crawler.gd")
 const Snake = preload("res://presentation/voxel/actors/voxel_snake.gd")
 const Flyer = preload("res://presentation/voxel/actors/voxel_flyer.gd")
+const States = preload("res://presentation/voxel/actors/voxel_states.gd")
 const Town = preload("res://presentation/voxel/props/voxel_town.gd")
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
@@ -130,6 +131,8 @@ var _last_player: Vector2 = Vector2.INF
 ## A scene's camera pans (DECISIONS「剧情演出」) and pans back to the player after it.
 var _panning: bool = false
 var _context_names: bool = false
+## 状态挂在身上 (DECISIONS「战斗运功」): seconds till the figures' conditions are read again.
+var _states_wait: float = 0.0
 
 func _ready() -> void:
 	map = get_parent() as WorldMapController
@@ -159,6 +162,7 @@ func _process(delta: float) -> void:
 	_advance_view_rotation(delta)
 	_follow(delta)
 	_sync_actors(delta)
+	_sync_states(delta)
 	_sync_objects()
 	geometry.sync_passages(map)
 	_reveal_entrances()
@@ -832,6 +836,57 @@ static func fall_turn(fall: float, falling: bool) -> float:
 ## 第九章 B (DECISIONS「禁军夜巡」): a watcher's cone of sight on the ground (meta `watch_cone` the
 ## runtime sets: radius px, degrees, alarmed), faint, turned with the body; only at night, when
 ## it matters; gone when it stops watching (the meta cleared).
+## 状态挂在身上 (DECISIONS「战斗运功」): a few times a second each figure's conditions, its open
+## wound and how worn it is are read off its character's state (the rules' own: this only shows
+## them) and handed to the figure — the marks it wears (voxel_states.gd, a "States" node under
+## its model, made when it first has any) and, for a person, its stoop, sway and shiver. One
+## senseless or dead wears none.
+func _sync_states(delta: float) -> void:
+	_states_wait -= delta
+	if _states_wait > 0.0:
+		return
+	_states_wait = float(States.data().get("check_seconds", 0.25))
+	var residents: Dictionary[StringName, NpcRuntimeState] = {}
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		residents[npc.character_id] = npc
+	var player_id: StringName = map.player_body.character_id
+	for id: StringName in actors:
+		var actor: Node3D = actors[id]
+		if not is_instance_valid(actor) or actor.get_child_count() == 0:
+			continue
+		var model: Node3D = actor.get_child(0) as Node3D
+		var state: CharacterState = null
+		var life: int = CharacterRuntimeLifeStatus.Value.ACTIVE
+		if id == player_id:
+			state = map.player_runtime().state if map.player_runtime() != null else null
+			life = map.player_runtime().life_status if map.player_runtime() != null else life
+		elif residents.has(id):
+			state = residents[id].character_state
+			life = residents[id].life_status
+		var up: bool = state != null and life == CharacterRuntimeLifeStatus.Value.ACTIVE
+		var person: Person = model as Person
+		if person != null and not person.stone.is_empty():
+			continue
+		var ids: Array[StringName] = []
+		if up and state.conditions.size() > 0:
+			ids = state.conditions.sorted_condition_ids()
+		var open_wound: bool = up and States.wounded(state.vitality.effective, state.vitality.maximum)
+		var worn: States = model.get_node_or_null(^"States") as States
+		if worn != null or not ids.is_empty() or open_wound:
+			if worn == null:
+				worn = States.new()
+				worn.name = "States"
+				worn.height = float(actor.get_meta("pick_height", 1.85)) / 1.85
+				worn.body = person.torso if person != null else null
+				model.add_child(worn)
+			worn.wear(States.marks_for(ids, open_wound))
+		if person != null:
+			var bearing: Array[float] = States.bearing(ids)
+			person.sway = bearing[0]
+			person.shiver = bearing[1]
+			person.weary = maxf(States.weariness(state.vitality.current, state.vitality.maximum), bearing[2]) if up else 0.0
+
+
 func _sync_watch_cone(actor: Node3D, body: WorldCharacterBody2D) -> void:
 	var cone: MeshInstance3D = actor.get_node_or_null("WatchCone") as MeshInstance3D
 	var data: Dictionary = body.get_meta("watch_cone", {}) if body.has_meta("watch_cone") else {}

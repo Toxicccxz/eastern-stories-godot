@@ -125,6 +125,9 @@ func _test_battle(tree: SceneTree) -> void:
 	_press(panel, "运功恢复气")
 	var events: Array[CombatSchedulerEvent] = _advance()
 	_check(_log().contains("你准备运功恢复气。") and _log().contains("你深深吸了几口气，脸色看起来好多了。"), "queued, then recover.c's line in the battle log")
+	# 战斗运功: the line carries the exert's art for the scene.
+	var shown: Array[BattleNarrationLine] = _ui.feedback_reader().recent().filter(func(line: BattleNarrationLine) -> bool: return line.art == &"exert/recover")
+	_check(shown.size() == 1 and shown[0].actor_id == _player.character_id and shown[0].is_special and shown[0].text.contains("深深吸了几口气"), "recover's line carries its art (%d)" % shown.size())
 	var busy_turn: bool = false
 	for event: CombatSchedulerEvent in events:
 		if event.actor_id == _player.character_id and event.resolution != null and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED:
