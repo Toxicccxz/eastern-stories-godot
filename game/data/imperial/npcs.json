@@ -2185,7 +2185,7 @@
 			"vanishes": {
 				"line": "信使一声不响地散成一股黑烟，一封信飘落在地上。"
 			},
-			"die_marks_killer": "小屋的信使倒了"
+			"die_marks": "小屋的信使倒了"
 		},
 		{
 			"id": "native.npc.yu_zijian_accused",
@@ -2502,7 +2502,7 @@
 				"leave": true,
 				"line": "冯策一把扭住庾子建的胳膊，刀「当啷」落在金砖上。两个侍卫上来，把他押了下去。"
 			},
-			"die_marks_killer": "庾子建下狱"
+			"die_marks": "庾子建下狱"
 		},
 		{
 			"id": "native.npc.feng_ce_beside",

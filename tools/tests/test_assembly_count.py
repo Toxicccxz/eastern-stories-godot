@@ -93,7 +93,7 @@ CARD_LEADS = {
 }
 
 # What writes marks besides 问话 rules: an act's or a call's steps, gifts, fights, a quest's rewards.
-GIVER_KEYS = ("mark_giver", "marks_giver", "cleared_mark", "scene_mark", "die_marks_killer", "set_mark", "spar_won_mark", "also_mark")
+GIVER_KEYS = ("mark_giver", "marks_giver", "cleared_mark", "scene_mark", "die_marks_killer", "die_marks", "set_mark", "spar_won_mark", "also_mark")
 # The one mark the votes read that is written otherwise: the 终章's end, which 入席 needs.
 WRITTEN_BEFORE_SEATING = {"终章"}
 

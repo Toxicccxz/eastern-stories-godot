@@ -399,7 +399,7 @@
 				"黑衣道士一边招架一边往洞口瞟。\n"
 			],
 			"spared": { "mark": "放过了黑衣道士", "leave": true, "line": "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。" },
-			"die_marks_killer": "杀了黑衣道士"
+			"die_marks": "杀了黑衣道士"
 		},
 		{
 			"id": "native.npc.tribute_taoist",
@@ -5306,7 +5306,7 @@
 			"die_carries": {
 				"item": "native:waterfog/spy_letter"
 			},
-			"die_marks_killer": "拿下了探子"
+			"die_marks": "拿下了探子"
 		},
 		{
 			"id": "native.npc.waterfog_hopeful",
@@ -6464,7 +6464,7 @@
 				"leave": true,
 				"line": "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸往北边跑了。"
 			},
-			"die_marks_killer": "量水的道士倒了"
+			"die_marks": "量水的道士倒了"
 		},
 		{
 			"id": "native.npc.war_painter",
@@ -6564,7 +6564,7 @@
 			"die_carries": {
 				"item": "native:canyon/dig_sketch"
 			},
-			"die_marks_killer": "兵部画吏倒了"
+			"die_marks": "兵部画吏倒了"
 		},
 		{
 			"id": "native.npc.ice_cutter",

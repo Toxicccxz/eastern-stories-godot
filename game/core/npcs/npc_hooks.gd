@@ -36,6 +36,9 @@ extends RefCounted
 ##   master form when the player struck last (ItemContentDefinition.MASTER_SUFFIX).
 ## - `die_marks_killer` (d/chuenyu/xiaojuan2.c die()): its killer, the player, gets that mark
 ##   (query_temp("last_damage_from")->set("marks/<mark>", 1)).
+## - `die_marks` (native, 修补 Z; DECISIONS「倒在你这边的人手里」): the player gets that mark when it dies to
+##   anyone on their side (they, one they called, one fighting it beside them), vanishing or not: a step
+##   of a story that needs it fallen, not a murderer's mark.
 ## - `spar_won_mark` (native, 第九章 A's 武举: DECISIONS「第九章 A」): the player who wins a spar
 ##   against it gets that mark (the 校武场's three bouts, each a step).
 ## - `calls` (xiaojuan2.c, chuenyu.c init()): the call_outs its init() starts when the player
@@ -83,6 +86,7 @@ var ghost: bool = false
 var die_item_id: StringName = &""
 var die_item_master: bool = false
 var die_marks_killer: String = ""
+var die_marks: String = ""
 var spar_won_mark: String = ""
 var calls: Array[Call] = []
 var calls_hold: bool = false
@@ -236,7 +240,7 @@ const FIGHT_CHANT_APPLIES: Array[String] = ["attack", "defense", "damage", "armo
 ## The NPC record's `receive_damage` {hurt?: {divisor, line, color?}, pills?: {count, below,
 ## line, color?}}, `kill_ob` {lines}, `revive` {exp_divisor, exp_plus, apply_divisor},
 ## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
-## repeat_after}, `fight_chant` {every, stages: [{say, line?, applies?, mark?, mark_lapses_at?, ends_spar?}]}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `spar_won_mark` a mark, `calls`
+## repeat_after}, `fight_chant` {every, stages: [{say, line?, applies?, mark?, mark_lapses_at?, ends_spar?}]}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `die_marks` a mark, `spar_won_mark` a mark, `calls`
 ## [{after, ...ScriptedAct}], `calls_hold` true, `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
 ## `follows_every_way` true, `trials` [NpcTrial]; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
@@ -346,6 +350,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	if reader.has("die_marks_killer"):
 		found = true
 		hooks.die_marks_killer = reader.required_text("die_marks_killer")
+	if reader.has("die_marks"):
+		found = true
+		hooks.die_marks = reader.required_text("die_marks")
 	if reader.has("spar_won_mark"):
 		found = true
 		hooks.spar_won_mark = reader.required_text("spar_won_mark")
