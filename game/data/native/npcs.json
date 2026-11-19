@@ -10267,6 +10267,307 @@
 					]
 				}
 			]
+		},
+		{
+			"id": "native.npc.sick_woodcutter",
+			"legacy_source": "native: 势力线第三批 山烟寺 A (剧情总纲 §4 第 4 条「山烟寺」, §3 第五章 (树洞里的鬼影是鬼卒); 计划 势力线第三批_计划.md §6 山烟寺 A, §2「谁能走」「互斥」, §8 第 7 行, §10 第 8 条, §12 Q1 Q5, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 A」) — a woodcutter of 乔阴 clawed by a 鬼卒 by the 树王坟 (剧情总纲 §3 第五章: 树洞里的鬼影是鬼卒; d/choyin/tree_tomb.c), lying in 流云轩 (d/sanyen/heal_room.c: 是玄智方丈为人看病的地方) from 第五章 on, the cold in his wound beyond 玄智's herbs. 续写. The attributes are fixed here",
+			"name": "老葛",
+			"aliases": [
+				"woodcutter",
+				"樵夫",
+				"老葛",
+				"葛樵夫"
+			],
+			"title": "乔阴樵夫",
+			"gender": "男性",
+			"age": 44,
+			"long": "一个黑瘦的汉子，裹着两床被子躺在草垫上，脸色青白，嘴唇发紫。露在被子外面的那条胳膊上，三道青黑的爪痕，不流血，边上结着一层白霜似的东西。\n",
+			"attributes": {
+				"str": 24,
+				"con": 22,
+				"cor": 18,
+				"spi": 14,
+				"int": 12,
+				"cps": 16,
+				"kar": 14,
+				"per": 12
+			},
+			"combat_exp": 400,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 10,
+				"dodge": 10
+			},
+			"always_kept": true,
+			"chat_chance": 5,
+			"chat_msg": [
+				"老葛裹着两床被子，还在打哆嗦。\n",
+				"老葛的牙齿咯咯作响：冷……冷……\n",
+				"老葛望着屋顶，喃喃地说：树王坟……那东西……\n"
+			],
+			"accept_fight": [
+				{
+					"say": "我……我连起都起不来……",
+					"accept": false
+				}
+			],
+			"accept_object": [
+				{
+					"item": "native:sanyen/decoction",
+					"giver_lacks": [
+						"山烟寺的线断了"
+					],
+					"accept": true,
+					"destroys": true,
+					"mark_giver": "喂了樵夫药",
+					"lines": [
+						{
+							"line": "你把老葛扶起来，一勺一勺地把汤药喂了下去。\n"
+						},
+						{
+							"emote": "喝完了药，额头上冒出一层细汗，嘴唇却还是紫的。"
+						},
+						{
+							"say": "热……肚子里是热的。可这条胳膊……还是冷，冷到骨头缝里。"
+						},
+						{
+							"line": "药僧伸手按了按那三道爪痕，脸色变了：「寒气退不下去。方丈的方子……压不住。」\n"
+						}
+					]
+				},
+				{
+					"item": "native:sanyen/decoction",
+					"accept": true,
+					"destroys": true,
+					"lines": [
+						{
+							"line": "你把汤药喂老葛喝了下去。他还是在发抖。\n"
+						}
+					]
+				},
+				{
+					"say": "我……我拿不住东西。",
+					"accept": false
+				}
+			],
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"present": "sanyen.npc.monk",
+					"mark": "头陀跟你去了流云轩",
+					"not_mark": "头陀进了流云轩",
+					"steps": [
+						{
+							"by": "sanyen.npc.monk"
+						},
+						{
+							"emote": "一低头进了流云轩，那只独眼在满墙的药柜上扫了一圈。"
+						},
+						{
+							"line": "药僧手里的药杵「当」地掉在地上：「你……外人不进流云轩！」\n"
+						},
+						{
+							"say": "让开。"
+						},
+						{
+							"emote": "在老葛身边盘膝坐下，一只手掌按在那三道青黑的爪痕上。"
+						},
+						{
+							"line": "头陀的手掌一点一点红了起来，屋里一股焦味，像是什么东西烧着了。老葛浑身一抖，爪痕上冒起一缕白气。\n",
+							"color": "HIR"
+						},
+						{
+							"by": "native.npc.sick_woodcutter"
+						},
+						{
+							"say": "热……热乎了！"
+						},
+						{
+							"emote": "一骨碌坐了起来，看看自己的胳膊，又看看头陀，说不出话。"
+						},
+						{
+							"by": "sanyen.npc.monk"
+						},
+						{
+							"emote": "收回手掌，长出了一口气，那只独眼里的光暗了一暗。"
+						},
+						{
+							"say": "赶干净了。"
+						},
+						{
+							"say": "你想问我这门内功？……这经，是从番坊来的。番坊的日陀罗寺。"
+						},
+						{
+							"line": "药僧已经一溜烟跑去前殿报方丈了。\n"
+						},
+						{
+							"mark": "不守寺规"
+						},
+						{
+							"mark": "听说了番坊的经"
+						},
+						{
+							"npc_mood": "back"
+						},
+						{
+							"unfollow": true
+						},
+						{
+							"mark": "头陀进了流云轩"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"伤": {
+					"rules": [
+						{
+							"asker_marks": [
+								"喂了樵夫药"
+							],
+							"lines": [
+								{
+									"emote": "裹紧了被子，牙齿咯咯地响。"
+								},
+								{
+									"say": "药是热的，下了肚……还是冷。冷到骨头缝里。"
+								}
+							]
+						},
+						{
+							"lines": [
+								{
+									"emote": "哆嗦着把袖子捋起来：小臂上三道青黑的爪痕，不流血，摸上去冰凉。"
+								},
+								{
+									"say": "那天擦黑，我在乔阴树王坟那边砍柴……坟后头钻出来一个青脸的东西，眼眶里两点青火，一爪子抓过来。"
+								},
+								{
+									"say": "伤口是冷的。不疼，就是冷，冷到骨头里。"
+								}
+							]
+						}
+					]
+				},
+				"树王坟": [
+					"树王坟那截大树桩，乔阴人都不敢靠近。我贪那边的柴好……那东西，就是从坟后头的石缝边上钻出来的。"
+				],
+				"乔阴": [
+					"乔阴北门外，我家就在那儿。砍了二十年柴，没见过那种东西。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.woodcutter_home",
+			"legacy_source": "native: 势力线第三批 山烟寺 A (剧情总纲 §4 第 4 条「山烟寺」, §3 第五章 (树洞里的鬼影是鬼卒); 计划 势力线第三批_计划.md §6 山烟寺 A, §2「谁能走」「互斥」, §8 第 7 行, §10 第 8 条, §12 Q1 Q5, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 A」) — 老葛 home again by 乔阴's 北门 once the 流云轩 is done with him: the cold driven out by the 独眼头陀, or his life kept by 玄智 three days and nights and his right arm lost (计划 §6 山烟寺 A 第 2 条: 他回乔阴时说一句). 续写. The attributes are fixed here",
+			"name": "老葛",
+			"aliases": [
+				"woodcutter",
+				"樵夫",
+				"老葛",
+				"葛樵夫"
+			],
+			"title": "乔阴樵夫",
+			"gender": "男性",
+			"age": 44,
+			"long": "一个黑瘦的汉子，肩上扛着一捆柴，腰里别着一把柴刀。小臂上三道爪痕，已经褪成了浅褐色。\n",
+			"attributes": {
+				"str": 24,
+				"con": 22,
+				"cor": 18,
+				"spi": 14,
+				"int": 12,
+				"cps": 16,
+				"kar": 14,
+				"per": 12
+			},
+			"combat_exp": 400,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 10,
+				"dodge": 10
+			},
+			"always_kept": true,
+			"chat_chance": 3,
+			"chat_msg": [
+				"老葛把肩上的柴卸下来，坐在城门边的石墩上歇脚。\n"
+			],
+			"accept_fight": [
+				{
+					"say": "恩人，这可使不得。",
+					"accept": false
+				}
+			],
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"mark": "头陀进了流云轩",
+					"not_mark": "老葛谢过你",
+					"steps": [
+						{
+							"emote": "扛着一捆柴从北门外进来，看见你，把柴往地上一扔。"
+						},
+						{
+							"say": "恩人！那头陀一掌按下来，烫得我叫出了声——第二天就能抡斧头了。"
+						},
+						{
+							"say": "……他那只眼睛，你见过吗？瞎的那只，眼皮底下是红的，像烧过。"
+						},
+						{
+							"mark": "老葛谢过你"
+						}
+					]
+				},
+				{
+					"after": 1,
+					"scene": true,
+					"mark": "守了寺规",
+					"not_mark": "老葛谢过你",
+					"steps": [
+						{
+							"emote": "坐在北门边的石墩上，右手吊在胸前，左手拿着柴刀，削一根木棍。"
+						},
+						{
+							"say": "是你啊。命是方丈守回来的，三天三夜，没合眼。"
+						},
+						{
+							"emote": "抬了抬那只吊着的右手，抬不起来。"
+						},
+						{
+							"say": "……这只手，抡不动斧头了。往后砍柴，用左手。"
+						},
+						{
+							"mark": "老葛谢过你"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"伤": {
+					"rules": [
+						{
+							"asker_marks": [
+								"头陀进了流云轩"
+							],
+							"say": "好了，全好了。那头陀的手，热得跟炭一样。"
+						},
+						{
+							"asker_marks": [
+								"守了寺规"
+							],
+							"say": "命保住了。右手废了——方丈说，寒气在骨头里待太久，赶不出来了。"
+						},
+						{
+							"say": "伤？好了。"
+						}
+					]
+				},
+				"树王坟": [
+					"树王坟？再也不去了。柴不好砍，命要紧。"
+				]
+			}
 		}
 	]
 }

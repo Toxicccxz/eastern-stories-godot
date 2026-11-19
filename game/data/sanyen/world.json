@@ -73,6 +73,7 @@
 	],
 	"services": [
 		{ "id": "sanyen.front_yard.coach", "kind": "coach", "zone": "sanyen.front_yard", "name": "车马行", "reach": 96, "arrival": "sanyen.front_yard.coach_arrival", "legacy_source": "native: 车马行 (DECISIONS「车马行」)" },
+		{ "id": "sanyen.drug_field.herbs", "kind": "act", "zone": "sanyen.drug_field", "name": "药圃", "reach": 96, "legacy_source": "d/sanyen/drug_field.c; native: 势力线第三批 山烟寺 A (剧情总纲 §4 第 4 条「山烟寺」, §3 第五章 (树洞里的鬼影是鬼卒); 计划 势力线第三批_计划.md §6 山烟寺 A, §2「谁能走」「互斥」, §8 第 7 行, §10 第 8 条, §12 Q1 Q5, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 A」) (附子, the first of 玄智's three herbs)", "act": {"verb": "采", "acts": [{"mark": "采了附子", "steps": [{"line": "附子已经挖了一块。药圃里别的，都是些寻常的药材。\n"}]}, {"mark": "玄智开了方子", "steps": [{"line": "你照方丈说的，到东边那一畦拨开叶子，挖出一块乌黑的块根——附子。\n"}, {"give": "native:sanyen/fuzi"}, {"mark": "采了附子"}]}, {"steps": [{"line": "药圃一块一块的，哪边种当归，哪边种枸杞，绝不会混在一起。只是看来看去都只是些寻常的药材，没有方子，你也不知道该采哪一味。\n"}]}]} },
 		{ "id": "sanyen.kitchen.steampot", "kind": "act", "zone": "sanyen.kitchen", "name": "蒸笼", "reach": 120, "legacy_source": "d/sanyen/kitchen.c", "act": {"verb": "打开", "acts": [{"present": "sanyen.npc.cook_bonze", "steps": [{"line": "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"}]}, {"steps": [{"line": "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n"}]}]} }
 	]
 }

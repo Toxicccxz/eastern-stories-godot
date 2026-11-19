@@ -223,6 +223,8 @@
 		"native.npc.lu_decai_home": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.he_ping": "post",
 		"native.npc.road_robber": "post",
+		"native.npc.sick_woodcutter": {"mode": "still", "pose": "lie"},
+		"native.npc.woodcutter_home": "still",
 		"native.npc.sword_soul_spar": "still",
 		"native.npc.luo_jianzhang": "still",
 		"native.npc.luo_yunzhou_capital": "still"

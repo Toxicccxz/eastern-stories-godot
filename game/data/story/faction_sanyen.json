@@ -1,0 +1,218 @@
+{
+	"quests": [
+		{
+			"id": "faction.sanyen",
+			"title": "山烟寺",
+			"line": "faction",
+			"region": "日照山",
+			"sources": [
+				"native: 势力线第三批 山烟寺 A (剧情总纲 §4 第 4 条「山烟寺」, §3 第五章 (树洞里的鬼影是鬼卒); 计划 势力线第三批_计划.md §6 山烟寺 A, §2「谁能走」「互斥」, §8 第 7 行, §10 第 8 条, §12 Q1 Q5, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 A」). daemon/class/bonze/master.c (玄智: 剃度, then 拜师; only men), d/sanyen/heal_room.c (流云轩: 是玄智方丈为人看病的地方, 也是存放药草的地方), d/sanyen/npc/drug_bonze.c (药僧), d/sanyen/drug_field.c (药圃), d/sanyen/npc/monk.c (独眼头陀: 似乎不是山烟寺的僧人, lotusforce 90), d/snow/npc/herbalist.c (杨掌柜: 年轻时曾经跟著山烟寺的玄智和尚学医), d/choyin/tree_tomb.c (树王坟). The line shows for 玄智's own (shaved and knelt, as ES2) and for a 流云轩的帮手 (after 第五章 one who asked the 药僧 「病人」; a woman too, not shaved; not one who took 朱鸿雪's order: 山烟寺 and 东方神教 exclude each other). The 樵夫 老葛 clawed by a 鬼卒 by the 树王坟, 玄智's three herbs (附子 from the 药圃, 麝香 from 杨掌柜, 鬼臼 by the 树王坟 where a 鬼卒 stands while it is wanted), the 药僧's 汤药 that does not drive the cold out (知客 for 山烟寺's own), and the small choice: the 独眼头陀 led into 流云轩 (he follows once; 老葛 healed on the spot; 不守寺规) or the rule kept (玄智 keeps him three days and nights; his life saved, his right arm lost) are the plan's (续写); either way someone says the 头陀's 经 came from 番坊, and the line stops at a stub step `west` that 山烟寺 B fills."
+			],
+			"summary": "流云轩里躺着一个被鬼卒抓伤的乔阴樵夫，伤口是冷的，玄智的药赶不出那股寒。金门外站了十年、从不说话的独眼头陀开口了：「我能。」——可寺规不许外人进流云轩。",
+			"starts": {
+				"any": [
+					{
+						"family": "family.sanyen"
+					},
+					{
+						"mark": "流云轩的帮手"
+					}
+				]
+			},
+			"excludes": [
+				"faction.dongfang"
+			],
+			"lapses": {
+				"when": {
+					"all": [
+						{
+							"not": {
+								"family": "family.sanyen"
+							}
+						},
+						{
+							"not": {
+								"mark": "流云轩的帮手"
+							}
+						}
+					]
+				},
+				"text": "你离了山烟寺。流云轩的事，到此为止。",
+				"mark": "山烟寺的线断了"
+			},
+			"steps": [
+				{
+					"id": "rx",
+					"objective": "流云轩里躺着一个乔阴来的樵夫，伤口是冷的。去山烟寺大雄宝殿问玄智方丈「流云轩」，请他开方子。",
+					"checklist": [
+						{
+							"label": "等主线第五章：寒於宝衣的事了了，才有这个病人",
+							"if": {
+								"not": {
+									"mark": "宝衣一章"
+								}
+							}
+						}
+					],
+					"done": {
+						"mark": "玄智开了方子"
+					},
+					"text": "玄智开了方子：附子回阳，麝香开窍，鬼臼以毒攻毒。三味齐了，交给流云轩的药僧煎。",
+					"target": {
+						"map": "sanyen.hall_house",
+						"zone": "sanyen.temple",
+						"npcs": [
+							"common.npc.bonze.master"
+						]
+					}
+				},
+				{
+					"id": "field",
+					"objective": "第一味：附子。在山烟寺东边的药圃里「采」。",
+					"done": {
+						"mark": "采了附子"
+					},
+					"text": "你在药圃东边那一畦挖出了一块附子。",
+					"target": {
+						"map": "sanyen.grounds",
+						"zone": "sanyen.drug_field",
+						"npcs": []
+					}
+				},
+				{
+					"id": "shop",
+					"objective": "第二味：麝香。雪亭镇桑邻药铺的杨掌柜年轻时跟玄智学过医，问他「山烟寺」。",
+					"done": {
+						"mark": "杨掌柜给了麝香"
+					},
+					"text": "杨掌柜看了方子，包了一小包麝香给你，没收钱。",
+					"target": {
+						"map": "snow.herbshop_house",
+						"zone": "snow.herbshop",
+						"npcs": [
+							"snow.npc.herbalist"
+						]
+					}
+				},
+				{
+					"id": "tomb",
+					"objective": "第三味：鬼臼，长在乔阴树王坟边的石缝里。那里站着一个鬼卒——打发了它，在石缝边「采」。",
+					"done": {
+						"mark": "采了鬼臼"
+					},
+					"text": "你在树王坟边的石缝里采到了一株鬼臼。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.tree_tomb",
+						"npcs": [
+							"native.npc.hell_runner_tomb"
+						]
+					}
+				},
+				{
+					"id": "brew",
+					"objective": "三味齐了。回流云轩，问药僧「煎药」。",
+					"done": {
+						"mark": "药僧煎好了药"
+					},
+					"text": "药僧把三味药煎成了一碗黑褐色的汤药。",
+					"target": {
+						"map": "sanyen.heal_room_house",
+						"zone": "sanyen.heal_room",
+						"npcs": [
+							"sanyen.npc.drug_bonze"
+						]
+					}
+				},
+				{
+					"id": "feed",
+					"objective": "把汤药喂给老葛（「给」流云轩里躺着的樵夫）。",
+					"done": {
+						"mark": "喂了樵夫药"
+					},
+					"text": "药喂下去了，老葛肚子里是热的，可那条胳膊还是冷，冷到骨头缝里——寒气退不下去。",
+					"reward": {
+						"deed": "替流云轩采齐了玄智的三味药，喂了乔阴的樵夫",
+						"rank": {
+							"family": "family.sanyen",
+							"title": "知客"
+						}
+					},
+					"target": {
+						"map": "sanyen.heal_room_house",
+						"zone": "sanyen.heal_room",
+						"npcs": [
+							"native.npc.sick_woodcutter"
+						]
+					}
+				},
+				{
+					"id": "monk",
+					"weight": "small",
+					"objective": "玄智的药赶不出那股寒。金门外站了十年、从不说话的独眼头陀，问他「病人」。让他治（问头陀「领路」）：领他进流云轩，老葛当场就好——可寺规不许外人进流云轩，玄智会记你不守寺规。照寺规（问大雄宝殿的玄智「寺规」）：方丈自己守着老葛，命保得住，一只手保不住；头陀从此不理你。",
+					"target": {
+						"map": "sanyen.grounds",
+						"zone": "sanyen.road1",
+						"npcs": [
+							"sanyen.npc.monk"
+						]
+					},
+					"options": [
+						{
+							"id": "heal",
+							"done": {
+								"mark": "头陀进了流云轩"
+							},
+							"text": "你领独眼头陀进了流云轩。他一掌按在老葛的伤口上，寒气冒成一缕白烟——老葛当场坐了起来。玄智记下了：你不守寺规。",
+							"reward": {
+								"deed": "领金门外的独眼头陀进了流云轩，治好了乔阴的樵夫"
+							}
+						},
+						{
+							"id": "rule",
+							"done": {
+								"mark": "守了寺规"
+							},
+							"text": "你照了寺规。玄智在流云轩守了老葛三天三夜：命保住了，右手废了。头陀转身回了金门外。",
+							"reward": {
+								"deed": "照山烟寺的寺规，没让外人进流云轩"
+							}
+						}
+					]
+				},
+				{
+					"id": "west",
+					"objective": "独眼头陀那门火性的内功，他练的那部经，不是山烟寺的东西。它从番坊来：去番坊日陀罗寺问龙若法王「头陀」。",
+					"done": {
+						"mark": "龙若说了三十年前"
+					},
+					"text": "龙若法王说起了三十年前的事。",
+					"target": {
+						"map": "fanfang.lama_temple",
+						"zone": "fanfang.temple_yard",
+						"npcs": [
+							"fanfang.npc.lama_master"
+						]
+					},
+					"checklist": [
+						{
+							"label": "照了寺规的：先回流云轩，药僧有话要说",
+							"if": {
+								"all": [
+									{
+										"mark": "守了寺规"
+									},
+									{
+										"not": {
+											"mark": "听说了番坊的经"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

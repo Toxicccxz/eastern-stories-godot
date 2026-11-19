@@ -417,6 +417,8 @@ msgstr ""
 #. native.npc.maoshan_gardener_north gender
 #. native.npc.luo_jianzhang gender
 #. native.npc.luo_yunzhou_capital gender
+#. native.npc.sick_woodcutter gender
+#. native.npc.woodcutter_home gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -1024,7 +1026,9 @@ msgstr ""
 
 #. es2:d/choyin/tree_tomb short
 #. es2:d/choyin/tomb1 short
-#: scenes/world/choyin/choyin_town.tscn scenes/world/choyin/choyin_tree_hollow.tscn data/choyin/rooms.json
+#. native.npc.sick_woodcutter inquiry topic
+#. native.npc.woodcutter_home inquiry topic
+#: scenes/world/choyin/choyin_town.tscn scenes/world/choyin/choyin_tree_hollow.tscn data/choyin/rooms.json data/native/npcs.json
 msgid "树王坟"
 msgstr ""
 
@@ -1122,6 +1126,10 @@ msgstr ""
 
 #: scenes/world/choyin/choyin_town.tscn
 msgid "大井 · 装水"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "石缝 · 采"
 msgstr ""
 
 #: scenes/world/choyin/choyin_town.tscn
@@ -3612,8 +3620,9 @@ msgstr ""
 msgid "大雄宝殿"
 msgstr ""
 
+#. common.npc.bonze.master inquiry topic
 #. es2:d/sanyen/heal_room short
-#: scenes/world/sanyen/heal_room_house.tscn data/sanyen/rooms.json data/sanyen/voxel/grounds.json
+#: scenes/world/sanyen/heal_room_house.tscn data/common/npcs.json data/sanyen/rooms.json data/sanyen/voxel/grounds.json
 msgid "流云轩"
 msgstr ""
 
@@ -3624,6 +3633,10 @@ msgstr ""
 
 #: scenes/world/sanyen/kitchen_house.tscn
 msgid "蒸笼 · 打开"
+msgstr ""
+
+#: scenes/world/sanyen/sanyen_temple.tscn
+msgid "药圃 · 采"
 msgstr ""
 
 #. es2:d/sanyen/tower short
@@ -3643,7 +3656,8 @@ msgid "庭园"
 msgstr ""
 
 #. es2:d/sanyen/drug_field short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+#. sanyen.drug_field.herbs name
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json data/sanyen/world.json
 msgid "药圃"
 msgstr ""
 
@@ -3729,11 +3743,13 @@ msgstr ""
 #. common.npc.bonze.master family.name
 #. sanyen place
 #. sanyen name
+#. faction.sanyen title
+#. snow.npc.herbalist inquiry topic
 #. cloud.npc.monk inquiry topic
 #. cloud.npc.monk_guard inquiry topic
 #. fanfang.npc.lama_master inquiry topic
 #. native.npc.indian_monk inquiry topic
-#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/story/factions.json data/cloud/npcs.json data/sanyen/world.json data/fanfang/npcs.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/atlas.json data/common/families.json data/common/npcs.json data/story/factions.json data/story/faction_sanyen.json data/snow/npcs.json data/cloud/npcs.json data/sanyen/world.json data/fanfang/npcs.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
 msgid "山烟寺"
 msgstr ""
 
@@ -13226,7 +13242,8 @@ msgstr ""
 #. es2:obj/drug/snake_drug unit
 #. es2:obj/toy/poison_dust unit
 #. es2:obj/slumber_drug unit
-#: data/common/items.json
+#. native:snow/musk unit
+#: data/common/items.json data/native/items.json
 msgid "包"
 msgstr ""
 
@@ -16051,8 +16068,9 @@ msgid "晚月山路"
 msgstr ""
 
 #. name
+#. faction.sanyen region
 #. sunhill name
-#: data/common/atlas.json data/sanyen/world.json
+#: data/common/atlas.json data/story/faction_sanyen.json data/sanyen/world.json
 msgid "日照山"
 msgstr ""
 
@@ -16189,6 +16207,7 @@ msgstr ""
 #. main.chapter7 title
 #. main.chapter7 region
 #. ending cards.title
+#. sanyen.npc.monk inquiry topic
 #. native.npc.balang inquiry topic
 #. native.npc.luca inquiry topic
 #. native.npc.salt_porter inquiry topic
@@ -16197,7 +16216,7 @@ msgstr ""
 #. native.npc.stall_child inquiry topic
 #. native.npc.storyteller inquiry topic
 #. fanfang name
-#: data/common/atlas.json data/story/chapter7.json data/story/epilogue.json data/guanbei/npcs.json data/fanfang/npcs.json data/fanfang/world.json
+#: data/common/atlas.json data/story/chapter7.json data/story/epilogue.json data/sanyen/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/fanfang/world.json
 msgid "番坊"
 msgstr ""
 
@@ -17225,6 +17244,8 @@ msgstr ""
 #. cloud.npc.b_header inquiry.改投.rules.say
 #. latemoon.npc.room.old inquiry.女儿.rules.say
 #. latemoon.npc.room.killer inquiry.娘.rules.say
+#. sanyen.npc.monk inquiry.病人.rules.say
+#. sanyen.npc.monk inquiry.领路.rules.say
 #. city.npc.chen inquiry.这一票.rules.say
 #. native.npc.yulan_zhao inquiry.庾尚书
 #. native.npc.he_ping inquiry.爹.rules.say
@@ -17233,7 +17254,7 @@ msgstr ""
 #. native.npc.latemoon_daughter inquiry.娘.rules.say
 #. native.npc.lu_decai_home inquiry.这一票.rules.say
 #. native.npc.maoshan_gardener inquiry.这一票.rules.say
-#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
+#: data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/sanyen/npcs.json data/city/npcs.json data/imperial/npcs.json data/native/npcs.json
 msgid "……"
 msgstr ""
 
@@ -20612,6 +20633,211 @@ msgstr ""
 msgid "出家"
 msgstr ""
 
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.emote
+#: data/common/npcs.json
+msgid "看了你一眼，双手合十。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。施主身上有神教的血腥气。流云轩的事，不劳施主。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。流云轩的事，不劳施主了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "那樵夫的命，保住了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.emote
+#: data/common/npcs.json
+msgid "低头看着自己的手。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "那只手……老衲尽力了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "那樵夫好了。药僧都跟老衲说了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "寺规，施主破了。阿弥陀佛。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "药喂下去了，寒气还在。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "老衲的药是凉性的底子……赶不出这股寒。阿弥陀佛。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.say
+#: data/common/npcs.json
+msgid "药煎好了，拿去喂他。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.say
+#: data/common/npcs.json
+msgid "附子在药圃，麝香找雪亭的杨掌柜，鬼臼在乔阴树王坟边。三味齐了交给药僧煎。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "乔阴来的樵夫，在树王坟边被鬼卒抓了一把。那不是寻常的伤——是阴间的寒气，钻进骨头里了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.emote
+#: data/common/npcs.json
+msgid "捻了很久的念珠。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "老衲开个方子：附子回阳，麝香开窍，再要一味鬼臼，以毒攻毒。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "附子，寺东的药圃里有；麝香，雪亭镇桑邻药铺的杨掌柜那里有——他年轻时跟老衲学过医；鬼臼，就长在乔阴树王坟边的石缝里。那里有鬼卒，小心。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "三味齐了，交给流云轩的药僧煎。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.lines.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。药僧说，施主肯帮流云轩的忙。帮手不必落发。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.say
+#: data/common/npcs.json
+msgid "流云轩里躺着一个乔阴来的樵夫。阿弥陀佛。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.流云轩.rules.say
+#: data/common/npcs.json
+msgid "流云轩是老衲为人看病、存放药草的地方。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry topic
+#: data/common/npcs.json
+msgid "头陀"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.say
+#: data/common/npcs.json
+msgid "他回金门外站着去了。十年了，他一直站在那里。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.say
+#: data/common/npcs.json
+msgid "他进了流云轩。……老衲知道。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.emote
+#: data/common/npcs.json
+msgid "拨了两颗念珠，没有再说。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.say
+#: data/common/npcs.json
+msgid "他不是本寺的人。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.say
+#: data/common/npcs.json
+msgid "十年前他到山门前来，老衲没让他进门。他也不走，就站在金门外，一站十年。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.say
+#: data/common/npcs.json
+msgid "本寺的规矩：外人不进流云轩。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry topic
+#: data/common/npcs.json
+msgid "寺规"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.confirm
+#: data/common/npcs.json
+msgid ""
+"照寺规：不让独眼头陀进流云轩。\n"
+"玄智守着老葛治：命保得住，一只手保不住。头陀转身回金门外，从此不理你。\n"
+"这是山烟寺这条线上的一个选择，选了不能改。要照寺规吗？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.say
+#: data/common/npcs.json
+msgid "寺规就是寺规。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.say
+#: data/common/npcs.json
+msgid "寺规，施主已经破了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.emote
+#: data/common/npcs.json
+msgid "看了看你身后。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.say
+#: data/common/npcs.json
+msgid "人是施主领来的，老衲不拦。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.emote
+#. common.npc.bonze.master inquiry.改投.rules.lines.emote
+#: data/common/npcs.json
+msgid "双手合十。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。外人不进流云轩——这是本寺三百年的规矩，老衲不能在老衲手里破了它。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.say
+#: data/common/npcs.json
+msgid "那樵夫，老衲自己守。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"玄智方丈进了流云轩，三天三夜没有出来。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.lines.say
+#: data/common/npcs.json
+msgid "命，老衲保住了。那只手……寒气在骨头里待得太久，老衲保不住。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.寺规.rules.say
+#: data/common/npcs.json
+msgid "寺规？本寺的规矩，问知客僧。"
+msgstr ""
+
 #. common.npc.bonze.master inquiry.虹台.rules.say
 #: data/common/npcs.json
 msgid "阿弥陀佛。正月十七，过去了。"
@@ -20662,11 +20888,6 @@ msgstr ""
 #. common.npc.bonze.master inquiry.改投.rules.say
 #: data/common/npcs.json
 msgid "阿弥陀佛。山烟寺投旧盟主，说过了。"
-msgstr ""
-
-#. common.npc.bonze.master inquiry.改投.rules.lines.emote
-#: data/common/npcs.json
-msgid "双手合十。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.改投.rules.lines.say
@@ -26200,6 +26421,26 @@ msgstr ""
 
 #. sanyen lines.text
 #: data/story/factions.json
+msgid "你是流云轩的帮手：帮手不必落发。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "你替流云轩采齐了玄智的三味药，喂了乔阴的樵夫老葛——寒气还是退不下去。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "你领金门外的独眼头陀进了流云轩，老葛当场好了。玄智记下了：你不守寺规。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "你照了寺规。玄智守了老葛三天三夜，命保住了，右手废了。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
 msgid "玄智和尚信了你的担保。正月十七，山烟寺那一票投旧盟主。"
 msgstr ""
 
@@ -28189,7 +28430,8 @@ msgid "北麓那座道观里还剩着人。湖上的事了了（终章之后）�
 msgstr ""
 
 #. faction.buxuan region
-#: data/story/faction_buxuan.json
+#. native.npc.sick_woodcutter inquiry topic
+#: data/story/faction_buxuan.json data/native/npcs.json
 msgid "乔阴"
 msgstr ""
 
@@ -28316,6 +28558,131 @@ msgstr ""
 #. faction.buxuan/split/home reward.deed
 #: data/story/faction_buxuan.json
 msgid "让骆云舟带大哥回了乔阴"
+msgstr ""
+
+#. faction.sanyen summary
+#: data/story/faction_sanyen.json
+msgid "流云轩里躺着一个被鬼卒抓伤的乔阴樵夫，伤口是冷的，玄智的药赶不出那股寒。金门外站了十年、从不说话的独眼头陀开口了：「我能。」——可寺规不许外人进流云轩。"
+msgstr ""
+
+#. faction.sanyen lapses.text
+#: data/story/faction_sanyen.json
+msgid "你离了山烟寺。流云轩的事，到此为止。"
+msgstr ""
+
+#. faction.sanyen/rx objective
+#: data/story/faction_sanyen.json
+msgid "流云轩里躺着一个乔阴来的樵夫，伤口是冷的。去山烟寺大雄宝殿问玄智方丈「流云轩」，请他开方子。"
+msgstr ""
+
+#. faction.sanyen/rx text
+#: data/story/faction_sanyen.json
+msgid "玄智开了方子：附子回阳，麝香开窍，鬼臼以毒攻毒。三味齐了，交给流云轩的药僧煎。"
+msgstr ""
+
+#. faction.sanyen/rx checklist.label
+#: data/story/faction_sanyen.json
+msgid "等主线第五章：寒於宝衣的事了了，才有这个病人"
+msgstr ""
+
+#. faction.sanyen/field objective
+#: data/story/faction_sanyen.json
+msgid "第一味：附子。在山烟寺东边的药圃里「采」。"
+msgstr ""
+
+#. faction.sanyen/field text
+#: data/story/faction_sanyen.json
+msgid "你在药圃东边那一畦挖出了一块附子。"
+msgstr ""
+
+#. faction.sanyen/shop objective
+#: data/story/faction_sanyen.json
+msgid "第二味：麝香。雪亭镇桑邻药铺的杨掌柜年轻时跟玄智学过医，问他「山烟寺」。"
+msgstr ""
+
+#. faction.sanyen/shop text
+#: data/story/faction_sanyen.json
+msgid "杨掌柜看了方子，包了一小包麝香给你，没收钱。"
+msgstr ""
+
+#. faction.sanyen/tomb objective
+#: data/story/faction_sanyen.json
+msgid "第三味：鬼臼，长在乔阴树王坟边的石缝里。那里站着一个鬼卒——打发了它，在石缝边「采」。"
+msgstr ""
+
+#. faction.sanyen/tomb text
+#: data/story/faction_sanyen.json
+msgid "你在树王坟边的石缝里采到了一株鬼臼。"
+msgstr ""
+
+#. faction.sanyen/brew objective
+#: data/story/faction_sanyen.json
+msgid "三味齐了。回流云轩，问药僧「煎药」。"
+msgstr ""
+
+#. faction.sanyen/brew text
+#: data/story/faction_sanyen.json
+msgid "药僧把三味药煎成了一碗黑褐色的汤药。"
+msgstr ""
+
+#. faction.sanyen/feed objective
+#: data/story/faction_sanyen.json
+msgid "把汤药喂给老葛（「给」流云轩里躺着的樵夫）。"
+msgstr ""
+
+#. faction.sanyen/feed text
+#: data/story/faction_sanyen.json
+msgid "药喂下去了，老葛肚子里是热的，可那条胳膊还是冷，冷到骨头缝里——寒气退不下去。"
+msgstr ""
+
+#. faction.sanyen/feed reward.deed
+#: data/story/faction_sanyen.json
+msgid "替流云轩采齐了玄智的三味药，喂了乔阴的樵夫"
+msgstr ""
+
+#. faction.sanyen/feed reward.rank.title
+#: data/story/faction_sanyen.json
+msgid "知客"
+msgstr ""
+
+#. faction.sanyen/monk objective
+#: data/story/faction_sanyen.json
+msgid "玄智的药赶不出那股寒。金门外站了十年、从不说话的独眼头陀，问他「病人」。让他治（问头陀「领路」）：领他进流云轩，老葛当场就好——可寺规不许外人进流云轩，玄智会记你不守寺规。照寺规（问大雄宝殿的玄智「寺规」）：方丈自己守着老葛，命保得住，一只手保不住；头陀从此不理你。"
+msgstr ""
+
+#. faction.sanyen/monk/heal text
+#: data/story/faction_sanyen.json
+msgid "你领独眼头陀进了流云轩。他一掌按在老葛的伤口上，寒气冒成一缕白烟——老葛当场坐了起来。玄智记下了：你不守寺规。"
+msgstr ""
+
+#. faction.sanyen/monk/heal reward.deed
+#: data/story/faction_sanyen.json
+msgid "领金门外的独眼头陀进了流云轩，治好了乔阴的樵夫"
+msgstr ""
+
+#. faction.sanyen/monk/rule text
+#: data/story/faction_sanyen.json
+msgid "你照了寺规。玄智在流云轩守了老葛三天三夜：命保住了，右手废了。头陀转身回了金门外。"
+msgstr ""
+
+#. faction.sanyen/monk/rule reward.deed
+#: data/story/faction_sanyen.json
+msgid "照山烟寺的寺规，没让外人进流云轩"
+msgstr ""
+
+#. faction.sanyen/west objective
+#: data/story/faction_sanyen.json
+msgid "独眼头陀那门火性的内功，他练的那部经，不是山烟寺的东西。它从番坊来：去番坊日陀罗寺问龙若法王「头陀」。"
+msgstr ""
+
+#. faction.sanyen/west text
+#: data/story/faction_sanyen.json
+msgid "龙若法王说起了三十年前的事。"
+msgstr ""
+
+#. faction.sanyen/west checklist.label
+#: data/story/faction_sanyen.json
+msgid "照了寺规的：先回流云轩，药僧有话要说"
 msgstr ""
 
 #. faction.assembly title
@@ -30130,6 +30497,41 @@ msgstr ""
 #. snow.npc.herbalist inquiry topic
 #: data/snow/npcs.json
 msgid "开药"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.say
+#: data/snow/npcs.json
+msgid "麝香给你了。替我问玄智师父好。"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.lines.say
+#: data/snow/npcs.json
+msgid "玄智师父开的方子？我看看——附子、麝香、鬼臼。"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.lines.emote
+#: data/snow/npcs.json
+msgid "脸色沉了下来。"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.lines.say
+#: data/snow/npcs.json
+msgid "鬼臼以毒攻毒……这是阴寒入骨的方子。乔阴那边，又不太平了？"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.lines.emote
+#: data/snow/npcs.json
+msgid "从药柜最上头一格取下一个小罐，用桑皮纸包了一小包，递给你。"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.lines.say
+#: data/snow/npcs.json
+msgid "师父要的东西，不收钱。我年轻时跟着他学医三年，他教的头一句：药是凉的，人心得是热的。"
+msgstr ""
+
+#. snow.npc.herbalist inquiry.山烟寺.rules.say
+#: data/snow/npcs.json
+msgid "山烟寺？我年轻时曾经跟著山烟寺的玄智和尚学医。玄智师父的医术，天底下没几个人比得上。"
 msgstr ""
 
 #. snow.npc.girl long
@@ -32327,6 +32729,7 @@ msgstr ""
 #. es2:d/city/npc/obj/cake unit
 #. native:canyon/seal_mould unit
 #. native:imperial/guard_token unit
+#. native:sanyen/fuzi unit
 #. native:snow/fonxan_tally unit
 #. native:cloud/copper_token unit
 #. native:choyin/constable_badge unit
@@ -32409,7 +32812,8 @@ msgstr ""
 
 #. es2:d/latemoon/park/npc/obj/flower combined.base_unit
 #. es2:d/choyin/obj/orchid unit
-#: data/latemoon/items.json data/choyin/items.json
+#. native:choyin/guijiu unit
+#: data/latemoon/items.json data/choyin/items.json data/native/items.json
 msgid "株"
 msgstr ""
 
@@ -33974,6 +34378,18 @@ msgid "令只从上一个持令人手里接。你要的那一块，还在别人�
 msgstr ""
 
 #. cloud.npc.god inquiry.令牌.rules.lines.emote
+#. cloud.npc.god inquiry.接令.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "笑眯眯地看着你，鼻子却皱了一下。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.say
+#. cloud.npc.god inquiry.接令.rules.lines.say
+#: data/cloud/npcs.json
+msgid "你身上一股流云轩的药味。山烟寺的人，神教不用。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
 #: data/cloud/npcs.json
 msgid "看见你腰间那块黑木令，脸上的笑一点没变。"
 msgstr ""
@@ -34027,7 +34443,7 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "接下朱鸿雪的令，替东方神教办事。\n"
-"一个人只藏得住一重身份：接了这块令，逆灵宫那边的门就不再为你开。\n"
+"一个人只藏得住一重身份：接了这块令，逆灵宫那边的门就不再为你开；山烟寺流云轩的门也一样。\n"
 "接吗？"
 msgstr ""
 
@@ -42165,6 +42581,121 @@ msgid ""
 "这里，一副不可一世的样子。\n"
 msgstr ""
 
+#. sanyen.npc.monk moods.going.chat_msg
+#: data/sanyen/npcs.json
+msgid ""
+"独眼头陀跟在你身后，大步流星，那只独眼盯着前头的路。\n"
+msgstr ""
+
+#. sanyen.npc.monk moods.back.chat_msg
+#: data/sanyen/npcs.json
+msgid ""
+"独眼头陀抱着刀站着，那只独眼半闭着，像是睡着了。\n"
+msgstr ""
+
+#. sanyen.npc.monk inquiry topic
+#. sanyen.npc.drug_bonze inquiry topic
+#: data/sanyen/npcs.json
+msgid "病人"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.emote
+#. sanyen.npc.monk inquiry.领路.rules.emote
+#: data/sanyen/npcs.json
+msgid "大喇喇地站着，不理你。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.emote
+#. sanyen.npc.monk inquiry.领路.rules.emote
+#: data/sanyen/npcs.json
+msgid "转过身去，不理你。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "那樵夫的寒，赶干净了。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "走啊。流云轩在哪，你比我熟。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "那只独眼转过来，盯着你看了很久。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "流云轩那个樵夫。寒气退不下去，是不是？"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "那是鬼卒的阴寒，钻进骨头了。玄智的药是凉性的底子，赶不出来。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "我能。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "我的内功是火性的。可他们的寺规不许外人进流云轩——十年了，我连金门都没进过。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "你领我进去（问我「领路」），或者照他们的寺规来。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry topic
+#: data/sanyen/npcs.json
+msgid "领路"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.领路.confirm
+#: data/sanyen/npcs.json
+msgid ""
+"领独眼头陀进流云轩，让他给老葛治伤。\n"
+"寺规不许外人进流云轩：老葛当场好，玄智记你不守寺规（山烟寺的弟子，这一回没有晋阶）；头陀从此肯跟你说话。\n"
+"这是山烟寺这条线上的一个选择，选了不能改，照寺规那条路就没了。要领他去吗？"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.领路.rules.say
+#: data/sanyen/npcs.json
+msgid "治完了。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.领路.rules.say
+#. sanyen.npc.monk inquiry.领路.rules.lines.say
+#. native.npc.luca inquiry.跟我走.rules.say
+#: data/sanyen/npcs.json data/guanbei/npcs.json
+msgid "走。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.领路.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "把刀往背后一插，跟在你身后。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.番坊.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "我是从番坊来的。日陀罗寺。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.番坊.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "摸了摸那只瞎眼上的眼罩。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.番坊.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "我练的经，玄智的寺里不认。三十年前不认，今天也不认。……别的，去问我师父。"
+msgstr ""
+
 #. sanyen.npc.bonze name
 #: data/sanyen/npcs.json
 msgid "僧人"
@@ -42197,6 +42728,166 @@ msgstr ""
 #: data/sanyen/npcs.json
 msgid ""
 "一位长得相当精壮的年轻僧人, 他正在整理药材。\n"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.confirm
+#: data/sanyen/npcs.json
+msgid ""
+"替流云轩帮这个忙，做「流云轩的帮手」。\n"
+"山烟寺和东方神教是死对头：帮了流云轩，朱鸿雪的令就不会再交给你。\n"
+"要帮吗？"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.emote
+#: data/sanyen/npcs.json
+msgid "看了你一眼，低下头接着整理药材，一句话也不说。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.say
+#: data/sanyen/npcs.json
+msgid "流云轩的事，不劳施主了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "老葛回乔阴了。方丈守了他三天三夜……那只右手是保不住了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "老葛好了，回乔阴去了。……那头陀的手，热得跟炭一样。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "药喂下去了，寒气还是退不下去。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "方丈的方子：附子、麝香、鬼臼。三味齐了，拿来给我煎（问我「煎药」）。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "乔阴来的樵夫，伤口是冷的。去前殿问方丈「流云轩」。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "师兄，乔阴来的樵夫老葛，在树王坟被鬼卒抓了一把，伤口是冷的。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "方丈的药压不住。去前殿问方丈「流云轩」吧。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "朝草垫上那个裹着两床被子的人努了努嘴。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "乔阴来的樵夫，姓葛，在树王坟被鬼卒抓了一把。伤口是冷的，方丈的药压不住。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "你肯帮忙？……好。去前殿问方丈「流云轩」，他开方子。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry topic
+#: data/sanyen/npcs.json
+msgid "煎药"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.say
+#: data/sanyen/npcs.json
+msgid "药喂过了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "叹了口气，把药渣倒回罐里，又煎了一碗。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "这一碗，别再洒了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.say
+#: data/sanyen/npcs.json
+msgid "药在你手里，去喂他（「给」老葛）。我得看着火。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.takes
+#: data/sanyen/npcs.json
+msgid "native:sanyen/fuzi"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.takes
+#: data/sanyen/npcs.json
+msgid "native:snow/musk"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.takes
+#: data/sanyen/npcs.json
+msgid "native:choyin/guijiu"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "把三味药摊在案上，一样一样地看过。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "附子、麝香、鬼臼——齐了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.line
+#: data/sanyen/npcs.json
+msgid ""
+"药僧生起小炉子，药罐里咕嘟咕嘟地翻着黑汤，满屋子的药味更冲了。\n"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "煎好了。你扶他起来喂（「给」老葛）——我得看着火。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.say
+#: data/sanyen/npcs.json
+msgid "三味还没齐：附子在药圃，麝香找雪亭的杨掌柜，鬼臼在乔阴树王坟边。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.煎药.rules.say
+#: data/sanyen/npcs.json
+msgid "煎什么药？方丈没开方子。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze calls.steps.emote
+#: data/sanyen/npcs.json
+msgid "看见你进来，放下了手里的药杵。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze calls.steps.say
+#: data/sanyen/npcs.json
+msgid "老葛回乔阴了。方丈守了他三天三夜，命保住了——那只右手，抬不起来了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze calls.steps.say
+#: data/sanyen/npcs.json
+msgid "……那头陀不是坏人。他站在金门外十年，一句话没说过。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze calls.steps.say
+#: data/sanyen/npcs.json
+msgid "他练的那门经，是从番坊来的。番坊的日陀罗寺。"
 msgstr ""
 
 #. sanyen.npc.cook_bonze name
@@ -42517,6 +43208,30 @@ msgstr ""
 #: data/sanyen/world.json
 msgid ""
 "一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n"
+msgstr ""
+
+#. sanyen.drug_field.herbs act.verb
+#. choyin.tree_tomb.guijiu act.verb
+#: data/sanyen/world.json data/choyin/world.json
+msgid "采"
+msgstr ""
+
+#. sanyen.drug_field.herbs act.acts.steps.line
+#: data/sanyen/world.json
+msgid ""
+"附子已经挖了一块。药圃里别的，都是些寻常的药材。\n"
+msgstr ""
+
+#. sanyen.drug_field.herbs act.acts.steps.line
+#: data/sanyen/world.json
+msgid ""
+"你照方丈说的，到东边那一畦拨开叶子，挖出一块乌黑的块根——附子。\n"
+msgstr ""
+
+#. sanyen.drug_field.herbs act.acts.steps.line
+#: data/sanyen/world.json
+msgid ""
+"药圃一块一块的，哪边种当归，哪边种枸杞，绝不会混在一起。只是看来看去都只是些寻常的药材，没有方子，你也不知道该采哪一味。\n"
 msgstr ""
 
 #. sanyen.kitchen.steampot act.acts.steps.line
@@ -45024,6 +45739,35 @@ msgstr ""
 #. choyin.s_street1.drink name
 #: data/choyin/world.json
 msgid "大井"
+msgstr ""
+
+#. choyin.tree_tomb.guijiu name
+#: data/choyin/world.json
+msgid "石缝"
+msgstr ""
+
+#. choyin.tree_tomb.guijiu act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"石缝里的鬼臼，你已经采过了。\n"
+msgstr ""
+
+#. choyin.tree_tomb.guijiu act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"一个灰绿皮肤的鬼卒守在坟边，钢叉横在石缝前面。先得打发了它。\n"
+msgstr ""
+
+#. choyin.tree_tomb.guijiu act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"你在树王坟边阴湿的石缝里找到几丛八角形叶子的草，叶下垂着一朵暗红的花——鬼臼。你连根拔了一株，根上凉凉的。\n"
+msgstr ""
+
+#. choyin.tree_tomb.guijiu act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"树王坟边的石缝阴湿得很，长着几丛八角形叶子的草，叶下垂着暗红的花。\n"
 msgstr ""
 
 #. choyin.s_street1.drink act.verb
@@ -57568,11 +58312,6 @@ msgstr ""
 #. native.npc.luca inquiry.跟我走.rules.say
 #: data/guanbei/npcs.json
 msgid "不。"
-msgstr ""
-
-#. native.npc.luca inquiry.跟我走.rules.say
-#: data/guanbei/npcs.json
-msgid "走。"
 msgstr ""
 
 #. native.npc.luca inquiry.跟我走.rules.lines.emote
@@ -71280,6 +72019,251 @@ msgid ""
 "（作证，问骆云舟「作证」；保住骆家，问骆建章「回家」。）\n"
 msgstr ""
 
+#. native.npc.sick_woodcutter name
+#. native.npc.woodcutter_home name
+#: data/native/npcs.json
+msgid "老葛"
+msgstr ""
+
+#. native.npc.sick_woodcutter title
+#. native.npc.woodcutter_home title
+#: data/native/npcs.json
+msgid "乔阴樵夫"
+msgstr ""
+
+#. native.npc.sick_woodcutter long
+#: data/native/npcs.json
+msgid ""
+"一个黑瘦的汉子，裹着两床被子躺在草垫上，脸色青白，嘴唇发紫。露在被子外面的那条胳膊上，三道青黑的爪痕，不流血，边上结着一层白霜似的东西。\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter chat_msg
+#: data/native/npcs.json
+msgid ""
+"老葛裹着两床被子，还在打哆嗦。\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter chat_msg
+#: data/native/npcs.json
+msgid ""
+"老葛的牙齿咯咯作响：冷……冷……\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter chat_msg
+#: data/native/npcs.json
+msgid ""
+"老葛望着屋顶，喃喃地说：树王坟……那东西……\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_fight.say
+#: data/native/npcs.json
+msgid "我……我连起都起不来……"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"你把老葛扶起来，一勺一勺地把汤药喂了下去。\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_object.lines.emote
+#: data/native/npcs.json
+msgid "喝完了药，额头上冒出一层细汗，嘴唇却还是紫的。"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_object.lines.say
+#: data/native/npcs.json
+msgid "热……肚子里是热的。可这条胳膊……还是冷，冷到骨头缝里。"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"药僧伸手按了按那三道爪痕，脸色变了：「寒气退不下去。方丈的方子……压不住。」\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_object.lines.line
+#: data/native/npcs.json
+msgid ""
+"你把汤药喂老葛喝了下去。他还是在发抖。\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter accept_object.say
+#: data/native/npcs.json
+msgid "我……我拿不住东西。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.emote
+#: data/native/npcs.json
+msgid "一低头进了流云轩，那只独眼在满墙的药柜上扫了一圈。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"药僧手里的药杵「当」地掉在地上：「你……外人不进流云轩！」\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.say
+#: data/native/npcs.json
+msgid "让开。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.emote
+#: data/native/npcs.json
+msgid "在老葛身边盘膝坐下，一只手掌按在那三道青黑的爪痕上。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"头陀的手掌一点一点红了起来，屋里一股焦味，像是什么东西烧着了。老葛浑身一抖，爪痕上冒起一缕白气。\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.say
+#: data/native/npcs.json
+msgid "热……热乎了！"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.emote
+#: data/native/npcs.json
+msgid "一骨碌坐了起来，看看自己的胳膊，又看看头陀，说不出话。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.emote
+#: data/native/npcs.json
+msgid "收回手掌，长出了一口气，那只独眼里的光暗了一暗。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.say
+#: data/native/npcs.json
+msgid "赶干净了。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.say
+#: data/native/npcs.json
+msgid "你想问我这门内功？……这经，是从番坊来的。番坊的日陀罗寺。"
+msgstr ""
+
+#. native.npc.sick_woodcutter calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"药僧已经一溜烟跑去前殿报方丈了。\n"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry topic
+#. native.npc.woodcutter_home inquiry topic
+#: data/native/npcs.json
+msgid "伤"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.伤.rules.lines.emote
+#: data/native/npcs.json
+msgid "裹紧了被子，牙齿咯咯地响。"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.伤.rules.lines.say
+#: data/native/npcs.json
+msgid "药是热的，下了肚……还是冷。冷到骨头缝里。"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.伤.rules.lines.emote
+#: data/native/npcs.json
+msgid "哆嗦着把袖子捋起来：小臂上三道青黑的爪痕，不流血，摸上去冰凉。"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.伤.rules.lines.say
+#: data/native/npcs.json
+msgid "那天擦黑，我在乔阴树王坟那边砍柴……坟后头钻出来一个青脸的东西，眼眶里两点青火，一爪子抓过来。"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.伤.rules.lines.say
+#: data/native/npcs.json
+msgid "伤口是冷的。不疼，就是冷，冷到骨头里。"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.树王坟
+#: data/native/npcs.json
+msgid "树王坟那截大树桩，乔阴人都不敢靠近。我贪那边的柴好……那东西，就是从坟后头的石缝边上钻出来的。"
+msgstr ""
+
+#. native.npc.sick_woodcutter inquiry.乔阴
+#: data/native/npcs.json
+msgid "乔阴北门外，我家就在那儿。砍了二十年柴，没见过那种东西。"
+msgstr ""
+
+#. native.npc.woodcutter_home long
+#: data/native/npcs.json
+msgid ""
+"一个黑瘦的汉子，肩上扛着一捆柴，腰里别着一把柴刀。小臂上三道爪痕，已经褪成了浅褐色。\n"
+msgstr ""
+
+#. native.npc.woodcutter_home chat_msg
+#: data/native/npcs.json
+msgid ""
+"老葛把肩上的柴卸下来，坐在城门边的石墩上歇脚。\n"
+msgstr ""
+
+#. native.npc.woodcutter_home accept_fight.say
+#: data/native/npcs.json
+msgid "恩人，这可使不得。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.emote
+#: data/native/npcs.json
+msgid "扛着一捆柴从北门外进来，看见你，把柴往地上一扔。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.say
+#: data/native/npcs.json
+msgid "恩人！那头陀一掌按下来，烫得我叫出了声——第二天就能抡斧头了。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.say
+#: data/native/npcs.json
+msgid "……他那只眼睛，你见过吗？瞎的那只，眼皮底下是红的，像烧过。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.emote
+#: data/native/npcs.json
+msgid "坐在北门边的石墩上，右手吊在胸前，左手拿着柴刀，削一根木棍。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.say
+#: data/native/npcs.json
+msgid "是你啊。命是方丈守回来的，三天三夜，没合眼。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.emote
+#: data/native/npcs.json
+msgid "抬了抬那只吊着的右手，抬不起来。"
+msgstr ""
+
+#. native.npc.woodcutter_home calls.steps.say
+#: data/native/npcs.json
+msgid "……这只手，抡不动斧头了。往后砍柴，用左手。"
+msgstr ""
+
+#. native.npc.woodcutter_home inquiry.伤.rules.say
+#: data/native/npcs.json
+msgid "好了，全好了。那头陀的手，热得跟炭一样。"
+msgstr ""
+
+#. native.npc.woodcutter_home inquiry.伤.rules.say
+#: data/native/npcs.json
+msgid "命保住了。右手废了——方丈说，寒气在骨头里待太久，赶不出来了。"
+msgstr ""
+
+#. native.npc.woodcutter_home inquiry.伤.rules.say
+#: data/native/npcs.json
+msgid "伤？好了。"
+msgstr ""
+
+#. native.npc.woodcutter_home inquiry.树王坟
+#: data/native/npcs.json
+msgid "树王坟？再也不去了。柴不好砍，命要紧。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -71597,6 +72581,67 @@ msgstr ""
 #. native:choyin/luo_letter no_drop
 #: data/native/items.json
 msgid "这封家书不能随便丢。"
+msgstr ""
+
+#. native:sanyen/fuzi name
+#: data/native/items.json
+msgid "附子"
+msgstr ""
+
+#. native:sanyen/fuzi long
+#: data/native/items.json
+msgid ""
+"一块乌黑的块根，拳头大小，带着药圃的湿泥，掰开来里面是灰白的。方丈说它回阳。\n"
+msgstr ""
+
+#. native:sanyen/fuzi no_drop
+#. native:snow/musk no_drop
+#. native:choyin/guijiu no_drop
+#: data/native/items.json
+msgid "这是方丈方子上的药，不能随便丢。"
+msgstr ""
+
+#. native:snow/musk name
+#: data/native/items.json
+msgid "麝香"
+msgstr ""
+
+#. native:snow/musk long
+#: data/native/items.json
+msgid ""
+"一小包桑皮纸包着的麝香，纸上印着「桑邻药铺」四个字。隔着纸都闻得到那股冲鼻的香。\n"
+msgstr ""
+
+#. native:choyin/guijiu name
+#: data/native/items.json
+msgid "鬼臼"
+msgstr ""
+
+#. native:choyin/guijiu long
+#: data/native/items.json
+msgid ""
+"一株连根拔起的草，叶子八个角，叶下垂着一朵暗红的花，根上还沾着树王坟边的黑土，摸上去凉凉的。\n"
+msgstr ""
+
+#. native:sanyen/decoction name
+#: data/native/items.json
+msgid "汤药"
+msgstr ""
+
+#. native:sanyen/decoction long
+#: data/native/items.json
+msgid ""
+"一碗黑褐色的汤药，还烫手，附子的苦味里冲着一股麝香。\n"
+msgstr ""
+
+#. native:sanyen/decoction unit
+#: data/native/items.json
+msgid "碗"
+msgstr ""
+
+#. native:sanyen/decoction no_drop
+#: data/native/items.json
+msgid "这碗药是煎给樵夫的，不能随便倒掉。"
 msgstr ""
 
 #. native:choyin/luo_card name

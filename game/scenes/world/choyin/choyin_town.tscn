@@ -625,6 +625,23 @@ mouse_filter = 2
 text = "大井 · 装水"
 horizontal_alignment = 1
 
+[node name="TreeTombGuijiu" type="Marker2D" parent="."]
+position = Vector2(1584, 1296)
+script = ExtResource("service")
+service_id = &"choyin.tree_tomb.guijiu"
+
+[node name="Visual" type="Polygon2D" parent="TreeTombGuijiu"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="TreeTombGuijiu"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "石缝 · 采"
+horizontal_alignment = 1
+
 [node name="WellDrink" type="Marker2D" parent="."]
 position = Vector2(1536, 2240)
 script = ExtResource("service")
@@ -1259,6 +1276,16 @@ spawn_point_id = &"choyin.entrance.sword_soul_spar.1"
 position = Vector2(2584, 2472)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.entrance.luo_jianzhang.1"
+
+[node name="NGateWoodcutter1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1512, 160)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.n_gate.woodcutter.1"
+
+[node name="TreeTombHerbGhoul1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1608, 1184)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tree_tomb.herb_ghoul.1"
 
 [node name="Characters" type="Node2D" parent="."]
 

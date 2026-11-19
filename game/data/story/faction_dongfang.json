@@ -14,7 +14,8 @@
 				"mark": "接了朱鸿雪的令"
 			},
 			"excludes": [
-				"faction.niling"
+				"faction.niling",
+				"faction.sanyen"
 			],
 			"lapses": {
 				"when": {

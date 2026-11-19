@@ -114,6 +114,11 @@
 			"revision": "SOURCE_ENTRY_BUXUAN_B_V1",
 			"spawn_points": 877,
 			"fingerprint": "a9791c3058242d92c6433eb32126820acf7cf990428ac8a905d154699740aa4f"
+		},
+		{
+			"revision": "SOURCE_ENTRY_SANYEN_A_V1",
+			"spawn_points": 880,
+			"fingerprint": "7caef9919fad06eb5c81bec9a8e3ddc935e7bf14d164c0cf8167415e24f1ab53"
 		}
 	]
 }

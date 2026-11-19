@@ -29,8 +29,9 @@ const WORK_RADIUS_PX: int = 64
 ## What hands do at work (VoxelPerson plays each): 锄地, 挥镐, 劈柴, 打铁, 扫地, 钓鱼, 练拳, 擦桌,
 ## 讲书, 拨算盘.
 const GESTURES: Array[String] = ["hoe", "pick", "chop", "hammer", "sweep", "fish", "drill", "wipe", "teach", "count"]
-## How one that stays put is: standing, on a low stool, cross-legged on the ground.
-const POSES: Array[String] = ["stand", "sit", "sit_ground"]
+## How one that stays put is: standing, on a low stool, cross-legged on the ground, lying on its back
+## (native, 势力线第三批 山烟寺 A: the sick 樵夫 on his pallet in 流云轩).
+const POSES: Array[String] = ["stand", "sit", "sit_ground", "lie"]
 
 
 class Entry:

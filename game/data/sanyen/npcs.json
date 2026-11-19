@@ -46,7 +46,57 @@
 			"chat_msg_combat": [
 				{ "action": "random_move" },
 				{ "action": "emote", "verb": "hehe" }
-			]
+			],
+			"follows_every_way": true,
+			"kept_when": {
+				"all": [
+					{ "quest": "faction.sanyen#started" },
+					{ "not": { "quest": "faction.sanyen#lapsed" } },
+					{ "not": { "quest": "faction.sanyen#done" } }
+				]
+			},
+			"moods": {
+				"going": {
+					"flags": ["follows_player"],
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": ["独眼头陀跟在你身后，大步流星，那只独眼盯着前头的路。\n"]
+				},
+				"back": { "lasting": true, "chat_chance": 4, "chat_msg": ["独眼头陀抱着刀站着，那只独眼半闭着，像是睡着了。\n"] }
+			},
+			"inquiry": {
+				"病人": {
+					"listed_marks": ["喂了樵夫药"],
+					"rules": [
+						{ "asker_marks": ["山烟寺的线断了"], "emote": "大喇喇地站着，不理你。" },
+						{ "asker_marks": ["守了寺规"], "emote": "转过身去，不理你。" },
+						{ "asker_marks": ["头陀进了流云轩"], "say": "那樵夫的寒，赶干净了。" },
+						{ "asker_marks": ["头陀跟你去了流云轩"], "say": "走啊。流云轩在哪，你比我熟。" },
+						{ "asker_marks": ["喂了樵夫药"], "mark_asker": "头陀说了病人", "lines": [{ "emote": "那只独眼转过来，盯着你看了很久。" }, { "say": "流云轩那个樵夫。寒气退不下去，是不是？" }, { "say": "那是鬼卒的阴寒，钻进骨头了。玄智的药是凉性的底子，赶不出来。" }, { "say": "我能。" }, { "say": "我的内功是火性的。可他们的寺规不许外人进流云轩——十年了，我连金门都没进过。" }, { "say": "你领我进去（问我「领路」），或者照他们的寺规来。" }] },
+						{ "say": "……" }
+					]
+				},
+				"领路": {
+					"confirm": "领独眼头陀进流云轩，让他给老葛治伤。\n寺规不许外人进流云轩：老葛当场好，玄智记你不守寺规（山烟寺的弟子，这一回没有晋阶）；头陀从此肯跟你说话。\n这是山烟寺这条线上的一个选择，选了不能改，照寺规那条路就没了。要领他去吗？",
+					"confirm_marks": ["头陀说了病人"],
+					"confirm_lacks": ["守了寺规", "头陀进了流云轩", "头陀跟你去了流云轩", "山烟寺的线断了"],
+					"listed_marks": ["头陀说了病人"],
+					"rules": [
+						{ "asker_marks": ["山烟寺的线断了"], "emote": "大喇喇地站着，不理你。" },
+						{ "asker_marks": ["守了寺规"], "emote": "转过身去，不理你。" },
+						{ "asker_marks": ["头陀进了流云轩"], "say": "治完了。" },
+						{ "asker_marks": ["头陀跟你去了流云轩"], "mood": "going", "say": "走。" },
+						{ "asker_marks": ["头陀说了病人"], "mood": "going", "mark_asker": "头陀跟你去了流云轩", "lines": [{ "emote": "把刀往背后一插，跟在你身后。" }, { "say": "走。" }] },
+						{ "say": "……" }
+					]
+				},
+				"番坊": {
+					"listed_marks": ["头陀进了流云轩"],
+					"rules": [
+						{ "lines": [{ "say": "我是从番坊来的。日陀罗寺。" }, { "emote": "摸了摸那只瞎眼上的眼罩。" }, { "say": "我练的经，玄智的寺里不认。三十年前不认，今天也不认。……别的，去问我师父。" }] }
+					]
+				}
+			}
 		},
 		{
 			"id": "sanyen.npc.bonze",
@@ -119,6 +169,41 @@
 			"carry": [
 				{ "item": "es2:d/sanyen/obj/cloth", "source": "d/sanyen/npc/obj/cloth.c", "equip": "wear" },
 				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"病人": {
+					"confirm": "替流云轩帮这个忙，做「流云轩的帮手」。\n山烟寺和东方神教是死对头：帮了流云轩，朱鸿雪的令就不会再交给你。\n要帮吗？",
+					"confirm_marks": ["宝衣一章"],
+					"confirm_lacks": ["流云轩的帮手", "接了朱鸿雪的令", "山烟寺的线断了"],
+					"confirm_unless_family": "family.sanyen",
+					"listed_marks": ["宝衣一章"],
+					"rules": [
+						{ "asker_marks": ["接了朱鸿雪的令"], "emote": "看了你一眼，低下头接着整理药材，一句话也不说。" },
+						{ "asker_marks": ["山烟寺的线断了"], "say": "流云轩的事，不劳施主了。" },
+						{ "asker_marks": ["守了寺规"], "say": "老葛回乔阴了。方丈守了他三天三夜……那只右手是保不住了。" },
+						{ "asker_marks": ["头陀进了流云轩"], "say": "老葛好了，回乔阴去了。……那头陀的手，热得跟炭一样。" },
+						{ "asker_marks": ["喂了樵夫药"], "say": "药喂下去了，寒气还是退不下去。" },
+						{ "asker_marks": ["玄智开了方子"], "say": "方丈的方子：附子、麝香、鬼臼。三味齐了，拿来给我煎（问我「煎药」）。" },
+						{ "asker_marks": ["流云轩的帮手"], "say": "乔阴来的樵夫，伤口是冷的。去前殿问方丈「流云轩」。" },
+						{ "asker_family": "family.sanyen", "lines": [{ "say": "师兄，乔阴来的樵夫老葛，在树王坟被鬼卒抓了一把，伤口是冷的。" }, { "say": "方丈的药压不住。去前殿问方丈「流云轩」吧。" }] },
+						{ "mark_asker": "流云轩的帮手", "lines": [{ "emote": "朝草垫上那个裹着两床被子的人努了努嘴。" }, { "say": "乔阴来的樵夫，姓葛，在树王坟被鬼卒抓了一把。伤口是冷的，方丈的药压不住。" }, { "say": "你肯帮忙？……好。去前殿问方丈「流云轩」，他开方子。" }] }
+					]
+				},
+				"煎药": {
+					"listed_marks": ["玄智开了方子"],
+					"rules": [
+						{ "asker_marks": ["山烟寺的线断了"], "say": "流云轩的事，不劳施主了。" },
+						{ "asker_marks": ["喂了樵夫药"], "say": "药喂过了。" },
+						{ "asker_marks": ["药僧煎好了药"], "asker_not_carries": "汤药", "gives": "native:sanyen/decoction", "lines": [{ "emote": "叹了口气，把药渣倒回罐里，又煎了一碗。" }, { "say": "这一碗，别再洒了。" }] },
+						{ "asker_marks": ["药僧煎好了药"], "say": "药在你手里，去喂他（「给」老葛）。我得看着火。" },
+						{ "asker_marks": ["采了附子", "杨掌柜给了麝香", "采了鬼臼"], "takes": ["native:sanyen/fuzi", "native:snow/musk", "native:choyin/guijiu"], "gives": "native:sanyen/decoction", "mark_asker": "药僧煎好了药", "lines": [{ "emote": "把三味药摊在案上，一样一样地看过。" }, { "say": "附子、麝香、鬼臼——齐了。" }, { "line": "药僧生起小炉子，药罐里咕嘟咕嘟地翻着黑汤，满屋子的药味更冲了。\n" }, { "say": "煎好了。你扶他起来喂（「给」老葛）——我得看着火。" }] },
+						{ "asker_marks": ["玄智开了方子"], "say": "三味还没齐：附子在药圃，麝香找雪亭的杨掌柜，鬼臼在乔阴树王坟边。" },
+						{ "say": "煎什么药？方丈没开方子。" }
+					]
+				}
+			},
+			"calls": [
+				{ "after": 1, "scene": true, "mark": "守了寺规", "not_mark": "听说了番坊的经", "steps": [{ "emote": "看见你进来，放下了手里的药杵。" }, { "say": "老葛回乔阴了。方丈守了他三天三夜，命保住了——那只右手，抬不起来了。" }, { "say": "……那头陀不是坏人。他站在金门外十年，一句话没说过。" }, { "say": "他练的那门经，是从番坊来的。番坊的日陀罗寺。" }, { "mark": "听说了番坊的经" }] }
 			]
 		},
 		{
