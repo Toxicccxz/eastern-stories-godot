@@ -1013,13 +1013,17 @@ func dismiss_summoned() -> void:
 
 
 ## Whether one who fought against the player in `encounter` (another side than theirs) still
-## stands on this map, conscious: the fight was lost or fled, not won.
+## stands on this map, conscious: the fight was lost or fled, not won. One that walked out of it
+## (go.c's 落荒而逃) is not standing against them any more.
 func foe_standing(encounter: CombatEncounter) -> bool:
 	var player: CombatParticipant = null if encounter == null or _player == null else encounter.participant_for(_player.character_id)
 	if player == null:
 		return false
+	var coordinator: CombatEncounterCoordinator = null if session == null else session.combat_encounter_coordinator()
 	for participant: CombatParticipant in encounter.participants():
 		if participant.side_id == player.side_id:
+			continue
+		if coordinator != null and coordinator.walked_out_of_active_fight(participant.participant_id):
 			continue
 		var npc: NpcRuntimeState = find_resident_npc(participant.participant_id)
 		if npc != null and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:

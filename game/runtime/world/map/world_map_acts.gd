@@ -221,12 +221,13 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.SUMMON:
 				_show(said, hears, npc, spoken)
 				# A scene pressed again while its people still stand (the 番坊 clerk's 动手 before the
-				# four 浪人 are down): nobody new comes; those there come at the player anew.
-				if _map.summon(step.spawn_id).is_empty():
-					var standing: Array[NpcRuntimeState] = _map.npcs.standing_of(step.spawn_id)
-					if standing.is_empty():
-						push_error("%s could not summon %s" % [npc_name, step.spawn_id])
-					for again: NpcRuntimeState in standing:
+				# four 浪人 are down): those that come are new; those already there come at the player anew.
+				var came: Array[NpcRuntimeState] = _map.summon(step.spawn_id)
+				var standing: Array[NpcRuntimeState] = _map.npcs.standing_of(step.spawn_id)
+				if came.is_empty() and standing.is_empty():
+					push_error("%s could not summon %s" % [npc_name, step.spawn_id])
+				for again: NpcRuntimeState in standing:
+					if not came.has(again):
 						_map.hostilities.call_again(again)
 			ScriptedAct.Kind.NPC_MOOD:
 				var hooks: NpcHooks = null if npc == null else npc.definition().hooks()

@@ -167,6 +167,10 @@ func _test_shield_yard(tree: SceneTree, session: WorldSessionController) -> void
 	var swordsmen: Array[NpcRuntimeState] = []
 	# The first press, lost; the second while the four still stand (the player got up where they fell).
 	for press: int in 2:
+		if press == 1:
+			# One of the four was finished off (了结) before the loss: pressed again he is made anew,
+			# and the three still standing come at the player with him.
+			_of_spawn(hall, &"fanfang.shield_yard.ronin_fighting")[0].set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY
 		_check(await MapPlaces.drive(tree, hall, MapPlaces.service_spot(hall, &"fanfang.shield_yard.papers")) and papers.in_reach(), "番坊: at the papers (%d)" % press)
 		papers.interact()
 		await _settle(tree)
@@ -176,7 +180,8 @@ func _test_shield_yard(tree: SceneTree, session: WorldSessionController) -> void
 		await _until_fight(tree, session, hall)
 		swordsmen = _of_spawn(hall, &"fanfang.shield_yard.swordsmen_beside")
 		_check(swordsmen.size() == 3 and _in_fight(session, swordsmen), "番坊: the three swordsmen in the fight (%d)" % press)
-		_check(_of_spawn(hall, &"fanfang.shield_yard.ronin_fighting").size() == 4, "番坊: four 浪人, no more (%d)" % press)
+		var ronin: Array[NpcRuntimeState] = _of_spawn(hall, &"fanfang.shield_yard.ronin_fighting")
+		_check(ronin.size() == 4 and _in_fight(session, ronin), "番坊: four 浪人, no more, all in the fight (%d)" % press)
 		_lose(session)
 		await _settle(tree)
 		_check(state.marks.get("冯禄的浪人倒了", 0) == 0 and not hall.npcs.standing_of(&"fanfang.shield_yard.ronin_fighting").is_empty() and swordsmen.all(func(npc: NpcRuntimeState) -> bool: return npc.exists_in_map), "番坊: lost, the four stand, the three stay (%d)" % press)
