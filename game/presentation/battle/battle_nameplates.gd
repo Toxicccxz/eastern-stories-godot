@@ -104,7 +104,8 @@ func _process(_delta: float) -> void:
 
 
 func _place() -> void:
-	var shown: bool = view != null and is_instance_valid(view) and view.camera != null and view.placing() and (opening == null or not opening.running())
+	# A map change during the fight's closing hold takes the view (and its camera) out of the tree.
+	var shown: bool = view != null and is_instance_valid(view) and view.camera != null and view.camera.is_inside_tree() and view.placing() and (opening == null or not opening.running())
 	var placed: Array[Plate] = []
 	var boxes: Array[Rect2] = []
 	var backs: Array[bool] = []
