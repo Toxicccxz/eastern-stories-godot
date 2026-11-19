@@ -95,7 +95,7 @@
 - 切磋走 fight.c 和 NPC 的 accept_fight；持兵刃的切磋会伤人，照 ES2；兽类不能切磋；凶手是最后一击的人（last_damage_from）。「切磋: fight.c, accept_fight and armed spars」
 - 进门一起上：玩家所在区块里见人就打的一伙，有一个够得着就整伙进同一场战斗；出手前提示一拍（500 ms）；打过的人等玩家离开区块再回来才重新察觉。「进门一起上」
 - 室内区块整间房就是察觉范围，户外按 NPC 的圈子。「室内察觉」
-- 玩家这边要杀的人倒下时停手，卡片上给「了结 / 放过」；放过不记仇；设置「击倒后」可选直接了结（ES2）。等你选、又没有别人可打时，描写条马上写「对手倒下了，先在右边的旗上选……」、两个按钮闪三下、焦点落在「放过」（方向键和手柄在两钮间左右，从招式行往上就到）；还有人站着时招式照出、打站着的人。被你略过的倒地者，点他的名牌或按 Q / E 能再轮到他（只换右边的旗，不改战斗的目标），他醒来、被了结或放过时这个记号就没了；没人可打时右边的旗给还在等的人。换目标或下令被拒，理由写进描写条。主线、势力线某一步靠的人（步骤的 `keeps`）在这一步做完之前只能击倒：倒下时全场停手、算放过，战斗里写「还有用，留一条命」，谁的致命一击都只让他昏倒。「了结 / 放过」「主线卡死点」
+- 玩家这边要杀的人倒下时停手，卡片上给「了结 / 放过」；放过不记仇；设置「击倒后」可选直接了结（ES2）。等你选、又没有别人可打时，描写条马上写「对手倒下了，先在右边的旗上选……」、两个按钮闪三下、焦点落在「放过」（方向键和手柄在两钮间左右，从招式行往上就到），但两钮要等这句写出来、再过 `knockout_choice_guard_ms`（0.5 秒）才接确认键（手柄 A、回车、空格；鼠标点不受限），一路按确认键出招的人不会顺手把人放过；选完以后还没写出来的这句撤掉，不拖长收尾；还有人站着时招式照出、打站着的人。被你略过的倒地者，点他的名牌或按 Q / E 能再轮到他（只换右边的旗，不改战斗的目标），他醒来、被了结或放过时这个记号就没了；没人可打时右边的旗给还在等的人。换目标或下令被拒，理由写进描写条。主线、势力线某一步靠的人（步骤的 `keeps`）在这一步做完之前只能击倒：倒下时全场停手、算放过，战斗里写「还有用，留一条命」，谁的致命一击都只让他昏倒。「了结 / 放过」「主线卡死点」
 - 逃跑：排队、忙时等，验证通过就成功，留在原地脱离，不耗资源、不抽随机数。「Active Semi-Auto V1 Flee is same-position disengagement」
 - 投降：杀你的对手还站着时被拒，否则停战、扣 50 综合评价。「绮云镇 3C」
 - 运功、perform、施法在战斗中排队，忙时等；加力立即生效。「Internal power in combat: enforce, exert, the force hit」「The player's perform」「青石村 D」
@@ -273,7 +273,7 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`、`bounty_refresh_seconds` 600（ES2 原值 关 / 0 / 1；没有悬赏榜）。「经验节奏」
 - `exp_gates` {`juechen`: 20000}：进八卦阵的那阵风、拜绝尘子都要实战经验 2 万（ES2 原值 10 万，留在数据里，没有这个旋钮的节奏照旧读它）。「绝尘的经验门槛」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
-- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、场景里打（`scene_step_ms` 120 滑步、`scene_windup_ms` 300 重招前的蹲压与聚气、`hit_stop_ms` 100 定格、`scene_flash_ms` 60 闪白、`scene_dust_ms` 260 尘、`afterimage_ms` 180 残影、`scene_return_ms` 320 归位、`beat_pause_ms` 140 拍间停顿、`battle_zoom_ms` 500 镜头推近）、`beat_fill_ms` 450 点招后光条飞进节拍条填满那一格、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）、`session_start_slice_ms` 12（开局每帧搭多久；0 = 一帧搭完）。「手感」「手感：战斗」「战斗演出」「战斗拍数 C」「战斗拍数 E · 重招」「节拍填格」「连续修炼」「固定俯视体素地图」「加载画面」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、场景里打（`scene_step_ms` 120 滑步、`scene_windup_ms` 300 重招前的蹲压与聚气、`hit_stop_ms` 100 定格、`scene_flash_ms` 60 闪白、`scene_dust_ms` 260 尘、`afterimage_ms` 180 残影、`scene_return_ms` 320 归位、`beat_pause_ms` 140 拍间停顿、`battle_zoom_ms` 500 镜头推近）、`beat_fill_ms` 450 点招后光条飞进节拍条填满那一格、`knockout_choice_guard_ms` 500 了结 / 放过要等提示写出来再过这么久才接确认键、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）、`session_start_slice_ms` 12（开局每帧搭多久；0 = 一帧搭完）。「手感」「手感：战斗」「战斗演出」「战斗拍数 C」「战斗拍数 E · 重招」「节拍填格」「连续修炼」「固定俯视体素地图」「加载画面」
 - 设置「总音量」（0–100，默认 80，Master 总线；0 = 静音）；设置文件第 10 版，旧文件读作 80。战斗的声音：拍板（每拍落定 / 点招，赢拍高八度）、挥空（快高重低）、命中闷响（克制叠脆响、被克只剩闷且更轻）、格挡铿锵、低鼓（重招落实 / 绝招 / 致命）、印章闷扣（封成 / 忙 / 胜败 / 倒亡）；全部 ±5% 音高；不配乐。「战斗拍数 C」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（ES2 原值 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
@@ -2844,6 +2844,13 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
     clock (as the player's own waking in a fight), shown on its card (昏迷 · 约 N 秒后醒来); if it
     comes to before the player chose, the held kill_ob()s are back and the fight goes on as ES2's
     (X慢慢睁开眼睛，清醒了过来。). Others lying in a fight still wake after it.
+  - **The confirm key waits (review 2026-11-19).** The focus goes to 放过 as the one held falls
+    with nobody else to strike, but neither button takes the confirm key (pad A, Enter, Space)
+    until the question 「对手倒下了，先在右边的旗上选……」 has been told in the strip and the feel's
+    `knockout_choice_guard_ms` (500) has passed: one ordering moves by pressing the key at a steady
+    rhythm used to spare the fallen with the next press, before the question showed. A mouse click
+    is never held back. Once chosen, the question not told yet is withdrawn (it lengthened the
+    closing pause).
   - **Owner (Q2): the player's summons follow the choice.** Anyone else on any side — 老公公 come to
     help, an NPC with its own kill_ob() — keeps to ES2.
   - The player falls or dies while one is held: nobody can choose, the held kill_ob()s are back.

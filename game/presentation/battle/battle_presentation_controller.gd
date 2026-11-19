@@ -47,6 +47,10 @@ var _passed_held: Dictionary[StringName, bool] = {}
 ## question is told once as it comes), and the line that told it (its pulse when told).
 var _was_awaiting: bool = false
 var _choice_line: BattleNarrationLine = null
+## How long ago that question was told (seconds of the panel's frames; -1: not told since the
+## fight came to wait on it): 了结 / 放过 take the confirm key once it passes the feel's
+## knockout_choice_guard_ms (review 2026-11-19).
+var _choice_told_for: float = -1.0
 ## The right panel's card whose 了结 / 放过 the last refresh wired (the focus given once).
 var _wired_choice: BattleParticipantCard = null
 var _relay_queued: bool = false
@@ -178,6 +182,7 @@ func _process(delta: float) -> void:
 		_start_opening()
 	refresh_projection()
 	_tell_lines(delta)
+	_arm_choice(delta)
 	# 战斗演出 D: the backdrop darkens the map under the raised stage; the shade keeps a little.
 	_shade.modulate.a = opening.shade_share()
 	if visible:
@@ -304,6 +309,8 @@ func _final_fallen(id: StringName) -> String:
 func _show_line(line: BattleNarrationLine) -> void:
 	if line == _choice_line:
 		_choice_line = null
+		if _choice_told_for < 0.0:
+			_choice_told_for = 0.0
 		var held: BattleParticipantCard = _panel_card(1)
 		if held != null:
 			held.pulse_choice()
@@ -568,6 +575,7 @@ func refresh_projection() -> void:
 			_passed_held.clear()
 			_was_awaiting = false
 			_choice_line = null
+			_choice_told_for = -1.0
 			_wired_choice = null
 			_panel_shown = [&"", &""]
 			_strip_open = false
@@ -1693,12 +1701,22 @@ func _hostile_to_player(id: StringName) -> bool:
 ## DECISIONS「了结 / 放过」: the button is the choice (no second question).
 func _finish_downed(id: StringName) -> void:
 	if _intent != null and _projection.active:
+		_withdraw_choice()
 		_intent.finish_downed(id)
 
 
 func _spare_downed(id: StringName) -> void:
 	if _intent != null and _projection.active:
+		_withdraw_choice()
 		_intent.spare_downed(id)
+
+
+## The question not told yet comes out of the strip's queue: the choice is made (or nobody waits
+## on it any more), and it would only lengthen the fight's closing pause.
+func _withdraw_choice() -> void:
+	if _choice_line != null:
+		_line_queue.erase(_choice_line)
+		_choice_line = null
 
 
 ## 战斗决策层 1B: the move for this round (the round runs on it). 战斗拍数 C: the clap of the
@@ -1742,13 +1760,37 @@ func _ask_choice_when_stuck() -> void:
 	var awaiting: bool = _awaiting_choice()
 	var newly: bool = awaiting and not _was_awaiting
 	if newly:
+		_choice_told_for = -1.0
 		_tell_choice()
+	elif not awaiting and _was_awaiting:
+		_withdraw_choice()
+		_choice_told_for = -1.0
 	_was_awaiting = awaiting
 	_wire_choice(awaiting, newly)
 
 
+## Whether 了结 / 放过 take the confirm key now (review 2026-11-19): always while someone still
+## stands (the focus reaches them only by the player's own walking); while the fight waits on
+## the choice, once its question has been told and the feel's knockout_choice_guard_ms passed —
+## the focus goes to 「放过」 as he falls, and a key pressed to order a move must not choose.
+func _confirm_ready() -> bool:
+	if not _was_awaiting:
+		return true
+	return _choice_told_for >= 0.0 and _choice_told_for >= GameContent.catalog().pacing().feel.knockout_choice_guard_seconds
+
+
+## The choice buttons told whether they take the confirm key (each frame).
+func _arm_choice(delta: float) -> void:
+	if _choice_told_for >= 0.0:
+		_choice_told_for += delta
+	var ready: bool = _confirm_ready()
+	for card: BattleParticipantCard in _cards:
+		card.confirm_ready = ready
+
+
 ## The question in the strip (after the lines still to tell); the buttons pulse as it is told.
 func _tell_choice() -> void:
+	_withdraw_choice()
 	_choice_line = BattleNarrationLine.new(tr(CHOOSE_FIRST))
 	_queue_lines([_choice_line])
 

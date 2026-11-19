@@ -168,8 +168,10 @@ func _ready() -> void:
 	choice_row.visible = false
 	_choice_band.add_child(choice_row)
 	finish_button = _choice_button("FinishButton")
+	finish_button.gui_input.connect(_hold_confirm.bind(finish_button))
 	finish_button.pressed.connect(func() -> void: finish_requested.emit(_participant_id))
 	spare_button = _choice_button("SpareButton")
+	spare_button.gui_input.connect(_hold_confirm.bind(spare_button))
 	spare_button.pressed.connect(func() -> void: spare_requested.emit(_participant_id))
 	stage = BattleCardStage.new()
 	stage.name = "Stage"
@@ -842,6 +844,29 @@ func _request_target() -> void:
 
 static func _track(value: BattleResourceProjection) -> String:
 	return "%d/%d" % [value.current, value.maximum]
+
+
+## Review 2026-11-19: whether 了结 / 放过 take the confirm key now (the battle panel sets it each
+## frame: the question told and the feel's guard passed); a click always counts.
+var confirm_ready: bool = true
+## A confirm key press held back: its release is held back too (a button acts on the release).
+var _held_confirm: bool = false
+
+
+## The confirm key (pad A, Enter, Space) on 了结 / 放过 before confirm_ready: swallowed, press and
+## release, so a key pressed to order moves never chooses. The mouse goes through.
+func _hold_confirm(event: InputEvent, button: Button) -> void:
+	if event is InputEventMouse or not event.is_action(&"ui_accept"):
+		return
+	if event.is_pressed() and not event.is_echo():
+		_held_confirm = not confirm_ready
+	elif event.is_pressed() and not confirm_ready:
+		_held_confirm = true
+	if not _held_confirm:
+		return
+	button.accept_event()
+	if not event.is_pressed():
+		_held_confirm = false
 
 
 func _choice_button(node_name: String) -> Button:

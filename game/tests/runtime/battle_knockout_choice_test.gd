@@ -36,6 +36,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	Sof._strong(session.player_runtime().state)
 	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
 	await _test_alone(tree, session)
+	await _test_confirm_rhythm(tree, session, &"green.npc.worker1", false)
+	await _test_confirm_rhythm(tree, session, &"green.npc.woman2", true)
 	await _test_two(tree, session)
 	await _test_auto_verdict(tree, session)
 	BattlePace.manual_turns = manual_before
@@ -48,6 +50,91 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_count += _sof._count
 	_failures.append_array(_sof._failures)
 	return {"assertions": _count, "failures": _failures}
+
+
+## Review 2026-11-19 (high): one who orders moves by pressing the confirm key at a steady rhythm
+## (pad A, or Enter) must not spare or finish the one who falls with the next press — the focus
+## goes to 「放过」 as he falls, but neither button takes the confirm key until the question has
+## been told and the feel's knockout_choice_guard_ms has passed (a mouse click is never held).
+## The fight runs on its own clock with the feel on, and he falls to a real blow. After the
+## guard the key works: one more press spares him.
+func _test_confirm_rhythm(tree: SceneTree, session: WorldSessionController, npc_id: StringName, pad: bool) -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var feel_before: FeelDefinition = pacing.feel
+	TestFeel.use()
+	var npc: NpcRuntimeState = null
+	for each: WorldMapController in session.world_maps():
+		if npc == null:
+			npc = _sof._first(each, npc_id)
+	_check(npc != null, "%s standing" % npc_id)
+	if npc == null:
+		pacing.feel = feel_before
+		return
+	var map: WorldMapController = await _sof._beside(tree, session, npc)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	npc.character_state.vitality = CharacterResourceState.new(25, 100000, 100000) # TEST-ONLY: the first blows fell him, none kills him
+	BattlePace.manual_turns = true
+	map.select_npc(npc.character_id)
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s (手动, the feel on)" % npc.definition().display_name)
+	var ui: BattlePresentationController = _ui(session)
+	session.set_process(true)
+	var device: String = "pad A" if pad else "Enter"
+	# The confirm key every 40 frames (0.67 s at 60 fps), wherever the focus is, until he has
+	# fallen and the next press has come (with the pad, on the very frame he falls: the worst case).
+	var fell_at: int = -1
+	var presses_after: int = 0
+	for frame: int in range(1, 1800):
+		await tree.process_frame
+		if fell_at < 0 and coordinator.held_victims().has(npc.character_id):
+			fell_at = frame
+		if not coordinator.has_active_encounter() or presses_after >= 1:
+			break
+		if frame % 40 != 0 and not (pad and fell_at >= 0):
+			continue
+		if pad:
+			await _pad(tree, JOY_BUTTON_A)
+		else:
+			await _key(tree, KEY_ENTER)
+		if fell_at >= 0:
+			presses_after += 1
+	_check(fell_at >= 0, "%s: he really falls to the blows %s ordered" % [device, device])
+	_check(presses_after == 1 and coordinator.held_victims() == [npc.character_id] and npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "%s: the press after he fell spared or finished nobody (held %s)" % [device, coordinator.held_victims()])
+	var card: BattleParticipantCard = ui._panel_card(1)
+	_check(card != null and card.participant_id() == npc.character_id and tree.root.gui_get_focus_owner() == card.spare_button, "%s: the focus on 放过" % device)
+	if card == null:
+		pacing.feel = feel_before
+		session.set_process(false)
+		return
+	if pad:
+		# A mouse click is never held back, even before the guard has passed.
+		_check(not ui._confirm_ready() and _told_count(ui) == 0, "pad A: still within the guard, the question not told yet")
+		_click(tree, card.spare_button)
+		await tree.process_frame
+		_check(not coordinator.held_victims().has(npc.character_id), "a click on 放过 within the guard: 放过")
+		# The question withdrawn with the choice: not told in the closing pause.
+		for _frame: int in 150:
+			await tree.process_frame
+		_check(_told_count(ui) == 0 and not ui._holding(), "the question is never told after the choice (told %d)" % _told_count(ui))
+	else:
+		# The key is taken once the question has been told and the guard has passed.
+		var waited: int = 0
+		while not ui._confirm_ready() and waited < 300:
+			await tree.process_frame
+			waited += 1
+		var told: bool = false
+		for line: BattleNarrationLine in ui._told:
+			told = told or line.text == BattlePresentationController.CHOOSE_FIRST
+		_check(ui._confirm_ready() and told and coordinator.held_victims() == [npc.character_id], "Enter: the question told and the guard passed before the key is taken (%d frames)" % waited)
+		await _key(tree, KEY_ENTER)
+		_check(not coordinator.held_victims().has(npc.character_id), "Enter after the guard: 放过")
+	for _frame: int in 30:
+		await tree.process_frame
+	_check(not coordinator.has_active_encounter() and npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "%s: the fight is over, he lives" % device)
+	for _frame: int in 120:
+		await tree.process_frame
+	session.set_process(false)
+	pacing.feel = feel_before
+	await _settle(tree, session)
 
 
 ## One against one in 手动: the 采石工 falls; nobody is left to strike, every move dims — the
@@ -322,6 +409,15 @@ func _last_player_blow(coordinator: CombatEncounterCoordinator, player_id: Strin
 			return null
 		return ordinary.base_result
 	return null
+
+
+## How many times the strip told the 了结 / 放过 question among its last lines.
+func _told_count(ui: BattlePresentationController) -> int:
+	var count: int = 0
+	for line: BattleNarrationLine in ui._told:
+		if line.text == BattlePresentationController.CHOOSE_FIRST:
+			count += 1
+	return count
 
 
 ## The strip's lines as shown (each row's text).
