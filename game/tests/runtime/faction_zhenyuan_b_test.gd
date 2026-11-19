@@ -74,7 +74,7 @@ func _test_votes() -> void:
 	_check(_holds(state, "assembly.day.zhenyuan.old") and not _holds(state, "assembly.day.zhenyuan.self"), "sent to the old 盟主")
 	state = _fresh(["入了虹台的席", "振远听你的", "站出来参选"])
 	_check(_holds(state, "assembly.day.zhenyuan.self"), "you stood: 振远 votes you")
-	var five: Array = ["入了虹台的席", "站出来参选", "侮天鬼灭了", "振远听你的", "封山听你的", "天邪听你的", "茅山听你的", "晚月庄听你的"]
+	var five: Array = ["入了虹台的席", "站出来参选", "侮天鬼灭了", "振远听你的", "封山听你的", "天邪听你的", "茅山听你的", "晚月庄听你的", "振远表了态", "封山表了态", "天邪表了态", "茅山表了态", "晚月庄表了态"]
 	state = _fresh(five)
 	_check(_holds(state, "assembly.day.can_stand") and _holds(state, "assembly.day.self_wins") and _holds(state, "assembly.self_backed"), "振远 is one of the five that may 听你的 (§11 Q9)")
 	state = _fresh(["振远旧账到此为止"])

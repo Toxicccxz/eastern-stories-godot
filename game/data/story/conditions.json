@@ -849,7 +849,8 @@
 			"id": "assembly.latemoon.self",
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 宝衣 left with 瑷伦 and she is still there, and 蓝止萍 asked",
-				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the line walked to its split, 蓝止萍 asked「这一票」"
+				"native: 势力线第二批 晚月 B (剧情总纲 §4「晚月庄」; 计划 势力线第二批_计划.md §3 晚月 B, §7 第 2、6 行, §9 第 3、4 条, §10 第 4 行, §11 Q4 Q5, owner 2026-11-16「都按照推荐来」; DECISIONS「晚月 B」) — the line walked to its split, 蓝止萍 asked「这一票」",
+				"修补 Z: the split as its vote followed it before 入席 (晚月庄的票随了…), not the split itself (DECISIONS「晚月 B」)"
 			],
 			"when": {
 				"all": [
@@ -859,7 +860,10 @@
 					{
 						"any": [
 							{
-								"cond": "latemoon.split"
+								"mark": "晚月庄的票随了庄规"
+							},
+							{
+								"mark": "晚月庄的票随了她"
 							},
 							{
 								"not": {
@@ -1159,35 +1163,92 @@
 			"id": "assembly.yan_wins",
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 换盟主要过半 (§11 Q3): five of the nine for 颜违",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)",
+				"修补 Z: the 任务 page's 投颜违 row reads it — the votes stated so far, five of them for 颜违 (DECISIONS「大会 A」)"
 			],
 			"when": {
 				"at_least": {
 					"n": 5,
 					"of": [
 						{
-							"cond": "assembly.fonxan.yan"
+							"all": [
+								{
+									"cond": "assembly.fonxan.stated"
+								},
+								{
+									"cond": "assembly.fonxan.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.celestial.yan"
+							"all": [
+								{
+									"cond": "assembly.celestial.stated"
+								},
+								{
+									"cond": "assembly.celestial.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.zhenyuan.yan"
+							"all": [
+								{
+									"cond": "assembly.zhenyuan.stated"
+								},
+								{
+									"cond": "assembly.zhenyuan.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.huazi.yan"
+							"all": [
+								{
+									"cond": "assembly.huazi.stated"
+								},
+								{
+									"cond": "assembly.huazi.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.maoshan.yan"
+							"all": [
+								{
+									"cond": "assembly.maoshan.stated"
+								},
+								{
+									"cond": "assembly.maoshan.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.latemoon.yan"
+							"all": [
+								{
+									"cond": "assembly.latemoon.stated"
+								},
+								{
+									"cond": "assembly.latemoon.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.sanyen.yan"
+							"all": [
+								{
+									"cond": "assembly.sanyen.stated"
+								},
+								{
+									"cond": "assembly.sanyen.yan"
+								}
+							]
 						},
 						{
-							"cond": "assembly.buxuan.yan"
+							"all": [
+								{
+									"cond": "assembly.buxuan.stated"
+								},
+								{
+									"cond": "assembly.buxuan.yan"
+								}
+							]
 						}
 					]
 				}
@@ -1199,35 +1260,92 @@
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — five 派 「听你的」 (§11 Q3; 大会 B's 参选 also wants 侮天鬼灭了)",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too (§11 Q9: seven 派 that may 听你的)",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)",
-				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too (§12 Q7: eight 派 may 听你的 so far)"
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too (§12 Q7: eight 派 may 听你的 so far)",
+				"修补 Z: the 任务 page's 听你的 row reads it — the votes stated so far, five of them 听你的 (DECISIONS「大会 A」)"
 			],
 			"when": {
 				"at_least": {
 					"n": 5,
 					"of": [
 						{
-							"cond": "assembly.fonxan.self"
+							"all": [
+								{
+									"cond": "assembly.fonxan.stated"
+								},
+								{
+									"cond": "assembly.fonxan.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.celestial.self"
+							"all": [
+								{
+									"cond": "assembly.celestial.stated"
+								},
+								{
+									"cond": "assembly.celestial.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.zhenyuan.self"
+							"all": [
+								{
+									"cond": "assembly.zhenyuan.stated"
+								},
+								{
+									"cond": "assembly.zhenyuan.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.huazi.self"
+							"all": [
+								{
+									"cond": "assembly.huazi.stated"
+								},
+								{
+									"cond": "assembly.huazi.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.maoshan.self"
+							"all": [
+								{
+									"cond": "assembly.maoshan.stated"
+								},
+								{
+									"cond": "assembly.maoshan.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.latemoon.self"
+							"all": [
+								{
+									"cond": "assembly.latemoon.stated"
+								},
+								{
+									"cond": "assembly.latemoon.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.sanyen.self"
+							"all": [
+								{
+									"cond": "assembly.sanyen.stated"
+								},
+								{
+									"cond": "assembly.sanyen.self"
+								}
+							]
 						},
 						{
-							"cond": "assembly.buxuan.self"
+							"all": [
+								{
+									"cond": "assembly.buxuan.stated"
+								},
+								{
+									"cond": "assembly.buxuan.self"
+								}
+							]
 						}
 					]
 				}
