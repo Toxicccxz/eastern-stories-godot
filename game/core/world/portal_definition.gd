@@ -13,6 +13,7 @@ var _destination_spawn_point_id: StringName
 var _legacy_room_id: StringName
 var _legacy_command: String
 var _set_mark: String = ""
+var _also_mark: String = ""
 
 var portal_id: StringName:
 	get:
@@ -24,6 +25,11 @@ var source_map_id: StringName:
 var set_mark: String:
 	get:
 		return _set_mark
+## Native (势力线第三批 绝尘 A; DECISIONS「八卦阵与追风剑」): one more mark taking this way sets to 1, kept
+## where `set_mark` is used up (走出了八卦阵 beside eight7.c's 八卦阵, which the stream's search takes); "" none.
+var also_mark: String:
+	get:
+		return _also_mark
 var source_zone_id: StringName:
 	get:
 		return _source_zone_id
@@ -78,6 +84,9 @@ static func from_record(reader: ContentRecordReader) -> PortalDefinition:
 		reader.required_text("legacy_command"),
 	)
 	definition._set_mark = reader.text("set_mark")
+	definition._also_mark = reader.text("also_mark")
+	if not definition._also_mark.is_empty() and definition._set_mark.is_empty():
+		reader.fail("also_mark", "one more mark beside a set_mark")
 	reader.finish()
 	return definition
 
@@ -95,6 +104,7 @@ func with_maps(source_map_id: StringName, destination_map_id: StringName) -> Por
 		_legacy_command,
 	)
 	copy._set_mark = _set_mark
+	copy._also_mark = _also_mark
 	return copy
 
 

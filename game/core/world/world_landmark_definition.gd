@@ -121,6 +121,9 @@ var _enter_portal_id: StringName = &""
 var _turns: Array[Turn] = []
 var _combination: Dictionary[String, int] = {}
 var _opens: StringName = &""
+## Native (势力线第三批 绝尘 A; DECISIONS「八卦阵与追风剑」): a search's `once_mark`: what it finds goes to the
+## player once — the find marks them, and one so marked finds nothing again; "" (ES2) finds while the mark holds.
+var _once_mark: String = ""
 var _legacy_source_path: String
 ## Native (第八章 A): `looks` [{marks, long}]: what one bearing all those marks sees instead of
 ## `long` (the first that fits; the 封坛 after the sword is drawn, the 刻字 to one who read the 铜牒).
@@ -166,6 +169,10 @@ var class_id: StringName:
 var mark: String:
 	get:
 		return _mark
+## A search's mark of what it already gave (`once_mark`); "" none.
+var once_mark: String:
+	get:
+		return _once_mark
 ## The summoned spawn a `look_spawn` landmark calls in.
 var spawn_id: StringName:
 	get:
@@ -283,6 +290,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		definition._turns.append(turn)
 	definition._combination = reader.integer_map("combination")
 	definition._opens = StringName(reader.text("opens"))
+	definition._once_mark = reader.text("once_mark")
 	for record: ContentRecordReader in reader.children("looks"):
 		var look := Look.new()
 		look.marks = record.text_list("marks")
@@ -307,6 +315,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("class", "only a join_class landmark names a class, and it must")
 	if definition.mark.is_empty() == bool(rule.get("mark", false)) and not rule.get("optional_mark", false):
 		reader.fail("mark", "only a search, note_maze, find_way or bury landmark names a mark, and the first three must")
+	if not definition._once_mark.is_empty() and definition.policy != &"search":
+		reader.fail("once_mark", "only a search finds once")
 	var maze: bool = rule.get("maze", false)
 	if definition._notes.is_empty() == maze or definition._counter.is_empty() == maze or definition._enter_portal_id.is_empty() == maze:
 		reader.fail("notes", "only a note_maze landmark has notes, a counter and an enter portal, and it must")
@@ -379,6 +389,7 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._turns = _turns.duplicate()
 	copy._combination = _combination.duplicate()
 	copy._opens = _opens
+	copy._once_mark = _once_mark
 	copy._looks = _looks.duplicate()
 	return copy
 

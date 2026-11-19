@@ -67,6 +67,11 @@ var present_npc_ids: Array[StringName] = []
 var spends: bool = false
 ## combat_exp_below: the combat_exp the player needs; kar_slip: random(kar) below it slips.
 var value: int = 0
+## Native (势力线第三批 绝尘 A; DECISIONS「绝尘的经验门槛」): combat_exp_below's named experience gate
+## (PacingDefinition `exp_gates`): `value` is the pacing's threshold for it, `es2_value` the record's
+## (entrance.c's 100000). &"" none: `value` is the record's.
+var exp_gate: StringName = &""
+var es2_value: int = 0
 ## not_apprentice_of: the master (an NPC definition ID) whose apprentices may pass.
 var npc_id: StringName
 ## not_family: the family (a families.json ID) whose members may pass.
@@ -204,6 +209,9 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.value = reader.required_integer("value")
 			if rule.value <= 0:
 				reader.fail("value", "must be positive")
+			if rule.condition == Condition.COMBAT_EXP_BELOW:
+				rule.exp_gate = StringName(reader.text("exp_gate"))
+				rule.es2_value = rule.value
 		Condition.NOT_APPRENTICE_OF:
 			rule.npc_id = StringName(reader.required_text("npc"))
 		Condition.NOT_FAMILY:
@@ -252,3 +260,12 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 	rule.legacy_source_path = reader.required_text("legacy_source")
 	reader.finish()
 	return rule
+
+
+## A combat_exp_below rule with a named gate asks `pacing`'s threshold for it (ES2's own when the
+## pacing has none). Called by ContentCatalog.set_pacing(); whether this rule has a gate.
+func apply_exp_gate(pacing: PacingDefinition) -> bool:
+	if exp_gate.is_empty() or pacing == null:
+		return false
+	value = pacing.exp_gate(exp_gate, es2_value)
+	return true

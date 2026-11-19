@@ -143,7 +143,7 @@ func _test_votes() -> void:
 	# 绝尘
 	state = _fresh(["终章"])
 	_check(_heard(state, &"common.npc.juechen.master", "虹台", "不问世事") and _holds(state, "assembly.juechen.absent") and not _holds(state, "assembly.juechen.old"), "绝尘: 不来")
-	state = _fresh(["终章", "八卦阵"])
+	state = _fresh(["终章", "走出了八卦阵"])
 	_check(_heard(state, &"common.npc.juechen.master", "虹台", "八卦阵") and _confirms(state, &"common.npc.juechen.master", "下山"), "走过八卦阵: 绝尘子 would come")
 	_heard(state, &"common.npc.juechen.master", "下山", "老道走一趟")
 	_check(_holds(state, "assembly.juechen.old") and not _holds(state, "assembly.juechen.absent"), "绝尘: 下山来, 旧盟主")
@@ -213,7 +213,7 @@ func _test_counts(tree: SceneTree, session: WorldSessionController) -> void:
 	view = _view(session)
 	_check(_row(view, "已表态").have == 5 and _row(view, "振远镖局：投颜违——旧案到此为止") != null and _row(view, "茅山派：投颜违——主剿") != null and _row(view, "晚月庄：投旧盟主——封地照旧") != null, "five said: what each votes")
 	_check(_row(view, "投颜违").have == 2, "two said for 颜违")
-	for mark: String in ["山烟寺表了态", "步玄表了态", "花紫会表了态", "绝尘表了态", "八卦阵", "绝尘子肯下山", "绝尘派肯来"]:
+	for mark: String in ["山烟寺表了态", "步玄表了态", "花紫会表了态", "绝尘表了态", "走出了八卦阵", "绝尘子肯下山", "绝尘派肯来"]:
 		state.marks[mark] = 1 # TEST-ONLY: all asked, 绝尘子 coming
 	session.record_journal()
 	view = _view(session)

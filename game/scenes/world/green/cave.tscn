@@ -151,6 +151,21 @@ position = Vector2(0, 285)
 script = ExtResource("marker")
 spawn_point_id = &"green.cave1.cave0_entry"
 
+[node name="Cave1Ghoul1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-136, 56)
+script = ExtResource("marker")
+spawn_point_id = &"green.cave1.ghoul.1"
+
+[node name="Cave2Ghoul1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-216, -360)
+script = ExtResource("marker")
+spawn_point_id = &"green.cave2.ghoul.1"
+
+[node name="Cave2Kid1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-176, -360)
+script = ExtResource("marker")
+spawn_point_id = &"green.cave2.kid.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

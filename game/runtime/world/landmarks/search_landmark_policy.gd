@@ -5,6 +5,8 @@ extends WorldLandmarkPolicy
 ## landmark's `mark` (eight7.c's 八卦阵, set leaving the 迷阵 south), random(`random`)
 ## other than 0 finds the `reward` item, which goes to the player (`found`) and the mark
 ## stays; else the mark is deleted. Without it, or after that, nothing (`nothing`).
+## Native (势力线第三批 绝尘 A; DECISIONS「八卦阵与追风剑」): with a `once_mark` the find takes the mark too and
+## marks the player with it; one so marked finds nothing again (one 追风剑, not one a walk of the 迷阵).
 class Result:
 	extends RefCounted
 	var searched: bool = false
@@ -26,9 +28,13 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	var hud: SharedGameplayUI = session.shared_ui()
 	result.searched = true
 	hud.append_log_lines([TranslationServer.translate(landmark.message("search"))])
-	if player.state.marks.get(landmark.mark, 0) != 0:
+	var given: bool = not landmark.once_mark.is_empty() and player.state.marks.get(landmark.once_mark, 0) != 0
+	if player.state.marks.get(landmark.mark, 0) != 0 and not given:
 		if random_source.legacy_random(landmark.setting("random")) != 0:
 			result.found_item_id = map.give_new_item_to_player(landmark.item("reward"))
+			if not landmark.once_mark.is_empty():
+				player.state.marks.erase(landmark.mark)
+				player.state.marks[landmark.once_mark] = 1
 			hud.append_log_lines([TranslationServer.translate(landmark.message("found"))])
 			# Too heavy for the player, it lies at their feet (DECISIONS「拿不动就不收钱」): said.
 			var content: ItemContentDefinition = GameContent.catalog().item(landmark.item("reward"))

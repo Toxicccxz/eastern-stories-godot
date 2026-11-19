@@ -10568,6 +10568,418 @@
 					"树王坟？再也不去了。柴不好砍，命要紧。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.green_cave_kid",
+			"legacy_source": "native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」) — a boy of 青石村 (d/green/npc/woman2.c: 明知山洞那边闹鬼, 没事带著我们家那两个跑过去) gone into the cave behind the chained door (d/green/cave0.c, cave1.c: 洞内奇寒澈骨) with his little sister on his back, from 第五章 on, when the 鬼卒 are up in the cave; he follows the player out once its 鬼卒 are down. 续写. The attributes are fixed here",
+			"name": "阿牛",
+			"aliases": [
+				"kid",
+				"child",
+				"阿牛",
+				"小孩"
+			],
+			"gender": "男性",
+			"age": 9,
+			"long": "一个八九岁的男孩，脸冻得发青，嘴唇发紫，背上趴着他的妹妹小翠，两只小手死死搂着他的脖子。\n",
+			"attributes": {
+				"str": 14,
+				"con": 16,
+				"cor": 18,
+				"spi": 16,
+				"int": 14,
+				"cps": 12,
+				"kar": 20,
+				"per": 18
+			},
+			"combat_exp": 15,
+			"attitude": "friendly",
+			"skills": {
+				"dodge": 5
+			},
+			"always_kept": true,
+			"follows_every_way": true,
+			"chat_chance": 8,
+			"chat_msg": [
+				"阿牛缩在石头后面，牙齿咯咯地响。\n",
+				"小翠趴在阿牛背上，抽抽搭搭地哭，哭不出声。\n",
+				"阿牛小声说：别出声……它们会听见的……\n"
+			],
+			"accept_fight": [
+				{
+					"say": "别……别打我……",
+					"accept": false
+				}
+			],
+			"moods": {
+				"going": {
+					"flags": [
+						"follows_player"
+					],
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": [
+						"阿牛背着小翠跟在你后头，一手攥着你的衣角。\n",
+						"阿牛小声问：娘会不会打我？\n"
+					]
+				},
+				"home": {
+					"lasting": true,
+					"chat_chance": 4,
+					"chat_msg": [
+						"阿牛把脸埋在他娘的围裙里。\n"
+					]
+				}
+			},
+			"inquiry": {
+				"回家": {
+					"rules": [
+						{
+							"asker_marks": [
+								"孩子回了家"
+							],
+							"say": "到家了。"
+						},
+						{
+							"asker_marks": [
+								"阿牛跟着你"
+							],
+							"mood": "going",
+							"say": "嗯！"
+						},
+						{
+							"asker_marks": [
+								"洞口的鬼卒倒了",
+								"洞底的鬼卒倒了"
+							],
+							"mood": "going",
+							"mark_asker": "阿牛跟着你",
+							"lines": [
+								{
+									"emote": "从石头后面探出头来，看看地上的鬼卒，又看看你。"
+								},
+								{
+									"say": "它们……不动了？"
+								},
+								{
+									"emote": "把背上的小翠往上托了托，一只手攥住了你的衣角。"
+								},
+								{
+									"say": "我要回家。娘会打我的……我不怕。"
+								}
+							]
+						},
+						{
+							"lines": [
+								{
+									"emote": "缩在石头后面，背上的小翠已经哭不出声了。"
+								},
+								{
+									"say": "有……有鬼……青脸的……别出声，它们会听见的……"
+								}
+							]
+						}
+					]
+				},
+				"小翠": {
+					"rules": [
+						{
+							"lines": [
+								{
+									"say": "小翠说门缝里有光，一闪一闪的……我们就钻进来了。"
+								},
+								{
+									"say": "门上那条铁链早锈断了，一推就开。村长不知道。"
+								}
+							]
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.green_mother",
+			"legacy_source": "native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」) — the 妇人 of 青石村 (d/green/npc/woman2.c: 明知山洞那边闹鬼, 没事带著我们家那两个跑过去) calling for her two at the village's north road, where the path goes up to the cave, from 第五章 on until the boy comes home; she takes them home. 续写. The attributes are woman2.c's where it has them, fixed here where it leaves them",
+			"name": "妇人",
+			"aliases": [
+				"woman",
+				"妇人"
+			],
+			"gender": "女性",
+			"age": 40,
+			"long": "一个四十来岁的主妇，系着围裙，手里还攥着一把长勺，站在路口朝北边的山上张望，嗓子都喊哑了。\n",
+			"attributes": {
+				"str": 16,
+				"con": 18,
+				"cor": 16,
+				"spi": 14,
+				"int": 14,
+				"cps": 12,
+				"kar": 16,
+				"per": 16
+			},
+			"combat_exp": 50,
+			"attitude": "friendly",
+			"apply": {
+				"dodge": 3
+			},
+			"always_kept": true,
+			"chat_chance": 12,
+			"chat_msg": [
+				"妇人朝着北边的山上喊：阿牛——！小翠——！\n",
+				"妇人说道：明知山洞那边闹鬼……这两个小鬼，回来看我不打断你们的腿！\n",
+				"妇人抹了一把眼睛，又朝山上张望。\n"
+			],
+			"accept_fight": [
+				{
+					"say": "你、你要干什么？我家孩子还在山上！",
+					"accept": false
+				}
+			],
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"present": "native.npc.green_cave_kid",
+					"mark": "阿牛跟着你",
+					"not_mark": "孩子回了家",
+					"steps": [
+						{
+							"emote": "看见你身后的阿牛，手里的长勺「当」地掉在地上。"
+						},
+						{
+							"by": "native.npc.green_cave_kid"
+						},
+						{
+							"say": "娘……"
+						},
+						{
+							"by": "native.npc.green_mother"
+						},
+						{
+							"emote": "扑过去把两个孩子搂在怀里，又哭又骂，巴掌举起来，落下去的时候只是摸了摸他们冰凉的脸。"
+						},
+						{
+							"say": "叫你们别去！叫你们别去！……"
+						},
+						{
+							"say": "恩人……这、这让我怎么谢你。"
+						},
+						{
+							"by": "native.npc.green_cave_kid"
+						},
+						{
+							"npc_mood": "home"
+						},
+						{
+							"unfollow": true
+						},
+						{
+							"mark": "孩子回了家"
+						},
+						{
+							"by": "native.npc.green_mother"
+						},
+						{
+							"say": "村长那边，你替我说一声吧。这洞……往后谁也别想再去。"
+						},
+						{
+							"line": "妇人一手拉着一个孩子，往村里去了。\n"
+						},
+						{
+							"leave": "native.npc.green_cave_kid"
+						},
+						{
+							"leave": true
+						}
+					]
+				},
+				{
+					"after": 1,
+					"scene": true,
+					"when": {
+						"all": [
+							{
+								"not": {
+									"mark": "妇人喊了孩子"
+								}
+							},
+							{
+								"not": {
+									"mark": "阿牛跟着你"
+								}
+							}
+						]
+					},
+					"steps": [
+						{
+							"emote": "一把拉住你的袖子。"
+						},
+						{
+							"say": "你是往山上去的？我家阿牛，背着他妹妹，又钻到北边那个山洞里去了！"
+						},
+						{
+							"say": "那洞闹鬼，村长拿铁链拴了门的……天都快黑了，还没出来。"
+						},
+						{
+							"say": "求你……去问问村长，那门里头到底有什么……"
+						},
+						{
+							"mark": "妇人喊了孩子"
+						}
+					]
+				}
+			],
+			"inquiry": {
+				"孩子": {
+					"rules": [
+						{
+							"asker_marks": [
+								"阿牛跟着你"
+							],
+							"say": "阿牛！小翠！"
+						},
+						{
+							"lines": [
+								{
+									"say": "阿牛和小翠，钻到北边山洞里去了。那洞闹鬼……"
+								},
+								{
+									"say": "村长家在广场南边那间石屋。你去问问他「山洞」。"
+								}
+							]
+						}
+					]
+				},
+				"山洞": [
+					"那洞闹鬼。村长拴了门的。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.juechen_liaochen",
+			"legacy_source": "native: 势力线第三批 绝尘 A (剧情总纲 §4 第 7 条「绝尘派」, §3 第五章 (鬼卒出来了); 计划 势力线第三批_计划.md §7 绝尘 A, §2 第 1、2 条, §3, §8 第 8 行, §10 第 1–4 条, §12 Q1 Q2 Q5, owner 2026-11-17「都照推荐」; DECISIONS「绝尘 A」) — 绝尘子's first apprentice (ES2 has none but the master: daemon/class/juechen/master.c), a 小沙弥 who walked out of 山烟寺 thirty years ago after 玄尘 (计划 §3: 绝尘子 is 玄尘; 绝尘 B tells it), in the 石室's hall beside the master (d/green/cavehall.c). He asks after the cave and says the master knows what is in it. 续写. The attributes are fixed here",
+			"name": "了尘",
+			"aliases": [
+				"liao chen",
+				"liaochen",
+				"了尘",
+				"大弟子"
+			],
+			"class": "taoist",
+			"gender": "男性",
+			"age": 42,
+			"long": "一个四十来岁的道人，头上的发茬是剃过之后又蓄起来的，挽成一个小小的髻；道袍洗得发白，手腕上却缠着一串磨得发亮的佛珠。他说话的时候，总要先看一眼佛像下的师父。\n",
+			"attributes": {
+				"str": 24,
+				"con": 26,
+				"cor": 22,
+				"spi": 26,
+				"int": 24,
+				"cps": 28,
+				"kar": 20,
+				"per": 18
+			},
+			"resources": {
+				"max_force": 800,
+				"force": 800,
+				"max_atman": 400,
+				"atman": 400,
+				"max_mana": 600,
+				"mana": 600
+			},
+			"combat_exp": 300000,
+			"force_factor": 10,
+			"family": {
+				"name": "绝尘派",
+				"generation": 2,
+				"title": "大弟子"
+			},
+			"attitude": "peaceful",
+			"skills": {
+				"force": 80,
+				"dodge": 70,
+				"parry": 70,
+				"unarmed": 50,
+				"staff": 80,
+				"literate": 60,
+				"juechen-force": 80,
+				"jingang-staff": 80
+			},
+			"skill_map": {
+				"staff": "jingang-staff",
+				"force": "juechen-force"
+			},
+			"carry": [
+				{
+					"item": "es2:daemon/class/juechen/jingang_staff",
+					"source": "daemon/class/juechen/jingang_staff.c",
+					"equip": "wield"
+				}
+			],
+			"always_kept": true,
+			"chat_chance": 3,
+			"chat_msg": [
+				"了尘拿着扫帚，把佛像前的香灰扫成一小堆。\n",
+				"了尘捻着腕上的佛珠，嘴唇动了动，没有出声。\n"
+			],
+			"inquiry": {
+				"山洞": {
+					"rules": [
+						{
+							"asker_marks": [
+								"了尘说了洞里的事"
+							],
+							"lines": [
+								{
+									"say": "师父知道洞里有东西。阵守得住石室，他就不管。"
+								},
+								{
+									"emote": "低头捻着佛珠。"
+								},
+								{
+									"say": "……我不是师父。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
+								"绝尘子听了山洞"
+							],
+							"mark_asker": "了尘说了洞里的事",
+							"lines": [
+								{
+									"emote": "等师父闭上了眼睛，才把你拉到大厅一角。"
+								},
+								{
+									"say": "你进了那个洞？里头……有几个？"
+								},
+								{
+									"emote": "听你说完，攥紧了手里的金刚杖，指节都白了。"
+								},
+								{
+									"say": "两个。一个孩子背着他妹妹，在洞底躲了一天一夜。"
+								},
+								{
+									"say": "师父知道洞里有东西。阵守得住石室，他就不管。"
+								},
+								{
+									"emote": "回头看了一眼佛像下的师父，没有再说下去。"
+								}
+							]
+						},
+						{
+							"say": "青石村北边那个山洞？那道门是村长拴的。洞的北口，就是来这里的荒山路。"
+						}
+					]
+				},
+				"绝尘派": [
+					"我是师父的大弟子。跟着师父，快三十年了。"
+				],
+				"name": [
+					"贫道了尘。"
+				]
+			}
 		}
 	]
 }

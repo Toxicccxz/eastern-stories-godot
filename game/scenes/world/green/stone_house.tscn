@@ -247,6 +247,11 @@ position = Vector2(-344, -304)
 script = ExtResource("marker")
 spawn_point_id = &"green.cavehall.master.1"
 
+[node name="CavehallLiaochen1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-494, -246)
+script = ExtResource("marker")
+spawn_point_id = &"green.cavehall.liaochen.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

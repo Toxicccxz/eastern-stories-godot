@@ -4,9 +4,10 @@ const WorldCounts := preload("res://tests/support/world_counts.gd")
 ## 青石村 A (d/green): the 39 rooms on twelve maps (the village's, its seven buildings' own
 ## since the remap, the mountain's, the cave's, the stone house's and the 迷阵's) and the way in from Snow's 山坳; the
 ## spawns and items as imported; the exits as data: the 迷阵's passages (to itself, back,
-## on, into 绝地), eight7.c's 八卦阵 mark, entrance.c's 100000 combat_exp, outdoor.c's
-## seal, the two one-way ways; closed.c's push and the native way out (放弃); water.c's
-## search; house3.c's web; rope.c's hang. Walks go through the passages with the move
+## on, into 绝地), eight7.c's 八卦阵 mark (and 走出了八卦阵 beside it), entrance.c's 100000 combat_exp
+## (pinned: the 绝尘 gate at ES2's, DECISIONS「绝尘的经验门槛」; the game's 20000 in faction_juechen_a_test),
+## outdoor.c's seal, the two one-way ways; closed.c's push and the native way out (放弃); water.c's
+## search, its 追风剑 found once (DECISIONS「八卦阵与追风剑」); house3.c's web; rope.c's hang. Walks go through the passages with the move
 ## actions (MapPlaces). TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -27,6 +28,7 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	var production: PacingDefinition = Es2Pacing.use_es2_exp_gates()
 	_test_data()
 	_test_maze_exits()
 	_test_exit_rules()
@@ -49,6 +51,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_closed(tree, session)
 	session.free()
 	await tree.process_frame
+	Es2Pacing.restore(production)
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -79,7 +82,9 @@ func _test_data() -> void:
 		&"green.npc.kid3": 2, &"green.npc.worker1": 1, &"green.npc.oldman": 1, &"green.npc.oldwoman": 1,
 		&"green.npc.oldman2": 1, &"green.npc.kid1": 1, &"green.npc.kid2": 2, &"green.npc.kid4": 2, &"green.npc.spider": 3,
 		&"common.npc.juechen.master": 1,
-	}, "twenty villagers of twelve kinds, three spiders the web calls in, 绝尘子 in the hall: %s" % spawns)
+		# 绝尘 A (DECISIONS「绝尘 A」): the cave's two 鬼卒, 阿牛 and his mother on the story's stage; 了尘 in the hall.
+		&"native.npc.hell_runner_tomb": 2, &"native.npc.green_cave_kid": 1, &"native.npc.green_mother": 1, &"native.npc.juechen_liaochen": 1,
+	}, "twenty villagers of twelve kinds, three spiders the web calls in, 绝尘子 and 了尘 in the hall, 绝尘 A's stage: %s" % spawns)
 	_check(catalog.spawn(&"green.village.house3.spiders").summoned, "the spiders are summoned (house3.c call_spider())")
 	_check(catalog.item(ROPE).hang and catalog.item(ROPE).value == 5, "绳子: hang")
 	var sword: ItemContentDefinition = catalog.item(WINDSWORD)
@@ -92,8 +97,8 @@ func _test_data() -> void:
 	var stone: WorldLandmarkDefinition = catalog.landmark(&"green.closed.landmark.stone")
 	_check(stone.policy == &"push_stone" and stone.setting("force") == 560 and stone.setting("max_force") == 560 and stone.setting("force_factor") == 40 and stone.setting("random") == 3 and stone.portal_id == &"green.closed.push", "绝地's stone: closed.c's numbers")
 	var water: WorldLandmarkDefinition = catalog.landmark(&"green.water.landmark.water")
-	_check(water.policy == &"search" and water.mark == "八卦阵" and water.item("reward") == WINDSWORD and water.setting("random") == 2, "the stream: search with the mark")
-	_check(catalog.portal(&"green.eight7.south").set_mark == "八卦阵" and catalog.portal(&"green.eight6.north").set_mark.is_empty(), "only leaving 乾 south marks the player")
+	_check(water.policy == &"search" and water.mark == "八卦阵" and water.once_mark == "搜到了追风剑" and water.item("reward") == WINDSWORD and water.setting("random") == 2, "the stream: search with the mark, found once")
+	_check(catalog.portal(&"green.eight7.south").set_mark == "八卦阵" and catalog.portal(&"green.eight7.south").also_mark == "走出了八卦阵" and catalog.portal(&"green.eight6.north").set_mark.is_empty(), "only leaving 乾 south marks the player")
 
 
 ## Every 迷阵 room's four exits are passages to where its LPC exits lead, at the opposite side.
@@ -256,7 +261,7 @@ func _test_maze(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not player.state.marks.has("八卦阵"), "no mark yet")
 	_check(await MapPlaces.take_passage(tree, maze, &"green.eight7.south"), "south out of 乾 (朱雀而生)")
 	_check(session.active_map().map_id() == &"green.stone_house" and player.world_location().zone_id == &"green.stoneroom", "in the east stone room (the stone house's map since the remap)")
-	_check(player.state.marks.get("八卦阵", 0) == 1, "marked 八卦阵 (eight7.c valid_leave())")
+	_check(player.state.marks.get("八卦阵", 0) == 1 and player.state.marks.get("走出了八卦阵", 0) == 1, "marked 八卦阵 (eight7.c valid_leave()) and 走出了八卦阵")
 
 
 ## The stream's search, the secret door, the one-way ways and the hall's seal.
@@ -272,14 +277,19 @@ func _test_stone_rooms(tree: SceneTree, session: WorldSessionController) -> void
 	await tree.physics_frame # The arrival's zone Areas report a frame later.
 	_check(map.map_id() == &"green.mountain" and player.world_location().zone_id == &"green.water", "out to the stream (the mountain's map): %s" % player.world_location().zone_id)
 	_check(map.select_landmark(&"green.water.landmark.water"), "the water")
-	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([1, 0])) # TEST-ONLY: found, then nothing
-	map.traverse_selected_portal()
-	_check(hud.log_lines().slice(-2) == ["你跳入溪水之中，开始仔细寻找....", "你竟从水中找出一把追风剑!"], "random(2) 1: the 追风剑: %s" % [hud.log_lines().slice(-2)])
-	_check(not _carried(session, player.character_id, WINDSWORD).is_empty() and player.state.marks.get("八卦阵", 0) == 1, "in hand; the mark stays")
+	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([0, 1, 1])) # TEST-ONLY: nothing, then found
 	map.traverse_selected_portal()
 	_check(hud.log_lines()[-1] == "你在水中忙了半天，结果一无所获。" and not player.state.marks.has("八卦阵"), "random(2) 0: nothing, and the mark is gone")
 	map.traverse_selected_portal()
 	_check(hud.log_lines()[-1] == "你在水中忙了半天，结果一无所获。", "without it, nothing")
+	player.state.marks["八卦阵"] = 1 # TEST-ONLY: the 迷阵 walked again
+	map.traverse_selected_portal()
+	_check(hud.log_lines().slice(-2) == ["你跳入溪水之中，开始仔细寻找....", "你竟从水中找出一把追风剑!"], "random(2) 1: the 追风剑: %s" % [hud.log_lines().slice(-2)])
+	_check(not _carried(session, player.character_id, WINDSWORD).is_empty() and not player.state.marks.has("八卦阵") and player.state.marks.get("搜到了追风剑", 0) == 1, "in hand; the find takes the mark (found once)")
+	player.state.marks["八卦阵"] = 1 # TEST-ONLY: and walked once more
+	map.traverse_selected_portal()
+	_check(hud.log_lines()[-1] == "你在水中忙了半天，结果一无所获。", "one 追风剑: nothing again")
+	_check(player.state.marks.get("走出了八卦阵", 0) == 1, "走出了八卦阵 is never taken")
 	_check(await MapPlaces.take_passage(tree, map, &"green.water.west"), "west through the bushes (off the mountain's map)")
 	map = session.active_map() as WorldMapController
 	await tree.physics_frame
