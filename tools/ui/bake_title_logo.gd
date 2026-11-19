@@ -1,13 +1,13 @@
 extends SceneTree
-## Bakes the title's lettering masks (DECISIONS「标题画面」): 东方故事 lettered in 马善政 (a brush
-## hand) — every character its own size, set close and a little off the line, as a title is
+## Bakes the title's lettering masks (DECISIONS「标题画面」): 东方故事 lettered in 云峰飞云体 (a
+## rough, free brush hand) — every character its own size, set close and a little off the line, as a title is
 ## brushed and not typed — EASTERN STORIES in Cinzel capitals, and the seal's 侠 in 霞鹜文楷.
 ## Each mask is rendered large and antialiased, padded for the shadow, with the ink in red and the
 ## same ink blurred wide in green (TitleLogo's shader soaks the ink in from the strokes' cores
 ## and casts the shadow with it). The game reads only these masks, so the brush font is not
 ## shipped.
 ## Windowed (it renders text):
-##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd -- <MaShanZheng-Regular.ttf>
+##   <godot> --path game --script <abs>/tools/ui/bake_title_logo.gd -- <云峰飞云体.ttf>
 ## Writes game/assets/textures/title/logo_zh_CN.png, logo_en.png, seal_zh_CN.png.
 
 const OUT: String = "res://assets/textures/title/"
@@ -40,7 +40,7 @@ func _init() -> void:
 func _run() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	if args.is_empty():
-		printerr("usage: -- <MaShanZheng-Regular.ttf>")
+		printerr("usage: -- <云峰飞云体.ttf>")
 		quit(1)
 		return
 	var brush := FontFile.new()

@@ -50,6 +50,9 @@ const SEAL_DOWN: float = 0.8
 const SEAL_FILL: float = 0.76
 ## The lettering masks' clear border (tools/ui/bake_title_logo.gd PAD), in mask pixels.
 const MASK_PAD: float = 48.0
+## How much of the shader's own dry streaks brush lettering gets (the hand has its own rough
+## edges; this only adds a little 飞白 inside the strokes).
+const DRY: float = 0.45
 const INK_BLACK := Color(0.075, 0.065, 0.06)
 const PAPER_WHITE := Color(0.96, 0.93, 0.87)
 
@@ -112,7 +115,7 @@ func _init() -> void:
 	_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_line.add_theme_constant_override("shadow_offset_x", 0)
 	_line.add_theme_constant_override("shadow_offset_y", 2)
-	_line.add_theme_constant_override("shadow_outline_size", 6)
+	_line.add_theme_constant_override("shadow_outline_size", 10)
 	_view.add_child(_line)
 	_smoke = _ink_smoke()
 	_view.add_child(_smoke)
@@ -124,7 +127,7 @@ func _init() -> void:
 func build(mask_path: String, seal_path: String, line: String = "", brushed: bool = true) -> void:
 	_letters.texture = _texture(mask_path)
 	_ink.set_shader_parameter("mask", _letters.texture)
-	_ink.set_shader_parameter("dry", 1.0 if brushed else 0.0)
+	_ink.set_shader_parameter("dry", DRY if brushed else 0.0)
 	_seal.texture = _texture(seal_path)
 	_seal.visible = _seal.texture != null
 	_line.text = line
@@ -157,7 +160,7 @@ func _process(_delta: float) -> void:
 	var line_up: float = smoothstep(LINE_SECONDS.x, LINE_SECONDS.y, t)
 	var white: float = smoothstep(0.3, 0.8, lit)
 	_line.modulate = Color(INK_BLACK.lerp(PAPER_WHITE, white), line_up * (1.0 - smoothstep(0.0, 0.5, leaving)))
-	_line.add_theme_color_override("font_shadow_color", Color(0.02, 0.015, 0.01, 0.7 * white))
+	_line.add_theme_color_override("font_shadow_color", Color(0.02, 0.015, 0.01, 0.9 * white))
 	_line.position = _line_at + Vector2(0.0, (1.0 - line_up) * 8.0)
 	var down: float = clampf((t - STAMP_FROM) / STAMP_SECONDS, 0.0, 1.0)
 	var settle: float = clampf((t - STAMP_FROM - STAMP_SECONDS) / SETTLE_SECONDS, 0.0, 1.0)

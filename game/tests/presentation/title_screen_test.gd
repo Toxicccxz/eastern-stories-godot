@@ -71,7 +71,7 @@ func _test_logo_blocks() -> void:
 	if _check(letters != null and seal != null and line != null, "the lettering, its seal and the line under it"):
 		var ink: ShaderMaterial = letters.material as ShaderMaterial
 		_check(ink != null and ink.shader == TitleLogo.INK and ink.get_shader_parameter("mask") == letters.texture, "inked by its shader from the mask")
-		_check(is_equal_approx(float(ink.get_shader_parameter("dry")), 1.0), "brush lettering shows its dry streaks")
+		_check(is_equal_approx(float(ink.get_shader_parameter("dry")), TitleLogo.DRY), "brush lettering shows its dry streaks")
 		_check(seal.visible and line.text == "EASTERN STORIES", "侠 on the Chinese title, EASTERN STORIES under it")
 		logo.write = 0.5
 		logo._process(0.0)
