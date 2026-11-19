@@ -89,6 +89,9 @@ var close: bool = false
 ## 战斗肢体 (DECISIONS「战斗肢体」): the skill of the weapon in its hand (sword, blade …; &""
 ## bare-handed), for the weapon its figure holds on guard.
 var weapon_skill: StringName = &""
+## 战斗绝招 (DECISIONS「战斗绝招」): the skill it has enabled for what is in its hand (封山剑法 for
+## a sword, 柳家拳 for a bare hand; &"" none): its school's colour and figure in the scene.
+var school: StringName = &""
 ## 战斗决策层 2 (DECISIONS「战斗界面」): the conditions on this one (ConditionIds, from
 ## state.conditions), which of 法力, 灵力 and 加力 the player's card shows (the rule of
 ## stats_display.json, DECISIONS「数值用到才出现」), and the 战前预判 of the player against this

@@ -183,6 +183,7 @@ func _test_scene_input(tree: SceneTree) -> void:
 	_check(_ui.scene_show.stage != null and _ui.scene_show.stage == _ui.opening.arena and _ui.scene_show.blood_chips == BattleSceneShow.blood_for(CombatEncounterMode.Value.LETHAL) and _ui.scene_show.blood_chips > 0, "the show holds the fight's base and a 死斗's dark chips (%s, %d)" % [_ui.scene_show.stage, _ui.scene_show.blood_chips])
 	# 战斗演出 B: the opening stages the camera (here at once: 关); the show leaves it there.
 	_check(view.staged and is_equal_approx(view.zoom(), float(_ui.opening.frame()[2])) and view.zoom() < 1.0, "the fight began: the opening drew the camera in (%.2f)" % view.zoom())
+	await _test_special_moment(tree, trainee)
 	var body_before: Vector2 = map.runtime_body_for_character(trainee.character_id).global_position
 	# A move of one beat (a 重 costs the round's two, and the second press must afford one).
 	var cheap: StringName = &""
@@ -264,6 +265,54 @@ func _test_scene_input(tree: SceneTree) -> void:
 	BattlePace.manual_turns = manual_before
 	TestFeel.restore()
 	await tree.process_frame
+
+
+## 战斗绝招 (DECISIONS「战斗绝招」): a special that strikes opens with a held moment — its name
+## written over the fight, the map under the stage darker, the scene gathering — before its first
+## line is told; inner work has none; seen a few times, the moment is short.
+func _test_special_moment(tree: SceneTree, trainee: NpcRuntimeState) -> void:
+	var me: StringName = _player.character_id
+	BattlePresentationController.specials_seen.clear()
+	var inner := BattleNarrationLine.new("你运功疗伤。").with_special(me, "疗伤").with_beat(1, me)
+	var opener := BattleNarrationLine.new("你剑势一凝！").with_special(me, "封字诀").with_beat(1, me)
+	var strike := BattleNarrationLine.new("x", -1).with_blow(me, trainee.character_id, "封", CombatAttackResult.Outcome.DODGE, -1).with_ring(&"", 0).with_arms(&"sword", "刺伤").with_special_blow().with_beat(1, me)
+	# The fight's opening lines first.
+	for step: int in 80:
+		if _ui._line_queue.is_empty():
+			break
+		_ui._tell_lines(0.2)
+	_check(_ui._line_queue.is_empty(), "nothing waits to be told (%d)" % _ui._line_queue.size())
+	_ui._line_queue.append(inner)
+	_check(is_zero_approx(_ui._special_hold(inner)), "inner work (no blow follows): no moment")
+	_ui._tell_lines(0.01)
+	_check(_ui._line_queue.is_empty() and not _ui.special_banner.showing(), "it is told at once, nothing written over the fight")
+	_ui._line_queue.append(opener)
+	_ui._line_queue.append(strike)
+	var full: float = _ui._special_hold(opener)
+	_check(full > 0.5, "a special that strikes: a moment of %.2f s" % full)
+	_ui._line_wait = 0.0
+	_ui._tell_lines(0.01)
+	_check(_ui._line_queue.size() == 2 and _ui.special_banner.shown_text() == "封字诀" and BattlePresentationController.specials_seen.get("封字诀", 0) == 1, "the moment: its name written over the fight, its first line not told yet (%d waiting, '%s')" % [_ui._line_queue.size(), _ui.special_banner.shown_text()])
+	_check(_ui.opening.dimmed() and _ui.scene_show.pushed(), "the map under the stage darker, the camera pushed in (dimmed %s, pushed %s)" % [_ui.opening.dimmed(), _ui.scene_show.pushed()])
+	_ui._tell_lines(full * 0.5)
+	_check(_ui._line_queue.size() == 2, "half way through: still held")
+	_ui._tell_lines(full * 0.5 + 0.02)
+	var over_heads: Array = _ui.move_titles.shown().map(func(entry: Array) -> String: return entry[0])
+	_check(_ui._line_queue.size() < 2 and not over_heads.has("封字诀"), "the moment over: its line told, and its name not written a second time over the head (%s)" % [over_heads])
+	for step: int in 40:
+		if _ui._line_queue.is_empty():
+			break
+		_ui._tell_lines(0.2)
+	_check(_ui._line_queue.is_empty(), "its blows told")
+	BattlePresentationController.specials_seen["封字诀"] = int(BattleArena.data()["special"]["full_times"])
+	_ui._line_queue.append(opener)
+	_ui._line_queue.append(strike)
+	_check(_ui._special_hold(opener) > 0.0 and _ui._special_hold(opener) < full * 0.6, "seen a few times: a short moment (%.2f against %.2f)" % [_ui._special_hold(opener), full])
+	_ui._line_queue.clear()
+	BattlePresentationController.specials_seen.clear()
+	_ui.special_banner.clear()
+	await tree.create_timer(1.2).timeout
+	_check(not _ui.scene_show.pushed(), "the camera back where the fight had it")
 
 
 ## The fight's end: its last lines stay on the panel 0.8 s with the world held; then the

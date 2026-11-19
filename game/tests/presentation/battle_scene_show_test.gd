@@ -33,6 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_fall_curve()
 	await _blow_effects(tree)
 	await _stage_answers(tree)
+	await _specials(tree)
 	_mode_title(tree)
 	_teardown(tree)
 	TestFeel.restore()
@@ -618,6 +619,119 @@ func _stage_answers(tree: SceneTree) -> void:
 		check(not arena.jolting(), "coming down: no hop")
 		arena.queue_free()
 		await tree.process_frame
+	TestFeel.restore()
+
+
+## 战斗绝招 (DECISIONS「战斗绝招」): the schools' colours and figures, a special's opening in the
+## scene (the 气 and light of the school, the camera's push), its blows' light and figure, and
+## its name written over the fight.
+func _specials(tree: SceneTree) -> void:
+	# The data: every school named is a fighting skill of the game, with a colour and a figure the
+	# library draws; the two of 雪亭镇 differ.
+	var schools: Dictionary = BattleArena.data()["schools"]
+	check(schools.has("default") and schools.size() >= 17, "the schools' looks: a default and the fighting skills (%d)" % schools.size())
+	for skill: String in schools:
+		if skill.begins_with("_"):
+			continue
+		var look: Dictionary = schools[skill]
+		check(String(look.get("colour", "")).is_valid_html_color() and BattleSchoolMotifs.KINDS.has(String(look.get("motif", ""))), "%s: a colour and a figure the library draws" % skill)
+		check(skill == "default" or GameContent.catalog().skill(StringName(skill)) != null, "%s is a skill of the game" % skill)
+	check(BattleSceneShow.school_named(&"fonxansword") and not BattleSceneShow.school_named(&"sword") and not BattleSceneShow.school_named(&"") and not BattleSceneShow.school_named(&"default"), "a school has a look of its own; a basic skill, none")
+	check(not BattleSceneShow.school_colour(&"fonxansword").is_equal_approx(BattleSceneShow.school_colour(&"liuh-ken")) and BattleSceneShow.school_colour(&"sword").is_equal_approx(BattleSceneShow.school_colour(&"default")), "封山 and 柳家拳 differ; an unnamed skill takes the default's")
+	# Every figure builds and plays out.
+	for kind: String in BattleSchoolMotifs.KINDS:
+		var holder := Node3D.new()
+		_root.add_child(holder)
+		var play: Tween = holder.create_tween().set_parallel(true)
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 3
+		var motif: Node3D = BattleSchoolMotifs.play(holder, play, kind, Color("9fd0ff"), Vector3.ZERO, Vector3.BACK, 0.1, rng)
+		check(motif != null and motif.get_parent() == holder and motif.find_children("*", "MeshInstance3D", true, false).size() >= 5, "%s: its blocks stand (%d)" % [kind, motif.find_children("*", "MeshInstance3D", true, false).size()])
+		await tree.create_timer(0.2).timeout
+		check(not play.is_running(), "%s: played out" % kind)
+		holder.queue_free()
+	# The banner: the stroke swept, the name pressed on it, held, gone.
+	var banner := BattleSpecialBanner.new()
+	_root.get_tree().root.add_child(banner)
+	banner.size = Vector2(1280, 720)
+	check(not banner.present("", Vector2(300, 100), Vector2(340, 66), 1.0, true, Color("b3261e"), Color("f6ead2"), 44) and not banner.showing(), "no name: nothing written")
+	check(not banner.present("封字诀", Vector2(300, 100), Vector2(340, 66), 0.0, true, Color("b3261e"), Color("f6ead2"), 44), "no time: nothing written")
+	check(banner.present("封字诀", Vector2(20, 10), Vector2(340, 66), 1.0, true, Color("b3261e"), Color("f6ead2"), 44) and banner.showing() and banner.shown_text() == "封字诀", "a name written")
+	check(banner.box().position.x >= 8.0 and banner.box().position.y >= 8.0 and banner.box().size.x >= 340.0, "asked for at the screen's corner: kept inside it (%s)" % banner.box())
+	check(is_zero_approx(banner.sweep()) and is_zero_approx(banner.press()) and is_equal_approx(banner.fade(), 1.0), "just begun: nothing swept yet")
+	banner.progress = BattleSpecialBanner.SWEEP_SHARE * 0.5
+	check(is_equal_approx(banner.sweep(), 0.5) and is_zero_approx(banner.press()), "half swept: no name yet")
+	banner.progress = 0.5
+	check(is_equal_approx(banner.sweep(), 1.0) and is_equal_approx(banner.press(), 1.0) and is_equal_approx(banner.fade(), 1.0), "held: the stroke laid, the name on it")
+	banner.progress = 1.0 - BattleSpecialBanner.FADE_SHARE * 0.5
+	check(is_equal_approx(banner.fade(), 0.5), "at the end it fades")
+	check(banner.present("荒山虎吟", Vector2(900, 100), Vector2(340, 66), 1.0, false, Color("b3261e"), Color("f6ead2"), 44) and banner.shown_text() == "荒山虎吟", "another takes its place")
+	banner.clear()
+	check(not banner.showing() and banner.shown_text().is_empty(), "cleared")
+	banner.queue_free()
+	# In the scene: real figures, 封山's sword against 柳家拳's fist.
+	_teardown(tree)
+	_setup(tree, true)
+	var me: Person = _model(ME) as Person
+	await tree.process_frame
+	await tree.process_frame
+	var blue: Color = BattleSceneShow.school_colour(&"fonxansword")
+	# The feel off: a special's opening leaves nothing.
+	_show.begin(_view)
+	_show.settle([[ME, YOU, false, "sword", "fonxansword"], [YOU, ME, false, "", "liuh-ken"]])
+	_show.special_gather(ME, 0.0)
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword").with_special_blow())
+	await tree.process_frame
+	check(_show.effect_count() == 0 and not _show.pushed(), "the feel off: no light, no figure, the camera still")
+	_show.end()
+	TestFeel.use()
+	_show.pace = 4.0
+	_show.begin(_view)
+	_show.settle([[ME, YOU, false, "sword", "fonxansword"], [YOU, ME, false, "", "liuh-ken"]])
+	check(_show._colour_of(ME, Color.BLACK).is_equal_approx(blue) and _show._colour_of(YOU, Color.BLACK).is_equal_approx(BattleSceneShow.school_colour(&"liuh-ken")) and _show._colour_of(&"nobody", Color.BLACK) == Color.BLACK, "each fighter's colour is its school's; one with none takes what it is given")
+	await tree.create_timer(1.6).timeout
+	# The opening: the 气 and a light of the school's colour, the camera pushed in, then back.
+	var before: float = _view.zoom()
+	_show.special_gather(ME, 0.6)
+	var light: OmniLight3D = _effect_named("SpecialLight") as OmniLight3D
+	check(light != null and light.light_color.is_equal_approx(blue) and _effect_named("Charge") != null, "a special opens: the figure gathers in a light of its school's colour")
+	check(_show.pushed() and _view.zoom() < before, "the camera pushes in (%.3f from %.3f)" % [_view.zoom(), before])
+	_show.special_gather(YOU, 0.6)
+	check(is_equal_approx(_show._pushed_from, before), "another opening meanwhile: no second push")
+	await tree.create_timer(0.3).timeout
+	check(light != null and is_instance_valid(light) and light.light_energy > 0.5, "the light comes up (%.2f)" % (light.light_energy if is_instance_valid(light) else -1.0))
+	await tree.create_timer(2.2).timeout
+	check(not _show.pushed() and is_equal_approx(_view.zoom(), before) and _effect_named("SpecialLight") == null, "the moment over: the camera back, the light out")
+	# A 重 gathers the school's 气.
+	_show.windup(ME)
+	var gather: Node3D = _effect_named("Charge")
+	var mote: MeshInstance3D = gather.get_child(0) as MeshInstance3D if gather != null and gather.get_child_count() > 0 else null
+	check(mote != null and Color((mote.material_override as StandardMaterial3D).albedo_color, 1.0).is_equal_approx(blue), "a 重: the 气 it gathers is its school's colour")
+	_show.play_line(_strike(ME, YOU, Outcome.DODGE, &"sword").with_ring(CombatMoveTags.HEAVY, 0))
+	await tree.create_timer(4.0).timeout
+	# A special's blow: its light the school's colour, the school's figure round the one struck.
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword").with_special_blow())
+	await tree.process_frame
+	await tree.process_frame
+	var trail: BattleSwingTrail = _effect_named("SwingTrail") as BattleSwingTrail
+	check(trail != null and Color(trail.colour, 1.0).is_equal_approx(blue) and trail.colour.a < 1.0, "a special's blow: the blade's light is the school's colour")
+	await tree.create_timer(0.7).timeout
+	var figure: Node3D = _effect_named("Motif")
+	check(figure != null and figure.find_children("*", "MeshInstance3D", true, false).size() == 5, "it lands: 封山's bars round the one struck (%d)" % (figure.find_children("*", "MeshInstance3D", true, false).size() if figure != null else -1))
+	await tree.create_timer(4.0).timeout
+	check(_effect_named("Motif") == null, "the figure played out")
+	# A plain blow leaves no figure; a special's that misses, none either.
+	_show.play_line(_strike(ME, YOU, Outcome.HIT, &"sword"))
+	await tree.create_timer(0.7).timeout
+	check(_effect_named("Motif") == null, "a plain blow: no figure")
+	await tree.create_timer(3.0).timeout
+	_show.play_line(_strike(YOU, ME, Outcome.DODGE, &"").with_special_blow())
+	await tree.create_timer(0.9).timeout
+	check(_effect_named("Motif") == null, "a special's blow dodged: none")
+	await tree.create_timer(3.0).timeout
+	_show.end()
+	check(_show.effect_count() == 0 and not _show.pushed(), "the end: nothing left, the camera its own")
+	_show.pace = 1.0
 	TestFeel.restore()
 
 

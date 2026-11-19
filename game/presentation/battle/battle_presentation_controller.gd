@@ -103,6 +103,14 @@ var sounds: BattleSounds
 ## panel slid in) and whether it waits for the panel's first layout (it starts the frame after).
 var opening: BattleStageOpening
 var move_titles: BattleMoveTitles
+## 战斗绝招 (DECISIONS「战斗绝招」): a special's name written over the fight as it opens; the line
+## its moment was held for, and the one whose name the banner carries (no second name over the
+## head). How many times each special's name was seen this run of the game (not saved): the
+## first few open in full.
+var special_banner: BattleSpecialBanner
+var _special_for: BattleNarrationLine
+var _special_bannered: BattleNarrationLine
+static var specials_seen: Dictionary[String, int] = {}
 var _opening_pending: bool = false
 var _head: VBoxContainer
 var _strip_row: HBoxContainer
@@ -205,6 +213,9 @@ func _end_hold() -> void:
 	_hold_shield.visible = false
 	end_stamp.visible = false
 	move_titles.clear()
+	special_banner.clear()
+	_special_for = null
+	_special_bannered = null
 	action_panel.beat_fill.clear()
 	nameplates.clear()
 	scene_show.end()
@@ -234,6 +245,16 @@ func _tell_lines(delta: float) -> void:
 		# 战斗拍数 C: a new beat's first blow waits the pause between beats, a 重's the windup
 		# too (the attacker crouches meanwhile); the clap of the beat landing comes with it.
 		var next: BattleNarrationLine = _line_queue[0]
+		# 战斗绝招: a special that strikes opens with a held moment — its name written, the one
+		# who opens it gathering in its school's light — before its first line is told.
+		if spacing > 0.0 and next.is_special and _special_for != next:
+			_special_for = next
+			var moment: float = _special_hold(next)
+			if moment > 0.0:
+				_open_special(next, moment)
+				_line_wait += moment
+				if _line_wait > 0.0:
+					break
 		if spacing > 0.0 and _paused_for != next and _starts_beat(next):
 			_paused_for = next
 			var pause: float = _beat_pause(next)
@@ -334,7 +355,12 @@ func _show_line(line: BattleNarrationLine) -> void:
 		# A special's line (its opening, or its first blow when the blow comes first) carries its
 		# name, in gold; any other blow its move's.
 		var text: String = line.special_title if line.is_special else line.move
-		overhead = move_titles.show_title(_voxel_view(), line, text, line.is_special, mine)
+		if line == _special_bannered:
+			# Its name is written over the fight already.
+			_special_bannered = null
+			overhead = true
+		else:
+			overhead = move_titles.show_title(_voxel_view(), line, text, line.is_special, mine)
 	for card: BattleParticipantCard in _cards:
 		card.show_line(line, named and not overhead)
 	scene_show.play_line(line, fatal)
@@ -378,6 +404,57 @@ func _beat_pause(line: BattleNarrationLine) -> float:
 	if line.tag == CombatMoveTags.HEAVY:
 		pause += feel.scene_windup_seconds
 	return BattlePace.real_seconds(pause) * _pace_share() * _pause_scale
+
+
+## 战斗绝招: how long the moment before `line` (a special's first) is held — nothing unless the
+## special strikes (its own line a blow, or a blow of its actor's follows before the next
+## special), in full the first few times its name is seen this run of the game, short after;
+## always short under 自动 (the fight's clock does not wait for it). It is the special's own
+## moment: a crowded round's squeeze on the pauses between beats (_pause_scale) leaves it be.
+func _special_hold(line: BattleNarrationLine) -> float:
+	if not _striking_special(line):
+		return 0.0
+	var data: Dictionary = BattleArena.data().get("special", {})
+	var seen: int = int(specials_seen.get(line.special_title, 0))
+	var auto: bool = _projection.turns_offered and not _projection.manual
+	var share: float = float(data.get("hold", 0.75)) if seen < int(data.get("full_times", 2)) and not auto else float(data.get("short_hold", 0.3))
+	return BattlePace.real_seconds(GameContent.catalog().pacing().feel.special_title_seconds * share) * _pace_share()
+
+
+## Whether the special `line` opens strikes: the line is a blow itself, or one of its actor's
+## special blows waits in the queue before another special opens.
+func _striking_special(line: BattleNarrationLine) -> bool:
+	if line.has_blow:
+		return true
+	for later: BattleNarrationLine in _line_queue:
+		if later == line:
+			continue
+		if later.is_special:
+			return false
+		if later.in_special and later.actor_id == line.actor_id:
+			return true
+	return false
+
+
+## The moment a special opens with, `moment` seconds long: the scene gathers (the school's
+## light, the base's flare, the camera's push), the map under the stage darkens, a low drum,
+## and the special's name is written over the one who opens it — from their own side inward.
+func _open_special(line: BattleNarrationLine, moment: float) -> void:
+	specials_seen[line.special_title] = int(specials_seen.get(line.special_title, 0)) + 1
+	var data: Dictionary = BattleArena.data().get("special", {})
+	scene_show.special_gather(line.actor_id, moment)
+	opening.dim(float(data.get("dim", 0.3)), moment)
+	sounds.play(BattleSounds.DRUM, 0.75, BattleSounds.DRUM_DB)
+	var banner: Dictionary = data.get("banner", {})
+	var actor: BattleParticipantProjection = _projection.participant(line.actor_id)
+	var theirs: bool = actor != null and actor.hostile_to_player
+	var view: WorldVoxelView = _voxel_view()
+	var at := Vector2(size.x * (0.68 if theirs else 0.32), size.y * 0.24)
+	if view != null and is_instance_valid(view) and view.camera != null and view.actors.has(line.actor_id):
+		at = view.camera.unproject_position((view.actors[line.actor_id] as Node3D).global_position + Vector3.UP * float(banner.get("rise", 3.4)))
+	var stays: float = moment + BattlePace.real_seconds(GameContent.catalog().pacing().feel.special_title_seconds * float(banner.get("linger", 0.45)))
+	if special_banner.present(line.special_title, at, Vector2(float(banner.get("width", 420)), float(banner.get("height", 92))), stays, not theirs, Color(String(banner.get("stroke", "b3261e"))), Color(String(banner.get("ink", "f6ead2"))), int(banner.get("font_size", 60))):
+		_special_bannered = line
 
 
 ## 自动's share of the feel's seconds (the 快 pace); 1 under 手动.
@@ -744,6 +821,9 @@ func _build() -> void:
 	move_titles = BattleMoveTitles.new()
 	move_titles.name = "MoveTitles"
 	add_child(move_titles)
+	special_banner = BattleSpecialBanner.new()
+	special_banner.name = "SpecialBanner"
+	add_child(special_banner)
 	# 战斗演出 A (DECISIONS「战斗演出 A」): the mode at the top in the middle — the brush word,
 	# a short rule in the mode's colour, the line under it — then kill_ob()'s warning; the
 	# corner's 厮杀 / 目标 lines are gone (the gold border shows the target).
@@ -1234,7 +1314,7 @@ func _present_participants() -> void:
 	# 战斗拍数 C: where the figures stand (close or apart), and home again between rounds.
 	var stances: Array = []
 	for value: BattleParticipantProjection in values:
-		stances.append([value.participant_id, value.current_target_id, value.close, String(value.weapon_skill)])
+		stances.append([value.participant_id, value.current_target_id, value.close, String(value.weapon_skill), String(value.school)])
 	scene_show.settle(stances)
 	scene_show.lines_told(told)
 	# 战斗特效: the base that answers the blows, and the dark chips of the fight's look as it

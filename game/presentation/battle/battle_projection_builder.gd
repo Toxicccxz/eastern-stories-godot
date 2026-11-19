@@ -61,6 +61,7 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 			shown.round_running = running
 			shown.close = coordinator.skeleton_close(binding.character_id)
 			shown.weapon_skill = state.equipment.primary_weapon_skill_type()
+			shown.school = state.skills.mapped_skill(shown.weapon_skill if not shown.weapon_skill.is_empty() else &"unarmed")
 			if binding.character_id != player_id and shown.hostile_to_player:
 				var skeleton: CombatSchoolSkeleton = read.skeleton(binding.character_id)
 				var school: SkillDefinition = null if skeleton == null else catalog.skill(skeleton.skill_id)
