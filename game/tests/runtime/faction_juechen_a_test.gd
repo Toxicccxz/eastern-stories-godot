@@ -81,6 +81,14 @@ func _test_gate() -> void:
 			if npc.teaching() != null and npc.teaching().apprentice != null:
 				asked = asked or npc.teaching().apprentice.checks.any(func(check: NpcTeaching.RequirementCheck) -> bool: return check.exp_gate == gate)
 		_check(asked, "the gate %s is asked by something" % gate)
+	# And every gate the data names is one pacing.json sets (a misspelt name would quietly ask ES2's).
+	var gates: Dictionary[StringName, int] = catalog.pacing().exp_gates
+	for rule: ZoneExitRuleDefinition in catalog.exit_rules():
+		_check(rule.exp_gate.is_empty() or gates.has(rule.exp_gate), "%s's gate %s is in pacing.json" % [rule.rule_id, rule.exp_gate])
+	for npc: NpcDefinition in catalog.npcs():
+		if npc.teaching() != null and npc.teaching().apprentice != null:
+			for check: NpcTeaching.RequirementCheck in npc.teaching().apprentice.checks:
+				_check(check.exp_gate.is_empty() or gates.has(check.exp_gate), "%s's gate %s is in pacing.json" % [npc.definition_id, check.exp_gate])
 
 
 func _test_data() -> void:
@@ -170,8 +178,11 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	await _flee(tree, session) # TEST-ONLY: out of the fight
 	var unbeaten: NpcInquiryRule = NpcInquiryRule.decide(GameContent.catalog().npc(KID).talk().inquiry_rules("回家"), state.marks)
 	_check(unbeaten != null and unbeaten.mark_asker.is_empty() and unbeaten.lines.any(func(line: NpcLine) -> bool: return line.text.contains("有鬼")), "while they stand, he will not come")
-	state.marks["洞口的鬼卒倒了"] = 1 # TEST-ONLY: both beaten (their cleared_marks)
-	state.marks["洞底的鬼卒倒了"] = 1
+	_check(not state.marks.has("洞口的鬼卒倒了") and not state.marks.has("洞底的鬼卒倒了"), "not beaten yet")
+	for zone_id: StringName in [CAVE1, CAVE2]:
+		_first(session, zone_id, GHOUL).set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: knocked down
+	WorldSpawnClearings.note(session)
+	_check(state.marks.get("洞口的鬼卒倒了", 0) == 1 and state.marks.get("洞底的鬼卒倒了", 0) == 1, "both knocked down: their cleared_marks")
 	await _enter(tree, session, CAVE0, CAVE0_POINT)
 	cave = await _enter(tree, session, CAVE2, CAVE2_POINT)
 	_check(_first(session, CAVE1, GHOUL) == null and _first(session, CAVE2, GHOUL) == null, "beaten, they are gone for good")
@@ -179,6 +190,8 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	said = _ask(cave, kid, "回家")
 	_check(_said(said, "我要回家") and state.marks.get("阿牛跟着你", 0) == 1 and kid.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "阿牛 follows (%s)" % [said])
 	_check(_target(session).zone_id == PATH0, "the step's target is his mother now")
+	var leading: NpcInquiryRule = NpcInquiryRule.decide(GameContent.catalog().npc(ELDER).talk().inquiry_rules("山洞"), state.marks)
+	_check(leading != null and leading.lines.any(func(line: NpcLine) -> bool: return line.text.contains("北边路口")), "村长 to one leading the boy: to his mother")
 	_check(await _lead(tree, session, CAVE0, CAVE0_POINT), "out of the cave")
 	_check(_first(session, CAVE0, KID) != null, "he came along")
 	_check(await _lead(tree, session, PATH0, PATH0_POINT), "down to the north road")
@@ -246,6 +259,8 @@ func _test_disciple(tree: SceneTree, session: WorldSessionController) -> void:
 	await _enter(tree, session, CAVE0, CAVE0_POINT)
 	await _enter(tree, session, CAVE2, CAVE2_POINT)
 	_check(_first(session, CAVE2, KID) == null and _first(session, CAVE2, GHOUL) == null, "one who left: no 鬼卒, no boy")
+	var lapsed: NpcInquiryRule = NpcInquiryRule.decide(catalog.npc(ELDER).talk().inquiry_rules("山洞"), {"宝衣一章": 1, "村长说了山洞": 1, "绝尘的线断了": 1})
+	_check(lapsed != null and lapsed.mark_asker.is_empty() and lapsed.lines.any(func(line: NpcLine) -> bool: return line.text.contains("绝对不可以打开")), "村长 sends one who left into the cave no more")
 
 
 ## TEST-ONLY: flee the fight under way (story_chapter3c_test's).

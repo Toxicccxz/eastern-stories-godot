@@ -26340,7 +26340,7 @@ msgstr ""
 
 #. juechen lines.text
 #: data/story/factions.json
-msgid "大弟子了尘不这么想。他说话的时候，一直看着佛像下的师父。"
+msgid "首徒了尘不这么想。他说话的时候，一直看着佛像下的师父。"
 msgstr ""
 
 #. juechen lines.text
@@ -26972,8 +26972,7 @@ msgstr ""
 #. faction.juechen/report reward.rank.title
 #. latemoon.npc.yumay family.title
 #. latemoon.npc.shaowei family.title
-#. native.npc.juechen_liaochen family.title
-#: data/story/faction_fonxan.json data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json data/story/faction_juechen.json data/latemoon/npcs.json data/native/npcs.json
+#: data/story/faction_fonxan.json data/story/faction_celestial.json data/story/faction_latemoon.json data/story/faction_buxuan.json data/story/faction_juechen.json data/latemoon/npcs.json
 msgid "大弟子"
 msgstr ""
 
@@ -28848,7 +28847,7 @@ msgstr ""
 
 #. faction.juechen/liaochen objective
 #: data/story/faction_juechen.json
-msgid "大厅里还有一个人：绝尘子的大弟子了尘。他一直在看你。问他「山洞」。"
+msgid "大厅里还有一个人：绝尘子的首徒了尘。他一直在看你。问他「山洞」。"
 msgstr ""
 
 #. faction.juechen/liaochen text
@@ -38833,6 +38832,16 @@ msgstr ""
 #. green.npc.oldman2 inquiry.山洞.rules.lines.say
 #: data/green/npcs.json
 msgid "我活了九十五年，这句话从来不敢说完。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.emote
+#: data/green/npcs.json
+msgid "看见你身后的阿牛，拐杖在地上顿了一下。"
+msgstr ""
+
+#. green.npc.oldman2 inquiry.山洞.rules.lines.say
+#: data/green/npcs.json
+msgid "快，快带他去北边路口，他娘在那儿喊了一天了。"
 msgstr ""
 
 #. green.npc.oldman2 inquiry.山洞.rules.say
@@ -72642,7 +72651,7 @@ msgstr ""
 
 #. native.npc.green_cave_kid inquiry.小翠.rules.lines.say
 #: data/native/npcs.json
-msgid "门上那条铁链早锈断了，一推就开。村长不知道。"
+msgid "门上那条铁链早锈断了，一推就开。娘不知道我们来过好几回了。"
 msgstr ""
 
 #. native.npc.green_mother long
@@ -72761,6 +72770,11 @@ msgid ""
 "一个四十来岁的道人，头上的发茬是剃过之后又蓄起来的，挽成一个小小的髻；道袍洗得发白，手腕上却缠着一串磨得发亮的佛珠。他说话的时候，总要先看一眼佛像下的师父。\n"
 msgstr ""
 
+#. native.npc.juechen_liaochen family.title
+#: data/native/npcs.json
+msgid "首徒"
+msgstr ""
+
 #. native.npc.juechen_liaochen chat_msg
 #: data/native/npcs.json
 msgid ""
@@ -72820,7 +72834,7 @@ msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.绝尘派
 #: data/native/npcs.json
-msgid "我是师父的大弟子。跟着师父，快三十年了。"
+msgid "我是师父头一个徒弟。跟着师父，快三十年了。"
 msgstr ""
 
 #. native.npc.juechen_liaochen inquiry.name
