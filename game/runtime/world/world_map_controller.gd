@@ -705,6 +705,10 @@ func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
 		var lines: Array[String] = []
 		for line: String in rule.lines:
 			lines.append(tr(line))
+		# DECISIONS「过了的经验门槛」: an experience gate says plainly why, after the room's own words.
+		if rule.condition == ZoneExitRuleDefinition.Condition.COMBAT_EXP_BELOW:
+			# TRANSLATORS: after a way's own refusal (a killing air, a wind): the player's 实战经验 (combat_exp) is below what the way asks.
+			lines.append(tr("你的实战经验还不够，过不去。"))
 		hud().append_log_lines(lines)
 	_last_exit_refusal = rule.rule_id
 	_last_exit_refusal_ms = now
@@ -764,6 +768,9 @@ func _tell_passing(from_zone_id: StringName, to_zone_id: StringName) -> void:
 		# gate.c: the 门房's leave goes with the one who went in on it (owner's M3, 默认).
 		if rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and rule.spends:
 			_player.state.marks.erase(rule.mark)
+		# DECISIONS「过了的经验门槛」: an experience gate once passed stays open.
+		if not rule.passed_mark.is_empty():
+			_player.state.marks[rule.passed_mark] = 1
 		# A rule an NPC's own command makes (waiter.c go_up()) says nothing without that NPC.
 		if rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and not rule.present_npc_id.is_empty() and not _rule_npc_present(rule, from_zone_id):
 			continue

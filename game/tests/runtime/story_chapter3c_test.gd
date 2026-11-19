@@ -18,6 +18,8 @@ const CROWN: StringName = &"native:niling/black_crown"
 const KEY: StringName = &"native:niling/cell_key"
 const SCROLL: StringName = &"native:niling/scroll_fragment"
 const SCENE_MARK: String = "见过唤首"
+## 黄霸's scene at the 土地庙 (its scene_mark; the chapter's own mark is 霍铮回了寨).
+const HOME_SCENE_MARK: String = "黄霸见了霍铮"
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -28,6 +30,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_scene_and_ghosts(tree, rescue)
 	await _test_rescue(tree, rescue)
 	rescue.free()
+	await tree.process_frame
+	var alone: WorldSessionController = await _session(tree)
+	await _test_home_alone(tree, alone)
+	alone.free()
 	await tree.process_frame
 	var chase: WorldSessionController = await _session(tree)
 	await _test_scene_and_ghosts(tree, chase, false)
@@ -206,13 +212,14 @@ func _test_rescue(tree: SceneTree, session: WorldSessionController, played: bool
 	await _settle(tree)
 	_check(_count_in(session, &"goathill.temple1", &"native.npc.huo_zheng") == 1 and _count_in(session, &"goathill.temple1", &"native.npc.shitou") == 1, "霍铮 and 石头 came along (follows_every_way)")
 	_check(session.scene_held() and temple.scene_running(), "黄霸's scene begins as they come in")
-	_check(state.marks.get("霍铮回了寨", 0) == 1, "its mark the moment it began")
+	# DECISIONS「说话的人得在场」: the scene's own mark as it begins; 霍铮回了寨 (the chapter's) only once he walks in.
+	_check(state.marks.get(HOME_SCENE_MARK, 0) == 1 and state.marks.get("霍铮回了寨", 0) == 0, "its own mark the moment it began, not yet the chapter's")
 	for second: int in 30:
 		if not temple.scene_running():
 			break
 		session.advance_npc_heartbeat(1.0)
 		await _settle(tree)
-	_check(not temple.scene_running(), "the scene is over")
+	_check(not temple.scene_running() and state.marks.get("霍铮回了寨", 0) == 1, "the scene is over: 霍铮回了寨")
 	var hwang: NpcRuntimeState = MapPlaces.npc_at(session, &"goathill.temple1.bandit_hwang.1")
 	_check(hwang != null and hwang.has_flag(StringName(NpcMood.FLAG_PREFIX + "yielded")) and hwang.definition().hooks().moods["yielded"].title == "野羊山三寨主" and hwang.definition().hooks().moods["yielded"].lasting, "黄霸 yields: 野羊山三寨主 (lasting)")
 	_check(state.marks.get("石头回家了", 0) == 1 and _count_in(session, &"goathill.temple1", &"native.npc.shitou") == 0 and _count_in(session, &"goathill.temple1", &"native.npc.huo_zheng") == 0, "石头 sent home, 霍铮 into the back room (the resident spawn stands here from the next visit)")
@@ -299,6 +306,52 @@ func _test_chase(tree: SceneTree, session: WorldSessionController) -> void:
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
 	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_chased)
 	_check(handoff.is_empty(), "逆灵宫 C played (chase) leaves what chapter3_chased writes: %s" % [handoff])
+
+
+## DECISIONS「说话的人得在场」: one who rescued 霍铮 and lost him on the way walks into the 土地庙 alone:
+## 黄霸 plays nothing to the air, nothing is marked, the chapter waits. Back with 霍铮 but not 石头
+## (TEST-ONLY: 霍铮 brought to the road): the scene plays, 石头 is not sent home (left to the
+## 农妇's own scene), 霍铮回了寨 as he walks in.
+func _test_home_alone(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	var ui: SharedGameplayUI = session.shared_ui()
+	StoryFixtures.chapter3_dungeon_done(session)
+	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/rescue"]:
+		state.quests[key] = 1 # TEST-ONLY: the rescue chosen, as the fixtures write a quest key
+	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "狱卒交了钥匙", "救出了霍铮", "救出了石头"]:
+		state.marks[mark] = 1 # TEST-ONLY
+	var temple: WorldMapController = MapPlaces.enter(session, &"goathill.temple1", &"goathill.temple1.mroad3_entry")
+	_check(temple != null, "into the 土地庙 alone")
+	await _settle(tree)
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var hwang: NpcRuntimeState = MapPlaces.npc_at(session, &"goathill.temple1.bandit_hwang.1")
+	_check(not temple.scene_running() and state.marks.get(HOME_SCENE_MARK, 0) == 0 and state.marks.get("霍铮回了寨", 0) == 0, "alone: no scene, nothing marked")
+	_check(hwang != null and not hwang.has_flag(StringName(NpcMood.FLAG_PREFIX + "yielded")) and not ui.log_lines().any(func(line: String) -> bool: return line.contains("大哥你还活着")), "黄霸 does not kneel to the air")
+	_check(not StoryQuestLog.is_done(state, GameContent.catalog().story_quest(&"main.chapter3")), "the chapter waits for 霍铮")
+	# TEST-ONLY: 霍铮 (not 石头) brought to the road outside, following the player as from his cell.
+	var huo: NpcRuntimeState = MapPlaces.npc_at(session, &"niling.cell_huo.huo_zheng.1")
+	var road: WorldMapController = MapPlaces.enter(session, &"goathill.mroad3", &"goathill.mroad3.temple1_return")
+	await _settle(tree)
+	_check(huo != null and road != null and session.bring_npc_onto(huo, session.world_map_of(&"niling.dungeon") as WorldMapController, road, &"goathill.mroad3"), "TEST-ONLY: 霍铮 on the road")
+	if huo != null:
+		huo.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, true) # TEST-ONLY: as his call has him follow
+	_check(await _through(tree, session, road, &"goathill.mroad3.east"), "back into the 土地庙 with 霍铮")
+	temple = session.active_map() as WorldMapController
+	session.advance_npc_heartbeat(0.5)
+	await _settle(tree)
+	_check(temple.scene_running() and _count_in(session, &"goathill.temple1", &"native.npc.huo_zheng") == 1 and _count_in(session, &"goathill.temple1", &"native.npc.shitou") == 0, "with 霍铮, without 石头: the scene begins")
+	for second: int in 30:
+		if not temple.scene_running():
+			break
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	hwang = MapPlaces.npc_at(session, &"goathill.temple1.bandit_hwang.1")
+	_check(not temple.scene_running() and state.marks.get("霍铮回了寨", 0) == 1 and hwang != null and hwang.has_flag(StringName(NpcMood.FLAG_PREFIX + "yielded")), "黄霸 yields; 霍铮回了寨")
+	var shitou: NpcRuntimeState = MapPlaces.npc_at(session, &"niling.cell_shitou.shitou.1")
+	_check(state.marks.get("石头回家了", 0) == 0 and shitou != null and shitou.world_location().zone_id == &"niling.cell_shitou" and not shitou.has_flag(NpcDefinition.FLAG_GONE), "石头 not sent home: still in his cell (the 农妇's own scene takes him home): %s" % [_where(session, &"native.npc.shitou")])
+	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("杀你不如杀道士")) and not ui.log_lines().any(func(line: String) -> bool: return line.contains("这娃娃是傅家坡的") or line.contains("两个寨兵领着石头")), "霍铮 says nothing of the boy who is not there")
 
 
 ## A walk into `zone_id` with a heart beat after it (the followers walk after the player).

@@ -23,6 +23,7 @@ const MOVE_SECONDS: float = 0.22
 const PIN_COLOURS: Dictionary[StringName, Color] = {
 	MapAtlas.TARGET: Color("c8351f"), MapAtlas.MASTER: Color("c98a2e"), MapAtlas.SHOP: Color("3f8a6a"), MapAtlas.BANK: Color("b8862e"),
 	MapAtlas.HOCKSHOP: Color("8a6a9a"), MapAtlas.BOUNTY: Color("b0432e"), MapAtlas.ERRAND: Color("3f6a9a"),
+	MapAtlas.CORPSE: Color("4a4038"), MapAtlas.FOLLOWER: Color("2f7a8a"),
 }
 const GROUND: Color = Color("6c8294")
 const CLOUD_DRIFT: float = 70.0
@@ -97,6 +98,13 @@ var _rides: Dictionary[StringName, CoachLines.Ride] = {}
 var _choose_ride: Callable
 ## The carts standing by the places a ride goes to, and the one rolling along the road.
 var _cart_marks: Array[TextureRect] = []
+## Native (DECISIONS「尸体和走散的同伴」): the player's corpses with things in them and the followers
+## apart (WorldLeftBehind.marks()), set before fill(): a pin by each place's name on the 沙盘, and a
+## row and a pin in its card.
+var left_behind: Array[MapAtlas.Mark] = []
+## The follower apart the arrow points to (WorldLeftBehind.follower_goal()), set before fill().
+var follower_goal: MapAtlas.Goal
+var _left_marks: Array[Label] = []
 var _cart: Sprite2D
 var _riding: Tween
 
@@ -288,6 +296,7 @@ func fill(state: CharacterState, map_id: StringName, zone_id: StringName) -> voi
 		_select(home)
 	_show_goal()
 	_show_cart_marks()
+	_show_left_marks()
 	_apply_view()
 
 
@@ -412,6 +421,32 @@ func _show_cart_marks() -> void:
 		mark.set_meta("cell", cell)
 		overlay.add_child(mark)
 		_cart_marks.append(mark)
+	_place_overlays()
+
+
+## A pin by the name of each place where the player left something on the road (left_behind):
+## seen from afar, not only in the place's card.
+func _show_left_marks() -> void:
+	for mark: Label in _left_marks:
+		overlay.remove_child(mark)
+		mark.queue_free()
+	_left_marks.clear()
+	var catalog: ContentCatalog = GameContent.catalog()
+	var shown: Dictionary[String, bool] = {}
+	var by_cell: Dictionary[StringName, int] = {}
+	for mark: MapAtlas.Mark in left_behind:
+		var cell: StringName = catalog.atlas().home_of(catalog, mark.map_id)
+		var key: String = "%s/%s" % [cell, mark.kind]
+		if not cell_buttons.has(cell) or shown.has(key):
+			continue
+		shown[key] = true
+		var pin: Label = _pin_label(mark)
+		pin.name = "LeftMark"
+		pin.set_meta("cell", cell)
+		pin.set_meta("index", by_cell.get(cell, 0))
+		by_cell[cell] = by_cell.get(cell, 0) + 1
+		overlay.add_child(pin)
+		_left_marks.append(pin)
 	_place_overlays()
 
 
@@ -583,6 +618,16 @@ func _fill_card() -> void:
 	# TRANSLATORS: the 地图 page's card: shows the way to this place.
 	_row(tr("指路到这里"), _point.bind(_selected, &"", tr(cell.name))).theme_type_variation = &"ChipButton"
 	_marks = MapAtlas.marks(catalog, _state, _selected)
+	var known: Array[StringName] = MapAtlas.known_maps(catalog, _state, _selected)
+	var ahead: Array[MapAtlas.Mark] = []
+	for mark: MapAtlas.Mark in left_behind:
+		if known.has(mark.map_id):
+			ahead.append(mark)
+	if not ahead.is_empty():
+		# What the player left on the road comes first after the quest's target.
+		var target: Array[MapAtlas.Mark] = _marks.filter(func(mark: MapAtlas.Mark) -> bool: return mark.kind == MapAtlas.TARGET)
+		var rest: Array[MapAtlas.Mark] = _marks.filter(func(mark: MapAtlas.Mark) -> bool: return mark.kind != MapAtlas.TARGET)
+		_marks = target + ahead + rest
 	for mark: MapAtlas.Mark in _marks:
 		var place: String = tr(catalog.zone(mark.zone_id).display_name)
 		if mark.kind == MapAtlas.TARGET:
@@ -597,8 +642,8 @@ func _fill_card() -> void:
 		if map_id != _selected and _state.visited_maps.has(String(map_id)):
 			var place: String = tr(_map_name(catalog, map_id))
 			_row("· " + place, _point.bind(map_id, &"", place))
-	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state)
-	if goal != null and not goal.waypoint and MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id) == _selected and not _has_target_mark():
+	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state, follower_goal)
+	if goal != null and not goal.waypoint and goal != follower_goal and MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id) == _selected and not _has_target_mark():
 		_objective_line(tr(StoryQuestLog.objective(_state, catalog.story_quests())))
 	if not _state.waypoint_map.is_empty():
 		# TRANSLATORS: the 地图 page's card: takes back the 指路 the player set.
@@ -758,6 +803,12 @@ func _pin_word(kind: StringName) -> String:
 		MapAtlas.BOUNTY:
 			# TRANSLATORS: one-word mark on the 地图 page: the bounty board.
 			return tr("榜")
+		MapAtlas.CORPSE:
+			# TRANSLATORS: one-word mark on the 地图 page: the player's own corpse, their things still on it.
+			return tr("尸")
+		MapAtlas.FOLLOWER:
+			# TRANSLATORS: one-word mark on the 地图 page: someone who follows the player and waits apart from them.
+			return tr("伴")
 	# TRANSLATORS: one-word mark on the 地图 page: someone who gives errands.
 	return tr("差")
 
@@ -773,6 +824,8 @@ func _show_pins() -> void:
 	if _zoom < PIN_ZOOM or _selected.is_empty() or not _pictures.has_picture(_selected):
 		return
 	var catalog: ContentCatalog = GameContent.catalog()
+	# Marks in the same room stand side by side, not on top of each other.
+	var at_key: Dictionary[String, int] = {}
 	for mark: MapAtlas.Mark in _marks:
 		var key: String = "zone:%s" % mark.zone_id
 		if mark.map_id != _selected:
@@ -782,11 +835,31 @@ func _show_pins() -> void:
 			key = "door:%s" % step.to_map
 		var inside: Vector2 = _pictures.pin(_selected, key)
 		if inside != Vector2.INF:
-			_add_pin(mark, _pictures.corner(_selected, _cell(_selected).at) + inside)
+			var beside: int = at_key.get(key, 0)
+			at_key[key] = beside + 1
+			_add_pin(mark, _pictures.corner(_selected, _cell(_selected).at) + inside, beside)
 	_place_overlays()
 
 
-func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
+func _add_pin(mark: MapAtlas.Mark, at: Vector2, beside: int = 0) -> void:
+	var pin: Label = _pin_label(mark)
+	pin.set_meta("at", at)
+	pin.set_meta("beside", beside)
+	overlay.add_child(pin)
+	_pins.append(pin)
+
+
+## A pin stays a round 24 px mark: the menu's responsive layout (ResponsivePanelLayout) wraps every
+## label it finds and lets go of its width, which squeezes one made before it ran to a sliver.
+static func _keep_round(pin: Label) -> void:
+	if pin == null:
+		return
+	pin.autowrap_mode = TextServer.AUTOWRAP_OFF
+	pin.custom_minimum_size = Vector2(24, 24)
+	pin.reset_size()
+
+
+func _pin_label(mark: MapAtlas.Mark) -> Label:
 	var pin := Label.new()
 	pin.name = "Pin"
 	pin.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
@@ -796,6 +869,7 @@ func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
 	pin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pin.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	pin.custom_minimum_size = Vector2(24, 24)
+	pin.set_meta(ResponsivePanelLayout.KEEPS_WIDTH, true)
 	pin.add_theme_font_size_override("font_size", GameTheme.text_size(13))
 	pin.add_theme_color_override("font_color", Color("fff6e6"))
 	var style := StyleBoxFlat.new()
@@ -804,14 +878,12 @@ func _add_pin(mark: MapAtlas.Mark, at: Vector2) -> void:
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(12)
 	pin.add_theme_stylebox_override("normal", style)
-	pin.set_meta("at", at)
-	overlay.add_child(pin)
-	_pins.append(pin)
+	return pin
 
 
 func _show_goal() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state)
+	var goal: MapAtlas.Goal = MapAtlas.goal(catalog, _state, follower_goal)
 	var cell: StringName = &"" if goal == null else MapAtlas.arrow_cell(catalog, _state, _here_map, goal.map_id)
 	arrow.visible = cell_buttons.has(cell)
 	if arrow.visible:
@@ -929,14 +1001,19 @@ func _place_overlays() -> void:
 		button.reset_size()
 		button.position = _to_view(_middle(map_id)) + Vector2(-button.size.x / 2.0, under - button.size.y / 2.0)
 	for pin: Control in _pins:
-		pin.reset_size()
-		pin.position = _to_view(pin.get_meta("at")) - Vector2(pin.size.x / 2.0, pin.size.y + 8.0)
+		_keep_round(pin as Label)
+		pin.position = _to_view(pin.get_meta("at")) - Vector2(pin.size.x / 2.0, pin.size.y + 8.0) + Vector2((pin.size.x + 2.0) * int(pin.get_meta("beside", 0)), 0.0)
 	if arrow.visible:
 		arrow.position = _to_view(_middle(arrow.get_meta("cell"))) - Vector2(arrow.size.x / 2.0, arrow.size.y + 26.0)
 	for mark: TextureRect in _cart_marks:
 		var button: Button = cell_buttons.get(mark.get_meta("cell"))
 		if button != null:
 			mark.position = button.position + Vector2(-mark.size.x - 2.0, (button.size.y - mark.size.y) / 2.0)
+	for mark: Label in _left_marks:
+		var button: Button = cell_buttons.get(mark.get_meta("cell"))
+		if button != null:
+			_keep_round(mark)
+			mark.position = button.position + Vector2(button.size.x + 2.0 + int(mark.get_meta("index")) * (mark.size.x + 2.0), (button.size.y - mark.size.y) / 2.0)
 
 
 ## The 沙盘 just covers the view; what the card hides is a drag or a step away.
