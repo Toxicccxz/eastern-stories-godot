@@ -74,6 +74,8 @@ var _plans: Dictionary[StringName, CombatNpcBeatPlan] = {}
 var _round_beats: Dictionary[StringName, CombatRoundBeats] = {}
 var _skeleton_states: Dictionary[StringName, CombatSkeletonState] = {}
 var _round_tags: Dictionary[StringName, StringName] = {}
+## Beside `_round_tags`: the move each fighter last used this round (识招 reads the move, not its tag).
+var _round_moves: Dictionary[StringName, CombatActionDefinition] = {}
 ## The events of the advance running (the round's notes go here too).
 var _emitted: Array[CombatSchedulerEvent] = []
 ## 战斗拍数 B (DECISIONS「战斗拍数」): the round running now — its fighters in order, the
@@ -1269,6 +1271,7 @@ func _run_round(
 func _begin_round(bindings: Array[CombatSliceCharacterBinding]) -> void:
 	_round_beats.clear()
 	_round_tags.clear()
+	_round_moves.clear()
 	_combo_told.clear()
 	_heavy_spent_at = -1
 	_npc_beats_after_heavy.clear()
@@ -1558,15 +1561,18 @@ func _ring_met(resolution: CombatSliceOpportunityResult, bindings: Array[CombatS
 	return [tag, base.calculation.ring, tag.is_empty() or _player_reads(base.defender_id, bindings)]
 
 
-## 识招: whether the player reads the move `defender_id` holds now — its next move, as its card
-## shows it (「起手：？」 when not). Before this beat's own watching is counted (_note_moves_seen()).
+## 识招: whether the player reads the move `defender_id` holds now, where _fill_modifiers() took
+## its tag from — its next move as its card shows it (「起手：？」 when not), else the one it last
+## used this round. Before this beat's own watching is counted (_note_moves_seen()).
 func _player_reads(defender_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
 	if defender_id == _player_id or _decisions.recognise_after <= 0:
 		return true
 	var player: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
 	if player == null:
 		return true
-	return MoveRecognition.recognised(player.state, next_move(defender_id, bindings), _decisions, GameContent.catalog())
+	var plan: CombatNpcBeatPlan = _plans.get(defender_id)
+	var move: CombatActionDefinition = next_move(defender_id, bindings) if plan != null and not plan.is_empty() else _round_moves.get(defender_id)
+	return MoveRecognition.recognised(player.state, move, _decisions, GameContent.catalog())
 
 
 ## The move the beat's forward attack struck with, null when none was (busy, guarding).
@@ -1606,6 +1612,7 @@ func _note_blow(attacker_id: StringName, victim_id: StringName, move: CombatActi
 	var was_close: bool = state.close
 	var changed: bool = state.note_attack(move.action_id, move.tag, landed, mine != null and mine.tracks_close)
 	_round_tags[attacker_id] = move.tag
+	_round_moves[attacker_id] = move
 	if mine != null:
 		if mine.earns_on_own_attack(landed, was_close, changed):
 			_earn(attacker, mine, bindings)
