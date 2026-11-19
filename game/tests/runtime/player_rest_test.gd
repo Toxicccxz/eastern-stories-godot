@@ -47,6 +47,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_menu_holds(tree)
 	_test_limit()
 	await _test_save_after_rest(tree)
+	_test_bounty_board_keeps_play_time()
 	await _test_attacker(tree)
 	TestDay.restore()
 	_session.free()
@@ -172,6 +173,24 @@ func _test_save_after_rest(tree: SceneTree) -> void:
 		_check(restored.player_runtime().state.essence.current == _state.essence.current and restored.day_clock().day_seconds() == _session.day_clock().day_seconds(), "精 and the clock as they were")
 		restored.free()
 		await tree.process_frame
+
+
+## The bounty board's empty slot counts play time while the player rests, not the rest's
+## faster world (DECISIONS「歇到回满」): one real second takes one second off its 600.
+func _test_bounty_board_keeps_play_time() -> void:
+	var board: WorldBounties = _session.bounties()
+	var posts: Array[WorldBounties.Posting] = board.postings()
+	if not _check(not posts.is_empty() and board.take(posts[0].slot) and board.give_up(), "a bounty taken and given up: its slot empty"):
+		return
+	var slot: int = posts[0].slot
+	var before: int = _state.bounty.refill_ms[slot]
+	_state.essence.current = 10 # TEST-ONLY
+	_check(_session.begin_rest() == "", "a rest begins")
+	for _i: int in 10:
+		_session._process(FRAME)
+	_session.stop_rest()
+	var counted: int = before - _state.bounty.refill_ms[slot]
+	_check(counted >= 900 and counted <= 1100, "a real second resting (20 world seconds) is a second off the board: %d ms" % counted)
 
 
 ## An aggressive NPC noticing the player cuts the rest short; the fight then comes as ever:

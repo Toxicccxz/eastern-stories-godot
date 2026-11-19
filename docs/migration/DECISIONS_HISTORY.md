@@ -3,6 +3,14 @@
 这里是已被后来的决定取代、或只有历史意义的条目，原文照录，顺序同原文件；每条第一行说明为什么在这里。
 现行规则以 [DECISIONS](DECISIONS.md) 为准。引用写作 DECISIONS_HISTORY「条目名」。
 
+## Currency exchange / payment core (S3B only) — A 款
+
+(商店和还债的部分已被「凑不整就不收钱」取代，2026-11-19：`pay()` 凑不整时先拒绝，不再付到一半；`can_afford()` 本身照旧。)
+
+- **A — Type A:** Preserve executable `can_afford()` presence checks, strict `<` comparisons and
+  distinct 0/1/2 meanings, including false rejections and false-positive1. Coin100 paying100 is2;
+  silver1 paying100 and gold1 paying10000 are1; gold1+silver1 paying9900 is1 although payment fails.
+
 ## 主线必打的仗（第一轮） (owner 2026-11-10「按这个调」：主线必打的仗按「只走主线的角色约六成能赢」，有剧情帮手在场约九成；能绕开的不动；暂定)
 
 (已被「主线必打的仗」第二轮（owner 2026-11-12「按推荐调」）改写：剑、拳两种角色都量，模拟换了打法、到达经验从历练推，玄冥子和第五章护送算必打，数值重定。)

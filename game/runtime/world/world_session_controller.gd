@@ -289,7 +289,9 @@ func _process(delta: float) -> void:
 	# 战斗决策层 1B: while the fight's clock waits for the player's order, nothing on it moves.
 	var fight_delta: float = 0.0 if fighting and _combat_encounter_coordinator.waiting_for_player() else BattlePace.fight_seconds(delta)
 	advance_quest_time(fight_delta if fighting else world_delta)
-	advance_bounty_time(fight_delta if fighting else world_delta)
+	# The board's empty slots count play time (BountyBoard), never the rest's or a quick wake's
+	# faster world (DECISIONS「歇到回满」).
+	advance_bounty_time(fight_delta if fighting else delta)
 	advance_npc_heartbeat(world_delta)
 	advance_hidden_passages(world_delta)
 	advance_room_hazards(world_delta)
