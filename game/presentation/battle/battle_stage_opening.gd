@@ -38,6 +38,9 @@ static var fights_opened: int = 0
 
 var arena: BattleArena
 var view: WorldVoxelView
+## 战斗绝招: the fight's mode now (its backdrop's look), and the dark a special's opening holds.
+var _mode: int = CombatEncounterMode.Value.LETHAL
+var _dim_tween: Tween
 ## 战斗演出 D: the map's backdrop under the raised stage.
 var backdrop: VoxelBackdrop
 var kind: int = Kind.FULL
@@ -155,6 +158,7 @@ func open(p_view: WorldVoxelView, map: WorldMapController, fighters: Dictionary[
 	arena.laid.connect(_on_laid)
 	backdrop = VoxelBackdrop.new()
 	view.world.add_child(backdrop)
+	_mode = mode
 	backdrop.set_look(_look_of(mode).get("backdrop", {}))
 	_local = BattleArena.formation(_mine, _theirs, BattleArena.data().get("formation", {}))
 	arena.lay(_points(), _local[player_id], mode, _scale, kind == Kind.SHORT, hash(Vector2i((middle / BattleArena.CELL).floor())))
@@ -508,6 +512,7 @@ func _input(event: InputEvent) -> void:
 
 ## The fight turned from 切磋 to 死斗: the base and the backdrop restained (`seconds`; not skipped).
 func restyle(mode: int) -> void:
+	_mode = mode
 	var seconds: float = BattlePace.real_seconds(GameContent.catalog().pacing().feel.arena_restyle_seconds)
 	if arena != null and is_instance_valid(arena):
 		arena.restyle(mode, seconds)
@@ -515,9 +520,36 @@ func restyle(mode: int) -> void:
 		backdrop.set_look(_look_of(mode).get("backdrop", {}), seconds)
 
 
+## 战斗绝招 (DECISIONS「战斗绝招」): the map under the stage darker by `deepen` for `seconds` (a
+## special opens), then as the fight's look has it again.
+func dim(deepen: float, seconds: float) -> void:
+	if backdrop == null or not is_instance_valid(backdrop) or seconds <= 0.0 or deepen <= 0.0:
+		return
+	var dark: Dictionary = (_look_of(_mode).get("backdrop", {}) as Dictionary).duplicate()
+	dark["darken"] = minf(0.92, float(dark.get("darken", 0.3)) + deepen)
+	backdrop.set_look(dark, seconds * 0.25)
+	if _dim_tween != null and _dim_tween.is_valid():
+		_dim_tween.kill()
+	_dim_tween = create_tween()
+	_dim_tween.tween_interval(seconds)
+	_dim_tween.tween_callback(_undim)
+
+
+## Whether the backdrop holds a special's dark now (tests).
+func dimmed() -> bool:
+	return _dim_tween != null and _dim_tween.is_valid() and _dim_tween.is_running()
+
+
+func _undim() -> void:
+	if backdrop != null and is_instance_valid(backdrop):
+		backdrop.set_look(_look_of(_mode).get("backdrop", {}), 0.35)
+
+
 ## The fight is over: the fighters come down to their bodies, the base is taken down, the
 ## backdrop clears and the camera is given back over `seconds` (0: at once).
 func close(seconds: float = -1.0) -> void:
+	if _dim_tween != null and _dim_tween.is_valid():
+		_dim_tween.kill()
 	_finish_landing()
 	var feel: FeelDefinition = GameContent.catalog().pacing().feel
 	var take_down: float = feel.arena_take_down_seconds if seconds < 0.0 else seconds

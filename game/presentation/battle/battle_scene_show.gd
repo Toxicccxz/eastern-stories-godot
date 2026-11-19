@@ -49,6 +49,14 @@ extends Node
 ## and a felling blow, its braziers leap and its flags snap at a special's opening and a felling
 ## blow (BattleArena.jolt(), flare()); a beast leaps all the way to the one it strikes at.
 
+## 战斗绝招 (DECISIONS「战斗绝招」): each school has its colour (battle_stage.json `schools`, by
+## the skill a fighter has enabled for what is in its hand; settle() takes it from the
+## projection). The 气 a figure gathers before a 重 is its school's; as a special opens
+## (special_gather(): the controller holds the lines meanwhile) the figure gathers in a light of
+## that colour, the base flares and the camera pushes in a little; a special's blows leave their
+## light in that colour, and each that lands leaves the school's figure round the one struck
+## (BattleSchoolMotifs).
+
 const Person := preload("res://presentation/voxel/actors/voxel_person.gd")
 ## Steps, in voxel units (a figure is about 1.8 tall).
 const STEP_QUICK: float = 0.35
@@ -128,6 +136,11 @@ var _wound_up: Dictionary[StringName, bool] = {}
 ## 战斗肢体: who stands on guard and with what (the weapon's skill, "" bare-handed), and each
 ## figure's limbs in a blow or an answer (apart from its step: easing home does not stop them).
 var _guards: Dictionary[StringName, String] = {}
+## 战斗绝招: each fighter's school (the skill; &"" none), and where the camera stood before a
+## special's push (-1: no push under way).
+var _schools: Dictionary[StringName, StringName] = {}
+var _pushed_from: float = -1.0
+var _push_tween: Tween
 ## 战斗特效: a chip is in the air this many times the dust's time.
 const CHIP_FLIGHT: float = 1.4
 ## 战斗特效: how many dark chips fly with the others off one hit (the controller sets it by the
@@ -204,6 +217,10 @@ func end() -> void:
 	_falling.clear()
 	_felled.clear()
 	stage = null
+	_schools.clear()
+	if _push_tween != null and _push_tween.is_valid():
+		_push_tween.kill()
+	_pushed_from = -1.0
 	if view != null and is_instance_valid(view):
 		view.release_falls()
 	for id: StringName in _rest.keys():
@@ -249,6 +266,7 @@ func settle(stances: Array) -> void:
 		listed[id] = true
 		if _feel().fall_seconds > 0.0 and not _felled.has(id):
 			view.hold_fall(id)
+		_schools[id] = StringName(String(stance[4])) if stance.size() > 4 else &""
 		var person: Person = model as Person
 		if person != null:
 			var weapon: String = String(stance[3]) if stance.size() > 3 else ""
@@ -300,7 +318,7 @@ func windup(actor_id: StringName) -> void:
 		return
 	_stop(actor_id)
 	_wound_up[actor_id] = true
-	_charge(model, seconds)
+	_charge(model, seconds, _colour_of(actor_id, CHARGE_MOTE))
 	_raise(actor_id, model, TEMPLATE_HEAVY, seconds * 0.5)
 	var tween: Tween = _tween(actor_id)
 	tween.set_parallel(true)
@@ -344,6 +362,9 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 	if played.size() > 64:
 		played.pop_front()
 	_blow_colour = trail_colour(line)
+	if line.in_special:
+		# A special's blow: its light in the school's colour.
+		_blow_colour = Color(_colour_of(line.actor_id, _blow_colour), _blow_colour.a)
 	_blow_target = line.target_id
 	_blow_outcome = line.outcome
 	# How far the one struck at is from where the striker stands (not from where a blow just
@@ -431,7 +452,7 @@ func _attack(id: StringName, model: Node3D, direction: Vector3, template: String
 		TEMPLATE_HEAVY:
 			if not wound and windup_seconds > 0.0:
 				lead_in = windup_seconds
-				_charge(model, windup_seconds)
+				_charge(model, windup_seconds, _colour_of(id, CHARGE_MOTE))
 				_together(tween).tween_property(model, "scale:y", CROUCH, windup_seconds * 0.5).set_ease(Tween.EASE_OUT)
 				tween.tween_property(model, "rotation:x", LEAN * 0.5, windup_seconds * 0.5).set_ease(Tween.EASE_OUT)
 				tween.set_parallel(false)
@@ -509,6 +530,8 @@ func _defend(id: StringName, model: Node3D, direction: Vector3, line: BattleNarr
 			tween.tween_callback(_flash.bind(model, colour, flash_seconds * (2.0 if heavy else 1.0)))
 			tween.tween_callback(_dust.bind(model, 2.0 if heavy else 1.0))
 			tween.tween_callback(_chips.bind(id, direction, heavy))
+			if line.in_special:
+				tween.tween_callback(_motif.bind(id, line.actor_id, direction))
 			if stop > 0.0:
 				tween.tween_callback(_jolt_stage.bind(id, heavy))
 			var knocked: Vector3 = _knock.get(id, Vector3.ZERO) + direction * KNOCKBACK.get(line.ring, KNOCKBACK[0]) * (HEAVY_KNOCK if heavy else 1.0)
@@ -939,7 +962,7 @@ func _dust(model: Node3D, amount: float = 1.0) -> void:
 
 ## 战斗拍数 E: the 气 gathering before a 重 — a warm glow over the figure the crouch long, and
 ## eight motes drawn in from a ring round it to its chest, brightening as they come.
-func _charge(model: Node3D, seconds: float) -> void:
+func _charge(model: Node3D, seconds: float, colour: Color = CHARGE_MOTE) -> void:
 	if seconds <= 0.0 or not is_instance_valid(model) or model.get_parent() == null:
 		return
 	_flash(model, FLASH_CHARGE, seconds)
@@ -953,7 +976,7 @@ func _charge(model: Node3D, seconds: float) -> void:
 	var glow := StandardMaterial3D.new()
 	glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	glow.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	glow.albedo_color = Color(CHARGE_MOTE, 0.25)
+	glow.albedo_color = Color(colour, 0.25)
 	glow.render_priority = VoxelBackdrop.OVER_BACKDROP
 	var tween: Tween = create_tween().set_parallel(true)
 	_effect_tweens[gather] = tween
@@ -1015,6 +1038,113 @@ func _parry_arc(model: Node3D, toward: Vector3) -> void:
 		tween.tween_property(bit, "scale", Vector3.ZERO, seconds * 1.5).set_ease(Tween.EASE_IN)
 	tween.tween_property(glow, "albedo_color:a", 0.0, seconds * 1.2)
 	tween.chain().tween_callback(_drop_effect.bind(arc))
+
+
+# --- 战斗绝招: the schools' colours, a special's opening, its figure --------------------------------
+
+
+## The look of the school of `skill` (battle_stage.json `schools`): its colour and figure; the
+## default's for a skill not named there.
+static func school_look(skill: StringName) -> Dictionary:
+	var schools: Dictionary = BattleArena.data().get("schools", {})
+	var look: Variant = schools.get(String(skill), schools.get("default", {}))
+	return look if look is Dictionary else {}
+
+
+static func school_colour(skill: StringName) -> Color:
+	return Color(String(school_look(skill).get("colour", "ffd98a")))
+
+
+## Whether `skill` has a look of its own (not the default's).
+static func school_named(skill: StringName) -> bool:
+	return not skill.is_empty() and skill != &"default" and BattleArena.data().get("schools", {}).has(String(skill))
+
+
+static func _special(key: String, fallback: Variant) -> Variant:
+	return BattleArena.data().get("special", {}).get(key, fallback)
+
+
+## `id`'s school's colour, or `fallback` when its school has none of its own.
+func _colour_of(id: StringName, fallback: Color) -> Color:
+	var skill: StringName = _schools.get(id, &"")
+	return school_colour(skill) if school_named(skill) else fallback
+
+
+## A special that strikes opens: for `seconds` (the controller holds the lines that long)
+## `actor_id` gathers its 气 in a light of its school's colour, the base flares and the camera
+## pushes in a little, to come back as the moment ends.
+func special_gather(actor_id: StringName, seconds: float) -> void:
+	var model: Node3D = _model(actor_id)
+	if model == null or model.get_parent() == null or seconds <= 0.0:
+		return
+	var colour: Color = _colour_of(actor_id, school_colour(&"default"))
+	_charge(model, seconds, colour)
+	_flare_stage()
+	var data: Dictionary = _special("light", {})
+	var light := OmniLight3D.new()
+	light.name = "SpecialLight"
+	light.light_color = colour
+	light.omni_range = float(data.get("range", 4.5))
+	light.light_energy = 0.0
+	light.shadow_enabled = false
+	light.position = model.position + Vector3.UP * 1.3
+	model.get_parent().add_child(light)
+	_effects.append(light)
+	var tween: Tween = create_tween()
+	_effect_tweens[light] = tween
+	tween.tween_method(_light_step.bind(light, float(data.get("energy", 2.4))), 0.0, 1.0, seconds * 1.4)
+	tween.tween_callback(_drop_effect.bind(light))
+	# A short moment (seen before, or under 自动) has no push: in and out so fast reads as a jerk.
+	if seconds >= _seconds(_feel().special_title_seconds) * float(_special("push_from", 0.5)):
+		_push(seconds)
+
+
+## One moment `t` (0..1) of a special's light (`light` may be gone with its figure): up in
+## the first fifth, held, down over the last quarter.
+func _light_step(t: float, light: Variant, energy: float) -> void:
+	if not is_instance_valid(light):
+		return
+	(light as OmniLight3D).light_energy = energy * minf(clampf(t / 0.2, 0.0, 1.0), clampf((1.0 - t) / 0.25, 0.0, 1.0))
+
+
+## The camera a little nearer for `seconds`, then back where it stood (not once the fight's
+## last blow has drawn it in, nor while a push is under way).
+func _push(seconds: float) -> void:
+	var share: float = float(_special("push", 0.94))
+	var ease: float = _seconds(_feel().battle_zoom_seconds)
+	if view == null or not is_instance_valid(view) or _final_zoomed or _pushed_from >= 0.0 or ease <= 0.0 or share >= 1.0 or share <= 0.0:
+		return
+	_pushed_from = view.zoom()
+	view.set_zoom(_pushed_from * share, minf(ease, seconds * 0.4))
+	_push_tween = create_tween()
+	_push_tween.tween_interval(seconds)
+	_push_tween.tween_callback(_push_back)
+
+
+func _push_back() -> void:
+	var back: float = _pushed_from
+	_pushed_from = -1.0
+	if back >= 0.0 and view != null and is_instance_valid(view) and not _final_zoomed:
+		view.set_zoom(back, _seconds(_feel().battle_zoom_seconds) * 0.6)
+
+
+## Whether the camera is pushed in for a special now (tests).
+func pushed() -> bool:
+	return _pushed_from >= 0.0
+
+
+## A special's blow has landed on `id`: the figure of `actor_id`'s school round it.
+func _motif(id: StringName, actor_id: StringName, direction: Vector3) -> void:
+	var model: Node3D = _model(id)
+	var seconds: float = _seconds(_feel().scene_dust_seconds) * float(_special("motif", 2.4))
+	if model == null or model.get_parent() == null or seconds <= 0.0:
+		return
+	var look: Dictionary = school_look(_schools.get(actor_id, &""))
+	var tween: Tween = create_tween().set_parallel(true)
+	var motif: Node3D = BattleSchoolMotifs.play(model.get_parent(), tween, String(look.get("motif", "ring")), Color(String(look.get("colour", "ffd98a"))), model.position, direction, seconds, _dust_rng)
+	_effects.append(motif)
+	_effect_tweens[motif] = tween
+	tween.chain().tween_callback(_drop_effect.bind(motif))
 
 
 # --- 战斗特效: the light of a swing, what is thrown, the chips, the base -------------------------
