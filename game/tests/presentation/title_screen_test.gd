@@ -1,9 +1,9 @@
 extends RefCounted
 
-## The title (DECISIONS「标题画面」): title_screen.json in the catalog, the logo's blocks from its
-## baked masks (one language at a time), the title shown while no journey runs and only then,
+## The title (DECISIONS「标题画面」): title_screen.json in the catalog, the ink lettering from
+## its baked masks (one language at a time), the title shown while no journey runs and only then,
 ## the menu's buttons dressed but still the shell's own, the camera flying to a choice's
-## place, and a start going ahead at once while the title burns over it.
+## place, and a start going ahead at once while the ink lifts off over it.
 const ShellTests = preload("res://tests/application/application_shell_test.gd")
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
 
@@ -47,34 +47,52 @@ func _test_data() -> void:
 	_check(errors.size() == 3, "an unknown weather, a zoom out of range and a tiny logo are refused: %s" % [errors])
 
 
-## The blocks: ink thicker mid-stroke, the stroke behind it, embers one per stroke column.
+## The lettering: a large antialiased mask (ink in red, the ink blurred wide in green) inked by
+## its shader, the other language spaced out under it, the seal stamped only after the writing,
+## black ink until the light has passed, all gone once it has lifted off.
 func _test_logo_blocks() -> void:
 	var definition: TitleScreenDefinition = GameContent.catalog().title_screen()
+	var mask: Texture2D = load(definition.logo_for("zh_CN")) as Texture2D
+	var image: Image = mask.get_image()
+	var greys: Dictionary = {}
+	var blurred: bool = false
+	for x: int in range(0, image.get_width(), 3):
+		var pixel: Color = image.get_pixel(x, image.get_height() / 2)
+		greys[roundi(pixel.r * 255.0)] = true
+		blurred = blurred or (pixel.g > 0.05 and pixel.r < 0.01)
+	_check(image.get_width() >= 800 and greys.size() > 8, "a large mask that keeps its antialiased edge: %d wide, %d greys" % [image.get_width(), greys.size()])
+	_check(blurred, "with the ink blurred wide beside it, past the ink's own edge")
+	_check(definition.line_for("zh_CN") == "EASTERN STORIES" and definition.line_for("en") == "东方故事", "the other language spaced out under the title")
 	var logo := TitleLogo.new()
-	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	var board: Node3D = logo.get_node("LogoView/World/Board") as Node3D
-	var ink: MultiMeshInstance3D = board.get_node_or_null("Ink") as MultiMeshInstance3D
-	var embers: MultiMeshInstance3D = board.get_node_or_null("Embers") as MultiMeshInstance3D
-	if _check(ink != null and embers != null, "the logo has its ink and its embers"):
-		_check(ink.multimesh.instance_count > 5000 and embers.multimesh.instance_count > 1000, "built from the mask: %d blocks, %d embers" % [ink.multimesh.instance_count, embers.multimesh.instance_count])
-	# The block list (a headless run keeps no instance data in the MultiMesh itself).
-	var cubes: Array = TitleLogo.parts_for(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))["cubes"]
-	var deepest: float = 0.0
-	var stroke: int = 0
-	for cube: Array in cubes:
-		deepest = maxf(deepest, (cube[0] as Vector3).z)
-		if cube[2]:
-			stroke += 1
-	_check(cubes.size() == ink.multimesh.instance_count, "one block per instance")
-	_check(deepest >= 2.0, "strokes rise toward their middle: %s" % deepest)
-	_check(stroke > 2000 and stroke < cubes.size(), "a vermilion stroke behind the letters")
-	var again := TitleLogo.new()
-	again.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"))
-	_check((again.get_node("LogoView/World/Board/Ink") as MultiMeshInstance3D).multimesh == ink.multimesh, "built once per mask in a run")
+	logo.build(definition.logo_for("zh_CN"), definition.seal_for("zh_CN"), definition.line_for("zh_CN"), true)
+	var letters: TextureRect = logo.get_node("LogoView/Letters") as TextureRect
+	var seal: TextureRect = logo.get_node("LogoView/Seal") as TextureRect
+	var line: Label = logo.get_node("LogoView/Line") as Label
+	if _check(letters != null and seal != null and line != null, "the lettering, its seal and the line under it"):
+		var ink: ShaderMaterial = letters.material as ShaderMaterial
+		_check(ink != null and ink.shader == TitleLogo.INK and ink.get_shader_parameter("mask") == letters.texture, "inked by its shader from the mask")
+		_check(is_equal_approx(float(ink.get_shader_parameter("dry")), TitleLogo.DRY), "brush lettering shows its dry streaks")
+		_check(seal.visible and line.text == "EASTERN STORIES", "侠 on the Chinese title, EASTERN STORIES under it")
+		logo.write = 0.5
+		logo._process(0.0)
+		var seal_mat: ShaderMaterial = seal.material as ShaderMaterial
+		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01, "half written: neither the line nor the seal yet")
+		logo.write = 1.0
+		logo._process(0.0)
+		_check(float(seal_mat.get_shader_parameter("fade")) > 0.99 and line.modulate.a > 0.99 and seal.scale.is_equal_approx(Vector2.ONE), "written: the line up and the seal stamped")
+		var dim: ShaderMaterial = (logo.get_node("Dim") as ColorRect).material as ShaderMaterial
+		_check(line.modulate.r < 0.2 and float(dim.get_shader_parameter("strength")) < 0.01, "black ink on the clouds, no dusk yet")
+		logo.lit = 1.0
+		logo._process(0.0)
+		_check(line.modulate.r > 0.9 and float(dim.get_shader_parameter("strength")) > 0.99, "the light has passed: white, on the dusk")
+		logo.burn = 1.15
+		logo._process(0.0)
+		_check(float(seal_mat.get_shader_parameter("fade")) < 0.01 and line.modulate.a < 0.01 and float(dim.get_shader_parameter("strength")) < 0.01, "lifted off: nothing left")
 	var english := TitleLogo.new()
-	english.build(definition.logo_for("en"), definition.seal_for("en"))
-	_check((english.get_node("LogoView/World/Board/Ink") as MultiMeshInstance3D).multimesh != ink.multimesh, "English is its own logo, not both at once")
-	for node: TitleLogo in [logo, again, english]:
+	english.build(definition.logo_for("en"), definition.seal_for("en"), definition.line_for("en"), false)
+	var plain: ShaderMaterial = (english.get_node("LogoView/Letters") as TextureRect).material as ShaderMaterial
+	_check(not (english.get_node("LogoView/Seal") as TextureRect).visible and (english.get_node("LogoView/Letters") as TextureRect).texture != letters.texture and is_zero_approx(float(plain.get_shader_parameter("dry"))), "English is its own lettering: no Chinese seal, no brush streaks")
+	for node: TitleLogo in [logo, english]:
 		node.free()
 
 
@@ -94,10 +112,11 @@ func _test_shell(tree: SceneTree) -> void:
 	_check(shell.new_game_button.get_node_or_null("Letters") != null and shell.new_game_button.get_node_or_null("Swash") != null, "with voxel letters and a stroke")
 	var quit_button: Button = shell.get_node("%QuitButton") as Button
 	_check(quit_button != null, "退出游戏 is on the menu")
-	# The first choice's place name waits for the clouds to part (it once rose over them alone).
+	# The first choice's place name waits for the clouds to part (it once rose over them alone),
+	# and the menu for the seal to be stamped.
 	await tree.create_timer(1.6).timeout
 	_check(title.menu_fx.menu_alpha < 0.01 and title.caption.modulate.a < 0.01, "the place's name waits while the clouds part: name %.2f, menu %.2f" % [title.caption.modulate.a, title.menu_fx.menu_alpha])
-	await tree.create_timer(1.6).timeout
+	await tree.create_timer(TitleScreen.MENU_UP_SECONDS - 1.6 + 0.9).timeout
 	_check(title.caption.modulate.a > 0.9 and not title.caption.text.is_empty(), "and rises with the menu: %.2f" % title.caption.modulate.a)
 	# A quick pass over one choice onto the next leaves one stroke (two once stayed out).
 	shell.menu_settings_button.grab_focus()
@@ -119,7 +138,7 @@ func _test_shell(tree: SceneTree) -> void:
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
 	_check(shell.submit_new_game_setup(), "a journey starts at once")
 	await tree.process_frame
-	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the logo burns over the busy note")
+	_check(title.entering() and title.layer > shell.shell_canvas.layer, "the ink lifts off over the busy note")
 	var started: bool = false
 	for i: int in 2000:
 		await tree.process_frame
