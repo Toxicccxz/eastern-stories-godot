@@ -33,7 +33,8 @@ var form: Dictionary = {}
 ## Strokes, dodges, parries or risings of the 气 begun so far (tests, kits).
 var rounds: int = 0
 ## The run is over and the stage about to be left: what is under way is finished, nothing new
-## begun.
+## begun — but for the first round (a run of a step or two is over before the figure is on guard:
+## it still gets its one stroke, its one rising of the 气).
 var closing: bool = false
 var _view: WorldVoxelView
 var _player: Person
@@ -141,11 +142,14 @@ func end() -> void:
 		if tween.is_valid():
 			tween.kill()
 	_limbs.clear()
-	for person: Person in [_player, _teacher]:
-		if is_instance_valid(person):
-			person.stand_down(SETTLE)
-			person.sitting = false
-			person.showing = ""
+	# Either may be gone with its map (one freed cannot be handed to a typed variable).
+	var figures: Array = [_player, _teacher]
+	for index: int in figures.size():
+		var figure: Variant = figures[index]
+		if is_instance_valid(figure):
+			(figure as Person).stand_down(SETTLE)
+			(figure as Person).sitting = false
+			(figure as Person).showing = ""
 	_player = null
 	_teacher = null
 	if is_instance_valid(_view) and _zoom_before > 0.0:
@@ -166,7 +170,7 @@ func _process(delta: float) -> void:
 		end()
 		return
 	_clock += delta
-	if _clock < _next or closing:
+	if _clock < _next or (closing and rounds > 0):
 		return
 	var training: Dictionary = GrowthFx.training()
 	var round_seconds: float = maxf(0.2, float(training.get("round", 1.1)))

@@ -51,6 +51,8 @@ var _state: CharacterState
 var _key_items: Array[StringName] = []
 var _effects: Array[Node] = []
 var _pose: Tween
+## The pose the figure was last given here (the bow): it is stood down only while it still has it.
+var _posed: String = ""
 var _rng := RandomNumberGenerator.new()
 
 
@@ -60,6 +62,9 @@ func configure(session: WorldSessionController) -> void:
 
 func _ready() -> void:
 	layer = LAYER
+	# It goes on under the pause, unseen (see _process): a moment begun is not left standing
+	# over 系统.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	banner = BattleSpecialBanner.new()
 	banner.name = "Banner"
 	add_child(banner)
@@ -70,8 +75,15 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
-	if not _on():
+	# Under the pause (系统, the shell's windows) nothing of it is seen or begun.
+	var paused: bool = get_tree().paused
+	if visible == paused:
+		visible = not paused
+	if paused or not _on():
 		return
+	# A fight (or a scene) has the figure now: the bow lets go of it.
+	if _pose != null and _pose.is_valid() and not _may_show():
+		_pose.kill()
 	_wait -= delta
 	if _wait <= 0.0:
 		look_now()
@@ -150,13 +162,17 @@ static func _tier_of(kind: StringName) -> String:
 	return String(GrowthFx.moments().get("kinds", {}).get(String(kind), {}).get("tier", "small"))
 
 
-## A moment may be shown now: no fight has the screen and the player is up.
+## A moment may be shown now: the player is up, and nothing else has the screen — no fight (its
+## panel still up over its last lines is the fight still), no scene or fade holding the
+## presentation, no closing pages.
 func _may_show() -> bool:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	if player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or player.relationship.is_fighting():
 		return false
 	var fights: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
-	return fights == null or not fights.has_active_encounter()
+	if fights != null and fights.has_active_encounter():
+		return false
+	return not _session.battle_panel_shown() and not _session.presentation_frozen() and not _session.epilogue_running()
 
 
 ## The words of `moment`, in the shown language.
@@ -214,6 +230,7 @@ func _show(moment: GrowthWatch.Moment) -> void:
 	if person != null and Person.REACTIONS.has(pose) and not person.fighting and not person.sitting and not person.walking:
 		if _pose != null and _pose.is_valid():
 			_pose.kill()
+		_posed = pose
 		person.take_guard("", seconds * 0.12)
 		person.react = pose
 		person.react_amount = 0.0
@@ -225,8 +242,9 @@ func _show(moment: GrowthWatch.Moment) -> void:
 
 
 func _stand(person: Variant) -> void:
-	# A fight begun meanwhile has the figure: its guard is the fight's own.
-	if is_instance_valid(person) and _on() and _may_show():
+	# Something else has the figure meanwhile (a fight, a training run begun at once): its guard
+	# is theirs, and they have taken the bow off it.
+	if is_instance_valid(person) and _on() and _may_show() and (person as Person).react == _posed:
 		(person as Person).stand_down(0.2)
 
 

@@ -150,7 +150,7 @@ func _check_in_a_session(tree: SceneTree) -> void:
 	hud.open_martial_arts()
 	var page: MartialArtsPage = hud.martial_arts_page()
 	var progress: TrainingProgress = page.progress
-	var window: Control = hud.menu.root
+	var window: Control = hud.menu.window
 	# The feel off (the suites): all at once in the page, nothing shown.
 	page.buttons["practice_run:unarmed"].pressed.emit()
 	check(not progress.running() and not progress.staged() and progress.show_stage == null and is_equal_approx(window.modulate.a, 1.0) and hud.growth_moments.shown.is_empty(), "feel off: the run is over in the page, no stage, no moment")
@@ -189,6 +189,7 @@ func _check_in_a_session(tree: SceneTree) -> void:
 			break
 	check(swung > 0.9 and progress.show_stage.rounds >= 1, "it strikes (swing %.2f, %d rounds)" % [swung, progress.show_stage.rounds])
 	check(faded < 0.05, "the window faded out meanwhile (%.2f)" % faded)
+	check(is_equal_approx(hud.menu.root.modulate.a, 1.0), "only the window and its scrim: what holds them is as it was")
 	check(nearest < zoom_before - 0.1, "the camera nearer (%.2f from %.2f)" % [nearest, zoom_before])
 	check(not progress.running() and not progress.staged() and not progress.band.visible and state.vitality.current == 10, "over: the band gone, the same three practices paid for (%d)" % state.vitality.current)
 	check(progress.status.text.begins_with("你练习柳家拳 3 次") and progress.is_visible_in_tree(), "the run's lines in the page as ever: %s" % progress.status.text.get_slice("\n", 0))
@@ -196,6 +197,21 @@ func _check_in_a_session(tree: SceneTree) -> void:
 	check(is_equal_approx(window.modulate.a, 1.0) and not model.fighting and is_equal_approx(view.zoom(), zoom_before) and absf(model.swing) < 0.01, "the window back, the figure at ease, the camera where it was")
 	var stage_time: float = float(GrowthFx.training().get("min_seconds", 0.0))
 	check(stage_time >= float(GrowthFx.training().get("round", 0.0)) + TrainingShow.SETTLE, "the least time fits a whole stroke")
+
+	# A run over at its first step (气 for one practice): the figure still gets its stroke.
+	_heal(state)
+	state.vitality.current = 40
+	page.buttons["practice_run:unarmed"].pressed.emit()
+	swung = 0.0
+	var staged_frames: int = 0
+	for step: int in 400:
+		await tree.process_frame
+		swung = maxf(swung, absf(model.swing))
+		staged_frames += 1 if progress.staged() else 0
+		if not progress.running():
+			break
+	check(state.vitality.current == 10 and swung > 0.9 and progress.show_stage.rounds == 1 and staged_frames > 60, "one step: one whole stroke before the window is back (swing %.2f, %d frames aside)" % [swung, staged_frames])
+	await tree.create_timer(0.6).timeout
 
 	# A run that ends on a level: its moment over the stage, the art on the figure.
 	_heal(state)
@@ -340,6 +356,17 @@ func _check_watch(state: CharacterState) -> void:
 	state.quests["test.quest/step"] = 1
 	found = watch.look(state, [&"some.thing"])
 	check(found.size() == 1 and found[0].kind == GrowthWatch.QUEST_DONE and found[0].subject == &"test.quest", "a quest ended (its steps are no gain)")
+	# learn.c enters a new skill at level 0 before it knows the lesson can be had: no gain yet.
+	state.skills.set_raw_level(&"test.empty", 0) # TEST-ONLY
+	check(watch.look(state, [&"some.thing"]).is_empty(), "a skill entered with nothing learned is not learned")
+	state.skills.set_learned_progress(&"test.empty", 1) # TEST-ONLY
+	found = watch.look(state, [&"some.thing"])
+	check(found.size() == 1 and found[0].kind == GrowthWatch.SKILL_LEARNED and found[0].subject == &"test.empty", "with its first progress it is")
+	state.skills.set_raw_level(&"test.empty", 1) # TEST-ONLY
+	found = watch.look(state, [&"some.thing"])
+	check(found.size() == 1 and found[0].kind == GrowthWatch.SKILL_LEVEL and found[0].value == 1, "and its first level is a level")
+	state.skills.remove_skill(&"test.empty")
+	watch.look(state, [&"some.thing"])
 	state.quests.erase("test.quest#done")
 	state.quests.erase("test.quest/step")
 	# Many of a kind at once: a set-up, none told; the others still are.

@@ -28,13 +28,14 @@ var stop_button: Button
 var _run: PlayerTrainingRun
 var _what: String = ""
 var _waited: float = 0.0
-## 练功演出: the figure's show, the band, and the window that stands aside (its topmost Control).
+## 练功演出: the figure's show, the band, and what stands aside: the window this is in (the
+## menu's, the shared frame's) and the scrim behind it; the HUD's card stays.
 var show_stage: TrainingShow
 var band: CanvasLayer
 var band_status: Label
 var band_bar: ProgressBar
 var band_stop: Button
-var _aside: Control
+var _aside: Array[Control] = []
 var _aside_tween: Tween
 var _staged: bool = false
 ## The run is over and the stage holds before the window is back: its lines, and the wait.
@@ -132,8 +133,9 @@ func _process(delta: float) -> void:
 		return
 	_waited = 0.0
 	var goes_on: bool = _run.step()
-	# 练功演出: once a step is taken (a run refused at its first step shows nothing).
-	if not _staged and _run.training.steps > 0:
+	# 练功演出: once a step is taken (a run refused at its first step shows nothing, nor one that
+	# step cut short: a fight it began has the screen).
+	if not _staged and _run.training.steps > 0 and (goes_on or not _run.training.stop in [TrainingRun.Stop.CANCELLED, TrainingRun.Stop.INTERRUPTED]):
 		_enter_stage()
 	if not goes_on:
 		_end()
@@ -252,10 +254,7 @@ func _enter_stage() -> void:
 	band_stop.show()
 	_show()
 	band_stop.grab_focus()
-	# The topmost Control over this (the menu's root, the shared frame's): all of the window.
-	_aside = self
-	while _aside.get_parent() is Control:
-		_aside = _aside.get_parent() as Control
+	_aside = _window_parts()
 	_fade_aside(0.0, seconds)
 
 
@@ -268,19 +267,44 @@ func _exit_stage() -> void:
 	if band != null:
 		band.visible = false
 	_fade_aside(1.0, GameContent.catalog().pacing().feel.training_stage_seconds if is_visible_in_tree() else 0.0)
-	_aside = null
+	_aside = []
+
+
+## The window this is in — the outermost panel over it (the menu's window, the shared frame) —
+## and the scrim drawn behind it (a ColorRect beside it), if it has one.
+func _window_parts() -> Array[Control]:
+	var window: Control = null
+	var top: Control = self
+	while top.get_parent() is Control:
+		top = top.get_parent() as Control
+		if top is PanelContainer:
+			window = top
+	if window == null:
+		return [top]
+	var parts: Array[Control] = [window]
+	for beside: Node in window.get_parent().get_children():
+		if beside is ColorRect:
+			parts.append(beside as Control)
+	return parts
 
 
 func _fade_aside(alpha: float, seconds: float) -> void:
 	if _aside_tween != null and _aside_tween.is_valid():
 		_aside_tween.kill()
-	if not is_instance_valid(_aside):
+	var parts: Array[Control] = []
+	for index: int in _aside.size():
+		var part: Variant = _aside[index]
+		if is_instance_valid(part):
+			parts.append(part)
+	if parts.is_empty():
 		return
 	if seconds <= 0.0 or not is_inside_tree():
-		_aside.modulate.a = alpha
+		for part: Control in parts:
+			part.modulate.a = alpha
 		return
-	_aside_tween = create_tween()
-	_aside_tween.tween_property(_aside, "modulate:a", alpha, seconds)
+	_aside_tween = create_tween().set_parallel(true)
+	for part: Control in parts:
+		_aside_tween.tween_property(part, "modulate:a", alpha, seconds)
 
 
 ## The band at the foot of the screen, on its own layer over the window that stands aside: the

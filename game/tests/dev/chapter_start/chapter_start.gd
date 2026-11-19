@@ -142,6 +142,15 @@ static func carried(spec: Spec) -> Array[StringName]:
 ## Sets `session` (a New Game's, initialized, the player standing) up as `spec`'s chapter begins.
 ## Returns "" when done, else what failed (the session is then left as far as it got).
 static func apply(session: WorldSessionController, spec: Spec) -> String:
+	var failed: String = _apply(session, spec)
+	# What was set up by hand is no gain of the player's (成长时刻).
+	var hud: SharedGameplayUI = session.shared_ui() if session != null and session.has_node(^"SharedGameplayUI") else null
+	if hud != null and is_instance_valid(hud.growth_moments):
+		hud.growth_moments.take_in()
+	return failed
+
+
+static func _apply(session: WorldSessionController, spec: Spec) -> String:
 	var at: int = index_of(spec.quest)
 	if at < 0:
 		return "no chapter %s" % spec.quest

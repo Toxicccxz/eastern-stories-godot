@@ -6,6 +6,8 @@ extends RefCounted
 ## taken, a quest ended, a story's thing first come by. It asks no rule and no command what
 ## happened: whatever raised the number (a master's lesson, a blow in a fight, a book, a
 ## quest's reward) is seen the same way, and nothing has to remember to tell it.
+## A skill counts as learned once it has a level or some progress (a first lesson refused leaves
+## an empty entry behind).
 ## The first look only takes the state in (a journey begun or loaded gains nothing by it); a
 ## loss (a death's penalty) is taken in without a word. More than `bulk` of one kind at once is
 ## a set-up (a test's, a tool's), not a gain: none of that kind is told.
@@ -85,11 +87,16 @@ func look(state: CharacterState, key_items: Array[StringName] = [], bulk: int = 
 	var levels: Dictionary[StringName, int] = {}
 	for skill_id: StringName in state.skills.raw_skill_ids():
 		var level: int = state.skills.raw_level(skill_id)
-		levels[skill_id] = level
 		if not _levels.has(skill_id):
+			# learn.c enters a new skill at level 0 before it asks whether the lesson can be had
+			# (潜能, the teacher's 精): with nothing learned yet it is not learned, and is looked
+			# at again.
+			if level <= 0 and state.skills.learned_progress(skill_id) <= 0:
+				continue
 			found.append(Moment.new(SKILL_LEARNED, skill_id, level))
 		elif level > _levels[skill_id]:
 			found.append(Moment.new(SKILL_LEVEL, skill_id, level))
+		levels[skill_id] = level
 	_levels = levels
 	var maxima: Dictionary[StringName, int] = {
 		INNER_FORCE: state.recovery.inner_force.maximum, MANA: state.recovery.mana.maximum, ATMAN: state.recovery.atman.maximum,
