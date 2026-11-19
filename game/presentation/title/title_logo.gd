@@ -33,10 +33,12 @@ const STAMP_SECONDS: float = 0.18
 const SETTLE_SECONDS: float = 0.08
 const ARRIVAL_SECONDS: float = 2.3
 const LEAVING_SECONDS: float = 1.0
-## The line under the title: its size (UI pixels at 1280 wide) and the room between its letters
-## (parts of its size).
-const LINE_SIZE: float = 21.0
-const LINE_SPACING: float = 0.55
+## The line under the title: its size against the title's own letters (with a floor, in UI
+## pixels at 1280 wide), the room between its letters (parts of its size) and the gap above it.
+const LINE_SHARE: float = 0.2
+const LINE_MIN: float = 24.0
+const LINE_SPACING: float = 0.3
+const LINE_GAP: float = 0.06
 ## The seal's side against the letters' height, the room between it and the last letter (UI
 ## pixels at 1280 wide), and where its middle stands down the letters (0 top, 1 foot).
 const SEAL_SHARE: float = 0.34
@@ -194,7 +196,12 @@ func _place() -> void:
 	var middle: Vector2 = at * screen
 	_letters.size = size_px
 	_letters.position = middle - size_px / 2.0
-	var font_size: int = maxi(8, roundi(LINE_SIZE * unit))
+	# The ink's own box inside the padded mask.
+	var pad: Vector2 = Vector2(MASK_PAD, MASK_PAD) * size_px.x / letters.get_width()
+	var ink_top: float = _letters.position.y + pad.y
+	var ink_tall: float = size_px.y - pad.y * 2.0
+	var ink_right: float = _letters.position.x + size_px.x - pad.x
+	var font_size: int = maxi(8, roundi(maxf(ink_tall * LINE_SHARE, LINE_MIN * unit)))
 	var face := FontVariation.new()
 	var latin: bool = _latin(_line.text)
 	face.base_font = LINE_ROMAN if latin else LINE_FONT
@@ -204,12 +211,7 @@ func _place() -> void:
 	_line.add_theme_font_override("font", face)
 	_line.add_theme_font_size_override("font_size", font_size)
 	_line.size = Vector2(size_px.x, font_size * 1.6)
-	_line.position = Vector2(_letters.position.x, _letters.position.y + size_px.y * 0.86)
-	# The ink's own box inside the padded mask.
-	var pad: Vector2 = Vector2(MASK_PAD, MASK_PAD) * size_px.x / letters.get_width()
-	var ink_top: float = _letters.position.y + pad.y
-	var ink_tall: float = size_px.y - pad.y * 2.0
-	var ink_right: float = _letters.position.x + size_px.x - pad.x
+	_line.position = Vector2(_letters.position.x, ink_top + ink_tall + ink_tall * LINE_GAP)
 	var square: float = ink_tall * SEAL_SHARE
 	var side: float = square / SEAL_FILL
 	_seal.size = Vector2(side, side)
