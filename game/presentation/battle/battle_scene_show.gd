@@ -162,6 +162,9 @@ var _limb_tweens: Dictionary[StringName, Tween] = {}
 ## Figures to ease home once the show they are in ends (the round ended on their blow).
 var _go_home: Dictionary[StringName, bool] = {}
 var _effects: Array[Node3D] = []
+## 战斗运功: the waits before one an art reaches flinches (its own tweens: the reel and the lurch
+## keep theirs).
+var _art_tweens: Array[Tween] = []
 var _effect_tweens: Dictionary[Node3D, Tween] = {}
 var _earned_shown: bool = false
 var _final_zoomed: bool = false
@@ -214,6 +217,10 @@ func end() -> void:
 		if tween.is_valid():
 			tween.kill()
 	_fall_tweens.clear()
+	for tween: Tween in _art_tweens:
+		if tween.is_valid():
+			tween.kill()
+	_art_tweens.clear()
 	_falling.clear()
 	_felled.clear()
 	stage = null
@@ -342,6 +349,9 @@ func play_line(line: BattleNarrationLine, fatal: bool = false) -> void:
 		return
 	if line.cue == BattleNarrationLine.CUE_EXPOSED:
 		_exposed(line.actor_id, line.target_id)
+		return
+	# 战斗运功: an exert or a spell has its own art (none to show: it opens as any special does).
+	if not line.art.is_empty() and not line.has_blow and play_art(line):
 		return
 	if line.is_special and not line.has_blow:
 		_special_opening(line.actor_id, line.target_id)
@@ -1080,23 +1090,28 @@ func special_gather(actor_id: StringName, seconds: float) -> void:
 	var colour: Color = _colour_of(actor_id, school_colour(&"default"))
 	_charge(model, seconds, colour)
 	_flare_stage()
-	var data: Dictionary = _special("light", {})
+	_light("SpecialLight", model.get_parent(), model.position + Vector3.UP * 1.3, colour, _special("light", {}), seconds * 1.4)
+	# A short moment (seen before, or under 自动) has no push: in and out so fast reads as a jerk.
+	if seconds >= _seconds(_feel().special_title_seconds) * float(_special("push_from", 0.5)):
+		_push(seconds)
+
+
+## A light of `colour` under `parent` at `at` for `seconds`, up and down again (`data`: its
+## energy and range).
+func _light(light_name: String, parent: Node3D, at: Vector3, colour: Color, data: Dictionary, seconds: float) -> void:
 	var light := OmniLight3D.new()
-	light.name = "SpecialLight"
+	light.name = light_name
 	light.light_color = colour
 	light.omni_range = float(data.get("range", 4.5))
 	light.light_energy = 0.0
 	light.shadow_enabled = false
-	light.position = model.position + Vector3.UP * 1.3
-	model.get_parent().add_child(light)
+	light.position = at
+	parent.add_child(light)
 	_effects.append(light)
 	var tween: Tween = create_tween()
 	_effect_tweens[light] = tween
-	tween.tween_method(_light_step.bind(light, float(data.get("energy", 2.4))), 0.0, 1.0, seconds * 1.4)
+	tween.tween_method(_light_step.bind(light, float(data.get("energy", 2.4))), 0.0, 1.0, seconds)
 	tween.tween_callback(_drop_effect.bind(light))
-	# A short moment (seen before, or under 自动) has no push: in and out so fast reads as a jerk.
-	if seconds >= _seconds(_feel().special_title_seconds) * float(_special("push_from", 0.5)):
-		_push(seconds)
 
 
 ## One moment `t` (0..1) of a special's light (`light` may be gone with its figure): up in
@@ -1145,6 +1160,97 @@ func _motif(id: StringName, actor_id: StringName, direction: Vector3) -> void:
 	_effects.append(motif)
 	_effect_tweens[motif] = tween
 	tween.chain().tween_callback(_drop_effect.bind(motif))
+
+
+# --- 战斗运功: an exert's or a spell's art --------------------------------------------------------
+
+
+## The look of the art `key` ("exert/recover", "cast/netherbolt": battle_stage.json `arts`): its
+## own, else its sort's ("exert", "cast"), else none.
+static func art_look(key: StringName) -> Dictionary:
+	var arts: Dictionary = BattleArena.data().get("arts", {})
+	var look: Variant = arts.get(String(key), arts.get(String(key).get_slice("/", 0)))
+	return look if look is Dictionary else {}
+
+
+## The exert or spell `line` tells shows in the scene (DECISIONS「战斗运功」): its figure of
+## glowing blocks (BattleArts) in its colour about the one who does it — or about the one it is
+## for (`on_target`: 疗伤他人), or flown at the one it is aimed at — a light of that colour, the
+## doer's stance (`pose`), the base's answer (`stage`: jolt / flare), and the flinch of one it
+## reached and took. An art may need someone there to be aimed at (`needs`: aim) or to have taken
+## (`needs`: took), and name another to show when it has not (`otherwise`: a 召天将 that brought
+## nobody is the words alone). False when there is nothing to show (no such art, its need not
+## met, no figure, the feel off).
+func play_art(line: BattleNarrationLine) -> bool:
+	var look: Dictionary = art_look(line.art)
+	var me: Node3D = _model(line.actor_id)
+	var arts: Dictionary = BattleArena.data().get("arts", {})
+	var need: String = String(look.get("needs", ""))
+	if (need == "aim" and _model(line.art_target) == null) or (need == "took" and not line.art_landed):
+		look = art_look(StringName(String(look.get("otherwise", ""))))
+	var seconds: float = _seconds(_feel().scene_dust_seconds) * float(look.get("seconds", arts.get("seconds", 3.2)))
+	if look.is_empty() or me == null or me.get_parent() == null or seconds <= 0.0:
+		return false
+	var kind: String = String(look.get("kind", "swirl"))
+	var colour := Color(String(look.get("colour", "ffd98a")))
+	var parent: Node3D = me.get_parent()
+	var you: Node3D = _model(line.art_target)
+	var at: Vector3 = me.position
+	var to: Vector3 = parent.to_local(you.global_position) if you != null else at + _direction(me, null) * 2.2
+	var landed: bool = line.art_landed and you != null
+	if bool(look.get("on_target", false)) and you != null:
+		at = to
+	var tween: Tween = create_tween().set_parallel(true)
+	var art: Node3D = BattleArts.play(parent, tween, kind, colour, at, to, seconds, _dust_rng, landed, look)
+	art.name = "Art"
+	art.set_meta(&"art", line.art)
+	_effects.append(art)
+	_effect_tweens[art] = tween
+	tween.chain().tween_callback(_drop_effect.bind(art))
+	var glow: Dictionary = arts.get("light", {})
+	if float(glow.get("energy", 0.0)) > 0.0:
+		_light("ArtLight", parent, at + Vector3.UP * 1.3, colour, glow, seconds)
+	var person: Person = me as Person
+	var pose: String = String(look.get("pose", ""))
+	if person != null and Person.REACTIONS.has(pose):
+		var limb: Tween = _limb(line.actor_id)
+		limb.tween_callback(_react.bind(line.actor_id, pose, 0.0))
+		limb.tween_property(person, "react_amount", 1.0, seconds * 0.2).set_ease(Tween.EASE_OUT)
+		limb.tween_interval(seconds * 0.45)
+		limb.tween_property(person, "react_amount", 0.0, seconds * 0.3).set_ease(Tween.EASE_IN_OUT)
+	match String(look.get("stage", "")):
+		"jolt":
+			_jolt_stage(line.actor_id, true)
+		"flare":
+			_flare_stage()
+	var reach: float = float(BattleArts.REACHES.get(kind, 0.0)) * seconds
+	if reach > 0.0 and landed:
+		_art_tweens = _art_tweens.filter(func(waiting: Tween) -> bool: return waiting.is_valid() and waiting.is_running())
+		var struck: Tween = create_tween()
+		_art_tweens.append(struck)
+		struck.tween_interval(reach)
+		struck.tween_callback(_art_struck.bind(line.art_target))
+	return true
+
+
+## How many an art is on its way to now (tests).
+func arts_waiting() -> int:
+	return _art_tweens.filter(func(waiting: Tween) -> bool: return waiting.is_valid() and waiting.is_running()).size()
+
+
+## An art has reached `id` and took: it flinches in a flash (the figure may be gone by then).
+func _art_struck(id: StringName) -> void:
+	var model: Node3D = _model(id)
+	if model == null:
+		return
+	_flash(model, FLASH_HIT, _seconds(_feel().scene_flash_seconds) * 2.0)
+	var person: Person = model as Person
+	if person == null:
+		return
+	var limb: Tween = _limb(id)
+	limb.tween_callback(_react.bind(id, "hit", 0.7))
+	limb.tween_interval(_seconds(_feel().scene_step_seconds))
+	limb.tween_property(person, "react_amount", 0.0, maxf(0.01, _seconds(_feel().scene_return_seconds))).set_ease(Tween.EASE_OUT)
 
 
 # --- 战斗特效: the light of a swing, what is thrown, the chips, the base -------------------------

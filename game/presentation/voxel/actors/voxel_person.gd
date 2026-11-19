@@ -7,6 +7,7 @@ extends Node3D
 ## everyday person (the colours and parts every figure had before the cards).
 
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
+const States = preload("res://presentation/voxel/actors/voxel_states.gd")
 ## Leg, torso and head lengths and the body's width by `height` (child: a smaller head too).
 const HEIGHTS: Dictionary = {
 	"child": {"legs": 0.7, "torso": 0.72, "head": 0.9, "width": 0.82},
@@ -75,6 +76,11 @@ const REACTIONS: Dictionary[String, Array] = {
 	"hit": [-0.3, 0.5, -0.2, 0.5, -0.15, 0.4, 1.1, -0.2, 0.4, 0.0, 0.0],
 	"dodge": [-0.4, 0.3, -0.9, 0.8, 0.1, 0.1, 0.9, -0.6, 0.5, 0.18, 0.0],
 	"parry": [-1.35, -0.35, -1.2, -0.3, -0.04, 0.15, 0.9, -0.36, 0.34, 0.0, 1.1],
+	# 战斗运功: how one stands to work its 气 (both hands before the belly, square on), to cast
+	# (the off hand flung out ahead: 左手一挥) and to roar (the chest thrown out, the arms wide).
+	"gather": [-0.62, -0.32, -0.62, -0.32, 0.0, -0.2, 1.3, -0.1, 0.1, 0.0, 0.0],
+	"cast": [-0.25, 0.2, -1.5, 0.05, 0.06, -0.3, 0.9, -0.3, 0.28, 0.0, 0.0],
+	"roar": [-0.45, 0.95, -0.45, 0.95, -0.2, -0.2, 0.9, -0.2, 0.2, 0.0, 0.0],
 }
 ## One lying senseless: the arms fallen outward, the legs a little apart.
 const LIMP: Array[float] = [0.0, 0.35, 0.0, 0.35, 0.0, 0.0, 0.7, -0.15, 0.15]
@@ -112,6 +118,15 @@ var react_amount: float = 0.0
 ## How far over it lies, fallen senseless (0 upright .. 1 flat on its back; the view moves it):
 ## the whole body turns back about its heels and its limbs go slack.
 var limp: float = 0.0
+## 状态挂在身上 (DECISIONS「战斗运功」): how worn the figure is (0 fresh .. 1 spent: 气 low, or
+## drugged) — it stoops, its arms sink and it pants; how far it rocks from side to side (radians:
+## drunk) and trembles (units: cold). The view sets them from the character's state.
+var weary: float = 0.0
+var sway: float = 0.0
+var shiver: float = 0.0
+var _weary: float = 0.0
+## person_states.json `weary`: the stoop (radians), the arms' sinking (radians), the panting.
+var _worn: Array[float] = [0.22, 0.35, 1.0]
 ## One lying on its back is raised this far (half its depth would be under the ground).
 const LIE_LIFT: float = 0.2
 ## The body (torso, legs, a seat) under the figure's own node, which the view and the fight's
@@ -187,6 +202,8 @@ func activity(work: String, how: String) -> void:
 
 func _ready() -> void:
 	clock = float(get_index()) * 1.73
+	var worn: Dictionary = States.data().get("weary", {})
+	_worn = [float(worn.get("lean", 0.22)), float(worn.get("arms", 0.35)), float(worn.get("pant", 1.0))]
 	_s = Shapes.new()
 	var tall: Dictionary = HEIGHTS.get(_word("height", "standard"), HEIGHTS["standard"])
 	var broad: Dictionary = BUILDS.get(_word("build", "standard"), BUILDS["standard"])
@@ -640,6 +657,7 @@ func _process(delta: float) -> void:
 		return
 	clock += delta
 	pace += delta * (10.5 if walking else 1.0)
+	_weary = move_toward(_weary, weary, delta*1.5)
 	# The frame's pose first, then only what differs from the one shown is written: a part
 	# set to the place it has is still sent to the renderer with everything on it, every
 	# frame, and redraws the shadows of the lamps about it. One standing still costs nothing.
@@ -661,6 +679,7 @@ func _process(delta: float) -> void:
 		frame.position.y = LIE_LIFT*flat
 	if stance > 0.0 or limp > 0.0:
 		_fight_pose(stance)
+		_tremble()
 		_blink()
 		return
 	var leg_y: float = 0.57*_legs_k - sink
@@ -676,14 +695,47 @@ func _process(delta: float) -> void:
 		var lift: float = -sin((fmod(clock,7.2)-5.8)/1.4*PI)*0.8 if not walking and pose != LIE and fmod(clock,7.2)>5.8 else stride*0.75
 		_turn(arms[0], Vector3(-stride*0.75, 0.0, 0.0))
 		_turn(arms[1], Vector3(lift, 0.0, 0.0))
-		_turn(torso, Vector3.ZERO)
-	# The breath is a hundredth of the figure's height: in steps, a few a second.
-	var rise: float = absf(sin(pace))*0.045 if walking else snappedf(sin(clock*2.1)*0.012, BREATH_STEP)
+		_turn(torso, Vector3.ZERO if posed or pose == LIE else _stoop())
+	var rise: float = absf(sin(pace))*0.045 if walking else _breath()
 	if not is_equal_approx(torso.position.y, rise - sink):
 		torso.position.y = rise - sink
+	_tremble()
 	_blink()
 	if gesturing:
 		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
+
+
+## Where a plain-figure point of the head is on this body, in the torso's space (what is bound
+## round the head sits there on a child and on a tall one alike), and the head's size beside
+## the plain figure's.
+func head_point(at: Vector3) -> Vector3:
+	return _at(at, true)
+
+
+func head_scale() -> float:
+	return _head_k
+
+
+## The body's bend at rest: forward as it is worn, rocking from side to side as it sways; in
+## steps (a part turned is work for the renderer). One fresh and steady stands straight.
+func _stoop() -> Vector3:
+	if _weary <= 0.0 and sway <= 0.0:
+		return Vector3.ZERO
+	return Vector3(snappedf(_weary*_worn[0], 0.01), 0.0, snappedf(sin(clock*1.6)*sway, 0.01))
+
+
+## The breath's rise now: a hundredth of the figure's height, in steps, a few a second; one
+## worn pants (faster and deeper).
+func _breath() -> float:
+	var pant: float = _weary*_worn[2]
+	return snappedf(sin(clock*(2.1 + 3.6*pant))*(0.012 + 0.016*pant), BREATH_STEP)
+
+
+## One that shivers trembles from side to side, in steps.
+func _tremble() -> void:
+	var off: float = snappedf(sin(clock*41.0)*shiver, 0.004) if shiver > 0.0 else 0.0
+	if not is_equal_approx(torso.position.x, off):
+		torso.position.x = off
 
 
 func _blink() -> void:
@@ -861,6 +913,14 @@ func _fight_pose(stance: float) -> void:
 		var answer: Array = REACTIONS[react]
 		for i: int in 11:
 			p[i] = lerpf(p[i], float(answer[i]), react_amount)
+	# One worn stoops over its guard, its arms and its weapon's tip sunk; one that sways rocks.
+	if _weary > 0.0:
+		p[4] += _weary*_worn[0]
+		p[0] += _weary*_worn[1]
+		p[2] += _weary*_worn[1]
+		p[6] -= _weary*_worn[1]
+	if sway > 0.0:
+		p[9] += sin(clock*1.6)*sway
 	var slack: float = clampf(limp, 0.0, 1.0)
 	for i: int in 11:
 		p[i] = lerpf(p[i]*stance, LIMP[i] if i < 9 else 0.0, slack)
@@ -877,7 +937,7 @@ func _fight_pose(stance: float) -> void:
 		sink = hip*(1.0 - cos(maxf(absf(p[7]), absf(p[8]))))
 		_place(legs[1 - _lead], Vector3(p[7], 0.0, 0.0), hip - sink)
 		_place(legs[_lead], Vector3(p[8], 0.0, 0.0), hip - sink)
-	var rise: float = snappedf(sin(clock*2.1)*0.012, BREATH_STEP)*(1.0 - slack) - sink
+	var rise: float = _breath()*(1.0 - slack) - sink
 	if not is_equal_approx(torso.position.y, rise):
 		torso.position.y = rise
 

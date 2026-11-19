@@ -1,0 +1,15 @@
+{
+	"_comment": "状态挂在身上 (DECISIONS「战斗运功」): what a figure's conditions look like on the figure itself, in a fight and out of it (presentation/voxel/actors/voxel_states.gd; the view reads the character's state every `check_seconds`). marks: by condition id (daemon/condition/: ConditionIds) — kind: one of bubbles / flush / drowse / frost / band / drip; colour; and what the body does under it: sway (radians the body rocks from side to side: drunk), shiver (units it trembles: cold), nod (0..1 of the worn stoop: drugged). wound: an open wound's mark, shown while 气's ceiling (eff_kee) is under `below` of its maximum and the condition `stopped_by` is not on the figure (0: never shown). weary: the stoop and the panting of one whose 气 is low — none at `from` of its maximum, whole at `full`; lean (radians the body bends forward), arms (radians the arms sink), pant (how much faster and deeper the breath). Presentation only: nothing here changes a rule or a number.",
+	"check_seconds": 0.25,
+	"marks": {
+		"poison": {"kind": "bubbles", "colour": "7cc24a"},
+		"snake_poison": {"kind": "bubbles", "colour": "b9cc3c"},
+		"rose_poison": {"kind": "bubbles", "colour": "e0527a"},
+		"drunk": {"kind": "flush", "colour": "f08a7a", "sway": 0.09},
+		"slumber_drug": {"kind": "drowse", "colour": "c9b8ea", "nod": 0.6},
+		"iceshock": {"kind": "frost", "colour": "bfe8ff", "shiver": 0.012},
+		"bandaged": {"kind": "band", "colour": "efe6d2"}
+	},
+	"wound": {"kind": "drip", "colour": "b3261e", "below": 0.5, "stopped_by": "bandaged"},
+	"weary": {"from": 0.4, "full": 0.15, "lean": 0.22, "arms": 0.35, "pant": 1.0}
+}

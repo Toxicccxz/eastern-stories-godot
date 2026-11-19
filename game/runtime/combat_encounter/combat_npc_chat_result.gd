@@ -17,6 +17,7 @@ var _telegraph_label: String = ""
 var _ran_special: NpcSpecialAction
 ## 战斗决策层 4: the name the special ran under, as announced (「封」字诀), for the card's title.
 var _special_label: String = ""
+var _special_action: NpcSpecialAction
 ## Native (步玄 A; DECISIONS「打着念」): a fight chant's line — the mark it sets on the player ("" none),
 ## and whether the NPC won the spar with it.
 var _chant_mark: String = ""
@@ -68,6 +69,17 @@ func with_ran_special(action: NpcSpecialAction) -> CombatNpcChatResult:
 
 func ran_special() -> NpcSpecialAction:
 	return _ran_special
+
+
+## 战斗运功: the special whose lines these are (run on the spot or a round after it was
+## announced), for the scene's show of it; null when the chat was none. No rule reads it.
+func with_special_action(action: NpcSpecialAction) -> CombatNpcChatResult:
+	_special_action = action
+	return self
+
+
+func special_action() -> NpcSpecialAction:
+	return _special_action
 
 
 func with_special_label(label: String) -> CombatNpcChatResult:

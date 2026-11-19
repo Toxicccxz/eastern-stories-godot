@@ -21,12 +21,19 @@ func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection
 	var lines: Array[BattleNarrationLine] = []
 	if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null:
 		if event.chat.special() != null:
-			return special(event.chat.special(), cast, event.chat.special_label())
-		lines = seen(event.chat.lines(), cast)
-		# A special that attacked nobody (柳绘心's 「封」字诀 seen through): still her special,
-		# titled on her card by the name she announced (DECISIONS「战斗内容」).
-		if not lines.is_empty() and not event.chat.special_label().is_empty():
-			lines[0].with_special(event.actor_id, event.chat.special_label())
+			lines = special(event.chat.special(), cast, event.chat.special_label())
+		else:
+			lines = seen(event.chat.lines(), cast)
+			# A special that attacked nobody (柳绘心's 「封」字诀 seen through): still her special,
+			# titled on her card by the name she announced (DECISIONS「战斗内容」).
+			if not lines.is_empty() and not event.chat.special_label().is_empty():
+				lines[0].with_special(event.actor_id, event.chat.special_label())
+		# 战斗运功: an exert or a spell shows in the scene.
+		var art: StringName = npc_art(event.chat.special_action())
+		if not lines.is_empty() and not art.is_empty():
+			# It took: it hurt the one it was aimed at, or it brought someone (召天将).
+			var aim: StringName = aimed(event.chat.lines(), event.actor_id)
+			lines[0].with_art(event.actor_id, art, aim, (not aim.is_empty() and event.chat.damaged(aim)) or not event.chat.joins().is_empty())
 		return lines
 	if event.kind == CombatSchedulerEvent.Kind.SPECIAL_EFFECT_ENDED and event.special != null:
 		return special(event.special, cast)
@@ -234,6 +241,47 @@ func special(report: SpecialReport, cast: BattlePresentationProjection, label: S
 	if not lines.is_empty():
 		lines[0].with_special(report.me_id, special_title(label, lines[0].text))
 	return lines
+
+
+## 战斗运功 (DECISIONS「战斗运功」): the name of the art an exert function or a spell shows in
+## the scene (battle_stage.json `arts`): "exert/<function>", "cast/<spell>".
+static func art_key(kind: String, function_id: StringName) -> StringName:
+	return &"" if function_id.is_empty() else StringName("%s/%s" % [kind, function_id])
+
+
+## The art of the special an NPC ran: its exert function's or its spell's; a perform has none
+## (its blows show it), nor has a surrender.
+static func npc_art(action: NpcSpecialAction) -> StringName:
+	if action == null:
+		return &""
+	match action.kind:
+		NpcSpecialAction.Kind.EXERT:
+			return art_key("exert", action.function_id)
+		NpcSpecialAction.Kind.CAST:
+			return art_key("cast", action.function_id)
+	return &""
+
+
+## The art of the player's action `action_id`: an exert's or a spell's (a spell cast at
+## oneself that has a form of its own for it — 遁 beside 困 — is "cast/<spell>_self"), &"" for
+## any other.
+static func action_art(action_id: StringName) -> StringName:
+	var exert: StringName = CombatExertTacticalPolicy.function_for(action_id)
+	if ExertFunctions.has(exert):
+		return art_key("exert", exert)
+	var spell_id: StringName = CombatCastTacticalPolicy.function_for(action_id)
+	var spell: CastFunction = SpecialFunctions.cast(spell_id)
+	if spell != null:
+		return art_key("cast", StringName("%s_self" % spell_id) if CombatCastTacticalPolicy.is_self(action_id) and not spell.self_label.is_empty() else spell_id)
+	return &""
+
+
+## Whom a special's lines are aimed at: the first $n that is not `actor_id` itself, &"" none.
+static func aimed(lines: Array[VisionLine], actor_id: StringName) -> StringName:
+	for line: VisionLine in lines:
+		if not line.target_id.is_empty() and line.target_id != actor_id:
+			return line.target_id
+	return &""
 
 
 ## The name a special shows on the card: `label` when the caller knows it, else the first
