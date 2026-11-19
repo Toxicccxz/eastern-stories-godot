@@ -209,7 +209,7 @@ func _process(_delta: float) -> void:
 func _place(entry: Dictionary) -> void:
 	var view: WorldVoxelView = entry["view"]
 	var label: Label = entry["label"]
-	if view == null or not is_instance_valid(view) or view.camera == null or not view.actors.has(entry["id"]):
+	if view == null or not is_instance_valid(view) or view.camera == null or not view.camera.is_inside_tree() or not view.actors.has(entry["id"]):
 		label.visible = false
 		return
 	var actor: Node3D = view.actors[entry["id"]]

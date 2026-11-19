@@ -51,6 +51,9 @@ var _choice_line: BattleNarrationLine = null
 ## fight came to wait on it): 了结 / 放过 take the confirm key once it passes the feel's
 ## knockout_choice_guard_ms (review 2026-11-19).
 var _choice_told_for: float = -1.0
+## A choice was made since the last refresh: if another still waits, his question is told and
+## guarded afresh (the key that chose the first must not choose the next).
+var _choice_made: bool = false
 ## The right panel's card whose 了结 / 放过 the last refresh wired (the focus given once).
 var _wired_choice: BattleParticipantCard = null
 var _relay_queued: bool = false
@@ -1701,14 +1704,23 @@ func _hostile_to_player(id: StringName) -> bool:
 ## DECISIONS「了结 / 放过」: the button is the choice (no second question).
 func _finish_downed(id: StringName) -> void:
 	if _intent != null and _projection.active:
-		_withdraw_choice()
+		_chose()
 		_intent.finish_downed(id)
 
 
 func _spare_downed(id: StringName) -> void:
 	if _intent != null and _projection.active:
-		_withdraw_choice()
+		_chose()
 		_intent.spare_downed(id)
+
+
+## A choice made: its question withdrawn if not told yet, and the buttons take no confirm key
+## until the next one waiting (if any) has been asked afresh.
+func _chose() -> void:
+	_withdraw_choice()
+	_choice_told_for = -1.0
+	_choice_made = true
+	_push_ready()
 
 
 ## The question not told yet comes out of the strip's queue: the choice is made (or nobody waits
@@ -1758,7 +1770,9 @@ func _awaiting_choice() -> bool:
 ## pulse, without waiting for a press; the focus goes to 「放过」 (keys and pad reach it).
 func _ask_choice_when_stuck() -> void:
 	var awaiting: bool = _awaiting_choice()
-	var newly: bool = awaiting and not _was_awaiting
+	# Newly waiting, or another still waiting after a choice: the question told and guarded afresh.
+	var newly: bool = awaiting and (not _was_awaiting or _choice_made)
+	_choice_made = false
 	if newly:
 		_choice_told_for = -1.0
 		_tell_choice()
@@ -1767,6 +1781,7 @@ func _ask_choice_when_stuck() -> void:
 		_choice_told_for = -1.0
 	_was_awaiting = awaiting
 	_wire_choice(awaiting, newly)
+	_push_ready()
 
 
 ## Whether 了结 / 放过 take the confirm key now (review 2026-11-19): always while someone still
@@ -1783,6 +1798,12 @@ func _confirm_ready() -> bool:
 func _arm_choice(delta: float) -> void:
 	if _choice_told_for >= 0.0:
 		_choice_told_for += delta
+	_push_ready()
+
+
+## The cards told now (also as the fight comes to wait or a choice is made, wherever the refresh
+## runs from: the focus never reaches 「放过」 before its buttons know to hold the key).
+func _push_ready() -> void:
 	var ready: bool = _confirm_ready()
 	for card: BattleParticipantCard in _cards:
 		card.confirm_ready = ready

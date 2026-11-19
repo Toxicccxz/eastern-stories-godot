@@ -37,7 +37,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
 	await _test_alone(tree, session)
 	await _test_confirm_rhythm(tree, session, &"green.npc.worker1", false)
-	await _test_confirm_rhythm(tree, session, &"green.npc.woman2", true)
+	await _test_confirm_rhythm(tree, session, &"green.npc.oldman2", true)
+	await _test_click_then_keys(tree, session)
+	await _test_key_twice(tree, session)
 	await _test_two(tree, session)
 	await _test_auto_verdict(tree, session)
 	BattlePace.manual_turns = manual_before
@@ -102,8 +104,10 @@ func _test_confirm_rhythm(tree: SceneTree, session: WorldSessionController, npc_
 	var card: BattleParticipantCard = ui._panel_card(1)
 	_check(card != null and card.participant_id() == npc.character_id and tree.root.gui_get_focus_owner() == card.spare_button, "%s: the focus on 放过" % device)
 	if card == null:
+		_end_fight(coordinator) # TEST-ONLY: the fight closed, so the next part starts clean
 		pacing.feel = feel_before
 		session.set_process(false)
+		await _settle(tree, session)
 		return
 	if pad:
 		# A mouse click is never held back, even before the guard has passed.
@@ -135,6 +139,126 @@ func _test_confirm_rhythm(tree: SceneTree, session: WorldSessionController, npc_
 	session.set_process(false)
 	pacing.feel = feel_before
 	await _settle(tree, session)
+
+
+## Two down in one room, nobody standing (TEST-ONLY: the second comes to the first one's help,
+## both knocked out), the feel on, in 手动. `room` holds both. Returns [the first attacked, the
+## second] (empty: the room could not be set up; the fight, if any, closed).
+func _two_down(tree: SceneTree, session: WorldSessionController, room: StringName, first_id: StringName, second_id: StringName) -> Array:
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var map_of: WorldMapController = session.world_map_of(room)
+	var first: NpcRuntimeState = null if map_of == null else _sof._first(map_of, first_id)
+	var second: NpcRuntimeState = null if map_of == null else _sof._first(map_of, second_id)
+	_check(first != null and second != null, "%s and %s standing in %s" % [first_id, second_id, room])
+	if first == null or second == null:
+		return []
+	var map: WorldMapController = await _sof._beside(tree, session, first)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	BattlePace.manual_turns = true
+	map.select_npc(first.character_id)
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s (手动, the feel on)" % first.definition().display_name)
+	var joins: Array[CombatJoin] = [CombatJoin.new(second.character_id, [player.character_id] as Array[StringName])]
+	coordinator.resolution().admit(session.encounter_combat_bindings(coordinator.active_encounter()), CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(joins)) # TEST-ONLY: comes to the first one's help
+	player.relationship.mark_lethal_target(second.character_id) # TEST-ONLY: as if the player had 攻击 them too
+	await _frames(tree, 3)
+	_sof._fell(coordinator, first)
+	_sof._fell(coordinator, second)
+	await _frames(tree, 2)
+	if coordinator.held_victims().size() != 2:
+		_check(false, "both down and held: %s" % [coordinator.held_victims()])
+		_end_fight(coordinator)
+		await _settle(tree, session)
+		return []
+	return [first, second]
+
+
+## Review 2026-11-19 (finding of the fresh review): the first of two chosen by a click before any
+## question was told — the keys must come to work for the second (asked afresh, guarded afresh),
+## not stay dead for good.
+func _test_click_then_keys(tree: SceneTree, session: WorldSessionController) -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var feel_before: FeelDefinition = pacing.feel
+	TestFeel.use()
+	var both: Array = await _two_down(tree, session, &"green.shop0_house", &"green.npc.woman1", &"green.npc.shen")
+	if both.is_empty():
+		pacing.feel = feel_before
+		return
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var ui: BattlePresentationController = _ui(session)
+	var card: BattleParticipantCard = ui._panel_card(1)
+	_check(card != null and card.choice_row.visible and not ui._confirm_ready() and _told_count(ui) == 0, "the first's panel; the question not told yet")
+	if card == null:
+		_end_fight(coordinator)
+		pacing.feel = feel_before
+		await _settle(tree, session)
+		return
+	_click(tree, card.spare_button)
+	await _frames(tree, 2)
+	_check(coordinator.held_victims().size() == 1, "a click spares the first")
+	var waited: int = await _until_ready(tree, ui)
+	card = ui._panel_card(1)
+	_check(ui._confirm_ready() and _told_count(ui) >= 1 and card != null and coordinator.held_victims().has(card.participant_id()) and tree.root.gui_get_focus_owner() == card.spare_button, "the second asked afresh; the keys work for him (%d frames)" % waited)
+	await _key(tree, KEY_ENTER)
+	_check(coordinator.held_victims().is_empty(), "Enter spares the second")
+	coordinator.advance_scheduler(0.0)
+	await _frames(tree, 2)
+	_check(not coordinator.has_active_encounter(), "nobody left: the fight is over")
+	for _frame: int in 180:
+		if not ui._holding():
+			break
+		await tree.process_frame
+	pacing.feel = feel_before
+	await _settle(tree, session)
+
+
+## Review 2026-11-19 (finding of the fresh review): the key that spares the first of two must not
+## spare the second at once (a double press, or one still pressing to order moves): after a choice
+## the next one waiting is asked and guarded afresh.
+func _test_key_twice(tree: SceneTree, session: WorldSessionController) -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var feel_before: FeelDefinition = pacing.feel
+	TestFeel.use()
+	var both: Array = await _two_down(tree, session, &"green.house0_house", &"green.npc.woman1", &"green.npc.woman2")
+	if both.is_empty():
+		pacing.feel = feel_before
+		return
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var ui: BattlePresentationController = _ui(session)
+	var waited: int = await _until_ready(tree, ui)
+	_check(ui._confirm_ready(), "the first asked; the keys work (%d frames)" % waited)
+	await _key(tree, KEY_ENTER)
+	_check(coordinator.held_victims().size() == 1, "Enter spares the first")
+	await _key(tree, KEY_ENTER)
+	_check(coordinator.held_victims().size() == 1, "Enter again at once: the second is not spared by it")
+	waited = await _until_ready(tree, ui)
+	_check(ui._confirm_ready() and waited >= 10, "the second asked and guarded afresh (%d frames)" % waited)
+	await _key(tree, KEY_ENTER)
+	_check(coordinator.held_victims().is_empty(), "then Enter spares the second")
+	coordinator.advance_scheduler(0.0)
+	await _frames(tree, 2)
+	_check(not coordinator.has_active_encounter(), "nobody left: the fight is over")
+	for _frame: int in 180:
+		if not ui._holding():
+			break
+		await tree.process_frame
+	pacing.feel = feel_before
+	await _settle(tree, session)
+
+
+## Frames until 了结 / 放过 take the confirm key (at most 300).
+func _until_ready(tree: SceneTree, ui: BattlePresentationController) -> int:
+	var waited: int = 0
+	while not ui._confirm_ready() and waited < 300:
+		await tree.process_frame
+		waited += 1
+	return waited
+
+
+## TEST-ONLY: whoever is held let be, the fight closed (a part that could not go on).
+func _end_fight(coordinator: CombatEncounterCoordinator) -> void:
+	for id: StringName in coordinator.held_victims():
+		coordinator.spare_downed(id)
+	coordinator.advance_scheduler(0.0)
 
 
 ## One against one in 手动: the 采石工 falls; nobody is left to strike, every move dims — the
