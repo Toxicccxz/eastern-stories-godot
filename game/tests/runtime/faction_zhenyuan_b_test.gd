@@ -84,6 +84,7 @@ func _test_votes() -> void:
 	_check(_heard(state, JIANQIU, "到此为止", "多谢") and state.marks.has("振远旧账到此为止") and not state.marks.has("振远的票随了到此为止") and _holds(state, "assembly.zhenyuan.old"), "到此为止 after 入席: the vote stays 旧盟主")
 	state = _fresh(["终章", "陈剑秋说了抚恤银", "入了虹台的席"])
 	_check(_heard(state, TIANXING, "查到底", "查到底") and state.marks.has("振远旧账查到底") and not state.marks.has("振远的票随了查到底") and _holds(state, "assembly.zhenyuan.yan"), "查到底 after 入席: the vote stays 颜违")
+	_check(_heard(state, TIANXING, "虹台", "剑秋去坐") and not state.marks.has("振远肯听你的") and _heard(state, JIANQIU, "虹台", "振远这一票投颜违"), "and neither says otherwise: 陈天星 does not claim the vote, 陈剑秋 says 颜违")
 	state = _fresh(["终章", "陈剑秋说了抚恤银", "镖路查清了"])
 	_check(_heard(state, TIANXING, "查到底", "查到底") and state.marks.has("振远的票随了查到底") and _holds(state, "assembly.zhenyuan.old"), "查到底 before 入席: the vote follows")
 	_check(_heard(_fresh(["终章", "大会散了"]), TIANXING, "虹台", "照旧走镖") and _heard(_fresh(["终章", "大会散了", "振远旧账查到底"]), TIANXING, "虹台", "县衙"), "after the 虹台: the 县衙 only for the one who dug")

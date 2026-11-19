@@ -700,6 +700,14 @@ func _on_players_side(killer: CombatSliceCharacterBinding, victim: CombatSliceCh
 	var player_id: StringName = _player.character_id
 	if killer.character_id == player_id or _map.npcs.summoners.get(killer.character_id, &"") == player_id:
 		return true
+	# The fight's own sides first: a helper still counts when the player already lies knocked out.
+	var coordinator: CombatEncounterCoordinator = null if _map.session == null else _map.session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = null if coordinator == null or not coordinator.has_active_encounter() else coordinator.active_encounter()
+	if encounter != null:
+		var mine: CombatParticipant = encounter.participant_for(player_id)
+		var theirs: CombatParticipant = encounter.participant_for(killer.character_id)
+		if mine != null and theirs != null:
+			return mine.side_id == theirs.side_id
 	var player: CombatSliceCharacterBinding = null
 	for candidate: CombatSliceCharacterBinding in participants:
 		if candidate.character_id == player_id:
