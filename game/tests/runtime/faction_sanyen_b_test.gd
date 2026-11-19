@@ -86,6 +86,10 @@ func _test_votes() -> void:
 	_check(_holds(state, "assembly.sanyen.stated") and _holds(state, "assembly.sanyen.yan") and not _holds(state, "assembly.sanyen.old"), "守寺: 颜违")
 	state = _fresh(["山烟寺的票随了守寺", "山烟寺改投旧盟主"])
 	_check(_holds(state, "assembly.sanyen.yan") and not _holds(state, "assembly.sanyen.old"), "守寺 wins over an earlier 改投")
+	state.marks["终章"] = 1 # TEST-ONLY
+	_check(_heard(state, XUANZHI, "虹台", "守清规") and state.marks.has("山烟寺肯听你的"), "and 玄智 says so (the split's rules before 改投's)")
+	var gate: Array[NpcInquiryRule] = GameContent.catalog().npc(MONK).talk().inquiry_rules("经")
+	_check(gate.any(func(rule: NpcInquiryRule) -> bool: return rule.asker_marks == ["龙若说了三十年前", "守了寺规"] and rule.asker_carries.is_empty() and rule.lines.any(func(line: NpcLine) -> bool: return line.text.contains("不理你"))), "the rule kept and no leaf in hand: the 头陀 turns away, as in A")
 	state = _fresh(["终章", "山烟寺的票随了收经"])
 	_check(_heard(state, XUANZHI, "虹台", "容得下西来的经") and state.marks.has("山烟寺肯听你的"), "收经: 玄智 would hand the vote over")
 	_check(_heard(state, XUANZHI, "这一票", "听施主的") and _holds(state, "assembly.sanyen.self") and not _holds(state, "assembly.sanyen.old") and not _holds(state, "assembly.sanyen.yan"), "山烟寺听你的")
@@ -211,7 +215,7 @@ func _test_guard(tree: SceneTree, session: WorldSessionController) -> void:
 	hall = await _enter(tree, session, HALL, HALL_POINT)
 	_check(_said(_ask(hall, _first(session, HALL, XUANZHI), "虹台"), "颜施主") and state.marks.has("山烟寺肯听你的") and _holds(state, "assembly.sanyen.yan"), "虹台: 颜违, and the vote hers if she asks")
 	yard = await _enter(tree, session, YARD, YARD_POINT)
-	_check(_said(_ask(yard, _first(session, YARD, LAMA), "头陀"), "今天也不收"), "龙若: he came back with it")
+	_check(_said(_ask(yard, _first(session, YARD, LAMA), "头陀"), "往西去了"), "龙若: the leaf came back, the man went on west")
 
 
 ## TEST-ONLY: `student` learns `skill_id` from `teacher_id` (as sanyen_family_test's _learn).

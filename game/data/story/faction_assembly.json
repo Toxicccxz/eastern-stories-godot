@@ -493,6 +493,27 @@
 							},
 							{
 								"cond": "assembly.sanyen.old"
+							},
+							{
+								"not": {
+									"mark": "山烟寺的票随了收经"
+								}
+							}
+						]
+					}
+				},
+				{
+					"label": "山烟寺：投旧盟主——收了西来的经",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.sanyen.stated"
+							},
+							{
+								"cond": "assembly.sanyen.old"
+							},
+							{
+								"mark": "山烟寺的票随了收经"
 							}
 						]
 					}

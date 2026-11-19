@@ -20969,11 +20969,6 @@ msgstr ""
 msgid "阿弥陀佛。山烟寺这一票，在施主手里。"
 msgstr ""
 
-#. common.npc.bonze.master inquiry.虹台.rules.say
-#: data/common/npcs.json
-msgid "阿弥陀佛。山烟寺这一票，投旧盟主。"
-msgstr ""
-
 #. common.npc.bonze.master inquiry.虹台.rules.lines.say
 #: data/common/npcs.json
 msgid "阿弥陀佛。山烟寺收了西来的经。容得下西来的经，也容得下别人——这一票投旧盟主。"
@@ -21002,6 +20997,11 @@ msgstr ""
 #. common.npc.bonze.master inquiry.虹台.rules.lines.say
 #: data/common/npcs.json
 msgid "可那片叶子，是施主陪着送回去的。这一票，施主要，就是施主的。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。山烟寺这一票，投旧盟主。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.虹台.rules.lines.say
@@ -21066,7 +21066,7 @@ msgstr ""
 msgid ""
 "收经：独眼头陀受戒入寺，婆萝蜜多心经收进山烟寺。\n"
 "流云轩从此治得了鬼卒的寒；头陀在流云轩教婆萝蜜多心经，谁都能学（只这一门）。\n"
-"容得下西来的经，也容得下别人：正月十七虹台上，山烟寺这一票投旧盟主。\n"
+"容得下西来的经，也容得下别人：正月十七虹台上，山烟寺这一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）。\n"
 "守寺那条路就没了。要这么说吗？"
 msgstr ""
 
@@ -21138,7 +21138,7 @@ msgstr ""
 msgid ""
 "守寺：本寺一脉，经交还龙若法王，头陀把它带回番坊，金门外从此空了。\n"
 "玄智肯把莲华心法（连同它的根基大乘佛法）教给不是本寺的人。流云轩照旧治不了鬼卒的寒。\n"
-"山烟寺守清规：正月十七虹台上，这一票投颜违。\n"
+"山烟寺守清规：正月十七虹台上，这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n"
 "收经那条路就没了。要这么说吗？"
 msgstr ""
 
@@ -29364,6 +29364,11 @@ msgstr ""
 #. faction.assembly checklist.label
 #: data/story/faction_assembly.json
 msgid "山烟寺：投旧盟主——容神教"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "山烟寺：投旧盟主——收了西来的经"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -43419,6 +43424,12 @@ msgstr ""
 #: data/sanyen/npcs.json
 msgid ""
 "独眼头陀把贝叶揣进怀里，大步跨进了金门，往大雄宝殿去了。\n"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.line
+#: data/sanyen/npcs.json
+msgid ""
+"（龙若法王给你的那片贝叶，要举到他眼前。）\n"
 msgstr ""
 
 #. sanyen.npc.monk inquiry.经.rules.say
@@ -62810,7 +62821,7 @@ msgstr ""
 
 #. fanfang.npc.lama_master inquiry.头陀.rules.say
 #: data/fanfang/npcs.json
-msgid "他回来了，经也回来了。三十年前不收，今天也不收。阿弥陀佛——收不收，是山烟寺的事。"
+msgid "经送回来了。他没进寺门，把经匣放在门槛上，往西去了。三十年前不收，今天也不收。阿弥陀佛——收不收，是山烟寺的事。"
 msgstr ""
 
 #. fanfang.npc.lama_master inquiry.头陀.rules.say
@@ -73604,7 +73615,7 @@ msgstr ""
 
 #. native.npc.toutuo_liuyun inquiry.玄智
 #: data/native/npcs.json
-msgid "方丈让我管流云轩的火。……他是个守规矩的人，今天破了一回。"
+msgid "方丈让我管流云轩的火。……他是个守规矩的人，为我破了一回。"
 msgstr ""
 
 #. native.npc.toutuo_liuyun inquiry.师父
