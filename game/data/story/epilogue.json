@@ -456,6 +456,49 @@
 					]
 				},
 				{
+					"id": "sanyen",
+					"place": "sanyen.grounds",
+					"title": "日照山",
+					"lines": [
+						{
+							"text": "日照山的流云轩里，多了一个独眼的头陀。被鬼卒抓伤的人抬上山来，他一掌按下去，寒气冒成一缕白烟。",
+							"when": {
+								"mark": "山烟寺收了经"
+							}
+						},
+						{
+							"text": "头陀在流云轩教人婆萝蜜多心经。玄智说，西来的经和本寺的经放在一个经柜里，没有打架。",
+							"when": {
+								"mark": "山烟寺收了经"
+							}
+						},
+						{
+							"text": "日照山金门外，那块地方空了。山烟寺还是三百年前的山烟寺：外人不进流云轩，外来的经，也不进。",
+							"when": {
+								"mark": "山烟寺守了寺"
+							}
+						},
+						{
+							"text": "被鬼卒抓伤的人抬上山来，玄智守着，三天三夜。有的救回来了，有的没有。",
+							"when": {
+								"mark": "山烟寺守了寺"
+							}
+						},
+						{
+							"text": "乔阴的老葛每年秋天挑一担柴上日照山，放在金门边上，说是还那一掌的情。",
+							"when": {
+								"mark": "头陀进了流云轩"
+							}
+						},
+						{
+							"text": "乔阴的老葛用左手砍柴，砍得慢。逢人就说：命是山烟寺的方丈守回来的。",
+							"when": {
+								"mark": "守了寺规"
+							}
+						}
+					]
+				},
+				{
 					"id": "black_robe",
 					"place": "niling.gate",
 					"title": "黑衣人",
@@ -937,7 +980,8 @@
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — the 乔阴县城 card's two lines for the split on 福林大街 (官差 in the lanes, or none).",
 				"native: 势力线第二批 官府 B (剧情总纲 §4「官府」; 计划 势力线第二批_计划.md §6 官府 B, §7 第 4 行, §9 第 8、10 条, §10 第 8 行, §11 Q2 Q8, owner 2026-11-16「都按照推荐来」, 2026-11-17「都照推荐」; DECISIONS「官府 B」) — the 天驼关 card (整肃 or 揭发) and the 乔阴县城 card's line for the case opened again.",
 				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」) — the 茅山 card (烧: the seventh 函 gone for good, the 花匠 back with 庾清尘; 留: the 花匠 upstairs teaching the 北麓's words, the children who came down)",
-				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — the 乔阴 card: the 曼雩台 with two (回家) or one (作证), the case reopened by 骆建章's 供状; the 京师 card: 作证 by 第九章's three ends (exiled; at the court that day; the 供状 in the 刑部 and 庾子建 still at the 兵部)"
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」) — the 乔阴 card: the 曼雩台 with two (回家) or one (作证), the case reopened by 骆建章's 供状; the 京师 card: 作证 by 第九章's three ends (exiled; at the court that day; the 供状 in the 刑部 and 庾子建 still at the 兵部)",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — the 日照山 card (after 茅山): 收经 or 守寺, and 老葛 by the small choice (头陀进了流云轩 / 守了寺规)"
 			]
 		},
 		{

@@ -6,9 +6,10 @@
 			"line": "faction",
 			"region": "日照山",
 			"sources": [
-				"native: 势力线第三批 山烟寺 A (剧情总纲 §4 第 4 条「山烟寺」, §3 第五章 (树洞里的鬼影是鬼卒); 计划 势力线第三批_计划.md §6 山烟寺 A, §2「谁能走」「互斥」, §8 第 7 行, §10 第 8 条, §12 Q1 Q5, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 A」). daemon/class/bonze/master.c (玄智: 剃度, then 拜师; only men), d/sanyen/heal_room.c (流云轩: 是玄智方丈为人看病的地方, 也是存放药草的地方), d/sanyen/npc/drug_bonze.c (药僧), d/sanyen/drug_field.c (药圃), d/sanyen/npc/monk.c (独眼头陀: 似乎不是山烟寺的僧人, lotusforce 90), d/snow/npc/herbalist.c (杨掌柜: 年轻时曾经跟著山烟寺的玄智和尚学医), d/choyin/tree_tomb.c (树王坟). The line shows for 玄智's own (shaved and knelt, as ES2) and for a 流云轩的帮手 (after 第五章 one who asked the 药僧 「病人」; a woman too, not shaved; not one who took 朱鸿雪's order: 山烟寺 and 东方神教 exclude each other). The 樵夫 老葛 clawed by a 鬼卒 by the 树王坟, 玄智's three herbs (附子 from the 药圃, 麝香 from 杨掌柜, 鬼臼 by the 树王坟 where a 鬼卒 stands while it is wanted), the 药僧's 汤药 that does not drive the cold out (知客 for 山烟寺's own), and the small choice: the 独眼头陀 led into 流云轩 (he follows once; 老葛 healed on the spot; 不守寺规) or the rule kept (玄智 keeps him three days and nights; his life saved, his right arm lost) are the plan's (续写); either way someone says the 头陀's 经 came from 番坊, and the line stops at a stub step `west` that 山烟寺 B fills."
+				"native: 势力线第三批 山烟寺 A (剧情总纲 §4 第 4 条「山烟寺」, §3 第五章 (树洞里的鬼影是鬼卒); 计划 势力线第三批_计划.md §6 山烟寺 A, §2「谁能走」「互斥」, §8 第 7 行, §10 第 8 条, §12 Q1 Q5, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 A」). daemon/class/bonze/master.c (玄智: 剃度, then 拜师; only men), d/sanyen/heal_room.c (流云轩: 是玄智方丈为人看病的地方, 也是存放药草的地方), d/sanyen/npc/drug_bonze.c (药僧), d/sanyen/drug_field.c (药圃), d/sanyen/npc/monk.c (独眼头陀: 似乎不是山烟寺的僧人, lotusforce 90), d/snow/npc/herbalist.c (杨掌柜: 年轻时曾经跟著山烟寺的玄智和尚学医), d/choyin/tree_tomb.c (树王坟). The line shows for 玄智's own (shaved and knelt, as ES2) and for a 流云轩的帮手 (after 第五章 one who asked the 药僧 「病人」; a woman too, not shaved; not one who took 朱鸿雪's order: 山烟寺 and 东方神教 exclude each other). The 樵夫 老葛 clawed by a 鬼卒 by the 树王坟, 玄智's three herbs (附子 from the 药圃, 麝香 from 杨掌柜, 鬼臼 by the 树王坟 where a 鬼卒 stands while it is wanted), the 药僧's 汤药 that does not drive the cold out (知客 for 山烟寺's own), and the small choice: the 独眼头陀 led into 流云轩 (he follows once; 老葛 healed on the spot; 不守寺规) or the rule kept (玄智 keeps him three days and nights; his life saved, his right arm lost) are the plan's (续写); either way someone says the 头陀's 经 came from 番坊, and the line stops at a stub step `west` that 山烟寺 B fills.",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」). daemon/class/lama/master.c (龙若法王, 日陀罗寺 住持), daemon/skill/bolomiduo.c (婆萝蜜多心经: a 内功 with no 运功 files), d/green/npc/master.c (the draft that has 龙若 found 绝尘派: here 龙若 let 玄尘 go and 玄尘 founded it). The stub `west` filled (龙若「头陀」: thirty years ago, the two sutras, the abbot who would not open the case, 玄尘 who went after him, the 头陀 sent back ten years ago, the eye he lost to the fire sutra; the 贝叶 with his line on the margin), the 贝叶 shown to the 头陀 at the 金门 (he goes up to the hall, for good, even for one who kept the rule: he reads his master's hand), the scene in the 大雄宝殿 (玄智, the 头陀, you), the split: 收经 (the 头陀 ordained, his hair kept; 流云轩 cures the 鬼卒's cold; he teaches the 婆萝蜜多心经 to anyone; 山烟寺 votes the old 盟主) or 守寺 (the leaf back to 龙若, the 头陀 gone, the 金门 bare; 玄智 teaches one not of 山烟寺 the 莲华心法 and its 大乘佛法; 山烟寺 votes 颜违); 首座 for 山烟寺's own either way. 续写."
 			],
-			"summary": "流云轩里躺着一个被鬼卒抓伤的乔阴樵夫，伤口是冷的，玄智的药赶不出那股寒。金门外站了十年、从不说话的独眼头陀开口了：「我能。」——可寺规不许外人进流云轩。",
+			"summary": "流云轩里躺着一个被鬼卒抓伤的乔阴樵夫，玄智的药赶不出那股寒；金门外站了十年的独眼头陀开口了：「我能。」他那部火性的经，三十年前从番坊来过一回，山烟寺没有收——这一回，收不收。",
 			"starts": {
 				"any": [
 					{
@@ -186,7 +187,7 @@
 					"done": {
 						"mark": "龙若说了三十年前"
 					},
-					"text": "龙若法王说起了三十年前的事。",
+					"text": "龙若法王说起了三十年前：师父从天竺背来的两部经，当年不肯开经匣的住持，追出山门的玄尘，十年前派回去的头陀和他那只眼。他给了你一片贝叶：「收不收，是山烟寺的事。」",
 					"target": {
 						"map": "fanfang.lama_temple",
 						"zone": "fanfang.temple_yard",
@@ -208,6 +209,90 @@
 										}
 									}
 								]
+							}
+						}
+					]
+				},
+				{
+					"id": "leaf",
+					"objective": "回日照山，把龙若法王的贝叶拿给金门外的独眼头陀看（问他「经」）。",
+					"done": {
+						"mark": "头陀上了大殿"
+					},
+					"text": "独眼头陀认出了叶边师父的字。十年里第一次，他跨进了金门，往大雄宝殿去了。",
+					"target": {
+						"map": "sanyen.grounds",
+						"zone": "sanyen.road1",
+						"npcs": [
+							"sanyen.npc.monk"
+						]
+					}
+				},
+				{
+					"id": "meet",
+					"objective": "头陀上了大雄宝殿。去大殿：玄智、头陀、你。（话听了一半就走开的：收经问玄智「收经」，守寺问玄智「守寺」。）",
+					"done": {
+						"any": [
+							{
+								"mark": "玄智和头陀说完了话"
+							},
+							{
+								"mark": "山烟寺收了经"
+							},
+							{
+								"mark": "山烟寺守了寺"
+							}
+						]
+					},
+					"text": "头陀把贝叶放在佛前，只问一句：收，还是不收。玄智说起三十年前走掉的玄尘师弟，回过头来问你。",
+					"target": {
+						"map": "sanyen.hall_house",
+						"zone": "sanyen.temple",
+						"npcs": [
+							"native.npc.toutuo_hall",
+							"common.npc.bonze.master"
+						]
+					}
+				},
+				{
+					"id": "split",
+					"weight": "big",
+					"objective": "收经（问玄智「收经」）：头陀受戒入寺，流云轩从此治得了鬼卒的寒，头陀在流云轩教婆萝蜜多心经，谁都能学；容得下西来的经，也容得下别人，虹台上山烟寺投旧盟主。守寺（问玄智「守寺」）：本寺一脉，经交还龙若，头陀回番坊，金门外空了；玄智肯教外人莲华心法；虹台上山烟寺投颜违。两边山烟寺的弟子都晋首座。",
+					"target": {
+						"map": "sanyen.hall_house",
+						"zone": "sanyen.temple",
+						"npcs": [
+							"native.npc.toutuo_hall",
+							"common.npc.bonze.master"
+						]
+					},
+					"options": [
+						{
+							"id": "take",
+							"done": {
+								"mark": "山烟寺收了经"
+							},
+							"text": "山烟寺收了西来的经。独眼头陀在佛前受了戒，去了流云轩；鬼卒的寒，往后山烟寺赶得出去了。",
+							"reward": {
+								"deed": "把番坊的婆萝蜜多心经带回日照山，山烟寺收了经",
+								"rank": {
+									"family": "family.sanyen",
+									"title": "首座"
+								}
+							}
+						},
+						{
+							"id": "guard",
+							"done": {
+								"mark": "山烟寺守了寺"
+							},
+							"text": "山烟寺守了本寺一脉。玄智把贝叶交还头陀，头陀回了番坊，金门外那块地方空了。",
+							"reward": {
+								"deed": "陪山烟寺守住了本寺一脉，把西来的经送回了番坊",
+								"rank": {
+									"family": "family.sanyen",
+									"title": "首座"
+								}
 							}
 						}
 					]

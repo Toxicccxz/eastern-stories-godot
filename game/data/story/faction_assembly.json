@@ -11,7 +11,8 @@
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」): 振远's row follows the 旧账 split, and 振远 may 听你的.",
 				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」): 花紫会's row follows the split on 福林大街, and 花紫会 may 听你的.",
 				"native: 势力线第三批 茅山 B (剧情总纲 §4 第 5 条「茅山派」; 计划 势力线第三批_计划.md §4 茅山 B, §2, §8 第 1、2 行与「要改大会的地方」, §9, §10 第 5、11、12 条, §12 Q1 Q3 Q7 Q8 Q9, owner 2026-11-17「都照推荐」; DECISIONS「茅山 B」): 茅山's row follows the split in the 大殿 (烧 颜违, 留 the old 盟主).",
-				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」): 步玄's row follows the split in the 相国府 (作证 the old 盟主, 回家 颜违)."
+				"native: 势力线第三批 步玄 B (剧情总纲 §4 第 8 条「步玄派」: 家里有人在庾府做事【续写】; 计划 势力线第三批_计划.md §5 步玄 B, §8 第 3、5 行与「要改大会的地方」, §10 第 6、7、11、12 条, §12 Q4 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「步玄 B」): 步玄's row follows the split in the 相国府 (作证 the old 盟主, 回家 颜违).",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」): 山烟寺's row follows the split in the 大雄宝殿 (收经 the old 盟主, 守寺 颜违), and 山烟寺 may 听你的."
 			],
 			"summary": "正月十七，九派在水烟阁外的虹台推选武林盟主。九派各一票，过半才换人；那天山下会出事，你只管得了一件。",
 			"starts": {
@@ -199,6 +200,16 @@
 										},
 										{
 											"cond": "assembly.latemoon.self"
+										}
+									]
+								},
+								{
+									"all": [
+										{
+											"cond": "assembly.sanyen.stated"
+										},
+										{
+											"cond": "assembly.sanyen.self"
 										}
 									]
 								},
@@ -482,6 +493,19 @@
 							},
 							{
 								"cond": "assembly.sanyen.old"
+							}
+						]
+					}
+				},
+				{
+					"label": "山烟寺：听你的",
+					"if": {
+						"all": [
+							{
+								"cond": "assembly.sanyen.stated"
+							},
+							{
+								"cond": "assembly.sanyen.self"
 							}
 						]
 					}

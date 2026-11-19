@@ -219,6 +219,8 @@
 		"native.npc.lu_decai_cloud": {"mode": "still", "pose": "sit"},
 		"native.npc.lu_decai_true": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.toll_man_snow": "post",
+		"native.npc.toutuo_hall": "still",
+		"native.npc.toutuo_liuyun": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.toll_man_cloud": "post",
 		"native.npc.lu_decai_home": {"mode": "still", "pose": "sit_ground"},
 		"native.npc.he_ping": "post",

@@ -421,6 +421,8 @@ msgstr ""
 #. native.npc.woodcutter_home gender
 #. native.npc.green_cave_kid gender
 #. native.npc.juechen_liaochen gender
+#. native.npc.toutuo_hall gender
+#. native.npc.toutuo_liuyun gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/guanbei/npcs.json data/fanfang/npcs.json data/imperial/npcs.json data/lancheng/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -3628,7 +3630,8 @@ msgstr ""
 
 #. common.npc.bonze.master inquiry topic
 #. es2:d/sanyen/heal_room short
-#: scenes/world/sanyen/heal_room_house.tscn data/common/npcs.json data/sanyen/rooms.json data/sanyen/voxel/grounds.json
+#. native.npc.toutuo_liuyun title
+#: scenes/world/sanyen/heal_room_house.tscn data/common/npcs.json data/sanyen/rooms.json data/native/npcs.json data/sanyen/voxel/grounds.json
 msgid "流云轩"
 msgstr ""
 
@@ -6476,7 +6479,9 @@ msgstr ""
 msgid "同门师妹"
 msgstr ""
 
-#: core/relationships/family_relation.gd
+#. native.npc.toutuo_hall inquiry topic
+#. native.npc.toutuo_liuyun inquiry topic
+#: core/relationships/family_relation.gd data/native/npcs.json
 msgid "师父"
 msgstr ""
 
@@ -14698,6 +14703,22 @@ msgstr ""
 msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
 msgstr ""
 
+#. bolomiduo name
+#. native.npc.toutuo_liuyun inquiry topic
+#: data/common/skills.json data/native/npcs.json
+msgid "婆萝蜜多心经"
+msgstr ""
+
+#. bolomiduo summary
+#: data/common/skills.json
+msgid "从天竺传来的一部内功，性子是火性的：运起来浑身发热，专克阴寒。只能用学的，没有运功的法门；中原只有日陀罗寺的人会，独眼头陀那只眼就是练它练坏的。"
+msgstr ""
+
+#. bolomiduo practice.fail
+#: data/common/skills.json
+msgid "婆萝蜜多心经只能用学的。"
+msgstr ""
+
 #. buddhism name
 #: data/common/skills.json
 msgid "大乘佛法"
@@ -16076,9 +16097,10 @@ msgid "晚月山路"
 msgstr ""
 
 #. name
+#. ending cards.title
 #. faction.sanyen region
 #. sunhill name
-#: data/common/atlas.json data/story/faction_sanyen.json data/sanyen/world.json
+#: data/common/atlas.json data/story/epilogue.json data/story/faction_sanyen.json data/sanyen/world.json
 msgid "日照山"
 msgstr ""
 
@@ -17061,6 +17083,7 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.留着.rules.lines.emote
 #. native.npc.shang_jue calls.steps.emote
 #. native.npc.annie_yard inquiry.教主.rules.lines.emote
+#. native.npc.toutuo_hall calls.steps.emote
 #: data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "看了你一眼。"
 msgstr ""
@@ -17183,6 +17206,7 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry topic
 #. common.npc.taoist.taolord inquiry topic
 #. common.npc.dancer.master inquiry topic
+#. common.npc.bonze.master inquiry topic
 #. common.npc.beggar.master inquiry topic
 #. common.npc.scholar.master inquiry topic
 #. snow.npc.girl inquiry topic
@@ -17208,6 +17232,7 @@ msgstr ""
 #. common.npc.dancer.master inquiry.改投.rules.say
 #. common.npc.dancer.master inquiry.这一票.rules.say
 #. common.npc.bonze.master inquiry.改投.rules.say
+#. common.npc.bonze.master inquiry.这一票.rules.say
 #. common.npc.beggar.master inquiry.这一票.rules.say
 #. common.npc.scholar.master inquiry.这一票.rules.say
 #. snow.npc.girl inquiry.这一票.rules.say
@@ -17247,6 +17272,7 @@ msgstr ""
 #. common.npc.dancer.master inquiry.改投.rules.say
 #. common.npc.dancer.master inquiry.这一票.rules.say
 #. common.npc.bonze.master inquiry.改投.rules.say
+#. common.npc.bonze.master inquiry.这一票.rules.say
 #. common.npc.beggar.master inquiry.这一票.rules.say
 #. common.npc.scholar.master inquiry.这一票.rules.say
 #. snow.npc.girl inquiry.这一票.rules.say
@@ -17257,6 +17283,7 @@ msgstr ""
 #. latemoon.npc.room.killer inquiry.娘.rules.say
 #. sanyen.npc.monk inquiry.病人.rules.say
 #. sanyen.npc.monk inquiry.领路.rules.say
+#. sanyen.npc.monk inquiry.经.rules.say
 #. city.npc.chen inquiry.这一票.rules.say
 #. native.npc.yulan_zhao inquiry.庾尚书
 #. native.npc.he_ping inquiry.爹.rules.say
@@ -20360,7 +20387,8 @@ msgstr ""
 #. cloud.npc.god inquiry.替她瞒.rules.lines.emote
 #. cloud.npc.god inquiry.还令.rules.lines.emote
 #. latemoon.npc.room.elon inquiry.宝衣.rules.lines.emote
-#: data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.emote
+#: data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/fanfang/npcs.json
 msgid "看了你一会儿。"
 msgstr ""
 
@@ -20798,8 +20826,34 @@ msgid "流云轩是老衲为人看病、存放药草的地方。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry topic
-#: data/common/npcs.json
+#. fanfang.npc.lama_master inquiry topic
+#: data/common/npcs.json data/fanfang/npcs.json
 msgid "头陀"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.say
+#: data/common/npcs.json
+msgid "他在流云轩。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.emote
+#: data/common/npcs.json
+msgid "捻了一颗念珠。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.lines.say
+#: data/common/npcs.json
+msgid "老衲该早十年开那道门。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.say
+#: data/common/npcs.json
+msgid "他回番坊去了。金门外空了。……阿弥陀佛。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.头陀.rules.say
+#: data/common/npcs.json
+msgid "他在殿上。老衲看见了。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.头陀.rules.say
@@ -20851,6 +20905,7 @@ msgid "阿弥陀佛。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.寺规.rules.say
+#. common.npc.bonze.master inquiry.守寺.rules.say
 #: data/common/npcs.json
 msgid "寺规就是寺规。"
 msgstr ""
@@ -20872,6 +20927,7 @@ msgstr ""
 
 #. common.npc.bonze.master inquiry.寺规.rules.lines.emote
 #. common.npc.bonze.master inquiry.改投.rules.lines.emote
+#. common.npc.bonze.master inquiry.这一票.rules.lines.emote
 #: data/common/npcs.json
 msgid "双手合十。"
 msgstr ""
@@ -20908,18 +20964,49 @@ msgid "阿弥陀佛。正月十七，过去了。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.虹台.rules.say
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/common/npcs.json data/waterfog/world.json
+msgid "阿弥陀佛。山烟寺这一票，在施主手里。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.say
 #: data/common/npcs.json
 msgid "阿弥陀佛。山烟寺这一票，投旧盟主。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.虹台.rules.lines.say
 #: data/common/npcs.json
-msgid "阿弥陀佛。神教的杀手杀生无数，山烟寺原想借颜施主之手，逐了他们。"
+msgid "阿弥陀佛。山烟寺收了西来的经。容得下西来的经，也容得下别人——这一票投旧盟主。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.lines.emote
+#: data/common/npcs.json
+msgid "朝流云轩的方向看了一眼。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "那片叶子是施主带回来的。这一票，施主要，就是施主的。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。本寺一脉，守清规。神教的杀手横行，颜施主说要逐了他们——山烟寺这一票投颜施主。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.虹台.rules.lines.emote
 #: data/common/npcs.json
 msgid "拨了两颗念珠。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "可那片叶子，是施主陪着送回去的。这一票，施主要，就是施主的。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.虹台.rules.lines.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。神教的杀手杀生无数，山烟寺原想借颜施主之手，逐了他们。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.虹台.rules.lines.say
@@ -20951,12 +21038,172 @@ msgstr ""
 
 #. common.npc.bonze.master inquiry.改投.rules.say
 #: data/common/npcs.json
+msgid "阿弥陀佛。经收下了，山烟寺本来就投旧盟主。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.改投.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。本寺一脉，说过了。这一票随守寺走。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.改投.rules.say
+#: data/common/npcs.json
 msgid "阿弥陀佛。山烟寺投旧盟主，说过了。"
 msgstr ""
 
 #. common.npc.bonze.master inquiry.改投.rules.lines.say
 #: data/common/npcs.json
 msgid "阿弥陀佛。便依施主。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry topic
+#: data/common/npcs.json
+msgid "收经"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.confirm
+#: data/common/npcs.json
+msgid ""
+"收经：独眼头陀受戒入寺，婆萝蜜多心经收进山烟寺。\n"
+"流云轩从此治得了鬼卒的寒；头陀在流云轩教婆萝蜜多心经，谁都能学（只这一门）。\n"
+"容得下西来的经，也容得下别人：正月十七虹台上，山烟寺这一票投旧盟主。\n"
+"守寺那条路就没了。要这么说吗？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.say
+#. common.npc.bonze.master inquiry.守寺.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。这是本寺的事。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.say
+#: data/common/npcs.json
+msgid "经在流云轩，他也在。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.say
+#: data/common/npcs.json
+msgid "本寺一脉。说过了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.emote
+#: data/common/npcs.json
+msgid "看着香案上那片贝叶，捻了很久的念珠。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.say
+#: data/common/npcs.json
+msgid "玄尘要是知道……他等这一天，等了三十年。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.say
+#: data/common/npcs.json
+msgid "收。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"独眼头陀在佛前跪了下来。玄智伸出手掌，在他头顶轻轻地摩挲了几下。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.say
+#: data/common/npcs.json
+msgid "你是头陀，发就留着。法名，你的师父给过了，老衲不改。从今天起，你是山烟寺的人。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.say
+#: data/common/npcs.json
+msgid "流云轩，你去。阴间的寒，往后山烟寺赶得出去了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"头陀捧起那片贝叶，朝玄智拜了三拜，大步往流云轩去了。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.收经.rules.say
+#: data/common/npcs.json
+msgid "收什么经？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry topic
+#: data/common/npcs.json
+msgid "守寺"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.confirm
+#: data/common/npcs.json
+msgid ""
+"守寺：本寺一脉，经交还龙若法王，头陀把它带回番坊，金门外从此空了。\n"
+"玄智肯把莲华心法（连同它的根基大乘佛法）教给不是本寺的人。流云轩照旧治不了鬼卒的寒。\n"
+"山烟寺守清规：正月十七虹台上，这一票投颜违。\n"
+"收经那条路就没了。要这么说吗？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.say
+#: data/common/npcs.json
+msgid "经已经收了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.emote
+#: data/common/npcs.json
+msgid "把香案上那片贝叶拾起来，双手递还给头陀。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.say
+#: data/common/npcs.json
+msgid "本寺一脉，三十年前不收，今天也不收。经，请带回给你的师父。替老衲谢他。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"独眼头陀接过贝叶，看了玄智很久，一句话也没说，转身出了大殿。金门外那块他站了十年的地方，空了。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.emote
+#: data/common/npcs.json
+msgid "看着殿门，忽然问你："
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.say
+#: data/common/npcs.json
+msgid "玄尘师弟……他还好？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.line
+#: data/common/npcs.json
+msgid ""
+"你说他在青石村后山，守着一个阵。玄智点了点头，没有再问。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.lines.say
+#: data/common/npcs.json
+msgid "寺规就是寺规。外人不进流云轩，外来的经，也不进。……阿弥陀佛。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.守寺.rules.say
+#: data/common/npcs.json
+msgid "守什么？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.这一票.confirm
+#: data/common/npcs.json
+msgid ""
+"请玄智和尚把山烟寺这一票交给你：正月十七虹台上，山烟寺听你的——你要站出来，这一票就是你的；不站，就由你说投谁。\n"
+"要这么说吗？"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.这一票.rules.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。说过了，山烟寺听施主的。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.这一票.rules.lines.say
+#: data/common/npcs.json
+msgid "阿弥陀佛。山烟寺听施主的。"
 msgstr ""
 
 #. common.npc.bonze.master ordination.lines
@@ -22161,7 +22408,9 @@ msgstr ""
 
 #. quests.target
 #. sanyen.npc.monk name
-#: data/common/quests.json data/sanyen/npcs.json
+#. native.npc.toutuo_hall name
+#. native.npc.toutuo_liuyun name
+#: data/common/quests.json data/sanyen/npcs.json data/native/npcs.json
 msgid "独眼头陀"
 msgstr ""
 
@@ -25631,6 +25880,36 @@ msgstr ""
 msgid "北麓下来的孩子在灵心观后山开了一片地。花匠一页一页念给他们听：烧了一辈子的香，坛上写的原来是这些。"
 msgstr ""
 
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "日照山的流云轩里，多了一个独眼的头陀。被鬼卒抓伤的人抬上山来，他一掌按下去，寒气冒成一缕白烟。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "头陀在流云轩教人婆萝蜜多心经。玄智说，西来的经和本寺的经放在一个经柜里，没有打架。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "日照山金门外，那块地方空了。山烟寺还是三百年前的山烟寺：外人不进流云轩，外来的经，也不进。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "被鬼卒抓伤的人抬上山来，玄智守着，三天三夜。有的救回来了，有的没有。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "乔阴的老葛每年秋天挑一担柴上日照山，放在金门边上，说是还那一掌的情。"
+msgstr ""
+
+#. ending cards.lines.text
+#: data/story/epilogue.json
+msgid "乔阴的老葛用左手砍柴，砍得慢。逢人就说：命是山烟寺的方丈守回来的。"
+msgstr ""
+
 #. ending cards.title
 #. oldpine.npc.spy name
 #: data/story/epilogue.json data/oldpine/npcs.json
@@ -26526,6 +26805,26 @@ msgstr ""
 #. sanyen lines.text
 #: data/story/factions.json
 msgid "玄智和尚信了你的担保。正月十七，山烟寺那一票投旧盟主。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "龙若法王说起了三十年前的事，给了你婆萝蜜多心经的一页贝叶：「收不收，是山烟寺的事。」"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "山烟寺收了西来的经：独眼头陀受戒入寺，流云轩从此治得了鬼卒的寒。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "山烟寺守了本寺一脉：经交还了龙若法王，金门外空了。"
+msgstr ""
+
+#. sanyen lines.text
+#: data/story/factions.json
+msgid "正月十七，山烟寺那一票听你的。"
 msgstr ""
 
 #. buxuan lines.text
@@ -28647,7 +28946,7 @@ msgstr ""
 
 #. faction.sanyen summary
 #: data/story/faction_sanyen.json
-msgid "流云轩里躺着一个被鬼卒抓伤的乔阴樵夫，伤口是冷的，玄智的药赶不出那股寒。金门外站了十年、从不说话的独眼头陀开口了：「我能。」——可寺规不许外人进流云轩。"
+msgid "流云轩里躺着一个被鬼卒抓伤的乔阴樵夫，玄智的药赶不出那股寒；金门外站了十年的独眼头陀开口了：「我能。」他那部火性的经，三十年前从番坊来过一回，山烟寺没有收——这一回，收不收。"
 msgstr ""
 
 #. faction.sanyen lapses.text
@@ -28762,12 +29061,63 @@ msgstr ""
 
 #. faction.sanyen/west text
 #: data/story/faction_sanyen.json
-msgid "龙若法王说起了三十年前的事。"
+msgid "龙若法王说起了三十年前：师父从天竺背来的两部经，当年不肯开经匣的住持，追出山门的玄尘，十年前派回去的头陀和他那只眼。他给了你一片贝叶：「收不收，是山烟寺的事。」"
 msgstr ""
 
 #. faction.sanyen/west checklist.label
 #: data/story/faction_sanyen.json
 msgid "照了寺规的：先回流云轩，药僧有话要说"
+msgstr ""
+
+#. faction.sanyen/leaf objective
+#: data/story/faction_sanyen.json
+msgid "回日照山，把龙若法王的贝叶拿给金门外的独眼头陀看（问他「经」）。"
+msgstr ""
+
+#. faction.sanyen/leaf text
+#: data/story/faction_sanyen.json
+msgid "独眼头陀认出了叶边师父的字。十年里第一次，他跨进了金门，往大雄宝殿去了。"
+msgstr ""
+
+#. faction.sanyen/meet objective
+#: data/story/faction_sanyen.json
+msgid "头陀上了大雄宝殿。去大殿：玄智、头陀、你。（话听了一半就走开的：收经问玄智「收经」，守寺问玄智「守寺」。）"
+msgstr ""
+
+#. faction.sanyen/meet text
+#: data/story/faction_sanyen.json
+msgid "头陀把贝叶放在佛前，只问一句：收，还是不收。玄智说起三十年前走掉的玄尘师弟，回过头来问你。"
+msgstr ""
+
+#. faction.sanyen/split objective
+#: data/story/faction_sanyen.json
+msgid "收经（问玄智「收经」）：头陀受戒入寺，流云轩从此治得了鬼卒的寒，头陀在流云轩教婆萝蜜多心经，谁都能学；容得下西来的经，也容得下别人，虹台上山烟寺投旧盟主。守寺（问玄智「守寺」）：本寺一脉，经交还龙若，头陀回番坊，金门外空了；玄智肯教外人莲华心法；虹台上山烟寺投颜违。两边山烟寺的弟子都晋首座。"
+msgstr ""
+
+#. faction.sanyen/split/take text
+#: data/story/faction_sanyen.json
+msgid "山烟寺收了西来的经。独眼头陀在佛前受了戒，去了流云轩；鬼卒的寒，往后山烟寺赶得出去了。"
+msgstr ""
+
+#. faction.sanyen/split/take reward.deed
+#: data/story/faction_sanyen.json
+msgid "把番坊的婆萝蜜多心经带回日照山，山烟寺收了经"
+msgstr ""
+
+#. faction.sanyen/split/take reward.rank.title
+#. faction.sanyen/split/guard reward.rank.title
+#: data/story/faction_sanyen.json
+msgid "首座"
+msgstr ""
+
+#. faction.sanyen/split/guard text
+#: data/story/faction_sanyen.json
+msgid "山烟寺守了本寺一脉。玄智把贝叶交还头陀，头陀回了番坊，金门外那块地方空了。"
+msgstr ""
+
+#. faction.sanyen/split/guard reward.deed
+#: data/story/faction_sanyen.json
+msgid "陪山烟寺守住了本寺一脉，把西来的经送回了番坊"
 msgstr ""
 
 #. faction.juechen summary
@@ -29014,6 +29364,11 @@ msgstr ""
 #. faction.assembly checklist.label
 #: data/story/faction_assembly.json
 msgid "山烟寺：投旧盟主——容神教"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "山烟寺：听你的"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -33651,6 +34006,7 @@ msgstr ""
 #. es2:d/chuenyu/obj/feather combined.base_unit
 #. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
 #. native:fanfang/bronze_tablet unit
+#. native:fanfang/sutra_leaf unit
 #. native:village/lihong_feather unit
 #: data/village/items.json data/chuenyu/items.json data/cloud/items.json data/fanfang/items.json data/native/items.json
 msgid "片"
@@ -37545,7 +37901,17 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "阿弥陀佛。本寺一脉，守的是清规。神教之事，今日总要有个了断。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "阿弥陀佛。容得下，才是佛门。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "阿弥陀佛。西来的经，山烟寺收下了。容得下，才是佛门。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -37863,6 +38229,11 @@ msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
+msgid "山烟寺——投你。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
 msgid "山烟寺——没有来，不算。"
 msgstr ""
 
@@ -37969,6 +38340,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "颜违，七票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "颜违，八票。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -38104,6 +38480,16 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/waterfog/world.json
 msgid "你，六票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，七票。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.say
+#: data/waterfog/world.json
+msgid "你，八票。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -42874,6 +43260,16 @@ msgid ""
 "独眼头陀抱着刀站着，那只独眼半闭着，像是睡着了。\n"
 msgstr ""
 
+#. sanyen.npc.monk accept_object.lines.emote
+#: data/sanyen/npcs.json
+msgid "看了一眼叶边那行字，没有接。"
+msgstr ""
+
+#. sanyen.npc.monk accept_object.lines.say
+#: data/sanyen/npcs.json
+msgid "师父的字……你拿着。问我「经」。"
+msgstr ""
+
 #. sanyen.npc.monk inquiry topic
 #. sanyen.npc.drug_bonze inquiry topic
 #: data/sanyen/npcs.json
@@ -42882,12 +43278,14 @@ msgstr ""
 
 #. sanyen.npc.monk inquiry.病人.rules.emote
 #. sanyen.npc.monk inquiry.领路.rules.emote
+#. sanyen.npc.monk inquiry.经.rules.emote
 #: data/sanyen/npcs.json
 msgid "大喇喇地站着，不理你。"
 msgstr ""
 
 #. sanyen.npc.monk inquiry.病人.rules.emote
 #. sanyen.npc.monk inquiry.领路.rules.emote
+#. sanyen.npc.monk inquiry.经.rules.lines.emote
 #: data/sanyen/npcs.json
 msgid "转过身去，不理你。"
 msgstr ""
@@ -42977,6 +43375,57 @@ msgstr ""
 msgid "我练的经，玄智的寺里不认。三十年前不认，今天也不认。……别的，去问我师父。"
 msgstr ""
 
+#. sanyen.npc.monk inquiry topic
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
+#. native.npc.indian_monk inquiry topic
+#. native.npc.toutuo_hall inquiry topic
+#: data/sanyen/npcs.json data/niling/npcs.json data/fanfang/npcs.json data/native/npcs.json
+msgid "经"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.takes
+#: data/sanyen/npcs.json
+msgid "native:fanfang/sutra_leaf"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.line
+#: data/sanyen/npcs.json
+msgid ""
+"你把那片贝叶举到他眼前。他转回来了。\n"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.emote
+#: data/sanyen/npcs.json
+msgid "接过那片贝叶，那只独眼在叶边那行字上停了很久。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "师父的字。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "「收不收，是山烟寺的事。」……十年，我站在门外，等的就是这一句。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "我上殿去。你也来——玄智要问一个人，问的是你。"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.lines.line
+#: data/sanyen/npcs.json
+msgid ""
+"独眼头陀把贝叶揣进怀里，大步跨进了金门，往大雄宝殿去了。\n"
+msgstr ""
+
+#. sanyen.npc.monk inquiry.经.rules.say
+#: data/sanyen/npcs.json
+msgid "师父给你的东西呢？"
+msgstr ""
+
 #. sanyen.npc.bonze name
 #: data/sanyen/npcs.json
 msgid "僧人"
@@ -43028,6 +43477,21 @@ msgstr ""
 #. sanyen.npc.drug_bonze inquiry.煎药.rules.say
 #: data/sanyen/npcs.json
 msgid "流云轩的事，不劳施主了。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "鬼卒抓的伤，流云轩现在治得了——头陀师兄一掌按下去，寒气冒成一缕白烟。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.lines.say
+#: data/sanyen/npcs.json
+msgid "方丈说，早十年就该开那道门。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze inquiry.病人.rules.say
+#: data/sanyen/npcs.json
+msgid "鬼卒抓的伤，流云轩还是治不了。……方丈说，本寺一脉。"
 msgstr ""
 
 #. sanyen.npc.drug_bonze inquiry.病人.rules.say
@@ -47490,6 +47954,7 @@ msgstr ""
 #. native.npc.lihong_ashore inquiry topic
 #. native.npc.hell_runner_tomb name
 #. native.npc.hell_runner_finale name
+#. native.npc.toutuo_liuyun inquiry topic
 #: data/village/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "鬼卒"
 msgstr ""
@@ -55371,13 +55836,6 @@ msgstr ""
 msgid "诵经道士闭着眼睛：诵经的时候不说话。"
 msgstr ""
 
-#. native.npc.niling_chanter inquiry topic
-#. native.npc.niling_lead_chanter inquiry topic
-#. native.npc.indian_monk inquiry topic
-#: data/niling/npcs.json data/fanfang/npcs.json
-msgid "经"
-msgstr ""
-
 #. native.npc.niling_chanter inquiry.经
 #: data/niling/npcs.json
 msgid "诵经道士压低声音：逆灵天书。你连这个都不知道？……不要问我，问领诵。"
@@ -61030,6 +61488,22 @@ msgid ""
 "背面那只鹰的翅膀底下还有一行小字，刻得浅，几乎磨平了：「吾见之。」\n"
 msgstr ""
 
+#. native:fanfang/sutra_leaf name
+#: data/fanfang/items.json
+msgid "贝叶"
+msgstr ""
+
+#. native:fanfang/sutra_leaf long
+#: data/fanfang/items.json
+msgid ""
+"一片狭长的贝叶，两指宽，一尺来长，叶头穿了一个小孔。叶面上用铁笔刻着一行一行天竺字，刻痕里抹了烟灰，是婆萝蜜多心经的第一页。叶边空白处，有人用中原字添了一行小字：「收不收，是山烟寺的事。」\n"
+msgstr ""
+
+#. native:fanfang/sutra_leaf no_drop
+#: data/fanfang/items.json
+msgid "这是龙若法王托你带回山烟寺的经，不能随便丢。"
+msgstr ""
+
 #. native:fanfang/katana name
 #: data/fanfang/items.json
 msgid "倭刀"
@@ -62282,6 +62756,7 @@ msgid "日陀罗寺。两个天竺僧人盖的，老衲是第二代。寺小，�
 msgstr ""
 
 #. fanfang.npc.lama_master inquiry.山烟寺
+#. fanfang.npc.lama_master inquiry.头陀.rules.say
 #: data/fanfang/npcs.json
 msgid "山烟寺的独眼头陀？他的内功和老衲的是一个根——都是从西边的西边来的。阿弥陀佛。"
 msgstr ""
@@ -62311,6 +62786,157 @@ msgstr ""
 #. fanfang.npc.lama_master inquiry.榕树
 #: data/fanfang/npcs.json
 msgid "第一代的师父从天竺带来一根枝条，插在这儿，活了。树活了七十年，老衲也活了七十年。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.say
+#: data/fanfang/npcs.json
+msgid "阿弥陀佛。山烟寺的事，是山烟寺的事。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "他受了戒？"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "双手合十，朝东拜了一拜。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "阿弥陀佛。十年，总算进了那道门。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.say
+#: data/fanfang/npcs.json
+msgid "他回来了，经也回来了。三十年前不收，今天也不收。阿弥陀佛——收不收，是山烟寺的事。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.say
+#: data/fanfang/npcs.json
+msgid "他上了殿？那就等玄智开口吧。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "又从经匣里抽出一片贝叶，在叶边写了同样一行字。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "这一片，别再丢了。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.say
+#: data/fanfang/npcs.json
+msgid "那片贝叶，拿给他看。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "拨念珠的手停了。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "他开口了？……十年，他没跟人说过一句话。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "三十年前，老衲四十一岁。师父从天竺背来两部经：一部是莲华心法的根，一部是婆萝蜜多心经。师父说，中原有一座山烟寺，医术通神，这两部经该放在那里。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "老衲背着经走到日照山。当时的住持只认本寺一脉，经匣没有打开，就请老衲下了山。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "山门外，一个年轻和尚追了出来，说他叫玄尘，是玄智的师弟。他说，经他想看。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "望着榕树，很久没有说话。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "十年前，老衲的一个弟子说，要把婆萝蜜多心经再送回山烟寺去。这部经是火性的，性急的人练不得——他性急，练坏了一只眼。老衲没有拦他。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "玄智没让他进门。他就站在金门外，一站十年。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.emote
+#: data/fanfang/npcs.json
+msgid "从经匣里抽出一片贝叶，提笔在叶边写了一行字，递给你。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "这是婆萝蜜多心经的第一页。拿给他看——叶边是老衲的字，他认得。他不理人，这一页他会看。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.头陀.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "收不收，是山烟寺的事。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry topic
+#. native.npc.toutuo_liuyun inquiry topic
+#: data/fanfang/npcs.json data/native/npcs.json
+msgid "玄尘"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "了尘？那个跟在玄尘身后的小沙弥……也老了吧。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "老衲没有点化过玄尘。老衲只是没拦他。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.say
+#: data/fanfang/npcs.json
+msgid "青石村后山那个阵，你走过了。摆阵的人佛道双修——就是他。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.say
+#: data/fanfang/npcs.json
+msgid "他往北去了。老衲只听人说过，青石村后山有一个阵。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "玄尘在番坊住了一年。佛经也看，大秦人的书也看，浪人的刀谱也看。老衲说他是佛门的人，他说他想做一个不拣经的人。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "二十九年前，他往北去了，身后跟着一个从山烟寺带出来的小沙弥。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "青石村后山那个阵，你走过了？摆阵的人佛道双修，自号绝尘——就是他。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "他还好吗？……不用说。出了阵，就是世事。"
+msgstr ""
+
+#. fanfang.npc.lama_master inquiry.玄尘.rules.lines.say
+#: data/fanfang/npcs.json
+msgid "后来的事，老衲只听人说过：青石村后山有一个阵，阵里的人出不来，阵外的人进不去。摆阵的人，佛道双修。"
 msgstr ""
 
 #. native.npc.indian_monk name
@@ -71748,6 +72374,7 @@ msgid "从香案后头站起来，金色的那只眼睛看了他很久。"
 msgstr ""
 
 #. native.npc.maoshan_gardener calls.steps.say
+#. native.npc.toutuo_hall calls.steps.say
 #: data/native/npcs.json
 msgid "你进来了。"
 msgstr ""
@@ -71779,6 +72406,7 @@ msgstr ""
 
 #. native.npc.maoshan_gardener calls.steps.emote
 #. native.npc.luo_yunzhou_capital calls.steps.emote
+#. native.npc.toutuo_hall calls.steps.emote
 #: data/native/npcs.json
 msgid "转过头来看着你。"
 msgstr ""
@@ -72840,6 +73468,158 @@ msgstr ""
 #. native.npc.juechen_liaochen inquiry.name
 #: data/native/npcs.json
 msgid "贫道了尘。"
+msgstr ""
+
+#. native.npc.toutuo_hall long
+#: data/native/npcs.json
+msgid ""
+"一个独眼的头陀，站在大雄宝殿的佛前，那只独眼望着佛像，背挺得很直。佛前的香案上放着一片贝叶。十年里，他第一次站进了这道金门。\n"
+msgstr ""
+
+#. native.npc.toutuo_hall accept_fight.say
+#: data/native/npcs.json
+msgid "殿上不动刀。"
+msgstr ""
+
+#. native.npc.toutuo_hall inquiry.经
+#: data/native/npcs.json
+msgid "放在佛前了。收不收，问玄智。"
+msgstr ""
+
+#. native.npc.toutuo_hall inquiry topic
+#. native.npc.toutuo_liuyun inquiry topic
+#: data/native/npcs.json
+msgid "玄智"
+msgstr ""
+
+#. native.npc.toutuo_hall inquiry.玄智
+#: data/native/npcs.json
+msgid "他守了三十年寺规。今天让他自己说。"
+msgstr ""
+
+#. native.npc.toutuo_hall inquiry.师父
+#: data/native/npcs.json
+msgid "龙若法王。他说：收不收，是山烟寺的事。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.emote
+#: data/native/npcs.json
+msgid "站在佛前，把那片贝叶放在香案上，退后一步。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"大殿里念经的声音停了。几个僧人从蒲团上抬起头来，看着这个从金门外进来的人。\n"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.emote
+#: data/native/npcs.json
+msgid "放下念珠，看着香案上那片贝叶，很久没有说话。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.say
+#: data/native/npcs.json
+msgid "我师父说：收不收，是山烟寺的事。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.say
+#: data/native/npcs.json
+msgid "十年前我带着这部经来，你没让我进门。今天我站到殿上来，就问一句——收，还是不收。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.say
+#: data/native/npcs.json
+msgid "三十年前，师父说本寺一脉，不收外来的经。玄尘师弟跟着那位天竺来的法师走了，再没有回来。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.say
+#: data/native/npcs.json
+msgid "老衲守了三十年寺规。守到今天，流云轩里一个樵夫的寒，都赶不出去。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.say
+#: data/native/npcs.json
+msgid "施主破过一回寺规，领他进了流云轩。今天又是施主把他领上了殿。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.say
+#: data/native/npcs.json
+msgid "番坊是施主去的，这片叶子也是施主带回来的。施主说吧。"
+msgstr ""
+
+#. native.npc.toutuo_hall calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"（收经，问玄智「收经」；守寺，问玄智「守寺」。）\n"
+msgstr ""
+
+#. native.npc.toutuo_liuyun long
+#: data/native/npcs.json
+msgid ""
+"一个独眼的头陀，盘腿坐在流云轩的药柜下，瞎眼上还蒙着眼罩，头发照旧束着，身上换了山烟寺的灰布僧衣。他的手掌比常人红，摸过的药罐都是温的。\n"
+msgstr ""
+
+#. native.npc.toutuo_liuyun chat_msg
+#: data/native/npcs.json
+msgid ""
+"独眼头陀把一只手掌按在药罐上，罐里的药咕嘟咕嘟地翻了起来。\n"
+msgstr ""
+
+#. native.npc.toutuo_liuyun chat_msg
+#: data/native/npcs.json
+msgid ""
+"独眼头陀闭着那只独眼，一动不动，像是睡着了。\n"
+msgstr ""
+
+#. native.npc.toutuo_liuyun accept_fight.say
+#: data/native/npcs.json
+msgid "流云轩是看病的地方。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.婆萝蜜多心经.rules.lines.say
+#: data/native/npcs.json
+msgid "火性的经。练它的人，性子要慢——我性子急，所以瞎了一只眼。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.婆萝蜜多心经.rules.lines.say
+#: data/native/npcs.json
+msgid "你要学，我教。别的我不教——山烟寺的东西，问方丈。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.鬼卒
+#: data/native/npcs.json
+msgid "鬼卒抓的伤，送到流云轩来。我一掌的事。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry topic
+#: data/native/npcs.json
+msgid "寒"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.寒
+#: data/native/npcs.json
+msgid "阴寒钻进骨头里，凉药赶不出来。火性的内功赶得出来。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.玄智
+#: data/native/npcs.json
+msgid "方丈让我管流云轩的火。……他是个守规矩的人，今天破了一回。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.师父
+#: data/native/npcs.json
+msgid "龙若法王。他说：收不收，是山烟寺的事。山烟寺收了。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.玄尘.rules.say
+#: data/native/npcs.json
+msgid "玄尘师叔？……方丈说，他等这一天，等了三十年。"
+msgstr ""
+
+#. native.npc.toutuo_liuyun inquiry.玄尘.rules.say
+#: data/native/npcs.json
+msgid "三十年前跟我师父走的那个人。我没见过他。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

@@ -1030,6 +1030,22 @@
 			}
 		},
 		{
+			"id": "bolomiduo",
+			"name": "婆萝蜜多心经",
+			"summary": "从天竺传来的一部内功，性子是火性的：运起来浑身发热，专克阴寒。只能用学的，没有运功的法门；中原只有日陀罗寺的人会，独眼头陀那只眼就是练它练坏的。",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
+			"legacy_source": "daemon/skill/bolomiduo.c",
+			"standard_force_hit": true,
+			"practice": {
+				"refuses": true,
+				"fail": "婆萝蜜多心经只能用学的。"
+			}
+		},
+		{
 			"id": "buddhism",
 			"name": "大乘佛法",
 			"summary": "佛门的根本学问，莲华心法、八识神通都以它为根基。杀气太重的人，修不了大乘佛法。",
