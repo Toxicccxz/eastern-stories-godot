@@ -642,7 +642,7 @@
 		},
 		{
 			"id": "fanfang.npc.lama_master",
-			"legacy_source": "daemon/class/lama/master.c; native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 头陀 and 玄尘: the two sutras of thirty years ago, the abbot who would not take them, 玄尘 who went with him, the 头陀 sent back ten years ago and his eye; the 贝叶 he gives to carry back (续写; 玄尘 = 绝尘子, after d/green/npc/master.c, the draft that has 龙若 found 绝尘派)",
+			"legacy_source": "daemon/class/lama/master.c",
 			"name": "龙若法王",
 			"aliases": ["master lama", "master", "lama", "法王", "龙若"],
 			"gender": "男性",
