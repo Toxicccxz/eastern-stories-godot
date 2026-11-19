@@ -162,6 +162,9 @@ var _limb_tweens: Dictionary[StringName, Tween] = {}
 ## Figures to ease home once the show they are in ends (the round ended on their blow).
 var _go_home: Dictionary[StringName, bool] = {}
 var _effects: Array[Node3D] = []
+## 战斗运功: the waits before one an art reaches flinches (its own tweens: the reel and the lurch
+## keep theirs).
+var _art_tweens: Array[Tween] = []
 var _effect_tweens: Dictionary[Node3D, Tween] = {}
 var _earned_shown: bool = false
 var _final_zoomed: bool = false
@@ -214,6 +217,10 @@ func end() -> void:
 		if tween.is_valid():
 			tween.kill()
 	_fall_tweens.clear()
+	for tween: Tween in _art_tweens:
+		if tween.is_valid():
+			tween.kill()
+	_art_tweens.clear()
 	_falling.clear()
 	_felled.clear()
 	stage = null
@@ -1170,11 +1177,17 @@ static func art_look(key: StringName) -> Dictionary:
 ## glowing blocks (BattleArts) in its colour about the one who does it — or about the one it is
 ## for (`on_target`: 疗伤他人), or flown at the one it is aimed at — a light of that colour, the
 ## doer's stance (`pose`), the base's answer (`stage`: jolt / flare), and the flinch of one it
-## reached and took. False when there is nothing to show (no such art, no figure, the feel off).
+## reached and took. An art may need someone there to be aimed at (`needs`: aim) or to have taken
+## (`needs`: took), and name another to show when it has not (`otherwise`: a 召天将 that brought
+## nobody is the words alone). False when there is nothing to show (no such art, its need not
+## met, no figure, the feel off).
 func play_art(line: BattleNarrationLine) -> bool:
 	var look: Dictionary = art_look(line.art)
 	var me: Node3D = _model(line.actor_id)
 	var arts: Dictionary = BattleArena.data().get("arts", {})
+	var need: String = String(look.get("needs", ""))
+	if (need == "aim" and _model(line.art_target) == null) or (need == "took" and not line.art_landed):
+		look = art_look(StringName(String(look.get("otherwise", ""))))
 	var seconds: float = _seconds(_feel().scene_dust_seconds) * float(look.get("seconds", arts.get("seconds", 3.2)))
 	if look.is_empty() or me == null or me.get_parent() == null or seconds <= 0.0:
 		return false
@@ -1212,10 +1225,17 @@ func play_art(line: BattleNarrationLine) -> bool:
 			_flare_stage()
 	var reach: float = float(BattleArts.REACHES.get(kind, 0.0)) * seconds
 	if reach > 0.0 and landed:
-		var struck: Tween = _side_tween(line.art_target)
+		_art_tweens = _art_tweens.filter(func(waiting: Tween) -> bool: return waiting.is_valid() and waiting.is_running())
+		var struck: Tween = create_tween()
+		_art_tweens.append(struck)
 		struck.tween_interval(reach)
 		struck.tween_callback(_art_struck.bind(line.art_target))
 	return true
+
+
+## How many an art is on its way to now (tests).
+func arts_waiting() -> int:
+	return _art_tweens.filter(func(waiting: Tween) -> bool: return waiting.is_valid() and waiting.is_running()).size()
 
 
 ## An art has reached `id` and took: it flinches in a flash (the figure may be gone by then).

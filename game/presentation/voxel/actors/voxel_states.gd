@@ -24,8 +24,13 @@ static var _data: Dictionary = {}
 ## How tall the figure is beside a person (a dog's marks sit lower and closer).
 var height: float = 1.0
 ## What is bound on the body hangs from this (a person's torso: it leans and lies with it);
-## unset: from this node.
+## unset: from this node. `head_lift` and `head_scale`: how much higher than the plain figure's
+## this body's neck is, and its head's size beside the plain one's (what is bound round the head
+## goes by them, not by `height`); `headless`: it has no head to bind.
 var body: Node3D
+var head_lift: float = 0.0
+var head_scale: float = 1.0
+var headless: bool = false
 ## What is drawn now: [kind, colour hex] each, in the order given.
 var shown: Array = []
 var clock: float = 0.0
@@ -137,6 +142,8 @@ func _build(kind: String, colour: Color) -> Array:
 			for index: int in FROST_SPOTS.size():
 				blocks.append(_block(glow, Vector3.ONE * 0.08))
 		"band":
+			if headless:
+				return blocks
 			# Cloth is no light: it is lit as the figure is.
 			var cloth := StandardMaterial3D.new()
 			cloth.albedo_color = colour
@@ -150,13 +157,15 @@ func _build(kind: String, colour: Color) -> Array:
 
 ## A block of `size` (a person's measure); `bound`: on the body, not about it.
 func _block(material: Material, size: Vector3, bound: bool = false) -> MeshInstance3D:
+	var on_body: bool = bound and body != null and is_instance_valid(body)
 	var block := MeshInstance3D.new()
 	var mesh := BoxMesh.new()
-	mesh.size = size * height
+	mesh.size = size * (head_scale if on_body else height)
 	block.mesh = mesh
 	block.material_override = material
 	block.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	(body if bound and body != null and is_instance_valid(body) else self).add_child(block)
+	block.set_meta(&"bound", on_body)
+	(body if on_body else self).add_child(block)
 	return block
 
 
@@ -184,8 +193,9 @@ func _pose() -> void:
 				for index: int in blocks.size():
 					_put(blocks[index], FROST_SPOTS[index], 0.7 + 0.5 * absf(sin(clock * 1.9 + index * 1.3)))
 			"band":
-				_put(blocks[0], Vector3(0.0, 1.53, 0.0), 1.0)
-				_put(blocks[1], Vector3(0.1, 1.34, -0.27), 1.0)
+				if blocks.size() == 2:
+					_put(blocks[0], Vector3(0.0, 1.53, 0.0), 1.0)
+					_put(blocks[1], Vector3(0.1, 1.34, -0.27), 1.0)
 			"drip":
 				for index: int in blocks.size():
 					var t: float = fposmod(clock / 1.5 + 0.5 * index, 1.0)
@@ -198,6 +208,9 @@ func _pose() -> void:
 ## when it is not there already.
 func _put(block: MeshInstance3D, at: Vector3, size: float) -> void:
 	var place: Vector3 = at * height
+	if bool(block.get_meta(&"bound", false)):
+		# On the body: the head's own place and size (VoxelPerson.head_point()).
+		place = Vector3(at.x * head_scale, 1.2 + head_lift + (at.y - 1.2) * head_scale, at.z * head_scale)
 	if not block.position.is_equal_approx(place):
 		block.position = place
 	var scaled: Vector3 = Vector3.ONE * maxf(size, 0.001)

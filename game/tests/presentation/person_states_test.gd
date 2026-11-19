@@ -100,6 +100,30 @@ func _check_marks(tree: SceneTree) -> void:
 			far += 1 if (block as Node3D).position.length() > 2.6 else 0
 		check(far == 0, "%s: all of it on or about the figure" % kind)
 		await tree.process_frame
+	# A child's and a tall one's cloth sits on their own heads.
+	for build: String in ["child", "tall"]:
+		var figure := Person.new()
+		figure.configure({"coat": "397c87", "height": build})
+		root.add_child(figure)
+		var theirs := States.new()
+		theirs.body = figure.torso
+		theirs.height = figure.head_point(Vector3(0.0, 1.68, 0.035)).y / 1.68
+		theirs.head_lift = figure.head_point(Vector3(0.0, 1.2, 0.035)).y - 1.2
+		theirs.head_scale = figure.head_scale()
+		figure.add_child(theirs)
+		theirs.wear([["band", "efe6d2"], ["flush", "f08a7a"]])
+		var bound: MeshInstance3D = figure.torso.get_child(figure.torso.get_child_count() - 2) as MeshInstance3D
+		var brow: float = figure.head_point(Vector3(0.0, 1.53, 0.035)).y
+		check(bound != null and is_equal_approx(bound.position.y, brow) and (theirs.get_child(0) as Node3D).position.y < figure.head_point(Vector3(0.0, 1.7, 0.035)).y, "%s: the cloth round its own brow (%.2f at %.2f), the flush by its own head" % [build, bound.position.y if bound != null else -1.0, brow])
+		check((build == "child") == (brow < 1.4), "%s: its brow is %s the plain figure's" % [build, "under" if build == "child" else "over"])
+		figure.queue_free()
+	var headless := States.new()
+	headless.body = body
+	headless.headless = true
+	root.add_child(headless)
+	headless.wear([["band", "efe6d2"]])
+	check(headless.shown.size() == 1 and body.get_child_count() == 0 and headless.get_child_count() == 0, "one with no head: no cloth to bind (%d)" % body.get_child_count())
+	headless.queue_free()
 	# A beast's sit lower and smaller.
 	var low := States.new()
 	low.height = 0.4
@@ -199,6 +223,13 @@ func _check_in_a_session(tree: SceneTree) -> void:
 	await tree.create_timer(0.6).timeout
 	var worn: States = model.get_node_or_null(^"States") as States
 	check(worn != null and worn.shown.size() == 1 and worn.shown[0][0] == "band" and worn.body == model.torso, "bandaged: the cloth on the figure (%s)" % [worn.shown if worn != null else []])
+	check(worn != null and worn.height > 0.6 and worn.height < 1.2, "a person's marks go by its own height (%.2f)" % (worn.height if worn != null else -1.0))
+	# Every figure of the map: its kind's height beside a person, its own scale not counted twice.
+	var heights_fine: int = 0
+	for id: StringName in view.actors:
+		var kind_height: float = float(view.actors[id].get_meta("mark_height", -1.0))
+		heights_fine += 1 if kind_height > 0.2 and kind_height <= 1.0 else 0
+	check(heights_fine == view.actors.size(), "every figure has its kind's height for its marks, none over a person's (%d of %d)" % [heights_fine, view.actors.size()])
 	state.conditions.remove_condition(ConditionIds.BANDAGED)
 	# An open wound, and 气 low.
 	state.vitality.apply_wound(state.vitality.maximum * 6 / 10)

@@ -287,7 +287,7 @@ func _test_special_moment(tree: SceneTree, trainee: NpcRuntimeState) -> void:
 	_ui._tell_lines(0.01)
 	_check(_ui._line_queue.is_empty() and not _ui.special_banner.showing(), "it is told at once, nothing written over the fight")
 	# 战斗运功: told with its art, it shows in the scene — as a special's opening or as a plain line.
-	var arts: Callable = func() -> int: return _ui.scene_show._effects.filter(func(effect: Node3D) -> bool: return is_instance_valid(effect) and effect.name == "Art").size()
+	var arts: Callable = func() -> int: return _ui.scene_show._effects.filter(func(effect: Node3D) -> bool: return is_instance_valid(effect) and effect.has_meta(&"art")).size()
 	_check(arts.call() == 0, "an exert told without an art: none in the scene")
 	_ui._line_queue.append(BattleNarrationLine.new("你深深吸了几口气。").with_special(me, "运功恢复气").with_art(me, &"exert/recover").with_beat(1, me))
 	_ui._tell_lines(0.01)

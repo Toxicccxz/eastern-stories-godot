@@ -12,8 +12,8 @@ extends RefCounted
 ##   战斗力: 全身骨节发出一阵爆豆般的声响);
 ## - sink: the 气 about the body settling down into the ground (压制杀气: 收敛自己的杀气);
 ## - roar: rings of sound spreading from the mouth (天邪虎啸);
-## - gaze: two thin lines from the eyes to the one stared at, frost on them when it took (意寒睨);
-## - bolt: a ball of light gathered in the hand, flown through the one aimed at (紫光 / 白光 /
+## - gaze: two thin lines from the eyes to the one stared at (意寒睨);
+## - bolt: a ball of light gathered in the left hand, flown through the one aimed at (紫光 / 白光 /
 ##   青光: 透体而过): gone home, a streak dragged out of them into the ground beyond, and for one
 ##   that `returns` the light comes back into the caster's crown; missed, it sinks into the
 ##   ground without a sound;
@@ -24,7 +24,7 @@ extends RefCounted
 
 const KINDS: Array[String] = ["swirl", "mend", "crown", "surge", "sink", "roar", "gaze", "bolt", "descend", "chant", "vanish"]
 ## How far into its `seconds` a kind reaches the one it is aimed at (0: it never does).
-const REACHES: Dictionary[String, float] = {"bolt": 0.55, "gaze": 0.25}
+const REACHES: Dictionary[String, float] = {"bolt": 0.55}
 
 
 ## The art `kind` in `colour` built under `parent` — `at` the feet of the one who does it, `to`
@@ -115,19 +115,12 @@ static func play(parent: Node3D, tween: Tween, kind: String, colour: Color, at: 
 				hub.basis = Basis.looking_at((theirs - eyes).normalized(), Vector3.UP)
 				_block(hub, glow, Vector3(0.025, 0.025, reach), Vector3(0, 0, -reach * 0.5))
 				hub.scale = Vector3(1.0, 1.0, 0.02)
-				tween.tween_property(hub, "scale", Vector3.ONE, seconds * REACHES["gaze"]).set_ease(Tween.EASE_OUT)
+				tween.tween_property(hub, "scale", Vector3.ONE, seconds * 0.25).set_ease(Tween.EASE_OUT)
 				tween.tween_property(hub, "scale", Vector3(0.2, 0.2, 1.0), seconds * 0.3).set_delay(seconds * 0.7)
-			if landed:
-				for index: int in 7:
-					var angle: float = TAU * float(index) / 7.0
-					var out := Vector3(cos(angle) * 0.32, rng.randf_range(0.5, 1.6), sin(angle) * 0.32)
-					var chip: MeshInstance3D = _block(root, glow, Vector3.ONE * 0.07, aim + out)
-					chip.scale = Vector3.ONE * 0.01
-					tween.tween_property(chip, "scale", Vector3.ONE, seconds * 0.1).set_delay(seconds * REACHES["gaze"] + seconds * 0.03 * index)
-					tween.tween_property(chip, "position", aim + out + Vector3.DOWN * 0.25, seconds * 0.4).set_delay(seconds * 0.5)
 		"bolt":
 			var side := Vector3(-way.z, 0.0, way.x)
-			var hand: Vector3 = Vector3.UP * 1.25 + way * 0.45 + side * 0.18
+			# The left hand (左手一挥): the arm the "cast" stance flings out.
+			var hand: Vector3 = Vector3.UP * 1.25 + way * 0.45 - side * 0.18
 			var chest: Vector3 = aim + Vector3.UP * 1.0
 			var gather: float = seconds * 0.3
 			var flight: float = seconds * (REACHES["bolt"] - 0.3)
@@ -165,13 +158,16 @@ static func play(parent: Node3D, tween: Tween, kind: String, colour: Color, at: 
 				tween.tween_property(hub, "scale", Vector3(0.1, 0.1, 1.0), seconds * 0.25).set_delay(passed + seconds * 0.2)
 				tween.tween_property(streak_glow, "albedo_color:a", 0.0, seconds * 0.25).set_delay(passed + seconds * 0.2)
 				if bool(look.get("returns", false)):
-					# 光气绕了回转过来又从顶门注入体内: back over their heads into the caster's crown.
+					# 光气绕了回转过来又从顶门注入体内: back over their heads into the caster's crown
+					# (their own light: the streak's is fading by then), there as the art ends.
+					var back_glow: StandardMaterial3D = _glow(Color(String(look.get("streak", colour.to_html(false)))), 0.9)
 					for index: int in 5:
-						var mote: MeshInstance3D = _block(root, streak_glow, Vector3.ONE * 0.07, beyond)
+						var mote: MeshInstance3D = _block(root, back_glow, Vector3.ONE * 0.08, beyond)
 						mote.scale = Vector3.ONE * 0.01
-						var delay: float = passed + seconds * 0.15 + seconds * 0.025 * index
+						var delay: float = passed + seconds * 0.1 + seconds * 0.02 * index
 						tween.tween_property(mote, "scale", Vector3.ONE, seconds * 0.05).set_delay(delay)
-						tween.tween_method(_arc.bind(mote, beyond, Vector3.UP * 2.0, 1.4), 0.0, 1.0, seconds * 0.28).set_delay(delay)
+						tween.tween_method(_arc.bind(mote, beyond, Vector3.UP * 2.0, 1.4), 0.0, 1.0, seconds * 0.25).set_delay(delay)
+						tween.tween_property(mote, "scale", Vector3.ONE * 0.01, seconds * 0.04).set_delay(delay + seconds * 0.23)
 			else:
 				# 无声无息地钻入地下.
 				tween.tween_property(ball, "position", aim + way * 0.7 - Vector3.UP * 0.2, seconds * 0.2).set_delay(passed)
@@ -179,7 +175,9 @@ static func play(parent: Node3D, tween: Tween, kind: String, colour: Color, at: 
 		"descend":
 			var side := Vector3(-way.z, 0.0, way.x)
 			var foot: Vector3 = side * 0.95 + way * 0.2
-			var shaft: MeshInstance3D = _block(root, _glow(colour, 0.45), Vector3(0.5, 4.4, 0.5), foot + Vector3.UP * 7.0)
+			var shaft_glow: StandardMaterial3D = _glow(colour, 0.45)
+			var shaft: MeshInstance3D = _block(root, shaft_glow, Vector3(0.5, 4.4, 0.5), foot + Vector3.UP * 7.0)
+			tween.tween_property(shaft_glow, "albedo_color:a", 0.0, seconds * 0.3).set_delay(seconds * 0.7)
 			tween.tween_property(shaft, "position", foot + Vector3.UP * 2.2, seconds * 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 			tween.tween_property(shaft, "scale", Vector3(0.1, 1.0, 0.1), seconds * 0.35).set_delay(seconds * 0.65)
 			for index: int in 10:

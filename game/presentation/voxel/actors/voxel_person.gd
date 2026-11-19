@@ -705,6 +705,17 @@ func _process(delta: float) -> void:
 		_gesture(fmod(clock, GESTURE_SECONDS[gesture])/GESTURE_SECONDS[gesture])
 
 
+## Where a plain-figure point of the head is on this body, in the torso's space (what is bound
+## round the head sits there on a child and on a tall one alike), and the head's size beside
+## the plain figure's.
+func head_point(at: Vector3) -> Vector3:
+	return _at(at, true)
+
+
+func head_scale() -> float:
+	return _head_k
+
+
 ## The body's bend at rest: forward as it is worn, rocking from side to side as it sways; in
 ## steps (a part turned is work for the renderer). One fresh and steady stands straight.
 func _stoop() -> Vector3:

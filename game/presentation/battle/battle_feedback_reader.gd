@@ -276,19 +276,24 @@ static func _target(event: CombatEncounterEvent, projection: BattlePresentationP
 func _tactical(event: CombatTacticalEvent, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	var label: String = catalog.label_for(event.action.request.action_id)
-	# 战斗运功: an exert or a spell that took shows in the scene.
+	# 战斗运功: an exert or a spell that was done shows in the scene (one that took the caster
+	# away — 遁 — as well). Aimed at the one the fight resolved it against (the request itself
+	# names nobody for an exert or a spell).
 	var art: StringName = &""
-	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.outcome == CombatTacticalExecutionResult.Outcome.APPLIED:
+	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.outcome in [CombatTacticalExecutionResult.Outcome.APPLIED, CombatTacticalExecutionResult.Outcome.DISENGAGED]:
 		art = BattleNarrator.action_art(event.action.request.action_id)
 	var me: StringName = event.action.request.actor_id
-	var aim: StringName = event.action.request.target_id if event.action.request.target_id != me else &""
+	var aim: StringName = event.action.resolved_target_id if event.action.resolved_target_id != me else &""
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.special != null and not event.execution.special.is_empty():
 		var report: SpecialReport = event.execution.special
 		lines = _narrator.special(report, projection, label)
 		if not lines.is_empty() and not art.is_empty():
-			if aim.is_empty():
-				aim = BattleNarrator.aimed(report.lines(), me)
-			lines[0].with_art(me, art, aim, report.damaged().has(aim))
+			# A spell picks its own target (offensive_target()): its lines name it. One whose
+			# lines name nobody (你失败了。) is aimed at nobody.
+			aim = BattleNarrator.aimed(report.lines(), me)
+			# It took: it hurt the one it was aimed at, brought someone (召天将) or took the
+			# caster away (遁).
+			lines[0].with_art(me, art, aim, (not aim.is_empty() and report.damaged().has(aim)) or not event.execution.allies.is_empty() or not event.execution.departure.is_empty())
 		return lines
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and not event.execution.lines().is_empty():
 		for line: ColoredLine in event.execution.lines():

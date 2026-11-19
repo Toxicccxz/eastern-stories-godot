@@ -761,7 +761,10 @@ func _arts(tree: SceneTree) -> void:
 		check(String(look.get("colour", "")).is_valid_html_color() and BattleArts.KINDS.has(String(look.get("kind", ""))), "%s: a colour and a figure the library draws" % key)
 		check(String(look.get("pose", "")).is_empty() or Person.REACTIONS.has(String(look["pose"])), "%s: a stance the figure has" % key)
 		var function_id: StringName = StringName(key.get_slice("/", 1)) if key.contains("/") else &""
-		check(key in ["exert", "cast"] or (key.begins_with("exert/") and ExertFunctions.has(function_id)) or (key.begins_with("cast/") and SpecialFunctions.CASTS.has(function_id)), "%s is an exert function or a spell of the game" % key)
+		# A spell's form cast at oneself ("cast/dun_self"): only where the spell has one.
+		var at_self: CastFunction = SpecialFunctions.cast(StringName(String(function_id).trim_suffix("_self"))) if String(function_id).ends_with("_self") else null
+		check(key in ["exert", "cast"] or (key.begins_with("exert/") and ExertFunctions.has(function_id)) or (key.begins_with("cast/") and (SpecialFunctions.CASTS.has(function_id) or (at_self != null and not at_self.self_label.is_empty()))), "%s is an exert function or a spell of the game" % key)
+		check(String(look.get("needs", "")) in ["", "aim", "took"] and (String(look.get("otherwise", "")).is_empty() or arts.has(String(look["otherwise"]))), "%s: its need is one the show knows, what it shows otherwise is in the table" % key)
 	for function_id: StringName in ExertFunctions.ORDER:
 		check(arts.has("exert/%s" % function_id), "the exert function %s has its art" % function_id)
 	for function_id: StringName in SpecialFunctions.CASTS:
@@ -832,6 +835,7 @@ func _arts(tree: SceneTree) -> void:
 	_show.play_line(BattleNarrationLine.new("x").with_special(ME, "施法「紫光」").with_art(ME, &"cast/drainerbolt", YOU, true))
 	await tree.create_timer(1.0).timeout
 	check(me.react == "cast" and me.react_amount > 0.5 and is_zero_approx(you.react_amount) and _flash_colour(you) == Color.BLACK, "a bolt: the caster's hand flung out; not there yet, the other unmoved")
+	check(not _show.side_running(YOU), "the wait is its own: the other's reel and lurch are not taken")
 	await tree.create_timer(1.3).timeout
 	check(you.react == "hit" and you.react_amount > 0.3, "it goes through them: they flinch (%s %.2f)" % [you.react, you.react_amount])
 	await tree.create_timer(4.0).timeout
@@ -847,11 +851,37 @@ func _arts(tree: SceneTree) -> void:
 	check(art != null and art.global_position.distance_to(_view.actors[YOU].global_position + you.position) < 0.05, "疗伤他人 (told as a plain line): its figure about the one healed")
 	await tree.create_timer(4.5).timeout
 	# One aimed at nobody there, one the table does not name, a perform.
-	check(_show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/netherbolt", &"gone", true)) and is_zero_approx(you.react_amount), "a bolt at one who is gone: it flies ahead, nobody flinches")
+	# An art that needs someone to be aimed at: none when its words failed (they name nobody) or
+	# the one named is gone.
+	check(not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/netherbolt", &"gone", true)) and not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/netherbolt")) and not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"exert/chillgaze")) and not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"exert/lifeheal")) and not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/dun")), "a bolt, a gaze, 疗伤他人, 困 with nobody there to be aimed at: none")
+	check(_show.effect_count() == 0, "and nothing of them left")
+	var latest: Callable = func() -> Node3D:
+		var found: Node3D = null
+		for effect: Node3D in _show._effects:
+			# By its mark, not its name: a second one under the same figure is named anew.
+			if is_instance_valid(effect) and effect.has_meta(&"art"):
+				found = effect
+		return found
+	var blocks_of: Callable = func(figure: Node3D) -> int: return -1 if figure == null else figure.find_children("*", "MeshInstance3D", true, false).size()
+	# 意寒睨 at someone there: the two lines of sight; nobody flinches for it.
+	check(_show.play_art(BattleNarrationLine.new("x").with_art(ME, &"exert/chillgaze", YOU)) and blocks_of.call(latest.call()) == 2 and _show.arts_waiting() == 0, "意寒睨: two lines of sight, no flinch of its own")
+	# 召天将: the shaft of light only when someone came; its words alone otherwise.
+	check(_show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/invocation", &"", false)) and blocks_of.call(latest.call()) == 6, "召天将 that brought nobody: the slips of its words alone (%d)" % blocks_of.call(latest.call()))
+	check(_show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/invocation", &"", true)) and blocks_of.call(latest.call()) == 11, "one that brought someone: the shaft of light (%d)" % blocks_of.call(latest.call()))
+	# 困 closes round the one it is cast at; 遁 is smoke where the caster stood, when it took them away.
+	check(_show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/dun", YOU, false)) and (latest.call() as Node3D).global_position.distance_to(_view.actors[YOU].global_position + you.position) < 0.05, "困: about the one it is cast at")
+	check(not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/dun_self", &"", false)), "遁 that failed: none")
+	check(_show.play_art(BattleNarrationLine.new("x").with_art(ME, &"cast/dun_self", &"", true)) and blocks_of.call(latest.call()) == 14 and (latest.call() as Node3D).position.is_equal_approx(me.position), "遁 that took the caster away: smoke where it stood")
 	check(_show.play_art(BattleNarrationLine.new("x").with_art(YOU, &"exert/somethingnew")), "an exert the table does not name: its sort's art")
 	check(not _show.play_art(BattleNarrationLine.new("x").with_art(ME, &"perform/hasten")) and not _show.play_art(BattleNarrationLine.new("x").with_art(&"nobody", &"exert/recover")), "a perform, or nobody to do it: none")
+	# The fight over in the middle of one: the doer's stance let go, a bolt's wait dropped.
+	_show.play_line(BattleNarrationLine.new("x").with_art(ME, &"cast/drainerbolt", YOU, true))
+	await tree.create_timer(0.9).timeout
+	check(me.react_amount > 0.5 and _show.arts_waiting() == 1, "mid-art: the stance held, the bolt on its way")
 	_show.end()
-	check(_show.effect_count() == 0, "the end: nothing left")
+	check(_show.effect_count() == 0 and _show.arts_waiting() == 0 and is_zero_approx(me.react_amount), "the end: nothing left, the stance let go")
+	await tree.create_timer(1.6).timeout
+	check(is_zero_approx(you.react_amount) and _flash_colour(you) == Color.BLACK, "and nobody flinches for a bolt that never came")
 	_show.pace = 1.0
 	TestFeel.restore()
 

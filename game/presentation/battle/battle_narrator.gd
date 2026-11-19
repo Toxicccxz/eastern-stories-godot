@@ -31,8 +31,9 @@ func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection
 		# 战斗运功: an exert or a spell shows in the scene.
 		var art: StringName = npc_art(event.chat.special_action())
 		if not lines.is_empty() and not art.is_empty():
+			# It took: it hurt the one it was aimed at, or it brought someone (召天将).
 			var aim: StringName = aimed(event.chat.lines(), event.actor_id)
-			lines[0].with_art(event.actor_id, art, aim, not aim.is_empty() and event.chat.damaged(aim))
+			lines[0].with_art(event.actor_id, art, aim, (not aim.is_empty() and event.chat.damaged(aim)) or not event.chat.joins().is_empty())
 		return lines
 	if event.kind == CombatSchedulerEvent.Kind.SPECIAL_EFFECT_ENDED and event.special != null:
 		return special(event.special, cast)
@@ -261,14 +262,17 @@ static func npc_art(action: NpcSpecialAction) -> StringName:
 	return &""
 
 
-## The art of the player's action `action_id`: an exert's or a spell's, &"" for any other.
+## The art of the player's action `action_id`: an exert's or a spell's (a spell cast at
+## oneself that has a form of its own for it — 遁 beside 困 — is "cast/<spell>_self"), &"" for
+## any other.
 static func action_art(action_id: StringName) -> StringName:
 	var exert: StringName = CombatExertTacticalPolicy.function_for(action_id)
 	if ExertFunctions.has(exert):
 		return art_key("exert", exert)
-	var spell: StringName = CombatCastTacticalPolicy.function_for(action_id)
-	if SpecialFunctions.cast(spell) != null:
-		return art_key("cast", spell)
+	var spell_id: StringName = CombatCastTacticalPolicy.function_for(action_id)
+	var spell: CastFunction = SpecialFunctions.cast(spell_id)
+	if spell != null:
+		return art_key("cast", StringName("%s_self" % spell_id) if CombatCastTacticalPolicy.is_self(action_id) and not spell.self_label.is_empty() else spell_id)
 	return &""
 
 

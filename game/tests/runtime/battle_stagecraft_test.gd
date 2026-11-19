@@ -20,6 +20,7 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_feel_keys()
 	_blow_behind_a_line()
+	_arts_of_the_player()
 	_cards_play_a_line(tree)
 	_hit_setting_and_feel_off(tree)
 	_crack_and_mend(tree)
@@ -88,6 +89,53 @@ func _blow_behind_a_line() -> void:
 	check(BattleNarrator.new(Narration._seeded(3)).opportunity(plain, cast)[0].art.is_empty(), "a chat that ran no special: no art")
 	var counter := CombatSchedulerEvent.new(4, 1, 0.0, CombatSchedulerEvent.Kind.NPC_CHAT, CombatSchedulerEvent.SkipReason.NONE, &"actor", &"", null, 0, CombatNpcChatResult.new(spell_lines, nobody).with_special_action(NpcSpecialAction.new(NpcSpecialAction.Kind.PERFORM, &"sword", &"counterattack")))
 	check(BattleNarrator.new(Narration._seeded(3)).opportunity(counter, cast)[0].art.is_empty(), "a perform: no art (its blows show it)")
+
+
+## 战斗运功 (DECISIONS「战斗运功」): the player's own exert or spell as the fight resolved it,
+## through the reader — whom its art is aimed at, whether it took, which form of the spell it was.
+func _arts_of_the_player() -> void:
+	var cast := Narration._cast(&"actor", &"actor", "学徒", CharacterState.GENDER_MALE, &"target", "对手", CharacterState.GENDER_FEMALE)
+	var reader := BattleFeedbackReader.new(Narration._seeded(4))
+	var applied: int = CombatTacticalExecutionResult.Outcome.APPLIED
+	var nobody: Array[StringName] = []
+	var hurt: Array[StringName] = [&"target"]
+	var no_attacks: Array[SpecialAttack] = []
+	var no_lines: Array[ColoredLine] = []
+	# An exert names nobody in its request: the fight's resolved target is the one.
+	var gaze_lines: Array[ColoredLine] = [ColoredLine.new("你眼神忽然发出异光，双瞳犹如两把利刃般盯著对手！"), ColoredLine.new("对手被你的目光所摄，不自禁地打了个寒噤。")]
+	var gazed: Array[BattleNarrationLine] = reader._tactical(_resolved(CombatExertTacticalPolicy.action_id_for(&"chillgaze"), CombatTacticalRequest.Category.INTERNAL_FORCE, &"target", CombatTacticalExecutionResult.new(applied, &"chillgaze", gaze_lines)), cast)
+	check(gazed.size() == 2 and gazed[0].art == &"exert/chillgaze" and gazed[0].art_target == &"target" and gazed[0].is_special and gazed[1].art.is_empty(), "意寒睨: aimed at the one the fight resolved it against (%s)" % (gazed[0].art_target if not gazed.is_empty() else &"?"))
+	var own: Array[BattleNarrationLine] = reader._tactical(_resolved(CombatExertTacticalPolicy.action_id_for(&"recover"), CombatTacticalRequest.Category.INTERNAL_FORCE, &"actor", CombatTacticalExecutionResult.new(applied, &"recover", gaze_lines)), cast)
+	check(own[0].art == &"exert/recover" and own[0].art_target.is_empty(), "one resolved against oneself: aimed at nobody")
+	var failed: Array[BattleNarrationLine] = reader._tactical(_resolved(CombatExertTacticalPolicy.action_id_for(&"recover"), CombatTacticalRequest.Category.INTERNAL_FORCE, &"", CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED, &"recover", gaze_lines)), cast)
+	check(not failed.is_empty() and failed[0].art.is_empty(), "an exert that failed: no art")
+	# A bolt picks its own target: its lines name it; home when it hurt them.
+	var flash: Array[VisionLine] = [VisionLine.new("$N口中喃喃地念著咒文，左手一挥，手中聚起一团青光射向$n！", &"actor", &"target"), VisionLine.new("结果「嗤」地一声，青光从$p身上透体而过！", &"actor", &"target")]
+	var bolt_id: StringName = CombatCastTacticalPolicy.action_id_for(&"netherbolt")
+	var home: Array[BattleNarrationLine] = reader._tactical(_resolved(bolt_id, CombatTacticalRequest.Category.SPELL, &"", CombatTacticalExecutionResult.new(applied, &"netherbolt", no_lines, SpecialReport.new(&"actor", flash, no_attacks, hurt))), cast)
+	check(home[0].art == &"cast/netherbolt" and home[0].art_target == &"target" and home[0].art_landed, "a bolt that went home: aimed by its lines, landed")
+	var wide: Array[BattleNarrationLine] = reader._tactical(_resolved(bolt_id, CombatTacticalRequest.Category.SPELL, &"", CombatTacticalExecutionResult.new(applied, &"netherbolt", no_lines, SpecialReport.new(&"actor", flash, no_attacks, nobody))), cast)
+	check(wide[0].art_target == &"target" and not wide[0].art_landed, "one that missed: aimed, not landed")
+	var fizzled: Array[VisionLine] = [VisionLine.new("你失败了。", &"actor")]
+	var none: Array[BattleNarrationLine] = reader._tactical(_resolved(bolt_id, CombatTacticalRequest.Category.SPELL, &"target", CombatTacticalExecutionResult.new(applied, &"netherbolt", no_lines, SpecialReport.new(&"actor", fizzled, no_attacks, nobody))), cast)
+	check(none[0].art == &"cast/netherbolt" and none[0].art_target.is_empty() and not none[0].art_landed, "one whose words failed: aimed at nobody (the scene shows none)")
+	# 召天将 took when someone came.
+	var chant: Array[VisionLine] = [VisionLine.new("$N喃喃地念了几句咒语。", &"actor")]
+	var came: Array[StringName] = [&"guard"]
+	var summon_id: StringName = CombatCastTacticalPolicy.action_id_for(&"invocation")
+	var summoned: Array[BattleNarrationLine] = reader._tactical(_resolved(summon_id, CombatTacticalRequest.Category.SPELL, &"", CombatTacticalExecutionResult.new(applied, &"invocation", no_lines, SpecialReport.new(&"actor", chant, no_attacks, nobody)).with_allies(came)), cast)
+	var unheard: Array[BattleNarrationLine] = reader._tactical(_resolved(summon_id, CombatTacticalRequest.Category.SPELL, &"", CombatTacticalExecutionResult.new(applied, &"invocation", no_lines, SpecialReport.new(&"actor", chant, no_attacks, nobody))), cast)
+	check(summoned[0].art == &"cast/invocation" and summoned[0].art_landed and not unheard[0].art_landed, "召天将: took when someone came")
+	# 遁 at oneself is its own form, and took when it carried the caster away; 困 is the spell's plain one.
+	var away: Array[BattleNarrationLine] = reader._tactical(_resolved(CombatCastTacticalPolicy.action_id_for(&"dun", true), CombatTacticalRequest.Category.SPELL, &"actor", CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.DISENGAGED, &"dun", no_lines, SpecialReport.new(&"actor", chant, no_attacks, nobody)).with_departure(DunSpell.DESTINATION)), cast)
+	var stayed: Array[BattleNarrationLine] = reader._tactical(_resolved(CombatCastTacticalPolicy.action_id_for(&"dun", true), CombatTacticalRequest.Category.SPELL, &"actor", CombatTacticalExecutionResult.new(applied, &"dun", no_lines, SpecialReport.new(&"actor", fizzled, no_attacks, nobody))), cast)
+	check(away[0].art == &"cast/dun_self" and away[0].art_landed and stayed[0].art == &"cast/dun_self" and not stayed[0].art_landed, "遁: its own form; took only when it carried the caster away")
+	check(BattleNarrator.action_art(CombatCastTacticalPolicy.action_id_for(&"dun")) == &"cast/dun" and BattleNarrator.action_art(CombatCastTacticalPolicy.action_id_for(&"netherbolt", true)) == &"cast/netherbolt" and BattleNarrator.action_art(&"flee").is_empty(), "困 is 遁's plain form; a spell with no form for oneself keeps its one art; running away has none")
+
+
+static func _resolved(action_id: StringName, category: int, resolved_target: StringName, execution: CombatTacticalExecutionResult) -> CombatTacticalEvent:
+	var request := CombatTacticalRequest.new(&"request", &"encounter", &"actor", action_id, category)
+	return CombatTacticalEvent.new(1, CombatTacticalEvent.Kind.RESOLVED, CombatQueuedAction.new(request, 1, resolved_target), CombatTacticalResult.Code.ACCEPTED, execution)
 
 
 ## A line told plays on the cards: the attacker's title, the one hit's float, bar step, flash

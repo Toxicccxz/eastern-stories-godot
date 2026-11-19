@@ -833,14 +833,11 @@ static func fall_turn(fall: float, falling: bool) -> float:
 		return pow(fall/0.8,2.0)
 	return 1.0 - 0.07*sin((fall - 0.8)/0.2*PI)
 
-## 第九章 B (DECISIONS「禁军夜巡」): a watcher's cone of sight on the ground (meta `watch_cone` the
-## runtime sets: radius px, degrees, alarmed), faint, turned with the body; only at night, when
-## it matters; gone when it stops watching (the meta cleared).
 ## 状态挂在身上 (DECISIONS「战斗运功」): a few times a second each figure's conditions, its open
 ## wound and how worn it is are read off its character's state (the rules' own: this only shows
 ## them) and handed to the figure — the marks it wears (voxel_states.gd, a "States" node under
 ## its model, made when it first has any) and, for a person, its stoop, sway and shiver. One
-## senseless or dead wears none.
+## senseless or dead, or lying at rest, wears none.
 func _sync_states(delta: float) -> void:
 	_states_wait -= delta
 	if _states_wait > 0.0:
@@ -863,10 +860,11 @@ func _sync_states(delta: float) -> void:
 		elif residents.has(id):
 			state = residents[id].character_state
 			life = residents[id].life_status
-		var up: bool = state != null and life == CharacterRuntimeLifeStatus.Value.ACTIVE
 		var person: Person = model as Person
 		if person != null and not person.stone.is_empty():
 			continue
+		# One lying at rest (asleep on its bed) shows nothing rising off where it would stand.
+		var up: bool = state != null and life == CharacterRuntimeLifeStatus.Value.ACTIVE and not (person != null and person.pose == Person.LIE and person.at_ease and not person.walking)
 		var ids: Array[StringName] = []
 		if up and state.conditions.size() > 0:
 			ids = state.conditions.sorted_condition_ids()
@@ -876,8 +874,15 @@ func _sync_states(delta: float) -> void:
 			if worn == null:
 				worn = States.new()
 				worn.name = "States"
-				worn.height = float(actor.get_meta("pick_height", 1.85)) / 1.85
-				worn.body = person.torso if person != null else null
+				# The model carries the figure's own scale already: a low figure's marks go by
+				# how tall its kind is, a person's by its own height and head.
+				worn.height = float(actor.get_meta("mark_height", 1.0))
+				if person != null:
+					worn.body = person.torso
+					worn.height = person.head_point(Vector3(0.0, 1.68, 0.035)).y / 1.68
+					worn.head_lift = person.head_point(Vector3(0.0, 1.2, 0.035)).y - 1.2
+					worn.head_scale = person.head_scale()
+					worn.headless = person.headless
 				model.add_child(worn)
 			worn.wear(States.marks_for(ids, open_wound))
 		if person != null:
@@ -887,6 +892,9 @@ func _sync_states(delta: float) -> void:
 			person.weary = maxf(States.weariness(state.vitality.current, state.vitality.maximum), bearing[2]) if up else 0.0
 
 
+## 第九章 B (DECISIONS「禁军夜巡」): a watcher's cone of sight on the ground (meta `watch_cone` the
+## runtime sets: radius px, degrees, alarmed), faint, turned with the body; only at night, when
+## it matters; gone when it stops watching (the meta cleared).
 func _sync_watch_cone(actor: Node3D, body: WorldCharacterBody2D) -> void:
 	var cone: MeshInstance3D = actor.get_node_or_null("WatchCone") as MeshInstance3D
 	var data: Dictionary = body.get_meta("watch_cone", {}) if body.has_meta("watch_cone") else {}
@@ -1061,6 +1069,8 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 	label.set_meta("name_distance",float(look.get("name_distance",-1.0)))
 	_context_names = _context_names or float(look.get("name_distance",-1.0))>=0
 	actor.set_meta("pick_height",(0.5*size if crawler else 1.15*size) if low else 1.85)
+	# 状态挂在身上: how tall the figure's kind is beside a person, before its own scale.
+	actor.set_meta("mark_height",((0.5 if crawler else 1.15)/1.85) if low else 1.0)
 	actor.set_meta("pick_width",maxf(10,20*size) if low else 20.0)
 
 func _sync_objects() -> void:
