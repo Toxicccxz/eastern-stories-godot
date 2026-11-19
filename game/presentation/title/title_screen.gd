@@ -3,9 +3,9 @@ extends CanvasLayer
 
 ## The title (界面重做, DECISIONS「标题画面」), behind the main menu and the dialogs opened from
 ## it while no journey runs: the living 沙盘 (TitleSand), the sky that parts from the sun
-## (TitleSky, 拨云见日), the gold-leaf title (TitleLogo) and what the menu's choices do
+## (TitleSky, 拨云见日), the ink-lettered title (TitleLogo) and what the menu's choices do
 ## (TitleMenuFx). Choosing an option flies the camera to its place (title_screen.json) and
-## names it; starting a journey blows the gold away as dust while the camera dives at where
+## names it; starting a journey lifts the ink off as smoke while the camera dives at where
 ## it begins, the clouds close and the light floods the screen — then the world shows.
 ## It only shows things: the shell's state decides, and a start goes ahead at once whatever
 ## the title is still playing (it plays over the world as it is built, then fades).
@@ -15,15 +15,19 @@ signal entered
 ## Below the shell's dialogs; above them while a journey starts (it covers the busy note).
 const LAYER: int = 99
 const ENTERING_LAYER: int = 101
-## When the title starts being gilded in the first opening (seconds, at its pace), and when the
-## menu's letters come up: a beat after the seal is stamped. The place's name waits for it.
-const LOGO_FROM_SECONDS: float = 1.1
+## When the title starts being written in the first opening (seconds, at its pace), when the
+## light crosses it (the clouds have mostly parted by then: ink to white, the dusk behind), and
+## when the menu's letters come up: a beat after the seal is stamped. The place's name waits for
+## the menu.
+const LOGO_FROM_SECONDS: float = 0.9
+const LIGHT_FROM_SECONDS: float = 2.7
+const LIGHT_SECONDS: float = 0.7
 const MENU_UP_SECONDS: float = LOGO_FROM_SECONDS + TitleLogo.STAMP_FROM + TitleLogo.STAMP_SECONDS + 0.1
 ## How long the white holds before the voxel animation comes onto it.
 const LOADER_AFTER_SECONDS: float = 0.0
-## `write` once the title is gilded, its line up and its seal stamped.
+## `write` once the title is written, its line up and its seal stamped.
 const LOGO_STANDS: float = 1.0
-## Starting a journey: when the gold goes to dust, and when the clouds and the white close in.
+## Starting a journey: when the ink lifts off as smoke, and when the clouds and the white close in.
 const DUST_FROM: float = 0.8
 const WHITE_FROM: float = DUST_FROM + 0.95
 
@@ -123,7 +127,8 @@ func entering() -> bool:
 
 func _build_logo() -> void:
 	var language: String = TranslationServer.get_locale()
-	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language))
+	# Brush lettering goes with a seal: the languages that have one.
+	logo.build(definition.logo_for(language), definition.seal_for(language), definition.line_for(language), not definition.seal_for(language).is_empty())
 
 
 func _notification(what: int) -> void:
@@ -133,7 +138,6 @@ func _notification(what: int) -> void:
 
 func _process(delta: float) -> void:
 	_menu_up_in = maxf(0.0, _menu_up_in - delta)
-	logo.clear = 1.0 - sky.cover
 	if caption.modulate.a > 0.0:
 		var spot: Vector2 = sand.centre_on_screen()
 		caption.position = (spot + Vector2(-caption.size.x / 2.0, -caption.size.y - 26.0 + sin(sand.clock * 1.6) * 3.0)).round()
@@ -157,8 +161,8 @@ func _on_state(state: ApplicationShellState) -> void:
 		_hide()
 
 
-## 拨云见日: cloud; light grows behind it; the clouds part from the sun; the title is gilded from
-## left to right and its seal stamped; the menu comes up (it is usable at once).
+## 拨云见日: cloud; the title is written in black ink on it and its seal stamped; the clouds part
+## from the sun and a band of light turns the ink white; the menu comes up (it is usable at once).
 func _show() -> void:
 	visible = true
 	layer = LAYER
@@ -181,6 +185,7 @@ func _show() -> void:
 	t.tween_property(sky, "rays", 0.85, 2.0 * pace).set_delay(2.3 * pace)
 	t.tween_property(sand, "zoom", 0.66, 3.4 * pace).set_delay(0.4 * pace).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	t.tween_property(logo, "write", LOGO_STANDS, TitleLogo.ARRIVAL_SECONDS * LOGO_STANDS * pace).set_delay(LOGO_FROM_SECONDS * pace)
+	t.tween_property(logo, "lit", 1.0, LIGHT_SECONDS * pace).set_delay(LIGHT_FROM_SECONDS * pace)
 	# The menu is usable at once; its letters come up as the clouds part.
 	menu_fx.menu_alpha = 0.0
 	_menu_up_in = MENU_UP_SECONDS * pace
@@ -209,6 +214,7 @@ func _reset() -> void:
 	sky.flare = 0.0
 	sky.wisp_close = 0.0
 	logo.write = 0.0
+	logo.lit = 0.0
 	logo.burn = -0.2
 	logo.charge = 0.0
 	sand.drift_on = 1.0
@@ -261,8 +267,8 @@ func _on_chosen(button: Button) -> void:
 	create_tween().tween_property(logo, "glint", logo.glint_at(1.1), 1.1).set_trans(Tween.TRANS_SINE)
 
 
-## A journey starts: a glint, the gold warms (DUST_FROM) and blows away as dust under a held-down
-## sun, and only once the dust has mostly played (WHITE_FROM) the clouds close and the light
+## A journey starts: a glint, the lettering brightens (DUST_FROM) and lifts off as smoke under a
+## held-down sun, and only once the smoke has mostly played (WHITE_FROM) the clouds close and the light
 ## floods in; the camera dives at
 ## `place`, the clouds close and the light floods the screen; held white until the world is
 ## there, then faded.
@@ -282,11 +288,12 @@ func _enter(place: StringName) -> void:
 		_caption_fade.kill()
 	sky.cover = minf(sky.cover, 0.0)
 	logo.write = LOGO_STANDS
+	logo.lit = 1.0
 	logo.burn = 0.0
 	logo.glint = logo.glint_at(-0.1)
 	var t := create_tween().set_parallel()
 	t.tween_property(logo, "glint", logo.glint_at(1.1), 0.45).set_trans(Tween.TRANS_SINE)
-	# The sun held down while the dust plays (its glow would white the dust out).
+	# The sun held down while the smoke plays (its glow would white it out).
 	t.tween_property(sky, "rays", 0.6, 0.5)
 	t.tween_property(sky, "glow", 0.56, 0.5)
 	t.tween_property(logo, "charge", 1.0, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
