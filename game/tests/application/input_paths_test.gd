@@ -31,6 +31,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		await _test_pause_in_dialogue(tree, shell)
 		await _test_pause_in_scene(tree, shell)
 		await _test_window_focus(tree, shell)
+		await _test_walk_by_position(tree, shell)
 		await _test_key_page(tree, shell)
 		await _test_pause_in_epilogue(tree, shell)
 		shell.queue_free()
@@ -106,6 +107,29 @@ func _test_card_after_pause(tree: SceneTree, shell: ApplicationShellController) 
 		await _frames(tree, 2)
 		_check(not overlay.card_shown() and not session.world_time_held(), "%s: confirm closes the card" % label)
 		_check(not session.shared_ui().interaction_open(), "%s: and nothing under it was interacted with" % label)
+
+
+## A key event whose keycode and physical keycode differ (AZERTY's Z at QWERTY's W) walks by
+## its position: up.
+func _test_walk_by_position(tree: SceneTree, shell: ApplicationShellController) -> void:
+	var session: WorldSessionController = shell.runtime_host().current_session()
+	var map := session.active_map() as WorldMapController
+	var body: Node2D = map.runtime_player_body()
+	var before: Vector2 = body.global_position
+	var down := InputEventKey.new()
+	down.physical_keycode = KEY_W
+	down.keycode = KEY_Z
+	down.unicode = "z".unicode_at(0)
+	down.pressed = true
+	_check(InputMap.event_is_action(down, &"move_up", true) and not InputMap.event_is_action(down, &"move_down", true), "Z typed at W's place is 走 up")
+	Input.parse_input_event(down)
+	for frame: int in 20:
+		await tree.physics_frame
+	var up := down.duplicate() as InputEventKey
+	up.pressed = false
+	Input.parse_input_event(up)
+	await _frames(tree, 2)
+	_check(body.global_position.y < before.y - 1.0, "and the player walked up: %s → %s" % [before, body.global_position])
 
 
 ## Esc in the dialogue box opens 系统 (it was dead there); the box stands where it was and
@@ -214,12 +238,33 @@ func _test_focus_pause_setting() -> void:
 
 
 ## The letter keys are bound by position; the glyph names the letter (here, QWERTY's).
+## Every A to Z key event in the game's actions has no keycode and a physical one
+## (17 actions have one; a binding written by key would print and act wrong on AZERTY).
 func _test_key_names() -> void:
-	for action: StringName in [&"move_up", &"interact", &"menu_open"]:
+	var lettered: Array[StringName] = []
+	for action: StringName in InputMap.get_actions():
+		if String(action).begins_with("ui_"):
+			continue # Godot's own text and dialog shortcuts (Ctrl+C and so on), not the game's.
 		for event: InputEvent in InputMap.action_get_events(action):
 			var key := event as InputEventKey
-			if key != null and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z:
-				_check(key.keycode == KEY_NONE, "%s: by position only" % action)
+			if key == null:
+				continue
+			var letter: bool = (key.keycode >= KEY_A and key.keycode <= KEY_Z) or (key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z)
+			if not letter:
+				continue
+			if not lettered.has(action):
+				lettered.append(action)
+			_check(key.keycode == KEY_NONE and key.physical_keycode >= KEY_A and key.physical_keycode <= KEY_Z, "%s: a letter by position only (keycode %d, physical %d)" % [action, key.keycode, key.physical_keycode])
+	_check(lettered.size() == 17, "17 actions have a letter key: %s" % [lettered])
+	# A key cap prints what the key types: the punctuation an AZERTY layout has where QWERTY's
+	# letters are shows as itself, not by its English name.
+	var caps: Dictionary[Key, String] = {
+		KEY_COMMA: ",", KEY_PERIOD: ".", KEY_SEMICOLON: ";", KEY_COLON: ":", KEY_APOSTROPHE: "'",
+		KEY_BRACKETLEFT: "[", KEY_SLASH: "/", KEY_A: "A", KEY_Z: "Z", 0xE9 as Key: "É",
+		KEY_ESCAPE: "Esc", KEY_SPACE: "Space", KEY_UP: "Up", KEY_F1: "F1", KEY_PAGEUP: "PgUp",
+	}
+	for code: Key in caps:
+		_check(InputGlyphs.key_text(code) == caps[code], "key cap for %d: %s, not %s" % [code, caps[code], InputGlyphs.key_text(code)])
 	_check(InputGlyphs.key_names(&"move_up") == PackedStringArray(["W", "Up"]), "走 up: W / Up: %s" % [InputGlyphs.key_names(&"move_up")])
 	_check(InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.XBOX) == PackedStringArray(["A"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.PLAYSTATION) == PackedStringArray(["叉"]) and InputGlyphs.pad_names(&"interact", InputDevices.PadStyle.NINTENDO) == PackedStringArray(["B"]), "交互 on the three pads")
 	_check(bool(ProjectSettings.get_setting("input_devices/joypads/ignore_joypad_on_unfocused_application")), "Godot drops a pad's input while the window has no focus")

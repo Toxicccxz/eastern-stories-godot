@@ -138,6 +138,11 @@ class MapsPaintTest(unittest.TestCase):
         paint.zones_apart(shapes + zone('a', (32, 32), 'Rect_64_64') + zone('b', (96, 32), 'Rect_64_64'), 'edge to edge')
         with self.assertRaises(AssertionError):
             paint.zones_apart(shapes + zone('a', (32, 32), 'Rect_64_64') + zone('b', (80, 48), 'Rect_64_64'), 'overlap')
+        # A zone written another way (a property after its id) cannot slip past the overlap check.
+        odd = zone('b', (80, 48), 'Rect_64_64').replace('\nscript = ExtResource("zone")\nzone_id = &"t.b"\n\n',
+                                                        '\nscript = ExtResource("zone")\nzone_id = &"t.b"\nz_index = 1\n\n')
+        with self.assertRaises(AssertionError):
+            paint.zones_apart(shapes + zone('a', (32, 32), 'Rect_64_64') + odd, 'unread')
 
 
 if __name__ == '__main__':

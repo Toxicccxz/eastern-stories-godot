@@ -435,9 +435,10 @@ func _assert_key_bindings(action: StringName, expected_keys: Array[int]) -> void
 	for event: InputEvent in InputMap.action_get_events(action):
 		var key_event: InputEventKey = event as InputEventKey
 		if key_event != null:
-			# The letter keys are bound by position (DECISIONS「按键」), the arrows by key.
-			if key_event.keycode == KEY_NONE:
-				_assert_true(key_event.physical_keycode >= KEY_A and key_event.physical_keycode <= KEY_Z, "%s: a letter key bound by position" % action)
+			# The letter keys are bound by position only (DECISIONS「按键」), the arrows by key.
+			var letter: bool = (key_event.keycode >= KEY_A and key_event.keycode <= KEY_Z) or (key_event.physical_keycode >= KEY_A and key_event.physical_keycode <= KEY_Z)
+			if letter or key_event.keycode == KEY_NONE:
+				_assert_true(key_event.keycode == KEY_NONE and key_event.physical_keycode >= KEY_A and key_event.physical_keycode <= KEY_Z, "%s: a letter key bound by position only" % action)
 			actual_keys.append(key_event.keycode if key_event.keycode != KEY_NONE else key_event.physical_keycode)
 	actual_keys.sort()
 	var sorted_expected: Array[int] = expected_keys.duplicate()

@@ -98,6 +98,13 @@ then each map in turn with a screenshot under `build/walkthrough/shots/`; fails 
 python tools/ci/start_smoke.py walk --godot <godot> [--maps snow.outdoor,snow.inn_upstairs,cloud.outdoor] [--screen 1]
 ```
 
+A real window loses its focus to any click elsewhere, and 切出窗口时暂停 (on by default) then pauses
+the game under its pause page. `walk` turns it off for its run (`lifecycle_adapter().pause_on_focus_loss
+= false`, the user's settings file untouched) and fails a map shot taken while the shell is not
+playing (`focus_held()` false, the tree not paused). A session's own windowed script (a walk kit
+under `build/`, a measuring script under `game/tests/dev/`) must do the same: turn the focus pause
+off right after the shell is in the tree and check that it is playing before each shot or timing.
+
 The Phase 10B4 QA bridge (F6 saves, F7 corrupts the development save) is opt-in:
 
 ```text
