@@ -108,9 +108,21 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
   `game/assets/fonts/OFL-ZhiMangXing.txt`; used unmodified for a place's name on the title.
-- `game/assets/textures/title/logo_*.png`, `seal_zh_CN.png` — the title logo's ink masks, text
-  rendered by `tools/ui/bake_title_logo.gd` from 志莽行书 and 霞鹜文楷 (project-made images of
-  OFL-licensed glyphs).
+- `game/assets/fonts/Cinzel-VariableFont_wght.ttf` — Cinzel (variable weight 400–900), from the
+  [google/fonts](https://github.com/google/fonts/tree/main/ofl/cinzel) repository, `ofl/cinzel/Cinzel[wght].ttf`
+  (125,468 bytes, SHA-256 `f4d83d34d1f6c741193e4acf4b3dff9531e5a67b6aa65228d00a7db72a4e0f34`). SIL Open Font
+  License 1.1, `game/assets/fonts/OFL-Cinzel.txt`; used unmodified for the title's Latin lettering
+  (the English title's mask at weight 700, the line EASTERN STORIES under the Chinese title).
+- `game/assets/textures/title/logo_*.png`, `seal_zh_CN.png` — the title's lettering masks, text
+  rendered by `tools/ui/bake_title_logo.gd` (project-made images of glyphs): 东方故事 from
+  云峰飞云体 (Yunfeng Feiyun, 云峰字库's second free-for-commercial-use face; the foundry's release
+  note on ZCOOL, <https://www.zcool.com.cn/work/ZNjA3NjgyODQ=.html>: free commercial use with no
+  limit of scope within the law, no modifying or reselling the font; file `云峰飞云体.ttf`,
+  7,928,516 bytes, SHA-256 `26118f4c0af4ebe5aa71ee2d68284983031f0798693ba3829285685e641a1a5f`,
+  fetched from the [jaywcjlove/free-font](https://github.com/jaywcjlove/free-font) collection —
+  **the font file is not shipped or modified, only the four characters' image**; confirm the
+  foundry's terms again before release), EASTERN STORIES from Cinzel and 侠 from 霞鹜文楷 (both
+  OFL).
 
 ## Character portraits (AI-generated)
 
