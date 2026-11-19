@@ -1139,7 +1139,7 @@
 				"sword": "six-chaos-sword",
 				"parry": "six-chaos-sword"
 			},
-			"fight_deferred": "你的剑穿过商玦的袖子，像穿过一缕烟。他连头都没有回。",
+			"fight_deferred": "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他连头都没有回。",
 			"inquiry": {
 				"逆灵宫": [
 					"商玦没有回头：逆灵者，逆天地之灵而用之。你既走上坛来，便是明白人。"
@@ -1319,7 +1319,7 @@
 				"sword": "six-chaos-sword",
 				"parry": "six-chaos-sword"
 			},
-			"fight_deferred": "玄冥子看也不看你，袖子一拂，你的剑便歪到了一边。",
+			"fight_deferred": "玄冥子看也不看你，袖子一拂，你这一下便歪到了一边。",
 			"carry": [
 				{
 					"item": "es2:d/oldpine/obj/long_sword",
@@ -1726,7 +1726,7 @@
 				"dodge": 200,
 				"parry": 200
 			},
-			"fight_deferred": "你的剑从黑影里穿了过去，什么也没碰到。"
+			"fight_deferred": "你这一下从黑影里穿了过去，什么也没碰到。"
 		},
 		{
 			"id": "native.npc.hell_runner",

@@ -29,7 +29,8 @@
 			"no_drop": "这件衣不能随便丢。",
 			"give_to": [
 				"latemoon.npc.room.elon",
-				"latemoon.npc.room.annihi"
+				"latemoon.npc.room.annihi",
+				"native.npc.annie_yard"
 			],
 			"armor": {
 				"type": "cloth",

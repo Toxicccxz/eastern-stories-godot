@@ -176,6 +176,8 @@ func _throw_weapon(binding: CombatSliceCharacterBinding) -> Array[ColoredLine]:
 ## weapons, weight / 500 + rigidity + str each; random(wap) over 2 x wdp knocks the
 ## victim's weapon away, over wdp nearly, over wdp / 2 breaks it, else sparks.
 ## message_vision(): the room sees it. Rigidity is the item's set("rigidity") (the whips').
+## DECISIONS「任务兵器不脱手」: a weapon that cannot be dropped (no_drop: 穿灵, 旋芒) is never
+## knocked away nor broken: a roll that would is only the 险些脱手.
 func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, parried: bool, random: CombatRandomSource) -> Array[ColoredLine]:
 	var weapon: EquippedWeaponRef = binding.state.equipment.primary_weapon()
 	var parrying: EquippedWeaponRef = null if victim == null else victim.state.equipment.primary_weapon()
@@ -188,6 +190,11 @@ func _bash_weapon(binding: CombatSliceCharacterBinding, victim: CombatSliceChara
 	var roll: int = random.legacy_random(wap) if wap > 0 else 0
 	var who: String = _vision_name(victim)
 	var held: String = item_name(parrying.instance_id)
+	var parrying_content: ItemContentDefinition = GameContent.catalog().item(parrying.weapon_id)
+	@warning_ignore("integer_division")
+	if parrying_content != null and parrying_content.no_drop and roll > wdp / 2:
+		# TRANSLATORS: weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
+		return [ColoredLine.new(tr("{who}只觉得手中{weapon}一震，险些脱手！").format({"who": who, "weapon": held}))]
 	if roll > 2 * wdp:
 		# TRANSLATORS: weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
 		var line := ColoredLine.new(tr("{who}只觉得手中{weapon}把持不定，脱手飞出！").format({"who": who, "weapon": held}), ColoredLine.HIW)
@@ -275,12 +282,13 @@ func lifecycle_is_pending() -> bool:
 
 
 ## DECISIONS「主线卡死点」: whether the NPC `character_id` is one a story step still hangs on
-## (StoryKeeps): knocked down, never killed.
+## (StoryKeeps): knocked down, never killed. One the story will not let be fought at all
+## (`fight_deferred`, DECISIONS「不能动手的人」) is so too, should a fight ever reach it.
 func kept(character_id: StringName) -> bool:
 	if _player == null or _player.state == null:
 		return false
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	return npc != null and StoryKeeps.keeps(_player.state, npc.definition(), GameContent.catalog().story_quests())
+	return npc != null and (npc.definition().dealings().is_fight_deferred() or StoryKeeps.keeps(_player.state, npc.definition(), GameContent.catalog().story_quests()))
 
 
 ## DECISIONS「主线卡死点」: before a fighter's fall or death is looked at (inspect_lifecycle()), one
@@ -341,7 +349,7 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 			_owner_killed_comes(item_id, location)
 		if victim_npc != null:
 			# yamen_po.c die(): last_damage_from (the player, or one they called) gets crime_lv.
-			var by_player: bool = killer != null and _player != null and _map.npcs.summoners.get(killer.character_id, killer.character_id) == _player.character_id
+			var by_player: bool = killer != null and _player != null and _map.npcs.caller_of(killer.character_id) == _player.character_id
 			_map.patrols.died(victim_npc, by_player)
 			# xiaojuan2.c die(): query_temp("last_damage_from")->set("marks/murder", 1), on the
 			# one who struck last (one the player called keeps it: it is no player).
@@ -352,7 +360,7 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
 		# !is_living() test always holds: nothing defines is_living()).
-		var rewarded: StringName = _map.npcs.summoners.get(killer.character_id, killer.character_id)
+		var rewarded: StringName = _map.npcs.caller_of(killer.character_id)
 		if rewarded == _player.character_id and victim_npc != null:
 			_player_killer_reward(victim_npc)
 	# A2: the player's own blow felled or killed someone of note (历练).

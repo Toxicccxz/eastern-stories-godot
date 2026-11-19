@@ -64,6 +64,11 @@ const FIGHTS: Array[Dictionary] = [
 	{"label": "终章 侮天鬼（穿宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.3", "enemies": [["native.seal_altar.wutian_gui_grown", "village.seal_altar.demon.3"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
 	{"label": "终章 侮天鬼（没宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.4", "enemies": [["native.seal_altar.wutian_gui_grown_blazing", "village.seal_altar.demon.4"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
 	{"label": "第九章 揭发 庾子建（冯策并肩，选择）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "allies": [["imperial.throne_hall.feng_ce_beside", "imperial.throne_hall.feng_ce_beside.1"]], "helped": true, "chapter": &"main.chapter9", "exploring_only": true, "weapon": &"es2:obj/longsword"},
+	# 全项目审查第二轮 (修补 W, DECISIONS「帮手等仗打完」): what one meets 庾子建 with nobody beside; and 侮天鬼 with
+	# 穿灵 in hand on the way without 旋芒 (DECISIONS「穿灵在手」: the 封坛 puts it there). Measured, not tuned.
+	{"label": "第九章 揭发 庾子建（冯策不在，单打）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "chapter": &"main.chapter9", "weapon": &"es2:obj/longsword"},
+	{"label": "终章 侮天鬼（没拿旋芒·穿灵在手，穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"native:village/soul_impaler"},
+	{"label": "终章 侮天鬼（没拿旋芒·长剑，穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"es2:obj/longsword"},
 ]
 
 ## A few ordinary fights of the first two hours and of ES2's regions, not tuned here: for measuring

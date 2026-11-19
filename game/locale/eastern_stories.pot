@@ -9794,14 +9794,14 @@ msgstr ""
 msgid "你的%s用完了！"
 msgstr ""
 
-#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
-#: runtime/world/map/world_map_combat_lifecycle.gd
-msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
-msgstr ""
-
 #. weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
 #: runtime/world/map/world_map_combat_lifecycle.gd
 msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
 msgstr ""
 
 #. weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
@@ -27323,6 +27323,16 @@ msgstr ""
 #. faction.fonxan/book objective
 #: data/story/faction_fonxan.json
 msgid "书只有一本：交给柳淳风，他会收进匣里；交给柳绘心，她头一回读到父亲年轻时写的字。给出去就读不到了——想读，先读。"
+msgstr ""
+
+#. faction.fonxan/book checklist.label
+#: data/story/faction_fonxan.json
+msgid "《悟疾风劲竹书》在你身上"
+msgstr ""
+
+#. faction.fonxan/book checklist.missing
+#: data/story/faction_fonxan.json
+msgid "书不在你身上了——是被人摸走了，还是给了别人？找回来再交"
 msgstr ""
 
 #. faction.fonxan/book/father text
@@ -49336,6 +49346,12 @@ msgid ""
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"穿灵握在你手里，剑身上的霜一点一点化了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
 #. village.seal_altar.face act.acts.steps.line
 #: data/village/world.json
 msgid ""
@@ -56516,7 +56532,7 @@ msgstr ""
 
 #. native.npc.shang_jue fight_deferred
 #: data/niling/npcs.json
-msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他连头都没有回。"
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他连头都没有回。"
 msgstr ""
 
 #. native.npc.shang_jue inquiry.逆灵宫
@@ -56627,7 +56643,7 @@ msgstr ""
 
 #. native.npc.xuan_mingzi fight_deferred
 #: data/niling/npcs.json
-msgid "玄冥子看也不看你，袖子一拂，你的剑便歪到了一边。"
+msgid "玄冥子看也不看你，袖子一拂，你这一下便歪到了一边。"
 msgstr ""
 
 #. native.npc.xuan_mingzi inquiry.钥匙
@@ -56912,7 +56928,7 @@ msgstr ""
 
 #. native.npc.headless_shade fight_deferred
 #: data/niling/npcs.json
-msgid "你的剑从黑影里穿了过去，什么也没碰到。"
+msgid "你这一下从黑影里穿了过去，什么也没碰到。"
 msgstr ""
 
 #. native.npc.hell_runner long
@@ -68659,7 +68675,7 @@ msgstr ""
 
 #. native.npc.shang_jue_lake fight_deferred
 #: data/native/npcs.json
-msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
 msgstr ""
 
 #. native.npc.shang_jue_lake inquiry topic

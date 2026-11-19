@@ -45,7 +45,9 @@ extends RefCounted
 ## - `kill`: kill_ob(player) and the player's fight_ob(): a fight to the death;
 ## - `give` (an item) `unless_temp`: the item new()'d to the player, unless they carry the
 ##   set_temp() flag already (which the gift sets), then its `lines`; `give_one_of` (items)
-##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3)));
+##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3))); `wield` true
+##   (native, DECISIONS「穿灵在手」): the weapon given goes into the player's hand, what they held
+##   back into the bag (穿灵 pulled as 侮天鬼 rises: the bag cannot be opened in the fight);
 ## - `set_temp` a flag: set_temp(flag, 1) on the player (saved, as all of them);
 ## - `clear_temp` a flag: set_temp(flag, 0) (d/canyon/canyon4.c's 军营/swear, spent by the oath);
 ## - `set_room`, `clear_room` a flag of the act's room (bamboo3.c's set("exits/enter"), delete());
@@ -349,6 +351,8 @@ class Step:
 	var item_id: StringName = &""
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
+	## `give`'s `wield` (native; DECISIONS「穿灵在手」): the new weapon goes into the player's hand.
+	var wield: bool = false
 	var lines: Array[NpcLine] = []
 	## set_temp, clear_temp, unmark, mark, set_room, clear_room, npc_flag, npc_mood: the flag,
 	## mark or mood.
@@ -662,6 +666,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 				if step.pick.size() < 2:
 					reader.fail("give_one_of", "draws among two items or more")
 			step.unless_temp = reader.text("unless_temp")
+			step.wield = reader.boolean("wield", false)
 			for record: ContentRecordReader in reader.children("lines"):
 				var said: NpcLine = NpcLine.from_record(record, true)
 				record.finish()
