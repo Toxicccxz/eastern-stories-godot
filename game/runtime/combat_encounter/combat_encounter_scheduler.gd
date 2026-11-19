@@ -1439,8 +1439,8 @@ func _take_beat(
 			if not _beat_rules.busy_in_beats:
 				beats.forfeit()
 		elif struck != null:
-			var met: Array = _ring_met(resolution)
-			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag), met[0], met[1])
+			var met: Array = _ring_met(resolution, bindings)
+			beats.spend(CombatBeatRules.COST_PLAIN if struck.tag.is_empty() else struck.tag, _beat_rules.cost_of_tag(struck.tag), met[0], met[1], met[2])
 			if npc_beat:
 				_note_habit_of(actor_id, beat_number, struck.tag)
 				if _heavy_spent_at >= 0:
@@ -1548,13 +1548,25 @@ func _stop_spar_with(actor: CombatSliceCharacterBinding, bindings: Array[CombatS
 
 ## 战斗拍数 C: what the beat's blow met on the counter ring as the resolver read it —
 ## [the defender's move tag then, the ring's verdict]; [&"", 0] when no blow was resolved.
-func _ring_met(resolution: CombatSliceOpportunityResult) -> Array:
+func _ring_met(resolution: CombatSliceOpportunityResult, bindings: Array[CombatSliceCharacterBinding]) -> Array:
 	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
 	var ordinary: CombatOrdinaryAttackResult = null if forward == null else forward.ordinary_attack_result
 	if ordinary == null or not ordinary.has_base_result or ordinary.base_result.calculation == null:
-		return [&"", 0]
+		return [&"", 0, true]
 	var base: CombatAttackResult = ordinary.base_result
-	return [_modifiers.read(base.defender_id).move_tag, base.calculation.ring]
+	var tag: StringName = _modifiers.read(base.defender_id).move_tag
+	return [tag, base.calculation.ring, tag.is_empty() or _player_reads(base.defender_id, bindings)]
+
+
+## 识招: whether the player reads the move `defender_id` holds now — its next move, as its card
+## shows it (「起手：？」 when not). Before this beat's own watching is counted (_note_moves_seen()).
+func _player_reads(defender_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
+	if defender_id == _player_id or _decisions.recognise_after <= 0:
+		return true
+	var player: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
+	if player == null:
+		return true
+	return MoveRecognition.recognised(player.state, next_move(defender_id, bindings), _decisions, GameContent.catalog())
 
 
 ## The move the beat's forward attack struck with, null when none was (busy, guarding).

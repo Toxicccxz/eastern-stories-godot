@@ -357,7 +357,8 @@ func _test_summons(tree: SceneTree, session: WorldSessionController) -> void:
 	coordinator.advance_scheduler(0.0)
 	_check(not coordinator.has_active_encounter() and quarryman.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and map.find_resident_npc(soldier_id) == null, "the fight is over, he lives, the 天将 left")
 	await _settle(tree, session)
-	# One on the player's side they did not call (TEST-ONLY: the soldier's caller forgotten).
+	# One on the player's side they did not call, who neither follows them nor stands its ground
+	# beside them (TEST-ONLY: the soldier's caller forgotten): ES2's rule, it kills on.
 	var other: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.resident_npcs():
 		if npc.definition().definition_id == QUARRYMAN and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
@@ -373,7 +374,7 @@ func _test_summons(tree: SceneTree, session: WorldSessionController) -> void:
 		return
 	map.npcs.summoners.erase(soldier.character_id) # TEST-ONLY: as if it had come on its own
 	_fell(coordinator, other)
-	_check(coordinator.held_victims() == [other.character_id] and soldier.relationship.has_lethal_target(other.character_id) and not player.relationship.has_lethal_target(other.character_id), "the player holds; the one they did not call kills on (ES2)")
+	_check(coordinator.held_victims() == [other.character_id] and soldier.relationship.has_lethal_target(other.character_id) and not player.relationship.has_lethal_target(other.character_id), "the player holds; the one they did not call, not following them, kills on (ES2)")
 	_run(coordinator)
 	_check(other.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "it finishes him")
 	await _settle(tree, session)

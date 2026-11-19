@@ -720,7 +720,7 @@ func finish_downed(victim_id: StringName) -> bool:
 
 ## 放过: the player's side lets it be. False when it is not held (any more).
 func spare_downed(victim_id: StringName) -> bool:
-	return _fight_input_allowed() and _resolution != null and _resolution.spare(victim_id)
+	return _fight_input_allowed() and _resolution != null and _resolution.spare(_session.encounter_combat_bindings(_active_encounter), victim_id)
 
 
 func _fight_input_allowed() -> bool:

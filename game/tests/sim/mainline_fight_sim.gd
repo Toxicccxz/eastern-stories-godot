@@ -34,7 +34,7 @@ const MAX_STEPS: int = 4000
 ## The must-win fights (the list: DECISIONS「主线必打的仗」). `chapter`: the main story's quest the
 ## fight is in; the character arrives with tests/support/story_arrival.gd's exp for it, the main
 ## story alone and exploring on the side (`exploring_only`: only the latter; `exps` instead: given); `enemies` / `allies`: [spawn, point] as they stand; `followers`:
-## NPC definitions that follow the player there whatever was chosen (郭承), summoned beside them;
+## NPC definitions that follow the player there whatever was chosen (郭承), made beside them, following;
 ## `mood`: the scene's mood put on each foe that has it (吕隼's 拿下: `fighting`);
 ## `helped`: whether the story guarantees help there (the nine-in-ten band); `away`: spawns whose NPCs
 ## stand in the room but are not in the story's fight, taken off the map (the 冰龙厅's six guardian
@@ -582,14 +582,14 @@ func _refind(pairs: Array) -> Array[NpcRuntimeState]:
 	return out
 
 
-## One who follows the player there whatever was chosen (郭承): made beside the player as their own,
-## following (the fights_beside rule takes them in as the fight opens).
+## One who follows the player there whatever was chosen (郭承): made beside the player, following
+## (the fights_beside rule takes them in as the fight opens; a follower holds for 了结 / 放过 as the
+## player's summons do, DECISIONS「了结 / 放过」Q2), not written in as the player's summons.
 func _follower(definition_id: StringName) -> NpcRuntimeState:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = map.npcs._new_beside(player.character_id, GameContent.catalog().npc(definition_id))
 	if npc == null:
 		return null
-	map.npcs.summoners[npc.character_id] = player.character_id
 	npc.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, true)
 	return npc
 

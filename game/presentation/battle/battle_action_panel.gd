@@ -721,17 +721,19 @@ static func _won_line(source: StringName) -> String:
 
 ## The line for the beat `index` of `beats`: what it went on, and what its blow met on the ring
 ## and the verdict as the resolver recorded them when it was struck (CombatRoundBeats.against /
-## rings) — the strip never works the ring out itself (自动 runs a round between two looks).
+## rings / read) — the strip never works the ring out itself (自动 runs a round between two looks).
 static func beat_line(beats: CombatRoundBeats, index: int) -> String:
 	var against: StringName = beats.against[index] if index < beats.against.size() else &""
 	var ring: int = beats.rings[index] if index < beats.rings.size() else 0
-	return result_line(beats.spent[index], against, ring)
+	var read: bool = beats.read[index] if index < beats.read.size() else true
+	return result_line(beats.spent[index], against, ring, read)
 
 
-## 「你出虚，他起手守 · 克」: a beat the player spent on `key` against the target's move
-## `before` (&"" unknown: no verdict), `ring` the resolver's verdict (1 克, -1 被克, 0 平); a
-## perform or an order by its name alone.
-static func result_line(key: StringName, before: StringName, ring: int = 0) -> String:
+## 「你出虚，对上他的守 · 克！」: a beat the player spent on `key` against the target's move
+## `before` (&"" none: no verdict), `ring` the resolver's verdict (1 克, -1 被克, 0 平); a move the
+## player did not read (`read` false: its card said 「起手：？」) is not named — 「你出虚 · 克！」
+## (review 2026-11-19). A perform or an order by its name alone.
+static func result_line(key: StringName, before: StringName, ring: int = 0, read: bool = true) -> String:
 	if key == CombatEncounterScheduler.SPENT_BUSY:
 		# TRANSLATORS: the battle strip after a beat the player lost to being busy.
 		return TranslationServer.translate("这一手你在忙")
@@ -753,8 +755,11 @@ static func result_line(key: StringName, before: StringName, ring: int = 0) -> S
 	elif ring < 0:
 		# TRANSLATORS: the battle strip's verdict after a beat: the target's move beat the player's on the ring.
 		verdict = TranslationServer.translate("被克")
-	# TRANSLATORS: the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
-	return TranslationServer.translate("你出{mine}，他起手{theirs} · {verdict}").format({"mine": mine, "theirs": CombatMoveTags.label(before), "verdict": verdict})
+	if not read:
+		# TRANSLATORS: the battle strip after a beat whose opponent move the player has not learned to read: {mine} the player's tag, {verdict} 克！/ 被克 / 平.
+		return TranslationServer.translate("你出{mine} · {verdict}").format({"mine": mine, "verdict": verdict})
+	# TRANSLATORS: the battle strip after a beat: {mine} the player's tag, {theirs} the target's move it met, {verdict} 克！/ 被克 / 平.
+	return TranslationServer.translate("你出{mine}，对上他的{theirs} · {verdict}").format({"mine": mine, "theirs": CombatMoveTags.label(before), "verdict": verdict})
 
 
 ## The sentence: pointing at a move or an action, what it would take; else the last beat's

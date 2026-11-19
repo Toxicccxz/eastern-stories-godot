@@ -72,6 +72,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_raid(tree, raid)
 	raid.free()
 	await tree.process_frame
+	var spared: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
+	await _test_spare_beside_guo(tree, spared)
+	spared.free()
+	await tree.process_frame
 	var sneak: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
 	await _test_sneak(tree, sneak)
 	sneak.free()
@@ -456,6 +460,58 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
 	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true))
 	_check(handoff.is_empty(), "关北 C played (the raid) leaves what chapter6_site_done(raid) writes: %s" % [handoff])
+
+
+## Owner 2026-11-19 (DECISIONS「了结 / 放过」Q2): 郭承, following the player (not their summons),
+## holds for 了结 / 放过 as the riders do — 吕隼 knocked down and spared at the 工地 lives (ES2 had
+## 郭承 kill him a second later), and his word 吕隼招了 is reached.
+func _test_spare_beside_guo(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.chapter6_planned(session, true)
+	var court: WorldMapController = MapPlaces.enter(session, &"guanbei.palace_yard", &"guanbei.palace_yard.hall_return")
+	_check(court != null and await MapPlaces.drive_to_zone(tree, court, &"guanbei.drill"), "spare: out to the drill yard")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var guo: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.drill.guo_cheng.1")
+	_check(guo != null and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "spare: 郭承 follows")
+	var site: WorldMapController = null
+	for zone_id: StringName in [&"guanbei.market", &"guanbei.camp", &"guanbei.steppe_road", &"guanbei.fence_gate"]:
+		site = await _go_with(tree, session, zone_id)
+		if site == null:
+			break
+	_check(site != null and site.map_id() == &"guanbei.worksite" and _count_in(session, &"guanbei.fence_gate", GUO) == 1, "spare: at the 工地's gate with 郭承")
+	if site == null or guo == null:
+		return
+	var after_knockout: int = BattlePace.after_knockout
+	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for second: int in 14:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		if coordinator.has_active_encounter():
+			break
+	var lu_sun: NpcRuntimeState = null
+	for npc: NpcRuntimeState in site.npc_runtimes():
+		if npc.definition().definition_id == LU_SUN and coordinator.has_active_encounter() and coordinator.active_encounter().participant_for(npc.character_id) != null:
+			lu_sun = npc
+	_check(lu_sun != null and coordinator.active_encounter().participant_for(guo.character_id) != null and site.summoner_of(guo.character_id).is_empty() and guo.relationship.has_lethal_target(lu_sun.character_id), "spare: the fight on, 郭承 in it beside the player (no summons of theirs) and out to kill 吕隼")
+	if lu_sun == null:
+		BattlePace.after_knockout = after_knockout
+		_fight_out(session)
+		return
+	_full(session.player_runtime())
+	lu_sun.character_state.vitality.current = -1 # TEST-ONLY: knocked down
+	coordinator.advance_scheduler(0.0)
+	_check(lu_sun.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and coordinator.held_victims().has(lu_sun.character_id) and not guo.relationship.has_lethal_target(lu_sun.character_id), "spare: 吕隼 falls; 郭承 holds his blow with the rest")
+	_check(coordinator.spare_downed(lu_sun.character_id), "spare: 放过 吕隼")
+	for second: int in 5:
+		coordinator.advance_scheduler(1.0)
+	_check(lu_sun.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not guo.relationship.has_lethal_target(lu_sun.character_id), "spare: the fight goes on and nobody kills him, 郭承 neither")
+	var rounds: int = _fight_out(session)
+	BattlePace.after_knockout = after_knockout
+	_check(not coordinator.has_active_encounter() and lu_sun.life_status != CharacterRuntimeLifeStatus.Value.DEAD and state.marks.get("吕隼招了", 0) == 1, "spare: the fight over in %d rounds, 吕隼 lives and 吕隼招了 is written" % rounds)
+	_check(guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and guo.life_status != CharacterRuntimeLifeStatus.Value.DEAD, "spare: 郭承 still follows")
 
 
 ## 潜入 (关北 C): the 工地 by day turns the player away; 等到天黑 at the fire; the night's four 枷, the watch,
