@@ -12113,7 +12113,12 @@ msgstr ""
 msgid "已启用的特殊武功全部取消启用"
 msgstr ""
 
-#. the death card (DECISIONS「减轻死亡」): the wielded weapon and worn things stay on the player; money and the bag lie with the corpse at %s.
+#. the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player, nothing else was carried.
+#: ui/world/player_life_overlay.gd
+msgid "兵器和身上穿的还在你身上；尸体上没有留下东西。"
+msgstr ""
+
+#. the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player; money and the bag lie with the corpse at %s.
 #: ui/world/player_life_overlay.gd
 msgid "兵器和身上穿的还在你身上；钱和背包里的东西留在尸体上：%s"
 msgstr ""
@@ -12124,7 +12129,7 @@ msgstr ""
 
 #. the death card: someone who attacks on sight stands where the corpse lies (DECISIONS「死前存档」).
 #: ui/world/player_life_overlay.gd
-msgid "尸体旁还守着见人就打的对手，空手回去多半要先打一场。"
+msgid "尸体旁还守着见人就打的对手，回去取东西要先过他这一关。"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
