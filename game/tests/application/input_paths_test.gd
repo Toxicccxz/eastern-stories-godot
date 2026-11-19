@@ -225,8 +225,9 @@ func _test_key_names() -> void:
 	_check(bool(ProjectSettings.get_setting("input_devices/joypads/ignore_joypad_on_unfocused_application")), "Godot drops a pad's input while the window has no focus")
 
 
-## The window losing its focus: 系统 over the game, the world held, a pad steering nothing;
-## back, 系统 stays until 继续. With the setting off the game runs on, a pad still steers nothing.
+## The window losing its focus: the focus pause over the game, the world held, a pad steering
+## nothing; back, it stays until 继续 and says it can be turned off. With the setting off the
+## game runs on, a pad still steers nothing.
 func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> void:
 	var session: WorldSessionController = shell.runtime_host().current_session()
 	var map := session.active_map() as WorldMapController
@@ -234,7 +235,7 @@ func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> v
 	var minutes: float = session.day_clock().day_minutes()
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	await _frames(tree, 2)
-	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and tree.paused and not shell.interaction_allowed(), "the window lost its focus: paused")
+	_check(shell.focus_held() and shell.focus_layer.shown() and tree.paused and not shell.interaction_allowed(), "the window lost its focus: paused")
 	var standing: Vector2 = map.runtime_player_body().global_position
 	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 1.0))
 	await _frames(tree, 2)
@@ -242,11 +243,14 @@ func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> v
 	Input.parse_input_event(_motion(JOY_AXIS_LEFT_X, 0.0))
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
 	await _frames(tree, 4)
-	_check(shell.interaction_allowed() and shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and shell.lifecycle_info.visible, "back: still paused, 系统 says why")
+	_check(shell.interaction_allowed() and shell.focus_held() and shell.focus_layer.shown() and tree.paused, "back: still paused, the page says why")
+	var note: Label = shell.focus_layer.find_child("Note", true, false) as Label
+	_check(note != null and note.is_visible_in_tree() and note.text.contains("切出窗口时暂停"), "and that 设置 can turn it off")
+	_check(not shell.pause_visible(), "系统 is not opened for it")
 	_check(is_equal_approx(session.day_clock().day_minutes(), minutes), "no game time went by")
 	await _key(tree, KEY_ESCAPE)
 	await _frames(tree, 2)
-	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not tree.paused, "Esc: playing again")
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not shell.focus_held() and not shell.focus_layer.shown() and not tree.paused, "Esc: playing again")
 	_check(map.runtime_player_body().global_position == standing, "the player stood still")
 	# Paused by the player first: coming back leaves it paused.
 	await _key(tree, KEY_ESCAPE)
@@ -254,7 +258,7 @@ func _test_window_focus(tree: SceneTree, shell: ApplicationShellController) -> v
 	await _frames(tree, 2)
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
 	await _frames(tree, 4)
-	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED, "paused before, paused after")
+	_check(shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and not shell.focus_layer.shown(), "paused before, paused after, 系统 as it was")
 	await _key(tree, KEY_ESCAPE)
 	await _frames(tree, 2)
 	# The setting off: the window's focus pauses nothing; the pad is still not heard.

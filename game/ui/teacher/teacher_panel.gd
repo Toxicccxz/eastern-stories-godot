@@ -183,6 +183,10 @@ func interact() -> void:
 func _process(_delta: float) -> void:
 	if not is_instance_valid(panel):
 		return
+	# The focus pause keeps the panel and its run as they are (DECISIONS「切出窗口」).
+	var hud: SharedGameplayUI = _contact.map.session.shared_ui() if _contact != null and _contact.map != null and _contact.map.session != null else null
+	if hud != null and hud.focus_paused():
+		return
 	if panel.visible and not _contact.can_teach():
 		close_panel()
 	if panel.visible:
