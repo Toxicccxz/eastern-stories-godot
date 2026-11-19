@@ -61,6 +61,96 @@
 					"missing": "五派听你的，你才站得出来"
 				},
 				{
+					"label": "那天山下：神教的杀手会截山烟寺的轿子（不管，山烟寺不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.ambush"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：逆灵宫的余孽会烧葬剑亭（不管，茅山不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.fire"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：颜违的人会堵封山的路（不管，封山不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.blockade"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：兵部会「请」骆云舟喝茶（不管，步玄派不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.tea"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：照现在的样子，太平",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"not": {
+									"any": [
+										{
+											"cond": "assembly.day.ambush"
+										},
+										{
+											"cond": "assembly.day.fire"
+										},
+										{
+											"cond": "assembly.day.blockade"
+										},
+										{
+											"cond": "assembly.day.tea"
+										}
+									]
+								}
+							}
+						]
+					}
+				},
+				{
 					"label": "封山剑派：还没表态",
 					"if": {
 						"not": {

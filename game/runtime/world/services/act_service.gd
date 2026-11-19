@@ -90,7 +90,7 @@ static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text
 	if act.moves_player() and on.patrols.refuses_move():
 		return
 	if act.asks(on.player_runtime().state.marks):
-		on.session.shared_ui().ask_first(TranslationServer.translate(act.ask), TranslationServer.translate(act.choice), run, still_valid, on_cancel)
+		on.session.shared_ui().ask_first(act.asked(on.acts.facts().holds), TranslationServer.translate(act.choice), run, still_valid, on_cancel)
 		return
 	var costs: Dictionary[String, int] = act.fainting_costs(on.player_runtime().state)
 	if not costs.is_empty():

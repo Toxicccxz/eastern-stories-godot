@@ -81,7 +81,7 @@ MAIN_STATES = {
     "cult": [[], ["站了安妮儿"], ["站了朱鸿雪"]],
     "remnant": [[], ["余孽有了去处", "余孽交了官府"], ["余孽有了去处", "招安了余孽"]],
 }
-HANDLES = ("山道上", "葬剑亭", "官道上", "山下茶棚")
+HANDLES = ("山道上", "葬剑亭", "官道上", "山下茶棚", "哪件也不管")
 STANDS = (STAND, "听我的那几派，投旧盟主", "听我的那几派，投颜违", "坐着听唱票")
 
 # Each card's lead: the lines that tell what the day came to; exactly one of them shows.
@@ -223,7 +223,7 @@ def sampled_days(n, seed):
         if not valid(base):
             continue
         picks = {CHOOSES[0]: [rng.choice(HANDLES)], CHOOSES[1]: [rng.choice(STANDS)], CHOOSES[2]: [rng.choice(("查到底", "到此为止"))],
-                 CHOOSES[3]: [rng.choice(("剿", "交茅山"))], CHOOSES[4]: [rng.choice(("逐", "容"))], CHOOSES[5]: [rng.choice(("交给水烟阁", "还给岚城"))]}
+                 CHOOSES[3]: [rng.choice(("剿", "交茅山"))], CHOOSES[4]: [rng.choice(("逐", "容"))], CHOOSES[5]: [rng.choice(("交给水烟阁", "还给岚城", "我留着"))]}
         days.append((base, picks, rng.random() < 0.8))
     return days
 
@@ -304,6 +304,41 @@ class AssemblyCountTest(unittest.TestCase):
             expected = "当了武林盟主" if mine >= 5 else "颜违做了盟主" if yan >= 5 else "卫沧澜坐回了椅子" if "卫沧澜出了尚书府" in state.marks else "盟主的椅子还空着"
             if outcomes != [expected]:
                 problems.append(("result", outcomes, expected, where))
+        self.assertEqual(problems[:8], [])
+
+    def test_the_seating_question_tells_the_day(self):
+        """入席's question lists that day's trouble (its ask_lines) as the act then marks it, and who will not come."""
+        events = {"神教的杀手": "那天神教截轿", "逆灵宫的余孽": "那天余孽放火", "颜违的人": "那天颜违的人堵路", "兵部的人": "那天兵部请喝茶"}
+        rows = [row for row in QUEST.get("checklist", []) if str(row.get("label", "")).startswith("那天山下")]
+        problems = []
+        for base, _picks, state, end, _log, _before in self.days:
+            before = State(base | {"终章", "拿了虹台请柬"})
+            told = [entry["line"] for entry in ACT.get("ask_lines", []) if before.holds(entry.get("when"))]
+            said = {mark for start, mark in events.items() if any(line.startswith("· " + start) for line in told)}
+            happened = {mark for mark in events.values() if mark in state.marks}
+            if said != happened or (not happened) != any("太平" in line for line in told):
+                problems.append(("ask", sorted(said), sorted(happened)))
+            if ("绝尘派肯来" not in base) != any(line.startswith("· 绝尘派不来") for line in told):
+                problems.append(("绝尘", told))
+            shown = [row["label"] for row in rows if before.holds(row.get("if"))]
+            if len(shown) != max(1, len(happened)):
+                problems.append(("任务页", shown, sorted(happened)))
+        self.assertEqual(problems[:8], [])
+
+    def test_the_morning_and_the_sword_can_be_let_go(self):
+        problems = []
+        for base, picks, state, end, log, _before in self.days:
+            morning = [entry for entry in log if entry[0] == "choose" and entry[1] == CHOOSES[0]]
+            if morning and "哪件也不管" not in [text for text, _locked in morning[0][2]]:
+                problems.append(("no 哪件也不管", sorted(base)[:12]))
+            if picks[CHOOSES[0]] == ["哪件也不管"] and morning:
+                held = {"那天神教截轿": "山烟寺没上虹台", "那天余孽放火": "茅山没上虹台", "那天颜违的人堵路": "封山没上虹台", "那天兵部请喝茶": "步玄没上虹台"}
+                if any(event in state.marks and absent not in state.marks for event, absent in held.items()):
+                    problems.append(("held up but came", sorted(base)[:12]))
+            if end == "done" and OVER not in state.marks:
+                problems.append(("not closed", sorted(base)[:12]))
+            if picks[CHOOSES[5]] == ["我留着"] and "旋芒留在了身上" in state.marks and XUANMANG not in state.items:
+                problems.append(("kept but taken", sorted(base)[:12]))
         self.assertEqual(problems[:8], [])
 
     def test_each_head_says_one_line(self):

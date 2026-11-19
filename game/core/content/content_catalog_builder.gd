@@ -1322,6 +1322,9 @@ func _check_exit_rules() -> void:
 ## wields an item and the NPC that leaves with it an NPC. (Spawn points are the scene's: the
 ## map checks them.)
 func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false, npc: NpcDefinition = null) -> void:
+	for entry: Array in act.ask_lines:
+		if entry[1] != null:
+			_check_condition(origin + ".ask_lines", entry[1])
 	if act.draws() and not drawn:
 		# Only a room's command (ActService) and a greeting draw for their branch; elsewhere the rolls would never be made.
 		_errors.append("%s.kar_above: only a room's command or a greeting rolls" % origin)
