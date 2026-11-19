@@ -117,6 +117,10 @@ var _away: WorldAwayTimes = WorldAwayTimes.new()
 ## A moment the autosave may take (GameAutosave): a map change landed, or a fight is over and
 ## its panel gone.
 signal autosave_moment
+## The world stands still for a window the player opened (the menu): a moment that waited
+## (GameAutosave.waiting(): a doorway, someone making a thing) may be taken now, not while
+## the player walks; it is no new autosave moment.
+signal quiet_moment
 ## An act's `keep_save` (终章 A; DECISIONS「决战前存档」): the host writes the 决战前 slot now.
 signal keep_save_requested
 ## 终章 C (DECISIONS「结局讲述」): an ending was told; `final`: the journey ends with it (the host
@@ -259,6 +263,15 @@ func _note_fight_over() -> void:
 		_fight_picture_still = false
 		_fight_autosave_moment()
 	_fight_shown = shown
+
+
+## Before a save the player asks for (and the 决战前 save): what the NPCs are doing for the
+## player is done at once, as when the player leaves the map (WorldMapNpcLife.finish_work()),
+## so the save holds the thing made or the deed told instead of waiting for it. A telling that
+## gives nothing goes on.
+func finish_npc_work() -> void:
+	for map: WorldMapController in world_maps():
+		map.npc_life.finish_work(false)
 
 
 ## The battle panel's picture of a finished fight has settled (BattlePresentationController):
@@ -507,8 +520,22 @@ func begin_rest() -> String:
 	var map: WorldMapController = active_map() as WorldMapController
 	_rest_map = &"" if map == null else map.map_id()
 	_sync_walk_pause()
-	_rest_line(TranslationServer.translate(RestLines.BEGIN))
+	_rest_line(RestLines.begin_line(timed_errand_running()))
 	return ""
+
+
+## A timed errand runs (朱鸿雪's task with its time left): resting speeds its clock with the
+## world's, and 歇到回满 says so (RestLines.ERRAND).
+func timed_errand_running() -> bool:
+	if _player == null or _player.state == null:
+		return false
+	var quest: CharacterQuestState = _player.state.quest
+	return quest.has_task() and not quest.is_expired()
+
+
+## 歇到回满's hover as it stands now.
+func rest_hint() -> String:
+	return RestLines.hint(timed_errand_running())
 
 
 ## The player gets up (the rest's 起身).

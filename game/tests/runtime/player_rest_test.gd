@@ -47,6 +47,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_menu_holds(tree)
 	_test_limit()
 	await _test_save_after_rest(tree)
+	_test_errand_lines()
+	await _test_other_ends(tree)
+	await _test_martial_arts_page(tree)
+	await _test_get_up_key(tree)
 	await _test_attacker(tree)
 	TestDay.restore()
 	_session.free()
@@ -172,6 +176,123 @@ func _test_save_after_rest(tree: SceneTree) -> void:
 		_check(restored.player_runtime().state.essence.current == _state.essence.current and restored.day_clock().day_seconds() == _session.day_clock().day_seconds(), "精 and the clock as they were")
 		restored.free()
 		await tree.process_frame
+
+
+## A timed errand running (朱鸿雪's task): the hover of 歇到回满 and the sitting-down line say
+## its time keeps counting (faster, with the world's); without one they do not.
+func _test_errand_lines() -> void:
+	_heal()
+	_state.essence.current = 10 # TEST-ONLY
+	_check(not _session.timed_errand_running() and _session.rest_hint() == RestLines.HINT, "no errand: the hover as ever")
+	var quest := QuestDefinition.new() # TEST-ONLY: a task with time left
+	quest.target = "宝官"
+	quest.type = QuestDefinition.KILL
+	quest.time_seconds = 600
+	_state.quest.assign(quest, 10)
+	_check(_session.timed_errand_running(), "a timed errand runs")
+	_check(_session.rest_hint().contains(RestLines.ERRAND), "the hover says it keeps counting: %s" % _session.rest_hint())
+	var logged: int = _hud.log_lines().size()
+	_check(_session.begin_rest() == "", "a rest begins")
+	var said: Array[String] = _hud.log_lines().slice(logged)
+	_check(said.size() == 1 and said[0] == RestLines.BEGIN + RestLines.ERRAND, "and so does the sitting-down line: %s" % [said])
+	var left: int = _state.quest.remaining_ms
+	for _i: int in 5:
+		_session._process(FRAME)
+	_check(_state.quest.remaining_ms < left, "the errand's time went on")
+	_session.stop_rest()
+	_state.quest.clear_task()
+	_check(not _session.timed_errand_running() and _session.rest_hint() == RestLines.HINT, "the errand done: the hover as ever")
+
+
+## The ends of a rest besides 起身, full and a fight: hurt by poison, thirsty, a scene, taken to
+## another map, fallen. Each ends it with its own line (a fall says its own, elsewhere).
+func _test_other_ends(tree: SceneTree) -> void:
+	# Poison: 气 goes down under it.
+	_heal()
+	_state.essence.current = 10 # TEST-ONLY
+	_check(_session.begin_rest() == "", "a rest begins (poison)")
+	_state.conditions.add_or_replace_duration(ConditionIds.SNAKE_POISON, 20) # TEST-ONLY: bitten
+	var frames: int = 0
+	while _session.resting() and frames < 600:
+		_session._process(FRAME)
+		frames += 1
+	_check(_ended[-1] == RestRules.Outcome.HURT, "poison: the rest ends hurt: %s" % [_ended[-1]])
+	_check(_hud.log_lines()[-1].begins_with("你歇了") and _hud.log_lines()[-1].contains("身上一阵难受"), "and says so: %s" % _hud.log_lines()[-1])
+	_state.conditions.remove_condition(ConditionIds.SNAKE_POISON)
+	# Thirsty: the water runs out.
+	_heal()
+	_state.essence.current = 10 # TEST-ONLY
+	var water: int = _state.recovery.water
+	_check(_session.begin_rest() == "", "a rest begins (thirst)")
+	_state.recovery.water = 0 # TEST-ONLY: drunk dry
+	_session._process(FRAME)
+	_check(_ended[-1] == RestRules.Outcome.THIRSTY and not _session.resting(), "no water: the rest ends: %s" % [_ended[-1]])
+	_check(_hud.log_lines()[-1].contains("口干舌燥"), "told to drink: %s" % _hud.log_lines()[-1])
+	_state.recovery.water = water
+	# A scene begins.
+	_check(_session.begin_rest() == "", "a rest begins (scene)")
+	_session.hold_scene(true)
+	_session._process(FRAME)
+	_check(_ended[-1] == RestRules.Outcome.SCENE and not _session.resting(), "a scene: the player stands up: %s" % [_ended[-1]])
+	_session.hold_scene(false)
+	# Taken to another map.
+	_check(_session.begin_rest() == "", "a rest begins (moved)")
+	var here: StringName = _session.active_map_id()
+	MapPlaces.enter(_session, &"snow.inn_2f", &"snow.inn_2f.rat.6") # TEST-ONLY: taken upstairs at the inn
+	_session._process(FRAME)
+	_check(_session.active_map_id() != here and _ended[-1] == RestRules.Outcome.MOVED and not _session.resting(), "another map: the rest ends: %s on %s" % [_ended[-1], _session.active_map_id()])
+	await tree.physics_frame
+	# Fallen.
+	_check(_session.begin_rest() == "", "a rest begins (fall)")
+	_player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: as a blow would leave them
+	var logged: int = _hud.log_lines().size()
+	_session._judge_rest(_session._rest_interruption(), 0.0)
+	_check(_ended[-1] == RestRules.Outcome.FELL and not _session.resting(), "fallen: the rest ends: %s" % [_ended[-1]])
+	_check(_hud.log_lines().size() == logged, "with no rest line of its own (the fall says its own)")
+	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	var school: WorldMapController = MapPlaces.enter(_session, &"snow.schoolhall", &"snow.schoolhall.master.1")
+	_check(school != null and _beside(school, &"snow.schoolhall", &"snow.schoolhall.master.1"), "back in the hall")
+	await tree.physics_frame
+
+
+## 歇到回满 on the 武学 page: shown below full, its hover, pressed the menu closes and the player
+## rests; full again, the 武学 page opens again.
+func _test_martial_arts_page(tree: SceneTree) -> void:
+	_heal()
+	_state.essence.current = 10 # TEST-ONLY
+	_hud.open_martial_arts()
+	await tree.process_frame
+	var page: MartialArtsPage = _hud.martial_arts_page()
+	page.refresh()
+	_check(page.rest_button.is_visible_in_tree() and not page.rest_button.disabled and page.rest_button.text == "歇到回满", "歇到回满 on the 武学 page")
+	_check(page.rest_button.tooltip_text == _session.rest_hint(), "with its hover: %s" % page.rest_button.tooltip_text)
+	page.rest_button.pressed.emit()
+	await tree.process_frame
+	_check(not _hud.menu.is_presented() and _session.resting() and _hud.rest_overlay.shown(), "the menu closes, the player rests")
+	await _rest_out(tree)
+	await tree.process_frame
+	_check(_ended[-1] == RestRules.Outcome.RESTED, "rested full")
+	_check(_hud.menu.is_presented() and _hud.menu.current_tab() == GameMenu.Tab.MARTIAL_ARTS, "the 武学 page opens again")
+	_hud.menu.close()
+	await tree.process_frame
+	_heal()
+	page.refresh()
+	_check(not page.rest_button.visible, "full: no 歇到回满")
+
+
+## The get-up key (B / Esc) on the rest's band: 起身.
+func _test_get_up_key(tree: SceneTree) -> void:
+	_heal()
+	_state.essence.current = 10 # TEST-ONLY
+	_check(_hud.rest(Callable()) == "" and _hud.rest_overlay.shown(), "resting, the band up")
+	await tree.process_frame
+	var back := InputEventAction.new()
+	back.action = &"ui_cancel"
+	back.pressed = true
+	_hud.rest_overlay._input(back)
+	_check(_ended[-1] == RestRules.Outcome.CANCELLED and not _session.resting(), "B / Esc: 起身")
+	await tree.process_frame
+	_check(not _hud.rest_overlay.shown(), "the band goes")
 
 
 ## An aggressive NPC noticing the player cuts the rest short; the fight then comes as ever:

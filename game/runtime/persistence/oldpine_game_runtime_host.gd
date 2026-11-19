@@ -118,10 +118,6 @@ func _process(_delta: float) -> void:
 	_frame.emit()
 	_take_read_scenes()
 	_tell_kept()
-	# An autosave moment that waited for the player to step out of a doorway, or for an NPC to
-	# finish what it makes for them (GameAutosave.WAITED), is taken once it can be.
-	if _autosave != null and _current_session != null and is_instance_valid(_current_session) and not _request_pending and _autosave.waiting():
-		_autosave.retry(_current_session)
 	var saved: GameSaveResult = null if _autosave == null else _autosave.take_finished()
 	if saved == null or _current_session == null or not is_instance_valid(_current_session):
 		return
@@ -217,6 +213,7 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 	# What the menu's check of a slot kept for 继续 is not needed once a session runs.
 	GameSaveRepository.forget_checked()
 	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
+	session.quiet_moment.connect(_on_quiet_moment.bind(session), CONNECT_DEFERRED)
 	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
 	session.keep_save_requested.connect(_on_keep_save.bind(session))
 	session.epilogue_ended.connect(_on_epilogue_ended.bind(session), CONNECT_DEFERRED)
@@ -229,6 +226,23 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 func _on_autosave_moment(session: WorldSessionController) -> void:
 	if session == _current_session and not _request_pending:
 		_autosave.begin(session)
+		_take_waiting_kept(session)
+
+
+## A moment that waited (GameAutosave.WAITED: the player in a doorway, someone making a thing
+## for them) is not tried while the player walks (the capture's long frame would fall on a
+## step): it is taken at the next map change, fight's end or window opened (审查修补 X).
+func _on_quiet_moment(session: WorldSessionController) -> void:
+	if session != _current_session or _request_pending:
+		return
+	if _autosave.waiting():
+		_autosave.begin(session)
+	_take_waiting_kept(session)
+
+
+func _take_waiting_kept(session: WorldSessionController) -> void:
+	if _kept != null and _kept.waiting():
+		_kept.begin(session)
 
 
 ## An ending that ends the journey (终章 C, the player stayed in the ice; DECISIONS「结局讲述」): the
@@ -241,11 +255,14 @@ func _on_epilogue_ended(final: bool, session: WorldSessionController) -> void:
 		journey_ended.emit()
 
 
-## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now.
+## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now; what the NPCs make for
+## the player is done first, as for a Save. Refused for a moment only (a doorway), it is taken at
+## the next moment, as the autosave's is.
 func _on_keep_save(session: WorldSessionController) -> void:
 	if session != _current_session or _request_pending or _kept == null:
 		return
-	if not _kept.begin(session):
+	session.finish_npc_work()
+	if not _kept.begin(session) and not _kept.waiting():
 		# Said once, here: a capture that failed left its result behind, taken now so _tell_kept()
 		# does not say it again.
 		_kept.take_finished()
@@ -379,6 +396,10 @@ func request_end_session() -> bool:
 func request_save(slot_id: StringName = &"") -> bool:
 	if not _begin_request() or not _select_for_request(slot_id):
 		return false
+	# A making or a test under way is finished first (the thing handed over, the deed told):
+	# 等一会儿再存档 could not be waited out on 系统, where the world stands still.
+	if _current_session != null and is_instance_valid(_current_session):
+		_current_session.finish_npc_work()
 	call_deferred("_execute_save")
 	return true
 

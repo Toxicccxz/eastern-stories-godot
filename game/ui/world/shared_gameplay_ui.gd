@@ -815,6 +815,7 @@ func menu_presented() -> void:
 	# The world stands still while the menu is open (owner, 2026-10-15).
 	if _session != null:
 		_session.hold_world_time(MENU_TIME_HOLD)
+		_session.quiet_moment.emit()
 	if not menu.in_pause_view():
 		quarantine_movement()
 

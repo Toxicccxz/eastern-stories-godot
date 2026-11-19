@@ -258,7 +258,7 @@ func refresh() -> void:
 	rest_button.visible = WorldSessionController.rest_offered() and not RestRules.rested(state) and not is_confirming()
 	var refused: String = _contact.map.session.rest_refusal()
 	rest_button.disabled = running or not refused.is_empty()
-	rest_button.tooltip_text = tr(RestLines.HINT) if refused.is_empty() else refused
+	rest_button.tooltip_text = _contact.map.session.rest_hint() if refused.is_empty() else refused
 
 
 ## Shown as the interaction popup's page (its rows do 拜师 and what follows).

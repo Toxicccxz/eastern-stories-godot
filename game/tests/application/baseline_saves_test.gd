@@ -302,7 +302,7 @@ func _autosave_moments(tree: SceneTree) -> void:
 	_check(not autosave.begin(session, later) and not autosave.running() and not autosave.waiting(), "the moment passes")
 	session.player_runtime().state.ghost = false
 	# 全项目审查第四批: where the player stands is no place a save can put them back (a doorway:
-	# door state is not saved): Save says so, the autosave waits for them to step on, quietly.
+	# door state is not saved): Save says so, the autosave's moment waits, quietly, for the next.
 	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var stood: Vector2 = body.global_position
 	body.global_position = Vector2(-5000, -5000) # TEST-ONLY: a spot no zone of the map holds
@@ -310,11 +310,10 @@ func _autosave_moments(tree: SceneTree) -> void:
 	_check(refused.outcome == OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION, "Save is refused for where the player stands: %d" % refused.outcome)
 	_check(not autosave.begin(session, later) and autosave.waiting() and not autosave.running(), "the autosave's moment waits")
 	_check(autosave.take_finished() == null, "and nothing is told: no 自动存档失败")
-	_check(not autosave.retry(session, later + 10) and autosave.waiting(), "tried again within the second: still there")
-	_check(not autosave.retry(session, later + 1200) and autosave.waiting(), "a second on, still standing there: still waiting")
+	_check(not autosave.begin(session, later + 1200) and autosave.waiting(), "the next moment, still standing there: still waiting")
 	body.global_position = stood
-	_check(autosave.retry(session, later + 1200) == false, "never twice within the second")
-	_check(autosave.retry(session, later + 2400) and autosave.running() and not autosave.waiting(), "a step away, it saves")
+	# Not tried while the player walks (save_waiting_test, through the host): the next moment.
+	_check(autosave.begin(session, later + 2400) and autosave.running() and not autosave.waiting(), "a step away, the next moment saves")
 	await _autosaved(tree, host)
 	await _frames(tree)
 	var said: Array[String] = session.shared_ui().toasts().shown_texts()

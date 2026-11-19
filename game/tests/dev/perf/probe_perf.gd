@@ -12,7 +12,7 @@ extends SceneTree
 ##   <exe> --main-pack <pck> --script <abs>/game/tests/dev/perf/probe_perf.gd -- <mode> <out.json> [args]
 ##
 ## Modes:
-##   fight [n]        n fights ended in 雪亭镇's 武馆 (the trainee at snow.school2.trainee.2):
+##   fight [n]        n fights (up to 6) ended in 雪亭镇's 武馆, one per trainee:
 ##                    from the last blow to the world back, every frame, when the autosave moment
 ##                    came and how long its frame took, and what showed then (lines still to
 ##                    tell, the stamp).
@@ -25,7 +25,8 @@ extends SceneTree
 
 const SHELL_SCENE: String = "res://scenes/application/application_shell.tscn"
 const PROFILE: String = "perf-probe"
-const FIGHT_POINT: StringName = &"snow.school2.trainee.2"
+## Six trainees, one fight each (up to six fights a run).
+const FIGHT_POINTS: Array[StringName] = [&"snow.school2.trainee.1", &"snow.school2.trainee.2", &"snow.school2.trainee.3", &"snow.school2.trainee.4", &"snow.school2.trainee.5", &"snow.school2.trainee.6"]
 const FIGHT_ZONE: StringName = &"snow.school2"
 const LIMIT_FRAMES: int = 20000
 
@@ -93,7 +94,7 @@ func _session() -> WorldSessionController:
 func _playing() -> bool:
 	var session: WorldSessionController = _session()
 	return (
-		_shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not _shell.focus_held()
+		_shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not (_shell.has_method(&"focus_held") and bool(_shell.call(&"focus_held")))
 		and not paused and session != null and session.start_finished() and not session.world_building()
 		and not session.presentation_held(WorldSessionController.WORLD_BUILD_HOLD)
 	)
@@ -107,8 +108,8 @@ func _fights(count: int) -> void:
 	# Every fight's end may write (the shipped 180 s interval would let only the first).
 	catalog.set_pacing(pacing.copy().with_autosave(1))
 	var runs: Array[Dictionary] = []
-	for index: int in count:
-		var run: Dictionary = await _fight()
+	for index: int in mini(count, FIGHT_POINTS.size()):
+		var run: Dictionary = await _fight(FIGHT_POINTS[index])
 		if run.has("failed"):
 			_report["failed"] = run["failed"]
 			break
@@ -120,21 +121,19 @@ func _fights(count: int) -> void:
 	_report["summary"] = _summary(runs, ["closing_ms", "moment_after_ms", "moment_frame_ms", "longest_other_frame_ms", "stamp_after_ms"])
 
 
-func _fight() -> Dictionary:
+func _fight(point: StringName) -> Dictionary:
 	var session: WorldSessionController = _session()
 	if not await _until(_playing):
 		return {"failed": "not playing before the fight"}
-	var map: WorldMapController = _enter(session, FIGHT_ZONE, FIGHT_POINT)
+	var map: WorldMapController = _enter(session, FIGHT_ZONE, point)
 	if map == null:
 		return {"failed": "no way to %s" % FIGHT_ZONE}
 	await _frames(5)
 	await _until(_playing)
 	await _seconds(1.0)
-	var npc: NpcRuntimeState = _npc_at(map, FIGHT_POINT)
-	if npc == null:
-		return {"failed": "no trainee"}
-	if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
-		npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # PROBE-ONLY: the same trainee again
+	var npc: NpcRuntimeState = _npc_at(map, point)
+	if npc == null or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return {"failed": "no trainee standing at %s" % point}
 	var body: Node2D = map.runtime_body_for_character(npc.character_id)
 	var player_body: Node2D = map.runtime_player_body()
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48)]:
@@ -148,8 +147,9 @@ func _fight() -> Dictionary:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	map.select_npc(npc.character_id)
-	if map.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
-		return {"failed": "the attack did not start"}
+	var attack: CombatSliceInitiationResult = map.attack_selected()
+	if attack.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+		return {"failed": "the attack on %s did not start (%d)" % [point, attack.outcome]}
 	await _seconds(1.0)
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	npc.character_state.vitality = CharacterResourceState.new(1, 1, 100000) # PROBE-ONLY: the next blow ends it
@@ -160,13 +160,24 @@ func _fight() -> Dictionary:
 	for step: int in 600:
 		if not coordinator.has_active_encounter():
 			break
+		# 了结 / 放过 waits for the player: the probe spares the trainee.
+		for victim: StringName in coordinator.held_victims():
+			coordinator.spare_downed(victim)
+		# The fight's clock waits for the player's order: the first move.
+		if coordinator.waiting_for_player():
+			var moves: Array[CombatActionDefinition] = coordinator.player_moves()
+			if not moves.is_empty():
+				coordinator.choose_attack(moves[0].action_id)
 		coordinator.advance_scheduler(1.0)
+	if coordinator.has_active_encounter():
+		session.autosave_moment.disconnect(on_moment)
+		return {"failed": "the fight did not end (waiting %s, held %s)" % [coordinator.waiting_for_player(), coordinator.held_victims()]}
 	var over: int = Time.get_ticks_usec()
 	var frames: Array[int] = [over]
 	var stamp_at: int = -1
 	var lines_at_moment: int = -1
 	var stamp_at_moment: bool = false
-	while (ui.visible or session.battle_panel_shown()) and frames.size() < LIMIT_FRAMES:
+	while (ui.visible or session.battle_panel_shown()) and frames.size() < LIMIT_FRAMES and Time.get_ticks_usec() - over < 20000000:
 		await process_frame
 		var now: int = Time.get_ticks_usec()
 		frames.append(now)

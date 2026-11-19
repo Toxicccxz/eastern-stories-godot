@@ -238,13 +238,7 @@ func player_left() -> void:
 	end_scene()
 	# make_stage() tells and hands to the giver wherever they are (tell_object(), move(who)):
 	# leaving, the player hears the rest at once and gets the thing (DECISIONS 晚月庄 C).
-	for character_id: StringName in makings.keys():
-		while makings.has(character_id):
-			_make_stage(character_id)
-	# A test still being told: the rest at once (ES2 told it all in one command).
-	for character_id: StringName in trials.keys():
-		while trials.has(character_id):
-			_trial_step(character_id)
+	finish_work(true)
 	# A master's answer to 拜师 still to come is said to the room the player left (a refusal
 	# ends the request: DECISIONS 山烟寺 C), as on one map; gone, it would leave it pending.
 	if ambience != null:
@@ -453,6 +447,34 @@ func settle() -> void:
 			if npc_heartbeat != null:
 				npc_heartbeat.forget_revive(npc.character_id)
 			_woke(npc, false)
+
+
+## What the player waits for from this map's NPCs, done at once: a making's rest told and the
+## thing handed over, a test's rest told and its deed recorded (ES2 told a test in one command).
+## `tellings`: a making that gives nothing (a story, 黄石隘口) is told to its end too; without
+## it such a telling goes on as it was. Leaving the map does all of it; a Save the player asks
+## for, and the 决战前 save, what a save would lose (holds_work(); DECISIONS「自动存档」).
+func finish_work(tellings: bool) -> void:
+	for character_id: StringName in makings.keys():
+		if not tellings and (makings[character_id]["making"] as NpcMaking).gives.is_empty():
+			continue
+		while makings.has(character_id):
+			_make_stage(character_id)
+	for character_id: StringName in trials.keys():
+		while trials.has(character_id):
+			_trial_step(character_id)
+
+
+## Whether a save now would lose something the player is owed: a making that gives a thing
+## (its temp mark is saved, the call_out is not) or a test whose deed is still to come. A
+## telling that gives nothing loses only its last lines.
+func holds_work() -> bool:
+	if not trials.is_empty():
+		return true
+	for pending: Dictionary in makings.values():
+		if not (pending["making"] as NpcMaking).gives.is_empty():
+			return true
+	return false
 
 
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
