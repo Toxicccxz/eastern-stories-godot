@@ -10980,6 +10980,462 @@
 					"贫道了尘。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.toutuo_hall",
+			"legacy_source": "native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — the 独眼头陀 (d/sanyen/npc/monk.c: 似乎不是山烟寺的僧人, lotusforce 90) inside the 金门 at last: before the Buddha in the 大雄宝殿 with 龙若's 贝叶, 玄智 on his cushion (the scene, `scene_mark` 头陀上殿见了玄智), until 山烟寺 takes the sutra or keeps to its own. 续写. His numbers are monk.c's; the attributes it leaves to the roll are fixed here, and his 内功 is the 婆萝蜜多心经 he came with",
+			"name": "独眼头陀",
+			"aliases": [
+				"one-eyed monk",
+				"monk",
+				"头陀"
+			],
+			"long": "一个独眼的头陀，站在大雄宝殿的佛前，那只独眼望着佛像，背挺得很直。佛前的香案上放着一片贝叶。十年里，他第一次站进了这道金门。\n",
+			"class": "bonze",
+			"gender": "男性",
+			"age": 46,
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"cps": 12,
+				"int": 20,
+				"spi": 18,
+				"con": 24,
+				"kar": 14,
+				"per": 12
+			},
+			"resources": {
+				"max_force": 1700,
+				"force": 1700
+			},
+			"combat_exp": 60000,
+			"force_factor": 3,
+			"skills": {
+				"force": 90,
+				"unarmed": 80,
+				"dodge": 80,
+				"blade": 80,
+				"bolomiduo": 90,
+				"move": 60
+			},
+			"skill_map": {
+				"force": "bolomiduo"
+			},
+			"carry": [
+				{
+					"item": "es2:d/sanyen/obj/blade",
+					"source": "d/sanyen/npc/obj/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/sanyen/obj/monk_cloth",
+					"source": "d/sanyen/npc/obj/monk_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/sanyen/obj/eye_patch",
+					"source": "d/sanyen/npc/obj/eye_patch.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/sanyen/obj/shoe",
+					"source": "d/sanyen/npc/obj/shoe.c",
+					"equip": "wear"
+				}
+			],
+			"apply": {
+				"attack": 60,
+				"dodge": 70
+			},
+			"attitude": "peaceful",
+			"always_kept": true,
+			"accept_fight": [
+				{
+					"say": "殿上不动刀。",
+					"accept": false
+				}
+			],
+			"inquiry": {
+				"经": [
+					"放在佛前了。收不收，问玄智。"
+				],
+				"玄智": [
+					"他守了三十年寺规。今天让他自己说。"
+				],
+				"师父": [
+					"龙若法王。他说：收不收，是山烟寺的事。"
+				]
+			},
+			"scene_mark": "头陀上殿见了玄智",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "头陀上殿见了玄智",
+					"when": {
+						"all": [
+							{
+								"mark": "头陀上了大殿"
+							},
+							{
+								"not": {
+									"mark": "山烟寺收了经"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺守了寺"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.bonze.master",
+					"steps": [
+						{
+							"emote": "站在佛前，把那片贝叶放在香案上，退后一步。"
+						},
+						{
+							"line": "大殿里念经的声音停了。几个僧人从蒲团上抬起头来，看着这个从金门外进来的人。\n"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"not_mark": "头陀上殿见了玄智",
+					"when": {
+						"all": [
+							{
+								"mark": "头陀上了大殿"
+							},
+							{
+								"not": {
+									"mark": "山烟寺收了经"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺守了寺"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.bonze.master",
+					"steps": [
+						{
+							"by": "common.npc.bonze.master"
+						},
+						{
+							"emote": "放下念珠，看着香案上那片贝叶，很久没有说话。"
+						},
+						{
+							"say": "你进来了。"
+						}
+					]
+				},
+				{
+					"after": 7,
+					"scene": true,
+					"not_mark": "头陀上殿见了玄智",
+					"when": {
+						"all": [
+							{
+								"mark": "头陀上了大殿"
+							},
+							{
+								"not": {
+									"mark": "山烟寺收了经"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺守了寺"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.bonze.master",
+					"steps": [
+						{
+							"say": "我师父说：收不收，是山烟寺的事。"
+						},
+						{
+							"say": "十年前我带着这部经来，你没让我进门。今天我站到殿上来，就问一句——收，还是不收。"
+						}
+					]
+				},
+				{
+					"after": 10,
+					"scene": true,
+					"not_mark": "头陀上殿见了玄智",
+					"when": {
+						"all": [
+							{
+								"mark": "头陀上了大殿"
+							},
+							{
+								"not": {
+									"mark": "山烟寺收了经"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺守了寺"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.bonze.master",
+					"steps": [
+						{
+							"by": "common.npc.bonze.master"
+						},
+						{
+							"say": "三十年前，师父说本寺一脉，不收外来的经。玄尘师弟跟着那位天竺来的法师走了，再没有回来。"
+						},
+						{
+							"say": "老衲守了三十年寺规。守到今天，流云轩里一个樵夫的寒，都赶不出去。"
+						}
+					]
+				},
+				{
+					"after": 12,
+					"scene": true,
+					"not_mark": "头陀上殿见了玄智",
+					"when": {
+						"all": [
+							{
+								"mark": "头陀上了大殿"
+							},
+							{
+								"not": {
+									"mark": "山烟寺收了经"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺守了寺"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
+							},
+							{
+								"mark": "不守寺规"
+							}
+						]
+					},
+					"present": "common.npc.bonze.master",
+					"steps": [
+						{
+							"by": "common.npc.bonze.master"
+						},
+						{
+							"emote": "看了你一眼。"
+						},
+						{
+							"say": "施主破过一回寺规，领他进了流云轩。今天又是施主把他领上了殿。"
+						}
+					]
+				},
+				{
+					"after": 14,
+					"scene": true,
+					"not_mark": "头陀上殿见了玄智",
+					"when": {
+						"all": [
+							{
+								"mark": "头陀上了大殿"
+							},
+							{
+								"not": {
+									"mark": "山烟寺收了经"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺守了寺"
+								}
+							},
+							{
+								"not": {
+									"mark": "山烟寺的线断了"
+								}
+							}
+						]
+					},
+					"present": "common.npc.bonze.master",
+					"steps": [
+						{
+							"by": "common.npc.bonze.master"
+						},
+						{
+							"emote": "转过头来看着你。"
+						},
+						{
+							"say": "番坊是施主去的，这片叶子也是施主带回来的。施主说吧。"
+						},
+						{
+							"line": "（收经，问玄智「收经」；守寺，问玄智「守寺」。）\n"
+						},
+						{
+							"mark": "玄智和头陀说完了话"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.toutuo_liuyun",
+			"legacy_source": "native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — the 独眼头陀 (d/sanyen/npc/monk.c) after 山烟寺 took the sutra: ordained by 玄智 (his hair kept, as a 头陀's), in 流云轩 (d/sanyen/heal_room.c) where the 鬼卒's cold is cured now, teaching the 婆萝蜜多心经 to anyone (计划 §12 Q6) and nothing else. 续写. His numbers are monk.c's; the attributes it leaves to the roll are fixed here",
+			"name": "独眼头陀",
+			"aliases": [
+				"one-eyed monk",
+				"monk",
+				"头陀"
+			],
+			"title": "流云轩",
+			"long": "一个独眼的头陀，盘腿坐在流云轩的药柜下，瞎眼上还蒙着眼罩，头发照旧束着，身上换了山烟寺的灰布僧衣。他的手掌比常人红，摸过的药罐都是温的。\n",
+			"class": "bonze",
+			"gender": "男性",
+			"age": 46,
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"cps": 12,
+				"int": 20,
+				"spi": 18,
+				"con": 24,
+				"kar": 14,
+				"per": 12
+			},
+			"resources": {
+				"max_force": 1700,
+				"force": 1700
+			},
+			"combat_exp": 60000,
+			"force_factor": 3,
+			"skills": {
+				"force": 90,
+				"unarmed": 80,
+				"dodge": 80,
+				"blade": 80,
+				"bolomiduo": 90,
+				"move": 60
+			},
+			"skill_map": {
+				"force": "bolomiduo"
+			},
+			"carry": [
+				{
+					"item": "es2:d/sanyen/obj/blade",
+					"source": "d/sanyen/npc/obj/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/sanyen/obj/monk_cloth",
+					"source": "d/sanyen/npc/obj/monk_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/sanyen/obj/eye_patch",
+					"source": "d/sanyen/npc/obj/eye_patch.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/sanyen/obj/shoe",
+					"source": "d/sanyen/npc/obj/shoe.c",
+					"equip": "wear"
+				}
+			],
+			"apply": {
+				"attack": 60,
+				"dodge": 70
+			},
+			"attitude": "peaceful",
+			"always_kept": true,
+			"chat_chance": 4,
+			"chat_msg": [
+				"独眼头陀把一只手掌按在药罐上，罐里的药咕嘟咕嘟地翻了起来。\n",
+				"独眼头陀闭着那只独眼，一动不动，像是睡着了。\n"
+			],
+			"accept_fight": [
+				{
+					"say": "流云轩是看病的地方。",
+					"accept": false
+				}
+			],
+			"recognize_apprentice": [
+				{
+					"accept": true,
+					"skills": [
+						"bolomiduo"
+					]
+				}
+			],
+			"inquiry": {
+				"婆萝蜜多心经": {
+					"rules": [
+						{
+							"lines": [
+								{
+									"say": "火性的经。练它的人，性子要慢——我性子急，所以瞎了一只眼。"
+								},
+								{
+									"say": "你要学，我教。别的我不教——山烟寺的东西，问方丈。"
+								}
+							]
+						}
+					]
+				},
+				"鬼卒": [
+					"鬼卒抓的伤，送到流云轩来。我一掌的事。"
+				],
+				"寒": [
+					"阴寒钻进骨头里，凉药赶不出来。火性的内功赶得出来。"
+				],
+				"玄智": [
+					"方丈让我管流云轩的火。……他是个守规矩的人，为我破了一回。"
+				],
+				"师父": [
+					"龙若法王。他说：收不收，是山烟寺的事。山烟寺收了。"
+				],
+				"玄尘": {
+					"rules": [
+						{
+							"asker_marks": [
+								"了尘说了玄尘"
+							],
+							"say": "玄尘师叔？……方丈说，他等这一天，等了三十年。"
+						},
+						{
+							"say": "三十年前跟我师父走的那个人。我没见过他。"
+						}
+					]
+				}
+			}
 		}
 	]
 }

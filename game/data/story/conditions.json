@@ -493,10 +493,21 @@
 		{
 			"id": "assembly.sanyen.stated",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — its head's 「虹台」, once the main story is over",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — or the split in the 大雄宝殿 (taken before one sat on the 虹台)"
 			],
 			"when": {
-				"mark": "山烟寺表了态"
+				"any": [
+					{
+						"mark": "山烟寺表了态"
+					},
+					{
+						"mark": "山烟寺的票随了收经"
+					},
+					{
+						"mark": "山烟寺的票随了守寺"
+					}
+				]
 			}
 		},
 		{
@@ -898,23 +909,80 @@
 			}
 		},
 		{
-			"id": "assembly.sanyen.old",
+			"id": "assembly.sanyen.self",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 站了安妮儿 (神教不来搅), and 玄智 asked: 容神教"
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺: the line walked to its split, 玄智 asked for it (§12 Q7)"
 			],
 			"when": {
-				"mark": "山烟寺改投旧盟主"
+				"mark": "山烟寺听你的"
+			}
+		},
+		{
+			"id": "assembly.sanyen.old",
+			"sources": [
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 站了安妮儿 (神教不来搅), and 玄智 asked: 容神教",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 收经 (容得下西来的经，也容得下别人), or no split and 改投; not when 山烟寺 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"not": {
+							"mark": "山烟寺听你的"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "山烟寺的票随了收经"
+							},
+							{
+								"all": [
+									{
+										"not": {
+											"mark": "山烟寺的票随了守寺"
+										}
+									},
+									{
+										"mark": "山烟寺改投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		},
 		{
 			"id": "assembly.sanyen.yan",
 			"sources": [
-				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 山烟寺: 逐神教"
+				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 山烟寺: 逐神教",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 守寺 (本寺一脉, 守清规: 逐神教), or no split and not 改投; not when 山烟寺 听你的"
 			],
 			"when": {
-				"not": {
-					"mark": "山烟寺改投旧盟主"
-				}
+				"all": [
+					{
+						"not": {
+							"mark": "山烟寺听你的"
+						}
+					},
+					{
+						"not": {
+							"mark": "山烟寺的票随了收经"
+						}
+					},
+					{
+						"any": [
+							{
+								"mark": "山烟寺的票随了守寺"
+							},
+							{
+								"not": {
+									"mark": "山烟寺改投旧盟主"
+								}
+							}
+						]
+					}
+				]
 			}
 		},
 		{
@@ -1130,7 +1198,8 @@
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — five 派 「听你的」 (§11 Q3; 大会 B's 参选 also wants 侮天鬼灭了)",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too (§11 Q9: seven 派 that may 听你的)",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too (§7: eight 派 may vote 颜违; §11 Q9: seven may 听你的)",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too (§12 Q7: eight 派 may 听你的 so far)"
 			],
 			"when": {
 				"at_least": {
@@ -1153,6 +1222,9 @@
 						},
 						{
 							"cond": "assembly.latemoon.self"
+						},
+						{
+							"cond": "assembly.sanyen.self"
 						},
 						{
 							"cond": "assembly.buxuan.self"
@@ -1894,7 +1966,8 @@
 		{
 			"id": "assembly.day.sanyen.yan",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 votes 颜违 on the day: its own vote, or 听你的 and you sent it there"
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 votes 颜违 on the day: its own vote, or 听你的 and you sent it there",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — or 听你的 and you sent it there"
 			],
 			"when": {
 				"all": [
@@ -1902,7 +1975,21 @@
 						"cond": "assembly.day.sanyen.here"
 					},
 					{
-						"cond": "assembly.sanyen.yan"
+						"any": [
+							{
+								"cond": "assembly.sanyen.yan"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.sanyen.self"
+									},
+									{
+										"mark": "听你的投颜违"
+									}
+								]
+							}
+						]
 					}
 				]
 			}
@@ -1910,7 +1997,8 @@
 		{
 			"id": "assembly.day.sanyen.old",
 			"sources": [
-				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 votes the old 盟主 on the day"
+				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 山烟寺 votes the old 盟主 on the day",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — or 听你的 and you sent it there"
 			],
 			"when": {
 				"all": [
@@ -1918,7 +2006,53 @@
 						"cond": "assembly.day.sanyen.here"
 					},
 					{
-						"cond": "assembly.sanyen.old"
+						"any": [
+							{
+								"cond": "assembly.sanyen.old"
+							},
+							{
+								"all": [
+									{
+										"cond": "assembly.sanyen.self"
+									},
+									{
+										"mark": "听你的投旧盟主"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.sanyen.backs",
+			"sources": [
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 came and 听你的"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.sanyen.here"
+					},
+					{
+						"cond": "assembly.sanyen.self"
+					}
+				]
+			}
+		},
+		{
+			"id": "assembly.day.sanyen.self",
+			"sources": [
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 votes you: 听你的, and you stood"
+			],
+			"when": {
+				"all": [
+					{
+						"cond": "assembly.day.sanyen.backs"
+					},
+					{
+						"mark": "站出来参选"
 					}
 				]
 			}
@@ -2236,7 +2370,8 @@
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 换盟主要过半 (§11 Q3): five of the nine that came for you",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too"
 			],
 			"when": {
 				"at_least": {
@@ -2259,6 +2394,9 @@
 						},
 						{
 							"cond": "assembly.day.latemoon.self"
+						},
+						{
+							"cond": "assembly.day.sanyen.self"
 						},
 						{
 							"cond": "assembly.day.buxuan.self"
@@ -2310,7 +2448,8 @@
 			"sources": [
 				"native: 势力线第一批 大会 B (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7「怎么算」与大会 B, §8 跨线纠结, §11 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 B」「台上的选择」) — 我也算一个: 侮天鬼灭了, and five 派 that came 听你的",
 				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 振远 too",
-				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too"
+				"native: 势力线第二批 花紫会 B (剧情总纲 §4「花紫会」; 计划 势力线第二批_计划.md §5 花紫会 B, §7 第 1、4、6 行与「要改大会的地方」, §9 第 7 条, §10 第 7 行, §11 Q7 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「花紫会 B」) — 花紫会 too",
+				"native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — 山烟寺 too"
 			],
 			"when": {
 				"all": [
@@ -2338,6 +2477,9 @@
 								},
 								{
 									"cond": "assembly.day.latemoon.backs"
+								},
+								{
+									"cond": "assembly.day.sanyen.backs"
 								},
 								{
 									"cond": "assembly.day.buxuan.backs"

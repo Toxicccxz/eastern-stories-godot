@@ -36,6 +36,7 @@
 				]
 			}
 		},
+		{ "id": "native:fanfang/sutra_leaf", "legacy_sources": ["native: 势力线第三批 山烟寺 B (剧情总纲 §4 第 4 条「山烟寺」; 计划 势力线第三批_计划.md §6 山烟寺 B, §3 三十年前的旧事, §2 第 4 条, §8 第 6 行与「要改大会的地方」, §10 第 8–12 条, §12 Q5 Q6 Q7 Q8, owner 2026-11-17「都照推荐」; DECISIONS「山烟寺 B」) — the first leaf of the 婆萝蜜多心经 (daemon/skill/bolomiduo.c, a 内功 ES2 left without its 运功 files) that 龙若法王 gives to carry back to 山烟寺, his line on its margin; 续写"], "name": "贝叶", "quest": true, "aliases": ["sutra leaf", "leaf", "贝叶", "贝叶经", "经页"], "long": "一片狭长的贝叶，两指宽，一尺来长，叶头穿了一个小孔。叶面上用铁笔刻着一行一行天竺字，刻痕里抹了烟灰，是婆萝蜜多心经的第一页。叶边空白处，有人用中原字添了一行小字：「收不收，是山烟寺的事。」\n", "unit": "片", "material": "plant", "weight": 10, "value": 0, "no_drop": "这是龙若法王托你带回山烟寺的经，不能随便丢。", "give_to": ["sanyen.npc.monk"] },
 		{ "id": "native:fanfang/katana", "legacy_sources": ["native: 番坊 C (剧情总纲 §3 第七章 ④⑤, §6 番坊卡「鬼笠馆」; 计划 build/plans/番坊_计划.md §0「争地」「读铜牒与钩子」 §3, owner 2026-11-04 Q3 站浪人代价重; DECISIONS「番坊 C」) — 续写 — the 浪人's narrow curved long sword (ES2 maps 早川 to sword: ronin/master.c set_skill sword 100); the 浪人刀法 that needs it is 番坊 D's"], "name": "倭刀", "aliases": ["katana", "sword", "刀", "倭刀", "长刀"], "long": "一把倭国的长刀，刀身窄而弯，只开一面刃，刀背磨得发亮。刀柄长，缠着黑丝绳，两只手握得下。浪人说：一刀。\n", "unit": "把", "material": "iron", "weight": 2400, "value": 2500, "weapon": { "skill": "sword", "damage": 50, "weight_dodge": "equip" } },
 		{
 			"id": "native:fanfang/round_shield",

@@ -768,11 +768,13 @@
 		"native.cave2.ghoul",
 		"native.cave2.kid",
 		"native.path0.mother",
-		"native.cavehall.liaochen"
+		"native.cavehall.liaochen",
+		"native.temple.toutuo",
+		"native.heal_room.toutuo"
 	],
-	"world_npcs": 885,
+	"world_npcs": 887,
 	"resident_maps": 168,
-	"new_game_items": 1312,
+	"new_game_items": 1320,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -1020,9 +1022,9 @@
 		"latemoon.hills": 3,
 		"sunhill.mountain": 2,
 		"sanyen.grounds": 6,
-		"sanyen.hall_house": 1,
+		"sanyen.hall_house": 2,
 		"sanyen.back_temple_house": 1,
-		"sanyen.heal_room_house": 2,
+		"sanyen.heal_room_house": 3,
 		"sanyen.kitchen_house": 1,
 		"sanyen.tunnels": 0,
 		"choyin.town": 54,

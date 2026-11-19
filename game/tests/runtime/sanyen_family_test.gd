@@ -151,7 +151,7 @@ func _test_learn() -> void:
 	var stranger: CharacterState = _student(CharacterState.GENDER_MALE)
 	stranger.affiliation.class_id = &"bonze" # TEST-ONLY: ordained, not his apprentice
 	var refused: Array = _learn(stranger, &"buddhism")
-	_check((refused[0] as LearnResult).failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT and _reject_lines("玄智和尚").has(refused[1][0]), "a monk not of 山烟寺 is politely refused: %s" % [refused[1]])
+	_check((refused[0] as LearnResult).failure_reason == LearnResult.FailureReason.RECOGNITION_REJECTED and _reject_lines("玄智和尚").has(refused[1][0]), "a monk not of 山烟寺 is politely refused (山烟寺 B: his one recognize rule is for one who 守了寺): %s" % [refused[1]])
 	var disciple: CharacterState = _member()
 	for skill: StringName in [&"buddhism", &"chanting", &"staff", &"magic"]:
 		_check((_learn(disciple, skill)[0] as LearnResult).success, "he teaches his apprentice %s" % skill)

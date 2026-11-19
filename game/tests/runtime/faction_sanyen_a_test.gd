@@ -63,14 +63,14 @@ func _test_data() -> void:
 	if quest == null:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id)
-	_check(ids == [&"rx", &"field", &"shop", &"tomb", &"brew", &"feed", &"monk", &"west"], "山烟寺 A's steps, then the stub: %s" % [ids])
+	_check(ids == [&"rx", &"field", &"shop", &"tomb", &"brew", &"feed", &"monk", &"west", &"leaf", &"meet", &"split"], "山烟寺 A's steps, then 山烟寺 B's: %s" % [ids])
 	_check(quest.excludes.has(&"faction.dongfang") and catalog.story_quest(&"faction.dongfang").excludes.has(QUEST), "山烟寺 and 东方神教 exclude each other, both ways written")
 	var feed: StoryQuestDefinition.Step = quest.step(&"feed")
 	_check(feed.reward.rank_title == "知客" and feed.reward.rank_family == &"family.sanyen" and not feed.reward.deed.is_empty(), "the 汤药 fed: 知客 for 山烟寺's own, a deed")
 	var monk_step: StoryQuestDefinition.Step = quest.step(&"monk")
 	_check(monk_step.is_branch() and monk_step.weight == &"small" and monk_step.options.size() == 2, "the 头陀: the line's one small choice, two ways")
 	_check(monk_step.options.all(func(option: StoryQuestDefinition.Option) -> bool: return option.reward.rank_title.is_empty()), "neither way of it ranks")
-	_check(quest.steps.filter(func(step: StoryQuestDefinition.Step) -> bool: return step.weight == &"big").is_empty(), "no big split in 山烟寺 A (山烟寺 B's)")
+	_check(quest.steps.filter(func(step: StoryQuestDefinition.Step) -> bool: return step.weight == &"big").map(func(step: StoryQuestDefinition.Step) -> StringName: return step.step_id) == [&"split"], "no big split in 山烟寺 A: the one big is 山烟寺 B's")
 	_check(quest.step(&"west").target.npc_ids.has(&"fanfang.npc.lama_master"), "then on to 龙若法王 in 番坊 (山烟寺 B)")
 	for id: StringName in [FUZI, MUSK, GUIJIU, BREW]:
 		var item: ItemContentDefinition = catalog.item(id)
