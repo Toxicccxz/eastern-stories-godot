@@ -1,6 +1,6 @@
 extends SceneTree
 ## Bakes the title's lettering masks (DECISIONS「标题画面」): 东方故事 in 马善政 (a brush hand),
-## EASTERN STORIES in capitals in 霞鹜文楷, and the seal's 侠 in 霞鹜文楷 — rendered large,
+## EASTERN STORIES in Cinzel Bold (an incised Roman), and the seal's 侠 in 霞鹜文楷 — rendered large,
 ## antialiased (the mask keeps its grey edge) and padded for the shadow, so TitleLogo can gild
 ## them smoothly at any size. The game reads only these masks, so the brush font is not shipped.
 ## Windowed (it renders text):
@@ -9,10 +9,13 @@ extends SceneTree
 
 const OUT: String = "res://assets/textures/title/"
 const PLAIN: String = "res://assets/fonts/LXGWWenKaiLite-Medium.ttf"
+const ROMAN: String = "res://assets/fonts/Cinzel-VariableFont_wght.ttf"
+## Cinzel's weight axis: Bold.
+const ROMAN_WEIGHT: int = 700
 ## Glyph sizes in pixels, and the spacing added between letters (pixels).
 const ZH_SIZE: int = 240
 const EN_SIZE: int = 150
-const EN_SPACING: int = 18
+const EN_SPACING: int = 12
 const SEAL_SIZE: int = 120
 ## Clear pixels round the ink, for the shadow and the glow.
 const PAD: int = 40
@@ -36,7 +39,10 @@ func _run() -> void:
 	var plain: FontFile = load(PLAIN) as FontFile
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
 	_save(await _mask("东方故事", brush, ZH_SIZE, 0), "logo_zh_CN")
-	_save(await _mask("EASTERN STORIES", plain, EN_SIZE, EN_SPACING), "logo_en")
+	var roman := FontVariation.new()
+	roman.base_font = load(ROMAN) as FontFile
+	roman.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): ROMAN_WEIGHT}
+	_save(await _mask("EASTERN STORIES", roman, EN_SIZE, EN_SPACING), "logo_en")
 	_save(await _mask("侠", plain, SEAL_SIZE, 0), "seal_zh_CN")
 	quit(0)
 
@@ -57,8 +63,10 @@ func _mask(text: String, font: Font, size: int, spacing: int) -> Image:
 	root.add_child(paper)
 	var label := Label.new()
 	label.text = text
-	var face := FontVariation.new()
-	face.base_font = font
+	# Spacing on the font's own variation when it has one (a second layer would drop its weight).
+	var face: FontVariation = (font as FontVariation).duplicate() if font is FontVariation else FontVariation.new()
+	if not font is FontVariation:
+		face.base_font = font
 	face.spacing_glyph = spacing
 	label.add_theme_font_override("font", face)
 	label.add_theme_font_size_override("font_size", size)

@@ -19,7 +19,10 @@ extends Control
 const GOLD: Shader = preload("res://presentation/title/shaders/title_logo.gdshader")
 const SEAL: Shader = preload("res://presentation/title/shaders/title_seal.gdshader")
 const DIM: Shader = preload("res://presentation/title/shaders/title_dim.gdshader")
+## The line under the title: Cinzel for Latin letters (EASTERN STORIES), 霞鹜文楷 for Chinese.
 const LINE_FONT: FontFile = preload("res://assets/fonts/LXGWWenKaiLite-Medium.ttf")
+const LINE_ROMAN: FontFile = preload("res://assets/fonts/Cinzel-VariableFont_wght.ttf")
+const LINE_ROMAN_WEIGHT: int = 600
 ## The arrival's beats, in seconds: the gilding, the line under the title coming up, the seal's
 ## stamp a beat after the gilding (down from 1.6 times its size to 0.96, then settling to 1).
 const LACQUER_SECONDS: float = 0.3
@@ -193,7 +196,10 @@ func _place() -> void:
 	_letters.position = middle - size_px / 2.0
 	var font_size: int = maxi(8, roundi(LINE_SIZE * unit))
 	var face := FontVariation.new()
-	face.base_font = LINE_FONT
+	var latin: bool = _latin(_line.text)
+	face.base_font = LINE_ROMAN if latin else LINE_FONT
+	if latin:
+		face.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): LINE_ROMAN_WEIGHT}
 	face.spacing_glyph = roundi(font_size * LINE_SPACING)
 	_line.add_theme_font_override("font", face)
 	_line.add_theme_font_size_override("font_size", font_size)
@@ -254,6 +260,14 @@ static func _gold_dust() -> CPUParticles2D:
 	ramp.set_color(1, Color(0.85, 0.52, 0.18, 0.0))
 	dust.color_ramp = ramp
 	return dust
+
+
+## Whether `text` is all Latin letters (it is set in Cinzel, else in 霞鹜文楷).
+static func _latin(text: String) -> bool:
+	for i: int in text.length():
+		if text.unicode_at(i) > 0x24F:
+			return false
+	return true
 
 
 static func _texture(path: String) -> Texture2D:

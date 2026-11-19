@@ -108,10 +108,15 @@ beside it; the system's fonts fill in glyphs they lack (Godot's system fallback)
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/zhimangxing) repository, `ofl/zhimangxing`
   (4,063,532 bytes, SHA-256 `644e0cae9b40f0b10ab729a01bd32032e3973bac22be3dccae01bf6ae7fde969`). SIL Open Font License 1.1,
   `game/assets/fonts/OFL-ZhiMangXing.txt`; used unmodified for a place's name on the title.
+- `game/assets/fonts/Cinzel-VariableFont_wght.ttf` — Cinzel (variable weight 400–900), from the
+  [google/fonts](https://github.com/google/fonts/tree/main/ofl/cinzel) repository, `ofl/cinzel/Cinzel[wght].ttf`
+  (125,468 bytes, SHA-256 `f4d83d34d1f6c741193e4acf4b3dff9531e5a67b6aa65228d00a7db72a4e0f34`). SIL Open Font
+  License 1.1, `game/assets/fonts/OFL-Cinzel.txt`; used unmodified for the title's Latin lettering
+  (the English title's mask at weight 700, the line EASTERN STORIES under the Chinese title).
 - `game/assets/textures/title/logo_*.png`, `seal_zh_CN.png` — the title's lettering masks, text
   rendered by `tools/ui/bake_title_logo.gd` from 马善政 (Ma Shan Zheng, from the
   [google/fonts](https://github.com/google/fonts/tree/main/ofl/mashanzheng) repository, SIL Open
-  Font License 1.1; the font itself is not shipped) and 霞鹜文楷 (project-made images of
+  Font License 1.1; the font itself is not shipped), Cinzel and 霞鹜文楷 (project-made images of
   OFL-licensed glyphs).
 
 ## Character portraits (AI-generated)
