@@ -1,12 +1,16 @@
 {
 	"title_screen": {
-		"sun_percent": [28, 20],
+		"sun_percent": [66, 7],
 		"logo_percent": [28, 21],
-		"logo_width_px": 580,
+		"logo_width_px": 560,
 		"new_game_place": "snow.outdoor",
 		"logos": {
 			"zh_CN": "res://assets/textures/title/logo_zh_CN.png",
 			"default": "res://assets/textures/title/logo_en.png"
+		},
+		"lines": {
+			"zh_CN": "EASTERN STORIES",
+			"default": "东方故事"
 		},
 		"seals": {
 			"zh_CN": "res://assets/textures/title/seal_zh_CN.png"
