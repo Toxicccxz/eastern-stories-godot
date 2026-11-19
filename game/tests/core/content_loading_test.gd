@@ -14,6 +14,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_cross_reference_checks()
 	_test_summoned_and_seal_checks()
 	_test_quest_item_words()
+	_test_late_fields_checked()
 	_test_missing_files_fail_closed()
 	_test_stage_conditions()
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
@@ -322,6 +323,33 @@ func _test_quest_item_words() -> void:
 		"t.hazards[0].unless_wearing: unknown item 't:robe'",
 	]:
 		_eq(errors.has(expected), true, "load fails on: " + expected)
+
+
+## 修补 Z: the conditions a teacher, a patrol's arrest and 朱鸿雪's mercy read, and the phase a chant's mark lapses
+## at, are checked as the content is built (as kept_when is).
+func _test_late_fields_checked() -> void:
+	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	builder.add_document({
+		"items": [{"id": "t:crown", "legacy_sources": ["t/crown.c"], "name": "黑冠", "aliases": ["black crown"], "weight": 1}],
+		"npcs": [
+			{"id": "t.teacher", "legacy_source": "t/teacher.c", "name": "师", "aliases": ["teacher"],
+				"family": {"name": "天邪派", "generation": 16, "title": "执法使"}, "f_master": true, "teaches_when": {"item": "t:crwn"}},
+			{"id": "t.soul", "legacy_source": "t/soul.c", "name": "灵", "aliases": ["soul"],
+				"fight_chant": {"every": 1, "stages": [{"say": "一。", "mark": "念过", "mark_lapses_at": "dwan", "ends_spar": true}]}},
+			{"id": "t.guard", "legacy_source": "t/guard.c", "name": "捕", "aliases": ["guard"],
+				"patrol": {"route": ["t.z1", "t.z2"], "arrest": {"court": "t.court", "spares": {"wearing": "t:crwon"}}}},
+		],
+		"quest_mercy": {"sources": ["t"], "when": {"item": "t:cronw"}, "deserving": ["疯狗"]},
+	}, "t")
+	_eq(builder.build(), null, "nothing is built")
+	var errors: Array[String] = builder.errors()
+	for expected: String in [
+		"t.npcs[0].teaches_when.item: no item 't:crwn'",
+		"t.npcs[1].fight_chant.mark_lapses_at: no day phase 'dwan'",
+		"t.npcs[2].patrol.arrest.spares.wearing: no item 't:crwon'",
+		"quest_mercy.when.item: no item 't:cronw'",
+	]:
+		_eq(errors.has(expected), true, "load fails on: %s (%s)" % [expected, errors.filter(func(error: String) -> bool: return error.contains("teaches_when") or error.contains("mark_lapses_at") or error.contains("spares") or error.contains("quest_mercy"))])
 
 
 func _test_missing_files_fail_closed() -> void:
