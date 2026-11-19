@@ -780,7 +780,7 @@ static func zhenyuan_settled(session: WorldSessionController, stop: bool = true,
 		keys.append("faction.zhenyuan/letter")
 		marks.append_array(["家信给了陈天星", "镖路查清了"])
 	keys.append_array(["faction.zhenyuan/ledger", "faction.zhenyuan/uncle", "faction.zhenyuan/books/%s" % ("stop" if stop else "dig"), "faction.zhenyuan#done"])
-	marks.append_array(["陈天星说了旧账", "陈剑秋说了抚恤银", "振远旧账到此为止" if stop else "振远旧账查到底"])
+	marks.append_array(["陈天星说了旧账", "陈剑秋说了抚恤银"] + (["振远旧账到此为止", "振远的票随了到此为止"] if stop else ["振远旧账查到底", "振远的票随了查到底"]))
 	if not stop:
 		marks.append("镖路查清了")
 	for key: String in keys:

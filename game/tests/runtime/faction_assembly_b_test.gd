@@ -91,6 +91,11 @@ func _test_rules() -> void:
 	# 绝尘 only when asked down
 	state = _fresh(["终章", "入了虹台的席", "九派到了"])
 	_check(not _holds(state, "assembly.day.juechen.seated") and _holds(state, "assembly.day.huazi.seated"), "绝尘 does not come unless asked down")
+	# 修补 Z: 卫沧澜 is not freed while the 虹台 sits (it would turn 天邪's vote and the chair after the seats were taken)
+	state = _fresh(["终章", "入了虹台的席", "皇叔入朝", "见过卫沧澜", "钻了尚书府的狗洞", "真龙头说了狗洞"])
+	_check(_heard(state, &"common.npc.fighter.champion", "卫沧澜", "等散了会") and _heard(state, &"native.npc.wei_canglan", "走", "等那边散了") and not state.marks.has("卫沧澜出了尚书府"), "seated: neither the 皇叔 nor 卫沧澜 lets him out")
+	state.marks["大会散了"] = 1 # TEST-ONLY
+	_check(_heard(state, &"native.npc.wei_canglan", "走", "狗洞") and state.marks.has("卫沧澜出了尚书府"), "after the 虹台: he walks out")
 
 
 ## The second epilogue's lines by the day's outcome; the 终章's 水烟阁 card no longer tells it.

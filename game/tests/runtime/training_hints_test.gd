@@ -72,7 +72,7 @@ func _test_every_master() -> void:
 		if master == null:
 			_check(false, "no %s" % npc_id)
 			continue
-		var rows: Array[ApprenticeConditions.Row] = ApprenticeConditions.of(student, master, NpcApprenticeship.new(), poor, NpcApprenticeship.COMMONER_TITLE, "阁下")
+		var rows: Array[ApprenticeConditions.Row] = ApprenticeConditions.of(student, master, NpcApprenticeship.new(), poor, "阁下")
 		_check(_rows(rows) == expected[npc_id], "%s: %s" % [npc_id, _rows(rows)])
 	# Nothing a master keeps for the asking is told before (owner Q3).
 	for npc_id: StringName in expected:
@@ -82,16 +82,20 @@ func _test_every_master() -> void:
 	# 骆云舟's 桃林: told once he has said it (marks/书生), met once walked (marks/桃林).
 	var scholar: NpcDefinition = catalog.npc(&"common.npc.scholar.master")
 	student.marks["书生"] = 1
-	var rows: Array[ApprenticeConditions.Row] = ApprenticeConditions.of(student, scholar, NpcApprenticeship.new(), poor, NpcApprenticeship.COMMONER_TITLE, "阁下")
+	var rows: Array[ApprenticeConditions.Row] = ApprenticeConditions.of(student, scholar, NpcApprenticeship.new(), poor, "阁下")
 	_check(_rows(rows) == [["骆云舟说过：你还是先走一趟东边的桃林吧。", false]], "the 桃林 once he said it: %s" % [_rows(rows)])
 	student.marks["桃林"] = 1
-	rows = ApprenticeConditions.of(student, scholar, NpcApprenticeship.new(), poor, NpcApprenticeship.COMMONER_TITLE, "阁下")
+	rows = ApprenticeConditions.of(student, scholar, NpcApprenticeship.new(), poor, "阁下")
 	_check(_rows(rows) == [["另有条件", true]], "walked: met, still not named: %s" % [_rows(rows)])
 	var rich: Callable = func(_price: int) -> bool: return true
-	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.beggar.master"), NpcApprenticeship.new(), rich, NpcApprenticeship.COMMONER_TITLE, "阁下")
+	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.beggar.master"), NpcApprenticeship.new(), rich, "阁下")
 	_check(_rows(rows) == [["身上的钱不到 1 两银子", false]], "carrying a tael: %s" % [_rows(rows)])
-	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.juechen.master"), NpcApprenticeship.new(), poor, "封山剑派第十四代弟子", "阁下")
+	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.juechen.master"), NpcApprenticeship.new(), poor, "阁下")
+	_check(_rows(rows).back() == ["只收没有门派的人", true], "no family: a commoner, whatever the title says (DECISIONS「问话给头衔」): %s" % [_rows(rows)])
+	student.family = FamilyState.new(&"family.fonxan", 14) # TEST-ONLY
+	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.juechen.master"), NpcApprenticeship.new(), poor, "阁下")
 	_check(_rows(rows).back() == ["只收没有门派的人", false], "a family's member: %s" % [_rows(rows)])
+	student.family = FamilyState.new() # TEST-ONLY
 	_check(ApprenticeConditions.money(10000) == "1 两黄金" and ApprenticeConditions.money(250) == "250 文钱", "money")
 
 
@@ -179,7 +183,7 @@ func _test_pseudo_locale() -> void:
 	var student := CharacterState.new()
 	var untranslated: Array[String] = []
 	for npc_id: StringName in [&"common.npc.swordsman.master", &"common.npc.juechen.master", &"common.npc.beggar.master", &"latemoon.npc.room.elon", &"city.npc.chen", &"common.npc.bonze.master"]:
-		for row: ApprenticeConditions.Row in ApprenticeConditions.of(student, GameContent.catalog().npc(npc_id), NpcApprenticeship.new(), func(_p: int) -> bool: return false, NpcApprenticeship.COMMONER_TITLE, "阁下"):
+		for row: ApprenticeConditions.Row in ApprenticeConditions.of(student, GameContent.catalog().npc(npc_id), NpcApprenticeship.new(), func(_p: int) -> bool: return false, "阁下"):
 			if not PseudoLocale.untranslated(row.text).is_empty():
 				untranslated.append(row.text)
 	_check(untranslated.is_empty(), "the conditions: %s" % [untranslated])

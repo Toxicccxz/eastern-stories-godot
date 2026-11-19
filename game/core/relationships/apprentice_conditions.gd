@@ -60,10 +60,10 @@ const COINS: String = "{n} 文钱"
 
 
 ## The rows for `student` and `master`; `request` the student's 拜师 state (offers),
-## `affords` can_afford(price) of the student, `student_title` their title as ES2 keeps it,
+## `affords` can_afford(price) of the student,
 ## `respect` how the master addresses them ($RESPECT). Empty for one who takes no one or
 ## is already their master.
-static func of(student: CharacterState, master: NpcDefinition, request: NpcApprenticeship, affords: Callable, student_title: String, respect: String) -> Array[Row]:
+static func of(student: CharacterState, master: NpcDefinition, request: NpcApprenticeship, affords: Callable, respect: String) -> Array[Row]:
 	var rows: Array[Row] = []
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or NpcApprenticeship.is_master_of(student, master):
@@ -102,7 +102,7 @@ static func of(student: CharacterState, master: NpcDefinition, request: NpcAppre
 				_state(have >= check.requires[key]),
 			))
 	if not rule.commoners_only.is_empty():
-		rows.append(Row.new(_t(COMMONERS), _state(student_title == NpcApprenticeship.COMMONER_TITLE)))
+		rows.append(Row.new(_t(COMMONERS), _state(NpcApprenticeship.is_commoner(student))))
 	if rule.kind == NpcTeaching.Kind.TRIAL:
 		rows.append(Row.new(_t(TRIAL), State.UNSAID))
 	return rows

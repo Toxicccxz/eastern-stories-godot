@@ -698,7 +698,7 @@
 			"id": "assembly.zhenyuan.old",
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 镖路查清了, and 陈剑秋 asked: 旧案查到底",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 查到底 (陈天星's 总账 to the 县衙); with no split, 陈剑秋's 改投 as before; not when 振远 听你的"
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 查到底 (陈天星's 总账 to the 县衙) said before 入席 (振远的票随了查到底; 修补 Z, DECISIONS「振远 B」); with no split, 陈剑秋's 改投 as before; not when 振远 听你的"
 			],
 			"when": {
 				"all": [
@@ -710,13 +710,13 @@
 					{
 						"any": [
 							{
-								"mark": "振远旧账查到底"
+								"mark": "振远的票随了查到底"
 							},
 							{
 								"all": [
 									{
 										"not": {
-											"mark": "振远旧账到此为止"
+											"mark": "振远的票随了到此为止"
 										}
 									},
 									{
@@ -733,7 +733,7 @@
 			"id": "assembly.zhenyuan.yan",
 			"sources": [
 				"native: 势力线第一批 大会 A (剧情总纲 §4 势力线原则; 计划 build/plans/势力线第一批_计划.md §7 大会 A 与「九派的票」, §6「主线打完才进来的人」, §11 Q2 Q3, owner 2026-11-09「按推荐开工」; DECISIONS「大会 A」「虹台的票」) — 旧案到此为止, 正合陈剑秋的意",
-				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 到此为止 (the book burnt); with no split, 陈剑秋's 旧案到此为止 unless he 改投; not when 振远 听你的"
+				"native: 势力线第二批 振远 B (剧情总纲 §4「振远镖局」; 计划 势力线第二批_计划.md §4 振远 B, §7 第 6 行与「要改大会的地方」, §11 Q9, owner 2026-11-16「都按照推荐来」; DECISIONS「振远 B」) — 到此为止 (the book burnt) said before 入席 (振远的票随了到此为止; 修补 Z, DECISIONS「振远 B」); with no split, 陈剑秋's 旧案到此为止 unless he 改投; not when 振远 听你的"
 			],
 			"when": {
 				"all": [
@@ -744,13 +744,13 @@
 					},
 					{
 						"not": {
-							"mark": "振远旧账查到底"
+							"mark": "振远的票随了查到底"
 						}
 					},
 					{
 						"any": [
 							{
-								"mark": "振远旧账到此为止"
+								"mark": "振远的票随了到此为止"
 							},
 							{
 								"not": {
