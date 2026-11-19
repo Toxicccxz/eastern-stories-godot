@@ -103,6 +103,8 @@ var life_overlay: PlayerLifeOverlay
 var rest_overlay: RestOverlay
 ## The fade and the place's banner around a map change (DECISIONS「手感」).
 var view_overlay: WorldViewOverlay
+## 成长时刻 (DECISIONS「练功演出」): a gain of the player's marked for a moment, over every window.
+var growth_moments: GrowthMoments
 ## The ring and prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」).
 var focus_marker: WorldFocusMarker
 ## The interaction popup (DECISIONS「说话和交互」): what the target is and offers.
@@ -251,6 +253,10 @@ func _ready() -> void:
 		view_overlay.name = "WorldViewOverlay"
 		view_overlay.configure(_session)
 		_session.add_child.call_deferred(view_overlay)
+		growth_moments = GrowthMoments.new()
+		growth_moments.name = "GrowthMoments"
+		growth_moments.configure(_session)
+		_session.add_child.call_deferred(growth_moments)
 
 
 ## `speaker` says `lines` (DECISIONS「说话和交互」): into 消息, and over their head as
@@ -334,6 +340,8 @@ func _notification(what: int) -> void:
 			view_overlay.free()
 		if is_instance_valid(rest_overlay) and rest_overlay.get_parent() == null:
 			rest_overlay.free()
+		if is_instance_valid(growth_moments) and growth_moments.get_parent() == null:
+			growth_moments.free()
 	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
