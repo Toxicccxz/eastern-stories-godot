@@ -4641,6 +4641,11 @@ msgstr ""
 msgid "决战前"
 msgstr ""
 
+#. the slot copied from the autosave as the player died (DECISIONS「死前存档」).
+#: application/application_slot_text.gd
+msgid "死前存档"
+msgstr ""
+
 #. a manual save slot's name; %d its number, 1 to 3.
 #: application/application_slot_text.gd
 msgid "手动存档 %d"
@@ -7670,6 +7675,10 @@ msgstr ""
 msgid "{silver}两银子{coins}文"
 msgstr ""
 
+#: core/world/zone_exit_rule_definition.gd
+msgid "过了经验门槛:"
+msgstr ""
+
 #. liuh-ken actions.damage_type
 #. celestrike actions.damage_type
 #. snowwhip actions.damage_type
@@ -9764,6 +9773,11 @@ msgstr ""
 msgid "「决战前」存档没能存下"
 msgstr ""
 
+#. native: the autosave could not be copied as the player died (DECISIONS「死前存档」).
+#: runtime/persistence/oldpine_game_runtime_host.gd
+msgid "「死前存档」没能存下"
+msgstr ""
+
 #. a landmark used to move on: {action} (爬树) and the landmark (大松树).
 #: runtime/world/landmarks/portal_landmark_policy.gd
 msgid "{action}：{landmark}"
@@ -10522,6 +10536,31 @@ msgstr ""
 msgid "其中{silver}两你拿不动，掉在你的脚边。"
 msgstr ""
 
+#. a mark on the 地图 page: where the player's own corpse lies, with their things.
+#: runtime/world/world_left_behind.gd
+msgid "你的尸体"
+msgstr ""
+
+#. where the player's corpse lies with their things ({place}: region · room).
+#: runtime/world/world_left_behind.gd
+msgid "你的尸体和留在上面的东西还在：{place}"
+msgstr ""
+
+#. a follower ({name}) lies knocked down where the player left them ({place}).
+#: runtime/world/world_left_behind.gd
+msgid "{name}倒在{place}，没能跟上你。"
+msgstr ""
+
+#. a follower ({name}) who follows the player waits apart from them ({place}).
+#: runtime/world/world_left_behind.gd
+msgid "{name}还在{place}等你。"
+msgstr ""
+
+#. after a way's own refusal (a killing air, a wind): the player's 实战经验 (combat_exp) is below what the way asks.
+#: runtime/world/world_map_controller.gd
+msgid "你的实战经验还不够，过不去。"
+msgstr ""
+
 #: runtime/world/world_map_controller.gd
 msgid "你来到%s。"
 msgstr ""
@@ -10534,6 +10573,16 @@ msgstr ""
 #. native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
 #: runtime/world/world_progression_rewards.gd
 msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
+msgstr ""
+
+#. a follower ({name}) left behind finds the player again (DECISIONS「走散的同伴回来」).
+#: runtime/world/world_session_controller.gd
+msgid "{name}找了过来，又跟在你身边。"
+msgstr ""
+
+#. a follower ({name}) did not come along onto the map the player went to; {place} where they stay.
+#: runtime/world/world_session_controller.gd
+msgid "{name}没有跟上来，还在{place}。"
 msgstr ""
 
 #. the world's marker reached the place the player chose on the 地图 page.
@@ -11429,6 +11478,16 @@ msgstr ""
 msgid "榜"
 msgstr ""
 
+#. one-word mark on the 地图 page: the player's own corpse, their things still on it.
+#: ui/world/map_page.gd
+msgid "尸"
+msgstr ""
+
+#. one-word mark on the 地图 page: someone who follows the player and waits apart from them.
+#: ui/world/map_page.gd
+msgid "伴"
+msgstr ""
+
 #. one-word mark on the 地图 page: someone who gives errands.
 #: ui/world/map_page.gd
 msgid "差"
@@ -12066,8 +12125,23 @@ msgstr ""
 msgid "已启用的特殊武功全部取消启用"
 msgstr ""
 
+#. the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player, nothing else was carried.
+#: ui/world/player_life_overlay.gd
+msgid "兵器和身上穿的还在你身上；尸体上没有留下东西。"
+msgstr ""
+
+#. the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player; money and the bag lie with the corpse at %s.
+#: ui/world/player_life_overlay.gd
+msgid "兵器和身上穿的还在你身上；钱和背包里的东西留在尸体上：%s"
+msgstr ""
+
 #: ui/world/player_life_overlay.gd
 msgid "你的尸体和随身物品留在：%s"
+msgstr ""
+
+#. the death card: someone who attacks on sight stands where the corpse lies (DECISIONS「死前存档」).
+#: ui/world/player_life_overlay.gd
+msgid "尸体旁还守着见人就打的对手，回去取东西要先过他这一关。"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
@@ -12086,8 +12160,14 @@ msgstr ""
 msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
 msgstr ""
 
+#. after the return to life: 精, 气 and 神 are at 1 (damage.c die()); 歇到回满 is the button on the 武学 page (DECISIONS「歇到回满」).
 #: ui/world/player_life_overlay.gd
-msgid "你的尸体和随身物品还在：%s"
+msgid "精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"
+msgstr ""
+
+#. the 任务 page: the heading over where the player's corpse lies and who waits apart (DECISIONS「尸体和走散的同伴」).
+#: ui/world/quest_page.gd
+msgid "留在路上的"
 msgstr ""
 
 #. a quest on the 任务 page once done: {title} its name, {region} where it happened.
@@ -32754,7 +32834,12 @@ msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.say
 #: data/goathill/npcs.json
-msgid "起来。杀你不如杀道士。——这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
+msgid "起来。杀你不如杀道士。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang calls.steps.say
+#: data/goathill/npcs.json
+msgid "这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
 msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.line
@@ -59969,6 +60054,7 @@ msgstr ""
 
 #. native.npc.guo_cheng title
 #. native.npc.guo_cheng moods.going.title
+#. native.npc.guo_cheng moods.home.title
 #. native.npc.guo_cheng_lake title
 #: data/guanbei/npcs.json data/native/npcs.json
 msgid "王府骁将"
@@ -60016,6 +60102,12 @@ msgid ""
 "郭承说道：走。\n"
 msgstr ""
 
+#. native.npc.guo_cheng moods.home.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"郭承在校场边看骑兵劈木人，看一会儿，说一句：撩，不是砍。\n"
+msgstr ""
+
 #. native.npc.guo_cheng calls.steps.emote
 #: data/guanbei/npcs.json
 msgid "把刀插回鞘里，冲校场上的兵吼了一声，六个人应声出列。"
@@ -60039,6 +60131,21 @@ msgstr ""
 #. native.npc.guo_cheng calls.steps.say
 #: data/guanbei/npcs.json
 msgid "走！帐篷里的醒了。救不完的别回头——这话我说过。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.say
+#: data/guanbei/npcs.json
+msgid "我回校场。夜里的事，王爷那边我去说——你别跟来。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "把马刀插回鞘里，看着最后一副枷锁落在土里。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.say
+#: data/guanbei/npcs.json
+msgid "六骑我带回校场。这一阵打完了，王爷那边我去回话——下一阵，你开口。"
 msgstr ""
 
 #. native.npc.guo_cheng calls.steps.say

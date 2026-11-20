@@ -184,9 +184,12 @@ func pass_sentence(judge: NpcRuntimeState) -> void:
 	_player.awaiting_sentence = false
 	var out: ZoneDefinition = GameContent.catalog().zone(sentence.out_zone_id)
 	var here: WorldMapController = _map
-	if out != null and session != null and session.handoff_to(out.map_id, out.zone_id, out.combat_location_id, sentence.out_point_id).succeeded():
+	if out != null and session != null and session.handoff_rejoined(out.map_id, out.zone_id, out.combat_location_id, sentence.out_point_id).succeeded():
 		here = session.active_map() as WorldMapController
 		here.hud().describe_arrival()
+	# DECISIONS「走散的同伴回来」: who follows every way comes to the one let go.
+	if session != null:
+		session.bring_followers_back()
 	# heart_beat(): a value below 0 knocks out; unconcious() for one the strokes left at 1.
 	if fainted:
 		state.fall_unconscious()

@@ -40,6 +40,8 @@ var _configured: bool = false
 var _autosave: GameAutosave
 ## 终章 A (DECISIONS「决战前存档」): the 决战前 save an act asks for, on its own slot.
 var _kept: GameAutosave
+## DECISIONS「死前存档」: the autosave copied as the player dies.
+var _death_save: GameDeathSave
 var _slots: Array[GameSaveSlotSummary] = []
 ## While no journey runs and starts go in slices (DECISIONS「加载画面」), every map's scene is
 ## read on worker threads and held here, so a start does not read them; let go once a journey
@@ -87,6 +89,7 @@ func _ready() -> void:
 		)
 	_autosave = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID))
 	_kept = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.KEEP_SLOT_ID), GameSaveSnapshot.KEEP_SLOT_ID, false)
+	_death_save = GameDeathSave.new(_coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID), _coordinator.repository_for(GameSaveSnapshot.DEATH_SLOT_ID))
 	if _startup_mode == StartupMode.MANUAL:
 		var manual_result: OldPineRuntimeSaveLoadResult = (
 			OldPineRuntimeSaveLoadResult.success(null)
@@ -118,6 +121,7 @@ func _process(_delta: float) -> void:
 	_frame.emit()
 	_take_read_scenes()
 	_tell_kept()
+	_tell_death_save()
 	# An autosave moment that waited for the player to step out of a doorway, or for an NPC to
 	# finish what it makes for them (GameAutosave.WAITED), is taken once it can be.
 	if _autosave != null and _current_session != null and is_instance_valid(_current_session) and not _request_pending and _autosave.waiting():
@@ -140,12 +144,24 @@ func _tell_kept() -> void:
 	_current_session.shared_ui().toasts().push(tr("已存下「决战前」存档") if kept.succeeded() else tr("「决战前」存档没能存下"))
 
 
-## Waits for both the autosave and the 决战前 save under way.
+## The 死前存档 is told only when it could not be written (DECISIONS「死前存档」).
+func _tell_death_save() -> void:
+	var copied: GameSaveResult = null if _death_save == null else _death_save.take_finished()
+	if copied == null or copied.succeeded() or _current_session == null or not is_instance_valid(_current_session):
+		return
+	push_warning("death save: %s %s %s" % [GameSaveResult.Outcome.keys()[copied.outcome], copied.path, copied.detail])
+	# TRANSLATORS: native: the autosave could not be copied as the player died (DECISIONS「死前存档」).
+	_current_session.shared_ui().toasts().push(tr("「死前存档」没能存下"))
+
+
+## Waits for the autosave, the 决战前 save and the 死前存档 copy under way.
 func _wait_saves() -> void:
 	if _autosave != null:
 		_autosave.wait()
 	if _kept != null:
 		_kept.wait()
+	if _death_save != null:
+		_death_save.wait()
 
 
 func _exit_tree() -> void:
@@ -220,6 +236,7 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 	# Not deferred: the world is taken as the act's step finds it, before the steps after it.
 	session.keep_save_requested.connect(_on_keep_save.bind(session))
 	session.epilogue_ended.connect(_on_epilogue_ended.bind(session), CONNECT_DEFERRED)
+	session.player_died.connect(_on_player_died.bind(session))
 	if loaded:
 		_autosave.restart_interval()
 	else:
@@ -239,6 +256,20 @@ signal journey_ended
 func _on_epilogue_ended(final: bool, session: WorldSessionController) -> void:
 	if final and session == _current_session:
 		journey_ended.emit()
+
+
+## The death card comes up (DECISIONS「死前存档」): the autosave, once the one under way is written,
+## is copied as it lies on disk.
+func _on_player_died(corpse_id: StringName, session: WorldSessionController) -> void:
+	if session != _current_session or _request_pending or _death_save == null:
+		return
+	_autosave.wait()
+	_death_save.begin(session, corpse_id)
+
+
+## The 死前存档 (DECISIONS「死前存档」).
+func death_save() -> GameDeathSave:
+	return _death_save
 
 
 ## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now.

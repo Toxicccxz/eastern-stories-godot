@@ -582,9 +582,12 @@ func reset_room(legacy_room: String) -> void:
 				continue
 			# oldman.c reset(): set("pills", 9).
 			npc.pills_left = -1
+			# One following the player every way (小娟, owner F2; 芳绫 on her way to dance) stays with
+			# them, the mood that has her follow too (DECISIONS「跟着走的人不随重置回去」).
+			if _map.npc_life.follows_every_way(npc):
+				continue
 			npc.end_mood(true)
-			# One following the player every way (小娟, owner F2) stays with them.
-			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc) and not _map.npc_life.follows_every_way(npc):
+			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc):
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
 		if spawn.legacy_source_room_path != legacy_room or spawn.staged:
@@ -1094,6 +1097,10 @@ func return_home(npc: NpcRuntimeState, quiet: bool = false) -> bool:
 	var from_zone_id: StringName = npc.world_location().zone_id
 	if spawn == null or from_zone_id == spawn.zone_id:
 		return true
+	# One who followed the player onto another map (郭承 after chapter 6; DECISIONS「郭承回校场」) goes
+	# back to its own map's spot, the same NPC there from now on.
+	if spawn.map_id != map:
+		return session != null and session.send_npc_home(npc, _map)
 	var zone: ZoneDefinition = catalog.zone(from_zone_id)
 	if (
 		npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting()

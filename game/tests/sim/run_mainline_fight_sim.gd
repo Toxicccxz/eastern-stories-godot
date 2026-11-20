@@ -5,6 +5,7 @@ extends SceneTree
 ## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- [only=<label part>[|<label part>...]] [n=<duels>] [exp=<a,b>] [tune=<json file>] [stance=attack|guard|evade] [build=sword|fist] [seed=<n>[,<n>...]] [rules=<knob:value,...>] [weapon=<item id>] [ordinary] [low]
 ## `weapon`: the sword build wields this instead of the fight's own weapon.
 ## `ordinary`: MainlineFightSim.ORDINARY (a few fights of the first two hours and ES2's regions) instead.
+## `after_death`: MainlineFightSim.AFTER_DEATH (the sword build coming back after one death) instead.
 ## `rules`: CombatPowerRules knobs for this run (e.g. rules=bare_parry_percent:50,bare_damage_percent:60).
 ## `low`: each fight's first exp only (the main story alone; an `exploring_only` fight's one exp).
 ## `tune`: MainlineFightSim.tune for this run (a path from the project's parent folder, e.g. build/x.json).
@@ -58,7 +59,12 @@ func _run() -> void:
 			tune = JSON.parse_string(FileAccess.get_file_as_string(ProjectSettings.globalize_path("res://").path_join("../" + arg.substr(5))))
 	print("| 战斗 | 阵容（敌 / 帮手） | 经验 | 胜率 | 局数 | 掉气 | 胜场回合中位 | 预判 | 预判比 | 备注 |")
 	print("|---|---|---|---|---|---|---|---|---|---|")
-	for entry: Dictionary in (MainlineFightSim.ORDINARY if OS.get_cmdline_user_args().has("ordinary") else MainlineFightSim.FIGHTS):
+	var rows: Array[Dictionary] = MainlineFightSim.FIGHTS
+	if OS.get_cmdline_user_args().has("ordinary"):
+		rows = MainlineFightSim.ORDINARY
+	elif OS.get_cmdline_user_args().has("after_death"):
+		rows = MainlineFightSim.AFTER_DEATH
+	for entry: Dictionary in rows:
 		if not only.is_empty() and not Array(only.split("|")).any(func(part: String) -> bool: return String(entry["label"]).contains(part)):
 			continue
 		var sim := MainlineFightSim.new(self)

@@ -169,6 +169,43 @@ func _save_impl(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	var bytes: PackedByteArray = encoded.text.to_utf8_buffer()
 	if bytes.size() > MAXIMUM_FILE_BYTES:
 		return GameSaveResult.failure(GameSaveResult.Outcome.FILE_TOO_LARGE, "encoded_save")
+	var replaced: GameSaveResult = _replace_with(bytes)
+	return replaced if not replaced.succeeded() else GameSaveResult.success(snapshot)
+
+
+## Native (DECISIONS「死前存档」): `source`'s main file, byte for byte, becomes this slot's, the
+## way a save writes (the .tmp read back and checked in full, the main file moved to the .bak, the
+## .tmp put in its place). A source with no main file, or one whose bytes do not load, changes
+## nothing here (fail closed). Nothing is captured: the bytes are the file as it lies on disk.
+func copy_from(source: GameSaveRepository) -> GameSaveResult:
+	if source == null or source == self:
+		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "source")
+	if not _begin_operation():
+		return GameSaveResult.failure(GameSaveResult.Outcome.OPERATION_IN_PROGRESS, "repository")
+	forget_checked()
+	var result: GameSaveResult = _copy_impl(source)
+	_operation_in_progress = false
+	return result
+
+
+func _copy_impl(source: GameSaveRepository) -> GameSaveResult:
+	var path: String = source._profile.canonical_path()
+	if not _files.file_exists(path):
+		return GameSaveResult.failure(GameSaveResult.Outcome.NO_SAVE, path)
+	var read: SaveFileReadResult = _files.read_bytes(path, MAXIMUM_FILE_BYTES)
+	if read.error == SaveFileReadResult.ERROR_FILE_TOO_LARGE or read.file_size > MAXIMUM_FILE_BYTES:
+		return GameSaveResult.failure(GameSaveResult.Outcome.FILE_TOO_LARGE, path)
+	if read.error != OK:
+		return GameSaveResult.failure(GameSaveResult.Outcome.READ_FAILED, path, error_string(read.error))
+	var directory_error: int = _files.make_directory_recursive(_profile.directory_path)
+	if directory_error != OK and directory_error != ERR_ALREADY_EXISTS:
+		return GameSaveResult.failure(GameSaveResult.Outcome.WRITE_FAILED, _profile.directory_path, error_string(directory_error))
+	return _replace_with(read.bytes)
+
+
+## Writes `bytes` to the .tmp, reads them back as a save, then rolls the main file to the .bak
+## and the .tmp into its place. Success carries the snapshot read back.
+func _replace_with(bytes: PackedByteArray) -> GameSaveResult:
 	var write_error: int = _files.write_bytes(_profile.temp_path(), bytes)
 	if write_error != OK:
 		return GameSaveResult.failure(GameSaveResult.Outcome.WRITE_FAILED, _profile.temp_path(), error_string(write_error))
@@ -194,7 +231,7 @@ func _save_impl(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			rollback_failed = rollback_error != OK
 			if rollback_failed: rollback_detail = "; rollback: " + error_string(rollback_error)
 		return GameSaveResult.failure(GameSaveResult.Outcome.REPLACE_FAILED, _profile.canonical_path(), "temp-to-canonical: " + error_string(replace_error) + rollback_detail, rollback_failed)
-	return GameSaveResult.success(snapshot)
+	return verified
 
 
 ## `read`: the main file as inspect_slot() read it just now (null: read it here).
