@@ -72,6 +72,15 @@ var value: int = 0
 ## (entrance.c's 100000). &"" none: `value` is the record's.
 var exp_gate: StringName = &""
 var es2_value: int = 0
+## Deviation (DECISIONS「过了的经验门槛」): combat_exp_below asked only the experience one has now, so
+## one who went in just over it and died inside (death costs combat_exp) was turned away from their
+## own corpse. A gate once passed stays open: going through writes this saved mark (one per way in,
+## `to_zone`: either street up to 黑松堡's gate is the same gate), and one who holds it is let through
+## whatever their experience. "" for every other condition.
+const PASSED_MARK_PREFIX: String = "过了经验门槛:"
+
+var passed_mark: String:
+	get: return PASSED_MARK_PREFIX + String(to_zone_id) if condition == Condition.COMBAT_EXP_BELOW else ""
 ## not_apprentice_of: the master (an NPC definition ID) whose apprentices may pass.
 var npc_id: StringName
 ## not_family: the family (a families.json ID) whose members may pass.
@@ -155,7 +164,7 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 		Condition.WEAPON_IN_HAND:
 			return leaver.weapon_in_hand and present
 		Condition.COMBAT_EXP_BELOW:
-			return leaver.combat_exp < value
+			return leaver.combat_exp < value and int(leaver.marks.get(passed_mark, 0)) == 0
 		Condition.NOT_APPRENTICE_OF:
 			return leaver.master_id != npc_id
 		Condition.NOT_FAMILY:

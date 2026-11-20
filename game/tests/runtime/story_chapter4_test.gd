@@ -24,6 +24,8 @@ const Grown := preload("res://tests/support/grown_character.gd")
 const SAMPLES: int = 200
 const PASS_LOW: float = 0.55
 const PASS_HIGH: float = 0.80
+## 芳绫's room, the 禁闭房 (its reset() brings her home).
+const FUNLIN_ROOM: String = "d/latemoon/latemoon6.c"
 const ROBE: StringName = &"native:latemoon/cold_robe"
 const TOKEN: StringName = &"es2:d/latemoon/room/npc/obj/token"
 const CLUMSY: String = "你在卦象中跳起舞来。但似乎不得要领！"
@@ -210,6 +212,9 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	said = _ask(manor, funlin, "替跳")
 	_check(said.any(func(line: String) -> bool: return line.contains("带我去")) and funlin.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and funlin.has_flag(StringName(NpcMood.FLAG_PREFIX + "going")) and state.marks.get("芳绫跟你去了", 0) == 1, "芳绫: 关着也闷死了, she follows: %s" % [said])
 	_check(_ask(manor, funlin, "替跳").any(func(line: String) -> bool: return line.contains("走呀走呀")), "asked again on the way")
+	# Her room resets on the way (DECISIONS「跟着走的人不随重置回去」): one following the player every way keeps her mood.
+	session.reset_room(FUNLIN_ROOM)
+	_check(funlin.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and funlin.has_flag(StringName(NpcMood.FLAG_PREFIX + "going")), "her room reset: she still follows")
 	# The second 密室 (TEST-ONLY: straight there, 芳绫 brought along as she would walk).
 	var secret: WorldMapController = MapPlaces.enter(session, &"latemoon.miroom", &"latemoon.miroom.dance_arrival")
 	_check(secret != null, "in the second 密室")
@@ -246,6 +251,10 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	# The robe is nobody else's to take (give_to); worn, it still counts; dropping is refused.
 	_check(secret.select_npc(funlin.character_id) and secret.give_to_selected(robe).lines.has(GONE_LINE) and session.player_held_item_ids().get(ROBE, false), "芳绫 cannot be given it: 这样东西不能随便给人")
 	_check(secret.drop_item(robe).lines.any(func(line: String) -> bool: return line.contains("这件衣不能随便丢")) and session.player_held_item_ids().get(ROBE, false), "nor dropped")
+	# DECISIONS「第四章 宝衣」: no longer following, her room's reset sends her home.
+	session.reset_room(FUNLIN_ROOM)
+	var home_funlin: NpcRuntimeState = MapPlaces.npc_at(session, &"latemoon.latemoon6.funlin.1")
+	_check(home_funlin != null and home_funlin.world_location().zone_id == &"latemoon.latemoon6" and not home_funlin.has_flag(StringName(NpcMood.FLAG_PREFIX + "going")), "after the dance her room's reset sends her home, her mood over")
 	# TEST-ONLY: the 布衣 off first (one piece of cloth at a time, as wear.c has it).
 	for slot: StringName in session.player_runtime().armor.occupied_slots():
 		var before: EquippedArmorRef = session.player_runtime().armor.equipped_ref_in_slot(slot)
@@ -341,6 +350,10 @@ func _test_annie(tree: SceneTree, session: WorldSessionController) -> void:
 	# To 安妮儿.
 	manor = MapPlaces.enter(session, &"latemoon.latemoon1", &"latemoon.latemoon1.dance_arrival")
 	await _settle(tree)
+	# The 冰匣 open, 芳绫 has nothing to dance for: she stays in the 禁闭房.
+	var funlin: NpcRuntimeState = await _beside(tree, session, manor, &"latemoon.latemoon6.funlin.1")
+	_ask(manor, funlin, "替跳")
+	_check(not funlin.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and not funlin.has_flag(StringName(NpcMood.FLAG_PREFIX + "going")) and state.marks.get("芳绫跟你去了", 0) == 0, "the 冰匣 open: 芳绫 does not come along")
 	annie = await _beside(tree, session, manor, &"latemoon.room.westroom.annihi.1")
 	_check(manor.select_npc(annie.character_id), "安妮儿 selected")
 	var given: ItemHandlingResult = manor.give_to_selected(robe)

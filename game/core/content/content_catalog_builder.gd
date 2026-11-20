@@ -1333,8 +1333,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 	_check_condition(origin + ".when", act.when)
 	if not act.exists.is_empty() and not _items.has(act.exists):
 		_errors.append("%s.exists: unknown item '%s'" % [origin, act.exists])
-	if not act.present.is_empty() and not _npcs.has(act.present):
-		_errors.append("%s.present: unknown NPC '%s'" % [origin, act.present])
+	for npc_id: StringName in act.presents:
+		if not _npcs.has(npc_id):
+			_errors.append("%s.present: unknown NPC '%s'" % [origin, npc_id])
 	if not act.npc_in.is_empty() and (not by_npc or not _zones.has(act.npc_in)):
 		_errors.append("%s.npc_in: an NPC's own act, in a known zone ('%s')" % [origin, act.npc_in])
 	if not act.present_in_npc.is_empty() and (not _npcs.has(act.present_in_npc) or not _zones.has(act.present_in_zone)):
@@ -1354,6 +1355,8 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			# Heard and chat are recorded as they happen: a step can never ask them (DECISIONS「步骤条件」).
 			_errors.append("%s: step %d's when asks what is only recorded as it happens (heard, chat)" % [origin, index])
 		_check_condition("%s.steps[%d].when" % [origin, index], step.only_when)
+		if not step.only_present.is_empty() and not _npcs.has(step.only_present):
+			_errors.append("%s: step %d's present: unknown NPC '%s'" % [origin, index, step.only_present])
 		if step.kind == ScriptedAct.Kind.BY:
 			acting = true
 			# The one standing by is the act's NPC from here on: a mood it puts on is one of his
