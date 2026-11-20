@@ -75,7 +75,7 @@ func _fight_end(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(ui.end_stamp.visible and ui.end_stamp.text == "胜", "the lines told, the 胜 stamp comes down: %s" % ui.end_stamp.text)
 	session._process(0.1)
 	_check(moments.is_empty(), "not while the stamp lands")
-	ui._process(0.65)
+	ui._process(0.95)
 	_check(ui._holding(), "the stamp landed, the panel still holds")
 	session._process(0.1)
 	_check(moments.size() == 1, "the still picture is the fight's moment, once: %d" % moments.size())
@@ -147,7 +147,7 @@ func _rats(tree: SceneTree, session: WorldSessionController) -> void:
 		coordinator.advance_scheduler(1.0)
 	ui.refresh_projection()
 	ui._tell_lines(5.0)
-	ui._process(0.65)
+	ui._process(0.95)
 	session._process(0.1)
 	if _check(worlds.size() == 1, "the rat fight's moment: %d" % worlds.size()):
 		_check(worlds[0].contains("客栈老鼠"), "the cleared mark is in the world it takes")

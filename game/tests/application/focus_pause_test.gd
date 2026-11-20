@@ -91,6 +91,14 @@ func _test_interaction_window(tree: SceneTree, shell: ApplicationShellController
 	await _frames(tree, 2)
 	tree.root.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
 	await _frames(tree, 4)
+	# A held stick or D-pad comes as repeated actions (PadSupport): they move nothing under it.
+	for pressed: bool in [true, false, true, false]:
+		var step := InputEventAction.new()
+		step.action = &"ui_down"
+		step.pressed = pressed
+		Input.parse_input_event(step)
+		await tree.process_frame
+	_check(shell.focus_held() and tree.root.gui_get_focus_owner() == row, "a pad's repeats under the page move nothing: %s" % tree.root.gui_get_focus_owner())
 	await _key(tree, KEY_ENTER)
 	await _frames(tree, 2)
 	_check(not shell.focus_held() and ui.interaction_open() and tree.root.gui_get_focus_owner() == row, "Enter: 继续 only, the window as it was")

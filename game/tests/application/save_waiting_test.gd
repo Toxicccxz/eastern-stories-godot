@@ -5,7 +5,7 @@ extends RefCounted
 ## spot (the thing handed over) and saves, where it used to say 等一会儿再存档 with the world
 ## standing still; a telling that gives nothing (天驼关's 黄石隘口 story) never blocks a save; an
 ## autosave moment refused for a doorway is not tried while the player walks but taken when the
-## menu opens or at the next moment; the 决战前 save waits the same way instead of failing.
+## menu opens or at the next moment; the 决战前 save finishes the work first and never waits.
 
 const ShellTests := preload("res://tests/application/application_shell_test.gd")
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
@@ -99,6 +99,13 @@ func _test_making(tree: SceneTree, shell: ApplicationShellController, session: W
 	var before: bool = session.player_held_item_ids().has(LEG)
 	map.npc_life.start_making(npc, thing) # TEST-ONLY: a making with a thing at its end
 	_check(not before and map.npc_life.holds_work(), "someone makes a 烤鸡腿 for the player")
+	# A Save refused for something else (a doorway) hands over nothing.
+	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
+	var stood: Vector2 = body.global_position
+	body.global_position = Vector2(-5000, -5000) # TEST-ONLY
+	_check(not await _save_on_system(tree, shell, "a refused Save"), "in a doorway the Save is refused")
+	_check(map.npc_life.makings.has(npc.character_id) and not session.player_held_item_ids().has(LEG), "and the making goes on: nothing handed over")
+	body.global_position = stood
 	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.NPC_WORKING, "a save now would lose it")
 	_check(await _save_on_system(tree, shell, "a making"), "a Save on 系统 is written all the same")
 	_check(not map.npc_life.makings.has(npc.character_id) and session.player_held_item_ids().has(LEG), "the making was finished on the spot: the 烤鸡腿 in hand")
@@ -149,10 +156,24 @@ func _test_waiting_autosave(tree: SceneTree, shell: ApplicationShellController, 
 	GameContent.catalog().set_pacing(pacing)
 
 
-## 决战前 (keep_save) in a doorway: no failure line; it is written at the next quiet moment.
+## 决战前 (keep_save): someone making a thing is done on the spot and the save is written; in a
+## doorway it says it could not, and keeps no moment for later (the act goes on to 下了决战: a
+## 决战前 save taken after that would not be one).
 func _test_waiting_keep(tree: SceneTree, shell: ApplicationShellController, session: WorldSessionController) -> void:
 	var host: OldPineGameRuntimeHost = shell.runtime_host()
 	var kept: GameAutosave = host._kept
+	var map := session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = _someone(session)
+	var story: NpcMaking = _story()
+	var thing := NpcMaking.new()
+	thing.every = 2.0
+	thing.lines = story.lines.slice(0, 2)
+	thing.gives = LEG
+	map.npc_life.start_making(npc, thing) # TEST-ONLY
+	session.keep_save_requested.emit()
+	_check(not map.npc_life.makings.has(npc.character_id), "the making is done first")
+	await _written_out(tree, kept)
+	_check(_written(GameSaveSnapshot.KEEP_SLOT_ID), "the 决战前 save is written")
 	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	var stood: Vector2 = body.global_position
 	body.global_position = Vector2(-5000, -5000) # TEST-ONLY
@@ -161,13 +182,11 @@ func _test_waiting_keep(tree: SceneTree, shell: ApplicationShellController, sess
 	var told: Array[String] = session.shared_ui().toasts().shown_texts()
 	for waiting: MessageToasts.Entry in session.shared_ui().toasts()._waiting:
 		told.append(waiting.text)
-	_check(kept.waiting() and not told.has("「决战前」存档没能存下"), "the 决战前 save waits, nothing said: %s" % [told])
+	_check(not kept.waiting() and not kept.running() and told.has("「决战前」存档没能存下"), "in a doorway: said it could not, nothing kept for later: %s" % [told])
 	body.global_position = stood
 	session.shared_ui().open_menu()
 	await _frames(tree, 3)
-	await _written_out(tree, kept)
-	await _frames(tree, 3)
-	_check(not kept.waiting() and _written(GameSaveSnapshot.KEEP_SLOT_ID), "the menu opens: the 决战前 save is written")
+	_check(not kept.running(), "the menu opening does not take it later")
 	session.shared_ui().close_menu()
 	await _frames(tree, 2)
 

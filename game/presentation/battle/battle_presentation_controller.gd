@@ -223,6 +223,9 @@ func _count_to_still(delta: float) -> void:
 	if _still_left <= 0.0:
 		_still_left = -1.0
 		_session.fight_picture_settled()
+		# A long frame must not end the hold in the same frame: the session takes the moment on
+		# its next frame, and then the panel closes.
+		_hold_left = maxf(_hold_left, delta + STILL_TAIL_SECONDS)
 
 
 ## The fight is over and the panel still shows its last lines.
@@ -328,7 +331,9 @@ func _settle_final_cards() -> void:
 	_show_end_stamp()
 	if _holding():
 		var feel: FeelDefinition = GameContent.catalog().pacing().feel
-		_still_left = maxf(feel.bar_tween_seconds, feel.end_stamp_seconds if end_stamp.visible else 0.0)
+		# The bars' tween, the stamp's slam, and the last blow's damage number and move name
+		# (they start with the last line, a little before this).
+		_still_left = maxf(maxf(feel.bar_tween_seconds, feel.end_stamp_seconds if end_stamp.visible else 0.0), maxf(feel.damage_float_seconds, feel.move_title_seconds))
 		# The hold lasts past it: the autosave's capture comes on the session's next frame.
 		_hold_left = maxf(_hold_left, _still_left + STILL_TAIL_SECONDS)
 

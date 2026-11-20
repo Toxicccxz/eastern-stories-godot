@@ -226,7 +226,6 @@ func _session_began(session: WorldSessionController, loaded: bool) -> void:
 func _on_autosave_moment(session: WorldSessionController) -> void:
 	if session == _current_session and not _request_pending:
 		_autosave.begin(session)
-		_take_waiting_kept(session)
 
 
 ## A moment that waited (GameAutosave.WAITED: the player in a doorway, someone making a thing
@@ -237,12 +236,6 @@ func _on_quiet_moment(session: WorldSessionController) -> void:
 		return
 	if _autosave.waiting():
 		_autosave.begin(session)
-	_take_waiting_kept(session)
-
-
-func _take_waiting_kept(session: WorldSessionController) -> void:
-	if _kept != null and _kept.waiting():
-		_kept.begin(session)
 
 
 ## An ending that ends the journey (终章 C, the player stayed in the ice; DECISIONS「结局讲述」): the
@@ -256,13 +249,15 @@ func _on_epilogue_ended(final: bool, session: WorldSessionController) -> void:
 
 
 ## An act's `keep_save` (DECISIONS「决战前存档」): the 决战前 slot, now; what the NPCs make for
-## the player is done first, as for a Save. Refused for a moment only (a doorway), it is taken at
-## the next moment, as the autosave's is.
+## the player is done first, as for a Save. It never waits for a later moment: the act's next
+## steps are the point of no return (下了决战), so a 决战前 save taken after them would not be one.
 func _on_keep_save(session: WorldSessionController) -> void:
 	if session != _current_session or _request_pending or _kept == null:
 		return
-	session.finish_npc_work()
-	if not _kept.begin(session) and not _kept.waiting():
+	if OldPineSaveEligibility.inspect(session, true).allowed():
+		session.finish_npc_work()
+	if not _kept.begin(session):
+		_kept.restart_interval() # No waiting moment is kept for it.
 		# Said once, here: a capture that failed left its result behind, taken now so _tell_kept()
 		# does not say it again.
 		_kept.take_finished()
@@ -397,8 +392,9 @@ func request_save(slot_id: StringName = &"") -> bool:
 	if not _begin_request() or not _select_for_request(slot_id):
 		return false
 	# A making or a test under way is finished first (the thing handed over, the deed told):
-	# 等一会儿再存档 could not be waited out on 系统, where the world stands still.
-	if _current_session != null and is_instance_valid(_current_session):
+	# 等一会儿再存档 could not be waited out on 系统, where the world stands still. Only when
+	# nothing else refuses the save: a refused one hands over nothing.
+	if _current_session != null and is_instance_valid(_current_session) and OldPineSaveEligibility.inspect(_current_session, true).allowed():
 		_current_session.finish_npc_work()
 	call_deferred("_execute_save")
 	return true

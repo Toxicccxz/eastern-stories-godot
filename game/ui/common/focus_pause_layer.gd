@@ -9,8 +9,9 @@ extends CanvasLayer
 
 signal resume_requested
 
-## Over the game menu (60), the shared frame's dialogs (61) and the shell's canvas (100).
-const LAYER: int = 110
+## Over the game menu (60), the shared frame's dialogs (61), the shell's canvas (100) and the
+## focus tip (110).
+const LAYER: int = 120
 
 var resume_button: Button
 var _scrim: ColorRect
@@ -95,12 +96,14 @@ func shown() -> bool:
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
-	if not (event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion):
+	# Actions too: PadSupport repeats a held stick or D-pad and scrolls with the right stick as
+	# InputEventAction (it hears the pad first), which would move the focus under the page.
+	if not (event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion or event is InputEventAction):
 		return
 	get_viewport().set_input_as_handled()
 	if event.is_echo() or not event.is_pressed():
 		return
-	for action: StringName in [&"ui_accept", &"ui_cancel", &"pause_game", &"menu_open", &"interact"]:
+	for action: StringName in [&"ui_accept", &"ui_cancel", &"pause_game", &"menu_open", &"interact", &"system_back"]:
 		if event.is_action_pressed(action):
 			resume_requested.emit()
 			return
