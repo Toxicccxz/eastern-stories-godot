@@ -84,7 +84,8 @@ func _test_data() -> void:
 	state.marks.erase("认了二十三个结")
 	_check(not JournalLog.holds(arrest.spares, state, temps, held), "no split: 花紫会's own are taken as before")
 	var wei: Array[NpcInquiryRule] = catalog.npc(WEI).talk().inquiry_rules("走")
-	_check(wei[0].asker_marks.has("钻了尚书府的狗洞") and wei[0].marks_asker.has("卫沧澜出了尚书府") and wei[0].marks_asker.has("花紫会偷出了卫沧澜") and wei[0].leaves, "卫沧澜's 走 for one who came by the 狗洞: out, and 花紫会's doing")
+	_check(wei[0].asker_marks == ["入了虹台的席"] and wei[0].asker_lacks == ["大会散了"] and wei[0].marks_asker.is_empty(), "修补 Z: while the 虹台 sits he does not go")
+	_check(wei[1].asker_marks.has("钻了尚书府的狗洞") and wei[1].marks_asker.has("卫沧澜出了尚书府") and wei[1].marks_asker.has("花紫会偷出了卫沧澜") and wei[1].leaves, "卫沧澜's 走 for one who came by the 狗洞: out, and 花紫会's doing")
 	for id: String in ["assembly.huazi.yan", "assembly.huazi.self", "assembly.day.huazi.yan", "assembly.day.huazi.backs", "assembly.day.huazi.self"]:
 		_check(catalog.conditions().has(id), "%s exists" % id)
 	_check(catalog.npc(HOME).teaching() != null and catalog.npc(HOME).teaching().recognize(&"", {"陆得财说了差事": 1}, &"stealing") != null, "the 真龙头 in 乔阴 teaches 偷窃 as 陆得财 did")

@@ -41,6 +41,8 @@ class BeatPick:
 	var perform: StringName = &""
 
 
+## The round (its beats) each NPC's chant was counted in while busy (_chant_round_end()).
+var _chanted_in: Dictionary[StringName, CombatRoundBeats] = {}
 var _encounter: CombatEncounter
 var _config: CombatSchedulerConfig
 var _accumulated_input_seconds: float = 0.0
@@ -1480,9 +1482,41 @@ func _take_beat(
 		var dropped: CombatSchedulerEvent = _run_pending_special(actor, bindings, random_source, effect_registry)
 		if dropped != null:
 			_emit(dropped)
-	if event.resolution.outcome not in CHAT_AFTER or beats.has_beats() or beats.settled:
+	if beats.has_beats() or beats.settled:
 		return true
+	if event.resolution.outcome not in CHAT_AFTER:
+		# owner 2026-11-19 (DECISIONS「打着念」): a round it lost to being busy (失衡) says no chat, but its
+		# chant counts the round all the same.
+		return _chant_round_end(actor, beats, bindings, boundary)
 	return _npc_round_end(actor, beats, bindings, random_source, effect_registry, boundary)
+
+
+## An NPC's round ended busy (no chat): its fight chant (NpcHooks.fight_chant) still counts the round, once.
+## Returns false when the fight ended in it.
+func _chant_round_end(
+	actor: CombatSliceCharacterBinding,
+	beats: CombatRoundBeats,
+	bindings: Array[CombatSliceCharacterBinding],
+	boundary: CombatOpportunityBoundary,
+) -> bool:
+	if _npc_chat == null or _chanted_in.get(actor.character_id) == beats:
+		return true
+	_chanted_in[actor.character_id] = beats
+	if actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting():
+		return true
+	var said: CombatNpcChatResult = _npc_chat.chant(actor)
+	if said == null:
+		return true
+	var chat := CombatSchedulerEvent.new(
+		_next_event_sequence, _logical_cycle, logical_time_seconds, CombatSchedulerEvent.Kind.NPC_CHAT,
+		CombatSchedulerEvent.SkipReason.NONE, actor.character_id, &"", null, _progression_order.take(), said,
+	)
+	_emit(chat)
+	if said.ends_spar() and _encounter.mode == CombatEncounterMode.Value.SPAR:
+		_stop_spar_with(actor, bindings)
+	if boundary != null and not _inspect(boundary, bindings, chat):
+		return false
+	return true
 
 
 ## An NPC's last base beat of the round is taken (std/char.c heart_beat() after attack()):

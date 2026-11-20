@@ -126,7 +126,7 @@ func _test_lan_rule() -> void:
 	girl.attributes.personality = 26 # TEST-ONLY
 	request = NpcApprenticeship.new()
 	_check(request.takes_at_once(girl, lan), "a woman would be taken (the panel asks first)")
-	request.request(girl, lan, family, 1, "小姑娘", NpcApprenticeship.COMMONER_TITLE, "", "", false, 14)
+	request.request(girl, lan, family, 1, "小姑娘", "", "", false, 14)
 	_check(request.answer(girl, lan, family, 2, "小姑娘", true, 14) == NpcApprenticeship.Outcome.RECRUITED, "her answer takes her")
 	_check(request.lines == [LAN_TAKES, LAN_FONDLES, "蓝止萍决定收你为弟子。", "你跪了下来向蓝止萍恭恭敬敬地磕了四个响头，叫道：「师父！」", "恭喜您成为晚月庄的第二代弟子。"], "per 26 at 14: the say, the 暧昧 line, recruit.c: %s" % [request.lines])
 	_check(girl.family.family_id == FAMILY and girl.family.generation == 2 and girl.affiliation.class_id == &"dancer" and NpcApprenticeship.member_title("晚月庄", 2, girl.affiliation.family_title, lan) == "晚月庄第二代弟子", "晚月庄第二代弟子, a dancer")
@@ -134,14 +134,14 @@ func _test_lan_rule() -> void:
 		var other: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 		other.attributes.personality = case[0] # TEST-ONLY
 		var asked := NpcApprenticeship.new()
-		asked.request(other, lan, family, 1, "姑娘", NpcApprenticeship.COMMONER_TITLE, "", "", false, case[1])
+		asked.request(other, lan, family, 1, "姑娘", "", "", false, case[1])
 		asked.answer(other, lan, family, 2, "姑娘", true, case[1])
 		_check(asked.lines.size() == 4 and asked.lines[0] == LAN_TAKES and asked.lines[1] == "蓝止萍决定收你为弟子。", "per %d at %d: no 暧昧 line" % [case[0], case[1]])
 	var third: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 	request = NpcApprenticeship.new()
 	request.request(third, lan, family, 1, "姑娘")
 	request.cancel()
-	_check(request.request(third, lan, family, 2, "姑娘", NpcApprenticeship.COMMONER_TITLE, "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [LAN_ASKED, "蓝止萍说道：慢著，一个一个来。"], "asked while her answer is due: 慢著: %s" % [request.lines])
+	_check(request.request(third, lan, family, 2, "姑娘", "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [LAN_ASKED, "蓝止萍说道：慢著，一个一个来。"], "asked while her answer is due: 慢著: %s" % [request.lines])
 
 
 func _test_elon_rule() -> void:
@@ -149,19 +149,19 @@ func _test_elon_rule() -> void:
 	var family: FamilyDefinition = _catalog.family(FAMILY)
 	var weak: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 	var request := NpcApprenticeship.new()
-	_check(not request.would_attack(weak, elon, "封山剑派第十四代弟子"), "short of 100000: her say comes before the traitor check")
-	_check(request.request(weak, elon, family, 1, "姑娘", "封山剑派第十四代弟子", "封山剑派第十四代弟子", "晚客") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines == [ELON_ASKED, "瑷伦说道：" + GO_TO_LAN], "short of 100000: go to 芷萍: %s" % [request.lines])
+	_check(not request.would_attack(weak, elon), "short of 100000: her say comes before the traitor check")
+	_check(request.request(weak, elon, family, 1, "姑娘", "封山剑派第十四代弟子", "晚客") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines == [ELON_ASKED, "瑷伦说道：" + GO_TO_LAN], "short of 100000: go to 芷萍: %s" % [request.lines])
 	var man: CharacterState = _fresh(CharacterState.GENDER_MALE)
 	man.progression.combat_experience = 100000 # TEST-ONLY
 	request = NpcApprenticeship.new()
-	_check(not request.would_attack(man, elon, "封山剑派第十四代弟子") and request.request(man, elon, family, 1, "壮士", "封山剑派第十四代弟子", "封山剑派第十四代弟子", "晚客") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines[1] == "瑷伦说道：老身不收男徒!", "a man with a family's title: 老身不收男徒!, not attacked")
+	_check(not request.would_attack(man, elon) and request.request(man, elon, family, 1, "壮士", "封山剑派第十四代弟子", "晚客") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines[1] == "瑷伦说道：老身不收男徒!", "a man with a family's title: 老身不收男徒!, not attacked")
 	var member: CharacterState = _member()
 	member.progression.combat_experience = 100000 # TEST-ONLY
 	request = NpcApprenticeship.new()
-	_check(request.would_attack(member, elon, "晚月庄第二代弟子") and not request.takes_at_once(member, elon), "蓝止萍's apprentice would be taken for a traitor")
-	_check(request.request(member, elon, family, 1, "姑娘", "晚月庄第二代弟子", "晚月庄第二代弟子", "晚客") == NpcApprenticeship.Outcome.ATTACKED and request.lines == [ELON_ASKED] and request.chat_line == "瑷伦大声喝道：晚月庄第二代弟子晚客要叛师！！！", "要叛师: %s" % request.chat_line)
+	_check(request.would_attack(member, elon) and not request.takes_at_once(member, elon), "蓝止萍's apprentice would be taken for a traitor")
+	_check(request.request(member, elon, family, 1, "姑娘", "晚月庄第二代弟子", "晚客") == NpcApprenticeship.Outcome.ATTACKED and request.lines == [ELON_ASKED] and request.chat_line == "瑷伦大声喝道：晚月庄第二代弟子晚客要叛师！！！", "要叛师: %s" % request.chat_line)
 	_check(not request.is_pending() and NpcApprenticeship.is_master_of(member, _catalog.npc(LAN)), "the attack ends the request (默认, DECISIONS 山烟寺 C); still 蓝止萍's")
-	_check(request.would_attack(member, elon, "晚月庄第二代弟子"), "asked again, she would attack again (asked first)")
+	_check(request.would_attack(member, elon), "asked again, she would attack again (asked first)")
 	var girl: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 	girl.progression.combat_experience = 100000 # TEST-ONLY
 	var class_before: StringName = girl.affiliation.class_id
@@ -200,7 +200,7 @@ func _test_annihi_rule() -> void:
 	var state: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 	state.progression.combat_experience = 1000000 # TEST-ONLY
 	var request := NpcApprenticeship.new()
-	_check(not request.takes_at_once(state, annihi) and not request.would_attack(state, annihi, "晚月庄第二代弟子"), "安妮儿 takes nobody, attacks nobody")
+	_check(not request.takes_at_once(state, annihi) and not request.would_attack(state, annihi), "安妮儿 takes nobody, attacks nobody")
 	_check(request.request(state, annihi, _catalog.family(annihi.teaching().family_id), 1, "姑娘") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines == ["你想要拜安妮儿为师。", "安妮儿说道：" + GO_TO_LAN] and not state.family.has_family(), "her say, and nothing more: %s" % [request.lines])
 
 

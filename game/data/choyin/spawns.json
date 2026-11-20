@@ -176,7 +176,15 @@
 			"zone": "choyin.entrance",
 			"points": ["choyin.entrance.master.1"],
 			"legacy_room": "d/choyin/entrance.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"present": {
+				"any": [
+					{ "not": { "mark": "骆云舟听了抄本的事" } },
+					{ "mark": "骆建章作了证" },
+					{ "mark": "保住了骆家" },
+					{ "mark": "步玄的线断了" }
+				]
+			}
 		},
 		{
 			"id": "choyin.yamen_compound.yamen_yard.magistras",

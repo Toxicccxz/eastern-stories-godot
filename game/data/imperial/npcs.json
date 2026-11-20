@@ -2077,6 +2077,19 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"入了虹台的席"
+							],
+							"asker_lacks": [
+								"大会散了"
+							],
+							"lines": [
+								{
+									"say": "虹台上正在推盟主？……老夫这时候出去，倒像是去抢椅子。等那边散了，你再来。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
 								"钻了尚书府的狗洞",
 								"真龙头说了狗洞",
 								"见过卫沧澜"
@@ -2175,7 +2188,7 @@
 			"vanishes": {
 				"line": "信使一声不响地散成一股黑烟，一封信飘落在地上。"
 			},
-			"die_marks_killer": "小屋的信使倒了"
+			"die_marks": "小屋的信使倒了"
 		},
 		{
 			"id": "native.npc.yu_zijian_accused",
@@ -2494,7 +2507,7 @@
 				"leave": true,
 				"line": "冯策一把扭住庾子建的胳膊，刀「当啷」落在金砖上。两个侍卫上来，把他押了下去。"
 			},
-			"die_marks_killer": "庾子建下狱"
+			"die_marks": "庾子建下狱"
 		},
 		{
 			"id": "native.npc.feng_ce_beside",

@@ -99,8 +99,8 @@ func _test_votes() -> void:
 	# the split after one sat on the 虹台: the vote stays as it was
 	state = _fresh(["头陀上殿见了玄智", "入了虹台的席"])
 	_check(_heard(state, XUANZHI, "收经", "收。") and state.marks.has("山烟寺收了经") and not state.marks.has("山烟寺的票随了收经") and _holds(state, "assembly.sanyen.yan"), "收经 after 入席: the vote stays 颜违")
-	# 听你的: eight 派 now
-	state = _fresh(["终章"])
+	# 听你的: eight 派 now (the 任务 page's row counts stated votes, 修补 Z)
+	state = _fresh(["终章", "封山表了态", "天邪表了态", "茅山表了态", "晚月庄表了态", "山烟寺表了态"])
 	for mark: String in ["封山听你的", "天邪听你的", "茅山听你的", "晚月庄听你的"]:
 		state.marks[mark] = 1 # TEST-ONLY
 	_check(not _holds(state, "assembly.self_backed"), "four 听你的: short")
