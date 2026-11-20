@@ -10,6 +10,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.niling"
 const LIN: StringName = &"common.npc.taoist.taolord"
 const CROWN: StringName = &"native:niling/black_crown"
@@ -60,7 +62,7 @@ func _test_data() -> void:
 	_check(quest.branches_of(StoryQuestDefinition.WEIGHT_BIG) == 2 and quest.branches_of(StoryQuestDefinition.WEIGHT_SMALL) == 2, "1 big on each way the main story routes (收网; after the 终章 大会 A's 余孽), 2 small (owner 2026-11-09)")
 	_check(split.objective.contains("疑点不到三条") and split.objective.contains("四个道士会先扑你") and split.objective.contains("黑冠从此没用"), "both sides' costs said before the choice")
 	_check(quest.step(&"hall_turn").only_after == &"turn" and quest.step(&"hall_deep").only_after == &"deep" and quest.step(&"aftermath").only_after == &"remnant", "each way its own last step")
-	_check(quest.lapses != null and quest.lapsed_mark == "疑点满了" and quest.lapsed_text.contains("下回进前院") and quest.lapsed_text.contains("剑谱也还在你手里"), "three 疑点: the line lapses, what was done still counts")
+	_check(quest.lapses != null and quest.lapsed_mark == "疑点满了" and quest.lapsed_text.contains("下回戴着冠进前院") and quest.lapsed_text.contains("不必打") and quest.lapsed_text.contains("剑谱也还在你手里"), "three 疑点: the line lapses, what was done still counts")
 	for id: StringName in PALACE:
 		var when: JournalEntryDefinition = catalog.npc(id).dealings().ignores_when
 		_check(when != null and when.when == JournalEntryDefinition.When.ALL and when.parts.size() == 3, "%s minds the crown only while it holds (niling.crown_holds)" % id)
@@ -165,7 +167,7 @@ func _test_unmasked_xuan(tree: SceneTree, session: WorldSessionController) -> vo
 	_check(StoryQuestLog.is_lapsed(state, quest) and state.marks.get("疑点满了", 0) == 1 and not StoryQuestLog.is_active(state, quest), "three 疑点: the line lapses")
 	var ui: SharedGameplayUI = session.shared_ui()
 	ui.quest_page.fill(state, "小兄弟", "", session.quest_condition_test())
-	_check(ui.quest_page.shown_text().contains("下回进前院"), "the 任务 page says what comes: %s" % ui.quest_page.shown_text())
+	_check(ui.quest_page.shown_text().contains("下回戴着冠进前院") and ui.quest_page.shown_text().contains("出了前院的门就算逃过了"), "the 任务 page says what comes, and that it is an escape: %s" % ui.quest_page.shown_text())
 	var temple: WorldMapController = MapPlaces.enter(session, TEMPLE, TEMPLE_POINT)
 	await _settle(tree)
 	var lin: NpcRuntimeState = _first(session, TEMPLE, LIN)
@@ -177,14 +179,48 @@ func _test_unmasked_xuan(tree: SceneTree, session: WorldSessionController) -> vo
 	var unmasking: JournalEntryDefinition = GameContent.catalog().conditions()["niling.unmasking"]
 	_check(not JournalLog.holds(unmasking, state, {}, {}) and JournalLog.holds(unmasking, state, {}, {}, &"", {CROWN: true}), "the 前院's scene waits for one who comes in wearing the crown")
 	session.wear_player_item(temple.give_new_item_to_player(CROWN))
+	# DECISIONS「势力线的仗」: an escape, played with real numbers — the earliest arrival of the line
+	# (第三章 done), a sword in hand, 玄冥子 and the 前院 as the data makes them.
+	RealFight.ready_player(session, Arrival.main_story(&"main.chapter4"))
 	var gate: WorldMapController = MapPlaces.enter(session, YARD, YARD_POINT)
 	await _settle(tree)
-	_check(_first(session, YARD, XUAN_YARD) != null and _first(session, YARD, CHANTER_YARD) == null, "玄冥子 waits in the 前院")
-	await _until_fight(tree, session, gate)
+	var xuan: NpcRuntimeState = _first(session, YARD, XUAN_YARD)
+	_check(xuan != null and _first(session, YARD, CHANTER_YARD) == null, "玄冥子 waits in the 前院")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	# The scene, then a moment before he strikes: whoever comes in (the patrol's too) can still go.
+	var struck_at: int = -1
+	for second: int in 12:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		gate.hostilities.process_pending_aggression()
+		if struck_at < 0 and xuan != null and coordinator.has_active_encounter() and coordinator.active_encounter().participant_for(xuan.character_id) != null:
+			struck_at = second + 1
 	var said: Array[String] = ui.log_lines()
 	_check(_said(said, "你戴着我们的冠，却不是我们的人") and _said(said, "那卷残卷没有回宫") and _said(said, "铁匣里那本名册") and _said(said, "北门外听的") and not _said(said, "地牢空了"), "his 第三章 words and what gave them away")
-	_check(state.marks.get("被识破", 0) == 1 and session.combat_encounter_coordinator().has_active_encounter(), "被识破: the 道观 on them")
+	_check(_said(said, "这一仗你打不过") and _said(said, "逃得出去，就算过了这一关"), "the act says plainly: run")
+	# The gate guards turn at once (the crown no more); 玄冥子 himself waits (and joins no fight under way).
+	_check(struck_at < 0 or struck_at >= 5, "a moment to run before he strikes (struck at second %d)" % struck_at)
+	_check(state.marks.get("被识破", 0) == 1 and coordinator.has_active_encounter(), "被识破: the 道观 on them")
 	_check(not JournalLog.holds(GameContent.catalog().conditions()["niling.crown_holds"], state, {}, {}, &"", {CROWN: true}), "the crown no more")
+	# 逃跑, then out of the 前院's gate and down: alive is through.
+	var encounter_id: StringName = coordinator.active_encounter().encounter_id if coordinator.has_active_encounter() else &""
+	for attempt: int in 6:
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.submit_player_action(CombatTacticalRequest.new(StringName("flee:%d" % attempt), coordinator.active_encounter().encounter_id, session.player_runtime().character_id, CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE))
+		for step: int in 20:
+			if not coordinator.has_active_encounter():
+				break
+			coordinator.advance_scheduler(1.0)
+	session.shared_ui().dismiss_current_panel()
+	_check(not encounter_id.is_empty() and not coordinator.has_active_encounter() and RealFight.player_stands(session), "逃跑 gets the player out of the fight on their feet")
+	MapPlaces.enter(session, &"niling.goods_path", &"niling.goods_path.gate_return")
+	for second: int in 8:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(not coordinator.has_active_encounter() and RealFight.player_stands(session), "out of the 前院 and down the path: alive, nobody on them")
+	ui.quest_page.fill(state, "小兄弟", "", session.quest_condition_test())
+	_check(StoryQuestLog.is_lapsed(state, quest) and ui.quest_page.shown_text().contains("出了前院的门就算逃过了"), "the 任务 page: the line lapsed, nothing owed: %s" % ui.quest_page.shown_text())
 	ui.standing_page.fill(session.quest_condition_test())
 	_check(ui.standing_page.shown_text().contains("你被识破了"), "the 声望 page: %s" % ui.standing_page.shown_text())
 

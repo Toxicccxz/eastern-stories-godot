@@ -61,6 +61,11 @@ func _build() -> StringName:
 	return MainlineFightSim.SWORD
 
 
+## The seeds each fight is sampled from (boss_strength_faction_test samples more).
+func _seeds() -> Array[int]:
+	return SEEDS
+
+
 ## The band of `target` (a share, or [low, high]).
 static func band(target: Variant) -> Array[float]:
 	if target is Array:
@@ -78,13 +83,13 @@ func _run_targets(tree: SceneTree, targets: Dictionary[String, Variant]) -> Dict
 			continue
 		var sim := MainlineFightSim.new(tree)
 		sim.build = _build()
-		var results: Array[MainlineFightSim.Result] = await sim.run_seeds(entry, DUELS, SEEDS, [MainlineFightSim.exps_of(entry)[0]])
+		var results: Array[MainlineFightSim.Result] = await sim.run_seeds(entry, DUELS, _seeds(), [MainlineFightSim.exps_of(entry)[0]])
 		var result: MainlineFightSim.Result = results[0]
 		var limits: Array[float] = band(targets[label])
 		rates[label] = result.rate()
 		# The first duel of each session closes at once (MainlineFightSim leaves it out).
-		_check(result.lineup_ok() and result.short_lineup <= SEEDS.size() and result.stuck == 0, "%s (%s): the story's lineup fought (foes %d/%d, helpers %d/%d, nobody else: %d), every duel to its end: %s" % [label, _build(), result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies, result.others_in, result.notes])
-		_check(result.duels >= (DUELS - 1) * SEEDS.size() and result.rate() >= limits[0] and result.rate() <= limits[1], "%s (%s build) at %d exp: won %d of %d (%.0f%%; band %.0f–%.0f%%), median %d rounds, %.0f%% of 气 lost on average. A sample: before retuning, re-measure with more seeds — <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- only=%s build=%s seed=7,11,13,17,19,23 n=15 low" % [label, _build(), result.experience, result.wins, result.duels, result.rate() * 100.0, limits[0] * 100.0, limits[1] * 100.0, result.median_rounds(), result.mean_kee_lost() * 100.0, label, _build()])
+		_check(result.lineup_ok() and result.short_lineup <= _seeds().size() and result.stuck == 0, "%s (%s): the story's lineup fought (foes %d/%d, helpers %d/%d, nobody else: %d), every duel to its end: %s" % [label, _build(), result.enemies_in, result.expected_enemies, result.allies_in, result.expected_allies, result.others_in, result.notes])
+		_check(result.duels >= (DUELS - 1) * _seeds().size() and result.rate() >= limits[0] and result.rate() <= limits[1], "%s (%s build) at %d exp: won %d of %d (%.0f%%; band %.0f–%.0f%%), median %d rounds, %.0f%% of 气 lost on average. A sample: before retuning, re-measure with more seeds — <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- only=%s build=%s %sseed=7,11,13,17,19,23 n=15 low" % [label, _build(), result.experience, result.wins, result.duels, result.rate() * 100.0, limits[0] * 100.0, limits[1] * 100.0, result.median_rounds(), result.mean_kee_lost() * 100.0, label, _build(), "faction " if MainlineFightSim.FACTION_FIGHTS.has(MainlineFightSim.fight(label)) else ""])
 	return rates
 
 

@@ -9,6 +9,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.court"
 const JUDGE: StringName = &"choyin.npc.judgeman"
 const GENERAL: StringName = &"canyon.npc.general"
@@ -171,8 +173,22 @@ func _test_purge(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(_ask(camp, adviser, "路引"), "束手就擒") and adviser.has_flag(StringName(NpcMood.FLAG_PREFIX + "cornered")), "asked: he is cornered")
 	await _settle(tree)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "he waits for the player to attack (a kill: kept, then spared)")
-	session.npc_spared(adviser) # TEST-ONLY: attacked and knocked down (kept: 放过 is all there is)
-	_check(state.marks.get("赫造基被拿下了", 0) == 1 and adviser.has_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE), "knocked down: taken away")
+	# DECISIONS「势力线的仗」: fought with real numbers — a character who also explored, at 第六章's
+	# arrival (the earliest from which 整肃 is reached), a sword in hand; the 军师 as his `cornered` makes him.
+	var cornered: NpcMood = catalog.npc(ADVISER).hooks().moods["cornered"]
+	_check(cornered.combat_exp > 0 and adviser.character_state.progression.combat_experience == cornered.combat_exp and cornered.combat_exp < catalog.npc(ADVISER).combat_experience, "cornered, he fights as the scene's 军师 (%d), not ES2's %d" % [cornered.combat_exp, catalog.npc(ADVISER).combat_experience])
+	adviser.end_mood() # TEST-ONLY: the mood's end gives his record's strength back
+	_check(adviser.character_state.progression.combat_experience == catalog.npc(ADVISER).combat_experience, "out of the mood: ES2's 300000 again")
+	adviser.put_in_mood(cornered) # TEST-ONLY: and back in it
+	_check(adviser.character_state.progression.combat_experience == cornered.combat_exp, "in it again: the scene's")
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter6"))
+	camp.select_npc(adviser.character_id)
+	camp.attack_selected()
+	_check(session.combat_encounter_coordinator().has_active_encounter(), "attacked: the fight")
+	var steps: int = RealFight.fight_out(session)
+	await _settle(tree)
+	_check(steps < RealFight.MAX_STEPS and RealFight.player_stands(session), "the fight to its end, the player standing (%d steps)" % steps)
+	_check(state.marks.get("赫造基被拿下了", 0) == 1 and adviser.has_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE), "knocked down (kept: 放过 is all there is): taken away")
 	session.record_journal()
 	_check(state.quests.has("faction.court/arrest") and StoryQuestLog.current_step(state, catalog.story_quest(QUEST)).step_id == &"uncle", "the 卫沧澜 route next")
 	var missing: Array[String] = StoryFixtures.missing_after_play(session, func(played: WorldSessionController) -> void: StoryFixtures.court_admitted(played); StoryFixtures.court_split(played, true))

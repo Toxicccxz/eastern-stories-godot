@@ -512,7 +512,7 @@
 				"cps": 15,
 				"per": 28
 			},
-			"combat_exp": 80000,
+			"combat_exp": 15500,
 			"score": 600,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -521,14 +521,15 @@
 			"ignores_when": {
 				"cond": "dongfang.token_holds"
 			},
+			"alert_say": "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。",
 			"skills": {
-				"unarmed": 80,
-				"sword": 80,
-				"parry": 80,
-				"dodge": 70,
-				"move": 60,
-				"six-chaos-sword": 70,
-				"pyrobat-steps": 60
+				"unarmed": 45,
+				"sword": 45,
+				"parry": 45,
+				"dodge": 41,
+				"move": 35,
+				"six-chaos-sword": 41,
+				"pyrobat-steps": 35
 			},
 			"skill_map": {
 				"dodge": "pyrobat-steps",
@@ -6772,15 +6773,15 @@
 				"con": 24,
 				"kar": 12
 			},
-			"combat_exp": 80000,
+			"combat_exp": 15500,
 			"skills": {
-				"unarmed": 80,
-				"sword": 80,
-				"parry": 80,
-				"dodge": 70,
-				"move": 60,
-				"six-chaos-sword": 70,
-				"pyrobat-steps": 60
+				"unarmed": 45,
+				"sword": 45,
+				"parry": 45,
+				"dodge": 41,
+				"move": 35,
+				"six-chaos-sword": 41,
+				"pyrobat-steps": 35
 			},
 			"skill_map": {
 				"dodge": "pyrobat-steps",
