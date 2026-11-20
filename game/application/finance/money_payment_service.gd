@@ -137,6 +137,15 @@ static func amounts_after(held: Array[int], price: int) -> Array[int]:
 	return after
 
 
+## Whether pay(`price`) would complete with the coins carried (amounts_after() not empty).
+## Native (DECISIONS「凑不整就不收钱」): can_afford() (finance.c) says yes to some purses pay()
+## then cannot finish (gold, too little silver, no copper), and pay() has taken coins by then;
+## a shop or a debt asks this first and moves nothing when it is false.
+static func pays_exactly(context: MoneyInventoryContext, price: int) -> bool:
+	var held: Array[int] = held_amounts(context)
+	return not held.is_empty() and not amounts_after(held, price).is_empty()
+
+
 ## The gold, silver and coins carried (as pay() takes them); empty when a stack cannot be read.
 static func held_amounts(context: MoneyInventoryContext) -> Array[int]:
 	if context == null or not context.is_valid():

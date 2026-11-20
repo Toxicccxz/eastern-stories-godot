@@ -143,7 +143,7 @@
 **物品与经济**
 - 给予、丢下、放进、取出照 give.c / drop.c / put.c / get.c；被拒收的那部分留在玩家身上；丢在地上的东西连位置存档。「Give, drop and put; shops and teachers on their NPCs」
 - 商店和师父跟着 NPC 本人；昏迷的店主照卖，死了等重置；货无限，每次买都是新物品。「Give, drop and put; shops and teachers on their NPCs」「Snow waiter / dumpling supply loop (S4B only)」
-- 付钱按金、银、铜的顺序；钱庄兑换；当铺按价值八折收购（先银后铜，至少 1 文），不做典当和赎回。「Currency exchange / payment core (S3B only)」「Hockshop valuation / payout / sell lifecycle (H2)」
+- 付钱按金、银、铜的顺序；`pay()` 凑不整（比如有金子、银子不够、没有铜钱）时商店不卖、债不收，一个子都不动，说明找不开（「凑不整就不收钱」）；钱庄兑换；当铺按价值八折收购（先银后铜，至少 1 文），不做典当和赎回。「Currency exchange / payment core (S3B only)」「Hockshop valuation / payout / sell lifecycle (H2)」
 - 飞刀、蛇药、桃符纸等是通用的组合物品；数量到 0 立即销毁。「Old Pine remainder B」
 - 丢下不值钱的东西（drop.c 当场销毁）先问一句；主线和势力线要带着才能推进的原生物品都不能丢、不能乱给、不能放进容器；飞贼不偷不能丢的东西，化尸把它留在尸体原处；信、镖单弄丢了，写的人再写一封。当铺不收这些原生任务物品（ES2 自己的照 hockshop.c 照收）。问话「身上带着」按别名，加载时校验有物品应答；要带、要穿的物品 ID 和别名（含门的钥匙、条件里的 `wearing`）都在加载时校验。「任务物品不丢」「任务物品不被拿走」
 - 一整堆拿不动时捡能拿的部分；赢的钱、悬赏的赏银、地标拿到的东西拿不动的落在脚边，并说一句。「绮云镇 3D」「拿不动就不收钱」
@@ -320,6 +320,14 @@
 - 岚城（原生）：寻风地带一张图——幻影道、风口、石林雾野、卜风坛、兵部旧营、三处石坳（A）；镜子里的上道在第九章做完后通幻影道；白石街（白石门、两折长街、铃匠铺、萧家旧院、街尾）与风铃阁（十铃架、静室）两张图，伏地进城、白石门出城回到风停的那处石坳（B）；风铃阁西墙的梯子上云台（台心旋风里转着旋芒、云边「乘风」回天驼关镜子前）（C）。「第十章 A」「第十章 B」「第十章 C」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 凑不整就不收钱 (全项目审查 2026-11-19：凑不整时付钱付到一半；owner 2026-11-19「都按推荐」)
+
+- **ES2：** `feature/finance.c` can_afford() 只看总数和几种零钱在不在，不是凑整算法：身上有金子、银子不够、没有铜钱时它说「付得起」，pay_money() 先扣金子再扣银子，扣到铜钱发现付不完就停下——扣掉的不退，东西也不给。例：京师 26000 文的袍子，身上 3 两金 10 两银没有铜钱，扣掉 2 两金和 10 两银，什么都没买到。本项目照样移植（S3B A、B），`snow_finance_test` 钉着这条。
+- **我们：** 买东西和还债（瓜地还瓜钱这类 `settle`）先用付钱本身的算术问一句「凑得整吗」（`MoneyPaymentService.pays_exactly()`，即 `amounts_after()` 不空），凑不整就不卖、不收，一个子都不动，说「这笔钱凑不整：店家找不开，你也没有合适的零钱……先去钱庄换些碎银或铜钱再来。」移植的 `can_afford()` 和 `pay()` 不改。
+- **别的付钱处：** 车马行用 `pay_making_change()`，先看凑不凑得整、凑不整先换开一枚，不会付到一半；钱庄兑换、当铺、打工、赌场、给人钱都不经过 `pay()`，没有这个问题。
+- **为什么：** 扣了钱不给东西，今天的玩家只会当成 bug；找不开就该在柜台前说明。
+- **测试：** `carry_room_test`（金子、少量银子、没有铜钱的钱袋：can_afford 说行，商店拒绝且一个子不动；能凑整的照买）；`snow_finance_test` 原样钉着 `can_afford()`／`pay()` 的 ES2 行为。
 
 ## 修补 Z：势力线与虹台的接缝 (全项目审查补充轮 2026-11-19; owner 2026-11-19「都按推荐」)
 
@@ -1006,6 +1014,7 @@
   - 最多歇 `rest_limit_seconds`（600 世界秒，一天 24 真实分钟时是五个时辰，真实 15 秒）——「起身活动活动。精、气、神还没全回满：伤要慢慢养……」。
   - 时长按半个时辰说（不到半个时辰是「一盏茶的工夫」），和车马行同一种说法。
   - 精神饱满时按钮不出现；打架时、剧情里、没水时不给歇，按钮灰掉、悬停写原因。不打架的地方都能歇，代价是世界照走。歇息不存档：读档的人站着。
+  - 悬赏榜不跟着快（全项目审查 2026-11-19，owner「都按推荐」）：空位按真实游戏时间补，歇着、昏迷快醒时都不加快，「不能快过 600 秒刷一张」对歇着的人也成立；任务时限、房间重置、重生照样跟着歇息走。
   - **连续修炼自己歇**（「连续修炼」的自动歇，`training_auto_rest`）：同一个歇息、同样的结局，只是那一页不关——那一页自己的窗口（请教页所在的交互窗口、武学页所在的菜单）在歇着时不按住时间，别的卡片、窗口、演出照样按住；没有底部那一条，连续修炼的进度那一行写「歇息中……已歇X」，「停止」同时让人起身；开始和回满都不说话，由连续修炼的总结写歇了几回、多久；被惊起（来袭、掉血、断水、剧情、换图）的那句接在总结后面。身上有朱鸿雪的限时差事时不自己歇（歇着时限照走），说一句让玩家自己决定按不按「歇到回满」。
   - 「起身」（或连续修炼的「停止」、那一页被关掉）那一刻要是正好有人来袭、换了图，照实说是来袭、换图，不说「站了起来」。
 - **提示：** 连续请教停在缺精时一句改成说清楚怎么回（窗口开着时间不走；「歇到回满」；有内力的在武学页运功恢复精）；百科「受伤与歇息」同。
@@ -6019,9 +6028,7 @@ These are owner-selected boundaries, not a general consumables/commerce authoriz
 not proposals. S3A is OWNER APPROVED / CLOSED. These decisions do not authorize Bank world/UI,
 Vendor purchasing or a general economy framework.
 
-- **A — Type A:** Preserve executable `can_afford()` presence checks, strict `<` comparisons and
-  distinct 0/1/2 meanings, including false rejections and false-positive1. Coin100 paying100 is2;
-  silver1 paying100 and gold1 paying10000 are1; gold1+silver1 paying9900 is1 although payment fails.
+- **A —** （商店和还债的部分已被「凑不整就不收钱」取代，原文见 DECISIONS_HISTORY。）`can_afford()` 照 finance.c 保留不改（同样的 0/1/2 和误判），但商店和还债在 `pay()` 凑不整时先拒绝。
 - **B — source order / typed errors:** Payment processes gold → silver → coin. Preserve mutations
   completed before a later error; return a typed failure at that stage. No rollback, refund,
   auto-change, new denomination minting or seller credit. Results expose completed mutations.

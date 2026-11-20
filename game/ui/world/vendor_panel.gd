@@ -62,6 +62,9 @@ func present(title: String, labels: Dictionary[String, String]) -> void:
 func show_purchase(result: VendorPurchaseResult, goods_name: String) -> void:
 	if result.delivered:
 		feedback.text = tr("已付款，%s已放入你的随身物品。") % goods_name
+	elif result.outcome == VendorPurchaseResult.Outcome.NO_EXACT_CHANGE:
+		# TRANSLATORS: a purchase refused before payment (DECISIONS「凑不整就不收钱」): the coins carried cannot make the price and the shop gives no change.
+		feedback.text = tr("这笔钱凑不整：店家找不开，你也没有合适的零钱，没有付钱。先去钱庄换些碎银或铜钱再来。")
 	elif result.outcome == VendorPurchaseResult.Outcome.TOO_HEAVY:
 		# TRANSLATORS: a purchase refused before payment (DECISIONS「拿不动就不收钱」): %s the goods.
 		feedback.text = tr("你身上太重，拿不动%s了，没有付钱。先放下些东西再来买。") % goods_name

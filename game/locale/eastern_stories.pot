@@ -9892,6 +9892,11 @@ msgstr ""
 msgid "你的钱不够。"
 msgstr ""
 
+#. a debt not paid before any coin moved (DECISIONS「凑不整就不收钱」): the coins carried cannot make the sum.
+#: runtime/world/map/world_map_debts.gd
+msgid "这笔钱凑不整：对方找不开，你也没有合适的零钱。先去钱庄换些碎银或铜钱再来。"
+msgstr ""
+
 #: runtime/world/map/world_map_debts.gd ui/world/vendor_panel.gd
 msgid "交易未完成，状态异常；已发生的扣款不会退回。"
 msgstr ""
@@ -12785,6 +12790,11 @@ msgstr ""
 
 #: ui/world/vendor_panel.gd
 msgid "已付款，%s已放入你的随身物品。"
+msgstr ""
+
+#. a purchase refused before payment (DECISIONS「凑不整就不收钱」): the coins carried cannot make the price and the shop gives no change.
+#: ui/world/vendor_panel.gd
+msgid "这笔钱凑不整：店家找不开，你也没有合适的零钱，没有付钱。先去钱庄换些碎银或铜钱再来。"
 msgstr ""
 
 #. a purchase refused before payment (DECISIONS「拿不动就不收钱」): %s the goods.
