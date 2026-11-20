@@ -521,7 +521,7 @@
 			"ignores_when": {
 				"cond": "dongfang.token_holds"
 			},
-			"alert_say": "蒙面杀手的剑已经出鞘：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。",
+			"alert_say": "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。",
 			"skills": {
 				"unarmed": 45,
 				"sword": 45,

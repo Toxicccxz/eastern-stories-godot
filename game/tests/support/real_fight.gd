@@ -4,9 +4,9 @@ extends RefCounted
 ## grown to a story arrival's combat_exp (grown_character.gd, the sword build with a sword in hand),
 ## the foe as the data makes it, the fight run through the real coordinator and scheduler until it is
 ## over, the player choosing each beat as MainlineFightSim's plain policy does (the move with the best
-## expected damage per beat, never 守; the game's turns, not 自动 — the numbers are tuned for it). No foe's 气 lowered, no
-## player made unbeatable: a suite that walks a line from its first order to its end meets the
-## fight a player meets.
+## expected damage per beat, never 守; the game's turns, not 自动 — the numbers are tuned for it).
+## No foe's 气 lowered, no player made unbeatable: a suite that walks a line from its first order to
+## its end meets the fight a player meets.
 
 const Grown := preload("res://tests/support/grown_character.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
