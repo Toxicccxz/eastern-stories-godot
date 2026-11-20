@@ -22,6 +22,11 @@ const FILTERS: Dictionary[String, int] = {
 }
 const MSAA: Dictionary[int, Viewport.MSAA] = {0: Viewport.MSAA_DISABLED, 2: Viewport.MSAA_2X, 4: Viewport.MSAA_4X, 8: Viewport.MSAA_8X}
 
+## On a phone (Android / iOS) each level takes the data's `phone` overrides over the desktop's
+## (DECISIONS「手机画质」, owner 2026-11-20: the OnePlus 8T should run smoothly): fewer of the
+## 3D picture's pixels, fewer lamps lit out of doors, a lighter sun shadow, a thinner meadow. The
+## desktop's levels are untouched. Tests set it.
+static var phone: bool = OS.has_feature("android") or OS.has_feature("ios")
 static var level: int = Value.HIGH
 ## Moves each time a level is applied: a view compares it with the one it last applied.
 static var revision: int = 0
@@ -60,10 +65,31 @@ static func data() -> Dictionary:
 
 
 ## A level's values (the data's `levels` entry): shadow_filter, sun_shadow_size,
-## sun_splits, msaa, lamp_shadows.
+## sun_splits, msaa, lamp_shadows; on a phone with its `phone` overrides, which may add
+## scale_3d, lamp_lights and grass.
 static func settings(value: int = level) -> Dictionary:
 	var levels: Dictionary = data().get("levels", {})
-	return levels.get(storage_value(value), levels.get(STORAGE[Value.HIGH], {}))
+	var values: Dictionary = levels.get(storage_value(value), levels.get(STORAGE[Value.HIGH], {}))
+	if phone:
+		var overrides: Dictionary = data().get("phone", {}).get("levels", {}).get(storage_value(value), {})
+		values = values.merged(overrides, true)
+	return values
+
+
+## The 3D picture's share of the screen's pixels at this level (1 but on a phone; the
+## desktop's own is the 分辨率 setting's).
+static func scale_3d(value: int = level) -> float:
+	return clampf(float(settings(value).get("scale_3d", 1.0)), 0.25, 1.0)
+
+
+## How many lit lamps light at all out of doors, nearest the player first; -1 every one.
+static func lamp_lights(value: int = level) -> int:
+	return int(settings(value).get("lamp_lights", -1))
+
+
+## The share of the meadow's tufts a map plants (1 every one).
+static func grass(value: int = level) -> float:
+	return clampf(float(settings(value).get("grass", 1.0)), 0.0, 1.0)
 
 
 ## What the 3D viewport's MSAA is at this level.
@@ -87,6 +113,10 @@ static func lamp_shadows(value: int = level) -> int:
 ## The level a first start (or a settings file from before 画质) takes on this machine: the
 ## data's default, or its Steam Deck level on a Steam Deck.
 static func device_default() -> int:
+	if phone:
+		var on_phone: int = from_storage(String(data().get("phone", {}).get("default", "")))
+		if on_phone >= 0:
+			return on_phone
 	return default_for(RenderingServer.get_video_adapter_name(), OS.get_environment(String(data().get("steam_deck", {}).get("environment", "SteamDeck"))))
 
 
@@ -119,6 +149,11 @@ static func apply(value: int) -> void:
 	RenderingServer.directional_soft_shadow_filter_set_quality(filter)
 	RenderingServer.positional_soft_shadow_filter_set_quality(filter)
 	RenderingServer.directional_shadow_atlas_set_size(int(values.get("sun_shadow_size", 4096)), bool(ProjectSettings.get_setting("rendering/lights_and_shadows/directional_shadow/16_bits", true)))
+	# Only a phone's levels set the 3D picture's scale; on the desktop the 分辨率 setting owns it.
+	if values.has("scale_3d"):
+		var tree: SceneTree = Engine.get_main_loop() as SceneTree
+		if tree != null and tree.root != null:
+			tree.root.scaling_3d_scale = scale_3d(value)
 
 
 ## The slow-frame hint (data `slow_hint`): below_fps, seconds, settle_seconds.

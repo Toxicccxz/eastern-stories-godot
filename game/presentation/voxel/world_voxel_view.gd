@@ -126,6 +126,8 @@ var _frame_usec: int = 0
 ## the map with fewer pixels, GodotWindowModeCapability._draw_picture()).
 const SLOW_HINT_HIGH: String = "画面卡顿时，可以在「设置」里把「画质」调低；全屏时调低「分辨率」也会更流畅"
 const SLOW_HINT_LOW: String = "画面仍然卡顿时，可以在「设置」里调低「分辨率」：全屏时画面会更流畅"
+## A phone has no 分辨率 to lower (DECISIONS「手机画质」): on 高 the 画质 alone, on 低 nothing.
+const SLOW_HINT_PHONE: String = "画面卡顿时，可以在「设置」里把「画质」调低"
 var _target: Vector3
 var _offset := Vector3(21.213203,26,21.213203)
 var _view_yaw: float = VIEW_SIDE_ANGLE
@@ -207,6 +209,7 @@ func _apply_quality() -> void:
 		weather.queue_free()
 		weather = null
 	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
+	lighting.lamp_light_limit = GraphicsQuality.lamp_lights()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
 	if _active:
@@ -220,13 +223,15 @@ func _watch_frames() -> void:
 	var real: float = 0.0 if _frame_usec == 0 else float(now-_frame_usec)/1000000.0
 	_frame_usec = now
 	var due: int = GraphicsQuality.slow_hint_due()
+	if GraphicsQuality.phone and due == GraphicsQuality.Value.LOW:
+		due = -1
 	if due < 0 or map.session == null or DisplayServer.get_name() == "headless":
 		return
 	if _slow_watch == null or _slow_level != due:
 		_slow_watch = GraphicsQualityHint.new()
 		_slow_level = due
 	if _slow_watch.advance(real):
-		map.session.shared_ui().toasts().push(tr(SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
+		map.session.shared_ui().toasts().push(tr(SLOW_HINT_PHONE if GraphicsQuality.phone else SLOW_HINT_HIGH if due == GraphicsQuality.Value.HIGH else SLOW_HINT_LOW))
 		GraphicsQuality.note_slow_hint_told()
 
 ## 第十章 A (DECISIONS「风」): a map's guiding wind (WorldMapWinds) shown: the long grass leans along

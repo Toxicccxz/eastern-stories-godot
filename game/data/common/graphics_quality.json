@@ -6,5 +6,13 @@
   },
   "default": "high",
   "steam_deck": {"level": "low", "environment": "SteamDeck", "adapters": ["Custom GPU 0405", "Custom GPU 0932", "Van Gogh", "Sephiroth"]},
+  "phone": {
+    "note": "DECISIONS「手机画质」: on Android / iOS each level takes these over the desktop's, and a first start takes `default`. scale_3d: the 3D picture's share of the screen's pixels (the interface stays sharp); lamp_lights: lit lamps out of doors, nearest first (-1 all; rooms keep every lamp); grass: the share of the meadow's tufts planted.",
+    "default": "low",
+    "levels": {
+      "high": {"shadow_filter": "soft_very_low", "sun_shadow_size": 2048, "sun_splits": 2, "msaa": 0, "lamp_shadows": 2, "scale_3d": 0.8, "lamp_lights": 4, "grass": 1.0},
+      "low": {"shadow_filter": "hard", "sun_shadow_size": 2048, "sun_splits": 1, "msaa": 0, "lamp_shadows": 0, "scale_3d": 0.67, "lamp_lights": 2, "grass": 0.5}
+    }
+  },
   "slow_hint": {"below_fps": 30, "seconds": 5, "settle_seconds": 10}
 }
