@@ -281,7 +281,7 @@ func _test_proof(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	var ledger: StringName = _carried(session, &"native:niling/tribute_ledger")
 	if not ledger.is_empty():
-		hall.drop_item(ledger) # TEST-ONLY: one proof
+		hall.acts.take_from_player(&"native:niling/tribute_ledger") # TEST-ONLY: one proof (a quest thing cannot be dropped)
 	var expose: ActService = hall.service(&"imperial.front_hall.expose") as ActService
 	_check(expose != null and await MapPlaces.drive(tree, hall, MapPlaces.service_spot(hall, &"imperial.front_hall.expose")) and expose.in_reach(), "at the boy's side")
 	_check(state.marks.get("陈显祖作了证", 0) == 1 and not state.marks.has("卫沧澜作证"), "one proof: 陈显祖's word")

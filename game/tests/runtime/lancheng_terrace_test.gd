@@ -97,7 +97,8 @@ func _test_self(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(master.contains("是你。好"), "萧辟尘: 是你。好 (%s)" % master)
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes (but for
 	# the earlier chapters' choices, which _to_terrace() sets as the ledger's, TEST-ONLY).
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("self", "expose", false, true, false), TABLE)
+	# 旋芒: ChapterStart.carried gives it for 终章
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("self", "expose", false, true, false), TABLE, [ChapterStart.XUANMANG])
 	_check(handoff.is_empty(), "旋芒 played (drawn yourself) leaves what chapter10_done(self) writes: %s" % [handoff])
 
 
@@ -146,7 +147,8 @@ func _test_xiao(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(master.contains("我拿旋芒去"), "萧辟尘 at the 水烟阁 on 湖底 (%s)" % master)
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes (but for
 	# the earlier chapters' choices, which _to_terrace() sets as the ledger's, TEST-ONLY).
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("xiao", "deal", false, true, false), TABLE)
+	# this road's ledger is the suite's own (TEST-ONLY), and 宋朴 at the mirror its errand
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_done.bind("xiao", "deal", false, true, false), TABLE + ["告发了南危水", "带走了宝衣", "放走了陈显祖", "宋朴看见了旋芒"], [])
 	_check(handoff.is_empty(), "旋芒 played (萧辟尘) leaves what chapter10_done(xiao) writes: %s" % [handoff])
 
 

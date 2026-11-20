@@ -6,7 +6,9 @@ during the round changes the game or breaks its saves:
 
     python tools/build/playtest_round.py cut [--name playtest-YYYY-MM-DD] [--dry-run]
         tag origin/main (an annotated tag naming its world revision), push the tag, and run the CI
-        workflow by hand on it (workflow_dispatch) for the Windows ZIP;
+        workflow by hand on it (workflow_dispatch) for the Windows ZIP; run again after a failed
+        dispatch or a failed run, it resumes the tag already on origin (CI started on it again
+        unless a run on it succeeded or is still going);
     python tools/build/playtest_round.py fetch <tag> [--no-source]
         download that run's Windows artifact into build/playtest/<tag>/ and unpack the ZIP there
         (the game to play), and check the tag out beside it as a detached worktree
@@ -39,12 +41,25 @@ REVISION_PATTERN = re.compile(r"^const CURRENT_PUBLIC: Value = Value\.(\w+)", re
 TAG_PATTERN = re.compile(r"^playtest-[0-9A-Za-z._-]+$")
 
 
+class CommandFailed(Exception):
+    """A command `run` ran failed; what it said is printed already."""
+
+
 def run(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
-    """Runs `command` in the repository (printed first); its stdout. Dry runs only print it."""
+    """Runs `command` in the repository (printed first); its stdout. Dry runs only print it. A failed
+    command's own words (its stderr, else its stdout) are printed before CommandFailed is raised."""
     print("$ " + " ".join(command))
     if dry_run:
         return ""
-    result = subprocess.run(command, cwd=REPOSITORY, check=True, text=True, encoding="utf-8", capture_output=capture)
+    try:
+        result = subprocess.run(command, cwd=REPOSITORY, check=True, text=True, encoding="utf-8", capture_output=capture)
+    except FileNotFoundError as error:
+        print(f"{command[0]} is not installed or not on PATH: {error}", file=sys.stderr)
+        raise CommandFailed(command[0]) from error
+    except subprocess.CalledProcessError as error:
+        said = (error.stderr or "").strip() or (error.stdout or "").strip()
+        print(f"`{' '.join(command)}` failed (exit {error.returncode})" + (f":\n{said}" if said else ""), file=sys.stderr)
+        raise CommandFailed(" ".join(command)) from error
     return result.stdout if capture else ""
 
 
@@ -64,18 +79,35 @@ def default_name(today: datetime.date | None = None) -> str:
     return "playtest-" + (today or datetime.date.today()).isoformat()
 
 
+## A run that is not over yet (gh's status words), so a resumed cut does not start another.
+RUNNING = {"queued", "in_progress", "waiting", "requested", "pending"}
+
+
+def remote_tag_commit(name: str) -> str:
+    """The commit the tag `name` on origin names ("" when origin has no such tag): an annotated
+    tag's peeled line (`<sha> refs/tags/<name>^{}`) when there is one."""
+    commit = ""
+    for line in run(["git", "ls-remote", "--tags", "origin", f"refs/tags/{name}", f"refs/tags/{name}^{{}}"]).splitlines():
+        sha, _, ref = line.partition("\t")
+        if ref.strip() == f"refs/tags/{name}^{{}}":
+            return sha.strip()
+        if ref.strip() == f"refs/tags/{name}":
+            commit = sha.strip()
+    return commit
+
+
 def cut(name: str, dry_run: bool) -> int:
     if not TAG_PATTERN.match(name):
         print(f"a round's tag is playtest-<something>: {name}", file=sys.stderr)
         return 2
     run(["git", "fetch", "origin", "main", "--tags"])
-    if run(["git", "ls-remote", "--tags", "origin", f"refs/tags/{name}"]).strip():
-        print(f"the tag {name} is on origin already: fetch it, or cut another name", file=sys.stderr)
-        return 2
+    pushed = remote_tag_commit(name)
+    if pushed:
+        return resume(name, pushed, dry_run)
     commit = run(["git", "rev-parse", "origin/main"]).strip()
     revision = revision_at(commit)
     if run(["git", "tag", "--list", name]).strip():
-        # Made here by a cut whose push or dispatch failed: go on with it if it is still main's commit.
+        # Made here by a cut whose push failed: go on with it if it is still main's commit.
         tagged = run(["git", "rev-parse", f"{name}^{{commit}}"]).strip()
         if tagged != commit:
             print(f"the local tag {name} is on {tagged[:10]}, not origin/main's {commit[:10]}: delete it by hand or cut another name", file=sys.stderr)
@@ -90,19 +122,56 @@ def cut(name: str, dry_run: bool) -> int:
     return 0
 
 
+def resume(name: str, pushed: str, dry_run: bool) -> int:
+    """The tag is on origin already (a cut whose dispatch failed, or one run before): with the local
+    tag on the same commit, CI is started on it unless a run on it succeeded or is still going."""
+    local = run(["git", "tag", "--list", name]).strip() and run(["git", "rev-parse", f"{name}^{{commit}}"]).strip()
+    if local and local != pushed:
+        print(f"the tag {name} is on {pushed[:10]} on origin but on {local[:10]} here: delete the local one by hand (git tag -d {name}) and fetch the tags, or cut another name", file=sys.stderr)
+        return 2
+    rows = runs_for(name)
+    done = next((row for row in rows if row.get("conclusion") == "success"), None)
+    going = next((row for row in rows if row.get("status") in RUNNING), None)
+    if done is not None:
+        print(f"{name} = {pushed} is on origin and its run succeeded: python tools/build/playtest_round.py fetch {name}")
+        return 0
+    if going is not None:
+        print(f"{name} = {pushed} is on origin and its run is {going.get('status')}: {going.get('url', '')}")
+        print(f"When it is done: python tools/build/playtest_round.py fetch {name}")
+        return 0
+    print(f"{name} = {pushed} is on origin already" + (" and no run on it succeeded" if rows else ", with no run on it yet") + ": starting CI on it")
+    run(["gh", "workflow", "run", WORKFLOW, "--ref", name], dry_run)
+    print(f"When the run is done: python tools/build/playtest_round.py fetch {name}")
+    return 0
+
+
+def runs_for(tag: str, limit: int = 20) -> list[dict]:
+    """The CI runs on `tag`, newest first."""
+    return json.loads(run(["gh", "run", "list", "--workflow", WORKFLOW, "--branch", tag, "--limit", str(limit),
+                           "--json", "databaseId,status,conclusion,headSha,url"]) or "[]")
+
+
 def run_for(tag: str) -> dict:
     """The newest CI run on `tag`."""
-    rows = json.loads(run(["gh", "run", "list", "--workflow", WORKFLOW, "--branch", tag, "--limit", "1",
-                           "--json", "databaseId,status,conclusion,headSha,url"]))
+    rows = runs_for(tag, 1)
     if not rows:
-        raise LookupError(f"no {WORKFLOW} run on {tag}: cut it first")
+        raise LookupError(f"no {WORKFLOW} run on {tag}")
     return rows[0]
 
 
 def fetch(tag: str, source: bool) -> int:
-    row = run_for(tag)
+    try:
+        row = run_for(tag)
+    except LookupError:
+        print(f"no {WORKFLOW} run on {tag} yet. Start one (a tag already pushed is resumed):\n"
+              f"    python tools/build/playtest_round.py cut --name {tag}", file=sys.stderr)
+        return 1
+    if row["status"] in RUNNING:
+        print(f"the run on {tag} is {row['status']}: {row['url']}\nWhen it is done, fetch again.", file=sys.stderr)
+        return 1
     if row["status"] != "completed" or row["conclusion"] != "success":
-        print(f"the run on {tag} is {row['status']} / {row['conclusion']}: {row['url']}", file=sys.stderr)
+        print(f"the run on {tag} is {row['status']} / {row['conclusion']}: {row['url']}\n"
+              f"Fix what failed, or run it again: python tools/build/playtest_round.py cut --name {tag}", file=sys.stderr)
         return 1
     folder = REPOSITORY / "build" / "playtest" / tag
     folder.mkdir(parents=True, exist_ok=True)
@@ -154,11 +223,14 @@ def main(argv: list[str] | None = None) -> int:
     status_parser = commands.add_parser("status", help="what main merged since the tag; did the world revision move")
     status_parser.add_argument("tag")
     arguments = parser.parse_args(argv)
-    if arguments.command == "cut":
-        return cut(arguments.name, arguments.dry_run)
-    if arguments.command == "fetch":
-        return fetch(arguments.tag, not arguments.no_source)
-    return status(arguments.tag)
+    try:
+        if arguments.command == "cut":
+            return cut(arguments.name, arguments.dry_run)
+        if arguments.command == "fetch":
+            return fetch(arguments.tag, not arguments.no_source)
+        return status(arguments.tag)
+    except CommandFailed:
+        return 1
 
 
 if __name__ == "__main__":

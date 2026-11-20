@@ -73,8 +73,11 @@ const ORDINARY: Array[Dictionary] = [
 	{"label": "老松林 山坡 土匪", "zone": &"oldpine.outdoor.slope", "point": &"oldpine.outdoor.slope.spath1.bandit.1", "enemies": [["oldpine.outdoor.spath1.bandits", "oldpine.outdoor.slope.spath1.bandit.1"]], "exps": [150, 600], "weapon": &"es2:obj/longsword"},
 	{"label": "老松林 松林口 高个土匪", "zone": &"oldpine.outdoor.pine_entrance", "point": &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1", "enemies": [["oldpine.outdoor.pine1.tall_bandit", "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"]], "exps": [400, 1000], "weapon": &"es2:obj/longsword"},
 	{"label": "野羊山 山路 山贼", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.bandit.1", "enemies": [["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
-	{"label": "绮云镇 公园 小偷", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
+	{"label": "绮云镇 公园 飞贼", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
 	{"label": "老松岭 寨门 守寨土匪", "zone": &"oldpine.outdoor.keep_gate", "point": &"oldpine.outdoor.keep_gate.keep1.bandit_guard.1", "enemies": [["oldpine.outdoor.keep1.bandit_guards", "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
+	{"label": "雪亭镇 武馆 李火狮", "zone": &"snow.school2", "point": &"snow.school2.fist_trainer.1", "enemies": [["snow.school_compound.school2.fist_trainer", "snow.school2.fist_trainer.1"]], "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
+	{"label": "山烟寺 山路 僧人", "zone": &"sanyen.road2", "point": &"sanyen.road2.bonze.1", "enemies": [["sanyen.grounds.road2.bonze", "sanyen.road2.bonze.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "老松岭 石顶 金银花蛇", "zone": &"oldpine.stone.top", "point": &"oldpine.stone.top.stone.venomsnake.1", "enemies": [["oldpine.stone.venomsnake", "oldpine.stone.top.stone.venomsnake.1"]], "chapter": &"main.chapter8", "weapon": &"es2:obj/longsword"},
 ]
 
 
