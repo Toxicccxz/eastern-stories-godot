@@ -16,8 +16,13 @@ const HOCKSHOP: StringName = &"hockshop"
 const BOUNTY: StringName = &"bounty"
 const ERRAND: StringName = &"errand"
 const TARGET: StringName = &"target"
+## Native (DECISIONS「尸体和走散的同伴」): the player's own corpse with something in it, and one who
+## follows them every way standing apart (WorldLeftBehind). The world's, not the atlas's: the
+## session hands them to the 沙盘.
+const CORPSE: StringName = &"corpse"
+const FOLLOWER: StringName = &"follower"
 ## Marks in the order the page lists them.
-const MARK_KINDS: Array[StringName] = [TARGET, MASTER, SHOP, BANK, HOCKSHOP, BOUNTY, ERRAND]
+const MARK_KINDS: Array[StringName] = [TARGET, CORPSE, FOLLOWER, MASTER, SHOP, BANK, HOCKSHOP, BOUNTY, ERRAND]
 
 
 ## Something worth walking to: `who` a name, the service's or an objective.
@@ -180,12 +185,17 @@ static func arrived(state: CharacterState, map_id: StringName, zone_id: StringNa
 
 
 ## Where the marker leads now; null when nowhere.
-static func goal(catalog: ContentCatalog, state: CharacterState) -> Goal:
+## `apart`: the follower who stands apart from the player (WorldLeftBehind.follower_goal()), whom
+## the arrow points to before the quest's target while they are apart (DECISIONS「尸体和走散的
+## 同伴」: the acts at the journey's end need them there); a 指路 still comes first.
+static func goal(catalog: ContentCatalog, state: CharacterState, apart: Goal = null) -> Goal:
 	var result := Goal.new()
 	if not state.waypoint_map.is_empty() and catalog.map(state.waypoint_map) != null:
 		result.map_id = state.waypoint_map
 		result.zone_id = state.waypoint_zone
 		result.waypoint = true
+	elif apart != null and catalog.map(apart.map_id) != null:
+		return apart
 	else:
 		var target: StoryQuestDefinition.Target = StoryQuestLog.target(state, catalog.story_quests())
 		if target == null:

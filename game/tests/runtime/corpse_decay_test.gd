@@ -226,6 +226,8 @@ func _player_corpse_waits(tree: SceneTree) -> void:
 
 ## TEST-ONLY: a mortal wound: the player's corpse, as a death leaves it.
 func _player_corpse(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> CorpseState:
+	# Something in the bag: what is worn stays on the player (DECISIONS「死后留在身上」).
+	map.give_new_item_to_player(&"es2:obj/money/silver")
 	session.player_runtime().state.vitality.effective = -1
 	map.player_fall_below_zero()
 	await tree.physics_frame

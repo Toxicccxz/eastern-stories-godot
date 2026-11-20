@@ -37,9 +37,11 @@ func slot_summaries() -> Array[GameSaveSlotSummary]:
 	var summaries: Array[GameSaveSlotSummary] = []
 	for slot_id: StringName in GameSaveSnapshot.MANUAL_SLOT_IDS + [GameSaveSnapshot.AUTO_SLOT_ID]:
 		summaries.append(repository_for(slot_id).read_summary())
-	var kept: GameSaveSlotSummary = repository_for(GameSaveSnapshot.KEEP_SLOT_ID).read_summary()
-	if kept.state != GameSaveSlotSummary.State.EMPTY or kept.recoverable:
-		summaries.append(kept)
+	# 死前存档 (DECISIONS「死前存档」) too, once it holds something.
+	for slot_id: StringName in [GameSaveSnapshot.KEEP_SLOT_ID, GameSaveSnapshot.DEATH_SLOT_ID]:
+		var kept: GameSaveSlotSummary = repository_for(slot_id).read_summary()
+		if kept.state != GameSaveSlotSummary.State.EMPTY or kept.recoverable:
+			summaries.append(kept)
 	return summaries
 
 

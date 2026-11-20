@@ -873,6 +873,7 @@
 					"scene": true,
 					"mark": "候了殿试",
 					"not_mark": "殿试过",
+					"present": ["native.npc.yu_zijian_court", "native.npc.feng_ce", "native.npc.fu_an"],
 					"steps": [
 						{
 							"line": "太监尖着嗓子喊：「武状元上殿——」百官分成两列，你从当中走过去，跪下。\n"
@@ -1125,6 +1126,7 @@
 						"踏平了工地"
 					],
 					"not_mark": "早朝过",
+					"present": ["native.npc.wei_zhizhong", "native.npc.yu_zijian_court", "native.npc.yulan_zhao", "native.npc.fu_an"],
 					"steps": [
 						{
 							"say": "有本早奏，无本退朝——"
@@ -1179,6 +1181,7 @@
 					"scene": true,
 					"mark": "随相国上朝",
 					"not_mark": "早朝过",
+					"present": ["native.npc.wei_zhizhong", "native.npc.yu_zijian_court", "native.npc.yulan_zhao", "native.npc.fu_an"],
 					"steps": [
 						{
 							"say": "有本早奏，无本退朝——"
@@ -2243,6 +2246,7 @@
 						"踏平了工地"
 					],
 					"not_mark": "揭发过",
+					"present": ["native.npc.yulan_zhao", "native.npc.feng_ce"],
 					"steps": [
 						{
 							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
@@ -2339,6 +2343,7 @@
 					"scene": true,
 					"mark": "要在朝上揭发",
 					"not_mark": "揭发过",
+					"present": ["native.npc.yulan_zhao", "native.npc.feng_ce"],
 					"steps": [
 						{
 							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"

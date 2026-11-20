@@ -78,6 +78,8 @@ extends RefCounted
 ##   level or its learning progress, and all enables go.
 ## - player_corpse_stays: the player's own corpse does not decay while it holds anything. false
 ##   (ES2): it decays as any other.
+## - death_keeps_equipped: the player's wielded weapons and worn armour stay on them at death
+##   (owner 2026-11-19, DECISIONS「减轻死亡」); false (ES2, chard.c make_corpse()): into the corpse.
 ## - autosave_min_seconds: real seconds at least between two autosaves. 0 (ES2 has none): none.
 ##
 ## - stats_appear_when_used (现代基线 C; DECISIONS「数值用到才出现」): a number with a `when_*` in
@@ -162,6 +164,7 @@ var _death_exp_percent: int = ES2_DEATH_EXP_PERCENT
 var _death_keeps_potential: bool = false
 var _death_keeps_skills: bool = false
 var _player_corpse_stays: bool = false
+var _death_keeps_equipped: bool = false
 var _autosave_min_seconds: int = 0
 var _stats_appear_when_used: bool = false
 var _map_page: bool = false
@@ -312,6 +315,10 @@ var death_keeps_skills: bool:
 var player_corpse_stays: bool:
 	get:
 		return _player_corpse_stays
+## Whether what the player wields and wears stays on them at death (false: ES2, into the corpse).
+var death_keeps_equipped: bool:
+	get:
+		return _death_keeps_equipped
 ## Real seconds at least between two autosaves (0: no autosave).
 var autosave_min_seconds: int:
 	get:
@@ -393,6 +400,7 @@ func copy() -> PacingDefinition:
 	record.with_decisions(_decision_rules)
 	record.with_beats(_beat_rules)
 	record.with_death(_death_exp_percent, _death_keeps_potential, _death_keeps_skills, _player_corpse_stays)
+	record.with_death_equipped(_death_keeps_equipped)
 	record.with_autosave(_autosave_min_seconds)
 	record.with_stats_display(_stats_appear_when_used)
 	record.with_map_page(_map_page)
@@ -402,6 +410,12 @@ func copy() -> PacingDefinition:
 	record.feel = feel
 	record.npc_idle = npc_idle
 	return record
+
+
+## This record with death_keeps_equipped set (tests, and from_record()).
+func with_death_equipped(keeps: bool) -> PacingDefinition:
+	_death_keeps_equipped = keeps
+	return self
 
 
 ## This record with the death knobs set (tests, and from_record()).
@@ -619,6 +633,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	definition.with_decisions(CombatDecisionRules.from_record(reader))
 	definition.with_beats(CombatBeatRules.from_record(reader))
 	definition.with_death(reader.integer("death_exp_percent", ES2_DEATH_EXP_PERCENT), reader.boolean("death_keeps_potential", false), reader.boolean("death_keeps_skills", false), reader.boolean("player_corpse_stays", false))
+	definition.with_death_equipped(reader.boolean("death_keeps_equipped", false))
 	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
 	definition.with_stats_display(reader.boolean("stats_appear_when_used", false))
 	definition.with_map_page(reader.boolean("map_page", false))

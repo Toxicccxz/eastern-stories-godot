@@ -80,7 +80,7 @@
 						]
 					}
 				},
-				"scene_mark": "霍铮回了寨",
+				"scene_mark": "黄霸见了霍铮",
 				"calls": [
 					{
 						"after": 0,
@@ -99,6 +99,7 @@
 						"scene": true,
 						"mark": "救出了霍铮",
 						"not_mark": "霍铮回了寨",
+						"present": "native.npc.huo_zheng",
 						"steps": [
 							{
 								"emote": "手里的酒碗啪地掉在地上。"
@@ -113,6 +114,7 @@
 						"scene": true,
 						"mark": "救出了霍铮",
 						"not_mark": "霍铮回了寨",
+						"present": "native.npc.huo_zheng",
 						"steps": [
 							{
 								"by": "native.npc.huo_zheng"
@@ -127,6 +129,7 @@
 						"scene": true,
 						"mark": "救出了霍铮",
 						"not_mark": "霍铮回了寨",
+						"present": "native.npc.huo_zheng",
 						"steps": [
 							{
 								"by": "goathill.npc.bandit_hwang"
@@ -147,21 +150,29 @@
 						"scene": true,
 						"mark": "救出了霍铮",
 						"not_mark": "霍铮回了寨",
+						"present": "native.npc.huo_zheng",
 						"steps": [
 							{
 								"by": "native.npc.huo_zheng"
 							},
 							{
-								"say": "起来。杀你不如杀道士。——这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
+								"say": "起来。杀你不如杀道士。"
 							},
 							{
-								"leave": "native.npc.shitou"
+								"present": "native.npc.shitou",
+								"say": "这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
 							},
 							{
+								"present": "native.npc.shitou",
 								"line": "两个寨兵领着石头出了庙门。石头回头看了你一眼，没有说话。"
 							},
 							{
+								"present": "native.npc.shitou",
 								"mark": "石头回家了"
+							},
+							{
+								"present": "native.npc.shitou",
+								"leave": "native.npc.shitou"
 							}
 						]
 					},
@@ -170,6 +181,7 @@
 						"scene": true,
 						"mark": "救出了霍铮",
 						"not_mark": "霍铮回了寨",
+						"present": "native.npc.huo_zheng",
 						"steps": [
 							{
 								"by": "native.npc.huo_zheng"
