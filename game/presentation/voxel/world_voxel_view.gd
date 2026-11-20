@@ -138,6 +138,18 @@ var _panning: bool = false
 var _context_names: bool = false
 ## 状态挂在身上 (DECISIONS「战斗运功」): seconds till the figures' conditions are read again.
 var _states_wait: float = 0.0
+## 世界演出 (DECISIONS「世界演出」): the rain over this map and the small motions of things touched
+## (a door's swing, a thing flying to the hand, a start, a wader's splash); made with the world,
+## gone with it. Whether each door was open at the last look, who had its alert mark up, and
+## where each walker last splashed.
+var weather: VoxelWeather
+var touches: VoxelTouches
+var _door_open: Dictionary[StringName, bool] = {}
+var _alerted: Dictionary[StringName, bool] = {}
+var _wade_from: Dictionary[StringName, Vector3] = {}
+var _ground_layer: TileMapLayer
+## The map was just shown (or its rain just made): the rain is as the sky is, at once.
+var _weather_fresh: bool = true
 
 func _ready() -> void:
 	map = get_parent() as WorldMapController
@@ -179,6 +191,7 @@ func _process(delta: float) -> void:
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
 	geometry.water.set_dusk(lighting.weights["dusk"])
 	_sync_wind(delta)
+	_sync_weather(delta)
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 	geometry.ambience.night = lighting.amount
@@ -190,6 +203,9 @@ func _process(delta: float) -> void:
 ## splits, how many lamps cast. The renderer's own part GraphicsQuality.apply() has set.
 func _apply_quality() -> void:
 	_quality_applied = GraphicsQuality.revision
+	if is_instance_valid(weather):
+		weather.queue_free()
+		weather = null
 	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
@@ -356,6 +372,10 @@ func release_world() -> void:
 	layout = {}
 	_last_player = Vector2.INF
 	_built = false
+	_door_open.clear()
+	_alerted.clear()
+	_wade_from.clear()
+	_ground_layer = null
 
 ## A region-wide default beside the map's config (data/<region>/voxel/<name>); {} without one.
 func _region_file(name: String) -> Dictionary:
@@ -396,6 +416,10 @@ func _sync_light(immediate: bool = false) -> void:
 		lighting.set_cloud_level(0,immediate)
 
 func _activate() -> void:
+	# 世界演出: a world kept while the player was away takes the doors and the sky as they are now
+	# (a door changed meanwhile does not swing as the map is shown, nor the rain fade).
+	_door_open.clear()
+	_weather_fresh = true
 	_old_modulate = map.modulate
 	map.modulate.a = 0.0
 	_old_msaa = get_viewport().msaa_3d
@@ -791,6 +815,12 @@ func _sync_actors(delta: float) -> void:
 		if alert_marks.has(id):
 			alert_marks[id].visible = marked and (not placing() or _placed.has(id))
 			alert_marks[id].text = mark.text if mark != null else alert_marks[id].text
+		# 世界演出: the moment its mark comes up, it starts.
+		if marked and not _alerted.get(id, false) and not placing() and _touches() != null:
+			touches.startle(model, alert_marks.get(id))
+		_alerted[id] = marked
+		if model.get(&"walking") == true and not model is Flyer:
+			_wade(id, body, next)
 		_sync_watch_cone(actor, body)
 	for id: StringName in actors.keys():
 		if not seen.has(id):
@@ -822,11 +852,92 @@ func _sync_actors(delta: float) -> void:
 			if model != null and _falls.has(id):
 				_fell_facing[id] = model.rotation.y
 			_lingering.erase(id)
+			_alerted.erase(id)
+			_wade_from.erase(id)
 			actors[id].queue_free()
 			actors.erase(id)
 			labels.erase(id)
 			alert_marks.erase(id)
 			_falls.erase(id)
+
+
+## 世界演出: the things that move what the view drew (made on first use, with the world); null
+## while the feel shows none of it.
+func _touches() -> VoxelTouches:
+	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null:
+		return null
+	if not is_instance_valid(touches):
+		touches = VoxelTouches.new()
+		touches.name = "Touches"
+		world.add_child(touches)
+	return touches
+
+
+## 世界演出: the rain. It falls while the sky the light follows (a held one, the layout's, else the
+## session's) is at its darkest, outdoors, where the region and the map have rain (world_fx.json).
+func _sync_weather(delta: float) -> void:
+	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null:
+		if is_instance_valid(weather):
+			weather.visible = false
+		return
+	if not is_instance_valid(weather):
+		weather = VoxelWeather.new()
+		weather.name = "Weather"
+		world.add_child(weather)
+		weather.configure(VoxelWeather.kind_for(map.region_id(), map.map_id()), GraphicsQuality.level == GraphicsQuality.Value.LOW)
+		_weather_fresh = true
+	var hold: Dictionary = layout.get("hold",{})
+	var level: int = held_cloud if held_cloud >= 0 else int(hold.get("cloud",-1))
+	if level < 0:
+		level = map.session.sky_level() if map.session != null else 0
+	weather.advance(INF if _weather_fresh else delta, VoxelWeather.falls(level, geometry.indoor, not weather.kind.is_empty()), _target, _wind_shown)
+	_weather_fresh = false
+
+
+## 世界演出: `node` (the drawing of the floor thing `id`, just gone from the map) was beside the
+## player as it went and is in their pack now: it flies to their hand. False: it is not shown so (the caller frees it).
+func _taken_by_player(node: Node3D, id: StringName) -> bool:
+	if bool(node.get_meta(&"corpse", false)) or _touches() == null or map.player_runtime().life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return false
+	# It is the player's now (someone else's taking, a thing buried or gone off the stage is not;
+	# nor one that merged into a pile the player held, which has no place of its own to fly to).
+	if map.session == null or not _held(map.session.player_inventory_rows(), id):
+		return false
+	var mine: Node3D = actors.get(map.player_body.character_id)
+	if mine == null or mine.position.distance_to(node.position) > float(VoxelWeather.part("pickup").get("reach", 2.2)):
+		return false
+	return touches.fly_to_hand(node, mine.position + Vector3.UP * 1.0)
+
+
+## Whether `rows` (the player's pack, with what its containers hold) have the item instance `id`.
+static func _held(rows: Array, id: StringName) -> bool:
+	for row: PlayerInventoryRowProjection in rows:
+		if row.item_instance_id == id or _held(row.contents, id):
+			return true
+	return false
+
+
+## 世界演出: one walking through shallow water splashes every stride.
+func _wade(id: StringName, body: WorldCharacterBody2D, at: Vector3) -> void:
+	var look: Dictionary = VoxelWeather.part("wade")
+	var last: Vector3 = _wade_from.get(id, Vector3.INF)
+	if last != Vector3.INF and at.distance_to(last) < float(look.get("stride", 0.7)):
+		return
+	_wade_from[id] = at
+	if last == Vector3.INF or _touches() == null:
+		return
+	if (look.get("kinds", []) as Array).has(_ground_kind(body.global_position)):
+		touches.splash(at)
+
+
+## The ground's kind (the TerrainGround layer's `terrain`) under a 2D point; "" off the ground.
+func _ground_kind(at: Vector2) -> String:
+	if not is_instance_valid(_ground_layer):
+		_ground_layer = map.find_child("TerrainGround", true, false) as TileMapLayer
+		if _ground_layer == null:
+			return ""
+	var tile: TileData = _ground_layer.get_cell_tile_data(_ground_layer.local_to_map(_ground_layer.to_local(at)))
+	return String(tile.get_custom_data("terrain")) if tile != null else ""
 
 
 ## 战斗肢体: how far over a figure is (0 upright .. 1 flat) when it is `fall` of the way down:
@@ -1106,12 +1217,26 @@ func _sync_objects() -> void:
 				node.position = node.position.lerp(place[0],placed_blend)
 	for id: StringName in objects.keys():
 		if not seen.has(id):
-			objects[id].queue_free()
+			var gone: Node3D = objects[id]
 			objects.erase(id)
+			# 世界演出: a thing the player took from beside them flies to their hand.
+			if not _taken_by_player(gone, id):
+				gone.queue_free()
 	for id: StringName in shutters:
-		shutters[id].visible = not map.doors_by_id[id].is_open()
-		if opened.has(id):
-			opened[id].visible = not shutters[id].visible
+		var open: bool = map.doors_by_id[id].is_open()
+		var leaf: Node3D = shutters[id]
+		var swung: bool = opened.has(id)
+		# 世界演出: a door that changed since the last look swings (one with an open form of its
+		# own changes as it did); else its leaf is there while it is shut.
+		if _door_open.has(id) and _door_open[id] != open and not swung and _touches() != null and touches.swing_door(id, leaf, open, VoxelMapGeometry.point(map.player_body.global_position)):
+			_door_open[id] = open
+			continue
+		_door_open[id] = open
+		if is_instance_valid(touches) and touches.swinging(id):
+			continue
+		leaf.visible = not open
+		if swung:
+			opened[id].visible = open
 
 func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Dictionary = {}, facing: float = NAN) -> void:
 	if not objects.has(id):
@@ -1133,6 +1258,7 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool, lying: Di
 		else:
 			_draw_object(node,id,corpse)
 		_label(node,title,0.7).name = "Title"
+		node.set_meta(&"corpse", corpse)
 		objects[id] = node
 	objects[id].position = VoxelMapGeometry.point(at)
 	# A corpse's name changes as it decays (obj/corpse.c).
@@ -1587,6 +1713,15 @@ func _make_shutters() -> void:
 			s.box(node,Vector3(0,1.1,0),size,"9d4d39")
 		s.flush()
 		shutters[id] = node
+		# 世界演出: a plain leaf (a room's door, the plain shutter) swings — where it hangs shut and
+		# half its width along the wall, from its hinge edge (a room door's is the one away from its
+		# knob: its own -x, turned as it is). A drawn look (a boulder, a curtain, a gate with its
+		# posts and lintel) changes as it did.
+		if look.is_empty():
+			var half: float = maxf(size.x, size.z)/2.0
+			node.set_meta(VoxelTouches.DOOR_AT, node.position)
+			node.set_meta(VoxelTouches.DOOR_TURN, node.rotation.y)
+			node.set_meta(VoxelTouches.DOOR_SPAN, Vector3(half, 0.0, 0.0).rotated(Vector3.UP, node.rotation.y) if geometry.indoor else (Vector3(half, 0.0, 0.0) if size.x >= size.z else Vector3(0.0, 0.0, half)))
 
 ## An indoor 房门: a frame that always stands in the doorway, even in a cut-away wall,
 ## and a panelled leaf (the shutter node) that shows only while the door is shut.
