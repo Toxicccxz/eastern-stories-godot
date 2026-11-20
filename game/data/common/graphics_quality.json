@@ -11,7 +11,7 @@
     "default": "low",
     "levels": {
       "high": {"shadow_filter": "soft_very_low", "sun_shadow_size": 2048, "sun_splits": 2, "msaa": 0, "lamp_shadows": 2, "scale_3d": 0.8, "lamp_lights": 4, "grass": 0.6, "plain_occluders": true},
-      "low": {"shadow_filter": "hard", "sun_shadow_size": 2048, "sun_splits": 1, "msaa": 0, "lamp_shadows": 0, "scale_3d": 0.67, "lamp_lights": 2, "grass": 0.3, "plain_occluders": true}
+      "low": {"shadow_filter": "hard", "sun_shadow_size": 2048, "sun_splits": 1, "sun_shadow_distance": 64, "msaa": 0, "lamp_shadows": 0, "scale_3d": 0.67, "lamp_lights": 2, "grass": 0.3, "plain_occluders": true}
     }
   },
   "slow_hint": {"below_fps": 30, "seconds": 5, "settle_seconds": 10}
