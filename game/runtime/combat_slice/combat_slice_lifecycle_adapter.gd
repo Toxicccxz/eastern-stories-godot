@@ -12,7 +12,6 @@ func execute(
 	corpse_item_instance_id: StringName,
 	arena_destination: InventoryTransferDestination,
 	item_facts: Array[DeathItemFacts],
-	policy_registry: DeathItemPolicyRegistry,
 	rewear_registry: DeathRewearPolicyRegistry,
 	death_context: DeathContext = null,
 ) -> CombatSliceLifecycleResult:
@@ -59,7 +58,6 @@ func execute(
 		corpse_item_instance_id,
 		arena_destination,
 		item_facts,
-		policy_registry,
 		rewear_registry,
 		death_context,
 	)

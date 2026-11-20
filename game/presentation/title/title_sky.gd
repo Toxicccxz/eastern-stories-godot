@@ -82,9 +82,10 @@ func cloud_texture() -> Texture2D:
 	return _cloud_view.get_texture()
 
 
-## A bank of cloud under the logo (one of its grounds); 0 = none.
-func set_bank(amount: float) -> void:
+## A bank of cloud under the logo (one of its grounds) at `where` (parts of the screen); 0 = none.
+func set_bank(amount: float, where: Vector2 = Vector2(0.28, 0.325)) -> void:
 	_cloud_mat.set_shader_parameter("bank", amount)
+	_cloud_mat.set_shader_parameter("bank_at", where)
 
 
 func _process(delta: float) -> void:

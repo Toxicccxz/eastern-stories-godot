@@ -95,6 +95,7 @@ func death_context(destination: InventoryTransferDestination, has_killer: bool) 
 		_body_facts.body_weight,
 		_body_facts.maximum_encumbrance,
 		false, destination.endpoint if has_killer else null, _state.gender, has_killer,
+		GameContent.catalog().pacing().death_keeps_equipped,
 	)
 
 

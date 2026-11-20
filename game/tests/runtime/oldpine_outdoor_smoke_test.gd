@@ -234,7 +234,6 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 		&"audit.mismatched-corpse",
 		destination,
 		[],
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 		mismatched_context,
 	)

@@ -63,6 +63,8 @@ func _test_data() -> void:
 	_check(sergeant.talk().inquiry_topics().slice(0, 6) == ["name", "here", "rumors", "箱子", "桃木箱子", "陈显祖"] and sergeant.talk().inquiry_topics().has("作证") and sergeant.talk().inquiry_topics().has("走吧"), "sergeant.c's six topics first, the new ones after: %s" % [sergeant.talk().inquiry_topics()])
 	var steward: NpcDefinition = catalog.npc(STEWARD)
 	_check(steward != null and steward.hooks() != null and steward.hooks().scene_mark == "见过庾家拦路" and steward.hooks().calls.size() == 3 and steward.hooks().moods["fighting"].flags == [NpcDefinition.FLAG_AGGRESSIVE] and steward.attitude != NpcDefinition.Attitude.AGGRESSIVE, "the steward: a three-call scene, aggressive only in his mood")
+	# DECISIONS「说话的人得在场」: no ambush on a 陈显祖 lost on the way (the steward does not speak to the air).
+	_check(steward != null and steward.hooks() != null and steward.hooks().calls.all(func(call: NpcHooks.Call) -> bool: return call.act.presents.size() == 1 and call.act.presents[0] == SERGEANT), "every call of the ambush asks 陈显祖 present")
 	var judge: NpcDefinition = catalog.npc(&"choyin.npc.judgeman")
 	_check(judge != null and judge.hooks() != null and judge.hooks().scene_mark == "堂审过" and judge.hooks().calls.size() == 11 and judge.hooks().calls[0].act.present == SERGEANT and judge.hooks().calls[5].act.mark == "放走了陈显祖" and judge.dealings().sentence != null, "程不平: two trials (five calls with 陈显祖, four without), his 乔阴 D sentence untouched")
 	var chest: ItemContentDefinition = catalog.item(CHEST)

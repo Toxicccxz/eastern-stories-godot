@@ -80,6 +80,7 @@
 		"death_keeps_potential": true,
 		"death_keeps_skills": true,
 		"player_corpse_stays": true,
+		"death_keeps_equipped": true,
 		"autosave_min_seconds": 180,
 		"stats_appear_when_used": true,
 		"map_page": true,
