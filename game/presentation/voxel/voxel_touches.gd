@@ -109,9 +109,10 @@ func startle(model: Node3D, mark: Node3D) -> bool:
 	if lasts <= 0.0 or model == null or not is_inside_tree():
 		return false
 	var look: Dictionary = VoxelWeather.part("startle")
+	var stood: float = model.position.y
 	var hop: Tween = create_tween()
-	hop.tween_property(model, "position:y", float(look.get("hop", 0.2)), lasts * 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-	hop.tween_property(model, "position:y", 0.0, lasts * 0.6).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	hop.tween_property(model, "position:y", stood + float(look.get("hop", 0.2)), lasts * 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	hop.tween_property(model, "position:y", stood, lasts * 0.6).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	if mark != null:
 		mark.scale = Vector3.ONE * float(look.get("pop", 1.8))
 		var pop: Tween = create_tween()

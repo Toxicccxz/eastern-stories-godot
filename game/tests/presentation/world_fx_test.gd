@@ -202,11 +202,12 @@ func _check_in_a_session(tree: SceneTree) -> void:
 		if swung and not view.touches.swinging(id):
 			break
 	var has_open_form: bool = view.opened.has(id)
-	check(swung != has_open_form, "the door's leaf swings (one with an open form of its own changes as before)")
+	var plain: bool = leaf.has_meta(VoxelTouches.DOOR_SPAN)
+	check(swung == plain and not (plain and has_open_form), "a plain leaf swings; a door drawn by its own look changes as before (plain %s)" % plain)
 	check(door.is_open() == not was_open and leaf.visible == was_open, "the door is as the map set it, the leaf there only while it is shut")
 	door.set_open(was_open)
 	await tree.create_timer(0.6).timeout
-	check(door.is_open() == was_open and leaf.visible == not was_open and leaf.position.is_equal_approx(leaf.get_meta(VoxelTouches.DOOR_AT)), "put back: hung where it was")
+	check(door.is_open() == was_open and leaf.visible == not was_open and (not plain or leaf.position.is_equal_approx(leaf.get_meta(VoxelTouches.DOOR_AT))), "put back: hung where it was")
 	# Things gone from the ground: beside the player, to the hand; far off, or a corpse, just gone.
 	var beside := Node3D.new()
 	beside.position = view.actors[me].position + Vector3(0.6, 0.0, 0.0)
@@ -218,11 +219,27 @@ func _check_in_a_session(tree: SceneTree) -> void:
 	body.position = beside.position
 	body.set_meta(&"corpse", true)
 	view.world.add_child(body)
-	check(view._taken_by_player(beside) and not view._taken_by_player(far) and not view._taken_by_player(body), "only a thing from beside the player flies")
-	await tree.create_timer(0.6).timeout
-	check(not is_instance_valid(beside) and is_instance_valid(far) and is_instance_valid(body), "and it is gone when it arrives; the others are the caller's to free")
+	var rows: Array[PlayerInventoryRowProjection] = session.player_inventory_rows()
+	var other := Node3D.new()
+	other.position = beside.position
+	view.world.add_child(other)
+	if check(not rows.is_empty(), "TEST-ONLY: the player carries something"):
+		var mine: StringName = rows[0].item_instance_id
+		check(not view._taken_by_player(other, &"test.nobody's") and not view._taken_by_player(far, mine) and not view._taken_by_player(body, mine), "not what someone else took, nor what lay far off, nor a corpse")
+		check(view._taken_by_player(beside, mine), "a thing from beside the player that is in their pack now flies")
+		await tree.create_timer(0.6).timeout
+		check(not is_instance_valid(beside) and is_instance_valid(far) and is_instance_valid(body) and is_instance_valid(other), "and it is gone when it arrives; the others are the caller's to free")
 	far.free()
 	body.free()
+	other.free()
+	if is_instance_valid(beside):
+		beside.free()
+	# A cave is drawn as an outdoor map: the data says no rain there, by its map id.
+	var maps: Dictionary = VoxelWeather.part("weather").get("maps", {})
+	var maps_fine: int = 0
+	for map_id: String in maps:
+		maps_fine += 1 if GameContent.catalog().map(StringName(map_id)) != null and VoxelWeather.kind_for(GameContent.catalog().map(StringName(map_id)).region_id, StringName(map_id)) == "" else 0
+	check(not maps.is_empty() and maps_fine == maps.size() and VoxelWeather.kind_for(&"oldpine", &"oldpine.cave") == "" and VoxelWeather.kind_for(&"oldpine", &"oldpine.outdoor") == "rain", "every map named is a map with no rain; the wood outside its cave has it (%d of %d)" % [maps_fine, maps.size()])
 	TestFeel.restore()
 	await tree.process_frame
 	check(not view.weather.visible, "feel off again: the rain is not drawn")

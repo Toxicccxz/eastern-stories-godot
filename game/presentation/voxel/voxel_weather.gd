@@ -11,7 +11,7 @@ extends Node3D
 
 const DATA_PATH: String = "res://data/common/world_fx.json"
 ## The rings lie a little over the ground.
-const RING_LIFT: float = 0.04
+const RING_LIFT: float = 0.08
 
 static var _data: Dictionary = {}
 
@@ -43,11 +43,13 @@ static func part(key: String) -> Dictionary:
 	return section if section is Dictionary else {}
 
 
-## What falls in `region_id` ("" nothing): the region's own, else the default; a kind the data
-## does not describe is nothing.
-static func kind_for(region_id: StringName) -> String:
+## What falls on the map `map_id` of `region_id` ("" nothing): the map's own (a cave drawn as an
+## outdoor map has no sky over it), else the region's, else the default; a kind the data does
+## not describe is nothing.
+static func kind_for(region_id: StringName, map_id: StringName = &"") -> String:
 	var weather: Dictionary = part("weather")
 	var named: String = String(weather.get("regions", {}).get(String(region_id), weather.get("default", "")))
+	named = String(weather.get("maps", {}).get(String(map_id), named))
 	return named if weather.get("kinds", {}).has(named) else ""
 
 
@@ -92,7 +94,9 @@ func advance(delta: float, falling: float, centre: Vector3, wind: Vector2) -> vo
 	if kind.is_empty():
 		return
 	var fade: float = float(part("weather").get("fade_seconds", 6.0))
-	amount = move_toward(amount, clampf(falling, 0.0, 1.0), delta / fade if fade > 0.0 else 1.0)
+	amount = move_toward(amount, clampf(falling, 0.0, 1.0), delta / fade if fade > 0.0 and is_finite(delta) else 1.0)
+	if not is_finite(delta):
+		delta = 0.0
 	var shown: int = int(round(float(_drop_count) * amount))
 	_show(shown)
 	if shown <= 0:

@@ -148,6 +148,8 @@ var _door_open: Dictionary[StringName, bool] = {}
 var _alerted: Dictionary[StringName, bool] = {}
 var _wade_from: Dictionary[StringName, Vector3] = {}
 var _ground_layer: TileMapLayer
+## The map was just shown (or its rain just made): the rain is as the sky is, at once.
+var _weather_fresh: bool = true
 
 func _ready() -> void:
 	map = get_parent() as WorldMapController
@@ -201,6 +203,9 @@ func _process(delta: float) -> void:
 ## splits, how many lamps cast. The renderer's own part GraphicsQuality.apply() has set.
 func _apply_quality() -> void:
 	_quality_applied = GraphicsQuality.revision
+	if is_instance_valid(weather):
+		weather.queue_free()
+		weather = null
 	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
@@ -411,6 +416,10 @@ func _sync_light(immediate: bool = false) -> void:
 		lighting.set_cloud_level(0,immediate)
 
 func _activate() -> void:
+	# 世界演出: a world kept while the player was away takes the doors and the sky as they are now
+	# (a door changed meanwhile does not swing as the map is shown, nor the rain fade).
+	_door_open.clear()
+	_weather_fresh = true
 	_old_modulate = map.modulate
 	map.modulate.a = 0.0
 	_old_msaa = get_viewport().msaa_3d
@@ -810,7 +819,7 @@ func _sync_actors(delta: float) -> void:
 		if marked and not _alerted.get(id, false) and not placing() and _touches() != null:
 			touches.startle(model, alert_marks.get(id))
 		_alerted[id] = marked
-		if model.get(&"walking") == true:
+		if model.get(&"walking") == true and not model is Flyer:
 			_wade(id, body, next)
 		_sync_watch_cone(actor, body)
 	for id: StringName in actors.keys():
@@ -865,7 +874,7 @@ func _touches() -> VoxelTouches:
 
 
 ## 世界演出: the rain. It falls while the sky the light follows (a held one, the layout's, else the
-## session's) is at its darkest, outdoors, where the region has rain and the map takes weather.
+## session's) is at its darkest, outdoors, where the region and the map have rain (world_fx.json).
 func _sync_weather(delta: float) -> void:
 	if GameContent.catalog().pacing().feel.world_fx_seconds <= 0.0 or world == null:
 		if is_instance_valid(weather):
@@ -875,23 +884,37 @@ func _sync_weather(delta: float) -> void:
 		weather = VoxelWeather.new()
 		weather.name = "Weather"
 		world.add_child(weather)
-		weather.configure(VoxelWeather.kind_for(map.region_id()) if bool(layout.get("weather", true)) else "", GraphicsQuality.level == GraphicsQuality.Value.LOW)
+		weather.configure(VoxelWeather.kind_for(map.region_id(), map.map_id()), GraphicsQuality.level == GraphicsQuality.Value.LOW)
+		_weather_fresh = true
 	var hold: Dictionary = layout.get("hold",{})
 	var level: int = held_cloud if held_cloud >= 0 else int(hold.get("cloud",-1))
 	if level < 0:
 		level = map.session.sky_level() if map.session != null else 0
-	weather.advance(delta, VoxelWeather.falls(level, geometry.indoor, not weather.kind.is_empty()), _target, _wind_shown)
+	weather.advance(INF if _weather_fresh else delta, VoxelWeather.falls(level, geometry.indoor, not weather.kind.is_empty()), _target, _wind_shown)
+	_weather_fresh = false
 
 
-## 世界演出: `node` (a floor thing's drawing, just gone from the map) was beside the player as
-## it went: it flies to their hand. False: it is not shown so (the caller frees it).
-func _taken_by_player(node: Node3D) -> bool:
+## 世界演出: `node` (the drawing of the floor thing `id`, just gone from the map) was beside the
+## player as it went and is in their pack now: it flies to their hand. False: it is not shown so (the caller frees it).
+func _taken_by_player(node: Node3D, id: StringName) -> bool:
 	if bool(node.get_meta(&"corpse", false)) or _touches() == null or map.player_runtime().life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return false
+	# It is the player's now (someone else's taking, a thing buried or gone off the stage is not;
+	# nor one that merged into a pile the player held, which has no place of its own to fly to).
+	if map.session == null or not _held(map.session.player_inventory_rows(), id):
 		return false
 	var mine: Node3D = actors.get(map.player_body.character_id)
 	if mine == null or mine.position.distance_to(node.position) > float(VoxelWeather.part("pickup").get("reach", 2.2)):
 		return false
 	return touches.fly_to_hand(node, mine.position + Vector3.UP * 1.0)
+
+
+## Whether `rows` (the player's pack, with what its containers hold) have the item instance `id`.
+static func _held(rows: Array, id: StringName) -> bool:
+	for row: PlayerInventoryRowProjection in rows:
+		if row.item_instance_id == id or _held(row.contents, id):
+			return true
+	return false
 
 
 ## 世界演出: one walking through shallow water splashes every stride.
@@ -1197,7 +1220,7 @@ func _sync_objects() -> void:
 			var gone: Node3D = objects[id]
 			objects.erase(id)
 			# 世界演出: a thing the player took from beside them flies to their hand.
-			if not _taken_by_player(gone):
+			if not _taken_by_player(gone, id):
 				gone.queue_free()
 	for id: StringName in shutters:
 		var open: bool = map.doors_by_id[id].is_open()
@@ -1690,10 +1713,15 @@ func _make_shutters() -> void:
 			s.box(node,Vector3(0,1.1,0),size,"9d4d39")
 		s.flush()
 		shutters[id] = node
-		# 世界演出: where the leaf hangs shut and half its width along the wall, for its swing.
-		node.set_meta(VoxelTouches.DOOR_AT, node.position)
-		node.set_meta(VoxelTouches.DOOR_TURN, node.rotation.y)
-		node.set_meta(VoxelTouches.DOOR_SPAN, Vector3(size.x/2.0, 0.0, 0.0) if size.x >= size.z else Vector3(0.0, 0.0, size.z/2.0))
+		# 世界演出: a plain leaf (a room's door, the plain shutter) swings — where it hangs shut and
+		# half its width along the wall, from its hinge edge (a room door's is the one away from its
+		# knob: its own -x, turned as it is). A drawn look (a boulder, a curtain, a gate with its
+		# posts and lintel) changes as it did.
+		if look.is_empty():
+			var half: float = maxf(size.x, size.z)/2.0
+			node.set_meta(VoxelTouches.DOOR_AT, node.position)
+			node.set_meta(VoxelTouches.DOOR_TURN, node.rotation.y)
+			node.set_meta(VoxelTouches.DOOR_SPAN, Vector3(half, 0.0, 0.0).rotated(Vector3.UP, node.rotation.y) if geometry.indoor else (Vector3(half, 0.0, 0.0) if size.x >= size.z else Vector3(0.0, 0.0, half)))
 
 ## An indoor 房门: a frame that always stands in the doorway, even in a cut-away wall,
 ## and a panelled leaf (the shutter node) that shows only while the door is shut.
