@@ -228,6 +228,17 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	var inside: Array[StringName] = inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, _carried(session, SLIPCASE)))
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)
 	_check(inside.size() == 1 and InventoryTransferService.new().transfer(inventory, inside[0], InventoryTransferDestination.new(carried, true, true, 1000000)).succeeded, "TEST-ONLY: the book in the pack")
+	# The 任务 page says whether the book is on the player: one lifted by a thief or given away is not
+	# (the line would wait at 书给谁 with nothing said).
+	var book_step: StoryQuestDefinition.Step = catalog.story_quest(QUEST).step(&"book")
+	var rows: Array[StoryQuestLog.Checked] = StoryQuestLog.checked(book_step, session.quest_condition_test())
+	_check(rows.size() == 1 and rows[0].tick == StoryQuestLog.Checked.Tick.DONE and rows[0].row.label.contains("在你身上"), "the 任务 page: the book is on you")
+	var book_id: StringName = _carried(session, BOOK)
+	_check(room.drop_item(book_id).done(), "TEST-ONLY: the book off the player (as a thief would take it)")
+	rows = StoryQuestLog.checked(book_step, session.quest_condition_test())
+	_check(rows.size() == 1 and rows[0].tick == StoryQuestLog.Checked.Tick.LACKING and rows[0].row.missing.contains("不在你身上"), "the 任务 page: the book is not on you")
+	_check(InventoryTransferService.new().transfer(inventory, book_id, InventoryTransferDestination.new(carried, true, true, 1000000)).succeeded, "TEST-ONLY: the book back in the pack")
+	room.floor_items._forget_floor_item(book_id)
 	# 柳绘心 will not have it before her father has been seen… he has; a stranger's book is handed back.
 	hall = MapPlaces.enter(session, &"snow.schoolhall", &"snow.schoolhall.master.1")
 	await _settle(tree)

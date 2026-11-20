@@ -127,8 +127,14 @@ func dissolvable_corpse_name() -> String:
 
 
 ## How many things lie in the corpse 化尸粉 would dissolve (dust.c destructs it whole).
+## What cannot be dropped is not counted: it is left lying (_spare_kept_items()).
 func dissolvable_corpse_contents() -> int:
-	return 0 if dissolvable_corpse_name().is_empty() else corpse_content_count(_selected_corpse())
+	if dissolvable_corpse_name().is_empty():
+		return 0
+	var corpse: CorpseState = _selected_corpse()
+	var holds := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
+	var kept: int = _kept_in(corpse).filter(func(item_id: StringName) -> bool: return _inventory.direct_children(holds).has(item_id)).size()
+	return maxi(0, corpse_content_count(corpse) - kept)
 
 
 ## The 化尸粉 a character carries directly (present(), first found), or empty.
@@ -165,7 +171,48 @@ func _dissolve_line(who: String, corpse: String) -> String:
 
 ## destruct(corpse) with all it holds, then add_amount(-1) on the 化尸粉.
 func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: ItemLifecycleOwnerContext) -> bool:
-	return _destruct_corpse(corpse) and _map.floor_items.use_up_one(dust_id, dust_owner)
+	return _spare_kept_items(corpse) and _destruct_corpse(corpse) and _map.floor_items.use_up_one(dust_id, dust_owner)
+
+
+## What `corpse` holds, at any depth, that cannot be dropped (no_drop; not looked into further).
+func _kept_in(corpse: CorpseState) -> Array[StringName]:
+	var kept: Array[StringName] = []
+	var open: Array[ContainmentEndpoint] = [ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)]
+	while not open.is_empty():
+		for item_id: StringName in _inventory.direct_children(open.pop_back()):
+			var item: ItemInstance = _item_index.resolve(item_id)
+			var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+			if content != null and content.no_drop:
+				kept.append(item_id)
+			else:
+				open.append(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id))
+	return kept
+
+
+## DECISIONS「任务物品不被拿走」: what cannot be dropped (no_drop: a quest's letter, 穿灵, the 宝衣) is not
+## dissolved with the corpse that held it, at any depth: it falls where the corpse lay. ES2 destructs
+## it all. False when the item state is inconsistent.
+func _spare_kept_items(corpse: CorpseState) -> bool:
+	var corpse_id: StringName = corpse.corpse_item_instance_id
+	var kept: Array[StringName] = _kept_in(corpse)
+	if kept.is_empty():
+		return true
+	var location: WorldLocationState = corpse_world_location(corpse_id)
+	var position: Vector2 = lying_at(corpse)
+	if location == null or position == Vector2.INF:
+		return false
+	corpse._release_all_worn_for_scatter()
+	var floor := InventoryTransferDestination.new(WorldMapFloorItems.floor_endpoint(location), true, true, _map.WORLD_CAPACITY)
+	var corpse_holds := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_id)
+	var direct: Array[StringName] = _inventory.direct_children(corpse_holds)
+	for item_id: StringName in kept:
+		var moved: bool = (
+			CorpseContentTransferService.transfer_out(corpse, _inventory, item_id, floor).succeeded if direct.has(item_id)
+			else InventoryTransferService.new().transfer(_inventory, item_id, floor).succeeded
+		)
+		if not moved or not _map.floor_items.add_dropped_item_view(item_id, location, _map.floor_items.at_feet(location, position, true)):
+			return false
+	return true
 
 
 ## The selected corpse when it lies in the player's place (present("corpse",
