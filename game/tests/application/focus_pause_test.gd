@@ -113,14 +113,14 @@ func _test_menu_page_training(tree: SceneTree, shell: ApplicationShellController
 	var state: CharacterState = session.player_runtime().state
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	var feel: FeelDefinition = pacing.feel
-	pacing.feel = feel.but({"training_step_ms": 100}) # TEST-ONLY: a run in steps
+	pacing.feel = feel.but({"training_step_ms": 100, "training_auto_step_ms": 100}) # TEST-ONLY: a run in steps
 	ui.open_martial_arts()
 	await _frames(tree, 2)
 	var page: MartialArtsPage = ui.martial_arts_page()
 	state.skills.set_raw_level(&"force", 5) # TEST-ONLY: an enabled 内功 to 打坐 with
 	state.skills.set_raw_level(&"fonxanforce", 1)
 	state.skills.map_skill(&"force", &"fonxanforce")
-	state.recovery.inner_force.maximum = 1000 # TEST-ONLY: room to grow
+	state.recovery.inner_force.maximum = 100000 # TEST-ONLY: room to grow
 	state.recovery.inner_force.current = 0
 	state.vitality.maximum = 100000 # TEST-ONLY: 气 for a long run
 	state.vitality.effective = 100000

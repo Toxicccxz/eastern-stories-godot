@@ -93,8 +93,9 @@ var _hold_left: float = 0.0
 ## Seconds until the finished fight's picture is still (its stamp landed, the cards' bars
 ## stopped); < 0 when nothing waits. The session's autosave moment waits for it.
 var _still_left: float = -1.0
-## The hold goes on this long after the picture is still, so the autosave moment falls in it.
-const STILL_TAIL_SECONDS: float = 0.15
+## The hold goes on this long after the picture is still, so the autosave moment falls in it
+## (the session takes it on its next frame; the capture's own long frame then ends the hold).
+const STILL_TAIL_SECONDS: float = 0.05
 var _held_result: String = ""
 var _hold_shield: Control
 ## The cards take the finished fight's last 气 once its last lines are told.
@@ -331,9 +332,9 @@ func _settle_final_cards() -> void:
 	_show_end_stamp()
 	if _holding():
 		var feel: FeelDefinition = GameContent.catalog().pacing().feel
-		# The bars' tween, the stamp's slam, and the last blow's damage number and move name
-		# (they start with the last line, a little before this).
-		_still_left = maxf(maxf(feel.bar_tween_seconds, feel.end_stamp_seconds if end_stamp.visible else 0.0), maxf(feel.damage_float_seconds, feel.move_title_seconds))
+		# The bars' tween and the stamp's slam (the last blow's damage number may still be fading:
+		# waiting for it too would lengthen the closing the stamp's 0.6 s sets).
+		_still_left = maxf(feel.bar_tween_seconds, feel.end_stamp_seconds if end_stamp.visible else 0.0)
 		# The hold lasts past it: the autosave's capture comes on the session's next frame.
 		_hold_left = maxf(_hold_left, _still_left + STILL_TAIL_SECONDS)
 
