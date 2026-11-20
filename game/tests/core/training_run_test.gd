@@ -21,7 +21,104 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_practice_preview()
 	_test_stops()
 	_test_run_lines()
+	_test_auto_rest()
 	return {"assertions": _count, "failures": _failures}
+
+
+## 自动歇 (成长曲线 B): which stops a rest mends (精 short for learn.c; exercise.c's, meditate.c's
+## and respirate.c's cost and 70 % refusals; practice_skill()'s kee and sen), resume() taking the
+## run on as if it had not stopped (MAX_STEPS counted from the rest), and the lines of a run that
+## rested: how often and how long, the steps' own change (what came back while resting is the
+## rest's drift), the stop without the 歇到回满 hint, a rest's own line after the stop; 朱鸿雪's
+## task against its time holds the rest back.
+func _test_auto_rest() -> void:
+	var mended: Array[int] = []
+	var kept: Array[int] = []
+	for reason: int in CultivationResult.FailureReason.values():
+		if reason == CultivationResult.FailureReason.NONE:
+			continue
+		var refused := CultivationResult.new(CultivationResult.Action.EXERCISE, false, reason)
+		(mended if TrainingRun.rest_mends_cultivation(refused) else kept).append(reason)
+	_check(mended.size() == 6 and not mended.has(CultivationResult.FailureReason.FORCE_STYLE_NOT_ENABLED) and not mended.has(CultivationResult.FailureReason.COST_BELOW_MINIMUM) and not mended.has(CultivationResult.FailureReason.IN_COMBAT), "a rest mends 精, 气, 神 short and the 70 %%, nothing else: %s" % [mended])
+	_check(not TrainingRun.rest_mends_cultivation(null), "nothing to mend without a result")
+	for refusal: StringName in [&"kee", &"sen", &"force", &"mana", &"weapon", &"water"]:
+		var practised := PracticeResult.new(false, PracticeResult.FailureReason.PRACTICE_HOOK_REJECTED, PracticeResult.Completion.NO_PROGRESS)
+		practised.refusal = refusal
+		_check(TrainingRun.rest_mends_practice(practised) == (refusal in [&"kee", &"sen"]), "practice refused for %s: mended %s" % [refusal, refusal in [&"kee", &"sen"]])
+	var forced := PracticeResult.new(false, PracticeResult.FailureReason.PRACTICE_FORCE_REJECTED, PracticeResult.Completion.NO_PROGRESS)
+	forced.refusal = &"force"
+	_check(not TrainingRun.rest_mends_practice(forced), "too little force: no rest mends it")
+	# learn.c's gin: the look-ahead marks it mendable; experience is not.
+	var student: CharacterState = _student(_plain_facts())
+	var run := TrainingRun.new(TrainingRun.Kind.LEARN, &"sword", student)
+	var short := LearnResult.new(&"sword")
+	short.completion = LearnResult.Completion.NO_PROGRESS_INSUFFICIENT_ESSENCE
+	short.calculated_essence_cost = 30
+	short.essence_before = 13
+	run.end(run.look_at_learn(short, 1000))
+	_check(run.stop == TrainingRun.Stop.WASTE_ESSENCE and run.rest_mends(), "精 short: a rest mends it")
+	var green := TrainingRun.new(TrainingRun.Kind.LEARN, &"sword", student)
+	var unready := LearnResult.new(&"sword")
+	unready.completion = LearnResult.Completion.NO_PROGRESS_COMBAT_EXPERIENCE
+	unready.required_combat_experience = 2979
+	green.end(green.look_at_learn(unready, 1000))
+	_check(green.stop == TrainingRun.Stop.WASTE_EXPERIENCE and not green.rest_mends(), "experience short: none mends it")
+	var refused := TrainingRun.new(TrainingRun.Kind.EXERCISE, &"", student)
+	refused.refused([ColoredLine.new("酸麻")])
+	_check(not refused.rest_mends(), "a refusal not for 精, 气, 神: none")
+	refused = TrainingRun.new(TrainingRun.Kind.EXERCISE, &"", student)
+	refused.refused([ColoredLine.new("你现在的气太少了，无法产生内息运行全身经脉。")], true)
+	_check(refused.rest_mends(), "a refusal for 气: mended")
+	# resume(): the same run goes on, the guard counted from the rest.
+	for step: int in TrainingRun.MAX_STEPS - 1:
+		run.took_step(student)
+	run.rested(120.0, 60)
+	run.resume(student)
+	_check(not run.stopped() and not run.rest_mends() and run.cost == 0 and run.refused_lines.is_empty(), "resumed: as if it had not stopped")
+	run.took_step(student)
+	_check(not run.stopped() and run.steps == TrainingRun.MAX_STEPS, "MAX_STEPS counts from the rest")
+	run.end(TrainingRun.Stop.LEVEL_UP)
+	_check(run.rests == 1 and is_equal_approx(run.rest_world_seconds, 120.0) and run.rest_minutes == 60, "it keeps its rests")
+	# The lines.
+	var sword := SkillDefinition.new(&"sword", SkillDefinition.Kind.BASIC, SkillDefinition.Type.MARTIAL)
+	sword.display_name = "基本剑法"
+	var learner: CharacterState = _student(_plain_facts())
+	var rested := TrainingRun.new(TrainingRun.Kind.LEARN, &"sword", learner)
+	rested.auto_rest = true
+	learner.essence.current -= 10
+	learner.progression.potential_spent += 20
+	learner.skills.set_learned_progress(&"sword", learner.skills.learned_progress(&"sword") + 50)
+	rested.took_step(learner)
+	learner.essence.current += 10 # the rest gives the 精 back, and some 内力 (heal_up())
+	learner.recovery.inner_force.current += 5
+	rested.rested(240.0, 240)
+	rested.resume(learner)
+	_check(rested.drift.essence == 10 and rested.drift.inner_force == 5 and rested.drift.potential == 0, "what the rest changed is its drift")
+	rested.end(rested.look_at_learn(short, 1000))
+	rested.rest_line = RestLines.REFUSE_THIRSTY
+	var lines: Array[String] = ColoredLine.texts(TrainingLines.run(rested, sword, TEACHER_NAME))
+	_check(lines == [
+		"你向柳淳风请教「基本剑法」1 次（其间歇了 1 回，共两个时辰）：基本剑法进度 +50，精 -10，潜能 -20。",
+		"停下：精不够了。请教一次耗精 30，精须多于此数（你还有 13）。",
+		RestLines.REFUSE_THIRSTY,
+	], "rested: how often and how long, the steps' own 精 (not the rest's 精 or 内力), the stop without the hint, then why no rest: %s" % [lines])
+	rested.rest_line = ""
+	lines = ColoredLine.texts(TrainingLines.run(rested, sword, TEACHER_NAME))
+	_check(lines.size() == 2 and lines[1].contains("歇到回满"), "no rest tried (nothing said why): the stop keeps its 歇到回满 hint: %s" % [lines])
+	var errand := CharacterState.new()
+	_check(not TrainingRun.rest_held_back(errand), "no task: it rests")
+	errand.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1)
+	_check(TrainingRun.rest_held_back(errand), "朱鸿雪's task against its time: it does not rest by itself")
+	errand.quest.advance(400000)
+	_check(not TrainingRun.rest_held_back(errand), "run out already: nothing left to lose")
+	rested.resume(learner)
+	rested.end(TrainingRun.Stop.INTERRUPTED)
+	rested.rest_line = "你歇了一盏茶的工夫，忽然有人来袭，你一跃而起！"
+	lines = ColoredLine.texts(TrainingLines.run(rested, sword, TEACHER_NAME))
+	_check(lines.size() == 2 and lines[1] == rested.rest_line, "broken off: the rest's line, said once: %s" % [lines])
+	rested.stop = TrainingRun.Stop.CANCELLED
+	lines = ColoredLine.texts(TrainingLines.run(rested, sword, TEACHER_NAME))
+	_check(lines.size() == 2 and lines[1] == "你停了下来。", "stopped by the player: no rest line: %s" % [lines])
 
 
 ## 400 seeded cases: the preview's failure and completion are learn()'s (PROGRESSED for
