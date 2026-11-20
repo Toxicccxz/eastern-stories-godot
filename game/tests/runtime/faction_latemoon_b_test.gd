@@ -10,6 +10,8 @@ extends RefCounted
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
+const RealFight := preload("res://tests/support/real_fight.gd")
+const Arrival := preload("res://tests/support/story_arrival.gd")
 const QUEST: StringName = &"faction.latemoon"
 const MASTER: StringName = &"common.npc.dancer.master"
 const OLD: StringName = &"latemoon.npc.room.old"
@@ -272,13 +274,15 @@ func _test_night_home(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(missing.is_empty(), "played leaves what latemoon_settled(home) writes: %s" % [missing])
 
 
-## 第四章's night: the killer in the 前厅 falls and is spared — the 令牌 on the floor, she flees; she cannot be killed.
+## 第四章's night: the killer in the 前厅 says who she is and falls on the player; fought with real numbers
+## (DECISIONS「势力线的仗」: a character who also explored, as 第四章 ends, a sword in hand) she falls and is
+## spared — the 令牌 on the floor, she flees; she cannot be killed.
 func _test_night_fight(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var ui: SharedGameplayUI = session.shared_ui()
 	StoryFixtures.chapter4_taken(session)
 	session.record_journal()
-	_full(session.player_runtime())
+	RealFight.ready_player(session, Arrival.exploring(&"main.chapter5"))
 	var hall: WorldMapController = MapPlaces.enter(session, &"latemoon.entrance", &"latemoon.entrance.cloud_entry")
 	await _settle(tree)
 	hall = MapPlaces.enter(session, HALL, HALL_POINT)
@@ -287,15 +291,23 @@ func _test_night_fight(tree: SceneTree, session: WorldSessionController) -> void
 	_check(killer != null and hall.story_keeps(killer.character_id), "the night killer stands in the 前厅, kept")
 	if killer == null:
 		return
-	killer.character_state.vitality.current = 1 # TEST-ONLY: one blow is past her
-	killer.character_state.vitality.effective = 1
+	# Her shout as she notices the player (the alert beat, off in the suites: TestAlert): who she is.
+	hall.hostilities._alert_shout(killer)
+	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("东方神教办事")), "noticing the player she says who she is (alert_say)")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for second: int in 4:
+		if coordinator.has_active_encounter():
+			break
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		hall.hostilities.process_pending_aggression()
+	_check(coordinator.has_active_encounter(), "she falls on the player")
 	if not coordinator.has_active_encounter():
 		hall.select_npc(killer.character_id)
 		hall.attack_selected()
-	var rounds: int = _fight_out(session)
+	var rounds: int = RealFight.fight_out(session)
 	await _settle(tree)
-	_check(not coordinator.has_active_encounter(), "the fight over in %d rounds" % rounds)
+	_check(not coordinator.has_active_encounter() and RealFight.player_stands(session), "the fight over in %d rounds, the player standing" % rounds)
 	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("还有用")), "the battle says why the player stopped")
 	session.record_journal()
 	_check(state.marks.get("放过了神教杀手", 0) == 1 and state.marks.get("神教杀手倒了", 0) == 1, "she fell and was spared, not killed")
@@ -354,22 +366,6 @@ func _quiet(session: WorldSessionController, map: WorldMapController) -> WorldMa
 
 func _holds(condition: String, state: CharacterState, held: Dictionary[StringName, bool]) -> bool:
 	return JournalLog.holds(GameContent.catalog().conditions()[condition], state, {}, held)
-
-
-func _fight_out(session: WorldSessionController) -> int:
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var rounds: int = 0
-	while coordinator.has_active_encounter() and rounds < 1500:
-		coordinator.advance_scheduler(1.0)
-		rounds += 1
-	session.shared_ui().dismiss_current_panel()
-	return rounds
-
-
-func _full(player: WorldPlayerRuntimeState) -> void:
-	player.state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: nobody dies here
-	player.state.essence = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
-	player.state.progression.combat_experience = maxi(player.state.progression.combat_experience, 10000000) # TEST-ONLY: the blows land
 
 
 func _beats(tree: SceneTree, session: WorldSessionController, seconds: int) -> void:

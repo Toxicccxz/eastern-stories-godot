@@ -69,7 +69,8 @@ func _ready_for_choice(session: WorldSessionController, raid: bool, witness: boo
 
 ## 章与章之间的衔接: what this package played out holds what the next suites' fixture (chapter9_done) writes.
 func _handoff(session: WorldSessionController, side: String, raid: bool) -> void:
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind(side, false, true, raid))
+	# the 密信 the suite gives TEST-ONLY for the 揭发 (the start gives it where the 揭发 needs it)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_done.bind(side, false, true, raid), [], [ChapterStart.LETTER])
 	_check(handoff.is_empty(), "第九章 D played (%s) leaves what chapter9_done(%s) writes: %s" % [side, side, handoff])
 
 
@@ -90,6 +91,7 @@ func _test_expose(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(not ui.is_asking() and ui.log_lines().slice(before).any(func(line: String) -> bool: return line.contains("三样")), "expose: two proofs are not enough after the raid (三样)")
 	_check(not hall.give_new_item_to_player(LETTER).is_empty(), "expose: the 密信 (TEST-ONLY: given, as the 小屋 drops it)")
+	hall.give_new_item_to_player(&"native:niling/tribute_ledger") # TEST-ONLY: the 账册 set aside above, back in hand
 	await _settle(tree)
 	_strong(session)
 	expose.interact()
@@ -204,7 +206,7 @@ func _test_uncle(tree: SceneTree, session: WorldSessionController) -> void:
 func _drop_ledger(session: WorldSessionController, map: WorldMapController) -> void:
 	var ledger: StringName = hall_item(map, &"native:niling/tribute_ledger")
 	if not ledger.is_empty():
-		map.drop_item(ledger) # TEST-ONLY: two proofs, not three
+		map.acts.take_from_player(&"native:niling/tribute_ledger") # TEST-ONLY: two proofs, not three (a quest thing cannot be dropped)
 
 
 func hall_item(map: WorldMapController, definition_id: StringName) -> StringName:

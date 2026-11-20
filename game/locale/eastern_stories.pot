@@ -4639,6 +4639,11 @@ msgstr ""
 msgid "决战前"
 msgstr ""
 
+#. the slot copied from the autosave as the player died (DECISIONS「死前存档」).
+#: application/application_slot_text.gd
+msgid "死前存档"
+msgstr ""
+
 #. a manual save slot's name; %d its number, 1 to 3.
 #: application/application_slot_text.gd
 msgid "手动存档 %d"
@@ -5453,6 +5458,10 @@ msgstr ""
 
 #: core/content/pacing_definition.gd
 msgid "歇到回满's pace and longest rest must not be negative"
+msgstr ""
+
+#: core/content/pacing_definition.gd
+msgid "a run that rests by itself needs 歇到回满 (rest_world_scale)"
 msgstr ""
 
 #: core/death/player_killer_reward.gd
@@ -7504,6 +7513,11 @@ msgstr ""
 msgid "你修行 {count} 次"
 msgstr ""
 
+#. after a continuous run's start (RUN_HEADS) when it rested by itself on the way: {rests} how many times, {time} how long in all (一盏茶的工夫, 两个时辰 …).
+#: core/training/training_lines.gd
+msgid "（其间歇了 {rests} 回，共{time}）"
+msgstr ""
+
 #. a continuous run's summary: {head} what was done (one of the lines above), {changes} what it changed, joined by RUN_JOIN.
 #: core/training/training_lines.gd
 msgid "{head}：{changes}。"
@@ -7548,21 +7562,21 @@ msgstr ""
 #. force (内力) in a continuous run's summary.
 #. force name
 #. guide.force title
-#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
+#: core/training/training_lines.gd presentation/growth/growth_moments.gd data/common/stats_display.json data/common/codex.json
 msgid "内力"
 msgstr ""
 
 #. mana (法力) in a continuous run's summary.
 #. mana name
 #. guide.mana paragraphs
-#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
+#: core/training/training_lines.gd presentation/growth/growth_moments.gd data/common/stats_display.json data/common/codex.json
 msgid "法力"
 msgstr ""
 
 #. atman (灵力) in a continuous run's summary.
 #. atman name
 #. guide.mana paragraphs
-#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
+#: core/training/training_lines.gd presentation/growth/growth_moments.gd data/common/stats_display.json data/common/codex.json
 msgid "灵力"
 msgstr ""
 
@@ -7588,6 +7602,16 @@ msgstr ""
 #. continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
 #: core/training/training_lines.gd
 msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
+msgstr ""
+
+#. the same stop for a run that rests by itself (it could not rest: the line after says why): {cost} the cost, {have} the gin left.
+#: core/training/training_lines.gd
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
+msgstr ""
+
+#. a continuous run that would rest by itself does not while 朱鸿雪's task runs against its time (a rest lets time pass); the player may rest by hand.
+#: core/training/training_lines.gd
+msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
 msgstr ""
 
 #. continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
@@ -7671,6 +7695,10 @@ msgstr ""
 #. a 车马行 fare: {silver} 两 of silver and {coins} 文.
 #: core/world/coach_lines.gd
 msgid "{silver}两银子{coins}文"
+msgstr ""
+
+#: core/world/zone_exit_rule_definition.gd
+msgid "过了经验门槛:"
 msgstr ""
 
 #. liuh-ken actions.damage_type
@@ -7857,9 +7885,14 @@ msgstr ""
 msgid "被克"
 msgstr ""
 
-#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
+#. the battle strip after a beat whose opponent move the player has not learned to read: {mine} the player's tag, {verdict} 克！/ 被克 / 平.
 #: presentation/battle/battle_action_panel.gd
-msgid "你出{mine}，他起手{theirs} · {verdict}"
+msgid "你出{mine} · {verdict}"
+msgstr ""
+
+#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's move it met, {verdict} 克！/ 被克 / 平.
+#: presentation/battle/battle_action_panel.gd
+msgid "你出{mine}，对上他的{theirs} · {verdict}"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd runtime/world/map/world_map_watches.gd ui/world/map_page.gd
@@ -9245,6 +9278,41 @@ msgstr ""
 msgid "门派：{family}"
 msgstr ""
 
+#. 成长时刻, a skill gained a level: {skill} its name, {level} the level now.
+#: presentation/growth/growth_moments.gd
+msgid "{skill}　{level} 级"
+msgstr ""
+
+#. 成长时刻, a skill learned for the first time: {skill} its name.
+#: presentation/growth/growth_moments.gd
+msgid "习得　{skill}"
+msgstr ""
+
+#. 成长时刻, the maximum of 内力 / 法力 / 灵力 raised: {power} which, {value} the maximum now.
+#: presentation/growth/growth_moments.gd
+msgid "{power}上限　{value}"
+msgstr ""
+
+#. 成长时刻, the player became a family's pupil: {family} the family.
+#: presentation/growth/growth_moments.gd
+msgid "拜入　{family}"
+msgstr ""
+
+#. 成长时刻, the player took a master who has no family: {master} the master.
+#: presentation/growth/growth_moments.gd
+msgid "拜师　{master}"
+msgstr ""
+
+#. 成长时刻, a quest ended: {title} its name.
+#: presentation/growth/growth_moments.gd
+msgid "任务完成　{title}"
+msgstr ""
+
+#. 成长时刻, a thing a story turns on came into the player's hands: {item} its name.
+#: presentation/growth/growth_moments.gd
+msgid "获得　{item}"
+msgstr ""
+
 #: presentation/input/input_glyphs.gd
 msgid "叉"
 msgstr ""
@@ -9762,6 +9830,11 @@ msgstr ""
 msgid "「决战前」存档没能存下"
 msgstr ""
 
+#. native: the autosave could not be copied as the player died (DECISIONS「死前存档」).
+#: runtime/persistence/oldpine_game_runtime_host.gd
+msgid "「死前存档」没能存下"
+msgstr ""
+
 #. a landmark used to move on: {action} (爬树) and the landmark (大松树).
 #: runtime/world/landmarks/portal_landmark_policy.gd
 msgid "{action}：{landmark}"
@@ -9792,14 +9865,14 @@ msgstr ""
 msgid "你的%s用完了！"
 msgstr ""
 
-#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
-#: runtime/world/map/world_map_combat_lifecycle.gd
-msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
-msgstr ""
-
 #. weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
 #: runtime/world/map/world_map_combat_lifecycle.gd
 msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
 msgstr ""
 
 #. weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
@@ -9850,6 +9923,11 @@ msgstr ""
 
 #: runtime/world/map/world_map_debts.gd ui/world/vendor_panel.gd
 msgid "你的钱不够。"
+msgstr ""
+
+#. a debt not paid before any coin moved (DECISIONS「凑不整就不收钱」): the coins carried cannot make the sum.
+#: runtime/world/map/world_map_debts.gd
+msgid "这笔钱凑不整：对方找不开，你也没有合适的零钱。先去钱庄换些碎银或铜钱再来。"
 msgstr ""
 
 #: runtime/world/map/world_map_debts.gd ui/world/vendor_panel.gd
@@ -10520,6 +10598,31 @@ msgstr ""
 msgid "其中{silver}两你拿不动，掉在你的脚边。"
 msgstr ""
 
+#. a mark on the 地图 page: where the player's own corpse lies, with their things.
+#: runtime/world/world_left_behind.gd
+msgid "你的尸体"
+msgstr ""
+
+#. where the player's corpse lies with their things ({place}: region · room).
+#: runtime/world/world_left_behind.gd
+msgid "你的尸体和留在上面的东西还在：{place}"
+msgstr ""
+
+#. a follower ({name}) lies knocked down where the player left them ({place}).
+#: runtime/world/world_left_behind.gd
+msgid "{name}倒在{place}，没能跟上你。"
+msgstr ""
+
+#. a follower ({name}) who follows the player waits apart from them ({place}).
+#: runtime/world/world_left_behind.gd
+msgid "{name}还在{place}等你。"
+msgstr ""
+
+#. after a way's own refusal (a killing air, a wind): the player's 实战经验 (combat_exp) is below what the way asks.
+#: runtime/world/world_map_controller.gd
+msgid "你的实战经验还不够，过不去。"
+msgstr ""
+
 #: runtime/world/world_map_controller.gd
 msgid "你来到%s。"
 msgstr ""
@@ -10532,6 +10635,16 @@ msgstr ""
 #. native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
 #: runtime/world/world_progression_rewards.gd
 msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或自学，用掉一些潜能吧。"
+msgstr ""
+
+#. a follower ({name}) left behind finds the player again (DECISIONS「走散的同伴回来」).
+#: runtime/world/world_session_controller.gd
+msgid "{name}找了过来，又跟在你身边。"
+msgstr ""
+
+#. a follower ({name}) did not come along onto the map the player went to; {place} where they stay.
+#: runtime/world/world_session_controller.gd
+msgid "{name}没有跟上来，还在{place}。"
 msgstr ""
 
 #. the world's marker reached the place the player chose on the 地图 page.
@@ -10707,12 +10820,17 @@ msgstr ""
 msgid "{what}：已做 {count} 次"
 msgstr ""
 
+#. a continuous run resting by itself on the way (自动歇): {what} and {count} as above, {rest} the rest's line (歇息中……已歇一盏茶的工夫).
+#: ui/common/training_progress.gd
+msgid "{what}：已做 {count} 次，{rest}"
+msgstr ""
+
 #. a continuous 打坐 towards a maximum (前两小时 A): the maximum now {maximum}, the one aimed at {target}, and what is left {left}.
 #: ui/common/training_progress.gd
 msgid "，上限 {maximum} → {target}，还差 {left}"
 msgstr ""
 
-#. asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family.
+#. asked before 拜师 makes the player leave their family (recruit.c's betrayal): {title} is the player's title now (封山剑派第十四代弟子), {master} the new master, {family} the new family, {score} the player's 综合评价 now, {next} how many times they will have betrayed a family, {lines} the LINE_ENDS / LINE_CLOSES lines (or nothing).
 #: ui/teacher/teacher_panel.gd
 msgid ""
 "你现在是{title}。改投{master}门下，就是背叛师门：\n"
@@ -10720,16 +10838,28 @@ msgid ""
 "· 背叛师门的次数变成 {next} 次。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n"
 "· 门派、师父和称号都换成{family}的；已经学会的武功保留。\n"
 "· 日后再改投别派，又算一次背叛。\n"
-"确定要改投吗？"
+"{lines}确定要改投吗？"
 msgstr ""
 
-#. asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family.
+#. asked before the player, who has no family yet, takes their first master: changing family later is a betrayal (recruit.c, master.c). {master} the new master, {family} the new family, {lines} the LINE_ENDS / LINE_CLOSES lines (or nothing).
 #: ui/teacher/teacher_panel.gd
 msgid ""
 "拜{master}为师，便成为{family}的弟子。日后若再改投别派，就是背叛师门：\n"
 "· 综合评价清零。\n"
 "· 背叛师门的次数加一。以后能收徒的师父教你武功，只教到他自己的等级减去 20 × 背叛次数为止。\n"
-"确定要拜师吗？"
+"{lines}确定要拜师吗？"
+msgstr ""
+
+#. in the question before a change of family, one line per 势力 line it cuts short for good (DECISIONS「改投提示」): {title} the line's name on the 任务 page.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"· 「{title}」这条线就此中止，以后再也接不上。\n"
+msgstr ""
+
+#. in the question before a change of family, one line per 势力 line it shuts for good before it began (a line the new family begins excludes it; DECISIONS「改投提示」): {title} the line's name.
+#: ui/teacher/teacher_panel.gd
+msgid ""
+"· 「{title}」这条线从此不会再出现。\n"
 msgstr ""
 
 #. asked before 拜师 or an oath that makes the player change master inside their family: {current} the master now, {master} the new one, {teach} what {current} teaches them after (one of the CHANGE_TEACHES_* lines, or nothing).
@@ -11425,6 +11555,16 @@ msgstr ""
 msgid "榜"
 msgstr ""
 
+#. one-word mark on the 地图 page: the player's own corpse, their things still on it.
+#: ui/world/map_page.gd
+msgid "尸"
+msgstr ""
+
+#. one-word mark on the 地图 page: someone who follows the player and waits apart from them.
+#: ui/world/map_page.gd
+msgid "伴"
+msgstr ""
+
 #. one-word mark on the 地图 page: someone who gives errands.
 #: ui/world/map_page.gd
 msgid "差"
@@ -12062,8 +12202,23 @@ msgstr ""
 msgid "已启用的特殊武功全部取消启用"
 msgstr ""
 
+#. the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player, nothing else was carried.
+#: ui/world/player_life_overlay.gd
+msgid "兵器和身上穿的还在你身上；尸体上没有留下东西。"
+msgstr ""
+
+#. the death card (DECISIONS「死后留在身上」): the wielded weapon and worn things stay on the player; money and the bag lie with the corpse at %s.
+#: ui/world/player_life_overlay.gd
+msgid "兵器和身上穿的还在你身上；钱和背包里的东西留在尸体上：%s"
+msgstr ""
+
 #: ui/world/player_life_overlay.gd
 msgid "你的尸体和随身物品留在：%s"
+msgstr ""
+
+#. the death card: someone who attacks on sight stands where the corpse lies (DECISIONS「死前存档」).
+#: ui/world/player_life_overlay.gd
+msgid "尸体旁还守着见人就打的对手，回去取东西要先过他这一关。"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
@@ -12082,8 +12237,14 @@ msgstr ""
 msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
 msgstr ""
 
+#. after the return to life: 精, 气 and 神 are at 1 (damage.c die()); 歇到回满 is the button on the 武学 page (DECISIONS「歇到回满」).
 #: ui/world/player_life_overlay.gd
-msgid "你的尸体和随身物品还在：%s"
+msgid "精、气、神都只剩 1：在武学页按「歇到回满」，养足了再上路。"
+msgstr ""
+
+#. the 任务 page: the heading over where the player's corpse lies and who waits apart (DECISIONS「尸体和走散的同伴」).
+#: ui/world/quest_page.gd
+msgid "留在路上的"
 msgstr ""
 
 #. a quest on the 任务 page once done: {title} its name, {region} where it happened.
@@ -12672,6 +12833,11 @@ msgstr ""
 
 #: ui/world/vendor_panel.gd
 msgid "已付款，%s已放入你的随身物品。"
+msgstr ""
+
+#. a purchase refused before payment (DECISIONS「凑不整就不收钱」): the coins carried cannot make the price and the shop gives no change.
+#: ui/world/vendor_panel.gd
+msgid "这笔钱凑不整：店家找不开，你也没有合适的零钱，没有付钱。先去钱庄换些碎银或铜钱再来。"
 msgstr ""
 
 #. a purchase refused before payment (DECISIONS「拿不动就不收钱」): %s the goods.
@@ -16774,7 +16940,7 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "跟柳淳风守本宗：封山的剑不外传。\n"
-"他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来。\n"
+"他亲传你「点」字诀，你是掌门传人；柳绘心会离开武馆，带着「北宗」两个字去绮云镇。封山在虹台上的那一票跟着柳淳风——等盟主回来（已经入了虹台的席的，这一票不再跟着变）。\n"
 "这是封山这条线的大分裂，选了不能改。要跟师父吗？"
 msgstr ""
 
@@ -17591,6 +17757,11 @@ msgstr ""
 msgid "卫沧澜出来了？好。……二十年，老夫在水烟阁等他回来，他就关在京城。"
 msgstr ""
 
+#. common.npc.fighter.champion inquiry.卫沧澜.rules.lines.say
+#: data/common/npcs.json
+msgid "虹台那边已经开了席。等散了会，老夫再去庾子建那里要人——这时候把人领出来，倒像是去抢那把椅子。"
+msgstr ""
+
 #. common.npc.fighter.champion inquiry.卫沧澜.rules.lines.emote
 #: data/common/npcs.json
 msgid "放下手里的茶盏，站了起来。"
@@ -18276,7 +18447,7 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "站潘军禅：等盟主回来。\n"
-"正月十七，天邪派在虹台上的那一票投旧盟主——卫沧澜回来了是他本人，没回来就是那把空椅子。潘军禅以执法使的名义升你执事；颜违会记下你，正月十七那天，他的人会多出一件事来。\n"
+"正月十七，天邪派在虹台上的那一票投旧盟主——卫沧澜回来了是他本人，没回来就是那把空椅子（已经入了虹台的席的，这一票不再跟着变）。潘军禅以执法使的名义升你执事；颜违会记下你，正月十七那天，他的人会多出一件事来。\n"
 "这是天邪这条线的大分裂，选了不能改。要站潘军禅吗？"
 msgstr ""
 
@@ -19067,7 +19238,7 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "跟林忌：《上清符箓》投进殿前的香炉，镇教秘籍从此少一函——茅山宁可没有这本书。花匠下山回京城，守着庾清尘。\n"
-"林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根。\n"
+"林忌教你谷衣心法。正月十七虹台上，茅山这一票投颜违：主剿，北麓剿干净，不留根（已经入了虹台的席的，这一票不再跟着变）。\n"
 "终章之后北麓那座道观里的人还没有去处的，问林忌「剿」，官兵上山。\n"
 "要这么办吗？"
 msgstr ""
@@ -20296,7 +20467,7 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "依庄规：人交给蓝止萍处置——台上不杀，可她不能再待在庄里。\n"
-"晚月庄这一票投颜违（逐神教）；老妇从此不再开口。本庄弟子晋阶执事。\n"
+"晚月庄这一票投颜违（逐神教）（已经入了虹台的席的，这一票不再跟着变）；老妇从此不再开口。本庄弟子晋阶执事。\n"
 "要这么说吗？"
 msgstr ""
 
@@ -20562,14 +20733,14 @@ msgid "庄规你替她破了一回。……这一票你要，我也给。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.虹台.rules.say
-#: data/common/npcs.json
-msgid "晚月庄这一票投颜违。说定了。"
-msgstr ""
-
-#. common.npc.dancer.master inquiry.虹台.rules.say
 #. waterfog.terrace_top.assembly act.acts.steps.say
 #: data/common/npcs.json data/waterfog/world.json
 msgid "晚月庄这一票，你说了算。"
+msgstr ""
+
+#. common.npc.dancer.master inquiry.虹台.rules.say
+#: data/common/npcs.json
+msgid "晚月庄这一票投颜违。说定了。"
 msgstr ""
 
 #. common.npc.dancer.master inquiry.虹台.rules.lines.say
@@ -21426,6 +21597,11 @@ msgstr ""
 #. common.npc.beggar.master inquiry.龙头.rules.say
 #: data/common/npcs.json
 msgid "二十三个结了。……叫花子的巷子，还是叫花子的。"
+msgstr ""
+
+#. common.npc.beggar.master inquiry.龙头.rules.say
+#: data/common/npcs.json
+msgid "你认了京城墙根下那个。……叫花子不认两个龙头，乔阴的事就不劳你了。"
 msgstr ""
 
 #. common.npc.beggar.master inquiry.龙头.rules.lines.emote
@@ -23390,7 +23566,7 @@ msgstr ""
 
 #. guide.rest paragraphs
 #: data/common/codex.json
-msgid "想歇就歇：请教页和武学页上的「歇到回满」让你坐下来，时间照走（快得多），精气神回满就起身。世界不会等你：歇着时有人来找麻烦，你会被惊起，照常开打；口渴没水的时候歇着也回不来。"
+msgid "想歇就歇：请教页和武学页上的「歇到回满」让你坐下来，时间照走（快得多），精气神回满就起身；连续修炼练到一半没了力气，也会自己这样歇一歇再接着练。世界不会等你：歇着时有人来找麻烦，你会被惊起，照常开打；口渴没水的时候歇着也回不来。"
 msgstr ""
 
 #. guide.rest paragraphs
@@ -23530,7 +23706,7 @@ msgstr ""
 
 #. guide.learn paragraphs
 #: data/common/codex.json
-msgid "请教、练习、打坐、冥思、修行都能「连续」做下去，遇到做不下去的一步会先停下，告诉你为什么。"
+msgid "请教、练习、打坐、冥思、修行都能「连续」做下去：精、气、神不够了就自己歇一歇，回满了接着练，练到潜能用完、功夫长了一级或做不下去的一步才停，并告诉你为什么。"
 msgstr ""
 
 #. guide.family title
@@ -24694,7 +24870,7 @@ msgstr ""
 
 #. main.chapter4/choice objective
 #: data/story/chapter4.json
-msgid "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事。"
+msgid "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事：东方神教派来的杀手会摸进前厅，见人就动手——要打一场；打不过，退出前厅，她不追。"
 msgstr ""
 
 #. main.chapter4/choice/to_annie text
@@ -26236,12 +26412,32 @@ msgstr ""
 
 #. assembly cards.lines.text
 #: data/story/epilogue.json
-msgid "虹台上，陈剑秋坐在振远的旗下，一句也没提那本烧掉的账。"
+msgid "旋芒还在你身上。九派的人说起它，都说那是斩过湖底那颗头的剑。"
 msgstr ""
 
 #. assembly cards.lines.text
 #: data/story/epilogue.json
-msgid "虹台上，陈剑秋坐在振远的旗下，没有说话。他身后的绮云分局，门还关着。"
+msgid "那天一早，山下出了事，你没有下石阶。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，陈剑秋当着九派说了一句「那本账烧了」，就再没有开口。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，陈剑秋坐在振远的旗下，没有提那本烧掉的账。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，陈剑秋替振远要了一个说法。他身后的绮云分局，门还关着。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "虹台上，陈剑秋坐在振远的旗下，没有提那本账。他身后的绮云分局，门还关着。"
 msgstr ""
 
 #. assembly cards.lines.text
@@ -26282,6 +26478,11 @@ msgstr ""
 #. assembly cards.lines.text
 #: data/story/epilogue.json
 msgid "封山的人那天没能上山。柳淳风回来，只说了一句：明年再去。"
+msgstr ""
+
+#. assembly cards.lines.text
+#: data/story/epilogue.json
+msgid "北宗的人那天没能上山。柳淳风在武馆里听说了，一句话也没有说。"
 msgstr ""
 
 #. assembly cards.lines.text
@@ -26592,7 +26793,12 @@ msgstr ""
 
 #. celestial lines.text
 #: data/story/factions.json
-msgid "正月十七，你站在颜违一边：天邪派那一票投他。你是水烟阁的执事；潘军禅从此只同你谈公事。"
+msgid "你站在颜违一边。你是水烟阁的执事；潘军禅从此只同你谈公事。"
+msgstr ""
+
+#. celestial lines.text
+#: data/story/factions.json
+msgid "正月十七，天邪派那一票投颜违。"
 msgstr ""
 
 #. celestial lines.text
@@ -27333,6 +27539,16 @@ msgstr ""
 msgid "书只有一本：交给柳淳风，他会收进匣里；交给柳绘心，她头一回读到父亲年轻时写的字。给出去就读不到了——想读，先读。"
 msgstr ""
 
+#. faction.fonxan/book checklist.label
+#: data/story/faction_fonxan.json
+msgid "《悟疾风劲竹书》在你身上"
+msgstr ""
+
+#. faction.fonxan/book checklist.missing
+#: data/story/faction_fonxan.json
+msgid "书不在你身上了——是被人摸走了，还是给了别人？找回来再交"
+msgstr ""
+
 #. faction.fonxan/book/father text
 #: data/story/faction_fonxan.json
 msgid "你把书交给了柳淳风。他没有翻开，收进了案头的匣里：年轻时的糊涂话。"
@@ -27545,7 +27761,7 @@ msgstr ""
 
 #. faction.niling lapses.text
 #: data/story/faction_niling.json
-msgid "疑点满了三条。宫里认出你，只是早晚的事——下回进前院，就是那一天。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
+msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
 msgstr ""
 
 #. faction.niling checklist.label
@@ -28461,7 +28677,7 @@ msgstr ""
 
 #. faction.huazi/letter objective
 #: data/story/faction_huazi.json
-msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
+msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的信使才坐进小屋，信在他身上：进了小屋就是一场仗，他见人就动手，打不过就退出屋外。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
 msgstr ""
 
 #. faction.huazi/letter/huazi text
@@ -29257,6 +29473,31 @@ msgstr ""
 #. faction.assembly checklist.missing
 #: data/story/faction_assembly.json
 msgid "五派听你的，你才站得出来"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "那天山下：神教的杀手会截山烟寺的轿子（不管，山烟寺不来）"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "那天山下：逆灵宫的余孽会烧葬剑亭（不管，茅山不来）"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "那天山下：颜违的人会堵封山的路（不管，封山不来）"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "那天山下：兵部会「请」骆云舟喝茶（不管，步玄派不来）"
+msgstr ""
+
+#. faction.assembly checklist.label
+#: data/story/faction_assembly.json
+msgid "那天山下：照现在的样子，太平"
 msgstr ""
 
 #. faction.assembly checklist.label
@@ -31125,7 +31366,7 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "跟柳绘心立北宗：封山的剑往外传。\n"
-"你转入封山剑派北宗，和她同辈；她把自己悟出来的「点」字诀教给你。柳淳风不再教你武功，「掌门传人」的名分没有了。这不算叛师：评价不清零，也不记背叛。封山在虹台上的那一票，会被颜违拿「给北宗一个座」来换。\n"
+"你转入封山剑派北宗，和她同辈；她把自己悟出来的「点」字诀教给你。柳淳风不再教你武功，「掌门传人」的名分没有了。这不算叛师：评价不清零，也不记背叛。封山在虹台上的那一票，会被颜违拿「给北宗一个座」来换（已经入了虹台的席的，这一票不再跟着变）。\n"
 "这是封山这条线的大分裂，选了不能改。要跟她吗？"
 msgstr ""
 
@@ -32685,7 +32926,12 @@ msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.say
 #: data/goathill/npcs.json
-msgid "起来。杀你不如杀道士。——这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
+msgid "起来。杀你不如杀道士。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang calls.steps.say
+#: data/goathill/npcs.json
+msgid "这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。"
 msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.line
@@ -34886,9 +35132,14 @@ msgstr ""
 msgid "令不在你身上？神教的人认令，不认脸。"
 msgstr ""
 
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "从袖子里摸出一块旧黑木令，火焰的图腾磨得快看不清了。"
+msgstr ""
+
 #. cloud.npc.god inquiry.令牌.rules.lines.say
 #: data/cloud/npcs.json
-msgid "丢了的令，自己找回来。"
+msgid "神教的令不发新的。这一块是从湖边另一个没回来的人身上收的——拿好，别再丢了。"
 msgstr ""
 
 #. cloud.npc.god inquiry.令牌.rules.lines.emote
@@ -34916,9 +35167,19 @@ msgstr ""
 msgid "令呢？"
 msgstr ""
 
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "听你说丢在了半路上，叹了口气，从袖子里摸出一块旧黑木令。"
+msgstr ""
+
 #. cloud.npc.god inquiry.令牌.rules.lines.say
 #: data/cloud/npcs.json
-msgid "湖边捡回来的东西，丢在半路上，等于没捡。拿回来再说。"
+msgid "神教的令不发新的，这一块是我收着的旧令。湖边那块，就当他没回来。"
+msgstr ""
+
+#. cloud.npc.god inquiry.令牌.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "把令牌放进你手里。"
 msgstr ""
 
 #. cloud.npc.god inquiry.令牌.rules.say
@@ -35242,9 +35503,14 @@ msgstr ""
 msgid "黑木令呢？"
 msgstr ""
 
+#. cloud.npc.god inquiry.交差.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "看了你一会儿，从袖子里摸出一块旧黑木令，丢到你手里。"
+msgstr ""
+
 #. cloud.npc.god inquiry.交差.rules.lines.say
 #: data/cloud/npcs.json
-msgid "丢了的令，自己找回来，再来交差。"
+msgid "神教的令不发新的，这一块是收回来的旧令。拿着它，再来交差。"
 msgstr ""
 
 #. cloud.npc.god inquiry.交差.rules.takes
@@ -35322,7 +35588,7 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "站朱鸿雪：神教只有一个教主，是她。\n"
-"她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子。\n"
+"她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；安妮儿回西厢闭门，往后不再同你说神教的事（宝衣要是在她手里，终章还没打完的，她照样带着它来）。正月十七那天，神教的杀手会在山道上截一派的轿子。\n"
 "这是东方神教这条线的大分裂，选了不能改。要站朱鸿雪吗？"
 msgstr ""
 
@@ -35907,7 +36173,7 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "到此为止：陈剑秋写信叫陈天星把那本总账烧了，抚恤银的事振远不再提。\n"
-"正月十七，振远那一票投颜违——旧案到此为止。陈剑秋教你春风快意刀；陈天星往后见你，只谈生意。\n"
+"正月十七，振远那一票投颜违——旧案到此为止（已经入了虹台的席的，这一票不再跟着变）。陈剑秋教你春风快意刀；陈天星往后见你，只谈生意。\n"
 "说了就不能再站到陈天星那边。要这么说吗？"
 msgstr ""
 
@@ -37345,7 +37611,7 @@ msgstr ""
 #. waterfog.npc.elder7 inquiry.椅子.confirm
 #: data/waterfog/npcs.json
 msgid ""
-"站颜违：正月十七，天邪派在虹台上的那一票投颜违，由他坐那把椅子。\n"
+"站颜违：正月十七，天邪派在虹台上的那一票投颜违，由他坐那把椅子（已经入了虹台的席的，这一票不再跟着变）。\n"
 "他许你水烟阁执事；潘军禅从此只同你谈公事。二十年的旧案，到此为止。\n"
 "这是天邪这条线的大分裂，选了不能改。要站颜违吗？"
 msgstr ""
@@ -37649,8 +37915,38 @@ msgstr ""
 msgid ""
 "入席？\n"
 "入了席，就不能再去各派游说、改票：九派的票，就照现在这样。\n"
-"那天山下会出事，你只来得及管一件——没管的那一派上不了虹台，它那一票不算。\n"
-"要入席吗？"
+"那天山下会出事，你只来得及管一件——没管的那一派上不了虹台，它那一票不算。照现在的样子：\n"
+"{lines}要入席吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask_lines.line
+#: data/waterfog/world.json
+msgid "· 神教的杀手会在山道上截山烟寺的轿子：不管，山烟寺不来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask_lines.line
+#: data/waterfog/world.json
+msgid "· 逆灵宫的余孽会去烧葬剑亭，林忌会离席去追：不管，茅山不来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask_lines.line
+#: data/waterfog/world.json
+msgid "· 颜违的人会堵封山剑派上山的官道：不管，封山不来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask_lines.line
+#: data/waterfog/world.json
+msgid "· 兵部的人会「请」骆云舟去山下喝茶：不管，步玄派不来。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask_lines.line
+#: data/waterfog/world.json
+msgid "· 照现在的样子，那天山下太平。"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.ask_lines.line
+#: data/waterfog/world.json
+msgid "· 绝尘派不来：绝尘子不问世事。"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.line
@@ -37764,6 +38060,26 @@ msgstr ""
 #: data/waterfog/world.json
 msgid ""
 "你在山下的茶棚里找到了骆云舟。两个穿便服的兵部武官一左一右陪着他，见你进来，起身结了账走了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#: data/waterfog/world.json
+msgid "哪件也不管"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"哪件也不管：你留在虹台上等着开会。\n"
+"山下出事的那几派，今天都上不了虹台，它们那一票都不算。\n"
+"要这么办吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你没有下石阶。山下的消息一件一件传上来，你只是听着。\n"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.line
@@ -38030,6 +38346,11 @@ msgstr ""
 #. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
 #: data/waterfog/world.json
 msgid "听你的只有四派，还差一派"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.locked.text
+#: data/waterfog/world.json
+msgid "还差几派"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
@@ -38787,6 +39108,30 @@ msgstr ""
 #: data/waterfog/world.json
 msgid ""
 "你把旋芒举过头顶。山风从虹谷里卷上来，剑在你手里一轻，转着往西去了。\n"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.text
+#: data/waterfog/world.json
+msgid "我留着"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.confirm
+#: data/waterfog/world.json
+msgid ""
+"旋芒留在你身上：它斩过湖底那颗头，往后还跟着你走。\n"
+"九派不再问它的去处。要留着吗？"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.choice
+#. latemoon.npc.room.elon inquiry topic
+#: data/waterfog/world.json data/latemoon/npcs.json
+msgid "留着"
+msgstr ""
+
+#. waterfog.terrace_top.assembly act.acts.steps.choose.options.steps.line
+#: data/waterfog/world.json
+msgid ""
+"你把旋芒收回鞘里。潘军禅看了你一眼，没有再问。\n"
 msgstr ""
 
 #. waterfog.terrace_top.assembly act.acts.steps.say
@@ -40911,7 +41256,7 @@ msgstr ""
 #: data/latemoon/npcs.json
 msgid ""
 "带她回来：她留在晚月庄，跟着她娘守内书房，不再蒙面。\n"
-"晚月庄这一票投旧盟主（不要官府、也不要颜违管到庄里来）；蓝止萍从此对你冷一分。本庄弟子的执事，由老妇向庄主讨。\n"
+"晚月庄这一票投旧盟主（不要官府、也不要颜违管到庄里来）（已经入了虹台的席的，这一票不再跟着变）；蓝止萍从此对你冷一分。本庄弟子的执事，由老妇向庄主讨。\n"
 "要这么说吗？"
 msgstr ""
 
@@ -41455,11 +41800,6 @@ msgstr ""
 #. latemoon.npc.room.elon inquiry.还衣.rules.say
 #: data/latemoon/npcs.json
 msgid "还什么？"
-msgstr ""
-
-#. latemoon.npc.room.elon inquiry topic
-#: data/latemoon/npcs.json
-msgid "留着"
 msgstr ""
 
 #. latemoon.npc.room.elon inquiry.留着.confirm
@@ -46947,7 +47287,7 @@ msgstr ""
 #: data/canyon/npcs.json
 msgid ""
 "跟李信揭发：李信的账本抄一份上京，严廷殷被召回京城，军师一并押走，李信守关；天驼关从此不收过路费。第九章还没定的，这本账算揭发的一样物证。\n"
-"终章没有铁卫营这一拨帮手。\n"
+"终章还没打完的，点将时没有铁卫营这一拨帮手。\n"
 "要这么办吗？"
 msgstr ""
 
@@ -47189,7 +47529,7 @@ msgstr ""
 #: data/canyon/npcs.json
 msgid ""
 "跟严廷殷整肃：军师赫造基由你在营里拿下（打一场，他只会被击倒），过路费的路引从此停了；天驼关照旧是严将军的，关北的事不往朝上报，李信那本账不上京。\n"
-"终章点将时，铁卫营替你守官道。\n"
+"终章还没打完的，点将时铁卫营替你守官道。\n"
 "要这么办吗？"
 msgstr ""
 
@@ -49344,6 +49684,12 @@ msgid ""
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"穿灵握在你手里，剑身上的霜一点一点化了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
 #. village.seal_altar.face act.acts.steps.line
 #: data/village/world.json
 msgid ""
@@ -49896,7 +50242,7 @@ msgstr ""
 #: data/city/npcs.json
 msgid ""
 "查到底：陈天星把振远的总账押去乔阴县衙，交程知县——告兵部，也告振远自己拿过兵部的钱。\n"
-"陈剑秋会关了绮云分局的门。正月十七，振远那一票投旧盟主；京师的事还没定的，这本账也算揭发的一样人证物证。\n"
+"陈剑秋会关了绮云分局的门。正月十七，振远那一票投旧盟主（已经入了虹台的席的，这一票不再跟着变）；京师的事还没定的，这本账也算揭发的一样人证物证。\n"
 "说了就不能再站到陈剑秋那边。要这么说吗？"
 msgstr ""
 
@@ -56524,7 +56870,7 @@ msgstr ""
 
 #. native.npc.shang_jue fight_deferred
 #: data/niling/npcs.json
-msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他连头都没有回。"
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他连头都没有回。"
 msgstr ""
 
 #. native.npc.shang_jue inquiry.逆灵宫
@@ -56635,7 +56981,7 @@ msgstr ""
 
 #. native.npc.xuan_mingzi fight_deferred
 #: data/niling/npcs.json
-msgid "玄冥子看也不看你，袖子一拂，你的剑便歪到了一边。"
+msgid "玄冥子看也不看你，袖子一拂，你这一下便歪到了一边。"
 msgstr ""
 
 #. native.npc.xuan_mingzi inquiry.钥匙
@@ -56920,7 +57266,7 @@ msgstr ""
 
 #. native.npc.headless_shade fight_deferred
 #: data/niling/npcs.json
-msgid "你的剑从黑影里穿了过去，什么也没碰到。"
+msgid "你这一下从黑影里穿了过去，什么也没碰到。"
 msgstr ""
 
 #. native.npc.hell_runner long
@@ -57357,6 +57703,12 @@ msgid ""
 "前院里的道士都转过身来。你头上那顶冠，不灵了。\n"
 msgstr ""
 
+#. native.npc.xuan_mingzi_unmasking calls.steps.line
+#: data/niling/npcs.json
+msgid ""
+"他的剑还垂着，没有动。这一仗你打不过——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+msgstr ""
+
 #. native.npc.xuan_mingzi_unmasking spared.line
 #: data/niling/npcs.json
 msgid "玄冥子撑着剑退进了前殿：「北麓的路，你走不远。」"
@@ -57388,6 +57740,12 @@ msgstr ""
 #. native.npc.niling_lead_chanter_unmasking calls.steps.say
 #: data/niling/npcs.json
 msgid "大弟子那一夜在后殿就说过。我一直记着。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter_unmasking calls.steps.line
+#: data/niling/npcs.json
+msgid ""
+"他的剑还垂着，没有动。宫里的人都在这儿，这一仗不必打——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
 msgstr ""
 
 #. native.npc.niling_pursuer name
@@ -59806,6 +60164,7 @@ msgstr ""
 
 #. native.npc.guo_cheng title
 #. native.npc.guo_cheng moods.going.title
+#. native.npc.guo_cheng moods.home.title
 #. native.npc.guo_cheng_lake title
 #: data/guanbei/npcs.json data/native/npcs.json
 msgid "王府骁将"
@@ -59853,6 +60212,12 @@ msgid ""
 "郭承说道：走。\n"
 msgstr ""
 
+#. native.npc.guo_cheng moods.home.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"郭承在校场边看骑兵劈木人，看一会儿，说一句：撩，不是砍。\n"
+msgstr ""
+
 #. native.npc.guo_cheng calls.steps.emote
 #: data/guanbei/npcs.json
 msgid "把刀插回鞘里，冲校场上的兵吼了一声，六个人应声出列。"
@@ -59876,6 +60241,21 @@ msgstr ""
 #. native.npc.guo_cheng calls.steps.say
 #: data/guanbei/npcs.json
 msgid "走！帐篷里的醒了。救不完的别回头——这话我说过。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.say
+#: data/guanbei/npcs.json
+msgid "我回校场。夜里的事，王爷那边我去说——你别跟来。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "把马刀插回鞘里，看着最后一副枷锁落在土里。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.say
+#: data/guanbei/npcs.json
+msgid "六骑我带回校场。这一阵打完了，王爷那边我去回话——下一阵，你开口。"
 msgstr ""
 
 #. native.npc.guo_cheng calls.steps.say
@@ -65363,6 +65743,11 @@ msgstr ""
 msgid "走"
 msgstr ""
 
+#. native.npc.wei_canglan inquiry.走.rules.lines.say
+#: data/imperial/npcs.json
+msgid "虹台上正在推盟主？……老夫这时候出去，倒像是去抢椅子。等那边散了，你再来。"
+msgstr ""
+
 #. native.npc.wei_canglan inquiry.走.rules.lines.emote
 #: data/imperial/npcs.json
 msgid "听你说完，把诗集合上，往窗外看了一眼。"
@@ -68213,6 +68598,11 @@ msgid ""
 "蒙着面，眉眼看起来有些面熟——书房里那个老妇人的眉眼。衣襟上有血，不是她的。她站在前厅正中，像在等人。\n"
 msgstr ""
 
+#. native.npc.cult_killer alert_say
+#: data/native/npcs.json
+msgid "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。"
+msgstr ""
+
 #. native.npc.cult_killer chat_msg_combat
 #: data/native/npcs.json
 msgid ""
@@ -68667,7 +69057,7 @@ msgstr ""
 
 #. native.npc.shang_jue_lake fight_deferred
 #: data/native/npcs.json
-msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
 msgstr ""
 
 #. native.npc.shang_jue_lake inquiry topic
@@ -70474,7 +70864,7 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "站安妮儿：一代教主收回教主令。\n"
-"她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n"
+"她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n"
 "这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？"
 msgstr ""
 
@@ -72031,6 +72421,11 @@ msgstr ""
 msgid "叫花子吃上官饭了。巡捕见了花紫会的人，点个头就过去。"
 msgstr ""
 
+#. native.npc.lu_decai_home inquiry.龙头.rules.say
+#: data/native/npcs.json
+msgid "酒囊系在乔阴那个腰上了。……你认的是他，叫花子不认两个龙头。"
+msgstr ""
+
 #. native.npc.lu_decai_home inquiry.龙头.rules.lines.line
 #: data/native/npcs.json
 msgid ""
@@ -72235,7 +72630,7 @@ msgstr ""
 #. native.npc.maoshan_gardener inquiry.留.confirm
 #: data/native/npcs.json
 msgid ""
-"跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着。\n"
+"跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着（已经入了虹台的席的，这一票不再跟着变）。\n"
 "林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n"
 "要这么办吗？"
 msgstr ""
@@ -72596,7 +72991,7 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "保住骆家：骆云舟带大哥回乔阴，抄本的事从此不提；骆建章在曼雩台上给弟弟抄谱。\n"
-"第九章还没定的，揭发里少了骆建章这一样人证（本来就没有，不扣别的）。骆家照旧是京城的世家：正月十七虹台上，步玄这一票投颜违。\n"
+"第九章还没定的，揭发里少了骆建章这一样人证（本来就没有，不扣别的）。骆家照旧是京城的世家：正月十七虹台上，步玄这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n"
 "要这么办吗？"
 msgstr ""
 
@@ -72793,7 +73188,7 @@ msgstr ""
 msgid ""
 "让大哥作证：骆建章写供状、上堂，说出兵部抄本上多出来的三句是庾子建口述、他落的笔。\n"
 "第九章还没定的，朝上揭发多一样人证；庾子建已经下了狱的，大哥照实供，代笔矫令，判流放关北；私了过、或者先解了皇叔通缉的，供状送进刑部、抄一份给乔阴程不平，庾子建的案子重开。\n"
-"骆家从此和朝廷翻脸：正月十七虹台上，步玄这一票投旧盟主——兵部的旧案，查到底。\n"
+"骆家从此和朝廷翻脸：正月十七虹台上，步玄这一票投旧盟主——兵部的旧案，查到底（已经入了虹台的席的，这一票不再跟着变）。\n"
 "要这么办吗？"
 msgstr ""
 

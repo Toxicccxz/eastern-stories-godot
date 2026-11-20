@@ -78,6 +78,8 @@ extends RefCounted
 ##   level or its learning progress, and all enables go.
 ## - player_corpse_stays: the player's own corpse does not decay while it holds anything. false
 ##   (ES2): it decays as any other.
+## - death_keeps_equipped: the player's wielded weapons and worn armour stay on them at death
+##   (owner 2026-11-19, DECISIONS「减轻死亡」); false (ES2, chard.c make_corpse()): into the corpse.
 ## - autosave_min_seconds: real seconds at least between two autosaves. 0 (ES2 has none): none.
 ##
 ## - stats_appear_when_used (现代基线 C; DECISIONS「数值用到才出现」): a number with a `when_*` in
@@ -91,6 +93,9 @@ extends RefCounted
 ##   offer a rest that lets world time pass, the world running this many times as fast, for
 ##   at most rest_limit_seconds of world time (real seconds at ES2's pace). 0 (ES2 has no rest
 ##   command): no such rest.
+## - training_auto_rest (成长曲线 B; DECISIONS「连续修炼」): a continuous 请教 / 练习 / 打坐 / 冥思 / 修行
+##   that comes to a step 精, 气 or 神 is short for rests by itself (the same 歇到回满, the page
+##   staying open) and goes on with the same run. false (ES2, and before): it stops there and says so.
 ## - exp_gates (势力线第三批 绝尘 A; DECISIONS「绝尘的经验门槛」): {gate: combat_exp}, a named experience gate's
 ##   threshold. A check of ported content that names its gate (`exp_gate`: an exit rule's
 ##   combat_exp_below, a master's apprentice check of combat_exp) asks this many instead of its ES2
@@ -162,6 +167,7 @@ var _death_exp_percent: int = ES2_DEATH_EXP_PERCENT
 var _death_keeps_potential: bool = false
 var _death_keeps_skills: bool = false
 var _player_corpse_stays: bool = false
+var _death_keeps_equipped: bool = false
 var _autosave_min_seconds: int = 0
 var _stats_appear_when_used: bool = false
 var _map_page: bool = false
@@ -171,6 +177,7 @@ var _coach_fare_per_leg: int = 0
 var _coach_minutes_per_leg: int = 0
 var _rest_world_scale: int = 0
 var _rest_limit_seconds: int = 0
+var _training_auto_rest: bool = false
 var _exp_gates: Dictionary[StringName, int] = {}
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
@@ -312,6 +319,10 @@ var death_keeps_skills: bool:
 var player_corpse_stays: bool:
 	get:
 		return _player_corpse_stays
+## Whether what the player wields and wears stays on them at death (false: ES2, into the corpse).
+var death_keeps_equipped: bool:
+	get:
+		return _death_keeps_equipped
 ## Real seconds at least between two autosaves (0: no autosave).
 var autosave_min_seconds: int:
 	get:
@@ -347,6 +358,10 @@ var rest_world_scale: int:
 var rest_limit_seconds: int:
 	get:
 		return _rest_limit_seconds
+## A continuous run rests by itself when 精, 气 or 神 runs short, and goes on (false: it stops).
+var training_auto_rest: bool:
+	get:
+		return _training_auto_rest
 ## The named experience gates (`exp_gates`; empty when left out: ES2's own thresholds).
 var exp_gates: Dictionary[StringName, int]:
 	get:
@@ -393,15 +408,22 @@ func copy() -> PacingDefinition:
 	record.with_decisions(_decision_rules)
 	record.with_beats(_beat_rules)
 	record.with_death(_death_exp_percent, _death_keeps_potential, _death_keeps_skills, _player_corpse_stays)
+	record.with_death_equipped(_death_keeps_equipped)
 	record.with_autosave(_autosave_min_seconds)
 	record.with_stats_display(_stats_appear_when_used)
 	record.with_map_page(_map_page)
 	record.with_coach(_coach_travel, _coach_fare_base, _coach_fare_per_leg, _coach_minutes_per_leg)
-	record.with_rest(_rest_world_scale, _rest_limit_seconds)
+	record.with_rest(_rest_world_scale, _rest_limit_seconds, _training_auto_rest)
 	record.with_exp_gates(_exp_gates)
 	record.feel = feel
 	record.npc_idle = npc_idle
 	return record
+
+
+## This record with death_keeps_equipped set (tests, and from_record()).
+func with_death_equipped(keeps: bool) -> PacingDefinition:
+	_death_keeps_equipped = keeps
+	return self
 
 
 ## This record with the death knobs set (tests, and from_record()).
@@ -440,10 +462,12 @@ func with_coach(on: bool, fare_base: int, fare_per_leg: int, minutes_per_leg: in
 	return self
 
 
-## This record with 歇到回满's pace and longest rest set (tests, and from_record()).
-func with_rest(world_scale: int, limit_seconds: int) -> PacingDefinition:
+## This record with 歇到回满's pace and longest rest set, and whether a continuous run rests by
+## itself (tests, and from_record()).
+func with_rest(world_scale: int, limit_seconds: int, auto_rest: bool) -> PacingDefinition:
 	_rest_world_scale = world_scale
 	_rest_limit_seconds = limit_seconds
+	_training_auto_rest = auto_rest
 	return self
 
 
@@ -619,6 +643,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 	definition.with_decisions(CombatDecisionRules.from_record(reader))
 	definition.with_beats(CombatBeatRules.from_record(reader))
 	definition.with_death(reader.integer("death_exp_percent", ES2_DEATH_EXP_PERCENT), reader.boolean("death_keeps_potential", false), reader.boolean("death_keeps_skills", false), reader.boolean("player_corpse_stays", false))
+	definition.with_death_equipped(reader.boolean("death_keeps_equipped", false))
 	definition.with_autosave(reader.integer("autosave_min_seconds", 0))
 	definition.with_stats_display(reader.boolean("stats_appear_when_used", false))
 	definition.with_map_page(reader.boolean("map_page", false))
@@ -626,7 +651,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("coach_travel", false), reader.integer("coach_fare_base", 0),
 		reader.integer("coach_fare_per_leg", 0), reader.integer("coach_minutes_per_leg", 0),
 	)
-	definition.with_rest(reader.integer("rest_world_scale", 0), reader.integer("rest_limit_seconds", 0))
+	definition.with_rest(reader.integer("rest_world_scale", 0), reader.integer("rest_limit_seconds", 0), reader.boolean("training_auto_rest", false))
 	var gates: Dictionary[StringName, int] = {}
 	if reader.has("exp_gates"):
 		var named: Dictionary[String, int] = reader.integer_map("exp_gates")
@@ -695,4 +720,6 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("rest_world_scale", "歇到回满's pace and longest rest must not be negative")
 	if definition._rest_world_scale > 0 and definition._rest_limit_seconds <= 0:
 		reader.fail("rest_limit_seconds", "a rest offered needs a longest rest")
+	if definition._training_auto_rest and definition._rest_world_scale <= 0:
+		reader.fail("training_auto_rest", "a run that rests by itself needs 歇到回满 (rest_world_scale)")
 	return definition

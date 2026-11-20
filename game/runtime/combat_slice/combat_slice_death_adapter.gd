@@ -15,7 +15,6 @@ func execute(
 	corpse_item_instance_id: StringName,
 	arena_destination: InventoryTransferDestination,
 	item_facts: Array[DeathItemFacts],
-	policy_registry: DeathItemPolicyRegistry,
 	rewear_registry: DeathRewearPolicyRegistry,
 	context_override: DeathContext = null,
 ) -> CombatSliceDeathExecutionResult:
@@ -26,7 +25,6 @@ func execute(
 		or stacks == null
 		or corpse_item_instance_id == &""
 		or arena_destination == null
-		or policy_registry == null
 		or rewear_registry == null
 	):
 		return CombatSliceDeathExecutionResult.new()
@@ -73,7 +71,6 @@ func execute(
 		inventory,
 		stacks,
 		item_facts,
-		policy_registry,
 		rewear_registry,
 		corpse_item,
 		corpse_definition,

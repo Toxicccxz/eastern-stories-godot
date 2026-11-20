@@ -20,6 +20,7 @@ func run_all(_tree: SceneTree) -> Dictionary[String, Variant]:
 	_fits_change()
 	_purchase_ledger()
 	_exchange_ledger()
+	_purse_that_cannot_pay_exactly()
 	return {"assertions": assertions, "failures": failures}
 
 
@@ -91,6 +92,30 @@ func _exchange_ledger() -> void:
 		check(result.outcome == (BankConversionResult.Outcome.SUCCESS if limit == 1062 else BankConversionResult.Outcome.TOO_HEAVY), "exchange to 1062 against the limit %d" % limit)
 		check(_value(f.context) == value_before, "the money held is worth the same: no coin lost")
 		check(f.context.index.snapshot_ids() == f.context.inventory.registered_item_ids(), "index and inventory agree")
+
+
+## DECISIONS「凑不整就不收钱」: 3 gold, 10 silver, no copper for 26000 文 (京师's robe): finance.c's
+## can_afford() says yes and pay() would take 2 gold and 10 silver and stop; the shop refuses
+## first and nothing moves. With a copper pile it pays exactly and the robe is bought.
+func _purse_that_cannot_pay_exactly() -> void:
+	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	builder.add_document({
+		"items": [{"id": "t:robe", "legacy_sources": ["t/robe.c"], "name": "锦袍", "aliases": ["robe"], "weight": 10, "value": 26000}],
+		"vendors": [{"id": "t.vendor", "legacy_source": "t/vendor.c", "goods": [{"key": "robe", "item": "t:robe"}]}],
+	}, "t")
+	builder.add_document(JSON.parse_string(FileAccess.get_file_as_string("res://data/common/items.json")), "common")
+	builder.add_document(JSON.parse_string(FileAccess.get_file_as_string("res://data/common/pacing.json")), "pacing")
+	var catalog: ContentCatalog = builder.build()
+	var f: Finance.Fixture = Finance.amounts(3, 10, 0)
+	var ids: Array[StringName] = f.context.inventory.registered_item_ids()
+	check(MoneyPaymentService.can_afford(f.context, 26000).outcome == MoneyAffordabilityResult.Outcome.AFFORDABLE, "finance.c's can_afford() says yes")
+	check(not MoneyPaymentService.pays_exactly(f.context, 26000), "pay() would not finish")
+	var result: VendorPurchaseResult = VendorPurchaseService.buy(catalog.vendor(&"t.vendor"), "robe", catalog, f.context, FoodCollection.new(), LiquidCollection.new(), f.allocator, 1000000)
+	check(result.outcome == VendorPurchaseResult.Outcome.NO_EXACT_CHANGE and not result.paid and result.payment == null, "refused before payment: no exact change")
+	check([Finance.amount(f.context, GOLD), Finance.amount(f.context, SILVER)] == [3, 10] and f.context.inventory.registered_item_ids() == ids and f.allocator.next_dynamic_sequence == 1, "not a coin moved, nothing made")
+	var paying: Finance.Fixture = Finance.amounts(3, 60, 0)
+	var bought: VendorPurchaseResult = VendorPurchaseService.buy(catalog.vendor(&"t.vendor"), "robe", catalog, paying.context, FoodCollection.new(), LiquidCollection.new(), paying.allocator, 1000000)
+	check(bought.delivered and _value(paying.context) == 36000 - 26000, "enough silver: paid exactly, the robe bought")
 
 
 func _value(context: MoneyInventoryContext) -> int:

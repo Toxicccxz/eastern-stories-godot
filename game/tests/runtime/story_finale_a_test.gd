@@ -114,7 +114,8 @@ func _test_kind(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map().map_id() == &"village.icecave" and state.marks.get("终章下了湖底", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"hall", "down into the ice cave: the 冰龙厅 next")
 	# 章与章之间的衔接: what this package played out holds what B's fixture writes (but for the earlier
 	# chapters' choices, which _ledger() sets, TEST-ONLY).
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_dived.bind("self", "expose", false), TABLE)
+	# 能灭它 is the ledger's (the suite's choice); 旋芒 ChapterStart.carried gives
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.finale_dived.bind("self", "expose", false), TABLE + ["能灭它"], [ChapterStart.XUANMANG])
 	_check(handoff.is_empty(), "终章 A played leaves what finale_dived writes: %s" % [handoff])
 	# The 决战前 save taken out and read back (Continue from the keep slot): the lakeside before the battle.
 	if not _check(kept[0] != null and kept[0].metadata.slot_id == GameSaveSnapshot.KEEP_SLOT_ID, "the 决战前 save was taken the moment it was asked for"):

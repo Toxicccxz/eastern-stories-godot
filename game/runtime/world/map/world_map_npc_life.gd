@@ -1155,9 +1155,14 @@ func _start_stealing(npc: NpcRuntimeState) -> void:
 	if GameContent.catalog().zone_forbids_fighting(npc.world_location().zone_id):
 		return
 	var steal: NpcSteal = npc.definition().dealings().steal
+	# DECISIONS「任务物品不被拿走」: a thief never takes what cannot be dropped (no_drop): it is neither
+	# the thing named nor among those picked from (ES2's steal.c takes anything).
 	var item_id: StringName = _player_item_with_alias(steal.what)
 	if item_id.is_empty():
-		var carried: Array[StringName] = _player_carried_item_ids()
+		var carried: Array[StringName] = []
+		for id: StringName in _player_carried_item_ids():
+			if not _kept_from_thieves(id):
+				carried.append(id)
 		if carried.is_empty():
 			return
 		item_id = carried[ambience.random().legacy_random(carried.size())]
@@ -1230,13 +1235,19 @@ func _player_carried_item_ids() -> Array[StringName]:
 	return _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id))
 
 
-## present(alias, me): the first of the player's own things answering to `alias`.
+## present(alias, me): the first of the player's own things answering to `alias` that a thief may take.
 func _player_item_with_alias(alias: StringName) -> StringName:
 	for item_id: StringName in _player_carried_item_ids():
 		var content: ItemContentDefinition = _item_content(item_id)
-		if content != null and content.aliases().has(String(alias)):
+		if content != null and content.aliases().has(String(alias)) and not content.no_drop:
 			return item_id
 	return &""
+
+
+## Whether a thief leaves `item_id` alone: it cannot be dropped (no_drop).
+func _kept_from_thieves(item_id: StringName) -> bool:
+	var content: ItemContentDefinition = _item_content(item_id)
+	return content != null and content.no_drop
 
 
 func _item_content(item_id: StringName) -> ItemContentDefinition:

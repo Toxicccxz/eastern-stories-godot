@@ -158,7 +158,8 @@ func _test_mansion(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_floor_has(house, LETTER), "the 密信 on the floor")
 	state.progression.combat_experience = state_exp
 	# 章与章之间的衔接: what this package played out holds what D's fixture writes (卫沧澜 a witness, gone).
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_compared.bind(true, false, true, true))
+	# the well's way in (第九章 B), which the suite walks besides the 武举
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter9_compared.bind(true, false, true, true), ["看过床底的石板", "清尘说了密道"], [])
 	_check(handoff.is_empty(), "第九章 C played leaves what chapter9_compared(witness) writes: %s" % [handoff])
 
 

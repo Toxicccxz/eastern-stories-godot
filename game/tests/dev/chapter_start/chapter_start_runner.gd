@@ -64,10 +64,23 @@ func _process(_delta: float) -> void:
 			queue_free()
 
 
-## The command line's words as a spec: `<chapter> [fist] [chase] [pulled] [side=expose|deal|uncle]
-## [who=self|uncle|xiao] [explore] [male]` (chapter: prologue, 1 … 10, finale). Null when the chapter is
-## unknown or a word is.
+## The command line's words as a spec: `<chapter> [fist] [chase] [sneak] [ronin] [pulled] [side=expose|deal|uncle]
+## [who=self|uncle|xiao] [line=<line> stage=<stage>] [explore] [male]` (chapter: prologue, 1 … 10, finale, after).
+## Null when the chapter is unknown, a word is, or the choices make a state no player reaches (why_not says why).
 static func parse(words: PackedStringArray) -> ChapterStart.Spec:
+	var out: ChapterStart.Spec = _read(words)
+	return out if out != null and out.problems().is_empty() else null
+
+
+## Why parse() refuses `words` ("" when it does not).
+static func why_not(words: PackedStringArray) -> String:
+	var out: ChapterStart.Spec = _read(words)
+	if out == null:
+		return "unknown chapter or word: %s" % " ".join(words)
+	return "；".join(out.problems())
+
+
+static func _read(words: PackedStringArray) -> ChapterStart.Spec:
 	if words.is_empty():
 		return null
 	var out := ChapterStart.Spec.new()
@@ -81,6 +94,10 @@ static func parse(words: PackedStringArray) -> ChapterStart.Spec:
 			"sword": out.sword = true
 			"chase": out.chased = true
 			"rescue": out.chased = false
+			"raid": out.raid = true
+			"sneak": out.raid = false
+			"rome": out.rome = true
+			"ronin": out.rome = false
 			"pulled": out.pulled = true
 			"keep": out.pulled = false
 			"explore": out.exploring = true
@@ -88,5 +105,9 @@ static func parse(words: PackedStringArray) -> ChapterStart.Spec:
 			"female": out.gender = CharacterState.GENDER_FEMALE
 			"side" when value in ["expose", "deal", "uncle"]: out.side = value
 			"who" when value in ["self", "uncle", "xiao"]: out.who = value
+			"line" when not ChapterStart.line_of(value).is_empty(): out.line = value
+			"stage": out.stage = value
 			_: return null
+	if not out.line.is_empty() and out.stage.is_empty():
+		out.stage = ChapterStart.line_of(out.line)["stages"][0]["key"]
 	return out

@@ -873,6 +873,7 @@
 					"scene": true,
 					"mark": "候了殿试",
 					"not_mark": "殿试过",
+					"present": ["native.npc.yu_zijian_court", "native.npc.feng_ce", "native.npc.fu_an"],
 					"steps": [
 						{
 							"line": "太监尖着嗓子喊：「武状元上殿——」百官分成两列，你从当中走过去，跪下。\n"
@@ -1125,6 +1126,7 @@
 						"踏平了工地"
 					],
 					"not_mark": "早朝过",
+					"present": ["native.npc.wei_zhizhong", "native.npc.yu_zijian_court", "native.npc.yulan_zhao", "native.npc.fu_an"],
 					"steps": [
 						{
 							"say": "有本早奏，无本退朝——"
@@ -1179,6 +1181,7 @@
 					"scene": true,
 					"mark": "随相国上朝",
 					"not_mark": "早朝过",
+					"present": ["native.npc.wei_zhizhong", "native.npc.yu_zijian_court", "native.npc.yulan_zhao", "native.npc.fu_an"],
 					"steps": [
 						{
 							"say": "有本早奏，无本退朝——"
@@ -2074,6 +2077,19 @@
 					"rules": [
 						{
 							"asker_marks": [
+								"入了虹台的席"
+							],
+							"asker_lacks": [
+								"大会散了"
+							],
+							"lines": [
+								{
+									"say": "虹台上正在推盟主？……老夫这时候出去，倒像是去抢椅子。等那边散了，你再来。"
+								}
+							]
+						},
+						{
+							"asker_marks": [
 								"钻了尚书府的狗洞",
 								"真龙头说了狗洞",
 								"见过卫沧澜"
@@ -2146,17 +2162,17 @@
 				"con": 26,
 				"kar": 16
 			},
-			"combat_exp": 300000,
+			"combat_exp": 185000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"sword": 120,
-				"parry": 110,
-				"dodge": 110,
-				"force": 110,
-				"unarmed": 90
+				"sword": 89,
+				"parry": 84,
+				"dodge": 84,
+				"force": 84,
+				"unarmed": 69
 			},
 			"carry": [
 				{
@@ -2172,7 +2188,7 @@
 			"vanishes": {
 				"line": "信使一声不响地散成一股黑烟，一封信飘落在地上。"
 			},
-			"die_marks_killer": "小屋的信使倒了"
+			"die_marks": "小屋的信使倒了"
 		},
 		{
 			"id": "native.npc.yu_zijian_accused",
@@ -2243,6 +2259,7 @@
 						"踏平了工地"
 					],
 					"not_mark": "揭发过",
+					"present": ["native.npc.yulan_zhao", "native.npc.feng_ce"],
 					"steps": [
 						{
 							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
@@ -2339,6 +2356,7 @@
 					"scene": true,
 					"mark": "要在朝上揭发",
 					"not_mark": "揭发过",
+					"present": ["native.npc.yulan_zhao", "native.npc.feng_ce"],
 					"steps": [
 						{
 							"line": "太和殿上，百官分列。皇帝坐在龙椅上，脸色发白，手按着扶手。\n"
@@ -2489,7 +2507,7 @@
 				"leave": true,
 				"line": "冯策一把扭住庾子建的胳膊，刀「当啷」落在金砖上。两个侍卫上来，把他押了下去。"
 			},
-			"die_marks_killer": "庾子建下狱"
+			"die_marks": "庾子建下狱"
 		},
 		{
 			"id": "native.npc.feng_ce_beside",

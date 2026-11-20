@@ -123,6 +123,9 @@ signal autosave_moment
 signal quiet_moment
 ## An act's `keep_save` (终章 A; DECISIONS「决战前存档」): the host writes the 决战前 slot now.
 signal keep_save_requested
+## Native (DECISIONS「死前存档」): the player died and the death card comes up; `corpse_id` the corpse
+## the death left (empty: none, a ghost's death). The host copies the autosave as it lies on disk.
+signal player_died(corpse_id: StringName)
 ## 终章 C (DECISIONS「结局讲述」): an ending was told; `final`: the journey ends with it (the host
 ## takes the game back to the main menu).
 signal epilogue_ended(final: bool)
@@ -324,7 +327,9 @@ func _process(delta: float) -> void:
 	# 战斗决策层 1B: while the fight's clock waits for the player's order, nothing on it moves.
 	var fight_delta: float = 0.0 if fighting and _combat_encounter_coordinator.waiting_for_player() else BattlePace.fight_seconds(delta)
 	advance_quest_time(fight_delta if fighting else world_delta)
-	advance_bounty_time(fight_delta if fighting else world_delta)
+	# The board's empty slots count play time (BountyBoard), never the rest's or a quick wake's
+	# faster world (DECISIONS「歇到回满」).
+	advance_bounty_time(fight_delta if fighting else delta)
 	advance_npc_heartbeat(world_delta)
 	advance_hidden_passages(world_delta)
 	advance_room_hazards(world_delta)
@@ -482,6 +487,10 @@ func _sync_walk_pause() -> void:
 signal rest_ended(outcome: int, line: String)
 var _rest: PlayerRest = PlayerRest.new()
 var _rest_map: StringName = &""
+## A continuous run's own rest (自动歇; begin_rest(true)): the holds of the window it runs on, which
+## do not hold the world while it lasts; nothing is said (the run tells it). Empty otherwise.
+var _rest_lifts: Array[StringName] = []
+var _rest_quiet: bool = false
 
 
 func resting() -> bool:
@@ -509,7 +518,11 @@ func rest_refusal() -> String:
 
 
 ## The player sits down to rest (the 请教 and 武学 pages' 歇到回满): "" when they do, else why not.
-func begin_rest() -> String:
+## `for_training`: a continuous run rests by itself (自动歇, pacing training_auto_rest; DECISIONS
+## 「连续修炼」): the page it runs on stays open, and that window's holds (`lifted`: the menu's,
+## the popup's) do not hold world time while the rest lasts; nothing is said here, the run tells
+## it. Any other hold (a card, a presentation beat, one that comes meanwhile) holds it as ever.
+func begin_rest(for_training: bool = false, lifted: Array[StringName] = []) -> String:
 	if _rest.active():
 		return ""
 	var refused: String = rest_refusal()
@@ -519,18 +532,20 @@ func begin_rest() -> String:
 	_rest.begin(_player.state, pacing.rest_world_scale, pacing.rest_limit_seconds)
 	var map: WorldMapController = active_map() as WorldMapController
 	_rest_map = &"" if map == null else map.map_id()
+	_rest_quiet = for_training
+	_rest_lifts = []
+	if for_training:
+		_rest_lifts.assign(lifted)
 	_sync_walk_pause()
-	_rest_line(RestLines.begin_line(timed_errand_running()))
+	if not _rest_quiet:
+		_rest_line(RestLines.begin_line(timed_errand_running()))
 	return ""
 
 
-## A timed errand runs (朱鸿雪's task with its time left): resting speeds its clock with the
-## world's, and 歇到回满 says so (RestLines.ERRAND).
+## A timed errand runs (朱鸿雪's task with its time left; TrainingRun.rest_held_back()): resting
+## speeds its clock with the world's, and 歇到回满 says so (RestLines.ERRAND).
 func timed_errand_running() -> bool:
-	if _player == null or _player.state == null:
-		return false
-	var quest: CharacterQuestState = _player.state.quest
-	return quest.has_task() and not quest.is_expired()
+	return _player != null and _player.state != null and TrainingRun.rest_held_back(_player.state)
 
 
 ## 歇到回满's hover as it stands now.
@@ -538,10 +553,22 @@ func rest_hint() -> String:
 	return RestLines.hint(timed_errand_running())
 
 
-## The player gets up (the rest's 起身).
+## The rest under way is a continuous run's own (begin_rest(true)).
+func resting_for_training() -> bool:
+	return _rest.active() and _rest_quiet
+
+
+## World seconds the rest under way has lasted.
+func rest_world_seconds() -> float:
+	return _rest.world_seconds()
+
+
+## The player gets up (the rest's 起身, a run's 停止, its page going away). Something that came at
+## them this frame (a fight closing the page first, another map) is told as that, not as 起身.
 func stop_rest() -> void:
 	if _rest.active():
-		_end_rest(RestRules.Outcome.CANCELLED)
+		var interruption: RestRules.Outcome = _rest_interruption()
+		_end_rest(RestRules.Outcome.CANCELLED if interruption == RestRules.Outcome.NONE else interruption)
 
 
 ## What came at the resting player this frame, or NONE: a fall, a fight or a gang's alert, a
@@ -572,9 +599,13 @@ func _judge_rest(interruption: RestRules.Outcome, world_seconds: float) -> void:
 
 func _end_rest(outcome: RestRules.Outcome) -> void:
 	var line: String = RestLines.ended(outcome, rest_minutes())
+	var quiet: bool = _rest_quiet
 	_rest.end()
+	_rest_quiet = false
+	_rest_lifts = []
 	_sync_walk_pause()
-	_rest_line(line)
+	if not quiet:
+		_rest_line(line)
 	rest_ended.emit(outcome, line)
 
 
@@ -588,10 +619,21 @@ func _rest_line(line: String) -> void:
 ## menu lives world time at once (the HUD closes the menu on its next frame).
 func world_time_held() -> bool:
 	return (
-		not _world_time_holds.is_empty() and _player != null
+		_holds_world_time() and _player != null
 		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and (_combat_encounter_coordinator == null or not _combat_encounter_coordinator.has_active_encounter())
 	)
+
+
+## Someone holds world time: any hold, but while a continuous run rests by itself, not the holds of
+## the window it runs on (begin_rest(true)).
+func _holds_world_time() -> bool:
+	if _rest_lifts.is_empty() or not _rest.active():
+		return not _world_time_holds.is_empty()
+	for owner: StringName in _world_time_holds:
+		if not _rest_lifts.has(owner):
+			return true
+	return false
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies
@@ -2077,8 +2119,89 @@ func _carry_followers(source: WorldResidentMapController, destination: WorldResi
 	if from_map == null or to_map == null or left == null or _player == null:
 		return
 	var adjacent: bool = GameContent.catalog().zones_adjacent(left.zone_id, _player.world_location().zone_id)
+	var with_player: Array[NpcRuntimeState] = []
+	for npc: NpcRuntimeState in from_map.npc_runtimes():
+		if WorldLeftBehind.follows_every_way(npc) and npc.world_location() != null and npc.world_location().zone_id == left.zone_id:
+			with_player.append(npc)
 	if adjacent or leading():
 		from_map.spells.carry_followers(to_map, left.zone_id, adjacent)
+	_tell_left_behind(from_map, to_map, with_player)
+
+
+## Native (DECISIONS「走散的同伴回来」, owner 2026-11-19「都按推荐」): after the return to life, the court's
+## release and the night watch's, who follows the player every way and stands apart from them,
+## up and free, comes to them: beside them on their map, one line each. One knocked down or dead
+## stays where they are (the hints of「尸体和走散的同伴」tell of them). Who came.
+## Native (DECISIONS「郭承回校场」): `npc`, on `from` though its spawn is on another map (it followed the
+## player there), goes back to its spot on its own map. Whether it is there now.
+func send_npc_home(npc: NpcRuntimeState, from: WorldMapController) -> bool:
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	var home: WorldMapController = null if spawn == null else world_map_of(spawn.map_id)
+	var marker: WorldSpawnMarker2D = null if home == null else home.resolve_spawn_marker(npc.spawn_point_id)
+	var location: WorldLocationState = null if home == null else home.location_for_zone(spawn.zone_id)
+	if marker == null or location == null or from == null or home == from:
+		return false
+	from.npc_life.npc_walker().cancel(npc.character_id)
+	return _move_npc(npc, from, home, location, _clear_spot(home, spawn.zone_id, marker.global_position))
+
+
+## A handoff after which those apart come back (the court's release, the night watch's): the move
+## tells nobody left behind, bring_followers_back() follows it.
+func handoff_rejoined(map_id: StringName, zone_id: StringName, combat_location_id: StringName, spawn_point_id: StringName) -> OldPineMapHandoffResult:
+	_rejoining = true
+	var result: OldPineMapHandoffResult = handoff_to(map_id, zone_id, combat_location_id, spawn_point_id)
+	_rejoining = false
+	return result
+
+
+## Set while handoff_rejoined() moves the player: no left-behind line.
+var _rejoining: bool = false
+
+
+func bring_followers_back() -> Array[NpcRuntimeState]:
+	var came: Array[NpcRuntimeState] = []
+	var here: WorldMapController = active_map() as WorldMapController
+	if here == null or _player == null or _player.state.ghost or _player.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return came
+	var location: WorldLocationState = here.location_for_zone(_player.world_location().zone_id)
+	var lines: Array[String] = []
+	for place: WorldLeftBehind.Place in WorldLeftBehind.followers_apart(self):
+		var from: WorldMapController = world_map_of(place.map_id)
+		var npc: NpcRuntimeState = null if from == null else from.npcs.find_resident_npc(place.id)
+		if npc == null or place.down or npc.relationship.is_fighting():
+			continue
+		var moved: bool = false
+		if from == here:
+			moved = here.npcs.bring_beside_player(npc)
+		else:
+			moved = _move_npc(npc, from, here, location, here.floor_items.at_feet(location, here.player_body.global_position, false, WorldMapNpcs.BESIDE))
+			if moved:
+				here.npc_life.npc_arrived(npc)
+		if not moved:
+			continue
+		came.append(npc)
+		# TRANSLATORS: a follower ({name}) left behind finds the player again (DECISIONS「走散的同伴回来」).
+		lines.append(tr("{name}找了过来，又跟在你身边。").format({"name": tr(npc.definition().display_name)}))
+	if not lines.is_empty() and here.hud() != null:
+		here.hud().append_log_lines(lines)
+	return came
+
+
+## Native (DECISIONS「尸体和走散的同伴」): who followed the player every way and stood with them, and
+## did not come along onto the map they went to (a move that takes nobody: 遁, an arrest, the night
+## watch; or they lay knocked down, or were fighting), is told: one line each. The dead are told
+## after their return to life (PlayerLifeOverlay), not on the way to 阴间.
+func _tell_left_behind(from_map: WorldMapController, to_map: WorldMapController, with_player: Array[NpcRuntimeState]) -> void:
+	if with_player.is_empty() or _player.state.ghost or _rejoining or to_map.hud() == null:
+		return
+	var lines: Array[String] = []
+	for npc: NpcRuntimeState in with_player:
+		if from_map.npcs.find_resident_npc(npc.character_id) == null:
+			continue
+		# TRANSLATORS: a follower ({name}) did not come along onto the map the player went to; {place} where they stay.
+		lines.append(tr("{name}没有跟上来，还在{place}。").format({"name": tr(npc.definition().display_name), "place": place_name(npc.world_location())}))
+	if not lines.is_empty():
+		to_map.hud().append_log_lines(lines)
 
 
 ## go.c for an NPC whose way leads onto another map (a wanderer leaving a shop by its door,
@@ -2419,6 +2542,7 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 			# A ghost leaves no corpse (chard.c make_corpse()): the card names none.
 			var place: String = "" if _player.state.ghost else place_name(location)
 			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer, GameContent.catalog().pacing()), place, lifecycle.corpse_item_instance_id)
+			player_died.emit(&"" if place.is_empty() else lifecycle.corpse_item_instance_id)
 
 
 ## The dead owe nothing (默认, DECISIONS 玉螺湖村 B): a catch's marks (meloner.c's
@@ -2622,6 +2746,7 @@ func _advance_reincarnation() -> void:
 	PlayerDeathRules.reincarnate(_player.state)
 	_reincarnations += 1
 	_refresh_ghost_sight()
+	bring_followers_back()
 
 
 ## How often (real seconds) the 任务 page's entries and the 百科's items are looked for.

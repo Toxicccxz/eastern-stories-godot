@@ -10,7 +10,7 @@ extends RefCounted
 ## TEST-ONLY fixtures, marked where used: gin/kee/sen, water, skill levels set directly.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SCHOOL: StringName = &"snow.school_compound.schoolhall.master"
-## Seconds of one hand-driven frame (world time while resting: 20 times as much).
+## Seconds of one hand-driven frame (world time while resting: pacing rest_world_scale times as much).
 const FRAME: float = 0.1
 const GATE: StringName = &"city.eastdoor1"
 
@@ -51,6 +51,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_other_ends(tree)
 	await _test_martial_arts_page(tree)
 	await _test_get_up_key(tree)
+	_test_bounty_board_keeps_play_time()
 	await _test_attacker(tree)
 	TestDay.restore()
 	_session.free()
@@ -66,14 +67,18 @@ func _test_knob() -> void:
 	PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000, "rest_world_scale": 20}, "p", broken))
 	_check(broken.size() == 1 and broken[0].contains("rest_limit_seconds"), "a rest needs a longest rest: %s" % [broken])
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
-	_check(pacing.rest_world_scale == 20 and pacing.rest_limit_seconds == 600, "pacing.json: 20 times as fast, 600 world seconds at most")
-	_check(pacing.copy().rest_world_scale == 20 and pacing.copy().rest_limit_seconds == 600, "a copy keeps them")
+	_check(pacing.rest_world_scale == 40 and pacing.rest_limit_seconds == 600, "pacing.json: 40 times as fast (成长曲线 B), 600 world seconds at most")
+	_check(pacing.copy().rest_world_scale == 40 and pacing.copy().rest_limit_seconds == 600, "a copy keeps them")
 
 
-## 连续请教 stops for 精: 歇到回满 shows and has the focus; pressed, the page closes and the
-## player rests; the clock moves 60 game seconds a world second (a day of 24 real minutes), food
-## goes down by the heal_up()s that ran, 精 comes back full, and the page opens again.
+## 连续请教 stops for 精 (自动歇 off: pacing training_auto_rest false, as ES2 and before; the run
+## resting by itself is training_auto_rest_test's): 歇到回满 shows and has the focus; pressed, the
+## page closes and the player rests; the clock moves 60 game seconds a world second (a day of 24
+## real minutes), food goes down by the heal_up()s that ran, 精 comes back full, and the page opens again.
 func _test_rest_from_teacher(tree: SceneTree) -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var auto_before: bool = pacing.training_auto_rest
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, false) # TEST-ONLY: 自动歇 off
 	_lesson_ready(&"sword", 10)
 	_state.essence.current = _cost() * 2 + 3 # TEST-ONLY: two lessons and 3 over
 	_school.interact()
@@ -107,6 +112,7 @@ func _test_rest_from_teacher(tree: SceneTree) -> void:
 	_check(_school.ui.panel.visible, "the 请教 page opens again")
 	_check(not _session.active_map().runtime_player_body().walk_paused, "walking again")
 	_school.ui.close_panel()
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, auto_before)
 	await tree.process_frame
 	await tree.process_frame
 
@@ -154,8 +160,8 @@ func _test_limit() -> void:
 	var seconds: float = 0.0
 	while _session.resting() and seconds < 1000.0:
 		_session._process(FRAME)
-		seconds += FRAME * 20.0
-	_check(_ended[-1] == RestRules.Outcome.LIMIT and absf(seconds - 600.0) <= 2.0 * FRAME * 20.0, "stopped at the longest rest: %.1f world seconds" % seconds)
+		seconds += FRAME * float(GameContent.catalog().pacing().rest_world_scale)
+	_check(_ended[-1] == RestRules.Outcome.LIMIT and absf(seconds - 600.0) <= 2.0 * FRAME * float(GameContent.catalog().pacing().rest_world_scale), "stopped at the longest rest: %.1f world seconds" % seconds)
 	essence.maximum = saved.z
 	essence.effective = saved.y
 	essence.current = saved.x
@@ -293,6 +299,24 @@ func _test_get_up_key(tree: SceneTree) -> void:
 	_check(_ended[-1] == RestRules.Outcome.CANCELLED and not _session.resting(), "B / Esc: 起身")
 	await tree.process_frame
 	_check(not _hud.rest_overlay.shown(), "the band goes")
+
+
+## The bounty board's empty slot counts play time while the player rests, not the rest's
+## faster world (DECISIONS「歇到回满」): one real second takes one second off its 600.
+func _test_bounty_board_keeps_play_time() -> void:
+	var board: WorldBounties = _session.bounties()
+	var posts: Array[WorldBounties.Posting] = board.postings()
+	if not _check(not posts.is_empty() and board.take(posts[0].slot) and board.give_up(), "a bounty taken and given up: its slot empty"):
+		return
+	var slot: int = posts[0].slot
+	var before: int = _state.bounty.refill_ms[slot]
+	_state.essence.current = 10 # TEST-ONLY
+	_check(_session.begin_rest() == "", "a rest begins")
+	for _i: int in 10:
+		_session._process(FRAME)
+	_session.stop_rest()
+	var counted: int = before - _state.bounty.refill_ms[slot]
+	_check(counted >= 900 and counted <= 1100, "a real second resting (rest_world_scale world seconds) is a second off the board: %d ms" % counted)
 
 
 ## An aggressive NPC noticing the player cuts the rest short; the fight then comes as ever:

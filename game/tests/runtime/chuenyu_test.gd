@@ -22,6 +22,8 @@ const GUARD: StringName = &"chuenyu.npc.guard"
 const WOLFDOG: StringName = &"chuenyu.npc.wolfdog"
 const PIGMEAT: StringName = &"es2:d/chuenyu/obj/pigmeat"
 const HIND: StringName = &"es2:u/cloud/obj/meat/hind"
+## What every experience gate adds to its own refusal (DECISIONS「过了的经验门槛」).
+const EXP_REFUSAL: String = "你的实战经验还不够，过不去。"
 const ARROW_LINES: Array[String] = ["刹那间石墙的后面“嘣嘣”声不绝，无数羽箭从圆孔中向你激射而出！！", "你被乱箭射得头破血流，遍体鳞伤！"]
 ## Where each kind stands (the rooms' set("objects")).
 const PEOPLE: Dictionary = {
@@ -90,6 +92,11 @@ func _test_data() -> void:
 		var refused: bool = rules.size() == 1 and rules[0].refuses(leaver, false)
 		leaver.combat_exp = 2000
 		_check(refused and not rules[0].refuses(leaver, false) and rules[0].lines == ["你被黑松堡散出的强烈杀气当了回来。"], "%s: below 2000 combat_exp the castle's killing air turns one back" % from_zone)
+		# DECISIONS「过了的经验门槛」: one who went through once (the gate's mark) is let through below it.
+		var passed := ZoneExitRuleDefinition.Leaver.new(false, 1940)
+		passed.marks[rules[0].passed_mark] = 1
+		_check(not rules[0].passed_mark.is_empty() and not rules[0].refuses(passed, false), "%s: one who passed the gate before goes through below 2000" % from_zone)
+	_check(catalog.exit_rules_between(&"chuenyu.high_b_mtn", &"chuenyu.gate_castle")[0].passed_mark == catalog.exit_rules_between(&"chuenyu.high_b_mtn2", &"chuenyu.gate_castle")[0].passed_mark, "either street's gate is the one way in: one mark")
 	var arrows: RoomHazardDefinition = catalog.hazard_in(&"chuenyu.trap_castle")
 	_check(arrows != null and arrows.first_ms == 15000 and arrows.every_ms == 5000, "the 夹道: arrows 15 s after coming in, then every 5 s")
 	var hurt: ScriptedAct.Step = arrows.act.steps[-1]
@@ -196,7 +203,9 @@ func _test_mountain(tree: SceneTree, session: WorldSessionController) -> void:
 	player.state.attributes.personality = 30
 
 
-## gate_castle.c init(): below 2000 combat_exp the castle's killing air turns one back.
+## gate_castle.c init(): below 2000 combat_exp the castle's killing air turns one back. Once
+## through, the gate stays open (DECISIONS「过了的经验门槛」): one who died inside (3% of the
+## combat_exp gone) comes back to their corpse.
 func _test_gate(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -205,8 +214,14 @@ func _test_gate(tree: SceneTree, session: WorldSessionController) -> void:
 	player.state.progression.combat_experience = 1999 # TEST-ONLY
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"chuenyu.gate_castle"), "up to the gate: turned back")
 	_check(player.world_location().zone_id == &"chuenyu.high_b_mtn2" and session.shared_ui().log_lines().has("你被黑松堡散出的强烈杀气当了回来。"), "被黑松堡散出的强烈杀气当了回来")
+	_check(session.shared_ui().log_lines().has(EXP_REFUSAL), "and why, plainly: %s" % [session.shared_ui().log_lines().slice(-3)])
 	player.state.progression.combat_experience = 2000 # TEST-ONLY
 	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.gate_castle"), "with 2000: before the gate")
+	# Died inside: 3% of the combat_exp gone, below the bar; back up the street to the gate.
+	player.state.progression.combat_experience = 1940 # TEST-ONLY
+	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.high_b_mtn2"), "back down the east street")
+	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.gate_castle"), "with 1940, having passed before: the gate lets one back in")
+	player.state.progression.combat_experience = 2000 # TEST-ONLY
 	_check(Work.capture(session) != null, "Save before the gate")
 
 

@@ -466,6 +466,7 @@ func _check_quest_tiers() -> void:
 			_errors.append("quest_tiers: min_exp %d does not rise above %d" % [_quest_tiers[index].min_exp, _quest_tiers[index - 1].min_exp])
 	# 朱鸿雪's deserving targets are some of her qlist targets (DECISIONS「朱鸿雪的差事分两档」).
 	if _quest_mercy != null:
+		_check_condition("quest_mercy.when", _quest_mercy.when)
 		var targets: Dictionary[String, bool] = {}
 		for tier: QuestTier in _quest_tiers:
 			for quest: QuestDefinition in tier.quests:
@@ -802,6 +803,8 @@ func _check_named_references() -> void:
 ## A constable's beat: known zones on one map, each next to the one before (a room's exit
 ## between them); its court a known zone.
 func _check_patrol(origin: String, patrol: NpcPatrol) -> void:
+	if patrol.arrest != null:
+		_check_condition(origin + ".patrol.arrest.spares", patrol.arrest.spares)
 	var map_id: StringName = &""
 	for index: int in range(patrol.route.size()):
 		var zone: ZoneDefinition = _zones.get(patrol.route[index])
@@ -859,6 +862,12 @@ func _resolve_npc_dealings() -> void:
 		_check_condition(origin + ".ignores_when", definition.dealings().ignores_when)
 		if definition.hooks() != null:
 			_check_condition(origin + ".kept_when", definition.hooks().kept_when)
+			# 修补 Z: a fight chant's mark lapses at a day phase the game has.
+			for stage: NpcHooks.FightStage in definition.hooks().fight_chant_stages:
+				if not stage.mark_lapses_at.is_empty() and not _day_phases.any(func(phase: DayPhaseDefinition) -> bool: return phase.phase_id == stage.mark_lapses_at):
+					_errors.append("%s.fight_chant.mark_lapses_at: no day phase '%s'" % [origin, stage.mark_lapses_at])
+		if definition.teaching() != null:
+			_check_condition(origin + ".teaches_when", definition.teaching().when)
 		var watch: NpcWatch = definition.dealings().watch
 		if watch != null:
 			for condition: JournalEntryDefinition in [watch.when, watch.unless, watch.dim_when]:
@@ -1322,6 +1331,9 @@ func _check_exit_rules() -> void:
 ## wields an item and the NPC that leaves with it an NPC. (Spawn points are the scene's: the
 ## map checks them.)
 func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false, npc: NpcDefinition = null) -> void:
+	for entry: Array in act.ask_lines:
+		if entry[1] != null:
+			_check_condition(origin + ".ask_lines", entry[1])
 	if act.draws() and not drawn:
 		# Only a room's command (ActService) and a greeting draw for their branch; elsewhere the rolls would never be made.
 		_errors.append("%s.kar_above: only a room's command or a greeting rolls" % origin)
@@ -1333,8 +1345,9 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 	_check_condition(origin + ".when", act.when)
 	if not act.exists.is_empty() and not _items.has(act.exists):
 		_errors.append("%s.exists: unknown item '%s'" % [origin, act.exists])
-	if not act.present.is_empty() and not _npcs.has(act.present):
-		_errors.append("%s.present: unknown NPC '%s'" % [origin, act.present])
+	for npc_id: StringName in act.presents:
+		if not _npcs.has(npc_id):
+			_errors.append("%s.present: unknown NPC '%s'" % [origin, npc_id])
 	if not act.npc_in.is_empty() and (not by_npc or not _zones.has(act.npc_in)):
 		_errors.append("%s.npc_in: an NPC's own act, in a known zone ('%s')" % [origin, act.npc_in])
 	if not act.present_in_npc.is_empty() and (not _npcs.has(act.present_in_npc) or not _zones.has(act.present_in_zone)):
@@ -1354,6 +1367,8 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			# Heard and chat are recorded as they happen: a step can never ask them (DECISIONS「步骤条件」).
 			_errors.append("%s: step %d's when asks what is only recorded as it happens (heard, chat)" % [origin, index])
 		_check_condition("%s.steps[%d].when" % [origin, index], step.only_when)
+		if not step.only_present.is_empty() and not _npcs.has(step.only_present):
+			_errors.append("%s: step %d's present: unknown NPC '%s'" % [origin, index, step.only_present])
 		if step.kind == ScriptedAct.Kind.BY:
 			acting = true
 			# The one standing by is the act's NPC from here on: a mood it puts on is one of his

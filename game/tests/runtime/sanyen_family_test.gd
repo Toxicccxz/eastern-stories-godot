@@ -138,7 +138,7 @@ func _test_apprentice_rule() -> void:
 	_check(request.takes_at_once(monk, master), "a monk would be taken (the panel asks first)")
 	request.request(monk, master, family, 1, "大师")
 	request.cancel()
-	_check(request.request(monk, master, family, 2, "大师", NpcApprenticeship.COMMONER_TITLE, "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [ASKED, "玄智和尚说道：慢著，一个一个来。"], "asked again while his answer is due: 慢著: %s" % [request.lines])
+	_check(request.request(monk, master, family, 2, "大师", "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [ASKED, "玄智和尚说道：慢著，一个一个来。"], "asked again while his answer is due: 慢著: %s" % [request.lines])
 	_check(request.answer(monk, master, family, 3, "大师") == NpcApprenticeship.Outcome.RECRUITED, "his answer takes the monk")
 	_check(request.lines == [TAKES, "玄智和尚决定收你为弟子。", "你跪了下来向玄智和尚恭恭敬敬地磕了四个响头，叫道：「师父！」", "恭喜您成为山烟寺的第二十七代弟子。"], "善哉, then recruit.c: %s" % [request.lines])
 	_check(NpcApprenticeship.is_master_of(monk, master) and monk.family.family_id == FAMILY and monk.family.generation == 27 and monk.affiliation.class_id == &"bonze", "山烟寺's twenty-seventh generation, still a monk")

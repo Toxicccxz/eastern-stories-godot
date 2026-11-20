@@ -33,6 +33,12 @@ extends RefCounted
 ##   world held, before the result and the world come back.
 ## - training_step_ms: a continuous 请教 / 练习 / 打坐 takes its steps this far apart, the
 ##   progress shown between them (0: all at once; DECISIONS「连续修炼」).
+## - training_stage_ms: 练功演出 (DECISIONS「练功演出」): a continuous run's window steps aside
+##   over this long and the player's figure is seen at it on the map (0: the window stays and
+##   nothing is shown). growth_moment_ms: how long a small 成长时刻 (a skill's level) stays on
+##   the screen; the greater ones a multiple of it (growth.json; 0: none shown).
+## - training_auto_step_ms: the same for a run that rests by itself (pacing training_auto_rest;
+##   成长曲线 B): such a run goes on to a level, so its steps come closer (0: all at once).
 ## - corner_slide_px: the player's walk keeps its speed along a wall it runs into, and run
 ##   nearly head-on into an edge it looks this far to either side for an opening and slips
 ##   round it (0: move_and_slide alone; DECISIONS「手感」).
@@ -104,6 +110,9 @@ var _bar_tween_ms: int = 0
 var _hit_flash_ms: int = 0
 var _battle_end_hold_ms: int = 0
 var _training_step_ms: int = 0
+var _training_stage_ms: int = 0
+var _growth_moment_ms: int = 0
+var _training_auto_step_ms: int = 0
 var _corner_slide_px: int = 0
 var _voxel_worlds_kept: int = 0
 var _map_loading_slice_ms: int = 0
@@ -208,6 +217,15 @@ var battle_end_hold_seconds: float:
 var training_step_seconds: float:
 	get:
 		return float(_training_step_ms) / 1000.0
+var training_stage_seconds: float:
+	get:
+		return float(_training_stage_ms) / 1000.0
+var growth_moment_seconds: float:
+	get:
+		return float(_growth_moment_ms) / 1000.0
+var training_auto_step_seconds: float:
+	get:
+		return float(_training_auto_step_ms) / 1000.0
 var voxel_worlds_kept: int:
 	get:
 		return _voxel_worlds_kept
@@ -378,6 +396,9 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_hit_flash_ms = int(values.get("hit_flash_ms", _hit_flash_ms))
 	_battle_end_hold_ms = int(values.get("battle_end_hold_ms", _battle_end_hold_ms))
 	_training_step_ms = int(values.get("training_step_ms", _training_step_ms))
+	_training_stage_ms = int(values.get("training_stage_ms", _training_stage_ms))
+	_growth_moment_ms = int(values.get("growth_moment_ms", _growth_moment_ms))
+	_training_auto_step_ms = int(values.get("training_auto_step_ms", _training_auto_step_ms))
 	_corner_slide_px = int(values.get("corner_slide_px", _corner_slide_px))
 	_voxel_worlds_kept = int(values.get("voxel_worlds_kept", _voxel_worlds_kept))
 	_map_loading_slice_ms = int(values.get("map_loading_slice_ms", _map_loading_slice_ms))
@@ -432,7 +453,7 @@ const KEYS: Array[String] = [
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "dialogue_char_ms", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
-	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
+	"training_step_ms", "training_auto_step_ms", "training_stage_ms", "growth_moment_ms", "corner_slide_px", "voxel_worlds_kept",
 	"map_loading_slice_ms", "map_loading_delay_ms", "map_loading_min_ms", "map_loading_fade_ms", "session_start_slice_ms", "coach_ride_ms",
 	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
 	"turn_cue_ms", "intent_pulse_ms", "beat_chip_ms", "beat_fill_ms", "knockout_choice_guard_ms",

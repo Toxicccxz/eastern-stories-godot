@@ -281,7 +281,9 @@ static func run(training: TrainingRun, skill: SkillDefinition, teacher: String =
 		TrainingRun.Stop.REFUSED:
 			out.append_array(training.refused_lines)
 		TrainingRun.Stop.WASTE_ESSENCE:
-			out.append(ColoredLine.new(_t(RUN_WASTE_ESSENCE).format({"cost": training.cost, "have": training.have})))
+			# 自动歇 tried to rest and says after this why it could not: no 歇到回满 hint here.
+			var waste: String = RUN_WASTE_ESSENCE_AUTO if training.auto_rest and not training.rest_line.is_empty() else RUN_WASTE_ESSENCE
+			out.append(ColoredLine.new(_t(waste).format({"cost": training.cost, "have": training.have})))
 		TrainingRun.Stop.WASTE_EXPERIENCE:
 			out.append(ColoredLine.new(_t(RUN_WASTE_EXPERIENCE).format({
 				"skill": skill_name, "level": training.after.level, "required": training.required, "have": training.have,
@@ -300,11 +302,16 @@ static func run(training: TrainingRun, skill: SkillDefinition, teacher: String =
 				"action": _t(RUN_ACTIONS[training.kind]), "basic": basic_name,
 			})))
 		TrainingRun.Stop.INTERRUPTED:
-			out.append(ColoredLine.new(_t(RUN_INTERRUPTED)))
+			# A rest's own line says what broke it off (有人来袭 …).
+			if training.rest_line.is_empty():
+				out.append(ColoredLine.new(_t(RUN_INTERRUPTED)))
 		TrainingRun.Stop.CANCELLED:
 			out.append(ColoredLine.new(_t(RUN_CANCELLED)))
 		TrainingRun.Stop.LIMIT:
 			out.append(ColoredLine.new(_t(RUN_LIMIT).format({"count": training.steps})))
+	# 自动歇: why the rest ended the run, or why none could begin (already in the shown language).
+	if not training.rest_line.is_empty() and training.stop != TrainingRun.Stop.CANCELLED:
+		out.append(ColoredLine.new(training.rest_line))
 	return out
 
 
@@ -316,19 +323,23 @@ static func _run_summary(training: TrainingRun, skill: SkillDefinition, teacher:
 			changes.append(_t(RUN_LEVELS).format({"skill": skill_name, "from": training.before.level, "to": training.after.level}))
 		elif training.after.learned != training.before.learned:
 			changes.append(_t(RUN_PROGRESS).format({"skill": skill_name, "change": _signed(training.after.learned - training.before.learned)}))
+	# What the steps changed: what came back while the run rested (its drift) is not the run's.
+	var drift: TrainingRun.Snapshot = training.drift
 	var deltas: Array = [
-		[RUN_ESSENCE, training.after.essence - training.before.essence],
-		[RUN_VITALITY, training.after.vitality - training.before.vitality],
-		[RUN_SPIRIT, training.after.spirit - training.before.spirit],
-		[RUN_INNER_FORCE, training.after.inner_force - training.before.inner_force],
-		[RUN_MANA, training.after.mana - training.before.mana],
-		[RUN_ATMAN, training.after.atman - training.before.atman],
-		[RUN_POTENTIAL, training.after.potential - training.before.potential],
+		[RUN_ESSENCE, training.after.essence - training.before.essence - drift.essence],
+		[RUN_VITALITY, training.after.vitality - training.before.vitality - drift.vitality],
+		[RUN_SPIRIT, training.after.spirit - training.before.spirit - drift.spirit],
+		[RUN_INNER_FORCE, training.after.inner_force - training.before.inner_force - drift.inner_force],
+		[RUN_MANA, training.after.mana - training.before.mana - drift.mana],
+		[RUN_ATMAN, training.after.atman - training.before.atman - drift.atman],
+		[RUN_POTENTIAL, training.after.potential - training.before.potential - drift.potential],
 	]
 	for delta: Array in deltas:
 		if int(delta[1]) != 0:
 			changes.append(_t(RUN_CHANGE).format({"what": _t(delta[0]), "change": _signed(int(delta[1]))}))
 	var head: String = _t(RUN_HEADS[training.kind]).format({"npc": _t(teacher), "skill": skill_name, "count": training.steps})
+	if training.rests > 0:
+		head += _t(RUN_RESTS).format({"rests": training.rests, "time": RestLines.duration(training.rest_minutes)})
 	if changes.is_empty():
 		return _t(RUN_SUMMARY_PLAIN).format({"head": head})
 	return _t(RUN_SUMMARY).format({"head": head, "changes": _t(RUN_JOIN).join(changes)})
@@ -346,6 +357,8 @@ const RUN_HEADS: Dictionary[TrainingRun.Kind, String] = {
 	TrainingRun.Kind.MEDITATE: "你冥思 {count} 次",
 	TrainingRun.Kind.RESPIRATE: "你修行 {count} 次",
 }
+# TRANSLATORS: after a continuous run's start (RUN_HEADS) when it rested by itself on the way: {rests} how many times, {time} how long in all (一盏茶的工夫, 两个时辰 …).
+const RUN_RESTS: String = "（其间歇了 {rests} 回，共{time}）"
 # TRANSLATORS: a continuous run's summary: {head} what was done (one of the lines above), {changes} what it changed, joined by RUN_JOIN.
 const RUN_SUMMARY: String = "{head}：{changes}。"
 # TRANSLATORS: a continuous run's summary when nothing it shows changed: {head} what was done.
@@ -386,6 +399,10 @@ const RUN_ACTIONS: Dictionary[TrainingRun.Kind, String] = {
 }
 # TRANSLATORS: continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
 const RUN_WASTE_ESSENCE: String = "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
+# TRANSLATORS: the same stop for a run that rests by itself (it could not rest: the line after says why): {cost} the cost, {have} the gin left.
+const RUN_WASTE_ESSENCE_AUTO: String = "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
+# TRANSLATORS: a continuous run that would rest by itself does not while 朱鸿雪's task runs against its time (a rest lets time pass); the player may rest by hand.
+const RUN_TASK_TIME: String = "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
 # TRANSLATORS: continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
 const RUN_WASTE_EXPERIENCE: String = "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
 # TRANSLATORS: continuous 练习 stopped: with the basic skill not above the special one practice only adds progress, and this level's is full; {basic} must reach {level}.

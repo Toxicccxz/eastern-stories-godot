@@ -34,7 +34,7 @@ const MAX_STEPS: int = 4000
 ## The must-win fights (the list: DECISIONS「主线必打的仗」). `chapter`: the main story's quest the
 ## fight is in; the character arrives with tests/support/story_arrival.gd's exp for it, the main
 ## story alone and exploring on the side (`exploring_only`: only the latter; `exps` instead: given); `enemies` / `allies`: [spawn, point] as they stand; `followers`:
-## NPC definitions that follow the player there whatever was chosen (郭承), summoned beside them;
+## NPC definitions that follow the player there whatever was chosen (郭承), made beside them, following;
 ## `mood`: the scene's mood put on each foe that has it (吕隼's 拿下: `fighting`);
 ## `helped`: whether the story guarantees help there (the nine-in-ten band); `away`: spawns whose NPCs
 ## stand in the room but are not in the story's fight, taken off the map (the 冰龙厅's six guardian
@@ -64,6 +64,40 @@ const FIGHTS: Array[Dictionary] = [
 	{"label": "终章 侮天鬼（穿宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.3", "enemies": [["native.seal_altar.wutian_gui_grown", "village.seal_altar.demon.3"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
 	{"label": "终章 侮天鬼（没宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.4", "enemies": [["native.seal_altar.wutian_gui_grown_blazing", "village.seal_altar.demon.4"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
 	{"label": "第九章 揭发 庾子建（冯策并肩，选择）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "allies": [["imperial.throne_hall.feng_ce_beside", "imperial.throne_hall.feng_ce_beside.1"]], "helped": true, "chapter": &"main.chapter9", "exploring_only": true, "weapon": &"es2:obj/longsword"},
+	# 全项目审查第二轮 (修补 W, DECISIONS「帮手等仗打完」): what one meets 庾子建 with nobody beside; and 侮天鬼 with
+	# 穿灵 in hand on the way without 旋芒 (DECISIONS「穿灵在手」: the 封坛 puts it there). Measured, not tuned.
+	{"label": "第九章 揭发 庾子建（冯策不在，单打）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "chapter": &"main.chapter9", "weapon": &"es2:obj/longsword"},
+	{"label": "终章 侮天鬼（没拿旋芒·穿灵在手，穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"native:village/soul_impaler"},
+	{"label": "终章 侮天鬼（没拿旋芒·长剑，穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"es2:obj/longsword"},
+]
+
+## The faction lines' fights (DECISIONS「势力线的仗」), each at the earliest main-story arrival from
+## which its step can be reached (`chapter`; a step that opens once a chapter is done is the next
+## chapter's arrival); measured and pinned by boss_strength_faction_test like FIGHTS.
+const FACTION_FIGHTS: Array[Dictionary] = [
+	# 第四章 done (the 宝衣 taken or given to 安妮儿): she stands in the 前厅 that night.
+	{"label": "晚月 前厅 神教杀手", "zone": &"latemoon.latemoon1", "point": &"latemoon.latemoon1.cult_killer.1", "enemies": [["native.latemoon1.cult_killer", "latemoon.latemoon1.cult_killer.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "官府 整肃 军师赫造基", "zone": &"canyon.camp8", "point": &"canyon.camp8.adviser.1", "enemies": [["canyon.camp.camp8.adviser", "canyon.camp8.adviser.1"]], "mood": "cornered", "chapter": &"main.chapter6", "weapon": &"es2:obj/longsword"},
+	# 卧底: the line opens once 第三章 is done (林忌's 眼线 wants 「逆灵宫一章」). Found out in the 前院 the
+	# crown no longer holds: the two gate guards come in with him.
+	{"label": "卧底 被识破 前院玄冥子", "zone": &"niling.yard", "point": &"niling.yard.unmasker.1", "enemies": [["niling.yard.unmasking_xuan", "niling.yard.unmasker.1"]], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# Down the 北麓 after 被识破; the turn's own bandits and the tribute's escort stand elsewhere on it.
+	{"label": "卧底 被识破 追杀的道士×3", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.pursuer.1", "enemies": [["native.mroad4.niling_pursuers", "goathill.mroad4.pursuer.1"], ["native.mroad4.niling_pursuers", "goathill.mroad4.pursuer.2"], ["native.mroad4.niling_pursuers", "goathill.mroad4.pursuer.3"]], "away": [&"goathill.mountain.mroad4.bandits", &"goathill.mountain.mroad4.bandit_leader", &"native.mroad4.tribute_taoists"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# Inside the 道观 on the spy line (they let the crown pass; struck, each is a fight of its own).
+	{"label": "卧底 前殿 巡殿道士", "zone": &"niling.front", "point": &"niling.front.patrol.1", "enemies": [["native.front.patrol", "niling.front.patrol.1"]], "away": [&"niling.front.chanters", &"niling.front.lead_chanter"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	{"label": "卧底 账房 管事道士", "zone": &"niling.counting", "point": &"niling.counting.steward.1", "enemies": [["niling.counting.steward", "niling.counting.steward.1"]], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	{"label": "卧底 前殿 领诵道士", "zone": &"niling.front", "point": &"niling.front.lead_chanter.1", "enemies": [["niling.front.lead_chanter", "niling.front.lead_chanter.1"]], "away": [&"niling.front.chanters"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	{"label": "卧底 甬道 看牢的狱卒", "zone": &"niling.corridor", "point": &"niling.corridor.ward.1", "enemies": [["native.corridor.ward", "niling.corridor.ward.1"]], "away": [&"niling.corridor.jailers", &"niling.corridor.jailers_keyed"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# 绝尘, 山烟寺 and 东方神教 B open with 「宝衣一章」.
+	{"label": "绝尘 山洞 洞口的鬼卒", "zone": &"green.cave1", "point": &"green.cave1.ghoul.1", "enemies": [["native.cave1.ghoul", "green.cave1.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "绝尘 山洞 洞底的鬼卒", "zone": &"green.cave2", "point": &"green.cave2.ghoul.1", "enemies": [["native.cave2.ghoul", "green.cave2.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "山烟寺 树王坟 鬼卒", "zone": &"choyin.tree_tomb", "point": &"choyin.tree_tomb.hole_return", "enemies": [["native.tree_tomb.herb_ghoul", "choyin.tree_tomb.herb_ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "东方神教 湖边 量水的道士", "zone": &"village.field", "point": &"village.field.lake_taoist.1", "enemies": [["native.field.lake_taoist", "village.field.lake_taoist.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "东方神教 隘口 兵部画吏", "zone": &"canyon.canyon1", "point": &"canyon.canyon1.war_painter.1", "enemies": [["native.canyon1.war_painter", "canyon.canyon1.war_painter.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	# 振远 opens with 柳淳风's letter (第二章); 贺平 draws in his `fighting` and his two men come.
+	{"label": "振远 碎石小路 劫镖的", "zone": &"canyon.road", "point": &"canyon.road.he_ping.1", "enemies": [["native.road.he_ping", "canyon.road.he_ping.1"], ["native.road.robbers", "canyon.road.robber.1"], ["native.road.robbers", "canyon.road.robber.2"]], "mood": "fighting", "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
+	# 湖底一章 (第八章 done) puts him in the 小屋.
+	{"label": "花紫会 密信 小屋信使", "zone": &"city.shangshu.xiaowu", "point": &"city.shangshu.xiaowu.courier.1", "enemies": [["native.shangshu.courier", "city.shangshu.xiaowu.courier.1"]], "chapter": &"main.chapter9", "weapon": &"es2:obj/longsword"},
 ]
 
 ## A few ordinary fights of the first two hours and of ES2's regions, not tuned here: for measuring
@@ -73,14 +107,27 @@ const ORDINARY: Array[Dictionary] = [
 	{"label": "老松林 山坡 土匪", "zone": &"oldpine.outdoor.slope", "point": &"oldpine.outdoor.slope.spath1.bandit.1", "enemies": [["oldpine.outdoor.spath1.bandits", "oldpine.outdoor.slope.spath1.bandit.1"]], "exps": [150, 600], "weapon": &"es2:obj/longsword"},
 	{"label": "老松林 松林口 高个土匪", "zone": &"oldpine.outdoor.pine_entrance", "point": &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1", "enemies": [["oldpine.outdoor.pine1.tall_bandit", "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"]], "exps": [400, 1000], "weapon": &"es2:obj/longsword"},
 	{"label": "野羊山 山路 山贼", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.bandit.1", "enemies": [["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
-	{"label": "绮云镇 公园 小偷", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
+	{"label": "绮云镇 公园 飞贼", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
 	{"label": "老松岭 寨门 守寨土匪", "zone": &"oldpine.outdoor.keep_gate", "point": &"oldpine.outdoor.keep_gate.keep1.bandit_guard.1", "enemies": [["oldpine.outdoor.keep1.bandit_guards", "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
+	{"label": "雪亭镇 武馆 李火狮", "zone": &"snow.school2", "point": &"snow.school2.fist_trainer.1", "enemies": [["snow.school_compound.school2.fist_trainer", "snow.school2.fist_trainer.1"]], "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
+	{"label": "山烟寺 山路 僧人", "zone": &"sanyen.road2", "point": &"sanyen.road2.bonze.1", "enemies": [["sanyen.grounds.road2.bonze", "sanyen.road2.bonze.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "老松岭 石顶 金银花蛇", "zone": &"oldpine.stone.top", "point": &"oldpine.stone.top.stone.venomsnake.1", "enemies": [["oldpine.stone.venomsnake", "oldpine.stone.top.stone.venomsnake.1"]], "chapter": &"main.chapter8", "weapon": &"es2:obj/longsword"},
 ]
 
 
-## The fight with this label among FIGHTS and ORDINARY, or empty.
+## The sword build coming back after one death (owner 2026-11-19; DECISIONS「减轻死亡」): the fight's
+## exps less what a death takes (pacing.json's death_exp_percent), the sword in hand only when
+## pacing.json's death_keeps_equipped keeps it on the player (else empty-handed, as the corpse took
+## it: 42 of 42 lost at 玄冥子 before the change). The game's own death knobs, whatever the run's.
+const AFTER_DEATH: Array[Dictionary] = [
+	{"label": "第三章 追宫主 玄冥子（死过一次·剑法回来）", "zone": &"niling.cliff_path", "point": &"niling.cliff_path.xuan_mingzi.1", "enemies": [["niling.cliff_path.xuan_mingzi", "niling.cliff_path.xuan_mingzi.1"]], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword", "after_death": true},
+	{"label": "第五章 护送 庾家管事+打手×3（死过一次·剑法回来）", "zone": &"choyin.s_street2", "point": &"choyin.s_street2.yu_steward.1", "enemies": [["native.s_street2.yu_steward", "choyin.s_street2.yu_steward.1"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.1"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.2"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.3"]], "mood": "fighting", "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword", "after_death": true},
+]
+
+
+## The fight with this label among FIGHTS, FACTION_FIGHTS, ORDINARY and AFTER_DEATH, or empty.
 static func any_fight(label: String) -> Dictionary:
-	for entry: Dictionary in FIGHTS + ORDINARY:
+	for entry: Dictionary in FIGHTS + FACTION_FIGHTS + ORDINARY + AFTER_DEATH:
 		if entry["label"] == label:
 			return entry
 	return {}
@@ -187,12 +234,15 @@ static func exps_of(entry: Dictionary) -> Array[int]:
 		if not entry.get("exploring_only", false):
 			out.append(Arrival.main_story(entry["chapter"]))
 		out.append(Arrival.exploring(entry["chapter"]))
+	if entry.get("after_death", false):
+		for index: int in out.size():
+			out[index] -= out[index] * TestDeath.game_exp_percent() / 100
 	return out
 
 
-## The fight with this label, or empty.
+## The fight with this label (FIGHTS or FACTION_FIGHTS), or empty.
 static func fight(label: String) -> Dictionary:
-	for entry: Dictionary in FIGHTS:
+	for entry: Dictionary in FIGHTS + FACTION_FIGHTS:
 		if entry["label"] == label:
 			return entry
 	return {}
@@ -277,7 +327,8 @@ func _open(entry: Dictionary) -> bool:
 	await _settle()
 	if _enemies.size() != entry["enemies"].size():
 		return false
-	if build == SWORD:
+	# Back after a death: the sword only when the game's death leaves it on the player.
+	if build == SWORD and (not entry.get("after_death", false) or TestDeath.game_keeps_equipped()):
 		_wield(entry["weapon"] if weapon.is_empty() else weapon)
 	return true
 
@@ -582,14 +633,14 @@ func _refind(pairs: Array) -> Array[NpcRuntimeState]:
 	return out
 
 
-## One who follows the player there whatever was chosen (郭承): made beside the player as their own,
-## following (the fights_beside rule takes them in as the fight opens).
+## One who follows the player there whatever was chosen (郭承): made beside the player, following
+## (the fights_beside rule takes them in as the fight opens; a follower holds for 了结 / 放过 as the
+## player's summons do, DECISIONS「了结 / 放过」Q2), not written in as the player's summons.
 func _follower(definition_id: StringName) -> NpcRuntimeState:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = map.npcs._new_beside(player.character_id, GameContent.catalog().npc(definition_id))
 	if npc == null:
 		return null
-	map.npcs.summoners[npc.character_id] = player.character_id
 	npc.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, true)
 	return npc
 

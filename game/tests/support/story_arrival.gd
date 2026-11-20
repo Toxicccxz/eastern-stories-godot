@@ -41,7 +41,8 @@ const KINDS: Dictionary[StringName, ProgressionRules.Kind] = {
 }
 
 
-## The exp on arriving at `quest_id`'s chapter (before any of its own rewards) from `start`.
+## The exp on arriving at `quest_id`'s chapter (before any of its own rewards) from `start`; with no
+## `quest_id` (&""), after the last chapter's (the dev start 终章之后).
 static func arrival(quest_id: StringName, start: int) -> int:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var rules: ProgressionRules = catalog.progression()
@@ -56,7 +57,7 @@ static func arrival(quest_id: StringName, start: int) -> int:
 			var base: int = rules.reward_exp(KINDS[reward[0]], exp, chapter[0])
 			var percent: int = ProgressionGain.catch_up_percent(exp, 0 if region == null else region.recommended_exp, max_percent)
 			exp += ProgressionGain.scaled(progression, base, percent)
-	return -1
+	return exp if quest_id.is_empty() else -1
 
 
 ## The main story alone (from the first two hours' MAIN_START).

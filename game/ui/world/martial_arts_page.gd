@@ -605,6 +605,8 @@ func _start_run(run: PlayerTrainingRun, what: String, button: Button, after: Con
 		return
 	_last_lines = null
 	_run_button = button
+	# 自动歇: the menu holds world time; a rest of the run's own lifts that hold.
+	run.window_holds.assign([SharedGameplayUI.MENU_TIME_HOLD])
 	progress.start(run, what, after)
 	if is_visible_in_tree():
 		refresh()

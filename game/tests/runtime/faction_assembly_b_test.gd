@@ -27,7 +27,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_rules()
 	_test_epilogues()
-	for test: Callable in [_test_yan, _test_self, _test_wei, _test_empty_and_walk_away, _test_blockade]:
+	for test: Callable in [_test_yan, _test_self, _test_wei, _test_empty_and_walk_away, _test_blockade, _test_let_go]:
 		var session: WorldSessionController = await _session(tree)
 		await test.call(tree, session)
 		session.free()
@@ -44,6 +44,7 @@ func _test_data() -> void:
 	var act: ScriptedAct = service.act.acts[0]
 	_check(not act.ask.is_empty() and act.ask_lacks == ["入了虹台的席"], "入席 asked once")
 	var kinds: Array = act.steps.map(func(step: ScriptedAct.Step) -> ScriptedAct.Kind: return step.kind)
+	_check(act.ask.contains("{lines}") and act.ask_lines.size() == 6, "入席's question lists the day's trouble (ask_lines)")
 	_check(kinds.count(ScriptedAct.Kind.CHOOSE) == 6 and kinds.count(ScriptedAct.Kind.RESTAGE) == 2 and kinds.has(ScriptedAct.Kind.TITLE) and kinds.has(ScriptedAct.Kind.EPILOGUE), "the day: six choices (the morning, 参选, three answers, 旋芒), the nine come and go, the title, the epilogue")
 	var asked: Array = act.steps.filter(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.CHOOSE)
 	_check(asked.all(func(step: ScriptedAct.Step) -> bool: return step.options.all(func(option: ScriptedAct.Option) -> bool: return not option.confirm.is_empty())), "every option asked first (the one confirm prompt)")
@@ -91,6 +92,11 @@ func _test_rules() -> void:
 	# 绝尘 only when asked down
 	state = _fresh(["终章", "入了虹台的席", "九派到了"])
 	_check(not _holds(state, "assembly.day.juechen.seated") and _holds(state, "assembly.day.huazi.seated"), "绝尘 does not come unless asked down")
+	# 修补 Z: 卫沧澜 is not freed while the 虹台 sits (it would turn 天邪's vote and the chair after the seats were taken)
+	state = _fresh(["终章", "入了虹台的席", "皇叔入朝", "见过卫沧澜", "钻了尚书府的狗洞", "真龙头说了狗洞"])
+	_check(_heard(state, &"common.npc.fighter.champion", "卫沧澜", "等散了会") and _heard(state, &"native.npc.wei_canglan", "走", "等那边散了") and not state.marks.has("卫沧澜出了尚书府"), "seated: neither the 皇叔 nor 卫沧澜 lets him out")
+	state.marks["大会散了"] = 1 # TEST-ONLY
+	_check(_heard(state, &"native.npc.wei_canglan", "走", "狗洞") and state.marks.has("卫沧澜出了尚书府"), "after the 虹台: he walks out")
 
 
 ## The second epilogue's lines by the day's outcome; the 终章's 水烟阁 card no longer tells it.
@@ -291,6 +297,33 @@ func _test_blockade(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(state.marks.has("封山没上虹台") and not _on_stage(session, &"native.npc.assembly_liu_chunfeng") and _flag_off(session, "fonxan"), "封山 not up")
 	_check(await _answer(tree, ui, "坐着听唱票") and state.marks.has("大会散了"), "the day ends")
 	await _read_all(tree, ui.epilogue)
+	await _until_finished(tree, ui.epilogue)
+
+
+## Owner 2026-11-19「都按推荐」: 入席 lists the day's trouble and who will not come; the morning can be let
+## go (哪件也不管: every 派 held up stays away); 旋芒 can be kept (我留着: the 虹台 still closes).
+func _test_let_go(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.assembly_invited(session, "slay", ["站了潘军禅", "站了安妮儿"])
+	state.marks.erase("余孽有了去处") # TEST-ONLY
+	var ui: SharedGameplayUI = session.shared_ui()
+	var act: ActService = await _at_terrace(tree, session)
+	(session.active_map() as WorldMapController).give_new_item_to_player(XUANMANG)
+	act.interact()
+	await _settle(tree)
+	var asked: String = ui.confirm_prompt.message.text
+	_check(asked.contains("颜违的人会堵封山剑派上山的官道：不管，封山不来") and asked.contains("逆灵宫的余孽会去烧葬剑亭") and asked.contains("绝尘派不来") and not asked.contains("截山烟寺") and not asked.contains("{lines}") and asked.ends_with("要入席吗？"), "入席 lists the day: %s" % asked)
+	ui.confirm_prompt.confirm_button.pressed.emit()
+	await _settle(tree)
+	_check(_choice(ui, "哪件也不管") != null, "the morning: 哪件也不管 offered")
+	_check(await _answer(tree, ui, "哪件也不管"), "let go")
+	_check(state.marks.has("哪件也没管") and state.marks.has("封山没上虹台") and state.marks.has("茅山没上虹台") and not state.marks.has("扑灭了葬剑亭的火"), "both held up: neither comes")
+	_check(await _answer(tree, ui, "坐着听唱票"), "sat")
+	_check(_said(ui, "封山剑派——没有来") and _said(ui, "茅山派——没有来"), "two seats empty in the count")
+	_check(_choice(ui, "我留着") != null and await _answer(tree, ui, "我留着"), "旋芒: kept")
+	_check(state.marks.has("旋芒留在了身上") and state.marks.has("大会散了") and session.player_held_item_ids().has(XUANMANG), "the sword stays, the 虹台 closes")
+	var titles: Array[String] = await _read_all(tree, ui.epilogue)
+	_check("\n".join(titles).contains("旋芒还在你身上") and "\n".join(titles).contains("你没有下石阶"), "the epilogue tells both")
 	await _until_finished(tree, ui.epilogue)
 
 

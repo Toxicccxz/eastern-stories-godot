@@ -1058,9 +1058,10 @@ func _open_slots(purpose: int, origin: int) -> bool:
 	_slot_origin = origin
 	_slot_rows = _host.read_slots().duplicate()
 	if purpose == SlotPurpose.SAVE:
-		# Nobody saves to the 决战前 slot: only the act before the battle writes it.
+		# Nobody saves to the 决战前 slot (only the act before the battle writes it) or to the
+		# 死前存档 (only a death writes it, DECISIONS「死前存档」).
 		for index: int in range(_slot_rows.size() - 1, -1, -1):
-			if _slot_rows[index].slot_id == GameSaveSnapshot.KEEP_SLOT_ID:
+			if _slot_rows[index].slot_id in [GameSaveSnapshot.KEEP_SLOT_ID, GameSaveSnapshot.DEATH_SLOT_ID]:
 				_slot_rows.remove_at(index)
 	_previous_autosave_row = -1
 	if purpose == SlotPurpose.LOAD:

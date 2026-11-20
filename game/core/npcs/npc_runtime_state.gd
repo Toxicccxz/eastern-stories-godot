@@ -234,6 +234,10 @@ func put_in_mood(next: NpcMood) -> void:
 		_character_state.applies[key] = _character_state.applies.get(key, 0) + next.applies[key]
 	for flag: StringName in next.flags:
 		set_flag(flag, true)
+	if next.combat_exp >= 0:
+		_character_state.progression.combat_experience = next.combat_exp
+	for skill: String in next.skills:
+		_character_state.skills.set_raw_level(StringName(skill), next.skills[skill])
 
 
 ## Its room's reset (owner, 黑松山 plan M7, 默认): the mood is over, what it added goes.
@@ -251,6 +255,14 @@ func end_mood(on_reset: bool = false) -> void:
 			_character_state.applies[key] = left
 	for flag: StringName in current.flags:
 		clear_flag(flag)
+	# The record's own strength back (a drawn combat_exp is not kept: the record's base).
+	if current.combat_exp >= 0:
+		_character_state.progression.combat_experience = _definition.combat_experience
+	for skill: String in current.skills:
+		_character_state.skills.remove_skill(StringName(skill))
+		for level: NpcSkillLevelDefinition in _definition.skill_levels():
+			if level.skill_id == StringName(skill):
+				_character_state.skills.set_raw_level(level.skill_id, level.raw_level)
 
 
 ## What the player reads of it: name.c short(), its mood's title instead of its own.

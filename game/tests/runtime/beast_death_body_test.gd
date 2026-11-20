@@ -31,7 +31,7 @@ func run_all() -> Dictionary[String, Variant]:
 	var after_strength_change: DeathContext = controller.combat_lifecycle._death_context_for(binding, null, destination)
 	_eq([after_strength_change.victim_body_own_weight, after_strength_change.victim_maximum_encumbrance], [62000, 200000], "death copies runtime body, never recalculates from current strength")
 	var corpse_item: ItemInstance = ItemInstance.new(&"test.corpse", &"es2:obj/corpse")
-	var result: DeathInventoryResult = DeathInventoryService.process(context, f.inventory, f.stacks, [], DeathItemPolicyRegistry.new(), DeathRewearPolicyRegistry.new(), corpse_item, ItemDefinition.new(&"es2:obj/corpse", "obj/corpse.c"))
+	var result: DeathInventoryResult = DeathInventoryService.process(context, f.inventory, f.stacks, [], DeathRewearPolicyRegistry.new(), corpse_item, ItemDefinition.new(&"es2:obj/corpse", "obj/corpse.c"))
 	_eq(result.outcome, DeathInventoryResult.Outcome.COMPLETED, "unchanged Death core accepts serpent")
 	_eq(f.inventory.own_weight(corpse_item.item_instance_id), 62000, "corpse registered with actual Beast weight")
 	var corpse: CorpseState = result.corpse_state
@@ -39,7 +39,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_eq(corpse.decay_stage, CorpseState.Stage.FRESH, "ordinary fresh corpse, no custom Beast lifecycle")
 	_eq(f.inventory.registered_item_ids(), [&"test.corpse"], "only corpse: no silver/skin/fang/material/quest loot")
 	_eq(f.inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_item.item_instance_id)), [], "empty corpse inventory")
-	_eq([result.direct_snapshot_ids, result.deferred_effects, corpse.occupied_worn_slots()], [[], [], []], "no invented loadout/events/worn item")
+	_eq([result.direct_snapshot_ids, corpse.occupied_worn_slots()], [[], []], "no invented loadout/worn item")
 	_eq(result.corpse_placement_result.succeeded, true, "existing transfer places corpse")
 	_eq(f.npc_random.calls, 3, "death did not initialize another Beast")
 	_eq(f.restored_random.calls, 0, "restore graph B then death consumes zero initialization draws")

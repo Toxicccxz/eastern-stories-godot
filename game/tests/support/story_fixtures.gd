@@ -1,10 +1,13 @@
 class_name StoryFixtures
 extends RefCounted
 
+const Reads := preload("res://tests/support/story_reads.gd")
+
 ## TEST-ONLY: the state a chapter's suite starts from — the quest ledger keys, marks and
 ## carried things the chapters before it leave (主线 A; DECISIONS「剧情演出」), written into
 ## the player's CharacterState as the game writes them (StoryQuestLog's order), without
-## playing those chapters. A suite then calls record_journal() and goes on from there, on
+## playing those chapters. Every mark, ledger key and thing goes through _mark, _write, _give and _take, so
+## record() can tell what a fixture writes (the hand-over checks, the dev starts). A suite then calls record_journal() and goes on from there, on
 ## the session as configure_source_entry() made it; no save file is involved.
 
 
@@ -17,11 +20,11 @@ static func prologue_done(session: WorldSessionController) -> void:
 		"main.prologue/pass", "main.prologue/scene", "main.prologue/strip", "main.prologue#done",
 	]:
 		_write(state, key)
-	state.marks["隘口的道士"] = 1
+	for mark: String in ["隘口的道士", "布条落了地", "拿回了荐信"]:
+		_mark(state, mark)
 	state.seen_npcs["snow.npc.waiter"] = true
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and session.player_held_item_ids().get(&"native:oldpine/cloth_strip", false) == false:
-		map.give_new_item_to_player(&"native:oldpine/cloth_strip")
+	_give(session, &"native:oldpine/cloth_strip")
+	_give(session, &"native:snow/old_letter")
 
 
 ## 伪墓 done after 寻剑令: the gate paid, 常老大 asked, the 黑衣道士 spared, the wall read,
@@ -36,11 +39,10 @@ static func chapter1_done(session: WorldSessionController, buried: bool = true) 
 	]:
 		_write(state, key)
 	for mark: String in ["老松寨的小径", "老松寨的过路钱", "放过了黑衣道士", "黑衣道士倒了", "看过石壁", "查明伪墓", "安葬无名人" if buried else "带走腰牌"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	state.milestones["defeat/native.npc.black_taoist"] = true
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if not buried and map != null and session.player_held_item_ids().get(&"native:waterfog/guild_token", false) == false:
-		map.give_new_item_to_player(&"native:waterfog/guild_token")
+	if not buried:
+		_give(session, &"native:waterfog/guild_token")
 
 
 ## 旧案 done after 伪墓 (buried): the letter and the 镖单 in hand, both inscriptions read,
@@ -54,12 +56,9 @@ static func chapter2_done(session: WorldSessionController, kept: bool = true) ->
 	]:
 		_write(state, key)
 	for mark: String in ["柳淳风的引荐信", "看过镖单", "看过葬剑亭碑", "看过石台碑", "南危水承认了", "潘军禅说了鱼饵", "替南危水保密" if kept else "告发了南危水"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null:
-		for item_id: StringName in [&"native:snow/letter_to_pan", &"native:cloud/escort_note"]:
-			if session.player_held_item_ids().get(item_id, false) == false:
-				map.give_new_item_to_player(item_id)
+		_mark(state, mark)
+	for item_id: StringName in [&"native:snow/letter_to_pan", &"native:cloud/escort_note"]:
+		_give(session, item_id)
 
 
 ## 逆灵宫's entrance done after 旧案 (kept): 刘安禄 revealed, spared and asked (`liu`; else 黄霸
@@ -71,7 +70,7 @@ static func chapter3_entry_done(session: WorldSessionController, liu: bool = tru
 	for key: String in ["main.chapter3#started", "main.chapter3/lead/liu" if liu else "main.chapter3/lead/hwang", "main.chapter3/cart"]:
 		_write(state, key)
 	for mark: String in ["刘安禄说了大寨主" if liu else "黄霸说了纳供", "看过裂口"] + (["放过了刘安禄"] if liu else []):
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 逆灵宫 A done (DECISIONS「逆灵宫 A」): in by the oil-cloth, the yard reached (the 门房道士's word
@@ -82,7 +81,7 @@ static func chapter3_yard_done(session: WorldSessionController) -> void:
 	for key: String in ["main.chapter3/gate", "main.chapter3/way/sneak", "main.chapter3/yard"]:
 		_write(state, key)
 	for mark: String in ["进了逆灵宫", "跟车进了逆灵宫", "门房道士打过招呼"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 逆灵宫 B done (DECISIONS「逆灵宫 B」): the hall, the ledger and the papers read, the passage
@@ -93,7 +92,9 @@ static func chapter3_dungeon_done(session: WorldSessionController) -> void:
 	for key: String in ["main.chapter3/hall", "main.chapter3/ledger", "main.chapter3/papers", "main.chapter3/dungeon"]:
 		_write(state, key)
 	for mark: String in ["看过账册", "看过兵部文书"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
+	for item_id: StringName in [&"native:niling/tribute_ledger", &"native:niling/war_ministry_papers", &"native:niling/cell_key"]:
+		_give(session, item_id)
 
 
 ## 逆灵宫 C done by the rescue (DECISIONS「逆灵宫 C」): the scene seen, the ghouls down, 霍铮 and
@@ -104,7 +105,7 @@ static func chapter3_rescued(session: WorldSessionController) -> void:
 	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/rescue", "main.chapter3/home", "main.chapter3#done"]:
 		_write(state, key)
 	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "狱卒交了钥匙", "救出了霍铮", "救出了石头", "放了关北民夫", "石头回家了", "霍铮回了寨", "逆灵宫一章"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 逆灵宫 C done by the chase: the back door taken, 玄冥子 down (spared); the chapter done.
@@ -114,7 +115,8 @@ static func chapter3_chased(session: WorldSessionController) -> void:
 	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/chase", "main.chapter3/duel", "main.chapter3#done"]:
 		_write(state, key)
 	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "追出了后门", "玄冥子倒了", "放过了玄冥子", "逆灵宫一章"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
+	_take(session, &"native:niling/cell_key")
 
 
 ## 宝衣 done after 逆灵宫 by the rescue (DECISIONS「第四章 宝衣」): 潘军禅 asked, 安妮儿 asked, 瑷伦's
@@ -129,7 +131,7 @@ static func chapter4_kept(session: WorldSessionController) -> void:
 	]:
 		_write(state, key)
 	for mark: String in ["潘军禅说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：斩鬼", "瑷伦说了冰匣", "dance_yu_fong", "冰匣开了", "瑷伦守到决战", "宝衣一章"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 宝衣 done after 逆灵宫 by the chase: 南危水 asked, 不知道 answered, 芳绫 danced the 冰匣 open for a
@@ -142,11 +144,9 @@ static func chapter4_taken(session: WorldSessionController) -> void:
 		"main.chapter4/lashes", "main.chapter4/question/unsure", "main.chapter4/chest", "main.chapter4/choice/take", "main.chapter4#done",
 	]:
 		_write(state, key)
-	for mark: String in ["南危水说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：不知", "瑷伦说了冰匣", "冰匣开了", "芳绫跟你去了", "芳绫替你跳了", "带走了宝衣", "宝衣一章"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and session.player_held_item_ids().get(&"native:latemoon/cold_robe", false) == false:
-		map.give_new_item_to_player(&"native:latemoon/cold_robe")
+	for mark: String in ["南危水说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：不知", "瑷伦说了冰匣", "冰匣开了", "芳绫跟你去了", "芳绫替你跳了", "带走了宝衣", "宝衣一章", "瑷伦叹过", "神教杀手倒了", "放过了神教杀手", "老妇说了拦", "安妮儿记下了"]:
+		_mark(state, mark)
+	_give(session, &"native:latemoon/cold_robe")
 
 
 ## 人证 done after 宝衣 kept (DECISIONS「第五章 人证」): the drum beaten with the 兵部文书, 程不平 asked,
@@ -160,8 +160,9 @@ static func chapter5_escorted(session: WorldSessionController, letter: bool = tr
 		"main.chapter5/guard", "main.chapter5/choice/escort", "main.chapter5/trial", "main.chapter5#done",
 	]:
 		_write(state, key)
-	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "陈显祖跟你走了", "见过庾家拦路", "福林大街的庾家人倒了", "陈显祖进了大堂", "堂审过", "陈显祖作了证", "程不平写了信", "人证一章"]:
-		state.marks[mark] = 1
+	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "陈显祖跟你走了", "见过庾家拦路", "福林大街的庾家人倒了", "陈显祖进了大堂", "堂审过", "陈显祖作了证", "程不平写了信", "人证一章", "程不平提过三叔", "程不平给了信"]:
+		_mark(state, mark)
+	_give(session, &"es2:d/choyin/obj/chest")
 	_chapter5_things(session, letter)
 
 
@@ -175,23 +176,19 @@ static func chapter5_released(session: WorldSessionController, letter: bool = tr
 		"main.chapter5/guard", "main.chapter5/choice/release", "main.chapter5/trial", "main.chapter5#done",
 	]:
 		_write(state, key)
-	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "放走了陈显祖", "堂审过", "只留了文书", "程不平写了信", "人证一章"]:
-		state.marks[mark] = 1
+	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "放走了陈显祖", "堂审过", "只留了文书", "程不平写了信", "人证一章", "程不平提过三叔", "程不平给了信"]:
+		_mark(state, mark)
 	_chapter5_things(session, letter)
 
 
 ## What the fifth chapter leaves in the player's hands: the 兵部文书, the 抄本 and 程不平's letter (`letter`;
 ## 关北 hands it to 程朔, so a later chapter's ledger holds it no more).
 static func _chapter5_things(session: WorldSessionController, letter: bool = true) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map == null:
-		return
 	var things: Array[StringName] = [&"native:niling/war_ministry_papers", &"native:choyin/decree_copy"]
 	if letter:
 		things.append(&"native:choyin/magistrate_letter")
 	for item_id: StringName in things:
-		if session.player_held_item_ids().get(item_id, false) == false:
-			map.give_new_item_to_player(item_id)
+		_give(session, item_id)
 
 ## 关北 A and B done after 人证 (escorted): the letter shown at the camp, the mould bought and compared,
 ## the gate passed by the roll, the notice read, the door knocked open, the letter handed to 程朔 and
@@ -210,10 +207,9 @@ static func chapter6_planned(session: WorldSessionController, raid: bool = true,
 	]:
 		_write(state, key)
 	for mark: String in ["军营", "严廷殷看了信", "赫造基说了拓模", "学过印色", "过了关门", "到了关北", "看过王府告示", "王府放行", "见过重逢", "信递到了", "借了兵" if raid else "约好了潜入"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
+	_give(session, &"native:canyon/seal_mould")
 	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and session.player_held_item_ids().get(&"native:canyon/seal_mould", false) == false:
-		map.give_new_item_to_player(&"native:canyon/seal_mould")
 	if map != null:
 		map.open_found_ways("王府放行") # the knock opened the 王府大门 (a found_by door opens as its mark is written)
 
@@ -227,24 +223,31 @@ static func chapter6_site_done(session: WorldSessionController, raid: bool = tru
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "main.chapter6/site")
 	_write(state, "main.chapter6/raid" if raid else "main.chapter6/sneak")
-	for mark: String in (["郭承跟上了", "工地动过手", "工地的武官倒了", "裴照倒了", "吕隼倒了", "踏平了工地"] if raid else ["守夜的武官倒了", "救了一半"]) + ["进得了古冢口"]:
-		state.marks[mark] = 1
+	# The raid's 枷锁 (guanbei/world.json guanbei.sheds.shackles) writes its four marks; the sneak's 走！ (郭承's
+	# reaction, guanbei/npcs.json) its three. 关北的骑兵欠你一阵 / 王府干净 ring 关北's bell (第十章).
+	for mark: String in (["郭承跟上了", "工地动过手", "工地打起来了", "工地的武官倒了", "裴照倒了", "吕隼倒了", "踏平了工地", "关北的骑兵欠你一阵", "关北背了反名"] if raid else ["守夜的武官倒了", "救了一半", "王府干净"]) + ["进得了古冢口", "郭承提过霍铮", "郭承回了校场"]:
+		_mark(state, mark)
 
 
-## TEST-ONLY check (章与章之间的衔接): what a chapter's suite played out must hold what the next
+## TEST-ONLY check (章与章之间的衔接), both ways. What a chapter's suite played out must hold what the next
 ## chapter's fixture writes — so a fixture that drifts from the game turns its chapter red. Calls
 ## `fixture` (a StoryFixtures function bound to its arguments, the session first) on the played
 ## session and returns what it added: ledger keys, marks, milestones, NPCs met and carried
-## things the play did not leave. Empty: in step. The fixture's writes stay; call it last. Marks in
-## `ignoring` are the suite's own (a ledger it builds TEST-ONLY), not compared.
-static func missing_after_play(session: WorldSessionController, fixture: Callable, ignoring: Array = []) -> Array[String]:
+## things the play did not leave. And the other way, for the main story's fixtures (those that write the story
+## from 寻剑令 on, as the dev starts at a chapter use them): every mark the play left that some later condition
+## reads (StoryReads) and the fixture does not write ("unwritten mark"), and every quest item the play left in
+## hand that something later reads or takes and neither the fixture nor `carried` gives ("not carried": `carried`
+## is what ChapterStart.carried adds for the chapter the fixture opens). Empty: in step. The fixture's writes
+## stay; call it last. Marks in `ignoring` are the suite's own (a ledger it builds TEST-ONLY, a talk the
+## fixture leaves out on purpose), not compared either way; HANDOFF_ONCE are left out of the second direction.
+static func missing_after_play(session: WorldSessionController, fixture: Callable, ignoring: Array = [], carried: Array = []) -> Array[String]:
 	var state: CharacterState = session.player_runtime().state
 	var quests: Array[String] = state.quests.keys()
 	var marks: Array[String] = state.marks.keys()
 	var milestones: Array[String] = state.milestones.keys()
 	var seen: Array[String] = state.seen_npcs.keys()
 	var held: Array[StringName] = session.player_held_item_ids().keys()
-	fixture.call(session)
+	var written: Dictionary = record(fixture.bind(session))
 	var missing: Array[String] = []
 	for key: String in state.quests:
 		if not quests.has(key):
@@ -261,12 +264,72 @@ static func missing_after_play(session: WorldSessionController, fixture: Callabl
 	for item_id: StringName in session.player_held_item_ids():
 		if not held.has(item_id):
 			missing.append("carried " + String(item_id))
+	if not written["quests"].has("main.prologue#started"):
+		return missing
+	for mark: String in marks:
+		if not written["marks"].has(mark) and not ignoring.has(mark) and not HANDOFF_ONCE.has(mark) and Reads.mark_read(mark):
+			missing.append("unwritten mark " + mark)
+	for item_id: StringName in held:
+		var item: ItemContentDefinition = GameContent.catalog().item(item_id)
+		if item == null or not item.quest_item or written["given"].has(item_id) or written["taken"].has(item_id) or carried.has(item_id):
+			continue
+		if Reads.item_read(item_id):
+			missing.append("not carried " + String(item_id))
 	return missing
 
 
+## Marks a playthrough leaves that the chapter fixtures leave out on purpose, and why: talk that is said once and
+## only keeps its NPC from saying it again (a start that has not heard it hears it the first time).
+const HANDOFF_ONCE: Dictionary[String, String] = {}
+
+
+## What `fixture` (a StoryFixtures function bound to all its arguments) writes and gives: {"quests", "marks":
+## Dictionary[String, bool], "given", "taken": Dictionary[StringName, bool]} — every mark and ledger key it writes
+## (whether there already or not) and every thing it gives (whether carried already or not) or takes.
+static func record(fixture: Callable) -> Dictionary:
+	var outer: Dictionary = _recorded
+	_recorded = {"quests": {}, "marks": {}, "given": {}, "taken": {}}
+	fixture.call()
+	var out: Dictionary = _recorded
+	_recorded = outer
+	if not outer.is_empty():
+		for part: String in out:
+			(outer[part] as Dictionary).merge(out[part])
+	return out
+
+
+static var _recorded: Dictionary = {}
+
+
 static func _write(state: CharacterState, key: String) -> void:
+	if not _recorded.is_empty():
+		_recorded["quests"][key] = true
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1
+
+
+static func _mark(state: CharacterState, mark: String) -> void:
+	if not _recorded.is_empty():
+		_recorded["marks"][mark] = true
+	state.marks[mark] = 1
+
+
+## One of `item_id` into the player's hands unless they carry one already (on a session with a map).
+static func _give(session: WorldSessionController, item_id: StringName) -> void:
+	if not _recorded.is_empty():
+		_recorded["given"][item_id] = true
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and session.player_held_item_ids().get(item_id, false) == false:
+		map.give_new_item_to_player(item_id)
+
+
+## One `item_id` the player carries taken (given away, burnt).
+static func _take(session: WorldSessionController, item_id: StringName) -> void:
+	if not _recorded.is_empty():
+		_recorded["taken"][item_id] = true
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		map.acts.take_from_player(item_id)
 
 
 ## 关北 done (关北 D): after the 工地 the last step — 卢卡 asked of the ghost and his 会首 — and the
@@ -277,7 +340,7 @@ static func chapter6_done(session: WorldSessionController, raid: bool = true, ch
 	for key: String in ["main.chapter6/luca", "main.chapter6#done"]:
 		_write(state, key)
 	for mark: String in ["卢卡说了鬼", "卢卡说了番坊", "关北一章"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 番坊 B: in 番坊 after 关北 (`raid`), 卢卡 met at the gate, 安敦 met in his hall and asked of the 铜牒;
@@ -287,8 +350,8 @@ static func chapter7_told(session: WorldSessionController, raid: bool = true, ch
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter7#started", "main.chapter7/fanfang", "main.chapter7/hall", "main.chapter7/tablet_tale"]:
 		_write(state, key)
-	for mark: String in ["到了番坊", "卢卡在番坊见到你", "见了安敦", "安敦说了铜牒"]:
-		state.marks[mark] = 1
+	for mark: String in ["到了番坊", "卢卡在番坊见到你", "见了安敦", "安敦说了铜牒", "安敦提过关北"]:
+		_mark(state, mark)
 
 
 ## chapter7_told() and a side taken — the 大秦人's (`rome`: 安敦's 站大秦人) or the 浪人's (早川's 站浪人).
@@ -296,7 +359,7 @@ static func chapter7_sided(session: WorldSessionController, rome: bool = true, r
 	chapter7_told(session, raid, chased)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "main.chapter7/side/rome" if rome else "main.chapter7/side/ronin")
-	state.marks["站了大秦人" if rome else "站了浪人"] = 1
+	_mark(state, "站了大秦人" if rome else "站了浪人")
 
 
 ## 番坊 C: the seventh chapter done on one side — the 大秦人's (`rome`: the tablet from the fire, 冯禄 faced
@@ -309,8 +372,8 @@ static func chapter7_done(session: WorldSessionController, rome: bool = true, ra
 	for key: String in (["main.chapter7/rome", "main.chapter7/gate"] if rome else ["main.chapter7/ronin", "main.chapter7/theft"]) + ["main.chapter7/read", "main.chapter7#done"]:
 		_write(state, key)
 	# Not 早川见过你: his "过我一刀" comes on a beat the player may not wait for (the blow taken at once).
-	for mark: String in (["火前说了真话", "铜牒到手", "争地过了", "大秦人留下了"] if rome else ["过了一刀", "铜牒到手", "大秦人被清走"]) + ["读过铜牒", "番坊一章"]:
-		state.marks[mark] = 1
+	for mark: String in (["火前说了真话", "铜牒到手", "印色对上了", "争地过了", "大秦人留下了", "早川拒了你"] if rome else ["过了一刀", "铜牒到手", "大秦人被清走", "安敦在码头见过你", "卢卡恨了你"]) + ["读过铜牒", "番坊一章"]:
+		_mark(state, mark)
 
 
 ## 第八章 done (第八章 A): down the lake, through the cold and the dragons' hall, the pool, 璃虹's
@@ -324,8 +387,8 @@ static func chapter8_done(session: WorldSessionController, pulled: bool = true, 
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter8/lake", "main.chapter8/cave", "main.chapter8/pool", "main.chapter8/seal", "main.chapter8/choice/pull" if pulled else "main.chapter8/choice/keep"] + (["main.chapter8/night"] if pulled else []) + ["main.chapter8#done"]:
 		_write(state, key)
-	for mark: String in ["下了湖底", "到了冰龙厅", "看过封坛", "见过璃虹", "璃虹说了封法", "商玦劝过你"] + (["拔了穿灵", "湖畔的鬼卒退了", "村口的鬼卒退了", "稻田的鬼卒退了"] if pulled else ["查清了封物"]) + ["湖底一章"]:
-		state.marks[mark] = 1
+	for mark: String in ["下了湖底", "到了冰龙厅", "看过封坛", "见过璃虹", "璃虹说了封法", "商玦劝过你"] + (["拔了穿灵", "湖畔的鬼卒退了", "村口的鬼卒退了", "稻田的鬼卒退了", "璃虹上岸见过你", "农妇谢过", "农妇问过你"] if pulled else ["查清了封物"]) + ["湖底一章"]:
+		_mark(state, mark)
 
 
 ## 第九章 A done (or B, by the well) after 第八章: the way in taken — `way` exam (the 校武场's three bouts, the
@@ -345,10 +408,9 @@ static func _chapter9_entered(session: WorldSessionController, way: String) -> v
 		"exam": marks.assign(["报了武举", "胜了第一场", "胜了第二场", "中了武状元", "葛升说了殿试", "宫门放行", "候了殿试", "进了皇城", "殿试过", "见了福安"])
 		"memorial": marks.assign(["骆云舟给了名帖", "相国府开了门", "骆家的名帖敲开了相国府", "相国见了名帖", "相国写了奏本", "随相国上朝", "宫门放行", "进了皇城", "早朝过", "见了福安"])
 	for mark: String in marks:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if way == "exam" and map != null and session.player_held_item_ids().get(&"native:imperial/guard_token", false) == false:
-		map.give_new_item_to_player(&"native:imperial/guard_token")
+		_mark(state, mark)
+	if way == "exam":
+		_give(session, &"native:imperial/guard_token")
 
 
 ## 第九章 C done after the 武举 (chapter9_entered): the 养心殿 (见了皇帝), the 樟木匣 and the two decrees compared
@@ -357,25 +419,27 @@ static func _chapter9_entered(session: WorldSessionController, way: String) -> v
 static func chapter9_compared(session: WorldSessionController, witness: bool = true, pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
 	chapter9_entered(session, "exam", pulled, rome, raid, chased)
 	_chapter9_compared(session.player_runtime().state, witness)
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map == null:
-		return
-	for item_id: StringName in [&"native:imperial/original_decree", &"native:imperial/war_ministry_copy", &"native:imperial/woodcutter_record"]:
-		if session.player_held_item_ids().get(item_id, false) == false:
-			map.give_new_item_to_player(item_id)
+	_chapter9_things(session)
+
+
+## What 第九章 C puts in hand: the 樟木匣's 原令, 兵部抄本 and 樵夫的旧记载 (imperial/world.json), 清尘's 迷魂符.
+static func _chapter9_things(session: WorldSessionController) -> void:
+	for item_id: StringName in [&"native:imperial/original_decree", &"native:imperial/war_ministry_copy", &"native:imperial/woodcutter_record", &"native:city/blinding_charm"]:
+		_give(session, item_id)
 
 
 static func _chapter9_compared(state: CharacterState, witness: bool) -> void:
 	for key: String in ["main.chapter9/audience", "main.chapter9/decree"]:
 		_write(state, key)
-	for mark: String in ["见了皇帝", "翻过樟木匣", "对出了原令", "见过卫沧澜"] + (["卫沧澜作证", "卫沧澜出了尚书府"] if witness else []):
-		state.marks[mark] = 1
+	for mark: String in ["见了皇帝", "皇帝说了槐阳王", "翻过樟木匣", "钟嬷嬷认过字", "对出了原令", "见过卫沧澜", "见过清尘", "小屋的信使倒了"] + (["卫沧澜作证", "卫沧澜出了尚书府"] if witness else []):
+		_mark(state, mark)
 
 
 ## 第九章 done (第九章 A–E): in by the 武举, the 养心殿, the 原令 matched — and the choice: `side` expose
 ## (卫沧澜's witness, 庾子建下狱, 冯策随你下湖), deal (私了: 宋朴传了话, 私了了庾子建) or uncle (the 手诏 carried:
 ## 皇叔入朝); the chapter's mark 皇城一章 and the tenth chapter opens. Its ledger keys and marks as the chapter
-## writes them; of the things only the 腰牌 (the decrees go one way or another with the choice).
+## writes them; the things as the choice leaves them: C's (_chapter9_things), the 原令 burnt for the 先帝的解读 on 私了
+## (city/npcs.json 庾子建), the 手诏 given to the 皇叔 on his road (common/npcs.json).
 static func chapter9_done(session: WorldSessionController, side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
 	chapter9_entered(session, "exam", pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
@@ -388,12 +452,20 @@ static func chapter9_done(session: WorldSessionController, side: String = "expos
 		_write(state, key)
 	var marks: Array[String] = []
 	match side:
-		"expose": marks.assign(["要在朝上揭发", "庾子建下狱", "冯策随你下湖"])
+		"expose": marks.assign(["要在朝上揭发", "揭发过", "庾子建下狱", "冯策随你下湖"])
 		"deal": marks.assign(["宋朴传了话", "私了了庾子建"])
-		"uncle": marks.assign(["皇叔的通缉解了", "皇叔入朝"])
+		"uncle": marks.assign(["皇叔的通缉解了", "三选一定了", "皇叔入朝"])
 	marks.append("皇城一章")
 	for mark: String in marks:
-		state.marks[mark] = 1
+		_mark(state, mark)
+	_chapter9_things(session)
+	match side:
+		"deal":
+			_take(session, &"native:imperial/original_decree")
+			_give(session, &"native:imperial/late_emperor_reading")
+		"uncle":
+			_give(session, &"native:imperial/edict_for_uncle")
+			_take(session, &"native:imperial/edict_for_uncle")
 
 
 ## 第十章 A done after 第九章 (`side`): the wind read, 伏地 in the hollow it stops in — 到了岚城, up into the
@@ -403,7 +475,7 @@ static func chapter10_arrived(session: WorldSessionController, side: String = "e
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter10#started", "main.chapter10/wind"]:
 		_write(state, key)
-	state.marks["到了岚城"] = 1
+	_mark(state, "到了岚城")
 
 
 ## 第十章 B done: up the 白石街 into the 风铃阁, 岚翁's greeting under the bells and 旋芒 asked of him; the
@@ -413,7 +485,7 @@ static func chapter10_asked(session: WorldSessionController, side: String = "exp
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter10/city", "main.chapter10/elder"]:
 		_write(state, key)
-	state.marks["见过岚翁"] = 1
+	_mark(state, "见过岚翁")
 
 
 ## 第十章 done (第十章 A–C): the wind read, 岚翁 asked of 旋芒, and `who` drew it — self (旋芒在你手里: the
@@ -425,8 +497,8 @@ static func chapter10_done(session: WorldSessionController, who: String = "self"
 	for key: String in ["main.chapter10/choice/%s" % who, "main.chapter10#done"]:
 		_write(state, key)
 	var held: Dictionary[String, String] = {"self": "旋芒在你手里", "uncle": "旋芒在皇叔手里", "xiao": "旋芒在萧辟尘手里"}
-	for mark: String in [held[who], "岚城一章"]:
-		state.marks[mark] = 1
+	for mark: String in [held[who], "岚城一章"] + (["要自己拔旋芒", "接下了接风三刃"] if who == "self" else []):
+		_mark(state, mark)
 
 
 ## 终章 A done after 第十章 (`who`, `side`): at the lakeside the 点将 seen, 等到天黑 taken (the 决战前 save
@@ -438,7 +510,7 @@ static func finale_dived(session: WorldSessionController, who: String = "self", 
 	for key: String in ["main.finale#started", "main.finale/lake", "main.finale/gather", "main.finale/shore"]:
 		_write(state, key)
 	for mark: String in ["点过将", "下了决战", "终章下了湖底"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 终章 B fought after the dive: 商玦 down in the 冰龙厅, the pool down to the 封坛 (回到了湖底), 侮天鬼 taken shape
@@ -448,8 +520,8 @@ static func finale_fought(session: WorldSessionController, who: String = "self",
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.finale/hall", "main.finale/depths", "main.finale/demon"]:
 		_write(state, key)
-	for mark: String in ["商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"]:
-		state.marks[mark] = 1
+	for mark: String in ["商玦说过", "商玦倒了", "回到了湖底", "侮天鬼成形", "侮天鬼倒了"]:
+		_mark(state, mark)
 
 
 ## 终章 B done: the last stroke — `end` slay (侮天鬼灭了) or a seal (seal_elon: 瑷伦留在了冰里, 再封了侮天鬼) — and up
@@ -459,8 +531,8 @@ static func finale_ended(session: WorldSessionController, end: String = "slay", 
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "main.finale/end/%s" % end)
 	var stayed: Dictionary[String, String] = {"seal_elon": "瑷伦留在了冰里", "seal_lihong": "璃虹留在了冰里", "seal_nan": "南危水留在了冰里", "seal_xiao": "萧辟尘留在了冰里"}
-	for mark: String in (["侮天鬼灭了"] if end == "slay" else [stayed[end], "再封了侮天鬼"]) + ["终章上了岸"]:
-		state.marks[mark] = 1
+	for mark: String in (["侮天鬼灭了"] if end == "slay" else [stayed[end], "再封了侮天鬼"]) + (["叫来了瑷伦"] if end == "seal_elon" else []) + ["终章上了岸"]:
+		_mark(state, mark)
 
 
 ## 势力线 封山 (DECISIONS「封山 A」): taken in by 柳淳风, as apprentice.c's recruit leaves the state
@@ -486,7 +558,7 @@ static func fonxan_guarded(session: WorldSessionController) -> void:
 	for key: String in ["faction.fonxan#started", "faction.fonxan/hear", "faction.fonxan/fakes", "faction.fonxan/pang", "faction.fonxan/report"]:
 		_write(state, key)
 	for mark: String in ["柳淳风说了冒牌", "说破了冒牌弟子", "冒牌头目倒了", "冒牌帮闲倒了", "逄义认了腰牌", "守馆办完了"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	state.affiliation.family_title = "大弟子"
 
 
@@ -497,7 +569,7 @@ static func fonxan_gated(session: WorldSessionController, revealed: bool = false
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.fonxan/gate/%s" % ("reveal" if revealed else "cover"))
 	for mark: String in ["李火狮说了门房", "说破了刘安禄" if revealed else "替刘安禄瞒了"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 封山 B's 竹书 fetched and given, to 柳绘心 (`to_daughter`) or to 柳淳风, after his word on the 门房:
@@ -508,7 +580,7 @@ static func fonxan_book_given(session: WorldSessionController, to_daughter: bool
 	for key: String in ["faction.fonxan/bamboo_hear", "faction.fonxan/bamboo", "faction.fonxan/book/%s" % ("daughter" if to_daughter else "father")]:
 		_write(state, key)
 	for mark: String in ["柳淳风说过门房", "柳淳风说了推法", "竹书给了柳绘心" if to_daughter else "竹书给了柳淳风"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 天邪 A (势力线第一批; DECISIONS「天邪 A」): sworn to 萧辟尘 — 天邪派's seventeenth generation, no class
@@ -533,7 +605,7 @@ static func celestial_watched(session: WorldSessionController, caught: bool = tr
 	for key: String in ["faction.celestial#started", "faction.celestial/hear", "faction.celestial/watch", "faction.celestial/report"]:
 		_write(state, key)
 	for mark: String in ["潘军禅说了山门", "值守回了话"] + (["认出了探子", "拿下了探子"] if caught else ["探子跑了"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 	state.affiliation.family_title = "大弟子"
 
 
@@ -545,7 +617,7 @@ static func celestial_escorted(session: WorldSessionController, caught: bool = t
 	for key: String in ["faction.celestial/escort/chen", "faction.celestial/trace"] if to_chen else ["faction.celestial/escort/pan"]:
 		_write(state, key)
 	for mark: String in ["潘军禅说了镖单", "看过镖单"] + (["镖单给了陈天星", "镖路查清了"] if to_chen else ["镖单锁进了刑堂"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 天邪 B (势力线第一批; DECISIONS「天邪 B」): the 正厅's split made (`yan`: for 颜违, else for 潘军禅), 执事
@@ -556,7 +628,7 @@ static func celestial_split(session: WorldSessionController, yan: bool, caught: 
 	for key: String in ["faction.celestial/leader", "faction.celestial/rescue", "faction.celestial/chair", "faction.celestial/split/%s" % ("side_yan" if yan else "side_pan"), "faction.celestial#done"]:
 		_write(state, key)
 	for mark: String in ["潘军禅说了盟主的下落", "正厅撞见了", "正厅的话说完了", "站了颜违" if yan else "站了潘军禅"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	state.affiliation.family_title = "执事"
 
 
@@ -577,7 +649,7 @@ static func niling_entered(session: WorldSessionController, door: String) -> voi
 		"night": ["答应了做眼线", "林忌请你再进去", "那一夜丢了人"],
 	}
 	for mark: String in marks[door]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 卧底 A done (through `door`, niling_entered()): the three chores and the 通铺, `caught` times taken by the 巡殿
@@ -589,9 +661,9 @@ static func niling_delivered(session: WorldSessionController, door: String, caug
 	for key: String in ["faction.niling/hire", "faction.niling/chores", "faction.niling/listen", "faction.niling/copy", "faction.niling/deliver"]:
 		_write(state, key)
 	for mark: String in ["管事派了活", "添过炭", "点过箱", "跟诵过", "管事许你留宿", "后殿外听到了", "抄了名单", "名单递出去了"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for mark: String in ["子时在后殿外被撞见", "子时在后殿外又被撞见"].slice(0, clampi(caught, 0, 2)):
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 卧底 B (势力线第一批; DECISIONS「卧底 B」): 卧底 A delivered (niling_delivered()), 林忌's word on the dungeon, and the
@@ -602,7 +674,7 @@ static func niling_cells_emptied(session: WorldSessionController, door: String, 
 	for key: String in ["faction.niling/word", "faction.niling/cells"]:
 		_write(state, key)
 	for mark: String in ["林忌说了地牢", "放了槐阳的妇人", "放了货郎", "放了采药人"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 卧底 B's 名册 settled: `take`n from the 账房's iron box (名册不见了, a 疑点; the book itself is the caller's) or left
@@ -611,9 +683,9 @@ static func niling_ledger(session: WorldSessionController, door: String, take: b
 	niling_cells_emptied(session, door, caught)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.niling/ledger/%s" % ("take" if take else "leave"))
-	state.marks["看过名册的原本"] = 1
+	_mark(state, "看过名册的原本")
 	for mark: String in (["带走了名册", "名册不见了"] if take else ["名册留在了匣里"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 卧底 B done (势力线第一批; DECISIONS「卧底 B」「卧底 C」): the 名册 settled (niling_ledger()), then the 天书 — where 玄冥子
@@ -625,7 +697,7 @@ static func niling_scripture(session: WorldSessionController, door: String, take
 	var lives: bool = door != "night"
 	_write(state, "faction.niling/scripture/%s" % ("book" if lives else "none"))
 	for mark: String in (["玄冥子托你取天书", "天书给了玄冥子", "玄冥子要取代商玦", "后山的事了了"] if lives else ["后山的事了了"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 东方神教 A (势力线第一批; DECISIONS「东方神教 A」): 朱鸿雪's order taken (令牌 asked, 接令 said yes to); the 西厢
@@ -634,7 +706,7 @@ static func dongfang_joined(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.dongfang#started")
 	for mark: String in ["朱鸿雪说了令牌", "接了朱鸿雪的令"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 东方神教 A: 安妮儿 asked what she waits for, and told to 朱鸿雪 as it is (`truth`) or kept for her; the 黑木令 next.
@@ -644,7 +716,7 @@ static func dongfang_reported(session: WorldSessionController, truth: bool = tru
 	for key: String in ["faction.dongfang/west", "faction.dongfang/report/%s" % ("truth" if truth else "cover")]:
 		_write(state, key)
 	for mark: String in ["安妮儿说了等谁", "如实回报了" if truth else "替安妮儿瞒了"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 东方神教 A done: the dead man's 黑木令 from the reeds, shown 朱鸿雪 and carried (持黑木令); the line at its stub
@@ -654,10 +726,8 @@ static func dongfang_held(session: WorldSessionController, truth: bool = true) -
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.dongfang/token")
 	for mark: String in ["芦苇丛的鬼卒退了", "取了黑木令", "持黑木令"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/room/npc/obj/token", false) == false:
-		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/token")
+		_mark(state, mark)
+	_give(session, &"es2:d/latemoon/room/npc/obj/token")
 
 
 ## 东方神教 B: 朱鸿雪 asked「差事」: the three names (朱鸿雪说了三个名字).
@@ -665,7 +735,7 @@ static func dongfang_named(session: WorldSessionController, truth: bool = true) 
 	dongfang_held(session, truth)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.dongfang/names")
-	state.marks["朱鸿雪说了三个名字"] = 1
+	_mark(state, "朱鸿雪说了三个名字")
 
 
 ## 东方神教 B: the three names done (the 道士 and the 画吏 beaten; the old ice cutter `killed`, or talked into
@@ -676,11 +746,9 @@ static func dongfang_coppered(session: WorldSessionController, truth: bool = tru
 	for key: String in ["faction.dongfang/three", "faction.dongfang/icer/%s" % ("do" if killed else "spare"), "faction.dongfang/copper"]:
 		_write(state, key)
 	for mark: String in ["量水的道士倒了", "兵部画吏倒了", "杀了老冰匠" if killed else "劝老冰匠搬走了", "持赤铜令"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null:
-		map.acts.take_from_player(&"es2:d/latemoon/room/npc/obj/token")
-		map.give_new_item_to_player(&"native:cloud/copper_token")
+		_mark(state, mark)
+	_take(session, &"es2:d/latemoon/room/npc/obj/token")
+	_give(session, &"native:cloud/copper_token")
 
 
 ## 东方神教 B done: the 场院's scene seen and one side taken (`annie`: 站了安妮儿, else 站了朱鸿雪); the 黄金令牌
@@ -691,28 +759,34 @@ static func dongfang_split(session: WorldSessionController, annie: bool, truth: 
 	for key: String in ["faction.dongfang/list", "faction.dongfang/split/%s" % ("side_annie" if annie else "side_zhu"), "faction.dongfang#done"]:
 		_write(state, key)
 	for mark: String in ["场院里两位教主", "场院的话说完了", "站了安妮儿" if annie else "站了朱鸿雪"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if not truth and not killed:
-		state.marks["朱鸿雪揭穿了冰凿"] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null:
-		map.acts.take_from_player(&"native:cloud/copper_token")
-		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/gold_token")
+		_mark(state, "朱鸿雪揭穿了冰凿")
+	_take(session, &"native:cloud/copper_token")
+	_give(session, &"es2:d/latemoon/room/npc/obj/gold_token")
 
 
-## 大会 B (DECISIONS「大会 B」): the main story over after 终章 B's `end` (StoryFixtures.finale_ended, then home:
-## 宣过诏, 终章), the 虹台 invitation in hand (拿了虹台请柬) and the 大会 quest on to its canvass; `marks` the
-## lines' and the canvass' marks as a suite wants them. 入席 next.
-static func assembly_invited(session: WorldSessionController, end: String = "slay", marks: Array = [], who: String = "self") -> void:
-	finale_ended(session, end, who)
+## 终章 done (终章 C): after 终章 B's `end` (finale_ended) home to the 雪亭镇 inn — 宣过诏 and 终章; the main story is over
+## and 大会's `invite` (the 店小二's 请柬) is next.
+static func finale_done(session: WorldSessionController, end: String = "slay", who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	finale_ended(session, end, who, side, pulled, rome, raid, chased)
 	var state: CharacterState = session.player_runtime().state
-	for key: String in ["main.finale/home", "main.finale#done", "faction.assembly#started", "faction.assembly/wait", "faction.assembly/invite"]:
+	for key: String in ["main.finale/home", "main.finale#done"]:
 		_write(state, key)
-	for mark: String in ["宣过诏", "终章", "拿了虹台请柬"] + marks:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null:
-		map.give_new_item_to_player(&"native:waterfog/assembly_invitation")
+	for mark: String in ["宣过诏", "终章"]:
+		_mark(state, mark)
+
+
+## 大会 B (DECISIONS「大会 B」): the main story over (finale_done), the 虹台 invitation in hand (拿了虹台请柬) and the
+## 大会 quest on to its canvass; `marks` the lines' and the canvass' marks as a suite wants them. 入席 next.
+static func assembly_invited(session: WorldSessionController, end: String = "slay", marks: Array = [], who: String = "self", side: String = "expose", pulled: bool = false, rome: bool = true, raid: bool = true, chased: bool = false) -> void:
+	finale_done(session, end, who, side, pulled, rome, raid, chased)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["faction.assembly#started", "faction.assembly/wait", "faction.assembly/invite"]:
+		_write(state, key)
+	for mark: String in ["拿了虹台请柬"] + marks:
+		_mark(state, mark)
+	_give(session, &"native:waterfog/assembly_invitation")
 
 
 ## 振远 A (势力线第二批; DECISIONS「振远 A」): 拜了陈天星 (陈剑秋's letter given): 振远镖局第一代弟子.
@@ -738,13 +812,13 @@ static func _zhenyuan(state: CharacterState) -> bool:
 static func zhenyuan_taken(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	if not _zhenyuan(state):
-		state.marks["看过镖单"] = 1
+		_mark(state, "看过镖单")
 	for key: String in ["faction.zhenyuan#started", "faction.zhenyuan/take"]:
 		_write(state, key)
 	for mark: String in ["陈剑秋说了走镖", "接了振远的镖"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if _zhenyuan(state):
-		state.marks["以本局弟子走镖"] = 1
+		_mark(state, "以本局弟子走镖")
 
 
 ## 振远 A: the 镖 in 京师 — the robber on the 碎石小路 beaten and handed to the 官府 (`free` false) or let go with
@@ -756,17 +830,12 @@ static func zhenyuan_delivered(session: WorldSessionController, free: bool = fal
 	for key: String in ["faction.zhenyuan/road", "faction.zhenyuan/robber/%s" % ("free" if free else "hand"), "faction.zhenyuan/deliver"]:
 		_write(state, key)
 	for mark: String in ["镖车上了路", "见过劫镖", "劫镖的后生倒了", "放走了劫镖的" if free else "劫镖的交了官", "有振远的名帖", "镖交到了总局"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if _zhenyuan(state):
 		state.affiliation.family_title = "镖头"
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map == null:
-		return
-	var held: Dictionary = session.player_held_item_ids()
-	if held.get(&"native:city/zhenyuan_card", false) == false:
-		map.give_new_item_to_player(&"native:city/zhenyuan_card")
-	if free and letter and held.get(&"native:city/he_letter", false) == false:
-		map.give_new_item_to_player(&"native:city/he_letter")
+	_give(session, &"native:city/zhenyuan_card")
+	if free and letter:
+		_give(session, &"native:city/he_letter")
 
 
 ## 振远 B (势力线第二批; DECISIONS「振远 B」): the 镖 delivered (`free`: the letter given to 陈天星, 镖路查清了),
@@ -780,13 +849,13 @@ static func zhenyuan_settled(session: WorldSessionController, stop: bool = true,
 		keys.append("faction.zhenyuan/letter")
 		marks.append_array(["家信给了陈天星", "镖路查清了"])
 	keys.append_array(["faction.zhenyuan/ledger", "faction.zhenyuan/uncle", "faction.zhenyuan/books/%s" % ("stop" if stop else "dig"), "faction.zhenyuan#done"])
-	marks.append_array(["陈天星说了旧账", "陈剑秋说了抚恤银", "振远旧账到此为止" if stop else "振远旧账查到底"])
+	marks.append_array(["陈天星说了旧账", "陈剑秋说了抚恤银"] + (["振远旧账到此为止", "振远的票随了到此为止"] if stop else ["振远旧账查到底", "振远的票随了查到底"]))
 	if not stop:
 		marks.append("镖路查清了")
 	for key: String in keys:
 		_write(state, key)
 	for mark: String in marks:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 晚月 A (势力线第二批; DECISIONS「晚月 A」): 拜了蓝止萍: 晚月庄第二代弟子.
@@ -815,12 +884,10 @@ static func maoshan_booked(session: WorldSessionController, disciple: bool = fal
 	if not disciple:
 		marks.append_array(["花匠说了师兄", "茅山的朋友", "林忌许你上藏经楼"])
 	for mark: String in marks:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for key: String in ["faction.maoshan#started", "faction.maoshan/library", "faction.maoshan/brother", "faction.maoshan/gardener", "faction.maoshan/book"]:
 		_write(state, key)
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and not session.player_held_item_ids().get(&"native:temple/talisman_book", false):
-		map.give_new_item_to_player(&"native:temple/talisman_book")
+	_give(session, &"native:temple/talisman_book")
 
 
 ## 茅山 B (势力线第三批; DECISIONS「茅山 B」): the book given to 林忌, the 花匠 come up and the scene in the 大殿 seen, the
@@ -830,12 +897,12 @@ static func maoshan_split(session: WorldSessionController, burn: bool = true, di
 	if disciple:
 		maoshan_joined(session)
 	for mark: String in ["看过师弟的字条", "林忌说了师弟", "花匠说了来历", "花匠交了符箓", "林忌看了符箓", "师兄弟见了面", "师兄弟说完了话"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if not disciple:
 		for mark: String in ["花匠说了师兄", "茅山的朋友", "林忌许你上藏经楼"]:
-			state.marks[mark] = 1
+			_mark(state, mark)
 	for mark: String in (["茅山烧了符箓", "茅山的票随了林忌"] if burn else ["茅山收了符箓", "茅山的票随了花匠"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for key: String in ["faction.maoshan#started", "faction.maoshan/library", "faction.maoshan/brother", "faction.maoshan/gardener", "faction.maoshan/book", "faction.maoshan/home", "faction.maoshan/meet", "faction.maoshan/split/%s" % ("burn" if burn else "keep")]:
 		_write(state, key)
 	if disciple:
@@ -865,9 +932,9 @@ static func buxuan_copied(session: WorldSessionController, disciple: bool = fals
 		state.affiliation.family_title = "大弟子"
 	else:
 		for mark: String in ["桃林", "桃林的客"]:
-			state.marks[mark] = 1
+			_mark(state, mark)
 	for mark: String in ["湖底一章", "骆云舟说了风泉", "骆云舟插了剑", "问剑过了", "骆云舟托了家书", "骆建章读了家书", "骆建章说了抄本"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for key: String in ["faction.buxuan#started", "faction.buxuan/sword", "faction.buxuan/letter", "faction.buxuan/brother", "faction.buxuan/copy"]:
 		_write(state, key)
 
@@ -878,9 +945,9 @@ static func buxuan_split(session: WorldSessionController, testify: bool = true, 
 	buxuan_copied(session, disciple)
 	var state: CharacterState = session.player_runtime().state
 	for mark: String in ["骆云舟听了抄本的事", "骆家兄弟见了面", "骆家兄弟说完了话"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for mark: String in (["骆建章作了证", "步玄的票随了作证"] if testify else ["保住了骆家", "步玄的票随了骆家"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for key: String in ["faction.buxuan/home", "faction.buxuan/meet", "faction.buxuan/split/%s" % ("testify" if testify else "home")]:
 		_write(state, key)
 	if disciple:
@@ -902,7 +969,7 @@ static func latemoon_joined(session: WorldSessionController) -> void:
 ## 晚月 A: one not of 晚月庄 who stood 瑷伦's three lashes and saw the 宝衣 through (第四章, done by the caller)
 ## asked 蓝止萍「护法」: 晚月庄护法.
 static func latemoon_guardian(session: WorldSessionController) -> void:
-	session.player_runtime().state.marks["晚月庄护法"] = 1
+	_mark(session.player_runtime().state, "晚月庄护法")
 	(session.player_runtime() as WorldPlayerRuntimeState).take_title("晚月庄护法")
 
 
@@ -913,12 +980,10 @@ static func latemoon_danced(session: WorldSessionController) -> void:
 	for key: String in ["faction.latemoon#started", "faction.latemoon/lost", "faction.latemoon/score", "faction.latemoon/shrine"]:
 		_write(state, key)
 	for mark: String in ["蓝止萍说了沧海龙吟", "看过沧海龙吟图", "沧海龙吟的步子", "跳成了沧海龙吟"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if state.family != null and state.family.family_id == &"family.latemoon":
 		state.affiliation.family_title = "大弟子"
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/obj/book", false) == false:
-		map.give_new_item_to_player(&"es2:d/latemoon/obj/book")
+	_give(session, &"es2:d/latemoon/obj/book")
 
 
 ## 晚月 A: after the dance, the 宝衣 settled as 第四章 left it (chapter4_kept / chapter4_taken, called first): left
@@ -926,17 +991,16 @@ static func latemoon_danced(session: WorldSessionController) -> void:
 static func latemoon_robe_settled(session: WorldSessionController, home: bool = true) -> void:
 	latemoon_danced(session)
 	var state: CharacterState = session.player_runtime().state
-	state.marks["该问老妇心事"] = 1
+	_mark(state, "该问老妇心事")
 	if state.marks.has("瑷伦守到决战"):
 		_write(state, "faction.latemoon/robe_way/kept")
 		return
 	_write(state, "faction.latemoon/robe_way/carried")
 	_write(state, "faction.latemoon/robe/%s" % ("home" if home else "keep"))
 	for mark: String in ["该问瑷伦还衣", "宝衣回了庄" if home else "宝衣留在了身上"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if home and map != null:
-		map.acts.take_from_player(&"native:latemoon/cold_robe")
+		_mark(state, mark)
+	if home:
+		_take(session, &"native:latemoon/cold_robe")
 
 
 ## 晚月 B: after the 宝衣 (latemoon_robe_settled, called first), the 老妇's 心事 heard and her daughter found — in the
@@ -947,10 +1011,8 @@ static func latemoon_told(session: WorldSessionController) -> void:
 	for key: String in ["faction.latemoon/heart", "faction.latemoon/where/%s" % ("grove" if night else "study"), "faction.latemoon/find_%s" % ("grove" if night else "study")]:
 		_write(state, key)
 	for mark: String in ["老妇说了女儿", "她说了来历"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and session.player_held_item_ids().get(&"es2:d/latemoon/room/npc/obj/token", false) == false:
-		map.give_new_item_to_player(&"es2:d/latemoon/room/npc/obj/token")
+		_mark(state, mark)
+	_give(session, &"es2:d/latemoon/room/npc/obj/token")
 
 
 ## 晚月 B: her 令牌 given to her mother (`mother`: the thanks too, once) or returned to 朱鸿雪 (latemoon_told first).
@@ -958,10 +1020,8 @@ static func latemoon_token(session: WorldSessionController, mother: bool = true)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.latemoon/token/%s" % ("mother" if mother else "cult"))
 	for mark: String in (["令牌给了老妇", "老妇谢过令牌"] if mother else ["令牌还了神教"]):
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null:
-		map.acts.take_from_player(&"es2:d/latemoon/room/npc/obj/token")
+		_mark(state, mark)
+	_take(session, &"es2:d/latemoon/room/npc/obj/token")
 
 
 ## 晚月 B: the split in the 大厅 (latemoon_token first): 庄规 (`rule`) or her mother's daughter; 执事 for 晚月庄's own;
@@ -971,7 +1031,7 @@ static func latemoon_settled(session: WorldSessionController, rule: bool = true)
 	for key: String in ["faction.latemoon/split/%s" % ("by_rule" if rule else "brought_home"), "faction.latemoon#done"]:
 		_write(state, key)
 	for mark: String in ["大厅说起了庄规"] + (["晚月庄依了庄规", "晚月庄的票随了庄规"] if rule else ["她回了晚月庄", "晚月庄的票随了她"]):
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if state.family != null and state.family.family_id == &"family.latemoon":
 		state.affiliation.family_title = "执事"
 
@@ -999,11 +1059,11 @@ static func _huazi(state: CharacterState) -> bool:
 static func huazi_returned(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	if not _huazi(state):
-		state.marks["击了鼓"] = 1
+		_mark(state, "击了鼓")
 	for key: String in ["faction.huazi#started", "faction.huazi/errand", "faction.huazi/steal", "faction.huazi/deeds"]:
 		_write(state, key)
 	for mark: String in ["陆得财说了差事", "卖身契还了", "陆得财说了替身"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if _huazi(state):
 		state.affiliation.family_title = "五结弟子"
 
@@ -1016,7 +1076,7 @@ static func huazi_found(session: WorldSessionController) -> void:
 	for key: String in ["faction.huazi/snow", "faction.huazi/cloud", "faction.huazi/head"]:
 		_write(state, key)
 	for mark: String in ["雪亭的替身指了路", "绮云的替身指了路", "见了真龙头", "真龙头要密信"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 花紫会 A: the 小屋's 密信 given to the 真龙头 (huazi_found first; the letter is no longer the player's). The stub
@@ -1024,10 +1084,8 @@ static func huazi_found(session: WorldSessionController) -> void:
 static func huazi_letter(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.huazi/letter/huazi")
-	state.marks["密信给了花紫会"] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null:
-		map.acts.take_from_player(&"native:city/courier_letter")
+	_mark(state, "密信给了花紫会")
+	_take(session, &"native:city/courier_letter")
 
 
 ## 花紫会 B (势力线第二批; DECISIONS「花紫会 B」): 卫沧澜 out of the 尚书府 (huazi_letter first): stolen through the 狗洞 by
@@ -1041,7 +1099,7 @@ static func huazi_rescued(session: WorldSessionController, stolen: bool = true) 
 	else:
 		marks.append("真龙头说了盟主")
 	for mark: String in marks:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 花紫会 B: the split on 福林大街 (huazi_rescued first; taken before the 虹台): 认了二十三个结 (`knots`: the caught
@@ -1053,7 +1111,7 @@ static func huazi_settled(session: WorldSessionController, knots: bool = true) -
 	var marks: Array[String] = ["福林大街碰了面", "两个陆得财说完了话"]
 	marks.append_array(["认了二十三个结", "花紫会的票随了真龙头"] if knots else ["认了管事的陆得财", "花紫会的票随了陆得财"])
 	for mark: String in marks:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	if knots:
 		CrimeRecord.add_thief(state, -CrimeRecord.thief(state))
 	if _huazi(state):
@@ -1064,13 +1122,11 @@ static func huazi_settled(session: WorldSessionController, knots: bool = true) -
 ## 「捕快」, the 腰牌 in hand. The two men collecting the toll next.
 static func court_joined(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
-	state.marks["程不平写了信"] = 1
+	_mark(state, "程不平写了信")
 	for key: String in ["faction.court#started", "faction.court/badge"]:
 		_write(state, key)
-	state.marks["做了乔阴捕快"] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and not session.player_held_item_ids().get(&"native:choyin/constable_badge", false):
-		map.give_new_item_to_player(&"native:choyin/constable_badge")
+	_mark(state, "做了乔阴捕快")
+	_give(session, &"native:choyin/constable_badge")
 
 
 ## 官府 A: both men beaten (court_joined first), each dropping a 叠 of 路引 — picked up, one carried here. 程不平's
@@ -1081,10 +1137,8 @@ static func court_tolls(session: WorldSessionController) -> void:
 	for key: String in ["faction.court/toll_snow", "faction.court/toll_cloud"]:
 		_write(state, key)
 	for mark: String in ["雪亭路口收钱的倒了", "绮云镇口收钱的倒了"]:
-		state.marks[mark] = 1
-	var map: WorldMapController = session.active_map() as WorldMapController
-	if map != null and not session.player_held_item_ids().get(&"native:canyon/road_passes", false):
-		map.give_new_item_to_player(&"native:canyon/road_passes")
+		_mark(state, mark)
+	_give(session, &"native:canyon/road_passes")
 
 
 ## 官府 A: 程不平 read the 路引 (court_tolls first): 天驼关's seal. The stub `seal` next (官府 B).
@@ -1092,7 +1146,7 @@ static func court_reported(session: WorldSessionController) -> void:
 	court_tolls(session)
 	var state: CharacterState = session.player_runtime().state
 	_write(state, "faction.court/passes")
-	state.marks["程不平看了路引"] = 1
+	_mark(state, "程不平看了路引")
 
 
 ## 官府 B (势力线第二批; DECISIONS「官府 B」): 严廷殷 owned the seal on the 路引, 李信 told his ledger of the three days
@@ -1102,11 +1156,11 @@ static func court_admitted(session: WorldSessionController) -> void:
 	court_reported(session)
 	var state: CharacterState = session.player_runtime().state
 	for mark: String in ["军营", "严廷殷看了信", "赫造基说了拓模"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 	for key: String in ["faction.court/seal", "faction.court/ledger", "faction.court/adviser"]:
 		_write(state, key)
 	for mark: String in ["严廷殷认了路引", "李信说了那三天的账", "赫造基认了盖印"]:
-		state.marks[mark] = 1
+		_mark(state, mark)
 
 
 ## 官府 B: the split at 天驼关 (court_admitted first): 整肃 with 严廷殷 (`purge`: the 军师 taken in the camp too, the
@@ -1117,6 +1171,32 @@ static func court_split(session: WorldSessionController, purge: bool = true) -> 
 	if purge:
 		_write(state, "faction.court/arrest")
 		for mark: String in ["跟严廷殷整肃", "赫造基被拿下了"]:
-			state.marks[mark] = 1
+			_mark(state, mark)
 	else:
-		state.marks["跟李信揭发"] = 1
+		_mark(state, "跟李信揭发")
+
+
+## 山烟寺 A (势力线第三批; DECISIONS「山烟寺 A」): one not of 山烟寺 asked by the 药僧 to help in the 流云轩 (流云轩的帮手:
+## the line begins on the next journal beat). The 方子 is next.
+static func sanyen_helper(session: WorldSessionController) -> void:
+	_mark(session.player_runtime().state, "流云轩的帮手")
+
+
+## 山烟寺 A done: the 方子, the three herbs (附子, 麝香, the 树王坟's 鬼臼), the 药 brewed and fed, the 头陀's word on the
+## sick man, and the choice — `heal` (头陀进了流云轩, the rule broken) or 照寺规 (守了寺规); 听说了番坊的经 either way.
+## 山烟寺 B's `west` (龙若 in 番坊) next.
+static func sanyen_treated(session: WorldSessionController, heal: bool = true) -> void:
+	var state: CharacterState = session.player_runtime().state
+	if state.family == null or state.family.family_id != &"family.sanyen":
+		sanyen_helper(session)
+	for key: String in ["faction.sanyen#started", "faction.sanyen/rx", "faction.sanyen/field", "faction.sanyen/shop", "faction.sanyen/tomb", "faction.sanyen/brew", "faction.sanyen/feed", "faction.sanyen/monk/%s" % ("heal" if heal else "rule")]:
+		_write(state, key)
+	for mark: String in ["玄智开了方子", "采了附子", "杨掌柜给了麝香", "采了鬼臼", "药僧煎好了药", "喂了樵夫药", "头陀说了病人"] + (["头陀跟你去了流云轩", "头陀进了流云轩", "不守寺规", "老葛谢过你"] if heal else ["守了寺规"]) + ["听说了番坊的经"]:
+		_mark(state, mark)
+
+
+## 绝尘 A (势力线第三批; DECISIONS「绝尘 A」): out of the 八卦阵 and owned by 绝尘子 as a guest (过阵的客): the line begins
+## on the next journal beat (the 村长's 山洞 once 第四章 is done).
+static func juechen_guest(session: WorldSessionController) -> void:
+	for mark: String in ["走出了八卦阵", "过阵的客"]:
+		_mark(session.player_runtime().state, mark)

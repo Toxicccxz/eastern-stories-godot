@@ -318,19 +318,19 @@
 			},
 			"scene_mark": "隘口的道士",
 			"calls": [
-				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。" },
 					{ "by": "native.npc.white_officer" },
 					{ "say": "总教头，挖出来了！" }
 				] },
-				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
 					{ "say": "打开。" }
 				] },
 				{ "after": 8, "scene": true, "not_mark": "隘口的道士", "steps": [
 					{ "say": "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。" }
 				] },
-				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.black_taoist_pass", "steps": [
 					{ "line": "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！" },
 					{ "by": "native.npc.black_taoist_pass" },
 					{ "say": "多谢诸位代劳！" },
@@ -339,14 +339,14 @@
 					{ "line": "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。" },
 					{ "leave": true }
 				] },
-				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.white_officer", "steps": [
 					{ "by": "native.npc.white_officer" },
 					{ "say": "追！" },
 					{ "leave": true },
 					{ "by": "native.npc.white_officer" },
 					{ "leave": true }
 				] },
-				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "steps": [
+				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "present": "native.npc.feng_ce", "steps": [
 					{ "by": "native.npc.feng_ce" },
 					{ "emote": "回过头来，目光落在你身上。" },
 					{ "say": "这不是你该来的地方。" }
@@ -399,7 +399,7 @@
 				"黑衣道士一边招架一边往洞口瞟。\n"
 			],
 			"spared": { "mark": "放过了黑衣道士", "leave": true, "line": "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。" },
-			"die_marks_killer": "杀了黑衣道士"
+			"die_marks": "杀了黑衣道士"
 		},
 		{
 			"id": "native.npc.tribute_taoist",
@@ -512,7 +512,7 @@
 				"cps": 15,
 				"per": 28
 			},
-			"combat_exp": 80000,
+			"combat_exp": 15500,
 			"score": 600,
 			"attitude": "aggressive",
 			"capabilities": [
@@ -521,14 +521,15 @@
 			"ignores_when": {
 				"cond": "dongfang.token_holds"
 			},
+			"alert_say": "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。",
 			"skills": {
-				"unarmed": 80,
-				"sword": 80,
-				"parry": 80,
-				"dodge": 70,
-				"move": 60,
-				"six-chaos-sword": 70,
-				"pyrobat-steps": 60
+				"unarmed": 45,
+				"sword": 45,
+				"parry": 45,
+				"dodge": 41,
+				"move": 35,
+				"six-chaos-sword": 41,
+				"pyrobat-steps": 35
 			},
 			"skill_map": {
 				"dodge": "pyrobat-steps",
@@ -621,6 +622,7 @@
 					"after": 1,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"emote": "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
@@ -634,6 +636,7 @@
 					"after": 4,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"by": "choyin.npc.sergeant"
@@ -650,6 +653,7 @@
 					"after": 7,
 					"scene": true,
 					"not_mark": "见过庾家拦路",
+					"present": "choyin.npc.sergeant",
 					"steps": [
 						{
 							"by": "native.npc.yu_steward"
@@ -1211,7 +1215,7 @@
 				"sword": "six-chaos-sword",
 				"parry": "six-chaos-sword"
 			},
-			"fight_deferred": "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
+			"fight_deferred": "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
 			"inquiry": {
 				"拔": {
 					"rules": [
@@ -1258,6 +1262,7 @@
 					"after": 13,
 					"scene": true,
 					"not_mark": "商玦劝过你",
+					"present": "native.npc.lihong",
 					"steps": [
 						{
 							"say": "你拿着剑，鬼醒了才找得到头；找到了头，才灭得了它。你以为它封着就是安稳？它在长。三百年，长了三百年。"
@@ -4509,6 +4514,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4545,6 +4551,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4564,6 +4571,7 @@
 					},
 					"mark": "大秦人留下了",
 					"not_mark": "内院撞见了",
+					"present": "native.npc.shield_youth",
 					"steps": [
 						{
 							"by": "native.npc.shield_youth"
@@ -4628,6 +4636,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4647,6 +4656,7 @@
 					},
 					"mark": "竹书给了柳绘心",
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -4705,6 +4715,7 @@
 						}
 					},
 					"not_mark": "内院撞见了",
+					"present": "snow.npc.girl",
 					"steps": [
 						{
 							"by": "snow.npc.girl"
@@ -5306,7 +5317,7 @@
 			"die_carries": {
 				"item": "native:waterfog/spy_letter"
 			},
-			"die_marks_killer": "拿下了探子"
+			"die_marks": "拿下了探子"
 		},
 		{
 			"id": "native.npc.waterfog_hopeful",
@@ -5673,7 +5684,7 @@
 					"listed_marks": [
 						"场院的话说完了"
 					],
-					"confirm": "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？",
+					"confirm": "站安妮儿：一代教主收回教主令。\n她收回赤铜令，给你黄金令牌，教你天山雪影剑和雪影心法；朱鸿雪认输，不走——往后神教只派该死的人的差事。终章还没打完的，她来湖畔守潭口（宝衣在不在她手里都来）；正月十七那天，神教不去虹台搅局。\n这是东方神教这条线的大分裂，选了不能改。要站安妮儿吗？",
 					"rules": [
 						{
 							"asker_marks": [
@@ -5747,6 +5758,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5773,6 +5785,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5837,6 +5850,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5932,6 +5946,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -5990,6 +6005,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6115,6 +6131,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6229,6 +6246,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6271,6 +6289,7 @@
 						]
 					},
 					"not_mark": "场院里两位教主",
+					"present": "cloud.npc.god",
 					"steps": [
 						{
 							"by": "cloud.npc.god"
@@ -6464,7 +6483,7 @@
 				"leave": true,
 				"line": "黑冠道士捂着伤口爬起来，丢下竹竿和木板，顺着湖岸往北边跑了。"
 			},
-			"die_marks_killer": "量水的道士倒了"
+			"die_marks": "量水的道士倒了"
 		},
 		{
 			"id": "native.npc.war_painter",
@@ -6564,7 +6583,7 @@
 			"die_carries": {
 				"item": "native:canyon/dig_sketch"
 			},
-			"die_marks_killer": "兵部画吏倒了"
+			"die_marks": "兵部画吏倒了"
 		},
 		{
 			"id": "native.npc.ice_cutter",
@@ -6754,15 +6773,15 @@
 				"con": 24,
 				"kar": 12
 			},
-			"combat_exp": 80000,
+			"combat_exp": 15500,
 			"skills": {
-				"unarmed": 80,
-				"sword": 80,
-				"parry": 80,
-				"dodge": 70,
-				"move": 60,
-				"six-chaos-sword": 70,
-				"pyrobat-steps": 60
+				"unarmed": 45,
+				"sword": 45,
+				"parry": 45,
+				"dodge": 41,
+				"move": 35,
+				"six-chaos-sword": 41,
+				"pyrobat-steps": 35
 			},
 			"skill_map": {
 				"dodge": "pyrobat-steps",
@@ -7987,6 +8006,12 @@
 						},
 						{
 							"asker_marks": [
+								"认了管事的陆得财"
+							],
+							"say": "酒囊系在乔阴那个腰上了。……你认的是他，叫花子不认两个龙头。"
+						},
+						{
+							"asker_marks": [
 								"福林大街碰了面"
 							],
 							"asker_lacks": [
@@ -8612,7 +8637,7 @@
 					"listed_marks": [
 						"师兄弟见了面"
 					],
-					"confirm": "跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着。\n林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n要这么办吗？",
+					"confirm": "跟花匠：《上清符箓》锁回藏经楼二楼，花匠留在山上守书——他教茅山道术，谁都教，女子也教。正月十七虹台上，茅山这一票投旧盟主：北麓剩下的人交茅山看着（已经入了虹台的席的，这一票不再跟着变）。\n林忌不会点头，从此对你冷一分。终章之后北麓那座道观里的人还没有去处的，花匠拿着书上北麓去劝。\n要这么办吗？",
 					"confirm_marks": [
 						"师兄弟见了面"
 					],
@@ -9463,7 +9488,7 @@
 					"listed_marks": [
 						"骆家兄弟见了面"
 					],
-					"confirm": "保住骆家：骆云舟带大哥回乔阴，抄本的事从此不提；骆建章在曼雩台上给弟弟抄谱。\n第九章还没定的，揭发里少了骆建章这一样人证（本来就没有，不扣别的）。骆家照旧是京城的世家：正月十七虹台上，步玄这一票投颜违。\n要这么办吗？",
+					"confirm": "保住骆家：骆云舟带大哥回乔阴，抄本的事从此不提；骆建章在曼雩台上给弟弟抄谱。\n第九章还没定的，揭发里少了骆建章这一样人证（本来就没有，不扣别的）。骆家照旧是京城的世家：正月十七虹台上，步玄这一票投颜违（已经入了虹台的席的，这一票不再跟着变）。\n要这么办吗？",
 					"confirm_marks": [
 						"骆家兄弟见了面"
 					],
@@ -9768,7 +9793,7 @@
 					"listed_marks": [
 						"骆家兄弟见了面"
 					],
-					"confirm": "让大哥作证：骆建章写供状、上堂，说出兵部抄本上多出来的三句是庾子建口述、他落的笔。\n第九章还没定的，朝上揭发多一样人证；庾子建已经下了狱的，大哥照实供，代笔矫令，判流放关北；私了过、或者先解了皇叔通缉的，供状送进刑部、抄一份给乔阴程不平，庾子建的案子重开。\n骆家从此和朝廷翻脸：正月十七虹台上，步玄这一票投旧盟主——兵部的旧案，查到底。\n要这么办吗？",
+					"confirm": "让大哥作证：骆建章写供状、上堂，说出兵部抄本上多出来的三句是庾子建口述、他落的笔。\n第九章还没定的，朝上揭发多一样人证；庾子建已经下了狱的，大哥照实供，代笔矫令，判流放关北；私了过、或者先解了皇叔通缉的，供状送进刑部、抄一份给乔阴程不平，庾子建的案子重开。\n骆家从此和朝廷翻脸：正月十七虹台上，步玄这一票投旧盟主——兵部的旧案，查到底（已经入了虹台的席的，这一票不再跟着变）。\n要这么办吗？",
 					"confirm_marks": [
 						"骆家兄弟见了面"
 					],
@@ -10139,7 +10164,7 @@
 							}
 						]
 					},
-					"present": "native.npc.luo_jianzhang",
+					"present": ["native.npc.luo_jianzhang", "native.npc.wei_zhizhong"],
 					"steps": [
 						{
 							"by": "native.npc.wei_zhizhong"

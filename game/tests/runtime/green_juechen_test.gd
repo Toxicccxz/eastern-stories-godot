@@ -186,7 +186,7 @@ func _test_apprentice_rule() -> void:
 	_check(not NpcApprenticeship.new().takes_at_once(student, master), "99999: the panel would not take her at once")
 	student.progression.combat_experience = 100000
 	request = NpcApprenticeship.new()
-	_check(request.takes_at_once(student, master) and not request.would_attack(student, master, NpcApprenticeship.COMMONER_TITLE), "a commoner with spi 24 and 100000 combat_exp is taken at once")
+	_check(request.takes_at_once(student, master) and not request.would_attack(student, master), "a commoner with spi 24 and 100000 combat_exp is taken at once")
 	_check(request.request(student, master, family, 1, "姑娘") == NpcApprenticeship.Outcome.RECRUITED and student.affiliation.class_id == &"taoist" and student.family.family_id == &"family.juechen" and student.family.generation == 2, "taken: 绝尘派's second generation, class taoist: %s" % [request.lines])
 	_check(request.lines[1] == "绝尘子说道：很好姑娘多加努力他日必定有成。" and request.lines.back() == "恭喜您成为绝尘派的第二代弟子。", "很好 and 恭喜: %s" % [request.lines])
 	_check(NpcApprenticeship.family_title("绝尘派", 2, student.affiliation.family_title) == "绝尘派第二代弟子" and RankWords.query_rank(student.gender, &"taoist") == "【 女  冠 】" and RankWords.query_rank(CharacterState.GENDER_MALE, &"taoist") == "【 道  士 】", "绝尘派第二代弟子: 女冠, or 道士")
@@ -194,11 +194,11 @@ func _test_apprentice_rule() -> void:
 	member.family = FamilyState.new(&"family.fonxan", 14)
 	member.attributes.spirituality = 30
 	request = NpcApprenticeship.new()
-	_check(request.would_attack(member, master, "封山剑派第十四代弟子") and not request.takes_at_once(member, master, "封山剑派第十四代弟子"), "a family's member would be attacked, not taken")
-	var outcome: NpcApprenticeship.Outcome = request.request(member, master, family, 1, "壮士", "封山剑派第十四代弟子", "封山剑派第十四代弟子", "阿青")
+	_check(request.would_attack(member, master) and not request.takes_at_once(member, master), "a family's member would be attacked, not taken")
+	var outcome: NpcApprenticeship.Outcome = request.request(member, master, family, 1, "壮士", "封山剑派第十四代弟子", "阿青")
 	_check(outcome == NpcApprenticeship.Outcome.ATTACKED and request.lines == ["你想要拜绝尘子为师。"] and request.chat_line == "绝尘子大声喝道：封山剑派第十四代弟子阿青要叛师！！！", "a traitor: the chat line: %s" % request.chat_line)
 	_check(member.family.family_id == &"family.fonxan" and member.progression.score == 0 and member.apprenticeship.betrayer_count == 0, "nothing else changes")
-	_check(not request.is_pending() and request.would_attack(member, master, "封山剑派第十四代弟子"), "the attack ends the request (默认, DECISIONS 山烟寺 C): asked again, he would attack again (asked first)")
+	_check(not request.is_pending() and request.would_attack(member, master), "the attack ends the request (默认, DECISIONS 山烟寺 C): asked again, he would attack again (asked first)")
 
 
 # --- The session --------------------------------------------------------------------
@@ -255,12 +255,13 @@ func _test_join(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _master(map)
-	# TEST-ONLY: back to a commoner without a family, with his spi and experience.
+	# TEST-ONLY: back to a commoner without a family, with his spi and experience, under a title the
+	# story gave (蓝止萍's 护法): no family is what he asks for, not the title (DECISIONS「问话给头衔」).
 	player.state.family = FamilyState.new()
 	player.state.apprenticeship.master_teacher_id = &""
 	player.state.apprenticeship.legacy_master_name = ""
 	player.state.affiliation = CharacterAffiliationState.new()
-	player.take_title(NpcApprenticeship.COMMONER_TITLE)
+	player.take_title("晚月庄护法")
 	player.state.attributes.spirituality = 24
 	player.state.progression.combat_experience = 100000
 	player.apprenticeship_request.cancel()
