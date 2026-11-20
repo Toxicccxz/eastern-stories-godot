@@ -235,7 +235,8 @@ func _test_while_running(tree: SceneTree) -> void:
 	for frame: int in 30:
 		await tree.process_frame
 	_check(panel.progress.status.text.begins_with("连续请教「基本剑法」：已做 "), "it counts: " + panel.progress.status.text)
-	_check(panel.get_viewport().gui_get_focus_owner() == panel.progress.stop_button, "停止 keeps the focus")
+	# 练功演出: once a step is taken the window stands aside and the band's 停止 has the keys.
+	_check(panel.progress.staged() and panel.get_viewport().gui_get_focus_owner() == panel.progress.band_stop, "停止 keeps the focus (the band's, the window aside)")
 	var back := InputEventAction.new()
 	back.action = &"ui_cancel"
 	back.pressed = true

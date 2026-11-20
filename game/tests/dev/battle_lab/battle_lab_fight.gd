@@ -407,6 +407,10 @@ func _make_player(facts: Dictionary) -> bool:
 		weapon = Roster.weapon_of(template)
 	player.state.attributes.force_factor = 0
 	_wield(weapon)
+	# The fighter made over is no gain of the player's (成长时刻).
+	var hud: SharedGameplayUI = session.shared_ui()
+	if hud != null and is_instance_valid(hud.growth_moments):
+		hud.growth_moments.take_in()
 	return true
 
 

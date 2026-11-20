@@ -7559,21 +7559,21 @@ msgstr ""
 #. force (内力) in a continuous run's summary.
 #. force name
 #. guide.force title
-#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
+#: core/training/training_lines.gd presentation/growth/growth_moments.gd data/common/stats_display.json data/common/codex.json
 msgid "内力"
 msgstr ""
 
 #. mana (法力) in a continuous run's summary.
 #. mana name
 #. guide.mana paragraphs
-#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
+#: core/training/training_lines.gd presentation/growth/growth_moments.gd data/common/stats_display.json data/common/codex.json
 msgid "法力"
 msgstr ""
 
 #. atman (灵力) in a continuous run's summary.
 #. atman name
 #. guide.mana paragraphs
-#: core/training/training_lines.gd data/common/stats_display.json data/common/codex.json
+#: core/training/training_lines.gd presentation/growth/growth_moments.gd data/common/stats_display.json data/common/codex.json
 msgid "灵力"
 msgstr ""
 
@@ -9273,6 +9273,41 @@ msgstr ""
 #. a master's family on his 拜师 page.
 #: presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd
 msgid "门派：{family}"
+msgstr ""
+
+#. 成长时刻, a skill gained a level: {skill} its name, {level} the level now.
+#: presentation/growth/growth_moments.gd
+msgid "{skill}　{level} 级"
+msgstr ""
+
+#. 成长时刻, a skill learned for the first time: {skill} its name.
+#: presentation/growth/growth_moments.gd
+msgid "习得　{skill}"
+msgstr ""
+
+#. 成长时刻, the maximum of 内力 / 法力 / 灵力 raised: {power} which, {value} the maximum now.
+#: presentation/growth/growth_moments.gd
+msgid "{power}上限　{value}"
+msgstr ""
+
+#. 成长时刻, the player became a family's pupil: {family} the family.
+#: presentation/growth/growth_moments.gd
+msgid "拜入　{family}"
+msgstr ""
+
+#. 成长时刻, the player took a master who has no family: {master} the master.
+#: presentation/growth/growth_moments.gd
+msgid "拜师　{master}"
+msgstr ""
+
+#. 成长时刻, a quest ended: {title} its name.
+#: presentation/growth/growth_moments.gd
+msgid "任务完成　{title}"
+msgstr ""
+
+#. 成长时刻, a thing a story turns on came into the player's hands: {item} its name.
+#: presentation/growth/growth_moments.gd
+msgid "获得　{item}"
 msgstr ""
 
 #: presentation/input/input_glyphs.gd

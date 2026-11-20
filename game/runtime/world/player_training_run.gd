@@ -238,6 +238,24 @@ func state() -> CharacterState:
 	return _state()
 
 
+## What the run is, for the one that shows it (练功演出): its session, the skill a step improves
+## (null for cultivation), the use practised (&"" but for 练习) and the teacher's id (&"" none).
+func session() -> WorldSessionController:
+	return _session
+
+
+func skill() -> SkillDefinition:
+	return _skill
+
+
+func use_id() -> StringName:
+	return _use_id
+
+
+func teacher_id() -> StringName:
+	return _teacher.npc.character_id if _teacher != null and is_instance_valid(_teacher) and _teacher.npc != null else &""
+
+
 func _state() -> CharacterState:
 	return _session.player_runtime().state
 
