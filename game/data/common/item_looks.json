@@ -94,6 +94,7 @@
 		"native:lancheng/diviner_slip": { "kind": "paper", "paper": "2a2a2a", "ink": "c8302a" },
 		"native:lancheng/xuanmang": { "kind": "sword", "length": 0.85, "width": 0.1, "blade": "f4f6f8:gloss", "grip": "f0e8d8", "wrap": "e8a888", "pommel": "fafcfd:gloss", "guard": "c8b890" },
 		"native:village/soul_impaler": { "kind": "sword", "length": 0.85, "width": 0.1, "blade": "bfe6f4:gloss", "grip": "e8f2f8", "wrap": "9cc8dc", "pommel": "f2fafd:gloss", "guard": "4a6a80" },
+		"native:village/black_flame": { "kind": "whip", "style": "segmented", "lash": "140c12:glow", "handle": "1a0d10", "cap": "b0281e:glow" },
 		"native:village/lihong_feather": { "kind": "token", "color": "f0dca0:glow", "border": "f8ecc0:glow", "emblem": "fffaf0:glow", "cord": "e8d090", "tassel": "f0dca0" },
 		"native:latemoon/cold_robe": { "kind": "garment", "style": "robe", "cloth": "e6eef3", "trim": "a9c3d4", "pattern": "cloud", "accent": "c6dae6", "sash": "8fb0c6" },
 		"native:choyin/decree_copy": { "kind": "scroll", "open": true, "paper": "d9c58e", "rod": "6b4a2e", "ink": "2e2119" },

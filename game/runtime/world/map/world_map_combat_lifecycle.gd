@@ -332,6 +332,7 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var comes: Array[StringName] = []
 	if (victim_npc != null or is_player) and opportunity != null and opportunity.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
 		comes = _owner_is_killed(victim, &"" if victim_npc == null else victim_npc.definition().definition_id)
+		_gone_with_owner(victim)
 		if victim_npc != null:
 			_die_carries(victim_npc, killer)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
@@ -416,6 +417,20 @@ func _owner_is_killed(victim: CombatSliceCharacterBinding, definition_id: String
 			continue
 		comes.append(item.item_definition_id)
 	return comes
+
+
+## What `victim` carries that is part of them (ItemContentDefinition.goes_with_owner(): 侮天鬼's
+## 黑焰) is gone as they die, before the corpse or the floor takes the rest.
+func _gone_with_owner(victim: CombatSliceCharacterBinding) -> void:
+	var owner := ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor)
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, victim.character_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content == null or not content.goes_with_owner():
+			continue
+		var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
+		if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
+			push_error("goes_with_owner: %s could not be destroyed" % item_id)
 
 
 ## d/choyin/npc/lion.c die(): before ::die() makes the corpse, a new 忘忧草 goes into the NPC
