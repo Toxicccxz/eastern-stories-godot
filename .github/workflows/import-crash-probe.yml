@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lane: [1, 2]
+        lane: [asis, nocinzel]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -30,27 +30,27 @@ jobs:
         run: python tools/ci/bootstrap_godot.py --platform linux --output build/toolchain --skip-templates
       - name: Loop the cold imports
         run: |
+          set +e
           G="${{ steps.godot.outputs.godot }}"
           python tools/build/prepare_release_project.py --source game --output build/rel
+          if [ "${{ matrix.lane }}" = nocinzel ]; then
+            rm -f build/rel/assets/fonts/Cinzel-VariableFont_wght.ttf build/rel/assets/fonts/Cinzel-VariableFont_wght.ttf.import
+            sed -i 's#res://assets/fonts/Cinzel-VariableFont_wght.ttf#res://assets/fonts/LXGWWenKaiLite-Medium.ttf#' build/rel/presentation/title/title_logo.gd
+          fi
           mkdir -p build/probe
-          for i in $(seq 1 12); do
+          crashes=0
+          for i in $(seq 1 20); do
             rm -rf build/rel/.godot
             start=$(date +%s)
-            gdb -q -batch -return-child-result \
-              -ex "set pagination off" -ex "handle SIGPIPE nostop noprint pass" \
-              -ex run -ex "info threads" -ex "thread apply all bt 30" \
-              --args "$G" --headless --path build/rel --editor --quit > build/probe/rel_$i.log 2>&1
+            gdb -q -batch -return-child-result               -ex "set pagination off" -ex "handle SIGPIPE nostop noprint pass"               -ex run -ex "info threads" -ex "bt 30"               -ex "x/24i \$pc-48" -ex "frame 1" -ex "x/60i \$pc-200" -ex "frame 2" -ex "x/60i \$pc-200"               --args "$G" --headless --path build/rel --editor --quit > build/probe/rel_$i.log 2>&1
             rc=$?
-            echo "release run $i rc=$rc $(( $(date +%s) - start )) s"
+            echo "${{ matrix.lane }} run $i rc=$rc $(( $(date +%s) - start )) s"
             if grep -q "received signal" build/probe/rel_$i.log; then
-              echo "---- crash in run $i"; grep -n -A 400 "received signal" build/probe/rel_$i.log | head -400
+              crashes=$((crashes + 1))
+              echo "---- crash in run $i"; grep -n -A 30 "received signal" build/probe/rel_$i.log | head -30
             fi
           done
-          for i in 1 2 3 4; do
-            rm -rf game/.godot
-            "$G" --headless --path game --editor --quit > build/probe/dev_$i.log 2>&1
-            echo "dev run $i rc=$?"
-          done
+          echo "${{ matrix.lane }}: $crashes crash(es) in 20"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
