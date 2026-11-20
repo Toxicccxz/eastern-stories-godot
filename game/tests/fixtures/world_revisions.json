@@ -134,6 +134,11 @@
 			"revision": "SOURCE_ENTRY_REVIEW_FIX_Z_V1",
 			"spawn_points": 887,
 			"fingerprint": "8e3db4e9d36178d8d15587b302e972927e38263283a76ec1cad58f45e026f5a0"
+		},
+		{
+			"revision": "SOURCE_ENTRY_BLACK_FLAME_V1",
+			"spawn_points": 887,
+			"fingerprint": "cc39c3bb9bed516591ff82f7309260a86550dee2ea066c30aad088786a933dff"
 		}
 	]
 }

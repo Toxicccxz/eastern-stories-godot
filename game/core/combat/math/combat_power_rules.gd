@@ -49,18 +49,27 @@ var heavy_blow_percent: int = 0
 ## no parry at all against a weapon (pp = 0), doubles an armed defender's parry against bare
 ## hands (pp *= 2), and a bare-handed blow has no weapon share (apply/damage is a weapon's).
 ## The knobs apply in the player's own fights only (the player strikes or is struck:
-## CombatAttackerSnapshot / CombatDefenderSnapshot.player): both parries whoever holds the weapon,
-## the bare share to the player's trained bare hands alone (empty hand, a fist art enabled on
+## CombatAttackerSnapshot / CombatDefenderSnapshot.player), each parry by who defends
+## (ParrySide): the player's side, so that bare hands are never worse off than ES2's for the
+## player, and the player's foe, so that a foe's bare hands gain nothing on the player's weapon.
+## The bare share goes to the player's trained bare hands alone (empty hand, a fist art enabled on
 ## unarmed: CombatAttackerSnapshot.trained_bare_hands). NPCs among themselves keep combatd.c's.
-## - bare_parry_percent: a bare-handed defender's parry against a weapon, this percent of what
-##   their unarmed skill gives (the parry they have against bare hands); 0 (ES2): none.
-## - armed_parry_percent: an armed defender's parry against bare hands, this percent of their
-##   parry power; 200 (ES2): doubled.
+## - player_bare_parry_percent / foe_bare_parry_percent: a bare-handed defender's parry against a
+##   weapon, this percent of what their unarmed skill gives (the parry they have against bare
+##   hands); 0 (ES2): none.
+## - player_armed_parry_percent / foe_armed_parry_percent: an armed defender's parry against bare
+##   hands, this percent of their parry power; 200 (ES2): doubled.
 ## - bare_damage_percent: a bare-handed blow's weapon share, this percent of the attacker's
 ##   effective unarmed level, added to their apply/damage before the draw; 0 (ES2): none.
-var bare_parry_percent: int = 0
-var armed_parry_percent: int = 200
+var player_bare_parry_percent: int = 0
+var player_armed_parry_percent: int = 200
+var foe_bare_parry_percent: int = 0
+var foe_armed_parry_percent: int = 200
 var bare_damage_percent: int = 0
+
+## Who parries a blow, for the 空手对兵器 knobs: NONE two NPCs (combatd.c's), PLAYER the player
+## (struck), FOE the one the player strikes.
+enum ParrySide { NONE, PLAYER, FOE }
 
 
 func _init(
@@ -93,7 +102,8 @@ func is_valid() -> bool:
 		power_base > 0 and power_doubling_levels > 0 and power_cap_levels > 0 and exp_power_divisor > 0
 		and defense_power_percent > 0 and exp_defense_max_percent >= 0 and exp_defense_max_percent < 100
 		and exp_defense_softness >= 0 and action_tag_bonus_percent >= 0 and tag_counter_percent >= 0
-		and heavy_blow_percent >= 0 and bare_parry_percent >= 0 and armed_parry_percent >= 0 and bare_damage_percent >= 0
+		and heavy_blow_percent >= 0 and player_bare_parry_percent >= 0 and player_armed_parry_percent >= 0
+		and foe_bare_parry_percent >= 0 and foe_armed_parry_percent >= 0 and bare_damage_percent >= 0
 	)
 
 
@@ -103,7 +113,8 @@ func is_classic() -> bool:
 		curve == PowerCurve.CLASSIC and exp_power_divisor == 1 and defense_power_percent == 100
 		and experience_defense == ExperienceDefense.CLASSIC
 		and action_tag_bonus_percent == 0 and tag_counter_percent == 0 and heavy_blow_percent == 0
-		and bare_parry_percent == 0 and armed_parry_percent == 200 and bare_damage_percent == 0
+		and player_bare_parry_percent == 0 and player_armed_parry_percent == 200
+		and foe_bare_parry_percent == 0 and foe_armed_parry_percent == 200 and bare_damage_percent == 0
 	)
 
 
@@ -112,30 +123,66 @@ func duplicate_snapshot() -> CombatPowerRules:
 		curve, power_base, power_doubling_levels, exp_power_divisor, defense_power_percent,
 		experience_defense, exp_defense_max_percent, exp_defense_softness, power_cap_levels,
 		action_tag_bonus_percent, tag_counter_percent,
-	).with_heavy_blow(heavy_blow_percent).with_bare_hands(bare_parry_percent, armed_parry_percent, bare_damage_percent)
+	).with_heavy_blow(heavy_blow_percent).with_parries(
+		player_bare_parry_percent, player_armed_parry_percent, foe_bare_parry_percent, foe_armed_parry_percent,
+	).with_bare_damage(bare_damage_percent)
 
 
-## This record with the 空手对兵器 knobs set.
-func with_bare_hands(p_bare_parry_percent: int, p_armed_parry_percent: int, p_bare_damage_percent: int) -> CombatPowerRules:
-	bare_parry_percent = p_bare_parry_percent
-	armed_parry_percent = p_armed_parry_percent
-	bare_damage_percent = p_bare_damage_percent
+## This record with the 空手对兵器 parry knobs set: a bare-handed / an armed defender's on the
+## player's side, then on the foe's.
+func with_parries(p_player_bare: int, p_player_armed: int, p_foe_bare: int, p_foe_armed: int) -> CombatPowerRules:
+	player_bare_parry_percent = p_player_bare
+	player_armed_parry_percent = p_player_armed
+	foe_bare_parry_percent = p_foe_bare
+	foe_armed_parry_percent = p_foe_armed
 	return self
+
+
+## This record with the bare-hand blow's share set (空手对兵器).
+func with_bare_damage(percent: int) -> CombatPowerRules:
+	bare_damage_percent = percent
+	return self
+
+
+## Who parries: PLAYER when the player is struck, FOE when the player strikes, NONE for two NPCs.
+static func parry_side(attacker_player: bool, defender_player: bool) -> ParrySide:
+	if defender_player:
+		return ParrySide.PLAYER
+	return ParrySide.FOE if attacker_player else ParrySide.NONE
+
+
+## A bare-handed defender's parry percent against a weapon on `side` (ES2's 0 for two NPCs).
+func bare_parry_percent_for(side: ParrySide) -> int:
+	match side:
+		ParrySide.PLAYER:
+			return player_bare_parry_percent
+		ParrySide.FOE:
+			return foe_bare_parry_percent
+	return 0
+
+
+## An armed defender's parry percent against bare hands on `side` (ES2's 200 for two NPCs).
+func armed_parry_percent_for(side: ParrySide) -> int:
+	match side:
+		ParrySide.PLAYER:
+			return player_armed_parry_percent
+		ParrySide.FOE:
+			return foe_armed_parry_percent
+	return 200
 
 
 ## The parry power a defender brings against this blow (combatd.c do_attack() (4) under the
 ## 空手对兵器 knobs): `armed` the defender holds a weapon, `weapon` the attacker does; `parry` is
-## the power of their parry skill, `bare` of their unarmed skill; `trained` the knobs apply to this
-## blow (the player strikes or is struck).
-func parry_power(armed: bool, weapon: bool, parry: int, bare: int, trained: bool = true) -> int:
+## the power of their parry skill, `bare` of their unarmed skill; `side` who parries.
+func parry_power(armed: bool, weapon: bool, parry: int, bare: int, side: ParrySide = ParrySide.PLAYER) -> int:
 	if armed:
 		if weapon:
 			return parry
 		@warning_ignore("integer_division")
-		return parry * (armed_parry_percent if trained else 200) / 100
+		return parry * armed_parry_percent_for(side) / 100
 	if weapon:
 		@warning_ignore("integer_division")
-		return bare * bare_parry_percent / 100 if trained else 0
+		return bare * bare_parry_percent_for(side) / 100
 	return bare
 
 
@@ -181,9 +228,10 @@ static func from_record(reader: ContentRecordReader) -> CombatPowerRules:
 		DEFENSES[defense_text], reader.integer("exp_defense_max_percent", 0), reader.integer("exp_defense_softness", 200),
 		reader.integer("power_cap_levels", 150),
 		reader.integer("action_tag_bonus_percent", 0), reader.integer("tag_counter_percent", 0),
-	).with_heavy_blow(reader.integer("heavy_blow_percent", 0)).with_bare_hands(
-		reader.integer("bare_parry_percent", 0), reader.integer("armed_parry_percent", 200), reader.integer("bare_damage_percent", 0),
-	)
+	).with_heavy_blow(reader.integer("heavy_blow_percent", 0)).with_parries(
+		reader.integer("player_bare_parry_percent", 0), reader.integer("player_armed_parry_percent", 200),
+		reader.integer("foe_bare_parry_percent", 0), reader.integer("foe_armed_parry_percent", 200),
+	).with_bare_damage(reader.integer("bare_damage_percent", 0))
 	if not rules.is_valid():
 		reader.fail("power_curve", "the combat power knobs must be positive (exp_defense_max_percent below 100)")
 	return rules

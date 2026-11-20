@@ -3100,16 +3100,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1200, "max_sen": 1200, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 100 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 140,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -3154,16 +3156,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 130 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 160,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -3208,16 +3212,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1500, "max_sen": 1500, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 130 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 160,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {
@@ -3262,16 +3268,18 @@
 				"kar": 2
 			},
 			"combat_exp": 60000,
-			"resources": {"max_kee": 3000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
+			"resources": {"max_kee": 6000, "max_gin": 1900, "max_sen": 1900, "max_force": 400, "force": 400},
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
-			"apply": { "attack": 80, "damage": 40 },
+			"apply": { "attack": 10, "damage": 150 },
+			"carry": [{"item": "native:village/black_flame", "source": "native: 侮天鬼的黑焰 (owner 2026-11-20「A」; DECISIONS「侮天鬼的黑焰」)", "equip": "wield"}],
 			"skills": {
 				"unarmed": 60,
+				"whip": 60,
 				"dodge": 130,
-				"parry": 180,
+				"parry": 60,
 				"force": 150
 			},
 			"summoned": {

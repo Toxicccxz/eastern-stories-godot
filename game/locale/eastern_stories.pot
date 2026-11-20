@@ -13566,6 +13566,7 @@ msgstr ""
 #. es2:u/cloud/obj/npc/monk/stick unit
 #. es2:d/waterfog/obj/iron_staff unit
 #. native:oldpine/cloth_strip unit
+#. native:village/black_flame unit
 #: data/common/items.json data/latemoon/items.json data/choyin/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json data/native/items.json
 msgid "条"
 msgstr ""
@@ -74305,6 +74306,22 @@ msgstr ""
 #. native:village/lihong_feather no_drop
 #: data/native/items.json
 msgid "这是璃虹的羽，不能丢。"
+msgstr ""
+
+#. native:village/black_flame name
+#: data/native/items.json
+msgid "黑焰"
+msgstr ""
+
+#. native:village/black_flame long
+#: data/native/items.json
+msgid ""
+"一条从侮天鬼身上拖出来的黑焰，像鞭子一样甩来甩去。焰是黑的，扫过的地方，冰「嗤」地化开一道。\n"
+msgstr ""
+
+#. native:village/black_flame no_drop
+#: data/native/items.json
+msgid "黑焰是侮天鬼身上的东西。"
 msgstr ""
 
 #. native:village/body_fisher name

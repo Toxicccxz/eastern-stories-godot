@@ -23,6 +23,7 @@ const GROWN_EXP: int = 150000
 const SWORD: StringName = &"native:village/soul_impaler"
 const XUANMANG: StringName = &"native:lancheng/xuanmang"
 const FEATHER: StringName = &"native:village/lihong_feather"
+const FLAME: StringName = &"native:village/black_flame"
 const HALL: StringName = &"village.lakebottom2"
 const ALTAR: StringName = &"village.seal_altar"
 const TABLE: Array[String] = ["霍铮回了寨", "关北的骑兵欠你一阵", "大秦人留下了", "冰龙倒了", "冯策随你下湖", "宝衣给了安妮儿", "替南危水保密", "卫沧澜出了尚书府", "瑷伦守到决战", "带走了宝衣"]
@@ -51,13 +52,19 @@ func _test_data() -> void:
 	var end: StoryQuestDefinition.Step = quest.step(&"end")
 	_check(end.options.size() == 6 and end.option(&"slay") != null and end.option(&"seal_self") != null and end.options.slice(1).all(func(option: StoryQuestDefinition.Option) -> bool: return option.reward.marks == ["再封了侮天鬼"]), "灭, or five ways to seal it again (each marks 再封了侮天鬼)")
 	var forms: Array = [&"native.npc.wutian_gui", &"native.npc.wutian_gui_blazing", &"native.npc.wutian_gui_grown", &"native.npc.wutian_gui_grown_blazing"]
-	# DECISIONS「主线必打的仗」second round: the four forms fight alike — the same kee, exp, unarmed,
-	# dodge, force and `apply` (both builds near the band's ends leave no room for a spread; their
-	# parry skill, unused bare-handed against bare hands and weapons alike, and gin / sen still differ);
-	# which one comes is still the robe's and the pull's. The fights are boss_strength_demon_test's.
+	# DECISIONS「侮天鬼的黑焰」: the four forms share kee, exp and skills and differ in how hard the
+	# flame hits (`apply` damage): 宝衣 in the room a step less, a 穿灵 pulled in 第八章 a step more.
+	# The fights are boss_strength_demon_test's.
 	var kee: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).resource_overrides().vitality().maximum())
 	_check(kee.all(func(value: int) -> bool: return value == kee[0] and value > 0), "侮天鬼: the four forms alike in kee %s" % [kee])
+	var damage: Array = forms.map(func(id: StringName) -> int: return catalog.npc(id).authored_combat_facts().apply_value(&"damage"))
+	_check(damage[0] < damage[1] and damage[1] == damage[2] and damage[2] < damage[3], "侮天鬼: the robe a step less, the pull a step more: %s" % [damage])
 	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).talk().inquiry_topics().is_empty()), "妖魔不解释: no topics")
+	# DECISIONS「侮天鬼的黑焰」: each form wields its 黑焰, a part of it that cannot leave its hand and
+	# goes when it does.
+	var flame: ItemContentDefinition = catalog.item(FLAME)
+	_check(flame != null and flame.no_drop and flame.goes_with_owner() and flame.weapon_definition() != null and flame.weapon_definition().skill_type == &"whip", "黑焰: a whip that cannot be dropped and goes with its owner")
+	_check(forms.all(func(id: StringName) -> bool: return catalog.npc(id).loadout_entries().any(func(entry: NpcLoadoutEntry) -> bool: return entry.item_definition_id == FLAME and entry.equipment_intent == NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY)), "侮天鬼: each form wields its 黑焰")
 	var sword: ItemContentDefinition = catalog.item(SWORD)
 	_check(sword.give_to.has(&"native.npc.elon_altar") and sword.give_to.has(&"native.npc.lihong"), "穿灵 can be given to a keeper")
 	for id: StringName in [&"village.seal_altar.face", &"village.seal_altar.nail"]:
@@ -91,10 +98,14 @@ func _test_slay(tree: SceneTree, session: WorldSessionController) -> void:
 	var wielded: EquippedWeaponRef = state.equipment.primary_weapon()
 	_check(wielded != null and wielded.weapon_id == SWORD and _said(_recent(ui), "穿灵握在你手里"), "穿灵 drawn into the player's hand before 侮天鬼 comes")
 	_check(_first(session, ALTAR, &"native.npc.wutian_gui") != null and _first(session, ALTAR, &"native.npc.wutian_gui_blazing") == null, "the form the robe faces")
+	var demon: NpcRuntimeState = _first(session, ALTAR, &"native.npc.wutian_gui")
+	var held: EquippedWeaponRef = null if demon == null else demon.character_state.equipment.primary_weapon()
+	_check(held != null and held.weapon_id == FLAME, "侮天鬼 comes with its 黑焰 in hand")
 	await _until_fight(tree, session, altar)
 	await _fight_out(tree, session, altar)
 	session.record_journal()
 	_check(state.marks.get("侮天鬼倒了", 0) == 1 and StoryQuestLog.current_step(state, quest).step_id == &"end", "侮天鬼 down: the last stroke next")
+	_check(altar.floor_items.floor_item_of(FLAME, ALTAR).is_empty() and not session.player_held_item_ids().has(FLAME), "its 黑焰 went with it: nothing on the floor of the 封坛")
 	await _act(tree, altar, &"village.seal_altar.nail")
 	_check(ui.is_asking() and ui.confirm_prompt.message.text.contains("灭了它") and ui.confirm_prompt.message.text.contains("就烧成灰了") and ui.confirm_prompt.message.text.contains("留下"), "钉下去 asked first, both sides' cost said (主线修补 A)")
 	ui.confirm_prompt.confirm_button.pressed.emit()
