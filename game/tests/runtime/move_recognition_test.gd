@@ -20,6 +20,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_counting_and_threshold()
 	_test_own_schools()
 	_test_scheduler_counts()
+	_test_beats_record_reading()
 	_test_codex_record()
 	_test_save()
 	BattlePace.manual_turns = manual_before
@@ -91,6 +92,42 @@ func _test_scheduler_counts() -> void:
 	BattlePace.manual_turns = false
 	classic.scheduler.advance(3.0, true, ID, classic.bindings, classic.random, classic.effects)
 	_check(classic.bindings[0].state.known_moves.is_empty(), "经典 (recognise_after 0) counts nothing")
+
+
+## Review 2026-11-19: each beat of the player's records whether they read the move its blow met
+## (as the card showed it before the beat: 「起手：？」 or the tag); the strip names only those.
+func _test_beats_record_reading() -> void:
+	var f: Fixtures.SchedulerFixture = Fixtures.new()._fixture(false)
+	var rules := CombatDecisionRules.new(true, true, 20, 50, 2, 3, 2)
+	var registry := CombatTacticalActionRegistry.new()
+	registry.register_policy(Probe.new(&"perform.qa", CombatTacticalRequest.TargetRule.CURRENT_HOSTILE))
+	f.scheduler.configure_decisions(rules)
+	f.scheduler.configure_player_tactics(PLAYER, registry)
+	Probe.prepare(f.bindings[0].state)
+	f.encounter.set_current_target(PLAYER, ENEMY)
+	BattlePace.manual_turns = true
+	var player: CharacterState = f.bindings[0].state
+	f.scheduler.advance(1.0, true, ID, f.bindings, f.random, f.effects)
+	var moves: Array[CombatActionDefinition] = f.scheduler.player_moves(f.bindings)
+	for skill_id: StringName in player.skills.raw_skill_ids():
+		player.skills.set_raw_level(skill_id, 0) # TEST-ONLY: no school of the player's: the enemy's moves read once watched twice
+	var pairs: Array = []
+	for beat: int in 8:
+		var next: CombatActionDefinition = f.scheduler.next_move(ENEMY, f.bindings)
+		var expected: bool = MoveRecognition.recognised(player, next, rules, GameContent.catalog())
+		var before: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
+		var spent_before: int = 0 if before == null else before.spent.size()
+		f.scheduler.choose_attack(moves[0].action_id, f.bindings)
+		f.scheduler.advance(1.0, true, ID, f.bindings, f.random, f.effects)
+		var beats: CombatRoundBeats = f.scheduler.round_beats_of(PLAYER)
+		var at: int = spent_before if beats == before else 0
+		if beats != null and at < beats.spent.size() and not beats.against[at].is_empty():
+			pairs.append([String(next.action_id) if next != null else "", expected, beats.read[at]])
+	_check(pairs.any(func(pair: Array) -> bool: return not pair[1]) and pairs.any(func(pair: Array) -> bool: return pair[1]) and pairs.all(func(pair: Array) -> bool: return pair[1] == pair[2]), "a beat against a move not read records it unread, one read records it read, as the card showed it before the beat: %s" % [pairs])
+	_check(BattleActionPanel.result_line(CombatMoveTags.QUICK, CombatMoveTags.HEAVY, 1, false) == "你出快 · 克！" and BattleActionPanel.result_line(CombatMoveTags.QUICK, CombatMoveTags.HEAVY, 1) == "你出快，对上他的重 · 克！", "the strip: an unread move not named, the verdict kept; a read one named")
+	var unread := CombatRoundBeats.new(PLAYER, 2)
+	unread.spend(CombatMoveTags.FEINT, 1, CombatMoveTags.GUARD, -1, false)
+	_check(BattleActionPanel.beat_line(unread, 0) == "你出虚 · 被克", "the strip reads the beat's record: " + BattleActionPanel.beat_line(unread, 0))
 
 
 func _test_codex_record() -> void:

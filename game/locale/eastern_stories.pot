@@ -7863,9 +7863,14 @@ msgstr ""
 msgid "被克"
 msgstr ""
 
-#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
+#. the battle strip after a beat whose opponent move the player has not learned to read: {mine} the player's tag, {verdict} 克！/ 被克 / 平.
 #: presentation/battle/battle_action_panel.gd
-msgid "你出{mine}，他起手{theirs} · {verdict}"
+msgid "你出{mine} · {verdict}"
+msgstr ""
+
+#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's move it met, {verdict} 克！/ 被克 / 平.
+#: presentation/battle/battle_action_panel.gd
+msgid "你出{mine}，对上他的{theirs} · {verdict}"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd runtime/world/map/world_map_watches.gd ui/world/map_page.gd
