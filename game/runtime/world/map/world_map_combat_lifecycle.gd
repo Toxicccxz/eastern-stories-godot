@@ -326,6 +326,7 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var killer_npc: NpcRuntimeState = null if killer == null else _map.npcs.find_resident_npc(killer.character_id)
 	var killer_heard: bool = killer_npc != null and (_map.npc_life.player_hears(killer_npc) or (is_player and _map.npc_life.player_shares_zone(killer_npc)))
 	var victim_npc: NpcRuntimeState = null if is_player else _map.npcs.find_resident_npc(victim.character_id)
+	var by_our_side: bool = not is_player and _on_players_side(killer, victim, participants)
 	# chard.c make_corpse(): owner_is_killed() of what it carries (windspring.c) before the
 	# corpse takes the rest: the item is gone, its NPC comes once the death is done.
 	var comes: Array[StringName] = []
@@ -356,6 +357,10 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 			var hooks: NpcHooks = victim_npc.definition().hooks()
 			if hooks != null and not hooks.die_marks_killer.is_empty() and killer != null and _player != null and killer.character_id == _player.character_id:
 				_player.state.marks[hooks.die_marks_killer] = 1
+			# 修补 Z (DECISIONS「倒在你这边的人手里」): a death a story waits on counts whoever on the player's side
+			# struck last (a follower, a helper, one they called), and one that vanishes in smoke too.
+			if hooks != null and not hooks.die_marks.is_empty() and by_our_side and _player != null:
+				_player.state.marks[hooks.die_marks] = 1
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
@@ -691,6 +696,32 @@ func _world_destination_for(character_id: StringName) -> InventoryTransferDestin
 		true,
 		_map.WORLD_CAPACITY,
 	)
+
+
+## Whether `killer` stands on the player's side against `victim`: the player, one the player called, or
+## one fighting the victim that is not fighting the player while the player fights the victim too (a
+## follower, a helper beside them). Read before the lifecycle clears the fight's relations.
+func _on_players_side(killer: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding, participants: Array[CombatSliceCharacterBinding]) -> bool:
+	if killer == null or victim == null or _player == null:
+		return false
+	var player_id: StringName = _player.character_id
+	if killer.character_id == player_id or _map.npcs.summoners.get(killer.character_id, &"") == player_id:
+		return true
+	# The fight's own sides first: a helper still counts when the player already lies knocked out.
+	var coordinator: CombatEncounterCoordinator = null if _map.session == null else _map.session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = null if coordinator == null or not coordinator.has_active_encounter() else coordinator.active_encounter()
+	if encounter != null:
+		var mine: CombatParticipant = encounter.participant_for(player_id)
+		var theirs: CombatParticipant = encounter.participant_for(killer.character_id)
+		if mine != null and theirs != null:
+			return mine.side_id == theirs.side_id
+	var player: CombatSliceCharacterBinding = null
+	for candidate: CombatSliceCharacterBinding in participants:
+		if candidate.character_id == player_id:
+			player = candidate
+	if player == null or killer.relationship.has_opponent(player_id) or player.relationship.has_opponent(killer.character_id):
+		return false
+	return player.relationship.has_opponent(victim.character_id) or victim.relationship.has_opponent(player_id)
 
 
 ## damage.c die(): the killer is last_damage_from, whoever hit the victim last,

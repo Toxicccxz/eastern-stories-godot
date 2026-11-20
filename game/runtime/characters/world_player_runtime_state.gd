@@ -131,7 +131,7 @@ func restore_temps(temps: Dictionary[String, int]) -> void:
 ## to an earlier request is still to come (NpcApprenticeship.request()).
 func request_apprenticeship(master: NpcDefinition, family: FamilyDefinition, entry_time_utc: int, answer_due: bool = false) -> NpcApprenticeship.Outcome:
 	return _after_recruit(apprenticeship_request.request(
-		_state, master, family, entry_time_utc, _respect(), _facts.title, shown_title(), _facts.display_name, answer_due, _facts.age,
+		_state, master, family, entry_time_utc, _respect(), shown_title(), _facts.display_name, answer_due, _facts.age,
 	), family)
 
 
@@ -143,18 +143,18 @@ func apprenticeship_answer(master: NpcDefinition, family: FamilyDefinition, entr
 
 ## juechen/master.c would take the player for a traitor if they asked it now.
 func would_be_attacked_by(master: NpcDefinition) -> bool:
-	return apprenticeship_request.would_attack(_state, master, _facts.title)
+	return apprenticeship_request.would_attack(_state, master)
 
 
 ## `master`'s conditions for taking the player, with their values (ApprenticeConditions);
 ## `affords` the player's can_afford().
 func apprentice_conditions(master: NpcDefinition, affords: Callable) -> Array[ApprenticeConditions.Row]:
-	return ApprenticeConditions.of(_state, master, apprenticeship_request, affords, _facts.title, _respect())
+	return ApprenticeConditions.of(_state, master, apprenticeship_request, affords, _respect())
 
 
 ## 拜师 with `master` would take the player at once (NpcApprenticeship.takes_at_once()).
 func would_be_taken_by(master: NpcDefinition) -> bool:
-	return apprenticeship_request.takes_at_once(_state, master, _facts.title)
+	return apprenticeship_request.takes_at_once(_state, master)
 
 
 ## swear to a master that asked for an oath (master.c do_swear()).

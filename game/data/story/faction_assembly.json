@@ -48,91 +48,7 @@
 					"label": "投颜违",
 					"count": true,
 					"when": {
-						"at_least": {
-							"n": 5,
-							"of": [
-								{
-									"all": [
-										{
-											"cond": "assembly.fonxan.stated"
-										},
-										{
-											"cond": "assembly.fonxan.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.celestial.stated"
-										},
-										{
-											"cond": "assembly.celestial.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.zhenyuan.stated"
-										},
-										{
-											"cond": "assembly.zhenyuan.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.huazi.stated"
-										},
-										{
-											"cond": "assembly.huazi.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.maoshan.stated"
-										},
-										{
-											"cond": "assembly.maoshan.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.latemoon.stated"
-										},
-										{
-											"cond": "assembly.latemoon.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.sanyen.stated"
-										},
-										{
-											"cond": "assembly.sanyen.yan"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.buxuan.stated"
-										},
-										{
-											"cond": "assembly.buxuan.yan"
-										}
-									]
-								}
-							]
-						}
+						"cond": "assembly.yan_wins"
 					},
 					"missing": "过半（五派）才换盟主"
 				},
@@ -140,93 +56,99 @@
 					"label": "听你的",
 					"count": true,
 					"when": {
-						"at_least": {
-							"n": 5,
-							"of": [
-								{
-									"all": [
+						"cond": "assembly.self_backed"
+					},
+					"missing": "五派听你的，你才站得出来"
+				},
+				{
+					"label": "那天山下：神教的杀手会截山烟寺的轿子（不管，山烟寺不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.ambush"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：逆灵宫的余孽会烧葬剑亭（不管，茅山不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.fire"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：颜违的人会堵封山的路（不管，封山不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.blockade"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：兵部会「请」骆云舟喝茶（不管，步玄派不来）",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"cond": "assembly.day.tea"
+							}
+						]
+					}
+				},
+				{
+					"label": "那天山下：照现在的样子，太平",
+					"if": {
+						"all": [
+							{
+								"not": {
+									"mark": "入了虹台的席"
+								}
+							},
+							{
+								"not": {
+									"any": [
 										{
-											"cond": "assembly.fonxan.stated"
+											"cond": "assembly.day.ambush"
 										},
 										{
-											"cond": "assembly.fonxan.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.celestial.stated"
+											"cond": "assembly.day.fire"
 										},
 										{
-											"cond": "assembly.celestial.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.zhenyuan.stated"
+											"cond": "assembly.day.blockade"
 										},
 										{
-											"cond": "assembly.zhenyuan.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.huazi.stated"
-										},
-										{
-											"cond": "assembly.huazi.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.maoshan.stated"
-										},
-										{
-											"cond": "assembly.maoshan.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.latemoon.stated"
-										},
-										{
-											"cond": "assembly.latemoon.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.sanyen.stated"
-										},
-										{
-											"cond": "assembly.sanyen.self"
-										}
-									]
-								},
-								{
-									"all": [
-										{
-											"cond": "assembly.buxuan.stated"
-										},
-										{
-											"cond": "assembly.buxuan.self"
+											"cond": "assembly.day.tea"
 										}
 									]
 								}
-							]
-						}
-					},
-					"missing": "五派听你的，你才站得出来"
+							}
+						]
+					}
 				},
 				{
 					"label": "封山剑派：还没表态",

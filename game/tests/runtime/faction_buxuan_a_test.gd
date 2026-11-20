@@ -35,7 +35,7 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_chant_unit()
-	for test: Callable in [_test_stranger, _test_guest, _test_disciple, _test_prison]:
+	for test: Callable in [_test_stranger, _test_guest, _test_disciple, _test_prison, _test_busy_rounds]:
 		var session: WorldSessionController = await _session(tree, CharacterState.GENDER_FEMALE if test == _test_guest else CharacterState.GENDER_MALE)
 		await test.call(tree, session)
 		session.free()
@@ -220,6 +220,39 @@ func _test_guest(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(said, "是我的字") and _said(said, "征民夫，设关卡，拿人") and state.marks.get("骆建章说了抄本", 0) == 1, "with the copy: his hand, the three lines (%s)" % [said])
 	session.record_journal()
 	_check(_step(session) == &"home" and state.quests.has("faction.buxuan/copy"), "the stub: back to 骆云舟")
+
+
+## Owner 2026-11-19 (DECISIONS「打着念」): the four lines count rounds, a round it is busy (失衡) included:
+## held busy every round, it still says its fourth line and wins the spar.
+func _test_busy_rounds(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	state.marks["桃林"] = 1 # TEST-ONLY: out of the 桃林
+	session.day_clock().set_day_seconds(NIGHT_SECONDS)
+	var map: WorldMapController = await _entrance(tree, session)
+	var luo: NpcRuntimeState = _first(session, ENTRANCE, LUO)
+	_ask(map, luo, "风泉")
+	_ask(map, luo, "问剑")
+	var soul: NpcRuntimeState = _first(session, ENTRANCE, SOUL)
+	_check(soul != null, "the 剑灵 by the stone")
+	if soul == null:
+		return
+	state.applies["attack"] = -2000 # TEST-ONLY: neither side lands a blow
+	state.applies["defense"] = 2000
+	_check(map.select_npc(soul.character_id) and map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the spar")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var said: Array[String] = []
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 40:
+		soul.busy.start_busy(5) # TEST-ONLY: reeling every round, as a heavy blow leaves it
+		for event: CombatSchedulerEvent in coordinator.advance_scheduler(1.0).events():
+			if event.chat != null:
+				for line: VisionLine in event.chat.lines():
+					said.append(line.template)
+		rounds += 1
+	state.applies.erase("attack")
+	state.applies.erase("defense")
+	_check(not coordinator.has_active_encounter() and rounds <= 8, "busy every round, the spar still ends with its fourth line (%d rounds)" % rounds)
+	_check(_said(said, "剑气指天") and _said(said, "剑神如意") and state.marks.get("剑灵回了剑", 0) == 1, "its four lines though it never struck: %s" % [said])
 
 
 ## 骆云舟's own (a man): the line shows as he kneels; 风泉 tells of the 剑灵 (no 桃林的客); the 问剑 passed is 大弟子.

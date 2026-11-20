@@ -157,6 +157,15 @@ func _fight_chant(actor: CombatSliceCharacterBinding, npc: NpcRuntimeState) -> C
 	return CombatNpcChatResult.new(lines).with_chant(stage.mark, stage.ends_spar)
 
 
+## The fight chant's next line for a round `actor` ended busy (owner 2026-11-19, DECISIONS「打着念」: busy
+## rounds count); null when it says none this round.
+func chant(actor: CombatSliceCharacterBinding) -> CombatNpcChatResult:
+	var npc: NpcRuntimeState = _npc(actor.character_id)
+	if npc == null or npc.definition() == null:
+		return null
+	return _fight_chant(actor, npc)
+
+
 ## The timed apply a fight chant's `index`th line runs under.
 static func fight_chant_effect(index: int) -> StringName:
 	return StringName(FIGHT_CHANT_PREFIX + str(index))

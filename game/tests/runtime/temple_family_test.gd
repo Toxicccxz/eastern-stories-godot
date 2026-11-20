@@ -133,7 +133,7 @@ func _test_apprentice_rule() -> void:
 	request = NpcApprenticeship.new()
 	request.request(other, master, family, 1, "壮士")
 	request.cancel()
-	_check(request.request(other, master, family, 2, "壮士", NpcApprenticeship.COMMONER_TITLE, "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [ASKED, BUSY] and request.is_pending_with(MASTER), "asked while his answer is due: 慢著，一个一个来: %s" % [request.lines])
+	_check(request.request(other, master, family, 2, "壮士", "", "", true) == NpcApprenticeship.Outcome.MASTER_BUSY and request.lines == [ASKED, BUSY] and request.is_pending_with(MASTER), "asked while his answer is due: 慢著，一个一个来: %s" % [request.lines])
 	_check(request.answer(other, master, family, 3, "壮士") == NpcApprenticeship.Outcome.RECRUITED and NpcApprenticeship.is_master_of(other, master), "the one answer takes him")
 	# Withdrawn, not asked again: his recruit is an offer, taken by the next 拜师.
 	var third: CharacterState = _fresh(CharacterState.GENDER_MALE)

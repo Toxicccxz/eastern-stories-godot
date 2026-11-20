@@ -159,6 +159,9 @@ var choice: String = ""
 ## Native (大会 B; DECISIONS「台上的选择」): the `ask` is put only while the player lacks every one of these
 ## marks (入席 asked once: a day walked away from and come back to goes on without asking again).
 var ask_lacks: Array[String] = []
+## Native (修补 Z; DECISIONS「台上的选择」): lines put into the `ask` at its `{lines}` (or after it) while
+## their `when` holds, in order: [[line, condition or null], ...] (入席 lists that day's trouble).
+var ask_lines: Array[Array] = []
 var steps: Array[Step] = []
 
 
@@ -419,6 +422,19 @@ func asks(known: Dictionary) -> bool:
 	return not ask.is_empty() and ask_lacks.all(func(each: String) -> bool: return known.get(each, 0) == 0)
 
 
+## The `ask` as the player reads it, in the shown language: the `ask_lines` that hold now (`holds`: a
+## condition -> whether it holds) one a line at its `{lines}`, or after it when it has none.
+func asked(holds: Callable) -> String:
+	var lines: String = ""
+	for entry: Array in ask_lines:
+		if entry[1] == null or (holds.is_valid() and bool(holds.call(entry[1]))):
+			lines += TranslationServer.translate(String(entry[0])) + "\n"
+	var text: String = TranslationServer.translate(ask)
+	if text.contains("{lines}"):
+		return text.replace("{lines}", lines)
+	return text if lines.is_empty() else text + "\n" + lines.strip_edges()
+
+
 ## The first branch of `acts` that is for the player; null when none is.
 static func first_for(acts: Array[ScriptedAct], player_gender: StringName, class_id: StringName, facts: Facts = null) -> ScriptedAct:
 	for act: ScriptedAct in acts:
@@ -543,6 +559,15 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.ask_lacks = reader.text_list("ask_lacks")
 	if not act.ask_lacks.is_empty() and act.ask.is_empty():
 		reader.fail("ask_lacks", "says when the ask is put: the branch asks")
+	for record: ContentRecordReader in reader.children("ask_lines"):
+		var condition: JournalEntryDefinition = null
+		if record.has("when"):
+			condition = JournalEntryDefinition.new()
+			JournalEntryDefinition.read_when(record, condition, "when")
+		act.ask_lines.append([record.required_text("line"), condition])
+		record.finish()
+	if not act.ask_lines.is_empty() and act.ask.is_empty():
+		reader.fail("ask_lines", "are lines of the ask: the branch asks")
 	act.steps = _steps(reader, "steps")
 	reader.finish()
 	if act.steps.is_empty():
