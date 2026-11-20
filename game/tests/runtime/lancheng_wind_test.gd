@@ -218,7 +218,8 @@ func _test_hollows(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(next != null and next.step_id == &"city", "the tenth's 风 step done, the 风铃阁 next")
 	_check(session.active_map().map_id() == &"lancheng.street" and session.player_runtime().world_location().zone_id == &"lancheng.white_gate", "伏地: up the white step into the town (B)")
 	# 章与章之间的衔接: what this package played out holds what B's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_arrived.bind("deal", false, true, false))
+	# the wind's road is the world's draw; the 石匣 and 萧辟尘's bell the suite's errand (who=xiao)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_arrived.bind("deal", false, true, false), ["风眼在东", "石匣开了"], [&"native:oldpine/stone_box", &"native:lancheng/wind_bell"])
 	_check(handoff.is_empty(), "第十章 A played leaves what chapter10_arrived writes: %s" % [handoff])
 
 

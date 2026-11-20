@@ -112,7 +112,8 @@ func _test_entrance(tree: SceneTree, session: WorldSessionController, played: bo
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
 	# (from its own fixture; played on from the chapters before, story_through_test checks it).
 	if not played:
-		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_entry_done.bind(true))
+		# 黄霸 asked as well as 刘安禄: the suite plays both leads
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_entry_done.bind(true), ["黄霸说了纳供"], [])
 		_check(handoff.is_empty(), "逆灵宫's entrance played leaves what chapter3_entry_done(liu) writes: %s" % [handoff])
 
 

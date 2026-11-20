@@ -873,9 +873,40 @@ func _new_summoned(definition: NpcDefinition, location: WorldLocationState, posi
 	return npc
 
 
-## Who called the summoned NPC `character_id` (set("possessed", who)), or "".
+## Who called the summoned NPC `character_id` (set("possessed", who)), or "". One of a summoned
+## spawn that fights beside the player (the 王府's riders, 冯策 in the 太和殿) is the player's
+## whoever brought it: summon() says so as it comes, and one still standing after a Continue (no
+## save holds `summoners`) is the player's all the same (DECISIONS「帮手等仗打完」).
 func summoner_of(character_id: StringName) -> StringName:
-	return summoners.get(character_id, &"")
+	var caller: StringName = summoners.get(character_id, &"")
+	if caller.is_empty() and _player != null and spawned_helper(find_resident_npc(character_id)):
+		return _player.character_id
+	return caller
+
+
+## Whoever's the blows of `character_id` are (combatd.c killer_reward(): a possessed one's go to
+## who called it): its summoner's, else its own.
+func caller_of(character_id: StringName) -> StringName:
+	var caller: StringName = summoner_of(character_id)
+	return character_id if caller.is_empty() else caller
+
+
+## Whether `npc` is one of a summoned spawn that fights beside the player (NpcHooks.fights_beside_player).
+static func spawned_helper(npc: NpcRuntimeState) -> bool:
+	if npc == null or SummonedNpc.is_summoned(npc.character_id):
+		return false
+	var hooks: NpcHooks = npc.definition().hooks()
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	return hooks != null and hooks.fights_beside_player and spawn != null and spawn.summoned
+
+
+## The NPCs of the spawn `spawn_id` standing on this map (here and alive).
+func standing_of(spawn_id: StringName) -> Array[NpcRuntimeState]:
+	var standing: Array[NpcRuntimeState] = []
+	for npc: NpcRuntimeState in residents:
+		if npc.spawn_id == spawn_id and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			standing.append(npc)
+	return standing
 
 
 ## A summoned NPC goes with the player onto another map (a raised one following them):
@@ -941,19 +972,24 @@ func destruct_summoned(npc: NpcRuntimeState) -> void:
 ## lines after the fight's result, unless the player left it by a spell: gone before
 ## it says them); a dead one is forgotten and its corpse stays. A conjured one (the
 ## 观想虫) stays until it dies, as in ES2, and so does a raised one (the zombie; it has its
-## own end, WorldMapSpells).
+## own end, WorldMapSpells). One of a summoned spawn that fights beside the player stays while a
+## foe of the fight still stands (foe_standing()).
 func dismiss_summoned() -> void:
-	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
+	var coordinator: CombatEncounterCoordinator = null if session == null else session.combat_encounter_coordinator()
+	var departing: bool = coordinator != null and coordinator.player_departing()
+	# DECISIONS「帮手等仗打完」: helpers stay while a foe of the fight that ends still stands (a fight
+	# lost or fled): the player comes back to the same fight with them.
+	var unfinished: bool = coordinator != null and foe_standing(coordinator.active_encounter())
 	for npc: NpcRuntimeState in residents.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
 			# One of a summoned spawn that fights beside the player (关北 C: the 王府's riders,
-			# the player's own summons by summon()): it goes as the fight ends, as the 天将 do,
+			# the player's own summons by summon()): it goes as the fight is won, as the 天将 do,
 			# keeping all it has for the next time its spawn is called.
-			var hooks: NpcHooks = npc.definition().hooks()
 			if (
-				hooks != null and hooks.fights_beside_player and summoners.has(npc.character_id)
+				not unfinished and _player != null and spawned_helper(npc) and summoner_of(npc.character_id) == _player.character_id
 				and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 			):
+				var hooks: NpcHooks = npc.definition().hooks()
 				if _map.npc_life.player_hears(npc) and session != null and not departing:
 					# TRANSLATORS: one who fought beside the player ({npc}) leaves as the fight ends (its record may say how).
 					var leaves: String = hooks.fights_beside_leaves if not hooks.fights_beside_leaves.is_empty() else "{npc}收了刀，走了。"
@@ -977,6 +1013,25 @@ func dismiss_summoned() -> void:
 		_summon_spawns.erase(npc.spawn_id)
 		summoners.erase(npc.character_id)
 		_drop_npc(npc)
+
+
+## Whether one who fought against the player in `encounter` (another side than theirs) still
+## stands on this map, conscious: the fight was lost or fled, not won. One that walked out of it
+## (go.c's 落荒而逃) is not standing against them any more.
+func foe_standing(encounter: CombatEncounter) -> bool:
+	var player: CombatParticipant = null if encounter == null or _player == null else encounter.participant_for(_player.character_id)
+	if player == null:
+		return false
+	var coordinator: CombatEncounterCoordinator = null if session == null else session.combat_encounter_coordinator()
+	for participant: CombatParticipant in encounter.participants():
+		if participant.side_id == player.side_id:
+			continue
+		if coordinator != null and coordinator.walked_out_of_active_fight(participant.participant_id):
+			continue
+		var npc: NpcRuntimeState = find_resident_npc(participant.participant_id)
+		if npc != null and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			return true
+	return false
 
 
 ## Native (A2): a bounty's outlaw (`definition_id`) comes out beside the player, as a

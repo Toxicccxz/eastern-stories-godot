@@ -182,7 +182,8 @@ func _test_town(tree: SceneTree, session: WorldSessionController) -> void:
 	var attacked: CombatSliceInitiationResult = hall.attack_selected() if weng != null else null
 	_check(attacked != null and attacked.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not session.combat_encounter_coordinator().has_active_encounter() and _said(ui.log_lines().slice(shown_before), "按了回去"), "岚翁 cannot be fought: 攻击 shows a wind holding the hand back")
 	# 章与章之间的衔接: what this package played out holds what C's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_asked.bind("deal", false, true, false))
+	# the wind's road is the world's draw; the 岚童's question and 萧辟尘's bell the suite's errands
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter10_asked.bind("deal", false, true, false), ["岚童问过你", "风眼在北"], [&"native:lancheng/wind_bell"])
 	_check(handoff.is_empty(), "第十章 B played leaves what chapter10_asked writes: %s" % [handoff])
 
 

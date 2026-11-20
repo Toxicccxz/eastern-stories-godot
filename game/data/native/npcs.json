@@ -1215,7 +1215,7 @@
 				"sword": "six-chaos-sword",
 				"parry": "six-chaos-sword"
 			},
-			"fight_deferred": "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
+			"fight_deferred": "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。",
 			"inquiry": {
 				"拔": {
 					"rules": [

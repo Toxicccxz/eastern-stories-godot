@@ -8,7 +8,8 @@ extends RefCounted
 ## a fight, 停止 / B and the page going away; the buttons grey and the focus stays on 停止
 ## while it runs; under the pseudo-locale every line and label is translated.
 ## TEST-ONLY fixtures, marked where used: gin/kee/sen, combat_exp, potential and skill
-## levels set directly.
+## levels set directly; 自动歇 off throughout (pacing training_auto_rest false, as ES2 and before:
+## a run stops for 精, 气 or 神 short; the run resting by itself is training_auto_rest_test's).
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SCHOOL: StringName = &"snow.school_compound.schoolhall.master"
 
@@ -22,6 +23,9 @@ var _school: TeacherService
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var auto_before: bool = pacing.training_auto_rest
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, false) # TEST-ONLY: 自动歇 off
 	_session = Work.create_session(tree)
 	await tree.process_frame
 	await _to_snow(tree)
@@ -47,6 +51,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_cultivation()
 	await _test_while_running(tree)
 	_test_pseudo_locale()
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, auto_before)
 	_session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}

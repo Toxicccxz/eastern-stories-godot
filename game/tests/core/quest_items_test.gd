@@ -9,9 +9,10 @@ extends RefCounted
 ##    an NPC takes as a gift: a native item there is no_drop (it cannot be dropped, given to the
 ##    wrong one, put away or sold), or it is in REGAINED, which says how the player gets another.
 ##    ES2's own things (es2:) keep ES2's rules. An item named there that the catalog lacks fails.
-## 2. What a thief or a 化尸 can still take (DECISIONS「Old Pine remainder B」, the owner's to
-##    weigh) is written again by whoever wrote it: the rule that gives it once the asker carries it
-##    no longer, while the step that needs it is not done.
+## 2. What is lost all the same (a thief and a 化尸 take nothing that cannot be dropped since
+##    DECISIONS「任务物品不被拿走」, quest_items_kept_test; ES2's own things they still take) is
+##    written again by whoever wrote it: the rule that gives it once the asker carries it no longer,
+##    while the step that needs it is not done.
 ## 3. An alias those rules ask for answers to one item only, but ES2's own (AMBIGUOUS).
 ## 4. The rules read the carried things by their real aliases: 终章's 璃虹 knows her feather.
 

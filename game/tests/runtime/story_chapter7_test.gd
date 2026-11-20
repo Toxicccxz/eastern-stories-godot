@@ -146,7 +146,8 @@ func _test_way_down(tree: SceneTree, session: WorldSessionController, raid: bool
 	await _settle(tree)
 	_check(state.marks.get("看出文书是假的", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("印是假的")), "%s: the 兵部文书's seal is false" % ledger)
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_done.bind(raid))
+	# played on into 番坊 (chapter7_told writes those)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_done.bind(raid), ["到了番坊", "卢卡在番坊见到你", "看出文书是假的"], [])
 	_check(handoff.is_empty(), "关北 D played leaves what chapter6_done writes (%s)" % ledger + ": %s" % [handoff])
 
 
@@ -256,7 +257,8 @@ func _test_hall_and_fire(tree: SceneTree, session: WorldSessionController, raid:
 		await walker.round_trip(tree, session, snapshot, "番坊 B in the 拜火祠 (%s)" % ledger)
 		_check(walker._failures.is_empty(), "%s: Save/Continue restores exactly: %s" % [ledger, str(walker._failures)])
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_told.bind(raid))
+	# played on to the side and the tablet (chapter7_sided / chapter7_done write those)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_told.bind(raid), ["站了大秦人", "火前说了真话", "铜牒到手"], [])
 	_check(handoff.is_empty(), "番坊 B played leaves what chapter7_told writes: %s" % [handoff])
 
 
@@ -437,7 +439,8 @@ func _test_gate(tree: SceneTree, session: WorldSessionController, learned: bool)
 		_check(master != null and dojo.npc_life.story_trials_offered(master).is_empty(), "the seal: no 一刀 offered to the 大秦人's friend")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
 	if learned: # the swords' way erased the 印色 (TEST-ONLY) that 关北 always teaches
-		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_done.bind(true, true))
+		# the fight at the gate the suite plays too (the fixture's road is the 印色's); 冯禄's papers looked at (an errand)
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter7_done.bind(true, true), ["冯禄倒了", "看出文书是假的"], [])
 		_check(handoff.is_empty(), "番坊 C played (the 大秦人's) leaves what chapter7_done(rome) writes: %s" % [handoff])
 
 

@@ -11,6 +11,9 @@ extends RefCounted
 ## - the hand: what the chapters before it leave carried, the sword wielded for the sword build (the
 ##   build's school enabled), exp from the chapter's arrival up to what its own road pays; the step's
 ##   checklist rows tick;
+## - the stage: no one a cleared spawn names (`cleared_mark` written; not one a reset remakes) still standing, and
+##   no carried quest thing still lying where its spawn laid it;
+## - with a faction line: the line begun at its stage's next step, the player at that step's place;
 ## - Save, back to the main menu, Continue: the same chapter, step, place, things, marks and exp.
 
 const Start := preload("res://tests/dev/chapter_start/chapter_start.gd")
@@ -27,11 +30,7 @@ var failures: Array[String] = []
 
 
 static func spec_of(quest_id: StringName, values: Dictionary = {}) -> ChapterStart.Spec:
-	var out := ChapterStart.Spec.new()
-	out.quest = quest_id
-	for key: String in values:
-		out.set(key, values[key])
-	return out
+	return ChapterStart.spec(quest_id, values)
 
 
 ## Every chapter of `quests` on the defaults, then `extra`.
@@ -67,6 +66,8 @@ func test_start(tree: SceneTree, spec: ChapterStart.Spec) -> void:
 		return
 	var problem: String = Start.apply(session, spec)
 	_check(problem.is_empty(), "%s: applied (%s)" % [label, problem])
+	if not spec.cleared.is_empty():
+		print("  %s — cleared: %s" % [label, ", ".join(spec.cleared)])
 	await _frames(tree, 4)
 	if spec.quest == &"main.prologue":
 		_check(session.player_runtime().state.progression.combat_experience == 0 and session.player_runtime().state.marks.is_empty(), "序章: the New Game itself, nothing written")
@@ -77,8 +78,10 @@ func test_start(tree: SceneTree, spec: ChapterStart.Spec) -> void:
 	var saved: bool = host.request_save()
 	_check(saved, "%s: Save" % label)
 	if saved:
-		saved = (await host.save_completed).succeeded()
-		_check(saved, "%s: saved" % label)
+		var result: OldPineRuntimeSaveLoadResult = await host.save_completed
+		await tree.process_frame
+		saved = result.succeeded()
+		_check(saved, "%s: saved (%s)" % [label, _why(result)])
 	var ended: bool = saved and host.request_end_session()
 	_check(ended, "%s: back to the menu" % label)
 	if ended:
@@ -103,25 +106,40 @@ func _check_start(session: WorldSessionController, spec: ChapterStart.Spec, labe
 	var quests: Array[StoryQuestDefinition] = catalog.story_quests()
 	var quest: StoryQuestDefinition = catalog.story_quest(spec.quest)
 	var state: CharacterState = session.player_runtime().state
+	var after: bool = ChapterStart.is_after(spec.quest)
+	var entry: Dictionary = ChapterStart.START[ChapterStart.index_of(spec.quest)]
 	# The journal.
-	for required: StringName in quest.requires:
+	for required: StringName in quest.requires + ([&"main.finale"] as Array[StringName] if after else [] as Array[StringName]):
 		_check(StoryQuestLog.is_done(state, catalog.story_quest(required)), "%s: %s done" % [label, required])
-	_check(StoryQuestLog.is_active(state, quest) and StoryQuestLog.tracked(state, quests) == quest, "%s: the chapter begun and tracked" % label)
+	_check(StoryQuestLog.is_active(state, quest) and (after or StoryQuestLog.tracked(state, quests) == quest), "%s: the chapter begun and tracked" % label)
 	var step: StoryQuestDefinition.Step = StoryQuestLog.current_step(state, quest)
-	_check(step != null and step == quest.steps[0], "%s: its first step current (%s)" % [label, "none" if step == null else String(step.step_id)])
-	_check(step != null and StoryQuestLog.objective(state, quests) == step.objective and not step.objective.is_empty(), "%s: the objective: %s" % [label, StoryQuestLog.objective(state, quests)])
+	var first: StoryQuestDefinition.Step = quest.steps[0]
+	for candidate: StoryQuestDefinition.Step in quest.steps:
+		if candidate.step_id == entry.get("step", first.step_id):
+			first = candidate
+	_check(step != null and step == first, "%s: its first step current (%s)" % [label, "none" if step == null else String(step.step_id)])
+	if not after:
+		_check(step != null and StoryQuestLog.objective(state, quests) == step.objective and not step.objective.is_empty(), "%s: the objective: %s" % [label, StoryQuestLog.objective(state, quests)])
 	if step == null:
 		return
-	# The place.
+	# The place (the faction line's next step's, when one is chosen).
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var location: WorldLocationState = session.player_runtime().world_location()
-	var start_zone: StringName = ChapterStart.START[ChapterStart.index_of(spec.quest)]["zone"]
-	_check(map != null and location != null and location.zone_id == start_zone, "%s: the player in %s (%s)" % [label, start_zone, "?" if location == null else String(location.zone_id)])
+	var start_zone: StringName = entry["zone"]
 	var target: StoryQuestDefinition.Target = step.target
+	if not spec.line.is_empty():
+		var line_quest: StoryQuestDefinition = catalog.story_quest(ChapterStart.line_of(spec.line)["quest"])
+		var line_step: StoryQuestDefinition.Step = StoryQuestLog.current_step(state, line_quest)
+		var expected: StringName = ChapterStart.stage_of(spec.line, spec.stage)["next"]
+		_check(StoryQuestLog.is_active(state, line_quest) and line_step != null and line_step.step_id == expected, "%s: the line at %s (%s)" % [label, expected, "none" if line_step == null else String(line_step.step_id)])
+		if line_step != null and line_step.target != null and not line_step.target.zone_id.is_empty():
+			start_zone = line_step.target.zone_id
+			target = line_step.target
+	_check(map != null and location != null and location.zone_id == start_zone, "%s: the player in %s (%s)" % [label, start_zone, "?" if location == null else String(location.zone_id)])
 	if target != null and not target.npc_ids.is_empty():
 		var standing: Array[StringName] = target.npc_ids.filter(func(npc_id: StringName) -> bool: return ChapterStart.standing(session, npc_id, target.map_id) != null)
 		_check(not standing.is_empty(), "%s: the step's person on %s (one of %s)" % [label, target.map_id, target.npc_ids])
-	if target != null and map != null and location != null and location.zone_id != target.zone_id:
+	if target != null and map != null and location != null and not target.zone_id.is_empty() and location.zone_id != target.zone_id:
 		if map.map_id() == target.map_id:
 			var to: Vector2 = MapPlaces.zone_spot(map, target.zone_id)
 			_check(to.is_finite() and not MapRoute.path(map, map.runtime_player_body().global_position, to).is_empty(), "%s: a way on the map to %s" % [label, target.zone_id])
@@ -131,25 +149,56 @@ func _check_start(session: WorldSessionController, spec: ChapterStart.Spec, labe
 	var held: Dictionary[StringName, bool] = session.player_held_item_ids()
 	for item_id: StringName in ChapterStart.carried(spec):
 		_check(held.get(item_id, false), "%s: %s carried" % [label, item_id])
+	# The stage: no one the story cleared standing, no carried quest thing still on its spawn's floor.
+	for spawn: NpcSpawnDefinition in catalog.spawns():
+		if spawn.cleared_mark.is_empty() or state.marks.get(spawn.cleared_mark, 0) == 0 or spawn.remade_by_reset() or _sought(state, spawn.npc_definition_id, spawn.map_id):
+			continue
+		var map_of: WorldMapController = session.world_map_of(spawn.map_id)
+		var up: Array = [] if map_of == null else map_of.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.spawn_id == spawn.spawn_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.has_flag(NpcDefinition.FLAG_GONE))
+		_check(up.is_empty(), "%s: %s cleared (%s), none standing (%d)" % [label, spawn.spawn_id, spawn.cleared_mark, up.size()])
+	if not spec.chased and ChapterStart.index_of(spec.quest) >= ChapterStart.index_of(&"main.chapter4"):
+		for spawn_id: StringName in [&"niling.cell_huo.huo_zheng", &"niling.cell_shitou.shitou"]:
+			var cell: NpcSpawnDefinition = catalog.spawn(spawn_id)
+			var cells: WorldMapController = null if cell == null else session.world_map_of(cell.map_id)
+			var kept: Array = [] if cells == null else cells.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.spawn_id == spawn_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.has_flag(NpcDefinition.FLAG_GONE))
+			_check(cell != null and kept.is_empty(), "%s: rescued, not in the cell any more (%s)" % [label, spawn_id])
+	for spawn: ItemSpawnDefinition in catalog.item_spawns():
+		if not held.get(spawn.item_definition_id, false) or not GameContent.catalog().item(spawn.item_definition_id).quest_item:
+			continue
+		var map_of: WorldMapController = session.world_map_of(spawn.map_id)
+		_check(map_of == null or map_of.floor_items.floor_item_of(spawn.item_definition_id, spawn.zone_id).is_empty(), "%s: %s carried, not lying in %s too" % [label, spawn.item_definition_id, spawn.zone_id])
 	# What arriving here pays on the chapter's own road (its new region's first visit) comes on top;
 	# the regions before it are visited already, so nothing is paid twice.
 	var arrival: int = ChapterStart.arrival_exp(spec)
-	var after: int = _next_arrival(spec)
+	var after_exp: int = _next_arrival(spec)
 	var experience: int = state.progression.combat_experience
-	_check(experience >= arrival and (experience < after or (after == arrival and experience == arrival)), "%s: exp %d from the chapter's arrival %d, below the next one's %d" % [label, experience, arrival, after])
+	# A faction step's place may lie in a region the story's road never visits: its first visit pays on arrival.
+	_check(experience >= arrival and (experience < after_exp or (after_exp == arrival and experience == arrival) or not spec.line.is_empty()), "%s: exp %d from the chapter's arrival %d, below the next one's %d" % [label, experience, arrival, after_exp])
 	var weapon: EquippedWeaponRef = state.equipment.primary_weapon()
 	_check((weapon != null) == spec.sword, "%s: %s" % [label, "a sword in hand" if spec.sword else "bare-handed"])
 	_check(state.skills.mapped_skill(&"sword" if spec.sword else &"unarmed") == (&"fonxansword" if spec.sword else &"liuh-ken"), "%s: the build's school enabled" % label)
-	for checked: StoryQuestLog.Checked in StoryQuestLog.checked(step, session.quest_condition_test()):
-		if checked.tick == StoryQuestLog.Checked.Tick.LACKING:
-			_check(UNTICKED.has(checked.row.label), "%s: checklist row「%s」lacking" % [label, checked.row.label])
+	if spec.line.is_empty():
+		for checked: StoryQuestLog.Checked in StoryQuestLog.checked(step, session.quest_condition_test()):
+			if checked.tick == StoryQuestLog.Checked.Tick.LACKING:
+				_check(UNTICKED.has(checked.row.label), "%s: checklist row「%s」lacking" % [label, checked.row.label])
+
+
+## Whether a step not yet played looks for `npc_id` on `map_id` (then a cleared spawn's NPC stays: spared, still wanted).
+static func _sought(state: CharacterState, npc_id: StringName, map_id: StringName) -> bool:
+	for quest: StoryQuestDefinition in GameContent.catalog().story_quests():
+		for step: StoryQuestDefinition.Step in quest.steps:
+			var key: String = "%s/%s" % [quest.quest_id, step.step_id]
+			for target: StoryQuestDefinition.Target in [step.target, step.target_after]:
+				if target != null and target.map_id == map_id and target.npc_ids.has(npc_id) and not state.quests.keys().any(func(written: String) -> bool: return written == key or written.begins_with(key + "/")):
+					return true
+	return false
 
 
 ## The arrival exp of the chapter after the spec's (the same for 终章, the last).
 static func _next_arrival(spec: ChapterStart.Spec) -> int:
 	var at: int = ChapterStart.index_of(spec.quest)
 	var next: StringName = ChapterStart.START[mini(at + 1, ChapterStart.START.size() - 1)]["quest"]
-	return Arrival.exploring(next) if spec.exploring else Arrival.main_story(next)
+	return ChapterStart.arrival_exp(ChapterStart.spec(next, {"exploring": spec.exploring}))
 
 
 ## What a Continue must bring back of a start.
@@ -172,6 +221,15 @@ func _facts(session: WorldSessionController) -> Dictionary:
 		"exp": state.progression.combat_experience,
 		"weapon": state.equipment.primary_weapon() != null,
 	}
+
+
+## What a refused save says (outcome, eligibility, capture, repository).
+static func _why(result: OldPineRuntimeSaveLoadResult) -> String:
+	var parts: Array[String] = ["outcome %d" % result.outcome]
+	for part: Object in [result.eligibility, result.capture, result.repository]:
+		if part != null:
+			parts.append("%s %s" % [part.get("outcome"), part.get("detail") if "detail" in part else ""])
+	return ", ".join(parts)
 
 
 func _frames(tree: SceneTree, frames: int) -> void:
