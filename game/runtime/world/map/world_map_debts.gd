@@ -61,6 +61,11 @@ func settle(npc: NpcRuntimeState) -> bool:
 		# buy.c: can_afford() 0 and 2.
 		last_lines.append(tr("你没有足够的零钱，而对方也找不开...。") if afford.outcome == MoneyAffordabilityResult.Outcome.DENOMINATION_REJECTED else tr("你的钱不够。"))
 		return false
+	# Native (DECISIONS「凑不整就不收钱」): a purse pay() could not finish pays nothing.
+	if not MoneyPaymentService.pays_exactly(context, price):
+		# TRANSLATORS: a debt not paid before any coin moved (DECISIONS「凑不整就不收钱」): the coins carried cannot make the sum.
+		last_lines.append(tr("这笔钱凑不整：对方找不开，你也没有合适的零钱。先去钱庄换些碎银或铜钱再来。"))
+		return false
 	if not MoneyPaymentService.pay(context, price).succeeded():
 		last_lines.append(tr("交易未完成，状态异常；已发生的扣款不会退回。"))
 		return false

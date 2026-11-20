@@ -7,7 +7,9 @@ extends RefCounted
 ## the buyer. A combined item (蛇药) comes with create()'s amount and merges into the
 ## buyer's stack (combined.c). Deviation (DECISIONS「拿不动就不收钱」): ES2 destroys a product
 ## the buyer cannot carry and keeps the money; a purchase that would not fit once paid
-## (CarryRoom) is refused before any money moves (TOO_HEAVY).
+## (CarryRoom) is refused before any money moves (TOO_HEAVY). Deviation (DECISIONS「凑不整就不收钱」):
+## finance.c's can_afford() passes some purses pay() cannot finish, coins taken and nothing
+## given; a purchase pay() would not complete is refused first (NO_EXACT_CHANGE).
 static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCatalog,
 	context: MoneyInventoryContext, foods: FoodCollection, liquids: LiquidCollection,
 	allocator: SessionItemIdAllocator, maximum_encumbrance: int) -> VendorPurchaseResult:
@@ -28,6 +30,9 @@ static func buy(vendor: VendorDefinition, goods_key: String, catalog: ContentCat
 	result.affordability = MoneyPaymentService.can_afford(context, result.price)
 	if result.affordability.outcome != MoneyAffordabilityResult.Outcome.AFFORDABLE:
 		result.outcome = VendorPurchaseResult.Outcome.AFFORDABILITY_REJECTED
+		return result
+	if not MoneyPaymentService.pays_exactly(context, result.price):
+		result.outcome = VendorPurchaseResult.Outcome.NO_EXACT_CHANGE
 		return result
 	if not CarryRoom.fits_after_paying(context, result.price, CarryRoom.fresh_weight(content), maximum_encumbrance):
 		result.outcome = VendorPurchaseResult.Outcome.TOO_HEAVY
