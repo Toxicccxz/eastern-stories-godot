@@ -202,13 +202,15 @@ static func resolve(
 
 	# combatd.c (4): the parry skill when armed (doubled against bare hands), none bare-handed
 	# against a weapon, the unarmed skill bare-handed against bare hands; the 空手对兵器 knobs
-	# (CombatPowerRules.parry_power, DECISIONS「空手对兵器」) set the doubling and the none.
+	# (CombatPowerRules.parry_power, DECISIONS「空手对兵器」) set the doubling and the none, by who
+	# parries (the player, the player's foe, or neither).
+	var side: CombatPowerRules.ParrySide = CombatPowerRules.parry_side(attacker.player, defender.player)
 	if defender.has_primary_weapon:
-		calculation._parry_power = rules.parry_power(true, weapon != null, _defense_skill_power(defender, defender.effective_parry_skill_level, rules), 0, attacker.player or defender.player)
-	elif weapon != null and (rules.bare_parry_percent == 0 or not (attacker.player or defender.player)):
+		calculation._parry_power = rules.parry_power(true, weapon != null, _defense_skill_power(defender, defender.effective_parry_skill_level, rules), 0, side)
+	elif weapon != null and rules.bare_parry_percent_for(side) == 0:
 		calculation._parry_power = 0
 	else:
-		calculation._parry_power = rules.parry_power(false, weapon != null, 0, _defense_skill_power(defender, defender.effective_unarmed_skill_level, rules), attacker.player or defender.player)
+		calculation._parry_power = rules.parry_power(false, weapon != null, 0, _defense_skill_power(defender, defender.effective_unarmed_skill_level, rules), side)
 	var parry_percent: int = defender.parry_power_percent + CombatMoveTags.parry_percent(action.tag, rules.action_tag_bonus_percent)
 	if parry_percent != 0:
 		@warning_ignore("integer_division")

@@ -7,7 +7,7 @@ extends SceneTree
 ## `ordinary`: MainlineFightSim.ORDINARY (a few fights of the first two hours and ES2's regions) instead.
 ## `faction`: MainlineFightSim.FACTION_FIGHTS (the faction lines' fights) instead.
 ## `after_death`: MainlineFightSim.AFTER_DEATH (the sword build coming back after one death) instead.
-## `rules`: CombatPowerRules knobs for this run (e.g. rules=bare_parry_percent:50,bare_damage_percent:60).
+## `rules`: CombatPowerRules knobs for this run (e.g. rules=player_bare_parry_percent:50,bare_damage_percent:60).
 ## `low`: each fight's first exp only (the main story alone; an `exploring_only` fight's one exp).
 ## `tune`: MainlineFightSim.tune for this run (a path from the project's parent folder, e.g. build/x.json).
 ## Prints a table: the lineup, each exp's win rate and median rounds of the won duels, and the
