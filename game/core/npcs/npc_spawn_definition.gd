@@ -67,10 +67,11 @@ var draw_group: StringName:
 var drawn: bool:
 	get:
 		return _initial_spawn_policy == InitialSpawnPolicy.DRAWN
-## Absent when the world is made (SUMMONED or DRAWN), or on the story's stage (`present`).
+## Absent when the world is made (SUMMONED or DRAWN), or on the story's stage (`present`); an ES2
+## room's own people (resident) are there from the world's start, as in ES2.
 var starts_absent: bool:
 	get:
-		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY or staged
+		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY or (staged and not resident)
 
 
 ## Native (主线 A; DECISIONS「剧情演出」): a spawn on the story's stage is there only while
@@ -90,15 +91,21 @@ var staged: bool:
 		return _present != null or _until != null
 
 
-## Native (主线卡死点; DECISIONS「主线卡死点」): an ES2 room's own people whom the story only takes
-## off its stage one day (`until`, no `present`: there from the world's start, as in ES2). While
-## they are on the stage, a room reset makes one who died anew, as ES2's reset() does.
+## Native (主线卡死点; DECISIONS「主线卡死点」): an ES2 room's own people whom the story takes off its
+## stage one day (`until`) or for a while (`present`, 修补 Z: 乔阴's 骆云舟 while he is in the capital):
+## there from the world's start, as in ES2. While they are on the stage, a room reset makes one who
+## died anew, as ES2's reset() does.
 var resident: bool:
 	get:
 		return (
-			_present == null and _until != null and _initial_spawn_policy == InitialSpawnPolicy.INITIAL_ONLY
+			staged and _initial_spawn_policy == InitialSpawnPolicy.INITIAL_ONLY
 			and not _once and not _legacy_source_room_path.begins_with("native")
 		)
+## A resident the story takes away only for a while (its `present`): off the stage it steps aside and
+## comes back when `present` holds again, as a day phase's people do (WorldStoryPresence.stage).
+var away_for_a_while: bool:
+	get:
+		return resident and _present != null
 
 
 ## Whether a room reset makes one of this spawn who died anew: an ES2 room's object (not on the

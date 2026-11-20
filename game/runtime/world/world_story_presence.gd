@@ -41,7 +41,8 @@ static func stage(session: WorldSessionController, map: WorldMapController, phas
 			elif not on and npc.exists_in_map:
 				# A stage the day brings round again (a `phase` in its conditions, 关北 C: the 工地's
 				# officers in their tents by night) only withdraws its people; any other is left for good.
-				if _comes_round(spawn.present) or _comes_round(spawn.until):
+				# An ES2 resident away for a while (修补 Z) steps aside the same way.
+				if _comes_round(spawn.present) or _comes_round(spawn.until) or spawn.away_for_a_while:
 					map.npcs.withdraw(npc)
 				else:
 					map.npcs.leave_for_good(npc)
