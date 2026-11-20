@@ -109,6 +109,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				holds = facts(room).holds
 			if not holds.is_valid() or not bool(holds.call(step.only_when)):
 				continue
+		# DECISIONS「说话的人得在场」: a step for one who is not here is passed over.
+		if not step.only_present.is_empty() and not _map.npcs.npc_present_in_zone(step.only_present, room, true):
+			continue
 		match step.kind:
 			ScriptedAct.Kind.LINE:
 				said.append(step.line.colored(npc_name, respect))

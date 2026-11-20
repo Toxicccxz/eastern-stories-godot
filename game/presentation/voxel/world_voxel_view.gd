@@ -102,6 +102,11 @@ const QUEST_GLOW: String = "d9452c"
 var quest_marker: Node3D
 ## What the marker was placed for ("" none): the target and the quest ledger's size.
 var _quest_key: String = ""
+## The follower apart the marker points to first (WorldLeftBehind.follower_goal(); DECISIONS
+## 「尸体和走散的同伴」), looked for every APART_LOOK_MS, not every frame (it reads every map).
+var _apart: MapAtlas.Goal
+var _apart_looked_ms: int = -1
+const APART_LOOK_MS: int = 500
 ## The twinkling points over what does something but may not look it (DECISIONS「交互闪光点」).
 var glints: VoxelGlints
 var _built: bool = false
@@ -1326,7 +1331,7 @@ func _sync_glints(delta: float) -> void:
 func _sync_quest_marker() -> void:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var state: CharacterState = null if player == null else player.state
-	var goal: MapAtlas.Goal = null if state == null else MapAtlas.goal(GameContent.catalog(), state)
+	var goal: MapAtlas.Goal = null if state == null else MapAtlas.goal(GameContent.catalog(), state, _apart_goal())
 	var key: String = "" if goal == null else "%s/%s/%s/%s/%d/%d" % [goal.map_id, goal.zone_id, goal.waypoint, goal.npc_ids, state.quests.size(), state.visited_maps.size()]
 	if key != _quest_key:
 		_quest_key = key
@@ -1343,6 +1348,14 @@ func _sync_quest_marker() -> void:
 	var spinner: Node3D = quest_marker.get_node_or_null("Spinner") as Node3D
 	if spinner != null:
 		spinner.rotation.y = _arrow_clock * QUEST_SPIN
+
+
+func _apart_goal() -> MapAtlas.Goal:
+	var now: int = Time.get_ticks_msec()
+	if map.session != null and (_apart_looked_ms < 0 or now - _apart_looked_ms >= APART_LOOK_MS or now < _apart_looked_ms):
+		_apart_looked_ms = now
+		_apart = WorldLeftBehind.follower_goal(map.session)
+	return _apart
 
 
 ## The quest marker over the nearest standing one of the people the step is about, else over its

@@ -160,6 +160,14 @@ The following version-specific details are the current implementation snapshot d
   replacement run on a worker, through the same repository guarantees. Save, Load, the slot list and the end
   of a Session wait for it. An autosave that cannot run is skipped, not queued. The autosave's `.bak` is
   offered as the previous autosave, an explicit recovery.
+- Two more slots are written by the game, never by the player's Save, and listed for Load only once they
+  hold something: `keep-v1.json` (决战前, DECISIONS「决战前存档」) and `death-v1.json` (死前存档,
+  DECISIONS「死前存档」). As the death card comes up, `auto-v1.json` of the same journey is copied into
+  `death-v1.json` byte for byte (nothing is captured; on a worker, through the same temporary file,
+  full read-back and rotation as a Save; a source that does not read back changes nothing). Only the
+  next death replaces it, and not while an earlier corpse of the player still holds things; the
+  replaced file becomes its `.bak` (the older `.bak` goes, as on any Save). Apart from the
+  autosave's roll and the 决战前 save, this is the only replacement the game makes by itself.
 - Load never silently selects `.bak` or `.tmp`. A valid recovery candidate is reported as
   `BACKUP_AVAILABLE`; the Application Shell presents explicit recovery choices through the Host.
 - A running Load is an A/B transaction. Candidate B is independently decoded, validated, composed,

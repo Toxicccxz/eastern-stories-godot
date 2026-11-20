@@ -584,7 +584,6 @@ func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: Combat
 		allocation.item_instance_id,
 		destination,
 		_death_item_facts_for(victim.character_id),
-		DeathItemPolicyRegistry.new(),
 		DeathRewearPolicyRegistry.new(),
 		_death_context_for(victim, killer, destination),
 	)
