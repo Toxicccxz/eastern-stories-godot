@@ -50,6 +50,7 @@ func _attach_runtime() -> void:
 	_presenter.metrics_changed.connect(_metrics_changed)
 	get_tree().node_added.connect(_node_added)
 	get_tree().node_removed.connect(_node_removed)
+	Input.joy_connection_changed.connect(_joypads_changed)
 	for node: Node in _shell.find_children("*", "", true, false):
 		_node_added(node)
 	_metrics_changed(_presenter.current_metrics())
@@ -73,6 +74,7 @@ func _exit_tree() -> void:
 	if _attached:
 		get_tree().node_added.disconnect(_node_added)
 		get_tree().node_removed.disconnect(_node_removed)
+		Input.joy_connection_changed.disconnect(_joypads_changed)
 	_attached = false
 	_presenter = null
 	_shell = null
@@ -184,6 +186,18 @@ func _presentation_context_changed() -> void:
 	_sync_presentation()
 
 
+## A gamepad came or went: the pad and the touch pause step aside while one is connected
+## (owner, 2026-11-20: played on the phone with a gamepad) and come back when it is unplugged.
+## Taps still reach the menus and the world.
+func _joypads_changed(_device: int, _connected: bool) -> void:
+	cancel_contacts()
+	_sync_presentation()
+
+
+static func _gamepad_connected() -> bool:
+	return not Input.get_connected_joypads().is_empty()
+
+
 func _sync_presentation() -> void:
 	if not is_instance_valid(_pad) or not is_instance_valid(_shell):
 		return
@@ -195,8 +209,9 @@ func _sync_presentation() -> void:
 		_blocker_id = id
 		_exploration_blocked = exploration_blocked
 	var playing: bool = _active and _shell.interaction_allowed() and _shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING
-	_pause.visible = playing
-	_pad.visible = playing and blocker == null and not exploration_blocked and pad_rect().size == Vector2(192, 192)
+	var touch_controls: bool = playing and not _gamepad_connected()
+	_pause.visible = touch_controls
+	_pad.visible = touch_controls and blocker == null and not exploration_blocked and pad_rect().size == Vector2(192, 192)
 
 
 func _input(event: InputEvent) -> void:

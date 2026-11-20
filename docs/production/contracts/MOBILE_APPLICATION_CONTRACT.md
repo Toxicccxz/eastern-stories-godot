@@ -70,6 +70,10 @@ states. Neither changes Save eligibility.
 - Touch Pause emits `pause_game`. Existing keyboard/mouse/controller Shell semantics remain
   shared; touch UI is hidden on ordinary desktop. This does not add controller locomotion,
   remapping or physical-controller qualification.
+- While a gamepad is connected (Godot's joypad list; on Android a device reporting a gamepad or
+  joystick source), the pad and Touch Pause are hidden and held contacts are cancelled; they return
+  when it disconnects. Pointer taps keep working
+  ([DECISIONS「手机试玩：标题菜单和手柄」](../../migration/DECISIONS.md)).
 
 ## Android Back
 
