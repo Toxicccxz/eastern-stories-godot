@@ -1,5 +1,5 @@
 {
-  "source": "The [n/N] PASS lines in the shard logs of CI run 44660298186 (PR #408, 2026-11-20, ubuntu-24.04, four suites at a time, --fixed-fps 60); training_auto_rest_test, fight_helpers_stay_test and quest_items_kept_test from their own PRs' runs (44668108797, 44660116896)",
+  "source": "The [n/N] PASS lines in the shard logs of CI run 44660298186 (PR #408, 2026-11-20, ubuntu-24.04, four suites at a time, --fixed-fps 60); training_auto_rest_test, fight_helpers_stay_test and quest_items_kept_test from their own PRs' runs (44668108797, 44660116896); load_cycles_test estimated from a local run (78 s) until a CI run records it",
   "default_seconds": 60,
   "suites": {
     "res://tests/application/application_shell_phase10c1b_test.gd": 103.2,
@@ -15,6 +15,7 @@
     "res://tests/application/input_paths_test.gd": 21.6,
     "res://tests/application/journal_codex_test.gd": 41,
     "res://tests/application/journey_end_test.gd": 19.5,
+    "res://tests/application/load_cycles_test.gd": 130.0,
     "res://tests/application/localization_test.gd": 12.5,
     "res://tests/application/project_settings_test.gd": 8.1,
     "res://tests/application/public_source_new_game_test.gd": 151,
