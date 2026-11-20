@@ -8,8 +8,20 @@ extends RefCounted
 ## It stops on what TrainingRun decides, or when the player can no longer act: a fight, a
 ## fall, the menu closed (portable actions), the teacher out of reach. finish() tells the
 ## run in a few lines (TrainingLines.run()) instead of each step's.
+## 自动歇 (成长曲线 B; pacing training_auto_rest; DECISIONS「连续修炼」): at a stop for 精, 气 or 神
+## short (TrainingRun.rest_mends()) the run rests by itself — the session's 歇到回满, quiet, the page
+## left open (begin_rest(true)) — and step() waits meanwhile. A rest that ends with the three full
+## (or at its longest with something come back) takes the same run on; any other end (有人来袭, 掉血,
+## 断水, 剧情, 换图, 倒下) ends it with the rest's own line, and so does a rest that cannot begin. Full
+## already and still short (气 asked above the maximum): it stops there, as without 自动歇.
 
 var training: TrainingRun
+## 自动歇 for this run (pacing's knob; the suites may set it).
+var auto_rest: bool:
+	get:
+		return training.auto_rest
+	set(value):
+		training.auto_rest = value
 ## The run's lines, once finished.
 var lines: Array[ColoredLine] = []
 var _session: WorldSessionController
@@ -20,6 +32,9 @@ var _amount: int = 0
 var _skill: SkillDefinition
 var _basic: SkillDefinition
 var _finished: bool = false
+## 自动歇: a rest of the run's own is under way, and the three when it began.
+var _resting: bool = false
+var _rest_from: Vector3i = Vector3i.ZERO
 
 
 ## learn <skill> from the teacher, again and again.
@@ -54,11 +69,20 @@ static func cultivate(session: WorldSessionController, kind: TrainingRun.Kind, a
 func _init(session: WorldSessionController, kind: TrainingRun.Kind, skill_id: StringName) -> void:
 	_session = session
 	training = TrainingRun.new(kind, skill_id, session.player_runtime().state)
+	training.auto_rest = GameContent.catalog().pacing().training_auto_rest
 	_skill = null if skill_id.is_empty() else GameContent.catalog().skill(skill_id)
 
 
-## One step, or the stop; true while the run goes on.
+## One step, or the stop; true while the run goes on (a rest of its own under way included: the
+## step waits for it).
 func step() -> bool:
+	if _resting:
+		if _session.resting_for_training():
+			return true
+		# The rest went without a word to the run (it should not): the run is broken off.
+		_resting = false
+		_break_off(TrainingRun.Stop.INTERRUPTED, "")
+		return false
 	if training.stopped():
 		return false
 	if not can_act():
@@ -73,19 +97,95 @@ func step() -> bool:
 			_cultivation_step()
 	if not training.stopped() and not can_act():
 		training.end(TrainingRun.Stop.INTERRUPTED)
+	if training.stopped() and training.auto_rest and training.rest_mends():
+		return _rest()
 	return not training.stopped()
 
 
-## The player stopped the run.
+## 自动歇 is resting the player now.
+func resting() -> bool:
+	return _resting
+
+
+## Game minutes the run's rest under way has lasted.
+func rest_minutes() -> int:
+	return _session.rest_minutes() if _resting else 0
+
+
+## Real seconds between two steps (feel: closer for a run that rests by itself).
+func step_seconds() -> float:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	return feel.training_auto_step_seconds if training.auto_rest else feel.training_step_seconds
+
+
+## The player stopped the run (a rest of its own under way stops with it).
 func cancel() -> void:
+	if _resting:
+		if _session.resting_for_training():
+			_session.stop_rest() # _on_rest_ended(CANCELLED)
+		if _resting:
+			_resting = false
+			_break_off(TrainingRun.Stop.CANCELLED, "")
 	training.end(TrainingRun.Stop.CANCELLED)
 
 
-## Every step at once (no pacing between them), then finish().
+## Every step at once (no pacing between them), then finish(). A rest takes world time, which
+## does not pass here: the run stops where it would rest, as with 自动歇 off.
 func run_to_end() -> Array[ColoredLine]:
+	training.auto_rest = false
 	while step():
 		pass
 	return finish()
+
+
+## 自动歇 at a stop for 精, 气 or 神 short: true while the rest begun goes on. Full already (the
+## step asks more than the maximum), the run stops as it is; a rest refused (no water, a scene)
+## stops it with why.
+func _rest() -> bool:
+	var state: CharacterState = _state()
+	# Full already; or the player's own 歇到回满 stands under this window (held with it).
+	if RestRules.rested(state) or _session.resting():
+		return false
+	var refused: String = _session.begin_rest(true)
+	if not refused.is_empty():
+		training.rest_line = refused
+		return false
+	_resting = true
+	_rest_from = RestRules.currents(state)
+	_session.rest_ended.connect(_on_rest_ended, CONNECT_ONE_SHOT)
+	return true
+
+
+func _on_rest_ended(outcome: int, line: String) -> void:
+	if not _resting:
+		return
+	_resting = false
+	# PlayerRest keeps the last rest's length until the next begins.
+	training.rested(_session.rest_world_seconds(), _session.rest_minutes())
+	var state: CharacterState = _state()
+	match outcome:
+		RestRules.Outcome.RESTED:
+			training.resume(state)
+		RestRules.Outcome.LIMIT:
+			# At its longest: on while something came back (a deep wound heals over several), else
+			# the stop stands, the rest's line saying why.
+			var now: Vector3i = RestRules.currents(state)
+			if now.x > _rest_from.x or now.y > _rest_from.y or now.z > _rest_from.z:
+				training.resume(state)
+			else:
+				training.rest_line = line
+		RestRules.Outcome.CANCELLED:
+			_break_off(TrainingRun.Stop.CANCELLED, "")
+		_:
+			# 有人来袭, 掉血, 断水, 剧情, 换图 say their own line; a fall says its own elsewhere.
+			_break_off(TrainingRun.Stop.INTERRUPTED, line)
+
+
+## The run ends during its rest: `why`, with the rest's `line`.
+func _break_off(why: TrainingRun.Stop, line: String) -> void:
+	training.resume(_state())
+	training.end(why)
+	training.rest_line = line
 
 
 ## The player may take a step: conscious, not fighting, with portable actions (not in a
@@ -103,6 +203,8 @@ func can_act() -> bool:
 func finish() -> Array[ColoredLine]:
 	if _finished:
 		return lines
+	if _resting:
+		cancel()
 	training.end(TrainingRun.Stop.CANCELLED)
 	_finished = true
 	var teacher_name: String = "" if _teacher == null else _teacher.display_name()
@@ -170,7 +272,7 @@ func _practice_step() -> void:
 		return
 	var after: TrainingRun.Stop = TrainingRun.after_practice(result)
 	if after == TrainingRun.Stop.REFUSED:
-		training.refused(arts.last_lines)
+		training.refused(arts.last_lines, TrainingRun.rest_mends_practice(result))
 		return
 	training.took_step(_state(), TrainingLines.improved(result.skill_improvement, result.authored_effect, _skill))
 	training.end(after)
@@ -199,7 +301,7 @@ func _cultivation_step() -> void:
 		return
 	var after: TrainingRun.Stop = TrainingRun.after_cultivation(result, training.target_maximum, cultivated_maximum())
 	if after == TrainingRun.Stop.REFUSED:
-		training.refused(arts.last_lines)
+		training.refused(arts.last_lines, TrainingRun.rest_mends_cultivation(result))
 		return
 	# The maximum's line (你的内力增强了！), after the sitting down one.
 	var kept: Array[ColoredLine] = []
