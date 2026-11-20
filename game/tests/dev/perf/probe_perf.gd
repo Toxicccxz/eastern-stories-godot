@@ -9,7 +9,8 @@ extends SceneTree
 ## outside the pack.
 ##
 ##   <godot> --path game --script res://tests/dev/perf/probe_perf.gd -- <mode> <out.json> [args]
-##   <exe> --main-pack <pck> --script <abs>/game/tests/dev/perf/probe_perf.gd -- <mode> <out.json> [args]
+##   <godot> --main-pack <exported .pck> --script <abs>/game/tests/dev/perf/probe_perf.gd -- <mode> <out.json> [args]
+## (the exported build's pack run by the Godot binary: the release .exe takes no --main-pack).
 ##
 ## Modes:
 ##   fight [n]        n fights (up to 6) ended in 雪亭镇's 武馆, one per trainee:

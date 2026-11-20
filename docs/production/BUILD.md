@@ -102,7 +102,8 @@ The waits the player feels are measured with `game/tests/dev/perf/probe_perf.gd`
 isolated save profile, the focus pause off): `fight [n]` times a fight's closing and the frame its
 autosave falls in, `save [n]` the autosave's capture and 继续, `maps a,b,c` a map change, the video
 memory and a screenshot. Against an exported build it runs from outside the pack:
-`<exe> --main-pack <pck> --script <abs>/game/tests/dev/perf/probe_perf.gd -- fight <out.json> 5`.
+`<godot> --main-pack <dist>/windows/Eastern-Stories-Godot.pck --script <abs>/game/tests/dev/perf/probe_perf.gd -- fight <out.json> 5`
+(the Godot binary with the exported pack: the release `.exe` takes no `--main-pack`).
 Four small cores (the weak-machine stand-in of DECISIONS「等待的量」): start the process with
 `ProcessorAffinity = 0xF0000` (logical cores 16–19). Take no timings while another verify runs.
 
