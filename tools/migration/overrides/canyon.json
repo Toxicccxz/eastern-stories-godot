@@ -58,7 +58,7 @@
 				{"say": "钱太少了吧！没收。", "accept": true}
 			],
 			"moods": {
-				"cornered": {"lasting": true, "chat_chance": 10, "chat_msg": ["赫造基背靠着帐柱，扇子横在胸前。\n"], "combat_chat_chance": 25, "combat_chat_msg": ["赫造基掐了个诀，帐里的灯火晃了晃——帐外铁卫营的军旗压着，什么也没有出来。\n", "赫造基退了一步，扇骨里的细剑抖出三朵剑花。\n"]}
+				"cornered": {"lasting": true, "combat_exp": 34000, "chat_chance": 10, "chat_msg": ["赫造基背靠着帐柱，扇子横在胸前。\n"], "combat_chat_chance": 25, "combat_chat_msg": ["赫造基掐了个诀，帐里的灯火晃了晃——帐外铁卫营的军旗压着，什么也没有出来。\n", "赫造基退了一步，扇骨里的细剑抖出三朵剑花。\n"]}
 			},
 			"spared": {
 				"mark": "赫造基被拿下了",

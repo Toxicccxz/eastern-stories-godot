@@ -2162,17 +2162,17 @@
 				"con": 26,
 				"kar": 16
 			},
-			"combat_exp": 300000,
+			"combat_exp": 185000,
 			"attitude": "aggressive",
 			"capabilities": [
 				"aggressive_on_player_presence"
 			],
 			"skills": {
-				"sword": 120,
-				"parry": 110,
-				"dodge": 110,
-				"force": 110,
-				"unarmed": 90
+				"sword": 89,
+				"parry": 84,
+				"dodge": 84,
+				"force": 84,
+				"unarmed": 69
 			},
 			"carry": [
 				{

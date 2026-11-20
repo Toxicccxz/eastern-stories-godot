@@ -427,6 +427,7 @@
 			"moods": {
 				"cornered": {
 					"lasting": true,
+					"combat_exp": 34000,
 					"chat_chance": 10,
 					"chat_msg": ["赫造基背靠着帐柱，扇子横在胸前。\n"],
 					"combat_chat_chance": 25,
