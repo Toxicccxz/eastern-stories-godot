@@ -289,7 +289,7 @@ func _begin_alert(gang: Array[CombatSliceCharacterBinding]) -> void:
 
 ## What the gang's first to notice the player shouts: a hunter's catch_hunt_msg
 ## (start_hatred()), else one of its own ES2 fight lines that is speech, else a plain native
-## line; a beast says nothing (owner, A6 Q3).
+## line; a beast says nothing (owner, A6 Q3). One with its own `alert_say` shouts that.
 func _alert_shout(npc: NpcRuntimeState) -> void:
 	var hud: SharedGameplayUI = _map.hud()
 	var name: String = tr(npc.definition().display_name)
@@ -297,6 +297,8 @@ func _alert_shout(npc: NpcRuntimeState) -> void:
 	if npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER):
 		text = catch_hunt_line(npc)
 		_alert_drawn[npc.character_id] = text
+	elif not npc.definition().dealings().alert_say.is_empty():
+		text = tr(npc.definition().dealings().alert_say)
 	else:
 		var speech: Array[String] = []
 		for entry: Variant in npc.definition().talk().combat_chat_entries():

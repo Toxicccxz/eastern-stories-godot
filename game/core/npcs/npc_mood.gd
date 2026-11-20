@@ -11,6 +11,9 @@ extends RefCounted
 ## variable no reset touches; DECISIONS「刘安禄的揭露」). Such a reveal may also set a
 ## `nickname`, replace the combat chat (`combat_chat_chance` with `combat_chat_msg`) and
 ## `carry` items the NPC is given as it starts (carry_object()).
+## Native (DECISIONS「势力线的仗」): a mood may also set the `combat_exp` and the skills' raw
+## levels (`skills`) the NPC fights with while it is in it — one scene's strength for an NPC whose
+## record stays as it is for every other meeting; the mood's end puts the record's back.
 
 ## The NPC flag that holds a mood: mood/<name> (an object variable, saved with it).
 const FLAG_PREFIX: String = "mood/"
@@ -26,6 +29,10 @@ var talk: NpcTalk = null
 var carry: Array[StringName] = []
 ## A room reset does not end it.
 var lasting: bool = false
+## The combat_exp while in the mood; -1 keeps the NPC's own.
+var combat_exp: int = -1
+## Skill -> raw level while in the mood (the others stay the NPC's own).
+var skills: Dictionary[String, int] = {}
 
 
 func flag() -> StringName:
@@ -38,8 +45,8 @@ func has_combat_chat() -> bool:
 
 
 ## {title?, nickname?, applies?: {key: n}, flags?: [flag], chat_chance?, chat_msg?,
-## combat_chat_chance?, combat_chat_msg?, carry?: [item], lasting?} (chat_msg as the NPC
-## record's).
+## combat_chat_chance?, combat_chat_msg?, carry?: [item], lasting?, combat_exp?, skills?: {skill: n}}
+## (chat_msg as the NPC record's).
 static func from_record(mood_name: String, reader: ContentRecordReader) -> NpcMood:
 	var mood := NpcMood.new()
 	mood.name = mood_name
@@ -51,6 +58,8 @@ static func from_record(mood_name: String, reader: ContentRecordReader) -> NpcMo
 	for item_id: String in reader.text_list("carry"):
 		mood.carry.append(StringName(item_id))
 	mood.lasting = reader.boolean("lasting", false)
+	mood.combat_exp = reader.integer("combat_exp", -1)
+	mood.skills = reader.integer_map("skills")
 	if reader.has("chat_chance") != reader.has("chat_msg"):
 		reader.fail("chat_chance", "chat_chance and chat_msg come together")
 	if reader.has("combat_chat_chance") != reader.has("combat_chat_msg"):
@@ -62,6 +71,6 @@ static func from_record(mood_name: String, reader: ContentRecordReader) -> NpcMo
 		var combat_entries: Array = NpcContentRecords.chat_entries(reader, "combat_chat_msg", true) if reader.has("combat_chat_msg") else []
 		mood.talk = NpcTalk.new({}, chance, entries, [], {}, combat_chance, combat_entries)
 	reader.finish()
-	if mood_name.is_empty() or (mood.title.is_empty() and mood.nickname.is_empty() and mood.applies.is_empty() and mood.flags.is_empty() and mood.talk == null and mood.carry.is_empty()):
+	if mood_name.is_empty() or (mood.title.is_empty() and mood.nickname.is_empty() and mood.applies.is_empty() and mood.flags.is_empty() and mood.talk == null and mood.carry.is_empty() and mood.combat_exp < 0 and mood.skills.is_empty()):
 		reader.fail("", "a mood changes something")
 	return mood

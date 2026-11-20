@@ -66,6 +66,35 @@ const FIGHTS: Array[Dictionary] = [
 	{"label": "第九章 揭发 庾子建（冯策并肩，选择）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "allies": [["imperial.throne_hall.feng_ce_beside", "imperial.throne_hall.feng_ce_beside.1"]], "helped": true, "chapter": &"main.chapter9", "exploring_only": true, "weapon": &"es2:obj/longsword"},
 ]
 
+## The faction lines' fights (DECISIONS「势力线的仗」), each at the earliest main-story arrival from
+## which its step can be reached (`chapter`; a step that opens once a chapter is done is the next
+## chapter's arrival); measured and pinned by boss_strength_faction_test like FIGHTS.
+const FACTION_FIGHTS: Array[Dictionary] = [
+	# 第四章 done (the 宝衣 taken or given to 安妮儿): she stands in the 前厅 that night.
+	{"label": "晚月 前厅 神教杀手", "zone": &"latemoon.latemoon1", "point": &"latemoon.latemoon1.cult_killer.1", "enemies": [["native.latemoon1.cult_killer", "latemoon.latemoon1.cult_killer.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "官府 整肃 军师赫造基", "zone": &"canyon.camp8", "point": &"canyon.camp8.adviser.1", "enemies": [["canyon.camp.camp8.adviser", "canyon.camp8.adviser.1"]], "mood": "cornered", "chapter": &"main.chapter6", "weapon": &"es2:obj/longsword"},
+	# 卧底: the line opens once 第三章 is done (林忌's 眼线 wants 「逆灵宫一章」). Found out in the 前院 the
+	# crown no longer holds: the two gate guards come in with him.
+	{"label": "卧底 被识破 前院玄冥子", "zone": &"niling.yard", "point": &"niling.yard.unmasker.1", "enemies": [["niling.yard.unmasking_xuan", "niling.yard.unmasker.1"]], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# Down the 北麓 after 被识破; the turn's own bandits and the tribute's escort stand elsewhere on it.
+	{"label": "卧底 被识破 追杀的道士×3", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.pursuer.1", "enemies": [["native.mroad4.niling_pursuers", "goathill.mroad4.pursuer.1"], ["native.mroad4.niling_pursuers", "goathill.mroad4.pursuer.2"], ["native.mroad4.niling_pursuers", "goathill.mroad4.pursuer.3"]], "away": [&"goathill.mountain.mroad4.bandits", &"goathill.mountain.mroad4.bandit_leader", &"native.mroad4.tribute_taoists"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# Inside the 道观 on the spy line (they let the crown pass; struck, each is a fight of its own).
+	{"label": "卧底 前殿 巡殿道士", "zone": &"niling.front", "point": &"niling.front.patrol.1", "enemies": [["native.front.patrol", "niling.front.patrol.1"]], "away": [&"niling.front.chanters", &"niling.front.lead_chanter"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	{"label": "卧底 账房 管事道士", "zone": &"niling.counting", "point": &"niling.counting.steward.1", "enemies": [["niling.counting.steward", "niling.counting.steward.1"]], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	{"label": "卧底 前殿 领诵道士", "zone": &"niling.front", "point": &"niling.front.lead_chanter.1", "enemies": [["niling.front.lead_chanter", "niling.front.lead_chanter.1"]], "away": [&"niling.front.chanters"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	{"label": "卧底 甬道 看牢的狱卒", "zone": &"niling.corridor", "point": &"niling.corridor.ward.1", "enemies": [["native.corridor.ward", "niling.corridor.ward.1"]], "away": [&"niling.corridor.jailers", &"niling.corridor.jailers_keyed"], "chapter": &"main.chapter4", "weapon": &"es2:obj/longsword"},
+	# 绝尘, 山烟寺 and 东方神教 B open with 「宝衣一章」.
+	{"label": "绝尘 山洞 洞口的鬼卒", "zone": &"green.cave1", "point": &"green.cave1.ghoul.1", "enemies": [["native.cave1.ghoul", "green.cave1.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "绝尘 山洞 洞底的鬼卒", "zone": &"green.cave2", "point": &"green.cave2.ghoul.1", "enemies": [["native.cave2.ghoul", "green.cave2.ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "山烟寺 树王坟 鬼卒", "zone": &"choyin.tree_tomb", "point": &"choyin.tree_tomb.hole_return", "enemies": [["native.tree_tomb.herb_ghoul", "choyin.tree_tomb.herb_ghoul.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "东方神教 湖边 量水的道士", "zone": &"village.field", "point": &"village.field.lake_taoist.1", "enemies": [["native.field.lake_taoist", "village.field.lake_taoist.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "东方神教 隘口 兵部画吏", "zone": &"canyon.canyon1", "point": &"canyon.canyon1.war_painter.1", "enemies": [["native.canyon1.war_painter", "canyon.canyon1.war_painter.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	# 振远 opens with 柳淳风's letter (第二章); 贺平 draws in his `fighting` and his two men come.
+	{"label": "振远 碎石小路 劫镖的", "zone": &"canyon.road", "point": &"canyon.road.he_ping.1", "enemies": [["native.road.he_ping", "canyon.road.he_ping.1"], ["native.road.robbers", "canyon.road.robber.1"], ["native.road.robbers", "canyon.road.robber.2"]], "mood": "fighting", "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
+	# 湖底一章 (第八章 done) puts him in the 小屋.
+	{"label": "花紫会 密信 小屋信使", "zone": &"city.shangshu.xiaowu", "point": &"city.shangshu.xiaowu.courier.1", "enemies": [["native.shangshu.courier", "city.shangshu.xiaowu.courier.1"]], "chapter": &"main.chapter9", "weapon": &"es2:obj/longsword"},
+]
+
 ## A few ordinary fights of the first two hours and of ES2's regions, not tuned here: for measuring
 ## what a rule change does to the fights a player meets anyway (DECISIONS「空手对兵器」「姿态整记」).
 const ORDINARY: Array[Dictionary] = [
@@ -80,7 +109,7 @@ const ORDINARY: Array[Dictionary] = [
 
 ## The fight with this label among FIGHTS and ORDINARY, or empty.
 static func any_fight(label: String) -> Dictionary:
-	for entry: Dictionary in FIGHTS + ORDINARY:
+	for entry: Dictionary in FIGHTS + FACTION_FIGHTS + ORDINARY:
 		if entry["label"] == label:
 			return entry
 	return {}
@@ -190,9 +219,9 @@ static func exps_of(entry: Dictionary) -> Array[int]:
 	return out
 
 
-## The fight with this label, or empty.
+## The fight with this label (FIGHTS or FACTION_FIGHTS), or empty.
 static func fight(label: String) -> Dictionary:
-	for entry: Dictionary in FIGHTS:
+	for entry: Dictionary in FIGHTS + FACTION_FIGHTS:
 		if entry["label"] == label:
 			return entry
 	return {}

@@ -47,6 +47,10 @@ var ignores_with_parley: bool = false
 ## on them (进门一起上, as the player's own 攻击 always brings it down); off, aggressive as ES2.
 var guardian: bool = false
 var toll_attack_delay_ms: int = 0
+## Native (DECISIONS「势力线的仗」): what it shouts the moment it notices the player and turns on
+## them (the gang's alert beat), instead of a fight line drawn: who it is, for one who meets it
+## without warning. Empty: a fight line, as before.
+var alert_say: String = ""
 ## The index of the chat_msg line shouted at a passer-by coming into reach (-1: none).
 var toll_shout: int = -1
 var steal: NpcSteal
@@ -96,6 +100,7 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 			reader.fail("flags", "flags must be unique and not empty")
 		dealings.initial_flags.append(StringName(flag))
 	dealings.fight_deferred = reader.text("fight_deferred")
+	dealings.alert_say = reader.text("alert_say")
 	if reader.has("attack_unless_mark"):
 		dealings.attack_unless_marks.append(reader.required_text("attack_unless_mark"))
 	dealings.attack_unless_marks.append_array(reader.text_list("attack_unless_marks"))
