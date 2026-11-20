@@ -70,7 +70,9 @@ class RecognizeRule:
 ##   the student did not stand it), then `success` and recruit. d/latemoon/room/npc/elon.c
 ##   checks first (its checks, each with its say), then takes a family's member for a
 ##   traitor (`commoners_only`); its test is taken only by those its checks pass, and whom it
-##   takes is titled `title` (its set("title") after the recruit).
+##   takes is titled `title` (its set("title") after the recruit). Its blows may carry only
+##   `inner_force_percent` of the force hook's bonus and spare the student's life (`lethal` false),
+##   as NpcTrial's (成长曲线 A, 瑷伦's: DECISIONS「成长曲线 A」); left out, champion.c's own (100, true).
 ## - refuses (d/latemoon/room/npc/annihi.c): it only says refuse_say.
 ## - silent (d/city/npc/chen.c): no attempt_apprentice() at all: a request only waits. Its own
 ##   recruit comes from elsewhere (an accept_object rule's `recruit`: 陈剑秋's letter), taking a
@@ -99,6 +101,9 @@ class ApprenticeRule:
 	var ask_tell: String = ""
 	var blows: Array[TrialBlow] = []
 	var success: String = ""
+	## A trial's blows: the share of the inner-force bonus they carry, and whether they may kill.
+	var inner_force_percent: int = 100
+	var lethal: bool = true
 	## The marks whom attempt_apprentice() takes loses (ob->set("marks/书生", 0)); a requirements
 	## master's only. An offer taken (apprentice.c's first branch) never calls it: nothing goes.
 	var unmarks: Array[String] = []
@@ -108,6 +113,16 @@ class ApprenticeRule:
 	## attempt_apprentice() first looks the student over (command("look " + id): look.c tells
 	## them 正盯著你看); a requirements master's only.
 	var looks: bool = false
+
+	## A trial's blows' modifiers for the resolver (CombatRoundModifiers), or null for champion.c's
+	## own (NpcTrial.blow_modifiers()'s rule).
+	func blow_modifiers() -> CombatRoundModifiers:
+		if inner_force_percent == 100 and lethal:
+			return null
+		var modifiers := CombatRoundModifiers.new()
+		modifiers.inner_force_percent = inner_force_percent
+		modifiers.spare_life = not lethal
+		return modifiers
 
 
 ## One check of attempt_apprentice(): the minimums it requires, cor and cps as
@@ -288,6 +303,10 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			if rule.blows.is_empty():
 				apprentice.fail("blows", "a trial needs at least one blow")
 			rule.success = apprentice.required_text("success")
+			rule.inner_force_percent = apprentice.integer("inner_force_percent", 100)
+			rule.lethal = apprentice.boolean("lethal", true)
+			if rule.inner_force_percent < 0 or rule.inner_force_percent > 100:
+				apprentice.fail("inner_force_percent", "must be 0 to 100")
 		elif rule.kind == Kind.REFUSES:
 			rule.refuse_say = apprentice.required_text("refuse_say")
 		rule.accept_marks = apprentice.text_list("accept_marks")

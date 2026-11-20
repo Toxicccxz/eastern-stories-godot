@@ -276,7 +276,8 @@ func _award(kind: ProgressionRules.Kind, region_id: StringName, quest_id: String
 	var s: CharacterState = state()
 	var region: RegionDefinition = catalog.region(region_id)
 	var catch_up: int = ProgressionGain.catch_up_percent(s.progression.combat_experience, 0 if region == null else region.recommended_exp, catalog.pacing().catch_up_max_percent)
-	var grant: MilestoneRewards.Grant = MilestoneRewards.award(s, catalog.progression(), kind, catch_up, catalog.pacing().staged_potential_cap, quest_id)
+	var level: int = Arrival.content_level(&"quest" if kind == ProgressionRules.Kind.QUEST else &"region", region)
+	var grant: MilestoneRewards.Grant = MilestoneRewards.award(s, catalog.progression(), kind, catch_up, catalog.pacing().staged_potential_cap, quest_id, level, catalog.pacing().milestone_stage_headroom)
 	if grant != null:
 		potential_earned += grant.potential_gain
 		potential_cut += grant.potential_cut

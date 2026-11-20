@@ -76,7 +76,7 @@
 		"interleaved": true,
 		"stagger_beats": 1,
 		"exposed_percent": 30,
-		"death_exp_percent": 3,
+		"death_exp_percent": 1,
 		"death_keeps_potential": true,
 		"death_keeps_skills": true,
 		"player_corpse_stays": true,
@@ -89,7 +89,8 @@
 		"coach_minutes_per_leg": 30,
 		"rest_world_scale": 20,
 		"rest_limit_seconds": 600,
-		"exp_gates": { "juechen": 20000 },
+		"exp_gates": { "juechen": 20000, "elon": 30000 },
+		"milestone_stage_headroom": 1,
 		"npc_idle": {
 			"enabled": true,
 			"pause_min_ms": 2500,

@@ -18,6 +18,7 @@
 				"text": "你已经不是封山的人了。淳风武馆的事，到此为止。",
 				"mark": "封山的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "hear",

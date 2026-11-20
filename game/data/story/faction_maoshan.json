@@ -38,6 +38,7 @@
 				"text": "你离了茅山。灵心观的事，到此为止。",
 				"mark": "茅山的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "library",

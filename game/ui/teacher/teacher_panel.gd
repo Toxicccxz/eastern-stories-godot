@@ -57,6 +57,8 @@ const CHANGE_TEACHES_NONE: String = "· {current}只教嫡传弟子，以后不�
 const TRIAL_CHANGES_MASTER: String = "· 你现在是{current}的嫡传弟子；三招都接住，便改拜{master}为师，{current}就不再是你的师父。\n{teach}"
 # TRANSLATORS: asked before 於兰天武's accept test (champion.c: three real blows; owner: asked first). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
 const TRIAL_WARNING: String = "{master}的三招是真打：\n· 每一招都实打实地落在你身上，挨中了会受伤。\n· 哪一招接不住，测试就算失败，你随后会昏倒。\n· 伤得太重会死。\n{after}\n确定接受测试吗？"
+# TRANSLATORS: asked before an accept test whose blows spare the student (瑷伦's, 成长曲线 A: no wound, no death). {master} the master, {after} what passing it does (one of the TRIAL_* lines).
+const TRIAL_WARNING_SPARED: String = "{master}的三招是真打：\n· 每一招都实打实地落在你身上。\n· 哪一招接不住，测试就算失败：你会昏倒，但不伤性命、不留伤，歇一会儿就能再来。\n{after}\n确定接受测试吗？"
 # TRANSLATORS: the accept test's last point when passing it makes the player the master's apprentice at once: {master}, {family}.
 const TRIAL_RECRUITS: String = "· 三招都接住，便拜入{master}门下，成为{family}的弟子。"
 # TRANSLATORS: added when that would be the player's first master: changing family later is a betrayal.
@@ -407,7 +409,8 @@ func trial_question() -> Array[String]:
 			after = tr(TRIAL_RECRUITS).format({"master": npc_name, "family": _family_name()})
 			if NpcApprenticeship.would_join_first(player.state, master):
 				after += "\n" + tr(TRIAL_FIRST_MASTER)
-	return [tr(TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了"]
+	var spared: bool = not _contact.teaching().apprentice.lethal
+	return [tr(TRIAL_WARNING_SPARED if spared else TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了"]
 
 
 func take_trial_now() -> void:

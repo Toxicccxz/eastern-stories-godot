@@ -38,6 +38,7 @@
 				"text": "你离了步玄派。曼雩台上的事，到此为止。",
 				"mark": "步玄的线断了"
 			},
+			"reward": { "milestone": true },
 			"steps": [
 				{
 					"id": "sword",

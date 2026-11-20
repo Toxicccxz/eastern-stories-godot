@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "guanbei", "name": "关北", "recommended_exp": 150000 }
+		{ "id": "guanbei", "name": "关北", "recommended_exp": 11626 }
 	],
 	"maps": [
 		{ "id": "guanbei.gorge", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_gorge.tscn", "entry": "guanbei.gate_road.pass_arrival" },

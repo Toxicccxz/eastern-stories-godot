@@ -44,19 +44,21 @@ static func opponent_counts(player_exp: int, opponent_exp: int) -> bool:
 
 ## Gives the reward of `kind` for `id` once: the stage's exp (with `catch_up` percent more)
 ## and its potential share up to the cap unspent: the stage's the exp has reached
-## (`staged`, pacing staged_potential_cap) or combatd.c's 100. Null when already given or
-## worth nothing (the key is then not written).
+## (`staged`, pacing staged_potential_cap) or combatd.c's 100. Priced at most `headroom` stages
+## above the stage of the content's own level `content_exp` (pacing milestone_stage_headroom;
+## negative: the player's stage). Null when already given or worth nothing (the key is then not
+## written).
 @warning_ignore("integer_division")
 static func grant(
 	state: CharacterState, rules: ProgressionRules, kind: ProgressionRules.Kind, id: StringName,
-	catch_up: int, staged: bool,
+	catch_up: int, staged: bool, content_exp: int = -1, headroom: int = -1,
 ) -> Grant:
 	if state == null or rules == null or id.is_empty():
 		return null
 	var key: String = key_of(kind, id)
 	if state.milestones.has(key):
 		return null
-	var grant: Grant = award(state, rules, kind, catch_up, staged, id if kind in [ProgressionRules.Kind.CHAIN, ProgressionRules.Kind.QUEST] else &"")
+	var grant: Grant = award(state, rules, kind, catch_up, staged, id if kind in [ProgressionRules.Kind.CHAIN, ProgressionRules.Kind.QUEST] else &"", content_exp, headroom)
 	if grant == null:
 		return null
 	state.milestones[key] = state.milestones.size() + 1
@@ -69,12 +71,12 @@ static func grant(
 @warning_ignore("integer_division")
 static func award(
 	state: CharacterState, rules: ProgressionRules, kind: ProgressionRules.Kind, catch_up: int, staged: bool,
-	chain_id: StringName = &"",
+	chain_id: StringName = &"", content_exp: int = -1, headroom: int = -1,
 ) -> Grant:
 	if state == null or rules == null:
 		return null
 	var progression: CharacterProgressionState = state.progression
-	var base: int = rules.reward_exp(kind, progression.combat_experience, chain_id)
+	var base: int = rules.reward_exp(kind, progression.combat_experience, chain_id, content_exp, headroom)
 	if base <= 0:
 		return null
 	var grant := Grant.new()
