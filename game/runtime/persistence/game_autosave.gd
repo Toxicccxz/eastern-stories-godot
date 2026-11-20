@@ -7,7 +7,9 @@ extends RefCounted
 ## OldPineSaveEligibility as the player's Save, and no ghost (the slot is always someone alive,
 ## or 回到上次自动存档 would bring back the ghost). Two refusals that pass by themselves in a few
 ## steps or seconds are waited out instead (WAITED; 全项目审查第四批): the player in a doorway, an
-## NPC still making something for them; retry() tries the moment again every RETRY_MS, quietly.
+## NPC still making something for them; the moment is kept, quietly, for the next one the session
+## gives (a map change, a fight's end) or a window opened (quiet_moment), never tried while the
+## player walks (审查修补 X).
 ## Only the capture runs on the main thread, where the view is dark (a map change) or the battle
 ## panel holds a finished fight's last lines (WorldSessionController._note_fight_over()); the checks, the encoding and the file work are the same as a Save's
 ## and run on a worker while the world goes on. Reads the world, draws nothing from its streams.
@@ -23,17 +25,14 @@ var _task: int = -1
 ## What the task under way ended in.
 var _saved: GameSaveResult
 var _last_ms: int = -1
-## A moment refused only for one of WAITED, still to be taken (retry()).
+## A moment refused only for one of WAITED, still to be taken.
 var _waiting: bool = false
-var _last_try_ms: int = -1
 
 ## The refusals a moment waits out rather than skips.
 const WAITED: Array[int] = [
 	OldPineSaveEligibilityResult.Outcome.PLAYER_POSITION,
 	OldPineSaveEligibilityResult.Outcome.NPC_WORKING,
 ]
-## How often a waiting moment is tried again (ms).
-const RETRY_MS: int = 1000
 
 
 func _init(repository: GameSaveRepository, slot_id: StringName = GameSaveSnapshot.AUTO_SLOT_ID, rolled: bool = true) -> void:
@@ -67,14 +66,6 @@ func due(session: WorldSessionController, now_ms: int = Time.get_ticks_msec()) -
 ## Whether a moment waits to be taken (refused for one of WAITED only).
 func waiting() -> bool:
 	return _waiting
-
-
-## A waiting moment, tried again at most every RETRY_MS: whether it set off now.
-func retry(session: WorldSessionController, now_ms: int = Time.get_ticks_msec()) -> bool:
-	if not _waiting or (_last_try_ms >= 0 and now_ms - _last_try_ms < RETRY_MS and now_ms >= _last_try_ms):
-		return false
-	_last_try_ms = now_ms
-	return begin(session, now_ms)
 
 
 ## Takes the world as it is and leaves the rest to a worker. Whether it set off.

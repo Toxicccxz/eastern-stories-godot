@@ -285,7 +285,7 @@ func refresh() -> void:
 	rest_button.visible = WorldSessionController.rest_offered() and not RestRules.rested(state)
 	var refused: String = _session.rest_refusal()
 	rest_button.disabled = running or not refused.is_empty()
-	rest_button.tooltip_text = tr(RestLines.HINT) if refused.is_empty() else refused
+	rest_button.tooltip_text = _session.rest_hint() if refused.is_empty() else refused
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
 	_fit_cards()
 

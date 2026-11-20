@@ -189,6 +189,8 @@ def zones_apart(text: str, map_id: str) -> None:
     for m in _ZONE.finditer(text):
         (x, y), (w, h) = (float(m[2]), float(m[3])), sizes[m[5]]
         rects.append((m[4], (x - w / 2, y - h / 2, x + w / 2, y + h / 2)))
+    zones = text.count('type="Area2D" parent="Zones"]')
+    assert zones == len(rects), ('a zone the overlap check cannot read', map_id, zones, len(rects))
     for i, (a, (ax0, ay0, ax1, ay1)) in enumerate(rects):
         for b, (bx0, by0, bx1, by1) in rects[i + 1:]:
             assert not (ax0 < bx1 and bx0 < ax1 and ay0 < by1 and by0 < ay1), ('zones overlap', map_id, a, b)

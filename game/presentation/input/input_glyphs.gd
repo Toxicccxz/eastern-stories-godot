@@ -146,6 +146,15 @@ static func key_name(event: InputEventKey) -> String:
 		code = KEY_NONE if DisplayServer.get_name() == "headless" else DisplayServer.keyboard_get_label_from_physical(event.physical_keycode)
 		if code == KEY_NONE:
 			code = event.physical_keycode
+	return key_text(code)
+
+
+## What a key cap says for `code`: the character it types for a printable key (the comma
+## key, which an AZERTY layout has where QWERTY's M is, shows ",", not "Comma"), upper case
+## for a letter; Godot's short name for the rest (Esc, Space, Up, F1).
+static func key_text(code: Key) -> String:
+	if code > KEY_SPACE and code < KEY_SPECIAL and code != 127:
+		return String.chr(code).to_upper()
 	var shown: String = OS.get_keycode_string(code)
 	return _KEY_NAMES.get(shown, shown)
 

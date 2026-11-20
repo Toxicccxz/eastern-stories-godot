@@ -359,7 +359,9 @@ func _test_end_hold(tree: SceneTree) -> void:
 	for card: BattleParticipantCard in _ui._cards:
 		fallen.append(card.fallen_text())
 	_check(_ui.end_stamp.visible and _ui.end_stamp.text == "胜" and fallen == ["", "亡"], "the end hold: 胜 over the cards, 亡 on the trainee's: %s '%s'" % [fallen, _ui.end_stamp.text])
-	_check(is_equal_approx(_ui._hold_left, 0.6), "the stamp keeps its 0.6 s of the hold when the lines drained most of it: %.2f" % _ui._hold_left)
+	# The stamp's 0.6 s, and a moment after it for the autosave's capture on a still picture
+	# (DECISIONS「等待的量」; review fix X).
+	_check(is_equal_approx(_ui._hold_left, 0.6 + BattlePresentationController.STILL_TAIL_SECONDS), "the stamp keeps its 0.6 s of the hold when the lines drained most of it: %.2f" % _ui._hold_left)
 	_player.busy.start_busy(3) # TEST-ONLY: busy and a task running through the hold
 	_player.state.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1)
 	var task: int = _player.state.quest.remaining_ms
@@ -369,7 +371,10 @@ func _test_end_hold(tree: SceneTree) -> void:
 	_ui._process(0.5)
 	_check(_ui._holding(), "still at 0.5 s")
 	_ui._process(0.4)
-	_check(not _ui._holding() and not _ui.visible and not _session.world_time_held() and _session.shared_ui().log_lines().size() > lines_before, "at 0.9 s: the result, the world, the HUD: %s" % [_session.shared_ui().log_lines().slice(lines_before)])
+	# The frame the picture is still keeps the hold one frame more (the autosave's moment comes in
+	# the session's next frame; review fix X): the next frame ends it.
+	_ui._process(0.05)
+	_check(not _ui._holding() and not _ui.visible and not _session.world_time_held() and _session.shared_ui().log_lines().size() > lines_before, "at 0.95 s: the result, the world, the HUD: %s" % [_session.shared_ui().log_lines().slice(lines_before)])
 	_check(not _ui.end_stamp.visible, "the stamp goes with the hold")
 	while _player.busy.is_busy():
 		_player.busy.advance()

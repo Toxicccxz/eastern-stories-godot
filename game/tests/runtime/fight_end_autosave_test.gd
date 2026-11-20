@@ -1,10 +1,13 @@
 extends RefCounted
 
-## A fight's autosave moment comes as the battle panel's end hold begins (review fix R;
-## DECISIONS「自动存档」): the capture's frame falls while the panel holds the last lines and
-## nothing advances, not on the player's first step after the fight. The world it takes is the
-## one the player gets back when the hold ends; the moment comes again as the panel closes,
-## and an autosave written at the first does not write twice. TEST-ONLY fixtures are marked.
+## A fight's autosave moment comes in the battle panel's end hold once its picture is still
+## (review fixes R and X; DECISIONS「自动存档」): the capture's frame falls after the last lines
+## are told and the 胜 stamp has landed, while nothing advances — not in the middle of the last
+## blow, not on the player's first step after the fight. The world it takes is the one the
+## player gets back when the hold ends, with what the fight changed written down (the rats'
+## cleared mark and the 任务 page's step: a load does not announce them again); the moment comes
+## again as the panel closes, and an autosave written at the first does not write twice.
+## TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Repository := preload("res://tests/runtime/game_save_repository_test.gd")
 
@@ -19,6 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	await _to_snow(tree, session)
 	await _fight_end(tree, session)
+	await _rats(tree, session)
 	BattlePace.opening = opening
 	TestFeel.restore()
 	session.free()
@@ -66,7 +70,15 @@ func _fight_end(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.refresh_projection()
 	_check(not coordinator.has_active_encounter() and ui._holding() and session.presentation_frozen(), "over: the panel holds its last lines, nothing advances (fighting %s, holding %s, frozen %s, visible %s, moments %s)" % [coordinator.has_active_encounter(), ui._holding(), session.presentation_frozen(), ui.visible, moments.map(func(m: Dictionary) -> Array: return [m["holding"], m["fighting"], m["allowed"], m["began"]])])
 	session._process(0.1)
-	_check(moments.size() == 1, "the end hold is the fight's moment, once it begins: %d" % moments.size())
+	_check(moments.is_empty(), "not while the last lines are still told: %d" % moments.size())
+	ui._tell_lines(5.0)
+	_check(ui.end_stamp.visible and ui.end_stamp.text == "胜", "the lines told, the 胜 stamp comes down: %s" % ui.end_stamp.text)
+	session._process(0.1)
+	_check(moments.is_empty(), "not while the stamp lands")
+	ui._process(0.62)
+	_check(ui._holding(), "the stamp landed, the panel still holds")
+	session._process(0.1)
+	_check(moments.size() == 1, "the still picture is the fight's moment, once: %d" % moments.size())
 	if moments.is_empty():
 		GameContent.catalog().set_pacing(pacing)
 		return
@@ -75,7 +87,6 @@ func _fight_end(tree: SceneTree, session: WorldSessionController) -> void:
 	for step: int in 3:
 		session._process(0.1)
 	_check(moments.size() == 1, "not again while the hold lasts")
-	ui._tell_lines(5.0)
 	ui._process(0.5)
 	ui._process(0.4)
 	_check(not ui._holding() and not ui.visible, "the hold over, the panel gone")
@@ -95,6 +106,58 @@ func _fight_end(tree: SceneTree, session: WorldSessionController) -> void:
 	GameContent.catalog().set_pacing(pacing)
 	TestFeel.restore()
 	await tree.process_frame
+
+
+## The last of the inn's rats knocked down in a fight: the cleared mark (客栈老鼠) and the
+## 任务 page's step (snow.newcomer/rats) are in the world the moment takes, not found by the
+## journal's next look half a second after it.
+func _rats(tree: SceneTree, session: WorldSessionController) -> void:
+	TestFeel.use()
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var map: WorldMapController = await _beside(tree, session, &"snow.inn_2f", &"snow.inn_2f.rat.6")
+	if not _check(map != null, "upstairs beside a rat"):
+		return
+	await tree.physics_frame
+	var rats: Array[NpcRuntimeState] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.spawn_id == &"snow.inn_upstairs.inn_2f.rats":
+			rats.append(npc)
+	if not _check(rats.size() == 6, "six rats upstairs: %d" % rats.size()):
+		return
+	var last: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.inn_2f.rat.6")
+	for rat: NpcRuntimeState in rats:
+		if rat != last:
+			rat.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: five down
+	session.record_journal()
+	_check(not player.state.marks.has("客栈老鼠") and not player.state.journal.has("snow.newcomer/rats"), "one rat still stands: no mark, no step")
+	var worlds: Array[String] = []
+	var moment := func() -> void: worlds.append(JSON.stringify(_world(session)))
+	session.autosave_moment.connect(moment)
+	map.select_npc(last.character_id)
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the last rat attacked")
+	ui.refresh_projection()
+	session._process(0.1)
+	last.character_state.vitality = CharacterResourceState.new(1, 1, 100000) # TEST-ONLY: the next blow ends it
+	player.state.progression.combat_experience = 100000 # TEST-ONLY: it lands
+	for step: int in 600:
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.advance_scheduler(1.0)
+	ui.refresh_projection()
+	ui._tell_lines(5.0)
+	ui._process(0.62)
+	session._process(0.1)
+	if _check(worlds.size() == 1, "the rat fight's moment: %d" % worlds.size()):
+		_check(worlds[0].contains("客栈老鼠"), "the cleared mark is in the world it takes")
+		_check(worlds[0].contains("snow.newcomer/rats"), "and the 任务 page's step")
+	_check(player.state.marks.get("客栈老鼠", 0) == 1 and player.state.journal.has("snow.newcomer/rats"), "the player has both")
+	ui._process(0.5)
+	ui._process(0.4)
+	session._process(0.1)
+	session.autosave_moment.disconnect(moment)
+	TestFeel.restore()
 
 
 ## The world as a save holds it, without what the clock adds (the moment of saving, the

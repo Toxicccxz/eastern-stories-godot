@@ -9,7 +9,9 @@ extends SceneTree
 ##   <godot> --path game --script <abs>/tools/ci/start_smoke.gd -- walk <shots dir> <map,map,...>
 ##
 ## `walk` (windowed): after the save it hands the player over to each map in turn, walks a
-## little with the move keys and saves a screenshot per map to <shots dir>.
+## little with the move keys and saves a screenshot per map to <shots dir>. A real window
+## loses its focus to a click elsewhere: walk turns 切出窗口时暂停 off for the run (the user's
+## settings file is not touched) and fails a map shot taken while the shell is not playing.
 ## The last line is `START SMOKE PASS` or `START SMOKE FAIL: <why>`; the exit code is 0 or 1.
 
 const SHELL_SCENE: String = "res://scenes/application/application_shell.tscn"
@@ -46,6 +48,10 @@ func _run() -> void:
 	print("START SMOKE %s: %s" % [mode, BuildIdentity.log_line()])
 	_shell = (load(SHELL_SCENE) as PackedScene).instantiate() as ApplicationShellController
 	root.add_child(_shell)
+	if mode == "walk":
+		# Windowed scripts run with the focus pause off (BUILD.md: a click elsewhere would pause
+		# the run and the shots would show the pause page).
+		_shell.lifecycle_adapter().pause_on_focus_loss = false
 	if not await _until(func() -> bool: return _shell.shell_state().mode() == ApplicationShellState.Mode.MAIN_MENU, BOOT_FRAMES):
 		_finish("the main menu never showed (mode %d)" % _shell.shell_state().mode())
 		return
@@ -85,6 +91,11 @@ func _run() -> void:
 			if not await _walk(session, StringName(map_id), _shots):
 				return
 	_finish("")
+
+
+## The world runs under no pause of any kind (a map shot shows the map, not a pause page).
+func _playing_now() -> bool:
+	return _shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and not _shell.focus_held() and not paused
 
 
 func _playing() -> bool:
@@ -143,6 +154,9 @@ func _walk(session: WorldSessionController, map_id: StringName, shots: String) -
 		await _seconds(0.5)
 		Input.action_release(action)
 	await _seconds(0.5)
+	if not _playing_now():
+		_finish("%s: the shell is not playing before its shot (mode %d, focus pause %s, paused %s)" % [map_id, _shell.shell_state().mode(), _shell.focus_held(), paused])
+		return false
 	var shot: Image = root.get_texture().get_image()
 	if shot == null:
 		_finish("no picture of %s" % map_id)

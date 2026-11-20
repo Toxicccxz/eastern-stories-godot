@@ -90,6 +90,12 @@ var _told: Array[BattleNarrationLine] = []
 var _line_wait: float = 0.0
 var _line_spacing: float = 0.0
 var _hold_left: float = 0.0
+## Seconds until the finished fight's picture is still (its stamp landed, the cards' bars
+## stopped); < 0 when nothing waits. The session's autosave moment waits for it.
+var _still_left: float = -1.0
+## The hold goes on this long after the picture is still, so the autosave moment falls in it
+## (the session takes it on its next frame; the capture's own long frame then ends the hold).
+const STILL_TAIL_SECONDS: float = 0.05
 var _held_result: String = ""
 var _hold_shield: Control
 ## The cards take the finished fight's last 气 once its last lines are told.
@@ -203,9 +209,24 @@ func _process(delta: float) -> void:
 		if _strip_left <= 0.0:
 			_set_strip_open(false)
 	if _holding():
+		_count_to_still(delta)
 		_hold_left -= delta
 		if _hold_left <= 0.0 and _line_queue.is_empty():
 			_end_hold()
+
+
+## The picture settles (the stamp's slam and the bars' tween played out): told to the session
+## once, for its autosave moment (DECISIONS「自动存档」).
+func _count_to_still(delta: float) -> void:
+	if _still_left < 0.0:
+		return
+	_still_left -= delta
+	if _still_left <= 0.0:
+		_still_left = -1.0
+		_session.fight_picture_settled()
+		# A long frame must not end the hold in the same frame: the session takes the moment on
+		# its next frame, and then the panel closes.
+		_hold_left = maxf(_hold_left, delta + STILL_TAIL_SECONDS)
 
 
 ## The fight is over and the panel still shows its last lines.
@@ -217,6 +238,7 @@ func _end_hold() -> void:
 	var text: String = _held_result
 	_held_result = ""
 	_hold_left = 0.0
+	_still_left = -1.0
 	_final_cards = false
 	_hold_shield.visible = false
 	end_stamp.visible = false
@@ -308,6 +330,13 @@ func _settle_final_cards() -> void:
 			_cards[index].show_final_vitality(vitality)
 		_cards[index].show_final_fall(_final_fallen(_shown_participants[index]))
 	_show_end_stamp()
+	if _holding():
+		var feel: FeelDefinition = GameContent.catalog().pacing().feel
+		# The bars' tween and the stamp's slam (the last blow's damage number may still be fading:
+		# waiting for it too would lengthen the closing the stamp's 0.6 s sets).
+		_still_left = maxf(feel.bar_tween_seconds, feel.end_stamp_seconds if end_stamp.visible else 0.0)
+		# The hold lasts past it: the autosave's capture comes on the session's next frame.
+		_hold_left = maxf(_hold_left, _still_left + STILL_TAIL_SECONDS)
 
 
 ## The 倒 / 亡 stamp for one as the finished fight left them (the fight's last blow felled

@@ -6,8 +6,11 @@ const Result := preload(
 )
 
 
+## `npc_work_done`: the check as it will stand once the NPCs' work is finished (a Save the
+## player asks for finishes it first, WorldSessionController.finish_npc_work()).
 static func inspect(
 	session: WorldSessionController,
+	npc_work_done: bool = false,
 ) -> OldPineSaveEligibilityResult:
 	if (
 		session == null
@@ -67,8 +70,9 @@ static func inspect(
 					"live corpse has reached FINAL without completed destruction",
 				)
 		# A making or a told test is a call_out, not saved: the thing or the deed would be lost
-		# while its temp mark stays (筱薇 takes no second 竹子).
-		if not map.npc_life.makings.is_empty() or not map.npc_life.trials.is_empty():
+		# while its temp mark stays (筱薇 takes no second 竹子). A telling that gives nothing
+		# (黄石隘口's story) loses only its last lines and blocks nothing.
+		if map.npc_life.holds_work() and not npc_work_done:
 			return Result.block(Result.Outcome.NPC_WORKING, map.map_id(), "an NPC is making something or telling a test")
 
 	var player: WorldPlayerRuntimeState = session.player_runtime()

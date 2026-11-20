@@ -117,6 +117,10 @@ var _away: WorldAwayTimes = WorldAwayTimes.new()
 ## A moment the autosave may take (GameAutosave): a map change landed, or a fight is over and
 ## its panel gone.
 signal autosave_moment
+## The world stands still for a window the player opened (the menu): a moment that waited
+## (GameAutosave.waiting(): a doorway, someone making a thing) may be taken now, not while
+## the player walks; it is no new autosave moment.
+signal quiet_moment
 ## An act's `keep_save` (终章 A; DECISIONS「决战前存档」): the host writes the 决战前 slot now.
 signal keep_save_requested
 ## Native (DECISIONS「死前存档」): the player died and the death card comes up; `corpse_id` the corpse
@@ -130,6 +134,9 @@ var _fight_shown: bool = false
 ## The fight's end hold (the battle panel on its last lines, BATTLE_END_HOLD) already gave its
 ## autosave moment.
 var _fight_end_told: bool = false
+## The battle panel's picture of the finished fight is still: its last lines told, the 胜 / 败
+## stamp landed, the cards' bars stopped (fight_picture_settled()).
+var _fight_picture_still: bool = false
 ## The battle panel's hold on a finished fight's last lines (BattlePresentationController.END_HOLD).
 const BATTLE_END_HOLD: StringName = &"battle_end"
 ## Real seconds this character has been played, menus included (not the pause).
@@ -238,23 +245,51 @@ func _on_view_arrived(_map_id: StringName, arrived: bool, _door: bool) -> void:
 		autosave_moment.emit()
 
 
-## A fight's autosave moment comes as its end hold begins: nothing advances while the panel
-## holds the last lines (presentation_frozen()), so the world is the one the player gets back,
-## and the capture's frame falls there instead of on the first step after the fight
-## (review fix R; DECISIONS「自动存档」). When the panel closes the moment comes again: it saves
-## if the first one could not (an autosave just written stays within its interval).
+## A fight's autosave moment comes in its end hold once the picture is still: nothing advances
+## while the panel holds the last lines (presentation_frozen()), so the world is the one the
+## player gets back, and the capture's long frame falls on a still picture (the last blow told,
+## the 胜 stamp landed) instead of on the player's first step after the fight or in the middle
+## of the last lines (review fixes R and X; DECISIONS「自动存档」). When the panel closes the
+## moment comes again: it saves if the first one could not (an autosave just written stays
+## within its interval).
 func _note_fight_over() -> void:
 	var fighting: bool = _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter()
 	var shown: bool = battle_panel_shown() or fighting
 	if fighting:
 		_fight_end_told = false
-	elif _fight_shown and shown and not _fight_end_told and presentation_held(BATTLE_END_HOLD):
+		_fight_picture_still = false
+	elif _fight_shown and shown and not _fight_end_told and presentation_held(BATTLE_END_HOLD) and _fight_picture_still:
 		_fight_end_told = true
-		autosave_moment.emit()
+		_fight_autosave_moment()
 	if _fight_shown and not shown:
 		_fight_end_told = false
-		autosave_moment.emit()
+		_fight_picture_still = false
+		_fight_autosave_moment()
 	_fight_shown = shown
+
+
+## Before a save the player asks for (and the 决战前 save): what the NPCs are doing for the
+## player is done at once, as when the player leaves the map (WorldMapNpcLife.finish_work()),
+## so the save holds the thing made or the deed told instead of waiting for it. A telling that
+## gives nothing goes on.
+func finish_npc_work() -> void:
+	for map: WorldMapController in world_maps():
+		map.npc_life.finish_work(false)
+
+
+## The battle panel's picture of a finished fight has settled (BattlePresentationController):
+## the fight's autosave moment may come now.
+func fight_picture_settled() -> void:
+	_fight_picture_still = true
+
+
+## What the fight changed is written down first (a cleared spawn's mark, a quest step: the
+## journal looks only every JOURNAL_INTERVAL), so the autosave holds it and a load of it does
+## not announce it again.
+func _fight_autosave_moment() -> void:
+	record_journal()
+	_journal_elapsed = 0.0
+	autosave_moment.emit()
 
 
 func _process(delta: float) -> void:
@@ -503,8 +538,19 @@ func begin_rest(for_training: bool = false, lifted: Array[StringName] = []) -> S
 		_rest_lifts.assign(lifted)
 	_sync_walk_pause()
 	if not _rest_quiet:
-		_rest_line(TranslationServer.translate(RestLines.BEGIN))
+		_rest_line(RestLines.begin_line(timed_errand_running()))
 	return ""
+
+
+## A timed errand runs (朱鸿雪's task with its time left; TrainingRun.rest_held_back()): resting
+## speeds its clock with the world's, and 歇到回满 says so (RestLines.ERRAND).
+func timed_errand_running() -> bool:
+	return _player != null and _player.state != null and TrainingRun.rest_held_back(_player.state)
+
+
+## 歇到回满's hover as it stands now.
+func rest_hint() -> String:
+	return RestLines.hint(timed_errand_running())
 
 
 ## The rest under way is a continuous run's own (begin_rest(true)).

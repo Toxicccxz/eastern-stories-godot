@@ -657,6 +657,9 @@ func _process(delta: float) -> void:
 			_presentation_layout.close_frame()
 			menu.dismiss()
 		return
+	# The focus pause lies over what is open and gives it back untouched (DECISIONS「切出窗口」).
+	if focus_paused():
+		return
 	var current: WorldResidentMapController = _session.active_map()
 	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
@@ -795,6 +798,14 @@ func play_ride(ride: CoachLines.Ride, done: Callable) -> void:
 	map_page.play_ride(ride, done)
 
 
+## Whether the shell's focus pause holds the game (the window was left; FocusPauseLayer).
+func focus_paused() -> bool:
+	if not is_inside_tree() or not get_tree().paused:
+		return false
+	var host: Node = get_tree().get_first_node_in_group(GameMenu.HOST_GROUP)
+	return host != null and host.has_method(&"focus_held") and bool(host.call(&"focus_held"))
+
+
 ## The menu's own questions, shown over it rather than in its place.
 func is_menu_dialog(content: Control) -> bool:
 	return content == confirm_prompt or content == drift_panel
@@ -812,6 +823,7 @@ func menu_presented() -> void:
 	# The world stands still while the menu is open (owner, 2026-10-15).
 	if _session != null:
 		_session.hold_world_time(MENU_TIME_HOLD)
+		_session.quiet_moment.emit()
 	if not menu.in_pause_view():
 		quarantine_movement()
 
