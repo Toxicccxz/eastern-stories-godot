@@ -93,6 +93,7 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(town.place_player(&"choyin.court1", MapPlaces.service_spot(town, &"choyin.court1.drum")), "TEST-ONLY: by the drum")
 	await _settle(tree)
 	_check(drum != null and drum.in_reach() and drum.verb() == "击鼓", "大皮鼓 · 击鼓 in reach")
+	town.acts.take_from_player(PAPERS) # TEST-ONLY: the 账房's papers (in hand since 逆灵宫 B) left behind, for the empty-handed knock
 	_check(not town.doors_by_id[GATE].is_open() and town.door_shut_between(&"choyin.court1", &"choyin.yamen_yard"), "the 衙门大门 shut")
 	drum.interact()
 	await _settle(tree)

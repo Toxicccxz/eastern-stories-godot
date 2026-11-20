@@ -4,15 +4,18 @@ extends VBoxContainer
 ## A continuous 请教 / 练习 / 打坐 under way (PlayerTrainingRun; DECISIONS「连续修炼」): what
 ## it does and the count, a bar (the skill's progress to its next level, or the internal
 ## power to twice its maximum), and 停止. It takes a step each pacing.json
-## `training_step_ms` (all at once with 0, as in the suites). B / Esc and 停止 stop it, and
-## so does the page going away (the menu closed, another tab); the pause holds it. Once
+## `training_step_ms` (`training_auto_step_ms` for a run that rests by itself; all at once
+## with 0, as in the suites). While such a run rests (自动歇) the count says so and how long,
+## the page staying open; the world runs behind it. B / Esc and 停止 stop it (and the rest),
+## and so does the page going away (the menu closed, another tab); the pause holds it. Once
 ## it stops, the run's lines stay in its place while the page shows. It scrolls itself
 ## into view. The host greys its own buttons while running() and gets `finished` with
 ## the run's lines.
 ## 练功演出 (DECISIONS「练功演出」): with the feel's training_stage_ms the window the run was begun
-## in stands aside once its first step is taken (faded out, still open: world time stays held and nothing
-## under it takes a click) and the player's figure is seen at it on the map (TrainingShow); a
-## band at the foot of the screen carries the count, the bar and 停止. The run over, the stage
+## in stands aside once its first step is taken or its first rest begun (faded out, still open:
+## nothing under it takes a click) and the player's figure is seen at it on the map
+## (TrainingShow), sitting out a rest the run takes by itself (自动歇); a band at the foot of the
+## screen carries the count, the bar and 停止. The run over, the stage
 ## holds a moment (the figure is given the time for a stroke, a gain the time of its 成长时刻:
 ## a run of a few steps is over in half a second), then the window is back
 ## with the run's lines as before. Only what is shown changes: the steps and their timing are
@@ -96,10 +99,10 @@ func start(run: PlayerTrainingRun, what: String, after: Control = null) -> void:
 	_run = run
 	_what = what
 	_waited = 0.0
-	if GameContent.catalog().pacing().feel.training_step_seconds <= 0.0:
-		run.run_to_end()
-		_end()
-		return
+	if run.step_seconds() <= 0.0:
+		_burst()
+		if not running():
+			return
 	_show()
 	bar.show()
 	stop_button.show()
@@ -127,8 +130,26 @@ func _process(delta: float) -> void:
 		if _leave_left <= 0.0:
 			_leave_stage()
 		return
+	# 自动歇: the run's rest goes on in the world; the rest's end takes it on (or ends it), the next
+	# step at once (the line said 歇息中 until then). The figure sits the rest out (练功演出).
+	if _run.resting():
+		# A run that began by resting (精 or 气 short at its first step) is under way all the same.
+		if not _staged:
+			_enter_stage()
+		if show_stage != null:
+			show_stage.rest(true)
+		_show()
+		_waited = INF
+		return
+	if show_stage != null:
+		show_stage.rest(false)
+	var every: float = _run.step_seconds()
+	if every <= 0.0:
+		_burst()
+		if running():
+			_show()
+		return
 	_waited += delta
-	var every: float = GameContent.catalog().pacing().feel.training_step_seconds
 	if _waited < every:
 		return
 	_waited = 0.0
@@ -141,6 +162,14 @@ func _process(delta: float) -> void:
 		_end()
 		return
 	_show()
+
+
+## Steps all at once (no pacing between them) until the run stops, or rests by itself.
+func _burst() -> void:
+	while _run.step():
+		if _run.resting():
+			return
+	_end()
 
 
 func _input(event: InputEvent) -> void:
@@ -373,8 +402,14 @@ static func _moments(session: WorldSessionController) -> GrowthMoments:
 
 func _show() -> void:
 	var training: TrainingRun = _run.training
-	# TRANSLATORS: a continuous run under way: {what} 连续请教「基本剑法」 …, {count} the times done so far.
-	status.text = tr("{what}：已做 {count} 次").format({"what": _what, "count": training.steps})
+	if not _run.resting():
+		# TRANSLATORS: a continuous run under way: {what} 连续请教「基本剑法」 …, {count} the times done so far.
+		status.text = tr("{what}：已做 {count} 次").format({"what": _what, "count": training.steps})
+	else:
+		# TRANSLATORS: a continuous run resting by itself on the way (自动歇): {what} and {count} as above, {rest} the rest's line (歇息中……已歇一盏茶的工夫).
+		status.text = tr("{what}：已做 {count} 次，{rest}").format({
+			"what": _what, "count": training.steps, "rest": RestLines.under_way(_run.rest_minutes()),
+		})
 	var state: CharacterState = _run.state()
 	if state == null:
 		return

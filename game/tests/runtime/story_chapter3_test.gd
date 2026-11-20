@@ -145,7 +145,8 @@ func _test_ways(tree: SceneTree, session: WorldSessionController, played: bool =
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes
 	# (from its own fixture; played on from the chapters before, story_through_test checks it).
 	if not played:
-		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_yard_done)
+		# the other ways in the suite plays besides the fixture's (the 黑冠, the cart's taoists down)
+		var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter3_yard_done, ["黄霸给了黑冠", "押车道士倒了"], [])
 		_check(handoff.is_empty(), "逆灵宫 A played leaves what chapter3_yard_done writes: %s" % [handoff])
 
 

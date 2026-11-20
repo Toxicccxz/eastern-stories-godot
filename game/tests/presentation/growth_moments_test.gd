@@ -140,6 +140,11 @@ func _check_in_a_session(tree: SceneTree) -> void:
 		return
 	var model: Person = view.actors[me].get_child(0) as Person
 	_check_watch(state)
+	# TEST-ONLY: 自动歇 off for the runs that are to stop for 气 short (as the old suite does); on
+	# again for the one that rests, below.
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var auto_before: bool = pacing.training_auto_rest
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, false)
 	# TEST-ONLY: a school's fist to practise, 气 for three practices of 30.
 	state.skills.set_raw_level(&"unarmed", 20)
 	state.skills.set_raw_level(&"liuh-ken", 10)
@@ -240,6 +245,42 @@ func _check_in_a_session(tree: SceneTree) -> void:
 		left += 1 if child.has_meta(&"growth") else 0
 	check(left == 0 and not hud.growth_moments.banner.showing(), "and gone when over")
 
+	# 自动歇: a run that rests by itself — the figure sits the rest out (no stroke, no 气 rising),
+	# the band says so, the window stays aside; the rest over, it is on guard again.
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, true)
+	hud.growth_moments.watch.look(state)
+	state.skills.set_learned_progress(&"liuh-ken", 0)
+	_heal(state)
+	state.vitality.current = 70
+	page.refresh()
+	page.buttons["practice_run:unarmed"].pressed.emit()
+	var rested: bool = false
+	for step: int in 240:
+		await tree.process_frame
+		if progress.staged() and progress.show_stage.resting():
+			rested = true
+			break
+	check(rested and progress.running() and model.sitting and progress.band_status.text.contains("歇息中") and state.vitality.current < 30, "气 short: the run rests by itself, the figure sits it out, the band says so (%s)" % progress.band_status.text)
+	var rounds_resting: int = progress.show_stage.rounds
+	for step: int in 30:
+		await tree.process_frame
+	check(progress.staged() and progress.show_stage.rounds == rounds_resting and not model.fighting and window.modulate.a < 0.05, "resting: nothing new begun, the window still aside")
+	_heal(state) # TEST-ONLY: rested full at once
+	var resumed: bool = false
+	for step: int in 600:
+		await tree.process_frame
+		if progress.running() and progress.staged() and not progress.show_stage.resting() and model.fighting and not model.sitting:
+			resumed = true
+			break
+		if not progress.running():
+			break
+	check(resumed, "the rest over: up and on guard again (running %s, resting %s)" % [progress.running(), progress.show_stage.resting()])
+	progress.stop()
+	check(not progress.running() and not progress.staged() and not model.sitting, "stopped: the window back at once")
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, false)
+	await tree.create_timer(0.8).timeout
+	hud.growth_moments.take_in()
+
 	# 连续打坐: seated while it runs; the player's own stop brings the window back at once.
 	state.skills.set_raw_level(&"force", 5)
 	state.skills.set_raw_level(&"fonxanforce", 1)
@@ -307,6 +348,7 @@ func _check_in_a_session(tree: SceneTree) -> void:
 	check(hud.growth_moments.shown.size() == told_before + 1 and hud.growth_moments.shown[-1] == [GrowthWatch.SKILL_LEVEL, "读书识字　2 级"], "the fight over: it is told (%s)" % [hud.growth_moments.shown[-1]])
 	await tree.create_timer(1.5).timeout
 	TestFeel.restore()
+	pacing.with_rest(pacing.rest_world_scale, pacing.rest_limit_seconds, auto_before)
 	# The feel off again: nothing more is looked at.
 	told_before = hud.growth_moments.shown.size()
 	state.skills.set_raw_level(&"literate", 3) # TEST-ONLY

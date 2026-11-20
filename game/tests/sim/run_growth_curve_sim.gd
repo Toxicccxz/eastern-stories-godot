@@ -2,7 +2,7 @@ extends SceneTree
 
 ## Opt-in report of the growth curve (GrowthCurveSim), for the plan that sets 历练, rest and the
 ## regions' recommended_exp. Never an autoload; tests/ is not in a release:
-## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_growth_curve_sim.gd -- [start=main|exploring|<exp>] [seed=<n>] [force=<percent of the bottleneck>] [self] [quest=<percent>|<chapter>:<percent>[,...]] [extra=<chapter>:<percent>[,...]] [recommended=<region>:<exp>[,...]] [rest=<scale>] [path]
+## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_growth_curve_sim.gd -- [start=main|exploring|<exp>] [seed=<n>] [force=<percent of the bottleneck>] [self] [quest=<percent>|<chapter>:<percent>[,...]] [extra=<chapter>:<percent>[,...]] [recommended=<region>:<exp>[,...]] [rest=<scale>] [auto] [path]
 ## `start`: where the first two hours leave the player (StoryArrival's MAIN_START 1000 or
 ## EXPLORING_START 2500, or a number).
 ## `force`: 打坐 after each chapter to this percent of exercise.c's bottleneck (default 100;
@@ -14,6 +14,8 @@ extends SceneTree
 ## faction line finished in chapter 6 worth 600%).
 ## `recommended`: regions' recommended_exp for this run (lancheng:40000).
 ## `rest`: pacing rest_world_scale for this run (the report's real time with the rest).
+## `auto`: the runs rest by themselves (成长曲线 B, pacing training_auto_rest): stops only at levels,
+## feel training_auto_step_ms a step, rests at pacing rest_world_scale with no press.
 ## `path`: the exp path only, no training (fast).
 ## Prints one row per chapter on arriving there: exp, potential, the seven skills' raw levels,
 ## max_force and its bottleneck, 气 / 精 / 神, the steps and stops of training so far, the world
@@ -43,6 +45,8 @@ func _run() -> void:
 			sim.force_percent = int(arg.substr(6))
 		elif arg == "self":
 			sim.self_learn = true
+		elif arg == "auto":
+			sim.auto = true
 		elif arg == "path":
 			sim.train_between = false
 		elif arg.begins_with("quest="):
@@ -72,6 +76,7 @@ func _run() -> void:
 		print("拜师: %s" % sim.joined)
 	await sim.journey(start)
 	print(sim.table())
+	print(sim.summary())
 	await sim.finish()
 	print("GROWTH SIM DONE")
 	quit()

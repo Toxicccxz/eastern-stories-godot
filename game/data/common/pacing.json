@@ -88,8 +88,9 @@
 		"coach_fare_base": 10,
 		"coach_fare_per_leg": 5,
 		"coach_minutes_per_leg": 30,
-		"rest_world_scale": 20,
+		"rest_world_scale": 40,
 		"rest_limit_seconds": 600,
+		"training_auto_rest": true,
 		"exp_gates": { "juechen": 20000 },
 		"npc_idle": {
 			"enabled": true,
@@ -128,6 +129,7 @@
 			"training_step_ms": 150,
 			"training_stage_ms": 250,
 			"growth_moment_ms": 1100,
+			"training_auto_step_ms": 60,
 			"corner_slide_px": 12,
 			"voxel_worlds_kept": 3,
 			"map_loading_slice_ms": 40,

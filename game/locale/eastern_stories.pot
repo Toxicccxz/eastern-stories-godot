@@ -5457,6 +5457,10 @@ msgstr ""
 msgid "歇到回满's pace and longest rest must not be negative"
 msgstr ""
 
+#: core/content/pacing_definition.gd
+msgid "a run that rests by itself needs 歇到回满 (rest_world_scale)"
+msgstr ""
+
 #: core/death/player_killer_reward.gd
 msgid "恭喜你！你又完成了一项任务！"
 msgstr ""
@@ -7506,6 +7510,11 @@ msgstr ""
 msgid "你修行 {count} 次"
 msgstr ""
 
+#. after a continuous run's start (RUN_HEADS) when it rested by itself on the way: {rests} how many times, {time} how long in all (一盏茶的工夫, 两个时辰 …).
+#: core/training/training_lines.gd
+msgid "（其间歇了 {rests} 回，共{time}）"
+msgstr ""
+
 #. a continuous run's summary: {head} what was done (one of the lines above), {changes} what it changed, joined by RUN_JOIN.
 #: core/training/training_lines.gd
 msgid "{head}：{changes}。"
@@ -7590,6 +7599,16 @@ msgstr ""
 #. continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
 #: core/training/training_lines.gd
 msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。精要时间才回得来，窗口开着时间不走：点「歇到回满」歇一会儿再来；学了内功的，也可以在武学页运功恢复精。"
+msgstr ""
+
+#. the same stop for a run that rests by itself (it could not rest: the line after says why): {cost} the cost, {have} the gin left.
+#: core/training/training_lines.gd
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
+msgstr ""
+
+#. a continuous run that would rest by itself does not while 朱鸿雪's task runs against its time (a rest lets time pass); the player may rest by hand.
+#: core/training/training_lines.gd
+msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
 msgstr ""
 
 #. continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
@@ -7863,9 +7882,14 @@ msgstr ""
 msgid "被克"
 msgstr ""
 
-#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's, {verdict} 克！/ 被克 / 平.
+#. the battle strip after a beat whose opponent move the player has not learned to read: {mine} the player's tag, {verdict} 克！/ 被克 / 平.
 #: presentation/battle/battle_action_panel.gd
-msgid "你出{mine}，他起手{theirs} · {verdict}"
+msgid "你出{mine} · {verdict}"
+msgstr ""
+
+#. the battle strip after a beat: {mine} the player's tag, {theirs} the target's move it met, {verdict} 克！/ 被克 / 平.
+#: presentation/battle/battle_action_panel.gd
+msgid "你出{mine}，对上他的{theirs} · {verdict}"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd presentation/battle/battle_beat_stamps.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd runtime/world/map/world_map_watches.gd ui/world/map_page.gd
@@ -9843,14 +9867,14 @@ msgstr ""
 msgid "你的%s用完了！"
 msgstr ""
 
-#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
-#: runtime/world/map/world_map_combat_lifecycle.gd
-msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
-msgstr ""
-
 #. weapond.c bash_weapon(): {who} nearly loses the weapon ({weapon}).
 #: runtime/world/map/world_map_combat_lifecycle.gd
 msgid "{who}只觉得手中{weapon}一震，险些脱手！"
+msgstr ""
+
+#. weapond.c bash_weapon(): {who} (你 or a name) loses the weapon ({weapon}).
+#: runtime/world/map/world_map_combat_lifecycle.gd
+msgid "{who}只觉得手中{weapon}把持不定，脱手飞出！"
 msgstr ""
 
 #. weapond.c bash_weapon(): {who}'s weapon ({weapon}) breaks in two.
@@ -10781,6 +10805,11 @@ msgstr ""
 #. a continuous run under way: {what} 连续请教「基本剑法」 …, {count} the times done so far.
 #: ui/common/training_progress.gd
 msgid "{what}：已做 {count} 次"
+msgstr ""
+
+#. a continuous run resting by itself on the way (自动歇): {what} and {count} as above, {rest} the rest's line (歇息中……已歇一盏茶的工夫).
+#: ui/common/training_progress.gd
+msgid "{what}：已做 {count} 次，{rest}"
 msgstr ""
 
 #. a continuous 打坐 towards a maximum (前两小时 A): the maximum now {maximum}, the one aimed at {target}, and what is left {left}.
@@ -23497,7 +23526,7 @@ msgstr ""
 
 #. guide.rest paragraphs
 #: data/common/codex.json
-msgid "想歇就歇：请教页和武学页上的「歇到回满」让你坐下来，时间照走（快得多），精气神回满就起身。世界不会等你：歇着时有人来找麻烦，你会被惊起，照常开打；口渴没水的时候歇着也回不来。"
+msgid "想歇就歇：请教页和武学页上的「歇到回满」让你坐下来，时间照走（快得多），精气神回满就起身；连续修炼练到一半没了力气，也会自己这样歇一歇再接着练。世界不会等你：歇着时有人来找麻烦，你会被惊起，照常开打；口渴没水的时候歇着也回不来。"
 msgstr ""
 
 #. guide.rest paragraphs
@@ -23637,7 +23666,7 @@ msgstr ""
 
 #. guide.learn paragraphs
 #: data/common/codex.json
-msgid "请教、练习、打坐、冥思、修行都能「连续」做下去，遇到做不下去的一步会先停下，告诉你为什么。"
+msgid "请教、练习、打坐、冥思、修行都能「连续」做下去：精、气、神不够了就自己歇一歇，回满了接着练，练到潜能用完、功夫长了一级或做不下去的一步才停，并告诉你为什么。"
 msgstr ""
 
 #. guide.family title
@@ -27438,6 +27467,16 @@ msgstr ""
 #. faction.fonxan/book objective
 #: data/story/faction_fonxan.json
 msgid "书只有一本：交给柳淳风，他会收进匣里；交给柳绘心，她头一回读到父亲年轻时写的字。给出去就读不到了——想读，先读。"
+msgstr ""
+
+#. faction.fonxan/book checklist.label
+#: data/story/faction_fonxan.json
+msgid "《悟疾风劲竹书》在你身上"
+msgstr ""
+
+#. faction.fonxan/book checklist.missing
+#: data/story/faction_fonxan.json
+msgid "书不在你身上了——是被人摸走了，还是给了别人？找回来再交"
 msgstr ""
 
 #. faction.fonxan/book/father text
@@ -49456,6 +49495,12 @@ msgid ""
 msgstr ""
 
 #. village.seal_altar.pull act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"穿灵握在你手里，剑身上的霜一点一点化了。\n"
+msgstr ""
+
+#. village.seal_altar.pull act.acts.steps.line
 #. village.seal_altar.face act.acts.steps.line
 #: data/village/world.json
 msgid ""
@@ -56636,7 +56681,7 @@ msgstr ""
 
 #. native.npc.shang_jue fight_deferred
 #: data/niling/npcs.json
-msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他连头都没有回。"
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他连头都没有回。"
 msgstr ""
 
 #. native.npc.shang_jue inquiry.逆灵宫
@@ -56747,7 +56792,7 @@ msgstr ""
 
 #. native.npc.xuan_mingzi fight_deferred
 #: data/niling/npcs.json
-msgid "玄冥子看也不看你，袖子一拂，你的剑便歪到了一边。"
+msgid "玄冥子看也不看你，袖子一拂，你这一下便歪到了一边。"
 msgstr ""
 
 #. native.npc.xuan_mingzi inquiry.钥匙
@@ -57032,7 +57077,7 @@ msgstr ""
 
 #. native.npc.headless_shade fight_deferred
 #: data/niling/npcs.json
-msgid "你的剑从黑影里穿了过去，什么也没碰到。"
+msgid "你这一下从黑影里穿了过去，什么也没碰到。"
 msgstr ""
 
 #. native.npc.hell_runner long
@@ -68801,7 +68846,7 @@ msgstr ""
 
 #. native.npc.shang_jue_lake fight_deferred
 #: data/native/npcs.json
-msgid "你的剑穿过商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
+msgid "你一出手，只穿过了商玦的袖子，像穿过一缕烟。他只是笑了一笑。"
 msgstr ""
 
 #. native.npc.shang_jue_lake inquiry topic

@@ -164,6 +164,15 @@
 					"id": "book",
 					"weight": "small",
 					"objective": "书只有一本：交给柳淳风，他会收进匣里；交给柳绘心，她头一回读到父亲年轻时写的字。给出去就读不到了——想读，先读。",
+					"checklist": [
+						{
+							"label": "《悟疾风劲竹书》在你身上",
+							"when": {
+								"item": "es2:d/canyon/bamboo/obj/parry_book"
+							},
+							"missing": "书不在你身上了——是被人摸走了，还是给了别人？找回来再交"
+						}
+					],
 					"target": {
 						"map": "snow.school_compound",
 						"zone": "snow.schoolhall",

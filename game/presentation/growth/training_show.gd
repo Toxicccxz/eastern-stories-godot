@@ -36,6 +36,8 @@ var rounds: int = 0
 ## begun — but for the first round (a run of a step or two is over before the figure is on guard:
 ## it still gets its one stroke, its one rising of the 气).
 var closing: bool = false
+## The run rests by itself on the way (自动歇): rest().
+var _resting: bool = false
 var _view: WorldVoxelView
 var _player: Person
 var _teacher: Person
@@ -114,19 +116,52 @@ func begin(view: WorldVoxelView, player_id: StringName, teacher_id: StringName, 
 	_next = SETTLE
 	rounds = 0
 	closing = false
+	_resting = false
 	var training: Dictionary = GrowthFx.training()
 	_zoom_before = view.zoom()
 	view.set_zoom(minf(_zoom_before, float(training.get("zoom", 1.0))), float(training.get("zoom_seconds", 0.0)))
+	_stance()
+	return true
+
+
+## The figures take up what the form asks of them: on guard, seated, the master talking.
+func _stance() -> void:
 	match String(form["form"]):
 		FORM_STRIKE, FORM_REACT:
+			_player.sitting = false
 			_player.take_guard(String(form.get("weapon", "")), SETTLE)
-			if _teacher_strikes:
+			if _teacher_strikes and is_instance_valid(_teacher):
 				_teacher.take_guard(String(form.get("weapon", "")), SETTLE)
 		FORM_SIT:
 			_player.sitting = true
-	if _teacher != null and not _teacher_strikes:
+	if is_instance_valid(_teacher) and not _teacher_strikes:
 		_teacher.showing = "teach"
-	return true
+
+
+## A run that rests by itself on the way (自动歇; the world goes on meanwhile): the figures put
+## their work down and the player's sits the rest out, no 气 rising; the rest over, they take it
+## up again.
+func rest(on: bool) -> void:
+	if on == _resting or form.is_empty() or not is_instance_valid(_player):
+		return
+	_resting = on
+	if not on:
+		_stance()
+		_next = _clock + SETTLE
+		return
+	for tween: Tween in _limbs.values():
+		if tween.is_valid():
+			tween.kill()
+	_limbs.clear()
+	_player.stand_down(SETTLE)
+	_player.sitting = true
+	if is_instance_valid(_teacher):
+		_teacher.stand_down(SETTLE)
+		_teacher.showing = ""
+
+
+func resting() -> bool:
+	return _resting
 
 
 func showing() -> bool:
@@ -138,6 +173,7 @@ func end() -> void:
 	if form.is_empty():
 		return
 	form = {}
+	_resting = false
 	for tween: Tween in _limbs.values():
 		if tween.is_valid():
 			tween.kill()
@@ -170,7 +206,7 @@ func _process(delta: float) -> void:
 		end()
 		return
 	_clock += delta
-	if _clock < _next or (closing and rounds > 0):
+	if _clock < _next or _resting or (closing and rounds > 0):
 		return
 	var training: Dictionary = GrowthFx.training()
 	var round_seconds: float = maxf(0.2, float(training.get("round", 1.1)))
