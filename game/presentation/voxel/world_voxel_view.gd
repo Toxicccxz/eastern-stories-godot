@@ -213,6 +213,7 @@ func _apply_quality() -> void:
 	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
+		lighting.sun.directional_shadow_max_distance = GraphicsQuality.sun_shadow_distance()
 	if _active:
 		get_viewport().msaa_3d = GraphicsQuality.msaa()
 

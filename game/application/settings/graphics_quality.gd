@@ -92,6 +92,11 @@ static func grass(value: int = level) -> float:
 	return clampf(float(settings(value).get("grass", 1.0)), 0.0, 1.0)
 
 
+## How far from the camera the sun's shadow reaches (world units; 80 drew the whole view).
+static func sun_shadow_distance(value: int = level) -> float:
+	return float(settings(value).get("sun_shadow_distance", 80.0))
+
+
 ## Whether an occluder no one can be behind draws without the see-through (VoxelOcclusion.
 ## plain_when_clear; the same picture, a cheaper pixel).
 static func plain_occluders(value: int = level) -> bool:
