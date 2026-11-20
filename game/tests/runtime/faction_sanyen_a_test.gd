@@ -10,6 +10,7 @@ extends RefCounted
 ## The 头陀 is only knocked down while the line runs, and 朱鸿雪 does not send anyone after him then.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
+const FollowerWalk := preload("res://tests/support/follower_walk.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const QUEST: StringName = &"faction.sanyen"
 const XUANZHI: StringName = &"common.npc.bonze.master"
@@ -239,11 +240,11 @@ func _test_disciple(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_said(said, "走。") and state.marks.get("头陀跟你去了流云轩", 0) == 1 and monk.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "领路: the 头陀 follows (%s)" % [said])
 	var hall2: WorldMapController = await _enter(tree, session, HALL, HALL_POINT)
 	_check(_said(_ask(hall2, _first(session, HALL, XUANZHI), "寺规"), "老衲不拦") and not state.marks.has("守了寺规"), "寺规 once he follows: 玄智 does not stop you")
-	_check(await _lead(tree, session, ROAD1, ROAD1_POINT), "back to the 金门")
-	_check(await _lead(tree, session, HEAL, HEAL_POINT), "led into 流云轩")
+	_check(await MapPlaces.go_to(tree, session, ROAD1) != null and _first(session, ROAD1, MONK) == monk, "back to the 金门, where he waits")
+	heal = await _go_with(tree, session, HEAL, MONK)
+	_check(heal != null, "led into 流云轩, he behind: %s" % FollowerWalk.failure)
 	monk = _first(session, HEAL, MONK)
 	_check(monk != null, "the 头陀 came along")
-	heal = session.active_map() as WorldMapController
 	var lines: Array[String] = await _scene(tree, session, heal)
 	_check(_said(lines, "热乎了") and _said(lines, "番坊的日陀罗寺") and state.marks.get("头陀进了流云轩", 0) == 1 and state.marks.get("不守寺规", 0) == 1 and state.marks.get("听说了番坊的经", 0) == 1, "the 头陀 heals 老葛 (%s)" % [lines.slice(-6)])
 	_check(monk != null and not monk.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "only this once: he follows no more")
@@ -291,14 +292,12 @@ func _enter(tree: SceneTree, session: WorldSessionController, zone_id: StringNam
 	return map
 
 
-## TEST-ONLY: the player taken to `zone_id` by a way they lead (handoff_led): who follows every way comes along.
-func _lead(tree: SceneTree, session: WorldSessionController, zone_id: StringName, point_id: StringName) -> bool:
-	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
-	if zone == null:
-		return false
-	var result: OldPineMapHandoffResult = session.handoff_led(zone.map_id, zone_id, zone.combat_location_id, point_id)
+## TEST-ONLY: the player walks to `zone_id` through the doors, waiting at each for `follower_id` to come up
+## (FollowerWalk: go.c follow_me(), no handoff that carries him along for the suite).
+func _go_with(tree: SceneTree, session: WorldSessionController, zone_id: StringName, follower_id: StringName) -> WorldMapController:
+	var map: WorldMapController = await FollowerWalk.go_with(tree, session, zone_id, follower_id)
 	await _settle(tree)
-	return result != null and result.succeeded()
+	return map
 
 
 ## The act service by its own spot: true when it ran.
