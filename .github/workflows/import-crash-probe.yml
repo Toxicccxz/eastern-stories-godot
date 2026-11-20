@@ -1,0 +1,58 @@
+# TEMPORARY (phase/stability-check): loops the release copy's cold import under gdb to catch
+# the occasional exit -6. Removed before the PR leaves draft.
+name: Import crash probe
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install gdb
+        run: sudo apt-get update -q && sudo apt-get install -y -q gdb
+      - name: Install pinned Godot editor
+        id: godot
+        run: python tools/ci/bootstrap_godot.py --platform linux --output build/toolchain --skip-templates
+      - name: Loop the cold imports
+        run: |
+          G="${{ steps.godot.outputs.godot }}"
+          python tools/build/prepare_release_project.py --source game --output build/rel
+          mkdir -p build/probe
+          for i in $(seq 1 12); do
+            rm -rf build/rel/.godot
+            start=$(date +%s)
+            gdb -q -batch -return-child-result \
+              -ex "set pagination off" -ex "handle SIGPIPE nostop noprint pass" \
+              -ex run -ex "info threads" -ex "thread apply all bt 30" \
+              --args "$G" --headless --path build/rel --editor --quit > build/probe/rel_$i.log 2>&1
+            rc=$?
+            echo "release run $i rc=$rc $(( $(date +%s) - start )) s"
+            if grep -q "received signal" build/probe/rel_$i.log; then
+              echo "---- crash in run $i"; grep -n -A 400 "received signal" build/probe/rel_$i.log | head -400
+            fi
+          done
+          for i in 1 2 3 4; do
+            rm -rf game/.godot
+            "$G" --headless --path game --editor --quit > build/probe/dev_$i.log 2>&1
+            echo "dev run $i rc=$?"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: probe-logs-${{ matrix.lane }}
+          path: build/probe
