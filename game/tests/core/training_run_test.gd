@@ -28,8 +28,9 @@ func run_all() -> Dictionary[String, Variant]:
 ## 自动歇 (成长曲线 B): which stops a rest mends (精 short for learn.c; exercise.c's, meditate.c's
 ## and respirate.c's cost and 70 % refusals; practice_skill()'s kee and sen), resume() taking the
 ## run on as if it had not stopped (MAX_STEPS counted from the rest), and the lines of a run that
-## rested: how often and how long, no 精 / 气 / 神 change, the stop without the 歇到回满 hint, a
-## rest's own line after the stop.
+## rested: how often and how long, the steps' own change (what came back while resting is the
+## rest's drift), the stop without the 歇到回满 hint, a rest's own line after the stop; 朱鸿雪's
+## task against its time holds the rest back.
 func _test_auto_rest() -> void:
 	var mended: Array[int] = []
 	var kept: Array[int] = []
@@ -88,16 +89,28 @@ func _test_auto_rest() -> void:
 	learner.progression.potential_spent += 20
 	learner.skills.set_learned_progress(&"sword", learner.skills.learned_progress(&"sword") + 50)
 	rested.took_step(learner)
+	learner.essence.current += 10 # the rest gives the 精 back, and some 内力 (heal_up())
+	learner.recovery.inner_force.current += 5
 	rested.rested(240.0, 240)
 	rested.resume(learner)
+	_check(rested.drift.essence == 10 and rested.drift.inner_force == 5 and rested.drift.potential == 0, "what the rest changed is its drift")
 	rested.end(rested.look_at_learn(short, 1000))
 	rested.rest_line = RestLines.REFUSE_THIRSTY
 	var lines: Array[String] = ColoredLine.texts(TrainingLines.run(rested, sword, TEACHER_NAME))
 	_check(lines == [
-		"你向柳淳风请教「基本剑法」1 次（其间歇了 1 回，共两个时辰）：基本剑法进度 +50，潜能 -20。",
+		"你向柳淳风请教「基本剑法」1 次（其间歇了 1 回，共两个时辰）：基本剑法进度 +50，精 -10，潜能 -20。",
 		"停下：精不够了。请教一次耗精 30，精须多于此数（你还有 13）。",
 		RestLines.REFUSE_THIRSTY,
-	], "rested: how often and how long, no 精, the stop without the hint, then why no rest: %s" % [lines])
+	], "rested: how often and how long, the steps' own 精 (not the rest's 精 or 内力), the stop without the hint, then why no rest: %s" % [lines])
+	rested.rest_line = ""
+	lines = ColoredLine.texts(TrainingLines.run(rested, sword, TEACHER_NAME))
+	_check(lines.size() == 2 and lines[1].contains("歇到回满"), "no rest tried (nothing said why): the stop keeps its 歇到回满 hint: %s" % [lines])
+	var errand := CharacterState.new()
+	_check(not TrainingRun.rest_held_back(errand), "no task: it rests")
+	errand.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1)
+	_check(TrainingRun.rest_held_back(errand), "朱鸿雪's task against its time: it does not rest by itself")
+	errand.quest.advance(400000)
+	_check(not TrainingRun.rest_held_back(errand), "run out already: nothing left to lose")
 	rested.resume(learner)
 	rested.end(TrainingRun.Stop.INTERRUPTED)
 	rested.rest_line = "你歇了一盏茶的工夫，忽然有人来袭，你一跃而起！"

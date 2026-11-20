@@ -450,7 +450,7 @@ func with_coach(on: bool, fare_base: int, fare_per_leg: int, minutes_per_leg: in
 
 ## This record with 歇到回满's pace and longest rest set, and whether a continuous run rests by
 ## itself (tests, and from_record()).
-func with_rest(world_scale: int, limit_seconds: int, auto_rest: bool = false) -> PacingDefinition:
+func with_rest(world_scale: int, limit_seconds: int, auto_rest: bool) -> PacingDefinition:
 	_rest_world_scale = world_scale
 	_rest_limit_seconds = limit_seconds
 	_training_auto_rest = auto_rest

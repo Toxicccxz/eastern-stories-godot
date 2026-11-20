@@ -74,6 +74,18 @@ class Snapshot:
 	var level: int
 	var learned: int
 
+	## Adds what changed from `then` to `now` (a rest's drift).
+	func add_change(then: Snapshot, now: Snapshot) -> void:
+		essence += now.essence - then.essence
+		vitality += now.vitality - then.vitality
+		spirit += now.spirit - then.spirit
+		inner_force += now.inner_force - then.inner_force
+		mana += now.mana - then.mana
+		atman += now.atman - then.atman
+		potential += now.potential - then.potential
+		level += now.level - then.level
+		learned += now.learned - then.learned
+
 	static func of(state: CharacterState, skill_id: StringName) -> Snapshot:
 		var snapshot := Snapshot.new()
 		snapshot.essence = state.essence.current
@@ -117,6 +129,9 @@ var rest_minutes: int = 0
 ## Said after the stop: the line of a rest that ended the run (有人来袭 …), or why none could
 ## begin (no water …); "" when none.
 var rest_line: String = ""
+## What the rests changed (精, 气, 神 back; 内力, 法力, 灵力 back by heal_up()), not the steps: the
+## summary tells the steps' own change.
+var drift: Snapshot = Snapshot.new()
 ## Steps since the run began or last rested (what MAX_STEPS counts).
 var _stretch: int = 0
 
@@ -168,7 +183,8 @@ func rested(world_seconds: float, minutes: int) -> void:
 
 
 ## After a rest that mended the stop: the same run goes on, as if it had not stopped (`state`:
-## the player now, the numbers the look-ahead and the progress read).
+## the player now, the numbers the look-ahead and the progress read). What the rest changed
+## goes to `drift`.
 func resume(state: CharacterState) -> void:
 	stop = Stop.NONE
 	mendable = false
@@ -177,7 +193,15 @@ func resume(state: CharacterState) -> void:
 	have = 0
 	required = 0
 	_stretch = 0
-	after = Snapshot.of(state, skill_id)
+	var now: Snapshot = Snapshot.of(state, skill_id)
+	drift.add_change(after, now)
+	after = now
+
+
+## 自动歇 holds back while 朱鸿雪's task runs against its time (god.c's task_time): a rest would
+## spend it unasked. The player rests by hand (歇到回满) if they choose.
+static func rest_held_back(state: CharacterState) -> bool:
+	return state.quest.has_task() and not state.quest.is_expired()
 
 
 ## A cultivation refused for 精, 气 or 神 short.

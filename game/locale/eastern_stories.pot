@@ -7601,6 +7601,11 @@ msgstr ""
 msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）。"
 msgstr ""
 
+#. a continuous run that would rest by itself does not while 朱鸿雪's task runs against its time (a rest lets time pass); the player may rest by hand.
+#: core/training/training_lines.gd
+msgid "身上有限时的差事，歇着时限照走，所以没有自己歇；要歇就点「歇到回满」。"
+msgstr ""
+
 #. continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
 #: core/training/training_lines.gd
 msgid "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"

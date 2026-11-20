@@ -13,7 +13,9 @@ extends RefCounted
 ## left open (begin_rest(true)) — and step() waits meanwhile. A rest that ends with the three full
 ## (or at its longest with something come back) takes the same run on; any other end (有人来袭, 掉血,
 ## 断水, 剧情, 换图, 倒下) ends it with the rest's own line, and so does a rest that cannot begin. Full
-## already and still short (气 asked above the maximum): it stops there, as without 自动歇.
+## already and still short (气 asked above the maximum): it stops there, as without 自动歇. With
+## 朱鸿雪's task running against its time it does not rest by itself (TrainingRun.rest_held_back()).
+## The page that starts the run names its window's holds (`window_holds`): only those are lifted.
 
 var training: TrainingRun
 ## 自动歇 for this run (pacing's knob; the suites may set it).
@@ -22,6 +24,9 @@ var auto_rest: bool:
 		return training.auto_rest
 	set(value):
 		training.auto_rest = value
+## The holds on world time of the window the run is on (SharedGameplayUI's popup or menu hold),
+## lifted while the run rests by itself; empty: none (a run with no window holding the world).
+var window_holds: Array[StringName] = []
 ## The run's lines, once finished.
 var lines: Array[ColoredLine] = []
 var _session: WorldSessionController
@@ -102,9 +107,9 @@ func step() -> bool:
 	return not training.stopped()
 
 
-## 自动歇 is resting the player now.
+## 自动歇 is resting the player now (a rest gone without a word is not: step() then ends the run).
 func resting() -> bool:
-	return _resting
+	return _resting and _session.resting_for_training()
 
 
 ## Game minutes the run's rest under way has lasted.
@@ -146,13 +151,17 @@ func _rest() -> bool:
 	# Full already; or the player's own 歇到回满 stands under this window (held with it).
 	if RestRules.rested(state) or _session.resting():
 		return false
-	var refused: String = _session.begin_rest(true)
+	if TrainingRun.rest_held_back(state):
+		training.rest_line = TranslationServer.translate(TrainingLines.RUN_TASK_TIME)
+		return false
+	var refused: String = _session.begin_rest(true, window_holds)
 	if not refused.is_empty():
 		training.rest_line = refused
 		return false
 	_resting = true
 	_rest_from = RestRules.currents(state)
-	_session.rest_ended.connect(_on_rest_ended, CONNECT_ONE_SHOT)
+	if not _session.rest_ended.is_connected(_on_rest_ended):
+		_session.rest_ended.connect(_on_rest_ended, CONNECT_ONE_SHOT)
 	return true
 
 
@@ -175,7 +184,8 @@ func _on_rest_ended(outcome: int, line: String) -> void:
 			else:
 				training.rest_line = line
 		RestRules.Outcome.CANCELLED:
-			_break_off(TrainingRun.Stop.CANCELLED, "")
+			# The page went away under the rest because the teacher left reach (not the player's hand).
+			_break_off(TrainingRun.Stop.CANCELLED if can_act() else TrainingRun.Stop.INTERRUPTED, "")
 		_:
 			# 有人来袭, 掉血, 断水, 剧情, 换图 say their own line; a fall says its own elsewhere.
 			_break_off(TrainingRun.Stop.INTERRUPTED, line)

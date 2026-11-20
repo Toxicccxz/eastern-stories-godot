@@ -6,9 +6,11 @@ extends RefCounted
 ## rest lasts), nothing is said meanwhile — and goes on with the same run once the three are full:
 ## on to potential spent, a level, a maximum up. A rest at its longest with something come back goes
 ## on too. A rest broken off (掉血 here; 有人来袭 is the same path) ends the run with the rest's own
-## line; 停止 stops the rest with the run; with no water the run stops and says why; full already
-## and still short, it stops as without 自动歇. run_to_end() never rests. The knobs: pacing.json's
-## 40 times and 60 ms a step (150 for a run that does not rest); left out, ES2's (no 自动歇).
+## line; 停止 stops the rest with the run; with no water, or 朱鸿雪's task against its time, the run
+## stops and says why; full already and still short, it stops as without 自动歇. Only the window's
+## own hold is lifted. The summary tells the steps' own 精 (not what came back). run_to_end() never
+## rests. The knobs: pacing.json's 40 times and 60 ms a step (150 for a run that does not rest);
+## left out, ES2's (no 自动歇).
 ## TEST-ONLY fixtures, marked where used: gin/kee/sen, water, potential and skill levels set directly.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SCHOOL: StringName = &"snow.school_compound.schoolhall.master"
@@ -47,6 +49,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_rest_broken_off(tree)
 	await _test_stopped_while_resting(tree)
 	_test_no_water()
+	_test_task_holds_rest_back()
 	await _test_wound_goes_on_at_the_limit(tree)
 	_test_limit_with_nothing_back()
 	_test_run_to_end_never_rests()
@@ -100,7 +103,7 @@ func _test_learn_rests_and_goes_on(tree: SceneTree) -> void:
 	var gain: int = _state.skills.learned_progress(&"sword") - learned
 	var lines: Array[String] = ColoredLine.texts(_school.last_colored)
 	_check(said.size() >= 2 and said.slice(-2) == lines, "the run's lines in the log: %s" % [said])
-	_check(lines.size() == 2 and lines[0].begins_with("你向柳淳风请教「基本剑法」6 次（其间歇了 1 回，共") and lines[0].ends_with("）：基本剑法进度 +%d，潜能 -6。" % gain), "one summary, the rest in it, no 精 change: %s" % [lines])
+	_check(lines.size() == 2 and lines[0].begins_with("你向柳淳风请教「基本剑法」6 次（其间歇了 1 回，共") and lines[0].ends_with("）：基本剑法进度 +%d，精 -%d，潜能 -6。" % [gain, _cost() * 6]), "one summary, the rest in it, the six lessons' 精 (not what came back): %s" % [lines])
 	_check(lines.size() == 2 and lines[1] == "你的潜能已经发挥到极限了，没有办法再成长了。", "then learn.c's own line: %s" % [lines])
 	_check(panel.panel.visible and _session.world_time_held(), "the page holds the world again")
 	_check(posmod(_session.day_clock().day_seconds() - day_before, DayClock.DAY_SECONDS) > 0, "the clock went on while resting")
@@ -136,11 +139,17 @@ func _test_stopped_while_resting(tree: SceneTree) -> void:
 	_state.essence.current = _cost() + 3 # TEST-ONLY
 	_check(await _open_teacher_page(tree), "the 请教 page again")
 	var panel: TeacherPanel = _school.ui
+	_session.hold_world_time(&"test_card") # TEST-ONLY: something else holds the world (a card)
 	panel.run_buttons[&"sword"].pressed.emit()
+	var day: int = _session.day_clock().day_seconds()
 	_session._process(FRAME)
 	_check(_session.resting_for_training() and panel.get_viewport().gui_get_focus_owner() == panel.progress.stop_button, "resting, 停止 has the focus")
-	_session.hold_world_time(&"test_card") # TEST-ONLY: something holds the world meanwhile
-	var day: int = _session.day_clock().day_seconds()
+	_check(_session.world_time_held() and _session.day_clock().day_seconds() == day, "only the popup's hold is lifted: another holds the world")
+	_session.release_world_time(&"test_card")
+	_session._process(FRAME)
+	_check(not _session.world_time_held() and _session.day_clock().day_seconds() != day, "released: the rest goes on")
+	_session.hold_world_time(&"test_card") # TEST-ONLY: and one that comes meanwhile
+	day = _session.day_clock().day_seconds()
 	_session._process(FRAME)
 	_check(_session.world_time_held() and _session.day_clock().day_seconds() == day and _session.resting(), "a hold that came meanwhile holds it")
 	_session.release_world_time(&"test_card")
@@ -169,6 +178,23 @@ func _test_no_water() -> void:
 		_check(lines[1] == "停下：精不够了。请教一次耗精 %d，精须多于此数（你还有 3）。" % cost, "the stop without the 歇到回满 hint: %s" % lines[1])
 		_check(lines[2] == RestLines.REFUSE_THIRSTY, "and why it could not rest: %s" % lines[2])
 	_state.recovery.water = water
+
+
+## 朱鸿雪's task against its time: the run does not rest by itself (a rest would spend the time
+## unasked) and says so; the task's time is as it was.
+func _test_task_holds_rest_back() -> void:
+	_lesson_ready(&"sword", 15)
+	var cost: int = _cost()
+	_state.essence.current = cost + 3 # TEST-ONLY
+	_state.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1) # TEST-ONLY: a task running
+	var left: int = _state.quest.remaining_ms
+	var run := PlayerTrainingRun.learn(_session, _school, &"sword")
+	while run.step():
+		pass
+	var lines: Array[String] = ColoredLine.texts(run.finish())
+	_check(not _session.resting() and lines.size() == 3 and lines[2] == TrainingLines.RUN_TASK_TIME, "no rest by itself, and why: %s" % [lines])
+	_check(lines.size() == 3 and lines[1] == "停下：精不够了。请教一次耗精 %d，精须多于此数（你还有 3）。" % cost and _state.quest.remaining_ms == left, "the task's time untouched")
+	_state.quest.clear_task()
 
 
 ## A wound too deep for one rest: at its longest, with 精 come back, the run goes on.

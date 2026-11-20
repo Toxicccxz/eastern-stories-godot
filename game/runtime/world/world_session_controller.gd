@@ -479,10 +479,10 @@ func rest_refusal() -> String:
 
 ## The player sits down to rest (the 请教 and 武学 pages' 歇到回满): "" when they do, else why not.
 ## `for_training`: a continuous run rests by itself (自动歇, pacing training_auto_rest; DECISIONS
-## 「连续修炼」): the page it runs on stays open, and what holds world time now (that window) does
-## not hold it while the rest lasts; nothing is said here, the run tells it. A hold that comes
-## meanwhile (a card, another window, a presentation beat) holds it as ever.
-func begin_rest(for_training: bool = false) -> String:
+## 「连续修炼」): the page it runs on stays open, and that window's holds (`lifted`: the menu's,
+## the popup's) do not hold world time while the rest lasts; nothing is said here, the run tells
+## it. Any other hold (a card, a presentation beat, one that comes meanwhile) holds it as ever.
+func begin_rest(for_training: bool = false, lifted: Array[StringName] = []) -> String:
 	if _rest.active():
 		return ""
 	var refused: String = rest_refusal()
@@ -495,7 +495,7 @@ func begin_rest(for_training: bool = false) -> String:
 	_rest_quiet = for_training
 	_rest_lifts = []
 	if for_training:
-		_rest_lifts.assign(_world_time_holds.keys())
+		_rest_lifts.assign(lifted)
 	_sync_walk_pause()
 	if not _rest_quiet:
 		_rest_line(TranslationServer.translate(RestLines.BEGIN))
@@ -512,10 +512,12 @@ func rest_world_seconds() -> float:
 	return _rest.world_seconds()
 
 
-## The player gets up (the rest's 起身).
+## The player gets up (the rest's 起身, a run's 停止, its page going away). Something that came at
+## them this frame (a fight closing the page first, another map) is told as that, not as 起身.
 func stop_rest() -> void:
 	if _rest.active():
-		_end_rest(RestRules.Outcome.CANCELLED)
+		var interruption: RestRules.Outcome = _rest_interruption()
+		_end_rest(RestRules.Outcome.CANCELLED if interruption == RestRules.Outcome.NONE else interruption)
 
 
 ## What came at the resting player this frame, or NONE: a fall, a fight or a gang's alert, a

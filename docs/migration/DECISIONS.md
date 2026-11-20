@@ -63,7 +63,7 @@
 - 搜刮尸体要站在尸体 96 px 内。「Corpse loot requires a near-corpse spatial range」
 - 给予一次可勾选多件；给出已装备的东西或一两黄金以上的钱先问（收赌注、布施的不问）。「说话和交互」「积压问题的处理」
 - 问候等玩家第一次走近（136 px）才开始；远处的闲聊不给玩家看；闲聊、问候、喝令显示在头顶气泡，打听、剧情演出和讲述在底部对话框里逐句读（世界停住，E／A 继续），都记入消息。「对话框」「说话和交互」「手感」
-- 请教、练习、打坐、冥思、修行可以「连续」：规则和抽数不变，遇到拒绝或白费的一步之前停下并说明；缺精、气、神（请教缺精，打坐、冥思、修行缺本钱或另两样不到七成，练习缺气、神）时自己歇（同一个「歇到回满」，那一页不关、世界在后面照走、不另说话），回满接着练同一轮，到潜能用完、升一级、上限涨到（或练到定的数）、瓶颈、师父或经验的上限、被打断或按「停止」才停，总结里写歇了几回、多久；每步 60 ms（`training_auto_rest` 关时 150 ms，缺精缺气就停）。「连续修炼」精、气、神不满时请教页和武学页有「歇到回满」（为缺精停下时焦点落在它上面）。「歇到回满」
+- 请教、练习、打坐、冥思、修行可以「连续」：规则和抽数不变，遇到拒绝或白费的一步之前停下并说明；缺精、气、神（请教缺精，打坐、冥思、修行缺本钱或另两样不到七成，练习缺气、神）时自己歇（同一个「歇到回满」，那一页不关、世界在后面照走、不另说话），回满接着练同一轮，到潜能用完、升一级、上限涨到（或练到定的数）、瓶颈、师父或经验的上限、被打断或按「停止」才停，总结里写歇了几回、多久，消耗只算练的那几步；身上有朱鸿雪的限时差事时不自己歇、说明一句；每步 60 ms（`training_auto_rest` 关时 150 ms，缺精缺气就停）。「连续修炼」精、气、神不满时请教页和武学页有「歇到回满」（为缺精停下时焦点落在它上面）。「歇到回满」
 - act 的每一步可以带 `when`（和分支同一个 `when`）：走到这一步时才判，不成就跳过、接着下一步；判的是那一刻的印记（前面一步刚记下的也算），heard／chat 不能用。一段演出里人来没来、各说一句，就用它。「步骤条件」
 - act 步骤 `questions`：NPC 当面一句句问，每句几个答案可选，答案的真假按玩家存档里的印记定（`mark`／`not_mark`／`marks`／`any`；不写条件的答案总是真话）；全真走 `true` 步、有假走 `false` 步，走开（取消）什么都不发生；它是分支的最后一步。答案面板是同一个确认组件（`ConfirmPrompt.ask_choices`），对话框开着时在框里问，否则在共享框里问；玩家的回答记入消息。「火前问话」
 - 区块机关 `hazards[]` 可以是原生的（`native`）：只在节奏的 `native_hazards` 开着时跑，穿着 `unless_wearing` 里的护具或带 `unless_marks` 里的印记的人那一回什么都不发生；它的 act 可以分支（`acts`，按玩家挑第一条合的：`at_least` 的内力、穿着），步骤 `drain_force` 扣玩家内力。玉螺湖底的寒气：进洞 3 秒后每 6 秒一回，内力够 12 就扣 12 内力顶住，不够扣 24 气；穿着寒於宝衣的免；封坛里不冷。「寒气」
@@ -860,7 +860,8 @@
   - 最多歇 `rest_limit_seconds`（600 世界秒，一天 24 真实分钟时是五个时辰，真实 15 秒）——「起身活动活动。精、气、神还没全回满：伤要慢慢养……」。
   - 时长按半个时辰说（不到半个时辰是「一盏茶的工夫」），和车马行同一种说法。
   - 精神饱满时按钮不出现；打架时、剧情里、没水时不给歇，按钮灰掉、悬停写原因。不打架的地方都能歇，代价是世界照走。歇息不存档：读档的人站着。
-  - **连续修炼自己歇**（「连续修炼」的自动歇，`training_auto_rest`）：同一个歇息、同样的结局，只是那一页不关——开始歇时按住时间的那个窗口（请教页所在的交互窗口、武学页所在的菜单）在歇着时不算数，之后来的窗口、卡片、演出照样按住；没有底部那一条，连续修炼的进度那一行写「歇息中……已歇X」，「停止」同时让人起身；开始和回满都不说话，由连续修炼的总结写歇了几回、多久；被惊起（来袭、掉血、断水、剧情、换图）的那句接在总结后面。
+  - **连续修炼自己歇**（「连续修炼」的自动歇，`training_auto_rest`）：同一个歇息、同样的结局，只是那一页不关——那一页自己的窗口（请教页所在的交互窗口、武学页所在的菜单）在歇着时不按住时间，别的卡片、窗口、演出照样按住；没有底部那一条，连续修炼的进度那一行写「歇息中……已歇X」，「停止」同时让人起身；开始和回满都不说话，由连续修炼的总结写歇了几回、多久；被惊起（来袭、掉血、断水、剧情、换图）的那句接在总结后面。身上有朱鸿雪的限时差事时不自己歇（歇着时限照走），说一句让玩家自己决定按不按「歇到回满」。
+  - 「起身」（或连续修炼的「停止」、那一页被关掉）那一刻要是正好有人来袭、换了图，照实说是来袭、换图，不说「站了起来」。
 - **提示：** 连续请教停在缺精时一句改成说清楚怎么回（窗口开着时间不走；「歇到回满」；有内力的在武学页运功恢复精）；百科「受伤与歇息」同。
 - **为什么：** 今天的 RPG 都有「休息到回满」，绝大部分修炼时间不该是关窗干站。窗口按住时间那条照旧，这里只是给一个让时间走起来的出口。40 倍和连续修炼自己歇（成长曲线计划 §3 旋钮 7）：只走主线、跟上进度的人到终章要歇约 2,900 回，20 倍时歇的时间合计 166 分钟，40 倍 83 分钟；加上不用每回按两下，跟上进度的修炼从 5.5 小时降到约 2 小时（「连续修炼」）。
 - **测试：** `player_rest_test`（连续请教缺精停下时按钮出现并拿到焦点，按下窗口关、歇完回到请教页；按回复规则回满、时钟走了对应的时间、心跳上吃喝照减；京师城门的守兵发现玩家把人惊起、照常开战；歇完存档读回分毫不差；开着菜单时停住；没水、打架、已满不让歇；上限）；`training_run_test`、`training_continuous_test` 的停下句；`training_auto_rest_test`（连续修炼自己歇：那一页开着、世界在后面走、不说话，回满接着练）。
@@ -2935,23 +2936,29 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
   and says so):** a step 精, 气 or 神 is short for — learn with gin not above its cost; exercise,
   meditate and respirate refused for their cost or the 70 % of the other two; practice_skill()
   refused for kee or sen (not force, mana, a weapon or water) — does not end the run: the player
-  rests (「歇到回满」, the same rest and endings, `rest_world_scale` 40) with the page left open, the
-  window's hold on world time lifted while the rest lasts, and the same run goes on once 精, 气 and
-  神 are full (or the rest reached its longest with something come back: a deep wound heals over
-  several). Any other end of the rest (attacked, hurt, thirsty, a scene, moved, a fall) ends the
-  run with the rest's own line; a rest that cannot begin (no water, a scene) ends it with why;
-  full already and still short (气 asked above its maximum) it stops as without 自动歇; 停止 stops
-  the rest with the run. Nothing is said while it rests; the summary adds 其间歇了 N 回，共X and
-  leaves out the 精 / 气 / 神 change (they came back). MAX_STEPS (999) counts the steps since the
-  last rest. The single buttons, 自学 and 研读 are unchanged (no continuous run).
+  rests (「歇到回满」, the same rest and endings, `rest_world_scale` 40) with the page left open, that
+  window's own hold on world time (the popup's, the menu's) lifted while the rest lasts — any
+  other hold (a card, a presentation beat) holds it as ever — and the same run goes on once 精, 气
+  and 神 are full (or the rest reached its longest with something come back: a deep wound heals
+  over several). Any other end of the rest (attacked, hurt, thirsty, a scene, moved, a fall) ends
+  the run with the rest's own line (a fight that closes the page first is still told as one; the
+  teacher leaving reach is 被打断, not 你停了下来); a rest that cannot begin (no water, a scene) ends
+  it with why; full already and still short (气 asked above its maximum) it stops as without 自动歇;
+  停止 stops the rest with the run. With 朱鸿雪's task running against its time it does not rest by
+  itself (the rest would spend the task's time unasked) and says so: the player may press 歇到回满.
+  Nothing is said while it rests; the summary adds 其间歇了 N 回，共X and tells what the steps
+  changed (精 spent, potential …), not what came back while resting (精, 气, 神, and 内力 / 法力 /
+  灵力 by heal_up()). MAX_STEPS (999) counts the steps since the last rest. The single buttons,
+  自学 and 研读 are unchanged (no continuous run).
   - **Why:** the plan measured a main-story player who keeps up: 17,710 lessons and 4,914 sittings
     by the finale, today 3,268 stops each needing two presses (about 109 minutes of pressing) and
     rests at 20 times. Each lesson's rule, cost and gain stay as they are (owner 2026-11-12: rest,
     not faster training); only the resting and the pressing get faster. Measured with
     `run_growth_curve_sim.gd -- start=main auto` (the same lessons, sittings and 2,882 rests): to
-    the finale 1.98 hours (steps 23 min, 397 presses at levels 13 min, rests 83 min) against 5.52
-    hours today (`rest=20`, without auto); late in the game about 11,100 lessons an hour against
-    4,060 (the plan's targets: about 2 hours, about 11,000).
+    the finale 2.03 hours (steps 23 min; 476 presses, a run's start for each skill a chapter and
+    each level, 16 min; rests 83 min), 2.08 to the end, against 5.52 hours today (`rest=20`,
+    without auto); late in the game about 11,000 lessons an hour against 4,060 (the plan's
+    targets: about 2 hours, about 11,000).
 - **Deviation — the log:** a run is told in one summary (你向柳淳风请教「基本剑法」3 次：基本剑法进度
   +31，精 -66，潜能 -3。), the lines a level, a skill_improved() or a maximum gives, then why it
   stopped; each step's own lines are not printed. The single buttons keep ES2's lines.

@@ -27,9 +27,10 @@ extends ExpPacingSim
 ##   report turns them into real time with the rest (pacing rest_world_scale times faster) and
 ##   without it (standing, as before 歇到回满). Seeded; nothing here is read by the game.
 ## - `auto` (成长曲线 B, pacing training_auto_rest): the runs rest by themselves. The same lessons,
-##   sittings and rests; a 请教 run stops only at a level gained and an 打坐 run (to the target) is
-##   one press a chapter, each step feel's training_auto_step_ms apart, every rest at pacing's
-##   rest_world_scale with no press (a rest at its longest goes on by itself).
+##   sittings and rests; a 请教 run is one press a skill a chapter and stops only at a level
+##   gained, an 打坐 run (to the target) is one press a chapter, each step feel's
+##   training_auto_step_ms apart, every rest at pacing's rest_world_scale with no press (a rest at
+##   its longest goes on by itself).
 
 const Arrival := preload("res://tests/support/story_arrival.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -80,6 +81,9 @@ var learn_stops: int = 0
 var level_stops: int = 0
 ## 打坐 runs pressed (one a chapter that takes a step: the 武学 page's 练到 N).
 var exercise_runs: int = 0
+## 请教 runs pressed: one a skill that takes a lesson in a chapter's training (the game runs one skill
+## at a time; this sim takes them in turn).
+var learn_runs: int = 0
 ## Rests taken (each a stop without 自动歇).
 var rests: int = 0
 var learn_rest: float = 0.0
@@ -116,6 +120,7 @@ class Row:
 	var learn_stops: int = 0
 	var level_stops: int = 0
 	var exercise_runs: int = 0
+	var learn_runs: int = 0
 	var rests: int = 0
 	var learn_rest: float = 0.0
 	var exercises: int = 0
@@ -187,6 +192,7 @@ func train() -> void:
 ## One lesson to each skill in turn until the potential is spent or no skill can go further.
 func _learn_all(teacher: TeacherService) -> void:
 	var open: Array[StringName] = SKILLS.duplicate()
+	var taught: Dictionary[StringName, bool] = {}
 	var guard: int = 0
 	while not open.is_empty() and unspent() > 0 and guard < 400000:
 		guard += 1
@@ -209,6 +215,9 @@ func _learn_all(teacher: TeacherService) -> void:
 			continue
 		var result: LearnResult = teacher.request_learn(skill_id, true)
 		lessons += 1
+		if not taught.has(skill_id):
+			taught[skill_id] = true
+			learn_runs += 1
 		if result != null and result.completion == LearnResult.Completion.LEVEL_INCREASED:
 			learn_stops += 1
 			level_stops += 1
@@ -364,6 +373,7 @@ func _row(label: String) -> Row:
 	row.learn_stops = learn_stops
 	row.level_stops = level_stops
 	row.exercise_runs = exercise_runs
+	row.learn_runs = learn_runs
 	row.rests = rests
 	row.learn_rest = learn_rest
 	row.exercises = exercises
@@ -384,10 +394,11 @@ func real_seconds(row: Row, resting: bool) -> float:
 
 
 ## The presses up to `row` (the report's 停下): each stop without 自动歇; with it (`auto`) a 请教
-## run's at each level, an 打坐 run's once a chapter and 自学's own (it has no run), the rests none.
+## run's start for each skill a chapter teaches and at each level, an 打坐 run's once a chapter and
+## 自学's own (it has no run), the rests none.
 func presses(row: Row) -> int:
 	if auto:
-		return row.level_stops + row.exercise_runs + row.self_stops
+		return row.level_stops + row.learn_runs + row.exercise_runs + row.self_stops
 	return row.learn_stops + row.exercise_stops + row.self_stops
 
 
