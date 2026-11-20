@@ -705,7 +705,7 @@ func held_victims() -> Array[StringName]:
 
 
 ## 了结: the held blow falls (ES2): the player (who was killing it) turns on it again,
-## and so do those they called. False when it is not held (any more).
+## and so do those who fight for them (called, following, standing beside them). False when it is not held (any more).
 func finish_downed(victim_id: StringName) -> bool:
 	if not _fight_input_allowed() or _resolution == null:
 		return false
@@ -720,7 +720,7 @@ func finish_downed(victim_id: StringName) -> bool:
 
 ## 放过: the player's side lets it be. False when it is not held (any more).
 func spare_downed(victim_id: StringName) -> bool:
-	return _fight_input_allowed() and _resolution != null and _resolution.spare(victim_id)
+	return _fight_input_allowed() and _resolution != null and _resolution.spare(_session.encounter_combat_bindings(_active_encounter), victim_id)
 
 
 func _fight_input_allowed() -> bool:

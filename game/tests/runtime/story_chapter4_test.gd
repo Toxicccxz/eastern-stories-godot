@@ -61,7 +61,7 @@ func _test_data() -> void:
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter4")
 	_check(quest != null and quest.requires == [&"main.chapter3"] and quest.steps.size() == 8 and quest.steps[7].options.size() == 3, "the chapter: eight steps after the third, a three-way end")
 	var robe: ItemContentDefinition = catalog.item(ROBE)
-	_check(robe != null and robe.no_drop and robe.give_to == [&"latemoon.npc.room.elon", &"latemoon.npc.room.annihi"] and robe.category == ItemContentDefinition.CATEGORY_ARMOR, "the 宝衣: worn, no_drop, given only to 瑷伦 or 安妮儿")
+	_check(robe != null and robe.no_drop and robe.give_to == [&"latemoon.npc.room.elon", &"latemoon.npc.room.annihi", &"native.npc.annie_yard"] and robe.category == ItemContentDefinition.CATEGORY_ARMOR, "the 宝衣: worn, no_drop, given only to 瑷伦 or 安妮儿 (西厢的或场院的，DECISIONS「东方神教 B」)")
 	var elon: NpcDefinition = catalog.npc(&"latemoon.npc.room.elon")
 	_check(elon != null and elon.hooks() != null and elon.hooks().trials.size() == 1 and elon.hooks().trials[0].blows.size() == 3 and elon.hooks().trials[0].mark == "接下了瑷伦三鞭" and elon.teaching().apprentice.kind == NpcTeaching.Kind.TRIAL, "瑷伦: her story trial of three lashes beside her 拜师 trial")
 	var floor_mi: ServiceDefinition = catalog.service(&"latemoon.miroom.dance")
@@ -302,7 +302,8 @@ func _test_taken(tree: SceneTree, session: WorldSessionController) -> void:
 	var snapshot: GameSaveSnapshot = _capture(session)
 	_check(snapshot != null, "Save")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter4_taken)
+	# 神教杀手倒了: the spared killer is gone for good; WorldSpawnClearings writes it on the journal's next beat.
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter4_taken, ["神教杀手倒了"])
 	_check(handoff.is_empty(), "宝衣 played (taken) leaves what chapter4_taken writes: %s" % [handoff])
 
 

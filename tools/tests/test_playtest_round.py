@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import datetime
 import io
+import json
+import subprocess
 import sys
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
@@ -58,13 +60,101 @@ class PlaytestRoundTest(unittest.TestCase):
         self.assertEqual(pushed, [True, True], "the push and the dispatch are what a dry run leaves out")
         self.assertIn("gh workflow run ci.yml --ref playtest-2026-11-13", commands)
 
-    def test_cut_refuses_a_tag_already_on_origin(self) -> None:
-        def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
-            return "abc refs/tags/playtest-2026-11-13\n" if "ls-remote" in command else ""
+    @staticmethod
+    def _origin_has_the_tag(runs: list[dict], local: str = "0123456789abcdef"):
+        """A fake `run`: the tag pushed (annotated, peeled to 0123456789abcdef), the local tag on
+        `local` ("" for none), `runs` the CI runs on it; every call recorded in `calls`."""
+        calls: list[tuple[list[str], bool]] = []
 
-        with mock.patch.object(playtest_round, "run", side_effect=fake) as run, redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+        def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
+            calls.append((command, dry_run))
+            if "ls-remote" in command:
+                return "aaaa\trefs/tags/playtest-2026-11-13\n0123456789abcdef\trefs/tags/playtest-2026-11-13^{}\n"
+            if command[:2] == ["git", "tag"] and "--list" in command:
+                return "playtest-2026-11-13\n" if local else ""
+            if command[:2] == ["git", "rev-parse"]:
+                return local + "\n" if command[-1].endswith("^{commit}") else "fedcba9876543210\n"
+            if command[:3] == ["gh", "run", "list"]:
+                return json.dumps(runs)
+            return ""
+
+        return fake, calls
+
+    def test_cut_resumes_a_pushed_tag_whose_dispatch_failed(self) -> None:
+        fake, calls = self._origin_has_the_tag([])
+        out = io.StringIO()
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(out):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=True), 0)
+        commands = [command for command, _dry in calls]
+        self.assertFalse(any(command[:2] in (["git", "push"], ["git", "tag"]) and "--list" not in command for command in commands), "the tag is neither made nor pushed again")
+        self.assertIn((["gh", "workflow", "run", "ci.yml", "--ref", "playtest-2026-11-13"], True), calls, "CI started on the tag (a dry run only prints it)")
+        self.assertIn("no run on it yet", out.getvalue())
+
+    def test_cut_resumes_after_a_failed_run(self) -> None:
+        fake, calls = self._origin_has_the_tag([{"status": "completed", "conclusion": "failure", "url": "u"}])
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=True), 0)
+        self.assertTrue(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls))
+
+    def test_cut_does_not_dispatch_again_while_a_run_goes_or_after_one_succeeded(self) -> None:
+        for runs in ([{"status": "in_progress", "conclusion": "", "url": "u"}], [{"status": "completed", "conclusion": "success", "url": "u"}]):
+            fake, calls = self._origin_has_the_tag(runs)
+            out = io.StringIO()
+            with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(out):
+                self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=False), 0)
+            self.assertFalse(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls), runs)
+            self.assertIn("fetch playtest-2026-11-13", out.getvalue())
+
+    def test_cut_reads_the_newest_run_as_fetch_does(self) -> None:
+        # A newer run failed after an older one succeeded: fetch would refuse, so cut starts one again.
+        fake, calls = self._origin_has_the_tag([{"status": "completed", "conclusion": "failure", "url": "v"}, {"status": "completed", "conclusion": "success", "url": "u"}])
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=True), 0)
+        self.assertTrue(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls))
+        self.assertIn(["git", "fetch", "origin", "main"], [command for command, _dry in calls], "no --tags: a clashing local tag must reach the advice")
+
+    def test_cut_resumes_a_tag_pushed_from_elsewhere(self) -> None:
+        fake, calls = self._origin_has_the_tag([], local="")
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=True), 0)
+        self.assertTrue(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls))
+
+    def test_cut_refuses_a_pushed_tag_on_another_commit_than_the_local_one(self) -> None:
+        fake, calls = self._origin_has_the_tag([], local="fedcba9876543210")
+        err = io.StringIO()
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()), redirect_stderr(err):
             self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=False), 2)
-        self.assertFalse(any(call.args[0][:2] in (["git", "push"], ["git", "tag"]) for call in run.call_args_list))
+        self.assertFalse(any(command[:2] in (["git", "push"], ["gh", "workflow"]) for command, _dry in calls))
+        self.assertIn("git tag -d playtest-2026-11-13", err.getvalue())
+
+    def test_a_failed_command_prints_what_it_said(self) -> None:
+        failure = subprocess.CalledProcessError(1, ["gh", "workflow", "run"], output="", stderr="HTTP 422: Workflow does not have 'workflow_dispatch' trigger")
+        err = io.StringIO()
+        with mock.patch.object(playtest_round.subprocess, "run", side_effect=failure), redirect_stdout(io.StringIO()), redirect_stderr(err):
+            with self.assertRaises(playtest_round.CommandFailed):
+                playtest_round.run(["gh", "workflow", "run", "ci.yml"])
+        self.assertIn("HTTP 422", err.getvalue())
+        with mock.patch.object(playtest_round.subprocess, "run", side_effect=failure), redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+            self.assertEqual(playtest_round.main(["status", "playtest-2026-11-13"]), 1, "main() turns it into exit 1, no stack trace")
+
+    def test_fetch_without_a_run_says_what_to_run(self) -> None:
+        def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
+            return "[]" if command[:3] == ["gh", "run", "list"] else ""
+
+        err = io.StringIO()
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()), redirect_stderr(err):
+            self.assertEqual(playtest_round.fetch("playtest-2026-11-13", source=False), 1)
+        self.assertIn("python tools/build/playtest_round.py cut --name playtest-2026-11-13", err.getvalue())
+
+    def test_fetch_of_a_failed_run_says_how_to_run_it_again(self) -> None:
+        def fake(command: list[str], dry_run: bool = False, capture: bool = True) -> str:
+            return json.dumps([{"databaseId": 1, "status": "completed", "conclusion": "failure", "headSha": "x", "url": "https://run"}])
+
+        err = io.StringIO()
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()), redirect_stderr(err):
+            self.assertEqual(playtest_round.fetch("playtest-2026-11-13", source=False), 1)
+        self.assertIn("https://run", err.getvalue())
+        self.assertIn("cut --name playtest-2026-11-13", err.getvalue())
 
     def test_cut_pushes_a_local_tag_a_failed_cut_left(self) -> None:
         calls: list[list[str]] = []

@@ -525,6 +525,8 @@ func _run_learn(skill_id: StringName) -> void:
 	feedback.text = ""
 	var skill: String = tr(GameContent.catalog().skill(skill_id).display_name)
 	var run: PlayerTrainingRun = PlayerTrainingRun.learn(_contact.map.session, _contact, skill_id)
+	# 自动歇: the popup this page is in holds world time; a rest of the run's own lifts that hold.
+	run.window_holds.assign([SharedGameplayUI.INTERACTION_TIME_HOLD])
 	_run_skill = skill_id
 	# TRANSLATORS: a continuous 请教 under way: %s the skill.
 	progress.start(run, tr("连续请教「%s」") % skill, learn_buttons[skill_id].get_parent() as Control)

@@ -72,6 +72,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_raid(tree, raid)
 	raid.free()
 	await tree.process_frame
+	var spared: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
+	await _test_spare_beside_guo(tree, spared)
+	spared.free()
+	await tree.process_frame
 	var sneak: WorldSessionController = await _session(tree, CharacterState.GENDER_MALE)
 	await _test_sneak(tree, sneak)
 	sneak.free()
@@ -262,7 +266,8 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(guo != null and state.marks.get("郭承跟上了", 0) == 1 and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and ui.log_lines().any(func(line: String) -> bool: return line.contains("六骑听你的")), "郭承: 王爷的话到了 — he follows: %s" % [ui.log_lines().slice(-3)])
 	_check(_ask(court, guo, "潜入").any(func(line: String) -> bool: return line.contains("白天踏过去")), "潜入 of 郭承 after 借兵: 不用潜")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true))
+	# played on past the fixture's step (卢卡, 郭承: the later fixtures'); a bought sword and the 酒肆's 老秦 are the suite's errands
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_planned.bind(true), ["卢卡说了鬼", "卢卡说了番坊", "郭承跟上了", "郭承提过霍铮", "买了卢卡的剑", "老秦认出你"], [])
 	_check(handoff.is_empty(), "关北 A–B played (借兵) leaves what chapter6_planned(raid) writes: %s" % [handoff])
 
 
@@ -456,8 +461,61 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	var lao_qin: NpcRuntimeState = await _beside(tree, session, inn, &"guanbei.inn_hall.lao_qin.1")
 	_check(_ask(inn, lao_qin, "工地").any(func(line: String) -> bool: return line.contains("该踏平")), "老秦: 那地方该踏平")
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true))
+	# played on into 关北 D (chapter6_done writes those); 老秦 is the suite's errand
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(true), ["卢卡说了鬼", "卢卡说了番坊", "关北一章", "程朔知道了", "得了刀谱", "老秦认出你"], [])
 	_check(handoff.is_empty(), "关北 C played (the raid) leaves what chapter6_site_done(raid) writes: %s" % [handoff])
+
+
+## Owner 2026-11-19 (DECISIONS「了结 / 放过」Q2): 郭承, following the player (not their summons),
+## holds for 了结 / 放过 as the riders do — 吕隼 knocked down and spared at the 工地 lives (ES2 had
+## 郭承 kill him a second later), and his word 吕隼招了 is reached.
+func _test_spare_beside_guo(tree: SceneTree, session: WorldSessionController) -> void:
+	var state: CharacterState = session.player_runtime().state
+	StoryFixtures.chapter6_planned(session, true)
+	var court: WorldMapController = MapPlaces.enter(session, &"guanbei.palace_yard", &"guanbei.palace_yard.hall_return")
+	_check(court != null and await MapPlaces.drive_to_zone(tree, court, &"guanbei.drill"), "spare: out to the drill yard")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var guo: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.drill.guo_cheng.1")
+	_check(guo != null and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "spare: 郭承 follows")
+	var site: WorldMapController = null
+	for zone_id: StringName in [&"guanbei.market", &"guanbei.camp", &"guanbei.steppe_road", &"guanbei.fence_gate"]:
+		site = await _go_with(tree, session, zone_id)
+		if site == null:
+			break
+	_check(site != null and site.map_id() == &"guanbei.worksite" and _count_in(session, &"guanbei.fence_gate", GUO) == 1, "spare: at the 工地's gate with 郭承")
+	if site == null or guo == null:
+		return
+	var after_knockout: int = BattlePace.after_knockout
+	BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for second: int in 14:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		if coordinator.has_active_encounter():
+			break
+	var lu_sun: NpcRuntimeState = null
+	for npc: NpcRuntimeState in site.npc_runtimes():
+		if npc.definition().definition_id == LU_SUN and coordinator.has_active_encounter() and coordinator.active_encounter().participant_for(npc.character_id) != null:
+			lu_sun = npc
+	_check(lu_sun != null and coordinator.active_encounter().participant_for(guo.character_id) != null and site.summoner_of(guo.character_id).is_empty() and guo.relationship.has_lethal_target(lu_sun.character_id), "spare: the fight on, 郭承 in it beside the player (no summons of theirs) and out to kill 吕隼")
+	if lu_sun == null:
+		BattlePace.after_knockout = after_knockout
+		_fight_out(session)
+		return
+	_full(session.player_runtime())
+	lu_sun.character_state.vitality.current = -1 # TEST-ONLY: knocked down
+	coordinator.advance_scheduler(0.0)
+	_check(lu_sun.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and coordinator.held_victims().has(lu_sun.character_id) and not guo.relationship.has_lethal_target(lu_sun.character_id), "spare: 吕隼 falls; 郭承 holds his blow with the rest")
+	_check(coordinator.spare_downed(lu_sun.character_id), "spare: 放过 吕隼")
+	for second: int in 5:
+		coordinator.advance_scheduler(1.0)
+	_check(lu_sun.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not guo.relationship.has_lethal_target(lu_sun.character_id), "spare: the fight goes on and nobody kills him, 郭承 neither")
+	var rounds: int = _fight_out(session)
+	BattlePace.after_knockout = after_knockout
+	_check(not coordinator.has_active_encounter() and lu_sun.life_status != CharacterRuntimeLifeStatus.Value.DEAD and state.marks.get("吕隼招了", 0) == 1, "spare: the fight over in %d rounds, 吕隼 lives and 吕隼招了 is written" % rounds)
+	_check(guo.life_status != CharacterRuntimeLifeStatus.Value.DEAD and (guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or state.marks.get("郭承回了校场", 0) == 1), "spare: 郭承 lives, following still unless the 工地 done sent him home (郭承回了校场)")
 
 
 ## 潜入 (关北 C): the 工地 by day turns the player away; 等到天黑 at the fire; the night's four 枷, the watch,
@@ -595,7 +653,8 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 	var cheng2: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.palace_hall.cheng_shuo.1")
 	_check(hall2 != null and state.marks.get("程朔知道了", 0) == 1 and state.marks.get("王府干净", 0) == 1 and cheng2 != null and cheng2.has_flag(StringName(NpcMood.FLAG_PREFIX + "clean")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("王府不知道")), "程朔 in his 干净 mood: 夜里的事，王府不知道: %s" % [ui.log_lines().slice(-3)])
 	# 章与章之间的衔接: what this chapter played out holds what the next suite's fixture writes.
-	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false))
+	# played on into 关北 D (chapter6_done writes those)
+	var handoff: Array[String] = StoryFixtures.missing_after_play(session, StoryFixtures.chapter6_site_done.bind(false), ["吕隼说了少了四个", "见过车路过", "得了刀谱", "程朔知道了"], [])
 	_check(handoff.is_empty(), "关北 C played (the sneak) leaves what chapter6_site_done(sneak) writes: %s" % [handoff])
 
 
