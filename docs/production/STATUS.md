@@ -396,6 +396,10 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
   still has to be fixed in the content or rule that tripped it.
 * 战前预判读低了拿兵器的 NPC：第七章四个浪人（倭刀）对打时每下 47–80 点、约四分之一打中，预判按每下约 25 点、一成打中算（4 万经验、七门 66 级的角色：预判 42 回合赢、17 回合输，用游戏的结算对打 40 场全输；PR「主线强度」的探针）。
 * 开着分帧（pacing.json 的出厂设置）时，系统里手动存档的写盘在工作线程上：无头测试里一次要 7–10 秒（世界停着时主线程空转得太快，会把它饿到 30 秒以上，测试里每帧让出 16 ms）。窗口里实际要多久没量过。
+* Godot 4.7.2 本身：编辑器无头冷导入在退出时偶尔段错误（约二十次一次，导入已经做完、工作线程都已结束，
+  主线程清一张全局 StringName 表时）；verify.py 的两步导入崩了就再跑一次。一局里反复读档、死后回到自动存档、
+  回主菜单再继续，旧世界都释放了（`tests/dev/perf/probe_memory.gd` 量，`load_cycles_test` 守）；进程常驻内存
+  头几次上涨后走平，窗口里每轮仍多十几 MB（Godot 自己的计数不涨，在驱动或堆里）。一场仗每回合约 0.24 MB，仗打完放掉。
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`). Nothing can be put into a corpse.
 * On the player's own map a wanderer moves only where the player is (ES2's heart beat); other maps are
