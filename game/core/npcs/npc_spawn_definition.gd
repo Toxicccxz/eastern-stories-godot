@@ -67,11 +67,10 @@ var draw_group: StringName:
 var drawn: bool:
 	get:
 		return _initial_spawn_policy == InitialSpawnPolicy.DRAWN
-## Absent when the world is made (SUMMONED or DRAWN), or on the story's stage (`present`); an ES2
-## room's own people (resident) are there from the world's start, as in ES2.
+## Absent when the world is made (SUMMONED or DRAWN), or on the story's stage (`present`).
 var starts_absent: bool:
 	get:
-		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY or (staged and not resident)
+		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY or staged
 
 
 ## Native (主线 A; DECISIONS「剧情演出」): a spawn on the story's stage is there only while

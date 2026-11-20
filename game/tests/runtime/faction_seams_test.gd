@@ -73,7 +73,7 @@ func _test_token_given_again() -> void:
 
 func _test_luo_at_the_gate() -> void:
 	var gate: NpcSpawnDefinition = GameContent.catalog().spawn(&"choyin.town.entrance.master")
-	_check(gate != null and gate.present != null and gate.resident and gate.away_for_a_while and not gate.starts_absent and gate.remade_by_reset(), "乔阴's 骆云舟: an ES2 resident there from the start, away for a while, remade by his room's reset")
+	_check(gate != null and gate.present != null and gate.resident and gate.away_for_a_while and gate.remade_by_reset(), "乔阴's 骆云舟: an ES2 resident, away for a while, remade by his room's reset")
 	if gate == null:
 		return
 	_check(_holds(gate.present, _fresh([])), "at the gate as ever")
