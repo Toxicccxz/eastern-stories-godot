@@ -59,6 +59,8 @@ TEXT_KEYS = frozenset({
     "style_word", "style_line", "summary", "intro", "seat",
     # 攻击 on one the story will not let the player fight (DECISIONS「不能动手的人」).
     "fight_deferred",
+    # What an NPC shouts as it notices the player and turns on them (DECISIONS「势力线的仗」).
+    "alert_say",
     # A trial's question before it, the deed it writes, its master's words when relenting or
     # when the player is out of breath (NpcTrial); a helper's line on leaving (fights_beside).
     "confirm", "deed", "relent_say", "rest_say", "fights_beside_leaves",

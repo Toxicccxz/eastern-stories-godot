@@ -24805,7 +24805,7 @@ msgstr ""
 
 #. main.chapter4/choice objective
 #: data/story/chapter4.json
-msgid "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事。"
+msgid "宝衣到手。交回瑷伦守到决战；交给安妮儿，或者带着它走出晚月庄的大门——宝衣一离开瑷伦，庄就没了护佑，当夜会出事：东方神教派来的杀手会摸进前厅，见人就动手——要打一场；打不过，退出前厅，她不追。"
 msgstr ""
 
 #. main.chapter4/choice/to_annie text
@@ -27666,7 +27666,7 @@ msgstr ""
 
 #. faction.niling lapses.text
 #: data/story/faction_niling.json
-msgid "疑点满了三条。宫里认出你，只是早晚的事——下回进前院，就是那一天。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
+msgid "疑点满了三条。宫里认出你，只是早晚的事——下回戴着冠进前院，就是那一天：那一仗你打不过，不必打，出了前院的门就算逃过了。黑冠不会再替你遮掩；递出去的名单、带走的名册，茅山照样用得上，剑谱也还在你手里。"
 msgstr ""
 
 #. faction.niling checklist.label
@@ -28582,7 +28582,7 @@ msgstr ""
 
 #. faction.huazi/letter objective
 #: data/story/faction_huazi.json
-msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的人才坐进小屋，见人就动手——信在他身上。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
+msgid "真龙头要尚书府后院小屋里那封庾子建亲笔的密信（问他「密信」）；乔阴的程不平也要它，拿去当物证。玉螺湖底那件事之后，逆灵宫的信使才坐进小屋，信在他身上：进了小屋就是一场仗，他见人就动手，打不过就退出屋外。交给花紫会（问真龙头「密信」）：真龙头拿它压着庾家，官府那条线就断了；京师的事还没定的，这封信也不能拿去朝上揭发了。交给官府（问乔阴县衙的程不平「密信」）：揭发时照样算一样，花紫会这条线就断了。"
 msgstr ""
 
 #. faction.huazi/letter/huazi text
@@ -57489,6 +57489,12 @@ msgid ""
 "前院里的道士都转过身来。你头上那顶冠，不灵了。\n"
 msgstr ""
 
+#. native.npc.xuan_mingzi_unmasking calls.steps.line
+#: data/niling/npcs.json
+msgid ""
+"他的剑还垂着，没有动。这一仗你打不过——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
+msgstr ""
+
 #. native.npc.xuan_mingzi_unmasking spared.line
 #: data/niling/npcs.json
 msgid "玄冥子撑着剑退进了前殿：「北麓的路，你走不远。」"
@@ -57520,6 +57526,12 @@ msgstr ""
 #. native.npc.niling_lead_chanter_unmasking calls.steps.say
 #: data/niling/npcs.json
 msgid "大弟子那一夜在后殿就说过。我一直记着。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter_unmasking calls.steps.line
+#: data/niling/npcs.json
+msgid ""
+"他的剑还垂着，没有动。宫里的人都在这儿，这一仗不必打——趁他还没出手，走：出了前院的门，下山去。逃得出去，就算过了这一关。\n"
 msgstr ""
 
 #. native.npc.niling_pursuer name
@@ -68365,6 +68377,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "蒙着面，眉眼看起来有些面熟——书房里那个老妇人的眉眼。衣襟上有血，不是她的。她站在前厅正中，像在等人。\n"
+msgstr ""
+
+#. native.npc.cult_killer alert_say
+#: data/native/npcs.json
+msgid "蒙面杀手拔剑冷冷道：东方神教办事。衣走了，这庄子没人护着了——挡路的，一起倒下。"
 msgstr ""
 
 #. native.npc.cult_killer chat_msg_combat
