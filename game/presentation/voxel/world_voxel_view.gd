@@ -210,6 +210,7 @@ func _apply_quality() -> void:
 		weather = null
 	lighting.lamp_shadow_limit = GraphicsQuality.lamp_shadows()
 	lighting.lamp_light_limit = GraphicsQuality.lamp_lights()
+	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if lighting.sun != null:
 		lighting.sun.directional_shadow_mode = GraphicsQuality.sun_shadow_mode()
 	if _active:
@@ -292,7 +293,9 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 		await geometry.breathe()
 	for shutter: Node3D in shutters.values()+opened.values():
-		occlusion.register(shutter)
+		occlusion.register(shutter, true)
+	# A world built again after a release has a new VoxelOcclusion: the 画质's part again.
+	occlusion.plain_when_clear = GraphicsQuality.plain_occluders()
 	if geometry.foliage != null:
 		occlusion.share_show(geometry.foliage.material)
 	await geometry.breathe()

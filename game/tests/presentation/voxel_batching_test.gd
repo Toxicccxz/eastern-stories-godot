@@ -17,7 +17,71 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_test_landmass_order()
 	_test_quads_are_surface_tool_triangles()
 	_test_room_floors()
+	_test_plain_occluders(tree)
 	return {"assertions": assertions, "failures": failures}
+
+
+## A phone's plain occluders (DECISIONS「手机画质」): only a surface someone may be behind wears the
+## see-through — between the camera and a person, not behind them nor off to the side; a door's
+## leaf always does, every surface does while the camera turns or a show is held, and with the
+## switch off (the desktop) every one does as before.
+func _test_plain_occluders(tree: SceneTree) -> void:
+	var camera := Camera3D.new()
+	tree.root.add_child(camera)
+	camera.position = Vector3(21.213203, 26, 21.213203)
+	camera.look_at(Vector3.ZERO, Vector3.UP)
+	var toward_eye: Vector3 = camera.global_basis.z
+	var holder := Node3D.new()
+	tree.root.add_child(holder)
+	var walls: Array[MeshInstance3D] = []
+	# Between the eye and a person at the origin; behind them; well off to the side.
+	for at: Vector3 in [toward_eye * 4.0, -toward_eye * 4.0 + Vector3(0, 1, 0), Vector3(30, 1, -30)]:
+		var wall := MeshInstance3D.new()
+		var box := BoxMesh.new()
+		box.size = Vector3(2, 2, 2)
+		wall.mesh = box
+		var colour := StandardMaterial3D.new()
+		colour.albedo_color = Color("8a6f4e")
+		wall.material_override = colour
+		wall.position = at
+		holder.add_child(wall)
+		walls.append(wall)
+	var door := Node3D.new()
+	tree.root.add_child(door)
+	var leaf := MeshInstance3D.new()
+	leaf.mesh = BoxMesh.new()
+	var wood := StandardMaterial3D.new()
+	wood.albedo_color = Color("5a3d22")
+	leaf.material_override = wood
+	leaf.position = Vector3(-30, 1, 30)
+	door.add_child(leaf)
+	var occlusion := VoxelOcclusion.new()
+	occlusion.register(holder)
+	occlusion.register(door, true)
+	var person := PackedVector4Array([Vector4(0, 1, 0, 1.75)])
+	occlusion.plain_when_clear = true
+	occlusion.update(camera, person)
+	_check(not _flat(occlusion, walls[0]) and not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]), "the first frame at a new angle: every surface sees through")
+	occlusion.update(camera, person)
+	_check(not _flat(occlusion, walls[0]) and _flat(occlusion, walls[1]) and _flat(occlusion, walls[2]), "the wall between the eye and the person sees through; the one behind them and the far one draw plain")
+	_check(not _flat(occlusion, leaf), "a door's leaf always sees through")
+	occlusion.update(camera, PackedVector4Array([Vector4(30, 1, -30, 1.75)]))
+	_check(_flat(occlusion, walls[0]), "the person gone from behind it: plain again")
+	occlusion.hold_show(Transform3D.IDENTITY, Rect2(-2, -2, 4, 4), 0.0, 3.0)
+	occlusion.update(camera, person)
+	_check(not _flat(occlusion, walls[0]) and not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]), "a show held: every surface sees through")
+	occlusion.clear_show()
+	occlusion.update(camera, person)
+	occlusion.plain_when_clear = false
+	_check(not _flat(occlusion, walls[1]) and not _flat(occlusion, walls[2]) and occlusion.plain.is_empty(), "the switch off: every surface sees through, as on the desktop")
+	occlusion.set_night(1.0)
+	_check(is_equal_approx(float((occlusion.plain_materials.values()[0] as ShaderMaterial).get_shader_parameter("night_amount")), 1.0), "the plain materials follow the night as the see-through ones")
+	for node: Node in [camera, holder, door]:
+		node.free()
+
+
+func _flat(occlusion: VoxelOcclusion, mesh: MeshInstance3D) -> bool:
+	return occlusion.plain_materials.values().has(mesh.material_override)
 
 
 func _test_plain_colours_pool(tree: SceneTree) -> void:

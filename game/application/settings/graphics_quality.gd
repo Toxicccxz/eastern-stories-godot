@@ -92,6 +92,12 @@ static func grass(value: int = level) -> float:
 	return clampf(float(settings(value).get("grass", 1.0)), 0.0, 1.0)
 
 
+## Whether an occluder no one can be behind draws without the see-through (VoxelOcclusion.
+## plain_when_clear; the same picture, a cheaper pixel).
+static func plain_occluders(value: int = level) -> bool:
+	return bool(settings(value).get("plain_occluders", false))
+
+
 ## What the 3D viewport's MSAA is at this level.
 static func msaa(value: int = level) -> Viewport.MSAA:
 	return MSAA.get(int(settings(value).get("msaa", 4)), Viewport.MSAA_4X)
