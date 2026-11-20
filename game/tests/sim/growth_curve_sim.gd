@@ -376,21 +376,25 @@ func _row(label: String) -> Row:
 
 
 ## Real seconds the training up to `row` took: with 歇到回满 (`resting`) or standing it out.
-## With `auto` (自动歇) and resting, the presses are a 请教 run's at each level, an 打坐 run's once a
-## chapter and 自学's own (it has no run); the rests need none.
 func real_seconds(row: Row, resting: bool) -> float:
 	var waits: float = row.learn_rest + row.exercise_rest + row.self_rest
 	var waited: float = waits / rest_scale if resting and rest_scale > 0.0 else waits
-	var stops: int = row.learn_stops + row.exercise_stops + row.self_stops
-	if auto and resting:
-		stops = row.level_stops + row.exercise_runs + row.self_stops
+	var stops: int = presses(row) if resting else row.learn_stops + row.exercise_stops + row.self_stops
 	return float(row.lessons + row.exercises) * step_seconds + float(stops) * STOP_SECONDS + float(row.self_clicks) * CLICK_SECONDS + waited
+
+
+## The presses up to `row` (the report's 停下): each stop without 自动歇; with it (`auto`) a 请教
+## run's at each level, an 打坐 run's once a chapter and 自学's own (it has no run), the rests none.
+func presses(row: Row) -> int:
+	if auto:
+		return row.level_stops + row.exercise_runs + row.self_stops
+	return row.learn_stops + row.exercise_stops + row.self_stops
 
 
 ## The parts of real_seconds(`row`, true): steps, presses and rests, in seconds.
 func real_parts(row: Row) -> Vector3:
 	var steps: float = float(row.lessons + row.exercises) * step_seconds + float(row.self_clicks) * CLICK_SECONDS
-	var stops: int = row.level_stops + row.exercise_runs + row.self_stops if auto else row.learn_stops + row.exercise_stops + row.self_stops
+	var stops: int = presses(row)
 	var waits: float = row.learn_rest + row.exercise_rest + row.self_rest
 	return Vector3(steps, float(stops) * STOP_SECONDS, waits / rest_scale if rest_scale > 0.0 else waits)
 
@@ -444,7 +448,7 @@ func table() -> String:
 		lines.append("| %s | %d | %d | %d | %d | %s | %d/%d | %d/%d/%d | %d | %d | %d | %d | %.0f | %.1f | %.1f |" % [
 			row.label, row.experience, row.potential_earned, row.potential_cut, row.unspent, "/".join(levels),
 			row.max_force, row.force_cap, row.kee, row.gin, row.sen, row.lessons, row.exercises, row.self_clicks,
-			row.learn_stops + row.exercise_stops + row.self_stops, (row.learn_rest + row.exercise_rest + row.self_rest) / 60.0,
+			presses(row), (row.learn_rest + row.exercise_rest + row.self_rest) / 60.0,
 			real_seconds(row, true) / 60.0, real_seconds(row, false) / 60.0,
 		])
 	return "\n".join(lines)
