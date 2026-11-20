@@ -513,7 +513,7 @@ func _test_spare_beside_guo(tree: SceneTree, session: WorldSessionController) ->
 	var rounds: int = _fight_out(session)
 	BattlePace.after_knockout = after_knockout
 	_check(not coordinator.has_active_encounter() and lu_sun.life_status != CharacterRuntimeLifeStatus.Value.DEAD and state.marks.get("吕隼招了", 0) == 1, "spare: the fight over in %d rounds, 吕隼 lives and 吕隼招了 is written" % rounds)
-	_check(guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and guo.life_status != CharacterRuntimeLifeStatus.Value.DEAD, "spare: 郭承 still follows")
+	_check(guo.life_status != CharacterRuntimeLifeStatus.Value.DEAD and (guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or state.marks.get("郭承回了校场", 0) == 1), "spare: 郭承 lives, following still unless the 工地 done sent him home (郭承回了校场)")
 
 
 ## 潜入 (关北 C): the 工地 by day turns the player away; 等到天黑 at the fire; the night's four 枷, the watch,
