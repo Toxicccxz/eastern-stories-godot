@@ -1,0 +1,45 @@
+{
+	"_comment": "世界演出 (DECISIONS「世界演出」): the small things the map shows about what happens on it. Presentation only: nothing here changes a rule, a position, a door's state or what is saved. All of it is off with the feel's world_fx_ms at 0 (the suites); the times below are shares of it.",
+	"weather": {
+		"_comment": "Rain: falls outdoors while the sky (SkyState, DECISIONS「天气」) is at `from_level` or above (4: 天空中乌云密布), coming and going over fade_seconds. regions: what falls in a region, by its id (none: nothing — the desert beyond the pass, the land of the dead); default: any other. A map's own voxel config may say \"weather\": false (a cave under the open sky's light). kinds: count the drops about the camera at the heaviest, size a drop's box, colour / alpha, fall its speed (units a second), wind how far it slants (times the map's guiding wind, else `drift`), height where drops begin, radius how far about what the camera looks at they fall; rings: the marks drops leave on the ground (count, size, seconds each lasts). low_quality: the share of the drops on 画质 低. No snow: ES2 has none and no place is snowed on for its name (美术规划 §1).",
+		"from_level": 4,
+		"fade_seconds": 6.0,
+		"low_quality": 0.5,
+		"default": "rain",
+		"regions": {"canyon": "none", "death": "none"},
+		"kinds": {
+			"rain": {
+				"count": 240, "size": [0.03, 0.75, 0.03], "colour": "c4d2e0", "alpha": 0.55,
+				"fall": 15.0, "wind": 2.2, "drift": [0.9, 0.3], "height": 9.0, "radius": 13.0,
+				"rings": {"count": 26, "size": 0.34, "seconds": 0.45, "colour": "dfe9f2", "alpha": 0.5}
+			}
+		}
+	},
+	"door": {
+		"_comment": "A door swings on its hinge as it opens and shuts (its leaf was there or gone before): `swing` how far (radians), `seconds` how long (shares of world_fx_ms). A door whose look has its own open form (layout door_looks `open`) changes as before.",
+		"swing": 1.45,
+		"seconds": 1.0
+	},
+	"pickup": {
+		"_comment": "A thing taken from the ground by the player (it was within `reach` units of them as it went) flies up to their hand and is gone: rise how high its arc goes, seconds how long (shares of world_fx_ms).",
+		"reach": 2.2,
+		"rise": 0.7,
+		"seconds": 0.9
+	},
+	"startle": {
+		"_comment": "One whose alert mark comes up (进门一起上: it has noticed the player) starts: a small hop of `hop` units, the mark popping from `pop` times its size, over `seconds` (shares of world_fx_ms).",
+		"hop": 0.2,
+		"pop": 1.8,
+		"seconds": 0.9
+	},
+	"wade": {
+		"_comment": "One walking through shallow water (ground kinds `kinds`) throws up a splash every `stride` units: `drops` small blocks of `colour` flung up `rise` units and out `spread`, over `seconds` (shares of world_fx_ms).",
+		"kinds": ["shallow_water"],
+		"stride": 0.7,
+		"drops": 5,
+		"rise": 0.5,
+		"spread": 0.35,
+		"colour": "dceef2",
+		"seconds": 1.4
+	}
+}

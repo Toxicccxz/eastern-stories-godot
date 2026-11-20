@@ -129,6 +129,7 @@
 			"training_step_ms": 150,
 			"training_stage_ms": 250,
 			"growth_moment_ms": 1100,
+			"world_fx_ms": 260,
 			"training_auto_step_ms": 60,
 			"corner_slide_px": 12,
 			"voxel_worlds_kept": 3,
