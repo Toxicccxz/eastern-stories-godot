@@ -97,13 +97,21 @@ class PlaytestRoundTest(unittest.TestCase):
         self.assertTrue(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls))
 
     def test_cut_does_not_dispatch_again_while_a_run_goes_or_after_one_succeeded(self) -> None:
-        for runs in ([{"status": "in_progress", "conclusion": "", "url": "u"}], [{"status": "completed", "conclusion": "success", "url": "u"}, {"status": "completed", "conclusion": "failure", "url": "v"}]):
+        for runs in ([{"status": "in_progress", "conclusion": "", "url": "u"}], [{"status": "completed", "conclusion": "success", "url": "u"}]):
             fake, calls = self._origin_has_the_tag(runs)
             out = io.StringIO()
             with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(out):
                 self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=False), 0)
             self.assertFalse(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls), runs)
             self.assertIn("fetch playtest-2026-11-13", out.getvalue())
+
+    def test_cut_reads_the_newest_run_as_fetch_does(self) -> None:
+        # A newer run failed after an older one succeeded: fetch would refuse, so cut starts one again.
+        fake, calls = self._origin_has_the_tag([{"status": "completed", "conclusion": "failure", "url": "v"}, {"status": "completed", "conclusion": "success", "url": "u"}])
+        with mock.patch.object(playtest_round, "run", side_effect=fake), redirect_stdout(io.StringIO()):
+            self.assertEqual(playtest_round.cut("playtest-2026-11-13", dry_run=True), 0)
+        self.assertTrue(any(command[:3] == ["gh", "workflow", "run"] for command, _dry in calls))
+        self.assertIn(["git", "fetch", "origin", "main"], [command for command, _dry in calls], "no --tags: a clashing local tag must reach the advice")
 
     def test_cut_resumes_a_tag_pushed_from_elsewhere(self) -> None:
         fake, calls = self._origin_has_the_tag([], local="")

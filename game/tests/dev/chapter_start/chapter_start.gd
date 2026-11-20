@@ -178,6 +178,8 @@ class Spec:
 			parts.append({"expose": "揭发", "deal": "私了", "uncle": "皇叔"}.get(side, side))
 		if at >= ChapterStart.index_of(&"main.finale"):
 			parts.append({"self": "旋芒在你手里", "uncle": "旋芒在皇叔手里", "xiao": "旋芒在萧辟尘手里"}.get(who, who))
+		if ChapterStart.is_after(quest):
+			parts.append("灭了侮天鬼" if ChapterStart.ending(self) == "slay" else "再封了侮天鬼（南危水留在冰里）")
 		var stage_entry: Dictionary = ChapterStart.stage_of(line, stage)
 		if not stage_entry.is_empty():
 			parts.append("势力线 %s：%s" % [ChapterStart.line_of(line)["title"], stage_entry["title"]])
@@ -305,6 +307,13 @@ static func roll_call(of: Spec) -> int:
 	return (0 if of.chased else 1) + (1 if of.raid else 0) + (1 if of.rome else 0) + 1 + (1 if of.side == "expose" else 0) + 1
 
 
+## How 终章 B ended for 终章之后: 灭 (slay) where 能灭它 could be said — three bands at least (finale.helpers; the 三器
+## are there on every road: 穿灵 drawn or pulled at the 封坛, 旋芒 in one of three hands, the 宝衣 carried or 瑷伦 called)
+## — else 再封 by 南危水 (seal_nan: 替南危水保密 is on every road the starts write; village.seal_altar.nail).
+static func ending(of: Spec) -> String:
+	return "slay" if roll_call(of) >= 3 else "seal_nan"
+
+
 ## The things carried() says a start of the spec holds (beyond its fixtures').
 static func carried(of: Spec) -> Array[StringName]:
 	var at: int = index_of(of.quest)
@@ -384,13 +393,14 @@ static func _place_on_line(session: WorldSessionController, of: Spec) -> String:
 	var step: StoryQuestDefinition.Step = StoryQuestLog.current_step(session.player_runtime().state, quest)
 	if step == null:
 		return "the line %s has not begun" % of.line
-	if step.target == null or step.target.zone_id.is_empty():
+	var target: StoryQuestDefinition.Target = step.target_for(session.player_runtime().state.marks)
+	if target == null or target.zone_id.is_empty():
 		return ""
-	var placed: String = place(session, step.target.zone_id, step.target.npc_ids[0] if not step.target.npc_ids.is_empty() else &"")
+	var placed: String = place(session, target.zone_id, target.npc_ids[0] if not target.npc_ids.is_empty() else &"")
 	var location: WorldLocationState = session.player_runtime().world_location()
-	if placed.is_empty() and (location == null or location.zone_id != step.target.zone_id):
+	if placed.is_empty() and (location == null or location.zone_id != target.zone_id):
 		# The person stands at the zone's edge (a spot beside them fell outside it): anywhere in the zone.
-		placed = place(session, step.target.zone_id)
+		placed = place(session, target.zone_id)
 	session.record_journal()
 	return placed
 
@@ -422,12 +432,14 @@ static func clear_stage(session: WorldSessionController, marks: Dictionary, give
 	for quest: StoryQuestDefinition in catalog.story_quests():
 		for step: StoryQuestDefinition.Step in quest.steps:
 			var key: String = "%s/%s" % [quest.quest_id, step.step_id]
-			if step.target == null or ledger.any(func(written: String) -> bool: return written == key or written.begins_with(key + "/")):
+			if ledger.any(func(written: String) -> bool: return written == key or written.begins_with(key + "/")):
 				continue
-			for npc_id: StringName in step.target.npc_ids:
-				sought["%s@%s" % [npc_id, step.target.map_id]] = true
+			for target: StoryQuestDefinition.Target in [step.target, step.target_after]:
+				if target != null:
+					for npc_id: StringName in target.npc_ids:
+						sought["%s@%s" % [npc_id, target.map_id]] = true
 	# Per map (&"": wherever), per NPC definition, how many to send away.
-	var leaving: Dictionary[StringName, Dictionary] = {}
+	var leaving: Dictionary = {}
 	for list: Dictionary in Reads.step_lists():
 		var writes: Array = list["writes"]
 		var ran: bool = (not writes.is_empty() and writes.all(func(mark: String) -> bool: return marks.has(mark))) or (list["summons"] as Array).any(func(spawn_id: StringName) -> bool: return cleared_spawns.has(spawn_id))
@@ -444,27 +456,36 @@ static func clear_stage(session: WorldSessionController, marks: Dictionary, give
 			for npc_id: StringName in list["leaves"]:
 				leaving[map_id][npc_id] = int(leaving[map_id].get(npc_id, 0)) + 1
 	var out: Array[String] = []
-	for map: WorldMapController in session.world_maps():
-		for npc: NpcRuntimeState in map.npc_runtimes().duplicate():
-			# Off the stage now (not on its marker) counts too: the stage would bring it on as the player comes.
-			if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.has_flag(NpcDefinition.FLAG_GONE):
-				continue
-			var spawn: NpcSpawnDefinition = catalog.spawn(npc.spawn_id) if not npc.spawn_id.is_empty() else null
-			var definition_id: StringName = npc.definition().definition_id
-			var by_spawn: bool = cleared_spawns.has(npc.spawn_id) and spawn != null and not spawn.remade_by_reset() and not sought.has("%s@%s" % [definition_id, map.map_id()])
-			if not by_spawn and spawn != null and spawn.present != null and JournalLog.holds(spawn.present, player.state, player.temp_marks, held) and (spawn.until == null or not JournalLog.holds(spawn.until, player.state, player.temp_marks, held)):
-				continue
-			var count_on: StringName = &"-"
-			for map_id: StringName in [map.map_id(), &""]:
-				if int(leaving.get(map_id, {}).get(definition_id, 0)) > 0:
-					count_on = map_id
-					break
-			if not by_spawn and count_on == &"-":
-				continue
-			if not by_spawn:
-				leaving[count_on][definition_id] = int(leaving[count_on][definition_id]) - 1
-			map.npcs.leave_for_good(npc)
-			out.append("%s@%s" % [definition_id, map.map_id()])
+	# Two passes: on the scene's own map first; then whoever is still owed goes wherever the person still stands
+	# (the copy a follower left on its own map: 霍铮 and 石头 in 逆灵宫's cells after the rescue).
+	for pass_at: int in 2:
+		if pass_at == 1:
+			var anywhere: Dictionary = {}
+			for map_id: StringName in leaving:
+				for npc_id: StringName in leaving[map_id]:
+					anywhere[npc_id] = int(anywhere.get(npc_id, 0)) + maxi(int(leaving[map_id][npc_id]), 0)
+			leaving = {&"": anywhere}
+		for map: WorldMapController in session.world_maps():
+			for npc: NpcRuntimeState in map.npc_runtimes().duplicate():
+				# Off the stage now (not on its marker) counts too: the stage would bring it on as the player comes.
+				if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.has_flag(NpcDefinition.FLAG_GONE):
+					continue
+				var spawn: NpcSpawnDefinition = catalog.spawn(npc.spawn_id) if not npc.spawn_id.is_empty() else null
+				var definition_id: StringName = npc.definition().definition_id
+				var by_spawn: bool = pass_at == 0 and cleared_spawns.has(npc.spawn_id) and spawn != null and not spawn.remade_by_reset() and not sought.has("%s@%s" % [definition_id, map.map_id()])
+				if not by_spawn and spawn != null and spawn.present != null and JournalLog.holds(spawn.present, player.state, player.temp_marks, held) and (spawn.until == null or not JournalLog.holds(spawn.until, player.state, player.temp_marks, held)):
+					continue
+				var count_on: StringName = &"-"
+				for map_id: StringName in [map.map_id(), &""]:
+					if int(leaving.get(map_id, {}).get(definition_id, 0)) > 0:
+						count_on = map_id
+						break
+				if not by_spawn and count_on == &"-":
+					continue
+				if not by_spawn:
+					leaving[count_on][definition_id] = int(leaving[count_on][definition_id]) - 1
+				map.npcs.leave_for_good(npc)
+				out.append("%s@%s" % [definition_id, map.map_id()])
 	for spawn: ItemSpawnDefinition in catalog.item_spawns():
 		if not given.has(spawn.item_definition_id):
 			continue
@@ -547,7 +568,7 @@ static func _write_story(session: WorldSessionController, of: Spec) -> void:
 		&"main.chapter9": Fixtures.chapter8_done(session, of.pulled, of.rome, of.raid, of.chased)
 		&"main.chapter10": Fixtures.chapter9_done(session, of.side, of.pulled, of.rome, of.raid, of.chased)
 		&"main.finale": Fixtures.chapter10_done(session, of.who, of.side, of.pulled, of.rome, of.raid, of.chased)
-		&"faction.assembly": Fixtures.finale_done(session, "slay", of.who, of.side, of.pulled, of.rome, of.raid, of.chased)
+		&"faction.assembly": Fixtures.finale_done(session, ending(of), of.who, of.side, of.pulled, of.rome, of.raid, of.chased)
 
 
 ## The faction line's state up to its stage, by the line's fixtures (on top of the main story's).

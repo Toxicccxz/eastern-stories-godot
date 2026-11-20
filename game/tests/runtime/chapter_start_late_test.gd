@@ -20,6 +20,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		Check.spec_of(&"main.finale", {"chased": true, "pulled": true, "who": "uncle", "side": "uncle", "sword": false}),
 		Check.spec_of(&"main.finale", {"who": "xiao", "rome": false}),
 		Check.spec_of(&"main.chapter10", {"chased": true, "side": "expose", "sword": false}),
+		Check.spec_of(&"faction.assembly", {"chased": true, "raid": false, "rome": false, "side": "deal", "who": "xiao"}),
 	]):
 		await _checks.test_start(tree, spec)
 	return _checks.result()

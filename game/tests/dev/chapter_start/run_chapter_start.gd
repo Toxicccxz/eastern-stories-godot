@@ -8,8 +8,8 @@ extends SceneTree
 ## sword), chase (第三章 by the chase; default the rescue), sneak (第六章 潜入; default 借兵), ronin (第七章 站浪人;
 ## default 大秦人), pulled (第八章 the sword drawn), side=expose|deal|uncle (第九章), who=self|uncle|xiao (第十章: who
 ## drew 旋芒), line=<line> [stage=<stage>] (a faction line at a step: ChapterStart.LINES), explore (the exploring
-## player's exp), male. A state no player reaches (揭发 without its proofs, 旋芒 in the 皇叔's hands when he never came
-## to court …) is refused with the reason. The same as the F6 scene res://tests/dev/chapter_start.tscn.
+## player's exp), male. A state no player reaches (旋芒 in the 皇叔's hands when he never came to court, drawn yourself
+## under six bells, a faction step before its chapter) is refused with the reason. The same as the F6 scene res://tests/dev/chapter_start.tscn.
 
 const Runner := preload("res://tests/dev/chapter_start/chapter_start_runner.gd")
 

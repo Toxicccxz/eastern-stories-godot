@@ -55,7 +55,7 @@ static func item_read(item_id: StringName) -> bool:
 
 ## Each list of steps that sends someone away or calls someone in: {"writes": Array[String] (the marks the list and
 ## its rule write), "leaves": Array[StringName] (NPC definitions, one entry a person), "summons": Array[StringName]
-## (spawns), "npc": StringName (the NPC whose rule or call it is, &"" for none), "zone": StringName (the service's or
+## (spawns; `leave: true` counts the one speaking), "npc": StringName (the NPC whose rule or call it is, &"" for none), "zone": StringName (the service's or
 ## landmark's zone, &"" for none)} — the people a list sends away stand where its scene plays: beside its NPC, or
 ## in its zone.
 static func step_lists() -> Array[Dictionary]:
@@ -139,13 +139,19 @@ static func _list(record: Dictionary, owner: Dictionary) -> void:
 		if record.get(key) is Array:
 			for mark: Variant in record[key]:
 				writes.append(str(mark))
+	var speaker: StringName = owner.get("npc", &"")
 	for element: Variant in record["steps"]:
 		if not element is Dictionary:
 			continue
+		if element.get("by") is String:
+			speaker = StringName(element["by"])
 		if element.get("mark") is String:
 			writes.append(element["mark"])
 		if element.get("leave") is String:
 			leaves.append(StringName(element["leave"]))
+		elif element.get("leave") == true and not speaker.is_empty():
+			# `leave: true`: the one speaking goes (the list's NPC, or whoever the last `by` named).
+			leaves.append(speaker)
 		if element.get("summon") is String:
 			summons.append(StringName(element["summon"]))
 	if not leaves.is_empty() or not summons.is_empty():

@@ -144,7 +144,7 @@ static func chapter4_taken(session: WorldSessionController) -> void:
 		"main.chapter4/lashes", "main.chapter4/question/unsure", "main.chapter4/chest", "main.chapter4/choice/take", "main.chapter4#done",
 	]:
 		_write(state, key)
-	for mark: String in ["南危水说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：不知", "瑷伦说了冰匣", "冰匣开了", "芳绫跟你去了", "芳绫替你跳了", "带走了宝衣", "宝衣一章", "瑷伦叹过", "放过了神教杀手", "老妇说了拦", "安妮儿记下了"]:
+	for mark: String in ["南危水说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：不知", "瑷伦说了冰匣", "冰匣开了", "芳绫跟你去了", "芳绫替你跳了", "带走了宝衣", "宝衣一章", "瑷伦叹过", "神教杀手倒了", "放过了神教杀手", "老妇说了拦", "安妮儿记下了"]:
 		_mark(state, mark)
 	_give(session, &"native:latemoon/cold_robe")
 

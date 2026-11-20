@@ -100,7 +100,8 @@ def cut(name: str, dry_run: bool) -> int:
     if not TAG_PATTERN.match(name):
         print(f"a round's tag is playtest-<something>: {name}", file=sys.stderr)
         return 2
-    run(["git", "fetch", "origin", "main", "--tags"])
+    # Not --tags: a local tag on another commit than origin's would fail the fetch before the advice below.
+    run(["git", "fetch", "origin", "main"])
     pushed = remote_tag_commit(name)
     if pushed:
         return resume(name, pushed, dry_run)
@@ -124,22 +125,22 @@ def cut(name: str, dry_run: bool) -> int:
 
 def resume(name: str, pushed: str, dry_run: bool) -> int:
     """The tag is on origin already (a cut whose dispatch failed, or one run before): with the local
-    tag on the same commit, CI is started on it unless a run on it succeeded or is still going."""
+    tag on the same commit (or none), CI is started on it unless its newest run succeeded or is still going."""
     local = run(["git", "tag", "--list", name]).strip() and run(["git", "rev-parse", f"{name}^{{commit}}"]).strip()
     if local and local != pushed:
         print(f"the tag {name} is on {pushed[:10]} on origin but on {local[:10]} here: delete the local one by hand (git tag -d {name}) and fetch the tags, or cut another name", file=sys.stderr)
         return 2
-    rows = runs_for(name)
-    done = next((row for row in rows if row.get("conclusion") == "success"), None)
-    going = next((row for row in rows if row.get("status") in RUNNING), None)
-    if done is not None:
-        print(f"{name} = {pushed} is on origin and its run succeeded: python tools/build/playtest_round.py fetch {name}")
-        return 0
-    if going is not None:
-        print(f"{name} = {pushed} is on origin and its run is {going.get('status')}: {going.get('url', '')}")
+    # The newest run decides, as fetch reads it: going (wait), succeeded (fetch), else start one.
+    rows = runs_for(name, 1)
+    newest = rows[0] if rows else {}
+    if newest.get("status") in RUNNING:
+        print(f"{name} = {pushed} is on origin and its run is {newest.get('status')}: {newest.get('url', '')}")
         print(f"When it is done: python tools/build/playtest_round.py fetch {name}")
         return 0
-    print(f"{name} = {pushed} is on origin already" + (" and no run on it succeeded" if rows else ", with no run on it yet") + ": starting CI on it")
+    if newest.get("conclusion") == "success":
+        print(f"{name} = {pushed} is on origin and its run succeeded: python tools/build/playtest_round.py fetch {name}")
+        return 0
+    print(f"{name} = {pushed} is on origin already" + (f" and its last run ended {newest.get('conclusion') or newest.get('status')}" if rows else ", with no run on it yet") + ": starting CI on it")
     run(["gh", "workflow", "run", WORKFLOW, "--ref", name], dry_run)
     print(f"When the run is done: python tools/build/playtest_round.py fetch {name}")
     return 0

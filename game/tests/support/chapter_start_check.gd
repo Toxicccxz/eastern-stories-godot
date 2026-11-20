@@ -156,6 +156,12 @@ func _check_start(session: WorldSessionController, spec: ChapterStart.Spec, labe
 		var map_of: WorldMapController = session.world_map_of(spawn.map_id)
 		var up: Array = [] if map_of == null else map_of.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.spawn_id == spawn.spawn_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.has_flag(NpcDefinition.FLAG_GONE))
 		_check(up.is_empty(), "%s: %s cleared (%s), none standing (%d)" % [label, spawn.spawn_id, spawn.cleared_mark, up.size()])
+	if not spec.chased and ChapterStart.index_of(spec.quest) >= ChapterStart.index_of(&"main.chapter4"):
+		for spawn_id: StringName in [&"niling.cell_huo.huo_zheng", &"niling.cell_shitou.shitou"]:
+			var cell: NpcSpawnDefinition = catalog.spawn(spawn_id)
+			var cells: WorldMapController = null if cell == null else session.world_map_of(cell.map_id)
+			var kept: Array = [] if cells == null else cells.npc_runtimes().filter(func(npc: NpcRuntimeState) -> bool: return npc.spawn_id == spawn_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.has_flag(NpcDefinition.FLAG_GONE))
+			_check(cell != null and kept.is_empty(), "%s: rescued, not in the cell any more (%s)" % [label, spawn_id])
 	for spawn: ItemSpawnDefinition in catalog.item_spawns():
 		if not held.get(spawn.item_definition_id, false) or not GameContent.catalog().item(spawn.item_definition_id).quest_item:
 			continue
@@ -182,8 +188,9 @@ static func _sought(state: CharacterState, npc_id: StringName, map_id: StringNam
 	for quest: StoryQuestDefinition in GameContent.catalog().story_quests():
 		for step: StoryQuestDefinition.Step in quest.steps:
 			var key: String = "%s/%s" % [quest.quest_id, step.step_id]
-			if step.target != null and step.target.map_id == map_id and step.target.npc_ids.has(npc_id) and not state.quests.keys().any(func(written: String) -> bool: return written == key or written.begins_with(key + "/")):
-				return true
+			for target: StoryQuestDefinition.Target in [step.target, step.target_after]:
+				if target != null and target.map_id == map_id and target.npc_ids.has(npc_id) and not state.quests.keys().any(func(written: String) -> bool: return written == key or written.begins_with(key + "/")):
+					return true
 	return false
 
 

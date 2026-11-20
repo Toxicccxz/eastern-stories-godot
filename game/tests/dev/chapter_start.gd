@@ -4,8 +4,8 @@ extends Control
 ## and the branches that change what is there (and, if wanted, a faction line and the step it stands at),
 ## press 开始: the game starts as usual, its menu is driven to a New Game, and the New Game is set up at that
 ## chapter's first step (ChapterStart); then it is the normal game (a save is an ordinary save, in the
-## development slot). A pick no player can reach (揭发 without its proofs, 旋芒 in the 皇叔's hands when he never
-## came to court, a faction step before its chapter) is corrected at once and the panel says what changed and
+## development slot). A pick no player can reach (旋芒 in the 皇叔's hands when he never came to court, drawn yourself
+## under six bells, a faction step before its chapter) is corrected at once and the panel says what changed and
 ## why (ChapterStart.Spec.corrected). The last pick is remembered in user://chapter_start.cfg. The same as
 ## tests/dev/chapter_start/run_chapter_start.gd on the command line. tests/ never reaches a release.
 
@@ -117,7 +117,7 @@ func current_spec() -> ChapterStart.Spec:
 	spec.pulled = sword_drawn.selected == 1
 	spec.side = SIDES[maxi(side.selected, 0)]
 	spec.who = WHOS[maxi(who.selected, 0)]
-	if faction.selected > 0:
+	if faction.selected > 0 and chapter.selected > 0:
 		var entry: Dictionary = ChapterStart.LINES[faction.selected - 1]
 		var stages: Array = entry["stages"]
 		spec.line = entry["key"]
