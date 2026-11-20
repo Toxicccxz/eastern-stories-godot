@@ -2,9 +2,10 @@ extends SceneTree
 
 ## Opt-in report of the must-win fights (MainlineFightSim), for tuning their foes. Never an autoload;
 ## tests/ is not in a release:
-## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- [only=<label part>[|<label part>...]] [n=<duels>] [exp=<a,b>] [tune=<json file>] [stance=attack|guard|evade] [build=sword|fist] [seed=<n>[,<n>...]] [rules=<knob:value,...>] [weapon=<item id>] [ordinary] [low]
+## <godot> --headless --fixed-fps 60 --path game --script res://tests/sim/run_mainline_fight_sim.gd -- [only=<label part>[|<label part>...]] [n=<duels>] [exp=<a,b>] [tune=<json file>] [stance=attack|guard|evade] [build=sword|fist] [seed=<n>[,<n>...]] [rules=<knob:value,...>] [weapon=<item id>] [ordinary|faction|after_death] [low]
 ## `weapon`: the sword build wields this instead of the fight's own weapon.
 ## `ordinary`: MainlineFightSim.ORDINARY (a few fights of the first two hours and ES2's regions) instead.
+## `faction`: MainlineFightSim.FACTION_FIGHTS (the faction lines' fights) instead.
 ## `after_death`: MainlineFightSim.AFTER_DEATH (the sword build coming back after one death) instead.
 ## `rules`: CombatPowerRules knobs for this run (e.g. rules=bare_parry_percent:50,bare_damage_percent:60).
 ## `low`: each fight's first exp only (the main story alone; an `exploring_only` fight's one exp).
@@ -62,6 +63,8 @@ func _run() -> void:
 	var rows: Array[Dictionary] = MainlineFightSim.FIGHTS
 	if OS.get_cmdline_user_args().has("ordinary"):
 		rows = MainlineFightSim.ORDINARY
+	elif OS.get_cmdline_user_args().has("faction"):
+		rows = MainlineFightSim.FACTION_FIGHTS
 	elif OS.get_cmdline_user_args().has("after_death"):
 		rows = MainlineFightSim.AFTER_DEATH
 	for entry: Dictionary in rows:
