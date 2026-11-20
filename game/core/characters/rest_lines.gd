@@ -83,8 +83,7 @@ static func ended(outcome: RestRules.Outcome, minutes: int) -> String:
 ## 歇到回满's hover; `errand`: a timed errand runs (it keeps counting while the player rests).
 static func hint(errand: bool) -> String:
 	var text: String = TranslationServer.translate(HINT)
-	return text + "
-" + TranslationServer.translate(ERRAND) if errand else text
+	return text + "\n" + TranslationServer.translate(ERRAND) if errand else text
 
 
 ## The sitting-down line; `errand` as for hint().

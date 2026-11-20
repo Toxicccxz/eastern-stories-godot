@@ -16,9 +16,10 @@ msgstr ""
 msgid "新游戏"
 msgstr ""
 
+#. the focus pause's only button.
 #. native (终章 C): under a card of the ending told over the 沙盘: go on.
 #. at the foot of the dialogue box: goes to the next line.
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/common/focus_pause_layer.gd ui/world/epilogue_overlay.gd ui/world/player_life_overlay.gd ui/world/world_dialogue_box.gd
 msgid "继续"
 msgstr ""
 
@@ -543,12 +544,9 @@ msgstr ""
 msgid "取消"
 msgstr ""
 
-#: scenes/application/application_shell.tscn runtime/application/mobile_touch_adapter.gd
+#. the title of the pause the window's lost focus brings.
+#: scenes/application/application_shell.tscn runtime/application/mobile_touch_adapter.gd ui/common/focus_pause_layer.gd
 msgid "暂停"
-msgstr ""
-
-#: scenes/application/application_shell.tscn
-msgid "游戏在后台时暂停了。离开前请手动存档，以免丢失最近的进度。"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -5113,6 +5111,11 @@ msgstr ""
 msgid "你找个地方坐下，歇一歇。"
 msgstr ""
 
+#. after 歇到回满's hover and the sitting-down line while a timed errand (朱鸿雪's task) runs: resting speeds the world up, the errand's time with it.
+#: core/characters/rest_lines.gd
+msgid "身上的限时差事照样计时：歇得越久，剩下的时辰越少。"
+msgstr ""
+
 #. the rest's band over the world while it goes on: {time} how long so far (一盏茶的工夫, 半个时辰 …).
 #: core/characters/rest_lines.gd
 msgid "歇息中……已歇{time}"
@@ -9349,11 +9352,6 @@ msgstr ""
 msgid "指路"
 msgstr ""
 
-#. on 系统 after the desktop window lost its focus (切出窗口时暂停).
-#: runtime/application/application_shell_controller.gd
-msgid "切到别的窗口时，游戏暂停了。"
-msgstr ""
-
 #. title
 #. ending cards.title
 #: runtime/application/application_shell_controller.gd data/common/opening.json data/story/epilogue.json
@@ -10610,6 +10608,16 @@ msgstr ""
 
 #: ui/common/confirm_prompt.gd
 msgid "确定"
+msgstr ""
+
+#. why the game stopped (切出窗口时暂停).
+#: ui/common/focus_pause_layer.gd
+msgid "切到别的窗口时，游戏暂停了。"
+msgstr ""
+
+#. under the focus pause; 切出窗口时暂停 is the setting's name.
+#: ui/common/focus_pause_layer.gd
+msgid "不想这样暂停，可以在「设置」里关掉「切出窗口时暂停」。"
 msgstr ""
 
 #: ui/common/key_bindings_page.gd
