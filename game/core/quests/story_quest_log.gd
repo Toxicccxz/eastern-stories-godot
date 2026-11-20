@@ -205,6 +205,62 @@ static func can_start(state: CharacterState, quest: StoryQuestDefinition, quests
 	return true
 
 
+## What joining another family would do to the lines (DECISIONS「改投提示」).
+class FamilyChange:
+	extends RefCounted
+	## Lines under way that it cuts short for good (their `lapses` would hold).
+	var ends: Array[StoryQuestDefinition] = []
+	## Lines not begun that could begin now and that a line it begins would exclude for good.
+	var closes: Array[StoryQuestDefinition] = []
+
+	func is_empty() -> bool:
+		return ends.is_empty() and closes.is_empty()
+
+
+## What becoming one of `family_id` would do to the lines (DECISIONS「改投提示」): the lines under way
+## whose `lapses` would then hold (and do not now), and the lines not begun that a line the family
+## begins would exclude. `test` tells whether a condition holds now (quest_condition_test()); the
+## family is the only thing taken as changed. A line once cut short never opens again (_look()).
+static func family_change(state: CharacterState, family_id: StringName, quests: Array[StoryQuestDefinition], test: Callable) -> FamilyChange:
+	var change := FamilyChange.new()
+	if state == null or not test.is_valid() or family_id == state.family.family_id:
+		return change
+	var as_family: Callable = func(condition: JournalEntryDefinition) -> bool:
+		return _holds_as(condition, family_id, test)
+	var begun: Array[StoryQuestDefinition] = []
+	for quest: StoryQuestDefinition in quests:
+		if is_active(state, quest):
+			if quest.lapses != null and as_family.call(quest.lapses) and not test.call(quest.lapses):
+				change.ends.append(quest)
+		elif not is_started(state, quest) and quest.starts != null and can_start(state, quest, quests) and as_family.call(quest.starts) and not test.call(quest.starts):
+			begun.append(quest)
+	for quest: StoryQuestDefinition in quests:
+		if is_started(state, quest) or begun.has(quest) or not can_start(state, quest, quests):
+			continue
+		for other: StoryQuestDefinition in begun:
+			if other.excludes.has(quest.quest_id) or quest.excludes.has(other.quest_id):
+				change.closes.append(quest)
+				break
+	return change
+
+
+## `condition` as it would hold were the player one of `family_id`: its family parts read that, the
+## rest `test`.
+static func _holds_as(condition: JournalEntryDefinition, family_id: StringName, test: Callable) -> bool:
+	match condition.when:
+		JournalEntryDefinition.When.FAMILY:
+			return StringName(condition.key) == family_id
+		JournalEntryDefinition.When.ANY:
+			return condition.parts.any(func(part: JournalEntryDefinition) -> bool: return _holds_as(part, family_id, test))
+		JournalEntryDefinition.When.ALL:
+			return condition.parts.all(func(part: JournalEntryDefinition) -> bool: return _holds_as(part, family_id, test))
+		JournalEntryDefinition.When.AT_LEAST:
+			return condition.parts.filter(func(part: JournalEntryDefinition) -> bool: return _holds_as(part, family_id, test)).size() >= condition.amount
+		JournalEntryDefinition.When.NOT:
+			return not _holds_as(condition.parts[0], family_id, test)
+	return bool(test.call(condition))
+
+
 ## Records what holds now: quests that begin, steps done, quests ended, in the order found.
 ## `temps` are the player's temp marks, `held` the item definitions carried, `zone_id` where
 ## the player stands, `worn` the item definitions worn (WEARING), `phase_id` the day's phase (PHASE).
