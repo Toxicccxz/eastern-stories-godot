@@ -225,7 +225,7 @@ static func chapter6_site_done(session: WorldSessionController, raid: bool = tru
 	_write(state, "main.chapter6/raid" if raid else "main.chapter6/sneak")
 	# The raid's 枷锁 (guanbei/world.json guanbei.sheds.shackles) writes its four marks; the sneak's 走！ (郭承's
 	# reaction, guanbei/npcs.json) its three. 关北的骑兵欠你一阵 / 王府干净 ring 关北's bell (第十章).
-	for mark: String in (["郭承跟上了", "工地动过手", "工地打起来了", "工地的武官倒了", "裴照倒了", "吕隼倒了", "踏平了工地", "关北的骑兵欠你一阵", "关北背了反名"] if raid else ["守夜的武官倒了", "救了一半", "王府干净"]) + ["进得了古冢口", "郭承提过霍铮"]:
+	for mark: String in (["郭承跟上了", "工地动过手", "工地打起来了", "工地的武官倒了", "裴照倒了", "吕隼倒了", "踏平了工地", "关北的骑兵欠你一阵", "关北背了反名"] if raid else ["守夜的武官倒了", "救了一半", "王府干净"]) + ["进得了古冢口", "郭承提过霍铮", "郭承回了校场"]:
 		_mark(state, mark)
 
 
