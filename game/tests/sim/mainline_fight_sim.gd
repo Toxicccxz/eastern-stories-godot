@@ -30,6 +30,9 @@ const Arrival := preload("res://tests/support/story_arrival.gd")
 const BUFFER: int = 1000000
 ## Scheduler steps (one second of the fight's clock each) before a duel is called a loss.
 const MAX_STEPS: int = 4000
+## Steps a lost duel may run on with its foes worn to 1 kee before they are put down (a foe the
+## player cannot land on would otherwise run it to MAX_STEPS).
+const LOST_STEPS: int = 100
 
 ## The must-win fights (the list: DECISIONS「主线必打的仗」). `chapter`: the main story's quest the
 ## fight is in; the character arrives with tests/support/story_arrival.gd's exp for it, the main
@@ -106,7 +109,7 @@ const ORDINARY: Array[Dictionary] = [
 	{"label": "雪亭镇 客栈二楼 老鼠", "zone": &"snow.inn_2f", "point": &"snow.inn_2f.rat.1", "enemies": [["snow.inn_upstairs.inn_2f.rats", "snow.inn_2f.rat.1"]], "exps": [50, 150], "weapon": &"es2:obj/longsword"},
 	{"label": "老松林 山坡 土匪", "zone": &"oldpine.outdoor.slope", "point": &"oldpine.outdoor.slope.spath1.bandit.1", "enemies": [["oldpine.outdoor.spath1.bandits", "oldpine.outdoor.slope.spath1.bandit.1"]], "exps": [150, 600], "weapon": &"es2:obj/longsword"},
 	{"label": "老松林 松林口 高个土匪", "zone": &"oldpine.outdoor.pine_entrance", "point": &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1", "enemies": [["oldpine.outdoor.pine1.tall_bandit", "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"]], "exps": [400, 1000], "weapon": &"es2:obj/longsword"},
-	{"label": "野羊山 山路 山贼", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.bandit.1", "enemies": [["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
+	{"label": "野羊山 山路 山贼", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.bandit.1", "enemies": [["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.1"], ["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.2"], ["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.3"], ["goathill.mountain.mroad4.bandit_leader", "goathill.mroad4.bandit_leader.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
 	{"label": "绮云镇 公园 飞贼", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
 	{"label": "老松岭 寨门 守寨土匪", "zone": &"oldpine.outdoor.keep_gate", "point": &"oldpine.outdoor.keep_gate.keep1.bandit_guard.1", "enemies": [["oldpine.outdoor.keep1.bandit_guards", "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
 	{"label": "雪亭镇 武馆 李火狮", "zone": &"snow.school2", "point": &"snow.school2.fist_trainer.1", "enemies": [["snow.school_compound.school2.fist_trainer", "snow.school2.fist_trainer.1"]], "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
@@ -480,6 +483,7 @@ func _duel(result: Result, first: bool) -> Array:
 	s.vitality = CharacterResourceState.new(s.vitality.maximum + BUFFER, s.vitality.maximum + BUFFER, s.vitality.maximum + BUFFER)
 	var lost: bool = false
 	var lost_rounds: int = 0
+	var lost_step: int = 0
 	var rounds: int = 0
 	var steps: int = 0
 	# Each foe that was down (fallen or gone) at some point of the fight.
@@ -506,17 +510,26 @@ func _duel(result: Result, first: bool) -> Array:
 		if not lost and (s.vitality.current < BUFFER or s.vitality.effective < BUFFER):
 			lost = true
 			lost_rounds = rounds
-			for npc: NpcRuntimeState in _enemies:
+			lost_step = steps
+			for npc: NpcRuntimeState in _foes_in_fight(my_side):
 				npc.character_state.vitality = CharacterResourceState.new(1, 1, npc.character_state.vitality.maximum)
+		# Lost and still running (a foe the player cannot land on): settled below, not stuck.
+		if lost and steps - lost_step >= LOST_STEPS:
+			break
 	if coordinator.has_active_encounter():
-		result.stuck += 1
+		if not lost:
+			result.stuck += 1
 		lost = true
-		for npc: NpcRuntimeState in _enemies:
+		for npc: NpcRuntimeState in _foes_in_fight(my_side):
 			npc.character_state.vitality = CharacterResourceState.new(-1, 1, npc.character_state.vitality.maximum)
 		for step: int in 200:
 			if not coordinator.has_active_encounter():
 				break
 			coordinator.advance_scheduler(1.0)
+		# Foes the player never lands on do not fall on 0 kee: the fight is ended where it stands,
+		# so the next duel's foes are not made anew under an open fight (which then never moves).
+		if coordinator.has_active_encounter():
+			coordinator.stop_where_it_stands() # TEST-ONLY: the sim is done with this duel
 	session.shared_ui().dismiss_current_panel()
 	var lost_share: float = 1.0 if lost else clampf(float(real_kee + BUFFER - mini(s.vitality.current, s.vitality.effective)) / float(maxi(1, real_kee)), 0.0, 1.0)
 	s.vitality = CharacterResourceState.new(real_kee, real_kee, real_kee)
@@ -543,6 +556,19 @@ func _duel(result: Result, first: bool) -> Array:
 		var foes: Array = _enemies.map(func(npc: NpcRuntimeState) -> String: return "%s %d/%d %s" % [npc.definition().display_name, npc.character_state.vitality.current, npc.character_state.vitality.maximum, CharacterRuntimeLifeStatus.Value.find_key(npc.life_status)])
 		print("  duel: %s rounds %d (lost at %d) steps %d ending %s foes %s" % ["won" if not lost else "lost", rounds, lost_rounds, steps, "?" if ending == null else CombatEncounterResultKind.Value.find_key(ending.kind), foes])
 	return [not lost, rounds if not lost else lost_rounds, full, 1.0 if lost else lost_share]
+
+
+## Everyone on the far side of the open fight: the lineup and whoever the room brought in.
+func _foes_in_fight(my_side: StringName) -> Array[NpcRuntimeState]:
+	var out: Array[NpcRuntimeState] = []
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	if not coordinator.has_active_encounter():
+		return out
+	for participant: CombatParticipant in coordinator.active_encounter().participants():
+		var npc: NpcRuntimeState = map.npcs.find_resident_npc(participant.participant_id)
+		if npc != null and participant.side_id != my_side:
+			out.append(npc)
+	return out
 
 
 ## How many in `encounter` are neither the player nor the story's lineup (a bystander the room brought in).

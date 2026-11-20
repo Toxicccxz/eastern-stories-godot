@@ -62,6 +62,72 @@ class StepRunnerTests(unittest.TestCase):
         verify._run([sys.executable, "-c", "print('SCRIPT ERROR: quoted by a tooling test')"], timeout=30)
 
 
+class ImportRetryTests(unittest.TestCase):
+    """The headless import runs once more when the process crashed, and only then."""
+
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory()
+        self.marker = Path(self.temp.name) / "ran"
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    def _step(self, first: str, second: str = "pass") -> list[str]:
+        # The first run leaves a marker and does `first`; a run that finds it does `second`.
+        script = Path(self.temp.name) / "step.py"
+        script.write_text(
+            "import os, signal, sys\n"
+            f"marker = {str(self.marker)!r}\n"
+            "again = os.path.exists(marker)\n"
+            "open(marker, 'a').write('x')\n"
+            f"if again:\n    {second}\nelse:\n    {first}\n",
+            encoding="utf-8",
+        )
+        return [sys.executable, str(script)]
+
+    def _runs(self) -> int:
+        return len(self.marker.read_text()) if self.marker.exists() else 0
+
+    def _crash(self) -> str:
+        return "os.kill(os.getpid(), signal.SIGSEGV)" if os.name != "nt" else "import ctypes; ctypes.windll.kernel32.ExitProcess(0xC0000005)"
+
+    def test_a_crash_is_run_once_more_and_then_passes(self) -> None:
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            verify._run_import(self._step(self._crash()), None, timeout=30)
+        self.assertEqual(self._runs(), 2)
+        self.assertIn("run once more", out.getvalue())
+
+    def test_a_second_crash_fails(self) -> None:
+        with contextlib.redirect_stdout(io.StringIO()), self.assertRaisesRegex(RuntimeError, "crashed"):
+            verify._run_import(self._step(self._crash(), self._crash()), None, timeout=30)
+        self.assertEqual(self._runs(), 2)
+
+    def test_an_exit_code_is_not_run_again(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "exit code 3"):
+            verify._run_import(self._step("sys.exit(3)"), None, timeout=30)
+        self.assertEqual(self._runs(), 1)
+
+    def test_a_script_error_is_not_run_again(self) -> None:
+        with contextlib.redirect_stdout(io.StringIO()), self.assertRaisesRegex(RuntimeError, "SCRIPT ERROR"):
+            verify._run_import(self._step("print('SCRIPT ERROR: Parse error.')"), None, timeout=30)
+        self.assertEqual(self._runs(), 1)
+
+    def test_a_crash_after_a_script_error_is_not_run_again(self) -> None:
+        first = "print('SCRIPT ERROR: Parse error.', flush=True); " + self._crash()
+        with contextlib.redirect_stdout(io.StringIO()), self.assertRaises(RuntimeError) as raised:
+            verify._run_import(self._step(first), None, timeout=30)
+        self.assertNotIsInstance(raised.exception, verify.StepCrashed)
+        self.assertEqual(self._runs(), 1)
+
+    def test_what_counts_as_a_crash(self) -> None:
+        self.assertTrue(verify._crashed(-6))
+        self.assertTrue(verify._crashed(-11))
+        self.assertTrue(verify._crashed(0xC0000005))
+        self.assertFalse(verify._crashed(0))
+        self.assertFalse(verify._crashed(1))
+        self.assertFalse(verify._crashed(255))
+
+
 class GameplaySuiteTests(unittest.TestCase):
     """Step 4 runs each *_test.gd in its own process and judges it by its run_suite.gd log."""
 
