@@ -81,9 +81,19 @@ const ORDINARY: Array[Dictionary] = [
 ]
 
 
-## The fight with this label among FIGHTS and ORDINARY, or empty.
+## The sword build coming back after one death (owner 2026-11-19; DECISIONS「减轻死亡」): the fight's
+## exps less what a death takes (pacing.json's death_exp_percent), the sword in hand only when
+## pacing.json's death_keeps_equipped keeps it on the player (else empty-handed, as the corpse took
+## it: 42 of 42 lost at 玄冥子 before the change). The game's own death knobs, whatever the run's.
+const AFTER_DEATH: Array[Dictionary] = [
+	{"label": "第三章 追宫主 玄冥子（死过一次·剑法回来）", "zone": &"niling.cliff_path", "point": &"niling.cliff_path.xuan_mingzi.1", "enemies": [["niling.cliff_path.xuan_mingzi", "niling.cliff_path.xuan_mingzi.1"]], "chapter": &"main.chapter3", "weapon": &"es2:obj/longsword", "after_death": true},
+	{"label": "第五章 护送 庾家管事+打手×3（死过一次·剑法回来）", "zone": &"choyin.s_street2", "point": &"choyin.s_street2.yu_steward.1", "enemies": [["native.s_street2.yu_steward", "choyin.s_street2.yu_steward.1"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.1"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.2"], ["native.s_street2.yu_henchmen", "choyin.s_street2.yu_henchman.3"]], "mood": "fighting", "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword", "after_death": true},
+]
+
+
+## The fight with this label among FIGHTS, ORDINARY and AFTER_DEATH, or empty.
 static func any_fight(label: String) -> Dictionary:
-	for entry: Dictionary in FIGHTS + ORDINARY:
+	for entry: Dictionary in FIGHTS + ORDINARY + AFTER_DEATH:
 		if entry["label"] == label:
 			return entry
 	return {}
@@ -190,6 +200,9 @@ static func exps_of(entry: Dictionary) -> Array[int]:
 		if not entry.get("exploring_only", false):
 			out.append(Arrival.main_story(entry["chapter"]))
 		out.append(Arrival.exploring(entry["chapter"]))
+	if entry.get("after_death", false):
+		for index: int in out.size():
+			out[index] -= out[index] * TestDeath.game_exp_percent() / 100
 	return out
 
 
@@ -280,7 +293,8 @@ func _open(entry: Dictionary) -> bool:
 	await _settle()
 	if _enemies.size() != entry["enemies"].size():
 		return false
-	if build == SWORD:
+	# Back after a death: the sword only when the game's death leaves it on the player.
+	if build == SWORD and (not entry.get("after_death", false) or TestDeath.game_keeps_equipped()):
 		_wield(entry["weapon"] if weapon.is_empty() else weapon)
 	return true
 

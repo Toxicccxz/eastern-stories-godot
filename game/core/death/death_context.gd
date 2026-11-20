@@ -27,6 +27,7 @@ var _victim_matches_sword_soul_alias: bool
 var _killer_world_endpoint: ContainmentEndpointType
 var _legacy_rewear_actor_gender: StringName
 var _killer_was_present: bool
+var _victim_keeps_equipped: bool
 
 var victim_character_id: StringName:
 	get: return _victim_character_id
@@ -61,6 +62,10 @@ var legacy_rewear_actor_gender: StringName:
 	get: return _legacy_rewear_actor_gender
 var killer_was_present: bool:
 	get: return _killer_was_present
+## Native (owner 2026-11-19; DECISIONS「减轻死亡」, pacing death_keeps_equipped): what the victim
+## wields and wears stays on them; the rest goes into the corpse. Only the player's death sets it.
+var victim_keeps_equipped: bool:
+	get: return _victim_keeps_equipped
 
 
 func _init(
@@ -78,6 +83,7 @@ func _init(
 	p_killer_world_endpoint: ContainmentEndpointType = null,
 	p_legacy_rewear_actor_gender: StringName = &"",
 	p_killer_was_present: bool = false,
+	p_victim_keeps_equipped: bool = false,
 ) -> void:
 	_victim_character_id = p_victim_character_id
 	_victim_is_ghost = p_victim_is_ghost
@@ -97,6 +103,7 @@ func _init(
 	)
 	_legacy_rewear_actor_gender = p_legacy_rewear_actor_gender
 	_killer_was_present = p_killer_was_present or p_killer_world_endpoint != null
+	_victim_keeps_equipped = p_victim_keeps_equipped
 
 
 func is_valid() -> bool:
