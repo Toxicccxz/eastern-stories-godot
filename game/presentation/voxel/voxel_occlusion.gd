@@ -43,6 +43,10 @@ var plain_materials: Dictionary[String, ShaderMaterial] = {}
 var surfaces: Array[Dictionary] = []
 ## The surfaces wearing their plain material now (index -> true).
 var plain: Dictionary[int, bool] = {}
+## The surfaces a subject may be behind at the last choice; false until a choice has set every
+## surface (after a registration, a turn of the camera, a show): then only changes are worn.
+var _behind: Dictionary[int, bool] = {}
+var _chosen: bool = false
 ## Screen-plane cells -> surface indices for the camera's angle `_grid_key`, kept per angle.
 var _grid: Dictionary[Vector2i, Array] = {}
 var _grid_key: String = ""
@@ -98,6 +102,7 @@ func register(root: Node3D, moves: bool = false) -> void:
 		surfaces.append({"node": mesh, "reveal": materials[key], "plain": plain_materials[key], "moves": moves})
 	_grid_key = ""
 	_grids.clear()
+	_chosen = false
 
 ## Holds the show's space: `stage` the stage's transform in the world (its middle and foot, its
 ## turn), `footprint` in its own frame (units; x along its x, y along its z) and `low` .. `high`
@@ -158,53 +163,69 @@ func _choose_materials(camera: Camera3D) -> void:
 	var key: String = "%.4f,%.4f,%.4f" % [basis.z.x, basis.z.y, basis.z.z]
 	var held: bool = key == _last_key
 	_last_key = key
-	var wanted: Dictionary[int, bool] = {}
-	for index: int in surfaces.size():
-		wanted[index] = true
-	if held and show.is_empty():
-		if key != _grid_key:
-			if not _grids.has(key):
-				_build_grid(basis)
-				_grids[key] = [_grid, _extents]
-			_grid = _grids[key][0]
-			_extents = _grids[key][1]
-			_grid_key = key
-		var behind: Dictionary[int, bool] = {}
-		for subject: Vector4 in subjects:
-			var at := Vector3(subject.x, subject.y, subject.z)
-			var right: float = at.dot(basis.x)
-			var up: float = at.dot(basis.y)
-			var depth: float = at.dot(basis.z)
-			var reach := Vector2(subject.w, subject.w*1.25)
-			for x: int in range(floori((right-reach.x)/CELL), floori((right+reach.x)/CELL)+1):
-				for y: int in range(floori((up-reach.y)/CELL), floori((up+reach.y)/CELL)+1):
-					for index: int in _grid.get(Vector2i(x, y), []):
-						var span: Vector4 = _extents[index*2]
-						var near: float = _extents[index*2+1].x
-						if span.x <= right+reach.x and span.y >= right-reach.x and span.z <= up+reach.y and span.w >= up-reach.y and near > depth+0.1:
-							behind[index] = true
+	if not held or not show.is_empty():
+		_reveal_all()
+		return
+	if key != _grid_key:
+		if not _grids.has(key):
+			_build_grid(basis)
+			_grids[key] = [_grid, _extents]
+		_grid = _grids[key][0]
+		_extents = _grids[key][1]
+		_grid_key = key
+	var behind: Dictionary[int, bool] = {}
+	for subject: Vector4 in subjects:
+		var at := Vector3(subject.x, subject.y, subject.z)
+		var right: float = at.dot(basis.x)
+		var up: float = at.dot(basis.y)
+		var depth: float = at.dot(basis.z)
+		var reach := Vector2(subject.w, subject.w*1.25)
+		for x: int in range(floori((right-reach.x)/CELL), floori((right+reach.x)/CELL)+1):
+			for y: int in range(floori((up-reach.y)/CELL), floori((up+reach.y)/CELL)+1):
+				for index: int in _grid.get(Vector2i(x, y), []):
+					var span: Vector4 = _extents[index*2]
+					if span.x <= right+reach.x and span.y >= right-reach.x and span.z <= up+reach.y and span.w >= up-reach.y and _extents[index*2+1].x > depth+0.1:
+						behind[index] = true
+	if not _chosen:
+		_chosen = true
 		for index: int in surfaces.size():
-			if not behind.has(index) and not bool(surfaces[index]["moves"]):
-				wanted.erase(index)
-	for index: int in surfaces.size():
-		var node := surfaces[index]["node"] as GeometryInstance3D
-		if not is_instance_valid(node):
-			continue
-		var flat: bool = not wanted.has(index)
-		if flat != plain.has(index):
-			node.material_override = surfaces[index]["plain"] if flat else surfaces[index]["reveal"]
-			if flat:
-				plain[index] = true
-			else:
-				plain.erase(index)
+			_wear(index, not behind.has(index))
+	else:
+		for index: int in _behind:
+			if not behind.has(index):
+				_wear(index, true)
+		for index: int in behind:
+			if not _behind.has(index):
+				_wear(index, false)
+	_behind = behind
 
-## Every surface back on its see-through material (plain_when_clear turned off).
+## Surface `index` on its plain material (`flat`) or its see-through; a moving part always sees
+## through.
+func _wear(index: int, flat: bool) -> void:
+	var surface: Dictionary = surfaces[index]
+	if bool(surface["moves"]):
+		flat = false
+	if flat == plain.has(index):
+		return
+	var node := surface["node"] as GeometryInstance3D
+	if not is_instance_valid(node):
+		return
+	node.material_override = surface["plain"] if flat else surface["reveal"]
+	if flat:
+		plain[index] = true
+	else:
+		plain.erase(index)
+
+## Every surface back on its see-through material (the camera turning, a show, the switch off);
+## the next choice sets them all again.
 func _reveal_all() -> void:
 	for index: int in plain:
 		var node := surfaces[index]["node"] as GeometryInstance3D
 		if is_instance_valid(node):
 			node.material_override = surfaces[index]["reveal"]
 	plain.clear()
+	_behind.clear()
+	_chosen = false
 
 ## Each surface's box in the camera's plane (right and up spans, and how near the eye it comes),
 ## and the cells of CELL it covers.

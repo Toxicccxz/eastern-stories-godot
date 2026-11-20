@@ -71,10 +71,19 @@ var casting: Array[Light3D] = []
 ## wall is hidden with it). A light changing hands fades out before the next fades in, over
 ## LAMP_LIGHT_FADE_SECONDS; on entering a map or a switch at once they light at once. Rooms keep
 ## every lamp. A lamp's meta `presence` (0 .. 1) scales its energy.
-var lamp_light_limit: int = -1
+var lamp_light_limit: int = -1:
+	set(value):
+		if value != lamp_light_limit:
+			lamp_light_limit = value
+			_lamps_chosen = false
 const LAMP_LIGHT_FADE_SECONDS: float = 0.4
 var _lamps_chosen: bool = false
 var _lights_limited: bool = false
+## The lamps lamp_light_limit lights, read again every LAMP_SHADOW_RANK_SECONDS, and those whose
+## `presence` is above 0 now (lit or fading).
+var _lit_near: Array[Light3D] = []
+var _present: Array[Light3D] = []
+var _light_rank_in: float = 0.0
 var _rank_in: float = 0.0
 var _shadows_ranked: bool = false
 var _shadows_settled: bool = false
@@ -198,6 +207,8 @@ func release() -> void:
 	_shadows_settled = false
 	_lamps_chosen = false
 	_lights_limited = false
+	_lit_near.clear()
+	_present.clear()
 	windows.clear()
 	hazes.clear()
 	flickering.clear()
@@ -413,28 +424,56 @@ func _limit_lamps(delta: float) -> void:
 			for lamp: Light3D in lamps:
 				lamp.set_meta("presence",1.0)
 		return
-	_lights_limited = true
-	var order: Array[Light3D] = []
-	for lamp: Light3D in lamps:
-		if lamp != carried and _unlimited_energy(lamp,amount) > 0.0 and lamp.get_parent().is_visible_in_tree():
-			order.append(lamp)
-	order.sort_custom(func(a: Light3D, b: Light3D) -> bool: return _planar_distance(a) < _planar_distance(b))
-	var near: Array[Light3D] = order.slice(0,lamp_light_limit)
+	if not _lights_limited:
+		# Every lamp was lit: they fade out from there (or go at once, a first choice).
+		_lights_limited = true
+		_present.clear()
+		for lamp: Light3D in lamps:
+			if lamp != carried and float(lamp.get_meta("presence",0.0)) > 0.0:
+				_present.append(lamp)
+	_light_rank_in -= delta
+	if not _lamps_chosen or _light_rank_in <= 0.0:
+		_light_rank_in = LAMP_SHADOW_RANK_SECONDS
+		_lit_near = _nearest_giving(lamp_light_limit)
 	var step: float = delta/LAMP_LIGHT_FADE_SECONDS if _lamps_chosen else INF
 	_lamps_chosen = true
-	var lit: int = 0
+	for lamp: Light3D in _present.duplicate():
+		if not _lit_near.has(lamp):
+			var fading: float = move_toward(float(lamp.get_meta("presence",0.0)),0.0,step)
+			lamp.set_meta("presence",fading)
+			if fading <= 0.0:
+				_present.erase(lamp)
+	for lamp: Light3D in _lit_near:
+		var presence: float = float(lamp.get_meta("presence",0.0))
+		if presence > 0.0 or _present.size() < lamp_light_limit:
+			if not _present.has(lamp):
+				_present.append(lamp)
+			lamp.set_meta("presence",move_toward(presence,1.0,step))
+
+## The `count` lamps nearest the player (on the ground plane) that give light now and are not
+## hidden with their wall, nearest first; never the carried light.
+func _nearest_giving(count: int) -> Array[Light3D]:
+	var found: Array[Light3D] = []
+	var reach: PackedFloat32Array = []
+	if count <= 0:
+		return found
 	for lamp: Light3D in lamps:
 		if lamp == carried:
 			continue
-		if not near.has(lamp):
-			lamp.set_meta("presence",move_toward(float(lamp.get_meta("presence",0.0)),0.0,step))
-		if float(lamp.get_meta("presence",0.0)) > 0.0:
-			lit += 1
-	for lamp: Light3D in near:
-		var presence: float = float(lamp.get_meta("presence",0.0))
-		if presence > 0.0 or lit < lamp_light_limit:
-			lit += int(is_zero_approx(presence))
-			lamp.set_meta("presence",move_toward(presence,1.0,step))
+		var far: float = _planar_distance(lamp)
+		if far >= LAMP_FADE_END or not lamp.get_parent().is_visible_in_tree() or _unlimited_energy(lamp,amount) <= 0.0:
+			continue
+		var at: int = reach.size()
+		while at > 0 and reach[at-1] > far:
+			at -= 1
+		if at >= count:
+			continue
+		found.insert(at,lamp)
+		reach.insert(at,far)
+		if found.size() > count:
+			found.resize(count)
+			reach.resize(count)
+	return found
 
 ## A lamp's day/night energy, faded with its distance out of doors: before any limit or flicker.
 func _unlimited_energy(lamp: Light3D, blend: float) -> float:
