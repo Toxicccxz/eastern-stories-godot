@@ -189,6 +189,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					var feet: String = _map.floor_items.at_feet_line(made_id, GameContent.catalog().item(made_item.item_definition_id))
 					if not feet.is_empty():
 						said.append(ColoredLine.new(feet))
+					elif step.wield and not _wield_given(made_id):
+						push_error("the act could not put %s in the player's hand" % made)
 			ScriptedAct.Kind.COMES:
 				var comer: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
 				# From a room on another map (the 瓜农 out of his own 瓜棚 since the remap): he comes
@@ -221,8 +223,15 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				marked = true
 			ScriptedAct.Kind.SUMMON:
 				_show(said, hears, npc, spoken)
-				if _map.summon(step.spawn_id).is_empty():
+				# A scene pressed again while its people still stand (the 番坊 clerk's 动手 before the
+				# four 浪人 are down): those that come are new; those already there come at the player anew.
+				var came: Array[NpcRuntimeState] = _map.summon(step.spawn_id)
+				var standing: Array[NpcRuntimeState] = _map.npcs.standing_of(step.spawn_id)
+				if came.is_empty() and standing.is_empty():
 					push_error("%s could not summon %s" % [npc_name, step.spawn_id])
+				for again: NpcRuntimeState in standing:
+					if not came.has(again):
+						_map.hostilities.call_again(again)
 			ScriptedAct.Kind.NPC_MOOD:
 				var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
 				if hooks != null and hooks.moods.has(step.flag):
@@ -462,6 +471,21 @@ func _close_door(npc: NpcRuntimeState, hears: bool) -> void:
 			"npc": TranslationServer.translate(npc.definition().display_name),
 			"door": TranslationServer.translate(chosen.display_name),
 		})])
+
+
+## `give`'s `wield` (DECISIONS「穿灵在手」): the weapon `item_id` the player was just given goes into
+## their hand; what they held goes back into the bag (unwield, as the 装备 page does). Whether it is
+## in hand now.
+func _wield_given(item_id: StringName) -> bool:
+	var adapter := OldPineEquipmentInteractionAdapter.new()
+	for held: EquippedWeaponRef in [_player.state.equipment.primary_weapon(), _player.state.equipment.secondary_weapon()]:
+		if held != null and held.instance_id != item_id:
+			adapter.unwield(_player, held.instance_id, _map.inventory_state())
+	adapter.wield(_player, item_id, _map.inventory_state(), _map.item_instance_index())
+	var primary: EquippedWeaponRef = _player.state.equipment.primary_weapon()
+	if _map.runtime_player_body() != null:
+		_map.runtime_player_body().refresh_runtime_state()
+	return primary != null and primary.instance_id == item_id
 
 
 ## An inquiry answer's `takes` (东方神教 B, DECISIONS「收走」): as an act's `take`.

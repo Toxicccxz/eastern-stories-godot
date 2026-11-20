@@ -11,6 +11,9 @@ extends RefCounted
 ## PracticeService.weak_progress_full()): one that would spend and gain nothing is not
 ## taken, and the run says why instead (owner, 2026-10-19). One that is refused at no
 ## cost is taken: its own lines say why.
+## 自动歇 (成长曲线 B; pacing training_auto_rest): a stop for 精, 气 or 神 short (rest_mends())
+## need not end the run: the player rests (歇到回满) and resume() takes the same run on, its count,
+## its summary and its look-ahead as before; the run keeps how often and how long it rested.
 
 enum Kind { LEARN, PRACTICE, EXERCISE, MEDITATE, RESPIRATE }
 
@@ -37,11 +40,25 @@ enum Stop {
 	INTERRUPTED,
 	## The player stopped it.
 	CANCELLED,
-	## MAX_STEPS taken (a guard: every run ends on its own well before).
+	## MAX_STEPS taken without a rest (a guard: every run ends on its own well before).
 	LIMIT,
 }
 
 const MAX_STEPS: int = 999
+
+## The cultivations refused for 精, 气 or 神 short (the cost, or the 70% exercise.c, meditate.c
+## and respirate.c ask of the other two): a rest brings them back.
+const MENDED_CULTIVATION: Array[int] = [
+	CultivationResult.FailureReason.INSUFFICIENT_ESSENCE,
+	CultivationResult.FailureReason.INSUFFICIENT_VITALITY,
+	CultivationResult.FailureReason.INSUFFICIENT_SPIRIT,
+	CultivationResult.FailureReason.ESSENCE_BELOW_HEALTH_THRESHOLD,
+	CultivationResult.FailureReason.VITALITY_BELOW_HEALTH_THRESHOLD,
+	CultivationResult.FailureReason.SPIRIT_BELOW_HEALTH_THRESHOLD,
+]
+## practice_skill()'s checks a rest mends (PracticePolicy.refusal()): kee and sen. Force, mana, the
+## weapon and the water it wants are not the rest's.
+const MENDED_PRACTICE: Array[StringName] = [&"kee", &"sen"]
 
 
 ## The player's numbers a run changes.
@@ -56,6 +73,18 @@ class Snapshot:
 	var potential: int
 	var level: int
 	var learned: int
+
+	## Adds what changed from `then` to `now` (a rest's drift).
+	func add_change(then: Snapshot, now: Snapshot) -> void:
+		essence += now.essence - then.essence
+		vitality += now.vitality - then.vitality
+		spirit += now.spirit - then.spirit
+		inner_force += now.inner_force - then.inner_force
+		mana += now.mana - then.mana
+		atman += now.atman - then.atman
+		potential += now.potential - then.potential
+		level += now.level - then.level
+		learned += now.learned - then.learned
 
 	static func of(state: CharacterState, skill_id: StringName) -> Snapshot:
 		var snapshot := Snapshot.new()
@@ -89,6 +118,22 @@ var required: int = 0
 ## Native (前两小时 A; DECISIONS「新手链与当前目标」): a cultivation run goes on past a raised
 ## maximum until the maximum reaches this (练到 N 再停); 0 stops at the first raise, as before.
 var target_maximum: int = 0
+## The stop (WASTE_ESSENCE, or a REFUSED step's) is for 精, 气 or 神 short: a rest mends it.
+var mendable: bool = false
+## 自动歇 is on for this run (the stop lines leave out the 歇到回满 hint).
+var auto_rest: bool = false
+## 自动歇: the rests taken during the run, the world seconds and game minutes they lasted.
+var rests: int = 0
+var rest_world_seconds: float = 0.0
+var rest_minutes: int = 0
+## Said after the stop: the line of a rest that ended the run (有人来袭 …), or why none could
+## begin (no water …); "" when none.
+var rest_line: String = ""
+## What the rests changed (精, 气, 神 back; 内力, 法力, 灵力 back by heal_up()), not the steps: the
+## summary tells the steps' own change.
+var drift: Snapshot = Snapshot.new()
+## Steps since the run began or last rested (what MAX_STEPS counts).
+var _stretch: int = 0
 
 
 func _init(p_kind: Kind, p_skill_id: StringName, state: CharacterState) -> void:
@@ -105,21 +150,68 @@ func stopped() -> bool:
 ## A step was taken (and paid for).
 func took_step(state: CharacterState, lines: Array[ColoredLine] = []) -> void:
 	steps += 1
+	_stretch += 1
 	after = Snapshot.of(state, skill_id)
 	kept.append_array(lines)
-	if stop == Stop.NONE and steps >= MAX_STEPS:
+	if stop == Stop.NONE and _stretch >= MAX_STEPS:
 		stop = Stop.LIMIT
 
 
-## The step was refused (or conjured): its own lines say why.
-func refused(lines: Array[ColoredLine]) -> void:
+## The step was refused (or conjured): its own lines say why; `for_rest` when it was for 精, 气
+## or 神 short (rest_mends_cultivation(), rest_mends_practice()).
+func refused(lines: Array[ColoredLine], for_rest: bool = false) -> void:
 	refused_lines = lines
+	mendable = for_rest
 	stop = Stop.REFUSED
 
 
 func end(why: Stop) -> void:
 	if stop == Stop.NONE:
 		stop = why
+
+
+## The run stopped for 精, 气 or 神 short: a rest would let it go on.
+func rest_mends() -> bool:
+	return mendable and stop in [Stop.WASTE_ESSENCE, Stop.REFUSED]
+
+
+## A rest of `world_seconds` (`minutes` game minutes) was taken during the run.
+func rested(world_seconds: float, minutes: int) -> void:
+	rests += 1
+	rest_world_seconds += maxf(world_seconds, 0.0)
+	rest_minutes += maxi(minutes, 0)
+
+
+## After a rest that mended the stop: the same run goes on, as if it had not stopped (`state`:
+## the player now, the numbers the look-ahead and the progress read). What the rest changed
+## goes to `drift`.
+func resume(state: CharacterState) -> void:
+	stop = Stop.NONE
+	mendable = false
+	refused_lines = []
+	cost = 0
+	have = 0
+	required = 0
+	_stretch = 0
+	var now: Snapshot = Snapshot.of(state, skill_id)
+	drift.add_change(after, now)
+	after = now
+
+
+## 自动歇 holds back while 朱鸿雪's task runs against its time (god.c's task_time): a rest would
+## spend it unasked. The player rests by hand (歇到回满) if they choose.
+static func rest_held_back(state: CharacterState) -> bool:
+	return state.quest.has_task() and not state.quest.is_expired()
+
+
+## A cultivation refused for 精, 气 or 神 short.
+static func rest_mends_cultivation(result: CultivationResult) -> bool:
+	return result != null and MENDED_CULTIVATION.has(result.failure_reason)
+
+
+## A practice refused for kee or sen short.
+static func rest_mends_practice(result: PracticeResult) -> bool:
+	return result != null and result.failure_reason == PracticeResult.FailureReason.PRACTICE_HOOK_REJECTED and MENDED_PRACTICE.has(result.refusal)
 
 
 ## The learn that LearnPreview.next() saw next for a student with `combat_experience`:
@@ -130,6 +222,7 @@ func look_at_learn(preview: LearnResult, combat_experience: int) -> Stop:
 	cost = preview.calculated_essence_cost
 	if preview.completion == LearnResult.Completion.NO_PROGRESS_INSUFFICIENT_ESSENCE:
 		have = preview.essence_before
+		mendable = true
 		return Stop.WASTE_ESSENCE
 	required = preview.required_combat_experience
 	have = combat_experience

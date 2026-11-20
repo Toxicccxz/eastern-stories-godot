@@ -34,7 +34,25 @@ func _test_words() -> void:
 	_check(spec != null and spec.quest == &"main.finale" and spec.pulled and spec.side == "deal" and spec.who == "xiao" and spec.exploring and spec.sword, "words: finale pulled side=deal who=xiao explore")
 	_check(Runner.parse(PackedStringArray(["chapter10"])).quest == &"main.chapter10" and Runner.parse(PackedStringArray(["prologue"])).quest == &"main.prologue", "words: chapter10, prologue")
 	_check(Runner.parse(PackedStringArray(["11"])) == null and Runner.parse(PackedStringArray(["3", "who=me"])) == null and Runner.parse(PackedStringArray()) == null, "words: an unknown chapter or word is refused")
-	_check(ChapterStart.title(&"main.chapter7") == "第七章 番坊" and ChapterStart.title(&"main.prologue") == "序章 寻剑令" and ChapterStart.title(&"main.finale") == "终章 回到湖底", "titles as the journal names the chapters")
+	_check(ChapterStart.title(&"main.chapter7") == "第七章 番坊" and ChapterStart.title(&"main.prologue") == "序章 寻剑令" and ChapterStart.title(&"main.finale") == "终章 回到湖底" and ChapterStart.title(&"faction.assembly") == "终章之后", "titles as the journal names the chapters")
+	spec = Runner.parse(PackedStringArray(["8", "sneak", "ronin"]))
+	_check(spec != null and not spec.raid and not spec.rome and spec.describe().contains("潜入") and spec.describe().contains("站浪人"), "words: 8 sneak ronin")
+	spec = Runner.parse(PackedStringArray(["after", "line=niling", "stage=net", "chase", "side=uncle", "who=uncle"]))
+	_check(spec != null and spec.quest == &"faction.assembly" and spec.line == "niling" and spec.stage == "net" and spec.describe().contains("后山的事了了"), "words: after line=niling stage=net chase side=uncle who=uncle")
+	spec = Runner.parse(PackedStringArray(["6", "line=court"]))
+	_check(spec != null and spec.stage == "badge", "words: a line without a stage stands at its first")
+	# States no player reaches: refused, with the reason.
+	for refused: Array in [
+		[["finale", "chase", "side=deal", "who=uncle"], "皇叔"],
+		[["finale", "chase", "ronin", "side=deal", "who=self"], "六口"],
+		[["4", "line=niling", "stage=net"], "终章之后"],
+		[["5", "line=nobody"], "unknown"],
+	]:
+		var words := PackedStringArray(refused[0])
+		_check(Runner.parse(words) == null and Runner.why_not(words).contains(refused[1]), "words refused: %s (%s)" % [" ".join(words), Runner.why_not(words)])
+	for line: Dictionary in ChapterStart.LINES:
+		var quest: StoryQuestDefinition = GameContent.catalog().story_quest(line["quest"])
+		_check(quest != null and line["stages"].all(func(stage: Dictionary) -> bool: return ChapterStart.index_of(stage["from"]) > 0 and quest.steps.any(func(step: StoryQuestDefinition.Step) -> bool: return step.step_id == stage["next"])), "line %s: its quest, each stage's next step one of its steps, each from a start" % line["key"])
 	var previous: int = -1
 	for entry: Dictionary in ChapterStart.START:
 		var arrival: int = ChapterStart.arrival_exp(Check.spec_of(entry["quest"]))
@@ -63,6 +81,21 @@ func _test_panel(tree: SceneTree) -> void:
 	_check(panel.line.get_parent().visible and panel.who.get_parent().visible, "终章: every branch row")
 	_check(spec.quest == &"main.finale" and not spec.sword and spec.chased and spec.pulled and spec.side == "uncle" and spec.who == "xiao", "the picks as a spec: %s" % spec.describe())
 	_check(panel.summary.text.contains("旋芒在萧辟尘手里") and panel.summary.text.contains(str(ChapterStart.arrival_exp(spec))), "the summary names the branches and the exp: %s" % panel.summary.text)
+	_check(panel.correction.text.is_empty(), "a reachable pick is left as it is")
+	# 旋芒 in the 皇叔's hands after 私了: he never came to court — corrected at once, and said.
+	panel.side.select(1)
+	panel.who.select(1)
+	panel.who.item_selected.emit(1)
+	spec = panel.current_spec()
+	_check(spec.problems().is_empty() and spec.who != "uncle" and panel.who.selected != 1 and panel.correction.text.contains("皇叔没有入朝"), "an unreachable pick is corrected and said: %s → %s" % [panel.correction.text, spec.describe()])
+	panel.faction.select(ChapterStart.LINES.find(ChapterStart.line_of("niling")) + 1)
+	panel.faction.item_selected.emit(panel.faction.selected)
+	_check(panel.faction_stage.get_parent().visible and panel.faction_stage.item_count == 3, "a line chosen: its stages offered")
+	panel.chapter.select(ChapterStart.index_of(&"main.chapter4"))
+	panel.faction_stage.select(2)
+	panel.chapter.item_selected.emit(panel.chapter.selected)
+	spec = panel.current_spec()
+	_check(spec.line == "niling" and spec.stage == "word" and panel.correction.text.contains("改到"), "a stage before its chapter moves to the last one there: %s" % panel.correction.text)
 	panel.free()
 
 

@@ -34,7 +34,7 @@ const MAX_STEPS: int = 4000
 ## The must-win fights (the list: DECISIONS「主线必打的仗」). `chapter`: the main story's quest the
 ## fight is in; the character arrives with tests/support/story_arrival.gd's exp for it, the main
 ## story alone and exploring on the side (`exploring_only`: only the latter; `exps` instead: given); `enemies` / `allies`: [spawn, point] as they stand; `followers`:
-## NPC definitions that follow the player there whatever was chosen (郭承), summoned beside them;
+## NPC definitions that follow the player there whatever was chosen (郭承), made beside them, following;
 ## `mood`: the scene's mood put on each foe that has it (吕隼's 拿下: `fighting`);
 ## `helped`: whether the story guarantees help there (the nine-in-ten band); `away`: spawns whose NPCs
 ## stand in the room but are not in the story's fight, taken off the map (the 冰龙厅's six guardian
@@ -64,6 +64,11 @@ const FIGHTS: Array[Dictionary] = [
 	{"label": "终章 侮天鬼（穿宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.3", "enemies": [["native.seal_altar.wutian_gui_grown", "village.seal_altar.demon.3"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
 	{"label": "终章 侮天鬼（没宝衣·拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.4", "enemies": [["native.seal_altar.wutian_gui_grown_blazing", "village.seal_altar.demon.4"]], "chapter": &"main.finale", "weapon": &"native:lancheng/xuanmang"},
 	{"label": "第九章 揭发 庾子建（冯策并肩，选择）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "allies": [["imperial.throne_hall.feng_ce_beside", "imperial.throne_hall.feng_ce_beside.1"]], "helped": true, "chapter": &"main.chapter9", "exploring_only": true, "weapon": &"es2:obj/longsword"},
+	# 全项目审查第二轮 (修补 W, DECISIONS「帮手等仗打完」): what one meets 庾子建 with nobody beside; and 侮天鬼 with
+	# 穿灵 in hand on the way without 旋芒 (DECISIONS「穿灵在手」: the 封坛 puts it there). Measured, not tuned.
+	{"label": "第九章 揭发 庾子建（冯策不在，单打）", "zone": &"imperial.throne_hall", "point": &"imperial.throne_hall.yu_drawn.1", "enemies": [["imperial.throne_hall.yu_drawn", "imperial.throne_hall.yu_drawn.1"]], "chapter": &"main.chapter9", "weapon": &"es2:obj/longsword"},
+	{"label": "终章 侮天鬼（没拿旋芒·穿灵在手，穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"native:village/soul_impaler"},
+	{"label": "终章 侮天鬼（没拿旋芒·长剑，穿宝衣·没拔过）", "zone": &"village.seal_altar", "point": &"village.seal_altar.demon.1", "enemies": [["native.seal_altar.wutian_gui", "village.seal_altar.demon.1"]], "chapter": &"main.finale", "weapon": &"es2:obj/longsword"},
 ]
 
 ## A few ordinary fights of the first two hours and of ES2's regions, not tuned here: for measuring
@@ -73,8 +78,11 @@ const ORDINARY: Array[Dictionary] = [
 	{"label": "老松林 山坡 土匪", "zone": &"oldpine.outdoor.slope", "point": &"oldpine.outdoor.slope.spath1.bandit.1", "enemies": [["oldpine.outdoor.spath1.bandits", "oldpine.outdoor.slope.spath1.bandit.1"]], "exps": [150, 600], "weapon": &"es2:obj/longsword"},
 	{"label": "老松林 松林口 高个土匪", "zone": &"oldpine.outdoor.pine_entrance", "point": &"oldpine.outdoor.pine_entrance.pine1.tall_bandit.1", "enemies": [["oldpine.outdoor.pine1.tall_bandit", "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"]], "exps": [400, 1000], "weapon": &"es2:obj/longsword"},
 	{"label": "野羊山 山路 山贼", "zone": &"goathill.mroad4", "point": &"goathill.mroad4.bandit.1", "enemies": [["goathill.mountain.mroad4.bandits", "goathill.mroad4.bandit.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
-	{"label": "绮云镇 公园 小偷", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
+	{"label": "绮云镇 公园 飞贼", "zone": &"cloud.park", "point": &"cloud.park.thief.1", "enemies": [["cloud.outdoor.park.thief", "cloud.park.thief.1"]], "exps": [1000, 1820], "weapon": &"es2:obj/longsword"},
 	{"label": "老松岭 寨门 守寨土匪", "zone": &"oldpine.outdoor.keep_gate", "point": &"oldpine.outdoor.keep_gate.keep1.bandit_guard.1", "enemies": [["oldpine.outdoor.keep1.bandit_guards", "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"]], "exps": [1820, 4127], "weapon": &"es2:obj/longsword"},
+	{"label": "雪亭镇 武馆 李火狮", "zone": &"snow.school2", "point": &"snow.school2.fist_trainer.1", "enemies": [["snow.school_compound.school2.fist_trainer", "snow.school2.fist_trainer.1"]], "chapter": &"main.chapter2", "weapon": &"es2:obj/longsword"},
+	{"label": "山烟寺 山路 僧人", "zone": &"sanyen.road2", "point": &"sanyen.road2.bonze.1", "enemies": [["sanyen.grounds.road2.bonze", "sanyen.road2.bonze.1"]], "chapter": &"main.chapter5", "weapon": &"es2:obj/longsword"},
+	{"label": "老松岭 石顶 金银花蛇", "zone": &"oldpine.stone.top", "point": &"oldpine.stone.top.stone.venomsnake.1", "enemies": [["oldpine.stone.venomsnake", "oldpine.stone.top.stone.venomsnake.1"]], "chapter": &"main.chapter8", "weapon": &"es2:obj/longsword"},
 ]
 
 
@@ -596,14 +604,14 @@ func _refind(pairs: Array) -> Array[NpcRuntimeState]:
 	return out
 
 
-## One who follows the player there whatever was chosen (郭承): made beside the player as their own,
-## following (the fights_beside rule takes them in as the fight opens).
+## One who follows the player there whatever was chosen (郭承): made beside the player, following
+## (the fights_beside rule takes them in as the fight opens; a follower holds for 了结 / 放过 as the
+## player's summons do, DECISIONS「了结 / 放过」Q2), not written in as the player's summons.
 func _follower(definition_id: StringName) -> NpcRuntimeState:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var npc: NpcRuntimeState = map.npcs._new_beside(player.character_id, GameContent.catalog().npc(definition_id))
 	if npc == null:
 		return null
-	map.npcs.summoners[npc.character_id] = player.character_id
 	npc.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, true)
 	return npc
 

@@ -189,6 +189,12 @@ func _test_truth_spared_annie(tree: SceneTree, session: WorldSessionController) 
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"split", "the split next")
 	var annie: NpcRuntimeState = _first(session, YARD, ANNIE_YARD)
+	# DECISIONS「东方神教 B」: the 安妮儿 of the 场院 takes the 宝衣 too, as the 西厢's does (第四章 must not stop).
+	var robe: StringName = yard.give_new_item_to_player(&"native:latemoon/cold_robe") # TEST-ONLY: 第四章's 宝衣 in hand
+	_check(not robe.is_empty() and yard.select_npc(annie.character_id), "the 宝衣 carried to the 场院's 安妮儿")
+	var robe_given: ItemHandlingResult = yard.give_to_selected(robe)
+	_check(robe_given != null and robe_given.done() and state.marks.get("宝衣给了安妮儿", 0) == 1 and _carried(session, &"native:latemoon/cold_robe").is_empty(), "the 场院's 安妮儿 takes the 宝衣: 宝衣给了安妮儿 (%s)" % [[] if robe_given == null else robe_given.lines])
+	state.marks.erase("宝衣给了安妮儿") # TEST-ONLY: the rest of this way is played without it
 	god = _first(session, YARD, GOD)
 	_check(yard.select_npc(annie.character_id) and yard.ask_topics_selected().has("教主") and annie.definition().talk().confirm_applies("教主", state.marks) and god.definition().talk().confirm_applies("教主", state.marks), "教主 on both, asked first")
 	_check(not MapAtlas.takes_students(catalog.npc(ANNIE), state), "before the split 安妮儿 is no master on the 沙盘")

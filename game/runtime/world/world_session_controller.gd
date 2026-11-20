@@ -452,6 +452,10 @@ func _sync_walk_pause() -> void:
 signal rest_ended(outcome: int, line: String)
 var _rest: PlayerRest = PlayerRest.new()
 var _rest_map: StringName = &""
+## A continuous run's own rest (自动歇; begin_rest(true)): the holds of the window it runs on, which
+## do not hold the world while it lasts; nothing is said (the run tells it). Empty otherwise.
+var _rest_lifts: Array[StringName] = []
+var _rest_quiet: bool = false
 
 
 func resting() -> bool:
@@ -479,7 +483,11 @@ func rest_refusal() -> String:
 
 
 ## The player sits down to rest (the 请教 and 武学 pages' 歇到回满): "" when they do, else why not.
-func begin_rest() -> String:
+## `for_training`: a continuous run rests by itself (自动歇, pacing training_auto_rest; DECISIONS
+## 「连续修炼」): the page it runs on stays open, and that window's holds (`lifted`: the menu's,
+## the popup's) do not hold world time while the rest lasts; nothing is said here, the run tells
+## it. Any other hold (a card, a presentation beat, one that comes meanwhile) holds it as ever.
+func begin_rest(for_training: bool = false, lifted: Array[StringName] = []) -> String:
 	if _rest.active():
 		return ""
 	var refused: String = rest_refusal()
@@ -489,15 +497,32 @@ func begin_rest() -> String:
 	_rest.begin(_player.state, pacing.rest_world_scale, pacing.rest_limit_seconds)
 	var map: WorldMapController = active_map() as WorldMapController
 	_rest_map = &"" if map == null else map.map_id()
+	_rest_quiet = for_training
+	_rest_lifts = []
+	if for_training:
+		_rest_lifts.assign(lifted)
 	_sync_walk_pause()
-	_rest_line(TranslationServer.translate(RestLines.BEGIN))
+	if not _rest_quiet:
+		_rest_line(TranslationServer.translate(RestLines.BEGIN))
 	return ""
 
 
-## The player gets up (the rest's 起身).
+## The rest under way is a continuous run's own (begin_rest(true)).
+func resting_for_training() -> bool:
+	return _rest.active() and _rest_quiet
+
+
+## World seconds the rest under way has lasted.
+func rest_world_seconds() -> float:
+	return _rest.world_seconds()
+
+
+## The player gets up (the rest's 起身, a run's 停止, its page going away). Something that came at
+## them this frame (a fight closing the page first, another map) is told as that, not as 起身.
 func stop_rest() -> void:
 	if _rest.active():
-		_end_rest(RestRules.Outcome.CANCELLED)
+		var interruption: RestRules.Outcome = _rest_interruption()
+		_end_rest(RestRules.Outcome.CANCELLED if interruption == RestRules.Outcome.NONE else interruption)
 
 
 ## What came at the resting player this frame, or NONE: a fall, a fight or a gang's alert, a
@@ -528,9 +553,13 @@ func _judge_rest(interruption: RestRules.Outcome, world_seconds: float) -> void:
 
 func _end_rest(outcome: RestRules.Outcome) -> void:
 	var line: String = RestLines.ended(outcome, rest_minutes())
+	var quiet: bool = _rest_quiet
 	_rest.end()
+	_rest_quiet = false
+	_rest_lifts = []
 	_sync_walk_pause()
-	_rest_line(line)
+	if not quiet:
+		_rest_line(line)
 	rest_ended.emit(outcome, line)
 
 
@@ -544,10 +573,21 @@ func _rest_line(line: String) -> void:
 ## menu lives world time at once (the HUD closes the menu on its next frame).
 func world_time_held() -> bool:
 	return (
-		not _world_time_holds.is_empty() and _player != null
+		_holds_world_time() and _player != null
 		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and (_combat_encounter_coordinator == null or not _combat_encounter_coordinator.has_active_encounter())
 	)
+
+
+## Someone holds world time: any hold, but while a continuous run rests by itself, not the holds of
+## the window it runs on (begin_rest(true)).
+func _holds_world_time() -> bool:
+	if _rest_lifts.is_empty() or not _rest.active():
+		return not _world_time_holds.is_empty()
+	for owner: StringName in _world_time_holds:
+		if not _rest_lifts.has(owner):
+			return true
+	return false
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies

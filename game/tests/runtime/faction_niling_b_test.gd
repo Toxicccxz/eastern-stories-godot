@@ -105,6 +105,9 @@ func _test_wine(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	var quest: StoryQuestDefinition = GameContent.catalog().story_quest(QUEST)
 	StoryFixtures.niling_delivered(session, "night")
+	# TEST-ONLY: 第三章's 地牢钥匙 set aside. The rescue leaves it in hand (story_chapter3c's play), and it opens this
+	# iron door too: the three ways to the key below are then never needed (listed for the owner, review-fix-y).
+	(session.active_map() as WorldMapController).acts.take_from_player(&"native:niling/cell_key")
 	state.marks["救了一半"] = 1 # TEST-ONLY: 关北's sneak
 	session.record_journal()
 	_check(StoryQuestLog.current_step(state, quest).step_id == &"word", "delivered: 林忌's word next")

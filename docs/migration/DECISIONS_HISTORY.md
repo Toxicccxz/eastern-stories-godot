@@ -22,6 +22,16 @@
 - **为什么只是暂定：** 成长角色假设潜能（经验的一半）全花在武功上，实际玩家受精的回复限制只会更弱；模拟的打法是固定的（每手打第一个还站着的敌人、默认姿态、不用绝招和守势），会用绝招和克制的玩家更强。对手强弱几乎全由经验项决定，胜率在经验上很陡、一档 40 局也有约 ±8% 的噪声，成长节奏定了要重量。侮天鬼一仗要打二十回合上下、商玦两回合就分胜负：前者是玩家的气不长，后者是旋芒和商玦都一下见血，调对手的经验都治不了，等 owner 定。
 - **测试：** `boss_strength_test`（第三到六章、第九章揭发）、`boss_strength_finale_test`（湖畔、冰龙厅）、`boss_strength_demon_test`（侮天鬼四形态，最好打的不比最难打的难）：固定种子、成长角色、每场 16 局、宽区间（没帮手的 35–90%、帮手在场的 70–100%）；`story_chapter6_test` 和 `story_finale_b_test` 不再给 100 万气、不再把敌人的气压到 1，改用成长角色真打（第六章 17432 经验、终章 15 万经验，空手柳家拳，剧情测试照旧是自动打法——自动打法要过 ES2 的勇气关又空手，比模拟弱得多：终章 8 万经验在「再封」那条路上输给商玦和四个道士）。模拟只让剧情里在场的人上（`away`）：冰龙厅的六条冰龙、甬道里没钥匙的两个狱卒先撤下地图——模拟的玩家先动手、一动手整间屋子一起上，冰龙曾在每档第一局跟着上，一局拖到一千五百多步（这一个套件六分钟）；阵容检查也数「别的人」，再有外人上场就报。
 
+## Old Pine remainder B — killed_enemy 款
+
+(化尸「连同一切」被「任务物品不被拿走」（owner 2026-11-19「都按推荐」）取代：不能丢的东西留在尸体原处。条目其余各款仍在 DECISIONS。)
+
+- **killed_enemy is data** (`{say, dissolve_after_ms}`): 黑衣人 laughs and a second of world time
+  later dissolves the newest corpse in his room with his 化尸粉 (present() finds the object moved
+  in last). **Owner: as ES2**, also the player's own corpse with all it holds. The pending
+  dissolve is not saved (a call_out). The death screen's native line on where the corpse lies
+  becomes 你的尸体已经不在了。 once it is gone (**owner**; ES2 tells the dead nothing).
+
 ## Fresh water supply loop (S6B only) — J 款
 
 (已被「拿不动就不收钱」取代，2026-11-12：牛皮酒袋和别的货一样，付钱后拿不动就不卖、不收钱。条目其余各款仍在 DECISIONS。)

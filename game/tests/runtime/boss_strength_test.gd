@@ -9,10 +9,14 @@ extends RefCounted
 ## school, DECISIONS「空手对兵器」). The target is about six in ten without help and nine in ten with
 ## the story's own helpers; provisional until growth is set.
 ##
-## Each fight is a sample: three seeds of DUELS duels pooled (about 45), the band the target ±
-## SPREAD (a true rate 15 points off is flagged about nine times in ten, a rate on target about
-## once in fifty). A miss by a few points can be chance: re-measure with more seeds before
-## retuning (the failure message says how).
+## Each fight is a sample: three seeds of DUELS duels pooled (42 counted: each session's first duel
+## closes at once and is left out), the band the target ± SPREAD. As a binomial sample of 42: a fight
+## whose true rate is on target (six in ten) falls outside the band about once in 25 runs (4%; nine in
+## ten with help: about once in 70); one whose true rate is 15 points off lies on the band's edge and
+## is caught only about half the time (20 points off: about eight times in ten). The seeds are fixed,
+## so a run repeats itself: what changes a result is a change to the game or to these suites. A miss
+## by a few points can be chance: re-measure with more seeds before retuning (the failure message
+## says how).
 ##
 ## Split for the suites' shards: this one 第一章's cave and 第三章 to 第五章; boss_strength_guanbei_test 第六章 and
 ## 第九章's choice fight; boss_strength_finale_test the 终章's 湖畔 and 冰龙厅; boss_strength_demon_test

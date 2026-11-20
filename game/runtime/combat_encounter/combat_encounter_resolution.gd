@@ -372,13 +372,25 @@ func _keep(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceChar
 	return true
 
 
-## The player, or one on their side they called (a soldier, a 阴鬼卒, their zombie).
+## The player, or one on their side who fights for them: one they called (a soldier, a 阴鬼卒,
+## their zombie, the 王府's riders), one following them (郭承, 卢卡: FLAG_FOLLOWS_PLAYER) or one
+## standing its ground beside them where they are (the 湖畔's sword-bearer:
+## NpcHooks.fights_beside_here). Owner 2026-11-19 (DECISIONS「了结 / 放过」Q2): the followers and
+## those helpers hold for the choice as the summons do.
 func _plays_for_player(character_id: StringName, player: CombatParticipant) -> bool:
 	if character_id == player.participant_id:
 		return true
 	var participant: CombatParticipant = _encounter.participant_for(character_id)
 	var map: WorldMapController = _session.active_map() as WorldMapController
-	return participant != null and participant.side_id == player.side_id and map != null and map.summoner_of(character_id) == player.participant_id
+	if participant == null or participant.side_id != player.side_id or map == null:
+		return false
+	if map.summoner_of(character_id) == player.participant_id:
+		return true
+	var npc: NpcRuntimeState = map.find_resident_npc(character_id)
+	if npc == null:
+		return false
+	var hooks: NpcHooks = npc.definition().hooks()
+	return npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or (hooks != null and hooks.fights_beside_here)
 
 
 ## Those the player's side holds its blow on, in the fight's order.
@@ -406,12 +418,17 @@ func finish(bindings: Array[CombatSliceCharacterBinding], victim_id: StringName)
 	return true
 
 
-## 放过: the player's side no longer kills it (remove_killer() stands). It lies where it
-## fell and comes to on its own time, after the fight; with nobody else to fight, the
-## fight is over at the next look.
-func spare(victim_id: StringName) -> bool:
+## 放过: the player's side no longer kills it (remove_killer() stands): those who held let it be,
+## and so does any other who fights for the player (one lying down that kept its mark, to wake
+## and strike it). It lies where it fell and comes to on its own time, after the fight; with
+## nobody else to fight, the fight is over at the next look.
+func spare(bindings: Array[CombatSliceCharacterBinding], victim_id: StringName) -> bool:
 	if not _held.has(victim_id) or _result != null:
 		return false
+	var player: CombatParticipant = _encounter.participant_for(_session.player_runtime().character_id)
+	for binding: CombatSliceCharacterBinding in bindings:
+		if player != null and _plays_for_player(binding.character_id, player) and binding.relationship.has_lethal_target(victim_id):
+			binding.relationship.remove_lethal_relation(victim_id)
 	_drop(victim_id)
 	_announcements.append(CombatLifecycleAnnouncement.new(victim_id, CombatLifecycleAnnouncement.SPARED))
 	# A2: a bounty's outlaw spared is taken to the 驿站 and paid for (WorldBounties).

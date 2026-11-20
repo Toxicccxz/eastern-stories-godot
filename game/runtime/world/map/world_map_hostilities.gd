@@ -129,6 +129,21 @@ func forget_spent() -> void:
 			spent.erase(id)
 
 
+## A scene calls in again one that already stands here (the 番坊 clerk's 动手 pressed once more
+## while the four 浪人 still stand, DECISIONS「帮手等仗打完」): as one that came in, it notices the
+## player anew, not `spent` by the fight before; an aggressive one falls on them.
+func call_again(npc: NpcRuntimeState) -> void:
+	if npc == null or _player == null:
+		return
+	var id: StringName = npc.character_id
+	spent.erase(id)
+	room_present.erase(id)
+	aggression.leave_player_presence(id)
+	# Indoors the room's presence takes it in at the next tick (refresh_room_presence()).
+	if not notices_room(npc) and npc.world_location().shares_combat_location(_player.world_location()):
+		aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
+
+
 ## A fight is over (its encounter still names who was in it): indoors the NPCs in the
 ## player's room that took no part were never let at the player (the fight's start
 ## dropped their turn): they notice the player anew. Those that fought are `spent`: they
@@ -519,8 +534,23 @@ func npc_kills_player(npc: NpcRuntimeState, lines: Array[String] = []) -> bool:
 
 
 ## `colored`, when given, is how the log shows `lines` (shinyu.c's HIY say()).
+## DECISIONS「不能动手的人」: one the story will not let be fought (`fight_deferred`) starts no
+## fight by any rule of its own either (a theft it caught, an answer, a scene): its own line goes
+## after the caller's `lines` (and `colored`), which the caller shows as for any fight that did not
+## begin; with none, the line is shown here.
 func npc_kills(npc: NpcRuntimeState, lines: Array[String], colored: Array[ColoredLine] = []) -> CombatSliceInitiationResult:
 	if npc == null or _player == null or session == null:
+		return CombatSliceInitiationResult.new()
+	var refusal: String = npc.definition().dealings().fight_refusal()
+	if not refusal.is_empty():
+		var line: String = tr(refusal)
+		if lines.is_empty() and colored.is_empty():
+			if _map.hud() != null:
+				_map.hud().append_log_lines([line])
+		else:
+			lines.append(line)
+			if not colored.is_empty():
+				colored.append(ColoredLine.new(line))
 		return CombatSliceInitiationResult.new()
 	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 	var npc_binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(participants, npc.character_id)

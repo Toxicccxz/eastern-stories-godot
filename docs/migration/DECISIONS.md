@@ -60,11 +60,11 @@
 - 走通道换图时淡出淡入，期间世界停住；到达后横幅写「区域 · 地点」（放在状态卡和右上角房间描述之间，放不下就在状态卡下面）；镜头立即对准玩家。「手感」「地图重构」
 - 只对够得着的东西给动作：NPC、尸体、地上的东西和地标约 96 px 内，门和服务按各自范围；点地图上的空处不选东西。「The HUD's actions for what is near」「说话和交互」
 - E / A 或点击作用于够得着的目标（最近的或面向的，Tab / Y、Q / LB / RB 换），只做一件事的直接做，其余打开两栏交互窗口；窗口开着时世界时间停，「确认」后在世界里发生。「说话和交互」
-- 剧情不让动手的人（`fight_deferred`）：交互窗口里没有「切磋」；「攻击」照常可选，选了在消息里显示这个人自己的那句话，什么都不发生（不开打、不先问、不结仇、不花时间）。「不能动手的人」
+- 剧情不让动手的人（`fight_deferred`）：交互窗口里没有「切磋」；「攻击」照常可选，选了在消息里显示这个人自己的那句话，什么都不发生（不开打、不先问、不结仇、不花时间）。他们自己的规则也不开打：偷他们失手照样被喝破、偷窃记录加一，接着是他自己那句话；万一卷进一场仗，只会被打倒。「不能动手的人」「不能动手的人也不动手」
 - 搜刮尸体要站在尸体 96 px 内。「Corpse loot requires a near-corpse spatial range」
 - 给予一次可勾选多件；给出已装备的东西或一两黄金以上的钱先问（收赌注、布施的不问）。「说话和交互」「积压问题的处理」
 - 问候等玩家第一次走近（136 px）才开始；远处的闲聊不给玩家看；闲聊、问候、喝令显示在头顶气泡，打听、剧情演出和讲述在底部对话框里逐句读（世界停住，E／A 继续），都记入消息。「对话框」「说话和交互」「手感」
-- 请教、练习、打坐、冥思、修行可以「连续」：每步 150 ms，规则和抽数不变，遇到拒绝或白费的一步之前停下并说明。「连续修炼」精、气、神不满时请教页和武学页有「歇到回满」（为缺精停下时焦点落在它上面）。「歇到回满」
+- 请教、练习、打坐、冥思、修行可以「连续」：规则和抽数不变，遇到拒绝或白费的一步之前停下并说明；缺精、气、神（请教缺精，打坐、冥思、修行缺本钱或另两样不到七成，练习缺气、神）时自己歇（同一个「歇到回满」，那一页不关、世界在后面照走、不另说话），回满接着练同一轮，到潜能用完、升一级、上限涨到（或练到定的数）、瓶颈、师父或经验的上限、被打断或按「停止」才停，总结里写歇了几回、多久，消耗只算练的那几步；身上有朱鸿雪的限时差事时不自己歇、说明一句；每步 60 ms（`training_auto_rest` 关时 150 ms，缺精缺气就停）。「连续修炼」精、气、神不满时请教页和武学页有「歇到回满」（为缺精停下时焦点落在它上面）。「歇到回满」
 - act 的每一步可以带 `when`（和分支同一个 `when`）：走到这一步时才判，不成就跳过、接着下一步；判的是那一刻的印记（前面一步刚记下的也算），heard／chat 不能用。一段演出里人来没来、各说一句，就用它。「步骤条件」
 - act 步骤 `questions`：NPC 当面一句句问，每句几个答案可选，答案的真假按玩家存档里的印记定（`mark`／`not_mark`／`marks`／`any`；不写条件的答案总是真话）；全真走 `true` 步、有假走 `false` 步，走开（取消）什么都不发生；它是分支的最后一步。答案面板是同一个确认组件（`ConfirmPrompt.ask_choices`），对话框开着时在框里问，否则在共享框里问；玩家的回答记入消息。「火前问话」
 - 区块机关 `hazards[]` 可以是原生的（`native`）：只在节奏的 `native_hazards` 开着时跑，穿着 `unless_wearing` 里的护具或带 `unless_marks` 里的印记的人那一回什么都不发生；它的 act 可以分支（`acts`，按玩家挑第一条合的：`at_least` 的内力、穿着），步骤 `drain_force` 扣玩家内力。玉螺湖底的寒气：进洞 3 秒后每 6 秒一回，内力够 12 就扣 12 内力顶住，不够扣 24 气；穿着寒於宝衣的免；封坛里不冷。「寒气」
@@ -73,7 +73,7 @@
 **战斗**
 - 战斗中世界停住；战斗速度（慢 / 标准 / 快）只改一回合用多少真实秒；句子 0.12 秒一句；结束定格 0.8 秒。「手感：战斗」
 - 命中力按 Elo 式指数（100 × 2^(级/10) + 经验/4，`power_curve` modern）；守方闪躲、招架打五折；经验防御是一次最多 40% 的减伤。「战斗数值」
-- 一回合是一串拍：双方基础 2 拍（NPC 按自己的 `beats`：小兵 1、头目 2），快 / 虚 / 守 1 拍、重 2 拍、绝招 封 2 / 缺 1 / 逐 2；重招值两手：打实整记伤害 ×2.5、对手「失衡」丢最近的一手（忙 1，已在忙的不加），被闪开或架住就「露空」（下一招打他的，他的闪躲招架 −30%）；交手序结算（玩家第 1 拍 → 每个 NPC 第 1 拍 → 余拍交替）；每回合最多赢 1 拍，赢法由武学骨架定（封山：对手打空「隙」；柳家拳：近身打实「压」）；忙 N = 没收接下来 N 拍、跨回合扣完；NPC 预告是拍计划（第 1 拍确定、后面预判，预判只被可见事件改并记「变招」）；柳家拳的荒山虎吟近身才能出（「够不着」）；玩家点一拍结算一拍（点一招 → 这一拍结算 → 对手的下一拍 → 等下一次点；不走时钟）、「收势」放弃余拍（赢来的拍照样归你）、出不起的招和绝招变暗写「手不够」、排定的绝招 / 运功 / 施法 / 物品 / 逃和换姿态按拍价扣、「改为自动」自动补满拍且演出加快；面板（拍在界面上叫「手」）：姿态竖列，最上一条节拍条（「还剩 N 手」、槽里一格一手、重招占两格连成一块、还能挣的第三手是虚线格写挣法、一句话写他起手 / 上一手的结果（克 / 被克照结算这一击时记下的）/ 指着的招占几手），出招按标签分快 / 重 / 虚 / 守四栏、副行只写「标签 · N 手」不评克不克，绝招一钮一价（自忙更长的悬停写明），运功收成一个菜单，右边克制环（他起手的那一印圈出、指着的标签亮两条箭头「克」「怕」），对手卡的拍计划印章与打法词；绝招的自忙算进拍价（付掉的拍先抵忙，一记绝招共失 max(拍价, 忙) 拍）、NPC chat() 抽到的绝招也按同一把尺扣拍（有拍从本回合扣，没有记到下一回合）；界面顶部正中写模式（切磋 / 死斗 / 拆招 / 交手，像素字一个像素一块体素、衬一道体素笔触）和一句小字、颜色按模式分（切磋浅、死斗暗红），描写一条在标题下（点开三行），两侧各一面立绘大面板，衬在会飘的体素阵旗上、上面的字随旗面摆动（左边是你，右边是当前目标或等你了结 / 放过的人；开场旗从杆上放下来，哪边出招哪边的旗鼓动），其余人没有卡片，每人脚下一块名牌（名字 + 气条、阵营色，后排的挂在头顶，点名牌换目标）；开战时一边砌一座方形阶梯擂台（切磋木台插旗、死斗暗红石台火盆），交战的人连同擂台一边升到地图上方的半空，排成对阵（你在左、帮手在你身后、对手在右，人多排两三排；2D 位置不动），下面的地图虚化、压暗、褪色（切磋偏暖亮、死斗暗红），镜头压低到 26°、按台上的人取景，界面再滑入，打完人落回原地、拆台、背景复原（每次开游戏头 3 场完整、之后简短，可跳过，设置「战斗开场」全程 / 简短 / 关）；招名浮在出手的人头上（按兵器出场、按伤害着色，只写和你有关的，最多三个），声音按兵器叠一层、别人的打斗声更轻。「战斗拍数」「战斗拍数 B」「战斗拍数 C」「战斗界面 · 节拍条」「战斗演出 A」「战斗演出 B」「战斗演出 C」「战斗演出 D」「战斗演出 E」「战斗拍数 E · 重招」
+- 一回合是一串拍：双方基础 2 拍（NPC 按自己的 `beats`：小兵 1、头目 2），快 / 虚 / 守 1 拍、重 2 拍、绝招 封 2 / 缺 1 / 逐 2；重招值两手：打实整记伤害 ×2.5、对手「失衡」丢最近的一手（忙 1，已在忙的不加），被闪开或架住就「露空」（下一招打他的，他的闪躲招架 −30%）；交手序结算（玩家第 1 拍 → 每个 NPC 第 1 拍 → 余拍交替）；每回合最多赢 1 拍，赢法由武学骨架定（封山：对手打空「隙」；柳家拳：近身打实「压」）；忙 N = 没收接下来 N 拍、跨回合扣完；NPC 预告是拍计划（第 1 拍确定、后面预判，预判只被可见事件改并记「变招」）；柳家拳的荒山虎吟近身才能出（「够不着」）；玩家点一拍结算一拍（点一招 → 这一拍结算 → 对手的下一拍 → 等下一次点；不走时钟）、「收势」放弃余拍（赢来的拍照样归你）、出不起的招和绝招变暗写「手不够」、排定的绝招 / 运功 / 施法 / 物品 / 逃和换姿态按拍价扣、「改为自动」自动补满拍且演出加快；面板（拍在界面上叫「手」）：姿态竖列，最上一条节拍条（「还剩 N 手」、槽里一格一手、重招占两格连成一块、还能挣的第三手是虚线格写挣法、一句话写他起手 / 上一手的结果（克 / 被克照结算这一击时记下的；没认出的招不写名，只写「你出快 · 克！」）/ 指着的招占几手），出招按标签分快 / 重 / 虚 / 守四栏、副行只写「标签 · N 手」不评克不克，绝招一钮一价（自忙更长的悬停写明），运功收成一个菜单，右边克制环（他起手的那一印圈出、指着的标签亮两条箭头「克」「怕」），对手卡的拍计划印章与打法词；绝招的自忙算进拍价（付掉的拍先抵忙，一记绝招共失 max(拍价, 忙) 拍）、NPC chat() 抽到的绝招也按同一把尺扣拍（有拍从本回合扣，没有记到下一回合）；界面顶部正中写模式（切磋 / 死斗 / 拆招 / 交手，像素字一个像素一块体素、衬一道体素笔触）和一句小字、颜色按模式分（切磋浅、死斗暗红），描写一条在标题下（点开三行），两侧各一面立绘大面板，衬在会飘的体素阵旗上、上面的字随旗面摆动（左边是你，右边是当前目标或等你了结 / 放过的人；开场旗从杆上放下来，哪边出招哪边的旗鼓动），其余人没有卡片，每人脚下一块名牌（名字 + 气条、阵营色，后排的挂在头顶，点名牌换目标）；开战时一边砌一座方形阶梯擂台（切磋木台插旗、死斗暗红石台火盆），交战的人连同擂台一边升到地图上方的半空，排成对阵（你在左、帮手在你身后、对手在右，人多排两三排；2D 位置不动），下面的地图虚化、压暗、褪色（切磋偏暖亮、死斗暗红），镜头压低到 26°、按台上的人取景，界面再滑入，打完人落回原地、拆台、背景复原（每次开游戏头 3 场完整、之后简短，可跳过，设置「战斗开场」全程 / 简短 / 关）；招名浮在出手的人头上（按兵器出场、按伤害着色，只写和你有关的，最多三个），声音按兵器叠一层、别人的打斗声更轻。「战斗拍数」「战斗拍数 B」「战斗拍数 C」「战斗界面 · 节拍条」「战斗演出 A」「战斗演出 B」「战斗演出 C」「战斗演出 D」「战斗演出 E」「战斗拍数 E · 重招」
 - 打之前有预判：目标详情、交互窗口和确认页上一行五档（稳赢 / 占优 / 五五开 / 吃亏 / 必败）+ 一句原因，整伙合计，切磋按谁先打中。「战斗数值」
 - 前两小时的敌人按玩家四档定数值（老鼠闪躲 15、疯狗、土匪、狼狗）；改过的 NPC 带 `classic` 块（ES2 原值，`es2_npc_values` 开着时才用，游戏里是关的）。「战斗数值」
 - 回合等玩家：没有指令时战斗时钟不走（任务时限也不走）；忙碌、昏迷、没对手时自动滚；面板「改为自动」回到 ES2 的自动打。「战斗决策」
@@ -98,11 +98,11 @@
 - 切磋走 fight.c 和 NPC 的 accept_fight；持兵刃的切磋会伤人，照 ES2；兽类不能切磋；凶手是最后一击的人（last_damage_from）。「切磋: fight.c, accept_fight and armed spars」
 - 进门一起上：玩家所在区块里见人就打的一伙，有一个够得着就整伙进同一场战斗；出手前提示一拍（500 ms）；打过的人等玩家离开区块再回来才重新察觉。「进门一起上」
 - 室内区块整间房就是察觉范围，户外按 NPC 的圈子。「室内察觉」
-- 玩家这边要杀的人倒下时停手，卡片上给「了结 / 放过」；放过不记仇；设置「击倒后」可选直接了结（ES2）。等你选、又没有别人可打时，描写条马上写「对手倒下了，先在右边的旗上选……」、两个按钮闪三下、焦点落在「放过」（方向键和手柄在两钮间左右，从招式行往上就到），但两钮要等这句写出来、再过 `knockout_choice_guard_ms`（0.5 秒）才接确认键（手柄 A、回车、空格；鼠标点不受限），一路按确认键出招的人不会顺手把人放过；选完以后还没写出来的这句撤掉，不拖长收尾；还有人站着时招式照出、打站着的人。被你略过的倒地者，点他的名牌或按 Q / E 能再轮到他（只换右边的旗，不改战斗的目标），他醒来、被了结或放过时这个记号就没了；没人可打时右边的旗给还在等的人。换目标或下令被拒，理由写进描写条。主线、势力线某一步靠的人（步骤的 `keeps`）在这一步做完之前只能击倒：倒下时全场停手、算放过，战斗里写「还有用，留一条命」，谁的致命一击都只让他昏倒。「了结 / 放过」「主线卡死点」
+- 玩家这边要杀的人倒下时停手（玩家、玩家召来的、跟着玩家的随从、就地并肩的帮手都停），卡片上给「了结 / 放过」；放过不记仇；设置「击倒后」可选直接了结（ES2）。等你选、又没有别人可打时，描写条马上写「对手倒下了，先在右边的旗上选……」、两个按钮闪三下、焦点落在「放过」（方向键和手柄在两钮间左右，从招式行往上就到），但两钮要等这句写出来、再过 `knockout_choice_guard_ms`（0.5 秒）才接确认键（手柄 A、回车、空格；鼠标点不受限），一路按确认键出招的人不会顺手把人放过；选完以后还没写出来的这句撤掉，不拖长收尾；还有人站着时招式照出、打站着的人。被你略过的倒地者，点他的名牌或按 Q / E 能再轮到他（只换右边的旗，不改战斗的目标），他醒来、被了结或放过时这个记号就没了；没人可打时右边的旗给还在等的人。换目标或下令被拒，理由写进描写条。主线、势力线某一步靠的人（步骤的 `keeps`）在这一步做完之前只能击倒：倒下时全场停手、算放过，战斗里写「还有用，留一条命」，谁的致命一击都只让他昏倒。「了结 / 放过」「主线卡死点」
 - 逃跑：排队、忙时等，验证通过就成功，留在原地脱离，不耗资源、不抽随机数。「Active Semi-Auto V1 Flee is same-position disengagement」
 - 投降：杀你的对手还站着时被拒，否则停战、扣 50 综合评价。「绮云镇 3C」
 - 运功、perform、施法在战斗中排队，忙时等；加力立即生效。「Internal power in combat: enforce, exert, the force hit」「The player's perform」「青石村 D」
-- 副手兵器的属性也计入；锤、杖的 bash 可以把兵器打飞或打断。「野羊山」
+- 副手兵器的属性也计入；锤、杖的 bash 可以把兵器打飞或打断，不能丢的兵器（穿灵、旋芒）只会「险些脱手」。「野羊山」「任务兵器不脱手」
 - 杀气狂暴和瞪眼照 ES2 掷骰，但不会落在自己师父身上；第一次到门槛时提示一次。「水烟阁 C」
 - 多个敌人的 NPC 每次攻击按 select_opponent() 挑；生死战里站着的谁都不再打谁时结束。「青石村 D」
 - 战斗中不能拾取；「运功疗伤」置灰。「积压问题的处理」
@@ -120,7 +120,7 @@
 - 一场战斗结束后 NPC 忘了玩家（召唤出的除外）；在战斗中 random_move 的 NPC 走出这场战斗；带 vendetta 标记的见人就打。「山烟寺 A」「了结 / 放过」「绮云镇 3C」
 - NPC 的记忆（对象变量）存档；重生的从 create() 重来。「乔阴 B」
 - 召唤物（天将等）的击杀算召唤者的，战斗结束就走。「青石村 D」「青石村 C」
-- 替玩家打的 NPC（字段 `fights_beside_player`）：act `summon` 出来的按天将的规矩算玩家的召唤（杀算玩家的，战后走）；跟随中的在玩家开打的地方打玩家的敌人、不走；两种都在玩家卷进的一场仗开打时进场；召唤的走时说 `fights_beside_leaves`（骑兵「拨转马头走了」），没写的「收了刀，走了」；带 `fights_beside_here` 的站在原地，玩家在它那儿开打也上，打完不走（湖畔拔了旋芒的人）。「关北 C」「番坊 C」「主线必打的仗」
+- 替玩家打的 NPC（字段 `fights_beside_player`）：act `summon` 出来的按天将的规矩算玩家的召唤（杀算玩家的，打赢了才走；输了或逃了，这一仗的对手还站着，他们就留在原地，玩家回来接着并肩，读档后也认）；跟随中的在玩家开打的地方打玩家的敌人、不走；两种都在玩家卷进的一场仗开打时进场；召唤的走时说 `fights_beside_leaves`（骑兵「拨转马头走了」），没写的「收了刀，走了」；带 `fights_beside_here` 的站在原地，玩家在它那儿开打也上，打完不走（湖畔拔了旋芒的人）。「关北 C」「番坊 C」「主线必打的仗」
 - 守者（`guardian`）：见人就打的 NPC 在节奏的 `story_parley` 开着时放过玩家，玩家先动手才打——一动手整间屋子一起上（进门一起上）。白鳞冰龙六条是守者，打倒了记「冰龙倒了」。「冰龙守者」
 
 **成长、武学与门派**
@@ -144,7 +144,7 @@
 - 商店和师父跟着 NPC 本人；昏迷的店主照卖，死了等重置；货无限，每次买都是新物品。「Give, drop and put; shops and teachers on their NPCs」「Snow waiter / dumpling supply loop (S4B only)」
 - 付钱按金、银、铜的顺序；`pay()` 凑不整（比如有金子、银子不够、没有铜钱）时商店不卖、债不收，一个子都不动，说明找不开（「凑不整就不收钱」）；钱庄兑换；当铺按价值八折收购（先银后铜，至少 1 文），不做典当和赎回。「Currency exchange / payment core (S3B only)」「Hockshop valuation / payout / sell lifecycle (H2)」
 - 飞刀、蛇药、桃符纸等是通用的组合物品；数量到 0 立即销毁。「Old Pine remainder B」
-- 丢下不值钱的东西（drop.c 当场销毁）先问一句；主线和势力线要带着才能推进的原生物品都不能丢、不能乱给、不能放进容器；信、镖单被偷或被化掉，写的人再写一封。当铺不收这些原生任务物品（ES2 自己的照 hockshop.c 照收）。问话「身上带着」按别名，加载时校验有物品应答；要带、要穿的物品 ID 和别名（含门的钥匙、条件里的 `wearing`）都在加载时校验。「任务物品不丢」
+- 丢下不值钱的东西（drop.c 当场销毁）先问一句；主线和势力线要带着才能推进的原生物品都不能丢、不能乱给、不能放进容器；飞贼不偷不能丢的东西，化尸把它留在尸体原处；信、镖单弄丢了，写的人再写一封。当铺不收这些原生任务物品（ES2 自己的照 hockshop.c 照收）。问话「身上带着」按别名，加载时校验有物品应答；要带、要穿的物品 ID 和别名（含门的钥匙、条件里的 `wearing`）都在加载时校验。「任务物品不丢」「任务物品不被拿走」
 - 一整堆拿不动时捡能拿的部分；赢的钱、悬赏的赏银、地标拿到的东西拿不动的落在脚边，并说一句。「绮云镇 3D」「拿不动就不收钱」
 - 钱动之前先查拿不拿得动：买东西（付钱后能放下才卖）、钱庄兑换（换完能拿动才换）、当铺卖断（东西出手、钱进来后能拿动才收）、打工（工钱拿不动就先说、不干活）拿不动的都先说明原因，一文不扣、什么都不动。「拿不动就不收钱」
 - 吃完的肉留骨头，骨头可以喂狗（狗随后跟着走）；有的食物同时是兵器。「积压问题的处理」「黑松山 A」
@@ -154,7 +154,7 @@
 
 **世界时间与重置**
 - 菜单、交互窗口、战斗、换图时世界时间停住（巡夜人不走不看，风不起）；菜单里玩家自己的忙碌照样倒数。「菜单窗口」「说话和交互」「审查收尾」
-- 「歇到回满」（请教页、武学页）：窗口关上、玩家坐下，世界照常走、快 20 倍，精气神按心跳回复回满就起身；打起来、有一伙人发现你、剧情开场、身上掉血、断了水、换了图都把人惊起，最多歇 600 世界秒（五个时辰）；每种结局一句话写明歇了多久。不打架的地方都能歇；开着菜单时歇息也停住。不存档。「歇到回满」
+- 「歇到回满」（请教页、武学页）：窗口关上、玩家坐下，世界照常走、快 40 倍，精气神按心跳回复回满就起身；打起来、有一伙人发现你、剧情开场、身上掉血、断了水、换了图都把人惊起，最多歇 600 世界秒（五个时辰，真实 15 秒）；每种结局一句话写明歇了多久。不打架的地方都能歇；开着菜单时歇息也停住——只有连续修炼自己歇的那一回，它所在的那一页不按住时间（别的窗口、卡片照样按住）。不存档。「歇到回满」「连续修炼」
 - 玩家离开的地图在回来、重置或有人进出前一次补算到现在，不抽会话随机流；离开超过 3600 秒的部分直接算满；游走补算最多 12 步，邻图的人会走过来。「别的地图时间补算」
 - 你不在时 NPC 最多回到 create() 造出时的数值。「别的地图时间补算」
 - 冲着玩家来的 call_out 在离开地图时丢弃，师父的拜师答复对空房间说；风泉剑灵的吟诵等玩家回来，并存档。「茅山 B」「乔阴 C」
@@ -274,7 +274,7 @@
 **节奏开关**：`common/pacing.json`，游戏只用这里写的值；不写就是 ES2 原值（下面括号里），只有钉移植公式的套件按它跑（`Es2Pacing`、`TestFeel`、`TestAway`、`TestAlert`）。「取消经典模式」
 - `player_exp_gain` 3、`player_recovery_gain` 3、`quest_time_percent` 150、`npc_thirst` 10（ES2 原值 1 / 1 / 100 / 1）。「Pacing knobs and 卧龙岗's second」
 - `player_wake_seconds` 3（ES2 原值 0）。「积压问题的处理」
-- `rest_world_scale` 20、`rest_limit_seconds` 600（ES2 没有休息，原值 0 = 不给「歇到回满」）。「歇到回满」
+- `rest_world_scale` 40、`rest_limit_seconds` 600、`training_auto_rest`（ES2 没有休息，原值 0 / 关 = 不给「歇到回满」，连续修炼缺精缺气就停）。「歇到回满」「连续修炼」
 - `reaction_beat_ms` 400、`trial_blow_ms` 700、`dim_fade_ms` 400；强盗的 `toll_attack_delay_ms` 2000。「响应性」「Pacing knobs and 卧龙岗's second」
 - `hostile_alert_ms` 500（ES2 原值 0）。「进门一起上」
 - `away_catch_up_limit_seconds` 3600、`away_wander_moves` 12、`away_neighbour_pulse_seconds` 30（ES2 原值 0）。「别的地图时间补算」
@@ -282,7 +282,7 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`、`bounty_refresh_seconds` 600（ES2 原值 关 / 0 / 1；没有悬赏榜）。「经验节奏」
 - `exp_gates` {`juechen`: 20000}：进八卦阵的那阵风、拜绝尘子都要实战经验 2 万（ES2 原值 10 万，留在数据里，没有这个旋钮的节奏照旧读它）。「绝尘的经验门槛」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
-- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、场景里打（`scene_step_ms` 120 滑步、`scene_windup_ms` 300 重招前的蹲压与聚气、`hit_stop_ms` 100 定格、`scene_flash_ms` 60 闪白、`scene_dust_ms` 260 尘、`afterimage_ms` 180 残影、`scene_return_ms` 320 归位、`beat_pause_ms` 140 拍间停顿、`battle_zoom_ms` 500 镜头推近）、`beat_fill_ms` 450 点招后光条飞进节拍条填满那一格、`knockout_choice_guard_ms` 500 了结 / 放过要等提示写出来再过这么久才接确认键、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）、`session_start_slice_ms` 12（开局每帧搭多久；0 = 一帧搭完）。「手感」「手感：战斗」「战斗演出」「战斗拍数 C」「战斗拍数 E · 重招」「节拍填格」「连续修炼」「固定俯视体素地图」「加载画面」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出（句子、气条、闪红、定格，以及招名、飘字、震动、裂痕、倒下、印章、出招提示、预告一闪）、场景里打（`scene_step_ms` 120 滑步、`scene_windup_ms` 300 重招前的蹲压与聚气、`hit_stop_ms` 100 定格、`scene_flash_ms` 60 闪白、`scene_dust_ms` 260 尘、`afterimage_ms` 180 残影、`scene_return_ms` 320 归位、`beat_pause_ms` 140 拍间停顿、`battle_zoom_ms` 500 镜头推近）、`beat_fill_ms` 450 点招后光条飞进节拍条填满那一格、`knockout_choice_guard_ms` 500 了结 / 放过要等提示写出来再过这么久才接确认键、`training_step_ms` 150、`training_auto_step_ms` 60（自己歇的连续修炼每步）、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）、`map_loading_*`（加载画面；`map_loading_slice_ms` 0 = 不要加载画面）、`session_start_slice_ms` 12（开局每帧搭多久；0 = 一帧搭完）。「手感」「手感：战斗」「战斗演出」「战斗拍数 C」「战斗拍数 E · 重招」「节拍填格」「连续修炼」「固定俯视体素地图」「加载画面」
 - 设置「总音量」（0–100，默认 80，Master 总线；0 = 静音）；设置文件第 10 版，旧文件读作 80。战斗的声音：拍板（每拍落定 / 点招，赢拍高八度）、挥空（快高重低）、命中闷响（克制叠脆响、被克只剩闷且更轻）、格挡铿锵、低鼓（重招落实 / 绝招 / 致命）、印章闷扣（封成 / 忙 / 胜败 / 倒亡）；全部 ±5% 音高；不配乐。「战斗拍数 C」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（ES2 原值 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
@@ -327,6 +327,38 @@
 - **别的付钱处：** 车马行用 `pay_making_change()`，先看凑不凑得整、凑不整先换开一枚，不会付到一半；钱庄兑换、当铺、打工、赌场、给人钱都不经过 `pay()`，没有这个问题。
 - **为什么：** 扣了钱不给东西，今天的玩家只会当成 bug；找不开就该在柜台前说明。
 - **测试：** `carry_room_test`（金子、少量银子、没有铜钱的钱袋：can_afford 说行，商店拒绝且一个子不动；能凑整的照买）；`snow_finance_test` 原样钉着 `can_afford()`／`pay()` 的 ES2 行为。
+
+## 帮手等仗打完 (全项目审查第二轮 2026-11-19「并肩的帮手只来一次」；修补 W)
+
+- **之前：** 演出里召来并肩的帮手（`fights_beside_player`：冰龙厅里拔了旋芒的於兰天武、萧辟尘或冯策，第九章揭发时太和殿的冯策，关北工地王府的六骑，番坊铁盾会的三个盾剑手）在一仗结束时一律走，赢、输、逃都一样；召他们的演出只播一次（`scene_mark`）。输了一次，回来面对的是同一批对手、帮手却不来了，只有死亡卡片上「回到上次自动存档」能找回来，游戏没说。第九章选了揭发就得打倒庾子建才写得了「庾子建下狱」，只走主线的角色单打打不过。番坊的「动手」在四个浪人还站着时还能再按，召不出新人，记一条错误，什么都不发生。
+- **我们：** 一仗结束时，这一仗玩家对面的人还有清醒站着的（输了、逃了），召来的帮手留在原地；对面都倒了才照旧收刀走开（`WorldMapNpcs.dismiss_summoned()`、`foe_standing()`）。留下的帮手在玩家回来、对手再扑上来时照样进场。存档不记「谁召的」，所以召出的刷怪点上、带 `fights_beside_player` 的人一律算玩家这边的（`summoner_of()`），读档后照样进场，打死的人也算玩家的。演出里 `summon` 的人已经都站着时不是错误：他们重新注意到玩家（不再算「打过一回、等玩家出去再进来」），番坊再按「动手」四个浪人就扑上来、三个盾剑手一起上。
+- **单打庾子建（量过，没调）：** 模拟「第九章 揭发 庾子建（冯策不在，单打）」每档 40 局：只走主线（22936 经验）剑系 3%、拳系 5%；顺手探索（32234）剑系 60%、拳系 78%。冯策并肩时拳系 77%（探索那一档）。只走主线的人没有冯策是打不过的，所以帮手不能走；有了这条，输一次不会再落到单打。
+- **测试：** `fight_helpers_stay_test`（太和殿走真演出、输、存读档、再打冯策在场；冰龙厅、关北照演出那样召出、输、离开再回来，帮手在场；番坊输一次、站着再按「动手」不报错、出去再进来三人在场；赢了帮手照旧走）。
+
+## 不能动手的人也不动手 (全项目审查第二轮 2026-11-19「偷窃失手会和不能动手的人真打」；修补 W)
+
+- **之前：** 偷窃失手照 steal.c 让被偷的人 `kill_ob()`，不看 `fight_deferred`。持剑的中期角色四五秒打死老冰匠，他不会再出现，朱鸿雪的「交差」写不出来，东方神教的线停在第三个名字上；91 个不能动手的人里 11 个身上有东西可偷，其中 9 个没有任何保护（柳绘心、玄冥子、庾子建都在内，强的反过来杀了玩家）。
+- **我们：** `WorldMapHostilities.npc_kills()` 一条规则：不能动手的人不开打，不管是偷窃、问话、演出还是别的规则叫的；失手照样被喝破、偷窃记录加一，接着显示这个人自己那句话。第二道保险：`WorldMapCombatLifecycle.kept()` 把不能动手的人当成只能击倒的。四句「你的剑……」改成不提兵器（玩家手里可能是刀，也可能空手）。
+- **测试：** `fight_refusal_test`（91 个不能动手的人每个都有那句话、不提「你的剑」、不主动打人、没有动手的问话、心情、演出；老冰匠偷窃失手：喝破、偷窃记录加一、他那句话、不开打、他只会被打倒）。`story_reach_test` 原本就假定他们不会死，现在是真的。
+
+## 任务兵器不脱手 (全项目审查第二轮 2026-11-19「锤、杖能把穿灵、旋芒打飞或砸断」；修补 W)
+
+- **ES2：** weapond.c `bash_weapon()`：被锤、杖砸中而用兵器招架，`random(wap)` 过两倍 `wdp` 兵器脱手飞出，过 `wdp` 险些脱手，过一半 `wdp` 断成两截。
+- **我们：** 不能丢的兵器（`no_drop`：穿灵、旋芒）落在「飞出」或「断」那一档时，都只是「险些脱手」；别的兵器照 ES2。护寺武僧、紫衣家丁、黄霸、陈坚石、玄真和三个铁匠有这一招；以前断掉的那一份不是任务物品、不能再握，三器的条件带着断剑时还算、扔了就悄悄不算了。
+- **为什么：** 和「点字诀」同一个选择：中途丢剑的现代玩家只会觉得被坑，丢的是终章的剑更是卡死。
+- **测试：** `quest_items_kept_test`（穿灵、旋芒被大金槌砸两百次、每一档的骰子都过一遍，都在手里、没断；同样的骰子下长剑照样会飞或断）。
+
+## 穿灵在手 (全项目审查第二轮 2026-11-19「没拿旋芒的人拿旧剑打侮天鬼」；修补 W)
+
+- **之前：** 第十章没自己拔旋芒、第八章也没拔穿灵的人，终章在封坛拔出穿灵，同一步侮天鬼就成形扑上来；穿灵进了背包，战斗里打不开背包，手里还是原来那把剑。模拟（穿宝衣、没拔过的那一形，只走主线 37276 经验，每档 40 局）：长剑 26%，穿灵在手 79%；顺手探索（52295）两样都是 100%。
+- **我们：** act 的 `give` 多一个 `wield`：给的兵器直接握在手里，原来手里的收回背包。封坛终章那一步拔出穿灵就握在手里，多一句「穿灵握在你手里，剑身上的霜一点一点化了。」，然后侮天鬼才成形。穿灵和旋芒的兵器数值一样（测试守着），拿谁打都一样。封坛的人上不上这一仗照旧（「终章 B」）。
+- **测试：** `story_finale_b_test`（拔出来就在手里）、`quest_items_kept_test`（两把剑数值一样）；模拟多两行「终章 侮天鬼（没拿旋芒·穿灵在手／长剑，穿宝衣·没拔过）」。
+
+## 任务物品不被拿走 (owner 2026-11-19「都按推荐」：全项目审查第二轮第五节第 17 条)
+
+- **ES2：** u/cloud thief.c 经 steal.c 偷玩家身上随便一样东西；dust.c 化尸连同尸体里的一切化掉。「Old Pine remainder B」照 ES2，「任务物品不丢」留了「是否跳过任务物品」给 owner。
+- **我们：** 飞贼不偷不能丢的东西（`no_drop`）：它点名的（「silver」）不算，随手摸的也只在别的东西里挑，只剩不能丢的就什么都不偷。化尸（黑衣人的、玩家自己的化尸粉）把尸体里任何一层不能丢的东西留在尸体原处，其余照旧化掉；化尸粉的确认里「连同里面的 N 件物品」不算它们。取代「Old Pine remainder B」里化尸「连同一切」那半句（原文在 DECISIONS_HISTORY）。封山线的竹书是 ES2 的物品、照旧能被偷：任务页「书给谁」那一步多一行「《悟疾风劲竹书》在你身上」，不在身上时说「书不在你身上了——是被人摸走了，还是给了别人？找回来再交」。
+- **测试：** `quest_items_kept_test`（飞贼四十次伸手只摸长剑、从不摸穿灵和别的不能丢的；化尸后穿灵躺在原地、长剑化掉、确认的件数不算穿灵）、`faction_fonxan_b_test`（竹书在、不在身上时任务页那一行）。
 
 ## 过了的经验门槛 (全项目审查 补充 2026-11-19 第五节; 修补 D)
 
@@ -923,20 +955,22 @@
 - **测试：** `carry_room_test`（付钱算术和 `pay()` 的结果一致、买东西和换钱在上限处一文不扣、有空的照旧、东西和钱的账对得上：没有没主的东西、没有凭空消失的钱）；`bounty_runtime_test`（只拿得动两两，其余落脚边并说一句）；`snow_dumpling_test`、`snow_water_test`、`snow_bank_access_test`、`snow_finance_test`、`snow_work_income_test`、`hockshop_*`、`run_snow_finance_cold_process`、`run_snow_work_cold_process` 里钉旧损失的检查改成钉拒绝。
 - **取代：** 「Snow waiter / dumpling supply loop (S4B only)」的 A 款和 B 款最后一句、C 款，「Currency exchange / payment core (S3B only)」的 C、D 款，「Snow Workplace undeliverable reward cleanup (S2 only)」整条，「Hockshop valuation / payout / sell lifecycle (H2)」的 H、I 款，「Fresh water supply loop (S6B only)」的 J 款（牛皮酒袋照店小二 A–D）；原文在 DECISIONS_HISTORY。
 
-## 歇到回满 (全项目审查第五批 2026-11-12「界面层」：连续修炼停在「先休息吧」却无处休息；owner 2026-11-12「按推荐做」：请教页和武学页加「歇到回满」，时间照走，有人来袭就打断，提示里写明怎么回精)
+## 歇到回满 (全项目审查第五批 2026-11-12「界面层」：连续修炼停在「先休息吧」却无处休息；owner 2026-11-12「按推荐做」：请教页和武学页加「歇到回满」，时间照走，有人来袭就打断，提示里写明怎么回精；成长曲线计划 Q4，owner 2026-11-19「都照推荐」：快 40 倍，连续修炼自己歇)
 
 - **ES2：** 没有睡觉、休息的命令（`cmds/std` 里没有 sleep；房间也没有床）。精、气、神只在心跳的 heal_up() 上回（`feature/damage.c`、`std/char.c` 的 tick = 5 + random(10)），玩家站着等。窗口开着时世界不走（「菜单窗口」「连续修炼」），所以连续请教约 9 步、一两秒就停在「先休息吧」，要关掉窗口干站约一分钟。
-- **我们：** 请教页和武学页在精、气、神任何一样不满时有「歇到回满」（`rest_world_scale` 0 时不出现）：窗口关上，玩家坐下，世界照常走、只是快 `rest_world_scale`（20）倍——同一套心跳：NPC 走动和发现、钟点和天色、自己的回复和饮食、状态发作、房间重置、任务时限都照走，没有另算的捷径。画面稍暗，底部一条「歇息中……已歇X」和「起身」（B / Esc）；开着菜单时歇息停住，关上接着歇。结束：
+- **我们：** 请教页和武学页在精、气、神任何一样不满时有「歇到回满」（`rest_world_scale` 0 时不出现）：窗口关上，玩家坐下，世界照常走、只是快 `rest_world_scale`（40；2026-11-12 定的是 20，成长曲线 B 提到 40）倍——同一套心跳：NPC 走动和发现、钟点和天色、自己的回复和饮食、状态发作、房间重置、任务时限都照走，没有另算的捷径。画面稍暗，底部一条「歇息中……已歇X」和「起身」（B / Esc）；开着菜单时歇息停住，关上接着歇。结束：
   - 一个人歇着时自己花掉精气神（开着窗口练习、请教、打工）不算「掉血」：窗口按住时间时重新记下起点。
   - 精、气、神的当前和有效都到最大（伤也养好）——「你歇了X，精、气、神都回满了。」，并回到原来那一页（请教页、武学页）。
   - 打起来、有一伙人发现了你（进门一起上的那一拍）——「忽然有人来袭，你一跃而起！」，战斗照常开始；剧情开场——「听见动静，站了起来」；三样里有一样往下掉（机关、毒发）——「身上一阵难受，歇不下去了」；断了水（没水 heal_up() 什么都不回）——「口干舌燥……先找水喝」；换了图——「你歇了X。」；倒下——不另说（倒下有自己的句子）。
-  - 最多歇 `rest_limit_seconds`（600 世界秒，一天 24 真实分钟时是五个时辰，真实约 30 秒）——「起身活动活动。精、气、神还没全回满：伤要慢慢养……」。
+  - 最多歇 `rest_limit_seconds`（600 世界秒，一天 24 真实分钟时是五个时辰，真实 15 秒）——「起身活动活动。精、气、神还没全回满：伤要慢慢养……」。
   - 时长按半个时辰说（不到半个时辰是「一盏茶的工夫」），和车马行同一种说法。
   - 精神饱满时按钮不出现；打架时、剧情里、没水时不给歇，按钮灰掉、悬停写原因。不打架的地方都能歇，代价是世界照走。歇息不存档：读档的人站着。
   - 悬赏榜不跟着快（全项目审查 2026-11-19，owner「都按推荐」）：空位按真实游戏时间补，歇着、昏迷快醒时都不加快，「不能快过 600 秒刷一张」对歇着的人也成立；任务时限、房间重置、重生照样跟着歇息走。
+  - **连续修炼自己歇**（「连续修炼」的自动歇，`training_auto_rest`）：同一个歇息、同样的结局，只是那一页不关——那一页自己的窗口（请教页所在的交互窗口、武学页所在的菜单）在歇着时不按住时间，别的卡片、窗口、演出照样按住；没有底部那一条，连续修炼的进度那一行写「歇息中……已歇X」，「停止」同时让人起身；开始和回满都不说话，由连续修炼的总结写歇了几回、多久；被惊起（来袭、掉血、断水、剧情、换图）的那句接在总结后面。身上有朱鸿雪的限时差事时不自己歇（歇着时限照走），说一句让玩家自己决定按不按「歇到回满」。
+  - 「起身」（或连续修炼的「停止」、那一页被关掉）那一刻要是正好有人来袭、换了图，照实说是来袭、换图，不说「站了起来」。
 - **提示：** 连续请教停在缺精时一句改成说清楚怎么回（窗口开着时间不走；「歇到回满」；有内力的在武学页运功恢复精）；百科「受伤与歇息」同。
-- **为什么：** 今天的 RPG 都有「休息到回满」，绝大部分修炼时间不该是关窗干站。窗口按住时间那条照旧，这里只是给一个让时间走起来的出口。
-- **测试：** `player_rest_test`（连续请教缺精停下时按钮出现并拿到焦点，按下窗口关、歇完回到请教页；按回复规则回满、时钟走了对应的时间、心跳上吃喝照减；京师城门的守兵发现玩家把人惊起、照常开战；歇完存档读回分毫不差；开着菜单时停住；没水、打架、已满不让歇；上限）；`training_run_test`、`training_continuous_test` 的停下句。
+- **为什么：** 今天的 RPG 都有「休息到回满」，绝大部分修炼时间不该是关窗干站。窗口按住时间那条照旧，这里只是给一个让时间走起来的出口。40 倍和连续修炼自己歇（成长曲线计划 §3 旋钮 7）：只走主线、跟上进度的人到终章要歇约 2,900 回，20 倍时歇的时间合计 166 分钟，40 倍 83 分钟；加上不用每回按两下，跟上进度的修炼从 5.5 小时降到约 2 小时（「连续修炼」）。
+- **测试：** `player_rest_test`（连续请教缺精停下时按钮出现并拿到焦点，按下窗口关、歇完回到请教页；按回复规则回满、时钟走了对应的时间、心跳上吃喝照减；京师城门的守兵发现玩家把人惊起、照常开战；歇完存档读回分毫不差；开着菜单时停住；没水、打架、已满不让歇；上限）；`training_run_test`、`training_continuous_test` 的停下句；`training_auto_rest_test`（连续修炼自己歇：那一页开着、世界在后面走、不说话，回满接着练）。
 
 ## 存档说清楚 (全项目审查第四批 2026-11-12「存档与地图运行时」)
 
@@ -1024,7 +1058,7 @@
 
 - **以前：** 柳淳风的引荐信、陈剑秋的镖单、水烟阁武士腰牌、雪亭驿的书信、封山腰牌、兵部文书、刻着风纹的石匣、逆灵天书残卷没有 `no_drop`。背包里「丢下」不问，价值 0 的东西 drop.c 当场销毁；也能给来者不拒的乞丐。信一丢，潘军禅那一步（只认「身上带着信」）再也过不去，柳淳风不写第二封，任务栏不提示——只能读旧档。终章璃虹的两条规则把 `asker_carries` 写成了物品 ID，而这一项按别名比对，带着羽也永远说「没有那片羽」；加载时只校验 act 的 `carries`，问话的不校验。御前侍卫腰牌和水烟阁腰牌的别名里有 `token`，带着它们在废园永远「没有什么新的发现」（feiyuan.c 的 present("token")），出城令牌那条札记做不完。
 - **我们：** 上面八件补 `no_drop`（雪亭驿的书信 `give_to` 陈剑秋、封山腰牌 `give_to` 柳淳风，照旧能交）。问话规则多一项 `asker_not_carries`（身上没有应答这个别名的东西）：柳淳风（引荐信，到「潘军禅说了鱼饵」为止）、陈剑秋（镖单，到「南危水承认了」）、程不平（给槐阳王的信，到「信递到了」）、杜宽（雪亭驿的书信，到「信送到了」）在玩家有印记、身上没东西时再写一封；潘军禅、南危水在玩家缺凭据时说缺什么、去哪儿拿，不再是一句推托。背包「丢下」不值钱的东西先确认（`ask_danger`，「丢下就再也找不回来了」）；不能丢的照旧直接说它自己的那句。璃虹的两条改成别名「羽」。加载时问话的 `asker_carries` / `asker_not_carries` 也要有物品应答。两件原生腰牌去掉 `token` 别名（御前侍卫腰牌改 `guard token`），`token` 只剩 ES2 自己的出城令牌和杀手令牌；韦执中、程不平认「抄本」改认 `decree copy`（寻剑令抄本），不会认成第九章的兵部抄本。
-- **不变的：** drop.c 照旧销毁不值钱的东西（问过之后）；ES2 物品的规则不动；飞贼摸东西、黑衣人化尸照「Old Pine remainder B」（是否跳过任务物品待 owner 决定）。
+- **不变的：** drop.c 照旧销毁不值钱的东西（问过之后）；ES2 物品的规则不动；飞贼摸东西、黑衣人化尸照「Old Pine remainder B」（是否跳过任务物品待 owner 决定；owner 2026-11-19 定了跳过：「任务物品不被拿走」）。
 - **补齐（全项目审查第四批 2026-11-12）：** 当铺不收原生的 `no_drop` 物品，估价时说「掌柜把它推了回来：这是要紧的东西，您还用得着，小号不收。」（以前兵部文书值 10 文、卖 8 文，卖掉后击鼓、程不平、陈显祖、比印都过不去，只有逆灵宫账房重置才再有一份）；hockshop.c 只问 `query("value")`，ES2 自己的四件 `no_drop`（缚仙绳、丝罗巾、玛瑙手镯、舞曲谱）照旧能卖。账册（第九章的物证之一）、地牢钥匙（拿钥匙的两个狱卒是剧情刷点，重置不会再出来）补 `no_drop`；黑冠不补（逆灵宫十七种人都戴，杀一个就有，重置会回来），记在测试的例外表里。程不平在「供词」下也会再写信；信丢了，严廷殷和王府门军说回乔阴找程县令再写，任务栏第六章两步多一行「程不平的信在你身上」。背包里「确定丢下」后背包重新打开，停在原来的分栏、下一行。
 - **测试：** `quest_items_test`（数据：问话、act、送礼、任务步骤、条件里任意一层、门的钥匙要带着或穿着的原生物品都 `no_drop`，或在例外表里写明怎么再拿到；不认识的物品 ID 报错；四样东西丢了会再写、带着不会写第二份、那一步过了不再写；这些别名只有一件物品应答，ES2 的 `token` 列为例外；璃虹按羽真正的别名认）。`lost_letter_test`（第二章路上：信丢不掉、不值钱的东西丢前问、被摸走后柳淳风再写、陈剑秋再给镖单、潘军禅说缺信、带信后记下鱼饵）。`story_chapter8_test` 拿到羽后问璃虹「留下」。
 
@@ -1373,7 +1407,7 @@
 - **ES2：** 没有这块面板（命令行）；改的是「战斗拍数 B」的版式和措辞，**不改规则和结果**（拍价、交手序、赢拍、收势、忙都照旧）。
 - **我们：**
   - **拍在界面上叫「手」**：「还剩 2 手」「重 · 2 手」「手不够」「剩 2 手」「抢得一手（隙）」、见识录「第 1 手总是…」；代码和规则条目里仍叫拍。
-  - **节拍条**（底板最上一行，取代 26×16 的小筹）：「还剩 N 手」+ 一条木槽，一格一手（96×44，矮屏 56×28）；花掉的格染标签色写一字，重招占两格连成一块；收势 / 忙的格划掉；赢来的格金边、角上小字「隙 / 压 / 连」；门派这回合还能挣手时，后面一格虚线金框，里面写挣法（封山「对方打空 / 得 1 手」）；轮到你出的那格金边加小三角。条后一句话：平时「他起手：守」（没看熟「？」，守势写「守势」）；出完一手写结果「你出虚，他起手守 · 被克」（用出手前他亮的那一招比，和结算里的克制同一个依据）、挣到手加「多一手（隙）」；鼠标或焦点停在招上写「空山鸟语占 2 手，出完还剩 0 手」/「出完你这回合没手了，他连出 2 手」（一对一时），手不够红字「不够：空山鸟语要 2 手，你还剩 1 手」，同时条上那几格出虚影（不够是红的）。
+  - **节拍条**（底板最上一行，取代 26×16 的小筹）：「还剩 N 手」+ 一条木槽，一格一手（96×44，矮屏 56×28）；花掉的格染标签色写一字，重招占两格连成一块；收势 / 忙的格划掉；赢来的格金边、角上小字「隙 / 压 / 连」；门派这回合还能挣手时，后面一格虚线金框，里面写挣法（封山「对方打空 / 得 1 手」）；轮到你出的那格金边加小三角。条后一句话：平时「他起手：守」（没看熟「？」，守势写「守势」）；出完一手写结果「你出虚，对上他的守 · 被克」（用出手前他亮的那一招比，和结算里的克制同一个依据；审查 2026-11-19：那一招卡片上还写「？」时不写名，只写「你出虚 · 被克」，不说出没认出的招；原来的「他起手守」改成「对上他的守」，免得和后面的「他起手：？」挨着）、挣到手加「多一手（隙）」；鼠标或焦点停在招上写「空山鸟语占 2 手，出完还剩 0 手」/「出完你这回合没手了，他连出 2 手」（一对一时），手不够红字「不够：空山鸟语要 2 手，你还剩 1 手」，同时条上那几格出虚影（不够是红的）。
   - **出招分四栏**：按标签快 / 重 / 虚 / 守（再有平招第五栏），栏头小色块 + 一字，栏内照招式原顺序，顺序整场不变；没有招的栏不画。副行只写「标签 · N 手」——**删掉「克他这招 / 被他克」**：按钮替玩家算好克制，玩家就永远不用记环（Muse 11-05 提的这一行，与同一轮「不标推荐」冲突，这次留后者）。引 / 守 / 逐 的门派分组不再画在面板上（数据里的 `group` / `groups` 留着，锁招仍按它）。
   - **克制环**：面板右侧一个菱形（上快、右重、下守、左虚，顺时针箭头即「克」），他起手的那一印圈出；指着某招时亮那一类的两条箭头，出去的标「克」、进来的标「怕」，其余变淡。它是一张图，不是建议。
   - **命令行**：绝招一钮一个（按钮只写招名「封字诀」「玄羽乱舞」，角上价钱「2手」；一出就让自己忙得比价钱久的，悬停和条上写「出手后自己要忙 3 手」——玄羽乱舞价 1、自忙 3）；所有运功收成一个「运功」按钮，点开列各项和价钱，用不了的灰掉写原因；逃跑、投降是小铜钮放在后面，再后收势；等你出招、取消、加力、改为自动在同一行末尾（矮屏移到节拍条末尾）。
@@ -2957,11 +2991,16 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
     rhythm used to spare the fallen with the next press, before the question showed. A mouse click
     is never held back. Once chosen, the question not told yet is withdrawn (it lengthened the
     closing pause).
-  - **Owner (Q2): the player's summons follow the choice.** Anyone else on any side — 老公公 come to
+  - **Owner (Q2): the player's summons follow the choice.** Owner 2026-11-19 (「都按推荐」, review of
+    #398): so do those who follow the player (郭承, 卢卡: FLAG_FOLLOWS_PLAYER) and one standing its
+    ground beside them where they are (`fights_beside_here`: the 湖畔's sword-bearer) — they hold
+    with the player, and 放过 clears their kill mark on the spared one (a follower lying down
+    keeps none to wake to). ES2 had them kill on a second later, so 吕隼 could hardly be spared
+    while 郭承 followed. Anyone else on any side — 老公公 come to
     help, an NPC with its own kill_ob() — keeps to ES2.
   - The player falls or dies while one is held: nobody can choose, the held kill_ob()s are back.
     Only those standing hold: one of the player's called lying down keeps its mark (it strikes
-    nobody), and with nobody standing to strike nothing is asked.
+    nobody) until 放过 clears it, and with nobody standing to strike nothing is asked.
   - A won fight in which nobody of the other side died says 你赢了这场战斗。 without pointing at a
     corpse to loot (after 放过, or when the player only fought back).
   - Not saved: a held one lives only inside a fight, and Save is refused in a fight.
@@ -2988,7 +3027,7 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
   letter); 骆云舟's mark reads 另有条件 until he has said it (his refusal sets marks/书生), then his
   own line.
 
-## 连续修炼 (owner, 2026-10-19)
+## 连续修炼 (owner, 2026-10-19; 自动歇: 成长曲线计划 §3 knob 7 / Q4, owner 2026-11-19「都照推荐」)
 
 - **ES2:** learn, practice, exercise, meditate and respirate do one step per command, set no busy
   and take no count (exercise's number is the kee each sitting spends); the player types the
@@ -2996,12 +3035,41 @@ ES2 没有画面，这是新增的表现，**不改规则和结果**。
   times running: a server's guard against bots, not ported (as the login daemons).
 - **Ours:** 请教 (the teacher panel) and 练习, 打坐, 冥思, 修行 (the 武学 page) also have 连续…: the
   same command again and again through the same services, every rule and draw unchanged (a run
-  leaves the save, RNG included, as the single button pressed as often), a step every
-  `training_step_ms` (150; 0 all at once, as in the suites) with a count, a bar and 停止 (B / Esc).
-  World time stays held on those pages (owner Q1), so nobody comes in meanwhile; a step that
+  leaves the save, RNG included, as the single button pressed as often, when it does not rest), a
+  step every `training_auto_step_ms` (60; `training_step_ms` 150 for a run that does not rest by
+  itself; 0 all at once, as in the suites) with a count, a bar and 停止 (B / Esc).
+  World time stays held on those pages (owner Q1) while a run steps, so nobody comes in meanwhile; a step that
   starts a fight (茅山道术's 观想虫) ends the run. A run stops on a refusal (the command's own
-  lines: potential, kee, force or sen short, the 70 % thresholds, the teacher tired …), a level
-  or a maximum up, a fall, a fight, the teacher out of reach, the page closed or left, 停止.
+  lines: potential, force short, the teacher tired …), a level or a maximum up (or the 练到 N
+  target), the bottleneck, learn.c's exp gate or the teacher's level, a fall, a fight, the teacher
+  out of reach, the page closed or left, 停止.
+- **Deviation — 自动歇 (pacing `training_auto_rest`; false = ES2 and before: the run stops there
+  and says so):** a step 精, 气 or 神 is short for — learn with gin not above its cost; exercise,
+  meditate and respirate refused for their cost or the 70 % of the other two; practice_skill()
+  refused for kee or sen (not force, mana, a weapon or water) — does not end the run: the player
+  rests (「歇到回满」, the same rest and endings, `rest_world_scale` 40) with the page left open, that
+  window's own hold on world time (the popup's, the menu's) lifted while the rest lasts — any
+  other hold (a card, a presentation beat) holds it as ever — and the same run goes on once 精, 气
+  and 神 are full (or the rest reached its longest with something come back: a deep wound heals
+  over several). Any other end of the rest (attacked, hurt, thirsty, a scene, moved, a fall) ends
+  the run with the rest's own line (a fight that closes the page first is still told as one; the
+  teacher leaving reach is 被打断, not 你停了下来); a rest that cannot begin (no water, a scene) ends
+  it with why; full already and still short (气 asked above its maximum) it stops as without 自动歇;
+  停止 stops the rest with the run. With 朱鸿雪's task running against its time it does not rest by
+  itself (the rest would spend the task's time unasked) and says so: the player may press 歇到回满.
+  Nothing is said while it rests; the summary adds 其间歇了 N 回，共X and tells what the steps
+  changed (精 spent, potential …), not what came back while resting (精, 气, 神, and 内力 / 法力 /
+  灵力 by heal_up()). MAX_STEPS (999) counts the steps since the last rest. The single buttons,
+  自学 and 研读 are unchanged (no continuous run).
+  - **Why:** the plan measured a main-story player who keeps up: 17,710 lessons and 4,914 sittings
+    by the finale, today 3,268 stops each needing two presses (about 109 minutes of pressing) and
+    rests at 20 times. Each lesson's rule, cost and gain stay as they are (owner 2026-11-12: rest,
+    not faster training); only the resting and the pressing get faster. Measured with
+    `run_growth_curve_sim.gd -- start=main auto` (the same lessons, sittings and 2,882 rests): to
+    the finale 2.03 hours (steps 23 min; 476 presses, a run's start for each skill a chapter and
+    each level, 16 min; rests 83 min), 2.08 to the end, against 5.52 hours today (`rest=20`,
+    without auto); late in the game about 11,000 lessons an hour against 4,060 (the plan's
+    targets: about 2 hours, about 11,000).
 - **Deviation — the log:** a run is told in one summary (你向柳淳风请教「基本剑法」3 次：基本剑法进度
   +31，精 -66，潜能 -3。), the lines a level, a skill_improved() or a maximum gives, then why it
   stopped; each step's own lines are not printed. The single buttons keep ES2's lines.
@@ -5071,9 +5139,11 @@ What is placed where is in [OLDPINE_CONTENT](OLDPINE_CONTENT.md).
   (hammers) is still not ported.
 - **killed_enemy is data** (`{say, dissolve_after_ms}`): 黑衣人 laughs and a second of world time
   later dissolves the newest corpse in his room with his 化尸粉 (present() finds the object moved
-  in last). **Owner: as ES2**, also the player's own corpse with all it holds. The pending
-  dissolve is not saved (a call_out). The death screen's native line on where the corpse lies
-  becomes 你的尸体已经不在了。 once it is gone (**owner**; ES2 tells the dead nothing).
+  in last), also the player's own corpse, with all it holds but what cannot be dropped (that falls
+  where the corpse lay: 「任务物品不被拿走」, which replaces this clause's 「with all it holds」; the
+  old wording is in DECISIONS_HISTORY). The pending dissolve is not saved (a call_out). The death
+  screen's native line on where the corpse lies becomes 你的尸体已经不在了。 once it is gone
+  (**owner**; ES2 tells the dead nothing).
 - **apply** (snake_drug.c, hurt_drug.c; **owner: 金疮药 too**) is the inventory's 使用, used
   outside a fight as eating is. One 蛇药 lowers snake_poison by one (a bite gives 20) and the last
   leaves it at 0, where snake_poison.c strikes once more before it ends.
